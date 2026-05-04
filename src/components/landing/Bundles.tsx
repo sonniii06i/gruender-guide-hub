@@ -1,9 +1,16 @@
 import { Button } from "@/components/ui/button";
-import { Check, Sparkles } from "lucide-react";
+import { Check, Sparkles, Loader2 } from "lucide-react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/integrations/supabase/client";
+import { STRIPE_PRICES } from "@/lib/stripe";
+import { toast } from "sonner";
 
 const tiers = [
   {
     name: "GründerX",
+    priceId: STRIPE_PRICES.gruenderx,
     price: "99,99",
     desc: "Dein KI-Co-Pilot Felix für Gründung, Steuern, Marketplaces und Brand-Launch.",
     features: [
@@ -21,6 +28,7 @@ const tiers = [
   },
   {
     name: "Founder Bundle",
+    priceId: STRIPE_PRICES.bundle,
     price: "179,99",
     desc: "GründerX + AnwaltX in einem. Gründung, Steuern und Recht aus einer Hand – nur im Bundle erhältlich.",
     features: [
@@ -37,7 +45,31 @@ const tiers = [
   },
 ];
 
-export const Bundles = () => (
+export const Bundles = () => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState<string | null>(null);
+
+  const handleCheckout = async (priceId: string) => {
+    if (!user) {
+      navigate(`/auth?mode=signup&price=${priceId}`);
+      return;
+    }
+    setLoading(priceId);
+    try {
+      const { data, error } = await supabase.functions.invoke("create-checkout", {
+        body: { priceId },
+      });
+      if (error) throw error;
+      if (data?.url) window.open(data.url, "_blank");
+    } catch (e: any) {
+      toast.error(e.message ?? "Checkout fehlgeschlagen");
+    } finally {
+      setLoading(null);
+    }
+  };
+
+  return (
   <section id="bundles" className="py-24 bg-secondary/40">
     <div className="container max-w-6xl">
       <div className="text-center mb-14">
@@ -104,17 +136,21 @@ export const Bundles = () => (
             </ul>
             <Button
               size="lg"
+              onClick={() => handleCheckout(t.priceId)}
+              disabled={loading === t.priceId}
               className={`w-full rounded-full h-12 font-semibold ${
                 t.highlight
                   ? "bg-card text-primary hover:bg-card/90"
                   : "bg-gradient-primary text-primary-foreground hover:opacity-95 shadow-glow"
               }`}
             >
-              {t.cta}
+              {loading === t.priceId ? <Loader2 className="h-4 w-4 animate-spin" /> : t.cta}
             </Button>
           </div>
         ))}
       </div>
     </div>
   </section>
-);
+  );
+};
+

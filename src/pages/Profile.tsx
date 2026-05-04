@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Crown, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { STRIPE_PRICES } from "@/lib/stripe";
 
 interface ProfileData {
   salutation?: string | null; first_name?: string | null; last_name?: string | null;
@@ -21,12 +22,43 @@ const Profile = () => {
   const [profile, setProfile] = useState<ProfileData>({});
   const [sub, setSub] = useState<any>(null);
   const [saving, setSaving] = useState(false);
+  const [busy, setBusy] = useState<string | null>(null);
+
+  const refreshSub = async () => {
+    try {
+      await supabase.functions.invoke("check-subscription");
+      if (user) {
+        const { data } = await supabase.from("subscriptions").select("*").eq("user_id", user.id).maybeSingle();
+        setSub(data);
+      }
+    } catch {}
+  };
 
   useEffect(() => {
     if (!user) return;
     supabase.from("profiles").select("*").eq("id", user.id).maybeSingle().then(({ data }) => setProfile(data ?? {}));
     supabase.from("subscriptions").select("*").eq("user_id", user.id).maybeSingle().then(({ data }) => setSub(data));
+    refreshSub();
   }, [user]);
+
+  const checkout = async (priceId: string) => {
+    setBusy(priceId);
+    try {
+      const { data, error } = await supabase.functions.invoke("create-checkout", { body: { priceId } });
+      if (error) throw error;
+      if (data?.url) window.open(data.url, "_blank");
+    } catch (e: any) { toast.error(e.message); } finally { setBusy(null); }
+  };
+
+  const portal = async () => {
+    setBusy("portal");
+    try {
+      const { data, error } = await supabase.functions.invoke("customer-portal");
+      if (error) throw error;
+      if (data?.url) window.open(data.url, "_blank");
+    } catch (e: any) { toast.error(e.message); } finally { setBusy(null); }
+  };
+
 
   const save = async () => {
     if (!user) return;
@@ -98,13 +130,33 @@ const Profile = () => {
                 <div className="inline-flex items-center gap-1.5 rounded-full bg-white/20 backdrop-blur px-3 py-1 text-xs font-semibold mb-3">
                   <Crown className="h-3.5 w-3.5" /> GründerX
                 </div>
-                <div className="grid md:grid-cols-2 gap-6">
-                  <Plan title="GründerX" price="99,99 €" desc="Felix, alle Wizards, Anbieter-Vergleich, Coop-Deals" />
-                  <Plan title="Founder Bundle" price="179,99 €" desc="GründerX + AnwaltX (Vertrags-Templates, Compliance-Audit)" />
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div className="rounded-2xl bg-white/10 backdrop-blur p-4 flex flex-col">
+                    <div className="font-bold">GründerX</div>
+                    <div className="text-2xl font-bold mt-1">99,99 €<span className="text-sm font-normal opacity-70">/Mon</span></div>
+                    <p className="text-xs opacity-85 mt-2 flex-1">Felix, alle Wizards, Anbieter-Vergleich, Coop-Deals</p>
+                    <Button onClick={() => checkout(STRIPE_PRICES.gruenderx)} disabled={busy === STRIPE_PRICES.gruenderx} className="mt-3 rounded-full bg-card text-primary hover:bg-card/90">
+                      {busy === STRIPE_PRICES.gruenderx ? <Loader2 className="h-4 w-4 animate-spin" /> : "Abonnieren"}
+                    </Button>
+                  </div>
+                  <div className="rounded-2xl bg-white/10 backdrop-blur p-4 flex flex-col">
+                    <div className="font-bold">Founder Bundle</div>
+                    <div className="text-2xl font-bold mt-1">179,99 €<span className="text-sm font-normal opacity-70">/Mon</span></div>
+                    <p className="text-xs opacity-85 mt-2 flex-1">GründerX + AnwaltX (Vertrags-Templates, Compliance-Audit)</p>
+                    <Button onClick={() => checkout(STRIPE_PRICES.bundle)} disabled={busy === STRIPE_PRICES.bundle} className="mt-3 rounded-full bg-card text-primary hover:bg-card/90">
+                      {busy === STRIPE_PRICES.bundle ? <Loader2 className="h-4 w-4 animate-spin" /> : "Bundle sichern"}
+                    </Button>
+                  </div>
                 </div>
-                <Button disabled className="mt-5 rounded-full bg-card text-primary opacity-90 cursor-not-allowed">
-                  Stripe-Checkout bald verfügbar
-                </Button>
+                <div className="flex gap-2 mt-5">
+                  <Button onClick={portal} disabled={busy === "portal" || !isActive} variant="secondary" className="rounded-full">
+                    {busy === "portal" ? <Loader2 className="h-4 w-4 animate-spin" /> : "Abo verwalten"}
+                  </Button>
+                  <Button onClick={refreshSub} variant="ghost" className="rounded-full text-primary-foreground hover:bg-white/10">
+                    Status prüfen
+                  </Button>
+                </div>
+
               </div>
             </div>
           </Card>
