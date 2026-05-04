@@ -16,12 +16,14 @@ export const FinalCTA = () => (
             Starte heute kostenlos – und hab dein Unternehmen in wenigen Tagen
             startklar.
           </p>
-          <Button
-            size="lg"
-            className="mt-9 rounded-full bg-card text-primary hover:bg-card/90 h-12 px-8"
-          >
-            Jetzt kostenlos starten <ArrowRight className="ml-1 h-4 w-4" />
-          </Button>
+          <Link to="/auth?mode=signup">
+            <Button
+              size="lg"
+              className="mt-9 rounded-full bg-card text-primary hover:bg-card/90 h-12 px-8"
+            >
+              Jetzt kostenlos starten <ArrowRight className="ml-1 h-4 w-4" />
+            </Button>
+          </Link>
         </div>
       </div>
     </div>
