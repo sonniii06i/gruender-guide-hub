@@ -16,6 +16,7 @@ import Impressum from "./pages/Impressum.tsx";
 import Datenschutz from "./pages/Datenschutz.tsx";
 import AGB from "./pages/AGB.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import AppLayout from "./layouts/AppLayout.tsx";
 
 const queryClient = new QueryClient();
 
@@ -30,11 +31,13 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/onboarding" element={<Onboarding />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/cockpit/steuer" element={<SteuerCockpit />} />
-            <Route path="/wizard/rechtsform" element={<RechtsformWizard />} />
-            <Route path="/anbieter" element={<Anbieter />} />
-            <Route path="/roadmap" element={<Roadmap />} />
+            <Route element={<AppLayout />}>
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/cockpit/steuer" element={<SteuerCockpit />} />
+              <Route path="/wizard/rechtsform" element={<RechtsformWizard />} />
+              <Route path="/anbieter" element={<Anbieter />} />
+              <Route path="/roadmap" element={<Roadmap />} />
+            </Route>
             <Route path="/impressum" element={<Impressum />} />
             <Route path="/datenschutz" element={<Datenschutz />} />
             <Route path="/agb" element={<AGB />} />

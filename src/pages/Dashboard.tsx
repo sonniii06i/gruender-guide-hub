@@ -1,153 +1,105 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { CATEGORIES, STATUS_LABEL, type Feature, type FeatureCategory } from "@/data/features";
-import { Lock, LogOut, Crown, Loader2, ArrowRight, Sparkles } from "lucide-react";
+import { Lock, Crown, ArrowRight, Sparkles } from "lucide-react";
 
-interface Profile {
-  first_name: string | null;
-  company_name: string | null;
-  onboarding_completed?: boolean;
-}
+interface Profile { first_name: string | null; company_name: string | null }
 interface Subscription { plan: string; status: string }
 
 const Dashboard = () => {
-  const navigate = useNavigate();
-  const { user, loading: authLoading, signOut } = useAuth();
+  const { user } = useAuth();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [sub, setSub] = useState<Subscription | null>(null);
-  const [loading] = useState(false);
-  const [activeCat, setActiveCat] = useState<string>(CATEGORIES[0].slug);
+  const [params, setParams] = useSearchParams();
+  const activeCatSlug = params.get("cat");
 
   useEffect(() => {
     if (!user) return;
     Promise.all([
-      supabase.from("profiles").select("first_name, company_name, onboarding_completed").eq("id", user.id).maybeSingle(),
+      supabase.from("profiles").select("first_name, company_name").eq("id", user.id).maybeSingle(),
       supabase.from("subscriptions").select("plan, status").eq("user_id", user.id).maybeSingle(),
-    ]).then(([p, s]) => {
-      setProfile(p.data);
-      setSub(s.data);
-    });
+    ]).then(([p, s]) => { setProfile(p.data); setSub(s.data); });
   }, [user]);
 
-  const handleSignOut = async () => { await signOut(); navigate("/"); };
-
-  if (loading || authLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="h-6 w-6 animate-spin text-accent-blue" />
-      </div>
-    );
-  }
-
   const isActive = sub?.status === "active" || sub?.status === "trialing";
-  const current = CATEGORIES.find((c) => c.slug === activeCat) ?? CATEGORIES[0];
+  const visible = activeCatSlug
+    ? CATEGORIES.filter((c) => c.slug === activeCatSlug)
+    : CATEGORIES;
 
   return (
-    <div className="min-h-screen bg-secondary/30">
-      <header className="border-b border-border bg-card/80 backdrop-blur sticky top-0 z-30">
-        <div className="container max-w-7xl flex items-center justify-between h-16">
-          <Link to="/" className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-lg bg-gradient-primary flex items-center justify-center text-primary-foreground font-bold">G</div>
-            <span className="font-bold tracking-tight">GründerX</span>
-          </Link>
-          <div className="flex items-center gap-3">
-            <span className="hidden sm:inline text-sm text-muted-foreground">
-              {profile?.first_name ?? user?.email}
-            </span>
-            <Button variant="ghost" size="sm" onClick={handleSignOut} className="rounded-full">
-              <LogOut className="h-4 w-4 mr-1" /> Logout
+    <div className="container max-w-7xl py-8 px-4 md:px-6">
+      <div className="mb-6">
+        <p className="text-xs font-semibold uppercase tracking-wider text-accent-blue mb-1">Cockpit</p>
+        <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
+          Hi {profile?.first_name ?? "Gründer"} 👋
+        </h1>
+        {profile?.company_name && (
+          <p className="mt-1 text-sm text-muted-foreground">Willkommen zurück, {profile.company_name}.</p>
+        )}
+      </div>
+
+      {!isActive && !activeCatSlug && (
+        <div className="rounded-3xl bg-gradient-primary p-6 md:p-8 text-primary-foreground mb-8 relative overflow-hidden shadow-glow">
+          <div className="absolute -top-20 -right-20 w-72 h-72 rounded-full bg-accent-blue/30 blur-3xl" />
+          <div className="relative flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
+            <div>
+              <div className="inline-flex items-center gap-1.5 rounded-full bg-white/20 backdrop-blur px-3 py-1 text-xs font-semibold mb-3">
+                <Crown className="h-3.5 w-3.5" /> Upgrade nötig
+              </div>
+              <h2 className="text-xl md:text-2xl font-bold">Schalte Felix & alle Features frei</h2>
+              <p className="mt-2 text-primary-foreground/85 max-w-xl text-sm">
+                GründerX 99,99 €/Monat oder Founder Bundle (GründerX + AnwaltX) für 179,99 €/Monat.
+              </p>
+            </div>
+            <Button size="lg" disabled className="rounded-full bg-card text-primary h-11 px-6 font-semibold opacity-90 cursor-not-allowed">
+              Bald verfügbar
             </Button>
           </div>
         </div>
-      </header>
+      )}
 
-      <main className="container max-w-7xl py-10">
-        <div className="mb-8">
-          <p className="text-sm font-semibold uppercase tracking-wider text-accent-blue mb-2">Cockpit</p>
-          <h1 className="text-3xl md:text-4xl font-bold tracking-tight">
-            Hi {profile?.first_name ?? "Gründer"} 👋
-          </h1>
-          <p className="mt-2 text-muted-foreground">
-            {profile?.company_name ? `Willkommen zurück, ${profile.company_name}.` : "Willkommen in deinem Cockpit."}
-          </p>
-        </div>
+      {activeCatSlug && (
+        <button
+          onClick={() => setParams({})}
+          className="text-xs text-muted-foreground hover:text-foreground mb-4 inline-flex items-center gap-1"
+        >
+          ← Alle Kategorien
+        </button>
+      )}
 
-        {!isActive && (
-          <div className="rounded-3xl bg-gradient-primary p-6 md:p-8 text-primary-foreground mb-10 relative overflow-hidden shadow-glow">
-            <div className="absolute -top-20 -right-20 w-72 h-72 rounded-full bg-accent-blue/30 blur-3xl" />
-            <div className="relative flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
-              <div>
-                <div className="inline-flex items-center gap-1.5 rounded-full bg-white/20 backdrop-blur px-3 py-1 text-xs font-semibold mb-3">
-                  <Crown className="h-3.5 w-3.5" /> Upgrade nötig
-                </div>
-                <h2 className="text-2xl md:text-3xl font-bold">Schalte Felix & alle Features frei</h2>
-                <p className="mt-2 text-primary-foreground/85 max-w-xl">
-                  GründerX 99,99 €/Monat oder Founder Bundle (GründerX + AnwaltX) für 179,99 €/Monat. Stripe-Checkout kommt in Kürze.
-                </p>
-              </div>
-              <Button size="lg" disabled className="rounded-full bg-card text-primary hover:bg-card/90 h-12 px-7 font-semibold opacity-90 cursor-not-allowed">
-                Bald verfügbar
-              </Button>
-            </div>
+      <div className="space-y-10">
+        {visible.map((cat) => <CategorySection key={cat.slug} cat={cat} locked={!isActive} />)}
+      </div>
+
+      <div className="mt-12 rounded-2xl border border-dashed border-border bg-card p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div className="flex items-start gap-3">
+          <Sparkles className="h-5 w-5 text-accent-blue mt-0.5" />
+          <div>
+            <h3 className="font-bold">Du vermisst etwas?</h3>
+            <p className="text-sm text-muted-foreground">Sag uns, welches Tool dir am meisten Zeit sparen würde.</p>
           </div>
-        )}
-
-        {/* Category tabs */}
-        <div className="flex gap-2 overflow-x-auto pb-3 mb-6 -mx-4 px-4 scrollbar-none">
-          {CATEGORIES.map((cat) => {
-            const active = cat.slug === activeCat;
-            return (
-              <button
-                key={cat.slug}
-                onClick={() => setActiveCat(cat.slug)}
-                className={`shrink-0 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition-all border ${
-                  active
-                    ? "bg-primary text-primary-foreground border-primary shadow-soft"
-                    : "bg-card text-foreground border-border hover:border-accent-blue/50"
-                }`}
-              >
-                <span>{cat.emoji}</span>
-                <span>{cat.title}</span>
-                <span className={`rounded-full text-[10px] px-1.5 py-0.5 ${active ? "bg-white/20" : "bg-secondary text-muted-foreground"}`}>
-                  {cat.features.length}
-                </span>
-              </button>
-            );
-          })}
         </div>
-
-        <CategorySection cat={current} locked={!isActive} />
-
-        <div className="mt-12 rounded-2xl border border-dashed border-border bg-card p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-          <div className="flex items-start gap-3">
-            <Sparkles className="h-5 w-5 text-accent-blue mt-0.5" />
-            <div>
-              <h3 className="font-bold">Du vermisst etwas?</h3>
-              <p className="text-sm text-muted-foreground">Sag uns, welches Tool dir am meisten Zeit sparen würde – wir priorisieren nach Voting.</p>
-            </div>
-          </div>
-          <Link to="/roadmap">
-            <Button variant="outline" className="rounded-full">Roadmap ansehen <ArrowRight className="h-4 w-4 ml-1" /></Button>
-          </Link>
-        </div>
-      </main>
+        <Link to="/roadmap">
+          <Button variant="outline" className="rounded-full">Roadmap <ArrowRight className="h-4 w-4 ml-1" /></Button>
+        </Link>
+      </div>
     </div>
   );
 };
 
 const CategorySection = ({ cat, locked }: { cat: FeatureCategory; locked: boolean }) => (
   <section>
-    <div className="flex items-center gap-3 mb-5">
-      <div className="h-11 w-11 rounded-xl bg-accent flex items-center justify-center text-2xl">{cat.emoji}</div>
+    <div className="flex items-center gap-3 mb-4">
+      <div className="h-10 w-10 rounded-xl bg-accent flex items-center justify-center text-xl">{cat.emoji}</div>
       <div>
-        <h2 className="text-xl font-bold">{cat.title}</h2>
-        <p className="text-sm text-muted-foreground">{cat.tagline}</p>
+        <h2 className="text-lg font-bold leading-tight">{cat.title}</h2>
+        <p className="text-xs text-muted-foreground">{cat.tagline}</p>
       </div>
     </div>
-    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
       {cat.features.map((f) => <FeatureCard key={f.slug} f={f} locked={locked} />)}
     </div>
   </section>
