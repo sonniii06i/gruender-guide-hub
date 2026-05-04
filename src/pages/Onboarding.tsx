@@ -129,7 +129,7 @@ const Onboarding = () => {
         <div className="mb-10">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
-              <div className="h-8 w-8 rounded-lg bg-gradient-primary flex items-center justify-center text-primary-foreground font-bold text-sm">G</div>
+              <Logo className="h-8 w-8" />
               <span className="font-bold tracking-tight">GründerX</span>
             </div>
             <span className="text-xs font-semibold text-muted-foreground">Schritt {step + 1} von {totalSteps}</span>

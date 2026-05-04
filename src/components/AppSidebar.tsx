@@ -40,7 +40,7 @@ export function AppSidebar() {
     <Sidebar collapsible="icon">
       <SidebarHeader className="border-b border-sidebar-border">
         <div className="flex items-center gap-2 px-2 py-1.5">
-          <div className="h-8 w-8 shrink-0 rounded-lg bg-gradient-primary flex items-center justify-center text-primary-foreground font-bold">G</div>
+          <Logo className="h-8 w-8 shrink-0" />
           {!collapsed && (
             <div className="flex flex-col leading-tight">
               <span className="font-bold tracking-tight text-sm">GründerX</span>

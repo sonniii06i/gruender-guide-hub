@@ -18,9 +18,7 @@ export const Navbar = () => {
     <header className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[min(1200px,calc(100%-2rem))]">
       <nav className="flex items-center justify-between rounded-full border border-border/60 bg-background/80 backdrop-blur-md px-4 md:px-6 py-2.5 shadow-soft">
         <a href="#" className="flex items-center gap-2">
-          <div className="h-8 w-8 rounded-lg bg-gradient-primary flex items-center justify-center text-primary-foreground font-bold">
-            G
-          </div>
+          <Logo className="h-8 w-8" />
           <span className="font-bold text-lg tracking-tight">GründerX</span>
         </a>
 
