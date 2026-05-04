@@ -18,14 +18,15 @@ export const Assistant = () => (
               dein persönlicher Gründungs-Co-Pilot.
             </h3>
             <p className="mt-5 text-lg text-primary-foreground/85 max-w-2xl text-balance">
-              Felix übernimmt Gewerbeanmeldung, Fragebogen zur steuerlichen
-              Erfassung, Rechnungsvorlagen, USt-Voranmeldungen und sagt dir,
-              welche Förderungen wirklich zu dir passen. Trainiert auf echten
-              Gründungen – nicht auf Wikipedia.
+              Felix begleitet dich durch Finanzamt-Fragebogen, USt-Voranmeldung,
+              Rechnungs- und Buchhaltungs-Setup, OSS, LUCID, WEEE und sagt dir,
+              welche Rechtsform, welche Tools und welche Anbieter wirklich zu
+              dir passen. Trainiert auf echten Gründungen aus E-Commerce &
+              Creator-Business – nicht auf Wikipedia.
             </p>
             <Button
               size="lg"
-              className="mt-8 rounded-full bg-card text-primary hover:bg-card/90 h-12 px-7"
+              className="mt-8 rounded-full bg-card text-primary hover:bg-card/90 h-14 px-7 font-semibold"
             >
               Jetzt kostenlos testen <ArrowRight className="ml-1 h-4 w-4" />
             </Button>
