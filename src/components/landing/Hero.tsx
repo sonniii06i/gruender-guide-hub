@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Link } from "react-router-dom";
 import { ShieldCheck, Clock, Sparkles, Calculator, ArrowRight } from "lucide-react";
 
 const chips = [
