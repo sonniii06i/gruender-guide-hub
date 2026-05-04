@@ -1,3 +1,4 @@
+import Logo from "@/components/Logo";
 export const Footer = () => (
   <footer id="kontakt" className="border-t border-border bg-card">
     <div className="container max-w-6xl py-14">
