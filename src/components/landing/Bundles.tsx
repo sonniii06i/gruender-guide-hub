@@ -26,7 +26,7 @@ const tiers = [
       "Felix + Juri zusammen im Chat",
       "Vertragsprüfung & Abmahn-Schutz",
       "Priorisierter Support",
-      "Spare 30% gegenüber Einzelpreisen",
+      "Spare ggü. Einzelpreisen",
     ],
     cta: "Bundle sichern",
     highlight: true,

@@ -1,42 +1,42 @@
 import {
   Building2,
-  Calculator,
-  FileText,
   ShoppingBag,
-  Banknote,
+  Megaphone,
+  Calculator,
+  Briefcase,
   MessageSquare,
 } from "lucide-react";
 
 const features = [
   {
     icon: Building2,
-    title: "Gründung & Rechtsform",
-    desc: "Einzelunternehmen, UG oder GmbH? Felix führt dich durch die richtige Wahl und erstellt alle Unterlagen.",
-  },
-  {
-    icon: Calculator,
-    title: "Steuern & Buchhaltung",
-    desc: "USt-Voranmeldung, EÜR, Belege und Fristen. Klar erklärt, automatisiert eingereicht.",
-  },
-  {
-    icon: FileText,
-    title: "Verträge & AGB",
-    desc: "Rechtssichere AGB, Datenschutzerklärung und Widerruf für deinen Shop – in Minuten generiert.",
+    title: "Rechtsform & Gründung",
+    desc: "Einzelunternehmen, UG oder GmbH? Felix empfiehlt die richtige Rechtsform für dein Vorhaben und führt dich durch Gewerbeanmeldung & Fragebogen zur steuerlichen Erfassung.",
   },
   {
     icon: ShoppingBag,
-    title: "E-Commerce Setup",
-    desc: "Amazon, Shopify, TikTok Shop: korrekte steuerliche Anbindung, OSS-Verfahren, Marktplatz-Pflichten.",
+    title: "Amazon Seller & Business",
+    desc: "Schritt für Schritt zum Amazon Seller Account und Amazon Business Account – inkl. Verifizierung, OSS, Brand Registry und steuerlicher Anbindung.",
   },
   {
-    icon: Banknote,
-    title: "Förderungen & Banking",
-    desc: "Welche Programme passen zu dir? Wir matchen dich mit Förderungen, KfW-Krediten und Geschäftskonten.",
+    icon: Megaphone,
+    title: "Meta Ads & Werbekonten",
+    desc: "Meta Business Manager, Pixel, CAPI, Werbekonto-Limits und richtige Verknüpfung mit deinem Shop – ohne Sperren beim ersten Launch.",
+  },
+  {
+    icon: Calculator,
+    title: "Buchhaltung & Tools",
+    desc: "Wir sagen dir, welcher Anbieter passt: Lexware Office, sevDesk, Lucid (LucidLink), Datev, Pennylane oder Stripe Tax – inkl. Setup-Anleitung.",
+  },
+  {
+    icon: Briefcase,
+    title: "Banking, Förderungen & Versicherung",
+    desc: "Geschäftskonto bei Qonto, Holvi, Finom oder Kontist? Welche KfW-Förderung passt? Welche Berufshaftpflicht brauchst du? Felix matcht dich.",
   },
   {
     icon: MessageSquare,
-    title: "KI-Chat 24/7",
-    desc: "Stell jederzeit deine Frage – Felix antwortet mit Quellen, Paragrafen und nächsten Schritten.",
+    title: "Felix – KI-Chat 24/7",
+    desc: "Stell jederzeit deine Frage – Felix antwortet mit Quellen, nächsten Schritten und konkreten Anbieter-Empfehlungen für dein Setup.",
   },
 ];
 

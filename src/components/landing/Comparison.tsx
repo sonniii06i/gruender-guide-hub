@@ -2,18 +2,18 @@ import { Check, X } from "lucide-react";
 
 const generic = [
   "Gibt nur generische Antworten",
-  "Kennt dein Geschäftsmodell nicht",
+  "Kennt weder Amazon noch Meta Ads",
   "Reicht keine Formulare ein",
-  "Kein Steuer- oder E-Com-Kontext",
+  "Empfiehlt keine konkreten Anbieter",
   "Verfolgt keine Fristen",
 ];
 
 const ours = [
-  "Trainiert auf 5.000+ realen Gründungen aus E-Commerce & Creator-Bereich",
-  "Wählt mit dir die passende Rechtsform: Einzelunternehmen, UG, GmbH",
-  "Bereitet Gewerbeanmeldung & Fragebogen zur steuerlichen Erfassung vor",
-  "Versteht OSS, USt, Reverse-Charge und Amazon/Shopify-Setup",
-  "Erinnert an Fristen und automatisiert wiederkehrende Aufgaben",
+  "Trainiert auf realen Gründungen aus Amazon FBA, Shopify & Creator-Bereich",
+  "Wählt mit dir die passende Rechtsform: Einzelunternehmen, UG oder GmbH",
+  "Begleitet dich beim Amazon Seller / Business Account und Meta Business Manager",
+  "Empfiehlt konkrete Tools: Lexware, sevDesk, Lucid, Qonto, Stripe Tax & Co.",
+  "Erinnert an Fristen (USt-VA, OSS, EÜR) und automatisiert wiederkehrende Aufgaben",
 ];
 
 export const Comparison = () => (
