@@ -1,18 +1,26 @@
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
-import { Button } from "@/components/ui/button";
+import HeaderActions from "@/components/HeaderActions";
 import { useAuth } from "@/hooks/useAuth";
-import { LogOut } from "lucide-react";
+import { Loader2 } from "lucide-react";
 
 export default function AppLayout() {
-  const { user, signOut } = useAuth();
+  const { user, loading } = useAuth();
   const navigate = useNavigate();
 
-  const handleSignOut = async () => {
-    await signOut();
-    navigate("/");
-  };
+  useEffect(() => {
+    if (!loading && !user) navigate("/auth", { replace: true });
+  }, [user, loading, navigate]);
+
+  if (loading || !user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="h-6 w-6 animate-spin text-accent-blue" />
+      </div>
+    );
+  }
 
   return (
     <SidebarProvider>
@@ -20,22 +28,8 @@ export default function AppLayout() {
         <AppSidebar />
         <div className="flex-1 flex flex-col min-w-0">
           <header className="h-14 flex items-center justify-between border-b border-border bg-card/80 backdrop-blur sticky top-0 z-30 px-4">
-            <div className="flex items-center gap-2">
-              <SidebarTrigger />
-              <Link to="/" className="text-sm font-semibold text-muted-foreground hover:text-foreground">
-                ← Landing
-              </Link>
-            </div>
-            <div className="flex items-center gap-3">
-              <span className="hidden sm:inline text-xs text-muted-foreground truncate max-w-[200px]">
-                {user?.email ?? "Demo-Modus"}
-              </span>
-              {user && (
-                <Button variant="ghost" size="sm" onClick={handleSignOut} className="rounded-full">
-                  <LogOut className="h-4 w-4 mr-1" /> Logout
-                </Button>
-              )}
-            </div>
+            <SidebarTrigger />
+            <HeaderActions />
           </header>
           <main className="flex-1">
             <Outlet />

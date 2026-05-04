@@ -14,9 +14,166 @@ export type Database = {
   }
   public: {
     Tables: {
+      chat_messages: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          role: string
+          user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          role: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          role?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      notifications: {
+        Row: {
+          body: string | null
+          created_at: string
+          id: string
+          kind: string
+          link: string | null
+          read_at: string | null
+          title: string
+          user_id: string
+        }
+        Insert: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          kind?: string
+          link?: string | null
+          read_at?: string | null
+          title: string
+          user_id: string
+        }
+        Update: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          kind?: string
+          link?: string | null
+          read_at?: string | null
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      playbook_runs: {
+        Row: {
+          completed_at: string | null
+          context: Json
+          created_at: string
+          current_step: number
+          id: string
+          last_activity_at: string
+          playbook_slug: string
+          started_at: string
+          status: string
+          title: string
+          total_steps: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          completed_at?: string | null
+          context?: Json
+          created_at?: string
+          current_step?: number
+          id?: string
+          last_activity_at?: string
+          playbook_slug: string
+          started_at?: string
+          status?: string
+          title: string
+          total_steps: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          completed_at?: string | null
+          context?: Json
+          created_at?: string
+          current_step?: number
+          id?: string
+          last_activity_at?: string
+          playbook_slug?: string
+          started_at?: string
+          status?: string
+          title?: string
+          total_steps?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      playbook_step_progress: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          data: Json
+          id: string
+          notes: string | null
+          run_id: string
+          status: string
+          step_index: number
+          step_slug: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          data?: Json
+          id?: string
+          notes?: string | null
+          run_id: string
+          status?: string
+          step_index: number
+          step_slug: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          data?: Json
+          id?: string
+          notes?: string | null
+          run_id?: string
+          status?: string
+          step_index?: number
+          step_slug?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "playbook_step_progress_run_id_fkey"
+            columns: ["run_id"]
+            isOneToOne: false
+            referencedRelation: "playbook_runs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
+          avatar_url: string | null
           business_model: string | null
+          city: string | null
           company_name: string | null
           country: string | null
           created_at: string
@@ -28,11 +185,17 @@ export type Database = {
           onboarding_completed: boolean
           onboarding_step: number
           phone: string | null
+          postal_code: string | null
           salutation: string | null
+          street: string | null
+          tax_id: string | null
           updated_at: string
+          vat_id: string | null
         }
         Insert: {
+          avatar_url?: string | null
           business_model?: string | null
+          city?: string | null
           company_name?: string | null
           country?: string | null
           created_at?: string
@@ -44,11 +207,17 @@ export type Database = {
           onboarding_completed?: boolean
           onboarding_step?: number
           phone?: string | null
+          postal_code?: string | null
           salutation?: string | null
+          street?: string | null
+          tax_id?: string | null
           updated_at?: string
+          vat_id?: string | null
         }
         Update: {
+          avatar_url?: string | null
           business_model?: string | null
+          city?: string | null
           company_name?: string | null
           country?: string | null
           created_at?: string
@@ -60,8 +229,12 @@ export type Database = {
           onboarding_completed?: boolean
           onboarding_step?: number
           phone?: string | null
+          postal_code?: string | null
           salutation?: string | null
+          street?: string | null
+          tax_id?: string | null
           updated_at?: string
+          vat_id?: string | null
         }
         Relationships: []
       }

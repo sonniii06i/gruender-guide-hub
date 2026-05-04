@@ -11,7 +11,10 @@ import Dashboard from "./pages/Dashboard.tsx";
 import SteuerCockpit from "./pages/SteuerCockpit.tsx";
 import RechtsformWizard from "./pages/RechtsformWizard.tsx";
 import Anbieter from "./pages/Anbieter.tsx";
-import Roadmap from "./pages/Roadmap.tsx";
+import Playbooks from "./pages/Playbooks.tsx";
+import PlaybookRun from "./pages/PlaybookRun.tsx";
+import FelixChat from "./pages/FelixChat.tsx";
+import Profile from "./pages/Profile.tsx";
 import Impressum from "./pages/Impressum.tsx";
 import Datenschutz from "./pages/Datenschutz.tsx";
 import AGB from "./pages/AGB.tsx";
@@ -36,7 +39,10 @@ const App = () => (
               <Route path="/cockpit/steuer" element={<SteuerCockpit />} />
               <Route path="/wizard/rechtsform" element={<RechtsformWizard />} />
               <Route path="/anbieter" element={<Anbieter />} />
-              <Route path="/roadmap" element={<Roadmap />} />
+              <Route path="/playbooks" element={<Playbooks />} />
+              <Route path="/playbook/:runId" element={<PlaybookRun />} />
+              <Route path="/felix" element={<FelixChat />} />
+              <Route path="/profile" element={<Profile />} />
             </Route>
             <Route path="/impressum" element={<Impressum />} />
             <Route path="/datenschutz" element={<Datenschutz />} />
