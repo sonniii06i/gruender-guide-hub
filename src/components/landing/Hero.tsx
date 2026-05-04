@@ -49,12 +49,16 @@ export const Hero = () => {
         </div>
 
         <div className="mt-10 flex flex-col sm:flex-row gap-3 justify-center">
-          <Button size="lg" className="group rounded-full bg-gradient-primary hover:opacity-95 text-primary-foreground h-14 px-8 shadow-glow hover:shadow-[0_25px_70px_-15px_hsl(var(--accent-blue)/0.6)] hover:-translate-y-0.5 transition-all duration-300 text-base font-semibold">
-            Kostenlos starten <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-          </Button>
-          <Button size="lg" variant="outline" className="rounded-full h-14 px-8 border-2 hover:bg-accent-blue/5 hover:border-accent-blue hover:-translate-y-0.5 transition-all duration-300 text-base font-semibold backdrop-blur">
-            Leistungen ansehen
-          </Button>
+          <Link to="/auth">
+            <Button size="lg" className="group rounded-full bg-gradient-primary hover:opacity-95 text-primary-foreground h-14 px-8 shadow-glow hover:shadow-[0_25px_70px_-15px_hsl(var(--accent-blue)/0.6)] hover:-translate-y-0.5 transition-all duration-300 text-base font-semibold">
+              Kostenlos starten <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+            </Button>
+          </Link>
+          <a href="#leistungen">
+            <Button size="lg" variant="outline" className="rounded-full h-14 px-8 border-2 hover:bg-accent-blue/5 hover:border-accent-blue hover:-translate-y-0.5 transition-all duration-300 text-base font-semibold backdrop-blur">
+              Leistungen ansehen
+            </Button>
+          </a>
         </div>
       </div>
     </section>
