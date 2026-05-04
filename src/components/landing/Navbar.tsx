@@ -10,7 +10,7 @@ const links = [
   { label: "Über uns", href: "#ueber-uns" },
   { label: "Bundles", href: "#bundles" },
   { label: "FAQ", href: "#faq" },
-  { label: "Kontakt", href: "#kontakt" },
+  { label: "Kontakt", href: "/kontakt", external: true },
 ];
 
 export const Navbar = () => {
@@ -25,13 +25,15 @@ export const Navbar = () => {
 
         <div className="hidden md:flex items-center gap-7">
           {links.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              className="text-sm text-foreground/70 hover:text-foreground transition-colors"
-            >
-              {l.label}
-            </a>
+            l.external ? (
+              <Link key={l.href} to={l.href} className="text-sm text-foreground/70 hover:text-foreground transition-colors">
+                {l.label}
+              </Link>
+            ) : (
+              <a key={l.href} href={l.href} className="text-sm text-foreground/70 hover:text-foreground transition-colors">
+                {l.label}
+              </a>
+            )
           ))}
         </div>
 
@@ -55,14 +57,11 @@ export const Navbar = () => {
           <SheetContent>
             <div className="flex flex-col gap-4 mt-8">
               {links.map((l) => (
-                <a
-                  key={l.href}
-                  href={l.href}
-                  onClick={() => setOpen(false)}
-                  className="text-base font-medium"
-                >
-                  {l.label}
-                </a>
+                l.external ? (
+                  <Link key={l.href} to={l.href} onClick={() => setOpen(false)} className="text-base font-medium">{l.label}</Link>
+                ) : (
+                  <a key={l.href} href={l.href} onClick={() => setOpen(false)} className="text-base font-medium">{l.label}</a>
+                )
               ))}
               <Button className="mt-4 bg-accent-blue hover:bg-accent-blue/90 text-accent-blue-foreground">
                 Anmelden
