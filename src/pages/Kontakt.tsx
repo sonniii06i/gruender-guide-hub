@@ -29,7 +29,10 @@ const Kontakt = () => {
     if (!res.success) { toast.error(res.error.issues[0].message); return; }
     setLoading(true);
     const { error } = await supabase.from("contact_tickets").insert({
-      ...res.data,
+      name: res.data.name,
+      email: res.data.email,
+      subject: res.data.subject,
+      message: res.data.message,
       user_id: user?.id ?? null,
     });
     setLoading(false);
