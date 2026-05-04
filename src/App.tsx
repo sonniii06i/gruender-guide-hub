@@ -8,6 +8,10 @@ import Index from "./pages/Index.tsx";
 import Auth from "./pages/Auth.tsx";
 import Onboarding from "./pages/Onboarding.tsx";
 import Dashboard from "./pages/Dashboard.tsx";
+import SteuerCockpit from "./pages/SteuerCockpit.tsx";
+import RechtsformWizard from "./pages/RechtsformWizard.tsx";
+import Anbieter from "./pages/Anbieter.tsx";
+import Roadmap from "./pages/Roadmap.tsx";
 import Impressum from "./pages/Impressum.tsx";
 import Datenschutz from "./pages/Datenschutz.tsx";
 import AGB from "./pages/AGB.tsx";
@@ -27,6 +31,10 @@ const App = () => (
             <Route path="/auth" element={<Auth />} />
             <Route path="/onboarding" element={<Onboarding />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/cockpit/steuer" element={<SteuerCockpit />} />
+            <Route path="/wizard/rechtsform" element={<RechtsformWizard />} />
+            <Route path="/anbieter" element={<Anbieter />} />
+            <Route path="/roadmap" element={<Roadmap />} />
             <Route path="/impressum" element={<Impressum />} />
             <Route path="/datenschutz" element={<Datenschutz />} />
             <Route path="/agb" element={<AGB />} />
