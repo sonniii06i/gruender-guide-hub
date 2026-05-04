@@ -28,6 +28,7 @@ const tiers = [
   },
   {
     name: "Founder Bundle",
+    priceId: STRIPE_PRICES.bundle,
     price: "179,99",
     desc: "GründerX + AnwaltX in einem. Gründung, Steuern und Recht aus einer Hand – nur im Bundle erhältlich.",
     features: [
@@ -44,7 +45,31 @@ const tiers = [
   },
 ];
 
-export const Bundles = () => (
+export const Bundles = () => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState<string | null>(null);
+
+  const handleCheckout = async (priceId: string) => {
+    if (!user) {
+      navigate(`/auth?mode=signup&price=${priceId}`);
+      return;
+    }
+    setLoading(priceId);
+    try {
+      const { data, error } = await supabase.functions.invoke("create-checkout", {
+        body: { priceId },
+      });
+      if (error) throw error;
+      if (data?.url) window.open(data.url, "_blank");
+    } catch (e: any) {
+      toast.error(e.message ?? "Checkout fehlgeschlagen");
+    } finally {
+      setLoading(null);
+    }
+  };
+
+  return (
   <section id="bundles" className="py-24 bg-secondary/40">
     <div className="container max-w-6xl">
       <div className="text-center mb-14">
