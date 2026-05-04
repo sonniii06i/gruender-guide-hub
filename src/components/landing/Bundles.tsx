@@ -3,14 +3,17 @@ import { Check, Sparkles } from "lucide-react";
 
 const tiers = [
   {
-    name: "GründerX Solo",
+    name: "GründerX",
     price: "99,99",
-    desc: "Für alle, die gründen und ihr Business steuerlich sauber aufstellen wollen.",
+    desc: "Dein KI-Co-Pilot Felix für Gründung, Steuern, Marketplaces und Brand-Launch.",
     features: [
       "Felix – KI-Gründungs-Co-Pilot",
-      "Gewerbeanmeldung & Steuer-Setup",
-      "AGB & Datenschutz-Generator",
-      "USt-Voranmeldung Assistent",
+      "DE-Gründung: Rechtsform, Finanzamt-Fragebogen, Steuer-Setup",
+      "US-LLC & HK-Limited Wizards (EIN, ITIN, BOI, Banking)",
+      "Steuer-Cockpit: USt, OSS, IAB, Fristen-Kalender",
+      "Marketplace-Setup: Amazon, Kaufland, Shopify, Stripe, PayPal",
+      "Brand-Compliance: WEEE/EAR, LUCID, BattG, GPSR, CPNP",
+      "Anbieter-Vergleich: Banking, Buchhaltung, 3PL, Tracking",
       "E-Mail Support",
     ],
     cta: "GründerX wählen",
@@ -18,32 +21,19 @@ const tiers = [
   },
   {
     name: "Founder Bundle",
-    price: "129",
-    desc: "Gründung + Recht in einem. Beide KIs, ein Preis, voller Schutz vom ersten Tag.",
+    price: "179,99",
+    desc: "GründerX + AnwaltX in einem. Gründung, Steuern und Recht aus einer Hand – nur im Bundle erhältlich.",
     features: [
-      "Alles aus GründerX Solo",
-      "Alles aus AnwaltX Solo",
+      "Alles aus GründerX",
+      "Juri – KI-Rechts-Assistentin (AnwaltX)",
+      "Vertragsprüfung & Vertragsgenerator",
+      "Abmahn- & Streitfall-Hilfe",
+      "Rechtssichere Mails versenden",
       "Felix + Juri zusammen im Chat",
-      "Vertragsprüfung & Abmahn-Schutz",
       "Priorisierter Support",
-      "Spare ggü. Einzelpreisen",
     ],
     cta: "Bundle sichern",
     highlight: true,
-  },
-  {
-    name: "AnwaltX Solo",
-    price: "59",
-    desc: "Rechtliche Co-Pilotin für E-Commerce, Creator und Influencer.",
-    features: [
-      "Juri – KI-Rechts-Assistentin",
-      "Vertragsprüfung",
-      "Abmahnung & Streitfall-Hilfe",
-      "Rechtssichere Mails versenden",
-      "E-Mail Support",
-    ],
-    cta: "AnwaltX wählen",
-    highlight: false,
   },
 ];
 
