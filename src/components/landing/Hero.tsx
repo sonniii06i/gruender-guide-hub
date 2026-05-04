@@ -22,10 +22,13 @@ export const Hero = () => {
           <Sparkles className="h-3.5 w-3.5 mr-1.5" /> Early-Bird: 10% Rabatt als Gründungsmitglied
         </Badge>
 
-        <h1 className="text-5xl md:text-7xl font-extrabold text-balance leading-[1.05]">
-          Unternehmen gründen?
+        <h1 className="text-5xl md:text-7xl font-extrabold text-balance leading-[1.1]">
+          Unternehmen{" "}
+          <span className="bg-gradient-primary bg-clip-text text-transparent inline-block pb-2">
+            gründen?
+          </span>
           <br />
-          <span className="bg-gradient-primary bg-clip-text text-transparent">
+          <span className="bg-gradient-primary bg-clip-text text-transparent inline-block pb-2">
             Sofort startklar.
           </span>
         </h1>
