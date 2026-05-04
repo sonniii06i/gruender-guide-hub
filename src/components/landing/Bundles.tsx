@@ -4,7 +4,7 @@ import { Check, Sparkles } from "lucide-react";
 const tiers = [
   {
     name: "GründerX Solo",
-    price: "29",
+    price: "99,99",
     desc: "Für alle, die gründen und ihr Business steuerlich sauber aufstellen wollen.",
     features: [
       "Felix – KI-Gründungs-Co-Pilot",
@@ -18,7 +18,7 @@ const tiers = [
   },
   {
     name: "Founder Bundle",
-    price: "49",
+    price: "129",
     desc: "Gründung + Recht in einem. Beide KIs, ein Preis, voller Schutz vom ersten Tag.",
     features: [
       "Alles aus GründerX Solo",
@@ -33,7 +33,7 @@ const tiers = [
   },
   {
     name: "AnwaltX Solo",
-    price: "39",
+    price: "59",
     desc: "Rechtliche Co-Pilotin für E-Commerce, Creator und Influencer.",
     features: [
       "Juri – KI-Rechts-Assistentin",
