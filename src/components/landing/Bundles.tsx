@@ -136,17 +136,21 @@ export const Bundles = () => {
             </ul>
             <Button
               size="lg"
+              onClick={() => handleCheckout(t.priceId)}
+              disabled={loading === t.priceId}
               className={`w-full rounded-full h-12 font-semibold ${
                 t.highlight
                   ? "bg-card text-primary hover:bg-card/90"
                   : "bg-gradient-primary text-primary-foreground hover:opacity-95 shadow-glow"
               }`}
             >
-              {t.cta}
+              {loading === t.priceId ? <Loader2 className="h-4 w-4 animate-spin" /> : t.cta}
             </Button>
           </div>
         ))}
       </div>
     </div>
   </section>
-);
+  );
+};
+
