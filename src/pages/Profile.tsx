@@ -22,12 +22,43 @@ const Profile = () => {
   const [profile, setProfile] = useState<ProfileData>({});
   const [sub, setSub] = useState<any>(null);
   const [saving, setSaving] = useState(false);
+  const [busy, setBusy] = useState<string | null>(null);
+
+  const refreshSub = async () => {
+    try {
+      await supabase.functions.invoke("check-subscription");
+      if (user) {
+        const { data } = await supabase.from("subscriptions").select("*").eq("user_id", user.id).maybeSingle();
+        setSub(data);
+      }
+    } catch {}
+  };
 
   useEffect(() => {
     if (!user) return;
     supabase.from("profiles").select("*").eq("id", user.id).maybeSingle().then(({ data }) => setProfile(data ?? {}));
     supabase.from("subscriptions").select("*").eq("user_id", user.id).maybeSingle().then(({ data }) => setSub(data));
+    refreshSub();
   }, [user]);
+
+  const checkout = async (priceId: string) => {
+    setBusy(priceId);
+    try {
+      const { data, error } = await supabase.functions.invoke("create-checkout", { body: { priceId } });
+      if (error) throw error;
+      if (data?.url) window.open(data.url, "_blank");
+    } catch (e: any) { toast.error(e.message); } finally { setBusy(null); }
+  };
+
+  const portal = async () => {
+    setBusy("portal");
+    try {
+      const { data, error } = await supabase.functions.invoke("customer-portal");
+      if (error) throw error;
+      if (data?.url) window.open(data.url, "_blank");
+    } catch (e: any) { toast.error(e.message); } finally { setBusy(null); }
+  };
+
 
   const save = async () => {
     if (!user) return;
