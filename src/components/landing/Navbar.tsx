@@ -36,12 +36,12 @@ export const Navbar = () => {
         </div>
 
         <div className="hidden md:flex items-center gap-2">
-          <Link to="/auth" className="text-sm text-foreground/70 hover:text-foreground px-3">
-            Registrieren
+          <Link to="/auth?mode=signin" className="text-sm text-foreground/70 hover:text-foreground px-3">
+            Anmelden
           </Link>
-          <Link to="/auth">
+          <Link to="/auth?mode=signup">
             <Button className="group rounded-full bg-gradient-primary text-primary-foreground hover:opacity-95 shadow-glow hover:shadow-[0_15px_40px_-10px_hsl(var(--accent-blue)/0.6)] hover:-translate-y-0.5 transition-all duration-300 px-5 font-semibold">
-              Anmelden
+              Registrieren
             </Button>
           </Link>
         </div>
