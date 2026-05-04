@@ -22,10 +22,13 @@ export const Hero = () => {
           <Sparkles className="h-3.5 w-3.5 mr-1.5" /> Early-Bird: 10% Rabatt als Gründungsmitglied
         </Badge>
 
-        <h1 className="text-5xl md:text-7xl font-extrabold text-balance leading-[1.05]">
-          Unternehmen gründen?
+        <h1 className="text-5xl md:text-7xl font-extrabold text-balance leading-[1.1]">
+          Unternehmen{" "}
+          <span className="bg-gradient-primary bg-clip-text text-transparent inline-block pb-2">
+            gründen?
+          </span>
           <br />
-          <span className="bg-gradient-primary bg-clip-text text-transparent">
+          <span className="bg-gradient-primary bg-clip-text text-transparent inline-block pb-2">
             Sofort startklar.
           </span>
         </h1>
@@ -51,10 +54,10 @@ export const Hero = () => {
         </div>
 
         <div className="mt-10 flex flex-col sm:flex-row gap-3 justify-center">
-          <Button size="lg" className="rounded-full bg-accent-blue hover:bg-accent-blue/90 text-accent-blue-foreground h-12 px-7 shadow-glow">
-            Kostenlos starten <ArrowRight className="ml-1 h-4 w-4" />
+          <Button size="lg" className="group rounded-full bg-gradient-primary hover:opacity-95 text-primary-foreground h-13 px-8 shadow-glow hover:shadow-[0_25px_70px_-15px_hsl(var(--accent-blue)/0.6)] hover:-translate-y-0.5 transition-all duration-300 text-base font-semibold">
+            Kostenlos starten <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
           </Button>
-          <Button size="lg" variant="outline" className="rounded-full h-12 px-7">
+          <Button size="lg" variant="outline" className="rounded-full h-13 px-8 border-2 hover:bg-accent-blue/5 hover:border-accent-blue hover:-translate-y-0.5 transition-all duration-300 text-base font-semibold backdrop-blur">
             Leistungen ansehen
           </Button>
         </div>
