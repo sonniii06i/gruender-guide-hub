@@ -104,10 +104,10 @@ export const Bundles = () => (
             </ul>
             <Button
               size="lg"
-              className={`w-full rounded-full ${
+              className={`w-full rounded-full h-12 font-semibold ${
                 t.highlight
                   ? "bg-card text-primary hover:bg-card/90"
-                  : "bg-accent-blue text-accent-blue-foreground hover:bg-accent-blue/90"
+                  : "bg-gradient-primary text-primary-foreground hover:opacity-95 shadow-glow"
               }`}
             >
               {t.cta}
