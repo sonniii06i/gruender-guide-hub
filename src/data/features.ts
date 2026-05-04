@@ -1,0 +1,171 @@
+import {
+  Globe2,
+  Calculator,
+  Building2,
+  Rocket,
+  Tag,
+  BookOpen,
+  Trophy,
+  HeartHandshake,
+  type LucideIcon,
+} from "lucide-react";
+
+export type FeatureStatus = "live" | "beta" | "soon" | "planned";
+
+export interface Feature {
+  slug: string;
+  title: string;
+  desc: string;
+  status: FeatureStatus;
+  route?: string;
+}
+
+export interface FeatureCategory {
+  slug: string;
+  title: string;
+  emoji: string;
+  icon: LucideIcon;
+  tagline: string;
+  features: Feature[];
+}
+
+export const CATEGORIES: FeatureCategory[] = [
+  {
+    slug: "international",
+    title: "Internationale Setups",
+    emoji: "🌍",
+    icon: Globe2,
+    tagline: "US-LLC, HK-Limited, Banking & Substance",
+    features: [
+      { slug: "us-llc-wizard", title: "US-LLC Setup-Wizard", desc: "Bundesstaat-Vergleich, Registered Agent, EIN, ITIN, BOI/FinCEN, Form 5472+1120.", status: "soon" },
+      { slug: "hk-limited-wizard", title: "HK-Limited Setup-Wizard", desc: "Company Secretary, Adresse, Profits Tax, Offshore-Status, Audited Accounts.", status: "soon" },
+      { slug: "us-banking", title: "US-Bankkonto-Anbieter", desc: "Mercury, Wise, Relay, Brex – Vergleich & Konditionen.", status: "soon" },
+      { slug: "hk-banking", title: "HK-Bankkonto", desc: "Statrys, Airwallex, Currenxie für asiatische Setups.", status: "soon" },
+      { slug: "sales-tax-nexus", title: "Sales-Tax-Nexus-Check", desc: "Pro US-Staat: ab welchem Umsatz musst du registrieren?", status: "planned" },
+      { slug: "substance-checker", title: "Substance-Requirements-Checker", desc: "Mailbox-Company-Risiko & echte Substanz im Ausland.", status: "planned" },
+      { slug: "dba-cfc", title: "DE-Anrechnung US/HK-Gewinne", desc: "DBA + CFC-Regelungen (Hinzurechnungsbesteuerung).", status: "planned" },
+    ],
+  },
+  {
+    slug: "steuer",
+    title: "DE-Steuer-Cockpit",
+    emoji: "💰",
+    icon: Calculator,
+    tagline: "Fristen, IAB, Crypto, Pre-Year-End",
+    features: [
+      { slug: "frist-kalender", title: "Frist-Kalender", desc: "USt-VA, ESt, KSt, GewSt – personalisiert nach Rechtsform.", status: "beta", route: "/cockpit/steuer" },
+      { slug: "pre-year-end", title: "Pre-Year-End-Check", desc: "Ab November: 7 Hebel, die du noch ziehen kannst.", status: "soon" },
+      { slug: "iab-rechner", title: "IAB-Rechner", desc: "Investitionsabzugsbetrag bis 200.000 €.", status: "beta", route: "/cockpit/steuer" },
+      { slug: "kfz-optimizer", title: "Kfz-Versteuerung-Optimizer", desc: "1%-Regel vs Fahrtenbuch – was lohnt sich?", status: "soon" },
+      { slug: "reisekosten", title: "Reisekosten/Bewirtung-Logger", desc: "OCR-Belege, automatische Kategorisierung.", status: "planned" },
+      { slug: "salary-vs-dividende", title: "Salary-vs-Dividende-Optimizer", desc: "Geschäftsführer-Gehalt oder Gewinnausschüttung?", status: "soon" },
+      { slug: "crypto-steuer", title: "Crypto-Steuer-Modul", desc: "FIFO, Wallet-Tracking, Steuer-Report.", status: "planned" },
+      { slug: "pension", title: "Rürup / bAV-Optimierung", desc: "Maximale steuerliche Wirkung der Altersvorsorge.", status: "planned" },
+      { slug: "quartal-schaetzung", title: "Quartals-Steuerschätzung", desc: "Was musst du dieses Quartal zurücklegen?", status: "beta", route: "/cockpit/steuer" },
+    ],
+  },
+  {
+    slug: "rechtsform",
+    title: "Rechtsform & Struktur",
+    emoji: "🏗️",
+    icon: Building2,
+    tagline: "Holding, IP-Box, Stiftung, Familien-Pool",
+    features: [
+      { slug: "rechtsform-wizard", title: "Rechtsform-Wizard", desc: "Einzelunternehmer → UG → GmbH → Holding.", status: "beta", route: "/wizard/rechtsform" },
+      { slug: "holding-designer", title: "Holding-Konstrukt-Designer", desc: "Operative GmbH + Holding GmbH + Schenkung.", status: "beta", route: "/wizard/rechtsform" },
+      { slug: "mehrstufig", title: "Mehrstufige Konstrukte", desc: "Stiftung, Familien-Pool, KG-Strukturen.", status: "soon" },
+      { slug: "ip-box", title: "IP-Box-Vergleich", desc: "NL, IE, HU, CH Patent-Box im Vergleich.", status: "planned" },
+      { slug: "eu-alternativen", title: "EU-Alternativen", desc: "Schweizer AG, österreichische FlexCo, EU-Limited.", status: "soon" },
+      { slug: "entscheidungs-engine", title: "Entscheidungs-Engine", desc: "Welche Struktur ab welchem Gewinn?", status: "beta", route: "/wizard/rechtsform" },
+      { slug: "auszahlung-optimizer", title: "Gewinn-Auszahlungs-Optimizer", desc: "Maximal effizient ins Privatvermögen überführen.", status: "soon" },
+    ],
+  },
+  {
+    slug: "launch",
+    title: "Launch-Phase Compliance",
+    emoji: "🚀",
+    icon: Rocket,
+    tagline: "Brand-Gründung, CPNP, WEEE, LUCID, EXIST",
+    features: [
+      { slug: "ecom-roadmap", title: "Ecom-Brand-Roadmap", desc: "Beauty, Supplement, Electronics, Toys, Apparel, Food.", status: "soon" },
+      { slug: "category-compliance", title: "Pflicht-Compliance pro Kategorie", desc: "CPNP/MoCRA, WEEE/EAR, EN71, NEM-Anzeige …", status: "soon" },
+      { slug: "lucid-wizard", title: "LUCID-Verpackungsregister", desc: "Wizard für die Verpackungsregistrierung.", status: "soon" },
+      { slug: "ce-rohs", title: "Konformitätserklärung", desc: "CE / RoHS-Generator als PDF.", status: "soon" },
+      { slug: "labor-vergleich", title: "Labor-Anbieter-Vergleich", desc: "Pro Test-Anforderung passendes Labor.", status: "planned" },
+      { slug: "visa-helper", title: "Visa / Residency-Helper", desc: "Für non-EU-Gründer in DE.", status: "planned" },
+      { slug: "foerderung-db", title: "Gründungs-Förderung-Datenbank", desc: "KfW, EXIST, ERP, Bundesländer-Programme.", status: "soon" },
+    ],
+  },
+  {
+    slug: "marken",
+    title: "Marken & Domain",
+    emoji: "🛠️",
+    icon: Tag,
+    tagline: "DPMA, EUIPO, USPTO, Domain, Social-Handles",
+    features: [
+      { slug: "marken-checker", title: "Marken-Checker", desc: "DPMA + EUIPO + USPTO + WIPO in einem Check.", status: "soon" },
+      { slug: "domain-check", title: "Domain-Verfügbarkeit", desc: "Alle relevanten TLDs gleichzeitig.", status: "soon" },
+      { slug: "social-handle", title: "Social-Handle-Check", desc: "IG, TikTok, X, YouTube parallel prüfen.", status: "soon" },
+      { slug: "appstore-name", title: "App-Store-Namens-Check", desc: "Apple App Store + Google Play.", status: "planned" },
+      { slug: "dpma-wizard", title: "DPMA-Anmeldungs-Wizard", desc: "Mit Klassen-Empfehlung (Nizza-Klassen).", status: "soon" },
+      { slug: "marken-monitor", title: "Markenüberwachung", desc: "Alert bei ähnlichen Anmeldungen.", status: "planned" },
+    ],
+  },
+  {
+    slug: "buchhaltung",
+    title: "Buchhaltung & Reporting",
+    emoji: "📊",
+    icon: BookOpen,
+    tagline: "Amazon, Stripe, Shopify, DATEV-Export",
+    features: [
+      { slug: "amazon-parser", title: "Amazon-Settlement-Parser", desc: "FBA-Fees, Werbung, Storage, Returns aufteilen.", status: "soon" },
+      { slug: "datev-mapping", title: "DATEV / Lexoffice Auto-Mapping", desc: "Pro Fee-Typ automatisch verbuchen.", status: "soon" },
+      { slug: "amazon-ust", title: "USt Amazon EU vs US", desc: "Reverse-Charge-Logik korrekt anwenden.", status: "planned" },
+      { slug: "stripe-parser", title: "Stripe-Payout-Parser", desc: "Trinkgeld, Fees, Chargebacks aufteilen.", status: "soon" },
+      { slug: "marge-tracker", title: "Multi-Channel-Marge-Tracker", desc: "Shopify + Amazon + eBay + Otto vereint.", status: "soon" },
+      { slug: "bwa", title: "BWA-Auto-Generator", desc: "Betriebswirtschaftliche Auswertung auf Knopfdruck.", status: "planned" },
+      { slug: "datev-export", title: "DATEV-Export für Steuerberater", desc: "Sauberes Übergabe-Bundle.", status: "planned" },
+    ],
+  },
+  {
+    slug: "anbieter",
+    title: "Anbieter-Vergleichs-Engine",
+    emoji: "🏆",
+    icon: Trophy,
+    tagline: "Versand, Banking, Buchhaltung, 3PL, LUCID …",
+    features: [
+      { slug: "vergleich-versand-de", title: "Versand DACH", desc: "DHL, DPD, GLS, Hermes, UPS.", status: "beta", route: "/anbieter" },
+      { slug: "vergleich-versand-int", title: "Versand International", desc: "Sendcloud, Easyship, ShipBob.", status: "beta", route: "/anbieter" },
+      { slug: "vergleich-buchhaltung", title: "Buchhaltung", desc: "Lexoffice, sevDesk, DATEV, Candis.", status: "beta", route: "/anbieter" },
+      { slug: "vergleich-banking-de", title: "Banking DE", desc: "Holvi, Qonto, Penta, Kontist, Finom.", status: "beta", route: "/anbieter" },
+      { slug: "vergleich-banking-us", title: "Banking US", desc: "Mercury, Wise, Relay, Brex.", status: "beta", route: "/anbieter" },
+      { slug: "vergleich-3pl", title: "3PL / Fulfillment", desc: "Byrd, ShipBob, FromSpace.", status: "beta", route: "/anbieter" },
+      { slug: "vergleich-lucid", title: "LUCID / Verpackung", desc: "Lizenzero, Reclay, BellandVision.", status: "beta", route: "/anbieter" },
+      { slug: "vergleich-shop", title: "Shop-Systeme", desc: "Shopify, Shopware, Woo, Headless.", status: "beta", route: "/anbieter" },
+      { slug: "vergleich-email", title: "Pixel / Email", desc: "Klaviyo, Brevo, ActiveCampaign.", status: "beta", route: "/anbieter" },
+      { slug: "vergleich-tracking", title: "Tracking", desc: "Hyros, Triple Whale, Wicked Reports.", status: "beta", route: "/anbieter" },
+      { slug: "stb-marketplace", title: "Steuerberater-Marketplace", desc: "Verifizierte Partner mit Revenue-Share.", status: "soon" },
+    ],
+  },
+  {
+    slug: "premium",
+    title: "Premium-Add-ons",
+    emoji: "🤝",
+    icon: HeartHandshake,
+    tagline: "STB-Hand-off, Community, 1:1-Bookings",
+    features: [
+      { slug: "stb-handoff", title: "Steuerberater-Hand-off", desc: "PDF-Bundle aus deinem Cockpit, 3-Angebote-Modell.", status: "soon" },
+      { slug: "community", title: "Founder-Slack/Discord", desc: "Geprüfte Gründer-Community.", status: "soon" },
+      { slug: "webinare", title: "Live-Webinare", desc: "HK-Setup, Holding, Exit – komplexe Themen.", status: "planned" },
+      { slug: "experten-bookings", title: "1:1-Berater-Bookings", desc: "Verifizierte Berater, reine Vermittlung.", status: "planned" },
+      { slug: "coop-deals", title: "Exklusive Coop-Deals", desc: "Verhandelte Sonderkonditionen bei allen Anbietern.", status: "soon" },
+    ],
+  },
+];
+
+export const STATUS_LABEL: Record<FeatureStatus, string> = {
+  live: "Live",
+  beta: "Beta",
+  soon: "Bald",
+  planned: "Geplant",
+};
