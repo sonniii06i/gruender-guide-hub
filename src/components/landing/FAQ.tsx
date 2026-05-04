@@ -7,28 +7,48 @@ import {
 
 const faqs = [
   {
-    q: "Welche Rechtsform passt zu mir?",
-    a: "Felix analysiert dein Vorhaben, dein Risikoprofil und deine Umsatzplanung – und empfiehlt dir Einzelunternehmen, UG oder GmbH mit klarer Begründung.",
+    q: "Welche Rechtsform passt zu mir – Einzelunternehmen, UG, GmbH oder Holding?",
+    a: "Felix vergleicht Einzelunternehmen, UG, GmbH und Holding-Konstrukte anhand deines Umsatzes, deines Risikos und deiner Pläne (Reinvest, Ausschüttung, Exit) – inklusive Wechsel-Wegweiser, wann sich ein Upgrade rechnet.",
   },
   {
-    q: "Hilft GründerX beim Amazon Seller Account?",
-    a: "Ja. Felix begleitet dich von der Vorbereitung der Verifizierungs-Dokumente über die Wahl zwischen Individual- und Professional-Account bis zum Brand Registry und der korrekten Umsatzsteuer-Konfiguration (OSS, EU-VAT).",
+    q: "Hilft GründerX bei US-LLC oder HK-Limited?",
+    a: "Ja. Bundesstaaten-Vergleich (Wyoming, Delaware, New Mexico, Nevada), Registered-Agent-Auswahl, EIN- und ITIN-Antrag, BOI-Reporting (FinCEN), Form 5472/1120-Reminder sowie Banking (Mercury, Wise, Relay, Brex). Für Hong Kong: Setup, Profits-Tax, Offshore-Status, Audited Accounts und Banking (Statrys, Airwallex, Currenxie) – inkl. deutscher CFC-Regelungen.",
   },
   {
-    q: "Und Meta Ads / Business Manager?",
-    a: "Wir zeigen dir, wie du Business Manager, Werbekonto, Pixel und Conversions API sauber aufsetzt – inklusive Domain-Verifizierung, sodass dein Account nicht direkt gesperrt wird.",
+    q: "Welche Marketplaces deckt GründerX ab?",
+    a: "Schritt-für-Schritt-Setup für Amazon Seller, Kaufland, Shopify, Stripe und PayPal Business – inkl. Verifizierung, EU-Setup, Domain, Payment und Versand. Plus Plattform-Vergleich, welcher Channel zu welchem Produkt passt.",
   },
   {
-    q: "Welche Buchhaltungs-Software empfehlt ihr?",
-    a: "Je nach Geschäftsmodell empfehlen wir Lexware Office, sevDesk, Pennylane oder Datev – und für Cashflow / Banking Qonto, Finom oder Kontist. Felix gibt dir eine konkrete Empfehlung statt einer Liste.",
+    q: "Was deckt die Steuer-Funktion ab?",
+    a: "DE-Steuer-Cockpit mit Frist-Kalender (USt, ESt, KSt, GewSt, GuV), Dokumenten-Pflicht-Übersicht, IAB-Rechner, Kfz (1 % vs. Fahrtenbuch), Reisekosten-Logger, Pre-Year-End-Check, OSS-Anmeldung sowie US- und HK-Tax-Helper inkl. W-8BEN für Whop & Co.",
+  },
+  {
+    q: "Wie hilft ihr bei eigener Brand und Compliance?",
+    a: "Kategorie-Guides für Elektronik (WEEE/EAR, CE, RoHS), Health & Supplements (NEM-Anzeige BVL, NRV, HCV), Beauty (CPNP, MoCRA), Spielzeug (EN 71, REACH), Apparel (Textilkennzeichnung) und Lebensmittel (LMIV). Plus Anmelde-Wizards für LUCID-Verpackungen, BattG und GPSR.",
+  },
+  {
+    q: "Kann ich vor dem Launch Marken, Domain und Social-Handles prüfen?",
+    a: "Ja. Brand-Launch-Tools mit Marken-Check (DPMA, EUIPO, USPTO), Domain-Check (.de/.com/.io), Social-Handles (Instagram, TikTok, YouTube, X), App-Store-Check und einem Risiko-Score mit Empfehlung.",
+  },
+  {
+    q: "Hilft GründerX bei Amazon-Buchhaltung?",
+    a: "Ja – Settlement-Report-Parser (Amazon-CSV → Buchungen), DATEV/Lexoffice-Mapping (SKR03/SKR04), USt-Behandlung inkl. Reverse-Charge für EU-/US-Werbung und ein Marge-Tracker pro SKU.",
+  },
+  {
+    q: "Welche Anbieter werden verglichen?",
+    a: "Versand DACH (DHL, DPD, GLS, Hermes, UPS) & International (Sendcloud, Easyship, ShipBob), Buchhaltung DE (Lexoffice, sevDesk, DATEV, Candis) und US (Bench, Pilot, Xero), Banking (Holvi, Qonto, Penta, Kontist, Finom / Mercury, Wise, Relay, Brex), Shop-Systeme, Email & Pixel (Klaviyo, Brevo), Tracking (Hyros, Triple Whale) und 3PL (Byrd, ShipBob, BoxBay).",
   },
   {
     q: "Was kostet GründerX?",
-    a: "GründerX kostet 99,99 € / Monat. Im Founder Bundle (GründerX + AnwaltX) zahlst du 129 € / Monat statt 159 € einzeln und sparst rund 20 %.",
+    a: "GründerX kostet 99,99 € / Monat. Wer zusätzlich AnwaltX (Vertragsprüfung, Abmahn-Schutz, Streitfall-Hilfe) möchte, bucht das Founder Bundle für 179,99 € / Monat. AnwaltX ist über GründerX nur im Bundle erhältlich.",
+  },
+  {
+    q: "Übernehmt ihr Behördengänge wie die Gewerbeanmeldung?",
+    a: "Nein. Wir geben dir Checklisten, ausgefüllte Formular-Vorlagen und Schritt-für-Schritt-Anleitungen – die Einreichung beim Gewerbeamt oder Finanzamt machst du selbst. Felix sorgt dafür, dass nichts fehlt.",
   },
   {
     q: "Sind meine Daten sicher?",
-    a: "Ja. GründerX ist DSGVO-konform, alle Daten liegen verschlüsselt auf Servern in der EU. Wir nutzen deine Daten nicht zum Training fremder Modelle.",
+    a: "Ja. GründerX ist DSGVO-konform, alle Daten liegen verschlüsselt auf Servern in der EU. Deine Daten werden nicht zum Training fremder Modelle verwendet.",
   },
 ];
 
