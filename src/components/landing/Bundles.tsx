@@ -56,7 +56,7 @@ export const Bundles = () => (
         </p>
       </div>
 
-      <div className="grid md:grid-cols-3 gap-5 items-stretch">
+      <div className="grid md:grid-cols-2 gap-5 items-stretch max-w-4xl mx-auto">
         {tiers.map((t) => (
           <div
             key={t.name}
