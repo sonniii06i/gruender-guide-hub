@@ -1,21 +1,20 @@
-const items = [
+import { Heart, Lightbulb, Compass } from "lucide-react";
+
+const points = [
   {
-    quote:
-      "Ich hatte morgens die Idee, abends war meine UG angemeldet. Felix hat alle Formulare vorbereitet und mir genau gesagt, was ich beim Notar brauche.",
-    name: "Lara K.",
-    role: "Gründerin, Skincare-Brand",
+    icon: Compass,
+    title: "Wir starten gerade selbst",
+    text: "GründerX ist brandneu – noch keine Kundenstimmen, keine Fake-Logos, keine ausgedachten Founder-Quotes. Stattdessen: ein ehrliches Werkzeug, an dem wir täglich bauen.",
   },
   {
-    quote:
-      "Als TikTok-Shop-Seller war Steuern immer ein Albtraum. OSS, USt, Marktplatz-Abrechnungen – GründerX nimmt mir das alles ab.",
-    name: "Marco B.",
-    role: "E-Commerce Operator",
+    icon: Lightbulb,
+    title: "Aus eigener Frustration entstanden",
+    text: "Wir haben selbst Amazon-Seller, UGs, US-LLCs und Hong-Kong-Setups durchgezogen – und uns jedes Mal gewünscht, dass uns jemand klar an die Hand nimmt, statt 40 Browser-Tabs offen zu haben.",
   },
   {
-    quote:
-      "Das Bundle mit AnwaltX ist ein Gamechanger. Gründung, Steuern und Recht in einem Tool – ich brauche keine drei Berater mehr.",
-    name: "Sophie R.",
-    role: "Creator & Founder",
+    icon: Heart,
+    title: "Genau das wollen wir bauen",
+    text: "Den Co-Piloten, den wir am Anfang gebraucht hätten: Schritt-für-Schritt-Playbooks, Frist-Cockpit, ehrlicher Anbieter-Vergleich. Sei einer der ersten, die mit uns starten.",
   },
 ];
 
@@ -24,29 +23,30 @@ export const Testimonials = () => (
     <div className="container max-w-6xl">
       <div className="text-center mb-14">
         <p className="text-sm font-semibold uppercase tracking-wider text-accent-blue mb-3">
-          Stimmen aus der Community
+          Warum es GründerX gibt
         </p>
         <h2 className="text-3xl md:text-5xl font-bold text-balance">
-          Founder, die schon mit uns gestartet sind.
+          Das Tool, das wir uns selbst gewünscht hätten.
         </h2>
+        <p className="mt-5 text-muted-foreground max-w-2xl mx-auto text-balance">
+          Keine Fake-Testimonials, keine erfundenen 5-Sterne-Bewertungen.
+          Nur die ehrliche Geschichte, warum wir GründerX bauen.
+        </p>
       </div>
 
       <div className="grid md:grid-cols-3 gap-5">
-        {items.map((i) => (
+        {points.map((p) => (
           <div
-            key={i.name}
+            key={p.title}
             className="rounded-2xl border border-border bg-card p-7 shadow-card"
           >
-            <p className="text-foreground leading-relaxed">„{i.quote}"</p>
-            <div className="mt-6 flex items-center gap-3">
-              <div className="h-10 w-10 rounded-full bg-gradient-primary flex items-center justify-center text-primary-foreground font-semibold">
-                {i.name[0]}
-              </div>
-              <div>
-                <div className="font-semibold text-sm">{i.name}</div>
-                <div className="text-xs text-muted-foreground">{i.role}</div>
-              </div>
+            <div className="h-11 w-11 rounded-xl bg-gradient-primary flex items-center justify-center text-primary-foreground mb-5">
+              <p.icon className="h-5 w-5" />
             </div>
+            <h3 className="font-semibold text-lg mb-2">{p.title}</h3>
+            <p className="text-muted-foreground leading-relaxed text-sm">
+              {p.text}
+            </p>
           </div>
         ))}
       </div>
