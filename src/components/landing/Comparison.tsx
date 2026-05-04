@@ -25,7 +25,7 @@ export const Comparison = () => (
         </p>
         <h2 className="text-3xl md:text-5xl font-bold text-balance max-w-3xl mx-auto">
           Andere Tools erklären nur –{" "}
-          <span className="bg-gradient-primary bg-clip-text text-transparent">
+          <span className="text-gradient-primary inline-block">
             GründerX gründet mit dir.
           </span>
         </h2>

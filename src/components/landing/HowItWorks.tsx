@@ -34,7 +34,7 @@ export const HowItWorks = () => (
             key={s.n}
             className="rounded-2xl border border-border bg-card p-8 shadow-card"
           >
-            <div className="text-5xl font-extrabold bg-gradient-primary bg-clip-text text-transparent mb-4">
+            <div className="text-5xl font-extrabold text-gradient-primary inline-block mb-4">
               {s.n}
             </div>
             <h3 className="font-bold text-xl mb-2">{s.title}</h3>

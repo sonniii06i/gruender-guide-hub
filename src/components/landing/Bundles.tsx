@@ -3,14 +3,17 @@ import { Check, Sparkles } from "lucide-react";
 
 const tiers = [
   {
-    name: "GründerX Solo",
+    name: "GründerX",
     price: "99,99",
-    desc: "Für alle, die gründen und ihr Business steuerlich sauber aufstellen wollen.",
+    desc: "Dein KI-Co-Pilot Felix für Gründung, Steuern, Marketplaces und Brand-Launch.",
     features: [
       "Felix – KI-Gründungs-Co-Pilot",
-      "Gewerbeanmeldung & Steuer-Setup",
-      "AGB & Datenschutz-Generator",
-      "USt-Voranmeldung Assistent",
+      "DE-Gründung: Rechtsform, Finanzamt-Fragebogen, Steuer-Setup",
+      "US-LLC & HK-Limited Wizards (EIN, ITIN, BOI, Banking)",
+      "Steuer-Cockpit: USt, OSS, IAB, Fristen-Kalender",
+      "Marketplace-Setup: Amazon, Kaufland, Shopify, Stripe, PayPal",
+      "Brand-Compliance: WEEE/EAR, LUCID, BattG, GPSR, CPNP",
+      "Anbieter-Vergleich: Banking, Buchhaltung, 3PL, Tracking",
       "E-Mail Support",
     ],
     cta: "GründerX wählen",
@@ -18,32 +21,19 @@ const tiers = [
   },
   {
     name: "Founder Bundle",
-    price: "129",
-    desc: "Gründung + Recht in einem. Beide KIs, ein Preis, voller Schutz vom ersten Tag.",
+    price: "179,99",
+    desc: "GründerX + AnwaltX in einem. Gründung, Steuern und Recht aus einer Hand – nur im Bundle erhältlich.",
     features: [
-      "Alles aus GründerX Solo",
-      "Alles aus AnwaltX Solo",
+      "Alles aus GründerX",
+      "Juri – KI-Rechts-Assistentin (AnwaltX)",
+      "Vertragsprüfung & Vertragsgenerator",
+      "Abmahn- & Streitfall-Hilfe",
+      "Rechtssichere Mails versenden",
       "Felix + Juri zusammen im Chat",
-      "Vertragsprüfung & Abmahn-Schutz",
       "Priorisierter Support",
-      "Spare ggü. Einzelpreisen",
     ],
     cta: "Bundle sichern",
     highlight: true,
-  },
-  {
-    name: "AnwaltX Solo",
-    price: "59",
-    desc: "Rechtliche Co-Pilotin für E-Commerce, Creator und Influencer.",
-    features: [
-      "Juri – KI-Rechts-Assistentin",
-      "Vertragsprüfung",
-      "Abmahnung & Streitfall-Hilfe",
-      "Rechtssichere Mails versenden",
-      "E-Mail Support",
-    ],
-    cta: "AnwaltX wählen",
-    highlight: false,
   },
 ];
 
@@ -56,7 +46,7 @@ export const Bundles = () => (
         </p>
         <h2 className="text-3xl md:text-5xl font-bold text-balance max-w-3xl mx-auto">
           GründerX + AnwaltX –{" "}
-          <span className="bg-gradient-primary bg-clip-text text-transparent">
+          <span className="text-gradient-primary inline-block">
             stärker zusammen.
           </span>
         </h2>
@@ -66,7 +56,7 @@ export const Bundles = () => (
         </p>
       </div>
 
-      <div className="grid md:grid-cols-3 gap-5 items-stretch">
+      <div className="grid md:grid-cols-2 gap-5 items-stretch max-w-4xl mx-auto">
         {tiers.map((t) => (
           <div
             key={t.name}
@@ -114,10 +104,10 @@ export const Bundles = () => (
             </ul>
             <Button
               size="lg"
-              className={`w-full rounded-full ${
+              className={`w-full rounded-full h-12 font-semibold ${
                 t.highlight
                   ? "bg-card text-primary hover:bg-card/90"
-                  : "bg-accent-blue text-accent-blue-foreground hover:bg-accent-blue/90"
+                  : "bg-gradient-primary text-primary-foreground hover:opacity-95 shadow-glow"
               }`}
             >
               {t.cta}
