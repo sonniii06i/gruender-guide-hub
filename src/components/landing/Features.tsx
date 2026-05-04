@@ -49,7 +49,7 @@ export const Features = () => (
         </p>
         <h2 className="text-3xl md:text-5xl font-bold text-balance max-w-3xl mx-auto">
           Alles, was du zum Gründen brauchst –{" "}
-          <span className="bg-gradient-primary bg-clip-text text-transparent">
+          <span className="text-gradient-primary inline-block">
             an einem Ort.
           </span>
         </h2>
