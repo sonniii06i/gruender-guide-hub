@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 import { Sparkles, ArrowRight } from "lucide-react";
 
 export const Assistant = () => (
@@ -24,12 +25,14 @@ export const Assistant = () => (
               dir passen. Trainiert auf echten Gründungen aus E-Commerce &
               Creator-Business – nicht auf Wikipedia.
             </p>
-            <Button
-              size="lg"
-              className="mt-8 rounded-full bg-card text-primary hover:bg-card/90 h-14 px-7 font-semibold"
-            >
-              Jetzt kostenlos testen <ArrowRight className="ml-1 h-4 w-4" />
-            </Button>
+            <Link to="/auth?mode=signup">
+              <Button
+                size="lg"
+                className="mt-8 rounded-full bg-card text-primary hover:bg-card/90 h-14 px-7 font-semibold"
+              >
+                Jetzt ausprobieren <ArrowRight className="ml-1 h-4 w-4" />
+              </Button>
+            </Link>
           </div>
 
           <div className="hidden md:flex h-56 w-56 rounded-3xl bg-white/15 backdrop-blur-md border border-white/20 items-center justify-center text-7xl font-bold">
