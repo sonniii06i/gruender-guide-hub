@@ -1,6 +1,5 @@
 import { useMemo, useState } from "react";
 import CockpitShell from "@/components/cockpit/CockpitShell";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Calendar, Calculator, PiggyBank } from "lucide-react";
@@ -157,5 +156,4 @@ const Row = ({ label, value, highlight }: { label: string; value: string; highli
   </div>
 );
 
-const Button2 = Button; // unused alias guard
 export default SteuerCockpit;
