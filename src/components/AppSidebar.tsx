@@ -19,7 +19,8 @@ import {
   Collapsible, CollapsibleContent, CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { CATEGORIES, STATUS_LABEL, type FeatureStatus } from "@/data/features";
-import { ChevronRight, LayoutDashboard, MessageSquare, Rocket, User } from "lucide-react";
+import { ChevronRight, LayoutDashboard, MessageSquare, Rocket, Shield, User } from "lucide-react";
+import { useRole } from "@/hooks/useRole";
 
 const STATUS_DOT: Record<FeatureStatus, string> = {
   live: "bg-success",
@@ -34,6 +35,7 @@ export function AppSidebar() {
   const { pathname } = useLocation();
   const [params] = useSearchParams();
   const activeCat = params.get("cat");
+  const { isAdmin } = useRole();
 
   const isActive = (route?: string) => !!route && pathname === route;
 
@@ -59,6 +61,7 @@ export function AppSidebar() {
               <Item to="/playbooks" icon={Rocket} label="Playbooks" active={pathname.startsWith("/playbooks") || pathname.startsWith("/playbook/")} />
               <Item to="/felix" icon={MessageSquare} label="Felix-Chat" active={pathname === "/felix"} />
               <Item to="/profile" icon={User} label="Profil" active={pathname === "/profile"} />
+              {isAdmin && <Item to="/admin" icon={Shield} label="Admin" active={pathname === "/admin"} />}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
