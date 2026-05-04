@@ -31,9 +31,9 @@ export const Footer = () => (
         <div>
           <h4 className="font-semibold mb-4 text-sm">Rechtliches</h4>
           <ul className="space-y-2 text-sm text-muted-foreground">
-            <li><a href="#" className="hover:text-foreground">Impressum</a></li>
-            <li><a href="#" className="hover:text-foreground">Datenschutz</a></li>
-            <li><a href="#" className="hover:text-foreground">AGB</a></li>
+            <li><a href="/impressum" className="hover:text-foreground">Impressum</a></li>
+            <li><a href="/datenschutz" className="hover:text-foreground">Datenschutz</a></li>
+            <li><a href="/agb" className="hover:text-foreground">AGB</a></li>
           </ul>
         </div>
       </div>

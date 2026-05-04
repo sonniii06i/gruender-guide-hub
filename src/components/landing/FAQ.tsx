@@ -11,16 +11,20 @@ const faqs = [
     a: "Felix analysiert dein Vorhaben, dein Risikoprofil und deine Umsatzplanung – und empfiehlt dir Einzelunternehmen, UG oder GmbH mit klarer Begründung.",
   },
   {
-    q: "Wie funktioniert die KI?",
-    a: "Unsere KI ist auf tausenden realen Gründungen aus E-Commerce und Creator-Bereich trainiert. Sie versteht deutsches Steuer- und Gesellschaftsrecht und gibt jederzeit Quellen an.",
+    q: "Hilft GründerX beim Amazon Seller Account?",
+    a: "Ja. Felix begleitet dich von der Vorbereitung der Verifizierungs-Dokumente über die Wahl zwischen Individual- und Professional-Account bis zum Brand Registry und der korrekten Umsatzsteuer-Konfiguration (OSS, EU-VAT).",
   },
   {
-    q: "Ersetzt GründerX meinen Steuerberater?",
-    a: "Wir ersetzen viele Routine-Aufgaben (USt-Voranmeldung, Belege, EÜR-Vorbereitung). Bei komplexen Fragen vermitteln wir dich gezielt an einen Steuerberater.",
+    q: "Und Meta Ads / Business Manager?",
+    a: "Wir zeigen dir, wie du Business Manager, Werbekonto, Pixel und Conversions API sauber aufsetzt – inklusive Domain-Verifizierung, sodass dein Account nicht direkt gesperrt wird.",
   },
   {
-    q: "Was kostet das Founder Bundle?",
-    a: "Das Bundle (GründerX + AnwaltX) kostet 49€/Monat – statt 68€ einzeln. Du sparst rund 30% und bekommst Felix und Juri in einem Account.",
+    q: "Welche Buchhaltungs-Software empfehlt ihr?",
+    a: "Je nach Geschäftsmodell empfehlen wir Lexware Office, sevDesk, Pennylane oder Datev – und für Cashflow / Banking Qonto, Finom oder Kontist. Felix gibt dir eine konkrete Empfehlung statt einer Liste.",
+  },
+  {
+    q: "Was kostet GründerX?",
+    a: "GründerX kostet 99,99 € / Monat. Im Founder Bundle (GründerX + AnwaltX) zahlst du 129 € / Monat statt 159 € einzeln und sparst rund 20 %.",
   },
   {
     q: "Sind meine Daten sicher?",

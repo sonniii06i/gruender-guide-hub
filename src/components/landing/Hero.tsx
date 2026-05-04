@@ -22,23 +22,17 @@ export const Hero = () => {
           <Sparkles className="h-3.5 w-3.5 mr-1.5" /> Early-Bird: 10% Rabatt als Gründungsmitglied
         </Badge>
 
-        <h1 className="text-5xl md:text-7xl font-extrabold text-balance leading-[1.1]">
-          Unternehmen{" "}
-          <span className="bg-gradient-primary bg-clip-text text-transparent inline-block pb-2">
-            gründen?
-          </span>
-          <br />
-          <span className="bg-gradient-primary bg-clip-text text-transparent inline-block pb-2">
-            Sofort startklar.
-          </span>
+        <h1 className="text-5xl md:text-7xl font-extrabold text-balance leading-[1.15] tracking-tight">
+          <span className="block">Unternehmen <span className="text-accent-blue">gründen?</span></span>
+          <span className="block">Sofort <span className="text-accent-blue">startklar.</span></span>
         </h1>
 
         <p className="mt-6 text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto text-balance">
-          GründerX kombiniert fortschrittliche KI mit Gründungs- und Steuerwissen für{" "}
+          GründerX ist dein KI-Co-Pilot für{" "}
           <span className="font-semibold text-foreground">
-            E-Commerce-Händler, Creator und Founder
+            Amazon-Seller, Meta-Ads-Operator, E-Commerce-Founder und Creator
           </span>
-          . Von der Rechtsform bis zur ersten USt-Voranmeldung – dein KI-Co-Pilot für jeden Schritt.
+          . Von der Rechtsform-Wahl über Amazon Business & Seller Account bis zu Buchhaltung mit Lexware, sevDesk & Co. – Felix führt dich Schritt für Schritt.
         </p>
 
         <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
