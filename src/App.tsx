@@ -39,7 +39,10 @@ const App = () => (
               <Route path="/cockpit/steuer" element={<SteuerCockpit />} />
               <Route path="/wizard/rechtsform" element={<RechtsformWizard />} />
               <Route path="/anbieter" element={<Anbieter />} />
-              <Route path="/roadmap" element={<Roadmap />} />
+              <Route path="/playbooks" element={<Playbooks />} />
+              <Route path="/playbook/:runId" element={<PlaybookRun />} />
+              <Route path="/felix" element={<FelixChat />} />
+              <Route path="/profile" element={<Profile />} />
             </Route>
             <Route path="/impressum" element={<Impressum />} />
             <Route path="/datenschutz" element={<Datenschutz />} />
