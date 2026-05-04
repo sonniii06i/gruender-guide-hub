@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
@@ -46,8 +46,6 @@ const PlaybookRun = () => {
     })();
   }, [runId, user, navigate]);
 
-  const playbook = useMemo(() => run ? getPlaybook(run["playbook_slug" as keyof RunRow] as unknown as string ?? "") : null, [run]);
-  // playbook_slug isn't in RunRow type above; refetch via raw select column was kept – grab from data
   const slug = (run as any)?.playbook_slug as string | undefined;
   const pb = slug ? getPlaybook(slug) : null;
 
