@@ -1,0 +1,47 @@
+export const Footer = () => (
+  <footer id="kontakt" className="border-t border-border bg-card">
+    <div className="container max-w-6xl py-14">
+      <div className="grid md:grid-cols-4 gap-10">
+        <div className="md:col-span-2">
+          <div className="flex items-center gap-2 mb-4">
+            <div className="h-8 w-8 rounded-lg bg-gradient-primary flex items-center justify-center text-primary-foreground font-bold">
+              G
+            </div>
+            <span className="font-bold text-lg">GründerX</span>
+          </div>
+          <p className="text-muted-foreground max-w-md text-sm leading-relaxed">
+            Der KI-Co-Pilot für Gründer, Creator und E-Commerce-Operator.
+            Schwesterprodukt von{" "}
+            <a href="https://anwaltx.de" className="text-accent-blue hover:underline">
+              AnwaltX
+            </a>
+            .
+          </p>
+        </div>
+
+        <div>
+          <h4 className="font-semibold mb-4 text-sm">Produkt</h4>
+          <ul className="space-y-2 text-sm text-muted-foreground">
+            <li><a href="#leistungen" className="hover:text-foreground">Leistungen</a></li>
+            <li><a href="#bundles" className="hover:text-foreground">Bundles</a></li>
+            <li><a href="#faq" className="hover:text-foreground">FAQ</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 className="font-semibold mb-4 text-sm">Rechtliches</h4>
+          <ul className="space-y-2 text-sm text-muted-foreground">
+            <li><a href="#" className="hover:text-foreground">Impressum</a></li>
+            <li><a href="#" className="hover:text-foreground">Datenschutz</a></li>
+            <li><a href="#" className="hover:text-foreground">AGB</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div className="mt-12 pt-6 border-t border-border text-xs text-muted-foreground flex flex-col md:flex-row justify-between gap-2">
+        <span>© {new Date().getFullYear()} GründerX. Alle Rechte vorbehalten.</span>
+        <span>Made with ♥ in Deutschland</span>
+      </div>
+    </div>
+  </footer>
+);
