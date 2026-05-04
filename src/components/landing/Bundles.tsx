@@ -1,9 +1,16 @@
 import { Button } from "@/components/ui/button";
-import { Check, Sparkles } from "lucide-react";
+import { Check, Sparkles, Loader2 } from "lucide-react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/integrations/supabase/client";
+import { STRIPE_PRICES } from "@/lib/stripe";
+import { toast } from "sonner";
 
 const tiers = [
   {
     name: "GründerX",
+    priceId: STRIPE_PRICES.gruenderx,
     price: "99,99",
     desc: "Dein KI-Co-Pilot Felix für Gründung, Steuern, Marketplaces und Brand-Launch.",
     features: [
