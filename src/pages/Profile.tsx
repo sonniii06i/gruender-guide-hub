@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Crown, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { STRIPE_PRICES } from "@/lib/stripe";
 
 interface ProfileData {
   salutation?: string | null; first_name?: string | null; last_name?: string | null;
