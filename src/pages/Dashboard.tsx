@@ -18,12 +18,8 @@ const Dashboard = () => {
   const { user, loading: authLoading, signOut } = useAuth();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [sub, setSub] = useState<Subscription | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading] = useState(false);
   const [activeCat, setActiveCat] = useState<string>(CATEGORIES[0].slug);
-
-  useEffect(() => {
-    if (!authLoading && !user) navigate("/auth", { replace: true });
-  }, [user, authLoading, navigate]);
 
   useEffect(() => {
     if (!user) return;
@@ -31,15 +27,10 @@ const Dashboard = () => {
       supabase.from("profiles").select("first_name, company_name, onboarding_completed").eq("id", user.id).maybeSingle(),
       supabase.from("subscriptions").select("plan, status").eq("user_id", user.id).maybeSingle(),
     ]).then(([p, s]) => {
-      if (p.data && !p.data.onboarding_completed) {
-        navigate("/onboarding", { replace: true });
-        return;
-      }
       setProfile(p.data);
       setSub(s.data);
-      setLoading(false);
     });
-  }, [user, navigate]);
+  }, [user]);
 
   const handleSignOut = async () => { await signOut(); navigate("/"); };
 
