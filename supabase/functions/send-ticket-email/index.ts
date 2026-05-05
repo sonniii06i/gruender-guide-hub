@@ -33,8 +33,8 @@ Deno.serve(async (req) => {
     const client = new SMTPClient({
       connection: {
         hostname: "smtp.ionos.de",
-        port: 587,
-        tls: false,
+        port: 465,
+        tls: true,
         auth: { username: ADMIN_EMAIL, password },
       },
     });
