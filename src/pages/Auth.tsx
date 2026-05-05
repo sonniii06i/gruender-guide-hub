@@ -109,7 +109,41 @@ const Auth = () => {
               </div>
               <div className="space-y-1.5">
                 <Label htmlFor="pw">Passwort</Label>
-                <Input id="pw" type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Mind. 8 Zeichen" minLength={8} required />
+                <div className="relative">
+                  <Input
+                    id="pw"
+                    type={showPw ? "text" : "password"}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Mind. 8 Zeichen, 1 Zahl, 1 Sonderzeichen"
+                    minLength={8}
+                    required
+                    className="pr-10"
+                    autoComplete={mode === "signup" ? "new-password" : "current-password"}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPw((s) => !s)}
+                    aria-label={showPw ? "Passwort verbergen" : "Passwort anzeigen"}
+                    className="absolute inset-y-0 right-2 flex items-center text-muted-foreground hover:text-foreground"
+                  >
+                    {showPw ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </button>
+                </div>
+                {mode === "signup" && password.length > 0 && (
+                  <ul className="mt-2 space-y-1 text-xs">
+                    {[
+                      { ok: pwChecks.length, label: "Mindestens 8 Zeichen" },
+                      { ok: pwChecks.digit, label: "Mindestens 1 Zahl" },
+                      { ok: pwChecks.special, label: "Mindestens 1 Sonderzeichen" },
+                    ].map((c) => (
+                      <li key={c.label} className={`flex items-center gap-1.5 ${c.ok ? "text-success" : "text-muted-foreground"}`}>
+                        {c.ok ? <Check className="h-3.5 w-3.5" /> : <X className="h-3.5 w-3.5" />}
+                        {c.label}
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
 
               <Button
