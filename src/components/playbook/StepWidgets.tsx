@@ -83,7 +83,12 @@ export function CompanyNameCheck({ initial, onPick }: { initial?: string; onPick
           )}
           {result.sources && (
             <div className="text-[10px] text-muted-foreground space-y-0.5">
-              <div>Quelle: NorthData ({result.sources.northdata})</div>
+              <div>
+                Quelle: NorthData ({result.sources.northdata})
+                {result._cached && (
+                  <span className="ml-2 text-accent-blue">· aus Cache ({Math.round((result._cacheAgeSec ?? 0) / 60)} min alt)</span>
+                )}
+              </div>
               {result.debug && (
                 <div className="font-mono">
                   layout={result.debug.finalLayout} · http={result.debug.httpStatus} · size={result.debug.htmlSize} · jsonld={result.debug.jsonLdScripts} · hits[jsonld/cards/text]={result.debug.afterJsonLd}/{result.debug.afterHtmlCards}/{result.debug.afterVisibleText}

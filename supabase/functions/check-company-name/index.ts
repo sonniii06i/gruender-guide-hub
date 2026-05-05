@@ -1,7 +1,13 @@
 // Sucht nach einem Firmennamen in deutschen Registern.
 // Quelle: NorthData (aggregiert Handelsregister, Vereinsregister, Partnerschaftsregister).
-// Filter auf DE-Register-Marker (HRB/HRA/VR/PR/GnR/GsR/PartG) – sonst kommen NL/FR/etc-Hits.
+// Cache: 24h pro normalisiertem Query in public.company_check_cache (entkoppelt
+// von NorthData-Rate-Limit, jede einzigartige Anfrage wird nur einmal pro Tag
+// von einer User-Session getriggert).
 import { corsHeaders } from "https://esm.sh/@supabase/supabase-js@2.95.0/cors";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.95.0";
+
+const CACHE_TTL_MS = 24 * 60 * 60 * 1000;
+const CACHE_TTL_FAIL_MS = 5 * 60 * 1000; // Bei searchFailed nur kurz cachen.
 
 interface Hit {
   name: string;
@@ -152,19 +158,46 @@ interface NdResult {
   };
 }
 
+const USER_AGENTS = [
+  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36",
+  "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+];
+
+async function fetchWithRetry(url: string): Promise<Response | null> {
+  // Bei 429 einmal mit anderem User-Agent + kurzem Backoff erneut versuchen.
+  for (let attempt = 0; attempt < 2; attempt++) {
+    const ua = USER_AGENTS[(attempt + Math.floor(Math.random() * USER_AGENTS.length)) % USER_AGENTS.length];
+    try {
+      const res = await fetch(url, {
+        headers: {
+          "User-Agent": ua,
+          "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9",
+          "Accept-Language": "de-DE,de;q=0.9,en;q=0.8",
+          "Cache-Control": "no-cache",
+        },
+        signal: AbortSignal.timeout(10000),
+        redirect: "follow",
+      });
+      if (res.status === 429 && attempt === 0) {
+        const retryAfter = Number(res.headers.get("retry-after") ?? "0");
+        const wait = Math.min(retryAfter > 0 ? retryAfter * 1000 : 800, 2000);
+        await new Promise((r) => setTimeout(r, wait));
+        continue;
+      }
+      return res;
+    } catch {
+      if (attempt === 1) return null;
+    }
+  }
+  return null;
+}
+
 async function searchNorthData(q: string): Promise<NdResult | null> {
   const url = `https://www.northdata.de/_search?query=${encodeURIComponent(q)}`;
   try {
-    const res = await fetch(url, {
-      headers: {
-        "User-Agent":
-          "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9",
-        "Accept-Language": "de-DE,de;q=0.9,en;q=0.8",
-      },
-      signal: AbortSignal.timeout(10000),
-      redirect: "follow",
-    });
+    const res = await fetchWithRetry(url);
+    if (!res) return null;
     const httpStatus = res.status;
     if (!res.ok) {
       return {
@@ -257,6 +290,13 @@ async function searchNorthData(q: string): Promise<NdResult | null> {
   }
 }
 
+function getSupabase() {
+  const url = Deno.env.get("SUPABASE_URL");
+  const key = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+  if (!url || !key) return null;
+  return createClient(url, key, { auth: { persistSession: false } });
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
   try {
@@ -269,8 +309,30 @@ Deno.serve(async (req) => {
     }
     const q = name.trim();
     const qStripped = stripLegalForm(q);
-    // Mit dem Original-Query suchen – NorthData rankt eindeutige Treffer
-    // (inkl. Rechtsform) viel besser. Stripped-Variante ist nur für Match-Logik.
+    const cacheKey = norm(q);
+
+    // 1) Cache-Lookup (24h für ok, 5min für fail).
+    const supabase = getSupabase();
+    if (supabase) {
+      const { data: cached } = await supabase
+        .from("company_check_cache")
+        .select("data, fetched_at")
+        .eq("query_key", cacheKey)
+        .maybeSingle();
+      if (cached?.data && cached.fetched_at) {
+        const ageMs = Date.now() - new Date(cached.fetched_at).getTime();
+        const wasFail = !!cached.data.searchFailed;
+        const ttl = wasFail ? CACHE_TTL_FAIL_MS : CACHE_TTL_MS;
+        if (ageMs < ttl) {
+          return new Response(
+            JSON.stringify({ ...cached.data, _cached: true, _cacheAgeSec: Math.round(ageMs / 1000) }),
+            { headers: { ...corsHeaders, "Content-Type": "application/json" } },
+          );
+        }
+      }
+    }
+
+    // 2) Live-Suche (mit Retry/UA-Rotation in fetchWithRetry).
     const ndResult = await searchNorthData(q);
 
     // searchFailed = (a) Fetch-Exception oder (b) NorthData liefert blockierte
@@ -302,7 +364,7 @@ Deno.serve(async (req) => {
 
     const noHits = !searchFailed && scored.length === 0;
 
-    return new Response(JSON.stringify({
+    const payload = {
       query: q,
       hits: scored.slice(0, 12),
       exactConflict,
@@ -316,7 +378,21 @@ Deno.serve(async (req) => {
       unternehmensregisterUrl: `https://www.unternehmensregister.de/ureg/search1.4.html?submitaction=showQuickSearch&search.text=${encodeURIComponent(q)}`,
       dpmaUrl: `https://register.dpma.de/DPMAregister/marke/erweitert?searchTerm=${encodeURIComponent(q)}`,
       note: "Indikative Suche – verbindlich nur die offizielle Handelsregister-Auskunft.",
-    }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    };
+
+    // 3) Cache-Write (auch bei searchFailed, aber kürzer – siehe Read-Pfad).
+    if (supabase) {
+      await supabase.from("company_check_cache").upsert({
+        query_key: cacheKey,
+        query_raw: q,
+        data: payload,
+        fetched_at: new Date().toISOString(),
+      });
+    }
+
+    return new Response(JSON.stringify(payload), {
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
   } catch (e) {
     return new Response(JSON.stringify({ error: String(e) }), {
       status: 500,
