@@ -25,8 +25,11 @@ import Datenschutz from "./pages/Datenschutz.tsx";
 import AGB from "./pages/AGB.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import AppLayout from "./layouts/AppLayout.tsx";
+import { useTrackPageview } from "./hooks/useTrackPageview";
 
 const queryClient = new QueryClient();
+
+const RouteTracker = () => { useTrackPageview(); return null; };
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -35,6 +38,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <AuthProvider>
+          <RouteTracker />
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
