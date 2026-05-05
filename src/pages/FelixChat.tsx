@@ -188,8 +188,8 @@ const FelixChat = () => {
           </div>
         ) : messages.length === 0 ? (
           <div className="h-full flex flex-col items-center justify-center text-center px-4">
-            <div className="h-16 w-16 rounded-2xl bg-gradient-primary flex items-center justify-center mb-4 shadow-glow p-3">
-              <Logo asImage invert className="h-full w-full" />
+            <div className="mb-4">
+              <Logo asImage className="h-16 w-16" />
             </div>
             <h3 className="text-2xl font-bold mb-1">Hi, ich bin Felix.</h3>
             <p className="text-sm text-muted-foreground mb-6 max-w-md">
