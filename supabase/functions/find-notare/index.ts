@@ -29,6 +29,39 @@ const haversineKm = (lat1: number, lon1: number, lat2: number, lon2: number) => 
   return R * 2 * Math.asin(Math.sqrt(a));
 };
 
+async function searchByName(name: string, fallbackCity?: string): Promise<{
+  street?: string;
+  postalCode?: string;
+  city?: string;
+} | null> {
+  // Nominatim-Suche nach Notar-Name (+ optional Stadt aus PLZ-Geocoding).
+  // Liefert die echte OSM-Adresse des Notar-POIs, viel präziser als
+  // Reverse-Geocoding der Coords (die oft 50-200m daneben liegen).
+  const q = fallbackCity ? `${name} ${fallbackCity}` : name;
+  try {
+    const res = await fetch(
+      `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&addressdetails=1&limit=1&countrycodes=de`,
+      {
+        headers: { "User-Agent": "GruenderX-NotarFinder/1.0", "Accept-Language": "de" },
+        signal: AbortSignal.timeout(5000),
+      },
+    );
+    if (!res.ok) return null;
+    const data = await res.json().catch(() => null);
+    if (!Array.isArray(data) || data.length === 0) return null;
+    const a = data[0]?.address;
+    if (!a) return null;
+    const road = a.road ?? a.pedestrian ?? a.footway;
+    const street = road
+      ? `${road}${a.house_number ? " " + a.house_number : ""}`
+      : undefined;
+    const city = a.city ?? a.town ?? a.village ?? a.suburb ?? a.municipality;
+    return { street, postalCode: a.postcode, city };
+  } catch {
+    return null;
+  }
+}
+
 async function reverseGeocode(lat: number, lon: number): Promise<{
   street?: string;
   postalCode?: string;
@@ -165,16 +198,19 @@ Deno.serve(async (req) => {
     // ländlich i.d.R. 5-10. Kein Retry-Loop = halbierte Latenz.
     const notare = await findNotaresOSM(center.lat, center.lon, 25000);
 
-    // Adresse fehlt häufig in OSM-Tags, aber lat/lon hat fast immer eine
-    // Hausnummer wenn man reverse-geocoded. Bis zu 12 parallel ergänzen
-    // (sub-Sekunden-Block durch Nominatim-Limit).
+    // Adresse-Enrichment: Notare ohne addr:* tags. Strategie:
+    // 1) Nominatim-Search nach Name (+ Center-Stadt) → exakte POI-Adresse.
+    // 2) Fallback: Reverse-Geocoding der Coords → ungefähre Adresse.
     if (notare && notare.length > 0) {
       const needsEnrich = notare
-        .filter((n) => !n.street && n.lat !== undefined && n.lon !== undefined)
+        .filter((n) => !n.street)
         .slice(0, 12);
       await Promise.all(
         needsEnrich.map(async (n) => {
-          const addr = await reverseGeocode(n.lat!, n.lon!);
+          let addr = await searchByName(n.name, center.city);
+          if (!addr?.street && n.lat !== undefined && n.lon !== undefined) {
+            addr = await reverseGeocode(n.lat, n.lon);
+          }
           if (addr) {
             n.street = n.street ?? addr.street;
             n.postalCode = n.postalCode ?? addr.postalCode;
