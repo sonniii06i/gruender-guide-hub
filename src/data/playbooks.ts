@@ -42,10 +42,7 @@ export const PLAYBOOKS: Playbook[] = [
       { slug: "satzung", title: "Notartermin vorbereiten", description: "Der Notar setzt den Gesellschaftsvertrag auf – du beantwortest hier vorab alle Daten, die er dafür braucht. Spart Vorbereitungszeit & Rückfragen.", kind: "form", estMinutes: 30 },
       { slug: "notar", title: "Notartermin", description: "Beurkundung, Anmeldung Handelsregister.", kind: "external", estMinutes: 90,
         fields: [{ name: "notar", label: "Notar" }, { name: "termin", label: "Termin", type: "date" }] },
-      { slug: "konto", title: "Geschäftskonto eröffnen", description: "25.000 € Stammkapital einzahlen (mind. 12.500 € bei Gründung).", kind: "external", estMinutes: 60,
-        externalLinks: [
-          { label: "Qonto", url: "https://qonto.com" }, { label: "Holvi", url: "https://holvi.com" }, { label: "Finom", url: "https://finom.co" },
-        ] },
+      { slug: "konto", title: "Geschäftskonto eröffnen", description: "Stammkapital einzahlen (mind. 12.500 € bei Gründung). Hausbank vs. Neobank: Hausbank baut langfristig Kreditbeziehung auf, Neo geht schneller. Vergleich unten.", kind: "form", estMinutes: 60 },
       { slug: "einzahlung", title: "Stammkapital nachweisen", description: "Bestätigung der Bank an Notar senden.", kind: "checklist", estMinutes: 15,
         checklist: ["Mind. 12.500 € überwiesen", "Bestätigung Bank → Notar", "Notar reicht Handelsregister-Anmeldung ein"] },
       { slug: "hr", title: "Handelsregister-Eintragung", description: "Dauert 1–3 Wochen. GmbH ist erst danach voll rechtsfähig.", kind: "info", estMinutes: 10 },
