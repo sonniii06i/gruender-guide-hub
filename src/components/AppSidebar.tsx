@@ -123,6 +123,35 @@ export function AppSidebar() {
           );
         })}
       </SidebarContent>
+
+      <SidebarFooter className="border-t border-sidebar-border">
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild>
+              <a href="https://discord.gg/Ys9ZmBY8" target="_blank" rel="noopener noreferrer">
+                <Users className="h-4 w-4" />
+                <span>Community</span>
+              </a>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild isActive={pathname === "/support"}>
+              <NavLink to="/support">
+                <LifeBuoy className="h-4 w-4" />
+                <span>Support</span>
+              </NavLink>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild isActive={pathname === "/faq"}>
+              <NavLink to="/faq">
+                <MessageCircle className="h-4 w-4" />
+                <span>FAQ</span>
+              </NavLink>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarFooter>
     </Sidebar>
   );
 }
