@@ -1,5 +1,5 @@
 import Logo from "@/components/Logo";
-import { Link, NavLink, useLocation, useSearchParams } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import {
   Sidebar,
   SidebarContent,
@@ -11,34 +11,34 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
   useSidebar,
 } from "@/components/ui/sidebar";
 import {
-  Collapsible, CollapsibleContent, CollapsibleTrigger,
-} from "@/components/ui/collapsible";
-import { CATEGORIES, STATUS_LABEL, type FeatureStatus } from "@/data/features";
-import { ChevronRight, LayoutDashboard, LifeBuoy, ListTree, MessageCircle, MessageSquare, Shield, Users } from "lucide-react";
+  Calculator,
+  Compass,
+  GraduationCap,
+  LayoutDashboard,
+  LifeBuoy,
+  ListTree,
+  MessageCircle,
+  MessageSquare,
+  PlayCircle,
+  Scale,
+  Shield,
+  Trophy,
+  Users,
+  Wrench,
+} from "lucide-react";
 import { useRole } from "@/hooks/useRole";
-
-const STATUS_DOT: Record<FeatureStatus, string> = {
-  live: "bg-success",
-  beta: "bg-accent-blue",
-  soon: "bg-muted-foreground/40",
-  planned: "bg-muted-foreground/25",
-};
 
 export function AppSidebar() {
   const { state } = useSidebar();
   const collapsed = state === "collapsed";
-  const { pathname } = useLocation();
-  const [params] = useSearchParams();
-  const activeCat = params.get("cat");
+  const { pathname, search } = useLocation();
   const { isAdmin } = useRole();
 
-  const isActive = (route?: string) => !!route && pathname === route;
+  const isActive = (route: string, exact = true) =>
+    exact ? pathname === route : pathname.startsWith(route);
 
   return (
     <Sidebar collapsible="icon">
@@ -48,7 +48,7 @@ export function AppSidebar() {
           {!collapsed && (
             <div className="flex flex-col leading-tight">
               <span className="font-bold tracking-tight text-sm">GründerX</span>
-              <span className="text-[10px] text-muted-foreground">Cockpit</span>
+              <span className="text-[10px] text-muted-foreground">Lernplattform</span>
             </div>
           )}
         </Link>
@@ -58,71 +58,36 @@ export function AppSidebar() {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              <Item to="/dashboard" icon={LayoutDashboard} label="Übersicht" active={pathname === "/dashboard" && !activeCat} />
+              <Item to="/dashboard" icon={LayoutDashboard} label="Übersicht" active={pathname === "/dashboard" && !search} />
               <Item to="/felix" icon={MessageSquare} label="Felix-Chat" active={pathname === "/felix"} />
-              <Item to="/felix/chats" icon={ListTree} label="Chat-Übersicht" active={pathname === "/felix/chats"} />
+              <Item to="/felix/chats" icon={ListTree} label="Chat-Verlauf" active={pathname === "/felix/chats"} />
               {isAdmin && <Item to="/admin" icon={Shield} label="Admin" active={pathname === "/admin"} />}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
 
+        <SidebarGroup>
+          <SidebarGroupLabel>Lernen</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <Item to="/playbooks" icon={GraduationCap} label="Alle Guides" active={isActive("/playbooks")} />
+              <Item to="/dashboard?view=tools" icon={Wrench} label="Tools & Rechner" active={pathname === "/dashboard" && search.includes("view=tools")} />
+              <Item to="/dashboard?view=meine" icon={PlayCircle} label="Meine Guides" active={pathname === "/dashboard" && search.includes("view=meine")} />
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
 
-        {CATEGORIES.map((cat) => {
-          const Icon = cat.icon;
-          const hasActive = cat.features.some((f) => isActive(f.route));
-          const catActive = activeCat === cat.slug && pathname === "/dashboard";
-          return (
-            <Collapsible key={cat.slug} defaultOpen={catActive || hasActive} className="group/collapsible">
-              <SidebarGroup className="py-0">
-                <SidebarGroupLabel asChild>
-                  <CollapsibleTrigger className="flex w-full items-center gap-2 hover:text-foreground">
-                    <Icon className="h-3.5 w-3.5" />
-                    <span className="flex-1 text-left truncate">{cat.title}</span>
-                    <ChevronRight className="h-3.5 w-3.5 transition-transform group-data-[state=open]/collapsible:rotate-90" />
-                  </CollapsibleTrigger>
-                </SidebarGroupLabel>
-                <CollapsibleContent>
-                  <SidebarGroupContent>
-                    <SidebarMenu>
-                      <SidebarMenuItem>
-                        <SidebarMenuButton asChild isActive={catActive} size="sm">
-                          <NavLink to={`/dashboard?cat=${cat.slug}`}>
-                            <span className="text-base leading-none">{cat.emoji}</span>
-                            <span className="text-xs font-semibold">Alle Features</span>
-                          </NavLink>
-                        </SidebarMenuButton>
-                        <SidebarMenuSub>
-                          {cat.features.map((f) => {
-                            const inner = (
-                              <>
-                                <span className={`h-1.5 w-1.5 rounded-full ${STATUS_DOT[f.status]}`} />
-                                <span className="truncate flex-1">{f.title}</span>
-                                {(f.status === "beta" || f.status === "live") && (
-                                  <span className="text-[9px] font-bold uppercase text-accent-blue">{STATUS_LABEL[f.status]}</span>
-                                )}
-                              </>
-                            );
-                            return (
-                              <SidebarMenuSubItem key={f.slug}>
-                                {f.route ? (
-                                  <SidebarMenuSubButton asChild isActive={isActive(f.route)}>
-                                    <NavLink to={f.route}>{inner}</NavLink>
-                                  </SidebarMenuSubButton>
-                                ) : (
-                                  <SidebarMenuSubButton className="cursor-not-allowed opacity-60">{inner}</SidebarMenuSubButton>
-                                )}
-                              </SidebarMenuSubItem>
-                            );
-                          })}
-                        </SidebarMenuSub>
-                      </SidebarMenuItem>
-                    </SidebarMenu>
-                  </SidebarGroupContent>
-                </CollapsibleContent>
-              </SidebarGroup>
-            </Collapsible>
-          );
-        })}
+        <SidebarGroup>
+          <SidebarGroupLabel>Ressourcen</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <Item to="/anbieter" icon={Trophy} label="Anbieter-Vergleich" active={isActive("/anbieter")} />
+              <Item to="/cockpit/steuer" icon={Calculator} label="Steuer-Cockpit" active={isActive("/cockpit/steuer")} />
+              <Item to="/wizard/rechtsform" icon={Scale} label="Rechtsform-Wizard" active={isActive("/wizard/rechtsform")} />
+              <Item to="/dashboard?view=themen" icon={Compass} label="Themen entdecken" active={pathname === "/dashboard" && search.includes("view=themen")} />
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
       </SidebarContent>
 
       <SidebarFooter className="border-t border-sidebar-border">
