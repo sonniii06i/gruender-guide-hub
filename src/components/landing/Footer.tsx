@@ -1,13 +1,14 @@
+import { Link } from "react-router-dom";
 import Logo from "@/components/Logo";
 export const Footer = () => (
   <footer id="kontakt" className="border-t border-border bg-card">
     <div className="container max-w-6xl py-14">
       <div className="grid md:grid-cols-4 gap-10">
         <div className="md:col-span-2">
-          <div className="flex items-center gap-2 mb-4">
-            <Logo className="h-8 w-8" />
+          <Link to="/" aria-label="Zur Startseite" className="flex items-center gap-2 mb-4 w-fit">
+            <Logo asImage className="h-8 w-8" />
             <span className="font-bold text-lg">GründerX</span>
-          </div>
+          </Link>
           <p className="text-muted-foreground max-w-md text-sm leading-relaxed">
             Der KI-Co-Pilot für Gründer, Creator und E-Commerce-Operator.
             Schwesterprodukt von{" "}
