@@ -44,13 +44,42 @@ const stripLegalForm = (s: string) => {
 
 const tokens = (s: string) => stripLegalForm(s).split(/\s+/).filter((t) => t.length >= 2);
 
+// Compact-Form: Rechtsform weg, alle Whitespaces weg. So matcht
+// "mixmarkt" gegen "Mix Markt GmbH & Co. KG" (beide → "mixmarkt").
+const compact = (s: string) => stripLegalForm(s).replace(/\s+/g, "");
+
+const bigrams = (s: string) => {
+  const set = new Set<string>();
+  for (let i = 0; i < s.length - 1; i++) set.add(s.slice(i, i + 2));
+  return set;
+};
+
 const overlapScore = (a: string, b: string) => {
+  const ca = compact(a);
+  const cb = compact(b);
+  if (!ca || !cb) return 0;
+  if (ca === cb) return 1;
+  // Substring-Containment (z.B. "mixmarkt" ⊂ "mixmarkt04")
+  if (ca.length >= 3 && cb.length >= 3) {
+    if (cb.includes(ca)) return ca.length / cb.length;
+    if (ca.includes(cb)) return cb.length / ca.length;
+  }
+  // Token-Overlap (klassisch, falls Trennung nach Whitespace passt)
   const ta = new Set(tokens(a));
   const tb = new Set(tokens(b));
-  if (ta.size === 0 || tb.size === 0) return 0;
+  if (ta.size > 0 && tb.size > 0) {
+    let commonT = 0;
+    for (const t of ta) if (tb.has(t)) commonT++;
+    const tokenScore = commonT / Math.min(ta.size, tb.size);
+    if (tokenScore >= 0.5) return tokenScore;
+  }
+  // Bigram-Overlap als Fuzzy-Fallback (Tippfehler, leichte Abweichung)
+  const bgA = bigrams(ca);
+  const bgB = bigrams(cb);
+  if (bgA.size === 0 || bgB.size === 0) return 0;
   let common = 0;
-  for (const t of ta) if (tb.has(t)) common++;
-  return common / Math.min(ta.size, tb.size);
+  for (const x of bgA) if (bgB.has(x)) common++;
+  return common / Math.min(bgA.size, bgB.size);
 };
 
 const decodeEntities = (s: string) =>
@@ -400,10 +429,11 @@ Deno.serve(async (req) => {
     let exactConflict = false;
     let similarConflict = false;
     const rawHits = searchFailed ? [] : mergedHits;
+    const qCompact = compact(q);
     const scored = rawHits
       .map((h) => {
-        const hStripped = stripLegalForm(h.name);
-        const exact = qStripped.length > 0 && hStripped === qStripped;
+        // Exakt-Match auch ohne Whitespaces ("mixmarkt" === "mix markt")
+        const exact = qCompact.length > 0 && compact(h.name) === qCompact;
         const score = overlapScore(q, h.name);
         if (exact) exactConflict = true;
         if (!exact && score >= 0.6) similarConflict = true;
