@@ -20,3 +20,9 @@ verify_jwt = false
 
 [functions.admin-stripe-stats]
 verify_jwt = false
+
+[functions.check-company-name]
+verify_jwt = false
+
+[functions.find-notare]
+verify_jwt = false
