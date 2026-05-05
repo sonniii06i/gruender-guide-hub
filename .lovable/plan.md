@@ -1,58 +1,102 @@
-**Sichtbarkeit:** Der Admin-Tab ist bereits nur für dich sichtbar (Sidebar prüft `useRole().isAdmin` über die `user_roles`-Tabelle, du bist als einziger Admin eingetragen). Direkter Aufruf von `/admin` schickt Nicht-Admins zurück aufs Dashboard. Daran ändert sich nichts.
+## Ziel
+1. Live-Test des Mailversands (IONOS SMTP via `send-ticket-email`)
+2. Admin-Cockpit zeigt nur **echte, bezahlte** Daten – keine Schätzungen
+3. **Echte Conversion** (alle Webseitenbesucher → registriert → bezahlt) inkl. cookieloser Visitor-Tracking-Pipeline
 
-## 1. RLS-Migration: Admins dürfen alle Kundendaten lesen
+---
 
-Aktuell sieht Admin-UI nur **deine eigenen** Daten, weil `profiles` / `subscriptions` / `chat_messages` / `playbook_runs` per RLS auf den jeweiligen Owner beschränkt sind. Neue Policies via `has_role(auth.uid(),'admin')`:
+## 1) Mailversand testen
+- Edge-Function `send-ticket-email` direkt aufrufen mit Test-Payload (Name/Mail/Subject/Message → Empfänger `impressum@gruenderx.de`)
+- Logs prüfen, ob SMTP (smtp.ionos.de:587, User `impressum@gruenderx.de`, Secret `IONOS_SMTP_PASSWORD`) durchkommt
+- Ergebnis im Chat zurückmelden (Erfolg/Fehler + Log-Auszug)
+- Falls Fehler: Diagnose (Auth, TLS-Port 587 STARTTLS), ggf. Patch der Function
 
-- `profiles` → SELECT für Admins
-- `subscriptions` → SELECT für Admins
-- `chat_messages` → SELECT für Admins (Felix-Konversationen einsehen)
-- `playbook_runs` → SELECT für Admins
-- `playbook_step_progress` → SELECT für Admins
+---
 
-Schreibrechte bleiben für Nutzer auf eigene Zeilen beschränkt.
+## 2) Admin: nur echte Daten
 
-## 2. Admin-Cockpit komplett ausbauen (`src/pages/Admin.tsx`)
+**MRR / Aktive Abos** – Quelle: Stripe statt geschätzter Preisliste
+- Neue Edge-Function `admin-stripe-stats` (verify_jwt = false, prüft `has_role(admin)` per Service-Role)
+  - Nutzt `STRIPE_SECRET_KEY`
+  - Listet `subscriptions` mit `status=active` (+ `trialing` separat)
+  - Summiert `items.price.unit_amount` × `quantity` (monatlich normalisiert: yearly → /12)
+  - Liefert: `{ activeCount, trialingCount, mrrCents, arrCents, byPlan: [{name, count, mrrCents}] }`
+- Admin.tsx ruft die Function statt lokal zu schätzen → echte EUR-Werte aus Stripe
+- DB-`subscriptions`-Tabelle bleibt Anzeige der Statusübersicht, aber KPI-Karten = Stripe-Wahrheit
 
-Neuer Aufbau mit 4 Tabs + KPI-Header:
+**Aktive Abos KPI**
+- Nur `status='active'` (Trial getrennt ausweisen, nicht in „aktiv" mischen)
 
-**KPI-Leiste (immer sichtbar)**
-- Nutzer gesamt + Neuregistrierungen (7T / 30T)
-- Aktive Abos + Conversion-Rate (Abo / Nutzer)
-- MRR (geschätzt aus Plan-Mix · 99,99 € / 179,99 €) + ARR
-- Onboarding-Rate, offene Tickets, Felix-Nachrichten gesamt, Playbook-Runs gesamt
+**Conversion**
+- Bisher: aktive Abos / Profile (falsch – ignoriert anonyme Besucher)
+- Neu: 3-stufiger Trichter
+  - Visitors (unique) → Signups (profiles) → Paid (Stripe active)
+  - Anzeige: `Visitor→Signup %`, `Signup→Paid %`, `Visitor→Paid %`
 
-**Tab „Übersicht" (neu)** – Marketing-Cockpit
-- Signup-Sparkline letzte 30 Tage (täglich)
-- Plan-Mix der aktiven Abos (Balken)
-- Top-Geschäftsmodelle (Amazon FBA, Shopify, Creator, Agentur, SaaS, Anderes)
-- Rechtsform-Mix
-- Top-Länder
-- Engagement-Block (Felix-Messages, Playbook-Runs, Tickets)
+---
 
-**Tab „Kunden"**
-- Volltext-Suche (Name, E-Mail, Firma, Land)
-- Spalten: Name, E-Mail (Mailto-Link), Firma, Geschäftsmodell, Rechtsform, Stadt/Land, aktueller Plan, Abo-Status, Erstellt
-- CSV-Export der gefilterten Liste (für Marketing-/Mail-Tools)
+## 3) Visitor-Tracking (cookieless, DSGVO-freundlich)
 
-**Tab „Abos"**
-- Tabelle mit Kunde + E-Mail (gejoint), Plan, Status, Period End, letztes Update
-- CSV-Export
+**Kein Cookie nötig.** Wir nutzen einen **täglich rotierenden, gehashten Visitor-Hash** (kein personenbezogenes Datum, keine Zustimmung erforderlich – ähnlich Plausible/Fathom-Ansatz). Falls du klassisches Cookie-Tracking willst, sag Bescheid.
 
-**Tab „Tickets"** (bestehende Funktionalität bleibt)
-- Liste links, Detail + Antwort rechts, Status-Buttons
+**Neue Tabelle** `page_views`
+```
+id uuid pk
+visitor_hash text not null   -- sha256(ip + ua + date + salt)
+path text not null
+referrer text
+country text                 -- aus CF/Vercel Header optional
+utm_source/medium/campaign text
+user_id uuid                 -- falls eingeloggt
+created_at timestamptz default now()
+```
+- RLS: nur Admin SELECT; INSERT via Edge-Function (Service-Role) – kein direkter Client-Insert
 
-## 3. Sidebar
+**Neue Edge-Function** `track-pageview` (verify_jwt = false, public)
+- Empfängt `{ path, referrer, utm_* }` vom Client
+- Liest `x-forwarded-for`, `user-agent` aus Header
+- Berechnet `visitor_hash = sha256(ip + ua + YYYY-MM-DD + SECRET_SALT)` (rotiert täglich → kein dauerhaftes Tracking → kein Cookie)
+- Insert in `page_views`
+- Neuer Secret: `TRACKING_SALT` (zufällig generiert beim Migration-Run, oder ich frag dich nach einem Wert)
 
-Keine Änderung nötig – Admin-Tab wird weiterhin nur dir gezeigt (`isAdmin && Item /admin`).
+**Client-Hook** `useTrackPageview`
+- In `App.tsx` einbinden, lauscht auf Routenwechsel (`useLocation`)
+- Sendet fire-and-forget `fetch` an `track-pageview`
+- Filtert `/admin*` raus (sonst verfälscht)
 
-## Technische Details
+**Admin-KPIs neu**
+- „Besucher (30T)" = `count(distinct visitor_hash)` der letzten 30 Tage
+- „Unique Visitors heute" = today
+- Trichter-Visualisierung: Visitors → Signups → Paid mit % zwischen Stufen
+- Top-Referrer + Top-UTM-Quellen Panels (echtes Marketing-Insight)
+- 30-Tage-Visitor-Sparkline neben Signup-Sparkline
 
-- Eine SQL-Migration mit den fünf Admin-SELECT-Policies oben.
-- `Admin.tsx` wird neu geschrieben, lädt einmalig `profiles`, `subscriptions`, `contact_tickets` (volle Datensätze, bis 1000) plus `count` von `chat_messages` und `playbook_runs`. Alle KPIs werden client-seitig per `useMemo` berechnet → keine zusätzlichen Funktionen nötig.
-- CSV-Export rein im Browser (Blob-Download), keine zusätzlichen Libraries.
-- Keine neuen Dependencies.
+---
 
-Betroffene Dateien:
-- `supabase/migrations/<timestamp>_admin_select.sql` (neu)
-- `src/pages/Admin.tsx` (komplett überarbeitet)
+## Technische Details (nicht user-facing)
+
+**Migrationen**
+- `page_views` Tabelle + RLS (admin SELECT, kein public INSERT)
+- Index auf `(created_at)`, `(visitor_hash, created_at)`
+
+**Secrets**
+- `TRACKING_SALT` (auto-gen zufällig, ich setze ihn)
+
+**Edge Functions** (config.toml ergänzen, beide `verify_jwt = false`)
+- `track-pageview`
+- `admin-stripe-stats`
+
+**Geänderte Dateien**
+- `src/pages/Admin.tsx` – KPIs aus Stripe-Function + Visitor-Stats + echter Funnel
+- `src/App.tsx` oder neuer `src/hooks/useTrackPageview.tsx`
+- `supabase/functions/track-pageview/index.ts` (neu)
+- `supabase/functions/admin-stripe-stats/index.ts` (neu)
+- `supabase/config.toml`
+- Migration: `page_views` + Policies
+
+---
+
+## Hinweise
+- **Cookie?** Nein, mit dem täglich-rotierenden Hash brauchen wir keinen Consent-Banner. Falls du echtes Cross-Day-Tracking willst (z.B. Wiederkehrer über Wochen), brauchen wir einen Cookie + Consent – sag Bescheid.
+- **Stripe MRR**: zeigt echte Beträge in EUR aus deinen Stripe-Subscriptions, nicht mehr aus hardcoded Preisliste.
+- Mailtest-Ergebnis poste ich direkt nach Approval in den Chat.
