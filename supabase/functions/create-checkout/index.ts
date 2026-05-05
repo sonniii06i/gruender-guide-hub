@@ -34,9 +34,16 @@ serve(async (req) => {
     );
     const { data: profile } = await supabaseService
       .from("profiles")
-      .select("first_name, last_name, company_name, street, postal_code, city, country, phone, vat_id")
+      .select("first_name, last_name, company_name, street, postal_code, city, country, phone, vat_id, onboarding_completed")
       .eq("id", user.id)
       .maybeSingle();
+
+    if (!profile?.onboarding_completed) {
+      return new Response(
+        JSON.stringify({ error: "Bitte zuerst Onboarding abschließen." }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 400 },
+      );
+    }
 
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
       apiVersion: "2025-08-27.basil",
@@ -101,7 +108,7 @@ serve(async (req) => {
       billing_address_collection: "required",
       customer_update: { address: "auto", name: "auto" },
       tax_id_collection: { enabled: true },
-      success_url: `${origin}/onboarding?checkout=success`,
+      success_url: `${origin}/dashboard?checkout=success`,
       cancel_url: `${origin}/checkout?canceled=1`,
     });
 
