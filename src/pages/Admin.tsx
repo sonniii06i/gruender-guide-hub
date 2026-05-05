@@ -57,20 +57,29 @@ const Admin = () => {
   const [subs, setSubs] = useState<SubRow[]>([]);
   const [chatCount, setChatCount] = useState(0);
   const [runsCount, setRunsCount] = useState(0);
+  const [visits, setVisits] = useState<{ visitor_hash: string; created_at: string; path: string; referrer: string | null; utm_source: string | null }[]>([]);
+  const [stripeStats, setStripeStats] = useState<{ activeCount: number; trialingCount: number; mrrCents: number; arrCents: number; byPlan: { name: string; count: number; mrrCents: number }[] } | null>(null);
+  const [stripeError, setStripeError] = useState<string | null>(null);
 
   const loadAll = async () => {
-    const [tk, pr, sb, ch, ru] = await Promise.all([
+    const since30 = new Date(Date.now() - 30 * 24 * 3600 * 1000).toISOString();
+    const [tk, pr, sb, ch, ru, pv, ss] = await Promise.all([
       supabase.from("contact_tickets").select("*").order("created_at", { ascending: false }),
       supabase.from("profiles").select("*").order("created_at", { ascending: false }).limit(1000),
       supabase.from("subscriptions").select("*").order("updated_at", { ascending: false }).limit(1000),
       supabase.from("chat_messages").select("*", { count: "exact", head: true }),
       supabase.from("playbook_runs").select("*", { count: "exact", head: true }),
+      supabase.from("page_views" as any).select("visitor_hash, created_at, path, referrer, utm_source").gte("created_at", since30).limit(10000),
+      supabase.functions.invoke("admin-stripe-stats"),
     ]);
     setTickets((tk.data ?? []) as Ticket[]);
     setProfiles((pr.data ?? []) as ProfileRow[]);
     setSubs((sb.data ?? []) as SubRow[]);
     setChatCount(ch.count ?? 0);
     setRunsCount(ru.count ?? 0);
+    setVisits((pv.data ?? []) as any);
+    if (ss.error) setStripeError(ss.error.message);
+    else setStripeStats(ss.data);
   };
 
   useEffect(() => { if (isAdmin) loadAll(); }, [isAdmin]);
