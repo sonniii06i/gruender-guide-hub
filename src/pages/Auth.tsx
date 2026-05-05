@@ -30,7 +30,7 @@ const Auth = () => {
   const pwValid = pwChecks.length && pwChecks.digit && pwChecks.special;
 
   useEffect(() => {
-    if (!authLoading && user) navigate("/checkout", { replace: true });
+    if (!authLoading && user) navigate("/onboarding", { replace: true });
   }, [user, authLoading, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -45,13 +45,13 @@ const Auth = () => {
           email,
           password,
           options: {
-            emailRedirectTo: `${window.location.origin}/checkout`,
+            emailRedirectTo: `${window.location.origin}/onboarding`,
             data: { first_name: firstName, last_name: lastName },
           },
         });
         if (error) throw error;
-        toast.success("Account erstellt! Wähle jetzt deinen Plan 🚀");
-        navigate("/checkout");
+        toast.success("Account erstellt! Richte jetzt dein Profil ein 🚀");
+        navigate("/onboarding");
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
