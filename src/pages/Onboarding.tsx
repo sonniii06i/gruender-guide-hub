@@ -45,6 +45,7 @@ const Onboarding = () => {
   const navigate = useNavigate();
   const { user, loading: authLoading } = useAuth();
   const { loading: accLoading, hasActiveSub, isAdmin, refresh } = useAccess();
+  void hasActiveSub; void isAdmin;
   const [step, setStep] = useState<Step>(0);
   const [saving, setSaving] = useState(false);
 
@@ -70,16 +71,8 @@ const Onboarding = () => {
     if (!authLoading && !user) navigate("/auth", { replace: true });
   }, [user, authLoading, navigate]);
 
-  // refresh subscription once on mount (post-checkout)
+  // refresh once on mount
   useEffect(() => { refresh(); /* eslint-disable-next-line */ }, []);
-
-  // Gate: require active sub or admin
-  useEffect(() => {
-    if (authLoading || accLoading || !user) return;
-    if (!hasActiveSub && !isAdmin) {
-      navigate("/checkout", { replace: true });
-    }
-  }, [authLoading, accLoading, user, hasActiveSub, isAdmin, navigate]);
 
   useEffect(() => {
     if (!user) return;
@@ -90,7 +83,8 @@ const Onboarding = () => {
       .maybeSingle()
       .then(({ data }) => {
         if (data?.onboarding_completed) {
-          navigate("/dashboard", { replace: true });
+          // Onboarding fertig -> direkt weiter zum Abo (oder Dashboard, falls aktiv)
+          navigate("/checkout", { replace: true });
         } else if (data) {
           setSalutation(data.salutation ?? "");
           setFirstName(data.first_name ?? "");
@@ -137,8 +131,9 @@ const Onboarding = () => {
     }).eq("id", user.id);
     setSaving(false);
     if (error) { toast.error(error.message); return; }
-    toast.success("Willkommen an Bord! 🚀");
-    navigate("/dashboard");
+    await refresh();
+    toast.success("Profil gespeichert – jetzt Abo abschließen 🚀");
+    navigate("/checkout");
   };
 
   const canContinue = () => {

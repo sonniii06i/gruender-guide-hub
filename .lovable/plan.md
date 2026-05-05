@@ -1,47 +1,68 @@
-## GründerX – Landing Page
+Ich stelle den Flow konsequent auf diese Reihenfolge um:
 
-A German-language landing site for **GründerX**, a sister product to AnwaltX. Same overall structure and visual feel as anwaltx.de (clean, light blue gradient, rounded floating navbar, big bold hero), but original copy positioned around **company formation, taxes, and an AI co-pilot for founders & e-commerce operators**. Bundles combining GründerX + AnwaltX are highlighted as the upsell.
+```text
+Registrieren / Anmelden
+        ↓
+Onboarding vollständig ausfüllen
+        ↓
+Stripe Checkout mit Rechnungsdetails aus dem Onboarding
+        ↓
+Aktives Abo erkannt
+        ↓
+Dashboard / App-Zugriff
+```
 
-Note: I'll mirror the page's *structure and visual style*, but write fresh original copy rather than copying the text verbatim.
+## Geplante Änderungen
 
-### Sections (top to bottom)
+1. **Onboarding vor Checkout erlauben**
+   - Die aktuelle Sperre in `Onboarding`, die Nutzer ohne aktives Abo direkt nach `/checkout` schickt, wird entfernt.
+   - Onboarding bleibt aber weiterhin nur für eingeloggte Nutzer erreichbar.
+   - Wenn Onboarding noch nicht abgeschlossen ist, wird der Nutzer nach Login/Signup dorthin geleitet.
+   - Nach Abschluss des Onboardings wird nicht mehr ins Dashboard navigiert, sondern direkt zur Plan-/Checkout-Seite.
 
-1. **Floating Navbar** – Logo "GründerX" with a stylized "G" mark, links: Leistungen, Über uns, FAQ, Blog, Kontakt, Registrieren, primary "Anmelden" button.
-2. **Hero** – Headline "Unternehmen gründen? Sofort startklar." Subline about combining AI with steuerlicher & gründungsrechtlicher Expertise for founders, creators, and e-commerce sellers. Trust chips (DSGVO-konform, 24/7, KI-gestützt, Steuer-ready). CTAs: "Kostenlos starten" + "Leistungen ansehen". Early-bird banner.
-3. **Intro band** – "Von Gründern, für Gründer" – short empathy paragraph about the chaos of starting a company.
-4. **Comparison block** – "Andere Tools erklären nur – GründerX gründet mit dir." Two columns: ChatGPT/Generic vs GründerX (Rechtsformwahl, Finanzamt-Anmeldung, Buchhaltung-Setup, USt-Voranmeldung, E-Com-spezifisch: OSS, Amazon/Shopify Setup).
-5. **AI Assistant card** – "Felix" (founder co-pilot), parallel to AnwaltX's "Juri". Explains he handles Gewerbeanmeldung, Fragebogen zur steuerlichen Erfassung, Rechnungen, USt, etc.
-6. **Leistungen / Features grid** – 6 cards:
-   - Gründung & Rechtsform (UG/GmbH/Einzelunternehmen)
-   - Steuern & Buchhaltung
-   - Verträge & AGB für Shops
-   - Amazon / Shopify / TikTok Shop Setup
-   - Förderungen & Banking
-   - KI-Chat 24/7
-7. **How it works** – 3 steps: Registrieren → Mit Felix chatten → Unternehmen läuft.
-8. **Bundle section (key new piece)** – "GründerX + AnwaltX im Bundle" – three pricing cards:
-   - GründerX Solo
-   - AnwaltX Solo
-   - **Founder Bundle** (highlighted) – beides kombiniert mit Rabatt
-9. **Testimonials** – 3 cards from fictional founders/e-com sellers.
-10. **FAQ** – Accordion: Welche Rechtsform passt? Wie funktioniert die KI? Ersetzt ihr meinen Steuerberater? Was kostet das Bundle? DSGVO?
-11. **Final CTA** – "Bereit zu gründen?" + Anmelden button.
-12. **Footer** – Logo, links, Impressum/Datenschutz placeholders, Hinweis auf Schwesterprodukt AnwaltX.
+2. **Hardcore Paywall für Dashboard und App-Bereich**
+   - `AppLayout` wird so angepasst, dass geschützte App-Routen niemals ohne aktives Abo oder Admin-Rolle erreichbar sind.
+   - Reihenfolge der Prüfung:
+     - nicht eingeloggt → `/auth`
+     - Onboarding nicht abgeschlossen → `/onboarding`
+     - kein aktives Abo und kein Admin → `/checkout`
+     - alles erfüllt → Zugriff auf Dashboard/Tools
+   - Dadurch landet niemand ohne Abo im Dashboard, auch nicht über direkte URL wie `/dashboard`, `/felix`, `/profile` usw.
 
-### Design system
+3. **Auth-Redirects korrigieren**
+   - Nach Registrierung: direkt zu `/onboarding`, nicht zu `/checkout`.
+   - E-Mail-Redirect nach Signup ebenfalls auf `/onboarding` setzen.
+   - Nach Login: nicht blind ins Dashboard, sondern anhand Profil/Abo-Status sauber weiterleiten lassen. Praktisch wird Login erst in den geschützten Flow gehen, der dann Onboarding/Checkout/Dashboard korrekt entscheidet.
 
-- Light theme, soft blue/white gradient background like anwaltx.de.
-- Primary brand: deep blue `hsl(222 80% 24%)`, accent action blue `hsl(220 90% 55%)`, success green for bundle highlight.
-- Typography: large bold sans-serif headings, generous spacing, rounded-2xl cards with subtle shadows and 1px borders.
-- All colors via HSL tokens in `index.css` and Tailwind config; no hardcoded colors in components.
-- Reusable shadcn components: Button, Card, Accordion, Badge.
+4. **Checkout nur nach Onboarding**
+   - `/checkout` wird für eingeloggte Nutzer ohne abgeschlossenes Onboarding auf `/onboarding` zurückleiten.
+   - Damit können Rechnungsdaten aus dem Onboarding sicher vor Stripe vorhanden sein.
+   - Nutzer mit aktivem Abo/Admin werden weiterhin vom Checkout weggeleitet: nach Dashboard, falls Onboarding fertig, sonst Onboarding.
 
-### Technical notes
+5. **Stripe Checkout mit Onboarding-Rechnungsdaten**
+   - `create-checkout` liest wie aktuell Name, Firma, Adresse, Telefonnummer und USt-ID aus `profiles`.
+   - Zusätzlich wird die Edge Function abgesichert: Checkout wird nur erstellt, wenn das Profil/Onboarding abgeschlossen ist. Falls nicht, gibt sie eine klare Fehlermeldung zurück.
+   - Stripe `success_url` wird auf `/dashboard?checkout=success` gesetzt, damit nach erfolgreicher Zahlung direkt in den App-Bereich navigiert wird. Dort greift zusätzlich die Paywall und prüft den aktiven Status.
 
-- Single-page implementation in `src/pages/Index.tsx` composed of section components under `src/components/landing/` (Navbar, Hero, Comparison, Assistant, Features, HowItWorks, Bundles, Testimonials, FAQ, CTA, Footer).
-- Update `index.css` tokens + `tailwind.config.ts` with brand palette and gradient utility.
-- Update document `<title>` and meta description in `index.html` to GründerX.
-- Static content only — no backend in this pass. CTAs link to `#` placeholders; we can wire auth/Cloud later.
-- Fully responsive (mobile nav via Sheet).
+6. **Dashboard-Button-Logik entfernen/vereinfachen**
+   - Da Nutzer ohne Abo nicht mehr ins Dashboard kommen, braucht der Dashboard-Banner keine „Plan wählen“-Variante mehr.
+   - Im Dashboard steht konsequent „Abo verwalten“ und der Button führt zur Abrechnung/Profilverwaltung.
+   - Die alte Logik „wenn kein Abo Plan wählen“ wird aus dem Dashboard entfernt, weil sie im neuen Flow tatsächlich nicht mehr vorkommen darf.
 
-After approval I'll build it out.
+7. **Texte in Checkout/Onboarding an neuen Ablauf anpassen**
+   - Checkout-Text wird geändert von „danach richten wir dein Profil ein“ zu „deine Rechnungsdaten sind eingerichtet, jetzt Abo abschließen“.
+   - Onboarding-Abschluss-CTA wird sinngemäß „Weiter zum Abo“ statt „Dashboard öffnen“.
+
+## Technische Details
+
+Betroffene Dateien voraussichtlich:
+- `src/layouts/AppLayout.tsx`
+- `src/pages/Onboarding.tsx`
+- `src/pages/Checkout.tsx`
+- `src/pages/Auth.tsx`
+- `src/pages/Dashboard.tsx`
+- `supabase/functions/create-checkout/index.ts`
+
+Keine neue Datenbanktabelle ist nötig. Die vorhandenen Felder `profiles.onboarding_completed`, `profiles.first_name`, `profiles.last_name`, `profiles.company_name`, `profiles.street`, `profiles.postal_code`, `profiles.city`, `profiles.country`, `profiles.phone`, `profiles.vat_id` reichen für die Rechnungsdetails aus.
+
+Wichtig: Admins bleiben vom Abo-Zwang ausgenommen, müssen aber je nach bestehendem Profilstatus trotzdem sinnvoll durch/um Onboarding geführt werden, damit die App nicht mit leeren Stammdaten arbeitet.
