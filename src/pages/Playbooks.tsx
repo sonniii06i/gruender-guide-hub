@@ -1,72 +1,78 @@
-import { useNavigate } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
-import { useAuth } from "@/hooks/useAuth";
-import { PLAYBOOKS } from "@/data/playbooks";
+import { useMemo, useState } from "react";
 import CockpitShell from "@/components/cockpit/CockpitShell";
-import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
-import { Clock, Target, ArrowRight } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { GuideCard } from "@/components/dashboard/GuideCard";
+import { PLAYBOOKS } from "@/data/playbooks";
+import { Search } from "lucide-react";
+import { cn } from "@/lib/utils";
+
+const FILTERS = [
+  { id: "all", label: "Alle" },
+  { id: "Einfach", label: "Einfach" },
+  { id: "Mittel", label: "Mittel" },
+  { id: "Komplex", label: "Komplex" },
+];
 
 const Playbooks = () => {
-  const navigate = useNavigate();
-  const { user } = useAuth();
+  const [q, setQ] = useState("");
+  const [filter, setFilter] = useState<string>("all");
 
-  const start = async (slug: string, title: string, total: number) => {
-    if (!user) { navigate("/auth"); return; }
-    // check existing run
-    const { data: existing } = await supabase
-      .from("playbook_runs")
-      .select("id")
-      .eq("user_id", user.id)
-      .eq("playbook_slug", slug)
-      .neq("status", "completed")
-      .maybeSingle();
-    if (existing) { navigate(`/playbook/${existing.id}`); return; }
-
-    const { data, error } = await supabase.from("playbook_runs").insert({
-      user_id: user.id, playbook_slug: slug, title, total_steps: total,
-    }).select("id").single();
-    if (error || !data) { toast.error("Konnte Playbook nicht starten"); return; }
-    await supabase.from("notifications").insert({
-      user_id: user.id, kind: "info",
-      title: `Playbook gestartet: ${title}`,
-      body: "Mach Schritt für Schritt weiter – wir erinnern dich.",
-      link: `/playbook/${data.id}`,
+  const list = useMemo(() => {
+    const ql = q.trim().toLowerCase();
+    return PLAYBOOKS.filter((p) => {
+      if (filter !== "all" && p.difficulty !== filter) return false;
+      if (!ql) return true;
+      return (
+        p.title.toLowerCase().includes(ql) ||
+        p.tagline.toLowerCase().includes(ql) ||
+        p.outcome.toLowerCase().includes(ql)
+      );
     });
-    navigate(`/playbook/${data.id}`);
-  };
+  }, [q, filter]);
 
   return (
     <CockpitShell
-      eyebrow="🚀 Playbooks"
-      title="Gründungs-Playbooks"
-      subtitle="Wähle ein Vorhaben – wir führen dich Schritt für Schritt durch jedes Detail. Kein Vergessen, keine Lücken."
+      eyebrow="🎓 Guides"
+      title="Alle Gründungs-Guides"
+      subtitle="Wähle einen Guide – wir führen dich Schritt für Schritt durch jedes Detail. Kein Vergessen, keine Lücken."
     >
-      <div className="grid md:grid-cols-2 gap-5">
-        {PLAYBOOKS.map((p) => {
-          const Icon = p.icon;
-          return (
-            <div key={p.slug} className="rounded-2xl border border-border bg-card p-6 shadow-card hover:shadow-soft transition-all flex flex-col">
-              <div className="flex items-start gap-3 mb-3">
-                <div className="h-12 w-12 rounded-xl bg-accent flex items-center justify-center text-2xl shrink-0">{p.emoji}</div>
-                <div className="flex-1 min-w-0">
-                  <div className="text-[10px] font-bold uppercase tracking-wider text-accent-blue mb-0.5">{p.difficulty}</div>
-                  <h2 className="text-lg font-bold leading-tight">{p.title}</h2>
-                  <p className="text-sm text-muted-foreground">{p.tagline}</p>
-                </div>
-              </div>
-              <div className="flex flex-wrap gap-3 text-xs text-muted-foreground mb-4">
-                <span className="inline-flex items-center gap-1"><Clock className="h-3.5 w-3.5" /> {p.duration}</span>
-                <span className="inline-flex items-center gap-1"><Target className="h-3.5 w-3.5" /> {p.steps.length} Schritte</span>
-              </div>
-              <p className="text-sm leading-relaxed mb-5 flex-1"><span className="font-semibold">Ergebnis:</span> {p.outcome}</p>
-              <Button onClick={() => start(p.slug, p.title, p.steps.length)} className="rounded-full self-start">
-                Playbook starten <ArrowRight className="h-4 w-4 ml-1" />
-              </Button>
-            </div>
-          );
-        })}
+      <div className="flex flex-col md:flex-row gap-3 md:items-center mb-6">
+        <div className="relative flex-1 max-w-md">
+          <Search className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+          <Input
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+            placeholder="Guide suchen…"
+            className="pl-9 h-10 rounded-full bg-card"
+          />
+        </div>
+        <div className="flex items-center gap-1.5 flex-wrap">
+          {FILTERS.map((f) => (
+            <button
+              key={f.id}
+              onClick={() => setFilter(f.id)}
+              className={cn(
+                "text-xs px-3 py-1.5 rounded-full border transition-colors",
+                filter === f.id
+                  ? "border-accent-blue bg-accent-blue/10 text-accent-blue font-semibold"
+                  : "border-border hover:bg-accent text-muted-foreground"
+              )}
+            >
+              {f.label}
+            </button>
+          ))}
+        </div>
       </div>
+
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {list.map((p) => <GuideCard key={p.slug} pb={p} />)}
+      </div>
+      {list.length === 0 && (
+        <div className="text-center py-16 text-muted-foreground">
+          <Search className="h-8 w-8 mx-auto mb-3 opacity-40" />
+          <p className="text-sm">Keine Guides gefunden.</p>
+        </div>
+      )}
     </CockpitShell>
   );
 };
