@@ -3,6 +3,7 @@ import { Link, NavLink, useLocation, useSearchParams } from "react-router-dom";
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -19,7 +20,7 @@ import {
   Collapsible, CollapsibleContent, CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { CATEGORIES, STATUS_LABEL, type FeatureStatus } from "@/data/features";
-import { ChevronRight, LayoutDashboard, MessageSquare, Rocket, Shield, User } from "lucide-react";
+import { ChevronRight, LayoutDashboard, LifeBuoy, MessageCircle, MessageSquare, Shield, User, Users } from "lucide-react";
 import { useRole } from "@/hooks/useRole";
 
 const STATUS_DOT: Record<FeatureStatus, string> = {
@@ -58,7 +59,6 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               <Item to="/dashboard" icon={LayoutDashboard} label="Übersicht" active={pathname === "/dashboard" && !activeCat} />
-              <Item to="/playbooks" icon={Rocket} label="Playbooks" active={pathname.startsWith("/playbooks") || pathname.startsWith("/playbook/")} />
               <Item to="/felix" icon={MessageSquare} label="Felix-Chat" active={pathname === "/felix"} />
               <Item to="/profile" icon={User} label="Profil" active={pathname === "/profile"} />
               {isAdmin && <Item to="/admin" icon={Shield} label="Admin" active={pathname === "/admin"} />}
@@ -123,6 +123,35 @@ export function AppSidebar() {
           );
         })}
       </SidebarContent>
+
+      <SidebarFooter className="border-t border-sidebar-border">
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild>
+              <a href="https://discord.gg/Ys9ZmBY8" target="_blank" rel="noopener noreferrer">
+                <Users className="h-4 w-4" />
+                <span>Community</span>
+              </a>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild isActive={pathname === "/support"}>
+              <NavLink to="/support">
+                <LifeBuoy className="h-4 w-4" />
+                <span>Support</span>
+              </NavLink>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild isActive={pathname === "/faq"}>
+              <NavLink to="/faq">
+                <MessageCircle className="h-4 w-4" />
+                <span>FAQ</span>
+              </NavLink>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarFooter>
     </Sidebar>
   );
 }
