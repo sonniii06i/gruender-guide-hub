@@ -20,7 +20,7 @@ import {
   Collapsible, CollapsibleContent, CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { CATEGORIES, STATUS_LABEL, type FeatureStatus } from "@/data/features";
-import { ChevronRight, LayoutDashboard, LifeBuoy, MessageCircle, MessageSquare, Shield, User, Users } from "lucide-react";
+import { ChevronRight, LayoutDashboard, LifeBuoy, MessageCircle, MessageSquare, Shield, Users } from "lucide-react";
 import { useRole } from "@/hooks/useRole";
 
 const STATUS_DOT: Record<FeatureStatus, string> = {
@@ -60,7 +60,6 @@ export function AppSidebar() {
             <SidebarMenu>
               <Item to="/dashboard" icon={LayoutDashboard} label="Übersicht" active={pathname === "/dashboard" && !activeCat} />
               <Item to="/felix" icon={MessageSquare} label="Felix-Chat" active={pathname === "/felix"} />
-              <Item to="/profile" icon={User} label="Profil" active={pathname === "/profile"} />
               {isAdmin && <Item to="/admin" icon={Shield} label="Admin" active={pathname === "/admin"} />}
             </SidebarMenu>
           </SidebarGroupContent>
