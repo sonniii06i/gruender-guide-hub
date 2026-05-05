@@ -1,9 +1,11 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { CheckCircle2, Copy, Download, Info, Plus, Trash2 } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { CheckCircle2, Copy, Download, Info, Plus, Sparkles, Trash2, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 type Answers = Record<string, any>;
@@ -57,18 +59,46 @@ export function NotarPreparation({
   const a = answers;
   const set = (key: string, value: any) => setAnswers({ ...a, [key]: value });
 
-  // Default-Werte einmalig vorausfüllen
+  // Firmenname kommt aus Step 1 (companyNameDefault). User kann hier nicht
+  // mehr selber tippen – bei Änderung muss er zurück zu Schritt 1.
+  const firmenname = companyNameDefault ?? a.firmenname ?? "";
+
   const persons: Person[] = a.persons ?? [{}];
   const gfs: Geschaeftsfuehrer[] = a.gfs ?? [{}];
   const stammkapital = a.stammkapital ?? "25000";
-  const firmenname = a.firmenname ?? companyNameDefault ?? "";
 
   const totalAnteile = persons.reduce(
     (sum, p) => sum + (parseInt(p.anteilEur ?? "0", 10) || 0),
     0,
   );
   const stammkapitalNum = parseInt(stammkapital, 10) || 0;
+  // Disclaimer nur wenn beide Werte > 0 (sonst nervt's beim Eingeben).
+  const anteileBothEntered = totalAnteile > 0 && stammkapitalNum > 0;
   const anteileMatch = totalAnteile === stammkapitalNum;
+
+  // KI-Enhance für Unternehmensgegenstand
+  const [enhancing, setEnhancing] = useState(false);
+  const enhanceGegenstand = async () => {
+    const text = String(a.gegenstand ?? "").trim();
+    if (text.length < 5) {
+      toast.error("Erst kurz beschreiben, dann verfeinern lassen");
+      return;
+    }
+    setEnhancing(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("enhance-text", {
+        body: { text, kind: "unternehmensgegenstand" },
+      });
+      if (error || !data?.enhanced) {
+        toast.error("Konnte gerade nicht verfeinern – nochmal versuchen");
+      } else {
+        set("gegenstand", data.enhanced);
+        toast.success("Formulierung verfeinert");
+      }
+    } finally {
+      setEnhancing(false);
+    }
+  };
 
   // Musterprotokoll-Eligibility
   const eligibleMusterprotokoll =
@@ -129,22 +159,49 @@ export function NotarPreparation({
       {/* Block 1: Firma */}
       <Section title="1. Firma & Sitz">
         <Grid>
-          <Field label="Firmenname (mit Rechtsform 'GmbH')">
-            <Input value={firmenname} onChange={(e) => set("firmenname", e.target.value)} placeholder="z. B. Müller Digital GmbH" />
+          <Field label="Firmenname" help="Aus Schritt 1 übernommen. Änderung dort vornehmen." full>
+            <Input value={firmenname} readOnly disabled placeholder="(in Schritt 1 setzen)" className="bg-secondary" />
           </Field>
-          <Field label="Firmensitz (Stadt)">
-            <Input value={a.firmensitzStadt ?? ""} onChange={(e) => set("firmensitzStadt", e.target.value)} placeholder="z. B. Hamburg" />
+          <Field label="Firmensitz (Stadt)" required>
+            <Input
+              value={a.firmensitzStadt ?? ""}
+              onChange={(e) => set("firmensitzStadt", e.target.value)}
+              placeholder="z. B. Hamburg"
+              required
+            />
           </Field>
-          <Field label="Geschäftsadresse" full>
-            <Input value={a.firmensitzAdresse ?? ""} onChange={(e) => set("firmensitzAdresse", e.target.value)} placeholder="Straße + Hausnummer, PLZ, Ort" />
+          <Field label="Geschäftsadresse" required>
+            <Input
+              value={a.firmensitzAdresse ?? ""}
+              onChange={(e) => set("firmensitzAdresse", e.target.value)}
+              placeholder="Straße + Nr., PLZ, Ort"
+              required
+            />
           </Field>
-          <Field
+          <FieldWithAction
             label="Unternehmensgegenstand"
             full
-            help="Konkret formulieren – das Finanzamt prüft das. Beispiel: 'Entwicklung und Vertrieb von Software für Onlineshops sowie damit verbundene Beratungsleistungen.' Generische Floskeln wie 'Beratung' oder 'Handel mit Waren aller Art' lehnt das Registergericht oft ab."
+            help="Konkret formulieren – das Registergericht prüft das. Floskeln wie 'Beratung allgemein' werden oft abgelehnt. Tipp: erst grob hinschreiben, dann auf den ✨ klicken."
+            action={
+              <Button
+                type="button"
+                size="sm"
+                variant="outline"
+                onClick={enhanceGegenstand}
+                disabled={enhancing || !String(a.gegenstand ?? "").trim()}
+              >
+                {enhancing ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Sparkles className="h-3.5 w-3.5 text-accent-blue" />}
+                <span className="ml-1.5">KI-Verfeinern</span>
+              </Button>
+            }
           >
-            <Textarea value={a.gegenstand ?? ""} onChange={(e) => set("gegenstand", e.target.value)} rows={3} />
-          </Field>
+            <Textarea
+              value={a.gegenstand ?? ""}
+              onChange={(e) => set("gegenstand", e.target.value)}
+              rows={3}
+              placeholder="z. B. Entwicklung und Vertrieb von Software für Onlineshops…"
+            />
+          </FieldWithAction>
           <Field label="Geschäftsjahr">
             <Radio
               name="gjahr"
@@ -167,12 +224,38 @@ export function NotarPreparation({
       {/* Block 2: Stammkapital */}
       <Section title="2. Stammkapital">
         <Grid>
-          <Field label="Stammkapital (€)" help="Mindestens 25.000 € bei der GmbH. Bei Gründung müssen mind. 12.500 € eingezahlt sein.">
-            <Input type="number" value={stammkapital} onChange={(e) => set("stammkapital", e.target.value)} />
+          <Field label="Stammkapital (€)" help="Mindestens 25.000 €. Mehr ist möglich (z. B. 50.000 € für bessere Bonität).">
+            <Input type="number" min={25000} step={1000} value={stammkapital} onChange={(e) => set("stammkapital", e.target.value)} />
           </Field>
-          <Field label="Bei Gründung einzuzahlen (€)" help="Mind. 50 % bei Bargründung. Rest bleibt als Forderung gegen Gesellschafter.">
+          <FieldWithAction
+            label="Bei Gründung einzuzahlen (€)"
+            help="Bei Bargründung mind. 50 % des Stammkapitals (≥ 12.500 €). Bei Sachgründung 100 %."
+            action={
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button type="button" size="sm" variant="ghost" className="h-7 px-2">
+                    <Info className="h-3.5 w-3.5 text-accent-blue" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-80 text-xs leading-relaxed space-y-2">
+                  <div className="font-semibold text-sm">Wie viel muss eingezahlt sein?</div>
+                  <ul className="list-disc pl-4 space-y-1.5">
+                    <li><strong>Bargründung:</strong> mind. 50 % des Stammkapitals (also ≥ 12.500 € bei 25k Stammkapital). Rest bleibt als Forderung der GmbH gegen Gesellschafter.</li>
+                    <li><strong>Sachgründung:</strong> 100 % der Sacheinlage muss bei Gründung erbracht sein – plus Sachgründungsbericht.</li>
+                    <li><strong>Pro Gesellschafter:</strong> mind. 25 % seiner eigenen Stammeinlage (auch wenn andere mehr einzahlen).</li>
+                  </ul>
+                  <div className="font-semibold text-sm pt-2">Wann muss das Geld da sein?</div>
+                  <ul className="list-disc pl-4 space-y-1.5">
+                    <li><strong>Vor</strong> der Handelsregister-Anmeldung. Reihenfolge: Notartermin → Geschäftskonto → Einzahlung → Bestätigung an Notar → HR-Anmeldung.</li>
+                    <li>Notar braucht eine Bank-Bestätigung als PDF/Brief, dass das Geld auf dem GmbH-Konto liegt.</li>
+                    <li>Vor HR-Eintrag: nicht ausgeben außer für Gründungskosten.</li>
+                  </ul>
+                </PopoverContent>
+              </Popover>
+            }
+          >
             <Input type="number" value={a.einzahlung ?? "12500"} onChange={(e) => set("einzahlung", e.target.value)} />
-          </Field>
+          </FieldWithAction>
         </Grid>
       </Section>
 
@@ -237,7 +320,7 @@ export function NotarPreparation({
             <Plus className="h-4 w-4 mr-1" /> Gesellschafter hinzufügen
           </Button>
 
-          {persons.length > 0 && (
+          {anteileBothEntered && (
             <div className={`text-xs rounded-lg p-3 ${anteileMatch ? "bg-success/10 text-success" : "bg-destructive/10 text-destructive"}`}>
               Summe Anteile: {formatEur(String(totalAnteile))} / Stammkapital: {formatEur(stammkapital)}
               {!anteileMatch && " – muss übereinstimmen!"}
@@ -419,9 +502,26 @@ const Grid = ({ children }: { children: React.ReactNode }) => (
   <div className="grid sm:grid-cols-2 gap-3">{children}</div>
 );
 
-const Field = ({ label, help, full, children }: { label: string; help?: string; full?: boolean; children: React.ReactNode }) => (
+const Field = ({ label, help, full, required, children }: { label: string; help?: string; full?: boolean; required?: boolean; children: React.ReactNode }) => (
   <div className={full ? "sm:col-span-2" : ""}>
-    <Label className="text-xs uppercase tracking-wider text-muted-foreground">{label}</Label>
+    <Label className="text-xs uppercase tracking-wider text-muted-foreground">
+      {label}
+      {required && <span className="text-destructive ml-1">*</span>}
+    </Label>
+    <div className="mt-1">{children}</div>
+    {help && <div className="text-[11px] text-muted-foreground mt-1 leading-snug">{help}</div>}
+  </div>
+);
+
+const FieldWithAction = ({ label, help, full, required, action, children }: { label: string; help?: string; full?: boolean; required?: boolean; action: React.ReactNode; children: React.ReactNode }) => (
+  <div className={full ? "sm:col-span-2" : ""}>
+    <div className="flex items-center justify-between gap-2">
+      <Label className="text-xs uppercase tracking-wider text-muted-foreground">
+        {label}
+        {required && <span className="text-destructive ml-1">*</span>}
+      </Label>
+      {action}
+    </div>
     <div className="mt-1">{children}</div>
     {help && <div className="text-[11px] text-muted-foreground mt-1 leading-snug">{help}</div>}
   </div>

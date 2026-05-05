@@ -186,7 +186,7 @@ const PlaybookRun = () => {
             </div>
           )}
 
-          <StepBody step={step} formData={formData} setFormData={setFormData} />
+          <StepBody step={step} formData={formData} setFormData={setFormData} allSteps={steps} pb={pb} />
 
           <div className="mt-5">
             <Label className="text-xs uppercase tracking-wider text-muted-foreground">Deine Notizen</Label>
@@ -219,7 +219,24 @@ const PlaybookRun = () => {
   );
 };
 
-const StepBody = ({ step, formData, setFormData }: { step: PlaybookStep; formData: Record<string, any>; setFormData: (v: Record<string, any>) => void }) => (
+const StepBody = ({
+  step,
+  formData,
+  setFormData,
+  allSteps,
+  pb,
+}: {
+  step: PlaybookStep;
+  formData: Record<string, any>;
+  setFormData: (v: Record<string, any>) => void;
+  allSteps: Record<number, StepRow>;
+  pb: ReturnType<typeof getPlaybook>;
+}) => {
+  // Daten aus dem "name"-Step holen (Firmenname-Eingabe)
+  const nameStepIndex = pb?.steps.findIndex((s) => s.slug === "name") ?? -1;
+  const companyNameFromStep =
+    nameStepIndex >= 0 ? allSteps[nameStepIndex]?.data?.company_name : undefined;
+  return (
   <div className="space-y-4">
     {step.slug === "name" && (
       <CompanyNameCheck initial={formData.company_name} onPick={(v) => setFormData({ ...formData, company_name: v })} />
@@ -231,7 +248,7 @@ const StepBody = ({ step, formData, setFormData }: { step: PlaybookStep; formDat
       <NotarPreparation
         answers={formData}
         setAnswers={setFormData}
-        companyNameDefault={formData.company_name}
+        companyNameDefault={companyNameFromStep}
       />
     )}
     {step.checklist && (
@@ -277,6 +294,7 @@ const StepBody = ({ step, formData, setFormData }: { step: PlaybookStep; formDat
       </div>
     )}
   </div>
-);
+  );
+};
 
 export default PlaybookRun;
