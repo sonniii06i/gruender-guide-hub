@@ -13,6 +13,7 @@ import {
   CheckCircle2, Circle, ChevronRight, ChevronLeft, ExternalLink,
   AlertTriangle, Clock, Trophy, Loader2,
 } from "lucide-react";
+import { CompanyNameCheck, NotarFinder } from "@/components/playbook/StepWidgets";
 
 interface RunRow { id: string; current_step: number; status: string; total_steps: number; context: any }
 interface StepRow { step_index: number; status: string; data: any; notes: string | null }
