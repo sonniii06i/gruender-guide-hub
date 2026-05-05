@@ -76,8 +76,7 @@ const Dashboard = () => {
         </div>
       )}
 
-      {/* Playbooks-Sektionen entfernt */}
-
+      {activeCatSlug && (
         <button onClick={() => setParams({})} className="text-xs text-muted-foreground hover:text-foreground mb-4 inline-flex items-center gap-1">
           ← Alle Kategorien
         </button>
