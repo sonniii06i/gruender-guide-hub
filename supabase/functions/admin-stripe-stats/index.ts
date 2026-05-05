@@ -21,7 +21,11 @@ Deno.serve(async (req) => {
     const { data: roleData } = await supa.from("user_roles").select("role").eq("user_id", user.id).eq("role", "admin").maybeSingle();
     if (!roleData) return new Response(JSON.stringify({ error: "forbidden" }), { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } });
 
-    const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY")!, { apiVersion: "2025-08-27.basil" as any });
+    const stripeKey = Deno.env.get("STRIPE_SECRET_KEY");
+    if (!stripeKey) {
+      return new Response(JSON.stringify({ error: "STRIPE_SECRET_KEY missing", activeCount: 0, trialingCount: 0, mrrCents: 0, arrCents: 0, byPlan: [] }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+    const stripe = new Stripe(stripeKey, { httpClient: Stripe.createFetchHttpClient() });
 
     let activeCount = 0, trialingCount = 0, mrrCents = 0;
     const byPlan: Record<string, { count: number; mrrCents: number }> = {};
