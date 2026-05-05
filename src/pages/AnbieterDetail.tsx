@@ -1,8 +1,44 @@
+import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Clock, AlertCircle, Star, Tag, ExternalLink, MessageSquare, Scale, FileText, ShieldCheck } from "lucide-react";
 import { PROVIDERS, type Provider } from "./Anbieter";
+
+const getDomain = (url: string): string => {
+  try { return new URL(url).hostname.replace(/^www\./, ""); } catch { return url; }
+};
+
+const ProviderLogo = ({ url, name }: { url: string; name: string }) => {
+  const domain = getDomain(url);
+  // Fallback-Kette: Clearbit (clean) → Google Favicons (128px) → Initial-Buchstabe
+  const sources = [
+    `https://logo.clearbit.com/${domain}`,
+    `https://www.google.com/s2/favicons?domain=${domain}&sz=128`,
+  ];
+  const [idx, setIdx] = useState(0);
+  const [failed, setFailed] = useState(false);
+
+  if (failed) {
+    return (
+      <div className="w-16 h-16 rounded-2xl bg-gradient-primary text-primary-foreground flex items-center justify-center text-2xl font-bold shadow-soft">
+        {name.charAt(0).toUpperCase()}
+      </div>
+    );
+  }
+
+  return (
+    <img
+      src={sources[idx]}
+      alt={`${name} Logo`}
+      className="w-16 h-16 rounded-2xl bg-card border border-border object-contain p-1.5 shadow-soft"
+      onError={() => {
+        if (idx + 1 < sources.length) setIdx(idx + 1);
+        else setFailed(true);
+      }}
+    />
+  );
+};
 
 const AnbieterDetail = () => {
   const { slug } = useParams();
@@ -132,6 +168,15 @@ const AnbieterDetail = () => {
 
         {/* Sidebar */}
         <aside className="space-y-4 lg:sticky lg:top-20 h-fit">
+          {/* Logo + Name */}
+          <div className="rounded-2xl border border-border bg-card p-4 flex items-center gap-3">
+            <ProviderLogo url={p.url} name={p.name} />
+            <div className="min-w-0">
+              <div className="font-bold leading-tight truncate">{p.name}</div>
+              <div className="text-[10px] uppercase tracking-wider text-muted-foreground mt-0.5">{getDomain(p.url)}</div>
+            </div>
+          </div>
+
           {/* CTA */}
           <a href={p.url} target="_blank" rel="noreferrer" className="block">
             <Button className="w-full" size="lg">
