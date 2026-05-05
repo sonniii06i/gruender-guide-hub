@@ -193,6 +193,47 @@ async function fetchWithRetry(url: string): Promise<Response | null> {
   return null;
 }
 
+async function searchGleif(q: string): Promise<Hit[] | null> {
+  // GLEIF (Global Legal Entity Identifier Foundation): kostenlose, offizielle
+  // JSON-API. Deckt alle Firmen mit LEI-Code ab (i.d.R. größere/regulierte
+  // Unternehmen). Kein Rate-Limit unter normaler Nutzung, kein Auth.
+  const url =
+    `https://api.gleif.org/api/v1/lei-records?` +
+    `filter%5Bfulltext%5D=${encodeURIComponent(q)}` +
+    `&filter%5Bentity.jurisdiction%5D=DE` +
+    `&page%5Bsize%5D=10`;
+  try {
+    const res = await fetch(url, {
+      headers: { "Accept": "application/vnd.api+json", "User-Agent": "GruenderX-CompanyCheck/1.0" },
+      signal: AbortSignal.timeout(8000),
+    });
+    if (!res.ok) return null;
+    const json = await res.json().catch(() => null);
+    if (!json?.data || !Array.isArray(json.data)) return null;
+    const hits: Hit[] = [];
+    for (const rec of json.data) {
+      const entity = rec?.attributes?.entity;
+      if (!entity) continue;
+      const name = String(entity.legalName?.name ?? "").trim();
+      if (!name) continue;
+      // registeredAs ist z.B. "HRB 12345" oder "HRA 67890"
+      const regRaw = String(entity.registeredAs ?? "");
+      const regMatch = regRaw.match(/^(HRB|HRA|VR|PR|GnR|GsR|PartG)\s*([0-9A-Za-z]+)/i);
+      const status = String(entity.status ?? "").toUpperCase();
+      hits.push({
+        name,
+        court: String(entity.legalAddress?.city ?? entity.headquartersAddress?.city ?? "") || undefined,
+        registerType: regMatch?.[1]?.toUpperCase(),
+        registerNumber: regMatch?.[2],
+        source: status === "INACTIVE" ? "gleif (inaktiv)" : "gleif",
+      });
+    }
+    return hits;
+  } catch {
+    return null;
+  }
+}
+
 async function searchNorthData(q: string): Promise<NdResult | null> {
   const url = `https://www.northdata.de/_search?query=${encodeURIComponent(q)}`;
   try {
@@ -332,25 +373,33 @@ Deno.serve(async (req) => {
       }
     }
 
-    // 2) Live-Suche (mit Retry/UA-Rotation in fetchWithRetry).
-    const ndResult = await searchNorthData(q);
+    // 2) Live-Suche: NorthData + GLEIF parallel.
+    const [ndResult, gleifHits] = await Promise.all([
+      searchNorthData(q),
+      searchGleif(q),
+    ]);
 
-    // searchFailed = (a) Fetch-Exception oder (b) NorthData liefert blockierte
-    // Variante (Login-Wall / Bot-Block / abgeschnittenes HTML).
-    // noHits = explizit "Keine Resultate" oder Treffer-Layout mit 0 hits.
-    const searchFailed =
-      ndResult === null || ndResult.debug.finalLayout === "blocked";
+    const ndBlocked = ndResult === null || ndResult.debug.finalLayout === "blocked";
+    const gleifFailed = gleifHits === null;
+
+    // searchFailed nur wenn BEIDE Quellen tot/blockiert sind. Ein "noHits" von
+    // GLEIF allein reicht nicht (kleine GmbHs sind dort selten gelistet).
+    const searchFailed = ndBlocked && gleifFailed;
 
     const sources = {
-      northdata:
-        ndResult === null ? "error"
-        : searchFailed ? "blocked"
-        : "ok",
+      northdata: ndResult === null ? "error" : ndBlocked ? "blocked" : "ok",
+      gleif: gleifHits === null ? "error" : "ok",
     };
+
+    // Treffer mergen: NorthData (großer Pool) + GLEIF (offiziell).
+    const mergedByName = new Map<string, Hit>();
+    const mergedHits: Hit[] = [];
+    for (const h of ndResult?.hits ?? []) mergeHit(mergedHits, mergedByName, h);
+    for (const h of gleifHits ?? []) mergeHit(mergedHits, mergedByName, h);
 
     let exactConflict = false;
     let similarConflict = false;
-    const rawHits = searchFailed ? [] : (ndResult?.hits ?? []);
+    const rawHits = searchFailed ? [] : mergedHits;
     const scored = rawHits
       .map((h) => {
         const hStripped = stripLegalForm(h.name);

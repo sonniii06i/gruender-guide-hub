@@ -73,6 +73,7 @@ export function CompanyNameCheck({ initial, onPick }: { initial?: string; onPick
                         <span className="text-muted-foreground"> · {h.registerType} {h.registerNumber}</span>
                       )}
                     </span>
+                    <span className="text-muted-foreground text-[10px]">[{h.source}]</span>
                     {typeof h.score === "number" && (
                       <span className="text-muted-foreground tabular-nums">{Math.round(h.score * 100)}%</span>
                     )}
@@ -84,7 +85,8 @@ export function CompanyNameCheck({ initial, onPick }: { initial?: string; onPick
           {result.sources && (
             <div className="text-[10px] text-muted-foreground space-y-0.5">
               <div>
-                Quelle: NorthData ({result.sources.northdata})
+                Quellen: NorthData ({result.sources.northdata})
+                {result.sources.gleif && <> · GLEIF ({result.sources.gleif})</>}
                 {result._cached && (
                   <span className="ml-2 text-accent-blue">· aus Cache ({Math.round((result._cacheAgeSec ?? 0) / 60)} min alt)</span>
                 )}
