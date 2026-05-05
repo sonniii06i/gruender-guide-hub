@@ -115,16 +115,19 @@ function extractFromJsonLd(html: string, hits: Hit[], byName: Map<string, Hit>) 
 }
 
 function extractFromVisibleText(html: string, hits: Hit[], byName: Map<string, Hit>) {
-  // Fallback: matche im sichtbaren Text Pattern wie
-  // "MMS E-Commerce GmbH, Ingolstadt, Amtsgericht Ingolstadt HRB 3479"
+  // Strikter Fallback: matcht NUR vollständige Einträge mit
+  // "Firmenname [Rechtsform], Stadt, Amtsgericht X HRB N".
+  // Ohne diese Pflicht-Anker matcht der Regex sonst Glossar-Listen.
   const text = decodeEntities(html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " "));
-  const pat = /([A-ZÄÖÜ][^,<>{}]{2,80}?(?:GmbH(?:\s*&\s*Co\.?\s*KGa?A?)?|AG|UG\s*\(haftungsbeschränkt\)|UG|KGaA|KG|OHG|SE|e\.\s*V\.|e\.\s*K\.|GbR|PartG))(?:\s*,\s*([A-ZÄÖÜ][^,<>]{2,40}))?(?:\s*,\s*Amtsgericht\s+([A-ZÄÖÜ][\wäöüÄÖÜß-]+(?:\s+[A-ZÄÖÜ][\wäöüÄÖÜß-]+)?)\s+(HRB|HRA|VR|PR|GnR|GsR|PartG)\s+([0-9]+))?/g;
+  const pat = /([A-ZÄÖÜ][^,<>{}]{2,80}?(?:GmbH(?:\s*&\s*Co\.?\s*KGa?A?)?|AG|UG\s*\(haftungsbeschränkt\)|UG|KGaA|KG|OHG|SE|e\.\s*V\.|e\.\s*K\.|GbR|PartG))\s*,\s*([A-ZÄÖÜ][\wäöüÄÖÜß. -]{2,60}?)\s*,\s*Amtsgericht\s+([A-ZÄÖÜ][\wäöüÄÖÜß.-]+(?:\s+[A-ZÄÖÜ][\wäöüÄÖÜß.-]+)?)\s+(HRB|HRA|VR|PR|GnR|GsR|PartG)\s+([0-9]+)/g;
   let m;
   let count = 0;
   while ((m = pat.exec(text)) !== null && count < 60) {
     count++;
     const name = m[1].replace(/\s+/g, " ").trim();
     if (name.length < 4) continue;
+    // Sanity: Name darf nicht nur aus Rechtsform-Wörtern bestehen
+    if (/^(GmbH|AG|UG|KG|OHG|SE|GbR|e\.V\.|e\.K\.)\s/.test(name)) continue;
     mergeHit(hits, byName, {
       name,
       court: m[3]?.trim() ?? m[2]?.trim(),
@@ -135,7 +138,21 @@ function extractFromVisibleText(html: string, hits: Hit[], byName: Map<string, H
   }
 }
 
-async function searchNorthData(q: string): Promise<Hit[] | null> {
+interface NdResult {
+  hits: Hit[];
+  debug: {
+    httpStatus: number;
+    htmlSize: number;
+    jsonLdScripts: number;
+    afterJsonLd: number;
+    afterHtmlCards: number;
+    afterVisibleText: number;
+    finalLayout: "detail" | "list" | "empty" | "blocked";
+    titleSnippet: string;
+  };
+}
+
+async function searchNorthData(q: string): Promise<NdResult | null> {
   const url = `https://www.northdata.de/_search?query=${encodeURIComponent(q)}`;
   try {
     const res = await fetch(url, {
@@ -148,14 +165,32 @@ async function searchNorthData(q: string): Promise<Hit[] | null> {
       signal: AbortSignal.timeout(10000),
       redirect: "follow",
     });
-    if (!res.ok) return null;
+    const httpStatus = res.status;
+    if (!res.ok) {
+      return {
+        hits: [],
+        debug: {
+          httpStatus,
+          htmlSize: 0,
+          jsonLdScripts: 0,
+          afterJsonLd: 0,
+          afterHtmlCards: 0,
+          afterVisibleText: 0,
+          finalLayout: "blocked",
+          titleSnippet: "",
+        },
+      };
+    }
     const html = await res.text();
 
     const hits: Hit[] = [];
     const byName = new Map<string, Hit>();
 
+    const jsonLdScripts = (html.match(/<script type="application\/ld\+json">/g) ?? []).length;
+
     // 1) JSON-LD: LocalBusiness (Detail-Hit) + BreadcrumbList/ItemList (Liste).
     extractFromJsonLd(html, hits, byName);
+    const afterJsonLd = hits.length;
 
     // 2) HTML-Treffer-Cards (alte search-results-Variante).
     const re = /<a class="title"[^>]+href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/g;
@@ -179,13 +214,37 @@ async function searchNorthData(q: string): Promise<Hit[] | null> {
         source: "northdata",
       });
     }
+    const afterHtmlCards = hits.length;
 
-    // 3) Last-Resort: Sichtbarer Text. "Firma GmbH, Stadt, Amtsgericht X HRB N".
+    // 3) Last-Resort: Strikter Visible-Text-Regex (zwingt HRB/HRA/...).
     if (hits.length === 0) {
       extractFromVisibleText(html, hits, byName);
     }
+    const afterVisibleText = hits.length;
 
-    return hits;
+    const titleMatch = html.match(/<title>([^<]*)<\/title>/i);
+    const titleSnippet = titleMatch ? titleMatch[1].slice(0, 120) : "";
+
+    let finalLayout: "detail" | "list" | "empty" | "blocked" = "empty";
+    if (afterJsonLd > 0 || afterHtmlCards > 0 || afterVisibleText > 0) {
+      finalLayout = jsonLdScripts > 1 ? "list" : "detail";
+    } else if (jsonLdScripts === 0) {
+      finalLayout = "blocked";
+    }
+
+    return {
+      hits,
+      debug: {
+        httpStatus,
+        htmlSize: html.length,
+        jsonLdScripts,
+        afterJsonLd,
+        afterHtmlCards,
+        afterVisibleText,
+        finalLayout,
+        titleSnippet,
+      },
+    };
   } catch {
     return null;
   }
@@ -205,15 +264,26 @@ Deno.serve(async (req) => {
     const qStripped = stripLegalForm(q);
     const queryForSearch = qStripped.length >= 2 ? qStripped : q;
 
-    const ndHits = await searchNorthData(queryForSearch);
+    const ndResult = await searchNorthData(queryForSearch);
+
+    // searchFailed = true wenn (a) Quelle ganz tot oder (b) kein einziger
+    // strukturierter Treffer mit Registernummer extrahiert werden konnte.
+    const searchFailed =
+      ndResult === null ||
+      ndResult.debug.finalLayout === "blocked" ||
+      (ndResult.hits.length === 0 && ndResult.debug.jsonLdScripts === 0);
 
     const sources = {
-      northdata: ndHits === null ? "error" : "ok",
+      northdata:
+        ndResult === null ? "error"
+        : searchFailed ? "blocked"
+        : "ok",
     };
 
     let exactConflict = false;
     let similarConflict = false;
-    const scored = (ndHits ?? [])
+    const rawHits = searchFailed ? [] : (ndResult?.hits ?? []);
+    const scored = rawHits
       .map((h) => {
         const hStripped = stripLegalForm(h.name);
         const exact = qStripped.length > 0 && hStripped === qStripped;
@@ -224,7 +294,6 @@ Deno.serve(async (req) => {
       })
       .sort((a, b) => Number(b.exact) - Number(a.exact) || (b.score ?? 0) - (a.score ?? 0));
 
-    const searchFailed = ndHits === null;
     const noHits = !searchFailed && scored.length === 0;
 
     return new Response(JSON.stringify({
@@ -235,6 +304,7 @@ Deno.serve(async (req) => {
       noHits,
       searchFailed,
       sources,
+      debug: ndResult?.debug,
       handelsregisterUrl: `https://www.handelsregister.de/rp_web/search.xhtml`,
       northdataUrl: `https://www.northdata.de/_search?query=${encodeURIComponent(q)}`,
       unternehmensregisterUrl: `https://www.unternehmensregister.de/ureg/search1.4.html?submitaction=showQuickSearch&search.text=${encodeURIComponent(q)}`,
