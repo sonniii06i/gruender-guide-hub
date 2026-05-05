@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -126,6 +126,7 @@ export function NotarFinder({ companyName }: { companyName?: string }) {
   const [notare, setNotare] = useState<any[]>([]);
   const [src, setSrc] = useState<string | null>(null);
   const [picked, setPicked] = useState<any | null>(null);
+  const anschreibenRef = useRef<HTMLDivElement | null>(null);
 
   const run = async () => {
     if (!/^\d{4,5}$/.test(plz)) { toast.error("Bitte gültige PLZ"); return; }
@@ -135,6 +136,15 @@ export function NotarFinder({ companyName }: { companyName?: string }) {
     setNotare(data?.notare ?? []);
     setSrc(data?.fallbackUrl ?? data?.sourceUrl ?? null);
     setLoading(false);
+  };
+
+  const pickNotar = (n: any) => {
+    setPicked(n);
+    toast.success(`${n.name} ins Anschreiben übernommen`);
+    // Scroll zum Anschreiben (kurzes Timeout, damit React den Banner rendert)
+    setTimeout(() => {
+      anschreibenRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 50);
   };
 
   return (
@@ -147,11 +157,16 @@ export function NotarFinder({ companyName }: { companyName?: string }) {
         </div>
         {notare.length > 0 && (
           <div className="grid sm:grid-cols-2 gap-2">
-            {notare.map((n, i) => (
-              <button key={i} onClick={() => setPicked(n)}
-                className={`text-left rounded-lg border p-3 text-sm transition-colors ${picked?.name === n.name ? "border-accent-blue bg-accent" : "border-border bg-card hover:border-accent-blue/40"}`}>
+            {notare.map((n, i) => {
+              const isPicked = picked?.name === n.name;
+              return (
+              <button key={i} onClick={() => pickNotar(n)}
+                className={`text-left rounded-lg border-2 p-3 text-sm transition-all ${isPicked ? "border-accent-blue bg-accent ring-2 ring-accent-blue/20" : "border-border bg-card hover:border-accent-blue/40"}`}>
                 <div className="flex items-start justify-between gap-2">
-                  <div className="font-semibold">{n.name}</div>
+                  <div className="flex items-center gap-1.5 font-semibold">
+                    {isPicked && <CheckCircle2 className="h-3.5 w-3.5 text-accent-blue" />}
+                    {n.name}
+                  </div>
                   {typeof n.distanceKm === "number" && (
                     <span className="text-[10px] text-muted-foreground tabular-nums shrink-0 mt-0.5">{n.distanceKm} km</span>
                   )}
@@ -189,8 +204,12 @@ export function NotarFinder({ companyName }: { companyName?: string }) {
                   )}
                 </div>
               </button>
-            ))}
+              );
+            })}
           </div>
+        )}
+        {notare.length > 0 && !picked && (
+          <div className="text-xs text-accent-blue font-medium">→ Auf einen Notar klicken, um ihn ins Anschreiben zu übernehmen</div>
         )}
         {loading && (
           <div className="text-xs text-muted-foreground">Suche läuft – das kann 5-10 Sekunden dauern …</div>
@@ -208,7 +227,9 @@ export function NotarFinder({ companyName }: { companyName?: string }) {
         )}
       </div>
 
-      <NotarAnschreiben notar={picked} companyName={companyName} />
+      <div ref={anschreibenRef}>
+        <NotarAnschreiben notar={picked} companyName={companyName} />
+      </div>
     </div>
   );
 }
@@ -228,7 +249,14 @@ function NotarAnschreiben({ notar, companyName }: { notar: any | null; companyNa
   });
   const update = (k: string, v: string) => setForm((p) => ({ ...p, [k]: v }));
 
-  const text = `Sehr geehrte Damen und Herren${notar?.name ? ` (${notar.name})` : ""},
+  // Adressblock für den Brief
+  const addrLines: string[] = [];
+  if (notar?.name) addrLines.push(notar.name);
+  if (notar?.street) addrLines.push(notar.street);
+  if (notar?.postalCode || notar?.city) addrLines.push([notar.postalCode, notar.city].filter(Boolean).join(" "));
+  const addressBlock = addrLines.length ? addrLines.join("\n") + "\n\n" : "";
+
+  const text = `${addressBlock}Sehr geehrte Damen und Herren,
 
 ich plane die Gründung einer ${form.rechtsform} und möchte hierfür einen Notartermin zur Beurkundung des Gesellschaftsvertrags und Anmeldung beim Handelsregister vereinbaren.
 
@@ -259,7 +287,28 @@ ${form.senderEmail}`;
 
   return (
     <div className="rounded-xl border border-border bg-card p-4 space-y-3">
-      <div className="flex items-center gap-2 text-sm font-semibold"><Mail className="h-4 w-4 text-accent-blue" /> Notar-Anschreiben generieren</div>
+      <div className="flex items-center gap-2 text-sm font-semibold">
+        <Mail className="h-4 w-4 text-accent-blue" /> Notar-Anschreiben generieren
+      </div>
+
+      {/* "An:" Block – zeigt klar welcher Notar ausgewählt ist */}
+      {notar ? (
+        <div className="rounded-lg border-2 border-accent-blue/30 bg-accent-blue/5 p-3 space-y-1">
+          <div className="text-[10px] uppercase tracking-wider text-accent-blue font-semibold">Anschreiben an</div>
+          <div className="text-sm font-semibold">{notar.name}</div>
+          {notar.street && <div className="text-xs text-muted-foreground">{notar.street}</div>}
+          {(notar.postalCode || notar.city) && (
+            <div className="text-xs text-muted-foreground">{notar.postalCode} {notar.city}</div>
+          )}
+          {notar.phone && <div className="text-xs">📞 {notar.phone}</div>}
+          {notar.email && <div className="text-xs truncate">✉️ {notar.email}</div>}
+        </div>
+      ) : (
+        <div className="rounded-lg border border-dashed border-border bg-secondary/30 p-3 text-xs text-muted-foreground">
+          Klick oben auf einen Notar – Daten werden hier eingefügt und im Brief unten verwendet.
+        </div>
+      )}
+
       <div className="grid sm:grid-cols-2 gap-3">
         {[
           ["senderName", "Dein Name"],
@@ -278,11 +327,24 @@ ${form.senderEmail}`;
           </div>
         ))}
       </div>
-      <Textarea value={text} readOnly rows={12} className="font-mono text-xs" />
+      <Textarea value={text} readOnly rows={14} className="font-mono text-xs" />
       <div className="flex flex-wrap gap-2">
         <Button onClick={copy} variant="outline"><Copy className="h-4 w-4 mr-1" /> Kopieren</Button>
-        {mailto && <a href={mailto}><Button><Mail className="h-4 w-4 mr-1" /> An {notar.name} senden</Button></a>}
-        {!mailto && <span className="text-xs text-muted-foreground self-center">Wähle oben einen Notar mit E-Mail für direkten Versand.</span>}
+        {mailto && (
+          <a href={mailto}>
+            <Button><Mail className="h-4 w-4 mr-1" /> An {notar.name} senden</Button>
+          </a>
+        )}
+        {!mailto && notar && (
+          <span className="text-xs text-muted-foreground self-center">
+            {notar.name} hat keine E-Mail in OSM – Brief kopieren und an die Notar-Adresse schicken.
+          </span>
+        )}
+        {!notar && (
+          <span className="text-xs text-muted-foreground self-center">
+            Notar oben auswählen für Direktversand.
+          </span>
+        )}
       </div>
     </div>
   );
