@@ -16,6 +16,8 @@ import PlaybookRun from "./pages/PlaybookRun.tsx";
 import FelixChat from "./pages/FelixChat.tsx";
 import Profile from "./pages/Profile.tsx";
 import Admin from "./pages/Admin.tsx";
+import Support from "./pages/Support.tsx";
+import FAQ from "./pages/FAQ.tsx";
 import Kontakt from "./pages/Kontakt.tsx";
 import Impressum from "./pages/Impressum.tsx";
 import Datenschutz from "./pages/Datenschutz.tsx";
@@ -46,6 +48,8 @@ const App = () => (
               <Route path="/felix" element={<FelixChat />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/admin" element={<Admin />} />
+              <Route path="/support" element={<Support />} />
+              <Route path="/faq" element={<FAQ />} />
             </Route>
             <Route path="/kontakt" element={<Kontakt />} />
             <Route path="/impressum" element={<Impressum />} />
