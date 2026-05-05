@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import CockpitShell from "@/components/cockpit/CockpitShell";
@@ -6,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Crown, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { STRIPE_PRICES } from "@/lib/stripe";
@@ -19,6 +21,8 @@ interface ProfileData {
 
 const Profile = () => {
   const { user } = useAuth();
+  const [params, setParams] = useSearchParams();
+  const tab = params.get("tab") ?? "stamm";
   const [profile, setProfile] = useState<ProfileData>({});
   const [sub, setSub] = useState<any>(null);
   const [saving, setSaving] = useState(false);
@@ -74,7 +78,7 @@ const Profile = () => {
 
   return (
     <CockpitShell eyebrow="👤 Profil & Abrechnung" title="Deine Stammdaten" subtitle="Wird auf Rechnungen, in Wizards und im Felix-Kontext genutzt.">
-      <Tabs defaultValue="stamm" className="w-full">
+      <Tabs value={tab} onValueChange={(v) => setParams(v === "stamm" ? {} : { tab: v })} className="w-full">
         <TabsList className="mb-6">
           <TabsTrigger value="stamm">Stammdaten</TabsTrigger>
           <TabsTrigger value="firma">Firma</TabsTrigger>
@@ -85,7 +89,16 @@ const Profile = () => {
         <TabsContent value="stamm">
           <Card>
             <Grid>
-              <Field label="Anrede"><Input value={profile.salutation ?? ""} onChange={(e) => update("salutation", e.target.value)} /></Field>
+              <Field label="Anrede">
+                <Select value={profile.salutation ?? ""} onValueChange={(v) => update("salutation", v)}>
+                  <SelectTrigger><SelectValue placeholder="Bitte wählen" /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Herr">Herr</SelectItem>
+                    <SelectItem value="Frau">Frau</SelectItem>
+                    <SelectItem value="Divers">Divers</SelectItem>
+                  </SelectContent>
+                </Select>
+              </Field>
               <Field label="Telefon"><Input value={profile.phone ?? ""} onChange={(e) => update("phone", e.target.value)} /></Field>
               <Field label="Vorname"><Input value={profile.first_name ?? ""} onChange={(e) => update("first_name", e.target.value)} /></Field>
               <Field label="Nachname"><Input value={profile.last_name ?? ""} onChange={(e) => update("last_name", e.target.value)} /></Field>
