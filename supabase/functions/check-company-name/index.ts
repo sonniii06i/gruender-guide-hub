@@ -56,6 +56,85 @@ const decodeEntities = (s: string) =>
     .replace(/&#039;/g, "'")
     .replace(/&nbsp;/g, " ");
 
+function mergeHit(hits: Hit[], byName: Map<string, Hit>, candidate: Hit) {
+  const key = norm(candidate.name);
+  if (!key) return;
+  const existing = byName.get(key);
+  if (existing) {
+    if (!existing.court && candidate.court) existing.court = candidate.court;
+    if (!existing.registerType && candidate.registerType) existing.registerType = candidate.registerType;
+    if (!existing.registerNumber && candidate.registerNumber) existing.registerNumber = candidate.registerNumber;
+    return;
+  }
+  byName.set(key, candidate);
+  hits.push(candidate);
+}
+
+function extractFromJsonLd(html: string, hits: Hit[], byName: Map<string, Hit>) {
+  // Bei eindeutigen Treffern leitet NorthData direkt auf die Detail-Seite weiter,
+  // die als <script type="application/ld+json"> ein LocalBusiness/Organization enthält.
+  // Bei mehrdeutigen Treffern kommt eine BreadcrumbList/ItemList mit den Treffern.
+  const scriptRe = /<script type="application\/ld\+json">([\s\S]*?)<\/script>/g;
+  let s;
+  while ((s = scriptRe.exec(html)) !== null) {
+    let parsed: any;
+    try { parsed = JSON.parse(s[1].trim()); } catch { continue; }
+    const items: any[] = Array.isArray(parsed) ? parsed : [parsed];
+    for (const item of items) {
+      const t = item?.["@type"];
+      if (t === "LocalBusiness" || t === "Organization" || t === "Corporation") {
+        const name = String(item.name ?? "").trim();
+        const addr = item.address ?? {};
+        const country = String(addr.addressCountry ?? "").toUpperCase();
+        if (country && country !== "DE") continue;
+        if (!name) continue;
+        mergeHit(hits, byName, {
+          name,
+          court: String(addr.addressLocality ?? "") || undefined,
+          source: "northdata",
+        });
+      }
+      if ((t === "BreadcrumbList" || t === "ItemList") && Array.isArray(item.itemListElement)) {
+        for (const li of item.itemListElement) {
+          const inner = li.item ?? li;
+          const name = String(inner?.name ?? "").trim();
+          const idUrl = String(inner?.["@id"] ?? inner?.url ?? "");
+          if (!name) continue;
+          const regMatch = idUrl.match(/\/(HRB|HRA|VR|PR|GnR|GsR|PartG)(?:%20|\s)([0-9A-Za-z]+)/i);
+          if (!regMatch) continue;
+          mergeHit(hits, byName, {
+            name,
+            registerType: regMatch[1].toUpperCase(),
+            registerNumber: regMatch[2],
+            source: "northdata",
+          });
+        }
+      }
+    }
+  }
+}
+
+function extractFromVisibleText(html: string, hits: Hit[], byName: Map<string, Hit>) {
+  // Fallback: matche im sichtbaren Text Pattern wie
+  // "MMS E-Commerce GmbH, Ingolstadt, Amtsgericht Ingolstadt HRB 3479"
+  const text = decodeEntities(html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " "));
+  const pat = /([A-ZÄÖÜ][^,<>{}]{2,80}?(?:GmbH(?:\s*&\s*Co\.?\s*KGa?A?)?|AG|UG\s*\(haftungsbeschränkt\)|UG|KGaA|KG|OHG|SE|e\.\s*V\.|e\.\s*K\.|GbR|PartG))(?:\s*,\s*([A-ZÄÖÜ][^,<>]{2,40}))?(?:\s*,\s*Amtsgericht\s+([A-ZÄÖÜ][\wäöüÄÖÜß-]+(?:\s+[A-ZÄÖÜ][\wäöüÄÖÜß-]+)?)\s+(HRB|HRA|VR|PR|GnR|GsR|PartG)\s+([0-9]+))?/g;
+  let m;
+  let count = 0;
+  while ((m = pat.exec(text)) !== null && count < 60) {
+    count++;
+    const name = m[1].replace(/\s+/g, " ").trim();
+    if (name.length < 4) continue;
+    mergeHit(hits, byName, {
+      name,
+      court: m[3]?.trim() ?? m[2]?.trim(),
+      registerType: m[4]?.toUpperCase(),
+      registerNumber: m[5],
+      source: "northdata",
+    });
+  }
+}
+
 async function searchNorthData(q: string): Promise<Hit[] | null> {
   const url = `https://www.northdata.de/_search?query=${encodeURIComponent(q)}`;
   try {
@@ -67,44 +146,45 @@ async function searchNorthData(q: string): Promise<Hit[] | null> {
         "Accept-Language": "de-DE,de;q=0.9,en;q=0.8",
       },
       signal: AbortSignal.timeout(10000),
+      redirect: "follow",
     });
     if (!res.ok) return null;
     const html = await res.text();
 
     const hits: Hit[] = [];
-    const seen = new Set<string>();
-    // <a class="title" href="/Firma%20Foo,%20Berlin/HRB%2012345" ...>Firma Foo, Berlin</a>
+    const byName = new Map<string, Hit>();
+
+    // 1) JSON-LD: LocalBusiness (Detail-Hit) + BreadcrumbList/ItemList (Liste).
+    extractFromJsonLd(html, hits, byName);
+
+    // 2) HTML-Treffer-Cards (alte search-results-Variante).
     const re = /<a class="title"[^>]+href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/g;
     let m;
-    while ((m = re.exec(html)) !== null && hits.length < 30) {
+    while ((m = re.exec(html)) !== null) {
       const href = m[1];
       const titleRaw = decodeEntities(m[2].replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim());
       if (!titleRaw) continue;
-
-      // DE-Register-Marker im Pfad
       const regMatch = href.match(/\/(HRB|HRA|VR|PR|GnR|GsR|PartG)(?:%20|\s)([0-9A-Za-z]+)/i);
       if (!regMatch) continue;
-      const registerType = regMatch[1].toUpperCase();
-      const registerNumber = regMatch[2];
-
-      // Letztes Komma-Segment ist Stadt/Gericht
       const parts = titleRaw.split(",").map((p) => p.trim()).filter(Boolean);
       const court = parts.length > 1 ? parts[parts.length - 1] : undefined;
-      // Name ist alles vor dem Stadt-Suffix (NorthData duplicates city manchmal)
-      const name = parts.length > 1 ? parts.slice(0, -1).join(", ") : titleRaw;
-
-      const key = `${registerType}-${registerNumber}`;
-      if (seen.has(key)) continue;
-      seen.add(key);
-
-      hits.push({
-        name: name.replace(/\s+✝︎\s*$/, "").trim(),
+      const name = (parts.length > 1 ? parts.slice(0, -1).join(", ") : titleRaw)
+        .replace(/\s+✝︎\s*$/, "")
+        .trim();
+      mergeHit(hits, byName, {
+        name,
         court,
-        registerType,
-        registerNumber,
+        registerType: regMatch[1].toUpperCase(),
+        registerNumber: regMatch[2],
         source: "northdata",
       });
     }
+
+    // 3) Last-Resort: Sichtbarer Text. "Firma GmbH, Stadt, Amtsgericht X HRB N".
+    if (hits.length === 0) {
+      extractFromVisibleText(html, hits, byName);
+    }
+
     return hits;
   } catch {
     return null;
