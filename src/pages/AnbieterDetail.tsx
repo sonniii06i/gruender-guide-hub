@@ -11,17 +11,18 @@ const getDomain = (url: string): string => {
 
 const ProviderLogo = ({ url, name }: { url: string; name: string }) => {
   const domain = getDomain(url);
-  // Fallback-Kette: Clearbit (clean) → Google Favicons (128px) → Initial-Buchstabe
+  // Reihenfolge nach Geschwindigkeit: Google s2 (CDN, sub-100ms) → Clearbit (clean
+  // aber langsamer, ~200-500ms) → Initial-Buchstabe.
   const sources = [
-    `https://logo.clearbit.com/${domain}`,
-    `https://www.google.com/s2/favicons?domain=${domain}&sz=128`,
+    `https://www.google.com/s2/favicons?domain=${domain}&sz=256`,
+    `https://logo.clearbit.com/${domain}?size=256`,
   ];
   const [idx, setIdx] = useState(0);
   const [failed, setFailed] = useState(false);
 
   if (failed) {
     return (
-      <div className="w-16 h-16 rounded-2xl bg-gradient-primary text-primary-foreground flex items-center justify-center text-2xl font-bold shadow-soft">
+      <div className="aspect-square w-full rounded-2xl bg-gradient-primary text-primary-foreground flex items-center justify-center text-7xl font-bold shadow-soft">
         {name.charAt(0).toUpperCase()}
       </div>
     );
@@ -31,7 +32,11 @@ const ProviderLogo = ({ url, name }: { url: string; name: string }) => {
     <img
       src={sources[idx]}
       alt={`${name} Logo`}
-      className="w-16 h-16 rounded-2xl bg-card border border-border object-contain p-1.5 shadow-soft"
+      loading="eager"
+      decoding="async"
+      // @ts-expect-error fetchpriority is valid HTML, TS lib doesn't know yet
+      fetchpriority="high"
+      className="aspect-square w-full rounded-2xl bg-white border border-border object-contain shadow-soft"
       onError={() => {
         if (idx + 1 < sources.length) setIdx(idx + 1);
         else setFailed(true);
@@ -168,14 +173,8 @@ const AnbieterDetail = () => {
 
         {/* Sidebar */}
         <aside className="space-y-4 lg:sticky lg:top-20 h-fit">
-          {/* Logo + Name */}
-          <div className="rounded-2xl border border-border bg-card p-4 flex items-center gap-3">
-            <ProviderLogo url={p.url} name={p.name} />
-            <div className="min-w-0">
-              <div className="font-bold leading-tight truncate">{p.name}</div>
-              <div className="text-[10px] uppercase tracking-wider text-muted-foreground mt-0.5">{getDomain(p.url)}</div>
-            </div>
-          </div>
+          {/* Logo – großes Quadrat, voll genutzt */}
+          <ProviderLogo url={p.url} name={p.name} />
 
           {/* CTA */}
           <a href={p.url} target="_blank" rel="noreferrer" className="block">
