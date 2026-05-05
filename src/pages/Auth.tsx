@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
-import { ArrowLeft, Sparkles, Loader2 } from "lucide-react";
+import { ArrowLeft, Sparkles, Loader2, Eye, EyeOff, Check, X } from "lucide-react";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -20,6 +20,14 @@ const Auth = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPw, setShowPw] = useState(false);
+
+  const pwChecks = {
+    length: password.length >= 8,
+    digit: /\d/.test(password),
+    special: /[^A-Za-z0-9]/.test(password),
+  };
+  const pwValid = pwChecks.length && pwChecks.digit && pwChecks.special;
 
   useEffect(() => {
     if (!authLoading && user) navigate("/onboarding", { replace: true });
@@ -30,6 +38,9 @@ const Auth = () => {
     setLoading(true);
     try {
       if (mode === "signup") {
+        if (!pwValid) {
+          throw new Error("Passwort: min. 8 Zeichen, 1 Zahl und 1 Sonderzeichen.");
+        }
         const { error } = await supabase.auth.signUp({
           email,
           password,
