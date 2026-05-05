@@ -66,6 +66,9 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
+        <FelixChatsGroup />
+
+
         {CATEGORIES.map((cat) => {
           const Icon = cat.icon;
           const hasActive = cat.features.some((f) => isActive(f.route));
