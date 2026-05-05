@@ -63,15 +63,19 @@ export function CompanyNameCheck({ initial, onPick }: { initial?: string; onPick
             <div className="rounded-lg border border-border bg-card p-3">
               <div className="text-xs font-semibold mb-1 text-muted-foreground">Treffer ({result.hits.length})</div>
               <ul className="space-y-1 text-xs">
-                {result.hits.slice(0, 8).map((h: any, i: number) => (
+                {result.hits.slice(0, 10).map((h: any, i: number) => (
                   <li key={i} className="flex items-start gap-2">
                     <span className={h.exact ? "text-destructive font-semibold" : ""}>•</span>
                     <span className="flex-1">
-                      {h.name}
+                      <span className={h.exact ? "font-semibold" : ""}>{h.name}</span>
                       {h.court && <span className="text-muted-foreground"> · {h.court}</span>}
-                      {h.location && <span className="text-muted-foreground"> · {h.location}</span>}
+                      {h.registerType && h.registerNumber && (
+                        <span className="text-muted-foreground"> · {h.registerType} {h.registerNumber}</span>
+                      )}
                     </span>
-                    <span className="text-muted-foreground">[{h.source}]</span>
+                    {typeof h.score === "number" && (
+                      <span className="text-muted-foreground tabular-nums">{Math.round(h.score * 100)}%</span>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -79,12 +83,15 @@ export function CompanyNameCheck({ initial, onPick }: { initial?: string; onPick
           )}
           {result.sources && (
             <div className="text-[10px] text-muted-foreground">
-              Quellen: OffeneRegister: {result.sources.offeneregister} · Unternehmensregister: {result.sources.unternehmensregister}
+              Quelle: NorthData ({result.sources.northdata})
             </div>
           )}
           <div className="flex flex-wrap gap-2 text-xs">
-            <a href={result.unternehmensregisterUrl ?? result.handelsregisterUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 underline"><ExternalLink className="h-3 w-3" /> Unternehmensregister</a>
+            {result.northdataUrl && (
+              <a href={result.northdataUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 underline"><ExternalLink className="h-3 w-3" /> NorthData</a>
+            )}
             <a href={result.handelsregisterUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 underline"><ExternalLink className="h-3 w-3" /> Handelsregister</a>
+            <a href={result.unternehmensregisterUrl ?? result.handelsregisterUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 underline"><ExternalLink className="h-3 w-3" /> Unternehmensregister</a>
             <a href={result.dpmaUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 underline"><ExternalLink className="h-3 w-3" /> DPMA Marken-Check</a>
           </div>
         </div>

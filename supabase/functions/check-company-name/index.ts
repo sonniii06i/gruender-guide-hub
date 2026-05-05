@@ -1,10 +1,17 @@
-// Sucht im deutschen Unternehmensregister nach einem Firmennamen.
-// Primär: OffeneRegister (Datasette-JSON). Fallback: ureg.de HTML-Scrape.
-// Normalisiert Rechtsformen vor dem Vergleich, damit "MMS E-Commerce GmbH" auch dann
-// matcht, wenn das Register "MMS E-Commerce" oder "MMS E-Commerce UG" zurückgibt.
+// Sucht nach einem Firmennamen in deutschen Registern.
+// Quelle: NorthData (aggregiert Handelsregister, Vereinsregister, Partnerschaftsregister).
+// Filter auf DE-Register-Marker (HRB/HRA/VR/PR/GnR/GsR/PartG) – sonst kommen NL/FR/etc-Hits.
 import { corsHeaders } from "https://esm.sh/@supabase/supabase-js@2.95.0/cors";
 
-interface Hit { name: string; court?: string; location?: string; source: string; }
+interface Hit {
+  name: string;
+  court?: string;
+  registerType?: string;
+  registerNumber?: string;
+  source: string;
+  exact?: boolean;
+  score?: number;
+}
 
 const LEGAL_FORMS = [
   "gmbh & co. kg", "gmbh & co kg", "ug & co. kg", "ug (haftungsbeschränkt)",
@@ -40,80 +47,64 @@ const overlapScore = (a: string, b: string) => {
   return common / Math.min(ta.size, tb.size);
 };
 
-async function searchOffeneRegister(q: string): Promise<Hit[] | null> {
-  // Datasette-JSON. _shape=array gibt direkt ein Array von Objekten zurück.
-  const url = `https://db.offeneregister.de/openregister/company.json?_search=${encodeURIComponent(q)}&_size=25&_shape=array`;
-  try {
-    const res = await fetch(url, {
-      headers: { "User-Agent": "GruenderX-CompanyCheck/1.0", "Accept": "application/json" },
-      signal: AbortSignal.timeout(8000),
-    });
-    if (!res.ok) return null;
-    const data = await res.json().catch(() => null);
-    if (!Array.isArray(data)) return null;
-    return data
-      .map((r: any) => ({
-        name: String(r.name ?? r.current_status ?? "").trim(),
-        court: String(r.register_court ?? "").trim() || undefined,
-        location: String(r.native_company_number ?? r.registered_office ?? "").trim() || undefined,
-        source: "offeneregister",
-      }))
-      .filter((h) => h.name && h.name.length >= 2);
-  } catch {
-    return null;
-  }
-}
+const decodeEntities = (s: string) =>
+  s
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#039;/g, "'")
+    .replace(/&nbsp;/g, " ");
 
-async function searchUnternehmensregister(q: string): Promise<Hit[] | null> {
-  // ureg.de Quicksearch. Ist serverside JSF, der erste Request liefert oft schon
-  // eine Trefferliste in einer Tabelle, wenn die Suche ohne Filter erfolgt.
-  const url = `https://www.unternehmensregister.de/ureg/result.html;jsessionid=?submitaction=showResultList&search.text=${encodeURIComponent(q)}`;
+async function searchNorthData(q: string): Promise<Hit[] | null> {
+  const url = `https://www.northdata.de/_search?query=${encodeURIComponent(q)}`;
   try {
     const res = await fetch(url, {
       headers: {
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36",
-        "Accept": "text/html,application/xhtml+xml",
-        "Accept-Language": "de-DE,de;q=0.9",
+        "User-Agent":
+          "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9",
+        "Accept-Language": "de-DE,de;q=0.9,en;q=0.8",
       },
-      signal: AbortSignal.timeout(8000),
+      signal: AbortSignal.timeout(10000),
     });
     if (!res.ok) return null;
     const html = await res.text();
+
     const hits: Hit[] = [];
     const seen = new Set<string>();
-    const qLc = q.toLowerCase();
-    const qFirstToken = qLc.split(/\s+/)[0];
+    // <a class="title" href="/Firma%20Foo,%20Berlin/HRB%2012345" ...>Firma Foo, Berlin</a>
+    const re = /<a class="title"[^>]+href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/g;
+    let m;
+    while ((m = re.exec(html)) !== null && hits.length < 30) {
+      const href = m[1];
+      const titleRaw = decodeEntities(m[2].replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim());
+      if (!titleRaw) continue;
 
-    // 1) Treffer-Zeilen in einer Tabelle (typische ureg-Ausgabe)
-    const tableRows = html.match(/<tr[^>]*>[\s\S]*?<\/tr>/gi) ?? [];
-    for (const row of tableRows) {
-      const text = row.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
-      if (!text || text.length < 4 || text.length > 300) continue;
-      const lc = text.toLowerCase();
-      const looksLikeCompany =
-        LEGAL_FORMS.some((lf) => lc.includes(lf)) ||
-        lc.includes(qFirstToken);
-      if (!looksLikeCompany) continue;
-      const key = norm(text);
+      // DE-Register-Marker im Pfad
+      const regMatch = href.match(/\/(HRB|HRA|VR|PR|GnR|GsR|PartG)(?:%20|\s)([0-9A-Za-z]+)/i);
+      if (!regMatch) continue;
+      const registerType = regMatch[1].toUpperCase();
+      const registerNumber = regMatch[2];
+
+      // Letztes Komma-Segment ist Stadt/Gericht
+      const parts = titleRaw.split(",").map((p) => p.trim()).filter(Boolean);
+      const court = parts.length > 1 ? parts[parts.length - 1] : undefined;
+      // Name ist alles vor dem Stadt-Suffix (NorthData duplicates city manchmal)
+      const name = parts.length > 1 ? parts.slice(0, -1).join(", ") : titleRaw;
+
+      const key = `${registerType}-${registerNumber}`;
       if (seen.has(key)) continue;
       seen.add(key);
-      hits.push({ name: text.slice(0, 200), source: "ureg" });
-    }
 
-    // 2) Fallback: Bold/Strong-Tags mit Firmennamen
-    if (hits.length === 0) {
-      const bolds = html.match(/<(?:b|strong)[^>]*>([^<]{4,160})<\/(?:b|strong)>/gi) ?? [];
-      for (const b of bolds) {
-        const t = b.replace(/<[^>]+>/g, "").trim();
-        const lc = t.toLowerCase();
-        if (!lc.includes(qFirstToken)) continue;
-        const key = norm(t);
-        if (seen.has(key)) continue;
-        seen.add(key);
-        hits.push({ name: t, source: "ureg" });
-      }
+      hits.push({
+        name: name.replace(/\s+✝︎\s*$/, "").trim(),
+        court,
+        registerType,
+        registerNumber,
+        source: "northdata",
+      });
     }
-
     return hits;
   } catch {
     return null;
@@ -134,21 +125,15 @@ Deno.serve(async (req) => {
     const qStripped = stripLegalForm(q);
     const queryForSearch = qStripped.length >= 2 ? qStripped : q;
 
-    const [orHits, uregHits] = await Promise.all([
-      searchOffeneRegister(queryForSearch),
-      searchUnternehmensregister(q),
-    ]);
+    const ndHits = await searchNorthData(queryForSearch);
 
     const sources = {
-      offeneregister: orHits === null ? "error" : "ok",
-      unternehmensregister: uregHits === null ? "error" : "ok",
+      northdata: ndHits === null ? "error" : "ok",
     };
-
-    const merged = [...(orHits ?? []), ...(uregHits ?? [])];
 
     let exactConflict = false;
     let similarConflict = false;
-    const scored = merged
+    const scored = (ndHits ?? [])
       .map((h) => {
         const hStripped = stripLegalForm(h.name);
         const exact = qStripped.length > 0 && hStripped === qStripped;
@@ -157,20 +142,21 @@ Deno.serve(async (req) => {
         if (!exact && score >= 0.6) similarConflict = true;
         return { ...h, score, exact };
       })
-      .sort((a, b) => Number(b.exact) - Number(a.exact) || b.score - a.score);
+      .sort((a, b) => Number(b.exact) - Number(a.exact) || (b.score ?? 0) - (a.score ?? 0));
 
-    const searchFailed = orHits === null && uregHits === null;
+    const searchFailed = ndHits === null;
     const noHits = !searchFailed && scored.length === 0;
 
     return new Response(JSON.stringify({
       query: q,
-      hits: scored.slice(0, 10),
+      hits: scored.slice(0, 12),
       exactConflict,
       similarConflict,
       noHits,
       searchFailed,
       sources,
       handelsregisterUrl: `https://www.handelsregister.de/rp_web/search.xhtml`,
+      northdataUrl: `https://www.northdata.de/_search?query=${encodeURIComponent(q)}`,
       unternehmensregisterUrl: `https://www.unternehmensregister.de/ureg/search1.4.html?submitaction=showQuickSearch&search.text=${encodeURIComponent(q)}`,
       dpmaUrl: `https://register.dpma.de/DPMAregister/marke/erweitert?searchTerm=${encodeURIComponent(q)}`,
       note: "Indikative Suche – verbindlich nur die offizielle Handelsregister-Auskunft.",
