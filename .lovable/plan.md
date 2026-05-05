@@ -1,68 +1,58 @@
-Ich stelle den Flow konsequent auf diese Reihenfolge um:
+**Sichtbarkeit:** Der Admin-Tab ist bereits nur für dich sichtbar (Sidebar prüft `useRole().isAdmin` über die `user_roles`-Tabelle, du bist als einziger Admin eingetragen). Direkter Aufruf von `/admin` schickt Nicht-Admins zurück aufs Dashboard. Daran ändert sich nichts.
 
-```text
-Registrieren / Anmelden
-        ↓
-Onboarding vollständig ausfüllen
-        ↓
-Stripe Checkout mit Rechnungsdetails aus dem Onboarding
-        ↓
-Aktives Abo erkannt
-        ↓
-Dashboard / App-Zugriff
-```
+## 1. RLS-Migration: Admins dürfen alle Kundendaten lesen
 
-## Geplante Änderungen
+Aktuell sieht Admin-UI nur **deine eigenen** Daten, weil `profiles` / `subscriptions` / `chat_messages` / `playbook_runs` per RLS auf den jeweiligen Owner beschränkt sind. Neue Policies via `has_role(auth.uid(),'admin')`:
 
-1. **Onboarding vor Checkout erlauben**
-   - Die aktuelle Sperre in `Onboarding`, die Nutzer ohne aktives Abo direkt nach `/checkout` schickt, wird entfernt.
-   - Onboarding bleibt aber weiterhin nur für eingeloggte Nutzer erreichbar.
-   - Wenn Onboarding noch nicht abgeschlossen ist, wird der Nutzer nach Login/Signup dorthin geleitet.
-   - Nach Abschluss des Onboardings wird nicht mehr ins Dashboard navigiert, sondern direkt zur Plan-/Checkout-Seite.
+- `profiles` → SELECT für Admins
+- `subscriptions` → SELECT für Admins
+- `chat_messages` → SELECT für Admins (Felix-Konversationen einsehen)
+- `playbook_runs` → SELECT für Admins
+- `playbook_step_progress` → SELECT für Admins
 
-2. **Hardcore Paywall für Dashboard und App-Bereich**
-   - `AppLayout` wird so angepasst, dass geschützte App-Routen niemals ohne aktives Abo oder Admin-Rolle erreichbar sind.
-   - Reihenfolge der Prüfung:
-     - nicht eingeloggt → `/auth`
-     - Onboarding nicht abgeschlossen → `/onboarding`
-     - kein aktives Abo und kein Admin → `/checkout`
-     - alles erfüllt → Zugriff auf Dashboard/Tools
-   - Dadurch landet niemand ohne Abo im Dashboard, auch nicht über direkte URL wie `/dashboard`, `/felix`, `/profile` usw.
+Schreibrechte bleiben für Nutzer auf eigene Zeilen beschränkt.
 
-3. **Auth-Redirects korrigieren**
-   - Nach Registrierung: direkt zu `/onboarding`, nicht zu `/checkout`.
-   - E-Mail-Redirect nach Signup ebenfalls auf `/onboarding` setzen.
-   - Nach Login: nicht blind ins Dashboard, sondern anhand Profil/Abo-Status sauber weiterleiten lassen. Praktisch wird Login erst in den geschützten Flow gehen, der dann Onboarding/Checkout/Dashboard korrekt entscheidet.
+## 2. Admin-Cockpit komplett ausbauen (`src/pages/Admin.tsx`)
 
-4. **Checkout nur nach Onboarding**
-   - `/checkout` wird für eingeloggte Nutzer ohne abgeschlossenes Onboarding auf `/onboarding` zurückleiten.
-   - Damit können Rechnungsdaten aus dem Onboarding sicher vor Stripe vorhanden sein.
-   - Nutzer mit aktivem Abo/Admin werden weiterhin vom Checkout weggeleitet: nach Dashboard, falls Onboarding fertig, sonst Onboarding.
+Neuer Aufbau mit 4 Tabs + KPI-Header:
 
-5. **Stripe Checkout mit Onboarding-Rechnungsdaten**
-   - `create-checkout` liest wie aktuell Name, Firma, Adresse, Telefonnummer und USt-ID aus `profiles`.
-   - Zusätzlich wird die Edge Function abgesichert: Checkout wird nur erstellt, wenn das Profil/Onboarding abgeschlossen ist. Falls nicht, gibt sie eine klare Fehlermeldung zurück.
-   - Stripe `success_url` wird auf `/dashboard?checkout=success` gesetzt, damit nach erfolgreicher Zahlung direkt in den App-Bereich navigiert wird. Dort greift zusätzlich die Paywall und prüft den aktiven Status.
+**KPI-Leiste (immer sichtbar)**
+- Nutzer gesamt + Neuregistrierungen (7T / 30T)
+- Aktive Abos + Conversion-Rate (Abo / Nutzer)
+- MRR (geschätzt aus Plan-Mix · 99,99 € / 179,99 €) + ARR
+- Onboarding-Rate, offene Tickets, Felix-Nachrichten gesamt, Playbook-Runs gesamt
 
-6. **Dashboard-Button-Logik entfernen/vereinfachen**
-   - Da Nutzer ohne Abo nicht mehr ins Dashboard kommen, braucht der Dashboard-Banner keine „Plan wählen“-Variante mehr.
-   - Im Dashboard steht konsequent „Abo verwalten“ und der Button führt zur Abrechnung/Profilverwaltung.
-   - Die alte Logik „wenn kein Abo Plan wählen“ wird aus dem Dashboard entfernt, weil sie im neuen Flow tatsächlich nicht mehr vorkommen darf.
+**Tab „Übersicht" (neu)** – Marketing-Cockpit
+- Signup-Sparkline letzte 30 Tage (täglich)
+- Plan-Mix der aktiven Abos (Balken)
+- Top-Geschäftsmodelle (Amazon FBA, Shopify, Creator, Agentur, SaaS, Anderes)
+- Rechtsform-Mix
+- Top-Länder
+- Engagement-Block (Felix-Messages, Playbook-Runs, Tickets)
 
-7. **Texte in Checkout/Onboarding an neuen Ablauf anpassen**
-   - Checkout-Text wird geändert von „danach richten wir dein Profil ein“ zu „deine Rechnungsdaten sind eingerichtet, jetzt Abo abschließen“.
-   - Onboarding-Abschluss-CTA wird sinngemäß „Weiter zum Abo“ statt „Dashboard öffnen“.
+**Tab „Kunden"**
+- Volltext-Suche (Name, E-Mail, Firma, Land)
+- Spalten: Name, E-Mail (Mailto-Link), Firma, Geschäftsmodell, Rechtsform, Stadt/Land, aktueller Plan, Abo-Status, Erstellt
+- CSV-Export der gefilterten Liste (für Marketing-/Mail-Tools)
+
+**Tab „Abos"**
+- Tabelle mit Kunde + E-Mail (gejoint), Plan, Status, Period End, letztes Update
+- CSV-Export
+
+**Tab „Tickets"** (bestehende Funktionalität bleibt)
+- Liste links, Detail + Antwort rechts, Status-Buttons
+
+## 3. Sidebar
+
+Keine Änderung nötig – Admin-Tab wird weiterhin nur dir gezeigt (`isAdmin && Item /admin`).
 
 ## Technische Details
 
-Betroffene Dateien voraussichtlich:
-- `src/layouts/AppLayout.tsx`
-- `src/pages/Onboarding.tsx`
-- `src/pages/Checkout.tsx`
-- `src/pages/Auth.tsx`
-- `src/pages/Dashboard.tsx`
-- `supabase/functions/create-checkout/index.ts`
+- Eine SQL-Migration mit den fünf Admin-SELECT-Policies oben.
+- `Admin.tsx` wird neu geschrieben, lädt einmalig `profiles`, `subscriptions`, `contact_tickets` (volle Datensätze, bis 1000) plus `count` von `chat_messages` und `playbook_runs`. Alle KPIs werden client-seitig per `useMemo` berechnet → keine zusätzlichen Funktionen nötig.
+- CSV-Export rein im Browser (Blob-Download), keine zusätzlichen Libraries.
+- Keine neuen Dependencies.
 
-Keine neue Datenbanktabelle ist nötig. Die vorhandenen Felder `profiles.onboarding_completed`, `profiles.first_name`, `profiles.last_name`, `profiles.company_name`, `profiles.street`, `profiles.postal_code`, `profiles.city`, `profiles.country`, `profiles.phone`, `profiles.vat_id` reichen für die Rechnungsdetails aus.
-
-Wichtig: Admins bleiben vom Abo-Zwang ausgenommen, müssen aber je nach bestehendem Profilstatus trotzdem sinnvoll durch/um Onboarding geführt werden, damit die App nicht mit leeren Stammdaten arbeitet.
+Betroffene Dateien:
+- `supabase/migrations/<timestamp>_admin_select.sql` (neu)
+- `src/pages/Admin.tsx` (komplett überarbeitet)
