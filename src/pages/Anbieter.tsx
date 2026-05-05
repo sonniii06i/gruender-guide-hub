@@ -11,7 +11,7 @@ import { Star, Tag, ExternalLink, MessageSquare, Clock, AlertCircle } from "luci
  */
 export const LEGAL_URLS: Record<string, { impressum?: string; terms?: string; privacy?: string }> = {
   // ============ BANKING DE ============
-  "qonto": { impressum: "https://qonto.com/de/imprint", terms: "https://qonto.com/de/legal/terms-and-conditions", privacy: "https://qonto.com/de/legal/privacy-policy" },
+  "qonto": { impressum: "https://qonto.com/de/imprint", terms: "https://legal.qonto.com/de", privacy: "https://legal.qonto.com/de" },
   "holvi": { impressum: "https://www.holvi.com/de/impressum/", terms: "https://www.holvi.com/de/terms/", privacy: "https://www.holvi.com/de/privacy/" },
   "finom": { impressum: "https://finom.co/de-de/impressum/", terms: "https://finom.co/de-de/agb/", privacy: "https://finom.co/de-de/datenschutz/" },
   "kontist": { impressum: "https://kontist.com/imprint/", terms: "https://kontist.com/terms/", privacy: "https://kontist.com/privacy/" },
