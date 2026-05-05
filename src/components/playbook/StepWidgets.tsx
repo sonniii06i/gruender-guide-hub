@@ -133,7 +133,7 @@ export function NotarFinder({ companyName }: { companyName?: string }) {
   return (
     <div className="space-y-4">
       <div className="rounded-xl border border-border bg-secondary/30 p-4 space-y-3">
-        <div className="flex items-center gap-2 text-sm font-semibold"><MapPin className="h-4 w-4 text-accent-blue" /> Notare in deiner Nähe (OpenStreetMap)</div>
+        <div className="flex items-center gap-2 text-sm font-semibold"><MapPin className="h-4 w-4 text-accent-blue" /> Notare in deiner Nähe</div>
         <div className="flex gap-2">
           <Input value={plz} onChange={(e) => setPlz(e.target.value.replace(/\D/g, "").slice(0, 5))} placeholder="PLZ z. B. 10115" />
           <Button onClick={run} disabled={loading}>{loading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Suchen"}</Button>
@@ -182,11 +182,19 @@ export function NotarFinder({ companyName }: { companyName?: string }) {
             ))}
           </div>
         )}
-        {notare.length === 0 && !loading && src && (
-          <a href={src} target="_blank" rel="noreferrer" className="text-xs underline inline-flex items-center gap-1"><ExternalLink className="h-3 w-3" /> Auf notar.de fallback öffnen</a>
+        {loading && (
+          <div className="text-xs text-muted-foreground">Suche läuft – das kann 5-10 Sekunden dauern …</div>
+        )}
+        {!loading && notare.length === 0 && src && (
+          <div className="rounded-lg border border-border bg-card p-3 text-xs text-muted-foreground">
+            Keine Notare im 25-km-Radius gefunden.{" "}
+            <a href={src} target="_blank" rel="noreferrer" className="underline inline-flex items-center gap-1">
+              <ExternalLink className="h-3 w-3" /> Auf notar.de manuell suchen
+            </a>
+          </div>
         )}
         {notare.length > 0 && (
-          <div className="text-[10px] text-muted-foreground">Quelle: OpenStreetMap-Daten, sortiert nach Distanz zur PLZ-Mitte</div>
+          <div className="text-[10px] text-muted-foreground">Sortiert nach Distanz zur PLZ-Mitte</div>
         )}
       </div>
 

@@ -58,14 +58,12 @@ async function geocodePlz(plz: string): Promise<{ lat: number; lon: number; city
 async function findNotaresOSM(
   lat: number,
   lon: number,
-  radiusM = 15000,
+  radiusM = 25000,
 ): Promise<Notar[] | null> {
+  // Nur node-Query (Notare sind in OSM ~99% Nodes). Way/Relation würden den
+  // Query 3-5x langsamer machen ohne nennenswert mehr Treffer.
   const query =
-    `[out:json][timeout:25];` +
-    `(node["office"="notary"](around:${radiusM},${lat},${lon});` +
-    `way["office"="notary"](around:${radiusM},${lat},${lon});` +
-    `relation["office"="notary"](around:${radiusM},${lat},${lon}););` +
-    `out center 60;`;
+    `[out:json][timeout:12];node["office"="notary"](around:${radiusM},${lat},${lon});out 60;`;
   try {
     const res = await fetch("https://overpass-api.de/api/interpreter", {
       method: "POST",
@@ -74,7 +72,7 @@ async function findNotaresOSM(
         "User-Agent": "GruenderX-NotarFinder/1.0",
         "Content-Type": "application/x-www-form-urlencoded",
       },
-      signal: AbortSignal.timeout(15000),
+      signal: AbortSignal.timeout(13000),
     });
     if (!res.ok) return null;
     const data = await res.json().catch(() => null);
@@ -84,8 +82,8 @@ async function findNotaresOSM(
       const tags = el.tags ?? {};
       const name = tags.name ?? tags["name:de"];
       if (!name) continue;
-      const elLat: number | undefined = el.lat ?? el.center?.lat;
-      const elLon: number | undefined = el.lon ?? el.center?.lon;
+      const elLat: number | undefined = el.lat;
+      const elLon: number | undefined = el.lon;
       const street =
         tags["addr:street"] && tags["addr:housenumber"]
           ? `${tags["addr:street"]} ${tags["addr:housenumber"]}`
@@ -137,12 +135,9 @@ Deno.serve(async (req) => {
       );
     }
 
-    let notare = await findNotaresOSM(center.lat, center.lon, 15000);
-    // Auf dem Land 15 km zu klein – auf 30 km erweitern.
-    if (notare !== null && notare.length < 3) {
-      const wider = await findNotaresOSM(center.lat, center.lon, 30000);
-      if (wider && wider.length > notare.length) notare = wider;
-    }
+    // Default 25 km – einzelner Call. Großstadt zeigt 15-30 Notare,
+    // ländlich i.d.R. 5-10. Kein Retry-Loop = halbierte Latenz.
+    const notare = await findNotaresOSM(center.lat, center.lon, 25000);
 
     return new Response(
       JSON.stringify({
