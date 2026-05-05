@@ -1,5 +1,5 @@
 import Logo from "@/components/Logo";
-import { NavLink, useLocation, useSearchParams } from "react-router-dom";
+import { Link, NavLink, useLocation, useSearchParams } from "react-router-dom";
 import {
   Sidebar,
   SidebarContent,
