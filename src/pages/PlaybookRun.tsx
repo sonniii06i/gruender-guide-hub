@@ -14,6 +14,7 @@ import {
   AlertTriangle, Clock, Trophy, Loader2,
 } from "lucide-react";
 import { CompanyNameCheck, NotarFinder } from "@/components/playbook/StepWidgets";
+import { NotarPreparation } from "@/components/playbook/NotarPreparation";
 
 interface RunRow { id: string; current_step: number; status: string; total_steps: number; context: any }
 interface StepRow { step_index: number; status: string; data: any; notes: string | null }
@@ -27,7 +28,7 @@ const PlaybookRun = () => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [formData, setFormData] = useState<Record<string, string>>({});
+  const [formData, setFormData] = useState<Record<string, any>>({});
   const [notes, setNotes] = useState("");
 
   useEffect(() => { if (!authLoading && !user) navigate("/auth"); }, [user, authLoading, navigate]);
@@ -218,13 +219,20 @@ const PlaybookRun = () => {
   );
 };
 
-const StepBody = ({ step, formData, setFormData }: { step: PlaybookStep; formData: Record<string, string>; setFormData: (v: Record<string, string>) => void }) => (
+const StepBody = ({ step, formData, setFormData }: { step: PlaybookStep; formData: Record<string, any>; setFormData: (v: Record<string, any>) => void }) => (
   <div className="space-y-4">
     {step.slug === "name" && (
       <CompanyNameCheck initial={formData.company_name} onPick={(v) => setFormData({ ...formData, company_name: v })} />
     )}
     {step.slug === "notar" && (
       <NotarFinder companyName={formData.company_name} />
+    )}
+    {step.slug === "satzung" && (
+      <NotarPreparation
+        answers={formData}
+        setAnswers={setFormData}
+        companyNameDefault={formData.company_name}
+      />
     )}
     {step.checklist && (
       <div className="rounded-xl border border-border bg-secondary/30 p-4 space-y-2">

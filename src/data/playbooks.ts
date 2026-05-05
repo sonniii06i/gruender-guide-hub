@@ -39,7 +39,7 @@ export const PLAYBOOKS: Playbook[] = [
     steps: [
       { slug: "name", title: "Firmenname & Verfügbarkeit", description: "IHK-Vorabprüfung + Marken-Check (DPMA/EUIPO).", kind: "form", estMinutes: 30,
         fields: [{ name: "company_name", label: "Firmenname" }] },
-      { slug: "satzung", title: "Gesellschaftsvertrag aufsetzen", description: "Musterprotokoll (für 1–3 Personen, 1 GF) ist günstiger. Bei Holding eigene Satzung.", kind: "decision", estMinutes: 60 },
+      { slug: "satzung", title: "Notartermin vorbereiten", description: "Der Notar setzt den Gesellschaftsvertrag auf – du beantwortest hier vorab alle Daten, die er dafür braucht. Spart Vorbereitungszeit & Rückfragen.", kind: "form", estMinutes: 30 },
       { slug: "notar", title: "Notartermin", description: "Beurkundung, Anmeldung Handelsregister.", kind: "external", estMinutes: 90,
         fields: [{ name: "notar", label: "Notar" }, { name: "termin", label: "Termin", type: "date" }] },
       { slug: "konto", title: "Geschäftskonto eröffnen", description: "25.000 € Stammkapital einzahlen (mind. 12.500 € bei Gründung).", kind: "external", estMinutes: 60,
