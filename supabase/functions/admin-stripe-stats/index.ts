@@ -66,6 +66,7 @@ Deno.serve(async (req) => {
       byPlan: Object.entries(byPlan).map(([name, v]) => ({ name, ...v, mrrCents: Math.round(v.mrrCents) })),
     }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
   } catch (e: any) {
-    return new Response(JSON.stringify({ error: e.message }), { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    console.error("admin-stripe-stats error:", e?.message, e?.stack);
+    return new Response(JSON.stringify({ error: e?.message ?? "unknown", activeCount: 0, trialingCount: 0, mrrCents: 0, arrCents: 0, byPlan: [] }), { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } });
   }
 });
