@@ -4,9 +4,10 @@ import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Send, Sparkles, Loader2 } from "lucide-react";
+import { Send, Loader2 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import { toast } from "sonner";
+import Logo from "@/components/Logo";
 import { notifyConversationsChanged } from "@/hooks/useFelixConversations";
 
 type Msg = { role: "user" | "assistant"; content: string };
@@ -187,8 +188,8 @@ const FelixChat = () => {
           </div>
         ) : messages.length === 0 ? (
           <div className="h-full flex flex-col items-center justify-center text-center px-4">
-            <div className="h-16 w-16 rounded-2xl bg-gradient-primary flex items-center justify-center mb-4 shadow-glow">
-              <Sparkles className="h-7 w-7 text-primary-foreground" />
+            <div className="h-16 w-16 rounded-2xl bg-gradient-primary flex items-center justify-center mb-4 shadow-glow p-3">
+              <Logo asImage invert className="h-full w-full" />
             </div>
             <h3 className="text-2xl font-bold mb-1">Hi, ich bin Felix.</h3>
             <p className="text-sm text-muted-foreground mb-6 max-w-md">
