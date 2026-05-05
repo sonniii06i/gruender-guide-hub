@@ -28,8 +28,11 @@ export default function AppLayout() {
       <div className="min-h-screen flex w-full bg-secondary/30">
         <AppSidebar />
         <div className="flex-1 flex flex-col min-w-0">
-          <header className="h-14 flex items-center justify-between border-b border-border bg-card/80 backdrop-blur sticky top-0 z-30 px-4">
+          <header className="h-14 flex items-center gap-3 border-b border-border bg-card/80 backdrop-blur sticky top-0 z-30 px-3 md:px-4">
             <SidebarTrigger />
+            <div className="flex-1 flex justify-center">
+              <GlobalSearch />
+            </div>
             <HeaderActions />
           </header>
           <main className="flex-1 min-h-0">
