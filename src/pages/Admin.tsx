@@ -94,20 +94,25 @@ const Admin = () => {
     const now = Date.now();
     const D = 24 * 60 * 60 * 1000;
     const totalUsers = profiles.length;
-    const activeSubs = subs.filter((s) => s.status === "active" || s.status === "trialing").length;
+    const activePaid = stripeStats?.activeCount ?? 0;
+    const trialing = stripeStats?.trialingCount ?? 0;
     const newUsers7d = profiles.filter((p) => now - new Date(p.created_at).getTime() < 7 * D).length;
     const newUsers30d = profiles.filter((p) => now - new Date(p.created_at).getTime() < 30 * D).length;
     const onboarded = profiles.filter((p) => p.onboarding_completed).length;
     const onboardingRate = totalUsers ? Math.round((onboarded / totalUsers) * 100) : 0;
-    const conversion = totalUsers ? Math.round((activeSubs / totalUsers) * 100) : 0;
     const openTickets = tickets.filter((t) => t.status === "open").length;
 
+    const uniqueVisitors30d = new Set(visits.map((v) => v.visitor_hash)).size;
+    const today = new Date().toISOString().slice(0, 10);
+    const uniqueVisitorsToday = new Set(visits.filter((v) => v.created_at.startsWith(today)).map((v) => v.visitor_hash)).size;
+    const visitorToSignup = uniqueVisitors30d ? ((newUsers30d / uniqueVisitors30d) * 100).toFixed(1) : "0";
+    const signupToPaid = totalUsers ? ((activePaid / totalUsers) * 100).toFixed(1) : "0";
+    const visitorToPaid = uniqueVisitors30d ? ((activePaid / uniqueVisitors30d) * 100).toFixed(2) : "0";
+
+    const mrr = (stripeStats?.mrrCents ?? 0) / 100;
+    const arr = (stripeStats?.arrCents ?? 0) / 100;
     const planMix: Record<string, number> = {};
-    subs.filter((s) => s.status === "active" || s.status === "trialing").forEach((s) => {
-      planMix[s.plan] = (planMix[s.plan] ?? 0) + 1;
-    });
-    const PRICE: Record<string, number> = { "GründerX": 99.99, "Founder Bundle": 179.99 };
-    const mrr = Object.entries(planMix).reduce((sum, [p, n]) => sum + (PRICE[p] ?? 0) * n, 0);
+    (stripeStats?.byPlan ?? []).forEach((p) => { planMix[p.name] = p.count; });
 
     const countries: Record<string, number> = {};
     profiles.forEach((p) => { const c = p.country || "—"; countries[c] = (countries[c] ?? 0) + 1; });
@@ -124,20 +129,42 @@ const Admin = () => {
     const topLegals = Object.entries(legals).sort((a, b) => b[1] - a[1]);
 
     const days: Record<string, number> = {};
+    const visitorDays: Record<string, Set<string>> = {};
     for (let i = 29; i >= 0; i--) {
       const d = new Date(now - i * D);
-      days[d.toISOString().slice(0, 10)] = 0;
+      const k = d.toISOString().slice(0, 10);
+      days[k] = 0;
+      visitorDays[k] = new Set();
     }
     profiles.forEach((p) => {
       const k = p.created_at.slice(0, 10);
       if (k in days) days[k]++;
     });
+    visits.forEach((v) => {
+      const k = v.created_at.slice(0, 10);
+      if (k in visitorDays) visitorDays[k].add(v.visitor_hash);
+    });
+    const visitorDaysCounts: Record<string, number> = {};
+    Object.entries(visitorDays).forEach(([k, set]) => { visitorDaysCounts[k] = set.size; });
+
+    const refs: Record<string, number> = {};
+    visits.forEach((v) => {
+      if (!v.referrer) return;
+      try { const h = new URL(v.referrer).hostname; refs[h] = (refs[h] ?? 0) + 1; } catch {}
+    });
+    const topReferrers = Object.entries(refs).sort((a, b) => b[1] - a[1]).slice(0, 8);
+
+    const utms: Record<string, number> = {};
+    visits.forEach((v) => { if (v.utm_source) utms[v.utm_source] = (utms[v.utm_source] ?? 0) + 1; });
+    const topUtms = Object.entries(utms).sort((a, b) => b[1] - a[1]).slice(0, 8);
 
     return {
-      totalUsers, activeSubs, newUsers7d, newUsers30d, onboardingRate, conversion,
-      openTickets, planMix, mrr, topCountries, topModels, topLegals, days,
+      totalUsers, activePaid, trialing, newUsers7d, newUsers30d, onboardingRate,
+      openTickets, planMix, mrr, arr, topCountries, topModels, topLegals, days, visitorDaysCounts,
+      uniqueVisitors30d, uniqueVisitorsToday, visitorToSignup, signupToPaid, visitorToPaid,
+      topReferrers, topUtms,
     };
-  }, [profiles, subs, tickets]);
+  }, [profiles, subs, tickets, visits, stripeStats]);
 
   const openTicket = async (t: Ticket) => {
     setSelected(t);
