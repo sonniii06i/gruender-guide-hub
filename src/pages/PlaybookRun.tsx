@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { toast } from "sonner";
 import {
   CheckCircle2, Circle, ChevronRight, ChevronLeft, ExternalLink,
   AlertTriangle, Clock, Trophy, Loader2,
@@ -94,9 +93,11 @@ const PlaybookRun = () => {
   const step = pb.steps[activeIndex];
   const completedCount = Object.values(steps).filter((s) => s.status === "done").length;
   const progress = Math.round((completedCount / pb.steps.length) * 100);
+  const missingRequired = getMissingRequired(step, formData, runCtx);
 
   const saveStep = async (status: "pending" | "done") => {
     if (!user) return;
+    if (status === "done" && missingRequired.length > 0) return;
     setSaving(true);
     const existing = steps[activeIndex];
     const payload = {
@@ -134,12 +135,8 @@ const PlaybookRun = () => {
         title: `🎉 ${pb.title} abgeschlossen!`,
         body: pb.outcome, link: "/dashboard",
       });
-      toast.success(`Geschafft – ${pb.title} ist erledigt!`);
     } else if (status === "done") {
-      toast.success("Schritt erledigt");
       setActiveIndex(newCurrent);
-    } else {
-      toast.success("Gespeichert");
     }
     setSaving(false);
   };
@@ -219,18 +216,32 @@ const PlaybookRun = () => {
             <Textarea value={notes} onChange={(e) => setNotes(e.target.value)} className="mt-2" rows={3} placeholder="Anmerkungen, Ansprechpartner, Folge-Termine..." />
           </div>
 
-          <div className="flex flex-wrap gap-3 mt-6 justify-between">
-            <Button variant="outline" onClick={() => setActiveIndex(Math.max(0, activeIndex - 1))} disabled={activeIndex === 0}>
-              <ChevronLeft className="h-4 w-4 mr-1" /> Zurück
-            </Button>
-            <div className="flex gap-2">
-              <Button variant="outline" onClick={() => saveStep("pending")} disabled={saving}>
-                Speichern
+          <div className="mt-6 space-y-2">
+            {missingRequired.length > 0 && (
+              <div className="flex items-start gap-2 rounded-lg bg-warning/10 border border-warning/30 text-warning-foreground p-3 text-xs">
+                <AlertTriangle className="h-3.5 w-3.5 mt-0.5 shrink-0" />
+                <div>
+                  <strong>Pflichtfelder fehlen:</strong> {missingRequired.join(", ")}
+                </div>
+              </div>
+            )}
+            <div className="flex flex-wrap gap-3 justify-between">
+              <Button variant="outline" onClick={() => setActiveIndex(Math.max(0, activeIndex - 1))} disabled={activeIndex === 0}>
+                <ChevronLeft className="h-4 w-4 mr-1" /> Zurück
               </Button>
-              <Button onClick={() => saveStep("done")} disabled={saving} className="bg-success hover:bg-success/90 text-success-foreground">
-                {saving ? <Loader2 className="h-4 w-4 animate-spin mr-1" /> : <CheckCircle2 className="h-4 w-4 mr-1" />}
-                Schritt erledigt
-              </Button>
+              <div className="flex gap-2">
+                <Button variant="outline" onClick={() => saveStep("pending")} disabled={saving}>
+                  Speichern
+                </Button>
+                <Button
+                  onClick={() => saveStep("done")}
+                  disabled={saving || missingRequired.length > 0}
+                  className="bg-success hover:bg-success/90 text-success-foreground"
+                >
+                  {saving ? <Loader2 className="h-4 w-4 animate-spin mr-1" /> : <CheckCircle2 className="h-4 w-4 mr-1" />}
+                  Schritt erledigt
+                </Button>
+              </div>
             </div>
           </div>
         </div>
@@ -331,5 +342,45 @@ const StepBody = ({
   </div>
   );
 };
+
+/**
+ * Bestimmt, welche Pflichtfelder im aktuellen Step noch leer sind.
+ * Steps ohne Pflichtfelder (info / external / checklist / Vergleichs-Widgets)
+ * geben immer [] zurück → Button bleibt aktiv.
+ */
+function getMissingRequired(
+  step: PlaybookStep,
+  formData: Record<string, any>,
+  runCtx: Record<string, any>,
+): string[] {
+  const missing: string[] = [];
+  const isEmpty = (v: any) => v === undefined || v === null || String(v).trim() === "";
+
+  // Step "name" (Firmenname-Eingabe in jedem Playbook)
+  if (step.slug === "name") {
+    if (isEmpty(runCtx.company_name) && isEmpty(formData.company_name)) {
+      missing.push("Firmenname");
+    }
+    return missing;
+  }
+
+  // Step "satzung" / Notar-Vorbereitung
+  if (step.slug === "satzung") {
+    if (isEmpty(runCtx.company_name) && isEmpty(formData.firmenname)) missing.push("Firmenname");
+    if (isEmpty(formData.firmensitzStadt)) missing.push("Firmensitz (Stadt)");
+    if (isEmpty(formData.firmensitzAdresse)) missing.push("Geschäftsadresse");
+    if (isEmpty(formData.gegenstand)) missing.push("Unternehmensgegenstand");
+    return missing;
+  }
+
+  // Generische Felder im Step (alle als Pflicht behandelt)
+  if (step.fields) {
+    for (const f of step.fields) {
+      if (isEmpty(formData[f.name])) missing.push(f.label);
+    }
+  }
+
+  return missing;
+}
 
 export default PlaybookRun;
