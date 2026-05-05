@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Clock, AlertCircle, Star, Tag, ExternalLink, MessageSquare, Scale, FileText, ShieldCheck } from "lucide-react";
-import { LEGAL_URLS, PROVIDERS, type Provider } from "./Anbieter";
+import { isCoopActive, LEGAL_URLS, PROVIDERS, type Provider } from "./Anbieter";
 
 const getDomain = (url: string): string => {
   try { return new URL(url).hostname.replace(/^www\./, ""); } catch { return url; }
@@ -118,22 +118,20 @@ const AnbieterDetail = () => {
             </div>
           </div>
 
-          {/* Coop-Deal prominent */}
-          {p.coop && (
+          {/* Coop-Deal prominent (nur wenn noch nicht abgelaufen) */}
+          {isCoopActive(p.coop) && p.coop && (
             <div className="rounded-2xl border-2 border-accent-blue bg-accent-blue/5 p-5">
               <div className="flex items-start gap-3">
                 <Tag className="h-5 w-5 text-accent-blue mt-0.5 shrink-0" />
                 <div className="flex-1">
-                  <div className="text-xs font-bold uppercase tracking-wider text-accent-blue mb-1">Coop-Deal für GründerX-Mitglieder</div>
+                  <div className="text-xs font-bold uppercase tracking-wider text-accent-blue mb-1">Aktueller Deal</div>
                   <div className="font-semibold mb-2">{p.coop.text}</div>
                   {p.coop.code && (
                     <div className="rounded-lg bg-card border border-border px-3 py-2 inline-block font-mono text-sm mb-2">
                       Code: <strong>{p.coop.code}</strong>
                     </div>
                   )}
-                  {p.coop.expires && (
-                    <div className="text-xs text-muted-foreground">gültig bis {p.coop.expires}</div>
-                  )}
+                  <div className="text-xs text-muted-foreground">gültig bis {p.coop.expires}</div>
                 </div>
               </div>
             </div>

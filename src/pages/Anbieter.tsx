@@ -135,6 +135,13 @@ export interface Provider {
   links?: { label: string; url: string }[];
 }
 
+/** Coop-Deal nur anzeigen wenn nicht abgelaufen (expires ≥ heute). */
+export const isCoopActive = (coop: Provider["coop"]): boolean => {
+  if (!coop) return false;
+  if (!coop.expires) return false; // Pflicht: ohne Ablaufdatum nicht zeigen
+  return new Date(coop.expires) >= new Date(new Date().toISOString().slice(0, 10));
+};
+
 export const PROVIDERS: Provider[] = [
   // ============ BANKING DE ============
   {
@@ -1143,8 +1150,8 @@ const Anbieter = () => {
   return (
     <CockpitShell
       eyebrow="🏆 Anbieter-Vergleichs-Engine"
-      title="Die besten Tools – mit verhandelten Coop-Deals"
-      subtitle="Top-Anbieter pro Kategorie – mit echten Stärken/Schwächen aus Reddit & E-Com-Foren. Coop-Deals sind echt verhandelt."
+      title="Die besten Tools für deine Gründung"
+      subtitle="Top-Anbieter pro Kategorie – mit Stärken/Schwächen aus Reddit & E-Com-Foren. Aktive Aktionen werden wöchentlich aktualisiert."
     >
       <div className="flex flex-col md:flex-row gap-3 mb-6">
         <Input placeholder="Anbieter, Stärke oder Schwäche suchen..." value={q} onChange={(e) => setQ(e.target.value)} className="md:max-w-xs" />
@@ -1228,14 +1235,14 @@ const ProviderCard = ({ p }: { p: Provider }) => (
       </div>
     )}
 
-    {p.coop && (
+    {isCoopActive(p.coop) && p.coop && (
       <div className="rounded-xl bg-accent text-accent-foreground p-2.5 text-xs font-semibold mb-3">
         <div className="flex items-start gap-1.5">
           <Tag className="h-3.5 w-3.5 mt-0.5 shrink-0" />
           <div>
             Coop-Deal: {p.coop.text}
             {p.coop.code && <div className="text-[10px] mt-0.5 font-mono opacity-80">Code: {p.coop.code}</div>}
-            {p.coop.expires && <div className="text-[10px] mt-0.5 opacity-80">gültig bis {p.coop.expires}</div>}
+            <div className="text-[10px] mt-0.5 opacity-80">gültig bis {p.coop.expires}</div>
           </div>
         </div>
       </div>
