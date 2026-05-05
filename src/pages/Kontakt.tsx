@@ -28,15 +28,23 @@ const Kontakt = () => {
     const res = schema.safeParse(form);
     if (!res.success) { toast.error(res.error.issues[0].message); return; }
     setLoading(true);
+    const ticketId = crypto.randomUUID();
     const { error } = await supabase.from("contact_tickets").insert({
+      id: ticketId,
       name: res.data.name,
       email: res.data.email,
       subject: res.data.subject,
       message: res.data.message,
       user_id: user?.id ?? null,
     });
+    if (error) { setLoading(false); toast.error(error.message); return; }
+
+    // Fire-and-forget email notification (don't block UX on failure)
+    supabase.functions.invoke("send-ticket-email", {
+      body: { ticketId, ...res.data },
+    }).catch((err) => console.error("email send failed", err));
+
     setLoading(false);
-    if (error) { toast.error(error.message); return; }
     setDone(true);
   };
 
