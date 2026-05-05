@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,6 +12,13 @@ export function CompanyNameCheck({ initial, onPick }: { initial?: string; onPick
   const [name, setName] = useState(initial ?? "");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
+
+  // Bei externem Update (z.B. anderer Step ändert den Namen) lokalen
+  // State angleichen, sonst zeigt das Input-Feld stale Daten.
+  useEffect(() => {
+    if (initial !== undefined && initial !== name) setName(initial);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initial]);
 
   const run = async () => {
     if (!name.trim()) return;

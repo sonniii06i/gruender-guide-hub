@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
@@ -30,6 +30,9 @@ const PlaybookRun = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [formData, setFormData] = useState<Record<string, any>>({});
   const [notes, setNotes] = useState("");
+  // Geteilter Run-Kontext (cross-step shared values wie company_name).
+  const [runCtx, setRunCtx] = useState<Record<string, any>>({});
+  const ctxSaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => { if (!authLoading && !user) navigate("/auth"); }, [user, authLoading, navigate]);
 
@@ -44,6 +47,17 @@ const PlaybookRun = () => {
       const map: Record<number, StepRow> = {};
       (s ?? []).forEach((row: any) => { map[row.step_index] = row; });
       setSteps(map);
+
+      // runCtx hydraten: aus run.context, fallback auf step "name" data.
+      const initialCtx: Record<string, any> = { ...(r.context ?? {}) };
+      if (!initialCtx.company_name) {
+        const nameRow = Object.values(map).find((row: any) => row.step_slug === "name");
+        if ((nameRow as any)?.data?.company_name) {
+          initialCtx.company_name = (nameRow as any).data.company_name;
+        }
+      }
+      setRunCtx(initialCtx);
+
       setLoading(false);
     })();
   }, [runId, user, navigate]);
@@ -56,6 +70,17 @@ const PlaybookRun = () => {
     setFormData(cur?.data ?? {});
     setNotes(cur?.notes ?? "");
   }, [activeIndex, steps]);
+
+  // Geteilte Run-Kontext-Updates mit 500ms-Debounce (DB-Write).
+  const updateRunCtx = (patch: Record<string, any>) => {
+    const next = { ...runCtx, ...patch };
+    setRunCtx(next);
+    if (!run) return;
+    if (ctxSaveTimer.current) clearTimeout(ctxSaveTimer.current);
+    ctxSaveTimer.current = setTimeout(async () => {
+      await supabase.from("playbook_runs").update({ context: next }).eq("id", run.id);
+    }, 500);
+  };
 
   if (loading || authLoading || !pb || !run) {
     return (
@@ -186,7 +211,7 @@ const PlaybookRun = () => {
             </div>
           )}
 
-          <StepBody step={step} formData={formData} setFormData={setFormData} allSteps={steps} pb={pb} />
+          <StepBody step={step} formData={formData} setFormData={setFormData} allSteps={steps} pb={pb} runCtx={runCtx} updateRunCtx={updateRunCtx} />
 
           <div className="mt-5">
             <Label className="text-xs uppercase tracking-wider text-muted-foreground">Deine Notizen</Label>
@@ -223,32 +248,40 @@ const StepBody = ({
   step,
   formData,
   setFormData,
-  allSteps,
-  pb,
+  allSteps: _allSteps,
+  pb: _pb,
+  runCtx,
+  updateRunCtx,
 }: {
   step: PlaybookStep;
   formData: Record<string, any>;
   setFormData: (v: Record<string, any>) => void;
   allSteps: Record<number, StepRow>;
   pb: ReturnType<typeof getPlaybook>;
+  runCtx: Record<string, any>;
+  updateRunCtx: (patch: Record<string, any>) => void;
 }) => {
-  // Daten aus dem "name"-Step holen (Firmenname-Eingabe)
-  const nameStepIndex = pb?.steps.findIndex((s) => s.slug === "name") ?? -1;
-  const companyNameFromStep =
-    nameStepIndex >= 0 ? allSteps[nameStepIndex]?.data?.company_name : undefined;
+  const sharedCompanyName = runCtx.company_name ?? formData.company_name ?? "";
   return (
   <div className="space-y-4">
     {step.slug === "name" && (
-      <CompanyNameCheck initial={formData.company_name} onPick={(v) => setFormData({ ...formData, company_name: v })} />
+      <CompanyNameCheck
+        initial={sharedCompanyName}
+        onPick={(v) => {
+          setFormData({ ...formData, company_name: v });
+          updateRunCtx({ company_name: v });
+        }}
+      />
     )}
     {step.slug === "notar" && (
-      <NotarFinder companyName={formData.company_name} />
+      <NotarFinder companyName={sharedCompanyName} />
     )}
     {step.slug === "satzung" && (
       <NotarPreparation
         answers={formData}
         setAnswers={setFormData}
-        companyNameDefault={companyNameFromStep}
+        companyName={sharedCompanyName}
+        onCompanyNameChange={(v) => updateRunCtx({ company_name: v })}
       />
     )}
     {step.checklist && (

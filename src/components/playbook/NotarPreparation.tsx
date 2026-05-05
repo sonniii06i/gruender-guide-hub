@@ -50,18 +50,22 @@ const todayIso = () => new Date().toISOString().slice(0, 10);
 export function NotarPreparation({
   answers,
   setAnswers,
-  companyNameDefault,
+  companyName,
+  onCompanyNameChange,
 }: {
   answers: Answers;
   setAnswers: (a: Answers) => void;
-  companyNameDefault?: string;
+  /** Geteilter Firmenname aus dem Run-Kontext (cross-step). */
+  companyName: string;
+  /** Callback, der den geteilten Firmennamen ändert (sync zu Step 1). */
+  onCompanyNameChange: (v: string) => void;
 }) {
   const a = answers;
   const set = (key: string, value: any) => setAnswers({ ...a, [key]: value });
 
-  // Firmenname kommt aus Step 1 (companyNameDefault). User kann hier nicht
-  // mehr selber tippen – bei Änderung muss er zurück zu Schritt 1.
-  const firmenname = companyNameDefault ?? a.firmenname ?? "";
+  // Firmenname ist die geteilte Quelle (runCtx.company_name).
+  // Bidirektional editierbar – Änderung hier syncs auch zu Step 1.
+  const firmenname = companyName;
 
   const persons: Person[] = a.persons ?? [{}];
   const gfs: Geschaeftsfuehrer[] = a.gfs ?? [{}];
@@ -159,8 +163,12 @@ export function NotarPreparation({
       {/* Block 1: Firma */}
       <Section title="1. Firma & Sitz">
         <Grid>
-          <Field label="Firmenname" help="Aus Schritt 1 übernommen. Änderung dort vornehmen." full>
-            <Input value={firmenname} readOnly disabled placeholder="(in Schritt 1 setzen)" className="bg-secondary" />
+          <Field label="Firmenname (mit Rechtsform 'GmbH')" help="Synchronisiert mit Schritt 1 – Änderung wirkt sofort in beide Richtungen." full required>
+            <Input
+              value={firmenname}
+              onChange={(e) => onCompanyNameChange(e.target.value)}
+              placeholder="z. B. Müller Digital GmbH"
+            />
           </Field>
           <Field label="Firmensitz (Stadt)" required>
             <Input
