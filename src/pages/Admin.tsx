@@ -391,6 +391,32 @@ const Bars = ({ data, labelMap }: { data: [string, number][]; labelMap?: Record<
   );
 };
 
+const FunnelBars = ({ steps }: { steps: { label: string; n: number }[] }) => {
+  const max = Math.max(...steps.map((s) => s.n), 1);
+  return (
+    <div className="space-y-3">
+      {steps.map((s, i) => {
+        const prev = i > 0 ? steps[i - 1].n : null;
+        const pct = prev && prev > 0 ? ((s.n / prev) * 100).toFixed(1) : null;
+        return (
+          <div key={s.label}>
+            <div className="flex items-center justify-between text-sm mb-1">
+              <span className="font-semibold">{s.label}</span>
+              <span className="text-muted-foreground">
+                {s.n.toLocaleString("de-DE")}
+                {pct !== null && <span className="ml-2 text-xs">({pct}% vs. {steps[i - 1].label})</span>}
+              </span>
+            </div>
+            <div className="h-3 bg-secondary rounded-full overflow-hidden">
+              <div className="h-full bg-gradient-primary" style={{ width: `${(s.n / max) * 100}%` }} />
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
 const Sparkline = ({ values }: { values: number[] }) => {
   const max = Math.max(...values, 1);
   return (
