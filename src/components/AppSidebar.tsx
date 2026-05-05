@@ -1,5 +1,5 @@
 import Logo from "@/components/Logo";
-import { NavLink, useLocation, useSearchParams } from "react-router-dom";
+import { Link, NavLink, useLocation, useSearchParams } from "react-router-dom";
 import {
   Sidebar,
   SidebarContent,
@@ -42,15 +42,15 @@ export function AppSidebar() {
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader className="border-b border-sidebar-border">
-        <div className="flex items-center gap-2 px-2 py-1.5">
-          <Logo className="h-8 w-8 shrink-0" />
+        <Link to="/" aria-label="Zur Startseite" className="flex items-center gap-2 px-2 py-1.5">
+          <Logo asImage className="h-8 w-8 shrink-0" />
           {!collapsed && (
             <div className="flex flex-col leading-tight">
               <span className="font-bold tracking-tight text-sm">GründerX</span>
               <span className="text-[10px] text-muted-foreground">Cockpit</span>
             </div>
           )}
-        </div>
+        </Link>
       </SidebarHeader>
 
       <SidebarContent>
