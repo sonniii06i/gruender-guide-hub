@@ -4,17 +4,10 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { CATEGORIES, STATUS_LABEL, type Feature, type FeatureCategory } from "@/data/features";
-import { PLAYBOOKS, getPlaybook } from "@/data/playbooks";
-import { Lock, Crown, ArrowRight, Sparkles, Play, Trophy, Clock } from "lucide-react";
-import { formatDistanceToNow } from "date-fns";
-import { de } from "date-fns/locale";
+import { Lock, Crown, ArrowRight, Sparkles } from "lucide-react";
 
 interface Profile { first_name: string | null; company_name: string | null }
 interface Subscription { plan: string; status: string }
-interface Run {
-  id: string; playbook_slug: string; title: string; status: string;
-  current_step: number; total_steps: number; last_activity_at: string;
-}
 
 const Dashboard = () => {
   const { user } = useAuth();
