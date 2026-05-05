@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/hooks/useAuth";
 import Index from "./pages/Index.tsx";
 import Auth from "./pages/Auth.tsx";
+import Checkout from "./pages/Checkout.tsx";
 import Onboarding from "./pages/Onboarding.tsx";
 import Dashboard from "./pages/Dashboard.tsx";
 import SteuerCockpit from "./pages/SteuerCockpit.tsx";
@@ -37,6 +38,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/checkout" element={<Checkout />} />
             <Route path="/onboarding" element={<Onboarding />} />
             <Route element={<AppLayout />}>
               <Route path="/dashboard" element={<Dashboard />} />

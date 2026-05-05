@@ -1,20 +1,35 @@
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import HeaderActions from "@/components/HeaderActions";
 import { useAuth } from "@/hooks/useAuth";
+import { useAccess } from "@/hooks/useAccess";
 import { Loader2 } from "lucide-react";
 
 export default function AppLayout() {
   const { user, loading } = useAuth();
+  const { loading: accLoading, hasActiveSub, isAdmin, onboardingCompleted } = useAccess();
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   useEffect(() => {
     if (!loading && !user) navigate("/auth", { replace: true });
   }, [user, loading, navigate]);
 
-  if (loading || !user) {
+  useEffect(() => {
+    if (loading || accLoading || !user) return;
+    const allowed = hasActiveSub || isAdmin;
+    if (!allowed) {
+      navigate("/checkout", { replace: true });
+      return;
+    }
+    if (!onboardingCompleted && pathname !== "/onboarding") {
+      navigate("/onboarding", { replace: true });
+    }
+  }, [loading, accLoading, user, hasActiveSub, isAdmin, onboardingCompleted, pathname, navigate]);
+
+  if (loading || !user || accLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <Loader2 className="h-6 w-6 animate-spin text-accent-blue" />
@@ -31,7 +46,7 @@ export default function AppLayout() {
             <SidebarTrigger />
             <HeaderActions />
           </header>
-          <main className="flex-1">
+          <main className="flex-1 min-h-0">
             <Outlet />
           </main>
         </div>

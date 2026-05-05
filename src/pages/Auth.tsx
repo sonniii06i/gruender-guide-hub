@@ -30,7 +30,7 @@ const Auth = () => {
   const pwValid = pwChecks.length && pwChecks.digit && pwChecks.special;
 
   useEffect(() => {
-    if (!authLoading && user) navigate("/onboarding", { replace: true });
+    if (!authLoading && user) navigate("/checkout", { replace: true });
   }, [user, authLoading, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -45,13 +45,13 @@ const Auth = () => {
           email,
           password,
           options: {
-            emailRedirectTo: `${window.location.origin}/onboarding`,
+            emailRedirectTo: `${window.location.origin}/checkout`,
             data: { first_name: firstName, last_name: lastName },
           },
         });
         if (error) throw error;
-        toast.success("Account erstellt! Willkommen bei GründerX 🚀");
-        navigate("/onboarding");
+        toast.success("Account erstellt! Wähle jetzt deinen Plan 🚀");
+        navigate("/checkout");
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
