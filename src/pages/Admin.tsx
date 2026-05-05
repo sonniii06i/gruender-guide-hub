@@ -200,31 +200,57 @@ const Admin = () => {
 
   return (
     <CockpitShell eyebrow="🛡️ Admin" title="Kommandozentrale" subtitle="Marketing-Insights, Kunden, Abos & Tickets.">
+      {stripeError && (
+        <div className="mb-4 rounded-xl border border-destructive/40 bg-destructive/10 text-destructive px-4 py-3 text-sm">
+          Stripe-Daten nicht ladbar: {stripeError}
+        </div>
+      )}
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
-        <Kpi icon={Users} label="Nutzer gesamt" value={stats.totalUsers} hint={`+${stats.newUsers7d} in 7T · +${stats.newUsers30d} in 30T`} />
-        <Kpi icon={CreditCard} label="Aktive Abos" value={stats.activeSubs} hint={`Conversion ${stats.conversion}%`} accent />
-        <Kpi icon={TrendingUp} label="MRR (geschätzt)" value={`€${stats.mrr.toFixed(2)}`} hint={`ARR ≈ €${(stats.mrr * 12).toFixed(0)}`} />
-        <Kpi icon={Activity} label="Onboarding-Rate" value={`${stats.onboardingRate}%`} hint={`${stats.openTickets} offene Tickets · ${chatCount} Felix-Msgs · ${runsCount} Runs`} />
+        <Kpi icon={Users} label="Besucher (30T)" value={stats.uniqueVisitors30d} hint={`Heute: ${stats.uniqueVisitorsToday} · Signups 30T: ${stats.newUsers30d}`} />
+        <Kpi icon={UserPlus} label="Registrierte" value={stats.totalUsers} hint={`Visitor→Signup ${stats.visitorToSignup}%`} />
+        <Kpi icon={CreditCard} label="Zahlende Kunden" value={stats.activePaid} hint={`+ ${stats.trialing} Trial · Signup→Paid ${stats.signupToPaid}%`} accent />
+        <Kpi icon={TrendingUp} label="MRR (Stripe live)" value={`€${stats.mrr.toFixed(2)}`} hint={`ARR €${stats.arr.toFixed(0)} · Visitor→Paid ${stats.visitorToPaid}%`} />
       </div>
 
       <Tabs defaultValue="overview">
         <TabsList className="mb-6 flex-wrap">
           <TabsTrigger value="overview"><BarChart3 className="h-4 w-4 mr-1" /> Übersicht</TabsTrigger>
           <TabsTrigger value="kunden"><Users className="h-4 w-4 mr-1" /> Kunden ({stats.totalUsers})</TabsTrigger>
-          <TabsTrigger value="abos"><CreditCard className="h-4 w-4 mr-1" /> Abos ({stats.activeSubs})</TabsTrigger>
+          <TabsTrigger value="abos"><CreditCard className="h-4 w-4 mr-1" /> Abos ({stats.activePaid})</TabsTrigger>
           <TabsTrigger value="tickets"><Inbox className="h-4 w-4 mr-1" /> Tickets ({stats.openTickets})</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview">
           <div className="grid lg:grid-cols-2 gap-4">
+            <Panel title="Funnel (30 Tage)" icon={TrendingUp}>
+              <FunnelBars
+                steps={[
+                  { label: "Besucher", n: stats.uniqueVisitors30d },
+                  { label: "Signups", n: stats.newUsers30d },
+                  { label: "Zahlend (aktiv)", n: stats.activePaid },
+                ]}
+              />
+            </Panel>
+            <Panel title="Besucher (letzte 30 Tage, unique/Tag)" icon={Activity}>
+              <Sparkline values={Object.values(stats.visitorDaysCounts)} />
+              <div className="text-xs text-muted-foreground mt-2">
+                Spitze: {Math.max(...Object.values(stats.visitorDaysCounts), 0)} · Schnitt: {(Object.values(stats.visitorDaysCounts).reduce((a, b) => a + b, 0) / 30).toFixed(1)} / Tag
+              </div>
+            </Panel>
             <Panel title="Signups (letzte 30 Tage)" icon={UserPlus}>
               <Sparkline values={Object.values(stats.days)} />
               <div className="text-xs text-muted-foreground mt-2">
-                Spitze: {Math.max(...Object.values(stats.days), 0)} an einem Tag · Schnitt: {(Object.values(stats.days).reduce((a, b) => a + b, 0) / 30).toFixed(1)} / Tag
+                Spitze: {Math.max(...Object.values(stats.days), 0)} · Schnitt: {(Object.values(stats.days).reduce((a, b) => a + b, 0) / 30).toFixed(1)} / Tag
               </div>
             </Panel>
-            <Panel title="Plan-Mix (aktive Abos)" icon={CreditCard}>
+            <Panel title="Plan-Mix (Stripe aktiv)" icon={CreditCard}>
               <Bars data={Object.entries(stats.planMix)} />
+            </Panel>
+            <Panel title="Top-Referrer" icon={TrendingUp}>
+              <Bars data={stats.topReferrers} />
+            </Panel>
+            <Panel title="Top-UTM-Quellen" icon={TrendingUp}>
+              <Bars data={stats.topUtms} />
             </Panel>
             <Panel title="Top-Geschäftsmodelle" icon={TrendingUp}>
               <Bars data={stats.topModels} labelMap={MODEL_LABEL} />
@@ -237,6 +263,7 @@ const Admin = () => {
             </Panel>
             <Panel title="Engagement" icon={MessageSquare}>
               <div className="space-y-2 text-sm">
+                <Row k="Onboarding-Rate" v={`${stats.onboardingRate}%`} />
                 <Row k="Felix-Chat-Nachrichten gesamt" v={chatCount.toString()} />
                 <Row k="Playbook-Runs gesamt" v={runsCount.toString()} />
                 <Row k="Tickets offen" v={stats.openTickets.toString()} />
