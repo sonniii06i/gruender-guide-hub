@@ -53,7 +53,10 @@ const Onboarding = () => {
   const [lastName, setLastName] = useState("");
   const [companyName, setCompanyName] = useState("");
   const [phone, setPhone] = useState("");
-  const [businessModel, setBusinessModel] = useState("");
+  const [businessModels_, setBusinessModels_] = useState<string[]>([]);
+  const businessModel = businessModels_.join(",");
+  const toggleModel = (id: string) =>
+    setBusinessModels_((prev) => prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]);
   const [stage, setStage] = useState("");
   const [legalForm, setLegalForm] = useState("");
   const [street, setStreet] = useState("");
