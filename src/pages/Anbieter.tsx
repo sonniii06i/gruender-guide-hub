@@ -4,6 +4,109 @@ import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Input } from "@/components/ui/input";
 import { Star, Tag, ExternalLink, MessageSquare, Clock, AlertCircle } from "lucide-react";
 
+/**
+ * Verifizierte Legal-URLs pro Anbieter (Stand: 2026-05-05).
+ * Bulk-verifiziert via Footer-Scrape + manuelle Korrekturen.
+ * Wird vom monatlichen Audit-Agent aktualisiert wenn URLs ändern.
+ */
+export const LEGAL_URLS: Record<string, { impressum?: string; terms?: string; privacy?: string }> = {
+  // ============ BANKING DE ============
+  "qonto": { impressum: "https://qonto.com/de/imprint", terms: "https://qonto.com/de/legal/terms-and-conditions", privacy: "https://qonto.com/de/legal/privacy-policy" },
+  "holvi": { impressum: "https://www.holvi.com/de/impressum/", terms: "https://www.holvi.com/de/terms/", privacy: "https://www.holvi.com/de/privacy/" },
+  "finom": { impressum: "https://finom.co/de-de/impressum/", terms: "https://finom.co/de-de/agb/", privacy: "https://finom.co/de-de/datenschutz/" },
+  "kontist": { impressum: "https://kontist.com/imprint/", terms: "https://kontist.com/terms/", privacy: "https://kontist.com/privacy/" },
+  "deutsche-bank-business": { impressum: "https://www.deutsche-bank.de/pk/impressum.html", terms: "https://www.deutsche-bank.de/pk/agb.html", privacy: "https://www.deutsche-bank.de/pk/lp/datenschutz.html" },
+  "commerzbank-business": { impressum: "https://www.commerzbank.de/firmenkunden/impressum/", terms: "https://www.commerzbank.de/firmenkunden/agb/", privacy: "https://www.commerzbank.de/firmenkunden/datenschutz/" },
+  "sparkasse": { impressum: "https://www.sparkasse.de/impressum.html", terms: "https://www.sparkasse.de/agb.html", privacy: "https://www.sparkasse.de/datenschutz.html" },
+  "volksbank": { impressum: "https://www.vr.de/impressum.html", privacy: "https://www.vr.de/datenschutz.html" },
+  "postbank-business": { impressum: "https://www.postbank.de/unternehmen/ueber-uns/impressum.html", terms: "https://www.postbank.de/privatkunden/services/kundenservice/agb.html", privacy: "https://www.postbank.de/unternehmen/ueber-uns/sicherheit-und-datenschutz/datenschutz.html" },
+  "hvb-business": { impressum: "https://www.hypovereinsbank.de/hvb/footer-navigation/impressum", privacy: "https://www.hypovereinsbank.de/hvb/footer-navigation/datenschutz" },
+  "targobank": { impressum: "https://www.targobank.de/de/service/impressum.html", privacy: "https://www.targobank.de/de/service/datenschutz.html" },
+  "dkb-business": { impressum: "https://www.dkb.de/ueber-uns/impressum", privacy: "https://www.dkb.de/ueber-uns/datenschutz" },
+  "fyrst": { impressum: "https://www.fyrst.de/impressum.html", privacy: "https://www.fyrst.de/datenschutz.html" },
+  "n26-business": { impressum: "https://n26.com/de-de/legal-information", terms: "https://n26.com/de-de/terms-of-use", privacy: "https://n26.com/de-de/privacy" },
+  "revolut-business": { impressum: "https://www.revolut.com/de-DE/legal-de", terms: "https://www.revolut.com/de-DE/legal/business-terms", privacy: "https://www.revolut.com/de-DE/legal/privacy" },
+  "vivid-business": { impressum: "https://vivid.money/de-de/impressum/", terms: "https://vivid.money/de-de/agb/", privacy: "https://vivid.money/de-de/datenschutz/" },
+  "bunq-business": { impressum: "https://www.bunq.com/de/imprint", terms: "https://www.bunq.com/de/terms", privacy: "https://www.bunq.com/de/privacy" },
+
+  // ============ BANKING US ============
+  "mercury": { terms: "https://mercury.com/legal", privacy: "https://mercury.com/legal/privacy" },
+  "wise-business": { impressum: "https://wise.com/p/imprint/", terms: "https://wise.com/eu/legal/terms-and-conditions/eea", privacy: "https://wise.com/gb/legal/privacy-notices" },
+  "relay": { terms: "https://relayfi.com/terms/", privacy: "https://relayfi.com/privacy/" },
+  "brex": { terms: "https://www.brex.com/legal", privacy: "https://privacy.brex.com/" },
+  "novo": { terms: "https://www.novo.co/legal/terms", privacy: "https://www.novo.co/legal/privacy" },
+  "bluevine": { terms: "https://www.bluevine.com/terms-use", privacy: "https://www.bluevine.com/privacy-policy" },
+  "found": { terms: "https://found.com/legal/tos-lead", privacy: "https://found.com/legal/privacy" },
+
+  // ============ VERSAND DACH ============
+  "sendcloud": { impressum: "https://www.sendcloud.de/impressum/", terms: "https://www.sendcloud.de/agb/", privacy: "https://www.sendcloud.de/datenschutz/" },
+  "dhl-geschaeftskunden": { impressum: "https://www.dhl.de/de/toolbar/footer/impressum/dhlpaket.html", terms: "https://www.dhl.de/dhl/de/geschaeftskunden/paket/rund-um-den-versand/agb.html", privacy: "https://www.dhl.de/de/toolbar/footer/datenschutz.html" },
+  "dpd": { impressum: "https://www.dpd.com/de/de/impressum/", terms: "https://www.dpd.com/de/de/agb/", privacy: "https://www.dpd.com/de/de/datenschutz/" },
+  "gls": { impressum: "https://gls-group.com/DE/de/impressum/", privacy: "https://gls-group.com/DE/de/datenschutz/" },
+  "hermes": { impressum: "https://www.hermesworld.com/de/impressum/", privacy: "https://www.hermesworld.com/de/datenschutz/" },
+  "ups-deutschland": { terms: "https://www.ups.com/de/de/help-center/legal-terms-conditions.page", privacy: "https://www.ups.com/de/de/help-center/site-tools/privacy-notice.page" },
+
+  // ============ BUCHHALTUNG ============
+  "lexoffice": { impressum: "https://www.lexoffice.de/impressum/", terms: "https://www.lexoffice.de/agb/", privacy: "https://www.lexoffice.de/datenschutz/" },
+  "sevdesk": { impressum: "https://sevdesk.de/impressum/", terms: "https://sevdesk.de/agb/", privacy: "https://sevdesk.de/datenschutz/" },
+  "candis": { impressum: "https://candis.io/impressum", terms: "https://candis.io/agb", privacy: "https://candis.io/datenschutz" },
+  "buchhaltungsbutler": { impressum: "https://www.buchhaltungsbutler.de/impressum/", terms: "https://www.buchhaltungsbutler.de/agb/", privacy: "https://www.buchhaltungsbutler.de/datenschutzbestimmungen/" },
+  "accountable": { impressum: "https://www.accountable.de/impressum/", terms: "https://www.accountable.de/agb/", privacy: "https://www.accountable.de/datenschutzerklaerung/" },
+  "smartsteuer": { impressum: "https://www.smartsteuer.de/online/impressum/", terms: "https://www.smartsteuer.de/online/agb/", privacy: "https://www.smartsteuer.de/online/datenschutzbedingungen/" },
+
+  // ============ 3PL / FULFILLMENT ============
+  "byrd": { impressum: "https://getbyrd.com/impressum", terms: "https://getbyrd.com/agbs", privacy: "https://getbyrd.com/privacy" },
+  "shipbob": { terms: "https://shipbob.com/terms-of-service/", privacy: "https://shipbob.com/privacy-policy/" },
+  "fromspace": { impressum: "https://fromspace.io/impressum", privacy: "https://fromspace.io/datenschutz" },
+
+  // ============ LUCID ============
+  "lizenzero": { impressum: "https://www.lizenzero.de/impressum/", terms: "https://www.lizenzero.de/agb/", privacy: "https://www.lizenzero.de/datenschutz/" },
+  "reclay": { impressum: "https://www.reclay.de/impressum/", privacy: "https://www.reclay.de/datenschutz/" },
+
+  // ============ EMAIL / MARKETING ============
+  "klaviyo": { impressum: "https://www.klaviyo.com/de/legal/Impressum", terms: "https://www.klaviyo.com/legal/terms-of-service", privacy: "https://www.klaviyo.com/legal/privacy" },
+  "brevo": { impressum: "https://www.brevo.com/de/legal/impressum/", terms: "https://www.brevo.com/legal/termsofuse/", privacy: "https://www.brevo.com/legal/privacypolicy/" },
+  "mailchimp": { terms: "https://mailchimp.com/de/legal/terms/", privacy: "https://mailchimp.com/de/legal/privacy/" },
+  "mailerlite": { terms: "https://www.mailerlite.com/legal/terms-of-service", privacy: "https://www.mailerlite.com/legal/privacy-policy" },
+  "omnisend": { terms: "https://www.omnisend.com/terms/", privacy: "https://www.omnisend.com/privacy/" },
+  "postmark": { terms: "https://postmarkapp.com/terms-of-service", privacy: "https://postmarkapp.com/privacy-policy" },
+  "activecampaign": { terms: "https://www.activecampaign.com/legal/terms-of-service", privacy: "https://www.activecampaign.com/legal/privacy-policy" },
+
+  // ============ TRACKING ============
+  "triple-whale": { terms: "https://www.triplewhale.com/terms-of-service", privacy: "https://www.triplewhale.com/privacy-policy" },
+  "hyros": { terms: "https://hyros.com/terms-of-service/", privacy: "https://hyros.com/privacy-policy/" },
+  "northbeam": { terms: "https://www.northbeam.io/terms-conditions", privacy: "https://www.northbeam.io/privacy" },
+  "polar-analytics": { terms: "https://www.polaranalytics.com/legal/terms-of-service", privacy: "https://www.polaranalytics.com/legal/privacy-policy" },
+  "rockerbox": { terms: "https://www.rockerbox.com/terms-of-service", privacy: "https://www.rockerbox.com/privacy" },
+
+  // ============ SHOP-SYSTEM ============
+  "shopify": { terms: "https://www.shopify.com/legal/terms", privacy: "https://www.shopify.com/legal/privacy" },
+  "shopware": { impressum: "https://www.shopware.com/de/impressum/", privacy: "https://www.shopware.com/en/privacy/" },
+  "woocommerce": { terms: "https://woocommerce.com/terms-conditions/", privacy: "https://automattic.com/privacy/" },
+  "bigcommerce": { terms: "https://www.bigcommerce.com/terms/", privacy: "https://www.bigcommerce.com/privacy/" },
+  "lightspeed": { impressum: "https://www.lightspeedhq.de/impressum/", terms: "https://www.lightspeedhq.de/legal/agb/", privacy: "https://www.lightspeedhq.de/legal/datenschutzerklarung/" },
+
+  // ============ DOMAINS ============
+  "cloudflare-registrar": { terms: "https://www.cloudflare.com/website-terms/", privacy: "https://www.cloudflare.com/privacypolicy/" },
+  "namecheap": { terms: "https://www.namecheap.com/legal/general/terms-of-service-agreement/", privacy: "https://www.namecheap.com/legal/general/privacy-policy/" },
+  "ionos": { impressum: "https://www.ionos.de/impressum", terms: "https://www.ionos.de/agb", privacy: "https://www.ionos.de/datenschutzerklaerung" },
+  "all-inkl": { impressum: "https://all-inkl.com/impressum/", terms: "https://all-inkl.com/agb/", privacy: "https://all-inkl.com/datenschutzinformationen/" },
+  "inwx": { impressum: "https://www.inwx.de/de/aboutus/imprint", terms: "https://www.inwx.de/de/aboutus/terms", privacy: "https://www.inwx.de/de/aboutus/privacy" },
+  "porkbun": { terms: "https://porkbun.com/legal/agreement/registration_agreement", privacy: "https://porkbun.com/legal/agreement/privacy_policy" },
+
+  // ============ WORKSPACE / EMAIL-DOMAIN ============
+  "google-workspace": { terms: "https://workspace.google.com/terms/premier_terms/", privacy: "https://policies.google.com/privacy" },
+  "microsoft-365-business": { terms: "https://www.microsoft.com/de-de/servicesagreement/", privacy: "https://privacy.microsoft.com/de-de/privacystatement" },
+  "mailbox-org": { impressum: "https://mailbox.org/de/impressum", terms: "https://mailbox.org/de/agb", privacy: "https://mailbox.org/de/datenschutz" },
+  "proton-business": { terms: "https://proton.me/legal/terms", privacy: "https://proton.me/legal/privacy" },
+  "fastmail": { terms: "https://www.fastmail.com/policies/terms-of-service/", privacy: "https://www.fastmail.com/policies/privacy/" },
+
+  // ============ FULFILLMENT ============
+  "bezahlt-fulfillment": { impressum: "https://www.bezahlt-fulfillment.de/impressum/", privacy: "https://www.bezahlt-fulfillment.de/datenschutz/" },
+  "warehousing1": { impressum: "https://www.warehousing1.com/impressum", terms: "https://www.warehousing1.com/agb", privacy: "https://www.warehousing1.com/datenschutz" },
+  "logward": { impressum: "https://logward.com/imprint/", privacy: "https://logward.com/privacy-policy/" },
+};
+
 export interface Provider {
   slug: string;
   name: string;

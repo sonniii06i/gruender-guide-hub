@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Clock, AlertCircle, Star, Tag, ExternalLink, MessageSquare, Scale, FileText, ShieldCheck } from "lucide-react";
-import { PROVIDERS, type Provider } from "./Anbieter";
+import { LEGAL_URLS, PROVIDERS, type Provider } from "./Anbieter";
 
 const getDomain = (url: string): string => {
   try { return new URL(url).hostname.replace(/^www\./, ""); } catch { return url; }
@@ -62,13 +62,13 @@ const AnbieterDetail = () => {
   // Andere Anbieter aus derselben Kategorie als "Alternativen" anzeigen
   const related = PROVIDERS.filter((x) => x.category === p.category && x.slug !== p.slug).slice(0, 4);
 
-  // Fallback-Legal-Links über Heuristik (Domain + /impressum etc.)
-  const baseDomain = (() => {
-    try { return new URL(p.url).origin; } catch { return p.url; }
-  })();
-  const legalImpressum = p.legal?.impressum ?? `${baseDomain}/impressum`;
-  const legalTerms = p.legal?.terms ?? `${baseDomain}/agb`;
-  const legalPrivacy = p.legal?.privacy ?? `${baseDomain}/datenschutz`;
+  // Verifizierte Legal-URLs aus LEGAL_URLS-Map (Stand 2026-05-05).
+  // p.legal kann individuelle Overrides haben.
+  const verified = LEGAL_URLS[p.slug] ?? {};
+  const legalImpressum = p.legal?.impressum ?? verified.impressum;
+  const legalTerms = p.legal?.terms ?? verified.terms;
+  const legalPrivacy = p.legal?.privacy ?? verified.privacy;
+  const hasAnyLegal = Boolean(legalImpressum || legalTerms || legalPrivacy);
 
   return (
     <CockpitShell
@@ -199,30 +199,38 @@ const AnbieterDetail = () => {
             </div>
           )}
 
-          {/* Rechtsseiten */}
-          <div className="rounded-2xl border border-border bg-card p-4">
-            <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Rechtliches</div>
-            <ul className="space-y-1.5 text-xs">
-              <li>
-                <a href={legalImpressum} target="_blank" rel="noreferrer" className="text-accent-blue hover:underline inline-flex items-center gap-1">
-                  <FileText className="h-3 w-3" /> Impressum
-                </a>
-              </li>
-              <li>
-                <a href={legalTerms} target="_blank" rel="noreferrer" className="text-accent-blue hover:underline inline-flex items-center gap-1">
-                  <Scale className="h-3 w-3" /> AGB
-                </a>
-              </li>
-              <li>
-                <a href={legalPrivacy} target="_blank" rel="noreferrer" className="text-accent-blue hover:underline inline-flex items-center gap-1">
-                  <ShieldCheck className="h-3 w-3" /> Datenschutz
-                </a>
-              </li>
-            </ul>
-            <div className="text-[10px] text-muted-foreground mt-2 italic">
-              Heuristisch generiert — Pfade können beim Anbieter abweichen.
+          {/* Rechtsseiten – nur verifizierte URLs */}
+          {hasAnyLegal && (
+            <div className="rounded-2xl border border-border bg-card p-4">
+              <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Rechtliches</div>
+              <ul className="space-y-1.5 text-xs">
+                {legalImpressum && (
+                  <li>
+                    <a href={legalImpressum} target="_blank" rel="noreferrer" className="text-accent-blue hover:underline inline-flex items-center gap-1">
+                      <FileText className="h-3 w-3" /> Impressum
+                    </a>
+                  </li>
+                )}
+                {legalTerms && (
+                  <li>
+                    <a href={legalTerms} target="_blank" rel="noreferrer" className="text-accent-blue hover:underline inline-flex items-center gap-1">
+                      <Scale className="h-3 w-3" /> AGB / Terms
+                    </a>
+                  </li>
+                )}
+                {legalPrivacy && (
+                  <li>
+                    <a href={legalPrivacy} target="_blank" rel="noreferrer" className="text-accent-blue hover:underline inline-flex items-center gap-1">
+                      <ShieldCheck className="h-3 w-3" /> Datenschutz
+                    </a>
+                  </li>
+                )}
+              </ul>
+              <div className="text-[10px] text-muted-foreground mt-2 italic">
+                Verifiziert 2026-05-05 · Updates über monatliche Audit-Routine.
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Alternativen */}
           {related.length > 0 && (
