@@ -220,6 +220,12 @@ const PlaybookRun = () => {
 
 const StepBody = ({ step, formData, setFormData }: { step: PlaybookStep; formData: Record<string, string>; setFormData: (v: Record<string, string>) => void }) => (
   <div className="space-y-4">
+    {step.slug === "name" && (
+      <CompanyNameCheck initial={formData.company_name} onPick={(v) => setFormData({ ...formData, company_name: v })} />
+    )}
+    {step.slug === "notar" && (
+      <NotarFinder companyName={formData.company_name} />
+    )}
     {step.checklist && (
       <div className="rounded-xl border border-border bg-secondary/30 p-4 space-y-2">
         {step.checklist.map((c, i) => {
