@@ -20,7 +20,7 @@ import {
   Wallet,
   Sparkles,
 } from "lucide-react";
-import { isCoopActive, LEGAL_URLS, PROVIDERS, type Provider } from "./Anbieter";
+import { FULL_DESCRIPTIONS, isCoopActive, LEGAL_URLS, PROVIDERS, type Provider } from "./Anbieter";
 
 const getDomain = (url: string): string => {
   try { return new URL(url).hostname.replace(/^www\./, ""); } catch { return url; }
@@ -96,6 +96,7 @@ const AnbieterDetail = () => {
   const hasAnyLegal = Boolean(legalImpressum || legalTerms || legalPrivacy);
 
   const showCoop = isCoopActive(p.coop);
+  const description = p.fullDescription ?? FULL_DESCRIPTIONS[p.slug];
 
   return (
     <CockpitShell
@@ -164,6 +165,13 @@ const AnbieterDetail = () => {
         )}
       </div>
 
+      {/* BRAND-INTRO – 3-5 Zeiler über das Unternehmen */}
+      {description && (
+        <div className="rounded-2xl border border-border bg-card p-6 mb-6">
+          <p className="text-base leading-relaxed text-foreground/90">{description}</p>
+        </div>
+      )}
+
       {/* STATS GRID */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
         <StatCard icon={Wallet} label="Preis ab" value={p.starting} accent />
@@ -182,14 +190,6 @@ const AnbieterDetail = () => {
       <div className="grid lg:grid-cols-[1fr_300px] gap-6">
         {/* HAUPTSPALTE */}
         <div className="space-y-6">
-          {/* Beschreibung */}
-          {p.fullDescription && (
-            <div className="rounded-2xl border border-border bg-card p-6">
-              <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground mb-3">Über {p.name}</h3>
-              <p className="text-base leading-relaxed">{p.fullDescription}</p>
-            </div>
-          )}
-
           {/* Pros / Cons */}
           <div className="grid sm:grid-cols-2 gap-4">
             <div className="rounded-2xl border border-success/30 bg-success/5 p-5">
