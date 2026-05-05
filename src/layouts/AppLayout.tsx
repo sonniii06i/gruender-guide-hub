@@ -19,13 +19,14 @@ export default function AppLayout() {
 
   useEffect(() => {
     if (loading || accLoading || !user) return;
-    const allowed = hasActiveSub || isAdmin;
-    if (!allowed) {
-      navigate("/checkout", { replace: true });
+    // 1) Onboarding zuerst
+    if (!onboardingCompleted && !isAdmin) {
+      navigate("/onboarding", { replace: true });
       return;
     }
-    if (!onboardingCompleted && pathname !== "/onboarding") {
-      navigate("/onboarding", { replace: true });
+    // 2) Dann Paywall: aktives Abo oder Admin
+    if (!hasActiveSub && !isAdmin) {
+      navigate("/checkout", { replace: true });
     }
   }, [loading, accLoading, user, hasActiveSub, isAdmin, onboardingCompleted, pathname, navigate]);
 

@@ -41,26 +41,22 @@ const Dashboard = () => {
         )}
       </div>
 
-      {!activeCatSlug && (
+      {!activeCatSlug && isActive && (
         <div className="rounded-3xl bg-gradient-primary p-6 md:p-8 text-primary-foreground mb-8 relative overflow-hidden shadow-glow">
           <div className="absolute -top-20 -right-20 w-72 h-72 rounded-full bg-accent-blue/30 blur-3xl" />
           <div className="relative flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
             <div>
               <div className="inline-flex items-center gap-1.5 rounded-full bg-white/20 backdrop-blur px-3 py-1 text-xs font-semibold mb-3">
-                <Crown className="h-3.5 w-3.5" /> {isActive ? "Dein Plan" : "Upgrade nötig"}
+                <Crown className="h-3.5 w-3.5" /> Dein Plan
               </div>
-              <h2 className="text-xl md:text-2xl font-bold">
-                {isActive ? "Verwalte dein Abo & Rechnungen" : "Schalte Felix & alle Features frei"}
-              </h2>
+              <h2 className="text-xl md:text-2xl font-bold">Verwalte dein Abo & Rechnungen</h2>
               <p className="mt-2 text-primary-foreground/85 max-w-xl text-sm">
-                {isActive
-                  ? `Aktueller Plan: ${sub?.plan ?? "—"}. Rechnungen, Zahlungsmethoden und Kündigung im Stripe-Portal.`
-                  : "GründerX 99,99 €/Monat oder Founder Bundle 179,99 €/Monat."}
+                Aktueller Plan: {sub?.plan ?? "—"}. Rechnungen, Zahlungsmethoden und Kündigung im Stripe-Portal.
               </p>
             </div>
             <Link to="/profile?tab=abrechnung">
               <Button size="lg" className="rounded-full bg-card text-primary hover:bg-card/90 h-11 px-6 font-semibold">
-                {isActive ? "Abo verwalten" : "Plan wählen"}
+                Abo verwalten
               </Button>
             </Link>
           </div>

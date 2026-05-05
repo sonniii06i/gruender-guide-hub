@@ -22,7 +22,11 @@ const Checkout = () => {
   useEffect(() => {
     if (accLoading) return;
     if (hasActiveSub || isAdmin) {
-      navigate(onboardingCompleted ? "/dashboard" : "/onboarding", { replace: true });
+      navigate("/dashboard", { replace: true });
+      return;
+    }
+    if (!onboardingCompleted) {
+      navigate("/onboarding", { replace: true });
     }
   }, [accLoading, hasActiveSub, isAdmin, onboardingCompleted, navigate]);
 
@@ -61,7 +65,7 @@ const Checkout = () => {
           </div>
           <h1 className="text-3xl md:text-4xl font-bold tracking-tight">Wähle deinen Plan</h1>
           <p className="mt-3 text-muted-foreground max-w-xl mx-auto">
-            GründerX ist ein bezahltes Tool. Schließe ein Abo ab, danach richten wir dein Profil gemeinsam ein.
+            Deine Rechnungsdaten sind eingerichtet. Schließe jetzt dein Abo ab, um den vollen Zugriff aufs Dashboard freizuschalten.
           </p>
         </div>
 
