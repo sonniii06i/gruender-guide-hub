@@ -26,6 +26,7 @@ import Datenschutz from "./pages/Datenschutz.tsx";
 import AGB from "./pages/AGB.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import AppLayout from "./layouts/AppLayout.tsx";
+import { PaywallGate } from "./components/PaywallGate.tsx";
 import { useTrackPageview } from "./hooks/useTrackPageview";
 
 const queryClient = new QueryClient();
@@ -47,11 +48,11 @@ const App = () => (
             <Route path="/onboarding" element={<Onboarding />} />
             <Route element={<AppLayout />}>
               <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/cockpit/steuer" element={<SteuerCockpit />} />
-              <Route path="/wizard/rechtsform" element={<RechtsformWizard />} />
-              <Route path="/anbieter" element={<Anbieter />} />
+              <Route path="/cockpit/steuer" element={<PaywallGate title="Steuer-Cockpit"><SteuerCockpit /></PaywallGate>} />
+              <Route path="/wizard/rechtsform" element={<PaywallGate title="Rechtsform-Wizard"><RechtsformWizard /></PaywallGate>} />
+              <Route path="/anbieter" element={<PaywallGate title="Anbieter-Vergleich"><Anbieter /></PaywallGate>} />
               <Route path="/playbooks" element={<Playbooks />} />
-              <Route path="/playbook/:runId" element={<PlaybookRun />} />
+              <Route path="/playbook/:runId" element={<PaywallGate title="Guide"><PlaybookRun /></PaywallGate>} />
               <Route path="/felix" element={<FelixChat />} />
               <Route path="/felix/chats" element={<FelixChatsOverview />} />
               <Route path="/profile" element={<Profile />} />
