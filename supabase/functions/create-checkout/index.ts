@@ -39,8 +39,8 @@ serve(async (req) => {
       customer_email: customerId ? undefined : user.email,
       line_items: [{ price: priceId, quantity: 1 }],
       mode: "subscription",
-      success_url: `${origin}/profile?checkout=success`,
-      cancel_url: `${origin}/profile?checkout=cancel`,
+      success_url: `${origin}/onboarding?checkout=success`,
+      cancel_url: `${origin}/checkout?canceled=1`,
     });
 
     return new Response(JSON.stringify({ url: session.url }), {
