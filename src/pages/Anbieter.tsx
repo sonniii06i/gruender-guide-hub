@@ -1,9 +1,10 @@
 import { useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Input } from "@/components/ui/input";
 import { Star, Tag, ExternalLink, MessageSquare, Clock, AlertCircle } from "lucide-react";
 
-interface Provider {
+export interface Provider {
   slug: string;
   name: string;
   category: string;
@@ -14,6 +15,8 @@ interface Provider {
   rating: number;
   /** Kurz-Tagline für die Card */
   tagline: string;
+  /** Längerer Brand-Beschrieb für die Detail-Seite (2–4 Sätze) */
+  fullDescription?: string;
   pros: string[];
   cons: string[];
   /** Forum-Erfahrungen aus Reddit / E-Com-Foren / D2C-Communities */
@@ -23,9 +26,13 @@ interface Provider {
   /** Echter aktiver Coop-Deal mit GründerX (nur die wirklich verhandelten) */
   coop?: { text: string; code?: string; expires?: string };
   url: string;
+  /** Direkt-Links zu Impressum / AGB / Datenschutz */
+  legal?: { impressum?: string; terms?: string; privacy?: string };
+  /** Weitere Quick-Links (Pricing, Demo, Vergleich) */
+  links?: { label: string; url: string }[];
 }
 
-const PROVIDERS: Provider[] = [
+export const PROVIDERS: Provider[] = [
   // ============ BANKING DE ============
   {
     slug: "qonto",
@@ -636,6 +643,393 @@ const PROVIDERS: Provider[] = [
     signupTime: "Sofort (CE) / 2–4 Wochen (Cloud-Setup)",
     url: "https://www.shopware.com",
   },
+  {
+    slug: "woocommerce",
+    name: "WooCommerce",
+    category: "Shop-System",
+    region: "global",
+    starting: "0 € + Hosting",
+    rating: 4.2,
+    tagline: "WordPress-Plugin, maximal flexibel",
+    pros: ["Komplett kostenlos (Core)", "Größtes WordPress-Ökosystem", "Volle Code-Kontrolle"],
+    cons: ["Hosting + Maintenance selbst", "Performance bei wachsendem Katalog tricky"],
+    forumNotes: "r/woocommerce: 'Top für SEO-Lastige Brands mit Content-Marketing. Skaliert bis ~5–10k Bestellungen/Mon, danach Shopify einfacher.'",
+    signupTime: "1–3 Tage Setup",
+    url: "https://woocommerce.com",
+  },
+  {
+    slug: "bigcommerce",
+    name: "BigCommerce",
+    category: "Shop-System",
+    region: "global",
+    starting: "ab 39 $/Mon",
+    rating: 4.1,
+    tagline: "Headless + B2B-Features",
+    pros: ["Keine Transaktionsgebühren", "Starke B2B-Module", "Headless-fähig"],
+    cons: ["Kleineres App-Ökosystem als Shopify", "Sales-Caps pro Tier"],
+    signupTime: "Sofort",
+    url: "https://www.bigcommerce.com",
+  },
+  {
+    slug: "lightspeed",
+    name: "Lightspeed eCom",
+    category: "Shop-System",
+    region: "EU/global",
+    starting: "ab 89 €/Mon",
+    rating: 4.0,
+    tagline: "Retail + Online verbunden",
+    pros: ["POS + Online aus einer Hand", "EU-Standort, DSGVO-freundlich"],
+    cons: ["Teurer Einstieg", "App-Ökosystem klein"],
+    signupTime: "1 Woche",
+    url: "https://www.lightspeedhq.de",
+  },
+
+  // ============ BANKING US (Erweitert) ============
+  {
+    slug: "novo",
+    name: "Novo",
+    category: "Banking US",
+    region: "US",
+    starting: "0 $",
+    rating: 4.3,
+    tagline: "Free Banking für Solo-LLC",
+    pros: ["Komplett kostenlos", "Solide Integrationen (Stripe, QuickBooks)", "Schneller Setup"],
+    cons: ["Keine Cashback-Karte", "Approval kann zickig sein"],
+    forumNotes: "Indie Hackers: 'Mercury-Alternative für Solos die zu klein für Mercury-Approval sind. Setup einfacher.'",
+    signupTime: "1–3 Tage",
+    url: "https://www.novo.co",
+  },
+  {
+    slug: "bluevine",
+    name: "Bluevine",
+    category: "Banking US",
+    region: "US",
+    starting: "0 $",
+    rating: 4.2,
+    tagline: "Hohe Zinsen auf Balance",
+    pros: ["Bis zu 2,0 % APY auf Checking-Balance", "Free", "Line of Credit verfügbar"],
+    cons: ["Approval Non-US tricky", "Kein Multi-Sub-Konto"],
+    signupTime: "2–5 Tage",
+    url: "https://www.bluevine.com",
+  },
+  {
+    slug: "found",
+    name: "Found",
+    category: "Banking US",
+    region: "US",
+    starting: "0 $",
+    rating: 4.1,
+    tagline: "Banking + Steuer für Self-Employed",
+    pros: ["Eingebaute Tax-Schätzung", "Free-Tier", "Solo-Fokus"],
+    cons: ["Nur 1099/Schedule-C-Personen ideal", "Limited Features"],
+    signupTime: "1–2 Tage",
+    url: "https://found.com",
+  },
+
+  // ============ EMAIL / MARKETING (Erweitert) ============
+  {
+    slug: "mailchimp",
+    name: "Mailchimp",
+    category: "Email",
+    region: "global",
+    starting: "0 €/Mon (bis 500 Kontakte)",
+    rating: 3.8,
+    tagline: "Klassiker, aber nicht mehr first-choice",
+    pros: ["Free-Tier", "Bekannte Marke", "Templates-Library groß"],
+    cons: ["Wird teuer ab 5k Kontakte", "Flow-Builder schwächer als Klaviyo", "DTC-Founder migrieren oft weg"],
+    signupTime: "Sofort",
+    url: "https://mailchimp.com",
+  },
+  {
+    slug: "mailerlite",
+    name: "MailerLite",
+    category: "Email",
+    region: "EU",
+    starting: "0 €/Mon (bis 1k Kontakte)",
+    rating: 4.4,
+    tagline: "Günstigster ernsthafter Klaviyo-Wettbewerber",
+    pros: ["Sehr günstig", "EU-Server (DSGVO)", "Solider Editor"],
+    cons: ["E-Com-Features schwächer als Klaviyo", "Kleineres App-Ökosystem"],
+    forumNotes: "r/Entrepreneur: 'MailerLite für Bootstrap-Brands unter 50k MRR.'",
+    signupTime: "Sofort",
+    url: "https://www.mailerlite.com",
+  },
+  {
+    slug: "omnisend",
+    name: "Omnisend",
+    category: "Email",
+    region: "global",
+    starting: "0 €/Mon (bis 250 Kontakte)",
+    rating: 4.5,
+    tagline: "Klaviyo-Alternative für E-Com",
+    pros: ["E-Com-First wie Klaviyo, günstiger", "SMS + Email aus einer Hand", "Free-Tier"],
+    cons: ["Reporting weniger tief als Klaviyo"],
+    forumNotes: "r/shopify: 'Wenn Klaviyo zu teuer, Omnisend probieren — fast gleiches Feature-Set.'",
+    signupTime: "Sofort",
+    url: "https://www.omnisend.com",
+  },
+  {
+    slug: "postmark",
+    name: "Postmark",
+    category: "Email",
+    region: "global",
+    starting: "ab 15 $/Mon",
+    rating: 4.7,
+    tagline: "Transactional Email, beste Deliverability",
+    pros: ["Höchste Deliverability für Transaktions-Mails", "Saubere API", "Stabile Logs"],
+    cons: ["Nur Transaktional, kein Marketing", "Kein Visual-Editor"],
+    signupTime: "Sofort",
+    url: "https://postmarkapp.com",
+  },
+  {
+    slug: "activecampaign",
+    name: "ActiveCampaign",
+    category: "Email",
+    region: "global",
+    starting: "ab 19 $/Mon",
+    rating: 4.4,
+    tagline: "Automation-Heavy für B2B + Coaching",
+    pros: ["Automations sehr mächtig", "CRM eingebaut", "Auch B2B-tauglich"],
+    cons: ["Lernkurve", "Wird ab 2.5k Kontakte teurer"],
+    signupTime: "Sofort",
+    url: "https://www.activecampaign.com",
+  },
+
+  // ============ TRACKING (Erweitert) ============
+  {
+    slug: "northbeam",
+    name: "Northbeam",
+    category: "Tracking",
+    region: "global",
+    starting: "ab 1.000 $/Mon",
+    rating: 4.6,
+    tagline: "Enterprise-Attribution für 7-figure-Brands",
+    pros: ["Tiefste Attribution-Daten am Markt", "MMM (Media-Mix-Modeling)"],
+    cons: ["Sehr teuer", "Erst ab ~500k MRR sinnvoll"],
+    signupTime: "Demo + 2 Wochen Setup",
+    url: "https://www.northbeam.io",
+  },
+  {
+    slug: "polar-analytics",
+    name: "Polar Analytics",
+    category: "Tracking",
+    region: "global",
+    starting: "ab 250 $/Mon",
+    rating: 4.4,
+    tagline: "Shopify-Analytics für 6-7-figure DTC",
+    pros: ["Multi-Channel-Reporting", "Zwischen Triple Whale und Northbeam preislich"],
+    cons: ["Tracking-Tiefe geringer als Northbeam"],
+    signupTime: "1 Woche",
+    url: "https://www.polaranalytics.com",
+  },
+  {
+    slug: "rockerbox",
+    name: "RockerBox",
+    category: "Tracking",
+    region: "US",
+    starting: "auf Anfrage",
+    rating: 4.3,
+    tagline: "Server-Side + MMM für US-Brands",
+    pros: ["Cross-Channel-Attribution", "Strong B2B/Enterprise"],
+    cons: ["Eher US-fokussiert", "Pricing intransparent"],
+    forumNotes: "DTC-Slack: 'Estimate ~3–6k $/Mon je nach Volumen.'",
+    signupTime: "2–4 Wochen Setup",
+    url: "https://www.rockerbox.com",
+  },
+
+  // ============ DOMAINS (NEU) ============
+  {
+    slug: "cloudflare-registrar",
+    name: "Cloudflare Registrar",
+    category: "Domains",
+    region: "global",
+    starting: "Wholesale-Preis (~10 $/Jahr)",
+    rating: 4.8,
+    tagline: "Günstigster Registrar — at-cost",
+    pros: ["At-cost Pricing (kein Markup)", "Eingebaute Cloudflare-DNS + Security", "Kein WHOIS-Privacy-Aufpreis"],
+    cons: ["Domain muss zu Cloudflare migriert werden (kann dauern)", "Keine .de-Endung"],
+    forumNotes: "r/webdev: 'Wer schon Cloudflare nutzt: zwingend Domain dorthin transferieren — spart pro Domain 5–15 €/Jahr.'",
+    signupTime: "Transfer 5–7 Tage, neue Domain sofort",
+    url: "https://www.cloudflare.com/products/registrar/",
+  },
+  {
+    slug: "namecheap",
+    name: "Namecheap",
+    category: "Domains",
+    region: "global",
+    starting: "ab 7 €/Jahr",
+    rating: 4.4,
+    tagline: "Günstig, stabil, .com-Standard",
+    pros: ["Faire Preise", "WHOIS-Privacy gratis", "Solider Support"],
+    cons: ["Keine .de-TLD"],
+    signupTime: "Sofort",
+    url: "https://www.namecheap.com",
+  },
+  {
+    slug: "ionos",
+    name: "IONOS (1&1)",
+    category: "Domains",
+    region: "DE",
+    starting: "ab 1 €/Jahr (Sonderaktion) / 9,90 € regulär",
+    rating: 3.5,
+    tagline: ".de-Standard, DE-Hosting",
+    pros: ["DE-IBAN, DE-Support", "Bundle aus Domain + Hosting + Email", "Top für .de-Endungen"],
+    cons: ["Auto-Renewal-Preise teuer", "Up-Sell-Aggressiv beim Checkout"],
+    forumNotes: "r/webdev_de: 'Erste Domain günstig, Verlängerung schmerzhaft. Domains lieber zu Cloudflare/INWX migrieren.'",
+    signupTime: "Sofort",
+    url: "https://www.ionos.de",
+  },
+  {
+    slug: "all-inkl",
+    name: "ALL-INKL.COM",
+    category: "Domains",
+    region: "DE",
+    starting: "ab 4,95 €/Mon (Domain im Hosting)",
+    rating: 4.5,
+    tagline: "DE-Hosting + Domain Bundle, Geheimtipp",
+    pros: ["Top DE-Support", "Faire Preise ohne Versteck-Aufschläge", ".de + .com inklusive"],
+    cons: ["Eher Hosting-Fokus, nicht Domain-pur"],
+    forumNotes: "r/webdev_de Top-Empfehlung: 'Wenn DE-Hosting + Domain — ALL-INKL nehmen, nicht IONOS.'",
+    signupTime: "Sofort",
+    url: "https://all-inkl.com",
+  },
+  {
+    slug: "inwx",
+    name: "INWX",
+    category: "Domains",
+    region: "DE",
+    starting: "ab 8 €/Jahr",
+    rating: 4.6,
+    tagline: "Pro-Registrar für Power-User",
+    pros: ["Faire Preise auch bei Renewal", "Top API für Bulk-Management", "DE-Anbieter mit Server in EU"],
+    cons: ["UI etwas trocken", "Eher für Tech-affine User"],
+    signupTime: "Sofort",
+    url: "https://www.inwx.de",
+  },
+  {
+    slug: "porkbun",
+    name: "Porkbun",
+    category: "Domains",
+    region: "global",
+    starting: "ab 6 $/Jahr",
+    rating: 4.7,
+    tagline: "Günstig + entwicklerfreundlich",
+    pros: ["Konstante Preise (auch bei Renewal)", "WHOIS-Privacy gratis", "Saubere UI"],
+    cons: ["Keine .de"],
+    signupTime: "Sofort",
+    url: "https://porkbun.com",
+  },
+
+  // ============ WORKSPACE / EMAIL-DOMAIN (NEU) ============
+  {
+    slug: "google-workspace",
+    name: "Google Workspace",
+    category: "Workspace",
+    region: "global",
+    starting: "ab 5,75 €/User/Mon",
+    rating: 4.6,
+    tagline: "Email + Drive + Meet, Standard für DTC",
+    pros: ["Beste Email-Deliverability für Custom-Domain", "Tight Integration mit allen SaaS-Tools", "Skaliert von 1 → 1000 User"],
+    cons: ["DSGVO-Risiko für sensible Daten (US-CLOUD-Act)", "Pro-User-Preis summiert sich"],
+    forumNotes: "DTC-Twitter: 'Workspace ist nicht-verhandelbar. Microsoft 365 nur für Corporate-Kontexte.'",
+    signupTime: "Sofort (DNS-Setup 1–24h)",
+    url: "https://workspace.google.com",
+  },
+  {
+    slug: "microsoft-365-business",
+    name: "Microsoft 365 Business",
+    category: "Workspace",
+    region: "global",
+    starting: "ab 5,60 €/User/Mon",
+    rating: 4.3,
+    tagline: "Office + Teams + OneDrive",
+    pros: ["Beste Office-Apps", "Teams für Corp-Kommunikation", "EU-Datacenter-Option"],
+    cons: ["Email-Spam-Filter aggressiv (Mails landen oft im Junk)", "Komplexere Admin-UI"],
+    signupTime: "Sofort",
+    url: "https://www.microsoft.com/de-de/microsoft-365/business",
+  },
+  {
+    slug: "mailbox-org",
+    name: "mailbox.org",
+    category: "Workspace",
+    region: "DE",
+    starting: "ab 1 €/Mon (Custom Domain)",
+    rating: 4.6,
+    tagline: "DSGVO + Privacy-First, DE-Server",
+    pros: ["100 % DE-Server (Berlin)", "Strikt DSGVO + ePrivacy", "Sehr günstig"],
+    cons: ["Kein Office-Suite", "UI weniger glatt als Google"],
+    forumNotes: "r/datenschutz: 'Top-Empfehlung für DE-Brands mit DSGVO-Sensibilität.'",
+    signupTime: "Sofort (DNS-Setup 1–24h)",
+    url: "https://mailbox.org",
+  },
+  {
+    slug: "proton-business",
+    name: "Proton Business",
+    category: "Workspace",
+    region: "EU (Schweiz)",
+    starting: "ab 6,99 €/User/Mon",
+    rating: 4.5,
+    tagline: "End-to-End-Encryption für Privacy-Brands",
+    pros: ["E2E-Encryption Standard", "EU/CH-Server", "VPN/Drive/Calendar inklusive"],
+    cons: ["E2E nur unter Proton-Usern", "API limitiert"],
+    signupTime: "Sofort",
+    url: "https://proton.me/business",
+  },
+  {
+    slug: "fastmail",
+    name: "Fastmail",
+    category: "Workspace",
+    region: "global",
+    starting: "ab 5 $/User/Mon",
+    rating: 4.5,
+    tagline: "Premium-Email für Nerds & Indie-Founder",
+    pros: ["Beste Email-UX", "Sehr gute Deliverability", "Mehrere Custom-Domains"],
+    cons: ["Kein Office", "AU-Anbieter (Datenschutz: gut, aber außerhalb EU)"],
+    signupTime: "Sofort",
+    url: "https://www.fastmail.com",
+  },
+
+  // ============ FULFILLMENT-CENTER (NEU – D2C-Spezialisten, on top zu generischen 3PL) ============
+  {
+    slug: "bezahlt-fulfillment",
+    name: "BEZAHLT FULFILLMENT",
+    category: "Fulfillment",
+    region: "DE",
+    starting: "auf Anfrage",
+    rating: 4.3,
+    tagline: "DE-3PL spezialisiert auf D2C / E-Com",
+    pros: ["DE-Lager", "D2C-Verständnis", "Persönlicher Account-Manager"],
+    cons: ["Min-Volume", "Pricing-Verhandlung"],
+    forumNotes: "Estimate Foren: ~1,80–2,80 €/Pick + Storage. Onboarding 3–4 Wochen.",
+    signupTime: "2–4 Wochen Setup",
+    url: "https://www.bezahlt-fulfillment.de",
+  },
+  {
+    slug: "warehousing1",
+    name: "Warehousing1",
+    category: "Fulfillment",
+    region: "DE/EU",
+    starting: "auf Anfrage",
+    rating: 4.4,
+    tagline: "Marketplace für 3PL-Lager DE/EU",
+    pros: ["Vergleicht mehrere 3PLs auf einer Plattform", "Schnelle Match-Time"],
+    cons: ["Du wählst nicht direkt das Lager"],
+    signupTime: "1–2 Wochen Match",
+    url: "https://www.warehousing1.com",
+  },
+  {
+    slug: "logward",
+    name: "Logward",
+    category: "Fulfillment",
+    region: "EU",
+    starting: "auf Anfrage",
+    rating: 4.2,
+    tagline: "Mid-Volume D2C 3PL EU",
+    pros: ["EU-Multi-Lager", "Flexible Verträge"],
+    cons: ["Eher gehobenes Volumen"],
+    signupTime: "2–3 Wochen",
+    url: "https://www.logward.com",
+  },
 ];
 
 const CATS = ["Alle", ...Array.from(new Set(PROVIDERS.map((p) => p.category)))];
@@ -681,7 +1075,7 @@ const Anbieter = () => {
 };
 
 const ProviderCard = ({ p }: { p: Provider }) => (
-  <div className="rounded-2xl border border-border bg-card p-5 shadow-card hover:shadow-soft transition-all flex flex-col">
+  <Link to={`/anbieter/${p.slug}`} className="rounded-2xl border border-border bg-card p-5 shadow-card hover:shadow-soft hover:border-accent-blue/40 transition-all flex flex-col">
     <div className="flex items-start justify-between mb-2 gap-3">
       <div className="min-w-0">
         <div className="text-xs font-semibold uppercase tracking-wider text-accent-blue">{p.category}</div>
@@ -750,11 +1144,10 @@ const ProviderCard = ({ p }: { p: Provider }) => (
       </div>
     )}
 
-    <a href={p.url} target="_blank" rel="noreferrer"
-      className="mt-auto inline-flex items-center gap-1 text-xs font-semibold text-accent-blue hover:underline">
-      Zum Anbieter <ExternalLink className="h-3 w-3" />
-    </a>
-  </div>
+    <div className="mt-auto inline-flex items-center gap-1 text-xs font-semibold text-accent-blue">
+      Details ansehen <ExternalLink className="h-3 w-3" />
+    </div>
+  </Link>
 );
 
 export default Anbieter;

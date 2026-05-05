@@ -10,6 +10,7 @@ import Dashboard from "./pages/Dashboard.tsx";
 import SteuerCockpit from "./pages/SteuerCockpit.tsx";
 import RechtsformWizard from "./pages/RechtsformWizard.tsx";
 import Anbieter from "./pages/Anbieter.tsx";
+import AnbieterDetail from "./pages/AnbieterDetail.tsx";
 import Playbooks from "./pages/Playbooks.tsx";
 import PlaybookRun from "./pages/PlaybookRun.tsx";
 import FelixChat from "./pages/FelixChat.tsx";
@@ -47,6 +48,7 @@ const App = () => (
               <Route path="/cockpit/steuer" element={<PaywallGate title="Steuer-Cockpit"><SteuerCockpit /></PaywallGate>} />
               <Route path="/wizard/rechtsform" element={<PaywallGate title="Rechtsform-Wizard"><RechtsformWizard /></PaywallGate>} />
               <Route path="/anbieter" element={<PaywallGate title="Anbieter-Vergleich"><Anbieter /></PaywallGate>} />
+              <Route path="/anbieter/:slug" element={<PaywallGate title="Anbieter-Vergleich"><AnbieterDetail /></PaywallGate>} />
               <Route path="/playbooks" element={<Playbooks />} />
               <Route path="/playbook/:runId" element={<PaywallGate title="Guide"><PlaybookRun /></PaywallGate>} />
               <Route path="/felix" element={<FelixChat />} />
