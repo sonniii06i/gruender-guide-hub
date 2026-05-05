@@ -149,7 +149,6 @@ export const PROVIDERS: Provider[] = [
     cons: ["Limit auf SEPA-Buchungen (30/Mon Basic, danach 0,30 €)", "Kein Bargeld-Service"],
     forumNotes: "r/Selbststaendig + r/Finanzen: meistgenannte Empfehlung für GmbH-Solo-Gründer. Onboarding wird durchweg gelobt.",
     signupTime: "1–3 Tage komplett digital",
-    coop: { text: "30 Tage gratis + 50 € Bonus", code: "GRUENDERX50" },
     url: "https://qonto.com/de",
   },
   {
@@ -178,7 +177,6 @@ export const PROVIDERS: Provider[] = [
     cons: ["Junges Brand in DE", "Support gelegentlich langsam"],
     forumNotes: "Trustpilot ~4,4. r/Selbststaendig: 'preissensible Alternative zu Qonto, hat sich 2024–25 stark verbessert.'",
     signupTime: "1–2 Tage",
-    coop: { text: "3 Monate Premium gratis", code: "GRUENDERX" },
     url: "https://finom.co/de-de/",
   },
   {
@@ -371,7 +369,6 @@ export const PROVIDERS: Provider[] = [
     cons: ["Approval kann tricky sein für Non-US-Founder", "ITIN/SSN-Hürden ohne US-Adresse", "Manche Branchen werden gerejectet (HighRisk, Crypto)"],
     forumNotes: "r/Entrepreneur + Indie Hackers: 'Mercury-Approval ist nicht trivial — saubere Website + LLC-Docs Pflicht. Bei Reject lieber Relay versuchen.'",
     signupTime: "3–14 Tage (Approval-abhängig, viele Initial-Rejects)",
-    coop: { text: "250 $ Bonus ab 10k Deposit" },
     url: "https://mercury.com",
   },
   {
@@ -430,7 +427,6 @@ export const PROVIDERS: Provider[] = [
     cons: ["Aufpreis ggü. direkten Carrier-Tarifen bei hohem Volumen", "Bindung an Sendcloud-Labels"],
     forumNotes: "r/ecommerce_de + Shopify-DE-Foren: 'Standard für 50–500 Pakete/Monat. Ab 500+ direkter Carrier-Vertrag günstiger.'",
     signupTime: "1 Tag (sofort startklar)",
-    coop: { text: "1. Monat gratis" },
     url: "https://sendcloud.de",
   },
   {
@@ -517,7 +513,6 @@ export const PROVIDERS: Provider[] = [
     cons: ["Komplexere Buchungen erfordern Premium", "Mobile-App schwächer als sevDesk"],
     forumNotes: "r/Selbststaendig: 'Wenn dein StB lexoffice mag, nimm lexoffice. Sonst sevDesk meist günstiger.'",
     signupTime: "Sofort",
-    coop: { text: "6 Monate -50 %" },
     url: "https://lexoffice.de",
   },
   {
@@ -602,7 +597,6 @@ export const PROVIDERS: Provider[] = [
     cons: ["Storage-Kosten höher als kleine 3PLs", "Ab ~200 Bestellungen/Monat sinnvoll"],
     forumNotes: "r/ecommerce_de + DTC-Slack: 'Estimate ~1,80–2,50 €/Pick + Storage/m³. Onboarding 2–4 Wochen für SKU-Setup.'",
     signupTime: "2–4 Wochen Setup nach Vertrag",
-    coop: { text: "0 € Onboarding" },
     url: "https://getbyrd.com",
   },
   {
