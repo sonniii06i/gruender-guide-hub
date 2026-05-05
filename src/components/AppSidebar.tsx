@@ -22,6 +22,7 @@ import {
 import { CATEGORIES, STATUS_LABEL, type FeatureStatus } from "@/data/features";
 import { ChevronRight, LayoutDashboard, LifeBuoy, MessageCircle, MessageSquare, Shield, Users } from "lucide-react";
 import { useRole } from "@/hooks/useRole";
+import { FelixChatsGroup } from "@/components/sidebar/FelixChatsGroup";
 
 const STATUS_DOT: Record<FeatureStatus, string> = {
   live: "bg-success",
@@ -64,6 +65,9 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+
+        <FelixChatsGroup />
+
 
         {CATEGORIES.map((cat) => {
           const Icon = cat.icon;
