@@ -225,10 +225,17 @@ async function searchNorthData(q: string): Promise<NdResult | null> {
     const titleMatch = html.match(/<title>([^<]*)<\/title>/i);
     const titleSnippet = titleMatch ? titleMatch[1].slice(0, 120) : "";
 
+    // Explizite "keine Resultate"-Seite von NorthData (incl. frown icon).
+    const explicitEmpty =
+      /Keine Resultate zu dieser Suchanfrage/i.test(html) ||
+      /<i class="frown icon"><\/i>/.test(html);
+
     let finalLayout: "detail" | "list" | "empty" | "blocked" = "empty";
     if (afterJsonLd > 0 || afterHtmlCards > 0 || afterVisibleText > 0) {
       finalLayout = jsonLdScripts > 1 ? "list" : "detail";
-    } else if (jsonLdScripts === 0) {
+    } else if (explicitEmpty) {
+      finalLayout = "empty";
+    } else if (jsonLdScripts === 0 || html.length < 50000) {
       finalLayout = "blocked";
     }
 
@@ -262,16 +269,15 @@ Deno.serve(async (req) => {
     }
     const q = name.trim();
     const qStripped = stripLegalForm(q);
-    const queryForSearch = qStripped.length >= 2 ? qStripped : q;
+    // Mit dem Original-Query suchen – NorthData rankt eindeutige Treffer
+    // (inkl. Rechtsform) viel besser. Stripped-Variante ist nur für Match-Logik.
+    const ndResult = await searchNorthData(q);
 
-    const ndResult = await searchNorthData(queryForSearch);
-
-    // searchFailed = true wenn (a) Quelle ganz tot oder (b) kein einziger
-    // strukturierter Treffer mit Registernummer extrahiert werden konnte.
+    // searchFailed = (a) Fetch-Exception oder (b) NorthData liefert blockierte
+    // Variante (Login-Wall / Bot-Block / abgeschnittenes HTML).
+    // noHits = explizit "Keine Resultate" oder Treffer-Layout mit 0 hits.
     const searchFailed =
-      ndResult === null ||
-      ndResult.debug.finalLayout === "blocked" ||
-      (ndResult.hits.length === 0 && ndResult.debug.jsonLdScripts === 0);
+      ndResult === null || ndResult.debug.finalLayout === "blocked";
 
     const sources = {
       northdata:
