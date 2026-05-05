@@ -53,7 +53,10 @@ const Onboarding = () => {
   const [lastName, setLastName] = useState("");
   const [companyName, setCompanyName] = useState("");
   const [phone, setPhone] = useState("");
-  const [businessModel, setBusinessModel] = useState("");
+  const [businessModels_, setBusinessModels_] = useState<string[]>([]);
+  const businessModel = businessModels_.join(",");
+  const toggleModel = (id: string) =>
+    setBusinessModels_((prev) => prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]);
   const [stage, setStage] = useState("");
   const [legalForm, setLegalForm] = useState("");
   const [street, setStreet] = useState("");
@@ -94,7 +97,7 @@ const Onboarding = () => {
           setLastName(data.last_name ?? "");
           setCompanyName(data.company_name ?? "");
           setPhone(data.phone ?? "");
-          setBusinessModel(data.business_model ?? "");
+          setBusinessModels_(data.business_model ? data.business_model.split(",").filter(Boolean) : []);
           setLegalForm(data.legal_form ?? "");
           setStreet(data.street ?? "");
           setPostalCode(data.postal_code ?? "");
@@ -249,7 +252,7 @@ const Onboarding = () => {
             <Step eyebrow="Geschäftsmodell" title="Was willst du aufbauen?" subtitle="Damit Felix dir die richtigen Tools zeigt.">
               <div className="grid sm:grid-cols-2 gap-3">
                 {businessModels.map((b) => (
-                  <ChoiceCard key={b.id} active={businessModel === b.id} onClick={() => setBusinessModel(b.id)}>
+                  <ChoiceCard key={b.id} active={businessModels_.includes(b.id)} onClick={() => toggleModel(b.id)}>
                     <div className="flex items-center gap-3">
                       <div className="h-9 w-9 rounded-lg bg-accent-blue/10 flex items-center justify-center">
                         <b.icon className="h-4 w-4 text-accent-blue" />
