@@ -29,6 +29,32 @@ const haversineKm = (lat1: number, lon1: number, lat2: number, lon2: number) => 
   return R * 2 * Math.asin(Math.sqrt(a));
 };
 
+async function reverseGeocode(lat: number, lon: number): Promise<{
+  street?: string;
+  postalCode?: string;
+  city?: string;
+} | null> {
+  try {
+    const res = await fetch(
+      `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&addressdetails=1&zoom=18`,
+      {
+        headers: { "User-Agent": "GruenderX-NotarFinder/1.0", "Accept-Language": "de" },
+        signal: AbortSignal.timeout(5000),
+      },
+    );
+    if (!res.ok) return null;
+    const data = await res.json().catch(() => null);
+    const a = data?.address;
+    if (!a) return null;
+    const road = a.road ?? a.pedestrian ?? a.footway;
+    const street = road ? `${road}${a.house_number ? " " + a.house_number : ""}` : undefined;
+    const city = a.city ?? a.town ?? a.village ?? a.suburb ?? a.municipality;
+    return { street, postalCode: a.postcode, city };
+  } catch {
+    return null;
+  }
+}
+
 async function geocodePlz(plz: string): Promise<{ lat: number; lon: number; city?: string } | null> {
   try {
     const res = await fetch(
@@ -138,6 +164,25 @@ Deno.serve(async (req) => {
     // Default 25 km – einzelner Call. Großstadt zeigt 15-30 Notare,
     // ländlich i.d.R. 5-10. Kein Retry-Loop = halbierte Latenz.
     const notare = await findNotaresOSM(center.lat, center.lon, 25000);
+
+    // Adresse fehlt häufig in OSM-Tags, aber lat/lon hat fast immer eine
+    // Hausnummer wenn man reverse-geocoded. Bis zu 12 parallel ergänzen
+    // (sub-Sekunden-Block durch Nominatim-Limit).
+    if (notare && notare.length > 0) {
+      const needsEnrich = notare
+        .filter((n) => !n.street && n.lat !== undefined && n.lon !== undefined)
+        .slice(0, 12);
+      await Promise.all(
+        needsEnrich.map(async (n) => {
+          const addr = await reverseGeocode(n.lat!, n.lon!);
+          if (addr) {
+            n.street = n.street ?? addr.street;
+            n.postalCode = n.postalCode ?? addr.postalCode;
+            n.city = n.city ?? addr.city;
+          }
+        }),
+      );
+    }
 
     return new Response(
       JSON.stringify({

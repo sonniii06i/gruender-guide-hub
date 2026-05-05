@@ -153,6 +153,9 @@ export function NotarFinder({ companyName }: { companyName?: string }) {
                 {(n.postalCode || n.city) && <div className="text-xs text-muted-foreground">{n.postalCode} {n.city}</div>}
                 {n.phone && <div className="text-xs">📞 {n.phone}</div>}
                 {n.email && <div className="text-xs truncate">✉️ {n.email}</div>}
+                {!n.phone && !n.email && n.website && (
+                  <div className="text-[10px] text-muted-foreground italic">Kontaktdaten siehe Website</div>
+                )}
                 {n.openingHours && <div className="text-[10px] text-muted-foreground mt-1">🕐 {n.openingHours}</div>}
                 <div className="flex gap-2 mt-2 text-[10px]">
                   {n.lat && n.lon && (
