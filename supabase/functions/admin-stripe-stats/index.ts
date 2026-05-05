@@ -21,7 +21,11 @@ Deno.serve(async (req) => {
     const { data: roleData } = await supa.from("user_roles").select("role").eq("user_id", user.id).eq("role", "admin").maybeSingle();
     if (!roleData) return new Response(JSON.stringify({ error: "forbidden" }), { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } });
 
-    const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY")!, { apiVersion: "2025-08-27.basil" as any });
+    const stripeKey = Deno.env.get("STRIPE_SECRET_KEY");
+    if (!stripeKey) {
+      return new Response(JSON.stringify({ error: "STRIPE_SECRET_KEY missing", activeCount: 0, trialingCount: 0, mrrCents: 0, arrCents: 0, byPlan: [] }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+    const stripe = new Stripe(stripeKey, { httpClient: Stripe.createFetchHttpClient() });
 
     let activeCount = 0, trialingCount = 0, mrrCents = 0;
     const byPlan: Record<string, { count: number; mrrCents: number }> = {};
@@ -62,6 +66,7 @@ Deno.serve(async (req) => {
       byPlan: Object.entries(byPlan).map(([name, v]) => ({ name, ...v, mrrCents: Math.round(v.mrrCents) })),
     }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
   } catch (e: any) {
-    return new Response(JSON.stringify({ error: e.message }), { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    console.error("admin-stripe-stats error:", e?.message, e?.stack);
+    return new Response(JSON.stringify({ error: e?.message ?? "unknown", activeCount: 0, trialingCount: 0, mrrCents: 0, arrCents: 0, byPlan: [] }), { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } });
   }
 });
