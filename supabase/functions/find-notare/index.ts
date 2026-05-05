@@ -1,4 +1,6 @@
-// Sucht Notare in der Nähe einer PLZ über die offizielle Notarsuche der Bundesnotarkammer.
+// Sucht Notare in der Nähe einer PLZ über OpenStreetMap.
+// Stack: Nominatim (PLZ → lat/lon) + Overpass (office=notary im Radius).
+// Frei, kein API-Key, strukturiertes JSON, sortiert nach Distanz.
 import { corsHeaders } from "https://esm.sh/@supabase/supabase-js@2.95.0/cors";
 
 interface Notar {
@@ -9,56 +11,153 @@ interface Notar {
   phone?: string;
   email?: string;
   website?: string;
+  openingHours?: string;
+  lat?: number;
+  lon?: number;
+  distanceKm?: number;
+}
+
+const haversineKm = (lat1: number, lon1: number, lat2: number, lon2: number) => {
+  const R = 6371;
+  const dLat = ((lat2 - lat1) * Math.PI) / 180;
+  const dLon = ((lon2 - lon1) * Math.PI) / 180;
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos((lat1 * Math.PI) / 180) *
+      Math.cos((lat2 * Math.PI) / 180) *
+      Math.sin(dLon / 2) ** 2;
+  return R * 2 * Math.asin(Math.sqrt(a));
+};
+
+async function geocodePlz(plz: string): Promise<{ lat: number; lon: number; city?: string } | null> {
+  try {
+    const res = await fetch(
+      `https://nominatim.openstreetmap.org/search?postalcode=${encodeURIComponent(plz)}&country=de&format=json&limit=1`,
+      {
+        headers: { "User-Agent": "GruenderX-NotarFinder/1.0", "Accept-Language": "de" },
+        signal: AbortSignal.timeout(8000),
+      },
+    );
+    if (!res.ok) return null;
+    const data = await res.json();
+    if (!Array.isArray(data) || data.length === 0) return null;
+    const first = data[0];
+    const parts = String(first.display_name ?? "")
+      .split(",")
+      .map((p: string) => p.trim());
+    return {
+      lat: parseFloat(first.lat),
+      lon: parseFloat(first.lon),
+      city: parts[1] ?? parts[0],
+    };
+  } catch {
+    return null;
+  }
+}
+
+async function findNotaresOSM(
+  lat: number,
+  lon: number,
+  radiusM = 15000,
+): Promise<Notar[] | null> {
+  const query =
+    `[out:json][timeout:25];` +
+    `(node["office"="notary"](around:${radiusM},${lat},${lon});` +
+    `way["office"="notary"](around:${radiusM},${lat},${lon});` +
+    `relation["office"="notary"](around:${radiusM},${lat},${lon}););` +
+    `out center 60;`;
+  try {
+    const res = await fetch("https://overpass-api.de/api/interpreter", {
+      method: "POST",
+      body: "data=" + encodeURIComponent(query),
+      headers: {
+        "User-Agent": "GruenderX-NotarFinder/1.0",
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      signal: AbortSignal.timeout(15000),
+    });
+    if (!res.ok) return null;
+    const data = await res.json().catch(() => null);
+    if (!data?.elements) return null;
+    const notare: Notar[] = [];
+    for (const el of data.elements) {
+      const tags = el.tags ?? {};
+      const name = tags.name ?? tags["name:de"];
+      if (!name) continue;
+      const elLat: number | undefined = el.lat ?? el.center?.lat;
+      const elLon: number | undefined = el.lon ?? el.center?.lon;
+      const street =
+        tags["addr:street"] && tags["addr:housenumber"]
+          ? `${tags["addr:street"]} ${tags["addr:housenumber"]}`
+          : tags["addr:street"];
+      notare.push({
+        name: String(name),
+        street,
+        postalCode: tags["addr:postcode"],
+        city: tags["addr:city"],
+        phone: tags["contact:phone"] ?? tags.phone,
+        email: tags["contact:email"] ?? tags.email,
+        website: tags.website ?? tags["contact:website"],
+        openingHours: tags.opening_hours,
+        lat: elLat,
+        lon: elLon,
+        distanceKm:
+          elLat !== undefined && elLon !== undefined
+            ? Math.round(haversineKm(lat, lon, elLat, elLon) * 10) / 10
+            : undefined,
+      });
+    }
+    return notare.sort((a, b) => (a.distanceKm ?? 999) - (b.distanceKm ?? 999));
+  } catch {
+    return null;
+  }
 }
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
   try {
     const { plz } = await req.json();
-    if (!plz || !/^\d{4,5}$/.test(String(plz))) {
-      return new Response(JSON.stringify({ error: "plz required (4-5 digits)" }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
-    }
-
-    // Notarsuche der Bundesnotarkammer (öffentliche JSON-API hinter dem UI)
-    const url = `https://www.notar.de/notarsuche?type=1452&tx_bnotknotarverz_pi1[searchType]=plz&tx_bnotknotarverz_pi1[plz]=${plz}&tx_bnotknotarverz_pi1[radius]=10`;
-    const html = await fetch(url, {
-      headers: { "User-Agent": "Mozilla/5.0 GründerX-Bot", "Accept-Language": "de" },
-    }).then((r) => r.text()).catch(() => "");
-
-    const notare: Notar[] = [];
-    // Jeder Notar ist in einer .notarverz-result-box o.ä. – wir parsen defensive.
-    const blocks = html.split(/class="[^"]*(?:result|notar)[^"]*"/i).slice(1, 16);
-    for (const block of blocks) {
-      const chunk = block.slice(0, 2000);
-      const text = chunk.replace(/<style[\s\S]*?<\/style>/g, "").replace(/<script[\s\S]*?<\/script>/g, "");
-      const nameMatch = text.match(/<h[2-4][^>]*>([\s\S]*?)<\/h[2-4]>/i);
-      const name = nameMatch ? nameMatch[1].replace(/<[^>]+>/g, "").trim() : null;
-      if (!name) continue;
-      const plain = text.replace(/<[^>]+>/g, "\n").replace(/\n{2,}/g, "\n");
-      const plzCity = plain.match(/(\d{5})\s+([A-Za-zÄÖÜäöüß\-\.\s]+)/);
-      const street = plain.match(/([A-ZÄÖÜ][\wÄÖÜäöüß\.\- ]+\s+\d+[a-z]?)/);
-      const phone = plain.match(/(\+?\d[\d\s\/\-\(\)]{6,})/);
-      const email = plain.match(/[\w\.\-]+@[\w\.\-]+\.[a-z]{2,}/i);
-      const website = chunk.match(/href="(https?:\/\/[^"]+)"/i);
-      notare.push({
-        name,
-        street: street?.[1]?.trim(),
-        postalCode: plzCity?.[1],
-        city: plzCity?.[2]?.trim(),
-        phone: phone?.[1]?.trim(),
-        email: email?.[0],
-        website: website?.[1],
+    const plzStr = String(plz ?? "");
+    if (!plzStr || !/^\d{4,5}$/.test(plzStr)) {
+      return new Response(JSON.stringify({ error: "plz required (4-5 digits)" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
-      if (notare.length >= 10) break;
     }
 
-    return new Response(JSON.stringify({
-      plz,
-      notare,
-      sourceUrl: url,
-      fallbackUrl: `https://www.notar.de/notarsuche?tx_bnotknotarverz_pi1[plz]=${plz}`,
-    }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    const center = await geocodePlz(plzStr);
+    if (!center) {
+      return new Response(
+        JSON.stringify({
+          notare: [],
+          error: "PLZ konnte nicht geocodiert werden",
+          fallbackUrl: `https://www.notar.de/notarsuche?tx_bnotknotarverz_pi1%5Bplz%5D=${plzStr}`,
+        }),
+        { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      );
+    }
+
+    let notare = await findNotaresOSM(center.lat, center.lon, 15000);
+    // Auf dem Land 15 km zu klein – auf 30 km erweitern.
+    if (notare !== null && notare.length < 3) {
+      const wider = await findNotaresOSM(center.lat, center.lon, 30000);
+      if (wider && wider.length > notare.length) notare = wider;
+    }
+
+    return new Response(
+      JSON.stringify({
+        center,
+        notare: notare ?? [],
+        source: "openstreetmap",
+        sourceUrl: `https://www.openstreetmap.org/search?query=notary+${plzStr}`,
+        fallbackUrl: `https://www.notar.de/notarsuche?tx_bnotknotarverz_pi1%5Bplz%5D=${plzStr}`,
+      }),
+      { headers: { ...corsHeaders, "Content-Type": "application/json" } },
+    );
   } catch (e) {
-    return new Response(JSON.stringify({ error: String(e) }), { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    return new Response(JSON.stringify({ error: String(e) }), {
+      status: 500,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
   }
 });

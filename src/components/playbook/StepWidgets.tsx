@@ -133,7 +133,7 @@ export function NotarFinder({ companyName }: { companyName?: string }) {
   return (
     <div className="space-y-4">
       <div className="rounded-xl border border-border bg-secondary/30 p-4 space-y-3">
-        <div className="flex items-center gap-2 text-sm font-semibold"><MapPin className="h-4 w-4 text-accent-blue" /> Notare in deiner Nähe (notar.de)</div>
+        <div className="flex items-center gap-2 text-sm font-semibold"><MapPin className="h-4 w-4 text-accent-blue" /> Notare in deiner Nähe (OpenStreetMap)</div>
         <div className="flex gap-2">
           <Input value={plz} onChange={(e) => setPlz(e.target.value.replace(/\D/g, "").slice(0, 5))} placeholder="PLZ z. B. 10115" />
           <Button onClick={run} disabled={loading}>{loading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Suchen"}</Button>
@@ -143,17 +143,50 @@ export function NotarFinder({ companyName }: { companyName?: string }) {
             {notare.map((n, i) => (
               <button key={i} onClick={() => setPicked(n)}
                 className={`text-left rounded-lg border p-3 text-sm transition-colors ${picked?.name === n.name ? "border-accent-blue bg-accent" : "border-border bg-card hover:border-accent-blue/40"}`}>
-                <div className="font-semibold">{n.name}</div>
+                <div className="flex items-start justify-between gap-2">
+                  <div className="font-semibold">{n.name}</div>
+                  {typeof n.distanceKm === "number" && (
+                    <span className="text-[10px] text-muted-foreground tabular-nums shrink-0 mt-0.5">{n.distanceKm} km</span>
+                  )}
+                </div>
                 {n.street && <div className="text-xs text-muted-foreground">{n.street}</div>}
                 {(n.postalCode || n.city) && <div className="text-xs text-muted-foreground">{n.postalCode} {n.city}</div>}
                 {n.phone && <div className="text-xs">📞 {n.phone}</div>}
-                {n.email && <div className="text-xs">✉️ {n.email}</div>}
+                {n.email && <div className="text-xs truncate">✉️ {n.email}</div>}
+                {n.openingHours && <div className="text-[10px] text-muted-foreground mt-1">🕐 {n.openingHours}</div>}
+                <div className="flex gap-2 mt-2 text-[10px]">
+                  {n.lat && n.lon && (
+                    <a
+                      href={`https://www.openstreetmap.org/?mlat=${n.lat}&mlon=${n.lon}#map=17/${n.lat}/${n.lon}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="text-accent-blue underline inline-flex items-center gap-0.5"
+                    >
+                      <MapPin className="h-2.5 w-2.5" /> Karte
+                    </a>
+                  )}
+                  {n.website && (
+                    <a
+                      href={n.website}
+                      target="_blank"
+                      rel="noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="text-accent-blue underline inline-flex items-center gap-0.5"
+                    >
+                      <ExternalLink className="h-2.5 w-2.5" /> Website
+                    </a>
+                  )}
+                </div>
               </button>
             ))}
           </div>
         )}
-        {src && notare.length === 0 && !loading && (
-          <a href={src} target="_blank" rel="noreferrer" className="text-xs underline inline-flex items-center gap-1"><ExternalLink className="h-3 w-3" /> Direkt auf notar.de öffnen</a>
+        {notare.length === 0 && !loading && src && (
+          <a href={src} target="_blank" rel="noreferrer" className="text-xs underline inline-flex items-center gap-1"><ExternalLink className="h-3 w-3" /> Auf notar.de fallback öffnen</a>
+        )}
+        {notare.length > 0 && (
+          <div className="text-[10px] text-muted-foreground">Quelle: OpenStreetMap-Daten, sortiert nach Distanz zur PLZ-Mitte</div>
         )}
       </div>
 
