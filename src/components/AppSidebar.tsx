@@ -54,7 +54,7 @@ export function AppSidebar() {
         </Link>
       </SidebarHeader>
 
-      <SidebarContent>
+      <SidebarContent className="gap-1">
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
