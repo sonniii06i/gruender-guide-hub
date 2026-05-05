@@ -13,7 +13,6 @@ const Dashboard = () => {
   const { user } = useAuth();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [sub, setSub] = useState<Subscription | null>(null);
-  const [runs, setRuns] = useState<Run[]>([]);
   const [params, setParams] = useSearchParams();
   const activeCatSlug = params.get("cat");
 
@@ -22,18 +21,13 @@ const Dashboard = () => {
     Promise.all([
       supabase.from("profiles").select("first_name, company_name").eq("id", user.id).maybeSingle(),
       supabase.from("subscriptions").select("plan, status").eq("user_id", user.id).maybeSingle(),
-      supabase.from("playbook_runs").select("*").eq("user_id", user.id).order("last_activity_at", { ascending: false }).limit(20),
-    ]).then(([p, s, r]) => {
-      setProfile(p.data); setSub(s.data); setRuns((r.data ?? []) as Run[]);
+    ]).then(([p, s]) => {
+      setProfile(p.data); setSub(s.data);
     });
   }, [user]);
 
   const isActive = sub?.status === "active" || sub?.status === "trialing";
   const visible = activeCatSlug ? CATEGORIES.filter((c) => c.slug === activeCatSlug) : CATEGORIES;
-  const activeRuns = runs.filter((r) => r.status === "in_progress");
-  const completedRuns = runs.filter((r) => r.status === "completed");
-  const startedSlugs = new Set(runs.map((r) => r.playbook_slug));
-  const suggested = PLAYBOOKS.filter((p) => !startedSlugs.has(p.slug)).slice(0, 3);
 
   return (
     <div className="container max-w-7xl py-8 px-4 md:px-6">
