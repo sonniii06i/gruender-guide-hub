@@ -2,17 +2,32 @@ import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Clock, AlertCircle, Star, Tag, ExternalLink, MessageSquare, Scale, FileText, ShieldCheck } from "lucide-react";
+import {
+  ArrowLeft,
+  Clock,
+  AlertCircle,
+  Star,
+  Tag,
+  ExternalLink,
+  Quote,
+  Scale,
+  FileText,
+  ShieldCheck,
+  CheckCircle2,
+  XCircle,
+  TrendingUp,
+  MapPin,
+  Wallet,
+  Sparkles,
+} from "lucide-react";
 import { isCoopActive, LEGAL_URLS, PROVIDERS, type Provider } from "./Anbieter";
 
 const getDomain = (url: string): string => {
   try { return new URL(url).hostname.replace(/^www\./, ""); } catch { return url; }
 };
 
-const ProviderLogo = ({ url, name }: { url: string; name: string }) => {
+const ProviderLogo = ({ url, name, size = "md" }: { url: string; name: string; size?: "sm" | "md" | "lg" }) => {
   const domain = getDomain(url);
-  // Reihenfolge nach Geschwindigkeit: Google s2 (CDN, sub-100ms) → Clearbit (clean
-  // aber langsamer, ~200-500ms) → Initial-Buchstabe.
   const sources = [
     `https://www.google.com/s2/favicons?domain=${domain}&sz=256`,
     `https://logo.clearbit.com/${domain}?size=256`,
@@ -20,9 +35,12 @@ const ProviderLogo = ({ url, name }: { url: string; name: string }) => {
   const [idx, setIdx] = useState(0);
   const [failed, setFailed] = useState(false);
 
+  const dim = size === "lg" ? "h-24 w-24" : size === "sm" ? "h-10 w-10" : "h-16 w-16";
+  const text = size === "lg" ? "text-5xl" : size === "sm" ? "text-base" : "text-2xl";
+
   if (failed) {
     return (
-      <div className="aspect-square w-full rounded-2xl bg-gradient-primary text-primary-foreground flex items-center justify-center text-7xl font-bold shadow-soft">
+      <div className={`${dim} rounded-2xl bg-gradient-primary text-primary-foreground flex items-center justify-center ${text} font-bold shadow-soft shrink-0`}>
         {name.charAt(0).toUpperCase()}
       </div>
     );
@@ -34,9 +52,9 @@ const ProviderLogo = ({ url, name }: { url: string; name: string }) => {
       alt={`${name} Logo`}
       loading="eager"
       decoding="async"
-      // @ts-expect-error fetchpriority is valid HTML, TS lib doesn't know yet
+      // @ts-expect-error fetchpriority is valid HTML
       fetchpriority="high"
-      className="aspect-square w-full rounded-2xl bg-white border border-border object-contain shadow-soft"
+      className={`${dim} rounded-2xl bg-white border border-border object-contain shadow-soft shrink-0`}
       onError={() => {
         if (idx + 1 < sources.length) setIdx(idx + 1);
         else setFailed(true);
@@ -44,6 +62,16 @@ const ProviderLogo = ({ url, name }: { url: string; name: string }) => {
     />
   );
 };
+
+const StatCard = ({ icon: Icon, label, value, accent }: { icon: typeof Wallet; label: string; value: string; accent?: boolean }) => (
+  <div className={`rounded-xl border ${accent ? "border-accent-blue/30 bg-accent-blue/5" : "border-border bg-card"} p-4`}>
+    <div className="flex items-center gap-2 text-[10px] uppercase tracking-wider text-muted-foreground mb-1.5">
+      <Icon className="h-3 w-3" />
+      {label}
+    </div>
+    <div className="font-semibold text-sm leading-tight">{value}</div>
+  </div>
+);
 
 const AnbieterDetail = () => {
   const { slug } = useParams();
@@ -59,16 +87,15 @@ const AnbieterDetail = () => {
     );
   }
 
-  // Andere Anbieter aus derselben Kategorie als "Alternativen" anzeigen
-  const related = PROVIDERS.filter((x) => x.category === p.category && x.slug !== p.slug).slice(0, 4);
+  const related = PROVIDERS.filter((x) => x.category === p.category && x.slug !== p.slug).slice(0, 6);
 
-  // Verifizierte Legal-URLs aus LEGAL_URLS-Map (Stand 2026-05-05).
-  // p.legal kann individuelle Overrides haben.
   const verified = LEGAL_URLS[p.slug] ?? {};
   const legalImpressum = p.legal?.impressum ?? verified.impressum;
   const legalTerms = p.legal?.terms ?? verified.terms;
   const legalPrivacy = p.legal?.privacy ?? verified.privacy;
   const hasAnyLegal = Boolean(legalImpressum || legalTerms || legalPrivacy);
+
+  const showCoop = isCoopActive(p.coop);
 
   return (
     <CockpitShell
@@ -77,104 +104,169 @@ const AnbieterDetail = () => {
       subtitle={p.tagline}
     >
       <Link to="/anbieter" className="text-xs text-muted-foreground hover:text-foreground inline-flex items-center gap-1 mb-6">
-        <ArrowLeft className="h-3.5 w-3.5" /> Zurück zur Vergleichs-Engine
+        <ArrowLeft className="h-3.5 w-3.5" /> Alle Anbieter
       </Link>
 
-      <div className="grid lg:grid-cols-[1fr_320px] gap-6">
-        {/* Hauptspalte */}
-        <div className="space-y-6">
-          {/* Brand-Header */}
-          <div className="rounded-2xl border border-border bg-card p-6">
-            <div className="flex items-start justify-between gap-4 mb-4">
-              <div>
-                <div className="text-xs font-semibold uppercase tracking-wider text-accent-blue mb-1">{p.category} · {p.region}</div>
-                <h2 className="text-2xl font-bold">{p.name}</h2>
-              </div>
-              <div className="flex items-center gap-1 text-sm font-semibold rounded-lg bg-yellow-50 text-yellow-700 px-3 py-1.5 dark:bg-yellow-950/30 dark:text-yellow-300">
-                <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" /> {p.rating.toFixed(1)} / 5
-              </div>
-            </div>
-
-            {p.fullDescription ? (
-              <p className="text-sm text-muted-foreground leading-relaxed mb-4">{p.fullDescription}</p>
-            ) : (
-              <p className="text-sm text-muted-foreground leading-relaxed mb-4">{p.tagline}</p>
-            )}
-
-            <div className="flex flex-wrap gap-2 text-xs">
-              <span className="rounded-full bg-secondary px-3 py-1">
-                <strong>Ab:</strong> {p.starting}
-              </span>
-              {p.signupTime && (
-                <span className="rounded-full bg-secondary px-3 py-1 inline-flex items-center gap-1">
-                  <Clock className="h-3 w-3" /> {p.signupTime}
-                </span>
-              )}
-              {p.monthlyMin && (
-                <span className="rounded-full bg-warning/10 text-warning-foreground border border-warning/30 px-3 py-1 inline-flex items-center gap-1">
-                  <AlertCircle className="h-3 w-3" /> {p.monthlyMin}
-                </span>
-              )}
-            </div>
-          </div>
-
-          {/* Coop-Deal prominent (nur wenn noch nicht abgelaufen) */}
-          {isCoopActive(p.coop) && p.coop && (
-            <div className="rounded-2xl border-2 border-accent-blue bg-accent-blue/5 p-5">
-              <div className="flex items-start gap-3">
-                <Tag className="h-5 w-5 text-accent-blue mt-0.5 shrink-0" />
-                <div className="flex-1">
-                  <div className="text-xs font-bold uppercase tracking-wider text-accent-blue mb-1">Aktueller Deal</div>
-                  <div className="font-semibold mb-2">{p.coop.text}</div>
-                  {p.coop.code && (
-                    <div className="rounded-lg bg-card border border-border px-3 py-2 inline-block font-mono text-sm mb-2">
-                      Code: <strong>{p.coop.code}</strong>
-                    </div>
-                  )}
-                  <div className="text-xs text-muted-foreground">gültig bis {p.coop.expires}</div>
+      {/* HERO */}
+      <div className="rounded-3xl overflow-hidden border border-border bg-gradient-to-br from-card via-card to-accent-blue/5 mb-6">
+        <div className="p-6 md:p-8">
+          <div className="flex flex-col md:flex-row md:items-start gap-6">
+            <ProviderLogo url={p.url} name={p.name} size="lg" />
+            <div className="flex-1 min-w-0">
+              <div className="flex items-start justify-between gap-3 flex-wrap">
+                <div>
+                  <div className="text-xs font-bold uppercase tracking-wider text-accent-blue mb-1">{p.category} · {p.region}</div>
+                  <h2 className="text-3xl md:text-4xl font-bold leading-tight">{p.name}</h2>
+                  <p className="text-base text-muted-foreground mt-2 max-w-2xl">{p.tagline}</p>
+                </div>
+                <div className="flex items-center gap-1.5 rounded-xl bg-yellow-50 dark:bg-yellow-950/40 text-yellow-700 dark:text-yellow-300 px-3 py-2 shrink-0">
+                  <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
+                  <span className="text-lg font-bold">{p.rating.toFixed(1)}</span>
+                  <span className="text-xs opacity-70">/ 5</span>
                 </div>
               </div>
+
+              {/* CTA – im Hero */}
+              <div className="flex gap-2 mt-5">
+                <a href={p.url} target="_blank" rel="noreferrer" className="flex-1 md:flex-none">
+                  <Button size="lg" className="w-full md:w-auto">
+                    Zum Anbieter <ExternalLink className="h-4 w-4 ml-2" />
+                  </Button>
+                </a>
+                <a href={`https://${getDomain(p.url)}`} target="_blank" rel="noreferrer" className="hidden md:inline-block">
+                  <Button size="lg" variant="outline">{getDomain(p.url)}</Button>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Coop-Deal Banner direkt unter Hero */}
+        {showCoop && p.coop && (
+          <div className="border-t-2 border-dashed border-accent-blue/30 bg-accent-blue/10 p-5">
+            <div className="flex items-start gap-3">
+              <div className="rounded-xl bg-accent-blue text-primary-foreground p-2.5 shrink-0">
+                <Sparkles className="h-5 w-5" />
+              </div>
+              <div className="flex-1">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-accent-blue mb-1">Aktueller Deal · gültig bis {p.coop.expires}</div>
+                <div className="font-semibold text-base">{p.coop.text}</div>
+                {p.coop.code && (
+                  <div className="mt-2 inline-flex items-center gap-2 rounded-lg bg-card border-2 border-accent-blue/30 border-dashed px-3 py-1.5">
+                    <Tag className="h-3.5 w-3.5 text-accent-blue" />
+                    <span className="text-xs text-muted-foreground">Code:</span>
+                    <span className="font-mono font-bold text-sm">{p.coop.code}</span>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* STATS GRID */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+        <StatCard icon={Wallet} label="Preis ab" value={p.starting} accent />
+        <StatCard icon={Clock} label="Setup" value={p.signupTime ?? "Sofort"} />
+        <StatCard icon={MapPin} label="Region" value={p.region} />
+        <StatCard icon={TrendingUp} label="Bewertung" value={`${p.rating.toFixed(1)} / 5`} />
+      </div>
+
+      {p.monthlyMin && (
+        <div className="flex items-start gap-2 rounded-xl bg-warning/10 border border-warning/30 p-3 mb-6 text-sm">
+          <AlertCircle className="h-4 w-4 text-warning-foreground mt-0.5 shrink-0" />
+          <span><strong>Mindestumsatz/-volumen:</strong> {p.monthlyMin}</span>
+        </div>
+      )}
+
+      <div className="grid lg:grid-cols-[1fr_300px] gap-6">
+        {/* HAUPTSPALTE */}
+        <div className="space-y-6">
+          {/* Beschreibung */}
+          {p.fullDescription && (
+            <div className="rounded-2xl border border-border bg-card p-6">
+              <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground mb-3">Über {p.name}</h3>
+              <p className="text-base leading-relaxed">{p.fullDescription}</p>
             </div>
           )}
 
           {/* Pros / Cons */}
           <div className="grid sm:grid-cols-2 gap-4">
-            <div className="rounded-2xl border border-border bg-card p-5">
-              <div className="font-semibold text-success mb-2 text-sm">+ Stärken</div>
-              <ul className="space-y-1.5 text-sm text-muted-foreground">
-                {p.pros.map((s, i) => <li key={i} className="leading-snug">· {s}</li>)}
+            <div className="rounded-2xl border border-success/30 bg-success/5 p-5">
+              <div className="flex items-center gap-2 mb-3">
+                <div className="rounded-lg bg-success text-success-foreground p-1.5">
+                  <CheckCircle2 className="h-4 w-4" />
+                </div>
+                <h3 className="font-bold text-sm">Stärken</h3>
+              </div>
+              <ul className="space-y-2.5">
+                {p.pros.map((s, i) => (
+                  <li key={i} className="flex items-start gap-2 text-sm leading-snug">
+                    <CheckCircle2 className="h-3.5 w-3.5 text-success mt-1 shrink-0" />
+                    <span>{s}</span>
+                  </li>
+                ))}
               </ul>
             </div>
-            <div className="rounded-2xl border border-border bg-card p-5">
-              <div className="font-semibold text-destructive mb-2 text-sm">– Schwächen</div>
-              <ul className="space-y-1.5 text-sm text-muted-foreground">
-                {p.cons.map((s, i) => <li key={i} className="leading-snug">· {s}</li>)}
+
+            <div className="rounded-2xl border border-destructive/30 bg-destructive/5 p-5">
+              <div className="flex items-center gap-2 mb-3">
+                <div className="rounded-lg bg-destructive text-destructive-foreground p-1.5">
+                  <XCircle className="h-4 w-4" />
+                </div>
+                <h3 className="font-bold text-sm">Schwächen</h3>
+              </div>
+              <ul className="space-y-2.5">
+                {p.cons.map((s, i) => (
+                  <li key={i} className="flex items-start gap-2 text-sm leading-snug">
+                    <XCircle className="h-3.5 w-3.5 text-destructive mt-1 shrink-0" />
+                    <span>{s}</span>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
 
-          {/* Forum-Notes / Reviews */}
+          {/* Community-Quote */}
           {p.forumNotes && (
-            <div className="rounded-2xl border border-border bg-card p-5">
-              <div className="font-semibold text-sm mb-2 inline-flex items-center gap-1.5">
-                <MessageSquare className="h-4 w-4 text-accent-blue" /> Aus der Community (Reddit / E-Com-Foren)
+            <div className="relative rounded-2xl border border-accent-blue/30 bg-gradient-to-br from-accent-blue/5 to-transparent p-6">
+              <Quote className="absolute top-4 right-4 h-12 w-12 text-accent-blue/10" strokeWidth={1.5} />
+              <div className="relative">
+                <div className="text-xs font-bold uppercase tracking-wider text-accent-blue mb-2">Was die Community sagt</div>
+                <p className="text-base italic leading-relaxed">{p.forumNotes}</p>
+                <div className="text-[10px] text-muted-foreground mt-4 pt-4 border-t border-border">
+                  Aggregiert aus r/Selbststaendig, r/ecommerce_de, DTC-Slack, Indie Hackers, Trustpilot, finanzfluss.
+                </div>
               </div>
-              <blockquote className="text-sm text-muted-foreground leading-relaxed italic border-l-2 border-accent-blue pl-3">
-                {p.forumNotes}
-              </blockquote>
-              <div className="text-[10px] text-muted-foreground mt-3">
-                Hinweis: Quellen-Aussagen aus r/Selbststaendig, r/ecommerce_de, DTC-Slack, Indie Hackers, Trustpilot. Vor Eröffnung selbst gegenchecken.
+            </div>
+          )}
+
+          {/* Alternativen — horizontal scroll */}
+          {related.length > 0 && (
+            <div>
+              <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground mb-3">Alternativen in {p.category}</h3>
+              <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-3">
+                {related.map((r) => (
+                  <Link key={r.slug} to={`/anbieter/${r.slug}`} className="rounded-xl border border-border bg-card p-3 hover:border-accent-blue/40 transition-colors flex items-center gap-3">
+                    <ProviderLogo url={r.url} name={r.name} size="sm" />
+                    <div className="min-w-0 flex-1">
+                      <div className="font-semibold text-sm leading-tight truncate">{r.name}</div>
+                      <div className="text-[10px] text-muted-foreground mt-0.5 truncate">{r.tagline}</div>
+                    </div>
+                    <div className="flex items-center gap-0.5 text-[10px] shrink-0">
+                      <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+                      {r.rating.toFixed(1)}
+                    </div>
+                  </Link>
+                ))}
               </div>
             </div>
           )}
         </div>
 
-        {/* Sidebar */}
+        {/* SIDEBAR */}
         <aside className="space-y-4 lg:sticky lg:top-20 h-fit">
-          {/* Logo – großes Quadrat, voll genutzt */}
-          <ProviderLogo url={p.url} name={p.name} />
-
-          {/* CTA */}
+          {/* CTA wiederholen für Sticky */}
           <a href={p.url} target="_blank" rel="noreferrer" className="block">
             <Button className="w-full" size="lg">
               Zum Anbieter <ExternalLink className="h-4 w-4 ml-2" />
@@ -184,7 +276,7 @@ const AnbieterDetail = () => {
           {/* Quick-Links */}
           {p.links && p.links.length > 0 && (
             <div className="rounded-2xl border border-border bg-card p-4">
-              <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Direkt-Links</div>
+              <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-2">Direkt-Links</div>
               <ul className="space-y-1.5 text-sm">
                 {p.links.map((l) => (
                   <li key={l.url}>
@@ -197,55 +289,32 @@ const AnbieterDetail = () => {
             </div>
           )}
 
-          {/* Rechtsseiten – nur verifizierte URLs */}
+          {/* Rechtsseiten */}
           {hasAnyLegal && (
             <div className="rounded-2xl border border-border bg-card p-4">
-              <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Rechtliches</div>
+              <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-2">Rechtliches</div>
               <ul className="space-y-1.5 text-xs">
                 {legalImpressum && (
                   <li>
-                    <a href={legalImpressum} target="_blank" rel="noreferrer" className="text-accent-blue hover:underline inline-flex items-center gap-1">
+                    <a href={legalImpressum} target="_blank" rel="noreferrer" className="text-accent-blue hover:underline inline-flex items-center gap-1.5">
                       <FileText className="h-3 w-3" /> Impressum
                     </a>
                   </li>
                 )}
                 {legalTerms && (
                   <li>
-                    <a href={legalTerms} target="_blank" rel="noreferrer" className="text-accent-blue hover:underline inline-flex items-center gap-1">
+                    <a href={legalTerms} target="_blank" rel="noreferrer" className="text-accent-blue hover:underline inline-flex items-center gap-1.5">
                       <Scale className="h-3 w-3" /> AGB / Terms
                     </a>
                   </li>
                 )}
                 {legalPrivacy && (
                   <li>
-                    <a href={legalPrivacy} target="_blank" rel="noreferrer" className="text-accent-blue hover:underline inline-flex items-center gap-1">
+                    <a href={legalPrivacy} target="_blank" rel="noreferrer" className="text-accent-blue hover:underline inline-flex items-center gap-1.5">
                       <ShieldCheck className="h-3 w-3" /> Datenschutz
                     </a>
                   </li>
                 )}
-              </ul>
-              <div className="text-[10px] text-muted-foreground mt-2 italic">
-                Verifiziert 2026-05-05 · Updates über monatliche Audit-Routine.
-              </div>
-            </div>
-          )}
-
-          {/* Alternativen */}
-          {related.length > 0 && (
-            <div className="rounded-2xl border border-border bg-card p-4">
-              <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Alternativen in {p.category}</div>
-              <ul className="space-y-2">
-                {related.map((r) => (
-                  <li key={r.slug}>
-                    <Link to={`/anbieter/${r.slug}`} className="flex items-center justify-between text-sm hover:text-accent-blue transition-colors">
-                      <span className="font-medium">{r.name}</span>
-                      <span className="inline-flex items-center gap-0.5 text-xs text-muted-foreground">
-                        <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
-                        {r.rating.toFixed(1)}
-                      </span>
-                    </Link>
-                  </li>
-                ))}
               </ul>
             </div>
           )}
