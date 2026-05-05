@@ -110,6 +110,45 @@ export type Database = {
         }
         Relationships: []
       }
+      page_views: {
+        Row: {
+          country: string | null
+          created_at: string
+          id: string
+          path: string
+          referrer: string | null
+          user_id: string | null
+          utm_campaign: string | null
+          utm_medium: string | null
+          utm_source: string | null
+          visitor_hash: string
+        }
+        Insert: {
+          country?: string | null
+          created_at?: string
+          id?: string
+          path: string
+          referrer?: string | null
+          user_id?: string | null
+          utm_campaign?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          visitor_hash: string
+        }
+        Update: {
+          country?: string | null
+          created_at?: string
+          id?: string
+          path?: string
+          referrer?: string | null
+          user_id?: string | null
+          utm_campaign?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          visitor_hash?: string
+        }
+        Relationships: []
+      }
       playbook_runs: {
         Row: {
           completed_at: string | null

@@ -57,20 +57,29 @@ const Admin = () => {
   const [subs, setSubs] = useState<SubRow[]>([]);
   const [chatCount, setChatCount] = useState(0);
   const [runsCount, setRunsCount] = useState(0);
+  const [visits, setVisits] = useState<{ visitor_hash: string; created_at: string; path: string; referrer: string | null; utm_source: string | null }[]>([]);
+  const [stripeStats, setStripeStats] = useState<{ activeCount: number; trialingCount: number; mrrCents: number; arrCents: number; byPlan: { name: string; count: number; mrrCents: number }[] } | null>(null);
+  const [stripeError, setStripeError] = useState<string | null>(null);
 
   const loadAll = async () => {
-    const [tk, pr, sb, ch, ru] = await Promise.all([
+    const since30 = new Date(Date.now() - 30 * 24 * 3600 * 1000).toISOString();
+    const [tk, pr, sb, ch, ru, pv, ss] = await Promise.all([
       supabase.from("contact_tickets").select("*").order("created_at", { ascending: false }),
       supabase.from("profiles").select("*").order("created_at", { ascending: false }).limit(1000),
       supabase.from("subscriptions").select("*").order("updated_at", { ascending: false }).limit(1000),
       supabase.from("chat_messages").select("*", { count: "exact", head: true }),
       supabase.from("playbook_runs").select("*", { count: "exact", head: true }),
+      supabase.from("page_views" as any).select("visitor_hash, created_at, path, referrer, utm_source").gte("created_at", since30).limit(10000),
+      supabase.functions.invoke("admin-stripe-stats"),
     ]);
     setTickets((tk.data ?? []) as Ticket[]);
     setProfiles((pr.data ?? []) as ProfileRow[]);
     setSubs((sb.data ?? []) as SubRow[]);
     setChatCount(ch.count ?? 0);
     setRunsCount(ru.count ?? 0);
+    setVisits((pv.data ?? []) as any);
+    if (ss.error) setStripeError(ss.error.message);
+    else setStripeStats(ss.data);
   };
 
   useEffect(() => { if (isAdmin) loadAll(); }, [isAdmin]);
@@ -85,20 +94,25 @@ const Admin = () => {
     const now = Date.now();
     const D = 24 * 60 * 60 * 1000;
     const totalUsers = profiles.length;
-    const activeSubs = subs.filter((s) => s.status === "active" || s.status === "trialing").length;
+    const activePaid = stripeStats?.activeCount ?? 0;
+    const trialing = stripeStats?.trialingCount ?? 0;
     const newUsers7d = profiles.filter((p) => now - new Date(p.created_at).getTime() < 7 * D).length;
     const newUsers30d = profiles.filter((p) => now - new Date(p.created_at).getTime() < 30 * D).length;
     const onboarded = profiles.filter((p) => p.onboarding_completed).length;
     const onboardingRate = totalUsers ? Math.round((onboarded / totalUsers) * 100) : 0;
-    const conversion = totalUsers ? Math.round((activeSubs / totalUsers) * 100) : 0;
     const openTickets = tickets.filter((t) => t.status === "open").length;
 
+    const uniqueVisitors30d = new Set(visits.map((v) => v.visitor_hash)).size;
+    const today = new Date().toISOString().slice(0, 10);
+    const uniqueVisitorsToday = new Set(visits.filter((v) => v.created_at.startsWith(today)).map((v) => v.visitor_hash)).size;
+    const visitorToSignup = uniqueVisitors30d ? ((newUsers30d / uniqueVisitors30d) * 100).toFixed(1) : "0";
+    const signupToPaid = totalUsers ? ((activePaid / totalUsers) * 100).toFixed(1) : "0";
+    const visitorToPaid = uniqueVisitors30d ? ((activePaid / uniqueVisitors30d) * 100).toFixed(2) : "0";
+
+    const mrr = (stripeStats?.mrrCents ?? 0) / 100;
+    const arr = (stripeStats?.arrCents ?? 0) / 100;
     const planMix: Record<string, number> = {};
-    subs.filter((s) => s.status === "active" || s.status === "trialing").forEach((s) => {
-      planMix[s.plan] = (planMix[s.plan] ?? 0) + 1;
-    });
-    const PRICE: Record<string, number> = { "GründerX": 99.99, "Founder Bundle": 179.99 };
-    const mrr = Object.entries(planMix).reduce((sum, [p, n]) => sum + (PRICE[p] ?? 0) * n, 0);
+    (stripeStats?.byPlan ?? []).forEach((p) => { planMix[p.name] = p.count; });
 
     const countries: Record<string, number> = {};
     profiles.forEach((p) => { const c = p.country || "—"; countries[c] = (countries[c] ?? 0) + 1; });
@@ -115,20 +129,42 @@ const Admin = () => {
     const topLegals = Object.entries(legals).sort((a, b) => b[1] - a[1]);
 
     const days: Record<string, number> = {};
+    const visitorDays: Record<string, Set<string>> = {};
     for (let i = 29; i >= 0; i--) {
       const d = new Date(now - i * D);
-      days[d.toISOString().slice(0, 10)] = 0;
+      const k = d.toISOString().slice(0, 10);
+      days[k] = 0;
+      visitorDays[k] = new Set();
     }
     profiles.forEach((p) => {
       const k = p.created_at.slice(0, 10);
       if (k in days) days[k]++;
     });
+    visits.forEach((v) => {
+      const k = v.created_at.slice(0, 10);
+      if (k in visitorDays) visitorDays[k].add(v.visitor_hash);
+    });
+    const visitorDaysCounts: Record<string, number> = {};
+    Object.entries(visitorDays).forEach(([k, set]) => { visitorDaysCounts[k] = set.size; });
+
+    const refs: Record<string, number> = {};
+    visits.forEach((v) => {
+      if (!v.referrer) return;
+      try { const h = new URL(v.referrer).hostname; refs[h] = (refs[h] ?? 0) + 1; } catch {}
+    });
+    const topReferrers = Object.entries(refs).sort((a, b) => b[1] - a[1]).slice(0, 8);
+
+    const utms: Record<string, number> = {};
+    visits.forEach((v) => { if (v.utm_source) utms[v.utm_source] = (utms[v.utm_source] ?? 0) + 1; });
+    const topUtms = Object.entries(utms).sort((a, b) => b[1] - a[1]).slice(0, 8);
 
     return {
-      totalUsers, activeSubs, newUsers7d, newUsers30d, onboardingRate, conversion,
-      openTickets, planMix, mrr, topCountries, topModels, topLegals, days,
+      totalUsers, activePaid, trialing, newUsers7d, newUsers30d, onboardingRate,
+      openTickets, planMix, mrr, arr, topCountries, topModels, topLegals, days, visitorDaysCounts,
+      uniqueVisitors30d, uniqueVisitorsToday, visitorToSignup, signupToPaid, visitorToPaid,
+      topReferrers, topUtms,
     };
-  }, [profiles, subs, tickets]);
+  }, [profiles, subs, tickets, visits, stripeStats]);
 
   const openTicket = async (t: Ticket) => {
     setSelected(t);
@@ -164,31 +200,57 @@ const Admin = () => {
 
   return (
     <CockpitShell eyebrow="🛡️ Admin" title="Kommandozentrale" subtitle="Marketing-Insights, Kunden, Abos & Tickets.">
+      {stripeError && (
+        <div className="mb-4 rounded-xl border border-destructive/40 bg-destructive/10 text-destructive px-4 py-3 text-sm">
+          Stripe-Daten nicht ladbar: {stripeError}
+        </div>
+      )}
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
-        <Kpi icon={Users} label="Nutzer gesamt" value={stats.totalUsers} hint={`+${stats.newUsers7d} in 7T · +${stats.newUsers30d} in 30T`} />
-        <Kpi icon={CreditCard} label="Aktive Abos" value={stats.activeSubs} hint={`Conversion ${stats.conversion}%`} accent />
-        <Kpi icon={TrendingUp} label="MRR (geschätzt)" value={`€${stats.mrr.toFixed(2)}`} hint={`ARR ≈ €${(stats.mrr * 12).toFixed(0)}`} />
-        <Kpi icon={Activity} label="Onboarding-Rate" value={`${stats.onboardingRate}%`} hint={`${stats.openTickets} offene Tickets · ${chatCount} Felix-Msgs · ${runsCount} Runs`} />
+        <Kpi icon={Users} label="Besucher (30T)" value={stats.uniqueVisitors30d} hint={`Heute: ${stats.uniqueVisitorsToday} · Signups 30T: ${stats.newUsers30d}`} />
+        <Kpi icon={UserPlus} label="Registrierte" value={stats.totalUsers} hint={`Visitor→Signup ${stats.visitorToSignup}%`} />
+        <Kpi icon={CreditCard} label="Zahlende Kunden" value={stats.activePaid} hint={`+ ${stats.trialing} Trial · Signup→Paid ${stats.signupToPaid}%`} accent />
+        <Kpi icon={TrendingUp} label="MRR (Stripe live)" value={`€${stats.mrr.toFixed(2)}`} hint={`ARR €${stats.arr.toFixed(0)} · Visitor→Paid ${stats.visitorToPaid}%`} />
       </div>
 
       <Tabs defaultValue="overview">
         <TabsList className="mb-6 flex-wrap">
           <TabsTrigger value="overview"><BarChart3 className="h-4 w-4 mr-1" /> Übersicht</TabsTrigger>
           <TabsTrigger value="kunden"><Users className="h-4 w-4 mr-1" /> Kunden ({stats.totalUsers})</TabsTrigger>
-          <TabsTrigger value="abos"><CreditCard className="h-4 w-4 mr-1" /> Abos ({stats.activeSubs})</TabsTrigger>
+          <TabsTrigger value="abos"><CreditCard className="h-4 w-4 mr-1" /> Abos ({stats.activePaid})</TabsTrigger>
           <TabsTrigger value="tickets"><Inbox className="h-4 w-4 mr-1" /> Tickets ({stats.openTickets})</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview">
           <div className="grid lg:grid-cols-2 gap-4">
+            <Panel title="Funnel (30 Tage)" icon={TrendingUp}>
+              <FunnelBars
+                steps={[
+                  { label: "Besucher", n: stats.uniqueVisitors30d },
+                  { label: "Signups", n: stats.newUsers30d },
+                  { label: "Zahlend (aktiv)", n: stats.activePaid },
+                ]}
+              />
+            </Panel>
+            <Panel title="Besucher (letzte 30 Tage, unique/Tag)" icon={Activity}>
+              <Sparkline values={Object.values(stats.visitorDaysCounts)} />
+              <div className="text-xs text-muted-foreground mt-2">
+                Spitze: {Math.max(...Object.values(stats.visitorDaysCounts), 0)} · Schnitt: {(Object.values(stats.visitorDaysCounts).reduce((a, b) => a + b, 0) / 30).toFixed(1)} / Tag
+              </div>
+            </Panel>
             <Panel title="Signups (letzte 30 Tage)" icon={UserPlus}>
               <Sparkline values={Object.values(stats.days)} />
               <div className="text-xs text-muted-foreground mt-2">
-                Spitze: {Math.max(...Object.values(stats.days), 0)} an einem Tag · Schnitt: {(Object.values(stats.days).reduce((a, b) => a + b, 0) / 30).toFixed(1)} / Tag
+                Spitze: {Math.max(...Object.values(stats.days), 0)} · Schnitt: {(Object.values(stats.days).reduce((a, b) => a + b, 0) / 30).toFixed(1)} / Tag
               </div>
             </Panel>
-            <Panel title="Plan-Mix (aktive Abos)" icon={CreditCard}>
+            <Panel title="Plan-Mix (Stripe aktiv)" icon={CreditCard}>
               <Bars data={Object.entries(stats.planMix)} />
+            </Panel>
+            <Panel title="Top-Referrer" icon={TrendingUp}>
+              <Bars data={stats.topReferrers} />
+            </Panel>
+            <Panel title="Top-UTM-Quellen" icon={TrendingUp}>
+              <Bars data={stats.topUtms} />
             </Panel>
             <Panel title="Top-Geschäftsmodelle" icon={TrendingUp}>
               <Bars data={stats.topModels} labelMap={MODEL_LABEL} />
@@ -201,6 +263,7 @@ const Admin = () => {
             </Panel>
             <Panel title="Engagement" icon={MessageSquare}>
               <div className="space-y-2 text-sm">
+                <Row k="Onboarding-Rate" v={`${stats.onboardingRate}%`} />
                 <Row k="Felix-Chat-Nachrichten gesamt" v={chatCount.toString()} />
                 <Row k="Playbook-Runs gesamt" v={runsCount.toString()} />
                 <Row k="Tickets offen" v={stats.openTickets.toString()} />
@@ -324,6 +387,32 @@ const Bars = ({ data, labelMap }: { data: [string, number][]; labelMap?: Record<
           </div>
         </div>
       ))}
+    </div>
+  );
+};
+
+const FunnelBars = ({ steps }: { steps: { label: string; n: number }[] }) => {
+  const max = Math.max(...steps.map((s) => s.n), 1);
+  return (
+    <div className="space-y-3">
+      {steps.map((s, i) => {
+        const prev = i > 0 ? steps[i - 1].n : null;
+        const pct = prev && prev > 0 ? ((s.n / prev) * 100).toFixed(1) : null;
+        return (
+          <div key={s.label}>
+            <div className="flex items-center justify-between text-sm mb-1">
+              <span className="font-semibold">{s.label}</span>
+              <span className="text-muted-foreground">
+                {s.n.toLocaleString("de-DE")}
+                {pct !== null && <span className="ml-2 text-xs">({pct}% vs. {steps[i - 1].label})</span>}
+              </span>
+            </div>
+            <div className="h-3 bg-secondary rounded-full overflow-hidden">
+              <div className="h-full bg-gradient-primary" style={{ width: `${(s.n / max) * 100}%` }} />
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 };
