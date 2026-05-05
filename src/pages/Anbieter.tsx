@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Input } from "@/components/ui/input";
-import { Star, Tag, ExternalLink, MessageSquare, Clock, AlertCircle } from "lucide-react";
+import { Star, Tag, ExternalLink, Clock, AlertCircle } from "lucide-react";
 
 /**
  * Verifizierte Legal-URLs pro Anbieter (Stand: 2026-05-05).
@@ -1282,74 +1282,72 @@ const Anbieter = () => {
 
 const ProviderCard = ({ p }: { p: Provider }) => (
   <Link to={`/anbieter/${p.slug}`} className="rounded-2xl border border-border bg-card p-5 shadow-card hover:shadow-soft hover:border-accent-blue/40 transition-all flex flex-col">
+    {/* Header: Kategorie · Name · Rating */}
     <div className="flex items-start justify-between mb-2 gap-3">
       <div className="min-w-0">
-        <div className="text-xs font-semibold uppercase tracking-wider text-accent-blue">{p.category}</div>
-        <h3 className="font-bold text-lg leading-tight">{p.name}</h3>
+        <div className="text-[10px] font-semibold uppercase tracking-wider text-accent-blue truncate">{p.category}</div>
+        <h3 className="font-bold text-lg leading-tight truncate">{p.name}</h3>
       </div>
-      <div className="flex items-center gap-1 text-xs font-semibold shrink-0">
-        <Star className="h-3.5 w-3.5 fill-yellow-400 text-yellow-400" />
+      <div className="flex items-center gap-1 text-xs font-semibold shrink-0 rounded-md bg-yellow-50 dark:bg-yellow-950/40 text-yellow-700 dark:text-yellow-300 px-2 py-0.5">
+        <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
         {p.rating.toFixed(1)}
       </div>
     </div>
-    <p className="text-sm text-muted-foreground leading-relaxed mb-3">{p.tagline}</p>
 
-    {/* Pros / Cons */}
-    <div className="grid grid-cols-2 gap-2 text-xs mb-3">
-      <div>
-        <div className="font-semibold text-success mb-1">+ Stärken</div>
-        <ul className="space-y-0.5 text-muted-foreground">
-          {p.pros.slice(0, 4).map((s, i) => <li key={i} className="leading-snug">· {s}</li>)}
+    {/* Tagline – fixed 2 lines */}
+    <p className="text-sm text-muted-foreground leading-snug mb-4 line-clamp-2 min-h-[2.5rem]">{p.tagline}</p>
+
+    {/* Pros / Cons als eigene Boxen mit fixer Höhe */}
+    <div className="grid grid-cols-2 gap-2 mb-4">
+      <div className="rounded-lg border border-success/20 bg-success/5 p-2.5 min-h-[6.5rem]">
+        <div className="text-[10px] font-bold uppercase tracking-wider text-success mb-1.5">Stärken</div>
+        <ul className="space-y-1 text-[11px] leading-snug text-foreground/80">
+          {p.pros.slice(0, 3).map((s, i) => (
+            <li key={i} className="line-clamp-2">+ {s}</li>
+          ))}
         </ul>
       </div>
-      <div>
-        <div className="font-semibold text-destructive mb-1">– Schwächen</div>
-        <ul className="space-y-0.5 text-muted-foreground">
-          {p.cons.slice(0, 3).map((s, i) => <li key={i} className="leading-snug">· {s}</li>)}
+      <div className="rounded-lg border border-destructive/20 bg-destructive/5 p-2.5 min-h-[6.5rem]">
+        <div className="text-[10px] font-bold uppercase tracking-wider text-destructive mb-1.5">Schwächen</div>
+        <ul className="space-y-1 text-[11px] leading-snug text-foreground/80">
+          {p.cons.slice(0, 3).map((s, i) => (
+            <li key={i} className="line-clamp-2">– {s}</li>
+          ))}
         </ul>
       </div>
     </div>
 
-    {p.forumNotes && (
-      <div className="rounded-lg bg-secondary/40 border border-border p-2.5 text-[11px] text-muted-foreground leading-snug mb-3 flex gap-1.5">
-        <MessageSquare className="h-3 w-3 mt-0.5 shrink-0 text-accent-blue" />
-        <span><em>{p.forumNotes}</em></span>
-      </div>
-    )}
-
-    <div className="flex items-center justify-between text-xs text-muted-foreground mb-2 gap-2">
-      <span>{p.region}</span>
-      <span className="font-semibold text-foreground text-right">{p.starting}</span>
+    {/* Footer-Zeile: Region · Preis · Setup */}
+    <div className="flex items-center justify-between gap-2 text-xs mb-3 border-t border-border pt-3">
+      <span className="text-muted-foreground truncate">{p.region}</span>
+      <span className="font-semibold text-foreground shrink-0">{p.starting}</span>
     </div>
 
+    {/* Tags – nur wenn vorhanden, einheitlich */}
     {(p.signupTime || p.monthlyMin) && (
-      <div className="flex flex-wrap gap-1.5 text-[10px] text-muted-foreground mb-3">
+      <div className="flex flex-wrap gap-1.5 text-[10px] mb-3">
         {p.signupTime && (
-          <span className="rounded-full bg-secondary px-2 py-0.5 inline-flex items-center gap-1">
+          <span className="rounded-full bg-secondary text-muted-foreground px-2 py-0.5 inline-flex items-center gap-1">
             <Clock className="h-2.5 w-2.5" />{p.signupTime}
           </span>
         )}
         {p.monthlyMin && (
           <span className="rounded-full bg-warning/10 text-warning-foreground border border-warning/30 px-2 py-0.5 inline-flex items-center gap-1">
-            <AlertCircle className="h-2.5 w-2.5" />{p.monthlyMin}
+            <AlertCircle className="h-2.5 w-2.5" />Min-Umsatz
           </span>
         )}
       </div>
     )}
 
+    {/* Aktiver Deal (kompakt) */}
     {isCoopActive(p.coop) && p.coop && (
-      <div className="rounded-xl bg-accent text-accent-foreground p-2.5 text-xs font-semibold mb-3">
-        <div className="flex items-start gap-1.5">
-          <Tag className="h-3.5 w-3.5 mt-0.5 shrink-0" />
-          <div>
-            Coop-Deal: {p.coop.text}
-            {p.coop.code && <div className="text-[10px] mt-0.5 font-mono opacity-80">Code: {p.coop.code}</div>}
-            <div className="text-[10px] mt-0.5 opacity-80">gültig bis {p.coop.expires}</div>
-          </div>
-        </div>
+      <div className="rounded-lg bg-accent-blue/10 border border-accent-blue/30 text-foreground p-2 text-[11px] font-medium mb-3 flex items-start gap-1.5">
+        <Tag className="h-3 w-3 mt-0.5 shrink-0 text-accent-blue" />
+        <span className="line-clamp-2">{p.coop.text}{p.coop.code ? ` · ${p.coop.code}` : ""}</span>
       </div>
     )}
 
+    {/* CTA */}
     <div className="mt-auto inline-flex items-center gap-1 text-xs font-semibold text-accent-blue">
       Details ansehen <ExternalLink className="h-3 w-3" />
     </div>
