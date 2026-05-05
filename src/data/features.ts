@@ -29,7 +29,7 @@ export interface FeatureCategory {
   features: Feature[];
 }
 
-export const CATEGORIES: FeatureCategory[] = [
+const _CATEGORIES_RAW: FeatureCategory[] = [
   {
     slug: "international",
     title: "Internationale Setups",
@@ -162,6 +162,12 @@ export const CATEGORIES: FeatureCategory[] = [
     ],
   },
 ];
+
+// Reihenfolge nach Relevanz für die breite Masse der (DE-)Gründer.
+const ORDER = ["rechtsform", "steuer", "buchhaltung", "marken", "anbieter", "launch", "international", "premium"];
+export const CATEGORIES: FeatureCategory[] = ORDER
+  .map((slug) => _CATEGORIES_RAW.find((c) => c.slug === slug)!)
+  .filter(Boolean);
 
 export const STATUS_LABEL: Record<FeatureStatus, string> = {
   live: "Live",
