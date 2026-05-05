@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Loader2, Search, MapPin, ExternalLink, AlertTriangle, CheckCircle2, Mail, Copy } from "lucide-react";
+import { Loader2, Search, MapPin, ExternalLink, AlertTriangle, CheckCircle2, Mail, Copy, Info } from "lucide-react";
 import { toast } from "sonner";
 
 /* ============ COMPANY NAME CHECK ============ */
@@ -33,26 +33,57 @@ export function CompanyNameCheck({ initial, onPick }: { initial?: string; onPick
       </div>
       {result && (
         <div className="space-y-2 text-sm">
-          {result.exactConflict ? (
+          {result.searchFailed ? (
+            <div className="flex items-start gap-2 rounded-lg bg-warning/10 text-warning-foreground border border-warning/30 p-3">
+              <AlertTriangle className="h-4 w-4 mt-0.5 shrink-0" />
+              <span>Live-Check nicht möglich – die Register-Quellen waren gerade nicht erreichbar. Bitte direkt im Handelsregister prüfen.</span>
+            </div>
+          ) : result.exactConflict ? (
             <div className="flex items-start gap-2 rounded-lg bg-destructive/10 text-destructive p-3">
-              <AlertTriangle className="h-4 w-4 mt-0.5" />
-              <span>Möglicher Konflikt – ähnlicher Name gefunden. Bitte verbindlich im Handelsregister prüfen.</span>
+              <AlertTriangle className="h-4 w-4 mt-0.5 shrink-0" />
+              <span><strong>Konflikt:</strong> Es existiert bereits ein eingetragenes Unternehmen mit identischem Namen. Andere Firmierung wählen.</span>
+            </div>
+          ) : result.similarConflict ? (
+            <div className="flex items-start gap-2 rounded-lg bg-destructive/10 text-destructive p-3">
+              <AlertTriangle className="h-4 w-4 mt-0.5 shrink-0" />
+              <span><strong>Sehr ähnlicher Name gefunden</strong> – das IHK/Registergericht lehnt das wahrscheinlich ab. Vor Notartermin verbindlich prüfen.</span>
+            </div>
+          ) : result.noHits ? (
+            <div className="flex items-start gap-2 rounded-lg bg-success/10 text-success p-3">
+              <CheckCircle2 className="h-4 w-4 mt-0.5 shrink-0" />
+              <span>Keine Treffer in den durchsuchten Registern – sieht frei aus, trotzdem offiziell verifizieren.</span>
             </div>
           ) : (
-            <div className="flex items-start gap-2 rounded-lg bg-success/10 text-success p-3">
-              <CheckCircle2 className="h-4 w-4 mt-0.5" />
-              <span>Keine offensichtlichen Konflikte – trotzdem offiziell verifizieren.</span>
+            <div className="flex items-start gap-2 rounded-lg bg-secondary text-foreground p-3">
+              <Info className="h-4 w-4 mt-0.5 shrink-0" />
+              <span>Treffer mit Namensbestandteilen gefunden – siehe Liste. Selbst beurteilen, ob Verwechslungsgefahr besteht.</span>
             </div>
           )}
           {result.hits?.length > 0 && (
             <div className="rounded-lg border border-border bg-card p-3">
-              <div className="text-xs font-semibold mb-1 text-muted-foreground">Ähnliche Treffer</div>
+              <div className="text-xs font-semibold mb-1 text-muted-foreground">Treffer ({result.hits.length})</div>
               <ul className="space-y-1 text-xs">
-                {result.hits.slice(0, 5).map((h: any, i: number) => <li key={i}>• {h.name}</li>)}
+                {result.hits.slice(0, 8).map((h: any, i: number) => (
+                  <li key={i} className="flex items-start gap-2">
+                    <span className={h.exact ? "text-destructive font-semibold" : ""}>•</span>
+                    <span className="flex-1">
+                      {h.name}
+                      {h.court && <span className="text-muted-foreground"> · {h.court}</span>}
+                      {h.location && <span className="text-muted-foreground"> · {h.location}</span>}
+                    </span>
+                    <span className="text-muted-foreground">[{h.source}]</span>
+                  </li>
+                ))}
               </ul>
             </div>
           )}
+          {result.sources && (
+            <div className="text-[10px] text-muted-foreground">
+              Quellen: OffeneRegister: {result.sources.offeneregister} · Unternehmensregister: {result.sources.unternehmensregister}
+            </div>
+          )}
           <div className="flex flex-wrap gap-2 text-xs">
+            <a href={result.unternehmensregisterUrl ?? result.handelsregisterUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 underline"><ExternalLink className="h-3 w-3" /> Unternehmensregister</a>
             <a href={result.handelsregisterUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 underline"><ExternalLink className="h-3 w-3" /> Handelsregister</a>
             <a href={result.dpmaUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 underline"><ExternalLink className="h-3 w-3" /> DPMA Marken-Check</a>
           </div>
