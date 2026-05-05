@@ -20,9 +20,8 @@ import {
   Collapsible, CollapsibleContent, CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { CATEGORIES, STATUS_LABEL, type FeatureStatus } from "@/data/features";
-import { ChevronRight, LayoutDashboard, LifeBuoy, MessageCircle, MessageSquare, Shield, Users } from "lucide-react";
+import { ChevronRight, LayoutDashboard, LifeBuoy, ListTree, MessageCircle, MessageSquare, Shield, Users } from "lucide-react";
 import { useRole } from "@/hooks/useRole";
-import { FelixChatsGroup } from "@/components/sidebar/FelixChatsGroup";
 
 const STATUS_DOT: Record<FeatureStatus, string> = {
   live: "bg-success",
@@ -61,12 +60,11 @@ export function AppSidebar() {
             <SidebarMenu>
               <Item to="/dashboard" icon={LayoutDashboard} label="Übersicht" active={pathname === "/dashboard" && !activeCat} />
               <Item to="/felix" icon={MessageSquare} label="Felix-Chat" active={pathname === "/felix"} />
+              <Item to="/felix/chats" icon={ListTree} label="Chat-Übersicht" active={pathname === "/felix/chats"} />
               {isAdmin && <Item to="/admin" icon={Shield} label="Admin" active={pathname === "/admin"} />}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-
-        <FelixChatsGroup />
 
 
         {CATEGORIES.map((cat) => {
