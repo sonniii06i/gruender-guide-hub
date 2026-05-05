@@ -125,54 +125,58 @@ const Profile = () => {
         </TabsContent>
 
         <TabsContent value="abrechnung">
-          <Card>
-            <div className="flex items-start justify-between gap-4 mb-6">
+          <div className="rounded-2xl border border-border bg-card p-6 md:p-8">
+            <div className="flex items-start justify-between gap-4 mb-8">
               <div>
                 <div className="text-xs uppercase font-bold tracking-wider text-muted-foreground">Aktueller Plan</div>
-                <div className="text-2xl font-bold mt-1">{isActive ? sub.plan : "Kein aktives Abo"}</div>
+                <div className="text-3xl font-bold mt-1">{isActive ? sub.plan : "Kein aktives Abo"}</div>
                 <div className="text-sm text-muted-foreground mt-1">Status: {sub?.status ?? "inactive"}</div>
+                {sub?.current_period_end && (
+                  <div className="text-sm text-muted-foreground mt-1">
+                    Verlängerung: {new Date(sub.current_period_end).toLocaleDateString("de-DE")}
+                  </div>
+                )}
               </div>
               <span className={`rounded-full px-3 py-1 text-xs font-bold ${isActive ? "bg-success/15 text-success" : "bg-secondary text-muted-foreground"}`}>
                 {isActive ? "Aktiv" : "Inaktiv"}
               </span>
             </div>
 
-            <div className="rounded-2xl bg-gradient-primary text-primary-foreground p-6 relative overflow-hidden shadow-glow">
-              <div className="absolute -top-16 -right-16 w-56 h-56 rounded-full bg-accent-blue/30 blur-3xl" />
+            <div className="rounded-2xl bg-gradient-primary text-primary-foreground p-6 md:p-10 relative overflow-hidden shadow-glow min-h-[460px]">
+              <div className="absolute -top-16 -right-16 w-72 h-72 rounded-full bg-accent-blue/30 blur-3xl" />
               <div className="relative">
-                <div className="inline-flex items-center gap-1.5 rounded-full bg-white/20 backdrop-blur px-3 py-1 text-xs font-semibold mb-3">
-                  <Crown className="h-3.5 w-3.5" /> GründerX
+                <div className="inline-flex items-center gap-1.5 rounded-full bg-white/20 backdrop-blur px-3 py-1 text-xs font-semibold mb-5">
+                  <Crown className="h-3.5 w-3.5" /> {isActive ? "Plan ändern" : "Plan wählen"}
                 </div>
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div className="rounded-2xl bg-white/10 backdrop-blur p-4 flex flex-col">
-                    <div className="font-bold">GründerX</div>
-                    <div className="text-2xl font-bold mt-1">99,99 €<span className="text-sm font-normal opacity-70">/Mon</span></div>
-                    <p className="text-xs opacity-85 mt-2 flex-1">Felix, alle Wizards, Anbieter-Vergleich, Coop-Deals</p>
-                    <Button onClick={() => checkout(STRIPE_PRICES.gruenderx)} disabled={busy === STRIPE_PRICES.gruenderx} className="mt-3 rounded-full bg-card text-primary hover:bg-card/90">
+                <div className="grid md:grid-cols-2 gap-5">
+                  <div className="rounded-2xl bg-white/10 backdrop-blur p-6 flex flex-col min-h-[260px]">
+                    <div className="font-bold text-lg">GründerX</div>
+                    <div className="text-3xl font-bold mt-2">99,99 €<span className="text-sm font-normal opacity-70">/Mon</span></div>
+                    <p className="text-sm opacity-85 mt-3 flex-1">Felix KI, alle Wizards, Anbieter-Vergleich, Coop-Deals.</p>
+                    <Button onClick={() => checkout(STRIPE_PRICES.gruenderx)} disabled={busy === STRIPE_PRICES.gruenderx} className="mt-4 rounded-full bg-card text-primary hover:bg-card/90 h-11">
                       {busy === STRIPE_PRICES.gruenderx ? <Loader2 className="h-4 w-4 animate-spin" /> : "Abonnieren"}
                     </Button>
                   </div>
-                  <div className="rounded-2xl bg-white/10 backdrop-blur p-4 flex flex-col">
-                    <div className="font-bold">Founder Bundle</div>
-                    <div className="text-2xl font-bold mt-1">179,99 €<span className="text-sm font-normal opacity-70">/Mon</span></div>
-                    <p className="text-xs opacity-85 mt-2 flex-1">GründerX + AnwaltX (Vertrags-Templates, Compliance-Audit)</p>
-                    <Button onClick={() => checkout(STRIPE_PRICES.bundle)} disabled={busy === STRIPE_PRICES.bundle} className="mt-3 rounded-full bg-card text-primary hover:bg-card/90">
+                  <div className="rounded-2xl bg-white/10 backdrop-blur p-6 flex flex-col min-h-[260px]">
+                    <div className="font-bold text-lg">Founder Bundle</div>
+                    <div className="text-3xl font-bold mt-2">179,99 €<span className="text-sm font-normal opacity-70">/Mon</span></div>
+                    <p className="text-sm opacity-85 mt-3 flex-1">GründerX + AnwaltX (Vertrags-Templates, Compliance-Audit).</p>
+                    <Button onClick={() => checkout(STRIPE_PRICES.bundle)} disabled={busy === STRIPE_PRICES.bundle} className="mt-4 rounded-full bg-card text-primary hover:bg-card/90 h-11">
                       {busy === STRIPE_PRICES.bundle ? <Loader2 className="h-4 w-4 animate-spin" /> : "Bundle sichern"}
                     </Button>
                   </div>
                 </div>
-                <div className="flex gap-2 mt-5">
-                  <Button onClick={portal} disabled={busy === "portal" || !isActive} variant="secondary" className="rounded-full">
+                <div className="flex flex-wrap gap-2 mt-8">
+                  <Button onClick={portal} disabled={busy === "portal" || !isActive} variant="secondary" className="rounded-full h-11 px-6">
                     {busy === "portal" ? <Loader2 className="h-4 w-4 animate-spin" /> : "Abo verwalten"}
                   </Button>
-                  <Button onClick={refreshSub} variant="ghost" className="rounded-full text-primary-foreground hover:bg-white/10">
+                  <Button onClick={refreshSub} variant="ghost" className="rounded-full text-primary-foreground hover:bg-white/10 h-11">
                     Status prüfen
                   </Button>
                 </div>
-
               </div>
             </div>
-          </Card>
+          </div>
         </TabsContent>
 
         <TabsContent value="sicherheit">
