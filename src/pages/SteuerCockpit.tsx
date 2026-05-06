@@ -1,8 +1,9 @@
 import { useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Calendar, Calculator, PiggyBank, Info } from "lucide-react";
+import { Calendar, Calculator, PiggyBank, Info, ShoppingCart } from "lucide-react";
 
 type LegalForm = "ein" | "ug" | "gmbh";
 type UstMode = "monatlich" | "quartal" | "keine";
@@ -404,6 +405,36 @@ const SteuerCockpit = () => {
             )}
             <Row label="Gewinn (netto)" value={`${gewinn.toLocaleString("de-DE")} €`} />
             <Row label={`Steuer-Rücklage (${(steuersatz * 100).toFixed(0)} %)`} value={`${Math.round(ruecklage).toLocaleString("de-DE")} €`} highlight />
+          </div>
+        </div>
+      </div>
+
+      {/* Amazon-Buchhaltung-Hinweis */}
+      <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5 mb-6">
+        <div className="flex items-start gap-3">
+          <div className="rounded-xl bg-accent-blue text-primary-foreground p-2 shrink-0">
+            <ShoppingCart className="h-5 w-5" />
+          </div>
+          <div className="flex-1">
+            <div className="font-bold mb-1">Amazon-Verkäufer mit PayJoe oder Taxdoo?</div>
+            <div className="text-sm text-muted-foreground leading-relaxed mb-3">
+              Amazon-FBA-Buchhaltung ist Spezialthema – die meisten Steuerberater kennen die FBA-Spezifika nicht (Lagerumlagerungen zwischen EU-Lagern, OSS vs. lokale Registrierung, VCS-Reports, Auszahlungs-Splits, MwSt.-Trennung pro Marktplatz, B2B-Reverse-Charge). Wir helfen bei:
+            </div>
+            <ul className="text-sm text-muted-foreground space-y-1 mb-3 list-disc pl-5">
+              <li>Korrekter Verbuchung von Amazon-Auszahlungen (PayJoe / Taxdoo / Amainvoice)</li>
+              <li>OSS-Setup vs. lokale UStID in EU-Lagerländern (PL, CZ, IT, ES, FR)</li>
+              <li>Stock-Movement-Verbuchung (Sachspende vs. Lagerumlagerung)</li>
+              <li>Integration mit lexoffice / sevDesk / DATEV (DATEV-Export aus PayJoe)</li>
+              <li>Empfehlungen für FBA-erfahrene StB in deinem Bundesland</li>
+            </ul>
+            <div className="flex flex-wrap gap-2">
+              <Link to="/felix" className="rounded-full bg-accent-blue text-primary-foreground px-4 py-1.5 text-xs font-semibold hover:opacity-90 transition-opacity">
+                Felix fragen →
+              </Link>
+              <Link to="/kontakt" className="rounded-full border border-accent-blue/40 text-accent-blue px-4 py-1.5 text-xs font-semibold hover:bg-accent-blue/10 transition-colors">
+                Setup-Call buchen →
+              </Link>
+            </div>
           </div>
         </div>
       </div>
