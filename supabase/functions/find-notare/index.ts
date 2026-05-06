@@ -189,13 +189,126 @@ async function findNotaresOSM(
 }
 
 /**
- * Free Google Maps Scrape – KEIN API-Key. Nutzt die öffentliche Google-Maps-
- * Search-URL und parst das eingebettete APP_INITIALIZATION_STATE.
- * Inspiriert von gosom/google-maps-scraper + omkarcloud/google-maps-scraper
- * (GitHub), aber ohne headless-Browser, einfach via fetch + Regex.
+ * SerpAPI Google Maps Endpoint – Drittanbieter-Scrape-Service (NICHT Google
+ * official API). Kostenlose 100 Searches/Monat ohne Card. Liefert echte
+ * Bewertungen, Reviews, Adressen.
  *
- * BRÜCHIG: Google ändert das Format gelegentlich → tägliche Health-Routine
- * (siehe trigger_01..) prüft das und fällt automatisch auf OSM-only zurück.
+ * Setup: User signt sich auf serpapi.com ein, Key wird als Supabase Secret
+ * SERPAPI_KEY hinterlegt. Ohne Key: silent fallback (keine Bewertungen).
+ */
+async function fetchViaSerpAPI(
+  query: string,
+  lat: number,
+  lon: number,
+): Promise<Notar[] | null> {
+  const key = Deno.env.get("SERPAPI_KEY");
+  if (!key) return null;
+  try {
+    const params = new URLSearchParams({
+      engine: "google_maps",
+      q: query,
+      ll: `@${lat},${lon},14z`,
+      type: "search",
+      hl: "de",
+      gl: "de",
+      api_key: key,
+    });
+    const res = await fetch(`https://serpapi.com/search.json?${params}`, {
+      signal: AbortSignal.timeout(10000),
+    });
+    if (!res.ok) return null;
+    const data = await res.json();
+    const results = data?.local_results ?? data?.place_results ?? [];
+    if (!Array.isArray(results) || results.length === 0) return null;
+
+    return results.slice(0, 25).map((r: any): Notar => {
+      const street = r.address?.split(",")[0]?.trim();
+      const plzCity = r.address?.split(",")[1]?.trim();
+      const plzCityMatch = plzCity?.match(/^(\d{4,5})\s+(.+)$/);
+      return {
+        name: String(r.title ?? "Unbekannt"),
+        street,
+        postalCode: plzCityMatch?.[1],
+        city: plzCityMatch?.[2] ?? plzCity,
+        phone: r.phone,
+        website: r.website,
+        openingHours: typeof r.hours === "string" ? r.hours : undefined,
+        lat: r.gps_coordinates?.latitude,
+        lon: r.gps_coordinates?.longitude,
+        distanceKm:
+          r.gps_coordinates?.latitude !== undefined
+            ? Math.round(
+                haversineKm(lat, lon, r.gps_coordinates.latitude, r.gps_coordinates.longitude) * 10,
+              ) / 10
+            : undefined,
+        rating: typeof r.rating === "number" ? r.rating : undefined,
+        reviewCount: typeof r.reviews === "number" ? r.reviews : undefined,
+        source: "google",
+        placeId: r.place_id,
+      };
+    });
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Apify Google Maps Scraper – Alternative wenn SerpAPI-Quota erschöpft.
+ * $5 Free Credits/Monat (~500 calls).
+ */
+async function fetchViaApify(
+  query: string,
+  lat: number,
+  lon: number,
+): Promise<Notar[] | null> {
+  const token = Deno.env.get("APIFY_TOKEN");
+  if (!token) return null;
+  try {
+    const res = await fetch(
+      `https://api.apify.com/v2/acts/compass~crawler-google-places/run-sync-get-dataset-items?token=${token}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          searchStringsArray: [query],
+          locationQuery: `${lat},${lon}`,
+          maxCrawledPlacesPerSearch: 20,
+          language: "de",
+          countryCode: "de",
+        }),
+        signal: AbortSignal.timeout(60000),
+      },
+    );
+    if (!res.ok) return null;
+    const data = await res.json();
+    if (!Array.isArray(data) || data.length === 0) return null;
+    return data.map((p: any): Notar => ({
+      name: String(p.title ?? "Unbekannt"),
+      street: p.street,
+      postalCode: p.postalCode,
+      city: p.city,
+      phone: p.phone,
+      website: p.website,
+      lat: p.location?.lat,
+      lon: p.location?.lng,
+      distanceKm:
+        p.location?.lat !== undefined
+          ? Math.round(haversineKm(lat, lon, p.location.lat, p.location.lng) * 10) / 10
+          : undefined,
+      rating: typeof p.totalScore === "number" ? p.totalScore : undefined,
+      reviewCount: typeof p.reviewsCount === "number" ? p.reviewsCount : undefined,
+      source: "google",
+      placeId: p.placeId,
+    }));
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Verbleibender Gratis-Scrape-Versuch ohne API-Key.
+ * Funktioniert in der Praxis kaum (Google blockt Datacenter-IPs), aber
+ * Fallback wenn weder SerpAPI noch Apify konfiguriert sind.
  */
 async function scrapeGoogleMaps(
   query: string,
@@ -280,9 +393,12 @@ async function findNotaresGoogle(
   cityHint?: string,
 ): Promise<Notar[] | null> {
   const query = cityHint ? `Notar ${cityHint}` : `Notar near ${lat},${lon}`;
-  const places = await scrapeGoogleMaps(query, lat, lon);
+  // Reihenfolge nach Zuverlässigkeit: SerpAPI → Apify → Free-Scrape
+  const places =
+    (await fetchViaSerpAPI(query, lat, lon)) ??
+    (await fetchViaApify(query, lat, lon)) ??
+    (await scrapeGoogleMaps(query, lat, lon));
   if (!places) return null;
-  // Distanz nachträglich berechnen wenn lat/lon des Treffers vorhanden
   for (const p of places) {
     if (p.lat !== undefined && p.lon !== undefined) {
       p.distanceKm = Math.round(haversineKm(lat, lon, p.lat, p.lon) * 10) / 10;
