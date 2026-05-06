@@ -1427,6 +1427,319 @@ export const SUB_CODES: AmazonCode[] = [
     ust: "19% VSt-abziehbar",
     bookingHint: "Frachtkosten.",
   },
+  {
+    code: "RetPosBif",
+    category: "fba",
+    label: "Return Postage Billing Fee",
+    meaning: "Bearbeitungsgebühr für Retoure-Porto (zusätzlich zum eigentlichen Porto).",
+    sign: "minus",
+    skr03: "3100 Fremdleistungen (Schlüssel 9)",
+    skr04: "5900 Fremdleistungen",
+    ust: "19% VSt-abziehbar",
+    bookingHint: "Aufwand wie normale FBA-Gebühr (nicht Fracht, sondern Service-Pauschale).",
+  },
+  {
+    code: "ReturnPostageBilling",
+    category: "fba",
+    label: "Return Postage Billing (Voll-Variante)",
+    meaning: "Vollständige Schreibweise von RetPosBi – Berechnung Retoure-Porto.",
+    sign: "minus",
+    skr03: "4730 Ausgangsfrachten (Schlüssel 9)",
+    skr04: "6740 Ausgangsfrachten",
+    ust: "19% VSt-abziehbar",
+    bookingHint: "Frachtkosten – wie RetPosBi.",
+  },
+
+  // --- Long-Term-Storage / Aged Inventory / Low Inventory ---
+  {
+    code: "LongTermStorageFee",
+    category: "storage",
+    label: "Long-Term Storage Fee",
+    meaning: "Strafgebühr für Ware die länger als 365 Tage in FBA-Lagern liegt (zusätzlich zur monatlichen Storage Fee). Sehr teuer.",
+    sign: "minus",
+    skr03: "3100 Fremdleistungen (Schlüssel 9)",
+    skr04: "5900 Fremdleistungen",
+    ust: "19% VSt-abziehbar",
+    bookingHint: "Aufwand wie StorFe. Tipp: Removal-Order vor 365-Tage-Marke einplanen.",
+  },
+  {
+    code: "LTSF",
+    category: "storage",
+    label: "Long-Term Storage Fee (Kürzel)",
+    meaning: "Kurz-Variante der Long-Term Storage Fee.",
+    sign: "minus",
+    skr03: "3100 Fremdleistungen (Schlüssel 9)",
+    skr04: "5900 Fremdleistungen",
+    ust: "19% VSt-abziehbar",
+    bookingHint: "Wie LongTermStorageFee.",
+  },
+  {
+    code: "AgedInvSur",
+    category: "storage",
+    label: "Aged Inventory Surcharge",
+    meaning: "Aufschlag für Inventar, das über 271 Tage im Lager ist (gestaffelt bis 365+ Tage). Eingeführt 2023, ersetzt teilweise LTSF.",
+    sign: "minus",
+    skr03: "3100 Fremdleistungen (Schlüssel 9)",
+    skr04: "5900 Fremdleistungen",
+    ust: "19% VSt-abziehbar",
+    bookingHint: "Aufwand. Lange Lagerung kostet — Stockturn beobachten.",
+    popular: true,
+  },
+  {
+    code: "AgedInventorySurcharge",
+    category: "storage",
+    label: "Aged Inventory Surcharge (Voll)",
+    meaning: "Voll-Variante des Aged Inventory Surcharge.",
+    sign: "minus",
+    skr03: "3100 Fremdleistungen (Schlüssel 9)",
+    skr04: "5900 Fremdleistungen",
+    ust: "19% VSt-abziehbar",
+    bookingHint: "Wie AgedInvSur.",
+  },
+  {
+    code: "StoUtilSur",
+    category: "storage",
+    label: "Storage Utilization Surcharge",
+    meaning: "Strafe wenn dein Lager-Utilization-Ratio über 26 Wochen Durchschnitt zu schlecht ist (zu viel Lager im Verhältnis zum Verkauf).",
+    sign: "minus",
+    skr03: "3100 Fremdleistungen (Schlüssel 9)",
+    skr04: "5900 Fremdleistungen",
+    ust: "19% VSt-abziehbar",
+    bookingHint: "Aufwand wie Storage. Symptom für zu viel Lager-Bestand.",
+  },
+  {
+    code: "LowInventoryFee",
+    category: "fba",
+    label: "Low Inventory Level Fee (LIF)",
+    meaning: "Strafe wenn Lager-Coverage unter 28 Tage fällt (Risiko Out-of-Stock). Eingeführt 04/2024.",
+    sign: "minus",
+    skr03: "3100 Fremdleistungen (Schlüssel 9)",
+    skr04: "5900 Fremdleistungen",
+    ust: "19% VSt-abziehbar",
+    bookingHint: "Aufwand. Vermeidung: Lieferungen früher reordern oder Pre-Stock erhöhen.",
+    popular: true,
+  },
+  {
+    code: "LIF",
+    category: "fba",
+    label: "Low Inventory Fee (Kürzel)",
+    meaning: "Kürzel für Low Inventory Level Fee.",
+    sign: "minus",
+    skr03: "3100 Fremdleistungen (Schlüssel 9)",
+    skr04: "5900 Fremdleistungen",
+    ust: "19% VSt-abziehbar",
+    bookingHint: "Wie LowInventoryFee.",
+  },
+
+  // --- Removal / Disposal Detail ---
+  {
+    code: "RemovalCompletePerUnitFee",
+    category: "fba",
+    label: "Removal Complete Per-Unit Fee",
+    meaning: "Auslagerungsgebühr pro Einheit (zurück zum Händler).",
+    sign: "minus",
+    skr03: "3100 Fremdleistungen (Schlüssel 9)",
+    skr04: "5900 Fremdleistungen",
+    ust: "19% VSt-abziehbar",
+    bookingHint: "Aufwand bei Removal-Order.",
+  },
+  {
+    code: "DisposalCompletePerUnitFee",
+    category: "fba",
+    label: "Disposal Complete Per-Unit Fee",
+    meaning: "Entsorgungsgebühr pro Einheit (Vernichtung statt Rücksendung).",
+    sign: "minus",
+    skr03: "3100 Fremdleistungen (Schlüssel 9)",
+    skr04: "5900 Fremdleistungen",
+    ust: "19% VSt-abziehbar",
+    bookingHint: "Aufwand bei Disposal-Order. Plus: Bestandsabschreibung als Aufwand.",
+  },
+  {
+    code: "DspsFee",
+    category: "fba",
+    label: "Disposal Service Fee",
+    meaning: "Service-Gebühr für Entsorgungs-Order (alternative Bezeichnung).",
+    sign: "minus",
+    skr03: "3100 Fremdleistungen (Schlüssel 9)",
+    skr04: "5900 Fremdleistungen",
+    ust: "19% VSt-abziehbar",
+    bookingHint: "Aufwand wie DispComp.",
+  },
+
+  // --- Labeling / Prep Detail ---
+  {
+    code: "LabelingFee",
+    category: "fba",
+    label: "Labeling Fee",
+    meaning: "Etikettier-Gebühr (Amazon klebt FNSKU-Labels statt dir).",
+    sign: "minus",
+    skr03: "3100 Fremdleistungen (Schlüssel 9)",
+    skr04: "5900 Fremdleistungen",
+    ust: "19% VSt-abziehbar",
+    bookingHint: "Aufwand. Vermeidbar wenn du selbst etikettierst.",
+  },
+  {
+    code: "LabelFee",
+    category: "fba",
+    label: "Label Fee",
+    meaning: "Kurz-Variante Labeling Fee.",
+    sign: "minus",
+    skr03: "3100 Fremdleistungen (Schlüssel 9)",
+    skr04: "5900 Fremdleistungen",
+    ust: "19% VSt-abziehbar",
+    bookingHint: "Wie LabelingFee.",
+  },
+  {
+    code: "PrepFee",
+    category: "fba",
+    label: "Prep Fee",
+    meaning: "Vorbereitungsgebühr (Bagging, Bubble-Wrap, Polybag).",
+    sign: "minus",
+    skr03: "3100 Fremdleistungen (Schlüssel 9)",
+    skr04: "5900 Fremdleistungen",
+    ust: "19% VSt-abziehbar",
+    bookingHint: "Aufwand wie WarHPrep.",
+  },
+  {
+    code: "PolybagFee",
+    category: "fba",
+    label: "Polybag Fee",
+    meaning: "Gebühr für Polybag-Verpackung durch Amazon.",
+    sign: "minus",
+    skr03: "3100 Fremdleistungen (Schlüssel 9)",
+    skr04: "5900 Fremdleistungen",
+    ust: "19% VSt-abziehbar",
+    bookingHint: "Aufwand.",
+  },
+  {
+    code: "BubbleWrapFee",
+    category: "fba",
+    label: "Bubble Wrap Fee",
+    meaning: "Luftpolsterfolien-Gebühr durch Amazon.",
+    sign: "minus",
+    skr03: "3100 Fremdleistungen (Schlüssel 9)",
+    skr04: "5900 Fremdleistungen",
+    ust: "19% VSt-abziehbar",
+    bookingHint: "Aufwand.",
+  },
+
+  // --- Reviews / Coupons / Lightning Deal Spezial ---
+  {
+    code: "ManualReviewFee",
+    category: "service-fee",
+    label: "Manual Review Fee",
+    meaning: "Manuelle Prüfgebühr (z.B. bei Listing-Suspension oder Compliance-Review).",
+    sign: "minus",
+    skr03: "3100 Fremdleistungen (Schlüssel 9)",
+    skr04: "5900 Fremdleistungen",
+    ust: "19% VSt-abziehbar",
+    bookingHint: "Aufwand. Tritt bei Account-/Listing-Problemen auf.",
+  },
+
+  // --- Tax / Donation / Spezial ---
+  {
+    code: "Donation",
+    category: "other",
+    label: "Donation (Spende)",
+    meaning: "Bei FBA Donations: Amazon spendet altes Inventar an Hilfsorganisationen statt zu entsorgen. Buchung als Sachspende.",
+    sign: "both",
+    skr03: "4630 Sachspenden (Schlüssel 9 oder 0 je nach Begünstigtem)",
+    skr04: "6630 Sachspenden",
+    ust: "19% VSt-abziehbar",
+    bookingHint: "Steuerliche Sachspende. Bei gemeinnütziger Organisation: Spendenquittung anfordern, sonst USt auf Entnahmewert.",
+  },
+  {
+    code: "DonationCert",
+    category: "other",
+    label: "Donation Certification",
+    meaning: "Bestätigung der Spende durch Amazon.",
+    sign: "plus",
+    skr03: "Memo-Buchung (kein Geld-Bewegung)",
+    skr04: "Memo",
+    ust: "nicht steuerbar",
+    bookingHint: "Reine Bestätigung — nichts zu buchen außer Bestand abgeschrieben.",
+  },
+  {
+    code: "TaxRefund",
+    category: "tax",
+    label: "Tax Refund",
+    meaning: "Steuer-Erstattung (z.B. zu viel einbehaltene MarketplaceFacilitator-VAT).",
+    sign: "plus",
+    skr03: "8400 Sonstige Erträge / Durchlaufender Posten",
+    skr04: "4830",
+    ust: "nicht steuerbar",
+    bookingHint: "Mit StB klären — durchlaufender Posten oder Ertrag je nach Kontext.",
+  },
+  {
+    code: "TaxDiscount",
+    category: "tax",
+    label: "Tax Discount",
+    meaning: "Steuer-Rabatt (selten).",
+    sign: "plus",
+    skr03: "Mit StB klären",
+    skr04: "Mit StB klären",
+    ust: "nicht steuerbar",
+    bookingHint: "Kontext klären.",
+  },
+  {
+    code: "TaxDiscountAdjustment",
+    category: "tax",
+    label: "Tax Discount Adjustment",
+    meaning: "Korrektur eines Tax Discounts.",
+    sign: "both",
+    skr03: "Mit StB klären",
+    skr04: "Mit StB klären",
+    ust: "nicht steuerbar",
+    bookingHint: "Kontext klären.",
+  },
+
+  // --- Buy Box / Liquidations Detail ---
+  {
+    code: "LSRSPRDS",
+    category: "advertising",
+    label: "Liquidations Sponsored Products Disbursement",
+    meaning: "Auszahlung aus Sponsored-Products-Werbung im Liquidations-Programm.",
+    sign: "plus",
+    skr03: "4600 Werbekosten (Aufwandsminderung)",
+    skr04: "6600 Werbekosten",
+    ust: "19% VSt-abziehbar",
+    bookingHint: "Werbe-Aufwandsminderung.",
+  },
+  {
+    code: "ReimbursementClawback",
+    category: "reimbursement",
+    label: "Reimbursement Clawback",
+    meaning: "Amazon zieht eine zuvor erstattete Reimbursement zurück (z.B. Ware doch wiederaufgetaucht).",
+    sign: "minus",
+    skr03: "8400 Sonstige Erträge (Korrektur)",
+    skr04: "4830 Sonstige betriebliche Erträge",
+    ust: "0% steuerfrei",
+    bookingHint: "Aufhebung der vorherigen Erstattung.",
+  },
+
+  // --- Inventory / Removal Spezial ---
+  {
+    code: "InventoryAuditAdjustment",
+    category: "adjustment",
+    label: "Inventory Audit Adjustment",
+    meaning: "Korrektur nach Lager-Audit (kann + oder − sein).",
+    sign: "both",
+    skr03: "8400 Sonstige Erträge / 4900 Sonstige Aufwendungen",
+    skr04: "4830 / 6300",
+    ust: "abh. von Vorzeichen",
+    bookingHint: "Vorzeichen prüfen.",
+  },
+  {
+    code: "BatteryRecycling",
+    category: "epr",
+    label: "Battery Recycling Fee",
+    meaning: "Gebühr für Batterien-Entsorgung / -Recycling (BattG / EU-Batterieverordnung).",
+    sign: "minus",
+    skr03: "4380 Sonstige Abgaben (Schlüssel 9)",
+    skr04: "6855 Sonstige Abgaben",
+    ust: "19% VSt-abziehbar",
+    bookingHint: "Wie EPR-Fees.",
+  },
 
   // --- TBYB / Trial / Liquidations ---
   {
@@ -2158,26 +2471,66 @@ export function searchAmazonCodes(query: string): AmazonCode[] {
 }
 
 // Code-Lookup nach Kürzel (sucht Sub-Code wenn AMA-SG-DE-MZNFS gegeben ist)
-export function lookupAmazonCode(input: string): { prefix?: AmazonCode; sub?: AmazonCode } {
-  const normalized = input.trim().toUpperCase();
+// Fallback-Verhalten: bei unbekanntem Code wird der Prefix-Kontext + ein Heuristik-Hinweis zurückgegeben.
+export function lookupAmazonCode(input: string): { prefix?: AmazonCode; sub?: AmazonCode; fallbackHint?: string } {
+  const normalized = input.trim();
+  const upper = normalized.toUpperCase();
 
-  // Versuche zuerst exakten Match
-  const exact = ALL_AMAZON_CODES.find((c) => c.code.toUpperCase() === normalized);
+  // 1) Exakten Match versuchen (case-insensitive)
+  const exact = ALL_AMAZON_CODES.find((c) => c.code.toUpperCase() === upper);
   if (exact) {
     return exact.category === "prefix" ? { prefix: exact } : { sub: exact };
   }
 
-  // Versuche Prefix-Match (AMA-SG-DE-MZNFS → Prefix AMA-SG-DE + Sub MZNFS)
-  const prefixMatch = PREFIX_CODES.find((p) => normalized.startsWith(p.code.toUpperCase() + "-"));
+  // 2) Prefix-Match (AMA-SG-DE-MZNFS → Prefix AMA-SG-DE + Sub MZNFS)
+  const prefixMatch = PREFIX_CODES.find((p) => upper.startsWith(p.code.toUpperCase() + "-"));
   if (prefixMatch) {
-    const remainder = normalized.slice(prefixMatch.code.length + 1);
+    const remainder = upper.slice(prefixMatch.code.length + 1);
     const sub = SUB_CODES.find((s) => s.code.toUpperCase() === remainder);
-    return { prefix: prefixMatch, sub };
+    if (sub) return { prefix: prefixMatch, sub };
+
+    // 3) Fuzzy-Match auf Sub-Code (Substring-Match in beide Richtungen)
+    const fuzzy = findFuzzySubCode(remainder);
+    if (fuzzy) {
+      return {
+        prefix: prefixMatch,
+        sub: fuzzy,
+        fallbackHint: `Code „${remainder}" nicht exakt in der Datenbank, aber Variante von „${fuzzy.code}" (${fuzzy.label}). Behandle wie unten.`,
+      };
+    }
+
+    // 4) Default-Fallback: nimm Prefix-Empfehlung als Basis
+    return {
+      prefix: prefixMatch,
+      fallbackHint: `Sub-Code „${remainder}" nicht in der Datenbank. Basierend auf dem Prefix (${prefixMatch.label}) empfehle ich die generische Buchung des Prefix unten. Bei Unsicherheit Felix fragen oder mit StB klären.`,
+    };
   }
 
-  // Versuche Sub-Match (nur Code-Teil)
-  const subMatch = SUB_CODES.find((s) => s.code.toUpperCase() === normalized);
+  // 5) Reine Sub-Code-Match (ohne Prefix)
+  const subMatch = SUB_CODES.find((s) => s.code.toUpperCase() === upper);
   if (subMatch) return { sub: subMatch };
 
-  return {};
+  // 6) Fuzzy-Match auf Sub-Code
+  const fuzzy = findFuzzySubCode(upper);
+  if (fuzzy) {
+    return {
+      sub: fuzzy,
+      fallbackHint: `Code „${normalized}" nicht exakt gefunden, aber Variante von „${fuzzy.code}" (${fuzzy.label}).`,
+    };
+  }
+
+  return {
+    fallbackHint: `Code „${normalized}" nicht gefunden. Häufige Fall-Throughs: Service-Gebühr → Fremdleistung 3100 (SKR03) / 5900 (SKR04) mit 19 % VSt. Refund/Retoure → Erlösschmälerung 8730 / 4730. Auszahlung → Geldtransit 1360 / 1460. Schadensersatz → Sonstige Erträge 8400 / 4830 (0 % USt). Im Zweifel mit StB klären oder Felix fragen.`,
+  };
+}
+
+// Fuzzy-Sub-Code-Lookup: sucht in beiden Richtungen (Code enthält Input ODER Input enthält Code)
+function findFuzzySubCode(needle: string): AmazonCode | undefined {
+  const n = needle.toUpperCase();
+  if (n.length < 3) return undefined;
+  // Direkter Substring-Match (z.B. "RetPosBif" enthält "RetPosBi")
+  const containsMatch = SUB_CODES.find(
+    (s) => n.includes(s.code.toUpperCase()) || s.code.toUpperCase().includes(n),
+  );
+  return containsMatch;
 }

@@ -181,6 +181,11 @@ const AmazonBuchungen = () => {
         />
         {lookup && (lookup.prefix || lookup.sub) && (
           <div className="space-y-3">
+            {lookup.fallbackHint && (
+              <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-3 text-xs leading-relaxed">
+                <span className="font-semibold">Heuristik:</span> {lookup.fallbackHint}
+              </div>
+            )}
             {lookup.prefix && (
               <div className="rounded-xl bg-secondary/40 p-3">
                 <div className="text-[10px] uppercase tracking-wide text-muted-foreground mb-1">Prefix erkannt</div>
@@ -207,13 +212,17 @@ const AmazonBuchungen = () => {
           </div>
         )}
         {lookup && !lookup.prefix && !lookup.sub && lookupInput.trim() && (
-          <div className="rounded-xl bg-amber-500/10 border border-amber-500/30 p-3 text-xs text-amber-800">
-            Code nicht gefunden. Versuch nur den Sub-Teil (z.B. <code>MZNFS</code> statt{" "}
-            <code>AMA-SG-DE-MZNFS</code>) oder schau in der Liste unten. Oder frag{" "}
-            <Link to="/felix" className="underline font-semibold">
-              Felix
-            </Link>{" "}
-            mit deinem PayJoe-Auszug.
+          <div className="rounded-xl bg-amber-500/10 border border-amber-500/30 p-3 text-xs text-amber-800 leading-relaxed">
+            <div className="font-semibold mb-1">Code nicht eindeutig zuordenbar.</div>
+            <div className="mb-2">{lookup.fallbackHint}</div>
+            <div>
+              Versuche es mit nur dem Sub-Teil (z.B. <code>MZNFS</code> statt <code>AMA-SG-DE-MZNFS</code>),
+              schau in der Liste unten oder frag{" "}
+              <Link to="/felix" className="underline font-semibold">
+                Felix
+              </Link>{" "}
+              direkt mit deinem PayJoe-Auszug.
+            </div>
           </div>
         )}
       </div>
