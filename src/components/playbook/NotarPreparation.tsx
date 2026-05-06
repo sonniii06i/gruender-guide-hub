@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { CheckCircle2, Copy, Download, Info, Plus, Sparkles, Trash2, Loader2 } from "lucide-react";
+import { CheckCircle2, Copy, Download, FileText, Info, Plus, Sparkles, Trash2, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 type Answers = Record<string, any>;
@@ -238,6 +238,125 @@ export function NotarPreparation({
     doc.save(filename);
   };
 
+  /**
+   * Erzeugt eine DSGVO Art. 13 Information für jede:n Mit-Gesellschafter:in.
+   * Erfüllt die in der Datenschutzerklärung §3.2 versprochene Mustervorlage.
+   */
+  const downloadGesellschafterInfo = async () => {
+    const eligible = persons.filter((p) => p.vorname || p.nachname);
+    if (eligible.length === 0) {
+      toast.error("Mindestens 1 Gesellschafter mit Name eingeben");
+      return;
+    }
+    const { default: jsPDF } = await import("jspdf");
+    const doc = new jsPDF({ unit: "pt", format: "a4" });
+
+    const margin = 50;
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+    const maxWidth = pageWidth - margin * 2;
+
+    eligible.forEach((p, idx) => {
+      if (idx > 0) doc.addPage();
+      let y = margin;
+
+      const writeLine = (text: string, opts: { size?: number; bold?: boolean; gap?: number } = {}) => {
+        const { size = 10, bold = false, gap = 4 } = opts;
+        doc.setFontSize(size);
+        doc.setFont("helvetica", bold ? "bold" : "normal");
+        const lines = doc.splitTextToSize(text || " ", maxWidth);
+        for (const line of lines) {
+          if (y + size + gap > pageHeight - margin) {
+            doc.addPage();
+            y = margin;
+          }
+          doc.text(line, margin, y);
+          y += size + gap;
+        }
+      };
+
+      const fullName = [p.vorname, p.nachname].filter(Boolean).join(" ");
+
+      writeLine("Information zur Datenverarbeitung", { size: 18, bold: true, gap: 6 });
+      writeLine("nach Art. 13 / 14 DSGVO", { size: 11, gap: 14 });
+
+      writeLine(`Sehr geehrte/r ${fullName || "Gesellschafter:in"},`, { gap: 12 });
+      writeLine(
+        `im Rahmen der geplanten Gründung der ${firmenname || "(Firmenname noch offen)"} verarbeiten wir personenbezogene Daten von Ihnen. Mit dieser Information kommen wir der Pflicht nach Art. 13 / 14 DSGVO nach.`,
+        { gap: 14 },
+      );
+
+      writeLine("1. Verantwortlicher", { bold: true, size: 11, gap: 6 });
+      writeLine("Verantwortlicher i. S. d. Art. 4 Nr. 7 DSGVO ist die Person/Gesellschaft, die diese Vorbereitung durchführt:", { gap: 4 });
+      writeLine(`  • Initiator (Sie als Mit-Gesellschafter:in werden hierüber informiert)`, { gap: 8 });
+      writeLine("  Eingabe der Daten in die Vorbereitungs-Plattform durch:", { gap: 4 });
+      writeLine(`  ${eligible[0]?.vorname && eligible[0]?.nachname ? [eligible[0].vorname, eligible[0].nachname].join(" ") : "(Initiator-Name)"}`, { gap: 4 });
+      writeLine("  Adresse: bitte beim Initiator erfragen.", { gap: 14 });
+
+      writeLine("2. Verarbeitete Datenkategorien", { bold: true, size: 11, gap: 6 });
+      writeLine("Folgende Daten werden im Rahmen der Notartermin-Vorbereitung erfasst und gespeichert:", { gap: 6 });
+      writeLine(`  • Name, Vorname:           ${fullName || "—"}`);
+      writeLine(`  • Geburtsdatum:            ${p.geburtsdatum || "—"}`);
+      writeLine(`  • Geburtsort:              ${p.geburtsort || "—"}`);
+      writeLine(`  • Wohnanschrift:           ${p.adresse || "—"}`);
+      writeLine(`  • Beruf:                   ${p.beruf || "—"}`);
+      writeLine(`  • Familienstand:           ${p.familienstand || "—"}`);
+      writeLine(`  • Anteil am Stammkapital:  ${formatEur(p.anteilEur) || "—"}`);
+      writeLine(`  • Art der Einlage:         ${p.einlageArt === "sache" ? "Sacheinlage" : p.einlageArt === "bar" ? "Bareinlage" : "—"}`, { gap: 14 });
+
+      writeLine("3. Zweck der Verarbeitung", { bold: true, size: 11, gap: 6 });
+      writeLine(
+        `Die Daten werden ausschließlich für die Vorbereitung des Notartermins zur Beurkundung des Gesellschaftsvertrags (geplante ${firmenname || "GmbH"}) und die anschließende Anmeldung beim Handelsregister verarbeitet. Das ist nach deutschem Recht für die Gründung einer GmbH zwingend erforderlich (§§ 2, 7 GmbHG, § 8 GmbHG i. V. m. § 12 HGB).`,
+        { gap: 14 },
+      );
+
+      writeLine("4. Rechtsgrundlage", { bold: true, size: 11, gap: 6 });
+      writeLine(
+        "Art. 6 Abs. 1 lit. b DSGVO (Vertragsanbahnung / vorvertragliche Maßnahmen) sowie Art. 6 Abs. 1 lit. c DSGVO (rechtliche Verpflichtung aus GmbHG / HGB).",
+        { gap: 14 },
+      );
+
+      writeLine("5. Empfänger der Daten", { bold: true, size: 11, gap: 6 });
+      writeLine("Die Daten werden an folgende Stellen weitergegeben:", { gap: 4 });
+      writeLine("  • Notar/Notarin (zur Beurkundung des Gesellschaftsvertrags)");
+      writeLine("  • Amtsgericht / Handelsregister (zur Eintragung)");
+      writeLine("  • Steuerberater:in (falls einbezogen)");
+      writeLine("  • Bank (für Stammkapital-Konto und Bestätigung)");
+      writeLine("  • GründerX (Sonni Buttke, Pinguinweg 18, 22527 Hamburg) als technischer Auftragsverarbeiter (Art. 28 DSGVO)", { gap: 14 });
+
+      writeLine("6. Speicherort & Speicherdauer", { bold: true, size: 11, gap: 6 });
+      writeLine("Speicherort: Supabase-Datenbank in der EU (Frankfurt am Main).", { gap: 4 });
+      writeLine(
+        "Speicherdauer: bis zur erfolgreichen HR-Eintragung der GmbH. Im Anschluss gelten die handels- und steuerrechtlichen Aufbewahrungsfristen (§ 257 HGB / § 147 AO – bis zu 10 Jahre für Gründungsurkunden).",
+        { gap: 14 },
+      );
+
+      writeLine("7. Ihre Rechte", { bold: true, size: 11, gap: 6 });
+      writeLine("Sie haben jederzeit das Recht auf:", { gap: 4 });
+      writeLine("  • Auskunft (Art. 15 DSGVO)");
+      writeLine("  • Berichtigung (Art. 16 DSGVO)");
+      writeLine("  • Löschung (Art. 17 DSGVO) – soweit keine gesetzliche Aufbewahrungspflicht entgegensteht");
+      writeLine("  • Einschränkung der Verarbeitung (Art. 18 DSGVO)");
+      writeLine("  • Datenübertragbarkeit (Art. 20 DSGVO)");
+      writeLine("  • Widerspruch gegen die Verarbeitung (Art. 21 DSGVO)");
+      writeLine("  • Beschwerde bei einer Datenschutz-Aufsichtsbehörde (Art. 77 DSGVO)", { gap: 14 });
+
+      writeLine("8. Kontakt", { bold: true, size: 11, gap: 6 });
+      writeLine("Anfragen zu Ihren Rechten richten Sie bitte an den Initiator dieser Vorbereitung (siehe Ziffer 1) oder an:", { gap: 4 });
+      writeLine("GründerX – Datenschutz");
+      writeLine("E-Mail: datenschutz@gründerx.de", { gap: 14 });
+
+      writeLine(`Datum: ${new Date().toLocaleDateString("de-DE")}`, { gap: 14 });
+
+      writeLine("─".repeat(70), { gap: 6 });
+      writeLine("Hinweis: Diese Information wurde maschinell mit den im GründerX-Notar-Modul erfassten Daten erzeugt. Bitte vor Weitergabe auf Vollständigkeit und Korrektheit prüfen.", { size: 8 });
+    });
+
+    const filename = `dsgvo-info-mitgesellschafter-${(firmenname || "gmbh").toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${todayIso()}.pdf`;
+    doc.save(filename);
+    toast.success(`PDF mit ${eligible.length} Information${eligible.length > 1 ? "en" : ""} erstellt`);
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex items-start gap-2 rounded-xl border border-border bg-secondary/50 p-3 text-sm">
@@ -421,6 +540,21 @@ export function NotarPreparation({
             <div className={`text-xs rounded-lg p-3 ${anteileMatch ? "bg-success/10 text-success" : "bg-destructive/10 text-destructive"}`}>
               Summe Anteile: {formatEur(String(totalAnteile))} / Stammkapital: {formatEur(stammkapital)}
               {!anteileMatch && " – muss übereinstimmen!"}
+            </div>
+          )}
+
+          {/* DSGVO-Info-Generator – nur sinnvoll wenn min. 1 Gesellschafter mit Name */}
+          {persons.some((p) => p.vorname || p.nachname) && (
+            <div className="rounded-lg border border-accent-blue/30 bg-accent-blue/5 p-3 space-y-2">
+              <div className="text-xs leading-relaxed">
+                <strong>DSGVO-Pflicht:</strong> Du verarbeitest hier personenbezogene Daten von
+                Mit-Gesellschafter:innen. Nach Art. 13 / 14 DSGVO musst du sie darüber
+                informieren. Wir generieren dir eine fertige Vorlage als PDF (1 Seite pro Person).
+              </div>
+              <Button type="button" variant="outline" size="sm" onClick={downloadGesellschafterInfo}>
+                <FileText className="h-3.5 w-3.5 mr-1.5" />
+                DSGVO-Info für {persons.filter((p) => p.vorname || p.nachname).length} Gesellschafter herunterladen
+              </Button>
             </div>
           )}
         </div>
