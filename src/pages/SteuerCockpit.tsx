@@ -2,37 +2,203 @@ import { useMemo, useState } from "react";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Calendar, Calculator, PiggyBank } from "lucide-react";
+import { Calendar, Calculator, PiggyBank, Info } from "lucide-react";
 
-interface Frist { date: string; title: string; tags: string[] }
+type LegalForm = "ein" | "ug" | "gmbh";
+type UstMode = "monatlich" | "quartal" | "keine";
 
-const ALL_FRISTEN: Frist[] = [
-  { date: "10.01.", title: "USt-Voranmeldung Dezember", tags: ["ust", "monatlich"] },
-  { date: "10.01.", title: "Lohnsteuer-Anmeldung Dezember", tags: ["lohn"] },
-  { date: "10.02.", title: "USt-Voranmeldung Januar", tags: ["ust", "monatlich"] },
-  { date: "10.04.", title: "USt-VA Q1 (Quartalszahler)", tags: ["ust", "quartal"] },
-  { date: "10.04.", title: "OSS-Meldung Q1", tags: ["oss"] },
-  { date: "31.05.", title: "Steuererklärung (ohne StB)", tags: ["est", "kst"] },
-  { date: "10.07.", title: "USt-VA Q2", tags: ["ust", "quartal"] },
-  { date: "31.07.", title: "Steuererklärung Vorjahr (ohne StB)", tags: ["est"] },
-  { date: "10.10.", title: "USt-VA Q3", tags: ["ust", "quartal"] },
-  { date: "10.11.", title: "Gewerbesteuer-Vorauszahlung", tags: ["gewst"] },
-  { date: "10.12.", title: "Körperschaftsteuer-VZ Q4", tags: ["kst"] },
-  { date: "31.12.", title: "Pre-Year-End: Investitionen, Rückstellungen, Gewinnverlagerung", tags: ["pre-year-end"] },
-];
+interface Setup {
+  legalForm: LegalForm;
+  ustMode: UstMode;
+  dauerfrist: boolean;
+  oss: boolean;
+  zm: boolean;
+  mitarbeiter: boolean;
+}
+
+interface Frist {
+  date: string; // "DD.MM."
+  title: string;
+  detail?: string;
+  category: "ust" | "lohn" | "kst" | "est" | "gewst" | "oss" | "zm" | "stb" | "year-end";
+}
+
+const pad = (n: number) => String(n).padStart(2, "0");
+const MONAT = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
+
+/** Berechnet alle Steuer-Fristen aus Setup. Termine 2026-konform. */
+function buildFristen(s: Setup): Frist[] {
+  const fristen: Frist[] = [];
+
+  // ============ USt-Voranmeldung ============
+  if (s.ustMode !== "keine") {
+    const dfOffset = s.dauerfrist ? 1 : 0;
+    if (s.ustMode === "monatlich") {
+      for (let m = 0; m < 12; m++) {
+        const due = (m + 1 + dfOffset) % 12;
+        const yearMark = m + 1 + dfOffset >= 12 ? " (Folgejahr)" : "";
+        fristen.push({
+          date: `10.${pad(due + 1)}.`,
+          title: `USt-VA ${MONAT[m]}${yearMark}`,
+          detail: s.dauerfrist ? "Mit Dauerfristverlängerung (+1 Monat)" : undefined,
+          category: "ust",
+        });
+      }
+    } else {
+      // Quartalsweise: Quartals-Ende-Monate (März/Juni/Sept/Dez)
+      const quartals = [
+        { end: 2, label: "Q1 (Jan–Mär)" },
+        { end: 5, label: "Q2 (Apr–Jun)" },
+        { end: 8, label: "Q3 (Jul–Sep)" },
+        { end: 11, label: "Q4 (Okt–Dez)" },
+      ];
+      for (const q of quartals) {
+        const due = (q.end + 1 + dfOffset) % 12;
+        const yearMark = q.end + 1 + dfOffset >= 12 ? " (Folgejahr)" : "";
+        fristen.push({
+          date: `10.${pad(due + 1)}.`,
+          title: `USt-VA ${q.label}${yearMark}`,
+          detail: s.dauerfrist ? "Mit Dauerfristverlängerung (+1 Monat)" : undefined,
+          category: "ust",
+        });
+      }
+    }
+  }
+
+  // ============ Zusammenfassende Meldung (ZM) ============
+  // Pflicht bei innergemeinschaftlichen B2B-Lieferungen/Sonstige Leistungen.
+  // Frist: 25. des Folgemonats. Dauerfrist gilt NICHT für ZM!
+  if (s.zm) {
+    if (s.ustMode === "monatlich") {
+      // Wenn monatlich auch ZM monatlich (eigentlich Default ist Quartalsweise, aber wenn USt monatlich → ZM monatlich)
+      for (let m = 0; m < 12; m++) {
+        const due = (m + 1) % 12;
+        fristen.push({
+          date: `25.${pad(due + 1)}.`,
+          title: `ZM ${MONAT[m]}`,
+          detail: "Zusammenfassende Meldung – keine Dauerfrist",
+          category: "zm",
+        });
+      }
+    } else {
+      // Quartalsweise (Default für ZM)
+      fristen.push({ date: "25.04.", title: "ZM Q1", detail: "Zusammenfassende Meldung – keine Dauerfrist", category: "zm" });
+      fristen.push({ date: "25.07.", title: "ZM Q2", detail: "Zusammenfassende Meldung – keine Dauerfrist", category: "zm" });
+      fristen.push({ date: "25.10.", title: "ZM Q3", detail: "Zusammenfassende Meldung – keine Dauerfrist", category: "zm" });
+      fristen.push({ date: "25.01.", title: "ZM Q4 (Folgejahr)", detail: "Zusammenfassende Meldung – keine Dauerfrist", category: "zm" });
+    }
+  }
+
+  // ============ OSS (One-Stop-Shop) ============
+  // Quartalsweise, immer Monatsende, keine Dauerfrist.
+  if (s.oss) {
+    fristen.push({ date: "30.04.", title: "OSS-Meldung Q1", detail: "Fernverkäufe + B2C-Leistungen EU – keine Dauerfrist", category: "oss" });
+    fristen.push({ date: "31.07.", title: "OSS-Meldung Q2", detail: "Fernverkäufe + B2C-Leistungen EU – keine Dauerfrist", category: "oss" });
+    fristen.push({ date: "31.10.", title: "OSS-Meldung Q3", detail: "Fernverkäufe + B2C-Leistungen EU – keine Dauerfrist", category: "oss" });
+    fristen.push({ date: "31.01.", title: "OSS-Meldung Q4 (Folgejahr)", detail: "Fernverkäufe + B2C-Leistungen EU – keine Dauerfrist", category: "oss" });
+  }
+
+  // ============ Lohnsteuer-Anmeldung ============
+  // Nur wenn Mitarbeiter beschäftigt (egal welche Rechtsform). Keine Dauerfrist.
+  if (s.mitarbeiter) {
+    if (s.ustMode === "monatlich" || s.ustMode === "keine") {
+      // Lohnsteuer kann monatlich/quartal/jährlich sein – wir gehen vereinfacht von monatlich aus
+      for (let m = 0; m < 12; m++) {
+        const due = (m + 1) % 12;
+        fristen.push({
+          date: `10.${pad(due + 1)}.`,
+          title: `Lohnsteuer-Anmeldung ${MONAT[m]}`,
+          detail: "Nur wenn Mitarbeiter – keine Dauerfrist",
+          category: "lohn",
+        });
+      }
+    } else {
+      // Quartalsweise
+      fristen.push({ date: "10.04.", title: "Lohnsteuer Q1", detail: "Nur wenn Mitarbeiter – keine Dauerfrist", category: "lohn" });
+      fristen.push({ date: "10.07.", title: "Lohnsteuer Q2", category: "lohn" });
+      fristen.push({ date: "10.10.", title: "Lohnsteuer Q3", category: "lohn" });
+      fristen.push({ date: "10.01.", title: "Lohnsteuer Q4 (Folgejahr)", category: "lohn" });
+    }
+  }
+
+  // ============ Körperschaftsteuer-VZ (nur GmbH/UG) ============
+  if (s.legalForm === "gmbh" || s.legalForm === "ug") {
+    fristen.push({ date: "10.03.", title: "KSt-Vorauszahlung Q1", category: "kst" });
+    fristen.push({ date: "10.06.", title: "KSt-Vorauszahlung Q2", category: "kst" });
+    fristen.push({ date: "10.09.", title: "KSt-Vorauszahlung Q3", category: "kst" });
+    fristen.push({ date: "10.12.", title: "KSt-Vorauszahlung Q4", category: "kst" });
+  }
+
+  // ============ Einkommensteuer-VZ (nur Einzelunternehmen) ============
+  if (s.legalForm === "ein") {
+    fristen.push({ date: "10.03.", title: "ESt-Vorauszahlung Q1", category: "est" });
+    fristen.push({ date: "10.06.", title: "ESt-Vorauszahlung Q2", category: "est" });
+    fristen.push({ date: "10.09.", title: "ESt-Vorauszahlung Q3", category: "est" });
+    fristen.push({ date: "10.12.", title: "ESt-Vorauszahlung Q4", category: "est" });
+  }
+
+  // ============ Gewerbesteuer-VZ ============
+  fristen.push({ date: "15.02.", title: "Gewerbesteuer-VZ Q1", category: "gewst" });
+  fristen.push({ date: "15.05.", title: "Gewerbesteuer-VZ Q2", category: "gewst" });
+  fristen.push({ date: "15.08.", title: "Gewerbesteuer-VZ Q3", category: "gewst" });
+  fristen.push({ date: "15.11.", title: "Gewerbesteuer-VZ Q4", category: "gewst" });
+
+  // ============ Steuererklärung Vorjahr ============
+  fristen.push({ date: "31.07.", title: "Steuererklärung Vorjahr (ohne StB)", detail: "Mit StB: 28.02. übernächstes Jahr", category: "stb" });
+
+  // ============ Pre-Year-End ============
+  fristen.push({
+    date: "31.12.",
+    title: "Pre-Year-End: Investitionen, Rückstellungen, Gewinnverlagerung",
+    detail: "Steuer-Reduktion durch IAB, Bonuszahlungen, Vorauszahlungen",
+    category: "year-end",
+  });
+
+  // Sortiere nach Datum (DD.MM.)
+  return fristen.sort((a, b) => {
+    const [da, ma] = a.date.split(".");
+    const [db, mb] = b.date.split(".");
+    if (ma !== mb) return parseInt(ma) - parseInt(mb);
+    return parseInt(da) - parseInt(db);
+  });
+}
+
+const CATEGORY_COLOR: Record<Frist["category"], string> = {
+  ust: "bg-accent-blue/10 text-accent-blue",
+  lohn: "bg-purple-500/10 text-purple-700 dark:text-purple-300",
+  kst: "bg-amber-500/10 text-amber-700 dark:text-amber-300",
+  est: "bg-amber-500/10 text-amber-700 dark:text-amber-300",
+  gewst: "bg-rose-500/10 text-rose-700 dark:text-rose-300",
+  oss: "bg-cyan-500/10 text-cyan-700 dark:text-cyan-300",
+  zm: "bg-emerald-500/10 text-emerald-700 dark:text-emerald-300",
+  stb: "bg-secondary text-foreground",
+  "year-end": "bg-yellow-500/10 text-yellow-700 dark:text-yellow-300",
+};
+
+const CATEGORY_LABEL: Record<Frist["category"], string> = {
+  ust: "USt",
+  lohn: "Lohnst.",
+  kst: "KSt",
+  est: "ESt",
+  gewst: "GewSt",
+  oss: "OSS",
+  zm: "ZM",
+  stb: "Erklärung",
+  "year-end": "Year-End",
+};
 
 const SteuerCockpit = () => {
-  const [legalForm, setLegalForm] = useState<"ein" | "ug" | "gmbh">("gmbh");
-  const [ustMode, setUstMode] = useState<"monatlich" | "quartal">("quartal");
+  const [legalForm, setLegalForm] = useState<LegalForm>("gmbh");
+  const [ustMode, setUstMode] = useState<UstMode>("quartal");
+  const [dauerfrist, setDauerfrist] = useState(false);
+  const [oss, setOss] = useState(false);
+  const [zm, setZm] = useState(false);
+  const [mitarbeiter, setMitarbeiter] = useState(false);
 
-  const fristen = useMemo(() => {
-    return ALL_FRISTEN.filter((f) => {
-      if (f.tags.includes("kst") && legalForm === "ein") return false;
-      if (f.tags.includes("monatlich") && ustMode !== "monatlich") return false;
-      if (f.tags.includes("quartal") && ustMode !== "quartal") return false;
-      return true;
-    });
-  }, [legalForm, ustMode]);
+  const fristen = useMemo(
+    () => buildFristen({ legalForm, ustMode, dauerfrist, oss, zm, mitarbeiter }),
+    [legalForm, ustMode, dauerfrist, oss, zm, mitarbeiter],
+  );
 
   // IAB
   const [iabBasis, setIabBasis] = useState(80000);
@@ -50,19 +216,19 @@ const SteuerCockpit = () => {
     <CockpitShell
       eyebrow="💰 DE-Steuer-Cockpit"
       title="Fristen, IAB & Quartals-Schätzung"
-      subtitle="Personalisiert auf deine Rechtsform. Beta-Module – die finale Logik wird mit Steuerberater-Partnern verifiziert."
+      subtitle="Personalisiert auf deine Konstellation – Toggles unten setzen, Fristen aktualisieren sich live."
     >
       {/* Setup */}
       <div className="rounded-2xl border border-border bg-card p-6 mb-8">
         <h2 className="font-bold mb-4">Dein Setup</h2>
-        <div className="grid sm:grid-cols-2 gap-4">
+        <div className="grid sm:grid-cols-2 gap-4 mb-4">
           <div>
             <Label className="text-xs uppercase tracking-wider text-muted-foreground">Rechtsform</Label>
             <div className="flex gap-2 mt-2">
               {[["ein", "Einzel"], ["ug", "UG"], ["gmbh", "GmbH"]].map(([v, l]) => (
                 <button
                   key={v}
-                  onClick={() => setLegalForm(v as typeof legalForm)}
+                  onClick={() => setLegalForm(v as LegalForm)}
                   className={`flex-1 rounded-xl border px-3 py-2 text-sm font-semibold ${
                     legalForm === v ? "bg-primary text-primary-foreground border-primary" : "bg-card border-border hover:border-accent-blue/40"
                   }`}
@@ -73,11 +239,11 @@ const SteuerCockpit = () => {
           <div>
             <Label className="text-xs uppercase tracking-wider text-muted-foreground">USt-Voranmeldung</Label>
             <div className="flex gap-2 mt-2">
-              {[["monatlich", "Monatlich"], ["quartal", "Quartal"]].map(([v, l]) => (
+              {[["monatlich", "Monatlich"], ["quartal", "Quartal"], ["keine", "Keine (KU)"]].map(([v, l]) => (
                 <button
                   key={v}
-                  onClick={() => setUstMode(v as typeof ustMode)}
-                  className={`flex-1 rounded-xl border px-3 py-2 text-sm font-semibold ${
+                  onClick={() => setUstMode(v as UstMode)}
+                  className={`flex-1 rounded-xl border px-3 py-2 text-xs font-semibold ${
                     ustMode === v ? "bg-primary text-primary-foreground border-primary" : "bg-card border-border hover:border-accent-blue/40"
                   }`}
                 >{l}</button>
@@ -85,25 +251,85 @@ const SteuerCockpit = () => {
             </div>
           </div>
         </div>
+
+        {/* Toggle-Reihe für Erweiterungen */}
+        <div className="grid sm:grid-cols-2 gap-3">
+          <Toggle
+            checked={dauerfrist}
+            onChange={setDauerfrist}
+            label="Dauerfristverlängerung"
+            help="USt-VA-Frist verschiebt sich um 1 Monat. 1/11-Sondervorauszahlung Pflicht."
+            disabled={ustMode === "keine"}
+          />
+          <Toggle
+            checked={oss}
+            onChange={setOss}
+            label="OSS-Verfahren (EU-B2C)"
+            help="One-Stop-Shop für Fernverkäufe in andere EU-Länder. Quartal-Meldung."
+          />
+          <Toggle
+            checked={zm}
+            onChange={setZm}
+            label="Zusammenfassende Meldung (ZM)"
+            help="Pflicht bei innergemeinschaftlichen B2B-Lieferungen / sonstigen Leistungen. 25. des Folgemonats, KEINE Dauerfrist."
+          />
+          <Toggle
+            checked={mitarbeiter}
+            onChange={setMitarbeiter}
+            label="Mitarbeiter beschäftigt"
+            help="Aktiviert Lohnsteuer-Anmeldung. Auch bei Einzelunternehmen relevant – ohne MA: keine Lohnsteuer."
+          />
+        </div>
       </div>
 
       {/* Fristen */}
       <div className="rounded-2xl border border-border bg-card p-6 mb-8">
-        <div className="flex items-center gap-2 mb-4">
-          <Calendar className="h-5 w-5 text-accent-blue" />
-          <h2 className="font-bold">Frist-Kalender {new Date().getFullYear()}</h2>
+        <div className="flex items-center justify-between gap-2 mb-4 flex-wrap">
+          <div className="flex items-center gap-2">
+            <Calendar className="h-5 w-5 text-accent-blue" />
+            <h2 className="font-bold">Frist-Kalender {new Date().getFullYear()}</h2>
+          </div>
+          <div className="text-xs text-muted-foreground">
+            {fristen.length} Termine · sortiert nach Datum
+          </div>
         </div>
+
+        {dauerfrist && ustMode !== "keine" && (
+          <div className="flex items-start gap-2 rounded-lg bg-accent-blue/10 border border-accent-blue/30 p-3 mb-4 text-xs">
+            <Info className="h-3.5 w-3.5 mt-0.5 shrink-0 text-accent-blue" />
+            <span>
+              <strong>Dauerfristverlängerung aktiv:</strong> USt-VA-Termine sind +1 Monat verschoben. Q4 wird also erst am <strong>10.02.</strong> (statt 10.01.) fällig. Sondervorauszahlung 1/11 wird im Februar fällig.
+            </span>
+          </div>
+        )}
+
         <div className="divide-y divide-border">
           {fristen.map((f, i) => (
-            <div key={i} className="flex items-center gap-4 py-3">
+            <div key={i} className="flex items-center gap-3 py-3">
               <div className="w-16 shrink-0 font-mono font-bold text-accent-blue">{f.date}</div>
-              <div className="flex-1 text-sm">{f.title}</div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className={`text-[10px] uppercase tracking-wider rounded-md px-1.5 py-0.5 font-bold ${CATEGORY_COLOR[f.category]}`}>
+                    {CATEGORY_LABEL[f.category]}
+                  </span>
+                  <span className="text-sm font-medium">{f.title}</span>
+                </div>
+                {f.detail && (
+                  <div className="text-[11px] text-muted-foreground mt-0.5">{f.detail}</div>
+                )}
+              </div>
             </div>
           ))}
         </div>
+
+        {fristen.length === 0 && (
+          <div className="text-center py-8 text-muted-foreground text-sm">
+            Keine Fristen konfiguriert – Setup oben anpassen.
+          </div>
+        )}
       </div>
 
-      {/* IAB */}
+      {/* IAB + Quartals-Schätzung */}
       <div className="grid md:grid-cols-2 gap-6 mb-8">
         <div className="rounded-2xl border border-border bg-card p-6">
           <div className="flex items-center gap-2 mb-4">
@@ -143,11 +369,34 @@ const SteuerCockpit = () => {
       </div>
 
       <div className="text-xs text-muted-foreground">
-        Hinweis: Dies sind orientierende Schätzungen, keine Steuerberatung. Final immer mit StB klären.
+        Hinweis: Orientierende Schätzungen, keine Steuerberatung. Final immer mit StB klären.
+        Termine 2026 ohne Wochenend-/Feiertags-Verschiebung – fällt ein Termin auf Sa/So/Feiertag, ist der nächste Werktag maßgeblich.
       </div>
     </CockpitShell>
   );
 };
+
+const Toggle = ({ checked, onChange, label, help, disabled }: { checked: boolean; onChange: (v: boolean) => void; label: string; help: string; disabled?: boolean }) => (
+  <button
+    type="button"
+    onClick={() => !disabled && onChange(!checked)}
+    disabled={disabled}
+    className={`text-left rounded-xl border p-3 transition-all ${
+      disabled ? "opacity-40 cursor-not-allowed border-border bg-card" :
+      checked ? "border-accent-blue bg-accent-blue/5 ring-1 ring-accent-blue/30" : "border-border bg-card hover:border-accent-blue/40"
+    }`}
+  >
+    <div className="flex items-start gap-2">
+      <div className={`w-9 h-5 rounded-full transition-colors shrink-0 mt-0.5 ${checked ? "bg-accent-blue" : "bg-secondary"}`}>
+        <div className={`w-4 h-4 rounded-full bg-white shadow transition-transform mt-0.5 ${checked ? "translate-x-[18px]" : "translate-x-0.5"}`} />
+      </div>
+      <div className="flex-1 min-w-0">
+        <div className="text-sm font-semibold">{label}</div>
+        <div className="text-[11px] text-muted-foreground leading-snug mt-0.5">{help}</div>
+      </div>
+    </div>
+  </button>
+);
 
 const Row = ({ label, value, highlight }: { label: string; value: string; highlight?: boolean }) => (
   <div className={`flex items-center justify-between rounded-lg px-3 py-2 ${highlight ? "bg-accent text-accent-foreground" : "bg-secondary/50"}`}>
