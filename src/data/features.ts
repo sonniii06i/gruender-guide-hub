@@ -104,9 +104,8 @@ const _CATEGORIES_RAW: FeatureCategory[] = [
     icon: Tag,
     tagline: "DPMA, EUIPO, USPTO, Domain, Social-Handles",
     features: [
-      { slug: "marken-checker", title: "Marken-Checker", desc: "DPMA + EUIPO + USPTO + WIPO in einem Check.", status: "soon" },
-      { slug: "domain-check", title: "Domain-Verfügbarkeit", desc: "Alle relevanten TLDs gleichzeitig.", status: "soon" },
-      { slug: "social-handle", title: "Social-Handle-Check", desc: "IG, TikTok, X, YouTube parallel prüfen.", status: "soon" },
+      { slug: "brand-check", title: "Marken + Domain Live-Check", desc: "DPMA + EUIPO via TMView + 8 TLDs (.de/.com/.net/.io/.shop/.co/.app/.store) per RDAP – in einem Klick.", status: "beta", route: "/cockpit/check" },
+      { slug: "social-handle-check", title: "Social-Handle-Check", desc: "IG, TikTok, X, YouTube parallel prüfen.", status: "soon" },
       { slug: "appstore-name", title: "App-Store-Namens-Check", desc: "Apple App Store + Google Play.", status: "planned" },
       { slug: "dpma-wizard", title: "DPMA-Anmeldungs-Wizard", desc: "Mit Klassen-Empfehlung (Nizza-Klassen).", status: "soon" },
       { slug: "marken-monitor", title: "Markenüberwachung", desc: "Alert bei ähnlichen Anmeldungen.", status: "planned" },

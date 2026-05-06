@@ -1,0 +1,226 @@
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+};
+
+// TLDs zum Check + jeweiliger RDAP-Endpoint (oder zentral via rdap.org)
+const TLD_CHECKS: { tld: string; endpoint: (name: string) => string; label: string }[] = [
+  { tld: "de", endpoint: (n) => `https://rdap.denic.de/domain/${n}.de`, label: ".de (DENIC)" },
+  { tld: "com", endpoint: (n) => `https://rdap.verisign.com/com/v1/domain/${n}.com`, label: ".com (Verisign)" },
+  { tld: "net", endpoint: (n) => `https://rdap.verisign.com/net/v1/domain/${n}.net`, label: ".net (Verisign)" },
+  { tld: "io", endpoint: (n) => `https://rdap.identitydigital.services/rdap/domain/${n}.io`, label: ".io (Identity Digital)" },
+  { tld: "shop", endpoint: (n) => `https://rdap.gmoregistry.net/domain/${n}.shop`, label: ".shop (GMO)" },
+  { tld: "co", endpoint: (n) => `https://rdap.nic.co/domain/${n}.co`, label: ".co (Afilias)" },
+  { tld: "app", endpoint: (n) => `https://rdap.nominet.uk/app/domain/${n}.app`, label: ".app (Google)" },
+  { tld: "store", endpoint: (n) => `https://rdap.centralnic.com/store/domain/${n}.store`, label: ".store (CentralNic)" },
+];
+
+// Sanitizer: erlaubt nur kleinbuchstaben, ziffern, hyphen
+function sanitize(input: string): string {
+  return input
+    .trim()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "") // diakritische Zeichen entfernen
+    .replace(/ä/g, "ae")
+    .replace(/ö/g, "oe")
+    .replace(/ü/g, "ue")
+    .replace(/ß/g, "ss")
+    .replace(/[^a-z0-9-]/g, "")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 63);
+}
+
+interface DomainResult {
+  tld: string;
+  fullDomain: string;
+  available: boolean | null; // null = unbekannt (Endpoint-Fehler)
+  registrar?: string;
+  expirationDate?: string;
+  label: string;
+  source: string;
+}
+
+async function checkDomain(name: string, check: typeof TLD_CHECKS[0]): Promise<DomainResult> {
+  const fullDomain = `${name}.${check.tld}`;
+  const url = check.endpoint(name);
+  const result: DomainResult = {
+    tld: check.tld,
+    fullDomain,
+    available: null,
+    label: check.label,
+    source: url,
+  };
+
+  try {
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), 5000);
+    const resp = await fetch(url, {
+      headers: { Accept: "application/rdap+json", "User-Agent": "GruenderX-Brand-Check/1.0" },
+      signal: ctrl.signal,
+    });
+    clearTimeout(t);
+
+    if (resp.status === 404) {
+      // RDAP 404 = Domain nicht registriert
+      result.available = true;
+      return result;
+    }
+    if (resp.status === 200) {
+      result.available = false;
+      try {
+        const data = await resp.json();
+        // Registrar aus events oder entities ziehen
+        if (data.entities) {
+          const reg = data.entities.find((e: any) => Array.isArray(e.roles) && e.roles.includes("registrar"));
+          if (reg?.vcardArray?.[1]) {
+            const fn = reg.vcardArray[1].find((v: any) => v[0] === "fn");
+            if (fn?.[3]) result.registrar = fn[3];
+          }
+        }
+        if (data.events) {
+          const exp = data.events.find((e: any) => e.eventAction === "expiration");
+          if (exp?.eventDate) result.expirationDate = exp.eventDate;
+        }
+      } catch {}
+      return result;
+    }
+    // andere Stati = unsicher
+    return result;
+  } catch (e) {
+    console.warn(`Domain-Check ${fullDomain} fehlgeschlagen:`, e);
+    return result;
+  }
+}
+
+interface TrademarkHit {
+  name: string;
+  office: string; // EUIPO, DPMA, WIPO
+  applicationNumber?: string;
+  classes?: string[];
+  status?: string;
+  applicant?: string;
+  searchUrl: string;
+}
+
+interface TrademarkResult {
+  query: string;
+  totalHits: number | null; // null = API nicht erreichbar
+  hits: TrademarkHit[];
+  source: string;
+  searchLinks: { label: string; url: string }[];
+}
+
+async function checkTrademark(query: string): Promise<TrademarkResult> {
+  const result: TrademarkResult = {
+    query,
+    totalHits: null,
+    hits: [],
+    source: "TMView (EUIPO/EU)",
+    searchLinks: [
+      { label: "DPMA Register (manuell)", url: `https://register.dpma.de/DPMAregister/marke/trefferliste?docId=&queryString=${encodeURIComponent(query)}` },
+      { label: "EUIPO eSearch (manuell)", url: `https://euipo.europa.eu/eSearch/#advanced/trademarks/1/100/n1=MarkVerbalElementText&v1=${encodeURIComponent(query)}&o1=AND` },
+      { label: "TMView (alle EU-Register)", url: `https://www.tmdn.org/tmview/#/tmview/results?text=${encodeURIComponent(query)}` },
+      { label: "WIPO Global Brand Database", url: `https://branddb.wipo.int/en/quicksearch/results?fq=brandName:${encodeURIComponent(query)}` },
+    ],
+  };
+
+  // TMView API (offiziell von EUIPO/TMDN)
+  const tmviewUrl = "https://api.tmdn.org/tmview/api/search/results";
+  const body = {
+    page: "1",
+    pageSize: "30",
+    criteria: "WS",
+    basicSearch: query,
+    fOffices: "EM,DE", // EUIPO + DPMA
+    sortBy: "relevance",
+    typeSearch: "VERBAL",
+  };
+
+  try {
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), 8000);
+    const resp = await fetch(tmviewUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        Accept: "application/json",
+        "User-Agent": "GruenderX-Brand-Check/1.0",
+      },
+      body: new URLSearchParams(body as Record<string, string>).toString(),
+      signal: ctrl.signal,
+    });
+    clearTimeout(t);
+
+    if (resp.ok) {
+      const data = await resp.json();
+      result.totalHits = data?.tradeMarks?.length ?? data?.totalResults ?? 0;
+      const list: any[] = Array.isArray(data?.tradeMarks) ? data.tradeMarks.slice(0, 20) : [];
+      result.hits = list.map((tm: any) => ({
+        name: tm.tmName ?? query,
+        office: tm.officeCode === "EM" ? "EUIPO (EU)" : tm.officeCode === "DE" ? "DPMA (DE)" : tm.officeCode,
+        applicationNumber: tm.applicationNumber ?? tm.registrationNumber,
+        classes: tm.niceClass ? String(tm.niceClass).split(",").map((c: string) => c.trim()) : undefined,
+        status: tm.status,
+        applicant: tm.applicantName,
+        searchUrl:
+          tm.officeCode === "EM" && tm.applicationNumber
+            ? `https://euipo.europa.eu/eSearch/#details/trademarks/${tm.applicationNumber}`
+            : tm.officeCode === "DE" && tm.applicationNumber
+              ? `https://register.dpma.de/DPMAregister/marke/register/${tm.applicationNumber}/DE`
+              : result.searchLinks[2].url,
+      }));
+    }
+  } catch (e) {
+    console.warn("TMView fehlgeschlagen:", e);
+    // Fallback: hits bleibt leer, totalHits bleibt null → UI zeigt manuelle Such-Links
+  }
+
+  return result;
+}
+
+serve(async (req) => {
+  if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
+
+  try {
+    const { name } = await req.json();
+    if (!name || typeof name !== "string") {
+      return new Response(JSON.stringify({ error: "Name erforderlich" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+    const sanitized = sanitize(name);
+    if (sanitized.length < 2) {
+      return new Response(
+        JSON.stringify({ error: "Name zu kurz nach Sanitization (min. 2 Zeichen, nur a-z/0-9/-)." }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      );
+    }
+
+    // Domains parallel prüfen
+    const domainResults = await Promise.all(TLD_CHECKS.map((c) => checkDomain(sanitized, c)));
+
+    // Marken parallel mit Original-Query (nicht sanitized — Markenrecherche tolerant)
+    const trademarkResult = await checkTrademark(name.trim());
+
+    return new Response(
+      JSON.stringify({
+        query: name,
+        sanitized,
+        domains: domainResults,
+        trademarks: trademarkResult,
+        timestamp: new Date().toISOString(),
+      }),
+      { headers: { ...corsHeaders, "Content-Type": "application/json" } },
+    );
+  } catch (e) {
+    console.error("check-brand error", e);
+    return new Response(JSON.stringify({ error: e instanceof Error ? e.message : "Unknown" }), {
+      status: 500,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
+});

@@ -26,3 +26,6 @@ verify_jwt = false
 
 [functions.find-notare]
 verify_jwt = false
+
+[functions.check-brand]
+verify_jwt = false
