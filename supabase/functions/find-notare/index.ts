@@ -143,7 +143,10 @@ const OVERPASS_MIRRORS = [
 ];
 
 async function fetchOverpass(query: string): Promise<any | null> {
-  for (const url of OVERPASS_MIRRORS) {
+  // Manche Mirrors haben veraltete DB-Snapshots und liefern 0 Treffer trotz 200 OK.
+  // Daher: parallel die 3 schnellsten Mirrors abfragen und den mit den meisten
+  // Elements nehmen.
+  const tryMirror = async (url: string): Promise<any | null> => {
     try {
       const res = await fetch(url, {
         method: "POST",
@@ -154,15 +157,35 @@ async function fetchOverpass(query: string): Promise<any | null> {
         },
         signal: AbortSignal.timeout(8000),
       });
-      if (!res.ok) continue;
+      if (!res.ok) return null;
       const data = await res.json().catch(() => null);
-      if (!data?.elements) continue;
+      if (!data?.elements) return null;
       return data;
     } catch {
-      continue;
+      return null;
+    }
+  };
+
+  // Erste 3 Mirrors parallel
+  const results = await Promise.all(OVERPASS_MIRRORS.slice(0, 3).map(tryMirror));
+  let best: any = null;
+  for (const r of results) {
+    if (!r) continue;
+    if (!best || (r.elements?.length ?? 0) > (best.elements?.length ?? 0)) {
+      best = r;
     }
   }
-  return null;
+  if (best && (best.elements?.length ?? 0) > 0) return best;
+
+  // Wenn alle 3 leer/down: die restlichen 2 sequenziell als Last-Resort
+  for (const url of OVERPASS_MIRRORS.slice(3)) {
+    const r = await tryMirror(url);
+    if (r && (r.elements?.length ?? 0) > 0) return r;
+  }
+
+  // Wirklich nichts gefunden – aber unterscheide: erstes Result mit elements=[]
+  // (PLZ ist ländlich, gibt keine Notare) vs. komplett alles down.
+  return best ?? null;
 }
 
 async function findNotaresOSM(
