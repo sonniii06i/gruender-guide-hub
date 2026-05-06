@@ -54,6 +54,7 @@ const _CATEGORIES_RAW: FeatureCategory[] = [
     tagline: "Fristen, IAB, Crypto, Pre-Year-End",
     features: [
       { slug: "frist-kalender", title: "Frist-Kalender", desc: "USt-VA, ESt, KSt, GewSt – personalisiert nach Rechtsform.", status: "beta", route: "/cockpit/steuer" },
+      { slug: "amazon-buchungen", title: "Amazon-Buchungstexte", desc: "AMA-SG-DE, AMA-BG-IT, AUSZ-DE, MZNFS, FBAFees & 130+ Codes – Live-Lookup mit SKR03/04-Konto und USt-Behandlung.", status: "beta", route: "/cockpit/amazon-buchungen" },
       { slug: "pre-year-end", title: "Pre-Year-End-Check", desc: "Ab November: 7 Hebel, die du noch ziehen kannst.", status: "soon" },
       { slug: "iab-rechner", title: "IAB-Rechner", desc: "Investitionsabzugsbetrag bis 200.000 €.", status: "beta", route: "/cockpit/steuer" },
       { slug: "kfz-optimizer", title: "Kfz-Versteuerung-Optimizer", desc: "1%-Regel vs Fahrtenbuch – was lohnt sich?", status: "soon" },

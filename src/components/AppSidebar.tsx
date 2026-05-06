@@ -28,7 +28,6 @@ import {
   Trophy,
   Users,
   Wrench,
-  Receipt,
 } from "lucide-react";
 import { useRole } from "@/hooks/useRole";
 
@@ -84,7 +83,6 @@ export function AppSidebar() {
             <SidebarMenu>
               <Item to="/anbieter" icon={Trophy} label="Anbieter-Vergleich" active={isActive("/anbieter")} />
               <Item to="/cockpit/steuer" icon={Calculator} label="Steuer-Cockpit" active={isActive("/cockpit/steuer")} />
-              <Item to="/cockpit/amazon-buchungen" icon={Receipt} label="Amazon-Buchungen" active={isActive("/cockpit/amazon-buchungen")} />
               <Item to="/wizard/rechtsform" icon={Scale} label="Rechtsform-Wizard" active={isActive("/wizard/rechtsform")} />
               <Item to="/dashboard?view=themen" icon={Compass} label="Themen entdecken" active={pathname === "/dashboard" && search.includes("view=themen")} />
             </SidebarMenu>
