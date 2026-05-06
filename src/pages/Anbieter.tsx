@@ -568,7 +568,7 @@ export const PROVIDERS: Provider[] = [
     name: "Sendcloud",
     category: "Versand DACH",
     region: "DACH/EU",
-    starting: "ab 23 €/Mon",
+    starting: "0 € Essentials · ab ~25 €/Mon Lite",
     rating: 4.6,
     tagline: "Multi-Carrier, Retouren-Portal",
     pros: ["Multi-Carrier (DHL, DPD, GLS, UPS, Hermes) in einer Plattform", "Top Retouren-Portal", "Shopify/Shopware/WooCommerce-Plugins"],
@@ -809,7 +809,7 @@ export const PROVIDERS: Provider[] = [
     name: "Klaviyo",
     category: "Email",
     region: "global",
-    starting: "ab 20 $/Mon",
+    starting: "0 $ (bis 250 Kontakte / 500 Mails) · ab 20 $/Mon",
     rating: 4.7,
     tagline: "Beste E-Com Email-Plattform",
     pros: ["Standard für DTC-Email", "Flow-Builder unschlagbar", "Beste Shopify-Integration"],
@@ -1829,19 +1829,25 @@ const ProviderCard = ({ p }: { p: Provider }) => (
 
     {/* Pros / Cons als eigene Boxen mit fixer Höhe */}
     <div className="grid grid-cols-2 gap-2 mb-4">
-      <div className="rounded-lg border border-success/20 bg-success/5 p-2.5 min-h-[6.5rem]">
+      <div className="rounded-lg border border-success/20 bg-success/5 p-2.5 min-h-[7rem]">
         <div className="text-[10px] font-bold uppercase tracking-wider text-success mb-1.5">Stärken</div>
-        <ul className="space-y-1 text-[11px] leading-snug text-foreground/80">
+        <ul className="space-y-1.5 text-[11px] leading-snug text-foreground/80">
           {p.pros.slice(0, 3).map((s, i) => (
-            <li key={i} className="line-clamp-2">+ {s}</li>
+            <li key={i} className="flex gap-1">
+              <span className="shrink-0 text-success">+</span>
+              <span className="line-clamp-2">{s}</span>
+            </li>
           ))}
         </ul>
       </div>
-      <div className="rounded-lg border border-destructive/20 bg-destructive/5 p-2.5 min-h-[6.5rem]">
+      <div className="rounded-lg border border-destructive/20 bg-destructive/5 p-2.5 min-h-[7rem]">
         <div className="text-[10px] font-bold uppercase tracking-wider text-destructive mb-1.5">Schwächen</div>
-        <ul className="space-y-1 text-[11px] leading-snug text-foreground/80">
+        <ul className="space-y-1.5 text-[11px] leading-snug text-foreground/80">
           {p.cons.slice(0, 3).map((s, i) => (
-            <li key={i} className="line-clamp-2">– {s}</li>
+            <li key={i} className="flex gap-1">
+              <span className="shrink-0 text-destructive">−</span>
+              <span className="line-clamp-2">{s}</span>
+            </li>
           ))}
         </ul>
       </div>
