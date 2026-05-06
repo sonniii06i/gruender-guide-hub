@@ -213,11 +213,13 @@ async function scrapeGoogleMaps(
         // Consent-Cookie umgeht das EU-Consent-Modal
         "Cookie": "CONSENT=YES+cb.20210720-07-p0.de+FX+410; SOCS=CAESHAgBEhJnd3NfMjAyMzAyMjEtMF9SQzIaAmRlIAEaBgiAjpqfBg",
       },
-      signal: AbortSignal.timeout(10000),
+      signal: AbortSignal.timeout(4000),
       redirect: "follow",
     });
     if (!res.ok) return null;
     const html = await res.text();
+    // Schutz gegen ReDoS bei extrem großen Responses
+    if (html.length > 2_000_000) return null;
 
     // Local-Pack-Cards parsen: jede Karte hat ein div mit data-attrid und Sterne-Markup.
     // Pattern für Name + Rating + Review-Count + Adresse.
@@ -349,16 +351,26 @@ Deno.serve(async (req) => {
       );
     }
 
-    // OSM (immer) + Google-Scrape (best-effort, keine API-Keys) parallel.
-    // Wenn der Scraper bricht: silent fallback auf OSM-only, Reviews fehlen
-    // dann eben (UI markiert das).
-    const [osmList, googleList] = await Promise.all([
-      findNotaresOSM(center.lat, center.lon, 25000),
-      findNotaresGoogle(center.lat, center.lon, 25000, center.city),
-    ]);
-    let notare: Notar[] | null = null;
-    if (osmList && googleList) notare = mergeNotare(osmList, googleList);
-    else notare = googleList ?? osmList;
+    // OSM ist die garantierte Quelle (sequentiell, nie übersprungen).
+    // Google-Scrape (best-effort) wird parallel angestoßen, aber nur mit
+    // strikter 6s-Race-Time-Out – wenn Google blockt/hängt, kommen Notare
+    // trotzdem zurück, halt ohne Bewertungen.
+    const osmList = await findNotaresOSM(center.lat, center.lon, 25000);
+
+    let googleList: Notar[] | null = null;
+    try {
+      googleList = await Promise.race([
+        findNotaresGoogle(center.lat, center.lon, 25000, center.city),
+        new Promise<null>((resolve) => setTimeout(() => resolve(null), 6000)),
+      ]);
+    } catch {
+      googleList = null;
+    }
+
+    let notare: Notar[] | null = osmList;
+    if (osmList && googleList && googleList.length > 0) {
+      notare = mergeNotare(osmList, googleList);
+    }
     const reviewsAvailable = Array.isArray(googleList) && googleList.length > 0;
 
     // Adresse-Enrichment: Notare ohne addr:* tags. Strategie:
