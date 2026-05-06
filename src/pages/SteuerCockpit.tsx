@@ -427,11 +427,19 @@ const SteuerCockpit = () => {
               <li>Integration mit lexoffice / sevDesk / DATEV (DATEV-Export aus PayJoe)</li>
               <li>Empfehlungen für FBA-erfahrene StB in deinem Bundesland</li>
             </ul>
+            <div className="rounded-xl bg-accent-blue/10 border border-accent-blue/30 p-3 mb-3 text-xs leading-relaxed">
+              <span className="font-semibold">Neu:</span> Komplette Liste aller PayJoe/Lexoffice
+              Amazon-Buchungstexte (AMA-SG-DE, AMA-BG-IT, AUSZ-DE, MZNFS, FBAFees etc.) mit SKR03/04-Konto,
+              USt-Behandlung und Live-Lookup-Tool.
+            </div>
             <div className="flex flex-wrap gap-2">
-              <Link to="/felix" className="rounded-full bg-accent-blue text-primary-foreground px-4 py-1.5 text-xs font-semibold hover:opacity-90 transition-opacity">
+              <Link to="/cockpit/amazon-buchungen" className="rounded-full bg-accent-blue text-primary-foreground px-4 py-1.5 text-xs font-semibold hover:opacity-90 transition-opacity">
+                Buchungs-Codes nachschlagen →
+              </Link>
+              <Link to="/felix" className="rounded-full border border-accent-blue/40 text-accent-blue px-4 py-1.5 text-xs font-semibold hover:bg-accent-blue/10 transition-colors">
                 Felix fragen →
               </Link>
-              <Link to="/kontakt" className="rounded-full border border-accent-blue/40 text-accent-blue px-4 py-1.5 text-xs font-semibold hover:bg-accent-blue/10 transition-colors">
+              <Link to="/kontakt" className="rounded-full border border-border text-foreground px-4 py-1.5 text-xs font-semibold hover:bg-secondary/50 transition-colors">
                 Setup-Call buchen →
               </Link>
             </div>
