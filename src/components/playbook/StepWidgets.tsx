@@ -188,7 +188,7 @@ export function NotarFinder({ companyName }: { companyName?: string }) {
                   <div className="text-[10px] text-muted-foreground italic">Kontaktdaten siehe Website</div>
                 )}
                 {n.openingHours && <div className="text-[10px] text-muted-foreground mt-1">🕐 {n.openingHours}</div>}
-                <div className="flex gap-2 mt-2 text-[10px]">
+                <div className="flex flex-wrap gap-2 mt-2 text-[10px]">
                   {n.lat && n.lon && (
                     <a
                       href={`https://www.openstreetmap.org/?mlat=${n.lat}&mlon=${n.lon}#map=17/${n.lat}/${n.lon}`}
@@ -200,6 +200,16 @@ export function NotarFinder({ companyName }: { companyName?: string }) {
                       <MapPin className="h-2.5 w-2.5" /> Karte
                     </a>
                   )}
+                  <a
+                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent([n.name, n.street, n.postalCode, n.city].filter(Boolean).join(" "))}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className="text-accent-blue underline inline-flex items-center gap-0.5"
+                    title="Bewertungen auf Google Maps ansehen"
+                  >
+                    <Star className="h-2.5 w-2.5 fill-yellow-400 text-yellow-400" /> Bewertungen
+                  </a>
                   {n.website && (
                     <a
                       href={n.website}
@@ -232,11 +242,8 @@ export function NotarFinder({ companyName }: { companyName?: string }) {
           </div>
         )}
         {notare.length > 0 && (
-          <div className="text-[10px] text-muted-foreground space-y-0.5">
-            <div>Sortiert nach Distanz zur PLZ-Mitte. Quelle: OpenStreetMap{reviewsAvailable && " · Bewertungen aus Google Maps"}</div>
-            {!reviewsAvailable && (
-              <div className="text-warning-foreground">⚠ Bewertungen aktuell nicht verfügbar (Scraper momentan nicht erreichbar). Notar-Liste bleibt aktiv.</div>
-            )}
+          <div className="text-[10px] text-muted-foreground">
+            Sortiert nach Distanz zur PLZ-Mitte · Quelle: OpenStreetMap · Klick auf ⭐ öffnet Google-Maps-Bewertungen im Browser
           </div>
         )}
       </div>
