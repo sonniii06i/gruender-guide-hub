@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Loader2, Search, MapPin, ExternalLink, AlertTriangle, CheckCircle2, Mail, Copy, Info } from "lucide-react";
+import { Loader2, Search, MapPin, ExternalLink, AlertTriangle, CheckCircle2, Mail, Copy, Info, Star } from "lucide-react";
 import { toast } from "sonner";
 
 /* ============ COMPANY NAME CHECK ============ */
@@ -167,9 +167,16 @@ export function NotarFinder({ companyName }: { companyName?: string }) {
                     {isPicked && <CheckCircle2 className="h-3.5 w-3.5 text-accent-blue" />}
                     {n.name}
                   </div>
-                  {typeof n.distanceKm === "number" && (
-                    <span className="text-[10px] text-muted-foreground tabular-nums shrink-0 mt-0.5">{n.distanceKm} km</span>
-                  )}
+                  <div className="flex items-center gap-2 shrink-0 mt-0.5 text-[10px] text-muted-foreground tabular-nums">
+                    {typeof n.rating === "number" && (
+                      <span className="inline-flex items-center gap-0.5 text-yellow-700 dark:text-yellow-400 font-semibold">
+                        <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+                        {n.rating.toFixed(1)}
+                        {typeof n.reviewCount === "number" && <span className="text-muted-foreground font-normal">·{n.reviewCount}</span>}
+                      </span>
+                    )}
+                    {typeof n.distanceKm === "number" && <span>{n.distanceKm} km</span>}
+                  </div>
                 </div>
                 {n.street && <div className="text-xs text-muted-foreground">{n.street}</div>}
                 {(n.postalCode || n.city) && <div className="text-xs text-muted-foreground">{n.postalCode} {n.city}</div>}

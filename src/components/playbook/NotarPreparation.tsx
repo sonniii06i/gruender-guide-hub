@@ -139,14 +139,103 @@ export function NotarPreparation({
     navigator.clipboard.writeText(summary);
     toast.success("Zusammenfassung kopiert");
   };
-  const download = () => {
-    const blob = new Blob([summary], { type: "text/plain;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = `notar-vorbereitung-${(firmenname || "gmbh").toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${todayIso()}.txt`;
-    link.click();
-    URL.revokeObjectURL(url);
+  const download = async () => {
+    // Dynamic import damit jsPDF nicht im Initial-Bundle landet
+    const { default: jsPDF } = await import("jspdf");
+    const doc = new jsPDF({ unit: "pt", format: "a4" });
+
+    const margin = 50;
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+    const maxWidth = pageWidth - margin * 2;
+    let y = margin;
+
+    const writeLine = (text: string, opts: { size?: number; bold?: boolean; gap?: number } = {}) => {
+      const { size = 10, bold = false, gap = 4 } = opts;
+      doc.setFontSize(size);
+      doc.setFont("helvetica", bold ? "bold" : "normal");
+      const lines = doc.splitTextToSize(text || " ", maxWidth);
+      for (const line of lines) {
+        if (y + size + gap > pageHeight - margin) {
+          doc.addPage();
+          y = margin;
+        }
+        doc.text(line, margin, y);
+        y += size + gap;
+      }
+    };
+
+    // Header
+    writeLine("Notartermin-Vorbereitung – GmbH-Gründung", { size: 18, bold: true, gap: 6 });
+    writeLine(`Stand: ${new Date().toLocaleDateString("de-DE")}`, { size: 10, gap: 12 });
+
+    // Sektion 1: Firma
+    writeLine("FIRMA", { size: 13, bold: true, gap: 8 });
+    writeLine(`Firmenname:           ${a.firmenname || firmenname || "(noch offen)"}`);
+    writeLine(`Sitz:                 ${a.firmensitzStadt || "—"}`);
+    writeLine(`Geschäftsadresse:     ${a.firmensitzAdresse || "—"}`);
+    writeLine(`Geschäftsjahr:        ${a.gjahr === "abweichend" ? `abweichend (Start ${a.gjahrStart || "?"})` : a.gjahr === "kalender" ? "Kalenderjahr" : "—"}`, { gap: 8 });
+    writeLine("Unternehmensgegenstand:", { bold: true });
+    writeLine(a.gegenstand || "—", { gap: 14 });
+
+    // Sektion 2: Stammkapital
+    writeLine("STAMMKAPITAL", { size: 13, bold: true, gap: 8 });
+    writeLine(`Gesamt:               ${formatEur(a.stammkapital) || "—"}`);
+    writeLine(`Bei Gründung einzahlbar: ${formatEur(a.einzahlung) || "—"}`, { gap: 14 });
+
+    // Sektion 3: Gesellschafter
+    writeLine(`GESELLSCHAFTER (${persons.length})`, { size: 13, bold: true, gap: 8 });
+    persons.forEach((p, i) => {
+      writeLine(`[${i + 1}] ${[p.vorname, p.nachname].filter(Boolean).join(" ") || "(Name fehlt)"}`, { bold: true });
+      writeLine(`     geboren: ${p.geburtsdatum || "—"} in ${p.geburtsort || "—"}`);
+      writeLine(`     Adresse: ${p.adresse || "—"}`);
+      writeLine(`     Beruf: ${p.beruf || "—"}`);
+      writeLine(`     Familienstand: ${p.familienstand || "—"}`);
+      writeLine(`     Anteil: ${formatEur(p.anteilEur) || "—"} (${p.einlageArt === "sache" ? "Sacheinlage" : "Bareinlage"})`);
+      if (p.einlageArt === "sache" && p.sacheinlageBeschreibung) {
+        writeLine(`     Sacheinlage: ${p.sacheinlageBeschreibung}`);
+      }
+      y += 4;
+    });
+
+    // Sektion 4: Geschäftsführung
+    writeLine(`GESCHÄFTSFÜHRUNG (${gfs.length})`, { size: 13, bold: true, gap: 8 });
+    gfs.forEach((g, i) => {
+      writeLine(`[${i + 1}] ${g.name || "(Name fehlt)"}`, { bold: true });
+      writeLine(`     ${g.istGesellschafter === "ja" ? "Gesellschafter-GF" : g.istGesellschafter === "nein" ? "Fremd-GF" : "—"}`);
+      writeLine(`     Vertretung: ${g.vertretung === "einzel" ? "Einzelvertretung" : g.vertretung === "gesamt" ? "Gesamtvertretung" : "—"}`);
+      writeLine(`     Befreiung § 181 BGB: ${g.befreiung181 === "ja" ? "Ja" : g.befreiung181 === "nein" ? "Nein" : "—"}`);
+      y += 4;
+    });
+
+    // Sektion 5: Holding (optional)
+    if (a.holding === "ja") {
+      writeLine("HOLDING", { size: 13, bold: true, gap: 8 });
+      writeLine(`Holding-Name:    ${a.holdingName || "—"}`);
+      writeLine(`Sitz:            ${a.holdingSitz || "—"}`);
+      writeLine(`HRB:             ${a.holdingHrb || "—"}`, { gap: 14 });
+    }
+
+    // Sektion 6: Optionale Klauseln
+    const optionals: [string, string][] = [
+      ["Vorkaufsrecht", a.vorkauf],
+      ["Wettbewerbsverbot Gesellschafter", a.wettbewerb],
+      ["Beirat / Aufsichtsrat", a.beirat],
+      ["Schiedsklausel", a.schieds],
+    ].filter(([, v]) => v === "ja") as [string, string][];
+    if (optionals.length) {
+      writeLine("VEREINBARTE OPTIONALE KLAUSELN", { size: 13, bold: true, gap: 8 });
+      optionals.forEach(([k]) => writeLine(`• ${k}`));
+      y += 8;
+    }
+
+    // Footer
+    writeLine("─".repeat(60), { gap: 8 });
+    writeLine("Bitte um Rückmeldung zu offenen Punkten und Terminvorschlag.", { size: 10 });
+    writeLine("Erstellt mit GründerX – Notartermin-Vorbereitungs-Modul", { size: 8, gap: 0 });
+
+    const filename = `notar-vorbereitung-${(firmenname || "gmbh").toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${todayIso()}.pdf`;
+    doc.save(filename);
   };
 
   return (
@@ -488,7 +577,7 @@ export function NotarPreparation({
             <Copy className="h-4 w-4 mr-1" /> Kopieren
           </Button>
           <Button onClick={download}>
-            <Download className="h-4 w-4 mr-1" /> Als .txt herunterladen
+            <Download className="h-4 w-4 mr-1" /> Als PDF herunterladen
           </Button>
         </div>
       </Section>
