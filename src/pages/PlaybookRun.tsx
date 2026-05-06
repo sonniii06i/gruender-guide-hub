@@ -396,6 +396,18 @@ const StepBody = ({
         })}
       </div>
     )}
+    {step.extendedNotes && step.extendedNotes.length > 0 && (
+      <div className="rounded-xl border border-accent-blue/20 bg-accent-blue/5 p-4 space-y-1.5">
+        <div className="text-xs font-semibold uppercase tracking-wider text-accent-blue mb-1">
+          Detail-Hinweise & Pro-Tipps
+        </div>
+        <ul className="space-y-1.5 text-sm text-muted-foreground leading-relaxed list-disc pl-5">
+          {step.extendedNotes.map((n, i) => (
+            <li key={i}>{n}</li>
+          ))}
+        </ul>
+      </div>
+    )}
     {step.externalLinks && (
       <div className="grid sm:grid-cols-2 gap-2">
         {step.externalLinks.map((l) => (
