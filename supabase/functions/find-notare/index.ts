@@ -2,6 +2,16 @@
 // Stack: Nominatim (PLZ → lat/lon) + Overpass (office=notary im Radius).
 // Frei, kein API-Key, strukturiertes JSON, sortiert nach Distanz.
 import { corsHeaders } from "https://esm.sh/@supabase/supabase-js@2.95.0/cors";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.95.0";
+
+const NOTAR_CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 Tage
+
+function getSupabase() {
+  const url = Deno.env.get("SUPABASE_URL");
+  const key = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+  if (!url || !key) return null;
+  return createClient(url, key, { auth: { persistSession: false } });
+}
 
 interface Notar {
   name: string;
@@ -455,6 +465,27 @@ Deno.serve(async (req) => {
       });
     }
 
+    // 7-Tage-Cache pro PLZ – schont SerpAPI/Apify-Quota erheblich.
+    // Wenn 100 User dieselbe PLZ checken: 1 API-Call statt 100.
+    const supabase = getSupabase();
+    const cacheKey = `notar-${plzStr}`;
+    if (supabase) {
+      const { data: cached } = await supabase
+        .from("company_check_cache")
+        .select("data, fetched_at")
+        .eq("query_key", cacheKey)
+        .maybeSingle();
+      if (cached?.data && cached.fetched_at) {
+        const ageMs = Date.now() - new Date(cached.fetched_at).getTime();
+        if (ageMs < NOTAR_CACHE_TTL_MS) {
+          return new Response(
+            JSON.stringify({ ...cached.data, _cached: true, _cacheAgeHrs: Math.round(ageMs / 3600000) }),
+            { headers: { ...corsHeaders, "Content-Type": "application/json" } },
+          );
+        }
+      }
+    }
+
     const center = await geocodePlz(plzStr);
     if (!center) {
       return new Response(
@@ -511,18 +542,30 @@ Deno.serve(async (req) => {
       );
     }
 
+    const payload = {
+      center,
+      notare: notare ?? [],
+      sources: {
+        osm: Array.isArray(osmList) ? "ok" : "error",
+        googleScrape: reviewsAvailable ? "ok" : "down",
+      },
+      reviewsAvailable,
+      sourceUrl: `https://www.openstreetmap.org/search?query=notary+${plzStr}`,
+      fallbackUrl: `https://www.notar.de/notarsuche?tx_bnotknotarverz_pi1%5Bplz%5D=${plzStr}`,
+    };
+
+    // 7-Tage-Cache schreiben (schont API-Quota)
+    if (supabase && notare && notare.length > 0) {
+      await supabase.from("company_check_cache").upsert({
+        query_key: cacheKey,
+        query_raw: plzStr,
+        data: payload,
+        fetched_at: new Date().toISOString(),
+      });
+    }
+
     return new Response(
-      JSON.stringify({
-        center,
-        notare: notare ?? [],
-        sources: {
-          osm: Array.isArray(osmList) ? "ok" : "error",
-          googleScrape: reviewsAvailable ? "ok" : "down",
-        },
-        reviewsAvailable,
-        sourceUrl: `https://www.openstreetmap.org/search?query=notary+${plzStr}`,
-        fallbackUrl: `https://www.notar.de/notarsuche?tx_bnotknotarverz_pi1%5Bplz%5D=${plzStr}`,
-      }),
+      JSON.stringify(payload),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   } catch (e) {
