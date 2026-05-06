@@ -22,7 +22,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, sess) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, sess) => {
+      // Bei TOKEN_REFRESHED nur Session updaten – User-Object bleibt referenz-identisch,
+      // damit nachgelagerte Hooks (useAccess etc.) nicht unnötig refetchen, wenn der User
+      // einfach nur den Tab gewechselt hat und Supabase den Access-Token erneuert.
+      if (event === "TOKEN_REFRESHED") {
+        setSession(sess);
+        return;
+      }
       setSession(sess);
       setUser(sess?.user ?? null);
     });
