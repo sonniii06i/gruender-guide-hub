@@ -132,14 +132,44 @@ async function geocodePlz(plz: string): Promise<{ lat: number; lon: number; city
   }
 }
 
+// Overpass-Mirrors – nach Geschwindigkeit sortiert. Wenn der erste 5xx/Timeout
+// liefert, automatisch zum nächsten. Alle public + kostenlos.
+const OVERPASS_MIRRORS = [
+  "https://overpass-api.de/api/interpreter",
+  "https://lz4.overpass-api.de/api/interpreter",
+  "https://overpass.osm.ch/api/interpreter",
+  "https://overpass.kumi.systems/api/interpreter",
+  "https://overpass.openstreetmap.fr/api/interpreter",
+];
+
+async function fetchOverpass(query: string): Promise<any | null> {
+  for (const url of OVERPASS_MIRRORS) {
+    try {
+      const res = await fetch(url, {
+        method: "POST",
+        body: "data=" + encodeURIComponent(query),
+        headers: {
+          "User-Agent": "GruenderX-NotarFinder/1.0",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        signal: AbortSignal.timeout(8000),
+      });
+      if (!res.ok) continue;
+      const data = await res.json().catch(() => null);
+      if (!data?.elements) continue;
+      return data;
+    } catch {
+      continue;
+    }
+  }
+  return null;
+}
+
 async function findNotaresOSM(
   lat: number,
   lon: number,
   radiusM = 25000,
 ): Promise<Notar[] | null> {
-  // Mehrere Tag-Varianten: office=notary (häufigste), amenity=notary,
-  // sowie Anwälte, die als Notare markiert sind (lawyer=notary o. notary=yes).
-  // Erfasst ~30 % mehr Treffer als die alte Single-Query.
   const around = `(around:${radiusM},${lat},${lon})`;
   const query =
     `[out:json][timeout:15];` +
@@ -151,17 +181,7 @@ async function findNotaresOSM(
     `);` +
     `out 100;`;
   try {
-    const res = await fetch("https://overpass-api.de/api/interpreter", {
-      method: "POST",
-      body: "data=" + encodeURIComponent(query),
-      headers: {
-        "User-Agent": "GruenderX-NotarFinder/1.0",
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      signal: AbortSignal.timeout(13000),
-    });
-    if (!res.ok) return null;
-    const data = await res.json().catch(() => null);
+    const data = await fetchOverpass(query);
     if (!data?.elements) return null;
     const notare: Notar[] = [];
     for (const el of data.elements) {
