@@ -27,6 +27,25 @@ interface Bank {
   pros: string[];
   cons: string[];
   bestFor: string;
+  /** Klare Warnung wenn Bank NICHT für GmbH geeignet (DKB Business, N26, Kontist) */
+  dealbreaker?: string;
+  /** Feature-Flags für Filter & Badges */
+  features?: {
+    datev?: boolean;
+    cashEinzahlung?: boolean;
+    kfwPartner?: boolean;
+    multiUser?: boolean;
+    multiCurrency?: boolean;
+    apiAccess?: boolean;
+  };
+  /** Detail-Konditionen (Stand Recherche 2026) */
+  conditions?: {
+    additionalCardCost?: string;
+    foreignSepa?: string;
+    foreignSwift?: string;
+    fxFee?: string;
+    cashFee?: string;
+  };
 }
 
 const BANKS: Bank[] = [
@@ -35,18 +54,33 @@ const BANKS: Bank[] = [
     name: "Deutsche Bank Business",
     type: "hausbank",
     url: "https://www.deutsche-bank.de/gk.html",
-    monthlyFee: "ab 12,90 €/Mon.",
-    txnCost: "0,15 € (online), beleghaft 1,50 €+",
-    freeTxns: "Pakete je nach Tarif",
-    card: "Mastercard Business",
+    monthlyFee: "8,90–12,90 €/Mon. (Aktiv-Tarif)",
+    txnCost: "0,15 € pro Buchung (Eingang + Ausgang, online wie beleghaft)",
+    freeTxns: "ohne Inklusiv-Buchungen",
+    card: "Deutsche Bank Card (Girocard) + optional Visa/Mastercard Business",
     stammkapital: "ja",
     gmbhIG: "ja",
-    setupTime: "Online-Eröffnung in wenigen Tagen",
+    setupTime: "1–2 Wochen (online via Video-Ident oder Filialtermin)",
     rating: 4,
     communityPick: true,
-    pros: ["100 % online eröffenbar (kein Filialtermin nötig)", "Größtes Filialnetz DE für späteren Bedarf", "Solides Kredit-Geschäft für GmbHs", "Internationale Reichweite"],
-    cons: ["Reine Buchungspakete günstiger als bei Neos (z. B. Revolut, Qonto)"],
-    bestFor: "GmbHs mit Kreditbedarf & Auslandsthemen",
+    pros: [
+      "Notar-Akzeptanz: Sperrkonto ohne Diskussionen, Standard für GmbH-Gründung",
+      "Direkter KfW-Partner (KfW 067 Gründerkredit, KfW 037 Unternehmerkredit)",
+      "Schaltereinzahlung Bargeld kostenlos (Scheine), Münzgeld extra",
+      "Internationale Korrespondenzbank-Infrastruktur, SWIFT zuverlässig",
+      "Echte Filialberatung bei Finanzierungen > 100k €",
+    ],
+    cons: [
+      "0,15 €/Buchung summiert sich – bei 200 Buchungen/Mon = 30 € obendrauf",
+      "Online-Banking + App spürbar behäbiger als Neobanken",
+      "Compliance teilweise starr, Eskalationen dauern",
+    ],
+    bestFor: "GmbHs mit Kreditbedarf, Cash-Geschäft & Notar-Akzeptanz first",
+    features: { datev: true, cashEinzahlung: true, kfwPartner: true, multiUser: true },
+    conditions: {
+      foreignSwift: "0,15 % (min. 15 €)",
+      cashFee: "Schalter kostenlos (Scheine), Münzgeld extra",
+    },
   },
   {
     name: "Commerzbank Business",
@@ -150,17 +184,28 @@ const BANKS: Bank[] = [
     name: "DKB Business",
     type: "online",
     url: "https://www.dkb.de/business/",
-    monthlyFee: "ab 0–9,75 €/Mon.",
-    txnCost: "Beleglos kostenlos (im Tarif), sonst 0,15 €",
+    monthlyFee: "15 €/Mon. (Pauschale)",
+    txnCost: "alle beleglosen unbegrenzt inkl., beleghaft 2,95 €",
     freeTxns: "unbegrenzt beleglos",
-    card: "Visa Business Debit",
-    stammkapital: "ja",
-    gmbhIG: "ja",
-    setupTime: "1–2 Wochen",
+    card: "Visa Business Debit (kostenlos), Apple Pay/Google Pay",
+    stammkapital: "nein",
+    gmbhIG: "nein",
+    setupTime: "1–3 Tage Video-Ident (nur für Berechtigte)",
     rating: 4,
-    pros: ["Sehr günstig", "Sauberes Online-Banking", "Kostenlose Karte (in Tarif)"],
-    cons: ["Keine Filiale", "Onboarding manchmal hakelig (Postident)"],
-    bestFor: "Digitale GmbHs ohne Cash-Geschäft",
+    dealbreaker: "Akzeptiert KEINE GmbH/UG – nur Freiberufler, Gewerbe-Einzelunternehmer, Hausverwalter. Für Gründung nicht nutzbar.",
+    pros: [
+      "15 € Pauschale unlimited Buchungen – top für Solo-Freiberufler mit hohem Volumen",
+      "DATEV-Schnittstelle inklusive (kein Aufpreis)",
+      "Cash-im-Shop bei REWE/Penny/dm bundesweit (1,5 % Einzahlung)",
+      "KfW-Partner, beste Mobile-App unter DE-Vollbanken 2026",
+    ],
+    cons: [
+      "**Dealbreaker:** keine GmbH/UG-Eröffnung möglich",
+      "Onboarding-Compliance-Reviews ziehen sich manchmal Wochen",
+      "Trustpilot Privat-Reviews überlagern Business-Bewertung (~2,4/5)",
+    ],
+    bestFor: "Freiberufler & Solo-Gewerbe (NICHT für GmbH-Gründer)",
+    features: { datev: true, cashEinzahlung: true, kfwPartner: true },
   },
   {
     name: "Fyrst",
@@ -184,17 +229,34 @@ const BANKS: Bank[] = [
     name: "Qonto",
     type: "neobank",
     url: "https://qonto.com/de",
-    monthlyFee: "ab 9 €/Mon. (Solo Basic)",
-    txnCost: "0,30 € pro SEPA ab dem 31.",
-    freeTxns: "30 SEPA inkl.",
-    card: "Mastercard Business",
+    monthlyFee: "9 €/Mon. (Solo Basic, Jahresabo)",
+    txnCost: "0,20 € ab der 31. Buchung",
+    freeTxns: "30 SEPA inkl. (Echtzeit inkludiert)",
+    card: "1× Mastercard Debit + 2 virtuelle Karten, Apple Pay/Google Pay",
     stammkapital: "ja",
     gmbhIG: "ja",
-    setupTime: "1–3 Tage",
+    setupTime: "Video-Ident, oft <24-48h für GmbH i.G.",
     rating: 5,
-    pros: ["Schneller Onboarding-Prozess", "Top Lexoffice/DATEV-Anbindung", "Klar führend bei DE-GmbH-Gründungen"],
-    cons: ["Limit auf SEPA-Buchungen (Mehrkosten)", "Kein Bargeld-Service"],
-    bestFor: "D2C / Online-GmbH mit schnellem Setup",
+    pros: [
+      "Schnellstes Onboarding für GmbH-i.G.-Sperrkonto am Markt (oft 36h)",
+      "DATEV-Schnittstelle inklusive (kein Aufpreis), plus lexoffice/sevDesk/Pennylane",
+      "Multi-User mit granularen Rollen (Admin/Buchhalter/Manager)",
+      "Belegerfassung mit OCR pro Buchung, GoBD-konforme Archivierung",
+      "Trustpilot 4,8/5 (~53k Reviews) – konsistent gelobter Support",
+    ],
+    cons: [
+      "Nur 30 SEPA im Basic – D2C-Brands wachsen schnell raus, Smart 19 €/Standard 39 €",
+      "Kein klassisches Bargeldhandling (keine Filiale, kein Münzgeld)",
+      "Compliance-Sperren bei ungewohnten Beträgen tagelang möglich",
+    ],
+    bestFor: "D2C / Online-GmbH mit schnellem Setup & DATEV-StB",
+    features: { datev: true, multiUser: true, apiAccess: true },
+    conditions: {
+      additionalCardCost: "2 €/Mon (virtuell), 5 €/Mon (physisch)",
+      foreignSepa: "0,8 % (min. 5 €)",
+      foreignSwift: "bis 500 € frei, danach 5 €",
+      fxFee: "1,8 % bei Nicht-Standard-Währung",
+    },
   },
   {
     name: "Holvi",
@@ -232,33 +294,59 @@ const BANKS: Bank[] = [
     name: "N26 Business",
     type: "neobank",
     url: "https://n26.com/de-de/business",
-    monthlyFee: "0 € (Standard) / 4,90 € (Smart)",
-    txnCost: "0 € SEPA-Out unbegrenzt",
-    freeTxns: "unbegrenzt SEPA",
-    card: "Mastercard Business Debit",
-    stammkapital: "limited",
-    gmbhIG: "limited",
-    setupTime: "1–3 Tage",
+    monthlyFee: "0 € (Standard) / 4,90 € (Smart) / 9,90 € (Go) / 16,90 € (Metal)",
+    txnCost: "SEPA-Out unbegrenzt frei",
+    freeTxns: "alle Tarife: unbegrenzt SEPA-Echtzeit",
+    card: "virtuelle Mastercard (Standard) → physische ab Smart",
+    stammkapital: "nein",
+    gmbhIG: "nein",
+    setupTime: "Video-Ident in 30 Min",
     rating: 3,
-    pros: ["Sehr günstig & schnell", "App-First UX top"],
-    cons: ["GmbH-Konto-Eröffnung historisch oft eingeschränkt", "Account-Sperren-Stories in Reviews"],
-    bestFor: "Solo-Selbstständige (für GmbH zweite Wahl)",
+    dealbreaker: "N26 Business akzeptiert NUR Freiberufler/Selbstständige – KEINE GmbH/UG-Eröffnung möglich.",
+    pros: [
+      "Bestes Mobile-Banking-Erlebnis am Markt 2026",
+      "Sub-Konten („Spaces") elegant integriert",
+      "30-Min-Onboarding via Video-Ident",
+      "0,1 % Cashback auf alle Karten-Käufe (ab Smart)",
+    ],
+    cons: [
+      "**Dealbreaker:** keine GmbH/UG-Konten",
+      "Account-Sperren ohne Vorwarnung sind dokumentiertes Muster",
+      "Business-Support laut Trustpilot 2026 oft inakzeptabel",
+    ],
+    bestFor: "Solo-Selbstständige & Freiberufler (NICHT für GmbH)",
+    features: { multiCurrency: true },
   },
   {
     name: "Revolut Business",
     type: "neobank",
     url: "https://www.revolut.com/de-DE/business/",
-    monthlyFee: "0 € (Basic) / ab 19 €/Mon.",
-    txnCost: "0,20 € pro SEPA ab Limit",
-    freeTxns: "5 SEPA-Out (Basic)",
-    card: "Mastercard / Visa",
+    monthlyFee: "Basic 10 €/Mon. · Grow 30 € · Scale 90 €",
+    txnCost: "Basic 5 lokale + 5 internationale; Grow 100 lokal + 5 international",
+    freeTxns: "stark planabhängig",
+    card: "Visa/Mastercard Debit, Apple Pay/Google Pay",
     stammkapital: "limited",
     gmbhIG: "limited",
-    setupTime: "1–2 Tage",
+    setupTime: "Video-Ident, oft <1 Tag",
     rating: 4,
-    pros: ["DE-IBAN verfügbar (seit 2024)", "Multi-Currency (USD/GBP) für Ads & Imports", "Schnelle Karten-Issuance"],
-    cons: ["Stammkapital-Einzahlung GmbH je nach Konstellation noch zickig", "Tarifstruktur teils komplex"],
-    bestFor: "GmbHs mit USD/GBP-Bedarf (Meta/TikTok-Ads, US-Sourcing)",
+    pros: [
+      "Multi-Currency (30+) zu Interbank-Raten werktags",
+      "Beste FX-Konditionen unter Neobanken (Wochenend-Markup ~1 %)",
+      "Multi-User mit Rollen out-of-the-box",
+      "API + Open-Banking-Integrationen sehr stark",
+      "Trustpilot 4,7/5 (>376k Reviews) für Hauptaccount",
+    ],
+    cons: [
+      "DE-IBAN seit 2024, aber DACH-Notare manchmal noch skeptisch beim Sperrkonto",
+      "Account-Freezes bei großen/ungewöhnlichen Transfers ohne klare Begründung",
+      "Wochenend-FX teurer (~1 % Markup)",
+    ],
+    bestFor: "Zweitkonto für USD/GBP (Meta/TikTok-Ads, US-Sourcing)",
+    features: { multiCurrency: true, multiUser: true, apiAccess: true },
+    conditions: {
+      foreignSwift: "Basic kostenpflichtig, Grow 5 international frei",
+      fxFee: "Interbank werktags, ~1 % Wochenend-Markup",
+    },
   },
   {
     name: "Vivid Business",
@@ -396,7 +484,10 @@ const FILTERS: { key: "all" | BankType; label: string }[] = [
 
 export function BankComparison() {
   const [filter, setFilter] = useState<"all" | BankType>("all");
-  const filtered = (filter === "all" ? BANKS : BANKS.filter((b) => b.type === filter))
+  const [onlyGmbH, setOnlyGmbH] = useState(false);
+  let filtered = filter === "all" ? BANKS : BANKS.filter((b) => b.type === filter);
+  if (onlyGmbH) filtered = filtered.filter((b) => b.gmbhIG !== "nein" && b.stammkapital !== "nein");
+  filtered = filtered
     .slice()
     .sort((a, b) => Number(!!b.communityPick) - Number(!!a.communityPick));
 
@@ -439,7 +530,7 @@ export function BankComparison() {
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap gap-2 items-center">
         {FILTERS.map((f) => (
           <Button
             key={f.key}
@@ -450,6 +541,16 @@ export function BankComparison() {
             {f.label}
           </Button>
         ))}
+        <div className="ml-auto">
+          <Button
+            variant={onlyGmbH ? "default" : "outline"}
+            size="sm"
+            onClick={() => setOnlyGmbH(!onlyGmbH)}
+            className={onlyGmbH ? "bg-success hover:bg-success/90 text-success-foreground" : ""}
+          >
+            {onlyGmbH ? "✓ " : ""}Nur GmbH-fähig
+          </Button>
+        </div>
       </div>
 
       <div className="grid md:grid-cols-2 gap-3">
@@ -467,8 +568,17 @@ function BankCard({ b }: { b: Bank }) {
   const ig = IG_BADGE[b.gmbhIG];
 
   return (
-    <div className={`rounded-xl border bg-card p-4 space-y-3 transition-colors ${b.communityPick ? "border-accent-blue ring-1 ring-accent-blue/30" : "border-border hover:border-accent-blue/40"}`}>
-      {b.communityPick && (
+    <div className={`rounded-xl border bg-card p-4 space-y-3 transition-colors ${
+      b.dealbreaker ? "border-destructive/40 opacity-80" :
+      b.communityPick ? "border-accent-blue ring-1 ring-accent-blue/30" :
+      "border-border hover:border-accent-blue/40"
+    }`}>
+      {b.dealbreaker && (
+        <div className="-mx-4 -mt-4 px-4 py-1.5 bg-destructive text-destructive-foreground text-[10px] font-bold uppercase tracking-wider rounded-t-xl flex items-center gap-1.5">
+          <AlertTriangle className="h-3 w-3" /> Nicht für GmbH-Gründung
+        </div>
+      )}
+      {b.communityPick && !b.dealbreaker && (
         <div className="-mx-4 -mt-4 px-4 py-1.5 bg-accent-blue text-accent-blue-foreground text-[10px] font-bold uppercase tracking-wider rounded-t-xl flex items-center gap-1.5">
           <Sparkles className="h-3 w-3" /> Community-Tipp (vorerst)
         </div>
@@ -509,12 +619,24 @@ function BankCard({ b }: { b: Bank }) {
         )}
       </div>
 
+      {b.dealbreaker && (
+        <div className="rounded-lg bg-destructive/5 border border-destructive/30 p-2.5 text-xs text-destructive">
+          <strong>⚠ Achtung:</strong> {b.dealbreaker}
+        </div>
+      )}
+
       <div className="flex flex-wrap gap-1.5 text-[10px]">
         <span className={`rounded-full px-2 py-0.5 ${ig.cls}`}>{ig.label}</span>
         <span className={`rounded-full px-2 py-0.5 ${stamm.cls}`}>{stamm.label}</span>
         {b.setupTime && (
           <span className="rounded-full px-2 py-0.5 bg-secondary text-muted-foreground">⏱ {b.setupTime}</span>
         )}
+        {b.features?.datev && <span className="rounded-full px-2 py-0.5 bg-accent-blue/10 text-accent-blue">📊 DATEV</span>}
+        {b.features?.kfwPartner && <span className="rounded-full px-2 py-0.5 bg-accent-blue/10 text-accent-blue">🏦 KfW</span>}
+        {b.features?.cashEinzahlung && <span className="rounded-full px-2 py-0.5 bg-accent-blue/10 text-accent-blue">💵 Cash</span>}
+        {b.features?.multiUser && <span className="rounded-full px-2 py-0.5 bg-accent-blue/10 text-accent-blue">👥 Multi-User</span>}
+        {b.features?.multiCurrency && <span className="rounded-full px-2 py-0.5 bg-accent-blue/10 text-accent-blue">💱 Multi-FX</span>}
+        {b.features?.apiAccess && <span className="rounded-full px-2 py-0.5 bg-accent-blue/10 text-accent-blue">⚡ API</span>}
       </div>
 
       <div className="grid grid-cols-2 gap-2 text-xs">
@@ -531,6 +653,19 @@ function BankCard({ b }: { b: Bank }) {
           </ul>
         </div>
       </div>
+
+      {b.conditions && (Object.values(b.conditions).filter(Boolean).length > 0) && (
+        <details className="rounded-lg bg-secondary/40 border border-border p-2 text-[10px]">
+          <summary className="cursor-pointer font-semibold text-muted-foreground">Konditionen im Detail</summary>
+          <div className="mt-2 space-y-1 text-muted-foreground">
+            {b.conditions.additionalCardCost && <div><strong>Zusatzkarten:</strong> {b.conditions.additionalCardCost}</div>}
+            {b.conditions.cashFee && <div><strong>Bargeld:</strong> {b.conditions.cashFee}</div>}
+            {b.conditions.foreignSepa && <div><strong>SEPA-Ausland:</strong> {b.conditions.foreignSepa}</div>}
+            {b.conditions.foreignSwift && <div><strong>SWIFT:</strong> {b.conditions.foreignSwift}</div>}
+            {b.conditions.fxFee && <div><strong>FX-Markup:</strong> {b.conditions.fxFee}</div>}
+          </div>
+        </details>
+      )}
 
       <div className="text-[11px] text-muted-foreground italic border-t border-border pt-2">
         Best for: {b.bestFor}
