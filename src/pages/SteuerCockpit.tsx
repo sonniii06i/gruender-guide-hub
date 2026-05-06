@@ -205,10 +205,15 @@ const SteuerCockpit = () => {
   const iab = Math.min(iabBasis * 0.5, 200000);
   const iabSteuer = iab * (legalForm === "gmbh" || legalForm === "ug" ? 0.30 : 0.42);
 
-  // Quartal
+  // Quartal: Brutto/Netto-Logik
+  const [eingabeBrutto, setEingabeBrutto] = useState(false);
   const [umsatz, setUmsatz] = useState(60000);
   const [kosten, setKosten] = useState(28000);
-  const gewinn = Math.max(0, umsatz - kosten);
+  const istKU = ustMode === "keine";
+  const umsatzNetto = istKU || !eingabeBrutto ? umsatz : Math.round(umsatz / 1.19);
+  const kostenNetto = istKU || !eingabeBrutto ? kosten : Math.round(kosten / 1.19);
+  const ustVerbindlichkeit = istKU || !eingabeBrutto ? 0 : Math.round((umsatz - kosten) - (umsatzNetto - kostenNetto));
+  const gewinn = Math.max(0, umsatzNetto - kostenNetto);
   const steuersatz = legalForm === "gmbh" || legalForm === "ug" ? 0.30 : 0.35;
   const ruecklage = gewinn * steuersatz;
 
@@ -332,16 +337,21 @@ const SteuerCockpit = () => {
       {/* IAB + Quartals-Schätzung */}
       <div className="grid md:grid-cols-2 gap-6 mb-8">
         <div className="rounded-2xl border border-border bg-card p-6">
-          <div className="flex items-center gap-2 mb-4">
+          <div className="flex items-center gap-2 mb-2">
             <Calculator className="h-5 w-5 text-accent-blue" />
             <h2 className="font-bold">IAB-Rechner</h2>
           </div>
-          <Label className="text-xs uppercase tracking-wider text-muted-foreground">Geplante Investition (€)</Label>
+          <p className="text-xs text-muted-foreground leading-relaxed mb-4">
+            <strong>Investitionsabzugsbetrag (§ 7g EStG):</strong> Du kannst bis zu 50 % einer geplanten Investition (binnen 3 Jahren) <em>vorab</em> als Betriebsausgabe ansetzen und damit deinen aktuellen Gewinn (und Steuerlast) reduzieren. Sinnvoll z.&nbsp;B. für geplante Geschäftsfahrzeuge, Maschinen, Lager-Equipment oder IT-Hardware.
+          </p>
+          <Label className="text-xs uppercase tracking-wider text-muted-foreground">Geplante Investition in 3 Jahren (€)</Label>
           <Input type="number" value={iabBasis} onChange={(e) => setIabBasis(Number(e.target.value) || 0)} className="mt-2" />
           <div className="mt-5 space-y-2 text-sm">
-            <Row label="Investitionsabzugsbetrag (50 %)" value={`${iab.toLocaleString("de-DE")} €`} />
-            <Row label="Steuer-Vorteil (geschätzt)" value={`${Math.round(iabSteuer).toLocaleString("de-DE")} €`} highlight />
-            <p className="text-xs text-muted-foreground pt-2">Maximal 200.000 € pro Betrieb. Investition muss innerhalb 3 Jahren erfolgen.</p>
+            <Row label="IAB-Vorab-Abzug (50 %)" value={`${iab.toLocaleString("de-DE")} €`} />
+            <Row label="Steuer-Ersparnis heute" value={`${Math.round(iabSteuer).toLocaleString("de-DE")} €`} highlight />
+            <p className="text-[11px] text-muted-foreground pt-2">
+              Max. 200.000 € pro Betrieb. Voraussetzungen: Gewinn &lt; 200k €/Jahr (für Einzel/PersGes) oder Bilanzsumme &lt; 235k € (KapGes). Wird die Investition nicht binnen 3 Jahren getätigt: rückwirkend auflösen + Verzinsung.
+            </p>
           </div>
         </div>
 
@@ -350,20 +360,50 @@ const SteuerCockpit = () => {
             <PiggyBank className="h-5 w-5 text-accent-blue" />
             <h2 className="font-bold">Quartals-Schätzung</h2>
           </div>
+
+          {/* Brutto/Netto-Toggle (bei Kleinunternehmer keine USt → ausgeblendet) */}
+          {!istKU && (
+            <div className="flex gap-1 mb-3 p-1 rounded-lg bg-secondary">
+              <button
+                onClick={() => setEingabeBrutto(false)}
+                className={`flex-1 rounded-md px-3 py-1.5 text-xs font-semibold transition-colors ${
+                  !eingabeBrutto ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
+                }`}
+              >Netto</button>
+              <button
+                onClick={() => setEingabeBrutto(true)}
+                className={`flex-1 rounded-md px-3 py-1.5 text-xs font-semibold transition-colors ${
+                  eingabeBrutto ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
+                }`}
+              >Brutto (inkl. 19 %)</button>
+            </div>
+          )}
+
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <Label className="text-xs uppercase tracking-wider text-muted-foreground">Umsatz Q (€)</Label>
+              <Label className="text-xs uppercase tracking-wider text-muted-foreground">
+                Umsatz Q ({istKU ? "€" : eingabeBrutto ? "brutto" : "netto"})
+              </Label>
               <Input type="number" value={umsatz} onChange={(e) => setUmsatz(Number(e.target.value) || 0)} className="mt-2" />
             </div>
             <div>
-              <Label className="text-xs uppercase tracking-wider text-muted-foreground">Kosten Q (€)</Label>
+              <Label className="text-xs uppercase tracking-wider text-muted-foreground">
+                Kosten Q ({istKU ? "€" : eingabeBrutto ? "brutto" : "netto"})
+              </Label>
               <Input type="number" value={kosten} onChange={(e) => setKosten(Number(e.target.value) || 0)} className="mt-2" />
             </div>
           </div>
+
           <div className="mt-5 space-y-2 text-sm">
-            <Row label="Gewinn" value={`${gewinn.toLocaleString("de-DE")} €`} />
-            <Row label={`Steuersatz (${(steuersatz * 100).toFixed(0)} %)`} value="" />
-            <Row label="Rücklage empfohlen" value={`${Math.round(ruecklage).toLocaleString("de-DE")} €`} highlight />
+            {!istKU && eingabeBrutto && (
+              <>
+                <Row label="Netto-Umsatz" value={`${umsatzNetto.toLocaleString("de-DE")} €`} />
+                <Row label="Netto-Kosten" value={`${kostenNetto.toLocaleString("de-DE")} €`} />
+                <Row label="USt-Schuld (ca.)" value={`${ustVerbindlichkeit.toLocaleString("de-DE")} €`} />
+              </>
+            )}
+            <Row label="Gewinn (netto)" value={`${gewinn.toLocaleString("de-DE")} €`} />
+            <Row label={`Steuer-Rücklage (${(steuersatz * 100).toFixed(0)} %)`} value={`${Math.round(ruecklage).toLocaleString("de-DE")} €`} highlight />
           </div>
         </div>
       </div>
