@@ -37,6 +37,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const signOut = async () => {
+    // Profil-Cache des aktuellen Users löschen, damit nach Logout
+    // kein "Hi <alter Name>" beim nächsten Visit kurz aufpoppt.
+    if (user?.id) {
+      try { localStorage.removeItem(`gx-profile-${user.id}`); } catch {}
+    }
     await supabase.auth.signOut();
   };
 

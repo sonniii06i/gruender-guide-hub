@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
+import { readProfileCache, writeProfileCache, PROFILE_UPDATE_EVENT, type CachedProfile } from "@/lib/profileCache";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { CATEGORIES, STATUS_LABEL, type Feature, type FeatureCategory } from "@/data/features";
@@ -26,7 +27,9 @@ type View = typeof VIEWS[number];
 
 const Dashboard = () => {
   const { user } = useAuth();
-  const [profile, setProfile] = useState<Profile | null>(null);
+  // Lazy-Init aus localStorage-Cache → keine Flacker-Flicker beim Render.
+  // Aktualisierung nur via Event von /profile beim expliziten Speichern.
+  const [profile, setProfile] = useState<Profile | null>(() => readProfileCache(user?.id) as Profile | null);
   const [sub, setSub] = useState<Subscription | null>(null);
   const [params, setParams] = useSearchParams();
   const view = (params.get("view") as View) || "start";
@@ -35,13 +38,45 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (!user) return;
-    Promise.all([
-      supabase.from("profiles").select("first_name, onboarding_completed").eq("id", user.id).maybeSingle(),
-      supabase.from("subscriptions").select("status").eq("user_id", user.id).maybeSingle(),
-    ]).then(([p, s]) => {
-      setProfile(p.data as Profile | null);
-      setSub(s.data as Subscription | null);
-    });
+
+    // 1) Subscription-Status immer frisch laden (kann sich serverseitig ändern: Stripe-Webhook).
+    supabase.from("subscriptions").select("status").eq("user_id", user.id).maybeSingle()
+      .then(({ data }) => setSub(data as Subscription | null));
+
+    // 2) Profil nur fetchen, wenn Cache leer ist (erstes Mal nach Login).
+    //    Spätere Änderungen kommen über das PROFILE_UPDATE_EVENT von /profile.
+    const cached = readProfileCache(user.id);
+    if (cached) {
+      setProfile(cached as Profile);
+      return;
+    }
+    supabase.from("profiles").select("first_name, onboarding_completed").eq("id", user.id).maybeSingle()
+      .then(({ data }) => {
+        if (data) {
+          setProfile(data as Profile);
+          writeProfileCache(user.id, data as CachedProfile);
+        }
+      });
+  }, [user]);
+
+  // Event-Listener: Profile-Änderungen (Same-Tab via CustomEvent, Cross-Tab via storage).
+  useEffect(() => {
+    if (!user) return;
+    const onProfileUpdate = (e: Event) => {
+      const detail = (e as CustomEvent<CachedProfile>).detail;
+      if (detail) setProfile(detail as Profile);
+    };
+    const onStorage = (e: StorageEvent) => {
+      if (e.key === `gx-profile-${user.id}` && e.newValue) {
+        try { setProfile(JSON.parse(e.newValue) as Profile); } catch { /* ignore */ }
+      }
+    };
+    window.addEventListener(PROFILE_UPDATE_EVENT, onProfileUpdate);
+    window.addEventListener("storage", onStorage);
+    return () => {
+      window.removeEventListener(PROFILE_UPDATE_EVENT, onProfileUpdate);
+      window.removeEventListener("storage", onStorage);
+    };
   }, [user]);
 
   const isActive = sub?.status === "active" || sub?.status === "trialing";

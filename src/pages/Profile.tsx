@@ -11,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Crown, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { STRIPE_PRICES } from "@/lib/stripe";
+import { writeProfileCache } from "@/lib/profileCache";
 
 interface ProfileData {
   salutation?: string | null; first_name?: string | null; last_name?: string | null;
@@ -69,8 +70,17 @@ const Profile = () => {
     setSaving(true);
     const { error } = await supabase.from("profiles").update(profile).eq("id", user.id);
     setSaving(false);
-    if (error) toast.error("Speichern fehlgeschlagen");
-    else toast.success("Profil aktualisiert");
+    if (error) {
+      toast.error("Speichern fehlgeschlagen");
+      return;
+    }
+    // Cache + Event-Trigger: Dashboard und alle anderen Listener
+    // ziehen die neuen Werte synchron ohne erneuten DB-Roundtrip.
+    writeProfileCache(user.id, {
+      first_name: profile.first_name ?? null,
+      onboarding_completed: (profile as any).onboarding_completed ?? null,
+    });
+    toast.success("Profil aktualisiert");
   };
 
   const update = (k: keyof ProfileData, v: string) => setProfile({ ...profile, [k]: v });
