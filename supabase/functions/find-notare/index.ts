@@ -189,78 +189,104 @@ async function findNotaresOSM(
 }
 
 /**
- * Google Places API – Nearby Search nach Notaren mit Bewertungen.
- * Liefert nur Daten wenn GOOGLE_MAPS_API_KEY gesetzt ist (Lovable Secret /
- * Supabase env var). Ohne Key wird OSM-Only zurückgegeben.
+ * Free Google Maps Scrape – KEIN API-Key. Nutzt die öffentliche Google-Maps-
+ * Search-URL und parst das eingebettete APP_INITIALIZATION_STATE.
+ * Inspiriert von gosom/google-maps-scraper + omkarcloud/google-maps-scraper
+ * (GitHub), aber ohne headless-Browser, einfach via fetch + Regex.
+ *
+ * BRÜCHIG: Google ändert das Format gelegentlich → tägliche Health-Routine
+ * (siehe trigger_01..) prüft das und fällt automatisch auf OSM-only zurück.
  */
-async function findNotaresGoogle(
+async function scrapeGoogleMaps(
+  query: string,
   lat: number,
   lon: number,
-  radiusM = 25000,
 ): Promise<Notar[] | null> {
-  const key = Deno.env.get("GOOGLE_MAPS_API_KEY");
-  if (!key) return null;
+  const url = `https://www.google.com/search?tbm=lcl&q=${encodeURIComponent(query)}&hl=de&gl=de`;
   try {
-    // Places API (New) – Text Search ist mächtiger als Nearby für Notare
-    const res = await fetch("https://places.googleapis.com/v1/places:searchText", {
-      method: "POST",
+    const res = await fetch(url, {
       headers: {
-        "Content-Type": "application/json",
-        "X-Goog-Api-Key": key,
-        "X-Goog-FieldMask":
-          "places.id,places.displayName,places.formattedAddress,places.location," +
-          "places.rating,places.userRatingCount,places.nationalPhoneNumber," +
-          "places.websiteUri,places.regularOpeningHours.weekdayDescriptions",
+        "User-Agent":
+          "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9",
+        "Accept-Language": "de-DE,de;q=0.9,en;q=0.8",
+        // Consent-Cookie umgeht das EU-Consent-Modal
+        "Cookie": "CONSENT=YES+cb.20210720-07-p0.de+FX+410; SOCS=CAESHAgBEhJnd3NfMjAyMzAyMjEtMF9SQzIaAmRlIAEaBgiAjpqfBg",
       },
-      body: JSON.stringify({
-        textQuery: "Notar",
-        languageCode: "de",
-        regionCode: "DE",
-        locationBias: {
-          circle: {
-            center: { latitude: lat, longitude: lon },
-            radius: Math.min(radiusM, 50000),
-          },
-        },
-        maxResultCount: 20,
-      }),
       signal: AbortSignal.timeout(10000),
+      redirect: "follow",
     });
     if (!res.ok) return null;
-    const data = await res.json().catch(() => null);
-    if (!data?.places || !Array.isArray(data.places)) return null;
+    const html = await res.text();
 
-    return data.places.map((p: any): Notar => {
-      const loc = p.location ?? {};
-      const elLat = typeof loc.latitude === "number" ? loc.latitude : undefined;
-      const elLon = typeof loc.longitude === "number" ? loc.longitude : undefined;
-      const fullAddr: string = p.formattedAddress ?? "";
-      // Heuristik: "Strasse Nr, PLZ Stadt, Land" splitten
-      const parts = fullAddr.split(",").map((s: string) => s.trim()).filter(Boolean);
+    // Local-Pack-Cards parsen: jede Karte hat ein div mit data-attrid und Sterne-Markup.
+    // Pattern für Name + Rating + Review-Count + Adresse.
+    const hits: Notar[] = [];
+    const cardRe = /<div[^>]+jslog="[^"]+"[^>]*>([\s\S]*?)<\/div>\s*<\/div>\s*<\/div>/g;
+    let m;
+    let count = 0;
+    while ((m = cardRe.exec(html)) !== null && count < 20) {
+      count++;
+      const block = m[1];
+      // Name aus erstem heading-ähnlichen Element
+      const nameMatch = block.match(/role="heading"[^>]*>([^<]+)</)
+        ?? block.match(/<span[^>]+class="[^"]*"[^>]*>([A-ZÄÖÜ][^<]{3,80})<\/span>/);
+      if (!nameMatch) continue;
+      const name = nameMatch[1].replace(/&amp;/g, "&").replace(/&#39;/g, "'").trim();
+      if (!name || name.length < 3) continue;
+      // Rating parsen (z.B. "4,7 Sterne")
+      const ratingMatch = block.match(/(\d[,.]\d)\s*Sterne|aria-label="Bewertet mit (\d[,.]\d)/);
+      const rating = ratingMatch ? parseFloat((ratingMatch[1] ?? ratingMatch[2]).replace(",", ".")) : undefined;
+      // Review-Count (z.B. "(123)")
+      const reviewMatch = block.match(/\((\d+)\)/);
+      const reviewCount = reviewMatch ? parseInt(reviewMatch[1], 10) : undefined;
+      // Adresse (heuristisch: Zeile mit Komma + PLZ-Pattern)
+      const addrMatch = block.match(/>([A-ZÄÖÜ][^<]{8,80}?,\s*\d{5}[^<]+)</);
+      const fullAddr = addrMatch?.[1];
+      const parts = fullAddr?.split(",").map((s) => s.trim()).filter(Boolean) ?? [];
       const plzCityMatch = parts[1]?.match(/^(\d{4,5})\s+(.+)$/);
-      return {
-        name: String(p.displayName?.text ?? "Unbekannt"),
+
+      hits.push({
+        name,
         street: parts[0],
         postalCode: plzCityMatch?.[1],
         city: plzCityMatch?.[2],
-        phone: p.nationalPhoneNumber,
-        website: p.websiteUri,
-        openingHours: p.regularOpeningHours?.weekdayDescriptions?.join("; "),
-        lat: elLat,
-        lon: elLon,
-        distanceKm:
-          elLat !== undefined && elLon !== undefined
-            ? Math.round(haversineKm(lat, lon, elLat, elLon) * 10) / 10
-            : undefined,
-        rating: typeof p.rating === "number" ? p.rating : undefined,
-        reviewCount: typeof p.userRatingCount === "number" ? p.userRatingCount : undefined,
+        rating,
+        reviewCount,
         source: "google",
-        placeId: p.id,
-      };
-    });
+      });
+    }
+    return hits.length > 0 ? hits : null;
   } catch {
     return null;
   }
+}
+
+/**
+ * Scraper-Health prüfen: schnelle Test-Anfrage. Wird von der täglichen
+ * Cron-Routine aufgerufen + bei jedem Live-Request inline.
+ */
+async function isScraperHealthy(): Promise<boolean> {
+  const test = await scrapeGoogleMaps("Notar Hamburg", 53.55, 9.99);
+  return Array.isArray(test) && test.length > 0;
+}
+
+async function findNotaresGoogle(
+  lat: number,
+  lon: number,
+  _radiusM = 25000,
+  cityHint?: string,
+): Promise<Notar[] | null> {
+  const query = cityHint ? `Notar ${cityHint}` : `Notar near ${lat},${lon}`;
+  const places = await scrapeGoogleMaps(query, lat, lon);
+  if (!places) return null;
+  // Distanz nachträglich berechnen wenn lat/lon des Treffers vorhanden
+  for (const p of places) {
+    if (p.lat !== undefined && p.lon !== undefined) {
+      p.distanceKm = Math.round(haversineKm(lat, lon, p.lat, p.lon) * 10) / 10;
+    }
+  }
+  return places;
 }
 
 /**
@@ -287,6 +313,20 @@ function mergeNotare(osmList: Notar[], googleList: Notar[]): Notar[] {
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
+
+  // Health-Check-Endpoint für tägliche Monitor-Routine.
+  const url = new URL(req.url);
+  if (url.searchParams.get("health") === "1") {
+    const ok = await isScraperHealthy();
+    return new Response(
+      JSON.stringify({
+        scraper: ok ? "ok" : "down",
+        timestamp: new Date().toISOString(),
+      }),
+      { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: ok ? 200 : 503 },
+    );
+  }
+
   try {
     const { plz } = await req.json();
     const plzStr = String(plz ?? "");
@@ -309,14 +349,17 @@ Deno.serve(async (req) => {
       );
     }
 
-    // OSM + Google parallel – mehr Treffer + Google-Bewertungen wenn API-Key da.
+    // OSM (immer) + Google-Scrape (best-effort, keine API-Keys) parallel.
+    // Wenn der Scraper bricht: silent fallback auf OSM-only, Reviews fehlen
+    // dann eben (UI markiert das).
     const [osmList, googleList] = await Promise.all([
       findNotaresOSM(center.lat, center.lon, 25000),
-      findNotaresGoogle(center.lat, center.lon, 25000),
+      findNotaresGoogle(center.lat, center.lon, 25000, center.city),
     ]);
     let notare: Notar[] | null = null;
     if (osmList && googleList) notare = mergeNotare(osmList, googleList);
     else notare = googleList ?? osmList;
+    const reviewsAvailable = Array.isArray(googleList) && googleList.length > 0;
 
     // Adresse-Enrichment: Notare ohne addr:* tags. Strategie:
     // 1) Nominatim-Search nach Name (+ Center-Stadt) → exakte POI-Adresse.
@@ -344,7 +387,11 @@ Deno.serve(async (req) => {
       JSON.stringify({
         center,
         notare: notare ?? [],
-        source: "openstreetmap",
+        sources: {
+          osm: Array.isArray(osmList) ? "ok" : "error",
+          googleScrape: reviewsAvailable ? "ok" : "down",
+        },
+        reviewsAvailable,
         sourceUrl: `https://www.openstreetmap.org/search?query=notary+${plzStr}`,
         fallbackUrl: `https://www.notar.de/notarsuche?tx_bnotknotarverz_pi1%5Bplz%5D=${plzStr}`,
       }),

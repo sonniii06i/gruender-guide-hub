@@ -126,6 +126,7 @@ export function NotarFinder({ companyName }: { companyName?: string }) {
   const [notare, setNotare] = useState<any[]>([]);
   const [src, setSrc] = useState<string | null>(null);
   const [picked, setPicked] = useState<any | null>(null);
+  const [reviewsAvailable, setReviewsAvailable] = useState(true);
   const anschreibenRef = useRef<HTMLDivElement | null>(null);
 
   const run = async () => {
@@ -135,6 +136,7 @@ export function NotarFinder({ companyName }: { companyName?: string }) {
     if (error) toast.error("Suche fehlgeschlagen");
     setNotare(data?.notare ?? []);
     setSrc(data?.fallbackUrl ?? data?.sourceUrl ?? null);
+    setReviewsAvailable(data?.reviewsAvailable !== false);
     setLoading(false);
   };
 
@@ -230,7 +232,12 @@ export function NotarFinder({ companyName }: { companyName?: string }) {
           </div>
         )}
         {notare.length > 0 && (
-          <div className="text-[10px] text-muted-foreground">Sortiert nach Distanz zur PLZ-Mitte</div>
+          <div className="text-[10px] text-muted-foreground space-y-0.5">
+            <div>Sortiert nach Distanz zur PLZ-Mitte. Quelle: OpenStreetMap{reviewsAvailable && " · Bewertungen aus Google Maps"}</div>
+            {!reviewsAvailable && (
+              <div className="text-warning-foreground">⚠ Bewertungen aktuell nicht verfügbar (Scraper momentan nicht erreichbar). Notar-Liste bleibt aktiv.</div>
+            )}
+          </div>
         )}
       </div>
 
