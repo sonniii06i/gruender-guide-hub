@@ -51,16 +51,36 @@ const Datenschutz = () => (
       <h3 className="font-semibold mt-6">3.2 Playbook-Fortschritt & Notar-Vorbereitung (besonders sensibel)</h3>
       <p><strong>Daten:</strong> Eingaben in den Playbooks – inklusive personenbezogener Daten von <em>Gesellschafter:innen</em> und <em>Geschäftsführer:innen</em> wie Vor- und Nachname, Geburtsdatum, Geburtsort, Wohnanschrift, Beruf, Familienstand, Stammkapital-Anteil, Sacheinlage-Beschreibung. Dazu Firmen-Stammdaten (Sitz, Geschäftsadresse, Unternehmensgegenstand) und freie Notiz-Felder.</p>
       <p><strong>Zweck:</strong> Strukturierte Vorbereitung deines Notartermins, Wiederaufnahme des Fortschritts bei späterem Login, Generierung von Brief-/Anschreiben-Vorlagen für den Notar.</p>
-      <p><strong>Rechtsgrundlage:</strong> Art. 6 Abs. 1 lit. b DSGVO. Bei Daten Dritter (z. B. Mit-Gesellschafter:innen) musst du als Erfasser die Einwilligung eingeholt haben.</p>
-      <p><strong>Speicherort:</strong> Supabase-Datenbank in der EU (siehe Ziffer 5).</p>
+      <p><strong>Rechtsgrundlage:</strong> Art. 6 Abs. 1 lit. b DSGVO.</p>
+      <p>
+        <strong>Daten Dritter im Notar-Modul:</strong> Soweit du Daten von Mit-Gesellschafter:innen,
+        Geschäftsführer:innen oder Familienangehörigen eingibst, bist <em>du</em> der/die Verantwortliche
+        i. S. d. Art. 4 Nr. 7 DSGVO für diese Erfassung; wir handeln insoweit als technischer
+        Auftragsverarbeiter (Art. 28 DSGVO). Du sicherst zu, die betroffenen Personen nach Art. 13/14 DSGVO
+        über Zweck (Notar-Vorbereitung), Speicherort (Supabase EU), Speicherdauer (bis Konto-Löschung)
+        und ihre Betroffenenrechte zu informieren. Eine Mustervorlage „Information für Mitgesellschafter:innen"
+        stellen wir dir im Notar-Modul als Download bereit. Auf Anforderung der/des Dritten löschen wir
+        die Daten unverzüglich.
+      </p>
+      <p><strong>Speicherort:</strong> Supabase-Datenbank in der EU (Frankfurt am Main).</p>
       <p><strong>Speicherdauer:</strong> Bis zur Konto-Löschung oder bis du den Eintrag manuell löschst. Du kannst jederzeit unter „Meine Guides" Daten löschen oder den gesamten Run zurücksetzen.</p>
       <p><strong>Hinweis:</strong> Die Plattform ersetzt keinen Notar oder Steuerberater. Übermittlung der Daten an einen Notar erfolgt ausschließlich durch dich selbst (z. B. Copy/Paste oder Download als .txt) – wir senden Notar-Daten nicht automatisch an Dritte.</p>
 
       <h3 className="font-semibold mt-6">3.3 Felix-Chat (KI-Beratung)</h3>
       <p><strong>Daten:</strong> Chat-Verlauf (deine Nachrichten + Felix-Antworten), Zeitstempel, Konversations-ID.</p>
       <p><strong>Verarbeitung:</strong> Deine Nachrichten werden zur Beantwortung an das <strong>Lovable AI Gateway</strong> übermittelt, das wiederum <strong>Google Gemini</strong> als zugrundeliegendes Sprachmodell nutzt. Die Antwort wird zurück an deine Session gesendet und im Chat-Verlauf gespeichert.</p>
-      <p><strong>Drittlandtransfer:</strong> Google Gemini-Server stehen u. U. außerhalb der EU (USA). Lovable AI Gateway sichert dies über EU-Standardvertragsklauseln (SCC) ab. Nutze Felix nicht für sensible personenbezogene Daten Dritter ohne ausdrückliche Einwilligung.</p>
-      <p><strong>Rechtsgrundlage:</strong> Art. 6 Abs. 1 lit. b DSGVO (Vertragserfüllung) i. V. m. Art. 49 Abs. 1 lit. b DSGVO (Vertragsdurchführung im Drittland).</p>
+      <p>
+        <strong>Drittlandtransfer USA – Rechtsgrundlage:</strong> Google LLC ist unter dem
+        EU-US Data Privacy Framework (DPF) zertifiziert (Angemessenheitsbeschluss der EU-Kommission
+        v. 10.07.2023, C(2023) 4745). Insoweit liegt ein angemessenes Schutzniveau nach Art. 45 DSGVO vor
+        und es bedarf keiner zusätzlichen Garantien. Soweit Lovable.dev / das Lovable AI Gateway nicht
+        selbst DPF-zertifiziert ist, sichern wir die Übermittlung über die EU-Standardvertragsklauseln
+        (Modul 2 / Modul 3, Durchführungsbeschluss (EU) 2021/914) und ein dokumentiertes Transfer Impact
+        Assessment (TIA) ab. Auf Anfrage übermitteln wir dir die TIA-Zusammenfassung
+        (<a href="mailto:datenschutz@gründerx.de">datenschutz@gründerx.de</a>).
+      </p>
+      <p>Nutze Felix nicht für sensible personenbezogene Daten Dritter ohne ausdrückliche Einwilligung.</p>
+      <p><strong>Rechtsgrundlage:</strong> Art. 6 Abs. 1 lit. b DSGVO (Vertragserfüllung) i. V. m. Art. 45 DSGVO (DPF) bzw. Art. 46 DSGVO (SCC).</p>
       <p><strong>Speicherdauer:</strong> Bis zur manuellen Löschung durch dich oder Konto-Löschung. Du kannst Konversationen jederzeit unter „Felix-Chat-Verlauf" löschen.</p>
 
       <h3 className="font-semibold mt-6">3.4 Notar-Suche, Firmenname-Check, Anbieter-Daten</h3>
@@ -108,63 +128,85 @@ const Datenschutz = () => (
       <p>Wenn du uns per E-Mail oder Kontaktformular schreibst, speichern wir deine Anfrage zur Bearbeitung.</p>
       <p><strong>Rechtsgrundlage:</strong> Art. 6 Abs. 1 lit. b/f DSGVO. <strong>Speicherdauer:</strong> 3 Jahre nach Abschluss der Anfrage.</p>
 
-      <h2 id="auftragsverarbeiter" className="text-2xl font-bold mt-10 mb-3">4. Auftragsverarbeiter & weitergegebene Daten</h2>
-      <p>Wir nutzen ausschließlich Auftragsverarbeiter mit DSGVO-konformen Verträgen (Art. 28 DSGVO):</p>
+      <h2 id="auftragsverarbeiter" className="text-2xl font-bold mt-10 mb-3">4. Auftragsverarbeiter, eigenverantwortliche Dritte & Datenflüsse</h2>
+      <p>
+        Im Folgenden listen wir alle Empfänger nach ihrer datenschutzrechtlichen Rolle (Auftragsverarbeiter
+        nach Art. 28 DSGVO oder eigenverantwortlicher Dritter nach Art. 4 Nr. 7 DSGVO):
+      </p>
 
       <table className="w-full text-sm my-4 border border-border">
         <thead className="bg-secondary">
           <tr>
             <th className="text-left px-3 py-2">Anbieter</th>
+            <th className="text-left px-3 py-2">Rolle</th>
             <th className="text-left px-3 py-2">Zweck</th>
             <th className="text-left px-3 py-2">Standort</th>
-            <th className="text-left px-3 py-2">DSGVO-Schutz</th>
+            <th className="text-left px-3 py-2">Schutzgarantie</th>
           </tr>
         </thead>
         <tbody>
           <tr className="border-t border-border">
             <td className="px-3 py-2"><strong>Supabase Inc.</strong></td>
-            <td className="px-3 py-2">Hosting, Datenbank, Auth, Edge Functions</td>
+            <td className="px-3 py-2">Auftragsverarbeiter (Art. 28)</td>
+            <td className="px-3 py-2">Datenbank, Auth, Edge Functions</td>
             <td className="px-3 py-2">EU (Frankfurt)</td>
-            <td className="px-3 py-2">AVV + EU-Server</td>
-          </tr>
-          <tr className="border-t border-border">
-            <td className="px-3 py-2"><strong>Stripe Payments Europe Ltd.</strong></td>
-            <td className="px-3 py-2">Zahlungs-Abwicklung, Rechnungen</td>
-            <td className="px-3 py-2">EU (Dublin)</td>
-            <td className="px-3 py-2">EU-DSGVO-konform</td>
-          </tr>
-          <tr className="border-t border-border">
-            <td className="px-3 py-2"><strong>Lovable AI Gateway / Google Gemini</strong></td>
-            <td className="px-3 py-2">Felix-Chat KI-Antworten</td>
-            <td className="px-3 py-2">USA</td>
-            <td className="px-3 py-2">EU-Standardvertragsklauseln (SCC)</td>
+            <td className="px-3 py-2">AVV + SCC für ggf. US-Support-Zugriff</td>
           </tr>
           <tr className="border-t border-border">
             <td className="px-3 py-2"><strong>Lovable.dev</strong></td>
-            <td className="px-3 py-2">Hosting der App</td>
+            <td className="px-3 py-2">Auftragsverarbeiter (Art. 28)</td>
+            <td className="px-3 py-2">App-Hosting, CDN</td>
             <td className="px-3 py-2">EU/US</td>
-            <td className="px-3 py-2">SCC, AVV</td>
+            <td className="px-3 py-2">AVV + SCC + ggf. DPF</td>
+          </tr>
+          <tr className="border-t border-border">
+            <td className="px-3 py-2"><strong>Lovable AI Gateway</strong></td>
+            <td className="px-3 py-2">Auftragsverarbeiter (Art. 28)</td>
+            <td className="px-3 py-2">Routing-Schicht für Felix-Chat</td>
+            <td className="px-3 py-2">EU/US</td>
+            <td className="px-3 py-2">AVV + SCC</td>
+          </tr>
+          <tr className="border-t border-border">
+            <td className="px-3 py-2"><strong>Google LLC (Gemini)</strong></td>
+            <td className="px-3 py-2">Unter-Auftragsverarbeiter</td>
+            <td className="px-3 py-2">KI-Modell für Felix-Chat</td>
+            <td className="px-3 py-2">USA</td>
+            <td className="px-3 py-2"><strong>DPF-zertifiziert</strong> (Art. 45 DSGVO)</td>
+          </tr>
+          <tr className="border-t border-border">
+            <td className="px-3 py-2"><strong>Stripe Payments Europe Ltd.</strong></td>
+            <td className="px-3 py-2"><strong>Eigenverantwortlich</strong> (Art. 4 Nr. 7)</td>
+            <td className="px-3 py-2">Zahlungs-Abwicklung, Rechnungen</td>
+            <td className="px-3 py-2">EU (Dublin)</td>
+            <td className="px-3 py-2">Übermittlung nach Art. 6 Abs. 1 lit. b</td>
           </tr>
           <tr className="border-t border-border">
             <td className="px-3 py-2"><strong>OpenStreetMap Foundation</strong></td>
+            <td className="px-3 py-2">Eigenverantwortlich</td>
             <td className="px-3 py-2">Notar-Suche (Nominatim, Overpass)</td>
             <td className="px-3 py-2">UK</td>
             <td className="px-3 py-2">Keine personenbezogenen Daten – nur PLZ</td>
           </tr>
           <tr className="border-t border-border">
             <td className="px-3 py-2"><strong>NorthData GmbH</strong></td>
+            <td className="px-3 py-2">Eigenverantwortlich</td>
             <td className="px-3 py-2">Firmenname-Verfügbarkeitsprüfung</td>
             <td className="px-3 py-2">EU (München)</td>
             <td className="px-3 py-2">Nur Firmenname</td>
           </tr>
           <tr className="border-t border-border">
             <td className="px-3 py-2"><strong>GLEIF</strong></td>
+            <td className="px-3 py-2">Eigenverantwortlich</td>
             <td className="px-3 py-2">LEI-Verifikation (Firmen)</td>
             <td className="px-3 py-2">Schweiz</td>
             <td className="px-3 py-2">Nur Firmenname</td>
           </tr>
         </tbody>
       </table>
+      <p className="text-xs text-muted-foreground">
+        AVV-Kopien stellen wir dir auf Anfrage zur Verfügung. Stripe handelt nach eigener Privacy-Policy
+        eigenverantwortlich und ist insoweit kein Auftragsverarbeiter; siehe <a href="https://stripe.com/de/privacy" target="_blank" rel="noreferrer">stripe.com/de/privacy</a>.
+      </p>
 
       <h2 id="drittland" className="text-2xl font-bold mt-10 mb-3">5. Drittlandtransfer (USA / Nicht-EU)</h2>
       <p>
@@ -175,20 +217,39 @@ const Datenschutz = () => (
       </p>
 
       <h2 id="cookies" className="text-2xl font-bold mt-10 mb-3">6. Cookies & lokaler Speicher</h2>
-      <p>Wir verwenden ausschließlich technisch notwendige Cookies und LocalStorage-Einträge:</p>
+      <p>
+        Wir verwenden ausschließlich <strong>technisch unbedingt erforderliche Cookies</strong> i. S. d. § 25 Abs. 2 Nr. 2 TDDDG
+        (Telekommunikation-Digitale-Dienste-Datenschutz-Gesetz, vormals TTDSG). Diese sind erforderlich, damit der
+        von dir aktiv angeforderte Dienst (Login, Zahlungs-Session, Theme-Auswahl) funktioniert:
+      </p>
       <ul>
         <li><strong>sb-access-token / sb-refresh-token</strong> (Supabase Auth) – Login-Session, Lifetime: Session bzw. 7 Tage</li>
         <li><strong>theme-preference</strong> (LocalStorage) – Hell/Dunkel-Modus</li>
+        <li><strong>gx-profile-{`{userId}`}</strong> (LocalStorage) – Profil-Cache zur Vermeidung erneuter DB-Roundtrips</li>
         <li><strong>stripe-session</strong> – nur während aktiver Zahlung gesetzt</li>
       </ul>
-      <p>Es werden keine Tracking-, Analyse- oder Marketing-Cookies verwendet. Daher ist auch kein Cookie-Banner mit Einwilligungs-Funktion erforderlich.</p>
+      <p>
+        Eine Einwilligung nach § 25 Abs. 1 TDDDG ist daher nicht erforderlich – ein Cookie-Banner wäre
+        rechtlich überflüssig. Sobald wir Marketing-, Analyse- oder Drittanbieter-Cookies einsetzen sollten,
+        holen wir vorab deine Einwilligung über ein TDDDG-konformes Consent-Layer ein.
+      </p>
 
       <h2 id="ki-hinweis" className="text-2xl font-bold mt-10 mb-3">7. Keine automatisierte Entscheidungsfindung mit Rechtswirkung</h2>
       <p>
-        Felix-Chat, Rechtsform-Wizard und Steuer-Cockpit liefern <strong>orientierende Empfehlungen</strong>, aber keine
-        rechtlich verbindlichen Entscheidungen. Eine automatisierte Entscheidungsfindung im Sinne des
-        Art. 22 DSGVO findet nicht statt. Du triffst alle finalen Entscheidungen selbst, idealerweise nach
-        Rücksprache mit Steuerberater oder Anwalt.
+        Felix-Chat, Rechtsform-Wizard und Steuer-Cockpit liefern <strong>menschlich überprüfbare Vorschläge</strong>,
+        keine rechtlich verbindlichen Entscheidungen. Der Output enthält stets den Hinweis, dass eine zugelassene
+        steuer- oder rechtsberatende Person die finale Entscheidung treffen sollte. Eine ausschließlich
+        automatisierte Entscheidung i. S. d. Art. 22 Abs. 1 DSGVO – mit rechtlicher Wirkung oder ähnlich
+        erheblicher Beeinträchtigung – findet nicht statt:
+      </p>
+      <ul>
+        <li>(a) Du kannst jeden Vorschlag jederzeit ignorieren oder anpassen.</li>
+        <li>(b) Wir treffen keine Vertrags-, Preis- oder Zugangs-Entscheidungen über dich auf Basis von KI-Profilen.</li>
+        <li>(c) Profilbildung i. S. d. Art. 4 Nr. 4 DSGVO findet nicht statt.</li>
+      </ul>
+      <p>
+        Soweit du eine Empfehlung umsetzt, beruht dies auf deiner eigenen freien Entscheidung. Diese Linie folgt
+        den Leitlinien WP251rev.01 sowie der Rechtsprechung des EuGH (C-634/21, „SCHUFA").
       </p>
 
       <h2 id="rechte" className="text-2xl font-bold mt-10 mb-3">8. Deine Rechte als Betroffene:r</h2>
