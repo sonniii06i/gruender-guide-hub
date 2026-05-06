@@ -440,7 +440,7 @@ const BANKS: Bank[] = [
     dealbreaker: "N26 Business akzeptiert NUR Freiberufler/Selbstständige – KEINE GmbH/UG-Eröffnung möglich.",
     pros: [
       "Bestes Mobile-Banking-Erlebnis am Markt 2026",
-      "Sub-Konten („Spaces") elegant integriert",
+      "Sub-Konten („Spaces“) elegant integriert",
       "30-Min-Onboarding via Video-Ident",
       "0,1 % Cashback auf alle Karten-Käufe (ab Smart)",
     ],
