@@ -263,12 +263,81 @@ async function tryTmview(query: string, userAgent: string, timeoutMs: number): P
   }
 }
 
+interface TrademarkHit {
+  name: string;
+  office: string;
+  applicationNumber?: string;
+  classes?: string[];
+  status?: string;
+  applicant?: string;
+  searchUrl: string;
+}
+
+/**
+ * DPMA-Register HTML-Scrape als Fallback (DPMA ist offen ohne WAF, sehr zuverlässig).
+ * Liefert Anzahl Treffer + Top-Hits mit Anmeldenummer + Status.
+ */
+async function tryDpmaScrape(query: string): Promise<{ totalHits: number; hits: TrademarkHit[] } | null> {
+  try {
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), 10000);
+    const url = `https://register.dpma.de/DPMAregister/marke/trefferliste?queryString=${encodeURIComponent(query)}`;
+    const resp = await fetch(url, {
+      headers: {
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.2 Safari/605.1.15",
+        Accept: "text/html,application/xhtml+xml",
+        "Accept-Language": "de-DE,de;q=0.9,en;q=0.8",
+      },
+      signal: ctrl.signal,
+    });
+    clearTimeout(t);
+    if (!resp.ok) return null;
+    const html = await resp.text();
+
+    // Anzahl Treffer aus dem HTML parsen
+    // DPMA-Register zeigt typisch "X Treffer" oder bei 0 "Keine Treffer"
+    let totalHits = 0;
+    const hitsMatch = html.match(/(\d+)\s*Treffer\b/i);
+    if (hitsMatch) {
+      totalHits = parseInt(hitsMatch[1], 10);
+    } else if (/Keine Treffer|kein Treffer/i.test(html)) {
+      totalHits = 0;
+    } else {
+      // Trefferliste-Tabelle vorhanden? Zähle <tr> mit Akten-Nummer-Pattern (z.B. 30 2024 123 456)
+      const rowMatches = html.match(/\d{6,}\s*\d{4}\s*\d+/g);
+      if (rowMatches) totalHits = rowMatches.length;
+    }
+
+    // Hits parsen (max. 10) — Anmeldenummern + Wortmarken-Namen
+    const hits: TrademarkHit[] = [];
+    // Pattern: Anmelde-Nr im <a href="register/300012345/DE"> + Wortmarke im selben <tr>
+    const linkRe = /<a[^>]+href="[^"]*\/marke\/register\/([^"\/]+)\/DE"[^>]*>([^<]+)<\/a>/gi;
+    let m: RegExpExecArray | null;
+    while ((m = linkRe.exec(html)) !== null && hits.length < 10) {
+      const applicationNumber = m[1];
+      const name = m[2].trim();
+      if (!name || name.length < 2) continue;
+      hits.push({
+        name,
+        office: "DPMA (DE)",
+        applicationNumber,
+        searchUrl: `https://register.dpma.de/DPMAregister/marke/register/${applicationNumber}/DE`,
+      });
+    }
+
+    return { totalHits, hits };
+  } catch (e) {
+    console.warn("DPMA-Scrape fehlgeschlagen:", e);
+    return null;
+  }
+}
+
 async function checkTrademark(query: string): Promise<TrademarkResult> {
   const result: TrademarkResult = {
     query,
     totalHits: null,
     hits: [],
-    source: "TMView (EUIPO/EU)",
+    source: "TMView + DPMA-Register",
     searchLinks: [
       { label: "DPMA Register (manuell)", url: `https://register.dpma.de/DPMAregister/marke/trefferliste?docId=&queryString=${encodeURIComponent(query)}` },
       { label: "EUIPO eSearch (manuell)", url: `https://euipo.europa.eu/eSearch/#advanced/trademarks/1/100/n1=MarkVerbalElementText&v1=${encodeURIComponent(query)}&o1=AND` },
@@ -277,23 +346,28 @@ async function checkTrademark(query: string): Promise<TrademarkResult> {
     ],
   };
 
-  // 3 Versuche mit unterschiedlichen UAs + längerem Timeout (TMView ist rate-limited / oft langsam)
+  // TMView + DPMA-Scrape parallel
   const userAgents = [
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36",
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.2 Safari/605.1.15",
-    "GruenderX-Brand-Check/1.0",
   ];
 
-  let data: any = null;
-  for (let i = 0; i < userAgents.length; i++) {
-    data = await tryTmview(query, userAgents[i], 12000);
-    if (data) break;
-    if (i < userAgents.length - 1) await new Promise((r) => setTimeout(r, 800)); // backoff
-  }
+  const [tmviewData, dpmaData] = await Promise.all([
+    (async () => {
+      for (const ua of userAgents) {
+        const d = await tryTmview(query, ua, 10000);
+        if (d) return d;
+        await new Promise((r) => setTimeout(r, 500));
+      }
+      return null;
+    })(),
+    tryDpmaScrape(query),
+  ]);
 
-  if (data) {
-    result.totalHits = data?.tradeMarks?.length ?? data?.totalResults ?? 0;
-    const list: any[] = Array.isArray(data?.tradeMarks) ? data.tradeMarks.slice(0, 20) : [];
+  // Merge: bevorzuge TMView (mehr Detail), aber wenn nur DPMA verfügbar, nimm DPMA
+  if (tmviewData) {
+    result.totalHits = tmviewData?.tradeMarks?.length ?? tmviewData?.totalResults ?? 0;
+    const list: any[] = Array.isArray(tmviewData?.tradeMarks) ? tmviewData.tradeMarks.slice(0, 20) : [];
     result.hits = list.map((tm: any) => ({
       name: tm.tmName ?? query,
       office: tm.officeCode === "EM" ? "EUIPO (EU)" : tm.officeCode === "DE" ? "DPMA (DE)" : tm.officeCode,
@@ -308,7 +382,13 @@ async function checkTrademark(query: string): Promise<TrademarkResult> {
             ? `https://register.dpma.de/DPMAregister/marke/register/${tm.applicationNumber}/DE`
             : result.searchLinks[2].url,
     }));
+    result.source = "TMView (EUIPO + DPMA)";
+  } else if (dpmaData) {
+    result.totalHits = dpmaData.totalHits;
+    result.hits = dpmaData.hits;
+    result.source = "DPMA Register (TMView nicht erreichbar)";
   }
+  // Wenn beide fehlschlagen: result.totalHits bleibt null → UI zeigt manuelle Such-Links
 
   return result;
 }
