@@ -316,72 +316,143 @@ interface TrademarkHit {
 }
 
 /**
- * DPMA-Register Einsteigersuche: stabilstes Endpoint für freie Wortsuche.
- * Liefert HTML-Trefferliste, parsed Treffer-Anzahl + Anmeldenummern + Marken-Namen.
+ * DPMA-Register Quick-Search mit Session-Handshake.
+ * 1) GET Einsteiger-Page → JSESSIONID-Cookie
+ * 2) POST/GET Trefferliste mit Cookie + Referer
+ * 3) Parse Markendarstellung-Spalte aus Trefferliste-Tabelle
+ *
+ * Quick-Search baut intern Query: ((rn|akz|marke|inh|anm)="X") über alle 5 Felder.
  */
 async function tryDpmaScrape(query: string): Promise<{ totalHits: number; hits: TrademarkHit[] } | null> {
+  const baseHeaders = {
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.2 Safari/605.1.15",
+    Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept-Language": "de-DE,de;q=0.9,en;q=0.8",
+    "Cache-Control": "no-cache",
+  };
+
   try {
-    const ctrl = new AbortController();
-    const t = setTimeout(() => ctrl.abort(), 12000);
-    // Einsteigersuche akzeptiert direkten Wortsuche-Pattern
-    const url = `https://register.dpma.de/DPMAregister/marke/trefferliste?queryString=${encodeURIComponent(query)}&docId=&queryStringSchutzformen=&queryStringSchutzformenSearchOption=AND`;
-    const resp = await fetch(url, {
-      headers: {
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.2 Safari/605.1.15",
-        Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-        "Accept-Language": "de-DE,de;q=0.9,en;q=0.8",
-        Referer: "https://register.dpma.de/DPMAregister/marke/einsteiger",
-      },
-      signal: ctrl.signal,
-    });
-    if (!resp.ok) {
-      console.warn(`DPMA HTTP ${resp.status}`);
-      clearTimeout(t);
+    // Step 1: Session-Cookie von Einsteigerseite holen
+    let sessionCookie = "";
+    try {
+      const initCtrl = new AbortController();
+      const initT = setTimeout(() => initCtrl.abort(), 8000);
+      const initResp = await fetch("https://register.dpma.de/DPMAregister/marke/einsteiger", {
+        headers: baseHeaders,
+        signal: initCtrl.signal,
+        redirect: "follow",
+      });
+      clearTimeout(initT);
+      const setCookie = initResp.headers.get("set-cookie") || "";
+      // Extrahiere JSESSIONID + ggf. weitere DPMA-Cookies
+      const cookieParts = setCookie
+        .split(/,(?=[^,;]+=)/g)
+        .map((c) => c.split(";")[0].trim())
+        .filter(Boolean);
+      sessionCookie = cookieParts.join("; ");
+    } catch (e) {
+      console.warn("DPMA Session-Init fehlgeschlagen, versuche ohne Cookie:", e);
+    }
+
+    // Step 2: Trefferliste — beide URL-Varianten probieren
+    const urls = [
+      // Standard Quick-Search-URL
+      `https://register.dpma.de/DPMAregister/marke/trefferliste?queryString=${encodeURIComponent(query)}`,
+      // Alternativ: Erweiterte Recherche mit expliziten Feldern
+      `https://register.dpma.de/DPMAregister/marke/trefferlisteOR?queryString=${encodeURIComponent(query)}`,
+    ];
+
+    let html = "";
+    let lastStatus = 0;
+    for (const url of urls) {
+      try {
+        const ctrl = new AbortController();
+        const t = setTimeout(() => ctrl.abort(), 12000);
+        const resp = await fetch(url, {
+          headers: {
+            ...baseHeaders,
+            Referer: "https://register.dpma.de/DPMAregister/marke/einsteiger",
+            ...(sessionCookie ? { Cookie: sessionCookie } : {}),
+          },
+          signal: ctrl.signal,
+          redirect: "follow",
+        });
+        clearTimeout(t);
+        lastStatus = resp.status;
+        if (resp.ok) {
+          html = await resp.text();
+          if (html.length > 1000) break; // erfolgreich gefetched
+        }
+      } catch (e) {
+        console.warn(`DPMA URL ${url} fail:`, e);
+      }
+    }
+
+    if (!html) {
+      console.warn(`DPMA: alle URL-Varianten fail, lastStatus=${lastStatus}`);
       return null;
     }
-    const html = await resp.text();
-    clearTimeout(t);
 
-    // Anzahl Treffer aus dem HTML parsen — DPMA-Register zeigt "X Treffer" oder "Keine Treffer"
+    // Step 3: Parse "Trefferliste: X Treffer"
     let totalHits = 0;
-    const hitsMatch =
-      html.match(/(\d+(?:\.\d{3})*)\s*Treffer\b/i) ||
-      html.match(/Treffer:\s*(\d+(?:\.\d{3})*)/i) ||
-      html.match(/von\s+(\d+(?:\.\d{3})*)\s+Treffern/i);
-    if (hitsMatch) {
-      totalHits = parseInt(hitsMatch[1].replace(/\./g, ""), 10);
-    } else if (/Keine Treffer|0 Treffer|kein Treffer/i.test(html)) {
+    const totalPatterns = [
+      /Trefferliste\s*:?\s*(\d+(?:\.\d{3})*)\s*Treffer/i, // "Trefferliste: 1 Treffer"
+      /Marken[^(]*\(\s*(\d+(?:\.\d{3})*)\s*Treffer/i, // Tab-Header "Marken (1 Treffer)"
+      /(\d+(?:\.\d{3})*)\s*Treffer\b/i, // Generic Fallback
+      />Treffer:\s*(\d+(?:\.\d{3})*)/i,
+    ];
+    for (const re of totalPatterns) {
+      const m = html.match(re);
+      if (m) {
+        totalHits = parseInt(m[1].replace(/\./g, ""), 10);
+        break;
+      }
+    }
+    if (totalHits === 0 && /Keine Treffer|0\s*Treffer/i.test(html)) {
       totalHits = 0;
     }
 
-    // Hits parsen — DPMA-HTML hat <a href="../register/{id}/DE">Wortmarke</a>
-    // Mehrere mögliche Pattern probieren
+    // Step 4: Parse Hits aus Trefferliste-Tabelle
+    // DPMA-Struktur: <td>{Nr}</td><td>{DE/EM}</td><td><a href="...register/{ID}/DE">{ID}</a></td><td>{Markendarstellung}</td><td>{Aktenzustand}</td>
     const hits: TrademarkHit[] = [];
-    const patterns = [
-      /<a[^>]+href="[^"]*\/marke\/register\/([^"\/]+)\/DE"[^>]*>\s*([^<]{2,80})\s*<\/a>/gi,
-      /<a[^>]+href="\.\.\/register\/([^"\/]+)\/DE"[^>]*>\s*([^<]{2,80})\s*<\/a>/gi,
-      /href="[^"]*\/register\/([0-9A-Z]+)\/DE"[^>]*>\s*([^<\n]{2,80})/gi,
-    ];
-    for (const re of patterns) {
-      let m: RegExpExecArray | null;
-      while ((m = re.exec(html)) !== null && hits.length < 10) {
-        const applicationNumber = m[1].replace(/\s+/g, "");
-        const name = m[2].replace(/&[a-z]+;/gi, "").trim();
-        if (!name || name.length < 2 || hits.some((h) => h.applicationNumber === applicationNumber)) continue;
+
+    // Pattern 1: Match die ganze Zeile mit allen Spalten
+    const rowRe = /<tr[^>]*>[\s\S]*?<a[^>]+href="[^"]*\/register\/(\d{5,})\/DE"[^>]*>\s*\1?\s*<\/a>[\s\S]*?<td[^>]*>\s*([^<\n]{1,100}?)\s*<\/td>[\s\S]*?<td[^>]*>\s*([^<\n]{1,100}?)\s*<\/td>[\s\S]*?<\/tr>/gi;
+    let m: RegExpExecArray | null;
+    while ((m = rowRe.exec(html)) !== null && hits.length < 20) {
+      const applicationNumber = m[1].trim();
+      const name = m[2].replace(/&amp;/g, "&").replace(/&[a-z]+;/gi, "").trim();
+      const status = m[3]?.replace(/&amp;/g, "&").replace(/&[a-z]+;/gi, "").trim();
+      if (!name || name.length < 1) continue;
+      if (hits.some((h) => h.applicationNumber === applicationNumber)) continue;
+      hits.push({
+        name,
+        office: "DPMA (DE)",
+        applicationNumber,
+        status,
+        searchUrl: `https://register.dpma.de/DPMAregister/marke/register/${applicationNumber}/DE`,
+      });
+    }
+
+    // Pattern 2 Fallback: nur Anker mit register-URL
+    if (hits.length === 0) {
+      const linkRe = /<a[^>]+href="[^"]*\/register\/(\d{5,})\/DE"[^>]*>\s*(\d+)\s*<\/a>/gi;
+      while ((m = linkRe.exec(html)) !== null && hits.length < 20) {
+        const applicationNumber = m[1].trim();
+        if (hits.some((h) => h.applicationNumber === applicationNumber)) continue;
         hits.push({
-          name,
+          name: query, // Fallback — wir haben den Markendarstellungs-Wert nicht extrahieren können
           office: "DPMA (DE)",
           applicationNumber,
           searchUrl: `https://register.dpma.de/DPMAregister/marke/register/${applicationNumber}/DE`,
         });
       }
-      if (hits.length > 0) break;
     }
 
-    // Wenn wir Hits haben aber totalHits noch 0 (Pattern verfehlt), nimm hits.length als Untergrenze
-    if (hits.length > totalHits) totalHits = hits.length;
+    // Wenn wir Hits haben aber totalHits noch 0 (Total-Pattern verfehlt), nimm hits.length
+    if (hits.length > 0 && totalHits === 0) totalHits = hits.length;
 
-    console.log(`DPMA ok: ${totalHits} hits, ${hits.length} parsed`);
+    console.log(`DPMA ok: total=${totalHits}, parsed=${hits.length}, htmlSize=${html.length}`);
     return { totalHits, hits };
   } catch (e) {
     console.warn("DPMA-Scrape fehlgeschlagen:", e);
