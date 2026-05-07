@@ -349,15 +349,60 @@ async function checkGithub(handle: string): Promise<SocialResult> {
 }
 
 /**
- * Instagram: Web-Profile-Info-Endpoint mit X-IG-App-ID Header (offiziell von der Web-App genutzt).
- * Liefert sauberes JSON, 200 = User existiert, 404 = nicht.
+ * Instagram: Public-Page-Status-Check.
+ * Strategie: 404 = User existiert nicht (frei) · 200/Redirect = User existiert (vergeben).
+ * Instagram liefert IMMER 200 bei existierenden Profilen (mit Login-Wall) und IMMER 404 bei
+ * nicht existierenden — egal ob Login. Status-Code allein ist authoritative.
+ *
+ * Plus Fallback auf Web-Profile-API wenn HTTP nicht eindeutig.
  */
 async function checkInstagram(handle: string): Promise<SocialResult> {
   const url = `https://www.instagram.com/${handle}/`;
   const result: SocialResult = { platform: "Instagram", handle, url, status: "unknown" };
+
+  // Methode 1: Public Page direkt
   try {
     const ctrl = new AbortController();
     const t = setTimeout(() => ctrl.abort(), 6000);
+    const resp = await fetch(url, {
+      headers: { "User-Agent": BROWSER_UA, Accept: "text/html" },
+      signal: ctrl.signal,
+      redirect: "manual",
+    });
+    clearTimeout(t);
+
+    if (resp.status === 404) {
+      result.status = "available";
+      return result;
+    }
+    if (resp.status === 200) {
+      const html = await resp.text().catch(() => "");
+      // IG zeigt manchmal "Sorry, this page isn't available" mit 200 statt 404
+      if (/Sorry, this page isn['']t available|Page Not Found/i.test(html)) {
+        result.status = "available";
+        return result;
+      }
+      // OG-Title / Username / Profile-Pic im HTML = Profil existiert
+      if (/og:title|"username":\s*"|"profile_pic_url"|"@context":\s*"https:\/\/schema.org"/i.test(html)) {
+        result.status = "taken";
+        return result;
+      }
+      // 200 ohne Profil-Indikatoren = wahrscheinlich Login-Wall = existiert
+      // (IG liefert 200 NIEMALS für nicht existierende Handles)
+      result.status = "taken";
+      return result;
+    }
+    if (resp.status >= 300 && resp.status < 400) {
+      // Redirect zu Login → Profil existiert
+      result.status = "taken";
+      return result;
+    }
+  } catch {}
+
+  // Methode 2 (Fallback): Web-Profile-API
+  try {
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), 5000);
     const resp = await fetch(`https://www.instagram.com/api/v1/users/web_profile_info/?username=${encodeURIComponent(handle)}`, {
       headers: {
         "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko)",
@@ -375,6 +420,7 @@ async function checkInstagram(handle: string): Promise<SocialResult> {
       else if (data?.data?.user === null) result.status = "available";
     }
   } catch {}
+
   return result;
 }
 
