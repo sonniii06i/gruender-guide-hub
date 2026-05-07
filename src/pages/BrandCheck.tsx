@@ -449,9 +449,35 @@ const BrandCheck = () => {
                 return (
                   <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-4 text-sm text-amber-800 mb-3">
                     <div className="font-semibold mb-1">⚠ Marken-Register gerade nicht erreichbar.</div>
-                    <div className="text-xs leading-relaxed">
-                      Alle 3 Quellen (TMView, DPMA-Register, WIPO) haben nicht geantwortet. <strong>Das heißt NICHT
-                      dass keine Marken existieren</strong> — bitte manuell über die Such-Links unten prüfen.
+                    <div className="text-xs leading-relaxed mb-3">
+                      Alle Quellen haben nicht geantwortet. <strong>Das heißt NICHT dass keine Marken existieren</strong> —
+                      direkter Live-Klick zu DPMA + TMView unten:
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      <a
+                        href={`https://register.dpma.de/DPMAregister/marke/trefferliste?queryString=${encodeURIComponent(result.query)}`}
+                        target="_blank"
+                        rel="noreferrer noopener"
+                        className="inline-flex items-center gap-1 rounded-full bg-accent-blue text-primary-foreground px-3 py-1.5 text-[11px] font-semibold hover:opacity-90"
+                      >
+                        DPMA Live-Trefferliste öffnen <ExternalLink className="h-3 w-3" />
+                      </a>
+                      <a
+                        href={`https://www.tmdn.org/tmview/#/tmview/results?text=${encodeURIComponent(result.query)}`}
+                        target="_blank"
+                        rel="noreferrer noopener"
+                        className="inline-flex items-center gap-1 rounded-full bg-secondary text-foreground px-3 py-1.5 text-[11px] font-semibold hover:bg-secondary/80"
+                      >
+                        TMView Live öffnen <ExternalLink className="h-3 w-3" />
+                      </a>
+                      <a
+                        href={`https://branddb.wipo.int/en/quicksearch/results?fq=brandName:${encodeURIComponent(result.query)}`}
+                        target="_blank"
+                        rel="noreferrer noopener"
+                        className="inline-flex items-center gap-1 rounded-full bg-secondary text-foreground px-3 py-1.5 text-[11px] font-semibold hover:bg-secondary/80"
+                      >
+                        WIPO Brand DB <ExternalLink className="h-3 w-3" />
+                      </a>
                     </div>
                   </div>
                 );
@@ -460,10 +486,28 @@ const BrandCheck = () => {
                 return (
                   <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-4 text-sm text-amber-800 mb-3">
                     <div className="font-semibold mb-1">⚠ Nur teilweise geprüft — kein abschließendes Urteil.</div>
-                    <div className="text-xs leading-relaxed">
+                    <div className="text-xs leading-relaxed mb-3">
                       Erreichbar: <strong>{okSources.join(", ")}</strong> · Offline: <strong>{failSources.join(", ")}</strong>.
                       In den erreichbaren Quellen 0 Treffer, aber ohne {failSources.join("/")} kann ich das nicht final
-                      bestätigen. Manuell über die Such-Links unten prüfen.
+                      bestätigen.
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      <a
+                        href={`https://register.dpma.de/DPMAregister/marke/trefferliste?queryString=${encodeURIComponent(result.query)}`}
+                        target="_blank"
+                        rel="noreferrer noopener"
+                        className="inline-flex items-center gap-1 rounded-full bg-accent-blue text-primary-foreground px-3 py-1.5 text-[11px] font-semibold hover:opacity-90"
+                      >
+                        DPMA Live-Trefferliste öffnen <ExternalLink className="h-3 w-3" />
+                      </a>
+                      <a
+                        href={`https://www.tmdn.org/tmview/#/tmview/results?text=${encodeURIComponent(result.query)}`}
+                        target="_blank"
+                        rel="noreferrer noopener"
+                        className="inline-flex items-center gap-1 rounded-full bg-secondary text-foreground px-3 py-1.5 text-[11px] font-semibold hover:bg-secondary/80"
+                      >
+                        TMView Live öffnen <ExternalLink className="h-3 w-3" />
+                      </a>
                     </div>
                   </div>
                 );
@@ -471,10 +515,20 @@ const BrandCheck = () => {
               if (tm.totalHits === 0) {
                 return (
                   <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-4 text-sm text-emerald-700 mb-3">
-                    <div className="font-semibold mb-1">✓ Keine Treffer in TMView + DPMA + WIPO.</div>
-                    <div className="text-xs leading-relaxed">
+                    <div className="font-semibold mb-1">✓ Keine Treffer in TMView + DPMA + EUIPO + WIPO.</div>
+                    <div className="text-xs leading-relaxed mb-3">
                       Trotzdem zusätzlich phonetische Ähnlichkeitssuche durchführen — Markenrecht prüft auch ähnlich
-                      klingende Namen (z.B. „Krea" ähnlich „Kreya"). Such-Links unten.
+                      klingende Namen (z.B. „Krea" ähnlich „Kreya").
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      <a
+                        href={`https://register.dpma.de/DPMAregister/marke/trefferliste?queryString=${encodeURIComponent(result.query)}`}
+                        target="_blank"
+                        rel="noreferrer noopener"
+                        className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 text-emerald-700 border border-emerald-500/30 px-3 py-1.5 text-[11px] font-semibold hover:bg-emerald-500/20"
+                      >
+                        Bei DPMA verifizieren <ExternalLink className="h-3 w-3" />
+                      </a>
                     </div>
                   </div>
                 );

@@ -351,37 +351,72 @@ async function tryDpmaScrape(query: string): Promise<{ totalHits: number; hits: 
       console.warn("DPMA Session-Init fehlgeschlagen, versuche ohne Cookie:", e);
     }
 
-    // Step 2: Trefferliste — beide URL-Varianten probieren
-    const urls = [
-      // Standard Quick-Search-URL
-      `https://register.dpma.de/DPMAregister/marke/trefferliste?queryString=${encodeURIComponent(query)}`,
-      // Alternativ: Erweiterte Recherche mit expliziten Feldern
-      `https://register.dpma.de/DPMAregister/marke/trefferlisteOR?queryString=${encodeURIComponent(query)}`,
+    // Step 2: Trefferliste — mehrere Methoden + URLs probieren
+    const attempts: { method: "GET" | "POST"; url: string; body?: string; contentType?: string }[] = [
+      // 1) GET mit queryString = die einfachste Variante (User-Screenshot URL)
+      {
+        method: "GET",
+        url: `https://register.dpma.de/DPMAregister/marke/trefferliste?queryString=${encodeURIComponent(query)}`,
+      },
+      // 2) GET mit allen 5 Feldern OR-verknüpft (wie Quick-Search es intern macht)
+      {
+        method: "GET",
+        url: `https://register.dpma.de/DPMAregister/marke/trefferlisteOR?queryString=${encodeURIComponent(query)}&docId=&queryStringSchutzformen=&queryStringSchutzformenSearchOption=OR`,
+      },
+      // 3) POST direkt — manche JSF-Apps brauchen POST
+      {
+        method: "POST",
+        url: "https://register.dpma.de/DPMAregister/marke/trefferliste",
+        body: `queryString=${encodeURIComponent(query)}&queryStringSchutzformenSearchOption=OR`,
+        contentType: "application/x-www-form-urlencoded",
+      },
+      // 4) Erweiterte Recherche direkt
+      {
+        method: "POST",
+        url: "https://register.dpma.de/DPMAregister/marke/erweiterterecherche",
+        body: `marke=${encodeURIComponent(query)}&rn=${encodeURIComponent(query)}&akz=${encodeURIComponent(query)}&queryStringSchutzformenSearchOption=OR`,
+        contentType: "application/x-www-form-urlencoded",
+      },
     ];
 
     let html = "";
     let lastStatus = 0;
-    for (const url of urls) {
+    let lastUrl = "";
+    for (const attempt of attempts) {
       try {
         const ctrl = new AbortController();
         const t = setTimeout(() => ctrl.abort(), 12000);
-        const resp = await fetch(url, {
+        const resp = await fetch(attempt.url, {
+          method: attempt.method,
           headers: {
             ...baseHeaders,
             Referer: "https://register.dpma.de/DPMAregister/marke/einsteiger",
             ...(sessionCookie ? { Cookie: sessionCookie } : {}),
+            ...(attempt.contentType ? { "Content-Type": attempt.contentType } : {}),
           },
+          body: attempt.body,
           signal: ctrl.signal,
           redirect: "follow",
         });
         clearTimeout(t);
         lastStatus = resp.status;
+        lastUrl = attempt.url;
         if (resp.ok) {
-          html = await resp.text();
-          if (html.length > 1000) break; // erfolgreich gefetched
+          const text = await resp.text();
+          // Nur als Erfolg werten wenn HTML eine Trefferliste-Spur enthält
+          if (
+            text.length > 1000 &&
+            (/\/marke\/register\/\d+\/DE/.test(text) ||
+              /Trefferliste|Treffer:|Treffer\b/i.test(text) ||
+              /Keine Treffer|kein Treffer/i.test(text))
+          ) {
+            html = text;
+            console.log(`DPMA ok via ${attempt.method} ${attempt.url} (${html.length} bytes)`);
+            break;
+          }
         }
       } catch (e) {
-        console.warn(`DPMA URL ${url} fail:`, e);
+        console.warn(`DPMA ${attempt.method} ${attempt.url} fail:`, e);
       }
     }
 
