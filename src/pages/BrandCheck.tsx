@@ -40,6 +40,8 @@ interface TrademarkResult {
   totalHits: number | null;
   hits: TrademarkHit[];
   searchLinks: { label: string; url: string }[];
+  source?: string;
+  sourceStatus?: { tmview: string; dpma: string; wipo: string };
 }
 
 interface SocialResult {
@@ -432,26 +434,52 @@ const BrandCheck = () => {
           {/* Trademarks */}
           <div className="mb-6">
             <h2 className="text-base font-bold mb-3 flex items-center gap-2">
-              <Tag className="h-4 w-4" /> Marken-Treffer (DPMA + EUIPO via TMView)
+              <Tag className="h-4 w-4" /> Marken-Treffer (DPMA + EUIPO + WIPO)
             </h2>
-            {result.trademarks.totalHits === null && (
-              <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-4 text-sm text-amber-800 mb-3">
-                <div className="font-semibold mb-1">TMView-API gerade nicht erreichbar.</div>
-                <div className="text-xs leading-relaxed">
-                  Prüfe manuell über die Such-Links unten. Das passiert ab und zu — TMView ist die offizielle EUIPO-API,
-                  aber rate-limited.
-                </div>
-              </div>
-            )}
-            {result.trademarks.totalHits === 0 && (
-              <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-4 text-sm text-emerald-700 mb-3">
-                <div className="font-semibold mb-1">✓ Keine Treffer in DPMA + EUIPO Verbal-Suche.</div>
-                <div className="text-xs leading-relaxed">
-                  Trotzdem zusätzlich phonetische Ähnlichkeitssuche durchführen — Markenrecht prüft auch ähnlich
-                  klingende Namen (z.B. „Krea" ähnlich „Kreya"). Such-Links unten.
-                </div>
-              </div>
-            )}
+            {(() => {
+              const tm = result.trademarks;
+              const ss = tm.sourceStatus;
+              const okSources = ss ? Object.entries(ss).filter(([, v]) => v === "ok").map(([k]) => k.toUpperCase()) : [];
+              const failSources = ss ? Object.entries(ss).filter(([, v]) => v === "fail").map(([k]) => k.toUpperCase()) : [];
+              const allFailed = ss && failSources.length === 3;
+              const partialOk = ss && okSources.length > 0 && failSources.length > 0;
+
+              if (tm.totalHits === null || allFailed) {
+                return (
+                  <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-4 text-sm text-amber-800 mb-3">
+                    <div className="font-semibold mb-1">⚠ Marken-Register gerade nicht erreichbar.</div>
+                    <div className="text-xs leading-relaxed">
+                      Alle 3 Quellen (TMView, DPMA-Register, WIPO) haben nicht geantwortet. <strong>Das heißt NICHT
+                      dass keine Marken existieren</strong> — bitte manuell über die Such-Links unten prüfen.
+                    </div>
+                  </div>
+                );
+              }
+              if (tm.totalHits === 0 && partialOk) {
+                return (
+                  <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-4 text-sm text-amber-800 mb-3">
+                    <div className="font-semibold mb-1">⚠ Nur teilweise geprüft — kein abschließendes Urteil.</div>
+                    <div className="text-xs leading-relaxed">
+                      Erreichbar: <strong>{okSources.join(", ")}</strong> · Offline: <strong>{failSources.join(", ")}</strong>.
+                      In den erreichbaren Quellen 0 Treffer, aber ohne {failSources.join("/")} kann ich das nicht final
+                      bestätigen. Manuell über die Such-Links unten prüfen.
+                    </div>
+                  </div>
+                );
+              }
+              if (tm.totalHits === 0) {
+                return (
+                  <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-4 text-sm text-emerald-700 mb-3">
+                    <div className="font-semibold mb-1">✓ Keine Treffer in TMView + DPMA + WIPO.</div>
+                    <div className="text-xs leading-relaxed">
+                      Trotzdem zusätzlich phonetische Ähnlichkeitssuche durchführen — Markenrecht prüft auch ähnlich
+                      klingende Namen (z.B. „Krea" ähnlich „Kreya"). Such-Links unten.
+                    </div>
+                  </div>
+                );
+              }
+              return null;
+            })()}
             {result.trademarks.hits.length > 0 && (
               <>
                 <div className="rounded-xl border border-orange-500/30 bg-orange-500/5 p-3 text-xs text-orange-800 mb-3">

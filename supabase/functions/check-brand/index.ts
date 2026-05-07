@@ -422,9 +422,18 @@ async function checkTrademark(query: string): Promise<TrademarkResult> {
     tryWipo(query),
   ]);
 
-  // Priorität: TMView > DPMA > WIPO. Aber wenn höhere Quelle 0 Hits zeigt und niedrigere
-  // Hits hat → benutze niedrigere (TMView kann Sync-Lag haben).
-  let chosen: { source: string; totalHits: number; hits: TrademarkHit[] } | null = null;
+  // Source-Status für Transparenz im UI
+  const sourceStatus = {
+    tmview: tmviewData ? "ok" : "fail",
+    dpma: dpmaData ? "ok" : "fail",
+    wipo: wipoData ? "ok" : "fail",
+  };
+  console.log("Marken-Sources:", sourceStatus);
+
+  // Hits sammeln aus allen Quellen die antworteten
+  const allHits: TrademarkHit[] = [];
+  let maxTotal = 0;
+  const sources: string[] = [];
 
   if (tmviewData) {
     const total = tmviewData?.totalResults ?? tmviewData?.tradeMarks?.length ?? 0;
@@ -443,37 +452,36 @@ async function checkTrademark(query: string): Promise<TrademarkResult> {
             ? `https://register.dpma.de/DPMAregister/marke/register/${tm.applicationNumber}/DE`
             : result.searchLinks[2].url,
     }));
-    chosen = { source: "TMView (EUIPO + DPMA)", totalHits: total, hits };
+    allHits.push(...hits);
+    maxTotal = Math.max(maxTotal, total);
+    sources.push(`TMView: ${total}`);
   }
-
-  // Wenn TMView 0 Hits aber DPMA Hits → DPMA bevorzugen (DPMA aktueller bei DE-Anmeldungen)
-  if (dpmaData && (chosen === null || (chosen.totalHits === 0 && dpmaData.totalHits > 0))) {
-    chosen = {
-      source: chosen ? "DPMA Register (mehr Treffer als TMView)" : "DPMA Register",
-      totalHits: dpmaData.totalHits,
-      hits: dpmaData.hits,
-    };
-  }
-
-  // WIPO als 3. Quelle wenn andere keine Hits liefern
-  if (wipoData && (chosen === null || chosen.totalHits === 0)) {
-    if (wipoData.totalHits > 0) {
-      chosen = {
-        source: "WIPO Global Brand Database",
-        totalHits: wipoData.totalHits,
-        hits: wipoData.hits,
-      };
-    } else if (chosen === null) {
-      chosen = { source: "WIPO Global Brand Database", totalHits: 0, hits: [] };
+  if (dpmaData) {
+    // Nur Hits adden die nicht schon via TMView dabei sind
+    for (const h of dpmaData.hits) {
+      if (!allHits.some((x) => x.applicationNumber === h.applicationNumber)) allHits.push(h);
     }
+    maxTotal = Math.max(maxTotal, dpmaData.totalHits);
+    sources.push(`DPMA: ${dpmaData.totalHits}`);
+  }
+  if (wipoData) {
+    for (const h of wipoData.hits) {
+      if (!allHits.some((x) => x.applicationNumber === h.applicationNumber)) allHits.push(h);
+    }
+    maxTotal = Math.max(maxTotal, wipoData.totalHits);
+    sources.push(`WIPO: ${wipoData.totalHits}`);
   }
 
-  if (chosen) {
-    result.source = chosen.source;
-    result.totalHits = chosen.totalHits;
-    result.hits = chosen.hits;
+  // Hat IRGENDEINE Quelle geantwortet?
+  const anyOk = tmviewData || dpmaData || wipoData;
+  if (anyOk) {
+    result.totalHits = maxTotal;
+    result.hits = allHits.slice(0, 20);
+    result.source = `Quellen: ${sources.join(" · ")}`;
+    // sourceStatus für UI mitschicken — User soll wissen welche Quelle wirkte
+    (result as any).sourceStatus = sourceStatus;
   }
-  // Wenn alle 3 Quellen fehlen: result.totalHits bleibt null → UI zeigt manuelle Such-Links
+  // Wenn ALLE 3 fehlen: result.totalHits bleibt null → UI zeigt "alle APIs offline"
 
   return result;
 }
