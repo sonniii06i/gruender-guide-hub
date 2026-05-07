@@ -316,12 +316,9 @@ interface TrademarkHit {
 }
 
 /**
- * DPMA-Register Quick-Search mit Session-Handshake.
- * 1) GET Einsteiger-Page → JSESSIONID-Cookie
- * 2) POST/GET Trefferliste mit Cookie + Referer
- * 3) Parse Markendarstellung-Spalte aus Trefferliste-Tabelle
- *
- * Quick-Search baut intern Query: ((rn|akz|marke|inh|anm)="X") über alle 5 Felder.
+ * DPMA-Register Quick-Search.
+ * Strategie: Session-Cookie holen, Trefferliste fetchen, RADIKAL einfach parsen
+ * (jeden register/ID/DE-Anker als Hit zählen, keine komplexe Tabellen-Logik).
  */
 async function tryDpmaScrape(query: string): Promise<{ totalHits: number; hits: TrademarkHit[] } | null> {
   const baseHeaders = {
@@ -412,44 +409,50 @@ async function tryDpmaScrape(query: string): Promise<{ totalHits: number; hits: 
       totalHits = 0;
     }
 
-    // Step 4: Parse Hits — robuste Multi-Strategie
+    // Step 4: Hits parsen — RADIKAL einfach
+    // Jeden register/{ID}/DE-Link finden, Aktenzeichen extrahieren.
+    // Den Markendarstellungs-Namen versuchen wir aus der gleichen Tabellen-Zeile zu lesen,
+    // aber wenn das fail, ist das egal — User sieht trotzdem die Treffer-Anzahl + Detail-Link.
     const hits: TrademarkHit[] = [];
+    const seen = new Set<string>();
 
-    // Strategie A: kompletter <tr>-Block extrahieren, dann interne <td>s in Reihe lesen
-    // DPMA-Struktur: <tr><td>Nr</td><td>DE</td><td><a href="register/ID/DE">ID</a></td><td>NAME</td><td>STATUS</td></tr>
-    const trBlocks = html.match(/<tr[^>]*>[\s\S]*?<\/tr>/gi) ?? [];
-    for (const tr of trBlocks) {
-      // Anker mit register-URL — gibt uns die Aktenzeichen-Nummer
-      const anchorMatch = tr.match(/<a[^>]+href="[^"]*\/register\/(\d{5,})\/DE"[^>]*>/i);
-      if (!anchorMatch) continue;
-      const applicationNumber = anchorMatch[1];
+    // Finde alle register-Anker
+    const linkRe = /<a[^>]+href="[^"]*\/register\/(\d{5,})\/DE"[^>]*>/gi;
+    let linkMatch: RegExpExecArray | null;
+    while ((linkMatch = linkRe.exec(html)) !== null && hits.length < 30) {
+      const applicationNumber = linkMatch[1].trim();
+      if (seen.has(applicationNumber)) continue;
+      seen.add(applicationNumber);
 
-      // Alle <td>-Inhalte aus dieser Zeile extrahieren
-      const tdMatches = Array.from(tr.matchAll(/<td[^>]*>([\s\S]*?)<\/td>/gi));
-      const cells = tdMatches.map((m) => m[1].replace(/<[^>]+>/g, "").replace(/&amp;/g, "&").replace(/&[a-z]+;/gi, " ").replace(/\s+/g, " ").trim());
-
-      if (cells.length < 3) continue;
-
-      // Cells layout: [Nr, Datenbestand(DE/EM), Aktenzeichen, Markendarstellung, Aktenzustand]
-      // Aber Spalten können variieren — finde die "Markendarstellung" via Heuristik:
-      // Es ist die Zelle die NICHT die Aktenzeichen-Nr ist und NICHT "DE"/"EM" und NICHT eine Status-Phrase
-      let name = "";
+      // Versuche den Namen aus dem umgebenden Kontext zu extrahieren (200 Zeichen nach dem Anker)
+      const linkPos = linkMatch.index ?? 0;
+      const slice = html.slice(linkPos, linkPos + 1500);
+      let name = query;
       let status = "";
-      for (let i = 2; i < cells.length; i++) {
-        const c = cells[i];
-        if (!c) continue;
-        if (c === applicationNumber) continue; // Aktenzeichen-Spalte
-        if (/^(DE|EM|EU|WO)$/i.test(c)) continue; // Datenbestand
-        if (/Marke (eingetragen|gelöscht|abgelehnt)|Widerspruchsfrist|zurückgenommen|Anmeldung/i.test(c)) {
-          status = c;
+
+      // Suche nächsten <td>-Inhalt nach dem Anker
+      const tdsAfter = Array.from(slice.matchAll(/<td[^>]*>([\s\S]*?)<\/td>/gi));
+      for (const tdM of tdsAfter) {
+        const text = tdM[1]
+          .replace(/<[^>]+>/g, "")
+          .replace(/&amp;/g, "&")
+          .replace(/&nbsp;/g, " ")
+          .replace(/&[a-z]+;/gi, " ")
+          .replace(/\s+/g, " ")
+          .trim();
+        if (!text) continue;
+        if (text === applicationNumber) continue;
+        if (/^(DE|EM|EU|WO)$/i.test(text)) continue;
+        if (/Marke (eingetragen|gelöscht|abgelehnt)|Widerspruchsfrist|zurückgenommen|Anmeldung\sgelöscht/i.test(text)) {
+          if (!status) status = text;
           continue;
         }
-        if (!name && c.length >= 1 && c.length <= 200) {
-          name = c;
+        if (text.length >= 1 && text.length <= 200) {
+          name = text;
+          break; // erster sinnvoller Wert ist die Markendarstellung
         }
       }
-      if (!name) name = query; // letzter Fallback
-      if (hits.some((h) => h.applicationNumber === applicationNumber)) continue;
+
       hits.push({
         name,
         office: "DPMA (DE)",
@@ -457,33 +460,63 @@ async function tryDpmaScrape(query: string): Promise<{ totalHits: number; hits: 
         status,
         searchUrl: `https://register.dpma.de/DPMAregister/marke/register/${applicationNumber}/DE`,
       });
-      if (hits.length >= 20) break;
-    }
-
-    // Strategie B Fallback: nur über register-URL Anker, ohne Spalten-Match
-    if (hits.length === 0) {
-      const linkRe = /<a[^>]+href="[^"]*\/register\/(\d{5,})\/DE"[^>]*>/gi;
-      let m: RegExpExecArray | null;
-      while ((m = linkRe.exec(html)) !== null && hits.length < 20) {
-        const applicationNumber = m[1].trim();
-        if (hits.some((h) => h.applicationNumber === applicationNumber)) continue;
-        hits.push({
-          name: query,
-          office: "DPMA (DE)",
-          applicationNumber,
-          searchUrl: `https://register.dpma.de/DPMAregister/marke/register/${applicationNumber}/DE`,
-        });
-      }
     }
 
     if (hits.length > totalHits) totalHits = hits.length;
 
-    console.log(`DPMA ok: total=${totalHits}, parsed=${hits.length}, trBlocks=${trBlocks.length}, htmlSize=${html.length}`);
+    console.log(`DPMA ok: total=${totalHits}, parsed=${hits.length}, htmlSize=${html.length}`);
     return { totalHits, hits };
   } catch (e) {
     console.warn("DPMA-Scrape fehlgeschlagen:", e);
     return null;
   }
+}
+
+/**
+ * EUIPO eSearch direkt — Plain-Search-API der EUIPO-Frontend.
+ * Liefert JSON für EU-Marken (offiziell EM-Office-Code).
+ */
+async function tryEuipoDirect(query: string): Promise<{ totalHits: number; hits: TrademarkHit[] } | null> {
+  // EUIPO hat verschiedene Endpoint-Varianten — wir probieren mehrere
+  const endpoints = [
+    `https://euipo.europa.eu/eSearch/api/trademarks?text=${encodeURIComponent(query)}&size=20&page=0`,
+    `https://euipo.europa.eu/copla/trademark/data/search?searchText=${encodeURIComponent(query)}&type=basic`,
+  ];
+  for (const url of endpoints) {
+    try {
+      const ctrl = new AbortController();
+      const t = setTimeout(() => ctrl.abort(), 8000);
+      const resp = await fetch(url, {
+        headers: {
+          Accept: "application/json",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 Safari/605.1.15",
+          "Accept-Language": "en",
+          Referer: "https://euipo.europa.eu/eSearch/",
+        },
+        signal: ctrl.signal,
+      });
+      clearTimeout(t);
+      if (!resp.ok) continue;
+      const data = await resp.json();
+      const items = data?.content ?? data?.results ?? data?.trademarks ?? data?.docs ?? [];
+      if (!Array.isArray(items)) continue;
+      const totalHits = data?.totalElements ?? data?.total ?? items.length;
+      const hits: TrademarkHit[] = items.slice(0, 10).map((tm: any) => ({
+        name: tm.markVerbalElementText ?? tm.text ?? tm.tmName ?? query,
+        office: "EUIPO (EU)",
+        applicationNumber: tm.applicationNumber ?? tm.id,
+        classes: tm.niceClasses ? String(tm.niceClasses).split(",").map((c: string) => c.trim()) : undefined,
+        status: tm.status ?? tm.markStatusCode,
+        applicant: tm.applicantName ?? tm.applicants?.[0]?.name,
+        searchUrl: tm.applicationNumber
+          ? `https://euipo.europa.eu/eSearch/#details/trademarks/${tm.applicationNumber}`
+          : `https://euipo.europa.eu/eSearch/`,
+      }));
+      console.log(`EUIPO direct ok: ${totalHits} hits`);
+      return { totalHits, hits };
+    } catch {}
+  }
+  return null;
 }
 
 async function checkTrademark(query: string): Promise<TrademarkResult> {
@@ -506,7 +539,7 @@ async function checkTrademark(query: string): Promise<TrademarkResult> {
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.2 Safari/605.1.15",
   ];
 
-  const [tmviewData, dpmaData, wipoData] = await Promise.all([
+  const [tmviewData, dpmaData, wipoData, euipoData] = await Promise.all([
     (async () => {
       for (const ua of userAgents) {
         const d = await tryTmview(query, ua, 10000);
@@ -517,6 +550,7 @@ async function checkTrademark(query: string): Promise<TrademarkResult> {
     })(),
     tryDpmaScrape(query),
     tryWipo(query),
+    tryEuipoDirect(query),
   ]);
 
   // Source-Status für Transparenz im UI
@@ -524,6 +558,7 @@ async function checkTrademark(query: string): Promise<TrademarkResult> {
     tmview: tmviewData ? "ok" : "fail",
     dpma: dpmaData ? "ok" : "fail",
     wipo: wipoData ? "ok" : "fail",
+    euipo: euipoData ? "ok" : "fail",
   };
   console.log("Marken-Sources:", sourceStatus);
 
@@ -568,9 +603,16 @@ async function checkTrademark(query: string): Promise<TrademarkResult> {
     maxTotal = Math.max(maxTotal, wipoData.totalHits);
     sources.push(`WIPO: ${wipoData.totalHits}`);
   }
+  if (euipoData) {
+    for (const h of euipoData.hits) {
+      if (!allHits.some((x) => x.applicationNumber === h.applicationNumber)) allHits.push(h);
+    }
+    maxTotal = Math.max(maxTotal, euipoData.totalHits);
+    sources.push(`EUIPO: ${euipoData.totalHits}`);
+  }
 
   // Hat IRGENDEINE Quelle geantwortet?
-  const anyOk = tmviewData || dpmaData || wipoData;
+  const anyOk = tmviewData || dpmaData || wipoData || euipoData;
   if (anyOk) {
     result.totalHits = maxTotal;
     result.hits = allHits.slice(0, 20);

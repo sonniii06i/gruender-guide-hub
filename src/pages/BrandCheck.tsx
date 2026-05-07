@@ -41,7 +41,7 @@ interface TrademarkResult {
   hits: TrademarkHit[];
   searchLinks: { label: string; url: string }[];
   source?: string;
-  sourceStatus?: { tmview: string; dpma: string; wipo: string };
+  sourceStatus?: { tmview: string; dpma: string; wipo: string; euipo?: string };
 }
 
 interface SocialResult {
@@ -441,7 +441,8 @@ const BrandCheck = () => {
               const ss = tm.sourceStatus;
               const okSources = ss ? Object.entries(ss).filter(([, v]) => v === "ok").map(([k]) => k.toUpperCase()) : [];
               const failSources = ss ? Object.entries(ss).filter(([, v]) => v === "fail").map(([k]) => k.toUpperCase()) : [];
-              const allFailed = ss && failSources.length === 3;
+              const totalSources = ss ? Object.keys(ss).length : 0;
+              const allFailed = ss && failSources.length === totalSources;
               const partialOk = ss && okSources.length > 0 && failSources.length > 0;
 
               if (tm.totalHits === null || allFailed) {
