@@ -17,11 +17,30 @@ const TLD_CHECKS: { tld: string; endpoint: (name: string) => string; label: stri
   { tld: "store", endpoint: (n) => `https://rdap.centralnic.com/store/domain/${n}.store`, label: ".store (CentralNic)" },
 ];
 
+// Bekannte TLDs die User typisch mit anhängt (auch mehr als die wir checken)
+const KNOWN_TLDS = new Set([
+  "de", "com", "net", "io", "shop", "co", "app", "store",
+  "org", "eu", "at", "ch", "uk", "us", "fr", "it", "es", "nl", "be", "pl", "cz",
+  "info", "biz", "me", "tv", "cc", "ly", "ai", "tech", "online", "site", "website",
+  "fashion", "beauty", "health", "fit", "fitness", "club", "live", "studio",
+]);
+
+/** Strippe TLD-Suffix wenn der User z.B. "kreya.de" eingibt → "kreya". */
+function stripTld(input: string): string {
+  const lower = input.trim().toLowerCase();
+  // Letzten Punkt finden — wenn was danach kommt das eine bekannte TLD ist, abschneiden
+  const lastDot = lower.lastIndexOf(".");
+  if (lastDot < 1) return lower;
+  const candidateTld = lower.slice(lastDot + 1);
+  if (KNOWN_TLDS.has(candidateTld)) {
+    return lower.slice(0, lastDot);
+  }
+  return lower;
+}
+
 // Sanitizer: erlaubt nur kleinbuchstaben, ziffern, hyphen
 function sanitize(input: string): string {
-  return input
-    .trim()
-    .toLowerCase()
+  return stripTld(input)
     .normalize("NFD")
     .replace(/[̀-ͯ]/g, "") // diakritische Zeichen entfernen
     .replace(/ä/g, "ae")
@@ -428,12 +447,15 @@ serve(async (req) => {
       );
     }
 
+    // Für Marken/App-Store: TLD vom Original-Input strippen (User könnte "kreya.de" eingegeben haben)
+    const cleanQuery = stripTld(name);
+
     // Domains + Social + App-Store + Trademark parallel prüfen
     const [domainResults, socialResults, appStoreResult, trademarkResult] = await Promise.all([
       Promise.all(TLD_CHECKS.map((c) => checkDomain(sanitized, c))),
       Promise.all(SOCIAL_PLATFORMS.map((p) => checkSocialHandle(sanitized, p))),
-      checkAppStore(name.trim()),
-      checkTrademark(name.trim()),
+      checkAppStore(cleanQuery),
+      checkTrademark(cleanQuery),
     ]);
 
     return new Response(
