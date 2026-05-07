@@ -379,74 +379,88 @@ async function checkInstagram(handle: string): Promise<SocialResult> {
 }
 
 /**
- * TikTok: HTML-Scrape — wenn "user-info-error" oder "Couldn't find this account" → frei.
- * Sonst → vergeben.
+ * TikTok via oembed-Endpoint — offizielle API, designed für Iframe-Embeds.
+ * 200 = User existiert · 404 = User existiert NICHT.
+ * Viel zuverlässiger als HTML-Scrape (kein Cloudflare-Block).
  */
 async function checkTiktok(handle: string): Promise<SocialResult> {
   const url = `https://www.tiktok.com/@${handle}`;
   const result: SocialResult = { platform: "TikTok", handle, url, status: "unknown" };
   try {
     const ctrl = new AbortController();
-    const t = setTimeout(() => ctrl.abort(), 7000);
-    const resp = await fetch(url, {
-      headers: { "User-Agent": BROWSER_UA, Accept: "text/html" },
+    const t = setTimeout(() => ctrl.abort(), 6000);
+    const resp = await fetch(`https://www.tiktok.com/oembed?url=${encodeURIComponent(url)}`, {
+      headers: { Accept: "application/json", "User-Agent": BROWSER_UA },
       signal: ctrl.signal,
     });
     clearTimeout(t);
-    if (resp.status === 404) {
-      result.status = "available";
-      return result;
-    }
     if (resp.status === 200) {
-      const html = await resp.text();
-      // TikTok zeigt "Couldn't find this account" bei nicht-existenten Profilen MIT 200-Status
-      if (/Couldn['']t find this account|user-info-error/i.test(html)) {
+      // oembed liefert auch 200 mit error-Body wenn User nicht existiert
+      const data = await resp.json().catch(() => null);
+      if (data?.author_unique_id || data?.author_name || data?.title) {
+        result.status = "taken";
+      } else if (data === null || Object.keys(data || {}).length === 0) {
         result.status = "available";
-      } else if (/uniqueId|user@id|"user":\s*\{/i.test(html)) {
+      } else {
         result.status = "taken";
       }
+    } else if (resp.status === 404 || resp.status === 400) {
+      result.status = "available";
     }
   } catch {}
   return result;
 }
 
 /**
- * YouTube: Wenn @-Handle existiert, antwortet die Page mit 200 + Channel-Daten.
- * Bei nicht existierendem Handle: 404 oder Redirect zu Suchseite.
+ * YouTube via oembed — offizielle JSON-API.
+ * 200 = Channel existiert · 401/404 = nicht.
  */
 async function checkYoutube(handle: string): Promise<SocialResult> {
   const url = `https://www.youtube.com/@${handle}`;
   const result: SocialResult = { platform: "YouTube", handle, url, status: "unknown" };
   try {
     const ctrl = new AbortController();
-    const t = setTimeout(() => ctrl.abort(), 7000);
-    const resp = await fetch(url, {
-      headers: { "User-Agent": BROWSER_UA, Accept: "text/html" },
+    const t = setTimeout(() => ctrl.abort(), 6000);
+    const resp = await fetch(`https://www.youtube.com/oembed?url=${encodeURIComponent(url)}&format=json`, {
+      headers: { Accept: "application/json", "User-Agent": BROWSER_UA },
       signal: ctrl.signal,
-      redirect: "manual",
     });
     clearTimeout(t);
-    if (resp.status === 404) {
-      result.status = "available";
-    } else if (resp.status === 200) {
-      const html = await resp.text();
-      // Wenn der Handle nicht existiert, bekommt man eine Generic-Error- oder Search-Page
-      if (/This channel does not exist|404 Not Found|"alerts":\s*\[\{/.test(html) && !/"channelMetadataRenderer"/.test(html)) {
+    if (resp.status === 200) {
+      result.status = "taken";
+    } else if (resp.status === 401 || resp.status === 404) {
+      // YouTube oembed liefert 401 wenn der Channel keinen public Content hat oder nicht existiert.
+      // Wir behandeln das als "available" — aber: ein leerer Channel mit Handle existiert dann u.U. trotzdem.
+      // Heuristik: bei 401 zusätzlich Page-HTML kurz checken.
+      if (resp.status === 404) {
         result.status = "available";
-      } else if (/"channelMetadataRenderer"|"externalId":\s*"UC/.test(html)) {
-        result.status = "taken";
+      } else {
+        // 401 — extra check über Page selbst
+        const ctrl2 = new AbortController();
+        const t2 = setTimeout(() => ctrl2.abort(), 5000);
+        const pageResp = await fetch(url, {
+          headers: { "User-Agent": BROWSER_UA, Accept: "text/html" },
+          signal: ctrl2.signal,
+          redirect: "manual",
+        });
+        clearTimeout(t2);
+        if (pageResp.status === 404) {
+          result.status = "available";
+        } else if (pageResp.status === 200) {
+          // Wenn Page 200, aber oembed 401 → Channel existiert ohne Public Videos
+          result.status = "taken";
+        } else if (pageResp.status >= 300 && pageResp.status < 400) {
+          result.status = "available"; // Redirect zu Suche
+        }
       }
-    } else if (resp.status >= 300 && resp.status < 400) {
-      // Redirect typisch zu Suche → frei
-      result.status = "available";
     }
   } catch {}
   return result;
 }
 
 /**
- * X / Twitter: Twitter Syndication-Endpoint ist public und liefert 404 bei nicht existentem User.
- * https://syndication.twitter.com/srv/timeline-profile/screen-name/{username}
+ * X / Twitter via fxtwitter.com — drittanbieter-Mirror mit sauberer öffentlicher API.
+ * Sehr zuverlässig: 200 + JSON.user wenn existiert, 404 wenn nicht.
  */
 async function checkX(handle: string): Promise<SocialResult> {
   const url = `https://x.com/${handle}`;
@@ -454,27 +468,22 @@ async function checkX(handle: string): Promise<SocialResult> {
   try {
     const ctrl = new AbortController();
     const t = setTimeout(() => ctrl.abort(), 6000);
-    const resp = await fetch(`https://syndication.twitter.com/srv/timeline-profile/screen-name/${encodeURIComponent(handle)}`, {
-      headers: { "User-Agent": BROWSER_UA, Accept: "text/html" },
+    const resp = await fetch(`https://api.fxtwitter.com/${encodeURIComponent(handle)}`, {
+      headers: { Accept: "application/json", "User-Agent": "GruenderX-Brand-Check" },
       signal: ctrl.signal,
     });
     clearTimeout(t);
-    if (resp.status === 404) {
-      result.status = "available";
-    } else if (resp.status === 200) {
-      const html = await resp.text();
-      // Wenn User existiert, enthält die Page das __INITIAL_STATE__ mit User-Daten.
-      // Wenn User nicht existiert, ist das State-Objekt leer.
-      if (/"screen_name":\s*"/i.test(html)) {
+    if (resp.status === 200) {
+      const data = await resp.json().catch(() => null);
+      // fxtwitter response: { code: 200, message: "OK", user: {...} } wenn existiert
+      // bzw. { code: 404, message: "User not found" } wenn nicht
+      if (data?.code === 200 && data?.user) {
         result.status = "taken";
-      } else if (/SuspendedNotice|UserUnavailable|"errors":\s*\[/i.test(html)) {
+      } else if (data?.code === 404) {
         result.status = "available";
-      } else if (html.length < 5000) {
-        // Sehr kurze Antwort = leerer Profil-State = frei
-        result.status = "available";
-      } else {
-        result.status = "taken";
       }
+    } else if (resp.status === 404) {
+      result.status = "available";
     }
   } catch {}
   return result;
