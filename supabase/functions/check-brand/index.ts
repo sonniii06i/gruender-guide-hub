@@ -181,6 +181,121 @@ async function checkTrademark(query: string): Promise<TrademarkResult> {
   return result;
 }
 
+// ============================================================
+// Social-Handle-Checks
+// ============================================================
+
+interface SocialResult {
+  platform: string;
+  handle: string;
+  url: string;
+  status: "available" | "taken" | "unknown";
+  note?: string;
+}
+
+const SOCIAL_PLATFORMS: { key: string; label: string; url: (h: string) => string; takenStatuses: number[]; freeStatuses: number[] }[] = [
+  // Instagram: 200 = existiert, 404 = frei, 401 = Login-Wall (oft auch "existiert")
+  { key: "instagram", label: "Instagram", url: (h) => `https://www.instagram.com/${h}/`, takenStatuses: [200, 401], freeStatuses: [404] },
+  // TikTok: ähnlich
+  { key: "tiktok", label: "TikTok", url: (h) => `https://www.tiktok.com/@${h}`, takenStatuses: [200], freeStatuses: [404] },
+  // YouTube @-Handles (seit 2023)
+  { key: "youtube", label: "YouTube", url: (h) => `https://www.youtube.com/@${h}`, takenStatuses: [200], freeStatuses: [404] },
+  // X / Twitter: hat aggressiven Bot-Schutz, oft 200 mit Login-Wall
+  { key: "x", label: "X (Twitter)", url: (h) => `https://x.com/${h}`, takenStatuses: [200], freeStatuses: [404] },
+  // GitHub: 200 = existiert, 404 = frei
+  { key: "github", label: "GitHub", url: (h) => `https://github.com/${h}`, takenStatuses: [200], freeStatuses: [404] },
+];
+
+async function checkSocialHandle(name: string, p: typeof SOCIAL_PLATFORMS[0]): Promise<SocialResult> {
+  const handle = name; // sanitized stripped Sonderzeichen, aber Social-Handles brauchen das
+  const url = p.url(handle);
+  const result: SocialResult = { platform: p.label, handle, url, status: "unknown" };
+  try {
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), 5000);
+    const resp = await fetch(url, {
+      method: "GET",
+      headers: {
+        "User-Agent": "Mozilla/5.0 (compatible; GruenderX-Brand-Check/1.0)",
+        Accept: "text/html,application/xhtml+xml",
+      },
+      signal: ctrl.signal,
+      redirect: "manual",
+    });
+    clearTimeout(t);
+    if (p.freeStatuses.includes(resp.status)) {
+      result.status = "available";
+    } else if (p.takenStatuses.includes(resp.status)) {
+      result.status = "taken";
+      if (resp.status === 401) result.note = "Login-Wall (wahrscheinlich vergeben)";
+    } else if (resp.status >= 300 && resp.status < 400) {
+      // Redirect: typisch zu Login → existiert
+      result.status = "taken";
+      result.note = "Redirect (vermutlich vergeben)";
+    } else {
+      result.note = `HTTP ${resp.status}`;
+    }
+  } catch (e) {
+    console.warn(`Social ${p.label} ${handle} fehlgeschlagen:`, e);
+  }
+  return result;
+}
+
+// ============================================================
+// App-Store-Checks
+// ============================================================
+
+interface AppStoreHit {
+  store: "Apple App Store" | "Google Play";
+  appName: string;
+  developer?: string;
+  bundleId?: string;
+  url: string;
+  iconUrl?: string;
+}
+
+interface AppStoreResult {
+  query: string;
+  appleHits: AppStoreHit[];
+  appleTotal: number | null;
+  googleSearchUrl: string;
+  /** Note: Google Play hat keine öffentliche API mehr — nur Such-Link, manuelle Prüfung. */
+}
+
+async function checkAppStore(query: string): Promise<AppStoreResult> {
+  const result: AppStoreResult = {
+    query,
+    appleHits: [],
+    appleTotal: null,
+    googleSearchUrl: `https://play.google.com/store/search?q=${encodeURIComponent(query)}&c=apps`,
+  };
+
+  // Apple iTunes Search API (öffentlich, kein Key)
+  try {
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), 5000);
+    const url = `https://itunes.apple.com/search?term=${encodeURIComponent(query)}&entity=software&limit=10&country=de`;
+    const resp = await fetch(url, { signal: ctrl.signal });
+    clearTimeout(t);
+    if (resp.ok) {
+      const data = await resp.json();
+      result.appleTotal = data.resultCount ?? 0;
+      result.appleHits = (data.results ?? []).map((r: any) => ({
+        store: "Apple App Store" as const,
+        appName: r.trackName,
+        developer: r.artistName,
+        bundleId: r.bundleId,
+        url: r.trackViewUrl,
+        iconUrl: r.artworkUrl60,
+      }));
+    }
+  } catch (e) {
+    console.warn("Apple App-Store-Check fehlgeschlagen:", e);
+  }
+
+  return result;
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
@@ -200,17 +315,21 @@ serve(async (req) => {
       );
     }
 
-    // Domains parallel prüfen
-    const domainResults = await Promise.all(TLD_CHECKS.map((c) => checkDomain(sanitized, c)));
-
-    // Marken parallel mit Original-Query (nicht sanitized — Markenrecherche tolerant)
-    const trademarkResult = await checkTrademark(name.trim());
+    // Domains + Social + App-Store + Trademark parallel prüfen
+    const [domainResults, socialResults, appStoreResult, trademarkResult] = await Promise.all([
+      Promise.all(TLD_CHECKS.map((c) => checkDomain(sanitized, c))),
+      Promise.all(SOCIAL_PLATFORMS.map((p) => checkSocialHandle(sanitized, p))),
+      checkAppStore(name.trim()),
+      checkTrademark(name.trim()),
+    ]);
 
     return new Response(
       JSON.stringify({
         query: name,
         sanitized,
         domains: domainResults,
+        socials: socialResults,
+        appStore: appStoreResult,
         trademarks: trademarkResult,
         timestamp: new Date().toISOString(),
       }),

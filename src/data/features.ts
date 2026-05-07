@@ -104,11 +104,9 @@ const _CATEGORIES_RAW: FeatureCategory[] = [
     icon: Tag,
     tagline: "DPMA, EUIPO, USPTO, Domain, Social-Handles",
     features: [
-      { slug: "brand-check", title: "Marken + Domain Live-Check", desc: "DPMA + EUIPO via TMView + 8 TLDs (.de/.com/.net/.io/.shop/.co/.app/.store) per RDAP – in einem Klick.", status: "beta", route: "/cockpit/check" },
-      { slug: "social-handle-check", title: "Social-Handle-Check", desc: "IG, TikTok, X, YouTube parallel prüfen.", status: "soon" },
-      { slug: "appstore-name", title: "App-Store-Namens-Check", desc: "Apple App Store + Google Play.", status: "planned" },
-      { slug: "dpma-wizard", title: "DPMA-Anmeldungs-Wizard", desc: "Mit Klassen-Empfehlung (Nizza-Klassen).", status: "soon" },
-      { slug: "marken-monitor", title: "Markenüberwachung", desc: "Alert bei ähnlichen Anmeldungen.", status: "planned" },
+      { slug: "brand-check", title: "Marken + Domain + Social + App-Store Live-Check", desc: "DPMA + EUIPO via TMView · 8 TLDs (.de/.com/.net/.io/.shop/.co/.app/.store) · 5 Social-Handles (IG/TikTok/YouTube/X/GitHub) · Apple App Store via iTunes Search API – in einem Klick.", status: "beta", route: "/cockpit/check" },
+      { slug: "dpma-wizard", title: "DPMA-Anmeldungs-Wizard", desc: "Schritt-für-Schritt mit Branchen-basierter Nizza-Klassen-Empfehlung + Live-Kostenrechner + Direkt-Link zur offiziellen Anmeldung.", status: "beta", route: "/cockpit/marken-wizard" },
+      { slug: "marken-monitor", title: "Markenüberwachung", desc: "Watchlist deiner Marken · manueller Recheck-Button · Diff-Alert bei neuen Anmeldungen seit letzter Prüfung.", status: "beta", route: "/cockpit/marken-monitor" },
     ],
   },
   {

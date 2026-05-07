@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Input } from "@/components/ui/input";
-import { Search, CheckCircle2, XCircle, AlertCircle, ExternalLink, Loader2, Tag, Globe } from "lucide-react";
+import { Search, CheckCircle2, XCircle, AlertCircle, ExternalLink, Loader2, Tag, Globe, AtSign, Smartphone } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
 interface DomainResult {
@@ -31,10 +31,36 @@ interface TrademarkResult {
   searchLinks: { label: string; url: string }[];
 }
 
+interface SocialResult {
+  platform: string;
+  handle: string;
+  url: string;
+  status: "available" | "taken" | "unknown";
+  note?: string;
+}
+
+interface AppStoreHit {
+  store: string;
+  appName: string;
+  developer?: string;
+  bundleId?: string;
+  url: string;
+  iconUrl?: string;
+}
+
+interface AppStoreResult {
+  query: string;
+  appleHits: AppStoreHit[];
+  appleTotal: number | null;
+  googleSearchUrl: string;
+}
+
 interface CheckResult {
   query: string;
   sanitized: string;
   domains: DomainResult[];
+  socials?: SocialResult[];
+  appStore?: AppStoreResult;
   trademarks: TrademarkResult;
   timestamp: string;
 }
@@ -152,6 +178,9 @@ const BrandCheck = () => {
   const availableCount = result?.domains.filter((d) => d.available === true).length ?? 0;
   const takenCount = result?.domains.filter((d) => d.available === false).length ?? 0;
   const tmCount = result?.trademarks.totalHits ?? null;
+  const socialAvailable = result?.socials?.filter((s) => s.status === "available").length ?? 0;
+  const socialTaken = result?.socials?.filter((s) => s.status === "taken").length ?? 0;
+  const appCount = result?.appStore?.appleTotal ?? null;
 
   return (
     <CockpitShell
@@ -184,8 +213,8 @@ const BrandCheck = () => {
           </button>
         </div>
         <div className="text-[11px] text-muted-foreground mt-2 leading-relaxed">
-          Geprüft werden: 8 Domains (.de, .com, .net, .io, .shop, .co, .app, .store) via RDAP + EU-Marken via TMView (EUIPO + DPMA).
-          Umlaute werden für Domain-Check automatisch konvertiert (ä→ae, ö→oe, ü→ue, ß→ss).
+          Geprüft werden: 8 Domains (.de, .com, .net, .io, .shop, .co, .app, .store) via RDAP · 5 Social-Handles (IG, TikTok, YouTube, X, GitHub) ·
+          Apple App Store (iTunes Search API) · EU-Marken via TMView (EUIPO + DPMA). Umlaute werden konvertiert (ä→ae, ö→oe, ü→ue, ß→ss).
         </div>
         {error && (
           <div className="mt-3 rounded-xl border border-red-500/30 bg-red-500/5 p-3 text-xs text-red-600">{error}</div>
@@ -198,23 +227,42 @@ const BrandCheck = () => {
           {/* Übersicht */}
           <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-4 mb-6">
             <div className="text-xs font-semibold uppercase tracking-wider text-accent-blue mb-2">Schnell-Übersicht</div>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 text-sm">
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-3 text-sm">
               <div>
-                <div className="text-[11px] text-muted-foreground">Geprüfter Name</div>
-                <div className="font-mono font-bold">{result.query}</div>
+                <div className="text-[11px] text-muted-foreground">Name</div>
+                <div className="font-mono font-bold truncate">{result.query}</div>
               </div>
               <div>
-                <div className="text-[11px] text-muted-foreground">Domain-sicher</div>
-                <div className="font-bold">
+                <div className="text-[11px] text-muted-foreground">Domains</div>
+                <div className="font-bold text-xs">
                   <span className="text-emerald-600">{availableCount} frei</span> ·{" "}
                   <span className="text-red-600">{takenCount} vergeben</span>
                 </div>
               </div>
               <div>
-                <div className="text-[11px] text-muted-foreground">Marken-Treffer</div>
-                <div className="font-bold">
+                <div className="text-[11px] text-muted-foreground">Social-Handles</div>
+                <div className="font-bold text-xs">
+                  <span className="text-emerald-600">{socialAvailable} frei</span> ·{" "}
+                  <span className="text-red-600">{socialTaken} vergeben</span>
+                </div>
+              </div>
+              <div>
+                <div className="text-[11px] text-muted-foreground">App-Store</div>
+                <div className="font-bold text-xs">
+                  {appCount === null ? (
+                    <span className="text-amber-700">offline</span>
+                  ) : appCount === 0 ? (
+                    <span className="text-emerald-600">0 Apps</span>
+                  ) : (
+                    <span className="text-orange-600">{appCount} Apps</span>
+                  )}
+                </div>
+              </div>
+              <div>
+                <div className="text-[11px] text-muted-foreground">Marken</div>
+                <div className="font-bold text-xs">
                   {tmCount === null ? (
-                    <span className="text-amber-700">API offline – manuell prüfen</span>
+                    <span className="text-amber-700">offline</span>
                   ) : tmCount === 0 ? (
                     <span className="text-emerald-600">0 Treffer</span>
                   ) : (
@@ -239,6 +287,120 @@ const BrandCheck = () => {
               Quelle: RDAP (Registry-direkt). Status „Unklar" = Endpoint hat nicht geantwortet, manuell prüfen.
             </div>
           </div>
+
+          {/* Social-Handles */}
+          {result.socials && result.socials.length > 0 && (
+            <div className="mb-6">
+              <h2 className="text-base font-bold mb-3 flex items-center gap-2">
+                <AtSign className="h-4 w-4" /> Social-Handles
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                {result.socials.map((s) => (
+                  <a
+                    key={s.platform}
+                    href={s.url}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className={`rounded-xl border p-3 hover:opacity-80 transition-opacity block ${
+                      s.status === "available"
+                        ? "border-emerald-500/30 bg-emerald-500/5"
+                        : s.status === "taken"
+                        ? "border-red-500/30 bg-red-500/5"
+                        : "border-amber-500/30 bg-amber-500/5"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between gap-2 mb-1">
+                      <code className="font-mono text-sm font-bold">@{s.handle}</code>
+                      {s.status === "available" ? (
+                        <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 text-emerald-600 px-2 py-0.5 text-[11px] font-semibold">
+                          <CheckCircle2 className="h-3 w-3" /> Frei
+                        </span>
+                      ) : s.status === "taken" ? (
+                        <span className="inline-flex items-center gap-1 rounded-full bg-red-500/10 text-red-600 px-2 py-0.5 text-[11px] font-semibold">
+                          <XCircle className="h-3 w-3" /> Vergeben
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1 rounded-full bg-amber-500/10 text-amber-700 px-2 py-0.5 text-[11px] font-semibold">
+                          <AlertCircle className="h-3 w-3" /> Unklar
+                        </span>
+                      )}
+                    </div>
+                    <div className="text-[11px] text-muted-foreground">
+                      {s.platform}
+                      {s.note && ` · ${s.note}`}
+                    </div>
+                  </a>
+                ))}
+              </div>
+              <div className="text-[11px] text-muted-foreground mt-2">
+                Klick öffnet die Profil-URL. „Unklar" = Plattform blockt unser Bot-User-Agent (typisch X) — manuell prüfen.
+              </div>
+            </div>
+          )}
+
+          {/* App-Store */}
+          {result.appStore && (
+            <div className="mb-6">
+              <h2 className="text-base font-bold mb-3 flex items-center gap-2">
+                <Smartphone className="h-4 w-4" /> App-Store-Namen
+              </h2>
+              {result.appStore.appleHits.length === 0 ? (
+                <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-3 text-sm text-emerald-700 mb-2">
+                  ✓ Keine Apps in Apple App Store gefunden mit diesem Namen.
+                </div>
+              ) : (
+                <>
+                  <div className="rounded-xl border border-orange-500/30 bg-orange-500/5 p-3 text-xs text-orange-800 mb-2">
+                    <strong>{result.appStore.appleTotal}</strong> Apple-Treffer (Top 10 unten). Wenn du eine App mit ähnlichem
+                    Namen planst, prüfe Markenrechte.
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-3">
+                    {result.appStore.appleHits.map((h, i) => (
+                      <a
+                        key={i}
+                        href={h.url}
+                        target="_blank"
+                        rel="noreferrer noopener"
+                        className="rounded-xl border border-border bg-card p-3 hover:border-accent-blue/40 transition-colors flex items-center gap-3"
+                      >
+                        {h.iconUrl && (
+                          <img src={h.iconUrl} alt="" className="h-10 w-10 rounded-lg shrink-0" />
+                        )}
+                        <div className="min-w-0">
+                          <div className="font-semibold text-sm truncate">{h.appName}</div>
+                          <div className="text-[11px] text-muted-foreground truncate">
+                            {h.developer} · {h.bundleId}
+                          </div>
+                        </div>
+                        <ExternalLink className="h-3 w-3 text-muted-foreground shrink-0 ml-auto" />
+                      </a>
+                    ))}
+                  </div>
+                </>
+              )}
+              <div className="flex gap-2">
+                <a
+                  href={result.appStore.googleSearchUrl}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="inline-flex items-center gap-1 rounded-full bg-secondary px-3 py-1 text-[11px] hover:bg-secondary/80"
+                >
+                  Google Play manuell prüfen <ExternalLink className="h-3 w-3" />
+                </a>
+                <a
+                  href={`https://apps.apple.com/de/search?term=${encodeURIComponent(result.query)}`}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="inline-flex items-center gap-1 rounded-full bg-secondary px-3 py-1 text-[11px] hover:bg-secondary/80"
+                >
+                  Apple App Store öffnen <ExternalLink className="h-3 w-3" />
+                </a>
+              </div>
+              <div className="text-[11px] text-muted-foreground mt-2">
+                Apple via iTunes Search API · Google Play hat keine öffentliche API mehr → manuelle Prüfung via Such-Link.
+              </div>
+            </div>
+          )}
 
           {/* Trademarks */}
           <div className="mb-6">
