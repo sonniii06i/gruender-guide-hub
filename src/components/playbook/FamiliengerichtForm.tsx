@@ -161,7 +161,7 @@ export const FamiliengerichtForm = ({ answers, setAnswers }: Props) => {
                 Eltern, falls abweichend).
               </li>
               <li>
-                Kosten: 50–200 € Gerichtsgebühr (KostO/FamGKG) · Bearbeitungszeit 4–12 Wochen.
+                Kosten: <strong>0 € (kostenlos)</strong> · Bearbeitungszeit 4–12 Wochen für Termin + Beschluss zur Vollgeschäftsfähigkeit (§112 BGB).
               </li>
             </ul>
           </div>
@@ -180,7 +180,7 @@ export const FamiliengerichtForm = ({ answers, setAnswers }: Props) => {
               <li>Tätigkeitsbeschreibung mit Risikoanalyse</li>
               <li>Schulzeugnis (zeigt: Schulbesuch nicht gefährdet)</li>
               <li>Ggf. Einverständniserklärung der Schule</li>
-              <li>50–200 € Gerichtsgebühr (Lastschrift / Überweisung)</li>
+              <li>0 € — das Verfahren ist kostenlos (du bezahlst nur Zeit, keine Gerichtsgebühr)</li>
             </ul>
           </div>
         </div>

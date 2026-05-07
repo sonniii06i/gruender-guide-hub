@@ -525,7 +525,7 @@ export const PLAYBOOKS: Playbook[] = [
     outcome: "Angemeldetes Einzelunternehmen mit Steuernummer, Geschäftskonto und (falls U18) familiengerichtlicher Genehmigung.",
     duration: "1–3 Wochen",
     difficulty: "Einfach",
-    totalCost: "20–60 € Gewerbeamt + ggf. 50–200 € Familiengericht (nur U18)",
+    totalCost: "20–60 € Gewerbeamt (Familiengericht selbst kostenlos – nur Termin + Beschluss bei U18)",
     runningCost: "0 € (Kleinunternehmer) bis StB ab 800 €/Jahr · IHK 50–300 €/Jahr",
     steps: [
       {
@@ -566,7 +566,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Wenn JA: zusätzlicher Schritt nötig — Familiengericht muss zustimmen (§112 BGB). Ohne Genehmigung verweigert das Gewerbeamt die Anmeldung.",
         kind: "decision",
         estMinutes: 5,
-        estCost: "0 € · Auswirkung: 50–200 € Familiengerichts-Gebühr falls U18",
+        estCost: "0 € · Familiengericht ist kostenlos (nur Termin-Wartezeit bei U18)",
         warning: "Ohne familiengerichtliche Genehmigung darf ein Minderjähriger KEIN Gewerbe selbständig betreiben (§112 BGB). Das Gewerbeamt prüft das Geburtsdatum und lehnt sonst ab.",
         extendedNotes: [
           "Volljährig (≥18): überspringe den nächsten Schritt \"Familiengericht\".",
@@ -580,7 +580,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Nur durchführen wenn du minderjährig bist. Antrag auf Genehmigung des selbständigen Erwerbsgeschäfts nach §112 BGB. Hier kannst du alle Daten erfassen → fertiger PDF-Antrag zum Ausdrucken + Unterschreiben + Einreichen.",
         kind: "form",
         estMinutes: 60,
-        estCost: "50–200 € Gerichtsgebühr (FamGKG)",
+        estCost: "0 € (Familiengericht-Verfahren ist kostenlos · nur Zeit für Termin + Beschluss zur Vollgeschäftsfähigkeit nach §112 BGB)",
         warning: "Ohne diese Genehmigung verweigert das Gewerbeamt die Anmeldung. Plane 4–12 Wochen Bearbeitungszeit ein.",
         extendedNotes: [
           "Bearbeitungszeit Familiengericht: 4–12 Wochen je nach Gericht-Auslastung.",
