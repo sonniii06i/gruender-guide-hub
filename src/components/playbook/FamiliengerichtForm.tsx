@@ -33,9 +33,10 @@ export const FamiliengerichtForm = ({ answers, setAnswers }: Props) => {
       y += opts?.spaceAfter ?? 2;
     };
 
-    // Header
+    // Header — Eltern aus Mutter + Vater zusammensetzen
+    const elternNamen = [answers.fg_mutter_name, answers.fg_vater_name].filter(Boolean).join(" · ");
     writeBlock(
-      `${answers.fg_eltern_name || "[Name Eltern]"}\n${answers.fg_eltern_strasse || "[Straße]"}\n${answers.fg_eltern_plz_ort || "[PLZ Ort]"}`,
+      `${elternNamen || "[Name Eltern]"}\n${answers.fg_eltern_strasse || "[Straße]"}\n${answers.fg_eltern_plz_ort || "[PLZ Ort]"}`,
       { size: 10 },
     );
     y += 4;
@@ -103,10 +104,22 @@ export const FamiliengerichtForm = ({ answers, setAnswers }: Props) => {
       { spaceAfter: 8 },
     );
 
-    // Unterschrift
-    writeBlock("Mit freundlichen Grüßen", { spaceAfter: 12 });
-    writeBlock("________________________________   ________________________________");
-    writeBlock(`${answers.fg_mutter_name || "Mutter"}                    ${answers.fg_vater_name || "Vater"}`, { size: 9, spaceAfter: 4 });
+    // Unterschrift — manuelle 2-Spalten-Positionierung statt Spaces
+    writeBlock("Mit freundlichen Grüßen", { spaceAfter: 14 });
+    if (y > 268) {
+      doc.addPage();
+      y = 20;
+    }
+    const colMid = (left + right) / 2;
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "normal");
+    doc.text("________________________________", left, y);
+    doc.text("________________________________", colMid + 5, y);
+    y += 5;
+    doc.setFontSize(9);
+    doc.text(answers.fg_mutter_name || "Unterschrift Mutter / Sorgeberechtigte", left, y);
+    doc.text(answers.fg_vater_name || "Unterschrift Vater / Sorgeberechtigter", colMid + 5, y);
+    y += 8;
 
     // Anlagen
     if (y > 240) {
@@ -114,25 +127,17 @@ export const FamiliengerichtForm = ({ answers, setAnswers }: Props) => {
       y = 20;
     }
     writeBlock("Anlagen / Mitbringen:", { bold: true, size: 10, spaceAfter: 2 });
+    // ASCII-Bullet statt □ — das Unicode-Quadrat-Zeichen ist im Helvetica-Standard-Font nicht enthalten
+    // und rendert sonst als Garbage. "[ ]" sieht aus wie Checkbox.
     [
-      "□ Personalausweis des Kindes (Original)",
-      "□ Personalausweise / Pässe beider Eltern bzw. Sorgeberechtigten",
-      "□ Schriftliche Erlaubnis / Zustimmung der Sorgeberechtigten (Eltern) zum Erwerbsgeschäft",
-      "□ Schriftliche Erlaubnis der Schule / Klassenlehrer (bestätigt: Schulbesuch nicht gefährdet)",
-      "□ Business-Plan / Tätigkeitsbeschreibung mit Risikoanalyse",
-      "□ ggf. Geburtsurkunde des Kindes",
-      "□ ggf. Sorgerechtsbeschluss bei Alleinsorge",
+      "[ ] Personalausweis des Kindes (Original)",
+      "[ ] Personalausweise / Pässe beider Eltern bzw. Sorgeberechtigten",
+      "[ ] Schriftliche Erlaubnis / Zustimmung der Sorgeberechtigten (Eltern) zum Erwerbsgeschäft",
+      "[ ] Schriftliche Erlaubnis der Schule / Klassenlehrer (bestätigt: Schulbesuch nicht gefährdet)",
+      "[ ] Business-Plan / Tätigkeitsbeschreibung mit Risikoanalyse",
+      "[ ] ggf. Geburtsurkunde des Kindes",
+      "[ ] ggf. Sorgerechtsbeschluss bei Alleinsorge",
     ].forEach((t) => writeBlock(t, { size: 9 }));
-
-    y += 6;
-    doc.setFontSize(8);
-    doc.setTextColor(120);
-    doc.text(
-      "Disclaimer: Mustervorlage. Konkrete Formulierungen / Anforderungen variieren je Familiengericht. Im Zweifel mit einem Fachanwalt für Familienrecht klären — der Antrag entscheidet über die Geschäftsfähigkeit deines Kindes im Erwerbsbereich.",
-      left,
-      y,
-      { maxWidth: right - left },
-    );
 
     doc.save(`familiengericht-antrag-${(answers.fg_kind_name || "kind").toLowerCase().replace(/[^a-z0-9]/g, "-")}.pdf`);
   };
