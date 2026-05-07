@@ -113,14 +113,15 @@ export const FamiliengerichtForm = ({ answers, setAnswers }: Props) => {
       doc.addPage();
       y = 20;
     }
-    writeBlock("Anlagen:", { bold: true, size: 10, spaceAfter: 2 });
+    writeBlock("Anlagen / Mitbringen:", { bold: true, size: 10, spaceAfter: 2 });
     [
-      "□ Geburtsurkunde des Kindes",
-      "□ Personalausweise / Pässe der Eltern (Kopie)",
-      "□ ggf. Sorgerechtsbeschluss",
-      "□ Tätigkeitsbeschreibung mit Risikoanalyse (separates Dokument empfohlen)",
-      "□ Schulzeugnis (zur Bestätigung dass Schulbesuch nicht gefährdet)",
-      "□ ggf. Einverständniserklärung der Schule",
+      "□ Personalausweis des Kindes (Original)",
+      "□ Personalausweise / Pässe beider Eltern bzw. Sorgeberechtigten",
+      "□ Schriftliche Erlaubnis / Zustimmung der Sorgeberechtigten (Eltern) zum Erwerbsgeschäft",
+      "□ Schriftliche Erlaubnis der Schule / Klassenlehrer (bestätigt: Schulbesuch nicht gefährdet)",
+      "□ Business-Plan / Tätigkeitsbeschreibung mit Risikoanalyse",
+      "□ ggf. Geburtsurkunde des Kindes",
+      "□ ggf. Sorgerechtsbeschluss bei Alleinsorge",
     ].forEach((t) => writeBlock(t, { size: 9 }));
 
     y += 6;
@@ -172,15 +173,16 @@ export const FamiliengerichtForm = ({ answers, setAnswers }: Props) => {
         <div className="flex items-start gap-2">
           <Info className="h-4 w-4 text-accent-blue shrink-0 mt-0.5" />
           <div>
-            <div className="font-semibold mb-1">Was du brauchst:</div>
+            <div className="font-semibold mb-1">Was du mitbringen / vorlegen musst:</div>
             <ul className="list-disc pl-4 space-y-1 text-muted-foreground">
-              <li>Geburtsurkunde des Kindes (Original oder beglaubigte Kopie)</li>
-              <li>Personalausweise / Pässe beider Eltern</li>
-              <li>Bei Alleinsorge: Sorgerechtsbeschluss</li>
-              <li>Tätigkeitsbeschreibung mit Risikoanalyse</li>
-              <li>Schulzeugnis (zeigt: Schulbesuch nicht gefährdet)</li>
-              <li>Ggf. Einverständniserklärung der Schule</li>
-              <li>0 € — das Verfahren ist kostenlos (du bezahlst nur Zeit, keine Gerichtsgebühr)</li>
+              <li><strong>Personalausweis des Kindes</strong> (Original)</li>
+              <li><strong>Personalausweise / Pässe beider Eltern</strong> bzw. Sorgeberechtigten</li>
+              <li><strong>Schriftliche Erlaubnis der Sorgeberechtigten</strong> (Eltern-Zustimmung zum Erwerbsgeschäft — wird beim Antrag mit-unterschrieben)</li>
+              <li><strong>Schriftliche Erlaubnis der Schule / Klassenlehrer</strong> (bestätigt: Schulbesuch nicht gefährdet, Tätigkeit altersgerecht)</li>
+              <li><strong>Business-Plan / Tätigkeitsbeschreibung</strong> mit Risikoanalyse</li>
+              <li>ggf. Geburtsurkunde des Kindes</li>
+              <li>ggf. Sorgerechtsbeschluss bei Alleinsorge</li>
+              <li><strong>0 €</strong> — das Verfahren selbst ist kostenlos (du bezahlst nur Zeit, keine Gerichtsgebühr)</li>
             </ul>
           </div>
         </div>
