@@ -38,15 +38,21 @@ function stripTld(input: string): string {
   return lower;
 }
 
-// Sanitizer: erlaubt nur kleinbuchstaben, ziffern, hyphen
+// Sanitizer: erlaubt nur kleinbuchstaben, ziffern, hyphen.
+// WICHTIG: Umlaut-Replacement MUSS vor .normalize laufen, sonst wird "ä" zu "a" statt "ae"
+// (NFD zerlegt ä in a + combining-diaeresis, anschließendes Strippen der diakritischen Marker
+// macht aus ä ein "a" — und der spätere /ä/-Replace hat dann nichts mehr zu tun).
 function sanitize(input: string): string {
   return stripTld(input)
-    .normalize("NFD")
-    .replace(/[̀-ͯ]/g, "") // diakritische Zeichen entfernen
     .replace(/ä/g, "ae")
     .replace(/ö/g, "oe")
     .replace(/ü/g, "ue")
+    .replace(/Ä/g, "ae")
+    .replace(/Ö/g, "oe")
+    .replace(/Ü/g, "ue")
     .replace(/ß/g, "ss")
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "") // sonstige diakritische Zeichen (é, ñ, etc.) entfernen
     .replace(/[^a-z0-9-]/g, "")
     .replace(/^-+|-+$/g, "")
     .slice(0, 63);

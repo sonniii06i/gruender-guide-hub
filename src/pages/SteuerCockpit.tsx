@@ -201,9 +201,10 @@ const SteuerCockpit = () => {
     [legalForm, ustMode, dauerfrist, oss, zm, mitarbeiter],
   );
 
-  // IAB
+  // IAB — clamp auf [0, ∞) gegen negative Eingaben + cap bei 200k
   const [iabBasis, setIabBasis] = useState(80000);
-  const iab = Math.min(iabBasis * 0.5, 200000);
+  const iabBasisClamped = Math.max(0, iabBasis);
+  const iab = Math.min(iabBasisClamped * 0.5, 200000);
   const iabSteuer = iab * (legalForm === "gmbh" || legalForm === "ug" ? 0.30 : 0.42);
 
   // Quartal: Brutto/Netto-Logik
