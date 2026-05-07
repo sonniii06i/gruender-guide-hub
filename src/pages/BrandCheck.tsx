@@ -318,8 +318,9 @@ const BrandCheck = () => {
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                 {result.socials.map((s) => {
-                  // Backward-Kompat: wenn Backend "unknown" zurückgibt, treat wie "taken" (sicherer Default)
                   const isAvailable = s.status === "available";
+                  const isTaken = s.status === "taken";
+                  // Bei unknown: NEUTRAL zeigen — keine Falschaussage, User klickt selbst zum Profil
                   return (
                     <a
                       key={s.platform}
@@ -327,7 +328,11 @@ const BrandCheck = () => {
                       target="_blank"
                       rel="noreferrer noopener"
                       className={`rounded-xl border p-3 hover:opacity-80 transition-opacity block cursor-pointer ${
-                        isAvailable ? "border-emerald-500/30 bg-emerald-500/5" : "border-red-500/30 bg-red-500/5"
+                        isAvailable
+                          ? "border-emerald-500/30 bg-emerald-500/5"
+                          : isTaken
+                          ? "border-red-500/30 bg-red-500/5"
+                          : "border-border bg-secondary/40"
                       }`}
                     >
                       <div className="flex items-center justify-between gap-2 mb-1">
@@ -336,19 +341,26 @@ const BrandCheck = () => {
                           <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 text-emerald-600 px-2 py-0.5 text-[11px] font-semibold">
                             <CheckCircle2 className="h-3 w-3" /> Frei
                           </span>
-                        ) : (
+                        ) : isTaken ? (
                           <span className="inline-flex items-center gap-1 rounded-full bg-red-500/10 text-red-600 px-2 py-0.5 text-[11px] font-semibold">
                             <XCircle className="h-3 w-3" /> Vergeben
                           </span>
+                        ) : (
+                          <span className="inline-flex items-center gap-1 rounded-full bg-secondary text-muted-foreground px-2 py-0.5 text-[11px] font-semibold">
+                            <ExternalLink className="h-3 w-3" /> Bitte klicken
+                          </span>
                         )}
                       </div>
-                      <div className="text-[11px] text-muted-foreground">{s.platform}</div>
+                      <div className="text-[11px] text-muted-foreground">
+                        {s.platform}
+                        {!isAvailable && !isTaken && " · Plattform geblockt – manuell prüfen"}
+                      </div>
                     </a>
                   );
                 })}
               </div>
               <div className="text-[11px] text-muted-foreground mt-2">
-                Klick öffnet die Profil-URL.
+                Klick öffnet die Profil-URL. Status = harte Prüfung pro Plattform-API (GitHub REST · Instagram Web-Profile-API · TikTok HTML · YouTube · Twitter Syndication).
               </div>
             </div>
           )}

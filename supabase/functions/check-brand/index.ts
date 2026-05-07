@@ -314,7 +314,7 @@ async function checkTrademark(query: string): Promise<TrademarkResult> {
 }
 
 // ============================================================
-// Social-Handle-Checks
+// Social-Handle-Checks — pro Plattform die zuverlässigste Methode
 // ============================================================
 
 interface SocialResult {
@@ -322,55 +322,171 @@ interface SocialResult {
   handle: string;
   url: string;
   status: "available" | "taken" | "unknown";
-  note?: string;
 }
 
-const SOCIAL_PLATFORMS: { key: string; label: string; url: (h: string) => string; takenStatuses: number[]; freeStatuses: number[] }[] = [
-  // Instagram: 200 = existiert, 404 = frei, 401 = Login-Wall (oft auch "existiert")
-  { key: "instagram", label: "Instagram", url: (h) => `https://www.instagram.com/${h}/`, takenStatuses: [200, 401], freeStatuses: [404] },
-  // TikTok: ähnlich
-  { key: "tiktok", label: "TikTok", url: (h) => `https://www.tiktok.com/@${h}`, takenStatuses: [200], freeStatuses: [404] },
-  // YouTube @-Handles (seit 2023)
-  { key: "youtube", label: "YouTube", url: (h) => `https://www.youtube.com/@${h}`, takenStatuses: [200], freeStatuses: [404] },
-  // X / Twitter: hat aggressiven Bot-Schutz, oft 200 mit Login-Wall
-  { key: "x", label: "X (Twitter)", url: (h) => `https://x.com/${h}`, takenStatuses: [200], freeStatuses: [404] },
-  // GitHub: 200 = existiert, 404 = frei
-  { key: "github", label: "GitHub", url: (h) => `https://github.com/${h}`, takenStatuses: [200], freeStatuses: [404] },
-];
+const BROWSER_UA =
+  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.2 Safari/605.1.15";
 
-async function checkSocialHandle(name: string, p: typeof SOCIAL_PLATFORMS[0]): Promise<SocialResult> {
-  const handle = name; // sanitized stripped Sonderzeichen, aber Social-Handles brauchen das
-  const url = p.url(handle);
-  const result: SocialResult = { platform: p.label, handle, url, status: "taken" };
+/**
+ * GitHub: REST API — definitive, public, kein Auth.
+ * 200 = existiert (taken). 404 = nicht (available).
+ */
+async function checkGithub(handle: string): Promise<SocialResult> {
+  const url = `https://github.com/${handle}`;
+  const result: SocialResult = { platform: "GitHub", handle, url, status: "unknown" };
   try {
     const ctrl = new AbortController();
     const t = setTimeout(() => ctrl.abort(), 5000);
-    const resp = await fetch(url, {
-      method: "GET",
+    const resp = await fetch(`https://api.github.com/users/${encodeURIComponent(handle)}`, {
+      headers: { Accept: "application/vnd.github+json", "User-Agent": "GruenderX-Brand-Check" },
+      signal: ctrl.signal,
+    });
+    clearTimeout(t);
+    if (resp.status === 200) result.status = "taken";
+    else if (resp.status === 404) result.status = "available";
+  } catch {}
+  return result;
+}
+
+/**
+ * Instagram: Web-Profile-Info-Endpoint mit X-IG-App-ID Header (offiziell von der Web-App genutzt).
+ * Liefert sauberes JSON, 200 = User existiert, 404 = nicht.
+ */
+async function checkInstagram(handle: string): Promise<SocialResult> {
+  const url = `https://www.instagram.com/${handle}/`;
+  const result: SocialResult = { platform: "Instagram", handle, url, status: "unknown" };
+  try {
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), 6000);
+    const resp = await fetch(`https://www.instagram.com/api/v1/users/web_profile_info/?username=${encodeURIComponent(handle)}`, {
       headers: {
-        "User-Agent": "Mozilla/5.0 (compatible; GruenderX-Brand-Check/1.0)",
-        Accept: "text/html,application/xhtml+xml",
+        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko)",
+        "X-IG-App-ID": "936619743392459",
+        Accept: "*/*",
       },
+      signal: ctrl.signal,
+    });
+    clearTimeout(t);
+    if (resp.status === 404) {
+      result.status = "available";
+    } else if (resp.status === 200) {
+      const data = await resp.json().catch(() => null);
+      if (data?.data?.user) result.status = "taken";
+      else if (data?.data?.user === null) result.status = "available";
+    }
+  } catch {}
+  return result;
+}
+
+/**
+ * TikTok: HTML-Scrape — wenn "user-info-error" oder "Couldn't find this account" → frei.
+ * Sonst → vergeben.
+ */
+async function checkTiktok(handle: string): Promise<SocialResult> {
+  const url = `https://www.tiktok.com/@${handle}`;
+  const result: SocialResult = { platform: "TikTok", handle, url, status: "unknown" };
+  try {
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), 7000);
+    const resp = await fetch(url, {
+      headers: { "User-Agent": BROWSER_UA, Accept: "text/html" },
+      signal: ctrl.signal,
+    });
+    clearTimeout(t);
+    if (resp.status === 404) {
+      result.status = "available";
+      return result;
+    }
+    if (resp.status === 200) {
+      const html = await resp.text();
+      // TikTok zeigt "Couldn't find this account" bei nicht-existenten Profilen MIT 200-Status
+      if (/Couldn['']t find this account|user-info-error/i.test(html)) {
+        result.status = "available";
+      } else if (/uniqueId|user@id|"user":\s*\{/i.test(html)) {
+        result.status = "taken";
+      }
+    }
+  } catch {}
+  return result;
+}
+
+/**
+ * YouTube: Wenn @-Handle existiert, antwortet die Page mit 200 + Channel-Daten.
+ * Bei nicht existierendem Handle: 404 oder Redirect zu Suchseite.
+ */
+async function checkYoutube(handle: string): Promise<SocialResult> {
+  const url = `https://www.youtube.com/@${handle}`;
+  const result: SocialResult = { platform: "YouTube", handle, url, status: "unknown" };
+  try {
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), 7000);
+    const resp = await fetch(url, {
+      headers: { "User-Agent": BROWSER_UA, Accept: "text/html" },
       signal: ctrl.signal,
       redirect: "manual",
     });
     clearTimeout(t);
-    // Eindeutige Logik:
-    // - 404 explizit → "available" (frei)
-    // - alles andere (200, 301/302 redirect, 401 login-wall, 5xx) → "taken" (vergeben)
-    //   weil bei aktiver Plattform jede Antwort != 404 bedeutet, dass das Profil existiert
-    //   bzw. der Username reserviert ist.
-    if (p.freeStatuses.includes(resp.status)) {
+    if (resp.status === 404) {
       result.status = "available";
-    } else {
-      result.status = "taken";
+    } else if (resp.status === 200) {
+      const html = await resp.text();
+      // Wenn der Handle nicht existiert, bekommt man eine Generic-Error- oder Search-Page
+      if (/This channel does not exist|404 Not Found|"alerts":\s*\[\{/.test(html) && !/"channelMetadataRenderer"/.test(html)) {
+        result.status = "available";
+      } else if (/"channelMetadataRenderer"|"externalId":\s*"UC/.test(html)) {
+        result.status = "taken";
+      }
+    } else if (resp.status >= 300 && resp.status < 400) {
+      // Redirect typisch zu Suche → frei
+      result.status = "available";
     }
-  } catch {
-    // Timeout / Network-Fail → safe default "taken" (lieber zu vorsichtig als falsch-frei)
-    result.status = "taken";
-  }
+  } catch {}
   return result;
 }
+
+/**
+ * X / Twitter: Twitter Syndication-Endpoint ist public und liefert 404 bei nicht existentem User.
+ * https://syndication.twitter.com/srv/timeline-profile/screen-name/{username}
+ */
+async function checkX(handle: string): Promise<SocialResult> {
+  const url = `https://x.com/${handle}`;
+  const result: SocialResult = { platform: "X (Twitter)", handle, url, status: "unknown" };
+  try {
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), 6000);
+    const resp = await fetch(`https://syndication.twitter.com/srv/timeline-profile/screen-name/${encodeURIComponent(handle)}`, {
+      headers: { "User-Agent": BROWSER_UA, Accept: "text/html" },
+      signal: ctrl.signal,
+    });
+    clearTimeout(t);
+    if (resp.status === 404) {
+      result.status = "available";
+    } else if (resp.status === 200) {
+      const html = await resp.text();
+      // Wenn User existiert, enthält die Page das __INITIAL_STATE__ mit User-Daten.
+      // Wenn User nicht existiert, ist das State-Objekt leer.
+      if (/"screen_name":\s*"/i.test(html)) {
+        result.status = "taken";
+      } else if (/SuspendedNotice|UserUnavailable|"errors":\s*\[/i.test(html)) {
+        result.status = "available";
+      } else if (html.length < 5000) {
+        // Sehr kurze Antwort = leerer Profil-State = frei
+        result.status = "available";
+      } else {
+        result.status = "taken";
+      }
+    }
+  } catch {}
+  return result;
+}
+
+const SOCIAL_CHECKERS: ((handle: string) => Promise<SocialResult>)[] = [
+  checkInstagram,
+  checkTiktok,
+  checkYoutube,
+  checkX,
+  checkGithub,
+];
 
 // ============================================================
 // App-Store-Checks
@@ -452,7 +568,7 @@ serve(async (req) => {
     // Domains + Social + App-Store + Trademark parallel prüfen
     const [domainResults, socialResults, appStoreResult, trademarkResult] = await Promise.all([
       Promise.all(TLD_CHECKS.map((c) => checkDomain(sanitized, c))),
-      Promise.all(SOCIAL_PLATFORMS.map((p) => checkSocialHandle(sanitized, p))),
+      Promise.all(SOCIAL_CHECKERS.map((fn) => fn(sanitized))),
       checkAppStore(cleanQuery),
       checkTrademark(cleanQuery),
     ]);
