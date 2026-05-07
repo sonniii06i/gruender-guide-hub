@@ -236,9 +236,11 @@ async function tryTmview(query: string, userAgent: string, timeoutMs: number): P
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
         Accept: "application/json",
+        "Accept-Language": "de-DE,de;q=0.9,en;q=0.8",
         "User-Agent": userAgent,
         Origin: "https://www.tmdn.org",
         Referer: "https://www.tmdn.org/tmview/",
+        "X-Requested-With": "XMLHttpRequest",
       },
       body: new URLSearchParams({
         page: "1",
@@ -253,12 +255,52 @@ async function tryTmview(query: string, userAgent: string, timeoutMs: number): P
     });
     clearTimeout(t);
     if (!resp.ok) {
-      console.warn(`TMView HTTP ${resp.status}`);
+      console.warn(`TMView HTTP ${resp.status} body:`, (await resp.text().catch(() => "")).slice(0, 200));
       return null;
     }
-    return await resp.json();
+    const data = await resp.json();
+    console.log(`TMView ok: ${data?.totalResults ?? data?.tradeMarks?.length ?? 0} hits`);
+    return data;
   } catch (e) {
     console.warn("TMView attempt fehlgeschlagen:", e);
+    return null;
+  }
+}
+
+/** WIPO Global Brand Database (3. Datenquelle, JSON-API). */
+async function tryWipo(query: string): Promise<{ totalHits: number; hits: TrademarkHit[] } | null> {
+  try {
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), 10000);
+    const url = `https://branddb.wipo.int/branddb/api/?fq=brandName:${encodeURIComponent(query)}&limit=20`;
+    const resp = await fetch(url, {
+      headers: {
+        Accept: "application/json",
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 Safari/605.1.15",
+      },
+      signal: ctrl.signal,
+    });
+    clearTimeout(t);
+    if (!resp.ok) {
+      console.warn(`WIPO HTTP ${resp.status}`);
+      return null;
+    }
+    const data = await resp.json();
+    const docs: any[] = data?.response?.docs ?? data?.docs ?? [];
+    const totalHits: number = data?.response?.numFound ?? data?.numFound ?? docs.length;
+    const hits: TrademarkHit[] = docs.slice(0, 10).map((d: any) => ({
+      name: d.brandName ?? d.t1 ?? query,
+      office: d.officeName ?? d.so ?? "WIPO",
+      applicationNumber: d.applicationNumber ?? d.an,
+      classes: d.niceClass ? String(d.niceClass).split(",").map((s: string) => s.trim()) : undefined,
+      status: d.statusCode ?? d.st,
+      applicant: d.applicantName ?? d.cn,
+      searchUrl: `https://branddb.wipo.int/en/quicksearch/results?fq=brandName:${encodeURIComponent(query)}`,
+    }));
+    console.log(`WIPO ok: ${totalHits} hits`);
+    return { totalHits, hits };
+  } catch (e) {
+    console.warn("WIPO fehlgeschlagen:", e);
     return null;
   }
 }
@@ -274,57 +316,72 @@ interface TrademarkHit {
 }
 
 /**
- * DPMA-Register HTML-Scrape als Fallback (DPMA ist offen ohne WAF, sehr zuverlässig).
- * Liefert Anzahl Treffer + Top-Hits mit Anmeldenummer + Status.
+ * DPMA-Register Einsteigersuche: stabilstes Endpoint für freie Wortsuche.
+ * Liefert HTML-Trefferliste, parsed Treffer-Anzahl + Anmeldenummern + Marken-Namen.
  */
 async function tryDpmaScrape(query: string): Promise<{ totalHits: number; hits: TrademarkHit[] } | null> {
   try {
     const ctrl = new AbortController();
-    const t = setTimeout(() => ctrl.abort(), 10000);
-    const url = `https://register.dpma.de/DPMAregister/marke/trefferliste?queryString=${encodeURIComponent(query)}`;
+    const t = setTimeout(() => ctrl.abort(), 12000);
+    // Einsteigersuche akzeptiert direkten Wortsuche-Pattern
+    const url = `https://register.dpma.de/DPMAregister/marke/trefferliste?queryString=${encodeURIComponent(query)}&docId=&queryStringSchutzformen=&queryStringSchutzformenSearchOption=AND`;
     const resp = await fetch(url, {
       headers: {
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.2 Safari/605.1.15",
-        Accept: "text/html,application/xhtml+xml",
+        Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
         "Accept-Language": "de-DE,de;q=0.9,en;q=0.8",
+        Referer: "https://register.dpma.de/DPMAregister/marke/einsteiger",
       },
       signal: ctrl.signal,
     });
-    clearTimeout(t);
-    if (!resp.ok) return null;
+    if (!resp.ok) {
+      console.warn(`DPMA HTTP ${resp.status}`);
+      clearTimeout(t);
+      return null;
+    }
     const html = await resp.text();
+    clearTimeout(t);
 
-    // Anzahl Treffer aus dem HTML parsen
-    // DPMA-Register zeigt typisch "X Treffer" oder bei 0 "Keine Treffer"
+    // Anzahl Treffer aus dem HTML parsen — DPMA-Register zeigt "X Treffer" oder "Keine Treffer"
     let totalHits = 0;
-    const hitsMatch = html.match(/(\d+)\s*Treffer\b/i);
+    const hitsMatch =
+      html.match(/(\d+(?:\.\d{3})*)\s*Treffer\b/i) ||
+      html.match(/Treffer:\s*(\d+(?:\.\d{3})*)/i) ||
+      html.match(/von\s+(\d+(?:\.\d{3})*)\s+Treffern/i);
     if (hitsMatch) {
-      totalHits = parseInt(hitsMatch[1], 10);
-    } else if (/Keine Treffer|kein Treffer/i.test(html)) {
+      totalHits = parseInt(hitsMatch[1].replace(/\./g, ""), 10);
+    } else if (/Keine Treffer|0 Treffer|kein Treffer/i.test(html)) {
       totalHits = 0;
-    } else {
-      // Trefferliste-Tabelle vorhanden? Zähle <tr> mit Akten-Nummer-Pattern (z.B. 30 2024 123 456)
-      const rowMatches = html.match(/\d{6,}\s*\d{4}\s*\d+/g);
-      if (rowMatches) totalHits = rowMatches.length;
     }
 
-    // Hits parsen (max. 10) — Anmeldenummern + Wortmarken-Namen
+    // Hits parsen — DPMA-HTML hat <a href="../register/{id}/DE">Wortmarke</a>
+    // Mehrere mögliche Pattern probieren
     const hits: TrademarkHit[] = [];
-    // Pattern: Anmelde-Nr im <a href="register/300012345/DE"> + Wortmarke im selben <tr>
-    const linkRe = /<a[^>]+href="[^"]*\/marke\/register\/([^"\/]+)\/DE"[^>]*>([^<]+)<\/a>/gi;
-    let m: RegExpExecArray | null;
-    while ((m = linkRe.exec(html)) !== null && hits.length < 10) {
-      const applicationNumber = m[1];
-      const name = m[2].trim();
-      if (!name || name.length < 2) continue;
-      hits.push({
-        name,
-        office: "DPMA (DE)",
-        applicationNumber,
-        searchUrl: `https://register.dpma.de/DPMAregister/marke/register/${applicationNumber}/DE`,
-      });
+    const patterns = [
+      /<a[^>]+href="[^"]*\/marke\/register\/([^"\/]+)\/DE"[^>]*>\s*([^<]{2,80})\s*<\/a>/gi,
+      /<a[^>]+href="\.\.\/register\/([^"\/]+)\/DE"[^>]*>\s*([^<]{2,80})\s*<\/a>/gi,
+      /href="[^"]*\/register\/([0-9A-Z]+)\/DE"[^>]*>\s*([^<\n]{2,80})/gi,
+    ];
+    for (const re of patterns) {
+      let m: RegExpExecArray | null;
+      while ((m = re.exec(html)) !== null && hits.length < 10) {
+        const applicationNumber = m[1].replace(/\s+/g, "");
+        const name = m[2].replace(/&[a-z]+;/gi, "").trim();
+        if (!name || name.length < 2 || hits.some((h) => h.applicationNumber === applicationNumber)) continue;
+        hits.push({
+          name,
+          office: "DPMA (DE)",
+          applicationNumber,
+          searchUrl: `https://register.dpma.de/DPMAregister/marke/register/${applicationNumber}/DE`,
+        });
+      }
+      if (hits.length > 0) break;
     }
 
+    // Wenn wir Hits haben aber totalHits noch 0 (Pattern verfehlt), nimm hits.length als Untergrenze
+    if (hits.length > totalHits) totalHits = hits.length;
+
+    console.log(`DPMA ok: ${totalHits} hits, ${hits.length} parsed`);
     return { totalHits, hits };
   } catch (e) {
     console.warn("DPMA-Scrape fehlgeschlagen:", e);
@@ -346,13 +403,13 @@ async function checkTrademark(query: string): Promise<TrademarkResult> {
     ],
   };
 
-  // TMView + DPMA-Scrape parallel
+  // 3 Quellen parallel: TMView, DPMA-Scrape, WIPO
   const userAgents = [
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36",
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.2 Safari/605.1.15",
   ];
 
-  const [tmviewData, dpmaData] = await Promise.all([
+  const [tmviewData, dpmaData, wipoData] = await Promise.all([
     (async () => {
       for (const ua of userAgents) {
         const d = await tryTmview(query, ua, 10000);
@@ -362,13 +419,17 @@ async function checkTrademark(query: string): Promise<TrademarkResult> {
       return null;
     })(),
     tryDpmaScrape(query),
+    tryWipo(query),
   ]);
 
-  // Merge: bevorzuge TMView (mehr Detail), aber wenn nur DPMA verfügbar, nimm DPMA
+  // Priorität: TMView > DPMA > WIPO. Aber wenn höhere Quelle 0 Hits zeigt und niedrigere
+  // Hits hat → benutze niedrigere (TMView kann Sync-Lag haben).
+  let chosen: { source: string; totalHits: number; hits: TrademarkHit[] } | null = null;
+
   if (tmviewData) {
-    result.totalHits = tmviewData?.tradeMarks?.length ?? tmviewData?.totalResults ?? 0;
+    const total = tmviewData?.totalResults ?? tmviewData?.tradeMarks?.length ?? 0;
     const list: any[] = Array.isArray(tmviewData?.tradeMarks) ? tmviewData.tradeMarks.slice(0, 20) : [];
-    result.hits = list.map((tm: any) => ({
+    const hits: TrademarkHit[] = list.map((tm: any) => ({
       name: tm.tmName ?? query,
       office: tm.officeCode === "EM" ? "EUIPO (EU)" : tm.officeCode === "DE" ? "DPMA (DE)" : tm.officeCode,
       applicationNumber: tm.applicationNumber ?? tm.registrationNumber,
@@ -382,13 +443,37 @@ async function checkTrademark(query: string): Promise<TrademarkResult> {
             ? `https://register.dpma.de/DPMAregister/marke/register/${tm.applicationNumber}/DE`
             : result.searchLinks[2].url,
     }));
-    result.source = "TMView (EUIPO + DPMA)";
-  } else if (dpmaData) {
-    result.totalHits = dpmaData.totalHits;
-    result.hits = dpmaData.hits;
-    result.source = "DPMA Register (TMView nicht erreichbar)";
+    chosen = { source: "TMView (EUIPO + DPMA)", totalHits: total, hits };
   }
-  // Wenn beide fehlschlagen: result.totalHits bleibt null → UI zeigt manuelle Such-Links
+
+  // Wenn TMView 0 Hits aber DPMA Hits → DPMA bevorzugen (DPMA aktueller bei DE-Anmeldungen)
+  if (dpmaData && (chosen === null || (chosen.totalHits === 0 && dpmaData.totalHits > 0))) {
+    chosen = {
+      source: chosen ? "DPMA Register (mehr Treffer als TMView)" : "DPMA Register",
+      totalHits: dpmaData.totalHits,
+      hits: dpmaData.hits,
+    };
+  }
+
+  // WIPO als 3. Quelle wenn andere keine Hits liefern
+  if (wipoData && (chosen === null || chosen.totalHits === 0)) {
+    if (wipoData.totalHits > 0) {
+      chosen = {
+        source: "WIPO Global Brand Database",
+        totalHits: wipoData.totalHits,
+        hits: wipoData.hits,
+      };
+    } else if (chosen === null) {
+      chosen = { source: "WIPO Global Brand Database", totalHits: 0, hits: [] };
+    }
+  }
+
+  if (chosen) {
+    result.source = chosen.source;
+    result.totalHits = chosen.totalHits;
+    result.hits = chosen.hits;
+  }
+  // Wenn alle 3 Quellen fehlen: result.totalHits bleibt null → UI zeigt manuelle Such-Links
 
   return result;
 }
