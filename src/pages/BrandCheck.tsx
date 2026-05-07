@@ -8,10 +8,12 @@ import { supabase } from "@/integrations/supabase/client";
 interface DomainResult {
   tld: string;
   fullDomain: string;
-  available: boolean | null;
+  available: boolean;
   registrar?: string;
   expirationDate?: string;
   label: string;
+  actionUrl: string;
+  source?: string;
 }
 
 interface TrademarkHit {
@@ -66,46 +68,53 @@ interface CheckResult {
 }
 
 const DomainBadge = ({ d }: { d: DomainResult }) => {
-  if (d.available === true) {
+  if (d.available) {
     return (
-      <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-3">
+      <a
+        href={d.actionUrl}
+        target="_blank"
+        rel="noreferrer noopener"
+        className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 hover:bg-emerald-500/10 hover:border-emerald-500/50 p-3 block transition-colors group"
+      >
         <div className="flex items-center justify-between gap-2 mb-1">
           <code className="font-mono text-sm font-bold">{d.fullDomain}</code>
           <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 text-emerald-600 px-2 py-0.5 text-[11px] font-semibold">
             <CheckCircle2 className="h-3 w-3" /> Verfügbar
           </span>
         </div>
-        <div className="text-[11px] text-muted-foreground">{d.label}</div>
-      </div>
-    );
-  }
-  if (d.available === false) {
-    return (
-      <div className="rounded-xl border border-red-500/30 bg-red-500/5 p-3">
-        <div className="flex items-center justify-between gap-2 mb-1">
-          <code className="font-mono text-sm font-bold">{d.fullDomain}</code>
-          <span className="inline-flex items-center gap-1 rounded-full bg-red-500/10 text-red-600 px-2 py-0.5 text-[11px] font-semibold">
-            <XCircle className="h-3 w-3" /> Vergeben
+        <div className="text-[11px] text-muted-foreground flex items-center gap-1">
+          <span>{d.label}</span>
+          <span className="text-accent-blue ml-auto opacity-0 group-hover:opacity-100 transition-opacity">
+            Bei INWX kaufen <ExternalLink className="h-3 w-3 inline" />
           </span>
         </div>
-        <div className="text-[11px] text-muted-foreground">
-          {d.label}
-          {d.registrar && ` · Registrar: ${d.registrar}`}
-          {d.expirationDate && ` · läuft ab: ${new Date(d.expirationDate).toLocaleDateString("de-DE")}`}
-        </div>
-      </div>
+      </a>
     );
   }
   return (
-    <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-3">
+    <a
+      href={d.actionUrl}
+      target="_blank"
+      rel="noreferrer noopener"
+      className="rounded-xl border border-red-500/30 bg-red-500/5 hover:bg-red-500/10 hover:border-red-500/50 p-3 block transition-colors group"
+    >
       <div className="flex items-center justify-between gap-2 mb-1">
         <code className="font-mono text-sm font-bold">{d.fullDomain}</code>
-        <span className="inline-flex items-center gap-1 rounded-full bg-amber-500/10 text-amber-700 px-2 py-0.5 text-[11px] font-semibold">
-          <AlertCircle className="h-3 w-3" /> Unklar
+        <span className="inline-flex items-center gap-1 rounded-full bg-red-500/10 text-red-600 px-2 py-0.5 text-[11px] font-semibold">
+          <XCircle className="h-3 w-3" /> Vergeben
         </span>
       </div>
-      <div className="text-[11px] text-muted-foreground">{d.label} · RDAP-Endpoint nicht erreichbar — manuell prüfen</div>
-    </div>
+      <div className="text-[11px] text-muted-foreground flex items-center gap-1">
+        <span className="truncate">
+          {d.label}
+          {d.registrar && ` · ${d.registrar}`}
+          {d.expirationDate && ` · läuft ab ${new Date(d.expirationDate).toLocaleDateString("de-DE")}`}
+        </span>
+        <span className="text-accent-blue ml-auto opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
+          Live ansehen <ExternalLink className="h-3 w-3 inline" />
+        </span>
+      </div>
+    </a>
   );
 };
 
@@ -284,7 +293,7 @@ const BrandCheck = () => {
               ))}
             </div>
             <div className="text-[11px] text-muted-foreground mt-2">
-              Quelle: RDAP (Registry-direkt). Status „Unklar" = Endpoint hat nicht geantwortet, manuell prüfen.
+              Quelle: DNS-over-HTTPS (Google + Cloudflare als Fallback) für Verfügbarkeit · RDAP für Registrar-/Ablauf-Details. Klick öffnet bei Verfügbar einen Bestell-Link bei INWX, bei Vergeben die Live-URL der Domain.
             </div>
           </div>
 

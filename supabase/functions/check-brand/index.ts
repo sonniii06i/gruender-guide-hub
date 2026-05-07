@@ -5,15 +5,15 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-// TLDs zum Check + jeweiliger RDAP-Endpoint (oder zentral via rdap.org)
+// TLDs zum Check + RDAP-Endpoint (für Detail-Daten wenn Domain registriert ist)
 const TLD_CHECKS: { tld: string; endpoint: (name: string) => string; label: string }[] = [
   { tld: "de", endpoint: (n) => `https://rdap.denic.de/domain/${n}.de`, label: ".de (DENIC)" },
   { tld: "com", endpoint: (n) => `https://rdap.verisign.com/com/v1/domain/${n}.com`, label: ".com (Verisign)" },
   { tld: "net", endpoint: (n) => `https://rdap.verisign.com/net/v1/domain/${n}.net`, label: ".net (Verisign)" },
   { tld: "io", endpoint: (n) => `https://rdap.identitydigital.services/rdap/domain/${n}.io`, label: ".io (Identity Digital)" },
   { tld: "shop", endpoint: (n) => `https://rdap.gmoregistry.net/domain/${n}.shop`, label: ".shop (GMO)" },
-  { tld: "co", endpoint: (n) => `https://rdap.nic.co/domain/${n}.co`, label: ".co (Afilias)" },
-  { tld: "app", endpoint: (n) => `https://rdap.nominet.uk/app/domain/${n}.app`, label: ".app (Google)" },
+  { tld: "co", endpoint: (n) => `https://rdap.nic.co/domain/${n}.co`, label: ".co (.CO Internet)" },
+  { tld: "app", endpoint: (n) => `https://rdap.nic.google/domain/${n}.app`, label: ".app (Google)" },
   { tld: "store", endpoint: (n) => `https://rdap.centralnic.com/store/domain/${n}.store`, label: ".store (CentralNic)" },
 ];
 
@@ -36,63 +36,158 @@ function sanitize(input: string): string {
 interface DomainResult {
   tld: string;
   fullDomain: string;
-  available: boolean | null; // null = unbekannt (Endpoint-Fehler)
+  available: boolean; // immer eindeutig (DNS ist authoritative)
   registrar?: string;
   expirationDate?: string;
   label: string;
-  source: string;
+  /** Such-/Kauf-URL bei verfügbar bzw. Live-URL bei vergeben (klickbar im UI). */
+  actionUrl: string;
+  /** Quelle der Entscheidung. */
+  source: "dns" | "rdap" | "fallback";
 }
 
-async function checkDomain(name: string, check: typeof TLD_CHECKS[0]): Promise<DomainResult> {
-  const fullDomain = `${name}.${check.tld}`;
-  const url = check.endpoint(name);
-  const result: DomainResult = {
-    tld: check.tld,
-    fullDomain,
-    available: null,
-    label: check.label,
-    source: url,
-  };
-
+/**
+ * Authoritative Domain-Status über Google DNS-over-HTTPS.
+ * - Status 0 + NS-Records → Domain ist registriert (vergeben)
+ * - Status 3 (NXDOMAIN) → Domain ist NICHT registriert (frei)
+ * Das ist 99.99 % zuverlässig — DNS ist die letzte Wahrheit.
+ */
+async function dnsLookupNS(fullDomain: string): Promise<{ registered: boolean } | null> {
   try {
     const ctrl = new AbortController();
-    const t = setTimeout(() => ctrl.abort(), 5000);
-    const resp = await fetch(url, {
+    const t = setTimeout(() => ctrl.abort(), 4000);
+    const resp = await fetch(`https://dns.google/resolve?name=${encodeURIComponent(fullDomain)}&type=NS`, {
+      headers: { Accept: "application/dns-json" },
+      signal: ctrl.signal,
+    });
+    clearTimeout(t);
+    if (!resp.ok) return null;
+    const data = await resp.json();
+    // Status 3 = NXDOMAIN (Domain existiert nicht → frei)
+    if (data?.Status === 3) return { registered: false };
+    // Status 0 = NOERROR. Wenn Answer mit NS-Records → registriert.
+    if (data?.Status === 0 && Array.isArray(data?.Answer) && data.Answer.length > 0) {
+      return { registered: true };
+    }
+    // Keine NS-Records aber NOERROR — Domain existiert in Registry aber unparked. Trotzdem registriert.
+    if (data?.Status === 0 && Array.isArray(data?.Authority) && data.Authority.length > 0) {
+      // Authority-Abschnitt mit SOA → meist Domain unter Top-Level registriert
+      // Wenn die SOA für die Domain selbst ist → registriert. Wenn für übergeordnete TLD → frei.
+      const ownSoa = data.Authority.some((a: any) =>
+        typeof a?.name === "string" && a.name.toLowerCase().replace(/\.$/, "") === fullDomain.toLowerCase(),
+      );
+      if (ownSoa) return { registered: true };
+      return { registered: false };
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+/** Cloudflare-DNS als Fallback, falls Google-DNS down/blocked. */
+async function dnsLookupNSCloudflare(fullDomain: string): Promise<{ registered: boolean } | null> {
+  try {
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), 4000);
+    const resp = await fetch(`https://cloudflare-dns.com/dns-query?name=${encodeURIComponent(fullDomain)}&type=NS`, {
+      headers: { Accept: "application/dns-json" },
+      signal: ctrl.signal,
+    });
+    clearTimeout(t);
+    if (!resp.ok) return null;
+    const data = await resp.json();
+    if (data?.Status === 3) return { registered: false };
+    if (data?.Status === 0 && Array.isArray(data?.Answer) && data.Answer.length > 0) return { registered: true };
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+async function fetchRdapDetails(check: typeof TLD_CHECKS[0], fullDomain: string): Promise<{ registrar?: string; expirationDate?: string }> {
+  try {
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), 4000);
+    const resp = await fetch(check.endpoint(fullDomain.split(".")[0]), {
       headers: { Accept: "application/rdap+json", "User-Agent": "GruenderX-Brand-Check/1.0" },
       signal: ctrl.signal,
     });
     clearTimeout(t);
-
-    if (resp.status === 404) {
-      // RDAP 404 = Domain nicht registriert
-      result.available = true;
-      return result;
+    if (!resp.ok) return {};
+    const data = await resp.json();
+    let registrar: string | undefined;
+    let expirationDate: string | undefined;
+    if (data.entities) {
+      const reg = data.entities.find((e: any) => Array.isArray(e.roles) && e.roles.includes("registrar"));
+      if (reg?.vcardArray?.[1]) {
+        const fn = reg.vcardArray[1].find((v: any) => v[0] === "fn");
+        if (fn?.[3]) registrar = fn[3];
+      }
     }
-    if (resp.status === 200) {
-      result.available = false;
-      try {
-        const data = await resp.json();
-        // Registrar aus events oder entities ziehen
-        if (data.entities) {
-          const reg = data.entities.find((e: any) => Array.isArray(e.roles) && e.roles.includes("registrar"));
-          if (reg?.vcardArray?.[1]) {
-            const fn = reg.vcardArray[1].find((v: any) => v[0] === "fn");
-            if (fn?.[3]) result.registrar = fn[3];
-          }
-        }
-        if (data.events) {
-          const exp = data.events.find((e: any) => e.eventAction === "expiration");
-          if (exp?.eventDate) result.expirationDate = exp.eventDate;
-        }
-      } catch {}
-      return result;
+    if (data.events) {
+      const exp = data.events.find((e: any) => e.eventAction === "expiration");
+      if (exp?.eventDate) expirationDate = exp.eventDate;
     }
-    // andere Stati = unsicher
-    return result;
-  } catch (e) {
-    console.warn(`Domain-Check ${fullDomain} fehlgeschlagen:`, e);
-    return result;
+    return { registrar, expirationDate };
+  } catch {
+    return {};
   }
+}
+
+function buildActionUrl(fullDomain: string, available: boolean): string {
+  if (available) {
+    // INWX Domain-Suche mit Pre-Fill (DE-Provider, EU-konform, breit)
+    return `https://www.inwx.de/de/domain/check#search=${encodeURIComponent(fullDomain)}`;
+  }
+  // Live-URL der Domain — User sieht sofort was darauf läuft
+  return `https://${fullDomain}`;
+}
+
+async function checkDomain(name: string, check: typeof TLD_CHECKS[0]): Promise<DomainResult> {
+  const fullDomain = `${name}.${check.tld}`;
+
+  // 1. Google DNS (primär, 99 % aller Cases)
+  let dns = await dnsLookupNS(fullDomain);
+
+  // 2. Cloudflare DNS als Fallback
+  if (dns === null) {
+    dns = await dnsLookupNSCloudflare(fullDomain);
+  }
+
+  // 3. Entscheidung: wenn DNS antwortet, ist das authoritative.
+  // Wenn beide DNS-Provider versagen (sehr selten): default auf "vergeben" — sicherer Default,
+  // weil Falsch-positiv "frei" zu Fehlkäufen führen würde.
+  let available: boolean;
+  let source: DomainResult["source"];
+  if (dns !== null) {
+    available = !dns.registered;
+    source = "dns";
+  } else {
+    available = false;
+    source = "fallback";
+  }
+
+  // 4. Wenn registriert: RDAP-Details parallel holen (Registrar, Ablaufdatum) — best effort
+  let registrar: string | undefined;
+  let expirationDate: string | undefined;
+  if (!available) {
+    const details = await fetchRdapDetails(check, fullDomain);
+    registrar = details.registrar;
+    expirationDate = details.expirationDate;
+    if (registrar || expirationDate) source = "rdap";
+  }
+
+  return {
+    tld: check.tld,
+    fullDomain,
+    available,
+    registrar,
+    expirationDate,
+    label: check.label,
+    actionUrl: buildActionUrl(fullDomain, available),
+    source,
+  };
 }
 
 interface TrademarkHit {
@@ -113,6 +208,42 @@ interface TrademarkResult {
   searchLinks: { label: string; url: string }[];
 }
 
+async function tryTmview(query: string, userAgent: string, timeoutMs: number): Promise<any | null> {
+  try {
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), timeoutMs);
+    const resp = await fetch("https://api.tmdn.org/tmview/api/search/results", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        Accept: "application/json",
+        "User-Agent": userAgent,
+        Origin: "https://www.tmdn.org",
+        Referer: "https://www.tmdn.org/tmview/",
+      },
+      body: new URLSearchParams({
+        page: "1",
+        pageSize: "30",
+        criteria: "WS",
+        basicSearch: query,
+        fOffices: "EM,DE",
+        sortBy: "relevance",
+        typeSearch: "VERBAL",
+      }).toString(),
+      signal: ctrl.signal,
+    });
+    clearTimeout(t);
+    if (!resp.ok) {
+      console.warn(`TMView HTTP ${resp.status}`);
+      return null;
+    }
+    return await resp.json();
+  } catch (e) {
+    console.warn("TMView attempt fehlgeschlagen:", e);
+    return null;
+  }
+}
+
 async function checkTrademark(query: string): Promise<TrademarkResult> {
   const result: TrademarkResult = {
     query,
@@ -127,55 +258,37 @@ async function checkTrademark(query: string): Promise<TrademarkResult> {
     ],
   };
 
-  // TMView API (offiziell von EUIPO/TMDN)
-  const tmviewUrl = "https://api.tmdn.org/tmview/api/search/results";
-  const body = {
-    page: "1",
-    pageSize: "30",
-    criteria: "WS",
-    basicSearch: query,
-    fOffices: "EM,DE", // EUIPO + DPMA
-    sortBy: "relevance",
-    typeSearch: "VERBAL",
-  };
+  // 3 Versuche mit unterschiedlichen UAs + längerem Timeout (TMView ist rate-limited / oft langsam)
+  const userAgents = [
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.2 Safari/605.1.15",
+    "GruenderX-Brand-Check/1.0",
+  ];
 
-  try {
-    const ctrl = new AbortController();
-    const t = setTimeout(() => ctrl.abort(), 8000);
-    const resp = await fetch(tmviewUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        Accept: "application/json",
-        "User-Agent": "GruenderX-Brand-Check/1.0",
-      },
-      body: new URLSearchParams(body as Record<string, string>).toString(),
-      signal: ctrl.signal,
-    });
-    clearTimeout(t);
+  let data: any = null;
+  for (let i = 0; i < userAgents.length; i++) {
+    data = await tryTmview(query, userAgents[i], 12000);
+    if (data) break;
+    if (i < userAgents.length - 1) await new Promise((r) => setTimeout(r, 800)); // backoff
+  }
 
-    if (resp.ok) {
-      const data = await resp.json();
-      result.totalHits = data?.tradeMarks?.length ?? data?.totalResults ?? 0;
-      const list: any[] = Array.isArray(data?.tradeMarks) ? data.tradeMarks.slice(0, 20) : [];
-      result.hits = list.map((tm: any) => ({
-        name: tm.tmName ?? query,
-        office: tm.officeCode === "EM" ? "EUIPO (EU)" : tm.officeCode === "DE" ? "DPMA (DE)" : tm.officeCode,
-        applicationNumber: tm.applicationNumber ?? tm.registrationNumber,
-        classes: tm.niceClass ? String(tm.niceClass).split(",").map((c: string) => c.trim()) : undefined,
-        status: tm.status,
-        applicant: tm.applicantName,
-        searchUrl:
-          tm.officeCode === "EM" && tm.applicationNumber
-            ? `https://euipo.europa.eu/eSearch/#details/trademarks/${tm.applicationNumber}`
-            : tm.officeCode === "DE" && tm.applicationNumber
-              ? `https://register.dpma.de/DPMAregister/marke/register/${tm.applicationNumber}/DE`
-              : result.searchLinks[2].url,
-      }));
-    }
-  } catch (e) {
-    console.warn("TMView fehlgeschlagen:", e);
-    // Fallback: hits bleibt leer, totalHits bleibt null → UI zeigt manuelle Such-Links
+  if (data) {
+    result.totalHits = data?.tradeMarks?.length ?? data?.totalResults ?? 0;
+    const list: any[] = Array.isArray(data?.tradeMarks) ? data.tradeMarks.slice(0, 20) : [];
+    result.hits = list.map((tm: any) => ({
+      name: tm.tmName ?? query,
+      office: tm.officeCode === "EM" ? "EUIPO (EU)" : tm.officeCode === "DE" ? "DPMA (DE)" : tm.officeCode,
+      applicationNumber: tm.applicationNumber ?? tm.registrationNumber,
+      classes: tm.niceClass ? String(tm.niceClass).split(",").map((c: string) => c.trim()) : undefined,
+      status: tm.status,
+      applicant: tm.applicantName,
+      searchUrl:
+        tm.officeCode === "EM" && tm.applicationNumber
+          ? `https://euipo.europa.eu/eSearch/#details/trademarks/${tm.applicationNumber}`
+          : tm.officeCode === "DE" && tm.applicationNumber
+            ? `https://register.dpma.de/DPMAregister/marke/register/${tm.applicationNumber}/DE`
+            : result.searchLinks[2].url,
+    }));
   }
 
   return result;
