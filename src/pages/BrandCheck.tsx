@@ -8,12 +8,21 @@ import { supabase } from "@/integrations/supabase/client";
 interface DomainResult {
   tld: string;
   fullDomain: string;
-  available: boolean;
+  available: boolean | null; // legacy "null" Support für ältere Edge-Function-Versionen
   registrar?: string;
   expirationDate?: string;
   label: string;
-  actionUrl: string;
+  actionUrl?: string;
   source?: string;
+}
+
+/** Frontend-Fallback wenn Edge Function actionUrl noch nicht zurückgibt. */
+function buildActionUrl(d: DomainResult): string {
+  if (d.actionUrl) return d.actionUrl;
+  if (d.available) {
+    return `https://www.inwx.de/de/domain/check#search=${encodeURIComponent(d.fullDomain)}`;
+  }
+  return `https://${d.fullDomain}`;
 }
 
 interface TrademarkHit {
@@ -68,13 +77,18 @@ interface CheckResult {
 }
 
 const DomainBadge = ({ d }: { d: DomainResult }) => {
-  if (d.available) {
+  // Wenn die Edge Function noch null zurückgibt (Backend nicht aktuell), behandle als unsicher → "vergeben" als Default
+  const isAvailable = d.available === true;
+  const isTaken = d.available === false || d.available === null;
+  const url = buildActionUrl(d);
+
+  if (isAvailable) {
     return (
       <a
-        href={d.actionUrl}
+        href={url}
         target="_blank"
         rel="noreferrer noopener"
-        className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 hover:bg-emerald-500/10 hover:border-emerald-500/50 p-3 block transition-colors group"
+        className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 hover:bg-emerald-500/10 hover:border-emerald-500/50 p-3 block transition-colors group cursor-pointer"
       >
         <div className="flex items-center justify-between gap-2 mb-1">
           <code className="font-mono text-sm font-bold">{d.fullDomain}</code>
@@ -84,8 +98,8 @@ const DomainBadge = ({ d }: { d: DomainResult }) => {
         </div>
         <div className="text-[11px] text-muted-foreground flex items-center gap-1">
           <span>{d.label}</span>
-          <span className="text-accent-blue ml-auto opacity-0 group-hover:opacity-100 transition-opacity">
-            Bei INWX kaufen <ExternalLink className="h-3 w-3 inline" />
+          <span className="text-accent-blue ml-auto opacity-70 group-hover:opacity-100 transition-opacity inline-flex items-center gap-0.5">
+            Bei INWX kaufen <ExternalLink className="h-3 w-3" />
           </span>
         </div>
       </a>
@@ -93,10 +107,10 @@ const DomainBadge = ({ d }: { d: DomainResult }) => {
   }
   return (
     <a
-      href={d.actionUrl}
+      href={url}
       target="_blank"
       rel="noreferrer noopener"
-      className="rounded-xl border border-red-500/30 bg-red-500/5 hover:bg-red-500/10 hover:border-red-500/50 p-3 block transition-colors group"
+      className="rounded-xl border border-red-500/30 bg-red-500/5 hover:bg-red-500/10 hover:border-red-500/50 p-3 block transition-colors group cursor-pointer"
     >
       <div className="flex items-center justify-between gap-2 mb-1">
         <code className="font-mono text-sm font-bold">{d.fullDomain}</code>
@@ -110,8 +124,8 @@ const DomainBadge = ({ d }: { d: DomainResult }) => {
           {d.registrar && ` · ${d.registrar}`}
           {d.expirationDate && ` · läuft ab ${new Date(d.expirationDate).toLocaleDateString("de-DE")}`}
         </span>
-        <span className="text-accent-blue ml-auto opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
-          Live ansehen <ExternalLink className="h-3 w-3 inline" />
+        <span className="text-accent-blue ml-auto opacity-70 group-hover:opacity-100 transition-opacity shrink-0 inline-flex items-center gap-0.5">
+          Live ansehen <ExternalLink className="h-3 w-3" />
         </span>
       </div>
     </a>
