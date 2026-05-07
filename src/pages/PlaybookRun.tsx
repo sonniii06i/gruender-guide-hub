@@ -42,6 +42,42 @@ const PlaybookRun = () => {
   useEffect(() => {
     if (!runId || !user) return;
     (async () => {
+      // Falls runId KEIN UUID-Format ist → wahrscheinlich ein Playbook-Slug (z.B. /playbook/marke-anmelden).
+      // Dann existierenden Run für diesen Slug suchen ODER neu anlegen.
+      const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(runId);
+      if (!isUuid) {
+        const slug = runId;
+        if (!getPlaybook(slug)) {
+          navigate("/playbooks");
+          return;
+        }
+        // Existing run für slug + user finden
+        const { data: existing } = await supabase
+          .from("playbook_runs")
+          .select("id")
+          .eq("user_id", user.id)
+          .eq("playbook_slug", slug)
+          .order("created_at", { ascending: false })
+          .limit(1)
+          .maybeSingle();
+        if (existing) {
+          navigate(`/playbook/${existing.id}`, { replace: true });
+          return;
+        }
+        // Sonst neu anlegen
+        const { data: created, error } = await supabase
+          .from("playbook_runs")
+          .insert({ user_id: user.id, playbook_slug: slug, current_step: 0, context: {} })
+          .select("id")
+          .single();
+        if (error || !created) {
+          navigate("/playbooks");
+          return;
+        }
+        navigate(`/playbook/${created.id}`, { replace: true });
+        return;
+      }
+
       const { data: r } = await supabase.from("playbook_runs").select("*").eq("id", runId).maybeSingle();
       if (!r) { navigate("/dashboard"); return; }
       setRun(r as RunRow);
