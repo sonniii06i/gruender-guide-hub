@@ -1,15 +1,48 @@
+import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { AlertTriangle, Download, ExternalLink, Info } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { AlertTriangle, Download, ExternalLink, Info, Sparkles, Loader2 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 interface Props {
   answers: Record<string, string>;
   setAnswers: (a: Record<string, string>) => void;
 }
 
+const wordCount = (s: string) => (s?.trim().match(/\S+/g)?.length ?? 0);
+
 export const FamiliengerichtForm = ({ answers, setAnswers }: Props) => {
   const update = (key: string, val: string) => setAnswers({ ...answers, [key]: val });
+  const [enhancing, setEnhancing] = useState(false);
+  const [enhanceError, setEnhanceError] = useState<string | null>(null);
+
+  const taetigkeitWords = wordCount(answers.fg_taetigkeit ?? "");
+  const taetigkeitOk = taetigkeitWords >= 5;
+
+  const enhanceTaetigkeit = async () => {
+    const text = (answers.fg_taetigkeit ?? "").trim();
+    if (text.length < 3) {
+      setEnhanceError("Bitte erst ein paar Wörter eingeben.");
+      return;
+    }
+    setEnhancing(true);
+    setEnhanceError(null);
+    try {
+      const { data, error } = await supabase.functions.invoke("enhance-text", {
+        body: { text, kind: "taetigkeit-familiengericht" },
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      const enhanced = String(data?.enhanced ?? "").trim();
+      if (enhanced) update("fg_taetigkeit", enhanced);
+    } catch (e: any) {
+      setEnhanceError(e?.message || "AI-Enhance fehlgeschlagen.");
+    } finally {
+      setEnhancing(false);
+    }
+  };
 
   const downloadPDF = async () => {
     const { default: jsPDF } = await import("jspdf");
@@ -104,21 +137,37 @@ export const FamiliengerichtForm = ({ answers, setAnswers }: Props) => {
       { spaceAfter: 8 },
     );
 
-    // Unterschrift — manuelle 2-Spalten-Positionierung statt Spaces
+    // Unterschrift — dynamisch je nach Sorgerecht
     writeBlock("Mit freundlichen Grüßen", { spaceAfter: 14 });
     if (y > 268) {
       doc.addPage();
       y = 20;
     }
-    const colMid = (left + right) / 2;
+    const sorge = (answers.fg_sorgerecht || "gemeinsam").toLowerCase();
     doc.setFontSize(10);
     doc.setFont("helvetica", "normal");
-    doc.text("________________________________", left, y);
-    doc.text("________________________________", colMid + 5, y);
-    y += 5;
-    doc.setFontSize(9);
-    doc.text(answers.fg_mutter_name || "Unterschrift Mutter / Sorgeberechtigte", left, y);
-    doc.text(answers.fg_vater_name || "Unterschrift Vater / Sorgeberechtigter", colMid + 5, y);
+    if (sorge.startsWith("mutter")) {
+      // nur Mutter-Unterschrift
+      doc.text("________________________________", left, y);
+      y += 5;
+      doc.setFontSize(9);
+      doc.text(answers.fg_mutter_name || "Unterschrift Mutter (alleinige Sorgeberechtigte)", left, y);
+    } else if (sorge.startsWith("vater")) {
+      // nur Vater-Unterschrift
+      doc.text("________________________________", left, y);
+      y += 5;
+      doc.setFontSize(9);
+      doc.text(answers.fg_vater_name || "Unterschrift Vater (alleiniger Sorgeberechtigter)", left, y);
+    } else {
+      // gemeinsam: zwei Spalten
+      const colMid = (left + right) / 2;
+      doc.text("________________________________", left, y);
+      doc.text("________________________________", colMid + 5, y);
+      y += 5;
+      doc.setFontSize(9);
+      doc.text(answers.fg_mutter_name || "Unterschrift Mutter", left, y);
+      doc.text(answers.fg_vater_name || "Unterschrift Vater", colMid + 5, y);
+    }
     y += 8;
 
     // Anlagen
@@ -261,11 +310,36 @@ export const FamiliengerichtForm = ({ answers, setAnswers }: Props) => {
         </div>
         <div>
           <Label htmlFor="fg-sorgerecht" className="text-xs uppercase tracking-wider text-muted-foreground">Sorgerecht</Label>
-          <Input id="fg-sorgerecht" name="custody" autoComplete="off" value={answers.fg_sorgerecht ?? ""} onChange={(e) => update("fg_sorgerecht", e.target.value)} placeholder="Beide gemeinsam / Mutter allein / …" className="mt-1" />
+          <Select value={answers.fg_sorgerecht ?? ""} onValueChange={(v) => update("fg_sorgerecht", v)}>
+            <SelectTrigger id="fg-sorgerecht" className="mt-1">
+              <SelectValue placeholder="Auswählen…" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="Gemeinsam (beide Eltern)">Gemeinsam (beide Eltern)</SelectItem>
+              <SelectItem value="Mutter (alleinige Sorge)">Mutter allein</SelectItem>
+              <SelectItem value="Vater (alleinige Sorge)">Vater allein</SelectItem>
+            </SelectContent>
+          </Select>
+          <div className="text-[10px] text-muted-foreground mt-1">
+            Bestimmt im PDF, wer unterschreiben muss.
+          </div>
         </div>
 
         <div className="sm:col-span-2">
-          <Label htmlFor="fg-taetigkeit" className="text-xs uppercase tracking-wider text-muted-foreground">Genaue Tätigkeit</Label>
+          <div className="flex items-end justify-between gap-2 mb-1">
+            <Label htmlFor="fg-taetigkeit" className="text-xs uppercase tracking-wider text-muted-foreground">
+              Genaue Tätigkeit <span className="text-red-500">*</span>
+            </Label>
+            <button
+              type="button"
+              onClick={enhanceTaetigkeit}
+              disabled={enhancing || (answers.fg_taetigkeit ?? "").trim().length < 3}
+              className="inline-flex items-center gap-1 rounded-full bg-accent-blue/10 text-accent-blue px-2.5 py-1 text-[10px] font-semibold hover:bg-accent-blue/20 disabled:opacity-40 transition-colors"
+            >
+              {enhancing ? <Loader2 className="h-3 w-3 animate-spin" /> : <Sparkles className="h-3 w-3" />}
+              {enhancing ? "Verbessere…" : "Mit KI verbessern"}
+            </button>
+          </div>
           <Textarea
             id="fg-taetigkeit"
             name="biz-activity"
@@ -273,8 +347,18 @@ export const FamiliengerichtForm = ({ answers, setAnswers }: Props) => {
             value={answers.fg_taetigkeit ?? ""}
             onChange={(e) => update("fg_taetigkeit", e.target.value)}
             placeholder="z.B. Online-Verkauf von selbst hergestellten Schmuck-Produkten via Etsy und eigenem Shopify-Shop. Keine Mitarbeiter, kein physisches Lager."
-            className="mt-1 min-h-[70px]"
+            className={`min-h-[70px] ${
+              taetigkeitWords > 0 && !taetigkeitOk ? "border-amber-500/60 focus-visible:ring-amber-500/30" : ""
+            }`}
           />
+          <div className="flex items-center justify-between mt-1 text-[10px]">
+            <span className={taetigkeitOk ? "text-emerald-600" : taetigkeitWords > 0 ? "text-amber-700" : "text-muted-foreground"}>
+              {taetigkeitWords} {taetigkeitWords === 1 ? "Wort" : "Wörter"}
+              {!taetigkeitOk && " · mind. 5 Wörter empfohlen"}
+              {taetigkeitOk && " ✓"}
+            </span>
+            {enhanceError && <span className="text-red-500">{enhanceError}</span>}
+          </div>
         </div>
         <div>
           <Label htmlFor="fg-beginn" className="text-xs uppercase tracking-wider text-muted-foreground">Geplanter Beginn</Label>

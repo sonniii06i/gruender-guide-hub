@@ -23,6 +23,34 @@ Beispiel-Input: "wir verkaufen software für onlineshops und beraten kunden dabe
 Beispiel-Output: "Entwicklung und Vertrieb von Softwarelösungen für den Online-Handel sowie damit verbundene Beratungs- und Implementierungsleistungen."`,
 
   generic: `Verbessere die Formulierung des folgenden Texts. Behalte den Sinn exakt bei. Antworte nur mit dem verbesserten Text, ohne Erklärung.`,
+
+  "taetigkeit-familiengericht": `Du formulierst die Tätigkeitsbeschreibung für einen Familiengericht-Antrag (§112 BGB) eines minderjährigen Gründers.
+
+Regeln:
+- Konkret beschreiben WAS das Kind tun will (Produkt / Dienstleistung / Plattformen / Zielgruppe)
+- Risiko-bewusst formulieren: erwähne dass keine Lager-/Personal-/Kredit-Verpflichtungen entstehen wenn sinnvoll
+- Schul-Kompatibilität betonen wenn aus dem Kontext klar
+- Altersgerechte Tätigkeit deutlich machen
+- 2-4 Sätze, sachlich-formell (das liest ein Familienrichter)
+- Auf Deutsch
+- Sinn der Eingabe NICHT verändern, nur professioneller formulieren
+- KEIN Markdown, NUR die verbesserte Formulierung als plain text, KEINE Erklärung
+
+Beispiel-Input: "online verkauf von sneakern"
+Beispiel-Output: "Online-Handel mit Sneakern über eigene Shopify-Plattform sowie ausgewählte Marketplaces. Der Wareneinkauf erfolgt vorfinanziert ohne Kreditaufnahme; die Tätigkeit wird ausschließlich nach Schulschluss und an Wochenenden ausgeübt, ohne Beschäftigung von Mitarbeitern oder Anmietung von Geschäftsräumen."`,
+
+  "gewa1-taetigkeit": `Du formulierst die Tätigkeitsbeschreibung für eine Gewerbeanmeldung (GewA1) präziser.
+
+Regeln:
+- Konkret und prüfbar (Gewerbeamt prüft das!) – keine Floskeln wie "Online-Handel allgemein"
+- Hauptprodukt / Hauptdienstleistung zuerst, dann Plattformen / Zielgruppe
+- Mehrere Tätigkeiten Komma-getrennt
+- 1-2 Sätze, sachlich-formell
+- Sinn nicht verändern
+- Auf Deutsch, KEIN Markdown, NUR plain text
+
+Beispiel-Input: "ich verkaufe kosmetik online"
+Beispiel-Output: "Online-Einzelhandel mit eigenen Naturkosmetik-Produkten über Shopify und Amazon sowie damit verbundene Marketing-Tätigkeiten."`,
 };
 
 serve(async (req) => {
