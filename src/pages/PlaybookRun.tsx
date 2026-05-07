@@ -16,6 +16,8 @@ import {
 import { CompanyNameCheck, NotarFinder } from "@/components/playbook/StepWidgets";
 import { NotarPreparation } from "@/components/playbook/NotarPreparation";
 import { BankComparison } from "@/components/playbook/BankComparison";
+import { GewA1Form } from "@/components/playbook/GewA1Form";
+import { FamiliengerichtForm } from "@/components/playbook/FamiliengerichtForm";
 
 interface RunRow { id: string; current_step: number; status: string; total_steps: number; context: any }
 interface StepRow { step_index: number; status: string; data: any; notes: string | null }
@@ -414,6 +416,12 @@ const StepBody = ({
       />
     )}
     {step.slug === "konto" && <BankComparison />}
+    {step.slug === "gewa1-pdf" && (
+      <GewA1Form answers={formData} setAnswers={setFormData} />
+    )}
+    {step.slug === "familiengericht" && (
+      <FamiliengerichtForm answers={formData} setAnswers={setFormData} />
+    )}
     {step.checklist && (
       <div className="rounded-xl border border-border bg-secondary/30 p-4 space-y-2">
         {step.checklist.map((c, i) => {
