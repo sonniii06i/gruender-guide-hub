@@ -33,10 +33,16 @@ export const GuideCard = ({ pb, compact = false }: { pb: Playbook; compact?: boo
           <span className="font-semibold text-foreground">Ergebnis:</span> {pb.outcome}
         </p>
       )}
-      <div className="flex items-center gap-3 text-[11px] text-muted-foreground mb-4">
+      <div className="flex items-center gap-3 text-[11px] text-muted-foreground mb-2 flex-wrap">
         <span className="inline-flex items-center gap-1"><Clock className="h-3 w-3" /> {pb.duration}</span>
         <span className="inline-flex items-center gap-1"><ListChecks className="h-3 w-3" /> {pb.steps.length} Schritte</span>
       </div>
+      {pb.totalCost && (
+        <div className="rounded-lg bg-emerald-500/5 border border-emerald-500/20 p-2 mb-3 text-[11px] leading-snug">
+          <div className="font-semibold text-emerald-700 mb-0.5">💶 Setup: {pb.totalCost}</div>
+          {pb.runningCost && <div className="text-muted-foreground text-[10px]">🔁 {pb.runningCost}</div>}
+        </div>
+      )}
       <Button
         onClick={() => start(pb.slug)}
         disabled={isStarting}

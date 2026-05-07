@@ -264,10 +264,15 @@ const PlaybookRun = () => {
                     <div className={`leading-snug font-medium text-sm ${done ? "line-through text-muted-foreground" : active ? "text-foreground" : ""}`}>
                       {s.title}
                     </div>
-                    <div className="flex items-center gap-2 text-[10px] text-muted-foreground mt-0.5">
+                    <div className="flex items-center gap-2 text-[10px] text-muted-foreground mt-0.5 flex-wrap">
                       <StepKindIcon className="h-2.5 w-2.5" />
                       <span>{STEP_KIND_LABEL[s.kind]} · {s.estMinutes} min</span>
                     </div>
+                    {s.estCost && (
+                      <div className="mt-1 text-[10px] font-semibold text-emerald-700 leading-snug">
+                        💶 {s.estCost.length > 50 ? s.estCost.slice(0, 50) + "…" : s.estCost}
+                      </div>
+                    )}
                   </div>
                 </button>
               );
