@@ -512,27 +512,108 @@ const BrandCheck = () => {
             </div>
           </div>
 
-          {/* Empfehlung */}
+          {/* Empfehlung — kontext-sensitiv basierend auf Source-Status + Treffern */}
           <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5">
             <h2 className="text-base font-bold mb-2">Empfehlung</h2>
             <div className="text-sm leading-relaxed space-y-2">
-              {availableCount >= 2 && tmCount === 0 && (
-                <p className="text-emerald-700">
-                  ✓ Gute Ausgangslage: <strong>{availableCount} Domains frei</strong> und keine direkten Marken-Treffer.
-                  Nächste Schritte:{" "}
-                  <Link to="/playbook/marke-anmelden" className="underline font-semibold">
-                    Marke anmelden
-                  </Link>{" "}
-                  + Domains gleich heute kaufen.
-                </p>
-              )}
-              {(availableCount < 2 || (tmCount && tmCount > 0)) && (
-                <p className="text-amber-700">
-                  ⚠ Vorsichtig: {availableCount < 2 && `nur ${availableCount} freie Domain. `}
-                  {tmCount && tmCount > 0 && `${tmCount} bestehende Marke(n). `}
-                  Erwäge Namens-Variation oder Anwalts-Recherche bevor du Geld in Branding investierst.
-                </p>
-              )}
+              {(() => {
+                const ss = result.trademarks.sourceStatus;
+                const failedSources = ss ? Object.entries(ss).filter(([, v]) => v === "fail").map(([k]) => k.toUpperCase()) : [];
+                const allMarkenSourcesFailed = failedSources.length === 3;
+                const partialMarkenCheck = failedSources.length > 0 && failedSources.length < 3;
+                const hasMarkenHits = (tmCount ?? 0) > 0;
+                const allDomainsTaken = takenCount === result.domains.length;
+                const allDomainsFree = availableCount === result.domains.length;
+
+                // Fall 1: Marken-Treffer existieren → Konflikt-Warnung
+                if (hasMarkenHits) {
+                  if (allDomainsTaken) {
+                    return (
+                      <p className="text-amber-700">
+                        ℹ️ <strong>{tmCount} Marken-Treffer</strong> + alle Domains vergeben → wahrscheinlich
+                        gehört dieser Name bereits jemandem (oder dir selbst). Wenn das DEINE Marke ist, alles ok —
+                        sonst Hände weg, Konflikt-Risiko hoch.
+                      </p>
+                    );
+                  }
+                  return (
+                    <p className="text-amber-700">
+                      ⚠ <strong>{tmCount} bestehende Marken-Treffer</strong> für „{result.query}". Nicht ohne
+                      anwaltliche Recherche launchen — Verwechslungsgefahr nach §14 MarkenG kann Abmahnung +
+                      Unterlassung kosten (typisch 3.000–10.000 € Anwaltskosten + Schadenersatz).
+                    </p>
+                  );
+                }
+
+                // Fall 2: Alle Marken-Quellen offline → können nichts sagen
+                if (allMarkenSourcesFailed) {
+                  return (
+                    <p className="text-amber-700">
+                      ⚠ Alle 3 Marken-APIs offline — <strong>keine valide Aussage zu Marken-Konflikten möglich</strong>.
+                      Bitte manuell über die Such-Links oben prüfen, bevor du Geld in Branding investierst.
+                    </p>
+                  );
+                }
+
+                // Fall 3: Teilweise geprüft (z.B. nur DPMA, keine TMVIEW/WIPO)
+                if (partialMarkenCheck) {
+                  return (
+                    <p className="text-amber-700">
+                      ⚠ Marken-Check nur teilweise (Offline: <strong>{failedSources.join(", ")}</strong>). In den
+                      erreichbaren Quellen 0 Treffer, aber {failedSources.includes("TMVIEW") ? "TMView (EU-weit) " : ""}
+                      {failedSources.includes("WIPO") ? "WIPO (international) " : ""}
+                      konnte ich nicht prüfen. Bitte über Such-Links oben manuell prüfen bevor du dich auf den Namen
+                      festlegst.
+                    </p>
+                  );
+                }
+
+                // Fall 4: Marken sauber + Domains
+                if (availableCount >= 4 && tmCount === 0) {
+                  return (
+                    <p className="text-emerald-700">
+                      ✓ <strong>{availableCount} von {result.domains.length} Domains frei</strong> · keine
+                      Marken-Treffer in TMView + DPMA + WIPO. Solide Ausgangslage. Nächste Schritte:{" "}
+                      <Link to="/playbook/marke-anmelden" className="underline font-semibold">
+                        Marke anmelden
+                      </Link>{" "}
+                      + Domains zeitnah sichern (.de + .com mind.).
+                    </p>
+                  );
+                }
+                if (allDomainsFree && tmCount === 0) {
+                  return (
+                    <p className="text-emerald-700">
+                      ✓ Alle Domains frei + keine Marken-Treffer → <strong>fast zu schön</strong>. Doppel-Check via
+                      Such-Links empfohlen, dann{" "}
+                      <Link to="/playbook/marke-anmelden" className="underline font-semibold">
+                        anmelden
+                      </Link>
+                      .
+                    </p>
+                  );
+                }
+                if (availableCount >= 2 && tmCount === 0) {
+                  return (
+                    <p className="text-emerald-700">
+                      ✓ {availableCount} Domains frei · keine Marken-Treffer. Brauchbar — wichtige TLDs (.de, .com)
+                      prüfen ob die freien dabei sind, dann{" "}
+                      <Link to="/playbook/marke-anmelden" className="underline font-semibold">
+                        Marke anmelden
+                      </Link>
+                      .
+                    </p>
+                  );
+                }
+                // Wenige freie Domains
+                return (
+                  <p className="text-amber-700">
+                    ⚠ Nur <strong>{availableCount} von {result.domains.length} Domains frei</strong>
+                    {tmCount === 0 && " (Marken sauber)"}. Erwäge Namens-Variation — Domain-Knappheit erschwert
+                    Online-Marketing.
+                  </p>
+                );
+              })()}
               <p className="text-muted-foreground text-xs">
                 Disclaimer: kein Anspruch auf Vollständigkeit. Markenrecht ist komplex (phonetische Ähnlichkeit,
                 Klassen-Ähnlichkeit, ältere Rechte). Bei kommerziellem Brand-Launch immer Anwalt für gewerblichen

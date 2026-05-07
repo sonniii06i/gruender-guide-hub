@@ -412,18 +412,43 @@ async function tryDpmaScrape(query: string): Promise<{ totalHits: number; hits: 
       totalHits = 0;
     }
 
-    // Step 4: Parse Hits aus Trefferliste-Tabelle
-    // DPMA-Struktur: <td>{Nr}</td><td>{DE/EM}</td><td><a href="...register/{ID}/DE">{ID}</a></td><td>{Markendarstellung}</td><td>{Aktenzustand}</td>
+    // Step 4: Parse Hits — robuste Multi-Strategie
     const hits: TrademarkHit[] = [];
 
-    // Pattern 1: Match die ganze Zeile mit allen Spalten
-    const rowRe = /<tr[^>]*>[\s\S]*?<a[^>]+href="[^"]*\/register\/(\d{5,})\/DE"[^>]*>\s*\1?\s*<\/a>[\s\S]*?<td[^>]*>\s*([^<\n]{1,100}?)\s*<\/td>[\s\S]*?<td[^>]*>\s*([^<\n]{1,100}?)\s*<\/td>[\s\S]*?<\/tr>/gi;
-    let m: RegExpExecArray | null;
-    while ((m = rowRe.exec(html)) !== null && hits.length < 20) {
-      const applicationNumber = m[1].trim();
-      const name = m[2].replace(/&amp;/g, "&").replace(/&[a-z]+;/gi, "").trim();
-      const status = m[3]?.replace(/&amp;/g, "&").replace(/&[a-z]+;/gi, "").trim();
-      if (!name || name.length < 1) continue;
+    // Strategie A: kompletter <tr>-Block extrahieren, dann interne <td>s in Reihe lesen
+    // DPMA-Struktur: <tr><td>Nr</td><td>DE</td><td><a href="register/ID/DE">ID</a></td><td>NAME</td><td>STATUS</td></tr>
+    const trBlocks = html.match(/<tr[^>]*>[\s\S]*?<\/tr>/gi) ?? [];
+    for (const tr of trBlocks) {
+      // Anker mit register-URL — gibt uns die Aktenzeichen-Nummer
+      const anchorMatch = tr.match(/<a[^>]+href="[^"]*\/register\/(\d{5,})\/DE"[^>]*>/i);
+      if (!anchorMatch) continue;
+      const applicationNumber = anchorMatch[1];
+
+      // Alle <td>-Inhalte aus dieser Zeile extrahieren
+      const tdMatches = Array.from(tr.matchAll(/<td[^>]*>([\s\S]*?)<\/td>/gi));
+      const cells = tdMatches.map((m) => m[1].replace(/<[^>]+>/g, "").replace(/&amp;/g, "&").replace(/&[a-z]+;/gi, " ").replace(/\s+/g, " ").trim());
+
+      if (cells.length < 3) continue;
+
+      // Cells layout: [Nr, Datenbestand(DE/EM), Aktenzeichen, Markendarstellung, Aktenzustand]
+      // Aber Spalten können variieren — finde die "Markendarstellung" via Heuristik:
+      // Es ist die Zelle die NICHT die Aktenzeichen-Nr ist und NICHT "DE"/"EM" und NICHT eine Status-Phrase
+      let name = "";
+      let status = "";
+      for (let i = 2; i < cells.length; i++) {
+        const c = cells[i];
+        if (!c) continue;
+        if (c === applicationNumber) continue; // Aktenzeichen-Spalte
+        if (/^(DE|EM|EU|WO)$/i.test(c)) continue; // Datenbestand
+        if (/Marke (eingetragen|gelöscht|abgelehnt)|Widerspruchsfrist|zurückgenommen|Anmeldung/i.test(c)) {
+          status = c;
+          continue;
+        }
+        if (!name && c.length >= 1 && c.length <= 200) {
+          name = c;
+        }
+      }
+      if (!name) name = query; // letzter Fallback
       if (hits.some((h) => h.applicationNumber === applicationNumber)) continue;
       hits.push({
         name,
@@ -432,16 +457,18 @@ async function tryDpmaScrape(query: string): Promise<{ totalHits: number; hits: 
         status,
         searchUrl: `https://register.dpma.de/DPMAregister/marke/register/${applicationNumber}/DE`,
       });
+      if (hits.length >= 20) break;
     }
 
-    // Pattern 2 Fallback: nur Anker mit register-URL
+    // Strategie B Fallback: nur über register-URL Anker, ohne Spalten-Match
     if (hits.length === 0) {
-      const linkRe = /<a[^>]+href="[^"]*\/register\/(\d{5,})\/DE"[^>]*>\s*(\d+)\s*<\/a>/gi;
+      const linkRe = /<a[^>]+href="[^"]*\/register\/(\d{5,})\/DE"[^>]*>/gi;
+      let m: RegExpExecArray | null;
       while ((m = linkRe.exec(html)) !== null && hits.length < 20) {
         const applicationNumber = m[1].trim();
         if (hits.some((h) => h.applicationNumber === applicationNumber)) continue;
         hits.push({
-          name: query, // Fallback — wir haben den Markendarstellungs-Wert nicht extrahieren können
+          name: query,
           office: "DPMA (DE)",
           applicationNumber,
           searchUrl: `https://register.dpma.de/DPMAregister/marke/register/${applicationNumber}/DE`,
@@ -449,10 +476,9 @@ async function tryDpmaScrape(query: string): Promise<{ totalHits: number; hits: 
       }
     }
 
-    // Wenn wir Hits haben aber totalHits noch 0 (Total-Pattern verfehlt), nimm hits.length
-    if (hits.length > 0 && totalHits === 0) totalHits = hits.length;
+    if (hits.length > totalHits) totalHits = hits.length;
 
-    console.log(`DPMA ok: total=${totalHits}, parsed=${hits.length}, htmlSize=${html.length}`);
+    console.log(`DPMA ok: total=${totalHits}, parsed=${hits.length}, trBlocks=${trBlocks.length}, htmlSize=${html.length}`);
     return { totalHits, hits };
   } catch (e) {
     console.warn("DPMA-Scrape fehlgeschlagen:", e);
