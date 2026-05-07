@@ -8,6 +8,8 @@ export interface PlaybookStep {
   description: string;
   kind: StepKind;
   estMinutes: number;
+  /** Geschätzte Kosten für diesen Schritt — frei formuliert, z.B. "850–1.200 €", "0 €", "39 €/Mon". */
+  estCost?: string;
   checklist?: string[];
   fields?: { name: string; label: string; type?: "text" | "number" | "textarea" | "date" }[];
   externalLinks?: { label: string; url: string }[];
@@ -25,6 +27,10 @@ export interface Playbook {
   outcome: string;
   duration: string;
   difficulty: "Einfach" | "Mittel" | "Komplex";
+  /** Geschätzte Gesamt-Setup-Kosten (einmalig + ggf. erstes Jahr). */
+  totalCost?: string;
+  /** Laufende Folgekosten (typisch jährlich). */
+  runningCost?: string;
   steps: PlaybookStep[];
 }
 
@@ -41,6 +47,8 @@ export const PLAYBOOKS: Playbook[] = [
     outcome: "Eingetragene GmbH mit Geschäftskonto, Steuernummer, Gewerbeschein und allen Pflicht-Anmeldungen.",
     duration: "4–6 Wochen",
     difficulty: "Mittel",
+    totalCost: "1.000–1.500 € (Notar + HR + Gewerbe)",
+    runningCost: "jährlich: 50–300 € IHK + ggf. Berufsgenossenschaft + StB ab 1.000 €/Jahr",
     steps: [
       {
         slug: "name",
@@ -48,6 +56,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Bevor du irgendwas anmeldest: Name muss frei sein. Fünf Checks: IHK-Vorabprüfung (irreführender Name?), Handelsregister-Suche (gleicher Name am Ort?), DPMA-Marken-Register, EUIPO und Domain-Verfügbarkeit (.de, .com).",
         kind: "form",
         estMinutes: 45,
+        estCost: "0 € (Recherche kostenlos · IHK-Vorabprüfung gratis)",
         fields: [{ name: "company_name", label: "Firmenname (mit Rechtsform-Zusatz)" }],
         checklist: [
           "Name + Rechtsform-Zusatz \"GmbH\" muss enthalten sein (§4 GmbHG)",
@@ -77,6 +86,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Der Notar braucht VOR dem Termin alle Eckdaten. Wenn du sie nicht parat hast, kostet das 1–2 zusätzliche Termine à 200 €.",
         kind: "form",
         estMinutes: 60,
+        estCost: "0 € (Vorbereitung)",
         checklist: [
           "Firmenname final (mit \"GmbH\"-Zusatz)",
           "Sitz der Gesellschaft (Stadt – nicht ganze Adresse)",
@@ -104,6 +114,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Was JEDER Gesellschafter persönlich am Termin dabeihaben muss. Ohne diese Dokumente kann der Notar nicht beurkunden.",
         kind: "checklist",
         estMinutes: 15,
+        estCost: "0 €",
         checklist: [
           "Personalausweis (Original, gültig) ODER gültiger Reisepass — jeder Gesellschafter persönlich!",
           "Steuer-ID jeder Person (11-stellig, vom BZSt) — für das Transparenzregister",
@@ -127,6 +138,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Der Notar liest den Gesellschaftsvertrag vor (Pflicht, ca. 30–60 Min), du unterschreibst. Direkt anschließend reicht der Notar via beA-Postfach die Anmeldung beim Amtsgericht ein.",
         kind: "external",
         estMinutes: 90,
+        estCost: "800–1.200 € (Bargründung 25k, 1 GF, 1 Gesellschafter) · Mehrgesellschafter / Sacheinlage 1.500–2.500 €",
         fields: [
           { name: "notar_name", label: "Notar-Name & Kanzlei" },
           { name: "termin", label: "Termin", type: "date" },
@@ -143,6 +155,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Konto eröffnest du auf den Namen \"[Firma] i.G.\" (in Gründung). Sobald HR-Eintrag durch ist, wird das Konto auf den Endnamen umgestellt. Stammkapital wird hier eingezahlt.",
         kind: "form",
         estMinutes: 60,
+        estCost: "0–15 €/Mon Kontoführung · Onboarding-Gebühr meist 0 €",
         checklist: [
           "Notar-Beurkundung als PDF",
           "Personalausweise / Pässe aller wirtschaftlich Berechtigten (≥ 25 % Anteil)",
@@ -167,6 +180,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Nach Konto-Eröffnung mind. 12.500 € (50%) auf das GmbH-i.G.-Konto einzahlen. Bank bestätigt — diese Bestätigung braucht der Notar, BEVOR er die HR-Anmeldung abschickt.",
         kind: "checklist",
         estMinutes: 15,
+        estCost: "12.500 € Stammkapital (eigenes Geld, kein Aufwand)",
         checklist: [
           "Mind. 12.500 € auf das GmbH-i.G.-Konto überwiesen (≥ 50 % bei Bargründung)",
           "Bei Sacheinlage: 100 % erbracht + Sachgründungsbericht beim Notar",
@@ -185,6 +199,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Notar reicht via beA ein, Amtsgericht prüft Form (Sitz, Name, Stammkapital, Vertretungsregel). Dauert 1–3 Wochen, bei kompletten Unterlagen typisch 5–10 Werktage. Eintragungsgebühr ~150 € + Bekanntmachungs-Gebühr ~5 € (von Notar weiterberechnet).",
         kind: "info",
         estMinutes: 10,
+        estCost: "150 € Eintragungsgebühr + ~5 € Bekanntmachung (vom Notar weiterberechnet)",
         externalLinks: [
           { label: "Status prüfen (Handelsregister)", url: "https://www.handelsregister.de/rp_web/welcome.xhtml" },
           { label: "Bekanntmachungen suchen (Unternehmensregister)", url: "https://www.unternehmensregister.de" },
@@ -200,6 +215,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Nach HR-Eintrag innerhalb 1 Woche beim örtlichen Gewerbeamt der Stadt anmelden. 20–60 € Gebühr. Online-Portale gibt's in den meisten Großstädten.",
         kind: "form",
         estMinutes: 30,
+        estCost: "20–60 € Gebühr",
         checklist: [
           "Aktueller HR-Auszug (Original oder beglaubigte Kopie, < 4 Wochen alt)",
           "Personalausweis / Reisepass des Geschäftsführers",
@@ -227,6 +243,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Pflicht innerhalb 1 Monat ab Aufnahme der Tätigkeit. Fragebogen zur steuerlichen Erfassung (FsE) → Finanzamt vergibt Steuernummer (für Rechnungen) und ggf. USt-ID (parallel). Ohne Steuernummer keine Rechnungen.",
         kind: "form",
         estMinutes: 90,
+        estCost: "0 € (kostenlos via ELSTER)",
         checklist: [
           "ELSTER-Konto erstellen (Zertifikat dauert 2–4 Wochen per Post — JETZT machen!)",
           "Fragebogen FsE für juristische Personen ausfüllen",
@@ -255,6 +272,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Pflicht seit 2021 für ALLE GmbHs. Wirtschaftlich Berechtigte (≥ 25 % Anteil oder Kontrolle) eintragen. Bei Versäumnis: Bußgeld bis 100.000 €.",
         kind: "form",
         estMinutes: 30,
+        estCost: "0 € (kostenlos · aber bis 100.000 € Bußgeld bei Versäumnis)",
         checklist: [
           "Bundesanzeiger-Konto erstellen (kostenlos)",
           "Wirtschaftlich Berechtigte identifizieren (jeder ≥ 25 % Anteil oder Stimmrecht)",
@@ -274,6 +292,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Automatische Pflichtmitgliedschaft ab Gewerbeanmeldung. Du musst nichts tun — die IHK kommt auf dich zu. Im 1. Jahr meist nur Grundbeitrag (50–300 €), ab Gewinn-Schwelle umlageabhängig.",
         kind: "info",
         estMinutes: 5,
+        estCost: "50–300 €/Jahr Grundbeitrag (Jahr 1 oft befreit) + Umlage auf Gewinn",
         externalLinks: [
           { label: "IHK-Suche (deine zuständige IHK)", url: "https://www.ihk.de/finden" },
           { label: "Beitragsrechner (DIHK)", url: "https://www.dihk.de" },
@@ -289,6 +308,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Berufsgenossenschaft: Pflicht binnen 1 Woche ab Anmeldung des ersten Mitarbeiters (oder bei manchen Branchen sofort). Geschäftsführer-Status beim Sozialversicherungsrecht klären (Status-Feststellung Clearingstelle).",
         kind: "checklist",
         estMinutes: 30,
+        estCost: "0 € Eintragung · Beiträge umlageabhängig",
         checklist: [
           "Berufsgenossenschaft eintragen (binnen 1 Woche nach AN-Einstellung)",
           "Betriebsnummer bei Agentur für Arbeit beantragen (für Lohnsteuer-Anmeldung)",
@@ -318,6 +338,8 @@ export const PLAYBOOKS: Playbook[] = [
     outcome: "Eingetragene UG mit Geschäftskonto, Steuernummer und Roadmap zur GmbH-Umwandlung.",
     duration: "3–5 Wochen",
     difficulty: "Einfach",
+    totalCost: "300–600 € (Musterprotokoll-Setup) bzw. 800–1.500 € Individualsatzung",
+    runningCost: "jährlich: 50–300 € IHK + StB ab 800 €/Jahr",
     steps: [
       {
         slug: "name",
@@ -325,6 +347,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Vollständiger Name muss \"UG (haftungsbeschränkt)\" enthalten — abgekürztes \"UG\" allein ist NICHT zulässig (BGH 2012). Marken/Domain-Check wie bei GmbH.",
         kind: "form",
         estMinutes: 45,
+        estCost: "0 €",
         fields: [{ name: "company_name", label: "Firmenname (mit 'UG (haftungsbeschränkt)')" }],
         checklist: [
           "Voll ausgeschriebener Zusatz \"UG (haftungsbeschränkt)\" Pflicht",
@@ -347,6 +370,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Min. 1 €, max. unter 25.000 € (sonst direkt GmbH). Sinnvoll: 500–5.000 € für Liquidität & Außenwirkung. Achtung: 100 % Bargründung Pflicht (anders als GmbH mit 50 %).",
         kind: "decision",
         estMinutes: 15,
+        estCost: "min. 1 € · empfohlen 500–5.000 €",
         fields: [{ name: "kapital", label: "Stammkapital (€)", type: "number" }],
         extendedNotes: [
           "Mit 1 € UG sieht man dich nicht ernst (Banken, Kunden) — und Notarkosten / Bürokratie sind gleich. Praktischer Mindestbetrag: 500 €.",
@@ -360,6 +384,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Musterprotokoll: max 3 Gesellschafter + 1 GF + Bargründung. Spart ~50 % Notarkosten (Pauschale statt Wertgebühr). Individualsatzung nötig, wenn mehr GF, Vesting, Vinkulierung oder Stimmbindung gewollt sind.",
         kind: "decision",
         estMinutes: 30,
+        estCost: "0 € (Wahl)",
         externalLinks: [
           { label: "Musterprotokoll-Vorlage (BMJ)", url: "https://www.bmj.de/SharedDocs/Gesetzgebungsverfahren/Dokumente/RegE_Musterprotokoll.pdf" },
         ],
@@ -375,6 +400,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Wie GmbH: Personalausweis, Steuer-ID, vorbereitete Daten. Bei Musterprotokoll: alles vereinfacht.",
         kind: "checklist",
         estMinutes: 15,
+        estCost: "0 €",
         checklist: [
           "Personalausweis (Original) ODER Reisepass jedes Gesellschafters — persönliches Erscheinen",
           "Steuer-ID jeder Person (für Transparenzregister)",
@@ -392,6 +418,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Beurkundung + HR-Anmeldung. Bei Musterprotokoll: deutlich kürzer (15–30 Min).",
         kind: "external",
         estMinutes: 60,
+        estCost: "200–400 € (Musterprotokoll) · 600–1.200 € (Individualsatzung)",
         fields: [
           { name: "notar_name", label: "Notar & Kanzlei" },
           { name: "termin", label: "Termin", type: "date" },
@@ -404,6 +431,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Konto auf \"[Firma] UG (haftungsbeschränkt) i.G.\". 100 % Stammkapital sofort einzahlen (anders als GmbH!). Bank bestätigt Eingang.",
         kind: "form",
         estMinutes: 60,
+        estCost: "0–15 €/Mon Kontoführung",
         checklist: [
           "Notar-Beurkundung als PDF",
           "Personalausweise / Pässe aller wirtschaftlich Berechtigten",
@@ -422,6 +450,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "1–3 Wochen typisch. Bei Musterprotokoll oft schneller (5–7 Werktage).",
         kind: "info",
         estMinutes: 10,
+        estCost: "150 € Eintragung + ~5 € Bekanntmachung",
         externalLinks: [
           { label: "Status prüfen (Handelsregister)", url: "https://www.handelsregister.de/rp_web/welcome.xhtml" },
         ],
@@ -432,6 +461,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Wie GmbH. HR-Auszug + PA + 20–60 € beim Gewerbeamt. Online-Portale verfügbar.",
         kind: "form",
         estMinutes: 30,
+        estCost: "20–60 €",
         externalLinks: [
           { label: "Gewerbeamt-Suche (BMWK)", url: "https://www.bmwk.de/Redaktion/DE/Artikel/Existenzgruendung/gewerbeanmeldung.html" },
           { label: "Online: Berlin", url: "https://service.berlin.de/dienstleistung/305235/" },
@@ -445,6 +475,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Fragebogen FsE für jur. Personen. Steuernummer + USt-ID parallel beantragen. ELSTER-Zertifikat 2–4 Wochen Postlaufzeit — direkt nach HR-Eintrag starten.",
         kind: "form",
         estMinutes: 90,
+        estCost: "0 €",
         externalLinks: [
           { label: "ELSTER: Fragebogen FsE", url: "https://www.elster.de/eportal/formulare-leistungen/alleformulare/fsegewjur" },
           { label: "ELSTER-Konto", url: "https://www.elster.de/eportal/registrierung-auswahl" },
@@ -460,6 +491,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Pflicht — wirtschaftlich Berechtigte eintragen. Wie GmbH.",
         kind: "form",
         estMinutes: 30,
+        estCost: "0 €",
         externalLinks: [
           { label: "Transparenzregister", url: "https://www.transparenzregister.de" },
         ],
@@ -471,6 +503,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "UG-Spezifikum (§5a Abs 3 GmbHG): jährlich 25 % des Jahresgewinns als gesetzliche Rücklage bilden — bis das gesammelte Eigenkapital 25.000 € erreicht. Dann automatische Umwandlung zur GmbH möglich.",
         kind: "info",
         estMinutes: 10,
+        estCost: "0 € · 25 % des Jahresgewinns als Rücklage (kein Cash-Aufwand)",
         extendedNotes: [
           "Beispiel: 12.000 € Gewinn Jahr 1 → 3.000 € müssen in Rücklage. Dürfen NICHT ausgeschüttet werden, NICHT an Gesellschafter zurückgezahlt werden.",
           "Solange Rücklage < 25.000 €: Dividenden-Auszahlungen sind nur nach Bildung der Rücklage zulässig.",
@@ -492,6 +525,8 @@ export const PLAYBOOKS: Playbook[] = [
     outcome: "Steuerlich optimierte 2-Stufen-Struktur mit Vermögensaufbau in der Holding.",
     duration: "6–10 Wochen",
     difficulty: "Komplex",
+    totalCost: "1.000–2.500 € + 25k Holding-Stammkapital",
+    runningCost: "jährlich: 1.000–3.000 € StB für Konzern-Buchhaltung",
     steps: [
       { slug: "ist-pruefen", title: "Ausgangslage prüfen", description: "Existiert schon eine GmbH? → Sachgründung/Anteilseinbringung. Sonst beide neu gründen.", kind: "decision", estMinutes: 30 },
       { slug: "holding-name", title: "Holding-Namen festlegen", description: "Tipp: Nachname + \"Holding GmbH\" oder neutraler Name (kein operativer Bezug).", kind: "form", estMinutes: 15,
@@ -518,6 +553,8 @@ export const PLAYBOOKS: Playbook[] = [
     outcome: "Saubere Kleinunternehmer-Anmeldung mit klarer Roadmap zur Regelbesteuerung.",
     duration: "1 Woche",
     difficulty: "Einfach",
+    totalCost: "0 € Setup",
+    runningCost: "0 € (laufend) · Wechsel später ggf. 200–500 € StB",
     steps: [
       {
         slug: "disclaimer",
@@ -525,6 +562,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Kleinunternehmer-Regelung (§19 UStG) ist KEIN \"cooler Trick\" — es ist eine gesetzliche Vereinfachung für KLEINE Umsätze. Ab 22k Vorjahr / 50k laufendes Jahr fällst du raus. Bei B2B-Geschäft oder Investitionen ist sie oft NACHTEILIG (kein Vorsteuerabzug).",
         kind: "info",
         estMinutes: 10,
+        estCost: "0 €",
         warning: "Lies erst den nächsten Schritt (\"Bin ich überhaupt geeignet?\") bevor du irgendwas in ELSTER ankreuzt.",
       },
       {
@@ -533,6 +571,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Hart-Kriterien: Vorjahresumsatz < 22.000 € + laufendes Jahr voraussichtlich < 50.000 €. Plus: Macht es wirtschaftlich Sinn?",
         kind: "decision",
         estMinutes: 30,
+        estCost: "0 €",
         checklist: [
           "Vorjahresumsatz < 22.000 € (bei Neugründung: hochgerechnet aufs Jahr)",
           "Laufendes Jahr voraussichtlich < 50.000 €",
@@ -549,6 +588,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Bei Erstanmeldung: Im Fragebogen FsE Kreuz bei \"Anwendung der Kleinunternehmer-Regelung nach §19 UStG\". Wirkung: keine USt auf Rechnungen, kein USt-Voranmeldung-Pflicht, kein Vorsteuerabzug.",
         kind: "form",
         estMinutes: 30,
+        estCost: "0 €",
         externalLinks: [
           { label: "ELSTER: Fragebogen FsE", url: "https://www.elster.de/eportal/formulare-leistungen/alleformulare/fsegewjur" },
         ],
@@ -563,6 +603,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Pflicht-Hinweis auf JEDER Rechnung: \"Gemäß §19 UStG wird keine Umsatzsteuer berechnet.\" Sonst Aberkennung möglich.",
         kind: "checklist",
         estMinutes: 15,
+        estCost: "0 €",
         checklist: [
           "Rechnungen OHNE USt-Ausweis ausstellen",
           "Hinweis: \"Gemäß §19 UStG wird keine Umsatzsteuer berechnet.\" (oder ähnlicher klarer Wortlaut)",
@@ -578,6 +619,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Bei großen Investitionen (Lager-Aufbau, Maschinen, Fahrzeug, Werbe-Push) lohnt der Verzicht auf KU oft. Beispiel: 50k € Werbe-Investment = 8k Vorsteuer verloren.",
         kind: "info",
         estMinutes: 20,
+        estCost: "0 €",
       },
       {
         slug: "wechsel",
@@ -585,6 +627,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Bei Überschreiten 22k Vorjahr ODER 50k erwartet im laufenden Jahr: ab Folgejahr USt-pflichtig. Frühzeitig vorbereiten — Buchhaltung muss umgestellt werden.",
         kind: "checklist",
         estMinutes: 60,
+        estCost: "0 € (Verwaltungsumstellung) · ggf. StB-Kosten 200–500 € einmalig",
         checklist: [
           "USt-ID beim BZSt beantragen",
           "Rechnungs-Templates auf USt-Ausweis umstellen",
@@ -609,6 +652,8 @@ export const PLAYBOOKS: Playbook[] = [
     outcome: "Eingetragene Marke (DE 290 € / EU 850 € / international ab 653 CHF) mit 10 Jahren Schutz + verifizierte Domain.",
     duration: "4–8 Wochen",
     difficulty: "Einfach",
+    totalCost: "290 € (DE) bis 1.000 € (EU 1 Klasse + Anwalt)",
+    runningCost: "alle 10 Jahre: 750 € (DE) / 850 € (EU)",
     steps: [
       {
         slug: "live-check",
@@ -616,6 +661,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Bevor du irgendwas anmeldest, prüfe deinen Wunschnamen gegen DPMA-Register (DE), EUIPO (EU) und Domain-Verfügbarkeit (.de, .com, .net, .io, .shop). Unser Check-Tool macht das in einem Aufwasch.",
         kind: "external",
         estMinutes: 10,
+        estCost: "0 € (in GründerX inklusive)",
         externalLinks: [
           { label: "→ Marken-/Domain-Check öffnen (in GründerX)", url: "/cockpit/check" },
           { label: "DPMA Marken-Register (manuell)", url: "https://register.dpma.de/DPMAregister/marke/einsteiger" },
@@ -635,6 +681,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "DE-Marke (DPMA): 290 € für 1–3 Klassen, gilt nur in Deutschland. EU-Marke (EUIPO): 850 € für 1 Klasse + 50 € pro weitere, gilt in allen 27 EU-Staaten. International (WIPO): mind. 653 CHF + Länder-Gebühren.",
         kind: "decision",
         estMinutes: 20,
+        estCost: "0 €",
         extendedNotes: [
           "Faustregel: Wenn du nur DACH bedienst → DE-Marke + ggf. AT/CH separat. Wenn EU-weit → EU-Marke (deutlich günstiger pro Land). Wenn US/Asia geplant → International über Madrid-System (WIPO).",
           "EU-Marke zählt als \"identische Marke\" in allen 27 EU-Ländern — bei Konflikt mit nur einer nationalen Marke kann sie komplett scheitern.",
@@ -646,6 +693,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Marken werden für 1–45 Klassen registriert (Nizza-Klassifikation). Standard-Anmeldung umfasst 3 Klassen. Zusätzliche Klasse: ~100 € (DPMA) / 50 € (EUIPO).",
         kind: "form",
         estMinutes: 45,
+        estCost: "0 €",
         fields: [{ name: "classes", label: "Gewählte Klassen + Waren/Dienstleistungen", type: "textarea" }],
         externalLinks: [
           { label: "Nizza-Klassifikation TMclass", url: "https://www.tmdn.org/tmclass/" },
@@ -671,6 +719,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "DE: DPMAdirektWeb (online, Login mit Karten- oder Software-Zertifikat). EU: EUIPO User Area. Beide brauchen ein Konto + Zahlung (Lastschrift, Kreditkarte).",
         kind: "external",
         estMinutes: 60,
+        estCost: "DPMA: 290 € (3 Klassen) + 100 €/weitere Klasse · EUIPO: 850 € (1 Klasse) + 50 €/2. + 150 €/weitere · WIPO Madrid: 653 CHF + Länder-Gebühren",
         externalLinks: [
           { label: "DPMAdirektWeb (Online-Anmeldung DE)", url: "https://direkt.dpma.de" },
           { label: "DPMAdirektPro (Massen-Anmeldung)", url: "https://www.dpma.de/service/e_dienstleistungen/dpmadirektpro/index.html" },
@@ -690,6 +739,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Nach Eintragung wird Marke veröffentlicht — 3 Monate (DE und EU) Widerspruchsfrist. Inhaber älterer ähnlicher Marken können widersprechen. Wenn kein Widerspruch: endgültige Eintragung.",
         kind: "info",
         estMinutes: 5,
+        estCost: "0 € (außer Anwalt bei Konflikt: 800–3.000 €)",
         warning: "Bei Widerspruch: nimm sofort einen Anwalt für gewerblichen Rechtsschutz. Du kannst erwidern, Klassen einschränken oder die Marke aufgeben — Strategie individuell.",
       },
       {
@@ -698,6 +748,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Marke wird im Register eingetragen, Urkunde kommt per Post oder PDF. Schutzdauer: 10 Jahre — danach Verlängerung 750 € (DE) / 850 € (EU).",
         kind: "checklist",
         estMinutes: 30,
+        estCost: "0 € (Verlängerung nach 10 Jahren: DPMA 750 € · EUIPO 850 €)",
         checklist: [
           "Urkunde sicher aufbewahren (auch digital scannen)",
           "Verlängerungstermin (10 Jahre) im Kalender + Erinnerung 6 Monate vorher",
@@ -722,6 +773,8 @@ export const PLAYBOOKS: Playbook[] = [
     outcome: "Live Shopify-Store mit Zahlungs-Setup, Compliance-Anmeldungen, Tracking — und 0,3–2 % gesparter Transaction-Fee durch optimale Plan-Wahl.",
     duration: "4–8 Wochen",
     difficulty: "Mittel",
+    totalCost: "500–1.500 € Setup (Domain + Theme + Apps + Rechtstexte)",
+    runningCost: "monatlich: 50–300 € (Plan + Apps + Rechtstexte) + Werbe-Budget",
     steps: [
       {
         slug: "rechtsform",
@@ -729,6 +782,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Einzelunternehmer / GmbH / UG. Bei reinem Online-Shop ohne Risiko: Einzel reicht. Skalierung > 200k €/Jahr: GmbH erwägen wegen Haftung.",
         kind: "decision",
         estMinutes: 30,
+        estCost: "Siehe GmbH-/UG-Playbook",
         externalLinks: [
           { label: "→ Rechtsform-Wizard öffnen", url: "/wizard/rechtsform" },
         ],
@@ -739,6 +793,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: ".de + .com + Social-Handles + Marken-Check. .de bei DENIC-Domain-Provider (~10 €/Jahr).",
         kind: "checklist",
         estMinutes: 60,
+        estCost: ".de ~8–10 €/Jahr · .com ~12–15 €/Jahr · .shop/.io ~30–60 €/Jahr",
         checklist: [
           ".de Domain (typisch ~8–10 €/Jahr)",
           ".com Domain (typisch ~12–15 €/Jahr)",
@@ -761,6 +816,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Account erstellen + 3 Tage Trial (kostenlos) + danach Plan wählen. ACHTUNG: Bei Account-Erstellung Land + Währung korrekt setzen — nachträgliche Änderung KOMPLEX.",
         kind: "external",
         estMinutes: 30,
+        estCost: "0 € (3-Tage Trial) · ab Tag 4 Plan-Gebühr",
         externalLinks: [
           { label: "Shopify-Anmeldung", url: "https://shopify.com/de" },
         ],
@@ -779,6 +835,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Basic 36$/Mon (2,9 % + 0,30 € Transaktionsgebühr) | Shopify 105$/Mon (2,6 %) | Advanced 399$/Mon (2,4 %). PLUS: Ohne Shopify Payments fallen ZUSÄTZLICH 0,5–2 % Transaction Fee an.",
         kind: "decision",
         estMinutes: 20,
+        estCost: "Basic 36 $/Mon · Shopify 105 $/Mon · Advanced 399 $/Mon · Plus ab 2.300 $/Mon",
         extendedNotes: [
           "Faustregel: Bei < 50k €/Mon Umsatz → Basic-Plan + Shopify Payments. Spart vs. Plus 70 €/Mon ohne nennenswerten Verlust.",
           "Bei 50–200k €/Mon → Shopify-Plan ($105) — die 0,3 % weniger Transaktionsgebühr (2,6 % statt 2,9 %) zahlen sich ab ~25k €/Mon Umsatz aus.",
@@ -793,6 +850,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Alle DSGVO-Pflichten + Versand + Steuern + Locale.",
         kind: "checklist",
         estMinutes: 90,
+        estCost: "0 €",
         checklist: [
           "Settings → General: Firmenname, Adresse, USt-ID, Telefon — wird im Impressum verwendet",
           "Settings → Taxes & Duties: USt 19 % auf Produkte (für DE-Verkäufe), 7 % für Bücher/Lebensmittel",
@@ -815,6 +873,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Standard für DACH: Shopify Payments (Karten + Apple/Google Pay) + Klarna (Sofort, Rechnung, Raten) + PayPal Express. Ohne PayPal verliert man 15–25 % Conversion in DACH.",
         kind: "checklist",
         estMinutes: 60,
+        estCost: "Shopify Payments 1,9–2,9 % + 0,30 € · Klarna 2,49–3,99 % · PayPal 2,49–3,49 %",
         checklist: [
           "Shopify Payments aktivieren (USt-ID + Bankverbindung + ggf. Geschäftsführer-PA-Kopie)",
           "Klarna integrieren (Sofortüberweisung, Rechnung, Raten — separater Vertrag mit Klarna)",
@@ -834,6 +893,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Impressum, AGB, Widerruf, Datenschutz, Versand, Zahlung. Ohne diese 6 Pflichttexte: Abmahnung garantiert.",
         kind: "external",
         estMinutes: 60,
+        estCost: "9,90–29,90 €/Mon (eRecht24, IT-Recht-Kanzlei) · spart Abmahn-Kosten 1.500 € +",
         checklist: [
           "Impressum (mit USt-ID, GF, HR-Nummer, Sitz, Kontakt)",
           "AGB (für E-Commerce mit Verbrauchern)",
@@ -856,6 +916,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Pflicht ab 1. verkaufter Ware. KOSTENLOS bei der Stiftung Zentrale Stelle Verpackungsregister registrieren. Plus: Systembeteiligung bei einem dualen System (Interseroh, Reclay, ...) für Verpackungsmüll.",
         kind: "external",
         estMinutes: 60,
+        estCost: "0 € Anmeldung · Systembeteiligung 30–500 €/Jahr (volumenabhängig)",
         externalLinks: [
           { label: "LUCID Registrierung", url: "https://lucid.verpackungsregister.org" },
           { label: "Interseroh+ Systembeteiligung", url: "https://www.interseroh.de" },
@@ -869,6 +930,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "DHL Geschäftskunden für DE-Versand (~3,80 € Päckchen, ~5,90 € Paket). Sendcloud als Multi-Carrier-Tool — spart bei DHL Geschäftskunden ~10–20 % vs. Privattarif.",
         kind: "external",
         estMinutes: 60,
+        estCost: "DHL Päckchen ~3,80 € · Paket ~5,90 € · Sendcloud ab 0 €/Mon (free) · 25 €/Mon Lite",
         externalLinks: [
           { label: "DHL Geschäftskundenportal", url: "https://www.dhl.de/de/geschaeftskunden.html" },
           { label: "Sendcloud (Multi-Carrier)", url: "https://www.sendcloud.de" },
@@ -881,6 +943,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Meta Pixel + Conversion API + GA4 + TikTok Pixel + Cookie-Banner mit Consent Mode v2.",
         kind: "checklist",
         estMinutes: 90,
+        estCost: "Cookiebot 12 €/Mon · GA4 0 € · Meta Pixel 0 € · Klaviyo Tracking inkl.",
         checklist: [
           "Cookie-Banner DSGVO-konform (Cookiebot, CCM19, Borlabs)",
           "Meta Pixel + Conversion API (CAPI) — wichtig wegen iOS 14+",
@@ -901,6 +964,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Shopify-App-Kosten summieren sich schnell auf 200–500 €/Mon. Filter: Was bringt direkten ROI?",
         kind: "checklist",
         estMinutes: 30,
+        estCost: "Klaviyo 150–750 €/Mon · Reviews-Apps 10–30 €/Mon · VITALS 30 €/Mon (ersetzt 5+)",
         checklist: [
           "Klaviyo (Email/SMS) — Pflicht für E-Commerce-Brands, ~150 €/Mon ab 5k Subscriber",
           "Judge.me / Loox (Reviews) — gut & günstig, ~10–30 €/Mon",
@@ -919,6 +983,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Erste Bestellungen über Familie/Friends + Ads-Tests Meta/TikTok mit kleinem Budget.",
         kind: "info",
         estMinutes: 30,
+        estCost: "Meta/TikTok Ads ab 100 €/Tag · Influencer-Seeding 500–2.000 € pro Kampagne",
         checklist: [
           "10–20 Soft-Launch-Bestellungen über Familie/Friends — Real-Tests aller Flows",
           "Meta Ads: Engagement-Test 100–200 € → Conversion-Test 500–1.000 € → Skalierung",
@@ -941,6 +1006,8 @@ export const PLAYBOOKS: Playbook[] = [
     outcome: "Live Amazon-FBA-Listing mit eingelagerter Ware, Brand Registry und allen Compliance-Anmeldungen.",
     duration: "8–14 Wochen",
     difficulty: "Mittel",
+    totalCost: "1.000–3.000 € Setup (Marke + EAN + Compliance + Bilder)",
+    runningCost: "monatlich: 39 € Pro Account + Werbe-Budget + LUCID/WEEE/BattG ~50–100 €",
     steps: [
       {
         slug: "brand",
@@ -948,6 +1015,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Eingetragene Marke ist Voraussetzung für Amazon Brand Registry. EU-Marke (EUIPO, 850 €) oder DE-Marke (DPMA, 290 €). Anmelden DAUERT 4–8 Wochen — JETZT starten, nicht später.",
         kind: "info",
         estMinutes: 30,
+        estCost: "Siehe Marken-Playbook (290–850 €)",
         externalLinks: [
           { label: "→ Marken-Playbook", url: "/playbook/marke-anmelden" },
           { label: "→ Marken-/Domain-Check", url: "/cockpit/check" },
@@ -960,6 +1028,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "UG/GmbH empfohlen wegen Haftung (Produkthaftung). Einzelunternehmen geht auch — aber bei Kategorien wie Kosmetik/Lebensmittel: GmbH wegen Risiko.",
         kind: "info",
         estMinutes: 30,
+        estCost: "Siehe GmbH-/UG-Playbook",
         externalLinks: [
           { label: "→ Rechtsform-Wizard", url: "/wizard/rechtsform" },
           { label: "→ Geschäftskonto-Vergleich", url: "/anbieter#banking-de" },
@@ -971,6 +1040,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Professional Plan = 39 €/Monat (Pflicht für Brand Registry). Einzelartikelverkauf-Plan kostenlos, aber 0,99 € pro verkauftem Artikel + kein A+ Content.",
         kind: "external",
         estMinutes: 60,
+        estCost: "39 €/Mon (Pro Account · Pflicht für Brand Registry) · Einzelartikel-Plan 0 €/Mon + 0,99 € pro Verkauf (kein A+ Content)",
         externalLinks: [
           { label: "Amazon Seller Central DE", url: "https://services.amazon.de/services/sell-on-amazon/start-selling.html" },
           { label: "Amazon Seller Central EU", url: "https://sellercentral.amazon.de" },
@@ -990,6 +1060,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Video-Call mit Amazon-Mitarbeiter + Dokumenten-Upload. Dauert 2–6 Wochen. Bereite Pass + HR-Auszug + Adressnachweis (Stromrechnung etc.) vor.",
         kind: "info",
         estMinutes: 60,
+        estCost: "0 €",
         checklist: [
           "Termin via Email einplanen (Amazon schickt Link)",
           "Pass / Personalausweis als PDF + im Video-Call hochheben",
@@ -1006,6 +1077,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Sobald Marke eingetragen + Registriernummer da: Brand Registry beantragen. KOSTENLOS, aber Voraussetzung für A+ Content, Vine, Gesponserte Marken-Kampagnen.",
         kind: "external",
         estMinutes: 30,
+        estCost: "0 € (kostenlos · Marke nötig)",
         externalLinks: [
           { label: "Amazon Brand Registry", url: "https://brandservices.amazon.de" },
         ],
@@ -1022,6 +1094,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Pro Produktkategorie spezifische Pflichten — LUCID (alle), WEEE (Elektronik), BattG (Batterien), CPNP (Kosmetik), MoCRA (Kosmetik USA), EN71 (Spielzeug).",
         kind: "checklist",
         estMinutes: 90,
+        estCost: "EAN/GS1 250 €/Jahr für 10 Codes · LUCID 0 € + Systembeteiligung 30–500 €/Jahr · WEEE 30–500 €/Jahr · BattG 30–200 €/Jahr · CPNP 0 € (kostenlos · aber Sicherheitsbewertung 200–800 €)",
         checklist: [
           "LUCID Verpackungsregister (Pflicht ALLE Verkäufer)",
           "Systembeteiligung beim dualen System (Interseroh / Reclay)",
@@ -1046,6 +1119,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Bilder (1+5), Bullet Points, A+ Content, EAN/GTIN, Backend Keywords. Bei Verstößen: Suspension.",
         kind: "checklist",
         estMinutes: 180,
+        estCost: "Bilder 200–1.000 € · Listing-Texter 100–300 €",
         checklist: [
           "Hauptbild auf reinem weißem Hintergrund (Hex #FFFFFF), Produkt füllt 85 % des Frames",
           "5 weitere Bilder: Lifestyle, Detail, Größenvergleich, Verpackung, Anwendung",
@@ -1064,6 +1138,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Shipping Plan in Seller Central → Labels drucken → Karton packen → Versand zu Amazon-Lager.",
         kind: "form",
         estMinutes: 90,
+        estCost: "DHL Inbound 5–25 €/Karton · Amazon Partnered Carrier oft günstiger",
         checklist: [
           "Shipping Plan: Produkte + Mengen auswählen",
           "Lager-Standort wird von Amazon bestimmt (DE: meist Werne, Bad Hersfeld, Brieselang, Pforzheim)",
@@ -1081,6 +1156,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Auto-Kampagne (Discovery) + Sponsored Brands (Brand-Defense) + Manual Exact (Keyword-Targeting). Tagesbudget realistisch: 20–50 € pro Kampagne, ACoS-Ziel 30–50 % im Launch.",
         kind: "checklist",
         estMinutes: 60,
+        estCost: "Tagesbudget 50–150 € im Launch · ACoS-Ziel 30–50 % (= 30–50 € Werbe-Aufwand pro 100 € Umsatz)",
         checklist: [
           "Auto-Kampagne (Amazon findet Keywords): Tagesbudget 20–30 €",
           "Manual Exact (gezielte Top-Keywords): Tagesbudget 30–50 €",
@@ -1102,6 +1178,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Amazon Vine: bis zu 30 Produkte gratis an Vine-Reviewer (echte Käufer mit hoher Review-Qualität). 200 € Gebühr/Produkt. Pflicht für gute Conversion (4+ Sterne, 30+ Reviews).",
         kind: "info",
         estMinutes: 30,
+        estCost: "200 €/Produkt (für 30 Reviews)",
         extendedNotes: [
           "Vine-Reviewer dürfen alles bewerten — auch negativ. Aber ihre Reviews sind \"verified\", was Trust gibt.",
           "Nicht sofort 30 Vine-Einheiten — start mit 10. Wenn Bewertungen ≥ 4,3 Sterne, später nachlegen.",
@@ -1123,6 +1200,8 @@ export const PLAYBOOKS: Playbook[] = [
     outcome: "Live Kaufland.de-Seller-Account mit eingetragenem Sortiment und automatisierter Rechnung/Versand.",
     duration: "2–4 Wochen",
     difficulty: "Einfach",
+    totalCost: "300–800 € Setup (EAN + Bilder + Easybill)",
+    runningCost: "monatlich: 39,95 € Pro + 6–14 % Provision pro Verkauf",
     steps: [
       {
         slug: "voraussetzungen",
@@ -1130,6 +1209,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Kaufland.de akzeptiert NUR juristische Personen (UG/GmbH/AG) ODER eingetragene Einzelunternehmer (e.K.). Solo-Selbstständige ohne HR-Eintrag werden ABGELEHNT.",
         kind: "decision",
         estMinutes: 15,
+        estCost: "ggf. e.K.-Eintrag im HR ~250 € Notar (falls noch Einzelunternehmer)",
         checklist: [
           "Eingetragene juristische Person (UG, GmbH, AG, KG, OHG) ODER eingetragener Kaufmann (e.K.)",
           "Aktive USt-ID + Steuernummer",
@@ -1145,6 +1225,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Pro-Account 39,95 €/Mon. Provision: 6–14 % je Kategorie. Zahlung an Verkäufer: 14 Tage nach Lieferung. Auszahlung wöchentlich.",
         kind: "info",
         estMinutes: 15,
+        estCost: "39,95 €/Mon · Provision 6–14 % je Kategorie",
         extendedNotes: [
           "Provision Beispiele 2026: Mode 10–14 %, Elektronik 6–8 %, Lebensmittel 7–8 %, Beauty 11 %, Kinderbedarf 9–11 %",
           "Bestseller-Boost: Kaufland pusht aktiv Newcomer in den ersten 90 Tagen — gute Chance auf Sichtbarkeit",
@@ -1157,6 +1238,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Online-Antrag bei Kaufland Seller Center. Bearbeitung 5–10 Werktage. Pflicht-Dokumente direkt parat haben.",
         kind: "external",
         estMinutes: 60,
+        estCost: "0 €",
         externalLinks: [
           { label: "Kaufland Seller Anmeldung", url: "https://verkaeufer.kaufland.de/registrierung.html" },
           { label: "Kaufland Seller Center", url: "https://sellerportal.kaufland.de" },
@@ -1180,6 +1262,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Kaufland verlangt strukturiertes Produkt-CSV (oder direkter EAN/GTIN-Match mit deren Katalog). EAN-Pflicht!",
         kind: "checklist",
         estMinutes: 120,
+        estCost: "EAN/GS1 250 €/Jahr · Bilder 200–500 € (falls extern)",
         checklist: [
           "EAN/GTIN für jedes Produkt (über GS1 Germany kaufen, ~250 € / 10 Codes / Jahr)",
           "Produkttitel: 80–150 Zeichen, mit Marke + Produktname",
@@ -1204,6 +1287,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Wie Amazon: LUCID, WEEE, BattG, CPNP — Kaufland prüft bei Onboarding und kann Account sperren.",
         kind: "checklist",
         estMinutes: 60,
+        estCost: "Wie Amazon (LUCID, WEEE, BattG, CPNP)",
         checklist: [
           "LUCID Verpackungsregister (Pflicht ALLE Verkäufer)",
           "Systembeteiligung beim dualen System",
@@ -1223,6 +1307,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Kaufland erwartet Versand binnen 2 Werktagen ab Bestellung. Tracking-Nummer Pflicht. Eigener Versand (DHL via Sendcloud) oder Kaufland Fulfillment (KFS).",
         kind: "checklist",
         estMinutes: 60,
+        estCost: "DHL/Hermes/DPD ähnlich Shopify · Sendcloud 0–25 €/Mon · Kaufland Fulfillment (KFS) auf Anfrage",
         checklist: [
           "Versand-Tarif Kaufland-konform (Standard 4,99 €, Express 7,99 €)",
           "DHL Geschäftskunden / Hermes / DPD anbinden",
@@ -1241,6 +1326,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Pflicht: Rechnung mit Kunden-Adresse + USt-Ausweis + USt-ID. Idealerweise per Buchhaltungs-Tool wie Lexoffice/sevDesk + Easybill für Marketplace-Rechnungen.",
         kind: "checklist",
         estMinutes: 30,
+        estCost: "Easybill ab 9 €/Mon · Lexoffice ab 11 €/Mon · sevDesk ab 9 €/Mon",
         checklist: [
           "Rechnung pro Bestellung (Kaufland sendet Daten via API)",
           "Easybill / Lexoffice / sevDesk integrieren",
@@ -1259,6 +1345,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Eigenes Werbeformat ähnlich Amazon PPC. Auto-Kampagnen + Manual Keywords. Klick-basiert, CPC ab 0,15 €. Kleines Budget reicht oft für gute Sichtbarkeit (kleinere Konkurrenz!).",
         kind: "info",
         estMinutes: 30,
+        estCost: "Sponsored Products ab 0,15 € CPC · Tagesbudget ab 10 € sinnvoll",
         externalLinks: [
           { label: "Kaufland Sponsored Products", url: "https://werbung.kaufland.de" },
         ],
@@ -1278,6 +1365,8 @@ export const PLAYBOOKS: Playbook[] = [
     outcome: "Sauberes Setup: angemeldete Tätigkeit (Gewerbe oder Freiberuf), Verträge, korrekte Werbekennzeichnung, Steuern unter Kontrolle.",
     duration: "1–3 Wochen",
     difficulty: "Einfach",
+    totalCost: "0–500 € (Anmeldung + ggf. Vertragsvorlage Anwalt)",
+    runningCost: "jährlich: 0 € (Kleinunternehmer) bis 1.000 €+ StB",
     steps: [
       {
         slug: "freiberufler-vs-gewerbe",
@@ -1285,6 +1374,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Künstlerisch / journalistisch (Fotografie, Schreiben, Musik): Freiberufler-Status möglich. Werblich / Produkte / Affiliate: Gewerbe-Anmeldung. In der Praxis: Hybrid → meist Gewerbe.",
         kind: "decision",
         estMinutes: 30,
+        estCost: "0 €",
         extendedNotes: [
           "Freiberufler: keine GewSt, keine Pflicht zur EÜR/Bilanz, keine IHK-Mitgliedschaft.",
           "Gewerbe: GewSt ab 24.500 € Gewinn, EÜR / Buchhaltung Pflicht, IHK-Mitgliedschaft.",
@@ -1298,6 +1388,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Bei Gewerbe: Gewerbeamt + ELSTER-FsE. Bei Freiberuf: nur ELSTER-FsE für natürliche Person.",
         kind: "form",
         estMinutes: 60,
+        estCost: "Gewerbe 20–60 € · Freiberuf 0 €",
         externalLinks: [
           { label: "Gewerbeamt-Suche", url: "https://www.bmwk.de/Redaktion/DE/Artikel/Existenzgruendung/gewerbeanmeldung.html" },
           { label: "ELSTER FsE (natürliche Person)", url: "https://www.elster.de/eportal/formulare-leistungen/alleformulare/fsegewnatp" },
@@ -1316,6 +1407,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Bis 22k €/Jahr Umsatz: §19 UStG → keine USt auf Rechnungen. ABER: B2B-Brand-Deals = oft besser Regelbesteuerung wegen Vorsteuer.",
         kind: "decision",
         estMinutes: 20,
+        estCost: "0 €",
         externalLinks: [
           { label: "→ Kleinunternehmer-Playbook", url: "/playbook/kleinunternehmer" },
         ],
@@ -1330,6 +1422,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Auch als Einzelunternehmer wichtig — saubere Trennung privat/business. Holvi / Finom / Qonto / Kontist (außer für GmbH).",
         kind: "external",
         estMinutes: 30,
+        estCost: "Holvi/Finom/Qonto 0–15 €/Mon",
         externalLinks: [
           { label: "→ Anbieter-Vergleich Konten", url: "/anbieter#banking-de" },
         ],
@@ -1340,6 +1433,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Leistungen, Nutzungsrechte (Whitelist!), Exklusivität, Vergütung, Ausfall-Klausel.",
         kind: "checklist",
         estMinutes: 60,
+        estCost: "Vertragsvorlage Anwalt 200–500 € einmalig · oder Templates 0 €",
         checklist: [
           "Leistungs-Specs (Anzahl Posts, Stories, Reels, Videos — pro Plattform)",
           "Nutzungsrechte ZEITLICH begrenzen (z.B. \"6 Monate Nutzung\")",
@@ -1357,6 +1451,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "\"Werbung\" / \"Anzeige\" bei JEDER Form von Gegenleistung — egal ob Geld, Gratisprodukt oder Affiliate-Provision. Bei Verstoß: Abmahnungen durch Wettbewerbszentrale (1.000–3.000 € Erstkosten).",
         kind: "info",
         estMinutes: 30,
+        estCost: "0 € (aber Abmahnung 1.000–3.000 € möglich)",
         warning: "BGH-Urteil 2021 (I ZR 90/20): \"Eigenwerbung\" für deinen eigenen Account braucht KEIN \"Werbung\" — aber sobald Brand involviert: PFLICHT.",
         checklist: [
           "JEDER Brand-Deal: \"Werbung\" / \"Anzeige\" / \"bezahlte Partnerschaft\"",
@@ -1374,6 +1469,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Künstlersozialkasse: Pflicht-KV/RV/PV mit Arbeitnehmer-Anteil. Du zahlst HALB so viel wie als Selbstständiger — wenn du Anspruch hast.",
         kind: "info",
         estMinutes: 60,
+        estCost: "0 € Antrag · ~5 % vom Gewinn als KSK-Beitrag (statt ~14 % freiwillige KV)",
         externalLinks: [
           { label: "KSK Antragsformulare", url: "https://www.kuenstlersozialkasse.de/kuenstler-und-publizisten/antrag-und-mitgliedschaft.html" },
         ],
@@ -1390,6 +1486,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Pauschal 30 % jedes Einkommens auf separates Konto — deckt ESt + GewSt + ggf. USt.",
         kind: "checklist",
         estMinutes: 15,
+        estCost: "0 €",
         checklist: [
           "Separates Steuer-Sparkonto bei Hausbank oder Tagesgeld (z.B. ING-DiBa, Trade Republic)",
           "Bei jeder Brand-Deal-Zahlung: 30 % sofort auf das Steuerkonto",
@@ -1413,6 +1510,8 @@ export const PLAYBOOKS: Playbook[] = [
     outcome: "Voll funktionsfähige US-LLC mit EIN, US-Bankkonto und korrekter US/DE-Steuer-Setup.",
     duration: "4–8 Wochen",
     difficulty: "Mittel",
+    totalCost: "0 € Setup",
+    runningCost: "0 € (laufend) · Wechsel später ggf. 200–500 € StB",
     steps: [
       {
         slug: "state",
@@ -1420,6 +1519,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Wyoming (anonym, $100 Filing, $60/Jahr), Delaware (Investor-freundlich, $90 Filing, $300/Jahr Franchise Tax), New Mexico ($50 Filing, KEIN Annual Report — günstigster Staat lifecycle).",
         kind: "decision",
         estMinutes: 30,
+        estCost: "0 €",
         fields: [
           { name: "state", label: "Gewählter Bundesstaat" },
           { name: "reason", label: "Begründung", type: "textarea" },
@@ -1437,6 +1537,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Verfügbarkeit im Secretary of State des gewählten Staats prüfen. Endung \"LLC\", \"L.L.C.\" oder \"Limited Liability Company\" Pflicht.",
         kind: "form",
         estMinutes: 30,
+        estCost: "0–25 $ optionale Reservation",
         fields: [{ name: "company_name", label: "LLC-Name (mit Endung)" }],
         externalLinks: [
           { label: "Wyoming SOS Business Search", url: "https://wyobiz.wyo.gov/Business/FilingSearch.aspx" },
@@ -1450,6 +1551,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "JEDER Staat verlangt einen Registered Agent mit physischer Adresse im Staat. Northwest = Branchen-Standard, Harbor Compliance = günstigste seriöse Alternative, Cloud Peak Law = mit Treuhand-Service.",
         kind: "external",
         estMinutes: 30,
+        estCost: "Northwest 125 $/Jahr · Harbor 89 $/Jahr · Cloud Peak Law ab 350 $/Jahr",
         externalLinks: [
           { label: "Northwest Registered Agent", url: "https://www.northwestregisteredagent.com" },
           { label: "Harbor Compliance", url: "https://www.harborcompliance.com" },
@@ -1472,6 +1574,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Gründungsdokument beim Secretary of State einreichen. Bestätigung 1–10 Werktage online, 2–4 Wochen per Brief.",
         kind: "form",
         estMinutes: 60,
+        estCost: "Wyoming 100 $ · Delaware 90 $ · New Mexico 50 $ (einmalig) · +39–125 $ falls Service-Anbieter Filing macht",
         fields: [
           { name: "filing_date", label: "Einreichungsdatum", type: "date" },
           { name: "filing_no", label: "Bestätigungsnummer (Stamp/Seal)" },
@@ -1492,6 +1595,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Tax-ID via Form SS-4 (für non-US Founder ohne SSN: Fax oder Brief — KEIN Online-Antrag möglich!). Dauert 4–6 Wochen per Fax, 8+ Wochen per Brief.",
         kind: "form",
         estMinutes: 90,
+        estCost: "0 $ (IRS kostenlos) · oder CPA-Service 150–300 $ für 1–2 Werktage statt 4–8 Wochen",
         fields: [
           { name: "ein", label: "EIN (XX-XXXXXXX)" },
           { name: "ein_date", label: "Erhalten am", type: "date" },
@@ -1516,6 +1620,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Nicht überall Pflicht (Wyoming/NM nicht, Delaware faktisch ja), aber für Banken & CPAs erforderlich. Single-Member-Template reicht.",
         kind: "checklist",
         estMinutes: 60,
+        estCost: "0 $ (DIY mit Template) · Anwalt 300–800 $",
         checklist: [
           "Member-Struktur (Single oder Multi)",
           "Gewinnverteilung (bei Single: 100 % an dich)",
@@ -1536,6 +1641,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Beneficial Ownership Information Report — Pflicht für ALLE neu gegründeten LLCs seit 2024. Frist: 30 Tage nach Gründung.",
         kind: "external",
         estMinutes: 60,
+        estCost: "0 $ (FinCEN kostenlos) · Service-Anbieter 50–150 $",
         externalLinks: [
           { label: "FinCEN BOI E-Filing", url: "https://boiefiling.fincen.gov" },
           { label: "FinCEN BOI FAQ", url: "https://www.fincen.gov/boi-faqs" },
@@ -1560,6 +1666,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Mercury (für Tech-/Online-Brands optimiert), Wise Business (Multi-Currency, kein USD-Konto im klassischen Sinn), Relay (gut für Buchhaltung-Integration).",
         kind: "external",
         estMinutes: 90,
+        estCost: "Mercury 0 $/Mon · Wise Business ab 31 $ einmalig · Relay 0 $/Mon",
         externalLinks: [
           { label: "Mercury", url: "https://mercury.com" },
           { label: "Wise Business", url: "https://wise.com/business" },
@@ -1591,6 +1698,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Nur falls du persönlich US-Steuern zahlen musst (z.B. Multi-Member-LLC mit Pass-Through-Steuer in DE-DBA-Sonderfall). Form W-7 mit beglaubigter Pass-Kopie.",
         kind: "info",
         estMinutes: 120,
+        estCost: "0 $ (W-7 kostenlos) · Acceptance Agent 100–300 $",
         externalLinks: [
           { label: "Form W-7 PDF (IRS)", url: "https://www.irs.gov/pub/irs-pdf/fw7.pdf" },
           { label: "W-7 Anleitung", url: "https://www.irs.gov/pub/irs-pdf/iw7.pdf" },
@@ -1609,6 +1717,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Pflicht für Single-Member-LLC mit ausländischem Owner — JÄHRLICH, auch ohne Umsatz. Strafe $25.000 bei Versäumnis.",
         kind: "info",
         estMinutes: 90,
+        estCost: "0 $ DIY · CPA 300–800 $/Jahr (empfohlen wegen 25.000 $ Strafe-Risiko)",
         externalLinks: [
           { label: "Form 5472 PDF", url: "https://www.irs.gov/pub/irs-pdf/f5472.pdf" },
           { label: "Form 1120 PDF", url: "https://www.irs.gov/pub/irs-pdf/f1120.pdf" },
@@ -1629,6 +1738,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Wyoming: $60 + Filing. Delaware: $300 Franchise Tax. New Mexico: KEIN Annual Report (großer Vorteil).",
         kind: "info",
         estMinutes: 30,
+        estCost: "Wyoming 60 $/Jahr · Delaware 300 $/Jahr Franchise Tax · New Mexico 0 $",
         extendedNotes: [
           "Wyoming Annual Report: fällig zum Anniversary-Date der Gründung. $60 Mindestbetrag, kann höher sein basierend auf Wyoming-Vermögen (in der Praxis fast nie).",
           "Delaware Franchise Tax: fällig 1. Juni. $300 Mindestbetrag.",
@@ -1642,6 +1752,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "DBA USA-DE: LLC ist transparent (default Disregarded Entity) → Gewinne in DE als Einkünfte aus Gewerbebetrieb behandelt. Hinzurechnungsbesteuerung (CFC) prüfen.",
         kind: "checklist",
         estMinutes: 90,
+        estCost: "Deutscher StB für US-Erfahrung: 200–500 €/Stunde (1–3h jährlich)",
         checklist: [
           "Mit deutschem StB sprechen (LLC-spezialisiert!)",
           "DBA-Anrechnung dokumentieren (jährlich)",
@@ -1666,6 +1777,8 @@ export const PLAYBOOKS: Playbook[] = [
     outcome: "Voll registrierte HK-Limited mit Bankkonto und ggf. Offshore-Profits-Tax-Status (0 % Profits Tax).",
     duration: "6–10 Wochen",
     difficulty: "Komplex",
+    totalCost: "300–600 $ Setup (Filing + Registered Agent + Bank)",
+    runningCost: "jährlich: 60–300 $ State + 125 $ RA + 300–800 $ CPA für 5472",
     steps: [
       {
         slug: "namecheck",
@@ -1673,6 +1786,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "EN + optional CN-Name. Cyber Search Centre des Companies Registry prüfen.",
         kind: "form",
         estMinutes: 15,
+        estCost: "0 €",
         fields: [
           { name: "name_en", label: "Englischer Name (mit \"Limited\")" },
           { name: "name_cn", label: "Chinesischer Name (optional)" },
@@ -1688,6 +1802,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Pflicht nach §474 Companies Ordinance: jede HK-Ltd MUSS einen lokalen Company Secretary haben (natürliche Person mit HK-Resident-Status oder lizenzierte Firma). Service-Anbieter nehmen ~$300–800/Jahr.",
         kind: "external",
         estMinutes: 60,
+        estCost: "300–800 $/Jahr (Statrys/Sleek/Osome) · 500–1.500 $/Jahr (Hawksford Premium)",
         externalLinks: [
           { label: "Statrys (Banking + CS-Paket)", url: "https://statrys.com" },
           { label: "Hawksford HK", url: "https://www.hawksford.com/hong-kong" },
@@ -1705,6 +1820,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Lokale HK-Adresse Pflicht. Meist im CS-Paket inkludiert.",
         kind: "form",
         estMinutes: 15,
+        estCost: "Im CS-Paket meist inkludiert",
       },
       {
         slug: "incorporate",
@@ -1712,6 +1828,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Form NNC1 (für Limited mit Share Capital) + Articles of Association bei Companies Registry. Online-Filing über e-Registry-Portal in ~1 Werktag.",
         kind: "form",
         estMinutes: 90,
+        estCost: "HKD 1.720 (~200 €) Online-Filing · Form NNC1",
         externalLinks: [
           { label: "e-Registry Online-Portal", url: "https://www.eregistry.gov.hk" },
           { label: "Form NNC1 PDF", url: "https://www.cr.gov.hk/en/forms/forms-companies.htm" },
@@ -1731,6 +1848,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Pflicht-Anmeldung beim Inland Revenue Department (IRD). Gilt 1 Jahr (HKD 250) oder 3 Jahre (HKD 3.950).",
         kind: "form",
         estMinutes: 30,
+        estCost: "HKD 250/Jahr (1-Jahres-Cert) · HKD 3.950 / 3 Jahre (~30 € / 470 €)",
         externalLinks: [
           { label: "IRD Business Registration", url: "https://www.ird.gov.hk/eng/tax/bre.htm" },
         ],
@@ -1745,6 +1863,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Statrys, Airwallex, Currenxie sind 100 % remote möglich. HSBC, DBS, Standard Chartered verlangen persönliche Vorstellung in HK.",
         kind: "external",
         estMinutes: 120,
+        estCost: "Statrys 9 $/Mon · Airwallex 0 $/Mon · Currenxie 0 $/Mon · HSBC ab 200 HKD/Mon",
         externalLinks: [
           { label: "Statrys", url: "https://statrys.com" },
           { label: "Airwallex", url: "https://airwallex.com" },
@@ -1765,6 +1884,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Wenn alle Einnahmen außerhalb HK erzielt werden (keine HK-Kunden, keine HK-Mitarbeiter, keine HK-Lieferanten in der Wertschöpfungskette): 0 % Profits Tax möglich. Antrag mit Audit + IRD-Befragung.",
         kind: "info",
         estMinutes: 120,
+        estCost: "0 € Antrag · Audit + Anwalt 5.000–15.000 HKD (~600–1.800 €)",
         warning: "Offshore-Status wird seit 2018 strenger geprüft. Mailbox-Setup ohne Substanz wird ABGELEHNT. Du brauchst klare Dokumentation: Verträge unterschrieben außerhalb HK, Lieferungen außerhalb HK, Geschäftsentscheidungen außerhalb HK.",
         extendedNotes: [
           "Profits Tax Standard: 8,25 % auf erste HKD 2 Mio., 16,5 % darüber (für Limited)",
@@ -1778,6 +1898,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Pflicht jährlich für ALLE HK-Limiteds — durch HK-zertifizierten Auditor (CPA, Practising Certificate). Budget: HKD 12.000–25.000 für kleine Firmen, HKD 30.000+ für aktive Trading-Firmen.",
         kind: "info",
         estMinutes: 60,
+        estCost: "HKD 8.000–25.000/Jahr (~950–2.950 €) · inaktive Firmen oft am unteren Ende",
         extendedNotes: [
           "Audit deckt: Profit & Loss, Balance Sheet, Cashflow, Notes",
           "Audit-Frist: jährlich, vor Profits Tax Filing",
@@ -1790,6 +1911,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Form NAR1 jährlich beim Companies Registry. Mit Anniversary-Date + Update Director/Shareholder/Address. HKD 105 Filing-Fee.",
         kind: "info",
         estMinutes: 30,
+        estCost: "HKD 105 + Strafgebühren bis HKD 8.700 bei Versäumnis",
         externalLinks: [
           { label: "Form NAR1", url: "https://www.cr.gov.hk/en/forms/forms-companies.htm" },
         ],
@@ -1804,6 +1926,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Hinzurechnungsbesteuerung §7-14 AStG: passive Einkünfte aus HK-Ltd werden in DE besteuert (~ 25 %). Aktive Tätigkeit + Substanz = Befreiung möglich.",
         kind: "checklist",
         estMinutes: 90,
+        estCost: "Deutscher StB mit HK-/Asien-Erfahrung: 250–600 €/Stunde",
         checklist: [
           "Mit deutschem StB sprechen (HK-/Asien-Erfahrung Pflicht)",
           "Substanz dokumentieren: Mitarbeiter, Büro, Geschäftsentscheidungen vor Ort",

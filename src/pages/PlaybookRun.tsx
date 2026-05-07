@@ -177,6 +177,20 @@ const PlaybookRun = () => {
                 ? "Du hast alle Schritte abgeschlossen."
                 : <>Schritt {activeIndex + 1} aktiv · noch <strong>{remainingLabel}</strong> · {progress} %</>}
             </div>
+            {(pb.totalCost || pb.runningCost) && (
+              <div className="mt-3 flex flex-wrap gap-2 text-[11px]">
+                {pb.totalCost && (
+                  <div className="rounded-full bg-emerald-500/10 text-emerald-700 px-3 py-1 font-semibold">
+                    💶 Setup: {pb.totalCost}
+                  </div>
+                )}
+                {pb.runningCost && (
+                  <div className="rounded-full bg-secondary text-muted-foreground px-3 py-1">
+                    🔁 {pb.runningCost}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
           {progress < 100 && (
@@ -275,8 +289,15 @@ const PlaybookRun = () => {
                     <div className="text-xs font-bold uppercase tracking-wider text-accent-blue">
                       Schritt {activeIndex + 1} von {pb.steps.length} · {STEP_KIND_LABEL[step.kind]}
                     </div>
-                    <div className="text-xs text-muted-foreground inline-flex items-center gap-1 shrink-0">
-                      <Clock className="h-3 w-3" /> ~{step.estMinutes} min
+                    <div className="flex items-center gap-3 shrink-0">
+                      <div className="text-xs text-muted-foreground inline-flex items-center gap-1">
+                        <Clock className="h-3 w-3" /> ~{step.estMinutes} min
+                      </div>
+                      {step.estCost && (
+                        <div className="text-xs font-semibold inline-flex items-center gap-1 rounded-full bg-emerald-500/10 text-emerald-700 px-2 py-0.5">
+                          💶 {step.estCost.length > 30 ? step.estCost.split("·")[0].trim() : step.estCost}
+                        </div>
+                      )}
                     </div>
                   </div>
                   <h2 className="text-2xl font-bold mt-1 leading-tight">{step.title}</h2>
@@ -284,7 +305,14 @@ const PlaybookRun = () => {
               </div>
             );
           })()}
-          <p className="text-muted-foreground mb-5 leading-relaxed">{step.description}</p>
+          <p className="text-muted-foreground mb-3 leading-relaxed">{step.description}</p>
+
+          {step.estCost && step.estCost.length > 30 && (
+            <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-3 mb-5 text-xs leading-relaxed">
+              <span className="font-semibold text-emerald-700">Geschätzte Kosten:</span>{" "}
+              <span className="text-muted-foreground">{step.estCost}</span>
+            </div>
+          )}
 
           {step.warning && (
             <div className="flex items-start gap-2 rounded-xl bg-destructive/10 text-destructive p-3 mb-5 text-sm">
