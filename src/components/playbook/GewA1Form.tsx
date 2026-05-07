@@ -8,51 +8,53 @@ interface Props {
   setAnswers: (a: Record<string, string>) => void;
 }
 
-const FIELDS: { key: string; label: string; type?: string; placeholder?: string; help?: string; col?: 1 | 2 }[] = [
-  // Person
-  { key: "g_name", label: "Familienname", placeholder: "Mustermann", col: 1 },
-  { key: "g_geburtsname", label: "Geburtsname (falls abweichend)", placeholder: "", col: 1 },
-  { key: "g_vorname", label: "Vorname(n)", placeholder: "Max", col: 1 },
-  { key: "g_geburtsdatum", label: "Geburtsdatum", type: "date", col: 1 },
-  { key: "g_geburtsort", label: "Geburtsort + Land", placeholder: "Berlin, Deutschland", col: 1 },
-  { key: "g_staat", label: "Staatsangehörigkeit(en)", placeholder: "deutsch", col: 1 },
-  { key: "g_geschlecht", label: "Geschlecht", placeholder: "männlich / weiblich / divers", col: 1 },
-  { key: "g_familienstand", label: "Familienstand", placeholder: "ledig / verheiratet / …", col: 1 },
+const FIELDS: {
+  key: string;
+  label: string;
+  type?: string;
+  placeholder?: string;
+  help?: string;
+  col?: 1 | 2;
+  /** HTML autocomplete attribute (z.B. "given-name", "street-address") für Browser-Autofill. */
+  autoComplete?: string;
+  /** HTML name attribute — Browser-Autofill braucht semantische Namen. */
+  name?: string;
+}[] = [
+  // Person — Standard-Autofill verfügbar
+  { key: "g_name", name: "family-name", autoComplete: "family-name", label: "Familienname", placeholder: "Mustermann", col: 1 },
+  { key: "g_geburtsname", name: "additional-name", autoComplete: "off", label: "Geburtsname (falls abweichend)", placeholder: "", col: 1 },
+  { key: "g_vorname", name: "given-name", autoComplete: "given-name", label: "Vorname(n)", placeholder: "Max", col: 1 },
+  { key: "g_geburtsdatum", name: "bday", autoComplete: "bday", label: "Geburtsdatum", type: "date", col: 1 },
+  { key: "g_geburtsort", name: "birthplace", autoComplete: "off", label: "Geburtsort + Land", placeholder: "Berlin, Deutschland", col: 1 },
+  { key: "g_staat", name: "country", autoComplete: "country-name", label: "Staatsangehörigkeit(en)", placeholder: "deutsch", col: 1 },
+  { key: "g_geschlecht", name: "sex", autoComplete: "sex", label: "Geschlecht", placeholder: "männlich / weiblich / divers", col: 1 },
+  { key: "g_familienstand", name: "marital-status", autoComplete: "off", label: "Familienstand", placeholder: "ledig / verheiratet / …", col: 1 },
   // Wohn-Adresse
-  { key: "g_strasse", label: "Wohnanschrift Straße + Nr.", placeholder: "Musterweg 12", col: 2 },
-  { key: "g_plz", label: "PLZ", placeholder: "10115", col: 1 },
-  { key: "g_ort", label: "Wohnort", placeholder: "Berlin", col: 1 },
-  { key: "g_telefon", label: "Telefon", placeholder: "+49 30 12345678", col: 1 },
-  { key: "g_email", label: "E-Mail", type: "email", placeholder: "max@beispiel.de", col: 1 },
-  // Betriebs-Adresse
-  { key: "g_betr_strasse", label: "Betriebsanschrift Straße + Nr.", placeholder: "(falls abweichend von Wohnsitz)", col: 2 },
-  { key: "g_betr_plz", label: "Betriebs-PLZ", col: 1 },
-  { key: "g_betr_ort", label: "Betriebs-Ort", col: 1 },
-  // Tätigkeit
+  { key: "g_strasse", name: "street-address", autoComplete: "street-address", label: "Wohnanschrift Straße + Nr.", placeholder: "Musterweg 12", col: 2 },
+  { key: "g_plz", name: "postal-code", autoComplete: "postal-code", label: "PLZ", placeholder: "10115", col: 1 },
+  { key: "g_ort", name: "address-level2", autoComplete: "address-level2", label: "Wohnort", placeholder: "Berlin", col: 1 },
+  { key: "g_telefon", name: "tel", autoComplete: "tel", type: "tel", label: "Telefon", placeholder: "+49 30 12345678", col: 1 },
+  { key: "g_email", name: "email", autoComplete: "email", type: "email", label: "E-Mail", placeholder: "max@beispiel.de", col: 1 },
+  // Betriebs-Adresse — section-business für getrennte Autofill-Speicher (von Chrome unterstützt)
+  { key: "g_betr_strasse", name: "biz-street", autoComplete: "section-business street-address", label: "Betriebsanschrift Straße + Nr.", placeholder: "(falls abweichend von Wohnsitz)", col: 2 },
+  { key: "g_betr_plz", name: "biz-postal", autoComplete: "section-business postal-code", label: "Betriebs-PLZ", col: 1 },
+  { key: "g_betr_ort", name: "biz-city", autoComplete: "section-business address-level2", label: "Betriebs-Ort", col: 1 },
+  // Tätigkeit — kein Autofill (frei-text)
   {
     key: "g_taetigkeit",
+    name: "biz-activity",
+    autoComplete: "off",
     label: "Genaue Tätigkeitsbeschreibung",
     placeholder: "Online-Handel mit Naturkosmetik · Eigenmarken-Produkte · Verkauf via Shopify und Amazon",
     col: 2,
     help: "Sehr wichtig: möglichst konkret beschreiben — Gewerbeamt fragt sonst nach. Mehrere Tätigkeiten? Komma-getrennt auflisten.",
   },
-  { key: "g_beginn", label: "Tag der Betriebsaufnahme", type: "date", col: 1 },
-  {
-    key: "g_anlass",
-    label: "Anlass der Anmeldung",
-    placeholder: "Neugründung / Übernahme / Umzug / Rechtsformwechsel",
-    col: 1,
-  },
-  {
-    key: "g_betriebsart",
-    label: "Betriebsart",
-    placeholder: "Hauptniederlassung / Zweigstelle / Unselbst. Zweigstelle",
-    col: 1,
-  },
-  { key: "g_mitarbeiter", label: "Anzahl Mitarbeiter (geplant)", type: "number", col: 1 },
-  // Spezial
-  { key: "g_handwerk", label: "Handwerk? (Eintrag in HWK Pflicht)", placeholder: "ja / nein / Anlage A / B1 / B2", col: 1 },
-  { key: "g_genehmigung", label: "Erlaubnispflichtig?", placeholder: "ja (z.B. §34c GewO Makler) / nein", col: 1 },
+  { key: "g_beginn", name: "biz-start", autoComplete: "off", label: "Tag der Betriebsaufnahme", type: "date", col: 1 },
+  { key: "g_anlass", name: "biz-reason", autoComplete: "off", label: "Anlass der Anmeldung", placeholder: "Neugründung / Übernahme / Umzug / Rechtsformwechsel", col: 1 },
+  { key: "g_betriebsart", name: "biz-type", autoComplete: "off", label: "Betriebsart", placeholder: "Hauptniederlassung / Zweigstelle / Unselbst. Zweigstelle", col: 1 },
+  { key: "g_mitarbeiter", name: "biz-employees", autoComplete: "off", label: "Anzahl Mitarbeiter (geplant)", type: "number", col: 1 },
+  { key: "g_handwerk", name: "biz-handicraft", autoComplete: "off", label: "Handwerk? (Eintrag in HWK Pflicht)", placeholder: "ja / nein / Anlage A / B1 / B2", col: 1 },
+  { key: "g_genehmigung", name: "biz-permit", autoComplete: "off", label: "Erlaubnispflichtig?", placeholder: "ja (z.B. §34c GewO Makler) / nein", col: 1 },
 ];
 
 export const GewA1Form = ({ answers, setAnswers }: Props) => {
@@ -209,11 +211,20 @@ export const GewA1Form = ({ answers, setAnswers }: Props) => {
         </div>
       </div>
 
-      <div className="grid sm:grid-cols-2 gap-3">
+      <form
+        autoComplete="on"
+        onSubmit={(e) => e.preventDefault()}
+        className="grid sm:grid-cols-2 gap-3"
+      >
         {FIELDS.map((f) => (
           <div key={f.key} className={f.col === 2 ? "sm:col-span-2" : ""}>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">{f.label}</Label>
+            <Label htmlFor={`gewa-${f.key}`} className="text-xs uppercase tracking-wider text-muted-foreground">
+              {f.label}
+            </Label>
             <Input
+              id={`gewa-${f.key}`}
+              name={f.name ?? f.key}
+              autoComplete={f.autoComplete ?? "off"}
               type={f.type ?? "text"}
               value={answers[f.key] ?? ""}
               onChange={(e) => update(f.key, e.target.value)}
@@ -223,7 +234,7 @@ export const GewA1Form = ({ answers, setAnswers }: Props) => {
             {f.help && <div className="text-[10px] text-muted-foreground mt-1 leading-snug">{f.help}</div>}
           </div>
         ))}
-      </div>
+      </form>
 
       <div className="flex items-center justify-between gap-3 flex-wrap rounded-xl bg-secondary/40 p-4">
         <div>

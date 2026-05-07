@@ -188,12 +188,19 @@ export const FamiliengerichtForm = ({ answers, setAnswers }: Props) => {
         </div>
       </div>
 
-      <div className="grid sm:grid-cols-2 gap-3">
+      <form
+        autoComplete="on"
+        onSubmit={(e) => e.preventDefault()}
+        className="grid sm:grid-cols-2 gap-3"
+      >
         <div className="sm:col-span-2">
-          <Label className="text-xs uppercase tracking-wider text-muted-foreground">
+          <Label htmlFor="fg-amtsgericht" className="text-xs uppercase tracking-wider text-muted-foreground">
             Zuständiges Familiengericht (Amtsgericht des Kind-Wohnsitzes)
           </Label>
           <Input
+            id="fg-amtsgericht"
+            name="court-name"
+            autoComplete="off"
             value={answers.fg_amtsgericht ?? ""}
             onChange={(e) => update("fg_amtsgericht", e.target.value)}
             placeholder="z.B. München oder Berlin-Tempelhof-Kreuzberg"
@@ -212,46 +219,52 @@ export const FamiliengerichtForm = ({ answers, setAnswers }: Props) => {
           </div>
         </div>
 
+        {/* Kind-Daten: section-child damit Browser nicht User-Daten reinfüllt */}
         <div>
-          <Label className="text-xs uppercase tracking-wider text-muted-foreground">Vor- + Nachname Kind</Label>
-          <Input value={answers.fg_kind_name ?? ""} onChange={(e) => update("fg_kind_name", e.target.value)} className="mt-1" />
+          <Label htmlFor="fg-kind-name" className="text-xs uppercase tracking-wider text-muted-foreground">Vor- + Nachname Kind</Label>
+          <Input id="fg-kind-name" name="child-name" autoComplete="section-child name" value={answers.fg_kind_name ?? ""} onChange={(e) => update("fg_kind_name", e.target.value)} className="mt-1" />
         </div>
         <div>
-          <Label className="text-xs uppercase tracking-wider text-muted-foreground">Geburtsdatum Kind</Label>
-          <Input type="date" value={answers.fg_kind_geburtsdatum ?? ""} onChange={(e) => update("fg_kind_geburtsdatum", e.target.value)} className="mt-1" />
+          <Label htmlFor="fg-kind-bday" className="text-xs uppercase tracking-wider text-muted-foreground">Geburtsdatum Kind</Label>
+          <Input id="fg-kind-bday" name="child-bday" autoComplete="section-child bday" type="date" value={answers.fg_kind_geburtsdatum ?? ""} onChange={(e) => update("fg_kind_geburtsdatum", e.target.value)} className="mt-1" />
         </div>
         <div>
-          <Label className="text-xs uppercase tracking-wider text-muted-foreground">Geburtsort Kind</Label>
-          <Input value={answers.fg_kind_geburtsort ?? ""} onChange={(e) => update("fg_kind_geburtsort", e.target.value)} className="mt-1" />
+          <Label htmlFor="fg-kind-birthplace" className="text-xs uppercase tracking-wider text-muted-foreground">Geburtsort Kind</Label>
+          <Input id="fg-kind-birthplace" name="child-birthplace" autoComplete="off" value={answers.fg_kind_geburtsort ?? ""} onChange={(e) => update("fg_kind_geburtsort", e.target.value)} className="mt-1" />
         </div>
         <div>
-          <Label className="text-xs uppercase tracking-wider text-muted-foreground">Wohnanschrift Kind (falls abweichend)</Label>
-          <Input value={answers.fg_kind_adresse ?? ""} onChange={(e) => update("fg_kind_adresse", e.target.value)} className="mt-1" placeholder="(wie Eltern)" />
+          <Label htmlFor="fg-kind-address" className="text-xs uppercase tracking-wider text-muted-foreground">Wohnanschrift Kind (falls abweichend)</Label>
+          <Input id="fg-kind-address" name="child-address" autoComplete="section-child street-address" value={answers.fg_kind_adresse ?? ""} onChange={(e) => update("fg_kind_adresse", e.target.value)} className="mt-1" placeholder="(wie Eltern)" />
         </div>
 
+        {/* Eltern-Daten: standard Autofill (das ist meist der User selbst bzw. dessen Partner) */}
         <div>
-          <Label className="text-xs uppercase tracking-wider text-muted-foreground">Mutter (Name + Geburtsdatum)</Label>
-          <Input value={answers.fg_mutter_name ?? ""} onChange={(e) => update("fg_mutter_name", e.target.value)} className="mt-1" />
+          <Label htmlFor="fg-mutter" className="text-xs uppercase tracking-wider text-muted-foreground">Mutter (Name + Geburtsdatum)</Label>
+          <Input id="fg-mutter" name="mother-name" autoComplete="off" value={answers.fg_mutter_name ?? ""} onChange={(e) => update("fg_mutter_name", e.target.value)} className="mt-1" />
         </div>
         <div>
-          <Label className="text-xs uppercase tracking-wider text-muted-foreground">Vater (Name + Geburtsdatum)</Label>
-          <Input value={answers.fg_vater_name ?? ""} onChange={(e) => update("fg_vater_name", e.target.value)} className="mt-1" />
+          <Label htmlFor="fg-vater" className="text-xs uppercase tracking-wider text-muted-foreground">Vater (Name + Geburtsdatum)</Label>
+          <Input id="fg-vater" name="father-name" autoComplete="off" value={answers.fg_vater_name ?? ""} onChange={(e) => update("fg_vater_name", e.target.value)} className="mt-1" />
         </div>
         <div className="sm:col-span-2">
-          <Label className="text-xs uppercase tracking-wider text-muted-foreground">Anschrift Eltern</Label>
-          <Input value={answers.fg_eltern_strasse ?? ""} onChange={(e) => update("fg_eltern_strasse", e.target.value)} className="mt-1" placeholder="Straße + Nr." />
+          <Label htmlFor="fg-eltern-strasse" className="text-xs uppercase tracking-wider text-muted-foreground">Anschrift Eltern</Label>
+          <Input id="fg-eltern-strasse" name="street-address" autoComplete="street-address" value={answers.fg_eltern_strasse ?? ""} onChange={(e) => update("fg_eltern_strasse", e.target.value)} className="mt-1" placeholder="Straße + Nr." />
         </div>
         <div className="sm:col-span-2">
-          <Input value={answers.fg_eltern_plz_ort ?? ""} onChange={(e) => update("fg_eltern_plz_ort", e.target.value)} placeholder="PLZ Ort" />
+          <Label htmlFor="fg-eltern-plz-ort" className="text-xs uppercase tracking-wider text-muted-foreground">PLZ + Ort Eltern</Label>
+          <Input id="fg-eltern-plz-ort" name="address-line2" autoComplete="address-line2" value={answers.fg_eltern_plz_ort ?? ""} onChange={(e) => update("fg_eltern_plz_ort", e.target.value)} placeholder="PLZ Ort" className="mt-1" />
         </div>
         <div>
-          <Label className="text-xs uppercase tracking-wider text-muted-foreground">Sorgerecht</Label>
-          <Input value={answers.fg_sorgerecht ?? ""} onChange={(e) => update("fg_sorgerecht", e.target.value)} placeholder="Beide gemeinsam / Mutter allein / …" className="mt-1" />
+          <Label htmlFor="fg-sorgerecht" className="text-xs uppercase tracking-wider text-muted-foreground">Sorgerecht</Label>
+          <Input id="fg-sorgerecht" name="custody" autoComplete="off" value={answers.fg_sorgerecht ?? ""} onChange={(e) => update("fg_sorgerecht", e.target.value)} placeholder="Beide gemeinsam / Mutter allein / …" className="mt-1" />
         </div>
 
         <div className="sm:col-span-2">
-          <Label className="text-xs uppercase tracking-wider text-muted-foreground">Genaue Tätigkeit</Label>
+          <Label htmlFor="fg-taetigkeit" className="text-xs uppercase tracking-wider text-muted-foreground">Genaue Tätigkeit</Label>
           <Textarea
+            id="fg-taetigkeit"
+            name="biz-activity"
+            autoComplete="off"
             value={answers.fg_taetigkeit ?? ""}
             onChange={(e) => update("fg_taetigkeit", e.target.value)}
             placeholder="z.B. Online-Verkauf von selbst hergestellten Schmuck-Produkten via Etsy und eigenem Shopify-Shop. Keine Mitarbeiter, kein physisches Lager."
@@ -259,20 +272,23 @@ export const FamiliengerichtForm = ({ answers, setAnswers }: Props) => {
           />
         </div>
         <div>
-          <Label className="text-xs uppercase tracking-wider text-muted-foreground">Geplanter Beginn</Label>
-          <Input type="date" value={answers.fg_beginn ?? ""} onChange={(e) => update("fg_beginn", e.target.value)} className="mt-1" />
+          <Label htmlFor="fg-beginn" className="text-xs uppercase tracking-wider text-muted-foreground">Geplanter Beginn</Label>
+          <Input id="fg-beginn" name="biz-start" autoComplete="off" type="date" value={answers.fg_beginn ?? ""} onChange={(e) => update("fg_beginn", e.target.value)} className="mt-1" />
         </div>
         <div>
-          <Label className="text-xs uppercase tracking-wider text-muted-foreground">Voraussichtlicher Jahresumsatz</Label>
-          <Input value={answers.fg_umsatz ?? ""} onChange={(e) => update("fg_umsatz", e.target.value)} placeholder="z.B. bis 5.000 €/Jahr" className="mt-1" />
+          <Label htmlFor="fg-umsatz" className="text-xs uppercase tracking-wider text-muted-foreground">Voraussichtlicher Jahresumsatz</Label>
+          <Input id="fg-umsatz" name="revenue" autoComplete="off" value={answers.fg_umsatz ?? ""} onChange={(e) => update("fg_umsatz", e.target.value)} placeholder="z.B. bis 5.000 €/Jahr" className="mt-1" />
         </div>
         <div className="sm:col-span-2">
-          <Label className="text-xs uppercase tracking-wider text-muted-foreground">Standort</Label>
-          <Input value={answers.fg_standort ?? ""} onChange={(e) => update("fg_standort", e.target.value)} placeholder="Wohnanschrift / separates Büro / Coworking" className="mt-1" />
+          <Label htmlFor="fg-standort" className="text-xs uppercase tracking-wider text-muted-foreground">Standort</Label>
+          <Input id="fg-standort" name="biz-location" autoComplete="off" value={answers.fg_standort ?? ""} onChange={(e) => update("fg_standort", e.target.value)} placeholder="Wohnanschrift / separates Büro / Coworking" className="mt-1" />
         </div>
         <div className="sm:col-span-2">
-          <Label className="text-xs uppercase tracking-wider text-muted-foreground">Risiko-Einschätzung</Label>
+          <Label htmlFor="fg-risiko" className="text-xs uppercase tracking-wider text-muted-foreground">Risiko-Einschätzung</Label>
           <Textarea
+            id="fg-risiko"
+            name="risk-assessment"
+            autoComplete="off"
             value={answers.fg_risiko ?? ""}
             onChange={(e) => update("fg_risiko", e.target.value)}
             placeholder="Geringes Risiko – keine Lager- oder Personal-Verbindlichkeiten, kein Wareneinkauf > 500 € ohne Eltern-Freigabe, max. monatlicher Verlust auf Taschengeld begrenzt."
@@ -284,15 +300,18 @@ export const FamiliengerichtForm = ({ answers, setAnswers }: Props) => {
           </div>
         </div>
         <div className="sm:col-span-2">
-          <Label className="text-xs uppercase tracking-wider text-muted-foreground">Begründung (optional, Standard-Text reicht)</Label>
+          <Label htmlFor="fg-begruendung" className="text-xs uppercase tracking-wider text-muted-foreground">Begründung (optional, Standard-Text reicht)</Label>
           <Textarea
+            id="fg-begruendung"
+            name="reasoning"
+            autoComplete="off"
             value={answers.fg_begruendung ?? ""}
             onChange={(e) => update("fg_begruendung", e.target.value)}
             placeholder="Leer lassen für Standard-Begründung mit Schulvereinbarkeit + Eltern-Mitbürgschaft."
             className="mt-1 min-h-[70px]"
           />
         </div>
-      </div>
+      </form>
 
       <div className="flex items-center justify-end gap-2">
         <a
