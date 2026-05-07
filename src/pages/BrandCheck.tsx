@@ -47,7 +47,6 @@ interface SocialResult {
   handle: string;
   url: string;
   status: "available" | "taken" | "unknown";
-  note?: string;
 }
 
 interface AppStoreHit {
@@ -318,45 +317,38 @@ const BrandCheck = () => {
                 <AtSign className="h-4 w-4" /> Social-Handles
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                {result.socials.map((s) => (
-                  <a
-                    key={s.platform}
-                    href={s.url}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    className={`rounded-xl border p-3 hover:opacity-80 transition-opacity block ${
-                      s.status === "available"
-                        ? "border-emerald-500/30 bg-emerald-500/5"
-                        : s.status === "taken"
-                        ? "border-red-500/30 bg-red-500/5"
-                        : "border-amber-500/30 bg-amber-500/5"
-                    }`}
-                  >
-                    <div className="flex items-center justify-between gap-2 mb-1">
-                      <code className="font-mono text-sm font-bold">@{s.handle}</code>
-                      {s.status === "available" ? (
-                        <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 text-emerald-600 px-2 py-0.5 text-[11px] font-semibold">
-                          <CheckCircle2 className="h-3 w-3" /> Frei
-                        </span>
-                      ) : s.status === "taken" ? (
-                        <span className="inline-flex items-center gap-1 rounded-full bg-red-500/10 text-red-600 px-2 py-0.5 text-[11px] font-semibold">
-                          <XCircle className="h-3 w-3" /> Vergeben
-                        </span>
-                      ) : (
-                        <span className="inline-flex items-center gap-1 rounded-full bg-amber-500/10 text-amber-700 px-2 py-0.5 text-[11px] font-semibold">
-                          <AlertCircle className="h-3 w-3" /> Unklar
-                        </span>
-                      )}
-                    </div>
-                    <div className="text-[11px] text-muted-foreground">
-                      {s.platform}
-                      {s.note && ` · ${s.note}`}
-                    </div>
-                  </a>
-                ))}
+                {result.socials.map((s) => {
+                  // Backward-Kompat: wenn Backend "unknown" zurückgibt, treat wie "taken" (sicherer Default)
+                  const isAvailable = s.status === "available";
+                  return (
+                    <a
+                      key={s.platform}
+                      href={s.url}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className={`rounded-xl border p-3 hover:opacity-80 transition-opacity block cursor-pointer ${
+                        isAvailable ? "border-emerald-500/30 bg-emerald-500/5" : "border-red-500/30 bg-red-500/5"
+                      }`}
+                    >
+                      <div className="flex items-center justify-between gap-2 mb-1">
+                        <code className="font-mono text-sm font-bold">@{s.handle}</code>
+                        {isAvailable ? (
+                          <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 text-emerald-600 px-2 py-0.5 text-[11px] font-semibold">
+                            <CheckCircle2 className="h-3 w-3" /> Frei
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center gap-1 rounded-full bg-red-500/10 text-red-600 px-2 py-0.5 text-[11px] font-semibold">
+                            <XCircle className="h-3 w-3" /> Vergeben
+                          </span>
+                        )}
+                      </div>
+                      <div className="text-[11px] text-muted-foreground">{s.platform}</div>
+                    </a>
+                  );
+                })}
               </div>
               <div className="text-[11px] text-muted-foreground mt-2">
-                Klick öffnet die Profil-URL. „Unklar" = Plattform blockt unser Bot-User-Agent (typisch X) — manuell prüfen.
+                Klick öffnet die Profil-URL.
               </div>
             </div>
           )}

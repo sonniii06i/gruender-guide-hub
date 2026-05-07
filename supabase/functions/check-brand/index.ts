@@ -341,7 +341,7 @@ const SOCIAL_PLATFORMS: { key: string; label: string; url: (h: string) => string
 async function checkSocialHandle(name: string, p: typeof SOCIAL_PLATFORMS[0]): Promise<SocialResult> {
   const handle = name; // sanitized stripped Sonderzeichen, aber Social-Handles brauchen das
   const url = p.url(handle);
-  const result: SocialResult = { platform: p.label, handle, url, status: "unknown" };
+  const result: SocialResult = { platform: p.label, handle, url, status: "taken" };
   try {
     const ctrl = new AbortController();
     const t = setTimeout(() => ctrl.abort(), 5000);
@@ -355,20 +355,19 @@ async function checkSocialHandle(name: string, p: typeof SOCIAL_PLATFORMS[0]): P
       redirect: "manual",
     });
     clearTimeout(t);
+    // Eindeutige Logik:
+    // - 404 explizit → "available" (frei)
+    // - alles andere (200, 301/302 redirect, 401 login-wall, 5xx) → "taken" (vergeben)
+    //   weil bei aktiver Plattform jede Antwort != 404 bedeutet, dass das Profil existiert
+    //   bzw. der Username reserviert ist.
     if (p.freeStatuses.includes(resp.status)) {
       result.status = "available";
-    } else if (p.takenStatuses.includes(resp.status)) {
-      result.status = "taken";
-      if (resp.status === 401) result.note = "Login-Wall (wahrscheinlich vergeben)";
-    } else if (resp.status >= 300 && resp.status < 400) {
-      // Redirect: typisch zu Login → existiert
-      result.status = "taken";
-      result.note = "Redirect (vermutlich vergeben)";
     } else {
-      result.note = `HTTP ${resp.status}`;
+      result.status = "taken";
     }
-  } catch (e) {
-    console.warn(`Social ${p.label} ${handle} fehlgeschlagen:`, e);
+  } catch {
+    // Timeout / Network-Fail → safe default "taken" (lieber zu vorsichtig als falsch-frei)
+    result.status = "taken";
   }
   return result;
 }
