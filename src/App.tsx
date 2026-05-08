@@ -26,6 +26,9 @@ import SettlementParser from "./pages/SettlementParser.tsx";
 import LucidWizard from "./pages/LucidWizard.tsx";
 import CeRohsGenerator from "./pages/CeRohsGenerator.tsx";
 import FoerderungDb from "./pages/FoerderungDb.tsx";
+import UsLlcWizard from "./pages/UsLlcWizard.tsx";
+import HkLimitedWizard from "./pages/HkLimitedWizard.tsx";
+import IntlBanking from "./pages/IntlBanking.tsx";
 import RechtsformWizard from "./pages/RechtsformWizard.tsx";
 import Anbieter from "./pages/Anbieter.tsx";
 import AnbieterDetail from "./pages/AnbieterDetail.tsx";
@@ -83,6 +86,9 @@ const App = () => (
               <Route path="/cockpit/lucid-wizard" element={<PaywallGate title="LUCID-Wizard"><LucidWizard /></PaywallGate>} />
               <Route path="/cockpit/ce-generator" element={<PaywallGate title="CE/RoHS-Generator"><CeRohsGenerator /></PaywallGate>} />
               <Route path="/cockpit/foerderung" element={<PaywallGate title="Förderung-Datenbank"><FoerderungDb /></PaywallGate>} />
+              <Route path="/cockpit/us-llc-wizard" element={<PaywallGate title="US-LLC-Wizard"><UsLlcWizard /></PaywallGate>} />
+              <Route path="/cockpit/hk-limited-wizard" element={<PaywallGate title="HK-Limited-Wizard"><HkLimitedWizard /></PaywallGate>} />
+              <Route path="/cockpit/intl-banking" element={<PaywallGate title="Intl. Banking"><IntlBanking /></PaywallGate>} />
               <Route path="/wizard/rechtsform" element={<PaywallGate title="Rechtsform-Wizard"><RechtsformWizard /></PaywallGate>} />
               <Route path="/anbieter" element={<PaywallGate title="Anbieter-Vergleich"><Anbieter /></PaywallGate>} />
               <Route path="/anbieter/:slug" element={<PaywallGate title="Anbieter-Vergleich"><AnbieterDetail /></PaywallGate>} />
