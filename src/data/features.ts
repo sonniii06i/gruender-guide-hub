@@ -77,8 +77,8 @@ const _CATEGORIES_RAW: FeatureCategory[] = [
       { slug: "mehrstufig", title: "Mehrstufige Konstrukte", desc: "Stiftung, Familien-Pool, KG-Strukturen.", status: "soon" },
       { slug: "ip-box", title: "IP-Box-Vergleich", desc: "NL, IE, HU, CH Patent-Box im Vergleich.", status: "planned" },
       { slug: "eu-alternativen", title: "EU-/CH-Alternativen", desc: "9 Länder im Detail: Estland (0% thesauriert) · NL (BV + Innovation Box) · CH (11,9% Zug) · AT (FlexCo 23%) · IE (12,5%) · CY · PL (9% small) · CZ · BG (10%). Mit ATAD/§AStG-Hinweisen.", status: "beta", route: "/cockpit/eu-alternativen" },
-      { slug: "entscheidungs-engine", title: "Entscheidungs-Engine", desc: "Welche Struktur ab welchem Gewinn?", status: "beta", route: "/wizard/rechtsform" },
-      { slug: "auszahlung-optimizer", title: "Gewinn-Auszahlungs-Optimizer", desc: "Maximal effizient ins Privatvermögen überführen.", status: "soon" },
+      { slug: "entscheidungs-engine", title: "Entscheidungs-Engine", desc: "7-Fragen-Wizard quer über alle Strukturen (Einzel · UG · GmbH · Holding · Multi-Brand · Familien-Pool · Stiftung · VC-Doppel · IP · EU-Alt · US-LLC) → Top-4-Empfehlungen mit Begründung.", status: "beta", route: "/cockpit/entscheidungs-engine" },
+      { slug: "auszahlung-optimizer", title: "Gewinn-Auszahlungs-Optimizer", desc: "7 Auszahlungs-Wege im Vergleich (GF-Gehalt · Standard-Dividende · TEV · Holding · Mix · Pension · Tantieme) mit konkreter Steuer-Berechnung pro Variante.", status: "beta", route: "/cockpit/auszahlung-optimizer" },
     ],
   },
   {

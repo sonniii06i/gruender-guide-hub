@@ -14,6 +14,8 @@ import MarkenWizard from "./pages/MarkenWizard.tsx";
 import MarkenMonitor from "./pages/MarkenMonitor.tsx";
 import HoldingDesigner from "./pages/HoldingDesigner.tsx";
 import EUAlternativen from "./pages/EUAlternativen.tsx";
+import EntscheidungsEngine from "./pages/EntscheidungsEngine.tsx";
+import AuszahlungOptimizer from "./pages/AuszahlungOptimizer.tsx";
 import RechtsformWizard from "./pages/RechtsformWizard.tsx";
 import Anbieter from "./pages/Anbieter.tsx";
 import AnbieterDetail from "./pages/AnbieterDetail.tsx";
@@ -59,6 +61,8 @@ const App = () => (
               <Route path="/cockpit/marken-monitor" element={<PaywallGate title="Marken-Monitor"><MarkenMonitor /></PaywallGate>} />
               <Route path="/cockpit/holding-designer" element={<PaywallGate title="Holding-Designer"><HoldingDesigner /></PaywallGate>} />
               <Route path="/cockpit/eu-alternativen" element={<PaywallGate title="EU-Alternativen"><EUAlternativen /></PaywallGate>} />
+              <Route path="/cockpit/entscheidungs-engine" element={<PaywallGate title="Entscheidungs-Engine"><EntscheidungsEngine /></PaywallGate>} />
+              <Route path="/cockpit/auszahlung-optimizer" element={<PaywallGate title="Auszahlung-Optimizer"><AuszahlungOptimizer /></PaywallGate>} />
               <Route path="/wizard/rechtsform" element={<PaywallGate title="Rechtsform-Wizard"><RechtsformWizard /></PaywallGate>} />
               <Route path="/anbieter" element={<PaywallGate title="Anbieter-Vergleich"><Anbieter /></PaywallGate>} />
               <Route path="/anbieter/:slug" element={<PaywallGate title="Anbieter-Vergleich"><AnbieterDetail /></PaywallGate>} />
