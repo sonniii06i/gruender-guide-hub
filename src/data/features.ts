@@ -90,11 +90,11 @@ const _CATEGORIES_RAW: FeatureCategory[] = [
     features: [
       { slug: "ecom-roadmap", title: "Ecom-Brand-Roadmap", desc: "Beauty, Supplement, Electronics, Toys, Apparel, Food.", status: "soon" },
       { slug: "category-compliance", title: "Pflicht-Compliance pro Kategorie", desc: "CPNP/MoCRA, WEEE/EAR, EN71, NEM-Anzeige …", status: "soon" },
-      { slug: "lucid-wizard", title: "LUCID-Verpackungsregister", desc: "Wizard für die Verpackungsregistrierung.", status: "soon" },
-      { slug: "ce-rohs", title: "Konformitätserklärung", desc: "CE / RoHS-Generator als PDF.", status: "soon" },
+      { slug: "lucid-wizard", title: "LUCID-Verpackungsregister", desc: "5-Step-Wizard: Pflicht-Check, Firmen-Daten, Material-Mengen (6 Materialien), 6 duale Systeme verglichen, Action-Plan + Kosten-Schätzung.", status: "beta", route: "/cockpit/lucid-wizard" },
+      { slug: "ce-rohs", title: "CE/RoHS-Konformitätserklärung", desc: "PDF-Generator für 8 Produkt-Kategorien (Elektronik, Spielzeug, Maschine, Medizinprodukt, Kosmetik, PSA, Funk...) mit relevanten EU-Richtlinien + RoHS-Erklärung.", status: "beta", route: "/cockpit/ce-generator" },
       { slug: "labor-vergleich", title: "Labor-Anbieter-Vergleich", desc: "Pro Test-Anforderung passendes Labor.", status: "planned" },
       { slug: "visa-helper", title: "Visa / Residency-Helper", desc: "Für non-EU-Gründer in DE.", status: "planned" },
-      { slug: "foerderung-db", title: "Gründungs-Förderung-Datenbank", desc: "KfW, EXIST, ERP, Bundesländer-Programme.", status: "soon" },
+      { slug: "foerderung-db", title: "Förderung-Datenbank", desc: "20+ kuratierte Programme: KfW (StartGeld, ERP, Universell), EXIST (Stipendium, Forschungstransfer), HTGF, INVEST/BAFA, Bürgschaftsbank, 7 Bundesländer + EIC Accelerator. Filter nach Typ/Region/Phase.", status: "beta", route: "/cockpit/foerderung" },
     ],
   },
   {

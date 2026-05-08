@@ -1,0 +1,337 @@
+// Förderprogramme für DACH-Gründer (Stand Mai 2026).
+// Quellen: kfw.de, exist.de, foerderdatenbank.de, IHK, Bundesländer-Seiten.
+
+export type Foerderung = {
+  slug: string;
+  name: string;
+  emoji: string;
+  type: "kredit" | "zuschuss" | "stipendium" | "buergschaft" | "eigenkapital";
+  scope: "bund" | string; // bund oder Bundesland-Code
+  /** Maximale Förderung in € (oder String wenn variabel). */
+  maxFunding: string;
+  /** Wer es bekommt. */
+  zielgruppe: string[];
+  /** Phasen wo es greift. */
+  phase: ("idee" | "gruendung" | "aufbau" | "wachstum")[];
+  /** Branchen. */
+  branche: string[];
+  description: string;
+  conditions: string[];
+  /** URL zum Antrag. */
+  antragUrl: string;
+  /** Spezifika. */
+  notes?: string[];
+};
+
+export const FOERDERPROGRAMME: Foerderung[] = [
+  // ============ KFW BUNDESEBENE ============
+  {
+    slug: "erp-gruenderkredit-startgeld",
+    name: "ERP-Gründerkredit StartGeld",
+    emoji: "💰",
+    type: "kredit",
+    scope: "bund",
+    maxFunding: "125.000 €",
+    zielgruppe: ["Gründer", "Übernehmer", "Festigung (bis 5 Jahre nach Gründung)"],
+    phase: ["gruendung", "aufbau"],
+    branche: ["alle"],
+    description:
+      "KfW-Kredit für Gründer und junge Unternehmen. Bis 125k € (davon max 50k Betriebsmittel), 80 % Haftungsfreistellung — Hausbank sieht nur 20 % Risiko.",
+    conditions: [
+      "Maximal 5 Jahre nach Gründung",
+      "Über die Hausbank beantragt",
+      "Tragfähiger Businessplan + Liquiditätsplan",
+      "Eigenmittel/Eigenleistung wünschenswert",
+      "Tilgungsfreijahre möglich",
+    ],
+    antragUrl: "https://www.kfw.de/inlandsfoerderung/Unternehmen/Gründen-Erweitern/Förderprodukte/ERP-Gründerkredit-StartGeld-(067)/",
+    notes: [
+      "Effektivzins ab ~5,5 % (Stand 2026)",
+      "Laufzeit 5/10 Jahre, mit/ohne tilgungsfreie Anlaufjahre",
+      "80 % Haftungsfreistellung = Hauptvorteil — Hausbank macht eher mit",
+    ],
+  },
+  {
+    slug: "erp-gruenderkredit-universell",
+    name: "ERP-Gründerkredit Universell",
+    emoji: "🏦",
+    type: "kredit",
+    scope: "bund",
+    maxFunding: "25 Mio €",
+    zielgruppe: ["KMU", "etablierte Unternehmen", "Festigung bis 5 Jahre"],
+    phase: ["aufbau", "wachstum"],
+    branche: ["alle"],
+    description:
+      "Größerer KfW-Kredit für KMU bis 25 Mio €. Investitionen, Betriebsmittel, Übernahmen — flexible Verwendung.",
+    conditions: [
+      "Maximal 5 Jahre nach Gründung",
+      "KMU-Definition: < 250 MA, < 50 Mio Umsatz",
+      "Über Hausbank",
+      "Höhere Zinsen als StartGeld aber höhere Summen",
+    ],
+    antragUrl: "https://www.kfw.de/inlandsfoerderung/Unternehmen/Gründen-Erweitern/Förderprodukte/ERP-Gründerkredit-Universell-(073)/",
+  },
+  {
+    slug: "erp-foerderkredit-kmu",
+    name: "ERP-Förderkredit KMU",
+    emoji: "🏭",
+    type: "kredit",
+    scope: "bund",
+    maxFunding: "25 Mio € (max. 80 % der Investition)",
+    zielgruppe: ["KMU"],
+    phase: ["aufbau", "wachstum"],
+    branche: ["alle"],
+    description: "Standard-KMU-Investitionskredit für Maschinen, Gebäude, Übernahmen.",
+    conditions: ["Hausbank-Antrag", "5–20 Jahre Laufzeit", "Ohne KMU-Schwelle nicht möglich"],
+    antragUrl: "https://www.kfw.de/inlandsfoerderung/Unternehmen/erweitern-festigen/",
+  },
+  {
+    slug: "exist-gruendungsstipendium",
+    name: "EXIST-Gründungsstipendium",
+    emoji: "🎓",
+    type: "stipendium",
+    scope: "bund",
+    maxFunding: "2.500–3.000 €/Monat × 12 Monate + 30k Sachmittel + Coaching",
+    zielgruppe: ["Studierende", "Hochschulabsolventen (max 5 Jahre)", "Wissenschaftler"],
+    phase: ["idee", "gruendung"],
+    branche: ["wissensbasiert", "tech", "innovation"],
+    description:
+      "BMWK-Stipendium über 12 Monate für innovative wissens-/technologiebasierte Gründungs­vorhaben. Antrag über die Hochschule.",
+    conditions: [
+      "An Hochschule oder außeruniversitärer Forschungs­einrichtung",
+      "1–3 Personen pro Team",
+      "Innovationsgehalt nachweisbar",
+      "Mind. 3 Jahre an Hochschule (auch als Mitarbeiter)",
+    ],
+    antragUrl: "https://www.exist.de/EXIST/Navigation/DE/Gruendungsfoerderung/EXIST-Gruendungsstipendium/exist-gruendungsstipendium.html",
+    notes: ["Stipendium 2.500 € (Diplom/Bachelor), 3.000 € (Master/Promo), 1.000 € (Coaching/Sachmittel)"],
+  },
+  {
+    slug: "exist-forschungstransfer",
+    name: "EXIST-Forschungstransfer",
+    emoji: "🔬",
+    type: "zuschuss",
+    scope: "bund",
+    maxFunding: "Phase I: bis 250k € · Phase II: bis 180k €",
+    zielgruppe: ["Wissenschaftler", "ForschungsTeams"],
+    phase: ["idee", "gruendung"],
+    branche: ["forschung", "tech", "biotech", "deep-tech"],
+    description:
+      "Phase I (Forschungsphase, 18 Monate): Personal + Sachmittel. Phase II (Vorbereitung Gründung, 18 Monate): zusätzlich. Insgesamt bis ~500k € in 3 Jahren.",
+    conditions: ["Schwerpunkt: hochinnovative, technische Vorhaben", "Hochschule als Antragsteller"],
+    antragUrl: "https://www.exist.de/EXIST/Navigation/DE/Gruendungsfoerderung/EXIST-Forschungstransfer/exist-forschungstransfer.html",
+  },
+  {
+    slug: "invest-bafa",
+    name: "INVEST – Zuschuss für Wagniskapital (BAFA)",
+    emoji: "🚀",
+    type: "zuschuss",
+    scope: "bund",
+    maxFunding: "20 % des Investments, max 100k € pro Jahr (Erwerbszuschuss) + 25 % Exit-Zuschuss",
+    zielgruppe: ["Business Angels", "Privatpersonen die in Startups investieren"],
+    phase: ["gruendung", "aufbau"],
+    branche: ["innovativ", "tech"],
+    description:
+      "BAFA-Zuschuss für Privatinvestoren in junge innovative Unternehmen. 20 % der Anteilskosten als steuerfreier Zuschuss.",
+    conditions: [
+      "Junges innovatives Unternehmen (< 7 Jahre, < 10 Mio Umsatz, < 100 MA)",
+      "Anteile mind. 3 Jahre halten",
+      "Min. 10k €, max. 500k € pro Jahr investiert",
+    ],
+    antragUrl: "https://www.bafa.de/DE/Wirtschafts_Mittelstandsfoerderung/Beratung_Finanzierung/INVEST/invest_node.html",
+  },
+  {
+    slug: "high-tech-gruenderfonds",
+    name: "High-Tech Gründerfonds (HTGF)",
+    emoji: "🦄",
+    type: "eigenkapital",
+    scope: "bund",
+    maxFunding: "Seed: bis 1 Mio € (Erst-Round) · Anschluss: bis 4 Mio €",
+    zielgruppe: ["Tech-Startups in Frühphase"],
+    phase: ["idee", "gruendung"],
+    branche: ["tech", "deep-tech", "biotech", "industrie"],
+    description: "Größter Seed-Investor in DE. BMWK + KfW + Industrieinvestoren. Beteiligt sich an innovativen Tech-Gründungen.",
+    conditions: [
+      "Sitz in DE, max. 3 Jahre alt",
+      "Innovativer Tech-Ansatz",
+      "Beteiligung typisch 600k–1 Mio in Seed-Round",
+      "Ko-Investoren oft erforderlich",
+    ],
+    antragUrl: "https://www.htgf.de",
+  },
+  {
+    slug: "buergschaft",
+    name: "Bürgschaftsbank-Bürgschaften (BB)",
+    emoji: "🛡️",
+    type: "buergschaft",
+    scope: "bund",
+    maxFunding: "Bis 1,5 Mio € Bürgschaft (typisch 80 % Risikoübernahme)",
+    zielgruppe: ["Gründer", "KMU"],
+    phase: ["gruendung", "aufbau"],
+    branche: ["alle"],
+    description:
+      "Bürgschaftsbanken in jedem Bundesland übernehmen 70–80 % des Hausbank-Risikos — ermöglicht Kredit auch bei wenig Sicherheiten.",
+    conditions: [
+      "Antrag über Hausbank",
+      "Betriebswirtschaftliche Tragfähigkeit",
+      "Eigenkapital 10–20 % wünschenswert",
+      "Bürgschafts-Provision 1–1,5 % des Bürgschafts-Betrages",
+    ],
+    antragUrl: "https://www.vdb-info.de",
+  },
+
+  // ============ BUNDESLÄNDER ============
+  {
+    slug: "berlin-gruendungsbonus",
+    name: "Berliner Gründungsbonus (IBB)",
+    emoji: "🐻",
+    type: "zuschuss",
+    scope: "BE",
+    maxFunding: "Bis 50.000 € als Zuschuss",
+    zielgruppe: ["Gründer in Berlin"],
+    phase: ["gruendung"],
+    branche: ["innovativ", "wissensbasiert"],
+    description: "IBB-Zuschuss für Berlin-Gründer mit innovativem Vorhaben. Ergänzt zu KfW.",
+    conditions: ["Sitz in Berlin", "Innovativ + tragfähiger Plan", "Eigenmittel/Eigenleistung"],
+    antragUrl: "https://www.ibb.de",
+  },
+  {
+    slug: "bayern-startup-stipendium",
+    name: "Start? Zuschuss! Bayern",
+    emoji: "🇧🇾",
+    type: "zuschuss",
+    scope: "BY",
+    maxFunding: "12.000–36.000 € (über 12 Monate)",
+    zielgruppe: ["Gründer in Bayern", "1-Personen-Teams + Multi-Founder"],
+    phase: ["idee", "gruendung"],
+    branche: ["innovativ", "tech"],
+    description: "Bayern-Stipendium für innovative Gründer in der Vor-/Frühgründungsphase.",
+    conditions: ["Sitz Bayern", "Hochschulabschluss/-Studium", "Innovativ"],
+    antragUrl: "https://www.bayern-innovativ.de",
+  },
+  {
+    slug: "bw-startfinanzierung",
+    name: "Startfinanzierung 80 (Baden-Württemberg)",
+    emoji: "🇩🇪",
+    type: "kredit",
+    scope: "BW",
+    maxFunding: "Bis 100.000 €",
+    zielgruppe: ["Gründer in BW"],
+    phase: ["gruendung"],
+    branche: ["alle"],
+    description: "L-Bank-Kredit für BW-Gründer. 80 % Haftungs­frei­stellung.",
+    conditions: ["Sitz BW", "Hausbank-Antrag", "Persönliche Eignung"],
+    antragUrl: "https://www.l-bank.de",
+  },
+  {
+    slug: "nrw-gruendungsstipendium",
+    name: "Gründerstipendium NRW",
+    emoji: "🇪🇺",
+    type: "stipendium",
+    scope: "NW",
+    maxFunding: "1.000 €/Monat × 12 Monate (12.000 € total)",
+    zielgruppe: ["Gründer in NRW"],
+    phase: ["idee", "gruendung"],
+    branche: ["alle (Innovations-Bezug)"],
+    description: "NRW-Stipendium für innovative Gründer. Für Vor-/Gründungsphase.",
+    conditions: ["Sitz NRW", "Innovations-Komponente", "Mentoring inkludiert"],
+    antragUrl: "https://www.gruenderstipendium.nrw",
+  },
+  {
+    slug: "hh-innovationsstarter",
+    name: "InnoRampUp Hamburg",
+    emoji: "🚢",
+    type: "zuschuss",
+    scope: "HH",
+    maxFunding: "Bis 150.000 € Zuschuss",
+    zielgruppe: ["Tech-Startups Hamburg"],
+    phase: ["gruendung", "aufbau"],
+    branche: ["tech", "innovativ"],
+    description: "IFB Hamburg für innovative Tech-Gründer. Pre-Seed-Förderung.",
+    conditions: ["Sitz HH", "Tech-/Innovations-Bezug", "Plan-Begutachtung"],
+    antragUrl: "https://www.ifbhh.de",
+  },
+  {
+    slug: "hessen-gruenderprogramm",
+    name: "Hessen Gründerprogramm",
+    emoji: "🍻",
+    type: "kredit",
+    scope: "HE",
+    maxFunding: "Bis 250.000 €",
+    zielgruppe: ["Gründer Hessen"],
+    phase: ["gruendung"],
+    branche: ["alle"],
+    description: "WIBank Hessen für Existenzgründungen. Zinsgünstig + Tilgungsfreijahre.",
+    conditions: ["Sitz Hessen", "Hausbank"],
+    antragUrl: "https://www.wibank.de",
+  },
+  {
+    slug: "saarland-startup",
+    name: "Startup-Saar",
+    emoji: "🥨",
+    type: "zuschuss",
+    scope: "SL",
+    maxFunding: "Bis 50.000 €",
+    zielgruppe: ["Gründer Saarland"],
+    phase: ["gruendung"],
+    branche: ["innovativ"],
+    description: "Saar-Innovationszuschuss für junge Tech-Companies.",
+    conditions: ["Sitz Saarland", "Innovation"],
+    antragUrl: "https://www.saarland-innovation.de",
+  },
+
+  // ============ EU-PROGRAMME ============
+  {
+    slug: "horizon-europe-eic-accelerator",
+    name: "EIC Accelerator (Horizon Europe)",
+    emoji: "🇪🇺",
+    type: "zuschuss",
+    scope: "bund",
+    maxFunding: "Grant bis 2,5 Mio € + Equity bis 15 Mio € (Mix möglich)",
+    zielgruppe: ["Tech-Startups EU-weit", "Deep-Tech"],
+    phase: ["aufbau", "wachstum"],
+    branche: ["deep-tech", "klima", "gesundheit", "digital"],
+    description: "EU-Top-Programm für deeptech Startups. 8–12 % Zusagequote, sehr kompetitiv. SME-Status erforderlich.",
+    conditions: [
+      "SME-Status (< 250 MA, < 50 Mio Umsatz, < 43 Mio Bilanzsumme)",
+      "Bahnbrechende Innovation",
+      "Skalier­bar EU/global",
+      "2-Stufen-Antrag (Short Application + Full Application + Interview)",
+    ],
+    antragUrl: "https://eic.ec.europa.eu",
+  },
+  {
+    slug: "esif-efre",
+    name: "ESIF / EFRE (Europäischer Fonds für regionale Entwicklung)",
+    emoji: "💶",
+    type: "zuschuss",
+    scope: "bund",
+    maxFunding: "Variabel je Bundesland (10k–500k typisch)",
+    zielgruppe: ["KMU regional"],
+    phase: ["aufbau", "wachstum"],
+    branche: ["alle (Regional-Fokus)"],
+    description: "EU-Strukturfonds für Regional­entwicklung. Wird über Bundesländer ausgegeben — je Region andere Programme.",
+    conditions: ["Sitz in geförderter Region", "Regional­ent­wicklung-Bezug"],
+    antragUrl: "https://www.foerderdatenbank.de",
+  },
+];
+
+export const BUNDESLAND_NAMES: Record<string, string> = {
+  bund: "Bund",
+  BW: "Baden-Württemberg",
+  BY: "Bayern",
+  BE: "Berlin",
+  BB: "Brandenburg",
+  HB: "Bremen",
+  HH: "Hamburg",
+  HE: "Hessen",
+  MV: "Mecklenburg-Vorpommern",
+  NI: "Niedersachsen",
+  NW: "Nordrhein-Westfalen",
+  RP: "Rheinland-Pfalz",
+  SL: "Saarland",
+  SN: "Sachsen",
+  ST: "Sachsen-Anhalt",
+  SH: "Schleswig-Holstein",
+  TH: "Thüringen",
+};

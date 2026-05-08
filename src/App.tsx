@@ -23,6 +23,9 @@ import DbaCfcRechner from "./pages/DbaCfcRechner.tsx";
 import SalesTaxNexus from "./pages/SalesTaxNexus.tsx";
 import CryptoSteuer from "./pages/CryptoSteuer.tsx";
 import SettlementParser from "./pages/SettlementParser.tsx";
+import LucidWizard from "./pages/LucidWizard.tsx";
+import CeRohsGenerator from "./pages/CeRohsGenerator.tsx";
+import FoerderungDb from "./pages/FoerderungDb.tsx";
 import RechtsformWizard from "./pages/RechtsformWizard.tsx";
 import Anbieter from "./pages/Anbieter.tsx";
 import AnbieterDetail from "./pages/AnbieterDetail.tsx";
@@ -77,6 +80,9 @@ const App = () => (
               <Route path="/cockpit/sales-tax-nexus" element={<PaywallGate title="Sales-Tax-Nexus"><SalesTaxNexus /></PaywallGate>} />
               <Route path="/cockpit/crypto-steuer" element={<PaywallGate title="Crypto-Steuer"><CryptoSteuer /></PaywallGate>} />
               <Route path="/cockpit/settlement-parser" element={<PaywallGate title="Settlement-Parser"><SettlementParser /></PaywallGate>} />
+              <Route path="/cockpit/lucid-wizard" element={<PaywallGate title="LUCID-Wizard"><LucidWizard /></PaywallGate>} />
+              <Route path="/cockpit/ce-generator" element={<PaywallGate title="CE/RoHS-Generator"><CeRohsGenerator /></PaywallGate>} />
+              <Route path="/cockpit/foerderung" element={<PaywallGate title="Förderung-Datenbank"><FoerderungDb /></PaywallGate>} />
               <Route path="/wizard/rechtsform" element={<PaywallGate title="Rechtsform-Wizard"><RechtsformWizard /></PaywallGate>} />
               <Route path="/anbieter" element={<PaywallGate title="Anbieter-Vergleich"><Anbieter /></PaywallGate>} />
               <Route path="/anbieter/:slug" element={<PaywallGate title="Anbieter-Vergleich"><AnbieterDetail /></PaywallGate>} />
