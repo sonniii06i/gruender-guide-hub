@@ -21,6 +21,8 @@ import KfzOptimizer from "./pages/KfzOptimizer.tsx";
 import SubstanceChecker from "./pages/SubstanceChecker.tsx";
 import DbaCfcRechner from "./pages/DbaCfcRechner.tsx";
 import SalesTaxNexus from "./pages/SalesTaxNexus.tsx";
+import CryptoSteuer from "./pages/CryptoSteuer.tsx";
+import SettlementParser from "./pages/SettlementParser.tsx";
 import RechtsformWizard from "./pages/RechtsformWizard.tsx";
 import Anbieter from "./pages/Anbieter.tsx";
 import AnbieterDetail from "./pages/AnbieterDetail.tsx";
@@ -73,6 +75,8 @@ const App = () => (
               <Route path="/cockpit/substance-checker" element={<PaywallGate title="Substance-Checker"><SubstanceChecker /></PaywallGate>} />
               <Route path="/cockpit/dba-cfc" element={<PaywallGate title="DBA-CFC-Rechner"><DbaCfcRechner /></PaywallGate>} />
               <Route path="/cockpit/sales-tax-nexus" element={<PaywallGate title="Sales-Tax-Nexus"><SalesTaxNexus /></PaywallGate>} />
+              <Route path="/cockpit/crypto-steuer" element={<PaywallGate title="Crypto-Steuer"><CryptoSteuer /></PaywallGate>} />
+              <Route path="/cockpit/settlement-parser" element={<PaywallGate title="Settlement-Parser"><SettlementParser /></PaywallGate>} />
               <Route path="/wizard/rechtsform" element={<PaywallGate title="Rechtsform-Wizard"><RechtsformWizard /></PaywallGate>} />
               <Route path="/anbieter" element={<PaywallGate title="Anbieter-Vergleich"><Anbieter /></PaywallGate>} />
               <Route path="/anbieter/:slug" element={<PaywallGate title="Anbieter-Vergleich"><AnbieterDetail /></PaywallGate>} />
