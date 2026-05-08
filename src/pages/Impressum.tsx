@@ -53,6 +53,17 @@ const Impressum = () => (
         des jeweiligen Autors bzw. Erstellers.
       </p>
 
+      <h2 className="text-2xl font-bold mt-8 mb-3">Affiliate- und Werbe-Hinweis (§ 6 TMG)</h2>
+      <p>
+        Auf GründerX werden externe Anbieter (z. B. für Banking, Buchhaltung, Versand, Domains,
+        Shop-Systeme) verlinkt. Ein Teil dieser Links sind <strong>Partner-Links / Affiliate-Links</strong>{" "}
+        (z. B. Impact, AWIN, Direkt-Partnerprogramme). Bei einem Vertragsabschluss über solche Links
+        kann GründerX eine Provision oder Pauschale erhalten – für dich entstehen{" "}
+        <strong>keine Mehrkosten</strong>. Affiliate-Vergütungen beeinflussen nicht die redaktionelle
+        Bewertung oder die Reihenfolge in den Vergleichen. Details siehe{" "}
+        <a href="/agb" className="text-accent-blue underline">§ 14 unserer AGB</a>.
+      </p>
+
       <h2 className="text-2xl font-bold mt-8 mb-3">Streitschlichtung</h2>
       <p>
         Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit:{" "}

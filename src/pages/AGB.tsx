@@ -198,7 +198,33 @@ const AGB = () => (
         sonstige AGB-Anpassungen anwendbar.
       </p>
 
-      <h2 className="text-2xl font-bold mt-10 mb-3">§ 14 Schlussbestimmungen</h2>
+      <h2 className="text-2xl font-bold mt-10 mb-3">§ 14 Affiliate-Links / Werbe-Hinweise</h2>
+      <p>
+        (1) GründerX verlinkt im Rahmen der Anbieter-Vergleiche, Playbooks/Guides und Tools auf
+        externe Anbieter (z. B. Banking, Buchhaltung, Versand, Shop-Systeme, Domains). Ein Teil
+        dieser Links sind <strong>Partner-Links / Affiliate-Links</strong> (z. B. über Impact, AWIN,
+        TradeTribe oder direkte Partnerprogramme der Anbieter).
+      </p>
+      <p>
+        (2) Wenn du über einen solchen Affiliate-Link einen Vertrag mit dem verlinkten Anbieter
+        abschließt, kann GründerX hierfür eine <strong>Vergütung (Provision oder Pauschale)</strong>
+        erhalten. Für dich entstehen dadurch <strong>keinerlei Mehrkosten</strong> – die Konditionen
+        sind identisch zu einem Direkt-Aufruf der Anbieter-Seite.
+      </p>
+      <p>
+        (3) Affiliate-Vergütungen beeinflussen <strong>nicht</strong> unsere redaktionelle Bewertung,
+        die Reihenfolge im Vergleich oder die Pro-/Contra-Listen. Bewertungen entstehen aus
+        Foren-Auswertung (Reddit, DTC-Slack, E-Commerce-Communities), öffentlichen Datenquellen und
+        eigenen Recherchen.
+      </p>
+      <p>
+        (4) Anbieter, die in Tools/Playbooks bevorzugt empfohlen werden (z. B. IONOS bei Domains,
+        Shopify bei Shop-Systemen), können in einer kommerziellen Partner-Beziehung zu GründerX
+        stehen. Die Eignung des Anbieters für deinen Use-Case prüfst du immer eigenverantwortlich –
+        Empfehlungen von GründerX ersetzen keine individuelle Beratung.
+      </p>
+
+      <h2 className="text-2xl font-bold mt-10 mb-3">§ 15 Schlussbestimmungen</h2>
       <p>(1) Es gilt deutsches Recht unter Ausschluss des UN-Kaufrechts. Verbraucher:innen mit gewöhnlichem Aufenthalt in der EU genießen den Schutz zwingender Vorschriften ihres Heimatstaats.</p>
       <p>(2) Erfüllungsort und – soweit zulässig – ausschließlicher Gerichtsstand ist Hamburg, sofern der/die Kund:in Kaufmann/-frau, juristische Person des öffentlichen Rechts oder öffentlich-rechtliches Sondervermögen ist.</p>
       <p>(3) Online-Streitbeilegung: Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung bereit: <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noreferrer">ec.europa.eu/consumers/odr</a>. An einem Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle nehmen wir nicht teil.</p>

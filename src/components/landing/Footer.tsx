@@ -42,6 +42,12 @@ export const Footer = () => (
         <span>© {new Date().getFullYear()} GründerX. Alle Rechte vorbehalten.</span>
         <span>Made with ♥ in Deutschland</span>
       </div>
+      <div className="mt-2 text-[10px] text-muted-foreground/80 leading-relaxed">
+        <strong>*Affiliate-Hinweis:</strong> Manche Links auf dieser Seite sind Partner-Links. Bei einem
+        Vertragsabschluss über diese Links erhält GründerX ggf. eine Provision — für dich entstehen
+        keine Mehrkosten. Empfehlungen erfolgen unabhängig von der Vergütung. Details in{" "}
+        <a href="/agb" className="underline hover:text-foreground">§ 14 AGB</a>.
+      </div>
     </div>
   </footer>
 );

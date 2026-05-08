@@ -1827,6 +1827,9 @@ const Anbieter = () => {
       title="Die besten Tools für deine Gründung"
       subtitle="Top-Anbieter pro Kategorie – mit Stärken/Schwächen aus Reddit & E-Com-Foren. Aktive Aktionen werden wöchentlich aktualisiert."
     >
+      <div className="rounded-xl border border-border bg-secondary/30 px-3 py-2 mb-4 text-[11px] text-muted-foreground">
+        <strong>*Affiliate-Hinweis:</strong> Einige Anbieter-Links sind Partner-Links. Bei Vertragsabschluss erhält GründerX ggf. eine Provision — für dich keine Mehrkosten. Bewertungen sind unabhängig von der Vergütung. Details in <a href="/agb" className="underline hover:text-foreground">§ 14 AGB</a>.
+      </div>
       <div className="flex flex-col md:flex-row gap-3 mb-6">
         <Input placeholder="Anbieter, Stärke oder Schwäche suchen..." value={q} onChange={(e) => setQ(e.target.value)} className="md:max-w-xs" />
         <div className="flex gap-2 overflow-x-auto pb-1 -mx-4 px-4 md:mx-0 md:px-0">
