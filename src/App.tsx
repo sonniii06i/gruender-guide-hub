@@ -33,6 +33,9 @@ import BwaGenerator from "./pages/BwaGenerator.tsx";
 import MargeTracker from "./pages/MargeTracker.tsx";
 import PensionOptimizer from "./pages/PensionOptimizer.tsx";
 import ReisekostenLogger from "./pages/ReisekostenLogger.tsx";
+import DatevMapper from "./pages/DatevMapper.tsx";
+import StbHandoff from "./pages/StbHandoff.tsx";
+import EcomRoadmap from "./pages/EcomRoadmap.tsx";
 import RechtsformWizard from "./pages/RechtsformWizard.tsx";
 import Anbieter from "./pages/Anbieter.tsx";
 import AnbieterDetail from "./pages/AnbieterDetail.tsx";
@@ -97,6 +100,9 @@ const App = () => (
               <Route path="/cockpit/marge-tracker" element={<PaywallGate title="Marge-Tracker"><MargeTracker /></PaywallGate>} />
               <Route path="/cockpit/pension-optimizer" element={<PaywallGate title="Pension-Optimizer"><PensionOptimizer /></PaywallGate>} />
               <Route path="/cockpit/reisekosten-logger" element={<PaywallGate title="Reisekosten-Logger"><ReisekostenLogger /></PaywallGate>} />
+              <Route path="/cockpit/datev-mapper" element={<PaywallGate title="DATEV-Mapper"><DatevMapper /></PaywallGate>} />
+              <Route path="/cockpit/stb-handoff" element={<PaywallGate title="StB-Hand-off"><StbHandoff /></PaywallGate>} />
+              <Route path="/cockpit/ecom-roadmap" element={<PaywallGate title="ECom-Brand-Roadmap"><EcomRoadmap /></PaywallGate>} />
               <Route path="/wizard/rechtsform" element={<PaywallGate title="Rechtsform-Wizard"><RechtsformWizard /></PaywallGate>} />
               <Route path="/anbieter" element={<PaywallGate title="Anbieter-Vergleich"><Anbieter /></PaywallGate>} />
               <Route path="/anbieter/:slug" element={<PaywallGate title="Anbieter-Vergleich"><AnbieterDetail /></PaywallGate>} />

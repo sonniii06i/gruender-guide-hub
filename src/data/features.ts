@@ -87,8 +87,7 @@ const _CATEGORIES_RAW: FeatureCategory[] = [
     icon: Rocket,
     tagline: "Brand-Gründung, CPNP, WEEE, LUCID, EXIST",
     features: [
-      { slug: "ecom-roadmap", title: "Ecom-Brand-Roadmap", desc: "Beauty, Supplement, Electronics, Toys, Apparel, Food.", status: "soon" },
-      { slug: "category-compliance", title: "Pflicht-Compliance pro Kategorie", desc: "CPNP/MoCRA, WEEE/EAR, EN71, NEM-Anzeige …", status: "soon" },
+      { slug: "ecom-roadmap", title: "ECom-Brand-Roadmap", desc: "8 Kategorien (Beauty, Supplement, Electronics, Toys, Apparel, Food, Pet, Hardware) mit DE/EU/US-Compliance, Standard-Stack-Reihenfolge, Stolperfallen + Tool-Verlinkung.", status: "beta", route: "/cockpit/ecom-roadmap" },
       { slug: "lucid-wizard", title: "LUCID-Verpackungsregister", desc: "5-Step-Wizard: Pflicht-Check, Firmen-Daten, Material-Mengen (6 Materialien), 6 duale Systeme verglichen, Action-Plan + Kosten-Schätzung.", status: "beta", route: "/cockpit/lucid-wizard" },
       { slug: "ce-rohs", title: "CE/RoHS-Konformitätserklärung", desc: "PDF-Generator für 8 Produkt-Kategorien (Elektronik, Spielzeug, Maschine, Medizinprodukt, Kosmetik, PSA, Funk...) mit relevanten EU-Richtlinien + RoHS-Erklärung.", status: "beta", route: "/cockpit/ce-generator" },
       { slug: "labor-vergleich", title: "Labor-Anbieter-Vergleich", desc: "Pro Test-Anforderung passendes Labor.", status: "planned" },
@@ -116,12 +115,12 @@ const _CATEGORIES_RAW: FeatureCategory[] = [
     tagline: "Amazon, Stripe, Shopify, DATEV-Export",
     features: [
       { slug: "amazon-parser", title: "Amazon-Settlement-Parser", desc: "Amazon-Settlement-CSV → automatisch aufgesplittet pro Fee-Typ + SKR03/04-Mapping über die 130+ Amazon-Buchungs-Codes. CSV-Export für StB.", status: "beta", route: "/cockpit/settlement-parser?mode=amazon" },
-      { slug: "datev-mapping", title: "DATEV / Lexoffice Auto-Mapping", desc: "Pro Fee-Typ automatisch verbuchen.", status: "soon" },
+      { slug: "datev-mapping", title: "DATEV / Lexoffice Auto-Mapper", desc: "Bank-CSV einfügen → 35+ Auto-Regeln (Amazon, Stripe, PayPal, Klarna, Shopify, AWS, Meta/TikTok/Google Ads, DHL, Steuerberater) mit RC §13b für IE-Sub-Anbieter · Lexoffice-CSV + DATEV-Stapel-Export.", status: "beta", route: "/cockpit/datev-mapper" },
       { slug: "amazon-ust", title: "USt Amazon EU vs US", desc: "Reverse-Charge-Logik korrekt anwenden.", status: "planned" },
       { slug: "stripe-parser", title: "Stripe-Payout-Parser", desc: "Stripe-Payout-CSV → Verkäufe / Fees / Refunds / Chargebacks / Trinkgelder / Auszahlungen aufgesplittet + SKR03/04. CSV-Export.", status: "beta", route: "/cockpit/settlement-parser?mode=stripe" },
       { slug: "marge-tracker", title: "Multi-Channel-Marge-Tracker", desc: "7 Channels (Shopify · Amazon FBA/FBM · eBay · Kaufland · Otto · Etsy) mit kanal-spezifischen Provisions + Payment-Fees + Werbung + Retouren-Quote · Marge & ROAS pro SKU & Kanal.", status: "beta", route: "/cockpit/marge-tracker" },
       { slug: "bwa", title: "BWA-Auto-Generator", desc: "11 Kategorien (Erlöse · Wareneinkauf · Personal · Marketing · Versand · Marketplace-Fees · Verwaltung · AfA · Zinsen) mit SKR03-Mapping · Live-KPIs (Marge, EBITDA, EBIT) · PDF-Export.", status: "beta", route: "/cockpit/bwa-generator" },
-      { slug: "datev-export", title: "DATEV-Export für Steuerberater", desc: "Sauberes Übergabe-Bundle.", status: "planned" },
+      { slug: "datev-export", title: "StB-Hand-off Übergabe-Bundle", desc: "30+ Pflicht-Posten in 5 Gruppen (Buchführung, Steuer-Tools, International, Personal, Sonstiges) · Manifest-PDF mit Mandantendaten + Periode + Anhängen · Email-Helper mit fertigem Body.", status: "beta", route: "/cockpit/stb-handoff" },
     ],
   },
   {

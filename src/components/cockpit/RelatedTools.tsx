@@ -7,6 +7,7 @@ type ToolRef = { route: string; label: string; desc: string };
 const RELATED: Record<string, ToolRef[]> = {
   "/cockpit/bwa-generator": [
     { route: "/cockpit/marge-tracker", label: "Marge-Tracker", desc: "Pro SKU & Channel rechnen, ROAS, Healthy-Marge-Benchmarks" },
+    { route: "/cockpit/datev-mapper", label: "DATEV-Mapper", desc: "Bank-Auszug auto-mappen + DATEV/Lexoffice-Export" },
     { route: "/cockpit/settlement-parser?mode=amazon", label: "Settlement-Parser", desc: "CSV-Settlements parsen, danach in BWA übertragen" },
   ],
   "/cockpit/marge-tracker": [
@@ -14,12 +15,25 @@ const RELATED: Record<string, ToolRef[]> = {
     { route: "/cockpit/settlement-parser?mode=amazon", label: "Settlement-Parser", desc: "Echte Provision aus Amazon-CSV ziehen" },
   ],
   "/cockpit/settlement-parser": [
+    { route: "/cockpit/datev-mapper", label: "DATEV-Mapper", desc: "Geparste Fees + Bank-Auszug zu DATEV/Lexoffice exportieren" },
     { route: "/cockpit/bwa-generator", label: "BWA-Generator", desc: "Geparste Fees in BWA-Kategorien einkippen" },
     { route: "/cockpit/marge-tracker", label: "Marge-Tracker", desc: "Channel-Marge mit echten Provisionen rechnen" },
     { route: "/cockpit/amazon-buchungen", label: "Amazon-Buchungstexte", desc: "Code-Lookup für SKR03/04 und USt-Behandlung" },
   ],
+  "/cockpit/datev-mapper": [
+    { route: "/cockpit/settlement-parser?mode=amazon", label: "Settlement-Parser", desc: "Amazon/Stripe-CSV vorab in Fees aufsplitten" },
+    { route: "/cockpit/amazon-buchungen", label: "Amazon-Buchungstexte", desc: "Bei unklaren Codes: Live-Lookup für SKR03/04 + Steuerschlüssel" },
+    { route: "/cockpit/stb-handoff", label: "StB-Hand-off", desc: "DATEV-Export ins Übergabe-Bundle für StB einbinden" },
+  ],
+  "/cockpit/stb-handoff": [
+    { route: "/cockpit/datev-mapper", label: "DATEV-Mapper", desc: "Buchungs-Stapel für StB erstellen" },
+    { route: "/cockpit/bwa-generator", label: "BWA-Generator", desc: "BWA als PDF anhängen" },
+    { route: "/cockpit/reisekosten-logger", label: "Reisekosten-Logger", desc: "Reisekosten + Bewirtung-Aufstellung" },
+    { route: "/cockpit/crypto-steuer", label: "Crypto-Steuer", desc: "FIFO-Berechnung Veräußerungsgewinne" },
+  ],
   "/cockpit/amazon-buchungen": [
     { route: "/cockpit/settlement-parser?mode=amazon", label: "Settlement-Parser", desc: "Komplette CSV automatisch aufsplitten lassen" },
+    { route: "/cockpit/datev-mapper", label: "DATEV-Mapper", desc: "Bank-Auszug auto-mappen + DATEV/Lexoffice-Export" },
   ],
   "/cockpit/pre-year-end": [
     { route: "/cockpit/pension-optimizer", label: "Pension-Optimizer", desc: "Rürup/bAV als Steuer-Hebel quantifizieren" },
@@ -100,9 +114,17 @@ const RELATED: Record<string, ToolRef[]> = {
   ],
   "/cockpit/lucid-wizard": [
     { route: "/cockpit/ce-generator", label: "CE/RoHS-Generator", desc: "Konformitätserklärung-PDF parallel erstellen" },
+    { route: "/cockpit/ecom-roadmap", label: "ECom-Brand-Roadmap", desc: "Vollständige Compliance-Liste pro Produkt-Kategorie" },
   ],
   "/cockpit/ce-generator": [
     { route: "/cockpit/lucid-wizard", label: "LUCID-Wizard", desc: "Verpackungsregister-Anmeldung" },
+    { route: "/cockpit/ecom-roadmap", label: "ECom-Brand-Roadmap", desc: "Standard-Stack für Electronics/Toys/Hardware" },
+  ],
+  "/cockpit/ecom-roadmap": [
+    { route: "/cockpit/check", label: "Brand-Check", desc: "Marken + Domain + Social vor Launch checken" },
+    { route: "/cockpit/lucid-wizard", label: "LUCID-Wizard", desc: "Verpackungsregister anlegen (für jede Kategorie)" },
+    { route: "/cockpit/ce-generator", label: "CE/RoHS-Generator", desc: "Konformitätserklärung für Electronics/Toys/Hardware" },
+    { route: "/cockpit/foerderung", label: "Förderung-Datenbank", desc: "Brand-Launch über EXIST/KfW finanzieren" },
   ],
   "/cockpit/reisekosten-logger": [
     { route: "/cockpit/bwa-generator", label: "BWA-Generator", desc: "Reisekosten-Summe in BWA übertragen" },
