@@ -76,7 +76,7 @@ const _CATEGORIES_RAW: FeatureCategory[] = [
       { slug: "holding-designer", title: "Holding-Konstrukt-Designer", desc: "8 echte Holding-Strukturen (2-Stufen, Familien-Pool, Stiftung, Multi-Brand, VC-Doppel, GmbH&Co.KG, IP-Holding, VV-Holding) mit Steuer-Effekt, Sperrfristen, Real-Beispielen + Empfehlung-Wizard.", status: "beta", route: "/cockpit/holding-designer" },
       { slug: "mehrstufig", title: "Mehrstufige Konstrukte", desc: "Stiftung, Familien-Pool, KG-Strukturen.", status: "soon" },
       { slug: "ip-box", title: "IP-Box-Vergleich", desc: "NL, IE, HU, CH Patent-Box im Vergleich.", status: "planned" },
-      { slug: "eu-alternativen", title: "EU-Alternativen", desc: "Schweizer AG, österreichische FlexCo, EU-Limited.", status: "soon" },
+      { slug: "eu-alternativen", title: "EU-/CH-Alternativen", desc: "9 Länder im Detail: Estland (0% thesauriert) · NL (BV + Innovation Box) · CH (11,9% Zug) · AT (FlexCo 23%) · IE (12,5%) · CY · PL (9% small) · CZ · BG (10%). Mit ATAD/§AStG-Hinweisen.", status: "beta", route: "/cockpit/eu-alternativen" },
       { slug: "entscheidungs-engine", title: "Entscheidungs-Engine", desc: "Welche Struktur ab welchem Gewinn?", status: "beta", route: "/wizard/rechtsform" },
       { slug: "auszahlung-optimizer", title: "Gewinn-Auszahlungs-Optimizer", desc: "Maximal effizient ins Privatvermögen überführen.", status: "soon" },
     ],
