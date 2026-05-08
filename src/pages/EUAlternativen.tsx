@@ -12,6 +12,7 @@ import {
   Scale,
 } from "lucide-react";
 import { EU_ALTERNATIVES, type EUAlternative } from "@/data/euAlternatives";
+import { REAL_STRUCTURES, type RealStructure } from "@/data/realStructureExamples";
 
 const FIT_COLOR: Record<EUAlternative["fitForGermans"], string> = {
   "Sehr gut": "bg-emerald-500/10 text-emerald-700",
@@ -190,12 +191,87 @@ const EUAlternativen = () => {
         </table>
       </div>
 
+      {/* Real-World Multi-Jurisdiktion Strukturen */}
+      <div className="mt-8">
+        <h3 className="font-bold text-base mb-3 flex items-center gap-2">
+          <Globe className="h-5 w-5 text-accent-blue" /> Real-World Multi-Jurisdiktions-Konstrukte
+        </h3>
+        <p className="text-xs text-muted-foreground mb-4">
+          Echte Holding-Architekturen die in der DACH-Wirtschaft + UHNW-Familien tatsächlich genutzt werden. Keine
+          theoretischen Modelle — sondern Strukturen aus Handelsregistern, Pressemeldungen und Case Studies.
+        </p>
+        <div className="space-y-3">
+          {REAL_STRUCTURES.map((rs) => (
+            <RealStructureCard key={rs.slug} rs={rs} />
+          ))}
+        </div>
+      </div>
+
       <div className="rounded-2xl border border-border bg-card p-4 mt-6 text-[11px] text-muted-foreground leading-relaxed">
         <strong>Disclaimer:</strong> Dieses Tool ist Orientierungshilfe, keine Steuer-/Rechtsberatung. EU-Setup ist
         komplex und länderspezifisch. Immer mit StB UND Anwalt in DE + im Zielland final klären, BEVOR du eine
         ausländische Gesellschaft gründest. Stand: Mai 2026.
       </div>
     </CockpitShell>
+  );
+};
+
+const RealStructureCard = ({ rs }: { rs: RealStructure }) => {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="rounded-2xl border border-border bg-card overflow-hidden">
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full text-left p-4 hover:bg-secondary/30 transition-colors"
+      >
+        <div className="flex items-start gap-3">
+          <div className="text-3xl">{rs.emoji}</div>
+          <div className="flex-1">
+            <h4 className="font-bold text-sm mb-1">{rs.name}</h4>
+            <div className="text-[11px] text-muted-foreground mb-1">Familie: {rs.family}</div>
+            <p className="text-xs text-muted-foreground line-clamp-2">{rs.description}</p>
+          </div>
+          <div className="text-xs text-accent-blue shrink-0">{open ? "▲" : "▼"}</div>
+        </div>
+      </button>
+      {open && (
+        <div className="border-t border-border p-4 bg-secondary/20 space-y-3">
+          <div>
+            <div className="text-[10px] uppercase tracking-wider text-muted-foreground mb-1">Diagramm</div>
+            <pre className="font-mono text-[10px] leading-tight whitespace-pre overflow-x-auto bg-card border border-border rounded-lg p-3">
+              {rs.diagram}
+            </pre>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-3">
+              <div className="text-[10px] uppercase tracking-wider text-emerald-700 font-semibold mb-1">
+                Warum es funktioniert
+              </div>
+              <ul className="space-y-1 text-xs">
+                {rs.whyThisWorks.map((w, i) => (
+                  <li key={i} className="flex items-start gap-1.5">
+                    <span className="text-emerald-600 shrink-0">+</span>
+                    <span dangerouslySetInnerHTML={{ __html: w.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>") }} />
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="rounded-xl border border-accent-blue/30 bg-accent-blue/5 p-3">
+              <div className="text-[10px] uppercase tracking-wider text-accent-blue font-semibold mb-1">
+                Steuer-Logik
+              </div>
+              <p className="text-xs leading-relaxed">{rs.taxLogic}</p>
+            </div>
+          </div>
+          <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-3 text-xs">
+            <div className="text-[10px] uppercase tracking-wider text-amber-700 font-semibold mb-1">
+              Take-Away für DACH-Founder
+            </div>
+            <p className="leading-relaxed">{rs.takeaway}</p>
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
 
