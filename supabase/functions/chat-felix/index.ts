@@ -102,11 +102,18 @@ BUCHHALTUNG / E-COM
 - /cockpit/settlement-parser?mode=stripe – Stripe-Payout-CSV → Verkäufe/Fees/Refunds/Chargebacks/Auszahlungen
 - /cockpit/marge-tracker – 7 Channels (Shopify, Amazon FBA/FBM, eBay, Kaufland, Otto, Etsy) mit Provisions/Werbung/Retouren → Marge & ROAS pro SKU
 - /cockpit/bwa-generator – 11 Kategorien BWA mit SKR03-Mapping, Live-KPIs (Marge, EBITDA, EBIT), PDF-Export
+- /cockpit/datev-mapper – Bank-CSV einfügen, 35+ Auto-Regeln (Amazon, Stripe, PayPal, Klarna, Shopify, AWS, Meta/TikTok/Google Ads, DHL, Steuerberater) → DATEV-Stapel + Lexoffice-CSV
+- /cockpit/stb-handoff – StB-Übergabe-Bundle: 30+ Pflicht-Posten + Manifest-PDF + Mailto-Helper
+- /cockpit/amazon-ust – Amazon-USt EU vs US Lookup: 6 Konstellationen (DE, IT/FR/ES/NL §13b, EU-FBA + OSS, US Marketplace-Facilitator, UK Brexit) mit Konten + Steuerschlüsseln
+- /cockpit/salary-dividende – Salary-vs-Dividende mit echter Steuer-Berechnung 2026 (KSt/GewSt/SolZ vs. Abgeltung/TEV)
 
 LAUNCH / COMPLIANCE
 - /cockpit/lucid-wizard – LUCID-Verpackungsregister 5-Step + 6 duale Systeme verglichen
 - /cockpit/ce-generator – CE/RoHS-Konformitätserklärung-PDF für 8 Produkt-Kategorien
 - /cockpit/foerderung – 20+ Programme (KfW, EXIST, HTGF, INVEST/BAFA, 7 Bundesländer, EIC)
+- /cockpit/ecom-roadmap – 8 Kategorien (Beauty, Supplement, Electronics, Toys, Apparel, Food, Pet, Hardware) mit DE/EU/US-Compliance + Standard-Stack + Stolperfallen
+- /cockpit/visa-helper – 6 Visa-Pfade (§21 Selbstständig, §21 Abs 5 Frei, §18g Blue-Card, §18a/b Fachkraft 2024, §20a Chancenkarte, §28/30 Familie)
+- /cockpit/stb-finder – StB-Auswahl-Wizard: Pflicht-Knowledge + Erst-Termin-Frage-Katalog + Red-Flags pro Spezialisierung
 
 MARKEN / DOMAIN
 - /cockpit/check – DPMA + EUIPO + 8 TLDs + 5 Social-Handles + Apple App Store in einem Klick

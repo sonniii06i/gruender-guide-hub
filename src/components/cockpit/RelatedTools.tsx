@@ -66,8 +66,29 @@ const RELATED: Record<string, ToolRef[]> = {
     { route: "/cockpit/dba-cfc", label: "DBA-CFC-Rechner", desc: "Hinzurechnung + DBA-Quellensteuer rechnen" },
   ],
   "/cockpit/auszahlung-optimizer": [
+    { route: "/cockpit/salary-dividende", label: "Salary-vs-Dividende", desc: "GF-Gehalt vs. Ausschüttung mit echter Steuer-Berechnung 2026" },
     { route: "/cockpit/holding-designer", label: "Holding-Designer", desc: "Holding-Auszahlung im Konstrukt verankern" },
     { route: "/cockpit/pension-optimizer", label: "Pension-Optimizer", desc: "Pensionszusage als Auszahlungs-Vehikel im Detail" },
+  ],
+  "/cockpit/salary-dividende": [
+    { route: "/cockpit/auszahlung-optimizer", label: "Auszahlung-Optimizer", desc: "7 Auszahlungs-Wege im breiteren Vergleich" },
+    { route: "/cockpit/pension-optimizer", label: "Pension-Optimizer", desc: "Pensionszusage als zusätzlichen Hebel" },
+    { route: "/cockpit/holding-designer", label: "Holding-Designer", desc: "Über Holding noch effizienter" },
+  ],
+  "/cockpit/visa-helper": [
+    { route: "/wizard/rechtsform", label: "Rechtsform-Wizard", desc: "Nach Visa: passende Rechtsform für Gründung" },
+    { route: "/cockpit/foerderung", label: "Förderung-Datenbank", desc: "Existenzgründer-Programme + EXIST" },
+    { route: "/cockpit/holding-designer", label: "Holding-Designer", desc: "Bei größeren Plänen Holding-Konstrukt" },
+  ],
+  "/cockpit/stb-finder": [
+    { route: "/cockpit/stb-handoff", label: "StB-Hand-off", desc: "Sobald StB gefunden: Übergabe-Bundle anlegen" },
+    { route: "/cockpit/foerderung", label: "Förderung-Datenbank", desc: "StB hilft bei manchen Förder-Anträgen" },
+  ],
+  "/cockpit/amazon-ust": [
+    { route: "/cockpit/amazon-buchungen", label: "Amazon-Buchungstexte", desc: "130+ Codes wie AMA-SG-DE im Detail" },
+    { route: "/cockpit/settlement-parser?mode=amazon", label: "Settlement-Parser", desc: "Amazon-CSV automatisch aufsplitten" },
+    { route: "/cockpit/sales-tax-nexus", label: "Sales-Tax-Nexus", desc: "US-Staaten-Schwellen prüfen" },
+    { route: "/cockpit/datev-mapper", label: "DATEV-Mapper", desc: "Bank-Auszug zu DATEV exportieren" },
   ],
   "/wizard/rechtsform": [
     { route: "/cockpit/entscheidungs-engine", label: "Entscheidungs-Engine", desc: "Komplexe Fälle (Holding, Multi-Brand, EU): meta-Wizard" },

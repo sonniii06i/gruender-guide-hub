@@ -36,6 +36,10 @@ import ReisekostenLogger from "./pages/ReisekostenLogger.tsx";
 import DatevMapper from "./pages/DatevMapper.tsx";
 import StbHandoff from "./pages/StbHandoff.tsx";
 import EcomRoadmap from "./pages/EcomRoadmap.tsx";
+import SalaryDividendOptimizer from "./pages/SalaryDividendOptimizer.tsx";
+import VisaHelper from "./pages/VisaHelper.tsx";
+import StbFinder from "./pages/StbFinder.tsx";
+import AmazonUstEuUs from "./pages/AmazonUstEuUs.tsx";
 import RechtsformWizard from "./pages/RechtsformWizard.tsx";
 import Anbieter from "./pages/Anbieter.tsx";
 import AnbieterDetail from "./pages/AnbieterDetail.tsx";
@@ -103,6 +107,10 @@ const App = () => (
               <Route path="/cockpit/datev-mapper" element={<PaywallGate title="DATEV-Mapper"><DatevMapper /></PaywallGate>} />
               <Route path="/cockpit/stb-handoff" element={<PaywallGate title="StB-Hand-off"><StbHandoff /></PaywallGate>} />
               <Route path="/cockpit/ecom-roadmap" element={<PaywallGate title="ECom-Brand-Roadmap"><EcomRoadmap /></PaywallGate>} />
+              <Route path="/cockpit/salary-dividende" element={<PaywallGate title="Salary-vs-Dividende"><SalaryDividendOptimizer /></PaywallGate>} />
+              <Route path="/cockpit/visa-helper" element={<PaywallGate title="Visa-Helper"><VisaHelper /></PaywallGate>} />
+              <Route path="/cockpit/stb-finder" element={<PaywallGate title="StB-Auswahl-Wizard"><StbFinder /></PaywallGate>} />
+              <Route path="/cockpit/amazon-ust" element={<PaywallGate title="Amazon-USt EU vs US"><AmazonUstEuUs /></PaywallGate>} />
               <Route path="/wizard/rechtsform" element={<PaywallGate title="Rechtsform-Wizard"><RechtsformWizard /></PaywallGate>} />
               <Route path="/anbieter" element={<PaywallGate title="Anbieter-Vergleich"><Anbieter /></PaywallGate>} />
               <Route path="/anbieter/:slug" element={<PaywallGate title="Anbieter-Vergleich"><AnbieterDetail /></PaywallGate>} />
