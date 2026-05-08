@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
-import { ArrowRight, Clock, ListChecks, Loader2, Eye } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { ArrowRight, Clock, ListChecks, Loader2 } from "lucide-react";
 import { useGuideStart } from "@/hooks/useGuideStart";
 import type { Playbook } from "@/data/playbooks";
 
@@ -12,9 +12,31 @@ const DIFF_STYLES: Record<Playbook["difficulty"], string> = {
 
 export const GuideCard = ({ pb, compact = false }: { pb: Playbook; compact?: boolean }) => {
   const { start, starting } = useGuideStart();
+  const navigate = useNavigate();
   const isStarting = starting === pb.slug;
+
+  // Klick aufs Card-Body → Preview-Seite
+  const goToPreview = () => navigate(`/playbook/preview/${pb.slug}`);
+
+  // Klick auf Guide-starten Button → Run starten (Card-Click verhindern)
+  const handleStartClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    start(pb.slug);
+  };
+
   return (
-    <div className="group rounded-2xl border border-border bg-card p-5 hover:border-accent-blue/40 hover:shadow-soft transition-all flex flex-col">
+    <div
+      onClick={goToPreview}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          goToPreview();
+        }
+      }}
+      className="group rounded-2xl border border-border bg-card p-5 hover:border-accent-blue/40 hover:shadow-soft transition-all flex flex-col cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue/40"
+    >
       <div className="flex items-start gap-3 mb-3">
         <div className="h-12 w-12 rounded-xl bg-accent flex items-center justify-center text-2xl shrink-0">
           {pb.emoji}
@@ -44,21 +66,15 @@ export const GuideCard = ({ pb, compact = false }: { pb: Playbook; compact?: boo
           {pb.runningCost && <div className="text-muted-foreground text-[10px]">🔁 {pb.runningCost}</div>}
         </div>
       )}
-      <div className="flex items-center gap-2 mt-auto flex-wrap">
+      <div className="flex items-center gap-2 mt-auto">
         <Button
-          onClick={() => start(pb.slug)}
+          onClick={handleStartClick}
           disabled={isStarting}
           size="sm"
           className="rounded-full gap-1.5"
         >
           {isStarting ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <>Guide starten <ArrowRight className="h-3.5 w-3.5" /></>}
         </Button>
-        <Link
-          to={`/playbook/preview/${pb.slug}`}
-          className="inline-flex items-center gap-1 rounded-full border border-border px-3 py-1.5 text-xs font-semibold hover:bg-secondary transition-colors"
-        >
-          <Eye className="h-3 w-3" /> Übersicht
-        </Link>
       </div>
     </div>
   );
