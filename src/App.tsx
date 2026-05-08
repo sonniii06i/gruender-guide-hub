@@ -29,6 +29,10 @@ import FoerderungDb from "./pages/FoerderungDb.tsx";
 import UsLlcWizard from "./pages/UsLlcWizard.tsx";
 import HkLimitedWizard from "./pages/HkLimitedWizard.tsx";
 import IntlBanking from "./pages/IntlBanking.tsx";
+import BwaGenerator from "./pages/BwaGenerator.tsx";
+import MargeTracker from "./pages/MargeTracker.tsx";
+import PensionOptimizer from "./pages/PensionOptimizer.tsx";
+import ReisekostenLogger from "./pages/ReisekostenLogger.tsx";
 import RechtsformWizard from "./pages/RechtsformWizard.tsx";
 import Anbieter from "./pages/Anbieter.tsx";
 import AnbieterDetail from "./pages/AnbieterDetail.tsx";
@@ -89,6 +93,10 @@ const App = () => (
               <Route path="/cockpit/us-llc-wizard" element={<PaywallGate title="US-LLC-Wizard"><UsLlcWizard /></PaywallGate>} />
               <Route path="/cockpit/hk-limited-wizard" element={<PaywallGate title="HK-Limited-Wizard"><HkLimitedWizard /></PaywallGate>} />
               <Route path="/cockpit/intl-banking" element={<PaywallGate title="Intl. Banking"><IntlBanking /></PaywallGate>} />
+              <Route path="/cockpit/bwa-generator" element={<PaywallGate title="BWA-Generator"><BwaGenerator /></PaywallGate>} />
+              <Route path="/cockpit/marge-tracker" element={<PaywallGate title="Marge-Tracker"><MargeTracker /></PaywallGate>} />
+              <Route path="/cockpit/pension-optimizer" element={<PaywallGate title="Pension-Optimizer"><PensionOptimizer /></PaywallGate>} />
+              <Route path="/cockpit/reisekosten-logger" element={<PaywallGate title="Reisekosten-Logger"><ReisekostenLogger /></PaywallGate>} />
               <Route path="/wizard/rechtsform" element={<PaywallGate title="Rechtsform-Wizard"><RechtsformWizard /></PaywallGate>} />
               <Route path="/anbieter" element={<PaywallGate title="Anbieter-Vergleich"><Anbieter /></PaywallGate>} />
               <Route path="/anbieter/:slug" element={<PaywallGate title="Anbieter-Vergleich"><AnbieterDetail /></PaywallGate>} />
