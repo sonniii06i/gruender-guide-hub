@@ -12,6 +12,7 @@ import AmazonBuchungen from "./pages/AmazonBuchungen.tsx";
 import BrandCheck from "./pages/BrandCheck.tsx";
 import MarkenWizard from "./pages/MarkenWizard.tsx";
 import MarkenMonitor from "./pages/MarkenMonitor.tsx";
+import HoldingDesigner from "./pages/HoldingDesigner.tsx";
 import RechtsformWizard from "./pages/RechtsformWizard.tsx";
 import Anbieter from "./pages/Anbieter.tsx";
 import AnbieterDetail from "./pages/AnbieterDetail.tsx";
@@ -55,6 +56,7 @@ const App = () => (
               <Route path="/cockpit/check" element={<PaywallGate title="Brand-Check"><BrandCheck /></PaywallGate>} />
               <Route path="/cockpit/marken-wizard" element={<PaywallGate title="Marken-Wizard"><MarkenWizard /></PaywallGate>} />
               <Route path="/cockpit/marken-monitor" element={<PaywallGate title="Marken-Monitor"><MarkenMonitor /></PaywallGate>} />
+              <Route path="/cockpit/holding-designer" element={<PaywallGate title="Holding-Designer"><HoldingDesigner /></PaywallGate>} />
               <Route path="/wizard/rechtsform" element={<PaywallGate title="Rechtsform-Wizard"><RechtsformWizard /></PaywallGate>} />
               <Route path="/anbieter" element={<PaywallGate title="Anbieter-Vergleich"><Anbieter /></PaywallGate>} />
               <Route path="/anbieter/:slug" element={<PaywallGate title="Anbieter-Vergleich"><AnbieterDetail /></PaywallGate>} />

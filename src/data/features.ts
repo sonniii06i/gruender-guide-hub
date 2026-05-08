@@ -73,7 +73,7 @@ const _CATEGORIES_RAW: FeatureCategory[] = [
     tagline: "Holding, IP-Box, Stiftung, Familien-Pool",
     features: [
       { slug: "rechtsform-wizard", title: "Rechtsform-Wizard", desc: "Einzelunternehmer → UG → GmbH → Holding.", status: "beta", route: "/wizard/rechtsform" },
-      { slug: "holding-designer", title: "Holding-Konstrukt-Designer", desc: "Operative GmbH + Holding GmbH + Schenkung.", status: "beta", route: "/wizard/rechtsform" },
+      { slug: "holding-designer", title: "Holding-Konstrukt-Designer", desc: "8 echte Holding-Strukturen (2-Stufen, Familien-Pool, Stiftung, Multi-Brand, VC-Doppel, GmbH&Co.KG, IP-Holding, VV-Holding) mit Steuer-Effekt, Sperrfristen, Real-Beispielen + Empfehlung-Wizard.", status: "beta", route: "/cockpit/holding-designer" },
       { slug: "mehrstufig", title: "Mehrstufige Konstrukte", desc: "Stiftung, Familien-Pool, KG-Strukturen.", status: "soon" },
       { slug: "ip-box", title: "IP-Box-Vergleich", desc: "NL, IE, HU, CH Patent-Box im Vergleich.", status: "planned" },
       { slug: "eu-alternativen", title: "EU-Alternativen", desc: "Schweizer AG, österreichische FlexCo, EU-Limited.", status: "soon" },
