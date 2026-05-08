@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Clock, ListChecks, Loader2 } from "lucide-react";
+import { Link } from "react-router-dom";
+import { ArrowRight, Clock, ListChecks, Loader2, Eye } from "lucide-react";
 import { useGuideStart } from "@/hooks/useGuideStart";
 import type { Playbook } from "@/data/playbooks";
 
@@ -43,14 +44,22 @@ export const GuideCard = ({ pb, compact = false }: { pb: Playbook; compact?: boo
           {pb.runningCost && <div className="text-muted-foreground text-[10px]">🔁 {pb.runningCost}</div>}
         </div>
       )}
-      <Button
-        onClick={() => start(pb.slug)}
-        disabled={isStarting}
-        size="sm"
-        className="rounded-full self-start gap-1.5 mt-auto"
-      >
-        {isStarting ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <>Guide starten <ArrowRight className="h-3.5 w-3.5" /></>}
-      </Button>
+      <div className="flex items-center gap-2 mt-auto flex-wrap">
+        <Button
+          onClick={() => start(pb.slug)}
+          disabled={isStarting}
+          size="sm"
+          className="rounded-full gap-1.5"
+        >
+          {isStarting ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <>Guide starten <ArrowRight className="h-3.5 w-3.5" /></>}
+        </Button>
+        <Link
+          to={`/playbook/preview/${pb.slug}`}
+          className="inline-flex items-center gap-1 rounded-full border border-border px-3 py-1.5 text-xs font-semibold hover:bg-secondary transition-colors"
+        >
+          <Eye className="h-3 w-3" /> Übersicht
+        </Link>
+      </div>
     </div>
   );
 };

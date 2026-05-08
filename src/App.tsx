@@ -17,6 +17,7 @@ import Anbieter from "./pages/Anbieter.tsx";
 import AnbieterDetail from "./pages/AnbieterDetail.tsx";
 import Playbooks from "./pages/Playbooks.tsx";
 import PlaybookRun from "./pages/PlaybookRun.tsx";
+import PlaybookPreview from "./pages/PlaybookPreview.tsx";
 import FelixChat from "./pages/FelixChat.tsx";
 import FelixChatsOverview from "./pages/FelixChatsOverview.tsx";
 import Profile from "./pages/Profile.tsx";
@@ -58,6 +59,7 @@ const App = () => (
               <Route path="/anbieter" element={<PaywallGate title="Anbieter-Vergleich"><Anbieter /></PaywallGate>} />
               <Route path="/anbieter/:slug" element={<PaywallGate title="Anbieter-Vergleich"><AnbieterDetail /></PaywallGate>} />
               <Route path="/playbooks" element={<Playbooks />} />
+              <Route path="/playbook/preview/:slug" element={<PaywallGate title="Guide"><PlaybookPreview /></PaywallGate>} />
               <Route path="/playbook/:runId" element={<PaywallGate title="Guide"><PlaybookRun /></PaywallGate>} />
               <Route path="/felix" element={<FelixChat />} />
               <Route path="/felix/chats" element={<FelixChatsOverview />} />
