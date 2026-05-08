@@ -106,7 +106,7 @@ const Overview = ({ onSelect }: { onSelect: (s: HoldingStructure) => void }) => 
         nutze den Empfehlung-Wizard oben — der schlägt dir basierend auf 6 Fragen die passenden Strukturen vor.
       </div>
     </div>
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
       {HOLDING_STRUCTURES.map((s) => (
         <button
           key={s.slug}
@@ -130,9 +130,57 @@ const Overview = ({ onSelect }: { onSelect: (s: HoldingStructure) => void }) => 
             <span className="rounded-full bg-secondary text-muted-foreground px-2 py-0.5 text-[10px]">
               ab {s.worthwhileFrom.split("/")[0].split("—")[0].trim()}
             </span>
+            {s.taxScenarios && s.taxScenarios.length > 0 && (
+              <span className="rounded-full bg-accent-blue/10 text-accent-blue px-2 py-0.5 text-[10px] font-semibold">
+                📊 {s.taxScenarios.length} Steuer-Sims
+              </span>
+            )}
+            {s.pitfalls && s.pitfalls.length > 0 && (
+              <span className="rounded-full bg-amber-500/10 text-amber-700 px-2 py-0.5 text-[10px]">
+                ⚠ {s.pitfalls.length} Pitfalls
+              </span>
+            )}
           </div>
         </button>
       ))}
+    </div>
+
+    {/* Side-by-Side Compare-Tabelle */}
+    <div className="rounded-2xl border border-border bg-card p-5 overflow-x-auto">
+      <h3 className="font-bold text-sm mb-3">Side-by-Side Vergleich</h3>
+      <table className="w-full text-xs">
+        <thead>
+          <tr className="border-b border-border">
+            <th className="text-left py-2 pr-3">Struktur</th>
+            <th className="text-left py-2 px-2">Setup</th>
+            <th className="text-left py-2 px-2">Lohnt sich ab</th>
+            <th className="text-left py-2 pl-2">Hauptvorteil</th>
+          </tr>
+        </thead>
+        <tbody>
+          {HOLDING_STRUCTURES.map((s) => (
+            <tr
+              key={s.slug}
+              onClick={() => onSelect(s)}
+              className="border-b border-border last:border-0 cursor-pointer hover:bg-secondary/30"
+            >
+              <td className="py-2 pr-3">
+                <div className="flex items-center gap-1.5">
+                  <span>{s.emoji}</span>
+                  <span className="font-semibold">{s.shortName}</span>
+                </div>
+              </td>
+              <td className="py-2 px-2 text-muted-foreground font-mono text-[10px]">
+                {s.setupCost.split("(")[0].trim().split("+")[0].trim()}
+              </td>
+              <td className="py-2 px-2 text-muted-foreground text-[10px]">
+                {s.worthwhileFrom.split("/")[0].split("—")[0].trim()}
+              </td>
+              <td className="py-2 pl-2 text-muted-foreground text-[10px] line-clamp-2 max-w-xs">{s.tagline}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   </div>
 );
@@ -552,6 +600,118 @@ const StructureDetail = ({ s, onBack }: { s: HoldingStructure; onBack: () => voi
         ))}
       </ol>
     </div>
+
+    {/* Steuer-Szenarien (Beispielrechnungen) */}
+    {s.taxScenarios && s.taxScenarios.length > 0 && (
+      <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/5 p-5 mb-6">
+        <div className="flex items-center gap-2 mb-3">
+          <Calculator className="h-4 w-4 text-emerald-700" />
+          <div className="text-xs font-semibold uppercase tracking-wider text-emerald-700">
+            Steuer-Beispielrechnungen
+          </div>
+        </div>
+        <div className="space-y-4">
+          {s.taxScenarios.map((sc, i) => (
+            <div key={i} className="rounded-xl border border-emerald-500/20 bg-card p-4">
+              <div className="flex items-start justify-between gap-3 mb-3">
+                <div>
+                  <div className="font-bold text-sm">{sc.label}</div>
+                  <div className="text-[11px] text-muted-foreground">
+                    Op-Gewinn: {sc.opGewinn.toLocaleString("de-DE")} €
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className="text-xs text-muted-foreground">Effektivsatz</div>
+                  <div className="text-lg font-bold text-emerald-700">{sc.effektivPct.toFixed(1)} %</div>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-2 mb-3">
+                <div className="rounded-lg bg-secondary/40 p-2">
+                  <div className="text-[10px] text-muted-foreground uppercase">Total Steuer</div>
+                  <div className="font-mono font-semibold text-sm">
+                    {sc.totalSteuer.toLocaleString("de-DE")} €
+                  </div>
+                </div>
+                <div className="rounded-lg bg-secondary/40 p-2">
+                  <div className="text-[10px] text-muted-foreground uppercase">Privat netto</div>
+                  <div className="font-mono font-semibold text-sm">
+                    {sc.privatNetto.toLocaleString("de-DE")} €
+                  </div>
+                </div>
+              </div>
+              <details className="text-xs text-muted-foreground">
+                <summary className="cursor-pointer font-semibold text-foreground">Berechnungs-Details ▾</summary>
+                <ul className="mt-2 space-y-1 list-disc pl-4">
+                  {sc.breakdown.map((b, j) => (
+                    <li key={j}>{b}</li>
+                  ))}
+                </ul>
+                {sc.vsEinzel && (
+                  <div className="mt-3 rounded-lg bg-accent-blue/5 border border-accent-blue/20 p-2 text-[11px]">
+                    <span className="font-semibold text-accent-blue">vs. Einzelunternehmen:</span> {sc.vsEinzel}
+                  </div>
+                )}
+              </details>
+            </div>
+          ))}
+        </div>
+      </div>
+    )}
+
+    {/* Common Pitfalls */}
+    {s.pitfalls && s.pitfalls.length > 0 && (
+      <div className="rounded-2xl border border-red-500/30 bg-red-500/5 p-5 mb-6">
+        <div className="flex items-center gap-2 mb-3">
+          <AlertTriangle className="h-4 w-4 text-red-700" />
+          <div className="text-xs font-semibold uppercase tracking-wider text-red-700">
+            Typische Fehler die User mit dieser Struktur machen
+          </div>
+        </div>
+        <ul className="space-y-2 text-sm">
+          {s.pitfalls.map((p, i) => (
+            <li key={i} className="flex items-start gap-2">
+              <span className="text-red-600 shrink-0">⚠</span>
+              <span
+                className="leading-relaxed"
+                dangerouslySetInnerHTML={{ __html: p.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>") }}
+              />
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+
+    {/* Migration-Pfad + Internationales */}
+    {(s.migrationPath || s.intlConsiderations) && (
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
+        {s.migrationPath && (
+          <div className="rounded-2xl border border-border bg-card p-4">
+            <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
+              Migration-Pfad
+            </div>
+            <div
+              className="text-sm leading-relaxed"
+              dangerouslySetInnerHTML={{
+                __html: s.migrationPath.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>"),
+              }}
+            />
+          </div>
+        )}
+        {s.intlConsiderations && (
+          <div className="rounded-2xl border border-border bg-card p-4">
+            <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
+              Internationale Aspekte
+            </div>
+            <div
+              className="text-sm leading-relaxed"
+              dangerouslySetInnerHTML={{
+                __html: s.intlConsiderations.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>"),
+              }}
+            />
+          </div>
+        )}
+      </div>
+    )}
 
     {/* Legal Basis */}
     <div className="rounded-2xl border border-border bg-secondary/30 p-4 mb-6">

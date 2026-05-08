@@ -34,6 +34,30 @@ export type HoldingStructure = {
   setupSteps: string[];
   /** Verlinkung zu Playbook falls vorhanden. */
   playbookSlug?: string;
+  /** Konkrete Steuer-Szenarien (100k / 500k / 2M Op-Gewinn). */
+  taxScenarios?: TaxScenario[];
+  /** Typische Fehler die User mit dieser Struktur machen. */
+  pitfalls?: string[];
+  /** Migrations-Pfad: wann von dieser Struktur in eine andere wechseln. */
+  migrationPath?: string;
+  /** Internationale Erweiterungs-Aspekte. */
+  intlConsiderations?: string;
+};
+
+export type TaxScenario = {
+  /** Szenario-Label (z.B. "100k Op-Gewinn, alles thesauriert"). */
+  label: string;
+  opGewinn: number;
+  /** Berechnete Endsumme an Steuern. */
+  totalSteuer: number;
+  /** Was Privatperson am Ende netto hat. */
+  privatNetto: number;
+  /** Effektive Gesamt-Steuer in %. */
+  effektivPct: number;
+  /** Erklärung der Berechnung. */
+  breakdown: string[];
+  /** Vergleich gegen "ohne Holding" (Einzelunternehmen). */
+  vsEinzel?: string;
 };
 
 export const HOLDING_STRUCTURES: HoldingStructure[] = [
@@ -103,6 +127,61 @@ export const HOLDING_STRUCTURES: HoldingStructure[] = [
       "5. Investitions-Strategie für Holding-Vermögen (ETFs, Immobilien, weitere Beteiligungen)",
     ],
     playbookSlug: "holding",
+    taxScenarios: [
+      {
+        label: "100 k Gewinn · alles thesauriert in Holding",
+        opGewinn: 100000,
+        totalSteuer: 31125,
+        privatNetto: 68875,
+        effektivPct: 31.1,
+        breakdown: [
+          "Op-GmbH: 100.000 € × 30 % KSt+GewSt = 30.000 € Steuer · 70.000 € verbleibender Gewinn",
+          "Ausschüttung an Holding: 70.000 € · 5 % steuerpflichtig = 3.500 € · davon ~30 % = 1.125 € Steuer",
+          "Holding-Netto: 68.875 € (für Re-Invest, ETF, Immobilien)",
+          "Bei späterer Privat-Entnahme weitere ~26,375 % AbgSt fällig",
+        ],
+        vsEinzel: "Einzelunternehmen 100 k Gewinn: ~32 k € ESt+SoliZ+GewSt = 68 k Netto. Praktisch identisch — Holding bringt hier nur Vorteile bei Reinvest oder Exit.",
+      },
+      {
+        label: "500 k Gewinn · halbiertes Verhältnis (250 k privat, 250 k Reinvest)",
+        opGewinn: 500000,
+        totalSteuer: 215938,
+        privatNetto: 284062,
+        effektivPct: 43.2,
+        breakdown: [
+          "Op-GmbH: 500.000 € × 30 % = 150.000 € KSt+GewSt · 350.000 € verbleibend",
+          "Ausschüttung an Holding: 350.000 € · 5 % steuerpflichtig = 17.500 € × 30 % = 5.250 € Steuer",
+          "Holding-Netto: 344.750 € — davon 250 k privat entnehmen via AbgSt",
+          "AbgSt auf 250.000 €: ~26,375 % SoliZ inkl = 65.938 € Steuer · 184.062 € privat netto",
+          "Holding behält 94.750 € für Reinvest (z.B. ETF, Immobilien — fortan 1,5 % effektiv besteuert)",
+          "Total: 150 k + 5,25 k + 65,94 k = 221,2 k Steuer · privat netto 184 k + Holding 94,75 k = 278,8 k",
+        ],
+        vsEinzel: "Einzelunternehmen 500 k Gewinn: ~210 k € ESt-Spitze (42 % auf > 277 k). Nicht thesaurierbar — alles wird privat besteuert. Holding ermöglicht Reinvest mit 1,5 % statt 26 %.",
+      },
+      {
+        label: "2 Mio Exit-Erlös aus Op-GmbH-Verkauf",
+        opGewinn: 2000000,
+        totalSteuer: 30000,
+        privatNetto: 1970000,
+        effektivPct: 1.5,
+        breakdown: [
+          "Holding verkauft Op-GmbH für 2.000.000 €",
+          "§8b KStG: 95 % steuerfrei · 5 % nicht-abzugsfähige BA = 100.000 € steuerpflichtig",
+          "100.000 € × 30 % KSt+GewSt = 30.000 € Steuer",
+          "Holding-Netto: 1.970.000 € (kann komplett reinvestiert werden)",
+        ],
+        vsEinzel: "Privat-Verkauf einer GmbH > 1 % Beteiligung: §17 EStG mit Teileinkünfteverfahren · 60 % steuerpflichtig × ~42 % ESt = 504.000 € Steuer. Mit Holding nur 30 k = 474 k € Ersparnis pro 2 Mio Exit.",
+      },
+    ],
+    pitfalls: [
+      "**§22 UmwStG-Sperrfrist nicht beachtet:** Op-GmbH wird in Holding eingebracht, dann 4 Jahre später verkauft → rückwirkende Versteuerung der stillen Reserven mit ~30 %. Klassischer 7-stelliger Fehler.",
+      "**Schachtelprivileg-Voraussetzung verfehlt:** Bei Beteiligung < 10 % im Vorjahr greift §8b KStG NICHT — Mindestbeteiligung in laufendem Jahr reicht nicht.",
+      "**vGA (verdeckte Gewinnausschüttung) durch Auto/Privatkosten:** GF nutzt Op-GmbH-Auto privat ohne 1 %-Regel zu versteuern → Finanzamt qualifiziert als vGA → Doppel-Besteuerung.",
+      "**Holding ohne Substanz:** reine Mailbox-Holding ohne Geschäftsleitung → BMF kann durchschauen und versagen Schachtelprivileg.",
+      "**StB-Wahl falsch:** Standard-StB ohne Konzern-Erfahrung macht Fehler in Konsolidierung. Ab 250 k Op-Gewinn: Konzern-erfahrenen StB wählen.",
+    ],
+    migrationPath: "Aus diesem Setup wechselt man typisch in: (a) **3-Stufen-Holding** wenn weitere Brands dazu kommen, (b) **Familienstiftung** wenn Vermögen > 5 Mio + Generations-Planung, (c) **Familien-Pool** wenn Kinder beteiligt werden sollen vor Erbgang.",
+    intlConsiderations: "Bei US-/HK-Töchtern: DBA-Anrechnung, ggf. CFC/Hinzurechnungsbesteuerung §7-14 AStG bei passiven Einkünften. Bei EU-Töchtern (NL/IE): Mutter-Tochter-Richtlinie greift, Quellensteuer 0 %. ATAD-Richtlinie EU-weit umgesetzt seit 2019 — keine reine Steuer-Vermeidungs-Strukturen mehr.",
   },
 
   // ============================================================
@@ -170,6 +249,31 @@ export const HOLDING_STRUCTURES: HoldingStructure[] = [
       "4. Bewertung des Betriebsvermögens (Substanzwert / Ertragswert) beim Steuerberater",
       "5. Erste Schenkung mit ggf. §13a-Antrag beim Finanzamt",
     ],
+    taxScenarios: [
+      {
+        label: "5 Mio Betriebsvermögen · Schenkung an 2 Kinder · Voll-Verschonung",
+        opGewinn: 5000000,
+        totalSteuer: 0,
+        privatNetto: 5000000,
+        effektivPct: 0,
+        breakdown: [
+          "Übertragung von 5 Mio Betriebsvermögen via §13a Abs 10 ErbStG (Vollverschonung)",
+          "Voraussetzung: 7 Jahre Behaltensfrist + 700 % Lohnsumme über 7 Jahre erhalten",
+          "Persönlicher Freibetrag pro Kind: 400.000 € (§16 ErbStG)",
+          "Bei eingehaltenen Bedingungen: 0 € Schenkungssteuer",
+        ],
+        vsEinzel: "Ohne Verschonung: 5 Mio - 800 k Freibeträge = 4,2 Mio steuerpflichtig × Steuersatz Klasse I (~23 %) = ~966 k Schenkungssteuer.",
+      },
+    ],
+    pitfalls: [
+      "**Lohnsummen-Klausel verfehlt:** in 7 Jahren weniger als 700 % der Ausgangslohnsumme erreicht (z.B. wegen Mitarbeiter-Abbau in Krise) → anteilige Nachversteuerung der Verschonung.",
+      "**Behaltensfrist gebrochen:** Anteile innerhalb 7 Jahren verkauft, übertragen oder Kapitalerhöhung gemacht → Nachversteuerung pro rata.",
+      "**Bewertung zu niedrig:** Finanzamt bewertet Betriebsvermögen höher (Ertragswert vs. Substanzwert) → unerwartete Steuer-Nachforderung.",
+      "**Pool-Vertrag formfehlerhaft:** unwirksam ohne notarielle Beurkundung → Anteile fallen in Nachlass + Pflichtteil greift.",
+      "**Familienverwerfungen:** Bei Streit kann Pool-Vertrag schwer aufzulösen sein. Ausstiegsklauseln wichtig.",
+    ],
+    migrationPath: "Aus Familien-Pool wechselt man oft in **Familienstiftung**, wenn Vermögen > 10 Mio und Pflichtteilsschutz wichtiger wird, oder bei Generations-Wechsel (Kinder erwachsen).",
+    intlConsiderations: "Bei Auswanderung eines Pool-Mitglieds in Nicht-EU-Staat: §6 AStG Wegzugsbesteuerung möglich (Anteile gelten als verkauft). Bei EU-Wegzug 2025+: nur noch Stundung möglich (kein Verzicht mehr seit ATAD).",
   },
 
   // ============================================================
