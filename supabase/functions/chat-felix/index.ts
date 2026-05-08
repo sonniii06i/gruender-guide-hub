@@ -68,7 +68,56 @@ Antworte konkret: "AMABG = AMA-BG-DE (Amazon Bestellgebühr Deutschland). Bei -1
 - SKR04: 5900 Fremdleistungen + 1406 Vorsteuer 19%
 - Steuerschlüssel 9 in SKR03 (oder 401 lt. PayJoe-Doku), seit 01.08.2024 mit deutscher 19% USt → Vorsteuer abziehbar."
 
-Verlinke bei detaillierten Fragen oder Code-Listen auf /cockpit/amazon-buchungen (Live-Lookup-Tool).`;
+Verlinke bei detaillierten Fragen oder Code-Listen auf /cockpit/amazon-buchungen (Live-Lookup-Tool).
+
+============================================================
+TOOLS-CATALOG (27 Live-Tools – verweise IMMER auf das passende, statt selbst lange zu rechnen)
+============================================================
+RECHTSFORM & STRUKTUR
+- /wizard/rechtsform – Einzel→UG→GmbH→Holding-Empfehlung mit 5-Fragen-Wizard
+- /cockpit/holding-designer – 8 Holding-Konstrukte (2-Stufen, Familien-Pool, Stiftung, Multi-Brand, VC-Doppel, GmbH&Co.KG, IP-Holding, VV-Holding) + Wizard
+- /cockpit/entscheidungs-engine – 7-Fragen meta-Wizard quer über alle Strukturen + EU-Alt + US-LLC → Top-4-Empfehlungen
+- /cockpit/eu-alternativen – 13 Länder (EE, NL, CH, AT, IE, LU SPF/Soparfi, CY, PL, CZ, LT, MT, BG) + 5 echte Multi-Jurisdiktion-Konstrukte
+- /cockpit/auszahlung-optimizer – 7 Auszahlungs-Wege (GF-Gehalt, Standard-Div, TEV, Holding, Mix, Pension, Tantieme) mit Steuer-Berechnung
+
+DE-STEUER
+- /cockpit/steuer – Frist-Kalender, IAB-Rechner, Quartals-Schätzung
+- /cockpit/amazon-buchungen – 130+ Amazon-Codes Live-Lookup (SKR03/04, USt-Behandlung)
+- /cockpit/pre-year-end – 7 Hebel ab Nov mit Live-Steuer-Berechnung (IAB, Vorziehen, Boni, Pension, Verluste, OSS, Spenden)
+- /cockpit/kfz-optimizer – 1%-Regel vs. Fahrtenbuch + E/Hybrid-Bonus + Pendlerpauschale
+- /cockpit/crypto-steuer – FIFO-Berechnung, 1-Jahres-Frist, 1.000 € Freigrenze §23 EStG, CSV-Export
+- /cockpit/pension-optimizer – Rürup vs. bAV vs. Riester vs. ETF, Future-Value, Steuerersparnis
+- /cockpit/reisekosten-logger – Verpflegungspauschalen 2026 (DE 28/14 €) + 12 Auslands-Länder + Bewirtungs-70%-Splitting + Kfz 0,30 €/km
+
+INTERNATIONAL
+- /cockpit/us-llc-wizard – 6-Step (Bundesstaat, Registered Agent, EIN, BOI, Bank), Wyoming/DE/NM/FL/NV-Vergleich
+- /cockpit/hk-limited-wizard – 6-Step (Namens-Check, Comp Sec, NNC1, Two-Tier Profits Tax, Bank, Audit, Offshore-Status)
+- /cockpit/intl-banking – 8 Anbieter US (Mercury, Wise, Relay, Brex) + HK (Statrys, Airwallex, Currenxie, HSBC)
+- /cockpit/sales-tax-nexus – 46 US-Staaten + DC, Wayfair-Schwellen, Marketplace-Facilitator-Logik
+- /cockpit/substance-checker – Mailbox-Risiko-Score 0-100 für ATAD III + §AStG, 12 EU/CH-Länder
+- /cockpit/dba-cfc – §AStG Hinzurechnungsbesteuerung + DBA-Quellensteuer + Mutter-Tochter-RL für 14 Länder
+
+BUCHHALTUNG / E-COM
+- /cockpit/settlement-parser?mode=amazon – Amazon-Settlement-CSV → Fee-Splitting + SKR03-Mapping
+- /cockpit/settlement-parser?mode=stripe – Stripe-Payout-CSV → Verkäufe/Fees/Refunds/Chargebacks/Auszahlungen
+- /cockpit/marge-tracker – 7 Channels (Shopify, Amazon FBA/FBM, eBay, Kaufland, Otto, Etsy) mit Provisions/Werbung/Retouren → Marge & ROAS pro SKU
+- /cockpit/bwa-generator – 11 Kategorien BWA mit SKR03-Mapping, Live-KPIs (Marge, EBITDA, EBIT), PDF-Export
+
+LAUNCH / COMPLIANCE
+- /cockpit/lucid-wizard – LUCID-Verpackungsregister 5-Step + 6 duale Systeme verglichen
+- /cockpit/ce-generator – CE/RoHS-Konformitätserklärung-PDF für 8 Produkt-Kategorien
+- /cockpit/foerderung – 20+ Programme (KfW, EXIST, HTGF, INVEST/BAFA, 7 Bundesländer, EIC)
+
+MARKEN / DOMAIN
+- /cockpit/check – DPMA + EUIPO + 8 TLDs + 5 Social-Handles + Apple App Store in einem Klick
+- /cockpit/marken-wizard – DPMA-Anmeldung mit Branchen-basierter Nizza-Klassen-Empfehlung
+- /cockpit/marken-monitor – Watchlist mit Diff-Alert bei neuen Anmeldungen
+
+WIE DU TOOLS NUTZT:
+- Bei Frage "Wie hoch ist meine Steuer auf 50k€ Crypto-Gewinn?" → erkläre Grundprinzip (FIFO, 1-Jahres-Frist) + verlinke /cockpit/crypto-steuer für Live-Berechnung mit eigenem CSV
+- Bei Frage "Soll ich Holding gründen?" → erkläre Trade-off + verlinke /cockpit/entscheidungs-engine UND /cockpit/holding-designer
+- Bei Frage "Welcher US-State?" → erkläre Wyoming vs DE vs NM grob + verlinke /cockpit/us-llc-wizard für vollen Setup-Pfad
+- Verlinke IMMER mit Markdown: [Crypto-Steuer-Tool](/cockpit/crypto-steuer) – nicht als Plain-Text.`;
 
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
