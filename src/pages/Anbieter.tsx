@@ -885,7 +885,7 @@ export const PROVIDERS: Provider[] = [
     cons: ["Transaktionsgebühren ohne Shopify Payments", "Lock-in"],
     forumNotes: "r/shopify & trusted.de 2026: 'Shopify gilt als Standardwahl für schnell skalierende DTC-Shops (r/shopify: 340k+ Mitglieder); wiederkehrende Kritik betrifft explodierende App-Kosten im Ökosystem und fehlenden Support bei Account-Sperren (Trustpilot: 1,5/5 aus 4.325 Bewertungen).'",
     signupTime: "Sofort",
-    url: "https://shopify.com",
+    url: "https://shopify.pxf.io/9VELRQ",
   },
   {
     slug: "shopware",

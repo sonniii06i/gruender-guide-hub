@@ -20,7 +20,7 @@ interface DomainResult {
 function buildActionUrl(d: DomainResult): string {
   if (d.actionUrl) return d.actionUrl;
   if (d.available) {
-    return `https://www.inwx.de/de/domain/check#search=${encodeURIComponent(d.fullDomain)}`;
+    return `https://www.ionos.de/domains/domain-check?domainname=${encodeURIComponent(d.fullDomain)}`;
   }
   return `https://${d.fullDomain}`;
 }
@@ -100,7 +100,7 @@ const DomainBadge = ({ d }: { d: DomainResult }) => {
         <div className="text-[11px] text-muted-foreground flex items-center gap-1">
           <span>{d.label}</span>
           <span className="text-accent-blue ml-auto opacity-70 group-hover:opacity-100 transition-opacity inline-flex items-center gap-0.5">
-            Bei INWX kaufen <ExternalLink className="h-3 w-3" />
+            Bei IONOS kaufen <ExternalLink className="h-3 w-3" />
           </span>
         </div>
       </a>
@@ -308,7 +308,7 @@ const BrandCheck = () => {
               ))}
             </div>
             <div className="text-[11px] text-muted-foreground mt-2">
-              Quelle: DNS-over-HTTPS (Google + Cloudflare als Fallback) für Verfügbarkeit · RDAP für Registrar-/Ablauf-Details. Klick öffnet bei Verfügbar einen Bestell-Link bei INWX, bei Vergeben die Live-URL der Domain.
+              Quelle: DNS-over-HTTPS (Google + Cloudflare als Fallback) für Verfügbarkeit · RDAP für Registrar-/Ablauf-Details. Klick öffnet bei Verfügbar einen Bestell-Link bei IONOS, bei Vergeben die Live-URL der Domain.
             </div>
           </div>
 

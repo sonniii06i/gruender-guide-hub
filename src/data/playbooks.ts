@@ -1009,8 +1009,7 @@ export const PLAYBOOKS: Playbook[] = [
         ],
         externalLinks: [
           { label: "→ Marken-/Domain-Check öffnen", url: "/cockpit/check" },
-          { label: "INWX Domain-Provider", url: "https://www.inwx.de" },
-          { label: "Hetzner Domains", url: "https://www.hetzner.com/de/domains" },
+          { label: "IONOS Domain-Provider", url: "https://www.ionos.de/domains" },
         ],
       },
       {
@@ -1021,7 +1020,7 @@ export const PLAYBOOKS: Playbook[] = [
         estMinutes: 30,
         estCost: "0 € (3-Tage Trial) · ab Tag 4 Plan-Gebühr",
         externalLinks: [
-          { label: "Shopify-Anmeldung", url: "https://shopify.com/de" },
+          { label: "Shopify-Anmeldung", url: "https://shopify.pxf.io/9VELRQ" },
         ],
         checklist: [
           "Land: Deutschland (oder Österreich/Schweiz)",

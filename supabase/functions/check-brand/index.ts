@@ -162,8 +162,8 @@ async function fetchRdapDetails(check: typeof TLD_CHECKS[0], fullDomain: string)
 
 function buildActionUrl(fullDomain: string, available: boolean): string {
   if (available) {
-    // INWX Domain-Suche mit Pre-Fill (DE-Provider, EU-konform, breit)
-    return `https://www.inwx.de/de/domain/check#search=${encodeURIComponent(fullDomain)}`;
+    // IONOS Domain-Suche mit Pre-Fill
+    return `https://www.ionos.de/domains/domain-check?domainname=${encodeURIComponent(fullDomain)}`;
   }
   // Live-URL der Domain — User sieht sofort was darauf läuft
   return `https://${fullDomain}`;
