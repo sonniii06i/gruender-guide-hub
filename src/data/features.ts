@@ -41,9 +41,9 @@ const _CATEGORIES_RAW: FeatureCategory[] = [
       { slug: "hk-limited-wizard", title: "HK-Limited Setup-Wizard", desc: "Company Secretary, Adresse, Profits Tax, Offshore-Status, Audited Accounts.", status: "soon" },
       { slug: "us-banking", title: "US-Bankkonto-Anbieter", desc: "Mercury, Wise, Relay, Brex – Vergleich & Konditionen.", status: "soon" },
       { slug: "hk-banking", title: "HK-Bankkonto", desc: "Statrys, Airwallex, Currenxie für asiatische Setups.", status: "soon" },
-      { slug: "sales-tax-nexus", title: "Sales-Tax-Nexus-Check", desc: "Pro US-Staat: ab welchem Umsatz musst du registrieren?", status: "planned" },
-      { slug: "substance-checker", title: "Substance-Requirements-Checker", desc: "Mailbox-Company-Risiko & echte Substanz im Ausland.", status: "planned" },
-      { slug: "dba-cfc", title: "DE-Anrechnung US/HK-Gewinne", desc: "DBA + CFC-Regelungen (Hinzurechnungsbesteuerung).", status: "planned" },
+      { slug: "sales-tax-nexus", title: "Sales-Tax-Nexus-Check", desc: "46 US-Staaten + DC: Wayfair-Schwellen ($/Transaktionen), Marketplace-Facilitator-Logik (Amazon vs Shopify), kombinierter Tax-Satz pro Staat, Geschätzte Tax-Last.", status: "beta", route: "/cockpit/sales-tax-nexus" },
+      { slug: "substance-checker", title: "Substance-Requirements-Checker", desc: "Mailbox-Risiko-Score (0–100) für ATAD III + §AStG. 12 EU-/CH-Länder. GF-Wohnsitz, lokale MA, Büro, Aktivität, Umsatz vor Ort.", status: "beta", route: "/cockpit/substance-checker" },
+      { slug: "dba-cfc", title: "DBA-CFC-Rechner", desc: "§AStG Hinzurechnungsbesteuerung + DBA-Quellensteuer-Reduktion + Mutter-Tochter-RL für 14 Länder. Step-by-Step Berechnung Ausland → DE.", status: "beta", route: "/cockpit/dba-cfc" },
     ],
   },
   {
