@@ -16,6 +16,8 @@ import HoldingDesigner from "./pages/HoldingDesigner.tsx";
 import EUAlternativen from "./pages/EUAlternativen.tsx";
 import EntscheidungsEngine from "./pages/EntscheidungsEngine.tsx";
 import AuszahlungOptimizer from "./pages/AuszahlungOptimizer.tsx";
+import PreYearEndCheck from "./pages/PreYearEndCheck.tsx";
+import KfzOptimizer from "./pages/KfzOptimizer.tsx";
 import RechtsformWizard from "./pages/RechtsformWizard.tsx";
 import Anbieter from "./pages/Anbieter.tsx";
 import AnbieterDetail from "./pages/AnbieterDetail.tsx";
@@ -63,6 +65,8 @@ const App = () => (
               <Route path="/cockpit/eu-alternativen" element={<PaywallGate title="EU-Alternativen"><EUAlternativen /></PaywallGate>} />
               <Route path="/cockpit/entscheidungs-engine" element={<PaywallGate title="Entscheidungs-Engine"><EntscheidungsEngine /></PaywallGate>} />
               <Route path="/cockpit/auszahlung-optimizer" element={<PaywallGate title="Auszahlung-Optimizer"><AuszahlungOptimizer /></PaywallGate>} />
+              <Route path="/cockpit/pre-year-end" element={<PaywallGate title="Pre-Year-End-Check"><PreYearEndCheck /></PaywallGate>} />
+              <Route path="/cockpit/kfz-optimizer" element={<PaywallGate title="Kfz-Optimizer"><KfzOptimizer /></PaywallGate>} />
               <Route path="/wizard/rechtsform" element={<PaywallGate title="Rechtsform-Wizard"><RechtsformWizard /></PaywallGate>} />
               <Route path="/anbieter" element={<PaywallGate title="Anbieter-Vergleich"><Anbieter /></PaywallGate>} />
               <Route path="/anbieter/:slug" element={<PaywallGate title="Anbieter-Vergleich"><AnbieterDetail /></PaywallGate>} />

@@ -55,9 +55,9 @@ const _CATEGORIES_RAW: FeatureCategory[] = [
     features: [
       { slug: "frist-kalender", title: "Frist-Kalender", desc: "USt-VA, ESt, KSt, GewSt – personalisiert nach Rechtsform.", status: "beta", route: "/cockpit/steuer" },
       { slug: "amazon-buchungen", title: "Amazon-Buchungstexte", desc: "AMA-SG-DE, AMA-BG-IT, AUSZ-DE, MZNFS, FBAFees & 130+ Codes – Live-Lookup mit SKR03/04-Konto und USt-Behandlung.", status: "beta", route: "/cockpit/amazon-buchungen" },
-      { slug: "pre-year-end", title: "Pre-Year-End-Check", desc: "Ab November: 7 Hebel, die du noch ziehen kannst.", status: "soon" },
+      { slug: "pre-year-end", title: "Pre-Year-End-Check", desc: "7 Hebel ab November mit Live-Steuer-Berechnung: IAB · Investitionen vorziehen · Boni/Tantiemen · Pensionszusage · Verlustverrechnung · OSS-Deadlines · Spendenabzug. Ankreuz-Mode + Ersparnis-Summe.", status: "beta", route: "/cockpit/pre-year-end" },
       { slug: "iab-rechner", title: "IAB-Rechner", desc: "Investitionsabzugsbetrag bis 200.000 €.", status: "beta", route: "/cockpit/steuer" },
-      { slug: "kfz-optimizer", title: "Kfz-Versteuerung-Optimizer", desc: "1%-Regel vs Fahrtenbuch – was lohnt sich?", status: "soon" },
+      { slug: "kfz-optimizer", title: "Kfz-Versteuerung-Optimizer", desc: "1%-Regel vs. Fahrtenbuch live durchgerechnet · E-Auto/Hybrid-Bonus (0,25 %/0,5 %) · Pendlerpauschale-Anrechnung · Side-by-Side mit Empfehlung.", status: "beta", route: "/cockpit/kfz-optimizer" },
       { slug: "reisekosten", title: "Reisekosten/Bewirtung-Logger", desc: "OCR-Belege, automatische Kategorisierung.", status: "planned" },
       { slug: "salary-vs-dividende", title: "Salary-vs-Dividende-Optimizer", desc: "Geschäftsführer-Gehalt oder Gewinnausschüttung?", status: "soon" },
       { slug: "crypto-steuer", title: "Crypto-Steuer-Modul", desc: "FIFO, Wallet-Tracking, Steuer-Report.", status: "planned" },
