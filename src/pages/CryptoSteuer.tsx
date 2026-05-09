@@ -138,10 +138,11 @@ const CryptoSteuer = () => {
   const totalSteuerpflichtig = yearResults.reduce((sum, r) => sum + r.steuerpflichtig, 0);
   const totalSteuerfrei = yearResults.reduce((sum, r) => sum + r.steuerfrei, 0);
 
-  // Freigrenze §23 EStG: 600 € (ab 2024: 1.000 €)
+  // Freigrenze §23 (3) EStG: seit 2024 1.000 € (vorher 600 €).
+  // Wortlaut "weniger als" → 999,99 € steuerfrei, ab 1.000 € voll steuerpflichtig.
   const freigrenze = 1000;
   const steuerpflichtigNachFreigrenze =
-    totalSteuerpflichtig <= freigrenze ? 0 : totalSteuerpflichtig;
+    totalSteuerpflichtig < freigrenze ? 0 : totalSteuerpflichtig;
   const steuerlast = steuerpflichtigNachFreigrenze * estSatz;
 
   const exportCSV = () => {

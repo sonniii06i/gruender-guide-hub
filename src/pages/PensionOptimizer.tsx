@@ -40,8 +40,9 @@ const PensionOptimizer = () => {
     const ruerup_steuerErsparnisGesamt = ruerup_steuerErsparnisProJahr * yearsToRetirement;
     const ruerup_finalEffekt = ruerup_netto + ruerup_steuerErsparnisGesamt;
 
-    // bAV (Direktversicherung über GmbH): 4% BBG steuer- + sv-frei (~3.624€ in 2026), bis 8% steuerfrei
-    const bav_max_steuerfrei = 7248; // 8% von BBG ~90.600 € (West)
+    // bAV (Direktversicherung über GmbH): 4 % BBG-RV-West steuer- UND sv-frei (~3.864 €), bis 8 % nur steuerfrei
+    // BBG-RV-West 2026 = 96.600 € → 4 % = 3.864 €, 8 % = 7.728 €
+    const bav_max_steuerfrei = 7728;
     const bav_sparen = Math.min(jaehrlichSparen, bav_max_steuerfrei);
     const bav_steuerErsparnisProJahr = bav_sparen * (estSatz + 0.20); // +20% SV-Ersparnis (50% Arbeitnehmer + 50% Arbeitgeber)
     const bav_end = annuity_fv(jaehrlichSparen, annualReturn - 0.01, yearsToRetirement); // -1% Versicherungs-Kosten

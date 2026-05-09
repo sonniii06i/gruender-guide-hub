@@ -211,7 +211,12 @@ const AuszahlungOptimizer = () => {
   const [eStSatz, setEStSatz] = useState(0.42);
   const [hatHolding, setHatHolding] = useState(true);
 
-  const results = useMemo(() => calculate(opGewinn, eStSatz, hatHolding), [opGewinn, eStSatz, hatHolding]);
+  const allResults = useMemo(() => calculate(opGewinn, eStSatz, hatHolding), [opGewinn, eStSatz, hatHolding]);
+  // Wenn keine Holding vorhanden: Holding- + Mix-Wege ausblenden (sonst irreführend)
+  const results = useMemo(
+    () => (hatHolding ? allResults : allResults.filter((r) => !r.name.includes("Holding") && !r.name.includes("Mix"))),
+    [allResults, hatHolding],
+  );
   const sorted = [...results].sort((a, b) => a.totalSteuer - b.totalSteuer);
   const best = sorted[0];
 

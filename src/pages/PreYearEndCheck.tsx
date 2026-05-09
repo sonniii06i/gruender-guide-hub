@@ -52,24 +52,37 @@ const PreYearEndCheck = () => {
   const hebel = useMemo(() => {
     const list: { id: string; title: string; emoji: string; deadline: string; description: string; ersparnis: number; details: string[]; aktiv: boolean }[] = [];
 
-    // 1) IAB §7g EStG (für Einzel + GmbH)
+    // 1) IAB §7g EStG — mit Voraussetzungs-Check
+    // Einzel/UG/GmbH: vereinfacht über Gewinn-Schwelle 200k (echte Voraussetzung GmbH:
+    // Bilanzsumme < 235k, hier approximiert über Gewinn als Indikator).
+    const iabBerechtigt = form === "einzel" ? gewinn <= 200000 : gewinn <= 200000;
     if (gewinn > 0) {
-      const iabAbzug = Math.min(iabBasis * 0.5, 200000);
+      const iabAbzug = iabBerechtigt ? Math.min(iabBasis * 0.5, 200000) : 0;
       const ersparnis = form === "einzel" ? iabAbzug * estSatz : iabAbzug * KSt_GEWST;
       list.push({
         id: "iab",
-        title: "IAB — Investitionsabzugsbetrag",
+        title: iabBerechtigt ? "IAB — Investitionsabzugsbetrag" : "IAB — NICHT berechtigt (Gewinn-Schwelle)",
         emoji: "📦",
         deadline: "31.12.",
-        description: "50 % geplanter Investitionen (max 200k €) als Vorab-Abzug — sofort steuerwirksam.",
+        description: iabBerechtigt
+          ? "50 % geplanter Investitionen (max 200k €) als Vorab-Abzug — sofort steuerwirksam."
+          : "Bei Gewinn > 200.000 €/Jahr (Einzel) bzw. Bilanzsumme > 235.000 € (GmbH) ist §7g EStG gesperrt.",
         ersparnis,
-        details: [
-          `Geplante Investition in 3 Jahren: ${iabBasis.toLocaleString("de-DE")} €`,
-          `IAB-Abzug 50 %: ${iabAbzug.toLocaleString("de-DE")} €`,
-          `Steuer-Ersparnis ${form === "einzel" ? "ESt" : "KSt+GewSt"}: ${Math.round(ersparnis).toLocaleString("de-DE")} €`,
-          "Voraussetzung: Investition muss binnen 3 Jahren tatsächlich erfolgen, sonst rückwirkend + Verzinsung",
-          "Bei Einzelunternehmen: Gewinn < 200k €/Jahr · Bei GmbH: Bilanzsumme < 235k €",
-        ],
+        details: iabBerechtigt
+          ? [
+              `Geplante Investition in 3 Jahren: ${iabBasis.toLocaleString("de-DE")} €`,
+              `IAB-Abzug 50 %: ${iabAbzug.toLocaleString("de-DE")} €`,
+              `Steuer-Ersparnis ${form === "einzel" ? "ESt" : "KSt+GewSt"}: ${Math.round(ersparnis).toLocaleString("de-DE")} €`,
+              "Voraussetzung: Investition muss binnen 3 Wirtschaftsjahren erfolgen, sonst rückwirkend + 6 % p.a. Verzinsung (§233a AO)",
+              "Einzel/Freiberuf: Gewinn vor IAB ≤ 200.000 €/Jahr · GmbH/UG: Bilanzsumme ≤ 235.000 €",
+              "Detail-Tool: → /cockpit/iab-rechner",
+            ]
+          : [
+              `Aktueller Gewinn ${gewinn.toLocaleString("de-DE")} € überschreitet die §7g-Schwelle 200.000 €`,
+              "Bei GmbH: Maßstab ist die Bilanzsumme zum Wirtschaftsjahres-Ende (≤ 235.000 €)",
+              "Alternative: Sonderabschreibung §7g(5) — 20 % im Anschaffungsjahr ohne Schwellen-Beschränkung",
+              "Alternative: Investitionen vorziehen + GWG-Sofortabschreibung",
+            ],
         aktiv: !!aktivitaeten.iab,
       });
     }
