@@ -81,8 +81,13 @@ const RELATED: Record<string, ToolRef[]> = {
     { route: "/cockpit/holding-designer", label: "Holding-Designer", desc: "Bei größeren Plänen Holding-Konstrukt" },
   ],
   "/cockpit/stb-finder": [
+    { route: "/cockpit/stb-match", label: "StB-Match (3-Angebote)", desc: "Anonymisiertes Briefing → 3 passende Kanzleien anschreiben" },
     { route: "/cockpit/stb-handoff", label: "StB-Hand-off", desc: "Sobald StB gefunden: Übergabe-Bundle anlegen" },
     { route: "/cockpit/foerderung", label: "Förderung-Datenbank", desc: "StB hilft bei manchen Förder-Anträgen" },
+  ],
+  "/cockpit/stb-match": [
+    { route: "/cockpit/stb-finder", label: "StB-Auswahl-Wizard", desc: "Frage-Katalog für Erstgespräch + Red-Flags pro Spezialisierung" },
+    { route: "/cockpit/stb-handoff", label: "StB-Hand-off", desc: "Nach StB-Wahl: Übergabe-Bundle für laufendes Mandat" },
   ],
   "/cockpit/amazon-ust": [
     { route: "/cockpit/amazon-buchungen", label: "Amazon-Buchungstexte", desc: "130+ Codes wie AMA-SG-DE im Detail" },

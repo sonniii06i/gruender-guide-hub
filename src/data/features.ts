@@ -152,7 +152,7 @@ const _CATEGORIES_RAW: FeatureCategory[] = [
     icon: HeartHandshake,
     tagline: "STB-Hand-off, Community, 1:1-Bookings",
     features: [
-      { slug: "stb-handoff", title: "Steuerberater-Hand-off", desc: "PDF-Bundle aus deinem Cockpit, 3-Angebote-Modell.", status: "soon" },
+      { slug: "stb-handoff", title: "Steuerberater-Hand-off (3-Angebote-Modell)", desc: "3-Step-Wizard: Anonymisiertes Briefing → Top-3-Match aus 11 Spezialisten (E-Com, Crypto, Holding, US-LLC, International) → Briefing-PDF + Mailto-Helper. Du verschickst selbst — keine Vermittlung (§9 StBerG-konform).", status: "beta", route: "/cockpit/stb-match" },
       { slug: "community", title: "Founder-Discord-Community", desc: "Geprüfte Gründer-Community auf Discord — Austausch, Fragen, Off-Topic, Live-Channels für Steuern, Holding, US-LLC, Marketing.", status: "live", route: "https://discord.gg/vh84QBxAHq", external: true },
       { slug: "webinare", title: "Live-Webinare", desc: "HK-Setup, Holding, Exit – komplexe Themen.", status: "planned" },
       { slug: "experten-bookings", title: "1:1-Berater-Termin buchen", desc: "Buche einen 30-min-Call: Rechtsform, Holding, US-LLC, Steuer-Setup, ECom-Brand-Strategie. Direkt im Kalender Slot wählen.", status: "beta", route: "/booking" },
