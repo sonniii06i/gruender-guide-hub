@@ -2542,10 +2542,10 @@ const ProviderCard = ({ p }: { p: Provider }) => (
       </div>
     </div>
 
-    {/* Footer-Zeile: Region · Preis · Setup */}
-    <div className="flex items-center justify-between gap-2 text-xs mb-3 border-t border-border pt-3">
-      <span className="text-muted-foreground truncate">{p.region}</span>
-      <span className="font-semibold text-foreground shrink-0">{p.starting}</span>
+    {/* Footer-Zeile: Region (Label) + Preis (volle Breite) */}
+    <div className="mb-3 border-t border-border pt-3">
+      <div className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70 mb-1">{p.region}</div>
+      <div className="text-xs font-semibold text-foreground leading-snug break-words">{p.starting}</div>
     </div>
 
     {/* Tags – nur wenn vorhanden, einheitlich */}
