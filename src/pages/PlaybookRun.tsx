@@ -350,6 +350,17 @@ const PlaybookRun = () => {
           })()}
           <p className="text-muted-foreground mb-3 leading-relaxed">{step.description}</p>
 
+          {step.slug === "shopify-account" && step.externalLinks?.[0] && (
+            <a
+              href={step.externalLinks[0].url}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center justify-center gap-2 rounded-xl bg-accent-blue text-white hover:bg-accent-blue/90 px-5 py-3 text-sm font-semibold w-full sm:w-auto mb-5 transition-colors shadow-card"
+            >
+              {step.externalLinks[0].label} <ExternalLink className="h-4 w-4" />
+            </a>
+          )}
+
           {step.estCost && step.estCost.length > 30 && (
             <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-3 mb-5 text-xs leading-relaxed">
               <span className="font-semibold text-emerald-700">Geschätzte Kosten:</span>{" "}
@@ -485,16 +496,20 @@ const StepBody = ({
         </ul>
       </div>
     )}
-    {step.externalLinks && (
-      <div className="grid sm:grid-cols-2 gap-2">
-        {step.externalLinks.map((l) => (
-          <a key={l.url} href={l.url} target="_blank" rel="noreferrer"
-            className="inline-flex items-center justify-between gap-2 rounded-xl border border-border bg-card hover:border-accent-blue/40 px-4 py-3 text-sm font-semibold transition-colors">
-            {l.label} <ExternalLink className="h-4 w-4 text-muted-foreground" />
-          </a>
-        ))}
-      </div>
-    )}
+    {step.externalLinks && (() => {
+      const links = step.slug === "shopify-account" ? step.externalLinks.slice(1) : step.externalLinks;
+      if (links.length === 0) return null;
+      return (
+        <div className="grid sm:grid-cols-2 gap-2">
+          {links.map((l) => (
+            <a key={l.url} href={l.url} target="_blank" rel="noreferrer"
+              className="inline-flex items-center justify-between gap-2 rounded-xl border border-border bg-card hover:border-accent-blue/40 px-4 py-3 text-sm font-semibold transition-colors">
+              {l.label} <ExternalLink className="h-4 w-4 text-muted-foreground" />
+            </a>
+          ))}
+        </div>
+      );
+    })()}
     {step.fields && (
       <div className="grid sm:grid-cols-2 gap-3">
         {step.fields.map((f) => (

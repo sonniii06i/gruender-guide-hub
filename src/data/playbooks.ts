@@ -1020,7 +1020,7 @@ export const PLAYBOOKS: Playbook[] = [
         estMinutes: 30,
         estCost: "0 € (Trial-Phase) · 1 € im 1. Monat nach Trial · ab Monat 2: Plan-Gebühr",
         externalLinks: [
-          { label: "Shopify-Anmeldung", url: "https://shopify.pxf.io/9VELRQ" },
+          { label: "Bei Shopify registrieren", url: "https://shopify.pxf.io/9VELRQ" },
         ],
         extendedNotes: [
           "Free-Trial-Strategie: erst Trial starten, dann KOMPLETTE Einrichtung (Theme, Produkte, Texte, Settings, Domain, Zahlungsanbieter, AGB/Impressum) machen, ERST DANN Plan auswählen.",
