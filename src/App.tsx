@@ -53,6 +53,9 @@ const AmazonUstEuUs = lazy(() => import("./pages/AmazonUstEuUs.tsx"));
 const Booking = lazy(() => import("./pages/Booking.tsx"));
 const StbMatch = lazy(() => import("./pages/StbMatch.tsx"));
 const RechtsformWizard = lazy(() => import("./pages/RechtsformWizard.tsx"));
+const IpBoxVergleich = lazy(() => import("./pages/IpBoxVergleich.tsx"));
+const IabRechner = lazy(() => import("./pages/IabRechner.tsx"));
+const QuartalsSteuer = lazy(() => import("./pages/QuartalsSteuer.tsx"));
 const Anbieter = lazy(() => import("./pages/Anbieter.tsx"));
 const AnbieterDetail = lazy(() => import("./pages/AnbieterDetail.tsx"));
 const PlaybookRun = lazy(() => import("./pages/PlaybookRun.tsx"));
@@ -113,6 +116,9 @@ const App = () => (
                 <Route path="/cockpit/marken-monitor" element={<PaywallGate title="Marken-Monitor"><MarkenMonitor /></PaywallGate>} />
                 <Route path="/cockpit/holding-designer" element={<PaywallGate title="Holding-Designer"><HoldingDesigner /></PaywallGate>} />
                 <Route path="/cockpit/eu-alternativen" element={<PaywallGate title="EU-Alternativen"><EUAlternativen /></PaywallGate>} />
+                <Route path="/cockpit/ip-box" element={<PaywallGate title="IP-Box-Vergleich"><IpBoxVergleich /></PaywallGate>} />
+                <Route path="/cockpit/iab-rechner" element={<PaywallGate title="IAB-Rechner"><IabRechner /></PaywallGate>} />
+                <Route path="/cockpit/quartals-steuer" element={<PaywallGate title="Quartals-Steuerschätzung"><QuartalsSteuer /></PaywallGate>} />
                 <Route path="/cockpit/entscheidungs-engine" element={<PaywallGate title="Entscheidungs-Engine"><EntscheidungsEngine /></PaywallGate>} />
                 <Route path="/cockpit/auszahlung-optimizer" element={<PaywallGate title="Auszahlung-Optimizer"><AuszahlungOptimizer /></PaywallGate>} />
                 <Route path="/cockpit/pre-year-end" element={<PaywallGate title="Pre-Year-End-Check"><PreYearEndCheck /></PaywallGate>} />
