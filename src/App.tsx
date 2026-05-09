@@ -50,6 +50,7 @@ const SalaryDividendOptimizer = lazy(() => import("./pages/SalaryDividendOptimiz
 const VisaHelper = lazy(() => import("./pages/VisaHelper.tsx"));
 const StbFinder = lazy(() => import("./pages/StbFinder.tsx"));
 const AmazonUstEuUs = lazy(() => import("./pages/AmazonUstEuUs.tsx"));
+const Booking = lazy(() => import("./pages/Booking.tsx"));
 const RechtsformWizard = lazy(() => import("./pages/RechtsformWizard.tsx"));
 const Anbieter = lazy(() => import("./pages/Anbieter.tsx"));
 const AnbieterDetail = lazy(() => import("./pages/AnbieterDetail.tsx"));
@@ -128,6 +129,7 @@ const App = () => (
                 <Route path="/cockpit/visa-helper" element={<PaywallGate title="Visa-Helper"><VisaHelper /></PaywallGate>} />
                 <Route path="/cockpit/stb-finder" element={<PaywallGate title="StB-Auswahl-Wizard"><StbFinder /></PaywallGate>} />
                 <Route path="/cockpit/amazon-ust" element={<PaywallGate title="Amazon-USt EU vs US"><AmazonUstEuUs /></PaywallGate>} />
+                <Route path="/booking" element={<Booking />} />
                 <Route path="/wizard/rechtsform" element={<PaywallGate title="Rechtsform-Wizard"><RechtsformWizard /></PaywallGate>} />
                 <Route path="/anbieter" element={<PaywallGate title="Anbieter-Vergleich"><Anbieter /></PaywallGate>} />
                 <Route path="/anbieter/:slug" element={<PaywallGate title="Anbieter-Vergleich"><AnbieterDetail /></PaywallGate>} />

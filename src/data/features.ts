@@ -18,6 +18,8 @@ export interface Feature {
   desc: string;
   status: FeatureStatus;
   route?: string;
+  /** Wenn true: route ist eine externe URL → öffnet in neuem Tab. */
+  external?: boolean;
 }
 
 export interface FeatureCategory {
@@ -151,9 +153,9 @@ const _CATEGORIES_RAW: FeatureCategory[] = [
     tagline: "STB-Hand-off, Community, 1:1-Bookings",
     features: [
       { slug: "stb-handoff", title: "Steuerberater-Hand-off", desc: "PDF-Bundle aus deinem Cockpit, 3-Angebote-Modell.", status: "soon" },
-      { slug: "community", title: "Founder-Slack/Discord", desc: "Geprüfte Gründer-Community.", status: "soon" },
+      { slug: "community", title: "Founder-Discord-Community", desc: "Geprüfte Gründer-Community auf Discord — Austausch, Fragen, Off-Topic, Live-Channels für Steuern, Holding, US-LLC, Marketing.", status: "live", route: "https://discord.gg/vh84QBxAHq", external: true },
       { slug: "webinare", title: "Live-Webinare", desc: "HK-Setup, Holding, Exit – komplexe Themen.", status: "planned" },
-      { slug: "experten-bookings", title: "1:1-Berater-Bookings", desc: "Verifizierte Berater, reine Vermittlung.", status: "planned" },
+      { slug: "experten-bookings", title: "1:1-Berater-Termin buchen", desc: "Buche einen 30-min-Call: Rechtsform, Holding, US-LLC, Steuer-Setup, ECom-Brand-Strategie. Direkt im Kalender Slot wählen.", status: "beta", route: "/booking" },
       { slug: "coop-deals", title: "Exklusive Coop-Deals", desc: "Verhandelte Sonderkonditionen bei allen Anbietern.", status: "soon" },
     ],
   },

@@ -373,7 +373,11 @@ const FeatureCard = ({ f, locked }: { f: Feature; locked: boolean }) => {
       )}
     </div>
   );
-  return isClickable ? <Link to={f.route!}>{inner}</Link> : inner;
+  if (!isClickable) return inner;
+  if (f.external) {
+    return <a href={f.route!} target="_blank" rel="noopener noreferrer">{inner}</a>;
+  }
+  return <Link to={f.route!}>{inner}</Link>;
 };
 
 export default Dashboard;
