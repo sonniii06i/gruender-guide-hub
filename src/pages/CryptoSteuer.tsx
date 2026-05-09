@@ -431,6 +431,20 @@ const CryptoSteuer = () => {
                 <strong>Mining</strong>: gewerbliche Einkünfte → §15 EStG, dann KSt+GewSt-Pflicht oder ESt-Tarif.
               </li>
               <li>
+                <strong>Verlustverrechnung §23 (3) EStG:</strong> Verluste aus Crypto-Verkäufen können NUR mit Gewinnen
+                aus privaten Veräußerungsgeschäften verrechnet werden — nicht mit Gehalt, Dividenden oder Zinsen.
+                Verbleibende Verluste werden auf Folgejahre vorgetragen (unbegrenzt) oder rückgetragen (1 Jahr).
+              </li>
+              <li>
+                <strong>Loss-Harvesting Strategie:</strong> Vor Jahres-Ende Coins mit Buchverlust verkaufen
+                + sofort wieder kaufen (kein Wash-Sale-Verbot in DE!) → Verlust steuerlich realisiert,
+                Position bleibt erhalten. Nur unter 1 Jahr Haltedauer relevant (sonst eh steuerfrei).
+              </li>
+              <li>
+                <strong>Steuersatz:</strong> Veräußerungsgewinne werden mit deinem ESt-Grenzsteuersatz besteuert
+                (NICHT Abgeltungssteuer 25 %). Bei hohem Einkommen 42-45 %, bei niedrigem nur 14-32 %.
+              </li>
+              <li>
                 <strong>Wallets-Daten</strong>: idealerweise CSV-Export von der Börse (Coinbase, Binance, Kraken
                 etc.). Tools wie Cointracking, Koinly machen das automatisch.
               </li>

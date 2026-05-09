@@ -16,21 +16,43 @@ type WayResult = {
   cons: string[];
 };
 
-const KSt_PLUS_GEWST = 0.30; // ~30 % auf GmbH-Gewinn
+// KSt 15 % + SolZ 5,5 % auf KSt + GewSt (Hebesatz × 3,5 %) — auf GmbH-Gewinn
+// Berechnung: KSt 15 % × 1,055 + GewSt = 15,825 % + GewSt-Anteil
+function kstGewstRate(hebesatz: number): number {
+  const kstSolz = 0.15 * 1.055; // = 15,825 %
+  const gewst = 0.035 * (hebesatz / 100);
+  return kstSolz + gewst;
+}
 const ABG_ST = 0.26375; // 25 % AbgSt + Soli auf Dividenden privat
 const HALBEINKUENFTE = 0.6; // Teileinkünfteverfahren: 60 % steuerpflichtig
-const HOLDING_RATE = 0.015; // ~1,5 % effektiv via §8b KStG
+// HOLDING_RATE: §8b KStG 5 %-Schein-Dividende × KSt+GewSt+Soli ≈ 1,5 % effektiv
+function holdingRate(hebesatz: number): number {
+  return 0.05 * kstGewstRate(hebesatz);
+}
 
-function calculate(opGewinn: number, persoenlicherEStSatz: number, hatHolding: boolean): WayResult[] {
+function calculate(
+  opGewinn: number,
+  persoenlicherEStSatz: number,
+  hatHolding: boolean,
+  hebesatz: number,
+  gehaltsAnteilProz: number,
+): WayResult[] {
   if (opGewinn <= 0) return [];
   const eS = Math.max(0.14, Math.min(0.45, persoenlicherEStSatz));
+  const KSt_PLUS_GEWST = kstGewstRate(hebesatz);
+  const HOLDING_RATE = holdingRate(hebesatz);
+  const gehaltsAnteil = Math.max(0, Math.min(1, gehaltsAnteilProz / 100));
 
-  // 1) GF-Gehalt — verschiebt Steuer-Last von Op-GmbH zu Privat
-  const gfGehalt = opGewinn; // alles als Gehalt
-  const sozialMax = 0; // wir vereinfachen: Gesellschafter-GF >50% = sv-frei
-  const steuerGfGehalt_Privat = gfGehalt * eS; // ESt auf Gehalt
-  const steuerGfGehalt_GmbH = 0; // Gehalt mindert Op-GmbH-Gewinn auf 0
-  const totalGfGehalt = steuerGfGehalt_GmbH + steuerGfGehalt_Privat + sozialMax;
+  // 1) GF-Gehalt — kann nur Anteil sein (Angemessenheits-Prüfung verbietet 100 % typisch)
+  const gfGehalt = opGewinn * gehaltsAnteil;
+  const restNachGehalt = opGewinn - gfGehalt; // dieser Teil bleibt im Op-GmbH-Gewinn
+  const sozialMax = 0; // Gesellschafter-GF > 50 % = sv-frei
+  const steuerGfGehalt_Privat = gfGehalt * eS; // ESt auf Gehalt-Anteil
+  const steuerGfGehalt_GmbH = restNachGehalt * KSt_PLUS_GEWST; // KSt+GewSt auf den Rest
+  // Rest nach KSt: optional als Dividende ausgeschüttet → AbgSt
+  const restNachGehaltKSt = restNachGehalt - steuerGfGehalt_GmbH;
+  const steuerGfGehalt_Div = restNachGehaltKSt * ABG_ST;
+  const totalGfGehalt = steuerGfGehalt_GmbH + steuerGfGehalt_Privat + steuerGfGehalt_Div + sozialMax;
 
   // 2) Standard-Dividende (Op-GmbH → Privat) ohne Holding
   const steuerDiv_GmbH = opGewinn * KSt_PLUS_GEWST;
@@ -71,12 +93,12 @@ function calculate(opGewinn: number, persoenlicherEStSatz: number, hatHolding: b
 
   return [
     {
-      name: "Geschäftsführer-Gehalt",
-      description: "Alles als GF-Gehalt — mindert Op-GmbH-Gewinn auf 0, du zahlst ESt privat.",
-      steuerGmbh: 0,
-      steuerPrivat: steuerGfGehalt_Privat,
+      name: `GF-Gehalt ${Math.round(gehaltsAnteil * 100)} % + Rest als Dividende`,
+      description: `${Math.round(gehaltsAnteil * 100)} % als GF-Gehalt (mindert Op-GmbH-Gewinn) + ${Math.round((1 - gehaltsAnteil) * 100)} % verbleibender Gewinn → KSt+GewSt+SolZ + AbgSt auf Dividende.`,
+      steuerGmbh: steuerGfGehalt_GmbH,
+      steuerPrivat: steuerGfGehalt_Privat + steuerGfGehalt_Div,
       totalSteuer: totalGfGehalt,
-      privatNetto: opGewinn - steuerGfGehalt_Privat,
+      privatNetto: opGewinn - totalGfGehalt,
       effektivPct: (totalGfGehalt / opGewinn) * 100,
       pros: [
         "Steuer-Verschiebung von KSt+GewSt (~30 %) auf ESt (14–45 %)",
@@ -186,11 +208,11 @@ function calculate(opGewinn: number, persoenlicherEStSatz: number, hatHolding: b
     },
     {
       name: "Tantieme (variable Vergütung)",
-      description: "Wie GF-Gehalt aber gewinnabhängig — flexibel bei guten/schlechten Jahren.",
-      steuerGmbh: 0,
-      steuerPrivat: steuerGfGehalt_Privat,
+      description: "Wie GF-Gehalt aber gewinnabhängig — flexibel bei guten/schlechten Jahren. Steuer-Effekt analog zu Variante 1.",
+      steuerGmbh: steuerGfGehalt_GmbH,
+      steuerPrivat: steuerGfGehalt_Privat + steuerGfGehalt_Div,
       totalSteuer: totalTantieme,
-      privatNetto: opGewinn - steuerGfGehalt_Privat,
+      privatNetto: opGewinn - totalTantieme,
       effektivPct: (totalTantieme / opGewinn) * 100,
       pros: [
         "Flexibilität: nur ausschütten wenn Gewinn da",
@@ -210,8 +232,13 @@ const AuszahlungOptimizer = () => {
   const [opGewinn, setOpGewinn] = useState(250000);
   const [eStSatz, setEStSatz] = useState(0.42);
   const [hatHolding, setHatHolding] = useState(true);
+  const [hebesatz, setHebesatz] = useState(400);
+  const [gehaltsAnteil, setGehaltsAnteil] = useState(40); // % vom Gewinn als Gehalt — Default 40 % marktüblich
 
-  const allResults = useMemo(() => calculate(opGewinn, eStSatz, hatHolding), [opGewinn, eStSatz, hatHolding]);
+  const allResults = useMemo(
+    () => calculate(opGewinn, eStSatz, hatHolding, hebesatz, gehaltsAnteil),
+    [opGewinn, eStSatz, hatHolding, hebesatz, gehaltsAnteil],
+  );
   // Wenn keine Holding vorhanden: Holding- + Mix-Wege ausblenden (sonst irreführend)
   const results = useMemo(
     () => (hatHolding ? allResults : allResults.filter((r) => !r.name.includes("Holding") && !r.name.includes("Mix"))),
@@ -277,6 +304,38 @@ const AuszahlungOptimizer = () => {
                   {o.l}
                 </button>
               ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Erweiterte Stellschrauben */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3 border-t border-accent-blue/20 pt-3">
+          <div>
+            <Label className="text-xs uppercase tracking-wider text-muted-foreground">
+              GewSt-Hebesatz (in %)
+            </Label>
+            <Input
+              type="number"
+              value={hebesatz}
+              onChange={(e) => setHebesatz(Math.max(200, Number(e.target.value) || 400))}
+              className="mt-1"
+            />
+            <div className="text-[10px] text-muted-foreground mt-1">
+              Berlin 410 · München 490 · Hamburg 470 · Frankfurt 460 · ländlich oft 350-380
+            </div>
+          </div>
+          <div>
+            <Label className="text-xs uppercase tracking-wider text-muted-foreground">
+              GF-Gehalt-Anteil bei Variante 1 (in % vom Gewinn)
+            </Label>
+            <Input
+              type="number"
+              value={gehaltsAnteil}
+              onChange={(e) => setGehaltsAnteil(Math.max(0, Math.min(100, Number(e.target.value) || 0)))}
+              className="mt-1"
+            />
+            <div className="text-[10px] text-muted-foreground mt-1">
+              Marktüblich 30-50 %. 100 % wäre Angemessenheits-Verstoß (vGA-Risiko).
             </div>
           </div>
         </div>

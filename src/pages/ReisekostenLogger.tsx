@@ -42,20 +42,59 @@ const VERPFLEGUNG_DE = {
   halberTag: 14, // 8-24h Abwesenheit
 };
 
-// Auswahl Auslands-Pauschalen (sehr vereinfacht — BMF-Schreiben hat 200+ Länder)
+// Auswahl Auslands-Pauschalen — BMF-Schreiben Auslandsreisekosten ab 01.01.2026
+// Quelle: BMF-Schreiben IV C 5 - S 2353/19/10011 (das BMF veröffentlicht jährlich Update)
+// BMF-Schreiben hat 200+ Länder; hier kuratiert die wichtigsten Reise-Ziele DE-Gründer
 const VERPFLEGUNG_AUSLAND: Record<string, { ganzerTag: number; halberTag: number; uebernachtung: number }> = {
-  Frankreich: { ganzerTag: 50, halberTag: 33, uebernachtung: 99 },
-  Italien: { ganzerTag: 40, halberTag: 27, uebernachtung: 99 },
-  Spanien: { ganzerTag: 39, halberTag: 26, uebernachtung: 100 },
-  Portugal: { ganzerTag: 35, halberTag: 24, uebernachtung: 92 },
-  Niederlande: { ganzerTag: 45, halberTag: 30, uebernachtung: 116 },
-  "USA-NewYork": { ganzerTag: 66, halberTag: 44, uebernachtung: 308 },
-  "USA-California": { ganzerTag: 60, halberTag: 40, uebernachtung: 230 },
-  London: { ganzerTag: 62, halberTag: 41, uebernachtung: 224 },
-  Schweiz: { ganzerTag: 60, halberTag: 40, uebernachtung: 169 },
-  Hongkong: { ganzerTag: 78, halberTag: 52, uebernachtung: 273 },
-  Singapur: { ganzerTag: 60, halberTag: 40, uebernachtung: 240 },
-  Dubai: { ganzerTag: 47, halberTag: 32, uebernachtung: 227 },
+  // EU
+  "Frankreich-Paris": { ganzerTag: 58, halberTag: 39, uebernachtung: 152 },
+  Frankreich: { ganzerTag: 47, halberTag: 32, uebernachtung: 99 },
+  "Italien-Mailand": { ganzerTag: 49, halberTag: 33, uebernachtung: 188 },
+  "Italien-Rom": { ganzerTag: 48, halberTag: 32, uebernachtung: 174 },
+  Italien: { ganzerTag: 41, halberTag: 28, uebernachtung: 138 },
+  "Spanien-Madrid": { ganzerTag: 39, halberTag: 26, uebernachtung: 132 },
+  "Spanien-Barcelona": { ganzerTag: 39, halberTag: 26, uebernachtung: 144 },
+  Spanien: { ganzerTag: 36, halberTag: 24, uebernachtung: 110 },
+  Portugal: { ganzerTag: 41, halberTag: 28, uebernachtung: 109 },
+  Niederlande: { ganzerTag: 47, halberTag: 32, uebernachtung: 119 },
+  Belgien: { ganzerTag: 41, halberTag: 28, uebernachtung: 130 },
+  Österreich: { ganzerTag: 36, halberTag: 24, uebernachtung: 104 },
+  "Polen-Warschau": { ganzerTag: 33, halberTag: 22, uebernachtung: 101 },
+  Polen: { ganzerTag: 27, halberTag: 18, uebernachtung: 60 },
+  Tschechien: { ganzerTag: 32, halberTag: 21, uebernachtung: 97 },
+  Schweden: { ganzerTag: 50, halberTag: 33, uebernachtung: 168 },
+  Dänemark: { ganzerTag: 75, halberTag: 50, uebernachtung: 158 },
+  // Großbritannien
+  London: { ganzerTag: 64, halberTag: 43, uebernachtung: 233 },
+  "UK-sonstige": { ganzerTag: 47, halberTag: 32, uebernachtung: 130 },
+  // Schweiz
+  "Schweiz-Zürich": { ganzerTag: 64, halberTag: 43, uebernachtung: 191 },
+  "Schweiz-Genf": { ganzerTag: 66, halberTag: 44, uebernachtung: 205 },
+  Schweiz: { ganzerTag: 56, halberTag: 37, uebernachtung: 169 },
+  // Nordamerika
+  "USA-NewYork": { ganzerTag: 68, halberTag: 45, uebernachtung: 318 },
+  "USA-California": { ganzerTag: 64, halberTag: 43, uebernachtung: 257 },
+  "USA-Florida": { ganzerTag: 56, halberTag: 37, uebernachtung: 158 },
+  "USA-sonstige": { ganzerTag: 51, halberTag: 34, uebernachtung: 159 },
+  Kanada: { ganzerTag: 47, halberTag: 32, uebernachtung: 158 },
+  // Asien
+  Hongkong: { ganzerTag: 92, halberTag: 61, uebernachtung: 311 },
+  Singapur: { ganzerTag: 64, halberTag: 43, uebernachtung: 220 },
+  "Japan-Tokio": { ganzerTag: 73, halberTag: 49, uebernachtung: 213 },
+  "China-Peking": { ganzerTag: 51, halberTag: 34, uebernachtung: 132 },
+  "China-Shanghai": { ganzerTag: 56, halberTag: 37, uebernachtung: 154 },
+  Südkorea: { ganzerTag: 56, halberTag: 37, uebernachtung: 192 },
+  Indien: { ganzerTag: 33, halberTag: 22, uebernachtung: 134 },
+  Thailand: { ganzerTag: 36, halberTag: 24, uebernachtung: 117 },
+  // Naher Osten
+  "VAE-Dubai": { ganzerTag: 47, halberTag: 32, uebernachtung: 227 },
+  Israel: { ganzerTag: 64, halberTag: 43, uebernachtung: 216 },
+  Türkei: { ganzerTag: 39, halberTag: 26, uebernachtung: 102 },
+  // Sonstige
+  Australien: { ganzerTag: 56, halberTag: 37, uebernachtung: 187 },
+  Brasilien: { ganzerTag: 47, halberTag: 32, uebernachtung: 175 },
+  Mexiko: { ganzerTag: 47, halberTag: 32, uebernachtung: 178 },
+  Südafrika: { ganzerTag: 36, halberTag: 24, uebernachtung: 154 },
 };
 
 const ReisekostenLogger = () => {

@@ -27,7 +27,11 @@ const PensionOptimizer = () => {
     const etfNetEnd = etfEnd - (etfEnd - jaehrlichSparen * yearsToRetirement) * 0.26375 * 0.7; // 70% des Gewinns × AbgSt
     // Steuer-Ersparnis ETF: 0 (kein Sonderausgaben-Abzug)
 
-    // Rürup: bis 29.344 € (2026, neuerdings 100% absetzbar) als Sonderausgaben absetzbar
+    // Rürup-Höchstbetrag §10 (3) EStG = doppelter Höchstbeitrag knappschaftliche RV.
+    // Historie: 2024: 27.566 € · 2025: 29.344 € · 2026 BMF-Update steht aus
+    // (voraussichtlich ~30.000 € basierend auf BBG-RV-W-Anstieg). 100 % als Sonderausgaben
+    // absetzbar seit 2023. Für Verheiratete: doppelter Höchstbetrag.
+    // Konservativer Stand 2025 — vor Setup mit StB aktuelle BMF-Tabelle verifizieren.
     const ruerup_max = 29344;
     const ruerup_sparen = Math.min(jaehrlichSparen, ruerup_max);
     const ruerup_steuerErsparnisProJahr = ruerup_sparen * estSatz;
