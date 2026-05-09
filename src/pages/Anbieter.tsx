@@ -2,7 +2,12 @@ import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Input } from "@/components/ui/input";
-import { Star, Tag, ExternalLink, Clock, AlertCircle } from "lucide-react";
+import {
+  Star, Tag, ExternalLink, Clock, AlertCircle,
+  Search, Wallet, Truck, Receipt, Warehouse, Recycle,
+  Mail, BarChart3, ShoppingCart, Globe2, Briefcase,
+  Shield, Scale, Car, Grid3x3, X,
+} from "lucide-react";
 
 /**
  * Verifizierte Legal-URLs pro Anbieter (Stand: 2026-05-06).
@@ -1810,11 +1815,67 @@ export const PROVIDERS: Provider[] = [
   },
 ];
 
-const CATS = ["Alle", ...Array.from(new Set(PROVIDERS.map((p) => p.category)))];
+// Kategorisierung: 5 Cluster für saubere UX statt 16-Pills-Horizontal-Scroll
+type CatGroup = {
+  label: string;
+  cats: { name: string; icon: typeof Wallet }[];
+};
+
+const CAT_GROUPS: CatGroup[] = [
+  {
+    label: "Finanzen",
+    cats: [
+      { name: "Banking DE", icon: Wallet },
+      { name: "Banking US", icon: Wallet },
+      { name: "Buchhaltung", icon: Receipt },
+    ],
+  },
+  {
+    label: "Logistik",
+    cats: [
+      { name: "Versand DACH", icon: Truck },
+      { name: "3PL", icon: Warehouse },
+      { name: "Fulfillment", icon: Warehouse },
+      { name: "LUCID", icon: Recycle },
+    ],
+  },
+  {
+    label: "Marketing",
+    cats: [
+      { name: "Email", icon: Mail },
+      { name: "Tracking", icon: BarChart3 },
+    ],
+  },
+  {
+    label: "Tech",
+    cats: [
+      { name: "Shop-System", icon: ShoppingCart },
+      { name: "Domains", icon: Globe2 },
+      { name: "Workspace", icon: Briefcase },
+    ],
+  },
+  {
+    label: "Versicherung & Recht",
+    cats: [
+      { name: "Haftpflichtversicherung", icon: Shield },
+      { name: "Rechtsschutz", icon: Scale },
+      { name: "Geschäftsfahrzeug", icon: Car },
+    ],
+  },
+];
 
 const Anbieter = () => {
   const [cat, setCat] = useState("Alle");
   const [q, setQ] = useState("");
+
+  // Provider-Count pro Kategorie für Badge
+  const counts = useMemo(() => {
+    const m: Record<string, number> = { Alle: PROVIDERS.length };
+    PROVIDERS.forEach((p) => {
+      m[p.category] = (m[p.category] || 0) + 1;
+    });
+    return m;
+  }, []);
 
   const list = useMemo(() => PROVIDERS.filter((p) =>
     (cat === "Alle" || p.category === cat) &&
@@ -1830,18 +1891,107 @@ const Anbieter = () => {
       <div className="rounded-xl border border-border bg-secondary/30 px-3 py-2 mb-4 text-[11px] text-muted-foreground">
         <strong>*Affiliate-Hinweis:</strong> Einige Anbieter-Links sind Partner-Links. Bei Vertragsabschluss erhält GründerX ggf. eine Provision — für dich keine Mehrkosten. Bewertungen sind unabhängig von der Vergütung. Details in <a href="/agb" className="underline hover:text-foreground">§ 14 AGB</a>.
       </div>
-      <div className="flex flex-col md:flex-row gap-3 mb-6">
-        <Input placeholder="Anbieter, Stärke oder Schwäche suchen..." value={q} onChange={(e) => setQ(e.target.value)} className="md:max-w-xs" />
-        <div className="flex gap-2 overflow-x-auto pb-1 -mx-4 px-4 md:mx-0 md:px-0">
-          {CATS.map((c) => (
-            <button key={c} onClick={() => setCat(c)}
-              className={`shrink-0 rounded-full px-3 py-1.5 text-xs font-semibold border ${
-                cat === c ? "bg-primary text-primary-foreground border-primary" : "bg-card border-border hover:border-accent-blue/40"
-              }`}>
-              {c}
+
+      {/* Such-Leiste prominent */}
+      <div className="relative mb-5">
+        <Search className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
+        <Input
+          placeholder="Anbieter, Stärke oder Schwäche suchen..."
+          value={q}
+          onChange={(e) => setQ(e.target.value)}
+          className="h-11 pl-10 pr-10 text-sm"
+        />
+        {q && (
+          <button
+            onClick={() => setQ("")}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+            aria-label="Suche löschen"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        )}
+      </div>
+
+      {/* Filter-Block: gruppierte Kategorien — Wrap statt Scroll */}
+      <div className="rounded-2xl border border-border bg-card p-4 mb-6">
+        <div className="flex items-center justify-between mb-3">
+          <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+            Filter nach Kategorie
+          </div>
+          {cat !== "Alle" && (
+            <button
+              onClick={() => setCat("Alle")}
+              className="text-[11px] text-accent-blue hover:underline font-semibold inline-flex items-center gap-1"
+            >
+              <X className="h-3 w-3" /> Filter zurücksetzen
             </button>
+          )}
+        </div>
+
+        {/* "Alle"-Pill prominent */}
+        <button
+          onClick={() => setCat("Alle")}
+          className={`inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-bold border transition-all mb-3 ${
+            cat === "Alle"
+              ? "bg-accent-blue text-primary-foreground border-accent-blue shadow-sm"
+              : "bg-card border-border hover:border-accent-blue/40"
+          }`}
+        >
+          <Grid3x3 className="h-3.5 w-3.5" />
+          Alle Anbieter
+          <span className={`ml-0.5 rounded-full px-1.5 text-[10px] font-bold ${
+            cat === "Alle" ? "bg-white/25 text-white" : "bg-secondary text-muted-foreground"
+          }`}>
+            {counts.Alle}
+          </span>
+        </button>
+
+        {/* Gruppen mit Pills */}
+        <div className="space-y-3">
+          {CAT_GROUPS.map((group) => (
+            <div key={group.label}>
+              <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-1.5">
+                {group.label}
+              </div>
+              <div className="flex flex-wrap gap-1.5">
+                {group.cats.map(({ name, icon: Icon }) => {
+                  const active = cat === name;
+                  const count = counts[name] || 0;
+                  return (
+                    <button
+                      key={name}
+                      onClick={() => setCat(name)}
+                      className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold border transition-all ${
+                        active
+                          ? "bg-accent-blue text-primary-foreground border-accent-blue shadow-sm"
+                          : "bg-secondary/30 border-border hover:bg-secondary/60 hover:border-accent-blue/40"
+                      }`}
+                    >
+                      <Icon className="h-3.5 w-3.5" />
+                      {name}
+                      <span className={`ml-0.5 rounded-full px-1.5 text-[10px] font-bold ${
+                        active ? "bg-white/25 text-white" : "bg-card text-muted-foreground"
+                      }`}>
+                        {count}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
           ))}
         </div>
+      </div>
+
+      {/* Resultats-Header */}
+      <div className="flex items-baseline justify-between mb-4">
+        <h2 className="text-sm font-semibold text-muted-foreground">
+          {cat === "Alle" ? "Alle Kategorien" : cat}
+          {q && <span className="ml-2 text-foreground">· „{q}"</span>}
+          <span className="ml-2 text-xs text-muted-foreground/70">
+            ({list.length} Anbieter)
+          </span>
+        </h2>
       </div>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -1849,7 +1999,11 @@ const Anbieter = () => {
       </div>
 
       {list.length === 0 && (
-        <div className="text-center py-12 text-muted-foreground">Keine Anbieter gefunden.</div>
+        <div className="text-center py-16 text-muted-foreground">
+          <Search className="h-10 w-10 mx-auto mb-3 opacity-30" />
+          <div className="font-semibold mb-1">Keine Anbieter gefunden</div>
+          <div className="text-xs">Versuch andere Filter oder die Suche zu löschen.</div>
+        </div>
       )}
     </CockpitShell>
   );
