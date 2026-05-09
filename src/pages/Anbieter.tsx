@@ -1928,6 +1928,20 @@ export const PROVIDERS: Provider[] = [
     signupTime: "Sofort",
     url: "https://monday.com",
   },
+  {
+    slug: "miro",
+    name: "Miro",
+    category: "Productivity",
+    region: "global",
+    starting: "0 € (Free, 3 Boards) · 8 $/User/Mon Starter",
+    rating: 4.7,
+    tagline: "Whiteboard für Brainstorming, Strategy, User-Flows",
+    pros: ["Branchenführer Online-Whiteboards", "Riesige Template-Library (Brainwriting, User-Story-Map, Lean-Canvas)", "Top Mind-Mapping + Diagramming", "Realtime-Collab + Voting + Timer"],
+    cons: ["Free-Tier nur 3 Boards", "Pricing ab 8 $/User pro Monat", "USA-Server (DSGVO via AVV)", "Kann bei großen Boards laggy werden"],
+    forumNotes: "G2.com 4.7/5 (5k+ Reviews): Standard für Strategy-Workshops, Design-Sprints, Remote-Brainstorming. Hauptkonkurrenz: Figma FigJam, MURAL.",
+    signupTime: "Sofort",
+    url: "https://miro.com",
+  },
 
   // ============ AI-TOOLS ============
   {
@@ -2324,88 +2338,98 @@ const Anbieter = () => {
         <strong>*Affiliate-Hinweis:</strong> Einige Anbieter-Links sind Partner-Links. Bei Vertragsabschluss erhält GründerX ggf. eine Provision — für dich keine Mehrkosten. Bewertungen sind unabhängig von der Vergütung. Details in <a href="/agb" className="underline hover:text-foreground">§ 14 AGB</a>.
       </div>
 
-      {/* Such-Leiste prominent */}
-      <div className="relative mb-5">
-        <Search className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
-        <Input
-          placeholder="Anbieter, Stärke oder Schwäche suchen..."
-          value={q}
-          onChange={(e) => setQ(e.target.value)}
-          className="h-11 pl-10 pr-10 text-sm"
-        />
-        {q && (
-          <button
-            onClick={() => setQ("")}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-            aria-label="Suche löschen"
-          >
-            <X className="h-4 w-4" />
-          </button>
-        )}
-      </div>
-
-      {/* Filter-Block: gruppierte Kategorien — Wrap statt Scroll */}
-      <div className="rounded-2xl border border-border bg-card p-4 mb-6">
-        <div className="flex items-center justify-between mb-3">
-          <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-            Filter nach Kategorie
+      {/* === Such- + Master-Filter-Bar === */}
+      <div className="rounded-2xl border border-border bg-gradient-to-br from-card via-card to-secondary/20 p-4 mb-6 shadow-sm">
+        <div className="flex flex-col md:flex-row md:items-center gap-3 mb-4">
+          <div className="relative flex-1">
+            <Search className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
+            <Input
+              placeholder="Anbieter, Stärke oder Schwäche suchen..."
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              className="h-11 pl-10 pr-10 text-sm bg-background"
+            />
+            {q && (
+              <button
+                onClick={() => setQ("")}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                aria-label="Suche löschen"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            )}
           </div>
-          {cat !== "Alle" && (
-            <button
-              onClick={() => setCat("Alle")}
-              className="text-[11px] text-accent-blue hover:underline font-semibold inline-flex items-center gap-1"
-            >
-              <X className="h-3 w-3" /> Filter zurücksetzen
-            </button>
-          )}
+          <button
+            onClick={() => setCat("Alle")}
+            className={`inline-flex items-center justify-center gap-2 rounded-xl px-4 h-11 text-sm font-bold transition-all whitespace-nowrap ${
+              cat === "Alle"
+                ? "bg-accent-blue text-primary-foreground shadow-md"
+                : "bg-background border border-border hover:border-accent-blue/40"
+            }`}
+          >
+            <Grid3x3 className="h-4 w-4" />
+            Alle Anbieter
+            <span className={`rounded-md px-2 py-0.5 text-[11px] font-bold ${
+              cat === "Alle" ? "bg-white/25 text-white" : "bg-secondary text-muted-foreground"
+            }`}>
+              {counts.Alle}
+            </span>
+          </button>
         </div>
 
-        {/* "Alle"-Pill prominent */}
-        <button
-          onClick={() => setCat("Alle")}
-          className={`inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-bold border transition-all mb-3 ${
-            cat === "Alle"
-              ? "bg-accent-blue text-primary-foreground border-accent-blue shadow-sm"
-              : "bg-card border-border hover:border-accent-blue/40"
-          }`}
-        >
-          <Grid3x3 className="h-3.5 w-3.5" />
-          Alle Anbieter
-          <span className={`ml-0.5 rounded-full px-1.5 text-[10px] font-bold ${
-            cat === "Alle" ? "bg-white/25 text-white" : "bg-secondary text-muted-foreground"
-          }`}>
-            {counts.Alle}
-          </span>
-        </button>
-
-        {/* Gruppen mit Pills */}
-        <div className="space-y-3">
+        {/* === Kategorie-Karten-Grid === */}
+        <div className="space-y-4">
           {CAT_GROUPS.map((group) => (
             <div key={group.label}>
-              <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-1.5">
-                {group.label}
+              <div className="flex items-center gap-2 mb-2">
+                <div className="text-[10px] font-bold uppercase tracking-[0.12em] text-muted-foreground/80">
+                  {group.label}
+                </div>
+                <div className="h-px flex-1 bg-border/60" />
               </div>
-              <div className="flex flex-wrap gap-1.5">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
                 {group.cats.map(({ name, icon: Icon }) => {
                   const active = cat === name;
                   const count = counts[name] || 0;
+                  if (count === 0) return null; // Kategorie ohne Anbieter ausblenden
                   return (
                     <button
                       key={name}
-                      onClick={() => setCat(name)}
-                      className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold border transition-all ${
+                      onClick={() => setCat(active ? "Alle" : name)}
+                      className={`group relative rounded-xl px-3 py-3 text-left transition-all ${
                         active
-                          ? "bg-accent-blue text-primary-foreground border-accent-blue shadow-sm"
-                          : "bg-secondary/30 border-border hover:bg-secondary/60 hover:border-accent-blue/40"
+                          ? "bg-accent-blue text-primary-foreground shadow-md ring-2 ring-accent-blue/30 ring-offset-2 ring-offset-card"
+                          : "bg-background border border-border hover:border-accent-blue/40 hover:bg-accent-blue/5 hover:-translate-y-0.5"
                       }`}
                     >
-                      <Icon className="h-3.5 w-3.5" />
-                      {name}
-                      <span className={`ml-0.5 rounded-full px-1.5 text-[10px] font-bold ${
-                        active ? "bg-white/25 text-white" : "bg-card text-muted-foreground"
-                      }`}>
-                        {count}
-                      </span>
+                      <div className="flex items-start justify-between mb-1.5">
+                        <Icon
+                          className={`h-4 w-4 transition-colors ${
+                            active ? "text-primary-foreground" : "text-accent-blue"
+                          }`}
+                        />
+                        <span
+                          className={`text-[10px] font-bold rounded-md px-1.5 py-0.5 ${
+                            active
+                              ? "bg-white/25 text-white"
+                              : "bg-secondary text-muted-foreground"
+                          }`}
+                        >
+                          {count}
+                        </span>
+                      </div>
+                      <div
+                        className={`text-xs font-semibold leading-tight ${
+                          active ? "text-primary-foreground" : "text-foreground"
+                        }`}
+                      >
+                        {name}
+                      </div>
+                      {active && (
+                        <div className="text-[10px] text-primary-foreground/80 mt-0.5">
+                          Filter aktiv ✓
+                        </div>
+                      )}
                     </button>
                   );
                 })}
@@ -2413,6 +2437,40 @@ const Anbieter = () => {
             </div>
           ))}
         </div>
+
+        {/* Reset-Footer wenn Filter aktiv */}
+        {(cat !== "Alle" || q) && (
+          <div className="mt-4 pt-4 border-t border-border/60 flex items-center justify-between text-xs">
+            <div className="text-muted-foreground">
+              Aktive Filter:{" "}
+              {cat !== "Alle" && (
+                <span className="inline-flex items-center gap-1 ml-1 rounded-md bg-accent-blue/10 text-accent-blue px-2 py-0.5 font-semibold">
+                  {cat}
+                  <button onClick={() => setCat("Alle")} className="hover:bg-accent-blue/20 rounded-sm">
+                    <X className="h-3 w-3" />
+                  </button>
+                </span>
+              )}
+              {q && (
+                <span className="inline-flex items-center gap-1 ml-1 rounded-md bg-accent-blue/10 text-accent-blue px-2 py-0.5 font-semibold">
+                  „{q}"
+                  <button onClick={() => setQ("")} className="hover:bg-accent-blue/20 rounded-sm">
+                    <X className="h-3 w-3" />
+                  </button>
+                </span>
+              )}
+            </div>
+            <button
+              onClick={() => {
+                setCat("Alle");
+                setQ("");
+              }}
+              className="text-accent-blue hover:underline font-semibold"
+            >
+              Alle Filter zurücksetzen
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Resultats-Header */}
