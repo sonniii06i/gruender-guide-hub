@@ -1,6 +1,6 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/hooks/useAuth";
 import AppLayout from "./layouts/AppLayout.tsx";
@@ -72,6 +72,14 @@ const queryClient = new QueryClient();
 
 const RouteTracker = () => { useTrackPageview(); return null; };
 
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+};
+
 const PageFallback = () => (
   <div className="container max-w-6xl py-12 px-4">
     <div className="animate-pulse space-y-4">
@@ -88,6 +96,7 @@ const App = () => (
     <TooltipProvider>
       <BrowserRouter>
         <AuthProvider>
+          <ScrollToTop />
           <RouteTracker />
           <Suspense fallback={<PageFallback />}>
             <Routes>
