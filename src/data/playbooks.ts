@@ -7730,7 +7730,7 @@ export const PLAYBOOKS: Playbook[] = [
       {
         slug: "oss-eu",
         title: "OSS-Anmeldung + EU-USt-Strategie",
-        description: "Bei Reseller mit EU-Cross-Border-Sales: OSS Pflicht ab 10k €/Jahr. Sonst USt-Registrierungs-Pflicht in jedem Lieferland.",
+        description: "Ab 10.000 €/Jahr EU-Cross-Border-B2C-Umsatz: USt-Pflicht im Lieferland. OSS ist Vereinfachung (zentrale Meldung) gegenüber lokaler USt-Registrierung in jedem Lieferland.",
         kind: "external",
         estMinutes: 180,
         estCost: "OSS-Anmeldung 0 € · Steuerberater-Begleitung 200-800 € einmalig",
@@ -7739,10 +7739,12 @@ export const PLAYBOOKS: Playbook[] = [
           { label: "→ Pan-EU-FBA Playbook", url: "/playbook/pan-eu-fba" },
         ],
         checklist: [
-          "OSS-Anmeldung VOR erstem grenzüberschreitenden Verkauf",
-          "Pan-EU-FBA: USt-Registrierung in 7 Ländern Pflicht (auch mit OSS, weil Lager im Land = lokale USt)",
-          "Verzicht auf 10k-Schwelle erwägen für saubere OSS-Compliance",
-          "Quartalsweise OSS-Meldung (Bundeszentralamt für Steuern)",
+          "Unter 10.000 € EU-Cross-Border-Umsatz/Jahr: keine OSS-Pflicht — USt bleibt im Heimatland (DE)",
+          "Ab 10.000 € EU-Cross-Border B2C: OSS-Anmeldung beim BZSt ODER lokale USt-Registrierung in jedem Lieferland",
+          "OSS-Anmeldung wirkt erst zum Quartal-Beginn nach Antrag — NICHT rückwirkend, also rechtzeitig vor Schwellen-Überschreitung planen",
+          "Pan-EU-FBA: zusätzlich lokale USt-Registrierung in den FBA-Ländern Pflicht (auch mit OSS, weil Lager im Land = lokale Lieferung)",
+          "Verzicht auf 10k-Schwelle (Verzichtserklärung an FA): bei geplantem Cross-Border-Start sinnvoll für sauberes Setup ab Tag 1",
+          "Quartalsweise OSS-Meldung beim BZSt (Fristen: 30.04. / 31.07. / 31.10. / 31.01.)",
         ],
       },
       {
