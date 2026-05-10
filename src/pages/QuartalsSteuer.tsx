@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import CockpitShell from "@/components/cockpit/CockpitShell";
+import Stand2026Footer from "@/components/cockpit/Stand2026Footer";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -486,6 +487,16 @@ const QuartalsSteuer = () => {
           </div>
         </div>
       </div>
+
+      <Stand2026Footer
+        sources={[
+          { label: "§37 EStG (Vorauszahlung)", url: "https://www.gesetze-im-internet.de/estg/__37.html" },
+          { label: "§31 KStG (KSt-Vorauszahlung)", url: "https://www.gesetze-im-internet.de/kstg_1977/__31.html" },
+          { label: "§19 GewStG (GewSt-Vorauszahlung)", url: "https://www.gesetze-im-internet.de/gewstg/__19.html" },
+          { label: "§240 AO (Säumniszuschlag)", url: "https://www.gesetze-im-internet.de/ao_1977/__240.html" },
+        ]}
+        note="Schätzung basiert auf erwartetem Jahresgewinn. Bei stark schwankendem Geschäft: konservativ rechnen + Quartals-Update via Anpassungs-Antrag beim FA."
+      />
     </CockpitShell>
   );
 };

@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import CockpitShell from "@/components/cockpit/CockpitShell";
+import Stand2026Footer from "@/components/cockpit/Stand2026Footer";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Plus, Trash2, Download, Receipt, Plane } from "lucide-react";
@@ -593,6 +594,15 @@ const ReisekostenLogger = () => {
           </div>
         </div>
       </div>
+
+      <Stand2026Footer
+        sources={[
+          { label: "§9 (4a) EStG (Verpflegungspauschalen)", url: "https://www.gesetze-im-internet.de/estg/__9.html" },
+          { label: "§4 (5) Nr. 2 EStG (Bewirtung 70 %)", url: "https://www.gesetze-im-internet.de/estg/__4.html" },
+          { label: "BMF-Schreiben Auslandsreisekosten 2026", url: "https://www.bundesfinanzministerium.de" },
+        ]}
+        note="Auslands-Pauschalen sind BMF-Werte 2026 (jährliches BMF-Update). Bei nicht gelisteten Ländern: BMF-Tabelle vollständig konsultieren oder DE-Pauschale anwenden."
+      />
     </CockpitShell>
   );
 };

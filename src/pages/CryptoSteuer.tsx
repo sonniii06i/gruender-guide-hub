@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import CockpitShell from "@/components/cockpit/CockpitShell";
+import Stand2026Footer from "@/components/cockpit/Stand2026Footer";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Calculator, Plus, Trash2, AlertTriangle, Coins, Download } from "lucide-react";
@@ -453,6 +454,15 @@ const CryptoSteuer = () => {
           </div>
         </div>
       </div>
+
+      <Stand2026Footer
+        sources={[
+          { label: "§23 EStG (Privates Veräußerungsgeschäft)", url: "https://www.gesetze-im-internet.de/estg/__23.html" },
+          { label: "§22 Nr. 3 EStG (Sonstige Einkünfte)", url: "https://www.gesetze-im-internet.de/estg/__22.html" },
+          { label: "BMF-Schreiben Crypto 10.05.2022", url: "https://www.bundesfinanzministerium.de/Content/DE/Downloads/BMF_Schreiben/Steuerarten/Einkommensteuer/2022-05-10-einzelfragen-zur-ertragsteuerrechtlichen-behandlung-von-virtuellen-waehrungen-und-von-sonstigen-token.html" },
+        ]}
+        note="FIFO-Pflicht seit BMF 2022. Tool berechnet nur Veräußerungsgewinne — Mining/Staking/Lending separat (§22 Nr. 3 EStG, eigene Freigrenze 256 €)."
+      />
     </CockpitShell>
   );
 };

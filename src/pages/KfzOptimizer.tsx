@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import CockpitShell from "@/components/cockpit/CockpitShell";
+import Stand2026Footer from "@/components/cockpit/Stand2026Footer";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Calculator, Car, AlertTriangle, CheckCircle2, TrendingDown } from "lucide-react";
@@ -370,6 +371,16 @@ const KfzOptimizer = () => {
           </div>
         </div>
       </div>
+
+      <Stand2026Footer
+        sources={[
+          { label: "§6 (1) Nr. 4 EStG (1%-Regel)", url: "https://www.gesetze-im-internet.de/estg/__6.html" },
+          { label: "§4 (5) Nr. 6 EStG (Fahrtenbuch)", url: "https://www.gesetze-im-internet.de/estg/__4.html" },
+          { label: "§9 EStG (Pendlerpauschale)", url: "https://www.gesetze-im-internet.de/estg/__9.html" },
+          { label: "BMF-Schreiben Kfz", url: "https://www.bundesfinanzministerium.de" },
+        ]}
+        note="E-Auto-Bonus 0,25 % nur bei BLP ≤ 70.000 €. Hybrid-Bonus 0,5 % nur bei elektr. Reichweite ≥ 60 km (≥ 80 km ab 2025-Anschaffung). Pendlerpauschale 2026: 0,30 € (1-20 km) / 0,38 € (ab 21 km)."
+      />
     </CockpitShell>
   );
 };

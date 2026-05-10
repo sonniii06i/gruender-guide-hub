@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import CockpitShell from "@/components/cockpit/CockpitShell";
+import Stand2026Footer from "@/components/cockpit/Stand2026Footer";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Calculator, AlertTriangle, TrendingUp } from "lucide-react";
@@ -400,6 +401,16 @@ const PensionOptimizer = () => {
           </div>
         </div>
       </div>
+
+      <Stand2026Footer
+        sources={[
+          { label: "§10 EStG (Sonderausgaben Altersvorsorge)", url: "https://www.gesetze-im-internet.de/estg/__10.html" },
+          { label: "§3 Nr. 63 EStG (bAV steuerfrei)", url: "https://www.gesetze-im-internet.de/estg/__3.html" },
+          { label: "AltZertG (Riester-Zertifizierung)", url: "https://www.gesetze-im-internet.de/altzertg/" },
+          { label: "BBG-RV-W 2026 (BMAS)", url: "https://www.bmas.de" },
+        ]}
+        note="Rürup-Höchstbetrag 29.344 € ist Stand 2025; 2026-Wert wird via BMF-Schreiben publiziert (voraussichtlich ~30.000 €). bAV-Cap 8 % BBG-RV-W = 7.728 €."
+      />
     </CockpitShell>
   );
 };

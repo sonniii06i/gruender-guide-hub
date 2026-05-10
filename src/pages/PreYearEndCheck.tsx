@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import CockpitShell from "@/components/cockpit/CockpitShell";
+import Stand2026Footer from "@/components/cockpit/Stand2026Footer";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Calculator, AlertTriangle, CheckCircle2, TrendingDown, Info, Calendar } from "lucide-react";
@@ -393,6 +394,16 @@ const PreYearEndCheck = () => {
           </div>
         </div>
       </div>
+
+      <Stand2026Footer
+        sources={[
+          { label: "§7g EStG (IAB)", url: "https://www.gesetze-im-internet.de/estg/__7g.html" },
+          { label: "§6 EStG (GWG)", url: "https://www.gesetze-im-internet.de/estg/__6.html" },
+          { label: "§10d EStG (Verlustabzug)", url: "https://www.gesetze-im-internet.de/estg/__10d.html" },
+          { label: "§37 EStG (Vorauszahlung)", url: "https://www.gesetze-im-internet.de/estg/__37.html" },
+        ]}
+        note="Hebel-Empfehlungen sind nicht abschließend — abhängig von individueller Situation (Branche, Bilanz, Vorjahr). Vor Aktivierung mit StB durchsprechen."
+      />
     </CockpitShell>
   );
 };

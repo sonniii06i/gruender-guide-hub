@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import CockpitShell from "@/components/cockpit/CockpitShell";
+import Stand2026Footer from "@/components/cockpit/Stand2026Footer";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { TrendingUp, AlertTriangle } from "lucide-react";
@@ -330,6 +331,16 @@ const SalaryDividendOptimizer = () => {
           </div>
         </div>
       </div>
+
+      <Stand2026Footer
+        sources={[
+          { label: "§32a EStG (Tarif)", url: "https://www.gesetze-im-internet.de/estg/__32a.html" },
+          { label: "§3 Nr. 40 EStG (TEV)", url: "https://www.gesetze-im-internet.de/estg/__3.html" },
+          { label: "§20 EStG (KapErtrag)", url: "https://www.gesetze-im-internet.de/estg/__20.html" },
+          { label: "BBG 2026 (BMAS)", url: "https://www.bmas.de" },
+        ]}
+        note="ESt nutzt §32a 2026 Progressionsformel (echte Berechnung, keine Spitzensatz-Vereinfachung). SV-Beiträge auf BBG-Cap geklappt."
+      />
     </CockpitShell>
   );
 };

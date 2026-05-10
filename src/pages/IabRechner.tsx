@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import CockpitShell from "@/components/cockpit/CockpitShell";
+import Stand2026Footer from "@/components/cockpit/Stand2026Footer";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -485,6 +486,15 @@ const IabRechner = () => {
           </li>
         </ul>
       </div>
+
+      <Stand2026Footer
+        sources={[
+          { label: "§7g EStG (IAB)", url: "https://www.gesetze-im-internet.de/estg/__7g.html" },
+          { label: "§32a EStG (Tarif)", url: "https://www.gesetze-im-internet.de/estg/__32a.html" },
+          { label: "§233a AO (Verzinsung)", url: "https://www.gesetze-im-internet.de/ao_1977/__233a.html" },
+        ]}
+        note="Liquiditäts-Vorteil-Schätzung 6 % p.a. ist grobe Faustregel — echter Zins-Effekt hängt von individueller Kapitalverfügbarkeit ab."
+      />
     </CockpitShell>
   );
 };

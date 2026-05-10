@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import CockpitShell from "@/components/cockpit/CockpitShell";
+import Stand2026Footer from "@/components/cockpit/Stand2026Footer";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Calculator, TrendingUp, Info, AlertTriangle } from "lucide-react";
@@ -487,6 +488,17 @@ const AuszahlungOptimizer = () => {
           </div>
         </div>
       </div>
+
+      <Stand2026Footer
+        sources={[
+          { label: "§32a EStG (Tarif)", url: "https://www.gesetze-im-internet.de/estg/__32a.html" },
+          { label: "§8b KStG (Schachtelprivileg)", url: "https://www.gesetze-im-internet.de/kstg_1977/__8b.html" },
+          { label: "§3 Nr. 40 EStG (TEV)", url: "https://www.gesetze-im-internet.de/estg/__3.html" },
+          { label: "§20 EStG (KapErtrag)", url: "https://www.gesetze-im-internet.de/estg/__20.html" },
+          { label: "BMF-Schreiben", url: "https://www.bundesfinanzministerium.de" },
+        ]}
+        note="Berechnungen sind vereinfacht (keine echte ESt-Progression — nutze Spitzensatz-Auswahl). Pension-Variante stark abstrahiert; bei Pensionszusage Versicherungsmathematiker Pflicht."
+      />
     </CockpitShell>
   );
 };
