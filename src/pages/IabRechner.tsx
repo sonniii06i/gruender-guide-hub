@@ -11,35 +11,19 @@ import {
   Info,
   ArrowRight,
 } from "lucide-react";
+import {
+  progressionESt,
+  grenzSteuerSatz,
+  kstGewstRate,
+  IAB_QUOTE,
+  IAB_MAX,
+  SOLZ_RATE as SOLZ,
+} from "@/lib/germanTax";
 
 type Rechtsform = "einzel" | "freiberuf" | "ug" | "gmbh";
 
-const KSt_GEWST = 0.30;
-const SOLZ = 0.055;
-const IAB_QUOTE = 0.5; // §7g EStG: 50 %
-const IAB_MAX = 200000; // Max IAB-Höhe (kumuliert pro Betrieb)
+const KSt_GEWST = kstGewstRate(400);
 const IAB_FRIST_JAHRE = 3; // Investition muss innerhalb 3 Wj erfolgen
-
-// §32a EStG 2026 Progressionsformeln (Grundtarif)
-function progressionESt(zvE: number): number {
-  if (zvE <= 12096) return 0;
-  if (zvE <= 17443) {
-    const y = (zvE - 12096) / 10000;
-    return Math.round((932.3 * y + 1400) * y);
-  }
-  if (zvE <= 68480) {
-    const z = (zvE - 17443) / 10000;
-    return Math.round((176.64 * z + 2397) * z + 1015.13);
-  }
-  if (zvE <= 277825) return Math.round(0.42 * zvE - 10911.92);
-  return Math.round(0.45 * zvE - 19246.67);
-}
-
-// Grenzsteuersatz auf der nächsten Marginal-Einheit (numerische Ableitung)
-function grenzSteuerSatz(zvE: number): number {
-  const delta = 1000;
-  return (progressionESt(zvE + delta) - progressionESt(zvE)) / delta;
-}
 
 const IabRechner = () => {
   const [rechtsform, setRechtsform] = useState<Rechtsform>("gmbh");

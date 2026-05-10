@@ -4,6 +4,7 @@ import Stand2026Footer from "@/components/cockpit/Stand2026Footer";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Calculator, AlertTriangle, TrendingUp } from "lucide-react";
+import { annuityFV as annuity_fv, RUERUP_MAX_SINGLE, BAV_STEUERFREI_QUOTE, BBG_RV_WEST_JAHR, RIESTER_MAX, RIESTER_GRUNDZULAGE } from "@/lib/germanTax";
 
 const PensionOptimizer = () => {
   const [alter, setAlter] = useState(35);
@@ -28,12 +29,8 @@ const PensionOptimizer = () => {
     const etfNetEnd = etfEnd - (etfEnd - jaehrlichSparen * yearsToRetirement) * 0.26375 * 0.7; // 70% des Gewinns × AbgSt
     // Steuer-Ersparnis ETF: 0 (kein Sonderausgaben-Abzug)
 
-    // Rürup-Höchstbetrag §10 (3) EStG = doppelter Höchstbeitrag knappschaftliche RV.
-    // Historie: 2024: 27.566 € · 2025: 29.344 € · 2026 BMF-Update steht aus
-    // (voraussichtlich ~30.000 € basierend auf BBG-RV-W-Anstieg). 100 % als Sonderausgaben
-    // absetzbar seit 2023. Für Verheiratete: doppelter Höchstbetrag.
-    // Konservativer Stand 2025 — vor Setup mit StB aktuelle BMF-Tabelle verifizieren.
-    const ruerup_max = 29344;
+    // Rürup-Höchstbetrag aus zentraler germanTax-Lib (Stand 2025; 2026-BMF-Update steht aus).
+    const ruerup_max = RUERUP_MAX_SINGLE;
     const ruerup_sparen = Math.min(jaehrlichSparen, ruerup_max);
     const ruerup_steuerErsparnisProJahr = ruerup_sparen * estSatz;
     const ruerup_end = annuity_fv(jaehrlichSparen, annualReturn, yearsToRetirement);
@@ -45,9 +42,8 @@ const PensionOptimizer = () => {
     const ruerup_steuerErsparnisGesamt = ruerup_steuerErsparnisProJahr * yearsToRetirement;
     const ruerup_finalEffekt = ruerup_netto + ruerup_steuerErsparnisGesamt;
 
-    // bAV (Direktversicherung über GmbH): 4 % BBG-RV-West steuer- UND sv-frei (~3.864 €), bis 8 % nur steuerfrei
-    // BBG-RV-West 2026 = 96.600 € → 4 % = 3.864 €, 8 % = 7.728 €
-    const bav_max_steuerfrei = 7728;
+    // bAV §3 Nr. 63 EStG: 8 % BBG-RV-West steuerfrei (4 % davon zusätzlich SV-frei).
+    const bav_max_steuerfrei = BBG_RV_WEST_JAHR * BAV_STEUERFREI_QUOTE;
     const bav_sparen = Math.min(jaehrlichSparen, bav_max_steuerfrei);
     const bav_steuerErsparnisProJahr = bav_sparen * (estSatz + 0.20); // +20% SV-Ersparnis (50% Arbeitnehmer + 50% Arbeitgeber)
     const bav_end = annuity_fv(jaehrlichSparen, annualReturn - 0.01, yearsToRetirement); // -1% Versicherungs-Kosten
@@ -60,9 +56,9 @@ const PensionOptimizer = () => {
 
     // Riester (für Angestellte): 175 € Grundzulage + Kinderzulagen + ESt-Sonderausgabe bis 2.100 €/Jahr
     // Vereinfacht: bis 2.100 € absetzbar, dann nachgelagerte Besteuerung
-    const riester_max = 2100;
+    const riester_max = RIESTER_MAX;
     const riester_sparen = Math.min(jaehrlichSparen, riester_max);
-    const riester_zulage = 175; // Grundzulage
+    const riester_zulage = RIESTER_GRUNDZULAGE; // Grundzulage
     const riester_steuerErsparnisProJahr = (riester_sparen + riester_zulage) * estSatz - riester_zulage; // Günstigerprüfung
     const riester_end = annuity_fv(riester_sparen + riester_zulage, annualReturn - 0.015, yearsToRetirement);
     const riester_steuerErsparnisGesamt = Math.max(0, riester_steuerErsparnisProJahr * yearsToRetirement);
@@ -414,11 +410,5 @@ const PensionOptimizer = () => {
     </CockpitShell>
   );
 };
-
-// Future-Value einer Annuität
-function annuity_fv(annualPayment: number, rate: number, years: number): number {
-  if (rate === 0) return annualPayment * years;
-  return annualPayment * (Math.pow(1 + rate, years) - 1) / rate;
-}
 
 export default PensionOptimizer;

@@ -14,39 +14,17 @@ import {
   Wallet,
 } from "lucide-react";
 
+import {
+  progressionESt,
+  solZ as solZAuf,
+  KST_RATE as KSt,
+  SOLZ_RATE,
+  GEWST_MESSZAHL,
+  GEWST_FREIBETRAG_NATUERLICH,
+  GEWST_ANRECHNUNG_FAKTOR,
+} from "@/lib/germanTax";
+
 type Rechtsform = "einzel" | "freiberuf" | "ug" | "gmbh";
-
-const SOLZ_FREI = 19950; // Solidaritätszuschlag-Freigrenze 2026 (Single, ab dieser ESt → 5,5 % Soli)
-const SOLZ_RATE = 0.055;
-const KSt = 0.15;
-const GEWST_DEFAULT = 0.14;
-
-// §32a EStG 2026 (Grundtarif)
-function progressionESt(zvE: number): number {
-  if (zvE <= 12096) return 0;
-  if (zvE <= 17443) {
-    const y = (zvE - 12096) / 10000;
-    return Math.round((932.3 * y + 1400) * y);
-  }
-  if (zvE <= 68480) {
-    const z = (zvE - 17443) / 10000;
-    return Math.round((176.64 * z + 2397) * z + 1015.13);
-  }
-  if (zvE <= 277825) return Math.round(0.42 * zvE - 10911.92);
-  return Math.round(0.45 * zvE - 19246.67);
-}
-
-// Solidaritätszuschlag (vereinfacht): 5,5 % auf ESt wenn ESt > 19.950 € (Grenze 2026 Single)
-function solZAuf(eSt: number): number {
-  if (eSt <= 19950) return 0;
-  // Milderungszone bis ~32.000 € — vereinfacht direkt 5,5 % für Werte deutlich darüber
-  if (eSt < 32000) {
-    // lineare Interpolation in Milderungszone (näherungsweise)
-    const ratio = (eSt - 19950) / (32000 - 19950);
-    return eSt * SOLZ_RATE * ratio;
-  }
-  return eSt * SOLZ_RATE;
-}
 
 // Quartals-Termine (10.3, 10.6, 10.9, 10.12)
 const TERMINE = [
@@ -71,11 +49,11 @@ const QuartalsSteuer = () => {
       const eSt = progressionESt(zvE);
       const solz = solZAuf(eSt);
       // GewSt nur bei Einzelunternehmer mit Gewerbe (Freiberuf gewerbesteuerfrei)
-      const gewstBasis = Math.max(0, erwarteterJahresgewinn - 24500);
-      const gewstMessbetrag = gewstBasis * 0.035;
+      const gewstBasis = Math.max(0, erwarteterJahresgewinn - GEWST_FREIBETRAG_NATUERLICH);
+      const gewstMessbetrag = gewstBasis * GEWST_MESSZAHL;
       const gewstHebesatz = (hebesatzGewSt / 100) * gewstMessbetrag;
       // GewSt-Anrechnung §35 EStG: 3,8x Messbetrag
-      const gewstAnrechnung = Math.min(gewstMessbetrag * 3.8, eSt);
+      const gewstAnrechnung = Math.min(gewstMessbetrag * GEWST_ANRECHNUNG_FAKTOR, eSt);
       const gewstEffektiv = rechtsform === "freiberuf" ? 0 : Math.max(0, gewstHebesatz - gewstAnrechnung);
       return {
         eSt,
@@ -88,7 +66,7 @@ const QuartalsSteuer = () => {
     // GmbH/UG
     const kSt = erwarteterJahresgewinn * KSt;
     const solz = kSt * SOLZ_RATE;
-    const gewstMessbetrag = erwarteterJahresgewinn * 0.035;
+    const gewstMessbetrag = erwarteterJahresgewinn * GEWST_MESSZAHL;
     const gewstHebesatz = (hebesatzGewSt / 100) * gewstMessbetrag;
     return {
       eSt: 0,

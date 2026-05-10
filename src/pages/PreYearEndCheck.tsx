@@ -4,26 +4,13 @@ import Stand2026Footer from "@/components/cockpit/Stand2026Footer";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Calculator, AlertTriangle, CheckCircle2, TrendingDown, Info, Calendar } from "lucide-react";
+import { progressionESt, ABG_ST, kstGewstRate, holdingRate } from "@/lib/germanTax";
 
 type LegalForm = "einzel" | "ug" | "gmbh" | "holding";
 
-const KSt_GEWST = 0.30;
-const ABG_ST = 0.26375;
-const HOLDING_RATE = 0.015;
-
-function progressionESt(zvE: number): number {
-  if (zvE <= 12096) return 0;
-  if (zvE <= 17443) {
-    const y = (zvE - 12096) / 10000;
-    return Math.round((932.3 * y + 1400) * y);
-  }
-  if (zvE <= 68480) {
-    const z = (zvE - 17443) / 10000;
-    return Math.round((176.64 * z + 2397) * z + 1015.13);
-  }
-  if (zvE <= 277825) return Math.round(0.42 * zvE - 10911.92);
-  return Math.round(0.45 * zvE - 19246.67);
-}
+// Default-Hebesatz 400 % für Pre-Year-End-Schätzung (Tool zeigt grobe Hebel-Ersparnis)
+const KSt_GEWST = kstGewstRate(400);
+const HOLDING_RATE = holdingRate(400);
 
 function steuerForm(form: LegalForm, gewinn: number, estSatz: number): number {
   if (gewinn <= 0) return 0;

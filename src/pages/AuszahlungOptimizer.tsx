@@ -1,9 +1,16 @@
 import { useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import Stand2026Footer from "@/components/cockpit/Stand2026Footer";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Calculator, TrendingUp, Info, AlertTriangle } from "lucide-react";
+import { Calculator, TrendingUp, Info, AlertTriangle, ArrowRight } from "lucide-react";
+import {
+  kstGewstRate,
+  holdingRate,
+  ABG_ST,
+  TEV_QUOTE as HALBEINKUENFTE,
+} from "@/lib/germanTax";
 
 type WayResult = {
   name: string;
@@ -16,20 +23,6 @@ type WayResult = {
   pros: string[];
   cons: string[];
 };
-
-// KSt 15 % + SolZ 5,5 % auf KSt + GewSt (Hebesatz × 3,5 %) — auf GmbH-Gewinn
-// Berechnung: KSt 15 % × 1,055 + GewSt = 15,825 % + GewSt-Anteil
-function kstGewstRate(hebesatz: number): number {
-  const kstSolz = 0.15 * 1.055; // = 15,825 %
-  const gewst = 0.035 * (hebesatz / 100);
-  return kstSolz + gewst;
-}
-const ABG_ST = 0.26375; // 25 % AbgSt + Soli auf Dividenden privat
-const HALBEINKUENFTE = 0.6; // Teileinkünfteverfahren: 60 % steuerpflichtig
-// HOLDING_RATE: §8b KStG 5 %-Schein-Dividende × KSt+GewSt+Soli ≈ 1,5 % effektiv
-function holdingRate(hebesatz: number): number {
-  return 0.05 * kstGewstRate(hebesatz);
-}
 
 function calculate(
   opGewinn: number,
@@ -254,6 +247,20 @@ const AuszahlungOptimizer = () => {
       title="Wie ziehst du Gewinn am steuer-effizientesten raus?"
       subtitle="Vergleich von 7 Auszahlungs-Wegen aus deiner GmbH: GF-Gehalt · Standard-Dividende · Teileinkünfteverfahren · Holding · Mix · Pensionszusage · Tantieme. Mit konkreten Steuer-Berechnungen."
     >
+      {/* Cross-Link zu SalaryDividend */}
+      <div className="rounded-2xl border border-border bg-secondary/30 p-3 mb-5 text-xs flex items-start gap-2">
+        <Info className="h-3.5 w-3.5 text-accent-blue shrink-0 mt-0.5" />
+        <div className="flex-1">
+          <strong className="text-foreground">Übersichts-Modus.</strong>{" "}
+          7-Wege-Vergleich mit Spitzensatz-Wahl. Für{" "}
+          <strong className="text-foreground">präzise Salary-vs-Dividende-Optimierung</strong>{" "}
+          mit echter ESt-Progression + SV-Beiträgen + KiSt:{" "}
+          <Link to="/cockpit/salary-dividende" className="text-accent-blue hover:underline inline-flex items-center gap-0.5">
+            Salary-vs-Dividende-Optimizer <ArrowRight className="h-3 w-3" />
+          </Link>
+        </div>
+      </div>
+
       {/* Inputs */}
       <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5 mb-6">
         <div className="flex items-center gap-2 mb-3">

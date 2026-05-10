@@ -1,65 +1,18 @@
 import { useState, useMemo } from "react";
+import { Link } from "react-router-dom";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import Stand2026Footer from "@/components/cockpit/Stand2026Footer";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { TrendingUp, AlertTriangle } from "lucide-react";
-
-// ESt 2026 §32a (vereinfacht)
-const calcEst2026 = (zvE: number) => {
-  if (zvE <= 12096) return 0;
-  if (zvE <= 17443) {
-    const y = (zvE - 12096) / 10000;
-    return Math.floor((932.3 * y + 1400) * y);
-  }
-  if (zvE <= 68480) {
-    const z = (zvE - 17443) / 10000;
-    return Math.floor((176.64 * z + 2397) * z + 1015.13);
-  }
-  if (zvE <= 277825) return Math.floor(0.42 * zvE - 10911.92);
-  return Math.floor(0.45 * zvE - 19246.67);
-};
-
-// Sozialversicherungs-Beiträge GF (DE 2026 ungefähr) – TOTAL Arbeitnehmer + Arbeitgeber
-// Pflicht: KV ~16,5%, RV 18,6%, AV 2,6%, PV 3,4-3,6% (kinderlos +0,6%)
-// BBG 2026: KV/PV ~5.512,50 €/Mon = 66.150 €/J, RV/AV West 8.050 €/Mon = 96.600 €/J
-const SV_BBG_KV_J = 66150;
-const SV_BBG_RV_J = 96600;
-const SV_QUOTE_KV_PV = 0.205; // gesamt KV+PV (Stand 2026, kinderlos +0,6%)
-const SV_QUOTE_RV_AV = 0.212; // RV+AV
-const calcSv = (jBrutto: number, sozialversicherungspflichtig: boolean) => {
-  if (!sozialversicherungspflichtig) return 0;
-  const kvBasis = Math.min(jBrutto, SV_BBG_KV_J);
-  const rvBasis = Math.min(jBrutto, SV_BBG_RV_J);
-  return kvBasis * SV_QUOTE_KV_PV + rvBasis * SV_QUOTE_RV_AV;
-};
-
-// GmbH: KSt 15 + SolZ 5,5 % auf KSt + GewSt (Hebesatz)
-const calcGmbhSteuer = (gewinn: number, hebesatz: number) => {
-  if (gewinn <= 0) return { kst: 0, solz: 0, gewst: 0, total: 0 };
-  const kst = gewinn * 0.15;
-  const solz = kst * 0.055;
-  const gewst = gewinn * 0.035 * (hebesatz / 100); // Messzahl 3,5 % × Hebesatz
-  return { kst, solz, gewst, total: kst + solz + gewst };
-};
-
-// Privat-Ausschüttung: Abgeltungssteuer 25 % + SolZ 5,5 % + ggf. KiSt 8/9 %
-const calcAusschuettungSteuer = (brutto: number, kistSatz: number) => {
-  const kapErtragSteuer = brutto * 0.25;
-  const solz = kapErtragSteuer * 0.055;
-  const kist = kapErtragSteuer * (kistSatz / 100);
-  return { kapErtragSteuer, solz, kist, total: kapErtragSteuer + solz + kist };
-};
-
-// Teileinkünfteverfahren (TEV) — 60 % der Ausschüttung als Eink. aus Gewerbe/Kapital
-// Voraussetzung: ≥1 % Beteiligung + Antrag (i.d.R. wenn Anteile im Betriebsvermögen sind oder Antrag gestellt wird)
-const calcTevSteuer = (brutto: number, persoenlicherSatz: number, kistSatz: number) => {
-  const tevBemessung = brutto * 0.6;
-  const est = tevBemessung * (persoenlicherSatz / 100);
-  const solz = est * 0.055;
-  const kist = est * (kistSatz / 100);
-  return { tevBemessung, est, solz, kist, total: est + solz + kist };
-};
+import { TrendingUp, AlertTriangle, Info } from "lucide-react";
+import {
+  progressionESt as calcEst2026,
+  calcSv,
+  calcGmbhSteuer,
+  calcAbgeltungSteuer as calcAusschuettungSteuer,
+  calcTevSteuer,
+  SOLZ_RATE,
+} from "@/lib/germanTax";
 
 type Mode = "abgeltung" | "tev";
 
@@ -139,6 +92,20 @@ const SalaryDividendOptimizer = () => {
       title="GF-Gehalt vs. Gewinnausschüttung – live durchgerechnet"
       subtitle="KSt 15 % + GewSt + SolZ vs. ESt §32a 2026 + SV-Beiträge. Berücksichtigt Teileinkünfte vs. Abgeltungssteuer + KiSt 8/9 %. 5 Gehalts-Szenarien gegenübergestellt."
     >
+      {/* Cross-Link zu Auszahlung-Optimizer */}
+      <div className="rounded-2xl border border-border bg-secondary/30 p-3 mb-5 text-xs flex items-start gap-2">
+        <Info className="h-3.5 w-3.5 text-accent-blue shrink-0 mt-0.5" />
+        <div className="flex-1">
+          <strong className="text-foreground">Detail-Modus.</strong>{" "}
+          Echte ESt-Progression + SV + 5 Gehalts-Szenarien. Für{" "}
+          <strong className="text-foreground">erweiterten 7-Wege-Vergleich</strong>{" "}
+          inkl. Holding · Pension · Tantieme:{" "}
+          <Link to="/cockpit/auszahlung-optimizer" className="text-accent-blue hover:underline">
+            Gewinn-Auszahlungs-Optimizer →
+          </Link>
+        </div>
+      </div>
+
       {/* Inputs */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6">
         <div>
