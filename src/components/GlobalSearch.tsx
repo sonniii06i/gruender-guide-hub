@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   CommandDialog, CommandEmpty, CommandGroup, CommandInput,
@@ -15,6 +15,11 @@ export const GlobalSearch = () => {
   const [q, setQ] = useState("");
   const navigate = useNavigate();
   const { start } = useGuideStart();
+  const listRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (listRef.current) listRef.current.scrollTop = 0;
+  }, [q]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -67,7 +72,7 @@ export const GlobalSearch = () => {
           onValueChange={setQ}
           placeholder="Suche nach Guide, Tool oder Thema…"
         />
-        <CommandList>
+        <CommandList ref={listRef}>
           <CommandEmpty>
             <div className="py-6 text-center">
               <p className="text-sm text-muted-foreground mb-3">Keine direkten Treffer.</p>
