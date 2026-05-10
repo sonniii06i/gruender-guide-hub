@@ -1,9 +1,10 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useRef } from "react";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import Stand2026Footer from "@/components/cockpit/Stand2026Footer";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Calculator, Plus, Trash2, AlertTriangle, Coins, Download } from "lucide-react";
+import { Calculator, Plus, Trash2, AlertTriangle, Coins, Download, Upload, CheckCircle2 } from "lucide-react";
+import { parseCsv, type ExchangeFormat } from "@/lib/cryptoCsvParsers";
 
 type Trade = {
   id: string;
@@ -35,6 +36,36 @@ const CryptoSteuer = () => {
   ]);
   const [estSatz, setEstSatz] = useState(0.42);
   const [steuerJahr, setSteuerJahr] = useState(2025);
+  const [importFormat, setImportFormat] = useState<ExchangeFormat>("generic");
+  const [importStatus, setImportStatus] = useState<{ ok: boolean; msg: string; count?: number } | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleCsvImport = async (file: File) => {
+    try {
+      const text = await file.text();
+      const result = parseCsv(text, importFormat);
+      if (result.errors.length > 0) {
+        setImportStatus({ ok: false, msg: result.errors.join(" · ") });
+        return;
+      }
+      if (result.trades.length === 0) {
+        setImportStatus({ ok: false, msg: "Keine gültigen Trades in der CSV gefunden." });
+        return;
+      }
+      const newTrades: Trade[] = result.trades.map((t, i) => ({
+        ...t,
+        id: `csv-${Date.now()}-${i}`,
+      }));
+      setTrades([...trades, ...newTrades]);
+      setImportStatus({
+        ok: true,
+        msg: `${result.trades.length} Trades aus ${result.format.toUpperCase()}-CSV importiert.`,
+        count: result.trades.length,
+      });
+    } catch (e) {
+      setImportStatus({ ok: false, msg: `Import-Fehler: ${(e as Error).message}` });
+    }
+  };
 
   const addTrade = () => {
     setTrades([
@@ -207,16 +238,90 @@ const CryptoSteuer = () => {
         </div>
       </div>
 
+      {/* CSV-Import */}
+      <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5 mb-6">
+        <div className="flex items-center gap-2 mb-3">
+          <Upload className="h-4 w-4 text-accent-blue" />
+          <h3 className="font-bold text-sm">CSV-Import von Exchange</h3>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
+          <div>
+            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Format</Label>
+            <select
+              value={importFormat}
+              onChange={(e) => setImportFormat(e.target.value as ExchangeFormat)}
+              className="mt-1 h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
+            >
+              <option value="generic">Auto-Detect</option>
+              <option value="binance">Binance Spot Trade History</option>
+              <option value="kraken">Kraken trades.csv</option>
+              <option value="coinbase">Coinbase Transactions</option>
+              <option value="bison">Bison (Boerse Stuttgart)</option>
+            </select>
+          </div>
+          <div className="md:col-span-2 flex items-end gap-2">
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept=".csv,text/csv"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) handleCsvImport(file);
+                e.target.value = ""; // Reset für erneuten Upload
+              }}
+              className="hidden"
+            />
+            <button
+              onClick={() => fileInputRef.current?.click()}
+              className="inline-flex items-center gap-1.5 rounded-lg bg-accent-blue text-primary-foreground px-4 py-2 text-xs font-semibold hover:opacity-90"
+            >
+              <Upload className="h-3.5 w-3.5" /> CSV-Datei wählen
+            </button>
+          </div>
+        </div>
+        {importStatus && (
+          <div
+            className={`rounded-lg border p-3 text-xs flex items-start gap-2 ${
+              importStatus.ok
+                ? "border-emerald-500/30 bg-emerald-500/5"
+                : "border-red-500/30 bg-red-500/5"
+            }`}
+          >
+            {importStatus.ok ? (
+              <CheckCircle2 className="h-4 w-4 text-emerald-700 dark:text-emerald-400 shrink-0 mt-0.5" />
+            ) : (
+              <AlertTriangle className="h-4 w-4 text-red-700 dark:text-red-400 shrink-0 mt-0.5" />
+            )}
+            <div className="text-foreground">{importStatus.msg}</div>
+          </div>
+        )}
+        <div className="text-[11px] text-muted-foreground mt-3 leading-relaxed">
+          <strong>Wo finde ich die CSV?</strong> Binance: Profil → Wallet → Order History → Spot Order → Export
+          (CSV) · Kraken: History → Trades → Export → trades.csv · Coinbase: Account → Statements →
+          Generate Report (Transaction History) · Bison: Übersicht → Steuerreport / Transaktionsliste
+          (.csv).
+        </div>
+      </div>
+
       {/* Trades */}
       <div className="rounded-2xl border border-border bg-card p-5 mb-6">
         <div className="flex items-center justify-between mb-3">
           <h3 className="font-bold text-sm">Deine Trades ({trades.length})</h3>
-          <button
-            onClick={addTrade}
-            className="inline-flex items-center gap-1 rounded-lg bg-accent-blue text-primary-foreground px-3 py-1.5 text-xs font-semibold hover:opacity-90"
-          >
-            <Plus className="h-3.5 w-3.5" /> Trade hinzufügen
-          </button>
+          <div className="flex gap-2">
+            <button
+              onClick={() => setTrades([])}
+              disabled={trades.length === 0}
+              className="inline-flex items-center gap-1 rounded-lg border border-border px-3 py-1.5 text-xs font-semibold hover:bg-secondary disabled:opacity-40"
+            >
+              <Trash2 className="h-3.5 w-3.5" /> Alle löschen
+            </button>
+            <button
+              onClick={addTrade}
+              className="inline-flex items-center gap-1 rounded-lg bg-accent-blue text-primary-foreground px-3 py-1.5 text-xs font-semibold hover:opacity-90"
+            >
+              <Plus className="h-3.5 w-3.5" /> Trade hinzufügen
+            </button>
+          </div>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-xs">
