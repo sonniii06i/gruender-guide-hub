@@ -1,113 +1,93 @@
 ## Ziel
 
-Das Cockpit fühlt sich aktuell wie eine Tool-Liste an. Wir bauen es um zu einer **Lernplattform / Kurs-Plattform** im AnwaltX-Stil: alle Themen (US-LLC gründen, Holding aufbauen, Marke anmelden, FBA launchen…) sind als **Guides / Kurse** auffindbar, durchsuchbar und sofort startbar – auch ohne Company / ohne Onboarding.
+Den Guide-Katalog massiv erweitern, sodass **Gründer aus allen typischen Branchen** den passenden Schritt-für-Schritt-Guide finden — egal ob Freelancer, Restaurant, Handwerk, Online-Coach, SaaS oder Immobilien-GbR. Die Guides bleiben im bestehenden Stil (Lernplattform, AnwaltX-Look) und nutzen das vorhandene `Playbook`-Schema in `src/data/playbooks.ts` plus die existierenden Step-Widgets.
 
----
+## Neue Guides (10 Stück)
 
-## 1. Globale Suche im Header (Command Palette)
+Priorisiert nach Nachfrage in DACH (laut typischen Such-Volumina + IHK/HWK-Beratungsthemen):
 
-Neue Komponente `GlobalSearch` (im Header neben Bell + Avatar), getriggert per Klick **oder** Shortcut **⌘K / Strg+K**.
+1. **Freiberufler / Freelancer anmelden** 🧑‍💻
+   *Zielgruppe: Entwickler, Designer, Berater, Texter, Coaches.*
+   Schritte: Freiberuf vs. Gewerbe abgrenzen (Katalogberufe) · Finanzamt-Anmeldung via ELSTER (FsE) · Kleinunternehmer-Entscheidung · Künstlersozialkasse (KSK) prüfen · Berufshaftpflicht · erste Rechnung & Pflichtangaben.
 
-- Input: "z. B. US LLC gründen, Holding, Marke anmelden, IAB…"
-- Suche-Index zieht aus **3 Quellen**:
-  1. **Guides** (`PLAYBOOKS` aus `src/data/playbooks.ts`) – primär
-  2. **Tools / Features** (`CATEGORIES` aus `src/data/features.ts`)
-  3. **Quick-Aktionen** ("Felix fragen zu …", "Alle Guides anzeigen")
-- Treffer-Karten zeigen: Emoji, Titel, Kategorie-Tag, Dauer, Difficulty, Status (Live/Beta/Bald)
-- Klick auf einen Guide → startet `/playbooks` Run direkt **oder** öffnet die Guide-Detail-Seite (siehe 3.)
-- Klick auf ein Tool → springt zur Route
-- "Kein Treffer" → CTA "Felix fragen zu '...'" → öffnet Felix-Chat mit vorausgefüllter Frage
+2. **Einzelunternehmen / Gewerbe anmelden** 🏪
+   *Klassischer Einstieg ohne Stammkapital.*
+   Schritte: Tätigkeit definieren (erlaubnispflichtig?) · Gewerbeamt-Anmeldung · Finanzamt FsE · IHK/HWK-Pflicht · Kleinunternehmer · Buchhaltung-Setup (EÜR).
 
-Implementierung: `cmdk` (bereits in shadcn `command.tsx` enthalten) in einem `Dialog`.
+3. **GbR gründen (z. B. mit Mitgründer / Immobilien)** 🤝
+   Schritte: Partner & Anteile klären · GbR-Vertrag (Vorlage + Klauseln Haftung/Gewinn/Ausstieg) · Gewerbeamt für alle Gesellschafter · Steuernummer & gesonderte Feststellung · Geschäftskonto · Haftungsrisiken & Wechsel zur OHG/GmbH.
 
-## 2. Sidebar verschlanken (Lernplattform-Stil)
+4. **Restaurant / Gastronomie eröffnen** 🍽️
+   *Sehr nachgefragt, viele Sondergenehmigungen.*
+   Schritte: Konzept & Standort · Gaststättenkonzession (§ 2 GastG) · Hygiene-Schulung (IfSG § 43) · Bauamt-Nutzungsänderung · GEMA & Künstlersozialkasse · Schankerlaubnis · Kasse (TSE) · HACCP-Konzept · Personal anmelden.
 
-Aktuell ist die Sidebar überladen mit allen 8 Kategorien + Sub-Items. Neu:
+5. **Handwerksbetrieb gründen (HWK)** 🔨
+   Schritte: Anlage A vs. B prüfen (Meisterpflicht) · Handwerksrolle eintragen · Ausnahmebewilligung / Altgesellenregelung · HWK-Mitgliedschaft & Beitrag · Berufsgenossenschaft BG BAU · Versicherungen · Materialeinkauf-Konditionen.
+
+6. **Online-Shop / E-Commerce starten (Shopify-Alternative WooCommerce/Shopware)** 🛒
+   *Pendant zum bestehenden Shopify-Guide, breiter & rechtsformunabhängig.*
+   Schritte: Rechtsform-Mini-Check · Impressum/AGB/Widerruf/Datenschutz (mit Generator-Links) · Verpackungsregister LUCID · OSS-Verfahren EU-USt · Zahlungsanbieter (Stripe/Klarna/PayPal) · Trusted Shops · Retouren-Logistik.
+
+7. **Online-Coach / Info-Produkt / Digitale Dienstleistung** 🎓
+   *Boom-Branche, hohe Nachfrage.*
+   Schritte: Einzel- vs. UG · Digitale Leistungen & MOSS/OSS · Zahlungs-Tools (Digistore24, Copecart, Stripe) · Disclaimer für Coaching/Heilversprechen · Verträge & AGB · Steuer auf Online-Umsätze · Affiliate-Aufbau.
+
+8. **Immobilien-GmbH / Vermögensverwaltende GmbH** 🏠
+   *Stark gefragt: Steuer-Hebel über erweiterte Kürzung.*
+   Schritte: Strategie (Bestandshalter vs. Trader) · Erweiterte gewerbesteuerliche Kürzung (§ 9 Nr. 1 S. 2 GewStG) · Holding-Struktur empfehlen · Notar & HR · Banken für Immo-Finanzierung · Buchhaltung mit AfA · Risiken (gewerblicher Grundstückshandel).
+
+9. **AG (Aktiengesellschaft) gründen** 📈
+   *Für ambitionierte Startups mit VC-Plänen.*
+   Schritte: Sinnvoll? (Mindestkapital 50k, Aufsichtsrat-Pflicht) · Vorbereitung Gründungsdokumente · Notar & Sachgründungsprüfung · Aufsichtsrat bestellen · HR-Eintrag · Aktienregister · Erste HV.
+
+10. **Verein / gemeinnützige UG (gUG)** 💚
+    *Für Social-Impact-Projekte, Sportclubs, NGOs.*
+    Schritte: e.V. vs. gUG entscheiden · 7 Gründungsmitglieder + Satzung (Mustersatzung Anlage 1 AO) · Gründungsversammlung & Protokoll · Notar (nur gUG) · Vereinsregister/HR · Gemeinnützigkeit beim Finanzamt beantragen · Spendenquittung-Berechtigung.
+
+## Reihenfolge im Katalog
+
+Eingefügt nach den bestehenden Top-Guides (GmbH, UG, Holding):
 
 ```text
-[Logo] GründerX · Lernplattform
-
-– Übersicht
-– Felix-Chat
-– Chat-Übersicht
-————
-LERNEN
-– Alle Guides           (/playbooks)
-– Meine Guides          (laufende Runs)
-– Tools & Rechner       (/dashboard?view=tools)
-————
-RESSOURCEN
-– Anbieter-Vergleich
-– Steuer-Cockpit
-– Rechtsform-Wizard
-————
-[Footer: Community, Support, FAQ]
+1. GmbH-Gründung
+2. UG-Gründung
+3. Einzelunternehmen / Gewerbe          ← NEU
+4. Freiberufler / Freelancer            ← NEU
+5. GbR                                   ← NEU
+6. Holding
+7. Kleinunternehmer-Regelung
+8. Restaurant / Gastronomie              ← NEU
+9. Handwerksbetrieb (HWK)                ← NEU
+10. Marke anmelden
+11. Online-Shop / E-Commerce             ← NEU
+12. Shopify-Launch (bestehend)
+13. Amazon FBA
+14. Online-Coach / Digital               ← NEU
+15. Creator/Influencer
+16. Immobilien-GmbH                      ← NEU
+17. Verein / gUG                         ← NEU
+18. AG                                   ← NEU
+19. US LLC
+20. Hongkong Limited
 ```
 
-Die langen Kategorie-Bäume verschwinden aus der Sidebar – stattdessen sind sie auf der Übersicht / im Guide-Katalog navigierbar. Das fühlt sich kursartig an, nicht wie ein Admin-Panel.
+## Technische Umsetzung
 
-## 3. Übersicht (`/dashboard`) als Kurs-Katalog
+**Eine zentrale Datei-Erweiterung:**
+- `src/data/playbooks.ts` — 10 neue `Playbook`-Einträge mit jeweils 6–10 Steps (Mix aus `info`, `checklist`, `form`, `external`). Jeder Step bekommt **echte externe Links** (ELSTER, Handelsregister, IHK, HWK, LUCID, GEMA, BG BAU, EUIPO etc.) damit User direkt loslegen können.
+- Stil & Schema bleiben identisch zu den bestehenden Guides — keine neuen Felder, keine UI-Änderungen nötig.
+- `GuideCard`, `Playbooks.tsx`, `GlobalSearch` ziehen automatisch aus `PLAYBOOKS` → erscheinen sofort im Katalog & in der ⌘K-Suche.
 
-Komplett neu, im AnwaltX-Stil (helle Cards, klare Typo, blaue Akzente, viel Whitespace). Sektionen von oben nach unten:
+**Optional (nur wenn gewünscht, sonst weglassen):**
+- Filter-Chips in `Playbooks.tsx` um Branchen-Filter erweitern (Gastro · Handwerk · Digital · Immobilien · Klassisch). Aktuell filtert die Seite nur nach Schwierigkeit. Würde ein neues Feld `category` auf `Playbook` brauchen.
 
-1. **Hero** – "Hi {Name}. Wo willst du heute weitermachen?" + großer Such-Trigger ("⌘K Suchen…")
-2. **Weitermachen** – Karten der laufenden `playbook_runs` mit Fortschrittsbalken (X/Y Schritte, "Weiter" Button). Wenn keine Runs: leerer State mit CTA.
-3. **Beliebte Guides** – Grid mit Top-Playbooks: US-LLC, GmbH, Holding, Marke, FBA-Launch (aus `PLAYBOOKS`). Jede Card: Emoji, Titel, Tagline, Dauer, Difficulty, Schritt-Anzahl, "Guide starten" Button → erstellt einen Run.
-4. **Themen entdecken** – Kategorien-Strip (Internationale Setups · DE-Steuer · Rechtsform · Marken · Buchhaltung · Compliance · Anbieter · Premium) – horizontal scrollbar, klick filtert die Tool-Liste darunter.
-5. **Tools & Rechner** – die bestehenden `CATEGORIES.features` als kompaktes Grid (das was heute im Dashboard ist), gefiltert nach gewählter Kategorie. Cards bleiben mit Live/Beta/Bald-Status.
-6. **Felix-CTA** – wie bisher, etwas dezenter.
+**Keine DB-Änderungen.** Keine neuen Edge-Functions. Keine neuen Komponenten.
 
-Visueller Stil: `rounded-2xl`, dünne Borders, große Headlines (Plus Jakarta), kleine kicker-Labels in `accent-blue`, dezente Schatten – passt zur AnwaltX-Linie.
+## Was nicht in diesem Schritt
 
-## 4. Random reinstarten ohne Company / Onboarding
+- Tiefe interaktive Widgets (à la `CompanyNameCheck` / `NotarFinder`) für die neuen Guides — die bestehenden Widgets greifen weiter nur in `gmbh-gruendung`. Falls du danach für z. B. „Restaurant" einen Konzessions-Helper willst, machen wir das in einem Folge-Schritt.
+- Keine neuen Kategorien in der Sidebar — bleibt aufgeräumt.
 
-Aktuell zwingt `AppLayout` jeden Nicht-Admin **erst durch Onboarding, dann durch Paywall**. Das blockt explorierendes Verhalten.
+## Ergebnis
 
-Änderungen in `src/layouts/AppLayout.tsx`:
-
-- **Onboarding** wird **optional**. Statt Redirect zeigen wir auf der Übersicht ein dismissable Banner "Profil vervollständigen → bessere Empfehlungen" mit Link auf `/onboarding`.
-- **Paywall** bleibt für gated Tools, aber: Übersicht, alle Guide-Detail-Seiten (Vorschau), Felix-Chat-Vorschau und die Suche sind **frei** zugänglich. Erst beim **Start eines Guides** oder **Öffnen eines Live-Tools** wird die Paywall gezeigt (wie heute, aber kontextuell).
-- Konkret: Redirect-Logik in AppLayout entfernt → ersetzt durch Lock-Overlays auf den jeweiligen Routen (Steuer-Cockpit, Wizard, Anbieter, Playbook-Run). Existierende `useAccess`-Checks dort beibehalten.
-
-## 5. Guide-Start-Flow
-
-`Playbooks.tsx` bekommt:
-- Filter-Chips oben (Alle · International · Rechtsform · Marken · Launch · Steuer)
-- Suchfeld (lokal, zusätzlich zur globalen)
-- Card-Layout wie auf der Übersicht, konsistent
-
-`PlaybookRun.tsx` bleibt funktional, bekommt aber ein konsistenteres Header-Design mit Fortschritts-Pill und "Zurück zur Übersicht".
-
-## 6. Inhalte / Use-Cases erweitern
-
-`src/data/playbooks.ts` erhält 3–4 zusätzliche Guides für mehr Breite:
-- **UG (haftungsbeschränkt) gründen** (Einsteiger-Variante GmbH)
-- **Kleinunternehmer-Regelung nutzen & wechseln** (DE-Steuer)
-- **Shopify-Brand launchen (DACH)** (Pendant zu FBA)
-- **Influencer / Creator: Erstes Setup** (Steuern, Rechtsform, Verträge)
-
-Die 7 bestehenden bleiben.
-
----
-
-## Technische Details
-
-**Neue Dateien**
-- `src/components/GlobalSearch.tsx` – ⌘K Command-Dialog
-- `src/components/dashboard/ContinueLearning.tsx` – laufende Runs
-- `src/components/dashboard/GuideCard.tsx` – wiederverwendbare Guide-Card
-- `src/hooks/useGuideStart.ts` – startet/sucht Run, navigiert (extrahiert aus `Playbooks.tsx`)
-
-**Geänderte Dateien**
-- `src/layouts/AppLayout.tsx` – Onboarding-Redirect entfernen, Paywall-Redirect entfernen
-- `src/components/AppSidebar.tsx` – neue Struktur (siehe oben)
-- `src/components/HeaderActions.tsx` – `GlobalSearch`-Trigger einbauen (links neben Bell)
-- `src/pages/Dashboard.tsx` – komplett neu im Kurs-Katalog-Stil
-- `src/pages/Playbooks.tsx` – Filter + Suche
-- `src/pages/SteuerCockpit.tsx`, `RechtsformWizard.tsx`, `Anbieter.tsx`, `PlaybookRun.tsx` – Lock-Overlay für nicht-zahlende User (kleiner Wrapper) statt Redirect
-- `src/data/playbooks.ts` – 3–4 neue Guides
-- `src/data/features.ts` – Status-Anpassung wo passend (z. B. `gmbh-gruendung` als Live verlinken auf Playbook)
-
-**Keine Datenbank-Änderungen.** `playbook_runs`-Tabelle wird bereits genutzt; "Weitermachen" liest einfach `status != 'completed'` für den User.
-
-**Stil:** bleibt strikt im bestehenden Token-System (`accent-blue`, `card`, `border`, `gradient-primary`, `shadow-soft/card/glow`) – keine neuen Farben.
+Nach dieser Änderung deckt die Plattform die **20 häufigsten Gründungs-Pfade in DACH** ab. Egal ob jemand „Restaurant aufmachen", „freiberuflich starten" oder „Immobilien-GmbH" sucht — über ⌘K landet er sofort im richtigen Guide.
