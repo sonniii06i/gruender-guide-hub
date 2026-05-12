@@ -36,15 +36,37 @@ interface FeesRequest {
 
 let cachedAccessToken: { token: string; expiresAt: number } | null = null;
 
+function describeSecret(name: string, value: string | undefined): {
+  name: string;
+  set: boolean;
+  length: number;
+  startsWith?: string;
+  endsWith?: string;
+  hasLeadingWs?: boolean;
+  hasTrailingWs?: boolean;
+} {
+  if (!value) return { name, set: false, length: 0 };
+  return {
+    name,
+    set: true,
+    length: value.length,
+    startsWith: value.slice(0, 6),
+    endsWith: value.slice(-4),
+    hasLeadingWs: value !== value.trimStart(),
+    hasTrailingWs: value !== value.trimEnd(),
+  };
+}
+
 async function getLwaAccessToken(): Promise<string> {
   // Cache 50min (token gilt 1h)
   if (cachedAccessToken && Date.now() < cachedAccessToken.expiresAt - 600_000) {
     return cachedAccessToken.token;
   }
 
-  const clientId = Deno.env.get("AMAZON_SP_LWA_CLIENT_ID");
-  const clientSecret = Deno.env.get("AMAZON_SP_LWA_CLIENT_SECRET");
-  const refreshToken = Deno.env.get("AMAZON_SP_REFRESH_TOKEN");
+  // Auto-trim Whitespace (häufigster Paste-Fehler)
+  const clientId = Deno.env.get("AMAZON_SP_LWA_CLIENT_ID")?.trim();
+  const clientSecret = Deno.env.get("AMAZON_SP_LWA_CLIENT_SECRET")?.trim();
+  const refreshToken = Deno.env.get("AMAZON_SP_REFRESH_TOKEN")?.trim();
 
   if (!clientId || !clientSecret || !refreshToken) {
     throw new Error(
@@ -65,7 +87,15 @@ async function getLwaAccessToken(): Promise<string> {
 
   if (!res.ok) {
     const errText = await res.text();
-    throw new Error(`LWA-Token-Exchange fehlgeschlagen (${res.status}): ${errText}`);
+    // Diagnostic Info MIT in Error packen (keine geheime Daten)
+    const diag = [
+      describeSecret("CLIENT_ID", Deno.env.get("AMAZON_SP_LWA_CLIENT_ID")),
+      describeSecret("CLIENT_SECRET", Deno.env.get("AMAZON_SP_LWA_CLIENT_SECRET")),
+      describeSecret("REFRESH_TOKEN", Deno.env.get("AMAZON_SP_REFRESH_TOKEN")),
+    ];
+    throw new Error(
+      `LWA-Token-Exchange fehlgeschlagen (${res.status}): ${errText} | Secret-Diagnostik: ${JSON.stringify(diag)}`,
+    );
   }
 
   const data = await res.json();
