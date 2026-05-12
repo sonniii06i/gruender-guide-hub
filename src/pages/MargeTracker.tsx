@@ -4,25 +4,41 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { TrendingUp, TrendingDown, Plus, Trash2, AlertTriangle, Loader2, RefreshCw, CheckCircle2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import {
+  calcMarketplaceFees,
+  getMarketplaceCategories,
+  type Marketplace,
+} from "@/lib/marketplaceFees";
 
 type Channel = "shopify" | "amazon-fba" | "amazon-fbm" | "ebay" | "kaufland" | "otto" | "etsy";
 
-const CHANNEL_INFO: Record<Channel, { name: string; emoji: string; defaultProvision: number; defaultPaymentFee: number; bemerkung: string }> = {
-  shopify: { name: "Shopify (eigener Shop)", emoji: "🛍️", defaultProvision: 0, defaultPaymentFee: 2.5, bemerkung: "Keine Marketplace-Provision · Payment-Fee 1,9–2,9 %" },
-  "amazon-fba": { name: "Amazon FBA", emoji: "📦", defaultProvision: 15, defaultPaymentFee: 0, bemerkung: "Verkaufsprovision 8–17 % · FBA-Pick&Pack separat" },
-  "amazon-fbm": { name: "Amazon FBM", emoji: "📮", defaultProvision: 15, defaultPaymentFee: 0, bemerkung: "Wie FBA aber Versand selbst — keine FBA-Pick&Pack" },
-  ebay: { name: "eBay", emoji: "🔨", defaultProvision: 12.55, defaultPaymentFee: 0, bemerkung: "11 % Endpreisvergebühr + 0,35 € pro Listing" },
-  kaufland: { name: "Kaufland.de", emoji: "🏪", defaultProvision: 10, defaultPaymentFee: 0, bemerkung: "Kategorie-abhängig 6–14 % · 39,95 €/Mon Pro" },
-  otto: { name: "Otto Marketplace", emoji: "🛒", defaultProvision: 14, defaultPaymentFee: 0, bemerkung: "Kategorie-abhängig 11–20 %" },
-  etsy: { name: "Etsy", emoji: "🎨", defaultProvision: 6.5, defaultPaymentFee: 4, bemerkung: "6,5 % Transaktion + 0,20 $ Listing + ~4 % Payment" },
+const CHANNEL_INFO: Record<Channel, { name: string; emoji: string; defaultProvision: number; defaultPaymentFee: number; bemerkung: string; supportsFeePull: boolean }> = {
+  shopify: { name: "Shopify (eigener Shop)", emoji: "🛍️", defaultProvision: 0, defaultPaymentFee: 2.5, bemerkung: "Keine Marketplace-Provision · Payment-Fee 1,9–2,9 % · Du versendest selbst (FBM-Style)", supportsFeePull: false },
+  "amazon-fba": { name: "Amazon FBA", emoji: "📦", defaultProvision: 15, defaultPaymentFee: 0, bemerkung: "Amazon übernimmt Versand + Customer-Service · Referral 8-17 % + FBA-Pick&Pack 2-10€ je nach Größe + ggf. Storage", supportsFeePull: true },
+  "amazon-fbm": { name: "Amazon FBM", emoji: "📮", defaultProvision: 15, defaultPaymentFee: 0, bemerkung: "Du versendest selbst · Nur Referral-Fee (KEINE FBA-Pick&Pack) · Versandkosten DHL/Hermes selbst tragen", supportsFeePull: true },
+  ebay: { name: "eBay", emoji: "🔨", defaultProvision: 12.55, defaultPaymentFee: 0, bemerkung: "Kategorie-abhängig 1-13 % EPV + 0,35 € pro Verkauf · Managed Payments inkl.", supportsFeePull: true },
+  kaufland: { name: "Kaufland.de", emoji: "🏪", defaultProvision: 10, defaultPaymentFee: 0, bemerkung: "Kategorie-abhängig 6-14 % + 0,30 € pro Verkauf · 39,95 €/Mon Pro-Account", supportsFeePull: true },
+  otto: { name: "Otto Marketplace", emoji: "🛒", defaultProvision: 14, defaultPaymentFee: 0, bemerkung: "Kategorie-abhängig 11-17 % · KEIN Closing-Fee · Versand selbst", supportsFeePull: true },
+  etsy: { name: "Etsy", emoji: "🎨", defaultProvision: 6.5, defaultPaymentFee: 4, bemerkung: "6,5 % Transaktion + 0,21€ Listing + 3 % Payment + 0,25€ fix · ggf. 15 % Offsite-Ads", supportsFeePull: true },
+};
+
+const CHANNEL_TO_MARKETPLACE: Partial<Record<Channel, Marketplace>> = {
+  kaufland: "kaufland",
+  otto: "otto",
+  ebay: "ebay",
+  etsy: "etsy",
 };
 
 type SkuData = {
   id: string;
   name: string;
   channel: Channel;
-  /** Amazon ASIN (10-stellig) — nur für amazon-fba / amazon-fbm Channels. */
+  /** EAN/GTIN (8-14 Ziffern) — Primär-Identifier für alle Marketplaces. */
+  ean?: string;
+  /** Amazon ASIN (10-stellig) — Fallback wenn EAN-Lookup fehlschlägt. */
   asin?: string;
+  /** Kategorie-Slug für Marketplace-Fee-Tabelle (Kaufland/Otto/eBay/Etsy). */
+  category?: string;
   /** Verkaufspreis netto. */
   vkNetto: number;
   /** Versandkosten an Kunde. */
@@ -49,6 +65,8 @@ type SkuData = {
 };
 
 type FeesEstimateResponse = {
+  asin?: string;
+  ean?: string;
   referralFee: number;
   fbaFees: number;
   variableClosingFee: number;
@@ -109,38 +127,68 @@ const MargeTracker = () => {
 
   const [pullingFees, setPullingFees] = useState<string | null>(null);
 
-  const pullAmazonFees = async (s: SkuData) => {
-    if (!s.asin || s.asin.length !== 10) {
-      updateSku(s.id, { feesPullError: "ASIN muss 10-stellig sein" });
-      return;
-    }
+  /** Holt echte Fees für alle Channels. Amazon via SP-API, andere via marketplaceFees-Lib. */
+  const pullFees = async (s: SkuData) => {
     if (!s.vkNetto || s.vkNetto <= 0) {
-      updateSku(s.id, { feesPullError: "VK netto muss > 0 sein" });
+      updateSku(s.id, { feesPullError: "VK brutto muss > 0 sein" });
       return;
     }
     setPullingFees(s.id);
     updateSku(s.id, { feesPullError: undefined });
     try {
-      const { data, error } = await supabase.functions.invoke<FeesEstimateResponse>(
-        "amazon-fees-estimate",
-        {
-          body: {
-            asin: s.asin.toUpperCase(),
-            priceNetto: s.vkNetto,
-            currency: "EUR",
-            marketplace: "DE",
-            isAmazonFulfilled: s.channel === "amazon-fba",
-          },
-        },
-      );
-      if (error) throw new Error(error.message);
-      if (!data) throw new Error("Leere Response");
-      if (data.error) throw new Error(data.error);
-
-      // Berechne neue Werte
       const vkBrutto = s.vkNetto * 1.19;
-      const newProvisionPct = vkBrutto > 0 ? (data.referralFee / vkBrutto) * 100 : 0;
-      const newFulfilment = data.fbaFees + data.variableClosingFee + data.perItemFee;
+
+      // Amazon: SP-API
+      if (s.channel === "amazon-fba" || s.channel === "amazon-fbm") {
+        const hasAsin = s.asin && s.asin.length === 10;
+        const hasEan = s.ean && /^[0-9]{8,14}$/.test(s.ean);
+        if (!hasAsin && !hasEan) {
+          throw new Error("EAN (8-14 Ziffern) oder ASIN (10-stellig) erforderlich");
+        }
+        const { data, error } = await supabase.functions.invoke<FeesEstimateResponse>(
+          "amazon-fees-estimate",
+          {
+            body: {
+              asin: hasAsin ? s.asin!.toUpperCase() : undefined,
+              ean: hasEan ? s.ean : undefined,
+              priceBrutto: vkBrutto,
+              currency: "EUR",
+              marketplace: "DE",
+              isAmazonFulfilled: s.channel === "amazon-fba",
+            },
+          },
+        );
+        if (error) throw new Error(error.message);
+        if (!data) throw new Error("Leere Response");
+        if (data.error) throw new Error(data.error);
+
+        const newProvisionPct = vkBrutto > 0 ? (data.referralFee / vkBrutto) * 100 : 0;
+        // FBM: keine FBA-Fees → 0
+        const newFulfilment = s.channel === "amazon-fba"
+          ? data.fbaFees + data.variableClosingFee + data.perItemFee
+          : data.variableClosingFee + data.perItemFee;
+
+        updateSku(s.id, {
+          asin: data.asin || s.asin,
+          provisionPct: Number(newProvisionPct.toFixed(2)),
+          fulfilmentPerUnit: Number(newFulfilment.toFixed(2)),
+          feesPulledAt: new Date().toISOString(),
+          feesPullError: undefined,
+        });
+        return;
+      }
+
+      // Andere Marketplaces: lokale Lib
+      const marketplace = CHANNEL_TO_MARKETPLACE[s.channel];
+      if (!marketplace) {
+        throw new Error(`Kein Fee-Calculator für Channel ${s.channel}`);
+      }
+      if (!s.category) {
+        throw new Error("Kategorie wählen für Fee-Berechnung");
+      }
+      const fees = calcMarketplaceFees(marketplace, vkBrutto, s.category);
+      const newProvisionPct = vkBrutto > 0 ? ((fees.provision + fees.paymentFee + fees.offsiteAdsFee) / vkBrutto) * 100 : 0;
+      const newFulfilment = fees.closingFee;
 
       updateSku(s.id, {
         provisionPct: Number(newProvisionPct.toFixed(2)),
@@ -340,25 +388,80 @@ const MargeTracker = () => {
 
               <div className="text-[10px] text-muted-foreground italic mb-3">{ch.bemerkung}</div>
 
-              {(s.channel === "amazon-fba" || s.channel === "amazon-fbm") && (
+              {ch.supportsFeePull && (
                 <div className="rounded-xl border border-accent-blue/30 bg-accent-blue/5 p-3 mb-3">
                   <div className="flex items-start gap-2 flex-wrap">
-                    <div className="flex-1 min-w-[180px]">
-                      <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">
-                        ASIN (10-stellig)
-                      </Label>
-                      <Input
-                        value={s.asin || ""}
-                        onChange={(e) => updateSku(s.id, { asin: e.target.value.toUpperCase(), feesPullError: undefined })}
-                        placeholder="B0XXXXXXXX"
-                        maxLength={10}
-                        className="h-8 mt-1 font-mono text-xs uppercase"
-                      />
-                    </div>
+                    {(s.channel === "amazon-fba" || s.channel === "amazon-fbm") && (
+                      <>
+                        <div className="flex-1 min-w-[140px]">
+                          <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                            EAN/GTIN (Primär)
+                          </Label>
+                          <Input
+                            value={s.ean || ""}
+                            onChange={(e) =>
+                              updateSku(s.id, { ean: e.target.value.replace(/\D/g, ""), feesPullError: undefined })
+                            }
+                            placeholder="4012345678901"
+                            maxLength={14}
+                            className="h-8 mt-1 font-mono text-xs"
+                          />
+                        </div>
+                        <div className="flex-1 min-w-[140px]">
+                          <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                            oder ASIN (Fallback)
+                          </Label>
+                          <Input
+                            value={s.asin || ""}
+                            onChange={(e) =>
+                              updateSku(s.id, { asin: e.target.value.toUpperCase(), feesPullError: undefined })
+                            }
+                            placeholder="B0XXXXXXXX"
+                            maxLength={10}
+                            className="h-8 mt-1 font-mono text-xs uppercase"
+                          />
+                        </div>
+                      </>
+                    )}
+                    {CHANNEL_TO_MARKETPLACE[s.channel] && (
+                      <>
+                        <div className="flex-1 min-w-[140px]">
+                          <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                            EAN/GTIN (optional)
+                          </Label>
+                          <Input
+                            value={s.ean || ""}
+                            onChange={(e) =>
+                              updateSku(s.id, { ean: e.target.value.replace(/\D/g, ""), feesPullError: undefined })
+                            }
+                            placeholder="4012345678901"
+                            maxLength={14}
+                            className="h-8 mt-1 font-mono text-xs"
+                          />
+                        </div>
+                        <div className="flex-1 min-w-[180px]">
+                          <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                            Kategorie (für Fee-Lookup)
+                          </Label>
+                          <select
+                            value={s.category || ""}
+                            onChange={(e) => updateSku(s.id, { category: e.target.value, feesPullError: undefined })}
+                            className="h-8 mt-1 w-full rounded-md border border-input bg-background px-2 text-xs"
+                          >
+                            <option value="">— wählen —</option>
+                            {getMarketplaceCategories(CHANNEL_TO_MARKETPLACE[s.channel]!).map((c) => (
+                              <option key={c.slug} value={c.slug}>
+                                {c.label} ({c.provisionPct} %)
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      </>
+                    )}
                     <div className="shrink-0 pt-5">
                       <button
-                        onClick={() => pullAmazonFees(s)}
-                        disabled={pullingFees === s.id || !s.asin || s.asin.length !== 10 || !s.vkNetto}
+                        onClick={() => pullFees(s)}
+                        disabled={pullingFees === s.id || !s.vkNetto}
                         className="inline-flex items-center gap-1 rounded-lg bg-accent-blue text-primary-foreground px-3 py-2 text-xs font-semibold hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         {pullingFees === s.id ? (
@@ -372,8 +475,8 @@ const MargeTracker = () => {
                     {s.feesPulledAt && !s.feesPullError && (
                       <div className="basis-full text-[10px] text-emerald-700 flex items-center gap-1">
                         <CheckCircle2 className="h-3 w-3" />
-                        Fees aktualisiert {new Date(s.feesPulledAt).toLocaleString("de-DE")} —
-                        Provision + FBA-Fees aus SP-API
+                        Fees aktualisiert {new Date(s.feesPulledAt).toLocaleString("de-DE")}
+                        {s.asin ? ` · ASIN ${s.asin}` : ""}
                       </div>
                     )}
                     {s.feesPullError && (

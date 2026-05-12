@@ -27,8 +27,10 @@ const MARKETPLACE_IDS: Record<string, string> = {
 };
 
 interface FeesRequest {
-  asin: string;
-  priceNetto: number;
+  asin?: string;
+  ean?: string;
+  priceBrutto?: number;
+  priceNetto?: number;
   currency?: string;
   marketplace?: string;
   isAmazonFulfilled?: boolean;
@@ -112,7 +114,32 @@ function pickEndpoint(marketplace: string): string {
   return SP_API_ENDPOINT_EU;
 }
 
-async function fetchFeesEstimate(req: FeesRequest): Promise<unknown> {
+async function lookupAsinByEan(ean: string, marketplaceId: string, endpoint: string): Promise<string> {
+  const accessToken = await getLwaAccessToken();
+  const url = `${endpoint}/catalog/2022-04-01/items?identifiers=${encodeURIComponent(ean)}&identifiersType=EAN&marketplaceIds=${marketplaceId}`;
+
+  const res = await fetch(url, {
+    method: "GET",
+    headers: {
+      "x-amz-access-token": accessToken,
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!res.ok) {
+    const errText = await res.text();
+    throw new Error(`EAN-Lookup fehlgeschlagen (${res.status}): ${errText}`);
+  }
+
+  const data = await res.json();
+  const items = data.items || [];
+  if (items.length === 0) {
+    throw new Error(`Keine ASIN gefunden für EAN ${ean} im Marketplace`);
+  }
+  return items[0].asin as string;
+}
+
+async function fetchFeesEstimate(req: FeesRequest, asin: string): Promise<unknown> {
   const accessToken = await getLwaAccessToken();
   const marketplace = (req.marketplace || "DE").toUpperCase();
   const marketplaceId = MARKETPLACE_IDS[marketplace];
@@ -121,7 +148,10 @@ async function fetchFeesEstimate(req: FeesRequest): Promise<unknown> {
   }
 
   const endpoint = pickEndpoint(marketplace);
-  const url = `${endpoint}/products/fees/v0/items/${encodeURIComponent(req.asin)}/feesEstimate`;
+  const url = `${endpoint}/products/fees/v0/items/${encodeURIComponent(asin)}/feesEstimate`;
+
+  // Brutto-Preis: bevorzugt priceBrutto, sonst priceNetto * 1.19
+  const priceBrutto = req.priceBrutto ?? (req.priceNetto ? req.priceNetto * 1.19 : 0);
 
   const body = {
     FeesEstimateRequest: {
@@ -130,7 +160,7 @@ async function fetchFeesEstimate(req: FeesRequest): Promise<unknown> {
       PriceToEstimateFees: {
         ListingPrice: {
           CurrencyCode: req.currency || "EUR",
-          Amount: req.priceNetto * 1.19, // SP-API erwartet Brutto-Preis (Listing-Price)
+          Amount: priceBrutto,
         },
       },
       Identifier: crypto.randomUUID(),
@@ -156,6 +186,8 @@ async function fetchFeesEstimate(req: FeesRequest): Promise<unknown> {
 }
 
 interface ParsedFees {
+  asin: string;
+  ean?: string;
   referralFee: number;
   fbaFees: number;
   variableClosingFee: number;
@@ -166,7 +198,7 @@ interface ParsedFees {
   warning?: string;
 }
 
-function parseFeesResponse(raw: any): ParsedFees {
+function parseFeesResponse(raw: any, asin: string, ean?: string): ParsedFees {
   const result = raw?.payload?.FeesEstimateResult;
   if (!result) throw new Error("Unerwartete SP-API-Response (kein FeesEstimateResult)");
 
@@ -205,6 +237,8 @@ function parseFeesResponse(raw: any): ParsedFees {
   }
 
   return {
+    asin,
+    ean,
     referralFee,
     fbaFees,
     variableClosingFee,
@@ -230,21 +264,41 @@ serve(async (req) => {
 
     const body = (await req.json()) as FeesRequest;
 
-    if (!body.asin || typeof body.asin !== "string" || body.asin.length !== 10) {
-      return new Response(JSON.stringify({ error: "ASIN ungültig (muss 10-stellig sein)" }), {
-        status: 400,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    }
-    if (!body.priceNetto || body.priceNetto <= 0) {
-      return new Response(JSON.stringify({ error: "priceNetto muss > 0 sein" }), {
+    // ASIN ODER EAN Pflicht
+    const hasAsin = body.asin && typeof body.asin === "string" && body.asin.length === 10;
+    const hasEan = body.ean && typeof body.ean === "string" && /^[0-9]{8,14}$/.test(body.ean);
+    if (!hasAsin && !hasEan) {
+      return new Response(JSON.stringify({ error: "ASIN (10-stellig) oder EAN (8-14 Ziffern) erforderlich" }), {
         status: 400,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
-    const raw = await fetchFeesEstimate(body);
-    const parsed = parseFeesResponse(raw);
+    const price = body.priceBrutto ?? (body.priceNetto ? body.priceNetto * 1.19 : 0);
+    if (price <= 0) {
+      return new Response(JSON.stringify({ error: "priceBrutto oder priceNetto muss > 0 sein" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    // Wenn EAN gegeben aber keine ASIN: erst EAN→ASIN lookup
+    let asin = body.asin || "";
+    if (!hasAsin && hasEan) {
+      const marketplace = (body.marketplace || "DE").toUpperCase();
+      const marketplaceId = MARKETPLACE_IDS[marketplace];
+      if (!marketplaceId) {
+        return new Response(JSON.stringify({ error: `Unbekannter Marketplace: ${marketplace}` }), {
+          status: 400,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+      const endpoint = pickEndpoint(marketplace);
+      asin = await lookupAsinByEan(body.ean!, marketplaceId, endpoint);
+    }
+
+    const raw = await fetchFeesEstimate(body, asin);
+    const parsed = parseFeesResponse(raw, asin, body.ean);
 
     return new Response(JSON.stringify(parsed), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
