@@ -382,14 +382,50 @@ const MargeTracker = () => {
               )}
 
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2 text-xs mb-3">
-                <Field label="VK netto" value={s.vkNetto} onChange={(v) => updateSku(s.id, { vkNetto: v })} suffix="€" />
+                <div>
+                  <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                    VK brutto € <span className="normal-case text-muted-foreground/60">(= Listing Price)</span>
+                  </Label>
+                  <Input
+                    type="number"
+                    step="0.01"
+                    value={s.vkNetto ? (s.vkNetto * 1.19).toFixed(2) : ""}
+                    onChange={(e) => {
+                      const brutto = Math.max(0, Number(e.target.value) || 0);
+                      updateSku(s.id, { vkNetto: brutto / 1.19 });
+                    }}
+                    placeholder="0,00"
+                    className="h-8 text-right text-xs mt-1"
+                  />
+                  <div className="text-[9px] text-muted-foreground/70 mt-0.5 text-right">
+                    netto: {s.vkNetto.toFixed(2)} €
+                  </div>
+                </div>
                 <Field
                   label="Versand v. Kunde netto"
                   value={s.versandKundeNetto}
                   onChange={(v) => updateSku(s.id, { versandKundeNetto: v })}
                   suffix="€"
                 />
-                <Field label="COGS" value={s.cogs} onChange={(v) => updateSku(s.id, { cogs: v })} suffix="€" />
+                <div>
+                  <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                    EK brutto € <span className="normal-case text-muted-foreground/60">(Cost Price)</span>
+                  </Label>
+                  <Input
+                    type="number"
+                    step="0.01"
+                    value={s.cogs ? (s.cogs * 1.19).toFixed(2) : ""}
+                    onChange={(e) => {
+                      const brutto = Math.max(0, Number(e.target.value) || 0);
+                      updateSku(s.id, { cogs: brutto / 1.19 });
+                    }}
+                    placeholder="0,00"
+                    className="h-8 text-right text-xs mt-1"
+                  />
+                  <div className="text-[9px] text-muted-foreground/70 mt-0.5 text-right">
+                    netto: {s.cogs.toFixed(2)} €
+                  </div>
+                </div>
                 <Field
                   label="Versand-K (du)"
                   value={s.versandKostenNetto}
