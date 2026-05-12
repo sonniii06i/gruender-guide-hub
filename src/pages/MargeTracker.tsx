@@ -165,7 +165,8 @@ const MargeTracker = () => {
     const margeBrutto = s.vkNetto - totalKosten;
     const retoureLast = s.vkNetto * (s.retourenPct / 100);
     const margeNetto = margeBrutto - retoureLast;
-    const margePct = s.vkNetto > 0 ? (margeNetto / s.vkNetto) * 100 : 0;
+    // Brutto-Marge = Profit ÷ VK_brutto (Standard für Reseller, wie SAS/Helium10)
+    const margePct = vkBrutto > 0 ? (margeNetto / vkBrutto) * 100 : 0;
     const ROAS = s.werbungPerUnit > 0 ? s.vkNetto / s.werbungPerUnit : 0;
     return {
       vkBrutto,
@@ -180,32 +181,36 @@ const MargeTracker = () => {
     };
   };
 
-  // Aggregat
+  // Aggregat (Brutto-Marge wie SAS/Helium10)
   const aggregat = useMemo(() => {
-    let totalVk = 0;
+    let totalVkBrutto = 0;
+    let totalVkNetto = 0;
     let totalKosten = 0;
     let totalMarge = 0;
     skus.forEach((s) => {
       const c = calcSku(s);
-      totalVk += s.vkNetto;
+      totalVkBrutto += c.vkBrutto;
+      totalVkNetto += s.vkNetto;
       totalKosten += c.totalKosten;
       totalMarge += c.margeNetto;
     });
     return {
-      totalVk,
+      totalVk: totalVkNetto,
+      totalVkBrutto,
       totalKosten,
       totalMarge,
-      avgMargePct: totalVk > 0 ? (totalMarge / totalVk) * 100 : 0,
+      avgMargePct: totalVkBrutto > 0 ? (totalMarge / totalVkBrutto) * 100 : 0,
     };
   }, [skus]);
 
   const channelGroup = useMemo(() => {
-    const groups: Record<Channel, { count: number; vk: number; marge: number }> = {} as never;
+    const groups: Record<Channel, { count: number; vk: number; vkBrutto: number; marge: number }> = {} as never;
     skus.forEach((s) => {
       const c = calcSku(s);
-      if (!groups[s.channel]) groups[s.channel] = { count: 0, vk: 0, marge: 0 };
+      if (!groups[s.channel]) groups[s.channel] = { count: 0, vk: 0, vkBrutto: 0, marge: 0 };
       groups[s.channel].count++;
       groups[s.channel].vk += s.vkNetto;
+      groups[s.channel].vkBrutto += c.vkBrutto;
       groups[s.channel].marge += c.margeNetto;
     });
     return groups;
@@ -249,7 +254,7 @@ const MargeTracker = () => {
           <h3 className="font-bold text-sm mb-3">Channel-Aufsplittung</h3>
           <div className="space-y-2 text-sm">
             {(Object.entries(channelGroup) as [Channel, typeof channelGroup[Channel]][]).map(([ch, g]) => {
-              const margePct = g.vk > 0 ? (g.marge / g.vk) * 100 : 0;
+              const margePct = g.vkBrutto > 0 ? (g.marge / g.vkBrutto) * 100 : 0;
               return (
                 <div key={ch} className="flex items-center justify-between gap-3 rounded-lg bg-secondary/40 p-3">
                   <div className="flex items-center gap-2">
