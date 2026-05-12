@@ -32,3 +32,6 @@ verify_jwt = false
 
 [functions.enhance-text]
 verify_jwt = false
+
+[functions.amazon-fees-estimate]
+verify_jwt = false

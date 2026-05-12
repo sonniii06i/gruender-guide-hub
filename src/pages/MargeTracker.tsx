@@ -2,7 +2,8 @@ import { useState, useMemo } from "react";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { TrendingUp, TrendingDown, Plus, Trash2, AlertTriangle } from "lucide-react";
+import { TrendingUp, TrendingDown, Plus, Trash2, AlertTriangle, Loader2, RefreshCw, CheckCircle2 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 type Channel = "shopify" | "amazon-fba" | "amazon-fbm" | "ebay" | "kaufland" | "otto" | "etsy";
 
@@ -20,6 +21,8 @@ type SkuData = {
   id: string;
   name: string;
   channel: Channel;
+  /** Amazon ASIN (10-stellig) — nur für amazon-fba / amazon-fbm Channels. */
+  asin?: string;
   /** Verkaufspreis netto. */
   vkNetto: number;
   /** Versandkosten an Kunde. */
@@ -40,6 +43,20 @@ type SkuData = {
   werbungPerUnit: number;
   /** Retoure-Quote in %. */
   retourenPct: number;
+  /** Status für SP-API-Fee-Pull. */
+  feesPulledAt?: string;
+  feesPullError?: string;
+};
+
+type FeesEstimateResponse = {
+  referralFee: number;
+  fbaFees: number;
+  variableClosingFee: number;
+  perItemFee: number;
+  totalFees: number;
+  currency: string;
+  feeDetails: Array<{ type: string; amount: number; included?: Array<{ type: string; amount: number }> }>;
+  error?: string;
 };
 
 const MargeTracker = () => {
@@ -88,6 +105,55 @@ const MargeTracker = () => {
   const updateChannel = (id: string, channel: Channel) => {
     const info = CHANNEL_INFO[channel];
     updateSku(id, { channel, provisionPct: info.defaultProvision, paymentFeePct: info.defaultPaymentFee });
+  };
+
+  const [pullingFees, setPullingFees] = useState<string | null>(null);
+
+  const pullAmazonFees = async (s: SkuData) => {
+    if (!s.asin || s.asin.length !== 10) {
+      updateSku(s.id, { feesPullError: "ASIN muss 10-stellig sein" });
+      return;
+    }
+    if (!s.vkNetto || s.vkNetto <= 0) {
+      updateSku(s.id, { feesPullError: "VK netto muss > 0 sein" });
+      return;
+    }
+    setPullingFees(s.id);
+    updateSku(s.id, { feesPullError: undefined });
+    try {
+      const { data, error } = await supabase.functions.invoke<FeesEstimateResponse>(
+        "amazon-fees-estimate",
+        {
+          body: {
+            asin: s.asin.toUpperCase(),
+            priceNetto: s.vkNetto,
+            currency: "EUR",
+            marketplace: "DE",
+            isAmazonFulfilled: s.channel === "amazon-fba",
+          },
+        },
+      );
+      if (error) throw new Error(error.message);
+      if (!data) throw new Error("Leere Response");
+      if (data.error) throw new Error(data.error);
+
+      // Berechne neue Werte
+      const vkBrutto = s.vkNetto * 1.19;
+      const newProvisionPct = vkBrutto > 0 ? (data.referralFee / vkBrutto) * 100 : 0;
+      const newFulfilment = data.fbaFees + data.variableClosingFee + data.perItemFee;
+
+      updateSku(s.id, {
+        provisionPct: Number(newProvisionPct.toFixed(2)),
+        fulfilmentPerUnit: Number(newFulfilment.toFixed(2)),
+        feesPulledAt: new Date().toISOString(),
+        feesPullError: undefined,
+      });
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e);
+      updateSku(s.id, { feesPullError: msg });
+    } finally {
+      setPullingFees(null);
+    }
   };
 
   const calcSku = (s: SkuData) => {
@@ -268,6 +334,52 @@ const MargeTracker = () => {
               </div>
 
               <div className="text-[10px] text-muted-foreground italic mb-3">{ch.bemerkung}</div>
+
+              {(s.channel === "amazon-fba" || s.channel === "amazon-fbm") && (
+                <div className="rounded-xl border border-accent-blue/30 bg-accent-blue/5 p-3 mb-3">
+                  <div className="flex items-start gap-2 flex-wrap">
+                    <div className="flex-1 min-w-[180px]">
+                      <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                        ASIN (10-stellig)
+                      </Label>
+                      <Input
+                        value={s.asin || ""}
+                        onChange={(e) => updateSku(s.id, { asin: e.target.value.toUpperCase(), feesPullError: undefined })}
+                        placeholder="B0XXXXXXXX"
+                        maxLength={10}
+                        className="h-8 mt-1 font-mono text-xs uppercase"
+                      />
+                    </div>
+                    <div className="shrink-0 pt-5">
+                      <button
+                        onClick={() => pullAmazonFees(s)}
+                        disabled={pullingFees === s.id || !s.asin || s.asin.length !== 10 || !s.vkNetto}
+                        className="inline-flex items-center gap-1 rounded-lg bg-accent-blue text-primary-foreground px-3 py-2 text-xs font-semibold hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        {pullingFees === s.id ? (
+                          <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                        ) : (
+                          <RefreshCw className="h-3.5 w-3.5" />
+                        )}
+                        Echte Fees ziehen
+                      </button>
+                    </div>
+                    {s.feesPulledAt && !s.feesPullError && (
+                      <div className="basis-full text-[10px] text-emerald-700 flex items-center gap-1">
+                        <CheckCircle2 className="h-3 w-3" />
+                        Fees aktualisiert {new Date(s.feesPulledAt).toLocaleString("de-DE")} —
+                        Provision + FBA-Fees aus SP-API
+                      </div>
+                    )}
+                    {s.feesPullError && (
+                      <div className="basis-full text-[10px] text-red-700 flex items-center gap-1">
+                        <AlertTriangle className="h-3 w-3" />
+                        {s.feesPullError}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
 
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2 text-xs mb-3">
                 <Field label="VK netto" value={s.vkNetto} onChange={(v) => updateSku(s.id, { vkNetto: v })} suffix="€" />
