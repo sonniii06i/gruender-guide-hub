@@ -12,14 +12,27 @@ import {
 
 type Channel = "shopify" | "amazon-fba" | "amazon-fbm" | "ebay" | "kaufland" | "otto" | "etsy";
 
-const CHANNEL_INFO: Record<Channel, { name: string; emoji: string; defaultProvision: number; defaultPaymentFee: number; bemerkung: string; supportsFeePull: boolean }> = {
-  shopify: { name: "Shopify (eigener Shop)", emoji: "🛍️", defaultProvision: 0, defaultPaymentFee: 2.5, bemerkung: "Keine Marketplace-Provision · Payment-Fee 1,9–2,9 % · Du versendest selbst (FBM-Style)", supportsFeePull: false },
-  "amazon-fba": { name: "Amazon FBA", emoji: "📦", defaultProvision: 15, defaultPaymentFee: 0, bemerkung: "Amazon übernimmt Versand + Customer-Service · Referral 8-17 % + FBA-Pick&Pack 2-10€ je nach Größe + ggf. Storage", supportsFeePull: true },
-  "amazon-fbm": { name: "Amazon FBM", emoji: "📮", defaultProvision: 15, defaultPaymentFee: 0, bemerkung: "Du versendest selbst · Nur Referral-Fee (KEINE FBA-Pick&Pack) · Versandkosten DHL/Hermes selbst tragen", supportsFeePull: true },
-  ebay: { name: "eBay", emoji: "🔨", defaultProvision: 12.55, defaultPaymentFee: 0, bemerkung: "Kategorie-abhängig 1-13 % EPV + 0,35 € pro Verkauf · Managed Payments inkl.", supportsFeePull: true },
-  kaufland: { name: "Kaufland.de", emoji: "🏪", defaultProvision: 10, defaultPaymentFee: 0, bemerkung: "Kategorie-abhängig 6-14 % + 0,30 € pro Verkauf · 39,95 €/Mon Pro-Account", supportsFeePull: true },
-  otto: { name: "Otto Marketplace", emoji: "🛒", defaultProvision: 14, defaultPaymentFee: 0, bemerkung: "Kategorie-abhängig 11-17 % · KEIN Closing-Fee · Versand selbst", supportsFeePull: true },
-  etsy: { name: "Etsy", emoji: "🎨", defaultProvision: 6.5, defaultPaymentFee: 4, bemerkung: "6,5 % Transaktion + 0,21€ Listing + 3 % Payment + 0,25€ fix · ggf. 15 % Offsite-Ads", supportsFeePull: true },
+/**
+ * Channel-Defaults inkl. Versand-Annahme (DHL Geschäftskunden 2026).
+ * `defaultShipping` = €/Order Versandkosten die Seller selbst trägt (0 bei FBA).
+ */
+const CHANNEL_INFO: Record<Channel, {
+  name: string;
+  emoji: string;
+  defaultProvision: number;
+  defaultPaymentFee: number;
+  defaultShipping: number;
+  bemerkung: string;
+  supportsFeePull: boolean;
+  isOwnShop: boolean;
+}> = {
+  shopify: { name: "Shopify (eigener Shop)", emoji: "🛍️", defaultProvision: 0, defaultPaymentFee: 2.5, defaultShipping: 4.5, bemerkung: "Eigener Shop · Payment-Fee 1,9–2,9 % · Du versendest selbst · zusätzlich: Affiliate, Preisvergleich (Idealo/Google Shopping), Tools", supportsFeePull: false, isOwnShop: true },
+  "amazon-fba": { name: "Amazon FBA", emoji: "📦", defaultProvision: 15, defaultPaymentFee: 0, defaultShipping: 0, bemerkung: "Amazon übernimmt Versand + Customer-Service · Referral 8-17 % + FBA-Pick&Pack 2-10€", supportsFeePull: true, isOwnShop: false },
+  "amazon-fbm": { name: "Amazon FBM", emoji: "📮", defaultProvision: 15, defaultPaymentFee: 0, defaultShipping: 4.5, bemerkung: "Du versendest selbst · Nur Referral-Fee · DHL/Hermes ~4-6€/Order", supportsFeePull: true, isOwnShop: false },
+  ebay: { name: "eBay", emoji: "🔨", defaultProvision: 12.55, defaultPaymentFee: 0, defaultShipping: 4.5, bemerkung: "Kategorie-abhängig 1-13 % EPV + 0,35 €/Verkauf · Versand selbst · Managed Payments inkl.", supportsFeePull: true, isOwnShop: false },
+  kaufland: { name: "Kaufland.de", emoji: "🏪", defaultProvision: 10, defaultPaymentFee: 0, defaultShipping: 4.5, bemerkung: "Kategorie 6-14 % + 0,30 €/Verkauf · Versand selbst (KFS optional) · 39,95 €/Mon Pro-Account", supportsFeePull: true, isOwnShop: false },
+  otto: { name: "Otto Marketplace", emoji: "🛒", defaultProvision: 14, defaultPaymentFee: 0, defaultShipping: 5.5, bemerkung: "Kategorie 11-17 % · Versand selbst (Otto erwartet Premium-Versand ~5-7€)", supportsFeePull: true, isOwnShop: false },
+  etsy: { name: "Etsy", emoji: "🎨", defaultProvision: 6.5, defaultPaymentFee: 4, defaultShipping: 5.5, bemerkung: "6,5 % + 0,21€ Listing + 3 % Payment + 0,25€ fix · Versand selbst · ggf. 15 % Offsite-Ads", supportsFeePull: true, isOwnShop: false },
 };
 
 const CHANNEL_TO_MARKETPLACE: Partial<Record<Channel, Marketplace>> = {
@@ -59,6 +72,14 @@ type SkuData = {
   werbungPerUnit: number;
   /** Retoure-Quote in %. */
   retourenPct: number;
+  /** Affiliate-Kommission in % vom VK brutto (nur eigener Shop). */
+  affiliatePct: number;
+  /** Preisvergleich CPC (€ pro Klick, z.B. Idealo 0,40-0,60€). */
+  preisvergleichCpc: number;
+  /** Preisvergleich Klick-to-Sale-Conversion in % (typisch 3-8 %). */
+  preisvergleichConversionPct: number;
+  /** Sonstige Gebühren pro Verkauf (€/Stück) — Catch-All. */
+  sonstigeGebuehren: number;
   /** Status für SP-API-Fee-Pull. */
   feesPulledAt?: string;
   feesPullError?: string;
@@ -93,11 +114,16 @@ const MargeTracker = () => {
       fulfilmentPerUnit: 3.5,
       werbungPerUnit: 2,
       retourenPct: 8,
+      affiliatePct: 0,
+      preisvergleichCpc: 0,
+      preisvergleichConversionPct: 5,
+      sonstigeGebuehren: 0,
     },
   ]);
 
   const addSku = () => {
     const ch = "amazon-fba" as Channel;
+    const info = CHANNEL_INFO[ch];
     setSkus([
       ...skus,
       {
@@ -107,13 +133,17 @@ const MargeTracker = () => {
         vkNetto: 0,
         versandKundeNetto: 0,
         cogs: 0,
-        versandKostenNetto: 0,
+        versandKostenNetto: info.defaultShipping,
         verpackung: 0,
-        provisionPct: CHANNEL_INFO[ch].defaultProvision,
-        paymentFeePct: CHANNEL_INFO[ch].defaultPaymentFee,
+        provisionPct: info.defaultProvision,
+        paymentFeePct: info.defaultPaymentFee,
         fulfilmentPerUnit: 0,
         werbungPerUnit: 0,
         retourenPct: 0,
+        affiliatePct: 0,
+        preisvergleichCpc: 0,
+        preisvergleichConversionPct: 5,
+        sonstigeGebuehren: 0,
       },
     ]);
   };
@@ -122,7 +152,12 @@ const MargeTracker = () => {
   const updateSku = (id: string, patch: Partial<SkuData>) => setSkus(skus.map((s) => (s.id === id ? { ...s, ...patch } : s)));
   const updateChannel = (id: string, channel: Channel) => {
     const info = CHANNEL_INFO[channel];
-    updateSku(id, { channel, provisionPct: info.defaultProvision, paymentFeePct: info.defaultPaymentFee });
+    updateSku(id, {
+      channel,
+      provisionPct: info.defaultProvision,
+      paymentFeePct: info.defaultPaymentFee,
+      versandKostenNetto: info.defaultShipping,
+    });
   };
 
   const [pullingFees, setPullingFees] = useState<string | null>(null);
@@ -208,11 +243,35 @@ const MargeTracker = () => {
     const vkBrutto = (s.vkNetto + s.versandKundeNetto) * 1.19; // 19% USt
     const provision = (vkBrutto * s.provisionPct) / 100;
     const paymentFee = (vkBrutto * s.paymentFeePct) / 100;
+    const affiliateFee = (vkBrutto * s.affiliatePct) / 100;
+    // Preisvergleich: CPC × Clicks-pro-Sale (= 100 ÷ Conversion%)
+    const preisvergleichFeePerSale =
+      s.preisvergleichConversionPct > 0
+        ? (s.preisvergleichCpc * 100) / s.preisvergleichConversionPct
+        : 0;
     const totalKosten =
-      s.cogs + s.versandKostenNetto + s.verpackung + provision + paymentFee + s.fulfilmentPerUnit + s.werbungPerUnit;
-    const margeBrutto = s.vkNetto - totalKosten;
-    const retoureLast = s.vkNetto * (s.retourenPct / 100);
-    const margeNetto = margeBrutto - retoureLast;
+      s.cogs +
+      s.versandKostenNetto +
+      s.verpackung +
+      provision +
+      paymentFee +
+      s.fulfilmentPerUnit +
+      s.werbungPerUnit +
+      affiliateFee +
+      preisvergleichFeePerSale +
+      s.sonstigeGebuehren;
+    const margeVorRetoure = s.vkNetto - totalKosten;
+
+    // Retoure-Last realistisch:
+    // - 100% VK-Erlös zurück
+    // - Versandkosten Hin+Zurück (1,5x Versand)
+    // - Restocking-Aufwand 1€/Stück (pauschal)
+    // - Bei FBA: zusätzlich Returns-Processing-Fee (~50% von FBA-Pick&Pack)
+    const retoureKostenProRetoure =
+      s.vkNetto + s.versandKostenNetto * 1.5 + 1 + (s.channel === "amazon-fba" ? s.fulfilmentPerUnit * 0.5 : 0);
+    const retoureLast = retoureKostenProRetoure * (s.retourenPct / 100);
+    const margeNetto = margeVorRetoure - retoureLast;
+
     // Brutto-Marge = Profit ÷ VK_brutto (Standard für Reseller, wie SAS/Helium10)
     const margePct = vkBrutto > 0 ? (margeNetto / vkBrutto) * 100 : 0;
     const ROAS = s.werbungPerUnit > 0 ? s.vkNetto / s.werbungPerUnit : 0;
@@ -220,8 +279,10 @@ const MargeTracker = () => {
       vkBrutto,
       provision,
       paymentFee,
+      affiliateFee,
+      preisvergleichFeePerSale,
       totalKosten,
-      margeBrutto,
+      margeBrutto: margeVorRetoure,
       margeNetto,
       margePct,
       ROAS,
@@ -578,15 +639,69 @@ const MargeTracker = () => {
                 />
               </div>
 
+              {/* Zusatz-Kosten — bei eigenem Shop aufgeklappt, sonst eingeklappt */}
+              <details open={ch.isOwnShop} className="text-xs mb-3 group">
+                <summary className="cursor-pointer font-semibold text-foreground select-none">
+                  Zusatz-Kosten {ch.isOwnShop ? "(Eigener Shop)" : "(Affiliate, Preisvergleich, Sonstige)"} ▾
+                </summary>
+                <div className="mt-2 grid grid-cols-2 md:grid-cols-4 gap-2">
+                  <Field
+                    label="Affiliate %"
+                    value={s.affiliatePct}
+                    onChange={(v) => updateSku(s.id, { affiliatePct: v })}
+                    suffix="%"
+                  />
+                  <Field
+                    label="Idealo CPC €"
+                    value={s.preisvergleichCpc}
+                    onChange={(v) => updateSku(s.id, { preisvergleichCpc: v })}
+                    suffix="€"
+                  />
+                  <Field
+                    label="Klick→Sale %"
+                    value={s.preisvergleichConversionPct}
+                    onChange={(v) => updateSku(s.id, { preisvergleichConversionPct: v })}
+                    suffix="%"
+                  />
+                  <Field
+                    label="Sonstige €/Stk"
+                    value={s.sonstigeGebuehren}
+                    onChange={(v) => updateSku(s.id, { sonstigeGebuehren: v })}
+                    suffix="€"
+                  />
+                </div>
+                {(s.preisvergleichCpc > 0 && s.preisvergleichConversionPct > 0) && (
+                  <div className="mt-1 text-[10px] text-muted-foreground italic">
+                    Preisvergleich-Cost: {s.preisvergleichCpc.toFixed(2)} €/Klick × {(100 / s.preisvergleichConversionPct).toFixed(1)} Klicks/Sale =
+                    <span className="font-mono font-semibold text-foreground"> {c.preisvergleichFeePerSale.toFixed(2)} €/Sale</span>
+                  </div>
+                )}
+                {ch.isOwnShop && (
+                  <div className="mt-2 text-[10px] text-muted-foreground bg-secondary/40 rounded p-2 leading-relaxed">
+                    <strong>Eigener-Shop-Tipps:</strong> Affiliate-Programme typisch 5-15 % Commission ·
+                    Idealo CPC Standard 0,15-0,70 € (Elektronik 0,40-0,60 €) ·
+                    Klick→Sale-Conversion 3-8 % typisch (5 % Median).
+                  </div>
+                )}
+              </details>
+
               <details className="text-xs">
                 <summary className="cursor-pointer font-semibold text-foreground">Berechnungs-Details ▾</summary>
                 <div className="mt-2 grid grid-cols-1 md:grid-cols-2 gap-1 text-muted-foreground">
                   <div>VK brutto (mit USt): <span className="font-mono">{c.vkBrutto.toFixed(2)} €</span></div>
                   <div>Provision: <span className="font-mono">{c.provision.toFixed(2)} €</span></div>
                   <div>Payment-Fee: <span className="font-mono">{c.paymentFee.toFixed(2)} €</span></div>
+                  {c.affiliateFee > 0 && (
+                    <div>Affiliate-Fee: <span className="font-mono">{c.affiliateFee.toFixed(2)} €</span></div>
+                  )}
+                  {c.preisvergleichFeePerSale > 0 && (
+                    <div>Preisvergleich/Sale: <span className="font-mono">{c.preisvergleichFeePerSale.toFixed(2)} €</span></div>
+                  )}
+                  <div>FBA/Versand: <span className="font-mono">{(s.fulfilmentPerUnit + s.versandKostenNetto).toFixed(2)} €</span></div>
+                  <div>Werbung: <span className="font-mono">{s.werbungPerUnit.toFixed(2)} €</span></div>
                   <div>Total Kosten: <span className="font-mono">{c.totalKosten.toFixed(2)} €</span></div>
-                  <div>Marge brutto: <span className="font-mono">{c.margeBrutto.toFixed(2)} €</span></div>
-                  <div>Retoure-Last: <span className="font-mono">{c.retoureLast.toFixed(2)} €</span></div>
+                  <div>Marge vor Retoure: <span className="font-mono">{c.margeBrutto.toFixed(2)} €</span></div>
+                  <div>Retoure-Last ({s.retourenPct} %): <span className="font-mono">{c.retoureLast.toFixed(2)} €</span></div>
                   <div className="col-span-2 border-t pt-1 mt-1">
                     <strong>Marge netto: <span className="font-mono">{c.margeNetto.toFixed(2)} €</span></strong>
                   </div>
