@@ -155,7 +155,7 @@ const App = () => (
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/admin" element={<Admin />} />
                 <Route path="/support" element={<Support />} />
-                <Route path="/faq" element={<FAQ />} />
+                
               </Route>
               {/* Public, SEO-indexable content pages (no auth, no paywall) */}
               <Route element={<PublicShell><Outlet /></PublicShell>}>
@@ -163,6 +163,7 @@ const App = () => (
                 <Route path="/playbook/preview/:slug" element={<PlaybookPreview />} />
                 <Route path="/anbieter" element={<Anbieter />} />
                 <Route path="/anbieter/:slug" element={<AnbieterDetail />} />
+                <Route path="/faq" element={<FAQ />} />
               </Route>
               <Route path="/kontakt" element={<Kontakt />} />
               <Route path="/impressum" element={<Impressum />} />
