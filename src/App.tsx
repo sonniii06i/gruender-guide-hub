@@ -1,9 +1,10 @@
 import { lazy, Suspense, useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation, Outlet } from "react-router-dom";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/hooks/useAuth";
 import AppLayout from "./layouts/AppLayout.tsx";
+import PublicShell from "./layouts/PublicShell.tsx";
 import { PaywallGate } from "./components/PaywallGate.tsx";
 import { useTrackPageview } from "./hooks/useTrackPageview";
 
@@ -148,10 +149,6 @@ const App = () => (
                 <Route path="/booking" element={<Booking />} />
                 <Route path="/cockpit/stb-match" element={<PaywallGate title="StB-Match"><StbMatch /></PaywallGate>} />
                 <Route path="/wizard/rechtsform" element={<PaywallGate title="Rechtsform-Wizard"><RechtsformWizard /></PaywallGate>} />
-                <Route path="/anbieter" element={<PaywallGate title="Anbieter-Vergleich"><Anbieter /></PaywallGate>} />
-                <Route path="/anbieter/:slug" element={<PaywallGate title="Anbieter-Vergleich"><AnbieterDetail /></PaywallGate>} />
-                <Route path="/playbooks" element={<Playbooks />} />
-                <Route path="/playbook/preview/:slug" element={<PaywallGate title="Guide"><PlaybookPreview /></PaywallGate>} />
                 <Route path="/playbook/:runId" element={<PaywallGate title="Guide"><PlaybookRun /></PaywallGate>} />
                 <Route path="/felix" element={<FelixChat />} />
                 <Route path="/felix/chats" element={<FelixChatsOverview />} />
@@ -159,6 +156,13 @@ const App = () => (
                 <Route path="/admin" element={<Admin />} />
                 <Route path="/support" element={<Support />} />
                 <Route path="/faq" element={<FAQ />} />
+              </Route>
+              {/* Public, SEO-indexable content pages (no auth, no paywall) */}
+              <Route element={<PublicShell><Outlet /></PublicShell>}>
+                <Route path="/playbooks" element={<Playbooks />} />
+                <Route path="/playbook/preview/:slug" element={<PlaybookPreview />} />
+                <Route path="/anbieter" element={<Anbieter />} />
+                <Route path="/anbieter/:slug" element={<AnbieterDetail />} />
               </Route>
               <Route path="/kontakt" element={<Kontakt />} />
               <Route path="/impressum" element={<Impressum />} />
