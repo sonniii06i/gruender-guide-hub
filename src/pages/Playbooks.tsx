@@ -90,7 +90,8 @@ const Playbooks = () => {
           <p className="text-sm">Keine Guides gefunden.</p>
         </div>
       )}
-    </CockpitShell>
+      </CockpitShell>
+    </>
   );
 };
 
