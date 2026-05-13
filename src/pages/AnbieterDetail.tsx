@@ -21,6 +21,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { FULL_DESCRIPTIONS, isCoopActive, LEGAL_URLS, PROVIDERS, type Provider } from "./Anbieter";
+import { Seo } from "@/components/Seo";
 
 const getDomain = (url: string): string => {
   try { return new URL(url).hostname.replace(/^www\./, ""); } catch { return url; }
@@ -80,6 +81,12 @@ const AnbieterDetail = () => {
   if (!p) {
     return (
       <CockpitShell eyebrow="404" title="Anbieter nicht gefunden">
+        <Seo
+          title="Anbieter nicht gefunden | GründerX"
+          description="Dieser Anbieter existiert nicht in unserem Vergleich. Sieh dir alle Anbieter an."
+          path={`/anbieter/${slug ?? ""}`}
+          noindex
+        />
         <Link to="/anbieter" className="text-accent-blue hover:underline inline-flex items-center gap-1">
           <ArrowLeft className="h-4 w-4" /> Zurück zum Vergleich
         </Link>
@@ -104,6 +111,35 @@ const AnbieterDetail = () => {
       title={p.name}
       subtitle={p.tagline}
     >
+      <Seo
+        title={`${p.name} Erfahrungen 2026 – ${p.category} im Test | GründerX`}
+        description={(description ?? p.tagline).slice(0, 155)}
+        path={`/anbieter/${p.slug}`}
+        type="product"
+        jsonLd={[
+          {
+            "@context": "https://schema.org",
+            "@type": "Product",
+            name: p.name,
+            description: description ?? p.tagline,
+            category: p.category,
+            url: `https://gruenderx.de/anbieter/${p.slug}`,
+            brand: { "@type": "Brand", name: p.name },
+            aggregateRating: p.rating
+              ? { "@type": "AggregateRating", ratingValue: p.rating, bestRating: 5, ratingCount: 1 }
+              : undefined,
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Start", item: "https://gruenderx.de/" },
+              { "@type": "ListItem", position: 2, name: "Anbieter", item: "https://gruenderx.de/anbieter" },
+              { "@type": "ListItem", position: 3, name: p.name, item: `https://gruenderx.de/anbieter/${p.slug}` },
+            ],
+          },
+        ]}
+      />
       <Link to="/anbieter" className="text-xs text-muted-foreground hover:text-foreground inline-flex items-center gap-1 mb-6">
         <ArrowLeft className="h-3.5 w-3.5" /> Alle Anbieter
       </Link>
