@@ -88,7 +88,7 @@ const PlaybookRun = () => {
       setSteps(map);
 
       // runCtx hydraten: aus run.context, fallback auf step "name" data.
-      const initialCtx: Record<string, any> = { ...(r.context ?? {}) };
+      const initialCtx: Record<string, any> = { ...((r.context ?? {}) as Record<string, any>) };
       if (!initialCtx.company_name) {
         const nameRow = Object.values(map).find((row: any) => row.step_slug === "name");
         if ((nameRow as any)?.data?.company_name) {
