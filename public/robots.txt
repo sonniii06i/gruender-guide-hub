@@ -10,5 +10,27 @@ Allow: /
 User-agent: facebookexternalhit
 Allow: /
 
+User-agent: GPTBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
 User-agent: *
 Allow: /
+Disallow: /auth
+Disallow: /checkout
+Disallow: /onboarding
+Disallow: /dashboard
+Disallow: /admin
+Disallow: /profile
+Disallow: /booking
+Disallow: /felix
+Disallow: /cockpit/
+Disallow: /wizard/
+Disallow: /playbook/
+
+Sitemap: https://gruenderx.de/sitemap.xml

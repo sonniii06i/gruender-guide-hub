@@ -10,9 +10,38 @@ import { Testimonials } from "@/components/landing/Testimonials";
 import { FAQ } from "@/components/landing/FAQ";
 import { FinalCTA } from "@/components/landing/FinalCTA";
 import { Footer } from "@/components/landing/Footer";
+import { Seo } from "@/components/Seo";
 
 const Index = () => (
   <div className="min-h-screen bg-background">
+    <Seo
+      title="GründerX – Unternehmen gründen, Steuern & Buchhaltung mit KI"
+      description="GmbH, UG, Einzelunternehmen, US-LLC – Schritt-für-Schritt Guides, Steuer-Tools, Anbieter-Vergleiche & KI-Co-Pilot für E-Commerce, Creator & Founder."
+      path="/"
+      jsonLd={[
+        {
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "GründerX",
+          url: "https://gruenderx.de",
+          logo: "https://gruenderx.de/favicon.png",
+          sameAs: [],
+          description:
+            "KI-gestützte Plattform für Unternehmensgründung, Steuern und Buchhaltung in Deutschland.",
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: "GründerX",
+          url: "https://gruenderx.de",
+          potentialAction: {
+            "@type": "SearchAction",
+            target: "https://gruenderx.de/playbooks?q={search_term_string}",
+            "query-input": "required name=search_term_string",
+          },
+        },
+      ]}
+    />
     <Navbar />
     <main>
       <Hero />
@@ -31,3 +60,4 @@ const Index = () => (
 );
 
 export default Index;
+

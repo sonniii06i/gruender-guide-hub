@@ -1,0 +1,37 @@
+# GründerX
+
+> KI-gestützte Plattform für Unternehmensgründung, Steuern und Buchhaltung in Deutschland – mit Schritt-für-Schritt-Guides für GmbH, UG, Einzelunternehmen, US-LLC, Holding und mehr.
+
+GründerX kombiniert KI mit Gründungs- und Steuerwissen für E-Commerce-Händler, Creator und Founder. Die Plattform bietet:
+
+- 50+ Schritt-für-Schritt-Guides (z. B. „GmbH gründen", „UG gründen", „US-LLC für Deutsche", „Holding aufbauen", „Marke anmelden", „Amazon FBA Launch")
+- Steuer- und Buchhaltungs-Tools (BWA-Generator, Crypto-Steuer, OSS, Sales-Tax-Nexus, IAB-Rechner)
+- Anbieter-Vergleiche für Geschäftskonto, Buchhaltung, Notar, Hosting, Logistik
+- KI-Co-Pilot „Felix" für individuelle Fragen rund um Gründung und Steuern
+
+## Pages
+
+- [Startseite](/): Überblick über Plattform, Funktionen und Zielgruppen
+- [Gründungs-Guides (Übersicht)](/playbooks): Alle Schritt-für-Schritt-Anleitungen
+- [Anbieter-Vergleich](/anbieter): Geschäftskonto, Buchhaltung, Tools für Gründer
+- [FAQ](/faq): Häufig gestellte Fragen zu Gründung und Plattform
+- [Kontakt](/kontakt): Support und Anfragen
+
+## Top-Guides
+
+- [GmbH gründen](/playbook/preview/gmbh-gruendung)
+- [UG gründen](/playbook/preview/ug-gruendung)
+- [Einzelunternehmen gründen](/playbook/preview/einzelunternehmen-gruendung)
+- [Holding aufbauen](/playbook/preview/holding)
+- [US-LLC gründen (für Deutsche)](/playbook/preview/us-llc)
+- [HK Limited gründen](/playbook/preview/hk-limited)
+- [Marke anmelden (DPMA/EUIPO)](/playbook/preview/marke-anmelden)
+- [Amazon FBA Launch](/playbook/preview/amazon-fba-launch)
+- [Shopify Launch](/playbook/preview/shopify-launch)
+- [Kleinunternehmer-Regelung](/playbook/preview/kleinunternehmer)
+
+## Optional
+
+- [Impressum](/impressum)
+- [Datenschutz](/datenschutz)
+- [AGB](/agb)

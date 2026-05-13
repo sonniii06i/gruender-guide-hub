@@ -9,6 +9,7 @@ import {
   Shield, Scale, Car, Grid3x3, X,
   CheckSquare, Sparkles, Headphones, ThumbsUp, Lock,
 } from "lucide-react";
+import { Seo } from "@/components/Seo";
 
 /**
  * Verifizierte Legal-URLs pro Anbieter (Stand: 2026-05-06).
@@ -2334,6 +2335,11 @@ const Anbieter = () => {
       title="Die besten Tools für deine Gründung"
       subtitle="Top-Anbieter pro Kategorie – mit Stärken/Schwächen aus Reddit & E-Com-Foren. Aktive Aktionen werden wöchentlich aktualisiert."
     >
+      <Seo
+        title="Anbieter-Vergleich 2026 – Geschäftskonto, Buchhaltung, Hosting | GründerX"
+        description={`Über ${PROVIDERS.length} Anbieter im Vergleich: Geschäftskonto, Buchhaltung, Notar, Tools für Gründer & E-Commerce. Mit echten Erfahrungen aus Foren.`}
+        path="/anbieter"
+      />
       <div className="rounded-xl border border-border bg-secondary/30 px-3 py-2 mb-4 text-[11px] text-muted-foreground">
         <strong>*Affiliate-Hinweis:</strong> Einige Anbieter-Links sind Partner-Links. Bei Vertragsabschluss erhält GründerX ggf. eine Provision — für dich keine Mehrkosten. Bewertungen sind unabhängig von der Vergütung. Details in <a href="/agb" className="underline hover:text-foreground">§ 14 AGB</a>.
       </div>
