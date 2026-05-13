@@ -67,7 +67,7 @@ const PlaybookRun = () => {
         // Sonst neu anlegen
         const { data: created, error } = await supabase
           .from("playbook_runs")
-          .insert({ user_id: user.id, playbook_slug: slug, current_step: 0, context: {} })
+          .insert({ user_id: user.id, playbook_slug: slug, title: getPlaybook(slug)!.title, total_steps: getPlaybook(slug)!.steps.length, current_step: 0, context: {} })
           .select("id")
           .single();
         if (error || !created) {
