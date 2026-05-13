@@ -34,15 +34,7 @@ export type AmazonCode = {
   sign: "minus" | "plus" | "both"; // Vorzeichen wenn auf Bank/PayJoe-Konto sichtbar
   skr03: string;                   // SKR03-Konto + ggf. Steuerschlüssel
   skr04: string;                   // SKR04-Konto + ggf. Steuerschlüssel
-  ust:
-    | "19% VSt-abziehbar"          // Standard seit 01.08.2024 (Amazon EU Sarl Niederlassung DE)
-    | "Reverse Charge"              // Vor 08/2024 oder bei nicht-DE Sarl
-    | "0% steuerfrei"
-    | "OSS"                         // EU-Privatverkauf via OSS
-    | "innergemeinschaftlich"      // B2B EU mit UStID
-    | "Drittland steuerfrei"
-    | "Erlös-Korrektur"            // Refund mindert Erlöse
-    | "nicht steuerbar";
+  ust: string;
   bookingHint: string;             // Kurz: wie buchen
   example?: string;                // Beispiel aus echtem Auszug
   popular?: boolean;               // Top-20-Codes die User oft sehen
