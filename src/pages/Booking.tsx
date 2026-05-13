@@ -149,7 +149,7 @@ const Booking = () => {
     setSubmitting(true);
     setError(null);
 
-    const { data, error } = await supabase
+    const { data, error } = await (supabase as any)
       .from("bookings")
       .insert({
         user_id: user.id,
