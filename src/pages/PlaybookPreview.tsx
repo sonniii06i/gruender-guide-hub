@@ -97,6 +97,12 @@ const PlaybookPreview = () => {
   if (!pb) {
     return (
       <CockpitShell eyebrow="Guide" title="Guide nicht gefunden" subtitle="Slug ungültig oder Guide existiert nicht.">
+        <Seo
+          title="Guide nicht gefunden | GründerX"
+          description="Dieser Gründungs-Guide existiert nicht. Sieh dir alle verfügbaren Guides an."
+          path={`/playbook/preview/${slug ?? ""}`}
+          noindex
+        />
         <Link
           to="/playbooks"
           className="inline-flex items-center gap-1 rounded-lg bg-accent-blue text-primary-foreground px-4 py-2 text-sm font-semibold hover:opacity-90"
@@ -117,6 +123,40 @@ const PlaybookPreview = () => {
       title={pb.title}
       subtitle={pb.tagline}
     >
+      <Seo
+        title={`${pb.title} – Schritt für Schritt | GründerX`}
+        description={`${pb.tagline} – ${pb.steps.length} Schritte, ${pb.duration}, Schwierigkeit: ${pb.difficulty}. Alles was du wissen musst inkl. Kosten, Pflichtunterlagen und Stolperfallen.`}
+        path={`/playbook/preview/${pb.slug}`}
+        type="article"
+        jsonLd={[
+          {
+            "@context": "https://schema.org",
+            "@type": "HowTo",
+            name: pb.title,
+            description: pb.tagline,
+            totalTime: `PT${totalMinutes}M`,
+            estimatedCost: pb.totalCost
+              ? { "@type": "MonetaryAmount", currency: "EUR", value: pb.totalCost }
+              : undefined,
+            step: pb.steps.map((s, i) => ({
+              "@type": "HowToStep",
+              position: i + 1,
+              name: s.title,
+              text: s.description,
+              url: `https://gruenderx.de/playbook/preview/${pb.slug}#${s.slug}`,
+            })),
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Start", item: "https://gruenderx.de/" },
+              { "@type": "ListItem", position: 2, name: "Guides", item: "https://gruenderx.de/playbooks" },
+              { "@type": "ListItem", position: 3, name: pb.title, item: `https://gruenderx.de/playbook/preview/${pb.slug}` },
+            ],
+          },
+        ]}
+      />
       <div className="mb-6">
         <Link
           to="/playbooks"
