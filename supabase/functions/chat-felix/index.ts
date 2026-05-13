@@ -120,51 +120,201 @@ MARKEN / DOMAIN
 - /cockpit/marken-wizard – DPMA-Anmeldung mit Branchen-basierter Nizza-Klassen-Empfehlung
 - /cockpit/marken-monitor – Watchlist mit Diff-Alert bei neuen Anmeldungen
 
+============================================================
+PLAYBOOKS-CATALOG (53 Step-by-Step Guides – verlinke MIT Markdown z.B. [Guide](/playbooks))
+============================================================
+RECHTSFORM-GRÜNDUNGEN:
+- /playbook/gmbh-gruendung · /playbook/ug-gruendung · /playbook/einzelunternehmen-gruendung
+- /playbook/holding · /playbook/co-founder-agreement · /playbook/foerderung-stipendium
+- /playbook/us-llc · /playbook/hk-limited · /playbook/wegzugsbesteuerung
+
+LAUNCH (D2C / Marketplace / Compliance):
+- /playbook/shopify-launch · /playbook/amazon-fba-launch · /playbook/kaufland-launch
+- /playbook/tiktok-shop-launch · /playbook/creator-setup
+- /playbook/dsgvo-shop · /playbook/gpsr-compliance · /playbook/elster-fse-fillout
+- /playbook/marke-anmelden · /playbook/patente-schutzrechte
+- /playbook/kleinunternehmer · /playbook/oss-anmeldung · /playbook/pan-eu-fba
+
+ARCHETYPE-SETUPS (Komplett-Bundles pro Geschäftsmodell):
+- /playbook/brand-owner-d2c-setup – eigene Brand: Rechtsform→IP→Compliance→Shop→Marketing
+- /playbook/reseller-marketplace-setup – Buy&Resell auf Amazon/eBay/Kaufland + Billbee
+- /playbook/agency-services-setup – Agentur/Consulting: Verträge+Pricing+CRM+Outbound
+- /playbook/creator-influencer-setup – Content/Affiliate mit Werbekennzeichnung + Tax-Trap
+- /playbook/coach-experte-setup – Online-Kurse: ⚠ FernUSG-Falle, CRM+Webinar+Community
+
+PERFORMANCE & MARKETING (Setup→Erste Kampagne):
+- /playbook/meta-ads-setup – Business Manager+Pixel+CAPI+Audiences→Erste Kampagne
+- /playbook/klaviyo-setup – Account+Shop-Sync+DKIM+Welcome-Flow live
+- /playbook/google-ads-merchant-console-setup – Ads+Merchant Center+Search Console+PMax
+- /playbook/seo-step-by-step – Foundation→Tech→Content→Schema→Backlinks→Monitoring
+- /playbook/tiktok-ads-setup – Business Center+Pixel+Spark Ad→Publish
+- /playbook/performance-marketing-stack – BM+Pixel+CAPI+sGTM+Attribution+Creative
+- /playbook/email-marketing-stack – Klaviyo/Brevo + Cart-Recovery + SMS + List-Building
+- /playbook/seo-ecommerce – Tech+Keyword+Content+Schema+Backlinks+AI-SEO/GEO/E-E-A-T
+
+SKALIERUNG / OPERATIONS:
+- /playbook/hiring-erste-10 · /playbook/cashflow-forecasting · /playbook/insurance-stack
+- /playbook/logistik-3pl · /playbook/buchhaltung-setup · /playbook/mitarbeiter-beteiligung
+- /playbook/vc-pitch-deck · /playbook/crowdfunding-token · /playbook/b2b-saas-spezifika
+- /playbook/ma-sell-side (Exit-Vorbereitung) · /playbook/ag-gruenden · /playbook/verein-gug
+- /playbook/unternehmenskauf (M&A Buy-Side)
+
+PLAYBOOK-USAGE:
+- User fragt "Wie starte ich Amazon-FBA?" → empfehle [Amazon FBA Launch](/playbook/amazon-fba-launch)
+- User fragt "Welches Setup für meinen Online-Shop?" → frage erst nach Modell (Brand-Owner vs Reseller etc.), dann passenden Archetype-Playbook
+- User fragt "Wie setze ich Meta Ads auf?" → [Meta Ads Setup](/playbook/meta-ads-setup) (Click-by-Click bis erste Kampagne)
+
 WIE DU TOOLS NUTZT:
 - Bei Frage "Wie hoch ist meine Steuer auf 50k€ Crypto-Gewinn?" → erkläre Grundprinzip (FIFO, 1-Jahres-Frist) + verlinke /cockpit/crypto-steuer für Live-Berechnung mit eigenem CSV
 - Bei Frage "Soll ich Holding gründen?" → erkläre Trade-off + verlinke /cockpit/entscheidungs-engine UND /cockpit/holding-designer
 - Bei Frage "Welcher US-State?" → erkläre Wyoming vs DE vs NM grob + verlinke /cockpit/us-llc-wizard für vollen Setup-Pfad
 - Verlinke IMMER mit Markdown: [Crypto-Steuer-Tool](/cockpit/crypto-steuer) – nicht als Plain-Text.`;
 
+async function callLovable(messages: any[], key: string): Promise<Response> {
+  return await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
+    body: JSON.stringify({
+      model: "google/gemini-3-flash-preview",
+      messages: [{ role: "system", content: SYSTEM }, ...messages],
+      stream: true,
+    }),
+  });
+}
+
+/**
+ * Anthropic-Fallback: direkter Claude-Stream als OpenAI-kompatibles SSE.
+ * Wandelt Anthropic's content_block_delta events in OpenAI's chat.completion.chunk-Format um,
+ * damit der bestehende Client-Code (FelixChat.tsx) ohne Änderung weiter funktioniert.
+ */
+async function callAnthropic(messages: any[], key: string): Promise<Response> {
+  // Anthropic: system separat, messages ohne system-role
+  const userAssistantMessages = messages.filter((m: any) => m.role !== "system");
+
+  const resp = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: {
+      "x-api-key": key,
+      "anthropic-version": "2023-06-01",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      model: "claude-sonnet-4-6",
+      max_tokens: 2048,
+      system: SYSTEM,
+      messages: userAssistantMessages,
+      stream: true,
+    }),
+  });
+
+  if (!resp.ok) {
+    const errText = await resp.text();
+    throw new Error(`Anthropic-Fallback fehlgeschlagen (${resp.status}): ${errText}`);
+  }
+
+  // Stream-Transformation: Anthropic-SSE → OpenAI-kompatibles SSE
+  const reader = resp.body!.getReader();
+  const decoder = new TextDecoder();
+  const encoder = new TextEncoder();
+
+  const stream = new ReadableStream({
+    async start(controller) {
+      let buffer = "";
+      try {
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split("\n");
+          buffer = lines.pop() ?? "";
+
+          for (const line of lines) {
+            if (!line.startsWith("data: ")) continue;
+            const payload = line.slice(6).trim();
+            if (!payload) continue;
+            try {
+              const evt = JSON.parse(payload);
+              if (evt.type === "content_block_delta" && evt.delta?.type === "text_delta") {
+                const chunk = {
+                  choices: [{ delta: { content: evt.delta.text } }],
+                };
+                controller.enqueue(encoder.encode(`data: ${JSON.stringify(chunk)}\n\n`));
+              } else if (evt.type === "message_stop") {
+                controller.enqueue(encoder.encode("data: [DONE]\n\n"));
+              }
+            } catch {
+              // skip malformed events
+            }
+          }
+        }
+      } finally {
+        controller.close();
+      }
+    },
+  });
+
+  return new Response(stream, {
+    headers: { ...corsHeaders, "Content-Type": "text/event-stream" },
+  });
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
     const { messages } = await req.json();
-    const KEY = Deno.env.get("LOVABLE_API_KEY");
-    if (!KEY) throw new Error("LOVABLE_API_KEY missing");
+    const LOVABLE_KEY = Deno.env.get("LOVABLE_API_KEY");
+    const ANTHROPIC_KEY = Deno.env.get("ANTHROPIC_API_KEY");
 
-    const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
-      method: "POST",
-      headers: { Authorization: `Bearer ${KEY}`, "Content-Type": "application/json" },
-      body: JSON.stringify({
-        model: "google/gemini-3-flash-preview",
-        messages: [{ role: "system", content: SYSTEM }, ...messages],
-        stream: true,
-      }),
-    });
+    if (!LOVABLE_KEY && !ANTHROPIC_KEY) {
+      throw new Error("Weder LOVABLE_API_KEY noch ANTHROPIC_API_KEY gesetzt");
+    }
 
-    if (!response.ok) {
-      if (response.status === 429) {
+    // 1) Lovable AI Gateway versuchen (falls Key vorhanden)
+    if (LOVABLE_KEY) {
+      const lovableResp = await callLovable(messages, LOVABLE_KEY);
+
+      if (lovableResp.ok) {
+        return new Response(lovableResp.body, {
+          headers: { ...corsHeaders, "Content-Type": "text/event-stream" },
+        });
+      }
+
+      if (lovableResp.status === 429) {
         return new Response(JSON.stringify({ error: "Rate-Limit erreicht. Bitte gleich nochmal versuchen." }), {
           status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
-      if (response.status === 402) {
-        return new Response(JSON.stringify({ error: "AI-Kontingent aufgebraucht. Bitte Workspace-Credits aufladen." }), {
-          status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" },
-        });
+
+      // 2) Bei Credits-Problem (402) → Anthropic-Fallback wenn verfügbar
+      if (lovableResp.status === 402) {
+        if (ANTHROPIC_KEY) {
+          console.log("Lovable 402 → Fallback auf Anthropic");
+          return await callAnthropic(messages, ANTHROPIC_KEY);
+        }
+        return new Response(
+          JSON.stringify({
+            error:
+              "AI-Kontingent bei Lovable aufgebraucht. Setze ANTHROPIC_API_KEY in Supabase-Secrets für Fallback ODER lade Lovable-Credits auf.",
+          }),
+          { status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+        );
       }
-      const t = await response.text();
-      console.error("AI error", response.status, t);
+
+      const t = await lovableResp.text();
+      console.error("Lovable-AI error", lovableResp.status, t);
+      // Auch bei anderen Fehlern: Anthropic versuchen wenn verfügbar
+      if (ANTHROPIC_KEY) {
+        console.log(`Lovable ${lovableResp.status} → Fallback auf Anthropic`);
+        return await callAnthropic(messages, ANTHROPIC_KEY);
+      }
       return new Response(JSON.stringify({ error: "AI-Fehler" }), {
         status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
-    return new Response(response.body, {
-      headers: { ...corsHeaders, "Content-Type": "text/event-stream" },
-    });
+    // Kein Lovable-Key → direkt Anthropic
+    return await callAnthropic(messages, ANTHROPIC_KEY!);
   } catch (e) {
     console.error("chat-felix error", e);
     return new Response(JSON.stringify({ error: e instanceof Error ? e.message : "Unknown" }), {
