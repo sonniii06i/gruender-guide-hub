@@ -83,7 +83,7 @@ const Booking = () => {
     let cancelled = false;
     const load = async () => {
       try {
-        const { data, error } = await supabase.rpc("get_booked_slots");
+        const { data, error } = await (supabase as any).rpc("get_booked_slots");
         if (cancelled) return;
         if (error) {
           console.error("get_booked_slots", error);
@@ -149,7 +149,7 @@ const Booking = () => {
     setSubmitting(true);
     setError(null);
 
-    const { data, error } = await supabase
+    const { data, error } = await (supabase as any)
       .from("bookings")
       .insert({
         user_id: user.id,

@@ -30,7 +30,7 @@ export type EUAlternative = {
   /** Laufende Kosten/Jahr. */
   runningCost: string;
   /** Eignung für DE-Gründer. */
-  fitForGermans: "Sehr gut" | "Gut" | "Mittel" | "Schwierig";
+  fitForGermans: string;
   /** Wann diese Form sinnvoll. */
   bestFor: string[];
   /** Vorteile. */
