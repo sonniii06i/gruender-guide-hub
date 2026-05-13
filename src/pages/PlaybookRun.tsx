@@ -67,7 +67,7 @@ const PlaybookRun = () => {
         // Sonst neu anlegen
         const { data: created, error } = await supabase
           .from("playbook_runs")
-          .insert({ user_id: user.id, playbook_slug: slug, current_step: 0, context: {} })
+          .insert({ user_id: user.id, playbook_slug: slug, title: getPlaybook(slug)!.title, total_steps: getPlaybook(slug)!.steps.length, current_step: 0, context: {} })
           .select("id")
           .single();
         if (error || !created) {
@@ -88,7 +88,7 @@ const PlaybookRun = () => {
       setSteps(map);
 
       // runCtx hydraten: aus run.context, fallback auf step "name" data.
-      const initialCtx: Record<string, any> = { ...(r.context ?? {}) };
+      const initialCtx: Record<string, any> = { ...((r.context ?? {}) as Record<string, any>) };
       if (!initialCtx.company_name) {
         const nameRow = Object.values(map).find((row: any) => row.step_slug === "name");
         if ((nameRow as any)?.data?.company_name) {
