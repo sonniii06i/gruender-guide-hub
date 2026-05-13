@@ -1,4 +1,4 @@
-import { Globe2, Building2, Tag, Rocket, Calculator, Shield, AlertTriangle, Receipt, Mail, Users, TrendingUp, Handshake, PiggyBank, Briefcase, Megaphone, UserPlus, LineChart, Lock, Truck, Search, BarChart3, Lightbulb, Banknote, Coins, FileText, Crown, Store, Sparkles, GraduationCap, Repeat, Home, Wrench, HeartHandshake, type LucideIcon } from "lucide-react";
+import { Globe2, Building2, Tag, Rocket, Calculator, Shield, AlertTriangle, Receipt, Mail, Users, TrendingUp, Handshake, PiggyBank, Briefcase, Megaphone, UserPlus, LineChart, Lock, Truck, Search, BarChart3, Lightbulb, Banknote, Coins, FileText, Crown, Store, Sparkles, GraduationCap, Repeat, Home, Wrench, HeartHandshake, Scissors, Stethoscope, Sun, Car, Leaf, Bot, Plane, Landmark, Key, type LucideIcon } from "lucide-react";
 
 export type StepKind = "checklist" | "form" | "info" | "decision" | "external";
 
