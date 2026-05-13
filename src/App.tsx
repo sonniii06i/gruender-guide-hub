@@ -149,6 +149,7 @@ const App = () => (
                 <Route path="/booking" element={<Booking />} />
                 <Route path="/cockpit/stb-match" element={<PaywallGate title="StB-Match"><StbMatch /></PaywallGate>} />
                 <Route path="/wizard/rechtsform" element={<PaywallGate title="Rechtsform-Wizard"><RechtsformWizard /></PaywallGate>} />
+                <Route path="/playbooks" element={<PaywallGate title="Alle Guides"><Playbooks /></PaywallGate>} />
                 <Route path="/playbook/:runId" element={<PaywallGate title="Guide"><PlaybookRun /></PaywallGate>} />
                 <Route path="/felix" element={<FelixChat />} />
                 <Route path="/felix/chats" element={<FelixChatsOverview />} />
@@ -159,7 +160,6 @@ const App = () => (
               </Route>
               {/* Public, SEO-indexable content pages (no auth, no paywall) */}
               <Route element={<PublicShell><Outlet /></PublicShell>}>
-                <Route path="/playbooks" element={<Playbooks />} />
                 <Route path="/playbook/preview/:slug" element={<PlaybookPreview />} />
                 <Route path="/anbieter" element={<Anbieter />} />
                 <Route path="/anbieter/:slug" element={<AnbieterDetail />} />
