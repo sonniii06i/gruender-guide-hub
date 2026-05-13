@@ -4,6 +4,7 @@ import CockpitShell from "@/components/cockpit/CockpitShell";
 import { ArrowLeft, ArrowRight, Clock, ListChecks, Target, FileText, AlertTriangle, ExternalLink, Loader2, Sparkles } from "lucide-react";
 import { getPlaybook, type PlaybookStep } from "@/data/playbooks";
 import { useGuideStart } from "@/hooks/useGuideStart";
+import { Seo } from "@/components/Seo";
 
 const STEP_KIND_LABEL: Record<PlaybookStep["kind"], string> = {
   checklist: "Checkliste",
