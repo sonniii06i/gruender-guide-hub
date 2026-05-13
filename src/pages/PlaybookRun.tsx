@@ -36,6 +36,8 @@ const PlaybookRun = () => {
   // Geteilter Run-Kontext (cross-step shared values wie company_name).
   const [runCtx, setRunCtx] = useState<Record<string, any>>({});
   const ctxSaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // Ref auf den aktiven Step-Container — beim Step-Wechsel wird dieser in den Viewport gescrollt.
+  const activeStepRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => { if (!authLoading && !user) navigate("/auth"); }, [user, authLoading, navigate]);
 
@@ -109,6 +111,18 @@ const PlaybookRun = () => {
     setFormData(cur?.data ?? {});
     setNotes(cur?.notes ?? "");
   }, [activeIndex, steps]);
+
+  // Beim Step-Wechsel: scrolle den aktiven Step-Container in den Viewport (Anfang des Steps),
+  // damit der User nach 'Step erledigt'-Klick nicht in der Mitte des nächsten Schritts landet.
+  // - Sticky-Header (h-14 = 56px) + Puffer 16px → -72px offset
+  // - smooth-scroll für nicht-ruckige UX
+  useEffect(() => {
+    if (!activeStepRef.current) return;
+    const HEADER_OFFSET = 72;
+    const rect = activeStepRef.current.getBoundingClientRect();
+    const targetY = rect.top + window.scrollY - HEADER_OFFSET;
+    window.scrollTo({ top: targetY, behavior: "smooth" });
+  }, [activeIndex]);
 
   // Geteilte Run-Kontext-Updates mit 500ms-Debounce (DB-Write).
   const updateRunCtx = (patch: Record<string, any>) => {
@@ -319,7 +333,7 @@ const PlaybookRun = () => {
         </aside>
 
         {/* Active step */}
-        <div className="rounded-2xl border border-border bg-card p-6">
+        <div ref={activeStepRef} className="rounded-2xl border border-border bg-card p-6 scroll-mt-20">
           {(() => {
             const ActiveIcon = STEP_KIND_ICON[step.kind];
             return (
