@@ -401,25 +401,63 @@ async function tryDpmaScrape(query: string): Promise<{ totalHits: number; hits: 
     }
 
     // Step 3: marLink fetchen → folgt 302 zur trefferliste
+    // Bei 302 müssen wir manuell folgen, um Cookies aktuell zu halten
     let html = "";
     if (marLink) {
       try {
-        const urlFull = marLink.startsWith("http") ? marLink : `https://register.dpma.de${marLink}`;
-        const trCtrl = new AbortController();
-        const trT = setTimeout(() => trCtrl.abort(), 15000);
-        const trResp = await fetch(urlFull, {
-          headers: {
-            ...baseHeaders,
-            Referer: "https://register.dpma.de/DPMAregister/uebersicht",
-            ...(sessionCookie ? { Cookie: sessionCookie } : {}),
-          },
-          signal: trCtrl.signal,
-          redirect: "follow",
-        });
-        clearTimeout(trT);
-        if (trResp.ok) {
-          html = await trResp.text();
-          console.log(`DPMA trefferliste: ${trResp.status}, ${html.length} bytes`);
+        let urlFull = marLink.startsWith("http") ? marLink : `https://register.dpma.de${marLink}`;
+        let currentCookie = sessionCookie;
+
+        // Bis zu 3 Redirects manuell folgen + Cookies updaten
+        for (let hop = 0; hop < 4; hop++) {
+          const trCtrl = new AbortController();
+          const trT = setTimeout(() => trCtrl.abort(), 15000);
+          const trResp = await fetch(urlFull, {
+            headers: {
+              ...baseHeaders,
+              Referer: "https://register.dpma.de/DPMAregister/uebersicht",
+              ...(currentCookie ? { Cookie: currentCookie } : {}),
+            },
+            signal: trCtrl.signal,
+            redirect: "manual",
+          });
+          clearTimeout(trT);
+          console.log(`DPMA trefferliste hop ${hop}: ${trResp.status} → ${urlFull.slice(0, 80)}`);
+
+          // Cookies aus Response sammeln + zur bestehenden Cookie-Jar addieren
+          const newSetCookie = trResp.headers.get("set-cookie") || "";
+          if (newSetCookie) {
+            const newParts = newSetCookie
+              .split(/,(?=[^,;]+=)/g)
+              .map((c) => c.split(";")[0].trim())
+              .filter(Boolean);
+            const existing = new Map<string, string>(
+              currentCookie.split("; ").filter(Boolean).map((c) => {
+                const idx = c.indexOf("=");
+                return [c.slice(0, idx), c.slice(idx + 1)] as [string, string];
+              }),
+            );
+            for (const p of newParts) {
+              const idx = p.indexOf("=");
+              if (idx > 0) existing.set(p.slice(0, idx), p.slice(idx + 1));
+            }
+            currentCookie = Array.from(existing.entries()).map(([k, v]) => `${k}=${v}`).join("; ");
+          }
+
+          // Bei 3xx: Location-Header folgen
+          if (trResp.status >= 300 && trResp.status < 400) {
+            const loc = trResp.headers.get("location");
+            if (!loc) break;
+            urlFull = loc.startsWith("http") ? loc : `https://register.dpma.de${loc.startsWith("/") ? loc : "/" + loc}`;
+            continue;
+          }
+
+          // 2xx: HTML lesen
+          if (trResp.ok) {
+            html = await trResp.text();
+            console.log(`DPMA trefferliste OK: ${html.length} bytes`);
+          }
+          break;
         }
       } catch (e) {
         console.warn("DPMA trefferliste fehlgeschlagen:", e);
@@ -1011,7 +1049,7 @@ serve(async (req) => {
         appStore: appStoreResult,
         trademarks: trademarkResult,
         timestamp: new Date().toISOString(),
-        _fnVersion: "dpma-smartsearch-v3-2026-05-15-resync",
+        _fnVersion: "dpma-smartsearch-v4-manual-redirect-2026-05-15",
       }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
