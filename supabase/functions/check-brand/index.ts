@@ -323,8 +323,15 @@ interface TrademarkHit {
 
 /**
  * DPMA-Register Quick-Search.
- * Strategie: Session-Cookie holen, Trefferliste fetchen, RADIKAL einfach parsen
- * (jeden register/ID/DE-Anker als Hit zählen, keine komplexe Tabellen-Logik).
+ * NEUE Strategie (Stand 2026-05, vom User entdeckter Pfad):
+ *   1. GET /DPMAregister/uebersicht → JSESSIONID-Cookies einsammeln
+ *   2. GET /DPMAregister/smartsearch?queryString=<term> → JSON mit marHits/patHits/gsmHits + Deeplinks
+ *   3. GET marLink (302-Redirect zu /trefferliste) → HTML mit register/<aktenzeichen>/DE-Anchors parsen
+ *
+ * Vorteile gegenüber alter Logik:
+ *   - smartsearch liefert EXAKTE Treffer-Anzahl als JSON (kein Regex-Parse)
+ *   - uebersicht-Cookies sind stabiler als einsteiger-Cookies
+ *   - Nur 1 Trefferlisten-Request statt 4-Methoden-Brute-Force
  */
 async function tryDpmaScrape(query: string): Promise<{ totalHits: number; hits: TrademarkHit[] } | null> {
   const baseHeaders = {
@@ -335,119 +342,94 @@ async function tryDpmaScrape(query: string): Promise<{ totalHits: number; hits: 
   };
 
   try {
-    // Step 1: Session-Cookie von Einsteigerseite holen
+    // Step 1: JSESSIONID-Cookies von uebersicht-Seite holen
     let sessionCookie = "";
     try {
       const initCtrl = new AbortController();
       const initT = setTimeout(() => initCtrl.abort(), 8000);
-      const initResp = await fetch("https://register.dpma.de/DPMAregister/marke/einsteiger", {
+      const initResp = await fetch("https://register.dpma.de/DPMAregister/uebersicht", {
         headers: baseHeaders,
         signal: initCtrl.signal,
         redirect: "follow",
       });
       clearTimeout(initT);
       const setCookie = initResp.headers.get("set-cookie") || "";
-      // Extrahiere JSESSIONID + ggf. weitere DPMA-Cookies
       const cookieParts = setCookie
         .split(/,(?=[^,;]+=)/g)
         .map((c) => c.split(";")[0].trim())
         .filter(Boolean);
       sessionCookie = cookieParts.join("; ");
+      console.log(`DPMA uebersicht: ${initResp.status}, cookies-parts=${cookieParts.length}`);
     } catch (e) {
-      console.warn("DPMA Session-Init fehlgeschlagen, versuche ohne Cookie:", e);
+      console.warn("DPMA uebersicht-Init fehlgeschlagen:", e);
     }
 
-    // Step 2: Trefferliste — mehrere Methoden + URLs probieren
-    const attempts: { method: "GET" | "POST"; url: string; body?: string; contentType?: string }[] = [
-      // 1) GET mit queryString = die einfachste Variante (User-Screenshot URL)
-      {
-        method: "GET",
-        url: `https://register.dpma.de/DPMAregister/marke/trefferliste?queryString=${encodeURIComponent(query)}`,
-      },
-      // 2) GET mit allen 5 Feldern OR-verknüpft (wie Quick-Search es intern macht)
-      {
-        method: "GET",
-        url: `https://register.dpma.de/DPMAregister/marke/trefferlisteOR?queryString=${encodeURIComponent(query)}&docId=&queryStringSchutzformen=&queryStringSchutzformenSearchOption=OR`,
-      },
-      // 3) POST direkt — manche JSF-Apps brauchen POST
-      {
-        method: "POST",
-        url: "https://register.dpma.de/DPMAregister/marke/trefferliste",
-        body: `queryString=${encodeURIComponent(query)}&queryStringSchutzformenSearchOption=OR`,
-        contentType: "application/x-www-form-urlencoded",
-      },
-      // 4) Erweiterte Recherche direkt
-      {
-        method: "POST",
-        url: "https://register.dpma.de/DPMAregister/marke/erweiterterecherche",
-        body: `marke=${encodeURIComponent(query)}&rn=${encodeURIComponent(query)}&akz=${encodeURIComponent(query)}&queryStringSchutzformenSearchOption=OR`,
-        contentType: "application/x-www-form-urlencoded",
-      },
-    ];
-
-    let html = "";
-    let lastStatus = 0;
-    let lastUrl = "";
-    for (const attempt of attempts) {
-      try {
-        const ctrl = new AbortController();
-        const t = setTimeout(() => ctrl.abort(), 12000);
-        const resp = await fetch(attempt.url, {
-          method: attempt.method,
+    // Step 2: smartsearch → JSON mit Trefferzahlen + Deeplinks
+    let marLink = "";
+    let totalHits = 0;
+    try {
+      const ssCtrl = new AbortController();
+      const ssT = setTimeout(() => ssCtrl.abort(), 10000);
+      const ssResp = await fetch(
+        `https://register.dpma.de/DPMAregister/smartsearch?queryString=${encodeURIComponent(query)}`,
+        {
           headers: {
             ...baseHeaders,
-            Referer: "https://register.dpma.de/DPMAregister/marke/einsteiger",
+            Accept: "application/json",
+            Referer: "https://register.dpma.de/DPMAregister/uebersicht",
             ...(sessionCookie ? { Cookie: sessionCookie } : {}),
-            ...(attempt.contentType ? { "Content-Type": attempt.contentType } : {}),
           },
-          body: attempt.body,
-          signal: ctrl.signal,
+          signal: ssCtrl.signal,
+        },
+      );
+      clearTimeout(ssT);
+      if (ssResp.ok) {
+        const data = await ssResp.json();
+        totalHits = parseInt(String(data?.marHits ?? "0"), 10) || 0;
+        marLink = String(data?.marLink ?? "");
+        console.log(`DPMA smartsearch: marHits=${totalHits}, marLink=${marLink}`);
+      } else {
+        console.warn(`DPMA smartsearch HTTP ${ssResp.status}`);
+      }
+    } catch (e) {
+      console.warn("DPMA smartsearch fehlgeschlagen:", e);
+    }
+
+    // Wenn keine Treffer: leeres Result (gilt als Success, nicht null)
+    if (totalHits === 0) {
+      return { totalHits: 0, hits: [] };
+    }
+
+    // Step 3: marLink fetchen → folgt 302 zur trefferliste
+    let html = "";
+    if (marLink) {
+      try {
+        const urlFull = marLink.startsWith("http") ? marLink : `https://register.dpma.de${marLink}`;
+        const trCtrl = new AbortController();
+        const trT = setTimeout(() => trCtrl.abort(), 15000);
+        const trResp = await fetch(urlFull, {
+          headers: {
+            ...baseHeaders,
+            Referer: "https://register.dpma.de/DPMAregister/uebersicht",
+            ...(sessionCookie ? { Cookie: sessionCookie } : {}),
+          },
+          signal: trCtrl.signal,
           redirect: "follow",
         });
-        clearTimeout(t);
-        lastStatus = resp.status;
-        lastUrl = attempt.url;
-        if (resp.ok) {
-          const text = await resp.text();
-          // Nur als Erfolg werten wenn HTML eine Trefferliste-Spur enthält
-          if (
-            text.length > 1000 &&
-            (/\/marke\/register\/\d+\/DE/.test(text) ||
-              /Trefferliste|Treffer:|Treffer\b/i.test(text) ||
-              /Keine Treffer|kein Treffer/i.test(text))
-          ) {
-            html = text;
-            console.log(`DPMA ok via ${attempt.method} ${attempt.url} (${html.length} bytes)`);
-            break;
-          }
+        clearTimeout(trT);
+        if (trResp.ok) {
+          html = await trResp.text();
+          console.log(`DPMA trefferliste: ${trResp.status}, ${html.length} bytes`);
         }
       } catch (e) {
-        console.warn(`DPMA ${attempt.method} ${attempt.url} fail:`, e);
+        console.warn("DPMA trefferliste fehlgeschlagen:", e);
       }
     }
 
+    // Wenn Trefferliste-Fetch fehlgeschlagen aber smartsearch hat Hits gefunden:
+    // gib totalHits zurück mit leerem hits-Array — User sieht die Anzahl
     if (!html) {
-      console.warn(`DPMA: alle URL-Varianten fail, lastStatus=${lastStatus}`);
-      return null;
-    }
-
-    // Step 3: Parse "Trefferliste: X Treffer"
-    let totalHits = 0;
-    const totalPatterns = [
-      /Trefferliste\s*:?\s*(\d+(?:\.\d{3})*)\s*Treffer/i, // "Trefferliste: 1 Treffer"
-      /Marken[^(]*\(\s*(\d+(?:\.\d{3})*)\s*Treffer/i, // Tab-Header "Marken (1 Treffer)"
-      /(\d+(?:\.\d{3})*)\s*Treffer\b/i, // Generic Fallback
-      />Treffer:\s*(\d+(?:\.\d{3})*)/i,
-    ];
-    for (const re of totalPatterns) {
-      const m = html.match(re);
-      if (m) {
-        totalHits = parseInt(m[1].replace(/\./g, ""), 10);
-        break;
-      }
-    }
-    if (totalHits === 0 && /Keine Treffer|0\s*Treffer/i.test(html)) {
-      totalHits = 0;
+      return { totalHits, hits: [] };
     }
 
     // Step 4: Hits parsen — RADIKAL einfach
