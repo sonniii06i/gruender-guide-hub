@@ -936,6 +936,45 @@ async function checkAppStore(query: string): Promise<AppStoreResult> {
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
+  // DEBUG-MODE: ?debug=dpma → testet DPMA-Endpoint direkt + returnt Diagnose
+  const reqUrl = new URL(req.url);
+  if (reqUrl.searchParams.get("debug") === "dpma") {
+    const diag: Record<string, unknown> = { _fnVersion: "dpma-smartsearch-v2-2026-05-15" };
+    try {
+      const r1 = await fetch("https://register.dpma.de/DPMAregister/uebersicht", {
+        headers: { "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Safari/605.1.15" },
+      });
+      diag.uebersichtStatus = r1.status;
+      diag.uebersichtCookieRaw = (r1.headers.get("set-cookie") || "").slice(0, 200);
+      const cookie = (r1.headers.get("set-cookie") || "")
+        .split(/,(?=[^,;]+=)/g)
+        .map((c) => c.split(";")[0].trim())
+        .filter(Boolean)
+        .join("; ");
+      diag.cookieParsed = cookie.slice(0, 100);
+
+      const r2 = await fetch(
+        "https://register.dpma.de/DPMAregister/smartsearch?queryString=cerise",
+        {
+          headers: {
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Safari/605.1.15",
+            Accept: "application/json",
+            Referer: "https://register.dpma.de/DPMAregister/uebersicht",
+            ...(cookie ? { Cookie: cookie } : {}),
+          },
+        },
+      );
+      diag.smartsearchStatus = r2.status;
+      const body = await r2.text();
+      diag.smartsearchBody = body.slice(0, 500);
+    } catch (e) {
+      diag.error = e instanceof Error ? e.message : String(e);
+    }
+    return new Response(JSON.stringify(diag, null, 2), {
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
+
   try {
     const { name } = await req.json();
     if (!name || typeof name !== "string") {
@@ -972,6 +1011,7 @@ serve(async (req) => {
         appStore: appStoreResult,
         trademarks: trademarkResult,
         timestamp: new Date().toISOString(),
+        _fnVersion: "dpma-smartsearch-v2-2026-05-15",
       }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
