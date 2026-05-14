@@ -485,32 +485,63 @@ async function tryDpmaScrape(query: string): Promise<{ totalHits: number; hits: 
       if (seen.has(applicationNumber)) continue;
       seen.add(applicationNumber);
 
-      // Versuche den Namen aus dem umgebenden Kontext zu extrahieren (200 Zeichen nach dem Anker)
+      // Slice nur bis zum nächsten </tr> beschränken — sonst läuft Parser in nächste Zeile rein
       const linkPos = linkMatch.index ?? 0;
-      const slice = html.slice(linkPos, linkPos + 1500);
+      const rowEnd = html.indexOf("</tr>", linkPos);
+      const slice = html.slice(linkPos, rowEnd > 0 ? rowEnd : linkPos + 1500);
       let name = query;
       let status = "";
 
-      // Suche nächsten <td>-Inhalt nach dem Anker
-      const tdsAfter = Array.from(slice.matchAll(/<td[^>]*>([\s\S]*?)<\/td>/gi));
-      for (const tdM of tdsAfter) {
-        const text = tdM[1]
+      // PRIO 1: td mit data-th="Markendarstellung"
+      const markenTd = slice.match(/<td[^>]*data-th="Markendarstellung"[^>]*>([\s\S]*?)<\/td>/i);
+      if (markenTd) {
+        // Versuche Text-Inhalt zuerst
+        const textOnly = markenTd[1]
+          .replace(/<img[^>]*alt="([^"]+)"[^>]*>/gi, (_m, alt) => {
+            // Bei Bild-Marken: alt-Text extrahieren — Format "Darstellung der Marke X (NAME)"
+            const altMatch = alt.match(/\(([^)]+)\)\s*$/);
+            return altMatch ? altMatch[1] : alt;
+          })
           .replace(/<[^>]+>/g, "")
           .replace(/&amp;/g, "&")
           .replace(/&nbsp;/g, " ")
           .replace(/&[a-z]+;/gi, " ")
           .replace(/\s+/g, " ")
           .trim();
-        if (!text) continue;
-        if (text === applicationNumber) continue;
-        if (/^(DE|EM|EU|WO)$/i.test(text)) continue;
-        if (/Marke (eingetragen|gelöscht|abgelehnt)|Widerspruchsfrist|zurückgenommen|Anmeldung\sgelöscht/i.test(text)) {
-          if (!status) status = text;
-          continue;
+        if (textOnly && textOnly.length >= 1 && textOnly.length <= 200 && !/^\d+$/.test(textOnly)) {
+          name = textOnly;
         }
-        if (text.length >= 1 && text.length <= 200) {
-          name = text;
-          break; // erster sinnvoller Wert ist die Markendarstellung
+      }
+
+      // PRIO 2: td mit data-th="Aktenzustand" für Status
+      const zustandTd = slice.match(/<td[^>]*data-th="Aktenzustand"[^>]*>([\s\S]*?)<\/td>/i);
+      if (zustandTd) {
+        status = zustandTd[1].replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
+      }
+
+      // FALLBACK: alte td-Loop-Logik wenn explizite td's nicht gefunden
+      if (name === query) {
+        const tdsAfter = Array.from(slice.matchAll(/<td[^>]*>([\s\S]*?)<\/td>/gi));
+        for (const tdM of tdsAfter) {
+          const text = tdM[1]
+            .replace(/<[^>]+>/g, "")
+            .replace(/&amp;/g, "&")
+            .replace(/&nbsp;/g, " ")
+            .replace(/&[a-z]+;/gi, " ")
+            .replace(/\s+/g, " ")
+            .trim();
+          if (!text) continue;
+          if (text === applicationNumber) continue;
+          if (/^(DE|EM|EU|WO)$/i.test(text)) continue;
+          if (/^\d{1,3}$/.test(text)) continue; // Nr-Spalte überspringen
+          if (/Marke (eingetragen|gelöscht|abgelehnt)|Widerspruchsfrist|zurückgenommen|Anmeldung\sgelöscht/i.test(text)) {
+            if (!status) status = text;
+            continue;
+          }
+          if (text.length >= 1 && text.length <= 200) {
+            name = text;
+            break;
+          }
         }
       }
 
@@ -1049,7 +1080,7 @@ serve(async (req) => {
         appStore: appStoreResult,
         trademarks: trademarkResult,
         timestamp: new Date().toISOString(),
-        _fnVersion: "dpma-smartsearch-v4-manual-redirect-2026-05-15",
+        _fnVersion: "dpma-smartsearch-v5-precise-parse-2026-05-15",
       }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
