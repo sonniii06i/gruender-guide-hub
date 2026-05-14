@@ -939,7 +939,7 @@ serve(async (req) => {
   // DEBUG-MODE: ?debug=dpma → testet DPMA-Endpoint direkt + returnt Diagnose
   const reqUrl = new URL(req.url);
   if (reqUrl.searchParams.get("debug") === "dpma") {
-    const diag: Record<string, unknown> = { _fnVersion: "dpma-smartsearch-v2-2026-05-15" };
+    const diag: Record<string, unknown> = { _fnVersion: "dpma-smartsearch-v3-2026-05-15-resync" };
     try {
       const r1 = await fetch("https://register.dpma.de/DPMAregister/uebersicht", {
         headers: { "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Safari/605.1.15" },
@@ -1011,7 +1011,7 @@ serve(async (req) => {
         appStore: appStoreResult,
         trademarks: trademarkResult,
         timestamp: new Date().toISOString(),
-        _fnVersion: "dpma-smartsearch-v2-2026-05-15",
+        _fnVersion: "dpma-smartsearch-v3-2026-05-15-resync",
       }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
