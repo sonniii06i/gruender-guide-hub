@@ -322,7 +322,7 @@ interface TrademarkHit {
 }
 
 /**
- * DPMA-Register Quick-Search.
+ * DPMA-Register Quick-Search v2 (force-redeploy 2026-05-14).
  * NEUE Strategie (Stand 2026-05, vom User entdeckter Pfad):
  *   1. GET /DPMAregister/uebersicht → JSESSIONID-Cookies einsammeln
  *   2. GET /DPMAregister/smartsearch?queryString=<term> → JSON mit marHits/patHits/gsmHits + Deeplinks
