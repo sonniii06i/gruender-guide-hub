@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { STB_POOL, matchStbs, type Briefing, type StbSpecTag } from "@/data/stbPool";
+import { STB_POOL, STB_AVOID_LIST, matchStbs, type Briefing, type StbSpecTag } from "@/data/stbPool";
 import {
   Building2,
   Search,
@@ -15,6 +15,10 @@ import {
   Sparkles,
   Shield,
   Loader2,
+  Star,
+  Wifi,
+  ShieldAlert,
+  MessageCircle,
 } from "lucide-react";
 
 const RECHTSFORM_OPTIONS = [
@@ -100,7 +104,16 @@ const StbMatch = () => {
     });
   };
 
-  const matches = useMemo(() => matchStbs(briefing), [briefing]);
+  const [onlineOnly, setOnlineOnly] = useState(false);
+  const [minRating, setMinRating] = useState<0 | 4.0 | 4.5 | 4.8>(0);
+  const [showAll, setShowAll] = useState(false);
+  const [showAvoid, setShowAvoid] = useState(false);
+
+  const matches = useMemo(
+    () => matchStbs(briefing, { onlineOnly, minRating }),
+    [briefing, onlineOnly, minRating],
+  );
+  const visibleMatches = showAll ? matches : matches.slice(0, 12);
   const selectedStbList = useMemo(() => STB_POOL.filter((s) => selectedStbs.has(s.id)), [selectedStbs]);
 
   const toggleStb = (id: string) => {
@@ -530,21 +543,111 @@ const StbMatch = () => {
               <Search className="h-4 w-4 text-emerald-700 shrink-0 mt-0.5" />
               <div className="flex-1">
                 <div className="font-semibold text-sm">
-                  Top-Match aus 11 Spezialisten — Algorithm-Score basierend auf deinem Briefing
+                  Top-Match aus {STB_POOL.length} Spezialisten — Algorithm-Score basierend auf deinem Briefing
                 </div>
                 <div className="text-xs text-muted-foreground mt-0.5">
                   Wähle bis zu 3 Kanzleien aus. Match-Algorithm basiert auf Spezial-Tags + Größe + Tool-Stack +
-                  Sprachen. Liste ist redaktionell kuratiert (öffentlich bekannte Specialists), keine Affiliate-Beziehung.
+                  Sprachen + Online-Fähigkeit + öffentlichen Bewertungen. Liste ist redaktionell kuratiert
+                  (öffentlich bekannte Specialists), keine Affiliate-Beziehung.
                 </div>
                 <div className="text-xs text-accent-blue font-semibold mt-1">
-                  {selectedStbs.size} / 3 ausgewählt
+                  {selectedStbs.size} / 3 ausgewählt · {matches.length} passende Kanzleien gefiltert
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {matches.map((m, idx) => {
+          {/* === FILTER-CHIPS === */}
+          <div className="rounded-2xl border border-border bg-card p-4">
+            <div className="flex items-center justify-between mb-3">
+              <div className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                Filter
+              </div>
+              {(onlineOnly || minRating > 0) && (
+                <button
+                  onClick={() => {
+                    setOnlineOnly(false);
+                    setMinRating(0);
+                  }}
+                  className="text-[11px] text-muted-foreground hover:text-foreground underline"
+                >
+                  Zurücksetzen
+                </button>
+              )}
+            </div>
+            <div className="flex flex-wrap gap-2 items-center">
+              <button
+                onClick={() => setOnlineOnly((v) => !v)}
+                className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold transition-colors ${
+                  onlineOnly
+                    ? "bg-accent-blue text-primary-foreground"
+                    : "border border-border bg-card hover:bg-secondary"
+                }`}
+              >
+                <Wifi className="h-3.5 w-3.5" /> Nur Online-Kanzleien
+              </button>
+
+              <div className="inline-flex items-center gap-1 border border-border bg-card rounded-full p-1">
+                <span className="text-[11px] text-muted-foreground px-2">Min-Rating:</span>
+                {([0, 4.0, 4.5, 4.8] as const).map((r) => (
+                  <button
+                    key={r}
+                    onClick={() => setMinRating(r)}
+                    className={`rounded-full px-2.5 py-1 text-[11px] font-semibold transition-colors ${
+                      minRating === r
+                        ? "bg-accent-blue text-primary-foreground"
+                        : "hover:bg-secondary text-muted-foreground"
+                    }`}
+                  >
+                    {r === 0 ? "alle" : `${r.toFixed(1)}★`}
+                  </button>
+                ))}
+              </div>
+
+              <button
+                onClick={() => setShowAvoid((v) => !v)}
+                className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold border border-red-500/30 bg-red-500/5 text-red-700 hover:bg-red-500/10"
+              >
+                <ShieldAlert className="h-3.5 w-3.5" /> AVOID-Liste {showAvoid ? "ausblenden" : "anzeigen"} ({STB_AVOID_LIST.length})
+              </button>
+            </div>
+          </div>
+
+          {/* === AVOID-Box === */}
+          {showAvoid && (
+            <div className="rounded-2xl border border-red-500/30 bg-red-500/5 p-4">
+              <div className="flex items-start gap-2 mb-2">
+                <ShieldAlert className="h-4 w-4 text-red-700 shrink-0 mt-0.5" />
+                <div>
+                  <div className="font-bold text-sm text-red-700">
+                    Kanzleien wo Community/Reviews überwiegend warnen
+                  </div>
+                  <div className="text-xs text-red-700/80">
+                    Nicht im Match-Pool — basierend auf öffentlichen Beschwerde-Aggregaten.
+                  </div>
+                </div>
+              </div>
+              <ul className="space-y-2">
+                {STB_AVOID_LIST.map((a, i) => (
+                  <li key={i} className="rounded-lg border border-red-500/20 bg-card p-3">
+                    <div className="font-semibold text-sm">{a.name}</div>
+                    <div className="text-xs text-muted-foreground mt-0.5">{a.reason}</div>
+                    <div className="text-[10px] text-muted-foreground/70 mt-1 italic">Quelle: {a.source}</div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* === KARTEN-GRID === */}
+          {visibleMatches.length === 0 ? (
+            <div className="rounded-2xl border border-dashed border-border p-8 text-center text-sm text-muted-foreground">
+              Keine Kanzleien passen zu deinen Filtern. Schwächere Min-Rating-Schwelle wählen oder
+              Online-only-Filter deaktivieren.
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {visibleMatches.map((m, idx) => {
               const isSelected = selectedStbs.has(m.stb.id);
               const canSelect = selectedStbs.size < 3 || isSelected;
               return (
@@ -557,8 +660,8 @@ const StbMatch = () => {
                   }`}
                 >
                   <div className="flex items-start justify-between mb-2">
-                    <div>
-                      <div className="flex items-center gap-2 mb-0.5">
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-1.5 mb-0.5 flex-wrap">
                         <span className="text-[10px] font-bold uppercase tracking-wider rounded-full bg-accent-blue/10 text-accent-blue px-2 py-0.5">
                           Score {m.score}
                         </span>
@@ -567,13 +670,35 @@ const StbMatch = () => {
                             Top {idx + 1}
                           </span>
                         )}
+                        {m.stb.online_first && (
+                          <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider rounded-full bg-blue-500/10 text-blue-700 px-2 py-0.5">
+                            <Wifi className="h-2.5 w-2.5" /> Online
+                          </span>
+                        )}
+                        {m.stb.rating !== undefined && (
+                          <span
+                            className={`inline-flex items-center gap-1 text-[10px] font-bold rounded-full px-2 py-0.5 ${
+                              m.stb.rating >= 4.7
+                                ? "bg-emerald-500/10 text-emerald-700"
+                                : m.stb.rating >= 4.0
+                                ? "bg-amber-500/10 text-amber-700"
+                                : "bg-red-500/10 text-red-700"
+                            }`}
+                            title={`${m.stb.rating}★ aus ${m.stb.rating_count ?? "?"} Bewertungen via ${m.stb.rating_source ?? "?"}`}
+                          >
+                            <Star className="h-2.5 w-2.5 fill-current" /> {m.stb.rating.toFixed(1)}
+                            {m.stb.rating_count !== undefined && (
+                              <span className="opacity-70 font-normal">({m.stb.rating_count})</span>
+                            )}
+                          </span>
+                        )}
                         <span className="text-[10px] text-muted-foreground">
                           {m.stb.groesse === "boutique" ? "Boutique" : m.stb.groesse === "mid" ? "Mid-Market" : "Enterprise"}
                         </span>
                       </div>
                       <h4 className="font-bold text-base flex items-center gap-1.5">
-                        <Building2 className="h-4 w-4 text-muted-foreground" />
-                        {m.stb.name}
+                        <Building2 className="h-4 w-4 text-muted-foreground shrink-0" />
+                        <span className="truncate">{m.stb.name}</span>
                       </h4>
                       <div className="text-[11px] text-muted-foreground">
                         {m.stb.city} · {m.stb.sprachen.join(", ").toUpperCase()}
@@ -613,6 +738,13 @@ const StbMatch = () => {
                     <div className="text-[10px] text-accent-blue mb-2">→ {m.reason}</div>
                   )}
 
+                  {m.stb.reddit_mention && (
+                    <div className="flex items-start gap-1.5 text-[10px] text-muted-foreground italic mb-2 rounded-md bg-muted/40 px-2 py-1.5">
+                      <MessageCircle className="h-3 w-3 mt-0.5 shrink-0" />
+                      <span>{m.stb.reddit_mention}</span>
+                    </div>
+                  )}
+
                   <details className="text-xs">
                     <summary className="cursor-pointer text-muted-foreground hover:text-foreground">
                       Was sie besonders gut können
@@ -634,7 +766,17 @@ const StbMatch = () => {
                 </div>
               );
             })}
-          </div>
+            </div>
+          )}
+
+          {!showAll && matches.length > 12 && (
+            <button
+              onClick={() => setShowAll(true)}
+              className="w-full rounded-xl border border-dashed border-border bg-card hover:bg-secondary px-4 py-3 text-sm font-semibold text-muted-foreground"
+            >
+              Alle {matches.length} Kanzleien anzeigen ({matches.length - 12} weitere)
+            </button>
+          )}
 
           <div className="flex justify-between">
             <button
