@@ -8,6 +8,7 @@ import {
   buildIcs,
   confirmationEmail,
   adminNotifyEmail,
+  encodeMimeSubject,
   type BookingRow,
 } from "../_shared/booking-emails.ts";
 
@@ -76,10 +77,10 @@ Deno.serve(async (req) => {
 
     // 1) User-Email mit ICS-Anhang
     await client.send({
-      from: `GründerX <${ADMIN_EMAIL}>`,
+      from: `GruenderX 1:1 <${ADMIN_EMAIL}>`,
       to: `${b.name} <${b.email}>`,
       replyTo: ADMIN_EMAIL,
-      subject: userMail.subject,
+      subject: encodeMimeSubject(userMail.subject),
       content: userMail.text,
       html: userMail.html,
       attachments: [
@@ -94,10 +95,10 @@ Deno.serve(async (req) => {
 
     // 2) Admin-Notification
     await client.send({
-      from: `GründerX Booking <${ADMIN_EMAIL}>`,
+      from: `GruenderX Booking <${ADMIN_EMAIL}>`,
       to: ADMIN_EMAIL,
       replyTo: `${b.name} <${b.email}>`,
-      subject: adminMail.subject,
+      subject: encodeMimeSubject(adminMail.subject),
       content: adminMail.text,
       html: adminMail.html,
     });

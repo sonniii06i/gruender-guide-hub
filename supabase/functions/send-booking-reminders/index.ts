@@ -7,6 +7,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 import {
   reminder24hEmail,
   reminder15minEmail,
+  encodeMimeSubject,
   type BookingRow,
 } from "../_shared/booking-emails.ts";
 
@@ -72,10 +73,10 @@ Deno.serve(async (req) => {
       try {
         const mail = reminder24hEmail(b);
         await client.send({
-          from: `GründerX <${ADMIN_EMAIL}>`,
+          from: `GruenderX 1:1 <${ADMIN_EMAIL}>`,
           to: `${b.name} <${b.email}>`,
           replyTo: ADMIN_EMAIL,
-          subject: mail.subject,
+          subject: encodeMimeSubject(mail.subject),
           content: mail.text,
           html: mail.html,
         });
@@ -98,10 +99,10 @@ Deno.serve(async (req) => {
       try {
         const mail = reminder15minEmail(b);
         await client.send({
-          from: `GründerX <${ADMIN_EMAIL}>`,
+          from: `GruenderX 1:1 <${ADMIN_EMAIL}>`,
           to: `${b.name} <${b.email}>`,
           replyTo: ADMIN_EMAIL,
-          subject: mail.subject,
+          subject: encodeMimeSubject(mail.subject),
           content: mail.text,
           html: mail.html,
         });
@@ -112,9 +113,9 @@ Deno.serve(async (req) => {
         if (!b.meet_link?.trim()) {
           try {
             await client.send({
-              from: `GründerX <${ADMIN_EMAIL}>`,
+              from: `GruenderX Booking <${ADMIN_EMAIL}>`,
               to: ADMIN_EMAIL,
-              subject: `⚠️ Meet-Link fehlt für Booking ${b.id.slice(0, 8)} — Call in 15 Min!`,
+              subject: encodeMimeSubject(`⚠️ Meet-Link fehlt für Booking ${b.id.slice(0, 8)} – Call in 15 Min!`),
               content: `Booking ${b.id} hat keinen meet_link gesetzt.\n\nUser: ${b.name} <${b.email}>\nSlot: ${b.slot_iso}\nThema: ${b.topic}\n\nJETZT manuell Meet-Link per Email an User schicken!`,
             });
           } catch (warnErr) {

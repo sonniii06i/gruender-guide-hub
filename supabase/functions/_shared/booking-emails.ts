@@ -14,6 +14,19 @@ export interface BookingRow {
 const escapeHtml = (s: string) =>
   s.replace(/[<>&"]/g, (c) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;", '"': "&quot;" }[c]!));
 
+// RFC 2047 MIME-B-encoded-word für Email-Subjects mit Unicode.
+// denomailer (deno-x SMTP-Client) hat einen kaputten Quoted-Printable-Encoder
+// für Subjects — daher pre-encoden wir selbst zu Base64-encoded-word.
+export const encodeMimeSubject = (s: string): string => {
+  // Pure ASCII? → unverändert lassen
+  if (/^[\x20-\x7E]*$/.test(s)) return s;
+  const utf8 = new TextEncoder().encode(s);
+  let bin = "";
+  for (const b of utf8) bin += String.fromCharCode(b);
+  const b64 = btoa(bin);
+  return `=?UTF-8?B?${b64}?=`;
+};
+
 // === ICS-Builder ===
 export const buildIcs = (b: BookingRow): string => {
   const start = new Date(b.slot_iso);
@@ -62,7 +75,7 @@ const formatDateDe = (iso: string): string =>
 
 // === Email-Templates ===
 export const confirmationEmail = (b: BookingRow) => ({
-  subject: `✓ Termin bestätigt: ${formatDateDe(b.slot_iso)} Uhr — GründerX 1:1-Call`,
+  subject: `✓ Termin bestätigt: ${formatDateDe(b.slot_iso)} Uhr – GründerX 1:1-Call`,
   text: `Hallo ${b.name},
 
 dein 1:1-Strategie-Call ist verbindlich gebucht.
