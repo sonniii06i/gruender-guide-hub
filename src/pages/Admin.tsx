@@ -11,8 +11,9 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Loader2, Send, Inbox, Users, CreditCard, BarChart3, Search, Download,
-  TrendingUp, UserPlus, Activity, MessageSquare,
+  TrendingUp, UserPlus, Activity, MessageSquare, Calendar,
 } from "lucide-react";
+import { BookingsAdmin } from "@/components/admin/BookingsAdmin";
 import { toast } from "sonner";
 import { formatDistanceToNow } from "date-fns";
 import { de } from "date-fns/locale";
@@ -218,6 +219,7 @@ const Admin = () => {
           <TabsTrigger value="kunden"><Users className="h-4 w-4 mr-1" /> Kunden ({stats.totalUsers})</TabsTrigger>
           <TabsTrigger value="abos"><CreditCard className="h-4 w-4 mr-1" /> Abos ({stats.activePaid})</TabsTrigger>
           <TabsTrigger value="tickets"><Inbox className="h-4 w-4 mr-1" /> Tickets ({stats.openTickets})</TabsTrigger>
+          <TabsTrigger value="bookings"><Calendar className="h-4 w-4 mr-1" /> Bookings</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview">
@@ -338,6 +340,10 @@ const Admin = () => {
               )}
             </div>
           </div>
+        </TabsContent>
+
+        <TabsContent value="bookings">
+          <BookingsAdmin />
         </TabsContent>
       </Tabs>
     </CockpitShell>

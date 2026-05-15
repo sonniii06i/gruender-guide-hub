@@ -35,3 +35,10 @@ verify_jwt = false
 
 [functions.amazon-fees-estimate]
 verify_jwt = false
+
+[functions.send-booking-confirmation]
+verify_jwt = true
+
+[functions.send-booking-reminders]
+verify_jwt = false
+

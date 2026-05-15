@@ -16,7 +16,73 @@ import {
   Video,
   ArrowRight,
   Sparkles,
+  Download,
+  CalendarPlus,
+  Mail,
 } from "lucide-react";
+
+// === ICS-Builder für .ics-Download / Calendar-Invite ===
+const buildIcsContent = (slotIso: string, topic: string, attendeeName: string, attendeeEmail: string) => {
+  const start = new Date(slotIso);
+  const end = new Date(start.getTime() + 30 * 60 * 1000);
+  const fmt = (d: Date) =>
+    d.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
+  const uid = `${start.getTime()}-${attendeeEmail}@gruender-guide-hub`;
+  const lines = [
+    "BEGIN:VCALENDAR",
+    "VERSION:2.0",
+    "PRODID:-//Gruender-Guide-Hub//1on1//DE",
+    "CALSCALE:GREGORIAN",
+    "METHOD:REQUEST",
+    "BEGIN:VEVENT",
+    `UID:${uid}`,
+    `DTSTAMP:${fmt(new Date())}`,
+    `DTSTART:${fmt(start)}`,
+    `DTEND:${fmt(end)}`,
+    `SUMMARY:1:1 Strategie-Call — ${topic}`,
+    `DESCRIPTION:30 Min Strategie-Call zum Thema "${topic}". Google-Meet-Link kommt per Email am Termin-Tag.`,
+    "LOCATION:Google Meet (Link per Email)",
+    `ORGANIZER;CN=Gruender Guide Hub:mailto:hi@gruender-guide-hub.de`,
+    `ATTENDEE;CN=${attendeeName};RSVP=TRUE:mailto:${attendeeEmail}`,
+    "STATUS:CONFIRMED",
+    "SEQUENCE:0",
+    "BEGIN:VALARM",
+    "TRIGGER:-PT30M",
+    "ACTION:DISPLAY",
+    "DESCRIPTION:1:1-Call in 30 Min",
+    "END:VALARM",
+    "END:VEVENT",
+    "END:VCALENDAR",
+  ];
+  return lines.join("\r\n");
+};
+
+const downloadIcs = (slotIso: string, topic: string, name: string, email: string) => {
+  const ics = buildIcsContent(slotIso, topic, name, email);
+  const blob = new Blob([ics], { type: "text/calendar;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `gruender-call-${new Date(slotIso).toISOString().slice(0, 10)}.ics`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+};
+
+const googleCalendarUrl = (slotIso: string, topic: string) => {
+  const start = new Date(slotIso);
+  const end = new Date(start.getTime() + 30 * 60 * 1000);
+  const fmt = (d: Date) => d.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
+  const params = new URLSearchParams({
+    action: "TEMPLATE",
+    text: `1:1 Strategie-Call — ${topic}`,
+    dates: `${fmt(start)}/${fmt(end)}`,
+    details: "30 Min Strategie-Call. Google-Meet-Link kommt per Email am Termin-Tag.",
+    location: "Google Meet (Link per Email)",
+  });
+  return `https://calendar.google.com/calendar/render?${params.toString()}`;
+};
 
 const TOPICS = [
   "Rechtsform-Entscheidung (Einzel / UG / GmbH / Holding)",
@@ -101,6 +167,28 @@ const Booking = () => {
     };
   }, []);
 
+  // Autofill Name + Email aus Account (profiles + auth)
+  useEffect(() => {
+    if (!user) return;
+    setEmail((prev) => prev || user.email || "");
+
+    let cancelled = false;
+    (async () => {
+      const { data } = await supabase
+        .from("profiles")
+        .select("first_name, last_name, phone")
+        .eq("id", user.id)
+        .maybeSingle();
+      if (cancelled || !data) return;
+      const fullName = [data.first_name, data.last_name].filter(Boolean).join(" ").trim();
+      setName((prev) => prev || fullName);
+      if (data.phone) setPhone((prev) => prev || data.phone);
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [user]);
+
   // Liste der nächsten 14 Werktage
   const days = useMemo(() => {
     const arr: Date[] = [];
@@ -179,60 +267,121 @@ const Booking = () => {
 
     setSuccess({ slot: selectedSlot, bookingId: data.id });
     setBookedSlots((prev) => new Set([...prev, selectedSlot]));
+
+    // Bestätigungs-Email + Admin-Notification triggern (fire-and-forget)
+    // Failed silently — User sieht trotzdem Confirmation-Page; Cron retry-Logik
+    // ist über confirmation_sent_at-Check vorhanden.
+    supabase.functions
+      .invoke("send-booking-confirmation", { body: { bookingId: data.id } })
+      .catch((err) => console.error("send-booking-confirmation invoke failed", err));
   };
 
   if (success) {
+    const slotDate = new Date(success.slot);
+    const endDate = new Date(slotDate.getTime() + 30 * 60 * 1000);
     return (
       <CockpitShell
         eyebrow="1:1-Berater-Termin"
         title="Termin gebucht ✓"
-        subtitle="Bestätigung kommt innerhalb 24h per Email."
+        subtitle="Speicher dir den Termin direkt in den Kalender — Bestätigungs-Email folgt."
+        showRelated={false}
       >
-        <div className="rounded-3xl border-2 border-emerald-500/40 bg-gradient-to-br from-emerald-500/10 to-emerald-500/5 p-8 text-center max-w-lg mx-auto shadow-sm">
-          <div className="inline-flex items-center justify-center h-16 w-16 rounded-full bg-emerald-500/15 mb-4">
-            <CheckCircle2 className="h-9 w-9 text-emerald-700" />
-          </div>
-          <h3 className="font-bold text-2xl mb-2">Termin steht ✓</h3>
-          <div className="text-base text-foreground mb-1 font-semibold">
-            {new Date(success.slot).toLocaleString("de-DE", {
-              weekday: "long",
-              day: "numeric",
-              month: "long",
-              hour: "2-digit",
-              minute: "2-digit",
-            })}{" "}
-            Uhr
-          </div>
-          <div className="text-sm text-muted-foreground mb-6">Thema: {topic}</div>
+        <div className="max-w-2xl mx-auto">
+          <div className="rounded-3xl border-2 border-emerald-500/40 bg-gradient-to-br from-emerald-500/10 to-emerald-500/5 p-6 md:p-8 shadow-sm">
+            <div className="flex flex-col items-center text-center">
+              <div className="inline-flex items-center justify-center h-16 w-16 rounded-full bg-emerald-500/15 mb-4">
+                <CheckCircle2 className="h-9 w-9 text-emerald-700" />
+              </div>
+              <h3 className="font-bold text-2xl mb-2">Termin steht ✓</h3>
+              <div className="text-base text-foreground mb-1 font-semibold">
+                {slotDate.toLocaleString("de-DE", {
+                  weekday: "long",
+                  day: "numeric",
+                  month: "long",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}{" "}
+                –{" "}
+                {endDate.toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" })} Uhr
+              </div>
+              <div className="text-sm text-muted-foreground mb-5">
+                30 Min · Google Meet · Thema: <strong className="text-foreground">{topic}</strong>
+              </div>
 
-          <div className="rounded-xl bg-white/70 border border-emerald-500/20 p-4 mb-5 text-left">
-            <div className="text-xs font-semibold text-emerald-700 mb-2 uppercase tracking-wider">
-              Was passiert jetzt
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 w-full mb-5">
+                <button
+                  onClick={() => downloadIcs(success.slot, topic, name, email)}
+                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-accent-blue text-primary-foreground px-4 py-3 text-sm font-bold hover:opacity-90 shadow-md transition-all"
+                >
+                  <Download className="h-4 w-4" /> .ics-Datei herunterladen
+                </button>
+                <a
+                  href={googleCalendarUrl(success.slot, topic)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 rounded-xl border-2 border-accent-blue/30 bg-card px-4 py-3 text-sm font-bold hover:bg-accent-blue/5 transition-all"
+                >
+                  <CalendarPlus className="h-4 w-4" /> Google Calendar
+                </a>
+              </div>
             </div>
-            <ol className="text-sm space-y-1.5 text-muted-foreground">
-              <li>1. Bestätigungs-Email mit Calendar-Invite (.ics) — innerhalb 24h</li>
-              <li>2. Video-Call-Link (Google Meet) per Email — am Termin-Tag</li>
-              <li>3. 30-Min-Call zum gewählten Termin</li>
-              <li>4. Optional: Follow-up-Notes per Email nach dem Call</li>
-            </ol>
-          </div>
 
-          <div className="text-xs text-muted-foreground mb-5">
-            Booking-ID: <span className="font-mono">{success.bookingId.slice(0, 8)}</span> ·{" "}
-            Stornierung bis 24h vorher kostenlos.
-          </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-5">
+              <div className="rounded-xl bg-white/70 border border-emerald-500/20 p-4">
+                <div className="text-xs font-semibold text-emerald-700 mb-2 uppercase tracking-wider flex items-center gap-1.5">
+                  <Mail className="h-3.5 w-3.5" /> Bestätigung
+                </div>
+                <div className="text-sm text-muted-foreground leading-relaxed">
+                  Email an <strong className="text-foreground break-all">{email}</strong> innerhalb 24h
+                  mit Calendar-Invite + Meet-Link.
+                </div>
+              </div>
+              <div className="rounded-xl bg-white/70 border border-emerald-500/20 p-4">
+                <div className="text-xs font-semibold text-emerald-700 mb-2 uppercase tracking-wider flex items-center gap-1.5">
+                  <Video className="h-3.5 w-3.5" /> Am Termin-Tag
+                </div>
+                <div className="text-sm text-muted-foreground leading-relaxed">
+                  Google-Meet-Link kommt 1h vorher per Email. Kein Download nötig.
+                </div>
+              </div>
+            </div>
 
-          <button
-            onClick={() => {
-              setSuccess(null);
-              setSelectedSlot(null);
-              setName("");
-              setMessage("");
-            }}
-            className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-card px-5 py-2.5 text-sm font-semibold hover:bg-secondary"
-          >
-            Weiteren Termin buchen <ArrowRight className="h-4 w-4" />
-          </button>
+            <div className="rounded-xl bg-white/70 border border-emerald-500/20 p-4 mb-5">
+              <div className="text-xs font-semibold text-emerald-700 mb-2 uppercase tracking-wider">
+                Was passiert jetzt
+              </div>
+              <ol className="text-sm space-y-1.5 text-muted-foreground">
+                <li>1. Bestätigungs-Email mit Calendar-Invite (.ics) — innerhalb 24h</li>
+                <li>2. Video-Call-Link (Google Meet) per Email — am Termin-Tag</li>
+                <li>3. 30-Min-Call zum gewählten Termin</li>
+                <li>4. Optional: Follow-up-Notes per Email nach dem Call</li>
+              </ol>
+            </div>
+
+            <div className="text-xs text-muted-foreground mb-5 text-center">
+              Booking-ID: <span className="font-mono">{success.bookingId.slice(0, 8)}</span> ·{" "}
+              Stornierung bis 24h vorher kostenlos.
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-2 justify-center">
+              <a
+                href="/dashboard"
+                className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-border bg-card px-5 py-2.5 text-sm font-semibold hover:bg-secondary"
+              >
+                ← Zurück zum Dashboard
+              </a>
+              <button
+                onClick={() => {
+                  setSuccess(null);
+                  setSelectedSlot(null);
+                  setMessage("");
+                }}
+                className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-border bg-card px-5 py-2.5 text-sm font-semibold hover:bg-secondary"
+              >
+                Weiteren Termin buchen <ArrowRight className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
         </div>
       </CockpitShell>
     );
