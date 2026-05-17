@@ -11,10 +11,43 @@ import {
   ExternalLink,
   Sparkles,
   Globe,
+  Info,
+  Users,
+  FileText,
 } from "lucide-react";
+
+// ============================================================
+// HK-LIMITED-WIZARD · Stand Mai 2026 (Total-Refactor)
+// ============================================================
+// Wichtige Updates Mai 2026:
+// - FSIE-Regime (Foreign-Sourced Income Exemption) seit 1.1.2023 verschärft
+//   (Anti-Misuse-Rules für passive Einkünfte — relevant für Holdings)
+// - Significant Controllers Register (SCR) seit 1.3.2018 Pflicht
+// - Two-Tier Profits Tax: unverändert 8.25% bis HKD 2M, 16.5% darüber
+// - HKMA Stablecoin-Lizenz April 2026 → strengere Bank-KYC
+// - Banking-Realität: HSBC verlangt persönliche HK-Vorstellung
+//   (~40-60% Ablehnungs-Quote bei Foreign-Founders)
+// - DBA DE-HK seit 2011 in Kraft (Quellensteuer-Reduktion)
+// ============================================================
+
+const STEP_LABELS = [
+  "Use-Case & Strategie",
+  "Director + Shareholder",
+  "Firmennamen prüfen",
+  "Company Secretary",
+  "Registered Office",
+  "Share Capital + Articles",
+  "NNC1 + Business Registration",
+  "SCR (Pflicht seit 2018)",
+  "Profits Tax + FSIE",
+  "Bank-Setup (kritisch!)",
+  "Audit + Annual Returns",
+];
 
 const HkLimitedWizard = () => {
   const [step, setStep] = useState(1);
+  const [useCase, setUseCase] = useState<"trading" | "holding" | "ip" | "ecom" | "consulting">("trading");
+  const [directorType, setDirectorType] = useState<"self-de" | "self-hk" | "nominee">("self-de");
   const [companyNameEn, setCompanyNameEn] = useState("");
   const [companyNameCn, setCompanyNameCn] = useState("");
   const [shareCapital, setShareCapital] = useState(10000);
@@ -24,8 +57,7 @@ const HkLimitedWizard = () => {
   const [bankPreference, setBankPreference] = useState<"statrys" | "airwallex" | "currenxie" | "hsbc">("statrys");
 
   const profitsTax = useMemo(() => {
-    // Two-tier system: 8.25% bis 2 Mio HKD, 16.5% darüber
-    const profitHkd = annualRevenue * 0.20 * 7.85; // grobe Schätzung 20 % Marge × HKD-Kurs
+    const profitHkd = annualRevenue * 0.20 * 7.85;
     const tier1Limit = 2_000_000;
     if (offshoreClaim) return 0;
     if (profitHkd <= tier1Limit) return profitHkd * 0.0825;
@@ -33,8 +65,8 @@ const HkLimitedWizard = () => {
   }, [annualRevenue, offshoreClaim]);
 
   const totalSetupCost = useMemo(() => {
-    const filing = 1720; // HKD Online Filing
-    const br = 250; // 1 Year BR
+    const filing = 1720;
+    const br = 250;
     const cs: Record<string, number> = {
       statrys: 1500,
       sleek: 1200,
@@ -45,39 +77,151 @@ const HkLimitedWizard = () => {
     return { filing, br, cs: cs[serviceProvider], total: filing + br + cs[serviceProvider] };
   }, [serviceProvider]);
 
+  const totalSteps = STEP_LABELS.length;
+
   return (
     <CockpitShell
-      eyebrow="HK-Limited-Wizard"
-      title="Hong Kong Limited gründen"
-      subtitle="Step-by-Step: Namens-Check, Company Secretary, NNC1-Filing, Business Registration, Bank, Audit-Setup. Mit Profits-Tax-Rechner + Offshore-Status-Check."
+      eyebrow="HK-Limited-Wizard · Stand Mai 2026"
+      title="Hong Kong Limited gründen — Schritt für Schritt"
+      subtitle="11 Steps: Strategie → Director/Shareholder → Name → CS → Office → Share Capital → NNC1+BR → SCR → Profits Tax+FSIE → Bank → Audit. Stand Mai 2026 inkl. FSIE-Reform 2023 + SCR-Pflicht + Banking-Realität (40-60% HSBC-Ablehnungsquote für Foreign Founders)."
     >
-      {/* Progress */}
-      <div className="flex items-center gap-2 mb-6">
-        {[1, 2, 3, 4, 5, 6].map((s) => (
-          <div key={s} className="flex items-center gap-1.5 flex-1">
-            <div
-              className={`h-6 w-6 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 ${
-                s < step
-                  ? "bg-emerald-500 text-white"
-                  : s === step
-                  ? "bg-accent-blue text-primary-foreground"
-                  : "bg-secondary text-muted-foreground"
-              }`}
-            >
-              {s < step ? <CheckCircle2 className="h-3 w-3" /> : s}
-            </div>
-            {s < 6 && <div className={`h-0.5 flex-1 ${s < step ? "bg-emerald-500" : "bg-border"}`} />}
-          </div>
-        ))}
+      {/* === Progress === */}
+      <div className="mb-6">
+        <div className="flex items-center gap-1 mb-2 overflow-x-auto">
+          {STEP_LABELS.map((_, i) => {
+            const s = i + 1;
+            return (
+              <div key={s} className="flex items-center gap-1 flex-1 min-w-0">
+                <div
+                  className={`h-6 w-6 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 ${
+                    s < step
+                      ? "bg-emerald-500 text-white"
+                      : s === step
+                      ? "bg-accent-blue text-primary-foreground ring-2 ring-accent-blue/30"
+                      : "bg-secondary text-muted-foreground"
+                  }`}
+                >
+                  {s < step ? <CheckCircle2 className="h-3 w-3" /> : s}
+                </div>
+                {s < totalSteps && (
+                  <div className={`h-0.5 flex-1 ${s < step ? "bg-emerald-500" : "bg-border"}`} />
+                )}
+              </div>
+            );
+          })}
+        </div>
+        <div className="text-xs text-muted-foreground">
+          Step {step}/{totalSteps}: <strong className="text-foreground">{STEP_LABELS[step - 1]}</strong>
+        </div>
       </div>
 
       <div className="rounded-2xl border border-border bg-card p-6 mb-6">
+        {/* STEP 1: Use-Case */}
         {step === 1 && (
           <>
-            <h2 className="text-base font-bold mb-1">1. Firmennamen prüfen</h2>
+            <h2 className="text-base font-bold mb-1">1. Use-Case definieren</h2>
             <p className="text-xs text-muted-foreground mb-4">
-              Englischer Name + optional Chinesischer Name. Verfügbarkeit beim Cyber Search Centre des Companies
-              Registry prüfen.
+              HK-LTD ist nicht für jeden ideal — Use-Case bestimmt Setup, Bank, Steuer-Strategie.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+              {[
+                { v: "trading" as const, l: "Active Trading / Service", d: "Cross-Border-Trade (Asien↔Europa), Consulting, Service-Geschäft", rec: "→ Standard-Setup, Two-Tier-Tax 8,25-16,5%" },
+                { v: "holding" as const, l: "Holding (passive)", d: "Beteiligungen halten, IP-Holding, Investment-Vehicle", rec: "→ FSIE 2023 KRITISCH — Substanz nötig!" },
+                { v: "ip" as const, l: "IP-Lizenzierung", d: "Royalties, Software-Lizenzen, Trademark-Holding", rec: "→ FSIE-Risk + Substanz-Anforderungen" },
+                { v: "ecom" as const, l: "E-Commerce Asien", d: "China/Asien-Marktzugang, Alibaba-Vendoren", rec: "→ Good Fit + ggf. Offshore-Claim" },
+                { v: "consulting" as const, l: "DE-Consultant mit Asien-Kunden", d: "Solo-Consultant, Asien-Klienten, will Asien-Banking", rec: "→ FSIE-Risk wenn passive Einkünfte mit DE-Wohnsitz" },
+              ].map((o) => (
+                <button
+                  key={o.v}
+                  onClick={() => setUseCase(o.v)}
+                  className={`text-left rounded-xl border p-3 text-sm transition-colors ${
+                    useCase === o.v
+                      ? "border-accent-blue bg-accent-blue/5 ring-1 ring-accent-blue/30"
+                      : "border-border hover:border-accent-blue/40"
+                  }`}
+                >
+                  <div className="font-bold mb-0.5">{o.l}</div>
+                  <div className="text-xs text-muted-foreground">{o.d}</div>
+                  <div className="text-[11px] text-accent-blue mt-1">{o.rec}</div>
+                </button>
+              ))}
+            </div>
+            {(useCase === "holding" || useCase === "ip" || useCase === "consulting") && (
+              <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-3 mt-3 text-xs">
+                <strong className="text-amber-700">⚠ FSIE-Warnung 2023+:</strong> Foreign-Sourced
+                Income Exemption wurde am 1.1.2023 verschärft. Für passive Einkünfte (Dividenden,
+                Zinsen, Royalties, Veräußerungsgewinne) musst du Substanz-Anforderungen erfüllen
+                (qualifizierte Mitarbeiter + Räume + Kosten in HK), sonst werden die Einkünfte
+                regulär besteuert (16,5%). Für DE-Wohnsitz-Owner zusätzlich §AStG-Risiko in DE.
+                Siehe <Link to="/cockpit/substance-checker" className="text-accent-blue underline">Substance-Checker</Link>.
+              </div>
+            )}
+          </>
+        )}
+
+        {/* STEP 2: Director + Shareholder */}
+        {step === 2 && (
+          <>
+            <h2 className="text-base font-bold mb-1">2. Director + Shareholder Setup</h2>
+            <p className="text-xs text-muted-foreground mb-4">
+              HK-Gesetz: mind. 1 Director (natürliche Person, jede Nationalität, KEIN HK-Resident-Status nötig)
+              + 1 Shareholder. Director kann gleichzeitig Shareholder sein.
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-3">
+              {[
+                { v: "self-de" as const, l: "Ich als DE-Resident-Director", d: "Standard für Solo-Founder. KEIN HK-Visum nötig.", rec: "✓ Empfohlen für Solo" },
+                { v: "self-hk" as const, l: "Lokaler HK-Resident-Director", d: "Wenn du selbst nach HK ziehst oder Partner mit HKID hast", rec: "✓ Beste Substanz" },
+                { v: "nominee" as const, l: "Nominee-Director", d: "Service-Provider (Sleek/Statrys) übernimmt. Für Privacy.", rec: "⚠ Substance-Issue + DBA-Risk" },
+              ].map((o) => (
+                <button
+                  key={o.v}
+                  onClick={() => setDirectorType(o.v)}
+                  className={`text-left rounded-xl border p-3 text-xs transition-colors ${
+                    directorType === o.v
+                      ? "border-accent-blue bg-accent-blue/5 ring-1 ring-accent-blue/30"
+                      : "border-border hover:border-accent-blue/40"
+                  }`}
+                >
+                  <div className="font-bold mb-0.5">{o.l}</div>
+                  <div className="text-muted-foreground mb-1">{o.d}</div>
+                  <div className="text-accent-blue">{o.rec}</div>
+                </button>
+              ))}
+            </div>
+
+            <div className="rounded-xl border border-border bg-secondary/30 p-4 text-xs">
+              <div className="font-bold text-sm mb-2">Anforderungen (Companies Ordinance §453):</div>
+              <ul className="space-y-1 text-muted-foreground list-disc pl-4">
+                <li><strong>Mind. 1 Director</strong>: natürliche Person, mind. 18 Jahre alt, jede Nationalität</li>
+                <li><strong>Mind. 1 Shareholder</strong>: natürliche Person ODER Body Corporate, max. 50 für Private Ltd</li>
+                <li>Director und Shareholder können IDENTISCH sein (Solo-Setup)</li>
+                <li><strong>HK-Resident-Director NICHT Pflicht</strong> (Unterschied zu SG/UK/EU!)</li>
+                <li>Pass-Kopie + Address-Proof aller Directors/Shareholders zwingend für SCR (Step 8)</li>
+              </ul>
+            </div>
+
+            {directorType === "nominee" && (
+              <div className="rounded-xl border border-red-500/30 bg-red-500/5 p-3 mt-3 text-xs">
+                <strong className="text-red-700">⚠ Nominee-Risiken:</strong>
+                <ul className="list-disc pl-4 mt-1 space-y-0.5 text-muted-foreground">
+                  <li>FSIE-Substance scheitert oft (Nominee = keine echte Mitwirkung)</li>
+                  <li>DBA-Anti-Treaty-Shopping (§50d Abs. 3 EStG analog) versagt Vorteile</li>
+                  <li>SCR-Eintrag muss trotzdem den ECHTEN Beneficial Owner zeigen</li>
+                  <li>HSBC + andere Banken lehnen Nominee-Setups oft ab</li>
+                  <li>HK-Companies Registry erkennt Nominee-Trick — keine wahre Privacy</li>
+                </ul>
+              </div>
+            )}
+          </>
+        )}
+
+        {/* STEP 3: Firmennamen */}
+        {step === 3 && (
+          <>
+            <h2 className="text-base font-bold mb-1">3. Firmennamen prüfen</h2>
+            <p className="text-xs text-muted-foreground mb-4">
+              Englischer Name + optional Chinesischer Name (Traditional). Beide werden offiziell registriert.
             </p>
             <div className="space-y-3">
               <div>
@@ -85,89 +229,82 @@ const HkLimitedWizard = () => {
                 <Input
                   value={companyNameEn}
                   onChange={(e) => setCompanyNameEn(e.target.value)}
-                  placeholder="z.B. Acme Trading Limited"
+                  placeholder='z.B. "Acme Trading Limited"'
                   className="mt-1"
                   autoFocus
                 />
                 <div className="text-[10px] text-muted-foreground mt-1">
-                  Muss "Limited" oder "Ltd" am Ende enthalten
+                  Muss mit "Limited" enden. Kein Apostroph, keine Sonderzeichen außer .,&-()
                 </div>
               </div>
               <div>
-                <Label className="text-xs uppercase tracking-wider text-muted-foreground">
-                  Chinesischer Name (optional)
-                </Label>
+                <Label className="text-xs uppercase tracking-wider text-muted-foreground">Chinesischer Name (Optional, Traditional)</Label>
                 <Input
                   value={companyNameCn}
                   onChange={(e) => setCompanyNameCn(e.target.value)}
-                  placeholder="例: 阿克美貿易有限公司"
+                  placeholder='z.B. "雅康貿易有限公司"'
                   className="mt-1"
                 />
                 <div className="text-[10px] text-muted-foreground mt-1">
-                  Bei China-Geschäft empfohlen — kostet nichts extra
+                  Optional aber empfohlen wenn China-/Asien-Geschäft. Hilft bei Bank-Onboarding +
+                  China-Marktauftritt. Wenn weggelassen: später nachregistrierbar (kostet HKD 295).
                 </div>
               </div>
-              <a
-                href="https://www.icris.cr.gov.hk"
-                target="_blank"
-                rel="noreferrer noopener"
-                className="inline-flex items-center gap-1 text-xs text-accent-blue hover:underline"
-              >
-                ICRIS Cyber Search Centre — Verfügbarkeit prüfen{" "}
-                <ExternalLink className="h-3 w-3" />
-              </a>
+            </div>
+
+            <div className="rounded-xl border border-border bg-secondary/30 p-3 mt-3 text-xs">
+              <div className="font-bold mb-2">Verfügbarkeit prüfen — 3-Step-Check:</div>
+              <ul className="space-y-1.5 text-muted-foreground">
+                <li>
+                  <strong>1.</strong>{" "}
+                  <a
+                    href="https://www.cr.gov.hk/en/services/cyber-search.htm"
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="text-accent-blue underline inline-flex items-center gap-0.5"
+                  >
+                    Cyber Search Centre (Companies Registry) <ExternalLink className="h-3 w-3" />
+                  </a>
+                </li>
+                <li>
+                  <strong>2.</strong>{" "}
+                  <a
+                    href="https://esearch.ipd.gov.hk"
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="text-accent-blue underline inline-flex items-center gap-0.5"
+                  >
+                    HK Trademark Search <ExternalLink className="h-3 w-3" />
+                  </a>{" "}
+                  — Trademark-Konflikte vermeiden
+                </li>
+                <li>
+                  <strong>3.</strong> <Link to="/cockpit/check" className="text-accent-blue underline">Brand-Check (DPMA + EUIPO)</Link> wenn auch DE/EU-Markt
+                </li>
+              </ul>
             </div>
           </>
         )}
 
-        {step === 2 && (
+        {/* STEP 4: Company Secretary */}
+        {step === 4 && (
           <>
-            <h2 className="text-base font-bold mb-1">2. Company Secretary engagieren</h2>
+            <h2 className="text-base font-bold mb-1">4. Company Secretary engagieren</h2>
             <p className="text-xs text-muted-foreground mb-4">
-              Pflicht §474 Companies Ordinance: jede HK-Ltd MUSS einen lokalen Company Secretary haben (lizenzierte
-              Firma oder natürliche Person mit HK-Resident-Status).
+              Pflicht (§474 Companies Ordinance): jede HK-Ltd MUSS einen lokalen Company Secretary
+              haben. Entweder eine TCSP-lizenzierte Firma oder eine natürliche Person mit HK-Resident-Status.
             </p>
-            <div className="space-y-2">
+            <div className="space-y-2 mb-3">
               {[
-                {
-                  v: "statrys",
-                  name: "Statrys",
-                  price: "1.500 HKD/yr",
-                  note: "Banking + CS-Paket inkludiert. Beste Lösung wenn du auch HK-Konto willst.",
-                  url: "https://statrys.com",
-                },
-                {
-                  v: "sleek",
-                  name: "Sleek HK",
-                  price: "1.200 HKD/yr",
-                  note: "All-in-1: CS + Address + Compliance + Buchhaltung. Empfohlen für Solo-Founder.",
-                  url: "https://sleek.com/hk",
-                },
-                {
-                  v: "osome",
-                  name: "Osome HK",
-                  price: "1.000 HKD/yr",
-                  note: "Günstig + automatisierte Buchhaltung. Gut für Small/Medium.",
-                  url: "https://osome.com/hk/",
-                },
-                {
-                  v: "hawksford",
-                  name: "Hawksford HK",
-                  price: "3.000+ HKD/yr",
-                  note: "Premium-Provider für komplexe Strukturen + Family-Offices.",
-                  url: "https://www.hawksford.com/hong-kong",
-                },
-                {
-                  v: "diy",
-                  name: "Eigenen lokalen Director (DIY)",
-                  price: "0 HKD",
-                  note: "Nur wenn du selbst nach HK ziehst oder Partner mit HKID hast",
-                  url: "",
-                },
+                { v: "statrys" as const, name: "Statrys", price: "HKD 1.500/yr", note: "★ Banking + CS-Paket kombiniert (Account in 3 Tagen, Trustpilot 4.6/5)", url: "https://statrys.com" },
+                { v: "sleek" as const, name: "Sleek HK", price: "HKD 1.200/yr", note: "All-in-1: CS + Address + Compliance + Buchhaltung. Empfohlen für Solo.", url: "https://sleek.com/hk" },
+                { v: "osome" as const, name: "Osome HK", price: "HKD 1.000/yr", note: "Günstig + automatisierte Buchhaltung", url: "https://osome.com/hk/" },
+                { v: "hawksford" as const, name: "Hawksford HK", price: "HKD 3.000+/yr", note: "Premium für komplexe Strukturen + Family-Offices", url: "https://www.hawksford.com/hong-kong" },
+                { v: "diy" as const, name: "Eigener lokaler Director (DIY)", price: "HKD 0", note: "Nur wenn du selbst nach HK ziehst oder Partner mit HKID hast", url: "" },
               ].map((o) => (
                 <button
                   key={o.v}
-                  onClick={() => setServiceProvider(o.v as typeof serviceProvider)}
+                  onClick={() => setServiceProvider(o.v)}
                   className={`w-full text-left rounded-xl border p-3 transition-colors ${
                     serviceProvider === o.v
                       ? "border-accent-blue bg-accent-blue/5 ring-1 ring-accent-blue/30"
@@ -195,12 +332,61 @@ const HkLimitedWizard = () => {
                 </button>
               ))}
             </div>
+            <div className="rounded-xl border border-blue-500/30 bg-blue-500/5 p-3 text-xs">
+              <Info className="h-3 w-3 inline mr-1 text-blue-700" />
+              <strong>TCSP-Pflicht seit 2018:</strong> Provider müssen TCSP-Lizenz (Trust or Company Service Provider)
+              haben. Alle oben gelistete sind lizenziert. Achte bei eigener Recherche darauf.
+            </div>
           </>
         )}
 
-        {step === 3 && (
+        {/* STEP 5: Registered Office */}
+        {step === 5 && (
           <>
-            <h2 className="text-base font-bold mb-1">3. Share Capital festlegen</h2>
+            <h2 className="text-base font-bold mb-1">5. Registered Office Address</h2>
+            <p className="text-xs text-muted-foreground mb-4">
+              Pflicht: physische HK-Adresse für Behörden-Post (Companies Registry, IRD, Gerichte).
+              KEIN PO-Box, KEIN reines Mailbox-Center. Adresse wird im öffentlichen Register publiziert.
+            </p>
+
+            <div className="rounded-xl border border-border bg-secondary/30 p-4 text-xs space-y-2">
+              <div className="font-bold mb-2">3 Optionen:</div>
+              <div className="rounded-lg bg-card border border-border p-3">
+                <div className="font-semibold mb-1">A) Via Company Secretary (Standard)</div>
+                <p className="text-muted-foreground">
+                  Sleek/Statrys/Osome inkludieren oft die Address im CS-Paket. Einfachste Lösung.
+                  Kostet meist HKD 0-500 extra/Jahr.
+                </p>
+              </div>
+              <div className="rounded-lg bg-card border border-border p-3">
+                <div className="font-semibold mb-1">B) Virtual Office (separater Provider)</div>
+                <p className="text-muted-foreground">
+                  Z.B. <a href="https://www.regus.com.hk" target="_blank" rel="noopener noreferrer" className="text-accent-blue underline">Regus</a>,
+                  Servcorp, Centaline. HKD 200-800/Mo. Mail-Forwarding + Phone-Reception oft inkludiert.
+                </p>
+              </div>
+              <div className="rounded-lg bg-card border border-border p-3">
+                <div className="font-semibold mb-1">C) Echtes Office (für FSIE-Substance)</div>
+                <p className="text-muted-foreground">
+                  Wenn du FSIE-Status willst oder Banking-Substance brauchst — eigener Mietvertrag
+                  + Mitarbeiter vor Ort. HKD 5.000-30.000/Mo je nach Lage.
+                </p>
+              </div>
+            </div>
+
+            <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-3 mt-3 text-xs">
+              <AlertTriangle className="h-3 w-3 inline mr-1 text-amber-700" />
+              <strong>Watchout:</strong> HSBC + Banken in HK haben in 2024-2026 begonnen, reine
+              Service-Provider-Adressen abzulehnen. Für Banking-Approval ist Virtual-Office mit
+              echtem Lease oder echtes Office stärker.
+            </div>
+          </>
+        )}
+
+        {/* STEP 6: Share Capital + Articles */}
+        {step === 6 && (
+          <>
+            <h2 className="text-base font-bold mb-1">6. Share Capital + Articles of Association</h2>
             <p className="text-xs text-muted-foreground mb-4">
               Kein gesetzliches Mindestkapital. Standard 10.000 HKD (1.000 Shares à 10 HKD).
             </p>
@@ -214,71 +400,141 @@ const HkLimitedWizard = () => {
               className="mt-1"
             />
             <div className="text-[10px] text-muted-foreground mt-2">
-              Tipp: 10.000 HKD ist Standard, ausreichend, kein Capital-Stempel-Tax.
+              10.000 HKD = ~1.250 EUR. Kein Capital-Stamp-Tax in HK.
             </div>
-            <div className="rounded-xl bg-secondary/40 p-3 mt-3 text-xs">
-              <strong>Director:</strong> mind. 1 natürliche Person (jede Nationalität, kein HK-Resident-Status nötig).
-              <br />
-              <strong>Shareholder:</strong> mind. 1, max. 50 (für "private limited").
+
+            <div className="rounded-xl border border-border bg-secondary/30 p-3 mt-3 text-xs space-y-2">
+              <div>
+                <strong>Share-Standard-Setup:</strong> 10.000 ordinary shares à HKD 1 ODER 1.000 shares à HKD 10
+              </div>
+              <div>
+                <strong>Shareholder-Struktur:</strong> Solo = 100% an Founder, oder Multi mit
+                klaren %-Anteilen
+              </div>
+              <div>
+                <strong>Articles of Association (AoA):</strong> automatisch Model Articles (Companies Registry
+                Standard) oder eigene custom — bei VC später relevant
+              </div>
+            </div>
+
+            <div className="rounded-xl border border-blue-500/30 bg-blue-500/5 p-3 mt-3 text-xs">
+              <Info className="h-3 w-3 inline mr-1 text-blue-700" />
+              <strong>Tipp:</strong> Standard 10k HKD reicht für 95% der Fälle. Bei späterer VC-Round
+              kannst du Share-Capital problemlos erhöhen.
             </div>
           </>
         )}
 
-        {step === 4 && (
+        {/* STEP 7: NNC1 + Business Registration */}
+        {step === 7 && (
           <>
-            <h2 className="text-base font-bold mb-1">4. Filing + Business Registration</h2>
+            <h2 className="text-base font-bold mb-1">7. NNC1-Filing + Business Registration</h2>
             <p className="text-xs text-muted-foreground mb-4">
-              Form NNC1 + Articles of Association beim Companies Registry. Online via e-Registry-Portal.
+              ZWEI Behörden gleichzeitig: Companies Registry (NNC1) + Inland Revenue Department (BR).
+              Beide werden über das gleiche Portal abgewickelt.
             </p>
-            <div className="rounded-xl bg-secondary/40 p-3 mb-3 text-xs space-y-2">
-              <div>
-                <strong>Schritt 1:</strong> NNC1-Form online ausfüllen (
-                <a
-                  href="https://www.cr.gov.hk/en/forms/forms-companies.htm"
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  className="text-accent-blue underline inline-flex items-center gap-0.5"
-                >
-                  Form NNC1 PDF <ExternalLink className="h-2.5 w-2.5" />
-                </a>
-                )
-              </div>
-              <div>
-                <strong>Schritt 2:</strong> Bei{" "}
+
+            <div className="space-y-3">
+              <div className="rounded-xl border border-border bg-card p-3">
+                <div className="font-bold text-sm mb-2 flex items-center gap-2">
+                  <FileText className="h-4 w-4 text-accent-blue" /> A) Companies Registry — NNC1
+                </div>
+                <ul className="text-xs space-y-1 text-muted-foreground list-disc pl-4">
+                  <li>Form NNC1 + Articles of Association einreichen</li>
+                  <li>Filing-Fee: <strong className="text-foreground">HKD 1.720</strong> (Online) / HKD 1.920 (Papier)</li>
+                  <li>Express "guaranteed-by-date": +HKD 505</li>
+                  <li>Approval: 1 Werktag (Online) / 4 Werktage (Papier)</li>
+                  <li>Output: Certificate of Incorporation (CI)</li>
+                </ul>
                 <a
                   href="https://www.eregistry.gov.hk"
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="text-accent-blue underline inline-flex items-center gap-0.5"
+                  className="inline-flex items-center gap-1 mt-2 text-xs text-accent-blue hover:underline"
                 >
-                  e-Registry HK <ExternalLink className="h-2.5 w-2.5" />
-                </a>{" "}
-                einreichen — Approval ~1 Werktag, max 1 Woche
+                  → e-Registry HK Portal <ExternalLink className="h-3 w-3" />
+                </a>
               </div>
-              <div>
-                <strong>Filing-Fee:</strong> HKD 1.720 Online (HKD 2.225 mit "guaranteed-by-date")
+
+              <div className="rounded-xl border border-border bg-card p-3">
+                <div className="font-bold text-sm mb-2 flex items-center gap-2">
+                  <FileText className="h-4 w-4 text-accent-blue" /> B) Inland Revenue Department — Business Registration
+                </div>
+                <ul className="text-xs space-y-1 text-muted-foreground list-disc pl-4">
+                  <li>Automatisch parallel mit NNC1 (One-Stop)</li>
+                  <li>Fee: <strong className="text-foreground">HKD 250 für 1 Jahr</strong> oder HKD 3.950 für 3 Jahre</li>
+                  <li>Output: Business Registration Certificate (BR)</li>
+                  <li>BR muss am Geschäftsort ausgehängt werden (auch Virtual Office)</li>
+                  <li>Renewal automatisch — IRD schickt Erinnerung</li>
+                </ul>
               </div>
-              <div>
-                <strong>Business Registration:</strong> automatisch parallel mit IRD (Inland Revenue Department).
-                Initial-Fee: HKD 250 für 1 Jahr (oder HKD 3.950 für 3 Jahre)
+
+              <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-3 text-xs">
+                <strong>Postanschriften:</strong>
+                <ul className="mt-1 space-y-0.5 text-muted-foreground">
+                  <li>Companies Registry: 14/F, Queensway Government Offices, 66 Queensway, Hong Kong</li>
+                  <li>IRD: GPO Box 132, Hong Kong</li>
+                </ul>
               </div>
-            </div>
-            <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-3 text-xs">
-              <strong>Postanschrift Companies Registry HK</strong> (für Brief-Filing):
-              <br />
-              14/F, Queensway Government Offices, 66 Queensway, Hong Kong
-              <br />
-              <br />
-              <strong>IRD-Postanschrift:</strong> GPO Box 132, Hong Kong
             </div>
           </>
         )}
 
-        {step === 5 && (
+        {/* STEP 8: SCR */}
+        {step === 8 && (
           <>
-            <h2 className="text-base font-bold mb-1">5. Profits Tax + Offshore-Status</h2>
+            <h2 className="text-base font-bold mb-1">8. Significant Controllers Register (SCR)</h2>
             <p className="text-xs text-muted-foreground mb-4">
-              HK hat zwei-stufiges Steuersystem. Plus: Offshore-Claim möglich bei Auslands-Geschäft.
+              Pflicht seit 1.3.2018 (Companies (Amendment) Ordinance 2018). Internes Register —
+              KEIN öffentliches Register, aber muss am Registered Office verfügbar sein.
+            </p>
+
+            <div className="rounded-xl border border-border bg-secondary/30 p-4 text-xs">
+              <div className="font-bold text-sm mb-2 flex items-center gap-2">
+                <Users className="h-4 w-4" /> Wer ist Significant Controller?
+              </div>
+              <ul className="space-y-1 text-muted-foreground list-disc pl-4">
+                <li><strong>Conditions A:</strong> Hält direkt oder indirekt {">"} 25% der Issued Shares</li>
+                <li><strong>Conditions B:</strong> Hält direkt oder indirekt {">"} 25% der Stimmrechte</li>
+                <li><strong>Conditions C:</strong> Hat das Recht, Mehrheit des Boards zu bestellen</li>
+                <li><strong>Conditions D:</strong> Hat das Recht, "Significant Influence or Control" auszuüben</li>
+                <li><strong>Conditions E:</strong> Significant Influence über einen Trust mit dem Recht über die Company</li>
+              </ul>
+            </div>
+
+            <div className="rounded-xl border border-border bg-card p-3 mt-3 text-xs">
+              <div className="font-bold mb-2">Was muss im SCR stehen:</div>
+              <ul className="space-y-1 text-muted-foreground list-disc pl-4">
+                <li>Voller Name + Geburtsdatum jeder controlled Person</li>
+                <li>Wohnadresse (NICHT public, aber im Register)</li>
+                <li>Pass-Nummer + Ausstellungs-Land</li>
+                <li>Datum, ab dem Person als Controller gilt</li>
+                <li>Nature of Control (A/B/C/D/E)</li>
+              </ul>
+            </div>
+
+            <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-3 mt-3 text-xs">
+              <AlertTriangle className="h-3 w-3 inline mr-1 text-amber-700" />
+              <strong>Strafen bei Versäumnis:</strong> bis HKD 25.000 Fine + HKD 700/Tag.
+              Inspection-Pflicht durch HK-Polizei/Companies Registry binnen 7 Tagen nach Aufforderung.
+              <br /><br />
+              <strong>Designated Representative</strong> muss benannt werden (Director, Mitglied,
+              oder lizenzierter TCSP-Provider) — meist via Company Secretary geregelt.
+            </div>
+
+            <div className="text-xs text-muted-foreground mt-3">
+              Praxis: Dein Company Secretary (Sleek/Statrys/Osome) erstellt und pflegt das SCR
+              automatisch. Bei Solo-Founder: du bist der Significant Controller (Conditions A+B+C+D).
+            </div>
+          </>
+        )}
+
+        {/* STEP 9: Profits Tax + FSIE */}
+        {step === 9 && (
+          <>
+            <h2 className="text-base font-bold mb-1">9. Profits Tax + FSIE-Status</h2>
+            <p className="text-xs text-muted-foreground mb-4">
+              Two-Tier Profits Tax + Foreign-Sourced-Income-Exemption (FSIE) seit 1.1.2023 verschärft.
             </p>
             <Label className="text-xs uppercase tracking-wider text-muted-foreground">
               Erwarteter Jahres-Umsatz (EUR)
@@ -289,31 +545,43 @@ const HkLimitedWizard = () => {
               onChange={(e) => setAnnualRevenue(Math.max(0, Number(e.target.value) || 0))}
               className="mt-1 mb-3"
             />
+
             <div className="rounded-xl border border-border bg-card p-3 mb-3 text-xs">
-              <div className="font-bold mb-2">Two-Tier Profits Tax:</div>
-              <div className="space-y-1 text-muted-foreground">
-                <div>
-                  · <strong>8,25 %</strong> auf erste 2 Mio HKD Profit
-                </div>
-                <div>
-                  · <strong>16,5 %</strong> auf alles darüber
-                </div>
-                <div>
-                  · <strong>Tax Year:</strong> 1.4. – 31.3. (oder eigenes Geschäftsjahr)
-                </div>
-                <div>
-                  · <strong>Profits Tax Return</strong> jährlich, ~1 Monat nach Filing fällig
-                </div>
-              </div>
+              <div className="font-bold mb-2">Two-Tier Profits Tax (unverändert seit 2018):</div>
+              <ul className="space-y-1 text-muted-foreground">
+                <li>· <strong>8,25%</strong> auf erste <strong>HKD 2 Mio</strong> Profit</li>
+                <li>· <strong>16,5%</strong> auf alles darüber</li>
+                <li>· <strong>Tax Year:</strong> 1.4. – 31.3. (oder eigenes Geschäftsjahr)</li>
+                <li>· <strong>Profits Tax Return:</strong> jährlich, ~1 Monat nach Versand-Aufforderung</li>
+                <li>· <strong>Connected-Group-Rule:</strong> nur EINE Gesellschaft pro Group nutzt 8,25%</li>
+              </ul>
+            </div>
+
+            <div className="rounded-xl border border-red-500/30 bg-red-500/5 p-3 mb-3 text-xs">
+              <div className="font-bold mb-2 text-red-700">⚠ FSIE-Regime seit 1.1.2023 (kritisch für Holdings!):</div>
+              <p className="text-muted-foreground mb-2">
+                Foreign-Sourced Income Exemption gilt nicht mehr automatisch für passive Einkünfte
+                (Dividenden, Zinsen, Royalties, Veräußerungsgewinne). Voraussetzungen:
+              </p>
+              <ul className="text-muted-foreground list-disc pl-4 space-y-0.5">
+                <li><strong>Economic Substance Test:</strong> qualifizierte Mitarbeiter + Räume + Operating Costs IN HK</li>
+                <li><strong>Anti-Misuse-Rule:</strong> keine "passive Holding ohne Substanz"</li>
+                <li><strong>Nexus-Test für IP:</strong> R&D-Aktivitäten in HK nötig</li>
+                <li>OHNE Substanz → reguläre 16,5% auf passive Foreign-Income</li>
+              </ul>
+              <p className="mt-2 text-muted-foreground">
+                Für reine Trading/Active-Business-Holding-Strukturen bleibt FSIE leicht erreichbar.
+                Für Solo-IP-Holding ohne HK-Aktivitäten: sehr schwierig.
+              </p>
             </div>
 
             <div className="rounded-xl border border-accent-blue/30 bg-accent-blue/5 p-3 mb-3">
               <Label className="text-xs uppercase tracking-wider text-muted-foreground">
-                Offshore-Status beantragen?
+                Offshore-Status beantragen (für aktive Einkünfte, separat von FSIE)?
               </Label>
               <div className="grid grid-cols-2 gap-2 mt-2">
                 {[
-                  { v: false, l: "Nein, Onshore-Geschäft" },
+                  { v: false, l: "Nein, Onshore-Geschäft (Standard)" },
                   { v: true, l: "Ja, alle Einnahmen außerhalb HK" },
                 ].map((o) => (
                   <button
@@ -331,11 +599,11 @@ const HkLimitedWizard = () => {
               </div>
               {offshoreClaim && (
                 <div className="text-[11px] text-muted-foreground mt-2">
-                  ✓ Offshore-Claim → 0 % Profits Tax möglich. ABER hohe Substanz-Anforderungen seit 2018:
+                  ✓ Offshore-Claim → 0% Profits Tax möglich. ABER hohe Substanz-Anforderungen seit 2018:
                   <ul className="list-disc pl-4 mt-1 space-y-0.5">
                     <li>Keine HK-Kunden, keine HK-Mitarbeiter, keine HK-Lieferanten in Wertschöpfungskette</li>
                     <li>Antrag mit erster Profits Tax Return (innerhalb 18 Monaten nach Gründung)</li>
-                    <li>IRD-Audit-Verfahren 6–18 Monate</li>
+                    <li>IRD-Audit-Verfahren 6-18 Monate</li>
                     <li>Mailbox-Setup ohne echte Substanz wird ABGELEHNT</li>
                   </ul>
                 </div>
@@ -348,55 +616,34 @@ const HkLimitedWizard = () => {
                 {Math.round(profitsTax).toLocaleString("en-US")} HKD
               </span>{" "}
               <span className="text-muted-foreground">
-                ({Math.round(profitsTax / 7.85).toLocaleString("de-DE")} EUR)
+                (~{Math.round(profitsTax / 7.85).toLocaleString("de-DE")} EUR)
               </span>
               <div className="text-[10px] text-muted-foreground mt-1">
-                Annahme 20 % Marge auf {annualRevenue.toLocaleString("de-DE")} EUR Umsatz
+                Annahme: 20% Marge auf {annualRevenue.toLocaleString("de-DE")} EUR Umsatz
               </div>
             </div>
           </>
         )}
 
-        {step === 6 && (
+        {/* STEP 10: Bank */}
+        {step === 10 && (
           <>
-            <h2 className="text-base font-bold mb-1">6. Bank + Audit-Setup</h2>
+            <h2 className="text-base font-bold mb-1">10. Bank-Setup (kritischer Step!)</h2>
             <p className="text-xs text-muted-foreground mb-4">
-              Bank-Account + jährliches Audit (Pflicht für ALLE HK-Limiteds).
+              HK-Banking ist 2024-2026 HART. HSBC + Standard-Banken haben 40-60% Ablehnungs-Quote
+              für Foreign Founders + verlangen persönliche HK-Vorstellung. Fintechs sind die Realität.
             </p>
+
             <div className="space-y-2 mb-4">
               {[
-                {
-                  v: "statrys",
-                  name: "Statrys",
-                  price: "9 USD/Mon",
-                  note: "100 % remote · Multi-Currency · oft mit CS-Paket kombiniert",
-                  url: "https://statrys.com",
-                },
-                {
-                  v: "airwallex",
-                  name: "Airwallex",
-                  price: "0 USD/Mon",
-                  note: "Multi-Currency Business-Account. Stark wachsend, gut für Tech-Startups.",
-                  url: "https://airwallex.com",
-                },
-                {
-                  v: "currenxie",
-                  name: "Currenxie",
-                  price: "0 USD/Mon",
-                  note: "FX-fokussiert. Gut für International Trade.",
-                  url: "https://currenxie.com",
-                },
-                {
-                  v: "hsbc",
-                  name: "HSBC HK",
-                  price: "ab 200 HKD/Mon",
-                  note: "Persönliche Vorstellung in HK Pflicht — nicht remote möglich.",
-                  url: "https://www.hsbc.com.hk",
-                },
+                { v: "statrys" as const, name: "Statrys", price: "HKD 0/Mo (HKD 88/Mo wenn <5 outflows)", note: "★ Beste All-Round-Wahl für Foreign Founders. Online in 3 Tagen. Trustpilot 4.6/5.", url: "https://statrys.com" },
+                { v: "airwallex" as const, name: "Airwallex", price: "€0 mit €10k Saldo, sonst €19+/Mo", note: "⚠ Trustpilot fällt 2026 (3.3/5), zunehmend Account-Freezes", url: "https://airwallex.com" },
+                { v: "currenxie" as const, name: "Currenxie", price: "$0/Mo", note: "FX-fokussiert (0,10% USD/HKD). Für International Trade.", url: "https://currenxie.com" },
+                { v: "hsbc" as const, name: "HSBC HK", price: "HKD 200/Mo (waived bei HKD 50k Saldo)", note: "⚠ Persönliche HK-Vorstellung Pflicht. ~40-60% Ablehnung. 14-56 Tage.", url: "https://www.hsbc.com.hk" },
               ].map((o) => (
                 <button
                   key={o.v}
-                  onClick={() => setBankPreference(o.v as typeof bankPreference)}
+                  onClick={() => setBankPreference(o.v)}
                   className={`w-full text-left rounded-xl border p-3 transition-colors ${
                     bankPreference === o.v
                       ? "border-accent-blue bg-accent-blue/5 ring-1 ring-accent-blue/30"
@@ -408,33 +655,98 @@ const HkLimitedWizard = () => {
                       <div className="font-bold">{o.name}</div>
                       <div className="text-xs text-muted-foreground">{o.note}</div>
                     </div>
-                    <div className="font-mono text-sm shrink-0">{o.price}</div>
+                    <div className="font-mono text-xs shrink-0">{o.price}</div>
                   </div>
                 </button>
               ))}
             </div>
-            <Link
-              to="/cockpit/intl-banking"
-              className="inline-flex items-center gap-1 text-xs text-accent-blue hover:underline"
-            >
-              → Detaillierter Banking-Vergleich (US + HK)
-            </Link>
 
-            <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-3 mt-4 text-xs">
-              <div className="font-semibold mb-1">Audit-Pflicht (jährlich):</div>
-              <ul className="list-disc pl-4 space-y-0.5 text-muted-foreground">
-                <li>HK-zertifizierter Auditor (CPA mit Practising Certificate) Pflicht</li>
-                <li>Budget: HKD 8.000–25.000/Jahr für kleine Firmen, ab HKD 30.000 für aktive Trading</li>
-                <li>Inaktive Firmen oft am unteren Ende</li>
-                <li>Sleek/Osome bieten Audit-Pakete für ~HKD 8.000–15.000/Jahr</li>
+            <div className="rounded-xl border border-red-500/30 bg-red-500/5 p-3 text-xs mb-3">
+              <AlertTriangle className="h-3 w-3 inline mr-1 text-red-700" />
+              <strong>HK-Banking-Realität 2026:</strong>
+              <ul className="list-disc pl-4 mt-1 space-y-0.5 text-muted-foreground">
+                <li>HSBC + DBS + Bank of China haben Foreign-Founder-Ablehnungs-Quote 40-60%</li>
+                <li>Persönlicher HK-Termin Pflicht (Flug + Hotel ~2-3k EUR)</li>
+                <li>Account-Reviews alle 12-24 Monate — neue KYC-Runde</li>
+                <li>HKMA Stablecoin-Lizenz April 2026 verschärft KYC weiter</li>
+                <li>Fintechs (Statrys/Airwallex/Currenxie) sind die De-facto-Standard-Lösung</li>
               </ul>
+            </div>
+
+            <Link to="/cockpit/intl-banking" className="inline-flex items-center gap-1 text-xs text-accent-blue hover:underline">
+              → Detaillierter Banking-Vergleich mit Closure-Risk
+            </Link>
+          </>
+        )}
+
+        {/* STEP 11: Audit + Annual Returns */}
+        {step === 11 && (
+          <>
+            <h2 className="text-base font-bold mb-1">11. Audit + Annual Returns</h2>
+            <p className="text-xs text-muted-foreground mb-4">
+              JÄHRLICHE Pflichten — selbst bei 0 Umsatz! Versäumnis = HKD 8.700+ Strafen.
+            </p>
+
+            <div className="space-y-3">
+              <div className="rounded-xl border border-red-500/30 bg-red-500/5 p-3 text-xs">
+                <div className="font-bold mb-2 text-red-700">⚠ 1) Audit-Pflicht (jährlich, auch bei 0 Umsatz!)</div>
+                <ul className="text-muted-foreground list-disc pl-4 space-y-0.5">
+                  <li>HK-zertifizierter Auditor (CPA mit Practising Certificate) zwingend</li>
+                  <li>Audit-Bericht muss zusammen mit Profits Tax Return eingereicht werden</li>
+                  <li>Budget: HKD 8.000-25.000/Jahr für kleine Firmen</li>
+                  <li>Aktive Trading: HKD 15.000-50.000/Jahr</li>
+                  <li>Sleek/Osome bieten Audit-Pakete für HKD 8.000-15.000/Jahr</li>
+                  <li>Dormant-Status (0 Tx) möglich → reduzierter Audit, aber nicht weggelassen</li>
+                </ul>
+              </div>
+
+              <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-3 text-xs">
+                <div className="font-bold mb-2">2) Annual Return (Form NAR1)</div>
+                <ul className="text-muted-foreground list-disc pl-4 space-y-0.5">
+                  <li>Frist: 42 Tage nach Anniversary-Date der Gründung</li>
+                  <li>Fee: HKD 105 (Private Company)</li>
+                  <li>Bei Versäumnis: progressiv steigende Strafgebühr bis HKD 8.700</li>
+                </ul>
+              </div>
+
+              <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-3 text-xs">
+                <div className="font-bold mb-2">3) Profits Tax Return (IRD)</div>
+                <ul className="text-muted-foreground list-disc pl-4 space-y-0.5">
+                  <li>Erste PTR: 18 Monate nach Gründung (BIR51)</li>
+                  <li>Folgende: jährlich, ~1 Monat nach IRD-Versand</li>
+                  <li>Bei Offshore-Claim: separater "Notice of Foreign-Sourced Income" anhängen</li>
+                </ul>
+              </div>
+
+              <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-3 text-xs">
+                <div className="font-bold mb-2">4) Business Registration Renewal</div>
+                <ul className="text-muted-foreground list-disc pl-4 space-y-0.5">
+                  <li>Automatisch — IRD schickt Demand Note</li>
+                  <li>HKD 250/Jahr oder HKD 3.950/3 Jahre</li>
+                </ul>
+              </div>
+
+              <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-3 text-xs">
+                <div className="font-bold mb-2">5) Significant Controllers Register Update</div>
+                <ul className="text-muted-foreground list-disc pl-4 space-y-0.5">
+                  <li>Bei jeder Änderung (Owner/Shareholder/Director) Update binnen 7 Tagen</li>
+                  <li>Pflicht-Inspektion durch HK-Polizei oder Companies Registry möglich</li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="rounded-xl border border-blue-500/30 bg-blue-500/5 p-3 mt-3 text-xs">
+              <Info className="h-3 w-3 inline mr-1 text-blue-700" />
+              <strong>DE-Steuer-Aspekt:</strong> Bei DE-Wohnsitz des Directors/Owners ist §AStG-
+              Hinzurechnungsbesteuerung möglich (Niedrigsteuer-Schwelle 15% seit 2024, HK
+              effektiv 8,25%). Siehe <Link to="/cockpit/dba-cfc" className="text-accent-blue underline">DBA-CFC-Rechner</Link>
+              {" "}und <Link to="/cockpit/substance-checker" className="text-accent-blue underline">Substance-Checker</Link>.
             </div>
 
             {/* Summary */}
             <div className="rounded-2xl border-2 border-emerald-500/40 bg-emerald-500/5 p-5 mt-6">
               <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
-                <Sparkles className="h-4 w-4 text-emerald-700" />
-                Setup-Zusammenfassung
+                <Sparkles className="h-4 w-4 text-emerald-700" /> Setup-Zusammenfassung
               </h3>
               <div className="grid grid-cols-2 gap-3 text-sm">
                 <div>
@@ -472,6 +784,7 @@ const HkLimitedWizard = () => {
           </>
         )}
 
+        {/* === NAVIGATION === */}
         <div className="flex justify-between mt-6">
           <button
             onClick={() => setStep(Math.max(1, step - 1))}
@@ -480,7 +793,7 @@ const HkLimitedWizard = () => {
           >
             <ArrowLeft className="h-4 w-4" /> Zurück
           </button>
-          {step < 6 && (
+          {step < totalSteps && (
             <button
               onClick={() => setStep(step + 1)}
               className="inline-flex items-center gap-1 rounded-lg bg-accent-blue text-primary-foreground px-4 py-2 text-sm font-semibold hover:opacity-90"
@@ -491,30 +804,19 @@ const HkLimitedWizard = () => {
         </div>
       </div>
 
-      {/* Pflicht-Reminder */}
-      <div className="rounded-2xl border border-amber-500/30 bg-amber-500/5 p-4 text-xs leading-relaxed">
+      {/* === Stand-Mai-2026-Notiz === */}
+      <div className="rounded-2xl border border-border bg-card p-4 text-xs leading-relaxed">
         <div className="flex items-start gap-2">
-          <Globe className="h-4 w-4 text-amber-700 shrink-0 mt-0.5" />
-          <div>
-            <div className="font-semibold mb-1">Jährliche Pflichten:</div>
-            <ul className="list-disc pl-4 space-y-1 text-muted-foreground">
-              <li>
-                <strong>Annual Return (Form NAR1)</strong> bis 42 Tage nach Anniversary-Date — sonst Strafgebühren
-                bis HKD 8.700
-              </li>
-              <li>
-                <strong>Profits Tax Return</strong> jährlich ans IRD (typisch 1 Monat nach Versand-Aufforderung)
-              </li>
-              <li>
-                <strong>Audited Accounts</strong> durch HK-CPA — Pflicht
-              </li>
-              <li>
-                <strong>Business Registration Renewal</strong> — Reminder kommt automatisch von IRD
-              </li>
-              <li>
-                <strong>DE-Steuer:</strong> bei DE-Wohnsitz § AStG-Hinzurechnung möglich. DBA Deutschland-HK seit
-                2011 — Aktive Substanz nötig.
-              </li>
+          <Globe className="h-4 w-4 text-muted-foreground shrink-0 mt-0.5" />
+          <div className="text-muted-foreground">
+            <strong className="text-foreground">Wichtige Updates Mai 2026:</strong>
+            <ul className="list-disc pl-4 space-y-0.5 mt-1">
+              <li>FSIE-Regime seit 1.1.2023 für passive Einkünfte verschärft (Substanz-Anforderungen)</li>
+              <li>HKMA Stablecoin-Lizenz April 2026 → strengere Bank-KYC für alle HK-Banken</li>
+              <li>SCR-Pflicht seit 1.3.2018 (HKD 25.000 Fine + HKD 700/Tag bei Versäumnis)</li>
+              <li>DBA Deutschland-HK seit 2011 in Kraft (Quellensteuer-Reduktion)</li>
+              <li>Two-Tier Profits Tax unverändert: 8,25% bis HKD 2M, 16,5% darüber</li>
+              <li>Audit-Pflicht weiterhin auch bei 0 Umsatz (HKD 8-15k/Jahr Standard)</li>
             </ul>
           </div>
         </div>
