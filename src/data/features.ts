@@ -43,8 +43,9 @@ const _CATEGORIES_RAW: FeatureCategory[] = [
       { slug: "hk-limited-wizard", title: "HK-Limited Setup-Wizard", desc: "6-Step-Wizard: Namens-Check, Company Secretary, Share Capital, NNC1-Filing, Two-Tier Profits Tax, Bank + Audit-Setup. Mit Offshore-Status-Check.", status: "beta", route: "/cockpit/hk-limited-wizard" },
       { slug: "us-hk-banking", title: "US + HK Banking-Vergleich", desc: "8 Anbieter: Mercury, Wise, Relay, Brex (US) + Statrys, Airwallex, Currenxie, HSBC (HK). Pros/Cons, Setup-Anforderungen, non-Resident-Eignung.", status: "beta", route: "/cockpit/intl-banking" },
       { slug: "sales-tax-nexus", title: "Sales-Tax-Nexus-Check", desc: "46 US-Staaten + DC: Wayfair-Schwellen ($/Transaktionen), Marketplace-Facilitator-Logik (Amazon vs Shopify), kombinierter Tax-Satz pro Staat, Geschätzte Tax-Last.", status: "beta", route: "/cockpit/sales-tax-nexus" },
-      { slug: "substance-checker", title: "Substance-Requirements-Checker", desc: "Mailbox-Risiko-Score (0–100) für ATAD III + §AStG. 12 EU-/CH-Länder. GF-Wohnsitz, lokale MA, Büro, Aktivität, Umsatz vor Ort.", status: "beta", route: "/cockpit/substance-checker" },
+      { slug: "substance-checker", title: "Substance-Requirements-Checker", desc: "Mailbox-Risiko-Score (0–100) für §50d EStG + §AStG + §10 AO (ATAD III withdrawn Jun 2025). 12 EU-/CH-Länder. GF-Wohnsitz, lokale MA, Büro, Aktivität, Umsatz, PPT-Grund.", status: "beta", route: "/cockpit/substance-checker" },
       { slug: "dba-cfc", title: "DBA-CFC-Rechner", desc: "§AStG Hinzurechnungsbesteuerung + DBA-Quellensteuer-Reduktion + Mutter-Tochter-RL für 14 Länder. Step-by-Step Berechnung Ausland → DE.", status: "beta", route: "/cockpit/dba-cfc" },
+      { slug: "us-kreditkarten", title: "US-Kreditkarten-Guide", desc: "23 verifizierte Karten in 4 Tracks: DE-Privatperson (Wise/Curve), DE+US-LLC (Mercury/Brex/Ramp EIN-only), Auswanderer-Credit-Build (ITIN+Secured), Churning (Chase/Amex/Cap-One). Inkl. BOI/Tax-Compliance + Auswanderer-Timeline.", status: "beta", route: "/cockpit/us-kreditkarten" },
     ],
   },
   {
