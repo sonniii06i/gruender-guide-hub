@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { STB_POOL, STB_AVOID_LIST, matchStbs, plzToRegion, regionLabel, type Briefing, type StbSpecTag } from "@/data/stbPool";
+import { STB_POOL, STB_AVOID_LIST, matchStbs, plzToRegion, regionLabel, regionCoverage, type Briefing, type StbSpecTag } from "@/data/stbPool";
 import {
   Building2,
   Search,
@@ -561,17 +561,56 @@ const StbMatch = () => {
 
           {/* === FILTER-CHIPS === */}
           <div className="rounded-2xl border border-border bg-card p-4">
-            {userRegion ? (
-              <div className="flex items-center gap-2 mb-3 rounded-lg bg-emerald-500/5 border border-emerald-500/20 px-3 py-2">
-                <MapPin className="h-4 w-4 text-emerald-700 shrink-0" />
-                <div className="text-xs">
-                  <span className="font-semibold text-emerald-700">PLZ {briefing.plz}</span>
-                  <span className="text-muted-foreground"> · Lokale Kanzleien in </span>
-                  <strong>{regionLabel(userRegion)}</strong>
-                  <span className="text-muted-foreground"> bekommen +25 Score</span>
+            {userRegion ? (() => {
+              const cov = regionCoverage(userRegion);
+              const isThin = cov.local <= 2;
+              return (
+                <div
+                  className={`mb-3 rounded-lg border px-3 py-2 ${
+                    isThin
+                      ? "bg-amber-500/5 border-amber-500/20"
+                      : "bg-emerald-500/5 border-emerald-500/20"
+                  }`}
+                >
+                  <div className="flex items-start gap-2">
+                    <MapPin
+                      className={`h-4 w-4 shrink-0 mt-0.5 ${
+                        isThin ? "text-amber-700" : "text-emerald-700"
+                      }`}
+                    />
+                    <div className="text-xs leading-relaxed flex-1">
+                      <div>
+                        <span
+                          className={`font-semibold ${
+                            isThin ? "text-amber-700" : "text-emerald-700"
+                          }`}
+                        >
+                          PLZ {briefing.plz}
+                        </span>
+                        <span className="text-muted-foreground"> · </span>
+                        <strong>{regionLabel(userRegion)}</strong>
+                      </div>
+                      <div className="text-muted-foreground mt-0.5">
+                        Pool-Coverage: <strong className="text-foreground">{cov.local} lokal</strong>
+                        {" · "}
+                        <strong className="text-foreground">{cov.neighbor} Nachbar-Region</strong>
+                        {" · "}
+                        <strong className="text-foreground">{cov.online} Online (überall)</strong>
+                        {isThin && (
+                          <>
+                            {" — "}
+                            <span className="text-amber-700 font-semibold">
+                              Wenig Lokale in deiner Region. Empfehle Online-Filter aktivieren oder
+                              DATEV SmartExperts / StBK-Suche im Pool nutzen.
+                            </span>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            ) : (
+              );
+            })() : (
               <div className="flex items-center gap-2 mb-3 rounded-lg bg-amber-500/5 border border-amber-500/20 px-3 py-2">
                 <MapPin className="h-4 w-4 text-amber-700 shrink-0" />
                 <div className="text-xs">

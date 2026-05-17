@@ -940,25 +940,40 @@ export const regionLabel = (r: Region): string => REGION_LABELS[r];
  * Multi-Office-Kanzleien decken mehrere Regionen ab.
  * Heuristisch via Substring-Match auf bekannte Städte.
  */
+// Mapping nach echter PLZ-Realität (erste Ziffer der PLZ).
+// Jede Kanzlei-City kann mehreren Regionen zugeordnet sein (Multi-Office).
 const CITY_TO_REGION: { match: RegExp; region: Region }[] = [
-  // Hamburg-Nord
-  { match: /Hamburg|Lübeck|Kiel|Bremen|Münster|Bielefeld|Hannover|Oldenburg/i, region: "hamburg-nord" },
-  // Berlin/Brandenburg
-  { match: /Berlin|Potsdam|Brandenburg/i, region: "berlin-brandenburg" },
-  // Sachsen/Thüringen
-  { match: /Dresden|Leipzig|Chemnitz|Erfurt|Jena|Halle|Lutherstadt|Wittenberg/i, region: "ost-sachsen" },
-  // NRW-Mitte
-  { match: /Düsseldorf|Duesseldorf|Köln|Koeln|Dortmund|Essen|Wuppertal|Oberhausen|Mülheim|Muelheim|Mönchengladbach|Recklinghausen/i, region: "nrw-mitte" },
-  // NRW-Süd
-  { match: /Bonn|Aachen|Siegen|Koblenz|Mülheim-Kärlich|Muelheim-Kaerlich/i, region: "nrw-sued" },
-  // Hessen / Frankfurt
-  { match: /Frankfurt|Wiesbaden|Mainz|Darmstadt|Kassel|Offenbach|Hanau/i, region: "hessen-frankfurt" },
-  // BaWü Stuttgart
-  { match: /Stuttgart|Karlsruhe|Mannheim|Heidelberg|Heilbronn|Aalen|Pforzheim/i, region: "bawue-stuttgart" },
-  // Bayern München
-  { match: /München|Muenchen|Augsburg|Ingolstadt|Rosenheim|Passau/i, region: "bayern-muenchen" },
-  // Bayern Nord / BaWü Süd
-  { match: /Nürnberg|Nuernberg|Regensburg|Würzburg|Wuerzburg|Bayreuth|Ulm|Freiburg|Konstanz|Tübingen|Tuebingen/i, region: "bayern-bawue-sued" },
+  // 0xxxx — Sachsen / Thüringen / Sachsen-Anhalt-Süd
+  { match: /Dresden|Leipzig|Chemnitz|Halle|Magdeburg-Süd|Dessau|Zwickau|Plauen/i, region: "ost-sachsen" },
+
+  // 1xxxx — Berlin / Brandenburg / Meck-Pomm
+  { match: /Berlin|Potsdam|Brandenburg|Rostock|Schwerin|Neubrandenburg/i, region: "berlin-brandenburg" },
+
+  // 2xxxx — Hamburg / SH / Nds-Nord / Bremen
+  { match: /Hamburg|Lübeck|Luebeck|Kiel|Bremen|Oldenburg|Lüneburg|Lueneburg|Itzehoe|Flensburg|Cuxhaven|Stade/i, region: "hamburg-nord" },
+
+  // 3xxxx — Nds-Mitte/Süd / NRW-Ost / Hessen-Nord / Sachsen-Anhalt-Nord
+  { match: /Hannover|Bielefeld|Paderborn|Kassel|Göttingen|Goettingen|Wolfsburg|Braunschweig|Magdeburg|Fulda|Marburg|Hildesheim/i, region: "niedersachsen-west" },
+
+  // 4xxxx — NRW-Mitte (Rhein-Ruhr) + Münster + Osnabrück
+  { match: /Düsseldorf|Duesseldorf|Köln|Koeln|Dortmund|Essen|Wuppertal|Oberhausen|Mülheim an der Ruhr|Muelheim an der Ruhr|Mönchengladbach|Moenchengladbach|Recklinghausen|Münster|Muenster|Osnabrück|Osnabrueck|Duisburg|Bochum|Hagen|Solingen|Krefeld|Bocholt/i, region: "nrw-mitte" },
+
+  // 5xxxx — NRW-Süd / Rheinland-Pfalz / Saarland
+  { match: /Bonn|Aachen|Siegen|Koblenz|Trier|Mülheim-Kärlich|Muelheim-Kaerlich|Mainz|Saarbrücken|Saarbruecken|Kaiserslautern/i, region: "nrw-sued" },
+
+  // 6xxxx — Hessen-Süd / RP-Nord / BaWü-Nord
+  { match: /Frankfurt|Wiesbaden|Darmstadt|Offenbach|Hanau|Mannheim|Heidelberg|Worms|Ludwigshafen|Heilbronn/i, region: "hessen-frankfurt" },
+
+  // 7xxxx — BaWü-Nord / Stuttgart-Region
+  { match: /Stuttgart|Karlsruhe|Pforzheim|Aalen|Tübingen|Tuebingen|Reutlingen|Esslingen|Böblingen|Boeblingen|Ravensburg/i, region: "bawue-stuttgart" },
+
+  // 8xxxx — Bayern-Süd / München / Schwaben
+  { match: /München|Muenchen|Augsburg|Ingolstadt|Rosenheim|Passau|Landshut|Memmingen|Kempten/i, region: "bayern-muenchen" },
+
+  // 9xxxx — Bayern-Nord / Franken / Oberpfalz / BaWü-Süd / Thüringen-West
+  { match: /Nürnberg|Nuernberg|Regensburg|Würzburg|Wuerzburg|Bayreuth|Erlangen|Erfurt|Jena|Ulm|Freiburg|Konstanz|Bamberg|Hof/i, region: "bayern-bawue-sued" },
+
+  // Spezial: "Remote DE-weit" / "DE-weit" → KEINE Region zugeordnet (online_first-Flag deckt das ab)
 ];
 
 const stbRegions = (cityField: string): Region[] => {
@@ -967,6 +982,22 @@ const stbRegions = (cityField: string): Region[] => {
     if (match.test(cityField)) found.add(region);
   });
   return Array.from(found);
+};
+
+/** Coverage-Statistik pro Region: wie viele Kanzleien deckt jede Region ab + Online-Anteil. */
+export const regionCoverage = (
+  region: Region,
+): { local: number; neighbor: number; online: number; total: number } => {
+  let local = 0;
+  let neighbor = 0;
+  let online = 0;
+  STB_POOL.forEach((stb) => {
+    const regs = stbRegions(stb.city);
+    if (regs.includes(region)) local++;
+    else if (regs.some((r) => NEIGHBOR_REGIONS[region]?.includes(r))) neighbor++;
+    if (stb.online_first) online++;
+  });
+  return { local, neighbor, online, total: STB_POOL.length };
 };
 
 /**
