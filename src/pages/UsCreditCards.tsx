@@ -8,6 +8,14 @@ import {
   SECRET_TIPS,
   TAX_COMPLIANCE,
   AVOID_LIST,
+  MR_TRANSFER_DE_US,
+  TRANSFER_PARTNERS,
+  SWEET_SPOTS,
+  DEADLINES_2026,
+  VELOCITY_STRATEGY,
+  VELOCITY_TOTAL_VALUE,
+  MILES_AVOID,
+  MILES_TAX_NOTES,
   type CardUseCase,
 } from "@/data/usCreditCards";
 import {
@@ -19,8 +27,11 @@ import {
   Lightbulb,
   Clock,
   FileText,
-  Wallet,
-  Star,
+  Plane,
+  Phone,
+  TrendingUp,
+  Calendar,
+  Zap,
 } from "lucide-react";
 
 const UsCreditCards = () => {
@@ -29,6 +40,13 @@ const UsCreditCards = () => {
   const [showTimeline, setShowTimeline] = useState(false);
   const [showTips, setShowTips] = useState(false);
   const [showTax, setShowTax] = useState(false);
+  const [showMrTransfer, setShowMrTransfer] = useState(false);
+  const [showSweetSpots, setShowSweetSpots] = useState(false);
+  const [showDeadlines, setShowDeadlines] = useState(false);
+  const [showVelocity, setShowVelocity] = useState(false);
+  const [showTransferPartners, setShowTransferPartners] = useState(false);
+  const [showMilesAvoid, setShowMilesAvoid] = useState(false);
+  const [showMilesTax, setShowMilesTax] = useState(false);
   const [noFeeOnly, setNoFeeOnly] = useState(false);
   const [foreignOk, setForeignOk] = useState(false);
 
@@ -56,7 +74,7 @@ const UsCreditCards = () => {
     <CockpitShell
       eyebrow="US-Kreditkarten · Stand Mai 2026"
       title="US-Cards für DE-Kunden — kuratierter Guide"
-      subtitle="23 verifizierte Karten + Workarounds (Wise/Curve), Auswanderer-Timeline, BOI/Tax-Compliance-Notes. Quellen: Issuer-Webseiten + The Points Guy + Doctor of Credit."
+      subtitle="23 verifizierte Karten + 15 Miles-Sweet-Spots + DE→US-MR-Transfer-Hack (~17% FX-Bonus!) + Velocity-Strategie (€8-12k SUB/Jahr) + Auswanderer-Timeline + BOI/Tax-Compliance. Quellen: Issuer-Sites + The Points Guy + LoyaltyLobby."
     >
       {/* ===== USE-CASE-SWITCHER ===== */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-4">
@@ -246,7 +264,335 @@ const UsCreditCards = () => {
         )}
       </div>
 
-      {/* ===== KOLLAPSIERBARE SEKTIONEN ===== */}
+      {/* ===== MILES & POINTS-STRATEGIEN ===== */}
+
+      {/* Deadline-Banner — wenn noch unaufgeklappt, prominent oben */}
+      {!showDeadlines && DEADLINES_2026.some((d) => d.status === "upcoming") && (
+        <div className="rounded-2xl border-2 border-red-500/40 bg-red-500/5 p-4 mb-3">
+          <button
+            onClick={() => setShowDeadlines(true)}
+            className="w-full text-left flex items-start gap-3"
+          >
+            <Calendar className="h-6 w-6 text-red-700 shrink-0" />
+            <div className="flex-1">
+              <div className="font-bold text-base text-red-700">
+                🚨 {DEADLINES_2026.filter((d) => d.status === "upcoming").length} kritische Miles-Deadlines 2026
+              </div>
+              <div className="text-sm text-muted-foreground mt-0.5">
+                Hyatt (20.5.) · Aeroplan (1.6.) · Etihad-Ende (30.6.) · Amex-LH-Lounge-Ende (1.10.) — jetzt buchen, später bereuen
+              </div>
+            </div>
+            <div className="text-red-700 text-xs">▼</div>
+          </button>
+        </div>
+      )}
+
+      {/* DE→US-Transfer-Hack — DER zentrale Hebel */}
+      <CollapsiblePanel
+        open={showMrTransfer}
+        onToggle={() => setShowMrTransfer((v) => !v)}
+        icon={<Phone className="h-5 w-5 text-purple-700" />}
+        title="🎯 DE → US Amex MR-Transfer — der Haupt-Hack"
+        subtitle={`Konversion ~${MR_TRANSFER_DE_US.conversionRatio} dank EUR-USD-FX = ${MR_TRANSFER_DE_US.fxBonus}`}
+        colorClass="border-purple-500/30 bg-purple-500/5"
+      >
+        <div className="space-y-3">
+          <div className="rounded-xl bg-card border border-border p-4">
+            <div className="text-xs font-bold uppercase tracking-wider text-purple-700 mb-2">
+              Wie es funktioniert
+            </div>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              {MR_TRANSFER_DE_US.mechanism}
+            </p>
+          </div>
+
+          <div className="rounded-xl bg-card border border-border p-4">
+            <div className="text-xs font-bold uppercase tracking-wider text-purple-700 mb-2 flex items-center gap-2">
+              <Phone className="h-3.5 w-3.5" /> Hotline-Nummern
+            </div>
+            <ul className="text-sm space-y-1.5">
+              <li>
+                <strong>877-621-2639</strong> — US Global Card Transfer Team (24/7)
+              </li>
+              <li>
+                <strong>1-800-525-3355</strong> — Amex US Platinum-Hotline
+              </li>
+            </ul>
+          </div>
+
+          <div className="rounded-xl bg-card border border-border p-4">
+            <div className="text-xs font-bold uppercase tracking-wider text-emerald-700 mb-2">
+              Voraussetzungen
+            </div>
+            <ul className="text-sm space-y-1 list-disc pl-5 text-muted-foreground">
+              {MR_TRANSFER_DE_US.requirements.map((r, i) => (
+                <li key={i}>{r}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="rounded-xl bg-card border border-border p-4">
+            <div className="text-xs font-bold uppercase tracking-wider text-emerald-700 mb-2">
+              Prozess
+            </div>
+            <ol className="text-sm space-y-1 list-decimal pl-5 text-muted-foreground">
+              {MR_TRANSFER_DE_US.process.map((p, i) => (
+                <li key={i}>{p}</li>
+              ))}
+            </ol>
+          </div>
+
+          <div className="rounded-xl bg-amber-500/5 border border-amber-500/20 p-4">
+            <div className="text-xs font-bold uppercase tracking-wider text-amber-700 mb-2 flex items-center gap-2">
+              <AlertTriangle className="h-3.5 w-3.5" /> Watchouts
+            </div>
+            <ul className="text-sm space-y-1 list-disc pl-5 text-muted-foreground">
+              {MR_TRANSFER_DE_US.watchouts.map((w, i) => (
+                <li key={i}>{w}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </CollapsiblePanel>
+
+      {/* Sweet-Spots */}
+      <CollapsiblePanel
+        open={showSweetSpots}
+        onToggle={() => setShowSweetSpots((v) => !v)}
+        icon={<Plane className="h-5 w-5 text-blue-700" />}
+        title={`${SWEET_SPOTS.length} Sweet-Spots 2026 — Awards mit höchstem €-Wert`}
+        subtitle="Aeroplan / Virgin / Hyatt / Iberia / Avianca / KrisFlyer — Cent-pro-Punkt-Wert verifiziert"
+        colorClass="border-blue-500/30 bg-blue-500/5"
+      >
+        <div className="space-y-2">
+          {SWEET_SPOTS.map((s) => (
+            <div
+              key={s.id}
+              className={`rounded-xl border p-3 ${
+                s.deadline ? "border-amber-500/30 bg-amber-500/5" : "border-border bg-card"
+              }`}
+            >
+              <div className="flex items-start justify-between gap-2 mb-2">
+                <div className="flex-1 min-w-0">
+                  <div className="font-bold text-sm">{s.title}</div>
+                  <div className="text-[11px] text-muted-foreground mt-0.5">{s.bestFor}</div>
+                </div>
+                <div className="shrink-0 text-right">
+                  <div className="text-lg font-bold text-emerald-700">
+                    €{s.realerWertEur.toLocaleString("de-DE")}
+                  </div>
+                  <div className="text-[10px] text-muted-foreground">realer Wert</div>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-3 gap-2 mb-2 text-[11px]">
+                <div className="rounded-md bg-secondary/40 px-2 py-1">
+                  <div className="text-muted-foreground">Punkte</div>
+                  <div className="font-semibold">
+                    {s.punkte > 0 ? s.punkte.toLocaleString("de-DE") : "n/a"}
+                  </div>
+                </div>
+                <div className="rounded-md bg-secondary/40 px-2 py-1">
+                  <div className="text-muted-foreground">Cent/Punkt</div>
+                  <div className="font-semibold">{s.centProPunkt > 0 ? `${s.centProPunkt}¢` : "—"}</div>
+                </div>
+                <div className="rounded-md bg-secondary/40 px-2 py-1">
+                  <div className="text-muted-foreground">Ratio</div>
+                  <div className="font-semibold truncate">{s.ratio}</div>
+                </div>
+              </div>
+
+              <div className="text-[11px] text-muted-foreground">
+                <strong className="text-foreground">Aus:</strong> {s.fromProgram}{" "}
+                <strong className="text-foreground ml-2">→</strong> {s.toProgram}
+              </div>
+
+              {s.deadline && (
+                <div className="mt-2 text-xs text-amber-700 font-semibold flex items-center gap-1">
+                  ⏰ Deadline: {s.deadline}
+                </div>
+              )}
+
+              {s.watchouts.length > 0 && (
+                <details className="text-[11px] mt-2">
+                  <summary className="cursor-pointer text-muted-foreground hover:text-foreground">
+                    {s.watchouts.length} Watchout{s.watchouts.length === 1 ? "" : "s"}
+                  </summary>
+                  <ul className="list-disc pl-4 mt-1 space-y-0.5 text-muted-foreground">
+                    {s.watchouts.map((w, i) => (
+                      <li key={i}>{w}</li>
+                    ))}
+                  </ul>
+                </details>
+              )}
+            </div>
+          ))}
+        </div>
+      </CollapsiblePanel>
+
+      {/* Deadlines 2026 */}
+      <CollapsiblePanel
+        open={showDeadlines}
+        onToggle={() => setShowDeadlines((v) => !v)}
+        icon={<Calendar className="h-5 w-5 text-red-700" />}
+        title={`${DEADLINES_2026.length} kritische Miles/Hotel-Deadlines 2026`}
+        subtitle="Hyatt (20.5.) · Aeroplan (1.6.) · Etihad-Ende (30.6.) · Amex-LH-Lounge (1.10.)"
+        colorClass="border-red-500/30 bg-red-500/5"
+      >
+        <div className="space-y-2">
+          {DEADLINES_2026.map((d, i) => (
+            <div
+              key={i}
+              className={`rounded-xl border p-3 flex items-start gap-3 ${
+                d.status === "upcoming"
+                  ? "border-red-500/30 bg-card"
+                  : "border-border bg-secondary/30 opacity-60"
+              }`}
+            >
+              <div className="shrink-0 w-24">
+                <div
+                  className={`text-xs font-bold ${
+                    d.status === "upcoming" ? "text-red-700" : "text-muted-foreground"
+                  }`}
+                >
+                  {d.date}
+                </div>
+                <div className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                  {d.status === "upcoming" ? "AKTIV" : "passiert"}
+                </div>
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="font-semibold text-sm">{d.event}</div>
+                <div className="text-xs text-muted-foreground mt-0.5">{d.detail}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </CollapsiblePanel>
+
+      {/* Velocity-Strategie */}
+      <CollapsiblePanel
+        open={showVelocity}
+        onToggle={() => setShowVelocity((v) => !v)}
+        icon={<TrendingUp className="h-5 w-5 text-emerald-700" />}
+        title={`Velocity-Strategie: 12 Monate für €${VELOCITY_TOTAL_VALUE.realistic.replace("€", "")} SUB-Wert`}
+        subtitle="Optimale Reihenfolge der Card-Applies für DE-Resident mit US-LLC"
+        colorClass="border-emerald-500/30 bg-emerald-500/5"
+      >
+        <div className="space-y-2 mb-3">
+          {VELOCITY_STRATEGY.map((step, i) => (
+            <div
+              key={i}
+              className="rounded-lg border border-border bg-card p-3 flex gap-3 items-start"
+            >
+              <div className="shrink-0 w-32">
+                <Badge variant="outline" className="text-[10px] font-bold uppercase tracking-wider">
+                  {step.month}
+                </Badge>
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="font-semibold text-sm">{step.action}</div>
+                <div className="text-[11px] text-muted-foreground mt-0.5">{step.note}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="rounded-xl bg-emerald-500/10 border border-emerald-500/30 p-3 text-sm">
+          <div className="font-bold text-emerald-700 mb-1">Realistischer Jahres-SUB-Wert</div>
+          <div className="text-foreground">
+            <strong>{VELOCITY_TOTAL_VALUE.realistic}</strong> bei sauberer Ausführung
+          </div>
+          <div className="text-xs text-muted-foreground mt-1">
+            Aggressiv: {VELOCITY_TOTAL_VALUE.aggressive}
+          </div>
+        </div>
+      </CollapsiblePanel>
+
+      {/* Transfer-Partner Vergleich */}
+      <CollapsiblePanel
+        open={showTransferPartners}
+        onToggle={() => setShowTransferPartners((v) => !v)}
+        icon={<Zap className="h-5 w-5 text-orange-700" />}
+        title={`${TRANSFER_PARTNERS.length} Transfer-Partner: DE-MR vs US-MR Vergleich`}
+        subtitle="Wo US-Karten 25-100% bessere Conversions haben (Aeroplan, Virgin, Avianca, ANA — alle DE-killing US-only)"
+        colorClass="border-orange-500/30 bg-orange-500/5"
+      >
+        <div className="overflow-x-auto -mx-2 px-2">
+          <table className="w-full text-xs">
+            <thead>
+              <tr className="border-b border-border text-left">
+                <th className="py-2 px-2 font-semibold">Partner</th>
+                <th className="py-2 px-2 font-semibold">US-MR</th>
+                <th className="py-2 px-2 font-semibold">DE-MR</th>
+                <th className="py-2 px-2 font-semibold">Winner</th>
+              </tr>
+            </thead>
+            <tbody>
+              {TRANSFER_PARTNERS.map((p) => (
+                <tr key={p.name} className="border-b border-border/40 hover:bg-secondary/30">
+                  <td className="py-2 px-2 font-medium">
+                    {p.name}
+                    {p.note && <div className="text-[10px] text-muted-foreground italic">{p.note}</div>}
+                  </td>
+                  <td className="py-2 px-2 font-mono">{p.usRatio}</td>
+                  <td className="py-2 px-2 font-mono">{p.deRatio}</td>
+                  <td className="py-2 px-2">
+                    {p.winner === "us" && <Badge className="bg-emerald-500/10 text-emerald-700 border-emerald-500/30">US 🇺🇸</Badge>}
+                    {p.winner === "us-only" && <Badge className="bg-blue-500/10 text-blue-700 border-blue-500/30">US-only</Badge>}
+                    {p.winner === "de-only" && <Badge className="bg-amber-500/10 text-amber-700 border-amber-500/30">DE-only</Badge>}
+                    {p.winner === "equal" && <Badge variant="outline">Gleich</Badge>}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </CollapsiblePanel>
+
+      {/* Miles-Steuer */}
+      <CollapsiblePanel
+        open={showMilesTax}
+        onToggle={() => setShowMilesTax((v) => !v)}
+        icon={<FileText className="h-5 w-5 text-emerald-700" />}
+        title="Steuer: SUBs & Punkte für DE-Resident"
+        subtitle="Privat = steuerfrei (BFH/§3 Nr. 38 EStG), Business = Grauzone"
+        colorClass="border-emerald-500/30 bg-emerald-500/5"
+      >
+        <div className="space-y-2">
+          {MILES_TAX_NOTES.map((n, i) => (
+            <div key={i} className="rounded-xl border border-border bg-card p-3">
+              <div className="font-semibold text-sm mb-1 flex items-start gap-2">
+                <CheckCircle2 className="h-4 w-4 text-emerald-700 shrink-0 mt-0.5" />
+                {n.headline}
+              </div>
+              <div className="text-xs text-muted-foreground leading-relaxed pl-6">{n.detail}</div>
+            </div>
+          ))}
+        </div>
+      </CollapsiblePanel>
+
+      {/* Miles-AVOID */}
+      <CollapsiblePanel
+        open={showMilesAvoid}
+        onToggle={() => setShowMilesAvoid((v) => !v)}
+        icon={<ShieldAlert className="h-5 w-5 text-red-700" />}
+        title={`${MILES_AVOID.length} Miles-AVOIDs 2026`}
+        subtitle="Manufactured Spending, Etihad-Ende, Bilt 2.0 etc."
+        colorClass="border-red-500/30 bg-red-500/5"
+      >
+        <div className="space-y-2">
+          {MILES_AVOID.map((a, i) => (
+            <div key={i} className="rounded-xl border border-red-500/20 bg-card p-3">
+              <div className="font-semibold text-sm text-red-700">{a.item}</div>
+              <div className="text-xs text-muted-foreground mt-1">{a.reason}</div>
+            </div>
+          ))}
+        </div>
+      </CollapsiblePanel>
+
+      <div className="h-3" />
+
+      {/* ===== KARTEN-SEKTIONEN (existing) ===== */}
 
       {/* Geheim-Tipps */}
       <CollapsiblePanel

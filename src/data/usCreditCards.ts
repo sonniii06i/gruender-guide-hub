@@ -614,6 +614,361 @@ export const TAX_COMPLIANCE = [
   },
 ];
 
+// ============================================================
+// MILES & POINTS-STRATEGIEN · Stand Mai 2026
+// ============================================================
+// Verifizierte Quellen: LoyaltyLobby, Upgraded Points, The Points Guy,
+// One Mile at a Time, AwardWallet, meilenoptimieren.com
+
+// ===== DE→US AMEX MR-TRANSFER (der Haupt-Hack) =====
+export const MR_TRANSFER_DE_US = {
+  works: true,
+  mechanism:
+    "Nicht offiziell als 'Global Transfer Program' beworben — läuft per Telefon-Konsolidierung zwischen Global-Card-Relationship-verbundenen Accounts. Verifizierter Datapoint (Dec 2025, LoyaltyLobby): 72.477 DE-MR → 85.302 US-MR ≈ 1:1.17 (EUR/USD-Kurs-Bonus, EUR ist die härtere Punktwährung).",
+  conversionRatio: "~1:1.17 (Mai 2026 EUR/USD-Tageskurs)",
+  fxBonus: "~17% mehr Punkte umsonst durch FX-Effekt",
+  requirements: [
+    "US-Amex-Karte mit MR-Funktion seit ≥3 Monaten offen + good standing",
+    "DE-Amex-Karte (egal welche MR-fähige) seit ≥3 Monaten",
+    "Beide Accounts via Global Card Relationship verlinkt (oft automatisch wenn Name/Adresse matchen, sonst telefonisch koppeln)",
+    "ITIN oder SSN für die US-Karte",
+  ],
+  process: [
+    "Hotline: 877-621-2639 (US Global Card Transfer Team, 24/7) oder 1-800-525-3355 (Amex US Platinum-Hotline)",
+    "Request 'transfer Membership Rewards points from my Germany account to my US account'",
+    "Mehrere kleinere Transfers im Jahr berichtet als problemlos — 1× großer Transfer pro Jahr ist Standard",
+    "Transfer ist EINSEITIG: US→DE zurück verliert den FX-Vorteil",
+  ],
+  watchouts: [
+    "UNCLEAR exakter jährlicher Cap — Amex behält sich Einzelfall-Entscheidungen vor",
+    "Amex DE Forex-Fee teilweise auf Transfer aufgeschlagen — netto bleibt aber positiv solange EUR stärker",
+    "Direkter Webseiten-Transfer ('Punkte an anderen Account schicken') existiert NICHT — nur Telefon",
+  ],
+};
+
+// ===== TRANSFER-PARTNER VERGLEICH DE vs US =====
+export type TransferPartner = {
+  name: string;
+  usRatio: string;
+  deRatio: string;
+  winner: "us" | "de" | "equal" | "us-only" | "de-only";
+  note?: string;
+};
+
+export const TRANSFER_PARTNERS: TransferPartner[] = [
+  { name: "Air Canada Aeroplan", usRatio: "1:1", deRatio: "n/a", winner: "us-only", note: "Killer-Partner für Lufthansa-Awards" },
+  { name: "Virgin Atlantic Flying Club", usRatio: "1:1", deRatio: "n/a", winner: "us-only", note: "Key für ANA-Sweet-Spots" },
+  { name: "Delta SkyMiles", usRatio: "1:1", deRatio: "n/a", winner: "us-only" },
+  { name: "JetBlue TrueBlue", usRatio: "1:0.8", deRatio: "n/a", winner: "us-only", note: "Bei Chase UR sogar 1:1!" },
+  { name: "ANA Mileage Club", usRatio: "1:1", deRatio: "n/a", winner: "us-only" },
+  { name: "Avianca LifeMiles", usRatio: "1:1", deRatio: "n/a", winner: "us-only", note: "Beste LH-Biz-Ratios mit niedrigen Surcharges" },
+  { name: "Aeromexico Rewards", usRatio: "1:1.6", deRatio: "n/a", winner: "us-only" },
+  { name: "Hilton Honors", usRatio: "1:2", deRatio: "1:1.5", winner: "us" },
+  { name: "Marriott Bonvoy", usRatio: "1:1", deRatio: "3:2", winner: "us" },
+  { name: "British Airways Avios", usRatio: "1:1", deRatio: "5:4", winner: "us", note: "25% besser in US" },
+  { name: "Iberia Plus (Avios)", usRatio: "1:1", deRatio: "5:4", winner: "us" },
+  { name: "Air France/KLM Flying Blue", usRatio: "1:1", deRatio: "5:4", winner: "us" },
+  { name: "Qatar Privilege Club (Avios)", usRatio: "1:1", deRatio: "schlechter seit 1.8.2025", winner: "us" },
+  { name: "Cathay Pacific Asia Miles", usRatio: "5:4", deRatio: "seit 1.8.2025 noch schlechter", winner: "us", note: "Beide schwach" },
+  { name: "Emirates Skywards", usRatio: "5:4 (44-50% Devaluation 23.02.2026!)", deRatio: "massiv devaluiert 1.8.2025", winner: "us", note: "Vermeiden" },
+  { name: "Singapore KrisFlyer", usRatio: "1:1", deRatio: "1:1 (UNCLEAR ob nach Devaluation)", winner: "equal" },
+  { name: "Lufthansa Miles & More", usRatio: "n/a", deRatio: "nur via PAYBACK-Umweg (2:1 effektiv)", winner: "de-only", note: "Schlechte Ratio aber DE-only" },
+  { name: "SAS EuroBonus", usRatio: "n/a", deRatio: "5:4", winner: "de-only" },
+];
+
+// ===== SWEET-SPOTS (Beste Awards 2026) =====
+export type SweetSpot = {
+  id: string;
+  title: string;
+  fromProgram: string;
+  toProgram: string;
+  ratio: string;
+  punkte: number;
+  realerWertEur: number;
+  centProPunkt: number;
+  bestFor: string;
+  watchouts: string[];
+  deadline?: string;
+};
+
+export const SWEET_SPOTS: SweetSpot[] = [
+  {
+    id: "aeroplan-jfk-fra-biz",
+    title: "JFK→FRA Lufthansa Business one-way (Aeroplan)",
+    fromProgram: "US-Amex MR / Chase UR / Capital One",
+    toProgram: "Air Canada Aeroplan",
+    ratio: "1:1",
+    punkte: 60000,
+    realerWertEur: 3500,
+    centProPunkt: 5.8,
+    bestFor: "Transatlantik Business one-way",
+    watchouts: ["Steigt am 1.6.2026 auf 75k", "Lufthansa-First nur 14 Tage vor Abflug für Partner buchbar"],
+    deadline: "1.6.2026",
+  },
+  {
+    id: "aeroplan-jfk-fra-first",
+    title: "JFK→FRA Lufthansa First one-way (Aeroplan)",
+    fromProgram: "US-Amex MR / Chase UR / Capital One",
+    toProgram: "Air Canada Aeroplan",
+    ratio: "1:1",
+    punkte: 100000,
+    realerWertEur: 9000,
+    centProPunkt: 9.0,
+    bestFor: "Lufthansa First Class transatlantik",
+    watchouts: ["Steigt 1.6.2026 auf 120k (+20%)", "Saver-Space rar"],
+    deadline: "1.6.2026",
+  },
+  {
+    id: "aeroplan-ord-nrt-ana-biz",
+    title: "ORD→NRT ANA Business one-way (Aeroplan)",
+    fromProgram: "US-Amex MR / Chase UR / Capital One",
+    toProgram: "Air Canada Aeroplan",
+    ratio: "1:1",
+    punkte: 75000,
+    realerWertEur: 4500,
+    centProPunkt: 6.0,
+    bestFor: "US-Asien Business one-way",
+    watchouts: ["Steigt 1.6.2026 auf 102.5k (+37%!)", "Roame oder Seats.aero für Suche nutzen"],
+    deadline: "1.6.2026",
+  },
+  {
+    id: "aeroplan-miami-gru-avianca",
+    title: "Miami→GRU Avianca Business one-way (Aeroplan)",
+    fromProgram: "US-Amex MR / Chase UR / Capital One",
+    toProgram: "Air Canada Aeroplan",
+    ratio: "1:1",
+    punkte: 60000,
+    realerWertEur: 2800,
+    centProPunkt: 4.6,
+    bestFor: "US-Südamerika Business",
+    watchouts: [],
+  },
+  {
+    id: "virgin-ana-first-rt-west",
+    title: "LAX→HND ANA First Class roundtrip (Virgin Atlantic)",
+    fromProgram: "US-Amex MR / Chase UR / Bilt / Capital One",
+    toProgram: "Virgin Atlantic Flying Club",
+    ratio: "1:1",
+    punkte: 110000,
+    realerWertEur: 12000,
+    centProPunkt: 10.9,
+    bestFor: "ANA First Class ex West-Küste — bester Sweet Spot überhaupt",
+    watchouts: ["ANA-First-Saver-Space rar, 355 Tage out suchen", "Letzte Devaluation Mai 2024"],
+  },
+  {
+    id: "virgin-ana-biz-rt-jfk",
+    title: "JFK→HND ANA Business roundtrip (Virgin Atlantic)",
+    fromProgram: "US-Amex MR / Chase UR / Bilt / Capital One",
+    toProgram: "Virgin Atlantic Flying Club",
+    ratio: "1:1",
+    punkte: 120000,
+    realerWertEur: 7000,
+    centProPunkt: 5.8,
+    bestFor: "East-Coast → Tokyo Business RT",
+    watchouts: [],
+  },
+  {
+    id: "iberia-jfk-mad-biz-offpeak",
+    title: "JFK→MAD Iberia Business off-peak (Avios)",
+    fromProgram: "US-Amex MR / Chase UR / Bilt / Capital One",
+    toProgram: "Iberia Plus / British Airways Club",
+    ratio: "1:1 (US) / 5:4 (DE)",
+    punkte: 40500,
+    realerWertEur: 2500,
+    centProPunkt: 6.2,
+    bestFor: "Direktflug Transatlantik Spanien off-peak (Jan-März, Okt-Nov)",
+    watchouts: ["Von 34k auf 40.5k erhöht (19% Devaluation)", "Iberia hat niedrige Surcharges ex MAD, moderate ex JFK"],
+  },
+  {
+    id: "hyatt-park-tokyo-offpeak",
+    title: "Park Hyatt Tokyo off-peak (Hyatt)",
+    fromProgram: "Chase UR / Bilt",
+    toProgram: "World of Hyatt",
+    ratio: "1:1",
+    punkte: 35000,
+    realerWertEur: 1000,
+    centProPunkt: 2.9,
+    bestFor: "Luxus-Tokyo unter €1.000/Nacht-Real-Wert",
+    watchouts: ["Vor 20.5.2026 buchen! Top-tier dann 75k (+114%)", "Newly remodeled, viel Availability gedropped"],
+    deadline: "20.5.2026",
+  },
+  {
+    id: "hyatt-maldives",
+    title: "Park Hyatt Maldives Hadahaa (Hyatt)",
+    fromProgram: "Chase UR / Bilt",
+    toProgram: "World of Hyatt",
+    ratio: "1:1",
+    punkte: 30000,
+    realerWertEur: 1300,
+    centProPunkt: 4.4,
+    bestFor: "Overwater-Villa zum Bruchteil",
+    watchouts: ["20.5.2026 Devaluation auf bis 75k Peak", "Resort-Fees fallen weg, Transfer-Speedboat cash"],
+    deadline: "20.5.2026",
+  },
+  {
+    id: "ba-avios-shorthaul",
+    title: "LHR→Europa short-haul off-peak (BA Avios)",
+    fromProgram: "US/DE-Amex MR / Chase UR / Bilt / Capital One",
+    toProgram: "British Airways Club",
+    ratio: "1:1 (US) / 5:4 (DE)",
+    punkte: 6000,
+    realerWertEur: 150,
+    centProPunkt: 2.5,
+    bestFor: "Quick Europa-Hops 4k-8.5k Punkte",
+    watchouts: ["BA Surcharges auf BA-metal-Routen hoch", "Auf Iberia/Vueling/Aer Lingus-Routen niedrig"],
+  },
+  {
+    id: "qatar-via-ba-avios",
+    title: "Qatar Qsuites Business via BA-Avios-Umweg (DE-Hack)",
+    fromProgram: "DE-Amex MR → BA Avios",
+    toProgram: "Qatar Privilege Club (via BA Avios free conversion)",
+    ratio: "DE 5:4 → 1:1 BA → 1:1 Qatar",
+    punkte: 70000,
+    realerWertEur: 3500,
+    centProPunkt: 5.0,
+    bestFor: "DE-Hack um direkte Qatar-Devaluation auszuweichen",
+    watchouts: ["BA → Qatar Avios-Transfer aktuell 1:1 free", "Qatar dynamic pricing"],
+  },
+  {
+    id: "singapore-suites-jfk-fra",
+    title: "Singapore Suites JFK→FRA (KrisFlyer)",
+    fromProgram: "US-Amex MR / Chase UR / Citi TYP / Capital One",
+    toProgram: "Singapore KrisFlyer",
+    ratio: "1:1",
+    punkte: 86000,
+    realerWertEur: 6000,
+    centProPunkt: 7.0,
+    bestFor: "Singapore Suites Erlebnis (A380 Doppelbett)",
+    watchouts: ["Suites-Availability nur für KrisFlyer-Member, nicht via Partner", "Saver-Space 355 Tage out suchen"],
+  },
+  {
+    id: "avianca-lh-biz",
+    title: "Lufthansa Business transatlantik via Avianca LifeMiles",
+    fromProgram: "US-Amex MR / Citi TYP / Capital One",
+    toProgram: "Avianca LifeMiles",
+    ratio: "1:1",
+    punkte: 63000,
+    realerWertEur: 3500,
+    centProPunkt: 5.6,
+    bestFor: "Lufthansa Biz OHNE Fuel-Surcharges (LifeMiles passt keine BA-ähnlichen Surcharges drauf)",
+    watchouts: ["LifeMiles devaluiert häufig still", "Buchungsmaschine instabil - oft Service-Center anrufen"],
+  },
+  {
+    id: "marriott-fna-brilliant",
+    title: "Marriott Brilliant FNA 85k + 25k Top-off (Marriott Bonvoy)",
+    fromProgram: "US-Amex Marriott Brilliant",
+    toProgram: "Marriott Bonvoy Free Night Award",
+    ratio: "n/a (Anniversary Cert)",
+    punkte: 0,
+    realerWertEur: 800,
+    centProPunkt: 0,
+    bestFor: "St. Regis / Ritz Carlton bis effektiv 110k-Property",
+    watchouts: ["Brilliant AF $650/Jahr — nur mit Stay-Plan sinnvoll", "Top-off Maximum 25k seit 12.3.2026 (vorher 15k)"],
+  },
+  {
+    id: "de-mr-payback-mm",
+    title: "DE-MR → PAYBACK 2:1 → M&M 1:1 = effektiv 2:1 zu Lufthansa Miles & More",
+    fromProgram: "DE-Amex MR",
+    toProgram: "Lufthansa Miles & More",
+    ratio: "2:1 (effektiv)",
+    punkte: 170000,
+    realerWertEur: 1500,
+    centProPunkt: 0.9,
+    bestFor: "Wenn US-Transfer keine Option ist — M&M LH First 85k einseitig",
+    watchouts: ["Zweistufiger Transfer", "Nur für M&M-Status-Member empfehlenswert", "M&M dynamic pricing seit Juni 2025"],
+  },
+];
+
+// ===== KRITISCHE 2026-DEADLINES =====
+export const DEADLINES_2026 = [
+  {
+    date: "23.02.2026",
+    event: "Amex globale Devaluation",
+    detail: "8 Airlines: Conversion-Ratios um 22-25% erhöht (Emirates 44-50%)",
+    status: "passed",
+  },
+  {
+    date: "12.03.2026",
+    event: "Marriott Top-off-Erhöhung",
+    detail: "FNA Top-off von 15k auf 25k Points erhöht (mehr Wert für Brilliant-Holder)",
+    status: "passed",
+  },
+  {
+    date: "20.05.2026",
+    event: "Hyatt Award-Chart-Änderung",
+    detail: "Top-Tier Properties bis +114% (Park Hyatt Tokyo 35k → 75k, Maldives 30k → bis 75k)",
+    status: "upcoming",
+  },
+  {
+    date: "01.06.2026",
+    event: "Aeroplan Award-Chart-Devaluation",
+    detail: "JFK→FRA Biz 60k→75k, LH First 100k→120k, ORD→NRT 75k→102.5k (+37%)",
+    status: "upcoming",
+  },
+  {
+    date: "30.06.2026",
+    event: "Etihad Guest endet als Amex-Partner",
+    detail: "Weltweit — Punkte VERLOREN ab dann wenn nicht transferiert",
+    status: "upcoming",
+  },
+  {
+    date: "01.10.2026",
+    event: "Amex Platinum verliert Lufthansa-Lounge-Zugang",
+    detail: "Wenn du die Karte deshalb hältst — neu rechnen",
+    status: "upcoming",
+  },
+];
+
+// ===== VELOCITY-STRATEGIE 12 MONATE (DE-Resident mit US-LLC) =====
+export const VELOCITY_STRATEGY = [
+  { month: "Setup (3-6 Mo vor M0)", action: "US-LLC + ITIN + US-Bank + US-Adresse + US-Telefon", note: "Vorbereitung-Pflicht" },
+  { month: "Monat 0", action: "DE Amex Platinum (85k MR Mai-2026-Rekord)", note: "Basis-MR-Konto, später US-koppelbar" },
+  { month: "Monat 1", action: "Cap One Quicksilver für Foreigners (mit ITIN)", note: "Credit-File-Aufbau, kein 5/24-Impact" },
+  { month: "Monat 4-6", action: "Cap One Venture X (75k Miles + $300 Travel-Credit)", note: "Erster echter US-SUB, easy Approval" },
+  { month: "Monat 7", action: "Amex US Gold (90k MR) via Global Card Relationship", note: "Hier zahlt sich DE-History aus — oft ohne FICO" },
+  { month: "Monat 9", action: "Chase Sapphire Preferred (100k UR)", note: "Erst jetzt — 5/24 sauberer + Credit-File gebaut" },
+  { month: "Monat 11", action: "Amex US Platinum (175k MR)", note: "Maximal-SUB. Achtung: lifetime-per-product Regel" },
+  { month: "Monat 13+", action: "Chase Ink Business (90k UR, Business zählt NICHT zu 5/24!)", note: "Skalierung über LLC-EIN" },
+];
+
+export const VELOCITY_TOTAL_VALUE = {
+  realistic: "€8.000-12.000",
+  aggressive: "bis €20.000 (mit mehreren Business-Karten, Shutdown-Risiko ↑)",
+};
+
+// ===== MILES-AVOID-LISTE 2026 =====
+export const MILES_AVOID = [
+  { item: "Manufactured Spending (Gift-Cards, Plastiq, BlueBird)", reason: "Amex-Shutdown-Welle seit März 2026 explizit gegen international spend + resale" },
+  { item: "Buying Groups", reason: "Multi-Party-Risiko (Merchant-Shutdowns, Theft, Bank-FR)" },
+  { item: "Etihad Guest als Amex-Transferziel", reason: "ENDET 30.6.2026 weltweit — Punkte VERLOREN ab dann" },
+  { item: "Lufthansa-Lounge via Amex Platinum als Hauptgrund", reason: "ENDET 1.10.2026 — wenn das dein einziger Reason ist neu rechnen" },
+  { item: "Aeroplan-Premium-Buchungen nach 1.6.2026", reason: "Massive Devaluation 7.5k-11k-mile-Band (US-Asien-Biz +37%)" },
+  { item: "Hyatt Top-Tier nach 20.5.2026", reason: "+114% auf Park Hyatt Tokyo/Kyoto/Maui/Maldives" },
+  { item: "Emirates Skywards via Amex", reason: "44-50% Devaluation seit 23.02.2026 — fast nie noch Sweet Spot" },
+  { item: "Chase UR-Punkte halten ohne aktive Karte", reason: "Verfallen sofort bei Schließung der letzten UR-Karte — vorher zu Hyatt/Avios pushen" },
+  { item: "DE-MR direkt zu Cathay/Emirates/Etihad/Qatar", reason: "Seit 1.8.2025 12-30% schlechter — über BA-Avios-Umweg (Qatar-Free-Transfer) oder via US-Transfer" },
+  { item: "Bilt Card 2.0 als DE-Resident", reason: "Cardless-Transition unstabil bis T&Cs final publiziert" },
+];
+
+// ===== STEUER für Miles & Points (DE) =====
+export const MILES_TAX_NOTES = [
+  {
+    headline: "Privat gesammelte SUBs/Punkte = steuerfrei in DE",
+    detail:
+      "BFH-Rechtsprechung zu Sachprämien + §3 Nr. 38 EStG: Treuepunkte bis €1.080/Jahr Freibetrag. Darüber bei Amex MR durch Amex-eigene Pauschalversteuerung abgedeckt — keine Steuerpflicht beim Empfänger.",
+  },
+  {
+    headline: "Business-Karten (LLC) + private Einlösung = Grauzone",
+    detail:
+      "Wenn LLC-Ausgaben Punkte generieren und du privat einlöst = geldwerter Vorteil auf US-Seite (1099 nur wenn >$600 Cash-Back, Punkte i.d.R. nicht). Auf DE-Seite Betriebsausgabenkorrektur möglich. ZWINGEND Steuerberater einschalten.",
+  },
+  {
+    headline: "Welcome Bonuses ohne Spending = theoretisch Schenkung",
+    detail:
+      "Bei Banken-SUBs (z.B. Mercury $500-Promo) steuerlich bisher unbeanstandet. Bei Punkte-SUBs ohne Spending-Requirement: prüfen.",
+  },
+];
+
 // ===== AVOID-LISTE =====
 export const AVOID_LIST = [
   {

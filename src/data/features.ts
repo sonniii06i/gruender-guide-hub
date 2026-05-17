@@ -45,7 +45,7 @@ const _CATEGORIES_RAW: FeatureCategory[] = [
       { slug: "sales-tax-nexus", title: "Sales-Tax-Nexus-Check", desc: "46 US-Staaten + DC: Wayfair-Schwellen ($/Transaktionen), Marketplace-Facilitator-Logik (Amazon vs Shopify), kombinierter Tax-Satz pro Staat, Geschätzte Tax-Last.", status: "beta", route: "/cockpit/sales-tax-nexus" },
       { slug: "substance-checker", title: "Substance-Requirements-Checker", desc: "Mailbox-Risiko-Score (0–100) für §50d EStG + §AStG + §10 AO (ATAD III withdrawn Jun 2025). 12 EU-/CH-Länder. GF-Wohnsitz, lokale MA, Büro, Aktivität, Umsatz, PPT-Grund.", status: "beta", route: "/cockpit/substance-checker" },
       { slug: "dba-cfc", title: "DBA-CFC-Rechner", desc: "§AStG Hinzurechnungsbesteuerung + DBA-Quellensteuer-Reduktion + Mutter-Tochter-RL für 14 Länder. Step-by-Step Berechnung Ausland → DE.", status: "beta", route: "/cockpit/dba-cfc" },
-      { slug: "us-kreditkarten", title: "US-Kreditkarten-Guide", desc: "23 verifizierte Karten in 4 Tracks: DE-Privatperson (Wise/Curve), DE+US-LLC (Mercury/Brex/Ramp EIN-only), Auswanderer-Credit-Build (ITIN+Secured), Churning (Chase/Amex/Cap-One). Inkl. BOI/Tax-Compliance + Auswanderer-Timeline.", status: "beta", route: "/cockpit/us-kreditkarten" },
+      { slug: "us-kreditkarten", title: "US-Kreditkarten + Miles-Strategien", desc: "23 verifizierte Karten + 15 Sweet-Spots (Aeroplan 60k JFK→FRA Biz, ANA First 110k Virgin etc.) + DE→US Amex-MR-Transfer-Hack (~17% FX-Bonus via 877-621-2639) + Velocity-Strategie (€8-12k SUB/Jahr) + 4 Use-Cases (DE-Privat, US-LLC EIN-only, Auswanderer-Credit-Build, Churning) + 6 kritische 2026-Deadlines + BOI/Steuer-Compliance.", status: "beta", route: "/cockpit/us-kreditkarten" },
     ],
   },
   {
