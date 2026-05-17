@@ -1,6 +1,86 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 import { inputGuard, outputGuard, rejectStream } from "../_shared/chat-guardrails.ts";
+import {
+  loadMemories,
+  markMemoriesUsed,
+  buildMemoryBlock,
+  extractAndSaveMemories,
+  type ChatMemory,
+  type SubLlmCaller,
+} from "../_shared/chat-memory.ts";
+
+// User-ID aus JWT extrahieren — null wenn anon-Key oder kein JWT.
+async function getUserIdFromRequest(req: Request): Promise<string | null> {
+  try {
+    const auth = req.headers.get("Authorization");
+    if (!auth?.startsWith("Bearer ")) return null;
+    const token = auth.slice(7);
+    const url = Deno.env.get("SUPABASE_URL");
+    const anonKey = Deno.env.get("SUPABASE_ANON_KEY");
+    if (!url || !anonKey) return null;
+    const supa = createClient(url, anonKey, {
+      global: { headers: { Authorization: `Bearer ${token}` } },
+      auth: { persistSession: false },
+    });
+    const { data, error } = await supa.auth.getUser();
+    if (error || !data?.user) return null;
+    return data.user.id;
+  } catch (e) {
+    console.error("getUserIdFromRequest error", e);
+    return null;
+  }
+}
+
+function serviceClient() {
+  const url = Deno.env.get("SUPABASE_URL");
+  const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+  if (!url || !serviceKey) return null;
+  return createClient(url, serviceKey, { auth: { persistSession: false } });
+}
+
+// Provider-agnostischer Sub-LLM-Caller für Memory-Extraktion.
+// Verwendet das günstigste verfügbare Modell (Gemini Flash bevorzugt, Claude Haiku als Fallback).
+function makeSubLlmCaller(lovableKey: string | undefined, anthropicKey: string | undefined): SubLlmCaller | null {
+  if (lovableKey) {
+    return async (prompt: string) => {
+      const r = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${lovableKey}`, "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "google/gemini-3-flash-preview",
+          messages: [{ role: "user", content: prompt }],
+          temperature: 0,
+          max_tokens: 600,
+        }),
+      });
+      if (!r.ok) throw new Error(`Sub-LLM Lovable ${r.status}`);
+      const j = await r.json();
+      return j.choices?.[0]?.message?.content ?? "";
+    };
+  }
+  if (anthropicKey) {
+    return async (prompt: string) => {
+      const r = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: {
+          "x-api-key": anthropicKey,
+          "anthropic-version": "2023-06-01",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: "claude-haiku-4-5-20251001",
+          max_tokens: 600,
+          messages: [{ role: "user", content: prompt }],
+        }),
+      });
+      if (!r.ok) throw new Error(`Sub-LLM Anthropic ${r.status}`);
+      const j = await r.json();
+      return j.content?.[0]?.text ?? "";
+    };
+  }
+  return null;
+}
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -236,13 +316,13 @@ WIE DU TOOLS NUTZT:
 - Bei Frage "Welcher US-State?" → erkläre Wyoming vs DE vs NM grob + verlinke /cockpit/us-llc-wizard für vollen Setup-Pfad
 - Verlinke IMMER mit Markdown: [Crypto-Steuer-Tool](/cockpit/crypto-steuer) – nicht als Plain-Text.`;
 
-async function callLovable(messages: any[], key: string): Promise<Response> {
+async function callLovable(messages: any[], key: string, systemOverride?: string): Promise<Response> {
   return await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
     method: "POST",
     headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
     body: JSON.stringify({
       model: "google/gemini-3-flash-preview",
-      messages: [{ role: "system", content: SYSTEM }, ...messages],
+      messages: [{ role: "system", content: systemOverride ?? SYSTEM }, ...messages],
       stream: true,
     }),
   });
@@ -253,7 +333,7 @@ async function callLovable(messages: any[], key: string): Promise<Response> {
  * Wandelt Anthropic's content_block_delta events in OpenAI's chat.completion.chunk-Format um,
  * damit der bestehende Client-Code (FelixChat.tsx) ohne Änderung weiter funktioniert.
  */
-async function callAnthropic(messages: any[], key: string): Promise<Response> {
+async function callAnthropic(messages: any[], key: string, systemOverride?: string): Promise<Response> {
   // Anthropic: system separat, messages ohne system-role
   const userAssistantMessages = messages.filter((m: any) => m.role !== "system");
 
@@ -267,7 +347,7 @@ async function callAnthropic(messages: any[], key: string): Promise<Response> {
     body: JSON.stringify({
       model: "claude-sonnet-4-6",
       max_tokens: 2048,
-      system: SYSTEM,
+      system: systemOverride ?? SYSTEM,
       messages: userAssistantMessages,
       stream: true,
     }),
@@ -351,7 +431,31 @@ serve(async (req) => {
       throw new Error("Weder LOVABLE_API_KEY noch ANTHROPIC_API_KEY gesetzt");
     }
 
-    // Helper: wraps stream mit Tee → Output-Guard + Log nach Stream-Ende
+    // === MEMORY-LAYER ===
+    // User-ID aus JWT — wenn anon-Key oder fehlend: Memory wird übersprungen
+    const userId = await getUserIdFromRequest(req);
+    const supaService = serviceClient();
+    let memories: ChatMemory[] = [];
+    let systemPromptWithMemory: string | undefined;
+
+    if (userId && supaService) {
+      try {
+        memories = await loadMemories(userId, supaService);
+        if (memories.length > 0) {
+          const block = buildMemoryBlock(memories);
+          systemPromptWithMemory = SYSTEM + block;
+          // last_used_at fire-and-forget aktualisieren
+          markMemoriesUsed(memories.map((m) => m.id), supaService).catch(() => {});
+        }
+      } catch (e) {
+        console.error("memory-load failed, continuing without", e);
+      }
+    }
+
+    // Sub-LLM-Caller für Memory-Extract (günstigeres Modell)
+    const subLlm = makeSubLlmCaller(LOVABLE_KEY, ANTHROPIC_KEY);
+
+    // Helper: wraps stream mit Tee → Output-Guard + Log + Memory-Extract nach Stream-Ende
     const wrapStream = (
       upstream: ReadableStream<Uint8Array>,
       provider: "lovable-gemini" | "anthropic-claude",
@@ -367,6 +471,12 @@ serve(async (req) => {
           output_guard_triggered: outGuard.ok ? null : outGuard.trigger,
           latency_ms: Date.now() - startTime,
         });
+        // Memory-Extract async im Hintergrund — kein await, blockt nichts
+        if (userId && supaService && subLlm) {
+          extractAndSaveMemories(userId, lastUser, fullText, memories, subLlm, supaService).catch(
+            (e) => console.error("extractAndSaveMemories background error", e),
+          );
+        }
       });
       return new Response(teed, {
         headers: { ...corsHeaders, "Content-Type": "text/event-stream" },
@@ -375,7 +485,7 @@ serve(async (req) => {
 
     // 1) Lovable AI Gateway versuchen (falls Key vorhanden)
     if (LOVABLE_KEY) {
-      const lovableResp = await callLovable(messages, LOVABLE_KEY);
+      const lovableResp = await callLovable(messages, LOVABLE_KEY, systemPromptWithMemory);
 
       if (lovableResp.ok && lovableResp.body) {
         return wrapStream(lovableResp.body, "lovable-gemini", "google/gemini-3-flash-preview");
@@ -397,7 +507,7 @@ serve(async (req) => {
       if (lovableResp.status === 402) {
         if (ANTHROPIC_KEY) {
           console.log("Lovable 402 → Fallback auf Anthropic");
-          const anthResp = await callAnthropic(messages, ANTHROPIC_KEY);
+          const anthResp = await callAnthropic(messages, ANTHROPIC_KEY, systemPromptWithMemory);
           return anthResp.body
             ? wrapStream(anthResp.body, "anthropic-claude", "claude-sonnet-4-6")
             : anthResp;
@@ -421,7 +531,7 @@ serve(async (req) => {
       // Auch bei anderen Fehlern: Anthropic versuchen wenn verfügbar
       if (ANTHROPIC_KEY) {
         console.log(`Lovable ${lovableResp.status} → Fallback auf Anthropic`);
-        const anthResp = await callAnthropic(messages, ANTHROPIC_KEY);
+        const anthResp = await callAnthropic(messages, ANTHROPIC_KEY, systemPromptWithMemory);
         return anthResp.body
           ? wrapStream(anthResp.body, "anthropic-claude", "claude-sonnet-4-6")
           : anthResp;
@@ -437,7 +547,7 @@ serve(async (req) => {
     }
 
     // Kein Lovable-Key → direkt Anthropic
-    const anthResp = await callAnthropic(messages, ANTHROPIC_KEY!);
+    const anthResp = await callAnthropic(messages, ANTHROPIC_KEY!, systemPromptWithMemory);
     return anthResp.body
       ? wrapStream(anthResp.body, "anthropic-claude", "claude-sonnet-4-6")
       : anthResp;

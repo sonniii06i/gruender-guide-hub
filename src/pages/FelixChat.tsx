@@ -20,7 +20,7 @@ const SUGGESTIONS = [
 ];
 
 const FelixChat = () => {
-  const { user } = useAuth();
+  const { user, session } = useAuth();
   const [params, setParams] = useSearchParams();
   const convId = params.get("c");
   const isNew = params.get("new");
@@ -114,7 +114,9 @@ const FelixChat = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+          // User-JWT wenn eingeloggt → Edge-Function kann Memory laden/speichern.
+          // Fallback auf Anon-Key für non-logged-in (Memory wird dann übersprungen).
+          Authorization: `Bearer ${session?.access_token ?? import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
         },
         body: JSON.stringify({ messages: [...messages, userMsg] }),
       });
