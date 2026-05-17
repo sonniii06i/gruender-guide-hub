@@ -729,6 +729,104 @@ export type StbFilterOptions = {
 };
 
 /**
+ * DE-PLZ → Region-Bucket (erste 1-2 Ziffern).
+ * Quelle: Deutsche-Post-PLZ-Leitzone.
+ */
+type Region =
+  | "ost-sachsen"
+  | "berlin-brandenburg"
+  | "hamburg-nord"
+  | "niedersachsen-west"
+  | "nrw-mitte"
+  | "nrw-sued"
+  | "hessen-frankfurt"
+  | "bawue-stuttgart"
+  | "bayern-muenchen"
+  | "bayern-bawue-sued";
+
+const REGION_LABELS: Record<Region, string> = {
+  "ost-sachsen": "Ost (Sachsen / Thüringen)",
+  "berlin-brandenburg": "Berlin / Brandenburg",
+  "hamburg-nord": "Hamburg / Schleswig-Holstein / Niedersachsen-Nord",
+  "niedersachsen-west": "Niedersachsen / Hessen-Nord",
+  "nrw-mitte": "NRW Mitte (Köln / Düsseldorf / Dortmund)",
+  "nrw-sued": "NRW Süd (Bonn / Aachen)",
+  "hessen-frankfurt": "Hessen / Frankfurt",
+  "bawue-stuttgart": "Baden-Württemberg Nord (Stuttgart)",
+  "bayern-muenchen": "Bayern Süd (München)",
+  "bayern-bawue-sued": "Bayern Nord / BaWü Süd",
+};
+
+const PLZ_TO_REGION: Region[] = [
+  "ost-sachsen", // 0xxxx
+  "berlin-brandenburg", // 1xxxx
+  "hamburg-nord", // 2xxxx
+  "niedersachsen-west", // 3xxxx
+  "nrw-mitte", // 4xxxx
+  "nrw-sued", // 5xxxx
+  "hessen-frankfurt", // 6xxxx
+  "bawue-stuttgart", // 7xxxx
+  "bayern-muenchen", // 8xxxx
+  "bayern-bawue-sued", // 9xxxx
+];
+
+/** Benachbarte Regionen für Soft-Match (+10 statt +20). */
+const NEIGHBOR_REGIONS: Record<Region, Region[]> = {
+  "ost-sachsen": ["berlin-brandenburg", "bayern-bawue-sued"],
+  "berlin-brandenburg": ["ost-sachsen", "hamburg-nord", "niedersachsen-west"],
+  "hamburg-nord": ["berlin-brandenburg", "niedersachsen-west"],
+  "niedersachsen-west": ["hamburg-nord", "berlin-brandenburg", "nrw-mitte", "hessen-frankfurt"],
+  "nrw-mitte": ["nrw-sued", "niedersachsen-west", "hessen-frankfurt"],
+  "nrw-sued": ["nrw-mitte", "hessen-frankfurt"],
+  "hessen-frankfurt": ["niedersachsen-west", "nrw-sued", "bawue-stuttgart", "bayern-bawue-sued"],
+  "bawue-stuttgart": ["hessen-frankfurt", "bayern-muenchen", "bayern-bawue-sued"],
+  "bayern-muenchen": ["bawue-stuttgart", "bayern-bawue-sued"],
+  "bayern-bawue-sued": ["bayern-muenchen", "bawue-stuttgart", "ost-sachsen"],
+};
+
+export const plzToRegion = (plz: string): Region | null => {
+  const digit = plz.trim().match(/^\d/)?.[0];
+  if (!digit) return null;
+  return PLZ_TO_REGION[parseInt(digit, 10)] ?? null;
+};
+
+export const regionLabel = (r: Region): string => REGION_LABELS[r];
+
+/**
+ * Mapping: StB.city-String → Liste von Regionen die abgedeckt sind.
+ * Multi-Office-Kanzleien decken mehrere Regionen ab.
+ * Heuristisch via Substring-Match auf bekannte Städte.
+ */
+const CITY_TO_REGION: { match: RegExp; region: Region }[] = [
+  // Hamburg-Nord
+  { match: /Hamburg|Lübeck|Kiel|Bremen|Münster|Bielefeld|Hannover|Oldenburg/i, region: "hamburg-nord" },
+  // Berlin/Brandenburg
+  { match: /Berlin|Potsdam|Brandenburg/i, region: "berlin-brandenburg" },
+  // Sachsen/Thüringen
+  { match: /Dresden|Leipzig|Chemnitz|Erfurt|Jena|Halle|Lutherstadt|Wittenberg/i, region: "ost-sachsen" },
+  // NRW-Mitte
+  { match: /Düsseldorf|Duesseldorf|Köln|Koeln|Dortmund|Essen|Wuppertal|Oberhausen|Mülheim|Muelheim|Mönchengladbach|Recklinghausen/i, region: "nrw-mitte" },
+  // NRW-Süd
+  { match: /Bonn|Aachen|Siegen|Koblenz|Mülheim-Kärlich|Muelheim-Kaerlich/i, region: "nrw-sued" },
+  // Hessen / Frankfurt
+  { match: /Frankfurt|Wiesbaden|Mainz|Darmstadt|Kassel|Offenbach|Hanau/i, region: "hessen-frankfurt" },
+  // BaWü Stuttgart
+  { match: /Stuttgart|Karlsruhe|Mannheim|Heidelberg|Heilbronn|Aalen|Pforzheim/i, region: "bawue-stuttgart" },
+  // Bayern München
+  { match: /München|Muenchen|Augsburg|Ingolstadt|Rosenheim|Passau/i, region: "bayern-muenchen" },
+  // Bayern Nord / BaWü Süd
+  { match: /Nürnberg|Nuernberg|Regensburg|Würzburg|Wuerzburg|Bayreuth|Ulm|Freiburg|Konstanz|Tübingen|Tuebingen/i, region: "bayern-bawue-sued" },
+];
+
+const stbRegions = (cityField: string): Region[] => {
+  const found = new Set<Region>();
+  CITY_TO_REGION.forEach(({ match, region }) => {
+    if (match.test(cityField)) found.add(region);
+  });
+  return Array.from(found);
+};
+
+/**
  * Match-Algorithm: 3-StB-Empfehlung basierend auf Briefing-Tags + Größe + Online + Rating.
  * Score 0-150. Spezialisierungs-Match ist wichtigster Faktor.
  */
@@ -747,6 +845,8 @@ export const matchStbs = (
     return true;
   });
 
+  const userRegion = briefing.plz ? plzToRegion(briefing.plz) : null;
+
   const scored = pool.map((stb) => {
     let score = 0;
     const reasons: string[] = [];
@@ -756,6 +856,23 @@ export const matchStbs = (
     if (tagOverlap > 0) {
       score += Math.min(50, tagOverlap * 25);
       reasons.push(`${tagOverlap} Spezial-Tag${tagOverlap > 1 ? "s" : ""}-Treffer`);
+    }
+
+    // Region-Match basierend auf PLZ: 25 Punkte direkt, 12 für Nachbar-Region
+    if (userRegion) {
+      const stbRegs = stbRegions(stb.city);
+      if (stbRegs.includes(userRegion)) {
+        score += 25;
+        reasons.push(`Standort in deiner Region (${regionLabel(userRegion)})`);
+      } else if (stbRegs.some((r) => NEIGHBOR_REGIONS[userRegion]?.includes(r))) {
+        score += 12;
+        reasons.push("Nachbar-Region erreichbar");
+      } else if (stb.online_first) {
+        // Online-Kanzlei: Distance egal — kein Region-Bonus, aber auch kein Malus
+      } else {
+        // Lokale Kanzlei in fremder Region → Malus, sonst wuppertal-1st bei HH-User
+        score -= 8;
+      }
     }
 
     // Größen-Match: 20 Punkte

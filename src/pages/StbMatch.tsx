@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { STB_POOL, STB_AVOID_LIST, matchStbs, type Briefing, type StbSpecTag } from "@/data/stbPool";
+import { STB_POOL, STB_AVOID_LIST, matchStbs, plzToRegion, regionLabel, type Briefing, type StbSpecTag } from "@/data/stbPool";
 import {
   Building2,
   Search,
@@ -19,6 +19,7 @@ import {
   Wifi,
   ShieldAlert,
   MessageCircle,
+  MapPin,
 } from "lucide-react";
 
 const RECHTSFORM_OPTIONS = [
@@ -113,6 +114,7 @@ const StbMatch = () => {
     () => matchStbs(briefing, { onlineOnly, minRating }),
     [briefing, onlineOnly, minRating],
   );
+  const userRegion = briefing.plz ? plzToRegion(briefing.plz) : null;
   const visibleMatches = showAll ? matches : matches.slice(0, 12);
   const selectedStbList = useMemo(() => STB_POOL.filter((s) => selectedStbs.has(s.id)), [selectedStbs]);
 
@@ -559,6 +561,29 @@ const StbMatch = () => {
 
           {/* === FILTER-CHIPS === */}
           <div className="rounded-2xl border border-border bg-card p-4">
+            {userRegion ? (
+              <div className="flex items-center gap-2 mb-3 rounded-lg bg-emerald-500/5 border border-emerald-500/20 px-3 py-2">
+                <MapPin className="h-4 w-4 text-emerald-700 shrink-0" />
+                <div className="text-xs">
+                  <span className="font-semibold text-emerald-700">PLZ {briefing.plz}</span>
+                  <span className="text-muted-foreground"> · Lokale Kanzleien in </span>
+                  <strong>{regionLabel(userRegion)}</strong>
+                  <span className="text-muted-foreground"> bekommen +25 Score</span>
+                </div>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2 mb-3 rounded-lg bg-amber-500/5 border border-amber-500/20 px-3 py-2">
+                <MapPin className="h-4 w-4 text-amber-700 shrink-0" />
+                <div className="text-xs">
+                  <span className="text-amber-700 font-semibold">Keine PLZ angegeben</span>
+                  <span className="text-muted-foreground"> — Distance wird im Match nicht berücksichtigt. Zurück zu </span>
+                  <button onClick={() => setStep(1)} className="underline font-semibold">
+                    Briefing
+                  </button>
+                  <span className="text-muted-foreground"> + PLZ nachtragen für lokale Treffer.</span>
+                </div>
+              </div>
+            )}
             <div className="flex items-center justify-between mb-3">
               <div className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
                 Filter
