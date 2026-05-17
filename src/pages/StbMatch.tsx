@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -78,6 +78,12 @@ type Step = 1 | 2 | 3;
 
 const StbMatch = () => {
   const [step, setStep] = useState<Step>(1);
+
+  // Bei jedem Step-Wechsel hochscrollen — sonst bleibt User in alter Scroll-Position
+  // und merkt nicht dass die Page gewechselt hat (Hauptursache "Button tut nichts"-UX-Bug).
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [step]);
   const [briefing, setBriefing] = useState<Briefing>({
     rechtsform: "GmbH",
     umsatzRange: "50-250k",
@@ -326,7 +332,7 @@ const StbMatch = () => {
               <div className={`text-xs font-semibold ${step >= s ? "text-foreground" : "text-muted-foreground"}`}>
                 {s === 1 && "Briefing"}
                 {s === 2 && "Kanzleien wählen"}
-                {s === 3 && "PDF + Versand"}
+                {s === 3 && "Bestätigen + Versand"}
               </div>
             </div>
             {s < 3 && <div className={`h-0.5 flex-1 ${step > s ? "bg-accent-blue" : "bg-secondary"}`} />}
@@ -842,7 +848,7 @@ const StbMatch = () => {
             </button>
           )}
 
-          <div className="flex justify-between">
+          <div className="flex justify-between pb-24 md:pb-20">
             <button
               onClick={() => setStep(1)}
               className="rounded-xl border border-border px-4 py-2 text-sm font-semibold hover:bg-secondary"
@@ -857,6 +863,38 @@ const StbMatch = () => {
               Zu Schritt 3: PDF + Versand <ArrowRight className="h-4 w-4" />
             </button>
           </div>
+
+          {/* === STICKY BOTTOM-BAR === */}
+          {/* Sobald 1+ StB gewählt: schwebende Action-Bar mit Live-Count + CTA.
+              Löst UX-Problem dass Weiter-Button am Ende von 30 Karten nicht sichtbar ist. */}
+          {selectedStbs.size > 0 && (
+            <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-border bg-card/95 backdrop-blur-md shadow-[0_-4px_20px_-8px_rgba(0,0,0,0.15)]">
+              <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="inline-flex items-center justify-center h-9 w-9 rounded-full bg-accent-blue/15 shrink-0">
+                    <CheckCircle2 className="h-5 w-5 text-accent-blue" />
+                  </div>
+                  <div className="min-w-0">
+                    <div className="text-sm font-bold leading-tight">
+                      {selectedStbs.size} Kanzlei{selectedStbs.size === 1 ? "" : "en"} gewählt
+                    </div>
+                    <div className="text-[11px] text-muted-foreground truncate hidden sm:block">
+                      {selectedStbList.map((s) => s.name).join(" · ")}
+                    </div>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setStep(3)}
+                  className="inline-flex items-center gap-2 rounded-xl bg-accent-blue text-primary-foreground px-5 py-2.5 text-sm font-bold hover:opacity-90 shadow-md shrink-0"
+                >
+                  <span className="hidden sm:inline">Weiter</span>
+                  <span className="sm:hidden">Weiter</span>
+                  <span className="hidden md:inline">: Bestätigen + Versand</span>
+                  <ArrowRight className="h-4 w-4" />
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       )}
 
