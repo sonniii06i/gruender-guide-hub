@@ -1,9 +1,75 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
+import { inputGuard, outputGuard, rejectStream } from "../_shared/chat-guardrails.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
+
+// Tracing-Logger — fire-and-forget in chat_logs, blockt nicht den Stream
+async function logChat(entry: {
+  user_message: string;
+  assistant_message?: string | null;
+  provider: "lovable-gemini" | "anthropic-claude" | "rejected-input" | "rejected-output";
+  model?: string | null;
+  input_guard_triggered?: string | null;
+  output_guard_triggered?: string | null;
+  latency_ms?: number | null;
+  error?: string | null;
+}) {
+  try {
+    const url = Deno.env.get("SUPABASE_URL");
+    const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+    if (!url || !serviceKey) return;
+    const supa = createClient(url, serviceKey, { auth: { persistSession: false } });
+    await supa.from("chat_logs").insert(entry);
+  } catch (e) {
+    console.error("chat_logs insert failed", e);
+  }
+}
+
+// Tee-Pattern: streamt unverändert weiter und sammelt parallel den vollen Text
+// für Output-Guard-Check + Log nach Stream-Ende.
+function teeForLogging(
+  upstream: ReadableStream<Uint8Array>,
+  onComplete: (fullText: string) => void,
+): ReadableStream<Uint8Array> {
+  const decoder = new TextDecoder();
+  let collected = "";
+  return new ReadableStream({
+    async start(controller) {
+      const reader = upstream.getReader();
+      try {
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          const chunk = decoder.decode(value, { stream: true });
+          for (const line of chunk.split("\n")) {
+            if (!line.startsWith("data: ")) continue;
+            const payload = line.slice(6).trim();
+            if (!payload || payload === "[DONE]") continue;
+            try {
+              const evt = JSON.parse(payload);
+              const txt = evt.choices?.[0]?.delta?.content;
+              if (typeof txt === "string") collected += txt;
+            } catch {
+              // ignore malformed
+            }
+          }
+          controller.enqueue(value);
+        }
+      } finally {
+        controller.close();
+        try {
+          onComplete(collected);
+        } catch (e) {
+          console.error("teeForLogging onComplete error", e);
+        }
+      }
+    },
+  });
+}
 
 const SYSTEM = `Du bist Felix, der KI-Co-Founder von GründerX. Du hilfst deutschen Gründern bei:
 - Rechtsform-Entscheidungen (Einzel, UG, GmbH, Holding, US-LLC, HK-Ltd)
@@ -261,8 +327,23 @@ async function callAnthropic(messages: any[], key: string): Promise<Response> {
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
+  const startTime = Date.now();
+
   try {
     const { messages } = await req.json();
+    const lastUser = [...messages].reverse().find((m: any) => m.role === "user")?.content ?? "";
+
+    // === INPUT-GUARD ===
+    const guard = inputGuard(lastUser);
+    if (!guard.ok) {
+      logChat({
+        user_message: lastUser.slice(0, 2000),
+        provider: "rejected-input",
+        input_guard_triggered: guard.trigger,
+      });
+      return rejectStream(guard.reason ?? "Anfrage konnte nicht verarbeitet werden.");
+    }
+
     const LOVABLE_KEY = Deno.env.get("LOVABLE_API_KEY");
     const ANTHROPIC_KEY = Deno.env.get("ANTHROPIC_API_KEY");
 
@@ -270,17 +351,43 @@ serve(async (req) => {
       throw new Error("Weder LOVABLE_API_KEY noch ANTHROPIC_API_KEY gesetzt");
     }
 
+    // Helper: wraps stream mit Tee → Output-Guard + Log nach Stream-Ende
+    const wrapStream = (
+      upstream: ReadableStream<Uint8Array>,
+      provider: "lovable-gemini" | "anthropic-claude",
+      model: string,
+    ): Response => {
+      const teed = teeForLogging(upstream, (fullText) => {
+        const outGuard = outputGuard(fullText);
+        logChat({
+          user_message: lastUser.slice(0, 2000),
+          assistant_message: fullText.slice(0, 4000),
+          provider,
+          model,
+          output_guard_triggered: outGuard.ok ? null : outGuard.trigger,
+          latency_ms: Date.now() - startTime,
+        });
+      });
+      return new Response(teed, {
+        headers: { ...corsHeaders, "Content-Type": "text/event-stream" },
+      });
+    };
+
     // 1) Lovable AI Gateway versuchen (falls Key vorhanden)
     if (LOVABLE_KEY) {
       const lovableResp = await callLovable(messages, LOVABLE_KEY);
 
-      if (lovableResp.ok) {
-        return new Response(lovableResp.body, {
-          headers: { ...corsHeaders, "Content-Type": "text/event-stream" },
-        });
+      if (lovableResp.ok && lovableResp.body) {
+        return wrapStream(lovableResp.body, "lovable-gemini", "google/gemini-3-flash-preview");
       }
 
       if (lovableResp.status === 429) {
+        logChat({
+          user_message: lastUser.slice(0, 2000),
+          provider: "lovable-gemini",
+          error: "rate-limit-429",
+          latency_ms: Date.now() - startTime,
+        });
         return new Response(JSON.stringify({ error: "Rate-Limit erreicht. Bitte gleich nochmal versuchen." }), {
           status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
@@ -290,8 +397,16 @@ serve(async (req) => {
       if (lovableResp.status === 402) {
         if (ANTHROPIC_KEY) {
           console.log("Lovable 402 → Fallback auf Anthropic");
-          return await callAnthropic(messages, ANTHROPIC_KEY);
+          const anthResp = await callAnthropic(messages, ANTHROPIC_KEY);
+          return anthResp.body
+            ? wrapStream(anthResp.body, "anthropic-claude", "claude-sonnet-4-6")
+            : anthResp;
         }
+        logChat({
+          user_message: lastUser.slice(0, 2000),
+          provider: "lovable-gemini",
+          error: "credits-402",
+        });
         return new Response(
           JSON.stringify({
             error:
@@ -306,15 +421,26 @@ serve(async (req) => {
       // Auch bei anderen Fehlern: Anthropic versuchen wenn verfügbar
       if (ANTHROPIC_KEY) {
         console.log(`Lovable ${lovableResp.status} → Fallback auf Anthropic`);
-        return await callAnthropic(messages, ANTHROPIC_KEY);
+        const anthResp = await callAnthropic(messages, ANTHROPIC_KEY);
+        return anthResp.body
+          ? wrapStream(anthResp.body, "anthropic-claude", "claude-sonnet-4-6")
+          : anthResp;
       }
+      logChat({
+        user_message: lastUser.slice(0, 2000),
+        provider: "lovable-gemini",
+        error: `status-${lovableResp.status}`,
+      });
       return new Response(JSON.stringify({ error: "AI-Fehler" }), {
         status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
     // Kein Lovable-Key → direkt Anthropic
-    return await callAnthropic(messages, ANTHROPIC_KEY!);
+    const anthResp = await callAnthropic(messages, ANTHROPIC_KEY!);
+    return anthResp.body
+      ? wrapStream(anthResp.body, "anthropic-claude", "claude-sonnet-4-6")
+      : anthResp;
   } catch (e) {
     console.error("chat-felix error", e);
     return new Response(JSON.stringify({ error: e instanceof Error ? e.message : "Unknown" }), {
