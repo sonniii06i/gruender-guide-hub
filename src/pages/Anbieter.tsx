@@ -1,5 +1,5 @@
-import { useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { useMemo, useState, useEffect } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Input } from "@/components/ui/input";
 import {
@@ -2605,8 +2605,25 @@ const CAT_GROUPS: CatGroup[] = [
 ];
 
 const Anbieter = () => {
-  const [cat, setCat] = useState("Alle");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const initialCat = searchParams.get("cat") ?? "Alle";
+  const [cat, setCat] = useState(initialCat);
   const [q, setQ] = useState("");
+
+  // Halte URL-Param und State synchron — User kann Link sharen + Back-Button funktioniert
+  useEffect(() => {
+    const urlCat = searchParams.get("cat") ?? "Alle";
+    if (urlCat !== cat) setCat(urlCat);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
+
+  const setCatWithUrl = (newCat: string) => {
+    setCat(newCat);
+    const next = new URLSearchParams(searchParams);
+    if (newCat === "Alle") next.delete("cat");
+    else next.set("cat", newCat);
+    setSearchParams(next, { replace: true });
+  };
 
   // Provider-Count pro Kategorie für Badge
   const counts = useMemo(() => {
@@ -2659,7 +2676,7 @@ const Anbieter = () => {
             )}
           </div>
           <button
-            onClick={() => setCat("Alle")}
+            onClick={() => setCatWithUrl("Alle")}
             className={`inline-flex items-center justify-center gap-2 rounded-xl px-4 h-11 text-sm font-bold transition-all whitespace-nowrap ${
               cat === "Alle"
                 ? "bg-accent-blue text-primary-foreground shadow-md"
@@ -2694,7 +2711,7 @@ const Anbieter = () => {
                   return (
                     <button
                       key={name}
-                      onClick={() => setCat(active ? "Alle" : name)}
+                      onClick={() => setCatWithUrl(active ? "Alle" : name)}
                       className={`group relative rounded-xl px-3 py-3 text-left transition-all ${
                         active
                           ? "bg-accent-blue text-primary-foreground shadow-md ring-2 ring-accent-blue/30 ring-offset-2 ring-offset-card"
@@ -2745,7 +2762,7 @@ const Anbieter = () => {
               {cat !== "Alle" && (
                 <span className="inline-flex items-center gap-1 ml-1 rounded-md bg-accent-blue/10 text-accent-blue px-2 py-0.5 font-semibold">
                   {cat}
-                  <button onClick={() => setCat("Alle")} className="hover:bg-accent-blue/20 rounded-sm">
+                  <button onClick={() => setCatWithUrl("Alle")} className="hover:bg-accent-blue/20 rounded-sm">
                     <X className="h-3 w-3" />
                   </button>
                 </span>
@@ -2761,7 +2778,7 @@ const Anbieter = () => {
             </div>
             <button
               onClick={() => {
-                setCat("Alle");
+                setCatWithUrl("Alle");
                 setQ("");
               }}
               className="text-accent-blue hover:underline font-semibold"
