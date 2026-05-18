@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useEffect, useRef } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Input } from "@/components/ui/input";
@@ -2609,6 +2609,7 @@ const Anbieter = () => {
   const initialCat = searchParams.get("cat") ?? "Alle";
   const [cat, setCat] = useState(initialCat);
   const [q, setQ] = useState("");
+  const resultsRef = useRef<HTMLDivElement>(null);
 
   // Halte URL-Param und State synchron — User kann Link sharen + Back-Button funktioniert
   useEffect(() => {
@@ -2616,6 +2617,19 @@ const Anbieter = () => {
     if (urlCat !== cat) setCat(urlCat);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
+
+  // Auto-Scroll zum Anbieter-Grid wenn Page mit cat-Param geöffnet wird
+  // (User kommt vom Dashboard via Direct-Routing → soll direkt die Anbieter sehen)
+  useEffect(() => {
+    if (initialCat !== "Alle" && resultsRef.current) {
+      // Kurzes Delay damit Filter-Render fertig ist
+      const t = setTimeout(() => {
+        resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 80);
+      return () => clearTimeout(t);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const setCatWithUrl = (newCat: string) => {
     setCat(newCat);
@@ -2790,7 +2804,7 @@ const Anbieter = () => {
       </div>
 
       {/* Resultats-Header */}
-      <div className="flex items-baseline justify-between mb-4">
+      <div ref={resultsRef} className="flex items-baseline justify-between mb-4 scroll-mt-4">
         <h2 className="text-sm font-semibold text-muted-foreground">
           {cat === "Alle" ? "Alle Kategorien" : cat}
           {q && <span className="ml-2 text-foreground">· „{q}"</span>}
