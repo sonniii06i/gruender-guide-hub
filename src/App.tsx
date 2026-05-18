@@ -50,6 +50,7 @@ const ReisekostenLogger = lazy(() => import("./pages/ReisekostenLogger.tsx"));
 const DatevMapper = lazy(() => import("./pages/DatevMapper.tsx"));
 const StbHandoff = lazy(() => import("./pages/StbHandoff.tsx"));
 const EcomRoadmap = lazy(() => import("./pages/EcomRoadmap.tsx"));
+const LaborVergleich = lazy(() => import("./pages/LaborVergleich.tsx"));
 const SalaryDividendOptimizer = lazy(() => import("./pages/SalaryDividendOptimizer.tsx"));
 const VisaHelper = lazy(() => import("./pages/VisaHelper.tsx"));
 const StbFinder = lazy(() => import("./pages/StbFinder.tsx"));
@@ -148,6 +149,7 @@ const App = () => (
                 <Route path="/cockpit/datev-mapper" element={<PaywallGate title="DATEV-Mapper"><DatevMapper /></PaywallGate>} />
                 <Route path="/cockpit/stb-handoff" element={<PaywallGate title="StB-Hand-off"><StbHandoff /></PaywallGate>} />
                 <Route path="/cockpit/ecom-roadmap" element={<PaywallGate title="ECom-Brand-Roadmap"><EcomRoadmap /></PaywallGate>} />
+                <Route path="/cockpit/labor-vergleich" element={<PaywallGate title="Labor-Anbieter-Vergleich"><LaborVergleich /></PaywallGate>} />
                 <Route path="/cockpit/salary-dividende" element={<PaywallGate title="Salary-vs-Dividende"><SalaryDividendOptimizer /></PaywallGate>} />
                 <Route path="/cockpit/visa-helper" element={<PaywallGate title="Visa-Helper"><VisaHelper /></PaywallGate>} />
                 <Route path="/cockpit/stb-finder" element={<PaywallGate title="StB-Auswahl-Wizard"><StbFinder /></PaywallGate>} />
