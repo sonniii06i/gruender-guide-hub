@@ -745,23 +745,52 @@ const StbMatch = () => {
                             <Wifi className="h-2.5 w-2.5" /> Online
                           </span>
                         )}
-                        {m.stb.rating !== undefined && (
-                          <span
-                            className={`inline-flex items-center gap-1 text-[10px] font-bold rounded-full px-2 py-0.5 ${
-                              m.stb.rating >= 4.7
-                                ? "bg-emerald-500/10 text-emerald-700"
-                                : m.stb.rating >= 4.0
-                                ? "bg-amber-500/10 text-amber-700"
-                                : "bg-red-500/10 text-red-700"
-                            }`}
-                            title={`${m.stb.rating}★ aus ${m.stb.rating_count ?? "?"} Bewertungen via ${m.stb.rating_source ?? "?"}`}
-                          >
-                            <Star className="h-2.5 w-2.5 fill-current" /> {m.stb.rating.toFixed(1)}
-                            {m.stb.rating_count !== undefined && (
-                              <span className="opacity-70 font-normal">({m.stb.rating_count})</span>
-                            )}
-                          </span>
-                        )}
+                        {m.stb.rating !== undefined && (() => {
+                          const ratingClass = `inline-flex items-center gap-1 text-[10px] font-bold rounded-full px-2 py-0.5 ${
+                            m.stb.rating >= 4.7
+                              ? "bg-emerald-500/10 text-emerald-700"
+                              : m.stb.rating >= 4.0
+                              ? "bg-amber-500/10 text-amber-700"
+                              : "bg-red-500/10 text-red-700"
+                          }`;
+                          const reviewUrl =
+                            m.stb.rating_source === "Trustpilot"
+                              ? `https://www.trustpilot.com/search?query=${encodeURIComponent(m.stb.name)}`
+                              : m.stb.rating_source === "ProvenExpert"
+                              ? `https://www.provenexpert.com/de-de/suche/?query=${encodeURIComponent(m.stb.name)}`
+                              : m.stb.rating_source === "Google"
+                              ? `https://www.google.com/search?q=${encodeURIComponent(m.stb.name + " Bewertungen")}`
+                              : m.stb.rating_source === "kununu"
+                              ? `https://www.kununu.com/de/search?q=${encodeURIComponent(m.stb.name)}`
+                              : null;
+                          const inner = (
+                            <>
+                              <Star className="h-2.5 w-2.5 fill-current" /> {m.stb.rating.toFixed(1)}
+                              {m.stb.rating_count !== undefined && (
+                                <span className="opacity-70 font-normal">({m.stb.rating_count})</span>
+                              )}
+                            </>
+                          );
+                          return reviewUrl ? (
+                            <a
+                              href={reviewUrl}
+                              target="_blank"
+                              rel="noreferrer noopener"
+                              className={`${ratingClass} hover:opacity-80`}
+                              title={`${m.stb.rating}★ aus ${m.stb.rating_count ?? "?"} Bewertungen via ${m.stb.rating_source} — auf ${m.stb.rating_source} ansehen`}
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              {inner}
+                            </a>
+                          ) : (
+                            <span
+                              className={ratingClass}
+                              title={`${m.stb.rating}★ aus ${m.stb.rating_count ?? "?"} Bewertungen via ${m.stb.rating_source ?? "?"}`}
+                            >
+                              {inner}
+                            </span>
+                          );
+                        })()}
                         <span className="text-[10px] text-muted-foreground">
                           {m.stb.groesse === "boutique" ? "Boutique" : m.stb.groesse === "mid" ? "Mid-Market" : "Enterprise"}
                         </span>

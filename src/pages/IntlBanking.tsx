@@ -65,6 +65,7 @@ type Bank = {
   /** Trustpilot. */
   trustpilotRating?: number;
   trustpilotCount?: string;
+  trustpilotUrl?: string;
   /** G2 (für Business-Banking). */
   g2Rating?: number;
   /** Reddit / OffshoreCorpTalk Quote (anonymisiert). */
@@ -112,6 +113,7 @@ const BANKS: Bank[] = [
     freezeDuration: "14-60 Werktage",
     trustpilotRating: 4.3,
     trustpilotCount: "~289.000",
+    trustpilotUrl: "https://www.trustpilot.com/review/wise.com",
     redditQuote: "'Wise Personal seit 5 Jahren — keine Probleme, nur €20 Initial-Top-up gezahlt'",
     hiddenFees: [
       "Card-Withdrawal-Limit 250€/Monat free, danach 2,69%",
@@ -159,6 +161,7 @@ const BANKS: Bank[] = [
     freezeDuration: "60 Tage Hold typisch, US-Residents 15 Werktage zum Withdraw, Non-US länger",
     trustpilotRating: 4.4,
     trustpilotCount: "~2.500",
+    trustpilotUrl: "https://www.trustpilot.com/review/mercury.com",
     g2Rating: 4.5,
     redditQuote: "'Account closed 30 days after single $80k inbound wire from Indonesian client. No appeal worked.' (r/Entrepreneur)",
     hiddenFees: [
@@ -199,6 +202,7 @@ const BANKS: Bank[] = [
     freezeDuration: "14-60 Werktage, teils Monate",
     trustpilotRating: 4.3,
     trustpilotCount: "~289.000",
+    trustpilotUrl: "https://www.trustpilot.com/review/wise.com",
     g2Rating: 4.4,
     redditQuote: "'Wise schloss mein Business-Account nach 3 Jahren — kein Grund, 6.000€ für 47 Tage gesperrt' (OffshoreCorpTalk)",
     hiddenFees: [
@@ -239,6 +243,7 @@ const BANKS: Bank[] = [
     freezeDuration: "7-30 Tage typisch, Reddit-Cases bis Monate",
     trustpilotRating: 4.4,
     trustpilotCount: "~3.000+",
+    trustpilotUrl: "https://www.trustpilot.com/review/relayfi.com",
     redditQuote: "'Thread Bank put a 21-day hold on incoming $40k wire — RFI took 4 weeks to resolve'",
     hiddenFees: [
       "International Wire $10 trotz Premium",
@@ -277,6 +282,7 @@ const BANKS: Bank[] = [
     freezeDuration: "Direkt-Closure, kein Hold (30 Tage zum Withdraw)",
     trustpilotRating: 2.9,
     trustpilotCount: "~700",
+    trustpilotUrl: "https://www.trustpilot.com/review/brex.com",
     g2Rating: 4.6,
     redditQuote: "'Brex closed our account after 18 months. No reason given. Had to migrate $200k in 14 days' (Hacker News)",
     hiddenFees: [
@@ -320,6 +326,7 @@ const BANKS: Bank[] = [
     freezeDuration: "Selten Freezes, eher direkte Closures mit 30-60 Tagen Withdraw",
     trustpilotRating: 4.6,
     trustpilotCount: "~380",
+    trustpilotUrl: "https://www.trustpilot.com/review/statrys.com",
     g2Rating: 4.5,
     redditQuote: "'Account in 3 Tagen, Support Slack-mäßig schnell. HKD 88 Inactivity-Fee ist die einzige negative Überraschung'",
     hiddenFees: [
@@ -360,6 +367,7 @@ const BANKS: Bank[] = [
     freezeDuration: "30-90 Tage, auch endgültige Suspension möglich",
     trustpilotRating: 3.3,
     trustpilotCount: "~2.390",
+    trustpilotUrl: "https://www.trustpilot.com/review/airwallex.com",
     g2Rating: 4.4,
     redditQuote: "'Airwallex froze €120k for 67 days — only resolved via LinkedIn-Post öffentlich' (Nov 2025 viral)",
     hiddenFees: [
@@ -400,6 +408,7 @@ const BANKS: Bank[] = [
     freezeDuration: "14-60 Tage",
     trustpilotRating: 3.7,
     trustpilotCount: "~150-200",
+    trustpilotUrl: "https://www.trustpilot.com/review/currenxie.com",
     redditQuote: "'FX bei USD/HKD ist unschlagbar, aber Refund nach Closure dauerte 5 Wochen'",
     hiddenFees: [
       "Visa Card NUR HK-incorporated — DE-Person mit BVI scheidet aus",
@@ -449,6 +458,7 @@ const BANKS: Bank[] = [
     freezeDuration: "30-90 Tage Investigation, aber Vorteil: echter Relationship-Manager",
     trustpilotRating: 2.0,
     trustpilotCount: "Retail-skewed — Business-Kunden meistens nicht aktiv auf Trustpilot",
+    trustpilotUrl: "https://www.trustpilot.com/review/hsbc.com.hk",
     redditQuote: "'HSBC Business Banking mit Relationship Manager ist Gold wert — aber 4 Wochen Bearbeitung + persönlicher HK-Termin'",
     hiddenFees: [
       "Fall-Below-Fee HKD 200-300/Mo wenn <HKD 50k Saldo",
@@ -582,9 +592,21 @@ const IntlBanking = () => {
                   </td>
                   <td className="py-2 pl-2 text-[10px]">
                     {b.trustpilotRating ? (
-                      <span className="font-mono">
-                        ★ {b.trustpilotRating} ({b.trustpilotCount})
-                      </span>
+                      b.trustpilotUrl ? (
+                        <a
+                          href={b.trustpilotUrl}
+                          target="_blank"
+                          rel="noreferrer noopener"
+                          className="font-mono text-accent-blue hover:underline"
+                          title="Auf Trustpilot ansehen"
+                        >
+                          ★ {b.trustpilotRating} ({b.trustpilotCount})
+                        </a>
+                      ) : (
+                        <span className="font-mono">
+                          ★ {b.trustpilotRating} ({b.trustpilotCount})
+                        </span>
+                      )
                     ) : (
                       <span className="text-muted-foreground">n/a</span>
                     )}
@@ -646,11 +668,27 @@ const IntlBanking = () => {
               <div className="rounded-lg bg-card border border-border p-2 mb-3 text-xs flex gap-3 flex-wrap">
                 <div><strong>Setup:</strong> <span className="text-muted-foreground">{b.setupFee}</span></div>
                 {b.trustpilotRating && (
-                  <div className="inline-flex items-center gap-1">
-                    <Star className="h-3 w-3 fill-amber-500 text-amber-500" />
-                    <strong>{b.trustpilotRating}/5</strong>{" "}
-                    <span className="text-muted-foreground">Trustpilot ({b.trustpilotCount})</span>
-                  </div>
+                  b.trustpilotUrl ? (
+                    <a
+                      href={b.trustpilotUrl}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="inline-flex items-center gap-1 hover:underline group"
+                      title="Auf Trustpilot ansehen"
+                    >
+                      <Star className="h-3 w-3 fill-amber-500 text-amber-500" />
+                      <strong>{b.trustpilotRating}/5</strong>{" "}
+                      <span className="text-muted-foreground group-hover:text-accent-blue">
+                        Trustpilot ({b.trustpilotCount}) ↗
+                      </span>
+                    </a>
+                  ) : (
+                    <div className="inline-flex items-center gap-1">
+                      <Star className="h-3 w-3 fill-amber-500 text-amber-500" />
+                      <strong>{b.trustpilotRating}/5</strong>{" "}
+                      <span className="text-muted-foreground">Trustpilot ({b.trustpilotCount})</span>
+                    </div>
+                  )
                 )}
                 {b.g2Rating && (
                   <div className="inline-flex items-center gap-1">

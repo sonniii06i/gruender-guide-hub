@@ -22,6 +22,8 @@ interface Bank {
   setupTime?: string;
   /** Indikative Einschätzung 1–5 basierend auf Trustpilot/finanzfluss/Marktreviews */
   rating: number;
+  /** Optionaler Direkt-Link auf Trustpilot-Profil */
+  trustpilotUrl?: string;
   /** Community-Tipp aus User-Erfahrung */
   communityPick?: boolean;
   pros: string[];
@@ -247,6 +249,7 @@ const BANKS: Bank[] = [
   // ============ DIREKTBANKEN / ONLINE-HYBRID ============
   {
     name: "DKB Business",
+    trustpilotUrl: "https://www.trustpilot.com/review/dkb.de",
     type: "online",
     url: "https://www.dkb.de/business/",
     monthlyFee: "15 €/Mon. (Pauschale)",
@@ -304,6 +307,7 @@ const BANKS: Bank[] = [
   // ============ NEOBANKS / FINTECH ============
   {
     name: "Qonto",
+    trustpilotUrl: "https://www.trustpilot.com/review/qonto.com",
     type: "neobank",
     url: "https://qonto.com/de",
     monthlyFee: "9 €/Mon. (Solo Basic, Jahresabo)",
@@ -337,6 +341,7 @@ const BANKS: Bank[] = [
   },
   {
     name: "Holvi",
+    trustpilotUrl: "https://www.trustpilot.com/review/holvi.com",
     type: "neobank",
     url: "https://www.holvi.com/de/",
     monthlyFee: "Lite 9 €/Mon. (4,50 € Jahresabo) · Pro 15 €/Mon. (9 € Jahresabo)",
@@ -369,6 +374,7 @@ const BANKS: Bank[] = [
   },
   {
     name: "Finom",
+    trustpilotUrl: "https://www.trustpilot.com/review/finom.co",
     type: "neobank",
     url: "https://finom.co/de-de/",
     monthlyFee: "Solo 0 € (NICHT für GmbH) · Start 11 €/Mon. (für GmbH/UG)",
@@ -401,6 +407,7 @@ const BANKS: Bank[] = [
   },
   {
     name: "Kontist",
+    trustpilotUrl: "https://www.trustpilot.com/review/kontist.com",
     type: "neobank",
     url: "https://kontist.com",
     monthlyFee: "Free 0 € · Start 11 €/Mon. · Plus 25 €/Mon.",
@@ -427,6 +434,7 @@ const BANKS: Bank[] = [
   },
   {
     name: "N26 Business",
+    trustpilotUrl: "https://www.trustpilot.com/review/n26.com",
     type: "neobank",
     url: "https://n26.com/de-de/business",
     monthlyFee: "0 € (Standard) / 4,90 € (Smart) / 9,90 € (Go) / 16,90 € (Metal)",
@@ -454,6 +462,7 @@ const BANKS: Bank[] = [
   },
   {
     name: "Revolut Business",
+    trustpilotUrl: "https://www.trustpilot.com/review/revolut.com",
     type: "neobank",
     url: "https://www.revolut.com/de-DE/business/",
     monthlyFee: "Basic 10 €/Mon. · Grow 30 € · Scale 90 €",
@@ -485,6 +494,7 @@ const BANKS: Bank[] = [
   },
   {
     name: "Vivid Business",
+    trustpilotUrl: "https://www.trustpilot.com/review/vivid.money",
     type: "neobank",
     url: "https://vivid.money/de-de/business/",
     monthlyFee: "Free Start 0 € · Basic 7 € · Pro 19 € · Enterprise 79 €/Mon.",
@@ -512,6 +522,7 @@ const BANKS: Bank[] = [
   },
   {
     name: "Bunq Business",
+    trustpilotUrl: "https://www.trustpilot.com/review/bunq.com",
     type: "neobank",
     url: "https://www.bunq.com/de/business",
     monthlyFee: "Free 0 € (Solo) · Core 7,99 € · Pro 13,99 € · Elite 23,99 €/Mon.",
@@ -539,6 +550,7 @@ const BANKS: Bank[] = [
   },
   {
     name: "Wise Business",
+    trustpilotUrl: "https://www.trustpilot.com/review/wise.com",
     type: "neobank",
     url: "https://wise.com/de/business/",
     monthlyFee: "0 €",
@@ -751,14 +763,20 @@ function BankCard({ b }: { b: Bank }) {
             </div>
           </div>
         </div>
-        <div className="flex items-center gap-0.5 shrink-0">
+        <a
+          href={b.trustpilotUrl ?? `https://www.trustpilot.com/search?query=${encodeURIComponent(b.name)}`}
+          target="_blank"
+          rel="noreferrer noopener"
+          className="flex items-center gap-0.5 shrink-0 hover:opacity-80"
+          title="Auf Trustpilot ansehen"
+        >
           {Array.from({ length: 5 }).map((_, i) => (
             <Star
               key={i}
               className={`h-3 w-3 ${i < b.rating ? "fill-warning text-warning" : "text-muted-foreground/30"}`}
             />
           ))}
-        </div>
+        </a>
       </div>
 
       {/* Kosten-Block: Kontoführung + Pro Buchung getrennt */}
