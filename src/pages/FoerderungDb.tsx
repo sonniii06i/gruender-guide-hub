@@ -11,12 +11,34 @@ const TYPE_LABELS: Record<Foerderung["type"], { name: string; emoji: string; col
   stipendium: { name: "Stipendium", emoji: "🎓", color: "bg-purple-500/10 text-purple-700" },
   buergschaft: { name: "Bürgschaft", emoji: "🛡️", color: "bg-amber-500/10 text-amber-700" },
   eigenkapital: { name: "Eigenkapital", emoji: "🦄", color: "bg-orange-500/10 text-orange-700" },
+  steuer: { name: "Steuer-Relief", emoji: "📋", color: "bg-pink-500/10 text-pink-700" },
+  accelerator: { name: "Accelerator", emoji: "🚀", color: "bg-indigo-500/10 text-indigo-700" },
+};
+
+// Country-Code → Anzeigename
+const COUNTRY_LABELS: Record<string, string> = {
+  DE: "🇩🇪 Deutschland",
+  EU: "🇪🇺 EU",
+  FR: "🇫🇷 Frankreich",
+  NL: "🇳🇱 Niederlande",
+  IL: "🇮🇱 Israel",
+  US: "🇺🇸 USA",
+  UK: "🇬🇧 UK",
+  CH: "🇨🇭 Schweiz",
+  SE: "🇸🇪 Schweden",
+  FI: "🇫🇮 Finnland",
+  NO: "🇳🇴 Norwegen",
+  SG: "🇸🇬 Singapur",
+  HK: "🇭🇰 Hong Kong",
+  JP: "🇯🇵 Japan",
+  Global: "🌍 Global",
 };
 
 const FoerderungDb = () => {
   const [search, setSearch] = useState("");
   const [filterType, setFilterType] = useState<Foerderung["type"] | "all">("all");
   const [filterScope, setFilterScope] = useState<string>("all");
+  const [filterCountry, setFilterCountry] = useState<string>("all");
   const [filterPhase, setFilterPhase] = useState<Foerderung["phase"][number] | "all">("all");
 
   const filtered = useMemo(() => {
@@ -32,24 +54,59 @@ const FoerderungDb = () => {
       );
     }
     if (filterType !== "all") list = list.filter((f) => f.type === filterType);
+    if (filterCountry !== "all") {
+      list = list.filter((f) => (f.country ?? "DE") === filterCountry);
+    }
     if (filterScope !== "all") list = list.filter((f) => f.scope === filterScope);
     if (filterPhase !== "all") list = list.filter((f) => f.phase.includes(filterPhase));
     return list;
-  }, [search, filterType, filterScope, filterPhase]);
+  }, [search, filterType, filterScope, filterCountry, filterPhase]);
 
-  const allScopes = Array.from(new Set(FOERDERPROGRAMME.map((f) => f.scope))).sort();
+  const allScopes = Array.from(new Set(FOERDERPROGRAMME.filter((f) => !f.country || f.country === "DE").map((f) => f.scope))).sort();
+  const allCountries = Array.from(new Set(FOERDERPROGRAMME.map((f) => f.country ?? "DE"))).sort();
+  const countryCount = (c: string) => FOERDERPROGRAMME.filter((f) => (f.country ?? "DE") === c).length;
 
   return (
     <CockpitShell
-      eyebrow="Förderung-Datenbank"
-      title="Förderprogramme für DACH-Gründer"
-      subtitle="20+ kuratierte Programme: KfW, EXIST, INVEST, HTGF, Bundesländer, EU. Filter nach Typ (Kredit/Zuschuss/Stipendium), Bundesland, Phase. Direkt-Link zum Antrag."
+      eyebrow="Förderung-Datenbank · Stand Mai 2026"
+      title="Förderprogramme international — DACH + EU + Welt"
+      subtitle={`${FOERDERPROGRAMME.length}+ kuratierte Programme aus ${allCountries.length} Ländern: 🇩🇪 KfW/EXIST/INVEST/HTGF/Bundesländer · 🇪🇺 EIC/Eurostars/Innovation Fund · 🇫🇷 BPI/CIR/JEI · 🇳🇱 WBSO/Innovatiekrediet · 🇮🇱 IIA · 🇺🇸 YC/Techstars/SBIR · 🇬🇧 SEIS/EIS · 🇨🇭 Innosuisse/Venture Kick. Filter nach Land, Typ, Phase.`}
     >
+      {/* Country Quick-Pills */}
+      <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-4 mb-3">
+        <div className="text-xs uppercase tracking-wider text-muted-foreground mb-2">Land schnell wählen</div>
+        <div className="flex flex-wrap gap-1.5">
+          <button
+            onClick={() => setFilterCountry("all")}
+            className={`rounded-full px-3 py-1.5 text-xs font-semibold transition-colors ${
+              filterCountry === "all"
+                ? "bg-accent-blue text-primary-foreground"
+                : "border border-border bg-card hover:bg-secondary"
+            }`}
+          >
+            Alle ({FOERDERPROGRAMME.length})
+          </button>
+          {allCountries.map((c) => (
+            <button
+              key={c}
+              onClick={() => setFilterCountry(c)}
+              className={`rounded-full px-3 py-1.5 text-xs font-semibold transition-colors ${
+                filterCountry === c
+                  ? "bg-accent-blue text-primary-foreground"
+                  : "border border-border bg-card hover:bg-secondary"
+              }`}
+            >
+              {COUNTRY_LABELS[c] || c} ({countryCount(c)})
+            </button>
+          ))}
+        </div>
+      </div>
+
       {/* Filter */}
       <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5 mb-6">
         <div className="flex items-center gap-2 mb-3">
           <Filter className="h-4 w-4 text-accent-blue" />
-          <h3 className="font-bold text-sm">Filter</h3>
+          <h3 className="font-bold text-sm">Filter (zusätzlich)</h3>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
           <div className="md:col-span-4">
@@ -58,7 +115,7 @@ const FoerderungDb = () => {
               <Input
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="Suche: KfW, Tech-Startup, EXIST, Berlin, ..."
+                placeholder="Suche: KfW, Tech-Startup, EXIST, Berlin, EIC, YC, WBSO, ..."
                 className="pl-9"
               />
             </div>
@@ -76,10 +133,12 @@ const FoerderungDb = () => {
               <option value="stipendium">🎓 Stipendium</option>
               <option value="buergschaft">🛡️ Bürgschaft</option>
               <option value="eigenkapital">🦄 Eigenkapital</option>
+              <option value="steuer">📋 Steuer-Relief</option>
+              <option value="accelerator">🚀 Accelerator</option>
             </select>
           </div>
           <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Bundesland / Bund</Label>
+            <Label className="text-xs uppercase tracking-wider text-muted-foreground">DE Bundesland</Label>
             <select
               value={filterScope}
               onChange={(e) => setFilterScope(e.target.value)}
@@ -139,14 +198,24 @@ const FoerderungDb = () => {
                       >
                         {typeInfo.emoji} {typeInfo.name}
                       </span>
-                      <span className="rounded-full bg-secondary text-muted-foreground px-2 py-0.5 text-[10px]">
-                        {BUNDESLAND_NAMES[f.scope] || f.scope}
+                      <span className="rounded-full bg-blue-500/10 text-blue-700 px-2 py-0.5 text-[10px] font-semibold">
+                        {COUNTRY_LABELS[f.country ?? "DE"] || f.country}
                       </span>
+                      {(!f.country || f.country === "DE") && (
+                        <span className="rounded-full bg-secondary text-muted-foreground px-2 py-0.5 text-[10px]">
+                          {BUNDESLAND_NAMES[f.scope] || f.scope}
+                        </span>
+                      )}
                       {f.phase.map((p) => (
                         <span key={p} className="rounded-full bg-secondary/70 text-muted-foreground px-2 py-0.5 text-[10px]">
                           {p === "idee" ? "💡 Idee" : p === "gruendung" ? "🚀 Gründung" : p === "aufbau" ? "📈 Aufbau" : "🌱 Wachstum"}
                         </span>
                       ))}
+                      {f.successRate && (
+                        <span className="rounded-full bg-red-500/10 text-red-700 px-2 py-0.5 text-[10px] font-semibold">
+                          Quote: {f.successRate}
+                        </span>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -156,6 +225,11 @@ const FoerderungDb = () => {
                 </div>
               </div>
               <p className="text-sm text-muted-foreground mb-3 leading-relaxed">{f.description}</p>
+              {f.forDeFounder && (
+                <div className="rounded-lg bg-emerald-500/5 border border-emerald-500/20 p-2 mb-3 text-xs">
+                  <strong className="text-emerald-700">Für DE-Founder:</strong> {f.forDeFounder}
+                </div>
+              )}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
                 <div>
                   <div className="text-[10px] uppercase tracking-wider text-muted-foreground mb-1">Zielgruppe</div>
@@ -178,6 +252,14 @@ const FoerderungDb = () => {
                   </ul>
                 </div>
               </div>
+              {f.watchouts && f.watchouts.length > 0 && (
+                <div className="rounded-lg bg-amber-500/5 border border-amber-500/20 p-2 mb-2 text-xs">
+                  <div className="font-semibold text-amber-700 mb-1">⚠ Watchouts:</div>
+                  <ul className="space-y-0.5 text-muted-foreground list-disc pl-4">
+                    {f.watchouts.map((w, i) => <li key={i}>{w}</li>)}
+                  </ul>
+                </div>
+              )}
               {f.notes && f.notes.length > 0 && (
                 <details className="text-xs text-muted-foreground">
                   <summary className="cursor-pointer font-semibold text-foreground">Mehr Details ▾</summary>
