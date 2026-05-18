@@ -166,9 +166,9 @@ const LucidWizard = () => {
 
   return (
     <CockpitShell
-      eyebrow="LUCID-Wizard"
-      title="Verpackungsregister-Anmeldung Step-by-Step"
-      subtitle="LUCID-Registrierung + 9 duale Systeme + Kosten-Schätzung 2026 (Tarife +9-24% vs 2025!). Inkl. PPWR (EU 2025/40, Hauptpflichten 12.8.2026), EWKFondsG-Doppelbelastung (€8,97/kg Tabakfilter!), Mehrweg-Pflicht §33, §7c-Marketplace-Haftung. Stand Mai 2026."
+      eyebrow="LUCID-Wizard · 5-Step-Rechner (kein Verzeichnis)"
+      title="Verpackungslizenz-Rechner + Anbieter-Empfehlung"
+      subtitle="Schätzt deine jährlichen Lizenz-Kosten basierend auf Material-Mengen + vergleicht 9 zugelassene duale Systeme + gibt Action-Plan für die LUCID-Eintragung (die machst du selbst auf verpackungsregister.org). Tarife 2026 (+9-24% vs 2025). Inkl. PPWR (EU 2025/40, Hauptpflichten 12.8.2026), EWKFondsG-Doppelbelastung (€8,97/kg Tabakfilter!), Mehrweg-Pflicht §33, §7c-Marketplace-Haftung. Stand Mai 2026."
     >
       {/* Progress */}
       <div className="flex items-center gap-2 mb-6">
