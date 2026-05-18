@@ -150,8 +150,23 @@ const LucidWizard = () => {
       (sum, [k, kg]) => sum + kg * MATERIAL_LABELS[k as MaterialKey].ratePerKg.high,
       0,
     );
+    // Floor 75€ greift nur bei tatsächlichen Mengen — bei 0 kg keine künstliche Mindest-Anzeige
+    if (totalKg === 0) return { low: 0, mid: 0, high: 0 };
     return { low: Math.max(75, low), mid: Math.max(75, mid), high: Math.max(75, high) };
+  }, [materialMengen, totalKg]);
+
+  // VE-Pflicht-Schwellen (§11 VerpackG)
+  const veSchwellen = useMemo(() => {
+    const m = materialMengen;
+    const ueber = [
+      m.glas > 80000 && "Glas > 80.000 kg",
+      m.papier > 50000 && "Papier > 50.000 kg",
+      m.kunststoff + m.metall + m.verbund > 30000 && "LVP (Kunststoff+Metall+Verbund) > 30.000 kg",
+    ].filter(Boolean) as string[];
+    return ueber;
   }, [materialMengen]);
+
+  const step3HasMengen = totalKg > 0;
 
   const recommendedSystems = useMemo(() => {
     if (isKleinmenge) return SYSTEMS.filter((s) => ["lizenzero", "noventiz"].includes(s.slug));
@@ -322,10 +337,22 @@ const LucidWizard = () => {
             </div>
             <div className="rounded-xl bg-secondary/40 p-3 mt-3 text-xs">
               <strong>Total: {totalKg.toLocaleString("de-DE")} kg/Jahr</strong>
-              {isKleinmenge && (
+              {isKleinmenge && totalKg > 0 && (
                 <span className="text-emerald-700 ml-2">→ Kleinmengen-Tarif möglich (oft 75–150 €/Jahr)</span>
               )}
             </div>
+            {!step3HasMengen && (
+              <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-3 mt-3 text-xs text-amber-800">
+                ⚠ Trag mindestens ein Material mit Menge &gt; 0 ein, damit die Empfehlung in Step 4 sinnvoll ist.
+              </div>
+            )}
+            {veSchwellen.length > 0 && (
+              <div className="rounded-xl border border-red-500/30 bg-red-500/5 p-3 mt-3 text-xs">
+                <strong className="text-red-700">★ Vollständigkeitserklärung (VE) §11 VerpackG pflicht:</strong>{" "}
+                {veSchwellen.join(" · ")}. VE muss bis <strong>15.05.</strong> des Folgejahres von einem
+                IHK-Sachverständigen geprüft werden (typisch 800–3.000 € Prüfkosten).
+              </div>
+            )}
           </>
         )}
 
@@ -389,8 +416,28 @@ const LucidWizard = () => {
                     {Math.round(costEstimate.low)}–{Math.round(costEstimate.high)} €/Jahr
                   </span>
                 </div>
+                {totalKg > 0 && (
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground text-[11px]">↳ Mid-Schätzung (Empfehlung):</span>
+                    <span className="font-mono text-[11px] text-accent-blue">
+                      ~{Math.round(costEstimate.mid)} €/Jahr
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
+
+            {veSchwellen.length > 0 && (
+              <div className="rounded-2xl border border-red-500/30 bg-red-500/5 p-4 mb-4 text-xs">
+                <div className="font-bold text-red-700 mb-1">
+                  ★ Vollständigkeitserklärung (VE) §11 VerpackG pflicht
+                </div>
+                <div className="text-muted-foreground">
+                  {veSchwellen.join(" · ")}. Prüfung durch IHK-Sachverständigen bis <strong>15.05.</strong> des
+                  Folgejahres. Prüfkosten typisch 800–3.000 €.
+                </div>
+              </div>
+            )}
 
             <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/5 p-4 mb-4">
               <h3 className="font-bold text-sm mb-2 flex items-center gap-2">
@@ -449,7 +496,15 @@ const LucidWizard = () => {
           {step < 5 ? (
             <button
               onClick={() => setStep(step + 1)}
-              className="inline-flex items-center gap-1 rounded-lg bg-accent-blue text-primary-foreground px-4 py-2 text-sm font-semibold hover:opacity-90"
+              disabled={(step === 1 && verkauft2024 === false) || (step === 3 && !step3HasMengen)}
+              className="inline-flex items-center gap-1 rounded-lg bg-accent-blue text-primary-foreground px-4 py-2 text-sm font-semibold hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed"
+              title={
+                step === 1 && verkauft2024 === false
+                  ? "Du hast 'keine physische Ware' gewählt — keine LUCID-Pflicht. Falls sich das ändert, wähle oben Ja."
+                  : step === 3 && !step3HasMengen
+                  ? "Trag mindestens ein Material mit Menge > 0 ein."
+                  : ""
+              }
             >
               Weiter <ArrowRight className="h-4 w-4" />
             </button>
