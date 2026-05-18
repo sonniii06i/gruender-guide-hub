@@ -37,6 +37,8 @@ const CATEGORY_META: Record<TestCategory, { label: string; emoji: string }> = {
   textile: { label: "Textil / OEKO-TEX", emoji: "👕" },
   packaging: { label: "Verpackung", emoji: "📦" },
   pfas: { label: "PFAS", emoji: "🚨" },
+  medical_device: { label: "Medizinprodukte (MDR)", emoji: "🩺" },
+  psa: { label: "PSA / Workwear", emoji: "🦺" },
 };
 
 const TIER_META = {
@@ -65,6 +67,7 @@ const LaborVergleich = () => {
     const counts: Record<TestCategory, number> = {
       cosmetic: 0, food: 0, supplement: 0, petfood: 0, rohs: 0, reach: 0,
       ce_emv: 0, battery: 0, toys: 0, textile: 0, packaging: 0, pfas: 0,
+      medical_device: 0, psa: 0,
     };
     LABORE.forEach((l) => l.testCategories.forEach((c) => counts[c]++));
     return counts;
@@ -87,7 +90,7 @@ const LaborVergleich = () => {
     <CockpitShell
       eyebrow="Labor-Anbieter · Stand Mai 2026"
       title="Labor-Vergleich für Brand-Founder"
-      subtitle="21 akkreditierte Labore (DAkkS ISO 17025) für Kosmetik (CPSR/Mikrobio/Stabilität), Lebensmittel, Supplement, Pet-Food, Electronics (RoHS/REACH/CE/Funk/Batterie), Spielzeug (EN 71), Textil (OEKO-TEX), PFAS. Inkl. 6 Use-Case-Stacks mit Komplett-Kosten-Ballparks, Preisliste pro Test-Typ + AVOID-Block."
+      subtitle="44 etablierte Labore (DAkkS ISO 17025 · alle mit nachweisbarer Historie, ältestes seit 1828) für 14 Test-Kategorien: Kosmetik (CPSR/Mikrobio/Stabilität/Klinik-Studien), Lebensmittel, Supplement, Pet-Food, Electronics (RoHS/REACH/CE/EMV/Funk/Batterie), Spielzeug (EN 71), Textil (OEKO-TEX), PFAS, Medizinprodukte (MDR Klasse I-III), PSA/Workwear. Inkl. 8 Use-Case-Stacks mit Komplett-Kosten-Ballparks, 30-Eintrag-Preisliste + AVOID-Block."
     >
       {/* ===== USE-CASE-STACKS ===== */}
       <div className="rounded-2xl border-2 border-emerald-500/30 bg-emerald-500/5 p-4 mb-6">
@@ -236,6 +239,11 @@ const LaborVergleich = () => {
                   <div className="text-[11px] text-muted-foreground flex items-center gap-1 mt-0.5">
                     <MapPin className="h-3 w-3" /> {labor.city} · {labor.country}
                   </div>
+                  {labor.establishedSince && (
+                    <div className="text-[10px] text-muted-foreground/80 mt-0.5">
+                      Etabliert seit {labor.establishedSince}
+                    </div>
+                  )}
                 </div>
                 <Badge variant="outline" className={`text-[10px] shrink-0 ${TIER_META[labor.tier].color}`}>
                   {TIER_META[labor.tier].label}
