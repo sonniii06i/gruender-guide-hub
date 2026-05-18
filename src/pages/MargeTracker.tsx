@@ -21,18 +21,19 @@ const CHANNEL_INFO: Record<Channel, {
   emoji: string;
   defaultProvision: number;
   defaultPaymentFee: number;
+  defaultPaymentFeeFixed: number;
   defaultShipping: number;
   bemerkung: string;
   supportsFeePull: boolean;
   isOwnShop: boolean;
 }> = {
-  shopify: { name: "Shopify (eigener Shop)", emoji: "🛍️", defaultProvision: 0, defaultPaymentFee: 2.5, defaultShipping: 4.5, bemerkung: "Eigener Shop · Payment-Fee 1,9–2,9 % · Du versendest selbst · zusätzlich: Affiliate, Preisvergleich (Idealo/Google Shopping), Tools", supportsFeePull: false, isOwnShop: true },
-  "amazon-fba": { name: "Amazon FBA", emoji: "📦", defaultProvision: 15, defaultPaymentFee: 0, defaultShipping: 0, bemerkung: "Amazon übernimmt Versand + Customer-Service · Referral 8-17 % + FBA-Pick&Pack 2-10€", supportsFeePull: true, isOwnShop: false },
-  "amazon-fbm": { name: "Amazon FBM", emoji: "📮", defaultProvision: 15, defaultPaymentFee: 0, defaultShipping: 4.5, bemerkung: "Du versendest selbst · Nur Referral-Fee · DHL/Hermes ~4-6€/Order", supportsFeePull: true, isOwnShop: false },
-  ebay: { name: "eBay", emoji: "🔨", defaultProvision: 12.55, defaultPaymentFee: 0, defaultShipping: 4.5, bemerkung: "Kategorie-abhängig 1-13 % EPV + 0,35 €/Verkauf · Versand selbst · Managed Payments inkl.", supportsFeePull: true, isOwnShop: false },
-  kaufland: { name: "Kaufland.de", emoji: "🏪", defaultProvision: 10, defaultPaymentFee: 0, defaultShipping: 4.5, bemerkung: "Kategorie 6-14 % + 0,30 €/Verkauf · Versand selbst (KFS optional) · 39,95 €/Mon Pro-Account", supportsFeePull: true, isOwnShop: false },
-  otto: { name: "Otto Marketplace", emoji: "🛒", defaultProvision: 14, defaultPaymentFee: 0, defaultShipping: 5.5, bemerkung: "Kategorie 11-17 % · Versand selbst (Otto erwartet Premium-Versand ~5-7€)", supportsFeePull: true, isOwnShop: false },
-  etsy: { name: "Etsy", emoji: "🎨", defaultProvision: 6.5, defaultPaymentFee: 4, defaultShipping: 5.5, bemerkung: "6,5 % + 0,21€ Listing + 3 % Payment + 0,25€ fix · Versand selbst · ggf. 15 % Offsite-Ads", supportsFeePull: true, isOwnShop: false },
+  shopify: { name: "Shopify (eigener Shop)", emoji: "🛍️", defaultProvision: 0, defaultPaymentFee: 2.5, defaultPaymentFeeFixed: 0.30, defaultShipping: 4.5, bemerkung: "Eigener Shop · Payment-Fee 1,9–2,9 % + 0,30€/Transaction · Du versendest selbst · zusätzlich: Affiliate, Preisvergleich (Idealo/Google Shopping), Tools", supportsFeePull: false, isOwnShop: true },
+  "amazon-fba": { name: "Amazon FBA", emoji: "📦", defaultProvision: 15, defaultPaymentFee: 0, defaultPaymentFeeFixed: 0, defaultShipping: 0, bemerkung: "Amazon übernimmt Versand + Customer-Service · Referral 8-17 % + FBA-Pick&Pack 2-10€ + Storage ~0,99€/Mon", supportsFeePull: true, isOwnShop: false },
+  "amazon-fbm": { name: "Amazon FBM", emoji: "📮", defaultProvision: 15, defaultPaymentFee: 0, defaultPaymentFeeFixed: 0, defaultShipping: 4.5, bemerkung: "Du versendest selbst · Nur Referral-Fee · DHL/Hermes ~4-6€/Order", supportsFeePull: true, isOwnShop: false },
+  ebay: { name: "eBay", emoji: "🔨", defaultProvision: 11, defaultPaymentFee: 0, defaultPaymentFeeFixed: 0.35, defaultShipping: 4.5, bemerkung: "Kategorie-abhängig 1-13 % EPV + 0,35 €/Verkauf · Versand selbst · Managed Payments inkl.", supportsFeePull: true, isOwnShop: false },
+  kaufland: { name: "Kaufland.de", emoji: "🏪", defaultProvision: 11, defaultPaymentFee: 0, defaultPaymentFeeFixed: 0.30, defaultShipping: 4.5, bemerkung: "Kategorie 6-14 % + 0,30 €/Verkauf · Versand selbst (KFS optional) · 39,95 €/Mon Pro-Account", supportsFeePull: true, isOwnShop: false },
+  otto: { name: "Otto Marketplace", emoji: "🛒", defaultProvision: 14, defaultPaymentFee: 0, defaultPaymentFeeFixed: 0, defaultShipping: 6, bemerkung: "Kategorie 11-17 % · Versand selbst (Otto erwartet Premium-Versand ~5-7€)", supportsFeePull: true, isOwnShop: false },
+  etsy: { name: "Etsy", emoji: "🎨", defaultProvision: 6.5, defaultPaymentFee: 4, defaultPaymentFeeFixed: 0.30, defaultShipping: 5.5, bemerkung: "6,5 % + 0,21€ Listing + 4 % Payment + 0,30€ fix · Versand selbst · ggf. 15 % Offsite-Ads", supportsFeePull: true, isOwnShop: false },
 };
 
 const CHANNEL_TO_MARKETPLACE: Partial<Record<Channel, Marketplace>> = {
@@ -66,6 +67,8 @@ type SkuData = {
   provisionPct: number;
   /** Payment-Fee in % vom VK brutto. */
   paymentFeePct: number;
+  /** Payment-Fee Festbetrag pro Transaction (€). Shopify 0,30€, eBay 0,35€, Etsy 0,30€ etc. */
+  paymentFeeFixed: number;
   /** FBA / 3PL-Pick-Pack pro Stück (€). */
   fulfilmentPerUnit: number;
   /** Werbe-Anteil (PPC, Sponsored) als € pro Stück. */
@@ -115,6 +118,7 @@ const MargeTracker = () => {
       verpackung: 0,
       provisionPct: 0,
       paymentFeePct: 0,
+      paymentFeeFixed: 0,
       fulfilmentPerUnit: 0,
       werbungPerUnit: 0,
       retourenPct: 0,
@@ -141,6 +145,7 @@ const MargeTracker = () => {
         verpackung: 0,
         provisionPct: info.defaultProvision,
         paymentFeePct: info.defaultPaymentFee,
+        paymentFeeFixed: info.defaultPaymentFeeFixed,
         fulfilmentPerUnit: 0,
         werbungPerUnit: 0,
         retourenPct: 0,
@@ -160,6 +165,7 @@ const MargeTracker = () => {
       channel,
       provisionPct: info.defaultProvision,
       paymentFeePct: info.defaultPaymentFee,
+      paymentFeeFixed: info.defaultPaymentFeeFixed,
       versandKostenNetto: info.defaultShipping,
     });
   };
@@ -212,8 +218,11 @@ const MargeTracker = () => {
         if (effectiveBrutto <= 0) throw new Error("Konnte keinen Preis ermitteln");
 
         const newProvisionPct = (data.referralFee / effectiveBrutto) * 100;
+        // FBA: Pick&Pack + ~0,99€/Monat Storage pauschal für Standard-Size (Q1-Q3, 1 Monat)
+        // Echter Wert variiert nach Volumen — User soll bei Bedarf anpassen.
+        const fbaStorageFeeMonatlich = 0.99;
         const newFulfilment = s.channel === "amazon-fba"
-          ? data.fbaFees + data.variableClosingFee + data.perItemFee
+          ? data.fbaFees + data.variableClosingFee + data.perItemFee + fbaStorageFeeMonatlich
           : data.variableClosingFee + data.perItemFee;
 
         // Wenn VK nicht gesetzt war (oder Listing-Preis gezogen wurde): VK aus Listing übernehmen
@@ -287,7 +296,7 @@ const MargeTracker = () => {
   const calcSku = (s: SkuData) => {
     const vkBrutto = (s.vkNetto + s.versandKundeNetto) * 1.19; // 19% USt
     const provision = (vkBrutto * s.provisionPct) / 100;
-    const paymentFee = (vkBrutto * s.paymentFeePct) / 100;
+    const paymentFee = (vkBrutto * s.paymentFeePct) / 100 + (s.paymentFeeFixed ?? 0);
     const affiliateFee = (vkBrutto * s.affiliatePct) / 100;
     // Preisvergleich: CPC × Clicks-pro-Sale (= 100 ÷ Conversion%)
     const preisvergleichFeePerSale =
@@ -594,6 +603,7 @@ const MargeTracker = () => {
                         <CheckCircle2 className="h-3 w-3" />
                         Fees + VK (Lowest-FBA) aktualisiert {new Date(s.feesPulledAt).toLocaleString("de-DE")}
                         {s.asin ? ` · ASIN ${s.asin}` : ""}
+                        {(s.channel === "amazon-fba") && " · inkl. 0,99 €/Mon Storage-Schätzung in FBA/Stk"}
                       </div>
                     )}
                     {(s.channel === "amazon-fba" || s.channel === "amazon-fbm") &&
@@ -668,6 +678,12 @@ const MargeTracker = () => {
                   value={s.paymentFeePct}
                   onChange={(v) => updateSku(s.id, { paymentFeePct: v })}
                   suffix="%"
+                />
+                <Field
+                  label="Payment fix €/Stk"
+                  value={s.paymentFeeFixed}
+                  onChange={(v) => updateSku(s.id, { paymentFeeFixed: v })}
+                  suffix="€"
                 />
                 <Field
                   label="FBA/3PL/Stück"

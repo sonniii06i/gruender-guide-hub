@@ -152,12 +152,13 @@ export function calcEbayFees(vkBrutto: number, categorySlug: string): FeeBreakdo
 // =============================================================
 const ETSY_LISTING_FEE_BRUTTO = 0.21; // ~0,20$ in EUR
 const ETSY_TRANSACTION_PCT = 6.5;
-const ETSY_PAYMENT_PCT = 3.0;
-const ETSY_PAYMENT_FIXED_BRUTTO = 0.25; // DE-Pricing
+// Etsy DE Payment-Fee Ende 2024 erhöht: vorher 3% + 0,25€ → seitdem 4% + 0,30€
+const ETSY_PAYMENT_PCT = 4.0;
+const ETSY_PAYMENT_FIXED_BRUTTO = 0.30;
 
 export const ETSY_CATEGORIES: FeeCategory[] = [
   // Etsy hat keine Kategorie-basierten Provisionen, nur Flat 6.5%
-  { slug: "standard", label: "Etsy Standard (6,5 % + 3 % Payment)", provisionPct: 6.5 },
+  { slug: "standard", label: "Etsy Standard (6,5 % + 4 % Payment + 0,30€)", provisionPct: 6.5 },
 ];
 
 export function calcEtsyFees(vkBrutto: number, _categorySlug: string, withOffsiteAds = false): FeeBreakdown {
@@ -172,7 +173,7 @@ export function calcEtsyFees(vkBrutto: number, _categorySlug: string, withOffsit
     paymentFee,
     offsiteAdsFee,
     totalFees,
-    source: `Etsy (6,5 % + 0,21€ Listing + 3 % Payment${withOffsiteAds ? " + 15 % Offsite-Ads" : ""})`,
+    source: `Etsy (6,5 % + 0,21€ Listing + 4 % Payment + 0,30€ fix${withOffsiteAds ? " + 15 % Offsite-Ads" : ""})`,
   };
 }
 
