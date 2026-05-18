@@ -159,11 +159,46 @@ const Admin = () => {
     visits.forEach((v) => { if (v.utm_source) utms[v.utm_source] = (utms[v.utm_source] ?? 0) + 1; });
     const topUtms = Object.entries(utms).sort((a, b) => b[1] - a[1]).slice(0, 8);
 
+    // === TOOL-USAGE-RANKING (Cockpit-Routes nach unique visitors) ===
+    const toolViews: Record<string, { views: number; uniques: Set<string> }> = {};
+    visits.forEach((v) => {
+      if (!v.path.startsWith("/cockpit/") && v.path !== "/booking" && v.path !== "/anbieter") return;
+      // Cleanup: ?-params abschneiden für gruppierung
+      const cleanPath = v.path.split("?")[0];
+      if (!toolViews[cleanPath]) toolViews[cleanPath] = { views: 0, uniques: new Set() };
+      toolViews[cleanPath].views++;
+      toolViews[cleanPath].uniques.add(v.visitor_hash);
+    });
+    const toolRanking = Object.entries(toolViews)
+      .map(([path, v]) => ({ path, views: v.views, uniques: v.uniques.size }))
+      .sort((a, b) => b.uniques - a.uniques);
+
+    // Tote Tools: definierte Routes aus features.ts, die 0 Views haben
+    // (Liste der bekannten Cockpit-Routes aus features.ts hardcoded für Mai-2026-Snapshot)
+    const KNOWN_TOOL_ROUTES = [
+      "/cockpit/abschreibung", "/cockpit/amazon-buchungen", "/cockpit/amazon-ust",
+      "/cockpit/auszahlung-optimizer", "/cockpit/bwa-generator", "/cockpit/ce-generator",
+      "/cockpit/check", "/cockpit/crypto-steuer", "/cockpit/datev-mapper", "/cockpit/dba-cfc",
+      "/cockpit/ecom-roadmap", "/cockpit/entscheidungs-engine", "/cockpit/eu-alternativen",
+      "/cockpit/foerderung", "/cockpit/hk-limited-wizard", "/cockpit/holding-designer",
+      "/cockpit/iab-rechner", "/cockpit/intl-banking", "/cockpit/ip-box",
+      "/cockpit/kfz-optimizer", "/cockpit/labor-vergleich", "/cockpit/lucid-wizard",
+      "/cockpit/marge-tracker", "/cockpit/marken-monitor", "/cockpit/marken-wizard",
+      "/cockpit/pension-optimizer", "/cockpit/pre-year-end", "/cockpit/quartals-steuer",
+      "/cockpit/reisekosten-logger", "/cockpit/salary-dividende", "/cockpit/sales-tax-nexus",
+      "/cockpit/settlement-parser", "/cockpit/stb-finder", "/cockpit/stb-handoff",
+      "/cockpit/stb-match", "/cockpit/steuer", "/cockpit/substance-checker",
+      "/cockpit/ust-rechner", "/cockpit/us-kreditkarten", "/cockpit/us-llc-wizard",
+      "/cockpit/visa-helper",
+    ];
+    const usedPaths = new Set(toolRanking.map((t) => t.path));
+    const deadTools = KNOWN_TOOL_ROUTES.filter((r) => !usedPaths.has(r));
+
     return {
       totalUsers, activePaid, trialing, newUsers7d, newUsers30d, onboardingRate,
       openTickets, planMix, mrr, arr, topCountries, topModels, topLegals, days, visitorDaysCounts,
       uniqueVisitors30d, uniqueVisitorsToday, visitorToSignup, signupToPaid, visitorToPaid,
-      topReferrers, topUtms,
+      topReferrers, topUtms, toolRanking, deadTools,
     };
   }, [profiles, subs, tickets, visits, stripeStats]);
 
@@ -220,6 +255,7 @@ const Admin = () => {
           <TabsTrigger value="abos"><CreditCard className="h-4 w-4 mr-1" /> Abos ({stats.activePaid})</TabsTrigger>
           <TabsTrigger value="tickets"><Inbox className="h-4 w-4 mr-1" /> Tickets ({stats.openTickets})</TabsTrigger>
           <TabsTrigger value="bookings"><Calendar className="h-4 w-4 mr-1" /> Bookings</TabsTrigger>
+          <TabsTrigger value="tools"><BarChart3 className="h-4 w-4 mr-1" /> Tool-Insights ({stats.toolRanking.length}/{stats.toolRanking.length + stats.deadTools.length})</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview">
@@ -344,6 +380,72 @@ const Admin = () => {
 
         <TabsContent value="bookings">
           <BookingsAdmin />
+        </TabsContent>
+
+        <TabsContent value="tools">
+          <div className="space-y-4">
+            <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-4 text-sm">
+              <div className="font-bold mb-1">📊 Welche Tools verdienen Tiefe vs. Wegwerfen</div>
+              <div className="text-muted-foreground text-xs">
+                Daten aus letzten 30 Tagen. Unique-Visitor pro Tool zählt — nicht Total-Views (gleicher User der 5× klickt = 1 unique). Tools mit 0 uniques sollten geprüft werden:
+                möglicherweise schlecht beworben, falscher Bedarf oder kaputt.
+              </div>
+            </div>
+
+            <Panel title={`Top-Tools nach Unique-Visitors (${stats.toolRanking.length} aktive)`} icon={TrendingUp}>
+              {stats.toolRanking.length === 0 ? (
+                <div className="text-xs text-muted-foreground">Noch keine Tool-Views in den letzten 30 Tagen.</div>
+              ) : (
+                <div className="space-y-1.5">
+                  {stats.toolRanking.map((t, idx) => {
+                    const maxUniques = stats.toolRanking[0].uniques;
+                    const pct = maxUniques ? Math.round((t.uniques / maxUniques) * 100) : 0;
+                    return (
+                      <div key={t.path} className="space-y-0.5">
+                        <div className="flex items-center justify-between text-xs">
+                          <div className="flex items-center gap-2 min-w-0">
+                            <span className="text-muted-foreground font-mono w-6 shrink-0">#{idx + 1}</span>
+                            <code className="font-mono text-[11px] truncate">{t.path}</code>
+                          </div>
+                          <div className="flex items-center gap-3 shrink-0 ml-2">
+                            <span className="font-semibold">{t.uniques}</span>
+                            <span className="text-muted-foreground text-[10px]">({t.views} views)</span>
+                          </div>
+                        </div>
+                        <div className="h-1.5 bg-secondary rounded overflow-hidden">
+                          <div className="h-full bg-accent-blue" style={{ width: `${pct}%` }} />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </Panel>
+
+            {stats.deadTools.length > 0 && (
+              <Panel title={`⚠ Tote Tools (0 Views in 30T) — ${stats.deadTools.length} Stück`} icon={Inbox}>
+                <div className="text-xs text-muted-foreground mb-2">
+                  Diese Routes sind in features.ts definiert, aber niemand hat sie in den letzten 30 Tagen aufgerufen.
+                  Kandidaten für: Promotion vom Dashboard pushen · neue Use-Cases testen · oder löschen.
+                </div>
+                <div className="flex flex-wrap gap-1.5">
+                  {stats.deadTools.map((path) => (
+                    <code key={path} className="text-[10px] font-mono bg-rose-500/10 text-rose-700 border border-rose-500/20 rounded px-2 py-1">
+                      {path}
+                    </code>
+                  ))}
+                </div>
+              </Panel>
+            )}
+
+            <Panel title="Tool-Funnels (Step-Tracking)" icon={Activity}>
+              <div className="text-xs text-muted-foreground">
+                Funnel-Events (User kommt in Step 1 vs. Step 5) sind ab Mai 2026 instrumentiert für ausgewählte
+                Wizards. Sobald genug Daten gesammelt sind, erscheint hier eine Step-für-Step-Conversion pro Tool.
+                Aktuell instrumentiert: LUCID-Wizard.
+              </div>
+            </Panel>
+          </div>
         </TabsContent>
       </Tabs>
     </CockpitShell>

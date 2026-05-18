@@ -1,7 +1,8 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useTrackToolEvent } from "@/hooks/useTrackToolEvent";
 import {
   ArrowLeft,
   ArrowRight,
@@ -115,7 +116,13 @@ const SYSTEMS: DualesSystem[] = [
 ];
 
 const LucidWizard = () => {
+  const trackEvent = useTrackToolEvent("lucid-wizard");
   const [step, setStep] = useState(1);
+
+  // Track Step-Reached (löst bei jedem Step-Wechsel aus)
+  useEffect(() => {
+    trackEvent(`step_${step}_reached`);
+  }, [step, trackEvent]);
   const [firmenname, setFirmenname] = useState("");
   const [hrnummer, setHrnummer] = useState("");
   const [ustId, setUstId] = useState("");
@@ -469,6 +476,7 @@ const LucidWizard = () => {
                 href="https://lucid.verpackungsregister.org"
                 target="_blank"
                 rel="noreferrer noopener"
+                onClick={() => trackEvent("cta_clicked", { which: "lucid_portal" })}
                 className="inline-flex items-center gap-1 rounded-lg bg-accent-blue text-primary-foreground px-4 py-2 text-sm font-semibold hover:opacity-90"
               >
                 <ExternalLink className="h-4 w-4" /> LUCID-Portal öffnen
