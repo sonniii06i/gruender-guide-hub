@@ -22,14 +22,19 @@ import {
 
 type Rechtsform = "einzel" | "freiberuf" | "ug" | "gmbh";
 
-const KSt_GEWST = kstGewstRate(400);
 const IAB_FRIST_JAHRE = 3; // Investition muss innerhalb 3 Wj erfolgen
+const GEWST_MESSZAHL = 0.035; // §11 GewStG
 
 const IabRechner = () => {
   const [rechtsform, setRechtsform] = useState<Rechtsform>("gmbh");
   const [gewinnVorIab, setGewinnVorIab] = useState(150000);
   const [bilanzsumme, setBilanzsumme] = useState(180000);
   const [estVorIab, setEstVorIab] = useState(0);
+  const [hebesatz, setHebesatz] = useState(400); // Gemeinde-Hebesatz GewSt
+  const [istFreiberuflerOhneGewSt, setIstFreiberuflerOhneGewSt] = useState(true);
+
+  const gewStSatz = (hebesatz / 100) * GEWST_MESSZAHL; // z.B. 4,00 × 3,5 % = 14 %
+  const KSt_GEWST_DYN = kstGewstRate(hebesatz); // GmbH-Effektivsatz inkl. SolZ
 
   // Geplante Investitionen (3-Jahres-Fenster)
   const [invJahr1, setInvJahr1] = useState(20000);
@@ -81,27 +86,51 @@ const IabRechner = () => {
       };
 
     if (rechtsform === "einzel" || rechtsform === "freiberuf") {
-      // Verwende Grenzsteuersatz an der ZvE-Position
+      const istGewerblich = rechtsform === "einzel" && !istFreiberuflerOhneGewSt;
       const zvE = Math.max(0, gewinnVorIab - estVorIab);
-      const steuerOhne = progressionESt(zvE);
-      const steuerMit = progressionESt(Math.max(0, zvE - iabHoehe));
+      const zvENachIab = Math.max(0, zvE - iabHoehe);
+
+      // ESt + SolZ über Progression
+      const estOhne = progressionESt(zvE);
+      const estMit = progressionESt(zvENachIab);
+      const solzOhne = estOhne * SOLZ; // vereinfacht ohne SolZ-Freigrenze (ESt > 19.950 Single)
+      const solzMit = estMit * SOLZ;
+
+      // GewSt bei Einzelunternehmer (Gewerbe): GewSt-Anrechnung §35 EStG bis 400 % Hebesatz
+      let gewStOhne = 0;
+      let gewStMit = 0;
+      if (istGewerblich) {
+        const gewinnFuerGewSt = Math.max(0, gewinnVorIab - 24500); // Freibetrag §11 GewStG
+        const gewinnFuerGewStNachIab = Math.max(0, gewinnVorIab - iabHoehe - 24500);
+        const gewStBrutto = gewinnFuerGewSt * gewStSatz;
+        const gewStBruttoNachIab = gewinnFuerGewStNachIab * gewStSatz;
+        // §35 EStG: bis 4,0 × Messbetrag anrechenbar auf ESt → effektiv bis Hebesatz 400 neutral
+        const anrechnungsfaktor = 4.0;
+        const gewStAnrechnungOhne = Math.min(gewStBrutto, gewinnFuerGewSt * GEWST_MESSZAHL * anrechnungsfaktor);
+        const gewStAnrechnungMit = Math.min(gewStBruttoNachIab, gewinnFuerGewStNachIab * GEWST_MESSZAHL * anrechnungsfaktor);
+        gewStOhne = Math.max(0, gewStBrutto - gewStAnrechnungOhne);
+        gewStMit = Math.max(0, gewStBruttoNachIab - gewStAnrechnungMit);
+      }
+
+      const totalOhne = estOhne + solzOhne + gewStOhne;
+      const totalMit = estMit + solzMit + gewStMit;
       const grenz = grenzSteuerSatz(zvE - iabHoehe / 2);
       return {
-        gewinnVorIabSteuer: steuerOhne,
-        gewinnNachIabSteuer: steuerMit,
-        steuerOhneIab: steuerOhne,
-        steuerMitIab: steuerMit,
-        ersparnis: steuerOhne - steuerMit,
-        effektivProzent: grenz * 100,
+        gewinnVorIabSteuer: totalOhne,
+        gewinnNachIabSteuer: totalMit,
+        steuerOhneIab: totalOhne,
+        steuerMitIab: totalMit,
+        ersparnis: totalOhne - totalMit,
+        effektivProzent: grenz * 100 * (1 + SOLZ) + (istGewerblich && hebesatz > 400 ? (hebesatz - 400) / 100 * GEWST_MESSZAHL * 100 : 0),
       };
     }
 
-    // GmbH/UG: KSt 15 % + SolZ 5,5 % auf KSt + GewSt ~14 % (gewerbesteuerfrei für IAB? Nein, IAB mindert auch GewSt)
+    // GmbH/UG: KSt 15 % + SolZ 5,5 % auf KSt + GewSt (Hebesatz-abhängig)
     const kStOhne = gewinnVorIab * 0.15 * (1 + SOLZ);
-    const gewStOhne = gewinnVorIab * 0.14;
+    const gewStOhne = gewinnVorIab * gewStSatz;
     const totalOhne = kStOhne + gewStOhne;
     const kStMit = (gewinnVorIab - iabHoehe) * 0.15 * (1 + SOLZ);
-    const gewStMit = (gewinnVorIab - iabHoehe) * 0.14;
+    const gewStMit = (gewinnVorIab - iabHoehe) * gewStSatz;
     const totalMit = kStMit + gewStMit;
     return {
       gewinnVorIabSteuer: totalOhne,
@@ -109,9 +138,9 @@ const IabRechner = () => {
       steuerOhneIab: totalOhne,
       steuerMitIab: totalMit,
       ersparnis: totalOhne - totalMit,
-      effektivProzent: KSt_GEWST * 100,
+      effektivProzent: KSt_GEWST_DYN * 100,
     };
-  }, [rechtsform, gewinnVorIab, estVorIab, iabHoehe]);
+  }, [rechtsform, gewinnVorIab, estVorIab, iabHoehe, hebesatz, gewStSatz, KSt_GEWST_DYN, istFreiberuflerOhneGewSt]);
 
   // Auflösungs-Plan (Hinzurechnung bei tatsächlicher Investition)
   const aufloesung = useMemo(() => {
@@ -224,6 +253,38 @@ const IabRechner = () => {
             </div>
           </div>
         )}
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
+          {rechtsform !== "freiberuf" && (
+            <div>
+              <Label className="text-xs uppercase tracking-wider text-muted-foreground">
+                GewSt-Hebesatz Gemeinde (%)
+              </Label>
+              <Input
+                type="number"
+                value={hebesatz}
+                onChange={(e) => setHebesatz(Math.max(200, Math.min(900, Number(e.target.value) || 400)))}
+                className="mt-1"
+              />
+              <div className="text-[10px] text-muted-foreground mt-1">
+                Berlin 410, München 490, Stuttgart 420, Hamburg 470. Min. 200, Default 400.
+              </div>
+            </div>
+          )}
+          {rechtsform === "einzel" && (
+            <div className="flex items-end">
+              <label className="flex items-center gap-2 text-xs cursor-pointer pb-2">
+                <input
+                  type="checkbox"
+                  checked={istFreiberuflerOhneGewSt}
+                  onChange={(e) => setIstFreiberuflerOhneGewSt(e.target.checked)}
+                  className="h-4 w-4"
+                />
+                <span>Freiberuflich (keine GewSt) — sonst gewerblich</span>
+              </label>
+            </div>
+          )}
+        </div>
 
         <div className="border-t border-border pt-3">
           <div className="text-xs font-semibold mb-2 text-foreground">Geplante Investitionen (3-Jahres-Fenster)</div>

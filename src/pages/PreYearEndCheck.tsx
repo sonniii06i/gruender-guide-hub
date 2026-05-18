@@ -4,23 +4,19 @@ import Stand2026Footer from "@/components/cockpit/Stand2026Footer";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Calculator, AlertTriangle, CheckCircle2, TrendingDown, Info, Calendar } from "lucide-react";
-import { progressionESt, ABG_ST, kstGewstRate, holdingRate } from "@/lib/germanTax";
+import { progressionESt, ABG_ST, kstGewstRate, holdingRate, SOLZ_RATE } from "@/lib/germanTax";
 
 type LegalForm = "einzel" | "ug" | "gmbh" | "holding";
 
-// Default-Hebesatz 400 % für Pre-Year-End-Schätzung (Tool zeigt grobe Hebel-Ersparnis)
-const KSt_GEWST = kstGewstRate(400);
-const HOLDING_RATE = holdingRate(400);
-
-function steuerForm(form: LegalForm, gewinn: number, estSatz: number): number {
+function steuerForm(form: LegalForm, gewinn: number, hebesatz: number): number {
   if (gewinn <= 0) return 0;
-  if (form === "einzel") return progressionESt(gewinn);
-  // GmbH/UG: KSt+GewSt 30% + AbgSt 26,375% auf Vollausschüttung (vereinfacht)
+  const KSt_GEWST = kstGewstRate(hebesatz);
+  const HOLDING_RATE = holdingRate(hebesatz);
+  if (form === "einzel") return progressionESt(gewinn) * (1 + SOLZ_RATE);
   if (form === "ug" || form === "gmbh") {
     const stG = gewinn * KSt_GEWST;
     return stG + (gewinn - stG) * ABG_ST;
   }
-  // Holding: 30% + 1,5% (Reinvest) — bei Privat-Entnahme zusätzlich AbgSt
   const stG = gewinn * KSt_GEWST;
   return stG + (gewinn - stG) * HOLDING_RATE;
 }
@@ -29,24 +25,30 @@ const PreYearEndCheck = () => {
   const [form, setForm] = useState<LegalForm>("gmbh");
   const [gewinn, setGewinn] = useState(150000);
   const [estSatz, setEstSatz] = useState(0.42);
+  const [hebesatz, setHebesatz] = useState(400);
   const [aktivitaeten, setAktivitaeten] = useState<Record<string, boolean>>({});
   const [iabBasis, setIabBasis] = useState(40000);
   const [investitionVorziehen, setInvestitionVorziehen] = useState(15000);
   const [boniGesamt, setBoniGesamt] = useState(20000);
 
-  const baselineSteuer = useMemo(() => steuerForm(form, gewinn, estSatz), [form, gewinn, estSatz]);
+  const KSt_GEWST = kstGewstRate(hebesatz);
+  const HOLDING_RATE = holdingRate(hebesatz);
+  void estSatz;
+
+  const baselineSteuer = useMemo(() => steuerForm(form, gewinn, hebesatz), [form, gewinn, hebesatz]);
 
   // Hebel-Berechnungen
   const hebel = useMemo(() => {
     const list: { id: string; title: string; emoji: string; deadline: string; description: string; ersparnis: number; details: string[]; aktiv: boolean }[] = [];
 
     // 1) IAB §7g EStG — mit Voraussetzungs-Check
-    // Einzel/UG/GmbH: vereinfacht über Gewinn-Schwelle 200k (echte Voraussetzung GmbH:
-    // Bilanzsumme < 235k, hier approximiert über Gewinn als Indikator).
     const iabBerechtigt = form === "einzel" ? gewinn <= 200000 : gewinn <= 200000;
     if (gewinn > 0) {
       const iabAbzug = iabBerechtigt ? Math.min(iabBasis * 0.5, 200000) : 0;
-      const ersparnis = form === "einzel" ? iabAbzug * estSatz : iabAbzug * KSt_GEWST;
+      // Einzel: echte Progression — Steuer mit IAB vs ohne IAB
+      const ersparnis = form === "einzel"
+        ? (progressionESt(gewinn) - progressionESt(Math.max(0, gewinn - iabAbzug))) * (1 + SOLZ_RATE)
+        : iabAbzug * KSt_GEWST;
       list.push({
         id: "iab",
         title: iabBerechtigt ? "IAB — Investitionsabzugsbetrag" : "IAB — NICHT berechtigt (Gewinn-Schwelle)",
@@ -78,8 +80,10 @@ const PreYearEndCheck = () => {
     // 2) Investitionen vorziehen (Sofortabschreibung GWG bis 800€, 1000€ ab 2024)
     if (investitionVorziehen > 0) {
       const gwgGrenze = 800; // Pool-Grenze, ab 2024 könnte 1.000 € gelten je nach Wahlrecht
-      const sofortAbschreibung = investitionVorziehen; // simplification
-      const ersparnis = form === "einzel" ? sofortAbschreibung * estSatz : sofortAbschreibung * KSt_GEWST;
+      const sofortAbschreibung = investitionVorziehen;
+      const ersparnis = form === "einzel"
+        ? (progressionESt(gewinn) - progressionESt(Math.max(0, gewinn - sofortAbschreibung))) * (1 + SOLZ_RATE)
+        : sofortAbschreibung * KSt_GEWST;
       list.push({
         id: "invest",
         title: "Investitionen vorziehen (vor 31.12.)",
@@ -201,11 +205,12 @@ const PreYearEndCheck = () => {
     });
 
     return list;
-  }, [form, gewinn, estSatz, iabBasis, investitionVorziehen, boniGesamt, aktivitaeten]);
+  }, [form, gewinn, estSatz, iabBasis, investitionVorziehen, boniGesamt, aktivitaeten, hebesatz, KSt_GEWST, HOLDING_RATE]);
 
   const aktiverHebel = hebel.filter((h) => h.aktiv);
   const totalErsparnis = aktiverHebel.reduce((sum, h) => sum + h.ersparnis, 0);
-  const wirklichlichSteuer = baselineSteuer - totalErsparnis;
+  // Steuer kann nicht negativ werden (Hebel-Ersparnis ist gegenüber Baseline gedeckelt).
+  const tatsaechlicheSteuer = Math.max(0, baselineSteuer - totalErsparnis);
 
   const toggleHebel = (id: string) => setAktivitaeten({ ...aktivitaeten, [id]: !aktivitaeten[id] });
 
@@ -245,7 +250,7 @@ const PreYearEndCheck = () => {
             />
           </div>
           <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">ESt-Satz</Label>
+            <Label className="text-xs uppercase tracking-wider text-muted-foreground">ESt-Satz (Fallback)</Label>
             <select
               value={estSatz}
               onChange={(e) => setEstSatz(Number(e.target.value))}
@@ -257,6 +262,17 @@ const PreYearEndCheck = () => {
               <option value={0.42}>42 % (Spitzensatz)</option>
               <option value={0.45}>45 % (Reichensteuer)</option>
             </select>
+            <div className="text-[10px] text-muted-foreground mt-1">Einzel: Tool nutzt echte Progression. Wert nur informativ.</div>
+          </div>
+          <div>
+            <Label className="text-xs uppercase tracking-wider text-muted-foreground">GewSt-Hebesatz Gemeinde (%)</Label>
+            <Input
+              type="number"
+              value={hebesatz}
+              onChange={(e) => setHebesatz(Math.max(200, Math.min(900, Number(e.target.value) || 400)))}
+              className="mt-1"
+            />
+            <div className="text-[10px] text-muted-foreground mt-1">Berlin 410, München 490, Stuttgart 420.</div>
           </div>
           <div>
             <Label className="text-xs uppercase tracking-wider text-muted-foreground">Geplante Investition 3 Jahre (IAB)</Label>
@@ -305,7 +321,7 @@ const PreYearEndCheck = () => {
         <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-4">
           <div className="text-[10px] uppercase tracking-wider text-accent-blue mb-1">Steuer mit Hebeln</div>
           <div className="text-xl font-bold text-accent-blue">
-            {Math.round(wirklichlichSteuer).toLocaleString("de-DE")} €
+            {Math.round(tatsaechlicheSteuer).toLocaleString("de-DE")} €
           </div>
         </div>
       </div>

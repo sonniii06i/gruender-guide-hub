@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -262,18 +262,21 @@ const MargeTracker = () => {
       s.sonstigeGebuehren;
     const margeVorRetoure = s.vkNetto - totalKosten;
 
-    // Retoure-Last realistisch:
-    // - 100% VK-Erlös zurück
-    // - Versandkosten Hin+Zurück (1,5x Versand)
-    // - Restocking-Aufwand 1€/Stück (pauschal)
-    // - Bei FBA: zusätzlich Returns-Processing-Fee (~50% von FBA-Pick&Pack)
-    const retoureKostenProRetoure =
-      s.vkNetto + s.versandKostenNetto * 1.5 + 1 + (s.channel === "amazon-fba" ? s.fulfilmentPerUnit * 0.5 : 0);
-    const retoureLast = retoureKostenProRetoure * (s.retourenPct / 100);
-    const margeNetto = margeVorRetoure - retoureLast;
+    // Retoure-Last realistisch berechnen: bei Retoure kommt die Ware zurück (COGS bleibt verlustfrei
+    // wenn wieder verkäuflich), Marketplace-Provision wird erstattet, Werbung ist verloren.
+    // Zusatz-Kosten je Retoure = Return-Shipping + Restocking + verlorene Werbung + FBA-Returns-Fee.
+    // Marge nach Retoure = (1 - r) × margeVorRetoure - r × zusatzKostenJeRetoure
+    const retourenAnteil = Math.max(0, Math.min(1, s.retourenPct / 100));
+    const returnShipping = s.versandKostenNetto * 1.5; // hin + zurück + Bearbeitung
+    const restocking = 1; // pauschal/Stück
+    const lostAds = s.werbungPerUnit; // Ads für Retouren-Stück verloren
+    const fbaReturnFee = s.channel === "amazon-fba" ? s.fulfilmentPerUnit * 0.5 : 0;
+    const zusatzKostenJeRetoure = returnShipping + restocking + lostAds + fbaReturnFee;
+    const retoureLast = retourenAnteil * (margeVorRetoure + zusatzKostenJeRetoure);
+    const margeNetto = margeVorRetoure * (1 - retourenAnteil) - retourenAnteil * zusatzKostenJeRetoure;
 
-    // Brutto-Marge = Profit ÷ VK_brutto (Standard für Reseller, wie SAS/Helium10)
-    const margePct = vkBrutto > 0 ? (margeNetto / vkBrutto) * 100 : 0;
+    // Marge-Quote: Standard ist Netto-Marge / Netto-Umsatz (USt ist durchlaufend).
+    const margePct = s.vkNetto > 0 ? (margeNetto / s.vkNetto) * 100 : 0;
     const ROAS = s.werbungPerUnit > 0 ? s.vkNetto / s.werbungPerUnit : 0;
     return {
       vkBrutto,
@@ -555,16 +558,10 @@ const MargeTracker = () => {
                   <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">
                     VK brutto € <span className="normal-case text-muted-foreground/60">(= Listing Price)</span>
                   </Label>
-                  <Input
-                    type="number"
-                    step="0.01"
-                    value={s.vkNetto ? (s.vkNetto * 1.19).toFixed(2) : ""}
-                    onChange={(e) => {
-                      const brutto = Math.max(0, Number(e.target.value) || 0);
-                      updateSku(s.id, { vkNetto: brutto / 1.19 });
-                    }}
+                  <NumberInput
+                    value={s.vkNetto * 1.19}
+                    onChange={(brutto) => updateSku(s.id, { vkNetto: brutto / 1.19 })}
                     placeholder="0,00"
-                    className="h-8 text-right text-xs mt-1"
                   />
                   <div className="text-[9px] text-muted-foreground/70 mt-0.5 text-right">
                     netto: {s.vkNetto.toFixed(2)} €
@@ -580,16 +577,10 @@ const MargeTracker = () => {
                   <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">
                     EK brutto € <span className="normal-case text-muted-foreground/60">(Cost Price)</span>
                   </Label>
-                  <Input
-                    type="number"
-                    step="0.01"
-                    value={s.cogs ? (s.cogs * 1.19).toFixed(2) : ""}
-                    onChange={(e) => {
-                      const brutto = Math.max(0, Number(e.target.value) || 0);
-                      updateSku(s.id, { cogs: brutto / 1.19 });
-                    }}
+                  <NumberInput
+                    value={s.cogs * 1.19}
+                    onChange={(brutto) => updateSku(s.id, { cogs: brutto / 1.19 })}
                     placeholder="0,00"
-                    className="h-8 text-right text-xs mt-1"
                   />
                   <div className="text-[9px] text-muted-foreground/70 mt-0.5 text-right">
                     netto: {s.cogs.toFixed(2)} €
@@ -753,6 +744,69 @@ const MargeTracker = () => {
   );
 };
 
+/**
+ * Robustes Zahlen-Input. Akzeptiert Komma + Punkt als Dezimaltrenner, blockiert nicht beim Tippen.
+ * Interner String-State verhindert, dass Tippen "1.5" → "1" + "." + "5" beim Re-Render kollabiert.
+ */
+const NumberInput = ({
+  value,
+  onChange,
+  placeholder,
+  className,
+}: {
+  value: number;
+  onChange: (v: number) => void;
+  placeholder?: string;
+  className?: string;
+}) => {
+  // Lokaler String-State: erlaubt Zwischenstände wie "1," oder "0."
+  const initial = value > 0 ? String(Math.round(value * 100) / 100).replace(".", ",") : "";
+  const [text, setText] = useState<string>(initial);
+  const lastValueRef = useRef<number>(value);
+
+  // Wenn der parent-Wert sich von außen substantiell ändert (z.B. Reset, fees-Pull),
+  // Text synchronisieren — Toleranz 0.005€/0.005% gegen Rundungs-Roundtrips (Brutto/Netto).
+  useEffect(() => {
+    if (Math.abs(lastValueRef.current - value) > 0.005) {
+      lastValueRef.current = value;
+      setText(value > 0 ? String(Math.round(value * 100) / 100).replace(".", ",") : "");
+    }
+  }, [value]);
+
+  const parse = (raw: string): number | null => {
+    const cleaned = raw.replace(/\s/g, "").replace(",", ".");
+    if (cleaned === "" || cleaned === ".") return 0;
+    const n = parseFloat(cleaned);
+    return Number.isFinite(n) ? Math.max(0, n) : null;
+  };
+
+  return (
+    <Input
+      type="text"
+      inputMode="decimal"
+      value={text}
+      placeholder={placeholder ?? "0"}
+      className={className ?? "h-8 text-right text-xs mt-1"}
+      onChange={(e) => {
+        const raw = e.target.value;
+        // Erlaube nur Ziffern, ein Komma/Punkt, leer
+        if (!/^[\d.,]*$/.test(raw)) return;
+        setText(raw);
+        const parsed = parse(raw);
+        if (parsed !== null) {
+          lastValueRef.current = parsed;
+          onChange(parsed);
+        }
+      }}
+      onBlur={() => {
+        // Beim Verlassen: auf 2 Nachkommastellen normalisieren wenn Wert > 0
+        if (value > 0) setText(String(Math.round(value * 100) / 100).replace(".", ","));
+        else setText("");
+      }}
+    />
+  );
+};
+
 const Field = ({
   label,
   value,
@@ -768,14 +822,7 @@ const Field = ({
     <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">
       {label} {suffix}
     </Label>
-    <Input
-      type="number"
-      step="0.01"
-      value={value || ""}
-      onChange={(e) => onChange(Math.max(0, Number(e.target.value) || 0))}
-      placeholder="0"
-      className="h-8 text-right text-xs mt-1"
-    />
+    <NumberInput value={value} onChange={onChange} />
   </div>
 );
 

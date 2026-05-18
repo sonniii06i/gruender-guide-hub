@@ -296,6 +296,41 @@ const DatevMapper = () => {
       let betrag = 0;
       let zweck = row;
 
+      // Robuste Zahl-Parser: erkennt DE-Format (1.234,56) UND EN-Format (1,234.56 oder 149.90).
+      // Heuristik: wenn `,` UND `.` vorhanden → letztes Zeichen ist Dezimaltrenner.
+      // Wenn nur `,` → DE-Dezimal. Wenn nur `.` → EN-Dezimal (Punkt als Dezimal beibehalten).
+      const parseMoney = (raw: string): number | null => {
+        const s = raw.trim().replace(/\s/g, "").replace(/[€$£]/g, "");
+        if (!/^-?[\d.,]+$/.test(s)) return null;
+        const hasComma = s.includes(",");
+        const hasDot = s.includes(".");
+        let normalized: string;
+        if (hasComma && hasDot) {
+          // Letztes Komma/Punkt = Dezimaltrenner, der andere ist Tausender
+          const lastComma = s.lastIndexOf(",");
+          const lastDot = s.lastIndexOf(".");
+          if (lastComma > lastDot) {
+            normalized = s.replace(/\./g, "").replace(",", ".");
+          } else {
+            normalized = s.replace(/,/g, "");
+          }
+        } else if (hasComma) {
+          // DE-Format: Komma = Dezimal, Punkt war nicht vorhanden
+          normalized = s.replace(",", ".");
+        } else {
+          // Nur Punkt(e) — wenn ≥2 Punkte ODER der einzige Punkt 3 Stellen Tausender-Position hat:
+          // gilt als Tausender (DE-Schreibweise ohne Komma). Sonst EN-Dezimal.
+          const parts = s.split(".");
+          if (parts.length > 2 || (parts.length === 2 && parts[1].length === 3 && parts[0].length <= 3)) {
+            normalized = s.replace(/\./g, "");
+          } else {
+            normalized = s;
+          }
+        }
+        const n = parseFloat(normalized);
+        return Number.isFinite(n) ? n : null;
+      };
+
       cols.forEach((c) => {
         const dMatch = c.match(/^(\d{1,2})[\.\/-](\d{1,2})[\.\/-](\d{2,4})/);
         if (dMatch && datum === new Date().toISOString().slice(0, 10)) {
@@ -303,9 +338,9 @@ const DatevMapper = () => {
           if (yyyy.length === 2) yyyy = "20" + yyyy;
           datum = `${yyyy}-${dMatch[2].padStart(2, "0")}-${dMatch[1].padStart(2, "0")}`;
         }
-        const bMatch = c.replace(/\./g, "").replace(",", ".").match(/^-?\d+\.?\d*$/);
-        if (bMatch && betrag === 0 && Math.abs(parseFloat(c.replace(/\./g, "").replace(",", "."))) > 0) {
-          betrag = parseFloat(c.replace(/\./g, "").replace(",", "."));
+        if (betrag === 0) {
+          const parsed = parseMoney(c);
+          if (parsed !== null && Math.abs(parsed) > 0) betrag = parsed;
         }
       });
 

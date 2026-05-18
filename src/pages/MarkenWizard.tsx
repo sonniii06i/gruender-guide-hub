@@ -19,10 +19,27 @@ const SCOPE_BASEFEE: Record<Scope, number> = {
   wipo: 653, // CHF, vereinfacht als € hier dargestellt
 };
 
+// DPMA: 100€ je Klasse ab 4. Klasse (3 inkl.). WIPO: ~100 CHF Designation je Klasse je Land — sehr vereinfacht.
+// EUIPO: 2. Klasse 50€, ab 3. Klasse je 150€.
 const SCOPE_EXTRA: Record<Scope, number> = {
   dpma: 100,
-  euipo: 50,
+  euipo: 50, // legacy flat — wird via extraFee() überschrieben für EUIPO-Staffel
   wipo: 100,
+};
+
+/** Korrekt gestaffelte Extra-Gebühren je Scope (Klassen-Anzahl insgesamt). */
+const extraFee = (scope: Scope, totalClasses: number): number => {
+  if (scope === "euipo") {
+    // 1 inkl., 2. Klasse 50€, ab 3. Klasse 150€ je
+    if (totalClasses <= 1) return 0;
+    if (totalClasses === 2) return 50;
+    return 50 + (totalClasses - 2) * 150;
+  }
+  if (scope === "dpma") {
+    return Math.max(0, totalClasses - 3) * 100;
+  }
+  // wipo
+  return Math.max(0, totalClasses - 1) * 100;
 };
 
 const NIZZA_CLASSES: { id: number; label: string; useCases: string[]; popular?: boolean }[] = [
@@ -75,7 +92,7 @@ const MarkenWizard = () => {
 
   const baseClasses = scope === "dpma" ? 3 : 1;
   const extraClasses = Math.max(0, selectedClasses.length - baseClasses);
-  const totalCost = SCOPE_BASEFEE[scope] + extraClasses * SCOPE_EXTRA[scope];
+  const totalCost = SCOPE_BASEFEE[scope] + extraFee(scope, selectedClasses.length);
 
   const recommendedClasses = useMemo(() => {
     const q = branchInput.toLowerCase();
@@ -183,7 +200,10 @@ const MarkenWizard = () => {
                 <div className="font-bold text-sm mb-1">{SCOPE_LABEL[s]}</div>
                 <div className="text-xs text-muted-foreground">
                   Grundgebühr: {SCOPE_BASEFEE[s]} {s === "wipo" ? "CHF" : "€"} (
-                  {s === "dpma" ? "3 Klassen inklusive" : "1 Klasse"}) · +{SCOPE_EXTRA[s]} pro weitere Klasse
+                  {s === "dpma" ? "3 Klassen inkl." : "1 Klasse inkl."}) ·{" "}
+                  {s === "euipo"
+                    ? "2. Klasse +50 €, ab 3. Klasse +150 €"
+                    : `+${SCOPE_EXTRA[s]} ${s === "wipo" ? "CHF" : "€"} pro weitere Klasse`}
                 </div>
               </button>
             ))}
@@ -307,7 +327,7 @@ const MarkenWizard = () => {
             </div>
             <div className="text-xs text-muted-foreground mt-1">
               Grundgebühr {SCOPE_BASEFEE[scope]} {scope === "wipo" ? "CHF" : "€"} ({baseClasses} Klasse{baseClasses > 1 ? "n" : ""} inkl.)
-              {extraClasses > 0 && ` + ${extraClasses} extra × ${SCOPE_EXTRA[scope]} ${scope === "wipo" ? "CHF" : "€"}`}
+              {extraClasses > 0 && ` + Extra-Klassen: ${extraFee(scope, selectedClasses.length).toLocaleString("de-DE")} ${scope === "wipo" ? "CHF" : "€"}${scope === "euipo" ? " (Staffel)" : ""}`}
             </div>
             {scope === "dpma" && (
               <div className="text-xs text-muted-foreground mt-1">

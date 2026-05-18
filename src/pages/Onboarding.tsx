@@ -99,6 +99,7 @@ const Onboarding = () => {
           setCountry(data.country ?? "DE");
           setVatId(data.vat_id ?? "");
           setTaxId(data.tax_id ?? "");
+          if ((data as any).founder_stage) setStage((data as any).founder_stage);
         }
       });
   }, [user, navigate]);
@@ -126,9 +127,10 @@ const Onboarding = () => {
       country,
       vat_id: vatId || null,
       tax_id: taxId || null,
+      founder_stage: stage || null,
       onboarding_completed: true,
       onboarding_step: 6,
-    }).eq("id", user.id);
+    } as any).eq("id", user.id);
     setSaving(false);
     if (error) { toast.error(error.message); return; }
     await refresh();

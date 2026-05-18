@@ -80,13 +80,17 @@ const MarkenMonitor = () => {
       const sampleHits = (data?.trademarks?.hits ?? []).slice(0, 3).map((h: any) => ({ name: h.name, office: h.office }));
       const prev = entry.lastResult?.totalHits ?? null;
       const newSince = prev !== null && totalHits !== null && totalHits > prev ? totalHits - prev : 0;
-      const updated: WatchEntry = {
-        ...entry,
+      const patch: Partial<WatchEntry> = {
         lastChecked: new Date().toISOString(),
         lastResult: { totalHits, sampleHits },
         newSinceLast: newSince,
       };
-      persist(list.map((e) => (e.id === entry.id ? updated : e)));
+      // Funktionaler Setter, damit recheckAll sequentielle Updates nicht überschreibt.
+      setList((prevList) => {
+        const next = prevList.map((e) => (e.id === entry.id ? { ...e, ...patch } : e));
+        saveList(next);
+        return next;
+      });
     } catch (e: any) {
       setError(`${entry.name}: ${e?.message || "Check fehlgeschlagen"}`);
     } finally {
@@ -95,8 +99,9 @@ const MarkenMonitor = () => {
   };
 
   const recheckAll = async () => {
-    for (const entry of list) {
-      // sequenziell um TMView nicht zu hammern
+    // Snapshot fixieren — list kann sich während Loop ändern.
+    const snapshot = list;
+    for (const entry of snapshot) {
       // eslint-disable-next-line no-await-in-loop
       await recheck(entry);
     }

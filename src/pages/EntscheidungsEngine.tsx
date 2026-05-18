@@ -98,8 +98,10 @@ function estSatzEffektiv(zvE: number): number {
 
 function calculateAll(s: Setup): StructureCalc[] {
   const profit = s.jahresGewinn ?? 0;
-  const reinvest = (s.reinvestPct ?? 50) / 100;
-  const liquid = s.liquiditaetsbedarfPrivat ?? profit * (1 - reinvest);
+  // Reinvest-Quote leitet sich aus Liquiditätsbedarf ab (Schritt 2 im Wizard).
+  // Fallback: 50% wenn liquiditaetsbedarfPrivat nicht gesetzt.
+  const liquid = s.liquiditaetsbedarfPrivat ?? profit * 0.5;
+  const reinvest = profit > 0 ? Math.max(0, Math.min(1, 1 - liquid / profit)) : 0.5;
   const eS = s.estSatz ?? estSatzEffektiv(profit);
 
   const calcs: StructureCalc[] = [];
@@ -425,12 +427,17 @@ function calculateAll(s: Setup): StructureCalc[] {
   // 9) Estland OÜ
   // ==========================================================
   if (s.international === "eu" || s.international === "global") {
-    // 0% thesauriert, 22% bei Ausschüttung
+    // 0% thesauriert, 22% Distribution Tax bei Ausschüttung in EE.
+    // Bei DE-Wohnsitz: zusätzlich AbgSt 26,375% auf Dividende; EE-Distribution-Tax wird in DE NICHT
+    // als KSt anrechenbar gesehen (Praxis: DBA DE-EE behandelt die EE-Distribution-Tax als Profits-Tax
+    // der Gesellschaft, nicht der Anteilseigner — keine Anrechnung). Konservative Rechnung.
     const inOu = profit * (1 - reinvest);
-    const steuerOu = inOu * 0.22; // bei Ausschüttung
-    const ausgeschuettetPrivat = Math.min(liquid, inOu - steuerOu);
-    const totalSteuer = steuerOu;
-    const privatNetto = ausgeschuettetPrivat;
+    const eeDistTax = inOu * 0.22;
+    const ausgeschuettetBruttoNachEE = inOu - eeDistTax;
+    const abgStTeil = Math.min(liquid, ausgeschuettetBruttoNachEE);
+    const deAbgSt = abgStTeil * ABG_ST;
+    const totalSteuer = eeDistTax + deAbgSt;
+    const privatNetto = abgStTeil - deAbgSt;
     const fit = profit < 200000 && reinvest > 0.5 && !s.vcPlanned ? 75 : 30;
     calcs.push({
       slug: "estland-ou",
@@ -443,12 +450,12 @@ function calculateAll(s: Setup): StructureCalc[] {
       steuer5Jahre: totalSteuer * 5,
       why: [
         "**0 % Steuer auf reinvestierte Gewinne** (einzigartig in EU)",
-        "22 % nur bei Ausschüttung an Privatperson",
+        "22 % EE-Distribution-Tax nur bei Ausschüttung",
         "Setup in 5 Tagen via e-Residency, ~600 € all-in",
       ],
       caveats: [
         "**§AStG-Hinzurechnung wahrscheinlich** bei DE-Wohnsitz + passiven Einkünften",
-        "Bei DE-Wohnsitz: Privat-Auszahlung zusätzlich AbgSt + EE-Vorbelastung anrechenbar",
+        "Bei DE-Wohnsitz: zusätzlich 26,375 % AbgSt auf Privat-Auszahlung (EE-Distribution-Tax wird NICHT angerechnet → effektiv ~42 % auf ausgeschütteten Anteil)",
         "Funktioniert sauber meist erst nach Wegzug aus DE",
       ],
       setupCost: 600,

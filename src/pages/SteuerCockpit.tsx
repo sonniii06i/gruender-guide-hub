@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Calendar, Calculator, PiggyBank, Info, ShoppingCart } from "lucide-react";
+import { Calendar, Calculator, PiggyBank, Info, ShoppingCart, AlertTriangle } from "lucide-react";
+import { progressionESt, kstGewstRate, grenzSteuerSatz, SOLZ_RATE } from "@/lib/germanTax";
 
 type LegalForm = "ein" | "ug" | "gmbh";
 type UstMode = "monatlich" | "quartal" | "keine";
@@ -201,13 +202,19 @@ const SteuerCockpit = () => {
     [legalForm, ustMode, dauerfrist, oss, zm, mitarbeiter],
   );
 
-  // IAB — clamp auf [0, ∞) gegen negative Eingaben + cap bei 200k
+  // IAB §7g — mit Voraussetzungs-Check
   const [iabBasis, setIabBasis] = useState(80000);
+  const [iabGewinnVor, setIabGewinnVor] = useState(150000);
+  const [iabBilanzsumme, setIabBilanzsumme] = useState(180000);
+  const [hebesatz, setHebesatz] = useState(400);
   const iabBasisClamped = Math.max(0, iabBasis);
-  const iab = Math.min(iabBasisClamped * 0.5, 200000);
-  const iabSteuer = iab * (legalForm === "gmbh" || legalForm === "ug" ? 0.30 : 0.42);
+  const iabKapGes = legalForm === "gmbh" || legalForm === "ug";
+  const iabEligible = iabKapGes ? iabBilanzsumme <= 235000 : iabGewinnVor <= 200000;
+  const iab = iabEligible ? Math.min(iabBasisClamped * 0.5, 200000) : 0;
+  const iabKstGewSt = kstGewstRate(hebesatz);
+  const iabSteuer = iab * (iabKapGes ? iabKstGewSt : (grenzSteuerSatz(iabGewinnVor - iab / 2) * (1 + SOLZ_RATE)));
 
-  // Quartal: Brutto/Netto-Logik
+  // Quartal: Brutto/Netto + echte Steuerberechnung
   const [eingabeBrutto, setEingabeBrutto] = useState(false);
   const [umsatz, setUmsatz] = useState(60000);
   const [kosten, setKosten] = useState(28000);
@@ -216,8 +223,21 @@ const SteuerCockpit = () => {
   const kostenNetto = istKU || !eingabeBrutto ? kosten : Math.round(kosten / 1.19);
   const ustVerbindlichkeit = istKU || !eingabeBrutto ? 0 : Math.round((umsatz - kosten) - (umsatzNetto - kostenNetto));
   const gewinn = Math.max(0, umsatzNetto - kostenNetto);
-  const steuersatz = legalForm === "gmbh" || legalForm === "ug" ? 0.30 : 0.35;
-  const ruecklage = gewinn * steuersatz;
+  // Echte Steuerlast statt Pauschal-30%/35%
+  const gewinnHochgerechnet = gewinn * 4; // Q→Jahr-Hochrechnung als Schätzung
+  const ruecklage = (() => {
+    if (iabKapGes) {
+      return gewinn * iabKstGewSt; // KSt+GewSt+SolZ effektiv
+    }
+    const estJahr = progressionESt(gewinnHochgerechnet) * (1 + SOLZ_RATE);
+    const gewStMessbetrag = Math.max(0, gewinnHochgerechnet - 24500) * 0.035;
+    const gewStJahr = gewStMessbetrag * (hebesatz / 100);
+    // §35 EStG-Anrechnung bis Faktor 4,0
+    const anrechnung = Math.min(gewStJahr, gewStMessbetrag * 4.0);
+    const totalJahr = estJahr + Math.max(0, gewStJahr - anrechnung);
+    return totalJahr / 4; // zurück auf Quartal
+  })();
+  const steuersatz = gewinn > 0 ? ruecklage / gewinn : 0;
 
   return (
     <CockpitShell
@@ -348,11 +368,42 @@ const SteuerCockpit = () => {
           </p>
           <Label className="text-xs uppercase tracking-wider text-muted-foreground">Geplante Investition in 3 Jahren (€)</Label>
           <Input type="number" value={iabBasis} onChange={(e) => setIabBasis(Number(e.target.value) || 0)} className="mt-2" />
+
+          <div className="grid grid-cols-2 gap-2 mt-3">
+            {iabKapGes ? (
+              <div>
+                <Label className="text-[10px] uppercase text-muted-foreground">Bilanzsumme (€)</Label>
+                <Input type="number" value={iabBilanzsumme} onChange={(e) => setIabBilanzsumme(Number(e.target.value) || 0)} className="h-8 text-sm" />
+              </div>
+            ) : (
+              <div>
+                <Label className="text-[10px] uppercase text-muted-foreground">Gewinn vor IAB (€/Jahr)</Label>
+                <Input type="number" value={iabGewinnVor} onChange={(e) => setIabGewinnVor(Number(e.target.value) || 0)} className="h-8 text-sm" />
+              </div>
+            )}
+            <div>
+              <Label className="text-[10px] uppercase text-muted-foreground">GewSt-Hebesatz (%)</Label>
+              <Input type="number" value={hebesatz} onChange={(e) => setHebesatz(Math.max(200, Number(e.target.value) || 400))} className="h-8 text-sm" />
+            </div>
+          </div>
+
+          {!iabEligible && (
+            <div className="mt-3 rounded-lg border border-amber-500/40 bg-amber-500/10 p-2 text-xs text-amber-900 flex items-start gap-2">
+              <AlertTriangle className="h-3.5 w-3.5 shrink-0 mt-0.5" />
+              <div>
+                <strong>IAB nicht möglich:</strong>{" "}
+                {iabKapGes
+                  ? `Bilanzsumme ${iabBilanzsumme.toLocaleString("de-DE")} € > 235.000 €`
+                  : `Gewinn ${iabGewinnVor.toLocaleString("de-DE")} € > 200.000 €`}
+              </div>
+            </div>
+          )}
+
           <div className="mt-5 space-y-2 text-sm">
             <Row label="IAB-Vorab-Abzug (50 %)" value={`${iab.toLocaleString("de-DE")} €`} />
             <Row label="Steuer-Ersparnis heute" value={`${Math.round(iabSteuer).toLocaleString("de-DE")} €`} highlight />
             <p className="text-[11px] text-muted-foreground pt-2">
-              Max. 200.000 € pro Betrieb. Voraussetzungen: Gewinn &lt; 200k €/Jahr (für Einzel/PersGes) oder Bilanzsumme &lt; 235k € (KapGes). Wird die Investition nicht binnen 3 Jahren getätigt: rückwirkend auflösen + Verzinsung.
+              Max. 200.000 € pro Betrieb. Voraussetzungen 2026: Gewinn &lt; 200k €/Jahr (Einzel/PersGes) oder Bilanzsumme &lt; 235k € (KapGes). Bei Nicht-Investition binnen 3 Jahren: rückwirkende Auflösung + 6 % Verzinsung.
             </p>
           </div>
         </div>

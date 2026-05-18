@@ -154,6 +154,19 @@ const CeRohsGenerator = () => {
   const [includeRohs, setIncludeRohs] = useState(true);
   const [selectedDirectives, setSelectedDirectives] = useState<string[]>([]);
 
+  // GPSR (VO 2023/988, gilt seit 13.12.2024): Responsible Person in der EU für non-EU Hersteller (Art. 16)
+  const [includeGPSR, setIncludeGPSR] = useState(true);
+  const [gpsrRpName, setGpsrRpName] = useState("");
+  const [gpsrRpAddress, setGpsrRpAddress] = useState("");
+  const [gpsrRpEmail, setGpsrRpEmail] = useState("");
+  const [gpsrRpPhone, setGpsrRpPhone] = useState("");
+  // Battery Regulation (VO 2023/1542): Akku-Statement + CFP wenn relevant
+  const [includeBattery, setIncludeBattery] = useState(false);
+  const [batteryType, setBatteryType] = useState<"portable" | "industrial-le2kwh" | "industrial-gt2kwh" | "ev" | "lmt">("portable");
+  const [batteryChemistry, setBatteryChemistry] = useState("Li-Ion");
+  const [batteryCapacityWh, setBatteryCapacityWh] = useState(0);
+  const [batteryCfpKgCo2PerKwh, setBatteryCfpKgCo2PerKwh] = useState<number | "">("");
+
   const cat = DIRECTIVES[category];
 
   // Auto-select default-relevant directives
@@ -261,12 +274,59 @@ const CeRohsGenerator = () => {
       y += 4;
     }
 
+    // GPSR-Block — Verantwortliche Wirtschaftsakteur in der Union (Art. 16 VO 2023/988)
+    if (includeGPSR) {
+      if (y > 240) { doc.addPage(); y = 20; }
+      writeBlock("7. GPSR — Verantwortlicher Wirtschaftsakteur in der EU / Responsible Economic Operator", { bold: true, size: 11, spaceAfter: 2 });
+      writeBlock(
+        "Verordnung (EU) 2023/988 über die allgemeine Produktsicherheit (GPSR, anwendbar seit 13.12.2024). Für Produkte, die in der EU in Verkehr gebracht werden, muss ein in der EU ansässiger Wirtschaftsakteur (Hersteller, Importeur, Bevollmächtigter oder Fulfilment-Dienstleister) benannt sein. Name + Adresse müssen auf Produkt, Verpackung oder Beipackzettel sichtbar sein.",
+        { size: 9, spaceAfter: 4 },
+      );
+      writeBlock(`Name: ${gpsrRpName || "[Name / Firmenname]"}`, { size: 10 });
+      writeBlock(`Anschrift: ${gpsrRpAddress || "[Vollständige Adresse in der EU]"}`, { size: 10 });
+      if (gpsrRpEmail) writeBlock(`E-Mail: ${gpsrRpEmail}`, { size: 10 });
+      if (gpsrRpPhone) writeBlock(`Telefon: ${gpsrRpPhone}`, { size: 10 });
+      y += 4;
+    }
+
+    // Battery-Regulation-Block (VO 2023/1542)
+    if (includeBattery) {
+      if (y > 240) { doc.addPage(); y = 20; }
+      writeBlock("8. EU-Batterieverordnung 2023/1542 / EU Battery Regulation", { bold: true, size: 11, spaceAfter: 2 });
+      writeBlock(
+        "Das Produkt enthält Batterien/Akkus gemäß Verordnung (EU) 2023/1542 (anwendbar seit 18.8.2024). Konformität mit den dort genannten Anforderungen wird hiermit erklärt.",
+        { size: 9, spaceAfter: 4 },
+      );
+      const batteryTypeLabel: Record<typeof batteryType, string> = {
+        portable: "Gerätebatterie (portable) — Art. 6 (Konsumelektronik)",
+        "industrial-le2kwh": "Industriebatterie ≤ 2 kWh",
+        "industrial-gt2kwh": "Industriebatterie > 2 kWh — CFP-Pflicht seit 18.2.2025 (Erklärung) / 18.8.2025 (Klasse)",
+        ev: "EV-Batterie / Traktionsbatterie — CFP-Pflicht seit 18.2.2025",
+        lmt: "LMT-Batterie (E-Bikes, E-Scooter)",
+      };
+      writeBlock(`Batterie-Typ: ${batteryTypeLabel[batteryType]}`, { size: 10 });
+      writeBlock(`Chemie: ${batteryChemistry || "—"}`, { size: 10 });
+      if (batteryCapacityWh > 0) writeBlock(`Nennkapazität: ${batteryCapacityWh} Wh`, { size: 10 });
+      writeBlock("Schadstoffe (Art. 6): Hg < 0,0005 %, Cd < 0,002 %, Pb < 0,01 % (Massenanteil)", { size: 9 });
+      const cfpRelevant = batteryType === "ev" || batteryType === "industrial-gt2kwh" || batteryType === "lmt";
+      if (cfpRelevant) {
+        if (batteryCfpKgCo2PerKwh !== "" && Number(batteryCfpKgCo2PerKwh) > 0) {
+          writeBlock(`Carbon Footprint (CFP-Erklärung Art. 7): ${batteryCfpKgCo2PerKwh} kg CO₂-eq / kWh über Lebenszyklus`, { size: 10, bold: true });
+        } else {
+          writeBlock("Carbon Footprint (CFP-Erklärung Art. 7): [Wert ergänzen — PEFCR-Methode pflichtig]", { size: 9 });
+        }
+      }
+      writeBlock("Kennzeichnung: durchgestrichene Mülltonne + chemisches Symbol (Pb/Cd/Hg) bei Bedarf · QR-Code für Digital Battery Passport ab 18.2.2027 Pflicht", { size: 9 });
+      writeBlock("EPR / Rücknahme: Registrierung bei BattDG-Stiftung EAR (DE) bzw. nationalem Rücknahmesystem", { size: 9 });
+      y += 4;
+    }
+
     // Unterschrift
     if (y > 240) {
       doc.addPage();
       y = 20;
     }
-    writeBlock("7. Unterzeichner / Signed for and on behalf of", { bold: true, size: 11, spaceAfter: 2 });
+    writeBlock("9. Unterzeichner / Signed for and on behalf of", { bold: true, size: 11, spaceAfter: 2 });
     writeBlock(`Ort, Datum: ${signerCity || "—"}, ${new Date(issueDate).toLocaleDateString("de-DE")}`, { spaceAfter: 12 });
     writeBlock("________________________________________");
     writeBlock(signerName || "[Name Unterzeichner]", { bold: true });
@@ -469,6 +529,103 @@ const CeRohsGenerator = () => {
             </div>
           </button>
         </div>
+      </div>
+
+      {/* GPSR — Verantwortlicher Wirtschaftsakteur */}
+      <div className="rounded-2xl border-2 border-amber-500/40 bg-amber-500/5 p-5 mb-6">
+        <button
+          onClick={() => setIncludeGPSR(!includeGPSR)}
+          className="w-full text-left flex items-center gap-3 mb-3"
+        >
+          <div className={`h-5 w-5 rounded border ${includeGPSR ? "bg-amber-500 border-amber-500" : "border-border"} flex items-center justify-center shrink-0`}>
+            {includeGPSR && <CheckCircle2 className="h-3 w-3 text-white" />}
+          </div>
+          <div className="flex-1">
+            <h3 className="font-bold text-sm">GPSR — Verantwortlicher Wirtschaftsakteur in der EU ★ Pflicht seit 13.12.2024</h3>
+            <p className="text-[11px] text-muted-foreground">VO 2023/988 Art. 16: Bei non-EU Herstellung muss ein EU-Akteur (Importeur, Bevollmächtigter, Fulfilment) benannt sein. Daten auch auf Verpackung/Online-Shop sichtbar.</p>
+          </div>
+        </button>
+        {includeGPSR && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
+            <div>
+              <Label className="text-xs uppercase tracking-wider text-muted-foreground">Name / Firmenname</Label>
+              <Input value={gpsrRpName} onChange={(e) => setGpsrRpName(e.target.value)} placeholder="z.B. Importeur GmbH" className="mt-1" />
+            </div>
+            <div>
+              <Label className="text-xs uppercase tracking-wider text-muted-foreground">Anschrift (EU)</Label>
+              <Input value={gpsrRpAddress} onChange={(e) => setGpsrRpAddress(e.target.value)} placeholder="Musterstr. 1, 12345 Berlin, DE" className="mt-1" />
+            </div>
+            <div>
+              <Label className="text-xs uppercase tracking-wider text-muted-foreground">E-Mail</Label>
+              <Input value={gpsrRpEmail} onChange={(e) => setGpsrRpEmail(e.target.value)} placeholder="compliance@firma.de" className="mt-1" />
+            </div>
+            <div>
+              <Label className="text-xs uppercase tracking-wider text-muted-foreground">Telefon (optional)</Label>
+              <Input value={gpsrRpPhone} onChange={(e) => setGpsrRpPhone(e.target.value)} placeholder="+49 ..." className="mt-1" />
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* EU Battery Regulation 2023/1542 */}
+      <div className="rounded-2xl border-2 border-purple-500/40 bg-purple-500/5 p-5 mb-6">
+        <button
+          onClick={() => setIncludeBattery(!includeBattery)}
+          className="w-full text-left flex items-center gap-3 mb-3"
+        >
+          <div className={`h-5 w-5 rounded border ${includeBattery ? "bg-purple-500 border-purple-500" : "border-border"} flex items-center justify-center shrink-0`}>
+            {includeBattery && <CheckCircle2 className="h-3 w-3 text-white" />}
+          </div>
+          <div className="flex-1">
+            <h3 className="font-bold text-sm">EU-Batterieverordnung 2023/1542 — Konformitäts-Block</h3>
+            <p className="text-[11px] text-muted-foreground">Pflicht für alle Produkte mit Akku/Batterie. CFP-Erklärung seit 18.2.2025 für EV/Industrial &gt;2kWh/LMT. Digital Battery Passport ab 18.2.2027.</p>
+          </div>
+        </button>
+        {includeBattery && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
+            <div>
+              <Label className="text-xs uppercase tracking-wider text-muted-foreground">Batterie-Typ</Label>
+              <select
+                value={batteryType}
+                onChange={(e) => setBatteryType(e.target.value as typeof batteryType)}
+                className="mt-1 h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
+              >
+                <option value="portable">Geräte-/Konsumentenbatterie (portable)</option>
+                <option value="industrial-le2kwh">Industriebatterie ≤ 2 kWh</option>
+                <option value="industrial-gt2kwh">Industriebatterie &gt; 2 kWh (CFP-pflichtig)</option>
+                <option value="ev">EV-Batterie / Traktion (CFP-pflichtig)</option>
+                <option value="lmt">LMT — E-Bike, E-Scooter (CFP-pflichtig)</option>
+              </select>
+            </div>
+            <div>
+              <Label className="text-xs uppercase tracking-wider text-muted-foreground">Chemie</Label>
+              <Input value={batteryChemistry} onChange={(e) => setBatteryChemistry(e.target.value)} placeholder="z.B. Li-Ion NMC, LiFePO4, NiMH" className="mt-1" />
+            </div>
+            <div>
+              <Label className="text-xs uppercase tracking-wider text-muted-foreground">Nennkapazität (Wh)</Label>
+              <Input
+                type="number"
+                value={batteryCapacityWh || ""}
+                onChange={(e) => setBatteryCapacityWh(Math.max(0, Number(e.target.value) || 0))}
+                placeholder="z.B. 50"
+                className="mt-1"
+              />
+            </div>
+            <div>
+              <Label className="text-xs uppercase tracking-wider text-muted-foreground">
+                CFP (kg CO₂-eq/kWh) {batteryType === "ev" || batteryType === "industrial-gt2kwh" || batteryType === "lmt" ? "★ pflichtig" : "optional"}
+              </Label>
+              <Input
+                type="number"
+                value={batteryCfpKgCo2PerKwh}
+                onChange={(e) => setBatteryCfpKgCo2PerKwh(e.target.value === "" ? "" : Math.max(0, Number(e.target.value) || 0))}
+                placeholder="PEFCR-Methode pflichtig"
+                className="mt-1"
+              />
+              <div className="text-[10px] text-muted-foreground mt-1">Aus PEFCR-Berechnung (siehe Annex II VO 2023/1542)</div>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Standards */}

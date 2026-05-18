@@ -573,9 +573,10 @@ const BrandCheck = () => {
             <div className="text-sm leading-relaxed space-y-2">
               {(() => {
                 const ss = result.trademarks.sourceStatus;
+                const totalSources = ss ? Object.keys(ss).length : 0;
                 const failedSources = ss ? Object.entries(ss).filter(([, v]) => v === "fail").map(([k]) => k.toUpperCase()) : [];
-                const allMarkenSourcesFailed = failedSources.length === 3;
-                const partialMarkenCheck = failedSources.length > 0 && failedSources.length < 3;
+                const allMarkenSourcesFailed = totalSources > 0 && failedSources.length === totalSources;
+                const partialMarkenCheck = failedSources.length > 0 && failedSources.length < totalSources;
                 const hasMarkenHits = (tmCount ?? 0) > 0;
                 const allDomainsTaken = takenCount === result.domains.length;
                 const allDomainsFree = availableCount === result.domains.length;

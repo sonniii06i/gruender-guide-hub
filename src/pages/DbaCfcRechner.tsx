@@ -364,10 +364,13 @@ const DbaCfcRechner = () => {
       citNote = country.progressiveLowLabel ?? "Progressive-Low";
     }
 
-    // USA: Federal + State
+    // USA: Federal + State (State Tax ist auf Federal-Ebene als BA abzugsfähig)
+    // Combined effective = federal + state × (1 - federal)
     if (land === "usa") {
-      effCit = country.cit + usStateRate;
-      citNote = `Federal 21% + State ${usStateRate}%`;
+      const fed = country.cit / 100;
+      const state = usStateRate / 100;
+      effCit = (fed + state * (1 - fed)) * 100;
+      citNote = `Federal ${country.cit}% + State ${usStateRate}% (State auf Fed-Ebene BA-abzugsfähig)`;
     }
 
     const auslandsSteuer = (auslandsgewinn * effCit) / 100;
@@ -469,9 +472,12 @@ const DbaCfcRechner = () => {
       astgBezeichnung = `§AStG-Hinzurechnung greift: passive Einkünfte + Niedrigsteuer (${effCit}% < ${ASTG_NIEDRIGSTEUER_SCHWELLE}%) + Beherrschung >50%. DE-Soll: ${sollDeSatz}% (${hatHoldingDe ? "GmbH" : "Privat ESt"}) minus ${formatEur(auslandsSteuer)} Anrechnung.`;
     }
 
-    const totalSteuer = auslandsSteuer + whtAbsolute + deSteuer + astgZusatz;
+    // §AStG-Hinzurechnung ist Alternativ-Besteuerung (vorgelagerte HZB) — wenn sie greift,
+    // wird die spätere Ausschüttung gem. §3 Nr. 41 EStG idR steuerfrei. Wir nehmen den Max-Wert.
+    const deBelastung = astgGreift ? Math.max(deSteuer, astgZusatz) : deSteuer;
+    const totalSteuer = auslandsSteuer + whtAbsolute + deBelastung;
     const finalNetto = auslandsgewinn - totalSteuer;
-    const effektivPct = (totalSteuer / auslandsgewinn) * 100;
+    const effektivPct = auslandsgewinn > 0 ? (totalSteuer / auslandsgewinn) * 100 : 0;
 
     return {
       effCit,

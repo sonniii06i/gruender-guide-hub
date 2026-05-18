@@ -24,6 +24,8 @@ type Reise = {
   fahrtKostenBelegt: number;
   /** Sonstige (Taxi, Mietwagen etc.). */
   sonstige: number;
+  /** Bei Tagesreise (1 Tag): Abwesenheit > 8 h erforderlich für 14€-Pauschale (§9 Abs. 4a EStG) */
+  tagesreiseUeber8h?: boolean;
 };
 
 type Bewirtung = {
@@ -158,16 +160,26 @@ const ReisekostenLogger = () => {
     );
 
     let verpflegung = 0;
-    if (r.istAusland && VERPFLEGUNG_AUSLAND[r.verpflegungPauschalenLand]) {
+    const istTagesreise = tage === 1;
+    if (istTagesreise && !r.tagesreiseUeber8h) {
+      // §9 Abs. 4a EStG: Tagesreise <8h Abwesenheit → keine Verpflegungspauschale
+      verpflegung = 0;
+    } else if (r.istAusland && VERPFLEGUNG_AUSLAND[r.verpflegungPauschalenLand]) {
       const land = VERPFLEGUNG_AUSLAND[r.verpflegungPauschalenLand];
-      // Vereinfacht: erster + letzter Tag = halber Tag, Rest = ganzer Tag
-      const ganzeTage = Math.max(0, tage - 2);
-      const halbTage = Math.min(2, tage); // max 2 (anreise + abreise)
-      verpflegung = ganzeTage * land.ganzerTag + halbTage * land.halberTag;
+      // Tagesreise > 8h: 14€ (halber Satz). Mehrtages-Reise: An-/Abreise je halber, dazwischen ganzer.
+      if (istTagesreise) {
+        verpflegung = land.halberTag;
+      } else {
+        const ganzeTage = Math.max(0, tage - 2);
+        verpflegung = ganzeTage * land.ganzerTag + 2 * land.halberTag;
+      }
     } else {
-      const ganzeTage = Math.max(0, tage - 2);
-      const halbTage = Math.min(2, tage);
-      verpflegung = ganzeTage * VERPFLEGUNG_DE.ganzerTag + halbTage * VERPFLEGUNG_DE.halberTag;
+      if (istTagesreise) {
+        verpflegung = VERPFLEGUNG_DE.halberTag;
+      } else {
+        const ganzeTage = Math.max(0, tage - 2);
+        verpflegung = ganzeTage * VERPFLEGUNG_DE.ganzerTag + 2 * VERPFLEGUNG_DE.halberTag;
+      }
     }
 
     // Fahrtkosten: 0,30 €/km bei Auto, sonst belegt

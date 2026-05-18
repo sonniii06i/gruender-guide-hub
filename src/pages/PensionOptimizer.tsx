@@ -13,6 +13,10 @@ const PensionOptimizer = () => {
   const [estSatz, setEstSatz] = useState(0.42);
   const [monatlichSparen, setMonatlichSparen] = useState(500);
   const [annualReturn, setAnnualReturn] = useState(0.06);
+  // Beherrschender GF? → keine SV-Pflicht auf bAV-Beiträge, also keine SV-Ersparnis
+  const [istBeherrschenderGF, setIstBeherrschenderGF] = useState(false);
+  // Riester: Anzahl Kinder (kindzulage 300€ je Kind ab 2008-Geburtsjahr)
+  const [riesterKinder, setRiesterKinder] = useState(0);
 
   const jahre = renteAlter - alter;
   const jaehrlichSparen = monatlichSparen * 12;
@@ -42,26 +46,34 @@ const PensionOptimizer = () => {
     const ruerup_steuerErsparnisGesamt = ruerup_steuerErsparnisProJahr * yearsToRetirement;
     const ruerup_finalEffekt = ruerup_netto + ruerup_steuerErsparnisGesamt;
 
-    // bAV §3 Nr. 63 EStG: 8 % BBG-RV-West steuerfrei (4 % davon zusätzlich SV-frei).
+    // bAV §3 Nr. 63 EStG: 8 % BBG-RV-West steuerfrei, davon 4 % zusätzlich SV-frei.
+    // SV-Ersparnis nur bei AN-pflichtversicherten — beherrschende GF haben i.d.R. keine SV-Pflicht.
     const bav_max_steuerfrei = BBG_RV_WEST_JAHR * BAV_STEUERFREI_QUOTE;
     const bav_sparen = Math.min(jaehrlichSparen, bav_max_steuerfrei);
-    const bav_steuerErsparnisProJahr = bav_sparen * (estSatz + 0.20); // +20% SV-Ersparnis (50% Arbeitnehmer + 50% Arbeitgeber)
-    const bav_end = annuity_fv(jaehrlichSparen, annualReturn - 0.01, yearsToRetirement); // -1% Versicherungs-Kosten
-    // Auszahlung als Rente oder einmalig — voll steuerpflichtig + KV-Pflicht
+    const bav_max_svfrei = BBG_RV_WEST_JAHR * 0.04;
+    const bav_sv_anteil_an = istBeherrschenderGF ? 0 : 0.10; // AN-Anteil SV ≈ 10 % (KV+RV+AV+PV / 2)
+    const bav_sv_ersparnis_pro_jahr = Math.min(bav_sparen, bav_max_svfrei) * bav_sv_anteil_an;
+    const bav_steuerErsparnisProJahr = bav_sparen * estSatz + bav_sv_ersparnis_pro_jahr;
+    const bav_end = annuity_fv(jaehrlichSparen, annualReturn - 0.01, yearsToRetirement);
+    // Auszahlung als Rente: voll steuerpflichtig + KV-Pflicht (~7,3 % KV-Beitrag auf Versorgungsbezüge)
     const bav_renteJaehrlich = bav_end / 20;
-    const bav_steuerImRentenalter = bav_renteJaehrlich * 0.30 * 20; // 25% ESt + ~5% KV
-    const bav_netto = bav_end - bav_steuerImRentenalter;
+    const bav_steuerImRentenalter = bav_renteJaehrlich * 0.25 * 20; // ESt im Rentenalter
+    const bav_kvImRentenalter = bav_renteJaehrlich * 0.073 * 20;
+    const bav_netto = bav_end - bav_steuerImRentenalter - bav_kvImRentenalter;
     const bav_steuerErsparnisGesamt = bav_steuerErsparnisProJahr * yearsToRetirement;
     const bav_finalEffekt = bav_netto + bav_steuerErsparnisGesamt;
 
-    // Riester (für Angestellte): 175 € Grundzulage + Kinderzulagen + ESt-Sonderausgabe bis 2.100 €/Jahr
-    // Vereinfacht: bis 2.100 € absetzbar, dann nachgelagerte Besteuerung
+    // Riester: 175 € Grundzulage + 300 € je Kind. Günstigerprüfung: max(Sonderausgaben-Steuerersparnis, Zulagen).
     const riester_max = RIESTER_MAX;
     const riester_sparen = Math.min(jaehrlichSparen, riester_max);
-    const riester_zulage = RIESTER_GRUNDZULAGE; // Grundzulage
-    const riester_steuerErsparnisProJahr = (riester_sparen + riester_zulage) * estSatz - riester_zulage; // Günstigerprüfung
-    const riester_end = annuity_fv(riester_sparen + riester_zulage, annualReturn - 0.015, yearsToRetirement);
-    const riester_steuerErsparnisGesamt = Math.max(0, riester_steuerErsparnisProJahr * yearsToRetirement);
+    const riester_zulagen_gesamt = RIESTER_GRUNDZULAGE + Math.max(0, riesterKinder) * 300;
+    // Eigener Mindesteigenbeitrag: 4 % brutto-Vorjahres (vereinfacht durch Sparbetrag)
+    // Steuerersparnis = Sonderausgaben-Effekt (riester_sparen × estSatz). Günstigerprüfung:
+    // wenn Steuerersparnis > Zulage, bekommt User Differenz extra. Wenn Zulage > Steuerersparnis, nichts extra.
+    const riester_steuerersparnis_brutto = riester_sparen * estSatz;
+    const riester_steuerErsparnisProJahr = Math.max(0, riester_steuerersparnis_brutto - riester_zulagen_gesamt);
+    const riester_end = annuity_fv(riester_sparen + riester_zulagen_gesamt, annualReturn - 0.015, yearsToRetirement);
+    const riester_steuerErsparnisGesamt = riester_steuerErsparnisProJahr * yearsToRetirement;
     const riester_renteJaehrlich = riester_end / 20;
     const riester_steuerImRentenalter = riester_renteJaehrlich * 0.25 * 20;
     const riester_netto = riester_end - riester_steuerImRentenalter;
@@ -93,7 +105,7 @@ const PensionOptimizer = () => {
         finalEffekt: riester_finalEffekt,
       },
     };
-  }, [jahre, jaehrlichSparen, estSatz, annualReturn]);
+  }, [jahre, jaehrlichSparen, estSatz, annualReturn, istBeherrschenderGF, riesterKinder]);
 
   const sortedOptions = useMemo(() => {
     return [
@@ -246,6 +258,26 @@ const PensionOptimizer = () => {
               <option value={0.08}>8 % (aggressiv)</option>
               <option value={0.10}>10 % (sehr aggressiv)</option>
             </select>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
+          <label className="flex items-center gap-2 text-xs cursor-pointer rounded-lg border border-border p-2">
+            <input
+              type="checkbox"
+              checked={istBeherrschenderGF}
+              onChange={(e) => setIstBeherrschenderGF(e.target.checked)}
+              className="h-4 w-4"
+            />
+            <span>Ich bin <strong>beherrschender GF</strong> (i.d.R. SV-frei → keine bAV-SV-Ersparnis)</span>
+          </label>
+          <div>
+            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Riester-Kinder (Zulage je 300 €)</Label>
+            <Input
+              type="number"
+              value={riesterKinder}
+              onChange={(e) => setRiesterKinder(Math.max(0, Number(e.target.value) || 0))}
+              className="mt-1 h-9 text-sm"
+            />
           </div>
         </div>
         <div className="rounded-xl bg-secondary/40 p-3 mt-3 text-xs">

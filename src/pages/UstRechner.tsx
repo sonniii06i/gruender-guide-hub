@@ -197,18 +197,32 @@ const BruttoNetto = () => {
 const Kleinunternehmer = () => {
   const [umsatzVorjahr, setUmsatzVorjahr] = useState(20000);
   const [umsatzAktuell, setUmsatzAktuell] = useState(40000);
+  const [istExistenzgruender, setIstExistenzgruender] = useState(false);
+  const [gruendungsMonat, setGruendungsMonat] = useState(7); // Juli
 
   const result = useMemo(() => {
+    // Existenzgründer (kein Vorjahr): Vorjahres-Umsatz spielt keine Rolle, nur die 25k-Anteils-Schwelle
+    // im Gründungsjahr wird relevant (zeitanteilig auf 12 Monate hochgerechnet).
+    if (istExistenzgruender) {
+      const verbleibendeMonate = 12 - Math.max(0, Math.min(11, gruendungsMonat - 1));
+      const anteiligeSchwelle = (KU_VORJAHR_NEU / 12) * verbleibendeMonate; // §19 (3) UStG
+      const aktuellOkAnteilig = umsatzAktuell <= anteiligeSchwelle;
+      const verlustImLaufendenJahr = umsatzAktuell > KU_AKTUELL_NEU;
+      return {
+        vorjahrOk: true,
+        aktuellOk: aktuellOkAnteilig,
+        istKu: aktuellOkAnteilig && !verlustImLaufendenJahr,
+        verlustImLaufendenJahr,
+        anteiligeSchwelle,
+        istExistenzgruender: true,
+      };
+    }
     const vorjahrOk = umsatzVorjahr <= KU_VORJAHR_NEU;
     const aktuellOk = umsatzAktuell <= KU_AKTUELL_NEU;
     const istKu = vorjahrOk && aktuellOk;
-
-    // Bei Überschreitung der 100k-Schwelle im laufenden Jahr:
-    // sofortiger Verlust des KU-Status (seit Reform 2025)
     const verlustImLaufendenJahr = umsatzAktuell > KU_AKTUELL_NEU;
-
-    return { vorjahrOk, aktuellOk, istKu, verlustImLaufendenJahr };
-  }, [umsatzVorjahr, umsatzAktuell]);
+    return { vorjahrOk, aktuellOk, istKu, verlustImLaufendenJahr, anteiligeSchwelle: 0, istExistenzgruender: false };
+  }, [umsatzVorjahr, umsatzAktuell, istExistenzgruender, gruendungsMonat]);
 
   return (
     <div className="space-y-4">
@@ -225,22 +239,45 @@ const Kleinunternehmer = () => {
       </div>
 
       <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">
-              Vorjahres-Umsatz (Brutto, €)
-            </Label>
-            <Input
-              type="number"
-              min={0}
-              value={umsatzVorjahr}
-              onChange={(e) => setUmsatzVorjahr(Math.max(0, Number(e.target.value) || 0))}
-              className="mt-1"
-            />
+        <label className="flex items-center gap-2 text-xs cursor-pointer mb-3">
+          <input type="checkbox" checked={istExistenzgruender} onChange={(e) => setIstExistenzgruender(e.target.checked)} className="h-4 w-4" />
+          <span><strong>Existenzgründer im Gründungsjahr</strong> — kein Vorjahres-Umsatz, anteilige 25k-Schwelle</span>
+        </label>
+        {istExistenzgruender && (
+          <div className="mb-3">
+            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Gründungs-Monat</Label>
+            <select
+              value={gruendungsMonat}
+              onChange={(e) => setGruendungsMonat(Number(e.target.value))}
+              className="mt-1 h-9 w-full md:w-48 rounded-md border border-input bg-background px-2 text-sm"
+            >
+              {["Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"].map((m, i) => (
+                <option key={m} value={i + 1}>{m} ({12 - i} Mon. verbleibend)</option>
+              ))}
+            </select>
             <div className="text-[10px] text-muted-foreground mt-1">
-              Schwelle: {KU_VORJAHR_NEU.toLocaleString("de-DE")} €
+              Anteilige Schwelle: <strong>{Math.round(result.anteiligeSchwelle).toLocaleString("de-DE")} €</strong> (= 25.000 × {12 - (gruendungsMonat - 1)}/12)
             </div>
           </div>
+        )}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          {!istExistenzgruender && (
+            <div>
+              <Label className="text-xs uppercase tracking-wider text-muted-foreground">
+                Vorjahres-Umsatz (Brutto, €)
+              </Label>
+              <Input
+                type="number"
+                min={0}
+                value={umsatzVorjahr}
+                onChange={(e) => setUmsatzVorjahr(Math.max(0, Number(e.target.value) || 0))}
+                className="mt-1"
+              />
+              <div className="text-[10px] text-muted-foreground mt-1">
+                Schwelle: {KU_VORJAHR_NEU.toLocaleString("de-DE")} €
+              </div>
+            </div>
+          )}
           <div>
             <Label className="text-xs uppercase tracking-wider text-muted-foreground">
               Aktueller Jahres-Umsatz (Brutto, €)
@@ -253,7 +290,7 @@ const Kleinunternehmer = () => {
               className="mt-1"
             />
             <div className="text-[10px] text-muted-foreground mt-1">
-              Schwelle: {KU_AKTUELL_NEU.toLocaleString("de-DE")} €
+              Schwelle: {istExistenzgruender ? Math.round(result.anteiligeSchwelle).toLocaleString("de-DE") : KU_AKTUELL_NEU.toLocaleString("de-DE")} €
             </div>
           </div>
         </div>

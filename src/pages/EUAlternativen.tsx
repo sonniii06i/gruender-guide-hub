@@ -47,7 +47,7 @@ const EUAlternativen = () => {
   return (
     <CockpitShell
       eyebrow="EU-Alternativen"
-      title="9 EU-/CH-Rechtsform-Alternativen für deutsche Gründer"
+      title="13 EU-/CH-Rechtsform-Alternativen für deutsche Gründer"
       subtitle="Statt DE-GmbH → EU-Alternative gründen. Vergleich nach KSt, Stammkapital, Substanz-Anforderung, DE-Eignung. ATAD-konforme Strukturen die in 2026 funktionieren — keine ‚Briefkasten-Tricks'."
     >
       {/* Wichtige Hinweise */}

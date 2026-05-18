@@ -10,6 +10,8 @@ import {
   holdingRate,
   ABG_ST,
   TEV_QUOTE as HALBEINKUENFTE,
+  progressionESt,
+  SOLZ_RATE,
 } from "@/lib/germanTax";
 
 type WayResult = {
@@ -37,13 +39,14 @@ function calculate(
   const HOLDING_RATE = holdingRate(hebesatz);
   const gehaltsAnteil = Math.max(0, Math.min(1, gehaltsAnteilProz / 100));
 
-  // 1) GF-Gehalt — kann nur Anteil sein (Angemessenheits-Prüfung verbietet 100 % typisch)
+  // 1) GF-Gehalt — Anteil. Wichtig: ESt über Progression (nicht pauschal Spitzensatz).
   const gfGehalt = opGewinn * gehaltsAnteil;
-  const restNachGehalt = opGewinn - gfGehalt; // dieser Teil bleibt im Op-GmbH-Gewinn
+  const restNachGehalt = opGewinn - gfGehalt;
   const sozialMax = 0; // Gesellschafter-GF > 50 % = sv-frei
-  const steuerGfGehalt_Privat = gfGehalt * eS; // ESt auf Gehalt-Anteil
-  const steuerGfGehalt_GmbH = restNachGehalt * KSt_PLUS_GEWST; // KSt+GewSt auf den Rest
-  // Rest nach KSt: optional als Dividende ausgeschüttet → AbgSt
+  // Echte progressive ESt auf das Gehalt + SolZ. Annahme: keine sonstigen Einkünfte beim GF.
+  const estAufGehalt = progressionESt(gfGehalt);
+  const steuerGfGehalt_Privat = estAufGehalt * (1 + SOLZ_RATE);
+  const steuerGfGehalt_GmbH = restNachGehalt * KSt_PLUS_GEWST;
   const restNachGehaltKSt = restNachGehalt - steuerGfGehalt_GmbH;
   const steuerGfGehalt_Div = restNachGehaltKSt * ABG_ST;
   const totalGfGehalt = steuerGfGehalt_GmbH + steuerGfGehalt_Privat + steuerGfGehalt_Div + sozialMax;
@@ -54,9 +57,9 @@ function calculate(
   const steuerDiv_Privat = restNachKSt * ABG_ST;
   const totalDiv = steuerDiv_GmbH + steuerDiv_Privat;
 
-  // 3) Teileinkünfteverfahren (für > 25 % Beteiligung freiwillig)
-  // 60 % der Dividende im persönlichen ESt-Satz besteuert
-  const steuerTEV_Privat = restNachKSt * HALBEINKUENFTE * eS;
+  // 3) Teileinkünfteverfahren (für > 25 % Beteiligung oder berufliche Tätigkeit ≥ 1 % freiwillig)
+  // 60 % der Dividende im persönlichen ESt-Satz besteuert, 40 % steuerfrei. SolZ on top.
+  const steuerTEV_Privat = restNachKSt * HALBEINKUENFTE * eS * (1 + SOLZ_RATE);
   const totalTEV = steuerDiv_GmbH + steuerTEV_Privat;
 
   // 4) Holding-Ausschüttung (Op-GmbH → Holding-GmbH → später Privat)
@@ -195,6 +198,7 @@ function calculate(
       ],
       cons: [
         "Hochkomplex — Versicherungsmathematiker + StB Pflicht",
+        "Erdienenszeit min. 10 Jahre + 3 Jahre Probezeit für beherrschende GGF (BFH-Rspr.) — Pension nur sinnvoll wenn Alter < 57",
         "Angemessenheit Finanzamt (max ~75 % letztes Aktivgehalt)",
         "Bei Verkauf Op-GmbH: schwer zu transferieren",
         "Kein Geld jetzt verfügbar",

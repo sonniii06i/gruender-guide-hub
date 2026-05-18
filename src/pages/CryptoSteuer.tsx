@@ -172,10 +172,16 @@ const CryptoSteuer = () => {
 
   // Freigrenze §23 (3) EStG: seit 2024 1.000 € (vorher 600 €).
   // Wortlaut "weniger als" → 999,99 € steuerfrei, ab 1.000 € voll steuerpflichtig.
+  // Bei NEGATIVEM Saldo (Verluste > Gewinne): kein Steuerlast aktuell, ABER Verlustvortrag möglich (§23 (3) S. 7 EStG) — nur mit gleichartigen Gewinnen verrechenbar.
   const freigrenze = 1000;
-  const steuerpflichtigNachFreigrenze =
-    totalSteuerpflichtig < freigrenze ? 0 : totalSteuerpflichtig;
+  const istVerlust = totalSteuerpflichtig < 0;
+  const steuerpflichtigNachFreigrenze = istVerlust
+    ? 0
+    : totalSteuerpflichtig < freigrenze
+    ? 0
+    : totalSteuerpflichtig;
   const steuerlast = steuerpflichtigNachFreigrenze * estSatz;
+  const verlustvortrag = istVerlust ? Math.abs(totalSteuerpflichtig) : 0;
 
   const exportCSV = () => {
     const header = "Datum,Typ,Asset,Menge,Preis/Einheit,Fee,Veräußerungsgewinn,Steuerpflichtig,Steuerfrei,Haltedauer\n";
@@ -440,6 +446,11 @@ const CryptoSteuer = () => {
         {totalSteuerpflichtig > 0 && totalSteuerpflichtig <= freigrenze && (
           <div className="rounded-lg bg-emerald-500/10 border border-emerald-500/20 p-3 text-xs mt-3">
             ✓ <strong>Freigrenze §23 EStG greift:</strong> Steuerpflichtige Gewinne {Math.round(totalSteuerpflichtig).toLocaleString("de-DE")} € liegen unter 1.000 € → komplett steuerfrei
+          </div>
+        )}
+        {verlustvortrag > 0 && (
+          <div className="rounded-lg bg-amber-500/10 border border-amber-500/30 p-3 text-xs mt-3">
+            ⚠ <strong>Verlustvortrag §23 (3) EStG:</strong> {Math.round(verlustvortrag).toLocaleString("de-DE")} € Verlust. Diese sind nur mit zukünftigen Gewinnen aus §23-Geschäften verrechenbar (NICHT mit anderen Einkunftsarten). In die ESt-Erklärung als „Verlustvortrag nach §10d EStG für private Veräußerungsgeschäfte" eintragen — wird vom Finanzamt festgestellt.
           </div>
         )}
         <div className="flex justify-end mt-3">

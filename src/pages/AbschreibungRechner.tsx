@@ -627,6 +627,8 @@ const EinzelRechner = () => {
 // TAB 2: ASSET-CART (mehrere Anschaffungen gleichzeitig)
 // ============================================================
 const AssetCart = () => {
+  // KU-Modus für den gesamten Cart (Kleinunternehmer → Preise inkl. USt, kein Vorsteuer-Abzug)
+  const [cartIstKu, setCartIstKu] = useState(false);
   const [items, setItems] = useState<CartItem[]>([
     { id: "i1", assetId: "laptop", nettoPreis: 1500, istKu: false, monat: 6, poolGenutzt: false, privatAnteilPct: 0 },
     { id: "i2", assetId: "schreibtisch", nettoPreis: 600, istKu: false, monat: 6, poolGenutzt: false, privatAnteilPct: 0 },
@@ -635,10 +637,16 @@ const AssetCart = () => {
   const [empfaengerTyp, setEmpfaengerTyp] = useState<"gmbh" | "privat">("gmbh");
   const [steuersatzCustom, setSteuersatzCustom] = useState(STEUERSATZ_PRIVAT_DEFAULT);
 
+  // KU-Flag in alle Items propagieren
+  useMemo(() => {
+    setItems((p) => p.map((it) => ({ ...it, istKu: cartIstKu })));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cartIstKu]);
+
   const addItem = () => {
     setItems((p) => [
       ...p,
-      { id: `i${Date.now()}`, assetId: "laptop", nettoPreis: 1000, istKu: false, monat: 6, poolGenutzt: false, privatAnteilPct: 0 },
+      { id: `i${Date.now()}`, assetId: "laptop", nettoPreis: 1000, istKu: cartIstKu, monat: 6, poolGenutzt: false, privatAnteilPct: 0 },
     ]);
   };
 
@@ -730,6 +738,10 @@ const AssetCart = () => {
             placeholder="Grenzsteuersatz %"
           />
         )}
+        <label className="flex items-center gap-2 text-xs cursor-pointer mt-3 pt-3 border-t border-border">
+          <input type="checkbox" checked={cartIstKu} onChange={(e) => setCartIstKu(e.target.checked)} className="h-4 w-4" />
+          <span><strong>Kleinunternehmer (§19 UStG)</strong> — Preise inkl. USt, kein Vorsteuer-Abzug → AfA-Basis = Brutto</span>
+        </label>
       </div>
 
       {/* Cart-Items */}

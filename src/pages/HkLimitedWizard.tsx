@@ -53,16 +53,18 @@ const HkLimitedWizard = () => {
   const [shareCapital, setShareCapital] = useState(10000);
   const [serviceProvider, setServiceProvider] = useState<"statrys" | "sleek" | "osome" | "hawksford" | "diy">("sleek");
   const [annualRevenue, setAnnualRevenue] = useState(500000);
+  const [profitMargin, setProfitMargin] = useState(20); // % vom Umsatz
   const [offshoreClaim, setOffshoreClaim] = useState(false);
   const [bankPreference, setBankPreference] = useState<"statrys" | "airwallex" | "currenxie" | "hsbc">("statrys");
 
   const profitsTax = useMemo(() => {
-    const profitHkd = annualRevenue * 0.20 * 7.85;
+    const margin = Math.max(0, Math.min(100, profitMargin)) / 100;
+    const profitHkd = annualRevenue * margin * 7.85;
     const tier1Limit = 2_000_000;
     if (offshoreClaim) return 0;
     if (profitHkd <= tier1Limit) return profitHkd * 0.0825;
     return tier1Limit * 0.0825 + (profitHkd - tier1Limit) * 0.165;
-  }, [annualRevenue, offshoreClaim]);
+  }, [annualRevenue, profitMargin, offshoreClaim]);
 
   const totalSetupCost = useMemo(() => {
     const filing = 1720;
@@ -536,15 +538,32 @@ const HkLimitedWizard = () => {
             <p className="text-xs text-muted-foreground mb-4">
               Two-Tier Profits Tax + Foreign-Sourced-Income-Exemption (FSIE) seit 1.1.2023 verschärft.
             </p>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">
-              Erwarteter Jahres-Umsatz (EUR)
-            </Label>
-            <Input
-              type="number"
-              value={annualRevenue}
-              onChange={(e) => setAnnualRevenue(Math.max(0, Number(e.target.value) || 0))}
-              className="mt-1 mb-3"
-            />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div>
+                <Label className="text-xs uppercase tracking-wider text-muted-foreground">
+                  Erwarteter Jahres-Umsatz (EUR)
+                </Label>
+                <Input
+                  type="number"
+                  value={annualRevenue}
+                  onChange={(e) => setAnnualRevenue(Math.max(0, Number(e.target.value) || 0))}
+                  className="mt-1"
+                />
+              </div>
+              <div>
+                <Label className="text-xs uppercase tracking-wider text-muted-foreground">
+                  Profit-Marge (% vom Umsatz)
+                </Label>
+                <Input
+                  type="number"
+                  value={profitMargin}
+                  onChange={(e) => setProfitMargin(Math.max(0, Math.min(100, Number(e.target.value) || 0)))}
+                  className="mt-1"
+                />
+                <div className="text-[10px] text-muted-foreground mt-1">Reine Schätzung. Steuer = Marge × Umsatz × HKD-Kurs × Profits-Tax-Satz.</div>
+              </div>
+            </div>
+            <div className="h-3" />
 
             <div className="rounded-xl border border-border bg-card p-3 mb-3 text-xs">
               <div className="font-bold mb-2">Two-Tier Profits Tax (unverändert seit 2018):</div>

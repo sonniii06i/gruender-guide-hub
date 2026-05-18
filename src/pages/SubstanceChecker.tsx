@@ -264,7 +264,8 @@ const SubstanceChecker = () => {
     }
 
     // ===== Lokaler Umsatz / wirtschaftlicher Grund =====
-    const umsatzAnteilLokal = umsatzGesamt > 0 ? umsatzVorOrt / umsatzGesamt : 0;
+    // Cap auf 100 %, falls Nutzer mehr lokal eingetragen hat als Gesamtumsatz.
+    const umsatzAnteilLokal = umsatzGesamt > 0 ? Math.min(1, umsatzVorOrt / umsatzGesamt) : 0;
     if (umsatzAnteilLokal < 0.1) {
       score += 15;
       reasons.push(

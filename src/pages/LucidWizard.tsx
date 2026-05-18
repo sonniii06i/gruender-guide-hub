@@ -590,8 +590,8 @@ const LucidWizard = () => {
                 €/Jahr
               </li>
               <li>
-                <strong>Vollständigkeitserklärung</strong> bei Über-Schwellen-Mengen (50.000 kg Glas, 30.000 kg
-                Papier, etc.) — geprüft durch IHK-Sachverständigen
+                <strong>Vollständigkeitserklärung (§11 VerpackG)</strong> bei Über-Schwellen-Mengen (80.000 kg Glas, 50.000 kg
+                Papier/Karton, 30.000 kg LVP) — geprüft durch IHK-Sachverständigen
               </li>
             </ul>
           </div>

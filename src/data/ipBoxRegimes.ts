@@ -425,10 +425,13 @@ export const IP_BOX_REGIMES: IPBoxRegime[] = [
     country: "Schweiz",
     flag: "🇨🇭",
     regimeName: "CH Patent Box (kantonal, post-STAF 2020)",
+    // Federal CIT 8,5 %, Kantonale/kommunale Steuern kommen oben drauf. Patent-Box senkt die
+    // Kantonal-Bemessung um bis zu 90 %, aber Federal bleibt voll. Realistisch effektiv ~10–13 %
+    // (ZG ~9–10 %, ZH ~11–12 %, GE höher). Wert spiegelt den Mittelwert.
     standardKSt: 14.6,
-    effectiveRate: 8.5,
+    effectiveRate: 11,
     mechanism:
-      "Bis zu 90 % Befreiung der qualifizierten Patent-Einkünfte (kantonsabhängig). Effektive Sätze: ~8,5-12 % je nach Kanton + Gemeinde",
+      "Bis zu 90 % Befreiung der qualifizierten Patent-Einkünfte auf KANTONALER Ebene (Federal CIT 8,5 % bleibt voll). Effektive Sätze: ~9–13 % je nach Kanton + Gemeinde (ZG/NW Niedrigsteuerkantone, ZH/GE höher).",
     qualifyingIncome: [
       "Patente + Patentanmeldungen",
       "Vergleichbare Schutzrechte (Software-Patente, Sortenrechte)",
@@ -456,7 +459,7 @@ export const IP_BOX_REGIMES: IPBoxRegime[] = [
       "Hohe Lebensqualität + Standort-Attraktivität",
     ],
     cons: [
-      "Höchster effektiver Satz unter Top-IP-Boxes (8,5-12 %)",
+      "Höchster effektiver Satz unter Top-IP-Boxes (~9-13 % je nach Kanton — Federal 8,5 % bleibt voll, Patent-Box wirkt nur kantonal)",
       "Setup 30.000-60.000 € + sehr hohe Compliance-Kosten",
       "Nicht-EU → keine Mutter-Tochter-RL (Quellensteuer auf Royalties Standard 5-10 % per DBA)",
       "Substanz-Anforderung sehr scharf",

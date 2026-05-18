@@ -51,7 +51,8 @@ const KfzOptimizer = () => {
     // Steuer auf geldwerten Vorteil
     const steuerESt = totalGeldwerterVorteil * estSatz;
     // Werbungskostenpauschale Pendler-Pauschale (bei 1%-Regel zusätzlich abziehbar)
-    const pendlerPauschale = (entfernungArbeit * 0.30 * Math.min(20, entfernungArbeit) + Math.max(0, entfernungArbeit - 20) * 0.38) * arbeitstageProJahr;
+    // Pendlerpauschale §9 Abs. 1 Nr. 4 EStG: ersten 20 km × 0,30 €/km, ab 21. km × 0,38 €/km (ab 2024 dauerhaft)
+    const pendlerPauschale = (Math.min(20, entfernungArbeit) * 0.30 + Math.max(0, entfernungArbeit - 20) * 0.38) * arbeitstageProJahr;
     const ersparnisPendler = pendlerPauschale * estSatz;
     const nettoSteuerLast = steuerESt - ersparnisPendler;
     return {

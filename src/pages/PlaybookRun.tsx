@@ -41,8 +41,12 @@ const PlaybookRun = () => {
 
   useEffect(() => { if (!authLoading && !user) navigate("/auth"); }, [user, authLoading, navigate]);
 
+  // Guard gegen Doppel-Insert wenn useEffect mehrfach re-rendert (z.B. auth flicker).
+  const initInFlight = useRef(false);
   useEffect(() => {
     if (!runId || !user) return;
+    if (initInFlight.current) return;
+    initInFlight.current = true;
     (async () => {
       // Falls runId KEIN UUID-Format ist → wahrscheinlich ein Playbook-Slug (z.B. /playbook/marke-anmelden).
       // Dann existierenden Run für diesen Slug suchen ODER neu anlegen.
@@ -100,7 +104,9 @@ const PlaybookRun = () => {
       setRunCtx(initialCtx);
 
       setLoading(false);
-    })();
+    })().finally(() => {
+      initInFlight.current = false;
+    });
   }, [runId, user, navigate]);
 
   const slug = (run as any)?.playbook_slug as string | undefined;
