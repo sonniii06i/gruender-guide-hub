@@ -17,10 +17,57 @@ const EcomRoadmap = () => {
 
   return (
     <CockpitShell
-      eyebrow="ECom-Brand-Roadmap"
+      eyebrow="ECom-Brand-Roadmap · Stand Mai 2026"
       title="Compliance + Setup-Pfad pro Produkt-Kategorie"
-      subtitle="8 Kategorien (Beauty, Supplement, Electronics, Toys, Apparel, Food, Pet, Hardware) · Pro Kategorie: DE/EU/US-Compliance + Standard-Stack + Stolperfallen + Tool-Verlinkung. Kein Lehrbuch, sondern Operator-Knowledge."
+      subtitle="8 Kategorien (Beauty, Supplement, Electronics, Toys, Apparel, Food, Pet, Hardware) · Pro Kategorie: DE/EU/US-Compliance + Standard-Stack + Stolperfallen. ★ 2026-Updates: GPSR (live!), Battery Reg, EUDR, PFAS-Verbote, MoCRA, AI Act."
     >
+      {/* ★ KRITISCHE 2025/2026-UPDATES (NEU) — Querschnitt für ALLE Kategorien */}
+      <div className="rounded-2xl border-2 border-red-500/40 bg-red-500/5 p-4 mb-6 text-xs leading-relaxed">
+        <div className="flex items-start gap-2">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-red-700 shrink-0 mt-0.5"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+          <div>
+            <div className="font-bold text-red-700 mb-2">★ Querschnitts-Regelungen 2026 — gelten für ALLE Produkt-Kategorien</div>
+            <ul className="list-disc pl-4 space-y-1.5 text-muted-foreground">
+              <li>
+                <strong className="text-foreground">EU GPSR 2023/988 (live seit 13.12.2024):</strong>{" "}
+                Alle Konsumgüter B2C brauchen <strong>Responsible Person in EU</strong>, Adressen am Produkt UND
+                im Listing, Risk Assessment (10 Jahre Retention). Strafen bis €100k. KEIN Bestandsschutz!
+                Amazon/eBay/Etsy prüfen RPE-Daten + entfernen non-compliant Listings.
+              </li>
+              <li>
+                <strong className="text-foreground">EU Battery Reg 2023/1542:</strong> für Geräte mit Akku
+                (Headphones, IoT, Wearables) — TRIPLE-EPR (Battery + WEEE + LUCID). DE-BattDG-Migration
+                bis 15.1.2026 Pflicht.
+              </li>
+              <li>
+                <strong className="text-foreground">EUDR 2023/1115 (verschoben):</strong> Large 30.12.2026 /
+                SME 30.6.2027. Für Holz, Kakao, Kaffee, Soja, Palmöl, Kautschuk + Folgeprodukte (Schokolade,
+                Leder, Möbel, Papier, Reifen). Geolocation-Polygone der Anbauflächen Pflicht.
+              </li>
+              <li>
+                <strong className="text-foreground">US PFAS-Bans 2026:</strong>{" "}
+                <strong className="text-red-700">Maine: Total-Verkaufsverbot</strong> für Cosmetics, Textiles,
+                Cookware, Children's Products, Menstrual ab 1.1.2026. NY/IL/MN folgen. Empfehlung: PFAS-frei
+                für GANZEN US-Markt (statt State-by-State).
+              </li>
+              <li>
+                <strong className="text-foreground">US MoCRA Renewal-Welle 2026:</strong> 2-Jahres-Zyklus für
+                Facility Registration läuft seit Feb 2026. Foreign Facility braucht US-Agent ($500-2.5k/Jahr).
+              </li>
+              <li>
+                <strong className="text-foreground">PPWR + EWKFondsG (Verpackung):</strong> Empty-Space-Ratio
+                ≤50% ab 2030, Plastiksteuer €0,18-8,97/kg seit 2024 (Doppelbelastung zu LUCID!). Siehe{" "}
+                <a href="/cockpit/lucid-wizard" className="text-accent-blue underline">LUCID-Wizard</a>.
+              </li>
+              <li>
+                <strong className="text-foreground">AI Act Article 50 (ab 2.8.2026):</strong> Chatbot/AI-Content
+                in Produkten muss disclosed werden. Smart-Speaker/Wearables mit AI-Funktion betroffen.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
       {!active && (
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">

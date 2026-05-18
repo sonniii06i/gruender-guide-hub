@@ -15,13 +15,16 @@ import {
 
 type MaterialKey = "papier" | "kunststoff" | "glas" | "metall" | "holz" | "verbund";
 
+// Material-Tarife verifiziert Mai 2026 (Quelle: verpackungslizenz24.de
+// Vergleich 2026, lieferantenübergreifend; Anstieg +9-24% vs 2025).
+// UNCLEAR-Werte (Glas, Holz, Papier-2026-Punktwert) konservativ erweitert.
 const MATERIAL_LABELS: Record<MaterialKey, { name: string; emoji: string; ratePerKg: { low: number; mid: number; high: number } }> = {
-  papier: { name: "Papier / Pappe / Karton", emoji: "📦", ratePerKg: { low: 0.18, mid: 0.25, high: 0.35 } },
-  kunststoff: { name: "Kunststoff (PET, PE, PP)", emoji: "♻️", ratePerKg: { low: 0.85, mid: 1.2, high: 1.6 } },
-  glas: { name: "Glas", emoji: "🍾", ratePerKg: { low: 0.05, mid: 0.08, high: 0.12 } },
-  metall: { name: "Metall (Aluminium, Stahl)", emoji: "🥫", ratePerKg: { low: 0.45, mid: 0.7, high: 1.0 } },
-  holz: { name: "Holz", emoji: "🪵", ratePerKg: { low: 0.04, mid: 0.07, high: 0.1 } },
-  verbund: { name: "Verbundstoffe (Tetrapak)", emoji: "🥛", ratePerKg: { low: 0.95, mid: 1.4, high: 1.8 } },
+  papier: { name: "Papier / Pappe / Karton", emoji: "📦", ratePerKg: { low: 0.18, mid: 0.24, high: 0.32 } },
+  kunststoff: { name: "Kunststoff (PET, PE, PP)", emoji: "♻️", ratePerKg: { low: 1.05, mid: 1.17, high: 1.25 } },
+  glas: { name: "Glas (+23,9% in 2026!)", emoji: "🍾", ratePerKg: { low: 0.11, mid: 0.14, high: 0.18 } },
+  metall: { name: "Metall (Aluminium 1,12 / Stahl 1,10)", emoji: "🥫", ratePerKg: { low: 1.0, mid: 1.11, high: 1.2 } },
+  holz: { name: "Holz", emoji: "🪵", ratePerKg: { low: 0.03, mid: 0.05, high: 0.08 } },
+  verbund: { name: "Verbund (Getränke 1,13 / Sonstige 1,16)", emoji: "🥛", ratePerKg: { low: 1.05, mid: 1.15, high: 1.25 } },
 };
 
 type DualesSystem = {
@@ -33,54 +36,81 @@ type DualesSystem = {
   url: string;
 };
 
+// 9-10 zugelassene duale Systeme (Stand Mai 2026, ZSVR-Liste).
+// Marktanteile via EUWID Q1 2026. PreZero neuer Marktführer (~22,9%),
+// Edeka-Wechsel von BellandVision zu Zentek 2025 = ~9% Verschiebung.
 const SYSTEMS: DualesSystem[] = [
   {
-    slug: "interseroh",
-    name: "Interseroh+",
-    marketShare: "~25 %",
-    pricing: "Mittlere Preise · Online-Shop ab 300 € Mindestlizenz",
+    slug: "prezero",
+    name: "PreZero (Schwarz-Gruppe) ★ Marktführer",
+    marketShare: "~22,9% (neu seit 2025)",
+    pricing: "Mid-Range · skalierende Tarife",
+    bestFor: "Mittelständler bis Großunternehmen",
+    url: "https://www.prezero.com",
+  },
+  {
+    slug: "bellandvision",
+    name: "BellandVision (Veolia seit 2017)",
+    marketShare: "~18% (führt bei LVP+Glas)",
+    pricing: "Standard-Tarife",
+    bestFor: "Mittelständische DACH-Marken",
+    url: "https://www.bellandvision.de",
+  },
+  {
+    slug: "interzero",
+    name: "Interzero (vormals Interseroh+)",
+    marketShare: "~15%",
+    pricing: "Mid-Range · Online-Shop ab €300 Mindestlizenz",
     bestFor: "Mittelständler mit gemischten Materialien",
-    url: "https://www.interseroh.de",
+    url: "https://www.interzero.de",
+  },
+  {
+    slug: "der-gruene-punkt",
+    name: "Der Grüne Punkt (DSD)",
+    marketShare: "~12%",
+    pricing: "Premium-Range",
+    bestFor: "Etablierte Marken mit Branding-Bezug",
+    url: "https://www.gruener-punkt.de",
+  },
+  {
+    slug: "zentek",
+    name: "Zentek (Edeka-Partner seit 2025)",
+    marketShare: "~10% (stark wachsend nach Edeka-Wechsel)",
+    pricing: "Mid-Range · Volumen-Rabatte",
+    bestFor: "Retail + große D2C-Marken",
+    url: "https://www.zentek.de",
+  },
+  {
+    slug: "lizenzero",
+    name: "Lizenzero (Veolia)",
+    marketShare: "~8%",
+    pricing: "Online-Self-Service · ab €75 Kleinmengen",
+    bestFor: "★ E-Commerce-Solos / kleine D2C-Brands",
+    url: "https://www.lizenzero.de",
+  },
+  {
+    slug: "noventiz",
+    name: "Noventiz",
+    marketShare: "~6%",
+    pricing: "Günstig · Online-First",
+    bestFor: "Solo-Founder + Startup-Brands",
+    url: "https://www.noventiz.de",
   },
   {
     slug: "reclay",
-    name: "Reclay",
-    marketShare: "~15 %",
+    name: "Reclay/Redual (eigenständig, nicht Veolia)",
+    marketShare: "~4%",
     pricing: "Eher hochpreisig · für größere Mengen",
     bestFor: "Industrie + Großverpackungen",
     url: "https://www.reclay-group.com",
   },
   {
-    slug: "lizenzero",
-    name: "Lizenzero (Veolia)",
-    marketShare: "~10 %",
-    pricing: "Online-Self-Service · ab 75 € für Kleinmengen",
-    bestFor: "E-Commerce-Solos / kleine D2C-Brands",
-    url: "https://www.lizenzero.de",
-  },
-  {
-    slug: "bellandvision",
-    name: "BellandVision",
-    marketShare: "~10 %",
-    pricing: "Standard-Tarife · Hauptsitz Pegnitz",
-    bestFor: "Mittelständische DACH-Marken",
-    url: "https://www.bellandvision.de",
-  },
-  {
-    slug: "veolia",
-    name: "Veolia (Multipool)",
-    marketShare: "~8 %",
-    pricing: "Mittelpreis · Multipool-Konzept",
-    bestFor: "Multi-System-Kunden",
-    url: "https://www.veolia.de",
-  },
-  {
-    slug: "noventiz",
-    name: "Noventiz",
-    marketShare: "~7 %",
-    pricing: "Günstig · Online-First",
-    bestFor: "Solo-Founder + Startup-Brands",
-    url: "https://www.noventiz.de",
+    slug: "ekopunkt",
+    name: "Eko-Punkt (Remondis)",
+    marketShare: "~3%",
+    pricing: "Mid-Range",
+    bestFor: "Remondis-Kunden",
+    url: "https://www.eko-punkt.de",
   },
 ];
 
@@ -125,10 +155,10 @@ const LucidWizard = () => {
 
   const recommendedSystems = useMemo(() => {
     if (isKleinmenge) return SYSTEMS.filter((s) => ["lizenzero", "noventiz"].includes(s.slug));
-    if (totalKg < 1000) return SYSTEMS.filter((s) => ["lizenzero", "interseroh", "noventiz"].includes(s.slug));
+    if (totalKg < 1000) return SYSTEMS.filter((s) => ["lizenzero", "interzero", "noventiz"].includes(s.slug));
     if (totalKg < 10000)
-      return SYSTEMS.filter((s) => ["interseroh", "bellandvision", "veolia", "reclay"].includes(s.slug));
-    return SYSTEMS.filter((s) => ["interseroh", "reclay", "bellandvision"].includes(s.slug));
+      return SYSTEMS.filter((s) => ["interzero", "bellandvision", "prezero", "zentek"].includes(s.slug));
+    return SYSTEMS.filter((s) => ["prezero", "bellandvision", "interzero", "der-gruene-punkt"].includes(s.slug));
   }, [totalKg, isKleinmenge]);
 
   const updateMenge = (k: MaterialKey, val: number) =>
@@ -138,7 +168,7 @@ const LucidWizard = () => {
     <CockpitShell
       eyebrow="LUCID-Wizard"
       title="Verpackungsregister-Anmeldung Step-by-Step"
-      subtitle="Pflicht für JEDE in DE verkaufte Sendung mit Verpackung. Wizard für LUCID-Registrierung + Systembeteiligung-Auswahl + Kosten-Schätzung. Stand 2026, VerpackG."
+      subtitle="LUCID-Registrierung + 9 duale Systeme + Kosten-Schätzung 2026 (Tarife +9-24% vs 2025!). Inkl. PPWR (EU 2025/40, Hauptpflichten 12.8.2026), EWKFondsG-Doppelbelastung (€8,97/kg Tabakfilter!), Mehrweg-Pflicht §33, §7c-Marketplace-Haftung. Stand Mai 2026."
     >
       {/* Progress */}
       <div className="flex items-center gap-2 mb-6">
@@ -431,6 +461,46 @@ const LucidWizard = () => {
               <Sparkles className="h-4 w-4" /> Nochmal
             </button>
           )}
+        </div>
+      </div>
+
+      {/* ★ KRITISCHE 2025/2026-UPDATES (NEU) */}
+      <div className="rounded-2xl border-2 border-red-500/40 bg-red-500/5 p-4 mb-3 text-xs leading-relaxed">
+        <div className="flex items-start gap-2">
+          <AlertTriangle className="h-5 w-5 text-red-700 shrink-0 mt-0.5" />
+          <div>
+            <div className="font-bold text-red-700 mb-2">★ Kritische Verpackungs-Regelungen 2025/2026</div>
+            <ul className="list-disc pl-4 space-y-1.5 text-muted-foreground">
+              <li>
+                <strong className="text-foreground">PPWR (EU 2025/40):</strong> in Kraft 11.2.2025,
+                Hauptpflichten ab <strong>12.8.2026</strong>. Empty-Space-Ratio ≤50% in E-Com-Kartons,
+                Recyclat-Quoten 10-35% ab 2030, Single-Use-Verbote für To-Go (2030).
+              </li>
+              <li>
+                <strong className="text-foreground">EWKFondsG (Einwegkunststofffonds):</strong> live seit
+                01.01.2024 — DOPPELBELASTUNG zu LUCID! Sätze pro kg:
+                Getränkebecher €1,236 · Tüten €0,876 · Lebensmittelbehälter €0,177 · Feuchttücher €0,061 ·
+                <strong className="text-red-700"> Tabakfilter €8,972</strong>. Meldung via DIVID-Plattform (UBA),
+                KEINE Schwellenwerte — ab 1 kg/Jahr meldepflichtig.
+              </li>
+              <li>
+                <strong className="text-foreground">Mehrweg-Pflicht §33 VerpackG</strong> seit 1.1.2023 —
+                Letztvertreiber von Einweg-Plastik-Lebensmittelverpackungen + Einweg-Bechern. Ausnahme: ≤5 MA
+                UND ≤80 m² Verkaufsfläche.
+              </li>
+              <li>
+                <strong className="text-foreground">§7c VerpackG Marketplace-Haftung</strong> seit 1.7.2022:
+                Amazon/eBay/Etsy MÜSSEN LUCID-Nr. + Systembeteiligung jedes Sellers prüfen — sonst
+                Mitstörer-Haftung. Ohne LUCID: Listing-Blockade binnen Tagen!
+              </li>
+              <li>
+                <strong className="text-foreground">Tarife 2026 stark erhöht:</strong> Kunststoff +9,4%,
+                Aluminium +12,2%, Glas <strong className="text-red-700">+23,9%</strong>, Verbund +8-10%.
+                Gesamtmenge im System sinkt -2,3% YoY → Druck auf Preise. Anbieter-Vergleich Pflicht ab
+                ~500 kg Plastik.
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
 

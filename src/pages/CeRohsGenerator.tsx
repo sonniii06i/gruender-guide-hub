@@ -28,7 +28,9 @@ const DIRECTIVES: Record<ProductCategory, { name: string; emoji: string; directi
     ],
     standardNotes: [
       "Harmonisierte Normen typisch: EN 62368-1, EN 55032, EN 55035, EN 61000-3-2/3-3",
-      "Bei Akku/Battery-Geräten zusätzlich: BattG (DE) + Batteriegesetz",
+      "★ EU Battery Reg 2023/1542 seit 18.8.2024: für Geräte mit Akku → CE+CFP-Declaration (Industrial >2kWh seit 18.2.2026), Digital Battery Passport 18.2.2027",
+      "★ DE BattDG: Migration alter EAR-Registrierungen + OfH-Zuordnung pro Kategorie bis 15.1.2026 PFLICHT (sonst Marktverlust)",
+      "★ Konsumgüter mit Akku: TRIPLE-EPR (Battery + WEEE + Verpackungs-LUCID)",
       "Bei Funk: zusätzlich Wireless-Kategorie wählen",
     ],
   },
@@ -50,14 +52,18 @@ const DIRECTIVES: Record<ProductCategory, { name: string; emoji: string; directi
     name: "Maschine / Anlage",
     emoji: "⚙️",
     directives: [
-      { code: "2006/42/EG", name: "Maschinenrichtlinie", relevant: true },
+      { code: "2006/42/EG", name: "Maschinenrichtlinie (gültig BIS 19.1.2027)", relevant: true },
+      { code: "(EU) 2023/1230", name: "★ Machinery Regulation (ab 20.1.2027 voll wirksam — ERSETZT 2006/42/EG!)", relevant: true },
       { code: "2014/30/EU", name: "EMV (wenn elektrisch)", relevant: false },
       { code: "2014/35/EU", name: "Niederspannung (wenn 50–1000 V)", relevant: false },
     ],
     standardNotes: [
+      "★ AB 20.1.2027: Neue Machinery Regulation 2023/1230 — Annex I Part A erweitert um kollaborative Roboter, autonome Mobilmaschinen, Safety-Software, AI mit Safety-Funktion → ZWINGEND Notified Body",
+      "★ Annex I Part B: Self-Assessment via harmonisierte Standards möglich (kein NB nötig)",
+      "★ Digital Documentation: User-Manual/EU-DoC dürfen elektronisch geliefert werden (Hardcopy nur auf Anfrage)",
       "EN ISO 12100 (Sicherheit von Maschinen)",
       "Risikobeurteilung Pflicht (DIN EN ISO 12100)",
-      "Notfall-Stopp + Schutzeinrichtungen",
+      "Substantial Modification = neuer Hersteller (also Re-Bewertung)",
     ],
   },
   medizinprodukt: {
@@ -72,6 +78,10 @@ const DIRECTIVES: Record<ProductCategory, { name: string; emoji: string; directi
       "Ab Klasse IIa: Notified Body (Benannte Stelle) PFLICHT",
       "ISO 13485 (Qualitätsmanagement) typisch erforderlich",
       "UDI-Code (Unique Device Identification) Pflicht seit 2024",
+      "★ MDR-Legacy-Übergangsfristen (VO 2023/607): Class III + implantable IIb bis 31.12.2027, Class IIa/IIb/Im/Is bis 31.12.2028",
+      "★ ACHTUNG: Übergangsfrist NUR für Legacy-Devices mit MDD-Zertifikat + NB-Antrag bis 26.5.2024. Neue Produkte 2026: KEIN Bestandsschutz!",
+      "★ EUDAMED-Registrierung + EU-Bevollmächtigter für non-EU Pflicht",
+      "★ Borderline-Falle: 'Wellness'-Wearables mit medizinischen Claims (Schlaftracking, Mood-Detection) können MDR-pflichtig werden",
     ],
   },
   kosmetik: {
@@ -278,10 +288,56 @@ const CeRohsGenerator = () => {
 
   return (
     <CockpitShell
-      eyebrow="CE/RoHS-Generator"
+      eyebrow="CE/RoHS-Generator · Stand Mai 2026"
       title="EU-Konformitätserklärung als PDF"
-      subtitle="Pflicht-Dokument bei CE-Kennzeichnung. 8 Produkt-Kategorien voreingestellt mit relevanten EU-Richtlinien + RoHS-Erklärung. PDF-Download fertig zum Unterschreiben."
+      subtitle="8 Produkt-Kategorien mit aktuellen EU-Richtlinien. ★ NEU 2026: GPSR (live!), Battery Reg, Machinery Reg ab 1/2027, MDR-Übergangsfristen. PDF-Download fertig zum Unterschreiben."
     >
+      {/* ★ KRITISCHE 2025/2026-UPDATES — Querschnitt-Warning (NEU) */}
+      <div className="rounded-2xl border-2 border-red-500/40 bg-red-500/5 p-4 mb-6 text-xs leading-relaxed">
+        <div className="flex items-start gap-2">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-red-700 shrink-0 mt-0.5"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+          <div>
+            <div className="font-bold text-red-700 mb-2">★ Kritische Querschnitts-Regelungen 2026 (zusätzlich zu CE/RoHS!)</div>
+            <ul className="list-disc pl-4 space-y-1.5 text-muted-foreground">
+              <li>
+                <strong className="text-foreground">EU GPSR 2023/988 (live seit 13.12.2024, DE-Durchsetzung 19.2.2026):</strong>{" "}
+                Pflicht für ALLE Konsumgüter (B2C) zusätzlich zu sektoralen Richtlinien. Non-EU-Hersteller
+                braucht <strong>Responsible Person in EU (RPE)</strong>, Hersteller+RPE-Adresse am Produkt UND
+                im Online-Listing, dokumentiertes Risk Assessment (10 Jahre Retention). Strafen bis €100.000
+                pro Verstoß. KEINE Bestandsschutz-Klausel für Vor-Dez-2024-Bestand!
+              </li>
+              <li>
+                <strong className="text-foreground">EU Battery Reg 2023/1542 (live seit 18.8.2024):</strong>{" "}
+                Carbon-Footprint-Declaration für Industrial &gt;2kWh seit 18.2.2026, Digital Battery Passport
+                ab 18.2.2027. DE-BattDG-Migration bis <strong>15.1.2026</strong> Pflicht (sonst Marktverlust).
+                Konsumgüter mit Akku = TRIPLE-EPR (Battery + WEEE + LUCID).
+              </li>
+              <li>
+                <strong className="text-foreground">Machinery Regulation 2023/1230 (ab 20.1.2027):</strong>{" "}
+                Ersetzt Maschinenrichtlinie 2006/42/EG vollständig. Annex I Part A erweitert um
+                kollaborative Roboter + AI mit Safety-Funktion (zwingend Notified Body).
+              </li>
+              <li>
+                <strong className="text-foreground">AI Act Article 50 (geplant 2.8.2026):</strong>{" "}
+                Chatbot-Disclosure, Deepfake-Marking, AI-Output-Label Pflicht für jeden Anbieter (auch Solo-
+                SaaS). High-Risk-Frist 2.8.2026 möglicherweise verschoben via Digital Omnibus (UNCLEAR — politische
+                Einigung 7.5.2026 noch nicht final).
+              </li>
+              <li>
+                <strong className="text-foreground">EUDR 2023/1115:</strong> VERSCHOBEN durch VO 2025/2650 —
+                Large/Medium Operators 30.12.2026, SME/Micro 30.6.2027. Für Holz/Möbel/Schoko/Kaffee
+                relevant — Geolocation-Polygone der Anbauflächen Pflicht.
+              </li>
+              <li>
+                <strong className="text-foreground">MDR-Legacy-Fristen (VO 2023/607):</strong> Class III +
+                implantable IIb bis 31.12.2027, Class IIa/IIb/Im/Is bis 31.12.2028. Nur für Bestand mit
+                MDD-Zertifikat + NB-Antrag bis 26.5.2024!
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
       {/* Category */}
       <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5 mb-6">
         <Label className="text-xs uppercase tracking-wider text-muted-foreground">Produkt-Kategorie</Label>
