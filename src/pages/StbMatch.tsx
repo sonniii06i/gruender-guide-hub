@@ -3,6 +3,7 @@ import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { STB_POOL, STB_AVOID_LIST, matchStbs, plzToRegion, regionLabel, regionCoverage, type Briefing, type StbSpecTag } from "@/data/stbPool";
+import { GRUPPEN, getGruppeById, type Gruppe, type Pflichtfeld } from "@/data/stbGruppen";
 import {
   Building2,
   Search,
@@ -99,7 +100,46 @@ const StbMatch = () => {
     plz: "",
     remoteOk: true,
     painPoints: ["", "", ""],
+    gruppen: [],
+    gruppenFelder: {},
   });
+
+  const aktivGruppen = useMemo(
+    () => briefing.gruppen.map((id) => getGruppeById(id as any)).filter(Boolean) as Gruppe[],
+    [briefing.gruppen],
+  );
+
+  // Auto-Merge der Gruppen-MatchTags in spezialTags + Vorschlag von Pain-Points
+  useEffect(() => {
+    if (aktivGruppen.length === 0) return;
+    const autoTags = Array.from(new Set(aktivGruppen.flatMap((g) => g.matchTags))) as StbSpecTag[];
+    setBriefing((b) => {
+      const mergedTags = Array.from(new Set([...b.spezialTags, ...autoTags])) as StbSpecTag[];
+      return { ...b, spezialTags: mergedTags };
+    });
+  }, [aktivGruppen.length]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const toggleGruppe = (id: string) => {
+    setBriefing((b) => {
+      const has = b.gruppen.includes(id);
+      const next = has ? b.gruppen.filter((x) => x !== id) : b.gruppen.length < 3 ? [...b.gruppen, id] : b.gruppen;
+      return { ...b, gruppen: next };
+    });
+  };
+
+  const setGruppeFeld = (gruppenId: string, fieldKey: string, value: string | string[] | number | boolean) => {
+    setBriefing((b) => ({
+      ...b,
+      gruppenFelder: { ...b.gruppenFelder, [`${gruppenId}.${fieldKey}`]: value },
+    }));
+  };
+
+  const getGruppeFeld = (gruppenId: string, fieldKey: string): string | string[] | number | boolean | undefined =>
+    briefing.gruppenFelder[`${gruppenId}.${fieldKey}`];
+
+  const usePainPointSuggestion = (idx: number, text: string) => {
+    setBriefing((b) => ({ ...b, painPoints: b.painPoints.map((p, i) => (i === idx ? text : p)) }));
+  };
   const [selectedStbs, setSelectedStbs] = useState<Set<string>>(new Set());
   const [generating, setGenerating] = useState(false);
 
@@ -142,6 +182,7 @@ const StbMatch = () => {
 
   // Validierung Step 1
   const step1Valid =
+    briefing.gruppen.length >= 1 &&
     briefing.rechtsform &&
     briefing.serviceBedarf.length > 0 &&
     briefing.painPoints.filter((p) => p.trim().length > 5).length >= 1;
@@ -186,6 +227,22 @@ const StbMatch = () => {
       if (briefing.spezialTags.length > 0) {
         line("Spezial-Anforderungen / Themen", { size: 12, bold: true, gap: 2 });
         briefing.spezialTags.forEach((t) => line(`• ${SPEZIAL_TAG_LABELS[t]}`, { size: 9, gap: 2 }));
+        y += 3;
+      }
+
+      // Gruppen-spezifische Pflichtfelder
+      if (aktivGruppen.length > 0) {
+        line("Gewählte Gründer-Gruppe(n) + Pflicht-Angaben", { size: 13, bold: true, gap: 3 });
+        aktivGruppen.forEach((gruppe) => {
+          line(`${gruppe.emoji} ${gruppe.name}`, { size: 11, bold: true, gap: 2 });
+          gruppe.pflichtfelder.forEach((feld) => {
+            const v = briefing.gruppenFelder[`${gruppe.id}.${feld.key}`];
+            if (v === undefined || v === "" || (Array.isArray(v) && v.length === 0)) return;
+            const displayVal = Array.isArray(v) ? v.join(", ") : typeof v === "boolean" ? (v ? "Ja" : "Nein") : String(v);
+            line(`  ${feld.label}: ${displayVal}`, { size: 9, gap: 2 });
+          });
+          y += 2;
+        });
         y += 3;
       }
 
@@ -258,6 +315,19 @@ const StbMatch = () => {
     if (briefing.spezialTags.length > 0) {
       lines.push(`• Spezial-Themen: ${briefing.spezialTags.map((t) => SPEZIAL_TAG_LABELS[t]).join(", ")}`);
     }
+    if (aktivGruppen.length > 0) {
+      lines.push("");
+      lines.push("Gründer-Gruppe(n):");
+      aktivGruppen.forEach((g) => {
+        lines.push(`  ${g.emoji} ${g.name}`);
+        g.pflichtfelder.forEach((feld) => {
+          const v = briefing.gruppenFelder[`${g.id}.${feld.key}`];
+          if (v === undefined || v === "" || (Array.isArray(v) && v.length === 0)) return;
+          const displayVal = Array.isArray(v) ? v.join(", ") : typeof v === "boolean" ? (v ? "Ja" : "Nein") : String(v);
+          lines.push(`    - ${feld.label}: ${displayVal}`);
+        });
+      });
+    }
     lines.push("");
     const filledPP = briefing.painPoints.filter((p) => p.trim().length > 5);
     if (filledPP.length > 0) {
@@ -312,7 +382,7 @@ const StbMatch = () => {
     <CockpitShell
       eyebrow="StB-Hand-off · 3-Angebote-Modell"
       title="Steuerberater-Match in 3 Schritten"
-      subtitle="1) Anonymisiertes Briefing ausfüllen · 2) Top-3 passende Kanzleien aus 11 Spezialisten wählen · 3) Briefing-PDF + Email-Helper. Du verschickst selbst — wir sind nur Werkzeug, keine Vermittlung (§9 StBerG-konform)."
+      subtitle="1) Gruppen-spezifisches Briefing (10 Gründer-Profile — Solo, GmbH, E-Com, Holding, International, Crypto, SaaS, Lohn, F&E, Stiftung — mit eigenen Pflichtfeldern) · 2) Top-3 passende Kanzleien wählen · 3) Briefing-PDF + Email-Helper. Du verschickst selbst — keine Vermittlung (§9 StBerG-konform)."
       showRelated={false}
     >
       {/* Step-Indicator */}
@@ -343,8 +413,83 @@ const StbMatch = () => {
       {/* === STEP 1: BRIEFING === */}
       {step === 1 && (
         <div className="space-y-4">
+          {/* GRUPPEN-AUSWAHL */}
+          <div className="rounded-2xl border-2 border-accent-blue/30 bg-accent-blue/5 p-5">
+            <h3 className="font-bold text-sm mb-1">Welche Gründer-Gruppe(n) trifft auf dich zu? * (1-3 wählen)</h3>
+            <p className="text-xs text-muted-foreground mb-3">
+              Jede Gruppe hat eigene Pflicht-Angaben + Trick-Fragen. Mehrfach-Auswahl möglich (z.B. "E-Com + GmbH").
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+              {GRUPPEN.map((g) => {
+                const aktiv = briefing.gruppen.includes(g.id);
+                const disabled = !aktiv && briefing.gruppen.length >= 3;
+                return (
+                  <button
+                    key={g.id}
+                    onClick={() => toggleGruppe(g.id)}
+                    disabled={disabled}
+                    className={`text-left rounded-xl border p-3 transition-all ${
+                      aktiv
+                        ? "border-accent-blue bg-white shadow-sm ring-2 ring-accent-blue/30"
+                        : disabled
+                        ? "border-border bg-secondary/30 opacity-40 cursor-not-allowed"
+                        : "border-border bg-white hover:border-accent-blue/40"
+                    }`}
+                  >
+                    <div className="flex items-start gap-2">
+                      <span className="text-xl shrink-0">{g.emoji}</span>
+                      <div className="min-w-0 flex-1">
+                        <div className="font-bold text-xs leading-tight">{g.name}</div>
+                        <div className="text-[10px] text-muted-foreground mt-0.5 leading-relaxed">{g.beschreibung}</div>
+                      </div>
+                      {aktiv && <CheckCircle2 className="h-4 w-4 text-accent-blue shrink-0" />}
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+            {briefing.gruppen.length === 0 && (
+              <div className="mt-3 text-xs text-amber-700 bg-amber-500/10 border border-amber-500/30 rounded-lg px-3 py-2">
+                ⚠ Bitte mindestens 1 Gruppe wählen — Pflichtfelder + Pain-Point-Vorschläge richten sich danach.
+              </div>
+            )}
+          </div>
+
+          {/* GRUPPEN-SPEZIFISCHE PFLICHTFELDER */}
+          {aktivGruppen.map((gruppe) => (
+            <div key={gruppe.id} className="rounded-2xl border border-emerald-500/30 bg-emerald-500/5 p-5">
+              <h3 className="font-bold text-sm mb-1 flex items-center gap-2">
+                <span className="text-lg">{gruppe.emoji}</span> {gruppe.name} — Pflichtfelder
+              </h3>
+              <p className="text-xs text-muted-foreground mb-3">
+                Diese Angaben braucht der StB im Erstgespräch um qualifizierten Aufwand + Honorar zu schätzen.
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
+                {gruppe.pflichtfelder.map((feld) => (
+                  <PflichtfeldInput
+                    key={feld.key}
+                    gruppenId={gruppe.id}
+                    feld={feld}
+                    value={getGruppeFeld(gruppe.id, feld.key)}
+                    onChange={(val) => setGruppeFeld(gruppe.id, feld.key, val)}
+                  />
+                ))}
+              </div>
+              <details className="rounded-xl bg-white border border-emerald-500/20 p-3 text-xs">
+                <summary className="cursor-pointer font-semibold text-emerald-900">
+                  Regulatorische Besonderheiten dieser Gruppe ({gruppe.regulatorischeBesonderheiten.length}) ↓
+                </summary>
+                <ul className="mt-2 space-y-1 text-muted-foreground list-disc pl-4">
+                  {gruppe.regulatorischeBesonderheiten.map((r, i) => (
+                    <li key={i}>{r}</li>
+                  ))}
+                </ul>
+              </details>
+            </div>
+          ))}
+
           <div className="rounded-2xl border border-border bg-card p-5">
-            <h3 className="font-bold text-sm mb-3">Mandant-Profil</h3>
+            <h3 className="font-bold text-sm mb-3">Mandant-Profil (Basis-Daten)</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <div>
                 <Label className="text-xs">Rechtsform *</Label>
@@ -512,9 +657,9 @@ const StbMatch = () => {
               <Sparkles className="h-4 w-4 text-accent-blue" /> 3 Pain-Points (mind. 1 ausfüllen) *
             </h3>
             <p className="text-xs text-muted-foreground mb-3">
-              Konkrete Fragen oder Sorgen. StB muss in 2-3 Sätzen jede beantworten — verhindert Standard-Anschreiben.
+              Konkrete Trick-Fragen. StB muss in 2-3 Sätzen jede beantworten — verhindert Standard-Anschreiben.
             </p>
-            <div className="space-y-2">
+            <div className="space-y-2 mb-3">
               {briefing.painPoints.map((p, idx) => (
                 <Input
                   key={idx}
@@ -529,6 +674,35 @@ const StbMatch = () => {
                 />
               ))}
             </div>
+            {/* Pain-Point-Vorschläge aus aktiven Gruppen */}
+            {aktivGruppen.length > 0 && (
+              <details className="rounded-xl bg-white border border-accent-blue/20 p-3 text-xs">
+                <summary className="cursor-pointer font-semibold text-accent-blue">
+                  💡 Vorschläge aus deinen Gruppen ({aktivGruppen.flatMap((g) => g.beispielPainPoints).length}) ↓
+                </summary>
+                <p className="text-[10px] text-muted-foreground mt-2 mb-2">
+                  Klick auf eine Frage übernimmt sie in das nächste freie Pain-Point-Feld.
+                </p>
+                <div className="space-y-1.5">
+                  {aktivGruppen.flatMap((g) =>
+                    g.beispielPainPoints.map((pp, i) => ({ gruppe: g, text: pp, key: `${g.id}-${i}` })),
+                  ).map(({ gruppe, text, key }) => (
+                    <button
+                      key={key}
+                      onClick={() => {
+                        const nextFreeIdx = briefing.painPoints.findIndex((p) => p.trim().length === 0);
+                        const idx = nextFreeIdx === -1 ? 2 : nextFreeIdx;
+                        usePainPointSuggestion(idx, text);
+                      }}
+                      className="w-full text-left rounded-lg border border-border bg-white hover:bg-accent-blue/5 hover:border-accent-blue/30 px-3 py-2 transition-colors"
+                    >
+                      <div className="text-[10px] text-muted-foreground mb-0.5">{gruppe.emoji} {gruppe.name}</div>
+                      <div className="text-xs leading-relaxed">{text}</div>
+                    </button>
+                  ))}
+                </div>
+              </details>
+            )}
           </div>
 
           <div className="flex justify-end">
@@ -1033,6 +1207,102 @@ const StbMatch = () => {
         </div>
       )}
     </CockpitShell>
+  );
+};
+
+// ===== PflichtfeldInput: rendert das passende Form-Element je nach FeldType =====
+type PflichtfeldInputProps = {
+  gruppenId: string;
+  feld: Pflichtfeld;
+  value: string | string[] | number | boolean | undefined;
+  onChange: (val: string | string[] | number | boolean) => void;
+};
+
+const PflichtfeldInput = ({ feld, value, onChange }: PflichtfeldInputProps) => {
+  const ft = feld.field;
+  return (
+    <div className="space-y-1">
+      <Label className="text-xs font-semibold">{feld.label}</Label>
+      {feld.hint && <div className="text-[10px] text-muted-foreground leading-tight">{feld.hint}</div>}
+      {ft.type === "text" && (
+        <Input
+          value={typeof value === "string" ? value : ""}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder={ft.placeholder}
+          className="h-9 text-sm"
+        />
+      )}
+      {ft.type === "number" && (
+        <Input
+          type="number"
+          min={ft.min ?? 0}
+          value={typeof value === "number" ? value : ""}
+          onChange={(e) => onChange(Math.max(ft.min ?? 0, Number(e.target.value) || 0))}
+          placeholder={ft.placeholder}
+          className="h-9 text-sm"
+        />
+      )}
+      {ft.type === "select" && (
+        <select
+          value={typeof value === "string" ? value : ""}
+          onChange={(e) => onChange(e.target.value)}
+          className="h-9 w-full rounded-md border border-input bg-background px-2 text-sm"
+        >
+          <option value="">— bitte wählen —</option>
+          {ft.options.map((o) => (
+            <option key={o}>{o}</option>
+          ))}
+        </select>
+      )}
+      {ft.type === "multiselect" && (
+        <div className="grid grid-cols-2 gap-1 rounded-md border border-border bg-white p-2 max-h-32 overflow-y-auto">
+          {ft.options.map((o) => {
+            const arr = Array.isArray(value) ? value : [];
+            const checked = arr.includes(o);
+            return (
+              <label key={o} className="flex items-center gap-1.5 text-[11px] cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={checked}
+                  onChange={() => onChange(checked ? arr.filter((x) => x !== o) : [...arr, o])}
+                  className="h-3 w-3"
+                />
+                {o}
+              </label>
+            );
+          })}
+        </div>
+      )}
+      {ft.type === "yesno" && (
+        <div className="flex gap-2">
+          {[
+            { v: true, l: "Ja" },
+            { v: false, l: "Nein" },
+          ].map((o) => (
+            <button
+              key={String(o.v)}
+              onClick={() => onChange(o.v)}
+              className={`flex-1 rounded-md border px-3 py-1.5 text-xs font-semibold transition-colors ${
+                value === o.v
+                  ? "border-accent-blue bg-accent-blue/10 text-accent-blue"
+                  : "border-border hover:border-accent-blue/40"
+              }`}
+            >
+              {o.l}
+            </button>
+          ))}
+        </div>
+      )}
+      {ft.type === "textarea" && (
+        <textarea
+          value={typeof value === "string" ? value : ""}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder={ft.placeholder}
+          rows={2}
+          className="w-full rounded-md border border-input bg-background px-2 py-1.5 text-sm"
+        />
+      )}
+    </div>
   );
 };
 

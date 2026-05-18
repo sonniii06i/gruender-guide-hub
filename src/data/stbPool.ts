@@ -1231,6 +1231,10 @@ export type Briefing = {
   remoteOk: boolean;
   /** 3 Pain-Points die der StB explizit beantworten muss. */
   painPoints: string[];
+  /** Gewählte Gründer-Gruppen (1-3) — bestimmt dynamische Pflichtfelder. */
+  gruppen: string[];
+  /** Gruppen-spezifische Antworten — Key ist `${gruppenId}.${fieldKey}`. */
+  gruppenFelder: Record<string, string | string[] | number | boolean>;
 };
 
 export type StbFilterOptions = {
