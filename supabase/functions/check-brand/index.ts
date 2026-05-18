@@ -554,10 +554,35 @@ async function tryDpmaScrape(query: string): Promise<{ totalHits: number; hits: 
       });
     }
 
-    if (hits.length > totalHits) totalHits = hits.length;
+    // === RELEVANZ-FILTER ===
+    // DPMA Smart-Search durchsucht alle Felder (Marke + Inhaber + Klassifizierung).
+    // Bei Firmen-Namen wie "ESN" matched es ALLE Marken von ESN als Inhaber
+    // → der User wollte aber nur Marken die selbst "ESN" heißen.
+    // Wir filtern: Markenname muss query als Substring enthalten ODER phonetisch ähnlich sein.
+    const queryNorm = query.toLowerCase().replace(/[^a-z0-9]/g, "");
+    const isRelevant = (markName: string): boolean => {
+      if (!markName) return false;
+      const nameNorm = markName.toLowerCase().replace(/[^a-z0-9]/g, "");
+      if (nameNorm === queryNorm) return true; // exact match
+      // Bei kurzem Query (≤4 Zeichen): nur exact match oder Wort-Anfang, nicht Substring
+      // (sonst matched "ESN" in "tENSor" via altText/whatever)
+      if (queryNorm.length <= 4) {
+        // Wort-Boundary-Check: query muss als ganzes Wort vorkommen
+        const wordBoundaryRe = new RegExp(`(^|[^a-z0-9])${queryNorm.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&")}([^a-z0-9]|$)`, "i");
+        return wordBoundaryRe.test(markName);
+      }
+      // Bei längerem Query (>4): Substring-Match reicht
+      return nameNorm.includes(queryNorm);
+    };
+    const filteredHits = hits.filter((h) => isRelevant(h.name));
+    const removedCount = hits.length - filteredHits.length;
+    if (removedCount > 0) {
+      console.log(`DPMA filter: removed ${removedCount} irrelevant hits (Inhaber-Treffer ohne Namens-Match)`);
+    }
+    const finalTotal = filteredHits.length > 0 ? filteredHits.length : 0;
 
-    console.log(`DPMA ok: total=${totalHits}, parsed=${hits.length}, htmlSize=${html.length}`);
-    return { totalHits, hits };
+    console.log(`DPMA ok: rawTotal=${totalHits}, afterFilter=${finalTotal}, htmlSize=${html.length}`);
+    return { totalHits: finalTotal, hits: filteredHits };
   } catch (e) {
     console.warn("DPMA-Scrape fehlgeschlagen:", e);
     return null;
