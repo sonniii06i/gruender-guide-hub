@@ -95,6 +95,10 @@ type FeesEstimateResponse = {
   totalFees: number;
   currency: string;
   feeDetails: Array<{ type: string; amount: number; included?: Array<{ type: string; amount: number }> }>;
+  /** Vom Listing automatisch gezogener Lowest-FBA-Preis (Brutto inkl. Versand) — gesetzt wenn Tool den Preis selbst holen sollte. */
+  lowestFbaPrice?: number;
+  lowestFbaSource?: "buybox" | "lowest-fba" | "lowest-any";
+  priceUsedForFees?: number;
   error?: string;
 };
 
@@ -162,18 +166,23 @@ const MargeTracker = () => {
 
   const [pullingFees, setPullingFees] = useState<string | null>(null);
 
-  /** Holt echte Fees für alle Channels. Amazon via SP-API, andere via marketplaceFees-Lib. */
-  const pullFees = async (s: SkuData) => {
-    if (!s.vkNetto || s.vkNetto <= 0) {
-      updateSku(s.id, { feesPullError: "VK brutto muss > 0 sein" });
-      return;
-    }
+  /** Auto-Trigger: sobald ASIN (10) oder EAN (8-14) für eine Amazon-SKU vollständig ist
+   * UND sich gegenüber dem letzten Pull geändert hat → automatisch Fees + Lowest-FBA holen.
+   */
+  const lastPulledRef = useRef<Map<string, string>>(new Map());
+  const pullFeesRef = useRef<(s: SkuData) => void>(() => {});
+
+  /** Holt echte Fees für alle Channels. Amazon via SP-API, andere via marketplaceFees-Lib.
+   * Bei Amazon: zieht standardmäßig Lowest-FBA-Preis vom Listing als VK.
+   * useUserPrice=true → nimmt den vorhandenen VK (nur für manuelle Re-Pulls relevant).
+   */
+  const pullFees = async (s: SkuData, useUserPrice = false) => {
     setPullingFees(s.id);
     updateSku(s.id, { feesPullError: undefined });
     try {
-      const vkBrutto = s.vkNetto * 1.19;
+      const vkBruttoInput = s.vkNetto > 0 ? s.vkNetto * 1.19 : 0;
 
-      // Amazon: SP-API
+      // Amazon: SP-API. VK wird i.d.R. aus Listing gezogen (Lowest-FBA / Buy-Box).
       if (s.channel === "amazon-fba" || s.channel === "amazon-fbm") {
         const hasAsin = s.asin && s.asin.length === 10;
         const hasEan = s.ean && /^[0-9]{8,14}$/.test(s.ean);
@@ -186,7 +195,8 @@ const MargeTracker = () => {
             body: {
               asin: hasAsin ? s.asin!.toUpperCase() : undefined,
               ean: hasEan ? s.ean : undefined,
-              priceBrutto: vkBrutto,
+              // priceBrutto nur senden wenn explizit gewünscht — sonst holt Edge-Function Lowest-FBA
+              priceBrutto: useUserPrice && vkBruttoInput > 0 ? vkBruttoInput : undefined,
               currency: "EUR",
               marketplace: "DE",
               isAmazonFulfilled: s.channel === "amazon-fba",
@@ -197,23 +207,34 @@ const MargeTracker = () => {
         if (!data) throw new Error("Leere Response");
         if (data.error) throw new Error(data.error);
 
-        const newProvisionPct = vkBrutto > 0 ? (data.referralFee / vkBrutto) * 100 : 0;
-        // FBM: keine FBA-Fees → 0
+        // Effektiver Preis für die Fee-Berechnung (entweder vom User oder vom Listing)
+        const effectiveBrutto = data.priceUsedForFees || vkBruttoInput;
+        if (effectiveBrutto <= 0) throw new Error("Konnte keinen Preis ermitteln");
+
+        const newProvisionPct = (data.referralFee / effectiveBrutto) * 100;
         const newFulfilment = s.channel === "amazon-fba"
           ? data.fbaFees + data.variableClosingFee + data.perItemFee
           : data.variableClosingFee + data.perItemFee;
 
-        updateSku(s.id, {
+        // Wenn VK nicht gesetzt war (oder Listing-Preis gezogen wurde): VK aus Listing übernehmen
+        const patch: Partial<SkuData> = {
           asin: data.asin || s.asin,
           provisionPct: Number(newProvisionPct.toFixed(2)),
           fulfilmentPerUnit: Number(newFulfilment.toFixed(2)),
           feesPulledAt: new Date().toISOString(),
           feesPullError: undefined,
-        });
+        };
+        if (data.lowestFbaPrice && data.lowestFbaPrice > 0) {
+          patch.vkNetto = data.lowestFbaPrice / 1.19;
+        }
+        updateSku(s.id, patch);
         return;
       }
 
-      // Andere Marketplaces: lokale Lib
+      // Andere Marketplaces: brauchen weiter VK + Kategorie
+      if (vkBruttoInput <= 0) {
+        throw new Error("VK brutto muss > 0 sein für diesen Channel");
+      }
       const marketplace = CHANNEL_TO_MARKETPLACE[s.channel];
       if (!marketplace) {
         throw new Error(`Kein Fee-Calculator für Channel ${s.channel}`);
@@ -221,8 +242,8 @@ const MargeTracker = () => {
       if (!s.category) {
         throw new Error("Kategorie wählen für Fee-Berechnung");
       }
-      const fees = calcMarketplaceFees(marketplace, vkBrutto, s.category);
-      const newProvisionPct = vkBrutto > 0 ? ((fees.provision + fees.paymentFee + fees.offsiteAdsFee) / vkBrutto) * 100 : 0;
+      const fees = calcMarketplaceFees(marketplace, vkBruttoInput, s.category);
+      const newProvisionPct = ((fees.provision + fees.paymentFee + fees.offsiteAdsFee) / vkBruttoInput) * 100;
       const newFulfilment = fees.closingFee;
 
       updateSku(s.id, {
@@ -238,6 +259,30 @@ const MargeTracker = () => {
       setPullingFees(null);
     }
   };
+
+  // pullFees-Ref aktuell halten (closure capture vermeiden)
+  pullFeesRef.current = pullFees;
+
+  // Auto-Pull-Trigger: bei vollständiger ASIN/EAN-Eingabe oder Channel-Wechsel
+  const idKey = skus
+    .map((s) => `${s.id}|${(s.asin || "").toUpperCase()}|${s.ean || ""}|${s.channel}`)
+    .join("§");
+  useEffect(() => {
+    skus.forEach((s) => {
+      if (s.channel !== "amazon-fba" && s.channel !== "amazon-fbm") return;
+      const asin = s.asin?.trim().toUpperCase();
+      const ean = s.ean?.trim();
+      const hasAsin = asin && asin.length === 10;
+      const hasEan = ean && /^[0-9]{8,14}$/.test(ean);
+      if (!hasAsin && !hasEan) return;
+      const identifier = `${s.channel}|${hasAsin ? `asin:${asin}` : `ean:${ean}`}`;
+      if (lastPulledRef.current.get(s.id) === identifier) return;
+      if (pullingFees === s.id) return;
+      lastPulledRef.current.set(s.id, identifier);
+      pullFeesRef.current(s);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [idKey]);
 
   const calcSku = (s: SkuData) => {
     const vkBrutto = (s.vkNetto + s.versandKundeNetto) * 1.19; // 19% USt
@@ -524,8 +569,16 @@ const MargeTracker = () => {
                     )}
                     <div className="shrink-0 pt-5">
                       <button
-                        onClick={() => pullFees(s)}
-                        disabled={pullingFees === s.id || !s.vkNetto}
+                        onClick={() => {
+                          // Manueller Re-Pull: Identifier auf "force-refresh" setzen, damit Auto-Trigger
+                          // nicht parallel feuert. Erst nach Pull-Ende übernimmt der Auto-Trigger wieder.
+                          const asin = s.asin?.trim().toUpperCase();
+                          const ean = s.ean?.trim();
+                          const identifier = `${s.channel}|${asin && asin.length === 10 ? `asin:${asin}` : `ean:${ean}`}`;
+                          lastPulledRef.current.set(s.id, identifier);
+                          pullFees(s);
+                        }}
+                        disabled={pullingFees === s.id}
                         className="inline-flex items-center gap-1 rounded-lg bg-accent-blue text-primary-foreground px-3 py-2 text-xs font-semibold hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         {pullingFees === s.id ? (
@@ -533,16 +586,22 @@ const MargeTracker = () => {
                         ) : (
                           <RefreshCw className="h-3.5 w-3.5" />
                         )}
-                        Echte Fees ziehen
+                        {s.channel === "amazon-fba" || s.channel === "amazon-fbm" ? "Fees + VK neu ziehen" : "Echte Fees ziehen"}
                       </button>
                     </div>
                     {s.feesPulledAt && !s.feesPullError && (
                       <div className="basis-full text-[10px] text-emerald-700 flex items-center gap-1">
                         <CheckCircle2 className="h-3 w-3" />
-                        Fees aktualisiert {new Date(s.feesPulledAt).toLocaleString("de-DE")}
+                        Fees + VK (Lowest-FBA) aktualisiert {new Date(s.feesPulledAt).toLocaleString("de-DE")}
                         {s.asin ? ` · ASIN ${s.asin}` : ""}
                       </div>
                     )}
+                    {(s.channel === "amazon-fba" || s.channel === "amazon-fbm") &&
+                      !s.feesPulledAt && !s.feesPullError && (
+                        <div className="basis-full text-[10px] text-muted-foreground italic">
+                          Tipp: ASIN einfügen → Tool zieht Lowest-FBA-Preis + Fees automatisch. Dann nur noch EK eingeben → Marge live.
+                        </div>
+                      )}
                     {s.feesPullError && (
                       <div className="basis-full text-[10px] text-red-700 flex items-center gap-1">
                         <AlertTriangle className="h-3 w-3" />

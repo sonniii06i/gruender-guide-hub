@@ -114,6 +114,72 @@ function pickEndpoint(marketplace: string): string {
   return SP_API_ENDPOINT_EU;
 }
 
+/**
+ * Holt den niedrigsten FBA-Offer-Preis (Listing+Shipping) für eine ASIN vom Marketplace.
+ * Fallback: niedrigster Merchant-Fulfilled-Offer. Wirft Error wenn überhaupt kein Angebot da.
+ */
+async function fetchLowestFbaPrice(
+  asin: string,
+  marketplaceId: string,
+  endpoint: string,
+): Promise<{ price: number; currency: string; isFba: boolean; source: "buybox" | "lowest-fba" | "lowest-any" }> {
+  const accessToken = await getLwaAccessToken();
+  const url = `${endpoint}/products/pricing/v0/items/${encodeURIComponent(asin)}/offers?MarketplaceId=${marketplaceId}&ItemCondition=New&CustomerType=Consumer`;
+
+  const res = await fetch(url, {
+    method: "GET",
+    headers: {
+      "x-amz-access-token": accessToken,
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!res.ok) {
+    const errText = await res.text();
+    throw new Error(`Lowest-Price-Lookup fehlgeschlagen (${res.status}): ${errText}`);
+  }
+
+  const data = await res.json();
+  const payload = data?.payload;
+  if (!payload) throw new Error("Leere Pricing-Response");
+
+  const offers: any[] = Array.isArray(payload.Offers) ? payload.Offers : [];
+  const currency =
+    payload.Summary?.LowestPrices?.[0]?.LandedPrice?.CurrencyCode ||
+    offers[0]?.ListingPrice?.CurrencyCode ||
+    "EUR";
+
+  const offerPrice = (o: any): number => {
+    const lp = o?.ListingPrice?.Amount || 0;
+    const ship = o?.Shipping?.Amount || 0;
+    return lp + ship;
+  };
+
+  // Priorität 1: Buy-Box-Winner (sofern FBA)
+  const buyBox = offers.find((o: any) => o.IsBuyBoxWinner === true);
+  if (buyBox && buyBox.IsFulfilledByAmazon) {
+    const p = offerPrice(buyBox);
+    if (p > 0) return { price: p, currency, isFba: true, source: "buybox" };
+  }
+
+  // Priorität 2: günstigster FBA-Offer
+  const fbaOffers = offers.filter((o: any) => o.IsFulfilledByAmazon === true);
+  if (fbaOffers.length > 0) {
+    const cheapest = fbaOffers.reduce((min, o) => (offerPrice(o) < offerPrice(min) ? o : min));
+    const p = offerPrice(cheapest);
+    if (p > 0) return { price: p, currency, isFba: true, source: "lowest-fba" };
+  }
+
+  // Priorität 3: irgendein Offer (Merchant-Fulfilled)
+  if (offers.length > 0) {
+    const cheapest = offers.reduce((min, o) => (offerPrice(o) < offerPrice(min) ? o : min));
+    const p = offerPrice(cheapest);
+    if (p > 0) return { price: p, currency, isFba: false, source: "lowest-any" };
+  }
+
+  throw new Error(`Kein aktives Angebot für ASIN ${asin} gefunden`);
+}
+
 async function lookupAsinByEan(ean: string, marketplaceId: string, endpoint: string): Promise<string> {
   const accessToken = await getLwaAccessToken();
   const url = `${endpoint}/catalog/2022-04-01/items?identifiers=${encodeURIComponent(ean)}&identifiersType=EAN&marketplaceIds=${marketplaceId}`;
@@ -196,6 +262,10 @@ interface ParsedFees {
   currency: string;
   feeDetails: Array<{ type: string; amount: number; included?: Array<{ type: string; amount: number }> }>;
   warning?: string;
+  /** Vom Listing automatisch ermittelter Lowest-FBA-Preis (Brutto, inkl. Versand) — gesetzt wenn Tool den Preis selbst holen sollte. */
+  lowestFbaPrice?: number;
+  lowestFbaSource?: "buybox" | "lowest-fba" | "lowest-any";
+  priceUsedForFees?: number;
 }
 
 function parseFeesResponse(raw: any, asin: string, ean?: string): ParsedFees {
@@ -263,6 +333,7 @@ serve(async (req) => {
     }
 
     const body = (await req.json()) as FeesRequest;
+    console.log("[amazon-fees-estimate] incoming body:", JSON.stringify(body));
 
     // ASIN ODER EAN Pflicht
     const hasAsin = body.asin && typeof body.asin === "string" && body.asin.length === 10;
@@ -274,39 +345,54 @@ serve(async (req) => {
       });
     }
 
-    const price = body.priceBrutto ?? (body.priceNetto ? body.priceNetto * 1.19 : 0);
-    if (price <= 0) {
-      return new Response(JSON.stringify({ error: "priceBrutto oder priceNetto muss > 0 sein" }), {
+    // Wenn EAN gegeben aber keine ASIN: erst EAN→ASIN lookup
+    const marketplace = (body.marketplace || "DE").toUpperCase();
+    const marketplaceId = MARKETPLACE_IDS[marketplace];
+    if (!marketplaceId) {
+      return new Response(JSON.stringify({ error: `Unbekannter Marketplace: ${marketplace}` }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+    const endpoint = pickEndpoint(marketplace);
+
+    let asin = body.asin || "";
+    if (!hasAsin && hasEan) {
+      asin = await lookupAsinByEan(body.ean!, marketplaceId, endpoint);
+    }
+
+    // Wenn KEIN Preis im Request: Lowest-FBA-Preis vom Listing holen.
+    const requestedPrice = body.priceBrutto ?? (body.priceNetto ? body.priceNetto * 1.19 : 0);
+    let lowestFbaPrice: number | undefined;
+    let lowestFbaSource: "buybox" | "lowest-fba" | "lowest-any" | undefined;
+    let priceForFees = requestedPrice;
+    if (priceForFees <= 0) {
+      const lp = await fetchLowestFbaPrice(asin, marketplaceId, endpoint);
+      lowestFbaPrice = lp.price;
+      lowestFbaSource = lp.source;
+      priceForFees = lp.price;
+    }
+    if (priceForFees <= 0) {
+      return new Response(JSON.stringify({ error: "Kein Preis verfügbar — weder im Request noch im Listing" }), {
         status: 400,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
-    // Wenn EAN gegeben aber keine ASIN: erst EAN→ASIN lookup
-    let asin = body.asin || "";
-    if (!hasAsin && hasEan) {
-      const marketplace = (body.marketplace || "DE").toUpperCase();
-      const marketplaceId = MARKETPLACE_IDS[marketplace];
-      if (!marketplaceId) {
-        return new Response(JSON.stringify({ error: `Unbekannter Marketplace: ${marketplace}` }), {
-          status: 400,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-        });
-      }
-      const endpoint = pickEndpoint(marketplace);
-      asin = await lookupAsinByEan(body.ean!, marketplaceId, endpoint);
-    }
-
-    const raw = await fetchFeesEstimate(body, asin);
+    const raw = await fetchFeesEstimate({ ...body, priceBrutto: priceForFees }, asin);
     const parsed = parseFeesResponse(raw, asin, body.ean);
+    parsed.lowestFbaPrice = lowestFbaPrice;
+    parsed.lowestFbaSource = lowestFbaSource;
+    parsed.priceUsedForFees = priceForFees;
 
     return new Response(JSON.stringify(parsed), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (e) {
     const message = e instanceof Error ? e.message : String(e);
-    console.error("amazon-fees-estimate error:", message);
-    return new Response(JSON.stringify({ error: message }), {
+    const stack = e instanceof Error ? e.stack : undefined;
+    console.error("amazon-fees-estimate error:", message, stack ? `\nSTACK: ${stack}` : "");
+    return new Response(JSON.stringify({ error: message, stack }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
