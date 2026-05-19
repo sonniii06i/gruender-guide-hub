@@ -52,6 +52,7 @@ const FreiberufCheck = lazy(() => import("./pages/FreiberufCheck.tsx"));
 const SchwellenCheck = lazy(() => import("./pages/SchwellenCheck.tsx"));
 const SteuerABC = lazy(() => import("./pages/SteuerABC.tsx"));
 const BruttoNettoSolo = lazy(() => import("./pages/BruttoNettoSolo.tsx"));
+const StundensatzRechner = lazy(() => import("./pages/StundensatzRechner.tsx"));
 const ReisekostenLogger = lazy(() => import("./pages/ReisekostenLogger.tsx"));
 const DatevMapper = lazy(() => import("./pages/DatevMapper.tsx"));
 const StbHandoff = lazy(() => import("./pages/StbHandoff.tsx"));
@@ -157,6 +158,7 @@ const App = () => (
                 <Route path="/cockpit/schwellen-check" element={<PaywallGate title="Side-Hustle-Schwellen-Check"><SchwellenCheck /></PaywallGate>} />
                 <Route path="/cockpit/steuer-abc" element={<PaywallGate title="Steuer-ABC Glossar"><SteuerABC /></PaywallGate>} />
                 <Route path="/cockpit/brutto-netto-solo" element={<PaywallGate title="Brutto-Netto Solo-Selbstständig"><BruttoNettoSolo /></PaywallGate>} />
+                <Route path="/cockpit/stundensatz-rechner" element={<PaywallGate title="Stundensatz-Rechner für Anfänger"><StundensatzRechner /></PaywallGate>} />
                 <Route path="/cockpit/reisekosten-logger" element={<PaywallGate title="Reisekosten-Logger"><ReisekostenLogger /></PaywallGate>} />
                 <Route path="/cockpit/datev-mapper" element={<PaywallGate title="DATEV-Mapper"><DatevMapper /></PaywallGate>} />
                 <Route path="/cockpit/stb-handoff" element={<PaywallGate title="StB-Hand-off"><StbHandoff /></PaywallGate>} />

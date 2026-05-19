@@ -45,6 +45,7 @@ const _CATEGORIES_RAW: FeatureCategory[] = [
       { slug: "schwellen-check", title: "Side-Hustle-Schwellen-Check", desc: "Alle Freibeträge + Freigrenzen 2026 (§22 Sonstige 256€, Übungsleiter 3.000€, Ehrenamt 840€, §23 Crypto 1.000€, KU 25k/100k, Sparerpauschbetrag 1.000€) plus DAC7-Plattform-Meldung ab 30 Verkäufen/2.000€.", status: "beta", route: "/cockpit/schwellen-check" },
       { slug: "steuer-abc", title: "Steuer-ABC Glossar", desc: "60+ deutsche Steuer-Begriffe einfach erklärt — von ESt, EÜR, Anlage S bis Reverse Charge §13b, Holding, KSK. Suchbar, 10 Kategorien, mit §-Verweisen + Cross-Links zum passenden Tool.", status: "beta", route: "/cockpit/steuer-abc" },
       { slug: "brutto-netto-solo", title: "Brutto-Netto Solo-Selbstständig", desc: "Was bleibt am Ende übrig? Umsatz → BA → Gewinn → ESt-Progression + SolZ + ggf. GewSt + KV/PV freiwillig (Mindest 260€) → Netto. Mit Step-by-Step-Erklärung + Vergleich gegen 'gleicher Brutto als Angestellter'.", status: "beta", route: "/cockpit/brutto-netto-solo" },
+      { slug: "stundensatz-rechner", title: "Stundensatz-Rechner Anfänger", desc: "Rückwärts-Rechnung: Wunsch-Netto + Lebenshaltung + KV + Rücklage → nötiger Brutto → ÷ Billable-Stunden (70 %) = realistischer Stundensatz. Fixt den Anfänger-Fehler 'ich nehme 30 €/h wie meine Vollzeitstelle'.", status: "beta", route: "/cockpit/stundensatz-rechner" },
     ],
   },
   {
