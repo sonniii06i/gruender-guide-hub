@@ -25,10 +25,7 @@ const TOP_KASSEN = [
   { name: "Barmer", zusatz: 3.29, gesamt: 17.89, bemerkung: "Bundesweit, stabil" },
 ];
 
-type Status = "gkv-pflicht" | "gkv-freiwillig" | "pkv" | "wechsel-check";
-
 const KvOptimizer = () => {
-  const [status, setStatus] = useState<Status>("gkv-pflicht");
   // Single Source of Truth: Brutto-Monat — alle anderen Werte werden daraus abgeleitet.
   const [bruttoMonat, setBruttoMonat] = useState(5000);
   const bruttoJahr = bruttoMonat * 12;
@@ -123,27 +120,29 @@ const KvOptimizer = () => {
       title="Krankenkasse: Spar-Hebel + GKV-vs-PKV-Vergleich"
       subtitle="Zusatzbeitrag-Vergleich GKV (2,18 % - 4,39 % Spanne 2026), günstigste Kassen + Spar-Potenzial pro Jahr. PKV-Hebel: §204 VVG Tarifwechsel (15-30 %), Selbstbehalt, BRE. Wechsel-Check GKV ↔ PKV mit JAEG 77.400 €."
     >
-      {/* Status-Tabs */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-6">
-        {([
-          { v: "gkv-pflicht", l: "GKV Pflicht (Angestellt)", emoji: "👔" },
-          { v: "gkv-freiwillig", l: "GKV freiwillig (Selbstständig)", emoji: "🏛️" },
-          { v: "pkv", l: "PKV Spar-Hebel", emoji: "💎" },
-          { v: "wechsel-check", l: "Wechsel-Check GKV ↔ PKV", emoji: "🔄" },
-        ] as { v: Status; l: string; emoji: string }[]).map((s) => (
-          <button
-            key={s.v}
-            onClick={() => setStatus(s.v)}
-            className={`rounded-xl border p-3 text-left transition ${
-              status === s.v
-                ? "border-accent-blue bg-accent-blue/5"
-                : "border-border bg-card hover:bg-secondary/30"
-            }`}
-          >
-            <div className="text-xl mb-1">{s.emoji}</div>
-            <div className="text-xs font-semibold">{s.l}</div>
-          </button>
-        ))}
+      {/* Sticky Anchor-Navigation — alle 4 Sektionen permanent sichtbar */}
+      <div className="sticky top-0 z-10 -mx-4 md:-mx-6 px-4 md:px-6 py-3 bg-background/95 backdrop-blur border-b border-border mb-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+          {([
+            { v: "sektion-gkv-pflicht", l: "GKV Pflicht", emoji: "👔" },
+            { v: "sektion-gkv-freiwillig", l: "GKV freiwillig", emoji: "🏛️" },
+            { v: "sektion-pkv", l: "PKV Spar-Hebel", emoji: "💎" },
+            { v: "sektion-wechsel", l: "Wechsel-Check", emoji: "🔄" },
+          ]).map((s) => (
+            <a
+              key={s.v}
+              href={`#${s.v}`}
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById(s.v)?.scrollIntoView({ behavior: "smooth", block: "start" });
+              }}
+              className="rounded-xl border border-border bg-card hover:bg-accent-blue/5 hover:border-accent-blue/40 p-2 text-left transition flex items-center gap-2"
+            >
+              <span className="text-base">{s.emoji}</span>
+              <span className="text-xs font-semibold leading-tight">{s.l}</span>
+            </a>
+          ))}
+        </div>
       </div>
 
       {/* Common Inputs */}
@@ -197,8 +196,8 @@ const KvOptimizer = () => {
       </div>
 
       {/* === Modus: GKV-Pflicht === */}
-      {status === "gkv-pflicht" && (
-        <>
+      <section id="sektion-gkv-pflicht" className="scroll-mt-32">
+        <h2 className="text-lg font-bold mb-3 flex items-center gap-2">👔 GKV Pflicht (Angestellte)</h2>
           <div className="rounded-2xl border-2 border-emerald-500/40 bg-emerald-500/5 p-5 mb-6">
             <div className="flex items-center gap-2 mb-3">
               <TrendingDown className="h-5 w-5 text-emerald-700" />
@@ -254,12 +253,11 @@ const KvOptimizer = () => {
               </li>
             </ul>
           </div>
-        </>
-      )}
+      </section>
 
-      {/* === Modus: GKV-freiwillig (Selbstständige) === */}
-      {status === "gkv-freiwillig" && (
-        <>
+      {/* === Sektion: GKV-freiwillig (Selbstständige) === */}
+      <section id="sektion-gkv-freiwillig" className="scroll-mt-32">
+        <h2 className="text-lg font-bold mb-3 flex items-center gap-2">🏛️ GKV freiwillig (Selbstständige)</h2>
           <div className="rounded-2xl border-2 border-blue-500/40 bg-blue-500/5 p-5 mb-6">
             <h3 className="font-bold text-base mb-3">Dein Beitrag als Selbstständiger</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
@@ -314,12 +312,11 @@ const KvOptimizer = () => {
               </li>
             </ul>
           </div>
-        </>
-      )}
+      </section>
 
-      {/* === Modus: PKV === */}
-      {status === "pkv" && (
-        <>
+      {/* === Sektion: PKV === */}
+      <section id="sektion-pkv" className="scroll-mt-32">
+        <h2 className="text-lg font-bold mb-3 flex items-center gap-2">💎 PKV Spar-Hebel</h2>
           <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5 mb-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
               <div>
@@ -405,12 +402,11 @@ const KvOptimizer = () => {
               </div>
             </div>
           </div>
-        </>
-      )}
+      </section>
 
-      {/* === Modus: Wechsel-Check === */}
-      {status === "wechsel-check" && (
-        <>
+      {/* === Sektion: Wechsel-Check === */}
+      <section id="sektion-wechsel" className="scroll-mt-32">
+        <h2 className="text-lg font-bold mb-3 flex items-center gap-2">🔄 Wechsel-Check GKV ↔ PKV</h2>
           <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5 mb-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <div className="rounded-lg bg-secondary/40 p-3">
@@ -501,8 +497,7 @@ const KvOptimizer = () => {
               </div>
             </div>
           </div>
-        </>
-      )}
+      </section>
 
       {/* Cross-Links */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-6">
