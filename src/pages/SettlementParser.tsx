@@ -186,6 +186,41 @@ const SettlementParser = () => {
       return { category: amount > 0 ? "Sonstige Erträge (Anpassung)" : "Sonstige Aufwendungen (Anpassung)", skr03: amount > 0 ? "8400 Sonstige Erträge" : "4900 Sonstige Aufwendungen", skr04: amount > 0 ? "4400 Sonstige Erträge" : "6300 Sonstige Aufwendungen" };
     }
 
+    // Coupons / Promotional Rebates (mindern Erlöse — Erlösschmälerung)
+    if (d.includes("coupon") || d.includes("promorebate") || d.includes("promotional rebate") || d.includes("promotionmetafee") || d === "promotionrebates") {
+      return { category: "Coupon / Promotional Rebate (Erlösschmälerung)", skr03: "8730 Erlösschmälerungen", skr04: "4730 Erlösschmälerungen" };
+    }
+
+    // Goodwill / Concessions (Kulanz-Erstattung)
+    if (d.includes("goodwill") || d.includes("concession")) {
+      return { category: "Goodwill/Kulanz-Erstattung (Erlösschmälerung)", skr03: "8730 Erlösschmälerungen", skr04: "4730 Erlösschmälerungen" };
+    }
+
+    // SAFE-T Reimbursement (Erstattung bei verlorenen/beschädigten FBA-Items)
+    if (d.includes("safe-t") || d.includes("safet") || d.includes("warehouse damage") || d.includes("lost inventory reimbursement") || d.includes("lost_inventory_reimbursement")) {
+      return { category: "SAFE-T / FBA-Reimbursement", skr03: "8400 Sonstige betriebliche Erträge", skr04: "4830 Sonstige betriebliche Erträge" };
+    }
+
+    // FBA Return Per Order Fee
+    if (d.includes("returnperorder") || d.includes("return per order")) {
+      return { category: "FBA Return-Processing-Fee", skr03: "3100 FBA-Fees (Schlüssel 9)", skr04: "5900 FBA-Fees" };
+    }
+
+    // Amazon Lending / Capital
+    if (t.includes("lending") || d.includes("lending") || d.includes("loan disbursement") || d.includes("loan repayment")) {
+      return { category: "Amazon Lending (Kreditgewährung/-rückzahlung)", skr03: amount > 0 ? "1700 Sonst. Verbindlichkeiten (Loan)" : "1700 Sonst. Verbindlichkeiten (Tilgung)", skr04: "3500 Sonst. Verbindlichkeiten" };
+    }
+
+    // Compensated Clawback (Amazon zieht eine vorherige Erstattung zurück)
+    if (d.includes("compensatedclawback") || d.includes("compensated clawback") || d.includes("a-to-z guarantee claim")) {
+      return { category: "A-to-Z / Compensated Clawback", skr03: "8730 Erlösschmälerungen", skr04: "4730 Erlösschmälerungen" };
+    }
+
+    // Service Fee (z.B. EFN-, MCI-, Multichannel-Service)
+    if (d.includes("servicefee") || d === "service fee") {
+      return { category: "Amazon Service-Fee (EFN/MCI/MFN)", skr03: "3100 Fremdleistungen (Schlüssel 9)", skr04: "5900 Fremdleistungen" };
+    }
+
     void both;
     return null;
   }
@@ -729,6 +764,10 @@ const AMAZON_DEMO_CSV = `"settlement-id","settlement-start-date","settlement-end
 "123456","","","","","EUR","Other","","Amazon.de","ItemFees","Subscription Fee","-39.00","2026-05-01 00:00:00 UTC"
 "123456","","","","","EUR","","","Amazon.de","","Current Reserve Amount","0.00","2026-05-16 00:00:00 UTC"
 "123456","","","","","EUR","Adjustment","","Amazon.de","ItemAdjustment","Adjustment","-8.99","2026-05-12 16:00:00 UTC"
+"123456","","","","","EUR","ServiceFee","","Amazon.de","ItemFees","Coupon","-5.00","2026-05-07 14:00:00 UTC"
+"123456","","","","","EUR","Adjustment","","Amazon.de","Goodwill","GoodwillRefund","-12.50","2026-05-09 09:30:00 UTC"
+"123456","","","","","EUR","Other","","Amazon.de","Reimbursement","SAFE-T Reimbursement","24.99","2026-05-13 11:00:00 UTC"
+"123456","","","","","EUR","Lending","","","","Loan Disbursement","5000.00","2026-05-05 09:00:00 UTC"
 "123456","","","","","EUR","Transfer","","","","Disbursement","-842.13","2026-05-16 00:00:00 UTC"`;
 
 /**

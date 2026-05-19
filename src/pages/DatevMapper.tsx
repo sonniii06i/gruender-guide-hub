@@ -48,21 +48,21 @@ const RULES: Rule[] = [
   },
   {
     pattern: /stripe payments|stripe technology/i,
-    match: "Stripe Auszahlung / Fees",
+    match: "Stripe Auszahlung / Fees (IE → RC §13b)",
     einnahme: { konto: "1360", steuerschluessel: "", buchungstext: "Stripe Auszahlung" },
-    ausgabe: { konto: "4970", steuerschluessel: "9", buchungstext: "Stripe Fees" },
+    ausgabe: { konto: "3100", steuerschluessel: "19", buchungstext: "Stripe Fees (RC §13b — Stripe IE)" },
   },
   {
     pattern: /paypal.*europe|paypal\s+pte/i,
-    match: "PayPal Auszahlung / Fees",
+    match: "PayPal Auszahlung / Fees (LU → RC §13b)",
     einnahme: { konto: "1360", steuerschluessel: "", buchungstext: "PayPal Auszahlung" },
-    ausgabe: { konto: "4970", steuerschluessel: "9", buchungstext: "PayPal Fees" },
+    ausgabe: { konto: "3100", steuerschluessel: "19", buchungstext: "PayPal Fees (RC §13b — PayPal LU)" },
   },
   {
     pattern: /klarna|sofort gmbh|sofort\s+ag/i,
-    match: "Klarna / Sofort",
+    match: "Klarna / Sofort (SE → RC §13b)",
     einnahme: { konto: "1360", steuerschluessel: "", buchungstext: "Klarna/Sofort Auszahlung" },
-    ausgabe: { konto: "4970", steuerschluessel: "9", buchungstext: "Klarna/Sofort Fees" },
+    ausgabe: { konto: "3100", steuerschluessel: "19", buchungstext: "Klarna/Sofort Fees (RC §13b — Klarna SE)" },
   },
   {
     pattern: /shopify/i,
@@ -94,19 +94,29 @@ const RULES: Rule[] = [
     ausgabe: { konto: "4980", steuerschluessel: "19", buchungstext: "MS Azure/365 (RC §13b)" },
   },
   {
-    pattern: /openai|anthropic|claude\.ai|chatgpt/i,
-    match: "OpenAI / Anthropic (RC §13b für IE-Sub, sonst Drittland)",
-    ausgabe: { konto: "4980", steuerschluessel: "19", buchungstext: "AI-API Subscription" },
+    pattern: /anthropic|claude\.ai/i,
+    match: "Anthropic (US — Drittland)",
+    ausgabe: { konto: "4980", steuerschluessel: "94", buchungstext: "Anthropic API (US-Drittland)" },
   },
   {
-    pattern: /github|cloudflare|vercel|netlify|digitalocean|hetzner online|ovh/i,
-    match: "Hosting / Dev-Tools",
-    ausgabe: { konto: "4980", steuerschluessel: "9", buchungstext: "Hosting / Dev-Tools" },
+    pattern: /openai|chatgpt/i,
+    match: "OpenAI (IE-Sub seit 2024 → RC §13b)",
+    ausgabe: { konto: "4980", steuerschluessel: "19", buchungstext: "OpenAI API (RC §13b — IE-Sub)" },
   },
   {
-    pattern: /lovable|figma|notion|slack|miro|linear|atlassian/i,
-    match: "SaaS-Tools",
-    ausgabe: { konto: "4980", steuerschluessel: "9", buchungstext: "SaaS-Subscription" },
+    pattern: /hetzner online|strato|ionos|all-inkl|mittwald/i,
+    match: "DE-Hoster (USt 19%)",
+    ausgabe: { konto: "4980", steuerschluessel: "9", buchungstext: "Hosting (DE-USt 19%)" },
+  },
+  {
+    pattern: /github|cloudflare|vercel|netlify|digitalocean|ovh|linode|fly\.io|render\.com|supabase|firebase|render/i,
+    match: "Hosting/Dev-Tools (i.d.R. EU-Sub → RC §13b)",
+    ausgabe: { konto: "4980", steuerschluessel: "19", buchungstext: "Hosting/Dev-Tools (RC §13b prüfen)" },
+  },
+  {
+    pattern: /lovable|figma|notion|slack|miro|linear|atlassian|airtable|monday\.com|asana|clickup|loom|zoom/i,
+    match: "SaaS-Tools (i.d.R. IE/US-EU-Sub → RC §13b)",
+    ausgabe: { konto: "4980", steuerschluessel: "19", buchungstext: "SaaS-Subscription (RC §13b)" },
   },
 
   // === Marketing / Ads ===
@@ -126,9 +136,14 @@ const RULES: Rule[] = [
     ausgabe: { konto: "4600", steuerschluessel: "19", buchungstext: "Google Ads (RC §13b)" },
   },
   {
-    pattern: /klaviyo|brevo|sendinblue|mailchimp|active\s+campaign/i,
-    match: "Email-Marketing-Tool",
-    ausgabe: { konto: "4600", steuerschluessel: "9", buchungstext: "Email-Marketing-Subscription" },
+    pattern: /klaviyo|mailchimp|active\s+campaign|hubspot|salesforce|pipedrive/i,
+    match: "Email/CRM (US → meist RC §13b über EU-Sub)",
+    ausgabe: { konto: "4600", steuerschluessel: "19", buchungstext: "Email-Marketing/CRM (RC §13b prüfen)" },
+  },
+  {
+    pattern: /brevo|sendinblue/i,
+    match: "Brevo / Sendinblue (FR → RC §13b)",
+    ausgabe: { konto: "4600", steuerschluessel: "19", buchungstext: "Brevo Email-Marketing (RC §13b — FR)" },
   },
 
   // === Versand / Fulfillment ===

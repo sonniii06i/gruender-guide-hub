@@ -34,7 +34,7 @@ const MARKETPLACES: Marketplace[] = [
       hinweis: "Verkauf wird via Settlement netto an dich gebucht — du buchst Brutto-Erlös und USt-Abführung separat",
     },
     registrierungen: [
-      "DE-USt-ID Pflicht ab Umsatz 22.000 € / Jahr (Kleinunternehmer-Grenze) — bei Amazon faktisch ab Tag 1",
+      "DE-USt-ID: Kleinunternehmer §19 (Reform 01.01.2025) bis 25.000 € Vorjahres-Umsatz / 100.000 € aktuelles Jahr — bei Amazon faktisch ab Tag 1 sinnvoll",
       "Gewerbeanmeldung",
     ],
     facilitatorTax: "NEIN — du bist USt-Schuldner",
@@ -104,7 +104,8 @@ const MARKETPLACES: Marketplace[] = [
     stolperfallen: [
       "Auf Amazon Pan-EU klicken ohne lokale Registrierung → 4-stelliger Bußgeld-Bereich",
       "Marketplace-Facilitator-Tax NICHT als eigene USt verbuchen (durchlaufender Posten 1701/1801)",
-      "OSS-Frist: bis 14.04. nach Quartalsende beim BZSt einreichen",
+      "OSS-Frist: bis zum LETZTEN Tag des Folgemonats beim BZSt einreichen (Q1 = 30.04., Q2 = 31.07., Q3 = 31.10., Q4 = 31.01.)",
+      "Marketplace-Facilitator IT/FR (EU-VAT-Reform 07/2021) greift nur für Verkäufer mit Sitz AUSSERHALB der EU — DE-sitzige Verkäufer melden via OSS",
     ],
   },
   {
@@ -121,9 +122,10 @@ const MARKETPLACES: Marketplace[] = [
     },
     registrierungen: [
       "EIN bei IRS",
-      "BOI-Filing bei FinCEN (für non-Resident-LLCs)",
+      "BOI-Filing bei FinCEN: für US-Domestic-LLCs seit März 2025 AUSGESETZT (Interim Final Rule). Pflicht gilt nur noch für 'Foreign Reporting Companies' (außerhalb USA gegründet, in USA registriert)",
       "Sales-Tax-Nexus-Check pro Staat — siehe Tool",
-      "1120-Filing-Pflicht US-LLC (auch ohne US-Income)",
+      "Foreign-Owned Single-Member LLC (disregarded): Form 5472 + pro-forma 1120 PFLICHT (auch ohne US-Income, Strafe 25.000 $)",
+      "Multi-Member LLC oder LLC mit C-Corp-Election: vollwertige Form 1120-Filing",
     ],
     facilitatorTax:
       "JA — Amazon zieht Sales-Tax direkt vom Kunden ein. Du musst sie nicht selbst abführen — aber Nexus-Anmeldung im Staat kann Pflicht sein für nicht-Marketplace-Verkäufe (Shopify-Direktverkauf).",
@@ -147,8 +149,8 @@ const MARKETPLACES: Marketplace[] = [
       hinweis: "Verkäufer ist für UK-Buchhaltung selbst verantwortlich, wenn man eine UK-Limited hat",
     },
     registrierungen: [
-      "UK-VAT-Registrierung wenn Verkäufe > £85.000 / Jahr ODER bei eigenem UK-Lager",
-      "UK-EORI-Nummer für Zoll",
+      "UK-VAT-Registrierung: Schwelle £90.000 / Jahr (seit 01.04.2024, vorher £85.000) ODER bei eigenem UK-Lager",
+      "UK-EORI-Nummer für Zoll (GB-EORI)",
       "Drittland-Logistik (EUR.1, Zollanmeldung)",
     ],
     facilitatorTax:
