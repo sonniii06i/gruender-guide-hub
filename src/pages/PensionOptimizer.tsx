@@ -4,7 +4,20 @@ import Stand2026Footer from "@/components/cockpit/Stand2026Footer";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Calculator, AlertTriangle, TrendingUp } from "lucide-react";
-import { annuityFV as annuity_fv, RUERUP_MAX_SINGLE, BAV_STEUERFREI_QUOTE, BBG_RV_WEST_JAHR, RIESTER_MAX, RIESTER_GRUNDZULAGE } from "@/lib/germanTax";
+import {
+  annuityFV as annuity_fv,
+  RUERUP_MAX_SINGLE,
+  BAV_STEUERFREI_QUOTE,
+  BAV_SV_FREI_QUOTE,
+  BBG_RV_WEST_JAHR,
+  BAV_KV_FREIBETRAG_JAHR_2026,
+  RIESTER_MAX,
+  RIESTER_GRUNDZULAGE,
+  RIESTER_KIND_ZULAGE_AB_2008,
+  RIESTER_KIND_ZULAGE_VOR_2008,
+  RIESTER_SOCKELBETRAG,
+  RIESTER_MINDEST_EIGENBEITRAG_QUOTE,
+} from "@/lib/germanTax";
 
 type EtfTyp = "aktien" | "misch" | "anleihen";
 const TEILFREISTELLUNG: Record<EtfTyp, number> = {
@@ -22,12 +35,15 @@ const PensionOptimizer = () => {
   const [annualReturn, setAnnualReturn] = useState(0.06);
   // Beherrschender GF? → keine SV-Pflicht auf bAV-Beiträge, also keine SV-Ersparnis
   const [istBeherrschenderGF, setIstBeherrschenderGF] = useState(false);
-  // Riester: Anzahl Kinder (kindzulage 300€ je Kind ab 2008-Geburtsjahr)
-  const [riesterKinder, setRiesterKinder] = useState(0);
+  // Riester: Kinder differenziert nach Geburtsjahr (300 € ab 2008, 185 € vor 2008)
+  const [riesterKinderAb2008, setRiesterKinderAb2008] = useState(0);
+  const [riesterKinderVor2008, setRiesterKinderVor2008] = useState(0);
   // ETF-Asset-Klasse für Teilfreistellung
   const [etfTyp, setEtfTyp] = useState<EtfTyp>("aktien");
   // Re-Invest der Sparphasen-Steuerersparnis? Sonst undiskontiert
   const [reinvestSteuerErsparnis, setReinvestSteuerErsparnis] = useState(true);
+  // NPV-Diskontierungssatz (Inflation/Opportunitätskosten) — Default 2,5% real
+  const [diskontierungssatz, setDiskontierungssatz] = useState(0.025);
 
   const jahre = renteAlter - alter;
   const jaehrlichSparen = monatlichSparen * 12;
@@ -62,29 +78,44 @@ const PensionOptimizer = () => {
     const ruerup_reinvestGewinn = reinvestErsparnis(ruerup_steuerErsparnisProJahr);
     const ruerup_finalEffekt = ruerup_netto + ruerup_steuerErsparnisGesamt + ruerup_reinvestGewinn;
 
-    // bAV §3 Nr. 63 EStG: 8 % BBG-RV-West steuerfrei, davon 4 % zusätzlich SV-frei.
+    // bAV §3 Nr. 63 EStG: 8 % BBG-RV steuerfrei, davon 4 % zusätzlich SV-frei.
+    // 2026 (BBG bundeseinheitlich 101.400): Steuer-frei bis 8.112 €, SV-frei bis 4.056 €.
     const bav_max_steuerfrei = BBG_RV_WEST_JAHR * BAV_STEUERFREI_QUOTE;
     const bav_sparen = Math.min(jaehrlichSparen, bav_max_steuerfrei);
-    const bav_max_svfrei = BBG_RV_WEST_JAHR * 0.04;
+    const bav_max_svfrei = BBG_RV_WEST_JAHR * BAV_SV_FREI_QUOTE;
     const bav_sv_anteil_an = istBeherrschenderGF ? 0 : 0.10;
     const bav_sv_ersparnis_pro_jahr = Math.min(bav_sparen, bav_max_svfrei) * bav_sv_anteil_an;
     const bav_steuerErsparnisProJahr = bav_sparen * estSatz + bav_sv_ersparnis_pro_jahr;
     const bav_end = annuity_fv(jaehrlichSparen, annualReturn - 0.01, yearsToRetirement);
     const bav_renteJaehrlich = bav_end / 20;
     const bav_steuerImRentenalter = bav_renteJaehrlich * 0.25 * 20;
-    const bav_kvImRentenalter = bav_renteJaehrlich * 0.073 * 20;
+    // KV-Pflicht (§229 SGB V) NUR auf den Teil über dem Freibetrag (2026: 2.373 €/Jahr).
+    // bAV ist Versorgungsbezug → voller KV-Beitrag (~14,6 % + Zusatzbeitrag), aber nur über Freibetrag.
+    const bav_kv_basis_jaehrlich = Math.max(0, bav_renteJaehrlich - BAV_KV_FREIBETRAG_JAHR_2026);
+    const bav_kvImRentenalter = bav_kv_basis_jaehrlich * 0.146 * 20;
     const bav_netto = bav_end - bav_steuerImRentenalter - bav_kvImRentenalter;
     const bav_steuerErsparnisGesamt = bav_steuerErsparnisProJahr * yearsToRetirement;
     const bav_reinvestGewinn = reinvestErsparnis(bav_steuerErsparnisProJahr);
     const bav_finalEffekt = bav_netto + bav_steuerErsparnisGesamt + bav_reinvestGewinn;
 
-    // Riester: 175 € Grundzulage + 300 € je Kind ab Geburtsjahr 2008 (vorher 185€, hier vereinfacht 300€).
+    // Riester: §86 EStG Mindesteigenbeitrag = 4 % Vorjahres-Brutto abzgl. Zulagen, mindestens 60 € (Sockel).
+    // Zulagen werden nur GANZ ausgezahlt, wenn Mindesteigenbeitrag erfüllt — sonst anteilig gekürzt.
     const riester_max = RIESTER_MAX;
     const riester_sparen = Math.min(jaehrlichSparen, riester_max);
-    const riester_zulagen_gesamt = RIESTER_GRUNDZULAGE + Math.max(0, riesterKinder) * 300;
+    const riester_zulagen_gesamt =
+      RIESTER_GRUNDZULAGE +
+      Math.max(0, riesterKinderAb2008) * RIESTER_KIND_ZULAGE_AB_2008 +
+      Math.max(0, riesterKinderVor2008) * RIESTER_KIND_ZULAGE_VOR_2008;
+    // Mindesteigenbeitrag prüfen
+    const riester_mindest_brutto = jahresEinkommen * RIESTER_MINDEST_EIGENBEITRAG_QUOTE - riester_zulagen_gesamt;
+    const riester_mindest_eigenbeitrag = Math.max(RIESTER_SOCKELBETRAG, riester_mindest_brutto);
+    const riester_zulagen_quote = riester_sparen >= riester_mindest_eigenbeitrag
+      ? 1
+      : Math.max(0, riester_sparen / Math.max(1, riester_mindest_eigenbeitrag));
+    const riester_zulagen_effektiv = riester_zulagen_gesamt * riester_zulagen_quote;
     const riester_steuerersparnis_brutto = riester_sparen * estSatz;
-    const riester_steuerErsparnisProJahr = Math.max(0, riester_steuerersparnis_brutto - riester_zulagen_gesamt);
-    const riester_end = annuity_fv(riester_sparen + riester_zulagen_gesamt, annualReturn - 0.015, yearsToRetirement);
+    const riester_steuerErsparnisProJahr = Math.max(0, riester_steuerersparnis_brutto - riester_zulagen_effektiv);
+    const riester_end = annuity_fv(riester_sparen + riester_zulagen_effektiv, annualReturn - 0.015, yearsToRetirement);
     const riester_steuerErsparnisGesamt = riester_steuerErsparnisProJahr * yearsToRetirement;
     const riester_renteJaehrlich = riester_end / 20;
     const riester_steuerImRentenalter = riester_renteJaehrlich * 0.25 * 20;
@@ -92,33 +123,45 @@ const PensionOptimizer = () => {
     const riester_reinvestGewinn = reinvestErsparnis(riester_steuerErsparnisProJahr);
     const riester_finalEffekt = riester_netto + riester_steuerErsparnisGesamt + riester_reinvestGewinn;
 
+    // === NPV: Auszahlungswerte (in Y Jahren) auf Heute diskontieren ===
+    // discountFactor = 1 / (1 + r)^Y
+    const discountFactor = 1 / Math.pow(1 + diskontierungssatz, yearsToRetirement);
+    const npv = (futureNetto: number, sparphasenSteuerCash: number) =>
+      futureNetto * discountFactor + sparphasenSteuerCash;
+    const etf_npv = npv(etfNetEnd, 0);
+    const ruerup_npv = npv(ruerup_netto, ruerup_steuerErsparnisGesamt);
+    const bav_npv = npv(bav_netto, bav_steuerErsparnisGesamt);
+    const riester_npv = npv(riester_netto, riester_steuerErsparnisGesamt);
+    // riester quote für Anzeige
+    const riester_warnung_quote = riester_zulagen_quote < 1
+      ? `⚠ Eigenbeitrag ${riester_sparen.toFixed(0)} € < Mindest ${riester_mindest_eigenbeitrag.toFixed(0)} € → Zulagen nur zu ${(riester_zulagen_quote * 100).toFixed(0)} %`
+      : null;
+
     return {
       etf: {
-        endkapital: etfEnd,
-        netto: etfNetEnd,
-        steuerErsparnis: 0,
-        finalEffekt: etfNetEnd,
+        endkapital: etfEnd, netto: etfNetEnd, steuerErsparnis: 0,
+        finalEffekt: etfNetEnd, npv: etf_npv,
       },
       ruerup: {
-        endkapital: ruerup_end,
-        netto: ruerup_netto,
+        endkapital: ruerup_end, netto: ruerup_netto,
         steuerErsparnis: ruerup_steuerErsparnisGesamt,
-        finalEffekt: ruerup_finalEffekt,
+        finalEffekt: ruerup_finalEffekt, npv: ruerup_npv,
       },
       bav: {
-        endkapital: bav_end,
-        netto: bav_netto,
+        endkapital: bav_end, netto: bav_netto,
         steuerErsparnis: bav_steuerErsparnisGesamt,
-        finalEffekt: bav_finalEffekt,
+        finalEffekt: bav_finalEffekt, npv: bav_npv,
+        bavKvBasis: bav_kv_basis_jaehrlich,
       },
       riester: {
-        endkapital: riester_end,
-        netto: riester_netto,
+        endkapital: riester_end, netto: riester_netto,
         steuerErsparnis: riester_steuerErsparnisGesamt,
-        finalEffekt: riester_finalEffekt,
+        finalEffekt: riester_finalEffekt, npv: riester_npv,
+        warnung: riester_warnung_quote,
+        zulagen_effektiv: riester_zulagen_effektiv,
       },
     };
-  }, [jahre, jaehrlichSparen, estSatz, annualReturn, istBeherrschenderGF, riesterKinder, etfTyp, reinvestSteuerErsparnis]);
+  }, [jahre, jaehrlichSparen, estSatz, annualReturn, istBeherrschenderGF, riesterKinderAb2008, riesterKinderVor2008, etfTyp, reinvestSteuerErsparnis, diskontierungssatz, jahresEinkommen]);
 
   const sortedOptions = useMemo(() => {
     return [
@@ -190,9 +233,10 @@ const PensionOptimizer = () => {
         ],
         cons: [
           "**Nur für Angestellte** (Selbstständige nur via Ehepartner)",
-          "Begrenzt auf 2.100 €/Jahr",
+          "Begrenzt auf 2.100 €/Jahr inkl. Zulagen",
+          "**Mindesteigenbeitrag 4 % Vorjahres-Brutto** (Sockel 60 €) — sonst Zulagen anteilig gekürzt",
           "Versicherungs-Kosten oft hoch",
-          "Reform diskutiert — Zukunft unsicher (Politik plant Riester-Reform 2025+)",
+          "**Reform 2026 beschlossen**: Bundesrat hat am 08.05.2026 die Riester-Nachfolge verabschiedet — ab 2027 neues Modell. Bestandsverträge bleiben, Neuabschluss-Sinn fraglich",
           "Komplex / bürokratisch",
         ],
       },
@@ -284,13 +328,36 @@ const PensionOptimizer = () => {
             <span>Ich bin <strong>beherrschender GF</strong> (i.d.R. SV-frei → keine bAV-SV-Ersparnis)</span>
           </label>
           <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Riester-Kinder (Zulage je 300 €)</Label>
+            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Riester-Kinder ab 2008 (Zulage je 300 €)</Label>
             <Input
               type="number"
-              value={riesterKinder}
-              onChange={(e) => setRiesterKinder(Math.max(0, Number(e.target.value) || 0))}
+              value={riesterKinderAb2008}
+              onChange={(e) => setRiesterKinderAb2008(Math.max(0, Number(e.target.value) || 0))}
               className="mt-1 h-9 text-sm"
             />
+          </div>
+          <div>
+            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Riester-Kinder vor 2008 (Zulage je 185 €)</Label>
+            <Input
+              type="number"
+              value={riesterKinderVor2008}
+              onChange={(e) => setRiesterKinderVor2008(Math.max(0, Number(e.target.value) || 0))}
+              className="mt-1 h-9 text-sm"
+            />
+          </div>
+          <div>
+            <Label className="text-xs uppercase tracking-wider text-muted-foreground">NPV-Diskontierungssatz p.a.</Label>
+            <select
+              value={diskontierungssatz}
+              onChange={(e) => setDiskontierungssatz(Number(e.target.value))}
+              className="mt-1 h-9 w-full rounded-md border border-input bg-background px-2 text-sm"
+            >
+              <option value={0}>0 % (nominal — keine Diskontierung)</option>
+              <option value={0.02}>2 % (EZB-Inflations-Ziel)</option>
+              <option value={0.025}>2,5 % (real, Standard)</option>
+              <option value={0.04}>4 % (Opportunitäts-Rendite konservativ)</option>
+              <option value={0.06}>6 % (Aktien-Opportunität)</option>
+            </select>
           </div>
           <div>
             <Label className="text-xs uppercase tracking-wider text-muted-foreground">ETF-Typ (Teilfreistellung §20 InvStG)</Label>
@@ -396,7 +463,7 @@ const PensionOptimizer = () => {
                 <div className="text-[10px] text-muted-foreground">Total-Effekt nach Steuer</div>
               </div>
             </div>
-            <div className="grid grid-cols-3 gap-2 text-xs mb-3">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs mb-3">
               <div className="rounded-lg bg-secondary/40 p-2">
                 <div className="text-[10px] text-muted-foreground uppercase">Endkapital</div>
                 <div className="font-mono">{Math.round(o.endkapital).toLocaleString("de-DE")} €</div>
@@ -409,7 +476,16 @@ const PensionOptimizer = () => {
                 <div className="text-[10px] text-emerald-700 uppercase">Steuer-Ersparnis</div>
                 <div className="font-mono">{Math.round(o.steuerErsparnis).toLocaleString("de-DE")} €</div>
               </div>
+              <div className="rounded-lg bg-blue-500/10 p-2">
+                <div className="text-[10px] text-blue-700 uppercase">NPV ({(diskontierungssatz * 100).toFixed(1)}%)</div>
+                <div className="font-mono">{Math.round((o as any).npv ?? 0).toLocaleString("de-DE")} €</div>
+              </div>
             </div>
+            {(o as any).warnung && (
+              <div className="text-[11px] text-amber-700 bg-amber-500/10 border border-amber-500/30 rounded p-2 mb-2">
+                {(o as any).warnung}
+              </div>
+            )}
             <details className="text-xs">
               <summary className="cursor-pointer font-semibold text-muted-foreground">Pros / Cons ▾</summary>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
@@ -472,9 +548,11 @@ const PensionOptimizer = () => {
           { label: "§10 EStG (Sonderausgaben Altersvorsorge)", url: "https://www.gesetze-im-internet.de/estg/__10.html" },
           { label: "§3 Nr. 63 EStG (bAV steuerfrei)", url: "https://www.gesetze-im-internet.de/estg/__3.html" },
           { label: "AltZertG (Riester-Zertifizierung)", url: "https://www.gesetze-im-internet.de/altzertg/" },
-          { label: "BBG-RV-W 2026 (BMAS)", url: "https://www.bmas.de" },
+          { label: "BBG-RV 2026 (Bundesregierung) — bundeseinheitlich seit 2025", url: "https://www.bundesregierung.de/breg-de/aktuelles/beitragsgemessungsgrenzen-2386514" },
+          { label: "bAV KV-Freibetrag 2026 (TK)", url: "https://www.tk.de/firmenkunden/versicherung/beitraege-faq/zahlen-und-grenzwerte/versorgungsbezuege-beitragspflichtig-2033042" },
+          { label: "Riester-Reform 2026 (DRV Bundesrat 08.05.2026)", url: "https://www.deutsche-rentenversicherung.de/DRV/DE/Ueber-uns-und-Presse/Presse/Meldungen/2026/260508-bundesrat-reform-private-altersvorsorge.html" },
         ]}
-        note="Rürup-Höchstbetrag 29.344 € ist Stand 2025; 2026-Wert wird via BMF-Schreiben publiziert (voraussichtlich ~30.000 €). bAV-Cap 8 % BBG-RV-W = 7.728 €."
+        note="Stand 2026: Rürup-Höchstbetrag 30.826 € (Single) / 61.652 € (Verheir.) · BBG-RV 101.400 €/J bundeseinheitlich · bAV-Cap 8 % = 8.112 € · bAV-KV-Freibetrag 197,75 €/Mon · Riester-Reform vom Bundesrat am 08.05.2026 beschlossen — neues Modell ab 2027 (Bestandsverträge bleiben)."
       />
     </CockpitShell>
   );

@@ -63,10 +63,11 @@ export const VERAUSSERUNG_FREIGRENZE = 1000;
 /** §23 EStG — Haltefrist für Steuerfreiheit (1 Jahr für Crypto, 10 für Immobilie). */
 export const VERAUSSERUNG_HALTEFRIST_TAGE = 365;
 
-/** Beitragsbemessungsgrenze RV West 2026 (jährlich). Quelle BMAS. */
-export const BBG_RV_WEST_JAHR = 96600;
+/** Beitragsbemessungsgrenze RV 2026 (jährlich). Seit 2025 BUNDESEINHEITLICH — keine West/Ost-Trennung mehr.
+ *  Quelle: Bundesregierung. Vorjahr 2025: 96.600 € (West). */
+export const BBG_RV_WEST_JAHR = 101400; // 8.450 €/Monat × 12
 
-/** Beitragsbemessungsgrenze KV/PV 2026 (jährlich). */
+/** Beitragsbemessungsgrenze KV/PV 2026 (jährlich). Quelle: TK Firmenkunden. */
 export const BBG_KV_JAHR = 66150;
 
 /** Sozialversicherung KV+PV gesamt-Quote (kinderlos, Stand 2026). */
@@ -75,18 +76,36 @@ export const SV_QUOTE_KV_PV = 0.205;
 /** Sozialversicherung RV+AV gesamt-Quote (Stand 2026). */
 export const SV_QUOTE_RV_AV = 0.212;
 
-/** §3 Nr. 63 EStG bAV — 8 % BBG-RV-West steuerfrei (Cap), 4 % davon zusätzlich SV-frei. */
+/** §3 Nr. 63 EStG bAV — 8 % BBG-RV steuerfrei (Cap), 4 % davon zusätzlich SV-frei.
+ *  2026: 8 % × 101.400 = 8.112 € steuerfrei, 4 % × 101.400 = 4.056 € SV-frei. */
 export const BAV_STEUERFREI_QUOTE = 0.08;
 export const BAV_SV_FREI_QUOTE = 0.04;
 
-/** §10 (3) EStG Rürup-Höchstbetrag (Single, Stand 2025 — 2026-BMF-Update steht aus). */
-export const RUERUP_MAX_SINGLE = 29344;
+/** bAV Krankenversicherungs-Freibetrag (§226 (2) SGB V): 1/20 Bezugsgröße 2026 = 197,75 €/Monat.
+ *  Vorher: 2025 = 187,25 €. KV-Beiträge erst auf den Teil ÜBER dem Freibetrag.
+ *  Quelle: TK Firmenkunden, AOK. Pro Jahr: 2.373 €. */
+export const BAV_KV_FREIBETRAG_MONAT_2026 = 197.75;
+export const BAV_KV_FREIBETRAG_JAHR_2026 = 2373;
+
+/** §10 (3) EStG Rürup-Höchstbetrag 2026 (Single). 2025 war 29.344 €. */
+export const RUERUP_MAX_SINGLE = 30826;
+export const RUERUP_MAX_VERHEIRATET = 61652;
 
 /** Riester-Höchstbetrag §10a EStG. */
 export const RIESTER_MAX = 2100;
 
 /** Riester-Grundzulage §83 EStG. */
 export const RIESTER_GRUNDZULAGE = 175;
+
+/** Riester-Kinderzulage §85 EStG.
+ *  Geborene ab 01.01.2008: 300 € · Geborene vor 2008: 185 €. */
+export const RIESTER_KIND_ZULAGE_AB_2008 = 300;
+export const RIESTER_KIND_ZULAGE_VOR_2008 = 185;
+
+/** Riester-Sockelbetrag §86 (1) EStG: Mindestbeitrag 60 €/Jahr, sonst Zulage anteilig gekürzt. */
+export const RIESTER_SOCKELBETRAG = 60;
+/** Mindesteigenbeitrag-Quote vom Vorjahres-Brutto (Sozialversicherungspflichtigen Einkommen) abzgl. Zulagen. */
+export const RIESTER_MINDEST_EIGENBEITRAG_QUOTE = 0.04;
 
 // === Funktionen ==================================================
 
