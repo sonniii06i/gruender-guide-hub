@@ -42,6 +42,7 @@ const _CATEGORIES_RAW: FeatureCategory[] = [
     features: [
       { slug: "gewerbe-check", title: "Brauche ich ein Gewerbe?", desc: "Decision-Tree für komplette Anfänger: Hobby vs. Freiberufler vs. Gewerbe. Mit Schwellen-Check (Gewinnerzielungsabsicht, §22 EStG, Liebhaberei) und klarer Empfehlung was du JETZT machen musst.", status: "beta", route: "/cockpit/gewerbe-check" },
       { slug: "freiberuf-check", title: "Freiberuf vs. Gewerbe-Check", desc: "Präziser Berufs-Check (50+ Berufe): Katalog §18 EStG + ähnliche Berufe (BFH) + Edge-Cases (YouTuber, Coaches, IT-Autodidakten). Mit Qualifikations-Check und Abfärbetheorie-Warnung §15 Abs. 3 EStG.", status: "beta", route: "/cockpit/freiberuf-check" },
+      { slug: "schwellen-check", title: "Side-Hustle-Schwellen-Check", desc: "Alle Freibeträge + Freigrenzen 2026 (§22 Sonstige 256€, Übungsleiter 3.000€, Ehrenamt 840€, §23 Crypto 1.000€, KU 25k/100k, Sparerpauschbetrag 1.000€) plus DAC7-Plattform-Meldung ab 30 Verkäufen/2.000€.", status: "beta", route: "/cockpit/schwellen-check" },
     ],
   },
   {

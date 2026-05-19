@@ -49,6 +49,7 @@ const PensionOptimizer = lazy(() => import("./pages/PensionOptimizer.tsx"));
 const KvOptimizer = lazy(() => import("./pages/KvOptimizer.tsx"));
 const GewerbeCheck = lazy(() => import("./pages/GewerbeCheck.tsx"));
 const FreiberufCheck = lazy(() => import("./pages/FreiberufCheck.tsx"));
+const SchwellenCheck = lazy(() => import("./pages/SchwellenCheck.tsx"));
 const ReisekostenLogger = lazy(() => import("./pages/ReisekostenLogger.tsx"));
 const DatevMapper = lazy(() => import("./pages/DatevMapper.tsx"));
 const StbHandoff = lazy(() => import("./pages/StbHandoff.tsx"));
@@ -151,6 +152,7 @@ const App = () => (
                 <Route path="/cockpit/kv-optimizer" element={<PaywallGate title="KV-Optimizer"><KvOptimizer /></PaywallGate>} />
                 <Route path="/cockpit/gewerbe-check" element={<PaywallGate title="Brauche ich ein Gewerbe?"><GewerbeCheck /></PaywallGate>} />
                 <Route path="/cockpit/freiberuf-check" element={<PaywallGate title="Freiberuf vs. Gewerbe-Check"><FreiberufCheck /></PaywallGate>} />
+                <Route path="/cockpit/schwellen-check" element={<PaywallGate title="Side-Hustle-Schwellen-Check"><SchwellenCheck /></PaywallGate>} />
                 <Route path="/cockpit/reisekosten-logger" element={<PaywallGate title="Reisekosten-Logger"><ReisekostenLogger /></PaywallGate>} />
                 <Route path="/cockpit/datev-mapper" element={<PaywallGate title="DATEV-Mapper"><DatevMapper /></PaywallGate>} />
                 <Route path="/cockpit/stb-handoff" element={<PaywallGate title="StB-Hand-off"><StbHandoff /></PaywallGate>} />
