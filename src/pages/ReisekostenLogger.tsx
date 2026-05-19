@@ -212,7 +212,7 @@ const ReisekostenLogger = () => {
     <CockpitShell
       eyebrow="Reisekosten-Logger"
       title="Reisekosten + Bewirtung erfassen"
-      subtitle="Mit auto-berechneten Verpflegungs-Pauschalen DE + 12 Auslands-Länder · Fahrtkosten 0,30 €/km · Bewirtung 70 % BA mit Vorsteuer-Abzug · CSV-Export für StB."
+      subtitle="Mit auto-berechneten Verpflegungs-Pauschalen DE (28 €/14 €) + 35+ Auslands-Länder · 8h-Schwelle für Tagesreise (§9 (4a) EStG) · Fahrtkosten 0,30 €/km · Bewirtung 70 % BA mit Vorsteuer-Abzug · CSV-Export für StB."
     >
       {/* Tab Toggle */}
       <div className="flex gap-2 mb-6">
