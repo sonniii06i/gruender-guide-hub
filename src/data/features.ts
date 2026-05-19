@@ -7,6 +7,7 @@ import {
   BookOpen,
   Trophy,
   HeartHandshake,
+  Sprout,
   type LucideIcon,
 } from "lucide-react";
 
@@ -32,6 +33,16 @@ export interface FeatureCategory {
 }
 
 const _CATEGORIES_RAW: FeatureCategory[] = [
+  {
+    slug: "starter",
+    title: "🌱 Erste Schritte",
+    emoji: "🌱",
+    icon: Sprout,
+    tagline: "Für komplette Anfänger ohne Gewerbe — von 'Idee' bis 'erste Rechnung'",
+    features: [
+      { slug: "gewerbe-check", title: "Brauche ich ein Gewerbe?", desc: "Decision-Tree für komplette Anfänger: Hobby vs. Freiberufler vs. Gewerbe. Mit Schwellen-Check (Gewinnerzielungsabsicht, §22 EStG, Liebhaberei) und klarer Empfehlung was du JETZT machen musst.", status: "beta", route: "/cockpit/gewerbe-check" },
+    ],
+  },
   {
     slug: "international",
     title: "Internationale Setups",
@@ -166,7 +177,7 @@ const _CATEGORIES_RAW: FeatureCategory[] = [
 ];
 
 // Reihenfolge nach Relevanz für die breite Masse der (DE-)Gründer.
-const ORDER = ["rechtsform", "steuer", "buchhaltung", "marken", "anbieter", "launch", "international", "premium"];
+const ORDER = ["starter", "rechtsform", "steuer", "buchhaltung", "marken", "anbieter", "launch", "international", "premium"];
 export const CATEGORIES: FeatureCategory[] = ORDER
   .map((slug) => _CATEGORIES_RAW.find((c) => c.slug === slug)!)
   .filter(Boolean);
