@@ -441,8 +441,9 @@ const QuartalsSteuer = () => {
                 (Single). Familien-Splitting / Verheiratete: doppelte Grenze.
               </li>
               <li>
-                <strong>GewSt-Anrechnung §35 EStG:</strong> bei Einzelunternehmer wird GewSt mit 3,8 ×
-                Messbetrag auf ESt angerechnet — bei Hebesatz ≤ 380 % effektiv neutral.
+                <strong>GewSt-Anrechnung §35 EStG:</strong> bei Einzelunternehmer wird GewSt mit 4,0 ×
+                Messbetrag auf ESt angerechnet (seit 2020 erhöht von 3,8). Bei Hebesatz ≤ 400 % effektiv
+                neutral. Bei Berlin (410%) / München (490%) bleibt Restbelastung.
               </li>
               <li>
                 <strong>Pre-Year-End:</strong> ab Q4 mit{" "}

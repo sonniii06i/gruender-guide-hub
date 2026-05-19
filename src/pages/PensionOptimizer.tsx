@@ -6,6 +6,13 @@ import { Label } from "@/components/ui/label";
 import { Calculator, AlertTriangle, TrendingUp } from "lucide-react";
 import { annuityFV as annuity_fv, RUERUP_MAX_SINGLE, BAV_STEUERFREI_QUOTE, BBG_RV_WEST_JAHR, RIESTER_MAX, RIESTER_GRUNDZULAGE } from "@/lib/germanTax";
 
+type EtfTyp = "aktien" | "misch" | "anleihen";
+const TEILFREISTELLUNG: Record<EtfTyp, number> = {
+  aktien: 0.30,   // §20 InvStG: 30% steuerfrei für Aktien-Anteil ≥51%
+  misch: 0.15,    // 15% für Mischfonds (Aktien-Anteil 25-50%)
+  anleihen: 0,    // 0% für Anleihen/Geldmarkt-Fonds
+};
+
 const PensionOptimizer = () => {
   const [alter, setAlter] = useState(35);
   const [renteAlter, setRenteAlter] = useState(67);
@@ -17,6 +24,10 @@ const PensionOptimizer = () => {
   const [istBeherrschenderGF, setIstBeherrschenderGF] = useState(false);
   // Riester: Anzahl Kinder (kindzulage 300€ je Kind ab 2008-Geburtsjahr)
   const [riesterKinder, setRiesterKinder] = useState(0);
+  // ETF-Asset-Klasse für Teilfreistellung
+  const [etfTyp, setEtfTyp] = useState<EtfTyp>("aktien");
+  // Re-Invest der Sparphasen-Steuerersparnis? Sonst undiskontiert
+  const [reinvestSteuerErsparnis, setReinvestSteuerErsparnis] = useState(true);
 
   const jahre = renteAlter - alter;
   const jaehrlichSparen = monatlichSparen * 12;
@@ -25,51 +36,52 @@ const PensionOptimizer = () => {
   const calc = useMemo(() => {
     const yearsToRetirement = Math.max(1, jahre);
 
-    // ETF-Privat: Sparplan mit thesaurierendem ETF
-    // Steuerlich: 25% Vorabpauschale auf Basisertrag (TBD pro Jahr ~0,3-0,7%) + 26,375% AbgSt bei Auszahlung
-    // Vereinfacht: 6% return brutto, 1% effektive Steuer-Drag durch Vorabpauschale + AbgSt-Hit am Ende
-    const etfReturn = annualReturn - 0.005; // -0.5% Steuer-Drag während Sparphase
+    // ETF-Privat: Sparplan mit thesaurierendem ETF.
+    // Vorabpauschale (Basiszins × 70% × Bestand × Aktien-Teilfreistellung × 26,375%) ≈ 0,3-0,7%/J Drag.
+    const teilfreistellung = TEILFREISTELLUNG[etfTyp];
+    const etfReturn = annualReturn - 0.005; // 0,5% Steuer-Drag während Sparphase
     const etfEnd = annuity_fv(jaehrlichSparen, etfReturn, yearsToRetirement);
-    const etfNetEnd = etfEnd - (etfEnd - jaehrlichSparen * yearsToRetirement) * 0.26375 * 0.7; // 70% des Gewinns × AbgSt
-    // Steuer-Ersparnis ETF: 0 (kein Sonderausgaben-Abzug)
+    const etfGewinn = etfEnd - jaehrlichSparen * yearsToRetirement;
+    // AbgSt auf Gewinn mit Teilfreistellung (Aktien 30%, Misch 15%, Anleihen 0%)
+    const etfAbgSt = etfGewinn * 0.26375 * (1 - teilfreistellung);
+    const etfNetEnd = etfEnd - etfAbgSt;
 
-    // Rürup-Höchstbetrag aus zentraler germanTax-Lib (Stand 2025; 2026-BMF-Update steht aus).
+    // Helper: Steuer-Ersparnis-Reinvestition (in einem ETF mit netto-Rendite annualReturn-0,005)
+    const reinvestErsparnis = (jaehrlichErsparnis: number) =>
+      reinvestSteuerErsparnis ? annuity_fv(jaehrlichErsparnis, annualReturn - 0.005, yearsToRetirement) - jaehrlichErsparnis * yearsToRetirement : 0;
+
+    // Rürup-Höchstbetrag (Stand 2025; 2026-Wert via BMF-Schreiben — Approximation)
     const ruerup_max = RUERUP_MAX_SINGLE;
     const ruerup_sparen = Math.min(jaehrlichSparen, ruerup_max);
     const ruerup_steuerErsparnisProJahr = ruerup_sparen * estSatz;
     const ruerup_end = annuity_fv(jaehrlichSparen, annualReturn, yearsToRetirement);
-    // Auszahlung: voll als Rente besteuert (~100% steuerpflichtig ab 2040+)
-    // Rentner-Steuersatz ~25%
-    const ruerup_renteJaehrlich = ruerup_end / 20; // 20 Jahre Rentenbezug
+    const ruerup_renteJaehrlich = ruerup_end / 20;
     const ruerup_steuerImRentenalter = ruerup_renteJaehrlich * 0.25 * 20;
     const ruerup_netto = ruerup_end - ruerup_steuerImRentenalter;
     const ruerup_steuerErsparnisGesamt = ruerup_steuerErsparnisProJahr * yearsToRetirement;
-    const ruerup_finalEffekt = ruerup_netto + ruerup_steuerErsparnisGesamt;
+    const ruerup_reinvestGewinn = reinvestErsparnis(ruerup_steuerErsparnisProJahr);
+    const ruerup_finalEffekt = ruerup_netto + ruerup_steuerErsparnisGesamt + ruerup_reinvestGewinn;
 
     // bAV §3 Nr. 63 EStG: 8 % BBG-RV-West steuerfrei, davon 4 % zusätzlich SV-frei.
-    // SV-Ersparnis nur bei AN-pflichtversicherten — beherrschende GF haben i.d.R. keine SV-Pflicht.
     const bav_max_steuerfrei = BBG_RV_WEST_JAHR * BAV_STEUERFREI_QUOTE;
     const bav_sparen = Math.min(jaehrlichSparen, bav_max_steuerfrei);
     const bav_max_svfrei = BBG_RV_WEST_JAHR * 0.04;
-    const bav_sv_anteil_an = istBeherrschenderGF ? 0 : 0.10; // AN-Anteil SV ≈ 10 % (KV+RV+AV+PV / 2)
+    const bav_sv_anteil_an = istBeherrschenderGF ? 0 : 0.10;
     const bav_sv_ersparnis_pro_jahr = Math.min(bav_sparen, bav_max_svfrei) * bav_sv_anteil_an;
     const bav_steuerErsparnisProJahr = bav_sparen * estSatz + bav_sv_ersparnis_pro_jahr;
     const bav_end = annuity_fv(jaehrlichSparen, annualReturn - 0.01, yearsToRetirement);
-    // Auszahlung als Rente: voll steuerpflichtig + KV-Pflicht (~7,3 % KV-Beitrag auf Versorgungsbezüge)
     const bav_renteJaehrlich = bav_end / 20;
-    const bav_steuerImRentenalter = bav_renteJaehrlich * 0.25 * 20; // ESt im Rentenalter
+    const bav_steuerImRentenalter = bav_renteJaehrlich * 0.25 * 20;
     const bav_kvImRentenalter = bav_renteJaehrlich * 0.073 * 20;
     const bav_netto = bav_end - bav_steuerImRentenalter - bav_kvImRentenalter;
     const bav_steuerErsparnisGesamt = bav_steuerErsparnisProJahr * yearsToRetirement;
-    const bav_finalEffekt = bav_netto + bav_steuerErsparnisGesamt;
+    const bav_reinvestGewinn = reinvestErsparnis(bav_steuerErsparnisProJahr);
+    const bav_finalEffekt = bav_netto + bav_steuerErsparnisGesamt + bav_reinvestGewinn;
 
-    // Riester: 175 € Grundzulage + 300 € je Kind. Günstigerprüfung: max(Sonderausgaben-Steuerersparnis, Zulagen).
+    // Riester: 175 € Grundzulage + 300 € je Kind ab Geburtsjahr 2008 (vorher 185€, hier vereinfacht 300€).
     const riester_max = RIESTER_MAX;
     const riester_sparen = Math.min(jaehrlichSparen, riester_max);
     const riester_zulagen_gesamt = RIESTER_GRUNDZULAGE + Math.max(0, riesterKinder) * 300;
-    // Eigener Mindesteigenbeitrag: 4 % brutto-Vorjahres (vereinfacht durch Sparbetrag)
-    // Steuerersparnis = Sonderausgaben-Effekt (riester_sparen × estSatz). Günstigerprüfung:
-    // wenn Steuerersparnis > Zulage, bekommt User Differenz extra. Wenn Zulage > Steuerersparnis, nichts extra.
     const riester_steuerersparnis_brutto = riester_sparen * estSatz;
     const riester_steuerErsparnisProJahr = Math.max(0, riester_steuerersparnis_brutto - riester_zulagen_gesamt);
     const riester_end = annuity_fv(riester_sparen + riester_zulagen_gesamt, annualReturn - 0.015, yearsToRetirement);
@@ -77,7 +89,8 @@ const PensionOptimizer = () => {
     const riester_renteJaehrlich = riester_end / 20;
     const riester_steuerImRentenalter = riester_renteJaehrlich * 0.25 * 20;
     const riester_netto = riester_end - riester_steuerImRentenalter;
-    const riester_finalEffekt = riester_netto + riester_steuerErsparnisGesamt;
+    const riester_reinvestGewinn = reinvestErsparnis(riester_steuerErsparnisProJahr);
+    const riester_finalEffekt = riester_netto + riester_steuerErsparnisGesamt + riester_reinvestGewinn;
 
     return {
       etf: {
@@ -105,7 +118,7 @@ const PensionOptimizer = () => {
         finalEffekt: riester_finalEffekt,
       },
     };
-  }, [jahre, jaehrlichSparen, estSatz, annualReturn, istBeherrschenderGF, riesterKinder]);
+  }, [jahre, jaehrlichSparen, estSatz, annualReturn, istBeherrschenderGF, riesterKinder, etfTyp, reinvestSteuerErsparnis]);
 
   const sortedOptions = useMemo(() => {
     return [
@@ -279,6 +292,29 @@ const PensionOptimizer = () => {
               className="mt-1 h-9 text-sm"
             />
           </div>
+          <div>
+            <Label className="text-xs uppercase tracking-wider text-muted-foreground">ETF-Typ (Teilfreistellung §20 InvStG)</Label>
+            <select
+              value={etfTyp}
+              onChange={(e) => setEtfTyp(e.target.value as EtfTyp)}
+              className="mt-1 h-9 w-full rounded-md border border-input bg-background px-2 text-sm"
+            >
+              <option value="aktien">Aktien-ETF (≥51% Aktien — 30% TF)</option>
+              <option value="misch">Misch-ETF (25-50% Aktien — 15% TF)</option>
+              <option value="anleihen">Anleihen-/Geldmarkt-ETF (0% TF)</option>
+            </select>
+          </div>
+          <label className="flex items-start gap-2 text-xs cursor-pointer rounded-lg border border-emerald-500/30 bg-emerald-500/5 p-2">
+            <input
+              type="checkbox"
+              checked={reinvestSteuerErsparnis}
+              onChange={(e) => setReinvestSteuerErsparnis(e.target.checked)}
+              className="h-4 w-4 mt-0.5"
+            />
+            <span>
+              <strong>Steuer-Ersparnis reinvestieren</strong> (realistisch — sonst Apfel+Birne-Vergleich Sparphasen-Cash vs. Renten-Auszahlung in 30 J.)
+            </span>
+          </label>
         </div>
         <div className="rounded-xl bg-secondary/40 p-3 mt-3 text-xs">
           <strong>{jahre} Jahre bis Rente</strong> · {jaehrlichSparen.toLocaleString("de-DE")} €/Jahr Sparrate · Total
@@ -317,6 +353,7 @@ const PensionOptimizer = () => {
               <div className="text-base font-bold text-emerald-700">
                 {Math.round(sortedOptions[0].finalEffekt).toLocaleString("de-DE")} €
               </div>
+              <div className="text-[10px] text-muted-foreground mt-0.5">Netto + Steuer-Ersparnis{reinvestSteuerErsparnis ? " (reinvestiert)" : " (undiskontiert)"}</div>
             </div>
           </div>
         </div>

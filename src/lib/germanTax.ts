@@ -36,8 +36,8 @@ export const TEV_QUOTE = 0.6;
 /** §8b KStG Schein-Dividende — 5 % der Holding-Dividende werden besteuert. */
 export const HOLDING_SCHEIN_DIVIDENDE = 0.05;
 
-/** GewSt-Anrechnung auf ESt-Faktor §35 EStG. */
-export const GEWST_ANRECHNUNG_FAKTOR = 3.8;
+/** GewSt-Anrechnung auf ESt-Faktor §35 EStG. Seit 2020 (2. CoronaSteuerhilfeG) 4,0 — bei Hebesatz ≤400% effektiv neutral. */
+export const GEWST_ANRECHNUNG_FAKTOR = 4.0;
 
 /** §7g EStG Investitionsabzugsbetrag — 50 % der geplanten Investitionen abziehbar. */
 export const IAB_QUOTE = 0.5;
