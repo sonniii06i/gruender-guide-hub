@@ -41,6 +41,7 @@ const _CATEGORIES_RAW: FeatureCategory[] = [
     tagline: "Für komplette Anfänger ohne Gewerbe — von 'Idee' bis 'erste Rechnung'",
     features: [
       { slug: "gewerbe-check", title: "Brauche ich ein Gewerbe?", desc: "Decision-Tree für komplette Anfänger: Hobby vs. Freiberufler vs. Gewerbe. Mit Schwellen-Check (Gewinnerzielungsabsicht, §22 EStG, Liebhaberei) und klarer Empfehlung was du JETZT machen musst.", status: "beta", route: "/cockpit/gewerbe-check" },
+      { slug: "freiberuf-check", title: "Freiberuf vs. Gewerbe-Check", desc: "Präziser Berufs-Check (50+ Berufe): Katalog §18 EStG + ähnliche Berufe (BFH) + Edge-Cases (YouTuber, Coaches, IT-Autodidakten). Mit Qualifikations-Check und Abfärbetheorie-Warnung §15 Abs. 3 EStG.", status: "beta", route: "/cockpit/freiberuf-check" },
     ],
   },
   {
