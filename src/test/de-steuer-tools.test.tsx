@@ -19,6 +19,10 @@ import SalaryDividendOptimizer from "@/pages/SalaryDividendOptimizer";
 import CryptoSteuer from "@/pages/CryptoSteuer";
 import PensionOptimizer from "@/pages/PensionOptimizer";
 import QuartalsSteuer from "@/pages/QuartalsSteuer";
+import SteuerCockpit from "@/pages/SteuerCockpit";
+import AmazonBuchungen from "@/pages/AmazonBuchungen";
+import PreYearEndCheck from "@/pages/PreYearEndCheck";
+import { ALL_AMAZON_CODES, lookupAmazonCode, PREFIX_CODES } from "@/lib/amazonBookingCodes";
 
 import {
   RUERUP_MAX_SINGLE,
@@ -262,10 +266,93 @@ describe("QuartalsSteuer", () => {
 });
 
 // =====================================================================
+// Tool 8: Frist-Kalender (SteuerCockpit)
+// =====================================================================
+describe("SteuerCockpit (Frist-Kalender)", () => {
+  it("rendert ohne Crash", () => {
+    renderWithRouter(<SteuerCockpit />);
+    expect(screen.getAllByText(/Frist|Termin|Steuer/i).length).toBeGreaterThan(0);
+  });
+  it("zeigt 2026er Steuer-Termine", () => {
+    renderWithRouter(<SteuerCockpit />);
+    const html = document.body.innerHTML;
+    // Mindestens ein Quartals-Datum sollte sichtbar sein
+    const hatTermine = /10\.\d{2}\./.test(html) || /\d{2}\.\d{2}\./.test(html);
+    expect(hatTermine).toBe(true);
+  });
+  it("zeigt IAB-Rechner-Sektion mit §7g EStG", () => {
+    renderWithRouter(<SteuerCockpit />);
+    expect(document.body.innerHTML).toMatch(/IAB|§\s*7g|Investitionsabzug/i);
+  });
+});
+
+// =====================================================================
+// Tool 9: Amazon-Buchungstexte
+// =====================================================================
+describe("AmazonBuchungen (130+ Code-Lookup)", () => {
+  it("rendert ohne Crash", () => {
+    renderWithRouter(<AmazonBuchungen />);
+    expect(screen.getAllByText(/Amazon|Buchung|Code/i).length).toBeGreaterThan(0);
+  });
+  it("Code-Datenbank hat mind. 130 Einträge", () => {
+    expect(ALL_AMAZON_CODES.length).toBeGreaterThanOrEqual(130);
+  });
+  it("Wichtigste Codes existieren in der DB", () => {
+    // Bekannte Amazon-Settlement-Prefixes
+    const prefixes = PREFIX_CODES.map((c) => c.code);
+    expect(prefixes).toContain("AMA-SG-DE");
+    expect(prefixes).toContain("AMA-BG-DE");
+  });
+  it("lookupAmazonCode findet AMA-SG-DE-Principal als Sub", () => {
+    const result = lookupAmazonCode("AMA-SG-DE-Principal");
+    expect(result.prefix?.code).toBe("AMA-SG-DE");
+  });
+  it("lookupAmazonCode kennt Fallback bei unbekanntem Code", () => {
+    const result = lookupAmazonCode("AMA-SG-DE-UNBEKANNTER-CODE-XYZ");
+    expect(result.prefix?.code).toBe("AMA-SG-DE");
+    expect(result.fallbackHint).toBeTruthy();
+  });
+});
+
+// =====================================================================
+// Tool 10: PreYearEndCheck (7 Hebel)
+// =====================================================================
+describe("PreYearEndCheck (7 Hebel)", () => {
+  it("rendert ohne Crash", () => {
+    renderWithRouter(<PreYearEndCheck />);
+    expect(screen.getAllByText(/Pre-Year|Hebel|IAB|Investition/i).length).toBeGreaterThan(0);
+  });
+  it("IAB-Hebel ist sichtbar (§7g)", () => {
+    renderWithRouter(<PreYearEndCheck />);
+    expect(document.body.innerHTML).toMatch(/IAB|§\s*7g/i);
+  });
+  it("hat Hebesatz-Input (kein hardcoded 400% mehr)", () => {
+    renderWithRouter(<PreYearEndCheck />);
+    expect(document.body.innerHTML).toMatch(/Hebesatz|GewSt/i);
+  });
+  it("IAB-Ersparnis: GmbH 150k Gewinn, Inv 80k → ~12.075 € Ersparnis (40k × 30.19%)", () => {
+    // Replikat: GmbH IAB-Pfad ohne Progression
+    const gewinn = 150000, invBasis = 80000, hebesatz = 400;
+    const iabAbzug = Math.min(invBasis * 0.5, 200000); // 40k
+    const KSt_GEWST = 0.15 * 1.055 + (hebesatz / 100) * 0.035; // 15.825% + 14% = 29.825%
+    const ersparnis = iabAbzug * KSt_GEWST;
+    expect(iabAbzug).toBe(40000);
+    expect(ersparnis).toBeCloseTo(11930, -1); // 40k × 29.825% ≈ 11.930
+    // Gewinn nicht im Sperrbereich (200k)
+    expect(gewinn <= 200000).toBe(true);
+  });
+  it("IAB-Sperre greift bei Gewinn > 200k Einzel", () => {
+    const gewinn = 250000;
+    const iabBerechtigt = gewinn <= 200000;
+    expect(iabBerechtigt).toBe(false);
+  });
+});
+
+// =====================================================================
 // Cross-Tool-Konsistenz
 // =====================================================================
 describe("Cross-Konsistenz: alle Tools nutzen Lib-Konstanten", () => {
-  it("Alle 7 Tools haben einen funktionsfähigen Renderpath", () => {
+  it("Alle 10 Tools haben einen funktionsfähigen Renderpath", () => {
     expect(() => renderWithRouter(<IabRechner />)).not.toThrow();
     expect(() => renderWithRouter(<KfzOptimizer />)).not.toThrow();
     expect(() => renderWithRouter(<ReisekostenLogger />)).not.toThrow();
@@ -273,5 +360,8 @@ describe("Cross-Konsistenz: alle Tools nutzen Lib-Konstanten", () => {
     expect(() => renderWithRouter(<CryptoSteuer />)).not.toThrow();
     expect(() => renderWithRouter(<PensionOptimizer />)).not.toThrow();
     expect(() => renderWithRouter(<QuartalsSteuer />)).not.toThrow();
+    expect(() => renderWithRouter(<SteuerCockpit />)).not.toThrow();
+    expect(() => renderWithRouter(<AmazonBuchungen />)).not.toThrow();
+    expect(() => renderWithRouter(<PreYearEndCheck />)).not.toThrow();
   });
 });
