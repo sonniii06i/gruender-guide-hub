@@ -187,7 +187,7 @@ const PensionOptimizer = () => {
         slug: "ruerup",
         name: "Rürup (Basisrente)",
         emoji: "🏛️",
-        description: "Steuerlich geförderte Basisrente — bis 29.344 €/Jahr (2026) zu 100 % als Sonderausgabe absetzbar",
+        description: "Steuerlich geförderte Basisrente — bis 30.826 €/Jahr (Single 2026, Verheiratet 61.652 €) zu 100 % als Sonderausgabe absetzbar",
         ...calc.ruerup,
         pros: [
           "**100 % steuerlich absetzbar** (2026)",

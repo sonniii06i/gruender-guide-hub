@@ -2377,17 +2377,6 @@ export const SUB_CODES: AmazonCode[] = [
     bookingHint: "Werbekosten.",
   },
   {
-    code: "InbCarDa",
-    category: "reimbursement",
-    label: "Inbound Carrier Damage",
-    meaning: "Inbound-Carrier-Schaden.",
-    sign: "plus",
-    skr03: "8400 Sonstige Erträge",
-    skr04: "4830 Sonstige betriebliche Erträge",
-    ust: "0% steuerfrei",
-    bookingHint: "Schadensersatz.",
-  },
-  {
     code: "NNMZN",
     category: "other",
     label: "Non-Amazon",
