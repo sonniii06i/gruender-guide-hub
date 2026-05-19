@@ -332,6 +332,23 @@ const ReisekostenLogger = () => {
                     </div>
                   </div>
 
+                  {/* Bei Tagesreise (Start = Ende): 8h-Abwesenheit-Check für Verpflegungspauschale */}
+                  {r.datum === r.endeDatum && r.datum && (
+                    <div className="mb-2 rounded-md border border-amber-500/30 bg-amber-500/5 p-2">
+                      <label className="flex items-center gap-2 text-xs cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={!!r.tagesreiseUeber8h}
+                          onChange={(e) => updateReise(r.id, { tagesreiseUeber8h: e.target.checked })}
+                          className="h-4 w-4"
+                        />
+                        <span>
+                          <strong>Tagesreise &gt; 8 h Abwesenheit</strong> — Pflicht für 14 € Pauschale (§9 Abs. 4a EStG). Ohne Haken: 0 €.
+                        </span>
+                      </label>
+                    </div>
+                  )}
+
                   <div className="grid grid-cols-1 md:grid-cols-4 gap-2 mb-3">
                     <div>
                       <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">Übernachtung €/Nacht</Label>

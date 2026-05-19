@@ -52,7 +52,7 @@ const QuartalsSteuer = () => {
       const gewstBasis = Math.max(0, erwarteterJahresgewinn - GEWST_FREIBETRAG_NATUERLICH);
       const gewstMessbetrag = gewstBasis * GEWST_MESSZAHL;
       const gewstHebesatz = (hebesatzGewSt / 100) * gewstMessbetrag;
-      // GewSt-Anrechnung §35 EStG: 3,8x Messbetrag
+      // GewSt-Anrechnung §35 EStG: 4,0 × Messbetrag (seit 2020 2. CoronaStHiG, vorher 3,8)
       const gewstAnrechnung = Math.min(gewstMessbetrag * GEWST_ANRECHNUNG_FAKTOR, eSt);
       const gewstEffektiv = rechtsform === "freiberuf" ? 0 : Math.max(0, gewstHebesatz - gewstAnrechnung);
       return {
