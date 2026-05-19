@@ -115,6 +115,15 @@ const SettlementParser = () => {
     const d = desc.toLowerCase().trim();
     const t = type.toLowerCase().trim();
     const both = `${t} ${d}`;
+    const isRefundContext = t === "refund" || t === "chargeback" || d.includes("refund") || d.includes("chargeback");
+
+    // Refund/Chargeback ZUERST prüfen — überschreibt sonst 'Principal' → Erlöse
+    if (isRefundContext && (d === "principal" || d === "")) {
+      return { category: "Refund (Erlösschmälerung)", skr03: "8730 Erlösschmälerungen", skr04: "4730 Erlösschmälerungen" };
+    }
+    if (isRefundContext && (d === "shipping" || d === "giftwrap")) {
+      return { category: "Refund Versand/GiftWrap (Erlösschmälerung)", skr03: "8730 Erlösschmälerungen", skr04: "4730 Erlösschmälerungen" };
+    }
 
     // Verkauf-Erlöse
     if (d === "principal") return { category: "Verkaufserlöse (Principal)", skr03: "8400 Erlöse 19% USt", skr04: "4400 Erlöse 19% USt" };
@@ -279,8 +288,8 @@ const SettlementParser = () => {
       const fee = r.fee / divisor;
       const t = r.type.toLowerCase();
       const category = mapStripeCategory(t, r.desc);
-      const skr03 = mapStripeSkr03(t, amount);
-      const skr04 = mapStripeSkr04(t, amount);
+      const skr03 = mapStripeSkr03(t, amount, r.desc);
+      const skr04 = mapStripeSkr04(t, amount, r.desc);
       result.push({ date: r.date, type: r.type, description: r.desc, amount, currency: r.currency, category, skr03, skr04 });
 
       // Fee nur als separate Zeile anlegen WENN die CSV nicht selbst fee-Zeilen hat
@@ -303,6 +312,8 @@ const SettlementParser = () => {
 
   function mapStripeCategory(type: string, desc: string): string {
     const d = desc.toLowerCase();
+    // Trinkgeld zuerst — bevor charge-Match greift (Trinkgeld kommt oft als type=charge)
+    if (d.includes("tip") || d.includes("trinkgeld") || d.includes("gratuity")) return "Trinkgeld";
     // reporting_category: charge, refund, dispute, fee, payout, advance, transfer, tax, partial_capture_reversal etc.
     if (type === "charge" || type === "payment" || type.includes("charge") || type.includes("payment")) return "Verkaufserlöse";
     if (type === "partial_capture_reversal" || type === "refund" || type.includes("refund")) return "Refunds / Erlösschmälerungen";
@@ -321,7 +332,9 @@ const SettlementParser = () => {
     return "Sonstiges";
   }
 
-  function mapStripeSkr03(type: string, amount: number): string {
+  function mapStripeSkr03(type: string, amount: number, desc = ""): string {
+    const d = desc.toLowerCase();
+    if (d.includes("tip") || d.includes("trinkgeld") || d.includes("gratuity")) return "8400 Erlöse Trinkgeld 19% USt";
     if (type === "charge" || type === "payment" || type.includes("charge") || type.includes("payment")) return "8400 Erlöse 19% USt";
     if (type === "tax") return "1776 USt 19% (durchlaufend)";
     if (type === "refund" || type === "partial_capture_reversal" || type.includes("refund")) return "8730 Erlösschmälerungen";
@@ -332,7 +345,9 @@ const SettlementParser = () => {
     return amount > 0 ? "8400 Sonstige Erträge" : "4900 Sonstige Aufwendungen";
   }
 
-  function mapStripeSkr04(type: string, amount: number): string {
+  function mapStripeSkr04(type: string, amount: number, desc = ""): string {
+    const d = desc.toLowerCase();
+    if (d.includes("tip") || d.includes("trinkgeld") || d.includes("gratuity")) return "4400 Erlöse Trinkgeld 19% USt";
     if (type === "charge" || type === "payment" || type.includes("charge") || type.includes("payment")) return "4400 Erlöse 19% USt";
     if (type === "tax") return "3806 USt 19% (durchlaufend)";
     if (type === "refund" || type === "partial_capture_reversal" || type.includes("refund")) return "4730 Erlösschmälerungen";
