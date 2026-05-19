@@ -46,6 +46,7 @@ const IntlBanking = lazy(() => import("./pages/IntlBanking.tsx"));
 const BwaGenerator = lazy(() => import("./pages/BwaGenerator.tsx"));
 const MargeTracker = lazy(() => import("./pages/MargeTracker.tsx"));
 const PensionOptimizer = lazy(() => import("./pages/PensionOptimizer.tsx"));
+const KvOptimizer = lazy(() => import("./pages/KvOptimizer.tsx"));
 const ReisekostenLogger = lazy(() => import("./pages/ReisekostenLogger.tsx"));
 const DatevMapper = lazy(() => import("./pages/DatevMapper.tsx"));
 const StbHandoff = lazy(() => import("./pages/StbHandoff.tsx"));
@@ -145,6 +146,7 @@ const App = () => (
                 <Route path="/cockpit/bwa-generator" element={<PaywallGate title="BWA-Generator"><BwaGenerator /></PaywallGate>} />
                 <Route path="/cockpit/marge-tracker" element={<PaywallGate title="Marge-Tracker"><MargeTracker /></PaywallGate>} />
                 <Route path="/cockpit/pension-optimizer" element={<PaywallGate title="Pension-Optimizer"><PensionOptimizer /></PaywallGate>} />
+                <Route path="/cockpit/kv-optimizer" element={<PaywallGate title="KV-Optimizer"><KvOptimizer /></PaywallGate>} />
                 <Route path="/cockpit/reisekosten-logger" element={<PaywallGate title="Reisekosten-Logger"><ReisekostenLogger /></PaywallGate>} />
                 <Route path="/cockpit/datev-mapper" element={<PaywallGate title="DATEV-Mapper"><DatevMapper /></PaywallGate>} />
                 <Route path="/cockpit/stb-handoff" element={<PaywallGate title="StB-Hand-off"><StbHandoff /></PaywallGate>} />
