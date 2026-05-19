@@ -55,7 +55,7 @@ const SettlementParser = () => {
   };
 
   // ============================================================
-  // Amazon CSV Parser
+  // Amazon CSV Parser — handhabt Settlement-Reports mit echten amount-description-Werten
   // ============================================================
   function parseAmazon(text: string): ParsedRow[] {
     const lines = text
@@ -64,11 +64,8 @@ const SettlementParser = () => {
       .filter(Boolean);
     if (lines.length < 2) throw new Error("CSV leer oder ungültig");
 
-    // Amazon-Settlement-CSV-Spalten typisch:
-    // settlement-id, settlement-start-date, settlement-end-date, deposit-date, total-amount, currency,
-    // transaction-type, order-id, merchant-order-id, adjustment-id, shipment-id, marketplace-name,
-    // amount-type, amount-description, amount, fulfillment-id, posted-date, ...
-    const header = lines[0].split(/[,;\t]/).map((h) => h.toLowerCase().trim().replace(/^"|"$/g, ""));
+    // Header auch mit splitCsvLine parsen (handhabt Quotes korrekt, falls Header zitiert ist)
+    const header = splitCsvLine(lines[0]).map((h) => h.toLowerCase().trim().replace(/^"|"$/g, ""));
 
     const idxType = findIdx(header, ["transaction-type", "amount-type", "type"]);
     const idxDesc = findIdx(header, ["amount-description", "description"]);
@@ -81,28 +78,110 @@ const SettlementParser = () => {
       const row = splitCsvLine(lines[i]);
       if (row.length < 3) continue;
 
-      const type = row[idxType] || "";
-      const desc = idxDesc >= 0 ? row[idxDesc] || "" : "";
-      const amount = parseFloat((row[idxAmount] || "0").replace(",", "."));
-      const date = idxDate >= 0 ? row[idxDate] : "";
-      const currency = idxCurrency >= 0 ? row[idxCurrency] || "EUR" : "EUR";
+      const type = (row[idxType] || "").replace(/^"|"$/g, "");
+      const desc = (idxDesc >= 0 ? row[idxDesc] || "" : "").replace(/^"|"$/g, "");
+      const amount = parseMoney(row[idxAmount] || "0");
+      const date = (idxDate >= 0 ? row[idxDate] || "" : "").replace(/^"|"$/g, "");
+      const currency = (idxCurrency >= 0 ? row[idxCurrency] || "EUR" : "EUR").replace(/^"|"$/g, "");
 
       if (isNaN(amount) || amount === 0) continue;
 
-      // Mappe via lookupAmazonCode
-      const lookupKey = desc || type;
-      const lookup = lookupAmazonCode(lookupKey);
-      const matched = lookup.sub || lookup.prefix;
-      const category = matched?.label ?? mapAmazonCategory(type, desc);
-      const skr03 = matched?.skr03;
-      const skr04 = matched?.skr04;
+      // Erst echte amount-description-Mapping (granular), dann fallback auf Buchungs-Code-Lookup
+      const mapped = mapAmazonSettlementLine(type, desc, amount);
+      if (mapped) {
+        result.push({ date, type, description: desc, amount, currency, ...mapped });
+        continue;
+      }
 
-      result.push({ date, type, description: desc, amount, currency, category, skr03, skr04 });
+      // Letzte Chance: Buchungs-Code-Lookup (für CSVs mit AMA-SG-DE-XXX Codes)
+      const lookup = lookupAmazonCode(desc || type);
+      const matched = lookup.sub || lookup.prefix;
+      result.push({
+        date, type, description: desc, amount, currency,
+        category: matched?.label ?? mapAmazonCategoryFallback(type, desc),
+        skr03: matched?.skr03,
+        skr04: matched?.skr04,
+      });
     }
     return result;
   }
 
-  function mapAmazonCategory(type: string, desc: string): string {
+  /** Mappt typische Amazon-Settlement-amount-description-Werte auf Kategorie + SKR03/04. */
+  function mapAmazonSettlementLine(
+    type: string,
+    desc: string,
+    amount: number,
+  ): { category: string; skr03?: string; skr04?: string } | null {
+    const d = desc.toLowerCase().trim();
+    const t = type.toLowerCase().trim();
+    const both = `${t} ${d}`;
+
+    // Verkauf-Erlöse
+    if (d === "principal") return { category: "Verkaufserlöse (Principal)", skr03: "8400 Erlöse 19% USt", skr04: "4400 Erlöse 19% USt" };
+    if (d === "tax" || d === "shippingtax" || d === "giftwraptax" || d === "marketplacefacilitatorvat-principal") {
+      return { category: "USt-Anteil (durchlaufend)", skr03: "1776 USt 19%", skr04: "3806 USt 19%" };
+    }
+    if (d === "shipping" || d === "shippingchargeback") return { category: "Versanderlöse", skr03: "8400 Erlöse Versand 19%", skr04: "4400 Erlöse Versand 19%" };
+    if (d === "giftwrap" || d === "giftwrapchargeback") return { category: "Geschenkverpackungs-Erlöse", skr03: "8400 Erlöse 19%", skr04: "4400 Erlöse 19%" };
+
+    // Provisionen (negativ = Aufwand, positiv = Refund-Gutschrift)
+    if (d === "commission" || d === "fixedclosingfee" || d === "variableclosingfee") {
+      return { category: "Verkaufsprovision (Referral Fee)", skr03: "3100 Fremdleistungen (Schlüssel 9)", skr04: "5900 Fremdleistungen" };
+    }
+    if (d === "refundcommission") return { category: "Provisionsgutschrift bei Refund", skr03: "3100 Fremdleistungen (Schlüssel 9)", skr04: "5900 Fremdleistungen" };
+
+    // FBA
+    if (d.startsWith("fba per unit") || d === "fbaperunitfulfillmentfee" || d.includes("pick&pack") || d.includes("pickandpack")) {
+      return { category: "FBA Pick&Pack", skr03: "3100 FBA-Fees (Schlüssel 9)", skr04: "5900 FBA-Fees" };
+    }
+    if (d === "fbaweighthandling" || d === "fba weight handling fee") return { category: "FBA Weight Handling", skr03: "3100 FBA-Fees (Schlüssel 9)", skr04: "5900 FBA-Fees" };
+    if (d.includes("fbastoragefee") || d.includes("storage fee") || (d.includes("storage") && !d.includes("longterm"))) {
+      return { category: "FBA Storage Fee", skr03: "4210 Mieten (FBA-Lager)", skr04: "6310 Mieten" };
+    }
+    if (d.includes("longtermstorage") || d.includes("long term storage")) return { category: "FBA Long-Term Storage", skr03: "4210 Mieten (FBA-Lager)", skr04: "6310 Mieten" };
+    if (d.includes("inboundtransportation") || d.includes("inboundshipping") || d.includes("inbound shipping")) {
+      return { category: "FBA Inbound-Versand", skr03: "3800 Bezugsnebenkosten", skr04: "5840 Bezugsnebenkosten" };
+    }
+    if (d.includes("disposal") || d.includes("removalfee") || d.includes("removal fee")) {
+      return { category: "FBA Removal/Disposal", skr03: "4900 Sonstige Aufwendungen", skr04: "6300 Sonstige Aufwendungen" };
+    }
+
+    // Werbung
+    if (d.includes("advertising") || d.includes("sponsored") || d.includes("headline") || d.includes("ppc") || t === "advertising") {
+      return { category: "Amazon Werbung (PPC/Sponsored)", skr03: "4600 Werbekosten", skr04: "6600 Werbekosten" };
+    }
+
+    // Subscription / Account-Fees
+    if (d.includes("subscription") || t.includes("subscription")) {
+      return { category: "Subscription/Pro-Account-Gebühr", skr03: "4910 Software / Sonstige Abos", skr04: "6815 Sonstige Abos" };
+    }
+
+    // Refunds / Erlösschmälerungen
+    if (t === "refund" && (d === "" || d === "principal")) {
+      return { category: "Refund (Erlösschmälerung)", skr03: "8730 Erlösschmälerungen", skr04: "4730 Erlösschmälerungen" };
+    }
+    if (t === "chargeback" || d.includes("chargeback")) {
+      return { category: "Chargeback / A-to-Z", skr03: "8730 Erlösschmälerungen", skr04: "4730 Erlösschmälerungen" };
+    }
+
+    // Auszahlungen / Reserve
+    if (t.includes("transfer") || d.includes("payout") || d.includes("disburse")) {
+      return { category: "Auszahlung (Geldtransit)", skr03: "1360 Geldtransit", skr04: "1460 Geldtransit" };
+    }
+    if (d.includes("reserve") || t.includes("reserve")) {
+      return { category: "Reserve (kein BuchungsImpact)", skr03: "—", skr04: "—" };
+    }
+
+    // Adjustments / Gutschrift / Lending
+    if (t === "adjustment" || d.includes("adjustment")) {
+      return { category: amount > 0 ? "Sonstige Erträge (Anpassung)" : "Sonstige Aufwendungen (Anpassung)", skr03: amount > 0 ? "8400 Sonstige Erträge" : "4900 Sonstige Aufwendungen", skr04: amount > 0 ? "4400 Sonstige Erträge" : "6300 Sonstige Aufwendungen" };
+    }
+
+    void both;
+    return null;
+  }
+
+  function mapAmazonCategoryFallback(type: string, desc: string): string {
     const t = (type + " " + desc).toLowerCase();
     if (t.includes("order") || t.includes("verkauf")) return "Verkaufserlöse";
     if (t.includes("refund") || t.includes("erstatt")) return "Refunds / Erlösschmälerungen";
@@ -114,8 +193,33 @@ const SettlementParser = () => {
     return "Sonstiges";
   }
 
+  /** Robust money parser: erkennt DE-Format (1.234,56) UND EN-Format (1,234.56 oder 1234.56). */
+  function parseMoney(raw: string): number {
+    if (!raw) return 0;
+    const s = raw.trim().replace(/\s/g, "").replace(/[€$£"]/g, "");
+    if (!s || !/^-?[\d.,]+$/.test(s)) return NaN;
+    const hasComma = s.includes(",");
+    const hasDot = s.includes(".");
+    let n: string;
+    if (hasComma && hasDot) {
+      // Letztes Zeichen entscheidet — Komma/Punkt mit größerem Index ist Dezimaltrenner
+      n = s.lastIndexOf(",") > s.lastIndexOf(".") ? s.replace(/\./g, "").replace(",", ".") : s.replace(/,/g, "");
+    } else if (hasComma) {
+      n = s.replace(",", ".");
+    } else {
+      // Nur Punkte: wenn ≥2 Punkte ODER Punkt mit 3 Nachkommastellen → Tausender
+      const parts = s.split(".");
+      n = parts.length > 2 || (parts.length === 2 && parts[1].length === 3 && parts[0].length <= 3)
+        ? s.replace(/\./g, "")
+        : s;
+    }
+    const v = parseFloat(n);
+    return Number.isFinite(v) ? v : NaN;
+  }
+
   // ============================================================
-  // Stripe Payout-Parser
+  // Stripe Payout-Parser — handhabt sowohl Dashboard-CSV (Decimal) als auch
+  // API-Export balance_transactions.csv (Cent) via Auto-Erkennung.
   // ============================================================
   function parseStripe(text: string): ParsedRow[] {
     const lines = text
@@ -124,82 +228,118 @@ const SettlementParser = () => {
       .filter(Boolean);
     if (lines.length < 2) throw new Error("CSV leer oder ungültig");
 
-    // Stripe payouts.csv Spalten:
-    // id, type, source, amount, fee, net, currency, available_on, created, status, description, ...
-    const header = lines[0].split(/[,;\t]/).map((h) => h.toLowerCase().trim().replace(/^"|"$/g, ""));
+    const header = splitCsvLine(lines[0]).map((h) => h.toLowerCase().trim().replace(/^"|"$/g, ""));
 
-    const idxType = findIdx(header, ["type", "reporting_category"]);
-    const idxAmount = findIdx(header, ["amount"]);
+    const idxType = findIdx(header, ["reporting_category", "type"]);
+    const idxAmount = findIdx(header, ["amount", "gross"]);
     const idxFee = findIdx(header, ["fee"]);
     const idxNet = findIdx(header, ["net"]);
-    const idxDate = findIdx(header, ["created", "available_on", "date"]);
-    const idxDesc = findIdx(header, ["description"]);
+    const idxDate = findIdx(header, ["created", "available_on", "available_on_date", "date"]);
+    const idxDesc = findIdx(header, ["description", "memo"]);
     const idxCurrency = findIdx(header, ["currency"]);
 
-    const result: ParsedRow[] = [];
+    // === Schritt 1: alle Zeilen einlesen (raw amounts) ===
+    type Raw = { type: string; amount: number; fee: number; date: string; desc: string; currency: string };
+    const raws: Raw[] = [];
     for (let i = 1; i < lines.length; i++) {
       const row = splitCsvLine(lines[i]);
       if (row.length < 3) continue;
-
-      const type = row[idxType] || "";
-      const amount = parseFloat((row[idxAmount] || "0").replace(",", "."));
-      const fee = idxFee >= 0 ? parseFloat((row[idxFee] || "0").replace(",", ".")) : 0;
-      const date = idxDate >= 0 ? row[idxDate] || "" : "";
-      const desc = idxDesc >= 0 ? row[idxDesc] || "" : "";
-      const currency = idxCurrency >= 0 ? row[idxCurrency] || "EUR" : "EUR";
-
+      const type = (row[idxType] || "").replace(/^"|"$/g, "");
+      const amount = parseMoney(row[idxAmount] || "0");
+      const fee = idxFee >= 0 ? parseMoney(row[idxFee] || "0") : 0;
+      const date = (idxDate >= 0 ? row[idxDate] || "" : "").replace(/^"|"$/g, "");
+      const desc = (idxDesc >= 0 ? row[idxDesc] || "" : "").replace(/^"|"$/g, "");
+      const currency = (idxCurrency >= 0 ? row[idxCurrency] || "EUR" : "EUR").replace(/^"|"$/g, "");
       if (isNaN(amount) || amount === 0) continue;
+      raws.push({ type, amount, fee: isNaN(fee) ? 0 : fee, date, desc, currency });
+    }
+    if (raws.length === 0) throw new Error("Keine gültigen Zeilen gefunden");
 
-      // Stripe-Mapping
-      const t = type.toLowerCase();
-      const category = mapStripeCategory(t, desc);
+    // === Schritt 2: Cent-vs-Decimal Auto-Erkennung ===
+    // Stripe API-Export liefert Cent (Integer ohne Komma), Dashboard-Export Decimal.
+    // Heuristik: wenn ≥80% der amounts ganzzahlig UND |median| > 100 → Cent
+    const integerCount = raws.filter((r) => Number.isInteger(r.amount)).length;
+    const integerRatio = integerCount / raws.length;
+    const absAmounts = raws.map((r) => Math.abs(r.amount)).sort((a, b) => a - b);
+    const median = absAmounts[Math.floor(absAmounts.length / 2)];
+    const isCent = integerRatio >= 0.8 && median >= 100;
+    const divisor = isCent ? 100 : 1;
+
+    // === Schritt 3: Fee-Spalte vs. separate fee-Zeile dedup ===
+    // Wenn die CSV bereits eine "stripe_fee"-/"fee"-Zeile separat hat, dürfen wir
+    // die fee-Spalte einer Charge nicht NOCHMAL als eigene Zeile anlegen.
+    const hasExplicitFeeRows = raws.some((r) => {
+      const t = r.type.toLowerCase();
+      return t === "stripe_fee" || t === "fee" || t === "application_fee";
+    });
+
+    const result: ParsedRow[] = [];
+    for (const r of raws) {
+      const amount = r.amount / divisor;
+      const fee = r.fee / divisor;
+      const t = r.type.toLowerCase();
+      const category = mapStripeCategory(t, r.desc);
       const skr03 = mapStripeSkr03(t, amount);
       const skr04 = mapStripeSkr04(t, amount);
+      result.push({ date: r.date, type: r.type, description: r.desc, amount, currency: r.currency, category, skr03, skr04 });
 
-      result.push({ date, type, description: desc, amount, currency, category, skr03, skr04 });
-      // Plus Fee als separate Zeile wenn vorhanden
-      if (!isNaN(fee) && fee !== 0 && idxFee >= 0) {
+      // Fee nur als separate Zeile anlegen WENN die CSV nicht selbst fee-Zeilen hat
+      if (!hasExplicitFeeRows && fee !== 0) {
         result.push({
-          date,
+          date: r.date,
           type: "fee",
-          description: `Stripe-Fee zu ${type}`,
+          description: `Stripe-Fee zu ${r.type}`,
           amount: -Math.abs(fee),
-          currency,
+          currency: r.currency,
           category: "Stripe-Gebühren",
           skr03: "3100 Fremdleistungen (Schlüssel 9)",
           skr04: "5900 Fremdleistungen",
         });
       }
     }
+    void idxNet;
     return result;
   }
 
   function mapStripeCategory(type: string, desc: string): string {
-    if (type.includes("charge") || type.includes("payment")) return "Verkaufserlöse";
-    if (type.includes("refund")) return "Refunds";
-    if (type.includes("dispute") || type.includes("chargeback")) return "Chargebacks";
-    if (type.includes("fee")) return "Stripe-Gebühren";
-    if (type.includes("payout") || type.includes("transfer")) return "Auszahlungen";
-    if (type.includes("adjustment")) return "Adjustments";
-    if (desc.toLowerCase().includes("tip") || desc.toLowerCase().includes("trinkgeld")) return "Trinkgeld";
+    const d = desc.toLowerCase();
+    // reporting_category: charge, refund, dispute, fee, payout, advance, transfer, tax, partial_capture_reversal etc.
+    if (type === "charge" || type === "payment" || type.includes("charge") || type.includes("payment")) return "Verkaufserlöse";
+    if (type === "partial_capture_reversal" || type === "refund" || type.includes("refund")) return "Refunds / Erlösschmälerungen";
+    if (type === "dispute" || type === "dispute_reversal" || type.includes("dispute") || type.includes("chargeback")) return "Chargebacks / Disputes";
+    if (type === "tax") return "Stripe Tax (USt-Anteil)";
+    if (type === "issuing_authorization" || type === "issuing_transaction") return "Stripe Issuing (Karten-Aktion)";
+    if (type === "fee_refund" || type === "application_fee_refund") return "Fee-Gutschrift";
+    if (type === "advance" || type === "advance_funding") return "Stripe Capital (Vorfinanzierung)";
+    if (type === "fee" || type === "stripe_fee" || type === "application_fee" || type.includes("fee")) return "Stripe-Gebühren";
+    if (type === "payout" || type === "payout_failure" || type === "transfer" || type.includes("payout") || type.includes("transfer")) return "Auszahlungen (Geldtransit)";
+    if (type === "topup" || type === "topup_reversal") return "Stripe Top-up (Einzahlung)";
+    if (type === "adjustment" || type.includes("adjustment")) return "Adjustments";
+    if (type === "connect_collection_transfer" || type === "connect_reserved_funds") return "Stripe Connect Transfer";
+    if (type === "reserved_funds") return "Reserve (kein BuchungsImpact)";
+    if (d.includes("tip") || d.includes("trinkgeld") || d.includes("gratuity")) return "Trinkgeld";
     return "Sonstiges";
   }
 
   function mapStripeSkr03(type: string, amount: number): string {
-    if (type.includes("charge") || type.includes("payment")) return "8400 Erlöse 19% USt";
-    if (type.includes("refund")) return "8730 Erlösschmälerungen";
-    if (type.includes("dispute") || type.includes("chargeback")) return "8730 Erlösschmälerungen";
-    if (type.includes("fee")) return "3100 Fremdleistungen (Schlüssel 9)";
-    if (type.includes("payout") || type.includes("transfer")) return "1360 Geldtransit";
+    if (type === "charge" || type === "payment" || type.includes("charge") || type.includes("payment")) return "8400 Erlöse 19% USt";
+    if (type === "tax") return "1776 USt 19% (durchlaufend)";
+    if (type === "refund" || type === "partial_capture_reversal" || type.includes("refund")) return "8730 Erlösschmälerungen";
+    if (type === "dispute" || type.includes("dispute") || type.includes("chargeback")) return "8730 Erlösschmälerungen";
+    if (type === "fee" || type === "stripe_fee" || type === "application_fee" || type.includes("fee")) return "3100 Fremdleistungen (Schlüssel 9 — RC §13b)";
+    if (type === "payout" || type === "transfer" || type === "topup" || type.includes("payout") || type.includes("transfer")) return "1360 Geldtransit";
+    if (type === "advance") return "1700 Sonst. Verbindlichkeiten (Capital-Loan)";
     return amount > 0 ? "8400 Sonstige Erträge" : "4900 Sonstige Aufwendungen";
   }
 
   function mapStripeSkr04(type: string, amount: number): string {
-    if (type.includes("charge") || type.includes("payment")) return "4400 Erlöse 19% USt";
-    if (type.includes("refund")) return "4730 Erlösschmälerungen";
-    if (type.includes("dispute") || type.includes("chargeback")) return "4730 Erlösschmälerungen";
-    if (type.includes("fee")) return "5900 Fremdleistungen";
-    if (type.includes("payout") || type.includes("transfer")) return "1460 Geldtransit";
+    if (type === "charge" || type === "payment" || type.includes("charge") || type.includes("payment")) return "4400 Erlöse 19% USt";
+    if (type === "tax") return "3806 USt 19% (durchlaufend)";
+    if (type === "refund" || type === "partial_capture_reversal" || type.includes("refund")) return "4730 Erlösschmälerungen";
+    if (type === "dispute" || type.includes("dispute") || type.includes("chargeback")) return "4730 Erlösschmälerungen";
+    if (type === "fee" || type === "stripe_fee" || type === "application_fee" || type.includes("fee")) return "5900 Fremdleistungen (RC §13b)";
+    if (type === "payout" || type === "transfer" || type === "topup" || type.includes("payout") || type.includes("transfer")) return "1460 Geldtransit";
+    if (type === "advance") return "3500 Sonst. Verbindlichkeiten (Capital-Loan)";
     return amount > 0 ? "4830 Sonstige betriebliche Erträge" : "6300 Sonstige Aufwendungen";
   }
 
@@ -359,14 +499,26 @@ const SettlementParser = () => {
             />
           </div>
         </div>
-        {csvText && (
+        <div className="mt-3 flex flex-wrap items-center gap-2">
+          {csvText && (
+            <button
+              onClick={() => parseCsv(csvText)}
+              className="inline-flex items-center gap-1 rounded-lg bg-accent-blue text-primary-foreground px-4 py-2 text-xs font-semibold hover:opacity-90"
+            >
+              CSV parsen
+            </button>
+          )}
           <button
-            onClick={() => parseCsv(csvText)}
-            className="mt-3 inline-flex items-center gap-1 rounded-lg bg-accent-blue text-primary-foreground px-4 py-2 text-xs font-semibold hover:opacity-90"
+            onClick={() => {
+              const demo = mode === "amazon" ? AMAZON_DEMO_CSV : STRIPE_DEMO_CSV;
+              setCsvText(demo);
+              parseCsv(demo);
+            }}
+            className="inline-flex items-center gap-1 rounded-lg border border-dashed border-accent-blue/40 bg-accent-blue/5 text-accent-blue px-3 py-2 text-xs font-semibold hover:bg-accent-blue/10"
           >
-            CSV parsen
+            🧪 Demo-CSV laden (zum Testen)
           </button>
-        )}
+        </div>
         {error && (
           <div className="rounded-xl border border-red-500/30 bg-red-500/5 p-3 text-xs text-red-600 mt-3">
             <AlertTriangle className="h-3 w-3 inline mr-1" /> {error}
@@ -537,5 +689,51 @@ const SettlementParser = () => {
     </CockpitShell>
   );
 };
+
+// ============================================================
+// Demo-CSVs für Self-Test — realistische Beispiele inkl. Edge-Cases
+// ============================================================
+
+/**
+ * Amazon Settlement Report (anonymisiert, gekürzte Spalten — gleiche Header die echte SP-API liefert).
+ * Edge-Cases drin: Principal+Tax+Commission, Refund mit RefundCommission, FBA-Fees, Storage, PPC,
+ * Subscription, Reserve (=0, wird gefiltert), Adjustment, leerer transaction-type.
+ */
+const AMAZON_DEMO_CSV = `"settlement-id","settlement-start-date","settlement-end-date","deposit-date","total-amount","currency","transaction-type","order-id","marketplace-name","amount-type","amount-description","amount","posted-date"
+"123456","2026-05-01 00:00:00 UTC","2026-05-14 23:59:59 UTC","2026-05-16 00:00:00 UTC","842.13","EUR","Order","202-1234567-1234001","Amazon.de","ItemPrice","Principal","99.00","2026-05-03 10:12:00 UTC"
+"123456","","","","","EUR","Order","202-1234567-1234001","Amazon.de","ItemPrice","Tax","18.81","2026-05-03 10:12:00 UTC"
+"123456","","","","","EUR","Order","202-1234567-1234001","Amazon.de","ItemFees","Commission","-14.85","2026-05-03 10:12:00 UTC"
+"123456","","","","","EUR","Order","202-1234567-1234001","Amazon.de","ItemFees","FBA Per Unit Fulfillment Fee","-3.45","2026-05-03 10:12:00 UTC"
+"123456","","","","","EUR","Order","202-1234567-1234002","Amazon.de","ItemPrice","Principal","129.99","2026-05-04 08:45:00 UTC"
+"123456","","","","","EUR","Order","202-1234567-1234002","Amazon.de","ItemPrice","Shipping","4.99","2026-05-04 08:45:00 UTC"
+"123456","","","","","EUR","Order","202-1234567-1234002","Amazon.de","ItemFees","Commission","-20.25","2026-05-04 08:45:00 UTC"
+"123456","","","","","EUR","Refund","202-1234567-1234001","Amazon.de","ItemPrice","Principal","-99.00","2026-05-08 15:30:00 UTC"
+"123456","","","","","EUR","Refund","202-1234567-1234001","Amazon.de","ItemFees","RefundCommission","14.85","2026-05-08 15:30:00 UTC"
+"123456","","","","","EUR","Storage Fee","","Amazon.de","ItemFees","FBAStorageFee","-12.99","2026-05-15 00:00:00 UTC"
+"123456","","","","","EUR","Advertising","","Amazon.de","ItemFees","Sponsored Products","-45.30","2026-05-10 12:00:00 UTC"
+"123456","","","","","EUR","Other","","Amazon.de","ItemFees","Subscription Fee","-39.00","2026-05-01 00:00:00 UTC"
+"123456","","","","","EUR","","","Amazon.de","","Current Reserve Amount","0.00","2026-05-16 00:00:00 UTC"
+"123456","","","","","EUR","Adjustment","","Amazon.de","ItemAdjustment","Adjustment","-8.99","2026-05-12 16:00:00 UTC"
+"123456","","","","","EUR","Transfer","","","","Disbursement","-842.13","2026-05-16 00:00:00 UTC"`;
+
+/**
+ * Stripe balance_transactions.csv (API-Format mit Cent-Beträgen).
+ * Edge-Cases: charge mit fee in eigener Spalte, separater stripe_fee-Eintrag (Doppel-Fee-Test),
+ * refund, dispute, payout, tax, advance (Stripe Capital), fee_refund, trinkgeld in description.
+ */
+const STRIPE_DEMO_CSV = `id,reporting_category,amount,fee,net,currency,available_on,created,status,description
+txn_001,charge,1190,0,1190,eur,2026-05-10,2026-05-10,available,Bestellung #12345
+txn_002,stripe_fee,-29,0,-29,eur,2026-05-10,2026-05-10,available,Stripe processing fees
+txn_003,charge,2999,0,2999,eur,2026-05-11,2026-05-11,available,Bestellung #12346 mit Trinkgeld
+txn_004,stripe_fee,-72,0,-72,eur,2026-05-11,2026-05-11,available,Stripe processing fees
+txn_005,refund,-1190,0,-1190,eur,2026-05-12,2026-05-12,available,Refund Bestellung #12345
+txn_006,fee_refund,29,0,29,eur,2026-05-12,2026-05-12,available,Refunded Stripe fee
+txn_007,dispute,-5000,0,-5000,eur,2026-05-13,2026-05-13,available,Chargeback - card_not_present
+txn_008,dispute,-1500,0,-1500,eur,2026-05-13,2026-05-13,available,Dispute fee
+txn_009,tax,-228,0,-228,eur,2026-05-10,2026-05-10,available,Stripe Tax remitted
+txn_010,advance,50000,0,50000,eur,2026-05-14,2026-05-14,available,Stripe Capital advance
+txn_011,charge,1500,0,1500,eur,2026-05-14,2026-05-14,available,Customer tip / Trinkgeld
+txn_012,payout,-48000,0,-48000,eur,2026-05-15,2026-05-15,paid,STRIPE PAYOUT
+txn_013,adjustment,-50,0,-50,eur,2026-05-15,2026-05-15,available,Manual adjustment`;
 
 export default SettlementParser;
