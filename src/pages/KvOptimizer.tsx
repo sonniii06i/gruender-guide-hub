@@ -29,7 +29,9 @@ type Status = "gkv-pflicht" | "gkv-freiwillig" | "pkv" | "wechsel-check";
 
 const KvOptimizer = () => {
   const [status, setStatus] = useState<Status>("gkv-pflicht");
+  // Single Source of Truth: Brutto-Monat — alle anderen Werte werden daraus abgeleitet.
   const [bruttoMonat, setBruttoMonat] = useState(5000);
+  const bruttoJahr = bruttoMonat * 12;
   const [aktuellerZusatz, setAktuellerZusatz] = useState(GKV_ZUSATZ_SCHNITT_2026);
   const [kinderlos, setKinderlos] = useState(true);
   const [kinderAnzahl, setKinderAnzahl] = useState(0);
@@ -37,8 +39,7 @@ const KvOptimizer = () => {
   const [pkvBeitragMonat, setPkvBeitragMonat] = useState(550);
   const [pkvAlter, setPkvAlter] = useState(35);
   const [pkvSelbstbehalt, setPkvSelbstbehalt] = useState(0);
-  // Wechsel-Check
-  const [wechselBrutto, setWechselBrutto] = useState(80000);
+  // Wechsel-Check: nutzt bruttoJahr (oben), kein separater Input
   const [istGmbHGF, setIstGmbHGF] = useState(false);
 
   // === Berechnungen ===
@@ -89,13 +90,13 @@ const KvOptimizer = () => {
     void pkvAlter; void pkvSelbstbehalt;
 
     // Wechsel-Check: Lohnt sich PKV für AN mit Brutto X?
-    const wechselGkvMonatAn = (Math.min(wechselBrutto / 12, BBG_KV_MONAT_2026) * ((GKV_ALLG_SATZ + GKV_ZUSATZ_SCHNITT_2026) / 100)) / 2 + (Math.min(wechselBrutto / 12, BBG_KV_MONAT_2026) * (pvSatz / 100)) / 2;
+    const wechselGkvMonatAn = (Math.min(bruttoJahr / 12, BBG_KV_MONAT_2026) * ((GKV_ALLG_SATZ + GKV_ZUSATZ_SCHNITT_2026) / 100)) / 2 + (Math.min(bruttoJahr / 12, BBG_KV_MONAT_2026) * (pvSatz / 100)) / 2;
     const wechselGkvJahresKostenAn = wechselGkvMonatAn * 12;
     // PKV: Junger Single ~450-550€/Mon, alt 30-40 J im Schnitt; mit AG-Zuschuss bei Angestellten halbieren
     const pkvSchaetzungJung = 480;
     const pkvBeitragNetto = istGmbHGF ? pkvSchaetzungJung / 2 : pkvSchaetzungJung; // GmbH-GF kann sich AG-Zuschuss zahlen
     const pkvAnKostenJahr = pkvBeitragNetto * 12;
-    const wechselErlaubt = wechselBrutto > JAEG_2026 || istGmbHGF; // Selbstständige immer; AN nur über JAEG
+    const wechselErlaubt = bruttoJahr > JAEG_2026 || istGmbHGF; // Selbstständige immer; AN nur über JAEG
     const wechselErsparnisJahr = wechselGkvJahresKostenAn - pkvAnKostenJahr;
 
     return {
@@ -114,7 +115,7 @@ const KvOptimizer = () => {
       pkvAnKostenJahr,
       wechselErsparnisJahr,
     };
-  }, [bruttoMonat, aktuellerZusatz, kinderlos, kinderAnzahl, pkvBeitragMonat, pkvAlter, pkvSelbstbehalt, wechselBrutto, istGmbHGF]);
+  }, [bruttoMonat, aktuellerZusatz, kinderlos, kinderAnzahl, pkvBeitragMonat, pkvAlter, pkvSelbstbehalt, bruttoJahr, istGmbHGF]);
 
   return (
     <CockpitShell
@@ -158,7 +159,7 @@ const KvOptimizer = () => {
               className="mt-1"
             />
             <div className="text-[10px] text-muted-foreground mt-1">
-              BBG-Cap 2026: {BBG_KV_MONAT_2026.toLocaleString("de-DE")} €/Monat
+              = <strong className="text-foreground">{bruttoJahr.toLocaleString("de-DE")} €/Jahr</strong> · BBG-Cap 2026: {BBG_KV_MONAT_2026.toLocaleString("de-DE")} €/Mon ({(BBG_KV_MONAT_2026 * 12).toLocaleString("de-DE")} €/J)
             </div>
           </div>
           <div>
@@ -412,14 +413,12 @@ const KvOptimizer = () => {
         <>
           <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5 mb-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              <div>
-                <Label className="text-xs uppercase tracking-wider text-muted-foreground">Jahresbrutto (€)</Label>
-                <Input
-                  type="number"
-                  value={wechselBrutto}
-                  onChange={(e) => setWechselBrutto(Math.max(0, Number(e.target.value) || 0))}
-                  className="mt-1"
-                />
+              <div className="rounded-lg bg-secondary/40 p-3">
+                <Label className="text-xs uppercase tracking-wider text-muted-foreground">Jahresbrutto (aus Brutto-Monat oben × 12)</Label>
+                <div className="text-2xl font-bold mt-1">{bruttoJahr.toLocaleString("de-DE")} €</div>
+                <div className="text-[10px] text-muted-foreground mt-1">
+                  Basis: {bruttoMonat.toLocaleString("de-DE")} €/Monat. Zum Ändern oben anpassen.
+                </div>
               </div>
               <label className="flex items-center gap-2 text-xs cursor-pointer rounded-lg border border-border p-3">
                 <input type="checkbox" checked={istGmbHGF} onChange={(e) => setIstGmbHGF(e.target.checked)} />
