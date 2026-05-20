@@ -28,9 +28,9 @@ type Chunk = {
   content_hash: string;
 };
 
-const BATCH_EMBED = 64; // OpenAI erlaubt bis 2048, aber 64 ist robust
-const BATCH_UPSERT = 100;
+const BATCH_EMBED = 1; // hotspot/MTU extreme-mode → minimaler request body
 const MODEL = "text-embedding-3-small";
+const MAX_RETRIES = 7;
 
 // ---- env ----
 const SUPABASE_URL = process.env.SUPABASE_URL;
@@ -101,70 +101,101 @@ if (DRY_RUN) {
 
 // ---- embed in batches ----
 async function embedBatch(texts: string[]): Promise<number[][]> {
-  const res = await fetch("https://api.openai.com/v1/embeddings", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${OPENAI_KEY}`,
-    },
-    body: JSON.stringify({ model: MODEL, input: texts }),
-  });
-  if (!res.ok) {
-    const txt = await res.text();
-    throw new Error(`OpenAI ${res.status}: ${txt.slice(0, 500)}`);
+  let lastErr: unknown;
+  for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+    try {
+      const res = await fetch("https://api.openai.com/v1/embeddings", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${OPENAI_KEY}`,
+          Connection: "close", // keine keep-alive → reduziert EPIPE bei großen Bodies
+        },
+        body: JSON.stringify({ model: MODEL, input: texts }),
+      });
+      if (!res.ok) {
+        const txt = await res.text();
+        if (res.status === 429 || res.status >= 500) throw new Error(`OpenAI ${res.status}: ${txt.slice(0, 300)} (retry)`);
+        throw new Error(`OpenAI ${res.status}: ${txt.slice(0, 500)}`);
+      }
+      const j: any = await res.json();
+      return j.data.map((d: any) => d.embedding);
+    } catch (e: any) {
+      lastErr = e;
+      const isRetryable = e?.cause?.code === "EPIPE" || e?.cause?.code === "ECONNRESET" || e?.cause?.code === "ETIMEDOUT" || /fetch failed|retry/.test(e?.message ?? "");
+      if (!isRetryable || attempt === MAX_RETRIES) throw e;
+      const wait = Math.min(30000, 1000 * Math.pow(2, attempt - 1)); // 1s, 2s, 4s, 8s, 16s, 30s
+      console.warn(`\n  ⚠️ embed attempt ${attempt} failed (${e?.cause?.code ?? e?.message?.slice(0, 60)}) — retry in ${wait}ms`);
+      await new Promise((r) => setTimeout(r, wait));
+    }
   }
-  const j: any = await res.json();
-  return j.data.map((d: any) => d.embedding);
+  throw lastErr;
 }
 
-console.log(`\nEmbedding ${toEmbed.length} chunks in batches of ${BATCH_EMBED} ...`);
-const withEmbedding: (Chunk & { embedding: number[] })[] = [];
-let embStart = Date.now();
+console.log(`\nEmbed + Upsert pro Batch (${BATCH_EMBED} pro Embed-Call). Resumable: bei Abbruch einfach neu starten.`);
+let processedOk = 0;
+let processedFail = 0;
+const embStart = Date.now();
 for (let i = 0; i < toEmbed.length; i += BATCH_EMBED) {
   const slice = toEmbed.slice(i, i + BATCH_EMBED);
-  const embeddings = await embedBatch(slice.map((c) => `${c.title}\n\n${c.content}`));
-  for (let j = 0; j < slice.length; j++) {
-    withEmbedding.push({ ...slice[j], embedding: embeddings[j] });
+  let embeddings: number[][];
+  try {
+    embeddings = await embedBatch(slice.map((c) => `${c.title}\n\n${c.content}`));
+  } catch (e: any) {
+    console.error(`\n  ✗ embed batch ${i}-${i + slice.length} failed after retries: ${e?.cause?.code ?? e?.message?.slice(0, 80)} — skipping, lauf später nochmal für resume`);
+    processedFail += slice.length;
+    continue;
   }
-  const pct = Math.min(100, Math.round(((i + slice.length) / toEmbed.length) * 100));
-  process.stdout.write(`\r  ${pct}% (${i + slice.length}/${toEmbed.length})`);
-}
-const embDur = ((Date.now() - embStart) / 1000).toFixed(1);
-console.log(`\n  done in ${embDur}s`);
-
-// ---- upsert in batches ----
-console.log(`\nUpserting ${withEmbedding.length} chunks to kb_chunks ...`);
-let failed = 0;
-for (let i = 0; i < withEmbedding.length; i += BATCH_UPSERT) {
-  const batch = withEmbedding.slice(i, i + BATCH_UPSERT).map((c) => ({
+  // Direct upsert this batch — falls Skript abbricht, sind bisherige in DB
+  const rows = slice.map((c, j) => ({
     source: c.source,
     source_id: c.source_id,
     title: c.title,
     content: c.content,
     metadata: c.metadata,
     content_hash: c.content_hash,
-    // pgvector akzeptiert array; supabase-js serialisiert es als JSON-Array
-    // und pgvector parsed das als vector
-    embedding: c.embedding as any,
+    embedding: embeddings[j] as any,
   }));
-  const { error } = await sb.from("kb_chunks").upsert(batch, {
-    onConflict: "source,source_id",
-  });
-  if (error) {
-    console.error(`\nUpsert batch ${i}-${i + batch.length} failed:`, error.message);
-    failed += batch.length;
-  } else {
-    const pct = Math.min(100, Math.round(((i + batch.length) / withEmbedding.length) * 100));
-    process.stdout.write(`\r  ${pct}% (${i + batch.length}/${withEmbedding.length})`);
+  let upsertErr: string | null = null;
+  for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+    try {
+      const { error } = await sb.from("kb_chunks").upsert(rows, { onConflict: "source,source_id" });
+      if (error) {
+        upsertErr = error.message;
+        break; // postgres-Fehler → kein retry (selten transient)
+      }
+      upsertErr = null;
+      break;
+    } catch (e: any) {
+      const code = e?.cause?.code;
+      const isRetryable = code === "EPIPE" || code === "ECONNRESET" || code === "ETIMEDOUT" || code === "UND_ERR_SOCKET" || /fetch failed/.test(e?.message ?? "");
+      if (!isRetryable || attempt === MAX_RETRIES) {
+        upsertErr = e?.message ?? String(e);
+        break;
+      }
+      const wait = Math.min(30000, 1000 * Math.pow(2, attempt - 1));
+      console.warn(`\n  ⚠️ upsert attempt ${attempt} failed (${code ?? e?.message?.slice(0, 60)}) — retry in ${wait}ms`);
+      await new Promise((r) => setTimeout(r, wait));
+    }
   }
+  if (upsertErr) {
+    console.error(`\n  ✗ upsert batch ${i}-${i + slice.length} failed after retries: ${upsertErr.slice(0, 120)}`);
+    processedFail += slice.length;
+  } else {
+    processedOk += slice.length;
+  }
+  const total = processedOk + processedFail;
+  const pct = Math.min(100, Math.round((total / toEmbed.length) * 100));
+  const elapsed = ((Date.now() - embStart) / 1000).toFixed(0);
+  process.stdout.write(`\r  ${pct}% (${total}/${toEmbed.length}) · ok ${processedOk} fail ${processedFail} · ${elapsed}s`);
 }
 console.log("");
 
 // ---- summary ----
 const totalChars = toEmbed.reduce((s, c) => s + c.content.length, 0);
 console.log(`\n=== Embedding + Upload Summary ===`);
-console.log(`Embedded   : ${withEmbedding.length} chunks`);
-console.log(`Upserted   : ${withEmbedding.length - failed} ok, ${failed} failed`);
-console.log(`Skipped    : ${skipped} unchanged`);
-console.log(`Char-Total : ${totalChars.toLocaleString()} (~${Math.round(totalChars / 3.5).toLocaleString()} Tokens)`);
-console.log(`Cost est   : $${((totalChars / 3.5) / 1_000_000 * 0.02).toFixed(4)} (text-embedding-3-small @ $0.02/1M)`);
+console.log(`Embedded+Upserted : ${processedOk} chunks`);
+console.log(`Failed            : ${processedFail} chunks (lauf nochmal → wird nur diese versuchen)`);
+console.log(`Skipped (hash)    : ${skipped} unchanged`);
+console.log(`Char-Total        : ${totalChars.toLocaleString()} (~${Math.round(totalChars / 3.5).toLocaleString()} Tokens)`);
+console.log(`Cost est          : $${((totalChars / 3.5) / 1_000_000 * 0.02).toFixed(4)} (text-embedding-3-small @ $0.02/1M)`);
