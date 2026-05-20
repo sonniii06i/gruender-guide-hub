@@ -132,7 +132,7 @@ describe("ReisekostenLogger", () => {
     expect(document.body.innerHTML).not.toMatch(/12 Auslands-Länder/);
   });
   it("Verpflegung-Logik: 3-Tage DE = 1 ganzer + 2 halbe = 56 €", () => {
-    const tage = 3;
+    const tage: number = 3;
     const istTagesreise = tage === 1;
     let verpflegung = 0;
     if (istTagesreise) verpflegung = 14;
