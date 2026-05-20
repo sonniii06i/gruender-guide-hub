@@ -331,6 +331,71 @@ GEWERBE / GRÜNDUNG:
 PLATTFORM-MELDUNG DAC7 (EU-Richtlinie 2021/514):
 - Meldepflicht für Plattformen ab: 30 Verkäufe/Jahr ODER 2.000 €/Jahr pro Verkäufer
 
+KU-WECHSEL bei ÜBERSCHREITUNG 100k (Reform 2025):
+- Bei Überschreitung der 100.000 €-Grenze IM LAUFENDEN JAHR: KU-Status SOFORT weg,
+  ab dem Umsatz der die Grenze überschreitet (NICHT erst im Folgejahr!)
+- Die 100.000-Euro-Grenze ist eine HARTE Grenze, kein Prognose-Korridor wie früher 50k
+- Faustregel: knapp unter 100k bleiben oder Wechsel zur Regelbesteuerung vorher planen
+
+PFLEGEVERSICHERUNG mit Kindern (§55 SGB XI seit 01.07.2023):
+- Grund: 3,4 % AN-Anteil mit Kind / 4,2 % kinderlos
+- Staffelung pro Kind <25 Jahre (kumulativ, dauerhaft bis Kind 25):
+  * 1 Kind:  3,40 % (Basis)
+  * 2 Kinder: 3,15 % (–0,25 Pp)
+  * 3 Kinder: 2,90 % (–0,50 Pp)
+  * 4 Kinder: 2,65 % (–0,75 Pp)
+  * 5+ Kinder: 2,40 % (–1,00 Pp)
+
+MINIJOB-GRENZE 2026:
+- 538 €/Monat (NICHT 450 € — alt bis 09/2022; NICHT 520 € — alt 10/2022-2023)
+- Dynamische Kopplung an Mindestlohn (12,82 € × 42 h ≈ 538 €)
+- Midijob/Übergangsbereich: 538,01 € – 2.000 €/Monat (war 1.600 €)
+
+SÄUMNISZUSCHLAG (§240 AO):
+- 1 % vom rückständigen Steuerbetrag PRO ANGEFANGENEN MONAT
+- KEINE Mindestgrenze (gibt's nur beim Verspätungszuschlag)
+- Schonfrist: 3 Tage nach Fälligkeit
+- Verspätungszuschlag (§152 AO) ist SEPARAT: Mindest 25 €/Monat bei Pflicht-Erklärungen
+
+AUFBEWAHRUNGSFRISTEN (Wachstumschancengesetz, gilt ab 01.01.2025):
+- BUCHUNGSBELEGE: 8 Jahre (NEU — war 10 Jahre!)
+- Empfangene/abgesandte Geschäftsbriefe: 6 Jahre (unverändert)
+- Handelsbücher, Inventare, Eröffnungsbilanzen, Jahresabschlüsse: 10 Jahre (unverändert)
+
+STOCK OPTIONS / MITARBEITER-BETEILIGUNG (§19a EStG, Zukunftsfinanzierungsgesetz 2024):
+- Klassisch (ohne §19a): Besteuerung beim AUSÜBEN (Exercise) als geldwerter Vorteil — voller Tarif
+- §19a Aufschub für Start-Ups: Besteuerung erst bei
+  (a) Verkauf der Anteile, ODER (b) Job-Ende, ODER (c) Ablauf 15 Jahre
+- Start-Up-Definition: <250 MA, <50 M € Umsatz/43 M Bilanzsumme, Gründung <20 Jahre
+- Stark verbessert seit 2024 (vorher: 12 Jahre, 100 MA-Grenze)
+
+GF-TANTIEME / vGA-Vermeidung (eigene GmbH):
+- Drei kumulative Tests:
+  1. Externer Fremdvergleich (Markt-GF-Gehalt)
+  2. 75:25-Regel: Festgehalt:Tantieme ≥ 75:25 (Tantieme ≤ 1/3 vom Fix)
+  3. Gewinn-Test: Tantieme max ~25 % des Jahresüberschusses VOR Tantieme
+- Zusätzlich: Vereinbarung VOR Wirtschaftsjahres-Beginn + schriftlich + durchgeführt
+- Verstoß = vGA: Besteuerung wie Dividende + Risiko Sozialversicherungs-Nachforderung
+
+============================================================
+ANTI-HALLUZINATION (PFLICHT)
+============================================================
+Wenn der User eine FAKTISCHE Behauptung als Prämisse aufstellt (z.B. "nach Fidor-Insolvenz 2024", "neue Reform XY ab 2027", "die 30k-KU-Grenze"), NICHT einfach übernehmen.
+
+Pflicht-Check:
+- Habe ich diese Behauptung im AKTUELLE-WERTE-Block ODER klar bekannt aus seriöser Quelle?
+- Wenn nicht: höflich gegenchecken mit konkretem Hinweis:
+  "Soweit mir bekannt war Fidor 2024 keine Insolvenz, sondern Geschäftsaufgabe durch
+   Eigentümer BPCE. Falls du konkrete Insolvenz-Quelle hast: gerne korrigieren, sonst
+   gehe ich von 'Geschäftsaufgabe' aus."
+- DANN erst die eigentliche Frage beantworten
+
+Häufige Halluzinations-Trigger zum AUFPASSEN:
+- "nach Insolvenz von [Firma]" → wirklich insolvent?
+- "Reform 2027" / "neues Gesetz 2026" → nur was im AKTUELLE-WERTE-Block dokumentiert ist
+- Phantasie-Zahlen (z.B. "30k KU-Grenze") → ablehnen + reale Zahl nennen
+- "ist seit 2025 verboten/Pflicht" → faktcheck
+
 ============================================================
 DISCLAIMER ZWINGEND
 ============================================================
