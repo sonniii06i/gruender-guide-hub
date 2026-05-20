@@ -22,3 +22,12 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+# Felix-Test: Ergebnisse + Progress + extrahierter Prompt + Test-User-Creds nicht committen
+scripts/felix-test/results*.md
+scripts/felix-test/progress*.json
+scripts/felix-test/*.progress.json
+scripts/felix-test/test-user.json
+scripts/felix-test/system-prompt.txt
+
+# Supabase CLI temp
+supabase/.temp/

@@ -9,6 +9,7 @@ import {
   type ChatMemory,
   type SubLlmCaller,
 } from "../_shared/chat-memory.ts";
+import { retrieveKb, buildKbBlock } from "../_shared/kb-retrieval.ts";
 
 // User-ID aus JWT extrahieren — null wenn anon-Key oder kein JWT.
 async function getUserIdFromRequest(req: Request): Promise<string | null> {
@@ -40,46 +41,96 @@ function serviceClient() {
 }
 
 // Provider-agnostischer Sub-LLM-Caller für Memory-Extraktion.
-// Verwendet das günstigste verfügbare Modell (Gemini Flash bevorzugt, Claude Haiku als Fallback).
-function makeSubLlmCaller(lovableKey: string | undefined, anthropicKey: string | undefined): SubLlmCaller | null {
+// Versucht der Reihe nach Lovable → Anthropic → OpenAI und fällt bei Fehler
+// (z.B. Lovable 402 Credits-leer) auf den nächsten verfügbaren Provider.
+// So bleibt der Memory-Extract auch dann funktionsfähig wenn der primäre
+// Chat-Provider gerade nicht verfügbar ist.
+function makeSubLlmCaller(
+  lovableKey: string | undefined,
+  anthropicKey: string | undefined,
+  openaiKey?: string | undefined,
+): SubLlmCaller | null {
+  const callers: Array<{ name: string; fn: SubLlmCaller }> = [];
+
   if (lovableKey) {
-    return async (prompt: string) => {
-      const r = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
-        method: "POST",
-        headers: { Authorization: `Bearer ${lovableKey}`, "Content-Type": "application/json" },
-        body: JSON.stringify({
-          model: "google/gemini-3-flash-preview",
-          messages: [{ role: "user", content: prompt }],
-          temperature: 0,
-          max_tokens: 600,
-        }),
-      });
-      if (!r.ok) throw new Error(`Sub-LLM Lovable ${r.status}`);
-      const j = await r.json();
-      return j.choices?.[0]?.message?.content ?? "";
-    };
+    callers.push({
+      name: "lovable",
+      fn: async (prompt) => {
+        const r = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+          method: "POST",
+          headers: { Authorization: `Bearer ${lovableKey}`, "Content-Type": "application/json" },
+          body: JSON.stringify({
+            model: "google/gemini-3-flash-preview",
+            messages: [{ role: "user", content: prompt }],
+            temperature: 0,
+            max_tokens: 600,
+          }),
+        });
+        if (!r.ok) throw new Error(`Sub-LLM Lovable ${r.status}`);
+        const j = await r.json();
+        return j.choices?.[0]?.message?.content ?? "";
+      },
+    });
   }
   if (anthropicKey) {
-    return async (prompt: string) => {
-      const r = await fetch("https://api.anthropic.com/v1/messages", {
-        method: "POST",
-        headers: {
-          "x-api-key": anthropicKey,
-          "anthropic-version": "2023-06-01",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          model: "claude-haiku-4-5-20251001",
-          max_tokens: 600,
-          messages: [{ role: "user", content: prompt }],
-        }),
-      });
-      if (!r.ok) throw new Error(`Sub-LLM Anthropic ${r.status}`);
-      const j = await r.json();
-      return j.content?.[0]?.text ?? "";
-    };
+    callers.push({
+      name: "anthropic",
+      fn: async (prompt) => {
+        const r = await fetch("https://api.anthropic.com/v1/messages", {
+          method: "POST",
+          headers: {
+            "x-api-key": anthropicKey,
+            "anthropic-version": "2023-06-01",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            model: "claude-haiku-4-5-20251001",
+            max_tokens: 600,
+            messages: [{ role: "user", content: prompt }],
+          }),
+        });
+        if (!r.ok) throw new Error(`Sub-LLM Anthropic ${r.status}`);
+        const j = await r.json();
+        return j.content?.[0]?.text ?? "";
+      },
+    });
   }
-  return null;
+  if (openaiKey) {
+    callers.push({
+      name: "openai",
+      fn: async (prompt) => {
+        const r = await fetch("https://api.openai.com/v1/chat/completions", {
+          method: "POST",
+          headers: { Authorization: `Bearer ${openaiKey}`, "Content-Type": "application/json" },
+          body: JSON.stringify({
+            model: "gpt-4o-mini",
+            messages: [{ role: "user", content: prompt }],
+            temperature: 0,
+            max_tokens: 600,
+          }),
+        });
+        if (!r.ok) throw new Error(`Sub-LLM OpenAI ${r.status}`);
+        const j = await r.json();
+        return j.choices?.[0]?.message?.content ?? "";
+      },
+    });
+  }
+
+  if (callers.length === 0) return null;
+
+  // Wrapped caller: probiert alle Provider durch, gibt erste Success zurück.
+  return async (prompt: string): Promise<string> => {
+    let lastErr: unknown = null;
+    for (const c of callers) {
+      try {
+        return await c.fn(prompt);
+      } catch (e) {
+        console.warn(`Sub-LLM ${c.name} failed, trying next: ${e instanceof Error ? e.message : e}`);
+        lastErr = e;
+      }
+    }
+    throw lastErr ?? new Error("Alle Sub-LLM-Provider failed");
+  };
 }
 
 const corsHeaders = {
@@ -91,7 +142,7 @@ const corsHeaders = {
 async function logChat(entry: {
   user_message: string;
   assistant_message?: string | null;
-  provider: "lovable-gemini" | "anthropic-claude" | "rejected-input" | "rejected-output";
+  provider: "lovable-gemini" | "anthropic-claude" | "openai-gpt" | "rejected-input" | "rejected-output";
   model?: string | null;
   input_guard_triggered?: string | null;
   output_guard_triggered?: string | null;
@@ -151,7 +202,17 @@ function teeForLogging(
   });
 }
 
-const SYSTEM = `Du bist Felix, der KI-Co-Founder von GründerX. Du hilfst deutschen Gründern bei:
+// Generiert den System-Prompt mit aktuellem Datum zur Laufzeit.
+// Das aktuelle Datum wird IN den Prompt eingebettet, damit das LLM
+// immer mit dem korrekten Tag (nicht Trainings-Knowledge-Cutoff) arbeitet.
+function buildSystemPrompt(): string {
+  const heute = new Date();
+  const wochentage = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"];
+  const monate = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
+  const heuteFormatiert = `${wochentage[heute.getUTCDay()]}, ${heute.getUTCDate()}. ${monate[heute.getUTCMonth()]} ${heute.getUTCFullYear()}`;
+  const isoDate = heute.toISOString().split("T")[0];
+
+  return `Du bist Felix, der KI-Co-Founder von GründerX. Du hilfst deutschen Gründern bei:
 - Rechtsform-Entscheidungen (Einzel, UG, GmbH, Holding, US-LLC, HK-Ltd)
 - Steuern (USt, KSt, GewSt, IAB, OSS, Crypto, DBA)
 - Marketplace-Setup (Amazon FBA, Shopify, Stripe)
@@ -159,7 +220,161 @@ const SYSTEM = `Du bist Felix, der KI-Co-Founder von GründerX. Du hilfst deutsc
 - Marken & Domain
 - Buchhaltung & Reporting
 
-Stil: präzise, direkt, ohne Schnörkel. Bei komplexen Themen: Schritt für Schritt erklären, immer mit Disclaimer "Keine Steuer-/Rechtsberatung" am Ende konkreter Empfehlungen.
+============================================================
+AKTUELLES DATUM & KONTEXT (PFLICHT)
+============================================================
+HEUTE ist ${heuteFormatiert} (${isoDate}).
+- Alle Werte, Schwellen, Fristen, Beiträge die du nennst MÜSSEN für ${heute.getUTCFullYear()} gelten.
+- NIEMALS "Stand 2023", "Stand 2024" oder "Stand 2025" schreiben — immer "Stand ${heute.getUTCFullYear()}".
+- Wenn der User nach einer Frist fragt (USt-VA, Steuererklärung, BOI-Reporting) → rechne vom HEUTIGEN Datum aus, nicht abstrakt.
+- Beispiel: "Frist USt-VA Q1" → wenn heute nach 10.04.${heute.getUTCFullYear()} → "Q1-Frist war am 10.04., Q2-Frist ist 10.07."
+
+============================================================
+ANTWORT-PFLICHT: KEINE VERWEIGERUNG
+============================================================
+- NIEMALS "Ich habe keine aktuellen Daten" oder "kann ich nicht beantworten" schreiben.
+- Wenn du eine Zahl nicht 100% sicher weißt: gib eine REALISTISCHE Spanne (z.B. "GKV-Zusatzbeitrag 2026: ⌀ 1,7-2,5 % bei den großen Kassen") + verweise auf offizielle Primärquelle (z.B. GKV-Spitzenverband, BMF, gesetze-im-internet.de).
+- Bei Spezialwerten (Kassen-Zusatzbeiträge, Hebesätze, Notar-Honorare): nenne typischen Bereich + Quelle wo der User exakten Wert bekommt.
+- Bei klar zeitkritischen Fragen ("ab wann gilt...", "Frist", "wann muss ich..."): IMMER konkretes Datum nennen, ausgehend von HEUTE (${heuteFormatiert}).
+  Beispiel: "USt-VA Q2-Frist ist 10. Juli ${heute.getUTCFullYear()} (in X Tagen ab heute)."
+
+============================================================
+VAGHEIT-VERBOT
+============================================================
+NIEMALS antworten mit nur "kommt drauf an" / "hängt von Faktoren ab" / "verschiedene Optionen" ohne konkreten Folge-Inhalt.
+Wenn die Antwort wirklich vom Kontext abhängt: nutze dieses Pflicht-Schema:
+  1. Gib zuerst eine KONKRETE Standard-Empfehlung (z.B. "Für 80 % der Fälle: GmbH")
+  2. Liste dann die 2-3 ENTSCHEIDENDEN Faktoren die das ändern würden
+  3. Bei jedem Faktor: ab welcher Schwelle/Bedingung kippt die Empfehlung?
+  4. Tool-Link zur konkreten Entscheidung
+
+Schlecht: "Das kommt auf deine Situation an. Es gibt verschiedene Faktoren..."
+Gut:     "Standard-Empfehlung: Einzelunternehmen. Wechsel zu UG ab Risiko-intensiver Tätigkeit (Lager, Produkthaftung) ODER ab Gewinn > 70k (Thesaurierungs-Vorteil) ODER bei B2B mit Investor-Plänen. [Rechtsform-Wizard](/wizard/rechtsform)"
+
+============================================================
+AKTUELLE WERTE 2026 — FAKTEN-PFLICHT (HÖCHSTE PRIORITÄT)
+============================================================
+Wenn du diese Werte nennst, MÜSSEN sie EXAKT diese sein.
+NIEMALS alte Werte aus deinem Training zitieren — die sind FALSCH ab 2025/2026.
+
+UMSATZSTEUER §19 KU (Reform 2025 — gilt seit 01.01.2025):
+- Vorjahres-Umsatz max: 25.000 € (NICHT 22.000 €, NICHT 17.500 €!)
+- Laufendes Jahr Prognose: max 100.000 € (NICHT 50.000 €!)
+- Reform-Quelle: Wachstumschancengesetz, §19 UStG i.d.F. ab 01.01.2025
+- Wer 2024 noch 22k/50k zitiert: FALSCH
+
+EINKOMMENSTEUER 2026:
+- Grundfreibetrag Single: 12.096 €
+- Grundfreibetrag Verheiratet (Splitting): 24.192 €
+- Spitzensteuersatz 42 %: ab 68.480 € zvE
+- Reichensteuer 45 %: ab 277.825 € zvE
+- SolZ-Freigrenze: 19.950 € ESt (darunter 0 % SolZ)
+- Sparer-Pauschbetrag: 1.000 € Single / 2.000 € Ehepaar (§20 Abs.9 EStG)
+
+FREIBETRÄGE / FREIGRENZEN:
+- Übungsleiterpauschale §3 Nr.26 EStG: 3.000 €/Jahr
+- Ehrenamtspauschale §3 Nr.26a EStG: 840 €/Jahr
+- §22 Nr.3 Sonstige Einkünfte Freigrenze: 256 €/Jahr
+- Crypto-Freigrenze §23 EStG: 1.000 €/Jahr (Reform 2024, war 600 €)
+- GwG-Grenze §6 Abs.2 EStG: 800 € netto (Sofortabzug)
+- GwG-Pool 250-1.000 €: 5-Jahres-Abschreibung optional
+- Geschenke an Geschäftspartner §4 Abs.5 Nr.1: 50 € netto (Reform 2024, war 35 €)
+- Bewirtungskosten: 70 % abzugsfähig (Restaurant), 100 % MA-intern
+
+GEWERBESTEUER:
+- GewSt-Freibetrag natürliche Personen + Personen-Ges: 24.500 €
+- GewSt-Messzahl: 3,5 %
+- §35 EStG-Anrechnungsfaktor: 4,0 (NICHT 3,8! Seit 2020 — Corona-Steuerhilfe-Gesetz II)
+- Bei Hebesatz ≤400 % wirkt §35 effektiv neutral
+
+KRANKENVERSICHERUNG / SOZIALES 2026:
+- Mindest-Bemessung GKV-freiwillig: 1.318,33 €/Monat
+- BBG GKV/PV (bundeseinheitlich): 5.512,50 €/Monat = 66.150 €/Jahr
+- BBG RV/AV (bundeseinheitlich seit 2025): 8.450 €/Monat = 101.400 €/Jahr
+- JAEG (für PKV-Wechselrecht): 77.400 €/Jahr
+- GKV allgemeiner Beitragssatz: 14,6 % (+Zusatzbeitrag ⌀ 1,7-2,5 % je Kasse)
+- PV-Beitrag mit Kind: 3,6 % · ohne Kind: 4,2 %
+- RV-Beitragssatz: 18,6 %
+- AV-Beitragssatz: 2,6 %
+
+ALTERSVORSORGE 2026:
+- Rürup-Höchstbetrag Single: 30.826 €/Jahr (volle Absetzbarkeit)
+- Rürup-Höchstbetrag Verheiratet: 61.652 €/Jahr
+- bAV §3 Nr.63 steuerfrei: 8 % BBG-RV = 8.112 €/Jahr
+- bAV §3 Nr.63 sozialversicherungs-frei: 4 % BBG-RV = 4.056 €/Jahr
+- bAV-KV-Freibetrag in Auszahlungsphase: 2.373 €/Jahr (2026)
+- Riester-Kinderzulage ab 2008 geboren: 300 €/Jahr/Kind
+
+KFZ:
+- Pendlerpauschale: 0,30 €/km erste 20 km, 0,38 €/km ab 21. km
+- Reisekostenpauschale Kfz: 0,30 €/km (auch über 20 km)
+- Verpflegungspauschale DE: 14 € (8-24h), 28 € (über 24h)
+- 1 %-Regel: 1 % vom Brutto-Listenpreis/Monat als geldwerter Vorteil
+- E-Auto-Bonus: 0,25 % bei Brutto-Listenpreis bis 70.000 €, 0,5 % darüber
+
+E-RECHNUNG B2B (Pflicht seit 01.01.2025):
+- Empfangs-Pflicht für ALLE B2B-Unternehmen ab 01.01.2025 (auch KU!)
+- Versand-Pflicht stufenweise:
+  * Bis 31.12.2026: nur große Unternehmen müssen versenden (>800k Umsatz)
+  * Ab 01.01.2027: ALLE Unternehmen mit >800k Umsatz
+  * Ab 01.01.2028: ALLE B2B-Unternehmen
+- Formate: XRechnung (XML), ZUGFeRD (PDF mit XML)
+- Reine PDF-Rechnung ≠ E-Rechnung mehr
+
+GEWERBE / GRÜNDUNG:
+- GewA1-Anmeldungsgebühr: 20-65 € (je Stadt/Bundesland)
+- UG-Stammkapital: ab 1 € (Rücklage 25 % bis 25.000 € erreicht)
+- GmbH-Stammkapital: 25.000 € (mind. 12.500 € bar einzuzahlen)
+- Notarkosten UG-Gründung: ⌀ 300-600 €
+- Notarkosten GmbH-Gründung: ⌀ 800-1.500 €
+
+PLATTFORM-MELDUNG DAC7 (EU-Richtlinie 2021/514):
+- Meldepflicht für Plattformen ab: 30 Verkäufe/Jahr ODER 2.000 €/Jahr pro Verkäufer
+
+============================================================
+DISCLAIMER ZWINGEND
+============================================================
+Wenn deine Antwort MINDESTENS EINES der folgenden enthält → Disclaimer-Footer am Ende PFLICHT:
+- konkrete Steuer-Empfehlung (Werte, §-Verweise, Optimierungen)
+- konkrete Rechtsform-Empfehlung
+- konkrete Buchungs-/Konten-Empfehlung
+- konkrete Versicherungs-Empfehlung
+- konkrete Investitions-/Finanzplanungs-Empfehlung
+
+Format Disclaimer (eine Zeile am ENDE, klein und unaufdringlich):
+*Hinweis: Keine Steuer-/Rechtsberatung. Bei verbindlicher Auslegung [StB-Finder](/cockpit/stb-finder) konsultieren.*
+
+Bei reinen Info-Antworten (Begriff erklärt, Begriff definiert, allgemeine Funktionsweise) → Disclaimer optional.
+
+============================================================
+TOOL-LINK PFLICHT (HÖCHSTE PRIORITÄT)
+============================================================
+Bei JEDER Antwort prüfe: gibt es ein passendes GründerX-Tool im Catalog unten? Wenn ja → MIT Markdown verlinken: [Tool-Name](/cockpit/...).
+Falls Buchhaltungs-, KV- oder Cashflow-Frage: IMMER mindestens 1 Tool-Link.
+
+THEMA → TOOL-Map (Top-Liste, vollständig im TOOLS-CATALOG):
+- "Brauche ich Gewerbe?" / Hobby vs Freiberuf → [Gewerbe-Check](/cockpit/gewerbe-check) + [Freiberuf-Check](/cockpit/freiberuf-check)
+- Freibeträge / Side-Hustle-Schwellen → [Schwellen-Check](/cockpit/schwellen-check)
+- Stundensatz / Pricing als Solo → [Stundensatz-Rechner](/cockpit/stundensatz-rechner)
+- Was bleibt netto übrig → [Brutto-Netto Solo](/cockpit/brutto-netto-solo)
+- StB vs DIY-Entscheidung → [StB-Cost-Benefit](/cockpit/stb-cost-benefit) + [StB-Finder](/cockpit/stb-finder)
+- Rechnung schreiben (§14 UStG) → [Rechnungs-Generator](/cockpit/rechnungs-generator)
+- Gewerbe anmelden GewA1 → [Gewerbeanmeldung-Wizard](/cockpit/gewerbeanmeldung-wizard)
+- 90-Tage-Roadmap "was muss ich machen" → [Erste-Schritte-Roadmap](/cockpit/erste-schritte-roadmap)
+- Versicherungen (BHV, BU, Cyber) → [Versicherungs-Basis-Check](/cockpit/versicherungs-basis-check)
+- KV/Krankenkasse Vergleich → [KV-Optimizer](/cockpit/kv-optimizer)
+- Pension / Rürup / bAV → [Pension-Optimizer](/cockpit/pension-optimizer)
+- BWA / Jahresabschluss → [BWA-Generator](/cockpit/bwa-generator)
+- DATEV-Mapping Buchhaltung → [DATEV-Mapper](/cockpit/datev-mapper)
+- StB-Hand-off / Belege übergeben → [StB-Hand-off](/cockpit/stb-handoff)
+- Marge pro SKU (Multi-Channel) → [Marge-Tracker](/cockpit/marge-tracker)
+- Reisekosten + Bewirtung → [Reisekosten-Logger](/cockpit/reisekosten-logger)
+- Glossar / "Was ist ESt/EÜR/...?" → [Steuer-ABC](/cockpit/steuer-abc)
+
+============================================================
+STIL
+============================================================
+Präzise, direkt, ohne Schnörkel. Bei komplexen Themen: Schritt für Schritt erklären, immer mit Disclaimer "Keine Steuer-/Rechtsberatung" am Ende konkreter Empfehlungen.
 Antworten auf Deutsch (außer User schreibt anders). Nutze Markdown (Listen, Bold) für Lesbarkeit.
 Wenn der User ein Gründungs-Vorhaben skizziert (z.B. "ich will US-LLC"), verweise auf das passende GründerX-Playbook.
 
@@ -267,11 +482,17 @@ MARKEN / DOMAIN
 - /cockpit/marken-monitor – Watchlist mit Diff-Alert bei neuen Anmeldungen
 
 ============================================================
-PLAYBOOKS-CATALOG (53 Step-by-Step Guides – verlinke MIT Markdown z.B. [Guide](/playbooks))
+PLAYBOOKS-CATALOG (67 Step-by-Step Guides – verlinke MIT Markdown z.B. [Guide](/playbooks))
 ============================================================
 RECHTSFORM-GRÜNDUNGEN:
 - /playbook/gmbh-gruendung · /playbook/ug-gruendung · /playbook/einzelunternehmen-gruendung
+- /playbook/freiberufler-anmelden – Freiberufler ohne GewA1: FA-Anmeldung via ELSTER, Katalogberuf-Check
+- /playbook/gbr-gruenden – GbR mit 2+ Personen: Gesellschaftsvertrag, GewA1 pro Partner, Haftung
+- /playbook/handwerk-gruenden – Handwerksbetrieb: HWK-Eintrag, Meisterzwang-Prüfung, BG BAU
+- /playbook/restaurant-eroeffnen – Gastronomie: Konzession §4 GastG, Hygiene, Schank- + Speisenerlaubnis
+- /playbook/immobilien-gmbh – vv-GmbH für Immobilien: erweiterte Kürzung §9 Nr.1, Trade-off vs privat
 - /playbook/holding · /playbook/co-founder-agreement · /playbook/foerderung-stipendium
+- /playbook/ag-gruenden · /playbook/verein-gug
 - /playbook/us-llc · /playbook/hk-limited · /playbook/wegzugsbesteuerung
 
 LAUNCH (D2C / Marketplace / Compliance):
@@ -288,6 +509,18 @@ ARCHETYPE-SETUPS (Komplett-Bundles pro Geschäftsmodell):
 - /playbook/creator-influencer-setup – Content/Affiliate mit Werbekennzeichnung + Tax-Trap
 - /playbook/coach-experte-setup – Online-Kurse: ⚠ FernUSG-Falle, CRM+Webinar+Community
 
+CREATOR-PLATTFORM-TRACKS (Subspezialisierung):
+- /playbook/creator-tiktok-instagram – Short-Form: Reels/TikTok-Algorithmus + Monetarisierung
+- /playbook/creator-youtube-longform – Long-Form: AdSense + Sponsoring + YT-SEO
+- /playbook/creator-twitter-reddit – Text/Community: X-Premium + Reddit-Building + Newsletter
+- /playbook/creator-pinterest – Search + Inspiration: visuelles SEO + Affiliate-Pin-Strategie
+
+COACH-TRACKS (Subspezialisierung):
+- /playbook/coach-1-on-1 – Premium-1:1: Stundenhonorare 100-500 €, Skalierungs-Limit
+- /playbook/coach-group-mastermind – Group-Programs 5-15 Teilnehmer, höhere Marge
+- /playbook/coach-online-course – Self-paced Course: Teachable/Kajabi + Sales-Funnel
+- /playbook/coach-membership – Monatliche Membership: Recurring, Community, Skool
+
 PERFORMANCE & MARKETING (Setup→Erste Kampagne):
 - /playbook/meta-ads-setup – Business Manager+Pixel+CAPI+Audiences→Erste Kampagne
 - /playbook/klaviyo-setup – Account+Shop-Sync+DKIM+Welcome-Flow live
@@ -298,12 +531,22 @@ PERFORMANCE & MARKETING (Setup→Erste Kampagne):
 - /playbook/email-marketing-stack – Klaviyo/Brevo + Cart-Recovery + SMS + List-Building
 - /playbook/seo-ecommerce – Tech+Keyword+Content+Schema+Backlinks+AI-SEO/GEO/E-E-A-T
 
+HIRING-TRACKS (Persona-spezifisch):
+- /playbook/hiring-erste-10 – Vom 1. bis 10. Mitarbeiter: Recruiting-Stack + Onboarding
+- /playbook/hiring-festanstellung – Vollzeit-AN: SV-Anmeldung, AG-Anteile, Probezeit, KSchG
+- /playbook/hiring-freelancer – Werkvertrag/Dienstvertrag: Scheinselbst.-Vermeidung, Kostengrenzen
+- /playbook/hiring-minijob-werkstudent – Flexible Beschäftigung: 538€-Minijob + WerkstudentenPrivileg
+
+FINANZIERUNG (Crowdfunding-Tracks):
+- /playbook/crowdfunding-reward – Kickstarter/Indiegogo: Reward-basiert, Prototyp + Story
+- /playbook/crowdfunding-equity – Seedmatch/Companisto: Equity-Crowdfunding ab 100k Ziel
+- /playbook/crowdfunding-token-launch – MiCA-konformer Token-Launch (EU-Crypto-Regulation)
+
 SKALIERUNG / OPERATIONS:
-- /playbook/hiring-erste-10 · /playbook/cashflow-forecasting · /playbook/insurance-stack
+- /playbook/cashflow-forecasting · /playbook/insurance-stack
 - /playbook/logistik-3pl · /playbook/buchhaltung-setup · /playbook/mitarbeiter-beteiligung
 - /playbook/vc-pitch-deck · /playbook/crowdfunding-token · /playbook/b2b-saas-spezifika
-- /playbook/ma-sell-side (Exit-Vorbereitung) · /playbook/ag-gruenden · /playbook/verein-gug
-- /playbook/unternehmenskauf (M&A Buy-Side)
+- /playbook/ma-sell-side (Exit-Vorbereitung) · /playbook/unternehmenskauf (M&A Buy-Side)
 
 PLAYBOOK-USAGE:
 - User fragt "Wie starte ich Amazon-FBA?" → empfehle [Amazon FBA Launch](/playbook/amazon-fba-launch)
@@ -315,6 +558,11 @@ WIE DU TOOLS NUTZT:
 - Bei Frage "Soll ich Holding gründen?" → erkläre Trade-off + verlinke /cockpit/entscheidungs-engine UND /cockpit/holding-designer
 - Bei Frage "Welcher US-State?" → erkläre Wyoming vs DE vs NM grob + verlinke /cockpit/us-llc-wizard für vollen Setup-Pfad
 - Verlinke IMMER mit Markdown: [Crypto-Steuer-Tool](/cockpit/crypto-steuer) – nicht als Plain-Text.`;
+}
+
+// Backwards-Compat: SYSTEM-Konstante = einmaliger Build beim Modul-Load.
+// Wird in Edge-Function pro Request neu gebaut (siehe buildSystemPrompt() in serve()).
+const SYSTEM = buildSystemPrompt();
 
 async function callLovable(messages: any[], key: string, systemOverride?: string): Promise<Response> {
   return await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
@@ -323,6 +571,24 @@ async function callLovable(messages: any[], key: string, systemOverride?: string
     body: JSON.stringify({
       model: "google/gemini-3-flash-preview",
       messages: [{ role: "system", content: systemOverride ?? SYSTEM }, ...messages],
+      stream: true,
+    }),
+  });
+}
+
+/**
+ * OpenAI-Provider: nativ OpenAI-kompatibles SSE-Format (chat.completion.chunk).
+ * Wird als 3. Fallback verwendet (Lovable → Anthropic → OpenAI) oder als Primary
+ * wenn weder Lovable noch Anthropic verfügbar sind. Modell: gpt-4o.
+ */
+async function callOpenAI(messages: any[], key: string, systemOverride?: string): Promise<Response> {
+  return await fetch("https://api.openai.com/v1/chat/completions", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
+    body: JSON.stringify({
+      model: "gpt-4o",
+      messages: [{ role: "system", content: systemOverride ?? SYSTEM }, ...messages],
+      temperature: 0.3,
       stream: true,
     }),
   });
@@ -426,24 +692,31 @@ serve(async (req) => {
 
     const LOVABLE_KEY = Deno.env.get("LOVABLE_API_KEY");
     const ANTHROPIC_KEY = Deno.env.get("ANTHROPIC_API_KEY");
+    const OPENAI_KEY = Deno.env.get("OPENAI_API_KEY");
 
-    if (!LOVABLE_KEY && !ANTHROPIC_KEY) {
-      throw new Error("Weder LOVABLE_API_KEY noch ANTHROPIC_API_KEY gesetzt");
+    if (!LOVABLE_KEY && !ANTHROPIC_KEY && !OPENAI_KEY) {
+      throw new Error("Keiner der Provider-Keys gesetzt (LOVABLE_API_KEY / ANTHROPIC_API_KEY / OPENAI_API_KEY)");
     }
+
+    // System-Prompt PRO REQUEST neu bauen → Datum bleibt aktuell auch bei
+    // long-lived Edge-Function-Isolates (sonst würde der Tag der Erst-Initialisierung
+    // hängen bleiben, manchmal mehrere Tage am Stück).
+    const currentSystemPrompt = buildSystemPrompt();
 
     // === MEMORY-LAYER ===
     // User-ID aus JWT — wenn anon-Key oder fehlend: Memory wird übersprungen
     const userId = await getUserIdFromRequest(req);
     const supaService = serviceClient();
     let memories: ChatMemory[] = [];
-    let systemPromptWithMemory: string | undefined;
+    // Default: aktueller Prompt (frisch, mit heutigem Datum). Wird unten erweitert wenn Memory existiert.
+    let systemPromptWithMemory: string = currentSystemPrompt;
 
     if (userId && supaService) {
       try {
         memories = await loadMemories(userId, supaService);
         if (memories.length > 0) {
           const block = buildMemoryBlock(memories);
-          systemPromptWithMemory = SYSTEM + block;
+          systemPromptWithMemory = currentSystemPrompt + block;
           // last_used_at fire-and-forget aktualisieren
           markMemoriesUsed(memories.map((m) => m.id), supaService).catch(() => {});
         }
@@ -452,13 +725,40 @@ serve(async (req) => {
       }
     }
 
+    // === KB-RETRIEVAL (Hybrid: immer retrieven, nur injecten wenn similarity ≥ INJECT_THRESHOLD) ===
+    // KB enthält 848+ Chunks aus playbooks, tools, stb-pool, anbieter, foerderprogramme,
+    // steuer-glossar, holdings, visa, etc. Wenn Top-Match relevant ist → in System-Prompt.
+    const SUPABASE_URL_KB = Deno.env.get("SUPABASE_URL");
+    const SERVICE_KEY_KB = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+    let kbHits: any[] = [];
+    if (OPENAI_KEY && SUPABASE_URL_KB && SERVICE_KEY_KB && lastUser.trim().length >= 3) {
+      try {
+        kbHits = await retrieveKb(lastUser, {
+          openaiKey: OPENAI_KEY,
+          supabaseUrl: SUPABASE_URL_KB,
+          supabaseServiceKey: SERVICE_KEY_KB,
+          topK: 5,
+        });
+        const kbBlock = buildKbBlock(kbHits);
+        if (kbBlock) {
+          systemPromptWithMemory = systemPromptWithMemory + kbBlock;
+          console.log(`[kb] injected ${kbHits.filter((h) => h.similarity >= 0.35).length} hits (top sim ${kbHits[0]?.similarity?.toFixed(2)})`);
+        } else {
+          console.log(`[kb] no relevant hits (top sim ${kbHits[0]?.similarity?.toFixed(2) ?? "n/a"})`);
+        }
+      } catch (e) {
+        // KB-Retrieval ist optional — bei Fehler weiter ohne KB
+        console.error("[kb] retrieve failed, continuing without:", (e as Error).message);
+      }
+    }
+
     // Sub-LLM-Caller für Memory-Extract (günstigeres Modell)
-    const subLlm = makeSubLlmCaller(LOVABLE_KEY, ANTHROPIC_KEY);
+    const subLlm = makeSubLlmCaller(LOVABLE_KEY, ANTHROPIC_KEY, OPENAI_KEY);
 
     // Helper: wraps stream mit Tee → Output-Guard + Log + Memory-Extract nach Stream-Ende
     const wrapStream = (
       upstream: ReadableStream<Uint8Array>,
-      provider: "lovable-gemini" | "anthropic-claude",
+      provider: "lovable-gemini" | "anthropic-claude" | "openai-gpt",
       model: string,
     ): Response => {
       const teed = teeForLogging(upstream, (fullText) => {
@@ -483,6 +783,34 @@ serve(async (req) => {
       });
     };
 
+    // Fallback-Helper: versucht Anthropic, dann OpenAI (in dieser Reihenfolge)
+    const tryFallbacks = async (): Promise<Response | null> => {
+      if (ANTHROPIC_KEY) {
+        console.log("→ Fallback auf Anthropic Claude");
+        const anthResp = await callAnthropic(messages, ANTHROPIC_KEY, systemPromptWithMemory);
+        if (anthResp.body) return wrapStream(anthResp.body, "anthropic-claude", "claude-sonnet-4-6");
+        return anthResp;
+      }
+      if (OPENAI_KEY) {
+        console.log("→ Fallback auf OpenAI gpt-4o");
+        const openaiResp = await callOpenAI(messages, OPENAI_KEY, systemPromptWithMemory);
+        if (openaiResp.ok && openaiResp.body) {
+          return wrapStream(openaiResp.body, "openai-gpt", "gpt-4o");
+        }
+        const errText = await openaiResp.text();
+        console.error("OpenAI-Fallback fehlgeschlagen", openaiResp.status, errText);
+        logChat({
+          user_message: lastUser.slice(0, 2000),
+          provider: "openai-gpt",
+          error: `status-${openaiResp.status}`,
+        });
+        return new Response(JSON.stringify({ error: `OpenAI ${openaiResp.status}` }), {
+          status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+      return null;
+    };
+
     // 1) Lovable AI Gateway versuchen (falls Key vorhanden)
     if (LOVABLE_KEY) {
       const lovableResp = await callLovable(messages, LOVABLE_KEY, systemPromptWithMemory);
@@ -503,15 +831,10 @@ serve(async (req) => {
         });
       }
 
-      // 2) Bei Credits-Problem (402) → Anthropic-Fallback wenn verfügbar
+      // 2) Bei Credits-Problem (402) → Anthropic ODER OpenAI Fallback
       if (lovableResp.status === 402) {
-        if (ANTHROPIC_KEY) {
-          console.log("Lovable 402 → Fallback auf Anthropic");
-          const anthResp = await callAnthropic(messages, ANTHROPIC_KEY, systemPromptWithMemory);
-          return anthResp.body
-            ? wrapStream(anthResp.body, "anthropic-claude", "claude-sonnet-4-6")
-            : anthResp;
-        }
+        const fb = await tryFallbacks();
+        if (fb) return fb;
         logChat({
           user_message: lastUser.slice(0, 2000),
           provider: "lovable-gemini",
@@ -520,7 +843,7 @@ serve(async (req) => {
         return new Response(
           JSON.stringify({
             error:
-              "AI-Kontingent bei Lovable aufgebraucht. Setze ANTHROPIC_API_KEY in Supabase-Secrets für Fallback ODER lade Lovable-Credits auf.",
+              "AI-Kontingent bei Lovable aufgebraucht. Setze ANTHROPIC_API_KEY oder OPENAI_API_KEY in Supabase-Secrets für Fallback ODER lade Lovable-Credits auf.",
           }),
           { status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" } },
         );
@@ -528,14 +851,9 @@ serve(async (req) => {
 
       const t = await lovableResp.text();
       console.error("Lovable-AI error", lovableResp.status, t);
-      // Auch bei anderen Fehlern: Anthropic versuchen wenn verfügbar
-      if (ANTHROPIC_KEY) {
-        console.log(`Lovable ${lovableResp.status} → Fallback auf Anthropic`);
-        const anthResp = await callAnthropic(messages, ANTHROPIC_KEY, systemPromptWithMemory);
-        return anthResp.body
-          ? wrapStream(anthResp.body, "anthropic-claude", "claude-sonnet-4-6")
-          : anthResp;
-      }
+      // Auch bei anderen Fehlern: Anthropic ODER OpenAI versuchen
+      const fb = await tryFallbacks();
+      if (fb) return fb;
       logChat({
         user_message: lastUser.slice(0, 2000),
         provider: "lovable-gemini",
@@ -546,11 +864,12 @@ serve(async (req) => {
       });
     }
 
-    // Kein Lovable-Key → direkt Anthropic
-    const anthResp = await callAnthropic(messages, ANTHROPIC_KEY!, systemPromptWithMemory);
-    return anthResp.body
-      ? wrapStream(anthResp.body, "anthropic-claude", "claude-sonnet-4-6")
-      : anthResp;
+    // Kein Lovable-Key → direkt auf Fallback-Chain
+    const fb = await tryFallbacks();
+    if (fb) return fb;
+    return new Response(JSON.stringify({ error: "Kein Provider verfügbar" }), {
+      status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
   } catch (e) {
     console.error("chat-felix error", e);
     return new Response(JSON.stringify({ error: e instanceof Error ? e.message : "Unknown" }), {
