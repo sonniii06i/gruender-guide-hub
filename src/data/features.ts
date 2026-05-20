@@ -46,6 +46,7 @@ const _CATEGORIES_RAW: FeatureCategory[] = [
       { slug: "steuer-abc", title: "Steuer-ABC Glossar", desc: "60+ deutsche Steuer-Begriffe einfach erklärt — von ESt, EÜR, Anlage S bis Reverse Charge §13b, Holding, KSK. Suchbar, 10 Kategorien, mit §-Verweisen + Cross-Links zum passenden Tool.", status: "beta", route: "/cockpit/steuer-abc" },
       { slug: "brutto-netto-solo", title: "Brutto-Netto Solo-Selbstständig", desc: "Was bleibt am Ende übrig? Umsatz → BA → Gewinn → ESt-Progression + SolZ + ggf. GewSt + KV/PV freiwillig (Mindest 260€) → Netto. Mit Step-by-Step-Erklärung + Vergleich gegen 'gleicher Brutto als Angestellter'.", status: "beta", route: "/cockpit/brutto-netto-solo" },
       { slug: "stundensatz-rechner", title: "Stundensatz-Rechner Anfänger", desc: "Rückwärts-Rechnung: Wunsch-Netto + Lebenshaltung + KV + Rücklage → nötiger Brutto → ÷ Billable-Stunden (70 %) = realistischer Stundensatz. Fixt den Anfänger-Fehler 'ich nehme 30 €/h wie meine Vollzeitstelle'.", status: "beta", route: "/cockpit/stundensatz-rechner" },
+      { slug: "stb-cost-benefit", title: "Steuerberater Cost-Benefit-Check", desc: "Brauche ich überhaupt einen StB? 3-Szenarien-Vergleich (Voll-StB / DIY-lexoffice / Hybrid) mit StBVV-Mittelgebühren + Opportunitätskosten Eigenzeit. Empfehlung welche Option für deinen Umsatz/Gewinn am günstigsten ist.", status: "beta", route: "/cockpit/stb-cost-benefit" },
     ],
   },
   {
