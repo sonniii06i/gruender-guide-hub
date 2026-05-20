@@ -9,6 +9,7 @@ import { CATEGORIES, STATUS_LABEL, type Feature, type FeatureCategory } from "@/
 import { PLAYBOOKS } from "@/data/playbooks";
 import { GuideCard } from "@/components/dashboard/GuideCard";
 import { ContinueLearning } from "@/components/dashboard/ContinueLearning";
+import { WelcomeChoiceModal } from "@/components/dashboard/WelcomeChoiceModal";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -99,6 +100,7 @@ const Dashboard = () => {
 
   return (
     <div className="container max-w-7xl py-6 md:py-10 px-4 md:px-6">
+      <WelcomeChoiceModal firstName={profile?.first_name} />
       {/* Hero */}
       <header className="mb-8">
         <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-accent-blue mb-2">
@@ -159,6 +161,8 @@ const Dashboard = () => {
         <>
           <ContinueLearning />
 
+          <StarterHighlight isActive={isActive} />
+
           <section className="mb-12">
             <div className="flex items-end justify-between mb-4 gap-4 flex-wrap">
               <div>
@@ -181,17 +185,28 @@ const Dashboard = () => {
               <h2 className="text-xl md:text-2xl font-bold tracking-tight">Was beschäftigt dich?</h2>
             </div>
             <div className="flex gap-2 overflow-x-auto pb-2 -mx-1 px-1">
-              {CATEGORIES.map((cat) => (
-                <button
-                  key={cat.slug}
-                  onClick={() => { params.set("view", "themen"); params.set("cat", cat.slug); setParams(params); }}
-                  className="group shrink-0 rounded-2xl border border-border bg-card hover:border-accent-blue/40 hover:shadow-soft px-4 py-3 transition-all text-left min-w-[180px]"
-                >
-                  <div className="text-xl mb-1.5">{cat.emoji}</div>
-                  <div className="font-semibold text-sm leading-tight">{cat.title}</div>
-                  <div className="text-[11px] text-muted-foreground mt-0.5 line-clamp-1">{cat.tagline}</div>
-                </button>
-              ))}
+              {CATEGORIES.map((cat) => {
+                const isStarter = cat.slug === "starter";
+                return (
+                  <button
+                    key={cat.slug}
+                    onClick={() => { params.set("view", "themen"); params.set("cat", cat.slug); setParams(params); }}
+                    className={cn(
+                      "group shrink-0 rounded-2xl border px-4 py-3 transition-all text-left min-w-[180px] relative",
+                      isStarter
+                        ? "border-purple-500/40 bg-gradient-to-br from-purple-500/10 via-card to-card hover:shadow-soft hover:border-purple-500/60"
+                        : "border-border bg-card hover:border-accent-blue/40 hover:shadow-soft"
+                    )}
+                  >
+                    {isStarter && (
+                      <span className="absolute -top-2 -right-2 text-[9px] font-bold uppercase tracking-wider bg-purple-500 text-white px-1.5 py-0.5 rounded-full">Empfohlen</span>
+                    )}
+                    <div className="text-xl mb-1.5">{cat.emoji}</div>
+                    <div className="font-semibold text-sm leading-tight">{cat.title}</div>
+                    <div className="text-[11px] text-muted-foreground mt-0.5 line-clamp-1">{cat.tagline}</div>
+                  </button>
+                );
+              })}
             </div>
           </section>
 
@@ -243,20 +258,27 @@ const Dashboard = () => {
             >
               Alle
             </button>
-            {CATEGORIES.map((cat) => (
-              <button
-                key={cat.slug}
-                onClick={() => { params.set("cat", cat.slug); setParams(params); }}
-                className={cn(
-                  "text-xs px-3 py-1.5 rounded-full border transition-colors inline-flex items-center gap-1.5",
-                  activeCatSlug === cat.slug
-                    ? "border-accent-blue bg-accent-blue/10 text-accent-blue font-semibold"
-                    : "border-border hover:bg-accent"
-                )}
-              >
-                <span>{cat.emoji}</span> {cat.title}
-              </button>
-            ))}
+            {CATEGORIES.map((cat) => {
+              const isStarter = cat.slug === "starter";
+              const isActive = activeCatSlug === cat.slug;
+              return (
+                <button
+                  key={cat.slug}
+                  onClick={() => { params.set("cat", cat.slug); setParams(params); }}
+                  className={cn(
+                    "text-xs px-3 py-1.5 rounded-full border transition-colors inline-flex items-center gap-1.5 relative",
+                    isActive
+                      ? (isStarter ? "border-purple-500 bg-purple-500/10 text-purple-700 font-semibold" : "border-accent-blue bg-accent-blue/10 text-accent-blue font-semibold")
+                      : (isStarter ? "border-purple-500/30 hover:bg-purple-500/5" : "border-border hover:bg-accent")
+                  )}
+                >
+                  <span>{cat.emoji}</span> {cat.title}
+                  {isStarter && !isActive && (
+                    <span className="text-[8px] font-bold uppercase tracking-wider bg-purple-500 text-white px-1 py-0 rounded-full ml-1">NEU</span>
+                  )}
+                </button>
+              );
+            })}
           </div>
           <SearchBar query={query} setQuery={setQuery} />
           <div className="space-y-12 mt-6">
@@ -316,13 +338,25 @@ const FelixCTA = () => (
 
 const CategorySection = ({ cat, locked }: { cat: FeatureCategory; locked: boolean }) => {
   const liveCount = cat.features.filter((f) => f.status === "live" || f.status === "beta").length;
+  const isStarter = cat.slug === "starter";
   return (
-    <section>
-      <div className="flex items-center justify-between gap-3 mb-5 pb-3 border-b border-border">
+    <section className={cn(isStarter && "rounded-3xl border-2 border-purple-500/30 bg-gradient-to-br from-purple-500/5 via-card to-card p-4 md:p-6")}>
+      <div className={cn(
+        "flex items-center justify-between gap-3 mb-5 pb-3",
+        !isStarter && "border-b border-border"
+      )}>
         <div className="flex items-center gap-3 min-w-0">
-          <div className="h-11 w-11 rounded-xl bg-accent flex items-center justify-center text-xl shrink-0">{cat.emoji}</div>
+          <div className={cn(
+            "h-11 w-11 rounded-xl flex items-center justify-center text-xl shrink-0",
+            isStarter ? "bg-purple-500/15" : "bg-accent"
+          )}>{cat.emoji}</div>
           <div className="min-w-0">
-            <h2 className="text-lg md:text-xl font-bold leading-tight truncate">{cat.title}</h2>
+            <div className="flex items-center gap-2 flex-wrap">
+              <h2 className="text-lg md:text-xl font-bold leading-tight">{cat.title}</h2>
+              {isStarter && (
+                <span className="text-[9px] font-bold uppercase tracking-wider bg-purple-500 text-white px-1.5 py-0.5 rounded-full">Für Anfänger:innen</span>
+              )}
+            </div>
             <p className="text-xs text-muted-foreground truncate">{cat.tagline}</p>
           </div>
         </div>
@@ -333,7 +367,59 @@ const CategorySection = ({ cat, locked }: { cat: FeatureCategory; locked: boolea
         )}
       </div>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-        {cat.features.map((f) => <FeatureCard key={f.slug} f={f} locked={locked} />)}
+        {cat.features.map((f) => <FeatureCard key={f.slug} f={f} locked={locked} isStarter={isStarter} />)}
+      </div>
+    </section>
+  );
+};
+
+/**
+ * Prominente Hervorhebung der Starter-Kategorie auf dem Start-View.
+ * Zeigt die ersten 4 Anfänger-Tools direkt klickbar an, mit klarer
+ * "Empfohlen für Anfänger"-Botschaft.
+ */
+const StarterHighlight = ({ isActive }: { isActive: boolean }) => {
+  const starterCat = CATEGORIES.find((c) => c.slug === "starter");
+  if (!starterCat) return null;
+  // Erste 4 Tools als Quick-Start-Cards
+  const quickStart = starterCat.features.slice(0, 4);
+  return (
+    <section className="mb-12 rounded-3xl border-2 border-purple-500/30 bg-gradient-to-br from-purple-500/10 via-card to-card p-5 md:p-7">
+      <div className="flex items-start justify-between gap-4 flex-wrap mb-5">
+        <div className="flex items-start gap-3 min-w-0">
+          <div className="h-12 w-12 rounded-2xl bg-purple-500/15 flex items-center justify-center text-2xl shrink-0">
+            🌱
+          </div>
+          <div className="min-w-0">
+            <div className="flex items-center gap-2 flex-wrap mb-1">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-purple-700">Für Einsteiger:innen</p>
+              <span className="text-[9px] font-bold uppercase tracking-wider bg-purple-500 text-white px-1.5 py-0.5 rounded-full">11 neue Tools</span>
+            </div>
+            <h2 className="text-xl md:text-2xl font-bold tracking-tight">Du startest gerade? Hier entlang.</h2>
+            <p className="text-sm text-muted-foreground mt-1 max-w-2xl">
+              Von „Brauche ich überhaupt ein Gewerbe?" bis zur ersten §14-konformen Rechnung — 11 Tools, die durch die ersten 90 Tage führen. Mit personalisierten Empfehlungen und PDF-Vorbereitung für Bürgeramt/Finanzamt.
+            </p>
+          </div>
+        </div>
+        <Link
+          to="/dashboard?view=themen&cat=starter"
+          className="inline-flex items-center gap-1.5 rounded-full bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 text-sm font-semibold transition shrink-0"
+        >
+          Alle 11 Tools <ArrowRight className="h-4 w-4" />
+        </Link>
+      </div>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5">
+        {quickStart.map((f, i) => (
+          <Link
+            key={f.slug}
+            to={isActive && f.route ? f.route : "#"}
+            className="rounded-xl border border-purple-500/20 bg-card/80 hover:bg-card hover:border-purple-500/50 hover:shadow-soft transition p-3 group"
+          >
+            <div className="text-[10px] font-bold uppercase tracking-wider text-purple-700 mb-1">Schritt {i + 1}</div>
+            <div className="font-semibold text-xs leading-tight mb-1 group-hover:text-purple-700 transition">{f.title}</div>
+            <div className="text-[10px] text-muted-foreground line-clamp-2">{f.desc.slice(0, 90)}…</div>
+          </Link>
+        ))}
       </div>
     </section>
   );
@@ -346,13 +432,18 @@ const STATUS_STYLES: Record<Feature["status"], string> = {
   planned: "bg-secondary text-muted-foreground",
 };
 
-const FeatureCard = ({ f, locked }: { f: Feature; locked: boolean }) => {
+const FeatureCard = ({ f, locked, isStarter }: { f: Feature; locked: boolean; isStarter?: boolean }) => {
   const isClickable = !!f.route;
   const showLock = locked && isClickable;
+  const accent = isStarter ? "purple" : "blue";
   const inner = (
     <div className={cn(
-      "relative h-full rounded-2xl border border-border bg-card p-4 transition-all flex flex-col",
-      isClickable ? "hover:shadow-soft hover:-translate-y-0.5 hover:border-accent-blue/40 cursor-pointer" : "opacity-90"
+      "relative h-full rounded-2xl border bg-card p-4 transition-all flex flex-col",
+      isStarter ? "border-purple-500/25" : "border-border",
+      isClickable && (isStarter
+        ? "hover:shadow-soft hover:-translate-y-0.5 hover:border-purple-500/60 cursor-pointer"
+        : "hover:shadow-soft hover:-translate-y-0.5 hover:border-accent-blue/40 cursor-pointer"),
+      !isClickable && "opacity-90"
     )}>
       <div className="flex items-start justify-between mb-2.5">
         <span className={cn("inline-flex rounded-full text-[9px] font-bold uppercase tracking-wider px-2 py-0.5", STATUS_STYLES[f.status])}>
@@ -365,9 +456,9 @@ const FeatureCard = ({ f, locked }: { f: Feature; locked: boolean }) => {
         )}
       </div>
       <h3 className="font-semibold text-sm mb-1 leading-tight">{f.title}</h3>
-      <p className="text-xs text-muted-foreground leading-relaxed flex-1">{f.desc}</p>
+      <p className="text-xs text-muted-foreground leading-relaxed flex-1 line-clamp-3">{f.desc}</p>
       {isClickable && (
-        <div className="mt-3 inline-flex items-center text-[11px] font-semibold text-accent-blue">
+        <div className={cn("mt-3 inline-flex items-center text-[11px] font-semibold", accent === "purple" ? "text-purple-700" : "text-accent-blue")}>
           Öffnen <ArrowUpRight className="h-3 w-3 ml-1" />
         </div>
       )}

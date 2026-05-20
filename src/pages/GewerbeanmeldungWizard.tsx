@@ -606,8 +606,8 @@ const StepBranche = ({ data, update }: StepProps) => {
             onClick={() => update("wzCode", w.code)}
             className={`w-full text-left p-2 text-xs hover:bg-secondary/50 transition ${data.wzCode === w.code ? "bg-emerald-500/10" : ""}`}
           >
-            <div className="flex items-start justify-between gap-2">
-              <div>
+            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 sm:gap-2">
+              <div className="min-w-0">
                 <span className="font-mono font-semibold text-accent-blue">{w.code}</span>
                 <span className="ml-2 font-medium">{w.label}</span>
               </div>
