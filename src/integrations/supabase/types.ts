@@ -14,6 +14,57 @@ export type Database = {
   }
   public: {
     Tables: {
+      bookings: {
+        Row: {
+          confirmation_sent_at: string | null
+          created_at: string
+          email: string
+          id: string
+          meet_link: string | null
+          message: string | null
+          name: string
+          phone: string | null
+          reminder_15min_sent_at: string | null
+          reminder_24h_sent_at: string | null
+          slot_iso: string
+          status: string
+          topic: string
+          user_id: string | null
+        }
+        Insert: {
+          confirmation_sent_at?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          meet_link?: string | null
+          message?: string | null
+          name: string
+          phone?: string | null
+          reminder_15min_sent_at?: string | null
+          reminder_24h_sent_at?: string | null
+          slot_iso: string
+          status?: string
+          topic: string
+          user_id?: string | null
+        }
+        Update: {
+          confirmation_sent_at?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          meet_link?: string | null
+          message?: string | null
+          name?: string
+          phone?: string | null
+          reminder_15min_sent_at?: string | null
+          reminder_24h_sent_at?: string | null
+          slot_iso?: string
+          status?: string
+          topic?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       chat_conversations: {
         Row: {
           created_at: string
@@ -37,6 +88,90 @@ export type Database = {
           last_message_at?: string
           title?: string
           updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      chat_logs: {
+        Row: {
+          assistant_message: string | null
+          completion_tokens: number | null
+          conversation_id: string | null
+          created_at: string
+          error: string | null
+          id: string
+          input_guard_triggered: string | null
+          latency_ms: number | null
+          model: string | null
+          output_guard_triggered: string | null
+          prompt_tokens: number | null
+          provider: string
+          user_id: string | null
+          user_message: string
+        }
+        Insert: {
+          assistant_message?: string | null
+          completion_tokens?: number | null
+          conversation_id?: string | null
+          created_at?: string
+          error?: string | null
+          id?: string
+          input_guard_triggered?: string | null
+          latency_ms?: number | null
+          model?: string | null
+          output_guard_triggered?: string | null
+          prompt_tokens?: number | null
+          provider: string
+          user_id?: string | null
+          user_message: string
+        }
+        Update: {
+          assistant_message?: string | null
+          completion_tokens?: number | null
+          conversation_id?: string | null
+          created_at?: string
+          error?: string | null
+          id?: string
+          input_guard_triggered?: string | null
+          latency_ms?: number | null
+          model?: string | null
+          output_guard_triggered?: string | null
+          prompt_tokens?: number | null
+          provider?: string
+          user_id?: string | null
+          user_message?: string
+        }
+        Relationships: []
+      }
+      chat_memories: {
+        Row: {
+          category: string | null
+          confidence: number | null
+          created_at: string
+          fact: string
+          id: string
+          last_used_at: string | null
+          source_message_id: string | null
+          user_id: string
+        }
+        Insert: {
+          category?: string | null
+          confidence?: number | null
+          created_at?: string
+          fact: string
+          id?: string
+          last_used_at?: string | null
+          source_message_id?: string | null
+          user_id: string
+        }
+        Update: {
+          category?: string | null
+          confidence?: number | null
+          created_at?: string
+          fact?: string
+          id?: string
+          last_used_at?: string | null
+          source_message_id?: string | null
           user_id?: string
         }
         Relationships: []
@@ -417,6 +552,36 @@ export type Database = {
           },
         ]
       }
+      tool_events: {
+        Row: {
+          created_at: string
+          event: string
+          id: string
+          metadata: Json | null
+          tool: string
+          user_id: string | null
+          visitor_hash: string
+        }
+        Insert: {
+          created_at?: string
+          event: string
+          id?: string
+          metadata?: Json | null
+          tool: string
+          user_id?: string | null
+          visitor_hash: string
+        }
+        Update: {
+          created_at?: string
+          event?: string
+          id?: string
+          metadata?: Json | null
+          tool?: string
+          user_id?: string | null
+          visitor_hash?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -443,12 +608,50 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_booked_slots: {
+        Args: never
+        Returns: {
+          slot_iso: string
+        }[]
+      }
+      get_bookings_needing_15min_reminder: {
+        Args: never
+        Returns: {
+          email: string
+          id: string
+          meet_link: string
+          message: string
+          name: string
+          slot_iso: string
+          topic: string
+        }[]
+      }
+      get_bookings_needing_24h_reminder: {
+        Args: never
+        Returns: {
+          email: string
+          id: string
+          meet_link: string
+          message: string
+          name: string
+          slot_iso: string
+          topic: string
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
           _user_id: string
         }
         Returns: boolean
+      }
+      mark_reminder_sent: {
+        Args: { p_booking_id: string; p_reminder_kind: string }
+        Returns: undefined
+      }
+      set_booking_meet_link: {
+        Args: { p_booking_id: string; p_meet_link: string }
+        Returns: undefined
       }
     }
     Enums: {
