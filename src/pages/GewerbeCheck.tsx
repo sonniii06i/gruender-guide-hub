@@ -66,9 +66,153 @@ const TAETIGKEITEN: { v: Taetigkeit; label: string; emoji: string; freiberuf: "j
   { v: "unsicher", label: "Bin mir unsicher / etwas anderes", emoji: "🤔", freiberuf: "vielleicht", beispiele: "Wenn deine Tätigkeit nicht klar in eine Kategorie passt — wir geben dir eine Empfehlung zur Klärung" },
 ];
 
+// ============================================================================
+// Rechtsform-Empfehlungs-Logik
+// ============================================================================
+type RechtsformId = "einzel-frei" | "einzel-gewerbe" | "gbr" | "ug" | "gmbh";
+
+type RechtsformReco = {
+  empfohlen: RechtsformId;
+  empfohlenLabel: string;
+  begruendung: string;
+  ustModus: "ku-19" | "regel" | "egal";
+  ustHinweis: string;
+  alternativen: {
+    id: RechtsformId;
+    label: string;
+    pro: string;
+    contra: string;
+  }[];
+};
+
+const RECHTSFORM_LABEL: Record<RechtsformId, string> = {
+  "einzel-frei": "Einzelunternehmen (Freiberufler:in)",
+  "einzel-gewerbe": "Einzelunternehmen (Gewerbe)",
+  "gbr": "GbR (Gesellschaft bürgerlichen Rechts)",
+  "ug": "UG (haftungsbeschränkt) — Mini-GmbH",
+  "gmbh": "GmbH",
+};
+
+function berechneRechtsformEmpfehlung(setup: Setup): RechtsformReco {
+  const t = TAETIGKEITEN.find((x) => x.v === setup.taetigkeit)!;
+  const istFreiberuf = t.freiberuf === "ja";
+  const istGewerbe = t.freiberuf === "nein";
+  const niedrigerGewinn = setup.gewinnstufe === "unter-410" || setup.gewinnstufe === "unter-3000";
+  const mittlererGewinn = setup.gewinnstufe === "unter-25000";
+  const hoherGewinn = setup.gewinnstufe === "ueber-25000";
+  const istHobby = setup.gewinnabsicht === "nein-hobby";
+
+  // Hobby → keine Rechtsform-Empfehlung relevant
+  if (istHobby) {
+    return {
+      empfohlen: "einzel-frei",
+      empfohlenLabel: "Keine — bleib Hobby",
+      begruendung: "Solange du ohne Gewinnerzielungsabsicht handelst (Liebhaberei), brauchst du KEINE Rechtsform und KEINE Anmeldung. Wenn sich das ändert, komm zurück und mach den Check neu.",
+      ustModus: "egal",
+      ustHinweis: "Keine USt-Pflicht bei Liebhaberei.",
+      alternativen: [],
+    };
+  }
+
+  // === FREIBERUF ===
+  if (istFreiberuf) {
+    const ustModus = niedrigerGewinn || mittlererGewinn ? "ku-19" : "regel";
+    return {
+      empfohlen: "einzel-frei",
+      empfohlenLabel: "Einzelunternehmen als Freiberufler:in",
+      begruendung: "Für die allermeisten Solo-Freiberufler:innen die richtige Wahl: keine Gewerbeanmeldung, keine GewSt, keine IHK-Pflicht, keine Buchführungspflicht (EÜR reicht bis 800k Umsatz). Du brauchst KEINE Rechtsform-Anmeldung — nur die steuerliche Erfassung beim Finanzamt.",
+      ustModus,
+      ustHinweis: ustModus === "ku-19"
+        ? "Bei deinem Gewinn lohnt §19 UStG (Kleinunternehmer): keine USt auf Rechnungen, keine USt-Voranmeldungen. Grenze: 25k Vorjahres-Umsatz / 100k Prognose. ABER: kein Vorsteuer-Abzug — bei viel B2B-Geschäft mit teuren Anschaffungen kann Regelbesteuerung besser sein."
+        : "Bei deinem erwarteten Umsatz wahrscheinlich Regelbesteuerung sinnvoll — mit Vorsteuer-Abzug. KU §19 nur falls Umsatz unter 25k bleibt.",
+      alternativen: [
+        {
+          id: "gbr",
+          label: "GbR mit 2+ Personen",
+          pro: "Wenn du mit Partner:in zusammenarbeitest. Einfach gegründet (Schriftform genügt), keine Stammkapital.",
+          contra: "Volle persönliche Haftung beider Partner:innen, Konflikte schwer auflösbar.",
+        },
+        {
+          id: "gmbh",
+          label: "GmbH (mit 25k Stammkapital)",
+          pro: "Haftungsbeschränkung. Sinnvoll bei sehr hohem Gewinn (>150k) wegen Thesaurierungs-Vorteil.",
+          contra: "Komplexe Buchführung (Bilanz), Notar-Gründung ~1.500 €, IHK-Pflicht. Für Solo-Freiberuf meist Overkill.",
+        },
+      ],
+    };
+  }
+
+  // === GEWERBE ===
+  if (istGewerbe) {
+    // Niedrig + Mittel: Einzel-Gewerbe + KU
+    if (niedrigerGewinn || mittlererGewinn) {
+      return {
+        empfohlen: "einzel-gewerbe",
+        empfohlenLabel: "Einzelunternehmen (Gewerbe) + §19 KU",
+        begruendung: "Für Solo-Gewerbe bei niedrigem bis mittlerem Gewinn klar die einfachste Option: GewA1-Anmeldung (15-65 €), keine Stammkapital, EÜR statt Bilanz, GewSt-Freibetrag 24.500 €. Volle persönliche Haftung — bei deinem Risiko-Profil aber meist okay.",
+        ustModus: "ku-19",
+        ustHinweis: "Kleinunternehmer §19 UStG empfohlen (Vorjahres-Umsatz < 25k / Prognose < 100k): keine USt-Ausweisung, keine USt-VA. Bindung 5 Jahre. Wechsel zu Regelbesteuerung nur wenn du viele teure Anschaffungen mit Vorsteuer-Abzug hast oder dein Hauptkundenkreis B2B ist.",
+        alternativen: [
+          {
+            id: "ug",
+            label: "UG (haftungsbeschränkt)",
+            pro: "Bei Risiko-intensiver Tätigkeit (Produkthaftung, hoher Lagerwert): Haftung auf Stammkapital begrenzt. Ab 1 € Stammkapital, aber 25 % vom Gewinn müssen als Rücklage aufgebaut werden bis 25k erreicht.",
+            contra: "Notar nötig (~500 €), Handelsregister-Eintrag, Bilanz-Pflicht, IHK-Pflicht, höhere Buchführungskosten (~2-3k €/J StB-Honorar).",
+          },
+          {
+            id: "gbr",
+            label: "GbR mit Partner:in",
+            pro: "Falls du nicht solo bist. Einfach gegründet, EÜR ausreichend.",
+            contra: "Volle persönliche Haftung beider Partner:innen, GewA1 pro Person.",
+          },
+        ],
+      };
+    }
+    // Hoch: erwäge UG/GmbH
+    return {
+      empfohlen: "einzel-gewerbe",
+      empfohlenLabel: "Einzelunternehmen (Gewerbe) — UG/GmbH erwägen",
+      begruendung: "Bei Solo-Gewerbe und Gewinn > 25k €/Jahr ist Einzelunternehmen weiterhin möglich, aber UG/GmbH lohnen sich zu prüfen. Vorteile: Haftungsbeschränkung + Thesaurierungs-Vorteil bei nicht entnommenen Gewinnen (KSt 15 % + GewSt vs. ESt-Spitze 42 %).",
+      ustModus: "regel",
+      ustHinweis: "Bei diesem Gewinn klar Regelbesteuerung — KU §19 wäre wegen Umsatz > 25k ohnehin nicht mehr möglich. Du brauchst USt-ID (bei EU-Geschäft Pflicht) und musst USt-VA monatlich/quartalsweise abgeben.",
+      alternativen: [
+        {
+          id: "ug",
+          label: "UG (haftungsbeschränkt)",
+          pro: "Haftungsbeschränkung + Thesaurierungs-Vorteil. Ab 1 € Stammkapital + Rücklagenbildung bis 25k. Notar ~500 €.",
+          contra: "Bilanz-Pflicht + DAS Handelsregister + ~2-3k €/J Buchhaltungskosten. Geschäftsführer-Gehalt muss sozialversicherungspflichtig sein.",
+        },
+        {
+          id: "gmbh",
+          label: "GmbH (25k Stammkapital)",
+          pro: "Klassische Rechtsform mit voller Haftungsbeschränkung. Bessere Reputation bei B2B-Kunden, Banken, Investoren.",
+          contra: "25k Stammkapital binden, ~1.500 € Notar-/Gründungs-Kosten, sonst gleiche Pflichten wie UG.",
+        },
+      ],
+    };
+  }
+
+  // === UNKLAR ===
+  return {
+    empfohlen: "einzel-gewerbe",
+    empfohlenLabel: "Erst Status klären, dann Rechtsform",
+    begruendung: "Da deine Tätigkeit zwischen Freiberuf und Gewerbe liegt: erst den Status mit dem Finanzamt klären (kostenlose schriftliche Anfrage). Dann je nach Ergebnis: bei Freiberuf → Einzelunternehmen ohne GewA1; bei Gewerbe → Einzelunternehmen mit GewA1.",
+    ustModus: niedrigerGewinn || mittlererGewinn ? "ku-19" : "regel",
+    ustHinweis: niedrigerGewinn || mittlererGewinn
+      ? "Bei deinem Gewinn KU §19 UStG sinnvoll. Im FsE-Fragebogen ankreuzen."
+      : "Regelbesteuerung — KU-Grenzen werden überschritten.",
+    alternativen: [],
+  };
+}
+
 const GewerbeCheck = () => {
   const [step, setStep] = useState(0);
   const [setup, setSetup] = useState<Setup>({});
+
+  const rechtsformEmpfehlung = useMemo<RechtsformReco | null>(() => {
+    if (!setup.taetigkeit || !setup.gewinnabsicht || !setup.gewinnstufe) return null;
+    return berechneRechtsformEmpfehlung(setup);
+  }, [setup]);
 
   const verdict: { type: Verdict; titel: string; farbe: "gruen" | "blau" | "amber" | "rot"; begruendung: string; nextSteps: { text: string; route?: string; extern?: string }[] } | null = useMemo(() => {
     if (!setup.taetigkeit || !setup.regelmaessigkeit || !setup.gewinnabsicht || !setup.gewinnstufe) return null;
@@ -381,6 +525,11 @@ const GewerbeCheck = () => {
             <p className="text-sm leading-relaxed">{verdict.begruendung}</p>
           </div>
 
+          {/* === Rechtsform-Empfehlung === */}
+          {rechtsformEmpfehlung && verdict.type !== "hobby" && (
+            <RechtsformBox reco={rechtsformEmpfehlung} />
+          )}
+
           <div className="rounded-2xl border border-border bg-card p-5 mb-6">
             <h3 className="font-bold text-base mb-3 flex items-center gap-2">
               <ArrowRight className="h-4 w-4 text-accent-blue" />
@@ -445,6 +594,74 @@ const GewerbeCheck = () => {
 };
 
 // ===== Sub-Components =====
+
+const RechtsformBox = ({ reco }: { reco: RechtsformReco }) => (
+  <div className="rounded-2xl border-2 border-purple-500/40 bg-gradient-to-br from-purple-500/10 via-card to-card p-5 mb-6">
+    <div className="flex items-start gap-3 mb-3">
+      <div className="h-10 w-10 rounded-xl bg-purple-500/15 flex items-center justify-center text-xl shrink-0">
+        🏛️
+      </div>
+      <div className="flex-1 min-w-0">
+        <div className="text-xs uppercase tracking-wider text-purple-700 font-semibold mb-1">
+          Empfohlene Rechtsform + USt-Modus
+        </div>
+        <h3 className="text-lg font-bold">{reco.empfohlenLabel}</h3>
+      </div>
+    </div>
+
+    <p className="text-sm leading-relaxed mb-4">{reco.begruendung}</p>
+
+    {/* USt-Modus-Hinweis */}
+    <div className="rounded-xl bg-card border border-border p-3 mb-4">
+      <div className="flex items-start gap-2">
+        <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded shrink-0 mt-0.5 ${
+          reco.ustModus === "ku-19" ? "bg-emerald-500/15 text-emerald-700"
+          : reco.ustModus === "regel" ? "bg-blue-500/15 text-blue-700"
+          : "bg-secondary/50 text-muted-foreground"
+        }`}>
+          {reco.ustModus === "ku-19" ? "§19 KU empfohlen"
+           : reco.ustModus === "regel" ? "Regelbesteuerung"
+           : "USt egal"}
+        </span>
+        <div className="flex-1 text-xs leading-relaxed text-muted-foreground">{reco.ustHinweis}</div>
+      </div>
+    </div>
+
+    {/* Alternativen */}
+    {reco.alternativen.length > 0 && (
+      <details className="rounded-xl border border-border bg-card/60 p-3">
+        <summary className="cursor-pointer text-xs font-semibold flex items-center gap-1.5">
+          <span className="text-purple-700">▸</span> Alternativen ansehen ({reco.alternativen.length})
+        </summary>
+        <div className="mt-3 space-y-3">
+          {reco.alternativen.map((alt) => (
+            <div key={alt.id} className="rounded-lg bg-secondary/30 p-3 text-xs">
+              <div className="font-semibold mb-1">{alt.label}</div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <div className="text-emerald-700"><strong>+ Pro:</strong> <span className="text-muted-foreground">{alt.pro}</span></div>
+                <div className="text-amber-700"><strong>− Contra:</strong> <span className="text-muted-foreground">{alt.contra}</span></div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </details>
+    )}
+
+    {/* Cross-Links zu vertiefenden Tools */}
+    <div className="mt-3 pt-3 border-t border-border flex flex-wrap gap-2 text-[11px]">
+      <span className="text-muted-foreground">Tiefer einsteigen:</span>
+      <Link to="/cockpit/gewerbeanmeldung-wizard" className="text-purple-700 hover:underline font-medium">
+        Gewerbeanmeldung-Wizard →
+      </Link>
+      <Link to="/wizard/rechtsform" className="text-purple-700 hover:underline font-medium">
+        Rechtsform-Wizard →
+      </Link>
+      <Link to="/cockpit/brutto-netto-solo" className="text-purple-700 hover:underline font-medium">
+        Brutto-Netto-Rechner →
+      </Link>
+    </div>
+  </div>
+);
 
 const BeginnerHero = () => (
   <div className="rounded-2xl border-2 border-emerald-500/30 bg-gradient-to-br from-emerald-500/10 via-card to-card p-5 mb-6">

@@ -166,3 +166,74 @@ describe("GewerbeCheck — Navigation", () => {
     expect(screen.getByText(/Frage 1 von 4/i)).toBeInTheDocument();
   });
 });
+
+// ============================================================================
+// Rechtsform-Empfehlung (neu)
+// ============================================================================
+describe("GewerbeCheck — Rechtsform-Empfehlung", () => {
+  /**
+   * Helper: füllt alle 4 Fragen aus.
+   * Reihenfolge: Tätigkeit → Regelmäßigkeit → Gewinnabsicht → Gewinnstufe → Weiter.
+   */
+  const fillForm = (taetigkeitLabel: RegExp, regelmLabel: RegExp, gewinnAbsLabel: RegExp, gewinnStufeLabel: RegExp) => {
+    fireEvent.click(screen.getByText(taetigkeitLabel));
+    fireEvent.click(screen.getByRole("button", { name: /Weiter/i }));
+    fireEvent.click(screen.getByText(regelmLabel));
+    fireEvent.click(screen.getByRole("button", { name: /Weiter/i }));
+    fireEvent.click(screen.getByText(gewinnAbsLabel));
+    fireEvent.click(screen.getByRole("button", { name: /Weiter/i }));
+    fireEvent.click(screen.getByText(gewinnStufeLabel));
+    fireEvent.click(screen.getByRole("button", { name: /Weiter/i }));
+  };
+
+  it("zeigt Rechtsform-Empfehlungs-Box bei Freiberuf-Verdict", () => {
+    renderWithRouter(<GewerbeCheck />);
+    fillForm(/Software \/ IT \/ Engineering/, /Hauptberuflich/, /Ja, das soll Geld bringen/, /3\.000 € – 25\.000 €/);
+    expect(document.body.innerHTML).toMatch(/Empfohlene Rechtsform.*USt-Modus/);
+    expect(document.body.innerHTML).toMatch(/Einzelunternehmen als Freiberufler/);
+  });
+
+  it("bei Freiberuf + niedrigem Gewinn empfiehlt §19 KU", () => {
+    renderWithRouter(<GewerbeCheck />);
+    fillForm(/Software \/ IT \/ Engineering/, /Regelmäßig nebenbei/, /Ja, das soll Geld bringen/, /410 € – 3\.000 €/);
+    expect(document.body.innerHTML).toMatch(/§19 KU empfohlen/);
+  });
+
+  it("bei Gewerbe + mittlerem Gewinn empfiehlt Einzel-Gewerbe + KU", () => {
+    renderWithRouter(<GewerbeCheck />);
+    fillForm(/Dienstleistung \/ Handel/, /Hauptberuflich/, /Ja, das soll Geld bringen/, /3\.000 € – 25\.000 €/);
+    const html = document.body.innerHTML;
+    expect(html).toMatch(/Einzelunternehmen.*Gewerbe/);
+    expect(html).toMatch(/§19 KU empfohlen/);
+  });
+
+  it("bei Gewerbe + hohem Gewinn empfiehlt Regelbesteuerung + UG/GmbH erwägen", () => {
+    renderWithRouter(<GewerbeCheck />);
+    fillForm(/Dienstleistung \/ Handel/, /Hauptberuflich/, /Ja, das soll Geld bringen/, /Über 25\.000 €/);
+    const html = document.body.innerHTML;
+    expect(html).toMatch(/UG\/GmbH erwägen/);
+    expect(html).toMatch(/Regelbesteuerung/);
+  });
+
+  it("bei Hobby wird KEINE Rechtsform-Box gezeigt", () => {
+    renderWithRouter(<GewerbeCheck />);
+    fillForm(/Kunst \/ Schreiben \/ Musik/, /Einmalig/, /Nein, reines Hobby/, /Unter 410 €/);
+    // Hobby-Verdict → RechtsformBox wird NICHT gerendert (verdict.type === "hobby")
+    expect(document.body.innerHTML).not.toMatch(/Empfohlene Rechtsform.*USt-Modus/);
+  });
+
+  it("Alternativen-Toggle ist sichtbar bei Verdict mit Alternativen", () => {
+    renderWithRouter(<GewerbeCheck />);
+    fillForm(/Dienstleistung \/ Handel/, /Hauptberuflich/, /Ja, das soll Geld bringen/, /3\.000 € – 25\.000 €/);
+    expect(document.body.innerHTML).toMatch(/Alternativen ansehen/);
+  });
+
+  it("Cross-Links zu vertiefenden Tools (Gewerbeanmeldung, Rechtsform-Wizard, Brutto-Netto) vorhanden", () => {
+    renderWithRouter(<GewerbeCheck />);
+    fillForm(/Dienstleistung \/ Handel/, /Hauptberuflich/, /Ja, das soll Geld bringen/, /3\.000 € – 25\.000 €/);
+    const html = document.body.innerHTML;
+    expect(html).toMatch(/\/cockpit\/gewerbeanmeldung-wizard/);
+    expect(html).toMatch(/\/wizard\/rechtsform/);
+    expect(html).toMatch(/\/cockpit\/brutto-netto-solo/);
+  });
+});
