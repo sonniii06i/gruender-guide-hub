@@ -49,6 +49,7 @@ const _CATEGORIES_RAW: FeatureCategory[] = [
       { slug: "stb-cost-benefit", title: "Steuerberater Cost-Benefit-Check", desc: "Brauche ich überhaupt einen StB? 3-Szenarien-Vergleich (Voll-StB / DIY-lexoffice / Hybrid) mit StBVV-Mittelgebühren + Opportunitätskosten Eigenzeit. Empfehlung welche Option für deinen Umsatz/Gewinn am günstigsten ist.", status: "beta", route: "/cockpit/stb-cost-benefit" },
       { slug: "rechnungs-generator", title: "Rechnungs-Generator (PDF)", desc: "Erste richtige Rechnung schreiben: §14 UStG-konform mit 4 USt-Modi (Standard 19/7 % · §19 KU · §13b RC · §6a IGL). Live-Pflichtangaben-Check (10 Felder) + PDF-Download. Lokal-Speichern + JSON-Im/Export.", status: "beta", route: "/cockpit/rechnungs-generator" },
       { slug: "gewerbeanmeldung-wizard", title: "Gewerbeanmeldung-Wizard", desc: "7-Step-Vorbereitung für GewA1: Person · Anschrift · Rechtsform · Tätigkeit (Live-Qualitäts-Check) · WZ-2008-Branchenschlüssel (50+ durchsuchbar) · Beginn+§19 KU · PDF-Vorbereitung zum Bürgeramt/online.", status: "beta", route: "/cockpit/gewerbeanmeldung-wizard" },
+      { slug: "erste-schritte-roadmap", title: "Erste-Schritte-Roadmap (90 Tage)", desc: "Personalisierte 30/60/90-Tage-Timeline mit 15-25 Pflicht-/Soll-Aufgaben (FA-Anmeldung, KV-Wahl, Geschäftskonto, USt-ID, IHK, BU, USt-VA, RV-Pflicht-Check, etc). Status-Tracking lokal, MUSS/SOLL/KANN-Filter.", status: "beta", route: "/cockpit/erste-schritte-roadmap" },
     ],
   },
   {
