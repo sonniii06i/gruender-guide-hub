@@ -87,6 +87,9 @@ const Kontakt = lazy(() => import("./pages/Kontakt.tsx"));
 const Impressum = lazy(() => import("./pages/Impressum.tsx"));
 const Datenschutz = lazy(() => import("./pages/Datenschutz.tsx"));
 const AGB = lazy(() => import("./pages/AGB.tsx"));
+const Ratgeber = lazy(() => import("./pages/Ratgeber.tsx"));
+const RatgeberPost = lazy(() => import("./pages/RatgeberPost.tsx"));
+const AdminBlog = lazy(() => import("./pages/AdminBlog.tsx"));
 
 const queryClient = new QueryClient();
 
@@ -191,12 +194,15 @@ const App = () => (
                 <Route path="/felix/chats" element={<FelixChatsOverview />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/admin" element={<AdminGate><Admin /></AdminGate>} />
+                <Route path="/admin/blog" element={<AdminGate><AdminBlog /></AdminGate>} />
                 <Route path="/support" element={<Support />} />
               </Route>
               <Route path="/kontakt" element={<Kontakt />} />
               <Route path="/impressum" element={<Impressum />} />
               <Route path="/datenschutz" element={<Datenschutz />} />
               <Route path="/agb" element={<AGB />} />
+              <Route path="/ratgeber" element={<Ratgeber />} />
+              <Route path="/ratgeber/:slug" element={<RatgeberPost />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
