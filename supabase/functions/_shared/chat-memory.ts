@@ -139,8 +139,12 @@ JSON-Array:`;
     }
     if (!Array.isArray(parsed) || parsed.length === 0) return;
 
+    // Dedup gegen bereits gespeicherte Facts (LLM-Hinweis allein ist unzuverlässig).
+    const normalize = (s: string) => s.toLowerCase().replace(/\s+/g, " ").trim();
+    const existingFactsNorm = new Set(existingMemories.map((m) => normalize(m.fact)));
+
     const toInsert = parsed
-      .filter((p) => typeof p?.fact === "string" && p.fact.trim().length > 5)
+      .filter((p) => typeof p?.fact === "string" && p.fact.trim().length > 5 && !existingFactsNorm.has(normalize(p.fact)))
       .slice(0, 5)
       .map((p) => ({
         user_id: userId,
