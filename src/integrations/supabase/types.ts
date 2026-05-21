@@ -242,6 +242,45 @@ export type Database = {
         }
         Relationships: []
       }
+      kb_chunks: {
+        Row: {
+          content: string
+          content_hash: string
+          created_at: string
+          embedding: string | null
+          id: string
+          metadata: Json
+          source: string
+          source_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          content: string
+          content_hash: string
+          created_at?: string
+          embedding?: string | null
+          id?: string
+          metadata?: Json
+          source: string
+          source_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          content?: string
+          content_hash?: string
+          created_at?: string
+          embedding?: string | null
+          id?: string
+          metadata?: Json
+          source?: string
+          source_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       notifications: {
         Row: {
           body: string | null
@@ -648,6 +687,23 @@ export type Database = {
       mark_reminder_sent: {
         Args: { p_booking_id: string; p_reminder_kind: string }
         Returns: undefined
+      }
+      match_kb_chunks: {
+        Args: {
+          match_count?: number
+          match_threshold?: number
+          query_embedding: string
+          source_filter?: string
+        }
+        Returns: {
+          content: string
+          id: string
+          metadata: Json
+          similarity: number
+          source: string
+          source_id: string
+          title: string
+        }[]
       }
       set_booking_meet_link: {
         Args: { p_booking_id: string; p_meet_link: string }
