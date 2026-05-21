@@ -7,6 +7,7 @@ GründerX kombiniert KI mit Gründungs- und Steuerwissen für E-Commerce-Händle
 - 50+ Schritt-für-Schritt-Guides (z. B. „GmbH gründen", „UG gründen", „US-LLC für Deutsche", „Holding aufbauen", „Marke anmelden", „Amazon FBA Launch")
 - Steuer- und Buchhaltungs-Tools (BWA-Generator, Crypto-Steuer, OSS, Sales-Tax-Nexus, IAB-Rechner)
 - Anbieter-Vergleiche für Geschäftskonto, Buchhaltung, Notar, Hosting, Logistik
+- Wöchentlich neue, recherchierte Ratgeber-Artikel zu aktuellen Gründer-/Steuerthemen
 - KI-Co-Pilot „Felix" für individuelle Fragen rund um Gründung und Steuern
 
 ## Pages
@@ -14,6 +15,7 @@ GründerX kombiniert KI mit Gründungs- und Steuerwissen für E-Commerce-Händle
 - [Startseite](/): Überblick über Plattform, Funktionen und Zielgruppen
 - [Gründungs-Guides (Übersicht)](/playbooks): Alle Schritt-für-Schritt-Anleitungen
 - [Anbieter-Vergleich](/anbieter): Geschäftskonto, Buchhaltung, Tools für Gründer
+- [Ratgeber](/ratgeber): Aktuelle Artikel zu Gründung, Steuern, E-Commerce, Banking, Recht
 - [FAQ](/faq): Häufig gestellte Fragen zu Gründung und Plattform
 - [Kontakt](/kontakt): Support und Anfragen
 
