@@ -14,6 +14,128 @@ export type Database = {
   }
   public: {
     Tables: {
+      blog_posts: {
+        Row: {
+          author: string
+          body_md: string
+          category: string
+          created_at: string
+          excerpt: string
+          hero_image_url: string | null
+          id: string
+          keywords: string[]
+          meta_description: string
+          meta_title: string
+          published_at: string | null
+          reading_minutes: number
+          related_playbooks: string[]
+          related_providers: string[]
+          slug: string
+          status: string
+          tags: string[]
+          title: string
+          updated_at: string
+          view_count: number
+        }
+        Insert: {
+          author?: string
+          body_md: string
+          category?: string
+          created_at?: string
+          excerpt: string
+          hero_image_url?: string | null
+          id?: string
+          keywords?: string[]
+          meta_description: string
+          meta_title: string
+          published_at?: string | null
+          reading_minutes?: number
+          related_playbooks?: string[]
+          related_providers?: string[]
+          slug: string
+          status?: string
+          tags?: string[]
+          title: string
+          updated_at?: string
+          view_count?: number
+        }
+        Update: {
+          author?: string
+          body_md?: string
+          category?: string
+          created_at?: string
+          excerpt?: string
+          hero_image_url?: string | null
+          id?: string
+          keywords?: string[]
+          meta_description?: string
+          meta_title?: string
+          published_at?: string | null
+          reading_minutes?: number
+          related_playbooks?: string[]
+          related_providers?: string[]
+          slug?: string
+          status?: string
+          tags?: string[]
+          title?: string
+          updated_at?: string
+          view_count?: number
+        }
+        Relationships: []
+      }
+      blog_topic_queue: {
+        Row: {
+          briefing: string | null
+          category: string
+          consumed_at: string | null
+          created_at: string
+          id: string
+          keyword_primary: string
+          keyword_secondary: string[]
+          last_error: string | null
+          post_id: string | null
+          priority: number
+          scheduled_for: string
+          topic: string
+        }
+        Insert: {
+          briefing?: string | null
+          category?: string
+          consumed_at?: string | null
+          created_at?: string
+          id?: string
+          keyword_primary: string
+          keyword_secondary?: string[]
+          last_error?: string | null
+          post_id?: string | null
+          priority?: number
+          scheduled_for: string
+          topic: string
+        }
+        Update: {
+          briefing?: string | null
+          category?: string
+          consumed_at?: string | null
+          created_at?: string
+          id?: string
+          keyword_primary?: string
+          keyword_secondary?: string[]
+          last_error?: string | null
+          post_id?: string | null
+          priority?: number
+          scheduled_for?: string
+          topic?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "blog_topic_queue_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "blog_posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       bookings: {
         Row: {
           confirmation_sent_at: string | null
