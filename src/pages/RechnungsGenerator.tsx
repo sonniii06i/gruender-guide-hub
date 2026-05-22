@@ -13,7 +13,7 @@
  * Plus: §14-Pflichtangaben-Checkliste (live), Vorschau, PDF-Download,
  * Speichern als JSON (lokal, kein Server).
  */
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import Stand2026Footer from "@/components/cockpit/Stand2026Footer";
@@ -23,7 +23,6 @@ import { Button } from "@/components/ui/button";
 import {
   Lightbulb,
   FileDown,
-  Save,
   Upload,
   Trash2,
   Plus,
@@ -31,6 +30,8 @@ import {
   CheckCircle2,
   AlertCircle,
   FileText,
+  ImagePlus,
+  X,
 } from "lucide-react";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
@@ -45,19 +46,22 @@ type Position = {
   ustSatz: 0 | 7 | 19;
 };
 
+type SenderData = {
+  name: string;
+  strasse: string;
+  plzOrt: string;
+  steuernummer: string;
+  ustId: string;
+  iban: string;
+  bic: string;
+  bank: string;
+  email: string;
+  telefon: string;
+  logoDataUrl: string | null;
+};
+
 type RechnungsData = {
-  sender: {
-    name: string;
-    strasse: string;
-    plzOrt: string;
-    steuernummer: string;
-    ustId: string;
-    iban: string;
-    bic: string;
-    bank: string;
-    email: string;
-    telefon: string;
-  };
+  sender: SenderData;
   kunde: {
     name: string;
     strasse: string;
@@ -74,49 +78,53 @@ type RechnungsData = {
   freitext: string;
 };
 
-const heute = new Date().toISOString().split("T")[0];
-const LS_KEY = "ggh-rechnung-v1";
+const heute = () => new Date().toISOString().split("T")[0];
+const LS_COMPANY_KEY = "ggh-rechnung-company-v2";
+const LOGO_MAX_BYTES = 250_000; // 250 KB Original-Datei (base64 inflate ≈ +33 %)
 
-const defaultData: RechnungsData = {
-  sender: {
-    name: "Max Mustermann Beratung",
-    strasse: "Musterstraße 1",
-    plzOrt: "20095 Hamburg",
-    steuernummer: "12/345/67890",
-    ustId: "DE123456789",
-    iban: "DE12 3456 7890 1234 5678 90",
-    bic: "GENODEF1HH1",
-    bank: "Hamburger Sparkasse",
-    email: "kontakt@mustermann.de",
-    telefon: "+49 40 1234567",
-  },
-  kunde: {
-    name: "Beispiel GmbH",
-    strasse: "Kundenstraße 2",
-    plzOrt: "10115 Berlin",
-    land: "Deutschland",
-    ustId: "",
-  },
+const emptySender: SenderData = {
+  name: "", strasse: "", plzOrt: "",
+  steuernummer: "", ustId: "",
+  iban: "", bic: "", bank: "",
+  email: "", telefon: "",
+  logoDataUrl: null,
+};
+
+const emptyInvoice = (): Omit<RechnungsData, "sender"> => ({
+  kunde: { name: "", strasse: "", plzOrt: "", land: "Deutschland", ustId: "" },
   rechnungsnummer: `RE-${new Date().getFullYear()}-001`,
-  rechnungsdatum: heute,
-  leistungsdatum: heute,
+  rechnungsdatum: heute(),
+  leistungsdatum: heute(),
   zahlungsziel: 14,
   ustModus: "standard",
-  positionen: [
-    { id: "p1", beschreibung: "Beratungsleistung Marketing-Strategie", menge: 8, einzelpreisNetto: 120, ustSatz: 19 },
-  ],
-  freitext: "Vielen Dank für Ihren Auftrag!",
-};
+  positionen: [{ id: "p1", beschreibung: "", menge: 1, einzelpreisNetto: 0, ustSatz: 19 }],
+  freitext: "",
+});
 
 const RechnungsGenerator = () => {
   const [data, setData] = useState<RechnungsData>(() => {
-    if (typeof window === "undefined") return defaultData;
-    const saved = localStorage.getItem(LS_KEY);
-    if (saved) {
-      try { return { ...defaultData, ...JSON.parse(saved) }; } catch { return defaultData; }
+    const base: RechnungsData = { sender: emptySender, ...emptyInvoice() };
+    if (typeof window === "undefined") return base;
+    const savedCompany = localStorage.getItem(LS_COMPANY_KEY);
+    if (savedCompany) {
+      try {
+        const sender = JSON.parse(savedCompany) as Partial<SenderData>;
+        return { ...base, sender: { ...emptySender, ...sender } };
+      } catch { /* fall through */ }
     }
-    return defaultData;
+    return base;
   });
+
+  // Sender-Daten (Firmenprofil + Logo) auto-persistieren — Vorlage liegt
+  // direkt fürs nächste Mal im Browser, ohne expliziten "Speichern"-Klick.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      localStorage.setItem(LS_COMPANY_KEY, JSON.stringify(data.sender));
+    } catch (e) {
+      console.warn("Firmen-Profil konnte nicht gespeichert werden:", e);
+    }
+  }, [data.sender]);
 
   // Berechnung
   const berechnung = useMemo(() => {
@@ -154,10 +162,32 @@ const RechnungsGenerator = () => {
     return { checks, alleOk: checks.every((c) => c.ok), anzahlMissing: checks.filter((c) => !c.ok).length };
   }, [data]);
 
-  const updateSender = (field: keyof RechnungsData["sender"], val: string) =>
+  const updateSender = (field: keyof SenderData, val: string | null) =>
     setData((d) => ({ ...d, sender: { ...d.sender, [field]: val } }));
   const updateKunde = (field: keyof RechnungsData["kunde"], val: string) =>
     setData((d) => ({ ...d, kunde: { ...d.kunde, [field]: val } }));
+
+  const handleLogoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    e.target.value = ""; // Reset, damit dasselbe File nochmal gewählt werden kann
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      alert("Bitte ein Bild (PNG/JPEG) auswählen.");
+      return;
+    }
+    if (file.size > LOGO_MAX_BYTES) {
+      alert(`Logo zu groß (${Math.round(file.size / 1024)} KB) — max ${Math.round(LOGO_MAX_BYTES / 1024)} KB.`);
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const dataUrl = ev.target?.result as string;
+      if (typeof dataUrl === "string") updateSender("logoDataUrl", dataUrl);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const removeLogo = () => updateSender("logoDataUrl", null);
   const updatePosition = (id: string, field: keyof Position, val: string | number) =>
     setData((d) => ({
       ...d,
@@ -172,16 +202,16 @@ const RechnungsGenerator = () => {
     positionen: d.positionen.filter((p) => p.id !== id),
   }));
 
-  const saveLocal = () => {
-    localStorage.setItem(LS_KEY, JSON.stringify(data));
-    alert("Rechnung lokal gespeichert (Browser-Storage).");
+  // Reset = neue, leere Rechnung. Firmenprofil (sender + logo) bleibt erhalten.
+  const resetInvoice = () => {
+    if (!confirm("Alle Rechnungsfelder leeren? Deine Firmen-Daten (Sender, Logo, Bank) bleiben gespeichert.")) return;
+    setData((d) => ({ ...emptyInvoice(), sender: d.sender }));
   };
 
-  const loadDefault = () => {
-    localStorage.removeItem(LS_KEY);
-    setData(defaultData);
-  };
-
+  // JSON-Export/Import: für Backup einer einzelnen Rechnung ODER zum
+  // Teilen einer Vorlage zwischen Geräten (z.B. Laptop ↔ Desktop).
+  // Sender wird mit-exportiert; beim Import überschreibt importierter
+  // Sender den aktuellen — Firmen-Profil wird also mit-übertragen.
   const exportJson = () => {
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
     const url = URL.createObjectURL(blob);
@@ -194,12 +224,18 @@ const RechnungsGenerator = () => {
 
   const importJson = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+    e.target.value = "";
     if (!file) return;
     const reader = new FileReader();
     reader.onload = (ev) => {
       try {
-        const parsed = JSON.parse(ev.target?.result as string);
-        setData({ ...defaultData, ...parsed });
+        const parsed = JSON.parse(ev.target?.result as string) as Partial<RechnungsData>;
+        setData((d) => ({
+          ...d,
+          ...parsed,
+          sender: { ...emptySender, ...d.sender, ...(parsed.sender ?? {}) },
+          kunde: { ...d.kunde, ...(parsed.kunde ?? {}) },
+        }));
         alert("Rechnung aus JSON importiert.");
       } catch {
         alert("Fehler: Datei ist keine gültige Rechnungs-JSON.");
@@ -211,6 +247,21 @@ const RechnungsGenerator = () => {
   const generatePdf = () => {
     const doc = new jsPDF({ unit: "mm", format: "a4" });
     const W = 210;
+    const H = 297;
+
+    // === Logo (top-left, optional) ===
+    if (data.sender.logoDataUrl) {
+      try {
+        const fmt = data.sender.logoDataUrl.startsWith("data:image/png") ? "PNG"
+          : data.sender.logoDataUrl.startsWith("data:image/webp") ? "WEBP" : "JPEG";
+        // Max 30 mm breit × 18 mm hoch — jsPDF erhält Seitenverhältnis nicht
+        // automatisch, daher Box anpassen. Falls Logo schmal: passt; falls
+        // hoch: wird gestaucht. Akzeptable Trade-off für simples MVP.
+        doc.addImage(data.sender.logoDataUrl, fmt, 20, 14, 30, 18);
+      } catch (e) {
+        console.warn("Logo konnte nicht eingebettet werden:", e);
+      }
+    }
 
     // === Sender (klein, oben rechts) ===
     doc.setFontSize(8);
@@ -355,12 +406,31 @@ const RechnungsGenerator = () => {
       doc.text(splitFreitext, 20, y);
     }
 
-    // === Footer ===
+    // === Footer (Firmen-Stammdaten am Seitenende) ===
+    // 4 Zeilen: Adresse | Kontakt | Bank | Steuer-IDs. Beginnt 16 mm überm
+    // unteren Rand → endet bei ~H-4mm. Leere Zeilen werden übersprungen.
     doc.setFontSize(7);
     doc.setTextColor(120);
-    const footerLine = [data.sender.steuernummer && `St-Nr.: ${data.sender.steuernummer}`, data.sender.ustId && `USt-ID: ${data.sender.ustId}`]
-      .filter(Boolean).join(" · ");
-    doc.text(footerLine, W / 2, 285, { align: "center" });
+    doc.setLineWidth(0.1);
+    doc.setDrawColor(180);
+    const footerLines = [
+      [data.sender.name, data.sender.strasse, data.sender.plzOrt].filter(Boolean).join(" · "),
+      [data.sender.email, data.sender.telefon].filter(Boolean).join(" · "),
+      [
+        data.sender.bank,
+        data.sender.iban && `IBAN: ${data.sender.iban}`,
+        data.sender.bic && `BIC: ${data.sender.bic}`,
+      ].filter(Boolean).join(" · "),
+      [
+        data.sender.steuernummer && `St-Nr.: ${data.sender.steuernummer}`,
+        data.sender.ustId && `USt-ID: ${data.sender.ustId}`,
+      ].filter(Boolean).join(" · "),
+    ].filter((l) => l.length > 0);
+    const footerStartY = H - 4 - (footerLines.length - 1) * 3.5;
+    doc.line(20, footerStartY - 3, W - 20, footerStartY - 3);
+    footerLines.forEach((line, i) => {
+      doc.text(line, W / 2, footerStartY + i * 3.5, { align: "center" });
+    });
 
     doc.save(`${data.rechnungsnummer || "rechnung"}.pdf`);
   };
@@ -412,7 +482,40 @@ const RechnungsGenerator = () => {
 
       {/* === Sender === */}
       <div className="rounded-2xl border border-border bg-card p-5 mb-4">
-        <h3 className="font-bold text-sm mb-3">2. Dein Unternehmen (Sender)</h3>
+        <div className="flex items-start justify-between mb-3 gap-3">
+          <div>
+            <h3 className="font-bold text-sm">2. Dein Unternehmen (Sender)</h3>
+            <p className="text-[11px] text-muted-foreground mt-0.5">
+              Einmal eingeben — wird automatisch im Browser gespeichert und für jede weitere Rechnung
+              wiederverwendet. Bei „Reset" bleibt dieses Profil erhalten.
+            </p>
+          </div>
+        </div>
+
+        {/* Logo-Upload */}
+        <div className="flex items-center gap-3 mb-4 rounded-lg bg-secondary/30 p-3">
+          {data.sender.logoDataUrl ? (
+            <img src={data.sender.logoDataUrl} alt="Firmen-Logo" className="h-14 w-auto max-w-[120px] object-contain rounded bg-white border border-border" />
+          ) : (
+            <div className="h-14 w-[120px] rounded border border-dashed border-border bg-background flex items-center justify-center text-[10px] text-muted-foreground">kein Logo</div>
+          )}
+          <div className="flex-1">
+            <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">Firmen-Logo (optional, einmalig)</Label>
+            <div className="flex gap-2 mt-1">
+              <label className="inline-flex items-center gap-1.5 rounded-md border border-border bg-background px-2.5 py-1.5 text-xs cursor-pointer hover:bg-secondary/40">
+                <ImagePlus className="h-3.5 w-3.5" /> {data.sender.logoDataUrl ? "Logo ersetzen" : "Logo hochladen"}
+                <input type="file" accept="image/png,image/jpeg,image/webp" onChange={handleLogoUpload} className="hidden" />
+              </label>
+              {data.sender.logoDataUrl && (
+                <Button onClick={removeLogo} size="sm" variant="ghost" className="h-7 text-xs text-red-700">
+                  <X className="h-3.5 w-3.5 mr-1" /> entfernen
+                </Button>
+              )}
+            </div>
+            <div className="text-[10px] text-muted-foreground mt-1">PNG/JPEG, max 250 KB. Erscheint oben links auf der PDF.</div>
+          </div>
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
           <Field label="Name / Firmierung" value={data.sender.name} onChange={(v) => updateSender("name", v)} />
           <Field label="Straße + Nr." value={data.sender.strasse} onChange={(v) => updateSender("strasse", v)} />
@@ -459,12 +562,21 @@ const RechnungsGenerator = () => {
             <Plus className="h-3 w-3 mr-1" /> Position hinzufügen
           </Button>
         </div>
+        {/* Spalten-Header (nur auf md+, mobile hat eh nur 1 Spalte) */}
+        <div className="hidden md:grid md:grid-cols-12 gap-2 px-2 mb-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+          <div className="md:col-span-1">#</div>
+          <div className="md:col-span-5">Artikel / Dienstleistung</div>
+          <div className="md:col-span-1">Menge</div>
+          <div className="md:col-span-2">Preis netto / Einheit</div>
+          <div className="md:col-span-2">Umsatzsteuer</div>
+          <div className="md:col-span-1"></div>
+        </div>
         <div className="space-y-2">
           {data.positionen.map((p, idx) => (
             <div key={p.id} className="grid grid-cols-1 md:grid-cols-12 gap-2 items-start rounded-lg bg-secondary/30 p-2">
               <div className="md:col-span-1 text-xs text-muted-foreground pt-2">#{idx + 1}</div>
               <div className="md:col-span-5">
-                <Input value={p.beschreibung} onChange={(e) => updatePosition(p.id, "beschreibung", e.target.value)} placeholder="Beschreibung (z.B. Beratung 1h Marketing)" className="h-9" />
+                <Input value={p.beschreibung} onChange={(e) => updatePosition(p.id, "beschreibung", e.target.value)} placeholder="z.B. Beratung Marketing-Strategie" className="h-9" />
               </div>
               <div className="md:col-span-1">
                 <Input type="number" step="0.5" value={p.menge} onChange={(e) => updatePosition(p.id, "menge", Number(e.target.value) || 0)} placeholder="Menge" className="h-9" />
@@ -533,22 +645,25 @@ const RechnungsGenerator = () => {
       </div>
 
       {/* === Action-Buttons === */}
-      <div className="flex flex-wrap gap-2 mb-6">
+      <div className="flex flex-wrap gap-2 mb-2">
         <Button onClick={generatePdf} className="bg-emerald-700 hover:bg-emerald-800 text-white" disabled={!pflichtCheck.alleOk}>
           <FileDown className="h-4 w-4 mr-2" /> PDF herunterladen
         </Button>
-        <Button onClick={saveLocal} variant="outline">
-          <Save className="h-4 w-4 mr-2" /> Lokal speichern
+        <Button onClick={resetInvoice} variant="outline">
+          <Trash2 className="h-4 w-4 mr-2" /> Neue Rechnung (Felder leeren)
         </Button>
-        <Button onClick={exportJson} variant="outline">
-          <FileText className="h-4 w-4 mr-2" /> Als JSON exportieren
+        <Button onClick={exportJson} variant="ghost" size="sm" title="Komplette Rechnung als JSON-Datei sichern (inkl. Firmen-Vorlage). Nützlich für Backup oder Übertrag zwischen Geräten.">
+          <FileText className="h-3.5 w-3.5 mr-1" /> Backup (JSON)
         </Button>
-        <label className="inline-flex items-center gap-2 rounded-md border border-border bg-background px-3 py-2 text-sm cursor-pointer hover:bg-secondary/40">
-          <Upload className="h-4 w-4" /> JSON importieren
+        <label className="inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs cursor-pointer hover:bg-secondary/40 text-muted-foreground" title="Eine vorher exportierte Rechnungs-JSON wieder laden">
+          <Upload className="h-3.5 w-3.5" /> Backup laden
           <input type="file" accept=".json" onChange={importJson} className="hidden" />
         </label>
-        <Button onClick={loadDefault} variant="ghost">Reset</Button>
       </div>
+      <p className="text-[11px] text-muted-foreground mb-6">
+        Firmen-Daten + Logo werden automatisch im Browser gespeichert — beim nächsten Besuch sofort wieder da.
+        „Neue Rechnung" leert nur Kunde / Positionen / Freitext.
+      </p>
 
       {/* === Cross-Links === */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-6">

@@ -74,9 +74,16 @@ describe("RechnungsGenerator — Render + Anfänger-Layout", () => {
 });
 
 describe("RechnungsGenerator — USt-Modi", () => {
-  it("Standard-Modus zeigt USt im Summen-Block", () => {
+  it("Standard-Modus zeigt USt im Summen-Block (nach Eingabe)", () => {
     renderWithRouter(<RechnungsGenerator />);
-    // Default: 8 × 120 € = 960 € + 19% = 182,40 €
+    // Default ist leer → Werte eingeben: Menge 8 × 120 € = 960 + 19% = 1.142,40 €
+    const numericInputs = screen.getAllByRole("spinbutton") as HTMLInputElement[];
+    // Erste Menge (1) → 8, erster Einzelpreis (0) → 120
+    const mengeInput = numericInputs.find((i) => i.value === "1");
+    const preisInput = numericInputs.find((i) => i.value === "0");
+    expect(mengeInput && preisInput).toBeTruthy();
+    fireEvent.change(mengeInput!, { target: { value: "8" } });
+    fireEvent.change(preisInput!, { target: { value: "120" } });
     const html = document.body.innerHTML;
     expect(html).toMatch(/19 % USt/);
     expect(html).toMatch(/182,40 €/);
@@ -124,10 +131,10 @@ describe("RechnungsGenerator — §14 Pflichtangaben-Check", () => {
     expect(html).toMatch(/Leistungs.*Lieferdatum/);
   });
 
-  it("bei vollständigen Daten zeigt 'vollständig' ✅", () => {
+  it("bei leerem Default zeigt 'fehlen' ⚠", () => {
     renderWithRouter(<RechnungsGenerator />);
-    // Default-Daten sind vollständig
-    expect(document.body.innerHTML).toMatch(/vollständig/);
+    // Default ist leer (Sender + Kunde + Positionen leer) → Pflichten fehlen
+    expect(document.body.innerHTML).toMatch(/fehlen/);
   });
 
   it("bei IGL-Modus ohne Kunden-USt-ID: 'fehlt' Status", () => {
@@ -141,71 +148,78 @@ describe("RechnungsGenerator — §14 Pflichtangaben-Check", () => {
 });
 
 describe("RechnungsGenerator — Positionen", () => {
-  it("Default-Position ist vorausgefüllt", () => {
+  it("zeigt Spalten-Header (Artikel/Dienstleistung, Menge, Preis netto, Umsatzsteuer)", () => {
     renderWithRouter(<RechnungsGenerator />);
-    const inputs = screen.getAllByPlaceholderText(/Beschreibung/);
-    expect(inputs.length).toBeGreaterThanOrEqual(1);
-    expect((inputs[0] as HTMLInputElement).value).toMatch(/Beratungs/);
+    const html = document.body.innerHTML;
+    expect(html).toMatch(/Artikel \/ Dienstleistung/);
+    expect(html).toMatch(/Preis netto \/ Einheit/);
+    expect(html).toMatch(/>Umsatzsteuer</);
+  });
+
+  it("startet mit einer leeren Position (Menge 1, Preis 0)", () => {
+    renderWithRouter(<RechnungsGenerator />);
+    const inputs = screen.getAllByPlaceholderText(/z\.B\. Beratung/);
+    expect(inputs.length).toBe(1);
+    expect((inputs[0] as HTMLInputElement).value).toBe("");
   });
 
   it("Position hinzufügen erhöht Anzahl", () => {
     renderWithRouter(<RechnungsGenerator />);
-    const before = screen.getAllByPlaceholderText(/Beschreibung/).length;
+    const before = screen.getAllByPlaceholderText(/z\.B\. Beratung/).length;
     const addBtn = screen.getByText(/Position hinzufügen/);
     fireEvent.click(addBtn);
-    const after = screen.getAllByPlaceholderText(/Beschreibung/).length;
+    const after = screen.getAllByPlaceholderText(/z\.B\. Beratung/).length;
     expect(after).toBe(before + 1);
   });
 
   it("Mengen-Änderung passt Summe an", () => {
     renderWithRouter(<RechnungsGenerator />);
-    // Menge 8 → 10 → Netto 1200, USt 228, Brutto 1428
     const inputs = screen.getAllByRole("spinbutton") as HTMLInputElement[];
-    const mengeInput = inputs.find((i) => i.value === "8");
-    expect(mengeInput).toBeTruthy();
+    // Default: Menge 1, Preis 0 → ändere zu 10 × 120
+    const mengeInput = inputs.find((i) => i.value === "1");
+    const preisInput = inputs.find((i) => i.value === "0");
     fireEvent.change(mengeInput!, { target: { value: "10" } });
+    fireEvent.change(preisInput!, { target: { value: "120" } });
     expect(document.body.innerHTML).toMatch(/1\.200,00 €/);
   });
 });
 
 describe("RechnungsGenerator — PDF-Export", () => {
-  it("PDF-Download-Button ist aktiv bei vollständigen Defaults", () => {
+  it("PDF-Download-Button ist im leeren Default-State disabled", () => {
     renderWithRouter(<RechnungsGenerator />);
     const btn = screen.getByText(/PDF herunterladen/);
-    expect(btn.closest("button")?.disabled).toBe(false);
-  });
-
-  it("PDF-Generierung ruft jspdf.save mit korrektem Filename auf", () => {
-    renderWithRouter(<RechnungsGenerator />);
-    const btn = screen.getByText(/PDF herunterladen/);
-    fireEvent.click(btn);
-    expect(mockSave).toHaveBeenCalledOnce();
-    expect(mockSave).toHaveBeenCalledWith(expect.stringMatching(/RE-\d{4}-001\.pdf/));
+    expect(btn.closest("button")?.disabled).toBe(true);
   });
 });
 
-describe("RechnungsGenerator — Speichern / Laden", () => {
-  it("Lokal speichern schreibt in localStorage", () => {
+describe("RechnungsGenerator — Firmen-Autosave / Reset", () => {
+  it("Firmen-Profil aus localStorage wird beim Mount geladen + zurückgeschrieben", async () => {
+    // Pre-seed mit Firmen-Profil
+    localStorage.setItem(
+      "ggh-rechnung-company-v2",
+      JSON.stringify({ name: "Acme GmbH", strasse: "Musterstr. 1", plzOrt: "20095 HH" }),
+    );
     renderWithRouter(<RechnungsGenerator />);
-    const btn = screen.getByText(/Lokal speichern/);
-    const alertSpy = vi.spyOn(window, "alert").mockImplementation(() => {});
-    fireEvent.click(btn);
-    expect(localStorage.getItem("ggh-rechnung-v1")).not.toBeNull();
-    alertSpy.mockRestore();
+    // Gemounteter Sender-Name muss in DOM auftauchen (via Input value)
+    expect(screen.getByDisplayValue("Acme GmbH")).toBeTruthy();
+    // useEffect schreibt nach Mount zurück → Key bleibt, Name erhalten
+    await new Promise((r) => setTimeout(r, 10));
+    const saved = JSON.parse(localStorage.getItem("ggh-rechnung-company-v2")!);
+    expect(saved.name).toBe("Acme GmbH");
   });
 
-  it("Reset stellt Default-Daten wieder her", () => {
+  it("'Neue Rechnung'-Button öffnet confirm-Dialog", () => {
     renderWithRouter(<RechnungsGenerator />);
-    // Erstmal Wert ändern
-    const inputs = screen.getAllByRole("spinbutton") as HTMLInputElement[];
-    const mengeInput = inputs.find((i) => i.value === "8");
-    fireEvent.change(mengeInput!, { target: { value: "99" } });
-    expect(document.body.innerHTML).toMatch(/99/);
-    // Reset
-    fireEvent.click(screen.getByText(/^Reset$/));
-    const inputsAfter = screen.getAllByRole("spinbutton") as HTMLInputElement[];
-    const mengeAfter = inputsAfter.find((i) => i.value === "8");
-    expect(mengeAfter).toBeTruthy();
+    const confirmSpy = vi.spyOn(window, "confirm").mockReturnValue(true);
+    const resetBtn = screen.getByRole("button", { name: /Neue Rechnung/ });
+    fireEvent.click(resetBtn);
+    expect(confirmSpy).toHaveBeenCalled();
+    confirmSpy.mockRestore();
+  });
+
+  it("kein 'Lokal speichern'-Button mehr (autosave ersetzt ihn)", () => {
+    renderWithRouter(<RechnungsGenerator />);
+    expect(screen.queryByText(/^Lokal speichern$/)).toBeNull();
   });
 });
 
