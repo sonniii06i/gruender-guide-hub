@@ -45,11 +45,11 @@ describe("GewerbeanmeldungWizard — Render + Layout", () => {
     expect(html).toMatch(/Schritt 1 von 7/);
   });
 
-  it("zeigt BeginnerHero mit Tätigkeits-Hinweis + Freiberuf-Link", () => {
+  it("zeigt BeginnerHero mit Tätigkeits-Hinweis + GewerbeCheck-Link", () => {
     renderWithRouter(<GewerbeanmeldungWizard />);
     const html = document.body.innerHTML;
     expect(html).toMatch(/GewA1.*schrittweise vorbereitet/);
-    expect(html).toMatch(/\/cockpit\/freiberuf-check/);
+    expect(html).toMatch(/\/cockpit\/gewerbe-check/);
   });
 
   it("zeigt Glossar mit Kern-Begriffen", () => {
@@ -195,11 +195,10 @@ describe("GewerbeanmeldungWizard — PDF + Speichern", () => {
 });
 
 describe("GewerbeanmeldungWizard — Cross-Tool-Links", () => {
-  it("verlinkt zu GewerbeCheck, FreiberufCheck, SchwellenCheck", () => {
+  it("verlinkt zu GewerbeCheck + SchwellenCheck", () => {
     renderWithRouter(<GewerbeanmeldungWizard />);
     const html = document.body.innerHTML;
     expect(html).toMatch(/\/cockpit\/gewerbe-check/);
-    expect(html).toMatch(/\/cockpit\/freiberuf-check/);
     expect(html).toMatch(/\/cockpit\/schwellen-check/);
   });
 });

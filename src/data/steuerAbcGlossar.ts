@@ -100,7 +100,7 @@ export const GLOSSAR: GlossarBegriff[] = [
     kurzDefinition: "Selbstständige Katalog-Berufe (Arzt, Anwalt, Ingenieur, Künstler etc.) — kein Gewerbe, keine GewSt.",
     ausfuehrlich: "Ausschließlich §18 Abs. 1 Nr. 1 EStG (Katalog) oder 'ähnliche Berufe'. Keine Gewerbeanmeldung, keine IHK-Pflicht, keine GewSt — nur FA-Fragebogen. EÜR ohne Größen-Schwelle. Voraussetzung: spezielle Qualifikation + persönlich erbrachte Leistung.",
     paragraph: "§18 EStG",
-    toolLinks: [{ route: "/cockpit/freiberuf-check", label: "Freiberuf vs. Gewerbe-Check" }],
+    toolLinks: [{ route: "/cockpit/gewerbe-check", label: "Brauche ich ein Gewerbe?" }],
   },
   { begriff: "UG (haftungsbeschränkt)", aliases: ["UG", "Unternehmergesellschaft", "Mini-GmbH"], kategorie: "rechtsformen",
     kurzDefinition: "Mini-Variante der GmbH — ab 1 € Stammkapital, Pflicht-Rücklage 25 % bis 25.000 € erreicht.",

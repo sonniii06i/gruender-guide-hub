@@ -116,11 +116,10 @@ describe("SteuerABC — BegriffCard Detail-Expansion", () => {
 });
 
 describe("SteuerABC — Cross-Tool-Links", () => {
-  it("verlinkt zu Tool 1/2/3 (GewerbeCheck, FreiberufCheck, SchwellenCheck)", () => {
+  it("verlinkt zu GewerbeCheck + SchwellenCheck", () => {
     renderWithRouter(<SteuerABC />);
     const html = document.body.innerHTML;
     expect(html).toMatch(/\/cockpit\/gewerbe-check/);
-    expect(html).toMatch(/\/cockpit\/freiberuf-check/);
     expect(html).toMatch(/\/cockpit\/schwellen-check/);
   });
 

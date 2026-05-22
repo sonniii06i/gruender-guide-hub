@@ -48,7 +48,6 @@ const MargeTracker = lazy(() => import("./pages/MargeTracker.tsx"));
 const PensionOptimizer = lazy(() => import("./pages/PensionOptimizer.tsx"));
 const KvOptimizer = lazy(() => import("./pages/KvOptimizer.tsx"));
 const GewerbeCheck = lazy(() => import("./pages/GewerbeCheck.tsx"));
-const FreiberufCheck = lazy(() => import("./pages/FreiberufCheck.tsx"));
 const SchwellenCheck = lazy(() => import("./pages/SchwellenCheck.tsx"));
 const SteuerABC = lazy(() => import("./pages/SteuerABC.tsx"));
 const BruttoNettoSolo = lazy(() => import("./pages/BruttoNettoSolo.tsx"));
@@ -162,7 +161,6 @@ const App = () => (
                 <Route path="/cockpit/pension-optimizer" element={<PaywallGate title="Pension-Optimizer"><PensionOptimizer /></PaywallGate>} />
                 <Route path="/cockpit/kv-optimizer" element={<PaywallGate title="KV-Optimizer"><KvOptimizer /></PaywallGate>} />
                 <Route path="/cockpit/gewerbe-check" element={<PaywallGate title="Brauche ich ein Gewerbe?"><GewerbeCheck /></PaywallGate>} />
-                <Route path="/cockpit/freiberuf-check" element={<PaywallGate title="Freiberuf vs. Gewerbe-Check"><FreiberufCheck /></PaywallGate>} />
                 <Route path="/cockpit/schwellen-check" element={<PaywallGate title="Side-Hustle-Schwellen-Check"><SchwellenCheck /></PaywallGate>} />
                 <Route path="/cockpit/steuer-abc" element={<PaywallGate title="Steuer-ABC Glossar"><SteuerABC /></PaywallGate>} />
                 <Route path="/cockpit/brutto-netto-solo" element={<PaywallGate title="Brutto-Netto Solo-Selbstständig"><BruttoNettoSolo /></PaywallGate>} />

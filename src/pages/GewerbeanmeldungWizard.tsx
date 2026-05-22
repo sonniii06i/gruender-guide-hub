@@ -360,14 +360,10 @@ const GewerbeanmeldungWizard = () => {
       </div>
 
       {/* === Cross-Links === */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-6">
         <Link to="/cockpit/gewerbe-check" className="rounded-xl border border-border bg-card p-3 text-xs hover:border-accent-blue transition">
           <div className="font-semibold mb-0.5">← Brauche ich Gewerbe? (Tool 1)</div>
           <div className="text-muted-foreground">Vorab klären: ist überhaupt nötig?</div>
-        </Link>
-        <Link to="/cockpit/freiberuf-check" className="rounded-xl border border-border bg-card p-3 text-xs hover:border-accent-blue transition">
-          <div className="font-semibold mb-0.5">Freiberuf vs Gewerbe (Tool 2) →</div>
-          <div className="text-muted-foreground">Bist du sicher dass es Gewerbe ist?</div>
         </Link>
         <Link to="/cockpit/schwellen-check" className="rounded-xl border border-border bg-card p-3 text-xs hover:border-accent-blue transition">
           <div className="font-semibold mb-0.5">KU-Schwellen (Tool 3) →</div>
@@ -778,7 +774,7 @@ const BeginnerHero = () => (
         </p>
         <div className="rounded-lg bg-amber-500/10 border border-amber-500/30 p-2 text-[11px]">
           <strong className="text-amber-700">⚠ Vorab klären:</strong> Bist du sicher dass es Gewerbe ist und nicht Freiberuf?
-          {" "}<Link to="/cockpit/freiberuf-check" className="underline text-accent-blue">→ Tool 2: Freiberuf-Check</Link>
+          {" "}<Link to="/cockpit/gewerbe-check" className="underline text-accent-blue">→ Tool 1: Brauche ich Gewerbe?</Link>
         </div>
       </div>
     </div>

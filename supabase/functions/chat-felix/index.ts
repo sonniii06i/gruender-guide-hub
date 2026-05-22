@@ -418,7 +418,7 @@ Bei JEDER Antwort prüfe: gibt es ein passendes GründerX-Tool im Catalog unten?
 Falls Buchhaltungs-, KV- oder Cashflow-Frage: IMMER mindestens 1 Tool-Link.
 
 THEMA → TOOL-Map (Top-Liste, vollständig im TOOLS-CATALOG):
-- "Brauche ich Gewerbe?" / Hobby vs Freiberuf → [Gewerbe-Check](/cockpit/gewerbe-check) + [Freiberuf-Check](/cockpit/freiberuf-check)
+- "Brauche ich Gewerbe?" / Hobby vs Freiberuf → [Gewerbe-Check](/cockpit/gewerbe-check)
 - Freibeträge / Side-Hustle-Schwellen → [Schwellen-Check](/cockpit/schwellen-check)
 - Stundensatz / Pricing als Solo → [Stundensatz-Rechner](/cockpit/stundensatz-rechner)
 - Was bleibt netto übrig → [Brutto-Netto Solo](/cockpit/brutto-netto-solo)

@@ -454,14 +454,10 @@ const SchwellenCheck = () => {
       </div>
 
       {/* === Cross-Links === */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-6">
         <Link to="/cockpit/gewerbe-check" className="rounded-xl border border-border bg-card p-3 text-xs hover:border-accent-blue transition">
           <div className="font-semibold mb-0.5">← Brauche ich Gewerbe? (Tool 1)</div>
           <div className="text-muted-foreground">Decision-Tree für Anfänger:innen</div>
-        </Link>
-        <Link to="/cockpit/freiberuf-check" className="rounded-xl border border-border bg-card p-3 text-xs hover:border-accent-blue transition">
-          <div className="font-semibold mb-0.5">Freiberuf vs Gewerbe (Tool 2)</div>
-          <div className="text-muted-foreground">46 Berufe + Edge-Cases</div>
         </Link>
         <Link to="/cockpit/ust-rechner" className="rounded-xl border border-border bg-card p-3 text-xs hover:border-accent-blue transition">
           <div className="font-semibold mb-0.5">USt-Rechner (KU §19 etc.) →</div>

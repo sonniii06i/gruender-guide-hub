@@ -139,11 +139,10 @@ describe("SchwellenCheck — Kombinations-Hinweise", () => {
 });
 
 describe("SchwellenCheck — Cross-Tool-Integration", () => {
-  it("verlinkt zu GewerbeCheck und FreiberufCheck", () => {
+  it("verlinkt zu GewerbeCheck + UstRechner", () => {
     renderWithRouter(<SchwellenCheck />);
     const html = document.body.innerHTML;
     expect(html).toMatch(/\/cockpit\/gewerbe-check/);
-    expect(html).toMatch(/\/cockpit\/freiberuf-check/);
     expect(html).toMatch(/\/cockpit\/ust-rechner/);
   });
 });
