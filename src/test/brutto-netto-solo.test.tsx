@@ -108,9 +108,17 @@ describe("BruttoNettoSolo — Vergleich Angestellter", () => {
     expect(html).toMatch(/Differenz/);
   });
 
-  it("zeigt 30%-Faustregel-Hinweis", () => {
+  it("zeigt Faustregel-Hinweis (20-30 % Mehr-Netto)", () => {
     renderWithRouter(<BruttoNettoSolo />);
-    expect(document.body.innerHTML).toMatch(/Faustregel.*30.*%.*Plus/i);
+    expect(document.body.innerHTML).toMatch(/Faustregel.*20-30.*%.*Mehr-Netto/i);
+  });
+
+  it("Vergleich nutzt AG-Total (Gewinn / 1,205) und zeigt AN-Brutto explizit", () => {
+    renderWithRouter(<BruttoNettoSolo />);
+    const html = document.body.innerHTML;
+    // Bei default 60k Umsatz - 15k BA = 45k Gewinn → AN-Brutto = 45000/1.205 ≈ 37.344
+    expect(html).toMatch(/AG-Total/);
+    expect(html).toMatch(/37\.344/);
   });
 });
 

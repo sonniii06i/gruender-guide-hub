@@ -112,9 +112,15 @@ const BruttoNettoSolo = () => {
     const steuerquote = gewinn > 0 ? (steuerGesamt / gewinn) * 100 : 0;
     const gesamtbelastung = gewinn > 0 ? ((steuerGesamt + sozialGesamt) / gewinn) * 100 : 0;
 
-    // === Vergleichs-Szenario: Angestellter mit gleichem Brutto ===
-    // Vereinfacht: Brutto = Gewinn. AN-Anteil SV ≈ 20% (KV 7,3 + RV 9,3 + AV 1,3 + PV ~1,8). Plus ESt + SolZ.
-    const an_brutto = gewinn;
+    // === Vergleichs-Szenario: Angestellter bei gleichem AG-Total ===
+    // FAIRER VERGLEICH: dein Solo-Gewinn ist das, was du selbst komplett
+    // schulterst (Steuer + KV + RV alles aus dem Gewinn). Beim Angestellten
+    // zahlt der AG aber zusätzlich seinen ~20,5 % SV-Anteil OBEN DRAUF.
+    // → Bei gleichem AG-Gesamt-Total: AN-Brutto = Gewinn / (1 + AG-SV-Quote).
+    // (Vorheriger "gleicher Brutto"-Vergleich hat den AG-Anteil unterschlagen
+    //  und Solo-Selbstständige systematisch schlechter aussehen lassen.)
+    const AG_SV_QUOTE = 0.205;
+    const an_brutto = gewinn / (1 + AG_SV_QUOTE);
     const an_sv = Math.min(an_brutto, BBG_RV_MONAT_2026 * 12) * 0.205;
     const an_zvE = an_brutto - an_sv;
     const an_eSt = verheiratet ? 2 * progressionESt(an_zvE / 2) : progressionESt(an_zvE);
@@ -128,7 +134,7 @@ const BruttoNettoSolo = () => {
       kvJahr, rvJahr, sozialGesamt, steuerGesamt,
       nettoJahr, nettoMonat,
       steuerquote, gesamtbelastung,
-      anNetto: an_netto, anSv: an_sv, anESt: an_eSt,
+      anNetto: an_netto, anSv: an_sv, anESt: an_eSt, anBrutto: an_brutto,
     };
   }, [umsatz, betriebsausgaben, rechtsform, hebesatz, kvVariante, zusatzBeitrag, kinderlos, pkvBeitragMonat, rvFreiwillig, kistSatz, verheiratet]);
 
@@ -136,7 +142,7 @@ const BruttoNettoSolo = () => {
     <CockpitShell
       eyebrow="🌱 Erste Schritte · für komplette Anfänger:innen"
       title="Brutto-Netto-Rechner für Solo-Selbstständige"
-      subtitle="Was bleibt am Ende wirklich übrig? Umsatz → Betriebsausgaben → ESt + SolZ + ggf. KSt/GewSt + KV/PV → Netto. Mit Step-by-Step-Erklärung jeder Position und Vergleich gegen 'gleicher Brutto als Angestellter'."
+      subtitle="Was bleibt am Ende wirklich übrig? Umsatz → Betriebsausgaben → ESt + SolZ + ggf. KSt/GewSt + KV/PV → Netto. Mit Step-by-Step-Erklärung jeder Position und Fair-Vergleich gegen 'gleiches AG-Total als Angestellter' (inkl. AG-SV-Anteil)."
     >
       <BeginnerHero />
 
@@ -299,11 +305,14 @@ const BruttoNettoSolo = () => {
       <div className="rounded-2xl border border-purple-500/30 bg-purple-500/5 p-5 mb-6">
         <h3 className="font-bold text-sm mb-2 flex items-center gap-2">
           <TrendingDown className="h-4 w-4 text-purple-700" />
-          Vergleich: gleicher Brutto als Angestellter
+          Vergleich: gleiches AG-Total als Angestellter
         </h3>
         <p className="text-xs text-muted-foreground mb-3">
-          Was würdest du als Angestellter mit demselben Brutto-Einkommen netto bekommen? AN-Anteil SV ~20,5 %
-          (KV+RV+AV+PV), keine GewSt, keine freiwilligen KV/RV. AG zahlt zusätzlich seinen 20%-Anteil.
+          Fair-Vergleich: dein Solo-Gewinn ({Math.round(calc.gewinn).toLocaleString("de-DE")} €/Jahr) ist das,
+          was du als „virtueller AG" für dich aufbringst — Steuer + KV + RV gehen alles aus diesem Topf.
+          Beim Angestellten zahlt der AG seinen ~20,5 % SV-Anteil <em>zusätzlich</em>. Bei gleichem AG-Total
+          ist das AN-Bruttogehalt also <strong>{Math.round(calc.anBrutto).toLocaleString("de-DE")} €/Jahr</strong>
+          {" "}(= Gewinn / 1,205), nicht der volle Gewinn.
         </p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-xs">
           <div className="rounded-lg bg-secondary/40 p-3">
@@ -312,7 +321,7 @@ const BruttoNettoSolo = () => {
             <div className="text-[10px] text-muted-foreground">netto nach Steuer + KV/RV</div>
           </div>
           <div className="rounded-lg bg-secondary/40 p-3">
-            <div className="text-[10px] uppercase text-muted-foreground">Angestellt (gleicher Brutto)</div>
+            <div className="text-[10px] uppercase text-muted-foreground">Angestellt (gleiches AG-Total)</div>
             <div className="text-base font-bold text-purple-700">{Math.round(calc.anNetto / 12).toLocaleString("de-DE")} €/Mon</div>
             <div className="text-[10px] text-muted-foreground">netto nach ESt + AN-SV-Anteil 20,5 %</div>
           </div>
@@ -328,9 +337,10 @@ const BruttoNettoSolo = () => {
           </div>
         </div>
         <div className="rounded-lg bg-amber-500/10 border border-amber-500/30 p-2 mt-3 text-[11px] leading-relaxed">
-          <strong>⚠ Aber:</strong> Als Selbstständig fehlen dir AG-Leistungen (Lohnfortzahlung 6 Wochen,
-          Urlaub bezahlt, Mutterschutz, Arbeitslosenversicherung optional, gesetzliche RV-Anwartschaft).
-          Faustregel: Selbstständig wirklich rentabel ab ~30 % Plus gegenüber AN-Netto.
+          <strong>⚠ Trotzdem aufpassen:</strong> Als Selbstständig fehlen dir AG-Leistungen (Lohnfortzahlung
+          6 Wochen, bezahlter Urlaub, Mutterschutz, Arbeitslosenversicherung optional, gesetzliche
+          RV-Anwartschaft). Faustregel: Selbstständig wirklich rentabel ab <strong>~20-30 % Mehr-Netto</strong>{" "}
+          als Angestellter — der Aufschlag deckt die fehlende Absicherung (BU, Krankentagegeld, eigene Rente).
         </div>
       </div>
 
@@ -397,7 +407,7 @@ const BeginnerHero = () => (
           </div>
           <div className="rounded-lg bg-purple-500/5 p-2 border border-purple-500/20">
             <strong className="text-purple-700">🔄 Vergleich Angestellter</strong>
-            <div className="text-muted-foreground mt-0.5">Was würde dein gleiches Brutto als Angestellter abwerfen? (mit Faustregel-Lese-Hilfe)</div>
+            <div className="text-muted-foreground mt-0.5">Fair-Vergleich: was würde dasselbe AG-Total als Angestellter abwerfen? (inkl. AG-Anteil SV)</div>
           </div>
         </div>
       </div>
@@ -419,7 +429,7 @@ const Glossar = () => (
         { begriff: "Kirchensteuer (KiSt)", erklaerung: "8 % der ESt in Bayern und Baden-Württemberg, 9 % im Rest. Nur wenn du Mitglied einer steuererhebenden Religionsgemeinschaft bist. Austritt = sofortige Befreiung." },
         { begriff: "KV/PV freiwillig (Mindestbemessung)", erklaerung: "Als Selbstständiger zahlst du GKV freiwillig: mindestens auf 1.318,33 €/Monat fingiertes Einkommen (Mindestbemessung 2026 ≈ 260-280 €/Mon Beitrag), max. auf BBG 5.512,50 €/Mon (höchster Beitrag ~1.150 €/Mon)." },
         { begriff: "Künstlersozialkasse (KSK)", erklaerung: "Bund übernimmt 50 % der GKV+RV-Beiträge für selbstständige Künstler/Publizisten — wie bei Angestellten. Pflicht-Mitgliedschaft für: Maler, Musiker, Autor, Journalist, Designer, Fotograf etc. Mindesteinkommen 3.900 €/J (sonst Befreiung)." },
-        { begriff: "Vergleich Selbstständig vs. Angestellt", erklaerung: "Faustregel: Selbstständig wirklich rentabel ab ~30 % mehr Netto als gleicher Angestellter — denn als Angestellter bekommst du Lohnfortzahlung, bezahlten Urlaub, Arbeitslosenversicherung, gesetzliche RV-Anwartschaft etc. dazu. Diese Sicherheits-Lücke musst du als Selbstständig selbst absichern (BU, Krankentagegeld, eigene Rente)." },
+        { begriff: "Vergleich Selbstständig vs. Angestellt (fair)", erklaerung: "Der faire Vergleich rechnet auf gleichem AG-Total, NICHT auf gleichem Brutto-Gehalt. Grund: dein Solo-Gewinn entspricht konzeptionell dem, was ein AG insgesamt für seinen Mitarbeiter aufbringen müsste (AN-Brutto + AG-SV-Anteil ~20,5 %). Würdest du Solo-Gewinn = AN-Brutto setzen, ignoriert das den AG-Anteil und macht Selbstständige systematisch ärmer aussehen als sie sind. Faustregel: Selbstständig rentabel ab ~20-30 % Mehr-Netto — der Aufschlag deckt Sicherheits-Lücke (Lohnfortzahlung, Urlaub, BU, Rente)." },
       ].map((g) => (
         <div key={g.begriff} className="rounded-lg bg-secondary/30 p-3">
           <div className="font-semibold text-foreground mb-1">{g.begriff}</div>
