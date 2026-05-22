@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import Stand2026Footer from "@/components/cockpit/Stand2026Footer";
 import { Input } from "@/components/ui/input";
+import { HebesatzPicker } from "@/components/ui/hebesatz-picker";
 import { Label } from "@/components/ui/label";
 import { Calculator, AlertTriangle, CheckCircle2, TrendingDown, Info, Calendar } from "lucide-react";
 import { progressionESt, ABG_ST, kstGewstRate, holdingRate, SOLZ_RATE } from "@/lib/germanTax";
@@ -266,13 +267,7 @@ const PreYearEndCheck = () => {
           </div>
           <div>
             <Label className="text-xs uppercase tracking-wider text-muted-foreground">GewSt-Hebesatz Gemeinde (%)</Label>
-            <Input
-              type="number"
-              value={hebesatz}
-              onChange={(e) => setHebesatz(Math.max(200, Math.min(900, Number(e.target.value) || 400)))}
-              className="mt-1"
-            />
-            <div className="text-[10px] text-muted-foreground mt-1">Berlin 410, München 490, Stuttgart 420.</div>
+            <HebesatzPicker value={hebesatz} onChange={setHebesatz} className="mt-1" />
           </div>
           <div>
             <Label className="text-xs uppercase tracking-wider text-muted-foreground">Geplante Investition 3 Jahre (IAB)</Label>

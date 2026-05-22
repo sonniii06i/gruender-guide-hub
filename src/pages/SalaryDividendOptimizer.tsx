@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import Stand2026Footer from "@/components/cockpit/Stand2026Footer";
 import { Input } from "@/components/ui/input";
+import { HebesatzPicker } from "@/components/ui/hebesatz-picker";
 import { Label } from "@/components/ui/label";
 import { TrendingUp, AlertTriangle, Info } from "lucide-react";
 import {
@@ -119,13 +120,8 @@ const SalaryDividendOptimizer = () => {
           />
         </div>
         <div>
-          <Label className="text-xs">GewSt-Hebesatz (z.B. 400 = München)</Label>
-          <Input
-            type="number"
-            value={hebesatz || ""}
-            onChange={(e) => setHebesatz(Math.max(200, Number(e.target.value) || 200))}
-            className="h-9 text-sm mt-1"
-          />
+          <Label className="text-xs">GewSt-Hebesatz</Label>
+          <HebesatzPicker value={hebesatz} onChange={setHebesatz} className="mt-1" />
         </div>
         <div>
           <Label className="text-xs">Kirchensteuer (% — 0/8/9)</Label>

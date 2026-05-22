@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import Stand2026Footer from "@/components/cockpit/Stand2026Footer";
 import { Input } from "@/components/ui/input";
+import { HebesatzPicker } from "@/components/ui/hebesatz-picker";
 import { Label } from "@/components/ui/label";
 import { Calculator, TrendingUp, Info, AlertTriangle, ArrowRight } from "lucide-react";
 import {
@@ -326,15 +327,7 @@ const AuszahlungOptimizer = () => {
             <Label className="text-xs uppercase tracking-wider text-muted-foreground">
               GewSt-Hebesatz (in %)
             </Label>
-            <Input
-              type="number"
-              value={hebesatz}
-              onChange={(e) => setHebesatz(Math.max(200, Number(e.target.value) || 400))}
-              className="mt-1"
-            />
-            <div className="text-[10px] text-muted-foreground mt-1">
-              Berlin 410 · München 490 · Hamburg 470 · Frankfurt 460 · ländlich oft 350-380
-            </div>
+            <HebesatzPicker value={hebesatz} onChange={setHebesatz} className="mt-1" />
           </div>
           <div>
             <Label className="text-xs uppercase tracking-wider text-muted-foreground">

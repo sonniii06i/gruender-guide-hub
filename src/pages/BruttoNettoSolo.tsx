@@ -19,6 +19,7 @@ import CockpitShell from "@/components/cockpit/CockpitShell";
 import Stand2026Footer from "@/components/cockpit/Stand2026Footer";
 import { Input } from "@/components/ui/input";
 import { NumberField } from "@/components/ui/number-field";
+import { HebesatzPicker } from "@/components/ui/hebesatz-picker";
 import { Label } from "@/components/ui/label";
 import {
   Lightbulb,
@@ -168,8 +169,7 @@ const BruttoNettoSolo = () => {
           {rechtsform === "gewerbe" && (
             <div>
               <Label className="text-xs uppercase tracking-wider text-muted-foreground">GewSt-Hebesatz (%) der Gemeinde</Label>
-              <NumberField value={hebesatz} onChange={setHebesatz} min={200} max={900} className="mt-1" />
-              <div className="text-[10px] text-muted-foreground mt-1">Berlin 410, München 490, Hamburg 470, Stuttgart 420</div>
+              <HebesatzPicker value={hebesatz} onChange={setHebesatz} className="mt-1" />
             </div>
           )}
         </div>

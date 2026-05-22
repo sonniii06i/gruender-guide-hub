@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Input } from "@/components/ui/input";
 import { NumberField } from "@/components/ui/number-field";
+import { HebesatzPicker } from "@/components/ui/hebesatz-picker";
 import { Label } from "@/components/ui/label";
 import { Calendar, Calculator, PiggyBank, Info, ShoppingCart, AlertTriangle } from "lucide-react";
 import { progressionESt, kstGewstRate, grenzSteuerSatz, SOLZ_RATE } from "@/lib/germanTax";
@@ -384,7 +385,7 @@ const SteuerCockpit = () => {
             )}
             <div>
               <Label className="text-[10px] uppercase text-muted-foreground">GewSt-Hebesatz (%)</Label>
-              <NumberField value={hebesatz} onChange={setHebesatz} min={200} max={900} className="h-8 text-sm" />
+              <HebesatzPicker value={hebesatz} onChange={setHebesatz} />
             </div>
           </div>
 
