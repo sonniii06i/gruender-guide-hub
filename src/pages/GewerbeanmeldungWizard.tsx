@@ -21,7 +21,7 @@
  *  - GewA1-Formular: bundeseinheitlich, online z.B. service.bund.de
  *  - WZ 2008: Statistisches Bundesamt
  */
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import Stand2026Footer from "@/components/cockpit/Stand2026Footer";
@@ -40,7 +40,7 @@ import {
   Search,
   XCircle,
 } from "lucide-react";
-import jsPDF from "jspdf";
+import { PDFDocument } from "pdf-lib";
 import { WZ_2008, WZ_GRUPPEN, type WzEntry, type WzGruppe } from "@/data/wz2008";
 
 type Rechtsform = "einzel" | "gbr" | "ohg" | "kg" | "ug" | "gmbh" | "ag" | "eg" | "andere";
@@ -48,13 +48,17 @@ type Anmeldegrund = "neugruendung" | "uebernahme" | "filiale" | "wiederaufnahme"
 type KuStatus = "ja" | "nein" | "unsicher";
 
 type WizardData = {
-  // Step 1: Person
+  // Step 1: Person (autosaved als Personal-Profil)
   vorname: string;
   nachname: string;
+  geburtsname: string;
+  geschlecht: "" | "maennlich" | "weiblich";
   geburtsdatum: string;
   geburtsort: string;
   staatsangehoerigkeit: string;
-  // Step 2: Anschrift
+  telefon: string;
+  email: string;
+  // Step 2: Anschrift (privat autosaved, Betrieb pro Anmeldung)
   privatStrasse: string;
   privatPlz: string;
   privatOrt: string;
@@ -79,13 +83,29 @@ type WizardData = {
 
 const heute = new Date().toISOString().split("T")[0];
 const LS_KEY = "ggh-gewa1-v1";
+const LS_PERSON_KEY = "ggh-person-profile-v1";
+
+// Welche Felder werden als "persönliches Profil" persistiert?
+// Diese tippst du EINMAL und kannst sie für jede künftige Gewerbe-/
+// Steuer-Aktion wiederverwenden. Der Rest (Rechtsform, Tätigkeit etc.)
+// ist pro Anmeldung neu.
+const PERSON_FIELDS = [
+  "vorname", "nachname", "geburtsname", "geschlecht",
+  "geburtsdatum", "geburtsort", "staatsangehoerigkeit",
+  "telefon", "email",
+  "privatStrasse", "privatPlz", "privatOrt",
+] as const satisfies readonly (keyof WizardData)[];
 
 const defaultData: WizardData = {
   vorname: "",
   nachname: "",
+  geburtsname: "",
+  geschlecht: "",
   geburtsdatum: "",
   geburtsort: "",
   staatsangehoerigkeit: "deutsch",
+  telefon: "",
+  email: "",
   privatStrasse: "",
   privatPlz: "",
   privatOrt: "",
@@ -118,16 +138,39 @@ const GewerbeanmeldungWizard = () => {
   const [step, setStep] = useState(0);
   const [data, setData] = useState<WizardData>(() => {
     if (typeof window === "undefined") return defaultData;
+    let base = { ...defaultData };
+    // Personal-Profil hat höchste Priorität (wird über Sessions hinweg geteilt)
+    const savedPerson = localStorage.getItem(LS_PERSON_KEY);
+    if (savedPerson) {
+      try { base = { ...base, ...JSON.parse(savedPerson) }; } catch { /* ignore */ }
+    }
+    // Dann ggf. komplette gespeicherte Anmeldung drüberlegen
     const saved = localStorage.getItem(LS_KEY);
     if (saved) {
-      try { return { ...defaultData, ...JSON.parse(saved) }; } catch { return defaultData; }
+      try { base = { ...base, ...JSON.parse(saved) }; } catch { /* ignore */ }
     }
-    return defaultData;
+    return base;
   });
 
   const update = <K extends keyof WizardData>(field: K, value: WizardData[K]) => {
     setData((d) => ({ ...d, [field]: value }));
   };
+
+  // Persönliche Daten auto-persistieren (Vorname, Nachname, Adresse etc.)
+  // damit der User sie nur einmal eintippt und sie bei jeder zukünftigen
+  // Gewerbeanmeldung sofort wieder da sind.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const subset: Partial<WizardData> = {};
+    for (const k of PERSON_FIELDS) (subset as Record<string, unknown>)[k] = data[k];
+    try { localStorage.setItem(LS_PERSON_KEY, JSON.stringify(subset)); }
+    catch (e) { console.warn("Personal-Profil konnte nicht gespeichert werden:", e); }
+  }, [
+    data.vorname, data.nachname, data.geburtsname, data.geschlecht,
+    data.geburtsdatum, data.geburtsort, data.staatsangehoerigkeit,
+    data.telefon, data.email,
+    data.privatStrasse, data.privatPlz, data.privatOrt,
+  ]);
 
   // === Step-Validierung ===
   const stepValid = useMemo(() => {
@@ -150,131 +193,120 @@ const GewerbeanmeldungWizard = () => {
   };
 
   const reset = () => {
-    if (confirm("Alle Eingaben löschen?")) {
-      localStorage.removeItem(LS_KEY);
-      setData(defaultData);
-      setStep(0);
-    }
+    if (!confirm("Aktuelle Anmeldung löschen? Dein Personal-Profil (Vorname/Nachname/Adresse) bleibt gespeichert.")) return;
+    localStorage.removeItem(LS_KEY);
+    // Behalte personal subset, setze Rest auf default zurück
+    setData((d) => {
+      const fresh: WizardData = { ...defaultData };
+      for (const k of PERSON_FIELDS) (fresh as Record<string, unknown>)[k] = d[k];
+      return fresh;
+    });
+    setStep(0);
   };
 
-  const generatePdf = () => {
-    const doc = new jsPDF({ unit: "mm", format: "a4" });
-    const W = 210;
-    let y = 20;
+  // Füllt das offizielle Mustervordruck GewA1 (Anlage 1 zur GewAnzV) mit
+  // den eingegebenen Daten via pdf-lib. PDF liegt in public/forms/gewa1.pdf
+  // (Form-Solutions / Schwerin-Hosting der Bundes-Vorlage, ~65 benannte AcroForm-Felder).
+  const generatePdf = async () => {
+    try {
+      const resp = await fetch("/forms/gewa1.pdf");
+      if (!resp.ok) throw new Error(`PDF konnte nicht geladen werden (HTTP ${resp.status})`);
+      const pdfBytes = await resp.arrayBuffer();
+      const pdfDoc = await PDFDocument.load(pdfBytes);
+      const form = pdfDoc.getForm();
 
-    // Header
-    doc.setFontSize(16);
-    doc.setFont("helvetica", "bold");
-    doc.text("Gewerbeanmeldung – Vorbereitung GewA1", 20, y);
-    y += 8;
-    doc.setFontSize(8);
-    doc.setFont("helvetica", "normal");
-    doc.setTextColor(100);
-    doc.text("Diese Übersicht dient zur Vorbereitung. Trage die Daten ins amtliche GewA1-Formular ein (online oder Bürgeramt).", 20, y);
-    y += 8;
-    doc.line(20, y, W - 20, y);
-    y += 6;
+      const fmtDate = (iso: string) => iso ? iso.split("-").reverse().join(".") : "";
+      const anschrift = (str: string, plz: string, ort: string) =>
+        [str, [plz, ort].filter(Boolean).join(" ")].filter(Boolean).join(", ");
 
-    // Helper für Sektion
-    const sektion = (title: string, rows: Array<[string, string]>) => {
-      doc.setFontSize(11);
-      doc.setFont("helvetica", "bold");
-      doc.setTextColor(0);
-      doc.text(title, 20, y);
-      y += 5;
-      doc.setFontSize(9);
-      doc.setFont("helvetica", "normal");
-      doc.setTextColor(60);
-      rows.forEach(([k, v]) => {
-        if (!v) return;
-        const split = doc.splitTextToSize(v, W - 90);
-        doc.text(k, 20, y);
-        split.forEach((line: string, i: number) => doc.text(line, 75, y + i * 4));
-        y += Math.max(5, split.length * 4);
-        if (y > 280) { doc.addPage(); y = 20; }
-      });
-      y += 3;
-    };
+      // Robuste Helper — fehlende oder typ-falsche Felder werfen sonst.
+      const tryText = (name: string, value: string) => {
+        if (!value) return;
+        try { form.getTextField(name).setText(value); } catch { /* missing */ }
+      };
+      const tryCheck = (name: string, checked: boolean) => {
+        try {
+          const cb = form.getCheckBox(name);
+          if (checked) cb.check(); else cb.uncheck();
+        } catch { /* missing */ }
+      };
 
-    const rechtsformText: Record<Rechtsform, string> = {
-      einzel: "Einzelunternehmen", gbr: "GbR", ohg: "OHG", kg: "KG",
-      ug: "UG (haftungsbeschränkt)", gmbh: "GmbH", ag: "AG", eg: "eG", andere: "Andere",
-    };
-    const anmeldegrundText: Record<Anmeldegrund, string> = {
-      neugruendung: "Neugründung", uebernahme: "Übernahme", filiale: "Filiale/Zweigniederlassung",
-      wiederaufnahme: "Wiederaufnahme", umzug: "Verlegung",
-    };
-    const kuText: Record<KuStatus, string> = {
-      ja: "Ja, ich nutze § 19 UStG (Kleinunternehmer)",
-      nein: "Nein, Regelbesteuerung gewählt",
-      unsicher: "Noch unsicher (im FsE entscheiden)",
-    };
-    const wzEntry = WZ_2008.find((w) => w.code === data.wzCode);
+      const rechtsformLabel: Record<Rechtsform, string> = {
+        einzel: "Einzelunternehmen", gbr: "GbR", ohg: "OHG", kg: "KG",
+        ug: "UG (haftungsbeschränkt)", gmbh: "GmbH", ag: "AG", eg: "eG", andere: "",
+      };
+      const istKapGes = ["ug", "gmbh", "ag"].includes(data.rechtsform);
+      const istEinzel = data.rechtsform === "einzel";
+      const istDeutsch = data.staatsangehoerigkeit.trim().toLowerCase() === "deutsch";
 
-    sektion("1. Person", [
-      ["Name:", `${data.vorname} ${data.nachname}`],
-      ["Geburtsdatum:", data.geburtsdatum.split("-").reverse().join(".")],
-      ["Geburtsort:", data.geburtsort],
-      ["Staatsangehörigkeit:", data.staatsangehoerigkeit],
-    ]);
+      // === Felder 1-5: Firma / Rechtsform (nur bei Kap.-Ges./PersGes mit Eintrag) ===
+      const firmaLabel = data.firmierung
+        || (istEinzel ? `${data.vorname} ${data.nachname}`.trim() : rechtsformLabel[data.rechtsform]);
+      tryText("u:Name mit Rechtsform", firmaLabel);
 
-    sektion("2. Anschrift", [
-      ["Privat:", `${data.privatStrasse}, ${data.privatPlz} ${data.privatOrt}`],
-      ["Betriebsstätte:", data.betriebsstaetteAndere
-        ? `${data.betriebStrasse}, ${data.betriebPlz} ${data.betriebOrt}`
-        : "wie Privatanschrift"],
-    ]);
+      // === Felder Person ===
+      tryText("u:Name", data.nachname);
+      tryText("u:Vorname(n)", data.vorname);
+      tryText("u:Geburtsname", data.geburtsname);
+      tryText("u:Geburtsdatum", fmtDate(data.geburtsdatum));
+      tryText("u:Geburtsort und -land", data.geburtsort);
+      tryText("u:Staatsangehörigkeit(en)", data.staatsangehoerigkeit);
+      tryCheck("u:männlich", data.geschlecht === "maennlich");
+      tryCheck("u:weiblich", data.geschlecht === "weiblich");
+      tryCheck("u:deutsch", istDeutsch);
+      tryCheck("u:andere", !istDeutsch && data.staatsangehoerigkeit !== "");
 
-    sektion("3. Rechtsform + Anmeldung", [
-      ["Rechtsform:", rechtsformText[data.rechtsform]],
-      ["Anmeldegrund:", anmeldegrundText[data.anmeldegrund]],
-      ["Firmierung:", data.firmierung || "(nicht erforderlich bei Einzel)"],
-    ]);
+      // === Anschrift privat ===
+      tryText("u:Anschrift", anschrift(data.privatStrasse, data.privatPlz, data.privatOrt));
+      tryText("u:Telefon", data.telefon);
+      tryText("u:E-Mail", data.email);
 
-    sektion("4. Tätigkeit (Klartext)", [
-      ["Beschreibung:", data.taetigkeit],
-    ]);
+      // === Anschrift Betriebsstätte ===
+      const betriebAdr = data.betriebsstaetteAndere
+        ? anschrift(data.betriebStrasse, data.betriebPlz, data.betriebOrt)
+        : anschrift(data.privatStrasse, data.privatPlz, data.privatOrt);
+      tryText("u:Anschrift Betriebsstätte", betriebAdr);
+      tryText("u:Telefon - geschäftlich", data.telefon);
+      tryText("u:E-Mail - geschäftlich", data.email);
 
-    sektion("5. Branchenschlüssel WZ 2008", [
-      ["Code:", data.wzCode],
-      ["Bezeichnung:", wzEntry?.label || "—"],
-    ]);
+      // === Tätigkeit ===
+      tryText("u:Angemeldete Tätigkeit", data.taetigkeit);
+      tryText("u:Beginn der Tätigkeit", fmtDate(data.beginnDatum));
 
-    sektion("6. Beginn + § 19 UStG", [
-      ["Beginn der Tätigkeit:", data.beginnDatum.split("-").reverse().join(".")],
-      ["Mitarbeiterzahl:", String(data.mitarbeiterZahl)],
-      ["KU-Optierung:", kuText[data.kuStatus]],
-      ["Voraussichtlicher Jahres-Umsatz:", `${data.voraussichtlicherUmsatz.toLocaleString("de-DE")} €`],
-    ]);
+      // === Mitarbeiter ===
+      tryCheck("u:keine Personen", data.mitarbeiterZahl === 0);
+      if (data.mitarbeiterZahl > 0) {
+        tryText("u:Personenzahl Vollzeit", String(data.mitarbeiterZahl));
+      }
 
-    // Hinweise
-    if (y > 250) { doc.addPage(); y = 20; }
-    y += 5;
-    doc.setFontSize(10);
-    doc.setFont("helvetica", "bold");
-    doc.setTextColor(0);
-    doc.text("Wichtige nächste Schritte", 20, y);
-    y += 5;
-    doc.setFontSize(8);
-    doc.setFont("helvetica", "normal");
-    doc.setTextColor(60);
-    const naechsteSchritte = [
-      "1. GewA1-Formular ausfüllen (online: service.bund.de oder Bürgeramt).",
-      "2. Gebühr 20-65 € (Land+Stadt-abhängig) zahlen.",
-      "3. Innerhalb von 4 Wochen kommt der Fragebogen zur steuerlichen Erfassung (FsE) vom Finanzamt.",
-      "4. Im FsE entscheidest du final über § 19 KU oder Regelbesteuerung (5-Jahres-Bindung).",
-      "5. Steuernummer + ggf. USt-ID werden zugeteilt.",
-      "6. Bei IHK/HwK automatische Mitgliedschaft (Beitrag ab Gewinn > 5.200 €).",
-      "7. Geschäftskonto eröffnen (empfohlen, aber bei Einzel rechtlich nicht zwingend).",
-      "8. Berufshaftpflicht prüfen (je nach Tätigkeit Pflicht oder dringend empfohlen).",
-    ];
-    naechsteSchritte.forEach((s) => {
-      const split = doc.splitTextToSize(s, W - 40);
-      doc.text(split, 20, y);
-      y += split.length * 4;
-    });
+      // === Anmeldegrund ===
+      tryCheck("u:ja - Neugründung", data.anmeldegrund === "neugruendung");
+      tryCheck("u:ja - Verlegung", data.anmeldegrund === "umzug");
+      tryCheck("u:ja - Hauptniederlassung",
+        data.anmeldegrund !== "filiale" && !data.betriebsstaetteAndere);
+      tryCheck("u:ja - Zweigniederlassung", data.anmeldegrund === "filiale");
 
-    doc.save(`gewerbeanmeldung-${data.nachname || "vorbereitung"}.pdf`);
+      // === Kap.-Ges. → Geschäftsführerzahl (wenn UG/GmbH/AG, min. 1) ===
+      if (istKapGes) tryText("u:Zahl - Geschäftsführer bzw", "1");
+
+      // === Datum ===
+      const today = new Date();
+      const todayDe = `${String(today.getDate()).padStart(2, "0")}.${String(today.getMonth() + 1).padStart(2, "0")}.${today.getFullYear()}`;
+      tryText("u:heutiges Datum", todayDe);
+
+      // PDF mit gefüllten Feldern speichern (Felder bleiben editierbar im Reader)
+      const filled = await pdfDoc.save();
+      const blob = new Blob([filled], { type: "application/pdf" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `GewA1-${(data.nachname || "anmeldung").toLowerCase()}.pdf`;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch (e) {
+      console.error("PDF-Erstellung fehlgeschlagen:", e);
+      alert(`PDF-Erstellung fehlgeschlagen: ${e instanceof Error ? e.message : "Unbekannter Fehler"}. Bitte Seite neu laden und erneut versuchen.`);
+    }
   };
 
   // === Tätigkeits-Qualitäts-Check ===
@@ -306,7 +338,7 @@ const GewerbeanmeldungWizard = () => {
     <CockpitShell
       eyebrow="🌱 Erste Schritte · für komplette Anfänger:innen"
       title="Gewerbeanmeldung-Wizard"
-      subtitle="7-Step-Vorbereitung für das amtliche GewA1-Formular. Mit Tätigkeits-Qualitäts-Check, WZ-2008-Branchenschlüssel-Suche, §19 KU-Entscheidung und PDF-Vorbereitung zum Mitbringen ins Bürgeramt."
+      subtitle="7-Step-Wizard, der das amtliche GewA1 (Mustervordruck Anlage 1 zur GewAnzV) mit deinen Daten füllt. Mit Tätigkeits-Qualitäts-Check, WZ-2008-Suche, §19 KU-Entscheidung. Persönliche Daten werden lokal gespeichert und beim nächsten Mal automatisch vorausgefüllt."
     >
       <BeginnerHero />
 
@@ -394,15 +426,35 @@ type StepProps = { data: WizardData; update: <K extends keyof WizardData>(field:
 const StepPerson = ({ data, update }: StepProps) => (
   <div className="space-y-3">
     <h3 className="font-bold text-sm">1. Persönliche Daten</h3>
-    <p className="text-xs text-muted-foreground mb-3">Wie sie im Personalausweis stehen. Wird vom Bürgeramt mit dem Ausweis abgeglichen.</p>
+    <p className="text-xs text-muted-foreground mb-2">Wie sie im Personalausweis stehen. Wird vom Bürgeramt mit dem Ausweis abgeglichen.</p>
+    <div className="rounded-lg bg-blue-500/10 border border-blue-500/30 p-2 mb-3 text-[11px]">
+      💾 <strong>Einmal eingeben, immer nutzen:</strong> Vorname, Nachname, Geburtsdaten und Anschrift
+      werden lokal im Browser gespeichert — bei der nächsten Gewerbeanmeldung sind sie schon da.
+    </div>
     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
       <div>
         <Label className="text-xs">Vorname *</Label>
-        <Input value={data.vorname} onChange={(e) => update("vorname", e.target.value)} className="h-9 mt-1" />
+        <Input value={data.vorname} onChange={(e) => update("vorname", e.target.value)} className="h-9 mt-1" autoComplete="given-name" />
       </div>
       <div>
         <Label className="text-xs">Nachname *</Label>
-        <Input value={data.nachname} onChange={(e) => update("nachname", e.target.value)} className="h-9 mt-1" />
+        <Input value={data.nachname} onChange={(e) => update("nachname", e.target.value)} className="h-9 mt-1" autoComplete="family-name" />
+      </div>
+      <div>
+        <Label className="text-xs">Geburtsname (falls abweichend)</Label>
+        <Input value={data.geburtsname} onChange={(e) => update("geburtsname", e.target.value)} className="h-9 mt-1" />
+      </div>
+      <div>
+        <Label className="text-xs">Geschlecht (GewA1)</Label>
+        <select
+          value={data.geschlecht}
+          onChange={(e) => update("geschlecht", e.target.value as WizardData["geschlecht"])}
+          className="mt-1 h-9 w-full rounded-md border border-input bg-background px-2 text-sm"
+        >
+          <option value="">— nicht angegeben —</option>
+          <option value="maennlich">männlich</option>
+          <option value="weiblich">weiblich</option>
+        </select>
       </div>
       <div>
         <Label className="text-xs">Geburtsdatum *</Label>
@@ -423,14 +475,18 @@ const StepPerson = ({ data, update }: StepProps) => (
 
 const StepAnschrift = ({ data, update }: StepProps) => (
   <div className="space-y-3">
-    <h3 className="font-bold text-sm">2. Anschrift</h3>
+    <h3 className="font-bold text-sm">2. Anschrift + Kontakt</h3>
     <p className="text-xs text-muted-foreground mb-3">Privatanschrift = Wohnsitz. Betriebsstätte = wo du arbeitest (kann gleich sein).</p>
     <div className="rounded-lg bg-secondary/40 p-3 space-y-2">
       <div className="text-xs font-semibold">Privatanschrift</div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-        <Input placeholder="Straße + Nr." value={data.privatStrasse} onChange={(e) => update("privatStrasse", e.target.value)} className="h-9" />
-        <Input placeholder="PLZ" value={data.privatPlz} onChange={(e) => update("privatPlz", e.target.value)} className="h-9" />
-        <Input placeholder="Ort" value={data.privatOrt} onChange={(e) => update("privatOrt", e.target.value)} className="h-9" />
+        <Input placeholder="Straße + Nr." value={data.privatStrasse} onChange={(e) => update("privatStrasse", e.target.value)} className="h-9" autoComplete="street-address" />
+        <Input placeholder="PLZ" value={data.privatPlz} onChange={(e) => update("privatPlz", e.target.value)} className="h-9" autoComplete="postal-code" />
+        <Input placeholder="Ort" value={data.privatOrt} onChange={(e) => update("privatOrt", e.target.value)} className="h-9" autoComplete="address-level2" />
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+        <Input type="tel" placeholder="Telefon" value={data.telefon} onChange={(e) => update("telefon", e.target.value)} className="h-9" autoComplete="tel" />
+        <Input type="email" placeholder="E-Mail" value={data.email} onChange={(e) => update("email", e.target.value)} className="h-9" autoComplete="email" />
       </div>
     </div>
     <label className="flex items-center gap-2 text-xs cursor-pointer">
@@ -728,14 +784,18 @@ const StepZusammenfassung = ({ data, stepValid, allValid, onGeneratePdf }: { dat
 
       <div className="flex flex-wrap gap-2">
         <Button onClick={onGeneratePdf} disabled={!allValid} className="bg-emerald-700 hover:bg-emerald-800 text-white">
-          <FileDown className="h-4 w-4 mr-2" /> Vorbereitungs-PDF herunterladen
+          <FileDown className="h-4 w-4 mr-2" /> Offizielles GewA1-PDF herunterladen
         </Button>
+      </div>
+      <div className="text-[11px] text-muted-foreground">
+        Erzeugt das amtliche Mustervordruck-PDF (Anlage 1 zur GewAnzV) mit deinen Daten gefüllt.
+        Felder bleiben editierbar — Anpassungen direkt im Reader möglich, danach ausdrucken & unterschreiben.
       </div>
 
       <div className="rounded-lg bg-blue-500/10 border border-blue-500/40 p-3 text-xs">
         <strong className="text-blue-700">Was kommt nach der Anmeldung?</strong>
         <ol className="mt-2 space-y-1 list-decimal list-inside text-muted-foreground">
-          <li>GewA1 online (verwaltung.bund.de) oder beim Bürgeramt einreichen (Gebühr 20-65 €).</li>
+          <li>Ausgefülltes GewA1 unterschreiben, persönlich im Bürgeramt einreichen ODER online via verwaltung.bund.de (Gebühr 20-65 €).</li>
           <li>Nach 2-4 Wochen kommt automatisch der Fragebogen zur steuerlichen Erfassung (FsE) vom Finanzamt.</li>
           <li>Im FsE: finale Entscheidung § 19 KU / Regelbesteuerung (5 Jahre Bindung!).</li>
           <li>Steuernummer + ggf. USt-ID werden zugeteilt.</li>
@@ -771,7 +831,7 @@ const BeginnerHero = () => (
           Das amtliche GewA1-Formular ist nicht kompliziert, aber 2 Felder verwirren Anfänger systematisch:
           (1) <strong>Tätigkeitsbeschreibung</strong> — zu generisch führt zu Nachfrage vom FA;
           (2) <strong>WZ-2008-Branchenschlüssel</strong> — 5-stellige Klassifikation, oft falsch geraten.
-          Dieser Wizard führt dich durch beide mit Beispielen + Suche und gibt am Ende eine Vorbereitungs-PDF zum Mitbringen.
+          Dieser Wizard führt dich durch beide mit Beispielen + Suche und füllt am Ende das offizielle GewA1-PDF zum Ausdrucken und Unterschreiben.
         </p>
         <div className="rounded-lg bg-amber-500/10 border border-amber-500/30 p-2 text-[11px]">
           <strong className="text-amber-700">⚠ Vorab klären:</strong> Bist du sicher dass es Gewerbe ist und nicht Freiberuf?

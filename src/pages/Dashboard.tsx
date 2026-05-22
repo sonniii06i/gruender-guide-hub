@@ -397,7 +397,7 @@ const StarterHighlight = ({ isActive }: { isActive: boolean }) => {
             </div>
             <h2 className="text-xl md:text-2xl font-bold tracking-tight">Du startest gerade? Hier entlang.</h2>
             <p className="text-sm text-muted-foreground mt-1 max-w-2xl">
-              Von „Brauche ich überhaupt ein Gewerbe?" bis zur ersten §14-konformen Rechnung — 11 Tools, die durch die ersten 90 Tage führen. Mit personalisierten Empfehlungen und PDF-Vorbereitung für Bürgeramt/Finanzamt.
+              Von „Brauche ich überhaupt ein Gewerbe?" bis zur ersten §14-konformen Rechnung — 10 Tools, die durch die ersten 90 Tage führen. Mit personalisierten Empfehlungen und PDF-Vorbereitung für Bürgeramt/Finanzamt.
             </p>
           </div>
         </div>
@@ -405,7 +405,7 @@ const StarterHighlight = ({ isActive }: { isActive: boolean }) => {
           to="/dashboard?view=themen&cat=starter"
           className="inline-flex items-center gap-1.5 rounded-full bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 text-sm font-semibold transition shrink-0"
         >
-          Alle 11 Tools <ArrowRight className="h-4 w-4" />
+          Alle 10 Tools <ArrowRight className="h-4 w-4" />
         </Link>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5">

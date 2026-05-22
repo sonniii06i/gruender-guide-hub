@@ -172,8 +172,24 @@ describe("GewerbeanmeldungWizard — PDF + Speichern", () => {
     const dots = document.querySelectorAll("button[title^='Step']");
     fireEvent.click(dots[6] as HTMLElement);
     // Alle Steps leer → Button disabled
-    const pdfBtn = screen.getByText(/Vorbereitungs-PDF herunterladen/).closest("button");
+    const pdfBtn = screen.getByText(/Offizielles GewA1-PDF herunterladen/).closest("button");
     expect(pdfBtn?.disabled).toBe(true);
+  });
+
+  it("Step 1 zeigt Autosave-Hinweis für persönliche Daten", () => {
+    renderWithRouter(<GewerbeanmeldungWizard />);
+    const html = document.body.innerHTML;
+    expect(html).toMatch(/Einmal eingeben.*immer nutzen/);
+  });
+
+  it("Personal-Profil aus localStorage wird beim Mount geladen", () => {
+    localStorage.setItem(
+      "ggh-person-profile-v1",
+      JSON.stringify({ vorname: "Max", nachname: "Mustermann" }),
+    );
+    renderWithRouter(<GewerbeanmeldungWizard />);
+    expect(screen.getByDisplayValue("Max")).toBeTruthy();
+    expect(screen.getByDisplayValue("Mustermann")).toBeTruthy();
   });
 
   it("Zusammenfassung listet fehlende Steps", () => {
