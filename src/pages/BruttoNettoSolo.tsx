@@ -18,6 +18,7 @@ import { Link } from "react-router-dom";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import Stand2026Footer from "@/components/cockpit/Stand2026Footer";
 import { Input } from "@/components/ui/input";
+import { NumberField } from "@/components/ui/number-field";
 import { Label } from "@/components/ui/label";
 import {
   Lightbulb,
@@ -146,12 +147,12 @@ const BruttoNettoSolo = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
           <div>
             <Label className="text-xs uppercase tracking-wider text-muted-foreground">Jahres-Umsatz (€)</Label>
-            <Input type="number" value={umsatz} onChange={(e) => setUmsatz(Math.max(0, Number(e.target.value) || 0))} className="mt-1" />
+            <NumberField value={umsatz} onChange={setUmsatz} min={0} className="mt-1" />
             <div className="text-[10px] text-muted-foreground mt-1">Summe Honorare/Erlöse netto (= ohne USt)</div>
           </div>
           <div>
             <Label className="text-xs uppercase tracking-wider text-muted-foreground">Jahres-Betriebsausgaben (€)</Label>
-            <Input type="number" value={betriebsausgaben} onChange={(e) => setBetriebsausgaben(Math.max(0, Number(e.target.value) || 0))} className="mt-1" />
+            <NumberField value={betriebsausgaben} onChange={setBetriebsausgaben} min={0} className="mt-1" />
             <div className="text-[10px] text-muted-foreground mt-1">Bürokosten, Software, Reisen, Werbung, AfA, etc.</div>
           </div>
         </div>
@@ -167,7 +168,7 @@ const BruttoNettoSolo = () => {
           {rechtsform === "gewerbe" && (
             <div>
               <Label className="text-xs uppercase tracking-wider text-muted-foreground">GewSt-Hebesatz (%) der Gemeinde</Label>
-              <Input type="number" value={hebesatz} onChange={(e) => setHebesatz(Math.max(200, Math.min(900, Number(e.target.value) || 400)))} className="mt-1" />
+              <NumberField value={hebesatz} onChange={setHebesatz} min={200} max={900} className="mt-1" />
               <div className="text-[10px] text-muted-foreground mt-1">Berlin 410, München 490, Hamburg 470, Stuttgart 420</div>
             </div>
           )}
@@ -185,13 +186,13 @@ const BruttoNettoSolo = () => {
           {kvVariante === "gkv-freiwillig" || kvVariante === "ksk" ? (
             <div>
               <Label className="text-xs uppercase tracking-wider text-muted-foreground">Zusatzbeitrag deiner Kasse (%)</Label>
-              <Input type="number" step="0.01" value={zusatzBeitrag} onChange={(e) => setZusatzBeitrag(Math.max(0, Number(e.target.value) || 0))} className="mt-1" />
+              <NumberField step="0.01" value={zusatzBeitrag} onChange={setZusatzBeitrag} min={0} className="mt-1" />
               <div className="text-[10px] text-muted-foreground mt-1">2026 ⌀ 2,9 % · Spanne 2,18 – 4,39 %</div>
             </div>
           ) : (
             <div>
               <Label className="text-xs uppercase tracking-wider text-muted-foreground">PKV-Beitrag pro Monat (€)</Label>
-              <Input type="number" value={pkvBeitragMonat} onChange={(e) => setPkvBeitragMonat(Math.max(0, Number(e.target.value) || 0))} className="mt-1" />
+              <NumberField value={pkvBeitragMonat} onChange={setPkvBeitragMonat} min={0} className="mt-1" />
             </div>
           )}
         </div>

@@ -18,6 +18,7 @@ import { Link } from "react-router-dom";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import Stand2026Footer from "@/components/cockpit/Stand2026Footer";
 import { Input } from "@/components/ui/input";
+import { NumberField } from "@/components/ui/number-field";
 import { Label } from "@/components/ui/label";
 import {
   Lightbulb,
@@ -149,24 +150,24 @@ const StundensatzRechner = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           <div>
             <Label className="text-xs uppercase tracking-wider text-muted-foreground">Lebenshaltung / Monat (€)</Label>
-            <Input type="number" value={lebenshaltungMonat} onChange={(e) => setLebenshaltungMonat(Math.max(0, Number(e.target.value) || 0))} className="mt-1" />
+            <NumberField value={lebenshaltungMonat} onChange={setLebenshaltungMonat} min={0} className="mt-1" />
             <div className="text-[10px] text-muted-foreground mt-1">Miete, Essen, Auto, Versicherungen, alles Private</div>
           </div>
           <div>
             <Label className="text-xs uppercase tracking-wider text-muted-foreground">Sparen / Investment / Monat (€)</Label>
-            <Input type="number" value={zusatzNettoMonat} onChange={(e) => setZusatzNettoMonat(Math.max(0, Number(e.target.value) || 0))} className="mt-1" />
+            <NumberField value={zusatzNettoMonat} onChange={setZusatzNettoMonat} min={0} className="mt-1" />
             <div className="text-[10px] text-muted-foreground mt-1">ETF-Sparplan, eigene Rente, Urlaubs-Geld</div>
           </div>
           <div>
             <Label className="text-xs uppercase tracking-wider text-muted-foreground">Geschäfts-Ausgaben / Monat (€)</Label>
-            <Input type="number" value={betriebsausgabenMonat} onChange={(e) => setBetriebsausgabenMonat(Math.max(0, Number(e.target.value) || 0))} className="mt-1" />
+            <NumberField value={betriebsausgabenMonat} onChange={setBetriebsausgabenMonat} min={0} className="mt-1" />
             <div className="text-[10px] text-muted-foreground mt-1">Software, Internet, Telefon, Büro, Versicherung</div>
           </div>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-3">
           <div>
             <Label className="text-[10px] uppercase text-muted-foreground">GKV-Zusatzbeitrag %</Label>
-            <Input type="number" step="0.01" value={zusatzbeitragKV} onChange={(e) => setZusatzbeitragKV(Math.max(0, Number(e.target.value) || 0))} className="h-9 mt-1" />
+            <NumberField step="0.01" value={zusatzbeitragKV} onChange={setZusatzbeitragKV} min={0} className="h-9 mt-1" />
           </div>
           <label className="flex items-center gap-2 text-xs cursor-pointer rounded-lg border border-border p-2">
             <input type="checkbox" checked={kinderlos} onChange={(e) => setKinderlos(e.target.checked)} className="h-4 w-4" />
@@ -195,7 +196,7 @@ const StundensatzRechner = () => {
           </div>
           <div>
             <Label className="text-xs uppercase tracking-wider text-muted-foreground">Billable-Quote (%) — typisch 60-80 %</Label>
-            <Input type="number" value={billableQuote} onChange={(e) => setBillableQuote(Math.max(20, Math.min(100, Number(e.target.value) || 70)))} className="mt-1" />
+            <NumberField value={billableQuote} onChange={setBillableQuote} min={20} max={100} className="mt-1" />
             <div className="text-[10px] text-muted-foreground mt-1">
               Anteil der Arbeitszeit den du Kunden in Rechnung stellen kannst. Akquise, Buchhaltung, Pausen = nicht billable.
             </div>
@@ -204,17 +205,17 @@ const StundensatzRechner = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           <div>
             <Label className="text-[10px] uppercase text-muted-foreground">Urlaubstage / Jahr</Label>
-            <Input type="number" value={urlaubTage} onChange={(e) => setUrlaubTage(Math.max(0, Math.min(60, Number(e.target.value) || 25)))} className="h-9 mt-1" />
+            <NumberField value={urlaubTage} onChange={setUrlaubTage} min={0} max={60} className="h-9 mt-1" />
             <div className="text-[10px] text-muted-foreground mt-0.5">Min. 24 § BUrlG (an AN-Tag)</div>
           </div>
           <div>
             <Label className="text-[10px] uppercase text-muted-foreground">Krankheitstage / Jahr</Label>
-            <Input type="number" value={krankheitTage} onChange={(e) => setKrankheitTage(Math.max(0, Math.min(40, Number(e.target.value) || 10)))} className="h-9 mt-1" />
+            <NumberField value={krankheitTage} onChange={setKrankheitTage} min={0} max={40} className="h-9 mt-1" />
             <div className="text-[10px] text-muted-foreground mt-0.5">⌀ DE: 17,8 Tage AN, Selbstständig oft 5-15</div>
           </div>
           <div>
             <Label className="text-[10px] uppercase text-muted-foreground">Weiterbildung / Jahr</Label>
-            <Input type="number" value={weiterbildungTage} onChange={(e) => setWeiterbildungTage(Math.max(0, Math.min(30, Number(e.target.value) || 5)))} className="h-9 mt-1" />
+            <NumberField value={weiterbildungTage} onChange={setWeiterbildungTage} min={0} max={30} className="h-9 mt-1" />
             <div className="text-[10px] text-muted-foreground mt-0.5">Konferenzen, Kurse, Self-Learning</div>
           </div>
         </div>

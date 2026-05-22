@@ -20,6 +20,7 @@ import { Link } from "react-router-dom";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import Stand2026Footer from "@/components/cockpit/Stand2026Footer";
 import { Input } from "@/components/ui/input";
+import { NumberField } from "@/components/ui/number-field";
 import { Label } from "@/components/ui/label";
 import {
   Lightbulb,
@@ -159,11 +160,11 @@ const StbCostBenefit = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
           <div>
             <Label className="text-xs uppercase tracking-wider text-muted-foreground">Jahres-Umsatz (€)</Label>
-            <Input type="number" value={umsatz} onChange={(e) => setUmsatz(Math.max(0, Number(e.target.value) || 0))} className="mt-1" />
+            <NumberField value={umsatz} onChange={setUmsatz} min={0} className="mt-1" />
           </div>
           <div>
             <Label className="text-xs uppercase tracking-wider text-muted-foreground">Betriebsausgaben/Jahr (€)</Label>
-            <Input type="number" value={betriebsausgaben} onChange={(e) => setBetriebsausgaben(Math.max(0, Number(e.target.value) || 0))} className="mt-1" />
+            <NumberField value={betriebsausgaben} onChange={setBetriebsausgaben} min={0} className="mt-1" />
           </div>
           <div>
             <Label className="text-xs uppercase tracking-wider text-muted-foreground">Gewinn (berechnet)</Label>
@@ -190,7 +191,7 @@ const StbCostBenefit = () => {
           </div>
           <div>
             <Label className="text-xs uppercase tracking-wider text-muted-foreground">Belege pro Monat (ca.)</Label>
-            <Input type="number" value={belegeProMonat} onChange={(e) => setBelegeProMonat(Math.max(0, Number(e.target.value) || 0))} className="mt-1" />
+            <NumberField value={belegeProMonat} onChange={setBelegeProMonat} min={0} className="mt-1" />
           </div>
         </div>
       </div>
@@ -203,14 +204,14 @@ const StbCostBenefit = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <div>
             <Label className="text-xs uppercase tracking-wider text-muted-foreground">Dein Stundenlohn (€)</Label>
-            <Input type="number" value={stundenlohnEigen} onChange={(e) => setStundenlohnEigen(Math.max(10, Number(e.target.value) || 0))} className="mt-1" />
+            <NumberField value={stundenlohnEigen} onChange={setStundenlohnEigen} min={10} className="mt-1" />
             <div className="text-[10px] text-muted-foreground mt-1">
               Aus Tool 6 oder dein normaler Stundensatz für Kunden-Arbeit. Wert dieser Zeit ist Opportunitätskosten.
             </div>
           </div>
           <div>
             <Label className="text-xs uppercase tracking-wider text-muted-foreground">Stunden Buchhaltung / Monat</Label>
-            <Input type="number" value={stundenBuchhaltungMonat} onChange={(e) => setStundenBuchhaltungMonat(Math.max(0, Number(e.target.value) || 0))} className="mt-1" />
+            <NumberField value={stundenBuchhaltungMonat} onChange={setStundenBuchhaltungMonat} min={0} className="mt-1" />
             <div className="text-[10px] text-muted-foreground mt-1">
               Belege scannen, Bank kategorisieren, USt-VA. Realistisch: 30 Belege ≈ 4h, 60 ≈ 8h, 120 ≈ 15h/Mon.
             </div>

@@ -26,6 +26,7 @@ import { Link } from "react-router-dom";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import Stand2026Footer from "@/components/cockpit/Stand2026Footer";
 import { Input } from "@/components/ui/input";
+import { NumberField } from "@/components/ui/number-field";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import {
@@ -633,7 +634,7 @@ const StepBeginn = ({ data, update }: StepProps) => (
       </div>
       <div>
         <Label className="text-xs">Anzahl Mitarbeiter (ohne dich)</Label>
-        <Input type="number" value={data.mitarbeiterZahl} onChange={(e) => update("mitarbeiterZahl", Math.max(0, Number(e.target.value) || 0))} className="h-9 mt-1" />
+        <NumberField value={data.mitarbeiterZahl} onChange={(n) => update("mitarbeiterZahl", n)} min={0} className="h-9 mt-1" />
       </div>
     </div>
 
@@ -669,7 +670,7 @@ const StepBeginn = ({ data, update }: StepProps) => (
       </div>
       <div className="mt-3">
         <Label className="text-xs">Voraussichtlicher Jahres-Umsatz (€)</Label>
-        <Input type="number" value={data.voraussichtlicherUmsatz} onChange={(e) => update("voraussichtlicherUmsatz", Math.max(0, Number(e.target.value) || 0))} className="h-9 mt-1" />
+        <NumberField value={data.voraussichtlicherUmsatz} onChange={(n) => update("voraussichtlicherUmsatz", n)} min={0} className="h-9 mt-1" />
         {data.voraussichtlicherUmsatz > 25000 && data.kuStatus === "ja" && (
           <div className="text-[11px] text-amber-700 mt-1 flex items-center gap-1">
             <AlertCircle className="h-3 w-3" /> ⚠ Bei {">"} 25k € Umsatz funktioniert KU nicht. Wähle "Nein" oder reduziere Prognose.

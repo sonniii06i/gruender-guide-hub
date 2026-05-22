@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Input } from "@/components/ui/input";
+import { NumberField } from "@/components/ui/number-field";
 import { Label } from "@/components/ui/label";
 import { Calendar, Calculator, PiggyBank, Info, ShoppingCart, AlertTriangle } from "lucide-react";
 import { progressionESt, kstGewstRate, grenzSteuerSatz, SOLZ_RATE } from "@/lib/germanTax";
@@ -367,23 +368,23 @@ const SteuerCockpit = () => {
             <strong>Investitionsabzugsbetrag (§ 7g EStG):</strong> Du kannst bis zu 50 % einer geplanten Investition (binnen 3 Jahren) <em>vorab</em> als Betriebsausgabe ansetzen und damit deinen aktuellen Gewinn (und Steuerlast) reduzieren. Sinnvoll z.&nbsp;B. für geplante Geschäftsfahrzeuge, Maschinen, Lager-Equipment oder IT-Hardware.
           </p>
           <Label className="text-xs uppercase tracking-wider text-muted-foreground">Geplante Investition in 3 Jahren (€)</Label>
-          <Input type="number" value={iabBasis} onChange={(e) => setIabBasis(Number(e.target.value) || 0)} className="mt-2" />
+          <NumberField value={iabBasis} onChange={setIabBasis} min={0} className="mt-2" />
 
           <div className="grid grid-cols-2 gap-2 mt-3">
             {iabKapGes ? (
               <div>
                 <Label className="text-[10px] uppercase text-muted-foreground">Bilanzsumme (€)</Label>
-                <Input type="number" value={iabBilanzsumme} onChange={(e) => setIabBilanzsumme(Number(e.target.value) || 0)} className="h-8 text-sm" />
+                <NumberField value={iabBilanzsumme} onChange={setIabBilanzsumme} min={0} className="h-8 text-sm" />
               </div>
             ) : (
               <div>
                 <Label className="text-[10px] uppercase text-muted-foreground">Gewinn vor IAB (€/Jahr)</Label>
-                <Input type="number" value={iabGewinnVor} onChange={(e) => setIabGewinnVor(Number(e.target.value) || 0)} className="h-8 text-sm" />
+                <NumberField value={iabGewinnVor} onChange={setIabGewinnVor} min={0} className="h-8 text-sm" />
               </div>
             )}
             <div>
               <Label className="text-[10px] uppercase text-muted-foreground">GewSt-Hebesatz (%)</Label>
-              <Input type="number" value={hebesatz} onChange={(e) => setHebesatz(Math.max(200, Number(e.target.value) || 400))} className="h-8 text-sm" />
+              <NumberField value={hebesatz} onChange={setHebesatz} min={200} max={900} className="h-8 text-sm" />
             </div>
           </div>
 
@@ -437,13 +438,13 @@ const SteuerCockpit = () => {
               <Label className="text-xs uppercase tracking-wider text-muted-foreground">
                 Umsatz Q ({istKU ? "€" : eingabeBrutto ? "brutto" : "netto"})
               </Label>
-              <Input type="number" value={umsatz} onChange={(e) => setUmsatz(Number(e.target.value) || 0)} className="mt-2" />
+              <NumberField value={umsatz} onChange={setUmsatz} min={0} className="mt-2" />
             </div>
             <div>
               <Label className="text-xs uppercase tracking-wider text-muted-foreground">
                 Kosten Q ({istKU ? "€" : eingabeBrutto ? "brutto" : "netto"})
               </Label>
-              <Input type="number" value={kosten} onChange={(e) => setKosten(Number(e.target.value) || 0)} className="mt-2" />
+              <NumberField value={kosten} onChange={setKosten} min={0} className="mt-2" />
             </div>
           </div>
 

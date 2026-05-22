@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import Stand2026Footer from "@/components/cockpit/Stand2026Footer";
 import { Input } from "@/components/ui/input";
+import { NumberField } from "@/components/ui/number-field";
 import { Label } from "@/components/ui/label";
 import {
   Lightbulb,
@@ -114,7 +115,7 @@ const VersicherungsBasisCheck = () => {
           </div>
           <div>
             <Label className="text-xs">Voraussichtlicher Jahres-Umsatz (€)</Label>
-            <Input type="number" value={setup.jahresUmsatz} onChange={(e) => updateSetup("jahresUmsatz", Math.max(0, Number(e.target.value) || 0))} className="h-9 mt-1" />
+            <NumberField value={setup.jahresUmsatz} onChange={(n) => updateSetup("jahresUmsatz", n)} min={0} className="h-9 mt-1" />
           </div>
           <div className="space-y-1.5">
             <Label className="text-xs">Situation</Label>

@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Input } from "@/components/ui/input";
+import { NumberField } from "@/components/ui/number-field";
 import { Label } from "@/components/ui/label";
 import {
   Calculator,
@@ -1021,9 +1022,9 @@ const BwaGenerator = () => {
                       {p.skr03 && <span className="text-[10px] text-muted-foreground ml-1">(SKR03 {p.skr03})</span>}
                     </Label>
                     {vorperiodeAktiv && (
-                      <Input type="number" value={valuesVor[p.key] || ""} onChange={(e) => updateVor(p.key, Math.max(0, Number(e.target.value) || 0))} placeholder={`${zeitraumVor}`} className="text-right h-8 text-sm bg-secondary/30" />
+                      <NumberField emptyAsZero value={valuesVor[p.key] ?? 0} onChange={(n) => updateVor(p.key, n)} min={0} placeholder={`${zeitraumVor}`} className="text-right h-8 text-sm bg-secondary/30" />
                     )}
-                    <Input type="number" value={values[p.key] || ""} onChange={(e) => update(p.key, Math.max(0, Number(e.target.value) || 0))} placeholder={zeitraum} className="text-right h-8 text-sm" />
+                    <NumberField emptyAsZero value={values[p.key] ?? 0} onChange={(n) => update(p.key, n)} min={0} placeholder={zeitraum} className="text-right h-8 text-sm" />
                   </div>
                 ))}
               </div>
@@ -1179,7 +1180,7 @@ const BilanzInput = ({ label, val, onChange, hint }: { label: string; val: numbe
   <div>
     <Label className="text-xs font-semibold">{label}</Label>
     {hint && <div className="text-[10px] text-muted-foreground leading-tight mb-1">{hint}</div>}
-    <Input type="number" value={val || ""} onChange={(e) => onChange(Math.max(0, Number(e.target.value) || 0))} placeholder="0" className="h-9 text-sm text-right" />
+    <NumberField emptyAsZero value={val} onChange={onChange} min={0} placeholder="0" className="h-9 text-sm text-right" />
   </div>
 );
 
