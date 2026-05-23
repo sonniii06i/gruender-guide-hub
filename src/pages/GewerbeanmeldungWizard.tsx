@@ -79,6 +79,15 @@ type WizardData = {
   mitarbeiterZahl: number;
   kuStatus: KuStatus;
   voraussichtlicherUmsatz: number;
+  // Step 7: Behörden-Status (Erlaubnis / Handwerk / Aufenthalt) — alle optional
+  erlaubnisStatus: "" | "ja" | "nein";
+  erlaubnisDetails: string;
+  handwerkskarteStatus: "" | "ja" | "nein";
+  handwerkskarteDetails: string;
+  aufenthaltStatus: "" | "ja" | "nein";
+  aufenthaltDetails: string;
+  aufenthaltAuflagenStatus: "" | "ja" | "nein";
+  aufenthaltAuflagenDetails: string;
 };
 
 const heute = new Date().toISOString().split("T")[0];
@@ -122,6 +131,14 @@ const defaultData: WizardData = {
   mitarbeiterZahl: 0,
   kuStatus: "unsicher",
   voraussichtlicherUmsatz: 25000,
+  erlaubnisStatus: "",
+  erlaubnisDetails: "",
+  handwerkskarteStatus: "",
+  handwerkskarteDetails: "",
+  aufenthaltStatus: "",
+  aufenthaltDetails: "",
+  aufenthaltAuflagenStatus: "",
+  aufenthaltAuflagenDetails: "",
 };
 
 const STEP_LABELS = [
@@ -131,6 +148,7 @@ const STEP_LABELS = [
   "Tätigkeit",
   "Branche (WZ)",
   "Beginn + §19",
+  "Behörden-Status",
   "Zusammenfassung",
 ];
 
@@ -182,7 +200,8 @@ const GewerbeanmeldungWizard = () => {
     checks[3] = data.taetigkeit.trim().length >= 30; // Mindest-Qualität
     checks[4] = !!data.wzCode;
     checks[5] = !!(data.beginnDatum && data.kuStatus);
-    checks[6] = true;
+    checks[6] = true; // Behörden-Status: alle Felder optional
+    checks[7] = true;
     return checks;
   }, [data]);
 
@@ -296,6 +315,23 @@ const GewerbeanmeldungWizard = () => {
       // === Kap.-Ges. → Geschäftsführerzahl (wenn UG/GmbH/AG, min. 1) ===
       if (istKapGes) tryText("Zahl - Geschäftsführer bzw. gesetzliche Vertreter", "1");
 
+      // === Felder 28-31: Erlaubnis / Handwerk / Aufenthalt / Auflagen ===
+      tryCheck("ja - Erlaubnis liegt vor", data.erlaubnisStatus === "ja");
+      tryCheck("nein - Erlaubnis liegt nicht vor", data.erlaubnisStatus === "nein");
+      if (data.erlaubnisStatus === "ja") tryText("Erlaubnis - Ausstellungsdatum und Behörde", data.erlaubnisDetails);
+
+      tryCheck("ja - Handwerkskarte liegt vor", data.handwerkskarteStatus === "ja");
+      tryCheck("nein - keine Handwerkskarte", data.handwerkskarteStatus === "nein");
+      if (data.handwerkskarteStatus === "ja") tryText("Ausstellungsdatum und Handwerkskammer", data.handwerkskarteDetails);
+
+      tryCheck("ja - Aufenthaltsgenehmigung liegt vor", data.aufenthaltStatus === "ja");
+      tryCheck("nein - keine Aufenthaltsgenehmigung", data.aufenthaltStatus === "nein");
+      if (data.aufenthaltStatus === "ja") tryText("Ausstellungsdatum und Behörde", data.aufenthaltDetails);
+
+      tryCheck("ja - enthält Auflagen oder Beschränkungen", data.aufenthaltAuflagenStatus === "ja");
+      tryCheck("nein - keine Auflagen oder Beschränkungen", data.aufenthaltAuflagenStatus === "nein");
+      if (data.aufenthaltAuflagenStatus === "ja") tryText("Auflagen oder Beschränkungen", data.aufenthaltAuflagenDetails);
+
       // === Datum ===
       const today = new Date();
       const todayDe = `${String(today.getDate()).padStart(2, "0")}.${String(today.getMonth() + 1).padStart(2, "0")}.${today.getFullYear()}`;
@@ -380,7 +416,8 @@ const GewerbeanmeldungWizard = () => {
           {step === 3 && <StepTaetigkeit data={data} update={update} qualitaet={taetigkeitsQualitaet} />}
           {step === 4 && <StepBranche data={data} update={update} />}
           {step === 5 && <StepBeginn data={data} update={update} />}
-          {step === 6 && <StepZusammenfassung data={data} stepValid={stepValid} allValid={allValid} onGeneratePdf={generatePdf} />}
+          {step === 6 && <StepBehoerden data={data} update={update} />}
+          {step === 7 && <StepZusammenfassung data={data} stepValid={stepValid} allValid={allValid} onGeneratePdf={generatePdf} />}
         </div>
 
         {/* === Navigation === */}
@@ -747,6 +784,126 @@ const StepBeginn = ({ data, update }: StepProps) => (
   </div>
 );
 
+const StepBehoerden = ({ data, update }: StepProps) => {
+  const istDeutsch = data.staatsangehoerigkeit.trim().toLowerCase() === "deutsch";
+  return (
+    <div className="space-y-3">
+      <h3 className="font-bold text-sm">7. Erlaubnisse + Behörden-Status (Felder 28–31)</h3>
+      <p className="text-xs text-muted-foreground mb-3">
+        Alle Felder optional — nur ausfüllen falls zutreffend. Betrifft erlaubnispflichtige
+        Tätigkeiten (Gaststätte, Bewachung, Makler, Versicherungsvermittler etc.),
+        Handwerksbetriebe und Nicht-EU-Bürger.
+      </p>
+
+      {/* Feld 28: Erlaubnis */}
+      <ErlaubnisBlock
+        nr={28}
+        title="Liegt eine Erlaubnis vor?"
+        hint="Nur falls deine Tätigkeit erlaubnispflichtig ist (z.B. GastG, BewachV, Makler §34c GewO)."
+        status={data.erlaubnisStatus}
+        onStatus={(s) => update("erlaubnisStatus", s)}
+        details={data.erlaubnisDetails}
+        onDetails={(v) => update("erlaubnisDetails", v)}
+        detailsPlaceholder="Wenn ja: Ausstellungsdatum und erteilende Behörde"
+      />
+
+      {/* Feld 29: Handwerkskarte */}
+      <ErlaubnisBlock
+        nr={29}
+        title="(Nur für Handwerksbetriebe) Liegt eine Handwerkskarte vor?"
+        hint="Nur relevant für zulassungspflichtige Handwerksberufe (Anlage A HwO, z.B. Maurer, Elektriker, Friseur)."
+        status={data.handwerkskarteStatus}
+        onStatus={(s) => update("handwerkskarteStatus", s)}
+        details={data.handwerkskarteDetails}
+        onDetails={(v) => update("handwerkskarteDetails", v)}
+        detailsPlaceholder="Wenn ja: Ausstellungsdatum und Name der Handwerkskammer"
+      />
+
+      {/* Feld 30: Aufenthaltsgenehmigung — nur für Nicht-Deutsche */}
+      {!istDeutsch && data.staatsangehoerigkeit !== "" && (
+        <>
+          <ErlaubnisBlock
+            nr={30}
+            title="Liegt eine Aufenthaltsgenehmigung vor?"
+            hint="Pflichtfeld für Nicht-EU-Bürger. EU/EWR-Bürger: nicht erforderlich."
+            status={data.aufenthaltStatus}
+            onStatus={(s) => update("aufenthaltStatus", s)}
+            details={data.aufenthaltDetails}
+            onDetails={(v) => update("aufenthaltDetails", v)}
+            detailsPlaceholder="Wenn ja: Ausstellungsdatum und erteilende Behörde"
+          />
+
+          {/* Feld 31: Auflagen — nur wenn 30 = ja */}
+          {data.aufenthaltStatus === "ja" && (
+            <ErlaubnisBlock
+              nr={31}
+              title="Enthält die Aufenthaltsgenehmigung Auflagen oder Beschränkungen?"
+              hint="z.B. eingeschränkte Erwerbserlaubnis, Sperrfristen, regionale Beschränkungen."
+              status={data.aufenthaltAuflagenStatus}
+              onStatus={(s) => update("aufenthaltAuflagenStatus", s)}
+              details={data.aufenthaltAuflagenDetails}
+              onDetails={(v) => update("aufenthaltAuflagenDetails", v)}
+              detailsPlaceholder="Wenn ja: welche Auflagen / Beschränkungen"
+            />
+          )}
+        </>
+      )}
+
+      {istDeutsch && (
+        <div className="text-[11px] text-muted-foreground italic">
+          Felder 30 + 31 (Aufenthaltsgenehmigung) entfallen — als deutsche:r
+          Staatsangehörige:r nicht erforderlich.
+        </div>
+      )}
+    </div>
+  );
+};
+
+const ErlaubnisBlock = ({
+  nr, title, hint, status, onStatus, details, onDetails, detailsPlaceholder,
+}: {
+  nr: number;
+  title: string;
+  hint: string;
+  status: "" | "ja" | "nein";
+  onStatus: (s: "" | "ja" | "nein") => void;
+  details: string;
+  onDetails: (v: string) => void;
+  detailsPlaceholder: string;
+}) => (
+  <div className="rounded-lg border border-border bg-card p-3 space-y-2">
+    <div className="flex items-start gap-2">
+      <span className="text-[10px] font-mono text-muted-foreground pt-0.5">{nr}</span>
+      <div className="flex-1">
+        <div className="text-xs font-semibold">{title}</div>
+        <div className="text-[10px] text-muted-foreground mt-0.5">{hint}</div>
+      </div>
+    </div>
+    <div className="flex gap-2">
+      <label className="flex items-center gap-1.5 text-xs cursor-pointer">
+        <input type="radio" name={`erlaubnis-${nr}`} checked={status === "ja"} onChange={() => onStatus("ja")} className="h-4 w-4" />
+        <span>ja</span>
+      </label>
+      <label className="flex items-center gap-1.5 text-xs cursor-pointer">
+        <input type="radio" name={`erlaubnis-${nr}`} checked={status === "nein"} onChange={() => onStatus("nein")} className="h-4 w-4" />
+        <span>nein</span>
+      </label>
+      <label className="flex items-center gap-1.5 text-xs cursor-pointer text-muted-foreground">
+        <input type="radio" name={`erlaubnis-${nr}`} checked={status === ""} onChange={() => onStatus("")} className="h-4 w-4" />
+        <span>nicht angegeben</span>
+      </label>
+    </div>
+    {status === "ja" && (
+      <Input
+        value={details}
+        onChange={(e) => onDetails(e.target.value)}
+        placeholder={detailsPlaceholder}
+        className="h-9 text-xs"
+      />
+    )}
+  </div>
+);
+
 const StepZusammenfassung = ({ data, stepValid, allValid, onGeneratePdf }: { data: WizardData; stepValid: boolean[]; allValid: boolean; onGeneratePdf: () => void }) => {
   const wzEntry = WZ_2008.find((w) => w.code === data.wzCode);
 
@@ -797,9 +954,32 @@ const StepZusammenfassung = ({ data, stepValid, allValid, onGeneratePdf }: { dat
           <FileDown className="h-4 w-4 mr-2" /> Offizielles GewA1-PDF herunterladen
         </Button>
       </div>
+
+      <div className="rounded-lg bg-amber-500/10 border-2 border-amber-500/50 p-3 text-xs space-y-2">
+        <div className="flex items-start gap-2">
+          <AlertCircle className="h-4 w-4 text-amber-700 shrink-0 mt-0.5" />
+          <div className="flex-1">
+            <strong className="text-amber-800">Wichtig — was du nach dem Download machen musst:</strong>
+            <ol className="mt-1.5 space-y-1 list-decimal list-inside text-foreground/90">
+              <li>PDF im Reader öffnen, alle Werte gegenprüfen (Felder bleiben editierbar).</li>
+              <li><strong>Ausdrucken</strong> auf Papier.</li>
+              <li><strong>Eigenhändig unterschreiben</strong> (Feld „Unterschrift" am Ende der Seite 2). Ohne Unterschrift ungültig.</li>
+              <li><strong>Beim Gewerbeamt einreichen</strong> — persönlich im Bürgeramt/Ordnungsamt deiner Stadt ODER postalisch.
+                Gebühr: 20–65 € (je nach Stadt). Ausweis mitbringen.</li>
+              <li>Manche Städte bieten auch Online-Einreichung an (verwaltung.bund.de / Servicekonto deines Landes).</li>
+            </ol>
+            <div className="text-[11px] text-muted-foreground mt-2 italic">
+              Hinweis: Das GewA1 geht ans <strong>Gewerbeamt</strong>, NICHT ans Amtsgericht.
+              Amtsgericht ist nur für den Handelsregister-Eintrag bei UG/GmbH/AG (separater Vorgang
+              beim Notar). Bei Einzelunternehmen / GbR ist KEIN Amtsgericht beteiligt.
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div className="text-[11px] text-muted-foreground">
         Erzeugt das amtliche Mustervordruck-PDF (Anlage 1 zur GewAnzV) mit deinen Daten gefüllt.
-        Felder bleiben editierbar — Anpassungen direkt im Reader möglich, danach ausdrucken & unterschreiben.
+        Felder bleiben editierbar — Anpassungen direkt im Reader möglich.
       </div>
 
       <div className="rounded-lg bg-blue-500/10 border border-blue-500/40 p-3 text-xs">

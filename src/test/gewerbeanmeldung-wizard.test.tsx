@@ -35,14 +35,14 @@ describe("GewerbeanmeldungWizard — Render + Layout", () => {
 
   it("startet auf Step 1 (Person)", () => {
     renderWithRouter(<GewerbeanmeldungWizard />);
-    expect(document.body.innerHTML).toMatch(/Schritt 1 von 7/);
+    expect(document.body.innerHTML).toMatch(/Schritt 1 von 8/);
     expect(document.body.innerHTML).toMatch(/Persönliche Daten/);
   });
 
   it("zeigt Progress-Bar mit 7 Steps", () => {
     renderWithRouter(<GewerbeanmeldungWizard />);
     const html = document.body.innerHTML;
-    expect(html).toMatch(/Schritt 1 von 7/);
+    expect(html).toMatch(/Schritt 1 von 8/);
   });
 
   it("zeigt BeginnerHero mit Tätigkeits-Hinweis + GewerbeCheck-Link", () => {
@@ -68,24 +68,24 @@ describe("GewerbeanmeldungWizard — Navigation", () => {
     renderWithRouter(<GewerbeanmeldungWizard />);
     const weiter = screen.getByText(/Weiter/);
     fireEvent.click(weiter);
-    expect(document.body.innerHTML).toMatch(/Schritt 2 von 7/);
+    expect(document.body.innerHTML).toMatch(/Schritt 2 von 8/);
   });
 
   it("Progress-Dots sind klickbar (direkt zu Step)", () => {
     renderWithRouter(<GewerbeanmeldungWizard />);
     const dots = document.querySelectorAll("button[title^='Step']");
-    expect(dots.length).toBe(7);
+    expect(dots.length).toBe(8);
     fireEvent.click(dots[3] as HTMLElement);
-    expect(document.body.innerHTML).toMatch(/Schritt 4 von 7/);
+    expect(document.body.innerHTML).toMatch(/Schritt 4 von 8/);
   });
 
   it("Zurück-Button funktioniert", () => {
     renderWithRouter(<GewerbeanmeldungWizard />);
     fireEvent.click(screen.getByText(/Weiter/));
     fireEvent.click(screen.getByText(/Weiter/));
-    expect(document.body.innerHTML).toMatch(/Schritt 3 von 7/);
+    expect(document.body.innerHTML).toMatch(/Schritt 3 von 8/);
     fireEvent.click(screen.getByText(/Zurück/));
-    expect(document.body.innerHTML).toMatch(/Schritt 2 von 7/);
+    expect(document.body.innerHTML).toMatch(/Schritt 2 von 8/);
   });
 });
 
@@ -167,13 +167,34 @@ describe("GewerbeanmeldungWizard — Steps", () => {
 });
 
 describe("GewerbeanmeldungWizard — PDF + Speichern", () => {
-  it("PDF-Button auf Step 7 ist disabled bei unvollständigen Steps", () => {
+  it("PDF-Button auf Step 8 (Zusammenfassung) ist disabled bei unvollständigen Steps", () => {
     renderWithRouter(<GewerbeanmeldungWizard />);
     const dots = document.querySelectorAll("button[title^='Step']");
-    fireEvent.click(dots[6] as HTMLElement);
+    fireEvent.click(dots[7] as HTMLElement);
     // Alle Steps leer → Button disabled
     const pdfBtn = screen.getByText(/Offizielles GewA1-PDF herunterladen/).closest("button");
     expect(pdfBtn?.disabled).toBe(true);
+  });
+
+  it("Step 8 zeigt Disclaimer (Drucken, Unterschreiben, Gewerbeamt)", () => {
+    renderWithRouter(<GewerbeanmeldungWizard />);
+    const dots = document.querySelectorAll("button[title^='Step']");
+    fireEvent.click(dots[7] as HTMLElement);
+    const html = document.body.innerHTML;
+    expect(html).toMatch(/Ausdrucken/i);
+    expect(html).toMatch(/[Uu]nterschreiben/);
+    expect(html).toMatch(/Gewerbeamt/);
+    expect(html).toMatch(/NICHT.*Amtsgericht|Amtsgericht.*nur/i);
+  });
+
+  it("Step 7 (Behörden-Status) zeigt Felder 28-31", () => {
+    renderWithRouter(<GewerbeanmeldungWizard />);
+    const dots = document.querySelectorAll("button[title^='Step']");
+    fireEvent.click(dots[6] as HTMLElement);
+    const html = document.body.innerHTML;
+    expect(html).toMatch(/28.*Erlaubnis/);
+    expect(html).toMatch(/29.*Handwerks/);
+    // 30/31 nur bei nicht-deutscher Staatsangehörigkeit
   });
 
   it("Step 1 zeigt Autosave-Hinweis für persönliche Daten", () => {
@@ -195,7 +216,7 @@ describe("GewerbeanmeldungWizard — PDF + Speichern", () => {
   it("Zusammenfassung listet fehlende Steps", () => {
     renderWithRouter(<GewerbeanmeldungWizard />);
     const dots = document.querySelectorAll("button[title^='Step']");
-    fireEvent.click(dots[6] as HTMLElement);
+    fireEvent.click(dots[7] as HTMLElement);
     expect(document.body.innerHTML).toMatch(/Es fehlen noch Eingaben/);
   });
 
