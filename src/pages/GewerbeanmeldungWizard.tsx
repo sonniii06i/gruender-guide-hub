@@ -131,9 +131,15 @@ const defaultData: WizardData = {
   mitarbeiterZahl: 0,
   kuStatus: "unsicher",
   voraussichtlicherUmsatz: 25000,
-  erlaubnisStatus: "",
+  // Sensible Defaults für Felder 28-31:
+  // - 28 Erlaubnis nein → ~90 % der Tätigkeiten erlaubnisfrei
+  // - 29 Handwerkskarte nein → ~95 % der Gründungen kein zulassungspfl. Handwerk
+  // - 30 Aufenthaltsgenehmigung leer → User soll bewusst entscheiden (default
+  //   wird auf "nein" gesetzt sobald Staatsangehörigkeit deutsch ist, siehe UI)
+  // - 31 Auflagen leer → nur relevant wenn 30 = ja
+  erlaubnisStatus: "nein",
   erlaubnisDetails: "",
-  handwerkskarteStatus: "",
+  handwerkskarteStatus: "nein",
   handwerkskarteDetails: "",
   aufenthaltStatus: "",
   aufenthaltDetails: "",
@@ -324,13 +330,19 @@ const GewerbeanmeldungWizard = () => {
       tryCheck("nein - keine Handwerkskarte", data.handwerkskarteStatus === "nein");
       if (data.handwerkskarteStatus === "ja") tryText("Ausstellungsdatum und Handwerkskammer", data.handwerkskarteDetails);
 
-      tryCheck("ja - Aufenthaltsgenehmigung liegt vor", data.aufenthaltStatus === "ja");
-      tryCheck("nein - keine Aufenthaltsgenehmigung", data.aufenthaltStatus === "nein");
-      if (data.aufenthaltStatus === "ja") tryText("Ausstellungsdatum und Behörde", data.aufenthaltDetails);
+      // Bei Deutschen ist Feld 30 automatisch "nein" — sie brauchen
+      // keine Aufenthaltsgenehmigung. Sonst nimm den User-Wert.
+      const aufenthaltEffectiv = istDeutsch ? "nein" : data.aufenthaltStatus;
+      tryCheck("ja - Aufenthaltsgenehmigung liegt vor", aufenthaltEffectiv === "ja");
+      tryCheck("nein - keine Aufenthaltsgenehmigung", aufenthaltEffectiv === "nein");
+      if (aufenthaltEffectiv === "ja") tryText("Ausstellungsdatum und Behörde", data.aufenthaltDetails);
 
-      tryCheck("ja - enthält Auflagen oder Beschränkungen", data.aufenthaltAuflagenStatus === "ja");
-      tryCheck("nein - keine Auflagen oder Beschränkungen", data.aufenthaltAuflagenStatus === "nein");
-      if (data.aufenthaltAuflagenStatus === "ja") tryText("Auflagen oder Beschränkungen", data.aufenthaltAuflagenDetails);
+      // Feld 31 nur relevant wenn 30 = ja. Bei "nein" (egal ob explizit oder
+      // auto-deutsch) auch Feld 31 auf "nein" setzen damit Reader nicht leer.
+      const auflagenEffectiv = aufenthaltEffectiv === "ja" ? data.aufenthaltAuflagenStatus : "nein";
+      tryCheck("ja - enthält Auflagen oder Beschränkungen", auflagenEffectiv === "ja");
+      tryCheck("nein - keine Auflagen oder Beschränkungen", auflagenEffectiv === "nein");
+      if (auflagenEffectiv === "ja") tryText("Auflagen oder Beschränkungen", data.aufenthaltAuflagenDetails);
 
       // === Datum ===
       const today = new Date();
