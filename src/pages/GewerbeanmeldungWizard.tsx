@@ -220,9 +220,16 @@ const GewerbeanmeldungWizard = () => {
         [str, [plz, ort].filter(Boolean).join(" ")].filter(Boolean).join(", ");
 
       // Robuste Helper — fehlende oder typ-falsche Felder werfen sonst.
+      // setFontSize(10) verhindert dass updateFieldAppearances() die Werte mit
+      // Default-Riesengröße rendert (Original-PDF hatte Auto-Size = 0 was
+      // pdf-lib nicht zuverlässig auflöst).
       const tryText = (name: string, value: string) => {
         if (!value) return;
-        try { form.getTextField(name).setText(value); } catch { /* missing */ }
+        try {
+          const tf = form.getTextField(name);
+          tf.setText(value);
+          tf.setFontSize(10);
+        } catch { /* missing or wrong type */ }
       };
       const tryCheck = (name: string, checked: boolean) => {
         try {
@@ -231,18 +238,18 @@ const GewerbeanmeldungWizard = () => {
         } catch { /* missing */ }
       };
 
-      const rechtsformLabel: Record<Rechtsform, string> = {
-        einzel: "Einzelunternehmen", gbr: "GbR", ohg: "OHG", kg: "KG",
-        ug: "UG (haftungsbeschränkt)", gmbh: "GmbH", ag: "AG", eg: "eG", andere: "",
-      };
       const istKapGes = ["ug", "gmbh", "ag"].includes(data.rechtsform);
-      const istEinzel = data.rechtsform === "einzel";
+      const istEingetragen = istKapGes || ["eg", "ohg", "kg"].includes(data.rechtsform);
       const istDeutsch = data.staatsangehoerigkeit.trim().toLowerCase() === "deutsch";
 
-      // === Felder 1-5: Firma / Rechtsform (nur bei Kap.-Ges./PersGes mit Eintrag) ===
-      const firmaLabel = data.firmierung
-        || (istEinzel ? `${data.vorname} ${data.nachname}`.trim() : rechtsformLabel[data.rechtsform]);
-      tryText("Name mit Rechtsform", firmaLabel);
+      // === Feld 1: "Im Handels-/Genossenschafts-/Vereinsregister eingetragener Name" ===
+      // NUR ausfüllen wenn tatsächlich eingetragen (Kap.-Ges., OHG/KG, eG) UND
+      // der User eine Firmierung angegeben hat. Einzelunternehmer haben keinen
+      // Registereintrag — Feld bleibt leer, damit nicht der Privatname versehentlich
+      // als "Firmenname" landet.
+      if (istEingetragen && data.firmierung) {
+        tryText("Name mit Rechtsform", data.firmierung);
+      }
 
       // === Felder Person ===
       tryText("Name", data.nachname);
