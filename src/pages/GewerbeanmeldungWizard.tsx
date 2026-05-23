@@ -242,60 +242,63 @@ const GewerbeanmeldungWizard = () => {
       // === Felder 1-5: Firma / Rechtsform (nur bei Kap.-Ges./PersGes mit Eintrag) ===
       const firmaLabel = data.firmierung
         || (istEinzel ? `${data.vorname} ${data.nachname}`.trim() : rechtsformLabel[data.rechtsform]);
-      tryText("u:Name mit Rechtsform", firmaLabel);
+      tryText("Name mit Rechtsform", firmaLabel);
 
       // === Felder Person ===
-      tryText("u:Name", data.nachname);
-      tryText("u:Vorname(n)", data.vorname);
-      tryText("u:Geburtsname", data.geburtsname);
-      tryText("u:Geburtsdatum", fmtDate(data.geburtsdatum));
-      tryText("u:Geburtsort und -land", data.geburtsort);
-      tryText("u:Staatsangehörigkeit(en)", data.staatsangehoerigkeit);
-      tryCheck("u:männlich", data.geschlecht === "maennlich");
-      tryCheck("u:weiblich", data.geschlecht === "weiblich");
-      tryCheck("u:deutsch", istDeutsch);
-      tryCheck("u:andere", !istDeutsch && data.staatsangehoerigkeit !== "");
+      tryText("Name", data.nachname);
+      tryText("Vorname(n)", data.vorname);
+      tryText("Geburtsname", data.geburtsname);
+      tryText("Geburtsdatum", fmtDate(data.geburtsdatum));
+      tryText("Geburtsort und -land", data.geburtsort);
+      tryText("Staatsangehörigkeit(en)", data.staatsangehoerigkeit);
+      tryCheck("männlich", data.geschlecht === "maennlich");
+      tryCheck("weiblich", data.geschlecht === "weiblich");
+      tryCheck("deutsch", istDeutsch);
+      tryCheck("andere", !istDeutsch && data.staatsangehoerigkeit !== "");
 
       // === Anschrift privat ===
-      tryText("u:Anschrift", anschrift(data.privatStrasse, data.privatPlz, data.privatOrt));
-      tryText("u:Telefon", data.telefon);
-      tryText("u:E-Mail", data.email);
+      tryText("Anschrift", anschrift(data.privatStrasse, data.privatPlz, data.privatOrt));
+      tryText("Telefon", data.telefon);
+      tryText("E-Mail", data.email);
 
       // === Anschrift Betriebsstätte ===
       const betriebAdr = data.betriebsstaetteAndere
         ? anschrift(data.betriebStrasse, data.betriebPlz, data.betriebOrt)
         : anschrift(data.privatStrasse, data.privatPlz, data.privatOrt);
-      tryText("u:Anschrift Betriebsstätte", betriebAdr);
-      tryText("u:Telefon - geschäftlich", data.telefon);
-      tryText("u:E-Mail - geschäftlich", data.email);
+      tryText("Anschrift Betriebsstätte", betriebAdr);
+      tryText("Telefon - geschäftlich", data.telefon);
+      tryText("E-Mail - geschäftlich", data.email);
 
       // === Tätigkeit ===
-      tryText("u:Angemeldete Tätigkeit", data.taetigkeit);
-      tryText("u:Beginn der Tätigkeit", fmtDate(data.beginnDatum));
+      tryText("Angemeldete Tätigkeit", data.taetigkeit);
+      tryText("Beginn der Tätigkeit", fmtDate(data.beginnDatum));
 
       // === Mitarbeiter ===
-      tryCheck("u:keine Personen", data.mitarbeiterZahl === 0);
+      tryCheck("keine Personen", data.mitarbeiterZahl === 0);
       if (data.mitarbeiterZahl > 0) {
-        tryText("u:Personenzahl Vollzeit", String(data.mitarbeiterZahl));
+        tryText("Personenzahl Vollzeit", String(data.mitarbeiterZahl));
       }
 
       // === Anmeldegrund ===
-      tryCheck("u:ja - Neugründung", data.anmeldegrund === "neugruendung");
-      tryCheck("u:ja - Verlegung", data.anmeldegrund === "umzug");
-      tryCheck("u:ja - Hauptniederlassung",
+      tryCheck("ja - Neugründung", data.anmeldegrund === "neugruendung");
+      tryCheck("ja - Verlegung", data.anmeldegrund === "umzug");
+      tryCheck("ja - Hauptniederlassung",
         data.anmeldegrund !== "filiale" && !data.betriebsstaetteAndere);
-      tryCheck("u:ja - Zweigniederlassung", data.anmeldegrund === "filiale");
+      tryCheck("ja - Zweigniederlassung", data.anmeldegrund === "filiale");
 
       // === Kap.-Ges. → Geschäftsführerzahl (wenn UG/GmbH/AG, min. 1) ===
-      if (istKapGes) tryText("u:Zahl - Geschäftsführer bzw", "1");
+      if (istKapGes) tryText("Zahl - Geschäftsführer bzw. gesetzliche Vertreter", "1");
 
       // === Datum ===
       const today = new Date();
       const todayDe = `${String(today.getDate()).padStart(2, "0")}.${String(today.getMonth() + 1).padStart(2, "0")}.${today.getFullYear()}`;
-      tryText("u:heutiges Datum", todayDe);
+      tryText("heutiges Datum", todayDe);
 
-      // PDF mit gefüllten Feldern speichern (Felder bleiben editierbar im Reader)
-      const filled = await pdfDoc.save();
+      // Appearance-Streams für gefüllte Felder erzeugen — sonst zeigen
+      // manche Reader (Preview/Firefox) leere Felder trotz korrekt
+      // gesetzter Werte. updateFieldAppearances() walks alle Felder.
+      form.updateFieldAppearances();
+      const filled = await pdfDoc.save({ updateFieldAppearances: false });
       const blob = new Blob([filled], { type: "application/pdf" });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
