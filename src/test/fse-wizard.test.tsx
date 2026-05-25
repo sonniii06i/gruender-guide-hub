@@ -1,27 +1,10 @@
 /**
- * Smoke-Tests für FseWizard.
+ * Tests für FseWizard (Erklär-Begleiter, kein Input-Tool).
  */
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, beforeEach } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import React from "react";
-
-// jsPDF mocken (browser-API)
-const mockSave = vi.fn();
-vi.mock("jspdf", () => ({
-  default: vi.fn().mockImplementation(() => ({
-    save: mockSave,
-    text: vi.fn(),
-    setFontSize: vi.fn(),
-    setTextColor: vi.fn(),
-    setFont: vi.fn(),
-    setLineWidth: vi.fn(),
-    setDrawColor: vi.fn(),
-    line: vi.fn(),
-    splitTextToSize: vi.fn().mockReturnValue(["mock"]),
-    addPage: vi.fn(),
-  })),
-}));
 
 import FseWizard from "@/pages/FseWizard";
 
@@ -29,77 +12,101 @@ const renderWithRouter = (ui: React.ReactElement) =>
   render(<MemoryRouter>{ui}</MemoryRouter>);
 
 beforeEach(() => {
-  mockSave.mockClear();
   localStorage.clear();
 });
 
-describe("FseWizard — Render + Pre-Fill", () => {
+describe("FseWizard — Render + Struktur", () => {
   it("rendert ohne Crash", () => {
     renderWithRouter(<FseWizard />);
     expect(screen.getAllByText(/Fragebogen zur steuerlichen Erfassung/).length).toBeGreaterThan(0);
   });
 
-  it("zeigt Hero mit § 19 KU 5-Jahres-Warnung", () => {
+  it("zeigt Hero mit 5-Jahres-KU-Warnung + 1-Monats-Frist", () => {
     renderWithRouter(<FseWizard />);
-    expect(document.body.innerHTML).toMatch(/5 Jahre Bindung/);
+    const html = document.body.innerHTML;
+    expect(html).toMatch(/5 Jahre Bindung/);
+    expect(html).toMatch(/1 Monat ab Start|1 Monat ab Tätigkeit/);
   });
 
-  it("hat 8 Steps + Progress-Dots", () => {
+  it("hat alle 10 Sektionen (A bis J)", () => {
     renderWithRouter(<FseWizard />);
-    const dots = document.querySelectorAll("button[title^='Step']");
-    expect(dots.length).toBe(8);
+    const html = document.body.innerHTML;
+    expect(html).toMatch(/Allgemeine Angaben/);
+    expect(html).toMatch(/Anschrift des Unternehmens/);
+    expect(html).toMatch(/Bankverbindung/);
+    expect(html).toMatch(/Steuerliche Beratung/);
+    expect(html).toMatch(/gewerblichen \/ freiberuflichen Tätigkeit/);
+    expect(html).toMatch(/Festsetzung der Vorauszahlungen/);
+    expect(html).toMatch(/Gewinnermittlung/);
+    expect(html).toMatch(/Lohnsteuer/);
+    expect(html).toMatch(/Umsatzsteuer.*wichtigsten/);
+    expect(html).toMatch(/Besondere Sachverhalte/);
   });
 
-  it("Personal-Profil aus LS wird pre-gefüllt", () => {
-    localStorage.setItem("ggh-person-profile-v1", JSON.stringify({
-      vorname: "Anna", nachname: "Test", privatStrasse: "Teststr. 1", privatPlz: "20095", privatOrt: "HH",
-    }));
+  it("zeigt nummerierte Felder (mind. Feld 1, 18, 28, 35)", () => {
     renderWithRouter(<FseWizard />);
-    expect(screen.getByDisplayValue("Anna")).toBeTruthy();
-    expect(screen.getByDisplayValue("Test")).toBeTruthy();
+    const html = document.body.innerHTML;
+    expect(html).toMatch(/Steuernummer/);
+    expect(html).toMatch(/Steueridentifikationsnummer/);
+    expect(html).toMatch(/Kleinunternehmer-Regelung.*19/);
+    expect(html).toMatch(/USt-Identifikationsnummer/);
   });
 
-  it("GewA1-Daten (Tätigkeit, Umsatz, KU-Status) werden übernommen", () => {
-    localStorage.setItem("ggh-gewa1-v1", JSON.stringify({
-      taetigkeit: "Online-Handel mit Schmuck",
-      voraussichtlicherUmsatz: 30000,
-      kuStatus: "nein",
-      rechtsform: "einzel",
-    }));
+  it("verlinkt zu beiden ELSTER-FsE-Formularen (natürlich + juristisch)", () => {
     renderWithRouter(<FseWizard />);
-    const dots = document.querySelectorAll("button[title^='Step']");
-    // Step 3 (Tätigkeit, idx 2) öffnen
-    fireEvent.click(dots[2] as HTMLElement);
-    expect(screen.getByDisplayValue(/Online-Handel mit Schmuck/)).toBeTruthy();
+    const html = document.body.innerHTML;
+    expect(html).toMatch(/fsegewnatp/);
+    expect(html).toMatch(/fsegewjur/);
   });
 });
 
-describe("FseWizard — KU-Empfehlung", () => {
-  it("Bei Umsatz < 25k Empfehlung KU", () => {
+describe("FseWizard — Empfehlungs-Widgets", () => {
+  it("hat 4 Empfehlungs-Karten als klickbare Buttons", () => {
     renderWithRouter(<FseWizard />);
-    const dots = document.querySelectorAll("button[title^='Step']");
-    fireEvent.click(dots[5] as HTMLElement); // Step 6 USt
-    const html = document.body.innerHTML;
-    // Default umsatzJahr1 = 0 → Empfehlung KU
-    expect(html).toMatch(/Empfehlung für dich/);
+    const widgetButtons = screen.getAllByRole("button").filter((b) =>
+      b.textContent?.includes("Empfehlung anzeigen"),
+    );
+    expect(widgetButtons.length).toBe(4);
+  });
+
+  it("Empfehlungs-Widget öffnet sich beim Klick + zeigt Fragen", () => {
+    renderWithRouter(<FseWizard />);
+    const widgetButtons = screen.getAllByRole("button").filter((b) =>
+      b.textContent?.includes("Empfehlung anzeigen"),
+    );
+    fireEvent.click(widgetButtons[0]);
+    expect(document.body.innerHTML).toMatch(/Rechtsform\?|Umsatz\?/);
+  });
+
+  it("KU-Widget: bei Umsatz >25k zeigt 'REGELBESTEUERUNG zwingend'", () => {
+    renderWithRouter(<FseWizard />);
+    const widgetButtons = screen.getAllByRole("button").filter((b) =>
+      b.textContent?.includes("Empfehlung anzeigen"),
+    );
+    // KU-Widget ist 2. Empfehlungs-Widget (nach EÜR/Bilanz)
+    fireEvent.click(widgetButtons[1]);
+    fireEvent.click(screen.getByText("über 25.000 €"));
+    fireEvent.click(screen.getByText("Hauptsächlich Privatkunden (B2C)"));
+    fireEvent.click(screen.getByText("Nein"));
+    expect(document.body.innerHTML).toMatch(/REGELBESTEUERUNG zwingend/);
   });
 });
 
-describe("FseWizard — Spickzettel-PDF", () => {
-  it("Spickzettel-Button auf Step 8 disabled wenn Pflichten fehlen", () => {
+describe("FseWizard — Cross-Links + Final-Check", () => {
+  it("verlinkt zu GewerbeanmeldungWizard, SchwellenCheck, Roadmap, StB", () => {
     renderWithRouter(<FseWizard />);
-    const dots = document.querySelectorAll("button[title^='Step']");
-    fireEvent.click(dots[7] as HTMLElement);
-    const btn = screen.getByText(/Spickzettel-PDF herunterladen/).closest("button");
-    expect(btn?.disabled).toBe(true);
+    const html = document.body.innerHTML;
+    expect(html).toMatch(/\/cockpit\/gewerbeanmeldung-wizard/);
+    expect(html).toMatch(/\/cockpit\/schwellen-check/);
+    expect(html).toMatch(/\/cockpit\/erste-schritte-roadmap/);
+    expect(html).toMatch(/\/cockpit\/stb-cost-benefit/);
   });
 
-  it("Step 8 zeigt ELSTER-Workflow-Disclaimer (Drucken, Frist)", () => {
+  it("zeigt Vor-Absenden-Checkliste mit Steuer-ID + KU + Lastschrift", () => {
     renderWithRouter(<FseWizard />);
-    const dots = document.querySelectorAll("button[title^='Step']");
-    fireEvent.click(dots[7] as HTMLElement);
     const html = document.body.innerHTML;
-    expect(html).toMatch(/[Aa]usdrucken|2\. Monitor/);
-    expect(html).toMatch(/1 Monat.*Tätigkeitsaufnahme|138 AO/);
+    expect(html).toMatch(/Steuer-ID.*dreimal|11 Stellen/);
+    expect(html).toMatch(/19 KU/);
+    expect(html).toMatch(/Lastschriftmandat/);
   });
 });
