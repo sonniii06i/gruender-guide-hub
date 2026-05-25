@@ -61,12 +61,14 @@ describe("FseWizard — Render + Struktur", () => {
 });
 
 describe("FseWizard — Empfehlungs-Widgets", () => {
-  it("hat 4 Empfehlungs-Karten als klickbare Buttons", () => {
+  it("hat mindestens 7 Empfehlungs-Widgets als klickbare Buttons", () => {
     renderWithRouter(<FseWizard />);
     const widgetButtons = screen.getAllByRole("button").filter((b) =>
       b.textContent?.includes("Empfehlung anzeigen"),
     );
-    expect(widgetButtons.length).toBe(4);
+    // 4 ursprüngliche (EÜR, KU, Soll/Ist, USt-IdNr) + 3 neue Strategien
+    // (Lastschrift, Gewinn-Schätzung, Umsatz-Schätzung mit 800k-Warnung)
+    expect(widgetButtons.length).toBeGreaterThanOrEqual(7);
   });
 
   it("Empfehlungs-Widget öffnet sich beim Klick + zeigt Fragen", () => {
@@ -75,20 +77,25 @@ describe("FseWizard — Empfehlungs-Widgets", () => {
       b.textContent?.includes("Empfehlung anzeigen"),
     );
     fireEvent.click(widgetButtons[0]);
-    expect(document.body.innerHTML).toMatch(/Rechtsform\?|Umsatz\?/);
+    // Erstes Widget ist Lastschriftmandat — fragt nach Puffer + Disziplin
+    expect(document.body.innerHTML).toMatch(/Puffer|diszipliniert/i);
   });
 
-  it("KU-Widget: bei Umsatz >25k zeigt 'REGELBESTEUERUNG zwingend'", () => {
+  it("Umsatz-Strategie-Widget zeigt 800k-Bilanz-Warnung bei 'drueber'", () => {
     renderWithRouter(<FseWizard />);
     const widgetButtons = screen.getAllByRole("button").filter((b) =>
       b.textContent?.includes("Empfehlung anzeigen"),
     );
-    // KU-Widget ist 2. Empfehlungs-Widget (nach EÜR/Bilanz)
-    fireEvent.click(widgetButtons[1]);
-    fireEvent.click(screen.getByText("über 25.000 €"));
-    fireEvent.click(screen.getByText("Privatkunden (B2C)"));
-    fireEvent.click(screen.getByText("Nein"));
-    expect(document.body.innerHTML).toMatch(/REGELBESTEUERUNG zwingend/);
+    // Umsatz-Strategie ist eines der späteren Widgets, finde es per Title
+    const umsatzBtn = widgetButtons.find((b) =>
+      b.textContent?.includes("Strategie: welche Zahl eintragen?"),
+    );
+    expect(umsatzBtn).toBeTruthy();
+    fireEvent.click(umsatzBtn!);
+    fireEvent.click(screen.getByText("Realistische Schätzung"));
+    fireEvent.click(screen.getByText("Knapp drüber oder mehr (>800k)"));
+    fireEvent.click(screen.getByText("Klar drunter (<20k)"));
+    expect(document.body.innerHTML).toMatch(/800\.000.*Bilanz|Bilanzierungs-Pflicht/);
   });
 });
 

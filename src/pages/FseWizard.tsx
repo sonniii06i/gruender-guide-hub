@@ -74,11 +74,29 @@ const FseWizard = () => {
           Dein <strong>Hauptberuf</strong> (auch wenn parallel angestellt). Z.B. „Web-Entwickler", „Grafikdesignerin", „Online-Händlerin".
         </Field>
         <Field nr={11} label="Identifikationsnummer (IdNr)">
-          <strong>11-stellig</strong> vom BZSt. Steht auf deinem letzten ESt-Bescheid oder dem Schreiben das du nach Geburt/Zuwanderung bekommen hast.
-          <ToolNote>Verloren? Online beim BZSt neu anfordern (~6 Wochen Postlaufzeit).</ToolNote>
+          <strong>11-stellig</strong>, lebenslang — vom Bundeszentralamt für Steuern (BZSt). <strong>NICHT</strong> verwechseln mit Steuernummer (10-13 stellig, wohnsitz-abhängig).
+          <br /><br />
+          <strong>Wo finde ich meine IdNr?</strong>
+          <ul className="list-disc list-inside ml-2 mt-1 space-y-0.5">
+            <li>Schreiben vom BZSt nach Geburt / Zuwanderung</li>
+            <li>Letzte Lohnsteuerbescheinigung (Feld „IdNr.")</li>
+            <li>Letzter ESt-Bescheid</li>
+            <li>Im ELSTER-Profil unter „Mein Profil"</li>
+          </ul>
+          <ToolNote>
+            Verloren? Online beim BZSt neu anfordern unter <a href="https://www.bzst.de/DE/Privatpersonen/SteuerlicheIdentifikationsnummer/IdNrIst-Mitteilung/idnrist-mitteilung_node.html" target="_blank" rel="noreferrer" className="underline text-accent-blue">bzst.de</a> (kostenlos, ~6 Wochen Postlaufzeit). <strong>Ohne IdNr keine FsE-Abgabe möglich</strong> → vorher klären.
+          </ToolNote>
         </Field>
         <Field nr={12} label="Religion">
-          Für KiSt-Berechnung: rk (römisch-katholisch), ev (evangelisch), oder keine/ausgetreten = 0% KiSt.
+          Entscheidet über <strong>Kirchensteuer (KiSt)</strong> als Zuschlag auf die ESt:
+          <ul className="list-disc list-inside ml-2 mt-1 space-y-0.5">
+            <li><strong>rk</strong> (römisch-katholisch): 8 % in Bayern + BW, 9 % im Rest</li>
+            <li><strong>ev</strong> (evangelisch): gleicher Satz wie rk</li>
+            <li><strong>ak</strong> (alt-katholisch), <strong>fr</strong> (französ.-reformiert): selten</li>
+            <li><strong>keine / ausgetreten / andere</strong>: 0 % KiSt</li>
+          </ul>
+          <strong>Beispiel-Effekt:</strong> bei 50.000 € zu versteuerndem Einkommen (Single) ≈ 11.000 € ESt × 9 % = 990 € KiSt/Jahr. <br />
+          <strong>Austritt</strong>: beim Standesamt/Amtsgericht, kostet 25-60 € (je Bundesland), wirkt ab Folge-Monat → KiSt-frei für immer (außer Wiedereintritt).
         </Field>
       </Section>
 
@@ -101,7 +119,13 @@ const FseWizard = () => {
         <Field nr={21} label="Bestätigung E-Mail" optional>Bei manchen FA: nochmal eintippen.</Field>
         <Field nr={22} label="Webseite" optional>Wenn vorhanden.</Field>
         <Field nr={23} label="Familienstand">
-          ledig / verheiratet / eingetragene Lebenspartnerschaft / geschieden / verwitwet / dauernd getrennt lebend.
+          Steuerlich relevant für <strong>Splitting-Verfahren</strong> (Ehegatten/eingetragene Lebenspartner):
+          <ul className="list-disc list-inside ml-2 mt-1 space-y-0.5">
+            <li><strong>ledig</strong> / <strong>geschieden</strong> / <strong>verwitwet (nach Witwen-Splitting-Jahr)</strong>: Grundtarif § 32a EStG</li>
+            <li><strong>verheiratet</strong> / <strong>eingetragene Lebenspartnerschaft</strong>: Splitting-Tarif → halbiert effektiv den Tarif bei großen Einkommens-Unterschieden. Ersparnis bis 17.000 €/Jahr bei stark unterschiedlichen Einkommen.</li>
+            <li><strong>dauernd getrennt lebend</strong>: Splitting nicht mehr möglich, Grundtarif. „Dauernd" = mehr als 12 Monate getrennte Wohnung mit Trennungs-Absicht.</li>
+            <li><strong>verwitwet im Trauer-Jahr</strong>: Splitting im Sterbejahr + 1 Folgejahr noch möglich (Witwen-Splitting).</li>
+          </ul>
         </Field>
         <Field nr={24} label="Datum der Familienstand-Änderung" optional>Bei Heirat/Scheidung: das Datum.</Field>
         <Field nr={25} label="Bisheriger Familienstand" optional>Bei Änderung: alter Status.</Field>
@@ -145,7 +169,14 @@ const FseWizard = () => {
         <Field nr={43} label="Kontoinhaber">
           Falls du = Kontoinhaber: Häkchen „identisch mit Antragsteller". Sonst Name eintragen.
         </Field>
-        <Field nr={44} label="IBAN">DE… (deutsches Konto) oder ausländische IBAN.</Field>
+        <Field nr={44} label="IBAN">
+          DE… (deutsches Konto) oder ausländische IBAN. <strong>Empfehlung: Geschäftskonto verwenden</strong> — saubere Trennung zwischen Privat/Betrieb erleichtert spätere Buchhaltung + Veranlagung massiv. FA-Erstattungen aufs Geschäftskonto verbessern auch die Liquiditätsplanung.
+          <br /><br />
+          Bei Privatkonto: kein Problem, aber Buchhaltungs-Aufwand höher (manuelle Trennung Privat/Geschäft pro Buchung).
+          <ToolNote>
+            Geschäftskonto wählen: <Link to="/anbieter?cat=Banking%20DE" className="underline text-accent-blue">15 DE-Banking-Anbieter im Vergleich →</Link>
+          </ToolNote>
+        </Field>
         <Field nr={45} label="BIC" optional>Bei deutscher IBAN: automatisch vorausgefüllt.</Field>
         <Field nr={46} label="Kreditinstitut-Name" optional>Auto-vorausgefüllt.</Field>
         <Field nr={47} label="Land Kreditinstitut" optional>Nur bei Auslandskonto.</Field>
@@ -170,10 +201,28 @@ const FseWizard = () => {
         intro="Darf das FA Steuern + Vorauszahlungen automatisch abbuchen?"
       >
         <Field nr={56} label="SEPA-Lastschriftmandat erteilen?">
-          <strong>JA</strong> = FA bucht automatisch ab → kein Säumniszuschlag wegen verpasster Fristen.<br />
-          <strong>NEIN</strong> = du überweist jedes Mal selbst → mehr Cashflow-Kontrolle, mehr Verspätungsrisiko.
-          <br /><br />
-          <strong>Empfehlung:</strong> JA, separates Geschäftskonto mit Puffer.
+          <RecommendationCard
+            title="Lastschriftmandat: ja oder nein?"
+            questions={[
+              { id: "puffer", q: "Hast du Liquiditäts-Puffer auf dem Konto?", options: [
+                { v: "ja", label: "Ja, 1+ Monat Puffer" },
+                { v: "knapp", label: "Knapp" },
+                { v: "nein", label: "Eher knapp" },
+              ]},
+              { id: "diszipliniert", q: "Wie diszipliniert mit Fristen?", options: [
+                { v: "vergesslich", label: "Vergesslich, könnte Fristen verpassen" },
+                { v: "ok", label: "Mittel — manchmal knapp" },
+                { v: "ueberkontrolle", label: "Will alles selbst kontrollieren" },
+              ]},
+            ]}
+            decide={(ans) => {
+              if (ans.puffer === "nein") return "EHER NEIN — bei wenig Puffer kann automatische Abbuchung den Account ins Minus bringen → Rücklastschriftgebühr 3-10 € + möglicher Säumniszuschlag.";
+              if (ans.diszipliniert === "vergesslich") return "JA — du sparst Säumniszuschläge (1 % pro angefangenem Monat ab Fälligkeit, ohne Mindestgrenze).";
+              if (ans.diszipliniert === "ueberkontrolle") return "NEIN — du behältst volle Kontrolle. Achte aber strikt auf Fristen 10. Monat / 10.3/6/9/12.";
+              return "JA empfohlen — Standard für Selbstständige, vermeidet Verspätungs-Risiko bei vielen Terminen.";
+            }}
+          />
+          <strong>Auswirkung „Säumniszuschlag":</strong> 1 % pro angefangenem Monat ab Fälligkeit (§ 240 AO), keine Mindestgrenze. Bei 5.000 € Steuer-Schuld = 50 €/Monat — kostspielig wenn vergessen.
         </Field>
         <Field nr={57} label="Mandatsreferenz" optional>Vom FA vergeben — leer lassen.</Field>
         <Field nr={58} label="IBAN Lastschriftkonto">
@@ -208,7 +257,15 @@ const FseWizard = () => {
           Falls bekannt — beschleunigt Validierung.
         </Field>
         <Field nr={75} label="Bekanntgabe-Vollmacht erteilen?" optional>
-          JA → FA sendet alle Bescheide auch an den StB. <strong>Empfehlung wenn StB vorhanden.</strong>
+          <strong>JA</strong> → FA sendet alle Bescheide gleichzeitig an dich UND den StB. Vorteile:
+          <ul className="list-disc list-inside ml-2 mt-1 space-y-0.5">
+            <li>StB sieht Fristen sofort und kann Einspruch fristgerecht einlegen</li>
+            <li>Keine Verzögerung durch deine eigene Weiterleitung</li>
+            <li>Standard-Praxis bei laufender StB-Mandatierung</li>
+          </ul>
+          <strong>NEIN</strong> → nur du bekommst Post, du musst aktiv weiterleiten. Sinnvoll nur wenn StB nur projektbasiert (z.B. nur Jahresabschluss).
+          <br /><br />
+          <strong>Wichtig:</strong> Bekanntgabe-Vollmacht ≠ Empfangs-Vollmacht (Feld 81-87). Bekanntgabe = parallel (du + StB). Empfangs = nur StB (du bekommst nichts).
         </Field>
         <Field nr={76} label="Vollmachtsumfang" optional>
           „Empfangsbevollmächtigung" oder „umfassende Vertretungsvollmacht".
@@ -262,18 +319,39 @@ const FseWizard = () => {
         intro="Was machst du, wo, seit wann."
       >
         <Field nr={101} label="Art der Tätigkeit (Bezeichnung)">
-          <strong>Konkret</strong> beschreiben — generische Begriffe lehnt das FA ab:
+          <strong>Konkret beschreiben</strong> — generische Begriffe lehnt das FA mit Rückfrage ab + verzögert die Steuernummer-Vergabe um 2-4 Wochen.
+          <br /><br />
+          <strong>Was die FA-Beschreibung erfüllen muss:</strong>
           <ul className="list-disc list-inside ml-2 mt-1 space-y-0.5">
-            <li>❌ Schlecht: „Online-Handel", „Beratung", „Marketing"</li>
-            <li>✅ Gut: „Online-Handel mit selbst hergestelltem Silberschmuck via Shopify + Etsy"</li>
+            <li><strong>WAS</strong> machst du? (Produkt/Dienstleistung)</li>
+            <li><strong>WIE</strong> machst du es? (Kanal/Methode)</li>
+            <li><strong>AN WEN</strong> verkaufst du? (B2B/B2C, Branche)</li>
           </ul>
+          <strong>Beispiele:</strong>
+          <ul className="list-disc list-inside ml-2 mt-1 space-y-0.5">
+            <li>❌ „Online-Handel" → ✅ „Online-Handel mit selbst hergestelltem Silberschmuck via Shopify, Etsy und Wochenmärkte in Hamburg, B2C"</li>
+            <li>❌ „Beratung" → ✅ „Strategische Marketing-Beratung für DACH-D2C-Marken im Health/Beauty-Segment (Schwerpunkt Meta- und TikTok-Ads), B2B"</li>
+            <li>❌ „Influencer" → ✅ „Content-Creation auf Instagram + TikTok mit Schwerpunkt Beauty/Skincare, Werbeeinnahmen über Affiliate-Marketing und Brand-Kooperationen"</li>
+          </ul>
+          <strong>Wirkung der Beschreibung:</strong> FA leitet daraus die Zuordnung „Freiberuf (§ 18 EStG)" vs. „Gewerbe" ab → entscheidet über GewSt-Pflicht + IHK-Beitrag. Bei Grenzfällen (IT-Beratung, Coaching): präzise sein und ggf. Qualifikations-Nachweis bereithalten.
           <ToolNote>
             Qualitäts-Check der Beschreibung gibt der{" "}
-            <Link to="/cockpit/gewerbeanmeldung-wizard" className="underline text-accent-blue">Gewerbeanmeldung-Wizard Step 4</Link>.
+            <Link to="/cockpit/gewerbeanmeldung-wizard" className="underline text-accent-blue">Gewerbeanmeldung-Wizard Step 4 (Live-Score)</Link>.
           </ToolNote>
         </Field>
         <Field nr={102} label="Firmierung / Geschäftsname" optional>
-          Bei Einzel: optional (z.B. „Max Mustermann Beratung"). Bei UG/GmbH: Pflicht mit Rechtsform-Zusatz.
+          <strong>Was darf rein?</strong>
+          <ul className="list-disc list-inside ml-2 mt-1 space-y-0.5">
+            <li><strong>Einzel ohne HR-Eintrag:</strong> kein Phantasie-Name allein erlaubt. Du musst deinen <em>Vor- + Nachnamen</em> verwenden, ggf. mit Branchen-Zusatz: „Max Mustermann Marketing-Beratung", „Anna Schmidt Web-Design". <strong>Kein</strong> „Acme Studio" allein.</li>
+            <li><strong>Einzel mit HR-Eintrag (e.K.):</strong> Phantasie-Name allein OK, muss aber „e.K." enthalten: „Acme Studio e.K.".</li>
+            <li><strong>UG/GmbH:</strong> Phantasie-Name + Rechtsform-Zusatz Pflicht: „Acme Studio UG (haftungsbeschränkt)" oder „GmbH".</li>
+            <li><strong>Domain-Check + DPMA-Markenrecherche</strong> vorher machen — Verletzung fremder Markenrechte kann teuer werden.</li>
+          </ul>
+          Leer lassen → FA nutzt deinen Privatnamen als Geschäftsname.
+          <ToolNote>
+            Marken-/Domain-Check:{" "}
+            <Link to="/cockpit/check" className="underline text-accent-blue">DPMA + EUIPO + 8 TLDs + 5 Socials →</Link>
+          </ToolNote>
         </Field>
         <Field nr={103} label="Wirtschaftsklassifikation (WZ-2008-Code)" optional>
           5-stelliger Code. Falls bekannt vom GewA1 → eintragen. Sonst leer (FA ergänzt anhand der Tätigkeitsbeschreibung).
@@ -303,17 +381,24 @@ const FseWizard = () => {
         intro="Wie ist das Unternehmen entstanden?"
       >
         <Field nr={116} label="Tag des Beginns der Tätigkeit">
-          Datum der <strong>ersten tatsächlichen Aktivität</strong>. Darf in der Vergangenheit liegen (rückwirkende Anmeldung).
+          Datum der <strong>ersten tatsächlichen Aktivität nach außen</strong>. Wichtige Punkte:
+          <ul className="list-disc list-inside ml-2 mt-1 space-y-0.5">
+            <li><strong>Rückwirkende Anmeldung möglich</strong> — darf in der Vergangenheit liegen. Aber: ab dem Datum beginnen alle Pflichten (Buchhaltung, USt, ESt-Vorauszahlung).</li>
+            <li><strong>Nicht der Tag der Gewerbeanmeldung</strong>! Beispiel: GewA1 am 15.05., erste Rechnung 01.06. → Beginn = 01.06. (außer Vorbereitungen vorher schon Aufwand erzeugt haben).</li>
+            <li><strong>Was zählt als „Beginn"?</strong> Erste Rechnung, erste Bestellung, erste Werbung, erste Anschaffung mit Vorsteuer-Abzug. NICHT: bloße Ideen-Phase ohne Aufwand.</li>
+            <li><strong>Strategie:</strong> Beginn früher = längere Steuerpflicht im Jahr 1, aber auch Vorsteuer-Abzug für Vorbereitungs-Investitionen rückwirkend möglich. Bei großen Anfangs-Investitionen: früher angeben.</li>
+          </ul>
         </Field>
         <Field nr={117} label="Gründungsform">
-          Eine ankreuzen:
+          Eine ankreuzen — entscheidet über folgende Felder:
           <ul className="list-disc list-inside ml-2 mt-1 space-y-0.5">
-            <li>Neugründung (Default für Erstgründer)</li>
-            <li>Übernahme (Asset-Deal)</li>
-            <li>Umwandlung (z.B. Einzel → UG)</li>
-            <li>Verlegung aus anderem FA-Bezirk</li>
-            <li>Wiedereröffnung (vorher abgemeldet)</li>
+            <li><strong>Neugründung</strong> — Default für Erstgründer. Felder 118-130 leer.</li>
+            <li><strong>Übernahme</strong> — Asset-Deal (du kaufst nur Vermögensgegenstände, nicht den ganzen Rechtsträger). Vorgänger-Daten (Felder 119-122) Pflicht. Häufig bei Übernahme einer Praxis/eines Ladengeschäfts.</li>
+            <li><strong>Umwandlung</strong> — z.B. Einzelunternehmen → UG, oder GbR → GmbH. Felder 123-127 ausfüllen. Steuerlich oft buchwertneutral möglich (§ 20 UmwStG), aber komplexes Thema → StB konsultieren.</li>
+            <li><strong>Verlegung</strong> — du ziehst aus FA-Bezirk X in FA-Bezirk Y mit deinem bestehenden Unternehmen. Bisherige Steuernummer + FA in Feld 121-122.</li>
+            <li><strong>Wiedereröffnung</strong> — vorher gemeldet, abgemeldet, jetzt wieder aktiv. Frühere Steuernummer angeben.</li>
           </ul>
+          <strong>Steuerliche Folge:</strong> bei Übernahme/Umwandlung gibt's Spezialregeln zur Bewertung der übernommenen Wirtschaftsgüter (Buchwertfortführung vs. Neubewertung). Bei Neugründung: Standard EÜR/Bilanz ab Tag 1.
         </Field>
         <Field nr={118} label="Datum Übernahme/Umwandlung" optional />
         <Field nr={119} label="Name Vorgänger / früherer Inhaber" optional />
@@ -398,16 +483,41 @@ const FseWizard = () => {
         intro="Hieraus berechnet das FA deine quartalsweisen Vorauszahlungen (10.3, 10.6, 10.9, 10.12)."
         warn="REALISTISCH schätzen! Zu hoch = Kapital gebunden, zu niedrig = Nachzahlung + 6%/Jahr Verzugszinsen ab 15. Monat."
       >
-        <Field nr={161} label="Voraussichtliche Einkünfte aus Land + Forstwirtschaft" optional>0 für die meisten.</Field>
+        <Field nr={161} label="Voraussichtliche Einkünfte aus Land + Forstwirtschaft" optional>0 für die meisten — nur Landwirte, Forstbetriebe, Imker.</Field>
         <Field nr={162} label="Voraussichtliche Einkünfte aus Gewerbebetrieb">
-          <strong>Gewinn</strong> (Umsatz minus Betriebsausgaben), nicht Umsatz! Bei Freiberuf: 0.
+          <strong>GEWINN</strong> (Umsatz minus Betriebsausgaben), <strong>nicht Umsatz!</strong> Bei Freiberuf hier 0 → Wert in Feld 163.
+          <RecommendationCard
+            title="Konservativ oder optimistisch schätzen?"
+            questions={[
+              { id: "erfahrung", q: "Wie viel Erfahrung in der Tätigkeit?", options: [
+                { v: "neu", label: "Komplett neu / 1. Jahr" },
+                { v: "wechsel", label: "Wechsel aus Festanstellung gleicher Branche" },
+                { v: "second", label: "2.-3. Selbstständigkeit" },
+              ]},
+              { id: "puffer", q: "Hast du Liquiditäts-Puffer?", options: [
+                { v: "viel", label: "Ja, 6+ Monate" },
+                { v: "wenig", label: "Knapp, 2-3 Monate" },
+                { v: "keine", label: "Quasi keinen" },
+              ]},
+            ]}
+            decide={(ans) => {
+              if (ans.erfahrung === "neu" || ans.puffer === "keine") {
+                return "EHER NIEDRIG schätzen (z.B. 30-50 % deines Zielwerts). Vorauszahlungen werden klein → Liquidität bleibt im Geschäft. Falls du nachzahlen musst: nicht schlimm, ist nicht verzinst im 1. Veranlagungsjahr (Zinsen erst ab 15. Monat nach Veranlagungsjahr-Ende, § 233a AO).";
+              }
+              if (ans.erfahrung === "second" && ans.puffer === "viel") {
+                return "REALISTISCH schätzen. Du kannst die Vorauszahlungen tragen, und genaue Schätzung vermeidet böse Nachzahlungs-Überraschungen. Eher leicht über deinem konservativen Mittelwert.";
+              }
+              return "MITTEL konservativ — etwa 60-70 % deines Optimismus-Zielwerts. Sweet Spot: niedrig genug für Liquidität, nicht so niedrig dass FA Rückfrage stellt.";
+            }}
+          />
           <ToolNote>
-            Brutto-Netto-Vorschau:{" "}
-            <Link to="/cockpit/brutto-netto-solo" className="underline text-accent-blue">Brutto-Netto Solo →</Link>
+            Wie viel bleibt netto? <Link to="/cockpit/brutto-netto-solo" className="underline text-accent-blue">Brutto-Netto Solo-Selbstständig →</Link>
           </ToolNote>
         </Field>
         <Field nr={163} label="Voraussichtliche Einkünfte aus selbstständiger Arbeit">
-          Bei Freiberuf: Gewinn. Bei Gewerbe: 0.
+          <strong>Nur für Freiberufler</strong> (Katalogberufe + ähnliche, § 18 EStG): Gewinn (Umsatz minus BA). Gewerbe → hier 0, Wert in Feld 162.
+          <br /><br />
+          Beispiele Freiberuf: Arzt, Anwalt, Steuerberater, Architekt, Ingenieur, Künstler, Autor, Journalist, Designer, IT-Berater mit Hochschulabschluss/vergleichbarem Wissen.
         </Field>
         <Field nr={164} label="Voraussichtliche Einkünfte aus nichtselbstständiger Arbeit" optional>
           Lohn falls noch angestellt (auch teilzeit / nebenberuflich).
@@ -423,7 +533,16 @@ const FseWizard = () => {
         </Field>
         <Field nr={168} label="Bei verheiratet: Einkünfte des Ehegatten" optional />
         <Field nr={169} label="Anzahl Kinder mit Kinderfreibetrag" optional>
-          Pro Kind 9.540 € Freibetrag (4.770 € bei Trennung).
+          <strong>Wer zählt als Kind (§ 32 EStG):</strong>
+          <ul className="list-disc list-inside ml-2 mt-1 space-y-0.5">
+            <li>Leibliche Kinder, Adoptiv-, Stief-, Pflegekinder im eigenen Haushalt</li>
+            <li>Bis 18 Jahre IMMER</li>
+            <li>18-25 Jahre wenn in Ausbildung/Studium/Übergangszeit max. 4 Monate</li>
+            <li>Behinderte Kinder ohne Altersgrenze</li>
+          </ul>
+          <strong>Beträge 2026 pro Kind:</strong> 9.540 € Kinderfreibetrag bei Zusammenveranlagung (4.770 € pro Elternteil bei Trennung/getrennter Veranlagung). <strong>Plus</strong> BEA-Freibetrag 2.928 € pro Kind (Betreuung/Erziehung/Ausbildung).
+          <br /><br />
+          <strong>Wichtig:</strong> FA macht beim Veranlagung automatisch den <em>Günstiger-Vergleich</em> Kindergeld vs. Kinderfreibetrag — du kriegst die jeweils bessere Variante.
         </Field>
         <Field nr={170} label="Voraussichtliche Sonderausgaben" optional>
           KV-Beiträge (oft größter Posten), Vorsorge, Spenden, Schulgeld, Unterhalt.
@@ -527,7 +646,15 @@ const FseWizard = () => {
         <Field nr={194} label="Davon geringfügig (Minijob ≤ 538 €)" optional />
         <Field nr={195} label="Davon kurzfristig (≤ 70 Tage/Jahr)" optional />
         <Field nr={196} label="Davon Familienangehörige" optional>
-          Hinweis FA prüft Fremdvergleich-Kriterien streng.
+          <strong>Ehegatten-/Familien-Arbeitsverhältnisse</strong> sind steuerlich nur anerkannt wenn sie dem <strong>Fremdvergleich</strong> standhalten:
+          <ul className="list-disc list-inside ml-2 mt-1 space-y-0.5">
+            <li>Schriftlicher Arbeitsvertrag (vor Beginn)</li>
+            <li>Marktüblicher Lohn (nicht zu hoch + nicht zu niedrig)</li>
+            <li>Tatsächlich erbrachte Arbeit (Stundenzettel)</li>
+            <li>Auszahlung auf eigenes Konto des Familienmitglieds</li>
+            <li>SV-Anmeldung + Lohnsteuer-Abzug wie bei Fremden</li>
+          </ul>
+          Bei fehlendem Fremdvergleich → FA rechnet den Lohn nicht als BA an, du zahlst zusätzlich Steuer.
         </Field>
         <Field nr={197} label="Davon Auszubildende" optional />
         <Field nr={198} label="Voraussichtliche jährliche Lohnsumme">Brutto-Lohn aller Mitarbeiter.</Field>
@@ -565,21 +692,74 @@ const FseWizard = () => {
         warn="Mehrere binding-critical Entscheidungen auf dieser + den nächsten Teilseiten. Sorgfältig prüfen."
       >
         <Field nr={211} label="Voraussichtlicher Gesamtumsatz Jahr 1 (Brutto)">
-          Brutto-Einnahmen aus Lieferungen/Leistungen. Entscheidet über KU-Status.
+          <strong>Brutto-Einnahmen</strong> aus Lieferungen/Leistungen — NICHT der Gewinn. Diese Zahl entscheidet über drei Dinge gleichzeitig:
+          <ul className="list-disc list-inside ml-2 mt-1 space-y-0.5">
+            <li><strong>KU-Status §19</strong> (Schwelle 25.000 €)</li>
+            <li><strong>USt-Voranmeldungs-Zeitraum</strong> (monatlich/quartal/jährlich)</li>
+            <li><strong>Bilanzierungs-Pflicht</strong> (Schwelle 800.000 € + 80.000 € Gewinn)</li>
+          </ul>
+          <RecommendationCard
+            title="Strategie: welche Zahl eintragen?"
+            questions={[
+              { id: "sicherheit", q: "Wie sicher ist deine Prognose?", options: [
+                { v: "vertraege", label: "Hab schon Verträge/Pipeline" },
+                { v: "realistisch", label: "Realistische Schätzung" },
+                { v: "wunsch", label: "Mehr Wunsch als Plan" },
+              ]},
+              { id: "naehe800", q: "Liegst du in der Nähe von 800.000 €?", options: [
+                { v: "weit_drunter", label: "Weit drunter (z.B. <300k)" },
+                { v: "nahe_drunter", label: "Nahe drunter (500-799k)" },
+                { v: "drueber", label: "Knapp drüber oder mehr (>800k)" },
+              ]},
+              { id: "naehe25", q: "Liegst du in der Nähe von 25.000 €?", options: [
+                { v: "drunter", label: "Klar drunter (<20k)" },
+                { v: "grenznah", label: "Grenznah (20-30k)" },
+                { v: "drueber", label: "Klar drüber (>30k)" },
+              ]},
+            ]}
+            decide={(ans) => {
+              const parts: string[] = [];
+              // Tendenz konservativ vs realistisch
+              if (ans.sicherheit === "vertraege") parts.push("Du hast Pipeline → trage den realistischen Wert ein. FA passt nach 1. Erklärung automatisch an.");
+              else if (ans.sicherheit === "realistisch") parts.push("Realistischer Wert → eher konservativ aufrunden. Lieber etwas zu wenig: Vorauszahlungen werden zu hoch geschätzt → unnötig Liquidität gebunden.");
+              else parts.push("Optimistische Schätzungen lehnt das FA mit Rückfrage ab. Trage NUR das ein was du auch BELEGEN kannst (LOIs, Verträge, frühere Umsätze als Angestellter).");
+              // 800k-Bilanz-Warnung
+              if (ans.naehe800 === "drueber") parts.push("⚠ KRITISCH: Über 800.000 € → SOFORT Bilanzierungs-Pflicht (§ 141 AO). Wenn realistisch knapp drüber: prüfe ob die ersten 6-12 Monate noch unter 800k bleiben — dann später Bilanz statt sofort.");
+              else if (ans.naehe800 === "nahe_drunter") parts.push("⚠ Aufpassen: Bei tatsächlichem Überschreiten von 800k → ab Folgejahr Bilanz-Pflicht. Strategisch UNTER 800k bleiben spart erhebliche Buchhaltungs-Mehrkosten (StB +1-3k €/Jahr).");
+              else parts.push("✅ Weit unter 800k → EÜR bleibt möglich. Keine Bilanz-Sorgen.");
+              // 25k KU-Warnung
+              if (ans.naehe25 === "grenznah") parts.push("⚠ 25k-Grenze für KU: bei tatsächlichem Überschreiten ab dem überschreitenden Umsatz Pflicht zur Regelbesteuerung — sofort, nicht erst Folgejahr! Lieber gleich Regelbesteuerung wählen.");
+              else if (ans.naehe25 === "drueber") parts.push("KU §19 nicht möglich. Regelbesteuerung in Sektion 19 wählen.");
+              return parts.join(" ");
+            }}
+          />
         </Field>
         <Field nr={212} label="Voraussichtlicher Gesamtumsatz Jahr 2 (Folgejahr)">
-          KU nur möglich wenn Jahr 1 ≤ 25k UND Jahr 2 ≤ 100k.
+          <strong>Prognose-Zahl</strong> für das Folgejahr (Jahr 2). Wichtig vor allem für:
+          <ul className="list-disc list-inside ml-2 mt-1 space-y-0.5">
+            <li><strong>KU-Status</strong>: KU nur wenn Jahr 1 ≤ 25k UND Jahr 2 ≤ 100k</li>
+            <li><strong>USt-Voranmeldungs-Rhythmus</strong> für das Folgejahr</li>
+          </ul>
+          Faustregel: 1,5× bis 2× von Jahr 1 — aber nicht künstlich nach oben/unten lügen. Das FA prüft Plausibilität.
         </Field>
         <Field nr={213} label="Voraussichtliche USt-Zahllast / Überschuss">
-          Schätzung der jährlichen USt — entscheidet über Voranmeldungs-Zeitraum.
+          <strong>Berechnung:</strong> Umsatz × 19 % minus Vorsteuer aus Anschaffungen = Zahllast (positiv) oder Überschuss (negativ = Erstattung).
+          <br /><br />
+          <strong>Beispiel-Rechnung:</strong> 60.000 € Umsatz × 19 % = 11.400 € USt. Vorsteuer aus 10.000 € BA × 19 % = 1.900 €. <strong>Zahllast = 9.500 €/Jahr</strong>.
+          <br /><br />
+          <strong>Strategie:</strong> Wenn du im 1. Jahr <em>große Anfangs-Investitionen</em> hast (Equipment, Lager, IT), kann die Vorsteuer die USt übersteigen → <strong>Überschuss</strong> eintragen (negativer Wert). Das FA prüft Vorsteuer-Belege bei Erstattungen genau!
+          <br /><br />
+          Diese Schätzung entscheidet über Feld 214 (Voranmeldungs-Zeitraum).
         </Field>
         <Field nr={214} label="USt-Voranmeldungs-Zeitraum">
-          <strong>Vom FA bestimmt</strong>:
+          <strong>Vom FA bestimmt</strong> basierend auf erwarteter USt-Zahllast — du kannst nicht frei wählen:
           <ul className="list-disc list-inside ml-2 mt-1 space-y-0.5">
-            <li>Monatlich: USt {">"} 9.000 €/Jahr</li>
-            <li>Quartalsweise: 2.000 – 9.000 €/Jahr</li>
-            <li>Jährlich: bis 2.000 €/Jahr</li>
+            <li><strong>Monatlich</strong>: USt {">"} 9.000 €/Jahr (bis 10. des Folgemonats abgeben)</li>
+            <li><strong>Quartalsweise</strong>: 2.000 – 9.000 €/Jahr (10. des Folgemonats nach Quartal)</li>
+            <li><strong>Jährlich</strong>: bis 2.000 €/Jahr (10. des Folgejahres)</li>
+            <li><strong>Vorsteuer-Überschuss-Antrag</strong>: monatliche Anmeldung beantragen wenn du regelmäßig Erstattungen erwartest (Liquiditäts-Vorteil)</li>
           </ul>
+          <strong>Sonderregel Gründer (Reform 2025):</strong> früher waren Gründer 2 Jahre lang monatlich-pflichtig. Seit 2025 wieder Standard-Regel — FA entscheidet je nach Prognose.
         </Field>
         <Field nr={215} label="Bei Gründer: Voranmeldungs-Pflicht" optional>
           Reform 2025: Quartal wieder Standard für Gründer (war vorher 2 Jahre monatlich Pflicht). FA entscheidet.
@@ -651,7 +831,13 @@ const FseWizard = () => {
           />
         </Field>
         <Field nr={232} label="Verzicht auf Kleinunternehmer-Regelung (Optierung)" optional>
-          Nur wenn du UNTER 25k bist ABER trotzdem Regelbesteuerung willst (B2B + Vorsteuer). 5 Jahre Bindung.
+          <strong>Was bedeutet „Verzicht"?</strong> Du bist UNTER 25k Umsatz (könntest also KU machen), wählst aber freiwillig Regelbesteuerung. Sinnvoll wenn:
+          <ul className="list-disc list-inside ml-2 mt-1 space-y-0.5">
+            <li><strong>B2B-Kunden</strong>: wollen Vorsteuer aus deinen Rechnungen ziehen können → KU wäre Wettbewerbsnachteil</li>
+            <li><strong>Hohe Anfangs-Investitionen</strong>: du willst die Vorsteuer auf Equipment, Lager, IT zurückbekommen (kann im 1. Jahr 5-stellig sein)</li>
+            <li><strong>Stark wachsendes Geschäft</strong>: du wirst eh bald über 25k sein → spar dir den späteren Wechsel + den „Verlust" der KU-Vereinfachung schon einmal</li>
+          </ul>
+          <strong>⚠ 5 Jahre Bindung:</strong> einmal verzichtet, gilt der Verzicht <strong>5 Kalenderjahre</strong> ab dem Verzichts-Jahr. Erst dann kannst du wieder KU werden — und nur wenn du dann auch die Voraussetzungen erfüllst.
         </Field>
         <Field nr={233} label="Voraussichtlicher Umsatz im Gründungsjahr (anteilig)" optional>
           Wenn du nicht zum 01.01. startest: anteilige Hochrechnung auf 12 Monate.
@@ -674,10 +860,23 @@ const FseWizard = () => {
         intro="Welche USt-Sätze, Soll vs. Ist."
       >
         <Field nr={241} label="Steuersatz 19 % (Regelsteuersatz)" optional>
-          Standard für alle Lieferungen/Leistungen außer den Spezial-Ausnahmen.
+          <strong>Standard</strong> für die allermeisten Lieferungen + Dienstleistungen. Wenn du z.B. Beratung, Online-Handel, Handwerk, Coaching anbietest → 19 %.
+          <br /><br />
+          Häkchen setzen wenn du 19 % berechnest (für die meisten Gründer „ja").
         </Field>
         <Field nr={242} label="Steuersatz 7 % (ermäßigt)" optional>
-          Nur: Lebensmittel, Bücher, Zeitungen, Personenbeförderung kurze Strecken, Hotel-Übernachtung, kulturelle Leistungen, Heilbehandlungen.
+          <strong>Nur für Spezialfälle</strong> nach Anlage 2 UStG:
+          <ul className="list-disc list-inside ml-2 mt-1 space-y-0.5">
+            <li>Lebensmittel (außer Restaurant-Essen vor Ort)</li>
+            <li>Bücher, Zeitschriften, Zeitungen (auch e-Books)</li>
+            <li>Personenbeförderung im Nahverkehr (≤ 50 km)</li>
+            <li>Hotel-/Pensions-Übernachtung (NICHT Frühstück → 19 %)</li>
+            <li>Kulturelle Leistungen (Konzerte, Theater, Museen)</li>
+            <li>Eintrittsgelder Bibliotheken, Zoos</li>
+            <li>Heilbehandlungen (oft auch steuerbefreit § 4 UStG)</li>
+            <li>Personenbeförderung mit Taxen/Mietwagen</li>
+          </ul>
+          Bei Mischbetrieb: BEIDE Häkchen setzen (19 % + 7 %).
         </Field>
         <Field nr={243} label="Steuersatz 0 %" optional>
           Spezial: PV-Anlagen bis 30 kWp (§ 12 Abs. 3 UStG), Goldlieferungen.
