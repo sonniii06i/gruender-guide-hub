@@ -28,35 +28,35 @@ describe("FseWizard — Render + Struktur", () => {
     expect(html).toMatch(/1 Monat ab Start|1 Monat ab Tätigkeit/);
   });
 
-  it("hat alle 10 Sektionen (A bis J)", () => {
+  it("hat alle 22 Teilseiten (Startseite 0 bis Anlagen 22)", () => {
     renderWithRouter(<FseWizard />);
     const html = document.body.innerHTML;
-    expect(html).toMatch(/Allgemeine Angaben/);
-    expect(html).toMatch(/Anschrift des Unternehmens/);
-    expect(html).toMatch(/Bankverbindung/);
-    expect(html).toMatch(/Steuerliche Beratung/);
-    expect(html).toMatch(/gewerblichen \/ freiberuflichen Tätigkeit/);
-    expect(html).toMatch(/Festsetzung der Vorauszahlungen/);
-    expect(html).toMatch(/Gewinnermittlung/);
-    expect(html).toMatch(/Lohnsteuer/);
-    expect(html).toMatch(/Umsatzsteuer.*wichtigsten/);
-    expect(html).toMatch(/Besondere Sachverhalte/);
+    expect(html).toMatch(/Angaben zur Person.*Zeilen 1-12/);
+    expect(html).toMatch(/Ehegatte.*Zeilen 26-42/);
+    expect(html).toMatch(/SEPA-Lastschriftmandat/);
+    expect(html).toMatch(/Bisherige persönliche Verhältnisse/);
+    expect(html).toMatch(/Konzern.*Beteiligungsverhältnisse/);
+    expect(html).toMatch(/Freistellungsbescheinigung.*48b/);
+    expect(html).toMatch(/Anlagen.*Abschluss/);
   });
 
-  it("zeigt nummerierte Felder (mind. Feld 1, 18, 28, 35)", () => {
+  it("zeigt ~300 Felder über alle Teilseiten verteilt", () => {
     renderWithRouter(<FseWizard />);
     const html = document.body.innerHTML;
-    expect(html).toMatch(/Steuernummer/);
-    expect(html).toMatch(/Steueridentifikationsnummer/);
-    expect(html).toMatch(/Kleinunternehmer-Regelung.*19/);
+    expect(html).toMatch(/Identifikationsnummer/);
+    expect(html).toMatch(/Kleinunternehmer-Regelung/);
     expect(html).toMatch(/USt-Identifikationsnummer/);
+    expect(html).toMatch(/Soll.*Ist|Ist.*Versteuerung/);
+    expect(html).toMatch(/Reverse Charge/);
+    expect(html).toMatch(/Differenzbesteuerung/);
+    expect(html).toMatch(/OSS-Verfahren|One-Stop-Shop/);
   });
 
-  it("verlinkt zu beiden ELSTER-FsE-Formularen (natürlich + juristisch)", () => {
+  it("verlinkt zu beiden ELSTER-FsE-Formularen (Einzel + Kap.-Ges.)", () => {
     renderWithRouter(<FseWizard />);
     const html = document.body.innerHTML;
-    expect(html).toMatch(/fsegewnatp/);
-    expect(html).toMatch(/fsegewjur/);
+    expect(html).toMatch(/fseeun/);
+    expect(html).toMatch(/fsekapg/);
   });
 });
 
@@ -86,20 +86,20 @@ describe("FseWizard — Empfehlungs-Widgets", () => {
     // KU-Widget ist 2. Empfehlungs-Widget (nach EÜR/Bilanz)
     fireEvent.click(widgetButtons[1]);
     fireEvent.click(screen.getByText("über 25.000 €"));
-    fireEvent.click(screen.getByText("Hauptsächlich Privatkunden (B2C)"));
+    fireEvent.click(screen.getByText("Privatkunden (B2C)"));
     fireEvent.click(screen.getByText("Nein"));
     expect(document.body.innerHTML).toMatch(/REGELBESTEUERUNG zwingend/);
   });
 });
 
 describe("FseWizard — Cross-Links + Final-Check", () => {
-  it("verlinkt zu GewerbeanmeldungWizard, SchwellenCheck, Roadmap, StB", () => {
+  it("verlinkt zu GewerbeanmeldungWizard, SchwellenCheck, Roadmap, BruttoNetto", () => {
     renderWithRouter(<FseWizard />);
     const html = document.body.innerHTML;
     expect(html).toMatch(/\/cockpit\/gewerbeanmeldung-wizard/);
     expect(html).toMatch(/\/cockpit\/schwellen-check/);
     expect(html).toMatch(/\/cockpit\/erste-schritte-roadmap/);
-    expect(html).toMatch(/\/cockpit\/stb-cost-benefit/);
+    expect(html).toMatch(/\/cockpit\/brutto-netto-solo/);
   });
 
   it("zeigt Vor-Absenden-Checkliste mit Steuer-ID + KU + Lastschrift", () => {
