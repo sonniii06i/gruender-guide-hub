@@ -184,6 +184,7 @@ export const ROADMAP_TASKS: RoadmapTask[] = [
     ],
     zeitaufwand: "30-60 Min",
     kostenHint: "0-15 €/Mon",
+    toolLink: { route: "/anbieter?cat=Banking%20DE", label: "Banking-Anbieter vergleichen" },
     triggers: {},
   },
   {
@@ -495,6 +496,12 @@ export const PHASE_LABELS: Record<Phase, { titel: string; subtitel: string }> = 
 
 // Aufgabe ist relevant für User?
 export function taskMatches(task: RoadmapTask, setup: UserSetup): boolean {
+  // T0-Aufgaben (Vor/während Anmeldung) komplett ausblenden wenn der User
+  // bestätigt hat dass Gewerbe + FA-Anmeldung schon durch sind. Einzelne
+  // T0-Tasks ohne expliziten bereitsAngemeldet-Trigger (z.B. Geschäftsname,
+  // Stundensatz) würden sonst trotzdem auftauchen, was widersprüchlich
+  // wirkt — User hat ja gerade gesagt "bin schon angemeldet".
+  if (task.phase === "T0" && setup.bereitsAngemeldet) return false;
   for (const [k, v] of Object.entries(task.triggers)) {
     if (v === undefined) continue;
     const userVal = setup[k as keyof UserSetup];
