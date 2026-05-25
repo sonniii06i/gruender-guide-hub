@@ -55,6 +55,7 @@ const StundensatzRechner = lazy(() => import("./pages/StundensatzRechner.tsx"));
 const StbCostBenefit = lazy(() => import("./pages/StbCostBenefit.tsx"));
 const RechnungsGenerator = lazy(() => import("./pages/RechnungsGenerator.tsx"));
 const GewerbeanmeldungWizard = lazy(() => import("./pages/GewerbeanmeldungWizard.tsx"));
+const FseWizard = lazy(() => import("./pages/FseWizard.tsx"));
 const ErsteSchritteRoadmap = lazy(() => import("./pages/ErsteSchritteRoadmap.tsx"));
 const VersicherungsBasisCheck = lazy(() => import("./pages/VersicherungsBasisCheck.tsx"));
 const ReisekostenLogger = lazy(() => import("./pages/ReisekostenLogger.tsx"));
@@ -168,6 +169,7 @@ const App = () => (
                 <Route path="/cockpit/stb-cost-benefit" element={<PaywallGate title="Steuerberater Cost-Benefit-Check"><StbCostBenefit /></PaywallGate>} />
                 <Route path="/cockpit/rechnungs-generator" element={<PaywallGate title="Rechnungs-Generator (PDF)"><RechnungsGenerator /></PaywallGate>} />
                 <Route path="/cockpit/gewerbeanmeldung-wizard" element={<PaywallGate title="Gewerbeanmeldung-Wizard"><GewerbeanmeldungWizard /></PaywallGate>} />
+                <Route path="/cockpit/fse-wizard" element={<PaywallGate title="Fragebogen zur steuerlichen Erfassung (FsE)"><FseWizard /></PaywallGate>} />
                 <Route path="/cockpit/erste-schritte-roadmap" element={<PaywallGate title="Erste-Schritte-Roadmap"><ErsteSchritteRoadmap /></PaywallGate>} />
                 <Route path="/cockpit/versicherungs-basis-check" element={<PaywallGate title="Versicherungs-Basis-Check Solo"><VersicherungsBasisCheck /></PaywallGate>} />
                 <Route path="/cockpit/reisekosten-logger" element={<PaywallGate title="Reisekosten-Logger"><ReisekostenLogger /></PaywallGate>} />
