@@ -39,6 +39,7 @@ const CeRohsGenerator = lazy(() => import("./pages/CeRohsGenerator.tsx"));
 const FoerderungDb = lazy(() => import("./pages/FoerderungDb.tsx"));
 const UsLlcWizard = lazy(() => import("./pages/UsLlcWizard.tsx"));
 const UsCreditCards = lazy(() => import("./pages/UsCreditCards.tsx"));
+const BusinessCreditCards = lazy(() => import("./pages/BusinessCreditCards.tsx"));
 const UstRechner = lazy(() => import("./pages/UstRechner.tsx"));
 const AbschreibungRechner = lazy(() => import("./pages/AbschreibungRechner.tsx"));
 const HkLimitedWizard = lazy(() => import("./pages/HkLimitedWizard.tsx"));
@@ -153,6 +154,7 @@ const App = () => (
                 <Route path="/cockpit/foerderung" element={<PaywallGate title="Förderung-Datenbank"><FoerderungDb /></PaywallGate>} />
                 <Route path="/cockpit/us-llc-wizard" element={<PaywallGate title="US-LLC-Wizard"><UsLlcWizard /></PaywallGate>} />
                 <Route path="/cockpit/us-kreditkarten" element={<PaywallGate title="US-Kreditkarten-Guide"><UsCreditCards /></PaywallGate>} />
+                <Route path="/cockpit/geschaeftskreditkarten" element={<PaywallGate title="Geschäftskreditkarten-Vergleich"><BusinessCreditCards /></PaywallGate>} />
                 <Route path="/cockpit/ust-rechner" element={<PaywallGate title="USt-Rechner"><UstRechner /></PaywallGate>} />
                 <Route path="/cockpit/abschreibung" element={<PaywallGate title="Abschreibungs-Erklärer"><AbschreibungRechner /></PaywallGate>} />
                 <Route path="/cockpit/hk-limited-wizard" element={<PaywallGate title="HK-Limited-Wizard"><HkLimitedWizard /></PaywallGate>} />

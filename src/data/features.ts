@@ -151,6 +151,7 @@ const _CATEGORIES_RAW: FeatureCategory[] = [
       { slug: "marge-tracker", title: "Multi-Channel-Marge-Tracker", desc: "7 Channels (Shopify · Amazon FBA/FBM · eBay · Kaufland · Otto · Etsy) mit kanal-spezifischen Provisions + Payment-Fees + Werbung + Retouren-Quote · Marge & ROAS pro SKU & Kanal.", status: "beta", route: "/cockpit/marge-tracker" },
       { slug: "bwa", title: "BWA-Generator (Bank-tauglich)", desc: "Bank-feste BWA 2026: Net Debt/EBITDA, DSCR, FCF, ROCE — branchen-adjustierte Benchmarks (Basel IV / KfW). Score nur bei plausibler Datenlage, mit YoY + Bilanz + Cashflow.", status: "beta", route: "/cockpit/bwa-generator" },
       { slug: "datev-export", title: "StB-Hand-off Übergabe-Bundle", desc: "30+ Pflicht-Posten in 5 Gruppen (Buchführung, Steuer-Tools, International, Personal, Sonstiges) · Manifest-PDF mit Mandantendaten + Periode + Anhängen · Email-Helper mit fertigem Body.", status: "beta", route: "/cockpit/stb-handoff" },
+      { slug: "geschaeftskreditkarten", title: "Geschäftskreditkarten-Vergleich", desc: "12 Karten/Spend-Cards (Amex, Qonto, Pleo, Moss, Revolut, Vivid, Wise, Finom …) gefiltert nach Gründer-Typ: SCHUFA-frei, Solo ab Tag 1, native DATEV, 0 €-Einstieg.", status: "beta", route: "/cockpit/geschaeftskreditkarten" },
     ],
   },
   {
