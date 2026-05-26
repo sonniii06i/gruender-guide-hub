@@ -33,6 +33,7 @@ const CAT_GROUPS: CatGroup[] = [
   {
     label: "Finanzen",
     cats: [
+      { name: "Kreditkarten", icon: CreditCard },
       { name: "Banking DE", icon: Wallet },
       { name: "Banking US", icon: Wallet },
       { name: "Buchhaltung", icon: Receipt },
@@ -186,7 +187,13 @@ const Anbieter = () => {
             <Input
               placeholder="Anbieter, Stärke oder Schwäche suchen..."
               value={q}
-              onChange={(e) => setQ(e.target.value)}
+              onChange={(e) => {
+                const val = e.target.value;
+                setQ(val);
+                // Suche immer global: vorgewählte Kategorie zurücksetzen, sonst
+                // wirkt die Suche „kaputt" wenn man via ?cat=-Link reinkommt.
+                if (val !== "" && cat !== "Alle") setCatWithUrl("Alle");
+              }}
               className="h-11 pl-10 pr-10 text-sm bg-background"
             />
             {q && (

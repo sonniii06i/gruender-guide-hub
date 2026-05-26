@@ -2,6 +2,7 @@
  * Anbieter-Daten — extrahiert aus pages/Anbieter.tsx für RAG-Indexing.
  * LEGAL_URLS · Provider interface · FULL_DESCRIPTIONS · PROVIDERS
  */
+import { AMEX_REFERRAL } from "./businessCreditCards";
 /**
  * Verifizierte Legal-URLs pro Anbieter (Stand: 2026-05-06).
  * Bulk-verifiziert via Footer-Scrape + manuelle Korrekturen.
@@ -280,6 +281,163 @@ export const isCoopActive = (coop: Provider["coop"]): boolean => {
 };
 
 export const PROVIDERS: Provider[] = [
+  // ============ KREDITKARTEN (Geschäftskreditkarten / Spend-Cards) ============
+  {
+    slug: "amex-business-gold",
+    name: "Amex Business Gold",
+    category: "Kreditkarten",
+    region: "DE",
+    starting: "175 €/Jahr (1. Jahr oft frei)",
+    rating: 4.7,
+    tagline: "Bester Allrounder: 50 Tage Zahlungsziel, MR-Punkte & Versicherungen",
+    pros: [
+      "Bis 50 Tage zinsfreies Zahlungsziel (Cashflow-Hebel für Ad-Spend & Wareneinkauf)",
+      "75.000 MR-Punkte Willkommensbonus (Aktion)",
+      "Starke Reise- & Mietwagen-Versicherung",
+      "Bis 99 Zusatzkarten kostenlos",
+    ],
+    cons: [
+      "Bonität/SCHUFA nötig (Charge-Card)",
+      "Amex-Akzeptanz in DE schlechter als Visa/Mastercard",
+      "Geschäft idealerweise ≥ 12 Monate",
+    ],
+    forumNotes:
+      "Willkommensbonus = Aktionswert (Stand Mai 2026), vor Antrag auf amex.de verifizieren. Detail-Vergleich im Cockpit-Tool /cockpit/geschaeftskreditkarten.",
+    signupTime: "ca. 1–2 Wochen",
+    url: AMEX_REFERRAL.gold,
+  },
+  {
+    slug: "amex-business-platinum",
+    name: "Amex Business Platinum",
+    category: "Kreditkarten",
+    region: "DE",
+    starting: "850 €/Jahr",
+    rating: 4.5,
+    tagline: "Premium: 58 Tage Zahlungsziel + umfangreichstes Versicherungspaket",
+    pros: [
+      "Bis 58 Tage zinsfreies Zahlungsziel",
+      "Bis 200.000 MR-Punkte Willkommensbonus (Aktion)",
+      "Umfangreichstes Versicherungspaket am Markt",
+      "Lounge-Zugang (Kooperation bis 30.09.2026)",
+    ],
+    cons: [
+      "850 €/Jahr ist hoch",
+      "Bonität/SCHUFA nötig (Charge-Card)",
+      "Lufthansa-Lounge-Kooperation endet 30.09.2026",
+    ],
+    forumNotes:
+      "Willkommensbonus = Aktionswert (Stand Mai 2026), vor Antrag verifizieren. Detail-Vergleich im Cockpit-Tool /cockpit/geschaeftskreditkarten.",
+    signupTime: "ca. 1–2 Wochen",
+    url: AMEX_REFERRAL.platinum,
+  },
+  {
+    slug: "amex-business-basic",
+    name: "Amex Business (Basic/Green)",
+    category: "Kreditkarten",
+    region: "DE",
+    starting: "70 €/Jahr",
+    rating: 3.8,
+    tagline: "Günstigster Amex-Einstieg ins Membership-Rewards-Ökosystem",
+    pros: [
+      "Niedrige Jahresgebühr (70 €)",
+      "Charge-Card mit kurzem Zahlungsziel",
+      "Zugang zum Amex-Ökosystem",
+    ],
+    cons: [
+      "Rewards kosten extra (+30 €/Jahr)",
+      "Schwache Versicherung",
+      "Bonität/SCHUFA nötig",
+    ],
+    signupTime: "ca. 1–2 Wochen",
+    url: "https://www.americanexpress.com/de-de/business/",
+  },
+  {
+    slug: "pleo",
+    name: "Pleo",
+    category: "Kreditkarten",
+    region: "DE/EU",
+    starting: "0–79 €/Mon",
+    rating: 4.3,
+    tagline: "Team-Spend-Management mit starker DATEV-Vorkontierung",
+    pros: [
+      "SCHUFA-frei (Debit/Guthaben)",
+      "Starke DATEV-/lexoffice-Integration mit Vorkontierung",
+      "0,5–1 % Cashback je Plan",
+      "Viele Mitarbeiterkarten (erste 2 gratis)",
+    ],
+    cons: [
+      "Mehrwert erst bei mehreren Mitarbeitern",
+      "Kein Liquiditätspuffer (Debit)",
+      "Solo zahlt für ungenutzte Features",
+    ],
+    signupTime: "wenige Tage",
+    url: "https://www.pleo.io/de/firmenkarte",
+  },
+  {
+    slug: "moss",
+    name: "Moss",
+    category: "Kreditkarten",
+    region: "DE",
+    starting: "ab ~12 €/Mon (individuell)",
+    rating: 4.1,
+    tagline: "Echte Kreditlinie bis 2,5 Mio € für Firmen mit Bonität",
+    pros: [
+      "Echte Kreditkarte mit Kreditlinie (nicht nur Debit)",
+      "Hohe Limits (bis 2,5 Mio €)",
+      "DATEV-Integration + Auto-Kategorisierung",
+      "Viele Mitarbeiterkarten",
+    ],
+    cons: [
+      "SCHUFA-/Bonitätsprüfung Standard",
+      "Preise intransparent (Sales-Gespräch nötig)",
+      "Eher für GmbH/UG & etablierte Firmen",
+    ],
+    signupTime: "1–2 Wochen (mit Bonitätsprüfung)",
+    url: "https://www.getmoss.com/de/",
+  },
+  {
+    slug: "payhawk",
+    name: "Payhawk",
+    category: "Kreditkarten",
+    region: "DE/EU",
+    starting: "auf Anfrage",
+    rating: 4.0,
+    tagline: "Mid-Market-Spend mit nativer DATEV-Integration",
+    pros: [
+      "Native DATEV-Integration (Rechnungsdatenservice)",
+      "Enterprise-taugliches Spend-Management",
+      "SCHUFA-frei (in DE Debit)",
+    ],
+    cons: [
+      "Preise nur auf Anfrage (Sales)",
+      "Handelsregisterauszug-Pflicht → faktisch GmbH/UG",
+      "Overkill für Solo-Gründer",
+    ],
+    signupTime: "auf Anfrage",
+    url: "https://payhawk.com/de",
+  },
+  {
+    slug: "spendesk",
+    name: "Spendesk",
+    category: "Kreditkarten",
+    region: "DE/EU",
+    starting: "auf Anfrage",
+    rating: 4.0,
+    tagline: "Spend-Management für Teams, keine persönliche Haftung (Prepaid)",
+    pros: [
+      "Prepaid → keine persönliche Haftung, keine SCHUFA",
+      "Direkte DATEV-Integration + Belegmanagement",
+      "Virtuelle Karten bis 200.000 €/Transaktion",
+    ],
+    cons: [
+      "Preise nur auf Anfrage (Sales-Call)",
+      "Lohnt erst ab Teamgröße",
+      "Reines Prepaid — kein Liquiditätsvorteil",
+    ],
+    signupTime: "auf Anfrage",
+    url: "https://www.spendesk.com/de/",
+  },
+
   // ============ BANKING DE ============
   {
     slug: "qonto",
