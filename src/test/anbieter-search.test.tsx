@@ -3,11 +3,12 @@
  */
 import { describe, it, expect } from "vitest";
 import { render, screen, fireEvent, within } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import React from "react";
 
 import Anbieter, { PROVIDERS } from "@/pages/Anbieter";
+import AnbieterDetail from "@/pages/AnbieterDetail";
 
 const renderWithRouter = (ui: React.ReactElement) =>
   render(
@@ -79,5 +80,39 @@ describe("Anbieter — Kreditkarten-Kategorie", () => {
   it("rendert den Kreditkarten-Kategorie-Button", () => {
     renderWithRouter(<Anbieter />);
     expect(screen.getAllByText("Kreditkarten").length).toBeGreaterThan(0);
+  });
+});
+
+describe("AnbieterDetail — neue Kreditkarten-Provider rendern ohne Crash", () => {
+  const renderDetail = (slug: string) =>
+    render(
+      <HelmetProvider>
+        <MemoryRouter initialEntries={[`/anbieter/${slug}`]}>
+          <Routes>
+            <Route path="/anbieter/:slug" element={<AnbieterDetail />} />
+          </Routes>
+        </MemoryRouter>
+      </HelmetProvider>,
+    );
+
+  // Auch die mit fehlenden LEGAL_URLS/FULL_DESCRIPTIONS (Crash-Risiko-Kandidaten)
+  ["amex-business-gold", "amex-business-platinum", "pleo", "moss", "payhawk", "spendesk"].forEach(
+    (slug) => {
+      it(`Detailseite /${slug} rendert (Name + CTA)`, () => {
+        renderDetail(slug);
+        const p = PROVIDERS.find((x) => x.slug === slug)!;
+        expect(screen.getAllByText(p.name).length).toBeGreaterThan(0);
+        // CTA-Link "Zum Anbieter" muss auf p.url zeigen
+        const ctas = screen.getAllByText("Zum Anbieter");
+        const href = ctas[0].closest("a")?.getAttribute("href");
+        expect(href).toBe(p.url);
+      });
+    },
+  );
+
+  it("Amex-Gold-Detailseite verlinkt auf den Referral-Link", () => {
+    renderDetail("amex-business-gold");
+    const href = screen.getAllByText("Zum Anbieter")[0].closest("a")?.getAttribute("href");
+    expect(href).toContain("ref=sONNIBIJNE");
   });
 });
