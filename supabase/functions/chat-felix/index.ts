@@ -621,6 +621,16 @@ WIE DU TOOLS NUTZT:
 
 // Backwards-Compat: SYSTEM-Konstante = einmaliger Build beim Modul-Load.
 // Wird in Edge-Function pro Request neu gebaut (siehe buildSystemPrompt() in serve()).
+// Schlanker Prompt für Begrüßungen/Smalltalk — der volle ~950-Zeilen-Prompt
+// (Tools-Katalog, Buchungscodes, Guardrails) ist für "hallo" unnötig und kostet
+// reine Verarbeitungszeit beim LLM → spürbar schnelleres erstes Token.
+function buildSmallTalkSystem(): string {
+  const isoDate = new Date().toISOString().split("T")[0];
+  return `Du bist Felix, der KI-Co-Founder von GründerX — Assistent für deutsche Gründer rund um Rechtsform, Steuern, Marketplace-Setup, Compliance, Marken und Buchhaltung. Heute ist ${isoDate}.
+
+Der User hat dich nur kurz begrüßt oder eine kurze Meta-/Smalltalk-Frage gestellt. Antworte freundlich, locker und KURZ (1–3 Sätze) auf Deutsch. Stell dich ggf. knapp vor und frag, wobei du helfen kannst. Hänge KEINEN Steuer-/Rechts-Disclaimer an. Erfinde keine Fakten.`;
+}
+
 const SYSTEM = buildSystemPrompt();
 
 async function callLovable(messages: any[], key: string, systemOverride?: string): Promise<Response> {
@@ -729,6 +739,17 @@ async function callAnthropic(messages: any[], key: string, systemOverride?: stri
   });
 }
 
+// Begrüßungen / Smalltalk / kurze Quittungen brauchen KEINE KB-Retrieval.
+// Spart pro solcher Nachricht einen OpenAI-Embedding-Call + pgvector-Suche
+// → spürbar schnelleres erstes Token bei "hallo", "danke", "ok" etc.
+// Regex matcht NUR, wenn die GESAMTE Nachricht Smalltalk ist (^…$).
+const SMALL_TALK_RE =
+  /^(hi+|hallo|hey+|moin|servus|hej|yo|na|tach|tag|guten\s+(morgen|tag|abend)|hallo\s+felix|hey\s+felix|danke(\s+(dir|schön))?|dankeschön|merci|th(an)?ks?|ok(ay)?|alles\s+klar|verstanden|passt|super|top|perfekt|cool|nice|geil|jo|jap|jaa*|nee*|test+|ping|wie\s+geht'?s?(\s+dir|\s+es\s+dir)?|wer\s+bist\s+du|was\s+kannst\s+du)[\s!.?…]*$/iu;
+function isSmallTalk(text: string): boolean {
+  const t = text.trim();
+  return t.length <= 40 && SMALL_TALK_RE.test(t);
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
@@ -737,6 +758,8 @@ serve(async (req) => {
   try {
     const { messages } = await req.json();
     const lastUser = [...messages].reverse().find((m: any) => m.role === "user")?.content ?? "";
+    // Einmal erkennen: Begrüßung/Smalltalk? → schlanker Prompt + kein KB-Retrieval (schneller).
+    const smallTalk = isSmallTalk(lastUser);
 
     // === INPUT-GUARD ===
     const guard = inputGuard(lastUser);
@@ -760,7 +783,7 @@ serve(async (req) => {
     // System-Prompt PRO REQUEST neu bauen → Datum bleibt aktuell auch bei
     // long-lived Edge-Function-Isolates (sonst würde der Tag der Erst-Initialisierung
     // hängen bleiben, manchmal mehrere Tage am Stück).
-    const currentSystemPrompt = buildSystemPrompt();
+    const currentSystemPrompt = smallTalk ? buildSmallTalkSystem() : buildSystemPrompt();
 
     // === MEMORY-LAYER ===
     // User-ID aus JWT — wenn anon-Key oder fehlend: Memory wird übersprungen
@@ -790,7 +813,11 @@ serve(async (req) => {
     const SUPABASE_URL_KB = Deno.env.get("SUPABASE_URL");
     const SERVICE_KEY_KB = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
     let kbHits: any[] = [];
-    if (OPENAI_KEY && SUPABASE_URL_KB && SERVICE_KEY_KB && lastUser.trim().length >= 3) {
+    const skipKb = smallTalk;
+    if (skipKb) {
+      console.log(`[kb] skipped (small-talk): "${lastUser.trim().slice(0, 30)}"`);
+    }
+    if (!skipKb && OPENAI_KEY && SUPABASE_URL_KB && SERVICE_KEY_KB && lastUser.trim().length >= 3) {
       try {
         kbHits = await retrieveKb(lastUser, {
           openaiKey: OPENAI_KEY,
