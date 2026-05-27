@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, Link } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -9,6 +9,7 @@ import ReactMarkdown from "react-markdown";
 import { toast } from "sonner";
 import Logo from "@/components/Logo";
 import { notifyConversationsChanged } from "@/hooks/useFelixConversations";
+import { readProfileCache } from "@/lib/profileCache";
 
 type Msg = { role: "user" | "assistant"; content: string };
 
@@ -29,7 +30,32 @@ const FelixChat = () => {
   const [input, setInput] = useState("");
   const [streaming, setStreaming] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [firstName, setFirstName] = useState<string | null>(
+    () => readProfileCache(user?.id)?.first_name ?? null,
+  );
   const scrollRef = useRef<HTMLDivElement>(null);
+  // Welche Conversation steckt aktuell lokal in `messages`? Verhindert, dass der
+  // Load-Effekt die Nachrichten überschreibt, wenn wir die Conversation gerade
+  // selbst per send() erstellt haben (sonst „verschluckt" er die erste Nachricht).
+  const loadedConvRef = useRef<string | null>(null);
+
+  // Vorname für die Begrüßung (Cache zuerst, sonst aus profiles nachladen)
+  useEffect(() => {
+    if (!user) return;
+    const cached = readProfileCache(user.id)?.first_name;
+    if (cached) {
+      setFirstName(cached);
+      return;
+    }
+    supabase
+      .from("profiles")
+      .select("first_name")
+      .eq("id", user.id)
+      .maybeSingle()
+      .then(({ data }) => {
+        if (data?.first_name) setFirstName(data.first_name);
+      });
+  }, [user]);
 
   // Handle ?new=1: clear and remove the param
   useEffect(() => {
@@ -43,9 +69,15 @@ const FelixChat = () => {
   // Load messages of selected conversation
   useEffect(() => {
     if (!user || !convId) {
-      if (!convId) setMessages([]);
+      if (!convId) {
+        setMessages([]);
+        loadedConvRef.current = null;
+      }
       return;
     }
+    // Bereits geladen / gerade selbst bespielt (z.B. neu erstellt während send) → kein Reload,
+    // sonst überschreibt das DB-Ergebnis die lokale (noch ungespeicherte) Nachricht.
+    if (loadedConvRef.current === convId) return;
     setLoading(true);
     supabase
       .from("chat_messages")
@@ -55,6 +87,7 @@ const FelixChat = () => {
       .order("created_at")
       .then(({ data }) => {
         setMessages((data as Msg[]) ?? []);
+        loadedConvRef.current = convId;
         setLoading(false);
       });
   }, [user, convId]);
@@ -84,6 +117,9 @@ const FelixChat = () => {
         return;
       }
       activeConvId = data.id;
+      // VOR setParams als „lokal bespielt" markieren → der durch den convId-Wechsel
+      // ausgelöste Load-Effekt überspringt dann den Reload (kein Verschlucken).
+      loadedConvRef.current = activeConvId;
       setParams({ c: activeConvId }, { replace: true });
       notifyConversationsChanged();
     }
@@ -190,12 +226,14 @@ const FelixChat = () => {
           </div>
         ) : messages.length === 0 ? (
           <div className="h-full flex flex-col items-center justify-center text-center px-4">
-            <div className="mb-4">
-              <Logo asImage className="h-16 w-16" />
+            <div className="mb-5">
+              <Logo asImage className="h-14 w-14" />
             </div>
-            <h3 className="text-2xl font-bold mb-1">Hi, ich bin Felix.</h3>
-            <p className="text-sm text-muted-foreground mb-6 max-w-md">
-              Frag mich alles zu Gründung, Steuern, Compliance & Marketplaces.
+            <h3 className="text-3xl md:text-4xl font-bold tracking-tight mb-2">
+              {firstName ? `Willkommen zurück, ${firstName}` : "Willkommen zurück"}
+            </h3>
+            <p className="text-base md:text-lg text-muted-foreground mb-8 max-w-md">
+              Wobei kann ich dir heute helfen?
             </p>
             <div className="grid sm:grid-cols-2 gap-2 max-w-2xl w-full">
               {SUGGESTIONS.map((s) => (
@@ -261,6 +299,11 @@ const FelixChat = () => {
           </div>
           <p className="text-[10px] text-muted-foreground mt-2 text-center">
             Enter sendet · Shift+Enter neue Zeile · Felix kann Fehler machen, prüfe wichtige Infos.
+            Keine Steuer-/Rechtsberatung — bei verbindlicher Auslegung{" "}
+            <Link to="/cockpit/stb-finder" className="underline hover:text-foreground">
+              StB-Finder
+            </Link>{" "}
+            konsultieren.
           </p>
         </div>
       </div>
