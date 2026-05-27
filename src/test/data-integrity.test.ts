@@ -119,3 +119,26 @@ describe("anbieter.ts — neue Kreditkarten-Provider", () => {
     expect(top.slug).toBe("amex-business-gold");
   });
 });
+
+describe("anbieter.ts — globale Slug-Eindeutigkeit (Regression)", () => {
+  it("kein Provider-Slug kommt doppelt vor", () => {
+    const slugs = PROVIDERS.map((p) => p.slug);
+    const dupes = slugs.filter((s, i) => slugs.indexOf(s) !== i);
+    expect(dupes, `Doppelte Slugs: ${[...new Set(dupes)].join(", ")}`).toEqual([]);
+  });
+
+  it("Cross-gelistete Tools haben eindeutige Kategorie-Suffix-Slugs", () => {
+    const expected = [
+      "discord-community",
+      "gorgias-helpdesk",
+      "mailerlite-newsletter",
+      "northbeam-attribution",
+      "polar-analytics-attribution",
+      "tidio-helpdesk",
+      "triple-whale-attribution",
+    ];
+    expected.forEach((slug) => {
+      expect(PROVIDERS.filter((p) => p.slug === slug).length, slug).toBe(1);
+    });
+  });
+});
