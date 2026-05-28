@@ -100,7 +100,7 @@ export const FOERDERPROGRAMME: Foerderung[] = [
     emoji: "🎓",
     type: "stipendium",
     scope: "bund",
-    maxFunding: "2.500–3.000 €/Monat × 12 Monate + 30k Sachmittel + Coaching",
+    maxFunding: "2.500–3.000 €/Monat × 12 Monate + Sachausgaben bis 10k (Einzel)/30k (Team) + Coaching bis 5k",
     zielgruppe: ["Studierende", "Hochschulabsolventen (max 5 Jahre)", "Wissenschaftler"],
     phase: ["idee", "gruendung"],
     branche: ["wissensbasiert", "tech", "innovation"],
@@ -113,7 +113,7 @@ export const FOERDERPROGRAMME: Foerderung[] = [
       "Mind. 3 Jahre an Hochschule (auch als Mitarbeiter)",
     ],
     antragUrl: "https://www.exist.de/EXIST/Navigation/DE/Gruendungsfoerderung/EXIST-Gruendungsstipendium/exist-gruendungsstipendium.html",
-    notes: ["Stipendium 2.500 € (Diplom/Bachelor), 3.000 € (Master/Promo), 1.000 € (Coaching/Sachmittel)"],
+    notes: ["Stipendium/Monat: 2.500 € (Diplom/Bachelor), 3.000 € (Master/Promovierte), + 150 € je Kind. Dazu Sachausgaben bis 10.000 € (Einzel) / 30.000 € (Team) + Coaching bis 5.000 €."],
   },
   {
     slug: "exist-forschungstransfer",
