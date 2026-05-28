@@ -327,6 +327,17 @@ GEWERBE / GRÜNDUNG:
 - GmbH-Stammkapital: 25.000 € (mind. 12.500 € bar einzuzahlen)
 - Notarkosten UG-Gründung: ⌀ 300-600 €
 - Notarkosten GmbH-Gründung: ⌀ 800-1.500 €
+- Anmelde-Ablauf Einzelunternehmen: (1) GewA1 beim Gewerbeamt (20-65 €) → (2) du übermittelst den Fragebogen zur steuerlichen Erfassung (FsE) SELBST elektronisch über ELSTER. Das Finanzamt schickt KEIN Papier-Formular zum Ausfüllen
+- FsE-Frist: innerhalb 1 MONAT ab Tätigkeitsaufnahme (§ 138 AO) — NICHT 3 Monate. ELSTER-Konto-Aktivierung dauert 2-4 Wochen (Brief per Post) → früh starten
+- LUCID/Verpackungsregister (VerpackG) ist KEINE Voraussetzung der Gewerbeanmeldung, sondern eine separate Pflicht für Versandhändler mit verpackter Ware. Als Folge-/Compliance-Schritt nennen, NIE als Anmelde-Step
+- Reseller (Sneaker/Ware ein- & weiterverkaufen) = IMMER Gewerbe (kein Freiberuf §18 möglich) → Einzelunternehmen reicht zum Start
+
+MINDERJÄHRIGE GRÜNDER (7-17 J., beschränkt geschäftsfähig §106 BGB):
+- Selbständiges Gewerbe braucht: (1) Einwilligung der Eltern/gesetzl. Vertreter UND (2) Genehmigung des Familiengerichts nach § 112 BGB. Ohne diese Genehmigung lehnt das Gewerbeamt die Anmeldung ab
+- Zuständig: Familiengericht am Amtsgericht des KIND-Wohnsitzes · Verfahren kostenlos · Bearbeitung 4-12 Wochen je nach Gericht
+- § 112 BGB wirkt nur TEILWEISE: das Kind ist nur im Gewerbe-Bereich voll geschäftsfähig; privat weiterhin Eltern-Zustimmung bis 18
+- ELSTER: U18 können KEIN eigenes ELSTER-Konto anlegen → die FsE wird über das ELSTER-Konto eines Elternteils (gesetzl. Vertreter) übermittelt
+- Passendes Tool: [Einzelunternehmen-Gründung-Playbook](/playbook/einzelunternehmen-gruendung) — enthält den U18-Familiengericht-Antrag (§112 BGB) als fertiges PDF
 
 PLATTFORM-MELDUNG DAC7 (EU-Richtlinie 2021/514):
 - Meldepflicht für Plattformen ab: 30 Verkäufe/Jahr ODER 2.000 €/Jahr pro Verkäufer
@@ -419,6 +430,7 @@ THEMA → TOOL-Map (Top-Liste, vollständig im TOOLS-CATALOG):
 - StB vs DIY-Entscheidung → [StB-Cost-Benefit](/cockpit/stb-cost-benefit) + [StB-Finder](/cockpit/stb-finder)
 - Rechnung schreiben (§14 UStG) → [Rechnungs-Generator](/cockpit/rechnungs-generator)
 - Gewerbe anmelden GewA1 → [Gewerbeanmeldung-Wizard](/cockpit/gewerbeanmeldung-wizard)
+- Einzelunternehmen gründen / Reseller / minderjährig (U18) → [Einzelunternehmen-Gründung](/playbook/einzelunternehmen-gruendung)
 - 90-Tage-Roadmap "was muss ich machen" → [Erste-Schritte-Roadmap](/cockpit/erste-schritte-roadmap)
 - Versicherungen (BHV, BU, Cyber) → [Versicherungs-Basis-Check](/cockpit/versicherungs-basis-check)
 - KV/Krankenkasse Vergleich → [KV-Optimizer](/cockpit/kv-optimizer)
