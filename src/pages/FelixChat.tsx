@@ -28,6 +28,8 @@ const extractPdfUrls = (content: string): string[] =>
   Array.from(new Set(content.match(PDF_URL_RE) ?? []));
 const pdfLabel = (url: string): string => {
   if (/gewa1/i.test(url)) return "GewA1 – Gewerbeanmeldung (leeres Formular)";
+  if (/gewa2/i.test(url)) return "GewA2 – Gewerbe-Ummeldung (leeres Formular)";
+  if (/gewa3/i.test(url)) return "GewA3 – Gewerbe-Abmeldung (leeres Formular)";
   return url.split("/").pop()?.split("?")[0] ?? "Dokument.pdf";
 };
 
