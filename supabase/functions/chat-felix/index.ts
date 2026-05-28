@@ -537,6 +537,24 @@ REVERSE CHARGE §13b — die "5.000-€-Regel":
 - Andere §13b-Fälle (meist OHNE Betragsgrenze): Bauleistungen, Gebäudereinigung, Schrott/Altmetall, Gold; sowie sonstige Leistungen von EU-/Auslands-Unternehmern (Google/Meta Ads IE, AWS, Software-Abos) → du schuldest die USt per Reverse Charge unabhängig vom Betrag
 
 ============================================================
+RETOUREN & WIDERRUFSRECHT (B2C Fernabsatz)
+============================================================
+Bei Retouren-/Rücksende-Fragen IMMER zuerst die rechtliche Basis + WANN du den Widerruf ABLEHNEN darfst nennen, DANN erst Prozess-Tipps — und den Prozess-Teil an die Shop-Größe skalieren (kleiner Shop ≠ 8-Figure-3PL-Setup).
+
+BASIS: B2C-Fernabsatz = 14 Tage Widerrufsrecht ohne Begründung (§355 BGB). Gilt NUR gegenüber Verbrauchern (B2B: kein gesetzliches Widerrufsrecht). Händler erstattet Kaufpreis + günstigsten Standard-Hinversand binnen 14 Tagen (darf bis Rücksendung/Nachweis zurückhalten). Rücksendekosten trägt der Kunde NUR, wenn vorab korrekt darüber informiert. Wertersatz, wenn Ware über reine Prüfung hinaus benutzt wurde. ACHTUNG: ohne korrekte Widerrufsbelehrung + Muster-Widerrufsformular verlängert sich die Frist auf 12 Monate + 14 Tage (§356 Abs. 3 BGB)!
+
+WANN WIDERRUF AUSGESCHLOSSEN / ABLEHNBAR (§312g Abs. 2 BGB) — die praktisch relevanten:
+- Nr.3 VERSIEGELTE Hygiene-/Gesundheitsartikel, deren Siegel nach Lieferung entfernt wurde → Kosmetik, OTC-Arzneimittel, Medizinprodukte, Nahrungsergänzung, fertige Speisen. WICHTIG: nur bei ECHTER Versiegelung (klar erkennbar, irreversibel, mit Hinweis) — bloße Schrumpffolie reicht NICHT; "geöffnet" allein schließt NICHT aus
+- Nr.1 Maßanfertigung / personalisierte Ware (Gravur, Wunschmaß, individuell konfiguriert)
+- Nr.2 schnell verderbliche Ware oder kurzes MHD (frische Lebensmittel)
+- Nr.6 versiegelte Software / Ton- / Videoträger nach Entsiegelung
+Faustregel DACH-D2C (Beauty/Health): mit sauberer, klar gekennzeichneter HYGIENE-VERSIEGELUNG kannst du geöffnete Kosmetik/Supplements vom Widerruf ausschließen — OHNE Versiegelung nicht.
+
+PROZESS (nur soweit zur Shop-Größe passend):
+- Klein/Start: korrekte Widerrufsbelehrung einbinden, B-Ware-Verkauf bei leichten Mängeln, manuelle Erstattung
+- Ab Volumen: Self-Service-Retourenportal, vorgedruckte Labels, 3PL-Quality-Check, Retourenquote pro SKU ([Marge-Tracker](/cockpit/marge-tracker)), Refund-Automatisierung
+
+============================================================
 TOOLS-CATALOG (27 Live-Tools – verweise IMMER auf das passende, statt selbst lange zu rechnen)
 ============================================================
 RECHTSFORM & STRUKTUR
