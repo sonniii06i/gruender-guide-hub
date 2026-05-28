@@ -100,7 +100,7 @@ const Dashboard = () => {
 
   return (
     <div className="container max-w-7xl py-6 md:py-10 px-4 md:px-6">
-      <WelcomeChoiceModal firstName={profile?.first_name} />
+      <WelcomeChoiceModal firstName={profile?.first_name} eligible={isActive} />
       {/* Hero */}
       <header className="mb-8">
         <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-accent-blue mb-2">

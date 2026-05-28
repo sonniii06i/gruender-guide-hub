@@ -1,13 +1,14 @@
 /**
- * WelcomeChoiceModal — Dezentes Welcome-Modal beim ersten Dashboard-Besuch.
+ * WelcomeChoiceModal — Dezentes Welcome-Modal nach dem ersten Login mit aktivem Abo.
  *
  * Fragt einmalig: "Anfänger oder Fortgeschritten?" und leitet
  * Anfänger:innen direkt zur Starter-Kategorie. Anschluss-Modus
  * (Profi) zeigt nichts und schließt.
  *
- * Steuerung über localStorage-Flag — kein Server-State, keine
- * DB-Migration nötig. Bewusst NICHT mit Onboarding.tsx gekoppelt,
- * weil das ein anderer Flow ist (5-Step Profil-Setup).
+ * Gating: erscheint nur, wenn `eligible` true ist (= aktives Abo). Dedup
+ * über localStorage-Flag — kein Server-State, keine DB-Migration nötig.
+ * Bewusst NICHT mit Onboarding.tsx gekoppelt, weil das ein anderer Flow
+ * ist (5-Step Profil-Setup).
  */
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -15,19 +16,27 @@ import { Sprout, Rocket, X } from "lucide-react";
 
 const LS_KEY = "ggh-welcome-choice-v1";
 
-export const WelcomeChoiceModal = ({ firstName }: { firstName?: string | null }) => {
+export const WelcomeChoiceModal = ({
+  firstName,
+  eligible,
+}: {
+  firstName?: string | null;
+  eligible: boolean;
+}) => {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    // Nur beim allerersten Besuch zeigen
+    // Erst zeigen, wenn der User ein aktives Abo hat (= erster Login als Abonnent).
+    if (!eligible) return;
+    // Und nur einmalig — danach merkt sich das localStorage-Flag die Wahl.
     const seen = localStorage.getItem(LS_KEY);
     if (!seen) {
       // Kurze Verzögerung damit Dashboard erstmal rendert
       const t = setTimeout(() => setOpen(true), 600);
       return () => clearTimeout(t);
     }
-  }, []);
+  }, [eligible]);
 
   const dismiss = (choice: "anfaenger" | "profi" | "close") => {
     localStorage.setItem(LS_KEY, JSON.stringify({ choice, ts: Date.now() }));
