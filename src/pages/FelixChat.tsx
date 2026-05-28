@@ -218,8 +218,8 @@ const FelixChat = () => {
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-3rem)] bg-background">
-      <div ref={scrollRef} className="flex-1 overflow-y-auto">
+    <div className="flex flex-col h-[calc(100vh-3.5rem)] overflow-hidden bg-background">
+      <div ref={scrollRef} className="flex-1 overflow-y-auto overscroll-contain">
         {loading ? (
           <div className="h-full flex items-center justify-center text-muted-foreground">
             <Loader2 className="h-5 w-5 animate-spin" />
