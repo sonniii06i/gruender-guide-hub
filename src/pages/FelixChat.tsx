@@ -4,7 +4,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Send, Loader2 } from "lucide-react";
+import { Send, Loader2, FileText, Download } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import type { Components } from "react-markdown";
 import { toast } from "sonner";
@@ -20,6 +20,35 @@ const SUGGESTIONS = [
   "Was muss ich für Amazon FBA in DE anmelden?",
   "Lohnt sich eine US-LLC für mein SaaS?",
 ];
+
+// PDF-Links aus einer Felix-Antwort ziehen → unten als Datei-Anhang-Karte rendern,
+// damit die PDF sichtbar "mit übergeben" wird statt nur als Text-Link.
+const PDF_URL_RE = /(https?:\/\/[^\s)]+\.pdf|\/[^\s)]+\.pdf)/gi;
+const extractPdfUrls = (content: string): string[] =>
+  Array.from(new Set(content.match(PDF_URL_RE) ?? []));
+const pdfLabel = (url: string): string => {
+  if (/gewa1/i.test(url)) return "GewA1 – Gewerbeanmeldung (leeres Formular)";
+  return url.split("/").pop()?.split("?")[0] ?? "Dokument.pdf";
+};
+
+const PdfAttachment = ({ url }: { url: string }) => (
+  <a
+    href={url}
+    download
+    target="_blank"
+    rel="noopener noreferrer"
+    className="mt-3 flex items-center gap-3 rounded-xl border border-border bg-card hover:border-accent-blue/50 hover:bg-accent transition-colors p-3 no-underline group"
+  >
+    <div className="h-10 w-10 rounded-lg bg-red-500/10 text-red-600 flex items-center justify-center shrink-0">
+      <FileText className="h-5 w-5" />
+    </div>
+    <div className="min-w-0 flex-1">
+      <p className="text-sm font-medium text-foreground truncate">{pdfLabel(url)}</p>
+      <p className="text-xs text-muted-foreground">PDF · zum Herunterladen tippen</p>
+    </div>
+    <Download className="h-4 w-4 text-muted-foreground group-hover:text-accent-blue shrink-0" />
+  </a>
+);
 
 // Links in Felix-Antworten: PDFs/Dateien + externe URLs in neuem Tab öffnen
 // (sonst geht der Chat verloren / PDF lädt nicht), interne App-Routen per
@@ -288,9 +317,14 @@ const FelixChat = () => {
                   {m.role === "user" ? (
                     <p className="text-sm whitespace-pre-wrap">{m.content}</p>
                   ) : (
-                    <div className="prose prose-sm max-w-none text-foreground prose-headings:text-foreground prose-strong:text-foreground prose-a:text-accent-blue prose-li:my-0">
-                      <ReactMarkdown components={mdComponents}>{m.content}</ReactMarkdown>
-                    </div>
+                    <>
+                      <div className="prose prose-sm max-w-none text-foreground prose-headings:text-foreground prose-strong:text-foreground prose-a:text-accent-blue prose-li:my-0">
+                        <ReactMarkdown components={mdComponents}>{m.content}</ReactMarkdown>
+                      </div>
+                      {extractPdfUrls(m.content).map((u) => (
+                        <PdfAttachment key={u} url={u} />
+                      ))}
+                    </>
                   )}
                 </div>
               </div>
