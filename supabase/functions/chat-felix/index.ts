@@ -275,7 +275,7 @@ EINKOMMENSTEUER 2026:
 - Grundfreibetrag Verheiratet (Splitting): 24.696 €
 - Spitzensteuersatz 42 %: ab 69.879 € zvE
 - Reichensteuer 45 %: ab 277.826 € zvE
-- SolZ-Freigrenze: 19.950 € ESt (darunter 0 % SolZ)
+- SolZ-Freigrenze 2026: 20.350 € ESt Single / 40.700 € Zusammenveranlagung (darunter 0 % SolZ; war 2025: 19.950 / 39.900). Milderungszone darüber. Auf Kapitalerträge gilt der Soli weiter voll.
 - Sparer-Pauschbetrag: 1.000 € Single / 2.000 € Ehepaar (§20 Abs.9 EStG)
 
 FREIBETRÄGE / FREIGRENZEN:
@@ -563,6 +563,26 @@ Bei "wie mache ich X im Finanzamt/ELSTER"-Fragen IMMER den konkreten Menü-Pfad 
 - SONSTIGE NACHRICHT ANS FINANZAMT (formloses Anliegen ohne eigenes Formular): Formular "Sonstige Nachricht an das Finanzamt" (gleicher Menü-Pfad). Freitext + Anhänge möglich. WICHTIG: NICHT nutzen, wenn es ein passendes Spezial-Formular gibt (Bankverbindung, Einspruch, Fristverlängerung etc.) — dann das nehmen. Formular nicht sichtbar? Liegt meist an einem alten Zertifikat.
 - Weitere häufige Vorgänge (eigenes Formular, gleicher Menü-Pfad): Einspruch ("Einspruch"), Fristverlängerung Steuererklärung, Anpassung der Vorauszahlungen, USt-Dauerfristverlängerung; laufend: USt-Voranmeldung + Zusammenfassende Meldung (ZM).
 - Offizielles Portal ist elster.de. Ohne ELSTER-Konto (Aktivierung 2-4 Wochen per Post) geht keiner dieser Vorgänge. Verweise NIE auf ein erfundenes In-App-PDF für ELSTER-Vorgänge.
+
+VOLLSTÄNDIGER ELSTER-FORMULAR-KATALOG (Stand 2026, Mein ELSTER → Formulare & Leistungen → Alle Formulare). Nenne bei FA-/Steuer-Aufgaben IMMER den EXAKTEN Formularnamen + die Kategorie:
+- Anträge und Nachrichten: "Änderung der Adresse" · "Änderung der Bankverbindung" · "Antrag auf Anpassung von Vorauszahlungen" (Vorauszahlung rauf/runter — NICHT Sonstige Nachricht) · "Antrag auf Forschungszulage" · "Antrag auf Fristverlängerung" · "Antrag auf verbindliche Auskunft" (kostenpflichtige Rechtsauskunft vorab) · "Antrag auf verbindliche Zusage" · "Belegnachreichung" (Belege zu Erklärung nachreichen) · "Sonstige Nachricht an das Finanzamt"
+- Einkommensteuer: "Einkommensteuererklärung" (ESt 1 A unbeschränkt / ESt 1 C beschränkt) · "Anlage 34a" (§34a Thesaurierungsbegünstigung)
+- Einspruch: "Einspruch einreichen (inkl. Aussetzung der Vollziehung)" · "ergänzen/erweitern/einschränken" · "zurücknehmen"
+- Erbschaft-/Schenkungsteuer: "Erbschaftsteuererklärung" · "Schenkungsteuererklärung"
+- Feststellung: "Gesonderte und einheitliche Feststellung (ESt 1 B)" · "(ESt 1 D)" · §51/§56 InvStG · §18 AStG
+- Fragebogen zur steuerlichen Erfassung (FsE): Einzelunternehmen · Kapitalgesellschaft/Genossenschaft · Personengesellschaft · Verein/Körperschaft · Körperschaft nach ausländischem Recht → in-App-Begleiter: [FsE-Erklär-Begleiter](/cockpit/fse-wizard)
+- Gewerbesteuer: "Gewerbesteuererklärung (GewSt 1 A)" · "Zerlegung des Gewerbesteuermessbetrages (GewSt 1 D)"
+- Gewinnermittlung: "Einnahmenüberschussrechnung (Anlage EÜR)" · "Anlage 13a" (L+F)
+- Grundsteuer: je Bundesland + "Grundsteueränderungsanzeige"
+- Kapitalertragsteuer: "Anmeldung nach EStG" / "nach InvStG"
+- Körperschaftsteuer: "Körperschaftsteuererklärung (KSt 1)" · "Antrag auf Option zur KSt §1a KStG" (+ Rückoption §1a Abs.4) · "Feststellung der Einlagenrückgewähr"
+- Lohnsteuer (Arbeitgeber): "Lohnsteuer-Anmeldung" · "Lohnsteuerbescheinigung (Neu/Korrektur) ab 2026" · "Stornierung einer Lohnsteuerbescheinigung"
+- Lohnsteuer (Arbeitnehmer): "Antrag auf Lohnsteuer-Ermäßigung"
+- Bankverbindung an das BZSt: "Meldung Ihrer Bankverbindung an das BZSt" / "Abfrage der beim BZSt gespeicherten Bankverbindung" — WICHTIG: ≠ "Änderung der Bankverbindung" beim Finanzamt! BZSt-Meldung z.B. für Forschungszulage-/Vergütungs-Auszahlungen.
+- Sonstige Formulare: "Anmeldung Steuerabzug bei Bauleistungen §48a EStG" · "Erstattung von Abzugsbeträgen §48c Abs.2" · "Mitteilung Sachverhalte mit Auslandsbezug (§138 Abs.2 AO)" · "Mitteilung über elektronische Aufzeichnungssysteme (§146a AO)" (= Kasse/TSE anmelden — Pflicht!) · "Steuerabzug §50a Abs.7 EStG" · "Mindeststeuererklärung"
+- Umsatzsteuer: "Umsatzsteuer-Voranmeldung" · "Umsatzsteuererklärung" (Jahres) · "Zusammenfassende Meldung" (ZM) · "Dauerfristverlängerung/Sondervorauszahlung (monatlich)" / "Dauerfristverlängerung (vierteljährlich)" · "Antrag auf USt-Vergütung §4a UStG" · "Meldung innergemeinschaftlicher Lieferungen neuer Fahrzeuge" · "Fahrzeugeinzelbesteuerung"
+- Straf-/Bußgeldsachen: "Anzeige einer Steuerhinterziehung" (Selbstanzeige) · "Antrag auf Akteneinsicht" · "Sonstige Nachricht in Straf-/Bußgeldsachen"
+- Niche/landesspezifisch (nur erwähnen wenn gefragt): Rennwett-/Lotterie-/Sportwetten-/Glücksspielsteuern; Berlin/Bremen/Hamburg Hunde-/Übernachtungs-/Vergnügungssteuer.
 
 ============================================================
 TOOLS-CATALOG (27 Live-Tools – verweise IMMER auf das passende, statt selbst lange zu rechnen)

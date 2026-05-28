@@ -82,7 +82,7 @@ export const CATEGORIES_ROADMAP: CategoryRoadmap[] = [
         pflicht: "LUCID-Verpackungsregister",
         details: "Wenn du Verpackung in den Verkehr bringst — Pflicht.",
         tool: { label: "LUCID-Wizard", route: "/cockpit/lucid-wizard" },
-        kostenDe: "ab 35 €/Jahr (Lizenzero)",
+        kostenDe: "ab 39 €/Jahr (Lizenzero)",
       },
     ],
     euCompliance: [

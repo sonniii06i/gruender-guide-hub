@@ -351,7 +351,7 @@ export const GRUPPEN: Gruppe[] = [
       {
         key: "staking-lending",
         label: "Staking / Lending aktiv?",
-        hint: "Verlängert Haltefrist auf 10 Jahre (BMF 10.5.2022, BFH 14.2.2023 IX R 3/22)",
+        hint: "KEINE Verlängerung auf 10 Jahre bei Staking/Lending — die 1-Jahres-Frist (§23 EStG) gilt (BMF-Klarstellung; BFH 14.2.2023 IX R 3/22)",
         field: { type: "yesno" },
       },
       {
@@ -375,7 +375,7 @@ export const GRUPPEN: Gruppe[] = [
     beispielPainPoints: [
       "Staking-Erträge bei Eth2 — werden die zum Marktpreis bei Zufluss versteuert auch wenn ich nicht 'cash-out'?",
       "DeFi-LP-Eintritt in Uniswap V3 — Tausch (steuerpflichtig) oder kein Tausch (steuerfrei)?",
-      "10-Jahres-Frist bei Staking: Ich hab seit 2022 gestakt — wann sind die Coins steuerfrei? (BMF-Schreiben + BFH 2023 IX R 3/22)",
+      "Gilt bei Staking die 1-Jahres-Haltefrist oder 10 Jahre? (Antwort: 1 Jahr — BMF-Klarstellung + BFH 2023 IX R 3/22, keine 10-Jahres-Verlängerung)",
     ],
     regulatorischeBesonderheiten: [
       "§23 EStG Private Veräußerungsgeschäfte (1-Jahres-Haltefrist)",

@@ -269,10 +269,10 @@ export const PLAYBOOKS: Playbook[] = [
       {
         slug: "transparenzregister",
         title: "Transparenzregister-Eintrag",
-        description: "Pflicht seit 2021 für ALLE GmbHs. Wirtschaftlich Berechtigte (≥ 25 % Anteil oder Kontrolle) eintragen. Bei Versäumnis: Bußgeld bis 100.000 €.",
+        description: "Pflicht seit 2021 für ALLE GmbHs. Wirtschaftlich Berechtigte (≥ 25 % Anteil oder Kontrolle) eintragen. Bei Versäumnis: Bußgeld i.d.R. bis 100.000 €, in schweren/wiederholten Fällen bis 1 Mio. € (§ 56 GwG).",
         kind: "form",
         estMinutes: 30,
-        estCost: "0 € (kostenlos · aber bis 100.000 € Bußgeld bei Versäumnis)",
+        estCost: "0 € (kostenlos · aber bis 100.000 €, schwere Fälle bis 1 Mio. € Bußgeld bei Versäumnis)",
         checklist: [
           "Bundesanzeiger-Konto erstellen (kostenlos)",
           "Wirtschaftlich Berechtigte identifizieren (jeder ≥ 25 % Anteil oder Stimmrecht)",
@@ -495,7 +495,7 @@ export const PLAYBOOKS: Playbook[] = [
         externalLinks: [
           { label: "Transparenzregister", url: "https://www.transparenzregister.de" },
         ],
-        warning: "Bußgelder bis 100.000 € bei Versäumnis.",
+        warning: "Bußgelder bis 100.000 €, in schweren Fällen bis 1 Mio. € (§ 56 GwG), bei Versäumnis.",
       },
       {
         slug: "ruecklage",

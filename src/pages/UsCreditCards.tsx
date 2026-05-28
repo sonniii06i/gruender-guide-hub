@@ -34,6 +34,17 @@ import {
   Zap,
 } from "lucide-react";
 
+// Deadline-Status dynamisch aus dem Datum berechnen (statt hartkodiertem status-Feld),
+// damit vergangene Termine nicht weiterhin als "AKTIV" angezeigt werden.
+const isDeadlinePast = (s: string): boolean => {
+  const m = s.match(/(\d{1,2})\.(\d{1,2})\.(\d{4})/);
+  if (!m) return false;
+  const d = new Date(Number(m[3]), Number(m[2]) - 1, Number(m[1]));
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return d < today;
+};
+
 const UsCreditCards = () => {
   const [activeUseCase, setActiveUseCase] = useState<CardUseCase | "all">("business-ein");
   const [showAvoid, setShowAvoid] = useState(false);
@@ -267,7 +278,7 @@ const UsCreditCards = () => {
       {/* ===== MILES & POINTS-STRATEGIEN ===== */}
 
       {/* Deadline-Banner — wenn noch unaufgeklappt, prominent oben */}
-      {!showDeadlines && DEADLINES_2026.some((d) => d.status === "upcoming") && (
+      {!showDeadlines && DEADLINES_2026.some((d) => !isDeadlinePast(d.date)) && (
         <div className="rounded-2xl border-2 border-red-500/40 bg-red-500/5 p-4 mb-3">
           <button
             onClick={() => setShowDeadlines(true)}
@@ -276,7 +287,7 @@ const UsCreditCards = () => {
             <Calendar className="h-6 w-6 text-red-700 shrink-0" />
             <div className="flex-1">
               <div className="font-bold text-base text-red-700">
-                🚨 {DEADLINES_2026.filter((d) => d.status === "upcoming").length} kritische Miles-Deadlines 2026
+                🚨 {DEADLINES_2026.filter((d) => !isDeadlinePast(d.date)).length} kritische Miles-Deadlines 2026
               </div>
               <div className="text-sm text-muted-foreground mt-0.5">
                 Hyatt (20.5.) · Aeroplan (1.6.) · Etihad-Ende (30.6.) · Amex-LH-Lounge-Ende (1.10.) — jetzt buchen, später bereuen
@@ -369,7 +380,7 @@ const UsCreditCards = () => {
             <div
               key={s.id}
               className={`rounded-xl border p-3 ${
-                s.deadline ? "border-amber-500/30 bg-amber-500/5" : "border-border bg-card"
+                s.deadline && !isDeadlinePast(s.deadline) ? "border-amber-500/30 bg-amber-500/5" : "border-border bg-card"
               }`}
             >
               <div className="flex items-start justify-between gap-2 mb-2">
@@ -408,8 +419,8 @@ const UsCreditCards = () => {
               </div>
 
               {s.deadline && (
-                <div className="mt-2 text-xs text-amber-700 font-semibold flex items-center gap-1">
-                  ⏰ Deadline: {s.deadline}
+                <div className={`mt-2 text-xs font-semibold flex items-center gap-1 ${isDeadlinePast(s.deadline) ? "text-muted-foreground" : "text-amber-700"}`}>
+                  ⏰ Deadline: {s.deadline}{isDeadlinePast(s.deadline) ? " (abgelaufen)" : ""}
                 </div>
               )}
 
@@ -444,7 +455,7 @@ const UsCreditCards = () => {
             <div
               key={i}
               className={`rounded-xl border p-3 flex items-start gap-3 ${
-                d.status === "upcoming"
+                !isDeadlinePast(d.date)
                   ? "border-red-500/30 bg-card"
                   : "border-border bg-secondary/30 opacity-60"
               }`}
@@ -452,13 +463,13 @@ const UsCreditCards = () => {
               <div className="shrink-0 w-24">
                 <div
                   className={`text-xs font-bold ${
-                    d.status === "upcoming" ? "text-red-700" : "text-muted-foreground"
+                    !isDeadlinePast(d.date) ? "text-red-700" : "text-muted-foreground"
                   }`}
                 >
                   {d.date}
                 </div>
                 <div className="text-[10px] uppercase tracking-wider text-muted-foreground">
-                  {d.status === "upcoming" ? "AKTIV" : "passiert"}
+                  {!isDeadlinePast(d.date) ? "AKTIV" : "passiert"}
                 </div>
               </div>
               <div className="flex-1 min-w-0">
