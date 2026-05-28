@@ -197,9 +197,9 @@ const StbCostBenefit = () => {
       </div>
 
       {/* === DIY-Eigenzeit-Eingaben === */}
-      <div className="rounded-2xl border border-purple-500/30 bg-purple-500/5 p-5 mb-4">
+      <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5 mb-4">
         <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
-          <Clock className="h-4 w-4 text-purple-700" /> DIY-Setup: was kostet dich deine Zeit?
+          <Clock className="h-4 w-4 text-accent-blue" /> DIY-Setup: was kostet dich deine Zeit?
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <div>
@@ -409,9 +409,9 @@ const StbCostBenefit = () => {
 // Sub-Components
 // ============================================================================
 const BeginnerHero = () => (
-  <div className="rounded-2xl border-2 border-purple-500/30 bg-gradient-to-br from-purple-500/10 via-card to-card p-5 mb-6">
+  <div className="rounded-2xl border-2 border-accent-blue/30 bg-gradient-to-br from-accent-blue/10 via-card to-card p-5 mb-6">
     <div className="flex items-start gap-3">
-      <Lightbulb className="h-6 w-6 text-purple-700 shrink-0 mt-0.5" />
+      <Lightbulb className="h-6 w-6 text-accent-blue shrink-0 mt-0.5" />
       <div className="flex-1">
         <h3 className="font-bold text-sm mb-1">Brauche ich einen Steuerberater?</h3>
         <p className="text-xs text-muted-foreground leading-relaxed mb-2">

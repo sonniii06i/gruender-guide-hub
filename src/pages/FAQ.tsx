@@ -3,6 +3,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Button } from "@/components/ui/button";
 import { LifeBuoy, MessageSquare } from "lucide-react";
 import { Seo } from "@/components/Seo";
+import CockpitShell from "@/components/cockpit/CockpitShell";
 
 const FAQS: { q: string; a: string }[] = [
   { q: "Was ist GründerX?", a: "GründerX ist dein KI-Co-Pilot für die Gründung und das Operative – Steuern, Recht, Marketing, Buchhaltung, Tools. Felix (KI) plus geführte Playbooks bringen dich vom ersten Schritt bis zum laufenden Betrieb." },
@@ -21,7 +22,12 @@ const FAQS: { q: string; a: string }[] = [
 ];
 
 const FAQ = () => (
-  <div className="container max-w-3xl py-8 px-4 md:px-6">
+  <CockpitShell
+    eyebrow="Hilfe"
+    title="Häufige Fragen"
+    subtitle="Antworten auf die meistgestellten Fragen rund um GründerX."
+    showRelated={false}
+  >
     <Seo
       title="Häufige Fragen (FAQ) – Gründung, Steuern, Tools | GründerX"
       description="Antworten zu Gründung, Rechtsformen, Preisen, Datenschutz und Funktionen von GründerX. Alles, was Gründer und E-Commerce-Founder wissen wollen."
@@ -36,12 +42,6 @@ const FAQ = () => (
         })),
       }}
     />
-    <div className="mb-8">
-      <p className="text-xs font-semibold uppercase tracking-wider text-accent-blue mb-1">Hilfe</p>
-      <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Häufige Fragen</h1>
-      <p className="mt-1 text-sm text-muted-foreground">Antworten auf die meistgestellten Fragen rund um GründerX.</p>
-    </div>
-
     <Accordion type="single" collapsible className="space-y-3">
       {FAQS.map((f, i) => (
         <AccordionItem key={i} value={`f-${i}`} className="rounded-2xl border border-border bg-card px-5">
@@ -65,7 +65,7 @@ const FAQ = () => (
         </Button>
       </Link>
     </div>
-  </div>
+  </CockpitShell>
 );
 
 export default FAQ;

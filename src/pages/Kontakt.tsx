@@ -60,7 +60,7 @@ const Kontakt = () => {
           <div className="inline-flex items-center gap-2 rounded-full bg-accent-blue/10 border border-accent-blue/20 px-3 py-1 text-xs font-semibold text-accent-blue mb-4">
             <MessageSquare className="h-3.5 w-3.5" /> Support
           </div>
-          <h1 className="text-3xl md:text-4xl font-bold">Wie können wir helfen?</h1>
+          <h1 className="text-3xl md:text-4xl font-bold tracking-tight">Wie können wir helfen?</h1>
           <p className="mt-3 text-muted-foreground">
             Antwort innerhalb von 24h – meist schneller. Bei dringenden Steuer-/Rechtsfragen bitte Priorität im Betreff vermerken.
           </p>

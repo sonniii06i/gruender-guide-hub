@@ -141,7 +141,7 @@ const RatgeberPost = () => {
               </time>
             </div>
 
-            <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight text-balance">
+            <h1 className="text-3xl md:text-5xl font-bold tracking-tight leading-tight text-balance">
               {post.title}
             </h1>
             <p className="mt-5 text-lg text-muted-foreground text-balance">{post.excerpt}</p>

@@ -5,7 +5,8 @@ const AGB = () => (
   <div className="min-h-screen bg-background">
     <Navbar />
     <main className="container max-w-3xl pt-32 pb-24 prose prose-slate prose-headings:scroll-mt-24">
-      <h1 className="text-4xl font-extrabold mb-2">Allgemeine Geschäftsbedingungen</h1>
+      <p className="text-xs font-semibold uppercase tracking-wider text-accent-blue mb-2 not-prose">Rechtliches</p>
+      <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-2">Allgemeine Geschäftsbedingungen</h1>
       <p className="text-sm text-muted-foreground">Stand: Mai 2026 · Version 2.0</p>
 
       <div className="rounded-xl border-2 border-warning/40 bg-warning/5 p-4 my-6 text-sm">

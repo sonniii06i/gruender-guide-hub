@@ -5,7 +5,8 @@ const Impressum = () => (
   <div className="min-h-screen bg-background">
     <Navbar />
     <main className="container max-w-3xl pt-32 pb-24 prose prose-slate">
-      <h1 className="text-4xl font-extrabold mb-8">Impressum</h1>
+      <p className="text-xs font-semibold uppercase tracking-wider text-accent-blue mb-2 not-prose">Rechtliches</p>
+      <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-8">Impressum</h1>
 
       <h2 className="text-2xl font-bold mt-8 mb-3">Angaben gemäß § 5 TMG</h2>
       <h3 className="font-semibold mt-4">Verantwortlich für den Inhalt:</h3>

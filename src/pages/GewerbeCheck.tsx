@@ -389,7 +389,7 @@ const GewerbeCheck = () => {
                         </span>
                       )}
                       {t.freiberuf === "vielleicht" && (
-                        <span className="rounded-full bg-purple-500/10 text-purple-700 px-2 py-0.5 text-[10px] font-semibold">
+                        <span className="rounded-full bg-accent-blue/10 text-accent-blue px-2 py-0.5 text-[10px] font-semibold">
                           Beides möglich
                         </span>
                       )}
@@ -596,13 +596,13 @@ const GewerbeCheck = () => {
 // ===== Sub-Components =====
 
 const RechtsformBox = ({ reco }: { reco: RechtsformReco }) => (
-  <div className="rounded-2xl border-2 border-purple-500/40 bg-gradient-to-br from-purple-500/10 via-card to-card p-5 mb-6">
+  <div className="rounded-2xl border-2 border-accent-blue/40 bg-gradient-to-br from-accent-blue/10 via-card to-card p-5 mb-6">
     <div className="flex items-start gap-3 mb-3">
-      <div className="h-10 w-10 rounded-xl bg-purple-500/15 flex items-center justify-center text-xl shrink-0">
+      <div className="h-10 w-10 rounded-xl bg-accent-blue/15 flex items-center justify-center text-xl shrink-0">
         🏛️
       </div>
       <div className="flex-1 min-w-0">
-        <div className="text-xs uppercase tracking-wider text-purple-700 font-semibold mb-1">
+        <div className="text-xs uppercase tracking-wider text-accent-blue font-semibold mb-1">
           Empfohlene Rechtsform + USt-Modus
         </div>
         <h3 className="text-lg font-bold">{reco.empfohlenLabel}</h3>
@@ -631,7 +631,7 @@ const RechtsformBox = ({ reco }: { reco: RechtsformReco }) => (
     {reco.alternativen.length > 0 && (
       <details className="rounded-xl border border-border bg-card/60 p-3">
         <summary className="cursor-pointer text-xs font-semibold flex items-center gap-1.5">
-          <span className="text-purple-700">▸</span> Alternativen ansehen ({reco.alternativen.length})
+          <span className="text-accent-blue">▸</span> Alternativen ansehen ({reco.alternativen.length})
         </summary>
         <div className="mt-3 space-y-3">
           {reco.alternativen.map((alt) => (
@@ -650,13 +650,13 @@ const RechtsformBox = ({ reco }: { reco: RechtsformReco }) => (
     {/* Cross-Links zu vertiefenden Tools */}
     <div className="mt-3 pt-3 border-t border-border flex flex-wrap gap-2 text-[11px]">
       <span className="text-muted-foreground">Tiefer einsteigen:</span>
-      <Link to="/cockpit/gewerbeanmeldung-wizard" className="text-purple-700 hover:underline font-medium">
+      <Link to="/cockpit/gewerbeanmeldung-wizard" className="text-accent-blue hover:underline font-medium">
         Gewerbeanmeldung-Wizard →
       </Link>
-      <Link to="/wizard/rechtsform" className="text-purple-700 hover:underline font-medium">
+      <Link to="/wizard/rechtsform" className="text-accent-blue hover:underline font-medium">
         Rechtsform-Wizard →
       </Link>
-      <Link to="/cockpit/brutto-netto-solo" className="text-purple-700 hover:underline font-medium">
+      <Link to="/cockpit/brutto-netto-solo" className="text-accent-blue hover:underline font-medium">
         Brutto-Netto-Rechner →
       </Link>
     </div>
@@ -664,9 +664,9 @@ const RechtsformBox = ({ reco }: { reco: RechtsformReco }) => (
 );
 
 const BeginnerHero = () => (
-  <div className="rounded-2xl border-2 border-emerald-500/30 bg-gradient-to-br from-emerald-500/10 via-card to-card p-5 mb-6">
+  <div className="rounded-2xl border-2 border-accent-blue/30 bg-gradient-to-br from-accent-blue/10 via-card to-card p-5 mb-6">
     <div className="flex items-start gap-3">
-      <Lightbulb className="h-6 w-6 text-emerald-700 shrink-0 mt-0.5" />
+      <Lightbulb className="h-6 w-6 text-accent-blue shrink-0 mt-0.5" />
       <div className="flex-1">
         <h3 className="font-bold text-sm mb-1">Was ist das hier?</h3>
         <p className="text-xs text-muted-foreground leading-relaxed mb-3">

@@ -39,7 +39,7 @@ const Support = () => {
   }, [active]);
 
   return (
-    <div className="container max-w-5xl py-8 px-4 md:px-6">
+    <div className="container max-w-6xl py-8 px-4 md:px-6">
       <div className="flex items-start justify-between gap-4 mb-8">
         <div>
           <p className="text-xs font-semibold uppercase tracking-wider text-accent-blue mb-1">Support</p>

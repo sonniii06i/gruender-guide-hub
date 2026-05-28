@@ -5,7 +5,8 @@ const Datenschutz = () => (
   <div className="min-h-screen bg-background">
     <Navbar />
     <main className="container max-w-3xl pt-32 pb-24 prose prose-slate prose-headings:scroll-mt-24">
-      <h1 className="text-4xl font-extrabold mb-2">Datenschutzerklärung</h1>
+      <p className="text-xs font-semibold uppercase tracking-wider text-accent-blue mb-2 not-prose">Rechtliches</p>
+      <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-2">Datenschutzerklärung</h1>
       <p className="text-sm text-muted-foreground">Stand: Mai 2026 · Version 2.0 (GründerX-spezifisch)</p>
 
       <h2 id="ueberblick" className="text-2xl font-bold mt-10 mb-3">1. Überblick & Verantwortlicher</h2>

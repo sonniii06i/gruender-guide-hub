@@ -82,10 +82,10 @@ const Ratgeber = () => {
 
       <section className="pt-28 pb-12 bg-hero">
         <div className="container max-w-5xl">
-          <p className="text-sm font-semibold uppercase tracking-wider text-accent-blue mb-3">
+          <p className="text-xs font-semibold uppercase tracking-wider text-accent-blue mb-2">
             Ratgeber
           </p>
-          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-balance leading-tight">
+          <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-balance leading-tight">
             Gründer-Wissen, das wirklich weiterhilft.
           </h1>
           <p className="mt-5 text-lg text-muted-foreground max-w-2xl">

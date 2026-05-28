@@ -228,7 +228,7 @@ const BruttoNettoSolo = () => {
       </div>
 
       {/* === Ergebnis-Karte === */}
-      <div className="rounded-2xl border-2 border-emerald-500/40 bg-gradient-to-br from-emerald-500/10 via-card to-card p-5 mb-6">
+      <div className="rounded-2xl border-2 border-accent-blue/40 bg-gradient-to-br from-accent-blue/10 via-card to-card p-5 mb-6">
         <div className="text-xs uppercase tracking-wider text-muted-foreground mb-1">Dein Netto</div>
         <div className="flex items-baseline gap-3 flex-wrap mb-3">
           <div className="text-4xl font-bold text-emerald-700">
@@ -302,9 +302,9 @@ const BruttoNettoSolo = () => {
       </div>
 
       {/* === Vergleich Angestellter === */}
-      <div className="rounded-2xl border border-purple-500/30 bg-purple-500/5 p-5 mb-6">
+      <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5 mb-6">
         <h3 className="font-bold text-sm mb-2 flex items-center gap-2">
-          <TrendingDown className="h-4 w-4 text-purple-700" />
+          <TrendingDown className="h-4 w-4 text-accent-blue" />
           Vergleich: gleiches AG-Total als Angestellter
         </h3>
         <p className="text-xs text-muted-foreground mb-3">
@@ -322,7 +322,7 @@ const BruttoNettoSolo = () => {
           </div>
           <div className="rounded-lg bg-secondary/40 p-3">
             <div className="text-[10px] uppercase text-muted-foreground">Angestellt (gleiches AG-Total)</div>
-            <div className="text-base font-bold text-purple-700">{Math.round(calc.anNetto / 12).toLocaleString("de-DE")} €/Mon</div>
+            <div className="text-base font-bold text-accent-blue">{Math.round(calc.anNetto / 12).toLocaleString("de-DE")} €/Mon</div>
             <div className="text-[10px] text-muted-foreground">netto nach ESt + AN-SV-Anteil 20,5 %</div>
           </div>
           <div className={`rounded-lg p-3 ${calc.nettoMonat > calc.anNetto / 12 ? "bg-emerald-500/10" : "bg-amber-500/10"}`}>
@@ -392,21 +392,21 @@ const Row = ({ label, val, bold, highlight, note }: { label: string; val: number
 );
 
 const BeginnerHero = () => (
-  <div className="rounded-2xl border-2 border-emerald-500/30 bg-gradient-to-br from-emerald-500/10 via-card to-card p-5 mb-6">
+  <div className="rounded-2xl border-2 border-accent-blue/30 bg-gradient-to-br from-accent-blue/10 via-card to-card p-5 mb-6">
     <div className="flex items-start gap-3">
-      <Lightbulb className="h-6 w-6 text-emerald-700 shrink-0 mt-0.5" />
+      <Lightbulb className="h-6 w-6 text-accent-blue shrink-0 mt-0.5" />
       <div className="flex-1">
         <h3 className="font-bold text-sm mb-1">Was ist das hier?</h3>
         <p className="text-xs text-muted-foreground leading-relaxed mb-2">
           Du fragst dich: „Wenn ich 60.000 € im Jahr einnehme — was bleibt davon NACH allem (Steuer, KV, Rente) am Ende übrig?" Standard-Brutto-Netto-Rechner aus dem Web sind für Angestellte gemacht und geben Selbstständigen falsche Werte. Dieses Tool rechnet Solo-Selbstständige-spezifisch: Umsatz minus BA = Gewinn → ESt mit Progression → ggf. GewSt → freiwillige KV/PV → Netto.
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-[11px]">
-          <div className="rounded-lg bg-emerald-500/5 p-2 border border-emerald-500/20">
-            <strong className="text-emerald-700">✅ Step-by-Step-Transparenz</strong>
+          <div className="rounded-lg bg-accent-blue/5 p-2 border border-accent-blue/20">
+            <strong className="text-accent-blue">✅ Step-by-Step-Transparenz</strong>
             <div className="text-muted-foreground mt-0.5">Jede Abzug-Position wird einzeln gezeigt mit §-Verweis und Begründung</div>
           </div>
-          <div className="rounded-lg bg-purple-500/5 p-2 border border-purple-500/20">
-            <strong className="text-purple-700">🔄 Vergleich Angestellter</strong>
+          <div className="rounded-lg bg-accent-blue/5 p-2 border border-accent-blue/20">
+            <strong className="text-accent-blue">🔄 Vergleich Angestellter</strong>
             <div className="text-muted-foreground mt-0.5">Fair-Vergleich: was würde dasselbe AG-Total als Angestellter abwerfen? (inkl. AG-Anteil SV)</div>
           </div>
         </div>

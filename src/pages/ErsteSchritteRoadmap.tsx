@@ -190,7 +190,7 @@ const ErsteSchritteRoadmap = () => {
       </div>
 
       {/* === Fortschritt-Hero === */}
-      <div className="rounded-2xl border-2 border-emerald-500/40 bg-gradient-to-br from-emerald-500/10 via-card to-card p-5 mb-4">
+      <div className="rounded-2xl border-2 border-accent-blue/40 bg-gradient-to-br from-accent-blue/10 via-card to-card p-5 mb-4">
         <div className="flex items-center justify-between flex-wrap gap-3 mb-3">
           <div>
             <div className="text-xs uppercase tracking-wider text-muted-foreground">Fortschritt</div>
@@ -325,7 +325,7 @@ const TaskCard = ({ task, status, onCycle, onSetStatus }: {
     : task.pflicht === "soll" ? "text-amber-700 bg-amber-500/10 border-amber-500/30"
     : "text-blue-700 bg-blue-500/10 border-blue-500/30";
 
-  const phaseColor = task.phase === "T0" ? "bg-purple-500/20 text-purple-700"
+  const phaseColor = task.phase === "T0" ? "bg-accent-blue/20 text-accent-blue"
     : task.phase === "T30" ? "bg-emerald-500/20 text-emerald-700"
     : task.phase === "T60" ? "bg-blue-500/20 text-blue-700"
     : "bg-amber-500/20 text-amber-700";
@@ -403,9 +403,9 @@ const TaskCard = ({ task, status, onCycle, onSetStatus }: {
 // Sub-Components
 // ============================================================================
 const BeginnerHero = () => (
-  <div className="rounded-2xl border-2 border-purple-500/30 bg-gradient-to-br from-purple-500/10 via-card to-card p-5 mb-6">
+  <div className="rounded-2xl border-2 border-accent-blue/30 bg-gradient-to-br from-accent-blue/10 via-card to-card p-5 mb-6">
     <div className="flex items-start gap-3">
-      <Lightbulb className="h-6 w-6 text-purple-700 shrink-0 mt-0.5" />
+      <Lightbulb className="h-6 w-6 text-accent-blue shrink-0 mt-0.5" />
       <div className="flex-1">
         <h3 className="font-bold text-sm mb-1">90-Tage-Plan für die ersten 3 Monate</h3>
         <p className="text-xs text-muted-foreground leading-relaxed mb-2">

@@ -608,7 +608,7 @@ const RechnungsGenerator = () => {
       </div>
 
       {/* === Summen-Hero === */}
-      <div className="rounded-2xl border-2 border-emerald-500/40 bg-gradient-to-br from-emerald-500/10 via-card to-card p-5 mb-4">
+      <div className="rounded-2xl border-2 border-accent-blue/40 bg-gradient-to-br from-accent-blue/10 via-card to-card p-5 mb-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <div className="text-xs uppercase tracking-wider text-muted-foreground mb-2">Rechnungssumme</div>
@@ -700,9 +700,9 @@ const RechnungsGenerator = () => {
 // Sub-Components
 // ============================================================================
 const BeginnerHero = () => (
-  <div className="rounded-2xl border-2 border-purple-500/30 bg-gradient-to-br from-purple-500/10 via-card to-card p-5 mb-6">
+  <div className="rounded-2xl border-2 border-accent-blue/30 bg-gradient-to-br from-accent-blue/10 via-card to-card p-5 mb-6">
     <div className="flex items-start gap-3">
-      <Lightbulb className="h-6 w-6 text-purple-700 shrink-0 mt-0.5" />
+      <Lightbulb className="h-6 w-6 text-accent-blue shrink-0 mt-0.5" />
       <div className="flex-1">
         <h3 className="font-bold text-sm mb-1">Erste richtige Rechnung schreiben</h3>
         <p className="text-xs text-muted-foreground leading-relaxed mb-2">
@@ -723,8 +723,8 @@ const BeginnerHero = () => (
             <strong className="text-amber-700">§13b RC</strong>
             <div className="text-muted-foreground mt-0.5">B2B EU-Dienstleistung</div>
           </div>
-          <div className="rounded-lg bg-purple-500/5 p-2 border border-purple-500/20">
-            <strong className="text-purple-700">§6a IGL</strong>
+          <div className="rounded-lg bg-accent-blue/5 p-2 border border-accent-blue/20">
+            <strong className="text-accent-blue">§6a IGL</strong>
             <div className="text-muted-foreground mt-0.5">Waren B2B EU steuerfrei</div>
           </div>
         </div>

@@ -181,9 +181,9 @@ const StundensatzRechner = () => {
       </div>
 
       {/* === Arbeitszeit-Eingabe === */}
-      <div className="rounded-2xl border border-purple-500/30 bg-purple-500/5 p-5 mb-4">
+      <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5 mb-4">
         <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
-          <Clock className="h-4 w-4 text-purple-700" /> 2. Wie viel arbeitest du wirklich?
+          <Clock className="h-4 w-4 text-accent-blue" /> 2. Wie viel arbeitest du wirklich?
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
           <div>
@@ -342,9 +342,9 @@ const StundensatzRechner = () => {
       </div>
 
       {/* === Vergleich Angestellter === */}
-      <div className="rounded-2xl border border-purple-500/30 bg-purple-500/5 p-5 mb-6">
+      <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5 mb-6">
         <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
-          <TrendingUp className="h-4 w-4 text-purple-700" />
+          <TrendingUp className="h-4 w-4 text-accent-blue" />
           Vergleich: dasselbe Netto als Angestellter
         </h3>
         <p className="text-xs text-muted-foreground mb-3">
@@ -357,7 +357,7 @@ const StundensatzRechner = () => {
           </div>
           <div className="rounded-lg bg-secondary/40 p-3">
             <div className="text-[10px] uppercase text-muted-foreground">Angestellt (gleicher Netto)</div>
-            <div className="text-base font-bold text-purple-700">{Math.round(calc.an_stundensatz).toLocaleString("de-DE")} €/h</div>
+            <div className="text-base font-bold text-accent-blue">{Math.round(calc.an_stundensatz).toLocaleString("de-DE")} €/h</div>
           </div>
           <div className="rounded-lg bg-amber-500/10 p-3">
             <div className="text-[10px] uppercase text-amber-700">Selbstständig-Aufschlag</div>
@@ -403,9 +403,9 @@ const StundensatzRechner = () => {
 // Sub-Components
 // ============================================================================
 const BeginnerHero = () => (
-  <div className="rounded-2xl border-2 border-purple-500/30 bg-gradient-to-br from-purple-500/10 via-card to-card p-5 mb-6">
+  <div className="rounded-2xl border-2 border-accent-blue/30 bg-gradient-to-br from-accent-blue/10 via-card to-card p-5 mb-6">
     <div className="flex items-start gap-3">
-      <Lightbulb className="h-6 w-6 text-purple-700 shrink-0 mt-0.5" />
+      <Lightbulb className="h-6 w-6 text-accent-blue shrink-0 mt-0.5" />
       <div className="flex-1">
         <h3 className="font-bold text-sm mb-1">Was ist das hier?</h3>
         <p className="text-xs text-muted-foreground leading-relaxed mb-2">

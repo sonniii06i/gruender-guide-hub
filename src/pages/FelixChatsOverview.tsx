@@ -76,9 +76,10 @@ export default function FelixChatsOverview() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto px-4 md:px-6 py-6 md:py-10">
-      <div className="flex items-center justify-between mb-6">
+    <div className="container max-w-6xl py-8 px-4 md:px-6">
+      <div className="flex items-start justify-between gap-4 mb-6">
         <div>
+          <p className="text-xs font-semibold uppercase tracking-wider text-accent-blue mb-1">Felix · Chats</p>
           <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Deine Chats</h1>
           <p className="text-sm text-muted-foreground mt-1">
             Alle Gespräche mit Felix – durchsuchbar und jederzeit fortsetzbar.

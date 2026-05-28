@@ -1059,9 +1059,9 @@ const FseWizard = () => {
 // ============================================================================
 
 const HeroBlock = () => (
-  <div className="rounded-2xl border-2 border-purple-500/30 bg-gradient-to-br from-purple-500/10 via-card to-card p-5 mb-4">
+  <div className="rounded-2xl border-2 border-accent-blue/30 bg-gradient-to-br from-accent-blue/10 via-card to-card p-5 mb-4">
     <div className="flex items-start gap-3">
-      <Lightbulb className="h-6 w-6 text-purple-700 shrink-0 mt-0.5" />
+      <Lightbulb className="h-6 w-6 text-accent-blue shrink-0 mt-0.5" />
       <div className="flex-1">
         <h3 className="font-bold text-sm mb-1">Wie du dieses Tool benutzt</h3>
         <ol className="text-xs text-muted-foreground leading-relaxed mb-2 list-decimal list-inside space-y-1">
@@ -1128,7 +1128,7 @@ const Section = ({ nr, title, intro, warn, children, collapsedByDefault }: {
   <details open={!collapsedByDefault} className="rounded-2xl border border-border bg-card p-4 mb-3">
     <summary className="cursor-pointer">
       <span className="font-bold text-sm">
-        <span className="inline-block min-w-[2rem] h-7 px-2 rounded-full bg-purple-500/15 text-purple-700 text-center mr-2 leading-7">{nr}</span>
+        <span className="inline-block min-w-[2rem] h-7 px-2 rounded-full bg-accent-blue/15 text-accent-blue text-center mr-2 leading-7">{nr}</span>
         {title}
       </span>
       <div className="text-xs text-muted-foreground mt-1 ml-10">{intro}</div>
@@ -1180,15 +1180,15 @@ const RecommendationCard = ({ title, questions, decide }: {
   const allAnswered = questions.every((q) => answers[q.id]);
 
   return (
-    <div className="rounded-lg bg-purple-500/8 border border-purple-500/30 p-3 my-2">
+    <div className="rounded-lg bg-accent-blue/8 border border-accent-blue/30 p-3 my-2">
       {!open ? (
         <button type="button" onClick={() => setOpen(true)}
-          className="w-full text-left text-xs font-semibold text-purple-700 hover:text-purple-800 flex items-center gap-1.5">
+          className="w-full text-left text-xs font-semibold text-accent-blue hover:text-accent-blue flex items-center gap-1.5">
           <Lightbulb className="h-3.5 w-3.5" /> {title} — Empfehlung anzeigen ↓
         </button>
       ) : (
         <div className="space-y-2">
-          <div className="text-xs font-semibold text-purple-700 flex items-center gap-1.5">
+          <div className="text-xs font-semibold text-accent-blue flex items-center gap-1.5">
             <Lightbulb className="h-3.5 w-3.5" /> {title}
           </div>
           {questions.map((q) => (
@@ -1202,8 +1202,8 @@ const RecommendationCard = ({ title, questions, decide }: {
                     onClick={() => setAnswers((a) => ({ ...a, [q.id]: opt.v }))}
                     className={`text-[11px] rounded-full px-2.5 py-1 border transition ${
                       answers[q.id] === opt.v
-                        ? "bg-purple-600 text-white border-purple-600"
-                        : "bg-card border-border hover:border-purple-400"
+                        ? "bg-accent-blue text-white border-accent-blue"
+                        : "bg-card border-border hover:border-accent-blue"
                     }`}
                   >
                     {opt.label}

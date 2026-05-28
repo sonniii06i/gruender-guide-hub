@@ -140,7 +140,7 @@ const VersicherungsBasisCheck = () => {
       </div>
 
       {/* === Kosten-Hero === */}
-      <div className="rounded-2xl border-2 border-emerald-500/40 bg-gradient-to-br from-emerald-500/10 via-card to-card p-5 mb-4">
+      <div className="rounded-2xl border-2 border-accent-blue/40 bg-gradient-to-br from-accent-blue/10 via-card to-card p-5 mb-4">
         <div className="text-xs uppercase tracking-wider text-muted-foreground mb-1">
           Geschätzte Jahreskosten für PFLICHT + DRINGEND ({kostenSchaetzung.anzahl} Versicherungen)
         </div>
@@ -306,9 +306,9 @@ const VersicherungsCard = ({ versicherung: v, prioritaet, pflichtGrund }: {
 // Sub-Components
 // ============================================================================
 const BeginnerHero = () => (
-  <div className="rounded-2xl border-2 border-purple-500/30 bg-gradient-to-br from-purple-500/10 via-card to-card p-5 mb-6">
+  <div className="rounded-2xl border-2 border-accent-blue/30 bg-gradient-to-br from-accent-blue/10 via-card to-card p-5 mb-6">
     <div className="flex items-start gap-3">
-      <Lightbulb className="h-6 w-6 text-purple-700 shrink-0 mt-0.5" />
+      <Lightbulb className="h-6 w-6 text-accent-blue shrink-0 mt-0.5" />
       <div className="flex-1">
         <h3 className="font-bold text-sm mb-1">Welche Versicherungen brauchst du als Solo-Selbstständige:r?</h3>
         <p className="text-xs text-muted-foreground leading-relaxed mb-2">

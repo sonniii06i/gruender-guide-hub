@@ -74,16 +74,16 @@ export const WelcomeChoiceModal = ({
           <Link
             to="/dashboard?view=themen&cat=starter"
             onClick={() => dismiss("anfaenger")}
-            className="group rounded-2xl border-2 border-purple-500/40 bg-gradient-to-br from-purple-500/10 via-card to-card p-5 hover:border-purple-500 hover:shadow-soft transition-all text-left"
+            className="group rounded-2xl border-2 border-accent-blue/40 bg-gradient-to-br from-accent-blue/10 via-card to-card p-5 hover:border-accent-blue hover:shadow-soft transition-all text-left"
           >
-            <div className="h-12 w-12 rounded-xl bg-purple-500/15 flex items-center justify-center mb-3 group-hover:scale-110 transition">
-              <Sprout className="h-6 w-6 text-purple-700" />
+            <div className="h-12 w-12 rounded-xl bg-accent-blue/15 flex items-center justify-center mb-3 group-hover:scale-110 transition">
+              <Sprout className="h-6 w-6 text-accent-blue" />
             </div>
             <div className="font-bold text-base mb-1">Komplette:r Anfänger:in</div>
             <p className="text-xs text-muted-foreground leading-relaxed">
               Noch kein Gewerbe / kein Wissen über Steuern / vor der ersten Rechnung. {STARTER_COUNT} Tools, die dich von Tag 0 bis Tag 90 führen.
             </p>
-            <div className="mt-3 inline-flex items-center text-[11px] font-semibold text-purple-700">
+            <div className="mt-3 inline-flex items-center text-[11px] font-semibold text-accent-blue">
               → Erste Schritte zeigen
             </div>
           </Link>
