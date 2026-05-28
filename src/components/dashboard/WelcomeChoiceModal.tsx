@@ -13,8 +13,10 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Sprout, Rocket, X } from "lucide-react";
+import { categoryToolCount } from "@/data/features";
 
 const LS_KEY = "ggh-welcome-choice-v1";
+const STARTER_COUNT = categoryToolCount("starter");
 
 export const WelcomeChoiceModal = ({
   firstName,
@@ -79,7 +81,7 @@ export const WelcomeChoiceModal = ({
             </div>
             <div className="font-bold text-base mb-1">Komplette:r Anfänger:in</div>
             <p className="text-xs text-muted-foreground leading-relaxed">
-              Noch kein Gewerbe / kein Wissen über Steuern / vor der ersten Rechnung. 10 Tools, die dich von Tag 0 bis Tag 90 führen.
+              Noch kein Gewerbe / kein Wissen über Steuern / vor der ersten Rechnung. {STARTER_COUNT} Tools, die dich von Tag 0 bis Tag 90 führen.
             </p>
             <div className="mt-3 inline-flex items-center text-[11px] font-semibold text-purple-700">
               → Erste Schritte zeigen

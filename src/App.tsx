@@ -129,7 +129,7 @@ const App = () => (
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/onboarding" element={<Onboarding />} />
               <Route element={<AppLayout />}>
-                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/dashboard" element={<PaywallGate title="Dashboard"><Dashboard /></PaywallGate>} />
                 <Route path="/cockpit/steuer" element={<PaywallGate title="Steuer-Cockpit"><SteuerCockpit /></PaywallGate>} />
                 <Route path="/cockpit/amazon-buchungen" element={<PaywallGate title="Steuer-Cockpit"><AmazonBuchungen /></PaywallGate>} />
                 <Route path="/cockpit/check" element={<PaywallGate title="Brand-Check"><BrandCheck /></PaywallGate>} />

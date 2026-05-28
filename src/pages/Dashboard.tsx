@@ -5,7 +5,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { readProfileCache, writeProfileCache, PROFILE_UPDATE_EVENT, type CachedProfile } from "@/lib/profileCache";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { CATEGORIES, STATUS_LABEL, type Feature, type FeatureCategory } from "@/data/features";
+import { CATEGORIES, STATUS_LABEL, categoryToolCount, type Feature, type FeatureCategory } from "@/data/features";
 import { PLAYBOOKS } from "@/data/playbooks";
 import { GuideCard } from "@/components/dashboard/GuideCard";
 import { ContinueLearning } from "@/components/dashboard/ContinueLearning";
@@ -25,6 +25,8 @@ interface Subscription { status: string }
 
 const VIEWS = ["start", "tools", "meine", "themen"] as const;
 type View = typeof VIEWS[number];
+
+const STARTER_COUNT = categoryToolCount("starter");
 
 const Dashboard = () => {
   const { user } = useAuth();
@@ -393,11 +395,11 @@ const StarterHighlight = ({ isActive }: { isActive: boolean }) => {
           <div className="min-w-0">
             <div className="flex items-center gap-2 flex-wrap mb-1">
               <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-purple-700">Für Einsteiger:innen</p>
-              <span className="text-[9px] font-bold uppercase tracking-wider bg-purple-500 text-white px-1.5 py-0.5 rounded-full">11 neue Tools</span>
+              <span className="text-[9px] font-bold uppercase tracking-wider bg-purple-500 text-white px-1.5 py-0.5 rounded-full">{STARTER_COUNT} neue Tools</span>
             </div>
             <h2 className="text-xl md:text-2xl font-bold tracking-tight">Du startest gerade? Hier entlang.</h2>
             <p className="text-sm text-muted-foreground mt-1 max-w-2xl">
-              Von „Brauche ich überhaupt ein Gewerbe?" bis zur ersten §14-konformen Rechnung — 10 Tools, die durch die ersten 90 Tage führen. Mit personalisierten Empfehlungen und PDF-Vorbereitung für Bürgeramt/Finanzamt.
+              Von „Brauche ich überhaupt ein Gewerbe?" bis zur ersten §14-konformen Rechnung — {STARTER_COUNT} Tools, die durch die ersten 90 Tage führen. Mit personalisierten Empfehlungen und PDF-Vorbereitung für Bürgeramt/Finanzamt.
             </p>
           </div>
         </div>
@@ -405,7 +407,7 @@ const StarterHighlight = ({ isActive }: { isActive: boolean }) => {
           to="/dashboard?view=themen&cat=starter"
           className="inline-flex items-center gap-1.5 rounded-full bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 text-sm font-semibold transition shrink-0"
         >
-          Alle 10 Tools <ArrowRight className="h-4 w-4" />
+          Alle {STARTER_COUNT} Tools <ArrowRight className="h-4 w-4" />
         </Link>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5">

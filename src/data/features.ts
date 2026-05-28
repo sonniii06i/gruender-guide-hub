@@ -196,6 +196,10 @@ export const CATEGORIES: FeatureCategory[] = ORDER
   .map((slug) => _CATEGORIES_RAW.find((c) => c.slug === slug)!)
   .filter(Boolean);
 
+// Live-Tool-Anzahl einer Kategorie — damit Texte wie "X Tools" nie veralten.
+export const categoryToolCount = (slug: string): number =>
+  CATEGORIES.find((c) => c.slug === slug)?.features.length ?? 0;
+
 export const STATUS_LABEL: Record<FeatureStatus, string> = {
   live: "Live",
   beta: "Beta",
