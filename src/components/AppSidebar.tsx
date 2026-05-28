@@ -42,8 +42,8 @@ export function AppSidebar() {
 
   return (
     <Sidebar collapsible="icon">
-      <SidebarHeader className="border-b border-sidebar-border">
-        <Link to="/" aria-label="Zur Startseite" className="flex items-center gap-2 px-2 py-1.5">
+      <SidebarHeader className="h-14 justify-center py-0 border-b border-sidebar-border">
+        <Link to="/" aria-label="Zur Startseite" className="flex items-center gap-2 px-2">
           <Logo asImage className="h-8 w-8 shrink-0" />
           {!collapsed && (
             <div className="flex flex-col leading-tight">
