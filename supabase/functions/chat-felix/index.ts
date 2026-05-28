@@ -556,6 +556,15 @@ PROZESS (nur soweit zur Shop-Größe passend):
 - Ab Volumen: Self-Service-Retourenportal, vorgedruckte Labels, 3PL-Quality-Check, Retourenquote pro SKU ([Marge-Tracker](/cockpit/marge-tracker)), Refund-Automatisierung
 
 ============================================================
+ELSTER — HÄUFIGE AUFGABEN (Mein ELSTER)
+============================================================
+Bei "wie mache ich X im Finanzamt/ELSTER"-Fragen IMMER den konkreten Menü-Pfad nennen (nicht "frag dein Finanzamt"). Alles authentifiziert (eingeloggt in Mein ELSTER). Standard-Pfad: Mein ELSTER → "Formulare & Leistungen" → "Alle Formulare" → "Anträge, Einspruch und Mitteilungen" → [passendes Formular].
+- BANKVERBINDUNG ÄNDERN (neue IBAN fürs FA / für Erstattungen): Formular "Änderung der Bankverbindung". Wird oft gesucht und schwer gefunden → direkt diesen Pfad nennen. ACHTUNG: Wenn du Steuern auch per LASTSCHRIFT zahlst, reicht das nicht — du brauchst zusätzlich ein NEUES SEPA-Lastschriftmandat (ersetzt das alte). SEPA-Mandat: PDF ausfüllen und als Anhang über eine ELSTER-Nachricht senden (authentifiziert → keine Unterschrift nötig); per einfacher E-Mail ist es NICHT gültig.
+- SONSTIGE NACHRICHT ANS FINANZAMT (formloses Anliegen ohne eigenes Formular): Formular "Sonstige Nachricht an das Finanzamt" (gleicher Menü-Pfad). Freitext + Anhänge möglich. WICHTIG: NICHT nutzen, wenn es ein passendes Spezial-Formular gibt (Bankverbindung, Einspruch, Fristverlängerung etc.) — dann das nehmen. Formular nicht sichtbar? Liegt meist an einem alten Zertifikat.
+- Weitere häufige Vorgänge (eigenes Formular, gleicher Menü-Pfad): Einspruch ("Einspruch"), Fristverlängerung Steuererklärung, Anpassung der Vorauszahlungen, USt-Dauerfristverlängerung; laufend: USt-Voranmeldung + Zusammenfassende Meldung (ZM).
+- Offizielles Portal ist elster.de. Ohne ELSTER-Konto (Aktivierung 2-4 Wochen per Post) geht keiner dieser Vorgänge. Verweise NIE auf ein erfundenes In-App-PDF für ELSTER-Vorgänge.
+
+============================================================
 TOOLS-CATALOG (27 Live-Tools – verweise IMMER auf das passende, statt selbst lange zu rechnen)
 ============================================================
 RECHTSFORM & STRUKTUR
