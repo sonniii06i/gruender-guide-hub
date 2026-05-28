@@ -28,8 +28,17 @@ const mdComponents: Components = {
   a: ({ href, children }) => {
     const url = href ?? "";
     if (!url) return <>{children}</>;
-    const newTab = /^https?:\/\//i.test(url) || url.startsWith("/forms/") || url.endsWith(".pdf");
-    if (newTab) {
+    const isFile = url.startsWith("/forms/") || url.endsWith(".pdf");
+    const isExternal = /^https?:\/\//i.test(url);
+    // Datei (PDF) → direkt herunterladen, neuer Tab als Fallback
+    if (isFile) {
+      return (
+        <a href={url} target="_blank" rel="noopener noreferrer" download>
+          {children}
+        </a>
+      );
+    }
+    if (isExternal) {
       return (
         <a href={url} target="_blank" rel="noopener noreferrer">
           {children}
