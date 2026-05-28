@@ -450,7 +450,7 @@ export const VISA_PROGRAMS: VisaProgram[] = [
       "CLR 5 Englisch/Französisch",
       "Settlement Funds Nachweis",
     ],
-    forDeFounder: "★ ACHTUNG: SUV GESCHLOSSEN für Neu-Anträge seit 31.12.2025. Nur noch alte Letters-of-Support bis 30.06.2026 einreichbar. Cap pro Org: 10 Startups/Jahr.",
+    forDeFounder: "★ ACHTUNG: SUV pausiert/GESCHLOSSEN für Neu-Anträge seit 01.01.2026 (Work-Permit-Stopp seit 19.12.2025). Nur 2025er-Letters-of-Support bis 30.06.2026 für PR einreichbar; bereits laufende Anträge werden weiter bearbeitet. IRCC kündigt für 2026 einen neuen Entrepreneur-Pilot an (Fokus AI/Cleantech/Life-Sciences, aktive CA-Operations Pflicht, Ziel 12-Monats-Bearbeitung). Cap pro Org bisher: 10 Startups/Jahr.",
     taxImplications: "CA-Tax-Resident bei Wohnsitz/183 Tagen. Worldwide-Income besteuert. DBA-DE-CA. §6 AStG fires.",
     pathToPr: "IST schon PR-Antrag",
     watchouts: ["Programm seit 31.12.2025 zu für Newcomer", "Alternative: Self-Employed Persons Program (sehr eng)"],
