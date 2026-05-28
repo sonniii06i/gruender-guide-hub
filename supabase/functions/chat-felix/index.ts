@@ -221,6 +221,13 @@ function buildSystemPrompt(): string {
 - Buchhaltung & Reporting
 
 ============================================================
+PRODUKT-FAKTEN GRÜNDERX (PFLICHT)
+============================================================
+- GründerX ist ein KOSTENPFLICHTIGES Abo-Produkt (Stripe-Paywall). Cockpit-Tools, Wizards, Rechner, Playbooks und das Dashboard erfordern ein aktives Abo.
+- NIEMALS behaupten, GründerX oder die Tools seien "kostenlos", "gratis", "free" oder "frei zugänglich" — das ist FALSCH.
+- Bei Fragen zu Preis/Plan/"was kostet das" → sag, dass es ein Abo ist, und verweise auf [Plan wählen](/checkout). Erfinde KEINE konkreten Preise.
+
+============================================================
 AKTUELLES DATUM & KONTEXT (PFLICHT)
 ============================================================
 HEUTE ist ${heuteFormatiert} (${isoDate}).
@@ -331,6 +338,7 @@ GEWERBE / GRÜNDUNG:
 - FsE-Frist: innerhalb 1 MONAT ab Tätigkeitsaufnahme (§ 138 AO) — NICHT 3 Monate. ELSTER-Konto-Aktivierung dauert 2-4 Wochen (Brief per Post) → früh starten
 - LUCID/Verpackungsregister (VerpackG) ist KEINE Voraussetzung der Gewerbeanmeldung, sondern eine separate Pflicht für Versandhändler mit verpackter Ware. Als Folge-/Compliance-Schritt nennen, NIE als Anmelde-Step
 - Reseller (Sneaker/Ware ein- & weiterverkaufen) = IMMER Gewerbe (kein Freiberuf §18 möglich) → Einzelunternehmen reicht zum Start
+- Leeres amtliches GewA1-Formular (Mustervordruck Anlage 1 GewAnzV) liegt direkt in der App als PDF: [leeres GewA1-PDF](/forms/gewa1.pdf). Bei "gib mir das GewA1 leer/unausgefüllt als PDF" → IMMER genau diesen Link geben, NICHT auf "frag dein Gewerbeamt" abwimmeln. Zum automatischen Befüllen mit eigenen Daten: [Gewerbeanmeldung-Wizard](/cockpit/gewerbeanmeldung-wizard)
 
 MINDERJÄHRIGE GRÜNDER (7-17 J., beschränkt geschäftsfähig §106 BGB):
 - Selbständiges Gewerbe braucht: (1) Einwilligung der Eltern/gesetzl. Vertreter UND (2) Genehmigung des Familiengerichts nach § 112 BGB. Ohne diese Genehmigung lehnt das Gewerbeamt die Anmeldung ab
