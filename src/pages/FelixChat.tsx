@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Send, Loader2 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
+import type { Components } from "react-markdown";
 import { toast } from "sonner";
 import Logo from "@/components/Logo";
 import { notifyConversationsChanged } from "@/hooks/useFelixConversations";
@@ -19,6 +20,25 @@ const SUGGESTIONS = [
   "Was muss ich für Amazon FBA in DE anmelden?",
   "Lohnt sich eine US-LLC für mein SaaS?",
 ];
+
+// Links in Felix-Antworten: PDFs/Dateien + externe URLs in neuem Tab öffnen
+// (sonst geht der Chat verloren / PDF lädt nicht), interne App-Routen per
+// React-Router-Link (kein Full-Page-Reload).
+const mdComponents: Components = {
+  a: ({ href, children }) => {
+    const url = href ?? "";
+    if (!url) return <>{children}</>;
+    const newTab = /^https?:\/\//i.test(url) || url.startsWith("/forms/") || url.endsWith(".pdf");
+    if (newTab) {
+      return (
+        <a href={url} target="_blank" rel="noopener noreferrer">
+          {children}
+        </a>
+      );
+    }
+    return <Link to={url}>{children}</Link>;
+  },
+};
 
 const FelixChat = () => {
   const { user, session } = useAuth();
@@ -260,7 +280,7 @@ const FelixChat = () => {
                     <p className="text-sm whitespace-pre-wrap">{m.content}</p>
                   ) : (
                     <div className="prose prose-sm max-w-none text-foreground prose-headings:text-foreground prose-strong:text-foreground prose-a:text-accent-blue prose-li:my-0">
-                      <ReactMarkdown>{m.content}</ReactMarkdown>
+                      <ReactMarkdown components={mdComponents}>{m.content}</ReactMarkdown>
                     </div>
                   )}
                 </div>
