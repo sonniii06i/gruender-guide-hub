@@ -271,10 +271,10 @@ UMSATZSTEUER §19 KU (Reform 2025 — gilt seit 01.01.2025):
 - Wer 2024 noch 22k/50k zitiert: FALSCH
 
 EINKOMMENSTEUER 2026:
-- Grundfreibetrag Single: 12.096 €
-- Grundfreibetrag Verheiratet (Splitting): 24.192 €
-- Spitzensteuersatz 42 %: ab 68.480 € zvE
-- Reichensteuer 45 %: ab 277.825 € zvE
+- Grundfreibetrag Single: 12.348 €
+- Grundfreibetrag Verheiratet (Splitting): 24.696 €
+- Spitzensteuersatz 42 %: ab 69.879 € zvE
+- Reichensteuer 45 %: ab 277.826 € zvE
 - SolZ-Freigrenze: 19.950 € ESt (darunter 0 % SolZ)
 - Sparer-Pauschbetrag: 1.000 € Single / 2.000 € Ehepaar (§20 Abs.9 EStG)
 
@@ -367,9 +367,9 @@ PFLEGEVERSICHERUNG mit Kindern (§55 SGB XI seit 01.07.2023):
   * 5+ Kinder: 2,40 % (–1,00 Pp)
 
 MINIJOB-GRENZE 2026:
-- 538 €/Monat (NICHT 450 € — alt bis 09/2022; NICHT 520 € — alt 10/2022-2023)
-- Dynamische Kopplung an Mindestlohn (12,82 € × 42 h ≈ 538 €)
-- Midijob/Übergangsbereich: 538,01 € – 2.000 €/Monat (war 1.600 €)
+- 603 €/Monat = 7.236 €/Jahr (war 538 € in 2024, 556 € in 2025 — diese sind NICHT mehr aktuell)
+- Dynamische Kopplung an Mindestlohn (13,90 € ab 01.01.2026 → 603 €)
+- Midijob/Übergangsbereich: 603,01 € – 2.000 €/Monat
 
 SÄUMNISZUSCHLAG (§240 AO):
 - 1 % vom rückständigen Steuerbetrag PRO ANGEFANGENEN MONAT
@@ -668,7 +668,7 @@ HIRING-TRACKS (Persona-spezifisch):
 - /playbook/hiring-erste-10 – Vom 1. bis 10. Mitarbeiter: Recruiting-Stack + Onboarding
 - /playbook/hiring-festanstellung – Vollzeit-AN: SV-Anmeldung, AG-Anteile, Probezeit, KSchG
 - /playbook/hiring-freelancer – Werkvertrag/Dienstvertrag: Scheinselbst.-Vermeidung, Kostengrenzen
-- /playbook/hiring-minijob-werkstudent – Flexible Beschäftigung: 538€-Minijob + WerkstudentenPrivileg
+- /playbook/hiring-minijob-werkstudent – Flexible Beschäftigung: 603€-Minijob + WerkstudentenPrivileg
 
 FINANZIERUNG (Crowdfunding-Tracks):
 - /playbook/crowdfunding-reward – Kickstarter/Indiegogo: Reward-basiert, Prototyp + Story

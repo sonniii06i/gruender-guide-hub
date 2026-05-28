@@ -49,8 +49,8 @@ export const IP_BOX_REGIMES: IPBoxRegime[] = [
     flag: "🇨🇾",
     regimeName: "Cyprus IP-Box (Section 9(1)(l)) — Modified Nexus Approach",
     standardKSt: 12.5,
-    effectiveRate: 2.5,
-    mechanism: "80 %-Befreiung qualifizierter Netto-Einkünfte → 12,5 % × 20 % = 2,5 % effektiv",
+    effectiveRate: 3.0,
+    mechanism: "80 %-Befreiung qualifizierter Netto-Einkünfte → 15 % × 20 % = 3,0 % effektiv (KSt-Reform 2026, vorher 12,5 % → 2,5 %)",
     qualifyingIncome: [
       "Patent-Lizenzgebühren",
       "Patentierte Software / Computerprogramme (registriert)",

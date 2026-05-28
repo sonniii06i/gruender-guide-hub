@@ -45,7 +45,7 @@ export const GLOSSAR: GlossarBegriff[] = [
   // ========== GRUNDBEGRIFFE ==========
   { begriff: "Einkommensteuer (ESt)", aliases: ["ESt", "Einkommenssteuer"], kategorie: "grundbegriffe",
     kurzDefinition: "Steuer auf das Einkommen natürlicher Personen — progressiver Tarif 14–45 %.",
-    ausfuehrlich: "Die ESt erfasst alle 7 Einkunftsarten (§2 EStG): Land-/Forst, Gewerbe, selbstständige Arbeit, nichtselbstständige Arbeit, Kapitalvermögen, Vermietung, sonstige Einkünfte. Tarif 2026: Grundfreibetrag 12.348 € · 14 % Eingangssatz · 42 % Spitzensatz ab 68.481 € · 45 % Reichensteuer ab 277.826 €.",
+    ausfuehrlich: "Die ESt erfasst alle 7 Einkunftsarten (§2 EStG): Land-/Forst, Gewerbe, selbstständige Arbeit, nichtselbstständige Arbeit, Kapitalvermögen, Vermietung, sonstige Einkünfte. Tarif 2026: Grundfreibetrag 12.348 € · 14 % Eingangssatz · 42 % Spitzensatz ab 69.879 € · 45 % Reichensteuer ab 277.826 €.",
     paragraph: "§32a EStG", beispiel: "Selbstständiger mit 50.000 € Gewinn zahlt ~10.500 € ESt.",
     toolLinks: [{ route: "/cockpit/quartals-steuer", label: "Quartals-Steuerschätzung" }],
   },
