@@ -36,6 +36,7 @@ const CryptoSteuer = lazy(() => import("./pages/CryptoSteuer.tsx"));
 const SettlementParser = lazy(() => import("./pages/SettlementParser.tsx"));
 const LucidWizard = lazy(() => import("./pages/LucidWizard.tsx"));
 const CeRohsGenerator = lazy(() => import("./pages/CeRohsGenerator.tsx"));
+const WeeeCheck = lazy(() => import("./pages/WeeeCheck.tsx"));
 const FoerderungDb = lazy(() => import("./pages/FoerderungDb.tsx"));
 const UsLlcWizard = lazy(() => import("./pages/UsLlcWizard.tsx"));
 const UsCreditCards = lazy(() => import("./pages/UsCreditCards.tsx"));
@@ -151,6 +152,7 @@ const App = () => (
                 <Route path="/cockpit/settlement-parser" element={<PaywallGate title="Settlement-Parser"><SettlementParser /></PaywallGate>} />
                 <Route path="/cockpit/lucid-wizard" element={<PaywallGate title="LUCID-Wizard"><LucidWizard /></PaywallGate>} />
                 <Route path="/cockpit/ce-generator" element={<PaywallGate title="CE/RoHS-Generator"><CeRohsGenerator /></PaywallGate>} />
+                <Route path="/cockpit/weee-check" element={<PaywallGate title="WEEE/EAR-Check"><WeeeCheck /></PaywallGate>} />
                 <Route path="/cockpit/foerderung" element={<PaywallGate title="Förderung-Datenbank"><FoerderungDb /></PaywallGate>} />
                 <Route path="/cockpit/us-llc-wizard" element={<PaywallGate title="US-LLC-Wizard"><UsLlcWizard /></PaywallGate>} />
                 <Route path="/cockpit/us-kreditkarten" element={<PaywallGate title="US-Kreditkarten-Guide"><UsCreditCards /></PaywallGate>} />
