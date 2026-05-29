@@ -30,6 +30,9 @@ verify_jwt = false
 [functions.check-brand]
 verify_jwt = false
 
+[functions.check-weee]
+verify_jwt = false
+
 [functions.enhance-text]
 verify_jwt = false
 
