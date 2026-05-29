@@ -29,7 +29,6 @@ const GEWST_MESSZAHL = 0.035; // §11 GewStG
 const IabRechner = () => {
   const [rechtsform, setRechtsform] = useState<Rechtsform>("gmbh");
   const [gewinnVorIab, setGewinnVorIab] = useState(150000);
-  const [bilanzsumme, setBilanzsumme] = useState(180000);
   const [estVorIab, setEstVorIab] = useState(0);
   const [hebesatz, setHebesatz] = useState(400); // Gemeinde-Hebesatz GewSt
   const [istFreiberuflerOhneGewSt, setIstFreiberuflerOhneGewSt] = useState(true);
@@ -45,25 +44,17 @@ const IabRechner = () => {
   const totalInvestition = invJahr1 + invJahr2 + invJahr3;
 
   // Voraussetzungs-Prüfung §7g EStG (Stand 2026)
-  // Einzelunternehmer/Freiberufler: Gewinn vor IAB ≤ 200.000 €
-  // GmbH/UG (Bilanzierer): Bilanzsumme ≤ 235.000 € (Wirtschaftsjahr-Ende)
+  // Einheitliche Gewinngrenze seit JStG 2020 (21.12.2020): Gewinn vor IAB ≤ 200.000 € für
+  // ALLE Rechtsformen (auch GmbH/UG). Das frühere Bilanzsumme-/Betriebsvermögen-Kriterium
+  // (235.000 €) für Bilanzierer wurde ersatzlos gestrichen (anwendbar ab WJ-Ende nach 31.12.2019).
   const eligibility = useMemo(() => {
-    if (rechtsform === "einzel" || rechtsform === "freiberuf") {
-      return {
-        ok: gewinnVorIab <= 200000,
-        rule: "Einzel/Freiberuf: Gewinn vor IAB max. 200.000 €",
-        actual: `${gewinnVorIab.toLocaleString("de-DE")} €`,
-        threshold: "200.000 €",
-      };
-    }
-    // GmbH/UG
     return {
-      ok: bilanzsumme <= 235000,
-      rule: "GmbH/UG: Bilanzsumme max. 235.000 € (zum Wirtschaftsjahr-Ende)",
-      actual: `${bilanzsumme.toLocaleString("de-DE")} €`,
-      threshold: "235.000 €",
+      ok: gewinnVorIab <= 200000,
+      rule: "Alle Rechtsformen: Gewinn vor IAB max. 200.000 € (einheitlich seit JStG 2020)",
+      actual: `${gewinnVorIab.toLocaleString("de-DE")} €`,
+      threshold: "200.000 €",
     };
-  }, [rechtsform, gewinnVorIab, bilanzsumme]);
+  }, [gewinnVorIab]);
 
   // Maximaler IAB pro Jahr (vereinfacht — kumulierte Grenze über alle Jahre 200k)
   const iabHoehe = useMemo(() => {
@@ -222,21 +213,6 @@ const IabRechner = () => {
             </div>
           </div>
         </div>
-
-        {(rechtsform === "ug" || rechtsform === "gmbh") && (
-          <div className="mb-3">
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Bilanzsumme (€)</Label>
-            <Input
-              type="number"
-              value={bilanzsumme}
-              onChange={(e) => setBilanzsumme(Math.max(0, Number(e.target.value) || 0))}
-              className="mt-1"
-            />
-            <div className="text-[10px] text-muted-foreground mt-1">
-              Bilanzsumme zum Wirtschaftsjahr-Ende — Schwelle für IAB-Berechtigung 235.000 €
-            </div>
-          </div>
-        )}
 
         {(rechtsform === "einzel" || rechtsform === "freiberuf") && (
           <div className="mb-3">

@@ -45,11 +45,9 @@ export const IAB_QUOTE = 0.5;
 /** §7g EStG IAB-Höchstbetrag pro Betrieb (kumuliert). */
 export const IAB_MAX = 200000;
 
-/** §7g EStG Voraussetzung Einzel/Freiberuf: max Gewinn vor IAB. */
-export const IAB_GEWINN_GRENZE_EINZEL = 200000;
-
-/** §7g EStG Voraussetzung GmbH/UG: max Bilanzsumme. */
-export const IAB_BILANZ_GRENZE_GMBH = 235000;
+/** §7g EStG Voraussetzung: max Gewinn vor IAB — einheitlich 200.000 € für ALLE Rechtsformen
+ *  (seit JStG 2020; früheres Bilanzsumme-Kriterium für GmbH/UG ersatzlos gestrichen). */
+export const IAB_GEWINN_GRENZE = 200000;
 
 /** §7g EStG Frist — Investition muss innerhalb von 3 Wirtschaftsjahren erfolgen. */
 export const IAB_FRIST_JAHRE = 3;
@@ -115,17 +113,17 @@ export const RIESTER_MINDEST_EIGENBEITRAG_QUOTE = 0.04;
  * @returns Einkommensteuer in € (gerundet)
  */
 export function progressionESt(zvE: number): number {
-  if (zvE <= 12096) return 0;
-  if (zvE <= 17443) {
-    const y = (zvE - 12096) / 10000;
-    return Math.round((932.3 * y + 1400) * y);
+  if (zvE <= 12348) return 0;
+  if (zvE <= 17799) {
+    const y = (zvE - 12348) / 10000;
+    return Math.round((914.51 * y + 1400) * y);
   }
-  if (zvE <= 68480) {
-    const z = (zvE - 17443) / 10000;
-    return Math.round((176.64 * z + 2397) * z + 1015.13);
+  if (zvE <= 69878) {
+    const z = (zvE - 17799) / 10000;
+    return Math.round((173.10 * z + 2397) * z + 1034.87);
   }
-  if (zvE <= 277825) return Math.round(0.42 * zvE - 10911.92);
-  return Math.round(0.45 * zvE - 19246.67);
+  if (zvE <= 277825) return Math.round(0.42 * zvE - 11135.63);
+  return Math.round(0.45 * zvE - 19470.38);
 }
 
 /**

@@ -48,7 +48,7 @@ export const IP_BOX_REGIMES: IPBoxRegime[] = [
     country: "Zypern",
     flag: "🇨🇾",
     regimeName: "Cyprus IP-Box (Section 9(1)(l)) — Modified Nexus Approach",
-    standardKSt: 12.5,
+    standardKSt: 15,
     effectiveRate: 3.0,
     mechanism: "80 %-Befreiung qualifizierter Netto-Einkünfte → 15 % × 20 % = 3,0 % effektiv (KSt-Reform 2026, vorher 12,5 % → 2,5 %)",
     qualifyingIncome: [
@@ -90,7 +90,7 @@ export const IP_BOX_REGIMES: IPBoxRegime[] = [
       "EU-Listenüberwachung (Black-/Grey-List) — Reputationsrisiko",
     ],
     dbaNote:
-      "DBA-DE seit 2011, 0 % Quellensteuer auf Royalties bei Beneficial Owner. AStG §7-14 Hinzurechnung greift bei < 25 % Steuer + passiver Einkunft. Aktive Lizenzierung eigener IP = aktiv (Befreiung möglich).",
+      "DBA-DE seit 2011, 0 % Quellensteuer auf Royalties bei Beneficial Owner. AStG §7-14 Hinzurechnung greift bei < 15 % Steuer + passiver Einkunft (Niedrigsteuergrenze § 8 Abs. 5 AStG seit 2024 = 15 %). Aktive Lizenzierung eigener IP = aktiv (Befreiung möglich).",
     cfcRisk: "Mittel",
     setupComplexity: "Mittel",
     minRoyaltiesEur: 200000,
@@ -251,7 +251,7 @@ export const IP_BOX_REGIMES: IPBoxRegime[] = [
       "R&D-Substanz Pflicht",
     ],
     dbaNote:
-      "DBA-DE 2011, 0 % Quellensteuer auf Royalties. AStG-Risiko niedrig wegen 12,5 % nominal-Satz (über 25 %-Schwelle? Nein → Risiko bleibt). Mit echter R&D-Substanz: aktive Tätigkeit = AStG-Befreiung.",
+      "DBA-DE 2011, 0 % Quellensteuer auf Royalties. AStG-Risiko: 12,5 % nominal liegt unter der 15 %-Niedrigsteuergrenze (§ 8 Abs. 5 AStG seit 2024) → Hinzurechnung möglich. Mit echter R&D-Substanz: aktive Tätigkeit = AStG-Befreiung.",
     cfcRisk: "Niedrig",
     setupComplexity: "Komplex",
     minRoyaltiesEur: 750000,

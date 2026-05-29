@@ -23,11 +23,12 @@ const KfzOptimizer = () => {
   // Tatsächliche Kfz-Kosten/Jahr
   const [kfzKostenGesamt, setKfzKostenGesamt] = useState(8000);
 
-  // BLP für 1%-Regel anpassen je Antrieb (E-Autos: BLP × 0,25 wenn < 70k, sonst × 0,5)
+  // BLP für 1%-Regel anpassen je Antrieb (BEV: BLP × 0,25 wenn ≤ 100k, sonst × 0,5)
   const blpFuerRegel = useMemo(() => {
     if (autoTyp === "elektro") {
-      // §6 Abs 1 Nr 4 EStG: bei E-Auto bis 70k BLP nur 0,25 % statt 1 %
-      return bruttolistenpreis <= 70000 ? bruttolistenpreis * 0.25 : bruttolistenpreis * 0.5;
+      // §6 Abs 1 Nr 4 EStG: bei BEV bis 100k BLP nur 0,25 % statt 1 %
+      // (Grenze seit Anschaffung ab 01.07.2025 von 70k auf 100k angehoben, Investitionssofortprogramm)
+      return bruttolistenpreis <= 100000 ? bruttolistenpreis * 0.25 : bruttolistenpreis * 0.5;
     }
     if (autoTyp === "hybrid") {
       // Hybrid: 0,5 % wenn elektrisch ≥ 60 km Reichweite ODER ≥ 50 km bei Anschaffung 2025+
@@ -42,7 +43,7 @@ const KfzOptimizer = () => {
     const privatNutzung = (blpFuerRegel * 12) / 100;
     // Fahrten Wohnung-Arbeit: 0,03 % BLP × Entfernung × 12 Monate
     const arbeitsweg = (bruttolistenpreis * 0.0003 * entfernungArbeit * 12);
-    const arbeitswegBlpAdj = autoTyp === "elektro" && bruttolistenpreis <= 70000
+    const arbeitswegBlpAdj = autoTyp === "elektro" && bruttolistenpreis <= 100000
       ? arbeitsweg * 0.25
       : autoTyp === "elektro" || autoTyp === "hybrid"
       ? arbeitsweg * 0.5
@@ -75,7 +76,7 @@ const KfzOptimizer = () => {
     const totalKostenInklAfa = kfzKostenGesamt + afaProJahr;
     const privatKostenAnteil = totalKostenInklAfa * privatAnteil;
     // Bei E-Auto: 25 % der Privat-Kosten als geldwerter Vorteil; Hybrid: 50 %
-    const adjustment = autoTyp === "elektro" && bruttolistenpreis <= 70000
+    const adjustment = autoTyp === "elektro" && bruttolistenpreis <= 100000
       ? 0.25
       : autoTyp === "elektro" || autoTyp === "hybrid"
       ? 0.5
@@ -336,10 +337,10 @@ const KfzOptimizer = () => {
         <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/5 p-4 mb-3 text-xs leading-relaxed">
           <CheckCircle2 className="h-3.5 w-3.5 inline text-emerald-700 mr-1" />
           <strong>E-/Hybrid-Bonus aktiv:</strong>{" "}
-          {autoTyp === "elektro" && bruttolistenpreis <= 70000
-            ? "BEV bis 70k BLP: nur 0,25 % statt 1 % (Riesen-Vorteil!)"
+          {autoTyp === "elektro" && bruttolistenpreis <= 100000
+            ? "BEV bis 100k BLP: nur 0,25 % statt 1 % (Riesen-Vorteil!)"
             : autoTyp === "elektro"
-            ? "BEV > 70k: 0,5 % statt 1 %"
+            ? "BEV > 100k: 0,5 % statt 1 %"
             : "Hybrid: 0,5 % statt 1 % (wenn ≥ 60 km elektrische Reichweite oder ≤ 50 g CO₂/km)"}
         </div>
       )}
@@ -364,8 +365,9 @@ const KfzOptimizer = () => {
                 Privatvermögen). Dann nur 0,30 €/km Pauschale für betriebliche Fahrten absetzbar.
               </li>
               <li>
-                <strong>BEV bis 70k BLP</strong>: 0,25 %-Regelung gilt für Anschaffungen 2019–2030. Plug-in-Hybrid
-                braucht ≥ 60 km elektrische Reichweite (ab 2025) oder ≤ 50 g CO₂/km.
+                <strong>BEV bis 100k BLP</strong>: 0,25 %-Regelung gilt für Anschaffungen 2019–2030; die
+                BLP-Grenze wurde für Anschaffungen ab 01.07.2025 von 70.000 € auf 100.000 € angehoben (davor 70.000 €).
+                Plug-in-Hybrid braucht ≥ 60 km elektrische Reichweite (ab 2025) oder ≤ 50 g CO₂/km.
               </li>
               <li>App-Empfehlung: Vimcar, FahrtenbuchPro — automatisch via OBD2 + GPS.</li>
             </ul>
@@ -380,7 +382,7 @@ const KfzOptimizer = () => {
           { label: "§9 EStG (Pendlerpauschale)", url: "https://www.gesetze-im-internet.de/estg/__9.html" },
           { label: "BMF-Schreiben Kfz", url: "https://www.bundesfinanzministerium.de" },
         ]}
-        note="E-Auto-Bonus 0,25 % nur bei BLP ≤ 70.000 €. Hybrid-Bonus 0,5 % nur bei elektr. Reichweite ≥ 60 km (≥ 80 km ab 2025-Anschaffung). Pendlerpauschale 2026: 0,30 € (1-20 km) / 0,38 € (ab 21 km)."
+        note="E-Auto-Bonus 0,25 % bei BLP ≤ 100.000 € (Anschaffung ab 01.07.2025; davor ≤ 70.000 €). Hybrid-Bonus 0,5 % nur bei elektr. Reichweite ≥ 60 km (≥ 80 km ab 2025-Anschaffung). Pendlerpauschale 2026: 0,30 € (1-20 km) / 0,38 € (ab 21 km)."
       />
     </CockpitShell>
   );

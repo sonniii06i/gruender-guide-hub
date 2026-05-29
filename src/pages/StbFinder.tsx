@@ -71,7 +71,7 @@ const SPEZIALISIERUNGEN: Spezialisierung[] = [
     desc: "FIFO §23 EStG, 1-Jahres-Haltefrist, Staking/Lending, NFTs, DeFi-Liquidity-Pool-Steuer-Behandlung.",
     pflicht: [
       "FIFO-Berechnung Veräußerungsgewinne pro Trade",
-      "1-Jahres-Haltefrist § 23 EStG inkl. Verlängerung bei Staking/Lending",
+      "1-Jahres-Haltefrist § 23 EStG — KEINE Verlängerung auf 10 Jahre bei Staking/Lending (BMF 6.3.2025; BFH 14.2.2023, IX R 3/22)",
       "Staking-Erträge zu Marktpreis bei Zufluss",
       "NFT-Verkäufe als sonst Einkünfte",
       "Freigrenze 1.000 € (nicht Freibetrag)",

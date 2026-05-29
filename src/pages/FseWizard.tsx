@@ -293,7 +293,7 @@ const FseWizard = () => {
         nr="14"
         title="Angaben zur Festsetzung der Vorauszahlungen (Einkommensteuer, Gewerbesteuer) (Zeilen 105–113)"
         intro="Hieraus berechnet das FA deine quartalsweisen Vorauszahlungen (10.3, 10.6, 10.9, 10.12)."
-        warn="REALISTISCH schätzen! Zu hoch = Kapital gebunden, zu niedrig = Nachzahlung + ab 15. Monat 6%/Jahr Verzugszinsen (§ 233a AO)."
+        warn="REALISTISCH schätzen! Zu hoch = Kapital gebunden, zu niedrig = Nachzahlung + nach 15 Monaten Karenz 1,8 %/Jahr (0,15 %/Monat) Nachzahlungszinsen (§ 233a i. V. m. § 238 Abs. 1a AO)."
       >
         <Field nr={105} label="Voraussichtliche Einkünfte (4 Spalten: du / Ehegatte × Eröffnungsjahr / Folgejahr)">
           ELSTER fragt je Einkunftsart: Land- und Forstwirtschaft, <strong>Gewerbebetrieb</strong>, <strong>Selbständige Arbeit</strong> (Freiberuf), Nichtselbständige Arbeit, Kapitalvermögen, Vermietung und Verpachtung, Sonstige Einkünfte (z.B. Renten).
@@ -855,7 +855,7 @@ const Glossar = () => (
         { b: "EÜR vs. Bilanzierung", e: "EÜR (§ 4 Abs. 3 EStG) = einfache Zufluss/Abfluss-Rechnung. Pflicht für Bilanz: Kap.-Ges. IMMER, Gewerbe ab 800k Umsatz/80k Gewinn (§ 141 AO), Freiberuf NIE." },
         { b: "Soll- vs. Ist-Versteuerung", e: "Soll = USt fällig im Monat der Rechnungsstellung. Ist = USt fällig erst nach Vereinnahmung. Ist hat Cashflow-Vorteil, möglich bei Umsatz < 800k (§ 20 UStG) oder Freiberuf (immer)." },
         { b: "USt-Voranmeldungs-Rhythmus (2026)", e: "Das FA bestimmt nach der Vorjahres-Zahllast: monatlich > 9.000 €, vierteljährlich 2.000–9.000 €, jährlich (keine VA) ≤ 2.000 €. Grenzen seit BEG IV (01.01.2025) angehoben (vorher 7.500/1.000). Frist: 10. Tag nach Zeitraum-Ende." },
-        { b: "Vorauszahlungen ESt + GewSt", e: "Quartalsweise (10.3, 10.6, 10.9, 10.12). Festsetzung erst ab voraussichtl. Jahressteuer ≥ 400 € (§ 37 EStG). Bei zu niedriger Schätzung: ab 15. Monat 6%/Jahr Verzugszinsen." },
+        { b: "Vorauszahlungen ESt + GewSt", e: "Quartalsweise (10.3, 10.6, 10.9, 10.12). Festsetzung erst ab voraussichtl. Jahressteuer ≥ 400 € (§ 37 EStG). Bei zu niedriger Schätzung: nach 15 Monaten Karenz 1,8 %/Jahr (0,15 %/Monat) Nachzahlungszinsen (§ 233a i. V. m. § 238 Abs. 1a AO)." },
         { b: "USt-IdNr parallel beantragen", e: "Im FsE (Teilseite 18, Z.158) direkt mit ankreuzen — kommt zusammen mit der Steuernummer. Sonst später separat beim BZSt (2–4 Wochen)." },
         { b: "Pflicht-Frist § 138 AO", e: "Einreichung innerhalb 1 Monat ab Tätigkeitsaufnahme. Verspätung = Verspätungszuschlag möglich (bis 10% der festgesetzten Steuer, mind. 25 €/angefangener Monat bei Pflicht-Erklärungen)." },
         { b: "OSS / IOSS", e: "One-Stop-Shop (Teilseite 20) für EU-B2C-Versandhandel ab 10.000 €/Jahr in EU-Länder. IOSS für Importe aus Drittländern bis 150 € an EU-Privatkunden. Beides vereinfacht Steuermeldung in EU-Ländern." },

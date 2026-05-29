@@ -29,14 +29,10 @@ export type WzGruppe =
 
 export const WZ_2008: WzEntry[] = [
   // === Handel ===
-  { code: "47.91.1", label: "Versandhandel mit Textilien, Bekleidung und Schuhen", beispiele: ["Online-Shop für Sportbekleidung", "Versandhandel Schuhe"], gruppe: "Handel & Onlinehandel" },
-  { code: "47.91.2", label: "Versandhandel mit Büchern", beispiele: ["Buchverlag-Versand", "Antiquariat online"], gruppe: "Handel & Onlinehandel" },
-  { code: "47.91.3", label: "Versandhandel mit elektrischen Haushalts-, Rundfunk- und Fernsehgeräten", beispiele: ["Onlineshop Elektronik", "Hifi-Versand"], gruppe: "Handel & Onlinehandel" },
-  { code: "47.91.4", label: "Versandhandel mit pharmazeutischen, medizinischen und orthopädischen Erzeugnissen, Körperpflegemitteln", beispiele: ["Naturkosmetik-Shop", "NEM-Versand", "Online-Apotheke"], gruppe: "Handel & Onlinehandel" },
-  { code: "47.91.5", label: "Versandhandel mit Computern, peripheren Geräten und Software", beispiele: ["IT-Hardware-Shop", "Gaming-Zubehör"], gruppe: "Handel & Onlinehandel" },
-  { code: "47.91.9", label: "Sonstiger Versandhandel (Internet, Mail-Order)", beispiele: ["Generelles Amazon-Marketplace-Geschäft", "Multi-Kategorie-Online-Shop", "Etsy-Verkauf"], gruppe: "Handel & Onlinehandel" },
-  { code: "47.99.1", label: "Direktverkauf außerhalb von Verkaufsräumen", beispiele: ["Pop-up-Stores", "Vertriebspartner"], gruppe: "Handel & Onlinehandel" },
-  { code: "47.99.9", label: "Sonstiger Einzelhandel außerhalb von Verkaufsräumen", beispiele: ["Markthandel", "Wochenmarkt"], gruppe: "Handel & Onlinehandel" },
+  { code: "47.91.1", label: "Versand- und Internet-Einzelhandel mit Textilien, Bekleidung, Schuhen und Lederwaren", beispiele: ["Online-Shop für Sportbekleidung", "Versandhandel Schuhe", "Online-Shop Lederwaren/Taschen"], gruppe: "Handel & Onlinehandel" },
+  { code: "47.91.9", label: "Sonstiger Versand- und Internet-Einzelhandel", beispiele: ["Online-Shop Elektronik / IT-Hardware", "Naturkosmetik- / NEM-Shop", "Buch-/Antiquariat-Versand", "Multi-Kategorie-Online-Shop", "Amazon-Marketplace / Etsy"], gruppe: "Handel & Onlinehandel" },
+  { code: "47.99.1", label: "Einzelhandel vom Lager mit Brennstoffen", beispiele: ["Heizöl-Handel", "Brennholz / Pellets", "Kohle / Koks", "Flüssiggas-Lieferung vom Lager"], gruppe: "Handel & Onlinehandel" },
+  { code: "47.99.9", label: "Sonstiger Einzelhandel a. n. g. (nicht in Verkaufsräumen, an Ständen oder auf Märkten)", beispiele: ["Direktverkauf / Haustürverkauf", "Verkaufsautomaten", "Fahrverkauf", "Vertriebspartner-Direktvertrieb"], gruppe: "Handel & Onlinehandel" },
   { code: "46.18.0", label: "Handelsvermittlung von Waren", beispiele: ["B2B-Handelsvertretung", "Großhandels-Vermittlung"], gruppe: "Handel & Onlinehandel" },
 
   // === IT ===

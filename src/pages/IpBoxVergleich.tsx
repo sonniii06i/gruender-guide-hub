@@ -78,7 +78,7 @@ const IpBoxVergleich = () => {
               </li>
               <li>
                 <strong>§AStG Hinzurechnungsbesteuerung</strong>: bei DE-Wohnsitz + Beherrschung &gt; 50 % +
-                IP-Box-Steuer &lt; 25 % + passiven Royalty-Einkünften → BMF rechnet hinzu. Aktive
+                IP-Box-Steuer &lt; 15 % + passiven Royalty-Einkünften → BMF rechnet hinzu. Aktive
                 IP-Lizenzierung mit eigener R&D-Aktivität = aktiv (Befreiung möglich).
               </li>
               <li>
