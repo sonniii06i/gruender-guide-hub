@@ -46,7 +46,7 @@ const FseWizard = () => {
         <Field label='Datenübernahme aus „Mein ELSTER"' optional>
           Wenn du bei ELSTER schon ein Profil hast: ja → spart Tipparbeit (Name, Adresse, IdNr).
         </Field>
-        <Field label="Steuernummer eingeben ODER „Neue Steuernummer beantragen"">
+        <Field label="Steuernummer eingeben ODER „Neue Steuernummer beantragen“">
           Hast du <strong>schon eine Steuernummer</strong> beim FA (z.B. aus Arbeitnehmer-Veranlagung)? → eintragen. Sonst „Neue Steuernummer beantragen" wählen → <strong>Land + Finanzamt</strong> auswählen. Die neue Nummer kommt nach Abgabe per Post.
         </Field>
         <Field label="Persönliche Bearbeitungsnotiz" optional>
