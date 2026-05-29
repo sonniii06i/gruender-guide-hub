@@ -13,7 +13,18 @@ import {
   Building2,
   Hash,
   AlertCircle,
+  Tag,
 } from "lucide-react";
+
+/** Die 6 offiziellen ElektroG-Kategorien → interne stiftung-ear kategorienummer (11–16). */
+const KATEGORIEN: { nr: number; label: string }[] = [
+  { nr: 11, label: "1 · Wärmeüberträger" },
+  { nr: 12, label: "2 · Bildschirme & Monitore (>100 cm²)" },
+  { nr: 13, label: "3 · Lampen" },
+  { nr: 14, label: "4 · Großgeräte (mind. eine Seite > 50 cm)" },
+  { nr: 15, label: "5 · Kleingeräte (alle Seiten < 50 cm)" },
+  { nr: 16, label: "6 · Kleine IT- & Telekommunikationsgeräte (< 50 cm)" },
+];
 
 interface MarkeEntry {
   weeeNr: string;
@@ -89,6 +100,7 @@ function fmtDate(d: string): string {
 
 const WeeeCheck = () => {
   const [query, setQuery] = useState("");
+  const [kategorie, setKategorie] = useState<number>(0); // 0 = alle
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<WeeeResult | null>(null);
@@ -104,10 +116,10 @@ const WeeeCheck = () => {
     setLoading(true);
     setError(null);
     setResult(null);
-    track("search", { query: q });
+    track("search", { query: q, kategorie });
     try {
       const { data, error: fnError } = await supabase.functions.invoke("check-weee", {
-        body: { marke: q },
+        body: { marke: q, kategorienummer: kategorie || undefined },
       });
       if (fnError) throw fnError;
       if (data?.error) throw new Error(data.error);
@@ -159,6 +171,23 @@ const WeeeCheck = () => {
             {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Search className="h-4 w-4" />}
             Prüfen
           </button>
+        </div>
+        <div className="mt-3">
+          <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            Kategorie (optional)
+          </label>
+          <select
+            value={kategorie}
+            onChange={(e) => setKategorie(Number(e.target.value))}
+            className="mt-2 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm"
+          >
+            <option value={0}>Alle Kategorien</option>
+            {KATEGORIEN.map((k) => (
+              <option key={k.nr} value={k.nr}>
+                {k.label}
+              </option>
+            ))}
+          </select>
         </div>
         <p className="mt-2 text-xs text-muted-foreground">
           Enthält-Suche (Treffer enthalten den Begriff). Mit <code>*</code> kannst du selbst Platzhalter
@@ -229,7 +258,10 @@ const WeeeCheck = () => {
                     <div className="flex items-start justify-between gap-3 flex-wrap">
                       <div className="min-w-0">
                         <div className="flex items-center gap-2 flex-wrap">
-                          <span className="font-semibold">{g.marke}</span>
+                          <span className="inline-flex items-center gap-1.5 font-semibold">
+                            <Building2 className="h-4 w-4 shrink-0 text-muted-foreground" />
+                            {g.herstellername}
+                          </span>
                           {g.aktiv ? (
                             <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-0.5 text-xs font-medium text-emerald-600">
                               <CheckCircle2 className="h-3 w-3" /> aktiv
@@ -241,8 +273,8 @@ const WeeeCheck = () => {
                           )}
                         </div>
                         <div className="mt-1 flex items-center gap-1.5 text-sm text-muted-foreground">
-                          <Building2 className="h-3.5 w-3.5 shrink-0" />
-                          <span className="truncate">{g.herstellername}</span>
+                          <Tag className="h-3.5 w-3.5 shrink-0" />
+                          Marke: <span className="font-medium text-foreground">{g.marke}</span>
                         </div>
                       </div>
                       <a

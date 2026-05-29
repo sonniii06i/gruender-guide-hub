@@ -63,6 +63,9 @@ serve(async (req) => {
     const rawMarke: string = (body?.marke ?? "").toString().trim();
     const herstellername: string = (body?.herstellername ?? "").toString().trim();
     const page: number = Math.max(1, parseInt(String(body?.page ?? "1"), 10) || 1);
+    // Offizielle ElektroG-Kategorien (stiftung ear interne IDs 11–16). 0/leer = alle.
+    const kategorienummer: number = parseInt(String(body?.kategorienummer ?? ""), 10);
+    const hasKategorie = Number.isFinite(kategorienummer) && kategorienummer > 0;
 
     if (rawMarke.length < 2 && herstellername.length < 2) {
       return new Response(
@@ -79,9 +82,11 @@ serve(async (req) => {
         : `*${herstellername}*`
       : "";
 
+    // Reihenfolge muss der XSD-Sequence folgen: herstellername, marke, kategorienummer, page.
     const parts: string[] = [];
     if (herstellerQuery) parts.push(`<herstellername>${escapeXml(herstellerQuery)}</herstellername>`);
     if (markeQuery) parts.push(`<marke>${escapeXml(markeQuery)}</marke>`);
+    if (hasKategorie) parts.push(`<kategorienummer>${kategorienummer}</kategorienummer>`);
     parts.push(`<page>${page}</page>`);
 
     const envelope = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:v2="http://www.ear-system.de/ear-soap/v2"><soapenv:Header/><soapenv:Body><v2:getMarken>${parts.join("")}</v2:getMarken></soapenv:Body></soapenv:Envelope>`;
