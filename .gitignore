@@ -34,3 +34,6 @@ scripts/felix-test/system-prompt.txt
 
 # Supabase CLI temp
 supabase/.temp/
+
+# ELSTER-FsE-Referenz-Screenshots (enthalten Account-Daten, nur lokal)
+docs/elster-fse-ref/*.pdf

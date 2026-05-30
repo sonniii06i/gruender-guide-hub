@@ -28,28 +28,31 @@ describe("FseWizard — Render + Struktur", () => {
     expect(html).toMatch(/1 Monat ab Start|1 Monat ab Tätigkeit/);
   });
 
-  it("hat alle 22 Teilseiten (Startseite 0 bis Anlagen 22)", () => {
+  // Struktur 1:1 verifiziert gegen die echten ELSTER-Screenshots (fseeun-202401, 24 Teilseiten),
+  // abgelegt unter docs/elster-fse-ref/. Zeilennummern entsprechen dem echten Formular.
+  it("hat alle 24 Teilseiten mit korrekten ELSTER-Zeilennummern", () => {
     renderWithRouter(<FseWizard />);
     const html = document.body.innerHTML;
-    expect(html).toMatch(/Angaben zur Person.*Zeilen 1-12/);
-    expect(html).toMatch(/Ehegatte.*Zeilen 26-42/);
-    expect(html).toMatch(/SEPA-Lastschriftmandat/);
-    expect(html).toMatch(/Bisherige persönliche Verhältnisse/);
-    expect(html).toMatch(/Konzern.*Beteiligungsverhältnisse/);
-    expect(html).toMatch(/Freistellungsbescheinigung.*48b/);
-    expect(html).toMatch(/Anlagen.*Abschluss/);
+    expect(html).toMatch(/Allgemeine Angaben.*Zeilen 2.21/);    // TS1 (2–21: bis Art der Tätigkeit Z.21)
+    expect(html).toMatch(/Ehegatte.*Zeilen 12.18/);             // TS2
+    expect(html).toMatch(/SEPA-Lastschriftverfahren/);          // TS3
+    expect(html).toMatch(/Bisherige persönliche Verhältnisse/); // TS6
+    expect(html).toMatch(/Konzernzugehörigkeit/);               // TS13
+    expect(html).toMatch(/Freistellungsbescheinigung.*48b/);    // TS16
+    expect(html).toMatch(/One-Stop-Shop.*Zeilen 163.174/);      // TS20
+    expect(html).toMatch(/Anhänge/);                            // TS24
   });
 
-  it("zeigt ~300 Felder über alle Teilseiten verteilt", () => {
+  it("zeigt zentrale Felder über die Teilseiten verteilt", () => {
     renderWithRouter(<FseWizard />);
     const html = document.body.innerHTML;
-    expect(html).toMatch(/Identifikationsnummer/);
-    expect(html).toMatch(/Kleinunternehmer-Regelung/);
-    expect(html).toMatch(/USt-Identifikationsnummer/);
-    expect(html).toMatch(/Soll.*Ist|Ist.*Versteuerung/);
-    expect(html).toMatch(/Reverse Charge/);
-    expect(html).toMatch(/Differenzbesteuerung/);
-    expect(html).toMatch(/OSS-Verfahren|One-Stop-Shop/);
+    expect(html).toMatch(/Identifikationsnummer/);       // TS1 Z.5
+    expect(html).toMatch(/Kleinunternehmer/);            // TS18 Z.131
+    expect(html).toMatch(/USt-IdNr/);                    // TS18 + Widget
+    expect(html).toMatch(/Soll.*Ist|Ist.*Versteuerung/); // TS18 (Soll/Ist)
+    expect(html).toMatch(/Handelsregistereintragung/);   // TS10
+    expect(html).toMatch(/Gewinnermittlung/);            // TS15
+    expect(html).toMatch(/One-Stop-Shop/);               // TS20
   });
 
   it("verlinkt zu beiden ELSTER-FsE-Formularen (Einzel + Kap.-Ges.)", () => {
@@ -81,21 +84,17 @@ describe("FseWizard — Empfehlungs-Widgets", () => {
     expect(document.body.innerHTML).toMatch(/Puffer|diszipliniert/i);
   });
 
-  it("Umsatz-Strategie-Widget zeigt 800k-Bilanz-Warnung bei 'drueber'", () => {
+  it("EÜR-vs-Bilanz-Widget zeigt Bilanzierungs-Pflicht bei Einzel + >800k Umsatz", () => {
     renderWithRouter(<FseWizard />);
-    const widgetButtons = screen.getAllByRole("button").filter((b) =>
-      b.textContent?.includes("Empfehlung anzeigen"),
+    // Das 800k-Bilanz-Warning liegt im EÜR/Bilanz-Widget (Optionen "unter/über 800k €").
+    const euerBtn = screen.getAllByRole("button").find((b) =>
+      b.textContent?.includes("EÜR vs. Bilanz") && b.textContent?.includes("Empfehlung anzeigen"),
     );
-    // Umsatz-Strategie ist eines der späteren Widgets, finde es per Title
-    const umsatzBtn = widgetButtons.find((b) =>
-      b.textContent?.includes("Strategie: welche Zahl eintragen?"),
-    );
-    expect(umsatzBtn).toBeTruthy();
-    fireEvent.click(umsatzBtn!);
-    fireEvent.click(screen.getByText("Realistische Schätzung"));
-    fireEvent.click(screen.getByText("Knapp drüber oder mehr (>800k)"));
-    fireEvent.click(screen.getByText("Klar drunter (<20k)"));
-    expect(document.body.innerHTML).toMatch(/800\.000.*Bilanz|Bilanzierungs-Pflicht/);
+    expect(euerBtn).toBeTruthy();
+    fireEvent.click(euerBtn!);
+    fireEvent.click(screen.getByText("Einzel/Gewerbe/GbR"));
+    fireEvent.click(screen.getByText("über 800k €"));
+    expect(document.body.innerHTML).toMatch(/Pflicht ab 800k Umsatz|Bilanzierung.*§ 141/);
   });
 });
 
