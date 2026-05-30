@@ -33,7 +33,7 @@ const BLOCKS: Block[] = [
     title: "Allgemeine Angaben zum Betrieb",
     rows: [
       { z: 5, kz: "101", label: "Wirtschafts-Identifikationsnummer (W-IdNr., Format DE…)", hint: "Die neue bundeseinheitliche Betriebs-Nummer. Falls noch nicht zugeteilt, Feld leer lassen." },
-      { z: 6, kz: "100", label: "Art des Betriebs", hint: "Kurze Bezeichnung deiner Tätigkeit, z. B. „Online-Handel" oder „Webdesign"." },
+      { z: 6, kz: "100", label: "Art des Betriebs", hint: "Kurze Bezeichnung deiner Tätigkeit, z. B. Online-Handel oder Webdesign." },
       { z: 7, kz: "—", label: "Rechtsform des Betriebs" },
       { z: 8, kz: "103", label: "Einkunftsart", hint: "1 = Land-/Forstwirtschaft · 2 = Gewerbebetrieb · 3 = Selbständige Arbeit (Freiberufler).", star: true },
       { z: 10, kz: "111", label: "Wurde der Betrieb im Jahr beendet?", hint: "1 = veräußert/aufgegeben (dann Zeile 89 beachten)." },
