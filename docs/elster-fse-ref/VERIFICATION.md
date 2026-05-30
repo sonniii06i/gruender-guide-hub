@@ -62,3 +62,54 @@ Gap = noch kein Tool; Link = bestehendes Tool könnte verlinken/ergänzen.
 - **Lohnsteuer-Anmeldung** — sobald Mitarbeiter eingestellt werden
 - **Anmeldung Steuerabzug Bauleistungen § 48a** — für Bau-/Handwerk-Gründer
 - **Mitteilung Sachverhalt mit Auslandsbezug § 138 AO** — ergänzt International-Tools
+
+---
+
+## FsE Kapitalgesellschaft / Genossenschaft (fsekapg-202401)
+
+Verifiziert am 2026-05-30 gegen 24 echte ELSTER-Screencaptures (durchgeklickt, PNG,
+lokal unter `docs/elster-fse-ref/kapitalgesellschaft/`, nicht im Git).
+Umgesetzt in `src/pages/FseKapgWizard.tsx` (Route `/cockpit/fse-kapitalgesellschaft`).
+
+23 Teilseiten, in ELSTER-Reihenfolge bestätigt: 1 Allgemeine Angaben (Firma Z2,
+Adresse Z4–6, Tätigkeit Z13) · 2 Ort der Geschäftsleitung · 3 Betriebstätten ·
+4 Gesetzlicher Vertreter · 5 Steuerliche Beratung · 6 Empfangsbevollmächtigte(r) ·
+7 Bankverbindung/SEPA (IBAN Z49) · 8 Gesellschaftsvertrag + Register (Notarvertrag Z54,
+Register/HRB Z57, Rechtsform Z63) · 9 Beginn/Kapital (Stammkapital Z66, eingezahlt Z67) ·
+10 Anteilseigner (Summe % Z67a, Treuhand Z90) · 11 Gründung Bar/Sach · 12 Betriebsaufspaltung ·
+13 Komplementärin/atyp. still · 14 Organschaft · 15 Vorauszahlungen KSt/GewSt (Z165–168) ·
+16 Lohnsteuer (Z169–177) · 17 Umsatzsteuer (KU §19, Soll/Ist) · 18 USt-IdNr. (Z197–202) ·
+19 OSS · 20 Internet-Handel §25e (Z215–218) · 21 Freistellung §48b (Z223) ·
+22 Beigefügte Unterlagen (Z224–236) · 23 Anhänge.
+Sach-/Umwandlungsgründung (TS 11) und Organschaft (TS 14) nur als Block mit StB-Warnung.
+
+---
+
+## FsE Personengesellschaft / -gemeinschaft (fsepersg-202401)
+
+Verifiziert am 2026-05-30 gegen 25 echte ELSTER-Screencaptures (durchgeklickt, PNG,
+lokal unter `docs/elster-fse-ref/personengesellschaft/`, nicht im Git).
+Umgesetzt in `src/pages/FsePersgWizard.tsx` (Route `/cockpit/fse-personengesellschaft`).
+Für GbR/OHG/KG/PartG/GmbH & Co. KG. Anlagenauswahl davor: Hauptvordruck + optional Anlage ARGE.
+
+22 Teilseiten, in ELSTER-Reihenfolge bestätigt (Reihenfolge wich vom ersten Entwurf ab,
+gegen die echten Screenshots korrigiert): 1 Angaben zum Unternehmen (Name Z2, Adresse Z3–5,
+Tätigkeit Z12) · 2 Ort der Geschäftsleitung (Z7–9) · 3 Betriebstätten · 4 Gründungsangaben
+(Z25–29) · 5 Rechtsform + Beginn (Z31–34) · 6 Handels-/Gesellschaftsregister (Z35–39) ·
+7 Bankverbindung/SEPA (Z40–44) · 8 Vertretung der Gesellschaft · 9 Steuerliche Beratung
+(Z55–61) · 10 Empfangsbevollmächtigte(r) (§183 AO) · 11 Konzernzugehörigkeit (Z71–76) ·
+12 Voraussichtl. Gewinn + Gewinnermittlung (Gewinn Z77, Art Z78, WJ Z79) ·
+13 Beteiligte + Gewinnanteil (gesonderte+einheitliche Feststellung) · 14 Freistellung §48b (Z118) ·
+15 Lohnsteuer (Z104 ff.) · 16 Umsatzsteuer (KU §19, Soll/Ist) · 17 USt-Organschaft §2 Abs.2 Nr.2 ·
+18 USt-IdNr. + §13b · 19 OSS · 20 Internet-Handel §25e (Z175–178) · 21 Beigefügte Unterlagen ·
+22 Anhänge.
+Kern-Besonderheit ggü. Einzel/KapG: TS 8/11/13 (Vertretung, Konzern, Beteiligte+Gewinnanteil) —
+die PersG zahlt selbst keine ESt/KSt, der Gewinn wird auf die Gesellschafter verteilt.
+
+---
+
+## .gitignore-Hinweis
+
+`docs/elster-fse-ref/*` ist komplett ignoriert ausser `*.md`. Alle Screenshot-Ordner
+(`screenshots/`, `kapitalgesellschaft/`, `personengesellschaft/`) und PDFs enthalten
+persönliche Account-/Steuerdaten und bleiben nur lokal. Nur diese VERIFICATION.md wird getrackt.

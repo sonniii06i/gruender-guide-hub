@@ -35,7 +35,8 @@ scripts/felix-test/system-prompt.txt
 # Supabase CLI temp
 supabase/.temp/
 
-# ELSTER-FsE-Referenz-Screenshots (enthalten Account-Daten, nur lokal)
-docs/elster-fse-ref/*.pdf
-docs/elster-fse-ref/**/*.pdf
-docs/elster-fse-ref/screenshots/
+# ELSTER-FsE-Referenz: persoenliche Account-/Steuerdaten (Screenshots/PDFs) nur lokal.
+# Alles unter elster-fse-ref ignorieren, NUR Markdown (VERIFICATION etc.) tracken.
+docs/elster-fse-ref/*
+!docs/elster-fse-ref/*.md
+!docs/elster-fse-ref/.gitkeep
