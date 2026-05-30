@@ -195,6 +195,26 @@ const UstVoranmeldung = () => {
           Einmal beantragen, gilt fort — nicht jährlich wiederholen. Monatliche Abgeber leisten dafür die 1/11-Sondervorauszahlung
           (oben), vierteljährliche nicht. Mehr Cashflow-Puffer, praktisch kein Nachteil.
         </p>
+        <h4 className="font-bold mt-3 mb-1">So beantragst du sie</h4>
+        <ol className="list-decimal list-inside space-y-1 text-muted-foreground">
+          <li><strong>Frist:</strong> bis <strong>10.02.</strong> (Monatszahler) bzw. <strong>10.04.</strong> (Vierteljahreszahler) — jeweils bis zur Fälligkeit der ersten betroffenen Voranmeldung. Kein Bewilligungsbescheid; gilt, solange das FA nicht widerspricht.</li>
+          <li><strong>In ELSTER:</strong> Formular <strong>„Dauerfristverlängerung/Sondervorauszahlung (monatlich)"</strong> bzw. <strong>„Dauerfristverlängerung (vierteljährlich)"</strong> → Jahr + Finanzamt → Monatszahler tragen die 1/11-Sondervorauszahlung (Kz 38, oben berechnet) ein, Vierteljahreszahler lassen das Feld leer → authentifiziert absenden. Gilt fortlaufend.</li>
+          <li><strong>Per Software:</strong> <strong>Lexware Office</strong> unter „Buchhaltung → Steuerliche Meldung", <strong>sevDesk</strong> im Bereich „Umsatzsteuer & Buchhaltung" — Antrag direkt mit ELSTER-Übermittlung.</li>
+          <li><strong>Sondervorauszahlung zurück:</strong> die 1/11-Vorauszahlung holst du über <strong>Kz 39</strong> in der letzten Voranmeldung des Jahres (Dezember) wieder an.</li>
+        </ol>
+      </div>
+
+      {/* Zusammenfassende Meldung */}
+      <div className="rounded-2xl border border-border bg-card p-5 mt-4 text-sm">
+        <h3 className="font-bold mb-1 flex items-center gap-2"><Info className="h-4 w-4 text-accent-blue" /> Nicht verwechseln: Zusammenfassende Meldung (ZM)</h3>
+        <p className="text-muted-foreground">
+          Sobald du <strong>innergemeinschaftliche B2B-Umsätze</strong> hast (EU-Lieferungen/-Leistungen an Kunden mit
+          USt-IdNr — Kz 41 oben), brauchst du zusätzlich zur USt-VA die <strong>Zusammenfassende Meldung</strong>. Sie
+          meldet diese EU-Umsätze gesammelt ans <strong>Bundeszentralamt für Steuern (BZSt)</strong> (nicht ans Finanzamt),
+          ist eine <em>eigene</em> Meldung und <strong>kennt keine Dauerfristverlängerung</strong> — Frist immer der
+          <strong> 25. des Folgemonats</strong>. Abgabe über ELSTER oder auf Knopfdruck aus Lexware Office / sevDesk (siehe{" "}
+          <Link to="/cockpit/buchhaltungssoftware-guide" className="text-accent-blue underline">Buchhaltungssoftware-Guide</Link>).
+        </p>
       </div>
 
       {/* Cross-Links */}
