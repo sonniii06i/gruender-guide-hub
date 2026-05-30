@@ -77,7 +77,7 @@ const COUNTRIES: Record<string, CountryData> = {
   estland: {
     flag: "🇪🇪",
     name: "Estland",
-    cit: 24, // DPT seit 1.1.2026 (war 22% 2025, 20% bis 2024) — Source: Riigikogu Tax Act 2025
+    cit: 22, // Estland DPT 2026 = 22% (22/78); geplante Erhöhung auf 24% Ende 2025 gestrichen — Riigikogu
     distributedProfitsTax: true,
     dividendWHT: 0,
     dividendWHTwithDBA: 0,

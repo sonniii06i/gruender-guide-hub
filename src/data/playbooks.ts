@@ -918,7 +918,7 @@ export const PLAYBOOKS: Playbook[] = [
       {
         slug: "klassen",
         title: "Nizza-Klassen wählen + Waren/Dienstleistungs-Liste",
-        description: "Marken werden für 1–45 Klassen registriert (Nizza-Klassifikation, 12. Edition 2025). DPMA: Grundgebühr deckt 3 Klassen ab. EUIPO: Grundgebühr 1 Klasse, +50 € für 2., +150 € pro weitere.",
+        description: "Marken werden für 1–45 Klassen registriert (Nizza-Klassifikation, 13. Edition / NCL 13-2026, in Kraft seit 1.1.2026). DPMA: Grundgebühr deckt 3 Klassen ab. EUIPO: Grundgebühr 1 Klasse, +50 € für 2., +150 € pro weitere.",
         kind: "form",
         estMinutes: 60,
         estCost: "DPMA: +100 € pro Klasse über 3 hinaus · EUIPO: +50 € (2.) / +150 € (3.+)",
@@ -927,7 +927,7 @@ export const PLAYBOOKS: Playbook[] = [
           { label: "TMclass Klassen-Datenbank (harmonisiert)", url: "https://www.tmdn.org/tmclass/" },
           { label: "DPMA Klassen-Hilfe + ELS-Liste", url: "https://www.dpma.de/marken/klassifikation/index.html" },
           { label: "EUIPO Goods & Services Builder", url: "https://euipo.europa.eu/ohimportal/de/eu-trade-mark-classes-of-goods-and-services" },
-          { label: "WIPO Nice Classification 12-2025", url: "https://www.wipo.int/classifications/nice/en/" },
+          { label: "WIPO Nice Classification 13-2026", url: "https://www.wipo.int/classifications/nice/en/" },
         ],
         extendedNotes: [
           "Die wichtigsten Klassen für E-Commerce-Brands (mit typischen Begriffen):",

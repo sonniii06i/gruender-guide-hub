@@ -296,7 +296,7 @@ GEWERBESTEUER:
 
 KRANKENVERSICHERUNG / SOZIALES 2026:
 - Mindest-Bemessung GKV-freiwillig: 1.318,33 €/Monat
-- BBG GKV/PV (bundeseinheitlich): 5.512,50 €/Monat = 66.150 €/Jahr
+- BBG GKV/PV (bundeseinheitlich): 5.812,50 €/Monat = 69.750 €/Jahr
 - BBG RV/AV (bundeseinheitlich seit 2025): 8.450 €/Monat = 101.400 €/Jahr
 - JAEG (für PKV-Wechselrecht): 77.400 €/Jahr
 - GKV allgemeiner Beitragssatz: 14,6 % (+Zusatzbeitrag ⌀ 1,7-2,5 % je Kasse)

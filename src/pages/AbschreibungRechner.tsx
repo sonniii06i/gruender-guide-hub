@@ -888,7 +888,7 @@ const QuickRef = () => {
       {/* 4 Modi-Karten */}
       <div className="rounded-2xl border border-border bg-card p-5">
         <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
-          <Info className="h-4 w-4" /> Die 4 Abschreibungs-Modi
+          <Info className="h-4 w-4" /> Die 5 Abschreibungs-Modi
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <ModusCard
@@ -919,7 +919,18 @@ const QuickRef = () => {
             example="Schreibtisch 1.500€ netto im Juni → 13 Jahre AfA = 115,38€/Jahr · Jahr 1: 67,31€ (7/12)"
             color="purple"
           />
+          <ModusCard
+            title="Degressive AfA §7 Abs. 2 EStG (2025–2027)"
+            applies="Bewegliche WG des Anlagevermögens, angeschafft/hergestellt 1.7.2025–31.12.2027"
+            rule="Wiedereingeführt durch das Investitionssofortprogramm: max. das 3-Fache der linearen AfA, höchstens 30 %/Jahr (vom Restbuchwert). Wechsel zur linearen AfA möglich."
+            example="Maschine 10.000€, lineare ND 10 J (10%) → degressiv 30%: Jahr 1 = 3.000€, Jahr 2 = 2.100€ (30% v. 7.000€) usw."
+            color="emerald"
+          />
         </div>
+        <p className="text-[11px] text-muted-foreground mt-3">
+          Hinweis: Der interaktive Rechner deckt aktuell die ersten 4 Modi ab; die degressive AfA ist hier
+          als Referenz beschrieben (separater Rechen-Modus in Arbeit).
+        </p>
       </div>
 
       {/* AfA-Tabelle */}

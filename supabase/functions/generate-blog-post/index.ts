@@ -135,7 +135,7 @@ REGELN:
 - Pflicht-Disclaimer am Ende: "Dieser Artikel ersetzt keine individuelle Steuer- oder Rechtsberatung."
 - Keine erfundenen Quellen. Wenn du Quellen nennst, dann offizielle (BMF, BZSt, DPMA, IHK, BMWK, KfW, Gesetze direkt).
 - Pflicht-interne-Links im body_md: mindestens 3 Links auf /playbook/preview/[SLUG] und 2 auf /anbieter/[SLUG] aus dieser Liste:
-  Playbook-Slugs: gmbh-gruendung, ug-gruendung, einzelunternehmen-gruendung, holding, us-llc, hk-limited, marke-anmelden, amazon-fba-launch, shopify-launch, kleinunternehmer, oss-anmeldung, lucid-anmeldung, gpsr-compliance, ipbox, foerderung-finden, crypto-steuer, rechnung-richtig-stellen, e-rechnung-b2b
+  Playbook-Slugs: gmbh-gruendung, ug-gruendung, einzelunternehmen-gruendung, freiberufler-anmelden, holding, us-llc, hk-limited, marke-anmelden, patent-anmeldung, design-anmeldung, amazon-fba-launch, shopify-launch, kaufland-launch, tiktok-shop-launch, kleinunternehmer, oss-anmeldung, lucid, gpsr-compliance, kfw-startgeld, exist-stipendium, invest-bafa, rechnung, sales-tax-nexus
   Anbieter-Slugs (Beispiele): qonto, holvi, finom, n26, lexware-office, sevdesk, datev, stripe, mercury, wise, ionos, all-inkl
 - Jeder Pflicht-Link als echtes Markdown: [Text](/playbook/preview/slug)
 - Keyword primär: "${topic.keyword_primary}" — natürlich 4-6x verteilen, einmal in H1, einmal in den ersten 100 Wörtern, einmal in einer H2.

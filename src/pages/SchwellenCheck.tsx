@@ -149,7 +149,7 @@ const QUELLEN: QuelleInfo[] = [
     paragraph: "§23 EStG",
     unterSchwelle: "Steuerfrei wenn (a) > 1 Jahr gehalten ODER (b) Gesamtgewinn < 1.000 €/Jahr (Freigrenze). FIFO-Methode für Kauf/Verkauf-Zuordnung.",
     ueberSchwelle: "Voller Gewinn steuerpflichtig mit persönlichem ESt-Satz (i.d.R. höher als die 25 % Abgeltungsteuer für Kapitalerträge). Verluste vortragbar.",
-    warnung: "Staking, Lending, Mining = ggf. 10-Jahres-Haltefrist! Plus: ab 2025/26 Pflicht zur Plattform-Meldung (CARF — Crypto-Asset Reporting Framework, OECD-Standard).",
+    warnung: "Staking/Lending = KEINE 10-Jahres-Frist — es bleibt bei 1 Jahr (§23 EStG; BMF 06.03.2025, BFH IX R 3/22). Plus: ab 2026 Pflicht zur Plattform-Meldung (CARF — Crypto-Asset Reporting Framework, OECD-Standard).",
   },
   {
     v: "kapitalertraege",
@@ -411,7 +411,7 @@ const SchwellenCheck = () => {
                 { name: "DAC7-Plattform-Meldung Verkäufe", wert: `${SCHWELLEN_2026.DAC7_VERKAEUFE_PA} /J`, typ: "Meldungs-Schwelle", par: "DAC7 RL (EU 2021/514)" },
                 { name: "DAC7-Plattform-Meldung Umsatz", wert: `${SCHWELLEN_2026.DAC7_UMSATZ_PA.toLocaleString("de-DE")} €/J`, typ: "Meldungs-Schwelle", par: "DAC7 RL (EU 2021/514)" },
                 { name: "GewSt-Freibetrag Einzelunternehmer", wert: `${SCHWELLEN_2026.GEWST_FREIBETRAG.toLocaleString("de-DE")} €/J Gewinn`, typ: "Freibetrag", par: "§11 GewStG" },
-                { name: "Werbungskosten-Pauschbetrag (Anlage S)", wert: `${SCHWELLEN_2026.WERBUNGSKOSTEN_ANLAGE_S} €/J`, typ: "Pauschbetrag", par: "§9a EStG" },
+                { name: "Werbungskosten-Pauschbetrag (sonstige Einkünfte/Renten, Anlage SO/R)", wert: `${SCHWELLEN_2026.WERBUNGSKOSTEN_ANLAGE_S} €/J`, typ: "Pauschbetrag", par: "§9a S.1 Nr.3 EStG" },
               ].map((row, i) => (
                 <tr key={i} className="hover:bg-secondary/30">
                   <td className="py-2 pr-3 font-medium">{row.name}</td>

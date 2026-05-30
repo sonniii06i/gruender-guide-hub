@@ -4,7 +4,11 @@ Multi-Agent-Audit über 28 Bereiche. **87 bestätigte Funde** (adversarial gegen
 
 - 🔴 Blocker: 10  ·  🟠 High: 46  ·  🟡 Medium: 31
 
-**Status der Blocker (10): ✅ alle in Commit 2026-05-29 gefixt.** High/Medium offen.
+**Status: ✅ alle 10 Blocker + 46 High + 31 Medium gefixt (2026-05-29/30), Build + Tests grün.**
+
+Zusätzlich beim Verifizieren gefunden & gefixt (nicht im Original-Audit): zweite ESt-Tarif-2025-Kopie in EntscheidungsEngine.tsx, SolZ-Text in QuartalsSteuer + SalaryDividend, KSK-„Bund 50 %" auch in steuerAbcGlossar, Lux-KSt in SubstanceChecker + DbaCfc.
+
+Offen / separat: degressive AfA im AbschreibungRechner als interaktiver Rechen-Modus (aktuell als Referenz-Karte beschrieben); 3 vorbestehende FseWizard-Tests (erwarten „22 Teilseiten", Code hat seit Rebuild a22c102 „24 Teilseiten") — Test-Debt, nicht audit-bezogen.
 
 
 ## 🔴 BLOCKER

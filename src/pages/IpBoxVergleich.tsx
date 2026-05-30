@@ -83,7 +83,7 @@ const IpBoxVergleich = () => {
               </li>
               <li>
                 <strong>Pillar 2 OECD ab 2024</strong>: 15 % Mindeststeuer für Konzerne &gt; 750 Mio €.
-                Bei IP-Box mit 2,5 % effektiv: Top-Up Tax auf 15 %. Kleine KMUs unbetroffen.
+                Bei IP-Box mit 3,0 % effektiv: Top-Up Tax auf 15 %. Kleine KMUs unbetroffen.
               </li>
               <li>
                 <strong>Substanz ist Pflicht</strong>: lokale Mitarbeiter, Büro, R&D-Aktivität — nicht nur

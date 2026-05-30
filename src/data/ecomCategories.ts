@@ -165,7 +165,7 @@ export const CATEGORIES_ROADMAP: CategoryRoadmap[] = [
       },
       {
         pflicht: "Höchstmengen-Vorgaben (BfR-Empfehlungen)",
-        details: "BfR setzt Höchstmengen pro Tagesdosis (Vit D 100 µg, Magnesium 250 mg etc.). Überschreitung → Produkt geht zurück.",
+        details: "BfR setzt Höchstmengen pro Tagesdosis (Vit D 20 µg, Magnesium 250 mg verteilt auf 2 Portionen etc.). Überschreitung → Produkt geht zurück.",
       },
       {
         pflicht: "Health-Claims-VO 1924/2006",
@@ -256,7 +256,7 @@ export const CATEGORIES_ROADMAP: CategoryRoadmap[] = [
           "Pflicht für Hersteller / Importeure. EAR-Stiftung Registrierung pro Marke. Plus Garantie-Hinterlegung (ca. 0,5-2 €/kg).",
         behoerde: "Stiftung EAR",
         link: "https://www.stiftung-ear.de",
-        kostenDe: "150 € einmalig + Garantie-Sicherheit",
+        kostenDe: "Erstregistrierung ~9,50 € netto je Geräteart-Kategorie + laufend 32,80 €/Quartal (131,20 €/Jahr) + Insolvenzsicherung (B2C)",
       },
       {
         pflicht: "Batterie-Registrierung (BatteriegesetzG / EU 2023/1542)",
@@ -284,7 +284,7 @@ export const CATEGORIES_ROADMAP: CategoryRoadmap[] = [
       {
         pflicht: "USB-C-Pflicht (Common-Charger-Directive)",
         details:
-          "Seit 28.12.2024: Smartphones, Tablets, Kameras, Headphones, Powerbanks, Tastaturen, Mäuse müssen USB-C haben (wenn ladbar via Kabel).",
+          "Seit 28.12.2024: Smartphones, Tablets, Digitalkameras, Kopfhörer/Headsets, tragbare Lautsprecher, Handheld-Konsolen, E-Reader, Earbuds, Tastaturen, Mäuse, Navis und Powerbanks müssen USB-C haben (wenn kabelgebunden ladbar). Laptops ab 28.04.2026.",
       },
       {
         pflicht: "EUDR / Digital-Product-Passport (kommt 2027)",

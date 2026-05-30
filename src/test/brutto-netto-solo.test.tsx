@@ -95,7 +95,7 @@ describe("BruttoNettoSolo — Step-by-Step-Detail", () => {
 
   it("zeigt SolZ-Freigrenze-Hinweis", () => {
     renderWithRouter(<BruttoNettoSolo />);
-    expect(document.body.innerHTML).toMatch(/Freigrenze 19\.950 € ESt/);
+    expect(document.body.innerHTML).toMatch(/Freigrenze 20\.350 € ESt/);
   });
 });
 

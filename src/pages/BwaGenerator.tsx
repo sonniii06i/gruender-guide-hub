@@ -276,7 +276,7 @@ const BwaGenerator = () => {
       ? { status: "gelb", hint: `Akzeptabel (${benchmark.ek_ok}-${benchmark.ek_stark}%)` }
       : { status: "rot", hint: `Kritisch (<${benchmark.ek_ok}%)` };
 
-    // DSCR: KfW verlangt 2026 >1,25 für Wachstumsfinanzierung
+    // DSCR: bankübliche Rating-Faustregel ~1,2–1,25 (Hausbankprinzip), KEINE offizielle KfW-Programmvorgabe
     r.dscr = kpis.kapitaldienstGesamt === 0
       ? { status: "neutral", hint: "Kein Kapitaldienst" }
       : kpis.dscr >= 1.3
@@ -781,7 +781,7 @@ const BwaGenerator = () => {
         { label: "+ Zinsen p.a.", val: `${formatEur(kapitaldienst.zinsen_pa)} €` },
         { label: "= Kapitaldienst gesamt", val: `${formatEur(kpis.kapitaldienstGesamt)} €` },
         { label: "DSCR = EBITDA / Kapitaldienst", val: kpis.kapitaldienstGesamt > 0 ? `${kpis.dscr.toFixed(2)}x` : "—", bold: true },
-        { label: "Banker-Schwelle", val: ">1,3x (kommerziell); >1,25x (KfW 2026)" },
+        { label: "Banker-Schwelle", val: ">1,3x (kommerziell); ~1,2–1,25x (Hausbank-Rating-Faustregel)" },
       ];
       dscrRows.forEach((b) => {
         ensureSpace(5);
@@ -1139,7 +1139,7 @@ const BwaGenerator = () => {
                 <strong>Net Debt / EBITDA</strong> ist seit Basel IV (gilt 01/2025) die wichtigste Kennzahl — &lt;3x = grün, &gt;4,5x = Bank stoppt fast immer
               </li>
               <li>
-                <strong>KfW 2026</strong>: DSCR ≥1,25 für Wachstumsfinanzierung, EK-Quote ≥15% Mindesteinsatz
+                <strong>Hausbank-Rating</strong>: DSCR ~1,2–1,25 als Faustregel (KfW vergibt über das Hausbankprinzip — keine fixe Programm-DSCR-Vorgabe), EK-Quote ≥15% üblich
               </li>
               <li>
                 <strong>Was Banker zuerst checken</strong>: Net Debt/EBITDA · EK-Quote · Cash-Flow-Stabilität (FCF) · Personal-Quote · Kunden-Konzentration

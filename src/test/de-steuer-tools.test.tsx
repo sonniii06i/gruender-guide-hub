@@ -63,8 +63,8 @@ describe("germanTax.ts — Stand 2026 Konstanten", () => {
   it("§23 EStG Freigrenze = 1000 €", () => {
     expect(VERAUSSERUNG_FREIGRENZE).toBe(1000);
   });
-  it("SolZ-Freigrenze Single = 19.950 €", () => {
-    expect(SOLZ_FREIGRENZE_SINGLE).toBe(19950);
+  it("SolZ-Freigrenze Single 2026 = 20.350 €", () => {
+    expect(SOLZ_FREIGRENZE_SINGLE).toBe(20350);
   });
   it("Riester-Sockelbetrag 60 €/J", () => {
     expect(RIESTER_SOCKELBETRAG).toBe(60);
@@ -105,16 +105,16 @@ describe("KfzOptimizer", () => {
     renderWithRouter(<KfzOptimizer />);
     expect(screen.getAllByText(/Kfz/i).length).toBeGreaterThan(0);
   });
-  it("Pendlerpauschale-Formel-Beweis: 15km × 220 Tage = 990 €", () => {
-    // Reine Formel-Test (Replikat der Page-Logik)
+  it("Pendlerpauschale 2026: 15km × 220 Tage = 1254 € (0,38 € ab km 1)", () => {
+    // 2026: einheitlich 0,38 €/km ab dem 1. km (Steueränderungsgesetz 2025), keine Staffel mehr
     const km = 15, tage = 220;
-    const pauschale = (Math.min(20, km) * 0.30 + Math.max(0, km - 20) * 0.38) * tage;
-    expect(pauschale).toBe(990);
+    const pauschale = km * 0.38 * tage;
+    expect(pauschale).toBe(1254);
   });
-  it("Pendlerpauschale 25km × 220 Tage = 1738 € (gestaffelt)", () => {
+  it("Pendlerpauschale 2026: 25km × 220 Tage = 2090 € (0,38 € ab km 1)", () => {
     const km = 25, tage = 220;
-    const pauschale = (Math.min(20, km) * 0.30 + Math.max(0, km - 20) * 0.38) * tage;
-    expect(pauschale).toBe(1738);
+    const pauschale = km * 0.38 * tage;
+    expect(pauschale).toBe(2090);
   });
 });
 

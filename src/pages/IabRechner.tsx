@@ -444,7 +444,7 @@ const IabRechner = () => {
                 betrieblich genutzt werden (Privat-Nutzung &lt; 10 %).
               </li>
               <li>
-                <strong>Sonderabschreibung §7g(5) zusätzlich:</strong> 20 % Sofort-AfA + lineare AfA
+                <strong>Sonderabschreibung §7g(5) zusätzlich:</strong> bis 40 % Sonder-AfA (frei auf Anschaffungsjahr + 4 Folgejahre verteilbar) + lineare AfA
                 kombinierbar — das ist eigene Abschreibung, NICHT der IAB.
               </li>
               <li>
@@ -453,7 +453,7 @@ const IabRechner = () => {
               </li>
               <li>
                 <strong>Optimal: Gewinn senken auf Spitzensteuersatz-Schwelle</strong> (Einzel) — wenn ZvE
-                durch IAB unter 68.480 € fällt: gewinnst zusätzliche Progressions-Stufe.
+                durch IAB unter 69.879 € fällt: gewinnst zusätzliche Progressions-Stufe.
               </li>
             </ul>
           </div>
@@ -481,7 +481,7 @@ const IabRechner = () => {
             <span className="text-accent-blue font-semibold shrink-0">→</span>
             <span>
               <strong className="text-foreground">Sonderabschreibung:</strong> §7g(5) erlaubt zusätzlich
-              20 % Sonder-AfA neben dem IAB im Jahr der Anschaffung — kombinierbar.
+              bis 40 % Sonder-AfA neben dem IAB (frei auf Anschaffungsjahr + 4 Folgejahre verteilbar) — kombinierbar.
             </span>
           </li>
           <li className="flex gap-2">

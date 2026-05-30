@@ -51,7 +51,7 @@ export const WZ_2008: WzEntry[] = [
   { code: "74.90.0", label: "Sonstige freiberufliche, wissenschaftliche und technische Tätigkeiten", beispiele: ["Business-Mentoring (nicht §18)", "Gewerbliche Coaching-Tätigkeit"], gruppe: "Beratung & Marketing" },
 
   // === Kreativ & Medien ===
-  { code: "74.10.0", label: "Ateliers für Textil-, Schmuck-, Grafik- und ähnliches Design", beispiele: ["Grafik-Design (gewerblich, ohne §18)", "Logo-Design", "Web-Design gewerblich"], gruppe: "Kreativ & Medien" },
+  { code: "74.10.2", label: "Grafik- und Kommunikationsdesign", beispiele: ["Grafik-Design (gewerblich, ohne §18)", "Logo-Design", "Web-Design gewerblich"], gruppe: "Kreativ & Medien" },
   { code: "74.20.1", label: "Fotografie", beispiele: ["Hochzeitsfotografie", "Produktfotografie", "Event-Fotografie"], gruppe: "Kreativ & Medien" },
   { code: "74.30.0", label: "Übersetzen und Dolmetschen (gewerblich, sonst §18 freiberuflich)", beispiele: ["Gewerbliche Übersetzungen", "Übersetzungs-Agentur"], gruppe: "Kreativ & Medien" },
   { code: "59.11.0", label: "Herstellung von Filmen, Videofilmen und Fernsehprogrammen", beispiele: ["Video-Produktion", "YouTube-Channel mit Werbe-Einnahmen", "Content-Production"], gruppe: "Kreativ & Medien" },

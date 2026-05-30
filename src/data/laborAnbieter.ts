@@ -166,7 +166,7 @@ export const LABORE: Labor[] = [
       "Garching-Battery-Lab für UN 38.3 + IEC 62133",
       "Spielzeug nach EN 71-1/2/3/8/14",
       "GS-Zeichen-Erteilung (Spielzeug, Konsumgüter)",
-      "Neue EU Toy Regulation 2025/2509 ab 1.1.2026 Implementierung",
+      "Neue EU-Spielzeugverordnung (EU) 2025/2509 (in Kraft 1.1.2026, verbindlich ab 1.8.2030)",
     ],
     preise: "EN 71-3 Migration 250-500€/Test · CE-EMV-Paket 3.000-8.000€ · UN 38.3 ca. 5.000-10.000€",
     lieferzeit: "3-6 Wochen für komplette CE/Spielzeug-Pakete",
@@ -1480,10 +1480,10 @@ export const AVOID_LIST: { name: string; warnung: string }[] = [
 // ===== REGULATORIK-NEWS 2026 =====
 export const REGULATORIK_2026: { titel: string; datum: string; was: string; auswirkung: string }[] = [
   {
-    titel: "Neue EU Toy Regulation 2025/2509",
-    datum: "Seit 1.1.2026 anwendbar (Risiko-relevante Teile)",
-    was: "TÜV SÜD/Rheinland verlangen für GS-Zeichen-Erneuerung Re-Tests",
-    auswirkung: "Spielzeug-Brands: laufende Zertifikate prüfen, ggf. Re-Test einplanen",
+    titel: "Neue EU Toy Safety Regulation (EU) 2025/2509",
+    datum: "Veröffentlicht 12.12.2025, in Kraft seit 1.1.2026 — verbindlich anwendbar erst ab 1.8.2030 (Übergangsfrist ~4,5 J.)",
+    was: "Löst Richtlinie 2009/48/EG zum 1.8.2030 ab (neue Chemikalienverbote, digitaler Produktpass); bis dahin gilt die alte Richtlinie weiter",
+    auswirkung: "Spielzeug-Brands: bestehende Konformität bis 2030 gültig; neue Anforderungen rechtzeitig vor 1.8.2030 einplanen",
   },
   {
     titel: "OEKO-TEX-Update STANDARD 100",

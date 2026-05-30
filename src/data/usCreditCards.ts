@@ -184,7 +184,7 @@ export const US_CARDS: Card[] = [
     name: "Amex Business Platinum",
     issuer: "American Express",
     useCase: "business-ein",
-    annualFee: 695,
+    annualFee: 895,
     annualFeeFirstYearWaived: false,
     signupBonus: "as-high-as 250.000-300.000 MR (Mai-2026-Promo)",
     spendingRequirement: "$20.000 in 3 Monaten",

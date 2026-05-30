@@ -48,7 +48,7 @@ const SalaryDividendOptimizer = () => {
     const anSv = sv / 2;
     const zvE = Math.max(0, gehalt - anSv); // vereinfacht: AN-SV reduziert zvE
     const est = calcEst2026(zvE);
-    // SolZ-Freigrenze respektieren (ESt < 19.950 € Single → kein SolZ)
+    // SolZ-Freigrenze respektieren (ESt < 20.350 € Single → kein SolZ; 2026)
     const solz = solZ(est);
     const kist = est * (kistSatz / 100);
     const gehaltNetto = gehalt - anSv - est - solz - kist;

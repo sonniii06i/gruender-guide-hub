@@ -117,7 +117,7 @@ export const HOLDING_STRUCTURES: HoldingStructure[] = [
     ],
     lockUpPeriods: [
       "**7 Jahre Sperrfrist** ab Einbringung bestehender GmbH-Anteile (§22 UmwStG): vorzeitiger Verkauf führt zu rückwirkender Versteuerung",
-      "Mindestbeteiligung 10 % im Vorjahr für Schachtelprivileg (§8b Abs 4 KStG)",
+      "Laufende Dividenden: Mindestbeteiligung 10 % zu Beginn des Kalenderjahres (KSt-Schachtel §8b Abs 4 KStG); GewSt-Schachtel zusätzlich 15 % (§9 Nr 2a GewStG). Veräußerungsgewinne (§8b Abs 2) sind dagegen beteiligungsunabhängig 95 % steuerfrei",
     ],
     setupSteps: [
       "1. Holding GmbH neu gründen (oder bestehende GmbH umbenennen + Anteile an neue Holding einbringen)",
@@ -175,7 +175,7 @@ export const HOLDING_STRUCTURES: HoldingStructure[] = [
     ],
     pitfalls: [
       "**§22 UmwStG-Sperrfrist nicht beachtet:** Op-GmbH wird in Holding eingebracht, dann 4 Jahre später verkauft → rückwirkende Versteuerung der stillen Reserven mit ~30 %. Klassischer 7-stelliger Fehler.",
-      "**Schachtelprivileg-Voraussetzung verfehlt:** Bei Beteiligung < 10 % im Vorjahr greift §8b KStG NICHT — Mindestbeteiligung in laufendem Jahr reicht nicht.",
+      "**Schachtelprivileg verfehlt (nur laufende Dividenden):** Für die 95%-Steuerfreiheit laufender Dividenden braucht es ≥10 % zu Beginn des Kalenderjahres (§8b Abs 4 KStG; GewSt-Schachtel sogar ≥15 %, §9 Nr 2a GewStG). Veräußerungsgewinne (§8b Abs 2 KStG) sind dagegen auch im Streubesitz < 10 % zu 95 % steuerfrei.",
       "**vGA (verdeckte Gewinnausschüttung) durch Auto/Privatkosten:** GF nutzt Op-GmbH-Auto privat ohne 1 %-Regel zu versteuern → Finanzamt qualifiziert als vGA → Doppel-Besteuerung.",
       "**Holding ohne Substanz:** reine Mailbox-Holding ohne Geschäftsleitung → BMF kann durchschauen und versagen Schachtelprivileg.",
       "**StB-Wahl falsch:** Standard-StB ohne Konzern-Erfahrung macht Fehler in Konsolidierung. Ab 250 k Op-Gewinn: Konzern-erfahrenen StB wählen.",
@@ -273,7 +273,7 @@ export const HOLDING_STRUCTURES: HoldingStructure[] = [
       "**Familienverwerfungen:** Bei Streit kann Pool-Vertrag schwer aufzulösen sein. Ausstiegsklauseln wichtig.",
     ],
     migrationPath: "Aus Familien-Pool wechselt man oft in **Familienstiftung**, wenn Vermögen > 10 Mio und Pflichtteilsschutz wichtiger wird, oder bei Generations-Wechsel (Kinder erwachsen).",
-    intlConsiderations: "Bei Auswanderung eines Pool-Mitglieds in Nicht-EU-Staat: §6 AStG Wegzugsbesteuerung möglich (Anteile gelten als verkauft). Bei EU-Wegzug 2025+: nur noch Stundung möglich (kein Verzicht mehr seit ATAD).",
+    intlConsiderations: "Bei Auswanderung eines Pool-Mitglieds: §6 AStG Wegzugsbesteuerung (Anteile gelten als veräußert). Seit dem ATAD-Umsetzungsgesetz (Wegzüge ab 01.01.2022) keine EU-Sonderbehandlung mehr — die frühere unbefristete zinslose EU/EWR-Stundung ist abgeschafft; die festgesetzte Steuer ist auf Antrag in 7 Jahresraten zahlbar (i. d. R. gegen Sicherheitsleistung).",
   },
 
   // ============================================================

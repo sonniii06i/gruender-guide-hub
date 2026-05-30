@@ -37,7 +37,7 @@ import {
 } from "@/lib/germanTax";
 
 const MINDEST_BEMESSUNG_GKV_MONAT_2026 = 1318.33; // freiwillig versicherte Selbstständige
-const BBG_KV_MONAT_2026 = 5512.5; // Höchst-Bemessung
+const BBG_KV_MONAT_2026 = 5812.5; // Höchst-Bemessung (69.750 €/Jahr; 2025: 5.512,50)
 const KV_ALLG_SATZ = 14.6;
 const KV_ZUSATZ_DEFAULT = 2.9;
 const PV_SATZ_KINDERLOS = 4.2; // 3.6 + 0.6 Kinderlos-Zuschlag
@@ -121,7 +121,11 @@ const BruttoNettoSolo = () => {
     //  und Solo-Selbstständige systematisch schlechter aussehen lassen.)
     const AG_SV_QUOTE = 0.205;
     const an_brutto = gewinn / (1 + AG_SV_QUOTE);
-    const an_sv = Math.min(an_brutto, BBG_RV_MONAT_2026 * 12) * 0.205;
+    // 2026 zwei getrennte Beitragsbemessungsgrenzen: KV/PV bis 69.750 €, RV/AV bis 101.400 €.
+    // AN-Anteile getrennt deckeln (KV+PV ~10,25 %, RV+AV ~10,6 %), sonst wird der KV-Teil zu hoch gekappt.
+    const an_kvpv = Math.min(an_brutto, BBG_KV_MONAT_2026 * 12) * 0.1025;
+    const an_rvav = Math.min(an_brutto, BBG_RV_MONAT_2026 * 12) * 0.106;
+    const an_sv = an_kvpv + an_rvav;
     const an_zvE = an_brutto - an_sv;
     const an_eSt = verheiratet ? 2 * progressionESt(an_zvE / 2) : progressionESt(an_zvE);
     const an_solz = solZAuf(an_eSt);
@@ -272,7 +276,7 @@ const BruttoNettoSolo = () => {
           <div className="h-3" />
           <Row label="./. Einkommensteuer §32a EStG (Progression)" val={-calc.eSt}
                note={verheiratet ? "Splitting-Tarif (verheiratet)" : "Grundtarif (Single)"} />
-          {calc.solz > 0 && <Row label="./. Solidaritätszuschlag 5,5 % auf ESt" val={-calc.solz} note="Freigrenze 19.950 € ESt" />}
+          {calc.solz > 0 && <Row label="./. Solidaritätszuschlag 5,5 % auf ESt" val={-calc.solz} note="Freigrenze 20.350 € ESt" />}
           {calc.kist > 0 && <Row label={`./. Kirchensteuer ${kistSatz} %`} val={-calc.kist} />}
           {calc.gewSt > 0 && (
             <Row label="./. Gewerbesteuer (nach §35-Anrechnung)" val={-calc.gewSt}
@@ -423,11 +427,11 @@ const Glossar = () => (
     <div className="mt-3 space-y-3 text-xs leading-relaxed">
       {[
         { begriff: "Gewinn (= Bemessungsgrundlage)", erklaerung: "Umsatz minus Betriebsausgaben. Aus dem Gewinn werden alle Steuern (ESt, GewSt) und Sozialversicherungs-Beiträge berechnet. Wichtig: nicht der Umsatz, sondern der Gewinn ist die Basis!" },
-        { begriff: "Einkommensteuer-Progression §32a EStG", erklaerung: "Je höher dein Einkommen, desto höher der Steuersatz: 0% bis 12.348€ Grundfreibetrag, dann 14% (Eingangssatz), bis 42% (Spitzensatz ab 68.481€), 45% Reichensteuer ab 277.826€. Splitting bei Verheirateten halbiert effektiv den Tarif." },
-        { begriff: "Solidaritätszuschlag (SolZ)", erklaerung: "5,5 % auf die ESt. Aber: Freigrenze 19.950 € ESt (Single) — darunter zahlst du keinen SolZ. Bei verheirateten Paaren liegt die Grenze bei 39.900 € ESt." },
+        { begriff: "Einkommensteuer-Progression §32a EStG", erklaerung: "Je höher dein Einkommen, desto höher der Steuersatz: 0% bis 12.348€ Grundfreibetrag, dann 14% (Eingangssatz), bis 42% (Spitzensatz ab 69.879€), 45% Reichensteuer ab 277.826€. Splitting bei Verheirateten halbiert effektiv den Tarif." },
+        { begriff: "Solidaritätszuschlag (SolZ)", erklaerung: "5,5 % auf die ESt. Aber: Freigrenze 20.350 € ESt (Single) — darunter zahlst du keinen SolZ. Bei verheirateten Paaren liegt die Grenze bei 40.700 € ESt." },
         { begriff: "Gewerbesteuer (GewSt)", erklaerung: "Nur bei Gewerbe (nicht Freiberuf). Freibetrag 24.500 € Gewinn. Rest mit Messzahl 3,5 % × Hebesatz der Gemeinde. Wichtig: GewSt wird via §35 EStG mit Faktor 4,0 auf die ESt angerechnet — bei Hebesatz ≤400% effektiv neutral!" },
         { begriff: "Kirchensteuer (KiSt)", erklaerung: "8 % der ESt in Bayern und Baden-Württemberg, 9 % im Rest. Nur wenn du Mitglied einer steuererhebenden Religionsgemeinschaft bist. Austritt = sofortige Befreiung." },
-        { begriff: "KV/PV freiwillig (Mindestbemessung)", erklaerung: "Als Selbstständiger zahlst du GKV freiwillig: mindestens auf 1.318,33 €/Monat fingiertes Einkommen (Mindestbemessung 2026 ≈ 260-280 €/Mon Beitrag), max. auf BBG 5.512,50 €/Mon (höchster Beitrag ~1.150 €/Mon)." },
+        { begriff: "KV/PV freiwillig (Mindestbemessung)", erklaerung: "Als Selbstständiger zahlst du GKV freiwillig: mindestens auf 1.318,33 €/Monat fingiertes Einkommen (Mindestbemessung 2026 ≈ 260-280 €/Mon Beitrag), max. auf BBG 5.812,50 €/Mon (höchster Beitrag ~1.210 €/Mon)." },
         { begriff: "Künstlersozialkasse (KSK)", erklaerung: "Bund übernimmt 50 % der GKV+RV-Beiträge für selbstständige Künstler/Publizisten — wie bei Angestellten. Pflicht-Mitgliedschaft für: Maler, Musiker, Autor, Journalist, Designer, Fotograf etc. Mindesteinkommen 3.900 €/J (sonst Befreiung)." },
         { begriff: "Vergleich Selbstständig vs. Angestellt (fair)", erklaerung: "Der faire Vergleich rechnet auf gleichem AG-Total, NICHT auf gleichem Brutto-Gehalt. Grund: dein Solo-Gewinn entspricht konzeptionell dem, was ein AG insgesamt für seinen Mitarbeiter aufbringen müsste (AN-Brutto + AG-SV-Anteil ~20,5 %). Würdest du Solo-Gewinn = AN-Brutto setzen, ignoriert das den AG-Anteil und macht Selbstständige systematisch ärmer aussehen als sie sind. Faustregel: Selbstständig rentabel ab ~20-30 % Mehr-Netto — der Aufschlag deckt Sicherheits-Lücke (Lohnfortzahlung, Urlaub, BU, Rente)." },
       ].map((g) => (

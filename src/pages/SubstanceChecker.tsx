@@ -60,11 +60,11 @@ const COUNTRY_LABELS: Record<Country, CountryInfo> = {
   estland: {
     flag: "🇪🇪",
     name: "Estland (OÜ)",
-    citRange: "0% thesauriert / 24% ausgeschüttet (DPT ab 2026)",
-    effCitForScoring: 24, // Bei Ausschüttung — der relevante Fall für DE-Empfänger
+    citRange: "0% thesauriert / 22% ausgeschüttet (DPT, 22/78)",
+    effCitForScoring: 22, // Bei Ausschüttung — der relevante Fall für DE-Empfänger
     substanceRisk: "high",
     scrutinyNote:
-      "Häufig genutzt als Briefkasten für DE-Auswanderer → BZSt-Aufmerksamkeit. DPT 24% ab 2026 (war 22% in 2025).",
+      "Häufig genutzt als Briefkasten für DE-Auswanderer → BZSt-Aufmerksamkeit. DPT 22% (geplante Erhöhung auf 24% wurde Ende 2025 vom Riigikogu gestrichen; ermäßigter 14/86-Satz seit 2025 abgeschafft).",
   },
   niederlande: {
     flag: "🇳🇱",

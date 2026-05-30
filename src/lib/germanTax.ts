@@ -12,8 +12,9 @@
 /** Solidaritätszuschlag-Satz auf KSt / ESt (über Freigrenze). */
 export const SOLZ_RATE = 0.055;
 
-/** Solidaritätszuschlag-Freigrenze 2026 für Single (ab dieser ESt → 5,5 %). */
-export const SOLZ_FREIGRENZE_SINGLE = 19950;
+/** Solidaritätszuschlag-Freigrenze 2026 für Single (bis zu dieser festgesetzten ESt fällt kein SolZ an).
+ *  2026: Single 20.350 € / Zusammenveranlagung 40.700 € (2025: 19.950 € / 39.900 €). */
+export const SOLZ_FREIGRENZE_SINGLE = 20350;
 
 /** Körperschaftsteuer-Satz seit 2008. */
 export const KST_RATE = 0.15;
@@ -65,8 +66,9 @@ export const VERAUSSERUNG_HALTEFRIST_TAGE = 365;
  *  Quelle: Bundesregierung. Vorjahr 2025: 96.600 € (West). */
 export const BBG_RV_WEST_JAHR = 101400; // 8.450 €/Monat × 12
 
-/** Beitragsbemessungsgrenze KV/PV 2026 (jährlich). Quelle: TK Firmenkunden. */
-export const BBG_KV_JAHR = 66150;
+/** Beitragsbemessungsgrenze KV/PV 2026 (jährlich) = 69.750 € (5.812,50 €/Monat), bundeseinheitlich.
+ *  Quelle: Sozialversicherungsrechengrößen-Verordnung 2026. Vorjahr 2025: 66.150 €. */
+export const BBG_KV_JAHR = 69750;
 
 /** Sozialversicherung KV+PV gesamt-Quote (kinderlos, Stand 2026). */
 export const SV_QUOTE_KV_PV = 0.205;
@@ -143,12 +145,9 @@ export function grenzSteuerSatz(zvE: number): number {
  */
 export function solZ(steuer: number): number {
   if (steuer <= SOLZ_FREIGRENZE_SINGLE) return 0;
-  if (steuer < 32000) {
-    // Milderungszone vereinfacht linear interpoliert
-    const ratio = (steuer - SOLZ_FREIGRENZE_SINGLE) / (32000 - SOLZ_FREIGRENZE_SINGLE);
-    return steuer * SOLZ_RATE * ratio;
-  }
-  return steuer * SOLZ_RATE;
+  // Milderungszone (§4 SolzG): SolZ = min(5,5 % der Steuer; 11,9 % des Betrags über der Freigrenze).
+  // Voller Satz greift damit 2026 ab ESt ≈ 37.838 € (Single), nicht ab einem festen 32.000-€-Wert.
+  return Math.min(steuer * SOLZ_RATE, 0.119 * (steuer - SOLZ_FREIGRENZE_SINGLE));
 }
 
 /**

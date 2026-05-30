@@ -56,7 +56,7 @@ const EcomRoadmap = () => {
               </li>
               <li>
                 <strong className="text-foreground">PPWR + EWKFondsG (Verpackung):</strong> Empty-Space-Ratio
-                ≤50% ab 2030, Plastiksteuer €0,18-8,97/kg seit 2024 (Doppelbelastung zu LUCID!). Siehe{" "}
+                ≤50% ab 2030, EWKFonds-Einwegkunststoff-Abgabe (keine „Plastiksteuer") ~€0,001-8,972/kg je Produktgruppe seit 2024 (Doppelbelastung zu LUCID!). Siehe{" "}
                 <a href="/cockpit/lucid-wizard" className="text-accent-blue underline">LUCID-Wizard</a>.
               </li>
               <li>

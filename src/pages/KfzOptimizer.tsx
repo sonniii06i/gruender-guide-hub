@@ -31,7 +31,7 @@ const KfzOptimizer = () => {
       return bruttolistenpreis <= 100000 ? bruttolistenpreis * 0.25 : bruttolistenpreis * 0.5;
     }
     if (autoTyp === "hybrid") {
-      // Hybrid: 0,5 % wenn elektrisch ≥ 60 km Reichweite ODER ≥ 50 km bei Anschaffung 2025+
+      // Hybrid: 0,5 % wenn rein-elektr. WLTP-Reichweite ≥ 80 km (Anschaffung ab 2025) ODER ≤ 50 g CO₂/km
       return bruttolistenpreis * 0.5;
     }
     return bruttolistenpreis;
@@ -52,8 +52,9 @@ const KfzOptimizer = () => {
     // Steuer auf geldwerten Vorteil
     const steuerESt = totalGeldwerterVorteil * estSatz;
     // Werbungskostenpauschale Pendler-Pauschale (bei 1%-Regel zusätzlich abziehbar)
-    // Pendlerpauschale §9 Abs. 1 Nr. 4 EStG: ersten 20 km × 0,30 €/km, ab 21. km × 0,38 €/km (ab 2024 dauerhaft)
-    const pendlerPauschale = (Math.min(20, entfernungArbeit) * 0.30 + Math.max(0, entfernungArbeit - 20) * 0.38) * arbeitstageProJahr;
+    // Entfernungspauschale §9 Abs. 1 S. 3 Nr. 4 EStG: ab 2026 einheitlich 0,38 €/km ab dem 1. km
+    // (Steueränderungsgesetz 2025; vorher Staffel 0,30 € für km 1–20 / 0,38 € ab km 21)
+    const pendlerPauschale = entfernungArbeit * 0.38 * arbeitstageProJahr;
     const ersparnisPendler = pendlerPauschale * estSatz;
     const nettoSteuerLast = steuerESt - ersparnisPendler;
     return {
@@ -341,7 +342,7 @@ const KfzOptimizer = () => {
             ? "BEV bis 100k BLP: nur 0,25 % statt 1 % (Riesen-Vorteil!)"
             : autoTyp === "elektro"
             ? "BEV > 100k: 0,5 % statt 1 %"
-            : "Hybrid: 0,5 % statt 1 % (wenn ≥ 60 km elektrische Reichweite oder ≤ 50 g CO₂/km)"}
+            : "Hybrid: 0,5 % statt 1 % (wenn ≥ 80 km elektr. WLTP-Reichweite bei Anschaffung ab 2025 oder ≤ 50 g CO₂/km)"}
         </div>
       )}
 
@@ -367,7 +368,7 @@ const KfzOptimizer = () => {
               <li>
                 <strong>BEV bis 100k BLP</strong>: 0,25 %-Regelung gilt für Anschaffungen 2019–2030; die
                 BLP-Grenze wurde für Anschaffungen ab 01.07.2025 von 70.000 € auf 100.000 € angehoben (davor 70.000 €).
-                Plug-in-Hybrid braucht ≥ 60 km elektrische Reichweite (ab 2025) oder ≤ 50 g CO₂/km.
+                Plug-in-Hybrid braucht ≥ 80 km elektr. WLTP-Reichweite (Anschaffung ab 2025; 60 km galt 2022–2024) oder ≤ 50 g CO₂/km.
               </li>
               <li>App-Empfehlung: Vimcar, FahrtenbuchPro — automatisch via OBD2 + GPS.</li>
             </ul>
@@ -382,7 +383,7 @@ const KfzOptimizer = () => {
           { label: "§9 EStG (Pendlerpauschale)", url: "https://www.gesetze-im-internet.de/estg/__9.html" },
           { label: "BMF-Schreiben Kfz", url: "https://www.bundesfinanzministerium.de" },
         ]}
-        note="E-Auto-Bonus 0,25 % bei BLP ≤ 100.000 € (Anschaffung ab 01.07.2025; davor ≤ 70.000 €). Hybrid-Bonus 0,5 % nur bei elektr. Reichweite ≥ 60 km (≥ 80 km ab 2025-Anschaffung). Pendlerpauschale 2026: 0,30 € (1-20 km) / 0,38 € (ab 21 km)."
+        note="E-Auto-Bonus 0,25 % bei BLP ≤ 100.000 € (Anschaffung ab 01.07.2025; davor ≤ 70.000 €). Hybrid-Bonus 0,5 % nur bei elektr. WLTP-Reichweite ≥ 80 km (Anschaffung ab 2025; 60 km 2022–2024) oder ≤ 50 g CO₂/km. Entfernungspauschale 2026: einheitlich 0,38 €/km ab dem 1. km."
       />
     </CockpitShell>
   );

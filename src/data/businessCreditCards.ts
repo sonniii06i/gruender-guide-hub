@@ -104,7 +104,7 @@ export const BIZ_CARDS: BizCard[] = [
   },
   {
     id: "qonto",
-    name: "Qonto (One / Plus / X)",
+    name: "Qonto (Starter / Basic / Smart / Premium)",
     issuer: "Qonto",
     segment: "solo",
     cardType: "Debit",
@@ -174,7 +174,7 @@ export const BIZ_CARDS: BizCard[] = [
     rewards: "0,5–1 % Cashback (je Plan)",
     signupBonus: null,
     datevNative: true,
-    fxFee: "1,99 %",
+    fxFee: "Starter (free) 2,49 % · Essential/Advanced 1,99 %",
     schufa: false,
     soloDayOne: true,
     who: "Primär Teams mit Mitarbeiterkarten/Spend-Management; Solo möglich",

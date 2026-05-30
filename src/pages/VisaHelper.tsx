@@ -130,7 +130,7 @@ const PFADE: Pfad[] = [
     zielgruppe: "Hochqualifizierte mit Job-Offer + Brutto-Gehalt ≥ Schwelle",
     voraussetzungen: [
       "Hochschulabschluss (mind. 3-jährig) ODER mind. 5 Jahre vergleichbare Berufserfahrung",
-      "Job-Offer in DE mit Brutto-Gehalt ab €45.300/Jahr (Standard 2026) oder €41.041 (Mangelberufe)",
+      "Job-Offer in DE mit Brutto-Gehalt ab €50.700/Jahr (Standard 2026) oder €45.934 (Mangelberufe, Berufseinsteiger, IT-Fachkräfte ohne Hochschulabschluss)",
       "Anerkennung des Abschlusses (via Anabin / ZAB)",
     ],
     prozess: [
@@ -141,11 +141,11 @@ const PFADE: Pfad[] = [
     dauer: "1-3 Monate · Initial 4 Jahre, verlängerbar",
     kostenAmt: "100-110 €",
     kostenAnwalt: "0-2k € optional",
-    niederlassungsAfter: "Niederlassung nach 33 Monaten (21 Mo bei B1-Deutsch)",
+    niederlassungsAfter: "Niederlassung nach 27 Monaten (21 Mo bei B1-Deutsch)",
     fitScore: (i) =>
       (i.zweck === "tech-fachkraft" || i.zweck === "gehoben-akademisch" ? 40 : 0) +
       (i.hatHochschule ? 25 : 0) +
-      (i.jobOffer && i.jobBruttoJahr >= 45300 ? 25 : 0) +
+      (i.jobOffer && i.jobBruttoJahr >= 50700 ? 25 : 0) +
       (i.hatBerufserfahrungJahre >= 5 ? 10 : 0),
     vorteile: ["Schnellster Niederlassungs-Pfad", "Familien-Nachzug ohne Sprachnachweis", "EU-weite Mobilität nach 18 Monaten"],
     nachteile: ["Job-Offer + Gehalts-Schwelle Pflicht", "Anerkennung Abschluss dauert"],
@@ -192,7 +192,7 @@ const PFADE: Pfad[] = [
     voraussetzungen: [
       "Berufliche oder akademische Qualifikation (mind. 2 Jahre)",
       "Mind. 6 Punkte aus Punkte-System (Anerkennung, Sprache, Erfahrung, Alter, Land-Bezug, Bedarfsberufe)",
-      "Lebensunterhalt für 1 Jahr Jobsuche nachweisen (~ €1.027/Monat)",
+      "Lebensunterhalt für 1 Jahr Jobsuche nachweisen (~ €1.091/Monat, Stand 2026; ~ €13.092 gesamt)",
       "A1-Deutsch ODER B2-Englisch",
     ],
     prozess: [

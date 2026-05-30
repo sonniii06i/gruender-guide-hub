@@ -11,7 +11,7 @@ const GKV_ZUSATZ_SCHNITT_2026 = 2.9; // % — rechnerischer Durchschnitt 2026 (w
 const PV_SATZ = 3.6; // % — Pflegeversicherung 2026
 const PV_KINDERLOS_ZUSCHLAG = 0.6; // % ab 23 J. ohne Kind
 const PV_KIND_ABSCHLAG_JE = 0.25; // % je Kind 2-5 Kinder (Familie mit Kindern <25)
-const BBG_KV_MONAT_2026 = 5512.5; // € Höchst-Bemessung
+const BBG_KV_MONAT_2026 = 5812.5; // € Höchst-Bemessung (69.750 €/Jahr; 2025: 5.512,50)
 const MINDEST_BEMESSUNG_MONAT_2026 = 1318.33; // € Mindest-Bemessung freiwillig Versicherte
 const JAEG_2026 = 77400; // € Jahresarbeitsentgeltgrenze (Pflichtversicherungsgrenze)
 
@@ -274,7 +274,7 @@ const KvOptimizer = () => {
               <div className="rounded-lg bg-red-500/10 p-3">
                 <div className="text-[10px] text-muted-foreground uppercase">Höchstbeitrag 2026</div>
                 <div className="text-lg font-bold">{calc.freiwilligHoechst.toFixed(0)} €/Mon</div>
-                <div className="text-[10px] text-muted-foreground">Cap bei 5.512 €/Mon Einkommen</div>
+                <div className="text-[10px] text-muted-foreground">Cap bei 5.812,50 €/Mon Einkommen</div>
               </div>
             </div>
             <div className="text-xs text-muted-foreground space-y-1.5">
@@ -524,7 +524,7 @@ const KvOptimizer = () => {
           { label: "Mindestbemessung Selbstständige 2026 (covago)", url: "https://covago.de/mindestbemessungsgrundlage-2026/" },
           { label: "§229 SGB V Versorgungsbezüge (Haufe)", url: "https://www.haufe.de/id/norm/sgb-v-gesetzliche-krankenversicherung-229-versorgungsbezuege-als-beitragspflichtige-einnahmen-HI12693200_p229.html" },
         ]}
-        note="Stand Mai 2026: GKV-Allg-Satz 14,6 % unverändert · Zusatz-Durchschnitt 2,9 % (Vorjahr 2,5 %) · BBG-KV 5.512,50 €/Mon · JAEG 77.400 €/J · Mindestbemessung freiwillig 1.318,33 €/Mon · PKV-Erhöhung 2026 ~13 % bei 60 % der Versicherten · PV 3,6 % + Kinderlosen-Zuschlag 0,6 % ab 23 J."
+        note="Stand Mai 2026: GKV-Allg-Satz 14,6 % unverändert · Zusatz-Durchschnitt 2,9 % (Vorjahr 2,5 %) · BBG-KV 5.812,50 €/Mon (69.750 €/J) · JAEG 77.400 €/J · Mindestbemessung freiwillig 1.318,33 €/Mon · PKV-Erhöhung 2026 ~13 % bei 60 % der Versicherten · PV 3,6 % + Kinderlosen-Zuschlag 0,6 % ab 23 J."
       />
     </CockpitShell>
   );

@@ -261,7 +261,7 @@ export const ROADMAP_TASKS: RoadmapTask[] = [
     phase: "T30",
     pflicht: "muss",
     titel: "Impressum + Datenschutzerklärung (DSGVO)",
-    beschreibung: "Auf jeder Webseite Pflicht (§5 TMG, Art. 13 DSGVO). Generator + Anwalt für Profi-Version.",
+    beschreibung: "Auf jeder Webseite Pflicht (§ 5 DDG — seit 14.05.2024 statt § 5 TMG, Art. 13 DSGVO). Generator + Anwalt für Profi-Version.",
     schritte: [
       "Impressum mit eRecht24-Generator (gratis)",
       "Datenschutzerklärung mit Cookie-Banner + Tracking-Hinweisen",

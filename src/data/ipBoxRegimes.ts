@@ -76,7 +76,7 @@ export const IP_BOX_REGIMES: IPBoxRegime[] = [
       "Audit jährlich Pflicht",
     ],
     pros: [
-      "Niedrigster effektiver Steuersatz in EU (2,5 %)",
+      "Niedrigster effektiver Steuersatz in EU (3,0 % ab 2026; vor der KSt-Reform 2,5 %)",
       "Auch Software einbezogen — nicht nur Patente",
       "Gut etabliertes Big-4-CPA-Ökosystem",
       "DBA-Deutschland mit 0 % Quellensteuer auf Royalties (wenn Beneficial Owner)",
@@ -215,9 +215,9 @@ export const IP_BOX_REGIMES: IPBoxRegime[] = [
     flag: "🇮🇪",
     regimeName: "Knowledge Development Box (KDB) — BEPS-konform",
     standardKSt: 12.5,
-    effectiveRate: 6.25,
+    effectiveRate: 10,
     mechanism:
-      "50 % der qualifizierten Netto-Einkünfte werden befreit → effektiv 6,25 %. KDB läuft aktuell bis 31.12.2026, Verlängerung in Diskussion.",
+      "Abzug von 20 % der qualifizierten Netto-Einkünfte (zuvor 50 %) → effektiv 10 % (Finance Act 2022, wirksam für Geschäftsjahre ab 1.10.2023; angehoben zur Anpassung an OECD Pillar Two). KDB läuft aktuell bis 31.12.2026, Verlängerung in Diskussion.",
     qualifyingIncome: [
       "Patente + Patentanmeldungen (registriert)",
       "Software-Copyrights",
@@ -238,7 +238,7 @@ export const IP_BOX_REGIMES: IPBoxRegime[] = [
       "Nexus-Berechnung",
     ],
     pros: [
-      "Niedriger effektiver Satz (6,25 %) bei sehr seriöser Jurisdiktion",
+      "Niedriger effektiver Satz (10 % seit GJ ab 1.10.2023; zuvor 6,25 %) bei sehr seriöser Jurisdiktion",
       "Englisch-sprachig + Big-Tech-Hub (US-Steuerberater verfügbar)",
       "EU-Mitglied + 0 % Royalty-Quellensteuer per DBA-DE",
       "Stabile Politik + KDB seit 2016",

@@ -31,7 +31,7 @@ import {
 import { progressionESt, solZ as solZAuf, GEWST_MESSZAHL, GEWST_FREIBETRAG_NATUERLICH, GEWST_ANRECHNUNG_FAKTOR } from "@/lib/germanTax";
 
 const MINDEST_BEMESSUNG_GKV_MONAT_2026 = 1318.33;
-const BBG_KV_MONAT_2026 = 5512.5;
+const BBG_KV_MONAT_2026 = 5812.5; // 69.750 €/Jahr (2025: 5.512,50)
 const KV_ALLG_SATZ = 14.6;
 const PV_SATZ_KINDERLOS = 4.2;
 const PV_SATZ_KIND = 3.6;

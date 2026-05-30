@@ -300,7 +300,7 @@ const CeRohsGenerator = () => {
       const batteryTypeLabel: Record<typeof batteryType, string> = {
         portable: "Gerätebatterie (portable) — Art. 6 (Konsumelektronik)",
         "industrial-le2kwh": "Industriebatterie ≤ 2 kWh",
-        "industrial-gt2kwh": "Industriebatterie > 2 kWh — CFP-Pflicht seit 18.2.2025 (Erklärung) / 18.8.2025 (Klasse)",
+        "industrial-gt2kwh": "Industriebatterie > 2 kWh — CFP-Erklärung (Art. 7) ab 18.2.2026, Leistungsklasse ab 18.8.2027 (de facto verschoben bis 18 Mon. nach finalem CFP-Rechtsakt, Stand 2026 noch offen)",
         ev: "EV-Batterie / Traktionsbatterie — CFP-Pflicht seit 18.2.2025",
         lmt: "LMT-Batterie (E-Bikes, E-Scooter)",
       };
@@ -578,7 +578,7 @@ const CeRohsGenerator = () => {
           </div>
           <div className="flex-1">
             <h3 className="font-bold text-sm">EU-Batterieverordnung 2023/1542 — Konformitäts-Block</h3>
-            <p className="text-[11px] text-muted-foreground">Pflicht für alle Produkte mit Akku/Batterie. CFP-Erklärung seit 18.2.2025 für EV/Industrial &gt;2kWh/LMT. Digital Battery Passport ab 18.2.2027.</p>
+            <p className="text-[11px] text-muted-foreground">Pflicht für alle Produkte mit Akku/Batterie. CFP-Erklärung gestaffelt: EV ab 18.2.2025 · Industrie &gt;2kWh ab 18.2.2026 · LMT ab 18.8.2028 (jeweils vorbehaltlich Verschiebung bis zum finalen CFP-Rechtsakt). Digital Battery Passport ab 18.2.2027.</p>
           </div>
         </button>
         {includeBattery && (

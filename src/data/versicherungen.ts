@@ -328,9 +328,9 @@ export const VERSICHERUNGEN: Versicherung[] = [
     beitragRange: { min: 2400, mittel: 6000, max: 12000 },
     worauf_achten: [
       "Tool KV-Optimizer hat Detail-Vergleich aller Optionen",
-      "Bei KSK: Bund zahlt 50 % vom Beitrag",
+      "Bei KSK: Versicherter trägt ~50 % selbst; die andere Hälfte aus Künstlersozialabgabe (30 %) + Bundeszuschuss (20 %)",
       "Mindest-Bemessung GKV freiwillig: 1.318 €/Mon",
-      "BBG GKV/PV 2026: 5.512,50 €/Mon",
+      "BBG GKV/PV 2026: 5.812,50 €/Mon (69.750 €/J)",
     ],
     anbieter_hinweise: [
       "Tool 'KV-Optimizer' für Detail-Vergleich",

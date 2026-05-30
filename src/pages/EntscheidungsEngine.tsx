@@ -77,18 +77,18 @@ const ABG_ST = 0.26375; // 25 % AbgSt + Soli auf Dividenden privat
 const HOLDING_RATE = 0.015; // ~1,5 % effektiv via §8b KStG
 
 function estProgression(zvE: number): number {
-  // Vereinfachte ESt-Berechnung 2026 (Tarif § 32a EStG)
-  if (zvE <= 12096) return 0;
-  if (zvE <= 17443) {
-    const y = (zvE - 12096) / 10000;
-    return Math.round((932.3 * y + 1400) * y);
+  // Vereinfachte ESt-Berechnung 2026 (Tarif § 32a EStG, VZ 2026)
+  if (zvE <= 12348) return 0;
+  if (zvE <= 17799) {
+    const y = (zvE - 12348) / 10000;
+    return Math.round((914.51 * y + 1400) * y);
   }
-  if (zvE <= 68480) {
-    const z = (zvE - 17443) / 10000;
-    return Math.round((176.64 * z + 2397) * z + 1015.13);
+  if (zvE <= 69878) {
+    const z = (zvE - 17799) / 10000;
+    return Math.round((173.10 * z + 2397) * z + 1034.87);
   }
-  if (zvE <= 277825) return Math.round(0.42 * zvE - 10911.92);
-  return Math.round(0.45 * zvE - 19246.67);
+  if (zvE <= 277825) return Math.round(0.42 * zvE - 11135.63);
+  return Math.round(0.45 * zvE - 19470.38);
 }
 
 function estSatzEffektiv(zvE: number): number {

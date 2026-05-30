@@ -264,7 +264,7 @@ const Kleinunternehmer = () => {
           {!istExistenzgruender && (
             <div>
               <Label className="text-xs uppercase tracking-wider text-muted-foreground">
-                Vorjahres-Umsatz (Brutto, €)
+                Vorjahres-Umsatz (Netto, €)
               </Label>
               <Input
                 type="number"
@@ -280,7 +280,7 @@ const Kleinunternehmer = () => {
           )}
           <div>
             <Label className="text-xs uppercase tracking-wider text-muted-foreground">
-              Aktueller Jahres-Umsatz (Brutto, €)
+              Aktueller Jahres-Umsatz (Netto, €)
             </Label>
             <Input
               type="number"
