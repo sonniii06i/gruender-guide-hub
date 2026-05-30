@@ -212,6 +212,8 @@ const UstVoranmeldung = () => {
           { label: "BMF: Vordruckmuster USt-Voranmeldung 2026 (29.12.2025)", url: "https://www.bundesfinanzministerium.de/Content/DE/Downloads/BMF_Schreiben/Steuerarten/Umsatzsteuer/2025-12-29-vordruckmuster-USt-voranmeldung-2026.html" },
           { label: "§ 18 UStG (Voranmeldung)", url: "https://www.gesetze-im-internet.de/ustg_1980/__18.html" },
           { label: "§§ 46–48 UStDV (Dauerfristverlängerung)", url: "https://www.gesetze-im-internet.de/ustdv_1980/__46.html" },
+          { label: "ELSTER: Dauerfristverlängerung beantragen", url: "https://www.elster.de/eportal/helfer/inhalt/UmsatzsteuerDauerfristverlaengerung" },
+          { label: "§ 18a UStG (Zusammenfassende Meldung)", url: "https://www.gesetze-im-internet.de/ustg_1980/__18a.html" },
         ]}
         note="Kennzahlen 1:1 aus dem amtlichen BMF-Vordruckmuster 2026 (USt 1 A: 2026USt1A561–563, USt 1 H: 2026USt1H571). Abgabe-Schwellen monatlich >9.000 € / vierteljährlich 2.000–9.000 € / keine VA ≤2.000 € Vorjahres-Zahllast (BEG IV, seit 2025). Keine Steuerberatung — im Zweifel StB/Finanzamt."
       />

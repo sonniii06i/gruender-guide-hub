@@ -45,6 +45,8 @@ const ROWS: Row[] = [
     hint: "EUER + USt-VA gibt es erst ab diesem Tarif. Reine Rechnungs-Tarife sind guenstiger (Lexware M ~11,90, sevDesk Rechnung ~4,45), enthalten aber KEINE Buchhaltung/EUER/USt-VA. Preise schwanken mit Aktionen.",
   },
   { feature: "USt-Voranmeldung per ELSTER", elster: "manuell ausfuellen", lexware: "auf Knopfdruck", sevdesk: "auf Knopfdruck" },
+  { feature: "Zusammenfassende Meldung (ZM) ans BZSt", elster: "manuell ausfuellen", lexware: true, sevdesk: true, hint: "Pflicht bei EU-B2B (innergemeinschaftliche Lieferungen/sonstige Leistungen mit USt-IdNr). Beide Tools erstellen + uebermitteln sie elektronisch - die ZM geht ans Bundeszentralamt fuer Steuern (BZSt), nicht ans Finanzamt." },
+  { feature: "Dauerfristverlaengerung (USt 1 H)", elster: "manuell ausfuellen", lexware: true, sevdesk: true, hint: "Verlaengert die USt-VA-Frist um 1 Monat. In beiden Tools mit-beantragbar; sonst direkt in ELSTER. Details im USt-VA-Walkthrough." },
   { feature: "EUER (Jahres-Gewinnermittlung)", elster: "manuell ausfuellen", lexware: true, sevdesk: true },
   { feature: "Belege scannen + OCR", elster: false, lexware: true, sevdesk: true, hint: "Foto/Scan und die Software liest Betrag, Datum, USt automatisch aus." },
   { feature: "Banking-Anbindung + Abgleich", elster: false, lexware: true, sevdesk: true },
@@ -121,7 +123,8 @@ const LEXWARE_STEPS = [
   "Beleg per App fotografieren oder hochladen. Die OCR liest Betrag, Datum und USt automatisch aus.",
   "Beleg einer Kategorie zuordnen (z. B. Wareneinkauf, Buerobedarf). Die Software schlaegt sie vor.",
   "Bankkonto verbinden: Zahlungen werden automatisch den Belegen/Rechnungen zugeordnet.",
-  "USt-Voranmeldung: Software berechnet die Zahllast und uebermittelt sie mit einem Klick per ELSTER ans Finanzamt.",
+  "USt-Voranmeldung: unter Menue Steuern & Auswertungen. Software berechnet die Zahllast und uebermittelt sie mit einem Klick per ELSTER ans Finanzamt.",
+  "Zusammenfassende Meldung (ZM): ebenfalls unter Steuern & Auswertungen - bei EU-B2B-Umsaetzen automatisch befuellt und ans BZSt gesendet.",
   "Jahresende: EUER auf Knopfdruck erstellen und per ELSTER uebermitteln. Fuer den StB: DATEV-Export.",
 ];
 
@@ -129,7 +132,8 @@ const SEVDESK_STEPS = [
   "Beleg hochladen/scannen. OCR erkennt die Daten, Massen-Upload fuer viele Belege moeglich.",
   "Automatische Buchung ueber Regeln (wiederkehrende Belege werden selbst zugeordnet).",
   "Banking + Shop-Schnittstellen (Shopify/Amazon/Billbee) synchronisieren Umsaetze und Zahlungen.",
-  "USt-Voranmeldung direkt aus sevDesk per ELSTER abgeben. Fristen werden angezeigt.",
+  "USt-Voranmeldung: unter Umsatzsteuer & Buchhaltung. Direkt aus sevDesk per ELSTER abgeben, Fristen werden angezeigt.",
+  "Zusammenfassende Meldung (ZM): ebenfalls im Bereich Umsatzsteuer & Buchhaltung erstellen und elektronisch ans BZSt uebermitteln.",
   "EUER-Export + DATEV-Export fuer das Jahresende bzw. den Steuerberater.",
 ];
 
@@ -227,14 +231,47 @@ const BuchhaltungssoftwareGuide = () => {
         <Workflow title="sevDesk" steps={SEVDESK_STEPS} icon={<Camera className="h-5 w-5 text-accent-blue" />} />
       </div>
 
+      {/* Wo gebe ich was ab? */}
+      <div className="rounded-2xl border border-border bg-card p-5 mb-6 text-sm">
+        <h3 className="font-bold mb-3 flex items-center gap-2">
+          <Send className="h-4 w-4 text-accent-blue" /> Wo gebe ich USt-VA, ZM &amp; Dauerfrist ab?
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="rounded-xl border border-border/60 bg-muted/30 p-4">
+            <div className="font-semibold text-foreground mb-1">Lexware Office</div>
+            <p className="text-muted-foreground text-xs leading-relaxed">
+              Menue <strong className="text-foreground">Steuern &amp; Auswertungen</strong>. Dort findest du
+              <strong> USt-Voranmeldung</strong> (berechnet + per ELSTER ans Finanzamt),
+              <strong> Zusammenfassende Meldung (ZM)</strong> (bei EU-B2B, automatisch befuellt, ans BZSt) und
+              den <strong> Antrag auf Dauerfristverlaengerung</strong>.
+            </p>
+          </div>
+          <div className="rounded-xl border border-border/60 bg-muted/30 p-4">
+            <div className="font-semibold text-foreground mb-1">sevDesk</div>
+            <p className="text-muted-foreground text-xs leading-relaxed">
+              Bereich <strong className="text-foreground">Umsatzsteuer &amp; Buchhaltung</strong>. Dort liegen
+              <strong> USt-Voranmeldung</strong> (direkt per ELSTER), <strong> Zusammenfassende Meldung (ZM)</strong>
+              (ans BZSt) und der <strong> Dauerfristverlaengerungs-Antrag</strong>.
+            </p>
+          </div>
+        </div>
+        <p className="mt-3 text-xs text-muted-foreground">
+          <strong className="text-foreground">Wichtig zur ZM:</strong> Sie ist Pflicht, sobald du
+          innergemeinschaftliche B2B-Umsaetze hast (EU-Lieferungen/-Leistungen an Kunden mit USt-IdNr) - und geht
+          ans <strong>Bundeszentralamt fuer Steuern (BZSt)</strong>, nicht ans Finanzamt. Exakte Button-Beschriftungen
+          koennen je nach Version abweichen; die Hilfe-Artikel der Anbieter (Links unten) zeigen den genauen Klickpfad.
+        </p>
+      </div>
+
       {/* Querverweis */}
       <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-4 mb-6 text-sm">
         <p className="text-muted-foreground">
-          Schon klar, was abzugeben ist? Die Details zu den Formularen findest du im{" "}
+          Schon klar, was abzugeben ist? Die Details zu den Formularen - inkl.{" "}
+          <strong className="text-foreground">wie du die Dauerfristverlaengerung beantragst</strong> - findest du im{" "}
           <Link to="/cockpit/ust-voranmeldung" className="font-medium text-accent-blue underline">
             USt-Voranmeldung-Walkthrough
           </Link>{" "}
-          (egal ob du per Software oder ELSTER-direkt abgibst) und im{" "}
+          (egal ob per Software oder ELSTER-direkt) und im{" "}
           <Link to="/cockpit/stb-cost-benefit" className="font-medium text-accent-blue underline">
             Steuerberater-Cost-Benefit-Check
           </Link>.
@@ -244,7 +281,9 @@ const BuchhaltungssoftwareGuide = () => {
       <Stand2026Footer
         sources={[
           { label: "Lexware Office (Funktionen & Preise)", url: "https://www.lexware.de/office/preise/" },
-          { label: "Lexware Office: USt-Voranmeldung per ELSTER", url: "https://www.lexware.de/funktionen/umsatzsteuervoranmeldung/" },
+          { label: "Lexware Office: USt-Voranmeldung senden", url: "https://help.lexware.de/de-form/articles/548032-umsatzsteuervoranmeldung-anzeigen-prufen-und-an-das-finanzamt-senden" },
+          { label: "Lexware Office: Zusammenfassende Meldung (ZM)", url: "https://help.lexware.de/de-form/articles/553620-zusammenfassende-meldung-zm" },
+          { label: "sevDesk: Zusammenfassende Meldung erstellen", url: "https://hilfe.sevdesk.de/de/articles/9387997-zusammenfassende-meldung-erstellen" },
           { label: "sevDesk Tarife & Funktionen", url: "https://sevdesk.de/preise/" },
           { label: "ELSTER (kostenloses Finanzamt-Portal)", url: "https://www.elster.de" },
         ]}
