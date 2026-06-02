@@ -108,6 +108,9 @@ serve(async (req) => {
       billing_address_collection: "required",
       customer_update: { address: "auto", name: "auto" },
       tax_id_collection: { enabled: true },
+      // Erlaubt Eingabe von Gutschein-Codes (SONNI / FOUNDER) im Stripe-Checkout.
+      // Stripe akzeptiert nur einen Promo-Code pro Session -> Codes sind nicht kombinierbar.
+      allow_promotion_codes: true,
       success_url: `${origin}/dashboard?checkout=success`,
       cancel_url: `${origin}/checkout?canceled=1`,
     });
