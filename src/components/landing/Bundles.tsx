@@ -61,7 +61,8 @@ export const Bundles = () => {
         body: { priceId },
       });
       if (error) throw error;
-      if (data?.url) window.open(data.url, "_blank");
+      // Full-Page-Redirect statt window.open: kein Popup-Blocker (open nach await wird sonst geblockt)
+      if (data?.url) window.location.href = data.url;
     } catch (e: any) {
       toast.error(e.message ?? "Checkout fehlgeschlagen");
     } finally {

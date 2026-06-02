@@ -32,11 +32,25 @@ serve(async (req) => {
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "",
       { auth: { persistSession: false } },
     );
-    const { data: profile } = await supabaseService
-      .from("profiles")
-      .select("first_name, last_name, company_name, street, postal_code, city, country, phone, vat_id, onboarding_completed")
-      .eq("id", user.id)
-      .maybeSingle();
+    const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
+      apiVersion: "2025-08-27.basil",
+    });
+
+    // Best-effort-Tasks nach der Response weiterlaufen lassen, ohne den Redirect zu blockieren.
+    const runBg = (p: Promise<unknown>) => {
+      // @ts-ignore - Supabase Edge Runtime
+      if (typeof EdgeRuntime !== "undefined" && EdgeRuntime?.waitUntil) EdgeRuntime.waitUntil(p);
+    };
+
+    // Profil + bestehenden Stripe-Customer PARALLEL laden (spart einen Roundtrip vor dem Redirect).
+    const [{ data: profile }, existing] = await Promise.all([
+      supabaseService
+        .from("profiles")
+        .select("first_name, last_name, company_name, street, postal_code, city, country, phone, vat_id, onboarding_completed")
+        .eq("id", user.id)
+        .maybeSingle(),
+      stripe.customers.list({ email: user.email, limit: 1 }),
+    ]);
 
     if (!profile?.onboarding_completed) {
       return new Response(
@@ -44,10 +58,6 @@ serve(async (req) => {
         { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 400 },
       );
     }
-
-    const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
-      apiVersion: "2025-08-27.basil",
-    });
 
     const fullName = [profile?.first_name, profile?.last_name].filter(Boolean).join(" ").trim();
     const customerName = profile?.company_name || fullName || undefined;
@@ -61,21 +71,19 @@ serve(async (req) => {
       : undefined;
 
     // Find or create customer with billing details
-    const existing = await stripe.customers.list({ email: user.email, limit: 1 });
     let customerId = existing.data[0]?.id;
 
     if (customerId) {
-      // Update existing with latest profile data
-      try {
-        await stripe.customers.update(customerId, {
+      // Stammdaten-Update ist best-effort und NICHT auf dem kritischen Pfad:
+      // Adresse/Name werden im Checkout via customer_update:auto ohnehin synchronisiert.
+      runBg(
+        stripe.customers.update(customerId, {
           name: customerName,
           phone: profile?.phone ?? undefined,
           address,
           metadata: { supabase_user_id: user.id },
-        });
-      } catch (e) {
-        console.error("customer update failed", e);
-      }
+        }).catch((e) => console.error("customer update failed", e)),
+      );
     } else {
       const created = await stripe.customers.create({
         email: user.email,
@@ -87,17 +95,21 @@ serve(async (req) => {
       customerId = created.id;
     }
 
-    // VAT / tax id
+    // VAT / tax id — ebenfalls best-effort; tax_id_collection erfasst die USt-ID sonst im Checkout.
     if (profile?.vat_id) {
-      try {
-        const taxIds = await stripe.customers.listTaxIds(customerId, { limit: 10 });
-        const has = taxIds.data.some((t) => t.value === profile.vat_id);
-        if (!has) {
-          await stripe.customers.createTaxId(customerId, { type: "eu_vat", value: profile.vat_id });
+      const vatId = profile.vat_id;
+      const cId = customerId;
+      runBg((async () => {
+        try {
+          const taxIds = await stripe.customers.listTaxIds(cId, { limit: 10 });
+          const has = taxIds.data.some((t) => t.value === vatId);
+          if (!has) {
+            await stripe.customers.createTaxId(cId, { type: "eu_vat", value: vatId });
+          }
+        } catch (e) {
+          console.error("tax id failed", e);
         }
-      } catch (e) {
-        console.error("tax id failed", e);
-      }
+      })());
     }
 
     const origin = req.headers.get("origin") || "";
