@@ -20,7 +20,7 @@ export const Hero = () => {
 
       <div className="container max-w-5xl text-center">
         <Badge variant="outline" className="mb-6 rounded-full border-accent-blue/30 bg-accent-blue/5 text-accent-blue px-4 py-1.5">
-          <Sparkles className="h-3.5 w-3.5 mr-1.5" /> Early-Bird: 10% Rabatt als Gründungsmitglied
+          <Sparkles className="h-3.5 w-3.5 mr-1.5" /> Early-Bird: 20% Rabatt im ersten Monat mit Code FOUNDER
         </Badge>
 
         <h1 className="text-5xl md:text-7xl font-extrabold text-balance leading-[1.15] tracking-tight">
