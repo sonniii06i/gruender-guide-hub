@@ -1,5 +1,5 @@
 // Verbessert die Formulierung eines kurzen Texts (z.B. Unternehmensgegenstand)
-// ohne den Sinn zu ändern. Nutzt Lovable AI Gateway (Gemini Flash).
+// ohne den Sinn zu ändern. Nutzt Google Gemini direkt (eigener GEMINI_API_KEY).
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
 const corsHeaders = {
@@ -71,16 +71,16 @@ serve(async (req) => {
       });
     }
 
-    const KEY = Deno.env.get("LOVABLE_API_KEY");
-    if (!KEY) throw new Error("LOVABLE_API_KEY missing");
+    const KEY = Deno.env.get("GEMINI_API_KEY");
+    if (!KEY) throw new Error("GEMINI_API_KEY missing");
 
     const system = SYSTEM_PROMPTS[String(kind ?? "generic")] ?? SYSTEM_PROMPTS.generic;
 
-    const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+    const response = await fetch("https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", {
       method: "POST",
       headers: { Authorization: `Bearer ${KEY}`, "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: "google/gemini-3-flash-preview",
+        model: "gemini-3-flash-preview",
         messages: [
           { role: "system", content: system },
           { role: "user", content: text.trim() },

@@ -3,9 +3,9 @@
 //
 // Flow:
 //   1. Pick the next due topic from blog_topic_queue.
-//   2. Ask Lovable AI (gemini-2.5-pro) for a 1.200-1.800 word German article
+//   2. Ask Google Gemini (gemini-2.5-pro) for a 1.200-1.800 word German article
 //      in structured-JSON via tool calling.
-//   3. Generate a hero image via Lovable AI image model.
+//   3. Generate a hero image via Gemini image model (native generateContent).
 //   4. Quality-gate (min words, internal links, schema completeness).
 //   5. Insert blog_posts row with status published or draft (on gate fail).
 //   6. Mark topic as consumed.
@@ -18,13 +18,16 @@ const corsHeaders = {
   "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
 
-const AI_URL = "https://ai.gateway.lovable.dev/v1/chat/completions";
-const TEXT_MODEL = "google/gemini-2.5-pro";
-const IMAGE_MODEL = "google/gemini-2.5-flash-image";
+const AI_URL = "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions";
+const TEXT_MODEL = "gemini-2.5-pro";
+const IMAGE_MODEL = "gemini-2.5-flash-image";
+// Bild-Generierung läuft NICHT über den OpenAI-kompatiblen Endpoint (kein Image-Out),
+// sondern über Googles natives generateContent.
+const IMAGE_URL = `https://generativelanguage.googleapis.com/v1beta/models/${IMAGE_MODEL}:generateContent`;
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SERVICE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY")!;
+const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY")!;
 
 function slugify(s: string): string {
   return s
@@ -46,14 +49,14 @@ async function callLLM(messages: unknown[], tools?: unknown[], toolChoice?: unkn
   const r = await fetch(AI_URL, {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${LOVABLE_API_KEY}`,
+      Authorization: `Bearer ${GEMINI_API_KEY}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify(body),
   });
   if (!r.ok) {
     const t = await r.text();
-    throw new Error(`AI gateway ${r.status}: ${t.slice(0, 400)}`);
+    throw new Error(`Gemini ${r.status}: ${t.slice(0, 400)}`);
   }
   return await r.json();
 }
@@ -61,16 +64,12 @@ async function callLLM(messages: unknown[], tools?: unknown[], toolChoice?: unkn
 async function generateHeroImage(topic: string): Promise<string | null> {
   try {
     const prompt = `Hochwertiges, modernes Editorial-Header-Bild für einen deutschen Business-/Finanzartikel zum Thema: "${topic}". Stil: clean, professionell, sanftes Blau/Indigo, abstrakte geometrische Formen, viel Weißraum, keine Texte, keine Logos, keine Personen-Gesichter. 16:9.`;
-    const r = await fetch(AI_URL, {
+    const r = await fetch(`${IMAGE_URL}?key=${GEMINI_API_KEY}`, {
       method: "POST",
-      headers: {
-        Authorization: `Bearer ${LOVABLE_API_KEY}`,
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: IMAGE_MODEL,
-        messages: [{ role: "user", content: prompt }],
-        modalities: ["image", "text"],
+        contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: { responseModalities: ["IMAGE"] },
       }),
     });
     if (!r.ok) {
@@ -78,10 +77,11 @@ async function generateHeroImage(topic: string): Promise<string | null> {
       return null;
     }
     const j = await r.json();
-    const url = j.choices?.[0]?.message?.images?.[0]?.image_url?.url
-      || j.choices?.[0]?.message?.images?.[0]?.url
-      || null;
-    return url;
+    // Native Gemini liefert Inline-Base64 in candidates[].content.parts[].inlineData
+    const part = j.candidates?.[0]?.content?.parts?.find((p: any) => p.inlineData?.data);
+    if (!part) return null;
+    const mime = part.inlineData.mimeType || "image/png";
+    return `data:${mime};base64,${part.inlineData.data}`;
   } catch (e) {
     console.warn("image gen exception", e);
     return null;

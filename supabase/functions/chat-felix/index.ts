@@ -41,32 +41,32 @@ function serviceClient() {
 }
 
 // Provider-agnostischer Sub-LLM-Caller für Memory-Extraktion.
-// Versucht der Reihe nach Lovable → Anthropic → OpenAI und fällt bei Fehler
-// (z.B. Lovable 402 Credits-leer) auf den nächsten verfügbaren Provider.
+// Versucht der Reihe nach Gemini → Anthropic → OpenAI und fällt bei Fehler
+// auf den nächsten verfügbaren Provider.
 // So bleibt der Memory-Extract auch dann funktionsfähig wenn der primäre
 // Chat-Provider gerade nicht verfügbar ist.
 function makeSubLlmCaller(
-  lovableKey: string | undefined,
+  geminiKey: string | undefined,
   anthropicKey: string | undefined,
   openaiKey?: string | undefined,
 ): SubLlmCaller | null {
   const callers: Array<{ name: string; fn: SubLlmCaller }> = [];
 
-  if (lovableKey) {
+  if (geminiKey) {
     callers.push({
-      name: "lovable",
+      name: "gemini",
       fn: async (prompt) => {
-        const r = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+        const r = await fetch("https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", {
           method: "POST",
-          headers: { Authorization: `Bearer ${lovableKey}`, "Content-Type": "application/json" },
+          headers: { Authorization: `Bearer ${geminiKey}`, "Content-Type": "application/json" },
           body: JSON.stringify({
-            model: "google/gemini-3-flash-preview",
+            model: "gemini-3-flash-preview",
             messages: [{ role: "user", content: prompt }],
             temperature: 0,
             max_tokens: 600,
           }),
         });
-        if (!r.ok) throw new Error(`Sub-LLM Lovable ${r.status}`);
+        if (!r.ok) throw new Error(`Sub-LLM Gemini ${r.status}`);
         const j = await r.json();
         return j.choices?.[0]?.message?.content ?? "";
       },
@@ -142,7 +142,7 @@ const corsHeaders = {
 async function logChat(entry: {
   user_message: string;
   assistant_message?: string | null;
-  provider: "lovable-gemini" | "anthropic-claude" | "openai-gpt" | "rejected-input" | "rejected-output";
+  provider: "gemini" | "anthropic-claude" | "openai-gpt" | "rejected-input" | "rejected-output";
   model?: string | null;
   input_guard_triggered?: string | null;
   output_guard_triggered?: string | null;
@@ -727,12 +727,15 @@ Der User hat dich nur kurz begrüßt oder eine kurze Meta-/Smalltalk-Frage geste
 
 const SYSTEM = buildSystemPrompt();
 
-async function callLovable(messages: any[], key: string, systemOverride?: string): Promise<Response> {
-  return await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+// Gemini-Primary: Googles OpenAI-kompatibler Endpoint streamt im selben
+// chat.completion.chunk-SSE-Format wie zuvor Lovable → Client-Code (FelixChat.tsx)
+// bleibt unverändert.
+async function callGemini(messages: any[], key: string, systemOverride?: string): Promise<Response> {
+  return await fetch("https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", {
     method: "POST",
     headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
     body: JSON.stringify({
-      model: "google/gemini-3-flash-preview",
+      model: "gemini-3-flash-preview",
       messages: [{ role: "system", content: systemOverride ?? SYSTEM }, ...messages],
       stream: true,
     }),
@@ -741,8 +744,8 @@ async function callLovable(messages: any[], key: string, systemOverride?: string
 
 /**
  * OpenAI-Provider: nativ OpenAI-kompatibles SSE-Format (chat.completion.chunk).
- * Wird als 3. Fallback verwendet (Lovable → Anthropic → OpenAI) oder als Primary
- * wenn weder Lovable noch Anthropic verfügbar sind. Modell: gpt-4o.
+ * Wird als 3. Fallback verwendet (Gemini → Anthropic → OpenAI) oder als Primary
+ * wenn weder Gemini noch Anthropic verfügbar sind. Modell: gpt-4o.
  */
 async function callOpenAI(messages: any[], key: string, systemOverride?: string): Promise<Response> {
   return await fetch("https://api.openai.com/v1/chat/completions", {
@@ -866,12 +869,12 @@ serve(async (req) => {
       return rejectStream(guard.reason ?? "Anfrage konnte nicht verarbeitet werden.");
     }
 
-    const LOVABLE_KEY = Deno.env.get("LOVABLE_API_KEY");
+    const GEMINI_KEY = Deno.env.get("GEMINI_API_KEY");
     const ANTHROPIC_KEY = Deno.env.get("ANTHROPIC_API_KEY");
     const OPENAI_KEY = Deno.env.get("OPENAI_API_KEY");
 
-    if (!LOVABLE_KEY && !ANTHROPIC_KEY && !OPENAI_KEY) {
-      throw new Error("Keiner der Provider-Keys gesetzt (LOVABLE_API_KEY / ANTHROPIC_API_KEY / OPENAI_API_KEY)");
+    if (!GEMINI_KEY && !ANTHROPIC_KEY && !OPENAI_KEY) {
+      throw new Error("Keiner der Provider-Keys gesetzt (GEMINI_API_KEY / ANTHROPIC_API_KEY / OPENAI_API_KEY)");
     }
 
     // System-Prompt PRO REQUEST neu bauen → Datum bleibt aktuell auch bei
@@ -933,12 +936,12 @@ serve(async (req) => {
     }
 
     // Sub-LLM-Caller für Memory-Extract (günstigeres Modell)
-    const subLlm = makeSubLlmCaller(LOVABLE_KEY, ANTHROPIC_KEY, OPENAI_KEY);
+    const subLlm = makeSubLlmCaller(GEMINI_KEY, ANTHROPIC_KEY, OPENAI_KEY);
 
     // Helper: wraps stream mit Tee → Output-Guard + Log + Memory-Extract nach Stream-Ende
     const wrapStream = (
       upstream: ReadableStream<Uint8Array>,
-      provider: "lovable-gemini" | "anthropic-claude" | "openai-gpt",
+      provider: "gemini" | "anthropic-claude" | "openai-gpt",
       model: string,
     ): Response => {
       const teed = teeForLogging(upstream, (fullText) => {
@@ -991,18 +994,21 @@ serve(async (req) => {
       return null;
     };
 
-    // 1) Lovable AI Gateway versuchen (falls Key vorhanden)
-    if (LOVABLE_KEY) {
-      const lovableResp = await callLovable(messages, LOVABLE_KEY, systemPromptWithMemory);
+    // 1) Google Gemini (eigener Key) versuchen
+    if (GEMINI_KEY) {
+      const geminiResp = await callGemini(messages, GEMINI_KEY, systemPromptWithMemory);
 
-      if (lovableResp.ok && lovableResp.body) {
-        return wrapStream(lovableResp.body, "lovable-gemini", "google/gemini-3-flash-preview");
+      if (geminiResp.ok && geminiResp.body) {
+        return wrapStream(geminiResp.body, "gemini", "gemini-3-flash-preview");
       }
 
-      if (lovableResp.status === 429) {
+      if (geminiResp.status === 429) {
+        // Quota/Rate-Limit bei Gemini → erst Fallbacks versuchen, sonst 429 melden
+        const fb = await tryFallbacks();
+        if (fb) return fb;
         logChat({
           user_message: lastUser.slice(0, 2000),
-          provider: "lovable-gemini",
+          provider: "gemini",
           error: "rate-limit-429",
           latency_ms: Date.now() - startTime,
         });
@@ -1011,40 +1017,22 @@ serve(async (req) => {
         });
       }
 
-      // 2) Bei Credits-Problem (402) → Anthropic ODER OpenAI Fallback
-      if (lovableResp.status === 402) {
-        const fb = await tryFallbacks();
-        if (fb) return fb;
-        logChat({
-          user_message: lastUser.slice(0, 2000),
-          provider: "lovable-gemini",
-          error: "credits-402",
-        });
-        return new Response(
-          JSON.stringify({
-            error:
-              "AI-Kontingent bei Lovable aufgebraucht. Setze ANTHROPIC_API_KEY oder OPENAI_API_KEY in Supabase-Secrets für Fallback ODER lade Lovable-Credits auf.",
-          }),
-          { status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" } },
-        );
-      }
-
-      const t = await lovableResp.text();
-      console.error("Lovable-AI error", lovableResp.status, t);
-      // Auch bei anderen Fehlern: Anthropic ODER OpenAI versuchen
+      const t = await geminiResp.text();
+      console.error("Gemini error", geminiResp.status, t);
+      // Bei jedem anderen Fehler: Anthropic ODER OpenAI versuchen
       const fb = await tryFallbacks();
       if (fb) return fb;
       logChat({
         user_message: lastUser.slice(0, 2000),
-        provider: "lovable-gemini",
-        error: `status-${lovableResp.status}`,
+        provider: "gemini",
+        error: `status-${geminiResp.status}`,
       });
       return new Response(JSON.stringify({ error: "AI-Fehler" }), {
         status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
-    // Kein Lovable-Key → direkt auf Fallback-Chain
+    // Kein Gemini-Key → direkt auf Fallback-Chain
     const fb = await tryFallbacks();
     if (fb) return fb;
     return new Response(JSON.stringify({ error: "Kein Provider verfügbar" }), {
