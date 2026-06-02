@@ -60,7 +60,7 @@ function makeSubLlmCaller(
           method: "POST",
           headers: { Authorization: `Bearer ${geminiKey}`, "Content-Type": "application/json" },
           body: JSON.stringify({
-            model: "gemini-3-flash-preview",
+            model: "gemini-2.5-flash",
             messages: [{ role: "user", content: prompt }],
             temperature: 0,
             max_tokens: 600,
@@ -735,7 +735,9 @@ async function callGemini(messages: any[], key: string, systemOverride?: string)
     method: "POST",
     headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
     body: JSON.stringify({
-      model: "gemini-3-flash-preview",
+      // gemini-2.5-flash (GA) statt gemini-3-flash-preview: das Preview-Modell
+      // liefert bei stream:true + großem System-Prompt zuverlässig 503 (overloaded).
+      model: "gemini-2.5-flash",
       messages: [{ role: "system", content: systemOverride ?? SYSTEM }, ...messages],
       stream: true,
     }),
@@ -876,7 +878,6 @@ serve(async (req) => {
     if (!GEMINI_KEY && !ANTHROPIC_KEY && !OPENAI_KEY) {
       throw new Error("Keiner der Provider-Keys gesetzt (GEMINI_API_KEY / ANTHROPIC_API_KEY / OPENAI_API_KEY)");
     }
-
     // System-Prompt PRO REQUEST neu bauen → Datum bleibt aktuell auch bei
     // long-lived Edge-Function-Isolates (sonst würde der Tag der Erst-Initialisierung
     // hängen bleiben, manchmal mehrere Tage am Stück).
@@ -999,7 +1000,7 @@ serve(async (req) => {
       const geminiResp = await callGemini(messages, GEMINI_KEY, systemPromptWithMemory);
 
       if (geminiResp.ok && geminiResp.body) {
-        return wrapStream(geminiResp.body, "gemini", "gemini-3-flash-preview");
+        return wrapStream(geminiResp.body, "gemini", "gemini-2.5-flash");
       }
 
       if (geminiResp.status === 429) {
