@@ -17,9 +17,11 @@ serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
+    // Einmal-Token (Wegwerf-Funktion, wird nach dem Setup wieder entfernt).
+    const SETUP_TOKEN = "promo-setup-7Qx2v9KmTz";
     const url = new URL(req.url);
     const secret = url.searchParams.get("secret");
-    if (!secret || secret !== Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")) {
+    if (secret !== SETUP_TOKEN) {
       return json({ error: "forbidden" }, 403);
     }
 
