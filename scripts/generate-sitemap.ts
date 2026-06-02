@@ -1,9 +1,14 @@
 // Runs before `vite dev` and `vite build` (predev/prebuild hooks).
-// Writes public/sitemap.xml with all public, indexable routes:
-// static pages + every Playbook-Slug + every Anbieter-Slug + every published Blog-Post-Slug.
+// Writes public/sitemap.xml with all public, INDEXABLE routes only:
+// static public pages + every öffentliche Tool-Landing (/tools/:slug) + every
+// published Blog-Post.
+// NICHT enthalten: /playbook/* und /anbieter/* — diese liegen hinter der
+// PaywallGate und zeigen Crawlern nur die Upsell-Wand (Thin/Duplicate Content),
+// daher in robots.txt blockiert und bewusst aus der Sitemap raus.
 
-import { writeFileSync, readFileSync } from "fs";
+import { writeFileSync } from "fs";
 import { resolve } from "path";
+import { LANDING_TOOLS } from "../src/data/features";
 
 const BASE_URL = "https://gruenderx.de";
 const SUPABASE_URL = process.env.VITE_SUPABASE_URL || "https://rwrjuzemkfghlziretdj.supabase.co";
@@ -22,8 +27,7 @@ const today = new Date().toISOString().slice(0, 10);
 
 const staticEntries: SitemapEntry[] = [
   { path: "/", changefreq: "weekly", priority: "1.0", lastmod: today },
-  { path: "/playbooks", changefreq: "weekly", priority: "0.9", lastmod: today },
-  { path: "/anbieter", changefreq: "weekly", priority: "0.9", lastmod: today },
+  { path: "/tools", changefreq: "weekly", priority: "0.9", lastmod: today },
   { path: "/ratgeber", changefreq: "daily", priority: "0.9", lastmod: today },
   { path: "/faq", changefreq: "monthly", priority: "0.6" },
   { path: "/kontakt", changefreq: "yearly", priority: "0.4" },
@@ -32,27 +36,11 @@ const staticEntries: SitemapEntry[] = [
   { path: "/agb", changefreq: "yearly", priority: "0.2" },
 ];
 
-function extractTopLevelSlugs(file: string): string[] {
-  const src = readFileSync(file, "utf8");
-  const re = /^ {4}slug:\s*"([a-z0-9-]+)"/gm;
-  const out: string[] = [];
-  let m: RegExpExecArray | null;
-  while ((m = re.exec(src))) out.push(m[1]);
-  return Array.from(new Set(out));
-}
-
-const playbookSlugs = extractTopLevelSlugs(resolve("src/data/playbooks.ts"));
-const providerSlugs = extractTopLevelSlugs(resolve("src/pages/Anbieter.tsx"));
-
-const playbookEntries: SitemapEntry[] = playbookSlugs.map((slug) => ({
-  path: `/playbook/preview/${slug}`,
-  changefreq: "monthly",
-  priority: "0.8",
-  lastmod: today,
-}));
-
-const providerEntries: SitemapEntry[] = providerSlugs.map((slug) => ({
-  path: `/anbieter/${slug}`,
+// Tool-Landing-Slugs direkt aus der Single-Source-of-Truth (features.ts →
+// LANDING_TOOLS wendet exakt dieselben live/beta+interne-Route-Filter an wie
+// die /tools/:slug-Seiten), damit Sitemap und Seiten nie auseinanderlaufen.
+const toolEntries: SitemapEntry[] = LANDING_TOOLS.map((t) => ({
+  path: `/tools/${t.slug}`,
   changefreq: "monthly",
   priority: "0.7",
   lastmod: today,
@@ -111,9 +99,9 @@ function generateSitemap(items: SitemapEntry[]) {
 
 (async () => {
   const blogEntries = await fetchBlogEntries();
-  const entries = [...staticEntries, ...playbookEntries, ...providerEntries, ...blogEntries];
+  const entries = [...staticEntries, ...toolEntries, ...blogEntries];
   writeFileSync(resolve("public/sitemap.xml"), generateSitemap(entries));
   console.log(
-    `sitemap.xml written: ${entries.length} entries (${staticEntries.length} static + ${playbookEntries.length} guides + ${providerEntries.length} anbieter + ${blogEntries.length} ratgeber)`,
+    `sitemap.xml written: ${entries.length} entries (${staticEntries.length} static + ${toolEntries.length} tools + ${blogEntries.length} ratgeber)`,
   );
 })();

@@ -97,6 +97,8 @@ const AGB = lazy(() => import("./pages/AGB.tsx"));
 const Ratgeber = lazy(() => import("./pages/Ratgeber.tsx"));
 const RatgeberPost = lazy(() => import("./pages/RatgeberPost.tsx"));
 const AdminBlog = lazy(() => import("./pages/AdminBlog.tsx"));
+const Tools = lazy(() => import("./pages/Tools.tsx"));
+const ToolLanding = lazy(() => import("./pages/ToolLanding.tsx"));
 
 const queryClient = new QueryClient();
 
@@ -217,6 +219,8 @@ const App = () => (
               <Route path="/agb" element={<AGB />} />
               <Route path="/ratgeber" element={<Ratgeber />} />
               <Route path="/ratgeber/:slug" element={<RatgeberPost />} />
+              <Route path="/tools" element={<Tools />} />
+              <Route path="/tools/:slug" element={<ToolLanding />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

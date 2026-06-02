@@ -1,7 +1,9 @@
 import { Helmet } from "react-helmet-async";
 
 const SITE = "https://gruenderx.de";
-const DEFAULT_IMAGE = `${SITE}/og-default.jpg`;
+// Brand-OG-Default (R2). Wird genutzt, wenn eine Seite kein eigenes Bild übergibt.
+const DEFAULT_IMAGE =
+  "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/8d16e830-d1c5-466a-ab77-e849fa664a58/id-preview-849f8a53--37d5bb63-c7f7-41ae-9ba4-ab1310736a6b.lovable.app-1777972227791.png";
 
 interface SeoProps {
   title: string;

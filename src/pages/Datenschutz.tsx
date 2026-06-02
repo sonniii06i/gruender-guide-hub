@@ -1,8 +1,14 @@
 import { Navbar } from "@/components/landing/Navbar";
 import { Footer } from "@/components/landing/Footer";
+import { Seo } from "@/components/Seo";
 
 const Datenschutz = () => (
   <div className="min-h-screen bg-background">
+    <Seo
+      title="Datenschutzerklärung | GründerX"
+      description="Wie GründerX personenbezogene Daten gemäß DSGVO verarbeitet — Verantwortlicher, Zwecke, Betroffenenrechte und eingesetzte Dienste."
+      path="/datenschutz"
+    />
     <Navbar />
     <main className="container max-w-3xl pt-32 pb-24 prose prose-slate prose-headings:scroll-mt-24">
       <p className="text-xs font-semibold uppercase tracking-wider text-accent-blue mb-2 not-prose">Rechtliches</p>

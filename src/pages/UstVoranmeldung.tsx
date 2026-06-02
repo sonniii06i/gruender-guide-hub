@@ -4,7 +4,7 @@ import CockpitShell from "@/components/cockpit/CockpitShell";
 import Stand2026Footer from "@/components/cockpit/Stand2026Footer";
 import { Input } from "@/components/ui/input";
 import { useTrackToolEvent } from "@/hooks/useTrackToolEvent";
-import { Calculator, TrendingUp, Receipt, CalendarClock } from "lucide-react";
+import { Calculator, TrendingUp, Receipt, CalendarClock, Star, Info } from "lucide-react";
 
 /**
  * Read-only Walkthrough der Umsatzsteuer-Voranmeldung (USt 1 A) + Antrag auf

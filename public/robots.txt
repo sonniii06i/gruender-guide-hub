@@ -1,3 +1,7 @@
+# GründerX robots.txt
+# Öffentlich/indexierbar: / , /tools , /tools/* , /ratgeber , /ratgeber/* , /faq , Rechtsseiten
+# Blockiert: alles hinter der Paywall (zeigt Crawlern nur die Upsell-Wand) + private Bereiche
+
 User-agent: Googlebot
 Allow: /
 
@@ -29,8 +33,11 @@ Disallow: /admin
 Disallow: /profile
 Disallow: /booking
 Disallow: /felix
+Disallow: /support
 Disallow: /cockpit/
 Disallow: /wizard/
+Disallow: /playbooks
 Disallow: /playbook/
+Disallow: /anbieter
 
 Sitemap: https://gruenderx.de/sitemap.xml

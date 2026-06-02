@@ -25,7 +25,14 @@ const Index = () => (
           name: "GründerX",
           url: "https://gruenderx.de",
           logo: "https://gruenderx.de/favicon.png",
-          sameAs: [],
+          sameAs: ["https://discord.gg/vh84QBxAHq"],
+          contactPoint: {
+            "@type": "ContactPoint",
+            contactType: "customer support",
+            email: "impressum@gruenderx.de",
+            areaServed: "DE",
+            availableLanguage: ["de"],
+          },
           description:
             "KI-gestützte Plattform für Unternehmensgründung, Steuern und Buchhaltung in Deutschland.",
         },

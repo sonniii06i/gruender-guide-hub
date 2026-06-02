@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { ArrowLeft, Loader2, Mail, MessageSquare, CheckCircle2 } from "lucide-react";
 import { toast } from "sonner";
+import { Seo } from "@/components/Seo";
 
 const schema = z.object({
   name: z.string().trim().min(2, "Name zu kurz").max(100),
@@ -50,6 +51,11 @@ const Kontakt = () => {
 
   return (
     <div className="min-h-screen bg-hero">
+      <Seo
+        title="Kontakt | GründerX"
+        description="Frag das GründerX-Team — zu Gründung, Steuern, Tools, Abo oder Kooperationen. Wir antworten zeitnah."
+        path="/kontakt"
+      />
       <div className="container max-w-3xl py-6">
         <Link to="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
           <ArrowLeft className="h-4 w-4" /> Zurück

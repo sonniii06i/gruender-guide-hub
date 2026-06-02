@@ -1,8 +1,14 @@
 import { Navbar } from "@/components/landing/Navbar";
 import { Footer } from "@/components/landing/Footer";
+import { Seo } from "@/components/Seo";
 
 const Impressum = () => (
   <div className="min-h-screen bg-background">
+    <Seo
+      title="Impressum | GründerX"
+      description="Impressum und Anbieterkennzeichnung gemäß § 5 TMG von GründerX."
+      path="/impressum"
+    />
     <Navbar />
     <main className="container max-w-3xl pt-32 pb-24 prose prose-slate">
       <p className="text-xs font-semibold uppercase tracking-wider text-accent-blue mb-2 not-prose">Rechtliches</p>

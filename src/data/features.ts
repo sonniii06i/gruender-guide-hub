@@ -212,3 +212,36 @@ export const STATUS_LABEL: Record<FeatureStatus, string> = {
   soon: "Bald",
   planned: "Geplant",
 };
+
+// ---- SEO-Marketing-Landings (öffentlich, /tools/:slug) ----
+// Ein Tool ist landing-fähig, wenn es nutzbar ist (live/beta) und eine INTERNE
+// App-Route hat (kein externer Link wie Discord, kein "soon"/"planned").
+export interface ToolLandingEntry extends Feature {
+  categorySlug: string;
+  categoryTitle: string;
+  categoryTagline: string;
+}
+
+export const LANDING_TOOLS: ToolLandingEntry[] = (() => {
+  const out: ToolLandingEntry[] = [];
+  const seen = new Set<string>();
+  for (const cat of CATEGORIES) {
+    for (const f of cat.features) {
+      const usable = (f.status === "live" || f.status === "beta") && !!f.route && !f.external && f.route.startsWith("/");
+      if (!usable || seen.has(f.slug)) continue;
+      seen.add(f.slug);
+      out.push({ ...f, categorySlug: cat.slug, categoryTitle: cat.title, categoryTagline: cat.tagline });
+    }
+  }
+  return out;
+})();
+
+export const findLandingTool = (slug: string): ToolLandingEntry | undefined =>
+  LANDING_TOOLS.find((t) => t.slug === slug);
+
+// Verwandte Tools derselben Kategorie (für interne Verlinkung), exkl. self.
+export const relatedLandingTools = (slug: string, limit = 4): ToolLandingEntry[] => {
+  const self = findLandingTool(slug);
+  if (!self) return [];
+  return LANDING_TOOLS.filter((t) => t.categorySlug === self.categorySlug && t.slug !== slug).slice(0, limit);
+};
