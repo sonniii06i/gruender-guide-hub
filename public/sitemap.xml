@@ -428,6 +428,18 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://gruenderx.de/tools/us-tax-helper</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://gruenderx.de/tools/hk-tax-helper</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://gruenderx.de/tools/us-hk-banking</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>monthly</changefreq>

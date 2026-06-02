@@ -49,6 +49,8 @@ const FseKapgWizard = lazy(() => import("./pages/FseKapgWizard.tsx"));
 const FsePersgWizard = lazy(() => import("./pages/FsePersgWizard.tsx"));
 const AbschreibungRechner = lazy(() => import("./pages/AbschreibungRechner.tsx"));
 const HkLimitedWizard = lazy(() => import("./pages/HkLimitedWizard.tsx"));
+const UsTaxHelper = lazy(() => import("./pages/UsTaxHelper.tsx"));
+const HkTaxHelper = lazy(() => import("./pages/HkTaxHelper.tsx"));
 const IntlBanking = lazy(() => import("./pages/IntlBanking.tsx"));
 const BwaGenerator = lazy(() => import("./pages/BwaGenerator.tsx"));
 const MargeTracker = lazy(() => import("./pages/MargeTracker.tsx"));
@@ -172,6 +174,8 @@ const App = () => (
                 <Route path="/cockpit/fse-personengesellschaft" element={<PaywallGate title="FsE Personengesellschaft"><FsePersgWizard /></PaywallGate>} />
                 <Route path="/cockpit/abschreibung" element={<PaywallGate title="Abschreibungs-Erklärer"><AbschreibungRechner /></PaywallGate>} />
                 <Route path="/cockpit/hk-limited-wizard" element={<PaywallGate title="HK-Limited-Wizard"><HkLimitedWizard /></PaywallGate>} />
+                <Route path="/cockpit/us-tax-helper" element={<PaywallGate title="US-Tax-Helper"><UsTaxHelper /></PaywallGate>} />
+                <Route path="/cockpit/hk-tax-helper" element={<PaywallGate title="HK-Tax-Helper"><HkTaxHelper /></PaywallGate>} />
                 <Route path="/cockpit/intl-banking" element={<PaywallGate title="Intl. Banking"><IntlBanking /></PaywallGate>} />
                 <Route path="/cockpit/bwa-generator" element={<PaywallGate title="BWA-Generator"><BwaGenerator /></PaywallGate>} />
                 <Route path="/cockpit/marge-tracker" element={<PaywallGate title="Marge-Tracker"><MargeTracker /></PaywallGate>} />
