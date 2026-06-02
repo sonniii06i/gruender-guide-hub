@@ -12,9 +12,6 @@ export default defineConfig(({ mode }) => ({
       overlay: false,
     },
   },
-  // es2019: transpiliert Optional Chaining (?.) / Nullish (??) herunter, damit
-  // das von react-snap gebündelte (alte) Chromium den Prerender-Bundle parsen kann.
-  build: { target: "es2019" },
   plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
   resolve: {
     alias: {
