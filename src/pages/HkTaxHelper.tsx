@@ -51,9 +51,9 @@ interface Doc { form: string; label: string; url: string; }
 const IRD_PT = "https://www.ird.gov.hk/eng/tax/bus_pft.htm";
 const IRD_BR = "https://www.ird.gov.hk/eng/tax/bre.htm";
 const IRD_ER = "https://www.ird.gov.hk/eng/tax/ere.htm";
-const IRD_EXT = "https://www.ird.gov.hk/eng/tax/bus_ext.htm";
-const IRD_56 = "https://www.ird.gov.hk/eng/ese/erbreq.htm";
-const CR_NAR1 = "https://www.cr.gov.hk/en/companies/local/maintaining/annual-return.htm";
+const IRD_EXT = "https://www.ird.gov.hk/eng/ese/bes.htm";
+const IRD_56 = "https://www.ird.gov.hk/eng/paf/for.htm";
+const CR_NAR1 = "https://www.cr.gov.hk/en/compliance/annual-return/private-company.htm";
 
 const ENTITIES: { key: Entity; label: string; hint: string; rate: string }[] = [
   { key: "limited", label: "HK Limited (Ltd.)", hint: "Private Limited Company — der Standard.", rate: "8,25 % bis HKD 2M / 16,5 % darüber" },
