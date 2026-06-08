@@ -354,7 +354,7 @@ const GewerbeanmeldungWizard = () => {
       // gesetzter Werte. updateFieldAppearances() walks alle Felder.
       form.updateFieldAppearances();
       const filled = await pdfDoc.save({ updateFieldAppearances: false });
-      const blob = new Blob([filled], { type: "application/pdf" });
+      const blob = new Blob([filled as BlobPart], { type: "application/pdf" });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
