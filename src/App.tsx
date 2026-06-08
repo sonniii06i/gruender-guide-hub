@@ -7,6 +7,7 @@ import AppLayout from "./layouts/AppLayout.tsx";
 import { PaywallGate } from "./components/PaywallGate.tsx";
 import { AdminGate } from "./components/AdminGate.tsx";
 import { useTrackPageview } from "./hooks/useTrackPageview";
+import { FREE_TOOL_BY_SLUG } from "@/lib/freetools";
 
 // Eager: Routen die jeder User durchläuft (Auth/Onboarding/Dashboard/Playbooks)
 import Index from "./pages/Index.tsx";
@@ -101,6 +102,8 @@ const RatgeberPost = lazy(() => import("./pages/RatgeberPost.tsx"));
 const AdminBlog = lazy(() => import("./pages/AdminBlog.tsx"));
 const Tools = lazy(() => import("./pages/Tools.tsx"));
 const ToolLanding = lazy(() => import("./pages/ToolLanding.tsx"));
+const GratisTools = lazy(() => import("./pages/GratisTools.tsx"));
+const FreeToolPage = lazy(() => import("./pages/FreeToolPage.tsx"));
 
 const queryClient = new QueryClient();
 
@@ -225,6 +228,11 @@ const App = () => (
               <Route path="/ratgeber/:slug" element={<RatgeberPost />} />
               <Route path="/tools" element={<Tools />} />
               <Route path="/tools/:slug" element={<ToolLanding />} />
+              {/* Kostenlose Lead-Magnet-Tools (konto-gated, kein Abo) */}
+              <Route path="/gratis-tools" element={<GratisTools />} />
+              <Route path="/businessplan-erstellen" element={<FreeToolPage config={FREE_TOOL_BY_SLUG["businessplan-erstellen"]} />} />
+              <Route path="/gruendungskosten-rechner" element={<FreeToolPage config={FREE_TOOL_BY_SLUG["gruendungskosten-rechner"]} />} />
+              <Route path="/rechtsform-finden" element={<FreeToolPage config={FREE_TOOL_BY_SLUG["rechtsform-finden"]} />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

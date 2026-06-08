@@ -28,6 +28,10 @@ const today = new Date().toISOString().slice(0, 10);
 const staticEntries: SitemapEntry[] = [
   { path: "/", changefreq: "weekly", priority: "1.0", lastmod: today },
   { path: "/tools", changefreq: "weekly", priority: "0.9", lastmod: today },
+  { path: "/gratis-tools", changefreq: "weekly", priority: "0.9", lastmod: today },
+  { path: "/businessplan-erstellen", changefreq: "weekly", priority: "0.8", lastmod: today },
+  { path: "/gruendungskosten-rechner", changefreq: "weekly", priority: "0.8", lastmod: today },
+  { path: "/rechtsform-finden", changefreq: "weekly", priority: "0.8", lastmod: today },
   { path: "/ratgeber", changefreq: "daily", priority: "0.9", lastmod: today },
   { path: "/faq", changefreq: "monthly", priority: "0.6" },
   { path: "/kontakt", changefreq: "yearly", priority: "0.4" },
