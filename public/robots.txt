@@ -23,6 +23,31 @@ Allow: /
 User-agent: ClaudeBot
 Allow: /
 
+User-agent: Claude-Web
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+# Google Gemini / Vertex AI Grounding
+User-agent: Google-Extended
+Allow: /
+
+# OpenAI / ChatGPT
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+# Apple Intelligence
+User-agent: Applebot-Extended
+Allow: /
+
+# Common Crawl (Trainingsbasis vieler LLMs)
+User-agent: CCBot
+Allow: /
+
 User-agent: *
 Allow: /
 Disallow: /auth
@@ -40,4 +65,5 @@ Disallow: /playbooks
 Disallow: /playbook/
 Disallow: /anbieter
 
+# KI-/LLM-Kurzbeschreibung der Seite: https://gruenderx.de/llms.txt
 Sitemap: https://gruenderx.de/sitemap.xml
