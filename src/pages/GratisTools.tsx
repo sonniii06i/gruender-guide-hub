@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Seo } from "@/components/Seo";
 import { Navbar } from "@/components/landing/Navbar";
 import { Footer } from "@/components/landing/Footer";
+import { FreeToolPromo } from "@/components/freetools/FreeToolPromo";
 import { FREE_TOOLS } from "@/lib/freetools";
 import { faqSchema, breadcrumbSchema, serviceSchema } from "@/lib/freetools/schema";
 
@@ -71,6 +72,9 @@ export default function GratisTools() {
           </p>
         </div>
       </section>
+
+      {/* 20%-Rabatt-Promo (Code FOUNDER) */}
+      <FreeToolPromo />
 
       <section className="pb-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">

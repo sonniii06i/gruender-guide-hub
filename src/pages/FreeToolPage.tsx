@@ -6,6 +6,7 @@ import { Seo } from "@/components/Seo";
 import { Navbar } from "@/components/landing/Navbar";
 import { Footer } from "@/components/landing/Footer";
 import { FreeToolWizard } from "@/components/freetools/FreeToolWizard";
+import { FreeToolPromo } from "@/components/freetools/FreeToolPromo";
 import { FREE_TOOLS, type ToolConfig } from "@/lib/freetools";
 import { faqSchema, howToSchema, breadcrumbSchema, serviceSchema } from "@/lib/freetools/schema";
 
@@ -61,6 +62,9 @@ export default function FreeToolPage({ config }: FreeToolPageProps) {
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">{config.heroSubtitle}</p>
         </div>
       </section>
+
+      {/* 20%-Rabatt-Promo (Code FOUNDER) */}
+      <FreeToolPromo />
 
       {/* Trust */}
       <section className="pb-8">
