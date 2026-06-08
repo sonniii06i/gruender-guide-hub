@@ -1,6 +1,7 @@
 import { Navbar } from "@/components/landing/Navbar";
 import { Hero } from "@/components/landing/Hero";
 import { IntroBand } from "@/components/landing/IntroBand";
+import { WhatIs } from "@/components/landing/WhatIs";
 import { Comparison } from "@/components/landing/Comparison";
 import { Assistant } from "@/components/landing/Assistant";
 import { Features } from "@/components/landing/Features";
@@ -53,6 +54,7 @@ const Index = () => (
     <main>
       <Hero />
       <IntroBand />
+      <WhatIs />
       <Comparison />
       <Assistant />
       <Features />
