@@ -120,7 +120,7 @@ const Onboarding = () => {
       company_name: companyName || null,
       phone,
       business_model: businessModel,
-      legal_form: legalForm,
+      legal_form: legalForm || "unsure",
       street,
       postal_code: postalCode,
       city,
@@ -309,7 +309,7 @@ const Onboarding = () => {
                 Weiter <ArrowRight className="h-4 w-4 ml-1" />
               </Button>
             ) : (
-              <Button onClick={finish} disabled={!canContinue() || saving} size="lg"
+              <Button onClick={finish} disabled={saving} size="lg"
                 className="rounded-full bg-gradient-primary text-primary-foreground hover:opacity-95 shadow-glow h-12 px-7 font-semibold">
                 {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <>Fertig <Check className="h-4 w-4 ml-1" /></>}
               </Button>
