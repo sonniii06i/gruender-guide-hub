@@ -52,6 +52,15 @@ const Auth = () => {
           },
         });
         if (error) throw error;
+        // Supabase verschleiert bestehende E-Mails (kein Enumeration-Leak): bei bereits
+        // registrierter Adresse kommt KEIN Fehler, aber data.user.identities ist leer.
+        // -> klare Meldung + auf Login leiten statt erneut "Bestätigung gesendet" zu faken.
+        if (data.user && Array.isArray(data.user.identities) && data.user.identities.length === 0) {
+          toast.error("Diese E-Mail ist bereits registriert. Bitte melde dich an.");
+          setPassword("");
+          setMode("signin");
+          return;
+        }
         // Bei aktiver E-Mail-Bestätigung gibt es KEINE Session -> nicht zu /onboarding
         // navigieren (würde zurück auf /auth loopen), sondern Bestätigungs-Hinweis zeigen.
         if (!data.session) {
