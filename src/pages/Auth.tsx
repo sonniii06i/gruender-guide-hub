@@ -59,9 +59,7 @@ const Auth = () => {
         // registrierter Adresse kommt KEIN Fehler, aber data.user.identities ist leer.
         // -> klare Meldung + auf Login leiten statt erneut "Bestätigung gesendet" zu faken.
         if (data.user && Array.isArray(data.user.identities) && data.user.identities.length === 0) {
-          const m = "Diese E-Mail ist bereits registriert. Bitte melde dich an.";
-          setErrorMsg(m);
-          toast.error(m);
+          setErrorMsg("Diese E-Mail ist bereits registriert. Bitte melde dich an.");
           setPassword("");
           setMode("signin");
           return;
@@ -91,8 +89,8 @@ const Auth = () => {
         msg = "Diese E-Mail ist bereits registriert. Bitte melde dich an.";
       else if (/rate limit|too many/i.test(raw))
         msg = "Zu viele Versuche. Bitte warte kurz und versuch es erneut.";
+      // Nur Inline-Box (kein zusätzlicher Toast -> keine doppelte Meldung).
       setErrorMsg(msg);
-      toast.error(msg);
     } finally {
       setLoading(false);
     }
