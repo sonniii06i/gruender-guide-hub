@@ -34,9 +34,19 @@ const Checkout = () => {
     setBusy(priceId);
     try {
       const { data, error } = await supabase.functions.invoke("create-checkout", { body: { priceId } });
-      if (error) throw error;
-      if (data?.url) window.location.href = data.url;
-    } catch (e: any) { toast.error(e.message); setBusy(null); }
+      if (error) {
+        // Den echten Backend-Fehler aus der Response ziehen (sonst nur "non-2xx status code").
+        let msg = error.message;
+        try {
+          const body = await (error as any)?.context?.json?.();
+          if (body?.error) msg = body.error;
+        } catch { /* ignore */ }
+        if (msg?.includes("Onboarding")) { navigate("/onboarding"); return; }
+        throw new Error(msg);
+      }
+      if (data?.url) { window.location.href = data.url; return; }
+      throw new Error("Keine Checkout-URL erhalten – bitte erneut versuchen.");
+    } catch (e: any) { toast.error(e.message ?? "Checkout fehlgeschlagen"); setBusy(null); }
   };
 
   if (authLoading || accLoading) {

@@ -72,7 +72,10 @@ export const useAccess = (): AccessState => {
     }
     // Bereits für diese user.id geladen → nicht erneut.
     if (loadedForUserId.current === user.id) return;
-    load();
+    // Nach Checkout-Return (success_url=/dashboard?checkout=success) Stripe-Sync ERZWINGEN,
+    // damit das frisch bezahlte Abo sofort greift und nicht am 24h-Cache hängen bleibt.
+    const justCheckedOut = new URLSearchParams(window.location.search).get("checkout") === "success";
+    load(justCheckedOut);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.id, authLoading]);
 
