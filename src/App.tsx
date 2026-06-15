@@ -2,6 +2,7 @@ import { lazy, Suspense, useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { Toaster } from "@/components/ui/sonner";
 import { AuthProvider } from "@/hooks/useAuth";
 import AppLayout from "./layouts/AppLayout.tsx";
 import { PaywallGate } from "./components/PaywallGate.tsx";
@@ -131,6 +132,7 @@ const PageFallback = () => (
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
+      <Toaster richColors position="top-center" />
       <BrowserRouter>
         <AuthProvider>
           <ScrollToTop />

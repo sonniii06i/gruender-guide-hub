@@ -23,6 +23,8 @@ const Auth = () => {
   const [showPw, setShowPw] = useState(false);
   // Gesetzt nach Signup, wenn E-Mail-Bestätigung nötig ist (keine Session) -> Hinweis statt Loop.
   const [signupEmail, setSignupEmail] = useState<string | null>(null);
+  // Sichtbare Inline-Fehlermeldung im Formular (zusätzlich zum Toast).
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   const pwChecks = {
     length: password.length >= 8,
@@ -38,6 +40,7 @@ const Auth = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setErrorMsg(null);
     try {
       if (mode === "signup") {
         if (!pwValid) {
@@ -56,7 +59,9 @@ const Auth = () => {
         // registrierter Adresse kommt KEIN Fehler, aber data.user.identities ist leer.
         // -> klare Meldung + auf Login leiten statt erneut "Bestätigung gesendet" zu faken.
         if (data.user && Array.isArray(data.user.identities) && data.user.identities.length === 0) {
-          toast.error("Diese E-Mail ist bereits registriert. Bitte melde dich an.");
+          const m = "Diese E-Mail ist bereits registriert. Bitte melde dich an.";
+          setErrorMsg(m);
+          toast.error(m);
           setPassword("");
           setMode("signin");
           return;
@@ -76,7 +81,18 @@ const Auth = () => {
         navigate("/dashboard");
       }
     } catch (err: any) {
-      toast.error(err.message ?? "Etwas ist schiefgelaufen.");
+      const raw = err?.message ?? "";
+      let msg = raw || "Etwas ist schiefgelaufen. Bitte versuch es erneut.";
+      if (/invalid login credentials/i.test(raw))
+        msg = "E-Mail oder Passwort falsch – oder es gibt noch keinen Account mit dieser E-Mail. Bitte prüfe deine Eingabe oder registriere dich.";
+      else if (/email not confirmed/i.test(raw))
+        msg = "Deine E-Mail ist noch nicht bestätigt. Klick den Link in der Bestätigungs-Mail (auch im Spam-Ordner schauen).";
+      else if (/user already registered/i.test(raw))
+        msg = "Diese E-Mail ist bereits registriert. Bitte melde dich an.";
+      else if (/rate limit|too many/i.test(raw))
+        msg = "Zu viele Versuche. Bitte warte kurz und versuch es erneut.";
+      setErrorMsg(msg);
+      toast.error(msg);
     } finally {
       setLoading(false);
     }
@@ -203,6 +219,13 @@ const Auth = () => {
                   </ul>
                 )}
               </div>
+
+              {errorMsg && (
+                <div className="flex items-start gap-2 rounded-xl border border-destructive/30 bg-destructive/10 px-3 py-2.5 text-sm text-destructive">
+                  <X className="h-4 w-4 mt-0.5 flex-shrink-0" />
+                  <span>{errorMsg}</span>
+                </div>
+              )}
 
               <Button
                 type="submit"
