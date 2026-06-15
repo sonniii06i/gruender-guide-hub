@@ -45,20 +45,32 @@ export const useAccess = (): AccessState => {
   const load = async (forceCheckSub = false) => {
     if (!user) { setLoading(false); return; }
     setLoading(true);
-    if (forceCheckSub || shouldRunCheckSub(user.id)) {
-      try {
-        await supabase.functions.invoke("check-subscription").catch(() => null);
-        markCheckSubRun(user.id);
-      } catch {}
+
+    const readDb = async () => {
+      const [roleRes, subRes, profRes] = await Promise.all([
+        supabase.from("user_roles").select("role").eq("user_id", user.id).eq("role", "admin").maybeSingle(),
+        supabase.from("subscriptions").select("status").eq("user_id", user.id).maybeSingle(),
+        supabase.from("profiles").select("onboarding_completed").eq("id", user.id).maybeSingle(),
+      ]);
+      setIsAdmin(!!roleRes.data);
+      setHasActiveSub(subRes.data?.status === "active" || subRes.data?.status === "trialing");
+      setOnboardingCompleted(!!profRes.data?.onboarding_completed);
+    };
+
+    if (forceCheckSub) {
+      // Nach Checkout-Return: erst Stripe syncen (kein Paywall-Flackern), DANN lesen.
+      await supabase.functions.invoke("check-subscription").catch(() => null);
+      markCheckSubRun(user.id);
+      await readDb();
+    } else {
+      // Schnell: sofort aus der DB rendern; den teuren Stripe-Sync im Hintergrund nachziehen.
+      await readDb();
+      if (shouldRunCheckSub(user.id)) {
+        supabase.functions.invoke("check-subscription")
+          .then(() => { markCheckSubRun(user.id); return readDb(); })
+          .catch(() => {});
+      }
     }
-    const [roleRes, subRes, profRes] = await Promise.all([
-      supabase.from("user_roles").select("role").eq("user_id", user.id).eq("role", "admin").maybeSingle(),
-      supabase.from("subscriptions").select("status").eq("user_id", user.id).maybeSingle(),
-      supabase.from("profiles").select("onboarding_completed").eq("id", user.id).maybeSingle(),
-    ]);
-    setIsAdmin(!!roleRes.data);
-    setHasActiveSub(subRes.data?.status === "active" || subRes.data?.status === "trialing");
-    setOnboardingCompleted(!!profRes.data?.onboarding_completed);
     setLoading(false);
     loadedForUserId.current = user.id;
   };

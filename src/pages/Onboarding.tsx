@@ -44,7 +44,7 @@ const stages = [
 const Onboarding = () => {
   const navigate = useNavigate();
   const { user, loading: authLoading } = useAuth();
-  const { loading: accLoading, hasActiveSub, isAdmin, refresh } = useAccess();
+  const { loading: accLoading, hasActiveSub, isAdmin } = useAccess();
   void hasActiveSub; void isAdmin;
   const [step, setStep] = useState<Step>(0);
   const [saving, setSaving] = useState(false);
@@ -70,9 +70,6 @@ const Onboarding = () => {
   useEffect(() => {
     if (!authLoading && !user) navigate("/auth", { replace: true });
   }, [user, authLoading, navigate]);
-
-  // refresh once on mount
-  useEffect(() => { refresh(); /* eslint-disable-next-line */ }, []);
 
   useEffect(() => {
     if (!user) return;
@@ -133,7 +130,8 @@ const Onboarding = () => {
     } as any).eq("id", user.id);
     setSaving(false);
     if (error) { toast.error(error.message); return; }
-    await refresh();
+    // Kein blockierender Stripe-Sync hier – direkt weiter. Die Checkout-Seite lädt
+    // ihren Status selbst (schnell aus DB) und der User hat ohnehin noch kein Abo.
     toast.success("Profil gespeichert – jetzt Abo abschließen 🚀");
     navigate("/checkout");
   };
