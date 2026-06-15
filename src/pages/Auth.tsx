@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
-import { ArrowLeft, Sparkles, Loader2, Eye, EyeOff, Check, X } from "lucide-react";
+import { ArrowLeft, Sparkles, Loader2, Eye, EyeOff, Check, X, Mail } from "lucide-react";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -21,6 +21,8 @@ const Auth = () => {
   const [lastName, setLastName] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPw, setShowPw] = useState(false);
+  // Gesetzt nach Signup, wenn E-Mail-Bestätigung nötig ist (keine Session) -> Hinweis statt Loop.
+  const [signupEmail, setSignupEmail] = useState<string | null>(null);
 
   const pwChecks = {
     length: password.length >= 8,
@@ -41,7 +43,7 @@ const Auth = () => {
         if (!pwValid) {
           throw new Error("Passwort: min. 8 Zeichen, 1 Zahl und 1 Sonderzeichen.");
         }
-        const { error } = await supabase.auth.signUp({
+        const { data, error } = await supabase.auth.signUp({
           email,
           password,
           options: {
@@ -50,6 +52,12 @@ const Auth = () => {
           },
         });
         if (error) throw error;
+        // Bei aktiver E-Mail-Bestätigung gibt es KEINE Session -> nicht zu /onboarding
+        // navigieren (würde zurück auf /auth loopen), sondern Bestätigungs-Hinweis zeigen.
+        if (!data.session) {
+          setSignupEmail(email);
+          return;
+        }
         toast.success("Account erstellt! Richte jetzt dein Profil ein 🚀");
         navigate("/onboarding");
       } else {
@@ -64,6 +72,47 @@ const Auth = () => {
       setLoading(false);
     }
   };
+
+  // Nach erfolgreichem Signup mit nötiger E-Mail-Bestätigung: Hinweis + Login-Link statt Loop.
+  if (signupEmail) {
+    return (
+      <div className="min-h-screen bg-hero flex flex-col">
+        <div className="container max-w-6xl py-6">
+          <Link to="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
+            <ArrowLeft className="h-4 w-4" /> Zurück zur Startseite
+          </Link>
+        </div>
+        <div className="flex-1 flex items-center justify-center px-4 pb-16">
+          <div className="w-full max-w-md text-center">
+            <div className="inline-flex items-center justify-center h-14 w-14 rounded-2xl bg-accent-blue/10 mb-6">
+              <Mail className="h-7 w-7 text-accent-blue" />
+            </div>
+            <h1 className="text-3xl md:text-4xl font-bold tracking-tight">Fast geschafft!</h1>
+            <p className="mt-3 text-muted-foreground">
+              Wir haben dir eine Bestätigungs-E-Mail an <span className="font-semibold text-foreground">{signupEmail}</span> geschickt.
+              Klick den Link darin, um deinen Account zu aktivieren – danach kannst du dich einloggen.
+            </p>
+            <div className="mt-8 bg-card border border-border rounded-3xl p-8 shadow-card">
+              <p className="text-sm text-muted-foreground mb-4">E-Mail bestätigt?</p>
+              <Button
+                size="lg"
+                onClick={() => { setSignupEmail(null); setPassword(""); setMode("signin"); }}
+                className="w-full rounded-full bg-gradient-primary text-primary-foreground hover:opacity-95 shadow-glow h-12 font-semibold"
+              >
+                Zum Login
+              </Button>
+              <p className="mt-4 text-xs text-muted-foreground">
+                Keine E-Mail erhalten? Prüfe den Spam-Ordner oder{" "}
+                <button onClick={() => { setSignupEmail(null); setMode("signup"); }} className="text-accent-blue font-semibold hover:underline">
+                  erneut registrieren
+                </button>.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-hero flex flex-col">
