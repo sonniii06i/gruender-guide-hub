@@ -35,8 +35,26 @@ serve(async (req) => {
       apiVersion: "2025-08-27.basil",
     });
 
+    // Bestehende Row prüfen: manuell freigeschaltete Comp-/Test-Accounts (active,
+    // OHNE stripe_customer_id) NICHT durch den Stripe-Sync herunterstufen.
+    const { data: existingSub } = await supabaseService
+      .from("subscriptions")
+      .select("status, stripe_customer_id")
+      .eq("user_id", user.id)
+      .maybeSingle();
+    const isManualComp =
+      existingSub &&
+      !existingSub.stripe_customer_id &&
+      (existingSub.status === "active" || existingSub.status === "trialing");
+
     const customers = await stripe.customers.list({ email: user.email, limit: 1 });
     if (customers.data.length === 0) {
+      if (isManualComp) {
+        // Manuell freigeschalteter Account ohne Stripe-Kunde → unangetastet lassen.
+        return new Response(JSON.stringify({ subscribed: true, comp: true }), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
       await supabaseService.from("subscriptions").upsert({
         user_id: user.id,
         plan: "none",

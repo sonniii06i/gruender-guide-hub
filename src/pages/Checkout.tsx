@@ -14,6 +14,29 @@ const Checkout = () => {
   const { user, loading: authLoading, signOut } = useAuth();
   const { loading: accLoading, hasActiveSub, isAdmin, onboardingCompleted, refresh } = useAccess();
   const [busy, setBusy] = useState<string | null>(null);
+  const [checking, setChecking] = useState(false);
+
+  const handleStatusCheck = async () => {
+    setChecking(true);
+    try {
+      await refresh();
+      const { data } = await supabase
+        .from("subscriptions")
+        .select("status")
+        .eq("user_id", user!.id)
+        .maybeSingle();
+      const active = data?.status === "active" || data?.status === "trialing";
+      if (active || isAdmin) {
+        toast.success("Abo aktiv – du wirst weitergeleitet …");
+      } else {
+        toast.info("Noch kein aktives Abo gefunden. Nach einer Zahlung kann es einen Moment dauern – sonst oben einen Plan wählen.");
+      }
+    } catch {
+      toast.error("Status konnte nicht geprüft werden.");
+    } finally {
+      setChecking(false);
+    }
+  };
 
   useEffect(() => {
     if (!authLoading && !user) navigate("/auth", { replace: true });
@@ -62,7 +85,10 @@ const Checkout = () => {
             <span className="font-bold tracking-tight">GründerX</span>
           </div>
           <div className="flex items-center gap-2">
-            <Button variant="ghost" size="sm" onClick={refresh}>Status prüfen</Button>
+            <Button variant="ghost" size="sm" onClick={handleStatusCheck} disabled={checking}>
+              {checking && <Loader2 className="h-4 w-4 mr-1 animate-spin" />}
+              {checking ? "Prüfe …" : "Status prüfen"}
+            </Button>
             <Button variant="ghost" size="sm" onClick={async () => { await signOut(); navigate("/auth"); }}>
               <LogOut className="h-4 w-4 mr-1" /> Abmelden
             </Button>

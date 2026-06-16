@@ -40,6 +40,24 @@ const Profile = () => {
     } catch {}
   };
 
+  const [checkingSub, setCheckingSub] = useState(false);
+  const handleStatusCheck = async () => {
+    setCheckingSub(true);
+    try {
+      await supabase.functions.invoke("check-subscription");
+      const { data } = await supabase.from("subscriptions").select("*").eq("user_id", user!.id).maybeSingle();
+      setSub(data);
+      const active = data?.status === "active" || data?.status === "trialing";
+      toast[active ? "success" : "info"](
+        active ? "Abo ist aktiv." : "Kein aktives Abo gefunden.",
+      );
+    } catch {
+      toast.error("Status konnte nicht geprüft werden.");
+    } finally {
+      setCheckingSub(false);
+    }
+  };
+
   useEffect(() => {
     if (!user) return;
     supabase.from("profiles").select("*").eq("id", user.id).maybeSingle().then(({ data }) => setProfile(data ?? {}));
@@ -182,8 +200,9 @@ const Profile = () => {
                   <Button onClick={portal} disabled={busy === "portal" || !isActive} variant="secondary" className="rounded-full h-11 px-6">
                     {busy === "portal" ? <Loader2 className="h-4 w-4 animate-spin" /> : "Abo verwalten"}
                   </Button>
-                  <Button onClick={refreshSub} variant="ghost" className="rounded-full text-primary-foreground hover:bg-white/10 h-11">
-                    Status prüfen
+                  <Button onClick={handleStatusCheck} disabled={checkingSub} variant="ghost" className="rounded-full text-primary-foreground hover:bg-white/10 h-11">
+                    {checkingSub && <Loader2 className="h-4 w-4 mr-1 animate-spin" />}
+                    {checkingSub ? "Prüfe …" : "Status prüfen"}
                   </Button>
                 </div>
               </div>
