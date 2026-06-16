@@ -10,6 +10,7 @@ import { Bundles } from "@/components/landing/Bundles";
 import { Testimonials } from "@/components/landing/Testimonials";
 import { FAQ } from "@/components/landing/FAQ";
 import { FinalCTA } from "@/components/landing/FinalCTA";
+import { UseCasesShowcase } from "@/components/landing/UseCasesShowcase";
 import { Footer } from "@/components/landing/Footer";
 import { Seo } from "@/components/Seo";
 
@@ -99,6 +100,7 @@ const Index = () => (
       <HowItWorks />
       <Bundles />
       <Testimonials />
+      <UseCasesShowcase />
       <FAQ />
       <FinalCTA />
     </main>

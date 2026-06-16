@@ -4,10 +4,11 @@ import { useAuth } from "@/hooks/useAuth";
 import { useAccess } from "@/hooks/useAccess";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Crown, Loader2, Check, LogOut } from "lucide-react";
+import { Crown, Loader2, Check, LogOut, Lock, RefreshCw, ShieldCheck } from "lucide-react";
 import { toast } from "sonner";
 import { STRIPE_PRICES } from "@/lib/stripe";
 import Logo from "@/components/Logo";
+import { UseCasesShowcase } from "@/components/landing/UseCasesShowcase";
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -116,6 +117,7 @@ const Checkout = () => {
           <PlanCard
             title="Founder Bundle"
             price="179,99 €"
+            badge="Beliebt"
             highlight
             features={["Alles aus GründerX", "AnwaltX Vertrags-Templates", "Compliance-Audit", "Priorisierter Support"]}
             busy={busy === STRIPE_PRICES.bundle}
@@ -123,18 +125,31 @@ const Checkout = () => {
           />
         </div>
 
-        <p className="text-xs text-muted-foreground text-center mt-8">
-          Sichere Zahlung via Stripe. Monatlich kündbar.
-        </p>
+        {/* Trust-Bar */}
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-muted-foreground">
+          <span className="flex items-center gap-1.5"><Lock className="h-3.5 w-3.5 text-accent-blue" /> SSL-verschlüsselt via Stripe</span>
+          <span className="flex items-center gap-1.5"><RefreshCw className="h-3.5 w-3.5 text-accent-blue" /> Monatlich kündbar</span>
+          <span className="flex items-center gap-1.5"><ShieldCheck className="h-3.5 w-3.5 text-accent-blue" /> DSGVO-konform, Server in der EU</span>
+        </div>
+
+        {/* Bottom-of-Funnel: was im Abo steckt */}
+        <div className="mt-12">
+          <UseCasesShowcase compact />
+        </div>
       </div>
     </div>
   );
 };
 
-const PlanCard = ({ title, price, features, busy, onClick, highlight }: {
-  title: string; price: string; features: string[]; busy: boolean; onClick: () => void; highlight?: boolean;
+const PlanCard = ({ title, price, features, busy, onClick, highlight, badge }: {
+  title: string; price: string; features: string[]; busy: boolean; onClick: () => void; highlight?: boolean; badge?: string;
 }) => (
-  <div className={`rounded-3xl p-7 shadow-card border ${highlight ? "border-accent-blue bg-gradient-primary text-primary-foreground shadow-glow" : "border-border bg-card"}`}>
+  <div className={`relative rounded-3xl p-7 shadow-card border ${highlight ? "border-accent-blue bg-gradient-primary text-primary-foreground shadow-glow" : "border-border bg-card"}`}>
+    {badge && (
+      <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-card text-accent-blue border border-accent-blue px-3 py-0.5 text-[11px] font-bold shadow-sm">
+        {badge}
+      </span>
+    )}
     <div className="font-bold text-lg">{title}</div>
     <div className="text-4xl font-bold mt-2">{price}<span className="text-sm font-normal opacity-70">/Monat</span></div>
     <ul className="mt-5 space-y-2 text-sm">
