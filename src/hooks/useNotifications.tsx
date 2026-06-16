@@ -25,29 +25,50 @@ export const useNotifications = () => {
 
   useEffect(() => { refresh(); }, [refresh]);
 
-  // Auto-create reminder for stale playbook runs (older than 3 days, no notif today)
+  // Weitermachen-Reminder für pausierte Guides: GENAU 2× pro Guide — einmal nach
+  // 3 Tagen Inaktivität, einmal nach 7 Tagen. Danach keine weitere Erinnerung.
+  // Jede Stufe wird "ever" (nicht pro Tag) dedupliziert über link + titelspezifische
+  // Stufe, sodass nichts mehrfach feuert.
   useEffect(() => {
     if (!user) return;
     (async () => {
-      const threeDaysAgo = new Date(Date.now() - 3 * 86400_000).toISOString();
-      const { data: stale } = await supabase.from("playbook_runs").select("id, title")
-        .eq("user_id", user.id).eq("status", "in_progress")
-        .lt("last_activity_at", threeDaysAgo);
-      if (!stale || stale.length === 0) return;
-      const today = new Date(); today.setHours(0, 0, 0, 0);
-      const { data: existingToday } = await supabase.from("notifications").select("id, title")
-        .eq("user_id", user.id).gte("created_at", today.toISOString());
-      const existingTitles = new Set((existingToday ?? []).map((n: any) => n.title));
-      for (const run of stale) {
-        const title = `⏰ Weitermachen: ${run.title}`;
-        if (existingTitles.has(title)) continue;
-        await supabase.from("notifications").insert({
-          user_id: user.id, kind: "reminder",
-          title, body: "Du hast vor ein paar Tagen pausiert. Nur noch wenige Schritte!",
-          link: `/playbook/${run.id}`,
-        });
+      const { data: runs } = await supabase.from("playbook_runs")
+        .select("id, title, last_activity_at")
+        .eq("user_id", user.id).eq("status", "in_progress");
+      if (!runs || runs.length === 0) return;
+
+      // Bereits gesendete Reminder (für immer, nicht nur heute).
+      const { data: existing } = await supabase.from("notifications")
+        .select("title, link").eq("user_id", user.id).eq("kind", "reminder");
+      const sent = new Set((existing ?? []).map((n: any) => `${n.link}|${n.title}`));
+
+      const now = Date.now();
+      let didInsert = false;
+      for (const run of runs) {
+        if (!run.last_activity_at) continue;
+        const days = (now - new Date(run.last_activity_at).getTime()) / 86400_000;
+        if (days < 3) continue;
+        const link = `/playbook/${run.id}`;
+        const t3 = `⏰ Weitermachen: ${run.title}`;
+        const t7 = `⏳ Letzte Erinnerung: ${run.title}`;
+
+        if (days >= 7 && !sent.has(`${link}|${t7}`)) {
+          await supabase.from("notifications").insert({
+            user_id: user.id, kind: "reminder", title: t7,
+            body: "Schon eine Woche pausiert – magst du den Guide abschließen? Das ist unsere letzte Erinnerung dazu.",
+            link,
+          });
+          didInsert = true;
+        } else if (days >= 3 && days < 7 && !sent.has(`${link}|${t3}`)) {
+          await supabase.from("notifications").insert({
+            user_id: user.id, kind: "reminder", title: t3,
+            body: "Du hast vor ein paar Tagen pausiert. Nur noch wenige Schritte!",
+            link,
+          });
+          didInsert = true;
+        }
       }
-      refresh();
+      if (didInsert) refresh();
     })();
   }, [user, refresh]);
 
