@@ -11,9 +11,10 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Loader2, Send, Inbox, Users, CreditCard, BarChart3, Search, Download,
-  TrendingUp, UserPlus, Activity, MessageSquare, Calendar,
+  TrendingUp, UserPlus, Activity, MessageSquare, Calendar, Megaphone,
 } from "lucide-react";
 import { BookingsAdmin } from "@/components/admin/BookingsAdmin";
+import { AdminGuideAnnounce } from "@/components/admin/AdminGuideAnnounce";
 import { toast } from "sonner";
 import { formatDistanceToNow } from "date-fns";
 import { de } from "date-fns/locale";
@@ -256,7 +257,12 @@ const Admin = () => {
           <TabsTrigger value="tickets"><Inbox className="h-4 w-4 mr-1" /> Tickets ({stats.openTickets})</TabsTrigger>
           <TabsTrigger value="bookings"><Calendar className="h-4 w-4 mr-1" /> Bookings</TabsTrigger>
           <TabsTrigger value="tools"><BarChart3 className="h-4 w-4 mr-1" /> Tool-Insights ({stats.toolRanking.length}/{stats.toolRanking.length + stats.deadTools.length})</TabsTrigger>
+          <TabsTrigger value="guides"><Megaphone className="h-4 w-4 mr-1" /> Guides</TabsTrigger>
         </TabsList>
+
+        <TabsContent value="guides">
+          <AdminGuideAnnounce />
+        </TabsContent>
 
         <TabsContent value="overview">
           <div className="grid lg:grid-cols-2 gap-4">

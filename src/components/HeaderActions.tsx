@@ -7,7 +7,7 @@ import {
   DropdownMenuSeparator, DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Bell, User as UserIcon, CreditCard, LogOut, Settings, Check } from "lucide-react";
+import { Bell, User as UserIcon, CreditCard, LogOut, Settings, Check, Sparkles } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { de } from "date-fns/locale";
 
@@ -44,19 +44,44 @@ const HeaderActions = () => {
               <Check className="h-6 w-6 mx-auto mb-2 opacity-40" />
               Alles erledigt!
             </div>
-          ) : items.map((n) => (
-            <DropdownMenuItem key={n.id} className="flex flex-col items-start gap-0.5 py-2.5 cursor-pointer"
-              onClick={() => n.link && navigate(n.link)}>
-              <div className="flex items-center gap-2 w-full">
-                <span className="text-sm font-semibold flex-1 truncate">{n.title}</span>
-                {!n.read_at && <span className="h-2 w-2 rounded-full bg-accent-blue shrink-0" />}
-              </div>
-              {n.body && <span className="text-xs text-muted-foreground line-clamp-2">{n.body}</span>}
-              <span className="text-[10px] text-muted-foreground">
-                {formatDistanceToNow(new Date(n.created_at), { addSuffix: true, locale: de })}
-              </span>
-            </DropdownMenuItem>
-          ))}
+          ) : [...items]
+              // Neue-Guide-Ankündigungen (ungelesen) nach oben ziehen = hervorheben.
+              .sort((a, b) => {
+                const aFeat = a.kind === "feature" && !a.read_at ? 1 : 0;
+                const bFeat = b.kind === "feature" && !b.read_at ? 1 : 0;
+                return bFeat - aFeat;
+              })
+              .map((n) => {
+                const isFeature = n.kind === "feature";
+                return (
+                  <DropdownMenuItem
+                    key={n.id}
+                    className={`flex flex-col items-start gap-0.5 py-2.5 cursor-pointer ${
+                      isFeature
+                        ? "bg-gradient-to-r from-accent-blue/10 to-transparent border-l-2 border-accent-blue rounded-none focus:from-accent-blue/15"
+                        : ""
+                    }`}
+                    onClick={() => n.link && navigate(n.link)}
+                  >
+                    <div className="flex items-center gap-2 w-full">
+                      {isFeature && <Sparkles className="h-3.5 w-3.5 text-accent-blue shrink-0" />}
+                      <span className={`text-sm flex-1 truncate ${isFeature ? "font-bold" : "font-semibold"}`}>
+                        {n.title}
+                      </span>
+                      {!n.read_at && <span className="h-2 w-2 rounded-full bg-accent-blue shrink-0" />}
+                    </div>
+                    {n.body && <span className="text-xs text-muted-foreground line-clamp-2">{n.body}</span>}
+                    <div className="flex items-center gap-2">
+                      {isFeature && (
+                        <span className="text-[9px] font-semibold uppercase tracking-wide text-accent-blue">Neu</span>
+                      )}
+                      <span className="text-[10px] text-muted-foreground">
+                        {formatDistanceToNow(new Date(n.created_at), { addSuffix: true, locale: de })}
+                      </span>
+                    </div>
+                  </DropdownMenuItem>
+                );
+              })}
         </DropdownMenuContent>
       </DropdownMenu>
 

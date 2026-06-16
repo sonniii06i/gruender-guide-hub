@@ -7,7 +7,7 @@ export interface Notification {
   title: string;
   body: string | null;
   link: string | null;
-  kind: "info" | "reminder" | "success" | "warning";
+  kind: "info" | "reminder" | "success" | "warning" | "feature";
   read_at: string | null;
   created_at: string;
 }
