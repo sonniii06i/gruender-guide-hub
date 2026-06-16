@@ -13,6 +13,7 @@ import { FREE_TOOL_BY_SLUG } from "@/lib/freetools";
 // Eager: Routen die jeder User durchläuft (Auth/Onboarding/Dashboard/Playbooks)
 import Index from "./pages/Index.tsx";
 import Auth from "./pages/Auth.tsx";
+import ResetPassword from "./pages/ResetPassword.tsx";
 import Checkout from "./pages/Checkout.tsx";
 import Onboarding from "./pages/Onboarding.tsx";
 import Dashboard from "./pages/Dashboard.tsx";
@@ -141,6 +142,7 @@ const App = () => (
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/auth" element={<Auth />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/onboarding" element={<Onboarding />} />
               <Route element={<AppLayout />}>

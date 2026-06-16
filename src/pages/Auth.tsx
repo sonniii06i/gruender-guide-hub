@@ -96,6 +96,21 @@ const Auth = () => {
     }
   };
 
+  const handleForgot = async () => {
+    if (!email) {
+      setErrorMsg("Bitte gib oben deine E-Mail-Adresse ein, dann schicke ich dir einen Link.");
+      return;
+    }
+    setLoading(true);
+    setErrorMsg(null);
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
+    setLoading(false);
+    if (error) { setErrorMsg(error.message); return; }
+    toast.success("Link zum Zurücksetzen gesendet – schau in dein Postfach (auch Spam).");
+  };
+
   // Nach erfolgreichem Signup mit nötiger E-Mail-Bestätigung: Hinweis + Login-Link statt Loop.
   if (signupEmail) {
     return (
@@ -217,6 +232,14 @@ const Auth = () => {
                   </ul>
                 )}
               </div>
+
+              {mode === "signin" && (
+                <div className="text-right -mt-1">
+                  <button type="button" onClick={handleForgot} className="text-xs text-accent-blue font-semibold hover:underline">
+                    Passwort vergessen?
+                  </button>
+                </div>
+              )}
 
               {errorMsg && (
                 <div className="flex items-start gap-2 rounded-xl border border-destructive/30 bg-destructive/10 px-3 py-2.5 text-sm text-destructive">

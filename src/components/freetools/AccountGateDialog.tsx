@@ -36,6 +36,8 @@ export function AccountGateDialog({
   const [password, setPassword] = useState("");
   const [accepted, setAccepted] = useState(false);
   const [loading, setLoading] = useState(false);
+  // Nach Signup mit nötiger E-Mail-Bestätigung: Hinweis im Dialog statt Sackgasse.
+  const [confirmSent, setConfirmSent] = useState(false);
 
   const handleSignup = async () => {
     if (!email || !password) {
@@ -75,9 +77,17 @@ export function AccountGateDialog({
       return;
     }
 
+    // Supabase verschleiert bestehende E-Mails (kein Fehler): identities==[] => existiert schon.
+    if (data.user && Array.isArray(data.user.identities) && data.user.identities.length === 0) {
+      toast("Diese E-Mail ist bereits registriert – bitte melde dich an.");
+      setMode("login");
+      setPassword("");
+      return;
+    }
+
     if (!data.session) {
-      // E-Mail-Bestätigung aktiv: kein sofortiger Zugriff.
-      toast.success("Fast geschafft! Bitte bestätige deine E-Mail, um fortzufahren.");
+      // E-Mail-Bestätigung aktiv: kein sofortiger Zugriff -> Hinweis-Panel statt offener Dialog.
+      setConfirmSent(true);
       return;
     }
 
@@ -118,6 +128,25 @@ export function AccountGateDialog({
           </DialogDescription>
         </DialogHeader>
 
+        {confirmSent ? (
+          <div className="space-y-4 pt-2 text-center">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
+              <Mail className="h-6 w-6 text-primary" />
+            </div>
+            <p className="text-sm text-muted-foreground">
+              Wir haben dir eine Bestätigungs-E-Mail an{" "}
+              <span className="font-semibold text-foreground">{email}</span> geschickt. Bestätige sie
+              (auch im Spam schauen) und melde dich dann hier an, um dein {documentName} freizuschalten.
+            </p>
+            <Button
+              className="w-full"
+              size="lg"
+              onClick={() => { setConfirmSent(false); setMode("login"); setPassword(""); }}
+            >
+              Zum Login
+            </Button>
+          </div>
+        ) : (
         <div className="space-y-4 pt-2">
           <div className="space-y-2">
             <Label htmlFor="gate-email">E-Mail-Adresse</Label>
@@ -193,6 +222,7 @@ export function AccountGateDialog({
             )}
           </p>
         </div>
+        )}
       </DialogContent>
     </Dialog>
   );
