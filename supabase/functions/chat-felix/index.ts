@@ -887,6 +887,31 @@ serve(async (req) => {
     // User-ID aus JWT — wenn anon-Key oder fehlend: Memory wird übersprungen
     const userId = await getUserIdFromRequest(req);
     const supaService = serviceClient();
+
+    // === ABO-GATE (serverseitig, Defense-in-Depth zur Route-PaywallGate) ===
+    // Felix ist der LLM-Kostentreiber → ohne aktives Abo (oder Admin) kein Chat,
+    // auch nicht per Direktaufruf der Function. Nur wenn der Service-Client fehlt
+    // (Fehlkonfig) lassen wir durch, dann schützt weiterhin die Route-PaywallGate.
+    if (supaService) {
+      if (!userId) {
+        return new Response(
+          JSON.stringify({ error: "Bitte einloggen, um mit Felix zu chatten." }),
+          { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+        );
+      }
+      const [subRes, roleRes] = await Promise.all([
+        supaService.from("subscriptions").select("status").eq("user_id", userId).maybeSingle(),
+        supaService.from("user_roles").select("role").eq("user_id", userId).eq("role", "admin").maybeSingle(),
+      ]);
+      const activeSub = subRes.data?.status === "active" || subRes.data?.status === "trialing";
+      if (!activeSub && !roleRes.data) {
+        return new Response(
+          JSON.stringify({ error: "Für den Felix-Chat brauchst du ein aktives Abo." }),
+          { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+        );
+      }
+    }
+
     let memories: ChatMemory[] = [];
     // Default: aktueller Prompt (frisch, mit heutigem Datum). Wird unten erweitert wenn Memory existiert.
     let systemPromptWithMemory: string = currentSystemPrompt;

@@ -5,15 +5,26 @@ import { AppSidebar } from "@/components/AppSidebar";
 import HeaderActions from "@/components/HeaderActions";
 import { GlobalSearch } from "@/components/GlobalSearch";
 import { useAuth } from "@/hooks/useAuth";
+import { useAccess } from "@/hooks/useAccess";
 import { Loader2 } from "lucide-react";
 
 export default function AppLayout() {
   const { user, loading } = useAuth();
+  const { loading: accessLoading, onboardingCompleted } = useAccess();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!loading && !user) navigate("/auth", { replace: true });
-  }, [user, loading, navigate]);
+    if (loading) return;
+    if (!user) {
+      navigate("/auth", { replace: true });
+      return;
+    }
+    // Neue, noch nicht eingerichtete User zuverlässig auf die Daten-/Account-Seite
+    // führen — unabhängig davon, wohin der E-Mail-Bestätigungslink landet.
+    if (!accessLoading && !onboardingCompleted) {
+      navigate("/onboarding", { replace: true });
+    }
+  }, [user, loading, accessLoading, onboardingCompleted, navigate]);
 
   if (loading || !user) {
     return (

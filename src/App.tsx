@@ -217,8 +217,8 @@ const App = () => (
                 <Route path="/anbieter" element={<PaywallGate title="Anbieter-Vergleich"><Anbieter /></PaywallGate>} />
                 <Route path="/anbieter/:slug" element={<PaywallGate title="Anbieter-Vergleich"><AnbieterDetail /></PaywallGate>} />
                 <Route path="/faq" element={<FAQ />} />
-                <Route path="/felix" element={<FelixChat />} />
-                <Route path="/felix/chats" element={<FelixChatsOverview />} />
+                <Route path="/felix" element={<PaywallGate title="Felix-Chat"><FelixChat /></PaywallGate>} />
+                <Route path="/felix/chats" element={<PaywallGate title="Chatverlauf"><FelixChatsOverview /></PaywallGate>} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/admin" element={<AdminGate><Admin /></AdminGate>} />
                 <Route path="/admin/blog" element={<AdminGate><AdminBlog /></AdminGate>} />
