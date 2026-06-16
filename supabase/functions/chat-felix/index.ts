@@ -900,10 +900,13 @@ serve(async (req) => {
         );
       }
       const [subRes, roleRes] = await Promise.all([
-        supaService.from("subscriptions").select("status").eq("user_id", userId).maybeSingle(),
+        supaService.from("subscriptions").select("status, comp_access").eq("user_id", userId).maybeSingle(),
         supaService.from("user_roles").select("role").eq("user_id", userId).eq("role", "admin").maybeSingle(),
       ]);
-      const activeSub = subRes.data?.status === "active" || subRes.data?.status === "trialing";
+      const activeSub =
+        subRes.data?.status === "active" ||
+        subRes.data?.status === "trialing" ||
+        !!(subRes.data as any)?.comp_access;
       if (!activeSub && !roleRes.data) {
         return new Response(
           JSON.stringify({ error: "Für den Felix-Chat brauchst du ein aktives Abo." }),

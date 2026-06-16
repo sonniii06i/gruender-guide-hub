@@ -49,11 +49,15 @@ export const useAccess = (): AccessState => {
     const readDb = async () => {
       const [roleRes, subRes, profRes] = await Promise.all([
         supabase.from("user_roles").select("role").eq("user_id", user.id).eq("role", "admin").maybeSingle(),
-        supabase.from("subscriptions").select("status").eq("user_id", user.id).maybeSingle(),
+        supabase.from("subscriptions").select("status, comp_access").eq("user_id", user.id).maybeSingle(),
         supabase.from("profiles").select("onboarding_completed").eq("id", user.id).maybeSingle(),
       ]);
       setIsAdmin(!!roleRes.data);
-      setHasActiveSub(subRes.data?.status === "active" || subRes.data?.status === "trialing");
+      setHasActiveSub(
+        subRes.data?.status === "active" ||
+          subRes.data?.status === "trialing" ||
+          !!(subRes.data as any)?.comp_access,
+      );
       setOnboardingCompleted(!!profRes.data?.onboarding_completed);
     };
 

@@ -644,6 +644,7 @@ export type Database = {
       }
       subscriptions: {
         Row: {
+          comp_access: boolean
           created_at: string
           current_period_end: string | null
           id: string
@@ -655,6 +656,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          comp_access?: boolean
           created_at?: string
           current_period_end?: string | null
           id?: string
@@ -666,6 +668,7 @@ export type Database = {
           user_id: string
         }
         Update: {
+          comp_access?: boolean
           created_at?: string
           current_period_end?: string | null
           id?: string
