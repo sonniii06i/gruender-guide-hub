@@ -164,15 +164,15 @@ const MarkenMonitor = () => {
             {list.map((entry) => (
               <div key={entry.id} className="rounded-2xl border border-border bg-card p-4">
                 <div className="flex items-start justify-between gap-3 mb-2">
-                  <div>
-                    <div className="font-bold text-sm font-mono">{entry.name}</div>
+                  <div className="min-w-0">
+                    <div className="font-bold text-sm font-mono break-words">{entry.name}</div>
                     <div className="text-[11px] text-muted-foreground">
                       hinzugefügt {new Date(entry.addedAt).toLocaleDateString("de-DE")}
                       {entry.lastChecked &&
                         ` · zuletzt geprüft ${new Date(entry.lastChecked).toLocaleDateString("de-DE")}`}
                     </div>
                   </div>
-                  <div className="flex gap-1">
+                  <div className="flex gap-1 shrink-0">
                     <button
                       onClick={() => recheck(entry)}
                       disabled={checkingId === entry.id}

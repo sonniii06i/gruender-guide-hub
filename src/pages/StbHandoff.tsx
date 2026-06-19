@@ -469,17 +469,17 @@ const StbHandoff = () => {
         ) : (
           <div className="space-y-2">
             {form.anhaenge.map((a) => (
-              <div key={a.id} className="grid grid-cols-12 gap-2 items-center">
+              <div key={a.id} className="grid grid-cols-2 md:grid-cols-12 gap-2 items-center">
                 <Input
                   value={a.name}
                   onChange={(e) => updateAnhang(a.id, { name: e.target.value })}
                   placeholder="Dateiname (z.B. bwa-2026-q1.pdf)"
-                  className="col-span-5 h-8 text-xs"
+                  className="col-span-2 md:col-span-5 h-8 text-xs min-w-0"
                 />
                 <select
                   value={a.typ}
                   onChange={(e) => updateAnhang(a.id, { typ: e.target.value })}
-                  className="col-span-2 h-8 rounded-md border border-input bg-background px-2 text-xs"
+                  className="col-span-1 md:col-span-2 h-8 rounded-md border border-input bg-background px-2 text-xs min-w-0"
                 >
                   {["PDF", "CSV", "DATEV-Stapel", "Lexoffice", "Excel", "ZIP"].map((t) => (
                     <option key={t}>{t}</option>
@@ -489,11 +489,11 @@ const StbHandoff = () => {
                   value={a.bemerkung}
                   onChange={(e) => updateAnhang(a.id, { bemerkung: e.target.value })}
                   placeholder="Bemerkung"
-                  className="col-span-4 h-8 text-xs"
+                  className="col-span-1 md:col-span-4 h-8 text-xs min-w-0"
                 />
                 <button
                   onClick={() => removeAnhang(a.id)}
-                  className="col-span-1 text-red-600 hover:bg-red-500/10 p-1 rounded justify-self-center"
+                  className="col-span-2 md:col-span-1 text-red-600 hover:bg-red-500/10 p-1 rounded justify-self-center"
                 >
                   <Trash2 className="h-4 w-4" />
                 </button>

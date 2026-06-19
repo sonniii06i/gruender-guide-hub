@@ -286,7 +286,7 @@ const QuartalsSteuer = () => {
             return (
               <div
                 key={i}
-                className={`grid grid-cols-4 gap-3 items-center text-xs rounded-lg p-3 ${
+                className={`grid grid-cols-2 md:grid-cols-4 gap-3 items-center text-xs rounded-lg p-3 ${
                   istAktuell
                     ? "bg-accent-blue/10 border border-accent-blue/30"
                     : istVergangen

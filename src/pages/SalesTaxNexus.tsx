@@ -137,7 +137,7 @@ const SalesTaxNexus = () => {
         <Label className="text-xs uppercase tracking-wider text-muted-foreground mb-2 block">
           Hauptverkaufs-Kanal
         </Label>
-        <div className="grid grid-cols-3 gap-2">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
           {[
             { v: "shopify", l: "🛍️ Eigener Shop (Shopify/eigene Website)" },
             { v: "amazon", l: "📦 Amazon FBA (Marketplace)" },

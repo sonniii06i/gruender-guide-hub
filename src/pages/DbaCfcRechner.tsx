@@ -701,11 +701,11 @@ const DbaCfcRechner = () => {
         <div className="space-y-3 text-sm">
           {/* 1. Auslandssteuer */}
           <div className="rounded-xl bg-secondary/40 p-3">
-            <div className="flex items-center justify-between mb-1">
-              <span className="font-semibold">
+            <div className="flex items-center justify-between gap-2 mb-1">
+              <span className="font-semibold min-w-0">
                 1) Lokale {country.name}-Steuer ({calc.effCit}%)
               </span>
-              <span className="font-mono">-{formatEur(calc.auslandsSteuer)}</span>
+              <span className="font-mono shrink-0">-{formatEur(calc.auslandsSteuer)}</span>
             </div>
             <div className="text-[11px] text-muted-foreground">
               {auslandsgewinn.toLocaleString("de-DE")} € × {calc.effCit}% = {formatEur(calc.auslandsSteuer)}
@@ -718,9 +718,9 @@ const DbaCfcRechner = () => {
 
           {/* 2. Quellensteuer */}
           <div className="rounded-xl bg-secondary/40 p-3">
-            <div className="flex items-center justify-between mb-1">
-              <span className="font-semibold">2) Quellensteuer beim Ausschütten ({calc.whtRate}%)</span>
-              <span className="font-mono">-{formatEur(calc.whtAbsolute)}</span>
+            <div className="flex items-center justify-between gap-2 mb-1">
+              <span className="font-semibold min-w-0">2) Quellensteuer beim Ausschütten ({calc.whtRate}%)</span>
+              <span className="font-mono shrink-0">-{formatEur(calc.whtAbsolute)}</span>
             </div>
             <div className="text-[11px] text-muted-foreground">
               {calc.motherDaughterEligible && (
@@ -746,9 +746,9 @@ const DbaCfcRechner = () => {
 
           {/* 3. DE-Steuer */}
           <div className="rounded-xl bg-secondary/40 p-3">
-            <div className="flex items-center justify-between mb-1">
-              <span className="font-semibold">3) DE-Empfänger-Steuer</span>
-              <span className="font-mono">-{formatEur(calc.deSteuer)}</span>
+            <div className="flex items-center justify-between gap-2 mb-1">
+              <span className="font-semibold min-w-0">3) DE-Empfänger-Steuer</span>
+              <span className="font-mono shrink-0">-{formatEur(calc.deSteuer)}</span>
             </div>
             <div className="text-[11px] text-muted-foreground">{calc.deBezeichnung}</div>
             {calc.streubesitz && (
@@ -766,9 +766,9 @@ const DbaCfcRechner = () => {
           {/* 4. §AStG */}
           {calc.astgGreift && (
             <div className="rounded-xl border border-red-500/30 bg-red-500/5 p-3">
-              <div className="flex items-center justify-between mb-1">
-                <span className="font-semibold text-red-700">⚠ 4) §AStG-Hinzurechnung greift</span>
-                <span className="font-mono text-red-700">-{formatEur(calc.astgZusatz)}</span>
+              <div className="flex items-center justify-between gap-2 mb-1">
+                <span className="font-semibold text-red-700 min-w-0">⚠ 4) §AStG-Hinzurechnung greift</span>
+                <span className="font-mono text-red-700 shrink-0">-{formatEur(calc.astgZusatz)}</span>
               </div>
               <div className="text-[11px] text-muted-foreground">{calc.astgBezeichnung}</div>
             </div>

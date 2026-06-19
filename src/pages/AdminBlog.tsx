@@ -78,14 +78,14 @@ const AdminBlog = () => {
 
   return (
     <div className="container max-w-6xl py-10 px-4">
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-3xl font-bold">Ratgeber-Verwaltung</h1>
+          <h1 className="text-2xl md:text-3xl font-bold">Ratgeber-Verwaltung</h1>
           <p className="text-muted-foreground text-sm mt-1">
             Automatisierte Blog-Generierung: 2× pro Woche (Di/Fr 06:00 UTC) wird der nächste fällige Topic verarbeitet.
           </p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-wrap shrink-0">
           <Button variant="outline" size="sm" onClick={reload}>
             <RefreshCw className="h-4 w-4 mr-2" /> Aktualisieren
           </Button>
@@ -102,8 +102,8 @@ const AdminBlog = () => {
         <>
           <section className="mb-12">
             <h2 className="text-xl font-bold mb-4">Posts ({posts.length})</h2>
-            <div className="rounded-xl border border-border overflow-hidden">
-              <table className="w-full text-sm">
+            <div className="rounded-xl border border-border overflow-hidden overflow-x-auto">
+              <table className="w-full text-sm min-w-[640px]">
                 <thead className="bg-secondary/50">
                   <tr>
                     <th className="text-left p-3">Titel</th>
@@ -146,8 +146,8 @@ const AdminBlog = () => {
 
           <section>
             <h2 className="text-xl font-bold mb-4">Topic-Queue ({topics.filter(t => !t.consumed_at).length} offen)</h2>
-            <div className="rounded-xl border border-border overflow-hidden">
-              <table className="w-full text-sm">
+            <div className="rounded-xl border border-border overflow-hidden overflow-x-auto">
+              <table className="w-full text-sm min-w-[560px]">
                 <thead className="bg-secondary/50">
                   <tr>
                     <th className="text-left p-3">Topic</th>

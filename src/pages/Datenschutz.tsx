@@ -141,7 +141,8 @@ const Datenschutz = () => (
         nach Art. 28 DSGVO oder eigenverantwortlicher Dritter nach Art. 4 Nr. 7 DSGVO):
       </p>
 
-      <table className="w-full text-sm my-4 border border-border">
+      <div className="overflow-x-auto -mx-4 px-4 my-4">
+      <table className="w-full min-w-[640px] text-sm border border-border">
         <thead className="bg-secondary">
           <tr>
             <th className="text-left px-3 py-2">Anbieter</th>
@@ -210,6 +211,7 @@ const Datenschutz = () => (
           </tr>
         </tbody>
       </table>
+      </div>
       <p className="text-xs text-muted-foreground">
         AVV-Kopien stellen wir dir auf Anfrage zur Verfügung. Stripe handelt nach eigener Privacy-Policy
         eigenverantwortlich und ist insoweit kein Auftragsverarbeiter; siehe <a href="https://stripe.com/de/privacy" target="_blank" rel="noreferrer">stripe.com/de/privacy</a>.

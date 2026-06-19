@@ -606,6 +606,7 @@ const SettlementParser = () => {
                 <Download className="h-3.5 w-3.5" /> Summary CSV
               </button>
             </div>
+            <div className="overflow-x-auto">
             <table className="w-full text-xs">
               <thead>
                 <tr className="border-b border-border">
@@ -631,6 +632,7 @@ const SettlementParser = () => {
                 ))}
               </tbody>
             </table>
+            </div>
           </div>
 
           {/* Detail-Liste (max 100) */}

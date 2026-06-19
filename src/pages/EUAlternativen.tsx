@@ -80,7 +80,7 @@ const EUAlternativen = () => {
       </div>
 
       {/* Sort Toggle */}
-      <div className="flex gap-2 mb-4">
+      <div className="flex flex-wrap gap-2 mb-4">
         <button
           onClick={() => setSortBy("fit")}
           className={`rounded-full px-3 py-1.5 text-[11px] font-semibold transition-colors ${
