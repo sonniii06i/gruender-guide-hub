@@ -13637,7 +13637,7 @@ export const PLAYBOOKS: Playbook[] = [
           "Auf Erteilung der WEEE-Reg.-Nr. (Format DE + Ziffern) warten",
         ],
         externalLinks: [
-          { label: "ear-Portal Registrierung", url: "https://www.stiftung-ear.de/de/service/anmeldung" },
+          { label: "ear-Portal (Registrierung)", url: "https://www.stiftung-ear.de" },
         ],
         extendedNotes: [
           "Die Garantie für B2C-Geräte ist der größte Kostenblock und muss jährlich erneuert/angepasst werden – Höhe richtet sich nach gemeldeten Mengen.",
