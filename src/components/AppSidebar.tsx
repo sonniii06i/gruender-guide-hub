@@ -32,10 +32,15 @@ import {
 import { useRole } from "@/hooks/useRole";
 
 export function AppSidebar() {
-  const { state } = useSidebar();
+  const { state, isMobile, setOpenMobile } = useSidebar();
   const collapsed = state === "collapsed";
   const { pathname, search } = useLocation();
   const { isAdmin } = useRole();
+
+  // Auf Mobile schließt das Sidebar-Sheet automatisch, sobald ein Eintrag geklickt wird.
+  const closeOnMobile = () => {
+    if (isMobile) setOpenMobile(false);
+  };
 
   const isActive = (route: string, exact = true) =>
     exact ? pathname === route : pathname.startsWith(route);
@@ -94,7 +99,7 @@ export function AppSidebar() {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton asChild>
-              <a href="https://discord.gg/Ys9ZmBY8" target="_blank" rel="noopener noreferrer">
+              <a href="https://discord.gg/Ys9ZmBY8" target="_blank" rel="noopener noreferrer" onClick={closeOnMobile}>
                 <Users className="h-4 w-4" />
                 <span>Community</span>
               </a>
@@ -102,7 +107,7 @@ export function AppSidebar() {
           </SidebarMenuItem>
           <SidebarMenuItem>
             <SidebarMenuButton asChild isActive={pathname === "/support"}>
-              <NavLink to="/support">
+              <NavLink to="/support" onClick={closeOnMobile}>
                 <LifeBuoy className="h-4 w-4" />
                 <span>Support</span>
               </NavLink>
@@ -110,7 +115,7 @@ export function AppSidebar() {
           </SidebarMenuItem>
           <SidebarMenuItem>
             <SidebarMenuButton asChild isActive={pathname === "/faq"}>
-              <NavLink to="/faq">
+              <NavLink to="/faq" onClick={closeOnMobile}>
                 <MessageCircle className="h-4 w-4" />
                 <span>FAQ</span>
               </NavLink>
@@ -122,13 +127,16 @@ export function AppSidebar() {
   );
 }
 
-const Item = ({ to, icon: Icon, label, active }: { to: string; icon: any; label: string; active: boolean }) => (
-  <SidebarMenuItem>
-    <SidebarMenuButton asChild isActive={active}>
-      <NavLink to={to}>
-        <Icon className="h-4 w-4" />
-        <span>{label}</span>
-      </NavLink>
-    </SidebarMenuButton>
-  </SidebarMenuItem>
-);
+const Item = ({ to, icon: Icon, label, active }: { to: string; icon: any; label: string; active: boolean }) => {
+  const { isMobile, setOpenMobile } = useSidebar();
+  return (
+    <SidebarMenuItem>
+      <SidebarMenuButton asChild isActive={active}>
+        <NavLink to={to} onClick={() => { if (isMobile) setOpenMobile(false); }}>
+          <Icon className="h-4 w-4" />
+          <span>{label}</span>
+        </NavLink>
+      </SidebarMenuButton>
+    </SidebarMenuItem>
+  );
+};
