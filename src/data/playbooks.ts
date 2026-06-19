@@ -13751,6 +13751,167 @@ export const PLAYBOOKS: Playbook[] = [
     ],
   },
 
+  // ============================================================
+  // RESELLER-FREISCHALTUNG / UNGATING (MARKTPLATZ-ÜBERGREIFEND)
+  // ============================================================
+  {
+    slug: "reseller-freischaltung",
+    title: "Marke/Kategorie zum Reselling freischalten (Ungating)",
+    emoji: "🔓",
+    icon: Key,
+    tagline: "Gated Marken & Kategorien zum Weiterverkauf freischalten lassen",
+    outcome: "Freigeschaltete Marke/Kategorie auf Amazon, Kaufland, eBay & Co. – mit korrekter Distributor-Rechnung und Echtheitsnachweisen, sodass der Antrag akzeptiert wird.",
+    duration: "1–4 Wochen (je Marktplatz)",
+    difficulty: "Mittel",
+    totalCost: "0 € Antrag (Kosten nur für den Wareneinkauf)",
+    runningCost: "0 €",
+    steps: [
+      {
+        slug: "gating-pruefen",
+        title: "Prüfen, was überhaupt gesperrt ist",
+        description: "Viele Marken und Kategorien sind \"gated\" – du darfst sie erst nach Freischaltung listen. Das ist je Marktplatz und teils je ASIN unterschiedlich.",
+        kind: "decision",
+        estMinutes: 30,
+        estCost: "0 €",
+        checklist: [
+          "Produkt/ASIN anlegen versuchen → Marktplatz zeigt \"Freischaltung beantragen\" / \"Genehmigung erforderlich\"",
+          "Pro Marktplatz separat prüfen: Amazon, Kaufland, eBay, OTTO – jeder hat eigene Gates",
+          "Notieren, was konkret verlangt wird (Rechnung? Mindestmenge? Autorisierung? Seriennummern?)",
+          "Manche Kategorien (z.B. bestimmte Elektronik, Marken-Restriktionen) brauchen zusätzlich Hersteller-Erlaubnis",
+        ],
+        warning: "Nicht auf gut Glück listen – ein abgelehnter/auffälliger Antrag erschwert spätere Freischaltungen. Erst Anforderungen sauber sammeln.",
+      },
+      {
+        slug: "rechnung",
+        title: "Distributor-Rechnung beschaffen (das A und O)",
+        description: "Kern jeder Freischaltung ist eine echte Einkaufsrechnung von einem Lieferanten/Distributor. Die formalen Anforderungen sind streng – schon kleine Abweichungen führen zur Ablehnung.",
+        kind: "form",
+        estMinutes: 60,
+        estCost: "Wareneinkauf je nach Mindestmenge",
+        fields: [
+          { name: "brand", label: "Marke, die freigeschaltet werden soll" },
+          { name: "units", label: "Gekaufte Einheiten (Rechnung)", type: "number" },
+        ],
+        checklist: [
+          "Mindestmenge: meist ≥ 10 Einheiten (manche Marktplätze/Marken verlangen 50 oder 100)",
+          "Rechnungsdatum innerhalb der letzten 180 Tage (manche Marktplätze: 90 Tage)",
+          "DEINE exakten Firmendaten auf der Rechnung = identisch zum Verkäuferkonto (Name, Adresse, ggf. USt-IdNr.)",
+          "Vollständige Lieferantendaten: echter Distributor/Großhändler/Hersteller mit Name, Adresse, Kontakt",
+          "Produktnamen auf der Rechnung passen zur Marke/zum Listing",
+          "Original-PDF – KEINE Screenshots, keine nachträglich bearbeiteten Felder",
+          "KEINE Einzelhandels-Belege (MediaMarkt/Saturn/Amazon-Bestellung) – werden fast immer abgelehnt",
+        ],
+        warning: "Rechnungen fälschen oder Beträge/Mengen editieren = sofortige, meist dauerhafte Konto-Sperrung. Nur echte Distributor-Rechnungen mit exakt passenden Daten verwenden.",
+        extendedNotes: [
+          "Wenn deine Firmendaten nicht 1:1 zur Rechnung passen (z.B. anderer Name, alte Adresse), erst Verkäuferkonto/Rechnung angleichen.",
+          "Tipp: Beim Distributor direkt um eine \"Amazon-/Marktplatz-taugliche\" Rechnung bitten (vollständige Adressen, Marke klar benannt).",
+        ],
+      },
+      {
+        slug: "echtheit-seriennummern",
+        title: "Echtheit: Transparency-Codes / Seriennummern / Fotos",
+        description: "Gerade bei Elektronik verlangen Marktplätze zusätzlich Echtheitsnachweise. Hat das Produkt Transparency-Codes, brauchst du die – wenn nicht, oft Fotos der Seriennummern.",
+        kind: "checklist",
+        estMinutes: 45,
+        estCost: "0 €",
+        checklist: [
+          "Produkt hat Transparency-Codes? → Codes bereitstellen (siehe Transparency-Guide)",
+          "Kein Transparency? → Seriennummern erfassen und ggf. FOTOS der Seriennummer am Gerät/auf der Verpackung hochladen",
+          "Foto-Anforderungen: scharf, Seriennummer + Produkt klar erkennbar, ggf. mehrere Einheiten",
+          "Manche Marken verlangen ein Autorisierungsschreiben (Letter of Authorization) des Herstellers",
+          "Alles als saubere PDFs/Bilder sammeln, klar benannt",
+        ],
+        extendedNotes: [
+          "Noch nicht alle Produkte sind im Transparency-Programm – deshalb akzeptieren Marktplätze hilfsweise Seriennummern + Fotos als Echtheitsnachweis.",
+        ],
+      },
+      {
+        slug: "antrag-stellen",
+        title: "Antrag pro Marktplatz stellen & nachfassen",
+        description: "Mit Rechnung + Echtheitsnachweisen den Freischaltungsantrag stellen – je Marktplatz im jeweiligen Flow.",
+        kind: "external",
+        estMinutes: 40,
+        estCost: "0 €",
+        checklist: [
+          "Amazon: über \"Verkaufsantrag stellen\"/\"Freischaltung beantragen\" beim Listing, Rechnung + ggf. Seriennummern hochladen",
+          "Kaufland / OTTO / eBay: jeweiligen Marken-/Kategorie-Freischaltungsantrag im Seller-Bereich",
+          "Bei Ablehnung: konkreten Ablehnungsgrund lesen und gezielt nachbessern (oft: Datenabweichung oder Mindestmenge)",
+          "Höflich, aber bestimmt nachfassen – Bearbeitung dauert oft mehrere Tage",
+        ],
+        externalLinks: [
+          { label: "Amazon – Verkaufsbeschränkungen/Freischaltung", url: "https://sellercentral.amazon.de/help/hub/reference/external/G201817360" },
+        ],
+        warning: "Jeder Marktplatz prüft separat – eine Amazon-Freischaltung gilt NICHT für Kaufland/eBay. Pro Plattform denselben Nachweis-Stack einreichen.",
+      },
+    ],
+  },
+
+  // ============================================================
+  // DAC7 (PLATTFORM-MELDEPFLICHT)
+  // ============================================================
+  {
+    slug: "dac7",
+    title: "DAC7 – Plattform-Meldepflicht meistern",
+    emoji: "🏛️",
+    icon: Landmark,
+    tagline: "Was Marktplätze ans Finanzamt melden – und was du liefern musst",
+    outcome: "Korrekt hinterlegte Steuerdaten bei allen Plattformen, keine DAC7-bedingten Konto-/Auszahlungssperren, Konsistenz mit deiner Steuererklärung.",
+    duration: "1–2 Tage",
+    difficulty: "Einfach",
+    totalCost: "0 €",
+    runningCost: "0 €",
+    steps: [
+      {
+        slug: "verstehen",
+        title: "Was DAC7 ist und wen es betrifft",
+        description: "DAC7 ist eine EU-Meldepflicht: Digitale Plattformen (Amazon, eBay, Kaufland, Etsy, Vinted, Airbnb …) müssen Verkäufer-Einkünfte an die Finanzbehörden melden. Gilt EU-weit, erste Meldungen ab Jan 2024 für 2023.",
+        kind: "info",
+        estMinutes: 15,
+        estCost: "0 €",
+        checklist: [
+          "Betroffen: alle, die über Plattformen Waren/Dienstleistungen verkaufen (gewerblich und teils privat)",
+          "DAC7 schafft KEINE neue Steuer – es ist Transparenz: die Plattform meldet, das Finanzamt gleicht mit deiner Erklärung ab",
+          "Die Plattform sammelt + verifiziert deine Daten und meldet jährlich",
+          "Falsche/fehlende Angaben → Plattform friert Auszahlungen/Konto ein",
+        ],
+      },
+      {
+        slug: "schwellen",
+        title: "Schwellen & Ausnahmen kennen",
+        description: "Für reine Warenverkäufer gibt es eine Bagatellgrenze – darunter wird (für DAC7-Meldung) nicht gemeldet.",
+        kind: "decision",
+        estMinutes: 15,
+        estCost: "0 €",
+        checklist: [
+          "De-minimis (Warenverkäufer): weniger als 30 Verkäufe UND unter 2.000 € Erlös pro Plattform/Jahr → keine DAC7-Meldung",
+          "Beide Bedingungen müssen erfüllt sein – ab 30 Verkäufen ODER 2.000 € wird gemeldet",
+          "Schwelle gilt PRO Plattform – auf mehreren Marktplätzen jeweils einzeln prüfen",
+          "Wichtig: Die Steuerpflicht selbst hängt NICHT an dieser Schwelle – wer gewerblich handelt, muss ohnehin versteuern",
+        ],
+        warning: "Verlass dich nicht auf die Bagatellgrenze, um Einkünfte \"unter dem Radar\" zu halten – Gewerblichkeit und Steuerpflicht bestehen unabhängig von DAC7. DAC7 macht es nur transparent.",
+      },
+      {
+        slug: "daten-liefern",
+        title: "Daten bereitstellen, wenn die Plattform fragt",
+        description: "Plattformen fordern aktiv DAC7-Daten an. Reagierst du nicht, sperren sie Konto/Auszahlung.",
+        kind: "checklist",
+        estMinutes: 30,
+        estCost: "0 €",
+        checklist: [
+          "Steuerliche Identifikationsnummer (Steuer-ID) bzw. USt-IdNr. bereithalten",
+          "Vollständige Firmendaten: Name, Anschrift, Rechtsform, ggf. Handelsregisternummer",
+          "Bei Aufforderung der Plattform (Amazon/eBay/Kaufland …) die DAC7-Datenfelder korrekt und zeitnah ausfüllen",
+          "Daten müssen mit deiner Steuererklärung/Buchhaltung konsistent sein",
+          "Frist der Plattform einhalten – sonst Auszahlungs-/Konto-Stopp",
+        ],
+        extendedNotes: [
+          "Die gemeldeten Erlöse fließen ans Finanzamt – stelle sicher, dass deine USt-Voranmeldung/EÜR/Bilanz dazu passt, sonst gibt es Rückfragen.",
+          "Wenn eine Auszahlung wegen fehlender DAC7-Daten hängt: Daten vollständig nachreichen, dann gibt die Plattform i.d.R. wieder frei.",
+        ],
+      },
+    ],
+  },
+
 ];
 
 export const getPlaybook = (slug: string) => PLAYBOOKS.find((p) => p.slug === slug);
