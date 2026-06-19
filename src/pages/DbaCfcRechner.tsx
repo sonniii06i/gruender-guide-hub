@@ -791,7 +791,7 @@ const DbaCfcRechner = () => {
 
       {/* ============ TOTAL ============ */}
       <div className="rounded-2xl border-2 border-accent-blue/40 bg-gradient-to-br from-card via-card to-accent-blue/5 p-6 mb-6">
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div>
             <div className="text-xs uppercase tracking-wider text-muted-foreground mb-1">Total Steuer</div>
             <div className="text-xl font-bold text-red-700">{formatEur(calc.totalSteuer)}</div>

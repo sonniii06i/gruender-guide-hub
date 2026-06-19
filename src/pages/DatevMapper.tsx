@@ -452,7 +452,7 @@ const DatevMapper = () => {
       subtitle="35+ Auto-Regeln (Amazon, Stripe, PayPal, Klarna, Shopify, AWS, Meta/TikTok/Google Ads, DHL, Steuerberater, Versicherungen, Reise, Strom). Auto-erkennt Reverse-Charge §13b für IE-Sub-Anbieter. Editierbar pro Zeile."
     >
       {/* Summary */}
-      <div className="grid grid-cols-3 gap-3 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
         <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/5 p-4">
           <div className="text-[10px] uppercase tracking-wider text-emerald-700">Einnahmen</div>
           <div className="text-xl font-bold text-emerald-700">

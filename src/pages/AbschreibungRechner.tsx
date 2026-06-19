@@ -212,7 +212,7 @@ const AbschreibungRechner = () => {
       subtitle="Einzel-Rechner mit Steuer-Ersparnis · Asset-Cart für mehrere Anschaffungen gleichzeitig · 18 Asset-Types · BMF-Sofortabschreibung Computer + GWG ≤800€ + Sammelposten 250-1000€ + Lineare AfA §7. Inkl. SKR03/04-Buchungssatz."
     >
       <Tabs defaultValue="einzel" className="w-full">
-        <TabsList className="mb-6">
+        <TabsList className="mb-6 flex-wrap h-auto">
           <TabsTrigger value="einzel">
             <Calculator className="h-4 w-4 mr-1" /> Einzel-Rechner
           </TabsTrigger>
@@ -852,6 +852,7 @@ const AssetCart = () => {
             <summary className="cursor-pointer text-sm font-semibold">
               Kumulierter Abschreibungs-Plan über {maxYears} Jahre
             </summary>
+            <div className="overflow-x-auto">
             <table className="w-full text-xs mt-2 font-mono">
               <thead>
                 <tr className="border-b border-border text-left">
@@ -872,6 +873,7 @@ const AssetCart = () => {
                 ))}
               </tbody>
             </table>
+            </div>
           </details>
         )}
       </div>

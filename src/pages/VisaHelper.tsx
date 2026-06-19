@@ -256,7 +256,7 @@ const VisaHelper = () => {
       subtitle="🇩🇪 NACH Deutschland: 6 Aufenthaltstitel-Pfade (§21/§18g/§18a/b/§20a/§28/§30) · 🌍 AUS Deutschland raus: 27 Visa weltweit (USA O-1/EB-2/E-2/L-1, UK Innovator, Portugal D8/D2/Golden, Spanien DNV+Beckham, UAE Golden, Singapore Tech.Pass, Thailand LTR, Georgien 1% etc.) + §6 AStG Wegzugsbesteuerung-Block + AVOID-Liste verifiziert."
     >
       <Tabs defaultValue="raus" className="w-full">
-        <TabsList className="mb-6">
+        <TabsList className="mb-6 flex-wrap h-auto">
           <TabsTrigger value="rein">🇩🇪 Nach Deutschland (6 Pfade)</TabsTrigger>
           <TabsTrigger value="raus">🌍 Aus Deutschland raus (27 Visa)</TabsTrigger>
         </TabsList>

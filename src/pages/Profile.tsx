@@ -108,7 +108,7 @@ const Profile = () => {
   return (
     <CockpitShell eyebrow="👤 Profil & Abrechnung" title="Deine Stammdaten" subtitle="Wird auf Rechnungen, in Wizards und im Felix-Kontext genutzt.">
       <Tabs value={tab} onValueChange={(v) => setParams(v === "stamm" ? {} : { tab: v })} className="w-full">
-        <TabsList className="mb-6">
+        <TabsList className="mb-6 flex-wrap h-auto">
           <TabsTrigger value="stamm">Stammdaten</TabsTrigger>
           <TabsTrigger value="firma">Firma</TabsTrigger>
           <TabsTrigger value="abrechnung">Abrechnung</TabsTrigger>

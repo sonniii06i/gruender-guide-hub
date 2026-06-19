@@ -402,7 +402,7 @@ const PensionOptimizer = () => {
             {sortedOptions[0].emoji} {sortedOptions[0].name}
           </h3>
           <p className="text-sm text-muted-foreground mb-3">{sortedOptions[0].description}</p>
-          <div className="grid grid-cols-3 gap-3 text-center">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-center">
             <div className="rounded-lg bg-secondary/40 p-3">
               <div className="text-[10px] text-muted-foreground uppercase">Endkapital</div>
               <div className="text-base font-bold">

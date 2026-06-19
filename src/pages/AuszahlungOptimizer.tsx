@@ -357,7 +357,7 @@ const AuszahlungOptimizer = () => {
           </div>
           <h3 className="text-xl font-bold mb-1">{best.name}</h3>
           <p className="text-sm text-muted-foreground mb-3">{best.description}</p>
-          <div className="grid grid-cols-3 gap-3 text-center">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-center">
             <div className="rounded-lg bg-secondary/40 p-3">
               <div className="text-[10px] text-muted-foreground uppercase">Total Steuer</div>
               <div className="text-lg font-bold">{Math.round(best.totalSteuer).toLocaleString("de-DE")} €</div>
