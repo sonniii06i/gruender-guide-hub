@@ -14298,6 +14298,149 @@ export const PLAYBOOKS: Playbook[] = [
     ],
   },
 
+  // ============================================================
+  // ERSTE WEBSEITE + ORGANISCH SICHTBAR WERDEN (SEO)
+  // ============================================================
+  {
+    slug: "erste-webseite-seo",
+    title: "Erste Webseite & organisch sichtbar werden",
+    emoji: "🔍",
+    icon: Search,
+    tagline: "Von der Seite über Google Search Console & Sitemap bis Ranking",
+    outcome: "Live-Webseite mit sauberer Technik, in der Google Search Console verifiziert, Sitemap eingereicht, On-Page-SEO gesetzt – startklar, um organisch gefunden zu werden.",
+    duration: "1–2 Wochen + laufend",
+    difficulty: "Einfach",
+    totalCost: "Domain ~10–20 €/Jahr + Hosting (oft 0–20 €/Mon)",
+    runningCost: "Domain + Hosting; SEO-Tools optional",
+    steps: [
+      {
+        slug: "webseite-bauen",
+        title: "Webseite/Shop bauen + Tools wählen",
+        description: "Erst die Seite live bekommen – mit Domain, HTTPS und dem passenden Stack. Du musst nicht alles selbst coden.",
+        kind: "checklist",
+        estMinutes: 120,
+        estCost: "Domain + Hosting",
+        checklist: [
+          "Ziel klären: Landingpage / Web-App (Lovable) · Onlineshop (Shopify) · Content/Blog (WordPress)",
+          "Domain registrieren (Registrar mit fairem Verlängerungspreis – Achtung Auto-Renewal-Aufschlag)",
+          "HTTPS/SSL aktivieren (Pflicht für SEO & Vertrauen)",
+          "Backend/Datenbank bei Bedarf: Supabase (PostgreSQL/SQL, Login/Auth, Storage, API)",
+          "Entwicklung/Anpassungen mit Claude Code (KI-Coding im Terminal) – Features bauen, debuggen, deployen",
+          "Saubere, sprechende URL-Struktur (keine ?id=123-Wüsten)",
+        ],
+        externalLinks: [
+          { label: "Lovable (Web-App/Landingpage bauen)", url: "https://lovable.dev" },
+          { label: "Supabase (DB/Auth/SQL Backend)", url: "https://supabase.com" },
+          { label: "Claude Code (KI-Coding-Assistent)", url: "https://www.anthropic.com/claude-code" },
+          { label: "Shopify (Onlineshop)", url: "https://www.shopify.de" },
+        ],
+        extendedNotes: [
+          "Schnellster Weg für Nicht-Coder: Lovable für die Seite + Supabase als Backend, Feinschliff/Custom-Logik per Claude Code. Für reinen Verkauf von Waren ist Shopify oft schneller am Ziel.",
+        ],
+      },
+      {
+        slug: "technische-basis",
+        title: "Technische SEO-Basis",
+        description: "Bevor Inhalte ranken, muss die Technik stimmen. Google bewertet Geschwindigkeit, Mobile und Crawlbarkeit.",
+        kind: "checklist",
+        estMinutes: 60,
+        estCost: "0 €",
+        checklist: [
+          "Mobile-first: Seite muss auf dem Handy einwandfrei laufen",
+          "Ladezeit/Core Web Vitals optimieren (Bilder komprimieren, wenig Render-Blocking)",
+          "HTTPS überall, keine Mixed-Content-Warnungen",
+          "Eine klare Seiten-Hierarchie + interne Verlinkung",
+          "Aussagekräftige, kurze URLs",
+          "404-Seite + saubere Weiterleitungen (301) bei URL-Änderungen",
+        ],
+        externalLinks: [
+          { label: "PageSpeed Insights / Core Web Vitals", url: "https://pagespeed.web.dev" },
+        ],
+      },
+      {
+        slug: "onpage-seo",
+        title: "On-Page-SEO (Inhalte, die ranken)",
+        description: "Pro Seite ein klares Keyword-Thema, sauber ausgezeichnet. So versteht Google, wofür du gefunden werden willst.",
+        kind: "form",
+        estMinutes: 90,
+        estCost: "0 €",
+        checklist: [
+          "Pro Seite ein Haupt-Keyword/Thema (nicht alles auf eine Seite)",
+          "Title-Tag (ca. 50–60 Zeichen) mit Keyword vorne",
+          "Meta-Description (ca. 150–160 Zeichen) – verkauft den Klick (kein Ranking-Faktor, aber CTR)",
+          "Genau EINE H1, sinnvolle H2/H3-Struktur",
+          "Hochwertiger Content, der die Suchintention WIRKLICH beantwortet (Länge folgt dem Bedarf)",
+          "Bild-Alt-Texte + sprechende Dateinamen",
+          "Interne Verlinkung zu thematisch passenden Unterseiten",
+          "Strukturierte Daten (Schema.org) für Produkte/FAQ/Artikel",
+        ],
+        extendedNotes: [
+          "Keyword-Recherche vorab: an welchen Begriffen suchen deine Kunden? Title/H1/Content darum bauen – nicht um interne Produktnamen.",
+        ],
+      },
+      {
+        slug: "search-console-sitemap",
+        title: "Google Search Console & Sitemap",
+        description: "Das Pflicht-Setup, damit Google deine Seite überhaupt sauber crawlt und du siehst, wofür du rankst.",
+        kind: "external",
+        estMinutes: 45,
+        estCost: "0 €",
+        checklist: [
+          "Google Search Console: Property anlegen (Domain-Property = ganze Domain, am stärksten)",
+          "Inhaberschaft verifizieren (DNS-TXT-Eintrag, HTML-Datei oder Meta-Tag)",
+          "Sitemap.xml erzeugen (CMS/Plugin oder generieren lassen) – listet alle wichtigen URLs",
+          "Sitemap in der Search Console einreichen (Bereich \"Sitemaps\")",
+          "robots.txt anlegen: Crawling erlauben + Sitemap-URL darin referenzieren",
+          "Optional: Bing Webmaster Tools (kostenlos, schnelle Extra-Sichtbarkeit)",
+        ],
+        externalLinks: [
+          { label: "Google Search Console", url: "https://search.google.com/search-console" },
+          { label: "Bing Webmaster Tools", url: "https://www.bing.com/webmasters" },
+        ],
+        warning: "Stell sicher, dass die robots.txt das Crawling NICHT versehentlich blockiert (häufiger Fehler: \"Disallow: /\" aus der Testphase bleibt drin) – sonst wird gar nichts indexiert.",
+      },
+      {
+        slug: "indexierung-monitoring",
+        title: "Indexierung prüfen & überwachen",
+        description: "Eingereicht ≠ indexiert. Prüfen, ob Google die Seiten aufnimmt, und Leistung beobachten.",
+        kind: "checklist",
+        estMinutes: 30,
+        estCost: "0 €",
+        checklist: [
+          "In Google suchen: site:deinedomain.de → welche Seiten sind im Index?",
+          "Search Console → URL-Prüfung: einzelne wichtige Seiten testen + \"Indexierung beantragen\"",
+          "Bericht \"Seiten/Indexierung\": Ausgeschlossene URLs + Fehler abarbeiten",
+          "Bericht \"Leistung\": Impressionen, Klicks, CTR, Position je Keyword beobachten",
+          "Neue/aktualisierte Inhalte regelmäßig zur Indexierung anstoßen",
+        ],
+      },
+      {
+        slug: "lokal-analytics-tools",
+        title: "Local, Analytics & Tool-Stack",
+        description: "Lokale Sichtbarkeit, Messung – und der empfohlene Tool-Stack inkl. Zahlung.",
+        kind: "checklist",
+        estMinutes: 60,
+        estCost: "0 € (die meisten Tools)",
+        checklist: [
+          "Google Unternehmensprofil (Business Profile) anlegen, wenn lokal relevant – starker Hebel für lokale Suchen + Maps",
+          "Web-Analytics: Google Analytics 4 ODER datenschutzfreundlich Plausible/Matomo",
+          "Conversion-/Event-Tracking einrichten (Käufe, Anfragen, Newsletter)",
+          "Payment integrieren: Mollie (einfach, viele EU-Zahlarten) oder Stripe (global, beste API) – siehe Anbieter-Vergleich",
+          "Tool-Stack: Lovable (Seite bauen) · Supabase (DB/Auth/SQL) · Claude Code (KI-Entwicklung) · Search Console (SEO) · Mollie/Stripe (Zahlung)",
+        ],
+        externalLinks: [
+          { label: "Google Unternehmensprofil", url: "https://www.google.com/business/" },
+          { label: "Plausible (Privacy-Analytics)", url: "https://plausible.io" },
+          { label: "Mollie (Zahlungsanbieter)", url: "https://www.mollie.com" },
+          { label: "Stripe (Zahlungsanbieter)", url: "https://stripe.com/de" },
+        ],
+        extendedNotes: [
+          "Empfohlener Lean-Stack für Gründer: Lovable + Supabase fürs Produkt, Claude Code für Custom-Features/Debugging, Mollie oder Stripe fürs Bezahlen, Google Search Console + GA4/Plausible fürs Wachstum.",
+        ],
+      },
+    ],
+  },
+
 ];
 
 export const getPlaybook = (slug: string) => PLAYBOOKS.find((p) => p.slug === slug);
