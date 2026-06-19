@@ -54,11 +54,11 @@ export const Hero = () => {
               Kostenlos starten <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
             </Button>
           </Link>
-          <a href="#leistungen">
+          <Link to="/#leistungen">
             <Button size="lg" variant="outline" className="rounded-full h-14 px-8 border-2 hover:bg-accent-blue/5 hover:border-accent-blue hover:-translate-y-0.5 transition-all duration-300 text-base font-semibold backdrop-blur">
               Leistungen ansehen
             </Button>
-          </a>
+          </Link>
         </div>
       </div>
     </section>

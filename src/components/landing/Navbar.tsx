@@ -6,10 +6,10 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
 
 const links = [
-  { label: "Leistungen", href: "#leistungen" },
-  { label: "Über uns", href: "#ueber-uns" },
-  { label: "Bundles", href: "#bundles" },
-  { label: "FAQ", href: "#faq" },
+  { label: "Leistungen", href: "/#leistungen" },
+  { label: "Über uns", href: "/#ueber-uns" },
+  { label: "Bundles", href: "/#bundles" },
+  { label: "FAQ", href: "/#faq" },
   { label: "Kontakt", href: "/kontakt", external: true },
 ];
 
@@ -25,15 +25,9 @@ export const Navbar = () => {
 
         <div className="hidden md:flex items-center gap-7">
           {links.map((l) => (
-            l.external ? (
-              <Link key={l.href} to={l.href} className="text-sm text-foreground/70 hover:text-foreground transition-colors">
-                {l.label}
-              </Link>
-            ) : (
-              <a key={l.href} href={l.href} className="text-sm text-foreground/70 hover:text-foreground transition-colors">
-                {l.label}
-              </a>
-            )
+            <Link key={l.href} to={l.href} className="text-sm text-foreground/70 hover:text-foreground transition-colors">
+              {l.label}
+            </Link>
           ))}
         </div>
 
@@ -57,15 +51,16 @@ export const Navbar = () => {
           <SheetContent>
             <div className="flex flex-col gap-4 mt-8">
               {links.map((l) => (
-                l.external ? (
-                  <Link key={l.href} to={l.href} onClick={() => setOpen(false)} className="text-base font-medium">{l.label}</Link>
-                ) : (
-                  <a key={l.href} href={l.href} onClick={() => setOpen(false)} className="text-base font-medium">{l.label}</a>
-                )
+                <Link key={l.href} to={l.href} onClick={() => setOpen(false)} className="text-base font-medium">{l.label}</Link>
               ))}
-              <Button className="mt-4 bg-accent-blue hover:bg-accent-blue/90 text-accent-blue-foreground">
-                Anmelden
-              </Button>
+              <Link to="/auth?mode=signup" onClick={() => setOpen(false)} className="mt-4 text-base font-medium">
+                Registrieren
+              </Link>
+              <Link to="/auth?mode=signin" onClick={() => setOpen(false)}>
+                <Button className="w-full bg-accent-blue hover:bg-accent-blue/90 text-accent-blue-foreground">
+                  Anmelden
+                </Button>
+              </Link>
             </div>
           </SheetContent>
         </Sheet>
