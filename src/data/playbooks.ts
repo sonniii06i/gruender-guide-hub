@@ -14128,6 +14128,176 @@ export const PLAYBOOKS: Playbook[] = [
     ],
   },
 
+  // ============================================================
+  // KAUFLAND MARKETPLACE – PRODUKT ANLEGEN
+  // ============================================================
+  {
+    slug: "kaufland-produkt-anlegen",
+    title: "Produkt anlegen auf Kaufland Marketplace",
+    emoji: "🛍️",
+    icon: Store,
+    tagline: "Über das Seller-Portal listen – EAN-Katalog, Angebot, Compliance",
+    outcome: "Veröffentlichtes Kaufland-Angebot: am zentralen EAN-Katalog angedockt oder neu angelegt, mit Preis/Bestand/Versand und korrekter LUCID/WEEE/USt-Compliance.",
+    duration: "1–2 Wochen (inkl. Freischaltung)",
+    difficulty: "Einfach",
+    totalCost: "monatliche Grundgebühr + Verkaufsprovision",
+    runningCost: "Grundgebühr + Provision je Verkauf",
+    steps: [
+      {
+        slug: "onboarding",
+        title: "Seller-Portal-Antrag & Freischaltung",
+        description: "Kaufland Marketplace läuft über ein Mirakl-basiertes Seller-Portal. Erst Konto beantragen und verifizieren lassen.",
+        kind: "checklist",
+        estMinutes: 45,
+        estCost: "0 €",
+        checklist: [
+          "Im Kaufland Seller-Portal registrieren (Firmendaten, USt-IdNr, Ansprechpartner)",
+          "Gewerbe-/Handelsregisternachweis + Identität hinterlegen",
+          "Bankdaten für Auszahlung + 2FA einrichten",
+          "Marktplätze wählen: DE und optional CZ/SK/PL/AT (Kaufland-Expansion)",
+          "Auf Freischaltung warten (Prüfung durch Kaufland)",
+        ],
+        externalLinks: [
+          { label: "Kaufland Seller-Portal", url: "https://sellerportal.kaufland.de" },
+        ],
+      },
+      {
+        slug: "produkt",
+        title: "Produkt anlegen (EAN-Match oder neu)",
+        description: "Kaufland nutzt einen zentralen, EAN-basierten Produktkatalog. Existiert das Produkt schon, dockst du nur ein Angebot an – sonst legst du die Produktdaten neu an.",
+        kind: "form",
+        estMinutes: 60,
+        estCost: "0 €",
+        checklist: [
+          "EAN/GTIN prüfen: Produkt schon im Katalog? → nur Angebot anlegen",
+          "Neu: Produktdaten anlegen (Titel, Kategorie, Attribute, Bilder, EAN)",
+          "Bilder nach Kaufland-Vorgaben (freigestellt, ausreichend Auflösung)",
+          "Upload-Weg wählen: Inventory Manager (CSV), Web-Oberfläche oder API/Connector",
+          "Pflicht-Attribute der Kategorie vollständig füllen (sonst keine Veröffentlichung)",
+        ],
+        warning: "Falsche/abweichende EAN führt zu Fehlmatch mit einem fremden Produkt – immer die korrekte GS1-EAN deines Produkts verwenden.",
+      },
+      {
+        slug: "angebot-versand",
+        title: "Angebot, Bestand & Versand",
+        description: "Das Angebot (Preis, Bestand, Lieferzeit) bestimmt, ob du die Buy-Box bekommst. Versand selbst (FBM) oder über Kaufland Fulfillment.",
+        kind: "checklist",
+        estMinutes: 40,
+        estCost: "0 €",
+        checklist: [
+          "Preis + Bestand setzen",
+          "Versandgruppen/Lieferzeiten definieren",
+          "Fulfillment wählen: Selbstversand (FBM) oder Kaufland Fulfillment",
+          "Sendungsverfolgung/Tracking pflegen (Service-Kennzahlen)",
+        ],
+      },
+      {
+        slug: "compliance",
+        title: "Compliance (LUCID, WEEE, USt)",
+        description: "Kaufland prüft Verpackungs- und Elektro-Registrierung – ohne Nachweise wird gesperrt.",
+        kind: "checklist",
+        estMinutes: 30,
+        estCost: "0 €",
+        checklist: [
+          "LUCID-Registriernummer (Verpackungsregister) hinterlegen",
+          "Bei Elektrogeräten: WEEE-Reg.-Nr. hinterlegen (siehe WEEE-Guide)",
+          "USt-IdNr + ggf. OSS für grenzüberschreitende Verkäufe",
+          "GPSR: verantwortliche Person + Sicherheitshinweise",
+          "Gated Kategorien ggf. freischalten lassen",
+        ],
+      },
+    ],
+  },
+
+  // ============================================================
+  // OTTO MARKET – PRODUKT ANLEGEN
+  // ============================================================
+  {
+    slug: "otto-produkt-anlegen",
+    title: "Produkt anlegen auf OTTO Market",
+    emoji: "📮",
+    icon: Briefcase,
+    tagline: "Bewerbung, Partner-Connect-Anbindung & datenstarke Listings",
+    outcome: "Als OTTO-Partner freigeschaltet, technisch über Partner Connect angebunden und mit konformen, datenvollständigen Produkten gelistet.",
+    duration: "3–8 Wochen (kuratiertes Onboarding)",
+    difficulty: "Mittel",
+    totalCost: "Verkaufsprovision je Kategorie",
+    runningCost: "Provision je Verkauf + ggf. Connector-/ERP-Kosten",
+    steps: [
+      {
+        slug: "voraussetzungen",
+        title: "Voraussetzungen & Bewerbung",
+        description: "OTTO ist kuratierter als Amazon/Kaufland. Es gibt harte Grundvoraussetzungen – ohne die kommst du nicht rein.",
+        kind: "checklist",
+        estMinutes: 40,
+        estCost: "0 €",
+        checklist: [
+          "Deutsche Rechtsform (Firma) + deutsche USt-IdNr",
+          "Versand aus einem deutschen Lager",
+          "Deutschsprachiger Kundenservice",
+          "Du trittst gegenüber dem Endkunden als Verkäufer auf",
+          "Auf otto.market registrieren (Firmendaten + Sortiment angeben)",
+          "Bei erfüllten Voraussetzungen: Einladung zum OTTO Partner Connect Portal",
+        ],
+        externalLinks: [
+          { label: "OTTO Market – Verkäufer werden", url: "https://www.otto.market" },
+        ],
+        warning: "Ohne deutsches Lager + deutschen Kundenservice + deutsche USt-IdNr lehnt OTTO i.d.R. ab. Das ist strenger als bei den meisten anderen Marktplätzen.",
+      },
+      {
+        slug: "anbindung",
+        title: "Partner Connect & technische Anbindung",
+        description: "Nach der Freigabe läuft alles über das OTTO Partner Connect Portal. Produkte/Bestände werden meist über eine Schnittstelle eingespielt.",
+        kind: "external",
+        estMinutes: 90,
+        estCost: "0 € (Connector ggf. kostenpflichtig)",
+        checklist: [
+          "Zugang zum OTTO Partner Connect Portal aktivieren + 2-Faktor-Authentifizierung",
+          "Vertragliche Details mit dem zugewiesenen Ansprechpartner klären",
+          "Technische Anbindung wählen: Partner-Connect-API direkt ODER über ERP/Connector (z.B. Xentral, plentymarkets, Tradebyte, Channel-Tools)",
+          "Test-Produkte/Test-Bestellungen durchspielen, bevor du live gehst",
+        ],
+        externalLinks: [
+          { label: "OTTO Partner Connect", url: "https://www.otto.market" },
+        ],
+        extendedNotes: [
+          "Kleinere Händler binden sich oft über einen Connector/Middleware an, größere direkt per Partner-Connect-API. Plane Zeit fürs technische Setup ein.",
+        ],
+      },
+      {
+        slug: "produkt",
+        title: "Produkt anlegen (datenstark)",
+        description: "OTTO hat hohe Anforderungen an Datenqualität. Unvollständige Attribute = keine Veröffentlichung.",
+        kind: "form",
+        estMinutes: 75,
+        estCost: "0 €",
+        checklist: [
+          "Korrekte OTTO-Kategorie + alle Pflicht-Attribute der Kategorie befüllen",
+          "EAN/GTIN je Variante, sauberer Titel + ausführliche Beschreibung",
+          "Bilder nach OTTO-Bildrichtlinien (Freisteller, Auflösung, Anzahl)",
+          "Varianten (Größe/Farbe) korrekt strukturieren",
+          "Datenqualität prüfen – OTTO weist fehlerhafte/unvollständige Produkte zurück",
+        ],
+      },
+      {
+        slug: "service-compliance",
+        title: "Service-Level & Compliance",
+        description: "OTTO erwartet hohe Service-Standards und prüft die übliche EU-Compliance.",
+        kind: "checklist",
+        estMinutes: 30,
+        estCost: "0 €",
+        checklist: [
+          "Service-Level einhalten: schnelle Lieferzeiten, saubere Retourenabwicklung, Erreichbarkeit",
+          "LUCID (Verpackungsregister) + bei Elektro WEEE hinterlegen",
+          "GPSR: verantwortliche Person + Sicherheits-/Warnhinweise",
+          "USt-IdNr / OSS korrekt",
+          "Kennzahlen (Stornoquote, Lieferpünktlichkeit) im Blick behalten – OTTO sanktioniert schwache Performance",
+        ],
+        warning: "OTTO ist service-getrieben: schlechte Liefer-/Stornoquoten führen schnell zu Sichtbarkeitsverlust oder Sperrung. Erst mit sauberer Logistik starten.",
+      },
+    ],
+  },
+
 ];
 
 export const getPlaybook = (slug: string) => PLAYBOOKS.find((p) => p.slug === slug);
