@@ -13426,6 +13426,331 @@ export const PLAYBOOKS: Playbook[] = [
     ],
   },
 
+  // ============================================================
+  // AMAZON MARKENFREISCHALTUNG (BRAND REGISTRY)
+  // ============================================================
+  {
+    slug: "amazon-brand-registry",
+    title: "Amazon Marke freischalten (Brand Registry)",
+    emoji: "👑",
+    icon: Crown,
+    tagline: "Eingetragene Marke im Amazon Brand Registry freischalten",
+    outcome: "Freigeschaltete Marke im Amazon Brand Registry mit Zugriff auf A+ Content, Brand Store, Sponsored Brands, Brand Analytics und Markenschutz-Tools.",
+    duration: "1–3 Wochen (nach eingetragener Marke)",
+    difficulty: "Mittel",
+    totalCost: "0 € (Brand Registry ist gratis) – Markenanmeldung separat 290–850 €",
+    runningCost: "0 € laufend für Brand Registry",
+    steps: [
+      {
+        slug: "voraussetzungen",
+        title: "Voraussetzungen prüfen",
+        description: "Brand Registry verlangt eine aktive oder (über Amazon IP Accelerator) angemeldete Wort- oder Bildmarke. Ohne eingetragene Marke geht es nicht.",
+        kind: "checklist",
+        estMinutes: 20,
+        estCost: "0 €",
+        checklist: [
+          "Eingetragene Wort- oder Bildmarke (DPMA für DE, EUIPO für EU, USPTO für US) – Registernummer parat",
+          "Markenname = exakt der Name, der auf deinen Produkten/Verpackung steht",
+          "Aktives Amazon-Verkäufer- ODER Vendor-Konto",
+          "Marke muss in dem Land/Region eingetragen sein, in dem du verkaufst (EU-Marke deckt alle EU-Marktplätze)",
+          "Alternativ: über IP Accelerator auch mit nur ANGEMELDETER Marke möglich (schneller, aber Anwaltskosten)",
+        ],
+        externalLinks: [
+          { label: "Amazon Brand Registry", url: "https://brandservices.amazon.com" },
+          { label: "DPMA Markenanmeldung (DE)", url: "https://www.dpma.de/marken/anmeldung/" },
+          { label: "EUIPO Markenanmeldung (EU)", url: "https://euipo.europa.eu" },
+        ],
+        warning: "Wenn dein Markenname nicht exakt mit dem Aufdruck auf deinem Produkt übereinstimmt, lehnt Amazon die Verifizierung ab. Erst Marke = Produktaufdruck angleichen.",
+      },
+      {
+        slug: "produkt-vorbereiten",
+        title: "Marke & Produktbilder vorbereiten",
+        description: "Amazon prüft, dass der Markenname dauerhaft auf Produkt oder Verpackung angebracht ist – nicht nur ein Aufkleber.",
+        kind: "checklist",
+        estMinutes: 30,
+        estCost: "0 €",
+        checklist: [
+          "Foto: Markenname dauerhaft auf dem PRODUKT angebracht (eingraviert/gedruckt/genäht)",
+          "Foto: Markenname auf der VERPACKUNG",
+          "Liste der Produktkategorien, in denen die Marke verkauft wird",
+          "Liste der Länder/Marktplätze, in denen vertrieben wird",
+          "Offizielle Markenurkunde (PDF) als Nachweis bereithalten",
+        ],
+        warning: "Reine Etiketten/Sticker werden oft abgelehnt. Der Markenname sollte fest zum Produkt gehören (z.B. Logo aufgedruckt).",
+      },
+      {
+        slug: "einreichen",
+        title: "Marke einreichen & Verifizierung",
+        description: "Im Brand Registry die Marke anmelden. Amazon verifiziert über einen Code, der an den offiziellen Marken-Korrespondenten (meist deinen Marken-Anwalt/Agenten beim Amt) geschickt wird.",
+        kind: "external",
+        estMinutes: 30,
+        estCost: "0 €",
+        checklist: [
+          "Bei brandservices.amazon.com mit Seller/Vendor-Konto einloggen",
+          "Marke anlegen: Name, Markenamt + Registernummer, Kategorien, Länder",
+          "Produkt-/Verpackungsbilder hochladen",
+          "Verifizierungsmethode wählen – Amazon sendet Code an den im Marken-Register hinterlegten Korrespondenten",
+          "Code im Brand Registry eingeben → Prüfung läuft (i.d.R. wenige Tage)",
+        ],
+        externalLinks: [
+          { label: "Brand Registry – Marke anmelden", url: "https://brandservices.amazon.com/brandapplication" },
+        ],
+        extendedNotes: [
+          "Der Verifizierungscode geht an den \"Correspondent\"/Vertreter, der im DPMA/EUIPO-Register zur Marke steht – nicht an dich direkt. Falls du die Marke selbst angemeldet hast, bist das du; bei Anwalts-Anmeldung der Anwalt.",
+          "Bearbeitungszeit der Freischaltung: meist 2–10 Werktage nach Code-Eingabe.",
+        ],
+      },
+      {
+        slug: "tools-aktivieren",
+        title: "Nach Freischaltung: Marken-Tools nutzen",
+        description: "Sobald die Marke aktiv ist, schalten sich die wertvollen Brand-Features frei.",
+        kind: "checklist",
+        estMinutes: 60,
+        estCost: "0 €",
+        checklist: [
+          "A+ Content (erweiterte Produktbeschreibungen mit Bildern) anlegen",
+          "Brand Store (eigene Markenseite) aufbauen",
+          "Sponsored Brands / Sponsored Display freischalten",
+          "Brand Analytics (Such- & Wettbewerbsdaten) nutzen",
+          "\"Report a Violation\"-Tool gegen Hijacker/Counterfeits aktivieren",
+          "Transparency-Programm erwägen (siehe eigener Guide) – nur mit Brand Registry möglich",
+        ],
+      },
+    ],
+  },
+
+  // ============================================================
+  // AMAZON TRANSPARENCY
+  // ============================================================
+  {
+    slug: "amazon-transparency",
+    title: "Amazon Transparency einrichten",
+    emoji: "🔒",
+    icon: Lock,
+    tagline: "Produkte fälschungssicher mit Echtheitscodes pro Einheit",
+    outcome: "Im Transparency-Programm angemeldete Produkte mit eindeutigen, von Amazon vergebenen Echtheitscodes pro Einheit – Schutz vor Counterfeits und Hijackern.",
+    duration: "1–2 Wochen",
+    difficulty: "Mittel",
+    totalCost: "ca. 1–5 ct pro Transparency-Code (Amazon) + Druckkosten",
+    runningCost: "Code-Gebühr pro produzierter Einheit",
+    steps: [
+      {
+        slug: "voraussetzungen",
+        title: "Voraussetzungen",
+        description: "Transparency setzt eine freigeschaltete Marke (Brand Registry) und eigene GTINs voraus.",
+        kind: "checklist",
+        estMinutes: 20,
+        estCost: "0 €",
+        checklist: [
+          "Marke im Amazon Brand Registry freigeschaltet (siehe Guide \"Amazon Marke freischalten\")",
+          "Eigene GS1-GTINs/EANs für die Produkte",
+          "Produkte mit Verpackung, auf die ein Code gedruckt/geklebt werden kann",
+          "Drucker/Dienstleister für die Code-Etiketten",
+        ],
+        externalLinks: [
+          { label: "Amazon Transparency", url: "https://transparency.amazon.com" },
+        ],
+        warning: "Transparency-Codes vergibt ausschließlich Amazon. Sie lassen sich NICHT selbst \"generieren\" oder ableiten – gefälschte Codes sind Betrug und führen zu Account-Sperrung.",
+      },
+      {
+        slug: "anmelden",
+        title: "Produkte im Transparency anmelden",
+        description: "Im Transparency-Portal die Marke verknüpfen und die zu schützenden GTINs hinterlegen.",
+        kind: "external",
+        estMinutes: 30,
+        estCost: "0 €",
+        checklist: [
+          "Bei transparency.amazon.com mit dem Brand-Registry-Konto einloggen",
+          "Marke auswählen / verknüpfen",
+          "GTINs der zu schützenden Produkte eintragen",
+          "Pro Produkt festlegen, ob Codes vom Hersteller oder dir aufgebracht werden",
+        ],
+        externalLinks: [
+          { label: "Transparency – Anmeldung", url: "https://transparency.amazon.com" },
+        ],
+      },
+      {
+        slug: "codes-bestellen-anbringen",
+        title: "Codes bestellen & anbringen",
+        description: "Amazon liefert die eindeutigen Codes (2D-Barcodes). Diese müssen gut sichtbar und scanbar auf jede Einheit.",
+        kind: "checklist",
+        estMinutes: 60,
+        estCost: "1–5 ct/Code",
+        checklist: [
+          "Code-Menge je Charge bestellen (entsprechend deiner Produktionsmenge)",
+          "Codes als Etiketten drucken (lassen) – scharf, ausreichend groß, scanbar",
+          "Auf jede Einzeleinheit/Verpackung anbringen – gut sichtbar, nicht über Falz/Kante",
+          "Stichprobe: Codes mit der Transparency-App testweise scannen",
+        ],
+        extendedNotes: [
+          "Bei FBA scannt Amazon die Codes beim Wareneingang/Versand und authentifiziert jede Einheit. Fehlende/unlesbare Codes können zu Wareneingangs-Problemen führen.",
+          "Plane die Codes IN den Produktions-/Verpackungsprozess ein – nachträgliches Bekleben tausender Einheiten ist teuer.",
+        ],
+      },
+    ],
+  },
+
+  // ============================================================
+  // WEEE / ELEKTROG (STIFTUNG EAR)
+  // ============================================================
+  {
+    slug: "weee-registrierung",
+    title: "WEEE-Registrierung (ElektroG / stiftung ear)",
+    emoji: "♻️",
+    icon: Leaf,
+    tagline: "Elektrogeräte korrekt registrieren und Marktplatz-konform werden",
+    outcome: "Gültige WEEE-Reg.-Nr. (DE…) bei der stiftung ear, hinterlegt bei den Marktplätzen, mit Garantie und laufender Mengenmeldung.",
+    duration: "2–6 Wochen",
+    difficulty: "Mittel",
+    totalCost: "stiftung-ear-Registrierungsgebühr + insolvenzsichere Garantie (B2C)",
+    runningCost: "jährliche Garantie + Mengenmeldungen + ear-Gebühren",
+    steps: [
+      {
+        slug: "einordnung",
+        title: "Ist dein Produkt ein Elektrogerät?",
+        description: "Pflicht nach ElektroG für alle, die Elektro-/Elektronikgeräte (EEE) erstmals in DE in Verkehr bringen – inkl. Importeure und Eigenmarken. Schon ein eingebautes Kabel/Akku/LED kann ein Gerät WEEE-pflichtig machen.",
+        kind: "decision",
+        estMinutes: 30,
+        estCost: "0 €",
+        checklist: [
+          "Hat das Produkt Stromversorgung (Netz, Akku, Batterie, Solar) oder elektronische Komponenten? → meist WEEE-pflichtig",
+          "Eine der 6 Gerätekategorien bestimmen (z.B. Kleingeräte, IT, Leuchten)",
+          "B2C oder B2B? (B2C erfordert zusätzlich eine insolvenzsichere Garantie)",
+          "Bist du \"Hersteller\" im Sinne des ElektroG? (auch Importeur/Eigenmarke = Hersteller)",
+        ],
+        externalLinks: [
+          { label: "stiftung ear", url: "https://www.stiftung-ear.de" },
+        ],
+        warning: "\"Ich verkaufe doch nur weiter\" schützt nicht: Wer aus dem Ausland importiert oder unter Eigenmarke verkauft, gilt als Hersteller und ist registrierungspflichtig.",
+      },
+      {
+        slug: "registrieren",
+        title: "Bei der stiftung ear registrieren",
+        description: "Marke + Geräteart im ear-Portal anmelden. Pro Marke und Geräteart eine Registrierung.",
+        kind: "external",
+        estMinutes: 90,
+        estCost: "Registrierungsgebühr ear",
+        checklist: [
+          "Konto im ear-Portal anlegen",
+          "Marke(n) und jeweilige Geräteart(en) registrieren",
+          "Für B2C-Geräte: insolvenzsichere Garantie nachweisen (Bürgschaft/Versicherung, jährlich)",
+          "Auf Erteilung der WEEE-Reg.-Nr. (Format DE + Ziffern) warten",
+        ],
+        externalLinks: [
+          { label: "ear-Portal Registrierung", url: "https://www.stiftung-ear.de/de/service/anmeldung" },
+        ],
+        extendedNotes: [
+          "Die Garantie für B2C-Geräte ist der größte Kostenblock und muss jährlich erneuert/angepasst werden – Höhe richtet sich nach gemeldeten Mengen.",
+          "Bearbeitung der Registrierung dauert oft mehrere Wochen – früh starten, BEVOR du Geräte listest.",
+        ],
+      },
+      {
+        slug: "marktplatz-pflichten",
+        title: "WEEE-Nr. hinterlegen & laufende Pflichten",
+        description: "Seit 2023 müssen Marktplätze die WEEE-Registrierung prüfen – ohne Nummer wird gesperrt. Dazu kommen laufende Melde- und Kennzeichnungspflichten.",
+        kind: "checklist",
+        estMinutes: 45,
+        estCost: "laufende ear-Gebühren",
+        checklist: [
+          "WEEE-Reg.-Nr. im Amazon Seller Central (Compliance) und in anderen Marktplätzen hinterlegen",
+          "Symbol \"durchgestrichene Mülltonne\" auf Geräten/Verpackung anbringen",
+          "Mengen regelmäßig an die ear melden (in Verkehr gebrachte Mengen)",
+          "Rücknahme-/Entsorgungspflichten beachten",
+          "Für ANDERE EU-Länder: separate WEEE-Registrierung + Bevollmächtigter pro Land (DE-Nr. gilt NICHT für FR/IT/ES/…)",
+        ],
+        warning: "Eine deutsche WEEE-Nr. deckt nur Deutschland ab. Wer Pan-EU/in andere EU-Länder verkauft, braucht je Land eine eigene WEEE-Registrierung über einen Bevollmächtigten – sonst drohen dort Sperren/Bußgelder.",
+      },
+    ],
+  },
+
+  // ============================================================
+  // AMAZON PRODUKT / LISTING ANLEGEN
+  // ============================================================
+  {
+    slug: "amazon-produkt-anlegen",
+    title: "Amazon Produkt anlegen (Listing)",
+    emoji: "📦",
+    icon: Store,
+    tagline: "Neues Produkt-Listing (ASIN) sauber und konform erstellen",
+    outcome: "Veröffentlichtes, konformes Amazon-Listing mit GTIN, optimiertem Titel/Bildern/Bullets und gesetztem Angebot (FBA oder FBM).",
+    duration: "1–3 Tage",
+    difficulty: "Einfach",
+    totalCost: "GS1-GTIN-Lizenz (jährlich, ab ~50 €) oder GTIN-Befreiung 0 €",
+    runningCost: "GS1-Lizenz jährlich",
+    steps: [
+      {
+        slug: "gtin",
+        title: "GTIN/EAN besorgen",
+        description: "Amazon verlangt für neue Produkte eine gültige GTIN (EAN/UPC) von GS1 – oder eine GTIN-Befreiung (z.B. für Eigenmarken ohne Barcode).",
+        kind: "decision",
+        estMinutes: 30,
+        estCost: "GS1-Lizenz ab ~50 €/Jahr",
+        checklist: [
+          "Eigene Marke? → GS1-GTINs von GS1 Germany kaufen (offiziell, von Amazon akzeptiert)",
+          "KEINE wiederverkauften/Billig-EANs aus Drittquellen – Amazon prüft den GS1-Eigentümer und sperrt sonst",
+          "Alternativ: GTIN-Befreiung im Seller Central beantragen (für markenlose/handgemachte Produkte)",
+          "GTINs den jeweiligen Produktvarianten zuordnen",
+        ],
+        externalLinks: [
+          { label: "GS1 Germany (GTIN/EAN)", url: "https://www.gs1-germany.de" },
+          { label: "Amazon GTIN-Befreiung beantragen", url: "https://sellercentral.amazon.de/help/hub/reference/external/G201844590" },
+        ],
+        warning: "Günstige \"EAN-Codes\" von eBay/Drittanbietern führen regelmäßig zu Listing-Sperren, weil der GS1-Eigentümer nicht zu deiner Marke passt. Nur offizielle GS1-GTINs oder GTIN-Befreiung nutzen.",
+      },
+      {
+        slug: "match-oder-neu",
+        title: "Andocken oder neu anlegen?",
+        description: "Existiert das identische Produkt schon, dockst du an die bestehende ASIN an. Nur ein wirklich neues Produkt legst du komplett neu an.",
+        kind: "decision",
+        estMinutes: 20,
+        estCost: "0 €",
+        checklist: [
+          "Im Katalog nach GTIN/Produkt suchen – existiert die ASIN bereits?",
+          "Identisches Produkt vorhanden → als Angebot an bestehende ASIN andocken (kein neues Listing)",
+          "Wirklich neues Produkt/eigene Marke → neues Listing anlegen",
+          "Bei eigener Marke: vorher Brand Registry (sonst kein A+/Schutz) – siehe Guide",
+        ],
+      },
+      {
+        slug: "listing-erstellen",
+        title: "Listing-Inhalte erstellen",
+        description: "Titel, Bilder und Bullets entscheiden über Sichtbarkeit und Conversion. Amazon hat klare Bild-/Text-Vorgaben.",
+        kind: "form",
+        estMinutes: 90,
+        estCost: "0 €",
+        checklist: [
+          "Titel: Marke + Produkt + wichtigste Merkmale, keine Werbephrasen/Großbuchstaben-Spam",
+          "Hauptbild: Produkt freigestellt auf REINEM WEISS, mind. 1000×1000 px (Zoom-fähig)",
+          "Weitere Bilder: Anwendung, Größe/Maße, Lieferumfang, Detailaufnahmen",
+          "5 Bullet Points: Nutzen statt nur Features, scanbar",
+          "Beschreibung bzw. A+ Content (nur mit Brand Registry)",
+          "Backend-Suchbegriffe / Keywords sinnvoll füllen (keine Wiederholungen)",
+          "Korrekte Kategorie + Produktattribute (Material, Maße, Zielgruppe)",
+        ],
+        warning: "Falsche Kategorie oder fehlende Pflichtattribute = Listing wird unterdrückt (\"suppressed\") und ist nicht auffindbar.",
+      },
+      {
+        slug: "angebot-compliance",
+        title: "Angebot setzen & Compliance",
+        description: "Preis, Versandart und – wichtig – die regulatorischen Nachweise, bevor du veröffentlichst.",
+        kind: "checklist",
+        estMinutes: 45,
+        estCost: "0 €",
+        checklist: [
+          "Preis + Zustand (neu) festlegen",
+          "Fulfillment wählen: FBA (Amazon versendet) oder FBM (du versendest)",
+          "GPSR: Verantwortliche Person + Sicherheits-/Warnhinweise hinterlegen (EU-Pflicht)",
+          "Bei Elektrogeräten: WEEE-Reg.-Nr. hinterlegen (siehe WEEE-Guide)",
+          "Verpackungsgesetz: LUCID-Registriernr. hinterlegen",
+          "Veröffentlichen → nach Freischaltung Listing live prüfen (Bilder, Variationen, Buy-Box)",
+        ],
+        extendedNotes: [
+          "Compliance-Felder (GPSR, WEEE, LUCID) sind seit 2024/2025 zunehmend Pflicht – fehlen sie, blockiert Amazon das Listing oder den Verkauf in der EU.",
+        ],
+      },
+    ],
+  },
+
 ];
 
 export const getPlaybook = (slug: string) => PLAYBOOKS.find((p) => p.slug === slug);
