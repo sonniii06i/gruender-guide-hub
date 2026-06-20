@@ -474,6 +474,42 @@ const UsLlcWizard = () => {
               <strong>Tipp:</strong> Registered Agent ALS ERSTES booken — Adresse + Receipt brauchst
               du für Articles of Organization (nächster Schritt).
             </div>
+
+            {/* Mailing-Adresse / Virtual Mailbox */}
+            <div className="rounded-xl border border-border bg-secondary/30 p-4 mt-4 text-xs">
+              <div className="font-bold text-sm mb-1">📬 US-Mailing-Adresse (NICHT = Registered Agent!)</div>
+              <p className="text-muted-foreground mb-3">
+                Die Registered-Agent-Adresse ist NUR für Behörden-/Gerichtspost — sie leitet dir
+                weder Bank-Post, Debit-Karten, Stripe-Briefe noch Pakete zuverlässig weiter. Für eine
+                echte US-Geschäftsadresse (Stripe-Onboarding, Bank-Statements, Karten-Versand,
+                Lieferanten) brauchst du eine <strong>Virtual Mailbox (CMRA)</strong> mit echter
+                Street-Address.
+              </p>
+              <div className="space-y-1.5">
+                {[
+                  { name: "Stable (usestable.com)", note: "Für Startups gebaut, echte Street-Address (kein PO-Box), Check-Deposit, Online-Notar für Form 1583. ~$25-50/Mo.", url: "https://www.usestable.com" },
+                  { name: "US Global Mail", note: "Etabliert, Houston-TX-Adresse, Paket-Forwarding nach DE. ~$15-20/Mo.", url: "https://www.usglobalmail.com" },
+                  { name: "Anytime Mailbox", note: "Günstigste Option, viele Städte ab ~$10/Mo, App-basiert.", url: "https://www.anytimemailbox.com" },
+                  { name: "iPostal1", note: "3.000+ Adressen US-weit, gute App, Paket-Annahme.", url: "https://ipostal1.com" },
+                ].map((o) => (
+                  <div key={o.name} className="rounded-lg bg-card border border-border p-2">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="font-semibold">{o.name}</span>
+                      <a href={o.url} target="_blank" rel="noopener noreferrer" className="text-[11px] text-accent-blue hover:underline inline-flex items-center gap-0.5 shrink-0">
+                        Website <ExternalLink className="h-3 w-3" />
+                      </a>
+                    </div>
+                    <div className="text-muted-foreground mt-0.5">{o.note}</div>
+                  </div>
+                ))}
+              </div>
+              <div className="rounded-lg border border-amber-500/30 bg-amber-500/5 p-2 mt-2">
+                <AlertTriangle className="h-3 w-3 inline mr-1 text-amber-700" />
+                <strong>Pflicht:</strong> Alle CMRAs verlangen <strong>USPS Form 1583</strong> + 2
+                Ausweise (Online-Notar aus DE OK). Nimm IMMER eine echte Street-Address —{" "}
+                <strong>PO-Box wird von Mercury & Stripe abgelehnt</strong>.
+              </div>
+            </div>
           </>
         )}
 
@@ -691,6 +727,17 @@ const UsLlcWizard = () => {
                 </div>
               )}
             </div>
+
+            <div className="rounded-xl border border-blue-500/30 bg-blue-500/5 p-3 mt-3 text-xs">
+              <Info className="h-3 w-3 inline mr-1 text-blue-700" />
+              <strong>Begriffs-Klärung „TIN":</strong>
+              <ul className="list-disc pl-4 mt-1 space-y-0.5 text-muted-foreground">
+                <li><strong>TIN</strong> (Taxpayer Identification Number) ist der Oberbegriff. Wenn Stripe/Bank nach der „US Tax ID / TIN" deiner Firma fragt, meinen sie die <strong>EIN</strong>.</li>
+                <li>Deine LLC-TIN = <strong>EIN</strong> (Employer Identification Number, oben beantragt).</li>
+                <li>Deine persönliche US-TIN = <strong>SSN</strong> (falls vorhanden) oder <strong>ITIN</strong> für Nicht-Residenten.</li>
+                <li>Single-Member-LLC (Disregarded Entity): fürs Banking reicht i.d.R. die EIN — die ITIN brauchst du nur, wenn du selbst eine US-Steuererklärung abgeben musst.</li>
+              </ul>
+            </div>
           </>
         )}
 
@@ -838,6 +885,19 @@ const UsLlcWizard = () => {
                   </a>
                 </button>
               ))}
+            </div>
+
+            <div className="rounded-xl border border-border bg-secondary/30 p-4 mb-3 text-xs">
+              <div className="font-bold text-sm mb-2">💳 Debit-/Kredit-Karten zur LLC</div>
+              <ul className="space-y-1.5 text-muted-foreground">
+                <li><strong className="text-foreground">Mercury:</strong> sofort unbegrenzt virtuelle Debit-Mastercards + physische Karte (Versand weltweit). <strong>Mercury IO Credit Card</strong> (1,5% Cashback) sobald Guthaben da ist — ohne Personal Guarantee, durch Saldo gedeckt.</li>
+                <li><strong className="text-foreground">Wise Business:</strong> physische + virtuelle Wise-Debit-Mastercard, Ausgaben in 40+ Währungen mit Echtkurs. Ideal für globale Ad-Spends/Lieferanten.</li>
+                <li><strong className="text-foreground">Relay:</strong> bis zu 50 virtuelle + physische Visa-Debitkarten — gut zum Trennen von Ad-Konten/Team-Ausgaben.</li>
+                <li><strong>Klassische US-Kreditkarten</strong> (Amex/Chase) brauchen SSN + US-Credit-History → früh unrealistisch. Mercury IO oder Brex sind die nächste Stufe (Brex lehnt kleine non-VC-LLCs oft ab).</li>
+              </ul>
+              <div className="text-[11px] text-muted-foreground mt-2">
+                Karten gehen an deine Virtual-Mailbox-Adresse (Step 4), nicht an den Registered Agent.
+              </div>
             </div>
 
             <div className="text-[11px] text-muted-foreground mb-3">

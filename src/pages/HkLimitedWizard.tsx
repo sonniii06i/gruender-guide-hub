@@ -382,6 +382,16 @@ const HkLimitedWizard = () => {
               Service-Provider-Adressen abzulehnen. Für Banking-Approval ist Virtual-Office mit
               echtem Lease oder echtes Office stärker.
             </div>
+
+            <div className="rounded-xl border border-blue-500/30 bg-blue-500/5 p-3 mt-3 text-xs">
+              <Info className="h-3 w-3 inline mr-1 text-blue-700" />
+              <strong>Mail-Handling & Paket-/Karten-Empfang:</strong> Das Registered Office ist die
+              offizielle Postadresse für Behörden. Für Mail-Scan/Weiterleitung inkludieren
+              Sleek/Statrys/Osome meist Scan-to-App. Für Kuriere/Pakete — z.B. den Versand deiner
+              Bank-Karte — nutze die CS-Adresse oder ein Virtual Office mit Reception
+              (Regus/Servcorp); reine Registered-Office-Adressen nehmen oft keine Pakete an. Tipp:
+              Fintech-Karten (Statrys/Airwallex) liefern an deine DE-Adresse, das umgeht das Problem.
+            </div>
           </>
         )}
 
@@ -641,6 +651,16 @@ const HkLimitedWizard = () => {
                 Annahme: 20% Marge auf {annualRevenue.toLocaleString("de-DE")} EUR Umsatz
               </div>
             </div>
+
+            <div className="rounded-xl border border-blue-500/30 bg-blue-500/5 p-3 mt-3 text-xs">
+              <Info className="h-3 w-3 inline mr-1 text-blue-700" />
+              <strong>HK hat keine separate „TIN":</strong>
+              <ul className="list-disc pl-4 mt-1 space-y-0.5 text-muted-foreground">
+                <li>Die <strong>Business Registration Number (BRN)</strong> — die 8-stellige Nummer auf dem BR-Certificate — gilt als Firmen-TIN. Genau die tragen Stripe / ausländische Banken / CRS-Formulare als HK-Entity-TIN ein.</li>
+                <li>Persönliche TIN = <strong>HKID-Nummer</strong> (Residents) bzw. Pass-Referenz für Nicht-Residenten.</li>
+                <li>Die IRD führt intern eine File-Number, aber nach außen ist die BRN der Identifier — du brauchst keinen separaten TIN-Antrag.</li>
+              </ul>
+            </div>
           </>
         )}
 
@@ -678,6 +698,20 @@ const HkLimitedWizard = () => {
                   </div>
                 </button>
               ))}
+            </div>
+
+            <div className="rounded-xl border border-border bg-secondary/30 p-4 mb-3 text-xs">
+              <div className="font-bold text-sm mb-2">💳 Karten zum HK-Konto</div>
+              <ul className="space-y-1.5 text-muted-foreground">
+                <li><strong className="text-foreground">Statrys:</strong> physische + virtuelle Prepaid-Mastercard, Multi-Currency direkt am Konto.</li>
+                <li><strong className="text-foreground">Airwallex:</strong> unbegrenzt virtuelle + physische <strong>Borderless-Visa-Karten</strong>, Employee-Cards, niedrige FX — ideal für Meta/TikTok/Google-Ad-Spend.</li>
+                <li><strong className="text-foreground">Currenxie:</strong> Global Account mit virtuellen Karten, FX-fokussiert.</li>
+                <li><strong className="text-foreground">HSBC HK:</strong> ATM-/Debitkarte zum Konto; Business-Kreditkarte erst mit echter HK-Präsenz + Bankbeziehung.</li>
+              </ul>
+              <div className="text-[11px] text-muted-foreground mt-2">
+                Für D2C/Performance-Marketing: Airwallex-Multi-Currency-Karten sind Standard für
+                Ad-Spend mit niedrigem Währungsverlust; Versand der Karten an deine DE-Adresse möglich.
+              </div>
             </div>
 
             <div className="rounded-xl border border-red-500/30 bg-red-500/5 p-3 text-xs mb-3">
