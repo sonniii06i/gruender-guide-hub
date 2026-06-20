@@ -469,10 +469,46 @@ const UsLlcWizard = () => {
                 </button>
               ))}
             </div>
-            <div className="rounded-xl border border-blue-500/30 bg-blue-500/5 p-3 text-xs">
+
+            {/* Konkreter Rundown beim Empfehlungs-Anbieter */}
+            <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-4 text-xs">
+              <div className="font-bold text-sm mb-1 flex items-center gap-2 text-emerald-700">
+                <CheckCircle2 className="h-4 w-4" /> Empfehlung: Northwest Registered Agent — so machst du's
+              </div>
+              <p className="text-muted-foreground mb-2">
+                Branchen-Standard für non-US Founder: privacy-freundlich (eigene Adresse statt deiner),
+                Mail wird gescannt statt weiterverkauft, klarer Festpreis ohne Upsell-Spam. Zwei Wege:
+              </p>
+              <div className="rounded-lg bg-card border border-border p-2 mb-2">
+                <div className="font-semibold mb-1">💡 Trick: Formation-Paket statt nur RA</div>
+                <p className="text-muted-foreground">
+                  Buchst du bei Northwest gleich die <strong>LLC-Formation ($39 + State-Fee)</strong>, ist
+                  das <strong>Registered-Agent-Jahr 1 GRATIS</strong> (danach $125/yr). Northwest filet
+                  dann auch die Articles of Organization (Step 5) für dich — du sparst dir das
+                  SOS-Portal komplett.
+                </p>
+              </div>
+              <div className="font-semibold mb-1">Schritt für Schritt:</div>
+              <ol className="list-decimal pl-4 space-y-1 text-muted-foreground">
+                <li>Auf <a href="https://www.northwestregisteredagent.com" target="_blank" rel="noopener noreferrer" className="text-accent-blue underline">northwestregisteredagent.com</a> → „Form an LLC" (Formation) oder „Registered Agent Service" (nur RA).</li>
+                <li>Bundesstaat wählen ({stateInfo.name}) + LLC-Namen eingeben (aus Step 3).</li>
+                <li>Bei Formation: Member-/Manager-Daten + deine DE-Wohnadresse als Owner-Adresse (kein Problem, bleibt non-public bei WY).</li>
+                <li>Northwest setzt sich automatisch als Registered Agent ein — du musst keine US-Adresse haben.</li>
+                <li>Bezahlen per Kreditkarte (DE-Karte funktioniert; ~$39 + State-Fee bzw. $125 RA-only).</li>
+                <li>Im Dashboard bekommst du: RA-Adresse sofort, nach SOS-Approval (1–10 Tage) die <strong>„stamped" Articles als PDF</strong> + EIN-Antrags-Hilfe.</li>
+                <li>Eingehende Behördenpost erscheint gescannt im Dashboard — kein physisches Forwarding nötig.</li>
+                <li>Renewal: jährlich automatisch $125, Erinnerung per Mail.</li>
+              </ol>
+              <div className="text-[11px] text-muted-foreground mt-2">
+                Alternativ <strong>Harbor Compliance</strong> ($89/yr) wenn du die Articles selbst filest und nur den RA brauchst.
+              </div>
+            </div>
+
+            <div className="rounded-xl border border-blue-500/30 bg-blue-500/5 p-3 text-xs mt-3">
               <Info className="h-3 w-3 inline mr-1 text-blue-700" />
               <strong>Tipp:</strong> Registered Agent ALS ERSTES booken — Adresse + Receipt brauchst
-              du für Articles of Organization (nächster Schritt).
+              du für Articles of Organization (nächster Schritt). Mit dem Formation-Paket oben fällt
+              dieser Schritt ohnehin mit Step 5 zusammen.
             </div>
 
             {/* Mailing-Adresse / Virtual Mailbox */}

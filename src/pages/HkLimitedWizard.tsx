@@ -334,6 +334,34 @@ const HkLimitedWizard = () => {
                 </button>
               ))}
             </div>
+            {/* Konkreter Rundown beim Empfehlungs-Anbieter */}
+            <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-4 text-xs mb-3">
+              <div className="font-bold text-sm mb-1 flex items-center gap-2 text-emerald-700">
+                <CheckCircle2 className="h-4 w-4" /> Empfehlung: Sleek HK — so machst du's
+              </div>
+              <p className="text-muted-foreground mb-2">
+                Für Solo-Founder die beste All-in-1-Lösung: Sleek übernimmt Incorporation +
+                Company Secretary + Registered Office + SCR + Buchhaltung in EINEM Flow — du fasst
+                kein Behörden-Portal selbst an. (Statrys wenn du Banking + CS aus einer Hand willst,
+                Osome wenn billigste automatisierte Buchhaltung Priorität ist.)
+              </p>
+              <div className="font-semibold mb-1">Schritt für Schritt:</div>
+              <ol className="list-decimal pl-4 space-y-1 text-muted-foreground">
+                <li>Auf <a href="https://sleek.com/hk" target="_blank" rel="noopener noreferrer" className="text-accent-blue underline">sleek.com/hk</a> → „Incorporate a company" (Neugründung) starten.</li>
+                <li>Firmennamen (EN, optional CN) eingeben — Sleek prüft live gegen Companies Registry (= Step 3).</li>
+                <li>Director/Shareholder erfassen: du als DE-Resident, kein HK-Visum nötig (= Step 2).</li>
+                <li>KYC: Pass + Wohnsitznachweis (Utility-Bill/Bankauszug) hochladen — für SCR Pflicht.</li>
+                <li>Paket wählen: Incorporation-Bundle inkl. <strong>CS + Registered Office + 1. BR-Jahr</strong>; bezahlen per DE-Kreditkarte.</li>
+                <li>Sleek filet <strong>NNC1 + Business Registration</strong> (Step 7) für dich — Approval i.d.R. 1–3 Werktage.</li>
+                <li>Im Dashboard bekommst du: <strong>Certificate of Incorporation + BR-Certificate (mit BRN!)</strong> + Articles als PDF.</li>
+                <li>Sleek legt das <strong>SCR</strong> an und stellt den Designated Representative (= Step 8) — läuft automatisch mit.</li>
+                <li>Danach: Bank-Antrag (Step 10) mit den Sleek-Dokumenten; Renewals (Annual Return, BR, Audit-Koordination) erinnert Sleek jährlich.</li>
+              </ol>
+              <div className="text-[11px] text-muted-foreground mt-2">
+                Die CI + BR-Dokumente aus Schritt 7 sind genau das, was Statrys/Airwallex später fürs Konto verlangen.
+              </div>
+            </div>
+
             <div className="rounded-xl border border-blue-500/30 bg-blue-500/5 p-3 text-xs">
               <Info className="h-3 w-3 inline mr-1 text-blue-700" />
               <strong>TCSP-Pflicht seit 2018:</strong> Provider müssen TCSP-Lizenz (Trust or Company Service Provider)
