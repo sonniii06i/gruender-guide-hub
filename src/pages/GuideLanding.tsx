@@ -44,6 +44,21 @@ const GuideLanding = () => {
   });
   const related = relatedGuides(slug);
 
+  // Sichtbarer Ablauf-Umriss: alle Schritt-Titel, aber Beschreibung nur als
+  // Content-Sample für die ersten Schritte. Checklisten, Formulare, Ämter-Links,
+  // Warnungen und Kosten-Tipps werden NICHT gerendert → bleiben hinter der Paywall.
+  const SAMPLE = 3;
+  const outline = {
+    heading: `Ablauf in ${guide.steps} Schritten`,
+    steps: guide.outline.map((s, i) => ({
+      title: s.title,
+      description: i < SAMPLE ? s.description : undefined,
+      meta: i < SAMPLE ? `ca. ${s.estMinutes} Min${s.estCost ? ` · ${s.estCost}` : ""}` : `ca. ${s.estMinutes} Min`,
+    })),
+    gateNote:
+      "Die ersten Schritte siehst du hier als Vorschau. Die vollständige Anleitung — mit Checklisten, ausfüllbaren Formularen, Direkt-Links zu Ämtern & Registern, Warnungen vor teuren Fehlern und Kosten-Tipps — schaltest du im GründerX-Cockpit frei.",
+  };
+
   const faq: LandingFaq[] = [
     { q: `Was bringt mir der Guide „${guide.title}"?`, a: `${guide.outcome} Du wirst in ${guide.steps} Schritten begleitet — Aufwand ca. ${guide.duration}, Schwierigkeit: ${guide.difficulty}.` },
     {
@@ -64,7 +79,12 @@ const GuideLanding = () => {
       description: copy.seoDescription,
       totalTime: guide.duration,
       url: `${SITE}/guides/${guide.slug}`,
-      step: { "@type": "HowToStep", name: `${guide.steps} Schritte im GründerX-Cockpit` },
+      step: guide.outline.map((s, i) => ({
+        "@type": "HowToStep",
+        position: i + 1,
+        name: s.title,
+        ...(i < SAMPLE ? { text: s.description } : {}),
+      })),
     },
     {
       "@context": "https://schema.org",
@@ -94,6 +114,7 @@ const GuideLanding = () => {
       lead={copy.lead}
       urgency={copy.urgency}
       outcomes={copy.outcomes}
+      outline={outline}
       disclaimer={copy.disclaimer}
       faq={faq}
       ctaTitle={`„${guide.title}" Schritt für Schritt im GründerX-Cockpit`}

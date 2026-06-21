@@ -3,11 +3,26 @@ import { Navbar } from "@/components/landing/Navbar";
 import { Footer } from "@/components/landing/Footer";
 import { Seo } from "@/components/Seo";
 import { Button } from "@/components/ui/button";
-import { Sparkles, ArrowRight, Check, Lock, TrendingUp, Info } from "lucide-react";
+import { Sparkles, ArrowRight, Check, Lock, TrendingUp, Info, Clock } from "lucide-react";
 
 export interface LandingFaq {
   q: string;
   a: string;
+}
+
+export interface OutlineStep {
+  title: string;
+  /** Nur für die ersten paar Schritte sichtbar (Content-Sample). */
+  description?: string;
+  meta?: string;
+}
+
+export interface LandingOutline {
+  /** Überschrift, z.B. "Ablauf in 12 Schritten". */
+  heading: string;
+  steps: OutlineStep[];
+  /** Hinweis, dass die Detail-Anleitung hinter der Paywall liegt. */
+  gateNote: string;
 }
 
 export interface RelatedLink {
@@ -34,6 +49,8 @@ export interface LandingPageProps {
   urgency: string;
   /** "Das hast du am Ende" — Ergebnis-Bullets */
   outcomes: string[];
+  /** Optionaler Ablauf-Umriss (für Guides) — sichtbarer Content, Detail gegated */
+  outline?: LandingOutline;
   /** Ehrlicher Kurz-Disclaimer */
   disclaimer: string;
   /** FAQ (für Snippet + JSON-LD bereits oben eingebettet) */
@@ -104,6 +121,42 @@ export const LandingPage = (p: LandingPageProps) => {
                 </li>
               ))}
             </ul>
+          </section>
+        )}
+
+        {/* Ablauf-Umriss (Guides): sichtbare Struktur, Detail hinter Paywall */}
+        {p.outline && p.outline.steps.length > 0 && (
+          <section className="mb-8">
+            <h2 className="text-xl md:text-2xl font-bold tracking-tight mb-4">{p.outline.heading}</h2>
+            <ol className="space-y-3">
+              {p.outline.steps.map((s, i) => (
+                <li key={i} className="rounded-xl border border-border bg-card p-4">
+                  <div className="flex items-start gap-3">
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent-blue/10 text-[11px] font-semibold text-accent-blue">
+                      {i + 1}
+                    </span>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <p className="font-medium text-sm">{s.title}</p>
+                        {!s.description && <Lock className="h-3 w-3 text-muted-foreground/70" />}
+                      </div>
+                      {s.description && (
+                        <p className="text-sm text-muted-foreground leading-relaxed mt-1">{s.description}</p>
+                      )}
+                      {s.meta && (
+                        <p className="text-[11px] text-muted-foreground/80 mt-1.5 flex items-center gap-1">
+                          <Clock className="h-3 w-3" /> {s.meta}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ol>
+            <p className="text-xs text-muted-foreground leading-relaxed mt-4 flex items-start gap-2">
+              <Lock className="h-3.5 w-3.5 mt-0.5 shrink-0" />
+              <span>{p.outline.gateNote}</span>
+            </p>
           </section>
         )}
 

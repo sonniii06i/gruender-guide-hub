@@ -4,6 +4,19 @@
 
 import { PLAYBOOKS, type Playbook } from "./playbooks";
 
+/**
+ * Öffentlich zeigbarer Schritt-Umriss. ENTHÄLT BEWUSST NUR Titel + kurze
+ * Beschreibung + Zeit/Kosten — also den Ablauf-Überblick. Das eigentlich
+ * Umsetzbare (checklist, fields, externalLinks, warning, extendedNotes) wird
+ * hier NICHT übernommen und bleibt damit hinter der Paywall (/playbook/...).
+ */
+export interface GuideOutlineStep {
+  title: string;
+  description: string;
+  estMinutes: number;
+  estCost?: string;
+}
+
 export interface GuideLandingEntry {
   slug: string;
   title: string;
@@ -14,6 +27,7 @@ export interface GuideLandingEntry {
   totalCost?: string;
   runningCost?: string;
   steps: number;
+  outline: GuideOutlineStep[];
 }
 
 export const GUIDE_LANDINGS: GuideLandingEntry[] = PLAYBOOKS.map((p) => ({
@@ -26,6 +40,13 @@ export const GUIDE_LANDINGS: GuideLandingEntry[] = PLAYBOOKS.map((p) => ({
   totalCost: p.totalCost,
   runningCost: p.runningCost,
   steps: p.steps.length,
+  // Nur die nicht-umsetzungskritischen Felder herausgreifen.
+  outline: p.steps.map((s) => ({
+    title: s.title,
+    description: s.description,
+    estMinutes: s.estMinutes,
+    estCost: s.estCost,
+  })),
 }));
 
 export const findGuideLanding = (slug: string): GuideLandingEntry | undefined =>
