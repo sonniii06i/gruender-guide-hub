@@ -146,19 +146,19 @@ const COUNTRIES: Record<string, CountryData> = {
   zypern: {
     flag: "🇨🇾",
     name: "Zypern",
-    cit: 12.5,
+    cit: 15, // Cyprus CIT 15% ab 1.1.2026 (Pillar Two); zuvor 12,5% — Quelle KPMG/PwC Cyprus 2026
     dividendWHT: 0,
     dividendWHTwithDBA: 0,
     minStakeForDBA: 0,
     motherDaughter: true,
-    isLowTaxCountry: true,
+    isLowTaxCountry: false, // 15% liegt AUF der §AStG-Schwelle (15%) → nicht mehr niedrig besteuert
     notes: [
       "0% national WHT auf Out-Dividenden (non-resident Empfänger)",
       "IP-Box: 2,5% effektiv auf qualifizierte IP-Einkünfte",
       "Notional Interest Deduction (NID) für Eigenkapital-Strukturierung",
       "Substance-Test §50d Abs. 3 EStG kritisch bei DE-Empfänger",
     ],
-    citSource: "Cyprus Tax Department 2025",
+    citSource: "Cyprus 15% CIT ab 2026 (KPMG/PwC)",
   },
   malta: {
     flag: "🇲🇹",
@@ -302,6 +302,7 @@ const COUNTRIES: Record<string, CountryData> = {
       "Territoriales Prinzip: Auslands-Profite steuerfrei (FSIE-Regime seit 2023 verschärft Passive-Income)",
       "Offshore-Status: 0% bei rein extraterritorialen Aktivitäten",
       "0% WHT auf Out-Dividenden national",
+      "KEIN umfassendes DBA Deutschland–HK in Kraft (nur beschränktes Schiff-/Luftverkehrs-Abkommen 2011; Comprehensive DTA seit 2014 in Verhandlung) → keine DBA-Quellensteuerreduktion, §AStG-Risiko höher",
     ],
     citSource: "Hong Kong IRD Two-Tiered Profits Tax 2025",
   },

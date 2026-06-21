@@ -27,7 +27,7 @@ import {
 // - HKMA Stablecoin-Lizenz April 2026 → strengere Bank-KYC
 // - Banking-Realität: HSBC verlangt persönliche HK-Vorstellung
 //   (~40-60% Ablehnungs-Quote bei Foreign-Founders)
-// - DBA DE-HK seit 2011 in Kraft (Quellensteuer-Reduktion)
+// - KEIN umfassendes DBA DE-HK in Kraft (nur beschränktes Schiff-/Luftverkehrs-Abkommen 2011; Comprehensive DTA seit 2014 in Verhandlung, nicht in Kraft) → keine DBA-Quellensteuerreduktion, §AStG-Risiko höher
 // ============================================================
 
 const STEP_LABELS = [
@@ -67,8 +67,8 @@ const HkLimitedWizard = () => {
   }, [annualRevenue, profitMargin, offshoreClaim]);
 
   const totalSetupCost = useMemo(() => {
-    const filing = 1720;
-    const br = 250;
+    const filing = 1720; // Papier-Satz NNC1 (elektronisch HKD 1.545); Quelle cr.gov.hk
+    const br = 2350; // Business Registration HKD 2.200 + HKD 150 Levy, Stand ab 1.4.2026; Quelle ird.gov.hk
     const cs: Record<string, number> = {
       statrys: 1500,
       sleek: 1200,
@@ -481,7 +481,7 @@ const HkLimitedWizard = () => {
                 </div>
                 <ul className="text-xs space-y-1 text-muted-foreground list-disc pl-4">
                   <li>Form NNC1 + Articles of Association einreichen</li>
-                  <li>Filing-Fee: <strong className="text-foreground">HKD 1.720</strong> (Online) / HKD 1.920 (Papier)</li>
+                  <li>Filing-Fee: <strong className="text-foreground">HKD 1.545</strong> (elektronisch) / HKD 1.720 (Papier), zzgl. HKD 265 Document-Storage-Fee</li>
                   <li>Express "guaranteed-by-date": +HKD 505</li>
                   <li>Approval: 1 Werktag (Online) / 4 Werktage (Papier)</li>
                   <li>Output: Certificate of Incorporation (CI)</li>
@@ -502,7 +502,7 @@ const HkLimitedWizard = () => {
                 </div>
                 <ul className="text-xs space-y-1 text-muted-foreground list-disc pl-4">
                   <li>Automatisch parallel mit NNC1 (One-Stop)</li>
-                  <li>Fee: <strong className="text-foreground">HKD 250 für 1 Jahr</strong> oder HKD 3.950 für 3 Jahre</li>
+                  <li>Fee: <strong className="text-foreground">HKD 2.350/Jahr</strong> (HKD 2.200 + HKD 150 Levy, Stand ab 1.4.2026) oder HKD 6.170 für 3 Jahre</li>
                   <li>Output: Business Registration Certificate (BR)</li>
                   <li>BR muss am Geschäftsort ausgehängt werden (auch Virtual Office)</li>
                   <li>Renewal automatisch — IRD schickt Erinnerung</li>
@@ -765,7 +765,7 @@ const HkLimitedWizard = () => {
           <>
             <h2 className="text-base font-bold mb-1">11. Audit + Annual Returns</h2>
             <p className="text-xs text-muted-foreground mb-4">
-              JÄHRLICHE Pflichten — selbst bei 0 Umsatz! Versäumnis = HKD 8.700+ Strafen.
+              JÄHRLICHE Pflichten — selbst bei 0 Umsatz! Versäumnis = bis HKD 3.480 Late-Filing-Fee (NAR1).
             </p>
 
             <div className="space-y-3">
@@ -786,7 +786,7 @@ const HkLimitedWizard = () => {
                 <ul className="text-muted-foreground list-disc pl-4 space-y-0.5">
                   <li>Frist: 42 Tage nach Anniversary-Date der Gründung</li>
                   <li>Fee: HKD 105 (Private Company)</li>
-                  <li>Bei Versäumnis: progressiv steigende Strafgebühr bis HKD 8.700</li>
+                  <li>Bei Versäumnis: gestaffelte Late-Filing-Registration-Fee 870/1.740/2.610/3.480, max. HKD 3.480 (NAR1 Private Company)</li>
                 </ul>
               </div>
 
@@ -803,7 +803,7 @@ const HkLimitedWizard = () => {
                 <div className="font-bold mb-2">4) Business Registration Renewal</div>
                 <ul className="text-muted-foreground list-disc pl-4 space-y-0.5">
                   <li>Automatisch — IRD schickt Demand Note</li>
-                  <li>HKD 250/Jahr oder HKD 3.950/3 Jahre</li>
+                  <li>HKD 2.350/Jahr (HKD 2.200 + HKD 150 Levy) oder HKD 6.170/3 Jahre</li>
                 </ul>
               </div>
 
@@ -848,7 +848,7 @@ const HkLimitedWizard = () => {
                 <div>
                   <div className="text-[10px] text-muted-foreground uppercase">Lfd. Kosten ab Jahr 2</div>
                   <div className="font-bold">
-                    {(totalSetupCost.cs + 250 + 8000).toLocaleString("en-US")} HKD/yr
+                    {(totalSetupCost.cs + 2350 + 8000).toLocaleString("en-US")} HKD/yr
                   </div>
                   <div className="text-[10px] text-muted-foreground mt-1">CS + BR + Audit min. 8k</div>
                 </div>
@@ -895,7 +895,7 @@ const HkLimitedWizard = () => {
               <li>FSIE-Regime seit 1.1.2023 für passive Einkünfte verschärft (Substanz-Anforderungen)</li>
               <li>HKMA Stablecoin-Lizenz April 2026 → strengere Bank-KYC für alle HK-Banken</li>
               <li>SCR-Pflicht seit 1.3.2018 (HKD 25.000 Fine + HKD 700/Tag bei Versäumnis)</li>
-              <li>DBA Deutschland-HK seit 2011 in Kraft (Quellensteuer-Reduktion)</li>
+              <li>KEIN umfassendes DBA Deutschland–HK in Kraft (nur beschränktes Schiff-/Luftverkehrs-Abkommen 2011; Comprehensive DTA seit 2014 in Verhandlung, nicht in Kraft) → keine DBA-Quellensteuerreduktion, §AStG-Risiko entsprechend höher</li>
               <li>Two-Tier Profits Tax unverändert: 8,25% bis HKD 2M, 16,5% darüber</li>
               <li>Audit-Pflicht weiterhin auch bei 0 Umsatz (HKD 8-15k/Jahr Standard)</li>
             </ul>
