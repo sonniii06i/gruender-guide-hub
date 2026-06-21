@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Navbar } from "@/components/landing/Navbar";
 import { Footer } from "@/components/landing/Footer";
 import { Seo } from "@/components/Seo";
+import { HubNav } from "@/components/landing/HubNav";
 import { GUIDE_LANDINGS } from "@/data/guides";
 
 const SITE = "https://gruenderx.de";
@@ -66,6 +67,8 @@ const GuidesIndex = () => {
             </Link>
           ))}
         </div>
+
+        <HubNav show={["tools", "ratgeber"]} />
       </main>
       <Footer />
     </div>

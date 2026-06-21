@@ -5,7 +5,9 @@ import { supabase } from "@/integrations/supabase/client";
 import PublicShell from "@/layouts/PublicShell";
 import { Seo } from "@/components/Seo";
 import { Badge } from "@/components/ui/badge";
-import { Clock, ChevronLeft, BookOpen } from "lucide-react";
+import { Clock, ChevronLeft, BookOpen, Wrench, ListChecks, ArrowRight } from "lucide-react";
+import { relatedToolsFor, relatedGuidesFor, BLOG_CATEGORY_TOPIC, type LinkItem } from "@/lib/internalLinks";
+import { findGuideLanding } from "@/data/guides";
 
 interface BlogPost {
   id: string;
@@ -78,6 +80,20 @@ const RatgeberPost = () => {
   }
 
   const url = `https://gruenderx.de/ratgeber/${post.slug}`;
+
+  // Interne Verlinkung: passende Guides + Tools aus Kategorie/Tags/Titel ableiten.
+  const matchCtx = {
+    text: `${post.title} ${post.excerpt} ${(post.tags ?? []).join(" ")} ${(post.keywords ?? []).join(" ")}`,
+    topic: BLOG_CATEGORY_TOPIC[post.category],
+  };
+  // Explizit gepflegte related_playbooks zuerst, dann per Matcher auffüllen.
+  const explicitGuides: LinkItem[] = (post.related_playbooks ?? [])
+    .map((s) => findGuideLanding(s))
+    .filter((g): g is NonNullable<typeof g> => !!g)
+    .map((g) => ({ slug: g.slug, title: g.title, desc: g.tagline }));
+  const matchedGuides = relatedGuidesFor({ ...matchCtx, exclude: explicitGuides.map((g) => g.slug) }, 3);
+  const guides = [...explicitGuides, ...matchedGuides].slice(0, 3);
+  const tools = relatedToolsFor(matchCtx, 3);
 
   return (
     <PublicShell>
@@ -179,6 +195,55 @@ const RatgeberPost = () => {
                   #{t}
                 </Badge>
               ))}
+            </div>
+          )}
+
+          {(guides.length > 0 || tools.length > 0) && (
+            <div className="mt-14 space-y-6">
+              {guides.length > 0 && (
+                <div>
+                  <h2 className="text-lg font-bold tracking-tight mb-3 flex items-center gap-2">
+                    <ListChecks className="h-4 w-4 text-accent-blue" /> Guides, die dich Schritt für Schritt durchführen
+                  </h2>
+                  <div className="grid sm:grid-cols-2 gap-3">
+                    {guides.map((g) => (
+                      <Link
+                        key={g.slug}
+                        to={`/guides/${g.slug}`}
+                        className="group rounded-xl border border-border bg-card p-4 hover:border-accent-blue/50 transition-colors"
+                      >
+                        <p className="font-medium text-sm mb-1 flex items-center justify-between gap-2">
+                          {g.title}
+                          <ArrowRight className="h-3.5 w-3.5 text-muted-foreground group-hover:translate-x-0.5 transition-transform shrink-0" />
+                        </p>
+                        <p className="text-xs text-muted-foreground line-clamp-2">{g.desc}</p>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {tools.length > 0 && (
+                <div>
+                  <h2 className="text-lg font-bold tracking-tight mb-3 flex items-center gap-2">
+                    <Wrench className="h-4 w-4 text-accent-blue" /> Passende Tools im GründerX-Cockpit
+                  </h2>
+                  <div className="grid sm:grid-cols-2 gap-3">
+                    {tools.map((t) => (
+                      <Link
+                        key={t.slug}
+                        to={`/tools/${t.slug}`}
+                        className="group rounded-xl border border-border bg-card p-4 hover:border-accent-blue/50 transition-colors"
+                      >
+                        <p className="font-medium text-sm mb-1 flex items-center justify-between gap-2">
+                          {t.title}
+                          <ArrowRight className="h-3.5 w-3.5 text-muted-foreground group-hover:translate-x-0.5 transition-transform shrink-0" />
+                        </p>
+                        <p className="text-xs text-muted-foreground line-clamp-2">{t.desc}</p>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           )}
 

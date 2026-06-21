@@ -6,6 +6,7 @@ import { Seo } from "@/components/Seo";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Clock, BookOpen, Search } from "lucide-react";
+import { HubNav } from "@/components/landing/HubNav";
 
 interface BlogPostSummary {
   id: string;
@@ -191,6 +192,8 @@ const Ratgeber = () => {
               ))}
             </div>
           )}
+
+          <HubNav show={["tools", "guides"]} />
         </div>
       </section>
     </PublicShell>

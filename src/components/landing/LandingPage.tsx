@@ -64,9 +64,13 @@ export interface LandingPageProps {
   /** Optionaler Sekundär-CTA (Tool/Guide öffnen) */
   secondaryHref?: string;
   secondaryLabel?: string;
-  /** Verwandte Landings */
+  /** Verwandte Landings (Legacy-Einzelgruppe) */
   relatedTitle?: string;
   related?: RelatedLink[];
+  /** Mehrere Related-Gruppen (z.B. „Passende Tools" + „Passende Guides"). */
+  relatedGroups?: { title: string; items: RelatedLink[] }[];
+  /** Beliebiger Inhalt am Seitenende (z.B. dynamisch geladene Ratgeber-Artikel). */
+  bottomSlot?: React.ReactNode;
 }
 
 /**
@@ -212,12 +216,15 @@ export const LandingPage = (p: LandingPageProps) => {
           </section>
         )}
 
-        {/* Verwandte Landings (interne Verlinkung) */}
-        {p.related && p.related.length > 0 && (
-          <section>
-            <h2 className="text-xl md:text-2xl font-bold tracking-tight mb-5">{p.relatedTitle ?? "Passend dazu"}</h2>
+        {/* Verwandte Landings (interne Verlinkung) — Legacy-Einzelgruppe + Gruppen */}
+        {[
+          ...(p.related && p.related.length > 0 ? [{ title: p.relatedTitle ?? "Passend dazu", items: p.related }] : []),
+          ...(p.relatedGroups ?? []).filter((g) => g.items.length > 0),
+        ].map((group) => (
+          <section key={group.title} className="mt-10 first:mt-0">
+            <h2 className="text-xl md:text-2xl font-bold tracking-tight mb-5">{group.title}</h2>
             <div className="grid sm:grid-cols-2 gap-3">
-              {p.related.map((r) => (
+              {group.items.map((r) => (
                 <Link
                   key={r.to}
                   to={r.to}
@@ -229,7 +236,9 @@ export const LandingPage = (p: LandingPageProps) => {
               ))}
             </div>
           </section>
-        )}
+        ))}
+
+        {p.bottomSlot && <div className="mt-10">{p.bottomSlot}</div>}
       </main>
       <Footer />
     </div>

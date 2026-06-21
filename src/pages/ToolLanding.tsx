@@ -6,6 +6,13 @@ import { Button } from "@/components/ui/button";
 import { LandingPage, type LandingFaq } from "@/components/landing/LandingPage";
 import { findLandingTool, relatedLandingTools } from "@/data/features";
 import { getToolCopy } from "@/data/landingCopy";
+import { relatedGuidesFor } from "@/lib/internalLinks";
+import { RelatedArticles } from "@/components/landing/RelatedArticles";
+
+const TOOL_CAT_TOPIC: Record<string, string> = {
+  starter: "gruendung", rechtsform: "gruendung", steuer: "steuern", buchhaltung: "buchhaltung",
+  marken: "marken", launch: "ecommerce", international: "international", anbieter: "banking",
+};
 
 const SITE = "https://gruenderx.de";
 
@@ -42,6 +49,9 @@ const ToolLanding = () => {
     categoryTagline: tool.categoryTagline,
   });
   const related = relatedLandingTools(slug);
+  const topic = TOOL_CAT_TOPIC[tool.categorySlug];
+  const matchCtx = { text: `${tool.title} ${tool.desc}`, topic };
+  const relatedGuides = relatedGuidesFor(matchCtx, 4);
 
   const faq: LandingFaq[] = [
     { q: `Was ist „${tool.title}"?`, a: `${tool.desc} Teil von ${cat} im GründerX-Cockpit.` },
@@ -105,6 +115,13 @@ const ToolLanding = () => {
       secondaryLabel="Tool öffnen"
       relatedTitle="Passende Tools"
       related={related.map((r) => ({ to: `/tools/${r.slug}`, title: r.title, desc: r.desc }))}
+      relatedGroups={[
+        {
+          title: "Passende Schritt-für-Schritt-Guides",
+          items: relatedGuides.map((r) => ({ to: `/guides/${r.slug}`, title: r.title, desc: r.desc })),
+        },
+      ]}
+      bottomSlot={<RelatedArticles context={matchCtx} />}
     />
   );
 };

@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { LandingPage, type LandingFaq } from "@/components/landing/LandingPage";
 import { findGuideLanding, relatedGuides } from "@/data/guides";
 import { getGuideCopy } from "@/data/landingCopy";
+import { relatedToolsFor } from "@/lib/internalLinks";
+import { RelatedArticles } from "@/components/landing/RelatedArticles";
 
 const SITE = "https://gruenderx.de";
 
@@ -43,6 +45,8 @@ const GuideLanding = () => {
     steps: guide.steps,
   });
   const related = relatedGuides(slug);
+  const matchCtx = { text: `${guide.title} ${guide.tagline} ${guide.outcome}` };
+  const relatedTools = relatedToolsFor(matchCtx, 4);
 
   // Sichtbarer Ablauf-Umriss: alle Schritt-Titel, aber Beschreibung nur als
   // Content-Sample für die ersten Schritte. Checklisten, Formulare, Ämter-Links,
@@ -125,6 +129,13 @@ const GuideLanding = () => {
       secondaryLabel="Alle Guides"
       relatedTitle="Passende Guides"
       related={related.map((r) => ({ to: `/guides/${r.slug}`, title: r.title, desc: r.tagline }))}
+      relatedGroups={[
+        {
+          title: "Passende Tools",
+          items: relatedTools.map((r) => ({ to: `/tools/${r.slug}`, title: r.title, desc: r.desc })),
+        },
+      ]}
+      bottomSlot={<RelatedArticles context={matchCtx} />}
     />
   );
 };
