@@ -41,6 +41,7 @@ const Profile = () => {
   };
 
   const [checkingSub, setCheckingSub] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const handleStatusCheck = async () => {
     setCheckingSub(true);
     try {
@@ -224,6 +225,36 @@ const Profile = () => {
               if (error) toast.error(error.message); else toast.success("Mail verschickt – bitte Postfach prüfen.");
             }}>Reset-Mail senden</Button>
           </Card>
+
+          <div className="rounded-2xl border border-destructive/40 bg-destructive/5 p-6 mt-6">
+            <h3 className="font-bold mb-2 text-destructive">Konto & alle Daten löschen</h3>
+            <p className="text-sm text-muted-foreground mb-4">
+              Löscht dein Konto und unwiderruflich alle deine Daten (Profil, Guide-Fortschritt inkl.
+              Notar-Vorbereitung, Felix-Chats, Benachrichtigungen). Das lässt sich nicht rückgängig machen.
+              Ein aktives Abo kündigst du vorher bitte unter „Abrechnung".
+            </p>
+            <Button
+              variant="destructive"
+              disabled={deleting}
+              onClick={async () => {
+                if (!window.confirm("Wirklich dein Konto und ALLE Daten unwiderruflich löschen?")) return;
+                if (!window.confirm("Letzte Warnung: Das kann nicht rückgängig gemacht werden. Fortfahren?")) return;
+                setDeleting(true);
+                const { data, error } = await supabase.functions.invoke("delete-account");
+                if (error || (data as any)?.error) {
+                  setDeleting(false);
+                  toast.error("Löschen fehlgeschlagen. Bitte Support kontaktieren.");
+                  return;
+                }
+                toast.success("Konto gelöscht. Auf Wiedersehen.");
+                await supabase.auth.signOut();
+                window.location.href = "/";
+              }}
+            >
+              {deleting ? <Loader2 className="h-4 w-4 mr-1 animate-spin" /> : null}
+              Konto endgültig löschen
+            </Button>
+          </div>
         </TabsContent>
       </Tabs>
     </CockpitShell>

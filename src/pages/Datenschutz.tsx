@@ -75,7 +75,7 @@ const Datenschutz = () => (
 
       <h3 className="font-semibold mt-6">3.3 Felix-Chat (KI-Beratung)</h3>
       <p><strong>Daten:</strong> Chat-Verlauf (deine Nachrichten + Felix-Antworten), Zeitstempel, Konversations-ID.</p>
-      <p><strong>Verarbeitung:</strong> Deine Nachrichten werden zur Beantwortung an das <strong>Lovable AI Gateway</strong> übermittelt, das wiederum <strong>Google Gemini</strong> als zugrundeliegendes Sprachmodell nutzt. Die Antwort wird zurück an deine Session gesendet und im Chat-Verlauf gespeichert.</p>
+      <p><strong>Verarbeitung:</strong> Deine Nachrichten werden zur Beantwortung an einen KI-Sprachmodell-Anbieter übermittelt. Primär nutzen wir <strong>Google Gemini</strong> (über das Lovable AI Gateway); bei dessen Nichtverfügbarkeit greifen wir automatisch als Fallback auf <strong>Anthropic (Claude)</strong> bzw. <strong>OpenAI (GPT)</strong> zurück, damit der Chat funktionsfähig bleibt. Die Antwort wird zurück an deine Session gesendet und im Chat-Verlauf gespeichert.</p>
       <p>
         <strong>Drittlandtransfer USA – Rechtsgrundlage:</strong> Google LLC ist unter dem
         EU-US Data Privacy Framework (DPF) zertifiziert (Angemessenheitsbeschluss der EU-Kommission
@@ -85,6 +85,12 @@ const Datenschutz = () => (
         (Modul 2 / Modul 3, Durchführungsbeschluss (EU) 2021/914) und ein dokumentiertes Transfer Impact
         Assessment (TIA) ab. Auf Anfrage übermitteln wir dir die TIA-Zusammenfassung
         (<a href="mailto:datenschutz@gründerx.de">datenschutz@gründerx.de</a>).
+      </p>
+      <p>
+        <strong>Fallback-Anbieter (Anthropic, OpenAI):</strong> Ist Gemini nicht verfügbar, verarbeiten
+        ersatzweise Anthropic PBC (Claude) oder OpenAI, L.L.C. (GPT) deine Chat-Nachricht. Beide sitzen in
+        den USA; die Übermittlung sichern wir über die EU-Standardvertragsklauseln (Art. 46 DSGVO) ab. Es
+        werden ausschließlich der Nachrichteninhalt und der nötige Kontext übermittelt, keine Konto-Stammdaten.
       </p>
       <p>Nutze Felix nicht für sensible personenbezogene Daten Dritter ohne ausdrückliche Einwilligung.</p>
       <p><strong>Rechtsgrundlage:</strong> Art. 6 Abs. 1 lit. b DSGVO (Vertragserfüllung) i. V. m. Art. 45 DSGVO (DPF) bzw. Art. 46 DSGVO (SCC).</p>
@@ -177,9 +183,23 @@ const Datenschutz = () => (
           <tr className="border-t border-border">
             <td className="px-3 py-2"><strong>Google LLC (Gemini)</strong></td>
             <td className="px-3 py-2">Unter-Auftragsverarbeiter</td>
-            <td className="px-3 py-2">KI-Modell für Felix-Chat</td>
+            <td className="px-3 py-2">KI-Modell für Felix-Chat (primär)</td>
             <td className="px-3 py-2">USA</td>
             <td className="px-3 py-2"><strong>DPF-zertifiziert</strong> (Art. 45 DSGVO)</td>
+          </tr>
+          <tr className="border-t border-border">
+            <td className="px-3 py-2"><strong>Anthropic PBC (Claude)</strong></td>
+            <td className="px-3 py-2">Unter-Auftragsverarbeiter</td>
+            <td className="px-3 py-2">KI-Modell für Felix-Chat (Fallback)</td>
+            <td className="px-3 py-2">USA</td>
+            <td className="px-3 py-2">SCC (Art. 46 DSGVO)</td>
+          </tr>
+          <tr className="border-t border-border">
+            <td className="px-3 py-2"><strong>OpenAI, L.L.C. (GPT)</strong></td>
+            <td className="px-3 py-2">Unter-Auftragsverarbeiter</td>
+            <td className="px-3 py-2">KI-Modell für Felix-Chat (Fallback)</td>
+            <td className="px-3 py-2">USA</td>
+            <td className="px-3 py-2">SCC (Art. 46 DSGVO)</td>
           </tr>
           <tr className="border-t border-border">
             <td className="px-3 py-2"><strong>Stripe Payments Europe Ltd.</strong></td>
@@ -265,7 +285,7 @@ const Datenschutz = () => (
       <ul>
         <li><strong>Auskunft</strong> (Art. 15 DSGVO) – welche Daten haben wir von dir?</li>
         <li><strong>Berichtigung</strong> (Art. 16) – falsche Daten korrigieren lassen.</li>
-        <li><strong>Löschung</strong> (Art. 17) – „Recht auf Vergessenwerden". Auf Wunsch löschen wir dein Konto und alle Daten (außer gesetzlich aufzubewahrende Rechnungs-Daten).</li>
+        <li><strong>Löschung</strong> (Art. 17) – „Recht auf Vergessenwerden". Du kannst dein Konto und alle Daten jederzeit selbst löschen unter <em>Profil → Sicherheit → „Konto endgültig löschen"</em> (außer gesetzlich aufzubewahrende Rechnungs-Daten). Alternativ formlos per E-Mail.</li>
         <li><strong>Einschränkung</strong> (Art. 18) – Verarbeitung pausieren.</li>
         <li><strong>Datenübertragbarkeit</strong> (Art. 20) – Export deiner Daten in maschinenlesbarem Format (JSON).</li>
         <li><strong>Widerspruch</strong> (Art. 21) – gegen Verarbeitung nach lit. f.</li>
