@@ -150,11 +150,15 @@ const HkLimitedWizard = () => {
             </div>
             {(useCase === "holding" || useCase === "ip" || useCase === "consulting") && (
               <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-3 mt-3 text-xs">
-                <strong className="text-amber-700">⚠ FSIE-Warnung 2023+:</strong> Foreign-Sourced
-                Income Exemption wurde am 1.1.2023 verschärft. Für passive Einkünfte (Dividenden,
-                Zinsen, Royalties, Veräußerungsgewinne) musst du Substanz-Anforderungen erfüllen
-                (qualifizierte Mitarbeiter + Räume + Kosten in HK), sonst werden die Einkünfte
-                regulär besteuert (16,5%). Für DE-Wohnsitz-Owner zusätzlich §AStG-Risiko in DE.
+                <strong className="text-amber-700">⚠ FSIE-Warnung 2023+:</strong> Das verschärfte
+                Foreign-Sourced-Income-Exemption-Regime (seit 1.1.2023) greift NUR für{" "}
+                <strong>MNE-Entities</strong> — Gesellschaften, die Teil eines multinationalen
+                Konzern-Verbunds sind. Eine echte Solo-HK-Ltd ohne Gruppen-Verbund fällt nicht
+                darunter; für sie gilt weiter das klassische Territorialprinzip (+ ggf. Offshore-Claim,
+                Step 9). Bist du aber Teil einer Gruppe (z.B. HK-Ltd hält Beteiligungen oder wird von
+                deiner DE-GmbH gehalten), brauchst du für passive Einkünfte (Dividenden, Zinsen,
+                Royalties, Veräußerungsgewinne) Substanz in HK (qualifizierte Mitarbeiter + Räume +
+                Kosten), sonst reguläre 16,5%. Für DE-Wohnsitz-Owner zusätzlich §AStG-Risiko in DE.
                 Siehe <Link to="/cockpit/substance-checker" className="text-accent-blue underline">Substance-Checker</Link>.
               </div>
             )}
@@ -615,10 +619,14 @@ const HkLimitedWizard = () => {
             </div>
 
             <div className="rounded-xl border border-red-500/30 bg-red-500/5 p-3 mb-3 text-xs">
-              <div className="font-bold mb-2 text-red-700">⚠ FSIE-Regime seit 1.1.2023 (kritisch für Holdings!):</div>
+              <div className="font-bold mb-2 text-red-700">⚠ FSIE-Regime seit 1.1.2023 (nur für Konzern-/MNE-Entities!):</div>
               <p className="text-muted-foreground mb-2">
-                Foreign-Sourced Income Exemption gilt nicht mehr automatisch für passive Einkünfte
-                (Dividenden, Zinsen, Royalties, Veräußerungsgewinne). Voraussetzungen:
+                <strong>Scope zuerst klären:</strong> FSIE gilt ausschließlich für{" "}
+                <strong>MNE-Entities</strong> (Mitglieder einer multinationalen Gruppe). Eine
+                eigenständige Solo-HK-Ltd ohne Konzern-Verbund ist NICHT betroffen — dort zählt das
+                klassische Territorialprinzip + ggf. Offshore-Claim, nicht FSIE. Bei
+                Gruppen-Zugehörigkeit gilt FSIE nicht mehr automatisch für passive Einkünfte
+                (Dividenden, Zinsen, Royalties, Veräußerungsgewinne). Voraussetzungen dann:
               </p>
               <ul className="text-muted-foreground list-disc pl-4 space-y-0.5">
                 <li><strong>Economic Substance Test:</strong> qualifizierte Mitarbeiter + Räume + Operating Costs IN HK</li>
@@ -627,8 +635,9 @@ const HkLimitedWizard = () => {
                 <li>OHNE Substanz → reguläre 16,5% auf passive Foreign-Income</li>
               </ul>
               <p className="mt-2 text-muted-foreground">
-                Für reine Trading/Active-Business-Holding-Strukturen bleibt FSIE leicht erreichbar.
-                Für Solo-IP-Holding ohne HK-Aktivitäten: sehr schwierig.
+                Standalone-Solo-Ltd: FSIE i.d.R. nicht anwendbar (dann Source-/Offshore-Frage statt
+                FSIE). Konzern-eingebundene Trading/Active-Business-Holding: FSIE-Substanz machbar.
+                Konzern-IP-Holding ohne HK-Aktivität: sehr schwierig.
               </p>
             </div>
 

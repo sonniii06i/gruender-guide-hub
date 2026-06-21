@@ -89,9 +89,11 @@ const PensionOptimizer = () => {
     const bav_end = annuity_fv(jaehrlichSparen, annualReturn - 0.01, yearsToRetirement);
     const bav_renteJaehrlich = bav_end / 20;
     const bav_steuerImRentenalter = bav_renteJaehrlich * 0.25 * 20;
-    // KV-Pflicht (§229 SGB V) NUR auf den Teil über dem Freibetrag (2026: 2.373 €/Jahr).
-    // bAV ist Versorgungsbezug → voller KV-Beitrag (~14,6 % + Zusatzbeitrag), aber nur über Freibetrag.
-    const bav_kv_basis_jaehrlich = Math.max(0, bav_renteJaehrlich - BAV_KV_FREIBETRAG_JAHR_2026);
+    // bAV ist Versorgungsbezug (§229 SGB V) → voller KV-Beitrag (~14,6 % + Zusatzbeitrag) im Alter.
+    // Versorgungsbezüge-Freibetrag (§226 Abs. 2 SGB V, 2026: 2.373 €/J) gilt NUR für KVdR-Pflichtversicherte.
+    // Beherrschende GmbH-GF sind i.d.R. freiwillig/privat versichert → kein Freibetrag, gesamte bAV beitragspflichtig.
+    const bav_kv_freibetrag = istBeherrschenderGF ? 0 : BAV_KV_FREIBETRAG_JAHR_2026;
+    const bav_kv_basis_jaehrlich = Math.max(0, bav_renteJaehrlich - bav_kv_freibetrag);
     const bav_kvImRentenalter = bav_kv_basis_jaehrlich * 0.146 * 20;
     const bav_netto = bav_end - bav_steuerImRentenalter - bav_kvImRentenalter;
     const bav_steuerErsparnisGesamt = bav_steuerErsparnisProJahr * yearsToRetirement;
@@ -529,7 +531,11 @@ const PensionOptimizer = () => {
                 Empfehlung
               </li>
               <li>
-                <strong>bAV nur sinnvoll mit GmbH</strong> (du als GF-Versicherter)
+                <strong>bAV nur sinnvoll mit GmbH</strong> (du als GF-Versicherter). Beachte: der
+                bAV-KV-Freibetrag (2.373 €/J, 2026) im Rentenalter greift NUR bei
+                KVdR-Pflichtversicherten — als beherrschender GmbH-GF (meist freiwillig/privat
+                versichert) zahlst du den vollen KV-Beitrag auf die gesamte bAV. Der Rechner
+                berücksichtigt das, sobald du „beherrschender GF" anhakst.
               </li>
               <li>
                 <strong>Riester</strong>: nur für Angestellte oder Ehepartner von Selbstständigen
