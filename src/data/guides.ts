@@ -12,7 +12,8 @@ import { PLAYBOOKS, type Playbook } from "./playbooks";
  */
 export interface GuideOutlineStep {
   title: string;
-  description: string;
+  /** Nur erste 3 Schritte je Guide (öffentliches SEO-Sample); sonst undefined. */
+  description?: string;
   estMinutes: number;
   estCost?: string;
 }

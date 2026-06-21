@@ -6,6 +6,9 @@ verify_jwt = false
 [functions.check-subscription]
 verify_jwt = false
 
+[functions.guide-detail]
+verify_jwt = false
+
 [functions.customer-portal]
 verify_jwt = false
 

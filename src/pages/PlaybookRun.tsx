@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { getPlaybook, type PlaybookStep } from "@/data/playbooks";
+import { useGuideDetail, mergeStepDetail } from "@/hooks/useGuideDetail";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -111,6 +112,9 @@ const PlaybookRun = () => {
 
   const slug = (run as any)?.playbook_slug as string | undefined;
   const pb = slug ? getPlaybook(slug) : null;
+  // Bezahlte Step-Details (Checklisten, Felder, Links, Warnungen, Tipps) liegen
+  // nicht im Bundle — server-seitig (Abo-gegated) nachladen.
+  const { detail, loading: detailLoading } = useGuideDetail(slug);
 
   useEffect(() => {
     const cur = steps[activeIndex];
@@ -149,7 +153,7 @@ const PlaybookRun = () => {
     );
   }
 
-  const step = pb.steps[activeIndex];
+  const step = mergeStepDetail(pb.steps[activeIndex], detail);
   const completedCount = Object.values(steps).filter((s) => s.status === "done").length;
   const progress = Math.round((completedCount / pb.steps.length) * 100);
   const missingRequired = getMissingRequired(step, formData, runCtx);
@@ -395,7 +399,13 @@ const PlaybookRun = () => {
             </div>
           )}
 
-          <StepBody step={step} formData={formData} setFormData={setFormData} allSteps={steps} pb={pb} runCtx={runCtx} updateRunCtx={updateRunCtx} />
+          {detailLoading ? (
+            <div className="flex items-center gap-2 rounded-xl border border-border bg-secondary/30 p-4 text-sm text-muted-foreground">
+              <Loader2 className="h-4 w-4 animate-spin text-accent-blue" /> Detailschritte werden geladen…
+            </div>
+          ) : (
+            <StepBody step={step} formData={formData} setFormData={setFormData} allSteps={steps} pb={pb} runCtx={runCtx} updateRunCtx={updateRunCtx} />
+          )}
 
           <div className="mt-5">
             <Label className="text-xs uppercase tracking-wider text-muted-foreground">Deine Notizen</Label>
@@ -421,7 +431,7 @@ const PlaybookRun = () => {
                 </Button>
                 <Button
                   onClick={() => saveStep("done")}
-                  disabled={saving || missingRequired.length > 0}
+                  disabled={saving || detailLoading || missingRequired.length > 0}
                   className="bg-success hover:bg-success/90 text-success-foreground"
                 >
                   {saving ? <Loader2 className="h-4 w-4 animate-spin mr-1" /> : <CheckCircle2 className="h-4 w-4 mr-1" />}

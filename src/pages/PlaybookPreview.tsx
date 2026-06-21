@@ -4,6 +4,7 @@ import CockpitShell from "@/components/cockpit/CockpitShell";
 import { ArrowLeft, ArrowRight, Clock, ListChecks, Target, FileText, AlertTriangle, ExternalLink, Loader2, Sparkles } from "lucide-react";
 import { getPlaybook, type PlaybookStep } from "@/data/playbooks";
 import { useGuideStart } from "@/hooks/useGuideStart";
+import { useGuideDetail, mergeStepDetail } from "@/hooks/useGuideDetail";
 import { Seo } from "@/components/Seo";
 
 const STEP_KIND_LABEL: Record<PlaybookStep["kind"], string> = {
@@ -87,12 +88,18 @@ const PlaybookPreview = () => {
   const pb = slug ? getPlaybook(slug) : null;
   const { start, starting } = useGuideStart();
   const isStarting = starting === slug;
+  // Bezahlte Detailfelder server-seitig (Abo-gegated) nachladen und einmischen.
+  const { detail } = useGuideDetail(slug);
+  const mergedSteps = useMemo(
+    () => (pb ? pb.steps.map((s) => mergeStepDetail(s, detail)) : []),
+    [pb, detail],
+  );
 
   const totalMinutes = useMemo(
     () => pb?.steps.reduce((sum, s) => sum + (s.estMinutes ?? 0), 0) ?? 0,
     [pb],
   );
-  const docs = useMemo(() => (pb ? extractDocs(pb.steps) : []), [pb]);
+  const docs = useMemo(() => extractDocs(mergedSteps), [mergedSteps]);
 
   if (!pb) {
     return (
@@ -138,7 +145,7 @@ const PlaybookPreview = () => {
             estimatedCost: pb.totalCost
               ? { "@type": "MonetaryAmount", currency: "EUR", value: pb.totalCost }
               : undefined,
-            step: pb.steps.map((s, i) => ({
+            step: mergedSteps.map((s, i) => ({
               "@type": "HowToStep",
               position: i + 1,
               name: s.title,
@@ -221,7 +228,7 @@ const PlaybookPreview = () => {
           <ListChecks className="h-4 w-4" /> Schritt-für-Schritt-Plan
         </h2>
         <div className="rounded-2xl border border-border bg-card divide-y divide-border">
-          {pb.steps.map((s, i) => (
+          {mergedSteps.map((s, i) => (
             <div key={s.slug} className="p-4 hover:bg-secondary/30 transition-colors">
               <div className="flex items-start gap-3">
                 <div className="h-6 w-6 rounded-full bg-secondary text-muted-foreground flex items-center justify-center text-[11px] font-bold shrink-0 mt-0.5">
