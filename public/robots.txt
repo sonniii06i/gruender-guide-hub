@@ -1,5 +1,5 @@
 # GründerX robots.txt
-# Öffentlich/indexierbar: / , /tools , /tools/* , /ratgeber , /ratgeber/* , /faq , Rechtsseiten
+# Öffentlich/indexierbar: / , /tools , /tools/* , /guides , /guides/* , /ratgeber , /ratgeber/* , /faq , Rechtsseiten
 # Blockiert: alles hinter der Paywall (zeigt Crawlern nur die Upsell-Wand) + private Bereiche
 
 User-agent: Googlebot

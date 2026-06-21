@@ -9,6 +9,7 @@
 import { writeFileSync } from "fs";
 import { resolve } from "path";
 import { LANDING_TOOLS } from "../src/data/features";
+import { GUIDE_LANDINGS } from "../src/data/guides";
 
 const BASE_URL = "https://gruenderx.de";
 const SUPABASE_URL = process.env.VITE_SUPABASE_URL || "https://rwrjuzemkfghlziretdj.supabase.co";
@@ -28,6 +29,7 @@ const today = new Date().toISOString().slice(0, 10);
 const staticEntries: SitemapEntry[] = [
   { path: "/", changefreq: "weekly", priority: "1.0", lastmod: today },
   { path: "/tools", changefreq: "weekly", priority: "0.9", lastmod: today },
+  { path: "/guides", changefreq: "weekly", priority: "0.9", lastmod: today },
   { path: "/gratis-tools", changefreq: "weekly", priority: "0.9", lastmod: today },
   { path: "/businessplan-erstellen", changefreq: "weekly", priority: "0.8", lastmod: today },
   { path: "/gruendungskosten-rechner", changefreq: "weekly", priority: "0.8", lastmod: today },
@@ -45,6 +47,15 @@ const staticEntries: SitemapEntry[] = [
 // die /tools/:slug-Seiten), damit Sitemap und Seiten nie auseinanderlaufen.
 const toolEntries: SitemapEntry[] = LANDING_TOOLS.map((t) => ({
   path: `/tools/${t.slug}`,
+  changefreq: "monthly",
+  priority: "0.7",
+  lastmod: today,
+}));
+
+// Guide-Landings (/guides/:slug) — öffentliche Pitch-Seiten; der Guide-Inhalt
+// selbst bleibt hinter der Paywall, daher hier nur die crawlbare Landing.
+const guideEntries: SitemapEntry[] = GUIDE_LANDINGS.map((g) => ({
+  path: `/guides/${g.slug}`,
   changefreq: "monthly",
   priority: "0.7",
   lastmod: today,
@@ -103,9 +114,9 @@ function generateSitemap(items: SitemapEntry[]) {
 
 (async () => {
   const blogEntries = await fetchBlogEntries();
-  const entries = [...staticEntries, ...toolEntries, ...blogEntries];
+  const entries = [...staticEntries, ...toolEntries, ...guideEntries, ...blogEntries];
   writeFileSync(resolve("public/sitemap.xml"), generateSitemap(entries));
   console.log(
-    `sitemap.xml written: ${entries.length} entries (${staticEntries.length} static + ${toolEntries.length} tools + ${blogEntries.length} ratgeber)`,
+    `sitemap.xml written: ${entries.length} entries (${staticEntries.length} static + ${toolEntries.length} tools + ${guideEntries.length} guides + ${blogEntries.length} ratgeber)`,
   );
 })();

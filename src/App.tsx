@@ -104,6 +104,8 @@ const RatgeberPost = lazy(() => import("./pages/RatgeberPost.tsx"));
 const AdminBlog = lazy(() => import("./pages/AdminBlog.tsx"));
 const Tools = lazy(() => import("./pages/Tools.tsx"));
 const ToolLanding = lazy(() => import("./pages/ToolLanding.tsx"));
+const GuidesIndex = lazy(() => import("./pages/GuidesIndex.tsx"));
+const GuideLanding = lazy(() => import("./pages/GuideLanding.tsx"));
 const GratisTools = lazy(() => import("./pages/GratisTools.tsx"));
 const FreeToolPage = lazy(() => import("./pages/FreeToolPage.tsx"));
 
@@ -240,6 +242,8 @@ const App = () => (
               <Route path="/ratgeber/:slug" element={<RatgeberPost />} />
               <Route path="/tools" element={<Tools />} />
               <Route path="/tools/:slug" element={<ToolLanding />} />
+              <Route path="/guides" element={<GuidesIndex />} />
+              <Route path="/guides/:slug" element={<GuideLanding />} />
               {/* Kostenlose Lead-Magnet-Tools (konto-gated, kein Abo) */}
               <Route path="/gratis-tools" element={<GratisTools />} />
               <Route path="/businessplan-erstellen" element={<FreeToolPage config={FREE_TOOL_BY_SLUG["businessplan-erstellen"]} />} />
