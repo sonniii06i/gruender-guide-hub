@@ -183,7 +183,7 @@ const UsLlcWizard = () => {
   const [useCase, setUseCase] = useState<"solo" | "holding" | "ecom" | "vc" | "asset-protection">("solo");
   const [selectedState, setSelectedState] = useState<State>("wyoming");
   const [llcName, setLlcName] = useState("");
-  const [registeredAgent, setRegisteredAgent] = useState<"northwest" | "harbor" | "cloud-peak" | "diy">("northwest");
+  const [registeredAgent, setRegisteredAgent] = useState<"northwest" | "wyoming-agent" | "harbor" | "cloud-peak" | "diy">("northwest");
   const [filingMethod, setFilingMethod] = useState<"diy" | "agent" | "lawyer">("agent");
   const [operatingAgreementMode, setOperatingAgreementMode] = useState<"template" | "lawyer" | "skip">("template");
   const [hasSSN, setHasSSN] = useState(false);
@@ -194,7 +194,7 @@ const UsLlcWizard = () => {
 
   const totalCost1 = useMemo(() => {
     const filing = stateInfo.filingFee;
-    const agentFees = { northwest: 125, harbor: 89, "cloud-peak": 350, diy: 0 };
+    const agentFees = { northwest: 125, "wyoming-agent": 50, harbor: 89, "cloud-peak": 350, diy: 0 };
     const agent = agentFees[registeredAgent];
     const cpaFor5472 = 500;
     return { filing, agent, cpaFor5472, total: filing + agent + cpaFor5472 };
@@ -434,7 +434,8 @@ const UsLlcWizard = () => {
             <div className="space-y-2 mb-3">
               {[
                 { v: "northwest" as const, name: "Northwest Registered Agent", price: "$125/yr", note: "Branchen-Standard, Mail-Forwarding inklusive, kein Spam an dich", url: "https://www.northwestregisteredagent.com" },
-                { v: "harbor" as const, name: "Harbor Compliance", price: "$89/yr", note: "Günstigste seriöse Option", url: "https://www.harborcompliance.com" },
+                { v: "wyoming-agent" as const, name: "Wyoming Registered Agent Inc", price: "~$25-50/yr", note: "WY-nativ + günstigster RA-Preis, gutes Mail-Scanning. Top für reine Wyoming-LLC.", url: "https://www.wyomingagents.com" },
+                { v: "harbor" as const, name: "Harbor Compliance", price: "$89/yr", note: "Günstigste seriöse Option für andere Staaten", url: "https://www.harborcompliance.com" },
                 { v: "cloud-peak" as const, name: "Cloud Peak Law (Wyoming)", price: "$350+/yr", note: "Mit Anonymous-Trust-Setup für maximale Privacy, BOI-Filing inklusive (falls wieder Pflicht)", url: "https://www.cloudpeaklaw.com" },
                 { v: "diy" as const, name: "Selbst (nur wenn US-Adresse)", price: "$0", note: "Du brauchst physische US-Adresse — bei DE-Wohnsitz NICHT möglich", url: "" },
               ].map((o) => (
@@ -500,7 +501,10 @@ const UsLlcWizard = () => {
                 <li>Renewal: jährlich automatisch $125, Erinnerung per Mail.</li>
               </ol>
               <div className="text-[11px] text-muted-foreground mt-2">
-                Alternativ <strong>Harbor Compliance</strong> ($89/yr) wenn du die Articles selbst filest und nur den RA brauchst.
+                Bei einer reinen <strong>Wyoming-LLC</strong> ist <strong>Wyoming Registered Agent Inc</strong>{" "}
+                (~$25-50/yr) gleichwertig bis günstiger — WY-nativ, gleicher Ablauf. Northwest punktet
+                v.a. bei mehreren Staaten / Formation-aus-einer-Hand. <strong>Harbor</strong> ($89) wenn du
+                die Articles selbst filest und nur den RA brauchst.
               </div>
             </div>
 
