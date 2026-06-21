@@ -31,7 +31,7 @@ type StateNexus = {
   notes?: string;
 };
 
-// Daten Mai 2026 — 46 Sales-Tax-Staaten + DC. Alle Updates seit 2023 verifiziert.
+// Daten Mai 2026 — 45 Sales-Tax-Staaten + DC (Alaska nur lokal, keine State-Tax). Alle Updates seit 2023 verifiziert.
 const US_STATES: StateNexus[] = [
   { code: "AL", name: "Alabama", salesThreshold: 250000, logic: "salesOnly", stateRate: 4, combinedAvg: 9.46, marketplaceFacilitator: true, notes: "Höhere Schwelle als Standard" },
   { code: "AK", name: "Alaska", salesThreshold: 100000, logic: "salesOnly", stateRate: 0, combinedAvg: 1.82, marketplaceFacilitator: true, notes: "Keine State-Tax, lokale Tax via ARSSTC. Txn-Schwelle weg seit 1.1.2025. Anchorage + Fairbanks haben gar keine Tax." },
@@ -82,7 +82,8 @@ const US_STATES: StateNexus[] = [
   { code: "WY", name: "Wyoming", salesThreshold: 100000, logic: "salesOnly", stateRate: 4, combinedAvg: 5.56, marketplaceFacilitator: true, notes: "Txn-Schwelle weg seit 1.7.2024" },
 ];
 
-// 5 Staaten ohne Sales Tax: Delaware, Montana, New Hampshire, Oregon, Alaska (state-level 0)
+// NOMAD-Staaten ohne State-Sales-Tax: New Hampshire, Oregon, Montana, Alaska, Delaware.
+// Alaska hat state-level KEINE Sales Tax (nur lokale Taxes), daher hier nicht im Array (das nur State-Tax-0-Staaten ohne lokale listet).
 const NO_SALES_TAX_STATES = ["Delaware", "Montana", "New Hampshire", "Oregon"];
 
 const SalesTaxNexus = () => {
@@ -130,7 +131,7 @@ const SalesTaxNexus = () => {
     <CockpitShell
       eyebrow="Sales-Tax-Nexus · Stand Mai 2026"
       title="US-Sales-Tax: pro Staat ab welchem Umsatz registrieren?"
-      subtitle="Live-Check der Wayfair-Schwellen (Economic Nexus) für 46 sales-tax-Staaten + DC. Updates 2026: 9 Staaten haben Transaction-Threshold abgeschafft (SD/LA/IN/NC/WY/AK/UT/IL/KY). FBA-Inventar = $0-Nexus. 4 Staaten (DC/ND/PA/SD) blockieren DE-LLC ohne SSN."
+      subtitle="Live-Check der Wayfair-Schwellen (Economic Nexus) für 45 sales-tax-Staaten + DC (Alaska nur lokal). Updates 2026: 9 Staaten haben Transaction-Threshold abgeschafft (SD/LA/IN/NC/WY/AK/UT/IL/KY). FBA-Inventar = $0-Nexus. 4 Staaten (DC/ND/PA/SD) blockieren DE-LLC ohne SSN."
     >
       {/* Mode Toggle */}
       <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-4 mb-6">
@@ -159,7 +160,7 @@ const SalesTaxNexus = () => {
         {showMarketplaceHint && (
           <div className="rounded-lg bg-emerald-500/10 border border-emerald-500/20 p-3 text-xs text-emerald-700 mt-3">
             <CheckCircle2 className="h-3 w-3 inline mr-1" />
-            <strong>Marketplace-Facilitator-Law:</strong> Amazon kassiert Sales Tax automatisch in allen 46 Staaten.
+            <strong>Marketplace-Facilitator-Law:</strong> Amazon kassiert Sales Tax automatisch in allen 45 Staaten + DC (Alaska nur lokal).
             Du musst dich NUR für DIRECT-Sales (eigener Shop) registrieren wenn die Schwelle dort erreicht ist.
             Reine Amazon-Sellers haben oft 0 Nexus-Pflicht.
           </div>
@@ -379,7 +380,7 @@ const SalesTaxNexus = () => {
             mehr gültig!
           </li>
           <li>
-            <strong>Marketplace-Facilitator-Laws</strong>: Alle 46 Sales-Tax-Staaten + DC + Alaska
+            <strong>Marketplace-Facilitator-Laws</strong>: Alle 45 Sales-Tax-Staaten + DC + Alaska (state-level keine Sales Tax)
             (ARSSTC) haben jetzt MPF. Missouri war 1.1.2023 der letzte.
           </li>
           <li>

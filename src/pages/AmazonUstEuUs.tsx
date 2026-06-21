@@ -114,7 +114,7 @@ const MARKETPLACES: Marketplace[] = [
     flag: "🇺🇸",
     ustVerantwortlich: "amazon",
     ustMechanismus:
-      "Marketplace-Facilitator-Tax: Amazon zieht für 47 US-Bundesstaaten + DC die Sales-Tax direkt vom Kunden ein und führt sie ab. Du als Verkäufer hast nur Nexus-Anmeldung beim Auftreten (manche Staaten Pflicht).",
+      "Marketplace-Facilitator-Tax: Amazon zieht für 45 US-Bundesstaaten + DC die Sales-Tax direkt vom Kunden ein und führt sie ab. Du als Verkäufer hast nur Nexus-Anmeldung beim Auftreten (manche Staaten Pflicht).",
     buchungDe: {
       konto: "8125 Erlöse stfr §4 Nr 1a (SKR03) / 4125 (SKR04)",
       steuerschluessel: "94 (Drittland) oder direkt steuerfrei",
@@ -279,7 +279,7 @@ const AmazonUstEuUs = () => {
           className="rounded-xl border border-border bg-card p-3 text-xs hover:border-accent-blue transition-colors"
         >
           <div className="font-semibold mb-0.5">Sales-Tax-Nexus US →</div>
-          <div className="text-muted-foreground">46 US-Staaten Wayfair-Schwellen prüfen</div>
+          <div className="text-muted-foreground">45 US-Staaten + DC Wayfair-Schwellen prüfen</div>
         </a>
       </div>
 
@@ -289,7 +289,7 @@ const AmazonUstEuUs = () => {
         <ul className="list-disc pl-4 space-y-1 text-muted-foreground">
           <li>
             <strong>Marketplace-Facilitator-Tax</strong> = Amazon ist als "Marktplatz" verpflichtet, die USt
-            direkt vom Kunden einzuziehen. Greift in: USA (47 Staaten), UK ({"<"} £135), AU/NZ, IT/FR/UK B2C-EU.
+            direkt vom Kunden einzuziehen. Greift in: USA (45 Staaten + DC), UK ({"<"} £135), AU/NZ, IT/FR/UK B2C-EU.
           </li>
           <li>
             <strong>Reverse-Charge §13b UStG</strong> = Bei B2B-Leistung aus EU-Ausland an dich (DE) bist DU

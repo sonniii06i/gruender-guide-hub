@@ -675,8 +675,8 @@ const OssVerfahren = () => {
         <ul className="list-disc pl-4 space-y-1 text-muted-foreground">
           <li>OSS-Anmeldung beim BZSt: <code>BOP-Portal</code> (BZSt-Online-Portal)</li>
           <li>
-            <strong>Quartals-Meldung</strong>: bis 30. des Folgemonats (Q1 → 30.4., Q2 → 30.7., Q3
-            → 30.10., Q4 → 30.1.)
+            <strong>Quartals-Meldung</strong>: bis Ende des Folgemonats (Q1 → 30.4., Q2 → 31.7., Q3
+            → 31.10., Q4 → 31.1.)
           </li>
           <li>
             <strong>Verzicht möglich</strong>: bewusst auf OSS verzichten, dann nationale

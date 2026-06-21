@@ -331,7 +331,7 @@ const MarkenWizard = () => {
             </div>
             {scope === "dpma" && (
               <div className="text-xs text-muted-foreground mt-1">
-                +60 € beschleunigte Prüfung (4 Wochen statt 8) — optional
+                +200 € beschleunigte Prüfung (4 Wochen statt 8) — optional
               </div>
             )}
             {scope === "wipo" && (

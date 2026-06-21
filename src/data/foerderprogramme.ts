@@ -143,7 +143,7 @@ export const FOERDERPROGRAMME: Foerderung[] = [
     description:
       "BAFA-Zuschuss für Privatinvestoren in junge innovative Unternehmen. 15 % der Anteilskosten als steuerfreier Zuschuss (Richtlinie 06.03.2024, gültig bis 31.12.2026).",
     conditions: [
-      "Junges innovatives Unternehmen (< 7 Jahre, < 10 Mio Umsatz, < 100 MA)",
+      "Junges innovatives Unternehmen (< 7 Jahre, < 10 Mio Umsatz, < 50 Mitarbeiter)",
       "Anteile mind. 3 Jahre halten",
       "Min. 10k € pro Investor; Erwerbszuschuss 15 %, max. 100k €/Jahr je Investor; bis 3 Mio € förderfähiges Investment je Unternehmen/Jahr",
     ],
@@ -155,7 +155,7 @@ export const FOERDERPROGRAMME: Foerderung[] = [
     emoji: "🦄",
     type: "eigenkapital",
     scope: "bund",
-    maxFunding: "Seed: bis 1 Mio € (Erst-Round) · Anschluss: bis 4 Mio €",
+    maxFunding: "Seed: bis 1 Mio € (Erst-Round) · Anschlussfinanzierung bis 30 Mio € (via HTGF Opportunity Fonds)",
     zielgruppe: ["Tech-Startups in Frühphase"],
     phase: ["idee", "gruendung"],
     branche: ["tech", "deep-tech", "biotech", "industrie"],
@@ -192,7 +192,7 @@ export const FOERDERPROGRAMME: Foerderung[] = [
   // ============ BUNDESLÄNDER ============
   {
     slug: "berlin-gruendungsbonus",
-    name: "Berliner Gründungsbonus (IBB)",
+    name: "GründungsBONUS Plus (IBB)",
     emoji: "🐻",
     type: "zuschuss",
     scope: "BE",
@@ -234,11 +234,11 @@ export const FOERDERPROGRAMME: Foerderung[] = [
   },
   {
     slug: "nrw-gruendungsstipendium",
-    name: "Gründerstipendium NRW",
+    name: "Gründungsstipendium.NRW",
     emoji: "🇪🇺",
     type: "stipendium",
     scope: "NW",
-    maxFunding: "1.000 €/Monat × 12 Monate (12.000 € total)",
+    maxFunding: "1.200 €/Monat × 12 Monate (14.400 € total; Diversitäts-Teams 1.500 €/Monat)",
     zielgruppe: ["Gründer in NRW"],
     phase: ["idee", "gruendung"],
     branche: ["alle (Innovations-Bezug)"],
@@ -296,7 +296,7 @@ export const FOERDERPROGRAMME: Foerderung[] = [
     emoji: "🇪🇺",
     type: "zuschuss",
     scope: "bund",
-    maxFunding: "Grant bis 2,5 Mio € + Equity bis 15 Mio € (Mix möglich)",
+    maxFunding: "Grant bis 2,5 Mio € + Equity bis 10 Mio € (Mix möglich)",
     zielgruppe: ["Tech-Startups EU-weit", "Deep-Tech"],
     phase: ["aufbau", "wachstum"],
     branche: ["deep-tech", "klima", "gesundheit", "digital"],
@@ -339,7 +339,7 @@ export const FOERDERPROGRAMME: Foerderung[] = [
     scope: "bund",
     country: "EU",
     countryEmoji: "🇪🇺",
-    maxFunding: "€0,5-2,5M Grant + bis €15M Equity",
+    maxFunding: "€0,5-2,5M Grant + bis €10M Equity",
     zielgruppe: ["Deep-Tech SME", "Solo-Founder EU"],
     phase: ["wachstum"],
     branche: ["Deep-Tech", "Climate", "Quantum", "Biotech", "AI"],

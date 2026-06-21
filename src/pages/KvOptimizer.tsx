@@ -243,7 +243,7 @@ const KvOptimizer = () => {
               </li>
               <li>
                 <strong>Familienversicherung §10 SGB V</strong>: Ehepartner/Kinder unter 23 (Studium 25)
-                mit Einkommen unter 535 €/Monat (Stand 2026) → kostenlos mitversichert. Spart bei dir
+                mit Einkommen unter 565 €/Monat (Stand 2026) → kostenlos mitversichert. Spart bei dir
                 kein Geld, aber spart dem Partner ~280 €/Monat.
               </li>
               <li>

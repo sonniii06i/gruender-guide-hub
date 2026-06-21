@@ -333,7 +333,7 @@ export const EU_ALTERNATIVES: EUAlternative[] = [
     ],
     pros: [
       "**12,5 % KSt** — niedrigster Standard-Satz in EU bei aktivem Geschäft",
-      "Knowledge Development Box: 6,25 % auf qualifizierten IP-Einkünften",
+      "Knowledge Development Box: 10 % auf qualifizierten IP-Einkünften",
       "Englischsprachiges Common-Law-System (familiär für US-Investoren)",
       "EU-Mitglied + Doppelbesteuerungsabkommen mit USA",
       "Sehr business-friendly Rechtsprechung",
@@ -692,7 +692,7 @@ export const EU_ALTERNATIVES: EUAlternative[] = [
     shortName: "Litauen UAB",
     minCapital: 1000,
     capitalPaidUp: "1.000 € seit 2023-Reform · 0,01 € bei Online-Gründung",
-    corporateTax: "17 % regulär (ab 2026, war 16 % in 2025) · 7 % bei Small Companies (Umsatz < 300k €/Jahr + < 10 MA, ab 2026; war 6 % in 2025) · 0 % in den ersten 2 Geschäftsjahren",
+    corporateTax: "17 % regulär (ab 2026, war 16 % in 2025) · 7 % bei Small Companies (Umsatz < 300k €/Jahr, ab 2026 ohne Mitarbeiter-Grenze; war 6 % in 2025) · 0 % in den ersten 2 Geschäftsjahren",
     localTax: "0 %",
     effectiveTotal: "7 % (Small, ab 2026; erste 2 Jahre 0 %) bzw. 17 % regulär",
     withholdingDividends: "15 % regulär · 0 % via EU-Mutter-Tochter",
@@ -710,7 +710,7 @@ export const EU_ALTERNATIVES: EUAlternative[] = [
       "Nearshoring Tech-Teams in Vilnius/Kaunas",
     ],
     pros: [
-      "**7 % KSt für Small** (Umsatz < 300 k + < 10 MA) ab 2026, **0 % in den ersten 2 Jahren** — sehr attraktiv für Bootstrap-Startups",
+      "**7 % KSt für Small** (Umsatz < 300 k, ab 2026 ohne Mitarbeiter-Grenze) ab 2026, **0 % in den ersten 2 Jahren** — sehr attraktiv für Bootstrap-Startups",
       "**Online-Gründung in 24–48h** möglich",
       "EU-Mitglied + Mutter-Tochter-RL",
       "Sehr business-freundlich + englisch-sprachige Behörden",

@@ -8,8 +8,8 @@
  * 12 Schwellen (Stand 2026):
  *  - Grundfreibetrag §32a EStG 12.348 €/J 2026
  *  - §22 Nr. 3 EStG Sonstige-Einkünfte-Freigrenze 256 €/J
- *  - §3 Nr. 26 EStG Übungsleiter-Pauschale 3.000 €/J
- *  - §3 Nr. 26a EStG Ehrenamtspauschale 840 €/J
+ *  - §3 Nr. 26 EStG Übungsleiter-Pauschale 3.300 €/J
+ *  - §3 Nr. 26a EStG Ehrenamtspauschale 960 €/J
  *  - §23 EStG Privates Veräußerungsgeschäft Freigrenze 1.000 €/J (Crypto, Antik etc.)
  *  - §23 EStG Spekulationsfrist 1 Jahr (10 Jahre Immobilien)
  *  - §19 UStG Kleinunternehmer 25k Vorjahr / 100k aktuell
@@ -41,8 +41,8 @@ const SCHWELLEN_2026 = {
   GRUND_FREIBETRAG_SINGLE: 12348,
   GRUND_FREIBETRAG_VERHEIRATET: 24696,
   SONSTIGE_EINKUENFTE_22_NR_3: 256,
-  UEBUNGSLEITER_PAUSCHALE: 3000,
-  EHRENAMTS_PAUSCHALE: 840,
+  UEBUNGSLEITER_PAUSCHALE: 3300,
+  EHRENAMTS_PAUSCHALE: 960,
   PRIV_VERAEUSSERUNG_23: 1000,
   KU_VORJAHR: 25000,
   KU_AKTUELL: 100000,
@@ -125,8 +125,8 @@ const QUELLEN: QuelleInfo[] = [
     schwelle: SCHWELLEN_2026.UEBUNGSLEITER_PAUSCHALE,
     schwellenName: "§3 Nr. 26 EStG Übungsleiter-Pauschale",
     paragraph: "§3 Nr. 26 EStG",
-    unterSchwelle: "Bis 3.000 €/Jahr STEUER-FREI (Freibetrag, nicht Freigrenze — auch bei 3.001 € sind die ersten 3.000 € frei). Voraussetzung: nebenberuflich + gemeinnütziger Auftraggeber (Verein, gemeinnützige Org).",
-    ueberSchwelle: "Nur der Betrag über 3.000 € wird besteuert. Bei Gewinnerzielungsabsicht: gewerblich oder freiberuflich (Lehrer-ähnlich) anmelden.",
+    unterSchwelle: "Bis 3.300 €/Jahr STEUER-FREI (Freibetrag, nicht Freigrenze — auch bei 3.301 € sind die ersten 3.300 € frei). Voraussetzung: nebenberuflich + gemeinnütziger Auftraggeber (Verein, gemeinnützige Org).",
+    ueberSchwelle: "Nur der Betrag über 3.300 € wird besteuert. Bei Gewinnerzielungsabsicht: gewerblich oder freiberuflich (Lehrer-ähnlich) anmelden.",
     warnung: "Übungsleiter UND Ehrenamt kombinierbar! Du kannst von beiden Pauschalen profitieren (Voraussetzung: getrennte Tätigkeiten / Auftraggeber).",
   },
   {
@@ -136,9 +136,9 @@ const QUELLEN: QuelleInfo[] = [
     schwelle: SCHWELLEN_2026.EHRENAMTS_PAUSCHALE,
     schwellenName: "§3 Nr. 26a EStG Ehrenamts-Pauschale",
     paragraph: "§3 Nr. 26a EStG",
-    unterSchwelle: "Bis 840 €/Jahr STEUER-FREI (Freibetrag). Voraussetzung: gemeinnützige Tätigkeit nebenberuflich.",
-    ueberSchwelle: "Betrag über 840 € wird besteuert. Anmeldung nicht erforderlich solange ehrenamtlich.",
-    warnung: "Ehrenamt und Übungsleiter sind KUMULIERBAR (840 + 3.000 = 3.840 € steuerfrei möglich). Aber: nur bei UNTERSCHIEDLICHEN Tätigkeiten/Auftraggebern.",
+    unterSchwelle: "Bis 960 €/Jahr STEUER-FREI (Freibetrag). Voraussetzung: gemeinnützige Tätigkeit nebenberuflich.",
+    ueberSchwelle: "Betrag über 960 € wird besteuert. Anmeldung nicht erforderlich solange ehrenamtlich.",
+    warnung: "Ehrenamt und Übungsleiter sind KUMULIERBAR (960 + 3.300 = 4.260 € steuerfrei möglich). Aber: nur bei UNTERSCHIEDLICHEN Tätigkeiten/Auftraggebern.",
   },
   {
     v: "crypto",
@@ -166,10 +166,10 @@ const QUELLEN: QuelleInfo[] = [
     v: "vermietung",
     label: "Vermietung (Zimmer, Airbnb, Garage)",
     emoji: "🏠",
-    schwelle: 520,
-    schwellenName: "Gelegentliche Vermietung Freigrenze § 22 Nr. 3 EStG (520 €/J)",
+    schwelle: 256,
+    schwellenName: "Gelegentliche Vermietung Freigrenze § 22 Nr. 3 EStG (256 €/J)",
     paragraph: "§21 EStG + ggf. §22",
-    unterSchwelle: "Bei GELEGENTLICHER Vermietung (z.B. einmal im Jahr Airbnb-Wochenende) bis 520 €/Jahr steuerfrei nach §22 EStG. Bei laufender Vermietung: immer Anlage V, kein Freibetrag.",
+    unterSchwelle: "Bei GELEGENTLICHER Vermietung (z.B. einmal im Jahr Airbnb-Wochenende) bis 256 €/Jahr steuerfrei nach §22 EStG. Bei laufender Vermietung: immer Anlage V, kein Freibetrag.",
     ueberSchwelle: "Anlage V (Vermietung) in Steuererklärung. Einnahmen minus Werbungskosten (AfA, Zinsen, Reparaturen, Maklergebühren) = zu versteuerndes Einkommen.",
     warnung: "Bei Airbnb / dauerhafter Touristenvermietung: zusätzlich USt-Pflicht ab 25k Umsatz UND eventuell Beherbergungssteuer der Stadt. DAC7-Meldung greift auch hier.",
   },
@@ -436,7 +436,7 @@ const SchwellenCheck = () => {
         </h3>
         <ul className="text-xs space-y-2 leading-relaxed text-muted-foreground">
           <li>
-            ✅ <strong>Übungsleiter (3.000 €) + Ehrenamt (840 €)</strong> kumulierbar bei unterschiedlichen Tätigkeiten → 3.840 € steuerfrei möglich
+            ✅ <strong>Übungsleiter (3.300 €) + Ehrenamt (960 €)</strong> kumulierbar bei unterschiedlichen Tätigkeiten → 4.260 € steuerfrei möglich
           </li>
           <li>
             ❌ <strong>§22 Nr. 3 Sonstige (256 €) + Gewerbe</strong> nicht kumulierbar — sobald nachhaltig → Gewerbe
@@ -515,10 +515,10 @@ const Glossar = () => (
     </summary>
     <div className="mt-3 space-y-3 text-xs leading-relaxed">
       {[
-        { begriff: "Freibetrag vs. Freigrenze", erklaerung: "Freibetrag (z.B. Übungsleiter 3.000 €): bis Schwelle steuerfrei, NUR der Mehrbetrag wird besteuert. Freigrenze (z.B. §23 EStG 1.000 €): bei Überschreitung wird der GESAMTE Betrag steuerpflichtig — extrem tückisch! Schon 1 € drüber → alles versteuert." },
+        { begriff: "Freibetrag vs. Freigrenze", erklaerung: "Freibetrag (z.B. Übungsleiter 3.300 €): bis Schwelle steuerfrei, NUR der Mehrbetrag wird besteuert. Freigrenze (z.B. §23 EStG 1.000 €): bei Überschreitung wird der GESAMTE Betrag steuerpflichtig — extrem tückisch! Schon 1 € drüber → alles versteuert." },
         { begriff: "§22 Nr. 3 EStG (Sonstige Einkünfte)", erklaerung: "Auffangtatbestand für gelegentliche Einnahmen, die kein Lohn / Gewinn aus Selbstständigkeit / Kapitalertrag etc. sind. 256 €/J Freigrenze. Beispiele: Vermittlungs-Tipps, Reichweiten-Awards, gelegentliche Vermietung." },
-        { begriff: "§3 Nr. 26 EStG (Übungsleiter-Pauschale)", erklaerung: "3.000 €/Jahr Freibetrag für nebenberufliche pädagogische / künstlerische / pflegerische Tätigkeit bei gemeinnützigen Auftraggebern. Typisch: Sport-Trainer im Verein, Yoga-Kurse Volkshochschule, Nachhilfe Schule." },
-        { begriff: "§3 Nr. 26a EStG (Ehrenamtspauschale)", erklaerung: "840 €/Jahr Freibetrag für nebenberufliche ehrenamtliche Tätigkeit bei gemeinnützigen Organisationen. Kombinierbar mit Übungsleiter-Pauschale bei unterschiedlichen Tätigkeiten." },
+        { begriff: "§3 Nr. 26 EStG (Übungsleiter-Pauschale)", erklaerung: "3.300 €/Jahr Freibetrag für nebenberufliche pädagogische / künstlerische / pflegerische Tätigkeit bei gemeinnützigen Auftraggebern. Typisch: Sport-Trainer im Verein, Yoga-Kurse Volkshochschule, Nachhilfe Schule." },
+        { begriff: "§3 Nr. 26a EStG (Ehrenamtspauschale)", erklaerung: "960 €/Jahr Freibetrag für nebenberufliche ehrenamtliche Tätigkeit bei gemeinnützigen Organisationen. Kombinierbar mit Übungsleiter-Pauschale bei unterschiedlichen Tätigkeiten." },
         { begriff: "§23 EStG (Privates Veräußerungsgeschäft)", erklaerung: "Gewinne aus dem Verkauf von Privatvermögen (Crypto, Antiquitäten, Gold). Steuerfrei wenn (a) >1 Jahr gehalten ODER (b) Gesamtgewinn aller §23-Geschäfte unter 1.000 €/J. Bei Immobilien: 10 Jahre Haltefrist." },
         { begriff: "DAC7 (EU-Plattform-Meldepflicht)", erklaerung: "EU-Richtlinie 2021/514, seit 2023 in Kraft. Plattformen wie eBay, Vinted, Kleinanzeigen, Airbnb, Uber müssen das FA informieren bei ≥ 30 Verkäufen ODER ≥ 2.000 € Umsatz pro Jahr. Auch wenn deine Verkäufe steuerfrei sind — die Meldung kommt." },
         { begriff: "Sparerpauschbetrag §20 EStG", erklaerung: "1.000 € Single / 2.000 € Verheiratet steuerfreier Kapitalertrag. Freistellungsauftrag bei jeder Bank stellen, damit keine 25 % Abgeltungsteuer einbehalten wird. Bei mehreren Banken: Aufträge entsprechend splitten." },
