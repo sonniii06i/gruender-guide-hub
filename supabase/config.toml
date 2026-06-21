@@ -9,6 +9,12 @@ verify_jwt = false
 [functions.guide-detail]
 verify_jwt = false
 
+[functions.guide-data]
+verify_jwt = false
+
+[functions.guide-data-backfill]
+verify_jwt = false
+
 [functions.customer-portal]
 verify_jwt = false
 

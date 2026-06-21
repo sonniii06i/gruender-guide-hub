@@ -89,7 +89,11 @@ const PlaybookRun = () => {
       if (!r) { navigate("/dashboard"); return; }
       setRun(r as RunRow);
       setActiveIndex(r.current_step);
-      const { data: s } = await supabase.from("playbook_step_progress").select("*").eq("run_id", runId);
+      // Step-Daten über die guide-data-Edge-Function laden (entschlüsselt server-seitig).
+      const { data: loadRes } = await supabase.functions.invoke("guide-data", {
+        body: { action: "load", run_id: runId },
+      });
+      const s = (loadRes?.rows ?? []) as any[];
       const map: Record<number, StepRow> = {};
       (s ?? []).forEach((row: any) => { map[row.step_index] = row; });
       setSteps(map);
@@ -174,7 +178,6 @@ const PlaybookRun = () => {
     if (!user) return;
     if (status === "done" && missingRequired.length > 0) return;
     setSaving(true);
-    const existing = steps[activeIndex];
     const payload = {
       run_id: run.id,
       user_id: user.id,
@@ -185,11 +188,20 @@ const PlaybookRun = () => {
       notes,
       completed_at: status === "done" ? new Date().toISOString() : null,
     };
-    if (existing) {
-      await supabase.from("playbook_step_progress").update(payload).eq("run_id", run.id).eq("step_index", activeIndex);
-    } else {
-      await supabase.from("playbook_step_progress").insert(payload);
-    }
+    // Sensible Step-Daten (data + notes) gehen verschlüsselt über die
+    // guide-data-Edge-Function (Server-Key), nicht direkt in die DB.
+    await supabase.functions.invoke("guide-data", {
+      body: {
+        action: "save",
+        run_id: run.id,
+        step_index: activeIndex,
+        step_slug: step.slug,
+        status,
+        data: formData,
+        notes,
+        completed_at: payload.completed_at,
+      },
+    });
     const newSteps = { ...steps, [activeIndex]: { ...payload } as any };
     setSteps(newSteps);
 
