@@ -1,17 +1,29 @@
 import { ScanLine } from "lucide-react";
 import { type ToolConfig, type ToolData, s, DISCLAIMER } from "./types";
 
-// Widerspruch gegen abgelehnte Seriennummern-/Code-Bilduploads im Amazon-Transparency-Programm.
-// Häufiges Problem: Codes/Bilder werden wiederholt abgelehnt, obwohl sie die Anforderungen erfüllen.
+// Widerspruch gegen abgelehnte Seriennummern- bzw. Transparency-Code-Uploads im
+// Amazon-Transparency-Programm. Für die Freischaltung verlangt Amazon ENTWEDER
+// Seriennummern ODER Transparency-Codes – das Tool deckt beide gleichermaßen ab.
+// Häufiges Problem: Uploads werden abgelehnt, obwohl die Kennzeichnung vorhanden
+// ist und bereits übermittelt wurde.
 
 const REASON_LABEL: Record<string, string> = {
+  fehlend_trotz: "Code/Seriennummer fehle – obwohl vorhanden und übermittelt",
   lesbarkeit: "Code/Seriennummer sei nicht lesbar",
-  falscherCode: "Code sei ungültig oder gehöre nicht zum Produkt",
-  platzierung: "Platzierung des Codes auf Produkt/Verpackung wurde beanstandet",
+  nichtgescannt: "Code/Seriennummer konnte angeblich nicht erfasst/gescannt werden",
+  falscherCode: "Code/Seriennummer sei ungültig oder gehöre nicht zum Produkt",
+  platzierung: "Platzierung auf Produkt/Verpackung wurde beanstandet",
   bildqualitaet: "Bildqualität / Belichtung / Auflösung wurde beanstandet",
-  nichtgescannt: "Code konnte angeblich nicht gescannt werden",
   format: "Datei-/Formatanforderungen wurden beanstandet",
   sonstiges: "Sonstiger / unklarer Ablehnungsgrund",
+};
+
+// Pluralform der Kennzeichnung – nimmt einheitlich "die … sind", löst das
+// Genus-Problem (der Code / die Seriennummer) sauber auf.
+const NACHWEIS_PL: Record<string, string> = {
+  codes: "Transparency-Codes",
+  seriennummern: "Seriennummern",
+  beides: "Transparency-Codes bzw. Seriennummern",
 };
 
 function bullets(text: string): string[] {
@@ -23,46 +35,73 @@ function bullets(text: string): string[] {
 }
 
 function reasonArgument(data: ToolData): string[] {
-  const reason = s(data, "reason", "lesbarkeit");
+  const reason = s(data, "reason", "fehlend_trotz");
   const code = s(data, "code");
+  const pl = NACHWEIS_PL[s(data, "nachweis", "codes")] || NACHWEIS_PL.codes;
 
   const L: string[] = [];
 
-  if (reason === "lesbarkeit") {
+  if (reason === "fehlend_trotz") {
     L.push(
-      "Der aufgebrachte Transparency-Code ist vollständig und scharf abgebildet. Der gesamte Code-Bereich liegt " +
-        "innerhalb des Bildausschnitts, ist gleichmäßig ausgeleuchtet und frei von Spiegelungen, Unschärfe, Schatten " +
-        "oder Verdeckungen."
+      `Wir widersprechen der Einschätzung, dass die erforderlichen ${pl} fehlen. Die ${pl} sind physisch auf den ` +
+        "Produkteinheiten aufgebracht und wurden im Rahmen der Anmeldung bereits übermittelt."
     );
     L.push(
-      "Für die erneute Einreichung haben wir die Aufnahme in höherer Auflösung und mit erhöhtem Kontrast erstellt. " +
-        "Der Code lässt sich mit der Amazon-Transparency-App reproduzierbar und einwandfrei scannen."
+      `Es liegt daher kein fehlender Wert vor, sondern offenbar ein Erfassungs- bzw. Verarbeitungsfehler im ` +
+        `automatischen Prüfprozess. Die ${pl} sind gültig und einwandfrei lesbar.`
     );
     L.push(
-      "Gern liefern wir ergänzend eine Nahaufnahme (Makro) sowie ein Übersichtsfoto im Produktkontext und bitten um " +
-        "eine manuelle Prüfung des Uploads."
+      `Zur Bestätigung stellen wir die betroffenen ${pl}, ein Foto der aufgebrachten Kennzeichnung sowie den ` +
+        "Bezugsnachweis (Rechnung des autorisierten Lieferanten) bereit. Wir bitten ausdrücklich um eine manuelle " +
+        `Prüfung und um Eskalation an das zuständige Transparency-Team, da die ${pl} nachweislich vorhanden und ` +
+        "eingereicht sind."
+    );
+  } else if (reason === "lesbarkeit") {
+    L.push(
+      `Die aufgebrachten ${pl} sind vollständig und scharf abgebildet. Der jeweilige Bereich liegt innerhalb des ` +
+        "Bildausschnitts, ist gleichmäßig ausgeleuchtet und frei von Spiegelungen, Unschärfe, Schatten oder Verdeckungen."
+    );
+    L.push(
+      `Für die erneute Einreichung haben wir die Aufnahmen in höherer Auflösung und mit erhöhtem Kontrast erstellt. ` +
+        `Die ${pl} sind klar lesbar; Transparency-Codes sind zudem mit der Amazon-Transparency-App reproduzierbar scanbar.`
+    );
+    L.push(
+      "Gern liefern wir ergänzend Nahaufnahmen (Makro) sowie ein Übersichtsfoto im Produktkontext und bitten um eine " +
+        "manuelle Prüfung des Uploads."
+    );
+  } else if (reason === "nichtgescannt") {
+    L.push(
+      `Die ${pl} sind technisch einwandfrei und in unseren Tests reproduzierbar erfassbar (Transparency-Codes mit der ` +
+        "Amazon-Transparency-App scanbar). Ein fehlgeschlagener automatischer Scan ist daher auf die Bildverarbeitung " +
+        "im Prüfprozess zurückzuführen, nicht auf die Kennzeichnung selbst."
+    );
+    L.push(
+      "Zur Bestätigung liefern wir gern zusätzliche Aufnahmen aus verschiedenen Winkeln und in höherer Auflösung."
+    );
+    L.push(
+      "Wir bitten ausdrücklich um eine manuelle Prüfung des hochgeladenen Bildes und um Freigabe auf dieser Grundlage."
     );
   } else if (reason === "falscherCode") {
     L.push(
-      "Der abgebildete Code" + (code ? ` (${code})` : "") + " stammt aus dem offiziell von Amazon Transparency für " +
-        "dieses Produkt bereitgestellten bzw. autorisierten Code-Kontingent und gehört eindeutig zur betreffenden " +
-        "ASIN/Einheit."
+      `Die eingereichten ${pl}` + (code ? ` (z. B. ${code})` : "") + " stammen aus dem offiziell von Amazon " +
+        "Transparency für dieses Produkt bereitgestellten bzw. autorisierten Kontingent und gehören eindeutig zur " +
+        "betreffenden ASIN/Einheit."
     );
     L.push(
-      "Wir bitten um Abgleich des Codes mit dem für unser Konto hinterlegten Transparency-Bestand. Gern nennen wir " +
-        "die zugehörige Charge bzw. Code-Quelle sowie die GTIN des Produkts zur eindeutigen Zuordnung."
+      "Wir bitten um Abgleich mit dem für unser Konto hinterlegten Transparency-Bestand. Gern nennen wir die zugehörige " +
+        "Charge bzw. Quelle sowie die GTIN des Produkts zur eindeutigen Zuordnung."
     );
     L.push(
-      "Sollte die automatische Zuordnung fehlschlagen, bitten wir um Nennung des erwarteten Code-Formats bzw. der " +
-        "korrekten Code-Quelle – möglicherweise wurde ein Code aus einer anderen Charge erfasst. Das korrigieren wir umgehend."
+      "Sollte die automatische Zuordnung fehlschlagen, bitten wir um Nennung des erwarteten Formats bzw. der korrekten " +
+        "Quelle – möglicherweise wurde ein Wert aus einer anderen Charge erfasst. Das korrigieren wir umgehend."
     );
   } else if (reason === "platzierung") {
     L.push(
-      "Der Code ist gut sichtbar und dauerhaft auf der Produktverpackung bzw. dem Etikett angebracht – an einer " +
+      `Die ${pl} sind gut sichtbar und dauerhaft auf der Produktverpackung bzw. dem Etikett angebracht – an einer ` +
         "ebenen, nicht gewölbten Stelle und ohne Überlappung mit anderen Codes (z. B. Barcode/EAN) oder Designelementen."
     );
     L.push(
-      "Gern liefern wir zusätzlich ein Foto, das den Code im Gesamtkontext der Verpackung zeigt, sowie eine " +
+      "Gern liefern wir zusätzlich ein Foto, das die Kennzeichnung im Gesamtkontext der Verpackung zeigt, sowie eine " +
         "Nahaufnahme, damit Platzierung und Lesbarkeit eindeutig nachvollziehbar sind."
     );
     L.push(
@@ -71,48 +110,34 @@ function reasonArgument(data: ToolData): string[] {
     );
   } else if (reason === "bildqualitaet") {
     L.push(
-      "Wir reichen ein neues Foto in hoher Auflösung ein: scharf, gleichmäßig ausgeleuchtet, ohne Blitzreflexe und " +
-        "ohne Bewegungsunschärfe, mit dem vollständigen Code mittig im Bild und in ausreichendem Abstand aufgenommen."
+      `Wir reichen neue Fotos in hoher Auflösung ein: scharf, gleichmäßig ausgeleuchtet, ohne Blitzreflexe und ohne ` +
+        `Bewegungsunschärfe, mit den vollständigen ${pl} mittig im Bild und in ausreichendem Abstand aufgenommen.`
     );
     L.push(
-      "Die Aufnahme erfolgt vor neutralem Hintergrund bei Tageslicht, um Reflexionen und Farbstiche zu vermeiden. Der " +
-        "Code ist damit sowohl visuell als auch per App eindeutig erfassbar."
+      `Die Aufnahmen erfolgen vor neutralem Hintergrund bei Tageslicht, um Reflexionen und Farbstiche zu vermeiden. ` +
+        `Die ${pl} sind damit eindeutig erfassbar.`
     );
     L.push(
       "Bitte bestätigen Sie die geforderten Mindestanforderungen (z. B. Auflösung/Format), damit der erneute Upload " +
         "sofort akzeptiert werden kann."
     );
-  } else if (reason === "nichtgescannt") {
-    L.push(
-      "Der Code ist technisch einwandfrei und in unseren Tests mit der Amazon-Transparency-App reproduzierbar scanbar. " +
-        "Ein fehlgeschlagener automatischer Scan ist daher auf die Bildverarbeitung im Prüfprozess zurückzuführen, " +
-        "nicht auf den Code selbst."
-    );
-    L.push(
-      "Zur Bestätigung liefern wir gern zusätzliche Aufnahmen aus verschiedenen Winkeln sowie ein kurzes Video, das " +
-        "den erfolgreichen Scan mit der Transparency-App dokumentiert."
-    );
-    L.push(
-      "Wir bitten ausdrücklich um eine manuelle Prüfung des hochgeladenen Bildes und um Freigabe auf dieser Grundlage."
-    );
   } else if (reason === "format") {
     L.push(
-      "Wir laden die Datei gern im geforderten Format erneut hoch: gängiges Bildformat (z. B. JPG/PNG), ausreichende " +
-        "Auflösung, ohne Komprimierungsartefakte, vollständiger Bildausschnitt und nur ein Code pro Bild."
+      "Wir laden die Dateien gern im geforderten Format erneut hoch: gängiges Bildformat (z. B. JPG/PNG), ausreichende " +
+        "Auflösung, ohne Komprimierungsartefakte, vollständiger Bildausschnitt und nur eine Kennzeichnung pro Bild."
     );
     L.push(
       "Sollte eine bestimmte Dateigröße, ein Seitenverhältnis oder ein Dateityp vorgeschrieben sein, passen wir die " +
-        "Aufnahme exakt daran an."
+        "Aufnahmen exakt daran an."
     );
     L.push("Bitte bestätigen Sie das bevorzugte Datei- und Bildformat für einen sofort akzeptierten Upload.");
   } else {
     L.push(
       "Wir bitten höflich um eine konkrete Begründung, welche Anforderung als nicht erfüllt bewertet wurde, sowie um " +
-        "Nennung der genauen Vorgaben (Code-Quelle, Platzierung, Bild- bzw. Dateiformat)."
+        "Nennung der genauen Vorgaben (Quelle, Platzierung, Bild- bzw. Dateiformat)."
     );
     L.push(
-      "Proaktiv liefern wir bereits mehrere Aufnahmen des Codes aus unterschiedlichen Winkeln sowie ein kurzes " +
-        "Scan-Video zur Verifizierung."
+      `Proaktiv liefern wir bereits mehrere Aufnahmen der ${pl} aus unterschiedlichen Winkeln und in hoher Auflösung.`
     );
     L.push(
       "Wir bitten um eine manuelle Prüfung und um einen konkreten Hinweis, welcher einzelne Punkt noch anzupassen ist, " +
@@ -128,17 +153,19 @@ function generate(data: ToolData): string {
   const product = s(data, "product");
   const asin = s(data, "asin");
   const code = s(data, "code");
-  const reason = s(data, "reason", "lesbarkeit");
+  const reason = s(data, "reason", "fehlend_trotz");
   const count = s(data, "count");
   const extra = s(data, "extra");
+  const pl = NACHWEIS_PL[s(data, "nachweis", "codes")] || NACHWEIS_PL.codes;
 
   const L: string[] = [];
-  L.push("Widerspruch: Abgelehnter Seriennummern-/Code-Upload (Amazon Transparency)");
+  L.push("Widerspruch: Abgelehnte(r) Seriennummern-/Code-Upload (Amazon Transparency)");
   L.push("");
   if (store) L.push(`Verkäufer / Shop: ${store}`);
   if (product) L.push(`Produkt: ${product}`);
   if (asin) L.push(`ASIN: ${asin}`);
-  if (code) L.push(`Betroffener Transparency-Code: ${code}`);
+  L.push(`Art des Nachweises: ${pl}`);
+  if (code) L.push(`Betroffene(r) Code / Seriennummer(n): ${code}`);
   L.push(`Ablehnungsgrund laut Amazon: ${REASON_LABEL[reason] || REASON_LABEL.sonstiges}`);
   if (count) L.push(`Anzahl bisheriger Ablehnungen: ${count}`);
   L.push("");
@@ -146,9 +173,9 @@ function generate(data: ToolData): string {
   L.push("Sehr geehrtes Transparency-Team,");
   L.push("");
   L.push(
-    "wir beziehen uns auf die wiederholte Ablehnung unseres hochgeladenen Seriennummern-/Code-Bildes im " +
-      "Rahmen des Transparency-Programms. Nach erneuter Prüfung sind wir überzeugt, dass die Aufnahme die " +
-      "Anforderungen erfüllt, und bitten um eine erneute – idealerweise manuelle – Bewertung."
+    `wir beziehen uns auf die Ablehnung unseres hochgeladenen Nachweises (${pl}) im Rahmen des Transparency-Programms. ` +
+      "Nach erneuter Prüfung sind wir überzeugt, dass die Einreichung die Anforderungen erfüllt, und bitten um eine " +
+      "erneute – idealerweise manuelle – Bewertung."
   );
   L.push("");
 
@@ -159,10 +186,10 @@ function generate(data: ToolData): string {
   });
 
   L.push("2. Erfüllte Anforderungen");
-  L.push("Das eingereichte Bild erfüllt nach unserer Prüfung die üblichen Transparency-Vorgaben:");
-  L.push("   • Vollständiger Code im Bildausschnitt, mittig und scharf");
+  L.push("Die eingereichten Nachweise erfüllen nach unserer Prüfung die üblichen Transparency-Vorgaben:");
+  L.push(`   • Vollständige ${pl} im Bildausschnitt, mittig und scharf`);
   L.push("   • Gleichmäßige Ausleuchtung, keine Spiegelungen/Blitzreflexe");
-  L.push("   • Code dauerhaft und eindeutig auf Produkt/Verpackung angebracht");
+  L.push("   • Dauerhaft und eindeutig auf Produkt/Verpackung angebracht");
   L.push("   • Hohe Auflösung, gängiges Bildformat, kein Beschnitt");
   if (extra) {
     bullets(extra).forEach((b) => L.push(b));
@@ -171,10 +198,10 @@ function generate(data: ToolData): string {
 
   L.push("3. Bitte");
   L.push(
-    "Wir bitten um eine manuelle Überprüfung des Uploads und um Freigabe. Sollte eine konkrete Anforderung " +
-      "nicht erfüllt sein, bitten wir um einen präzisen Hinweis (z. B. Platzierung, Format, Code-Quelle), damit " +
-      "wir umgehend eine korrigierte Aufnahme bereitstellen können. Gern liefern wir zusätzliche Fotos aus " +
-      "mehreren Winkeln oder ein kurzes Scan-Video zur Verifizierung."
+    "Wir bitten um eine manuelle Überprüfung des Uploads und um Freigabe. Sollte eine konkrete Anforderung nicht " +
+      "erfüllt sein, bitten wir um einen präzisen Hinweis (z. B. Platzierung, Format, Quelle), damit wir umgehend eine " +
+      "korrigierte Aufnahme bereitstellen können. Gern liefern wir zusätzliche Fotos aus mehreren Winkeln und in " +
+      "höherer Auflösung zur Verifizierung."
   );
   L.push("");
   L.push("Mit freundlichen Grüßen");
@@ -193,9 +220,9 @@ export const transparencySeriennummerConfig: ToolConfig = {
   icon: ScanLine,
   accent: "from-sky-500 to-indigo-600",
   badge: "Amazon-Transparency",
-  heroTitle: "Amazon Transparency: Seriennummer-Upload abgelehnt? Widerspruch-Generator",
+  heroTitle: "Amazon Transparency: Seriennummer/Code-Upload abgelehnt? Widerspruch-Generator",
   heroSubtitle:
-    "Dein Code- bzw. Seriennummern-Foto wird im Transparency-Programm wiederholt abgelehnt, obwohl es die Anforderungen erfüllt? Erstelle in Minuten einen sachlichen Widerspruch mit Bitte um manuelle Prüfung. Kostenlos, nur ein kostenloses Konto nötig.",
+    "Dein Upload von Seriennummern oder Transparency-Codes wird abgelehnt – obwohl die Kennzeichnung auf dem Produkt ist und bereits übermittelt wurde? Erstelle in Minuten einen sachlichen Widerspruch mit Bitte um manuelle Prüfung. Kostenlos, nur ein kostenloses Konto nötig.",
   resultFilename: "amazon-transparency-widerspruch",
   steps: [
     {
@@ -203,8 +230,20 @@ export const transparencySeriennummerConfig: ToolConfig = {
       subtitle: "Worum geht es – und was steht in der Ablehnung?",
       fields: [
         { name: "store", label: "Shop- / Verkäufername", type: "text", placeholder: "z. B. MeinShop", colSpan: 1 },
-        { name: "asin", label: "ASIN (optional)", type: "text", placeholder: "z. B. B0XXXX", colSpan: 1 },
+        { name: "asin", label: "ASIN (optional)", type: "text", placeholder: "z. B. B07W4MY7HL", colSpan: 1 },
         { name: "product", label: "Produktname (optional)", type: "text", placeholder: "z. B. Produkt XY", colSpan: 2 },
+        {
+          name: "nachweis",
+          label: "Was verlangt Amazon bzw. hast du hochgeladen?",
+          type: "select",
+          required: true,
+          colSpan: 2,
+          options: [
+            { value: "codes", label: "Transparency-Codes" },
+            { value: "seriennummern", label: "Seriennummern" },
+            { value: "beides", label: "Beides (Codes & Seriennummern)" },
+          ],
+        },
         {
           name: "reason",
           label: "Ablehnungsgrund laut Amazon",
@@ -212,11 +251,12 @@ export const transparencySeriennummerConfig: ToolConfig = {
           required: true,
           colSpan: 2,
           options: [
-            { value: "lesbarkeit", label: "Code/Seriennummer nicht lesbar" },
-            { value: "falscherCode", label: "Code ungültig / gehört nicht zum Produkt" },
-            { value: "platzierung", label: "Platzierung des Codes beanstandet" },
+            { value: "fehlend_trotz", label: "Fehle angeblich – obwohl vorhanden & übermittelt" },
+            { value: "lesbarkeit", label: "Nicht lesbar" },
+            { value: "nichtgescannt", label: "Konnte nicht gescannt/erfasst werden" },
+            { value: "falscherCode", label: "Ungültig / gehört nicht zum Produkt" },
+            { value: "platzierung", label: "Platzierung beanstandet" },
             { value: "bildqualitaet", label: "Bildqualität / Belichtung / Auflösung" },
-            { value: "nichtgescannt", label: "Code konnte nicht gescannt werden" },
             { value: "format", label: "Datei-/Formatanforderungen" },
             { value: "sonstiges", label: "Sonstiges / unklar" },
           ],
@@ -224,10 +264,10 @@ export const transparencySeriennummerConfig: ToolConfig = {
       ],
     },
     {
-      title: "Code- & Upload-Details",
+      title: "Code-/Seriennummer- & Upload-Details",
       subtitle: "Macht den Widerspruch konkret.",
       fields: [
-        { name: "code", label: "Betroffener Transparency-Code (optional)", type: "text", placeholder: "z. B. AZ:1234...", colSpan: 2 },
+        { name: "code", label: "Betroffene(r) Code / Seriennummer(n) (optional)", type: "text", placeholder: "z. B. AZ:1234... oder SN 0099887766", colSpan: 2 },
         { name: "count", label: "Wie oft bereits abgelehnt? (optional)", type: "text", placeholder: "z. B. 3", colSpan: 1 },
       ],
     },
@@ -241,7 +281,7 @@ export const transparencySeriennummerConfig: ToolConfig = {
           type: "textarea",
           colSpan: 2,
           placeholder:
-            "z. B.\nScan mit der Transparency-App im Video dokumentiert\nFotos aus drei Winkeln liegen vor",
+            "z. B.\nRechnung des autorisierten Lieferanten liegt vor\nFotos aus drei Winkeln vorhanden",
           help: "Leer lassen ist okay.",
         },
       ],
@@ -250,49 +290,49 @@ export const transparencySeriennummerConfig: ToolConfig = {
   generate,
   seoSections: [
     {
-      heading: "Transparency-Code-Upload wird ständig abgelehnt – woran liegt das?",
+      heading: "Transparency-Freischaltung: Seriennummern oder Codes hochladen",
       body: [
-        "Im Amazon-Transparency-Programm musst du häufig Fotos der aufgebrachten Codes bzw. Seriennummern hochladen. Diese werden teils automatisiert geprüft – und dabei abgelehnt, obwohl der Code real einwandfrei lesbar und scanbar ist. Typische angebliche Gründe: „nicht lesbar“, „konnte nicht gescannt werden“, „falscher Code“ oder Beanstandungen zu Bildqualität und Platzierung.",
-        "In vielen Fällen ist nicht der Code das Problem, sondern die automatische Bildverarbeitung. Ein sachlicher Widerspruch mit der Bitte um manuelle Prüfung und dem Angebot zusätzlicher Aufnahmen führt oft zur Freigabe.",
+        "Für die Freischaltung eines Transparency-geschützten Produkts verlangt Amazon den Nachweis gültiger Kennzeichnungen – entweder der Seriennummern oder der Transparency-Codes auf den Einheiten. Dieser Nachweis wird teils automatisiert geprüft und dabei abgelehnt, obwohl die Kennzeichnung real vorhanden, lesbar und bereits übermittelt ist.",
+        "In vielen Fällen ist nicht der Code oder die Seriennummer das Problem, sondern die automatische Erfassung im Prüfprozess. Ein sachlicher Widerspruch mit der Bitte um manuelle Prüfung – und bei Bedarf um Eskalation – führt dann häufig zur Freigabe.",
       ],
     },
     {
-      heading: "So erstellst du ein Foto, das durchgeht",
+      heading: "„Codes fehlen“ – obwohl sie drauf sind und übermittelt wurden",
       body: [
-        "Vollständiger Code mittig im Bild, scharf und in hoher Auflösung. Gleichmäßiges Licht ohne Blitz und ohne Spiegelungen. Aufnahme an einer ebenen Stelle (nicht gewölbt), mit etwas Abstand statt extremer Nahaufnahme, und ohne Überlappung mit Barcode/EAN.",
-        "Lade ein gängiges Bildformat in voller Größe hoch (kein starker Beschnitt, keine starke Komprimierung). Wenn der automatische Scan scheitert, hilft ein zweites Foto aus leicht anderem Winkel – und im Widerspruch der Hinweis, dass der Code mit der Transparency-App reproduzierbar scanbar ist.",
+        "Der häufigste Frust-Fall: Amazon meldet, es fehlten gültige Transparency-Codes bzw. Seriennummern, obwohl diese auf dem Produkt aufgebracht und im Antrag bereits hochgeladen wurden. Hier ist die richtige Reaktion, der Aussage klar zu widersprechen, die Kennzeichnung als vorhanden und eingereicht festzustellen und ausdrücklich eine manuelle Prüfung plus Eskalation an das Transparency-Team zu verlangen.",
+        "Hilfreich sind: die konkreten Codes/Seriennummern, ein Foto der aufgebrachten Kennzeichnung und der Bezugsnachweis (Rechnung des autorisierten Lieferanten). Ein bloßer erneuter Upload landet meist im selben Automatik-Loop.",
       ],
     },
     {
-      heading: "Was in den Widerspruch gehört",
+      heading: "So erstellst du Fotos, die durchgehen",
       body: [
-        "Stelle klar, dass die Aufnahme die Anforderungen erfüllt, gehe gezielt auf den genannten Grund ein und bitte ausdrücklich um eine manuelle Prüfung. Biete zusätzliche Fotos aus mehreren Winkeln oder ein kurzes Scan-Video an – das signalisiert Kooperationsbereitschaft und beschleunigt die Freigabe.",
-        "Bleibt die Ablehnung unklar, bitte um die konkrete, nicht erfüllte Anforderung (Code-Quelle, Platzierung, Format), statt blind ein weiteres Mal hochzuladen.",
+        "Vollständige Kennzeichnung mittig im Bild, scharf und in hoher Auflösung. Gleichmäßiges Licht ohne Blitz und ohne Spiegelungen. Aufnahme an einer ebenen Stelle (nicht gewölbt), mit etwas Abstand statt extremer Nahaufnahme, und ohne Überlappung mit Barcode/EAN.",
+        "Lade ein gängiges Bildformat in voller Größe hoch (kein starker Beschnitt, keine starke Komprimierung). Wenn die automatische Erfassung scheitert, hilft eine zweite Aufnahme aus leicht anderem Winkel sowie der Hinweis, dass die Kennzeichnung vorhanden und reproduzierbar lesbar ist.",
       ],
     },
   ],
   seo: {
-    title: "Amazon Transparency Seriennummer-Upload abgelehnt – Widerspruch | GründerX",
+    title: "Amazon Transparency: Seriennummer/Code-Upload abgelehnt – Widerspruch | GründerX",
     description:
-      "Transparency-Code/Seriennummer-Foto wird ständig abgelehnt, obwohl es passt? Erstelle kostenlos einen sachlichen Widerspruch mit Bitte um manuelle Prüfung. Vorlage in Minuten.",
+      "Transparency-Code oder Seriennummer wird abgelehnt, obwohl vorhanden und übermittelt? Erstelle kostenlos einen sachlichen Widerspruch mit Bitte um manuelle Prüfung. Vorlage in Minuten.",
     keywords:
-      "amazon transparency code abgelehnt, transparency seriennummer upload abgelehnt, amazon transparency bild abgelehnt, transparency code nicht lesbar, amazon transparency widerspruch, transparency code scan fehlgeschlagen",
+      "amazon transparency code abgelehnt, transparency seriennummer upload abgelehnt, amazon transparency codes fehlen obwohl vorhanden, transparency freischaltung seriennummer, amazon transparency widerspruch, transparency code nicht lesbar",
     faqs: [
       {
-        q: "Mein Transparency-Code wird abgelehnt, obwohl er lesbar ist – was tun?",
-        a: "Lege Widerspruch ein und bitte ausdrücklich um eine manuelle Prüfung. Häufig scheitert nur der automatische Scan, nicht der Code selbst. Biete zusätzliche Fotos aus mehreren Winkeln oder ein kurzes Scan-Video an – der Generator baut das ein.",
+        q: "Amazon sagt, Transparency-Codes/Seriennummern fehlen – obwohl sie drauf sind und übermittelt wurden.",
+        a: "Widersprich der Aussage klar: Die Kennzeichnung ist vorhanden und wurde eingereicht – das deutet auf einen Erfassungsfehler im Automatik-Prozess hin. Bitte ausdrücklich um manuelle Prüfung und Eskalation und lege Codes/Seriennummern, ein Foto der Kennzeichnung und die Lieferantenrechnung bei. Der Generator hat dafür einen eigenen Auswahl-Grund.",
+      },
+      {
+        q: "Muss ich Seriennummern oder Transparency-Codes hochladen?",
+        a: "Für die Freischaltung verlangt Amazon je nach Produkt entweder gültige Seriennummern oder Transparency-Codes. Im Generator wählst du aus, worum es geht – der Widerspruch wird entsprechend formuliert.",
       },
       {
         q: "Wie sollte das Foto aussehen?",
-        a: "Vollständiger Code mittig, scharf, hohe Auflösung, gleichmäßiges Licht ohne Blitzreflexe, ebene Fläche, gängiges Bildformat ohne starken Beschnitt. So entsprichst du den üblichen Transparency-Anforderungen.",
+        a: "Vollständige Kennzeichnung mittig, scharf, hohe Auflösung, gleichmäßiges Licht ohne Blitzreflexe, ebene Fläche, gängiges Bildformat ohne starken Beschnitt. So entsprichst du den üblichen Transparency-Anforderungen.",
       },
       {
         q: "Ist der Generator kostenlos?",
         a: "Ja. Erstellung und Download sind kostenlos – du legst nur ein kostenloses GründerX-Konto an, um die fertige Vorlage freizuschalten.",
-      },
-      {
-        q: "Garantiert der Widerspruch die Freigabe?",
-        a: "Nein, die Entscheidung trifft Amazon. Ein sachlicher Widerspruch mit Bitte um manuelle Prüfung erhöht die Chance aber deutlich.",
       },
     ],
   },
