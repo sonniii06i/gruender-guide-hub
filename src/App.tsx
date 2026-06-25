@@ -249,6 +249,8 @@ const App = () => (
               <Route path="/businessplan-erstellen" element={<FreeToolPage config={FREE_TOOL_BY_SLUG["businessplan-erstellen"]} />} />
               <Route path="/gruendungskosten-rechner" element={<FreeToolPage config={FREE_TOOL_BY_SLUG["gruendungskosten-rechner"]} />} />
               <Route path="/rechtsform-finden" element={<FreeToolPage config={FREE_TOOL_BY_SLUG["rechtsform-finden"]} />} />
+              <Route path="/amazon-marken-freischaltung-widerspruch-generator" element={<FreeToolPage config={FREE_TOOL_BY_SLUG["amazon-marken-freischaltung-widerspruch-generator"]} />} />
+              <Route path="/amazon-transparency-seriennummer-widerspruch-generator" element={<FreeToolPage config={FREE_TOOL_BY_SLUG["amazon-transparency-seriennummer-widerspruch-generator"]} />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

@@ -34,6 +34,8 @@ const staticEntries: SitemapEntry[] = [
   { path: "/businessplan-erstellen", changefreq: "weekly", priority: "0.8", lastmod: today },
   { path: "/gruendungskosten-rechner", changefreq: "weekly", priority: "0.8", lastmod: today },
   { path: "/rechtsform-finden", changefreq: "weekly", priority: "0.8", lastmod: today },
+  { path: "/amazon-marken-freischaltung-widerspruch-generator", changefreq: "weekly", priority: "0.8", lastmod: today },
+  { path: "/amazon-transparency-seriennummer-widerspruch-generator", changefreq: "weekly", priority: "0.8", lastmod: today },
   { path: "/ratgeber", changefreq: "daily", priority: "0.9", lastmod: today },
   { path: "/faq", changefreq: "monthly", priority: "0.6" },
   { path: "/kontakt", changefreq: "yearly", priority: "0.4" },
