@@ -36,73 +36,93 @@ function reasonArgument(data: ToolData): string[] {
 
   if (reason === "menge") {
     L.push(
-      "Die eingereichte(n) Rechnung(en) erfüllt(en) zum Zeitpunkt der Antragstellung die zu diesem Zeitpunkt " +
-        "kommunizierte Mindestabnahmemenge. Die Ablehnung stützt sich nun auf eine höhere Stückzahl, " +
-        "die in der ursprünglichen Aufforderung nicht genannt war."
+      "Die von uns eingereichte(n) Rechnung(en) erfüllte(n) die zum Zeitpunkt der Antragstellung kommunizierte " +
+        "Mindestabnahmemenge. Die Ablehnung stützt sich nun auf eine höhere Stückzahl, die in der ursprünglichen " +
+        "Aufforderung nicht genannt war – auf diese geänderte Vorgabe konnten wir vorab nicht eingehen."
     );
     if (invoiceQty)
       L.push(
         `Unsere Rechnung weist eine Abnahmemenge von ${invoiceQty} Einheiten aus.` +
-          (requestedQty ? ` Aktuell wird eine Menge von ${requestedQty} Einheiten gefordert.` : "")
+          (requestedQty ? ` Aktuell werden ${requestedQty} Einheiten gefordert.` : "")
       );
     L.push(
-      "Wir bitten höflich um Bestätigung der konkret geforderten Mindestmenge sowie des maßgeblichen " +
-        "Zeitraums. Gern reichen wir umgehend ergänzende Rechnungen desselben Lieferanten nach, um die " +
-        "geforderte Gesamtmenge zu erreichen. Wir bitten darum, unseren Antrag nach Eingang der Ergänzung " +
-        "erneut zu prüfen, ohne ihn vollständig abzulehnen."
+      "Wir bitten höflich um Bestätigung der konkret geforderten Mindestmenge sowie des maßgeblichen Zeitraums. " +
+        "Sobald uns die genaue Vorgabe vorliegt, reichen wir umgehend ergänzende Rechnungen desselben Lieferanten " +
+        "nach, bis die geforderte Gesamtmenge erreicht ist – gern auch als konsolidierte Sammelrechnung."
+    );
+    L.push(
+      "Wir bitten darum, unseren Antrag nach Eingang der ergänzenden Belege erneut zu prüfen, statt ihn vollständig " +
+        "abzulehnen. Die noch fehlende Menge ist für uns kurzfristig nachweisbar."
     );
   } else if (reason === "modifiziert") {
     L.push(
-      "Die eingereichte Rechnung ist authentisch und in keiner Weise inhaltlich verändert worden. " +
-        "Es handelt sich um das Originaldokument unseres Lieferanten."
+      "Die eingereichte Rechnung ist authentisch und wurde inhaltlich in keiner Weise verändert. Es handelt sich um " +
+        "das Originaldokument unseres Lieferanten; eine Manipulation hat zu keinem Zeitpunkt stattgefunden."
     );
     L.push(
-      "Mögliche Ursache für die Einstufung als „modifiziert“ ist, dass die Rechnung als digital aus dem " +
-        "Lieferantenportal exportierte bzw. zusammengeführte PDF-Datei vorliegt. Eine inhaltliche Manipulation " +
-        "hat zu keinem Zeitpunkt stattgefunden."
+      "Als Ursache für die automatische Einstufung als „modifiziert“ kommt in Betracht, dass die Rechnung als digital " +
+        "aus dem Lieferantenportal exportierte, zusammengeführte oder erneut gespeicherte PDF-Datei vorliegt. Solche " +
+        "Export- und Speichervorgänge verändern Metadaten der Datei, nicht aber den Rechnungsinhalt."
     );
     L.push(
-      "Zur Verifizierung bieten wir an: Übermittlung der unveränderten Originaldatei direkt aus dem " +
-        "Lieferantensystem, Nennung der Kontaktdaten des Lieferanten zur direkten Bestätigung gegenüber Amazon " +
-        "sowie Vorlage des zugehörigen Zahlungsbelegs (Überweisung/Kontoauszug)."
+      "Zur Verifizierung bieten wir an: Übermittlung der unveränderten Originaldatei direkt aus dem Lieferantensystem, " +
+        "Bestätigung durch den Lieferanten (gern auch per direkter E-Mail an Amazon), den zugehörigen Zahlungsnachweis " +
+        "(Überweisungsbeleg/Kontoauszug) sowie Auftragsbestätigung bzw. Lieferschein als Querverweis."
+    );
+    L.push(
+      "Wir bitten, die Rechnung anhand dieser zusätzlichen Nachweise erneut – idealerweise manuell – zu prüfen."
     );
   } else if (reason === "lieferant") {
     L.push(
       "Unser Lieferant" + (supplier ? ` (${supplier})` : "") + " ist ein eingetragenes, umsatzsteuerlich " +
-        "registriertes Großhandels-/Vertriebsunternehmen und damit eine zulässige Bezugsquelle."
+        "registriertes Großhandels-/Vertriebsunternehmen und damit eine zulässige Bezugsquelle für Handelsware."
     );
     L.push(
-      "Zur Bestätigung der Autorisierung können wir folgende Nachweise vorlegen: Umsatzsteuer-Identifikationsnummer " +
-        "und Handelsregister-/Gewerbedaten des Lieferanten, Geschäftsadresse und Kontakt zur unmittelbaren " +
-        "Verifizierung sowie ggf. eine Autorisierungs- bzw. Händlerbestätigung."
+      "Zur Bestätigung der Seriosität und Autorisierung legen wir auf Wunsch vor: Umsatzsteuer-Identifikationsnummer, " +
+        "Handelsregister-/Gewerbedaten, Geschäftsadresse und einen direkten Ansprechpartner zur unmittelbaren " +
+        "Verifizierung sowie – soweit vorhanden – eine Händler- bzw. Autorisierungsbestätigung."
     );
     L.push(
-      "Sollte für die gewünschte Marke ausschließlich der Bezug direkt vom Markeninhaber akzeptiert werden, " +
-        "bitten wir um einen ausdrücklichen Hinweis darauf, damit wir eine entsprechende Bezugsquelle nachweisen können."
+      "Nach unserem Verständnis akzeptiert Amazon für die Freischaltung Rechnungen von Herstellern wie auch von " +
+        "autorisierten Distributoren/Großhändlern. Sollte ausschließlich der Bezug direkt vom Markeninhaber akzeptiert " +
+        "werden, bitten wir um einen ausdrücklichen Hinweis, damit wir eine entsprechende Bezugsquelle nachweisen können."
     );
   } else if (reason === "alt") {
     L.push(
-      "Die eingereichte Rechnung lag unseres Erachtens innerhalb des akzeptierten Zeitraums." +
+      "Die eingereichte Rechnung lag nach unserem Verständnis innerhalb des akzeptierten Zeitraums." +
         (invoiceDate ? ` Das Rechnungsdatum ist der ${invoiceDate}.` : "")
     );
     L.push(
-      "Sofern der maßgebliche Zeitraum (z. B. 90 oder 180 Tage) überschritten ist, reichen wir umgehend eine " +
-        "aktuelle Rechnung desselben Lieferanten nach. Wir bitten um Bestätigung des erforderlichen Zeitfensters."
+      "Maßgeblich ist üblicherweise das Rechnungsdatum innerhalb der letzten 90 bzw. 180 Tage. Sollte dieser Zeitraum " +
+        "überschritten sein, stellen wir umgehend eine aktuelle Rechnung desselben Lieferanten über die geforderte " +
+        "Menge bereit – in der Regel noch am selben Tag."
+    );
+    L.push(
+      "Wir bitten um Bestätigung des konkret erforderlichen Zeitfensters und um erneute Prüfung nach Einreichung der " +
+        "aktuellen Rechnung."
     );
   } else if (reason === "unvollstaendig") {
     L.push(
-      "Wir reichen die Rechnung gern in vollständiger Form erneut ein. Bitte teilen Sie uns mit, welche " +
-        "konkrete Pflichtangabe als fehlend bewertet wurde (z. B. vollständige Verkäuferadresse, unsere " +
-        "Geschäftsadresse, Kontaktdaten des Lieferanten oder Artikelbezeichnung/Menge)."
+      "Wir reichen die Rechnung gern in vollständiger Form erneut ein. Damit wir gezielt nachbessern können, bitten " +
+        "wir um Mitteilung, welche konkrete Pflichtangabe als fehlend bewertet wurde."
     );
     L.push(
-      "Unsere auf der Rechnung hinterlegte Geschäftsadresse stimmt mit den im Verkäuferkonto hinterlegten " +
-        "Daten überein. Eventuelle Abweichungen korrigieren wir umgehend."
+      "Eine vollständige Rechnung enthält in der Regel: vollständiger Name und Anschrift des Lieferanten, unseren " +
+        "Firmennamen und unsere Anschrift (übereinstimmend mit dem Verkäuferkonto), Rechnungsdatum und -nummer, " +
+        "Artikelbezeichnung sowie Menge. Wir stellen sicher, dass alle diese Angaben enthalten und gut lesbar sind."
+    );
+    L.push(
+      "Unsere auf der Rechnung hinterlegte Geschäftsadresse stimmt mit den Kontodaten überein. Etwaige Abweichungen " +
+        "korrigieren wir umgehend und reichen die korrigierte Rechnung nach."
     );
   } else if (reason === "unleserlich") {
     L.push(
-      "Wir reichen die Rechnung gern in höherer Auflösung als ungeschützte, klar lesbare PDF-Datei erneut ein " +
-        "(keine Screenshots, kein Passwortschutz, vollständige Seiten ohne Beschnitt)."
+      "Wir reichen die Rechnung gern in einwandfrei lesbarer Form erneut ein: als ungeschützte, hochauflösende " +
+        "PDF-Datei mit vollständigen Seiten, ohne Beschnitt, ohne Passwortschutz und ohne starke Komprimierung."
+    );
+    L.push(
+      "Die beste Lesbarkeit erreichen wir mit der digitalen Originaldatei direkt aus dem Lieferantensystem; alternativ " +
+        "liefern wir einen sauberen Farb-Scan in hoher Auflösung."
     );
     L.push(
       "Bitte bestätigen Sie das bevorzugte Format, damit die erneute Einreichung sofort akzeptiert werden kann."
@@ -110,17 +130,31 @@ function reasonArgument(data: ToolData): string[] {
   } else if (reason === "mismatch") {
     L.push(
       "Die Angaben auf der Rechnung beziehen sich auf dasselbe Unternehmen, das dieses Verkäuferkonto betreibt. " +
-        "Etwaige Abweichungen (z. B. abweichende Schreibweise, alte Adresse) lassen sich eindeutig auflösen."
+        "Etwaige Abweichungen – etwa eine abweichende Schreibweise, eine frühere Anschrift oder ein Zusatz im " +
+        "Firmennamen – lassen sich eindeutig auflösen."
     );
     L.push(
-      "Bitte teilen Sie uns mit, welche konkrete Angabe als abweichend bewertet wurde. Wir gleichen die Daten " +
-        "umgehend mit den Konto- und Rechnungsangaben ab und reichen ggf. eine korrigierte Rechnung nach."
+      "Bitte teilen Sie uns mit, welche konkrete Angabe als abweichend bewertet wurde (z. B. Name, Adresse oder " +
+        "Steuernummer). Wir gleichen die Daten umgehend mit den Konto- und Rechnungsangaben ab."
+    );
+    L.push(
+      "Zur Auflösung bieten wir an: Aktualisierung der Kontodaten auf die exakte Firmierung, eine vom Lieferanten auf " +
+        "den korrekten Konto-Namen/-Anschrift neu ausgestellte Rechnung sowie unsere Gewerbe-/Handelsregisterdaten zum " +
+        "Identitätsnachweis."
     );
   } else {
     L.push(
-      "Wir bitten höflich um eine konkrete Begründung, welche Anforderung als nicht erfüllt bewertet wurde, " +
-        "sowie um Nennung der genauen Unterlagen bzw. Angaben, die für eine Freischaltung erforderlich sind. " +
-        "Wir stellen die geforderten Nachweise umgehend bereit."
+      "Wir bitten höflich um eine konkrete Begründung, welche Anforderung als nicht erfüllt bewertet wurde, sowie um " +
+        "Nennung der genau erforderlichen Unterlagen bzw. Angaben für die Freischaltung."
+    );
+    L.push(
+      "Proaktiv stellen wir bereits jetzt unser vollständiges Nachweispaket bereit: Originalrechnung(en) des " +
+        "Lieferanten, den zugehörigen Zahlungsnachweis sowie Kontakt- und Registrierungsdaten des Lieferanten zur " +
+        "direkten Verifizierung."
+    );
+    L.push(
+      "Wir bitten um einen konkreten Hinweis, welcher einzelne Punkt noch fehlt, damit wir ihn umgehend nachreichen " +
+        "können – idealerweise ohne erneute vollständige Ablehnung."
     );
   }
 

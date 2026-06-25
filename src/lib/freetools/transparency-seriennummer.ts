@@ -30,63 +30,93 @@ function reasonArgument(data: ToolData): string[] {
 
   if (reason === "lesbarkeit") {
     L.push(
-      "Der aufgebrachte Transparency-Code ist vollständig und scharf abgebildet. Der gesamte Code-Bereich " +
-        "ist innerhalb des Bildausschnitts, gleichmäßig ausgeleuchtet und frei von Spiegelungen, Unschärfe oder " +
-        "Verdeckungen."
+      "Der aufgebrachte Transparency-Code ist vollständig und scharf abgebildet. Der gesamte Code-Bereich liegt " +
+        "innerhalb des Bildausschnitts, ist gleichmäßig ausgeleuchtet und frei von Spiegelungen, Unschärfe, Schatten " +
+        "oder Verdeckungen."
     );
     L.push(
-      "Wir haben die Aufnahme zusätzlich in höherer Auflösung und mit erhöhtem Kontrast erstellt. Der Code lässt " +
-        "sich mit der Amazon-Transparency-App einwandfrei scannen."
+      "Für die erneute Einreichung haben wir die Aufnahme in höherer Auflösung und mit erhöhtem Kontrast erstellt. " +
+        "Der Code lässt sich mit der Amazon-Transparency-App reproduzierbar und einwandfrei scannen."
+    );
+    L.push(
+      "Gern liefern wir ergänzend eine Nahaufnahme (Makro) sowie ein Übersichtsfoto im Produktkontext und bitten um " +
+        "eine manuelle Prüfung des Uploads."
     );
   } else if (reason === "falscherCode") {
     L.push(
-      "Der abgebildete Code" + (code ? ` (${code})` : "") + " stammt aus dem offiziell von Amazon Transparency " +
-        "für dieses Produkt bereitgestellten bzw. autorisierten Code-Kontingent und gehört eindeutig zur " +
-        "betreffenden ASIN/Einheit."
+      "Der abgebildete Code" + (code ? ` (${code})` : "") + " stammt aus dem offiziell von Amazon Transparency für " +
+        "dieses Produkt bereitgestellten bzw. autorisierten Code-Kontingent und gehört eindeutig zur betreffenden " +
+        "ASIN/Einheit."
     );
     L.push(
-      "Wir bitten um Abgleich des Codes mit dem hinterlegten Transparency-Bestand. Sollte eine Zuordnung " +
-        "fehlschlagen, bitten wir um Nennung des erwarteten Code-Formats bzw. der korrekten Code-Quelle."
+      "Wir bitten um Abgleich des Codes mit dem für unser Konto hinterlegten Transparency-Bestand. Gern nennen wir " +
+        "die zugehörige Charge bzw. Code-Quelle sowie die GTIN des Produkts zur eindeutigen Zuordnung."
+    );
+    L.push(
+      "Sollte die automatische Zuordnung fehlschlagen, bitten wir um Nennung des erwarteten Code-Formats bzw. der " +
+        "korrekten Code-Quelle – möglicherweise wurde ein Code aus einer anderen Charge erfasst. Das korrigieren wir umgehend."
     );
   } else if (reason === "platzierung") {
     L.push(
-      "Der Code ist gut sichtbar und dauerhaft auf der Produktverpackung/dem Etikett angebracht – an einer " +
-        "ebenen, nicht gewölbten Stelle und ohne Überlappung mit anderen Codes (z. B. Barcode/EAN)."
+      "Der Code ist gut sichtbar und dauerhaft auf der Produktverpackung bzw. dem Etikett angebracht – an einer " +
+        "ebenen, nicht gewölbten Stelle und ohne Überlappung mit anderen Codes (z. B. Barcode/EAN) oder Designelementen."
     );
     L.push(
-      "Falls eine bestimmte Platzierung gefordert wird, bitten wir um einen konkreten Hinweis (Position/Fläche), " +
-        "damit wir die Anbringung entsprechend anpassen und ein neues Foto liefern können."
+      "Gern liefern wir zusätzlich ein Foto, das den Code im Gesamtkontext der Verpackung zeigt, sowie eine " +
+        "Nahaufnahme, damit Platzierung und Lesbarkeit eindeutig nachvollziehbar sind."
+    );
+    L.push(
+      "Falls eine bestimmte Platzierung gefordert ist, bitten wir um einen konkreten Hinweis (Position/Fläche). Wir " +
+        "passen die Anbringung umgehend an und reichen ein neues Foto ein."
     );
   } else if (reason === "bildqualitaet") {
     L.push(
-      "Wir reichen ein neues Foto in hoher Auflösung ein: scharf, gut ausgeleuchtet, ohne Blitzreflexe, der " +
-        "vollständige Code mittig im Bild und in ausreichendem Abstand aufgenommen."
+      "Wir reichen ein neues Foto in hoher Auflösung ein: scharf, gleichmäßig ausgeleuchtet, ohne Blitzreflexe und " +
+        "ohne Bewegungsunschärfe, mit dem vollständigen Code mittig im Bild und in ausreichendem Abstand aufgenommen."
     );
     L.push(
-      "Bitte bestätigen Sie die geforderten Mindestanforderungen (z. B. Auflösung/Format), damit der erneute " +
-        "Upload sofort akzeptiert werden kann."
+      "Die Aufnahme erfolgt vor neutralem Hintergrund bei Tageslicht, um Reflexionen und Farbstiche zu vermeiden. Der " +
+        "Code ist damit sowohl visuell als auch per App eindeutig erfassbar."
+    );
+    L.push(
+      "Bitte bestätigen Sie die geforderten Mindestanforderungen (z. B. Auflösung/Format), damit der erneute Upload " +
+        "sofort akzeptiert werden kann."
     );
   } else if (reason === "nichtgescannt") {
     L.push(
-      "Der Code ist technisch einwandfrei und in unseren Tests mit der Amazon-Transparency-App reproduzierbar " +
-        "scanbar. Ein fehlgeschlagener automatischer Scan ist daher auf die Bildverarbeitung im Prüfprozess " +
-        "zurückzuführen, nicht auf den Code selbst."
+      "Der Code ist technisch einwandfrei und in unseren Tests mit der Amazon-Transparency-App reproduzierbar scanbar. " +
+        "Ein fehlgeschlagener automatischer Scan ist daher auf die Bildverarbeitung im Prüfprozess zurückzuführen, " +
+        "nicht auf den Code selbst."
     );
     L.push(
-      "Wir bitten um eine manuelle Prüfung des hochgeladenen Bildes. Gern liefern wir zusätzliche Aufnahmen aus " +
-        "verschiedenen Winkeln sowie ein kurzes Scan-Video zur Bestätigung."
+      "Zur Bestätigung liefern wir gern zusätzliche Aufnahmen aus verschiedenen Winkeln sowie ein kurzes Video, das " +
+        "den erfolgreichen Scan mit der Transparency-App dokumentiert."
+    );
+    L.push(
+      "Wir bitten ausdrücklich um eine manuelle Prüfung des hochgeladenen Bildes und um Freigabe auf dieser Grundlage."
     );
   } else if (reason === "format") {
     L.push(
-      "Wir laden die Datei gern im geforderten Format erneut hoch (gängiges Bildformat, ausreichende Auflösung, " +
-        "ohne Komprimierungsartefakte, vollständiger Bildausschnitt)."
+      "Wir laden die Datei gern im geforderten Format erneut hoch: gängiges Bildformat (z. B. JPG/PNG), ausreichende " +
+        "Auflösung, ohne Komprimierungsartefakte, vollständiger Bildausschnitt und nur ein Code pro Bild."
+    );
+    L.push(
+      "Sollte eine bestimmte Dateigröße, ein Seitenverhältnis oder ein Dateityp vorgeschrieben sein, passen wir die " +
+        "Aufnahme exakt daran an."
     );
     L.push("Bitte bestätigen Sie das bevorzugte Datei- und Bildformat für einen sofort akzeptierten Upload.");
   } else {
     L.push(
-      "Wir bitten höflich um eine konkrete Begründung, welche Anforderung als nicht erfüllt bewertet wurde, " +
-        "sowie um Nennung der genauen Vorgaben (Code-Quelle, Platzierung, Bild-/Dateiformat). Wir liefern die " +
-        "geforderte Aufnahme umgehend."
+      "Wir bitten höflich um eine konkrete Begründung, welche Anforderung als nicht erfüllt bewertet wurde, sowie um " +
+        "Nennung der genauen Vorgaben (Code-Quelle, Platzierung, Bild- bzw. Dateiformat)."
+    );
+    L.push(
+      "Proaktiv liefern wir bereits mehrere Aufnahmen des Codes aus unterschiedlichen Winkeln sowie ein kurzes " +
+        "Scan-Video zur Verifizierung."
+    );
+    L.push(
+      "Wir bitten um eine manuelle Prüfung und um einen konkreten Hinweis, welcher einzelne Punkt noch anzupassen ist, " +
+        "damit wir umgehend eine korrigierte Aufnahme bereitstellen können."
     );
   }
 
