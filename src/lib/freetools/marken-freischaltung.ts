@@ -2,14 +2,21 @@ import { BadgeCheck } from "lucide-react";
 import { type ToolConfig, type ToolData, s, DISCLAIMER } from "./types";
 
 // Widerspruch gegen abgelehnte Marken-/Kategorie-Freischaltung (Ungating) auf Amazon.
-// Deckt die häufigsten Ablehnungsgründe der Brand-/Kategorie-Approval-Teams ab.
+// Inhalte auf Basis der aktuellen Amazon-Anforderungen (Stand 2026):
+//  - Rechnung von Hersteller ODER autorisiertem Großhändler (keine Endkunden-Quittung,
+//    keine Pro-forma-Rechnung)
+//  - mindestens 10 Einheiten, Rechnungsdatum innerhalb der letzten 180 Tage (teils 365)
+//  - Käuferdaten exakt wie im Seller-Central-Konto; Lieferant mit Name/Anschrift/Telefon/Website
+//  - Artikel mit Modellnummer bzw. UPC/EAN; hochauflösend, unverändert, Preise nicht geschwärzt
 
 const REASON_LABEL: Record<string, string> = {
   menge: "Rechnung weist zu geringe Stückzahl auf / es wird eine höhere Menge verlangt",
-  modifiziert: "Rechnung wurde als „modifiziert“ bzw. bearbeitet eingestuft",
+  modifiziert: "Rechnung wurde als „modifiziert“ / bearbeitet eingestuft",
   lieferant: "Lieferant gilt nicht als autorisierter Großhändler / Hersteller",
+  quittung: "Eingereichtes Dokument wurde als Quittung statt Großhandelsrechnung gewertet",
+  autorisierung: "Autorisierung / Erlaubnis der Marke fehlt (LOA / Vertriebsvereinbarung)",
   alt: "Rechnung ist zu alt (außerhalb des akzeptierten Zeitraums)",
-  unvollstaendig: "Pflichtangaben auf der Rechnung fehlen (Adresse, Kontakt, Artikel)",
+  unvollstaendig: "Pflichtangaben auf der Rechnung fehlen (Lieferant, Käufer, Artikel)",
   unleserlich: "Dokument ist angeblich unleserlich oder von schlechter Qualität",
   mismatch: "Angaben stimmen nicht mit den Verkäuferkonto-Daten überein",
   sonstiges: "Sonstiger Ablehnungsgrund",
@@ -36,9 +43,9 @@ function reasonArgument(data: ToolData): string[] {
 
   if (reason === "menge") {
     L.push(
-      "Die von uns eingereichte(n) Rechnung(en) erfüllte(n) die zum Zeitpunkt der Antragstellung kommunizierte " +
-        "Mindestabnahmemenge. Die Ablehnung stützt sich nun auf eine höhere Stückzahl, die in der ursprünglichen " +
-        "Aufforderung nicht genannt war – auf diese geänderte Vorgabe konnten wir vorab nicht eingehen."
+      "Die von uns eingereichte(n) Rechnung(en) erfüllte(n) die zum Antragszeitpunkt kommunizierte Mindestmenge " +
+        "(üblich: mindestens 10 Einheiten innerhalb der letzten 180 Tage). Die Ablehnung stützt sich nun auf eine " +
+        "höhere Stückzahl, die in der ursprünglichen Aufforderung nicht genannt war."
     );
     if (invoiceQty)
       L.push(
@@ -46,27 +53,28 @@ function reasonArgument(data: ToolData): string[] {
           (requestedQty ? ` Aktuell werden ${requestedQty} Einheiten gefordert.` : "")
       );
     L.push(
-      "Wir bitten höflich um Bestätigung der konkret geforderten Mindestmenge sowie des maßgeblichen Zeitraums. " +
-        "Sobald uns die genaue Vorgabe vorliegt, reichen wir umgehend ergänzende Rechnungen desselben Lieferanten " +
-        "nach, bis die geforderte Gesamtmenge erreicht ist – gern auch als konsolidierte Sammelrechnung."
+      "Amazon erwartet in der Regel Rechnungen über die gesamte angebotene bzw. verkaufte Menge desselben Produkts. " +
+        "Wir reichen umgehend ergänzende Rechnungen desselben autorisierten Lieferanten nach, bis die geforderte " +
+        "Gesamtmenge vollständig belegt ist – gern auch als konsolidierte Aufstellung."
     );
     L.push(
-      "Wir bitten darum, unseren Antrag nach Eingang der ergänzenden Belege erneut zu prüfen, statt ihn vollständig " +
-        "abzulehnen. Die noch fehlende Menge ist für uns kurzfristig nachweisbar."
+      "Wir bitten höflich um Bestätigung der konkret geforderten Mindestmenge sowie des maßgeblichen Zeitraums und " +
+        "darum, unseren Antrag nach Eingang der ergänzenden Belege erneut zu prüfen, statt ihn vollständig abzulehnen."
     );
   } else if (reason === "modifiziert") {
     L.push(
       "Die eingereichte Rechnung ist authentisch und wurde inhaltlich in keiner Weise verändert. Es handelt sich um " +
-        "das Originaldokument unseres Lieferanten; eine Manipulation hat zu keinem Zeitpunkt stattgefunden."
+        "eine vollständige Originalrechnung unseres Lieferanten über eine tatsächlich abgeschlossene Bestellung – " +
+        "keine Pro-forma-Rechnung."
     );
     L.push(
-      "Als Ursache für die automatische Einstufung als „modifiziert“ kommt in Betracht, dass die Rechnung als digital " +
-        "aus dem Lieferantenportal exportierte, zusammengeführte oder erneut gespeicherte PDF-Datei vorliegt. Solche " +
-        "Export- und Speichervorgänge verändern Metadaten der Datei, nicht aber den Rechnungsinhalt."
+      "Häufige Auslöser der automatischen Einstufung als „modifiziert“ sind nachträglich bearbeitete PDF-Dateien, " +
+        "geschwärzte oder entfernte Preise, Beschnitte oder eine als PDF neu gespeicherte/zusammengeführte Datei. Bei " +
+        "uns liegen ausgewiesene Preise vor, es wurde nichts entfernt, geschwärzt oder verändert."
     );
     L.push(
-      "Zur Verifizierung bieten wir an: Übermittlung der unveränderten Originaldatei direkt aus dem Lieferantensystem, " +
-        "Bestätigung durch den Lieferanten (gern auch per direkter E-Mail an Amazon), den zugehörigen Zahlungsnachweis " +
+      "Zur Verifizierung bieten wir an: die unveränderte Originaldatei direkt aus dem Lieferantensystem, eine " +
+        "Bestätigung des Lieferanten (gern per direkter E-Mail an Amazon), den zugehörigen Zahlungsnachweis " +
         "(Überweisungsbeleg/Kontoauszug) sowie Auftragsbestätigung bzw. Lieferschein als Querverweis."
     );
     L.push(
@@ -75,17 +83,47 @@ function reasonArgument(data: ToolData): string[] {
   } else if (reason === "lieferant") {
     L.push(
       "Unser Lieferant" + (supplier ? ` (${supplier})` : "") + " ist ein eingetragenes, umsatzsteuerlich " +
-        "registriertes Großhandels-/Vertriebsunternehmen und damit eine zulässige Bezugsquelle für Handelsware."
+        "registriertes Großhandels-/Vertriebsunternehmen und damit eine zulässige Bezugsquelle. Amazon akzeptiert " +
+        "Rechnungen von Herstellern oder autorisierten Groß-/Fachhändlern – es handelt sich nicht um eine " +
+        "Endkunden-Quittung oder einen Einzelhandelsbeleg."
     );
     L.push(
       "Zur Bestätigung der Seriosität und Autorisierung legen wir auf Wunsch vor: Umsatzsteuer-Identifikationsnummer, " +
-        "Handelsregister-/Gewerbedaten, Geschäftsadresse und einen direkten Ansprechpartner zur unmittelbaren " +
-        "Verifizierung sowie – soweit vorhanden – eine Händler- bzw. Autorisierungsbestätigung."
+        "Handelsregister-/Gewerbedaten, vollständige Anschrift, Telefon und Website des Lieferanten, einen direkten " +
+        "Ansprechpartner zur unmittelbaren Verifizierung sowie – soweit verlangt – ein Autorisierungsschreiben (Letter " +
+        "of Authorization), das den Verkauf der Marke ausdrücklich auch auf Amazon gestattet."
     );
     L.push(
-      "Nach unserem Verständnis akzeptiert Amazon für die Freischaltung Rechnungen von Herstellern wie auch von " +
-        "autorisierten Distributoren/Großhändlern. Sollte ausschließlich der Bezug direkt vom Markeninhaber akzeptiert " +
-        "werden, bitten wir um einen ausdrücklichen Hinweis, damit wir eine entsprechende Bezugsquelle nachweisen können."
+      "Sollte für die gewünschte Marke ausschließlich der Direktbezug vom Markeninhaber akzeptiert werden, bitten wir " +
+        "um einen ausdrücklichen Hinweis, damit wir eine entsprechende Bezugsquelle nachweisen können."
+    );
+  } else if (reason === "quittung") {
+    L.push(
+      "Bei dem beanstandeten Beleg handelt es sich um eine vollständige Rechnung, nicht um eine bloße Quittung. Sollte " +
+        "das eingereichte Dokument als Endkunden- bzw. Kassenbeleg gewertet worden sein, reichen wir umgehend eine " +
+        "ordnungsgemäße Großhandelsrechnung unseres autorisierten Lieferanten nach."
+    );
+    L.push(
+      "Eine ungating-taugliche Rechnung stammt von einem Hersteller oder autorisierten Großhändler und enthält " +
+        "vollständige Lieferanten- und Käuferdaten, Rechnungsnummer und -datum sowie die Artikel mit Modellnummer bzw. " +
+        "UPC/EAN und Menge. Diese Anforderungen erfüllen wir vollständig."
+    );
+    L.push(
+      "Wir bitten um Bestätigung, dass die nachgereichte Großhandelsrechnung akzeptiert wird, sowie um erneute Prüfung."
+    );
+  } else if (reason === "autorisierung") {
+    L.push(
+      "Wir beziehen die Produkte aus einer legitimen, autorisierten Quelle. Sofern für die Marke ein ausdrücklicher " +
+        "Autorisierungsnachweis verlangt wird, legen wir ein Autorisierungsschreiben (Letter of Authorization) bzw. " +
+        "eine Händler-/Vertriebsvereinbarung vor, die den Vertrieb – ausdrücklich auch auf Amazon – gestattet."
+    );
+    L.push(
+      "Ergänzend stellen wir Einkaufsrechnungen des autorisierten Lieferanten sowie dessen vollständige Kontaktdaten " +
+        "zur direkten Verifizierung bereit."
+    );
+    L.push(
+      "Wir bitten um Mitteilung, welcher konkrete Nachweis (LOA, Vertriebsvereinbarung oder Herstellerbestätigung) für " +
+        "die Freischaltung erforderlich ist, damit wir genau diesen umgehend einreichen können."
     );
   } else if (reason === "alt") {
     L.push(
@@ -93,9 +131,9 @@ function reasonArgument(data: ToolData): string[] {
         (invoiceDate ? ` Das Rechnungsdatum ist der ${invoiceDate}.` : "")
     );
     L.push(
-      "Maßgeblich ist üblicherweise das Rechnungsdatum innerhalb der letzten 90 bzw. 180 Tage. Sollte dieser Zeitraum " +
-        "überschritten sein, stellen wir umgehend eine aktuelle Rechnung desselben Lieferanten über die geforderte " +
-        "Menge bereit – in der Regel noch am selben Tag."
+      "Maßgeblich ist üblicherweise das Rechnungsdatum innerhalb der letzten 180 Tage (in einzelnen Fällen werden bis " +
+        "zu 365 Tage akzeptiert). Sollte dieser Zeitraum überschritten sein, stellen wir umgehend eine aktuelle " +
+        "Rechnung desselben Lieferanten über die geforderte Menge bereit – in der Regel noch am selben Tag."
     );
     L.push(
       "Wir bitten um Bestätigung des konkret erforderlichen Zeitfensters und um erneute Prüfung nach Einreichung der " +
@@ -107,22 +145,24 @@ function reasonArgument(data: ToolData): string[] {
         "wir um Mitteilung, welche konkrete Pflichtangabe als fehlend bewertet wurde."
     );
     L.push(
-      "Eine vollständige Rechnung enthält in der Regel: vollständiger Name und Anschrift des Lieferanten, unseren " +
-        "Firmennamen und unsere Anschrift (übereinstimmend mit dem Verkäuferkonto), Rechnungsdatum und -nummer, " +
-        "Artikelbezeichnung sowie Menge. Wir stellen sicher, dass alle diese Angaben enthalten und gut lesbar sind."
+      "Eine vollständige Rechnung enthält: vollständiger Name und Anschrift des Lieferanten (mit Telefon und " +
+        "Website/E-Mail), unseren Firmennamen und unsere Anschrift exakt wie im Amazon-Verkäuferkonto, Rechnungsnummer " +
+        "und -datum, die Artikelbezeichnung mit Modellnummer bzw. UPC/EAN sowie die Menge. Wir stellen sicher, dass " +
+        "alle diese Angaben enthalten und gut lesbar sind."
     );
     L.push(
-      "Unsere auf der Rechnung hinterlegte Geschäftsadresse stimmt mit den Kontodaten überein. Etwaige Abweichungen " +
-        "korrigieren wir umgehend und reichen die korrigierte Rechnung nach."
+      "Etwaige Lücken schließen wir umgehend und reichen die vervollständigte Rechnung nach."
     );
   } else if (reason === "unleserlich") {
     L.push(
-      "Wir reichen die Rechnung gern in einwandfrei lesbarer Form erneut ein: als ungeschützte, hochauflösende " +
-        "PDF-Datei mit vollständigen Seiten, ohne Beschnitt, ohne Passwortschutz und ohne starke Komprimierung."
+      "Wir reichen die Rechnung gern in einwandfrei lesbarer Form erneut ein: als hochauflösenden Scan bzw. als " +
+        "digitale Originaldatei (PDF) mit vollständigen Seiten, ohne Beschnitt, ohne Passwortschutz und ohne starke " +
+        "Komprimierung."
     );
     L.push(
-      "Die beste Lesbarkeit erreichen wir mit der digitalen Originaldatei direkt aus dem Lieferantensystem; alternativ " +
-        "liefern wir einen sauberen Farb-Scan in hoher Auflösung."
+      "Amazon erwartet eine klar lesbare Vorlage – kein abfotografiertes, schräges oder beschnittenes Bild. Die beste " +
+        "Lesbarkeit erreichen wir mit der digitalen Originaldatei direkt aus dem Lieferantensystem; alternativ liefern " +
+        "wir einen sauberen Farb-Scan in hoher Auflösung."
     );
     L.push(
       "Bitte bestätigen Sie das bevorzugte Format, damit die erneute Einreichung sofort akzeptiert werden kann."
@@ -134,8 +174,9 @@ function reasonArgument(data: ToolData): string[] {
         "Firmennamen – lassen sich eindeutig auflösen."
     );
     L.push(
-      "Bitte teilen Sie uns mit, welche konkrete Angabe als abweichend bewertet wurde (z. B. Name, Adresse oder " +
-        "Steuernummer). Wir gleichen die Daten umgehend mit den Konto- und Rechnungsangaben ab."
+      "Amazon verlangt eine exakte Übereinstimmung zwischen den Rechnungsangaben und den im Verkäuferkonto " +
+        "hinterlegten Daten (Firmenname und Anschrift). Bitte teilen Sie uns mit, welche konkrete Angabe als " +
+        "abweichend bewertet wurde (z. B. Name, Adresse oder Steuernummer)."
     );
     L.push(
       "Zur Auflösung bieten wir an: Aktualisierung der Kontodaten auf die exakte Firmierung, eine vom Lieferanten auf " +
@@ -148,9 +189,9 @@ function reasonArgument(data: ToolData): string[] {
         "Nennung der genau erforderlichen Unterlagen bzw. Angaben für die Freischaltung."
     );
     L.push(
-      "Proaktiv stellen wir bereits jetzt unser vollständiges Nachweispaket bereit: Originalrechnung(en) des " +
-        "Lieferanten, den zugehörigen Zahlungsnachweis sowie Kontakt- und Registrierungsdaten des Lieferanten zur " +
-        "direkten Verifizierung."
+      "Proaktiv stellen wir bereits jetzt unser vollständiges Nachweispaket bereit: Originalrechnung(en) eines " +
+        "autorisierten Lieferanten, den zugehörigen Zahlungsnachweis sowie Kontakt- und Registrierungsdaten des " +
+        "Lieferanten zur direkten Verifizierung."
     );
     L.push(
       "Wir bitten um einen konkreten Hinweis, welcher einzelne Punkt noch fehlt, damit wir ihn umgehend nachreichen " +
@@ -186,10 +227,9 @@ function generate(data: ToolData): string {
   L.push("Sehr geehrtes Amazon-Team,");
   L.push("");
   L.push(
-    "wir beziehen uns auf die Ablehnung unseres Antrags auf Freischaltung zum Verkauf der oben genannten " +
-      "Marke bzw. Kategorie. Nach sorgfältiger Prüfung möchten wir hierzu Stellung nehmen und legen gegen die " +
-      "Ablehnung Widerspruch ein. Wir sind überzeugt, die geforderten Voraussetzungen zu erfüllen, und stellen " +
-      "alle erforderlichen Nachweise umgehend bereit."
+    "wir beziehen uns auf die Ablehnung unseres Antrags auf Freischaltung zum Verkauf der oben genannten Marke bzw. " +
+      "Kategorie. Nach sorgfältiger Prüfung nehmen wir hierzu Stellung und legen gegen die Ablehnung Widerspruch ein. " +
+      "Wir erfüllen die Voraussetzungen und stellen alle erforderlichen Nachweise umgehend bereit."
   );
   L.push("");
 
@@ -199,22 +239,33 @@ function generate(data: ToolData): string {
     L.push("");
   });
 
-  L.push("2. Vorliegende Nachweise");
-  L.push("Folgende Unterlagen liegen vor und werden auf Anforderung umgehend (erneut) übermittelt:");
-  L.push("   • Originalrechnung(en) des Lieferanten als vollständige, lesbare PDF-Datei");
+  L.push("2. Erfüllte Anforderungen an die Rechnung");
+  L.push("Unsere Rechnung erfüllt die von Amazon verlangten Standardanforderungen:");
+  L.push("   • Ausgestellt von einem Hersteller bzw. autorisierten Großhändler (keine Endkunden-Quittung, keine Pro-forma-Rechnung)");
+  L.push("   • Mindestens 10 Einheiten des Produkts, Rechnungsdatum innerhalb der letzten 180 Tage");
+  L.push("   • Käufername und -anschrift stimmen exakt mit dem Amazon-Verkäuferkonto überein");
+  L.push("   • Vollständige Lieferantendaten: Name, Anschrift, Telefon und Website/E-Mail");
+  L.push("   • Artikelbezeichnung mit Modellnummer bzw. UPC/EAN sowie Menge");
+  L.push("   • Hochauflösende, unveränderte Originalrechnung mit ausgewiesenen Preisen");
+  L.push("");
+
+  L.push("3. Vorliegende Nachweise");
+  L.push("Folgende Unterlagen werden auf Anforderung umgehend (erneut) übermittelt:");
+  L.push("   • Originalrechnung(en) des autorisierten Lieferanten als vollständige, lesbare PDF-Datei");
   L.push("   • Zahlungsnachweis (Überweisungsbeleg / Kontoauszug) zur jeweiligen Rechnung");
   L.push("   • Kontakt- und Registrierungsdaten des Lieferanten zur direkten Verifizierung");
+  L.push("   • Soweit erforderlich: Autorisierungsschreiben (LOA) bzw. Vertriebsvereinbarung");
   if (extra) {
     bullets(extra).forEach((b) => L.push(b));
   }
   L.push("");
 
-  L.push("3. Bitte");
+  L.push("4. Bitte");
   L.push(
-    "Wir bitten höflich, die Ablehnung zu überprüfen und unseren Antrag erneut zu bewerten. Sollte eine " +
-      "einzelne Angabe oder ein Dokument fehlen, bitten wir um einen konkreten Hinweis, damit wir die Unterlage " +
-      "umgehend nachreichen können – idealerweise ohne erneute vollständige Ablehnung. Für Rückfragen und zur " +
-      "direkten Verifizierung unseres Lieferanten stehen wir jederzeit zur Verfügung."
+    "Wir bitten höflich, die Ablehnung zu überprüfen und unseren Antrag erneut zu bewerten. Sollte eine einzelne " +
+      "Angabe oder ein Dokument fehlen, bitten wir um einen konkreten Hinweis, damit wir die Unterlage umgehend " +
+      "nachreichen können – idealerweise ohne erneute vollständige Ablehnung. Für Rückfragen und zur direkten " +
+      "Verifizierung unseres Lieferanten stehen wir jederzeit zur Verfügung."
   );
   L.push("");
   L.push("Mit freundlichen Grüßen");
@@ -235,7 +286,7 @@ export const markenFreischaltungConfig: ToolConfig = {
   badge: "Amazon-Ungating",
   heroTitle: "Amazon Marken-Freischaltung abgelehnt? Widerspruch-Generator",
   heroSubtitle:
-    "Antrag auf Verkaufsfreischaltung (Ungating) abgelehnt – z. B. weil plötzlich eine höhere Stückzahl verlangt wird, die Rechnung als „modifiziert“ gilt oder der Lieferant nicht akzeptiert wird? Erstelle in Minuten einen sachlichen, überzeugenden Widerspruch. Kostenlos, nur ein kostenloses Konto nötig.",
+    "Antrag auf Verkaufsfreischaltung (Ungating) abgelehnt – z. B. weil plötzlich eine höhere Stückzahl verlangt wird, die Rechnung als „modifiziert“ gilt, der Lieferant nicht akzeptiert wird oder eine Autorisierung fehlt? Erstelle in Minuten einen sachlichen, faktenbasierten Widerspruch nach den aktuellen Amazon-Anforderungen. Kostenlos, nur ein kostenloses Konto nötig.",
   resultFilename: "amazon-marken-freischaltung-widerspruch",
   steps: [
     {
@@ -254,6 +305,8 @@ export const markenFreischaltungConfig: ToolConfig = {
             { value: "menge", label: "Stückzahl zu gering / höhere Menge verlangt" },
             { value: "modifiziert", label: "Rechnung als „modifiziert“ eingestuft" },
             { value: "lieferant", label: "Lieferant nicht akzeptiert / nicht autorisiert" },
+            { value: "quittung", label: "Quittung statt Großhandelsrechnung" },
+            { value: "autorisierung", label: "Autorisierung der Marke fehlt (LOA)" },
             { value: "alt", label: "Rechnung zu alt (außerhalb Zeitraum)" },
             { value: "unvollstaendig", label: "Pflichtangaben fehlen" },
             { value: "unleserlich", label: "Dokument unleserlich / schlechte Qualität" },
@@ -299,7 +352,7 @@ export const markenFreischaltungConfig: ToolConfig = {
           type: "textarea",
           colSpan: 2,
           placeholder:
-            "z. B.\nAutorisierungsbestätigung des Lieferanten liegt vor\nWeitere Rechnung über 40 Einheiten vom 02.06.2026 vorhanden",
+            "z. B.\nAutorisierungsschreiben (LOA) des Herstellers liegt vor\nWeitere Rechnung über 40 Einheiten vom 02.06.2026 vorhanden",
           help: "Leer lassen ist okay – der Widerspruch funktioniert auch ohne.",
         },
       ],
@@ -310,47 +363,47 @@ export const markenFreischaltungConfig: ToolConfig = {
     {
       heading: "Amazon-Verkaufsfreischaltung (Ungating) abgelehnt – was tun?",
       body: [
-        "Viele Marken und Kategorien auf Amazon sind „gegated“: Du darfst sie erst verkaufen, wenn Amazon deinen Antrag auf Freischaltung genehmigt. Dafür verlangt Amazon in der Regel Rechnungen eines echten Lieferanten über eine Mindeststückzahl innerhalb eines bestimmten Zeitraums. Wird der Antrag abgelehnt, ist das selten endgültig – ein sachlicher, gut belegter Widerspruch führt häufig zum Erfolg.",
-        "Dieser Generator erstellt dir genau diesen Widerspruch: strukturiert, höflich, faktenbasiert und passend zum konkreten Ablehnungsgrund.",
+        "Viele Marken und Kategorien auf Amazon sind „gegated“: Du darfst sie erst verkaufen, wenn Amazon deinen Antrag auf Freischaltung genehmigt. Amazon verlangt dafür in der Regel eine Rechnung von einem Hersteller oder autorisierten Großhändler über mindestens 10 Einheiten, ausgestellt innerhalb der letzten 180 Tage. Wird der Antrag abgelehnt, ist das selten endgültig – ein sachlicher, faktenbasierter Widerspruch führt häufig zum Erfolg.",
+        "Dieser Generator erstellt dir genau diesen Widerspruch: strukturiert, höflich und passend zum konkreten Ablehnungsgrund – inklusive der Anforderungen, die deine Rechnung erfüllen muss.",
       ],
     },
     {
-      heading: "Die häufigsten Ablehnungsgründe – und die richtige Reaktion",
+      heading: "Die Amazon-Anforderungen an die Rechnung (2026)",
       body: [
-        "„Höhere Stückzahl verlangt“: Oft wird mit 10 Einheiten beantragt und dann plötzlich eine größere Menge gefordert. Antwort: konkrete Mindestmenge und Zeitraum erfragen und ergänzende Rechnungen desselben Lieferanten nachreichen, statt den Antrag fallen zu lassen.",
-        "„Rechnung modifiziert“: Hier hilft kein Streit, sondern das Angebot, die unveränderte Originaldatei direkt aus dem Lieferantensystem sowie Zahlungsnachweis und Lieferantenkontakt zur Verifizierung bereitzustellen. „Lieferant nicht autorisiert“: Umsatzsteuer-ID, Handelsregister-/Gewerbedaten und Kontakt des Großhändlers vorlegen.",
+        "Akzeptiert werden ausschließlich Rechnungen von Herstellern oder autorisierten Großhändlern – keine Endkunden-Quittungen, keine Einzelhandelsbelege und keine Pro-forma-Rechnungen. Die Rechnung muss mindestens 10 Einheiten ausweisen und innerhalb der letzten 180 Tage (in Einzelfällen 365 Tage) datiert sein.",
+        "Dein Firmenname und deine Anschrift müssen exakt mit dem Amazon-Verkäuferkonto übereinstimmen. Der Lieferant muss mit Name, Anschrift, Telefon und Website nachvollziehbar sein, die Artikel mit Modellnummer bzw. UPC/EAN aufgeführt. Reiche eine hochauflösende, unveränderte Originalrechnung mit ausgewiesenen Preisen ein – kein abfotografiertes Bild, kein Beschnitt, keine geschwärzten Preise.",
       ],
     },
     {
-      heading: "Was macht einen Widerspruch erfolgreich?",
+      heading: "Häufige Ablehnungsgründe – und die richtige Reaktion",
       body: [
-        "Kurz, sachlich, ohne Schuldzuweisungen – und mit dem klaren Angebot, jeden geforderten Nachweis sofort nachzureichen. Wichtig ist, gezielt auf den genannten Ablehnungsgrund einzugehen und um eine erneute Prüfung statt einer vollständigen Neuablehnung zu bitten.",
-        "Reiche, wenn möglich, vollständige PDF-Rechnungen (kein Passwortschutz, kein Beschnitt) plus passenden Zahlungsnachweis ein. Konsistenz zwischen Konto-, Rechnungs- und Lieferantendaten erhöht die Erfolgschance deutlich.",
+        "„Höhere Stückzahl verlangt“: Amazon will oft Rechnungen über die gesamte angebotene Menge. Reiche ergänzende Rechnungen desselben autorisierten Lieferanten nach und bitte um erneute Prüfung statt Komplettablehnung. „Rechnung modifiziert“: meist Folge bearbeiteter PDFs, geschwärzter Preise oder einer Pro-forma-Rechnung – biete die unveränderte Originaldatei, Zahlungsnachweis und Lieferantenkontakt zur Verifizierung an.",
+        "„Lieferant nicht autorisiert“ / „Autorisierung fehlt“: lege Umsatzsteuer-ID, Handelsregister-/Gewerbedaten und Kontakt des Großhändlers vor – und, falls verlangt, ein Autorisierungsschreiben (LOA), das den Verkauf auf Amazon ausdrücklich gestattet. Ungating-Anträge dauern oft 6–8 Wochen und werden streng geprüft; ein präziser Widerspruch spart Runden.",
       ],
     },
   ],
   seo: {
     title: "Amazon Marken-Freischaltung abgelehnt – Widerspruch-Generator | GründerX",
     description:
-      "Amazon-Ungating abgelehnt (Stückzahl, „modifizierte“ Rechnung, Lieferant)? Erstelle kostenlos einen sachlichen Widerspruch gegen die abgelehnte Verkaufsfreischaltung. Vorlage in Minuten.",
+      "Amazon-Ungating abgelehnt (Stückzahl, „modifizierte“ Rechnung, Lieferant, Autorisierung)? Erstelle kostenlos einen faktenbasierten Widerspruch nach den aktuellen Amazon-Anforderungen. Vorlage in Minuten.",
     keywords:
-      "amazon marken freischaltung abgelehnt, amazon ungating widerspruch, amazon kategorie freischalten, amazon rechnung abgelehnt, amazon rechnung modifiziert, amazon verkaufsantrag abgelehnt, amazon brand approval widerspruch",
+      "amazon marken freischaltung abgelehnt, amazon ungating widerspruch, amazon kategorie freischalten, amazon rechnung abgelehnt, amazon rechnung modifiziert, amazon verkaufsantrag abgelehnt, amazon brand approval widerspruch, amazon ungating rechnung anforderungen",
     faqs: [
       {
+        q: "Welche Rechnung akzeptiert Amazon für die Freischaltung?",
+        a: "Eine Rechnung von einem Hersteller oder autorisierten Großhändler über mindestens 10 Einheiten, datiert innerhalb der letzten 180 Tage, mit deinem exakten Konto-Namen und -Adresse, vollständigen Lieferantendaten (Name, Anschrift, Telefon, Website) und Artikeln mit Modellnummer/UPC. Keine Quittungen, keine Pro-forma-Rechnungen, keine geschwärzten Preise.",
+      },
+      {
         q: "Amazon verlangt plötzlich eine höhere Stückzahl als im Antrag – was tun?",
-        a: "Nicht aufgeben. Erfrage die konkret geforderte Mindestmenge und den Zeitraum und reiche ergänzende Rechnungen desselben Lieferanten nach. Der Generator formuliert genau diese Bitte um erneute Prüfung statt vollständiger Ablehnung.",
+        a: "Nicht aufgeben. Amazon will häufig Rechnungen über die gesamte angebotene Menge. Erfrage die genaue Mindestmenge und reiche ergänzende Rechnungen desselben autorisierten Lieferanten nach. Der Generator formuliert die Bitte um erneute Prüfung statt vollständiger Ablehnung.",
       },
       {
         q: "Amazon sagt, meine Rechnung sei „modifiziert“ – obwohl sie echt ist.",
-        a: "Das passiert oft bei aus Portalen exportierten PDFs. Biete an, die unveränderte Originaldatei direkt aus dem Lieferantensystem, den Zahlungsnachweis und den Lieferantenkontakt zur Verifizierung bereitzustellen. Der Generator baut diese Argumentation automatisch ein.",
+        a: "Das passiert oft bei bearbeiteten PDFs, geschwärzten Preisen oder Pro-forma-Rechnungen. Reiche die unveränderte Originaldatei mit ausgewiesenen Preisen ein und biete Zahlungsnachweis sowie Lieferantenkontakt zur Verifizierung an. Genau diese Argumentation baut der Generator ein.",
       },
       {
         q: "Ist der Generator kostenlos?",
         a: "Ja. Erstellung und Download des Widerspruchs sind kostenlos – du legst nur ein kostenloses GründerX-Konto an, um die fertige Vorlage freizuschalten.",
-      },
-      {
-        q: "Garantiert der Widerspruch die Freischaltung?",
-        a: "Nein, die Entscheidung liegt bei Amazon. Ein sachlicher, gut belegter Widerspruch erhöht die Chance aber deutlich, weil er gezielt auf den Ablehnungsgrund eingeht und die passenden Nachweise anbietet.",
       },
     ],
   },
