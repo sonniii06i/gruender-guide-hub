@@ -3482,9 +3482,22 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
           "name": "agent_cost",
           "label": "Jahreskosten ($)",
           "type": "number"
+        },
+        {
+          "name": "mailing_address",
+          "label": "US-Mailing-Adresse (vom Agent zugewiesen)",
+          "type": "textarea"
         }
       ],
       "externalLinks": [
+        {
+          "label": "Wyoming Registered Agent (RA + Mailing-Adresse)",
+          "url": "https://www.wyomingregisteredagent.com"
+        },
+        {
+          "label": "Wyoming Registered Agent — Client-Login",
+          "url": "https://www.wyomingregisteredagent.com/client-login/"
+        },
         {
           "label": "Northwest Registered Agent",
           "url": "https://www.northwestregisteredagent.com"
@@ -3499,11 +3512,14 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         }
       ],
       "extendedNotes": [
+        "Wyoming Registered Agent (wyomingregisteredagent.com): $25/Jahr Registered Agent in Wyoming + optionaler Business-Mailing-Address-/Mail-Forwarding-Service. Diese zugewiesene US-Adresse kannst du als Geschäfts-/Postanschrift der LLC verwenden — z.B. in den Articles of Organization, auf Form SS-4 (EIN), im BOI-Report und bei der Bank-Eröffnung. Bestehende Kunden verwalten Mail-Scans & Filings im Client-Login (wyomingregisteredagent.com/client-login).",
+        "WICHTIG Unterschied: Der Registered Agent ist die gesetzlich vorgeschriebene Zustell-Adresse für Behörden/Klagen im Staat. Die Mailing-/Business-Address ist die optionale Post-Anschrift, die du auf Formularen und gegenüber Geschäftspartnern angibst — beim selben Anbieter oft im Paket, aber zwei getrennte Dinge.",
         "Northwest: $125/Jahr, sehr seriös, kostenlose Mail-Forwarding.",
         "Harbor Compliance: $89/Jahr.",
         "Cloud Peak Law: ab $350/Jahr inkl. Trust-/Privacy-Setup für Wyoming.",
-        "WICHTIG: Alle drei sind seriös — KEIN \"Cheap LegalZoom\" wählen, die schlampen oft mit Annual Reports."
-      ]
+        "WICHTIG: Alle sind seriös — KEIN \"Cheap LegalZoom\" wählen, die schlampen oft mit Annual Reports."
+      ],
+      "description": "JEDER Staat verlangt einen Registered Agent mit physischer Adresse im Staat. Viele Anbieter (z.B. Wyoming Registered Agent, Northwest) bündeln dazu eine US-Mailing-/Business-Adresse, die du als Post-Anschrift der LLC für SS-4, BOI, Bank & Articles nutzt."
     },
     "articles": {
       "fields": [
@@ -3519,8 +3535,16 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       ],
       "externalLinks": [
         {
-          "label": "Wyoming SOS Filing",
-          "url": "https://wyobiz.wyo.gov/Business/RegistrationInstr.aspx"
+          "label": "Wyoming SOS — Online Business Services (Initial Filing)",
+          "url": "https://sos.wyo.gov/Business/OnlineBusinessServices.aspx"
+        },
+        {
+          "label": "Wyoming WyoBiz — New Business Entity Wizard (online filen)",
+          "url": "https://wyobiz.wyo.gov/Business/RegistrationType.aspx"
+        },
+        {
+          "label": "Wyoming SOS — Articles of Organization (PDF, Papierweg)",
+          "url": "https://sos.wyo.gov/forms/business/llc/llc-articlesorganization.pdf"
         },
         {
           "label": "Delaware Filing (PDF)",
@@ -3532,10 +3556,13 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         }
       ],
       "extendedNotes": [
-        "Tipp: Northwest, Harbor und Cloud Peak Law machen das Filing für dich — kostet $39–125 zusätzlich, spart aber mind. 1h Bürokratie.",
-        "Du bekommst per Email einen Stamped PDF / Certificate — DAS ist dein Beweis-Dokument für Bank, IRS etc."
+        "WYOMING — Offizielles Initial Filing direkt beim Secretary of State: Online über das WyoBiz-Portal (sos.wyo.gov → Online Business Services → New Business Entity Wizard). Gebühr $100, Zahlung mit Visa/MasterCard, online-Bestätigung typisch in wenigen Werktagen. Das ist der direkte Behördenweg OHNE Service-Anbieter.",
+        "Pflichtangaben in den Wyoming Articles: LLC-Name (mit Endung), Principal Office Address, Registered-Agent-Name + Adresse (in Wyoming), Organizer-Name + Unterschrift. Als Principal/Mailing Address kannst du die vom Registered Agent (z.B. Wyoming Registered Agent) zugewiesene US-Adresse eintragen.",
+        "Papierweg Wyoming (langsamer): Articles-of-Organization-PDF ausfüllen + per Post mit Scheck/Money-Order an: Wyoming Secretary of State, Herschler Building East, 122 W 25th St, Suite 101, Cheyenne, WY 82002-0020, USA.",
+        "Tipp: Northwest, Harbor, Cloud Peak Law oder Wyoming Registered Agent machen das Filing für dich — kostet $39–125 zusätzlich, spart aber mind. 1h Bürokratie. Direkt beim SOS sparst du diese Service-Gebühr.",
+        "Du bekommst (online sofort, per Post 2–4 Wochen) ein Stamped PDF / Certificate of Organization — DAS ist dein Beweis-Dokument für Bank, IRS etc."
       ],
-      "description": "Gründungsdokument beim Secretary of State einreichen. Bestätigung 1–10 Werktage online, 2–4 Wochen per Brief."
+      "description": "Gründungsdokument (Initial Filing) direkt beim Secretary of State des gewählten Staats einreichen — Wyoming online via WyoBiz-Portal des Wyoming SOS. Bestätigung 1–10 Werktage online, 2–4 Wochen per Brief."
     },
     "ein": {
       "fields": [
