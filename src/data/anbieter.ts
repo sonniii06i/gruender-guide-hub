@@ -61,6 +61,8 @@ export const LEGAL_URLS: Record<string, { impressum?: string; terms?: string; pr
   // ============ LUCID ============
   "lizenzero": { impressum: "https://www.lizenzero.de/impressum/", terms: "https://www.lizenzero.de/agb/", privacy: "https://www.lizenzero.de/datenschutz/" },
   "reclay": { impressum: "https://www.reclay.de/impressum/", privacy: "https://www.reclay.de/datenschutz/" },
+  "gruener-punkt": { impressum: "https://www.gruener-punkt.de/de/impressum.html", terms: "https://www.gruener-punkt.de/de/datenschutz-und-nutzungsbedingungen.html", privacy: "https://www.gruener-punkt.de/de/datenschutz-und-nutzungsbedingungen.html" },
+  "zmart": { impressum: "https://www.zmart.de/de/impressum", terms: "https://www.zmart.de/de/agb", privacy: "https://www.zmart.de/de/datenschutz" },
 
   // ============ EMAIL / MARKETING ============
   "klaviyo": { impressum: "https://www.klaviyo.com/de/legal/Impressum", terms: "https://www.klaviyo.com/legal/terms-of-service", privacy: "https://www.klaviyo.com/legal/privacy" },
@@ -104,6 +106,11 @@ export const LEGAL_URLS: Record<string, { impressum?: string; terms?: string; pr
   "bezahlt-fulfillment": { impressum: "https://www.bezahlt-fulfillment.de/impressum/", privacy: "https://www.bezahlt-fulfillment.de/datenschutz/" },
   "warehousing1": { impressum: "https://www.warehousing1.com/impressum", terms: "https://www.warehousing1.com/agb", privacy: "https://www.warehousing1.com/datenschutz" },
   "logward": { impressum: "https://logward.com/imprint/", privacy: "https://logward.com/privacy-policy/" },
+  "everstox": { impressum: "https://www.everstox.com/imprint", terms: "https://www.everstox.com/terms-and-conditions", privacy: "https://www.everstox.com/privacy-policy" },
+  "hive": { impressum: "https://www.hive.app/en/imprint", terms: "https://www.hive.app/en/terms", privacy: "https://www.hive.app/en/privacy" },
+
+  // ============ HAFTPFLICHTVERSICHERUNG ============
+  "insify": { impressum: "https://www.insify.de/impressum", terms: "https://www.insify.de/agb", privacy: "https://www.insify.de/datenschutz" },
 };
 
 export interface Provider {
@@ -194,10 +201,13 @@ export const FULL_DESCRIPTIONS: Record<string, string> = {
   "byrd": "byrd ist ein 2016 in Wien gegründetes 3PL-Unternehmen mit Lagerstandorten in DE, AT, NL, FR, ES und IT. Vollintegration mit Shopify, Shopware, WooCommerce und Klaviyo. Self-Service-Dashboard für Bestände und Sendungen. Pricing-Estimate aus Foren: ~1,80–2,50 €/Pick + Storage. Wirtschaftlich ab ~200 Bestellungen/Monat.",
   "shipbob": "ShipBob ist ein US-3PL mit globalem Lager-Netzwerk (USA, Kanada, UK, EU, Australien). Top-Wahl für DE-Brands, die in den US-Markt expandieren. Ab 500+ Orders/Monat US wirtschaftlich. Setup-Zeit für SKU-Onboarding 3–6 Wochen.",
   "fromspace": "FromSpace ist ein deutsches 3PL mit Fokus auf D2C-Brands im Mid-Volume-Bereich. Persönlicher Account-Manager, kein internationales Lager-Netzwerk. Setup-Zeit 2–4 Wochen.",
+  "everstox": "Everstox wurde 2019 in München gegründet und ist eine Tech-Plattform für 3PL-Fulfillment mit Schwerpunkt auf D2C- und E-Commerce-Brands. Mit 30+ Lagerstandorten in Deutschland und 70+ europaweit sowie 15+ angebundenen Carriern bietet Everstox eine cloudbasierte Orchestrierungsschicht. Wirtschaftlich ab ca. 3.000 Orders/Monat – kleiner als byrd, aber modern und gut integriert.",
 
   // ============ LUCID ============
   "lizenzero": "Lizenzero ist eine Tochter der Reclay Group und das günstigste DE-Lizenzierungs-Tool für die Verpackungsregistrierung (LUCID). Ideal für kleine bis mittlere Mengen ab 39 €/Jahr. Auch für Marktplatz-Verkäufer (Amazon, eBay) geeignet.",
   "reclay": "Die Reclay Group ist einer der etablierten dualen Systeme in Deutschland (seit 1990). Lizenzierung erfolgt direkt über Reclay – sinnvoller bei größeren Verpackungs-Mengen, wo individuelle Tarife besser werden als bei Lizenzero.",
+  "gruener-punkt": "Der Grüne Punkt / DSD (Duales System Deutschland) ist das erste und bekannteste duale System in Deutschland (gegründet 1990). Mit dem ikonischen Grün-Punkt-Logo auf Verpackungen ist DSD das Standard-System für große Markenhersteller und Einzelhändler. Vollständig lizenzierte Verpackungsmengen werden über ein flächendeckendes Sammel- und Recyclingsystem erfasst. Für kleinere Online-Händler ist der Online-Prozess weniger schlank als bei Lizenzero oder Zmart.",
+  "zmart": "Zmart ist das Online-Portal der Zentek Group (gegründet 1992, eines der zugelassenen dualen Systeme Deutschlands) und seit 2012 aktiv. Einfacher Online-Abschluss in Minuten, ab 59 €/Jahr, klarer Fokus auf E-Commerce-Händler und Mittelstand ohne Vorerfahrung. Alternative zu Lizenzero bei vergleichbaren Konditionen mit Zentek als Dualsystem-Anbieter im Hintergrund.",
 
   // ============ EMAIL / MARKETING ============
   "klaviyo": "Klaviyo ist die führende E-Commerce-E-Mail-Marketing-Plattform (Boston, 2012 gegründet, 2023 IPO). Beste Shopify-Integration am Markt, mit Flow-Builder, Segmentierung und Predictive-Analytics. DSGVO-konform mit EU-Pricing-Center, aber Server in den USA. Wird ab ~20.000 Subscribern teuer – darunter Standard für DTC.",
@@ -248,6 +258,7 @@ export const FULL_DESCRIPTIONS: Record<string, string> = {
   "hdi-business": "Die HDI Versicherung AG ist die Industrieversicherer-Tochter der Talanx-Gruppe (Hannover, gegründet 1903). Spezialisiert auf KMU und Industriekunden mit branchenspezifischen Tarifen. Stark im klassischen Mittelstand und für freie Berufe.",
   "thinksurance": "thinksurance ist eine 2014 in Frankfurt gegründete digitale Vergleichsplattform für gewerbliche Versicherungen und kostenlose Maklerdienste. Vergleicht in einer einzigen Anfrage Angebote aller großen DE-Versicherer. Stark bei komplexeren Risiken wie Cyber, D&O und Vermögensschaden, wo direkter Vergleich schwierig ist.",
   "vov": "Die VOV Versicherung ist ein Spezialversicherer für Vermögensschadenhaftpflicht, gegründet 1942 als Versicherungsverein des Verbands Beratender Architekten. Pflicht-Police für Steuerberater, Anwälte, Architekten, Ingenieure und ähnliche freiberufliche Tätigkeiten. Tiefe Branchen-Expertise, faire Konditionen für Solo-Berater.",
+  "insify": "Insify ist ein rein digitaler Versicherer (InsurTech) mit Fokus auf IT-Freelancer, Selbstständige und Agenturen in Deutschland. Berufshaftpflicht kann in unter 2 Minuten online abgeschlossen werden, ist täglich kündbar und startet ab ~14 €/Mon. Trustpilot: 4,3/5 aus 834+ Bewertungen (Stand 2026). Besonderheit: tagesaktuelle Kündbarkeit – ideal für Projekte mit wechselndem Risikoprofil.",
 
   // ============ RECHTSSCHUTZ ============
   "roland-rechtsschutz": "Die Roland Rechtsschutz-Versicherungs-AG ist ein 1962 gegründeter Spezialversicherer und einer der größten Anbieter für Geschäftskunden in Deutschland. Bietet sehr breite Tarifauswahl mit gewerblichem Rechtsschutz, Online-Rechtsberatung und Forderungsmanagement.",
@@ -271,6 +282,7 @@ export const FULL_DESCRIPTIONS: Record<string, string> = {
   "bezahlt-fulfillment": "BEZAHLT FULFILLMENT ist ein DE-3PL mit klarem Fokus auf D2C/E-Commerce-Brands. Persönlicher Account-Manager, mittelgroße SKU-Volumina. Pricing-Estimate aus Foren: ~1,80–2,80 €/Pick + Storage. Onboarding 3–4 Wochen für SKU-Setup.",
   "warehousing1": "Warehousing1 ist ein 2019 in Berlin gegründeter Marketplace, der mehrere 3PL-Lager in DE/EU vergleicht und passende Anbieter zu Brands matched. Schnelle Match-Time, aber Brand wählt das konkrete Lager nicht selbst – Trade-off zwischen Bequemlichkeit und Kontrolle.",
   "logward": "Logward ist ein EU-3PL mit flexiblen Verträgen und Multi-Lager-Setup. Eher gehobenes Volumen, weniger Self-Service als byrd. Setup 2–3 Wochen.",
+  "hive": "Hive wurde 2020 gegründet und betreibt eigene Fulfillment-Center in Deutschland, Frankreich, Italien und Spanien (UK im Aufbau). Die Plattform richtet sich an D2C-Brands, die Technologie-Stack und Lagerbetrieb aus einer Hand wollen: Echtzeit-Inventar, automatisiertes Order-Routing, Shopify/WooCommerce-Integration. 85 % der EU-Käufer erhalten 2-Tage-Lieferung bei Hive-Nutzung.",
 };
 
 /** Coop-Deal nur anzeigen wenn nicht abgelaufen (expires ≥ heute). */
@@ -1108,6 +1120,20 @@ export const PROVIDERS: Provider[] = [
     signupTime: "2–4 Wochen",
     url: "https://fromspace.io",
   },
+  {
+    slug: "everstox",
+    name: "Everstox",
+    category: "3PL",
+    region: "EU",
+    starting: "auf Anfrage (ab ~3.000 Orders/Mon)",
+    rating: 4.4,
+    tagline: "Tech-3PL-Plattform für D2C-Brands",
+    pros: ["30+ Lagerstandorte DE, 70+ EU-weit", "15+ angebundene Carrier", "Cloudbasierte Orchestrierungsschicht", "Shopify/WooCommerce-Integration"],
+    cons: ["Wirtschaftlich erst ab ~3.000 Orders/Mon", "Weniger für kleinere Brands geeignet"],
+    forumNotes: "OMR Reviews + Shopify App Store + everstox.com/blog 2026: '2019 in München gegründet, 30+ Lager in DE, 70+ EU-weit, 15+ Carrier-Anbindungen. Kundenstimmen: schnelles Onboarding im Vergleich zu klassischen 3PLs, Echtzeit-Dashboard sehr gelobt, guter Fit für wachsende D2C-Brands.'",
+    signupTime: "2–4 Wochen",
+    url: "https://www.everstox.com",
+  },
 
   // ============ LUCID / VERPACKUNG ============
   {
@@ -1137,6 +1163,34 @@ export const PROVIDERS: Provider[] = [
     forumNotes: "TrustedShops 2026: 'Activate by Reclay erzielt 4,85/5 aus über 3.700 TrustedShops-Bewertungen und gilt laut mehreren Vergleichsportalen als günstigster Anbieter für kleine Mengen ohne Mindestbestellwert.'",
     signupTime: "1–2 Wochen",
     url: "https://www.reclay.de",
+  },
+  {
+    slug: "gruener-punkt",
+    name: "Grüner Punkt / DSD",
+    category: "LUCID",
+    region: "DE",
+    starting: "auf Anfrage",
+    rating: 4.0,
+    tagline: "Erstes & bekanntestes duales System DE",
+    pros: ["Größtes duales System DE (seit 1990)", "Flächendeckendes Sammel-/Recyclingsystem", "Standard für große Marken und Einzelhändler"],
+    cons: ["Online-Prozess weniger schlank als Lizenzero/Zmart", "Eher für größere Verpackungsmengen"],
+    forumNotes: "gruender-lexikon.de + duale-systeme.de 2026: 'DSD ist das erste und bekannteste duale System in Deutschland mit dem ikonischen Grünen Punkt auf Millionen von Verpackungen. Es steht für flächendeckende Sammlung und ist Standard bei großen Markenherstellern – für kleinere Online-Händler gibt es schlanke Alternativen.'",
+    signupTime: "1–2 Wochen",
+    url: "https://www.gruener-punkt.de",
+  },
+  {
+    slug: "zmart",
+    name: "Zmart (Zentek)",
+    category: "LUCID",
+    region: "DE",
+    starting: "ab 59 €/Jahr",
+    rating: 4.0,
+    tagline: "Einfacher Online-Abschluss für E-Commerce",
+    pros: ["Ab 59 €/Jahr, günstig für kleine Volumen", "Online-Abschluss in Minuten", "Zentek-Gruppe als zugelassenes duales System"],
+    cons: ["Weniger bekannt als Lizenzero", "Kaum öffentliche Reviews vorhanden"],
+    forumNotes: "TrustedShops 2026: 'Zmart ist das Online-Portal von Zentek und seit 2012 aktiv. 69 TrustedShops-Bewertungen mit positivem Tenor; klarer Fokus auf E-Commerce-Händler ohne Vorerfahrung, gute Erreichbarkeit des Kundensupports hervorgehoben.'",
+    signupTime: "Sofort – wenige Minuten",
+    url: "https://www.zmart.de",
   },
 
   // ============ EMAIL / MARKETING ============
@@ -1890,6 +1944,20 @@ export const PROVIDERS: Provider[] = [
     signupTime: "1–2 Wochen",
     url: "https://www.vov.de",
   },
+  {
+    slug: "insify",
+    name: "Insify",
+    category: "Haftpflichtversicherung",
+    region: "DE",
+    starting: "ab ~14 €/Mon",
+    rating: 4.3,
+    tagline: "Digitale Berufshaftpflicht – täglich kündbar",
+    pros: ["Abschluss in unter 2 Minuten online", "Täglich kündbar (einzigartiger Vorteil)", "4,3/5 aus 834+ Trustpilot-Bewertungen", "Ideal für IT-Freelancer und Agenturen"],
+    cons: ["Nur DE-Markt", "Jüngeres InsurTech – kein etabliertes Trägernetz"],
+    forumNotes: "Trustpilot 2026 (834+ Reviews, 4,3/5): 'Insify wird für einfaches digitales Onboarding und Echtzeit-Police-Ausstellung gelobt. Täglich kündbare Police als USP mehrfach erwähnt – ideal für Projekte mit schwankendem Risikoprofil. IT-Freelancer und Agenturen als Hauptzielgruppe.'",
+    signupTime: "Unter 2 Minuten online",
+    url: "https://www.insify.de",
+  },
 
   // ============ RECHTSSCHUTZVERSICHERUNG (gewerblich) ============
   {
@@ -2133,6 +2201,20 @@ export const PROVIDERS: Provider[] = [
     forumNotes: "Capterra + Glassdoor 4,3/5 (34 Reviews) 2026: 'No-Code Supply-Chain-Execution-Plattform. Kunden-Testimonial: Shipment Visibility hat enorm zugenommen, durch Filter und Reporting akkurate KPIs sammeln und Transport-Orders direkt aus dem ERP automatisch versenden. Eher TMS-/Plattform-Fokus, klassische Lager-Operativ-Reviews rar.'",
     signupTime: "2–3 Wochen",
     url: "https://www.logward.com",
+  },
+  {
+    slug: "hive",
+    name: "Hive",
+    category: "Fulfillment",
+    region: "EU",
+    starting: "auf Anfrage",
+    rating: 4.5,
+    tagline: "EU-Fulfillment aus einer Hand für D2C",
+    pros: ["Eigene Fulfillment-Center in DE, FR, IT, ES", "Technologie + Lager aus einer Hand", "85 % EU-Käufer erhalten 2-Tage-Lieferung", "Shopify/WooCommerce-Integration"],
+    cons: ["UK noch im Aufbau", "Kein Self-Service-Onboarding"],
+    forumNotes: "Trustpilot + OMR Reviews + hive.app/blog 2026: '2020 gegründet, eigene Lagerflächen in DE/FR/IT/ES, 4,5/5 aus 230+ Trustpilot-Reviews. Gründer berichten über deutlich gesunkene Fulfillment-Kosten und erhöhte Liefergeschwindigkeit nach dem Wechsel zu Hive. Technologie-Stack wird als USP genannt.'",
+    signupTime: "2–4 Wochen",
+    url: "https://www.hive.app",
   },
 
   // ============ PRODUCTIVITY / TASKS ============
