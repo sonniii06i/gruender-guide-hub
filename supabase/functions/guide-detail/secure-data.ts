@@ -13702,5 +13702,222 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       ],
       "description": "Lokale Sichtbarkeit, Messung – und der empfohlene Tool-Stack inkl. Zahlung."
     }
+  },
+  "us-accounts-deutscher": {
+    "fundament": {
+      "checklist": [
+        "Ziel festlegen: Amazon.com verkaufen / US-Amex / TikTok Shop US / Target — jedes hat andere Mindest-Bausteine.",
+        "Amazon.com Seller: geht MIT deutscher Firma (US-Entity optional) → Baustein EIN nur bei US-Bank nötig, sonst W-8BEN-E + Payoneer/Wise reicht.",
+        "US-Amex (Global Card Relationship): braucht bestehende Amex-Karte + echte US-Adresse + US-Phone. KEINE LLC nötig, aber US-Adresse ist Pflicht.",
+        "TikTok Shop US: braucht US-Entity (am besten C-Corp) + US-Bank + US-Person als Representative mit US-Wohnadresse & SSN/ITIN. Härtestes Ziel.",
+        "Target Plus (Seller): invite-only + US-Entity + Ware physisch in den USA (3PL). Für frische DE-Gründer realistisch (noch) nicht.",
+        "Ehrlichkeits-Check: Führst du die US-LLC faktisch von deinem Schreibtisch in DE aus? → i.d.R. deutsche Betriebsstätte = in DE steuerpflichtig (siehe Schritt Steuer-Setup)."
+      ],
+      "extendedNotes": [
+        "Reihenfolge-Empfehlung: erst die Bausteine (Entity → EIN → US-Adresse → US-Phone → US-Bank → ggf. ITIN), dann Amazon (einfachster Payoff), dann Amex, dann TikTok (nur mit US-Partner), Target Plus zuletzt.",
+        "Die vier Ziele im Machbarkeits-Ranking: Amazon.com = machbar (niedrig-mittel) · US-Amex = machbar bedingt (mittel) · TikTok Shop US = schwer (hoch) · Target Plus = praktisch nein (sehr hoch)."
+      ]
+    },
+    "us-entity": {
+      "fields": [
+        { "name": "goal", "label": "Primär-Ziel (Amazon/Amex/TikTok/Target)" },
+        { "name": "entity", "label": "Gewählte Entity (SMLLC / C-Corp / keine)" }
+      ],
+      "externalLinks": [
+        { "label": "Guide: US-LLC gründen (Wyoming/Delaware/New Mexico)", "url": "/guides/us-llc" },
+        { "label": "Tool: US-LLC Setup-Wizard", "url": "/cockpit/us-llc-wizard" }
+      ],
+      "extendedNotes": [
+        "Single-Member-LLC (SMLLC): IRS behandelt sie als „disregarded entity” → 0 % US-Bundessteuer, solange nicht ETBUS. ABER: du gibst gegenüber Plattformen W-8BEN-E ab, NICHT W-9. Für Amazon & Amex perfekt.",
+        "C-Corporation: eigene Steuerperson (21 % Corporate Tax + ggf. Quellensteuer auf Ausschüttung = Doppelbesteuerung). Der Grund, sie trotzdem zu nehmen: TikTok Shop verlangt ein W-9 — das kann eine foreign-owned SMLLC nicht wahrheitsgemäß abgeben, eine US-C-Corp schon.",
+        "Bundesstaat: Wyoming = anonym, günstig, Default für Solos. New Mexico = am billigsten, kein Annual Report. Delaware = nur bei geplanten Investoren/VCs (300 $/Jahr Franchise Tax).",
+        "Merke: Für den reinen Amazon.com-Start brauchst du oft GAR KEINE US-Entity — die deutsche GmbH/Einzelunternehmen + W-8BEN-E + Payoneer genügt. Entity lohnt für US-Banking, US-Cards und TikTok."
+      ],
+      "description": "SMLLC vs. C-Corp ist die Weichenstellung: Die SMLLC ist steuerlich schlank (0 % / W-8), scheitert aber an TikToks W-9-Pflicht. Die C-Corp löst das W-9-Problem, kostet aber Doppelbesteuerung. Wähle nach Primär-Ziel: Amazon/Amex → SMLLC (oder gar keine US-Entity). TikTok Shop → C-Corp. Details & Filing im separaten Guide „US-LLC gründen”."
+    },
+    "ein-ohne-ssn": {
+      "fields": [
+        { "name": "fax_date", "label": "SS-4 gefaxt am", "type": "date" },
+        { "name": "ein", "label": "Erhaltene EIN" }
+      ],
+      "externalLinks": [
+        { "label": "IRS — Form SS-4 (PDF)", "url": "https://www.irs.gov/pub/irs-pdf/fss4.pdf" },
+        { "label": "IRS — SS-4 Instructions", "url": "https://www.irs.gov/instructions/iss4" },
+        { "label": "IRS — EIN für International Applicants (Telefon-Option)", "url": "https://www.irs.gov/businesses/small-businesses-self-employed/apply-for-an-employer-identification-number-ein-online" },
+        { "label": "LLC University — EIN ohne SSN (Anleitung)", "url": "https://www.llcuniversity.com/irs/apply-for-ein-without-ssn/" }
+      ],
+      "warning": "Line 7b NICHT leer lassen — dort MUSS „Foreign” stehen, wenn du keine SSN/ITIN hast. Leere 7b = automatische Ablehnung. Und: vor Tag 62 NICHT erneut faxen, sonst doppelte EIN-Vergabe / Verzögerung.",
+      "extendedNotes": [
+        "Fax-Nummern: +1-855-641-6935 (US/domestic) · +1-304-707-9471 (international). Online-Fax-Dienste (z.B. FaxZero, HelloFax) funktionieren.",
+        "Kernfelder: Line 7a = dein Name, 7b = „Foreign”. Line 8a = Yes (LLC), 8b = Anzahl Members. Line 9a = „Other → Foreign-owned U.S. disregarded entity” (SMLLC) bzw. „Corporation” bei C-Corp. Line 10 = „Started new business”. Line 18 = No.",
+        "Dauer: Fax-Rückantwort mit EIN typisch ~4 Werktage. Wer schneller will, nimmt einen CPA-/Third-Party-Designee (Line 18-Bereich) — dann telefonisch am selben/nächsten Tag, 150–300 $.",
+        "EIN ≠ ITIN: Das EIN gehört der Firma und reicht für US-Bank, Amazon-Tax-Interview und TikTok. Eine persönliche ITIN brauchst du erst für Consumer-Kreditkarten / Credit-Bureau-Reporting (eigener Schritt)."
+      ]
+    },
+    "us-adresse-telefon": {
+      "fields": [
+        { "name": "address", "label": "Gewählte US-Adresse (Anbieter + Adresse)", "type": "textarea" },
+        { "name": "phone", "label": "US-Telefonnummer" }
+      ],
+      "externalLinks": [
+        { "label": "iPostal1 (Virtual Mailbox, echte Straßenadresse)", "url": "https://ipostal1.com" },
+        { "label": "Anytime Mailbox (oft Non-CMRA-Adressen)", "url": "https://www.anytimemailbox.com" },
+        { "label": "US Global Mail", "url": "https://www.usglobalmail.com" },
+        { "label": "OpenPhone / Quo (US-Nummer von überall)", "url": "https://www.openphone.com" },
+        { "label": "Google Voice", "url": "https://voice.google.com" }
+      ],
+      "warning": "CMRA-geflaggte Mailbox-Adressen (Commercial Mail Receiving Agency) werden von Banken UND Plattformen zunehmend abgelehnt — Mercury nimmt seit 2025 keine reinen Registered-Agent-Adressen mehr, Amex lehnt PO-Boxen/geflaggte Forwarder ab, TikTok akzeptiert eine Virtual-Mailbox NICHT als „US residential address” der Person. Wähle nach Möglichkeit eine Non-CMRA-Adresse (Anytime Mailbox hat viele) und nutze über ALLE Konten hinweg exakt dieselbe Adresse.",
+      "extendedNotes": [
+        "iPostal1 = echte Straßenadresse mit Boxnummer, aber alle Standorte sind USPS-CMRA. Anytime Mailbox = teils Non-CMRA-Adressen (oft in Wohngebieten), was für Bank-KYC unauffälliger ist.",
+        "US-Phone: OpenPhone/Quo gibt dir in Minuten eine US-Nummer (~15 $/User/Mon), funktioniert als VoIP. Google Voice (personal) ist praktisch nur mit bereits bestehender US-Nummer neu zu bekommen — von DE aus schwierig.",
+        "Achtung VoIP: Manche Bank-/Plattform-Verifizierungen lehnen VoIP-Nummern ab. Für „non-VoIP”-Anforderungen hilft eine US-Carrier-eSIM (z.B. US Mobile / Tello eSIM).",
+        "Konsistenz ist verifikationskritisch: DIESELBE US-Adresse auf LLC-Articles, SS-4/EIN, Bank, Amazon und Amex verwenden. Abweichungen triggern Nachforderungen (Utility Bill) und Delays."
+      ],
+      "description": "Fast jedes US-Ziel verlangt eine US-Adresse und -Telefonnummer. Die Kunst ist, eine Adresse zu wählen, die als „echt” durchgeht (möglichst Non-CMRA) und sie überall identisch zu verwenden. Der häufigste Fehler ist eine reine Mailbox-/Registered-Agent-Adresse, die von Banken und Plattformen als kommerziell erkannt und abgelehnt wird."
+    },
+    "us-banking": {
+      "fields": [
+        { "name": "bank", "label": "Gewählter Anbieter" },
+        { "name": "account_no", "label": "Kontonummer / Routing (Notiz)" }
+      ],
+      "externalLinks": [
+        { "label": "Payoneer (niedrigste Hürde, gut als Amazon-Auszahlung)", "url": "https://www.payoneer.com" },
+        { "label": "Wise Business (Multi-Currency, Registered-Agent-Adresse ok)", "url": "https://wise.com/business" },
+        { "label": "Mercury (echtes US-Business-Banking)", "url": "https://mercury.com" },
+        { "label": "Relay (verlangt SSN/ITIN)", "url": "https://relayfi.com" }
+      ],
+      "warning": "Bankdaten in den ersten ~90 Tagen nach Amazon-Registrierung NICHT ändern — das triggert eine Zusatz-Verifizierung. Kläre also die Bank VOR dem Amazon-Onboarding.",
+      "extendedNotes": [
+        "Payoneer: keine Entity zwingend, niedrigste Hürde, ideal als Auszahlungskonto für Amazon.com von DE aus. Nicht für ausgehende Zahlungen wie ein echtes Bankkonto gedacht.",
+        "Wise Business: flexibel (US-LLC / UK-Ltd / OÜ), online, akzeptiert Registered-Agent-Adresse als „registered address”. KYC seit 2025 aber strenger — viele Foreign-Owner-Ablehnungen.",
+        "Mercury: echte US-Bankfunktionen + Debit-/Charge-Card. Seit 2025 härter: braucht eine echte US-Street-Address (KEINE reine Agent-Adresse), Prohibited-Country-Liste (Deutschland ist NICHT drauf), längere Reviews bei Neu-LLC ohne US-Umsatz.",
+        "Relay & Brex: Relay verlangt SSN oder ITIN → für reine Non-Residents eine Hürde. Brex für kleine Foreign-Owner schwerer geworden.",
+        "Für Amazon-only reicht Payoneer/Wise. Für TikTok Shop / US-Cards willst du Mercury (echtes Konto + Karte)."
+      ],
+      "description": "Rangfolge nach Genehmigungs-Wahrscheinlichkeit für eine frische foreign-owned LLC (2025/26): Payoneer (am einfachsten, Empfang) → Wise Business (flexibel) → Mercury (echtes Konto + Karte, aber strengeres KYC) → Relay/Brex (SSN/ITIN nötig bzw. schwer). Wähle nach Ziel: Amazon-Auszahlung = Payoneer/Wise genügt; US-Cards & TikTok = Mercury anstreben."
+    },
+    "itin": {
+      "fields": [
+        { "name": "caa", "label": "Gewählter Certifying Acceptance Agent" },
+        { "name": "w7_date", "label": "W-7 eingereicht am", "type": "date" }
+      ],
+      "externalLinks": [
+        { "label": "IRS — ITIN Acceptance Agent Program (CAA-Liste)", "url": "https://www.irs.gov/individuals/itin-acceptance-agent-program" },
+        { "label": "IRS — Form W-7 (PDF)", "url": "https://www.irs.gov/pub/irs-pdf/fw7.pdf" },
+        { "label": "IRS — W-7 Instructions", "url": "https://www.irs.gov/instructions/iw7" }
+      ],
+      "extendedNotes": [
+        "ITIN ist die persönliche Steuer-ID (SSN-Ersatz) für dich als Individuum — nötig für Consumer-Kreditkarten mit Credit-Bureau-Reporting und für den Aufbau eines US-FICO-Scores. Für Firma/Amazon/Bank reicht das EIN.",
+        "Schnellster Weg: über einen Certifying Acceptance Agent (CAA). Der beglaubigt deinen Reisepass, sodass du ihn NICHT im Original an die IRS schicken musst.",
+        "Dauer: ~7 Wochen off-peak, 9–11 Wochen in der Peak-Season Jan–April. Mit CAA teils ~60 Tage.",
+        "Reihenfolge fürs Credit-Building: erst US-Amex via Global Card Relationship holen (geht OHNE ITIN), dann ITIN besorgen, dann eine ZWEITE Karte mit ITIN beantragen — nur die reportet an Experian/Equifax/TransUnion."
+      ],
+      "description": "Die ITIN ist optional und nur nötig, wenn du persönliche US-Kreditkarten mit Bureau-Reporting oder einen US-FICO-Score willst (bzw. für Relay-Banking). Am schnellsten geht sie über einen Certifying Acceptance Agent, der deinen Pass beglaubigt, damit du das Original nicht verschicken musst."
+    },
+    "steuer-w8": {
+      "externalLinks": [
+        { "label": "IRS — Form W-8BEN-E (Entity) PDF", "url": "https://www.irs.gov/pub/irs-pdf/fw8bene.pdf" },
+        { "label": "IRS — Form W-8BEN (Individuum) PDF", "url": "https://www.irs.gov/pub/irs-pdf/fw8ben.pdf" },
+        { "label": "IRS — Form 5472 (Pflicht für foreign-owned SMLLC)", "url": "https://www.irs.gov/forms-pubs/about-form-5472" },
+        { "label": "Guide: US-LLC gründen (Steuer-Kapitel)", "url": "/guides/us-llc" }
+      ],
+      "warning": "ZWEI teure Fallen: (1) Foreign-owned Single-Member-LLC MUSS jährlich Form 5472 + Pro-forma 1120 einreichen (Deadline 15. April) — Versäumnis = 25.000 $ Strafe. (2) Wenn du die US-LLC faktisch von deinem Schreibtisch in Deutschland aus führst, hast du i.d.R. eine deutsche Betriebsstätte → die Gewinne sind in DEUTSCHLAND steuerpflichtig, egal was die US-Seite sagt. „0 % US-Steuer” heißt NICHT „0 % Steuer”.",
+      "extendedNotes": [
+        "W-8BEN-E (Entity) bzw. W-8BEN (Individuum) gibst du gegenüber US-Zahlern/Plattformen (Amazon, Stripe) ab → erklärt „income not effectively connected” und senkt die 30 % Quellensteuer auf 0 %.",
+        "0 % US-Bundessteuer gilt nur, solange du NICHT ETBUS bist: kein festes US-Office, keine Angestellten/„dependent agents” physisch in den USA, Arbeit wird von außerhalb der USA erbracht.",
+        "Form 5472 + Pro-forma 1120: reine Informations-Meldung (keine Steuer), aber Pflicht. Deadline 15. April, Verlängerung via Form 7004 bis 15. Oktober. Wegen 25.000-$-Risiko CPA empfohlen (300–800 $/Jahr).",
+        "DE-Seite ehrlich klären: Betriebsstätte, Hinzurechnungsbesteuerung (§ 7 ff. AStG) und Wegzug sind reale Themen. Ein deutscher StB mit US-Erfahrung (200–500 €/Std, 1–3 h/Jahr) ist hier gut investiertes Geld — nicht optional."
+      ],
+      "description": "Der Steuer-Teil entscheidet, ob dein US-Setup sauber oder ein Bumerang ist. Kurz: W-8BEN-E gegenüber Plattformen senkt die Quellensteuer auf 0 %; die SMLLC zahlt 0 % US-Bundessteuer, solange sie nicht ETBUS ist. ABER die Form-5472-Pflicht (25.000 $ Strafe) und die deutsche Betriebsstätte, wenn du von DE aus steuerst, sind die zwei Punkte, die Gründer ruinieren. Beides gehört auf den Tisch, bevor du live gehst."
+    },
+    "amazon-us": {
+      "checklist": [
+        "Amazon.com Seller Central (Region Nordamerika: US/CA/MX) registrieren — separates Konto zu Amazon.de.",
+        "Professional Plan (39,99 $/Mon) wählen (Individual nur für <40 Verkäufe/Mon sinnvoll).",
+        "Tax Interview durchlaufen → als Foreign Entity W-8BEN-E (als Individuum W-8BEN) abgeben.",
+        "Auszahlungskonto: Payoneer oder Wise (beide von Amazon akzeptiert) — VOR der Registrierung fertig haben.",
+        "Kreditkarte hinterlegen (funktioniert auch mit deutscher/virtueller Karte).",
+        "Identity Verification vorbereiten: im Länder-Dropdown ggf. „United States” wählen, auch wenn du für einen anderen Markt verifizierst (bekanntes UI-Verhalten).",
+        "Auf Video-Verifizierungs-Call einstellen: Original-Ausweis + Firmendokumente bereit, Frontkamera, stabile Verbindung, Safari oder Chrome."
+      ],
+      "externalLinks": [
+        { "label": "Amazon Seller Central — Global Selling", "url": "https://sell.amazon.com/global-selling" },
+        { "label": "Amazon — Identity Verification (Hilfe)", "url": "https://sellercentral.amazon.com/help/hub/reference/external/GQRP483PDN88Q3M9" },
+        { "label": "YouTube: Sell on Amazon FBA USA as a Non-US Resident (2026, Full Guide + LLC)", "url": "https://www.youtube.com/watch?v=MIzNzffn79Q" },
+        { "label": "YouTube: How To Pass The Amazon Seller Identity Verification Video Call", "url": "https://www.youtube.com/watch?v=um1NUgxD8QE" },
+        { "label": "YouTube: Start a US LLC from Any Country (Amazon FBA Tutorial)", "url": "https://www.youtube.com/watch?v=h9NtFfg3tQc" }
+      ],
+      "warning": "Killer Nr. 1 = Adress-/Namens-Mismatch. Firmenname EXAKT wie im Handelsregister (inkl. Groß/Klein), Personenname EXAKT wie im Reisepass, EINE Adresse über LLC/IRS/Bank/Amazon hinweg. Amazon matched Dokumente automatisch gegen Seller Central — minimale Abweichung = Rejection. Bankdaten in den ersten 90 Tagen nicht ändern.",
+      "extendedNotes": [
+        "Amazon.com ist das machbarste der vier Ziele — es ist explizit auf globale Verkäufer ausgelegt. Eine US-LLC ist NICHT zwingend; deutsche Firma + W-8BEN-E + Payoneer genügt oft.",
+        "W-8BEN läuft 3 Jahre + Jahresende ab → danach Tax Interview erneut.",
+        "2025/26-Protokoll: verstärkte Checks, für neue US-Accounts oft ein Video-Call mit Face-Match. Ruhig, gut ausgeleuchtet, Dokumente griffbereit — die meisten Ablehnungen kommen von unscharfen/abweichenden Dokumenten, nicht vom Gespräch selbst.",
+        "Wenn du eine US-LLC + Virtual Address nutzt, die nicht mit Bank- und Amazon-Records übereinstimmt, folgt oft eine Utility-Bill-Nachforderung — daher von Anfang an konsistente Adresse."
+      ],
+      "description": "Amazon.com ist der einfachste US-Payoff. Der ganze Prozess steht und fällt mit Konsistenz: identischer Name/identische Adresse über alle Dokumente, sauberes Tax Interview (W-8BEN-E) und ein ruhig vorbereiteter Identity-Video-Call. Payoneer/Wise als Auszahlungskonto vorab einrichten, dann registrieren."
+    },
+    "us-amex": {
+      "checklist": [
+        "Prüfen: Hast du eine bestehende, DIREKT von Amex ausgegebene Karte (keine Partner-Bank-/Corporate-Karte) als Primary, min. 3 Monate (besser 6–12) offen?",
+        "Echte US-Wohnadresse bereit (physisch; PO-Box / geflaggter Forwarder = Ablehnung).",
+        "US-Telefonnummer bereit.",
+        "Reisepass bereit (ersetzt SSN im Global-Card-Relationship-Pfad).",
+        "Zahlweg für die US-Rechnung: US-Konto bevorzugt (Mercury), Wise-USD als Backup.",
+        "Global Card Relationship telefonisch starten: 1-877-621-2639 (oder 1-866-929-5160). Einstieg: „I'm an existing American Express cardholder in Germany and I'd like to apply for a US card using the Global Card Relationship.”"
+      ],
+      "externalLinks": [
+        { "label": "Amex — Global Card Relationship", "url": "https://www.americanexpress.com/us/customer-service/global-card-relationship/" },
+        { "label": "Amex — Moving Abroad / Global Card Transfer", "url": "https://www.americanexpress.com/en-us/company/about-us/moving-abroad/" },
+        { "label": "FlyerTalk — Global Card Relationship: Live-Erfahrungen", "url": "https://www.flyertalk.com/forum/american-express-membership-rewards/986747-global-card-relationship-fka-global-transfers-experiences-36.html" },
+        { "label": "Sebastian Sauerborn — US Credit Cards for Non-Residents", "url": "https://www.sebsauerborn.com/insights-english/us-credit-cards-for-non-residents" }
+      ],
+      "warning": "Deutschland-Haken: Die bestätigte „eligible”-Länderliste für den No-US-Credit-Pfad (AU, BR, CA, DR, IN, KE, MX, NG, UK) führt Deutschland in aktuellen Quellen NICHT explizit — Amex ändert die Liste laufend. Konsequenz: entweder live per Telefon nachfragen, ob DE gerade akzeptiert wird, ODER den stabilen Umweg über eine UK-Amex gehen. Und: Eine ohne ITIN eröffnete Karte reportet nur Amex-intern, NICHT an die US-Credit-Bureaus — ein ITIN lässt sich nachträglich NICHT anhängen.",
+      "extendedNotes": [
+        "Global Card Relationship (früher „Global Transfer”) ist der einzige verlässliche Weg an eine US-Amex OHNE SSN/ITIN: Amex nutzt deine Heimat-Karten-Historie statt eines US-Credit-Files.",
+        "Online-Alternative zum Telefon: US-Antrag starten → Box „no US credit history but hold an eligible Amex card” ankreuzen → mit den ausländischen Amex-Zugangsdaten einloggen. „Member Since”-Datum wird übernommen, MR-Punkte NICHT.",
+        "FICO aufbauen: Global-Relationship-Karte holen → ITIN besorgen → ZWEITE Karte mit ITIN beantragen (die reportet dann an die Bureaus). US-FICO entsteht ~Monat 6–18.",
+        "Business-Alternativen ohne persönlichen US-Credit-Check: Ramp / Brex (Corporate-Cards auf Basis US-LLC + US-Banking-Guthaben) und die Mercury-Debit/Charge-Card. Für reine Business-Ausgaben oft der pragmatischste Weg."
+      ],
+      "description": "Der einzig verlässliche Weg zur US-Amex ohne SSN ist das offizielle Global-Card-Relationship-Programm: Amex überträgt deine deutsche (oder besser UK-) Karten-Historie in die USA. Du brauchst eine bestehende Amex-Karte, eine echte US-Adresse, US-Phone und Reisepass. Für Deutsche ist die Eligibility schwankend — der stabile Umweg läuft über eine UK-Amex. Für reine Firmen-Ausgaben sind Ramp/Brex/Mercury-Cards oft einfacher."
+    },
+    "tiktok-shop-us": {
+      "checklist": [
+        "Entscheiden: Hast du Zugang zu einer echten US-Person mit SSN + US-Wohnadresse, die Primary Business Representative (PBR) / UBO sein kann? Wenn nein, ist ein sauberer eigener US-Shop kaum möglich.",
+        "US-Entity als C-Corporation aufsetzen (nicht SMLLC) — damit ein wahrheitsgemäßes W-9 abgegeben werden kann.",
+        "EIN, US-Business-Bankkonto (Mercury), US-Adresse, US-Phone bereit.",
+        "PBR/UBO mit gültigem US-Government-ID (US-Pass / US-Führerschein) + verifizierbarer US-Wohnadresse + ITIN oder SSN benennen.",
+        "Vor dem Submit die „irreversiblen” Felder (Entity-Typ, Representative) final fixieren — nach Absenden nicht mehr änderbar."
+      ],
+      "externalLinks": [
+        { "label": "TikTok Seller US — University (Doku-Anforderungen)", "url": "https://seller-us.tiktok.com/university/essay?knowledge_id=258395901675310&lang=en" },
+        { "label": "Globalfy — TikTok Shop USA als International Seller", "url": "https://globalfy.com/blog/register-tiktok-shop-usa-as-international-seller/" },
+        { "label": "YouTube: How Non-Americans Can Sell on U.S. TikTok Shop (Full Guide)", "url": "https://www.youtube.com/watch?v=xbP7XH2wO4M" },
+        { "label": "YouTube: The TRUTH About TikTok Shop Rules for Non-Residents", "url": "https://www.youtube.com/watch?v=yDDTiJ2HRzg" },
+        { "label": "YouTube: LLC For TikTok Shop (2025) — Non-US & UK Resident", "url": "https://www.youtube.com/watch?v=pHdnu7LcYG0" }
+      ],
+      "warning": "NIEMALS eine fremde SSN „leihen” (Einkommen wird auf deren SSN als 1099 gemeldet → deren Steuerproblem, und ToS-Verstoß) oder eine Fake-ID nutzen (TikTok cross-checkt in Echtzeit gegen Bundesdatenbanken → sofortiger, meist endgültiger Bann). Der einzige saubere Weg ist eine echte US-Person als Representative.",
+      "extendedNotes": [
+        "Das ist das schwerste der vier Ziele — härteste KYC. Der Kern-Blocker ist nicht die Firma, sondern der Primary Business Representative / UBO: eine benannte Person mit echtem US-Government-ID UND verifizierbarer US-Wohnadresse. Eine Virtual-Mailbox reicht dafür ausdrücklich NICHT.",
+        "W-9-Falle: TikTok verlangt von allen Sellern ein W-9 (nur für US-Taxpayer). Eine foreign-owned SMLLC ist „disregarded” und müsste W-8 abgeben — ein W-9 für sie wäre eine Falschangabe. Deshalb C-Corp.",
+        "Sauberer Weg: C-Corp + echter US-Partner/Angestellter mit SSN + US-Wohnadresse als PBR/UBO. Spezialisierte „Corporate Representation”-Services (Globalfy, Clemta, NCP/nvinc) bieten das an — Grauzone je nach Anbieter, sorgfältig prüfen.",
+        "Häufige Ablehnungsgründe: UBO ohne echte US-Adresse/ITIN/SSN, Formation-Dokumente matchen nicht EXAKT die IRS-Records, ID-Leseprobleme (der frühere SSN-Rettungspfad ist für Non-US-Reps weg)."
+      ],
+      "description": "TikTok Shop US ist das schwierigste Ziel und ehrlich gesagt ohne echte US-Person kaum sauber machbar. Der Blocker ist der Primary Business Representative/UBO, der ein US-Government-ID und eine echte US-Wohnadresse braucht — als in DE Wohnender kannst du das strukturell nicht selbst sein. Plus die W-9-Falle, die eine C-Corp statt SMLLC erzwingt. Wer keinen US-Partner hat, sollte dieses Ziel zurückstellen, statt mit fremder SSN/Fake-ID einen sicheren Bann zu riskieren."
+    },
+    "target": {
+      "externalLinks": [
+        { "label": "Target Plus — Marketplace (Seller-Info)", "url": "https://plus.target.com/" },
+        { "label": "US Unlocked — bei Target aus dem Ausland kaufen", "url": "https://www.usunlocked.com/how-to-shop-at-target-from-outside-the-us/" },
+        { "label": "BellaVix — Target Plus: Invite-Only & Requirements", "url": "https://www.bellavix.com/target-plus-marketplace-explained-invite-only-requirements-fulfillment-standards-and-whether-your-brand-is-ready/" }
+      ],
+      "warning": "Zwei völlig verschiedene Dinge nicht verwechseln: (a) Target.com Shopping-Account (Käufer) vs. (b) Target Plus Marketplace (Verkäufer). Target versendet NICHT nach Deutschland und nicht an klassische Package-Forwarder (Shipito/MyUS/Planet Express), und erkennt/sperrt VPN-Logins häufig. Target Plus als Seller ist strikt invite-only und für frische ausländische Verkäufer effektiv nicht offen.",
+      "extendedNotes": [
+        "Target.com als Käufer: Account-Anlage von DE geht technisch mit US-VPN + US-Adresse, aber VPN-Erkennung führt oft zu Access-Denied/Lockouts. Versand nur über „Shop-for-me”-Concierge-Dienste (ein Dritter kauft für dich). Für „nur Preise/Verfügbarkeit sehen” reicht VPN + US-Adresse.",
+        "Target Plus als Seller: invite-only, keine öffentliche Bewerbung, keine Fee-to-join — Target lädt Brands aktiv ein. Voraussetzung: registrierte US-Entity + US-Bankkonto + Ware physisch in den USA (24-h-Dispatch-Standard). Cross-Border-Fulfillment und Overseas-Dropshipping sind explizit ausgeschlossen.",
+        "Realistischer Pfad zu Target Plus: erst de facto US-Präsenz aufbauen (US-LLC + US-Bank + US-3PL-Lager + Track-Record z.B. auf Amazon), dann auf ein Invite hinarbeiten bzw. sich über Kontakt/Agentur vorstellen lassen. Es gibt keinen „von DE aus in 2 Wochen”-Weg.",
+        "Marktplatz-Größe 2025/26: >1.500 kuratierte Brands."
+      ],
+      "description": "Bei Target trennst du zwei Welten. Der Shopping-Account (Käufer) geht technisch via US-VPN + US-Adresse, scheitert aber am Versand (kein DE-Versand, keine Forwarder) — Workaround nur über Shop-for-me-Dienste. Der Target-Plus-Marketplace (Seller) ist invite-only und verlangt eine echte US-Präsenz mit US-Lager; für frische DE-Gründer ist er ehrlicherweise vorerst kein realistisches Ziel, sondern etwas, worauf man über eine bestehende US-Operation hinarbeitet."
+    }
   }
 };

@@ -3,7 +3,7 @@
 // extendedNotes + description ab Schritt 4) liegen server-seitig in
 // supabase/functions/guide-detail/secure-data.ts und werden Abo-gegated zur
 // Laufzeit nachgeladen. Beim Pflegen von Guide-Inhalten siehe die README dort.
-import { Globe2, Building2, Tag, Rocket, Calculator, Shield, AlertTriangle, Receipt, Mail, Users, TrendingUp, Handshake, PiggyBank, Briefcase, Megaphone, UserPlus, LineChart, Lock, Truck, Search, BarChart3, Lightbulb, Banknote, Coins, FileText, Crown, Store, Sparkles, GraduationCap, Repeat, Home, Wrench, HeartHandshake, Scissors, Stethoscope, Sun, Car, Leaf, Bot, Plane, Landmark, Key, type LucideIcon } from "lucide-react";
+import { Globe2, Building2, Tag, Rocket, Calculator, Shield, AlertTriangle, Receipt, Mail, Users, TrendingUp, Handshake, PiggyBank, Briefcase, Megaphone, UserPlus, LineChart, Lock, Truck, Search, BarChart3, Lightbulb, Banknote, Coins, FileText, Crown, Store, Sparkles, GraduationCap, Repeat, Home, Wrench, HeartHandshake, Scissors, Stethoscope, Sun, Car, Leaf, Bot, Plane, Landmark, Key, CreditCard, type LucideIcon } from "lucide-react";
 
 export type StepKind = "checklist" | "form" | "info" | "decision" | "external";
 
@@ -1197,6 +1197,103 @@ export const PLAYBOOKS: Playbook[] = [
         kind: "checklist",
         estMinutes: 240,
         estCost: "Wyoming Dissolution-Filing 60 $ · Delaware 200 $ · New Mexico 25 $ · Final Tax Return CPA 300-800 $ · Service-Anbieter (Northwest/Harbor) für Komplett-Closure 200-500 $",
+      },
+    ],
+  },
+  // ============================================================
+  // US-ACCOUNTS ALS DEUTSCHER (Amazon · Amex · TikTok Shop · Target)
+  // ============================================================
+  {
+    slug: "us-accounts-deutscher",
+    title: "US-Accounts als Deutscher: Amazon, Amex, TikTok Shop & Target",
+    emoji: "🛒",
+    icon: CreditCard,
+    tagline: "Die US-Bausteine (LLC, EIN, US-Adresse, US-Bank, ITIN) — und wie du damit US-Plattform-Accounts & -Karten von Deutschland aus bekommst",
+    outcome: "US-Verkäufer-Accounts (Amazon.com, TikTok Shop US), eine US-American-Express-Karte und Zugriff auf Target — mit sauberem US/DE-Steuer-Setup und ohne Bann-Fallen.",
+    duration: "6–12 Wochen (Bausteine parallel)",
+    difficulty: "Komplex",
+    totalCost: "0–1.500 $ Setup (je nach DIY vs. Service)",
+    runningCost: "US-Adresse ~10–30 $/Mon · US-Phone ~15 $/Mon · Amazon Pro 39,99 $/Mon · CPA 300–800 $/Jahr",
+    steps: [
+      {
+        slug: "fundament",
+        title: "Fundament-Check: Welche US-Bausteine brauchst du wirklich?",
+        description: "Nicht jedes Ziel braucht alles. Amazon.com läuft schon mit deutscher Firma + W-8BEN-E; eine US-Amex braucht eine echte US-Adresse; TikTok Shop US braucht eine US-Person als Representative; Target Plus ist invite-only. Dieser Schritt sortiert, welche der folgenden Bausteine (LLC/Corp, EIN, US-Adresse, US-Phone, US-Bank, ITIN) du für dein konkretes Ziel überhaupt brauchst — damit du nicht Wochen in Setups steckst, die du gar nicht benötigst.",
+        kind: "decision",
+        estMinutes: 30,
+        estCost: "0 €",
+      },
+      {
+        slug: "us-entity",
+        title: "US-Entity wählen: Single-Member-LLC vs. C-Corporation",
+        description: "Für reines Amazon-Verkaufen reicht oft die deutsche Firma. Willst du US-Banking, US-Cards und einen sauberen W-9-Weg (TikTok Shop), brauchst du eine US-Entity. Single-Member-LLC = 0 % US-Bundessteuer + einfach, aber IRS-seitig „disregarded” (du gibst W-8 ab, KEIN W-9). C-Corporation = teurer + Doppelbesteuerung, aber der einzige saubere Weg, TikTok-Shops W-9-Pflicht zu erfüllen. Wyoming/New Mexico für Privacy & Kosten, Delaware bei Investoren-Plänen. (Vertiefung im Guide „US-LLC gründen”.)",
+        kind: "decision",
+        estMinutes: 45,
+        estCost: "50–100 $ State-Filing · 0–500 $ Service",
+      },
+      {
+        slug: "ein-ohne-ssn",
+        title: "EIN ohne SSN beantragen (Form SS-4 per Fax)",
+        description: "Der Online-EIN-Antrag der IRS geht NICHT ohne SSN/ITIN. Als Nicht-Resident reichst du Form SS-4 per Fax ein: Line 7b = „Foreign” (statt SSN), Line 9a = LLC / „Foreign-owned U.S. LLC”, Line 10 = „Started new business”. Fax an +1-855-641-6935 (bzw. international +1-304-707-9471) → EIN kommt per Fax-Rückantwort in ~4 Werktagen (Post 4–6 Wochen). Das EIN ist Voraussetzung für US-Bank, Amazon-Tax-Interview und TikTok Shop.",
+        kind: "form",
+        estMinutes: 90,
+        estCost: "0 $ (IRS) · CPA-Service 150–300 $ für Express",
+      },
+      {
+        slug: "us-adresse-telefon",
+        title: "US-Adresse & US-Telefonnummer einrichten",
+        kind: "checklist",
+        estMinutes: 60,
+        estCost: "US-Adresse 10–30 $/Mon · US-Phone (OpenPhone) ~15 $/Mon",
+      },
+      {
+        slug: "us-banking",
+        title: "US-Business-Banking eröffnen (Payoneer / Wise / Mercury)",
+        kind: "decision",
+        estMinutes: 120,
+        estCost: "Payoneer/Wise 0–31 $ · Mercury 0 $/Mon",
+      },
+      {
+        slug: "itin",
+        title: "ITIN beantragen (Form W-7 via Certifying Acceptance Agent)",
+        kind: "form",
+        estMinutes: 120,
+        estCost: "0 $ (W-7) · CAA 100–300 $",
+      },
+      {
+        slug: "steuer-w8",
+        title: "Steuer-Setup: W-8BEN-E, Form 5472 & die DE-Betriebsstätten-Falle",
+        kind: "info",
+        estMinutes: 90,
+        estCost: "0 $ Filing · CPA 300–800 $/Jahr · deutscher StB 200–500 €/Std",
+      },
+      {
+        slug: "amazon-us",
+        title: "Amazon.com Seller-Account + Identity-Video-Call bestehen",
+        kind: "checklist",
+        estMinutes: 120,
+        estCost: "Professional Plan 39,99 $/Mon",
+      },
+      {
+        slug: "us-amex",
+        title: "US-American-Express via Global Card Relationship",
+        kind: "checklist",
+        estMinutes: 90,
+        estCost: "0 $ Antrag · ggf. Jahresgebühr der Zielkarte",
+      },
+      {
+        slug: "tiktok-shop-us",
+        title: "TikTok Shop US (C-Corp + echter US-Representative)",
+        kind: "decision",
+        estMinutes: 120,
+        estCost: "Corporate-Representation-Service 500–2.000 $",
+      },
+      {
+        slug: "target",
+        title: "Target.com (Käufer) & Target Plus Marketplace (Seller)",
+        kind: "info",
+        estMinutes: 45,
+        estCost: "0 $ · Target Plus invite-only",
       },
     ],
   },
