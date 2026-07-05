@@ -3445,7 +3445,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       ],
       "extendedNotes": [
         "Wyoming: $100 Initial Filing, $60 Annual Report. Beste Privatsphäre (keine Member-Disclosure). Empfohlen für Solo-LLCs.",
-        "Delaware: $90 Initial, $300/Jahr Franchise Tax (Pflicht-Mindestbetrag, auch bei 0 Umsatz). Empfohlen wenn Investoren / VCs geplant.",
+        "Delaware: $110 Initial (aktuelle Certificate-of-Formation-Gebühr), $300/Jahr Franchise Tax (Pflicht-Mindestbetrag, auch bei 0 Umsatz). Empfohlen wenn Investoren / VCs geplant.",
         "New Mexico: $50 Initial, KEIN Annual Report, KEINE Privacy-Schwächung. Günstigster Staat lifecycle — aber rare bei US-Banken.",
         "Texas, Nevada, Florida: möglich aber meist teurer / strengere Annual-Pflichten."
       ]
@@ -13789,7 +13789,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "warning": "Bankdaten in den ersten ~90 Tagen nach Amazon-Registrierung NICHT ändern — das triggert eine Zusatz-Verifizierung. Kläre also die Bank VOR dem Amazon-Onboarding.",
       "extendedNotes": [
         "Payoneer: keine Entity zwingend, niedrigste Hürde, ideal als Auszahlungskonto für Amazon.com von DE aus. Nicht für ausgehende Zahlungen wie ein echtes Bankkonto gedacht.",
-        "Wise Business: flexibel (US-LLC / UK-Ltd / OÜ), online, akzeptiert Registered-Agent-Adresse als „registered address”. KYC seit 2025 aber strenger — viele Foreign-Owner-Ablehnungen.",
+        "Wise Business: flexibel (US-LLC / UK-Ltd / OÜ), online, nimmt EIN + Reisepass (ohne SSN/ITIN) und ist bei der Adresse toleranter als Mercury. KYC seit 2025 aber strenger — viele Foreign-Owner-Ablehnungen.",
         "Mercury: echte US-Bankfunktionen + Debit-/Charge-Card. Seit 2025 härter: braucht eine echte US-Street-Address (KEINE reine Agent-Adresse), Prohibited-Country-Liste (Deutschland ist NICHT drauf), längere Reviews bei Neu-LLC ohne US-Umsatz.",
         "Relay & Brex: Relay verlangt SSN oder ITIN → für reine Non-Residents eine Hürde. Brex für kleine Foreign-Owner schwerer geworden.",
         "Für Amazon-only reicht Payoneer/Wise. Für TikTok Shop / US-Cards willst du Mercury (echtes Konto + Karte)."
@@ -13809,7 +13809,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "extendedNotes": [
         "ITIN ist die persönliche Steuer-ID (SSN-Ersatz) für dich als Individuum — nötig für Consumer-Kreditkarten mit Credit-Bureau-Reporting und für den Aufbau eines US-FICO-Scores. Für Firma/Amazon/Bank reicht das EIN.",
         "Schnellster Weg: über einen Certifying Acceptance Agent (CAA). Der beglaubigt deinen Reisepass, sodass du ihn NICHT im Original an die IRS schicken musst.",
-        "Dauer: ~7 Wochen off-peak, 9–11 Wochen in der Peak-Season Jan–April. Mit CAA teils ~60 Tage.",
+        "Dauer: IRS-Richtwert ~7 Wochen off-peak, 9–11 Wochen in der Peak-Season Jan–April — real laufen die Zeiten 2025/2026 aber eher Richtung 11–14 Wochen. Großzügig puffern und früh beantragen. Mit CAA teils schneller.",
         "Reihenfolge fürs Credit-Building: erst US-Amex via Global Card Relationship holen (geht OHNE ITIN), dann ITIN besorgen, dann eine ZWEITE Karte mit ITIN beantragen — nur die reportet an Experian/Equifax/TransUnion."
       ],
       "description": "Die ITIN ist optional und nur nötig, wenn du persönliche US-Kreditkarten mit Bureau-Reporting oder einen US-FICO-Score willst (bzw. für Relay-Banking). Am schnellsten geht sie über einen Certifying Acceptance Agent, der deinen Pass beglaubigt, damit du das Original nicht verschicken musst."
@@ -13824,7 +13824,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "warning": "ZWEI teure Fallen: (1) Foreign-owned Single-Member-LLC MUSS jährlich Form 5472 + Pro-forma 1120 einreichen (Deadline 15. April) — Versäumnis = 25.000 $ Strafe. (2) Wenn du die US-LLC faktisch von deinem Schreibtisch in Deutschland aus führst, hast du i.d.R. eine deutsche Betriebsstätte → die Gewinne sind in DEUTSCHLAND steuerpflichtig, egal was die US-Seite sagt. „0 % US-Steuer” heißt NICHT „0 % Steuer”.",
       "extendedNotes": [
         "W-8BEN-E (Entity) bzw. W-8BEN (Individuum) gibst du gegenüber US-Zahlern/Plattformen (Amazon, Stripe) ab → erklärt „income not effectively connected” und senkt die 30 % Quellensteuer auf 0 %.",
-        "0 % US-Bundessteuer gilt nur, solange du NICHT ETBUS bist: kein festes US-Office, keine Angestellten/„dependent agents” physisch in den USA, Arbeit wird von außerhalb der USA erbracht.",
+        "0 % US-Bundessteuer gilt nur, solange du NICHT ETBUS bist: kein festes US-Office, keine Angestellten/„dependent agents” physisch in den USA, Arbeit wird von außerhalb der USA erbracht. ACHTUNG für Amazon-FBA & eigenes US-Lager: US-Inventar/Warehouse, US-Mitarbeiter oder ein abhängiger US-Agent können ETBUS/ECI auslösen — der Test ist einzelfallabhängig und schwammig, „0 %” ist also NICHT automatisch. Im Zweifel CPA fragen.",
         "Form 5472 + Pro-forma 1120: reine Informations-Meldung (keine Steuer), aber Pflicht. Deadline 15. April, Verlängerung via Form 7004 bis 15. Oktober. Wegen 25.000-$-Risiko CPA empfohlen (300–800 $/Jahr).",
         "DE-Seite ehrlich klären: Betriebsstätte, Hinzurechnungsbesteuerung (§ 7 ff. AStG) und Wegzug sind reale Themen. Ein deutscher StB mit US-Erfahrung (200–500 €/Std, 1–3 h/Jahr) ist hier gut investiertes Geld — nicht optional."
       ],
@@ -13863,7 +13863,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "US-Telefonnummer bereit.",
         "Reisepass bereit (ersetzt SSN im Global-Card-Relationship-Pfad).",
         "Zahlweg für die US-Rechnung: US-Konto bevorzugt (Mercury), Wise-USD als Backup.",
-        "Global Card Relationship telefonisch starten: 1-877-621-2639 (oder 1-866-929-5160). Einstieg: „I'm an existing American Express cardholder in Germany and I'd like to apply for a US card using the Global Card Relationship.”"
+        "Global Card Relationship telefonisch starten über die offizielle US-New-Accounts-Line 1-877-621-2639 (auf diese Nummer verweist Amex von der Moving-Abroad-Seite). Einstieg: „I'm an existing American Express cardholder in Germany and I'd like to apply for a US card using the Global Card Relationship.”"
       ],
       "externalLinks": [
         { "label": "Amex — Global Card Relationship", "url": "https://www.americanexpress.com/us/customer-service/global-card-relationship/" },
@@ -13871,14 +13871,14 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         { "label": "FlyerTalk — Global Card Relationship: Live-Erfahrungen", "url": "https://www.flyertalk.com/forum/american-express-membership-rewards/986747-global-card-relationship-fka-global-transfers-experiences-36.html" },
         { "label": "Sebastian Sauerborn — US Credit Cards for Non-Residents", "url": "https://www.sebsauerborn.com/insights-english/us-credit-cards-for-non-residents" }
       ],
-      "warning": "Deutschland-Haken: Die bestätigte „eligible”-Länderliste für den No-US-Credit-Pfad (AU, BR, CA, DR, IN, KE, MX, NG, UK) führt Deutschland in aktuellen Quellen NICHT explizit — Amex ändert die Liste laufend. Konsequenz: entweder live per Telefon nachfragen, ob DE gerade akzeptiert wird, ODER den stabilen Umweg über eine UK-Amex gehen. Und: Eine ohne ITIN eröffnete Karte reportet nur Amex-intern, NICHT an die US-Credit-Bureaus — ein ITIN lässt sich nachträglich NICHT anhängen.",
+      "warning": "Wichtig zur Deutschland-Eligibility: Es gibt KEINE offizielle Amex-Länder-Allowlist. Deutsche Amex-Karten werden direkt von American Express ausgegeben (kein Partner-Bank-Modell) und Deutschland steht in Amex' offiziellem Global-Card-Relationship-Netz — die Grundvoraussetzung ist damit erfüllt. Also zuerst Deutschland → USA DIREKT versuchen; die UK-Amex ist nur ein optionaler Fallback, FALLS der DE-Antrag abgelehnt wird (keine Pflicht-Umleitung). Kursierende „9-Länder-Listen” (AU/BR/CA/IN/UK …) stammen aus Blogs und sind Erfahrungs-, keine offiziellen Eligibility-Listen. Ehrlich: einen bestätigten DE→US-Erfolgsbericht für 2025/2026 konnten wir nicht finden — real-world unsicher, offiziell aber nicht ausgeschlossen. Reporting-Hinweis: Ohne ITIN eröffnete Karten berichten Community-Erfahrungen zufolge oft nur Amex-intern (nicht an Experian/Equifax/TransUnion) — das ist NICHT offiziell bestätigt und wird auf FlyerTalk unterschiedlich berichtet.",
       "extendedNotes": [
         "Global Card Relationship (früher „Global Transfer”) ist der einzige verlässliche Weg an eine US-Amex OHNE SSN/ITIN: Amex nutzt deine Heimat-Karten-Historie statt eines US-Credit-Files.",
         "Online-Alternative zum Telefon: US-Antrag starten → Box „no US credit history but hold an eligible Amex card” ankreuzen → mit den ausländischen Amex-Zugangsdaten einloggen. „Member Since”-Datum wird übernommen, MR-Punkte NICHT.",
         "FICO aufbauen: Global-Relationship-Karte holen → ITIN besorgen → ZWEITE Karte mit ITIN beantragen (die reportet dann an die Bureaus). US-FICO entsteht ~Monat 6–18.",
         "Business-Alternativen ohne persönlichen US-Credit-Check: Ramp / Brex (Corporate-Cards auf Basis US-LLC + US-Banking-Guthaben) und die Mercury-Debit/Charge-Card. Für reine Business-Ausgaben oft der pragmatischste Weg."
       ],
-      "description": "Der einzig verlässliche Weg zur US-Amex ohne SSN ist das offizielle Global-Card-Relationship-Programm: Amex überträgt deine deutsche (oder besser UK-) Karten-Historie in die USA. Du brauchst eine bestehende Amex-Karte, eine echte US-Adresse, US-Phone und Reisepass. Für Deutsche ist die Eligibility schwankend — der stabile Umweg läuft über eine UK-Amex. Für reine Firmen-Ausgaben sind Ramp/Brex/Mercury-Cards oft einfacher."
+      "description": "Der einzig verlässliche Weg zur US-Amex ohne SSN ist das offizielle Global-Card-Relationship-Programm: Amex überträgt deine bestehende Amex-Karten-Historie in die USA. Du brauchst eine direkt von Amex ausgegebene Karte, eine echte US-Adresse, US-Phone und Reisepass. Da deutsche Amex-Karten direkt von Amex ausgegeben werden und Deutschland in Amex' offiziellem GCR-Netz steht, versuchst du Deutschland → USA direkt; eine UK-Amex ist nur ein optionaler Fallback bei Ablehnung. Für reine Firmen-Ausgaben sind Ramp/Brex/Mercury-Cards oft einfacher."
     },
     "tiktok-shop-us": {
       "checklist": [
@@ -13895,7 +13895,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         { "label": "YouTube: The TRUTH About TikTok Shop Rules for Non-Residents", "url": "https://www.youtube.com/watch?v=yDDTiJ2HRzg" },
         { "label": "YouTube: LLC For TikTok Shop (2025) — Non-US & UK Resident", "url": "https://www.youtube.com/watch?v=pHdnu7LcYG0" }
       ],
-      "warning": "NIEMALS eine fremde SSN „leihen” (Einkommen wird auf deren SSN als 1099 gemeldet → deren Steuerproblem, und ToS-Verstoß) oder eine Fake-ID nutzen (TikTok cross-checkt in Echtzeit gegen Bundesdatenbanken → sofortiger, meist endgültiger Bann). Der einzige saubere Weg ist eine echte US-Person als Representative.",
+      "warning": "NIEMALS eine fremde SSN „leihen” (Einkommen wird auf deren SSN als 1099 gemeldet → deren Steuerproblem, und ToS-Verstoß) oder eine Fake-ID nutzen (TikTok validiert Identitäts- & Steuer-ID-Daten inkl. Selfie/Liveness gegen die Ausweis-/Utility-Bill-Angaben → bei Mismatch Account-Shutdown, meist endgültig). Der einzige saubere Weg ist eine echte US-Person als Representative.",
       "extendedNotes": [
         "Das ist das schwerste der vier Ziele — härteste KYC. Der Kern-Blocker ist nicht die Firma, sondern der Primary Business Representative / UBO: eine benannte Person mit echtem US-Government-ID UND verifizierbarer US-Wohnadresse. Eine Virtual-Mailbox reicht dafür ausdrücklich NICHT.",
         "W-9-Falle: TikTok verlangt von allen Sellern ein W-9 (nur für US-Taxpayer). Eine foreign-owned SMLLC ist „disregarded” und müsste W-8 abgeben — ein W-9 für sie wäre eine Falschangabe. Deshalb C-Corp.",
@@ -13910,7 +13910,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         { "label": "US Unlocked — bei Target aus dem Ausland kaufen", "url": "https://www.usunlocked.com/how-to-shop-at-target-from-outside-the-us/" },
         { "label": "BellaVix — Target Plus: Invite-Only & Requirements", "url": "https://www.bellavix.com/target-plus-marketplace-explained-invite-only-requirements-fulfillment-standards-and-whether-your-brand-is-ready/" }
       ],
-      "warning": "Zwei völlig verschiedene Dinge nicht verwechseln: (a) Target.com Shopping-Account (Käufer) vs. (b) Target Plus Marketplace (Verkäufer). Target versendet NICHT nach Deutschland und nicht an klassische Package-Forwarder (Shipito/MyUS/Planet Express), und erkennt/sperrt VPN-Logins häufig. Target Plus als Seller ist strikt invite-only und für frische ausländische Verkäufer effektiv nicht offen.",
+      "warning": "Zwei völlig verschiedene Dinge nicht verwechseln: (a) Target.com Shopping-Account (Käufer) vs. (b) Target Plus Marketplace (Verkäufer). Target versendet NICHT nach Deutschland; klassische Package-Forwarder (Shipito/MyUS/Planet Express) werden offiziell nicht unterstützt und oft abgelehnt (Target behält sich das ausdrücklich vor) — in der Praxis gehen viele Forwarder-Bestellungen zwar durch, garantiert ist es nicht. VPN-Logins werden häufig erkannt/gesperrt. Target Plus als Seller ist strikt invite-only und für frische ausländische Verkäufer effektiv nicht offen.",
       "extendedNotes": [
         "Target.com als Käufer: Account-Anlage von DE geht technisch mit US-VPN + US-Adresse, aber VPN-Erkennung führt oft zu Access-Denied/Lockouts. Versand nur über „Shop-for-me”-Concierge-Dienste (ein Dritter kauft für dich). Für „nur Preise/Verfügbarkeit sehen” reicht VPN + US-Adresse.",
         "Target Plus als Seller: invite-only, keine öffentliche Bewerbung, keine Fee-to-join — Target lädt Brands aktiv ein. Voraussetzung: registrierte US-Entity + US-Bankkonto + Ware physisch in den USA (24-h-Dispatch-Standard). Cross-Border-Fulfillment und Overseas-Dropshipping sind explizit ausgeschlossen.",

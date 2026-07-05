@@ -1112,7 +1112,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Initial Filing direkt beim Secretary of State — Wyoming online über das WyoBiz-Portal des Wyoming SOS (sos.wyo.gov → Online Business Services). Du erhältst das Stamped Certificate of Organization als Beweis-Dokument für Bank & IRS.",
         kind: "form",
         estMinutes: 60,
-        estCost: "Wyoming 100 $ · Delaware 90 $ · New Mexico 50 $ (einmalig) · +39–125 $ falls Service-Anbieter Filing macht",
+        estCost: "Wyoming 100 $ · Delaware 110 $ · New Mexico 50 $ (einmalig) · +39–125 $ falls Service-Anbieter Filing macht",
       },
       {
         slug: "ein",
@@ -1229,7 +1229,7 @@ export const PLAYBOOKS: Playbook[] = [
         description: "Für reines Amazon-Verkaufen reicht oft die deutsche Firma. Willst du US-Banking, US-Cards und einen sauberen W-9-Weg (TikTok Shop), brauchst du eine US-Entity. Single-Member-LLC = 0 % US-Bundessteuer + einfach, aber IRS-seitig „disregarded” (du gibst W-8 ab, KEIN W-9). C-Corporation = teurer + Doppelbesteuerung, aber der einzige saubere Weg, TikTok-Shops W-9-Pflicht zu erfüllen. Wyoming/New Mexico für Privacy & Kosten, Delaware bei Investoren-Plänen. (Vertiefung im Guide „US-LLC gründen”.)",
         kind: "decision",
         estMinutes: 45,
-        estCost: "50–100 $ State-Filing · 0–500 $ Service",
+        estCost: "50–110 $ State-Filing (NM 50 · WY 100 · DE 110) · 0–500 $ Service",
       },
       {
         slug: "ein-ohne-ssn",
