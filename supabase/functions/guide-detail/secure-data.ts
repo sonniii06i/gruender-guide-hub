@@ -13863,7 +13863,9 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "US-Telefonnummer bereit.",
         "Reisepass bereit (ersetzt SSN im Global-Card-Relationship-Pfad).",
         "Zahlweg für die US-Rechnung: US-Konto bevorzugt (Mercury), Wise-USD als Backup.",
-        "Global Card Relationship telefonisch starten über die offizielle US-New-Accounts-Line 1-877-621-2639 (auf diese Nummer verweist Amex von der Moving-Abroad-Seite). Einstieg: „I'm an existing American Express cardholder in Germany and I'd like to apply for a US card using the Global Card Relationship.”"
+        "Global Card Relationship (= früheres „Global Transfer”) telefonisch starten über die offizielle US-New-Accounts-Line 1-877-621-2639 (auf diese Nummer verweist Amex von der Moving-Abroad-Seite). Einstieg: „I'm an existing American Express cardholder in Germany and I'd like to apply for a US card using the Global Card Relationship.”",
+        "NÄCHSTER SCHRITT — US-Residence bestätigen: Amex fordert im Global-Transfer-Flow oft einen Adress-Nachweis auf deine US-Adresse an. Halte eine US-Utility-Bill (Strom-/Internet-/Handy-Rechnung) ODER einen Kontoauszug/Statement einer US-Bank auf DERSELBEN US-Adresse bereit — beides muss Name + US-Adresse zeigen. Zusätzlich ggf. Pass-Upload über einen zugesandten Link.",
+        "Bei US-Banking-Angabe: Amex macht teils einen 3-Way-Call mit deiner US-Bank, um Kontodaten + hinterlegte US-Adresse zu verifizieren — also vorab sicherstellen, dass bei der US-Bank (Mercury/Wise) exakt dieselbe US-Adresse hinterlegt ist."
       ],
       "externalLinks": [
         { "label": "Amex — Global Card Relationship", "url": "https://www.americanexpress.com/us/customer-service/global-card-relationship/" },
@@ -13876,7 +13878,8 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Global Card Relationship (früher „Global Transfer”) ist der einzige verlässliche Weg an eine US-Amex OHNE SSN/ITIN: Amex nutzt deine Heimat-Karten-Historie statt eines US-Credit-Files.",
         "Online-Alternative zum Telefon: US-Antrag starten → Box „no US credit history but hold an eligible Amex card” ankreuzen → mit den ausländischen Amex-Zugangsdaten einloggen. „Member Since”-Datum wird übernommen, MR-Punkte NICHT.",
         "FICO aufbauen: Global-Relationship-Karte holen → ITIN besorgen → ZWEITE Karte mit ITIN beantragen (die reportet dann an die Bureaus). US-FICO entsteht ~Monat 6–18.",
-        "Business-Alternativen ohne persönlichen US-Credit-Check: Ramp / Brex (Corporate-Cards auf Basis US-LLC + US-Banking-Guthaben) und die Mercury-Debit/Charge-Card. Für reine Business-Ausgaben oft der pragmatischste Weg."
+        "Business-Alternativen ohne persönlichen US-Credit-Check: Ramp / Brex (Corporate-Cards auf Basis US-LLC + US-Banking-Guthaben) und die Mercury-Debit/Charge-Card. Für reine Business-Ausgaben oft der pragmatischste Weg.",
+        "Häufigster Ablehnungsgrund im Global-Transfer-Flow ist NICHT die Bonität, sondern die Adress-Verifizierung: PO-Box/geflaggter Mail-Forwarder wird abgelehnt, und wenn Utility-Bill, US-Bank-Statement und die bei Amex angegebene US-Adresse nicht identisch sind, gibt's Rückfragen oder Ablehnung. Also EINE echte US-Adresse konsistent über Amex, US-Bank und Nachweis-Dokument. Entscheidung kommt oft in Minuten, kann aber bis 72 h dauern."
       ],
       "description": "Der einzig verlässliche Weg zur US-Amex ohne SSN ist das offizielle Global-Card-Relationship-Programm: Amex überträgt deine bestehende Amex-Karten-Historie in die USA. Du brauchst eine direkt von Amex ausgegebene Karte, eine echte US-Adresse, US-Phone und Reisepass. Da deutsche Amex-Karten direkt von Amex ausgegeben werden und Deutschland in Amex' offiziellem GCR-Netz steht, versuchst du Deutschland → USA direkt; eine UK-Amex ist nur ein optionaler Fallback bei Ablehnung. Für reine Firmen-Ausgaben sind Ramp/Brex/Mercury-Cards oft einfacher."
     },
