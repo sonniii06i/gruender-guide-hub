@@ -12,8 +12,11 @@ serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
-    const { priceId } = await req.json();
+    const { priceId, affiliateRef } = await req.json();
     if (!priceId) throw new Error("priceId required");
+    const affRef = typeof affiliateRef === "string" ? affiliateRef.trim().slice(0, 32) : "";
+    // Produkt aus priceId ableiten (Bundle = GruenderX + AnwaltX)
+    const product = priceId === "price_1TTUfV64hSN6usxPe60ADpTF" ? "bundle" : "gruenderx";
 
     const supabase = createClient(
       Deno.env.get("SUPABASE_URL") ?? "",
@@ -123,6 +126,10 @@ serve(async (req) => {
       // Erlaubt Eingabe von Gutschein-Codes (SONNI / FOUNDER) im Stripe-Checkout.
       // Stripe akzeptiert nur einen Promo-Code pro Session -> Codes sind nicht kombinierbar.
       allow_promotion_codes: true,
+      // Affiliate-Attribution: Ref + Produkt an Session UND Abo haengen
+      // (Webhook liest es bei checkout.session.completed + wiederkehrenden Rechnungen).
+      metadata: { supabase_user_id: user.id, product, ...(affRef ? { affiliate_ref: affRef } : {}) },
+      subscription_data: { metadata: { product, ...(affRef ? { affiliate_ref: affRef } : {}) } },
       success_url: `${origin}/dashboard?checkout=success`,
       cancel_url: `${origin}/checkout?canceled=1`,
     });

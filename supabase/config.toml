@@ -57,3 +57,9 @@ verify_jwt = true
 [functions.send-booking-reminders]
 verify_jwt = false
 
+
+[functions.stripe-affiliate-webhook]
+verify_jwt = false
+
+[functions.manage-affiliate]
+verify_jwt = true
