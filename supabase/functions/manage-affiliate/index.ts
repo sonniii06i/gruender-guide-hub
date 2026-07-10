@@ -6,30 +6,32 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 const admin = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
+// Zentraler Affiliate-Ledger = AnwaltX-Hub (Cross-Product). Fallback: lokal.
+const hub = createClient(Deno.env.get("HUB_SUPABASE_URL") || Deno.env.get("SUPABASE_URL")!, Deno.env.get("HUB_SERVICE_ROLE_KEY") || Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
 
 async function handleAdmin(action: string, payoutId: string | undefined, json: (b: unknown, s?: number) => Response) {
   if (action === "admin_list") {
-    const { data } = await admin.from("affiliate_payouts")
+    const { data } = await hub.from("affiliate_payouts")
       .select("id, affiliate_id, amount_cents, status, requested_at, affiliates(email, payout_name, payout_iban)")
       .in("status", ["requested", "approved"]).order("requested_at", { ascending: true });
     return json({ payouts: data || [] });
   }
   if (!payoutId) return json({ error: "payout_id fehlt" }, 400);
-  const { data: p } = await admin.from("affiliate_payouts").select("id, affiliate_id, amount_cents, status").eq("id", payoutId).maybeSingle();
+  const { data: p } = await hub.from("affiliate_payouts").select("id, affiliate_id, amount_cents, status").eq("id", payoutId).maybeSingle();
   if (!p || p.status === "paid") return json({ error: "Auszahlung nicht gefunden oder bereits bezahlt" }, 400);
 
   if (action === "admin_reject") {
-    await admin.from("affiliate_payouts").delete().eq("id", payoutId);
+    await hub.from("affiliate_payouts").delete().eq("id", payoutId);
     return json({ ok: true });
   }
   if (action === "admin_mark_paid") {
-    const { data: comms } = await admin.from("affiliate_commissions")
+    const { data: comms } = await hub.from("affiliate_commissions")
       .select("id, commission_cents").eq("affiliate_id", p.affiliate_id)
       .in("status", ["pending", "approved"]).order("created_at", { ascending: true });
     let acc = 0; const ids: string[] = [];
     for (const c of comms || []) { if (acc >= p.amount_cents) break; acc += c.commission_cents || 0; ids.push(c.id); }
-    if (ids.length) await admin.from("affiliate_commissions").update({ status: "paid" }).in("id", ids);
-    await admin.from("affiliate_payouts").update({ status: "paid", paid_at: new Date().toISOString() }).eq("id", payoutId);
+    if (ids.length) await hub.from("affiliate_commissions").update({ status: "paid" }).in("id", ids);
+    await hub.from("affiliate_payouts").update({ status: "paid", paid_at: new Date().toISOString() }).eq("id", payoutId);
     return json({ ok: true });
   }
   return json({ error: "unbekannte Admin-Aktion" }, 400);
@@ -62,7 +64,7 @@ Deno.serve(async (req) => {
       return await handleAdmin(action, payout_id, json);
     }
 
-    let { data: aff } = await admin.from("affiliates")
+    let { data: aff } = await hub.from("affiliates")
       .select("*")
       .or(`user_id.eq.${user.id},email.ilike.${user.email}`)
       .maybeSingle();
@@ -70,21 +72,21 @@ Deno.serve(async (req) => {
     if (!aff) {
       let code = genCode();
       for (let i = 0; i < 5; i++) {
-        const { data: taken } = await admin.from("affiliates").select("id").eq("code", code).maybeSingle();
+        const { data: taken } = await hub.from("affiliates").select("id").eq("code", code).maybeSingle();
         if (!taken) break;
         code = genCode();
       }
-      const { data: created, error: cErr } = await admin.from("affiliates")
+      const { data: created, error: cErr } = await hub.from("affiliates")
         .insert({ email: user.email, user_id: user.id, code }).select("*").single();
       if (cErr) throw cErr;
       aff = created;
     } else if (!aff.user_id) {
-      await admin.from("affiliates").update({ user_id: user.id }).eq("id", aff.id);
+      await hub.from("affiliates").update({ user_id: user.id }).eq("id", aff.id);
       aff.user_id = user.id;
     }
 
     if (action === "save_payout") {
-      await admin.from("affiliates").update({
+      await hub.from("affiliates").update({
         payout_name: payout_name ?? aff.payout_name,
         payout_iban: payout_iban ?? aff.payout_iban,
       }).eq("id", aff.id);
@@ -93,9 +95,9 @@ Deno.serve(async (req) => {
     }
 
     const [{ data: comms }, { data: refs }, { data: payouts }] = await Promise.all([
-      admin.from("affiliate_commissions").select("commission_cents,status,product,created_at").eq("affiliate_id", aff.id).order("created_at", { ascending: false }),
-      admin.from("affiliate_referrals").select("product,status,created_at").eq("affiliate_id", aff.id),
-      admin.from("affiliate_payouts").select("amount_cents,status,requested_at,paid_at").eq("affiliate_id", aff.id).order("requested_at", { ascending: false }),
+      hub.from("affiliate_commissions").select("commission_cents,status,product,created_at").eq("affiliate_id", aff.id).order("created_at", { ascending: false }),
+      hub.from("affiliate_referrals").select("product,status,created_at").eq("affiliate_id", aff.id),
+      hub.from("affiliate_payouts").select("amount_cents,status,requested_at,paid_at").eq("affiliate_id", aff.id).order("requested_at", { ascending: false }),
     ]);
     const sum = (rows: any[], pred: (r: any) => boolean) => (rows || []).filter(pred).reduce((a, r) => a + (r.commission_cents || 0), 0);
     const available = sum(comms || [], (r) => r.status === "pending" || r.status === "approved");
@@ -106,7 +108,7 @@ Deno.serve(async (req) => {
     if (action === "request_payout") {
       if (!aff.payout_iban) return json({ error: "Bitte zuerst IBAN hinterlegen." }, 400);
       if (requestable < 2000) return json({ error: "Mindestauszahlung 20 €." }, 400);
-      await admin.from("affiliate_payouts").insert({ affiliate_id: aff.id, amount_cents: requestable });
+      await hub.from("affiliate_payouts").insert({ affiliate_id: aff.id, amount_cents: requestable });
       return json({ ok: true, requested_cents: requestable });
     }
 
