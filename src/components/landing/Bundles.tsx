@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
+import { getStoredAffiliateRef } from "@/utils/affiliate";
 import { STRIPE_PRICES } from "@/lib/stripe";
 import { toast } from "sonner";
 
@@ -58,7 +59,7 @@ export const Bundles = () => {
     setLoading(priceId);
     try {
       const { data, error } = await supabase.functions.invoke("create-checkout", {
-        body: { priceId },
+        body: { priceId, affiliateRef: getStoredAffiliateRef() },
       });
       if (error) {
         let msg = error.message;

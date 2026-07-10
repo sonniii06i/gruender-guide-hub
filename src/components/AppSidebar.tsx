@@ -28,6 +28,7 @@ import {
   Trophy,
   Users,
   Wrench,
+  Percent,
 } from "lucide-react";
 import { useRole } from "@/hooks/useRole";
 
@@ -64,6 +65,7 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               <Item to="/dashboard" icon={LayoutDashboard} label="Übersicht" active={pathname === "/dashboard" && !search} />
+              <Item to="/affiliate" icon={Percent} label="Partnerprogramm" active={pathname === "/affiliate"} />
               <Item to="/felix" icon={MessageSquare} label="Felix-Chat" active={pathname === "/felix"} />
               <Item to="/felix/chats" icon={ListTree} label="Chat-Verlauf" active={pathname === "/felix/chats"} />
               {isAdmin && <Item to="/admin" icon={Shield} label="Admin" active={pathname === "/admin"} />}

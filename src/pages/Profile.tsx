@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
+import { getStoredAffiliateRef } from "@/utils/affiliate";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -69,7 +70,7 @@ const Profile = () => {
   const checkout = async (priceId: string) => {
     setBusy(priceId);
     try {
-      const { data, error } = await supabase.functions.invoke("create-checkout", { body: { priceId } });
+      const { data, error } = await supabase.functions.invoke("create-checkout", { body: { priceId, affiliateRef: getStoredAffiliateRef() } });
       if (error) throw error;
       if (data?.url) window.open(data.url, "_blank");
     } catch (e: any) { toast.error(e.message); } finally { setBusy(null); }

@@ -17,6 +17,7 @@ import ResetPassword from "./pages/ResetPassword.tsx";
 import Checkout from "./pages/Checkout.tsx";
 import Onboarding from "./pages/Onboarding.tsx";
 import Dashboard from "./pages/Dashboard.tsx";
+const Affiliate = lazy(() => import("./pages/Affiliate.tsx"));
 import Playbooks from "./pages/Playbooks.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
@@ -157,6 +158,7 @@ const App = () => (
               <Route path="/onboarding" element={<Onboarding />} />
               <Route element={<AppLayout />}>
                 <Route path="/dashboard" element={<PaywallGate title="Dashboard"><Dashboard /></PaywallGate>} />
+                <Route path="/affiliate" element={<Affiliate />} />
                 <Route path="/cockpit/steuer" element={<PaywallGate title="Steuer-Cockpit"><SteuerCockpit /></PaywallGate>} />
                 <Route path="/cockpit/amazon-buchungen" element={<PaywallGate title="Steuer-Cockpit"><AmazonBuchungen /></PaywallGate>} />
                 <Route path="/cockpit/check" element={<PaywallGate title="Brand-Check"><BrandCheck /></PaywallGate>} />

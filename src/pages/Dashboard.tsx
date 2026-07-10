@@ -10,6 +10,7 @@ import { PLAYBOOKS } from "@/data/playbooks";
 import { GuideCard } from "@/components/dashboard/GuideCard";
 import { ContinueLearning } from "@/components/dashboard/ContinueLearning";
 import { WelcomeChoiceModal } from "@/components/dashboard/WelcomeChoiceModal";
+import { AffiliateSuccessBanner } from "@/components/AffiliateSuccessBanner";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -102,6 +103,7 @@ const Dashboard = () => {
 
   return (
     <div className="container max-w-6xl py-8 px-4 md:px-6">
+      {params.get("checkout") === "success" && <AffiliateSuccessBanner />}
       <WelcomeChoiceModal firstName={profile?.first_name} eligible={isActive} />
       {/* Hero */}
       <header className="mb-8">

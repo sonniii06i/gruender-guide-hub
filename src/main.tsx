@@ -2,6 +2,10 @@ import { createRoot, hydrateRoot } from "react-dom/client";
 import { HelmetProvider } from "react-helmet-async";
 import App from "./App.tsx";
 import "./index.css";
+import { captureAffiliateRef } from "./utils/affiliate";
+
+// Affiliate-Reflink (?ref=CODE) frueh erfassen.
+captureAffiliateRef();
 
 const rootEl = document.getElementById("root")!;
 const app = (

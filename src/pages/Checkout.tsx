@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { useAccess } from "@/hooks/useAccess";
 import { supabase } from "@/integrations/supabase/client";
+import { getStoredAffiliateRef } from "@/utils/affiliate";
 import { Button } from "@/components/ui/button";
 import { Crown, Loader2, Check, LogOut, Lock, RefreshCw, ShieldCheck } from "lucide-react";
 import { toast } from "sonner";
@@ -57,7 +58,7 @@ const Checkout = () => {
   const checkout = async (priceId: string) => {
     setBusy(priceId);
     try {
-      const { data, error } = await supabase.functions.invoke("create-checkout", { body: { priceId } });
+      const { data, error } = await supabase.functions.invoke("create-checkout", { body: { priceId, affiliateRef: getStoredAffiliateRef() } });
       if (error) {
         // Den echten Backend-Fehler aus der Response ziehen (sonst nur "non-2xx status code").
         let msg = error.message;
