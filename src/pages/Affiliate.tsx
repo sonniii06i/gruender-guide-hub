@@ -5,7 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Copy, Gift, Percent, Wallet, Users, Loader2 } from "lucide-react";
+import { Copy, Gift, Percent, Wallet, Users, Loader2, Check, X } from "lucide-react";
+import { useRole } from "@/hooks/useRole";
 
 interface AffiliateData {
   code: string;
@@ -124,7 +125,53 @@ export default function Affiliate() {
           </CardContent>
         </Card>
       )}
+
+      <AdminPayouts />
     </div>
+  );
+}
+
+function AdminPayouts() {
+  const { isAdmin } = useRole();
+  const { toast } = useToast();
+  const [rows, setRows] = useState<any[] | null>(null);
+  const [busy, setBusy] = useState<string | null>(null);
+
+  const load = async () => {
+    const { data } = await supabase.functions.invoke("manage-affiliate", { body: { action: "admin_list" } });
+    setRows((data as any)?.payouts || []);
+  };
+  useEffect(() => { if (isAdmin) load(); /* eslint-disable-next-line */ }, [isAdmin]);
+  if (!isAdmin) return null;
+
+  const act = async (action: string, payout_id: string) => {
+    setBusy(payout_id);
+    const { data, error } = await supabase.functions.invoke("manage-affiliate", { body: { action, payout_id } });
+    if (error || (data as any)?.error) toast({ title: "Fehler", description: (data as any)?.error || error?.message, variant: "destructive" });
+    else { toast({ title: action === "admin_mark_paid" ? "Als bezahlt markiert" : "Abgelehnt" }); await load(); }
+    setBusy(null);
+  };
+
+  return (
+    <Card className="border-primary/30">
+      <CardHeader><CardTitle className="text-base">Admin · Auszahlungsanfragen</CardTitle></CardHeader>
+      <CardContent className="space-y-2">
+        {!rows ? <Loader2 className="h-5 w-5 animate-spin" /> : rows.length === 0 ? (
+          <p className="text-sm text-muted-foreground">Keine offenen Auszahlungen.</p>
+        ) : rows.map((p) => (
+          <div key={p.id} className="flex items-center justify-between gap-3 border-b border-border/50 py-2 last:border-0 flex-wrap">
+            <div className="text-sm min-w-0">
+              <div className="font-medium">{eur(p.amount_cents)} · {p.affiliates?.payout_name || p.affiliates?.email}</div>
+              <div className="text-muted-foreground font-mono text-xs truncate">{p.affiliates?.payout_iban || "— keine IBAN —"} · {p.affiliates?.email}</div>
+            </div>
+            <div className="flex gap-2 shrink-0">
+              <Button size="sm" onClick={() => act("admin_mark_paid", p.id)} disabled={busy === p.id}><Check className="h-4 w-4 mr-1" />Bezahlt</Button>
+              <Button size="sm" variant="outline" onClick={() => act("admin_reject", p.id)} disabled={busy === p.id}><X className="h-4 w-4 mr-1" />Ablehnen</Button>
+            </div>
+          </div>
+        ))}
+      </CardContent>
+    </Card>
   );
 }
 

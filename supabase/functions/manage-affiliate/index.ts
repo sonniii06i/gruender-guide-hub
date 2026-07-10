@@ -7,6 +7,34 @@ const corsHeaders = {
 };
 const admin = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
 
+async function handleAdmin(action: string, payoutId: string | undefined, json: (b: unknown, s?: number) => Response) {
+  if (action === "admin_list") {
+    const { data } = await admin.from("affiliate_payouts")
+      .select("id, affiliate_id, amount_cents, status, requested_at, affiliates(email, payout_name, payout_iban)")
+      .in("status", ["requested", "approved"]).order("requested_at", { ascending: true });
+    return json({ payouts: data || [] });
+  }
+  if (!payoutId) return json({ error: "payout_id fehlt" }, 400);
+  const { data: p } = await admin.from("affiliate_payouts").select("id, affiliate_id, amount_cents, status").eq("id", payoutId).maybeSingle();
+  if (!p || p.status === "paid") return json({ error: "Auszahlung nicht gefunden oder bereits bezahlt" }, 400);
+
+  if (action === "admin_reject") {
+    await admin.from("affiliate_payouts").delete().eq("id", payoutId);
+    return json({ ok: true });
+  }
+  if (action === "admin_mark_paid") {
+    const { data: comms } = await admin.from("affiliate_commissions")
+      .select("id, commission_cents").eq("affiliate_id", p.affiliate_id)
+      .in("status", ["pending", "approved"]).order("created_at", { ascending: true });
+    let acc = 0; const ids: string[] = [];
+    for (const c of comms || []) { if (acc >= p.amount_cents) break; acc += c.commission_cents || 0; ids.push(c.id); }
+    if (ids.length) await admin.from("affiliate_commissions").update({ status: "paid" }).in("id", ids);
+    await admin.from("affiliate_payouts").update({ status: "paid", paid_at: new Date().toISOString() }).eq("id", payoutId);
+    return json({ ok: true });
+  }
+  return json({ error: "unbekannte Admin-Aktion" }, 400);
+}
+
 function genCode(): string {
   const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
   const b = new Uint8Array(7);
@@ -25,7 +53,14 @@ Deno.serve(async (req) => {
     const { data: { user }, error: authErr } = await admin.auth.getUser(authHeader.replace("Bearer ", ""));
     if (authErr || !user) return json({ error: "unauthorized" }, 401);
 
-    const { action, payout_name, payout_iban } = await req.json().catch(() => ({ action: "me" }));
+    const { action, payout_name, payout_iban, payout_id } = await req.json().catch(() => ({ action: "me" }));
+
+    // ---- Admin-Aktionen (Auszahlungen verwalten) ----
+    if (action?.startsWith("admin_")) {
+      const { data: role } = await admin.from("user_roles").select("role").eq("user_id", user.id).eq("role", "admin").maybeSingle();
+      if (!role) return json({ error: "forbidden" }, 403);
+      return await handleAdmin(action, payout_id, json);
+    }
 
     let { data: aff } = await admin.from("affiliates")
       .select("*")
