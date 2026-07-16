@@ -80,8 +80,9 @@ const Onboarding = () => {
       .maybeSingle()
       .then(({ data }) => {
         if (data?.onboarding_completed) {
-          // Onboarding fertig -> direkt weiter zum Abo (oder Dashboard, falls aktiv)
-          navigate("/checkout", { replace: true });
+          // Onboarding fertig -> direkt ins (frei nutzbare) Dashboard.
+          // Das Abo ist Upsell (Sidebar/Banner), kein Zwang -> passt zu "Kostenlos starten".
+          navigate("/dashboard", { replace: true });
         } else if (data) {
           setSalutation(data.salutation ?? "");
           setFirstName(data.first_name ?? "");
@@ -130,10 +131,10 @@ const Onboarding = () => {
     } as any).eq("id", user.id);
     setSaving(false);
     if (error) { toast.error(error.message); return; }
-    // Kein blockierender Stripe-Sync hier – direkt weiter. Die Checkout-Seite lädt
-    // ihren Status selbst (schnell aus DB) und der User hat ohnehin noch kein Abo.
-    toast.success("Profil gespeichert – jetzt Abo abschließen 🚀");
-    navigate("/checkout");
+    // Direkt ins Dashboard (frei nutzbar) – kein Paywall-Zwang. Das Abo ist als
+    // Upsell in Sidebar/Bannern erreichbar (passt zu "Kostenlos starten").
+    toast.success("Profil gespeichert – los geht's! 🚀");
+    navigate("/dashboard");
   };
 
   const canContinue = () => {
