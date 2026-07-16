@@ -134,7 +134,7 @@ const Item = ({ to, icon: Icon, label, active }: { to: string; icon: any; label:
   return (
     <SidebarMenuItem>
       <SidebarMenuButton asChild isActive={active}>
-        <NavLink to={to} onClick={() => { if (isMobile) setOpenMobile(false); }}>
+        <NavLink to={to} data-tour={to} onClick={() => { if (isMobile) setOpenMobile(false); }}>
           <Icon className="h-4 w-4" />
           <span>{label}</span>
         </NavLink>
