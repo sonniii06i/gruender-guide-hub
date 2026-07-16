@@ -132,6 +132,39 @@ async function findChrome(puppeteer) {
   }
 }
 
+/**
+ * Startet den Browser für den Prerender.
+ * - Lokal (macOS/Dev): das von puppeteer gecachte Chrome (findChrome).
+ * - Serverless-Build (Vercel/Lambda): @sparticuz/chromium liefert ein im
+ *   Build-Env lauffähiges headless-Chromium – das normale puppeteer-Chromium
+ *   startet dort NICHT (fehlende Shared-Libs) und der Prerender würde skippen.
+ */
+async function launchBrowser(puppeteer) {
+  const baseArgs = ["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage"];
+  const isServerless =
+    process.env.VERCEL || process.env.AWS_REGION || process.env.NOW_REGION || process.env.AWS_LAMBDA_FUNCTION_NAME;
+
+  if (!isServerless) {
+    const executablePath = await findChrome(puppeteer);
+    if (executablePath) console.log(`[prerender] lokales Chrome: ${executablePath}`);
+    return puppeteer.launch({
+      headless: true,
+      ...(executablePath ? { executablePath } : {}),
+      args: baseArgs,
+    });
+  }
+
+  // Vercel-Build: @sparticuz/chromium
+  const chromium = (await import("@sparticuz/chromium")).default;
+  const executablePath = await chromium.executablePath();
+  console.log(`[prerender] @sparticuz/chromium: ${executablePath}`);
+  return puppeteer.launch({
+    headless: chromium.headless ?? true,
+    executablePath,
+    args: [...chromium.args, ...baseArgs],
+  });
+}
+
 async function run() {
   if (!existsSync(join(DIST, "index.html"))) {
     console.error("[prerender] dist/index.html fehlt – erst `vite build` laufen lassen.");
@@ -153,13 +186,7 @@ async function run() {
   let failed = 0;
   try {
     const puppeteer = await loadPuppeteer();
-    const executablePath = await findChrome(puppeteer);
-    if (executablePath) console.log(`[prerender] Chrome: ${executablePath}`);
-    browser = await puppeteer.launch({
-      headless: true,
-      ...(executablePath ? { executablePath } : {}),
-      args: ["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage"],
-    });
+    browser = await launchBrowser(puppeteer);
 
     for (const route of routes) {
       const page = await browser.newPage();
