@@ -1,0 +1,4 @@
+# Cloudflare Pages Routing.
+# Prerenderte Routen liegen als dist/<route>/index.html und werden von Pages
+# automatisch als Clean-URL ausgeliefert. Alles ohne statische Datei -> SPA.
+/*    /index.html   200
