@@ -64,8 +64,8 @@ const AGB = () => (
       <h2 className="text-2xl font-bold mt-10 mb-3">§ 4 Tarife & Preise</h2>
       <p>(1) GründerX richtet sich überwiegend an Unternehmer:innen i. S. d. § 14 BGB. Tarife werden daher als Netto-Preise zzgl. der gesetzlichen Umsatzsteuer ausgewiesen:</p>
       <ul>
-        <li><strong>GründerX Solo</strong>: 84,03 € netto / Monat (99,99 € brutto inkl. 19 % USt). Voller Zugriff auf alle GründerX-Funktionen.</li>
-        <li><strong>Founder Bundle</strong> (GründerX + AnwaltX): 151,25 € netto / Monat (179,99 € brutto inkl. 19 % USt). Zusätzlich: AnwaltX-Vertragsprüfung, Abmahn-Schutz, Streitfall-Hilfe.</li>
+        <li><strong>GründerX Solo</strong>: 42,01 € netto / Monat (49,99 € brutto inkl. 19 % USt). Voller Zugriff auf alle GründerX-Funktionen.</li>
+        <li><strong>Founder Bundle</strong> (GründerX + AnwaltX): 67,22 € netto / Monat (79,99 € brutto inkl. 19 % USt) – 20 % günstiger als beide einzeln. Zusätzlich: AnwaltX-Vertragsprüfung, Abmahn-Schutz, Streitfall-Hilfe.</li>
       </ul>
       <p>(2) Verbraucher:innen i. S. d. § 13 BGB sehen den Brutto-Endpreis im Checkout entsprechend § 1 Abs. 1 PAngV.</p>
       <p>(3) AnwaltX-Leistungen sind ausschließlich im Bundle erhältlich und werden durch eine separate Partner-Kanzlei erbracht (Details siehe AnwaltX-Bedingungen).</p>

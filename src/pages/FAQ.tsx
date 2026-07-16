@@ -7,7 +7,7 @@ import CockpitShell from "@/components/cockpit/CockpitShell";
 
 const FAQS: { q: string; a: string }[] = [
   { q: "Was ist GründerX?", a: "GründerX ist dein KI-Co-Pilot für die Gründung und das Operative – Steuern, Recht, Marketing, Buchhaltung, Tools. Felix (KI) plus geführte Playbooks bringen dich vom ersten Schritt bis zum laufenden Betrieb." },
-  { q: "Wie viel kostet GründerX?", a: "GründerX kostet 99,99 €/Monat. Das Founder Bundle (inkl. Felix Premium, Vorlagen-Bibliothek, priorisierter Support) kostet 179,99 €/Monat. Beide jederzeit monatlich kündbar." },
+  { q: "Wie viel kostet GründerX?", a: "GründerX kostet 49,99 €/Monat. Das Founder Bundle (GründerX + AnwaltX zusammen) kostet 79,99 €/Monat – 20 % günstiger als beide einzeln (99,98 €). Beide jederzeit monatlich kündbar." },
   { q: "Gibt es eine kostenlose Testphase?", a: "Du kannst dich kostenlos registrieren, das Onboarding durchlaufen und alle Inhalte ansehen. Für aktive Features (Felix-Chat, Cockpits, Wizards) ist ein aktives Abo erforderlich." },
   { q: "Ersetzt GründerX meinen Steuerberater oder Anwalt?", a: "Nein. GründerX bereitet dich strukturiert vor, erklärt Begriffe und liefert Templates. Bei rechtsverbindlichen Themen (Steuererklärung, Vertragsprüfung) verweisen wir auf unser Schwesterprodukt AnwaltX bzw. zertifizierte Partner." },
   { q: "Welche Rechtsformen deckt ihr ab?", a: "Schwerpunkt DE: Einzelunternehmen, GbR, UG, GmbH, GmbH & Co. KG. Zusätzlich US-LLC für Creator/E-Commerce. Der Rechtsform-Wizard berechnet die optimale Form für dein Modell." },

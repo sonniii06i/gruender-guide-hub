@@ -8,6 +8,13 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type",
 };
 
+// Plan-Auflösung primär über die Abo-Metadaten (product), die create-checkout setzt —
+// robust gegenüber Preis-ID-Wechseln (dynamische Preise). Preis-ID-Map bleibt als Fallback
+// für Alt-Abos ohne product-Metadatum.
+const PRODUCT_TO_PLAN: Record<string, string> = {
+  gruenderx: "GründerX",
+  bundle: "Founder Bundle",
+};
 const PRICE_TO_PLAN: Record<string, string> = {
   price_1TTUf764hSN6usxPLDOylK70: "GründerX",
   price_1TTUfV64hSN6usxPe60ADpTF: "Founder Bundle",
@@ -80,7 +87,8 @@ serve(async (req) => {
     }
 
     const priceId = active.items.data[0].price.id;
-    const plan = PRICE_TO_PLAN[priceId] ?? "Unknown";
+    const productMeta = (active.metadata?.product as string | undefined) ?? "";
+    const plan = PRODUCT_TO_PLAN[productMeta] ?? PRICE_TO_PLAN[priceId] ?? "Unknown";
     const periodEnd = new Date(active.current_period_end * 1000).toISOString();
 
     await supabaseService.from("subscriptions").upsert({

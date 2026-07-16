@@ -8,6 +8,57 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type",
 };
 
+// Ziel-Beträge (in Cent) — Single Source of Truth für die Preise.
+// create-checkout findet/erzeugt automatisch den passenden monatlichen Stripe-Preis
+// auf dem bestehenden Produkt, damit Preisänderungen ohne Stripe-Dashboard nur hier passieren.
+const TARGET_AMOUNTS: Record<string, number> = {
+  gruenderx: 4999, // 49,99 €/Monat
+  bundle: 7999,    // 79,99 €/Monat (Kombi GründerX + AnwaltX, −20 % ggü. 2×49,99 €)
+};
+
+// In-Memory-Cache pro Warm-Start (product -> price id)
+const priceIdCache = new Map<string, string>();
+
+async function resolveMonthlyPriceId(
+  stripe: Stripe,
+  product: string,
+  anchorPriceId: string,
+): Promise<string> {
+  const expected = TARGET_AMOUNTS[product];
+  if (!expected) return anchorPriceId; // unbekanntes Produkt -> unveränderte ID
+
+  const cached = priceIdCache.get(product);
+  if (cached) return cached;
+
+  // Anker-Preis laden -> liefert Produkt-ID und ggf. schon den korrekten Betrag
+  const anchor = await stripe.prices.retrieve(anchorPriceId);
+  if (anchor.active && anchor.unit_amount === expected && anchor.recurring?.interval === "month") {
+    priceIdCache.set(product, anchor.id);
+    return anchor.id;
+  }
+  const productId = typeof anchor.product === "string" ? anchor.product : anchor.product.id;
+
+  // Passenden aktiven Preis am Produkt suchen (idempotent, keine Duplikate)
+  const list = await stripe.prices.list({ product: productId, active: true, limit: 100 });
+  const match = list.data.find(
+    (p) => p.recurring?.interval === "month" && p.unit_amount === expected && p.currency === "eur",
+  );
+  if (match) {
+    priceIdCache.set(product, match.id);
+    return match.id;
+  }
+
+  // Sonst neuen Preis anlegen
+  const created = await stripe.prices.create({
+    product: productId,
+    unit_amount: expected,
+    currency: "eur",
+    recurring: { interval: "month" },
+  });
+  priceIdCache.set(product, created.id);
+  return created.id;
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
@@ -116,9 +167,11 @@ serve(async (req) => {
     }
 
     const origin = req.headers.get("origin") || "";
+    // Ziel-Preis dynamisch auflösen (49,99 € GründerX / 79,99 € Bundle) — self-healing, kein Dashboard nötig.
+    const resolvedPriceId = await resolveMonthlyPriceId(stripe, product, priceId);
     const session = await stripe.checkout.sessions.create({
       customer: customerId,
-      line_items: [{ price: priceId, quantity: 1 }],
+      line_items: [{ price: resolvedPriceId, quantity: 1 }],
       mode: "subscription",
       billing_address_collection: "required",
       customer_update: { address: "auto", name: "auto" },

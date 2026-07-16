@@ -183,7 +183,7 @@ const Profile = () => {
                 <div className="grid md:grid-cols-2 gap-5">
                   <div className="rounded-2xl bg-white/10 backdrop-blur p-6 flex flex-col min-h-[260px]">
                     <div className="font-bold text-lg">GründerX</div>
-                    <div className="text-3xl font-bold mt-2">99,99 €<span className="text-sm font-normal opacity-70">/Mon</span></div>
+                    <div className="text-3xl font-bold mt-2">49,99 €<span className="text-sm font-normal opacity-70">/Mon</span></div>
                     <p className="text-sm opacity-85 mt-3 flex-1">Felix KI, alle Wizards, Anbieter-Vergleich, Coop-Deals.</p>
                     <Button onClick={() => checkout(STRIPE_PRICES.gruenderx)} disabled={busy === STRIPE_PRICES.gruenderx} className="mt-4 rounded-full bg-card text-primary hover:bg-card/90 h-11">
                       {busy === STRIPE_PRICES.gruenderx ? <Loader2 className="h-4 w-4 animate-spin" /> : "Abonnieren"}
@@ -191,7 +191,7 @@ const Profile = () => {
                   </div>
                   <div className="rounded-2xl bg-white/10 backdrop-blur p-6 flex flex-col min-h-[260px]">
                     <div className="font-bold text-lg">Founder Bundle</div>
-                    <div className="text-3xl font-bold mt-2">179,99 €<span className="text-sm font-normal opacity-70">/Mon</span></div>
+                    <div className="text-3xl font-bold mt-2">79,99 €<span className="text-sm font-normal opacity-70">/Mon</span></div>
                     <p className="text-sm opacity-85 mt-3 flex-1">GründerX + AnwaltX (Vertrags-Templates, Compliance-Audit).</p>
                     <Button onClick={() => checkout(STRIPE_PRICES.bundle)} disabled={busy === STRIPE_PRICES.bundle} className="mt-4 rounded-full bg-card text-primary hover:bg-card/90 h-11">
                       {busy === STRIPE_PRICES.bundle ? <Loader2 className="h-4 w-4 animate-spin" /> : "Bundle sichern"}

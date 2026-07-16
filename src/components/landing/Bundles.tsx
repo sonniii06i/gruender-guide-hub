@@ -8,11 +8,23 @@ import { getStoredAffiliateRef } from "@/utils/affiliate";
 import { STRIPE_PRICES } from "@/lib/stripe";
 import { toast } from "sonner";
 
-const tiers = [
+type Tier = {
+  name: string;
+  priceId: string;
+  price: string;
+  anchor?: string;
+  save?: string;
+  desc: string;
+  features: string[];
+  cta: string;
+  highlight: boolean;
+};
+
+const tiers: Tier[] = [
   {
     name: "GründerX",
     priceId: STRIPE_PRICES.gruenderx,
-    price: "99,99",
+    price: "49,99",
     desc: "Dein KI-Co-Pilot Felix für Gründung, Steuern, Marketplaces und Brand-Launch.",
     features: [
       "Felix – KI-Gründungs-Co-Pilot",
@@ -30,8 +42,10 @@ const tiers = [
   {
     name: "Founder Bundle",
     priceId: STRIPE_PRICES.bundle,
-    price: "179,99",
-    desc: "GründerX + AnwaltX in einem. Gründung, Steuern und Recht aus einer Hand – nur im Bundle erhältlich.",
+    price: "79,99",
+    anchor: "99,98",
+    save: "−20 %",
+    desc: "GründerX + AnwaltX in einem. Gründung, Steuern und Recht aus einer Hand – beide KIs zusammen, 20 % günstiger als einzeln.",
     features: [
       "Alles aus GründerX",
       "Juri – KI-Rechts-Assistentin (AnwaltX)",
@@ -123,15 +137,37 @@ export const Bundles = () => {
               {t.desc}
             </p>
             <div className="mb-6">
-              <span className="text-5xl font-extrabold">{t.price}€</span>
-              <span
-                className={
-                  t.highlight ? "text-primary-foreground/70" : "text-muted-foreground"
-                }
-              >
-                {" "}
-                /Monat
-              </span>
+              <div>
+                <span className="text-5xl font-extrabold">{t.price}€</span>
+                <span
+                  className={
+                    t.highlight ? "text-primary-foreground/70" : "text-muted-foreground"
+                  }
+                >
+                  {" "}
+                  /Monat
+                </span>
+              </div>
+              {t.anchor && (
+                <div className="mt-1.5 flex items-center gap-2">
+                  <span
+                    className={`text-sm line-through ${
+                      t.highlight ? "text-primary-foreground/60" : "text-muted-foreground"
+                    }`}
+                  >
+                    {t.anchor}€/Monat
+                  </span>
+                  {t.save && (
+                    <span
+                      className={`rounded-full px-2 py-0.5 text-xs font-bold ${
+                        t.highlight ? "bg-white/20 text-primary-foreground" : "bg-success/15 text-success"
+                      }`}
+                    >
+                      {t.save}
+                    </span>
+                  )}
+                </div>
+              )}
             </div>
             <ul className="space-y-3 mb-8 flex-1">
               {t.features.map((f) => (

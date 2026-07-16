@@ -110,15 +110,15 @@ const Checkout = () => {
         <div className="grid md:grid-cols-2 gap-5">
           <PlanCard
             title="GründerX"
-            price="99,99 €"
+            price="49,99 €"
             features={["Felix KI-Co-Founder", "Alle Wizards & Cockpits", "Anbieter-Vergleich", "Coop-Deals"]}
             busy={busy === STRIPE_PRICES.gruenderx}
             onClick={() => checkout(STRIPE_PRICES.gruenderx)}
           />
           <PlanCard
             title="Founder Bundle"
-            price="179,99 €"
-            badge="Beliebt"
+            price="79,99 €"
+            badge="−20 %"
             highlight
             features={["Alles aus GründerX", "AnwaltX Vertrags-Templates", "Compliance-Audit", "Priorisierter Support"]}
             busy={busy === STRIPE_PRICES.bundle}
