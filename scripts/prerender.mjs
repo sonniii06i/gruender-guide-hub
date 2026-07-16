@@ -164,8 +164,13 @@ async function run() {
     for (const route of routes) {
       const page = await browser.newPage();
       try {
+        // domcontentloaded statt networkidle0: die SPA hält über Supabase-Realtime/
+        // Polling dauerhaft Verbindungen offen -> networkidle0 feuert nie und jede
+        // Route lief in den Timeout (Minuten/Route, CI-Build-Timeout). Der
+        // waitForSelector("#root > *") unten stellt sicher, dass React + react-helmet
+        // gerendert haben, bevor wir das HTML abgreifen.
         await page.goto(`http://localhost:${PORT}${route}`, {
-          waitUntil: "networkidle0",
+          waitUntil: "domcontentloaded",
           timeout: PER_ROUTE_TIMEOUT,
         });
         // Warten bis React in #root tatsächlich gerendert hat
