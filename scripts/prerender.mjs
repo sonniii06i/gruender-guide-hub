@@ -202,6 +202,14 @@ async function run() {
         });
         // Warten bis React in #root tatsächlich gerendert hat
         await page.waitForSelector("#root > *", { timeout: 8_000 });
+        // Zusätzlich warten, bis react-helmet den <link rel="canonical"> gesetzt
+        // hat. Bei LAZY-geladenen Routen (React.lazy/Suspense) matcht "#root > *"
+        // sonst nur den Suspense-Fallback -> Seo-Tags (canonical/title/JSON-LD)
+        // fehlen im prerenderten HTML (z.B. /faq). Fallback: nicht hart scheitern,
+        // falls eine Seite bewusst keinen Canonical setzt.
+        await page
+          .waitForSelector('link[rel="canonical"]', { timeout: 7_000 })
+          .catch(() => {});
         const html = await page.evaluate(() => "<!doctype html>\n" + document.documentElement.outerHTML);
 
         const outDir = route === "/" ? DIST : join(DIST, route);
