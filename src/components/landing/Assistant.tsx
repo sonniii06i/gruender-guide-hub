@@ -35,12 +35,16 @@ export const Assistant = () => (
             </Link>
           </div>
 
-          <div className="mx-auto md:mx-0 mt-8 md:mt-0 h-56 w-56 md:h-72 md:w-72 rounded-3xl bg-white/15 backdrop-blur-md border border-white/20 overflow-hidden flex items-center justify-center">
+          <div className="relative mx-auto md:mx-0 mt-8 md:mt-0 flex items-center justify-center">
+            <div className="absolute inset-0 -z-0 flex items-center justify-center" aria-hidden="true">
+              <div className="w-56 h-56 md:w-72 md:h-72 rounded-full bg-white/20 blur-3xl" />
+            </div>
             <img
-              src="/mascots/felix-instructional.png"
+              src="/mascots/felix-front-t.png"
               alt="Felix, dein KI-Gründungs-Copilot, erklärt den nächsten Schritt"
               loading="lazy"
-              className="h-full w-full object-cover"
+              className="relative h-56 w-56 md:h-72 md:w-72 object-contain drop-shadow-xl animate-floaty"
+              style={{ animationDelay: "1.2s" }}
             />
           </div>
         </div>

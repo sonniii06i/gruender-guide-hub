@@ -44,12 +44,16 @@ export const Features = () => (
   <section id="leistungen" className="py-24 bg-secondary/40">
     <div className="container max-w-6xl">
       <div className="text-center mb-14">
-        <div className="flex justify-center mb-6">
+        <div className="relative flex justify-center mb-6">
+          <div className="absolute inset-0 -z-10 flex items-center justify-center" aria-hidden="true">
+            <div className="w-40 h-40 md:w-52 md:h-52 rounded-full bg-primary/15 blur-3xl" />
+          </div>
           <img
-            src="/mascots/felix-analytical.png"
-            alt="Felix, dein KI-Gründungs-Copilot, analysiert deine Zahlen"
+            src="/mascots/felix-34-t.png"
+            alt="Felix, dein KI-Gründungs-Copilot, kennt jedes Tool für deine Gründung"
             loading="lazy"
-            className="w-36 md:w-52 max-w-full rounded-2xl shadow-card"
+            className="w-36 md:w-52 max-w-full drop-shadow-xl animate-floaty"
+            style={{ animationDelay: "0.9s" }}
           />
         </div>
         <p className="text-sm font-semibold uppercase tracking-wider text-accent-blue mb-3">

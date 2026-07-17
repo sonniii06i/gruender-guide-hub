@@ -106,3 +106,7 @@
     text-wrap: balance;
   }
 }
+
+@keyframes floaty { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-14px)} }
+.animate-floaty { animation: floaty 4.5s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce){ .animate-floaty{animation:none} }

@@ -4,12 +4,16 @@
 export const WhatIs = () => (
   <section id="was-ist-gruenderx" className="py-20 border-t border-border/60">
     <div className="container max-w-3xl">
-      <div className="flex justify-center mb-6">
+      <div className="relative flex justify-center mb-6">
+        <div className="absolute inset-0 -z-10 flex items-center justify-center" aria-hidden="true">
+          <div className="w-32 h-32 md:w-40 md:h-40 rounded-full bg-accent-blue/15 blur-3xl" />
+        </div>
         <img
-          src="/mascots/felix-pensive.png"
-          alt="Felix, dein KI-Gründungs-Copilot, überlegt"
+          src="/mascots/felix-face.png"
+          alt="Felix, dein KI-Gründungs-Copilot"
           loading="lazy"
-          className="w-32 md:w-44 max-w-full rounded-2xl shadow-card"
+          className="w-24 md:w-36 max-w-full drop-shadow-xl animate-floaty"
+          style={{ animationDelay: "1.8s" }}
         />
       </div>
       <p className="text-sm font-semibold uppercase tracking-wider text-accent-blue mb-4 text-center">

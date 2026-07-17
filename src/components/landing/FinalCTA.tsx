@@ -9,12 +9,16 @@ export const FinalCTA = () => (
         <div className="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-accent-blue/30 blur-3xl" />
         <div className="absolute -bottom-40 -right-40 w-96 h-96 rounded-full bg-white/10 blur-3xl" />
         <div className="relative">
-          <div className="flex justify-center mb-8">
+          <div className="relative flex justify-center mb-8">
+            <div className="absolute inset-0 flex items-center justify-center" aria-hidden="true">
+              <div className="w-40 h-40 md:w-52 md:h-52 rounded-full bg-white/25 blur-3xl" />
+            </div>
             <img
-              src="/mascots/felix-victory.png"
+              src="/mascots/felix-cheer.png"
               alt="Felix, dein KI-Gründungs-Copilot, feiert deinen Start"
               loading="lazy"
-              className="w-36 md:w-56 max-w-full rounded-3xl"
+              className="relative w-32 md:w-44 max-w-full drop-shadow-xl animate-floaty"
+              style={{ animationDelay: "0.3s" }}
             />
           </div>
           <h2 className="text-4xl md:text-6xl font-bold text-balance">

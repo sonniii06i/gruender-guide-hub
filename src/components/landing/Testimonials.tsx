@@ -22,12 +22,16 @@ export const Testimonials = () => (
   <section className="py-24">
     <div className="container max-w-6xl">
       <div className="text-center mb-14">
-        <div className="flex justify-center mb-6">
+        <div className="relative flex justify-center mb-6">
+          <div className="absolute inset-0 -z-10 flex items-center justify-center" aria-hidden="true">
+            <div className="w-36 h-36 md:w-44 md:h-44 rounded-full bg-primary/15 blur-3xl" />
+          </div>
           <img
-            src="/mascots/felix-excited.png"
+            src="/mascots/felix-cheer.png"
             alt="Felix, dein KI-Gründungs-Copilot, freut sich mit dir"
             loading="lazy"
-            className="w-36 md:w-52 max-w-full rounded-2xl shadow-card"
+            className="w-28 md:w-40 max-w-full drop-shadow-xl animate-floaty"
+            style={{ animationDelay: "1.5s" }}
           />
         </div>
         <p className="text-sm font-semibold uppercase tracking-wider text-accent-blue mb-3">

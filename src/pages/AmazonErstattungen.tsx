@@ -132,10 +132,10 @@ const AmazonErstattungen = () => (
         </div>
         <div className="shrink-0 flex flex-col items-center gap-4">
           <img
-            src="/mascots/felix-analytical.png"
+            src="/mascots/felix-34-t.png"
             alt="Felix, dein KI-Gründungs-Copilot, prüft deine Erstattungen"
             loading="lazy"
-            className="hidden md:block w-40 max-w-full rounded-2xl"
+            className="hidden md:block w-40 max-w-full drop-shadow-xl animate-floaty"
           />
           <a href={ARBITRAGEX_URL} target="_blank" rel="noopener noreferrer">
             <Button

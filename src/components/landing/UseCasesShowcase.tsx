@@ -9,12 +9,16 @@ export const UseCasesShowcase = ({ compact = false }: { compact?: boolean }) => 
       <div className="container max-w-6xl px-4">
         <div className="text-center mb-8 md:mb-10">
           {!compact && (
-            <div className="flex justify-center mb-5">
+            <div className="relative flex justify-center mb-5">
+              <div className="absolute inset-0 -z-10 flex items-center justify-center" aria-hidden="true">
+                <div className="w-32 h-32 md:w-44 md:h-44 rounded-full bg-accent-blue/15 blur-3xl" />
+              </div>
               <img
-                src="/mascots/felix-analytical.png"
+                src="/mascots/felix-34-t.png"
                 alt="Felix, dein KI-Gründungs-Copilot, behält dein Cockpit im Blick"
                 loading="lazy"
-                className="w-32 md:w-44 max-w-full rounded-2xl shadow-card"
+                className="w-32 md:w-44 max-w-full drop-shadow-xl animate-floaty"
+                style={{ animationDelay: "1.1s" }}
               />
             </div>
           )}
