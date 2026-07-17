@@ -12,6 +12,7 @@ import { FAQ } from "@/components/landing/FAQ";
 import { FinalCTA } from "@/components/landing/FinalCTA";
 import { UseCasesShowcase } from "@/components/landing/UseCasesShowcase";
 import { Footer } from "@/components/landing/Footer";
+import { MobileCtaBar } from "@/components/landing/MobileCtaBar";
 import { Seo } from "@/components/Seo";
 
 const Index = () => (
@@ -105,6 +106,7 @@ const Index = () => (
       <FinalCTA />
     </main>
     <Footer />
+    <MobileCtaBar />
   </div>
 );
 

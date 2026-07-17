@@ -431,6 +431,19 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
     ],
     "disclaimer": "Die Schätzung dient der Liquiditätsplanung und ersetzt keine steuerliche Beratung."
   },
+  "amazon-erstattungen": {
+    "seoTitle": "Amazon Erstattungen automatisch zurückholen",
+    "seoDescription": "Verlorene FBA-Ware, Wareneingangs-Differenzen & unterbezahlte Erstattungen automatisch als Amazon-Cases mit KI-Antworten zurückholen. Gewinn wie in Sellerboard.",
+    "lead": "Amazon erstattet verlorene Ware, Wareneingangs-Differenzen und beschädigte Retouren nur selten von allein. Diese Seller-Automation spürt jeden erstattungsfähigen Fall auf und reicht ihn als fertigen Amazon-Case mit KI-Antwort ein – umgesetzt in unserem Tool Arbitragex.",
+    "urgency": "Den meisten Amazon-Sellern entgehen laufend 1–3 % vom Umsatz: verlorene FBA-Ware, nicht verbuchte Wareneingänge, beschädigte Retouren und unterbezahlte Erstattungen. Von Hand findet das kaum jemand, und Amazons Erstattungsfristen laufen unbemerkt ab. Ein vollautomatischer Case-Poller holt dieses Geld zurück, während du dich aufs Verkaufen konzentrierst.",
+    "outcomes": [
+      "Verlorene und beschädigte FBA-Ware, Wareneingangs-Differenzen und unterbezahlte Erstattungen automatisch aufgespürt",
+      "Fertige Amazon-Cases inklusive KI-Antworten auf Rückfragen – du prüfst nur",
+      "Ein vollautomatischer Case-Poller, der laufend neue Erstattungsfälle einreicht",
+      "Gewinn, Bestand und Erstattungen in einem Dashboard wie in Sellerboard"
+    ],
+    "disclaimer": "Die Erstattungs-Automation läuft in unserem Seller-Tool Arbitragex (arbitrage.anwaltx.de). Höhe und Genehmigung einzelner Erstattungen entscheidet allein Amazon – Ergebnisse können abweichen."
+  },
   "amazon-parser": {
     "seoTitle": "Amazon Settlement Report buchen: SKR03/04-Parser",
     "seoDescription": "Amazon-Settlement-CSV automatisch nach Fee-Typ aufsplitten und auf SKR03/04 mappen, über 130+ Buchungs-Codes. CSV-Export für den Steuerberater.",

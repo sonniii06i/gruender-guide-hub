@@ -43,6 +43,18 @@ const faqs = [
     a: "GründerX kostet 49,99 € / Monat. Wer beide KIs will (GründerX + AnwaltX: Vertragsprüfung, Abmahn-Schutz, Streitfall-Hilfe), bucht das Founder Bundle für 79,99 € / Monat – 20 % günstiger als beide einzeln (99,98 €).",
   },
   {
+    q: "Kann ich monatlich kündigen oder binde ich mich lange?",
+    a: "GründerX ist ein monatliches Abo, das du jederzeit zum Monatsende kündigst – keine Mindestlaufzeit, keine versteckte Vertragsbindung. Mit dem Code FOUNDER bekommst du im ersten Monat 20 % Rabatt.",
+  },
+  {
+    q: "Muss ich sofort zahlen oder kann ich GründerX erst ausprobieren?",
+    a: "Du legst kostenlos ein Konto an und nutzt die Gratis-Tools (Businessplan-Generator, Gründungskosten-Rechner, Rechtsform-Finder) ohne Kreditkarte. Die über 80 Rechner, Wizards und Felix schaltest du erst frei, wenn du dich für ein Abo entscheidest.",
+  },
+  {
+    q: "Ich habe null Vorwissen – ist GründerX trotzdem für mich?",
+    a: "Gerade dann. Die Wizards erklären jeden Schritt in Klartext statt Behörden-Deutsch, vom ELSTER-Fragebogen bis zur ersten Rechnung. Felix beantwortet deine Fragen im Chat, wenn du irgendwo hängst – du brauchst weder Steuer- noch Rechtsvorwissen.",
+  },
+  {
     q: "Übernehmt ihr Behördengänge wie die Gewerbeanmeldung?",
     a: "Nein. Wir geben dir Checklisten, ausgefüllte Formular-Vorlagen und Schritt-für-Schritt-Anleitungen – die Einreichung beim Gewerbeamt oder Finanzamt machst du selbst. Felix sorgt dafür, dass nichts fehlt.",
   },

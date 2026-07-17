@@ -10,6 +10,13 @@ const chips = [
   { icon: Calculator, label: "Steuer-ready" },
 ];
 
+const proof = [
+  { value: "80+", label: "Tools & Wizards" },
+  { value: "9", label: "Themen-Kategorien" },
+  { value: "EU", label: "Server, DSGVO-konform" },
+  { value: "DE / US / HK", label: "Gründungs-Guides" },
+];
+
 export const Hero = () => {
   return (
     <section className="relative bg-hero pt-36 pb-24 overflow-hidden">
@@ -24,16 +31,17 @@ export const Hero = () => {
         </Badge>
 
         <h1 className="text-5xl md:text-7xl font-extrabold text-balance leading-[1.15] tracking-tight">
-          <span className="block">Unternehmen <span className="text-accent-blue">gründen?</span></span>
-          <span className="block">Sofort <span className="text-accent-blue">startklar.</span></span>
+          <span className="block">Gründen ohne Steuerberater-</span>
+          <span className="block">Wartezeit. <span className="text-accent-blue">Sofort startklar.</span></span>
         </h1>
 
         <p className="mt-6 text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto text-balance">
-          GründerX ist dein KI-Co-Pilot für{" "}
+          Rechtsform wählen, Amazon Business & Seller-Account einrichten, Buchhaltung und Steuer im Griff,
+          Marke anmelden – GründerX ist der KI-Co-Pilot für{" "}
           <span className="font-semibold text-foreground">
-            Amazon-Seller, Meta-Ads-Operator, E-Commerce-Founder und Creator
+            Amazon-Seller, E-Commerce-Founder und Creator
           </span>
-          . Von der Rechtsform-Wahl über Amazon Business & Seller Account bis zu Buchhaltung mit Lexware, sevDesk & Co. – Felix führt dich Schritt für Schritt.
+          . Felix führt dich Schritt für Schritt, statt 40 Browser-Tabs offen zu haben.
         </p>
 
         <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
@@ -48,17 +56,29 @@ export const Hero = () => {
           ))}
         </div>
 
-        <div className="mt-10 flex flex-col sm:flex-row gap-3 justify-center">
-          <Link to="/auth">
-            <Button size="lg" className="group rounded-full bg-gradient-primary hover:opacity-95 text-primary-foreground h-14 px-8 shadow-glow hover:shadow-[0_25px_70px_-15px_hsl(var(--accent-blue)/0.6)] hover:-translate-y-0.5 transition-all duration-300 text-base font-semibold">
+        <div className="mt-10 flex flex-col sm:flex-row gap-3 justify-center items-center">
+          <Link to="/auth" className="w-full sm:w-auto">
+            <Button size="lg" className="group w-full sm:w-auto rounded-full bg-gradient-primary hover:opacity-95 text-primary-foreground h-14 px-10 shadow-glow hover:shadow-[0_25px_70px_-15px_hsl(var(--accent-blue)/0.6)] hover:-translate-y-0.5 transition-all duration-300 text-base font-semibold">
               Kostenlos starten <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
             </Button>
           </Link>
-          <Link to="/#leistungen">
-            <Button size="lg" variant="outline" className="rounded-full h-14 px-8 border-2 hover:bg-accent-blue/5 hover:border-accent-blue hover:-translate-y-0.5 transition-all duration-300 text-base font-semibold backdrop-blur">
-              Leistungen ansehen
-            </Button>
+          <Link to="/#leistungen" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors underline-offset-4 hover:underline">
+            oder erst Leistungen ansehen
           </Link>
+        </div>
+
+        <p className="mt-4 text-xs text-muted-foreground">
+          Kostenloses Konto · keine Kreditkarte nötig · monatlich kündbar
+        </p>
+
+        {/* Honest Proof-Strip — echte Fakten statt Fake-Testimonials */}
+        <div className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm">
+          {proof.map((p) => (
+            <div key={p.label} className="flex items-baseline gap-1.5">
+              <span className="font-bold text-foreground">{p.value}</span>
+              <span className="text-muted-foreground">{p.label}</span>
+            </div>
+          ))}
         </div>
       </div>
     </section>

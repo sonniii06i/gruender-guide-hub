@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Check, Sparkles, Loader2 } from "lucide-react";
+import { Check, Sparkles, Loader2, ShieldCheck, RefreshCcw, Tag } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
@@ -111,6 +111,11 @@ export const Bundles = () => {
           Gründung und Recht greifen ineinander. Hol dir beide KIs im Bundle und
           spare gegenüber den Einzelpreisen.
         </p>
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
+          <span className="flex items-center gap-1.5"><RefreshCcw className="h-4 w-4 text-accent-blue" /> Monatlich kündbar</span>
+          <span className="flex items-center gap-1.5"><Tag className="h-4 w-4 text-accent-blue" /> Code <span className="font-semibold text-foreground">FOUNDER</span>: 20 % im 1. Monat</span>
+          <span className="flex items-center gap-1.5"><ShieldCheck className="h-4 w-4 text-accent-blue" /> DSGVO-konform, EU-Server</span>
+        </div>
       </div>
 
       <div className="grid md:grid-cols-2 gap-5 items-stretch max-w-4xl mx-auto">

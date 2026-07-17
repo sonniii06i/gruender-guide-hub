@@ -2,7 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap');
+/* Google Fonts (Inter + Plus Jakarta Sans) werden in index.html per <link>
+   geladen — schneller als @import und ohne render-blocking über die CSS-Kette. */
 
 @layer base {
   :root {

@@ -10,6 +10,12 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#ffffff" />
+    <!-- Fonts: Inter (Body) + Plus Jakarta Sans (Headings). Als <link> im <head>
+         statt CSS-@import geladen — der Browser entdeckt sie sofort beim HTML-Parse
+         (kein render-blocking über die CSS-Kette). preconnect verkürzt den Handshake. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap">
     <!-- WICHTIG: Lovables Hosting liefert diesen statischen <head> als Default für
          ALLE Routen aus und übernimmt react-helmet (Seo.tsx) NICHT ins rohe HTML.
          Diese Tags sind daher die einzige Social-/Crawler-Vorschau ohne JS — also

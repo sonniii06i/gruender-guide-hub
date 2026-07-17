@@ -24,6 +24,10 @@ export const FinalCTA = () => (
               Jetzt kostenlos starten <ArrowRight className="ml-1 h-4 w-4" />
             </Button>
           </Link>
+          <p className="mt-5 text-sm text-primary-foreground/75">
+            Kostenloses Konto · keine Kreditkarte · monatlich kündbar · Code{" "}
+            <span className="font-semibold text-primary-foreground">FOUNDER</span> = 20 % im 1. Monat
+          </p>
         </div>
       </div>
     </div>

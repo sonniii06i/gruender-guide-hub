@@ -152,6 +152,7 @@ const _CATEGORIES_RAW: FeatureCategory[] = [
     icon: BookOpen,
     tagline: "Amazon, Stripe, Shopify, DATEV-Export",
     features: [
+      { slug: "amazon-erstattungen", title: "Amazon Erstattungen & Seller-Automation", desc: "Hol dir verlorene FBA-Ware, Wareneingangs-Differenzen & unterbezahlte Erstattungen automatisch als fertige Amazon-Cases mit KI-Antworten zurück. Gewinn & Bestand wie in Sellerboard.", status: "live", route: "/cockpit/amazon-erstattungen" },
       { slug: "amazon-parser", title: "Amazon-Settlement-Parser", desc: "Amazon-Settlement-CSV → automatisch aufgesplittet pro Fee-Typ + SKR03/04-Mapping über die 130+ Amazon-Buchungs-Codes. CSV-Export für StB.", status: "beta", route: "/cockpit/settlement-parser?mode=amazon" },
       { slug: "datev-mapping", title: "DATEV / Lexoffice Auto-Mapper", desc: "Bank-CSV einfügen → 30+ Auto-Regeln (Amazon, Stripe IE, PayPal LU, Klarna SE, Shopify, AWS, Meta/TikTok/Google Ads, OpenAI vs Anthropic, DHL, StB) mit RC §13b automatisch. Lexoffice + DATEV-Export.", status: "beta", route: "/cockpit/datev-mapper" },
       { slug: "amazon-ust", title: "Amazon-USt EU vs US Lookup", desc: "6 Konstellationen (DE-Verkauf, DE-Provisionen seit Aug 2024 mit 19% VSt, IT/FR/ES/NL §13b RC, EU-FBA-Lager + OSS, US Marketplace-Facilitator, UK Brexit) mit Konten + Steuerschlüsseln + Pflicht-Registrierungen.", status: "beta", route: "/cockpit/amazon-ust" },
