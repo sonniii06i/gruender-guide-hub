@@ -80,6 +80,15 @@ export const Hero = () => {
             </div>
           ))}
         </div>
+
+        {/* Felix als Hero-Begleiter */}
+        <div className="mt-12 flex justify-center">
+          <img
+            src="/mascots/felix-fullbody.png"
+            alt="Felix, dein KI-Gründungs-Copilot, mit interaktiver Checkliste"
+            className="w-48 md:w-72 max-w-full rounded-3xl shadow-card"
+          />
+        </div>
       </div>
     </section>
   );

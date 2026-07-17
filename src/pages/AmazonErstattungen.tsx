@@ -130,7 +130,13 @@ const AmazonErstattungen = () => (
             zurückholen.
           </p>
         </div>
-        <div className="shrink-0">
+        <div className="shrink-0 flex flex-col items-center gap-4">
+          <img
+            src="/mascots/felix-analytical.png"
+            alt="Felix, dein KI-Gründungs-Copilot, prüft deine Erstattungen"
+            loading="lazy"
+            className="hidden md:block w-40 max-w-full rounded-2xl"
+          />
           <a href={ARBITRAGEX_URL} target="_blank" rel="noopener noreferrer">
             <Button
               size="lg"

@@ -44,6 +44,14 @@ export const Features = () => (
   <section id="leistungen" className="py-24 bg-secondary/40">
     <div className="container max-w-6xl">
       <div className="text-center mb-14">
+        <div className="flex justify-center mb-6">
+          <img
+            src="/mascots/felix-analytical.png"
+            alt="Felix, dein KI-Gründungs-Copilot, analysiert deine Zahlen"
+            loading="lazy"
+            className="w-36 md:w-52 max-w-full rounded-2xl shadow-card"
+          />
+        </div>
         <p className="text-sm font-semibold uppercase tracking-wider text-accent-blue mb-3">
           Leistungen
         </p>

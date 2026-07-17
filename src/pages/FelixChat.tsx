@@ -8,7 +8,6 @@ import { Send, Loader2, FileText, Download } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import type { Components } from "react-markdown";
 import { toast } from "sonner";
-import Logo from "@/components/Logo";
 import { notifyConversationsChanged } from "@/hooks/useFelixConversations";
 import { readProfileCache } from "@/lib/profileCache";
 
@@ -287,7 +286,11 @@ const FelixChat = () => {
         ) : messages.length === 0 ? (
           <div className="h-full flex flex-col items-center justify-center text-center px-4">
             <div className="mb-5">
-              <Logo asImage className="h-14 w-14" />
+              <img
+                src="/mascots/felix-avatar.png"
+                alt="Felix, dein KI-Gründungs-Copilot"
+                className="h-16 w-16 rounded-full object-cover border border-border shadow-card"
+              />
             </div>
             <h3 className="text-3xl md:text-4xl font-bold tracking-tight mb-2">
               {firstName ? `Willkommen zurück, ${firstName}` : "Willkommen zurück"}
@@ -310,7 +313,14 @@ const FelixChat = () => {
         ) : (
           <div className="max-w-3xl mx-auto px-4 md:px-6 py-6 space-y-4">
             {messages.map((m, i) => (
-              <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
+              <div key={i} className={`flex items-start gap-2.5 ${m.role === "user" ? "justify-end" : "justify-start"}`}>
+                {m.role === "assistant" && (
+                  <img
+                    src="/mascots/felix-avatar.png"
+                    alt="Felix"
+                    className="h-8 w-8 rounded-full object-cover border border-border shrink-0 mt-0.5"
+                  />
+                )}
                 <div
                   className={`max-w-[85%] rounded-2xl px-4 py-2.5 ${
                     m.role === "user" ? "bg-primary text-primary-foreground" : "bg-secondary"
@@ -332,7 +342,12 @@ const FelixChat = () => {
               </div>
             ))}
             {streaming && messages[messages.length - 1]?.role === "user" && (
-              <div className="flex justify-start">
+              <div className="flex items-start gap-2.5 justify-start">
+                <img
+                  src="/mascots/felix-avatar.png"
+                  alt="Felix"
+                  className="h-8 w-8 rounded-full object-cover border border-border shrink-0 mt-0.5"
+                />
                 <div className="bg-secondary rounded-2xl px-4 py-2.5 inline-flex items-center gap-2 text-sm text-muted-foreground">
                   <Loader2 className="h-3.5 w-3.5 animate-spin" /> Felix denkt nach...
                 </div>

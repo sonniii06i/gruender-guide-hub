@@ -35,8 +35,13 @@ export const Assistant = () => (
             </Link>
           </div>
 
-          <div className="hidden md:flex h-56 w-56 rounded-3xl bg-white/15 backdrop-blur-md border border-white/20 items-center justify-center text-7xl font-bold">
-            F
+          <div className="mx-auto md:mx-0 mt-8 md:mt-0 h-56 w-56 md:h-72 md:w-72 rounded-3xl bg-white/15 backdrop-blur-md border border-white/20 overflow-hidden flex items-center justify-center">
+            <img
+              src="/mascots/felix-instructional.png"
+              alt="Felix, dein KI-Gründungs-Copilot, erklärt den nächsten Schritt"
+              loading="lazy"
+              className="h-full w-full object-cover"
+            />
           </div>
         </div>
       </div>

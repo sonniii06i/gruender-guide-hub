@@ -4,6 +4,14 @@
 export const WhatIs = () => (
   <section id="was-ist-gruenderx" className="py-20 border-t border-border/60">
     <div className="container max-w-3xl">
+      <div className="flex justify-center mb-6">
+        <img
+          src="/mascots/felix-pensive.png"
+          alt="Felix, dein KI-Gründungs-Copilot, überlegt"
+          loading="lazy"
+          className="w-32 md:w-44 max-w-full rounded-2xl shadow-card"
+        />
+      </div>
       <p className="text-sm font-semibold uppercase tracking-wider text-accent-blue mb-4 text-center">
         Was ist GründerX?
       </p>

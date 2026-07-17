@@ -8,6 +8,16 @@ export const UseCasesShowcase = ({ compact = false }: { compact?: boolean }) => 
     <section className={compact ? "py-2" : "py-16 md:py-20"}>
       <div className="container max-w-6xl px-4">
         <div className="text-center mb-8 md:mb-10">
+          {!compact && (
+            <div className="flex justify-center mb-5">
+              <img
+                src="/mascots/felix-analytical.png"
+                alt="Felix, dein KI-Gründungs-Copilot, behält dein Cockpit im Blick"
+                loading="lazy"
+                className="w-32 md:w-44 max-w-full rounded-2xl shadow-card"
+              />
+            </div>
+          )}
           <div className="inline-flex items-center gap-2 rounded-full bg-accent-blue/10 border border-accent-blue/20 px-3 py-1 text-xs font-semibold text-accent-blue mb-3">
             Alles in einem Cockpit
           </div>

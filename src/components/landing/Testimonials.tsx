@@ -22,6 +22,14 @@ export const Testimonials = () => (
   <section className="py-24">
     <div className="container max-w-6xl">
       <div className="text-center mb-14">
+        <div className="flex justify-center mb-6">
+          <img
+            src="/mascots/felix-excited.png"
+            alt="Felix, dein KI-Gründungs-Copilot, freut sich mit dir"
+            loading="lazy"
+            className="w-36 md:w-52 max-w-full rounded-2xl shadow-card"
+          />
+        </div>
         <p className="text-sm font-semibold uppercase tracking-wider text-accent-blue mb-3">
           Warum es GründerX gibt
         </p>

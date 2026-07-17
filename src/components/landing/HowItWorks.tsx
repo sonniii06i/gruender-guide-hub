@@ -20,6 +20,14 @@ export const HowItWorks = () => (
   <section className="py-24">
     <div className="container max-w-6xl">
       <div className="text-center mb-14">
+        <div className="flex justify-center mb-6">
+          <img
+            src="/mascots/felix-instructional.png"
+            alt="Felix, dein KI-Gründungs-Copilot, führt dich Schritt für Schritt"
+            loading="lazy"
+            className="w-32 md:w-48 max-w-full rounded-2xl shadow-card"
+          />
+        </div>
         <p className="text-sm font-semibold uppercase tracking-wider text-accent-blue mb-3">
           So funktioniert's
         </p>
