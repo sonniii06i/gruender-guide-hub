@@ -207,10 +207,66 @@ async function run() {
         // sonst nur den Suspense-Fallback -> Seo-Tags (canonical/title/JSON-LD)
         // fehlen im prerenderten HTML (z.B. /faq). Fallback: nicht hart scheitern,
         // falls eine Seite bewusst keinen Canonical setzt.
-        await page
-          .waitForSelector('link[rel="canonical"]', { timeout: 7_000 })
-          .catch(() => {});
-        const html = await page.evaluate(() => "<!doctype html>\n" + document.documentElement.outerHTML);
+        // Auf react-helmet warten. Der Canonical allein ist dafür ein schlechter
+        // Indikator: Er trifft nur zu, wenn die Seite ihn setzt, und bei
+        // lazy-geladenen Routen (React.lazy/Suspense) matcht "#root > *" schon
+        // den Suspense-Fallback. Bei /faq lief der Wait deshalb in den Timeout
+        // und es wurde der nicht-hydrierte Head abgegriffen — die Seite trug
+        // live den generischen Startseiten-Titel und gar keinen Canonical
+        // (gemessen 19.07.2026), obwohl die Komponente alles korrekt setzt.
+        //
+        // meta[data-rh] ist der verlässlichere Marker: Die Seo-Komponente setzt
+        // IMMER eine description, Helmet markiert jedes eigene Tag mit data-rh.
+        try {
+          await page.waitForSelector("meta[data-rh]", { timeout: 12_000 });
+          // Canonical zusätzlich abwarten, aber ohne harte Anforderung.
+          await page
+            .waitForSelector('link[rel="canonical"]', { timeout: 5_000 })
+            .catch(() => {});
+        } catch {
+          console.warn(`[prerender] ⚠ ${route} – keine react-helmet-Tags gefunden, Head evtl. generisch`);
+        }
+        // react-helmet ERSETZT nur den <title>; Meta-Tags hängt es zusätzlich an.
+        // Die statischen Defaults aus index.html bleiben also stehen, und im
+        // prerenderten HTML landen zwei <meta name="description"> — der
+        // generische Site-Default ZUERST, die seitenspezifische Fassung danach.
+        // Crawler werten in der Regel die erste aus, wodurch faktisch alle
+        // ~180 Seiten dieselbe Description hatten (gemessen 19.07.2026).
+        //
+        // Helmet markiert seine Tags mit data-rh="true". Wir entfernen deshalb
+        // genau die statischen Duplikate, zu denen es ein Helmet-Pendant gibt.
+        // Der Default in index.html bleibt unangetastet und trägt weiterhin den
+        // SPA-Fallback für Routen ohne Prerender.
+        const html = await page.evaluate(() => {
+          const key = (el) =>
+            el.getAttribute("name") || el.getAttribute("property") || null;
+
+          const managed = new Set();
+          for (const el of document.head.querySelectorAll("meta[data-rh]")) {
+            const k = key(el);
+            if (k) managed.add(k);
+          }
+
+          for (const el of [...document.head.querySelectorAll("meta")]) {
+            if (el.hasAttribute("data-rh")) continue; // von Helmet gesetzt → behalten
+            const k = key(el);
+            if (k && managed.has(k)) el.remove(); // statisches Duplikat → weg
+          }
+
+          // Gleiches Muster beim Canonical: doppelte <link rel="canonical"> sind
+          // ein widersprüchliches Signal.
+          const canon = document.head.querySelectorAll('link[rel="canonical"]');
+          if (canon.length > 1) {
+            const helmetCanon = [...canon].filter((el) => el.hasAttribute("data-rh"));
+            if (helmetCanon.length) {
+              [...canon].forEach((el) => {
+                if (!el.hasAttribute("data-rh")) el.remove();
+              });
+            }
+          }
+
+          return "<!doctype html>\n" + document.documentElement.outerHTML;
+        });
 
         const outDir = route === "/" ? DIST : join(DIST, route);
         await mkdir(outDir, { recursive: true });

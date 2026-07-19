@@ -157,6 +157,15 @@ const App = () => (
               <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/onboarding" element={<Onboarding />} />
+              {/* /faq lag bis 19.07.2026 innerhalb von <AppLayout>. Das Layout
+                  leitet anonyme Besucher weg (siehe AppLayout: if (!user) …),
+                  wodurch die Seite für Ausgeloggte UND für Crawler nie rendert:
+                  Der Prerender schrieb dort den Head der Startseite hinein
+                  (canonical https://gruenderx.de/, generischer Titel, leerer
+                  Body), obwohl FAQ.tsx vollständige Seo-Tags samt JSON-LD setzt
+                  und die Route in der sitemap.xml steht. Die Seite rendert ihre
+                  eigene CockpitShell und braucht AppLayout nicht. */}
+              <Route path="/faq" element={<FAQ />} />
               <Route element={<AppLayout />}>
                 <Route path="/dashboard" element={<PaywallGate title="Dashboard"><Dashboard /></PaywallGate>} />
                 <Route path="/affiliate" element={<Affiliate />} />
@@ -230,7 +239,6 @@ const App = () => (
                 <Route path="/playbook/:runId" element={<PaywallGate title="Guide"><PlaybookRun /></PaywallGate>} />
                 <Route path="/anbieter" element={<PaywallGate title="Anbieter-Vergleich"><Anbieter /></PaywallGate>} />
                 <Route path="/anbieter/:slug" element={<PaywallGate title="Anbieter-Vergleich"><AnbieterDetail /></PaywallGate>} />
-                <Route path="/faq" element={<FAQ />} />
                 <Route path="/felix" element={<PaywallGate title="Felix-Chat"><FelixChat /></PaywallGate>} />
                 <Route path="/felix/chats" element={<PaywallGate title="Chatverlauf"><FelixChatsOverview /></PaywallGate>} />
                 <Route path="/profile" element={<Profile />} />
