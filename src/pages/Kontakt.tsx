@@ -55,6 +55,16 @@ const Kontakt = () => {
         title="Kontakt | GründerX"
         description="Frag das GründerX-Team — zu Gründung, Steuern, Tools, Abo oder Kooperationen. Wir antworten zeitnah."
         path="/kontakt"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "ContactPage",
+          name: "Kontakt",
+          description:
+            "Frag das GründerX-Team — zu Gründung, Steuern, Tools, Abo oder Kooperationen.",
+          url: "https://gruenderx.de/kontakt",
+          inLanguage: "de-DE",
+          isPartOf: { "@type": "WebSite", name: "GründerX", url: "https://gruenderx.de" },
+        }}
       />
       <div className="container max-w-3xl py-6">
         <Link to="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">

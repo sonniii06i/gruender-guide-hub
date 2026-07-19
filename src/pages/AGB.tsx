@@ -8,6 +8,16 @@ const AGB = () => (
       title="AGB | GründerX"
       description="Allgemeine Geschäftsbedingungen von GründerX — Vertragsgegenstand, Abo, Widerruf, Haftung und Affiliate-Hinweise."
       path="/agb"
+      jsonLd={{
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        name: "Allgemeine Geschäftsbedingungen",
+        description:
+          "Allgemeine Geschäftsbedingungen von GründerX — Vertragsgegenstand, Abo, Widerruf, Haftung und Affiliate-Hinweise.",
+        url: "https://gruenderx.de/agb",
+        inLanguage: "de-DE",
+        isPartOf: { "@type": "WebSite", name: "GründerX", url: "https://gruenderx.de" },
+      }}
     />
     <Navbar />
     <main className="container max-w-3xl pt-32 pb-24 prose prose-slate prose-headings:scroll-mt-24">

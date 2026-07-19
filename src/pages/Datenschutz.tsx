@@ -8,6 +8,16 @@ const Datenschutz = () => (
       title="Datenschutzerklärung | GründerX"
       description="Wie GründerX personenbezogene Daten gemäß DSGVO verarbeitet — Verantwortlicher, Zwecke, Betroffenenrechte und eingesetzte Dienste."
       path="/datenschutz"
+      jsonLd={{
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        name: "Datenschutzerklärung",
+        description:
+          "Wie GründerX personenbezogene Daten gemäß DSGVO verarbeitet — Verantwortlicher, Zwecke, Betroffenenrechte und eingesetzte Dienste.",
+        url: "https://gruenderx.de/datenschutz",
+        inLanguage: "de-DE",
+        isPartOf: { "@type": "WebSite", name: "GründerX", url: "https://gruenderx.de" },
+      }}
     />
     <Navbar />
     <main className="container max-w-3xl pt-32 pb-24 prose prose-slate prose-headings:scroll-mt-24">

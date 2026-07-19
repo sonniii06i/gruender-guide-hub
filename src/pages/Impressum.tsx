@@ -6,8 +6,17 @@ const Impressum = () => (
   <div className="min-h-screen bg-background">
     <Seo
       title="Impressum | GründerX"
-      description="Impressum und Anbieterkennzeichnung gemäß § 5 TMG von GründerX."
+      description="Impressum und Anbieterkennzeichnung gemäß § 5 DDG von GründerX."
       path="/impressum"
+      jsonLd={{
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        name: "Impressum",
+        description: "Anbieterkennzeichnung gemäß § 5 DDG von GründerX.",
+        url: "https://gruenderx.de/impressum",
+        inLanguage: "de-DE",
+        isPartOf: { "@type": "WebSite", name: "GründerX", url: "https://gruenderx.de" },
+      }}
     />
     <Navbar />
     <main className="container max-w-3xl pt-32 pb-24 prose prose-slate">
