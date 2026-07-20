@@ -73,7 +73,6 @@ export const SellerBand = () => (
             name="felix-boxes"
             alt="Felix trägt einen Stapel Versandkartons"
             className="w-52 md:w-64"
-            delay="1.1s"
           />
         </div>
       </div>

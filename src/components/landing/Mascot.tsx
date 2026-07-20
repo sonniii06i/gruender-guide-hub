@@ -3,23 +3,20 @@ interface MascotProps {
   name: string;
   alt: string;
   className?: string;
-  /** Versetzt die Float-Animation, damit nicht alle Felixe synchron schweben */
-  delay?: string;
-  /** Schweben abschalten (z. B. wenn das Bild eine ganze Szene zeigt) */
-  floaty?: boolean;
   priority?: boolean;
 }
 
 /**
  * Rendert ein Felix-Motiv aus /public/mascots/ mit @2x-srcset.
  * Alle Motive sind WebP; die Cutouts haben echten Alpha-Kanal.
+ *
+ * Bewusst ohne Float-Animation: die schwebenden Maskottchen haben auf der
+ * Landing unruhig gewirkt. Nicht wieder einbauen.
  */
 export const Mascot = ({
   name,
   alt,
   className = "",
-  delay,
-  floaty = true,
   priority = false,
 }: MascotProps) => (
   <img
@@ -29,7 +26,6 @@ export const Mascot = ({
     loading={priority ? "eager" : "lazy"}
     fetchPriority={priority ? "high" : undefined}
     decoding="async"
-    className={`object-contain drop-shadow-xl ${floaty ? "animate-floaty" : ""} ${className}`}
-    style={delay ? { animationDelay: delay } : undefined}
+    className={`object-contain drop-shadow-xl ${className}`}
   />
 );

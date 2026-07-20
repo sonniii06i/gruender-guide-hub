@@ -28,7 +28,6 @@ export const ProblemBand = () => (
             name="felix-paperstack"
             alt="Felix steht ratlos vor einem meterhohen Stapel Formulare und Behördenpost"
             className="w-56 md:w-72"
-            delay="0.2s"
           />
         </div>
 

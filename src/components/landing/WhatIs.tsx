@@ -12,8 +12,7 @@ export const WhatIs = () => (
           src="/mascots/felix-face.png"
           alt="Felix, dein KI-Gründungs-Copilot"
           loading="lazy"
-          className="w-24 md:w-36 max-w-full drop-shadow-xl animate-floaty"
-          style={{ animationDelay: "1.8s" }}
+          className="w-24 md:w-36 max-w-full drop-shadow-xl"
         />
       </div>
       <p className="text-sm font-semibold uppercase tracking-wider text-accent-blue mb-4 text-center">

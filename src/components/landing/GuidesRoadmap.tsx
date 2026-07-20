@@ -26,7 +26,6 @@ export const GuidesRoadmap = () => (
             name="felix-roadmap"
             alt="Felix zeigt auf den nächsten offenen Schritt einer Gründungs-Roadmap"
             className="w-52 md:w-64"
-            delay="0.7s"
           />
         </div>
 

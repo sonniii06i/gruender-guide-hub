@@ -30,8 +30,7 @@ export const Testimonials = () => (
             src="/mascots/felix-cheer.png"
             alt="Felix, dein KI-Gründungs-Copilot, freut sich mit dir"
             loading="lazy"
-            className="w-28 md:w-40 max-w-full drop-shadow-xl animate-floaty"
-            style={{ animationDelay: "1.5s" }}
+            className="w-28 md:w-40 max-w-full drop-shadow-xl"
           />
         </div>
         <p className="text-sm font-semibold uppercase tracking-wider text-accent-blue mb-3">

@@ -19,8 +19,7 @@ export const FinalCTA = () => (
               alt="Felix, dein KI-Gründungs-Copilot, winkt und feiert deinen Start"
               loading="lazy"
               decoding="async"
-              className="relative w-32 md:w-44 max-w-full drop-shadow-xl animate-floaty"
-              style={{ animationDelay: "0.3s" }}
+              className="relative w-32 md:w-44 max-w-full drop-shadow-xl"
             />
           </div>
           <h2 className="text-4xl md:text-6xl font-bold text-balance">

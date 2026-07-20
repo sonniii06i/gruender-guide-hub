@@ -45,8 +45,7 @@ export const Assistant = () => (
               alt="Felix, dein KI-Gründungs-Copilot, erklärt den nächsten Schritt"
               loading="lazy"
               decoding="async"
-              className="relative h-56 w-56 md:h-72 md:w-72 object-contain drop-shadow-xl animate-floaty"
-              style={{ animationDelay: "1.2s" }}
+              className="relative h-56 w-56 md:h-72 md:w-72 object-contain drop-shadow-xl"
             />
           </div>
         </div>
