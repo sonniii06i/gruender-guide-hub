@@ -34,6 +34,14 @@
     --success: 152 60% 38%;
     --success-foreground: 0 0% 100%;
 
+    /* Felix-Grün als Markenfarbe. Bewusst getrennt von --success:
+       success ist ein Status, brand-green ist die zweite Markenfarbe
+       neben dem Navy und harmoniert mit dem Mint des Maskottchens. */
+    --brand-green: 156 46% 38%;
+    --brand-green-foreground: 0 0% 100%;
+    --brand-green-glow: 150 55% 58%;
+    --brand-green-soft: 150 52% 94%;
+
     --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
 

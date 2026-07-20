@@ -47,6 +47,12 @@ export default {
           DEFAULT: "hsl(var(--success))",
           foreground: "hsl(var(--success-foreground))",
         },
+        "brand-green": {
+          DEFAULT: "hsl(var(--brand-green))",
+          foreground: "hsl(var(--brand-green-foreground))",
+          glow: "hsl(var(--brand-green-glow))",
+          soft: "hsl(var(--brand-green-soft))",
+        },
         popover: {
           DEFAULT: "hsl(var(--popover))",
           foreground: "hsl(var(--popover-foreground))",

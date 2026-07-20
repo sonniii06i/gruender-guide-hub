@@ -1,6 +1,8 @@
 import { Navbar } from "@/components/landing/Navbar";
 import { Hero } from "@/components/landing/Hero";
-import { IntroBand } from "@/components/landing/IntroBand";
+import { ProblemBand } from "@/components/landing/ProblemBand";
+import { GuidesRoadmap } from "@/components/landing/GuidesRoadmap";
+import { SellerBand } from "@/components/landing/SellerBand";
 import { WhatIs } from "@/components/landing/WhatIs";
 import { Comparison } from "@/components/landing/Comparison";
 import { Assistant } from "@/components/landing/Assistant";
@@ -93,15 +95,17 @@ const Index = () => (
     <Navbar />
     <main>
       <Hero />
-      <IntroBand />
+      <ProblemBand />
+      <Assistant />
       <WhatIs />
       <Comparison />
-      <Assistant />
+      <GuidesRoadmap />
+      <SellerBand />
       <Features />
       <HowItWorks />
       <Bundles />
-      <Testimonials />
       <UseCasesShowcase />
+      <Testimonials />
       <FAQ />
       <FinalCTA />
     </main>

@@ -40,9 +40,11 @@ export const Assistant = () => (
               <div className="w-56 h-56 md:w-72 md:h-72 rounded-full bg-white/20 blur-3xl" />
             </div>
             <img
-              src="/mascots/felix-front-t.png"
+              src="/mascots/felix-present.webp"
+              srcSet="/mascots/felix-present.webp 1x, /mascots/felix-present@2x.webp 2x"
               alt="Felix, dein KI-Gründungs-Copilot, erklärt den nächsten Schritt"
               loading="lazy"
+              decoding="async"
               className="relative h-56 w-56 md:h-72 md:w-72 object-contain drop-shadow-xl animate-floaty"
               style={{ animationDelay: "1.2s" }}
             />

@@ -111,6 +111,14 @@ export const Bundles = () => {
           Gründung und Recht greifen ineinander. Hol dir beide KIs im Bundle und
           spare gegenüber den Einzelpreisen.
         </p>
+        <img
+          src="/mascots/bundle-duo.webp"
+          srcSet="/mascots/bundle-duo.webp 1x, /mascots/bundle-duo@2x.webp 2x"
+          alt="Felix von GründerX und Juri von AnwaltX stehen als Team nebeneinander"
+          loading="lazy"
+          decoding="async"
+          className="mt-8 w-full max-w-md mx-auto"
+        />
         <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
           <span className="flex items-center gap-1.5"><RefreshCcw className="h-4 w-4 text-accent-blue" /> Monatlich kündbar</span>
           <span className="flex items-center gap-1.5"><Tag className="h-4 w-4 text-accent-blue" /> Code <span className="font-semibold text-foreground">FOUNDER</span>: 20 % im 1. Monat</span>

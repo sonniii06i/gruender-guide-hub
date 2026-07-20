@@ -14,9 +14,11 @@ export const FinalCTA = () => (
               <div className="w-40 h-40 md:w-52 md:h-52 rounded-full bg-white/25 blur-3xl" />
             </div>
             <img
-              src="/mascots/felix-cheer.png"
-              alt="Felix, dein KI-Gründungs-Copilot, feiert deinen Start"
+              src="/mascots/felix-wave.webp"
+              srcSet="/mascots/felix-wave.webp 1x, /mascots/felix-wave@2x.webp 2x"
+              alt="Felix, dein KI-Gründungs-Copilot, winkt und feiert deinen Start"
               loading="lazy"
+              decoding="async"
               className="relative w-32 md:w-44 max-w-full drop-shadow-xl animate-floaty"
               style={{ animationDelay: "0.3s" }}
             />
