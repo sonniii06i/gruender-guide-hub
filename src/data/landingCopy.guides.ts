@@ -1079,5 +1079,20 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
       "Startklar, um organisch gefunden zu werden"
     ],
     "disclaimer": "Dieser Guide dient der Orientierung; SEO-Ergebnisse sind nicht garantiert und Suchmaschinen-Anforderungen koennen sich jederzeit aendern."
+  },
+  "eigene-app-launchen": {
+    "seoTitle": "Eigene App erstellen 2026 – App Store & Play Store Guide",
+    "seoDescription": "Eigene App entwickeln und in Apple App Store + Google Play launchen: Tech-Stack, Developer-Accounts, Review bestehen, Monetarisierung & Steuern. Schritt für Schritt.",
+    "lead": "Dieser Guide führt dich von der App-Idee bis zur Live-App in beiden Stores – Tech-Stack-Wahl, Entwicklung (auch ohne Programmierkenntnisse mit KI-Tools), Apple- und Google-Developer-Accounts, Review bestehen, Abo-Monetarisierung, DSGVO-Rechtstexte und die korrekte steuerliche Verbuchung der Store-Auszahlungen.",
+    "urgency": "2026 ist die beste Zeit aller Zeiten, eine eigene App zu launchen – mit KI-Tools und Cross-Platform-Frameworks baust du heute allein, wofür früher eine Agentur 30.000 € verlangt hat. Aber die Stores sind ein Minenfeld für Erstgründer: Googles 12-Tester-Pflicht blockiert deinen Launch um Wochen, wenn du sie zu spät entdeckst, Apples Review lehnt Template-Apps gnadenlos ab, und wer die Store-Auszahlungen falsch verbucht, zahlt doppelt Umsatzsteuer. Jeder dieser Fehler kostet Wochen oder Geld – dieser Guide räumt sie in der richtigen Reihenfolge ab, damit deine App beim ersten ernsthaften Anlauf live geht.",
+    "outcomes": [
+      "Deine App live im Apple App Store und Google Play Store",
+      "Developer-Accounts korrekt aufgesetzt (inkl. D-U-N-S, Trader-Status und Googles 12-Tester-Pflicht)",
+      "Bestandener App-Review mit Vorab-Check gegen die häufigsten Ablehnungsgründe",
+      "Monetarisierung mit Abo/In-App-Käufen und 15 % statt 30 % Store-Provision",
+      "DSGVO-konforme Rechtstexte, Privacy-Labels und Data-Safety-Angaben",
+      "Store-Auszahlungen steuerlich korrekt verbucht (Reverse Charge, ZM, USt-IdNr.)"
+    ],
+    "disclaimer": "Dieser Guide bietet strukturierte Orientierung und ersetzt keine Rechts- oder Steuerberatung – Store-Richtlinien, Gebühren und Review-Praxis von Apple und Google können sich jederzeit ändern."
   }
 };

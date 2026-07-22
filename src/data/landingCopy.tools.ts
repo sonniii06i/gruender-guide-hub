@@ -1012,5 +1012,33 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
       "Konkrete naechste Schritte statt offener Fragen"
     ],
     "disclaimer": "Ein Beratungsgespraech vermittelt allgemeine Einordnung und ersetzt keine individuelle Steuer- oder Rechtsberatung im Einzelfall."
+  },
+  "app-umsatz-rechner": {
+    "seoTitle": "App-Store-Umsatz-Rechner – was bleibt von 9,99 €?",
+    "seoDescription": "Apple & Google App-Umsatz durchrechnen: USt + Store-Provision (15/30 %) raus, MRR, Abo-LTV mit Churn und Break-even gegen deine Entwicklungskosten.",
+    "lead": "Der Rechner zeigt dir, was von deinem App-Store-Preis wirklich bei dir ankommt – und ob sich deine App-Idee trägt: Netto-Erlös pro Zahler, MRR-Verlauf, Abo-LTV mit Churn und der Break-even-Monat gegen deine Entwicklungskosten.",
+    "urgency": "Die meisten App-Gründer rechnen mit dem Store-Preis – und wundern sich über die Auszahlung: Von 9,99 € führt der Store erst die Umsatzsteuer ab, dann gehen 15–30 % Provision runter, übrig bleiben ~7,14 €. Wer damit nicht kalkuliert, bewertet Agentur-Angebote falsch, setzt Preise zu niedrig an und merkt erst nach Monaten, dass die App sich nie tragen kann. Rechne es in 2 Minuten durch, bevor du Geld in Entwicklung oder Ads steckst.",
+    "outcomes": [
+      "Dein echter Netto-Erlös pro Zahler nach USt und Store-Provision",
+      "MRR-Simulation über 36 Monate mit Downloads, Conversion und Churn",
+      "Abo-LTV – die Basis für deine Ads-Kalkulation",
+      "Break-even-Monat gegen deine Entwicklungskosten",
+      "Klarheit, ob Small Business Program (15 % statt 30 %) für dich greift"
+    ],
+    "disclaimer": "Vereinfachte Modell-Rechnung mit 19 % DE-USt; reale Auszahlungen variieren je Käuferland und Abrechnungszyklus. Keine Steuerberatung."
+  },
+  "runway-rechner": {
+    "seoTitle": "Runway-Rechner – wie lange reicht dein Geld?",
+    "seoDescription": "Burn-Rate & Runway berechnen: Cash + Kosten + Umsatz-Wachstum → simulierter Runway, Cash-Tiefpunkt und Default Alive or Default Dead. Für jeden Gründer.",
+    "lead": "Das wichtigste Dashboard jedes jungen Unternehmens in einem Rechner: Wie viele Monate reicht dein Cash – und holt der wachsende Umsatz die Kosten ein, bevor es ausgeht? Mit Burn-Rate, Cash-Tiefpunkt und Paul Grahams Default-Alive-Check.",
+    "urgency": "Startups sterben nicht an schlechten Ideen, sondern daran, dass das Geld ausgeht – und zwar meist überraschend, weil niemand den Runway ehrlich gerechnet hat (Privatentnahme vergessen, Wachstum überschätzt, Steuern ignoriert). Wer bei 12 Monaten Runway gegensteuert, hat alle Optionen; wer es bei 3 Monaten merkt, verhandelt aus Schwäche. Der Rechner zeigt dir in 2 Minuten, in welchem Modus du wirklich bist.",
+    "outcomes": [
+      "Dein Runway in Monaten – simuliert, nicht nur Cash ÷ Burn",
+      "Ehrliche Burn-Rate inklusive Privatentnahme",
+      "Default Alive oder Default Dead – wirst du rechtzeitig profitabel?",
+      "Cash-Tiefpunkt: wie viel Puffer du wirklich brauchst",
+      "Konkrete Handlungs-Stufen je nach Runway-Länge"
+    ],
+    "disclaimer": "Modell-Rechnung mit konstanten Annahmen – reale Geschäfte sind saisonal. Ersetzt keine Liquiditätsplanung mit Steuerberater."
   }
 };

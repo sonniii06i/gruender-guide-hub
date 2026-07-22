@@ -13922,5 +13922,526 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       ],
       "description": "Bei Target trennst du zwei Welten. Der Shopping-Account (Käufer) geht technisch via US-VPN + US-Adresse, scheitert aber am Versand (kein DE-Versand, keine Forwarder) — Workaround nur über Shop-for-me-Dienste. Der Target-Plus-Marketplace (Seller) ist invite-only und verlangt eine echte US-Präsenz mit US-Lager; für frische DE-Gründer ist er ehrlicherweise vorerst kein realistisches Ziel, sondern etwas, worauf man über eine bestehende US-Operation hinarbeitet."
     }
+  },
+  "eigene-app-launchen": {
+    "idee-validieren": {
+      "checklist": [
+        "5–10 Haupt-Keywords deiner App-Idee direkt im App Store + Play Store suchen (nicht bei Google!)",
+        "Top-10-Konkurrenten notieren: Downloads (Play Store zeigt sie), Bewertungs-Anzahl, Sterne, letztes Update",
+        "1-Stern- und 2-Stern-Reviews der Top-3-Konkurrenten lesen → wiederkehrende Beschwerden = dein USP",
+        "Monetarisierung der Konkurrenz checken: Paid? Abo? Preispunkte? (im Listing unter \"In-App-Käufe\")",
+        "Prüfen ob die Idee eine \"Vitamin-App\" (nice-to-have) oder \"Painkiller-App\" (löst echtes Problem) ist",
+        "Retention-Frage ehrlich beantworten: Warum öffnet jemand die App in Woche 4 noch?",
+        "Google-Trends + TikTok-Suche nach dem Problem — wächst die Nachfrage oder stirbt sie?",
+        "Namens-Check: App-Name im Store frei? Domain frei? Markenrecht (DPMA/EUIPO) kollisionsfrei?",
+        "Guardrail: Fällt deine App in eine regulierte Kategorie (Medizin/DiGA, Finanzen/BaFin, Glücksspiel, Kinder/COPPA)? → Sonderregeln VOR dem Bauen klären"
+      ],
+      "fields": [
+        { "name": "app_idea", "label": "App-Idee in einem Satz (Wer + Problem + Lösung)", "type": "textarea" },
+        { "name": "top_competitors", "label": "Top-3-Konkurrenten + deren größte Schwäche", "type": "textarea" },
+        { "name": "usp", "label": "Warum lädt jemand DEINE App statt der Konkurrenz?", "type": "textarea" }
+      ],
+      "externalLinks": [
+        { "label": "App Store (Web-Suche zum Recherchieren)", "url": "https://apps.apple.com/de/charts/iphone" },
+        { "label": "Google Play Charts", "url": "https://play.google.com/store/apps" },
+        { "label": "Google Trends", "url": "https://trends.google.de/trends/" },
+        { "label": "AppFigures (Konkurrenz-Downloads schätzen, Free-Tier)", "url": "https://appfigures.com/" },
+        { "label": "Sensor Tower (Markt-Daten)", "url": "https://sensortower.com/" }
+      ],
+      "warning": "Der häufigste Fehler: monatelang bauen, dann validieren. Dreh es um — wenn im Store KEINE Konkurrenz existiert, ist das meist ein schlechtes Zeichen (kein Markt), kein gutes. Du willst einen bewiesenen Markt mit schwachen Playern, nicht ein Vakuum.",
+      "extendedNotes": [
+        "Play Store zeigt Download-Ranges öffentlich (z.B. \"100.000+\") — nutze das als kostenlosen Markt-Size-Indikator. Der App Store zeigt keine Downloads, aber die Anzahl Bewertungen × 50–200 ist eine grobe Download-Schätzung.",
+        "Schnellster Pre-Launch-Test ohne App: Landing-Page mit \"Bald im App Store\"-Button + 50–100 € TikTok/Meta-Ads drauf. Klickrate auf den Fake-Download-Button = ehrlichstes Nachfrage-Signal, bevor du eine Zeile Code schreibst.",
+        "Kategorie-Realität 2026: Utility-Apps (Scanner, Widgets, Cleaner) sind übersättigt und werden von Apple unter Guideline 4.3 (Spam/Duplikat) aggressiv abgelehnt. Nischen-Apps mit klarer Zielgruppe (z.B. \"Trainingsplan für Kletterer\") haben bessere Chancen als generische Apps."
+      ]
+    },
+    "tech-stack": {
+      "checklist": [
+        "Budget + eigene Skills ehrlich einordnen: kann ich coden / will ich es mit KI lernen / muss ich einkaufen?",
+        "App-Art bestimmen: Content/Formulare/Listen (→ Cross-Platform reicht immer) vs. 3D/AR/Spiele/Hardware-nah (→ Nativ oder Game-Engine)",
+        "Cross-Platform-Favoriten vergleichen: Flutter (Dart, sehr rund), React Native + Expo (JavaScript, größtes Ökosystem), Capacitor (bestehende Web-App → App)",
+        "Wenn schon eine Web-App existiert: Capacitor prüfen — Web-Code bleibt, native Shell drumherum",
+        "No-Code nur wählen, wenn Zeit > Geld UND die App simpel bleibt (FlutterFlow exportiert echten Flutter-Code — beste Exit-Option)",
+        "Build-Frage klären: Für iOS-Builds brauchst du einen Mac ODER einen Cloud-Build-Service (Codemagic, Expo EAS, GitHub Actions macOS-Runner)",
+        "Entscheidung dokumentieren und NICHT mehr ändern — Stack-Wechsel mitten im Projekt ist der teuerste Fehler"
+      ],
+      "fields": [
+        { "name": "stack_choice", "label": "Gewählter Stack + Begründung" },
+        { "name": "build_setup", "label": "iOS-Build-Weg (eigener Mac / Cloud-Build-Service)" }
+      ],
+      "externalLinks": [
+        { "label": "Flutter (Google)", "url": "https://flutter.dev/" },
+        { "label": "Expo (React Native)", "url": "https://expo.dev/" },
+        { "label": "Capacitor (Web-App → native App)", "url": "https://capacitorjs.com/" },
+        { "label": "FlutterFlow (No-Code mit Code-Export)", "url": "https://www.flutterflow.io/" },
+        { "label": "Codemagic (Cloud-Builds ohne Mac)", "url": "https://codemagic.io/" }
+      ],
+      "warning": "\"Erst iOS, Android später\" (oder umgekehrt) klingt fokussiert, halbiert aber deinen Markt und du baust die zweite Version nie. Mit Flutter/React Native/Capacitor bekommst du beide Stores aus einer Codebase — es gibt 2026 fast keinen Grund mehr, als Solo-Gründer zwei native Codebasen zu pflegen.",
+      "extendedNotes": [
+        "Realistischer KI-Weg für Nicht-Programmierer 2026: Web-App mit Lovable/Claude bauen → mit Capacitor in eine native Shell packen → Cloud-Build (Codemagic/EAS) erzeugt die Store-Pakete (.ipa/.aab), ganz ohne eigenen Mac und ohne Xcode-Kenntnisse.",
+        "Flutter vs. React Native in kurz: Flutter rendert alles selbst (pixelgleich auf beiden Plattformen, sehr konsistent), React Native nutzt native Elemente (fühlt sich \"nativer\" an, riesiges JS-Ökosystem). Beide sind produktionsreif — nimm das, dessen Sprache dir näher liegt.",
+        "No-Code-Kostenfalle: Adalo/Glide berechnen laufende Monatsgebühren pro App und du besitzt den Code nicht. FlutterFlow ist die Ausnahme: ~30 $/Mon während der Entwicklung, danach echten Flutter-Code exportieren und kündigen.",
+        "Progressive Web App (PWA) als Zwischenweg: keine Store-Gebühren, kein Review — aber kein Store-Traffic, eingeschränkte Push-Notifications auf iOS und null Sichtbarkeit. Für die meisten Consumer-Apps ist der Store der Vertriebskanal, nicht nur die Technik."
+      ]
+    },
+    "mvp-design": {
+      "checklist": [
+        "Feature-Liste schreiben, dann 80 % streichen: nur der EINE Kern-Flow bleibt für v1",
+        "Kern-Flow als 3–5 Screens skizzieren: Onboarding → Hauptfunktion → Ergebnis/Erfolg",
+        "Onboarding auf max. 3 Screens begrenzen — jeder zusätzliche Screen kostet ~20 % der Nutzer",
+        "In Figma (kostenlos) die Screens designen — oder Mobbin-Screenshots erfolgreicher Apps als Vorlage nutzen",
+        "Apple Human Interface Guidelines überfliegen: Navigation unten (Tab-Bar), native Gesten, SF-Symbols",
+        "Material Design 3 für Android beachten (Cross-Platform-Frameworks machen das meiste automatisch)",
+        "Dark Mode von Anfang an mitdenken (nachträglich = doppelte Arbeit)",
+        "App-Icon designen (lassen): simpel, ohne Text, auf 60×60 px noch erkennbar",
+        "Empty States + Fehler-Zustände designen (leere Liste, kein Internet) — genau hier fühlen sich billige Apps billig an"
+      ],
+      "fields": [
+        { "name": "core_flow", "label": "Kern-Flow in Screens (z.B. Start → Eingabe → Ergebnis)", "type": "textarea" },
+        { "name": "v2_parkplatz", "label": "Gestrichene Features (Parkplatz für v2)", "type": "textarea" }
+      ],
+      "externalLinks": [
+        { "label": "Figma (kostenloses Design-Tool)", "url": "https://www.figma.com/" },
+        { "label": "Mobbin — 100.000+ echte App-Screens als Referenz", "url": "https://mobbin.com/" },
+        { "label": "Apple Human Interface Guidelines", "url": "https://developer.apple.com/design/human-interface-guidelines/" },
+        { "label": "Material Design 3 (Google)", "url": "https://m3.material.io/" },
+        { "label": "SF Symbols (Apples Icon-Bibliothek)", "url": "https://developer.apple.com/sf-symbols/" }
+      ],
+      "warning": "Apps werden in den ersten 10 Sekunden gelöscht oder behalten. Wenn dein MVP 8 Features hat, die alle mittelmäßig sind, verlierst du gegen die App mit 1 Feature, das perfekt ist. Durchschnittliche Day-30-Retention liegt bei unter 5 % — dagegen designst du an.",
+      "extendedNotes": [
+        "Design-Abkürzung ohne Designer: Such auf Mobbin die 3 besten Apps deiner Kategorie, screenshotte deren Kern-Screens und baue deine Version davon. Layout-Konventionen zu kopieren ist legal und schlau — Nutzer haben diese Muster bereits gelernt.",
+        "Onboarding-Formel die konvertiert: (1) Ein Screen Nutzenversprechen, (2) optional 2–3 Personalisierungs-Fragen, (3) sofort in die Kern-Funktion. Registrierung erst NACH dem ersten Aha-Moment verlangen — Pflicht-Registrierung vor dem ersten Mehrwert ist Retention-Killer Nr. 1.",
+        "Wenn du einen Design-Freelancer buchst (300–1.500 €): verlange Figma-Datei mit allen Screens in iOS- UND Android-Auflösung, App-Icon in 1024×1024 sowie die Store-Screenshots gleich mit — das spart dir später den zweiten Auftrag."
+      ]
+    },
+    "entwicklung": {
+      "description": "Jetzt wird gebaut — und 2026 hast du drei realistische Wege. Weg 1: Selbst mit KI-Tools (Claude Code, Cursor, Lovable). Auch ohne Programmier-Hintergrund kommst du damit zu einem funktionierenden MVP; rechne mit 4–8 Wochen Lernkurve + Bauzeit. Weg 2: Freelancer (3.000–10.000 € für ein MVP via Upwork/Fiverr Pro/Malt) — du briefst mit deinen Figma-Designs, zahlst nach Meilensteinen. Weg 3: Agentur (ab 15.000 €, eher 30.000 €+ in DE) — nur sinnvoll, wenn Budget da ist und die App dein Kern-Business wird. Für 90 % der Gründer ist Weg 1 oder 2 richtig. Egal welcher Weg: DU besitzt den Code (GitHub-Repo auf deinen Account), sonst bist du erpressbar.",
+      "checklist": [
+        "GitHub-Repository auf DEINEM Account anlegen — Freelancer/Agentur arbeiten als Collaborator, nie im eigenen Repo",
+        "Meilensteine definieren: 1) Kern-Flow klickbar, 2) Backend angebunden, 3) Beta-fähig, 4) Store-ready",
+        "Bei Freelancern: Werkvertrag mit IP-Übertragung (Code gehört nach Zahlung dir) — Standard-Klausel, aber sie muss drinstehen",
+        "Testgeräte organisieren: mind. 1 echtes iPhone + 1 Android-Gerät (Simulator reicht NICHT für Touch-Gefühl + Performance)",
+        "Crash-freies Grundgerüst vor Feature-Ausbau: App-Start, Navigation, Offline-Verhalten müssen stabil sein",
+        "Versionierung von Anfang an: Version 1.0.0, Build-Nummern hochzählen (beide Stores verlangen das)",
+        "Secrets (API-Keys) NIE im App-Code hardcoden — Apps lassen sich dekompilieren, Keys gehören ins Backend"
+      ],
+      "fields": [
+        { "name": "dev_weg", "label": "Gewählter Weg (KI-selbst / Freelancer / Agentur) + Budget" },
+        { "name": "meilensteine", "label": "Deine 4 Meilensteine mit Ziel-Daten", "type": "textarea" }
+      ],
+      "externalLinks": [
+        { "label": "Claude Code (KI-Entwicklung im Terminal)", "url": "https://claude.com/claude-code" },
+        { "label": "Cursor (KI-Code-Editor)", "url": "https://cursor.com/" },
+        { "label": "Upwork (Freelancer-Suche)", "url": "https://www.upwork.com/" },
+        { "label": "Malt (DACH-Freelancer)", "url": "https://www.malt.de/" },
+        { "label": "GitHub (kostenloses Code-Repository)", "url": "https://github.com/" }
+      ],
+      "warning": "Agentur-Falle für Erstgründer: \"App ab 5.000 €\"-Angebote enden regelmäßig bei 25.000 €+ durch Change Requests, oder du bekommst ein White-Label-Template, das Apple unter Guideline 4.3 ablehnt. Und: Wer dir eine App verspricht, ohne deine Figma-Designs oder ein Lastenheft zu verlangen, plant, dich mit Nachträgen zu melken.",
+      "extendedNotes": [
+        "Realistischer KI-Solo-Zeitplan für ein MVP (z.B. Tracking-/Content-/Listen-App): Woche 1–2 Kern-Flow als Web-App oder Expo-Projekt, Woche 3–4 Backend + Accounts, Woche 5–6 Politur (Empty States, Dark Mode, Icons), Woche 7–8 Beta + Store-Vorbereitung. Vollzeit halbiert das, nebenberuflich verdoppelt es.",
+        "Freelancer-Briefing das funktioniert: Figma-Designs + User-Stories (\"Als Nutzer will ich X, damit Y\") + explizite NICHT-Ziele (\"kein Chat, keine Web-Version\"). Fixpreis pro Meilenstein statt Stundensatz — sonst zahlst du die Lernkurve des Freelancers.",
+        "Code-Qualität als Nicht-Techniker prüfen: Lass dir wöchentlich einen Build aufs eigene Handy geben (TestFlight/APK). Wenn ein Freelancer das \"noch nicht kann\", ist das ein rotes Tuch — laufende installierbare Builds sind Standard.",
+        "Für Hardware-nahe Features (Bluetooth, HealthKit, Kamera-ML) vorher in den Framework-Docs prüfen, ob es ein gepflegtes Plugin gibt — 1 fehlendes natives Plugin kann den Stack-Entscheid kippen."
+      ]
+    },
+    "backend-dsgvo": {
+      "description": "Fast jede App braucht ein Backend: Nutzer-Accounts, Daten-Sync, Push-Notifications. Die zwei Standard-Optionen für Gründer sind Supabase (EU-Hosting möglich, Postgres, DSGVO-freundlich) und Firebase (Google, riesiges Ökosystem, aber US-Datenflüsse sauber regeln). Beide haben Free-Tiers, die für tausende Nutzer reichen. Parallel legst du hier das DSGVO-Fundament: Welche Daten sammelst du wirklich (Datenminimierung!), wo liegen sie (EU-Region wählen!), und mit jedem Dienstleister (Supabase, Firebase, Analytics) brauchst du einen AV-Vertrag (Auftragsverarbeitung, Art. 28 DSGVO) — die großen Anbieter stellen den als Standard-Dokument bereit, du musst ihn nur akzeptieren/archivieren.",
+      "checklist": [
+        "Backend wählen: Supabase (EU-Region Frankfurt wählbar) oder Firebase (europe-west3 als Region setzen)",
+        "Nur Daten erheben, die die App WIRKLICH braucht — jedes Feld, das du nicht hast, musst du nicht schützen",
+        "Login-Optionen planen: E-Mail + Apple-Login + Google-Login (Achtung: bietest du IRGENDEINEN Dritt-Login an, MACHT Apple \"Sign in with Apple\" zur Pflicht)",
+        "Anonyme Nutzung ermöglichen, wo möglich — Account erst verlangen, wenn Sync/Bezahlung es erfordert",
+        "AV-Verträge (DPA) mit allen Prozessoren abschließen/archivieren: Backend, Analytics, Push-Dienst, Crash-Reporting",
+        "Account-Löschung IN der App einbauen — Apple-Pflicht seit 2022: Wer Account-Erstellung anbietet, muss In-App-Löschung anbieten",
+        "Verschlüsselung: HTTPS überall (Standard), sensible Felder zusätzlich verschlüsseln",
+        "Push-Notifications: APNs (Apple) + FCM (Google) — oder OneSignal als Abstraktion über beide",
+        "Backups des Backends aktivieren (Supabase: Point-in-Time-Recovery ab Pro-Plan)"
+      ],
+      "fields": [
+        { "name": "backend_choice", "label": "Backend + Region (z.B. Supabase Frankfurt)" },
+        { "name": "datenliste", "label": "Liste aller erhobenen Daten + Zweck (wird deine Datenschutzerklärung)", "type": "textarea" }
+      ],
+      "externalLinks": [
+        { "label": "Supabase (Backend, EU-Region)", "url": "https://supabase.com/" },
+        { "label": "Firebase (Google Backend)", "url": "https://firebase.google.com/" },
+        { "label": "Supabase DPA (AV-Vertrag)", "url": "https://supabase.com/legal/dpa" },
+        { "label": "Google Cloud / Firebase Data Processing Terms", "url": "https://cloud.google.com/terms/data-processing-addendum" },
+        { "label": "OneSignal (Push für beide Plattformen)", "url": "https://onesignal.com/" }
+      ],
+      "warning": "Row Level Security (RLS) ist bei Supabase KEIN Optional: Ohne RLS-Policies kann jeder Nutzer mit dem öffentlichen API-Key die Daten ALLER Nutzer lesen. Das ist der häufigste Sicherheits-GAU bei KI-gebauten Apps. Vor dem Launch: jede Tabelle → RLS aktiv → Policy \"Nutzer sieht nur eigene Zeilen\".",
+      "extendedNotes": [
+        "Faustregel Datenstandort: EU-Region kostet nichts extra und erspart dir die komplette Drittland-Transfer-Diskussion (Schrems-II-Thema) für deine Kern-Daten. Bei US-Diensten (Firebase, OneSignal) auf EU-US Data Privacy Framework-Zertifizierung des Anbieters achten und in der Datenschutzerklärung erwähnen.",
+        "Kosten-Realität: Supabase Free (500 MB DB, 50k monatliche Auth-Nutzer) bzw. Firebase Spark reichen locker bis zu deinen ersten tausenden Nutzern. Plane das Upgrade (25 $/Mon Supabase Pro) erst ein, wenn Umsatz da ist.",
+        "Wenn deine App KEINE Accounts braucht (Rechner, Offline-Tool): Lass das Backend komplett weg. Lokale Speicherung + keine Datenerhebung = kürzeste Datenschutzerklärung, keine AV-Verträge, schnellster Review."
+      ]
+    },
+    "apple-developer": {
+      "description": "Ohne Apple Developer Program kein App Store: 99 $/Jahr (zzgl. USt-Behandlung, jährlich wiederkehrend). Du hast zwei Konto-Typen: Individual (läuft auf deinen Namen, im Store steht dein Klarname als Anbieter) oder Organization (läuft auf deine Firma — braucht eine D-U-N-S-Nummer und eine im Register auffindbare Rechtsform, z.B. GmbH/UG; Einzelunternehmen ohne HR-Eintrag werden oft NICHT als Organization akzeptiert). Die D-U-N-S-Nummer ist kostenlos, dauert aber bis zu 1–2 Wochen — früh beantragen! Die Anmeldung läuft über die Apple Developer App / developer.apple.com mit deiner Apple-ID + Zwei-Faktor. Apple verifiziert bei Organizations telefonisch — es muss jemand erreichbar sein, der zeichnungsberechtigt ist. Seit dem Digital Services Act (DSA) musst du als kommerzieller Anbieter in der EU zusätzlich deinen \"Trader Status\" hinterlegen: Adresse, Telefonnummer und E-Mail, die ÖFFENTLICH im App Store angezeigt werden — ohne Trader-Status fliegt deine App in der EU aus dem Store.",
+      "checklist": [
+        "Konto-Typ entscheiden: Individual (schnell, Klarname sichtbar) vs. Organization (Firmenname, braucht D-U-N-S + Rechtsform)",
+        "Bei Organization: D-U-N-S-Nummer kostenlos bei Dun & Bradstreet beantragen (Vorlauf 1–2 Wochen)",
+        "Apple-ID mit Zwei-Faktor-Authentifizierung anlegen/nutzen (Pflicht)",
+        "Enrollment über developer.apple.com oder die Apple Developer App durchführen, 99 $/Jahr zahlen",
+        "DSA-Trader-Status in App Store Connect hinterlegen (Adresse + Telefon + E-Mail, wird öffentlich angezeigt)",
+        "Bank- und Steuerdaten in App Store Connect → \"Agreements, Tax, and Banking\" ausfüllen (IBAN, W-8BEN/W-8BEN-E für US-Quellensteuer)",
+        "Paid Applications Agreement akzeptieren, wenn du irgendwann Geld verlangen willst (auch für spätere IAPs jetzt schon erledigen)",
+        "Team-Zugriffe: Entwickler/Freelancer als Teammitglied mit Rolle \"Developer\" einladen — NIEMALS dein Apple-ID-Passwort teilen"
+      ],
+      "fields": [
+        { "name": "account_typ", "label": "Konto-Typ (Individual / Organization)" },
+        { "name": "duns", "label": "D-U-N-S-Nummer (falls Organization)" }
+      ],
+      "externalLinks": [
+        { "label": "Apple Developer Program — Enrollment", "url": "https://developer.apple.com/programs/enroll/" },
+        { "label": "D-U-N-S-Nummer prüfen/beantragen (Apple-Tool)", "url": "https://developer.apple.com/enroll/duns-lookup/" },
+        { "label": "App Store Connect", "url": "https://appstoreconnect.apple.com/" },
+        { "label": "Apple: EU-Trader-Anforderungen (DSA)", "url": "https://developer.apple.com/help/app-store-connect/manage-compliance-information/manage-european-union-digital-services-act-trader-requirements/" }
+      ],
+      "warning": "Als Individual-Account steht dein voller Klarname für jeden sichtbar unter der App. Wenn du das nicht willst, brauchst du die Organization-Variante mit eingetragener Firma (UG reicht) — plane die D-U-N-S-Wartezeit ein, sie ist der häufigste unerwartete Zeitfresser vor dem Launch. Und: Der Trader-Status mit öffentlicher Adresse gilt auch für Individuals mit kommerziellen Apps — eine ladungsfähige Anschrift (ggf. Impressum-Service) gehört zur Planung.",
+      "extendedNotes": [
+        "Die 99 $ sind ein Abo: Läuft es aus, verschwinden deine Apps aus dem Store (Bestandsnutzer behalten sie installiert). Auto-Renewal aktivieren.",
+        "Apple Small Business Program hier direkt mitdenken: Unter 1 Mio. $ Store-Umsatz/Jahr zahlst du nur 15 % statt 30 % Provision — die Teilnahme musst du aktiv in App Store Connect beantragen, sie kommt nicht automatisch!",
+        "Verifizierungs-Anruf bei Organizations: Apple ruft die im D-U-N-S-Eintrag hinterlegte Nummer an. Stimmen Firmenname/Adresse dort nicht mit deinen Angaben überein, hängt das Enrollment wochenlang — D-U-N-S-Daten vorher via Apple-Lookup prüfen.",
+        "Xcode-los arbeiten: Auch mit Cloud-Builds (Codemagic/EAS) brauchst du diesen Account — die Services signieren mit DEINEN Zertifikaten/Profilen. API-Key für App Store Connect (Rolle App Manager) erstellen und im Build-Service hinterlegen, dann läuft Upload + Signing automatisch."
+      ]
+    },
+    "play-console": {
+      "description": "Google Play Console: einmalig 25 $, kein Abo. Auch hier: Personal Account (Klarname + Wohnadresse werden ab kommerzieller Nutzung öffentlich angezeigt) oder Organization Account (Firma, braucht Registernachweis). WICHTIG — die Regel, über die 2024/25 die meisten Solo-Gründer gestolpert sind: Neue PERSONAL Accounts müssen vor dem ersten Production-Release einen geschlossenen Test (\"Closed Testing\") mit mindestens 12 Testern über mindestens 14 Tage durchlaufen. Erst danach kannst du \"Production Access\" beantragen und wirklich launchen. Organization-Accounts sind von der 12-Tester-Pflicht ausgenommen. Google verifiziert außerdem deine Identität (Ausweis-Upload) und bei Organizations die Firma. Plane für den kompletten Play-Zugang inklusive Test-Pflicht realistisch 3–4 Wochen ein — parallel zum Apple-Prozess, nicht danach.",
+      "checklist": [
+        "Google-Konto anlegen (am besten ein dediziertes Firmen-Google-Konto, nicht dein privates)",
+        "Play Console Registrierung: 25 $ einmalig zahlen",
+        "Konto-Typ: Personal (12-Tester-Pflicht!) vs. Organization (Registernachweis nötig, keine Tester-Pflicht)",
+        "Identitätsverifizierung durchlaufen (Ausweis-Upload, bei Organization + Firmennachweis)",
+        "DSA-Trader-Status auch hier hinterlegen (EU-Pflicht, analog Apple)",
+        "Bei Personal Account: 12+ Tester organisieren (Freunde, Familie, Discord-Communities wie r/AndroidClosedTesting) und Closed Test 14 Tage laufen lassen",
+        "Payments-Profil für Auszahlungen einrichten (Google Payments, IBAN + Steuerdaten)",
+        "Zwei-Faktor-Authentifizierung auf dem Google-Konto erzwingen"
+      ],
+      "fields": [
+        { "name": "play_account_typ", "label": "Konto-Typ (Personal / Organization)" },
+        { "name": "tester_plan", "label": "Bei Personal: Woher kommen deine 12+ Tester?", "type": "textarea" }
+      ],
+      "externalLinks": [
+        { "label": "Google Play Console — Registrierung", "url": "https://play.google.com/console/signup" },
+        { "label": "Google: Anforderungen für neue Personal Accounts (Testing)", "url": "https://support.google.com/googleplay/android-developer/answer/14151465" },
+        { "label": "Play Console Hilfe: Kontotypen", "url": "https://support.google.com/googleplay/android-developer/answer/13628312" }
+      ],
+      "warning": "Die 12-Tester-Regel ist KEINE Formalie: Google prüft beim \"Production Access\"-Antrag, ob die Tester die App wirklich genutzt haben (Engagement, nicht nur Installation) und stellt dir Fragen zum Test. Karteileichen-Tester = Ablehnung = weitere 14 Tage. Rekrutiere 15–20 echte Tester mit Puffer und gib ihnen konkrete Aufgaben in der App.",
+      "extendedNotes": [
+        "Wenn du eine UG/GmbH hast (oder ohnehin gründest): Der Organization-Account umgeht die Tester-Pflicht komplett und zeigt den Firmennamen statt deiner Privatadresse — für ernsthafte Projekte fast immer die bessere Wahl.",
+        "Play zeigt bei Personal-Accounts mit Käufen/IAP deine Wohnadresse öffentlich im Listing an — dieselbe Impressum-Logik wie bei Apple. Virtual-Office/Impressum-Service ist zulässig, solange die Adresse ladungsfähig ist.",
+        "Der 14-Tage-Closed-Test ist strategisch nutzbar: Genau in dieser Zeit machst du deinen echten Beta-Test (Schritt 12) — die Pflicht wird zum Feature, wenn du sie früh einplanst statt am Ende draufzusetzen.",
+        "App-Signing: Play App Signing ist Standard (Google verwaltet den Release-Key). Beim Setup einfach akzeptieren — eigener Key-Verlust wäre sonst fatal, so übernimmt Google das Risiko."
+      ]
+    },
+    "monetarisierung": {
+      "description": "Vier Modelle: (1) Abo — der Standard 2026, wiederkehrender Umsatz, funktioniert für Tools/Content/Fitness; (2) Einmal-Kauf / Lifetime-IAP — Nutzer lieben es, du verkaufst jedem nur einmal; (3) Freemium mit In-App-Käufen; (4) Werbung (AdMob) — braucht 6-stellige Nutzerzahlen, für Nischen-Apps meist irrelevant. Die Provisions-Mathematik: Beide Stores nehmen 30 % Standard — ABER als kleiner Entwickler zahlst du real 15 %: Apple über das Small Business Program (unter 1 Mio. $/Jahr, aktiv beantragen!), Google automatisch auf die erste 1 Mio. $/Jahr; Abos kosten bei Apple ab dem 13. Monat je Abonnent ebenfalls nur noch 15 %. Digitale Inhalte MÜSSEN über die Store-Zahlsysteme laufen (Apple Guideline 3.1.1) — physische Waren/Dienstleistungen außerhalb der App (z.B. dein E-Com-Shop) dürfen dagegen normale Payment-Anbieter nutzen und zahlen keine Store-Provision. Praktisch fast immer richtig: RevenueCat als Abstraktions-Layer über beiden Stores (Free bis 2.500 $/Mon) — spart dir Wochen an StoreKit/Billing-Integration und liefert Abo-Analytics gratis dazu.",
+      "checklist": [
+        "Modell festlegen: Abo / Einmal-Kauf / Freemium-IAP / Ads (oder Hybrid: Abo + Lifetime-Option)",
+        "Preispunkte der Top-5-Konkurrenten notieren und dich bewusst positionieren (nicht automatisch billiger!)",
+        "Apple Small Business Program beantragen (15 % statt 30 % — App Store Connect → Small Business Program)",
+        "Bei Google: 15 %-Tier gilt automatisch für die erste 1 Mio. $ — nichts zu tun, aber in der Kalkulation berücksichtigen",
+        "RevenueCat (o.ä.) einbinden statt StoreKit/Play Billing direkt — Produkte in beiden Stores + RevenueCat anlegen",
+        "Paywall designen: Jahres-Abo prominent (mit \"nur X €/Monat\"-Umrechnung), 3–7 Tage Trial testen",
+        "Preise pro Markt prüfen: Stores rechnen automatisch um, aber runde Preispunkte (9,99 €) manuell setzen",
+        "Wiederherstellen-Button (\"Käufe wiederherstellen\") einbauen — Apple-Pflicht, häufiger Review-Ablehnungsgrund",
+        "Kalkulation: Netto-Erlös = Preis ÷ 1,19 (USt) × 0,85 (Store-Cut) — bei 9,99 € Abo bleiben dir ~7,14 €"
+      ],
+      "fields": [
+        { "name": "modell", "label": "Monetarisierungs-Modell + Preispunkte" },
+        { "name": "kalkulation", "label": "Netto-Erlös pro Nutzer nach Store-Cut + USt", "type": "textarea" }
+      ],
+      "externalLinks": [
+        { "label": "RevenueCat (Abo-Infrastruktur, Free-Tier)", "url": "https://www.revenuecat.com/" },
+        { "label": "Apple Small Business Program", "url": "https://developer.apple.com/app-store/small-business-program/" },
+        { "label": "Google Play Service-Fee-Übersicht", "url": "https://support.google.com/googleplay/android-developer/answer/112622" },
+        { "label": "RevenueCat State of Subscription Apps (Benchmarks)", "url": "https://www.revenuecat.com/state-of-subscription-apps/" },
+        { "label": "AdMob (falls Werbung)", "url": "https://admob.google.com/" }
+      ],
+      "warning": "Guideline 3.1.1 ist Apples meist-durchgesetzte Regel: Digitale Güter/Features am Store-Payment vorbei zu verkaufen (Stripe-Link in der App, \"kauf auf unserer Website\"-Hinweis) führt zuverlässig zur Ablehnung. Die EU-DMA-Öffnung (alternative Zahlwege/Link-outs) existiert, ist aber mit eigenen Gebühren-Modellen und Auflagen verbunden — für dein MVP: Standard-IAP nutzen, DMA-Optimierung ist ein Later-Problem.",
+      "extendedNotes": [
+        "Benchmark-Realität (RevenueCat-Daten): Nur grob ~5 % der Free-Nutzer werden je zahlend, Trial-Start-zu-Paid-Conversion liegt je nach Kategorie bei 30–50 %. Rechne dein Business-Case mit diesen Zahlen, nicht mit Wunschwerten.",
+        "Jahres-Abo schlägt Monats-Abo fast immer im LTV: Positioniere Jahr als Default (\"59,99 €/Jahr = 5 €/Monat\") und Monat als teure Alternative (9,99 €). Lifetime-IAP (z.B. 79,99 €) als drittes Angebot fängt Abo-Verweigerer ein.",
+        "Kleinunternehmer-Hinweis: Die Store-Provision ist unabhängig von deiner USt-Stellung. Apple/Google treten dir gegenüber als Kommissionär auf und führen die USt auf den Endkundenpreis in den meisten Ländern selbst ab — Details und die korrekte Verbuchung kommen in Schritt 17.",
+        "Preis-Anker: Es gibt in den Stores kaum Preis-Elastizität nach unten — eine 2,99 €-App verkauft sich selten öfter als eine 4,99 €-App. Teste höhere Preise zuerst, senken kannst du immer."
+      ]
+    },
+    "rechtliches": {
+      "description": "Beide Stores verlangen eine öffentlich erreichbare Datenschutzerklärungs-URL — ohne sie kommst du gar nicht durchs Einreichen. Für den deutschen Markt brauchst du: (1) Datenschutzerklärung nach DSGVO, spezifisch für die App (welche Daten, welche Dienste — Firebase, RevenueCat, AdMob etc. namentlich!), (2) Impressum (§ 5 DDG — als kommerzielle App bist du Diensteanbieter; in der App verlinken, z.B. in den Einstellungen), (3) AGB/EULA bei Abos dringend empfohlen (Apple bietet eine Standard-EULA, eigene AGB gehen vor), (4) bei Abos die Pflicht-Infos zu Laufzeit/Kündigung. Generator-Lösungen (eRecht24, Datenschutz-Generator.de von RA Schwenke, iubenda, Termly) liefern App-taugliche Texte ab 0–20 €/Mon — für den Start völlig okay, bei sensiblen Daten (Gesundheit, Kinder, Standort-Tracking) lohnt der Anwalts-Check (200–500 €).",
+      "checklist": [
+        "Liste aller Datenflüsse aus Schritt 5 nehmen: jeder Dienst (Backend, Analytics, Push, Ads, Payment) kommt namentlich in die Datenschutzerklärung",
+        "Datenschutzerklärung generieren (App-spezifische Vorlage wählen, nicht Website-Vorlage!) und auf einer öffentlichen URL hosten",
+        "Impressum erstellen und in der App verlinken (Einstellungen → \"Impressum\" + \"Datenschutz\")",
+        "Bei Abos: EULA/AGB mit Laufzeit-, Verlängerungs- und Kündigungs-Infos; Widerrufsbelehrung (digitale Inhalte: Erlöschen des Widerrufs bei sofortiger Bereitstellung korrekt abbilden — machen die Stores im Kaufprozess größtenteils für dich)",
+        "Tracking-Consent klären: Bei Werbe-Tracking/personalisierter Werbung → Apple ATT-Popup (App Tracking Transparency) einbauen + auf Android Consent-Flow (z.B. Google UMP)",
+        "Wenn KEINE Einwilligungspflicht (nur technisch nötige Daten): auch gut — dann sauber ohne Cookie/Consent-Banner bleiben, weniger ist mehr",
+        "Altersgrenzen prüfen: Richtet sich die App an Kinder unter 13/16? → Sonderregeln (COPPA/Art. 8 DSGVO, Play-\"Families\"-Policy) — wenn nicht, Zielgruppe klar 13+/16+ deklarieren",
+        "URLs sammeln für die Store-Listings: Datenschutz-URL, Support-URL, Marketing-URL (kann dieselbe Landing sein)"
+      ],
+      "fields": [
+        { "name": "privacy_url", "label": "Datenschutzerklärungs-URL" },
+        { "name": "support_url", "label": "Support-URL / Support-E-Mail" }
+      ],
+      "externalLinks": [
+        { "label": "Datenschutz-Generator.de (RA Schwenke)", "url": "https://datenschutz-generator.de/" },
+        { "label": "eRecht24 (Impressum + Datenschutz)", "url": "https://www.e-recht24.de/" },
+        { "label": "iubenda (App-Datenschutz mehrsprachig)", "url": "https://www.iubenda.com/de/" },
+        { "label": "Apple Standard-EULA", "url": "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" },
+        { "label": "Google UMP / Consent (AdMob)", "url": "https://support.google.com/admob/answer/10113207" }
+      ],
+      "warning": "Die Datenschutzerklärung muss zur Realität passen: Apple und Google GLEICHEN deine Privacy-Labels/Data-Safety-Angaben (Schritte 10+11) mit dem tatsächlichen Netzwerkverkehr der App ab — Apps werden nachträglich gescannt. \"Wir sammeln nichts\" angeben, während Firebase Analytics mitläuft, ist der schnellste Weg zu Takedown + Strike auf dem Konto.",
+      "extendedNotes": [
+        "Deutsche Abmahn-Realität: Fehlendes Impressum in einer kommerziellen App ist abmahnfähig, genau wie eine Website. Der Einstellungs-Screen mit Impressum + Datenschutz + Lizenzen-Link ist Standard und in 30 Minuten eingebaut.",
+        "Mehrsprachigkeit: Bietest du die App auf Deutsch UND Englisch an, sollten auch die Rechtstexte in beiden Sprachen vorliegen (iubenda kann das automatisch). Minimum: Deutsch für den DE-Store-Eintrag.",
+        "ATT nur wenn nötig: Das Apple-Tracking-Popup (\"App möchte deine Aktivität tracken\") senkt Opt-ins auf ~20–30 % und ist NUR Pflicht, wenn du wirklich über Apps/Websites Dritter trackst (Meta-Ads-SDK, AdMob personalisiert). First-Party-Analytics wie TelemetryDeck oder anonymisiertes Firebase brauchen kein ATT — Setup aus Schritt 16 entsprechend wählen."
+      ]
+    },
+    "app-store-connect": {
+      "description": "In App Store Connect legst du die App an (Bundle-ID, Name, Primärsprache) und baust das Listing: App-Name (30 Zeichen, wichtigster ASO-Faktor), Untertitel (30 Zeichen), Keyword-Feld (100 Zeichen, unsichtbar für Nutzer — Komma-getrennt, keine Wiederholungen aus dem Namen), Beschreibung (4.000 Zeichen, bei Apple NICHT keyword-indexiert — schreibe für Menschen), Screenshots und optional App-Preview-Video. Pflicht-Screenshots: 6,9-Zoll-iPhone (1320×2868 px); iPad nur, wenn die App iPad unterstützt. Dazu füllst du die Privacy-\"Nutrition Labels\" aus (welche Daten sammelst du, sind sie mit Identität verknüpft, Tracking ja/nein) und die Export-Compliance-Frage (Standard-HTTPS = \"exempt\", einfach wahrheitsgemäß beantworten). Preis/IAPs aus Schritt 8 hier anlegen, Altersfreigabe-Fragebogen ausfüllen, Kategorie wählen (die Nische mit weniger Konkurrenz kann die bessere Chart-Platzierung bringen).",
+      "checklist": [
+        "App in App Store Connect anlegen: Bundle-ID (com.deinefirma.appname — später NICHT änderbar), Name, Primärsprache",
+        "App-Name (30 Z.): Brand + wichtigstes Keyword (z.B. \"Kletterlog – Trainingstagebuch\")",
+        "Untertitel (30 Z.): Nutzenversprechen mit Zweit-Keywords",
+        "Keyword-Feld (100 Z.): Komma-getrennt, keine Leerzeichen nach Kommas, keine Duplikate aus Name/Untertitel, keine Markennamen der Konkurrenz",
+        "Beschreibung: erste 3 Zeilen verkaufen (mehr sieht man ohne \"Mehr\"-Tap nicht), dann Features als Liste",
+        "Screenshots 6,9\" (1320×2868): 3–5 Stück, erste 2 mit großem Text-Overlay (Nutzen, nicht Feature) — die ersten 2 entscheiden",
+        "Optional aber stark: App-Preview-Video (15–30 Sek., wird autoplayed)",
+        "App-Privacy-Labels wahrheitsgemäß ausfüllen (Abgleich mit Datenliste aus Schritt 5/9)",
+        "Altersfreigabe-Fragebogen + Kategorie (Haupt + Sekundär) setzen",
+        "Preis/IAPs anlegen und mit Screenshots der Paywall einreichen (Apple will IAPs im Review sehen können)",
+        "Support-URL + Datenschutz-URL + Copyright eintragen"
+      ],
+      "fields": [
+        { "name": "bundle_id", "label": "Bundle-ID (com.firma.app)" },
+        { "name": "app_name_store", "label": "App-Name + Untertitel (je 30 Zeichen)" },
+        { "name": "keywords", "label": "Keyword-Feld (100 Zeichen)", "type": "textarea" }
+      ],
+      "externalLinks": [
+        { "label": "App Store Connect", "url": "https://appstoreconnect.apple.com/" },
+        { "label": "Apple: Screenshot-Spezifikationen", "url": "https://developer.apple.com/help/app-store-connect/reference/screenshot-specifications/" },
+        { "label": "Apple: App-Privacy-Details (Labels)", "url": "https://developer.apple.com/app-store/app-privacy-details/" },
+        { "label": "Figma Screenshot-Templates (Community, kostenlos)", "url": "https://www.figma.com/community/search?resource_type=files&sort_by=relevancy&query=app%20store%20screenshots" }
+      ],
+      "warning": "Der App-Name ist der stärkste einzelne Ranking-Faktor im App Store — aber Keyword-Stuffing im Namen (\"Kletterlog: Training, Tagebuch, Plan, Tracker, Log\") verstößt gegen Guideline 2.3.7 und wird abgelehnt. Ein Keyword im Namen, zwei im Untertitel, der Rest ins 100-Zeichen-Feld.",
+      "extendedNotes": [
+        "Keyword-Feld-Profi-Tipps: Singular ODER Plural reicht (Apple matcht beides), \"frei\" kombinierbare Wörter einzeln listen (\"kletter,log,tagebuch\" matcht auch \"klettertagebuch\"), deutsche UND englische Keywords über die Lokalisierungen verteilen (DE-Store indexiert auch die EN-Lokalisierung!).",
+        "Screenshot-Formel die konvertiert: Screenshot 1 = größter Nutzen als 5-Wort-Headline über dem Device-Frame, Screenshot 2 = Social Proof oder Kern-Feature, 3–5 = weitere Features. Tools: Figma-Templates oder AppMockUp/Previewed (kostenlos bis günstig).",
+        "Du kannst das komplette Listing VOR Fertigstellung der App bauen — mach das parallel zur Entwicklung, nicht am Ende. Der erste Build kommt später einfach dazu.",
+        "In-App-Events, Promo-Codes (100 Stück pro Version für Presse/Influencer) und Custom Product Pages (verschiedene Landing-Varianten für Ads) sind mächtige Gratis-Features von App Store Connect, die kaum ein Indie nutzt."
+      ]
+    },
+    "play-listing": {
+      "description": "Gleiches Spiel in der Play Console, andere Regeln: Titel (30 Zeichen), Kurzbeschreibung (80 Zeichen — WIRD für Rankings indexiert!), lange Beschreibung (4.000 Zeichen — bei Google ebenfalls keyword-relevant, wichtigste Keywords 3–5× natürlich einbauen). Assets: App-Icon 512×512, Feature-Graphic 1024×500 (Pflicht — wird prominent angezeigt), mindestens 2 Screenshots pro unterstütztem Gerätetyp (Phone Pflicht, 7\"/10\"-Tablet nur wenn unterstützt). Dazu die Data-Safety-Sektion (Googles Pendant zu Apples Privacy-Labels — muss mit deiner Datenschutzerklärung übereinstimmen), der IARC-Content-Rating-Fragebogen (bestimmt die Altersfreigabe weltweit) und die Ziel-Zielgruppen-Deklaration. Anders als Apple indexiert Google auch die Beschreibung — dein Play-Listing ist SEO-Text, dein Apple-Listing ist Sales-Text.",
+      "checklist": [
+        "App in der Play Console anlegen (App-Name, Standardsprache, App/Spiel, kostenlos/kostenpflichtig)",
+        "Titel (30 Z.) mit Haupt-Keyword, Kurzbeschreibung (80 Z.) mit Nutzen + Zweit-Keywords — beide werden indexiert",
+        "Lange Beschreibung: Keywords 3–5× natürlich einbauen, erste 3 Zeilen = Pitch, Rest strukturiert mit Emojis/Absätzen",
+        "App-Icon 512×512 px (32-bit PNG) + Feature-Graphic 1024×500 px hochladen",
+        "Min. 4–8 Phone-Screenshots (16:9 oder 9:16, min. 1080 px) — gleiche Overlay-Strategie wie bei Apple",
+        "Data-Safety-Formular ausfüllen (Datenerhebung, Weitergabe, Verschlüsselung, Löschmöglichkeit)",
+        "IARC-Content-Rating-Fragebogen ausfüllen (falsche Angaben = Suspension)",
+        "Zielgruppe deklarieren (13+/16+/18+ — bei \"auch Kinder\" gelten die strengen Families-Policies)",
+        "Store-Eintrag-Experimente vormerken: Play erlaubt native A/B-Tests von Icon/Screenshots/Texten (Apple nur eingeschränkt via PPO)",
+        "Kategorie + Tags wählen, Kontaktdaten (E-Mail Pflicht, öffentlich sichtbar) eintragen"
+      ],
+      "fields": [
+        { "name": "play_titel", "label": "Titel (30 Z.) + Kurzbeschreibung (80 Z.)" },
+        { "name": "data_safety_status", "label": "Data-Safety-Angaben konsistent mit Datenschutzerklärung? (ja/nein + offene Punkte)" }
+      ],
+      "externalLinks": [
+        { "label": "Google Play Console", "url": "https://play.google.com/console" },
+        { "label": "Play: Data-Safety-Sektion (Hilfe)", "url": "https://support.google.com/googleplay/android-developer/answer/10787469" },
+        { "label": "Play: Grafik-Assets-Spezifikationen", "url": "https://support.google.com/googleplay/android-developer/answer/9866151" },
+        { "label": "IARC Content-Rating", "url": "https://www.globalratings.com/" }
+      ],
+      "warning": "Data-Safety-Falle: Dein eingebundenes SDK (Firebase, AdMob, Facebook-SDK) sammelt Daten, auch wenn DU es nicht aktiv tust — und du bist für die Deklaration verantwortlich. Jedes große SDK publiziert eine eigene Data-Safety-Hilfsseite; geh deine SDK-Liste durch und übertrage deren Angaben. Inkonsistenzen zwischen Data Safety, Datenschutzerklärung und echtem Traffic sind ein Top-Grund für Play-Rejections und nachträgliche Takedowns.",
+      "extendedNotes": [
+        "Die Feature-Graphic (1024×500) wird oft lieblos gemacht, ist aber das größte visuelle Element deines Listings (und Video-Thumbnail, falls du ein Promo-Video verlinkst): großer App-Name + 1 Nutzen-Satz + Screenshot-Ausschnitt, fertig.",
+        "Google-Play-Beschreibung = dein wichtigster ASO-Text: Anders als bei Apple lohnt hier echte Keyword-Arbeit. Struktur die funktioniert: Hook-Absatz mit Haupt-Keyword → \"DAS KANN [APP]\"-Liste → Social Proof → FAQ-artige Absätze mit Long-Tail-Keywords → Kontakt.",
+        "Pre-Registration (Vormerkung) kann sich lohnen: Nutzer können die App vor Launch vormerken und bekommen sie am Launch-Tag automatisch — kostenloser Launch-Spike, der den Algorithmus füttert."
+      ]
+    },
+    "beta-testing": {
+      "description": "Jetzt kommt deine App zum ersten Mal auf fremde Geräte. iOS: TestFlight — interne Tester (bis 100, sofort, kein Review) und externe Tester (bis 10.000, Link teilbar, kurzer Beta-Review durch Apple). Android: der Closed Test aus Schritt 7 — bei Personal-Accounts ohnehin Pflicht (12+ Tester, 14 Tage), bei Organization freiwillig aber dringend empfohlen. Ziel des Beta-Tests ist nicht \"Freunde finden es cool\", sondern: Crasht die App auf alten Geräten? Verstehen Fremde das Onboarding ohne Erklärung? Wo brechen Nutzer ab? Gib Testern 3 konkrete Aufgaben, sammle strukturiert Feedback (Formular, nicht WhatsApp-Chaos) und fixe die Top-Probleme VOR dem Store-Release — die ersten öffentlichen Bewertungen entscheiden über dein Ranking, und die bekommst du nie zurück.",
+      "checklist": [
+        "iOS: Build via TestFlight an interne Tester (sofort) + externen Test-Link erstellen (kurzer Beta-Review)",
+        "Android: Closed-Testing-Track mit E-Mail-Liste oder Google-Group einrichten, Opt-in-Link teilen",
+        "15–20 Tester rekrutieren: Zielgruppen-Kontakte > Freunde (Freunde schonen dich)",
+        "3 konkrete Test-Aufgaben stellen (z.B. \"Erstelle einen Eintrag, ändere ihn, exportiere ihn\")",
+        "Feedback-Formular (Google Forms/Tally) mit den 3 Kernfragen: Was war unklar? Wo gehakt? Würdest du zahlen — und was?",
+        "Crash-Reports beobachten (TestFlight-Crashes + Firebase Crashlytics/Sentry ab jetzt aktiv)",
+        "Onboarding-Beobachtungstest: 2–3 Leuten über die Schulter schauen (Bildschirmaufnahme), ohne zu helfen",
+        "Top-3-Findings fixen, neuen Build verteilen, Kurz-Retest — dann Feature-Freeze für den Launch",
+        "Bei Google Personal-Account: 14-Tage-Uhr läuft ab erstem Closed-Test-Release — Production-Access-Antrag direkt nach Ablauf stellen"
+      ],
+      "fields": [
+        { "name": "tester_count", "label": "Anzahl aktive Tester iOS / Android" },
+        { "name": "top_findings", "label": "Top-3-Findings aus dem Beta-Test", "type": "textarea" }
+      ],
+      "externalLinks": [
+        { "label": "TestFlight (Apple Beta-Testing)", "url": "https://developer.apple.com/testflight/" },
+        { "label": "Play Console: Test-Tracks einrichten", "url": "https://support.google.com/googleplay/android-developer/answer/9845334" },
+        { "label": "Tally (kostenlose Feedback-Formulare)", "url": "https://tally.so/" },
+        { "label": "Sentry (Crash-Monitoring, Free-Tier)", "url": "https://sentry.io/" }
+      ],
+      "warning": "Überspringe den Beta-Test nicht, um \"schneller zu launchen\": Eine App, die in Woche 1 bei echten Nutzern crasht, sammelt 1-Stern-Bewertungen, und ein Listing mit 2,8 Sternen ist praktisch tot — Bewertungen zu reparieren dauert 10× länger als der Beta-Test gedauert hätte.",
+      "extendedNotes": [
+        "TestFlight-Links sind auch dein erstes Marketing: In Nischen-Communities (Reddit, Discord, Facebook-Gruppen deiner Zielgruppe) nach Beta-Testern zu fragen ist erlaubt, bringt echte Zielgruppen-Tester UND baut eine Warteliste für den Launch auf.",
+        "Geräte-Matrix Android: Teste mindestens ein Gerät mit Android 10/11 (alte Mittelklasse, z.B. gebrauchtes Samsung A-Serie ~80 €) — dort sterben die meisten Apps, nicht auf dem Pixel des Entwicklers.",
+        "Beta-Feedback richtig gewichten: Feature-Wünsche notieren, aber NICHT vor Launch bauen. Nur Blocker (Crashes, Verständnis-Probleme im Kern-Flow) werden gefixt — alles andere ist v1.1."
+      ]
+    },
+    "apple-review": {
+      "description": "Build hochladen (aus Xcode oder deinem Cloud-Build-Service), Version in App Store Connect vervollständigen, \"Zur Prüfung einreichen\". Apple reviewt heute meist in 24–48 Stunden (90 % innerhalb von 24h laut Apple), ein Mensch klickt sich tatsächlich durch deine App. Die häufigsten Ablehnungsgründe — und alle sind vermeidbar: Guideline 2.1 (App crasht, Bugs, Login-Demo-Zugang fehlt oder Review-Team kommt nicht durch den Flow), 2.3 (Metadaten irreführend: Screenshots zeigen Features, die es nicht gibt), 3.1.1 (digitale Käufe am IAP vorbei), 4.3 (Spam/zu ähnlich zu tausenden anderen Apps — Template-Apps!), 5.1.1 (Datenerhebung ohne Zweck/Erlaubnis, Registrierungszwang ohne Grund), fehlender \"Käufe wiederherstellen\"-Button, Sign-in-with-Apple fehlt trotz Dritt-Login. Eine Ablehnung ist KEIN Drama: Du bekommst den konkreten Grund im Resolution Center, antwortest oder lieferst einen Fix-Build, und der Re-Review ist meist schneller. Ruhig und sachlich bleiben — Diskussionen gewinnst du im Resolution Center, nicht mit Wut-Antworten.",
+      "checklist": [
+        "Finalen Build hochladen (Xcode / Codemagic / EAS Submit) und in App Store Connect der Version zuordnen",
+        "Demo-Account für das Review-Team hinterlegen (App-Review-Informationen → Login + Passwort), falls die App Login hat",
+        "Review-Notizen schreiben: Was macht die App, wie testet man den Kern-Flow, wo liegen IAPs (2–5 Sätze reichen)",
+        "Vorab-Selbst-Review gegen die Top-Gründe: Crasht nichts? Alle Links funktionieren? Paywall hat Restore-Button? Preise stimmen mit Listing überein?",
+        "Sign-in-with-Apple vorhanden, falls Google/Facebook-Login angeboten wird?",
+        "Placeholder-Inhalte entfernt (Lorem ipsum, \"Coming soon\"-Screens = 2.1-Ablehnung)",
+        "Einreichen + Release-Option wählen: \"Manuell freigeben\" statt Auto-Release (du kontrollierst den Launch-Tag)",
+        "Bei Ablehnung: Grund im Resolution Center genau lesen, gezielt fixen oder sachlich antworten (bei Missverständnissen reicht oft eine Erklärung), erneut einreichen"
+      ],
+      "fields": [
+        { "name": "demo_account", "label": "Demo-Zugang fürs Review-Team hinterlegt? (Login)" },
+        { "name": "review_status", "label": "Review-Status / Ablehnungsgrund + Fix", "type": "textarea" }
+      ],
+      "externalLinks": [
+        { "label": "App Store Review Guidelines (Pflichtlektüre-Skim)", "url": "https://developer.apple.com/app-store/review/guidelines/" },
+        { "label": "Häufige Ablehnungsgründe (Apple)", "url": "https://developer.apple.com/app-store/review/#common-app-rejections" },
+        { "label": "App Store Connect: Einreichen zur Prüfung", "url": "https://developer.apple.com/help/app-store-connect/manage-submissions-to-app-review/submit-for-review/" }
+      ],
+      "warning": "Guideline 4.3 (\"Spam\") trifft KI- und Template-Apps hart: Wenn deine App im Kern aussieht wie hundert andere (generischer Quiz-Klon, Wrapper um eine API, White-Label-Template), lehnt Apple ab — unabhängig von der Code-Qualität. Dein Schutz: sichtbare Eigenleistung (eigenes Design, eigene Inhalte, eigene Nische) VOR dem Einreichen, nicht als Reaktion auf die Ablehnung.",
+      "extendedNotes": [
+        "Erst-Einreichung dauert manchmal länger (bis zu einer Woche), Updates gehen danach schneller. Nicht direkt vor Feiertagen (Weihnachten: Review-Pause!) oder einem harten Launch-Termin einreichen — 1 Woche Puffer.",
+        "Expedited Review existiert: Bei kritischen Bugs im Live-Betrieb kannst du eine beschleunigte Prüfung beantragen (App Store Connect → Contact Us). Sparsam einsetzen, wird aber real gewährt.",
+        "Phased Release aktivieren: Updates rollen über 7 Tage an einen wachsenden Nutzer-Anteil aus — dein Sicherheitsnetz gegen einen Crash-Bug, der alle Nutzer gleichzeitig trifft (für das Erst-Release irrelevant, ab Update 1 Standard).",
+        "Wenn du zweimal am selben Punkt abgelehnt wirst und die Begründung für falsch hältst: App Review Board Appeal (formeller Einspruch) — höflich, mit Guideline-Zitaten argumentieren. Erfolgsquote ist ordentlich, wenn du sachlich belegst."
+      ]
+    },
+    "play-review": {
+      "description": "Bei Google läuft der Release über Tracks: Closed Testing (hast du schon) → optional Open Testing → Production. Beim Personal-Account stellst du nach den 14 Test-Tagen den Production-Access-Antrag (Fragen zur App + zum Test wahrheitsgemäß beantworten), dann kannst du den Production-Release anlegen. Googles Review ist stärker automatisiert als Apples (Malware-Scan, Policy-Checks, Data-Safety-Abgleich), dauert bei neuen Entwicklern aber ebenfalls Stunden bis mehrere Tage — plane bis zu 7 Tage ein. Der wichtigste Unterschied zu Apple: Nutze den GESTAFFELTEN Rollout (Staged Rollout) — starte Production bei 10–20 %, beobachte Crashes/Vitals 1–2 Tage, dann auf 50 % und 100 % hochdrehen. Ein Vollausfall bei 10 % Rollout ist ein Ärgernis; bei 100 % ist er ein Bewertungs-Massaker.",
+      "checklist": [
+        "App-Bundle (.aab — Play akzeptiert kein reines APK mehr) in den Production-Track hochladen",
+        "Bei Personal-Account: Production-Access beantragen (nach 14 Tagen Closed Test mit 12+ aktiven Testern)",
+        "Alle Konsolen-Checkboxen grün: Store-Eintrag, Data Safety, Content-Rating, Zielgruppe, Preise & Länder",
+        "Länder-Auswahl treffen (Start: DACH oder direkt weltweit — weltweit kostet nichts extra)",
+        "Release-Notes schreiben (werden öffentlich angezeigt)",
+        "Staged Rollout auf 10–20 % setzen, NICHT 100 %",
+        "Android Vitals (Crash-Rate, ANR-Rate) täglich checken — Googles Ranking bestraft schlechte Vitals direkt",
+        "Nach 24–48h ohne Auffälligkeiten: Rollout auf 50 %, dann 100 %",
+        "Bei Policy-Ablehnung: E-Mail + Konsole nennen die verletzte Policy — fixen, neu einreichen; bei Fehlentscheidung Appeal-Formular nutzen"
+      ],
+      "fields": [
+        { "name": "rollout_stufe", "label": "Aktuelle Rollout-Stufe (%)" },
+        { "name": "vitals", "label": "Crash-Rate / ANR-Rate nach 48h" }
+      ],
+      "externalLinks": [
+        { "label": "Play Console: Releases & Staged Rollout", "url": "https://support.google.com/googleplay/android-developer/answer/6346149" },
+        { "label": "Google Play Policy Center", "url": "https://play.google.com/about/developer-content-policy/" },
+        { "label": "Android Vitals (Hilfe)", "url": "https://support.google.com/googleplay/android-developer/answer/9844486" },
+        { "label": "Play: Appeal-Formular bei Ablehnungen", "url": "https://support.google.com/googleplay/android-developer/answer/2477981" }
+      ],
+      "warning": "Google verteilt Policy-Strikes aufs KONTO, nicht nur auf die App — wiederholte Verstöße (auch aus Schlamperei: falsche Data-Safety-Angaben, Rating-Fragebogen geschönt) können zur Sperrung des gesamten Developer-Accounts führen, inklusive Verbot, je wieder einen zu eröffnen. Lieber eine Angabe zu konservativ als eine zu optimistisch.",
+      "extendedNotes": [
+        "Android Vitals sind ein direkter Ranking-Faktor: Crash-Rate über ~1,09 % oder ANR über ~0,47 % (Googles \"bad behavior\"-Schwellen) drückt deine Sichtbarkeit spürbar. Das ist der harte Grund für den Staged Rollout.",
+        "Der Production-Access-Fragebogen fragt u.a., was du aus dem Closed Test gelernt hast — antworte konkret (gefundene Bugs, gefixte Punkte). Generische Antworten (\"alles gut\") führen zu Ablehnungen des Antrags.",
+        "Update-Strategie Play: kleinere Updates kannst du komplett automatisiert ausrollen; Play unterstützt zudem In-App-Updates (Nutzer updaten ohne Store-Besuch) — für später, wenn kritische Fixes schnell verteilt werden müssen."
+      ]
+    },
+    "aso-launch": {
+      "description": "Launch-Tag: Beide Apps live schalten (Apple: manueller Release; Google: Rollout hochdrehen). Aber \"live\" ist nicht \"gefunden\" — jetzt beginnt ASO als Dauerdisziplin. Die Ranking-Faktoren: Keywords in den Metadaten (hast du gesetzt), Download-Velocity (Downloads pro Tag — deshalb Launch-Push!), Bewertungs-Anzahl und -Schnitt, Retention/Engagement. Dein Launch-Plan: Warteliste/Beta-Tester aktivieren, in deinen Zielgruppen-Communities posten (mit Kontext, nicht als Spam), 2–3 Nischen-Presse/Newsletter/YouTuber anschreiben (Promo-Codes!), optional Product Hunt. In der App: Rating-Prompt an den richtigen Moment hängen — direkt nach einem Erfolgs-Erlebnis (Ziel erreicht, Export fertig), NIE beim App-Start. Die native In-App-Review-API (Apple SKStoreReviewController / Google In-App-Review) zeigt das System-Popup, ohne dass Nutzer die App verlassen — das verzehnfacht Bewertungsraten gegenüber \"Bewerte uns im Store\"-Links.",
+      "checklist": [
+        "Launch-Tag koordinieren: Apple-Release manuell freigeben + Play-Rollout hochdrehen am selben Tag",
+        "Beta-Tester + Warteliste anschreiben: \"Wir sind live\" + direkte Store-Links + Bitte um ehrliche Bewertung",
+        "Rating-Prompt im Code an Erfolgs-Momente hängen (native In-App-Review-API beider Plattformen)",
+        "3–5 Community-Posts in echten Zielgruppen-Foren (Reddit/Discord/Facebook-Gruppen) — als Mitglied mit Story, nicht als Werbung",
+        "Nischen-Multiplikatoren anschreiben (Newsletter, YouTuber, Blogs) mit Promo-Codes (Apple: 100/Version) + Presse-Kit (Screenshots, Kurztext, Icon)",
+        "Eigene Landing-Page mit Smart-Banner + Store-Badges live (Apple/Google-Badge-Richtlinien beachten)",
+        "Keyword-Rankings tracken (AppFigures/Astro/App Radar — Free-Tiers reichen anfangs)",
+        "Nach 2–4 Wochen: erste ASO-Iteration — schwache Keywords austauschen, Screenshots testen (Play: Store-Listing-Experimente)",
+        "Auf jede Bewertung antworten (beide Stores) — sichtbar für alle, hebt Conversion und manchmal die Bewertung selbst"
+      ],
+      "fields": [
+        { "name": "launch_datum", "label": "Launch-Datum" },
+        { "name": "keyword_rankings", "label": "Top-5-Keywords + aktuelle Platzierung", "type": "textarea" }
+      ],
+      "externalLinks": [
+        { "label": "AppFigures (ASO + Rank-Tracking, Free-Tier)", "url": "https://appfigures.com/" },
+        { "label": "App Radar (ASO-Tool)", "url": "https://appradar.com/" },
+        { "label": "Apple Marketing-Badges & Richtlinien", "url": "https://developer.apple.com/app-store/marketing/guidelines/" },
+        { "label": "Google Play Badge-Generator", "url": "https://play.google.com/intl/de_de/badges/" },
+        { "label": "Product Hunt", "url": "https://www.producthunt.com/" }
+      ],
+      "warning": "Kauf niemals Bewertungen oder Downloads (Fiverr-\"ASO-Boosts\", Review-Tausch-Gruppen): Beide Stores erkennen die Muster gut, und die Strafe ist Delisting bis Konto-Bann — dein 25-$-Boost kann das ganze Projekt kosten. Incentivierte Bewertungen (\"Bewerte für Premium\") sind ebenfalls verboten.",
+      "extendedNotes": [
+        "Realistische Erwartung: Ohne Bestands-Audience sind 10–50 Downloads/Tag in Woche 1 normal und okay. ASO ist Compound-Interest — Rankings bauen sich über Wochen auf, getrieben von Retention und Bewertungen, nicht vom Launch-Tag.",
+        "Der stärkste organische Kanal 2026 für Consumer-Apps ist TikTok/Reels/Shorts: 3 Kurzvideos pro Woche, die das PROBLEM zeigen (nicht die App-Features), schlagen jedes ASO-Tool. App-Demos mit Screen-Recording + Hook in den ersten 2 Sekunden.",
+        "Apple Search Ads als Gaspedal: Search-Results-Kampagne auf deine eigenen Brand-Keywords + engste Nischen-Keywords ab ~5–10 €/Tag liefert Daten, welche Keywords wirklich konvertieren — diese Erkenntnisse fließen zurück in deine organischen Metadaten.",
+        "Featuring ist bewerbbar: Apple hat ein offizielles Featuring-Formular (App Store → \"Get featured\"). Chancen steigen mit gutem Design, In-App-Events und Nutzung neuer Apple-Features (Widgets, Live Activities)."
+      ]
+    },
+    "analytics-updates": {
+      "description": "Nach dem Launch beginnt die eigentliche Arbeit: messen, fixen, verbessern — in einem festen Rhythmus. Dein Minimal-Stack: Crash-Monitoring (Firebase Crashlytics oder Sentry — Crashes sind Ranking-Gift), Produkt-Analytics (Firebase Analytics kostenlos, TelemetryDeck als privacy-freundliche EU-Alternative ohne Consent-Bedarf, PostHog/Mixpanel für Funnels), Abo-Analytics (hat RevenueCat eingebaut: Trial-Conversion, Churn, LTV). Die 5 Kennzahlen, die zählen: Day-1/Day-7/Day-30-Retention, Trial-zu-Paid-Conversion, Crash-freie Sessions (Ziel: >99,5 %), Bewertungs-Schnitt, Umsatz/MRR. Update-Rhythmus: alle 2–4 Wochen ein Release — die Stores werten aktive Pflege positiv, Nutzer sehen Lebenszeichen, und du bleibst mit den jährlichen OS-Releases (iOS im September!) kompatibel. Apples jährliche Deadline nicht vergessen: Neue Builds müssen mit aktuellem SDK gebaut sein — ein technisch totes Jahr kann dich das Listing kosten (Apps ohne Updates + ohne Downloads werden ausgelistet).",
+      "checklist": [
+        "Crashlytics/Sentry-Alerts einrichten (E-Mail/Discord bei neuen Crash-Clustern)",
+        "Analytics-Events für den Kern-Flow definieren: Onboarding-Steps, Kern-Aktion, Paywall-View, Kauf (max. 10–15 Events, mehr schaust du nie an)",
+        "KPI-Dashboard bauen/nutzen: Retention D1/D7/D30, Trial-Conversion, Crash-Free-Rate, MRR (RevenueCat-Dashboard reicht anfangs)",
+        "Feedback-Kanal in der App (Einstellungen → \"Feedback senden\" → E-Mail/Formular) — fängt Frust ab, bevor er zur 1-Stern-Bewertung wird",
+        "Update-Kadenz festlegen (alle 2–4 Wochen) + Release-Checkliste wiederverwenden",
+        "iOS-/Android-Major-Releases (Sept/Herbst) im Kalender: Beta-SDKs früh testen, Kompatibilitäts-Update bereithalten",
+        "Onboarding-Funnel nach 2 Wochen Daten analysieren: Wo ist der größte Drop? → das ist dein nächstes Update",
+        "v1.1-Features aus Beta-Feedback + Bewertungs-Kommentaren priorisieren (was 3× genannt wird, wird gebaut)"
+      ],
+      "fields": [
+        { "name": "kpis", "label": "Aktuelle KPIs (D7-Retention, Conversion, Crash-Free-Rate, MRR)", "type": "textarea" },
+        { "name": "next_release", "label": "Nächstes Release: Datum + Inhalt" }
+      ],
+      "externalLinks": [
+        { "label": "Firebase Crashlytics", "url": "https://firebase.google.com/products/crashlytics" },
+        { "label": "TelemetryDeck (privacy-first Analytics, EU)", "url": "https://telemetrydeck.com/" },
+        { "label": "PostHog (Produkt-Analytics, Free-Tier)", "url": "https://posthog.com/" },
+        { "label": "RevenueCat Charts (Abo-KPIs)", "url": "https://www.revenuecat.com/docs/dashboard-and-metrics/charts" }
+      ],
+      "warning": "Analytics-Falle Nr. 1: 40 Events tracken und keins anschauen. Definiere VOR dem Einbau die eine Frage pro Event (\"Wie viele Onboarding-Starter erreichen die Kern-Aktion?\") — ein Event ohne Frage dahinter ist Datenmüll und bläht nur deine Datenschutzerklärung auf.",
+      "extendedNotes": [
+        "Benchmark-Orientierung (Consumer-Apps): D1-Retention ~25 %, D7 ~10 %, D30 ~4 % sind DURCHSCHNITT — liegst du deutlich drüber, hast du Product-Market-Fit-Signal und solltest auf Wachstum schalten; deutlich drunter → Onboarding/Kern-Nutzen fixen, kein Marketing-Geld verbrennen.",
+        "TelemetryDeck-Vorteil für DE-Gründer: anonymisiert by design, EU-gehostet, kein Consent-Banner nötig, faire Preise — für viele Indie-Apps die sauberste Wahl gegenüber Firebase (US-Datenflüsse + ATT-Graubereich).",
+        "Bewertungs-Kommentare sind deine kostenlose Produkt-Roadmap: Exportiere sie monatlich (AppFigures kann das) und cluster sie — die drei häufigsten Wünsche sind deine nächsten drei Releases."
+      ]
+    },
+    "steuern-buchhaltung": {
+      "description": "Die Abrechnung mit Apple/Google verwirrt jeden Steuerberater, der es zum ersten Mal sieht — so ist es richtig: Bei In-App-Käufen/Abos trittst nicht DU als Verkäufer gegenüber dem Endkunden auf, sondern Apple (Apple Distribution International Ltd., Irland) bzw. Google (Google Commerce Ltd., Irland) als Kommissionär/Eigenhändler. Die Stores berechnen und ABFÜHREN die Umsatzsteuer auf den Endkundenpreis in den jeweiligen Ländern selbst. DEINE Leistung ist eine sonstige Leistung an das irische Apple/Google-Unternehmen (B2B, Empfängerort-Prinzip §3a Abs. 2 UStG) → in Deutschland NICHT steuerbar, Reverse Charge: Du stellst keine USt in Rechnung, meldest die Umsätze aber in der USt-Voranmeldung (nicht steuerbare sonstige Leistungen, Kennziffer 21 / §18b) UND in der Zusammenfassenden Meldung (ZM) mit der USt-IdNr. des Stores. Dafür brauchst du zwingend eine eigene USt-IdNr. — auch als Kleinunternehmer! Die monatlichen Auszahlungs-Reports (App Store Connect \"Payments and Financial Reports\", Play \"Umsatzberichte\") sind deine Buchungsgrundlage: Auszahlung = Endkunden-Umsatz minus Store-Provision minus ggf. einbehaltene Steuern.",
+      "checklist": [
+        "USt-IdNr. beantragen, falls noch nicht vorhanden (beim BZSt, kostenlos — auch als Kleinunternehmer nötig für die B2B-Leistungen an Irland)",
+        "Steuerformulare in beiden Konsolen vollständig: Apple (W-8BEN/W-8BEN-E + irische USt-Abfrage), Google Payments-Steuerinfo",
+        "Monatliche Financial Reports herunterladen und archivieren (GoBD: 10 Jahre) — App Store Connect + Play Console",
+        "Buchungslogik mit StB festlegen: Erlöse als nicht steuerbare sonstige Leistung EU-B2B (SKR03: z.B. 8336 / SKR04: 4336 — Konto mit StB abstimmen)",
+        "USt-VA: Umsätze an Apple/Google in Zeile \"nicht steuerbare sonstige Leistungen §18b\" melden",
+        "Zusammenfassende Meldung (ZM) quartalsweise/monatlich mit den USt-IdNrn. von Apple Distribution International + Google Commerce Ltd. abgeben",
+        "Kleinunternehmer-Check: §19 UStG betrifft nur Inlandsumsätze — die ZM-/§18b-Pflichten gelten trotzdem; mit StB klären, ob §19 für dich überhaupt noch sinnvoll ist",
+        "Auszahlungs-Konten abstimmen: Auszahlung kommt 30–45 Tage versetzt (Apple: bis ~45 Tage nach Monatsende, Schwelle min. Auszahlungsbetrag beachten)",
+        "Apple-/Google-Gebühren (99 $/Jahr, 25 $) als Betriebsausgabe buchen — die 99 $ von Apple kommen ebenfalls als Reverse-Charge-Leistung aus Irland (§13b: USt anmelden + als Vorsteuer ziehen)"
+      ],
+      "fields": [
+        { "name": "ustid", "label": "Eigene USt-IdNr. vorhanden? (DE…)" },
+        { "name": "stb_briefing", "label": "StB über Kommissionärs-Modell gebrieft? Offene Fragen", "type": "textarea" }
+      ],
+      "externalLinks": [
+        { "label": "BZSt: USt-IdNr. beantragen", "url": "https://www.bzst.de/DE/Unternehmen/Identifikationsnummern/Umsatzsteuer-Identifikationsnummer/umsatzsteuer-identifikationsnummer_node.html" },
+        { "label": "Apple: Payments and Financial Reports (Hilfe)", "url": "https://developer.apple.com/help/app-store-connect/getting-paid/view-payments-and-proceeds/" },
+        { "label": "Apple: Tax-Übersicht für Entwickler", "url": "https://developer.apple.com/help/app-store-connect/manage-tax-information/tax-overview/" },
+        { "label": "Google Play: Steuern & Compliance (Hilfe)", "url": "https://support.google.com/googleplay/android-developer/answer/10532353" },
+        { "label": "BZSt: Zusammenfassende Meldung", "url": "https://www.bzst.de/DE/Unternehmen/Umsatzsteuer/ZusammenfassendeMeldung/zusammenfassendemeldung_node.html" }
+      ],
+      "warning": "Der klassische Anfänger-Fehler: die monatliche Store-Auszahlung einfach als \"Umsatz 19 % USt\" buchen. Damit zahlst du USt doppelt (die Stores haben sie beim Endkunden schon abgeführt) und deine ZM fehlt trotzdem — das fällt bei der ersten USt-Sonderprüfung auf. Einmal sauber mit dem StB aufsetzen (dieser Guide-Schritt als Briefing), danach läuft es mechanisch.",
+      "extendedNotes": [
+        "Einnahmen aus WERBUNG (AdMob) laufen anders: Auch das ist eine B2B-Leistung an Google Irland (Reverse Charge/ZM), aber hier gibt es keinen Endkunden-USt-Layer — die AdMob-Gutschrift ist dein voller Erlös.",
+        "Apple zahlt in EUR aufs deutsche Konto (Währung in App Store Connect einstellbar); Google via Google Payments ebenfalls. Wechselkurs-Differenzen zwischen Report und Auszahlung sind normal → als Kursgewinn/-verlust buchen.",
+        "Gewinn-Realität fürs Forecasting: Von 9,99 € Endkundenpreis in DE bleiben nach USt (÷1,19) und 15 % Small-Business-Cut rund 7,14 € vor deinen Kosten und Ertragsteuern. Diese Zahl — nicht der Store-Preis — gehört in deine LTV/CAC-Rechnung.",
+        "Wenn die App in einer GmbH/UG liegt: gleiche USt-Logik, plus KSt/GewSt auf den Gewinn. Die App-IP in einer Holding/IP-Struktur zu parken lohnt erst bei relevanten Gewinnen — siehe Holding-Guide."
+      ]
+    }
   }
 };

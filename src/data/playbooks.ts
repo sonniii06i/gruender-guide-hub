@@ -3,7 +3,7 @@
 // extendedNotes + description ab Schritt 4) liegen server-seitig in
 // supabase/functions/guide-detail/secure-data.ts und werden Abo-gegated zur
 // Laufzeit nachgeladen. Beim Pflegen von Guide-Inhalten siehe die README dort.
-import { Globe2, Building2, Tag, Rocket, Calculator, Shield, AlertTriangle, Receipt, Mail, Users, TrendingUp, Handshake, PiggyBank, Briefcase, Megaphone, UserPlus, LineChart, Lock, Truck, Search, BarChart3, Lightbulb, Banknote, Coins, FileText, Crown, Store, Sparkles, GraduationCap, Repeat, Home, Wrench, HeartHandshake, Scissors, Stethoscope, Sun, Car, Leaf, Bot, Plane, Landmark, Key, CreditCard, type LucideIcon } from "lucide-react";
+import { Globe2, Building2, Tag, Rocket, Calculator, Shield, AlertTriangle, Receipt, Mail, Users, TrendingUp, Handshake, PiggyBank, Briefcase, Megaphone, UserPlus, LineChart, Lock, Truck, Search, BarChart3, Lightbulb, Banknote, Coins, FileText, Crown, Store, Sparkles, GraduationCap, Repeat, Home, Wrench, HeartHandshake, Scissors, Stethoscope, Sun, Car, Leaf, Bot, Plane, Landmark, Key, CreditCard, Smartphone, type LucideIcon } from "lucide-react";
 
 export type StepKind = "checklist" | "form" | "info" | "decision" | "external";
 
@@ -5969,6 +5969,146 @@ export const PLAYBOOKS: Playbook[] = [
         kind: "checklist",
         estMinutes: 60,
         estCost: "0 € (die meisten Tools)",
+      },
+    ],
+  },
+
+  // ============================================================
+  // EIGENE APP ENTWICKELN & LAUNCHEN (App Store + Play Store)
+  // ============================================================
+  {
+    slug: "eigene-app-launchen",
+    title: "Eigene App entwickeln & in App Store + Play Store launchen",
+    emoji: "📱",
+    icon: Smartphone,
+    tagline: "Von der Idee über Entwicklung, Developer-Accounts und Review bis zum Launch in beiden Stores",
+    outcome: "Deine App live im Apple App Store und Google Play Store – mit Developer-Accounts, bestandenem Review, sauberer Monetarisierung, DSGVO-konformen Rechtstexten und ASO-Setup für organische Downloads.",
+    duration: "6–12 Wochen (MVP) · Review selbst: 1–7 Tage pro Store",
+    difficulty: "Komplex",
+    totalCost: "~124 € Accounts (99 $/Jahr Apple + 25 $ einmalig Google) + Entwicklung 0 € (selbst/KI) bis 15.000 €+ (Agentur)",
+    runningCost: "99 $/Jahr Apple · Server/Backend 0–25 €/Mon · Stores behalten 15–30 % vom Umsatz",
+    steps: [
+      {
+        slug: "idee-validieren",
+        title: "App-Idee validieren & Store-Recherche",
+        description: "Bevor du eine Zeile Code schreibst: Prüf, ob deine App-Idee im Store überhaupt eine Chance hat. Such deine Keywords direkt im App Store und Play Store – wie viele Konkurrenten gibt es, wie sind deren Bewertungen, was steht in den 1-Stern-Reviews (= deine Chance)? Apps mit 4,5+ Sternen und 100k+ Downloads in deiner Nische sind ein gutes Zeichen für Nachfrage, aber du brauchst einen klaren Winkel, warum jemand DEINE App lädt.",
+        kind: "form",
+        estMinutes: 90,
+        estCost: "0 € (Recherche kostenlos)",
+      },
+      {
+        slug: "tech-stack",
+        title: "Tech-Stack entscheiden: Nativ, Cross-Platform oder No-Code",
+        description: "Die wichtigste technische Entscheidung. Nativ (Swift/Kotlin) = beste Performance, aber 2 Codebasen. Cross-Platform (Flutter, React Native/Expo, Capacitor) = 1 Codebase für beide Stores, heute Standard für 90 % der Gründer-Apps. No-Code (FlutterFlow, Adalo) = schnell, aber limitiert und laufende Kosten. Mit KI-Tools (Claude, Cursor, Lovable + Capacitor) baust du heute als Nicht-Programmierer ein echtes MVP – der Guide zeigt dir, welcher Weg zu deinem Budget und deiner App-Art passt.",
+        kind: "decision",
+        estMinutes: 60,
+        estCost: "0 €",
+      },
+      {
+        slug: "mvp-design",
+        title: "MVP definieren & App-Design",
+        description: "Kill 80 % deiner Feature-Liste. Ein MVP hat EINEN Kern-Flow, der das Problem löst – alles andere kommt nach dem Launch. Definiere die 3–5 Screens des Kern-Flows und designe sie (Figma ist kostenlos, Mobbin liefert dir tausende echte App-Designs als Referenz). Halte dich an Apples Human Interface Guidelines und Googles Material Design – Apps, die sich 'falsch' anfühlen, bekommen schlechte Reviews.",
+        kind: "form",
+        estMinutes: 240,
+        estCost: "0 € (Figma Free) · Design-Freelancer optional 300–1.500 €",
+      },
+      {
+        slug: "entwicklung",
+        title: "App entwickeln: selbst, mit KI oder Agentur",
+        kind: "info",
+        estMinutes: 2400,
+        estCost: "0 € (selbst mit KI-Tools) · Freelancer 3.000–10.000 € · Agentur 15.000 €+",
+      },
+      {
+        slug: "backend-dsgvo",
+        title: "Backend, Accounts & DSGVO-Grundlagen",
+        kind: "checklist",
+        estMinutes: 180,
+        estCost: "0–25 €/Mon (Supabase/Firebase Free-Tier reicht für den Start)",
+      },
+      {
+        slug: "apple-developer",
+        title: "Apple Developer Account anlegen (99 $/Jahr)",
+        kind: "external",
+        estMinutes: 45,
+        estCost: "99 $/Jahr · D-U-N-S-Nummer für Firmen kostenlos",
+      },
+      {
+        slug: "play-console",
+        title: "Google Play Console Account (25 $ einmalig)",
+        kind: "external",
+        estMinutes: 45,
+        estCost: "25 $ einmalig",
+      },
+      {
+        slug: "monetarisierung",
+        title: "Monetarisierung: Abo, In-App-Kauf, Ads oder Paid",
+        kind: "decision",
+        estMinutes: 90,
+        estCost: "0 € · RevenueCat Free bis 2.500 $/Mon Umsatz",
+      },
+      {
+        slug: "rechtliches",
+        title: "Rechtstexte: Datenschutzerklärung, Impressum, AGB/EULA",
+        kind: "checklist",
+        estMinutes: 120,
+        estCost: "0–300 € (Generator vs. Anwalt)",
+      },
+      {
+        slug: "app-store-connect",
+        title: "App Store Connect: Listing, Screenshots & Privacy-Labels",
+        kind: "form",
+        estMinutes: 180,
+        estCost: "0 €",
+      },
+      {
+        slug: "play-listing",
+        title: "Play Console: Store-Eintrag, Data Safety & Content-Rating",
+        kind: "form",
+        estMinutes: 150,
+        estCost: "0 €",
+      },
+      {
+        slug: "beta-testing",
+        title: "Beta-Test: TestFlight + Play-Testing (Pflicht bei Google!)",
+        kind: "checklist",
+        estMinutes: 120,
+        estCost: "0 €",
+      },
+      {
+        slug: "apple-review",
+        title: "Apple App Review bestehen (häufigste Ablehnungsgründe)",
+        kind: "external",
+        estMinutes: 60,
+        estCost: "0 € (Review kostenlos, beliebig viele Anläufe)",
+      },
+      {
+        slug: "play-review",
+        title: "Google Play Review + gestaffelter Rollout",
+        kind: "external",
+        estMinutes: 45,
+        estCost: "0 €",
+      },
+      {
+        slug: "aso-launch",
+        title: "Launch & ASO: organisch gefunden werden",
+        kind: "checklist",
+        estMinutes: 180,
+        estCost: "0 € · ASO-Tools optional ab 25 €/Mon",
+      },
+      {
+        slug: "analytics-updates",
+        title: "Post-Launch: Analytics, Crash-Monitoring & Update-Rhythmus",
+        kind: "checklist",
+        estMinutes: 120,
+        estCost: "0 € (Firebase/TelemetryDeck Free-Tier)",
+      },
+      {
+        slug: "steuern-buchhaltung",
+        title: "Steuern & Buchhaltung: Apple/Google-Auszahlungen richtig buchen",
+        kind: "info",
+        estMinutes: 90,
+        estCost: "0 € (mit StB besprechen)",
       },
     ],
   },

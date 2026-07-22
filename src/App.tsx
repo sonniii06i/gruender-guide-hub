@@ -65,6 +65,8 @@ const SchwellenCheck = lazy(() => import("./pages/SchwellenCheck.tsx"));
 const SteuerABC = lazy(() => import("./pages/SteuerABC.tsx"));
 const BruttoNettoSolo = lazy(() => import("./pages/BruttoNettoSolo.tsx"));
 const StundensatzRechner = lazy(() => import("./pages/StundensatzRechner.tsx"));
+const AppUmsatzRechner = lazy(() => import("./pages/AppUmsatzRechner.tsx"));
+const RunwayRechner = lazy(() => import("./pages/RunwayRechner.tsx"));
 const StbCostBenefit = lazy(() => import("./pages/StbCostBenefit.tsx"));
 const RechnungsGenerator = lazy(() => import("./pages/RechnungsGenerator.tsx"));
 const GewerbeanmeldungWizard = lazy(() => import("./pages/GewerbeanmeldungWizard.tsx"));
@@ -215,6 +217,8 @@ const App = () => (
                 <Route path="/cockpit/steuer-abc" element={<PaywallGate title="Steuer-ABC Glossar"><SteuerABC /></PaywallGate>} />
                 <Route path="/cockpit/brutto-netto-solo" element={<PaywallGate title="Brutto-Netto Solo-Selbstständig"><BruttoNettoSolo /></PaywallGate>} />
                 <Route path="/cockpit/stundensatz-rechner" element={<PaywallGate title="Stundensatz-Rechner für Anfänger"><StundensatzRechner /></PaywallGate>} />
+                <Route path="/cockpit/app-umsatz-rechner" element={<PaywallGate title="App-Store-Umsatz-Rechner"><AppUmsatzRechner /></PaywallGate>} />
+                <Route path="/cockpit/runway-rechner" element={<PaywallGate title="Runway- & Burn-Rate-Rechner"><RunwayRechner /></PaywallGate>} />
                 <Route path="/cockpit/stb-cost-benefit" element={<PaywallGate title="Steuerberater Cost-Benefit-Check"><StbCostBenefit /></PaywallGate>} />
                 <Route path="/cockpit/rechnungs-generator" element={<PaywallGate title="Rechnungs-Generator (PDF)"><RechnungsGenerator /></PaywallGate>} />
                 <Route path="/cockpit/gewerbeanmeldung-wizard" element={<PaywallGate title="Gewerbeanmeldung-Wizard"><GewerbeanmeldungWizard /></PaywallGate>} />

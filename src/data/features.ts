@@ -131,6 +131,7 @@ const _CATEGORIES_RAW: FeatureCategory[] = [
       { slug: "labor-vergleich", title: "Labor-Anbieter-Vergleich", desc: "44 etablierte Labore DE/EU (ISO 17025) für 14 Kategorien — Kosmetik, Food, Electronics, Spielzeug, Textil, MDR, PSA. 8 Use-Case-Stacks mit Kosten-Ballparks.", status: "beta", route: "/cockpit/labor-vergleich" },
       { slug: "visa-helper", title: "Visa-Helper international (beide Richtungen)", desc: "🇩🇪 NACH Deutschland: 6 Aufenthaltstitel mit Profil-Score. 🌍 AUS Deutschland raus: 27 Visa weltweit + §6 AStG Wegzugs-Block + AVOID-Liste.", status: "beta", route: "/cockpit/visa-helper" },
       { slug: "foerderung-db", title: "Förderung-Datenbank international", desc: "40+ Programme in 14 Ländern: KfW/EXIST, EIC, BPI, WBSO, YC/Techstars, SEIS/EIS, Innosuisse, Antler. Filter nach Land/Typ/Phase + Watchouts.", status: "beta", route: "/cockpit/foerderung" },
+      { slug: "app-umsatz-rechner", title: "App-Store-Umsatz-Rechner", desc: "Von 9,99 € Store-Preis zu ~7,14 € Erlös: USt + Store-Cut (15/30 %) raus, dann MRR, Abo-LTV mit Churn und Break-even gegen deine Entwicklungskosten. Companion zum App-Launch-Guide.", status: "beta", route: "/cockpit/app-umsatz-rechner" },
     ],
   },
   {
@@ -159,6 +160,7 @@ const _CATEGORIES_RAW: FeatureCategory[] = [
       { slug: "stripe-parser", title: "Stripe-Payout-Parser", desc: "Stripe-Payout-CSV → Verkäufe / Fees / Refunds / Chargebacks / Trinkgelder / Auszahlungen aufgesplittet + SKR03/04. CSV-Export.", status: "beta", route: "/cockpit/settlement-parser?mode=stripe" },
       { slug: "marge-tracker", title: "Multi-Channel-Marge-Tracker", desc: "7 Channels (Shopify · Amazon FBA/FBM · eBay · Kaufland · Otto · Etsy) mit kanal-spezifischen Provisions + Payment-Fees + Werbung + Retouren-Quote · Marge & ROAS pro SKU & Kanal.", status: "beta", route: "/cockpit/marge-tracker" },
       { slug: "bwa", title: "BWA-Generator (Bank-tauglich)", desc: "Bank-feste BWA 2026: Net Debt/EBITDA, DSCR, FCF, ROCE — branchen-adjustierte Benchmarks (Basel IV / KfW). Score nur bei plausibler Datenlage, mit YoY + Bilanz + Cashflow.", status: "beta", route: "/cockpit/bwa-generator" },
+      { slug: "runway-rechner", title: "Runway- & Burn-Rate-Rechner", desc: "Wie lange reicht dein Geld? Cash + Kosten + Umsatz-Wachstum → simulierter Runway, Cash-Tiefpunkt und Paul Grahams \"Default Alive or Default Dead?\" — mit Handlungs-Stufen je Runway-Länge.", status: "beta", route: "/cockpit/runway-rechner" },
       { slug: "datev-export", title: "StB-Hand-off Übergabe-Bundle", desc: "30+ Pflicht-Posten in 5 Gruppen (Buchführung, Steuer-Tools, International, Personal, Sonstiges) · Manifest-PDF mit Mandantendaten + Periode + Anhängen · Email-Helper mit fertigem Body.", status: "beta", route: "/cockpit/stb-handoff" },
       { slug: "geschaeftskreditkarten", title: "Geschäftskreditkarten-Vergleich", desc: "12 Karten/Spend-Cards (Amex, Qonto, Pleo, Moss, Revolut, Vivid, Wise, Finom …) gefiltert nach Gründer-Typ: SCHUFA-frei, Solo ab Tag 1, native DATEV, 0 €-Einstieg.", status: "beta", route: "/cockpit/geschaeftskreditkarten" },
     ],
