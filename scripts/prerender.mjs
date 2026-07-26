@@ -226,6 +226,18 @@ async function run() {
         } catch {
           console.warn(`[prerender] ⚠ ${route} – keine react-helmet-Tags gefunden, Head evtl. generisch`);
         }
+        // Datengetriebene Listen (z.B. /ratgeber lädt blog_posts aus Supabase) melden
+        // sich per data-prerender-pending an, solange sie laden. Ohne diesen Wait
+        // schnappt der Prerender den Ladezustand ein ("Lade Artikel …") und der
+        // Crawler sieht keinen einzigen Artikel-Link. Nur warten, wenn der Marker
+        // wirklich da ist — sonst kostet es jede andere Route unnötig Zeit.
+        if (await page.$("[data-prerender-pending]")) {
+          const ok = await page
+            .waitForSelector("[data-prerender-pending]", { hidden: true, timeout: 15_000 })
+            .then(() => true)
+            .catch(() => false);
+          if (!ok) console.warn(`[prerender] ⚠ ${route} – Daten wurden nicht rechtzeitig geladen, Liste bleibt leer`);
+        }
         // react-helmet ERSETZT nur den <title>; Meta-Tags hängt es zusätzlich an.
         // Die statischen Defaults aus index.html bleiben also stehen, und im
         // prerenderten HTML landen zwei <meta name="description"> — der

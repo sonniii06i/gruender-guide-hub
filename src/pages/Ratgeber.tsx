@@ -137,7 +137,12 @@ const Ratgeber = () => {
           )}
 
           {loading ? (
-            <p className="text-muted-foreground">Lade Artikel …</p>
+            /* data-prerender-pending: Signal an scripts/prerender.mjs, dass hier noch
+               asynchron geladen wird. Ohne das friert der Prerender "Lade Artikel …"
+               ein und der Crawler sieht KEINEN einzigen Artikel-Link. */
+            <p className="text-muted-foreground" data-prerender-pending>
+              Lade Artikel …
+            </p>
           ) : filtered.length === 0 ? (
             <div className="text-center py-16">
               <BookOpen className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
