@@ -20,8 +20,8 @@ import { Seo } from "@/components/Seo";
 const Index = () => (
   <div className="min-h-screen bg-background">
     <Seo
-      title="GründerX – Unternehmen gründen, Steuern & Buchhaltung mit KI"
-      description="GmbH, UG, Einzelunternehmen, US-LLC – Schritt-für-Schritt Guides, Steuer-Tools, Anbieter-Vergleiche & KI-Co-Pilot für E-Commerce, Creator & Founder."
+      title="GründerX – Gründung, Steuer & Marketplace-Setup für Händler"
+      description="Für E-Commerce-Händler und Creator in Deutschland: Rechtsform, Fragebogen zur steuerlichen Erfassung, LUCID, WEEE, OSS sowie Amazon- und TikTok-Shop-Setup – Schritt für Schritt mit KI-Co-Pilot Felix."
       path="/"
       jsonLd={[
         {

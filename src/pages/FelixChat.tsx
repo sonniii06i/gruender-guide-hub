@@ -10,6 +10,8 @@ import type { Components } from "react-markdown";
 import { toast } from "sonner";
 import { notifyConversationsChanged } from "@/hooks/useFelixConversations";
 import { readProfileCache } from "@/lib/profileCache";
+import { markValueEvent } from "@/utils/valueEvent";
+import { ReferralNudge } from "@/components/ReferralNudge";
 
 type Msg = { role: "user" | "assistant"; content: string };
 
@@ -256,6 +258,7 @@ const FelixChat = () => {
       }
 
       if (assistantSoFar && activeConvId) {
+        markValueEvent("felix_answer"); // echter Output → ab jetzt darf der Referral-Prompt kommen
         await supabase.from("chat_messages").insert({
           user_id: user.id,
           role: "assistant",
@@ -352,6 +355,12 @@ const FelixChat = () => {
                   <Loader2 className="h-3.5 w-3.5 animate-spin" /> Felix denkt nach...
                 </div>
               </div>
+            )}
+            {!streaming && messages.some((m) => m.role === "assistant") && (
+              <ReferralNudge
+                className="mt-6"
+                headline="Hat Felix dir das gerade beantwortet?"
+              />
             )}
           </div>
         )}

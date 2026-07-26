@@ -30,23 +30,25 @@ export const Hero = () => {
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-12 items-center">
           {/* Text-Spalte */}
           <div className="text-center lg:text-left">
+            {/* Zielgruppe zuerst: Relevanz muss in 3 Sekunden sitzen. */}
             <Badge
               variant="outline"
               className="mb-6 rounded-full border-brand-green/30 bg-brand-green-soft text-brand-green px-4 py-1.5"
             >
-              <Sparkles className="h-3.5 w-3.5 mr-1.5" /> Early-Bird: 20 % Rabatt im
-              ersten Monat mit Code FOUNDER
+              <Sparkles className="h-3.5 w-3.5 mr-1.5" /> Für E-Commerce-Händler
+              &amp; Creator in Deutschland
             </Badge>
 
             <h1 className="text-4xl md:text-6xl font-extrabold leading-[1.12] tracking-tight text-balance">
-              <span className="block">Unternehmen gründen?</span>
-              <span className="block text-accent-blue">Sofort startklar.</span>
+              <span className="block">Gründung, Steuer &amp; Marketplace-Setup.</span>
+              <span className="block text-accent-blue">In der richtigen Reihenfolge.</span>
             </h1>
 
             <p className="mt-6 text-lg md:text-xl text-muted-foreground max-w-xl mx-auto lg:mx-0 text-balance">
-              Rechtsform, Amazon-Business, Buchhaltung &amp; Steuer, Marke – Felix
-              führt dich als KI-Co-Pilot Schritt für Schritt durch die ganze
-              Gründung, statt 40 Browser-Tabs offen zu haben.
+              Rechtsform, Fragebogen zur steuerlichen Erfassung, LUCID, WEEE, OSS,
+              Amazon- und TikTok-Shop-Setup: Felix führt dich als KI-Co-Pilot
+              Schritt für Schritt durch – in der Reihenfolge, in der es wirklich
+              gebraucht wird.
             </p>
 
             <div className="mt-8 flex flex-wrap items-center justify-center lg:justify-start gap-2">
@@ -71,12 +73,12 @@ export const Hero = () => {
                   <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </Link>
-              <a
-                href="#bundles"
-                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors underline-offset-4 hover:underline"
-              >
-                oder erst Preise ansehen
-              </a>
+              {/* Bewusst KEIN zweiter CTA daneben — ein Ziel pro Hero.
+                  Der Early-Bird-Code steht als Hinweis darunter. */}
+              <span className="text-sm text-muted-foreground">
+                20 % im ersten Monat mit Code{" "}
+                <strong className="text-foreground">FOUNDER</strong>
+              </span>
             </div>
 
             <p className="mt-4 text-xs text-muted-foreground">

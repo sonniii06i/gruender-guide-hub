@@ -11,6 +11,7 @@ import { GuideCard } from "@/components/dashboard/GuideCard";
 import { ContinueLearning } from "@/components/dashboard/ContinueLearning";
 import { WelcomeChoiceModal } from "@/components/dashboard/WelcomeChoiceModal";
 import { AffiliateSuccessBanner } from "@/components/AffiliateSuccessBanner";
+import { ReferralNudge } from "@/components/ReferralNudge";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -103,7 +104,13 @@ const Dashboard = () => {
 
   return (
     <div className="container max-w-6xl py-8 px-4 md:px-6">
-      {params.get("checkout") === "success" && <AffiliateSuccessBanner />}
+      {params.get("checkout") === "success" ? (
+        <AffiliateSuccessBanner />
+      ) : (
+        /* Kein Kauf-Kontext: Reflink trotzdem zeigen — aber erst nachdem der
+           Nutzer echten Nutzen hatte (Felix-Antwort, Tool-Ergebnis). */
+        <ReferralNudge className="mb-6" />
+      )}
       <WelcomeChoiceModal firstName={profile?.first_name} eligible={isActive} />
       {/* Hero */}
       <header className="mb-8">
