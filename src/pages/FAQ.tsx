@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { LifeBuoy, MessageSquare } from "lucide-react";
 import { Seo } from "@/components/Seo";
@@ -42,14 +41,26 @@ const FAQ = () => (
         })),
       }}
     />
-    <Accordion type="single" collapsible className="space-y-3">
+    {/*
+      Natives <details> statt Radix-Accordion. Grund: Radix rendert den Inhalt
+      geschlossener Items GAR NICHT ins DOM -- im prerenderten HTML standen
+      deshalb nur die sieben Fragen und keine einzige Antwort (91 Woerter auf
+      der ganzen Seite). Die Antworten waren nur im FAQPage-JSON-LD vorhanden,
+      also fuer strukturierte Daten sichtbar, fuer den Fliesstext-Index aber
+      nicht.
+      <details> haelt den Inhalt immer im DOM und klappt trotzdem zu.
+    */}
+    <div className="divide-y divide-border rounded-2xl border border-border bg-card">
       {FAQS.map((f, i) => (
-        <AccordionItem key={i} value={`f-${i}`} className="rounded-2xl border border-border bg-card px-5">
-          <AccordionTrigger className="text-left font-semibold hover:no-underline py-4">{f.q}</AccordionTrigger>
-          <AccordionContent className="text-sm text-muted-foreground leading-relaxed pb-5">{f.a}</AccordionContent>
-        </AccordionItem>
+        <details key={i} className="group px-5 py-4">
+          <summary className="cursor-pointer list-none text-left font-semibold flex items-center justify-between gap-3">
+            <h2 className="text-base font-semibold">{f.q}</h2>
+            <span className="text-muted-foreground transition-transform group-open:rotate-45 shrink-0">+</span>
+          </summary>
+          <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{f.a}</p>
+        </details>
       ))}
-    </Accordion>
+    </div>
 
     <div className="mt-10 rounded-3xl bg-gradient-primary p-6 md:p-8 text-primary-foreground shadow-glow flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
       <div className="flex items-start gap-3">

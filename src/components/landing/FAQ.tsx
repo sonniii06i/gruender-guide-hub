@@ -1,9 +1,3 @@
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 
 const faqs = [
   {
@@ -76,22 +70,26 @@ export const FAQ = () => (
         </h2>
       </div>
 
-      <Accordion type="single" collapsible className="space-y-3">
+      {/*
+        Natives <details> statt Radix-Accordion: Radix rendert geschlossene
+        Inhalte GAR NICHT ins DOM. Auf der Startseite standen deshalb nur die
+        Fragen im prerenderten HTML, keine einzige Antwort — genau der Teil,
+        der Einwände abbaut, war für den Index unsichtbar.
+      */}
+      <div className="space-y-3">
         {faqs.map((f, i) => (
-          <AccordionItem
+          <details
             key={i}
-            value={`item-${i}`}
-            className="rounded-2xl border border-border bg-card px-6 shadow-card"
+            className="group rounded-2xl border border-border bg-card px-6 py-4 shadow-card"
           >
-            <AccordionTrigger className="text-left font-semibold hover:no-underline">
+            <summary className="cursor-pointer list-none text-left font-semibold flex items-center justify-between gap-3">
               {f.q}
-            </AccordionTrigger>
-            <AccordionContent className="text-muted-foreground">
-              {f.a}
-            </AccordionContent>
-          </AccordionItem>
+              <span className="text-muted-foreground transition-transform group-open:rotate-45 shrink-0">+</span>
+            </summary>
+            <p className="mt-3 text-muted-foreground">{f.a}</p>
+          </details>
         ))}
-      </Accordion>
+      </div>
     </div>
   </section>
 );
