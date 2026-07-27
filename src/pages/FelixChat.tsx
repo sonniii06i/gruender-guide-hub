@@ -4,6 +4,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { TokenBudgetNotice } from "@/components/TokenBudgetNotice";
 import { Send, Loader2, FileText, Download } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import type { Components } from "react-markdown";
@@ -368,6 +369,9 @@ const FelixChat = () => {
 
       <div className="border-t border-border bg-background">
         <div className="max-w-3xl mx-auto px-4 md:px-6 py-3 md:py-4">
+          {/* Kosten-Kontingent (weich). Rendert nichts unterhalb der
+              Warnschwelle — ein Dauerbanner liest niemand mehr. */}
+          <TokenBudgetNotice className="mb-3" />
           <div className="flex gap-2 items-end">
             <Textarea
               value={input}

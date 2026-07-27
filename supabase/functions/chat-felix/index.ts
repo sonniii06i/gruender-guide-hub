@@ -139,11 +139,21 @@ const corsHeaders = {
 };
 
 // Tracing-Logger — fire-and-forget in chat_logs, blockt nicht den Stream
+// Grobe Token-Schätzung: ~4 Zeichen je Token, über Deutsch und Englisch
+// gemittelt. BEWUSST eine Schätzung — bei `stream: true` liefert keiner der
+// drei Provider die echte `usage` mit, ohne dass man den Request umbaut.
+// Belastbar für "wer verbrennt auffällig viel", NICHT centgenau.
+function estimateChatTokens(text: string): number {
+  return Math.max(1, Math.ceil((text || "").length / 4));
+}
+
 async function logChat(entry: {
   user_message: string;
   assistant_message?: string | null;
   provider: "gemini" | "anthropic-claude" | "openai-gpt" | "rejected-input" | "rejected-output";
   model?: string | null;
+  input_tokens?: number | null;
+  output_tokens?: number | null;
   input_guard_triggered?: string | null;
   output_guard_triggered?: string | null;
   latency_ms?: number | null;
@@ -154,7 +164,29 @@ async function logChat(entry: {
     const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
     if (!url || !serviceKey) return;
     const supa = createClient(url, serviceKey, { auth: { persistSession: false } });
-    await supa.from("chat_logs").insert(entry);
+
+    // Kosten erst hier berechnen: der Preis-Lookup braucht den Service-Client,
+    // und ein fehlender Preis darf das Logging nicht verhindern — eine Zeile
+    // ohne cost_usd ist immer noch besser als gar keine Zeile.
+    const row: Record<string, unknown> = { ...entry };
+    if (entry.model && entry.input_tokens != null && entry.output_tokens != null) {
+      try {
+        const { data: price } = await supa
+          .from("llm_model_pricing")
+          .select("input_usd_per_1m, output_usd_per_1m")
+          .eq("model", entry.model)
+          .maybeSingle();
+        if (price) {
+          row.cost_usd =
+            (entry.input_tokens / 1_000_000) * Number(price.input_usd_per_1m) +
+            (entry.output_tokens / 1_000_000) * Number(price.output_usd_per_1m);
+        }
+      } catch (e) {
+        console.warn("pricing lookup failed (non-critical)", e);
+      }
+    }
+
+    await supa.from("chat_logs").insert(row);
   } catch (e) {
     console.error("chat_logs insert failed", e);
   }
@@ -982,6 +1014,11 @@ serve(async (req) => {
           assistant_message: fullText.slice(0, 4000),
           provider,
           model,
+          // Nur hier zählen, nicht in den Guard-Reject-Pfaden: bei einem
+          // abgelehnten Ein-/Ausgabetext ist kein Modell gelaufen, es gibt
+          // also auch keine Kosten zu verbuchen.
+          input_tokens: estimateChatTokens(lastUser),
+          output_tokens: estimateChatTokens(fullText),
           output_guard_triggered: outGuard.ok ? null : outGuard.trigger,
           latency_ms: Date.now() - startTime,
         });
