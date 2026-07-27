@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Copy, Percent, X } from "lucide-react";
 import { valueEventCount, referralNudgeDismissed, dismissReferralNudge } from "@/utils/valueEvent";
+import { trackReferral, trackActivation } from "@/utils/analytics";
 
 interface Props {
   /** Ab wie vielen echten Outputs gefragt wird. Default 1 = direkt nach dem ersten. */
@@ -40,6 +41,8 @@ export function ReferralNudge({ minEvents = 1, headline, className = "" }: Props
   const copy = async () => {
     if (!link) return;
     await navigator.clipboard.writeText(link);
+    trackReferral.sent("copy_link");
+    trackActivation.inviteSentAfterActivation();
     toast({ title: "Kopiert!", description: "Dein Reflink ist in der Zwischenablage." });
   };
 

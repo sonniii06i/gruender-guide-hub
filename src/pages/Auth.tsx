@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { trackSignup } from "@/utils/analytics";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -37,6 +38,15 @@ const Auth = () => {
     if (!authLoading && user) navigate("/onboarding", { replace: true });
   }, [user, authLoading, navigate]);
 
+  // signup_started ab der ersten Eingabe, nicht ab Seitenaufruf -- sonst waere
+  // jeder Besucher ein Signup-Versuch und time_to_signup wertlos.
+  const signupStartedAt = useRef<number | null>(null);
+  const markSignupStarted = () => {
+    if (signupStartedAt.current !== null || mode !== "signup") return;
+    signupStartedAt.current = Date.now();
+    trackSignup.started("password");
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -66,6 +76,10 @@ const Auth = () => {
         }
         // Bei aktiver E-Mail-Bestätigung gibt es KEINE Session -> nicht zu /onboarding
         // navigieren (würde zurück auf /auth loopen), sondern Bestätigungs-Hinweis zeigen.
+        // Beide Pfade sind ein abgeschlossener Signup -- mit E-Mail-Bestaetigung
+        // gibt es nur keine Session. Nur den zweiten zu zaehlen wuerde je nach
+        // Confirm-Einstellung die halbe Rate verschlucken.
+        trackSignup.completed("password", signupStartedAt.current ? Date.now() - signupStartedAt.current : undefined);
         if (!data.session) {
           setSignupEmail(email);
           return;
@@ -90,6 +104,7 @@ const Auth = () => {
       else if (/rate limit|too many/i.test(raw))
         msg = "Zu viele Versuche. Bitte warte kurz und versuch es erneut.";
       // Nur Inline-Box (kein zusätzlicher Toast -> keine doppelte Meldung).
+      if (mode === "signup") trackSignup.formError("submit", msg);
       setErrorMsg(msg);
     } finally {
       setLoading(false);
@@ -192,7 +207,7 @@ const Auth = () => {
               )}
               <div className="space-y-1.5">
                 <Label htmlFor="email">E-Mail</Label>
-                <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="du@firma.de" required />
+                <Input id="email" type="email" value={email} onChange={(e) => { markSignupStarted(); setEmail(e.target.value); }} placeholder="du@firma.de" required />
               </div>
               <div className="space-y-1.5">
                 <Label htmlFor="pw">Passwort</Label>
@@ -269,6 +284,9 @@ const Auth = () => {
               size="lg"
               disabled={loading}
               onClick={async () => {
+                // Vor dem Redirect: danach ist die Seite weg und ein hier
+                // abgesetztes Event ginge verloren.
+                trackSignup.ssoClicked("google");
                 setLoading(true);
                 const { error } = await supabase.auth.signInWithOAuth({
                   provider: "google",

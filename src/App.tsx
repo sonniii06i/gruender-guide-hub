@@ -20,6 +20,7 @@ import Dashboard from "./pages/Dashboard.tsx";
 const Affiliate = lazy(() => import("./pages/Affiliate.tsx"));
 import Playbooks from "./pages/Playbooks.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import { AnalyticsCapture } from "@/components/AnalyticsCapture";
 
 // Lazy: Cockpit-Tools (jedes Tool eigener Chunk, on-demand)
 const SteuerCockpit = lazy(() => import("./pages/SteuerCockpit.tsx"));
@@ -152,6 +153,7 @@ const App = () => (
         <AuthProvider>
           <ScrollToTop />
           <RouteTracker />
+          <AnalyticsCapture />
           <Suspense fallback={<PageFallback />}>
             <Routes>
               <Route path="/" element={<Index />} />
