@@ -40,3 +40,7 @@ supabase/.temp/
 docs/elster-fse-ref/*
 !docs/elster-fse-ref/*.md
 !docs/elster-fse-ref/.gitkeep
+
+# Bun-Lockfiles: npm/package-lock.json ist die einzige Quelle
+bun.lock
+bun.lockb
