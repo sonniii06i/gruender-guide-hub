@@ -43,7 +43,7 @@ const GuidesIndex = () => {
         jsonLd={jsonLd}
       />
       <Navbar />
-      <main className="container max-w-5xl py-12 md:py-16 px-4">
+      <main className="container max-w-5xl pt-28 pb-12 md:pt-32 md:pb-16 px-4">
         <header className="mb-10 max-w-2xl">
           <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">Guides für Gründer</h1>
           <p className="text-base md:text-lg text-muted-foreground leading-relaxed">

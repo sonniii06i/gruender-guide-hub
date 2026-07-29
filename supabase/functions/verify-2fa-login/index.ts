@@ -70,7 +70,8 @@ Deno.serve(async (req) => {
       ? row.backup_codes.length - 1
       : row.backup_codes.length;
 
-    return json({ success: true, backup_codes_remaining: remaining });
+    // verified wird vom bestehenden Frontend geprueft, success vom neuen.
+    return json({ success: true, verified: true, backup_codes_remaining: remaining });
   } catch (err) {
     if (err instanceof AuthError) return json({ error: err.message }, err.status);
     console.error("verify-2fa-login:", err);

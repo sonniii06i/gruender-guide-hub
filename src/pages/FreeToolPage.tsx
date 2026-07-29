@@ -52,7 +52,7 @@ export default function FreeToolPage({ config }: FreeToolPageProps) {
       <Navbar />
 
       {/* Hero */}
-      <section className="relative pt-12 pb-8 overflow-hidden">
+      <section className="relative pt-28 pb-8 md:pt-32 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-background to-background" />
         <div className="relative max-w-3xl mx-auto px-4 sm:px-6 text-center">
           {config.badge && (
