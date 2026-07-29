@@ -63,3 +63,21 @@ verify_jwt = false
 
 [functions.manage-affiliate]
 verify_jwt = true
+
+# --- Zwei-Faktor-Authentifizierung ---
+# verify_jwt bleibt an: alle fuenf Endpunkte setzen eine bestehende Session
+# voraus (Passwort-Anmeldung als erster Faktor).
+[functions.setup-2fa]
+verify_jwt = true
+
+[functions.verify-2fa]
+verify_jwt = true
+
+[functions.verify-2fa-login]
+verify_jwt = true
+
+[functions.check-2fa-status]
+verify_jwt = true
+
+[functions.disable-2fa]
+verify_jwt = true
