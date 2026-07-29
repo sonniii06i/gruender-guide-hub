@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { TwoFactorPrompt } from "@/components/auth/TwoFactorPrompt";
 import { trackSignup } from "@/utils/analytics";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
@@ -26,6 +27,8 @@ const Auth = () => {
   const [signupEmail, setSignupEmail] = useState<string | null>(null);
   // Sichtbare Inline-Fehlermeldung im Formular (zusätzlich zum Toast).
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  // true, solange nach dem Passwort noch der zweite Faktor aussteht
+  const [pending2FA, setPending2FA] = useState(false);
 
   const pwChecks = {
     length: password.length >= 8,
@@ -35,8 +38,10 @@ const Auth = () => {
   const pwValid = pwChecks.length && pwChecks.digit && pwChecks.special;
 
   useEffect(() => {
-    if (!authLoading && user) navigate("/onboarding", { replace: true });
-  }, [user, authLoading, navigate]);
+    // Solange der zweite Faktor aussteht, hier nicht weiterleiten -- sonst
+    // waere der Nutzer trotz aktivem 2FA schon in der App.
+    if (!authLoading && user && !pending2FA) navigate("/onboarding", { replace: true });
+  }, [user, authLoading, navigate, pending2FA]);
 
   // signup_started ab der ersten Eingabe, nicht ab Seitenaufruf -- sonst waere
   // jeder Besucher ein Signup-Versuch und time_to_signup wertlos.
@@ -87,8 +92,17 @@ const Auth = () => {
         toast.success("Account erstellt! Richte jetzt dein Profil ein 🚀");
         navigate("/onboarding");
       } else {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        const { data: signIn, error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
+
+        // two_factor_enabled steht in app_metadata: vom Client lesbar,
+        // aber nicht setzbar -- taugt daher als vertrauenswuerdiger Marker.
+        if (signIn.user?.app_metadata?.two_factor_enabled) {
+          setPending2FA(true);
+          setLoading(false);
+          return;
+        }
+
         toast.success("Willkommen zurück!");
         navigate("/dashboard");
       }
@@ -164,6 +178,23 @@ const Auth = () => {
           </div>
         </div>
       </div>
+    );
+  }
+
+  if (pending2FA) {
+    return (
+      <TwoFactorPrompt
+        onVerified={() => {
+          setPending2FA(false);
+          toast.success("Willkommen zurück!");
+          navigate("/dashboard");
+        }}
+        onCancel={async () => {
+          // Ohne zweiten Faktor darf die Session nicht bestehen bleiben.
+          setPending2FA(false);
+          await supabase.auth.signOut();
+        }}
+      />
     );
   }
 

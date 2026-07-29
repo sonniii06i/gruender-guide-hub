@@ -11,6 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Crown, Loader2, Brain } from "lucide-react";
 import { FelixMemoryPanel } from "@/components/profile/FelixMemoryPanel";
+import { TwoFactorPanel } from "@/components/profile/TwoFactorPanel";
 import { toast } from "sonner";
 import { STRIPE_PRICES } from "@/lib/stripe";
 import { writeProfileCache } from "@/lib/profileCache";
@@ -217,6 +218,10 @@ const Profile = () => {
         </TabsContent>
 
         <TabsContent value="sicherheit">
+          <div className="mb-6">
+            <TwoFactorPanel />
+          </div>
+
           <Card>
             <h3 className="font-bold mb-2">Passwort ändern</h3>
             <p className="text-sm text-muted-foreground mb-4">Sende dir einen Link zum Zurücksetzen.</p>
