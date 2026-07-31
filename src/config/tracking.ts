@@ -9,13 +9,15 @@
 //
 // ┌─────────────────────────────────────────────────────────────────────────┐
 // │ ZU ERLEDIGEN vor dem Kampagnenstart:                                    │
-// │  1. Meta Business Manager → Pixel für gruenderx.de anlegen → ID unten   │
-// │  2. Google Ads → neues Konto → Conversion-ID (AW-…) unten eintragen     │
-// │  3. Conversions „signup", „activation", „purchase" anlegen → Labels     │
+// │  1. Google Ads → neues Konto → Conversion-ID (AW-…) unten eintragen     │
+// │  2. Conversions „signup", „activation", „purchase" anlegen → Labels     │
 // │ Solange die Werte leer sind, wird schlicht nichts gesendet.             │
 // └─────────────────────────────────────────────────────────────────────────┘
 
-export const META_PIXEL_ID = "";
+// Datensatz "GruenderX Web" im Business-Portfolio Gruenderx (911919698620630),
+// verbunden mit Werbekonto 1352702709769162. Am 31.07.2026 neu angelegt --
+// vorher existierte fuer GruenderX ueberhaupt kein Meta-Datensatz.
+export const META_PIXEL_ID = "1564567174689976";
 export const GOOGLE_ADS_ID = "";
 
 /** Die vier Stufen der Event-Leiter aus dem Kampagnen-Steuerpult. */
