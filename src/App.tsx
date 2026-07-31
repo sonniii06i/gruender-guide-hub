@@ -21,6 +21,8 @@ const Affiliate = lazy(() => import("./pages/Affiliate.tsx"));
 import Playbooks from "./pages/Playbooks.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import { AnalyticsCapture } from "@/components/AnalyticsCapture";
+import { ConsentBanner } from "@/components/ConsentBanner";
+import { initAdPixels } from "@/utils/adPixels";
 
 // Lazy: Cockpit-Tools (jedes Tool eigener Chunk, on-demand)
 const SteuerCockpit = lazy(() => import("./pages/SteuerCockpit.tsx"));
@@ -145,6 +147,11 @@ const PageFallback = () => (
   </div>
 );
 
+// Laedt Meta-Pixel und Google-Tag nach, sobald eine Einwilligung vorliegt --
+// aus einem frueheren Besuch sofort, sonst in dem Moment der Zustimmung.
+// Auf Modulebene, damit es genau einmal laeuft.
+initAdPixels();
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
@@ -154,6 +161,7 @@ const App = () => (
           <ScrollToTop />
           <RouteTracker />
           <AnalyticsCapture />
+          <ConsentBanner />
           <Suspense fallback={<PageFallback />}>
             <Routes>
               <Route path="/" element={<Index />} />

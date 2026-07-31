@@ -3,6 +3,7 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { TwoFactorPrompt } from "@/components/auth/TwoFactorPrompt";
 import { trackSignup } from "@/utils/analytics";
+import { trackAdConversion } from "@/utils/adConversions";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -85,6 +86,13 @@ const Auth = () => {
         // gibt es nur keine Session. Nur den zweiten zu zaehlen wuerde je nach
         // Confirm-Einstellung die halbe Rate verschlucken.
         trackSignup.completed("password", signupStartedAt.current ? Date.now() - signupStartedAt.current : undefined);
+
+        // L3 der Event-Leiter -- das Ereignis, auf das beide Werbekampagnen
+        // optimieren. Muss an derselben Stelle stehen wie trackSignup.completed,
+        // also VOR dem Session-Check: sonst faellt bei aktiver E-Mail-
+        // Bestaetigung die halbe Conversion-Rate unter den Tisch, und Meta
+        // optimiert auf ein Ereignis, das die Haelfte der Nutzer nie ausloest.
+        trackAdConversion("signup", { label: "registration_password" });
         if (!data.session) {
           setSignupEmail(email);
           return;

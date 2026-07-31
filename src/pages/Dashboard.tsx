@@ -2,6 +2,8 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
+import { trackMonetization } from "@/utils/analytics";
+import { trackAdConversion } from "@/utils/adConversions";
 import { readProfileCache, writeProfileCache, PROFILE_UPDATE_EVENT, type CachedProfile } from "@/lib/profileCache";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -40,6 +42,20 @@ const Dashboard = () => {
   const view = (params.get("view") as View) || "start";
   const activeCatSlug = params.get("cat");
   const [query, setQuery] = useState("");
+
+  // L5 der Event-Leiter. Stripe leitet nach erfolgreicher Zahlung mit
+  // ?checkout=success hierher zurueck -- der einzige Moment im Client, an dem
+  // ein Abo sicher zustande gekommen ist.
+  //
+  // Der Wert ist der Listenpreis. Das Bundle (79,99) laesst sich hier nicht
+  // unterscheiden; den exakten Betrag liefert spaeter der Stripe-Webhook per
+  // CAPI nach, dedupliziert ueber dieselbe event_id.
+  const checkoutSuccess = params.get("checkout") === "success";
+  useEffect(() => {
+    if (!checkoutSuccess) return;
+    trackMonetization.subscriptionStarted("gruenderx", 4999);
+    trackAdConversion("purchase", { label: "subscription_monthly", value: 49.99 });
+  }, [checkoutSuccess]);
 
   useEffect(() => {
     if (!user) return;
