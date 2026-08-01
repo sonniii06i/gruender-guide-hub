@@ -56,6 +56,12 @@ export interface AdConversionOptions {
    * serverseitig gemeldet wird — dann muss dort DIESELBE ID stehen.
    */
   eventId?: string;
+  /**
+   * Roh-E-Mail des Nutzers, falls an der Aufrufstelle bekannt. Wird NICHT an
+   * den Pixel gegeben, sondern nur an die CAPI-Funktion, die sie serverseitig
+   * hasht — sie hebt die Event Match Quality deutlich.
+   */
+  email?: string;
 }
 
 /**
@@ -110,5 +116,49 @@ export function trackAdConversion(
     /* dito */
   }
 
+  // --- Meta CAPI (serverseitig, dedupliziert über dieselbe event_id) ---
+  // Fire-and-forget mit keepalive: das Ereignis faellt oft unmittelbar vor
+  // einer Navigation an (Registrierung -> Weiterleitung). Ein normales fetch
+  // wuerde dabei abgebrochen; keepalive laesst den Request weiterlaufen,
+  // nachdem die Seite schon wechselt.
+  void sendServerSide(kind, eventId, value, options.email);
+
   return eventId;
+}
+
+/**
+ * Meldet dasselbe Ereignis zusätzlich über die Edge Function an Meta.
+ *
+ * Läuft bewusst im Browser und nicht rein serverseitig: `_fbc` und `_fbp`
+ * stehen nur hier als Cookies zur Verfügung, und `fbc` ist der Parameter, der
+ * die Event Match Quality am stärksten hebt. `credentials: "include"` ist
+ * nötig, damit die Cookies überhaupt mitgehen.
+ */
+function sendServerSide(
+  kind: AdConversion,
+  eventId: string,
+  value: number,
+  email?: string,
+): void {
+  try {
+    const base = import.meta.env.VITE_SUPABASE_URL;
+    if (!base) return;
+    void fetch(`${base}/functions/v1/meta-capi`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      keepalive: true,
+      body: JSON.stringify({
+        kind,
+        eventId,
+        value,
+        email,
+        sourceUrl: window.location.href,
+      }),
+    }).catch(() => {
+      /* CAPI ist Zusatzsignal, kein Pfad, der scheitern darf */
+    });
+  } catch {
+    /* dito */
+  }
 }
