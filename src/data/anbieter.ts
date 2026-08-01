@@ -271,6 +271,40 @@ export const FULL_DESCRIPTIONS: Record<string, string> = {
   "bezahlt-fulfillment": "BEZAHLT FULFILLMENT ist ein DE-3PL mit klarem Fokus auf D2C/E-Commerce-Brands. Persönlicher Account-Manager, mittelgroße SKU-Volumina. Pricing-Estimate aus Foren: ~1,80–2,80 €/Pick + Storage. Onboarding 3–4 Wochen für SKU-Setup.",
   "warehousing1": "Warehousing1 ist ein 2019 in Berlin gegründeter Marketplace, der mehrere 3PL-Lager in DE/EU vergleicht und passende Anbieter zu Brands matched. Schnelle Match-Time, aber Brand wählt das konkrete Lager nicht selbst – Trade-off zwischen Bequemlichkeit und Kontrolle.",
   "logward": "Logward ist ein EU-3PL mit flexiblen Verträgen und Multi-Lager-Setup. Eher gehobenes Volumen, weniger Self-Service als byrd. Setup 2–3 Wochen.",
+
+  // ============ KREDITKARTEN ============
+  "amex-business-gold": "Die Amex Business Gold Card ist das Flaggschiff-Produkt von American Express für Gründer und KMU in Deutschland. Mit bis zu 50 Tagen zinsfreiem Zahlungsziel und dem Membership-Rewards-Programm ist sie besonders für Gründer mit hohem Ad-Spend oder Wareneinkauf attraktiv. Das Willkommensbonus-Programm bietet zeitweise bis zu 75.000 MR-Punkte, was einem Gegenwert von ~600–900 € entspricht. Die Amex-Akzeptanz in DE ist schwächer als Visa/Mastercard – ein Zweitkonto für Bargeldbedarf ist empfehlenswert.",
+  "amex-business-platinum": "Die Amex Business Platinum ist die Premium-Charge-Card von American Express Deutschland mit 58 Tagen Zahlungsziel und dem umfangreichsten Versicherungspaket im Markt. Für Gründer mit hohem Reiseanteil oder großem Team-Spend kann der Jahresbonus (bis 200.000 MR-Punkte) die Jahresgebühr von 850 € übertreffen. Die Lounge-Kooperation mit Lufthansa läuft bis September 2026. Primär geeignet für Unternehmen mit >500k € Jahresumsatz und regelmäßigem Auslandsreise-Bedarf.",
+  "amex-business-basic": "Die Amex Business Basic (auch Green Card) ist der günstigste Einstieg in das Amex-Ökosystem für 70 €/Jahr. Als Charge-Card bietet sie ein kurzes Zahlungsziel ohne Revolving-Kredit. Das Membership-Rewards-Programm kostet +30 €/Jahr extra. Für Gründer, die primär MR-Punkte sammeln und Amex-Versicherungsleistungen nutzen wollen, ist direkt Business Gold die bessere Wahl.",
+  "pleo": "Pleo ist ein 2015 in Kopenhagen gegründetes Spend-Management-Tool mit Fokus auf Teams und KMU in Europa. Das Debit-/Guthabenmodell ermöglicht SCHUFA-freie Ausgabe von Mitarbeiterkarten ohne persönliche Haftung. Die DATEV-Vorkontierung mit automatischer Kategorisierung gilt als stärkste Integration im Markt – Buchungszeitersparnis typisch 2–4 Stunden/Monat für Buchhaltung. Cashback von 0,5–1 % je Plan. Sinnvoll ab ~3 Mitarbeitern mit eigenem Ausgabenbudget.",
+  "moss": "Moss ist ein 2019 in Berlin gegründetes Fintech und bietet als eines der wenigen deutschen Tools eine echte Kreditkarte mit Kreditlinie bis 2,5 Mio € für GmbHs. Das DATEV-Auto-Kategorisierungs-Feature gilt als marktführend. Im Vergleich zu Pleo/Spendesk (beide Debit) bietet Moss echten Cashflow-Vorteil durch die revolvierende Kreditlinie. Pricing ist intransparent (Sales-Gespräch nötig) – Bonitätsprüfung und Handelsregistereintrag sind Voraussetzung.",
+  "payhawk": "Payhawk ist ein 2018 in Sofia gegründetes Spend-Management-Tool mit Fokus auf Mid-Market-Unternehmen (50–5.000 Mitarbeiter) in der EU. Die native DATEV-Integration über den Rechnungsdatenservice (nicht nur Export) ist das Alleinstellungsmerkmal für DE-Unternehmen. In DE wird Payhawk als Debit-Karte mit Guthabenmodell betrieben – in anderen EU-Ländern gibt es echte Kreditlinien. Handelsregisterauszug-Pflicht schließt Freelancer/Solos aus.",
+  "spendesk": "Spendesk ist ein 2016 in Paris gegründetes Spend-Management-Tool (Tochter von Spendesk SAS) mit EU-Fokus. Das Prepaid-/Guthaben-Modell eliminiert persönliche Haftung für Mitarbeiterkarten – ein Kernvorteil gegenüber Firmenkreditkarten mit Bürgschaft. Virtuelle Karten bis 200.000 €/Transaktion für große Einzelbuchungen (Veranstaltungen, Werbung). Stärke: DATEV-Integration mit Belegmanagement. Schwäche: kein Liquiditätsvorteil, da Geld vor Ausgabe aufgeladen werden muss.",
+
+  // ============ WARENWIRTSCHAFT ============
+  "billbee": "Billbee ist eine 2014 in Detmold gegründete Warenwirtschaft für Solo-Reseller und KMU mit Fokus auf DACH-Marktplätze. Mit über 30 Marketplace-Integrationen (Amazon, eBay, Kaufland, Otto, Shopify, WooCommerce) und direktem Sync zu lexoffice/sevDesk ist Billbee der Standard-Stack für 1- bis 5-Personen-Teams. Der Free-Tier bis 30 Orders/Monat ermöglicht risikofrei einzusteigen. Skalierbarkeitsgrenze: bei >1.000 Orders/Monat und internationalen Marktplätzen wird Migration zu plentymarkets oder Xentral nötig.",
+  "plentymarkets": "plentymarkets ist eine 2001 in Kassel gegründete All-in-One-E-Commerce-Plattform und der DACH-Standard für Multi-Channel-Händler im Mid-Market. Das System verbindet eigenen Shop-Builder, Warenwirtschaft, ERP und über 200 Marketplace-Integrationen in einer Oberfläche. Der Mirakl-Connector ermöglicht nahtlose Kaufland-Integration. Setup-Zeit von 2–4 Wochen und steile Lernkurve sind die Haupthürden – danach skaliert das System bis zu Enterprise-Volumina.",
+  "xentral": "Xentral ist ein 2017 in Augsburg gegründetes ERP-System (VC-backed, Series B), das sich als modernste Cloud-Alternative zu JTL und plentymarkets positioniert. API-First-Architektur ermöglicht eigene Integrationen ohne Plugin-Abhängigkeit. EU-fokussiert mit Multi-Country-Support (DE, AT, CH, EU). Sweet Spot: Tech-affine Mid-Market-Brands, die eigene Entwickler haben und flexible API-Integrationen benötigen. Für reine Reseller ohne Dev-Team ist plentymarkets oft praktikabler.",
+  "channable": "Channable ist ein 2013 in Utrecht gegründetes Feed-Management-Tool und Marktführer für Multi-Channel-Produktlisten-Optimierung in der EU. Über 2.500 Kanal-Integrationen (Marketplaces, Preisvergleiche, Shopping-Feeds) in einer Oberfläche. Google Shopping + PMax-Automation ist ein Kernfeature. Channable ersetzt keine Warenwirtschaft – es ist ein Feed-Layer obendrauf. Standard-Stack: Billbee/plentymarkets als Wawi + Channable als Feed-Manager.",
+  "taxdoo": "Taxdoo ist ein 2016 in Hamburg gegründetes SaaS für EU-Umsatzsteuer-Automation speziell für E-Commerce und Amazon-FBA. Das direkte Amazon-API-Pulling (keine manuellen CSV-Uploads) ist das wichtigste Differenzierungsmerkmal vs. hellotax. Automatische USt-Registrierung in 7 EU-Ländern, OSS-Meldungen und Intrastat eingebaut. Wirtschaftlich erst ab Pan-EU-FBA-Setup mit >50.000 €/Monat EU-Revenue, da der Einstiegspreis bei 79 €/Mon liegt.",
+  "payjoe": "PayJoe ist ein deutsches SaaS-Tool speziell für die steuerliche Aufbereitung von Amazon-Settlement-Reports. Das Tool mappt über 130 Amazon-Buchungscodes (FBA-Fees, AMA-SG, AMA-BG, Erstattungen etc.) korrekt auf SKR03/SKR04 und exportiert direkt zu lexoffice, sevDesk oder DATEV. Besonders wertvoll bei Pan-EU-FBA und OSS-Pflicht. Steuerberater-Akzeptanz ist hoch, da das Ergebnis der Aufbereitung GoBD-konform und prüfungssicher ist.",
+  "easybill": "easybill ist ein 2007 gegründetes deutsches Rechnungs-SaaS speziell für Marketplace-Verkäufer und Händler. Auto-Rechnungserstellung für Amazon, eBay, Etsy, Kaufland, Shopify und weitere Marktplätze ist das Kernfeature. GoBD-konformer DATEV-Export und eine direkte lexoffice/sevDesk-Bridge sparen 80 % der manuellen Buchhaltungsarbeit. Der Free-Tier ist sehr großzügig – Starter ab 12 €/Mon für höhere Volumina.",
+
+  // ============ PRODUCTIVITY ============
+  "notion": "Notion ist ein 2016 in San Francisco gegründetes All-in-One-Workspace-Tool (Databases, Docs, Wiki, Tasks) und hat sich 2024/25 als Standard-Wiki für Gründer-Teams etabliert. Das Template-Ökosystem (50.000+ Community-Templates) und die Datenbank-Funktionalität unterscheiden Notion von klassischen Task-Managern. Notion AI ab 8 $/User/Mon ermöglicht Dokumenten-Suche und Auto-Drafts. Wichtig: Server in den USA – für sensible Dokumente (Verträge, Kundendaten) sollte ein EU-Pendant geprüft werden.",
+  "slack": "Slack ist ein 2013 gegründeter Team-Messenger (seit 2020 Salesforce-Tochter) und der B2B-Standard für Tech-Teams weltweit. Das Channel-/Thread-System mit tiefen Integrationen (GitHub, Linear, Notion, Stripe) macht Slack zur zentralen Team-Kommunikations-Plattform. Slack Connect ermöglicht externe Channels mit Kunden/Partnern. Seit 2024 reduzierte Salesforce die Free-Tier-Messagehistory auf 90 Tage – ein entscheidender Nachteil für Team-Recherchen.",
+  "chatgpt": "ChatGPT (OpenAI) wurde 2022 als Consumer-AI-Assistent eingeführt und hat bis Q4/2025 ~70 % globalen Marktanteil unter AI-Chatbots. Für Gründer relevant sind GPT-4o für Allround-Tasks, o-Modelle für komplexes Reasoning und der Code-Interpreter für Datenanalyse. Custom-GPTs ermöglichen wiederkehrende Workflows zu automatisieren. Team-Plan ab 25 $/User/Mon mit Daten-Opt-Out. DSGVO-Auftragsverarbeitungsvertrag für Business-Pläne verfügbar.",
+  "claude": "Claude (Anthropic) ist ein 2023 kommerziell eingeführtes KI-Modell mit Fokus auf lange Kontextlängen (200k Token), tiefes Reasoning und Code-Analyse. Gilt 2025/26 als bevorzugtes Tool für Tech-Founders und Autoren bei komplexen Aufgaben (Strategie, Code-Review, Vertragsanalyse). Cursor und Windsurf nutzen Claude Opus als Standard-Modell für AI-Code-Editing. Projects + Custom-Instructions ermöglichen personalisierte Workflows. MCP-Integration für Toolanbindungen wächst stark.",
+  "cursor": "Cursor ist ein 2023 lancierter VS-Code-Fork mit eingebetteter AI (Claude Opus als Standard) und gilt 2025/26 als Standard-IDE für SaaS-Indie-Hackers und Solo-Devs. Der Composer-Modus für Multi-File-Edits und das Codebase-Indexing unterscheiden Cursor von GitHub Copilot. Mit über 200.000 aktiven Nutzern (r/cursor) hat sich Cursor als wichtigstes Dev-Tool neben Vercel/Linear positioniert. Alle Code-Prompts verlassen lokal die IDE – Privacy-Policy prüfen bei sensiblen Projekten.",
+
+  // ============ CUSTOMER-SUPPORT ============
+  "gorgias": "Gorgias ist ein 2015 in San Francisco gegründeter E-Commerce-Helpdesk und der Standard für Shopify-DTC-Brands. Die direkte Shopify-Integration (Bestellstatus, Retourenanlage, Kundendaten direkt im Ticket) ist das zentrale Differenzierungsmerkmal. Makros und AI-Reply-Drafts (ab Basic-Plan) reduzieren Ticket-Response-Time typisch um 50 %. Pricing ist ticket-volumen-basiert – bei Sale-Spitzen (Black Friday) kann der Preis deutlich steigen. Standard bei Brands wie Gymshark, Dieux und Feastables.",
+  "zendesk": "Zendesk wurde 2007 in Kopenhagen gegründet und ist seit 2022 in Privatbesitz (Thomas Bravo). Mit über 100.000 Enterprise-Kunden ist es der unangefochtene Mid-Market/Enterprise-Standard für Customer-Support. Zendesk AI in höheren Tieren kann bis zu 80 % der Tier-1-Anfragen automatisch beantworten. Setup-Komplexität ist hoch – für DTC-Brands unter 1.000 Tickets/Monat ist Gorgias wirtschaftlicher.",
+  "crisp": "Crisp ist ein 2015 in Nantes (Frankreich) gegründeter Helpdesk-Anbieter mit EU-First-Ansatz. Als einziger relevanter EU-Helpdesk bietet Crisp DSGVO-konformes Hosting auf französischen Servern ohne US-Datenübertragung. Das Workspace-Pricing-Modell (nicht pro Agent) macht Crisp besonders günstig für wachsende Teams. Free-Tier mit 2 Sitzen und multi-channel-Support (Email, Chat, Instagram, Facebook Messenger) ist für Bootstrap-Gründer attraktiv.",
+
+  // ============ REVIEWS ============
+  "judge-me": "Judge.me ist eine 2015 in New York gegründete Shopify-App für Produkt-Reviews und mit über 39.000 5-Sterne-Bewertungen im Shopify App Store die am höchsten bewertete Review-App der Kategorie. Das echte Free-Tier mit unlimited Reviews (ohne Order-Cap) ist eine Rarität im Markt – alle Wettbewerber (Loox, Yotpo) limitieren das Free-Tier. Photo- und Video-Reviews sind im Awesome-Plan (15 $/Mon) freigeschaltet. Standard für Bootstrap- und Growth-Stage-DTC-Brands.",
+  "trustpilot": "Trustpilot wurde 2007 in Kopenhagen gegründet und ist die meistgenutzte öffentliche Review-Plattform in Europa. In DACH ist ein gutes Trustpilot-Profil ein nachgewiesener Conversion-Faktor (+35–50 % Conversion-Rate-Steigerung bei >4,5 Sternen laut Plattformdaten). Das Free-Profil erlaubt passives Review-Sammeln, aber kein automatisches Invite-Management – das liegt hinter dem bezahlten Plus-Plan (250 €/Mon+). Kontroverse: Fake-Reviews ohne Kaufnachweis möglich – Brands können auf Unbegründetes reagieren.",
 };
 
 /** Coop-Deal nur anzeigen wenn nicht abgelaufen (expires ≥ heute). */
@@ -348,6 +382,7 @@ export const PROVIDERS: Provider[] = [
       "Schwache Versicherung",
       "Bonität/SCHUFA nötig",
     ],
+    forumNotes: "r/Finanzen 2026: 'Amex Green/Basic lohnt nur als günstigster Einstieg ins MR-Ökosystem — ohne Rewards-Add-on (+30 €/Jahr) übertrifft ein kostenloses Debit-Konto den Nutzen. Community empfiehlt direkt Business Gold zu beantragen wenn Reisekostenabrechnung relevant ist.'",
     signupTime: "ca. 1–2 Wochen",
     url: "https://www.americanexpress.com/de-de/business/",
   },
@@ -370,6 +405,7 @@ export const PROVIDERS: Provider[] = [
       "Kein Liquiditätspuffer (Debit)",
       "Solo zahlt für ungenutzte Features",
     ],
+    forumNotes: "r/Selbststaendig + OMR Reviews 2026: 'Pleo ist Standard für Teams mit DATEV-Vorkontierung — Buchhaltung spart 2–3 h/Mon. Solo-Gründer zahlen für ungenutzte Team-Features. Cashback 0,5–1 % positiv bewertet, kein Liquiditätspuffer da Debit-Modell.'",
     signupTime: "wenige Tage",
     url: "https://www.pleo.io/de/firmenkarte",
   },
@@ -392,6 +428,7 @@ export const PROVIDERS: Provider[] = [
       "Preise intransparent (Sales-Gespräch nötig)",
       "Eher für GmbH/UG & etablierte Firmen",
     ],
+    forumNotes: "Startup-Finance-Communities 2026: 'Moss ist die einzige echte Kreditkarte im deutschen Markt mit Linie bis 2,5 Mio € (vs. Debit bei Pleo/Spendesk). Approval dauert 1–2 Wochen, Preise nur auf Anfrage — faktisch erst ab etablierter GmbH/UG mit Jahresabschluss.'",
     signupTime: "1–2 Wochen (mit Bonitätsprüfung)",
     url: "https://www.getmoss.com/de/",
   },
@@ -413,6 +450,7 @@ export const PROVIDERS: Provider[] = [
       "Handelsregisterauszug-Pflicht → faktisch GmbH/UG",
       "Overkill für Solo-Gründer",
     ],
+    forumNotes: "CFO-/Finance-Communities 2026: 'Payhawk-DATEV-Rechnungsdatenservice wird von Controllern gelobt für automatisches Kontieren. Handelsregisterauszug-Pflicht macht es faktisch GmbH/AG-only. Pricing nur auf Anfrage — sinnvoll ab ~20 Mitarbeitern oder hohem Auslandsumsatz.'",
     signupTime: "auf Anfrage",
     url: "https://payhawk.com/de",
   },
@@ -434,6 +472,7 @@ export const PROVIDERS: Provider[] = [
       "Lohnt erst ab Teamgröße",
       "Reines Prepaid — kein Liquiditätsvorteil",
     ],
+    forumNotes: "B2B-Finance-Foren 2026: 'Spendesk-Prepaid schützt vor persönlicher Haftung — kein SCHUFA-Risiko, kein Kontokorrent. Virtuelle Karten bis 200k €/Tx gut für große Einzel-Buchungen (Ads, Events). Schwäche: kein Liquiditätsvorteil da Prepaid, Geld muss vorher auf Konto liegen.'",
     signupTime: "auf Anfrage",
     url: "https://www.spendesk.com/de/",
   },
@@ -1194,6 +1233,7 @@ export const PROVIDERS: Provider[] = [
     tagline: "Server-Side Tracking, Coaching/Info-Ads",
     pros: ["Server-Side-Tracking robust", "Stark bei High-Ticket / Coaching / Info-Products"],
     cons: ["UI komplex", "E-Com weniger Fokus als Triple Whale"],
+    forumNotes: "r/Entrepreneur + High-Ticket-Marketing-Communities 2026: 'Hyros ist Standard für Coaching/Info-Product-Funnels mit hohem CPL — Alex-Hormozi-Brands nutzen es standardmäßig. Server-Side-Tracking robust gegen iOS-14-Verluste. E-Com-Reporting weniger ausgebaut als Triple Whale, UI-Lernkurve hoch.'",
     signupTime: "Sofort",
     url: "https://hyros.com",
   },
@@ -1481,7 +1521,7 @@ export const PROVIDERS: Provider[] = [
     name: "Mailchimp",
     category: "Email",
     region: "global",
-    starting: "0 €/Mon (bis 500 Kontakte)",
+    starting: "0 €/Mon (bis 250 Kontakte)",
     rating: 3.8,
     tagline: "Klassiker, aber nicht mehr first-choice",
     pros: ["Free-Tier", "Bekannte Marke", "Templates-Library groß"],
