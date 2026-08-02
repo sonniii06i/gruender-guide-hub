@@ -2,6 +2,19 @@
 <html lang="de">
   <head>
     <meta charset="UTF-8" />
+
+    <!--
+      Domain-Verifizierung fuer den Meta Business Manager (Portfolio Gruenderx,
+      Domain-ID 1693608805079577). Voraussetzung fuer Aggregated Event
+      Measurement: ohne verifizierte Domain darf das Werbekonto die acht
+      iOS-Ereignisse nicht priorisieren.
+
+      MUSS im statischen <head> stehen. Meta prueft den rohen HTML-Quelltext --
+      ein per JavaScript nachgereichtes Tag wird nicht erkannt. Das ist hier
+      besonders wichtig, weil Seo.tsx die uebrigen Meta-Tags erst clientseitig
+      setzt.
+    -->
+    <meta name="facebook-domain-verification" content="n7nhkx46d8xdohgg53u4vv3g1oq0cl" />
     <!-- Favicon-Satz: .ico bedient Googles Standard-Crawl auf /favicon.ico,
          96px ist Googles empfohlenes (48px-Vielfaches) SERP-Icon. -->
     <link rel="icon" href="/favicon.ico" sizes="any">
