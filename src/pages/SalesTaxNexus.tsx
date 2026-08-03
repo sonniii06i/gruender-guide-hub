@@ -49,7 +49,7 @@ const US_STATES: StateNexus[] = [
   { code: "IN", name: "Indiana", salesThreshold: 100000, logic: "salesOnly", stateRate: 7, combinedAvg: 7, marketplaceFacilitator: true, notes: "Txn-Schwelle weg seit 1.1.2024" },
   { code: "IA", name: "Iowa", salesThreshold: 100000, logic: "salesOnly", stateRate: 6, combinedAvg: 6.94, marketplaceFacilitator: true },
   { code: "KS", name: "Kansas", salesThreshold: 100000, logic: "salesOnly", stateRate: 6.5, combinedAvg: 8.69, marketplaceFacilitator: true },
-  { code: "KY", name: "Kentucky", salesThreshold: 100000, transactionThreshold: 200, logic: "OR", stateRate: 6, combinedAvg: 6, marketplaceFacilitator: true, notes: "Txn-Schwelle wird ab 1.8.2026 abgeschafft" },
+  { code: "KY", name: "Kentucky", salesThreshold: 100000, logic: "salesOnly", stateRate: 6, combinedAvg: 6, marketplaceFacilitator: true, notes: "Txn-Schwelle weg seit 1.8.2026 (HB 757, April 2026) — nur noch Umsatz-Schwelle 100k" },
   { code: "LA", name: "Louisiana", salesThreshold: 100000, logic: "salesOnly", stateRate: 5, combinedAvg: 10.11, marketplaceFacilitator: true, notes: "★ Höchster Combined-Rate USA. Txn-Schwelle weg seit 8/2023. Parish-System komplex." },
   { code: "ME", name: "Maine", salesThreshold: 100000, logic: "salesOnly", stateRate: 5.5, combinedAvg: 5.5, marketplaceFacilitator: true },
   { code: "MD", name: "Maryland", salesThreshold: 100000, transactionThreshold: 200, logic: "OR", stateRate: 6, combinedAvg: 6, marketplaceFacilitator: true },
