@@ -174,7 +174,7 @@ export function track(
       const t = readFirstTouch();
       const { data } = await supabase.auth.getSession();
 
-      await (supabase as any).from("analytics_events").insert({
+      const row: Record<string, unknown> = {
         event_name: eventName.slice(0, 64),
         layer,
         user_id: data?.session?.user?.id ?? null,
@@ -192,7 +192,25 @@ export function track(
         experiment_id: options.experimentId ?? null,
         variant_id: options.variantId ?? null,
         props: props ?? {},
-      });
+      };
+
+      const { error } = await (supabase as any).from("analytics_events").insert(row);
+      if (!error) return;
+
+      // Rettungsversuch ohne user_id -- siehe ausfuehrliche Begruendung in
+      // der Schwesterdatei von AnwaltX. Kurz: Die RLS-Regel
+      // `WITH CHECK (user_id IS NULL OR user_id = auth.uid())` verwirft die
+      // Zeile still, wenn PostgREST kein gueltiges JWT sieht (auth.uid() ist
+      // dann NULL, der Vergleich ergibt NULL statt false). In AnwaltX hat das
+      // dazu gefuehrt, dass bei 34 Nutzern NIE ein signup_completed ankam --
+      // also genau das Ereignis, auf das die Kampagnen optimieren.
+      if (row.user_id) {
+        await (supabase as any).from("analytics_events").insert({
+          ...row,
+          user_id: null,
+          props: { ...(props ?? {}), uid: row.user_id, rls_fallback: true },
+        });
+      }
     } catch {
       /* Analytik darf nie eskalieren */
     }
