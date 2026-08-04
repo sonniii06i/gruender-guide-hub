@@ -65,5 +65,10 @@ Disallow: /playbooks
 Disallow: /playbook/
 Disallow: /anbieter
 
+# Anzeigen-Landingpage: bewusst NICHT indexieren -- sie wuerde mit /ratgeber
+# um dieselben Begriffe konkurrieren. Das noindex in Seo.tsx greift nicht, weil
+# es erst clientseitig gesetzt wird und die Seite nicht prerendert ist.
+Disallow: /us-llc-30-tage
+
 # KI-/LLM-Kurzbeschreibung der Seite: https://gruenderx.de/llms.txt
 Sitemap: https://gruenderx.de/sitemap.xml
