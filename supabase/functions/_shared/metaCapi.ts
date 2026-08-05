@@ -68,19 +68,38 @@ async function hashNormalized(value: string | null | undefined): Promise<string 
   return v ? await sha256Hex(v) : undefined;
 }
 
+/** Ausgang eines CAPI-Aufrufs — siehe Kommentar an `sendMetaCapiEvent`. */
+export type CapiResult = "sent" | "failed" | "skipped";
+
 /**
  * Ein Ereignis an die Conversions API melden.
  *
  * Wirft NIE. Ein fehlgeschlagener CAPI-Aufruf darf weder einen Checkout noch
  * einen Webhook abbrechen — Stripe würde den Webhook sonst als fehlgeschlagen
  * werten und stundenlang wiederholen.
+ *
+ * GIBT ABER ZURÜCK, WAS PASSIERT IST. Vorher war der Rückgabewert `void` und
+ * das Ergebnis stand nur in `console.log`. Damit ist eine kaputte CAPI völlig
+ * stumm: Der Aufrufer bekommt dasselbe „ok" wie im Erfolgsfall, und ob Meta
+ * die Ereignisse überhaupt annimmt, sieht man erst, wenn Wochen später die
+ * Attribution nicht stimmt.
+ *
+ * Genau diese Fehlerklasse hat hier schon einmal zugeschlagen: 4249
+ * Analytics-Zeilen, kein einziges `signup_completed`, weil eine RLS-Regel die
+ * Inserts still verworfen hat — bei genau dem Ereignis, auf das die Kampagne
+ * optimiert. Stille Fehlschläge in der Messkette sind teuer, weil man sie erst
+ * bemerkt, wenn das Budget schon ausgegeben ist.
+ *
+ * Der Rückgabewert ist bewusst grob (`sent`/`failed`/`skipped`) und enthält
+ * nicht Metas Fehlertext — die Antwort geht bis in den Browser, und dort haben
+ * Token-Hinweise und interne Meldungen nichts zu suchen. Details bleiben im Log.
  */
-export async function sendMetaCapiEvent(payload: CapiPayload): Promise<void> {
+export async function sendMetaCapiEvent(payload: CapiPayload): Promise<CapiResult> {
   const pixelId = Deno.env.get("META_PIXEL_ID");
   const token = Deno.env.get("META_CAPI_TOKEN");
   if (!pixelId || !token) {
     console.log("ℹ️ CAPI übersprungen: META_PIXEL_ID oder META_CAPI_TOKEN fehlt");
-    return;
+    return "skipped";
   }
 
   try {
@@ -127,11 +146,13 @@ export async function sendMetaCapiEvent(payload: CapiPayload): Promise<void> {
 
     if (!res.ok) {
       console.error(`⚠️ CAPI ${payload.event} fehlgeschlagen (${res.status}):`, await res.text());
-      return;
+      return "failed";
     }
     console.log(`✅ CAPI ${payload.event} gesendet (event_id ${payload.eventId})`);
+    return "sent";
   } catch (err) {
     console.error("⚠️ CAPI-Ausnahme:", (err as Error).message);
+    return "failed";
   }
 }
 

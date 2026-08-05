@@ -51,7 +51,7 @@ Deno.serve(async (req) => {
 
     const { fbc, fbp } = readFbCookies(req);
 
-    await sendMetaCapiEvent({
+    const ergebnis = await sendMetaCapiEvent({
       event,
       eventId: String(eventId),
       value: typeof value === "number" ? value : undefined,
@@ -71,7 +71,9 @@ Deno.serve(async (req) => {
       },
     });
 
-    return new Response(JSON.stringify({ ok: true }), {
+    // `capi` sagt, ob Meta das Ereignis wirklich angenommen hat. Ohne das
+    // Feld wäre "ok" auch dann wahr, wenn der Token abgelaufen ist.
+    return new Response(JSON.stringify({ ok: true, capi: ergebnis }), {
       headers: { ...CORS, "Content-Type": "application/json" },
     });
   } catch (err) {
