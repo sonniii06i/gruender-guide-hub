@@ -27,7 +27,13 @@ export const Footer = () => (
             <li><Link to="/gratis-tools" className="hover:text-foreground">Gratis-Tools</Link></li>
             <li><Link to="/#bundles" className="hover:text-foreground">Bundles</Link></li>
             <li><Link to="/ratgeber" className="hover:text-foreground">Ratgeber</Link></li>
-            <li><Link to="/#faq" className="hover:text-foreground">FAQ</Link></li>
+            {/* Zeigte auf den Startseiten-Anker /#faq. Dadurch war /faq -- die
+                eigenstaendige, prerenderte Seite aus der Sitemap -- die einzige
+                von 188 URLs, die von keiner erreichbaren Seite aus verlinkt war.
+                Google kannte sie nur aus der Sitemap, was allein kein Anlass zum
+                Crawlen ist. Der Anker bleibt auf der Startseite bestehen; der
+                Footer zeigt jetzt auf die Seite, die auch indexiert werden soll. */}
+            <li><Link to="/faq" className="hover:text-foreground">FAQ</Link></li>
           </ul>
         </div>
 
