@@ -111,6 +111,7 @@ const RatgeberPost = lazy(() => import("./pages/RatgeberPost.tsx"));
 const AdminBlog = lazy(() => import("./pages/AdminBlog.tsx"));
 const Tools = lazy(() => import("./pages/Tools.tsx"));
 const UsLlcOffer = lazy(() => import("./pages/UsLlcOffer.tsx"));
+const GruendungKomplett = lazy(() => import("./pages/GruendungKomplett.tsx"));
 const ToolLanding = lazy(() => import("./pages/ToolLanding.tsx"));
 const GuidesIndex = lazy(() => import("./pages/GuidesIndex.tsx"));
 const GuideLanding = lazy(() => import("./pages/GuideLanding.tsx"));
@@ -270,6 +271,7 @@ const App = () => (
               {/* Anzeigen-Landingpage der Meta-Kampagne. noindex, ohne globale
                   Navigation -- siehe Kommentar in UsLlcOffer.tsx. */}
               <Route path="/us-llc-30-tage" element={<UsLlcOffer />} />
+              <Route path="/gruendung-komplett" element={<GruendungKomplett />} />
               <Route path="/tools" element={<Tools />} />
               <Route path="/tools/:slug" element={<ToolLanding />} />
               <Route path="/guides" element={<GuidesIndex />} />
