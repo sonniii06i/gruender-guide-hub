@@ -12,8 +12,8 @@ const corsHeaders = {
 // create-checkout findet/erzeugt automatisch den passenden monatlichen Stripe-Preis
 // auf dem bestehenden Produkt, damit Preisänderungen ohne Stripe-Dashboard nur hier passieren.
 const TARGET_AMOUNTS: Record<string, number> = {
-  gruenderx: 4999, // 49,99 €/Monat
-  bundle: 7999,    // 79,99 €/Monat (Kombi GründerX + AnwaltX, −20 % ggü. 2×49,99 €)
+  gruenderx: 6499, // 64,99 €/Monat
+  bundle: 9999,    // 99,99 €/Monat (Kombi GründerX + AnwaltX, −23 % ggü. 2×64,99 €)
 };
 
 // In-Memory-Cache pro Warm-Start (product -> price id)
@@ -167,7 +167,7 @@ serve(async (req) => {
     }
 
     const origin = req.headers.get("origin") || "";
-    // Ziel-Preis dynamisch auflösen (49,99 € GründerX / 79,99 € Bundle) — self-healing, kein Dashboard nötig.
+    // Ziel-Preis dynamisch auflösen (64,99 € GründerX / 99,99 € Bundle) — self-healing, kein Dashboard nötig.
     const resolvedPriceId = await resolveMonthlyPriceId(stripe, product, priceId);
     const session = await stripe.checkout.sessions.create({
       customer: customerId,

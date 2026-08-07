@@ -24,7 +24,7 @@ const tiers: Tier[] = [
   {
     name: "GründerX",
     priceId: STRIPE_PRICES.gruenderx,
-    price: "49,99",
+    price: "64,99",
     desc: "Dein KI-Co-Pilot Felix für Gründung, Steuern, Marketplaces und Brand-Launch.",
     features: [
       "Felix – KI-Gründungs-Co-Pilot",
@@ -42,10 +42,10 @@ const tiers: Tier[] = [
   {
     name: "Founder Bundle",
     priceId: STRIPE_PRICES.bundle,
-    price: "79,99",
-    anchor: "99,98",
-    save: "−20 %",
-    desc: "GründerX + AnwaltX in einem. Gründung, Steuern und Recht aus einer Hand – beide KIs zusammen, 20 % günstiger als einzeln.",
+    price: "99,99",
+    anchor: "129,98",
+    save: "−23 %",
+    desc: "GründerX + AnwaltX in einem. Gründung, Steuern und Recht aus einer Hand – beide KIs zusammen, 23 % günstiger als einzeln.",
     features: [
       "Alles aus GründerX",
       "Juri – KI-Rechts-Assistentin (AnwaltX)",

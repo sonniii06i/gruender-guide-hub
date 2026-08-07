@@ -1839,7 +1839,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "warning": "NIEMALS außerhalb Trade Assurance zahlen. Kein 'Western Union' / 'Bitcoin' / 'persönliches Konto'. Bei Streit hat die Plattform sonst keine Handhabe.",
       "extendedNotes": [
         "Roter-Flagge-Liste: keine Trade Assurance, fragt nach Western Union, Preis 50% unter Markt, Englisch sehr schlecht (Übersetzungs-Mängel deuten auf Trading Company statt Factory hin), keine Telefonnummer/Adresse.",
-        "Trading Company vs. Factory: Factory ist günstiger (10-20 %) aber strenger bei MOQ. Trading Company ist flexibler bei kleinen Mengen + besseres Englisch. Trade-Off.",
+        "Trading Company vs. Factory: Factory ist günstiger (10-23 %) aber strenger bei MOQ. Trading Company ist flexibler bei kleinen Mengen + besseres Englisch. Trade-Off.",
         "Zahlungsmodalitäten: 30 % Anzahlung bei Order + 70 % nach Inspection (vor Versand) ist Standard. Wenn Lieferant 100 % vorab will: Red Flag.",
         "Sourcing-Agent: Pingpong, ChinaImportal etc. nehmen 5-8 % Provision aber sind oft Geld wert (Sprache, Verhandlung, vor-Ort-QC). Für Anfänger empfohlen.",
         "1688-Trick: ChineseSourcing.com / DAIGOU-Plattformen erlauben 1688-Käufe mit englischem Interface + Bezahlung in USD/EUR. Preise oft 30-50 % unter Alibaba.",
@@ -2589,7 +2589,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "**Brand-Referral-Bonus konkret**: bei 50k €/Mon Off-Amazon-Sales (via Meta-Ads) zu Amazon-Listing = 5k € pure Bonus-Auszahlung quartalsweise. Niemand sollte das ignorieren.",
         "**TikTok-Influencer-zu-Amazon**: 2026-Sweet-Spot — Micro-Influencer (10-100k Follower) mit UGC-Content + Amazon-Attribution-Link. CPA oft 30-50 % unter Meta-Ads in DACH.",
         "**Returns-Math**: 1 % Returns-Reduktion bei 500k €/Mon Revenue = 5k € + niedrigere Account-Health-Risiko. Insert-Cards (50 ct/Stk) amortisieren sich nach 1-2 Monaten.",
-        "**TikTok-Shop-vs-Amazon**: TikTok-Shop hat geringere Marge (10-20 % Plattform-Fee + Versand-Subvention) aber unique Audience. NICHT Amazon-Ersatz, sondern Inkrementell."
+        "**TikTok-Shop-vs-Amazon**: TikTok-Shop hat geringere Marge (10-23 % Plattform-Fee + Versand-Subvention) aber unique Audience. NICHT Amazon-Ersatz, sondern Inkrementell."
       ],
       "description": "Brand-Skalierung jenseits Amazon: Multi-Channel-Listing-Tools (eigener Shop + eBay + Kaufland parallel), External-Traffic von Social-Media zu Amazon (mit Brand-Referral-Bonus 10 %), Returns-Reduction durch Insert-Cards + Setup-Manuals."
     },
@@ -4972,7 +4972,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Live-Frequenz: 2-3x/Woche, immer gleiche Zeit (Routine für Follower)",
         "Beste Zeiten DE: 19:00-22:00 wochentags, 14:00-22:00 Wochenende",
         "Produkt-Tags im Live: nach links wischen → Karussell mit Produkten zum direkten Kauf",
-        "Promo-Codes für Live-Zuschauer (10-20 % Rabatt) für Conversion-Boost",
+        "Promo-Codes für Live-Zuschauer (10-23 % Rabatt) für Conversion-Boost",
         "Replay aktivieren — Video bleibt 30 Tage als VOD verfügbar",
         "Analytics: Concurrent-Viewers, Add-to-Cart, Sales während Live"
       ],
@@ -5006,7 +5006,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       ],
       "extendedNotes": [
         "Affiliate-Network ist DER Conversion-Treiber für neue Brands — eigene Reichweite erst aufbauen dauert. Mit 10-20 aktiven Creators kommt schnell Traffic.",
-        "Provisions-Sweet-Spot: 15-20 % macht Creators motiviert ohne deine Marge zu killen."
+        "Provisions-Sweet-Spot: 15-23 % macht Creators motiviert ohne deine Marge zu killen."
       ],
       "description": "TikTok Shop Affiliate-Network — Creators bewerben deine Produkte gegen Provision. Self-Service 'Open Plan' (alle Creator) oder 'Targeted Plan' (eingeladen)."
     },
@@ -5687,7 +5687,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     },
     "esop-pool": {
       "checklist": [
-        "Pool-Größe festlegen: typisch 10-15 % bei Pre-Seed, 15-20 % bei Seed-A",
+        "Pool-Größe festlegen: typisch 10-15 % bei Pre-Seed, 15-23 % bei Seed-A",
         "Pool-Implementierung VOR ersten Vergaben + VOR VC-Pre-Money-Runde (sonst verwässern Founders zusätzlich)",
         "Anteilsklasse für ESOP definieren (typisch eigene Klasse mit gleichen wirtschaftlichen Rechten ohne Stimmrecht)",
         "Vesting-Standard im Pool: 4 Jahre, 1 Jahr Cliff, monatliches Vesting nach Cliff",
@@ -5798,7 +5798,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
   "co-founder-agreement": {
     "equity-split": {
       "checklist": [
-        "Beitrags-Faktoren bewerten: Idee (5-10 %), Time-Commitment (40-50 %), Kapital (10-20 %), Skills/Network (15-25 %), Risk-Taking (10-15 %)",
+        "Beitrags-Faktoren bewerten: Idee (5-10 %), Time-Commitment (40-50 %), Kapital (10-23 %), Skills/Network (15-25 %), Risk-Taking (10-15 %)",
         "Wer ist CEO? (Tendenz: +5-10 % wegen höherem Risiko)",
         "Full-Time vs. Part-Time-Founder (Part-Time: 50-70 % vom Full-Time-Anteil)",
         "Kapital-Investments separat behandeln (Convertible Loan oder Anteils-Kauf zum gleichen Bewertungs-Stand)",
@@ -6753,7 +6753,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "**CTV (Connected TV / Streaming)**: Roku, Samsung Ads, Disney+ Ads, Netflix Ads. CPM 25-50 € hoch, aber Premium-Audience + Brand-Awareness-Hebel. Sweet-Spot ab 1M+ Revenue",
         "**Spotify Audio Ads**: Audio-Spots im Free-Tier. Niche-Targeting, niedriger CPM (5-15 €). Lohnt für Brand-Awareness im Hintergrund",
         "**Manychat Click-to-Messenger-Ads**: Meta-Ad → Messenger-Bot statt Landing-Page. Conversion-Rate +30-50 % bei Quiz-/Personalization-Funnels",
-        "**Channel-Mix-Strategie**: 60-70 % Hauptchannel (Meta/TikTok), 20-30 % Google, 10-20 % Alternative-Mix (Diversifikation gegen Algorithmus-Risiko)",
+        "**Channel-Mix-Strategie**: 60-70 % Hauptchannel (Meta/TikTok), 20-30 % Google, 10-23 % Alternative-Mix (Diversifikation gegen Algorithmus-Risiko)",
         "**iOS-14.5-Resilienz**: alle alt-Channels haben weniger ATT-Impact als Meta — Performance robuster bei iOS-Audience-Heavy-Brands"
       ],
       "externalLinks": [
@@ -6988,7 +6988,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Bank-Stand-Anfang: aktueller Stand auf allen Geschäftskonten",
         "Bank-Stand-Ende-Woche: laufende Berechnung (Anfang + Inflows - Outflows)",
         "Wöchentlich Updaten (Friday 30-min-Ritual)",
-        "Konservativ-Forecast: Inflows -20 %, Outflows +10 % als Sicherheits-Puffer",
+        "Konservativ-Forecast: Inflows -23 %, Outflows +10 % als Sicherheits-Puffer",
         "Trigger-Werte: bei Cash-Stand < 3 Mon Burn → Alarm + Sofort-Maßnahmen"
       ],
       "externalLinks": [
@@ -7265,7 +7265,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       ],
       "extendedNotes": [
         "Broker-Provision: typisch 5-15 % der Prämie. Wird vom Versicherer bezahlt — du zahlst nichts extra.",
-        "Direkt-Versicherer (Allianz, AXA) sind oft 10-20 % teurer als Broker-Tarife — Broker hat Verhandlungs-Macht."
+        "Direkt-Versicherer (Allianz, AXA) sind oft 10-23 % teurer als Broker-Tarife — Broker hat Verhandlungs-Macht."
       ],
       "description": "Broker (Hiscox, Howden, Marsh, GettSure) vergleichen Anbieter + verhandeln. Provision durch Versicherer bezahlt — kostet dich nichts. Oft 20-40 % günstigere Polizen."
     }
@@ -7696,7 +7696,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "3-Tier-Standard: Starter (Self-Service, niedrigster Preis), Pro (mid-market), Enterprise (custom)",
         "Pricing-Anchor: höchster Tier definiert Wert-Wahrnehmung — bewusst hoch ansetzen",
         "Decoy-Tier (Pro): macht Enterprise wertvoller wirken (Behavioral Pricing)",
-        "Annual-Discount: 15-20 % Rabatt für Jahres-Vorauszahlung — Cashflow-Boost",
+        "Annual-Discount: 15-23 % Rabatt für Jahres-Vorauszahlung — Cashflow-Boost",
         "Free-Trial vs Freemium: Trial 14-30 Tage besser für SMB-Conversion, Freemium für Bottom-Up-Adoption",
         "Geo-Pricing prüfen (DACH = Premium, EE/PL/CZ niedriger)",
         "Pricing-Test-Strategie: A/B-Test alle 6 Monate via Pricing-Page-Variants"
@@ -7725,7 +7725,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "checklist": [
         "Stripe-Account erstellen + Business-Verifizierung (HR-Auszug, USt-ID, Bankverbindung)",
         "Products in Stripe anlegen — pro Tier (Starter / Pro / Enterprise) ein Product",
-        "Prices pro Product: Monatlich + Jährlich (Annual-Discount typisch 15-20 %)",
+        "Prices pro Product: Monatlich + Jährlich (Annual-Discount typisch 15-23 %)",
         "Trial-Period konfigurieren: 14 Tage Standard, optional Card-Required toggle",
         "Webhook-Endpoint im Backend einrichten (URL + Signing-Secret)",
         "Pflicht-Webhooks abonnieren: subscription.created, subscription.updated, subscription.deleted",
@@ -7880,7 +7880,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Procurement-Process kennen: Verträge, Security-Reviews, Legal-Approval, Finance-Approval — kann 4-12 Wochen dauern",
         "Master Service Agreement (MSA) + Order Form (OF) als 2-Doc-Strategie: MSA einmalig, OF pro Renewal",
         "Security-Documentation parat: SOC2, ISO 27001, DSGVO-Compliance, Penetration-Tests",
-        "Pricing-Verhandlung: max 15-20 % Discount, dafür Multi-Year-Commitment oder Logo-Right"
+        "Pricing-Verhandlung: max 15-23 % Discount, dafür Multi-Year-Commitment oder Logo-Right"
       ],
       "externalLinks": [
         {
@@ -7913,7 +7913,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Cross-Sell-Module: Add-On-Produkte (Analytics-Premium, AI-Features, White-Label)",
         "Annual Pricing-Increase 5-10 % auf Bestandskunden (mit 60-Tage-Vorab-Notice)",
         "Grandfathering-Strategie: Loyalty-Tier mit altem Preis bei Renewal — reduziert Churn-Risiko",
-        "Multi-Year-Commits: 3-Jahres-Verträge mit 10-20 % Discount → längere Retention + Cash-Vorauszahlung",
+        "Multi-Year-Commits: 3-Jahres-Verträge mit 10-23 % Discount → längere Retention + Cash-Vorauszahlung",
         "Logo-Right-Trade: Logo-Veröffentlichung gegen 10 % Discount bei Mid-Market+",
         "Volume-Discounts ab bestimmten Seat-/Volumen-Schwellen",
         "Expansion-Dashboard: pro Konto Trend in MRR, Usage, Health-Score"
@@ -8255,7 +8255,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Asset-Deal vs. Share-Deal: Steuerlich + rechtlich unterschiedlich (Founder-Sicht meist Share-Deal besser)",
         "Working-Capital-Adjustment: Pricing wird angepasst basierend auf Net-Working-Capital zum Closing",
         "Reps & Warranties: Founder-Garantien für Korrektheit aller Aussagen + Datenraum-Inhalte",
-        "Indemnities + Caps: Haftungs-Begrenzung (typisch 10-20 % vom Kaufpreis, 12-24 Monate)",
+        "Indemnities + Caps: Haftungs-Begrenzung (typisch 10-23 % vom Kaufpreis, 12-24 Monate)",
         "W&I Insurance: Versicherung deckt Reps&Warranties-Risiken (Käufer trägt typisch Kosten 1-2 % vom Deal)",
         "Lock-Up: Founder bleiben 1-3 Jahre nach Closing (oft via Earn-Out gekoppelt)",
         "Non-Compete: 2-4 Jahre Wettbewerbsverbot (mit Karenzentschädigung bei DE)",
@@ -8275,7 +8275,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Customer-Change-of-Control-Klauseln: Top-Customers müssen evtl. zustimmen vor Closing",
         "Mitarbeiter-Information: Betriebsrat anhören Pflicht (DE), 1-3 Wochen vor Closing",
         "Notar-Termin: Anteils-Übertragung + Kaufpreis-Zahlung gleichzeitig (Zug-um-Zug)",
-        "Escrow-Account: 10-20 % Kaufpreis für Indemnification-Claims (12-24 Monate)",
+        "Escrow-Account: 10-23 % Kaufpreis für Indemnification-Claims (12-24 Monate)",
         "Closing-Memorandum: alle CP-Erfüllungen dokumentiert",
         "Day-1-Communication: Mitarbeiter, Customers, Suppliers informiert",
         "Founder-Onboarding ins Käufer-Unternehmen (typisch 90-Tage-Integrations-Plan)"
@@ -8776,7 +8776,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "DataDive als Premium-Alternative für Reverse-ASIN-Forschung + Niche-Hunting",
         "PL-Recherche-Kriterien: Demand > 3.000 Suchen/Mon, Reviews < 500 bei Top-Konkurrenten, Marge > 30 %, BSR Top 10.000 in Hauptkategorie",
         "Brand-Registry zwingend VOR Amazon-Launch: braucht eingetragene Marke (DPMA/EUIPO), schützt vor Listing-Hijacking + IP-Verletzung",
-        "A+ Content + Brand-Store ab Brand-Registry verfügbar (Conversion +10-20 %)",
+        "A+ Content + Brand-Store ab Brand-Registry verfügbar (Conversion +10-23 %)",
         "Brand Analytics (Seller Central, kostenlos für Brand-Registered): Search-Query-Performance + Demographics + Repeat-Buy-Behavior",
         "PPC-Budget: 15-25 % vom Revenue im ersten Jahr (Aggressive-Launch-Phase), später 8-15 % stabil",
         "Sellerboard / Helium10 Profits für echte Marge-Tracking inkl. FBA-Fees + Returns + PPC"
@@ -9587,7 +9587,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Hour-Rate-Berechnung: Ziel-Brutto-Jahres-Einkommen × 1,4 / 1.200 Billable-Hours = Hour-Rate",
         "Project-Pricing: 50 % Margin-Buffer auf Estimate (Scope-Creep-Schutz)",
         "Retainer-Pricing: 3 Pakete (Starter/Growth/Enterprise) mit klarem Wert-Differential",
-        "Annual-Discount für Retainer (10-20 % bei Jahres-Vertrag) — Cashflow-Boost"
+        "Annual-Discount für Retainer (10-23 % bei Jahres-Vertrag) — Cashflow-Boost"
       ],
       "extendedNotes": [
         "**Hour-Rate** (Stunden-Verkauf): einfach + transparent, aber Skalierungs-Cap. Sweet-Spot 80-200 €/h DACH, 150-400 € Senior, 500+ € Top-Specialist.",
@@ -9793,7 +9793,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "warning": "Agency ohne CRM + Sales-Process verlässt sich auf Referrals = unprognostizierbare Skalierung. Mit Pipeline-Setup + Outbound-Channel = 3-5x Revenue-Hebel ohne mehr Founder-Stunden.",
       "extendedNotes": [
         "**CRM-ROI**: ohne CRM verliert Agency typisch 30-50 % Leads durch verpasste Follow-Ups. HubSpot Free + saubere Pipeline = +20 % Win-Rate = +20 % Revenue ohne mehr Sales-Aufwand.",
-        "**Cold-Email-Realität DACH 2026**: 0,5-2 % Reply-Rate von Cold-Email, 10-20 % zu Discovery-Call, 30-50 % zu Proposal, 30-50 % Close = 0,03-0,2 % Conversion vom Cold-Lead zu Customer. Volumen-Game.",
+        "**Cold-Email-Realität DACH 2026**: 0,5-2 % Reply-Rate von Cold-Email, 10-23 % zu Discovery-Call, 30-50 % zu Proposal, 30-50 % Close = 0,03-0,2 % Conversion vom Cold-Lead zu Customer. Volumen-Game.",
         "**Apollo + Lemlist + Smartlead Stack**: Apollo für Data-Sourcing, Lemlist für Personalisierung, Smartlead für Skalierung (Multi-Inbox-Rotation). Sweet-Spot für Mid-Market-Outbound.",
         "**Proposal-Closing-Rate**: 'PDF-per-Email'-Proposal hat 20-30 % Close-Rate. PandaDoc/Proposify mit Tracking + Templates + E-Sign hat 50-70 % Close-Rate. Direkter Hebel.",
         "**Stripe Billing für Retainer**: Auto-Charge eliminiert 'Forgot-to-Pay'-Cashflow-Verzögerung. Spart 5-10 Tage Days-Sales-Outstanding pro Retainer.",
@@ -10396,7 +10396,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "extendedNotes": [
         "**CRM-Realität Coach**: ohne CRM verliert High-Ticket-Coach 40-60 % Discovery-Calls durch verpasste Follow-Ups + verlorene Lead-Context. HubSpot Free + Pipedrive ist + 20 min Setup einmalig.",
         "**Webinar-Funnel-Math**: 1.000 Webinar-Registrations × 30 % Show-Up × 5-10 % Conversion bei 2.000 € Paket = 30-60k € pro Live-Launch. EverWebinar-Auto-Funnels skalieren das auf monatlichen Wiederkehr.",
-        "**Application-Filter-ROI**: Pre-Call-Form filtert 60-80 % unqualifizierte Leads raus → Founder-Zeit fokussiert auf 20-40 % qualifizierte Calls → Close-Rate steigt von 10-20 % auf 30-50 %.",
+        "**Application-Filter-ROI**: Pre-Call-Form filtert 60-80 % unqualifizierte Leads raus → Founder-Zeit fokussiert auf 20-40 % qualifizierte Calls → Close-Rate steigt von 10-23 % auf 30-50 %.",
         "**Skool-Trend**: 99 $/Mon flat (kein Sub-pro-Member) + Gamification (Levels, Points, Leaderboard) = höhere Engagement-Retention. Sweet-Spot für Group-Programs mit 50-500 Members.",
         "**Loom-Onboarding-Hebel**: 30 Loom-Videos für FAQ + Setup + How-To = 90 % der Onboarding-Calls werden überflüssig. Founder-Zeit-Hebel 5-10x.",
         "**GoHighLevel-Kontroverse**: All-in-One (CRM + Funnel + Email + Webinar + Booking + Community) ist mächtig aber 'jack of all, master of none'. Lohnt bei Solo-Coach mit < 1k Leads, nicht bei Mid-Market-Stack."
@@ -12268,7 +12268,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Cohort-Cadence: 2-4 Launches/Jahr (Quartalsweise typisch)",
         "Funnel 1 — Webinar: Lead-Magnet → 60-Min-Webinar → Pitch am Ende → Cart-Open 7 Tage",
         "Funnel 2 — Discovery-Call: Application-Form → Sales-Call → Close (50 % Conversion bei qualifizierten Leads)",
-        "Pricing-Strategie: Early-Bird 10-20 % Discount in ersten 48h → reguläres Pricing → Last-Chance-Discount-Free-Bonus",
+        "Pricing-Strategie: Early-Bird 10-23 % Discount in ersten 48h → reguläres Pricing → Last-Chance-Discount-Free-Bonus",
         "Ads-Budget pro Launch: 5-30k € (Meta-Ads zu Webinar-Registration)",
         "Email-Liste-Größe für 100k €-Launch: 3.000-10.000 Subscribers (3-10 % Conversion bei 3-8k € Pricing)"
       ],
@@ -12437,7 +12437,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "**Community-Heavy** (Beispiel: Founders): Hauptwert ist Peer-Network, Content ist sekundär. Niedrigerer Content-Aufwand",
         "**Hybrid** (Beispiel: Skool-Communities): Course + Community + Weekly-Calls. Sweet-Spot für Coach-Communities",
         "Pricing-Anchor: Content-Heavy 27-67 €/Mon, Community-Heavy 47-147 €/Mon, Hybrid 47-97 €/Mon",
-        "Annual-Discount: 15-20 % bei Jahres-Zahlung → reduziert Churn massiv (Jahres-Member vs Monats-Member Churn 3-5x niedriger)",
+        "Annual-Discount: 15-23 % bei Jahres-Zahlung → reduziert Churn massiv (Jahres-Member vs Monats-Member Churn 3-5x niedriger)",
         "VIP-Tier: Premium-Layer mit 1:1-Touch (Office-Hours mit Founder) bei 197-497 €/Mon"
       ]
     },
@@ -12641,7 +12641,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     "reward-tiers": {
       "checklist": [
         "**Tier 1 — Early-Bird** (erste 24-48h, limitierte Stückzahl): 25-30 % Discount vom Final-Retail-Preis",
-        "**Tier 2 — Standard**: 15-20 % Discount, Hauptverkaufs-Tier",
+        "**Tier 2 — Standard**: 15-23 % Discount, Hauptverkaufs-Tier",
         "**Tier 3 — Bundle**: 2-3 Produkte zusammen, bessere Per-Stück-Marge",
         "**Tier 4 — Premium**: Limited-Edition oder Founder-Edition, höchste Marge",
         "**Tier 5 — VIP/Group**: Wholesale-Pack für Reseller, B2B-Tier",
@@ -14161,7 +14161,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "warning": "Guideline 3.1.1 ist Apples meist-durchgesetzte Regel: Digitale Güter/Features am Store-Payment vorbei zu verkaufen (Stripe-Link in der App, \"kauf auf unserer Website\"-Hinweis) führt zuverlässig zur Ablehnung. Die EU-DMA-Öffnung (alternative Zahlwege/Link-outs) existiert, ist aber mit eigenen Gebühren-Modellen und Auflagen verbunden — für dein MVP: Standard-IAP nutzen, DMA-Optimierung ist ein Later-Problem.",
       "extendedNotes": [
         "Benchmark-Realität (RevenueCat-Daten): Nur grob ~5 % der Free-Nutzer werden je zahlend, Trial-Start-zu-Paid-Conversion liegt je nach Kategorie bei 30–50 %. Rechne dein Business-Case mit diesen Zahlen, nicht mit Wunschwerten.",
-        "Jahres-Abo schlägt Monats-Abo fast immer im LTV: Positioniere Jahr als Default (\"59,99 €/Jahr = 5 €/Monat\") und Monat als teure Alternative (9,99 €). Lifetime-IAP (z.B. 79,99 €) als drittes Angebot fängt Abo-Verweigerer ein.",
+        "Jahres-Abo schlägt Monats-Abo fast immer im LTV: Positioniere Jahr als Default (\"59,99 €/Jahr = 5 €/Monat\") und Monat als teure Alternative (9,99 €). Lifetime-IAP (z.B. 99,99 €) als drittes Angebot fängt Abo-Verweigerer ein.",
         "Kleinunternehmer-Hinweis: Die Store-Provision ist unabhängig von deiner USt-Stellung. Apple/Google treten dir gegenüber als Kommissionär auf und führen die USt auf den Endkundenpreis in den meisten Ländern selbst ab — Details und die korrekte Verbuchung kommen in Schritt 17.",
         "Preis-Anker: Es gibt in den Stores kaum Preis-Elastizität nach unten — eine 2,99 €-App verkauft sich selten öfter als eine 4,99 €-App. Teste höhere Preise zuerst, senken kannst du immer."
       ]

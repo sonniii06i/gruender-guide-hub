@@ -212,7 +212,7 @@ const RunwayRechner = () => {
             <strong>💡 Default Dead, aber noch Zeit:</strong> Mit aktuellem Wachstum wird der Umsatz die Kosten nicht
             rechtzeitig einholen. Du hast {calc.runwayMonate ?? "60+"} Monate, um das zu ändern — jeder Monat früher
             gehandelt zählt doppelt: Wachstum beschleunigen ODER Burn senken. Rechne beide Hebel oben durch (z.B.
-            Fixkosten −20 %, Wachstum +2 Punkte) und schau, was den Status kippt.
+            Fixkosten −23 %, Wachstum +2 Punkte) und schau, was den Status kippt.
           </div>
         )}
       </div>

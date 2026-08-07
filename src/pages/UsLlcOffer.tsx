@@ -94,7 +94,7 @@ const UsLlcOffer = () => {
           </div>
 
           <p className="mt-4 text-xs text-muted-foreground">
-            Kostenlos starten · ab 49,99 €/Monat, monatlich kündbar
+            Kostenlos starten · ab 64,99 €/Monat, monatlich kündbar
           </p>
         </div>
       </section>

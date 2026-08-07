@@ -810,7 +810,7 @@ export const PLAYBOOKS: Playbook[] = [
         title: "Launch-Strategie: Honeymoon + Promotions + Subscribe & Save",
         kind: "checklist",
         estMinutes: 240,
-        estCost: "Coupon-Discounts 5-20 % vom AOV · Lightning Deal 150-500 $ Fee · Vine 200 €/Produkt (siehe vine-Step)",
+        estCost: "Coupon-Discounts 5-23 % vom AOV · Lightning Deal 150-500 $ Fee · Vine 200 €/Produkt (siehe vine-Step)",
       },
       {
         slug: "vine-reviews",
@@ -1027,7 +1027,7 @@ export const PLAYBOOKS: Playbook[] = [
         title: "Influencer-Plattformen anmelden (Brand-Deal-Marketplace)",
         kind: "external",
         estMinutes: 60,
-        estCost: "0 € Anmeldung · Plattform-Provision 10-20 % vom Brand-Deal (oft transparent kommuniziert)",
+        estCost: "0 € Anmeldung · Plattform-Provision 10-23 % vom Brand-Deal (oft transparent kommuniziert)",
       },
       {
         slug: "mediakit-pricing",

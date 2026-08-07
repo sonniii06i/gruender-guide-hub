@@ -34,7 +34,7 @@ const faqs = [
   },
   {
     q: "Was kostet GründerX?",
-    a: "GründerX kostet 49,99 € / Monat. Wer beide KIs will (GründerX + AnwaltX: Vertragsprüfung, Abmahn-Schutz, Streitfall-Hilfe), bucht das Founder Bundle für 79,99 € / Monat – 20 % günstiger als beide einzeln (99,98 €).",
+    a: "GründerX kostet 64,99 € / Monat. Wer beide KIs will (GründerX + AnwaltX: Vertragsprüfung, Abmahn-Schutz, Streitfall-Hilfe), bucht das Founder Bundle für 99,99 € / Monat – 23 % günstiger als beide einzeln (129,98 €).",
   },
   {
     q: "Kann ich monatlich kündigen oder binde ich mich lange?",

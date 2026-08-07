@@ -47,14 +47,14 @@ const Dashboard = () => {
   // ?checkout=success hierher zurueck -- der einzige Moment im Client, an dem
   // ein Abo sicher zustande gekommen ist.
   //
-  // Der Wert ist der Listenpreis. Das Bundle (79,99) laesst sich hier nicht
+  // Der Wert ist der Listenpreis. Das Bundle (99,99) laesst sich hier nicht
   // unterscheiden; den exakten Betrag liefert spaeter der Stripe-Webhook per
   // CAPI nach, dedupliziert ueber dieselbe event_id.
   const checkoutSuccess = params.get("checkout") === "success";
   useEffect(() => {
     if (!checkoutSuccess) return;
-    trackMonetization.subscriptionStarted("gruenderx", 4999);
-    trackAdConversion("purchase", { label: "subscription_monthly", value: 49.99 });
+    trackMonetization.subscriptionStarted("gruenderx", 6499);
+    trackAdConversion("purchase", { label: "subscription_monthly", value: 64.99 });
   }, [checkoutSuccess]);
 
   useEffect(() => {

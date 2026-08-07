@@ -333,7 +333,7 @@ export const ROADMAP_TASKS: RoadmapTask[] = [
     schritte: [
       "Erste Auftrags-Bilanz ziehen",
       "Tool 6 erneut durchrechnen mit echten Daten",
-      "Bei neuen Kunden: 10-20 % höher anbieten",
+      "Bei neuen Kunden: 10-23 % höher anbieten",
     ],
     zeitaufwand: "30 Min",
     toolLink: { route: "/cockpit/stundensatz-rechner", label: "Stundensatz-Rechner" },

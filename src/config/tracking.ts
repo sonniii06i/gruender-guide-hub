@@ -42,11 +42,11 @@ export const GOOGLE_ADS_LABELS: Record<AdConversion, string> = {
  * Standardwerte je Conversion in Euro.
  *
  * `signup` ist bewusst nicht 0: eine Conversion ohne Wert schließt wertbasiertes
- * Bieten dauerhaft aus. 5 € entspricht 49,99 € × ~10 % erwarteter Kaufquote.
+ * Bieten dauerhaft aus. 5 € entspricht 64,99 € × ~10 % erwarteter Kaufquote.
  */
 export const AD_CONVERSION_VALUES: Record<AdConversion, number> = {
   tool_result: 2,
   signup: 5,
   activation: 12,
-  purchase: 49.99,
+  purchase: 64.99,
 };
