@@ -43,6 +43,18 @@ const MIME = {
   ".xml": "application/xml; charset=utf-8",
 };
 
+// Bezahlte Anzeigen-Landingpages.
+//
+// Sie stehen bewusst NICHT in der sitemap.xml (noindex, damit sie den
+// SEO-Seiten keine Begriffe wegnehmen) — und wurden deshalb nie prerendert.
+// Folge: Fuer diese Pfade liefert der Server den SPA-Fallback aus, also die
+// STARTSEITE. Die erste Sekunde nach dem Anzeigenklick zeigte die falsche
+// Seite, und Metas Crawler sieht bei einer Richtlinienpruefung ebenfalls die
+// Startseite statt des beworbenen Angebots.
+//
+// Der noindex-Status haengt am robots-Meta, nicht an der Sitemap — er bleibt.
+const PAID_ROUTES = ["/us-llc-30-tage", "/gruendung-komplett"];
+
 function routesFromSitemap(xml) {
   const routes = [];
   const re = /<loc>https?:\/\/[^/]+(\/[^<]*)?<\/loc>/g;
@@ -174,7 +186,8 @@ async function run() {
   const sitemapPath = existsSync(join(DIST, "sitemap.xml"))
     ? join(DIST, "sitemap.xml")
     : join(__dirname, "..", "public", "sitemap.xml");
-  const routes = routesFromSitemap(await readFile(sitemapPath, "utf8"));
+  const sitemapRoutes = routesFromSitemap(await readFile(sitemapPath, "utf8"));
+  const routes = [...sitemapRoutes, ...PAID_ROUTES.filter((p) => !sitemapRoutes.includes(p))];
   if (routes.length === 0) {
     console.warn("[prerender] keine Routen in sitemap.xml gefunden – übersprungen.");
     return;
