@@ -1,5 +1,13 @@
 project_id = "rwrjuzemkfghlziretdj"
 
+# pay-first: beide Funktionen laufen zwingend ohne Konto — zum Zeitpunkt des
+# Aufrufs existiert noch keines.
+[functions.checkout-guest]
+verify_jwt = false
+
+[functions.claim-account]
+verify_jwt = false
+
 [functions.create-checkout]
 verify_jwt = false
 

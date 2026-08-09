@@ -7,6 +7,7 @@
 // ===================================================================
 import Stripe from "https://esm.sh/stripe@18.5.0";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
+import { sendMetaCapiEvent } from "../_shared/metaCapi.ts";
 
 const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY")!, { apiVersion: "2025-08-27.basil" });
 const webhookSecret = Deno.env.get("STRIPE_WEBHOOK_SECRET")!;
@@ -45,6 +46,31 @@ Deno.serve(async (req) => {
     switch (event.type) {
       case "checkout.session.completed": {
         const s = event.data.object as any;
+
+        // Meta-CAPI VOR den Affiliate-Abbruechen. Vorher stand hier zuerst
+        // `if (!code) break` — ohne Reflink wurde also gar nichts gemeldet,
+        // und das ist der Normalfall. Serverseitig gab es damit ueberhaupt
+        // keinen Kauf, obwohl genau der jetzt das Optimierungsereignis der
+        // Kampagne ist.
+        //
+        // event_id `stripe_<session_id>`: dieselbe ID bildet /willkommen im
+        // Browser. Nur dann zaehlt Meta beide Meldungen als EIN Ereignis.
+        await sendMetaCapiEvent({
+          event: "Purchase",
+          eventId: `stripe_${s.id}`,
+          value: (s.amount_total ?? 0) / 100,
+          currency: (s.currency || "eur").toUpperCase(),
+          eventSourceUrl: "https://gruenderx.de/willkommen",
+          user: {
+            email: s.customer_details?.email || s.customer_email || null,
+            // fbc/fbp schreibt checkout-guest in die Metadaten — der Webhook
+            // sieht keine Cookies, und fbc hebt die Event Match Quality am
+            // staerksten.
+            fbc: s.metadata?.fbc || null,
+            fbp: s.metadata?.fbp || null,
+          },
+        });
+
         const code = (s.metadata?.affiliate_ref || "").trim();
         if (!code || !s.subscription) break;
         const aff = await affiliateByCode(code);

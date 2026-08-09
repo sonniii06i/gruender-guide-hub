@@ -3,7 +3,7 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { TwoFactorPrompt } from "@/components/auth/TwoFactorPrompt";
 import { trackSignup } from "@/utils/analytics";
-import { trackAdConversion } from "@/utils/adConversions";
+import { startGuestCheckout } from "@/utils/guestCheckout";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -59,75 +59,39 @@ const Auth = () => {
     setErrorMsg(null);
     try {
       if (mode === "signup") {
-        if (!pwValid) {
-          throw new Error("Passwort: min. 8 Zeichen, 1 Zahl und 1 Sonderzeichen.");
-        }
-        const { data, error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: {
-            emailRedirectTo: `${window.location.origin}/onboarding`,
-            data: { first_name: firstName, last_name: lastName },
-          },
-        });
-        if (error) throw error;
-        // Supabase verschleiert bestehende E-Mails (kein Enumeration-Leak): bei bereits
-        // registrierter Adresse kommt KEIN Fehler, aber data.user.identities ist leer.
-        // -> klare Meldung + auf Login leiten statt erneut "Bestätigung gesendet" zu faken.
-        if (data.user && Array.isArray(data.user.identities) && data.user.identities.length === 0) {
-          setErrorMsg("Diese E-Mail ist bereits registriert. Bitte melde dich an.");
-          setPassword("");
-          setMode("signin");
-          return;
-        }
-        // Bei aktiver E-Mail-Bestätigung gibt es KEINE Session -> nicht zu /onboarding
-        // navigieren (würde zurück auf /auth loopen), sondern Bestätigungs-Hinweis zeigen.
-        // Beide Pfade sind ein abgeschlossener Signup -- mit E-Mail-Bestaetigung
-        // gibt es nur keine Session. Nur den zweiten zu zaehlen wuerde je nach
-        // Confirm-Einstellung die halbe Rate verschlucken.
-        trackSignup.completed("password", signupStartedAt.current ? Date.now() - signupStartedAt.current : undefined);
-
-        // L3 der Event-Leiter -- das Ereignis, auf das beide Werbekampagnen
-        // optimieren. Muss an derselben Stelle stehen wie trackSignup.completed,
-        // also VOR dem Session-Check: sonst faellt bei aktiver E-Mail-
-        // Bestaetigung die halbe Conversion-Rate unter den Tisch, und Meta
-        // optimiert auf ein Ereignis, das die Haelfte der Nutzer nie ausloest.
-        trackAdConversion("signup", { label: "registration_password" });
-        if (!data.session) {
-          setSignupEmail(email);
-          return;
-        }
-        toast.success("Account erstellt! Richte jetzt dein Profil ein 🚀");
-        navigate("/onboarding");
-      } else {
-        const { data: signIn, error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) throw error;
-
-        // two_factor_enabled steht in app_metadata: vom Client lesbar,
-        // aber nicht setzbar -- taugt daher als vertrauenswuerdiger Marker.
-        if (signIn.user?.app_metadata?.two_factor_enabled) {
-          setPending2FA(true);
-          setLoading(false);
-          return;
-        }
-
-        toast.success("Willkommen zurück!");
-        navigate("/dashboard");
+        // pay-first: Hier entsteht kein Konto mehr. Der Weg ist Zahlung →
+        // /willkommen → Konto. Der alte signUp-Zweig ist bewusst ENTFERNT und
+        // nicht nur uebersprungen: Solange er im Code stuende, waere er ein
+        // zweiter Weg zu einem Konto ohne Zahlung — und genau der wuerde
+        // benutzt, sobald ihn jemand versehentlich wieder verlinkt.
+        await startGuestCheckout("gruenderx");
+        return;
       }
+
+      const { data: signIn, error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) throw error;
+
+      // two_factor_enabled steht in app_metadata: vom Client lesbar,
+      // aber nicht setzbar -- taugt daher als vertrauenswuerdiger Marker.
+      if (signIn.user?.app_metadata?.two_factor_enabled) {
+        setPending2FA(true);
+        setLoading(false);
+        return;
+      }
+
+      toast.success("Willkommen zurück!");
+      navigate("/dashboard");
     } catch (err: any) {
       const raw = err?.message ?? "";
       let msg = raw || "Etwas ist schiefgelaufen. Bitte versuch es erneut.";
       if (/invalid login credentials/i.test(raw))
-        msg = "E-Mail oder Passwort falsch – oder es gibt noch keinen Account mit dieser E-Mail. Bitte prüfe deine Eingabe oder registriere dich.";
+        msg = "E-Mail oder Passwort falsch – oder es gibt noch keinen Account mit dieser E-Mail.";
       else if (/email not confirmed/i.test(raw))
         msg = "Deine E-Mail ist noch nicht bestätigt. Klick den Link in der Bestätigungs-Mail (auch im Spam-Ordner schauen).";
-      else if (/user already registered/i.test(raw))
-        msg = "Diese E-Mail ist bereits registriert. Bitte melde dich an.";
       else if (/rate limit|too many/i.test(raw))
         msg = "Zu viele Versuche. Bitte warte kurz und versuch es erneut.";
-      // Nur Inline-Box (kein zusätzlicher Toast -> keine doppelte Meldung).
-      if (mode === "signup") trackSignup.formError("submit", msg);
       setErrorMsg(msg);
+      toast.error(msg);
     } finally {
       setLoading(false);
     }
@@ -218,32 +182,26 @@ const Auth = () => {
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
             <div className="inline-flex items-center gap-2 rounded-full bg-accent-blue/10 border border-accent-blue/20 px-3 py-1 text-xs font-semibold text-accent-blue mb-5">
-              <Sparkles className="h-3.5 w-3.5" /> {mode === "signup" ? "Kostenlos starten" : "Willkommen zurück"}
+              <Sparkles className="h-3.5 w-3.5" /> {mode === "signup" ? "Zugang freischalten" : "Willkommen zurück"}
             </div>
             <h1 className="text-3xl md:text-4xl font-bold tracking-tight">
               {mode === "signup" ? "Gründe schlauer mit Felix." : "Anmelden bei GründerX"}
             </h1>
             <p className="mt-3 text-muted-foreground">
               {mode === "signup"
-                ? "Erstelle deinen Account in 30 Sekunden – keine Kreditkarte nötig."
+                ? "64,99 € im Monat, monatlich kündbar. Nach der Zahlung legst du dein Konto an."
                 : "Schön dich wiederzusehen."}
             </p>
           </div>
 
           <div className="bg-card border border-border rounded-3xl p-8 shadow-card">
             <form onSubmit={handleSubmit} className="space-y-4">
-              {mode === "signup" && (
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="space-y-1.5">
-                    <Label htmlFor="first">Vorname</Label>
-                    <Input id="first" value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder="Max" required />
-                  </div>
-                  <div className="space-y-1.5">
-                    <Label htmlFor="last">Nachname</Label>
-                    <Input id="last" value={lastName} onChange={(e) => setLastName(e.target.value)} placeholder="Mustermann" required />
-                  </div>
-                </div>
-              )}
+              {/* pay-first: Im Kaufweg erhebt Stripe E-Mail und Rechnungsdaten,
+                  das Passwort entsteht danach auf /willkommen. Jedes Feld, das
+                  hier trotzdem stuende, waere eine Huerde vor dem Preis ohne
+                  jeden Nutzen. */}
+              {mode === "signin" && (
+              <>
               <div className="space-y-1.5">
                 <Label htmlFor="email">E-Mail</Label>
                 <Input id="email" type="email" value={email} onChange={(e) => { markSignupStarted(); setEmail(e.target.value); }} placeholder="du@firma.de" required />
@@ -287,12 +245,12 @@ const Auth = () => {
                 )}
               </div>
 
-              {mode === "signin" && (
                 <div className="text-right -mt-1">
                   <button type="button" onClick={handleForgot} className="text-xs text-accent-blue font-semibold hover:underline">
                     Passwort vergessen?
                   </button>
                 </div>
+              </>
               )}
 
               {errorMsg && (
@@ -308,10 +266,15 @@ const Auth = () => {
                 disabled={loading}
                 className="w-full rounded-full bg-gradient-primary text-primary-foreground hover:opacity-95 shadow-glow h-12 font-semibold mt-2"
               >
-                {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : (mode === "signup" ? "Account erstellen" : "Anmelden")}
+                {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : (mode === "signup" ? "Weiter zur Zahlung" : "Anmelden")}
               </Button>
             </form>
 
+            {/* pay-first: Google nur im Anmelde-Modus. Im Kaufweg wuerde
+                signInWithOAuth ein frisches Konto OHNE Zahlung anlegen — genau
+                die Luecke, die der Umbau schliessen soll. */}
+            {mode === "signin" && (
+            <>
             <div className="relative my-5">
               <div className="absolute inset-0 flex items-center"><span className="w-full border-t border-border" /></div>
               <div className="relative flex justify-center text-xs"><span className="bg-card px-2 text-muted-foreground">oder</span></div>
@@ -344,20 +307,22 @@ const Auth = () => {
                 <path fill="#FBBC05" d="M5.84 14.1c-.22-.66-.35-1.36-.35-2.1s.13-1.44.35-2.1V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.83z"/>
                 <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.83C6.71 7.31 9.14 5.38 12 5.38z"/>
               </svg>
-              Mit Google {mode === "signup" ? "registrieren" : "anmelden"}
+              Mit Google anmelden
             </Button>
+            </>
+            )}
 
             <div className="mt-6 text-center text-sm text-muted-foreground">
               {mode === "signup" ? (
                 <>Schon einen Account? <button onClick={() => setMode("signin")} className="text-accent-blue font-semibold hover:underline">Anmelden</button></>
               ) : (
-                <>Neu hier? <button onClick={() => setMode("signup")} className="text-accent-blue font-semibold hover:underline">Kostenlos registrieren</button></>
+                <>Neu hier? <button onClick={() => setMode("signup")} className="text-accent-blue font-semibold hover:underline">Zugang freischalten</button></>
               )}
             </div>
           </div>
 
           <p className="mt-6 text-xs text-muted-foreground text-center">
-            Mit der Registrierung akzeptierst du unsere <Link to="/agb" className="underline">AGB</Link> und <Link to="/datenschutz" className="underline">Datenschutzerklärung</Link>.
+            Mit dem Kauf akzeptierst du unsere <Link to="/agb" className="underline">AGB</Link> und <Link to="/datenschutz" className="underline">Datenschutzerklärung</Link>.
           </p>
         </div>
       </div>

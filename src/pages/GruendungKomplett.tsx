@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Seo } from "@/components/Seo";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { startGuestCheckout } from "@/utils/guestCheckout";
 import { ArrowRight, Check, CalendarClock, FileSpreadsheet, Landmark, Wallet } from "lucide-react";
 
 /**
@@ -75,13 +77,31 @@ const ETAPPEN = [
 ];
 
 const GruendungKomplett = () => {
-  const Cta = ({ label = "Kostenlos starten" }: { label?: string }) => (
-    <Link to="/auth">
-      <Button size="lg" className="rounded-full h-14 px-10 text-base font-semibold shadow-glow">
+  // pay-first: Der Klick geht direkt in den Stripe-Checkout, nicht mehr auf
+  // /auth. Der Preis steht am Button — ein Preis, der erst nach dem Klick
+  // auftaucht, kostet Vertrauen und ist bei Meta ein Ablehnungsgrund.
+  const [checkoutError, setCheckoutError] = useState(false);
+
+  const Cta = ({ label = "Zugang freischalten" }: { label?: string }) => (
+    <div className="flex flex-col items-center gap-2">
+      <Button
+        size="lg"
+        className="rounded-full h-14 px-10 text-base font-semibold shadow-glow"
+        onClick={() => {
+          setCheckoutError(false);
+          startGuestCheckout("gruenderx").catch(() => setCheckoutError(true));
+        }}
+      >
         {label}
         <ArrowRight className="ml-2 h-4 w-4" />
       </Button>
-    </Link>
+      <span className="text-xs text-muted-foreground">64,99 € / Monat · monatlich kündbar</span>
+      {checkoutError && (
+        <span className="text-xs text-destructive">
+          Der Checkout ließ sich nicht öffnen. Bitte noch einmal versuchen.
+        </span>
+      )}
+    </div>
   );
 
   return (
@@ -123,7 +143,7 @@ const GruendungKomplett = () => {
           </div>
 
           <p className="mt-4 text-xs text-muted-foreground">
-            Kostenlos starten · ab 64,99 €/Monat, monatlich kündbar
+            64,99 € / Monat · monatlich kündbar · Zahlung zuerst, danach legst du dein Konto an
           </p>
         </div>
       </section>
@@ -190,7 +210,7 @@ const GruendungKomplett = () => {
           deinen Fall.
         </p>
         <div className="mt-8 flex justify-center">
-          <Cta label="Jetzt kostenlos starten" />
+          <Cta label="Jetzt freischalten" />
         </div>
       </section>
 
