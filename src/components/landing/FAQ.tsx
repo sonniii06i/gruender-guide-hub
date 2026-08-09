@@ -42,7 +42,7 @@ const faqs = [
   },
   {
     q: "Muss ich sofort zahlen oder kann ich GründerX erst ausprobieren?",
-    a: "Du legst kostenlos ein Konto an und nutzt die Gratis-Tools (Businessplan-Generator, Gründungskosten-Rechner, Rechtsform-Finder) ohne Kreditkarte. Die über 80 Rechner, Wizards und Felix schaltest du erst frei, wenn du dich für ein Abo entscheidest.",
+    a: "Der Zugang kostet 64,99 € im Monat und ist monatlich kündbar. Die Zahlung steht am Anfang — dein Konto legst du unmittelbar danach an. Damit sind alle über 80 Rechner, Wizards und Felix ab dem ersten Tag freigeschaltet.",
   },
   {
     q: "Ich habe null Vorwissen – ist GründerX trotzdem für mich?",

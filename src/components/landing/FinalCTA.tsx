@@ -34,7 +34,7 @@ export const FinalCTA = () => (
               size="lg"
               className="mt-9 rounded-full bg-card text-primary hover:bg-card/90 h-12 px-8"
             >
-              Jetzt kostenlos starten <ArrowRight className="ml-1 h-4 w-4" />
+              Jetzt freischalten <ArrowRight className="ml-1 h-4 w-4" />
             </Button>
           </Link>
           <p className="mt-5 text-sm text-primary-foreground/75">

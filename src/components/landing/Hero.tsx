@@ -69,7 +69,7 @@ export const Hero = () => {
                   size="lg"
                   className="group w-full sm:w-auto rounded-full bg-gradient-primary hover:opacity-95 text-primary-foreground h-14 px-10 shadow-glow hover:-translate-y-0.5 transition-all duration-300 text-base font-semibold"
                 >
-                  Kostenlos starten{" "}
+                  Zugang freischalten{" "}
                   <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </Link>
