@@ -212,6 +212,33 @@ serve(async (req) => {
       }
     }
 
+    // Begruessungsmail anstossen.
+    //
+    // Vor pay-first verschickte Supabase selbst eine Bestaetigungsmail, weil
+    // die Registrierung ueber signUp lief. Seit das Konto per Admin-API mit
+    // email_confirm angelegt wird, verschickt Supabase nichts mehr — der
+    // zahlende Kunde bekaeme also weder Beleg noch Zugangshinweis.
+    //
+    // Scheitert der Mailserver, ist das Konto trotzdem da: Der Fehler wird
+    // geloggt, aber nicht an den Client durchgereicht.
+    try {
+      const res = await fetch(`${Deno.env.get("SUPABASE_URL")}/functions/v1/send-welcome-email`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")}`,
+        },
+        body: JSON.stringify({
+          email,
+          firstName: toSafe(firstName),
+          plan: PRODUCT_TO_PLAN[product] ?? "GründerX",
+        }),
+      });
+      if (!res.ok) console.error("⚠️ Begruessungsmail abgelehnt:", res.status, await res.text());
+    } catch (e) {
+      console.error("⚠️ Begruessungsmail nicht angestossen:", (e as Error).message);
+    }
+
     console.log(`✅ Konto aus bezahlter Session angelegt: ${email}`);
     return json({ status: "created", email, userId, amount, currency });
   } catch (error) {

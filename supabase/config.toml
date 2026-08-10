@@ -2,6 +2,10 @@ project_id = "rwrjuzemkfghlziretdj"
 
 # pay-first: beide Funktionen laufen zwingend ohne Konto — zum Zeitpunkt des
 # Aufrufs existiert noch keines.
+# Wird serverseitig von claim-account aufgerufen, nicht vom Browser.
+[functions.send-welcome-email]
+verify_jwt = false
+
 [functions.checkout-guest]
 verify_jwt = false
 
