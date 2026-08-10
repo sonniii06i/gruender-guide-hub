@@ -107,6 +107,12 @@ serve(async (req) => {
       billing_address_collection: "required",
       tax_id_collection: { enabled: true },
       allow_promotion_codes: true,
+      // Karte nur abfragen, wenn tatsaechlich etwas abgebucht wird.
+      //
+      // Im Normalfall aendert das nichts: Bei 64,99 € faellig verlangt Stripe
+      // weiterhin eine Zahlungsmethode. Es greift nur, wenn ein Gutschein den
+      // Betrag dauerhaft auf 0 setzt.
+      payment_method_collection: "if_required",
       metadata: {
         flow: "pay_first",
         product,

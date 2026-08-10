@@ -167,7 +167,13 @@ serve(async (req) => {
       if (session.subscription) {
         subscriptionId = String(session.subscription);
         const sub = await stripe.subscriptions.retrieve(subscriptionId);
-        periodEnd = new Date(sub.current_period_end * 1000).toISOString();
+        // Ab Stripe-API basil steht current_period_end an der Abo-Position,
+        // nicht mehr am Abo selbst. Beide Orte lesen — sonst bleibt das
+        // Laufzeitende still leer, weil der catch den Fehler schluckt.
+        const unix = (sub as any).current_period_end
+          ?? (sub as any).items?.data?.[0]?.current_period_end
+          ?? null;
+        periodEnd = unix ? new Date(unix * 1000).toISOString() : null;
       }
     } catch (e) {
       console.error("⚠️ Subscription nicht lesbar:", (e as Error).message);

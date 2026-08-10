@@ -89,7 +89,20 @@ serve(async (req) => {
     const priceId = active.items.data[0].price.id;
     const productMeta = (active.metadata?.product as string | undefined) ?? "";
     const plan = PRODUCT_TO_PLAN[productMeta] ?? PRICE_TO_PLAN[priceId] ?? "Unknown";
-    const periodEnd = new Date(active.current_period_end * 1000).toISOString();
+    // Laufzeitende: Ab Stripe-API 2025-08-27 (basil) steht current_period_end
+    // NICHT mehr am Abo, sondern an dessen Position. Diese Funktion laeuft auf
+    // genau dieser Version — `active.current_period_end` war damit `undefined`,
+    // und `new Date(NaN).toISOString()` warf "Invalid time value".
+    //
+    // Wirkung: check-subscription antwortete mit 500, also konnte die App den
+    // Abo-Status ueberhaupt nicht mehr aufloesen. Fuer ein Bezahlprodukt der
+    // schlimmste Zustand — der Kunde hat gezahlt und gilt als unbezahlt.
+    //
+    // Beide Orte lesen, damit ein spaeterer Versionswechsel nichts kippt.
+    const periodEndUnix = active.current_period_end
+      ?? active.items?.data?.[0]?.current_period_end
+      ?? null;
+    const periodEnd = periodEndUnix ? new Date(periodEndUnix * 1000).toISOString() : null;
 
     await supabaseService.from("subscriptions").upsert({
       user_id: user.id,
