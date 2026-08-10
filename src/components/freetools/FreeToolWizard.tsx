@@ -132,7 +132,7 @@ export function FreeToolWizard({ config }: FreeToolWizardProps) {
           <p className="text-muted-foreground mt-2">
             {isUnlocked
               ? "Kopiere den Text oder lade ihn als PDF herunter."
-              : "Erstelle ein kostenloses Konto, um das vollständige Ergebnis anzusehen und herunterzuladen."}
+              : "Schalte den Zugang frei, um das vollständige Ergebnis anzusehen und herunterzuladen."}
           </p>
         </div>
 
@@ -152,7 +152,7 @@ export function FreeToolWizard({ config }: FreeToolWizardProps) {
                       Vollständiges Ergebnis gesperrt
                     </p>
                     <p className="text-xs text-muted-foreground mb-4 max-w-xs mx-auto">
-                      100 % kostenlos – du brauchst nur ein kostenloses Konto.
+                      Freischalten mit dem Zugang – 64,99 € / Monat, monatlich kündbar.
                     </p>
                     <Button onClick={() => setGateOpen(true)}>
                       <Lock className="mr-2 h-4 w-4" />

@@ -135,7 +135,7 @@ export const businessplanConfig: ToolConfig = {
   badge: "Für Gründer & Förderung",
   heroTitle: "Kostenloser Businessplan-Generator",
   heroSubtitle:
-    "Erstelle Schritt für Schritt einen strukturierten Businessplan – mit allen Kapiteln, die Bank, Förderstelle und Investoren erwarten. In Minuten fertig, kostenlos, du brauchst nur ein kostenloses Konto.",
+    "Erstelle Schritt für Schritt einen strukturierten Businessplan – mit allen Kapiteln, die Bank, Förderstelle und Investoren erwarten. In Minuten fertig, Ausfüllen kostet nichts; das Ergebnis schaltet dein Zugang frei (64,99 €/Monat).",
   resultFilename: "businessplan",
   steps: [
     {
@@ -220,7 +220,7 @@ export const businessplanConfig: ToolConfig = {
   seo: {
     title: "Kostenloser Businessplan-Generator – in Minuten erstellen | GründerX",
     description:
-      "Businessplan kostenlos erstellen: Schritt-für-Schritt-Generator mit allen Kapiteln für Bank, Gründungszuschuss & Förderung. In Minuten fertig, nur kostenloses Konto nötig.",
+      "Businessplan kostenlos erstellen: Schritt-für-Schritt-Generator mit allen Kapiteln für Bank, Gründungszuschuss & Förderung. In Minuten fertig, das Ergebnis schaltet dein Zugang frei (64,99 €/Monat).",
     keywords:
       "businessplan erstellen, businessplan vorlage, businessplan generator, businessplan kostenlos, businessplan gründungszuschuss, businessplan muster",
     faqs: [

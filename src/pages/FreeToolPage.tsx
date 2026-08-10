@@ -19,7 +19,7 @@ interface FreeToolPageProps {
 const trust = [
   { icon: Gift, label: "100 % kostenlos", desc: "Erstellen & als PDF herunterladen" },
   { icon: Clock, label: "In Minuten fertig", desc: "Schritt für Schritt, ohne Fachchinesisch" },
-  { icon: ShieldCheck, label: "Nur Konto nötig", desc: "Kein Abo – ein kostenloses Konto genügt" },
+  { icon: ShieldCheck, label: "Ausfüllen kostet nichts", desc: "Das fertige Ergebnis schaltet dein Zugang frei" },
 ];
 
 export default function FreeToolPage({ config }: FreeToolPageProps) {

@@ -29,7 +29,7 @@ const faqs = [
 
 const steps = [
   { icon: Sparkles, title: "Angaben eingeben", desc: "Beantworte ein paar einfache Fragen im Schritt-für-Schritt-Assistenten." },
-  { icon: Lock, title: "Kostenloses Konto", desc: "Schalte dein Ergebnis mit einem kostenlosen Konto frei – ohne Zahlung." },
+  { icon: Lock, title: "Zugang zum Ergebnis", desc: "Ausfüllen kostet nichts; das fertige Ergebnis schaltet dein Zugang frei." },
   { icon: Rocket, title: "Loslegen", desc: "Lade dein Ergebnis als PDF herunter und starte durch." },
 ];
 
@@ -37,7 +37,7 @@ export default function GratisTools() {
   const jsonLd = [
     serviceSchema(
       "Kostenlose Gründer-Tools",
-      "Kostenlose Tools für Gründer: Businessplan, Gründungskosten-Rechner und Rechtsform-Finder. In Minuten erstellt, nur ein kostenloses Konto nötig."
+      "Tools für Gründer: Businessplan, Gründungskosten-Rechner und Rechtsform-Finder. Ausfüllen kostet nichts; das fertige Ergebnis schaltet dein Zugang frei."
     ),
     faqSchema(faqs),
     breadcrumbSchema([
@@ -50,7 +50,7 @@ export default function GratisTools() {
     <div className="min-h-screen bg-background">
       <Seo
         title="Kostenlose Gründer-Tools: Businessplan, Gründungskosten & Rechtsform | GründerX"
-        description="Erstelle Businessplan, Gründungskosten-Übersicht und Rechtsform-Empfehlung kostenlos – Schritt für Schritt, in Minuten fertig. Nur ein kostenloses Konto nötig, kein Abo."
+        description="Erstelle Businessplan, Gründungskosten-Übersicht und Rechtsform-Empfehlung Schritt für Schritt. Ausfüllen kostet nichts; das fertige Ergebnis schaltet dein Zugang frei."
         path="/gratis-tools"
         type="website"
         jsonLd={jsonLd}
@@ -68,7 +68,7 @@ export default function GratisTools() {
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Businessplan, Gründungskosten-Rechner und Rechtsform-Finder – in Minuten erstellt, ohne
-            Fachchinesisch. Du brauchst nur ein kostenloses Konto, kein Abo.
+            Fachchinesisch. Ausfüllen kostet nichts – das fertige Ergebnis schaltet dein Zugang frei.
           </p>
         </div>
       </section>
@@ -153,7 +153,7 @@ export default function GratisTools() {
           <div className="flex flex-col sm:flex-row justify-center gap-3">
             <Link to="/auth">
               <Button size="lg">
-                Kostenloses Konto erstellen
+                Zugang freischalten
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>

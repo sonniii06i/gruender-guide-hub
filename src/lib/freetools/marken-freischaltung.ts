@@ -286,7 +286,7 @@ export const markenFreischaltungConfig: ToolConfig = {
   badge: "Amazon-Ungating",
   heroTitle: "Amazon Marken-Freischaltung abgelehnt? Widerspruch-Generator",
   heroSubtitle:
-    "Antrag auf Verkaufsfreischaltung (Ungating) abgelehnt – z. B. weil plötzlich eine höhere Stückzahl verlangt wird, die Rechnung als „modifiziert“ gilt, der Lieferant nicht akzeptiert wird oder eine Autorisierung fehlt? Erstelle in Minuten einen sachlichen, faktenbasierten Widerspruch nach den aktuellen Amazon-Anforderungen. Kostenlos, nur ein kostenloses Konto nötig.",
+    "Antrag auf Verkaufsfreischaltung (Ungating) abgelehnt – z. B. weil plötzlich eine höhere Stückzahl verlangt wird, die Rechnung als „modifiziert“ gilt, der Lieferant nicht akzeptiert wird oder eine Autorisierung fehlt? Erstelle in Minuten einen sachlichen, faktenbasierten Widerspruch nach den aktuellen Amazon-Anforderungen. Ausfüllen kostet nichts; das Ergebnis schaltet dein Zugang frei (64,99 €/Monat).",
   resultFilename: "amazon-marken-freischaltung-widerspruch",
   steps: [
     {

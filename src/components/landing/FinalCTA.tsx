@@ -38,7 +38,7 @@ export const FinalCTA = () => (
             </Button>
           </Link>
           <p className="mt-5 text-sm text-primary-foreground/75">
-            Kostenloses Konto · keine Kreditkarte · monatlich kündbar · Code{" "}
+            64,99 €/Monat · monatlich kündbar · Code{" "}
             <span className="font-semibold text-primary-foreground">FOUNDER</span> = 20 % im 1. Monat
           </p>
         </div>

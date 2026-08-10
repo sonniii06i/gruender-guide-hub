@@ -82,7 +82,7 @@ export const Hero = () => {
             </div>
 
             <p className="mt-4 text-xs text-muted-foreground">
-              Kostenloses Konto · keine Kreditkarte nötig · monatlich kündbar
+              64,99 €/Monat · monatlich kündbar · Konto nach der Zahlung
             </p>
           </div>
 

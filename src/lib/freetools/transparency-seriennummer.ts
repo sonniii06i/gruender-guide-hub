@@ -259,7 +259,7 @@ export const transparencySeriennummerConfig: ToolConfig = {
   badge: "Amazon-Transparency",
   heroTitle: "Amazon Transparency: Seriennummer/Code-Upload abgelehnt? Widerspruch-Generator",
   heroSubtitle:
-    "Dein Upload von Seriennummern oder Transparency-Codes wird abgelehnt – obwohl die Kennzeichnung auf dem Produkt ist und bereits übermittelt wurde? Erstelle in Minuten einen sachlichen, faktenbasierten Widerspruch nach den Transparency-Vorgaben (gültige Formate, manuelle Prüfung). Kostenlos, nur ein kostenloses Konto nötig.",
+    "Dein Upload von Seriennummern oder Transparency-Codes wird abgelehnt – obwohl die Kennzeichnung auf dem Produkt ist und bereits übermittelt wurde? Erstelle in Minuten einen sachlichen, faktenbasierten Widerspruch nach den Transparency-Vorgaben (gültige Formate, manuelle Prüfung). Ausfüllen kostet nichts; das Ergebnis schaltet dein Zugang frei (64,99 €/Monat).",
   resultFilename: "amazon-transparency-widerspruch",
   steps: [
     {

@@ -2,7 +2,7 @@ const steps = [
   {
     n: "01",
     title: "Registrieren",
-    desc: "Erstelle in 60 Sekunden deinen Account – kostenlos, keine Kreditkarte nötig.",
+    desc: "Schalte den Zugang frei – danach legst du in 60 Sekunden dein Konto an.",
   },
   {
     n: "02",

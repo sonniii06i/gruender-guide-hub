@@ -159,7 +159,7 @@ export const rechtsformConfig: ToolConfig = {
   badge: "Rechtsform-Finder",
   heroTitle: "Kostenloser Rechtsform-Finder",
   heroSubtitle:
-    "Einzelunternehmen, GbR, UG oder GmbH? Beantworte ein paar Fragen und erhalte eine begründete Rechtsform-Empfehlung mit Vor- und Nachteilen. Kostenlos, nur ein kostenloses Konto nötig.",
+    "Einzelunternehmen, GbR, UG oder GmbH? Beantworte ein paar Fragen und erhalte eine begründete Rechtsform-Empfehlung mit Vor- und Nachteilen. Ausfüllen kostet nichts; das Ergebnis schaltet dein Zugang frei (64,99 €/Monat).",
   resultFilename: "rechtsform-empfehlung",
   steps: [
     {
@@ -261,7 +261,7 @@ export const rechtsformConfig: ToolConfig = {
   seo: {
     title: "Rechtsform-Finder: Einzelunternehmen, UG oder GmbH? | GründerX",
     description:
-      "Welche Rechtsform passt zu dir? Kostenloser Rechtsform-Finder mit begründeter Empfehlung (Einzelunternehmen, GbR, UG, GmbH) inkl. Vor- und Nachteilen. Nur kostenloses Konto nötig.",
+      "Welche Rechtsform passt zu dir? Kostenloser Rechtsform-Finder mit begründeter Empfehlung (Einzelunternehmen, GbR, UG, GmbH) inkl. Vor- und Nachteilen. Das Ergebnis schaltet dein Zugang frei (64,99 €/Monat).",
     keywords:
       "rechtsform finden, welche rechtsform, rechtsform gründung, einzelunternehmen ug gmbh, rechtsform vergleich, rechtsform wählen",
     faqs: [

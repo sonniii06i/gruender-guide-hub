@@ -93,7 +93,7 @@ export const gruendungskostenConfig: ToolConfig = {
   badge: "Kosten-Rechner",
   heroTitle: "Kostenloser Gründungskosten-Rechner",
   heroSubtitle:
-    "Berechne dein Gründungsbudget in Minuten – Formalitäten je Rechtsform plus deine individuellen Startkosten. Kostenlos, du brauchst nur ein kostenloses Konto.",
+    "Berechne dein Gründungsbudget in Minuten – Formalitäten je Rechtsform plus deine individuellen Startkosten. Ausfüllen kostet nichts; das Ergebnis schaltet dein Zugang frei (64,99 €/Monat).",
   resultFilename: "gruendungskosten",
   steps: [
     {
@@ -153,7 +153,7 @@ export const gruendungskostenConfig: ToolConfig = {
   seo: {
     title: "Gründungskosten-Rechner – kostenlos berechnen | GründerX",
     description:
-      "Gründungskosten kostenlos berechnen: Formalitäten je Rechtsform (Einzelunternehmen, UG, GmbH) plus deine Startkosten – inkl. Stammkapital-Hinweis. Nur kostenloses Konto nötig.",
+      "Gründungskosten kostenlos berechnen: Formalitäten je Rechtsform (Einzelunternehmen, UG, GmbH) plus deine Startkosten – inkl. Stammkapital-Hinweis. Das Ergebnis schaltet dein Zugang frei (64,99 €/Monat).",
     keywords:
       "gründungskosten rechner, gründungskosten gmbh, gründungskosten ug, was kostet eine gründung, startkapital berechnen, gründungsbudget",
     faqs: [
