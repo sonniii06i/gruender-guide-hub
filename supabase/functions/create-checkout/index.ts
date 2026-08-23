@@ -173,6 +173,14 @@ serve(async (req) => {
       customer: customerId,
       line_items: [{ price: resolvedPriceId, quantity: 1 }],
       mode: "subscription",
+      // Ohne `locale` raet Stripe die Sprache aus dem Browser -- ausgerechnet
+      // auf der letzten Seite vor dem Kauf.
+      locale: "de",
+      custom_text: {
+        submit: {
+          message: "GruenderX Zugang — monatlich kuendbar, Kuendigung mit einem Klick im Konto.",
+        },
+      },
       billing_address_collection: "required",
       customer_update: { address: "auto", name: "auto" },
       tax_id_collection: { enabled: true },

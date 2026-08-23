@@ -102,6 +102,14 @@ serve(async (req) => {
 
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
+      // Ohne `locale` raet Stripe die Sprache aus dem Browser -- ausgerechnet
+      // auf der letzten Seite vor dem Kauf.
+      locale: "de",
+      custom_text: {
+        submit: {
+          message: "GruenderX Zugang — monatlich kuendbar, Kuendigung mit einem Klick im Konto.",
+        },
+      },
       line_items: [{ price: resolvedPriceId, quantity: 1 }],
       // Kein `customer`: Stripe legt ihn an und erhebt dabei die E-Mail.
       billing_address_collection: "required",
