@@ -203,6 +203,11 @@ const Willkommen = () => {
             <CardDescription>
               Melde dich mit <strong>{email}</strong> an — das Abo ist bereits hinterlegt.
             </CardDescription>
+            {provider === "copecart" && (
+              <p className="text-xs text-muted-foreground mt-2">
+                Die Abbuchung erfolgt durch CopeCart.
+              </p>
+            )}
           </CardHeader>
           <CardContent>
             <Button className="w-full" onClick={() => navigate("/auth")}>
@@ -226,6 +231,18 @@ const Willkommen = () => {
           <CardDescription>
             Dein Zugang läuft auf <strong>{email}</strong>.
           </CardDescription>
+          {/*
+            CopeCart verlangt diesen Hinweis wörtlich auf der Danke-Seite: Sie sind
+            Merchant of Record, die Abbuchung erscheint also unter ihrem Namen auf
+            dem Kontoauszug. Ohne den Satz gibt CopeCart das Produkt nicht frei.
+            Nur beim Reseller-Kauf zeigen — bei Stripe bucht unsere eigene Firma ab
+            und der Hinweis wäre schlicht falsch.
+          */}
+          {provider === "copecart" && (
+            <p className="text-xs text-muted-foreground mt-2">
+              Die Abbuchung erfolgt durch CopeCart.
+            </p>
+          )}
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
