@@ -5,9 +5,15 @@
 // Landingpage. Daraus folgen drei Regeln:
 //
 //  1. Nur ein einziges Pflichtfeld (Passwort).
-//  2. Die E-Mail stammt aus der Stripe-Session und ist nicht editierbar:
+//  2. Die E-Mail stammt vom Server und ist nicht editierbar:
 //     `check-subscription` findet den Kunden über genau diese Adresse.
 //  3. Jeder Fehlerfall endet mit einem gangbaren Weg, nie in einer Sackgasse.
+//
+// Zwei Kaufwege landen hier:
+//   ?session_id=cs_...            — direkt über Stripe gekauft
+//   ?provider=copecart&order=...  — über eine Reseller-Plattform gekauft
+// Die order_id spielt dabei die Rolle der session_id; claim-account löst
+// daraus die E-Mail auf. Beide Wege sehen für den Käufer identisch aus.
 
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams, Link } from "react-router-dom";
@@ -34,6 +40,11 @@ interface ClaimResponse {
 const Willkommen = () => {
   const [searchParams] = useSearchParams();
   const sessionId = searchParams.get("session_id") || "";
+  // Die Plattformen benennen den Parameter unterschiedlich; beide Schreibweisen
+  // annehmen ist billiger als ein Käufer, der bezahlt hat und nicht reinkommt.
+  const provider = searchParams.get("provider") || "";
+  const orderId = searchParams.get("order") || searchParams.get("order_id") || "";
+  const external = Boolean(provider && orderId);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -51,15 +62,15 @@ const Willkommen = () => {
 
   const callClaim = async (body: Record<string, unknown>): Promise<ClaimResponse> => {
     const { data, error } = await supabase.functions.invoke<ClaimResponse>("claim-account", {
-      body: { sessionId, ...body },
+      body: external ? { provider, orderId, ...body } : { sessionId, ...body },
     });
     if (error && !data) throw error;
     return (data ?? {}) as ClaimResponse;
   };
 
   useEffect(() => {
-    if (!sessionId) {
-      setFatal("Dieser Link ist unvollständig. Bitte öffne ihn erneut aus der Bestätigung von Stripe.");
+    if (!sessionId && !external) {
+      setFatal("Dieser Link ist unvollständig. Bitte öffne ihn erneut aus deiner Kaufbestätigung.");
       setLoading(false);
       return;
     }
@@ -69,7 +80,12 @@ const Willkommen = () => {
         const data = await callClaim({});
         if (cancelled) return;
         if (data.status === "unpaid") {
-          setFatal("Zu dieser Sitzung liegt noch keine abgeschlossene Zahlung vor.");
+          // Beim Reseller-Weg ist der Käufer regelmäßig schneller auf dieser
+          // Seite als die IPN-Meldung der Plattform. Das ist kein Fehler,
+          // sondern eine Frage von Sekunden — entsprechend formulieren.
+          setFatal(
+            data.error ?? "Zu dieser Sitzung liegt noch keine abgeschlossene Zahlung vor.",
+          );
         } else if (data.email) {
           setEmail(data.email);
           setAmount(data.amount ?? null);
@@ -84,7 +100,7 @@ const Willkommen = () => {
       }
     })();
     return () => { cancelled = true; };
-  }, [sessionId]);
+  }, [sessionId, provider, orderId]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -115,8 +131,12 @@ const Willkommen = () => {
       // Die event_id des Kaufs ist `stripe_<session_id>` — exakt die, die der
       // Stripe-Webhook serverseitig an die CAPI schickt. Nur bei identischer ID
       // zählt Meta beide Meldungen als EIN Ereignis.
+      //
+      // Reseller-Käufe bekommen einen eigenen Namensraum (`copecart_<order>`):
+      // Sie melden nur von hier, und eine order_id könnte einer session_id
+      // gleichen — dann fielen zwei verschiedene Käufe zu einem zusammen.
       trackAdConversion("purchase", {
-        eventId: `stripe_${sessionId}`,
+        eventId: external ? `${provider}_${orderId}` : `stripe_${sessionId}`,
         value: amount ?? AD_CONVERSION_VALUES.purchase,
         email: data.email,
         label: "pay_first_checkout",

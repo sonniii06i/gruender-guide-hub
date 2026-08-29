@@ -56,6 +56,39 @@ serve(async (req) => {
       });
     }
 
+    // Kauf über eine Reseller-Plattform (CopeCart/Digistore24/elopage). Diese
+    // Kunden haben per Definition KEINEN Stripe-Kunden — liefe der Sync unten
+    // weiter, würde er sie mit status "inactive" aussperren, und zwar spätestens
+    // 24 h nach dem Kauf (useAccess stößt ihn täglich an). Deshalb hier raus,
+    // bevor Stripe überhaupt gefragt wird.
+    //
+    // `period_end IS NULL` = unbefristeter Einmalkauf; sonst zählt das gemeldete
+    // Ende inklusive Kulanz, das der Webhook gesetzt hat.
+    const nowIso = new Date().toISOString();
+    const { data: ext } = await supabaseService
+      .from("external_entitlements")
+      .select("plan, provider, period_end")
+      .ilike("email", user.email)
+      .eq("status", "active")
+      .or(`period_end.is.null,period_end.gt.${nowIso}`)
+      .order("period_end", { ascending: false, nullsFirst: true })
+      .limit(1)
+      .maybeSingle();
+    if (ext) {
+      await supabaseService.from("subscriptions").upsert({
+        user_id: user.id,
+        plan: ext.plan,
+        status: "active",
+        source: ext.provider,
+        current_period_end: ext.period_end,
+        updated_at: nowIso,
+      }, { onConflict: "user_id" });
+      return new Response(
+        JSON.stringify({ subscribed: true, plan: ext.plan, source: ext.provider }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      );
+    }
+
     const customers = await stripe.customers.list({ email: user.email, limit: 1 });
     if (customers.data.length === 0) {
       await supabaseService.from("subscriptions").upsert({

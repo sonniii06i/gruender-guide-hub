@@ -107,6 +107,7 @@ const Kontakt = lazy(() => import("./pages/Kontakt.tsx"));
 const Impressum = lazy(() => import("./pages/Impressum.tsx"));
 const Datenschutz = lazy(() => import("./pages/Datenschutz.tsx"));
 const AGB = lazy(() => import("./pages/AGB.tsx"));
+const Widerruf = lazy(() => import("./pages/Widerruf.tsx"));
 const Ratgeber = lazy(() => import("./pages/Ratgeber.tsx"));
 const RatgeberPost = lazy(() => import("./pages/RatgeberPost.tsx"));
 const AdminBlog = lazy(() => import("./pages/AdminBlog.tsx"));
@@ -269,6 +270,7 @@ const App = () => (
               <Route path="/impressum" element={<Impressum />} />
               <Route path="/datenschutz" element={<Datenschutz />} />
               <Route path="/agb" element={<AGB />} />
+              <Route path="/widerruf" element={<Widerruf />} />
               <Route path="/ratgeber" element={<Ratgeber />} />
               <Route path="/ratgeber/:slug" element={<RatgeberPost />} />
               {/* Anzeigen-Landingpage der Meta-Kampagne. noindex, ohne globale

@@ -93,3 +93,9 @@ verify_jwt = true
 
 [functions.disable-2fa]
 verify_jwt = true
+
+# Reseller-IPN von CopeCart/Digistore24/elopage. Die Plattformen rufen ohne
+# jedes Token auf — Echtheit wird in der Funktion per Signatur geprueft, nicht
+# per JWT. Mit verify_jwt kaeme keine einzige Meldung an.
+[functions.external-billing-webhook]
+verify_jwt = false

@@ -42,6 +42,10 @@ const staticEntries: SitemapEntry[] = [
   { path: "/impressum", changefreq: "yearly", priority: "0.2" },
   { path: "/datenschutz", changefreq: "yearly", priority: "0.2" },
   { path: "/agb", changefreq: "yearly", priority: "0.2" },
+  // Muss in der Sitemap stehen: prerender.mjs zieht seine Routenliste genau
+  // daraus. Fehlt die Seite hier, liefert sie Prüfern der Verkaufsplattformen
+  // (CopeCart/Digistore24/elopage) eine leere Seite ohne JavaScript aus.
+  { path: "/widerruf", changefreq: "yearly", priority: "0.2" },
 ];
 
 // Tool-Landing-Slugs direkt aus der Single-Source-of-Truth (features.ts →

@@ -43,6 +43,7 @@ export const Footer = () => (
             <li><a href="/impressum" className="hover:text-foreground">Impressum</a></li>
             <li><a href="/datenschutz" className="hover:text-foreground">Datenschutz</a></li>
             <li><a href="/agb" className="hover:text-foreground">AGB</a></li>
+            <li><a href="/widerruf" className="hover:text-foreground">Widerruf</a></li>
           </ul>
         </div>
       </div>
