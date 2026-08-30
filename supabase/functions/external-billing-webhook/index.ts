@@ -51,8 +51,10 @@ import {
 // Die Produkt-IDs vergibt die jeweilige Plattform beim Anlegen des Produkts;
 // bis sie hier eingetragen sind, gilt der Standardplan.
 const PRODUCT_TO_PLAN: Record<string, string> = {
-  // "<copecart-product-id>": "bundle",
-  // "<digistore24-product-id>": "gruenderx",
+  // CopeCart (Stand 30.08.2026). Die ID ist der Slug aus der Produkt-URL und
+  // kommt im IPN als `product_id`.
+  "5188ce6d": "gruenderx",   // GründerX — KI-Gründungs-Copilot, 64,99 €
+  "d46187b0": "bundle",      // Founder Bundle — GründerX + AnwaltX, 99,99 €
 };
 const DEFAULT_PLAN = "gruenderx";
 
