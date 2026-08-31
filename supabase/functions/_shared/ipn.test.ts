@@ -97,14 +97,18 @@ Deno.test("CopeCart: fehlendes Secret laesst nichts durch", async () => {
   );
 });
 
-Deno.test("CopeCart: Testkauf des Verkaeufers schaltet nichts frei", async () => {
+Deno.test("CopeCart: Testkauf schaltet frei und ist markiert", async () => {
+  // CopeCart zeigt die Bezahlart "test" nur dem Verkaeufer. Wuerden wir sie
+  // ignorieren, waere die Kette nie im Ganzen pruefbar.
   const ev = await copecart({
     event_type: "payment.made",
     buyer_email: "test@example.de",
     order_id: "T1",
     test_payment: true,
+    payment_status: "test_paid",
   });
-  assertEquals(ev.action, "ignore");
+  assertEquals(ev.action, "grant");
+  assertEquals(ev.event, "payment.made (Testkauf)");
 });
 
 Deno.test("CopeCart: Kuendigung beendet den bezahlten Zeitraum nicht sofort", async () => {

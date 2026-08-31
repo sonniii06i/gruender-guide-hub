@@ -96,8 +96,11 @@ serve(async (req) => {
   if (!allowRequest(ip)) return json({ error: "Zu viele Anfragen.", code: "rate_limited" }, 429);
 
   try {
-    const { sessionId, provider, orderId, password, firstName, lastName, company } =
-      await req.json();
+    const body = await req.json();
+    const { sessionId, orderId, password, firstName, lastName, company } = body;
+    // let, weil der maßgebliche Wert spaeter aus der gefundenen Zeile kommt:
+    // CopeCart liefert `provider` in der Danke-Seiten-URL nicht mit.
+    let provider: string | undefined = body.provider;
 
     const admin = createClient(
       Deno.env.get("SUPABASE_URL") ?? "",
@@ -105,7 +108,12 @@ serve(async (req) => {
       { auth: { autoRefreshToken: false, persistSession: false } },
     );
 
-    const isExternal = typeof provider === "string" && provider.length > 0;
+    // provider darf fehlen: CopeCart verwirft die Query-Parameter der hinterlegten
+    // Danke-Seiten-URL und haengt nur seine eigenen an (amount, customer_email,
+    // order_id ...). Die order_id allein genuegt — sie ist der unratbare
+    // Schluessel, und aus welcher Plattform der Kauf stammt, steht in der Zeile.
+    const isExternal = (typeof provider === "string" && provider.length > 0) ||
+      (typeof orderId === "string" && orderId.length > 0);
     if (!isExternal && (typeof sessionId !== "string" || !sessionId.startsWith("cs_"))) {
       return json({ error: "Ungültige Session.", code: "invalid_session" }, 400);
     }
@@ -126,11 +134,12 @@ serve(async (req) => {
       const key = String(orderId ?? "").trim();
       if (!key) return json({ error: "Ungültiger Link.", code: "invalid_order" }, 400);
 
-      const { data: ent } = await admin
+      let q = admin
         .from("external_entitlements")
-        .select("email, plan, status, period_end, amount_cents, currency")
-        .eq("provider", provider)
-        .eq("order_id", key)
+        .select("email, plan, status, period_end, amount_cents, currency, provider")
+        .eq("order_id", key);
+      if (provider) q = q.eq("provider", provider);
+      const { data: ent } = await q.order("updated_at", { ascending: false }).limit(1)
         .maybeSingle();
 
       // Kein Eintrag heißt fast immer: Die IPN-Meldung ist noch unterwegs. Der
@@ -148,6 +157,7 @@ serve(async (req) => {
         return json({ error: "Dieser Kauf wurde storniert.", code: "revoked" }, 402);
       }
 
+      provider = ent.provider;   // maßgeblich ist die Zeile, nicht die URL
       email = String(ent.email ?? "").toLowerCase().trim();
       amount = (ent.amount_cents ?? 0) / 100;
       currency = String(ent.currency ?? "EUR").toUpperCase();
@@ -200,6 +210,9 @@ serve(async (req) => {
       }
     }
 
+    // Quelle des Kaufs — die Danke-Seite braucht sie fuer den CopeCart-Pflichttext.
+    const source = isExternal ? (provider ?? "") : "stripe";
+
     if (!email.includes("@")) {
       return json({ error: "Keine E-Mail in der Zahlung.", code: "no_email" }, 400);
     }
@@ -207,9 +220,9 @@ serve(async (req) => {
     const existingId = await userIdByEmail(admin, email);
 
     if (typeof password !== "string" || password.length === 0) {
-      return json({ status: existingId ? "exists" : "new", email, amount, currency });
+      return json({ status: existingId ? "exists" : "new", email, amount, currency, source });
     }
-    if (existingId) return json({ status: "exists", email, amount, currency });
+    if (existingId) return json({ status: "exists", email, amount, currency, source });
     if (password.length < 8) {
       return json({ error: "Passwort zu kurz.", code: "weak_password" }, 400);
     }
@@ -229,7 +242,7 @@ serve(async (req) => {
     if (error || !data.user) {
       const lowered = (error?.message || "").toLowerCase();
       if (lowered.includes("already") || lowered.includes("duplicate")) {
-        return json({ status: "exists", email, amount, currency });
+        return json({ status: "exists", email, amount, currency, source });
       }
       console.error("❌ createUser:", error?.message);
       return json({ error: "Konto konnte nicht angelegt werden.", code: "create_failed" }, 500);
@@ -305,7 +318,7 @@ serve(async (req) => {
     }
 
     console.log(`✅ Konto angelegt: ${email} (${isExternal ? provider : "stripe"})`);
-    return json({ status: "created", email, userId, amount, currency });
+    return json({ status: "created", email, userId, amount, currency, source });
   } catch (error) {
     console.error("❌ claim-account:", (error as Error).message);
     return json({ error: "Interner Fehler.", code: "internal_error" }, 500);

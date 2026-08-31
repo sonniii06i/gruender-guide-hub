@@ -169,10 +169,13 @@ export async function parseCopecart(
     action = d.is_cancelled_for ? "revoke" : "ignore";
   } else action = "ignore";
 
-  // Testkaeufe des Verkaeufers duerfen keinen echten Zugang erzeugen.
-  if (d.test_payment === true || String(d.payment_status ?? "").startsWith("test_")) {
-    action = "ignore";
-  }
+  // Testkaeufe des Verkaeufers schalten frei wie echte Kaeufe. CopeCart bietet
+  // die Bezahlart "test" ausdruecklich nur dem Verkaeufer an (IPN-Doku 1.6.7:
+  // "test (for the vendor only)") -- ein Kunde kann sie nicht ausloesen. Wuerden
+  // wir sie ignorieren, liesse sich die Kette nie im Ganzen pruefen, und genau
+  // das ist der teuerste blinde Fleck: ob CopeCart am Ende wirklich ruft.
+  const isTest = d.test_payment === true ||
+    String(d.payment_status ?? "").startsWith("test_");
 
   const productId = first(d, "product_id");
   return {
@@ -185,7 +188,7 @@ export async function parseCopecart(
     periodEnd: periodEnd(d.next_payment_at, d.is_cancelled_for),
     amountCents: toCents(d.transaction_amount ?? d.first_payment),
     currency: String(d.transaction_currency ?? "EUR").toUpperCase(),
-    event,
+    event: event + (isTest ? " (Testkauf)" : ""),
     raw: d,
   };
 }

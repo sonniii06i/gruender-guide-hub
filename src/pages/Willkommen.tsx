@@ -30,6 +30,9 @@ import { AD_CONVERSION_VALUES } from "@/config/tracking";
 
 interface ClaimResponse {
   status: "new" | "exists" | "created" | "unpaid";
+  /** Woher der Kauf kam. CopeCart liefert `provider` in der Danke-Seiten-URL
+   *  nicht mit, deshalb sagt der Server es uns. */
+  source?: string;
   email?: string;
   amount?: number;
   currency?: string;
@@ -44,7 +47,11 @@ const Willkommen = () => {
   // annehmen ist billiger als ein Käufer, der bezahlt hat und nicht reinkommt.
   const provider = searchParams.get("provider") || "";
   const orderId = searchParams.get("order") || searchParams.get("order_id") || "";
-  const external = Boolean(provider && orderId);
+  // provider fehlt in der Praxis: CopeCart verwirft die Query-Parameter der
+  // hinterlegten Danke-Seiten-URL und haengt nur seine eigenen an. Die order_id
+  // allein genuegt — claim-account findet den Kauf darueber und weiss dann
+  // selbst, von welcher Plattform er stammt.
+  const external = Boolean(orderId);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -54,6 +61,7 @@ const Willkommen = () => {
   const [amount, setAmount] = useState<number | null>(null);
   const [alreadyExists, setAlreadyExists] = useState(false);
   const [fatal, setFatal] = useState<string | null>(null);
+  const [claimedProvider, setClaimedProvider] = useState("");
 
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -87,6 +95,7 @@ const Willkommen = () => {
             data.error ?? "Zu dieser Sitzung liegt noch keine abgeschlossene Zahlung vor.",
           );
         } else if (data.email) {
+          setClaimedProvider(data.source ?? "");
           setEmail(data.email);
           setAmount(data.amount ?? null);
           setAlreadyExists(data.status === "exists");
@@ -203,7 +212,7 @@ const Willkommen = () => {
             <CardDescription>
               Melde dich mit <strong>{email}</strong> an — das Abo ist bereits hinterlegt.
             </CardDescription>
-            {provider === "copecart" && (
+            {(provider === "copecart" || claimedProvider === "copecart") && (
               <p className="text-xs text-muted-foreground mt-2">
                 Die Abbuchung erfolgt durch CopeCart.
               </p>
@@ -238,7 +247,7 @@ const Willkommen = () => {
             Nur beim Reseller-Kauf zeigen — bei Stripe bucht unsere eigene Firma ab
             und der Hinweis wäre schlicht falsch.
           */}
-          {provider === "copecart" && (
+          {(provider === "copecart" || claimedProvider === "copecart") && (
             <p className="text-xs text-muted-foreground mt-2">
               Die Abbuchung erfolgt durch CopeCart.
             </p>
