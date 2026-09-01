@@ -61,6 +61,7 @@ const Willkommen = () => {
   const [amount, setAmount] = useState<number | null>(null);
   const [alreadyExists, setAlreadyExists] = useState(false);
   const [fatal, setFatal] = useState<string | null>(null);
+  const [infoOnly, setInfoOnly] = useState(false);
   const [claimedProvider, setClaimedProvider] = useState("");
 
   // Reseller sind Merchant of Record: die Abbuchung erscheint unter IHREM Namen
@@ -92,7 +93,11 @@ const Willkommen = () => {
 
   useEffect(() => {
     if (!sessionId && !external) {
-      setFatal("Dieser Link ist unvollständig. Bitte öffne ihn erneut aus deiner Kaufbestätigung.");
+      // Kein Kauf in der URL: Das ist KEIN Fehlerfall. Die Verkaufsplattformen
+      // pruefen diese Seite vor der Freigabe, und zwar ohne Bestellung — eine
+      // Fehlermeldung liest sich dort als tote Danke-Seite und fuehrt zur
+      // Ablehnung. Stattdessen erklaeren wir, wie der Zugang ankommt.
+      setInfoOnly(true);
       setLoading(false);
       return;
     }
@@ -191,6 +196,48 @@ const Willkommen = () => {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+      </div>
+    );
+  }
+
+  if (infoOnly) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background px-4 py-10">
+        <Card className="w-full max-w-md">
+          <CardHeader>
+            <CardTitle>Hier geht es nach dem Kauf weiter</CardTitle>
+            <CardDescription>
+              Diese Seite öffnet sich automatisch, sobald deine Zahlung durch ist.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4 text-sm text-muted-foreground">
+            <ol className="space-y-2 list-decimal pl-5">
+              <li>Nach dem Kauf landest du automatisch hier — mit deiner Bestellung im Link.</li>
+              <li>Du legst einmalig dein Passwort fest. Die E-Mail kommt aus deiner Zahlung.</li>
+              <li>Der Zugang ist sofort im Browser nutzbar. Kein Download, kein Versand.</li>
+            </ol>
+            {/*
+              Beide Plattformen sind Merchant of Record und verlangen ihren Satz
+              woertlich auf der Danke-Seite. Ohne Bestellung wissen wir nicht,
+              welcher Kaufweg gemeint ist — deshalb hier beide, nach Kaufweg
+              beschriftet. Genau diese Ansicht bekommt auch der Pruefer der
+              Plattform zu sehen.
+            */}
+            <div className="rounded-md border p-3 space-y-1">
+              <p className="font-medium text-foreground">Wer abbucht</p>
+              <p>Über Digistore24: Die Abbuchung erfolgt durch Digistore24.</p>
+              <p>Über CopeCart: Die Abbuchung erfolgt durch CopeCart.</p>
+              <p>Direkt bei uns: Die Abbuchung erfolgt durch uns selbst.</p>
+            </div>
+            <p>
+              Du hast bezahlt und bist trotzdem ohne Bestellung hier gelandet? Dann melde
+              dich bei uns, wir schalten dich von Hand frei.
+            </p>
+            <Button asChild variant="outline" className="w-full">
+              <Link to="/kontakt">Support kontaktieren</Link>
+            </Button>
+          </CardContent>
+        </Card>
       </div>
     );
   }
