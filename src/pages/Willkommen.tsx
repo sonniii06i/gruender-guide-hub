@@ -66,11 +66,11 @@ const Willkommen = () => {
   // Reseller sind Merchant of Record: die Abbuchung erscheint unter IHREM Namen
   // auf dem Kontoauszug, nicht unter unserem. Beide Plattformen verlangen den
   // Hinweis woertlich auf der Danke-Seite — und jede ihren eigenen Wortlaut;
-  // Digistore besteht auf der Domain mit ".com". Bei Stripe bucht unsere eigene
-  // Firma ab, dort waere der Satz schlicht falsch.
+  // Digistores Freigabe-Checkliste prueft ihren Satz Wort fuer Wort ab. Bei
+  // Stripe bucht unsere eigene Firma ab, dort waere der Satz schlicht falsch.
   const MERCHANT_HINWEIS: Record<string, string> = {
     copecart: "Die Abbuchung erfolgt durch CopeCart.",
-    digistore24: "Die Abbuchung erfolgt durch Digistore24.com",
+    digistore24: "Die Abbuchung erfolgt durch Digistore24.",
   };
   // claimedProvider zuerst: Er kommt vom Server aus der gefundenen Bestellung.
   // Der Query-Parameter ist unzuverlaessig — CopeCart ersetzt den Query-String
