@@ -63,6 +63,20 @@ const Willkommen = () => {
   const [fatal, setFatal] = useState<string | null>(null);
   const [claimedProvider, setClaimedProvider] = useState("");
 
+  // Reseller sind Merchant of Record: die Abbuchung erscheint unter IHREM Namen
+  // auf dem Kontoauszug, nicht unter unserem. Beide Plattformen verlangen den
+  // Hinweis woertlich auf der Danke-Seite — und jede ihren eigenen Wortlaut;
+  // Digistore besteht auf der Domain mit ".com". Bei Stripe bucht unsere eigene
+  // Firma ab, dort waere der Satz schlicht falsch.
+  const MERCHANT_HINWEIS: Record<string, string> = {
+    copecart: "Die Abbuchung erfolgt durch CopeCart.",
+    digistore24: "Die Abbuchung erfolgt durch Digistore24.com",
+  };
+  // claimedProvider zuerst: Er kommt vom Server aus der gefundenen Bestellung.
+  // Der Query-Parameter ist unzuverlaessig — CopeCart ersetzt den Query-String
+  // der Danke-Seite komplett, und bei Digistore steht er gar nicht erst drin.
+  const merchantHinweis = MERCHANT_HINWEIS[claimedProvider || provider] ?? "";
+
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [firstName, setFirstName] = useState("");
@@ -212,10 +226,8 @@ const Willkommen = () => {
             <CardDescription>
               Melde dich mit <strong>{email}</strong> an — das Abo ist bereits hinterlegt.
             </CardDescription>
-            {(provider === "copecart" || claimedProvider === "copecart") && (
-              <p className="text-xs text-muted-foreground mt-2">
-                Die Abbuchung erfolgt durch CopeCart.
-              </p>
+            {merchantHinweis && (
+              <p className="text-xs text-muted-foreground mt-2">{merchantHinweis}</p>
             )}
           </CardHeader>
           <CardContent>
@@ -240,17 +252,8 @@ const Willkommen = () => {
           <CardDescription>
             Dein Zugang läuft auf <strong>{email}</strong>.
           </CardDescription>
-          {/*
-            CopeCart verlangt diesen Hinweis wörtlich auf der Danke-Seite: Sie sind
-            Merchant of Record, die Abbuchung erscheint also unter ihrem Namen auf
-            dem Kontoauszug. Ohne den Satz gibt CopeCart das Produkt nicht frei.
-            Nur beim Reseller-Kauf zeigen — bei Stripe bucht unsere eigene Firma ab
-            und der Hinweis wäre schlicht falsch.
-          */}
-          {(provider === "copecart" || claimedProvider === "copecart") && (
-            <p className="text-xs text-muted-foreground mt-2">
-              Die Abbuchung erfolgt durch CopeCart.
-            </p>
+          {merchantHinweis && (
+            <p className="text-xs text-muted-foreground mt-2">{merchantHinweis}</p>
           )}
         </CardHeader>
         <CardContent>

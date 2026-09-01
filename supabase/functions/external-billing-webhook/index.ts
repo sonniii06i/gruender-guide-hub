@@ -55,6 +55,10 @@ const PRODUCT_TO_PLAN: Record<string, string> = {
   // kommt im IPN als `product_id`.
   "5188ce6d": "gruenderx",   // GründerX — KI-Gründungs-Copilot, 64,99 €
   "d46187b0": "bundle",      // Founder Bundle — GründerX + AnwaltX, 99,99 €
+  // Digistore24 (Stand 01.09.2026). Dort ist die `product_id` die numerische
+  // Produktnummer aus der Backend-URL, kein Slug.
+  "728385": "gruenderx",     // GründerX — KI-Gründungs-Copilot, 64,99 €
+  "728388": "bundle",        // Founder Bundle — GründerX + AnwaltX, 99,99 €
 };
 const DEFAULT_PLAN = "gruenderx";
 
