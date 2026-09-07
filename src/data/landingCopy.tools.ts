@@ -509,6 +509,19 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
     ],
     "disclaimer": "Die Berechnung hängt von deinen Eingaben ab und ersetzt keine betriebswirtschaftliche Beratung."
   },
+  "shop-profit-rechner": {
+    "seoTitle": "Shop-Profit-Rechner: Marge je Bestellung berechnen",
+    "seoDescription": "Einkaufspreis brutto rein, Verkaufspreis brutto rein: Vorsteuer und USt raus, Versand, PayPal-Gebühren und Klickkosten gegengerechnet. Sieh, was je Bestellung bleibt.",
+    "lead": "Der Shop-Profit-Rechner zeigt für den eigenen Onlineshop, was nach Umsatzsteuer, Wareneinsatz, Versand, PayPal-Gebühren und Klickkosten je Bestellung übrig bleibt — und wie viele Klicks eine Bestellung überhaupt tragen kann.",
+    "urgency": "Die zwei teuersten Rechenfehler im eigenen Shop: den Bruttopreis des Lieferanten gegen den Bruttopreis im Shop rechnen, und Werbung als Monatsbudget statt als Kosten je Bestellung sehen. Bei 0,51 € pro Klick und 2 % Conversion-Rate stecken 25,50 € Werbung in jeder einzelnen Bestellung — mehr, als viele für ihre komplette Marge halten. Rechne mit GründerX einmal sauber durch, bevor du das nächste Kampagnen-Budget hochdrehst.",
+    "outcomes": [
+      "Gewinn und Nettomarge je Bestellung, brutto eingegeben und netto gerechnet",
+      "Vorsteuer im Einkauf und Umsatzsteuer im Verkauf sauber getrennt",
+      "PayPal-Gebühr korrekt ohne Vorsteuer auf den Bruttoumsatz gerechnet",
+      "Break-even: maximale Klicks je Verkauf, nötige Conversion-Rate und Mindest-ROAS"
+    ],
+    "disclaimer": "Die Berechnung hängt von deinen Eingaben ab und ersetzt keine steuerliche oder betriebswirtschaftliche Beratung."
+  },
   "bwa": {
     "seoTitle": "Bank-taugliche BWA erstellen: Kennzahlen & Score",
     "seoDescription": "Bankfeste BWA 2026 mit Net Debt/EBITDA, DSCR, FCF und ROCE plus branchen-adjustierten Benchmarks. Geh mit überzeugenden Zahlen ins Bankgespräch.",

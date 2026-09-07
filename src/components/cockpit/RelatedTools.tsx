@@ -10,7 +10,13 @@ const RELATED: Record<string, ToolRef[]> = {
     { route: "/cockpit/datev-mapper", label: "DATEV-Mapper", desc: "Bank-Auszug auto-mappen + DATEV/Lexoffice-Export" },
     { route: "/cockpit/settlement-parser?mode=amazon", label: "Settlement-Parser", desc: "CSV-Settlements parsen, danach in BWA übertragen" },
   ],
+  "/cockpit/shop-profit-rechner": [
+    { route: "/cockpit/marge-tracker", label: "Marge-Tracker", desc: "Mehrere SKUs und Marktplatz-Kanäle mit Provisionen und Retouren rechnen" },
+    { route: "/cockpit/ust-rechner", label: "USt-Rechner", desc: "Brutto/Netto, Kleinunternehmer §19, Reverse-Charge und OSS im Detail" },
+    { route: "/cockpit/runway-rechner", label: "Runway-Rechner", desc: "Aus der Marge je Bestellung wird die Frage: wie lange reicht das Geld?" },
+  ],
   "/cockpit/marge-tracker": [
+    { route: "/cockpit/shop-profit-rechner", label: "Shop-Profit-Rechner", desc: "Eigener Shop: brutto rein, USt/Vorsteuer raus, Klickkosten + Break-even" },
     { route: "/cockpit/bwa-generator", label: "BWA-Generator", desc: "Marge-Daten in vollständige BWA mit SKR03-Mapping überführen" },
     { route: "/cockpit/settlement-parser?mode=amazon", label: "Settlement-Parser", desc: "Echte Provision aus Amazon-CSV ziehen" },
   ],

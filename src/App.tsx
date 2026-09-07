@@ -62,6 +62,7 @@ const HkTaxHelper = lazy(() => import("./pages/HkTaxHelper.tsx"));
 const IntlBanking = lazy(() => import("./pages/IntlBanking.tsx"));
 const BwaGenerator = lazy(() => import("./pages/BwaGenerator.tsx"));
 const MargeTracker = lazy(() => import("./pages/MargeTracker.tsx"));
+const ShopProfitRechner = lazy(() => import("./pages/ShopProfitRechner.tsx"));
 const PensionOptimizer = lazy(() => import("./pages/PensionOptimizer.tsx"));
 const KvOptimizer = lazy(() => import("./pages/KvOptimizer.tsx"));
 const GewerbeCheck = lazy(() => import("./pages/GewerbeCheck.tsx"));
@@ -227,6 +228,7 @@ const App = () => (
                 <Route path="/cockpit/intl-banking" element={<PaywallGate title="Intl. Banking"><IntlBanking /></PaywallGate>} />
                 <Route path="/cockpit/bwa-generator" element={<PaywallGate title="BWA-Generator"><BwaGenerator /></PaywallGate>} />
                 <Route path="/cockpit/marge-tracker" element={<PaywallGate title="Marge-Tracker"><MargeTracker /></PaywallGate>} />
+                <Route path="/cockpit/shop-profit-rechner" element={<PaywallGate title="Shop-Profit-Rechner"><ShopProfitRechner /></PaywallGate>} />
                 <Route path="/cockpit/pension-optimizer" element={<PaywallGate title="Pension-Optimizer"><PensionOptimizer /></PaywallGate>} />
                 <Route path="/cockpit/kv-optimizer" element={<PaywallGate title="KV-Optimizer"><KvOptimizer /></PaywallGate>} />
                 <Route path="/cockpit/gewerbe-check" element={<PaywallGate title="Brauche ich ein Gewerbe?"><GewerbeCheck /></PaywallGate>} />
