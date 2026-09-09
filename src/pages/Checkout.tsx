@@ -428,7 +428,7 @@ const Checkout = () => {
 
               <ul className="mt-4 space-y-1.5 border-t border-border pt-4 text-[11px] text-muted-foreground">
                 <li className="flex items-center gap-2"><Lock className="h-3.5 w-3.5 shrink-0 text-accent-blue" /> SSL-verschlüsselt, Zahlung über Stripe</li>
-                <li className="flex items-center gap-2"><CreditCard className="h-3.5 w-3.5 shrink-0 text-accent-blue" /> Kreditkarte · Apple&nbsp;Pay · Google&nbsp;Pay · USt-ID erfassbar</li>
+                <li className="flex items-center gap-2"><CreditCard className="h-3.5 w-3.5 shrink-0 text-accent-blue" /> Kreditkarte · Klarna · Apple&nbsp;Pay · Link · USt-ID erfassbar</li>
                 <li className="flex items-center gap-2"><RefreshCw className="h-3.5 w-3.5 shrink-0 text-accent-blue" /> Monatlich kündbar, keine Mindestlaufzeit</li>
                 <li className="flex items-center gap-2"><ShieldCheck className="h-3.5 w-3.5 shrink-0 text-accent-blue" /> DSGVO-konform, Server in der EU</li>
               </ul>

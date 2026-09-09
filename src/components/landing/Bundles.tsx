@@ -113,7 +113,7 @@ const BASE_SPECS: Spec[] = [
   { label: "Kündigung", value: "Jederzeit im Konto, wirksam zum Ende der laufenden Abrechnungsperiode" },
   { label: "Preisangabe", value: "Endpreis inkl. 19 % USt. (AGB § 4 Abs. 1). Es wird an der Kasse nichts aufgeschlagen; für Unternehmer voll als Betriebsausgabe absetzbar. Für EU-Unternehmer mit gültiger USt-IdNr. Reverse-Charge nach § 3a Abs. 2 UStG — die USt-ID wird im Checkout erfasst." },
   { label: "Nutzungsgrenzen", value: "Keine. Alle Tools, Wizards, Rechner und Guides unbegrenzt — keine Abrechnung pro Wizard, pro Dokument oder pro Frage an Felix." },
-  { label: "Zahlungsarten", value: "Kreditkarte, Apple Pay, Google Pay — weitere Zahlarten je nach Land im Stripe-Checkout" },
+  { label: "Zahlungsarten", value: "Kreditkarte, Klarna, Apple Pay und Link — welche Zahlarten genau erscheinen, zeigt der Checkout je nach Land und Gerät. Die USt-ID wird dort erfasst." },
   { label: "Gutscheincode", value: "Im Stripe-Checkout unter „Promo-Code hinzufügen“ — ein Code pro Bestellung, nicht kombinierbar" },
   { label: "Sprache", value: "Deutsch" },
   { label: "Voraussetzung", value: "Aktueller Webbrowser und Internetverbindung — Desktop und Mobil" },
@@ -273,7 +273,7 @@ export const Bundles = () => {
             onSelect={setSelected}
             cancelNote="Jederzeit im Konto kündbar, wirksam zum Ende des Abrechnungsmonats — danach keine weitere Abbuchung. Widerrufsrecht für Verbraucher nach § 355 BGB."
             seller="Sonni Buttke, Einzelunternehmen (Anbieter lt. Impressum)"
-            paymentMethods="Kreditkarte · Apple Pay · Google Pay — weitere Zahlarten je nach Land im Stripe-Checkout"
+            paymentMethods="Kreditkarte · Klarna · Apple Pay · Link — weitere je nach Land und Gerät"
           >
             <div className="space-y-2">
               <Button
