@@ -44,7 +44,10 @@ export type GuestProduct = "gruenderx" | "bundle";
  * Startet den Gast-Checkout und leitet zu Stripe weiter.
  * Wirft bei Fehlern, damit die Aufrufstelle einen Hinweis anzeigen kann.
  */
-export async function startGuestCheckout(product: GuestProduct = "gruenderx"): Promise<void> {
+export async function startGuestCheckout(
+  product: GuestProduct = "gruenderx",
+  interval: "month" | "year" = "month",
+): Promise<void> {
   // InitiateCheckout VOR dem Netzwerkaufruf: Wer hier abbricht, hat die
   // Kaufabsicht trotzdem gezeigt. Nach der Weiterleitung liefe kein Code mehr.
   if (hasMarketingConsent()) {
@@ -62,6 +65,7 @@ export async function startGuestCheckout(product: GuestProduct = "gruenderx"): P
   const { data, error } = await supabase.functions.invoke<{ url?: string }>("checkout-guest", {
     body: {
       product,
+      interval,
       affiliateRef: getStoredAffiliateRef(),
       utm_source: attributionValue("utm_source"),
       utm_medium: attributionValue("utm_medium"),

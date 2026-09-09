@@ -20,11 +20,15 @@ import { SpecTable, type Spec } from "@/components/product/SpecTable";
    Was gegenüber den alten Plan-Kacheln dazugekommen ist, sind genau die
    Angaben, die man bei einer Ware selbstverständlich erwartet und bei Software
    fast nie bekommt: Artikelnummer, Umsatzsteuer-Ausweis (§ 3 PAngV — die
-   Kacheln zeigten den Nettopreis nackt, obwohl AGB § 4 Abs. 1 Nettopreise
-   vereinbart), Lieferform, Lieferzeit, Kündigungsregel und Verkäufer.
+   Kacheln zeigten den Preis nackt), Lieferform, Lieferzeit, Kündigungsregel
+   und Verkäufer. Die Beträge sind BRUTTO; AGB § 4 Abs. 1 führt Solo mit
+   „54,61 € netto / Monat (64,99 € brutto)".
 
-   Die Kaufknöpfe verhalten sich unverändert: direkt in den Stripe-Checkout,
-   für Ausgeloggte vorher über /auth. Am Funnel wurde nichts gedreht.
+   GründerX ist pay-first: Der Kaufknopf führt eingeloggt wie ausgeloggt
+   direkt in den Stripe-Checkout, das Konto entsteht danach über /willkommen.
+   Die gewählte Ausführung wird vorher in sessionStorage gemerkt — /auth
+   wertet den `price`-Parameter nicht aus und würde sonst immer GründerX
+   monatlich kaufen.
    --------------------------------------------------------------------------- */
 
 // Alle Beträge sind BRUTTO — AGB § 4 Abs. 1 führt Solo mit „54,61 € netto /
@@ -290,7 +294,7 @@ export const Bundles = () => {
               <p className="text-center text-xs text-muted-foreground">
                 {user
                   ? "Weiter zur gesicherten Zahlung bei Stripe. Erst dort wird die Bestellung kostenpflichtig."
-                  : "Erst Konto anlegen, dann zur Kasse. Es wird nichts abgebucht, bevor du bei Stripe bestätigst."}
+                  : "Weiter zur gesicherten Zahlung bei Stripe. Dein Konto entsteht direkt nach der Zahlung — es wird nichts abgebucht, bevor du dort bestätigst."}
               </p>
               {variant.period === "month" && (
                 <p className="text-center text-xs text-muted-foreground">

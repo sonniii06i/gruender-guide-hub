@@ -30,36 +30,44 @@ const PRICES: Record<string, string> = {
   bundle: "price_1TTUfV64hSN6usxPe60ADpTF",
 };
 
-/** Zielbeträge in Cent — identisch zu create-checkout. */
-const TARGET_AMOUNTS: Record<string, number> = {
-  gruenderx: 6499,
-  bundle: 9999,
+/** Zielbeträge in Cent — identisch zu create-checkout. Beträge sind BRUTTO. */
+type Interval = "month" | "year";
+
+const TARGET_AMOUNTS: Record<string, Record<Interval, number>> = {
+  gruenderx: { month: 6499, year: 64990 },
+  bundle:    { month: 9999, year: 99990 },
 };
 
 const ALLOWED_ORIGINS = ["https://gruenderx.de", "https://www.gruenderx.de", "http://localhost:8080"];
 
 const priceIdCache = new Map<string, string>();
 
-async function resolveMonthlyPriceId(stripe: Stripe, product: string, anchorPriceId: string): Promise<string> {
-  const expected = TARGET_AMOUNTS[product];
+async function resolvePriceId(
+  stripe: Stripe,
+  product: string,
+  interval: Interval,
+  anchorPriceId: string,
+): Promise<string> {
+  const expected = TARGET_AMOUNTS[product]?.[interval];
   if (!expected) return anchorPriceId;
 
-  const cached = priceIdCache.get(product);
+  const cacheKey = `${product}_${interval}`;
+  const cached = priceIdCache.get(cacheKey);
   if (cached) return cached;
 
   const anchor = await stripe.prices.retrieve(anchorPriceId);
-  if (anchor.active && anchor.unit_amount === expected && anchor.recurring?.interval === "month") {
-    priceIdCache.set(product, anchor.id);
+  if (anchor.active && anchor.unit_amount === expected && anchor.recurring?.interval === interval) {
+    priceIdCache.set(cacheKey, anchor.id);
     return anchor.id;
   }
   const productId = typeof anchor.product === "string" ? anchor.product : anchor.product.id;
 
   const list = await stripe.prices.list({ product: productId, active: true, limit: 100 });
   const match = list.data.find(
-    (p) => p.recurring?.interval === "month" && p.unit_amount === expected && p.currency === "eur",
+    (p) => p.recurring?.interval === interval && p.unit_amount === expected && p.currency === "eur",
   );
   if (match) {
-    priceIdCache.set(product, match.id);
+    priceIdCache.set(cacheKey, match.id);
     return match.id;
   }
 
@@ -67,9 +75,9 @@ async function resolveMonthlyPriceId(stripe: Stripe, product: string, anchorPric
     product: productId,
     unit_amount: expected,
     currency: "eur",
-    recurring: { interval: "month" },
+    recurring: { interval },
   });
-  priceIdCache.set(product, created.id);
+  priceIdCache.set(cacheKey, created.id);
   return created.id;
 }
 
@@ -81,13 +89,16 @@ serve(async (req) => {
   try {
     const body = await req.json().catch(() => ({}));
     const product = body.product === "bundle" ? "bundle" : "gruenderx";
+    // Alles ausser "year" ist "month" — ein manipulierter Wert darf nicht in
+    // einem Checkout ohne Preis enden.
+    const interval: Interval = body.interval === "year" ? "year" : "month";
     const affRef = str(body.affiliateRef, 32);
 
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
       apiVersion: "2025-08-27.basil",
     });
 
-    const resolvedPriceId = await resolveMonthlyPriceId(stripe, product, PRICES[product]);
+    const resolvedPriceId = await resolvePriceId(stripe, product, interval, PRICES[product]);
 
     const rawOrigin = req.headers.get("origin") || "";
     const origin = ALLOWED_ORIGINS.includes(rawOrigin) ? rawOrigin : "https://gruenderx.de";
@@ -124,11 +135,12 @@ serve(async (req) => {
       metadata: {
         flow: "pay_first",
         product,
+        interval,
         ...(affRef ? { affiliate_ref: affRef } : {}),
         ...attribution,
       },
       subscription_data: {
-        metadata: { flow: "pay_first", product, ...(affRef ? { affiliate_ref: affRef } : {}) },
+        metadata: { flow: "pay_first", product, interval, ...(affRef ? { affiliate_ref: affRef } : {}) },
       },
       success_url: `${origin}/willkommen?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/us-llc-30-tage?abgebrochen=1`,

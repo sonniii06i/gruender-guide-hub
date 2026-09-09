@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { TwoFactorPrompt } from "@/components/auth/TwoFactorPrompt";
 import { trackSignup } from "@/utils/analytics";
 import { startGuestCheckout } from "@/utils/guestCheckout";
+import { readCartVariant } from "@/lib/cart";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -64,7 +65,16 @@ const Auth = () => {
         // nicht nur uebersprungen: Solange er im Code stuende, waere er ein
         // zweiter Weg zu einem Konto ohne Zahlung — und genau der wuerde
         // benutzt, sobald ihn jemand versehentlich wieder verlinkt.
-        await startGuestCheckout("gruenderx");
+        // Hier stand fest "gruenderx". Wer auf der Startseite das Founder-Set
+        // oder einen Jahreszugang gewaehlt hatte, landete damit im Checkout
+        // fuer GruenderX monatlich -- also im falschen Produkt zum falschen
+        // Preis. Der `price`-Parameter in der URL wurde nie ausgewertet.
+        // Die Auswahl liegt seit dem Warenkorb-Umbau in sessionStorage.
+        const chosen = readCartVariant() ?? "gruenderx";
+        await startGuestCheckout(
+          chosen.startsWith("bundle") ? "bundle" : "gruenderx",
+          chosen.endsWith("-year") ? "year" : "month",
+        );
         return;
       }
 

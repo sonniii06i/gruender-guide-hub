@@ -34,15 +34,15 @@ const faqs = [
   },
   {
     q: "Was kostet GründerX?",
-    a: "GründerX kostet 64,99 € / Monat. Wer beide KIs will (GründerX + AnwaltX: Vertragsprüfung, Abmahn-Schutz, Streitfall-Hilfe), bucht das Founder Bundle für 99,99 € / Monat – 23 % günstiger als beide einzeln (129,98 €).",
+    a: "GründerX kostet 64,99 € / Monat – das sind 2,17 € am Tag. Im Jahreszugang sind es 649,90 €, also zwei Monate geschenkt (1,78 € am Tag). Wer beide KIs will (GründerX + AnwaltX: Vertragsprüfung, Abmahn-Schutz, Streitfall-Hilfe), bucht das Founder-Set für 99,99 € / Monat oder 999,90 € / Jahr – 23 % günstiger als beide einzeln (129,98 €). Alle Beträge sind Endpreise inklusive 19 % Umsatzsteuer (netto 54,61 € bzw. 84,03 €); an der Kasse wird nichts aufgeschlagen.",
   },
   {
     q: "Kann ich monatlich kündigen oder binde ich mich lange?",
-    a: "GründerX ist ein monatliches Abo, das du jederzeit zum Monatsende kündigst – keine Mindestlaufzeit, keine versteckte Vertragsbindung. Mit dem Code FOUNDER bekommst du im ersten Monat 20 % Rabatt.",
+    a: "GründerX ist ein Abo, das du jederzeit im Konto zum Ende der laufenden Abrechnungsperiode kündigst – keine Mindestlaufzeit, keine versteckte Vertragsbindung. Im Monatsabo bekommst du mit dem Code FOUNDER im ersten Monat 20 % Rabatt; das Jahresabo ist stattdessen dauerhaft um zwei Monatsbeiträge günstiger.",
   },
   {
     q: "Muss ich sofort zahlen oder kann ich GründerX erst ausprobieren?",
-    a: "Der Zugang kostet 64,99 € im Monat und ist monatlich kündbar. Die Zahlung steht am Anfang — dein Konto legst du unmittelbar danach an. Damit sind alle über 80 Rechner, Wizards und Felix ab dem ersten Tag freigeschaltet.",
+    a: "Der Zugang kostet 64,99 € im Monat oder 649,90 € im Jahr und ist jederzeit kündbar. Die Zahlung steht am Anfang — dein Konto legst du unmittelbar danach an. Damit sind alle 66 Rechner, Wizards und Cockpits, die Guides und Felix ab dem ersten Tag freigeschaltet, ohne Abrechnung pro Wizard oder pro Frage.",
   },
   {
     q: "Ich habe null Vorwissen – ist GründerX trotzdem für mich?",
