@@ -9,10 +9,21 @@ export type Variant = {
   name: string;
   /** Artikelnummer — im Shop die Zeile unter dem Titel, hier echte SKUs. */
   sku: string;
-  /** Nettopreis in Cent. GründerX weist netto aus (AGB § 4 Abs. 1). */
-  netCents: number;
-  /** Streichpreis in Cent, falls es einen echten Vergleichswert gibt. */
+  /**
+   * BRUTTOpreis in Cent — der Betrag, den Stripe tatsächlich abbucht.
+   *
+   * Hier stand vorher "Nettopreis", und die Buy-Box schlug 19 % obendrauf.
+   * Das war falsch: Die AGB § 4 Abs. 1 führt GründerX Solo ausdrücklich mit
+   * „54,61 € netto / Monat (64,99 € brutto inkl. 19 % USt)" und das Bundle
+   * mit „84,03 € netto (99,99 € brutto)". Der Checkout setzt zudem kein
+   * `automatic_tax`, Stripe zieht diesen Betrag also unverändert ein. Der
+   * Nettoanteil wird deshalb herausgerechnet, nicht aufgeschlagen.
+   */
+  grossCents: number;
+  /** Streichpreis in Cent (brutto), falls es einen echten Vergleichswert gibt. */
   anchorCents?: number;
+  /** Abrechnungszeitraum — bestimmt die Beschriftung und den Tagespreis. */
+  period: "month" | "year";
   note?: string;
 };
 
@@ -21,7 +32,15 @@ const VAT_RATE = 0.19;
 export const eur = (cents: number) =>
   (cents / 100).toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " €";
 
-export const grossCents = (netCents: number) => Math.round(netCents * (1 + VAT_RATE));
+/** Nettoanteil eines Bruttobetrags. */
+export const netCents = (gross: number) => Math.round(gross / (1 + VAT_RATE));
+
+/**
+ * Preis pro Tag — der Reframe, der aus "64,99 € im Monat" etwas macht, das
+ * man gegen eine Anwaltsstunde halten kann.
+ */
+export const perDayCents = (gross: number, period: "month" | "year") =>
+  Math.round(gross / (period === "year" ? 365 : 30));
 
 /**
  * Die Buy-Box rechts neben der Galerie — der Block, den man aus jedem
@@ -29,8 +48,7 @@ export const grossCents = (netCents: number) => Math.round(netCents * (1 + VAT_R
  *
  * Zwei Dinge, die die alte Preis-Kachel nicht hatte und die bei einer Ware
  * selbstverständlich sind:
- *  - die Umsatzsteuer-Angabe (§ 3 PAngV) — der Preis stand vorher nackt da,
- *    obwohl die AGB Nettopreise vereinbaren
+ *  - die Umsatzsteuer-Angabe (§ 3 PAngV) — der Preis stand vorher nackt da
  *  - die Artikelnummer, damit Warenkorb, Rechnung und Support dieselbe
  *    Bezeichnung benutzen
  */
@@ -82,21 +100,24 @@ export const ProductBuyBox = ({
       <div>
         <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
           <span className="text-4xl font-extrabold tracking-tight text-foreground md:text-5xl">
-            {eur(v.netCents)}
+            {eur(v.grossCents)}
           </span>
-          <span className="text-lg text-muted-foreground">/ Monat</span>
+          <span className="text-lg text-muted-foreground">/ {v.period === "year" ? "Jahr" : "Monat"}</span>
           {v.anchorCents && (
             <>
               <span className="text-base text-muted-foreground line-through">{eur(v.anchorCents)}</span>
               <Badge className="border-0 bg-success text-xs font-bold text-white">
-                −{Math.round((1 - v.netCents / v.anchorCents) * 100)} %
+                −{Math.round((1 - v.grossCents / v.anchorCents) * 100)} %
               </Badge>
             </>
           )}
         </div>
-        <p className="mt-1.5 text-sm text-muted-foreground">
-          Nettopreis zzgl. 19 % USt. = <strong className="text-foreground">{eur(grossCents(v.netCents))} brutto</strong>
-          {" · "}Abrechnung monatlich
+        <p className="mt-1.5 text-base font-semibold text-accent-blue">
+          {eur(perDayCents(v.grossCents, v.period))} am Tag
+        </p>
+        <p className="mt-1 text-sm text-muted-foreground">
+          inkl. 19 % USt. — <strong className="text-foreground">{eur(netCents(v.grossCents))} netto</strong>, für
+          Unternehmer also eine absetzbare Betriebsausgabe.
         </p>
         {v.note && <p className="mt-1 text-sm text-muted-foreground">{v.note}</p>}
       </div>
@@ -117,16 +138,19 @@ export const ProductBuyBox = ({
                 className={cn(
                   "rounded-xl border-2 p-3 text-left transition-all",
                   opt.id === v.id
-                    ? "border-accent-blue bg-accent-blue/5 shadow-sm"
+                    ? "border-primary bg-accent-blue/5 shadow-sm"
                     : "border-border bg-card hover:border-accent-blue/40",
                 )}
               >
                 <span className="block text-sm font-semibold text-foreground">{opt.name}</span>
                 <span className="mt-0.5 block text-sm text-muted-foreground">
-                  {eur(opt.netCents)} / Monat
+                  {eur(opt.grossCents)} / {opt.period === "year" ? "Jahr" : "Monat"}
                   {opt.anchorCents && (
                     <span className="ml-1.5 line-through">{eur(opt.anchorCents)}</span>
                   )}
+                </span>
+                <span className="mt-0.5 block text-xs font-semibold text-accent-blue">
+                  {eur(perDayCents(opt.grossCents, opt.period))} am Tag
                 </span>
               </button>
             ))}

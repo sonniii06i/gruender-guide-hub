@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { STRIPE_PRICES } from "@/lib/stripe";
-import { readCartPrice, rememberCartPrice } from "@/lib/cart";
+import { readCartVariant, rememberCartVariant, type CartVariant } from "@/lib/cart";
 import Logo from "@/components/Logo";
 import { UseCasesShowcase } from "@/components/landing/UseCasesShowcase";
 
@@ -29,52 +29,124 @@ import { UseCasesShowcase } from "@/components/landing/UseCasesShowcase";
    getippt — sonst laufen die Zahlen bei der nächsten Preisänderung auseinander.
    --------------------------------------------------------------------------- */
 
+/**
+ * Die Beträge sind BRUTTO — genau das, was Stripe abbucht. Vorher stand hier
+ * 64,99 € als Nettobetrag und die Übersicht schlug 19 % obendrauf, also 77,34 €
+ * auf der letzten Seite vor der Kasse. Das war zu viel: AGB § 4 Abs. 1 führt
+ * Solo mit „54,61 € netto / Monat (64,99 € brutto)", und `create-checkout`
+ * setzt kein `automatic_tax`. Der Nettoanteil wird herausgerechnet, nicht
+ * addiert.
+ */
 const VAT_RATE = 0.19;
 
 const eur = (cents: number) =>
   (cents / 100).toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " €";
 
+const netOf = (gross: number) => Math.round(gross / (1 + VAT_RATE));
+const perDay = (gross: number, days: number) => Math.round(gross / days);
+
 type Item = {
+  id: CartVariant;
   priceId: string;
+  interval: "month" | "year";
   name: string;
   sku: string;
-  netCents: number;
+  grossCents: number;
   anchorCents?: number;
+  periodLabel: string;
+  termLabel: string;
+  days: number;
+  badge: string;
+  planNote: string;
   image: string;
   contents: string[];
 };
 
+const SOLO_CONTENTS = [
+  "Felix — KI-Co-Pilot, unbegrenzt im Chat",
+  "66 Wizards, Rechner und Cockpits",
+  "Gründung: Rechtsform, Gewerbeanmeldung, Finanzamt-Fragebogen",
+  "Steuer-Cockpit: USt, EÜR, BWA, DATEV, IAB, Fristen",
+  "E-Commerce: Amazon-Erstattungen, Marge, Schwellen, Nexus",
+  "Marke & Compliance: WEEE/EAR, LUCID, GPSR, CE/RoHS, Marken-Monitor",
+  "International: US-LLC, HK-Limited, DBA/CFC, IP-Box, Banking",
+  "Anbieter-Vergleich in 14 Kategorien, Guides und Playbooks",
+];
+
+const BUNDLE_CONTENTS = [
+  "Alles aus dem GründerX-Zugang",
+  "Juri — KI-Rechts-Assistentin (AnwaltX)",
+  "Vertragsprüfung und Vertrags-Builder",
+  "Abmahn-Soforthilfe und Abmahn-Radar",
+  "Markencheck und Chargeback-Verteidigung",
+  "Rechts-Generatoren und Fristen-Tracker",
+  "Felix und Juri gemeinsam im Chat",
+  "Priorisierter Support",
+];
+
 const ITEMS: Item[] = [
   {
+    id: "gruenderx",
     priceId: STRIPE_PRICES.gruenderx,
-    name: "GründerX — Einzelzugang",
+    interval: "month",
+    name: "GründerX — monatlich",
     sku: "GX-PRO-M",
-    netCents: 6499,
+    grossCents: 6499,
+    periodLabel: "Monat",
+    termLabel: "Laufzeit 1 Monat, verlängert sich automatisch um einen Monat.",
+    days: 30,
+    badge: "Beliebt",
+    planNote: "Jederzeit im Konto kündbar.",
     image: "/mascots/felix-pricecard.webp",
-    contents: [
-      "Felix — KI-Gründungs-Co-Pilot",
-      "Alle Wizards und Cockpits",
-      "Steuer-Cockpit: USt, OSS, IAB, Fristen",
-      "Marketplace- und Brand-Compliance-Setup",
-      "Anbieter-Vergleich und Coop-Deals",
-      "E-Mail-Support",
-    ],
+    contents: SOLO_CONTENTS,
   },
   {
+    id: "gruenderx-year",
+    priceId: STRIPE_PRICES.gruenderx,
+    interval: "year",
+    name: "GründerX — jährlich",
+    sku: "GX-PRO-Y",
+    grossCents: 64990,
+    anchorCents: 77988,
+    periodLabel: "Jahr",
+    termLabel: "Laufzeit 12 Monate, verlängert sich automatisch um zwölf Monate.",
+    days: 365,
+    badge: "Bester Preis",
+    planNote: "Zwei Monate geschenkt gegenüber 12 × 64,99 €.",
+    image: "/mascots/felix-present.webp",
+    contents: SOLO_CONTENTS,
+  },
+  {
+    id: "bundle",
     priceId: STRIPE_PRICES.bundle,
-    name: "Founder-Set — GründerX + AnwaltX",
+    interval: "month",
+    name: "Founder-Set — monatlich",
     sku: "GX-AX-SET-M",
-    netCents: 9999,
+    grossCents: 9999,
     anchorCents: 12998,
+    periodLabel: "Monat",
+    termLabel: "Laufzeit 1 Monat, verlängert sich automatisch um einen Monat.",
+    days: 30,
+    badge: "Beliebt",
+    planNote: "GründerX + AnwaltX, 23 % günstiger als einzeln.",
     image: "/mascots/bundle-duo.webp",
-    contents: [
-      "Alles aus dem GründerX-Einzelzugang",
-      "Juri — KI-Rechts-Assistentin (AnwaltX)",
-      "Vertragsprüfung und Vertragsgenerator",
-      "Abmahn- und Streitfall-Hilfe",
-      "Felix und Juri gemeinsam im Chat",
-      "Priorisierter Support",
-    ],
+    contents: BUNDLE_CONTENTS,
+  },
+  {
+    id: "bundle-year",
+    priceId: STRIPE_PRICES.bundle,
+    interval: "year",
+    name: "Founder-Set — jährlich",
+    sku: "GX-AX-SET-Y",
+    grossCents: 99990,
+    anchorCents: 119988,
+    periodLabel: "Jahr",
+    termLabel: "Laufzeit 12 Monate, verlängert sich automatisch um zwölf Monate.",
+    days: 365,
+    badge: "Bester Preis",
+    planNote: "Beide Zugänge, zwei Monate geschenkt.",
+    image: "/mascots/bundle-duo.webp",
+    contents: BUNDLE_CONTENTS,
   },
 ];
 
@@ -107,15 +179,15 @@ const Checkout = () => {
   const [checking, setChecking] = useState(false);
   // Vorauswahl aus dem Produktblock. Ohne gemerkte Wahl liegt der Einzelzugang
   // im Korb — der günstigere Artikel, nicht der teurere.
-  const [priceId, setPriceId] = useState<string>(() => readCartPrice() ?? STRIPE_PRICES.gruenderx);
+  const [variantId, setVariantId] = useState<CartVariant>(() => readCartVariant() ?? "gruenderx");
 
-  const item = ITEMS.find((i) => i.priceId === priceId) ?? ITEMS[0];
-  const vatCents = Math.round(item.netCents * VAT_RATE);
-  const grossCents = item.netCents + vatCents;
+  const item = ITEMS.find((i) => i.id === variantId) ?? ITEMS[0];
+  const netCents = netOf(item.grossCents);
+  const vatCents = item.grossCents - netCents;
 
-  const selectItem = (id: string) => {
-    setPriceId(id);
-    rememberCartPrice(id);
+  const selectItem = (id: CartVariant) => {
+    setVariantId(id);
+    rememberCartVariant(id);
   };
 
   const handleStatusCheck = async () => {
@@ -158,7 +230,7 @@ const Checkout = () => {
   const checkout = async () => {
     setBusy(true);
     try {
-      const { data, error } = await supabase.functions.invoke("create-checkout", { body: { priceId, affiliateRef: getStoredAffiliateRef() } });
+      const { data, error } = await supabase.functions.invoke("create-checkout", { body: { priceId: item.priceId, interval: item.interval, affiliateRef: getStoredAffiliateRef() } });
       if (error) {
         // Den echten Backend-Fehler aus der Response ziehen (sonst nur "non-2xx status code").
         let msg = error.message;
@@ -201,7 +273,7 @@ const Checkout = () => {
 
         <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">Dein Warenkorb</h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          1 Artikel · digitale Lieferung · es wird nichts abgebucht, bevor du an der Kasse bestätigst.
+          1 Artikel · digitale Lieferung · Endpreis inkl. USt. · es wird nichts abgebucht, bevor du an der Kasse bestätigst.
         </p>
 
         <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px] lg:items-start">
@@ -222,11 +294,11 @@ const Checkout = () => {
                       <p className="text-xs text-muted-foreground">Art.-Nr. {item.sku}</p>
                     </div>
                     <div className="text-right">
-                      <p className="text-lg font-bold">{eur(item.netCents)}</p>
+                      <p className="text-lg font-bold">{eur(item.grossCents)}</p>
                       {item.anchorCents && (
                         <p className="text-xs text-muted-foreground line-through">{eur(item.anchorCents)}</p>
                       )}
-                      <p className="text-xs text-muted-foreground">netto / Monat</p>
+                      <p className="text-xs text-muted-foreground">inkl. USt. / {item.periodLabel}</p>
                     </div>
                   </div>
 
@@ -237,7 +309,10 @@ const Checkout = () => {
                     <Truck className="mt-0.5 h-4 w-4 shrink-0" /> Lieferung digital, 0,00 € — Freischaltung
                     unmittelbar nach der Zahlung
                   </p>
-                  <p className="mt-3 text-sm text-muted-foreground">Menge: 1 Zugang</p>
+                  <p className="mt-2 text-sm font-semibold text-accent-blue">
+                    {eur(perDay(item.grossCents, item.days))} am Tag
+                  </p>
+                  <p className="mt-2 text-sm text-muted-foreground">Menge: 1 Zugang</p>
                 </div>
               </div>
 
@@ -248,21 +323,30 @@ const Checkout = () => {
                 <div className="grid gap-2 sm:grid-cols-2">
                   {ITEMS.map((opt) => (
                     <button
-                      key={opt.priceId}
+                      key={opt.id}
                       type="button"
-                      onClick={() => selectItem(opt.priceId)}
-                      aria-pressed={opt.priceId === item.priceId}
+                      onClick={() => selectItem(opt.id)}
+                      aria-pressed={opt.id === item.id}
                       className={`rounded-2xl border-2 p-3 text-left transition-all ${
-                        opt.priceId === item.priceId
+                        opt.id === item.id
                           ? "border-accent-blue bg-accent-blue/5 shadow-sm"
                           : "border-border bg-card hover:border-accent-blue/40"
                       }`}
                     >
-                      <span className="block text-sm font-semibold">{opt.name}</span>
+                      <span className="flex items-center justify-between gap-2">
+                        <span className="text-sm font-semibold">{opt.name}</span>
+                        <span className="rounded-full bg-secondary px-2 py-0.5 text-[10px] font-bold uppercase text-muted-foreground">
+                          {opt.badge}
+                        </span>
+                      </span>
                       <span className="mt-0.5 block text-sm text-muted-foreground">
-                        {eur(opt.netCents)} netto / Monat
+                        {eur(opt.grossCents)} / {opt.periodLabel}
                         {opt.anchorCents && <span className="ml-1.5 line-through">{eur(opt.anchorCents)}</span>}
                       </span>
+                      <span className="mt-0.5 block text-xs font-semibold text-accent-blue">
+                        {eur(perDay(opt.grossCents, opt.days))} am Tag
+                      </span>
+                      <span className="mt-1 block text-xs text-muted-foreground">{opt.planNote}</span>
                     </button>
                   ))}
                 </div>
@@ -292,12 +376,12 @@ const Checkout = () => {
               <dl className="mt-4 space-y-2.5 text-sm">
                 <div className="flex items-baseline justify-between gap-4">
                   <dt className="text-muted-foreground">Zwischensumme (1 Artikel)</dt>
-                  <dd className="font-medium">{eur(item.netCents)}</dd>
+                  <dd className="font-medium">{eur(item.grossCents)}</dd>
                 </div>
                 {item.anchorCents && (
                   <div className="flex items-baseline justify-between gap-4">
-                    <dt className="text-muted-foreground">Set-Vorteil gegenüber Einzelkauf</dt>
-                    <dd className="font-medium text-success">−{eur(item.anchorCents - item.netCents)}</dd>
+                    <dt className="text-muted-foreground">Vorteil gegenüber Vergleichspreis</dt>
+                    <dd className="font-medium text-success">−{eur(item.anchorCents - item.grossCents)}</dd>
                   </div>
                 )}
                 <div className="flex items-baseline justify-between gap-4">
@@ -315,16 +399,16 @@ const Checkout = () => {
 
                 <div className="flex items-baseline justify-between gap-4 border-t border-border pt-2.5">
                   <dt className="text-muted-foreground">Nettobetrag</dt>
-                  <dd className="font-medium">{eur(item.netCents)}</dd>
+                  <dd className="font-medium">{eur(netCents)}</dd>
                 </div>
                 <div className="flex items-baseline justify-between gap-4">
-                  <dt className="text-muted-foreground">zzgl. 19 % USt.</dt>
+                  <dt className="text-muted-foreground">enthaltene 19 % USt.</dt>
                   <dd className="font-medium">{eur(vatCents)}</dd>
                 </div>
 
                 <div className="flex items-baseline justify-between gap-4 border-t-2 border-border pt-3">
-                  <dt className="font-bold">Gesamt / Monat</dt>
-                  <dd className="text-2xl font-extrabold">{eur(grossCents)}</dd>
+                  <dt className="font-bold">Gesamt / {item.periodLabel}</dt>
+                  <dd className="text-2xl font-extrabold">{eur(item.grossCents)}</dd>
                 </div>
               </dl>
 
@@ -335,7 +419,7 @@ const Checkout = () => {
                 className="mt-5 h-12 w-full rounded-full bg-gradient-primary font-semibold text-primary-foreground hover:opacity-95"
               >
                 {busy ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <ShoppingCart className="mr-2 h-4 w-4" />}
-                Zur Kasse
+                Zur Kasse — {eur(item.grossCents)}/{item.periodLabel}
               </Button>
               <p className="mt-2 text-center text-[11px] leading-relaxed text-muted-foreground">
                 Weiter zur gesicherten Zahlung bei Stripe. Erst dort wird die Bestellung
@@ -350,8 +434,9 @@ const Checkout = () => {
               </ul>
 
               <p className="mt-4 text-[11px] leading-relaxed text-muted-foreground">
-                Laufzeit 1 Monat, verlängert sich automatisch. Kündigung jederzeit im Konto zum Ende des
-                Abrechnungsmonats. Widerrufsrecht für Verbraucher nach § 355 BGB — Einzelheiten in der{" "}
+                {item.termLabel} Kündigung jederzeit im Konto zum Ende der laufenden Abrechnungsperiode.
+                Angegebene Preise sind Endpreise inkl. 19 % USt. (AGB § 4 Abs. 1); es wird an der Kasse nichts
+                aufgeschlagen. Widerrufsrecht für Verbraucher nach § 355 BGB — Einzelheiten in der{" "}
                 <Link to="/widerruf" className="underline hover:text-foreground">Widerrufsbelehrung</Link>.
                 Verkauf und Bereitstellung durch Sonni Buttke, Einzelunternehmen.
               </p>

@@ -1,41 +1,46 @@
-import { STRIPE_PRICES } from "@/lib/stripe";
-
 /**
  * Der "Warenkorb" zwischen Produktblock und Kasse.
  *
- * Hintergrund: Wer auf der Startseite das Founder-Set wählt und noch kein Konto
+ * Hintergrund: Wer auf der Startseite eine Ausführung wählt und noch kein Konto
  * hat, wird nach /auth geschickt — und /auth wirft den `price`-Parameter weg
  * und leitet nach /onboarding weiter. Auf /checkout stand die Auswahl dann
  * wieder auf Anfang: Man hatte das Set schon in der Hand und musste sich nach
  * der Registrierung ein zweites Mal entscheiden.
  *
+ * Gemerkt wird die VARIANTE, nicht die Stripe-Price-ID: seit es Monats- und
+ * Jahreszugänge gibt, teilen sich beide dieselbe Price-ID als Anker, und die
+ * Laufzeit ginge sonst verloren.
+ *
  * sessionStorage statt localStorage: Die Auswahl soll den Kauf überleben, aber
  * nicht die nächste Sitzung — sonst legt ein Besuch von vor drei Wochen
  * ungefragt fest, was heute im Warenkorb liegt.
  */
-const KEY = "gx_cart_price";
+const KEY = "gx_cart_variant";
 
-const KNOWN: string[] = [STRIPE_PRICES.gruenderx, STRIPE_PRICES.bundle];
+export const CART_VARIANTS = ["gruenderx", "gruenderx-year", "bundle", "bundle-year"] as const;
+export type CartVariant = (typeof CART_VARIANTS)[number];
 
-export const rememberCartPrice = (priceId: string) => {
-  if (!KNOWN.includes(priceId)) return;
+const isKnown = (v: string): v is CartVariant => (CART_VARIANTS as readonly string[]).includes(v);
+
+export const rememberCartVariant = (variantId: string) => {
+  if (!isKnown(variantId)) return;
   try {
-    sessionStorage.setItem(KEY, priceId);
+    sessionStorage.setItem(KEY, variantId);
   } catch {
     /* Private Mode o. Ä. — dann bleibt es beim Standard auf /checkout. */
   }
 };
 
-export const readCartPrice = (): string | null => {
+export const readCartVariant = (): CartVariant | null => {
   try {
     const v = sessionStorage.getItem(KEY);
-    return v && KNOWN.includes(v) ? v : null;
+    return v && isKnown(v) ? v : null;
   } catch {
     return null;
   }
 };
 
-export const clearCartPrice = () => {
+export const clearCartVariant = () => {
   try {
     sessionStorage.removeItem(KEY);
   } catch {

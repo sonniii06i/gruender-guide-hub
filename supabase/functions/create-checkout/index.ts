@@ -9,31 +9,41 @@ const corsHeaders = {
 };
 
 // Ziel-Beträge (in Cent) — Single Source of Truth für die Preise.
-// create-checkout findet/erzeugt automatisch den passenden monatlichen Stripe-Preis
-// auf dem bestehenden Produkt, damit Preisänderungen ohne Stripe-Dashboard nur hier passieren.
-const TARGET_AMOUNTS: Record<string, number> = {
-  gruenderx: 6499, // 64,99 €/Monat
-  bundle: 9999,    // 99,99 €/Monat (Kombi GründerX + AnwaltX, −23 % ggü. 2×64,99 €)
+// create-checkout findet/erzeugt automatisch den passenden Stripe-Preis auf dem
+// bestehenden Produkt, damit Preisänderungen ohne Stripe-Dashboard nur hier passieren.
+//
+// Die Beträge sind BRUTTO: AGB § 4 Abs. 1 führt GründerX Solo mit „54,61 €
+// netto / Monat (64,99 € brutto)". Die Session setzt kein `automatic_tax`,
+// Stripe zieht den Betrag also unverändert ein.
+//
+// Jahrespreise: zwei Monate geschenkt (10 × Monatspreis).
+const TARGET_AMOUNTS: Record<string, Record<Interval, number>> = {
+  gruenderx: { month: 6499, year: 64990 }, // 64,99 €/Monat · 649,90 €/Jahr
+  bundle:    { month: 9999, year: 99990 }, // 99,99 €/Monat · 999,90 €/Jahr
 };
+
+type Interval = "month" | "year";
 
 // In-Memory-Cache pro Warm-Start (product -> price id)
 const priceIdCache = new Map<string, string>();
 
-async function resolveMonthlyPriceId(
+async function resolvePriceId(
   stripe: Stripe,
   product: string,
+  interval: Interval,
   anchorPriceId: string,
 ): Promise<string> {
-  const expected = TARGET_AMOUNTS[product];
+  const expected = TARGET_AMOUNTS[product]?.[interval];
   if (!expected) return anchorPriceId; // unbekanntes Produkt -> unveränderte ID
 
-  const cached = priceIdCache.get(product);
+  const cacheKey = `${product}_${interval}`;
+  const cached = priceIdCache.get(cacheKey);
   if (cached) return cached;
 
   // Anker-Preis laden -> liefert Produkt-ID und ggf. schon den korrekten Betrag
   const anchor = await stripe.prices.retrieve(anchorPriceId);
-  if (anchor.active && anchor.unit_amount === expected && anchor.recurring?.interval === "month") {
-    priceIdCache.set(product, anchor.id);
+  if (anchor.active && anchor.unit_amount === expected && anchor.recurring?.interval === interval) {
+    priceIdCache.set(cacheKey, anchor.id);
     return anchor.id;
   }
   const productId = typeof anchor.product === "string" ? anchor.product : anchor.product.id;
@@ -41,21 +51,22 @@ async function resolveMonthlyPriceId(
   // Passenden aktiven Preis am Produkt suchen (idempotent, keine Duplikate)
   const list = await stripe.prices.list({ product: productId, active: true, limit: 100 });
   const match = list.data.find(
-    (p) => p.recurring?.interval === "month" && p.unit_amount === expected && p.currency === "eur",
+    (p) => p.recurring?.interval === interval && p.unit_amount === expected && p.currency === "eur",
   );
   if (match) {
-    priceIdCache.set(product, match.id);
+    priceIdCache.set(cacheKey, match.id);
     return match.id;
   }
 
-  // Sonst neuen Preis anlegen
+  // Sonst neuen Preis anlegen — am SELBEN Stripe-Produkt wie der Monatspreis,
+  // sonst stehen im Dashboard zwei Produkte nebeneinander.
   const created = await stripe.prices.create({
     product: productId,
     unit_amount: expected,
     currency: "eur",
-    recurring: { interval: "month" },
+    recurring: { interval },
   });
-  priceIdCache.set(product, created.id);
+  priceIdCache.set(cacheKey, created.id);
   return created.id;
 }
 
@@ -63,8 +74,11 @@ serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
-    const { priceId, affiliateRef } = await req.json();
+    const { priceId, affiliateRef, interval: rawInterval } = await req.json();
     if (!priceId) throw new Error("priceId required");
+    // Alles ausser "year" ist "month" — ein manipulierter Wert darf nicht in
+    // einem Checkout ohne Preis enden.
+    const interval: Interval = rawInterval === "year" ? "year" : "month";
     const affRef = typeof affiliateRef === "string" ? affiliateRef.trim().slice(0, 32) : "";
     // Produkt aus priceId ableiten (Bundle = GruenderX + AnwaltX)
     const product = priceId === "price_1TTUfV64hSN6usxPe60ADpTF" ? "bundle" : "gruenderx";
@@ -168,7 +182,7 @@ serve(async (req) => {
 
     const origin = req.headers.get("origin") || "";
     // Ziel-Preis dynamisch auflösen (64,99 € GründerX / 99,99 € Bundle) — self-healing, kein Dashboard nötig.
-    const resolvedPriceId = await resolveMonthlyPriceId(stripe, product, priceId);
+    const resolvedPriceId = await resolvePriceId(stripe, product, interval, priceId);
     const session = await stripe.checkout.sessions.create({
       customer: customerId,
       line_items: [{ price: resolvedPriceId, quantity: 1 }],
@@ -178,7 +192,9 @@ serve(async (req) => {
       locale: "de",
       custom_text: {
         submit: {
-          message: "GruenderX Zugang — monatlich kuendbar, Kuendigung mit einem Klick im Konto.",
+          message: interval === "year"
+            ? "GruenderX Zugang — Jahresabo, zwei Monate geschenkt. Verlaengert sich jaehrlich, Kuendigung mit einem Klick im Konto."
+            : "GruenderX Zugang — monatlich kuendbar, Kuendigung mit einem Klick im Konto.",
         },
       },
       billing_address_collection: "required",
@@ -189,8 +205,8 @@ serve(async (req) => {
       allow_promotion_codes: true,
       // Affiliate-Attribution: Ref + Produkt an Session UND Abo haengen
       // (Webhook liest es bei checkout.session.completed + wiederkehrenden Rechnungen).
-      metadata: { supabase_user_id: user.id, product, ...(affRef ? { affiliate_ref: affRef } : {}) },
-      subscription_data: { metadata: { product, ...(affRef ? { affiliate_ref: affRef } : {}) } },
+      metadata: { supabase_user_id: user.id, product, interval, ...(affRef ? { affiliate_ref: affRef } : {}) },
+      subscription_data: { metadata: { product, interval, ...(affRef ? { affiliate_ref: affRef } : {}) } },
       success_url: `${origin}/dashboard?checkout=success`,
       cancel_url: `${origin}/checkout?canceled=1`,
     });
