@@ -82,25 +82,30 @@ const CHECKOUT: Record<string, { priceId: string; interval: "month" | "year" }> 
   "bundle-year": { priceId: STRIPE_PRICES.bundle, interval: "year" },
 };
 
+/**
+ * Echte Screenshots aus dem laufenden Cockpit statt Maskottchen.
+ *
+ * Die Maskottchen sind Markenbilder, kein Produkt: Wer wissen will, was er
+ * fuer 64,99 EUR bekommt, sieht darauf nichts davon. Bei Software IST die
+ * Oberflaeche das Produkt -- ein Screenshot schlaegt hier jede Illustration
+ * und jedes 3D-Mockup.
+ */
 const SOLO_GALLERY: GalleryImage[] = [
-  { src: "/mascots/felix-pricecard.webp", alt: "GründerX Einzelzugang — Felix mit Preiskarte", caption: "GründerX — Einzelzugang" },
-  { src: "/mascots/felix-hero-desk.webp", alt: "Felix am Schreibtisch mit dem Gründungs-Cockpit", caption: "Cockpit für Gründung, Steuern und Marketplace-Setup" },
-  { src: "/mascots/felix-roadmap.webp", alt: "Felix vor der Gründungs-Roadmap", caption: "Roadmap: Rechtsform, Finanzamt, Anmeldungen — Schritt für Schritt" },
-  { src: "/mascots/felix-boxes.webp", alt: "Felix mit Versandkartons für den Marketplace-Start", caption: "Marketplace-Setup: Amazon, Kaufland, Shopify, TikTok-Shop" },
+  { src: "/screens/cockpit-uebersicht.jpg", alt: "GründerX-Cockpit mit laufenden Guides und Einsteiger-Tools", caption: "Dein Cockpit — laufende Guides, Tools und Empfehlungen an einer Stelle" },
+  { src: "/screens/cockpit-rechtsform.jpg", alt: "Rechtsform-Wizard mit Empfehlung UG und Begründung", caption: "Rechtsform-Wizard: fünf Fragen, dann eine begründete Empfehlung samt Fallstricken" },
+  { src: "/screens/cockpit-steuer.jpg", alt: "Steuer-Cockpit mit Fristen-Kalender 2026 und USt-Einstellungen", caption: "Steuer-Cockpit: Fristen richten sich live nach Rechtsform, USt-Rhythmus und OSS" },
+  { src: "/screens/cockpit-anbieter.jpg", alt: "Anbieter-Vergleich mit 213 Anbietern nach Kategorien", caption: "Anbieter-Vergleich: 213 Anbieter mit Stärken und Schwächen, wöchentlich gepflegt" },
 ];
 
 const BUNDLE_GALLERY: GalleryImage[] = [
-  { src: "/mascots/bundle-duo.webp", alt: "Felix von GründerX und Juri von AnwaltX stehen als Team nebeneinander", caption: "Founder-Set — beide Zugänge in einer Abrechnung" },
-  { src: "/mascots/felix-pricecard.webp", alt: "GründerX als Teil des Sets", caption: "Enthält den vollen GründerX-Zugang" },
-  { src: "/mascots/felix-present.webp", alt: "Felix überreicht das Founder-Set", caption: "23 % günstiger als beide Zugänge einzeln" },
+  { src: "/screens/cockpit-uebersicht.jpg", alt: "GründerX-Cockpit mit laufenden Guides", caption: "Founder-Set — enthält den vollen GründerX-Zugang, dazu Juri von AnwaltX" },
+  { src: "/screens/cockpit-rechtsform.jpg", alt: "Rechtsform-Wizard mit Empfehlung", caption: "Alle Wizards und Cockpits ohne Aufpreis" },
+  { src: "/screens/cockpit-steuer.jpg", alt: "Steuer-Cockpit mit Fristen-Kalender", caption: "Fristen, USt und OSS im Blick" },
 ];
 
 const GALLERY: Record<string, GalleryImage[]> = {
   "gruenderx": SOLO_GALLERY,
-  "gruenderx-year": [
-    { src: "/mascots/felix-present.webp", alt: "Felix überreicht das Jahresabo", caption: "GründerX — jährlich, zwei Monate geschenkt" },
-    ...SOLO_GALLERY.slice(0, 3),
-  ],
+  "gruenderx-year": SOLO_GALLERY,
   "bundle": BUNDLE_GALLERY,
   "bundle-year": BUNDLE_GALLERY,
 };
@@ -259,9 +264,11 @@ export const Bundles = () => {
         <p className="mb-3 text-sm font-semibold uppercase tracking-wider text-accent-blue">Produkt</p>
 
         {/* Galerie + Buy-Box */}
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,420px)_minmax(0,1fr)]">
+        {/* Die Galerie zeigt 16:9-Screenshots — sie bekommt die breite Spalte,
+            die Buy-Box die feste. */}
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,430px)]">
           <div className="lg:sticky lg:top-24 lg:self-start">
-            <ProductGallery images={GALLERY[selected]} />
+            <ProductGallery images={GALLERY[selected]} variant="screenshot" />
           </div>
 
           <ProductBuyBox
