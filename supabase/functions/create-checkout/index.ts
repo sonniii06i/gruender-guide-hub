@@ -190,11 +190,18 @@ serve(async (req) => {
       // Ohne `locale` raet Stripe die Sprache aus dem Browser -- ausgerechnet
       // auf der letzten Seite vor dem Kauf.
       locale: "de",
+      // Der letzte Satz vor dem Bezahlen. Er muss zu Produkt UND Laufzeit
+      // passen: Hier stand fest "GruenderX Zugang - monatlich kuendbar", was
+      // auf einem Jahres-Checkout fuers Founder-Set gleich zweimal falsch war.
       custom_text: {
         submit: {
-          message: interval === "year"
-            ? "GruenderX Zugang — Jahresabo, zwei Monate geschenkt. Verlaengert sich jaehrlich, Kuendigung mit einem Klick im Konto."
-            : "GruenderX Zugang — monatlich kuendbar, Kuendigung mit einem Klick im Konto.",
+          message:
+            (product === "bundle"
+              ? "Founder-Set: GruenderX + AnwaltX"
+              : "GruenderX Zugang") +
+            (interval === "year"
+              ? " - Jahresabo, zwei Monate geschenkt. Verlaengert sich jaehrlich, Kuendigung mit einem Klick im Konto."
+              : " - monatlich kuendbar, Kuendigung mit einem Klick im Konto."),
         },
       },
       billing_address_collection: "required",
