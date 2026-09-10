@@ -134,16 +134,6 @@ serve(async (req) => {
       // Kein `customer`: Stripe legt ihn an und erhebt dabei die E-Mail.
       billing_address_collection: "required",
       tax_id_collection: { enabled: true },
-      // Einwilligung fuer die Warenkorb-Abbruch-Mail.
-      //
-      // WARUM ZWINGEND: § 7 Abs. 3 UWG erlaubt Werbemails ohne Einwilligung
-      // nur an eigene Kunden -- die Adresse muss "im Zusammenhang mit dem
-      // VERKAUF einer Ware" erhoben worden sein. Wer den Checkout abbricht,
-      // hat nichts gekauft; fuer den gilt § 7 Abs. 2 Nr. 2 UWG, und das ist
-      // abmahnfaehig. Stripe blendet dafuer eine Haekchen-Zeile ein und
-      // meldet das Ergebnis als session.consent.promotions === "opt_in".
-      // Der Webhook sendet nur dann.
-      consent_collection: { promotions: "auto" },
       allow_promotion_codes: true,
       // Karte nur abfragen, wenn tatsaechlich etwas abgebucht wird.
       //

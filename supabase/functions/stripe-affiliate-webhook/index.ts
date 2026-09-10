@@ -140,11 +140,16 @@ Deno.serve(async (req) => {
           .trim().toLowerCase();
         if (!email || !email.includes("@")) break;
 
-        // Ohne ausdrueckliche Einwilligung KEINE Mail. § 7 Abs. 3 UWG deckt
+        // OHNE AUSDRUECKLICHE EINWILLIGUNG KEINE MAIL. § 7 Abs. 3 UWG deckt
         // nur eigene Kunden ab -- wer abgebrochen hat, hat nichts gekauft und
-        // ist keiner. Stripe erhebt das Haekchen im Checkout
-        // (consent_collection.promotions) und meldet es hier.
-        if (s.consent?.promotions !== "opt_in") {
+        // ist keiner.
+        //
+        // Stripes eigenes consent_collection[promotions] waere der bequeme
+        // Weg gewesen, ist fuer deutsche Konten aber gesperrt ("`consent_
+        // collection.promotions` is not available in your country") und
+        // laesst die Session-Erzeugung mit HTTP 400 scheitern. Das Haekchen
+        // steht deshalb auf UNSERER Warenkorbseite und reist als Metadatum mit.
+        if (s.metadata?.abbruch_mail_ok !== "1") {
           console.log(`[abbruch] keine Einwilligung, kein Versand an ${email}`);
           break;
         }
