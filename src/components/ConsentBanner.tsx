@@ -56,11 +56,11 @@ export const ConsentBanner = () => {
           </Link>
         </p>
 
-        <div className="flex shrink-0 gap-2">
-          <Button variant="outline" className="flex-1 sm:flex-none" onClick={() => decide(false)}>
+        <div className="flex w-full min-w-0 gap-2 sm:w-auto sm:shrink-0">
+          <Button variant="outline" className="min-w-0 flex-1 px-3 sm:flex-none sm:px-4" onClick={() => decide(false)}>
             Nur notwendige
           </Button>
-          <Button className="flex-1 sm:flex-none" onClick={() => decide(true)}>
+          <Button className="min-w-0 flex-1 px-3 sm:flex-none sm:px-4" onClick={() => decide(true)}>
             Alle akzeptieren
           </Button>
         </div>

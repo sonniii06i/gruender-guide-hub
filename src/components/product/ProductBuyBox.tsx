@@ -162,15 +162,21 @@ export const ProductBuyBox = ({
 
       {children}
 
+      {/* items-start + shrink-0 + min-w-0: mit items-center und ohne min-w-0
+          liefen diese Zeilen bei 320px auf 332px Breite und zogen die Seite
+          seitlich auf. Das Symbol darf nicht schrumpfen, der Text schon. */}
       <div className="space-y-1.5 text-xs text-muted-foreground">
-        <p className="flex items-center gap-2">
-          <Lock className="h-3.5 w-3.5 text-accent-blue" /> Sichere Zahlung über Stripe · SSL-verschlüsselt
+        <p className="flex items-start gap-2">
+          <Lock className="mt-0.5 h-3.5 w-3.5 shrink-0 text-accent-blue" />
+          <span className="min-w-0">Sichere Zahlung über Stripe · SSL-verschlüsselt</span>
         </p>
-        <p className="flex items-center gap-2">
-          <CreditCard className="h-3.5 w-3.5 text-accent-blue" /> {paymentMethods}
+        <p className="flex items-start gap-2">
+          <CreditCard className="mt-0.5 h-3.5 w-3.5 shrink-0 text-accent-blue" />
+          <span className="min-w-0">{paymentMethods}</span>
         </p>
-        <p className="flex items-center gap-2">
-          <Store className="h-3.5 w-3.5 text-accent-blue" /> Verkauf und Bereitstellung durch {seller}
+        <p className="flex items-start gap-2">
+          <Store className="mt-0.5 h-3.5 w-3.5 shrink-0 text-accent-blue" />
+          <span className="min-w-0">Verkauf und Bereitstellung durch {seller}</span>
         </p>
       </div>
     </div>

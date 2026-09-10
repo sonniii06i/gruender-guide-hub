@@ -42,7 +42,7 @@ const Widerruf = () => (
         zugerechnet werden können.
       </p>
 
-      <div className="rounded-xl border border-border bg-secondary/40 p-4 my-3 text-sm">
+      <div className="rounded-xl border border-border bg-secondary/40 p-4 my-3 text-sm [overflow-wrap:anywhere]">
         <strong>Widerrufsbelehrung</strong><br /><br />
         Du hast das Recht, binnen vierzehn Tagen ohne Angabe von Gründen diesen Vertrag zu widerrufen.
         Die Widerrufsfrist beträgt vierzehn Tage ab dem Tag des Vertragsschlusses (Eingang der Bestätigungs-E-Mail).<br /><br />
@@ -59,7 +59,7 @@ const Widerruf = () => (
         (dauerhafter Datenträger).
       </div>
 
-      <div className="rounded-xl border border-border bg-secondary/40 p-4 my-3 text-sm">
+      <div className="rounded-xl border border-border bg-secondary/40 p-4 my-3 text-sm [overflow-wrap:anywhere]">
         <strong>Muster-Widerrufsformular</strong> (gem. Anlage 2 zu Art. 246a § 1 EGBGB)<br /><br />
         Wenn du den Vertrag widerrufen möchtest, dann fülle bitte dieses Formular aus und sende es zurück.<br /><br />
         An: Sonni Buttke, Pinguinweg 18, 22527 Hamburg, E-Mail: <a href="mailto:support@gründerx.de">support@gründerx.de</a><br /><br />
