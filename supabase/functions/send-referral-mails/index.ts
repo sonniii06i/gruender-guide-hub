@@ -77,8 +77,14 @@ Deno.serve(async (req) => {
 
       // Wer widersprochen hat, bekommt keine Werbung mehr — und der Merker
       // wird gesetzt, damit er auch morgen nicht wieder geprueft wird.
-      const { data: out } = await supabase
+      const { data: out, error: outErr } = await supabase
         .from("mail_optouts").select("email").eq("email", email).maybeSingle();
+      // Sperrliste nicht lesbar -> nicht senden. Lieber eine Mail zu wenig als
+      // eine an jemanden, der ausdruecklich widersprochen hat.
+      if (outErr) {
+        fehler.push(`${email}: Sperrliste nicht lesbar (${outErr.message})`);
+        continue;
+      }
       if (out) {
         uebersprungen++;
         if (!dryRun) {
