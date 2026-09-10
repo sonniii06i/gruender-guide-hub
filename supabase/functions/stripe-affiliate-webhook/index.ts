@@ -140,19 +140,15 @@ Deno.serve(async (req) => {
           .trim().toLowerCase();
         if (!email || !email.includes("@")) break;
 
-        // OHNE AUSDRUECKLICHE EINWILLIGUNG KEINE MAIL. § 7 Abs. 3 UWG deckt
-        // nur eigene Kunden ab -- wer abgebrochen hat, hat nichts gekauft und
-        // ist keiner.
+        // KEIN EINWILLIGUNGS-HAEKCHEN. Bewusste Entscheidung des Betreibers
+        // am 10.09.2026, nachdem die Rechtslage benannt war: § 7 Abs. 3 UWG
+        // deckt nur eigene Kunden, wer abbricht hat nichts gekauft, und
+        // Stripes consent_collection ist fuer deutsche Konten gesperrt. Wer
+        // das hier spaeter absichern will, setzt ein Haekchen auf /checkout
+        // und prueft an dieser Stelle metadata.abbruch_mail_ok === "1".
         //
-        // Stripes eigenes consent_collection[promotions] waere der bequeme
-        // Weg gewesen, ist fuer deutsche Konten aber gesperrt ("`consent_
-        // collection.promotions` is not available in your country") und
-        // laesst die Session-Erzeugung mit HTTP 400 scheitern. Das Haekchen
-        // steht deshalb auf UNSERER Warenkorbseite und reist als Metadatum mit.
-        if (s.metadata?.abbruch_mail_ok !== "1") {
-          console.log(`[abbruch] keine Einwilligung, kein Versand an ${email}`);
-          break;
-        }
+        // Was als Daempfer bleibt: jede Mail traegt einen funktionierenden
+        // Ein-Klick-Abmeldelink, und die Sperrliste unten wird vorher gelesen.
 
         // Wer widersprochen hat, bekommt keine Werbung. Fehlt die Tabelle noch,
         // liefert Supabase einen Fehler -- dann NICHT senden (fail closed).
