@@ -25,7 +25,7 @@ export function AffiliateSuccessBanner() {
     <div className="relative overflow-hidden rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/15 via-primary/5 to-transparent p-6 mb-6">
       <div className="flex items-center gap-2 text-primary mb-1"><Gift className="h-5 w-5" /><span className="font-semibold">Danke für deinen Kauf! 🎉</span></div>
       <h3 className="text-lg font-bold flex items-center gap-1.5"><Percent className="h-4 w-4 text-primary" /> Verdiene 20 % – lebenslang</h3>
-      <p className="text-sm text-muted-foreground mt-1 mb-3">Empfiehl GründerX, AnwaltX oder das Founder-Bundle. Für <strong>jede Zahlung</strong> deiner Geworbenen bekommst du dauerhaft 20 % – in echtem Geld. Teile einfach deinen Link:</p>
+      <p className="text-sm text-muted-foreground mt-1 mb-3">Empfiehl GründerX, AnwaltX oder das Founder-Set. Für <strong>jede Zahlung</strong> deiner Geworbenen bekommst du dauerhaft 20 % – in echtem Geld. Teile einfach deinen Link:</p>
       {link ? (
         <div className="flex flex-col sm:flex-row gap-2">
           <Input readOnly value={link} className="font-mono text-sm" onFocus={(e) => e.currentTarget.select()} />

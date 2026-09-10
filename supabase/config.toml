@@ -99,3 +99,11 @@ verify_jwt = true
 # per JWT. Mit verify_jwt kaeme keine einzige Meldung an.
 [functions.external-billing-webhook]
 verify_jwt = false
+
+# Ruft der Mailclient bzw. der Empfaenger ohne Login auf — der hat kein JWT.
+[functions.mail-unsubscribe]
+verify_jwt = false
+
+# Wird von pg_cron per Service-Role-Key aufgerufen, nicht vom Browser.
+[functions.send-referral-mails]
+verify_jwt = false

@@ -20,10 +20,11 @@ const KEY = "gx_cart_variant";
 export const CART_VARIANTS = ["gruenderx", "gruenderx-year", "bundle", "bundle-year"] as const;
 export type CartVariant = (typeof CART_VARIANTS)[number];
 
-const isKnown = (v: string): v is CartVariant => (CART_VARIANTS as readonly string[]).includes(v);
+export const isCartVariant = (v: string | null | undefined): v is CartVariant =>
+  !!v && (CART_VARIANTS as readonly string[]).includes(v);
 
 export const rememberCartVariant = (variantId: string) => {
-  if (!isKnown(variantId)) return;
+  if (!isCartVariant(variantId)) return;
   try {
     sessionStorage.setItem(KEY, variantId);
   } catch {
@@ -34,7 +35,7 @@ export const rememberCartVariant = (variantId: string) => {
 export const readCartVariant = (): CartVariant | null => {
   try {
     const v = sessionStorage.getItem(KEY);
-    return v && isKnown(v) ? v : null;
+    return isCartVariant(v) ? v : null;
   } catch {
     return null;
   }

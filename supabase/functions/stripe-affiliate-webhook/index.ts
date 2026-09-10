@@ -1,13 +1,17 @@
 // ===================================================================
 // stripe-affiliate-webhook (GruenderX): 20 % Affiliate-Provision je Zahlung.
-// Events: checkout.session.completed, invoice.payment_succeeded,
-//         customer.subscription.deleted, charge.refunded.
+// Events: checkout.session.completed, checkout.session.expired,
+//         invoice.payment_succeeded, customer.subscription.deleted,
+//         charge.refunded.
 // verify_jwt = false; Signaturpruefung mit STRIPE_WEBHOOK_SECRET.
 // Produkt aus session.metadata.product ('gruenderx' | 'bundle', Fallback gruenderx).
 // ===================================================================
 import Stripe from "https://esm.sh/stripe@18.5.0";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
 import { sendMetaCapiEvent } from "../_shared/metaCapi.ts";
+import { buildAbandoned, type Produkt } from "../_shared/campaigns.ts";
+import { sendMail } from "../_shared/sendMail.ts";
+import { unsubscribeUrl } from "../_shared/unsubscribe.ts";
 
 const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY")!, { apiVersion: "2025-08-27.basil" });
 const webhookSecret = Deno.env.get("STRIPE_WEBHOOK_SECRET")!;
@@ -15,6 +19,14 @@ const webhookSecret = Deno.env.get("STRIPE_WEBHOOK_SECRET")!;
 const supabase = createClient(
   Deno.env.get("HUB_SUPABASE_URL") || Deno.env.get("SUPABASE_URL")!,
   Deno.env.get("HUB_SERVICE_ROLE_KEY") || Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
+);
+// Eigener Client fuer die EIGENE Datenbank. `supabase` oben zeigt bewusst auf
+// den AnwaltX-Hub (gemeinsamer Affiliate-Ledger); mail_optouts schreibt aber
+// mail-unsubscribe lokal, und eine Abmeldung, die woanders nachgeschlagen
+// wird, wirkt nie.
+const localDb = createClient(
+  Deno.env.get("SUPABASE_URL")!,
+  Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
 );
 const RATE = 0.20;
 
@@ -115,6 +127,51 @@ Deno.serve(async (req) => {
           period_end: inv.period_end ? new Date(inv.period_end * 1000).toISOString() : null,
         });
         if (error && !String(error.message).includes("duplicate")) throw error;
+        break;
+      }
+
+      // Warenkorb-Abbruch. Stripe laesst eine unbezahlte Checkout-Session nach
+      // rund 24 Stunden ablaufen und meldet das hier. Besserer Ausloeser als
+      // jeder eigene Timer: Es steht fest, dass nicht gezahlt wurde, und die
+      // Mailadresse liegt in der Session.
+      case "checkout.session.expired": {
+        const s = event.data.object as any;
+        const email = (s.customer_details?.email || s.customer_email || "")
+          .trim().toLowerCase();
+        if (!email || !email.includes("@")) break;
+
+        // Wer widersprochen hat, bekommt keine Werbung. Fehlt die Tabelle noch,
+        // liefert Supabase einen Fehler -- dann NICHT senden (fail closed).
+        const { data: out, error: outErr } = await localDb
+          .from("mail_optouts").select("email").eq("email", email).maybeSingle();
+        if (outErr) {
+          console.error("mail_optouts nicht lesbar, kein Versand:", outErr.message);
+          break;
+        }
+        if (out) break;
+
+        const functionsUrl = `${Deno.env.get("SUPABASE_URL")}/functions/v1`;
+        const abmelden = await unsubscribeUrl(email, functionsUrl);
+        // Ohne funktionierenden Abmeldeweg keine Werbemail (§ 7 Abs. 3 UWG).
+        if (!abmelden) {
+          console.error("UNSUBSCRIBE_SECRET fehlt, kein Versand an", email);
+          break;
+        }
+
+        const produkt: Produkt = s.metadata?.product === "bundle" ? "bundle" : "gruenderx";
+        const mail = buildAbandoned({
+          produkt,
+          intervall: s.metadata?.interval === "year" ? "year" : "month",
+          baseUrl: "https://gruenderx.de",
+          unsubscribeUrl: abmelden,
+        });
+        const res = await sendMail({
+          to: email, subject: mail.subject, text: mail.text, html: mail.html,
+          unsubscribeUrl: abmelden,
+        });
+        console.log(res.ok
+          ? `[abbruch] -> ${email} (${produkt})`
+          : `[abbruch] FEHLER ${email}: ${res.error}`);
         break;
       }
 

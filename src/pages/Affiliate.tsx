@@ -77,7 +77,7 @@ export default function Affiliate() {
       <div className="text-center space-y-2">
         <div className="inline-flex items-center gap-2 text-primary"><Percent className="h-5 w-5" /><span className="font-semibold">20 % Umsatzbeteiligung – lebenslang</span></div>
         <h1 className="text-2xl md:text-3xl font-bold">Partnerprogramm</h1>
-        <p className="text-muted-foreground">Empfiehl GründerX, AnwaltX oder das Founder-Bundle. Du bekommst <strong>20 % von jeder Zahlung</strong> deiner Geworbenen – dauerhaft, nicht nur im ersten Monat. Auszahlung in echtem Geld.</p>
+        <p className="text-muted-foreground">Empfiehl GründerX, AnwaltX oder das Founder-Set. Du bekommst <strong>20 % von jeder Zahlung</strong> deiner Geworbenen – dauerhaft, nicht nur im ersten Monat. Auszahlung in echtem Geld.</p>
       </div>
 
       <Card>

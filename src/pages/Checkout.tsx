@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { STRIPE_PRICES } from "@/lib/stripe";
-import { readCartVariant, rememberCartVariant, type CartVariant } from "@/lib/cart";
+import { isCartVariant, readCartVariant, rememberCartVariant, type CartVariant } from "@/lib/cart";
 import Logo from "@/components/Logo";
 import { UseCasesShowcase } from "@/components/landing/UseCasesShowcase";
 
@@ -25,8 +25,9 @@ import { UseCasesShowcase } from "@/components/landing/UseCasesShowcase";
    Konto geht. Genau das erwartet man beim Kauf einer Ware und bekommt es bei
    Software fast nie: Artikelnummer, Nettobetrag, Umsatzsteuer, Endbetrag.
 
-   Alle Beträge sind NETTO (AGB § 4 Abs. 1). Brutto wird gerechnet, nicht
-   getippt — sonst laufen die Zahlen bei der nächsten Preisänderung auseinander.
+   Alle Preise im Code sind BRUTTO (grossCents) — das ist der Betrag, den
+   Stripe einzieht. Netto und Umsatzsteuer werden daraus gerechnet, nicht
+   getippt, sonst laufen die Zahlen bei der nächsten Preisänderung auseinander.
    --------------------------------------------------------------------------- */
 
 /**
@@ -179,7 +180,14 @@ const Checkout = () => {
   const [checking, setChecking] = useState(false);
   // Vorauswahl aus dem Produktblock. Ohne gemerkte Wahl liegt der Einzelzugang
   // im Korb — der günstigere Artikel, nicht der teurere.
-  const [variantId, setVariantId] = useState<CartVariant>(() => readCartVariant() ?? "gruenderx");
+  //
+  // ?variant= schlägt den gemerkten Wert. Die Warenkorb-Abbruch-Mail verlinkt
+  // damit genau die Variante, die im abgebrochenen Checkout lag — sessionStorage
+  // hilft dort nicht, weil die Mail auf einem anderen Gerät geöffnet wird.
+  const [variantId, setVariantId] = useState<CartVariant>(() => {
+    const wanted = new URLSearchParams(window.location.search).get("variant");
+    return isCartVariant(wanted) ? wanted : (readCartVariant() ?? "gruenderx");
+  });
 
   const item = ITEMS.find((i) => i.id === variantId) ?? ITEMS[0];
   const netCents = netOf(item.grossCents);

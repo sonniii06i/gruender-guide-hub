@@ -8,18 +8,28 @@
 // dabei kein Fehler; es passierte schlicht nichts, und genau deshalb wäre es
 // lange unbemerkt geblieben.
 //
-// Versand über IONOS-SMTP wie bei send-ticket-email und
-// send-booking-confirmation — dieselbe Absenderadresse, damit die Zustellung
-// nicht an einer neuen, nicht verifizierten Domain scheitert.
+// WARUM SIE UMGEBAUT WURDE: Das HTML war ein <div> mit "color:#111" — keine
+// Markenfarbe, kein Kopf, kein Fuß, und ein <div>-Layout bricht in Outlook.
+// Vor allem aber war es eine Quittung, kein Start: "Dein Zugang ist
+// freigeschaltet" und dann nichts. Die erste Mail nach dem Kauf entscheidet,
+// ob jemand das Produkt überhaupt öffnet — sie führt jetzt zu den ersten
+// drei Schritten statt nur zur Anmeldemaske.
+//
+// Versand über den gemeinsamen IONOS-SMTP-Weg (_shared/sendMail.ts) —
+// dieselbe Absenderadresse wie überall, sonst scheitert die Zustellung an
+// SPF/DKIM.
 
-import { SMTPClient } from "https://deno.land/x/denomailer@1.6.0/mod.ts";
+import {
+  button, callout, heading, paragraph, renderMail, steps,
+} from "../_shared/mailLayout.ts";
+import { sendMail } from "../_shared/sendMail.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-const ADMIN_EMAIL = "impressum@gruenderx.de";
+const SITE = "https://gruenderx.de";
 
 interface Payload {
   email: string;
@@ -39,58 +49,73 @@ Deno.serve(async (req) => {
       });
     }
 
-    const password = Deno.env.get("IONOS_SMTP_PASSWORD");
-    if (!password) throw new Error("IONOS_SMTP_PASSWORD not set");
+    const vorname = (body.firstName || "").trim().split(/\s+/)[0] || "";
+    const greeting = vorname ? `Hallo ${vorname},` : "Hallo,";
+    const plan = (body.plan || "GründerX").trim();
 
-    const safe = (s: string) =>
-      s.replace(/[<>&]/g, (c) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;" }[c]!));
+    const blocks = [
+      paragraph(
+        `deine Zahlung ist eingegangen und dein Zugang <b>${plan}</b> ist ` +
+        `freigeschaltet. Melde dich mit genau der Adresse an, an die diese ` +
+        `Mail gegangen ist.`,
+      ),
+      button(`${SITE}/auth?mode=signin`, "Jetzt anmelden"),
+      heading("Die ersten drei Schritte"),
+      steps([
+        ["Frag Felix, was dich gerade blockiert",
+         "Der KI-Co-Pilot ist unbegrenzt im Chat — Rechtsform, Finanzamt-" +
+         "Fragebogen, Umsatzsteuer, Amazon-Abrechnung. Keine Abrechnung pro Frage."],
+        ["Lass die Pflichten einmal durchprüfen",
+         "Brauche ich ein Gewerbe? Bin ich über der Schwelle? Fehlt mir LUCID, " +
+         "WEEE oder eine CE-Erklärung? Drei Minuten je Check, und du weißt es."],
+        ["Richte das Steuer-Cockpit ein",
+         "USt-Voranmeldung, EÜR, BWA und Fristen an einer Stelle. Wer das einmal " +
+         "eingerichtet hat, sucht am Quartalsende nichts mehr zusammen."],
+      ]),
+      callout(
+        "Rechnung, Zahlungsdaten und Kündigung",
+        `Alles im Kundenportal unter „Abo verwalten“ — jederzeit zum Ende der ` +
+        `Abrechnungsperiode kündbar, ein Klick, kein Anruf.`,
+      ),
+    ];
 
-    const anrede = body.firstName ? `Hallo ${safe(body.firstName)},` : "Hallo,";
-    const plan = safe(body.plan || "GründerX");
+    const text = [
+      greeting, "",
+      `deine Zahlung ist eingegangen, dein Zugang (${plan}) ist freigeschaltet.`,
+      "",
+      `Anmelden: ${SITE}/auth`,
+      "Deine Anmelde-Adresse ist genau die, an die diese Mail ging.",
+      "",
+      "Die ersten drei Schritte:",
+      "1. Frag Felix, was dich gerade blockiert — unbegrenzt im Chat.",
+      "2. Lass die Pflichten pruefen: Gewerbe, Schwellen, LUCID, WEEE, CE.",
+      "3. Richte das Steuer-Cockpit ein: USt, EUER, BWA, Fristen.",
+      "",
+      "Rechnungen und Kuendigung findest du im Kundenportal unter",
+      "„Abo verwalten“. Jederzeit zum Ende der Abrechnungsperiode kuendbar.",
+      "",
+      "Fragen? Einfach auf diese Mail antworten.",
+      "",
+      "Viele Gruesse",
+      "Sonni von GruenderX",
+    ].join("\n");
 
-    const client = new SMTPClient({
-      connection: {
-        hostname: "smtp.ionos.de",
-        port: 465,
-        tls: true,
-        auth: { username: ADMIN_EMAIL, password },
-      },
+    const html = renderMail({
+      preheader: "Dein Zugang ist freigeschaltet — hier sind die ersten drei Schritte.",
+      greeting,
+      blocks,
+      baseUrl: SITE,
+      // Kein Abmeldelink: Das ist eine Vertragsmail, keine Werbung.
+      footerReason: "Du bekommst diese Mail, weil du gerade einen Zugang gekauft hast.",
     });
 
-    await client.send({
-      from: `GründerX <${ADMIN_EMAIL}>`,
+    const res = await sendMail({
       to: body.email,
       subject: "Dein Zugang zu GründerX ist bereit",
-      content:
-        `${body.firstName ? `Hallo ${body.firstName},` : "Hallo,"}\n\n` +
-        `deine Zahlung ist eingegangen und dein Zugang (${body.plan || "GründerX"}) steht bereit.\n\n` +
-        `Anmelden: https://gruenderx.de/auth\n` +
-        `Deine Anmelde-Adresse ist genau die, an die diese Mail ging.\n\n` +
-        `Rechnungen und Kündigung findest du im Kundenportal unter „Abo verwalten".\n` +
-        `Das Abo ist monatlich kündbar.\n\n` +
-        `Fragen? Einfach auf diese Mail antworten.\n\nGründerX`,
-      html: `
-        <div style="font-family:Arial,sans-serif;max-width:600px;margin:auto;padding:24px;background:#fff;color:#111">
-          <h2 style="margin:0 0 16px">Dein Zugang steht bereit</h2>
-          <p>${anrede}</p>
-          <p>deine Zahlung ist eingegangen, dein Zugang <strong>${plan}</strong> ist freigeschaltet.</p>
-          <p style="margin:24px 0">
-            <a href="https://gruenderx.de/auth"
-               style="background:#111;color:#fff;padding:12px 20px;border-radius:8px;text-decoration:none;display:inline-block">
-              Jetzt anmelden
-            </a>
-          </p>
-          <p style="color:#555;font-size:14px">
-            Deine Anmelde-Adresse ist genau die, an die diese Mail ging.
-            Rechnungen und Kündigung findest du im Kundenportal unter „Abo verwalten“ —
-            das Abo ist monatlich kündbar.
-          </p>
-          <hr style="border:none;border-top:1px solid #eee;margin:24px 0" />
-          <p style="color:#888;font-size:12px">Fragen? Antworte einfach auf diese Mail.</p>
-        </div>`,
+      text,
+      html,
     });
-
-    await client.close();
+    if (!res.ok) throw new Error(res.error || "Versand fehlgeschlagen");
 
     return new Response(JSON.stringify({ ok: true }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
