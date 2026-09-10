@@ -140,6 +140,15 @@ Deno.serve(async (req) => {
           .trim().toLowerCase();
         if (!email || !email.includes("@")) break;
 
+        // Ohne ausdrueckliche Einwilligung KEINE Mail. § 7 Abs. 3 UWG deckt
+        // nur eigene Kunden ab -- wer abgebrochen hat, hat nichts gekauft und
+        // ist keiner. Stripe erhebt das Haekchen im Checkout
+        // (consent_collection.promotions) und meldet es hier.
+        if (s.consent?.promotions !== "opt_in") {
+          console.log(`[abbruch] keine Einwilligung, kein Versand an ${email}`);
+          break;
+        }
+
         // Wer widersprochen hat, bekommt keine Werbung. Fehlt die Tabelle noch,
         // liefert Supabase einen Fehler -- dann NICHT senden (fail closed).
         const { data: out, error: outErr } = await localDb

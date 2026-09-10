@@ -206,6 +206,16 @@ serve(async (req) => {
       },
       billing_address_collection: "required",
       customer_update: { address: "auto", name: "auto" },
+      // Einwilligung fuer die Warenkorb-Abbruch-Mail.
+      //
+      // WARUM ZWINGEND: § 7 Abs. 3 UWG erlaubt Werbemails ohne Einwilligung
+      // nur an eigene Kunden -- die Adresse muss "im Zusammenhang mit dem
+      // VERKAUF einer Ware" erhoben worden sein. Wer den Checkout abbricht,
+      // hat nichts gekauft; fuer den gilt § 7 Abs. 2 Nr. 2 UWG, und das ist
+      // abmahnfaehig. Stripe blendet dafuer eine Haekchen-Zeile ein und
+      // meldet das Ergebnis als session.consent.promotions === "opt_in".
+      // Der Webhook sendet nur dann.
+      consent_collection: { promotions: "auto" },
       tax_id_collection: { enabled: true },
       // Erlaubt Eingabe von Gutschein-Codes (SONNI / FOUNDER) im Stripe-Checkout.
       // Stripe akzeptiert nur einen Promo-Code pro Session -> Codes sind nicht kombinierbar.
