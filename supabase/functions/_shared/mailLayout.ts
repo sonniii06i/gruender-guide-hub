@@ -124,12 +124,73 @@ export function divider(): string {
   return `<div class="dm-line" style="height:1px;background:${LINE};margin:26px 0"></div>`;
 }
 
-/** Hervorgehobener Kasten fuer die eine Zahl, auf die es ankommt. */
-export function callout(title: string, body: string): string {
-  return `<table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="margin:22px 0">
-    <tr><td class="dm-soft-bg" style="background:${BRAND_SOFT};border:1px solid ${BRAND_LINE};border-radius:12px;padding:18px 20px">
-      <div style="font:700 17px/1.3 ${FONT};color:${BRAND}">${esc(title)}</div>
-      <div class="dm-soft" style="font:400 14px/1.6 ${FONT};color:${TEXT_SOFT};margin-top:6px">${body}</div>
+// -------------------------------------------------------------------
+// Hervorheben ohne Kasten
+// -------------------------------------------------------------------
+// Hier stand frueher EIN Baustein fuer alles: ein Kasten mit Rahmen,
+// farbigem Grund und Radius, in den Preise, Codes und ganze Saetze
+// gleichermassen hineingesteckt wurden.
+//
+// Das Problem daran ist nicht die Optik, sondern die Wirkung: Ein Rahmen
+// sagt "hier ist ein Kasten", nicht "hier ist die Zahl, auf die es
+// ankommt". Ein Leser, der die Mail ueberfliegt, sieht ein Werbeelement
+// und liest darueber hinweg — dieselbe Blindheit wie bei Bannern.
+//
+// Hervorgehoben wird jetzt ueber SCHRIFTGROESSE und WEISSRAUM. Eine Zahl
+// in 30px steht fuer sich, ohne dass ein Rahmen sie einrahmen muss, und
+// sie wird beim Ueberfliegen tatsaechlich gelesen. Drei Bausteine statt
+// einem, weil drei verschiedene Dinge hervorgehoben werden:
+//
+//   kernzahl()  — ein Betrag mit Einheit (Preis, Provision, Bestand)
+//   kennung()   — ein Code, den jemand abschreiben oder weitergeben soll
+//   betonung()  — ein Satz, der herausstechen soll, aber keine Zahl ist
+//
+// Alle drei setzen die Markenfarbe auf die Schrift statt auf eine Flaeche.
+
+/**
+ * Der eine Betrag, auf den es ankommt.
+ *
+ * `zahl` steht gross und allein, `einheit` klein darunter — so liest man
+ * "64,99 €" und erst danach "pro Monat", was der Reihenfolge im Kopf
+ * entspricht. `erklaerung` ist normaler Fliesstext und traegt die
+ * Bedingungen, die niemand gross gesetzt haben will.
+ */
+export function kernzahl(zahl: string, einheit: string, erklaerung: string): string {
+  return `<table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="margin:30px 0 24px">
+    <tr><td>
+      <div style="font:700 30px/1.1 ${FONT};color:${BRAND};letter-spacing:-.02em">${esc(zahl)}</div>
+      ${einheit ? `<div class="dm-soft" style="font:400 15px/1.4 ${FONT};color:${TEXT_SOFT};margin-top:5px">${esc(einheit)}</div>` : ""}
+      <div class="dm-soft" style="font:400 15px/1.65 ${FONT};color:${TEXT_SOFT};margin-top:14px">${erklaerung}</div>
+    </td></tr></table>`;
+}
+
+/**
+ * Ein Code zum Abschreiben oder Weitergeben.
+ *
+ * Monospace, weil es beim Abtippen auf jedes Zeichen ankommt und eine
+ * Proportionalschrift 0 und O nebeneinanderstellt, ohne sie zu
+ * unterscheiden. Etwas Laufweite, damit die Zeichen einzeln lesbar sind.
+ */
+export function kennung(wert: string, erklaerung: string): string {
+  return `<table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="margin:28px 0 22px">
+    <tr><td>
+      <div style="font:600 26px/1.2 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:${BRAND};letter-spacing:.06em">${esc(wert)}</div>
+      <div class="dm-soft" style="font:400 15px/1.65 ${FONT};color:${TEXT_SOFT};margin-top:12px">${erklaerung}</div>
+    </td></tr></table>`;
+}
+
+/**
+ * Ein Satz, der herausstechen soll, aber keine Zahl ist — der naechste
+ * offene Schritt etwa, oder der Bonus zur Bestellung.
+ *
+ * Groesser als Fliesstext und in Markenfarbe, aber ohne Flaeche: Eine
+ * ganze Zeile in 30px waere im Postfach ein Schrei, kein Hinweis.
+ */
+export function betonung(titel: string, erklaerung: string): string {
+  return `<table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="margin:28px 0 22px">
+    <tr><td>
+      <div style="font:700 19px/1.35 ${FONT};color:${BRAND}">${esc(titel)}</div>
+      <div class="dm-soft" style="font:400 15px/1.65 ${FONT};color:${TEXT_SOFT};margin-top:9px">${erklaerung}</div>
     </td></tr></table>`;
 }
 
@@ -214,16 +275,26 @@ export function productCard(p: ProductCard): string {
 }
 
 /**
- * Belegbarer Vertrauensblock. Nimmt fertige Zeilen entgegen und erfindet
- * nichts: keine Sterne, keine Kundenzahl, kein Siegel. Was hier steht,
- * muss auf der Website an derselben Stelle nachlesbar sein.
+ * Die Zusagen, die den Kauf absichern — als lesbarer Satz.
+ *
+ * Vorher standen sie als drei graue Mini-Spalten unter dem Knopf. Das
+ * sah aufgeraeumt aus und wurde nicht gelesen: 12-Punkt-Grau in drei
+ * Spalten ist die Form, in der auch Kleingedrucktes steht, und genau so
+ * wird es ueberflogen.
+ *
+ * Als ein Satz in normaler Lesegroesse tragen dieselben Angaben
+ * tatsaechlich zur Entscheidung bei — Rueckgaberecht und Versandkosten
+ * sind der haeufigste Grund, einen Kauf doch noch abzubrechen.
+ *
+ * Erfindet nichts: Was hier steht, muss auf der Website an derselben
+ * Stelle nachlesbar sein. Keine Sterne, keine Kundenzahl, kein Siegel.
  */
-export function reassurance(items: string[]): string {
-  const cells = items.map((t) =>
-    `<td class="dm-mut" align="center" style="font:400 12.5px/1.5 ${FONT};color:${TEXT_MUT};padding:0 6px">${t}</td>`
-  ).join("");
-  return `<table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="margin:20px 0 4px">
-    <tr>${cells}</tr></table>`;
+export function zusagen(items: string[]): string {
+  if (!items.length) return "";
+  const satz = items.length > 1
+    ? `${items.slice(0, -1).join(", ")} und ${items[items.length - 1]}`
+    : items[0];
+  return `<div class="dm-soft" style="font:400 15px/1.65 ${FONT};color:${TEXT_SOFT};margin-top:18px">${satz}.</div>`;
 }
 
 /** Zeile mit Betrag rechts — Bestelluebersichten und Preisaufstellungen. */

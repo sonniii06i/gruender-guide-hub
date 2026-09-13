@@ -35,8 +35,8 @@
 // ===================================================================
 
 import {
-  BRAND, BRAND_DARK, bullets, button, callout, divider, eur, heading,
-  paragraph, plain, priceRows, renderMail, secondary, steps, track,
+  BRAND, BRAND_DARK, betonung, bullets, button, divider, eur, heading,
+  kernzahl, paragraph, plain, priceRows, renderMail, secondary, steps, track,
   type Built,
 } from "./mailLayout.ts";
 
@@ -194,10 +194,11 @@ export function buildCartObjections(o: CartOpts): Built {
        "Kündbar zum Ende der Abrechnungsperiode — ein Klick im Kundenportal, " +
        "keine Mindestlaufzeit, kein Anruf."],
     ]),
-    callout(
-      `${b.preis} ${b.zeitraum} — das sind ${b.proTag} am Tag`,
-      "Endpreis inkl. 19 % USt., an der Kasse kommt nichts dazu. " +
-      "Als Betriebsausgabe absetzbar.",
+    kernzahl(
+      b.preis,
+      b.zeitraum,
+      `Das sind ${b.proTag} am Tag. Endpreis inkl. 19 % USt., an der Kasse ` +
+      "kommt nichts dazu, und als Betriebsausgabe ist es absetzbar.",
     ),
     button(zurueck, "Zahlung abschließen"),
   ];
@@ -354,8 +355,9 @@ export function buildReferral(o: {
       "erfragen, ihre USt-Voranmeldung auf gut Glück abgeben und ihre " +
       "Amazon-Abrechnung nie wirklich gelesen haben.",
     ),
-    callout(
-      `${proMonat} pro Monat — für jeden geworbenen Kunden, dauerhaft`,
+    kernzahl(
+      proMonat,
+      "pro Monat und geworbenem Kunden, dauerhaft",
       `<b>20 % von jeder Zahlung</b>, nicht nur von der ersten. Wer zwölf ` +
       `Monate bleibt, bringt dir zwölf Provisionen; ein Jahresabo bringt ` +
       `${proJahr} auf einmal. Keine Deckelung, keine Mindestumsätze, ` +
@@ -467,7 +469,7 @@ export function buildWeekly(o: {
           `${s.schrittNr} von ${s.schritteGesamt}. Der nächste offene Punkt:`
         : "ein Punkt in deinem Playbook ist noch offen:",
     ));
-    blocks.push(callout(offen,
+    blocks.push(betonung(offen,
       "Angefangene Playbooks bleiben genau an der Stelle liegen, an der es " +
       "unbequem wird — meistens die, die später am teuersten ist."));
   } else {
