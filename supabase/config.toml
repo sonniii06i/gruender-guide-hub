@@ -107,3 +107,11 @@ verify_jwt = false
 # Wird von pg_cron per Service-Role-Key aufgerufen, nicht vom Browser.
 [functions.send-referral-mails]
 verify_jwt = false
+
+[functions.mail-webhook]
+# Resend schickt kein JWT — die Echtheit haengt an der Svix-Signatur.
+verify_jwt = false
+
+[functions.mail-track]
+# Aufruf kommt aus dem Mailprogramm, nicht aus der App.
+verify_jwt = false

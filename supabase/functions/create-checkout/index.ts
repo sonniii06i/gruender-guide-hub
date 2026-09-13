@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import Stripe from "https://esm.sh/stripe@18.5.0";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
+import { abTestStrecke } from "../_shared/mailSend.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -217,6 +218,38 @@ serve(async (req) => {
       success_url: `${origin}/dashboard?checkout=success`,
       cancel_url: `${origin}/checkout?canceled=1`,
     });
+
+    // --------------------------------------------------------------
+    // Warenkorbstrecke vormerken.
+    //
+    // AB HIER LAEUFT DIE UHR. Der Ausloeser war frueher allein Stripes
+    // checkout.session.expired -- das kommt aber erst rund 24 Stunden
+    // spaeter, und die wirksamste Erinnerung ist die in der ersten
+    // Stunde. Deshalb entsteht die Zeile hier, beim Erzeugen der
+    // Session, und send-cart-series entscheidet anhand des Alters.
+    //
+    // Kauft der Kunde, setzt der Erfolgs-Webhook `gekauft_at` und die
+    // Strecke ruht. Schlaegt das Vormerken fehl, wird der Checkout
+    // TROTZDEM ausgeliefert: Eine entgangene Erinnerungsmail ist ein
+    // verpasster Nachfass, ein blockierter Checkout ein verlorener Kauf.
+    try {
+      const abmelden = user.email
+        ? await supabaseService.from("mail_optouts").select("email")
+            .eq("email", user.email.toLowerCase()).maybeSingle()
+        : null;
+      if (user.email && !abmelden?.data) {
+        await supabaseService.from("cart_abandons").upsert({
+          email: user.email,
+          session_id: session.id,
+          produkt: product,
+          intervall: interval,
+          weiter_url: `${origin}/checkout?variant=${product}${interval === "year" ? "-year" : ""}`,
+          variant: abTestStrecke(user.email, "cart"),
+        }, { onConflict: "session_id", ignoreDuplicates: true });
+      }
+    } catch (e) {
+      console.error("[cart_abandons] vormerken fehlgeschlagen:", (e as Error).message);
+    }
 
     return new Response(JSON.stringify({ url: session.url }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },

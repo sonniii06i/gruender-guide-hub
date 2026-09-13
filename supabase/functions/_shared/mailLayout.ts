@@ -1,64 +1,135 @@
 // ===================================================================
-// Gemeinsames Layout fuer alle GruenderX-Mails.
+// mailLayout.ts — gemeinsames Geruest fuer ALLE Mails dieser Marke.
 //
-// WOZU DIESE DATEI. Jede Mailfunktion brachte bisher ihr eigenes HTML mit.
-// Die Willkommensmail baut ihr Layout aus <div> mit "color:#111" -- ohne
-// Markenfarbe, ohne Kopf, ohne Fuss, und Tabellen-Layout braucht es, damit
-// Outlook nicht auseinanderfaellt. Hier steht das Geruest einmal.
+// Diese Datei ist in allen Marken **byte-identisch**. Alles, was sich je
+// Marke unterscheidet, steht in mailBrand.ts. Wer hier etwas aendert,
+// aendert es fuer alle fuenf Marken — und das ist der Zweck: Das Layout
+// ist bisher in jeder Codebasis eigenstaendig gewachsen, in den beiden
+// Shops sogar je Mailfunktion neu. Eine Korrektur musste bis zu sieben
+// Mal nachgezogen werden und wurde es nie vollstaendig.
 //
-// WAS AN DIESEM LAYOUT AUF CONVERSION AUSGELEGT IST:
+// Abgleich mit `diff` gegen jede andere Marke muss leer bleiben.
 //
-// * Preheader — der graue Text neben dem Betreff im Postfach. Fehlt er,
-//   zeigt der Client die erste Zeile des Koerpers, also "Hallo,". Nach dem
+// -------------------------------------------------------------------
+// WAS AN DIESEM LAYOUT AUF CONVERSION AUSGELEGT IST, und warum
+// -------------------------------------------------------------------
+//
+// * **Preheader.** Der graue Text neben dem Betreff im Postfach. Ohne ihn
+//   zeigt der Client die erste Zeile des Koerpers ("Hallo,"). Nach dem
 //   Betreff der zweite Hebel auf die Oeffnungsrate, und er kostet nichts.
-// * Genau EIN Hauptknopf je Mail. Zwei gleichwertige Knoepfe halbieren die
-//   Klickrate auf den wichtigeren, statt sie zu addieren.
-// * Knopf als Tabellenzelle, nicht als <a> mit Padding — Outlook rendert
-//   Padding an Inline-Elementen unzuverlaessig.
-// * Keine Botschaft in Bildern. Viele Clients laden Bilder erst nach
+//
+// * **Genau EIN Hauptknopf je Mail.** Zwei gleichwertige Knoepfe halbieren
+//   die Klickrate auf den wichtigeren, statt sie zu addieren. Zweitwege
+//   gehoeren als Textlink darunter, nicht als zweiter Knopf.
+//
+// * **Knopf als Tabellenzelle**, nicht als <a> mit Padding — Outlook
+//   rendert Padding an Inline-Elementen unzuverlaessig.
+//
+// * **Keine Botschaft in Bildern.** Viele Clients laden Bilder erst nach
 //   Freigabe; wer die Aussage ins Bild legt, zeigt Erstlesern nichts.
-// * 600px, einspaltig, Schrift ab 15px — ueber die Haelfte der Mails wird
-//   auf dem Telefon geoeffnet.
-// * Duzen, wie auf der Website.
+//   Jedes Bild hier hat deshalb ein aussagekraeftiges alt-Attribut, und
+//   die Mail ergibt ohne jedes Bild noch Sinn.
+//
+// * **600px, einspaltig, Schrift ab 15px** — ueber die Haelfte der Mails
+//   wird auf dem Telefon geoeffnet.
+//
+// * **Dunkelmodus.** NEU in v2 und der Grund fuer die halbe Datei:
+//   Apple Mail und Outlook invertieren helle Mails im Dunkelmodus
+//   eigenmaechtig. Bisher wurde dabei dunkler Text auf dunklem Grund
+//   gerendert — in der Bestellbestaetigung war der Gesamtbetrag
+//   betroffen. `color-scheme` meldet dem Client, dass die Mail selbst
+//   Bescheid weiss, und die Media-Query setzt die Flaechen bewusst.
+//
+// * **Immer eine Textfassung.** Reine HTML-Mails landen haeufiger im
+//   Spam, und `Built.text` ist deshalb im Typ Pflicht, nicht optional.
+//   In AnwaltX fehlte sie bisher komplett.
 // ===================================================================
 
-export const BRAND = "#256af4";       // --accent-blue, Handlungsfarbe
-export const BRAND_DARK = "#0c2a6e";  // --primary
-export const BRAND_SOFT = "#eef2ff";
-export const BRAND_LINE = "#dbe3f8";
-export const INK = "#0c2a6e";         // dunkle Kopfflaeche = Markenblau
+import { BRANDING } from "./mailBrand.ts";
+
+export const BRAND = BRANDING.brand;
+export const BRAND_DARK = BRANDING.brandDark;
+export const BRAND_SOFT = BRANDING.brandSoft;
+export const BRAND_LINE = BRANDING.brandLine;
+export const INK = BRANDING.ink;
+
 export const TEXT = "#1f2937";
 export const TEXT_SOFT = "#4b5563";
 export const TEXT_MUT = "#8b93a7";
 export const BG = "#f4f6fb";
 export const LINE = "#e6e9f2";
+export const GOOD = "#15803d";
 
 const FONT = "-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif";
 
 const esc = (v: string) =>
   String(v).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
+/** Betrag in Cent -> "12,90 €". Eine Stelle fuer alle Mails, damit nicht
+ *  die eine Mail "12.90 EUR" schreibt und die naechste "12,90 €". */
+export const eur = (cents: number): string =>
+  `${(cents / 100).toFixed(2).replace(".", ",")} €`;
+
+// -------------------------------------------------------------------
+// Linkverfolgung
+// -------------------------------------------------------------------
+// Jeder Link bekommt UTM-Parameter, sonst taucht der gesamte Mailumsatz
+// in der Statistik als "Direktzugriff" auf und die Kampagne sieht
+// wirkungslos aus. `variant` traegt die A/B-Variante bis in den Kauf --
+// erst dadurch laesst sich eine Variante am Umsatz messen und nicht nur
+// am Klick.
+export function track(
+  url: string,
+  campaign: string,
+  variant?: string,
+): string {
+  if (!url.startsWith("http")) return url;
+  const sep = url.includes("?") ? "&" : "?";
+  const p = [
+    "utm_source=mail",
+    "utm_medium=email",
+    `utm_campaign=${encodeURIComponent(campaign)}`,
+  ];
+  if (variant) p.push(`utm_content=${encodeURIComponent(variant)}`);
+  return `${url}${sep}${p.join("&")}`;
+}
+
+// -------------------------------------------------------------------
+// Bausteine
+// -------------------------------------------------------------------
+
 export function button(url: string, label: string): string {
   return `<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:26px 0 6px">
     <tr><td align="center" bgcolor="${BRAND}" style="border-radius:10px">
-      <a href="${url}" style="display:inline-block;padding:15px 30px;font:700 16px/1 ${FONT};color:#ffffff;text-decoration:none;border-radius:10px">${esc(label)}</a>
+      <a href="${url}" style="display:inline-block;padding:15px 30px;font:700 16px/1 ${FONT};color:${BRANDING.onBrand};text-decoration:none;border-radius:10px">${esc(label)}</a>
     </td></tr></table>`;
 }
 
+/** Zweitweg unter dem Hauptknopf — bewusst als Textlink, nie als zweiter Knopf. */
+export function secondary(url: string, label: string): string {
+  return `<div style="font:400 14px/1.6 ${FONT};color:${TEXT_MUT};margin:2px 0 4px">
+    <a href="${url}" style="color:${BRAND};text-decoration:underline">${esc(label)}</a>
+  </div>`;
+}
+
 export function paragraph(html: string): string {
-  return `<div style="font:400 15px/1.65 ${FONT};color:${TEXT_SOFT};margin-top:14px">${html}</div>`;
+  return `<div class="dm-soft" style="font:400 15px/1.65 ${FONT};color:${TEXT_SOFT};margin-top:14px">${html}</div>`;
 }
 
 export function heading(text: string): string {
-  return `<div style="font:600 16px/1.4 ${FONT};color:${TEXT};margin:28px 0 14px">${esc(text)}</div>`;
+  return `<div class="dm-text" style="font:600 16px/1.4 ${FONT};color:${TEXT};margin:28px 0 14px">${esc(text)}</div>`;
+}
+
+export function divider(): string {
+  return `<div class="dm-line" style="height:1px;background:${LINE};margin:26px 0"></div>`;
 }
 
 /** Hervorgehobener Kasten fuer die eine Zahl, auf die es ankommt. */
 export function callout(title: string, body: string): string {
   return `<table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="margin:22px 0">
-    <tr><td style="background:${BRAND_SOFT};border:1px solid ${BRAND_LINE};border-radius:12px;padding:18px 20px">
+    <tr><td class="dm-soft-bg" style="background:${BRAND_SOFT};border:1px solid ${BRAND_LINE};border-radius:12px;padding:18px 20px">
       <div style="font:700 17px/1.3 ${FONT};color:${BRAND}">${esc(title)}</div>
-      <div style="font:400 14px/1.6 ${FONT};color:${TEXT_SOFT};margin-top:6px">${body}</div>
+      <div class="dm-soft" style="font:400 14px/1.6 ${FONT};color:${TEXT_SOFT};margin-top:6px">${body}</div>
     </td></tr></table>`;
 }
 
@@ -67,14 +138,116 @@ export function steps(items: Array<[string, string]>): string {
   const rows = items.map(([t, d], i) =>
     `<tr>
       <td style="padding:0 14px 18px 0;vertical-align:top;width:34px">
-        <div style="width:28px;height:28px;border-radius:50%;background:${BRAND};color:#fff;font:700 14px/28px ${FONT};text-align:center">${i + 1}</div>
+        <div style="width:28px;height:28px;border-radius:50%;background:${BRAND};color:${BRANDING.onBrand};font:700 14px/28px ${FONT};text-align:center">${i + 1}</div>
       </td>
       <td style="padding:0 0 18px;vertical-align:top">
-        <div style="font:600 15px/1.4 ${FONT};color:${TEXT}">${esc(t)}</div>
-        <div style="font:400 14px/1.6 ${FONT};color:${TEXT_SOFT};margin-top:3px">${d}</div>
+        <div class="dm-text" style="font:600 15px/1.4 ${FONT};color:${TEXT}">${esc(t)}</div>
+        <div class="dm-soft" style="font:400 14px/1.6 ${FONT};color:${TEXT_SOFT};margin-top:3px">${d}</div>
       </td></tr>`).join("");
   return `<table role="presentation" cellpadding="0" cellspacing="0" width="100%">${rows}</table>`;
 }
+
+/** Hakenliste — kuerzer als steps(), fuer Leistungsumfang statt Ablauf. */
+export function bullets(items: string[]): string {
+  const rows = items.map((t) =>
+    `<tr>
+      <td style="padding:0 10px 10px 0;vertical-align:top;width:20px">
+        <span style="font:700 15px/1.6 ${FONT};color:${BRAND}">✓</span>
+      </td>
+      <td class="dm-soft" style="padding:0 0 10px;font:400 15px/1.6 ${FONT};color:${TEXT_SOFT}">${t}</td>
+    </tr>`).join("");
+  return `<table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="margin:16px 0">${rows}</table>`;
+}
+
+export interface ProductCard {
+  name: string;
+  href: string;
+  image?: string;
+  /** Aktueller Bruttopreis in Cent. */
+  priceCents: number;
+  /** Frueherer Preis in Cent — NUR setzen, wenn er wirklich verlangt wurde. */
+  wasCents?: number;
+  note?: string;
+  cta?: string;
+}
+
+/**
+ * Produktkarte im Anker-Muster: Bild, Name, Preis, gerechnete Ersparnis.
+ *
+ * `wasCents` erzeugt einen durchgestrichenen Preis und ein Ersparnis-Abzeichen.
+ * Der Betrag wird hier **gerechnet**, nie uebergeben — ein von Hand
+ * geschriebenes "50 % sparen" neben zwei Preisen, die etwas anderes
+ * hergeben, ist genau der Widerspruch, der teuer wird. Wer keinen echten
+ * frueheren Preis hat, laesst das Feld weg und bekommt keine Ersparnis.
+ */
+export function productCard(p: ProductCard): string {
+  const save = p.wasCents && p.wasCents > p.priceCents
+    ? p.wasCents - p.priceCents
+    : 0;
+  const pct = save ? Math.round((save / (p.wasCents as number)) * 100) : 0;
+
+  const img = p.image
+    ? `<tr><td style="padding:0 0 16px">
+         <a href="${p.href}"><img src="${p.image}" width="536" alt="${esc(p.name)}"
+            style="display:block;width:100%;max-width:536px;height:auto;border-radius:10px;border:0"></a>
+       </td></tr>`
+    : "";
+
+  const preis = save
+    ? `<span class="dm-text" style="font:700 20px/1.2 ${FONT};color:${TEXT}">${eur(p.priceCents)}</span>
+       <span class="dm-mut" style="font:400 15px/1.2 ${FONT};color:${TEXT_MUT};text-decoration:line-through;margin-left:8px">${eur(p.wasCents as number)}</span>
+       <span style="display:inline-block;background:${BRAND_SOFT};color:${BRAND};font:700 12px/1 ${FONT};padding:5px 8px;border-radius:5px;margin-left:8px">${eur(save)} gespart · ${pct} %</span>`
+    : `<span class="dm-text" style="font:700 20px/1.2 ${FONT};color:${TEXT}">${eur(p.priceCents)}</span>`;
+
+  return `<table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="margin:22px 0">
+    <tr><td class="dm-card" style="border:1px solid ${LINE};border-radius:12px;padding:18px">
+      <table role="presentation" cellpadding="0" cellspacing="0" width="100%">
+        ${img}
+        <tr><td>
+          <div class="dm-text" style="font:600 17px/1.35 ${FONT};color:${TEXT}">${esc(p.name)}</div>
+          <div style="margin-top:8px">${preis}</div>
+          ${p.note ? `<div class="dm-soft" style="font:400 14px/1.6 ${FONT};color:${TEXT_SOFT};margin-top:8px">${p.note}</div>` : ""}
+        </td></tr>
+        <tr><td>${button(p.href, p.cta ?? "Ansehen")}</td></tr>
+      </table>
+    </td></tr></table>`;
+}
+
+/**
+ * Belegbarer Vertrauensblock. Nimmt fertige Zeilen entgegen und erfindet
+ * nichts: keine Sterne, keine Kundenzahl, kein Siegel. Was hier steht,
+ * muss auf der Website an derselben Stelle nachlesbar sein.
+ */
+export function reassurance(items: string[]): string {
+  const cells = items.map((t) =>
+    `<td class="dm-mut" align="center" style="font:400 12.5px/1.5 ${FONT};color:${TEXT_MUT};padding:0 6px">${t}</td>`
+  ).join("");
+  return `<table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="margin:20px 0 4px">
+    <tr>${cells}</tr></table>`;
+}
+
+/** Zeile mit Betrag rechts — Bestelluebersichten und Preisaufstellungen. */
+export function priceRows(
+  rows: Array<[string, string]>,
+  total?: [string, string],
+): string {
+  const body = rows.map(([l, r]) =>
+    `<tr>
+      <td class="dm-soft" style="padding:9px 0;border-bottom:1px solid ${LINE};font:400 15px/1.5 ${FONT};color:${TEXT_SOFT}">${l}</td>
+      <td class="dm-soft" style="padding:9px 0;border-bottom:1px solid ${LINE};font:400 15px/1.5 ${FONT};color:${TEXT_SOFT};text-align:right;white-space:nowrap">${r}</td>
+    </tr>`).join("");
+  const sum = total
+    ? `<tr>
+        <td class="dm-text" style="padding:13px 0;font:700 16px/1.4 ${FONT};color:${TEXT}">${total[0]}</td>
+        <td class="dm-text" style="padding:13px 0;font:700 16px/1.4 ${FONT};color:${TEXT};text-align:right;white-space:nowrap">${total[1]}</td>
+      </tr>`
+    : "";
+  return `<table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="margin:18px 0">${body}${sum}</table>`;
+}
+
+// -------------------------------------------------------------------
+// Rahmen
+// -------------------------------------------------------------------
 
 export interface MailOptions {
   preheader: string;
@@ -88,29 +261,48 @@ export interface MailOptions {
    * bedingt noch gar keins.
    */
   footerReason?: string;
-  /** Ein-Klick-Abmeldung (RFC 8058) — die Queue haengt den Header an. */
+  /** Ein-Klick-Abmeldung (RFC 8058). Gmail und Yahoo verlangen den
+   *  zugehoerigen Header seit 02/2024 bei Massenversand. */
   unsubscribeUrl?: string;
 }
 
 export function renderMail(o: MailOptions): string {
-  const url = (o.baseUrl ?? "https://gruenderx.de").replace(/\/+$/, "");
-  const reason = o.footerReason ??
-    "Du bekommst diese Mail, weil du ein GründerX-Konto hast.";
+  const url = (o.baseUrl ?? BRANDING.url).replace(/\/+$/, "");
+  const reason = o.footerReason ?? BRANDING.defaultReason;
   const extra = o.footerNote
-    ? `<div style="font:400 13px/1.6 ${FONT};color:${TEXT_MUT};margin-top:22px">${o.footerNote}</div>`
+    ? `<div class="dm-mut" style="font:400 13px/1.6 ${FONT};color:${TEXT_MUT};margin-top:22px">${o.footerNote}</div>`
     : "";
   const unsub = o.unsubscribeUrl
     ? ` · <a href="${o.unsubscribeUrl}" style="color:${TEXT_MUT}">Abmelden</a>`
+    : "";
+  const legal = BRANDING.legalNote
+    ? `<br><span style="color:#a3aabd">${BRANDING.legalNote}</span>`
     : "";
 
   return `<!doctype html>
 <html lang="de"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="color-scheme" content="light">
-<title>GründerX</title>
+<meta name="color-scheme" content="light dark">
+<meta name="supported-color-schemes" content="light dark">
+<title>${BRANDING.name}</title>
+<style>
+  /* Dunkelmodus. Ohne diesen Block invertieren Apple Mail und Outlook die
+     Flaechen selbst und rendern dunklen Text auf dunklem Grund — der
+     Gesamtbetrag der Bestellbestaetigung war dabei unlesbar. */
+  @media (prefers-color-scheme: dark) {
+    body, .dm-bg { background:#0f1115 !important; }
+    .dm-card, .dm-sheet { background:#171a21 !important; border-color:#2a2f3a !important; }
+    .dm-text { color:#f3f5f9 !important; }
+    .dm-soft { color:#c3c9d6 !important; }
+    .dm-mut  { color:#8e96a8 !important; }
+    .dm-line { background:#2a2f3a !important; }
+    .dm-soft-bg { background:#1b2030 !important; border-color:#2f3a52 !important; }
+    .dm-foot { background:#12151b !important; border-color:#2a2f3a !important; }
+  }
+</style>
 </head>
-<body style="margin:0;background:${BG};padding:24px 12px">
+<body class="dm-bg" style="margin:0;background:${BG};padding:24px 12px">
 <!-- Vorschautext: erscheint im Postfach neben dem Betreff, nicht in der Mail. -->
 <div style="display:none;max-height:0;overflow:hidden;opacity:0;color:transparent;height:0;width:0">
   ${esc(o.preheader)}&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;
@@ -118,32 +310,66 @@ export function renderMail(o: MailOptions): string {
 
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr><td align="center">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="dm-sheet"
        style="max-width:600px;background:#ffffff;border-radius:14px;overflow:hidden;box-shadow:0 2px 14px rgba(15,23,42,.07)">
 
   <tr><td style="background:${INK};padding:24px 28px">
-    <div style="font:800 20px/1 ${FONT};color:#ffffff;letter-spacing:.3px">GründerX</div>
-    <div style="font:400 12.5px/1 ${FONT};color:#94a3b8;margin-top:6px;letter-spacing:.06em;text-transform:uppercase">Gründung · Steuern · Marketplaces</div>
+    <div style="font:800 20px/1 ${FONT};color:${BRANDING.onInk};letter-spacing:.3px">${BRANDING.name}</div>
+    <div style="font:400 12.5px/1 ${FONT};color:${BRANDING.inkSub};margin-top:6px;letter-spacing:.06em;text-transform:uppercase">${BRANDING.claim}</div>
   </td></tr>
 
   <tr><td style="padding:28px">
-    <div style="font:600 19px/1.35 ${FONT};color:${TEXT}">${esc(o.greeting)}</div>
+    <div class="dm-text" style="font:600 19px/1.35 ${FONT};color:${TEXT}">${esc(o.greeting)}</div>
     ${o.blocks.join("")}
     ${extra}
   </td></tr>
 
-  <tr><td style="background:#f8fafc;padding:18px 28px;border-top:1px solid ${LINE}">
-    <div style="font:400 12px/1.6 ${FONT};color:${TEXT_MUT}">
-      GründerX · Sonni Buttke · Pinguinweg 18, 22527 Hamburg<br>
+  <tr><td class="dm-foot" style="background:#f8fafc;padding:18px 28px;border-top:1px solid ${LINE}">
+    <div class="dm-mut" style="font:400 12px/1.6 ${FONT};color:${TEXT_MUT}">
+      ${BRANDING.imprint}<br>
       <a href="${url}/impressum" style="color:${TEXT_MUT}">Impressum</a> ·
       <a href="${url}/datenschutz" style="color:${TEXT_MUT}">Datenschutz</a> ·
       <a href="${url}/agb" style="color:${TEXT_MUT}">AGB</a>${unsub}<br>
-      <span style="color:#a3aabd">${esc(reason)} Antworte einfach, wenn du etwas brauchst.</span><br>
-      <span style="color:#a3aabd">GründerX ist eine Software und weder Steuerberatung noch Rechtsdienstleistung.</span>
+      <span style="color:#a3aabd">${esc(reason)} Antworte einfach, wenn du etwas brauchst.</span>${legal}
     </div>
   </td></tr>
 
 </table>
 </td></tr></table>
 </body></html>`;
+}
+
+/** Jede Kampagne liefert beides. `text` ist Pflicht, nicht optional. */
+export interface Built {
+  subject: string;
+  text: string;
+  html: string;
+}
+
+/**
+ * Baut die Textfassung aus denselben Angaben, aus denen die HTML-Mail
+ * gebaut wird. Von Hand gepflegte Textfassungen driften -- in GruenderX
+ * nannte die Textfassung der Warenkorbmail bereits einen anderen Preis
+ * als das HTML daneben.
+ */
+export function plain(parts: {
+  greeting: string;
+  lines: string[];
+  cta?: [string, string];
+  unsubscribeUrl?: string;
+  reason?: string;
+}): string {
+  const out = [parts.greeting, ""];
+  out.push(...parts.lines);
+  if (parts.cta) {
+    out.push("", `${parts.cta[0]}:`, parts.cta[1]);
+  }
+  out.push("", "Fragen? Antworte einfach auf diese Mail.", "");
+  out.push("Viele Gruesse", `${BRANDING.signature}`);
+  if (parts.reason || parts.unsubscribeUrl) {
+    out.push("", "--");
+    if (parts.reason) out.push(parts.reason);
+    if (parts.unsubscribeUrl) out.push(`Abmelden: ${parts.unsubscribeUrl}`);
+  }
+  return out.join("\n");
 }

@@ -9,9 +9,8 @@
 import Stripe from "https://esm.sh/stripe@18.5.0";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
 import { sendMetaCapiEvent } from "../_shared/metaCapi.ts";
-import { buildAbandoned, type Produkt } from "../_shared/campaigns.ts";
-import { sendMail } from "../_shared/sendMail.ts";
-import { unsubscribeUrl } from "../_shared/unsubscribe.ts";
+import { type Produkt } from "../_shared/campaigns.ts";
+import { abTestStrecke } from "../_shared/mailSend.ts";
 
 const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY")!, { apiVersion: "2025-08-27.basil" });
 const webhookSecret = Deno.env.get("STRIPE_WEBHOOK_SECRET")!;
@@ -58,6 +57,30 @@ Deno.serve(async (req) => {
     switch (event.type) {
       case "checkout.session.completed": {
         const s = event.data.object as any;
+        // --------------------------------------------------------------
+        // Warenkorbstrecke beenden.
+        //
+        // DIE WICHTIGSTE ZEILE DER GANZEN STRECKE. Ohne sie bekommt
+        // jemand, der gerade bezahlt hat, eine Stunde spaeter
+        // "Hat etwas nicht funktioniert?" — der teuerste Fehler, den
+        // eine Warenkorbstrecke machen kann.
+        //
+        // Es wird sowohl ueber die Session-ID als auch ueber die Adresse
+        // abgeraeumt: Wer beim zweiten Anlauf eine NEUE Session erzeugt
+        // und damit kauft, hat die erste, abgebrochene noch offen stehen.
+        {
+          const kaeufer = s.customer_details?.email ?? s.customer_email ?? null;
+          const jetzt = new Date().toISOString();
+          await localDb.from("cart_abandons")
+            .update({ gekauft_at: jetzt }).eq("session_id", s.id);
+          if (kaeufer) {
+            await localDb.from("cart_abandons")
+              .update({ gekauft_at: jetzt })
+              .eq("email", kaeufer).is("gekauft_at", null);
+          }
+          console.log(`✅ Warenkorbstrecke beendet fuer ${kaeufer ?? s.id}`);
+        }
+
 
         // Meta-CAPI VOR den Affiliate-Abbruechen. Vorher stand hier zuerst
         // `if (!code) break` — ohne Reflink wurde also gar nichts gemeldet,
@@ -150,38 +173,31 @@ Deno.serve(async (req) => {
         // Was als Daempfer bleibt: jede Mail traegt einen funktionierenden
         // Ein-Klick-Abmeldelink, und die Sperrliste unten wird vorher gelesen.
 
-        // Wer widersprochen hat, bekommt keine Werbung. Fehlt die Tabelle noch,
-        // liefert Supabase einen Fehler -- dann NICHT senden (fail closed).
-        const { data: out, error: outErr } = await localDb
-          .from("mail_optouts").select("email").eq("email", email).maybeSingle();
-        if (outErr) {
-          console.error("mail_optouts nicht lesbar, kein Versand:", outErr.message);
-          break;
-        }
-        if (out) break;
-
-        const functionsUrl = `${Deno.env.get("SUPABASE_URL")}/functions/v1`;
-        const abmelden = await unsubscribeUrl(email, functionsUrl);
-        // Ohne funktionierenden Abmeldeweg keine Werbemail (§ 7 Abs. 3 UWG).
-        if (!abmelden) {
-          console.error("UNSUBSCRIBE_SECRET fehlt, kein Versand an", email);
-          break;
-        }
-
+        // FRUEHER ging an dieser Stelle EINE Mail raus. Das Ereignis
+        // kommt aber erst rund 24 Stunden nach dem Abbruch -- die
+        // wirksamste Erinnerung, die in der ersten Stunde, war damit gar
+        // nicht baubar.
+        //
+        // JETZT faehrt send-cart-series die dreistufige Strecke anhand
+        // der Zeitstempel in cart_abandons; die Zeile entsteht schon
+        // beim Erzeugen der Session. Hier bleibt der Nachtrag fuer
+        // Sessions, die ausserhalb von create-checkout entstanden sind.
+        //
+        // Die Abmelde- und Sperrlisten-Pruefung steht nicht mehr hier,
+        // sondern in sendCampaign() -- also unmittelbar vor jedem
+        // einzelnen Versand statt einmal Tage vorher.
         const produkt: Produkt = s.metadata?.product === "bundle" ? "bundle" : "gruenderx";
-        const mail = buildAbandoned({
+        const { error: caErr } = await localDb.from("cart_abandons").upsert({
+          email,
+          name: s.customer_details?.name ?? null,
+          session_id: s.id,
           produkt,
           intervall: s.metadata?.interval === "year" ? "year" : "month",
-          baseUrl: "https://gruenderx.de",
-          unsubscribeUrl: abmelden,
-        });
-        const res = await sendMail({
-          to: email, subject: mail.subject, text: mail.text, html: mail.html,
-          unsubscribeUrl: abmelden,
-        });
-        console.log(res.ok
-          ? `[abbruch] -> ${email} (${produkt})`
-          : `[abbruch] FEHLER ${email}: ${res.error}`);
+          variant: abTestStrecke(email, "cart"),
+        }, { onConflict: "session_id", ignoreDuplicates: true });
+        console.log(caErr
+          ? `[abbruch] cart_abandons FEHLER ${email}: ${caErr.message}`
+          : `[abbruch] vorgemerkt: ${email} (${produkt})`);
         break;
       }
 
