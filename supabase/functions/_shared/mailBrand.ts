@@ -26,6 +26,12 @@ export interface Branding {
   onInk: string;
   onBrand: string;
   inkSub: string;
+  /** Wortmarke zentrieren (Haendler) oder links (SaaS). */
+  logoMitte?: boolean;
+  /** Zusagen-Leiste ueber dem Logo — nur dort, wo es etwas zu versenden gibt. */
+  utilityBar?: string;
+  /** Kategorie-Navigation im Fuss. */
+  navigation?: Array<{ titel: string; pfad: string }>;
   /** Kurzname fuer Tags und Auswertung — ASCII, klein. */
   slug: string;
   defaultFrom: string;
@@ -50,5 +56,6 @@ export const BRANDING: Branding = {
   ink: "#0c2a6e",
   onInk: "#ffffff",
   onBrand: "#ffffff",
+  logoMitte: false,
   inkSub: "#9fc0ff",
 };

@@ -98,10 +98,18 @@ export function track(
 // Bausteine
 // -------------------------------------------------------------------
 
+/**
+ * Der Handlungsknopf. Breiter und hoeher als vorher.
+ *
+ * Bei den Vorbildern ist der Knopf ein Block, kein Etikett: Crocs setzt
+ * ihn auf rund 260px Breite bei 52px Hoehe. Ein Knopf, der auf dem
+ * Telefon kleiner als eine Fingerkuppe ist, wird nicht getroffen — und
+ * ein Knopf, den man beim Ueberfliegen uebersieht, wird nicht gedrueckt.
+ */
 export function button(url: string, label: string): string {
-  return `<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:26px 0 6px">
-    <tr><td align="center" bgcolor="${BRAND}" style="border-radius:10px">
-      <a href="${url}" style="display:inline-block;padding:15px 30px;font:700 16px/1 ${FONT};color:${BRANDING.onBrand};text-decoration:none;border-radius:10px">${esc(label)}</a>
+  return `<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:26px 0 8px">
+    <tr><td align="center" bgcolor="${BRAND}" style="border-radius:8px">
+      <a href="${url}" style="display:inline-block;min-width:200px;padding:17px 36px;font:700 16px/1.1 ${FONT};color:${BRANDING.onBrand};text-decoration:none;border-radius:8px;text-align:center">${esc(label)}</a>
     </td></tr></table>`;
 }
 
@@ -220,6 +228,60 @@ export function bullets(items: string[]): string {
   return `<table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="margin:16px 0">${rows}</table>`;
 }
 
+/**
+ * Der Blickfang am Kopf der Mail — eine Flaeche, die die Botschaft traegt.
+ *
+ * ABGESCHAUT, NICHT ABGESCHRIEBEN. Wer sich ansieht, was performende
+ * Haendler verschicken (Crocs, H&M, Lidl), findet dort oben immer ein
+ * grossformatiges Bild mit EINER Aussage darin — bei Crocs die "50 %" in
+ * rund 90px auf roter Flaeche. Die Mail ist damit auf dem Telefon schon
+ * verstanden, bevor ein Wort gelesen wurde.
+ *
+ * Hier entsteht dasselbe aus HTML statt aus einer Bilddatei, und das ist
+ * kein Notbehelf, sondern der bessere Weg: Viele Clients laden Bilder
+ * erst nach Freigabe. Wer seine Aussage in ein JPEG legt, zeigt genau den
+ * Erstlesern eine leere Flaeche, auf die es ankommt. Eine Flaeche aus
+ * Hintergrundfarbe und Text wird IMMER angezeigt.
+ *
+ * `gross` traegt die eine Aussage und ist absichtlich knapp — zwei bis
+ * vier Zeichen bei einer Zahl, hoechstens drei Woerter bei Text. Was
+ * laenger ist, gehoert in `unten`.
+ */
+export function hero(o: {
+  klein?: string;
+  gross: string;
+  unten?: string;
+  /** Dunkle Flaeche statt Markenfarbe — fuer ruhigere Anlaesse. */
+  ruhig?: boolean;
+}): string {
+  const grund = o.ruhig ? INK : BRAND;
+  const auf = o.ruhig ? BRANDING.onInk : BRANDING.onBrand;
+  const leise = o.ruhig ? BRANDING.inkSub : "rgba(255,255,255,.72)";
+  return `<table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="background:${grund}">
+    <tr><td align="center" style="padding:44px 28px 46px">
+      ${o.klein ? `<div style="font:600 13px/1.3 ${FONT};color:${leise};letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px">${esc(o.klein)}</div>` : ""}
+      <div style="font:800 54px/1.02 ${FONT};color:${auf};letter-spacing:-.03em">${esc(o.gross)}</div>
+      ${o.unten ? `<div style="font:500 17px/1.4 ${FONT};color:${leise};margin-top:14px;max-width:420px">${esc(o.unten)}</div>` : ""}
+    </td></tr></table>`;
+}
+
+/**
+ * Die Ueberschrift unter dem Hero — der erste Satz, den man liest.
+ *
+ * 30px und linksbuendig, weil genau das bei den Vorbildern steht: Crocs
+ * setzt "Deine Favoriten im Mega-Sale" in rund 32px links, nicht
+ * zentriert. Zentrierte Fliesstext-Ueberschriften wirken wie eine
+ * Einladungskarte, nicht wie eine Nachricht.
+ *
+ * `unter` ist die graue Zweitzeile — das Muster, mit dem SaaS-Newsletter
+ * arbeiten (Mobbin: Aussage schwarz, Praezisierung grau darunter). Sie
+ * nimmt der Ueberschrift die Pflicht, alles unterzubringen.
+ */
+export function aufmacher(titel: string, unter?: string): string {
+  return `<div class="dm-text" style="font:700 30px/1.2 ${FONT};color:${TEXT};letter-spacing:-.02em;margin:0 0 ${unter ? "8" : "16"}px">${esc(titel)}</div>
+  ${unter ? `<div class="dm-soft" style="font:400 17px/1.45 ${FONT};color:${TEXT_SOFT};margin-bottom:16px">${esc(unter)}</div>` : ""}`;
+}
+
 export interface ProductCard {
   name: string;
   href: string;
@@ -322,7 +384,14 @@ export function priceRows(
 
 export interface MailOptions {
   preheader: string;
-  greeting: string;
+  /**
+   * Die Anrede. Optional geworden: Wo ein Hero die Mail eroeffnet, ist
+   * "Hallo," davor eine verschenkte Zeile — die Vorbilder steigen mit der
+   * Botschaft ein, nicht mit der Begruessung.
+   */
+  greeting?: string;
+  /** Fertiger Hero-Block aus hero(). Steht vor allem anderen. */
+  heroBlock?: string;
   blocks: string[];
   baseUrl?: string;
   footerNote?: string;
@@ -346,6 +415,28 @@ export function renderMail(o: MailOptions): string {
   const unsub = o.unsubscribeUrl
     ? ` · <a href="${o.unsubscribeUrl}" style="color:${TEXT_MUT}">Abmelden</a>`
     : "";
+  // Die Zusagen-Leiste ueber dem Logo. Bei Crocs, H&M und Lidl steht dort
+  // die staerkste Zusage, noch vor der Marke — sie ist das Erste, was ein
+  // Kunde sieht, und beantwortet die Frage, die ihn vom Kauf abhaelt.
+  // Nur Shops haben eine; bei den SaaS-Marken gibt es nichts zu versenden.
+  const utility = BRANDING.utilityBar
+    ? `<tr><td align="center" style="background:${INK};padding:11px 20px">
+        <div style="font:700 12px/1.3 ${FONT};color:${BRANDING.onInk};letter-spacing:.09em;text-transform:uppercase">${esc(BRANDING.utilityBar)}</div>
+      </td></tr>`
+    : "";
+  const schmal = !BRANDING.utilityBar;
+
+  // Kategorie-Navigation im Fuss — bei den Haendler-Vorbildern steht sie
+  // ausnahmslos dort: Wer die Mail geoeffnet hat, aber das Angebot nicht
+  // will, soll trotzdem einen Weg in den Shop finden statt zu schliessen.
+  const nav = BRANDING.navigation?.length
+    ? `<tr><td align="center" style="padding:22px 24px 20px;border-top:1px solid ${LINE}">
+        ${BRANDING.navigation.map((n) =>
+          `<a href="${url}${n.pfad}" style="display:inline-block;margin:0 10px 6px;font:600 13px/1.4 ${FONT};color:${TEXT_SOFT};text-decoration:none">${esc(n.titel)}</a>`
+        ).join("")}
+      </td></tr>`
+    : "";
+
   const legal = BRANDING.legalNote
     ? `<br><span style="color:#a3aabd">${BRANDING.legalNote}</span>`
     : "";
@@ -384,16 +475,21 @@ export function renderMail(o: MailOptions): string {
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="dm-sheet"
        style="max-width:600px;background:#ffffff;border-radius:14px;overflow:hidden;box-shadow:0 2px 14px rgba(15,23,42,.07)">
 
-  <tr><td style="background:${INK};padding:24px 28px">
-    <div style="font:800 20px/1 ${FONT};color:${BRANDING.onInk};letter-spacing:.3px">${BRANDING.name}</div>
-    <div style="font:400 12.5px/1 ${FONT};color:${BRANDING.inkSub};margin-top:6px;letter-spacing:.06em;text-transform:uppercase">${BRANDING.claim}</div>
+  ${utility}
+
+  <tr><td class="dm-sheet" style="background:#ffffff;padding:${schmal ? "26px 28px 22px" : "28px 28px 24px"};text-align:${BRANDING.logoMitte ? "center" : "left"}">
+    <div style="font:800 26px/1 ${FONT};color:${BRAND};letter-spacing:-.02em">${BRANDING.name}</div>
   </td></tr>
 
-  <tr><td style="padding:28px">
-    <div class="dm-text" style="font:600 19px/1.35 ${FONT};color:${TEXT}">${esc(o.greeting)}</div>
+  ${o.heroBlock ?? ""}
+
+  <tr><td style="padding:${o.heroBlock ? "32px 28px 30px" : "6px 28px 30px"}">
+    ${o.greeting ? `<div class="dm-text" style="font:600 19px/1.35 ${FONT};color:${TEXT};margin-bottom:2px">${esc(o.greeting)}</div>` : ""}
     ${o.blocks.join("")}
     ${extra}
   </td></tr>
+
+  ${nav}
 
   <tr><td class="dm-foot" style="background:#f8fafc;padding:18px 28px;border-top:1px solid ${LINE}">
     <div class="dm-mut" style="font:400 12px/1.6 ${FONT};color:${TEXT_MUT}">

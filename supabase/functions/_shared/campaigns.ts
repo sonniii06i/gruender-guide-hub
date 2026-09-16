@@ -35,8 +35,9 @@
 // ===================================================================
 
 import {
-  BRAND, BRAND_DARK, betonung, bullets, button, divider, eur, heading,
-  kernzahl, paragraph, plain, priceRows, renderMail, secondary, steps, track,
+  aufmacher, BRAND, BRAND_DARK, betonung, bullets, button, divider, eur,
+  heading, hero, kernzahl, paragraph, plain, priceRows, renderMail,
+  secondary, steps, track,
   type Built,
 } from "./mailLayout.ts";
 
@@ -112,11 +113,12 @@ export function buildCartHelp(o: CartOpts): Built {
     : "Hat etwas nicht funktioniert?";
 
   const blocks = [
+    aufmacher("Es wurde nichts abgebucht.",
+      "Der Weg zurück zur Kasse dauert keine Minute."),
     paragraph(
-      "du warst gerade an der Kasse und bist nicht durchgekommen. " +
-      "Meistens liegt das nicht an der Entscheidung, sondern am Weg dorthin — " +
-      "eine abgelehnte Karte, ein geschlossener Tab, eine Bank, die nachfragt. " +
-      "<b>Abgebucht wurde nichts.</b>",
+      "Du warst gerade an der Kasse und bist nicht durchgekommen. Meistens " +
+      "liegt das nicht an der Entscheidung, sondern am Weg dorthin — eine " +
+      "abgelehnte Karte, ein geschlossener Tab, eine Bank, die nachfragt.",
     ),
     button(zurueck, "Da weitermachen, wo du warst"),
     secondary(track(`${b.url}/kontakt`, "cart1", b.v),
@@ -174,11 +176,8 @@ export function buildCartObjections(o: CartOpts): Built {
     : `${KURZ[b.p]} — ${b.preis} ${b.zeitraum}`;
 
   const blocks = [
-    paragraph(
-      "du hast dir GründerX angesehen und dich noch nicht entschieden. " +
-      "Das ist in Ordnung — ich kenne die drei Gründe, die üblicherweise " +
-      "dahinterstehen, und beantworte sie lieber ehrlich als gar nicht.",
-    ),
+    aufmacher("Die drei Fragen, die jetzt im Weg stehen",
+      "Ich beantworte sie lieber ehrlich als gar nicht."),
     steps([
       ["„Lohnt sich das für mich überhaupt?“",
        "Eine einzige Entscheidung trägt das Jahr: Die falsche Rechtsform kostet " +
@@ -228,7 +227,8 @@ export function buildCartObjections(o: CartOpts): Built {
     }),
     html: renderMail({
       preheader: `${b.proTag} am Tag, kündbar zum Ende der Abrechnungsperiode.`,
-      greeting: "Hallo,",
+      heroBlock: hero({ klein: NAME[b.p], gross: b.preis,
+        unten: `${b.zeitraum} · Endpreis inkl. USt. · als Betriebsausgabe absetzbar` }),
       blocks,
       baseUrl: b.url,
       footerReason:
@@ -251,10 +251,11 @@ export function buildCartLast(o: CartOpts): Built {
     : "Letzte Mail zu deinem Zugang";
 
   const blocks = [
+    aufmacher("Kein Countdown. Kein Sonderpreis.",
+      "Der Zugang kostet nächste Woche dasselbe wie heute."),
     paragraph(
-      "das ist die letzte Mail zu deinem angefangenen Kauf — danach hörst du " +
-      "von mir nichts mehr dazu. Kein Countdown, kein Sonderpreis, der morgen " +
-      "abläuft: Der Zugang kostet nächste Woche dasselbe wie heute.",
+      "Das ist die letzte Mail zu deinem angefangenen Kauf — danach hörst du " +
+      "von mir nichts mehr dazu.",
     ),
     paragraph(
       "Was sich ändert, ist der Zeitpunkt. Die Fragen, für die GründerX gebaut " +
@@ -302,7 +303,8 @@ export function buildCartLast(o: CartOpts): Built {
     }),
     html: renderMail({
       preheader: "Danach hörst du nichts mehr dazu — versprochen.",
-      greeting: "Hallo,",
+      heroBlock: hero({ gross: "Letzte Mail",
+        unten: "Danach hörst du von mir nichts mehr dazu.", ruhig: true }),
       blocks,
       baseUrl: b.url,
       footerNote:
@@ -349,11 +351,12 @@ export function buildReferral(o: {
     : "Kennst du jemanden, dem GründerX hilft?";
 
   const blocks = [
+    aufmacher("Kennst du jemanden, dem das hilft?",
+      "Jemand in deinem Umfeld fragt seine Rechtsform gerade im Forum."),
     paragraph(
-      "du nutzt GründerX jetzt ein paar Tage. Falls es dir hilft: In deinem " +
-      "Umfeld gibt es sicher andere, die ihre Rechtsform noch im Forum " +
-      "erfragen, ihre USt-Voranmeldung auf gut Glück abgeben und ihre " +
-      "Amazon-Abrechnung nie wirklich gelesen haben.",
+      "Du nutzt GründerX jetzt ein paar Tage. Falls es dir hilft: Es gibt " +
+      "sicher andere, die ihre USt-Voranmeldung auf gut Glück abgeben und " +
+      "ihre Amazon-Abrechnung nie wirklich gelesen haben.",
     ),
     kernzahl(
       proMonat,
@@ -398,6 +401,8 @@ export function buildReferral(o: {
     html: renderMail({
       preheader:
         `20 % von jeder Zahlung, dauerhaft — rund ${proMonat} pro Monat und geworbenem Kunden.`,
+      heroBlock: hero({ klein: "Partnerprogramm", gross: "20 %",
+        unten: "von jeder Zahlung deiner Geworbenen — dauerhaft, nicht nur beim ersten Mal." }),
       greeting,
       blocks,
       baseUrl: url,
@@ -511,6 +516,12 @@ export function buildWeekly(o: {
       preheader: offen
         ? `${offen} — der nächste Schritt in deinem Playbook.`
         : "Was diese Woche dazugekommen ist.",
+      heroBlock: offen && s.schrittNr && s.schritteGesamt
+        ? hero({ klein: s.playbook ?? "Dein Playbook",
+            gross: `${s.schrittNr} von ${s.schritteGesamt}`,
+            unten: "Ein Schritt ist offen — und es ist meistens der unbequeme.",
+            ruhig: true })
+        : hero({ gross: "Neu diese Woche", ruhig: true }),
       greeting,
       blocks,
       baseUrl: url,
