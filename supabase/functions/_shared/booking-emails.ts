@@ -1,3 +1,4 @@
+import { buildTerminBestaetigt, buildTerminErinnerung } from "./transaktional.ts";
 // Shared utilities für Booking-Emails (Confirmation, 24h-Reminder, 15min-Reminder)
 // Wird von send-booking-confirmation + send-booking-reminders importiert
 
@@ -74,101 +75,43 @@ const formatDateDe = (iso: string): string =>
   });
 
 // === Email-Templates ===
-export const confirmationEmail = (b: BookingRow) => ({
-  subject: `✓ Termin bestätigt: ${formatDateDe(b.slot_iso)} Uhr – GründerX 1:1-Call`,
-  text: `Hallo ${b.name},
+// Die beiden Kundenmails kommen aus dem gemeinsamen Kit
+// (_shared/transaktional.ts). Vorher brachte jede ihr eigenes HTML mit —
+// die Bestaetigung einen gruenen Farbverlauf (#10b981 -> #059669), die
+// Erinnerung einen blauen (#3b82f6 -> #1d4ed8). GruenderX ist #256af4;
+// drei Mails vom selben Absender sahen nach drei Firmen aus.
+//
+// Die Uhrzeit steht jetzt im Hero statt in einer Tabellenzeile mit
+// Kalender-Emoji davor: Sie ist das Einzige, was der Empfaenger
+// tatsaechlich nachschlaegt.
+const nurUhrzeit = (iso: string) =>
+  new Date(iso).toLocaleTimeString("de-DE", {
+    hour: "2-digit", minute: "2-digit", timeZone: "Europe/Berlin",
+  });
 
-dein 1:1-Strategie-Call ist verbindlich gebucht.
+const nurDatum = (iso: string) =>
+  new Date(iso).toLocaleDateString("de-DE", {
+    weekday: "long", day: "2-digit", month: "long", timeZone: "Europe/Berlin",
+  });
 
-📅 Termin: ${formatDateDe(b.slot_iso)} Uhr
-⏱  Dauer: 30 Minuten
-🎥 Format: Google Meet
-🎯 Thema: ${b.topic}
+export const confirmationEmail = (b: BookingRow) =>
+  buildTerminBestaetigt({
+    name: b.name,
+    terminText: formatDateDe(b.slot_iso),
+    uhrzeit: `${nurUhrzeit(b.slot_iso)} Uhr`,
+    datumKurz: nurDatum(b.slot_iso),
+    thema: b.topic,
+    bookingId: b.id.slice(0, 8),
+  });
 
-WAS PASSIERT JETZT:
-1. Diese Email + .ics-Anhang → in deinen Kalender importieren
-2. 24h vor Termin: Reminder-Email
-3. 15 Min vor Termin: Email mit Meet-Link
+export const reminder24hEmail = (b: BookingRow) =>
+  buildTerminErinnerung({
+    name: b.name,
+    terminText: formatDateDe(b.slot_iso),
+    uhrzeit: nurUhrzeit(b.slot_iso),
+    thema: b.topic,
+  });
 
-Stornierung bis 24h vorher kostenlos — einfach auf diese Email antworten.
-
-Booking-ID: ${b.id.slice(0, 8)}
-
-Viele Grüße
-Dein GründerX-Team`,
-  html: `<div style="font-family:-apple-system,Segoe UI,Arial,sans-serif;max-width:600px;margin:auto;padding:24px;background:#fff;color:#111">
-  <div style="background:linear-gradient(135deg,#10b981,#059669);color:#fff;padding:24px;border-radius:16px 16px 0 0">
-    <div style="font-size:12px;letter-spacing:1px;text-transform:uppercase;opacity:0.9;margin-bottom:8px">Termin bestätigt</div>
-    <h1 style="margin:0;font-size:24px">Hallo ${escapeHtml(b.name)} 👋</h1>
-  </div>
-  <div style="background:#f6f9f7;padding:24px;border:1px solid #e5e7eb;border-top:0;border-radius:0 0 16px 16px">
-    <p style="margin:0 0 16px;font-size:16px">Dein 1:1-Strategie-Call ist <strong>verbindlich gebucht</strong>.</p>
-    <table style="width:100%;border-collapse:collapse;margin:16px 0">
-      <tr><td style="padding:6px 0;color:#666;width:80px">📅 Termin</td><td style="padding:6px 0"><strong>${escapeHtml(formatDateDe(b.slot_iso))} Uhr</strong></td></tr>
-      <tr><td style="padding:6px 0;color:#666">⏱ Dauer</td><td style="padding:6px 0">30 Minuten</td></tr>
-      <tr><td style="padding:6px 0;color:#666">🎥 Format</td><td style="padding:6px 0">Google Meet</td></tr>
-      <tr><td style="padding:6px 0;color:#666">🎯 Thema</td><td style="padding:6px 0">${escapeHtml(b.topic)}</td></tr>
-    </table>
-    <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:16px;margin:16px 0">
-      <div style="font-size:11px;color:#10b981;letter-spacing:1px;text-transform:uppercase;font-weight:700;margin-bottom:8px">Was passiert jetzt</div>
-      <ol style="margin:0;padding-left:20px;color:#374151;line-height:1.7">
-        <li>Diese Email + .ics-Anhang → in den Kalender importieren</li>
-        <li>24h vor Termin: Reminder-Email</li>
-        <li>15 Min vor Termin: Email mit Google-Meet-Link</li>
-        <li>30-Min-Call zum gewählten Termin</li>
-      </ol>
-    </div>
-    <p style="margin:16px 0 0;color:#6b7280;font-size:13px">Stornierung bis 24h vorher kostenlos — einfach auf diese Email antworten.</p>
-    <p style="margin:8px 0 0;color:#9ca3af;font-size:11px">Booking-ID: ${b.id.slice(0, 8)}</p>
-  </div>
-</div>`,
-});
-
-export const reminder24hEmail = (b: BookingRow) => ({
-  subject: `🔔 Morgen ${new Date(b.slot_iso).toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit", timeZone: "Europe/Berlin" })} Uhr — dein GründerX 1:1-Call`,
-  text: `Hallo ${b.name},
-
-kleine Erinnerung: Morgen ist dein 1:1-Strategie-Call.
-
-📅 ${formatDateDe(b.slot_iso)} Uhr
-🎯 Thema: ${b.topic}
-
-VORBEREITUNG (5 Min reichen):
-• Setup grob zusammenfassen (Rechtsform, Umsatz-Range, geplante Strukturen)
-• Top-3 konkrete Fragen aufschreiben
-• Falls vorhanden: BWA / Strukturbild als PDF bereithalten
-
-Den Google-Meet-Link bekommst du 15 Min vor dem Call per Email.
-
-Bis morgen!
-GründerX-Team
-
-Booking-ID: ${b.id.slice(0, 8)}`,
-  html: `<div style="font-family:-apple-system,Segoe UI,Arial,sans-serif;max-width:600px;margin:auto;padding:24px;background:#fff;color:#111">
-  <div style="background:linear-gradient(135deg,#3b82f6,#1d4ed8);color:#fff;padding:24px;border-radius:16px 16px 0 0">
-    <div style="font-size:12px;letter-spacing:1px;text-transform:uppercase;opacity:0.9;margin-bottom:8px">⏰ Reminder · in 24h</div>
-    <h1 style="margin:0;font-size:24px">Morgen ist dein Call</h1>
-  </div>
-  <div style="background:#f5f8ff;padding:24px;border:1px solid #e5e7eb;border-top:0;border-radius:0 0 16px 16px">
-    <p style="margin:0 0 16px;font-size:16px">Hallo ${escapeHtml(b.name)},</p>
-    <p style="margin:0 0 16px">kleine Erinnerung — morgen ist dein 1:1-Strategie-Call.</p>
-    <table style="width:100%;border-collapse:collapse;margin:16px 0">
-      <tr><td style="padding:6px 0;color:#666;width:80px">📅 Wann</td><td style="padding:6px 0"><strong>${escapeHtml(formatDateDe(b.slot_iso))} Uhr</strong></td></tr>
-      <tr><td style="padding:6px 0;color:#666">🎯 Thema</td><td style="padding:6px 0">${escapeHtml(b.topic)}</td></tr>
-    </table>
-    <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:16px;margin:16px 0">
-      <div style="font-size:11px;color:#3b82f6;letter-spacing:1px;text-transform:uppercase;font-weight:700;margin-bottom:8px">5-Min-Vorbereitung</div>
-      <ul style="margin:0;padding-left:20px;color:#374151;line-height:1.7">
-        <li>Setup grob zusammenfassen (Rechtsform, Umsatz-Range, geplante Strukturen)</li>
-        <li>Top-3 konkrete Fragen aufschreiben</li>
-        <li>Falls vorhanden: BWA / Strukturbild als PDF bereithalten</li>
-      </ul>
-    </div>
-    <p style="margin:16px 0 0;color:#6b7280;font-size:13px">Den Google-Meet-Link bekommst du <strong>15 Min vor dem Call</strong> per Email.</p>
-    <p style="margin:8px 0 0;color:#9ca3af;font-size:11px">Booking-ID: ${b.id.slice(0, 8)}</p>
-  </div>
-</div>`,
-});
 
 export const reminder15minEmail = (b: BookingRow) => {
   const link = b.meet_link?.trim();

@@ -1,3 +1,4 @@
+import { buildTicketEingang } from "../_shared/transaktional.ts";
 import { SMTPClient } from "https://deno.land/x/denomailer@1.6.0/mod.ts";
 
 const corsHeaders = {
@@ -59,22 +60,23 @@ Deno.serve(async (req) => {
         </div>`,
     });
 
-    // 2) User confirmation
+    // 2) Bestaetigung an den Kunden — aus dem gemeinsamen Kit
+    // (_shared/transaktional.ts). Die interne Meldung oben bleibt
+    // schlichtes HTML: Sie geht an uns selbst, da waeren Markenrahmen und
+    // Fusszeile nur im Weg.
+    const kunde = buildTicketEingang({
+      betreff: body.subject,
+      name: body.name,
+      ticketId: body.ticketId ?? null,
+      antwortInnerhalb: "24 Stunden",
+    });
+
     await client.send({
       from: `GründerX <${ADMIN_EMAIL}>`,
       to: `${body.name} <${body.email}>`,
-      subject: `Wir haben deine Anfrage erhalten: ${body.subject}`,
-      content: `Hallo ${body.name},\n\ndanke für deine Nachricht. Wir melden uns innerhalb von 24h.\n\nDeine Anfrage:\n${body.message}\n\nViele Grüße\nDein GründerX Team`,
-      html: `
-        <div style="font-family:Arial,sans-serif;max-width:600px;margin:auto;padding:24px;background:#fff;color:#111">
-          <h2 style="margin:0 0 12px">Danke für deine Anfrage, ${safe(body.name)}!</h2>
-          <p>Wir haben dein Ticket erhalten und melden uns in der Regel innerhalb von 24 Stunden.</p>
-          <div style="background:#f6f7f9;border-radius:12px;padding:16px;margin:16px 0">
-            <p style="margin:0 0 8px"><strong>Betreff:</strong> ${safe(body.subject)}</p>
-            <p style="margin:0;white-space:pre-wrap;color:#444">${safe(body.message)}</p>
-          </div>
-          <p style="color:#666;font-size:14px">Viele Grüße<br/>Dein GründerX Team</p>
-        </div>`,
+      subject: kunde.subject,
+      content: kunde.text,
+      html: kunde.html,
     });
 
     await client.close();

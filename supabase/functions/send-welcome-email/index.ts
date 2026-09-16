@@ -20,7 +20,7 @@
 // SPF/DKIM.
 
 import {
-  button, callout, heading, paragraph, renderMail, steps,
+  betonung, button, heading, hero, paragraph, renderMail, steps,
 } from "../_shared/mailLayout.ts";
 import { sendMail } from "../_shared/sendMail.ts";
 
@@ -72,7 +72,7 @@ Deno.serve(async (req) => {
          "USt-Voranmeldung, EÜR, BWA und Fristen an einer Stelle. Wer das einmal " +
          "eingerichtet hat, sucht am Quartalsende nichts mehr zusammen."],
       ]),
-      callout(
+      betonung(
         "Rechnung, Zahlungsdaten und Kündigung",
         `Alles im Kundenportal unter „Abo verwalten“ — jederzeit zum Ende der ` +
         `Abrechnungsperiode kündbar, ein Klick, kein Anruf.`,
@@ -102,6 +102,10 @@ Deno.serve(async (req) => {
 
     const html = renderMail({
       preheader: "Dein Zugang ist freigeschaltet — hier sind die ersten drei Schritte.",
+      // Hero wie bei den uebrigen Mails: Die Aussage steht in der Flaeche,
+      // nicht in der Begruessung.
+      heroBlock: hero({ klein: "Willkommen", gross: "Los geht's",
+        unten: "Dein Zugang ist freigeschaltet." }),
       greeting,
       blocks,
       baseUrl: SITE,
