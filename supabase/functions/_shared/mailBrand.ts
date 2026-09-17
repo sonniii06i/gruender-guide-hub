@@ -49,13 +49,15 @@ export const BRANDING: Branding = {
   // nur, wenn es fuer die Adresse auch ein Postfach gibt — sonst
   // quittiert der Server mit "550 Sender address is not allowed".
   defaultFrom: "GründerX <service@gruenderx.de>",
-  // Antworten muessen irgendwo ankommen. kontakt@gruenderx.de stand hier,
-  // nimmt aber keine Mail an — eine Zustellprobe am 17.09.2026 kam als
-  // Bounce zurueck, waehrend impressum@gruenderx.de zustellte. Jede
-  // Kundenantwort auf eine GruenderX-Mail lief damit ins Leere.
-  // Sobald service@gruenderx.de als Weiterleitung existiert, gehoert
-  // sie hierher — bis dahin das Postfach, das es nachweislich gibt.
-  defaultReplyTo: "impressum@gruenderx.de",
+  // Antworten muessen irgendwo ankommen. Hier stand kontakt@gruenderx.de,
+  // eine Adresse, die es nie gab: eine Zustellprobe am 17.09.2026 kam als
+  // Bounce zurueck. Jede Kundenantwort auf eine GruenderX-Mail lief damit
+  // ins Leere — und das faellt nie auf, weil der Bounce beim Absender
+  // landet, nicht bei uns.
+  //
+  // service@gruenderx.de ist seit dem 17.09.2026 eine IONOS-Weiterleitung
+  // ins Sammel-Gmail; mit einer echten Mail geprueft, nicht angenommen.
+  defaultReplyTo: "service@gruenderx.de",
   name: "GründerX",
   claim: "Gründung · Steuern · Marketplaces",
   url: "https://gruenderx.de",
