@@ -36,6 +36,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 import { buildCartHelp, buildCartObjections, buildCartLast } from "../_shared/campaigns.ts";
 import { sendCampaign, abTestStrecke } from "../_shared/mailSend.ts";
 import { BRANDING } from "../_shared/mailBrand.ts";
+import { unsubscribeUrl } from "../_shared/unsubscribe.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -73,6 +74,7 @@ Deno.serve(async (req) => {
   );
 
   const basis = Deno.env.get("PUBLIC_BASE_URL") ?? BRANDING.url;
+  const FUNKTIONEN = `${Deno.env.get("SUPABASE_URL")}/functions/v1`;
 
   const { data, error } = await db
     .from("cart_abandons")
@@ -106,6 +108,13 @@ Deno.serve(async (req) => {
     // hier einmal deterministisch gezogen.
     const variant = z.variant ?? abTestStrecke(z.email, "cart");
 
+    // Signierter Link auf mail-unsubscribe. `${basis}/abmelden` war eine
+    // Route, die es im Frontend nie gab (App.tsx kennt sie nicht) — der
+    // Abmeldelink jeder Warenkorbmail zeigte damit auf 404. Ohne Secret
+    // wird die Mail lieber ausgelassen als ohne Abmeldeweg verschickt.
+    const abmelden = await unsubscribeUrl(z.email, FUNKTIONEN);
+    if (!abmelden) { uebersprungen++; continue; }
+
     const built = faellig.build({
       // Beide Marken nehmen unterschiedliche Felder entgegen; was die
       // jeweilige Fassung nicht kennt, ignoriert sie.
@@ -117,13 +126,13 @@ Deno.serve(async (req) => {
         yearly: z.intervall === "year",
         baseUrl: basis,
         variant,
-        unsubscribeUrl: `${basis}/abmelden?e=${encodeURIComponent(z.email)}`,
+        unsubscribeUrl: abmelden,
       } as any),
     });
 
     const res = await sendCampaign({
       to: z.email, built, campaign: faellig.campaign, variant, db,
-      unsubscribeUrl: `${basis}/abmelden?e=${encodeURIComponent(z.email)}`,
+      unsubscribeUrl: abmelden,
     });
 
     if (res.ok) {

@@ -120,3 +120,6 @@ verify_jwt = false
 # Aufruf kommt aus pg_cron ohne JWT; die Echtheit haengt am
 # x-cron-secret, das die Function selbst prueft.
 verify_jwt = false
+
+[functions.send-weekly]
+verify_jwt = false
