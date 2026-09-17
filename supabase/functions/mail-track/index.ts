@@ -16,6 +16,7 @@
 // ===================================================================
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
+import { BRANDING } from "../_shared/mailBrand.ts";
 
 // 1x1 transparentes GIF.
 const GIF = Uint8Array.from(atob(
@@ -74,7 +75,14 @@ Deno.serve(async (req) => {
   // Ziele unter der eigenen Domain missbrauchen kann.
   if (!echt || !p) {
     if (klickDaten) {
-      return Response.redirect(Deno.env.get("MAIL_TRACK_FALLBACK") ?? "https://example.invalid", 302);
+      // Ziel der Notbremse ist die eigene Startseite, nicht example.invalid:
+      // Hier landet auch, wer einen echten Link aus einer alten Mail klickt,
+      // deren Signatur nicht mehr passt (Secret gewechselt, Link
+      // abgeschnitten). Den auf eine tote Domain zu schicken, bestraft den
+      // Leser fuer unseren Fehler. MAIL_TRACK_FALLBACK bleibt als
+      // Uebersteuerung, muss aber nirgends mehr gesetzt werden.
+      return Response.redirect(
+        Deno.env.get("MAIL_TRACK_FALLBACK") ?? BRANDING.url, 302);
     }
     return gifAntwort();
   }
