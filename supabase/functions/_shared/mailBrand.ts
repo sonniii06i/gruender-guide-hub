@@ -49,7 +49,13 @@ export const BRANDING: Branding = {
   // nur, wenn es fuer die Adresse auch ein Postfach gibt — sonst
   // quittiert der Server mit "550 Sender address is not allowed".
   defaultFrom: "GründerX <service@gruenderx.de>",
-  defaultReplyTo: "kontakt@gruenderx.de",
+  // Antworten muessen irgendwo ankommen. kontakt@gruenderx.de stand hier,
+  // nimmt aber keine Mail an — eine Zustellprobe am 17.09.2026 kam als
+  // Bounce zurueck, waehrend impressum@gruenderx.de zustellte. Jede
+  // Kundenantwort auf eine GruenderX-Mail lief damit ins Leere.
+  // Sobald service@gruenderx.de als Weiterleitung existiert, gehoert
+  // sie hierher — bis dahin das Postfach, das es nachweislich gibt.
+  defaultReplyTo: "impressum@gruenderx.de",
   name: "GründerX",
   claim: "Gründung · Steuern · Marketplaces",
   url: "https://gruenderx.de",
