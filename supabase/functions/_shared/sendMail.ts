@@ -12,8 +12,21 @@
 // Spam, und manche Clients zeigen nichts anderes an.
 // ===================================================================
 import { SMTPClient } from "https://deno.land/x/denomailer@1.6.0/mod.ts";
+import { BRANDING } from "./mailBrand.ts";
 
-export const MAIL_FROM = "impressum@gruenderx.de";
+/**
+ * Der SMTP-ZUGANG. Das ist eine Zugangskennung, kein Absender: IONOS
+ * laesst nur das Postfach senden, mit dem man sich anmeldet (fremde
+ * Adressen quittiert es mit "550 Sender address is not allowed").
+ * Wer den Absender aendern will, aendert deshalb NICHT diese Zeile.
+ */
+export const SMTP_LOGIN = "impressum@gruenderx.de";
+
+/**
+ * Bisheriger Name derselben Konstante. Blieb erhalten, weil andere
+ * Dateien ihn importieren — er meinte aber immer den Zugang.
+ */
+export const MAIL_FROM = SMTP_LOGIN;
 
 export interface SendResult {
   ok: boolean;
@@ -28,6 +41,8 @@ export async function sendMail(opts: {
   html: string;
   /** Ein-Klick-Abmeldung (RFC 8058). Nur fuer Marketingmails setzen. */
   unsubscribeUrl?: string;
+  /** Abweichender Absender. Ohne Angabe gilt BRANDING.defaultFrom. */
+  from?: string;
 }): Promise<SendResult> {
   const password = Deno.env.get("IONOS_SMTP_PASSWORD");
   if (!password) return { ok: false, error: "IONOS_SMTP_PASSWORD not set" };
@@ -38,13 +53,17 @@ export async function sendMail(opts: {
       hostname: "smtp.ionos.de",
       port: 465,
       tls: true,
-      auth: { username: MAIL_FROM, password },
+      auth: { username: SMTP_LOGIN, password },
     },
   });
 
   try {
     await client.send({
-      from: `GründerX <${MAIL_FROM}>`,
+      // Der Absender kommt aus der Markendatei, nicht aus der
+      // Zugangskennung. Vorher stand hier der Login selbst — dadurch
+      // war BRANDING.defaultFrom fuer diesen Versandweg wirkungslos,
+      // und jede Mail ging als impressum@ raus, egal was dort stand.
+      from: opts.from ?? BRANDING.defaultFrom,
       to: opts.to,
       subject: opts.subject,
       content: opts.text,

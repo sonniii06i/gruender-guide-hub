@@ -6,7 +6,24 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-const ADMIN_EMAIL = "impressum@gruenderx.de";
+/**
+ * SMTP-ZUGANG, nicht Absender: IONOS laesst nur das Postfach senden, mit
+ * dem man sich anmeldet. Der sichtbare Absender steht in ABSENDER.
+ */
+const SMTP_LOGIN = "impressum@gruenderx.de";
+
+/** Bisheriger Name derselben Konstante — meinte immer den Zugang. */
+const ADMIN_EMAIL = SMTP_LOGIN;
+
+/**
+ * Die Adresse, die der Empfaenger sieht und an der das Profilbild
+ * haengt. "impressum@" stand hier, weil Zugang und Absender dieselbe
+ * Konstante waren; als Absender einer Support- oder Terminmail ist das
+ * die falsche Ansage. IONOS nimmt eine andere Adresse DERSELBEN Domain
+ * an (geprueft am 17.09.2026 mit einem echten Versand) — eine fremde
+ * Domain quittiert es mit "550 Sender address is not allowed".
+ */
+const ABSENDER = "service@gruenderx.de";
 
 interface Payload {
   ticketId?: string;
@@ -44,7 +61,7 @@ Deno.serve(async (req) => {
 
     // 1) Admin notification
     await client.send({
-      from: `GründerX Support <${ADMIN_EMAIL}>`,
+      from: `GründerX Support <${ABSENDER}>`,
       to: ADMIN_EMAIL,
       replyTo: `${body.name} <${body.email}>`,
       subject: `[Ticket] ${body.subject}`,
@@ -72,7 +89,7 @@ Deno.serve(async (req) => {
     });
 
     await client.send({
-      from: `GründerX <${ADMIN_EMAIL}>`,
+      from: `GründerX <${ABSENDER}>`,
       to: `${body.name} <${body.email}>`,
       subject: kunde.subject,
       content: kunde.text,
@@ -86,7 +103,7 @@ Deno.serve(async (req) => {
     });
   } catch (e) {
     console.error("send-ticket-email error", e);
-    return new Response(JSON.stringify({ error: String(e?.message ?? e) }), {
+    return new Response(JSON.stringify({ error: e instanceof Error ? e.message : String(e) }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });

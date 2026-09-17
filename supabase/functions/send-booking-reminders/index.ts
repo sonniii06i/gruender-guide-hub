@@ -16,7 +16,24 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-const ADMIN_EMAIL = "impressum@gruenderx.de";
+/**
+ * SMTP-ZUGANG, nicht Absender: IONOS laesst nur das Postfach senden, mit
+ * dem man sich anmeldet. Der sichtbare Absender steht in ABSENDER.
+ */
+const SMTP_LOGIN = "impressum@gruenderx.de";
+
+/** Bisheriger Name derselben Konstante — meinte immer den Zugang. */
+const ADMIN_EMAIL = SMTP_LOGIN;
+
+/**
+ * Die Adresse, die der Empfaenger sieht und an der das Profilbild
+ * haengt. "impressum@" stand hier, weil Zugang und Absender dieselbe
+ * Konstante waren; als Absender einer Support- oder Terminmail ist das
+ * die falsche Ansage. IONOS nimmt eine andere Adresse DERSELBEN Domain
+ * an (geprueft am 17.09.2026 mit einem echten Versand) — eine fremde
+ * Domain quittiert es mit "550 Sender address is not allowed".
+ */
+const ABSENDER = "service@gruenderx.de";
 
 interface ReminderResult {
   kind: "24h" | "15min";
@@ -73,7 +90,7 @@ Deno.serve(async (req) => {
       try {
         const mail = reminder24hEmail(b);
         await client.send({
-          from: `GruenderX 1:1 <${ADMIN_EMAIL}>`,
+          from: `GruenderX 1:1 <${ABSENDER}>`,
           to: `${b.name} <${b.email}>`,
           replyTo: ADMIN_EMAIL,
           subject: encodeMimeSubject(mail.subject),
@@ -99,7 +116,7 @@ Deno.serve(async (req) => {
       try {
         const mail = reminder15minEmail(b);
         await client.send({
-          from: `GruenderX 1:1 <${ADMIN_EMAIL}>`,
+          from: `GruenderX 1:1 <${ABSENDER}>`,
           to: `${b.name} <${b.email}>`,
           replyTo: ADMIN_EMAIL,
           subject: encodeMimeSubject(mail.subject),
@@ -113,7 +130,7 @@ Deno.serve(async (req) => {
         if (!b.meet_link?.trim()) {
           try {
             await client.send({
-              from: `GruenderX Booking <${ADMIN_EMAIL}>`,
+              from: `GruenderX Booking <${ABSENDER}>`,
               to: ADMIN_EMAIL,
               subject: encodeMimeSubject(`⚠️ Meet-Link fehlt für Booking ${b.id.slice(0, 8)} – Call in 15 Min!`),
               content: `Booking ${b.id} hat keinen meet_link gesetzt.\n\nUser: ${b.name} <${b.email}>\nSlot: ${b.slot_iso}\nThema: ${b.topic}\n\nJETZT manuell Meet-Link per Email an User schicken!`,

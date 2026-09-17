@@ -40,7 +40,15 @@ export interface Branding {
 
 export const BRANDING: Branding = {
   slug: "gruenderx",
-  defaultFrom: "GründerX <no-reply@gruenderx.de>",
+  // Absender ist die Adresse, an der auch das Profilbild haengt: eine
+  // no-reply-Adresse kann kein Bild tragen und sagt dem Empfaenger
+  // zudem, dass Antworten ins Leere laufen.
+  //
+  // ACHTUNG: IONOS laesst nur das Postfach senden, mit dem sich
+  // sendMail.ts anmeldet (SMTP_LOGIN). Diese Zeile zu aendern reicht
+  // nur, wenn es fuer die Adresse auch ein Postfach gibt — sonst
+  // quittiert der Server mit "550 Sender address is not allowed".
+  defaultFrom: "GründerX <service@gruenderx.de>",
   defaultReplyTo: "kontakt@gruenderx.de",
   name: "GründerX",
   claim: "Gründung · Steuern · Marketplaces",
