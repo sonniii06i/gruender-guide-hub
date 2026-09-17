@@ -441,7 +441,7 @@ export function renderMail(o: MailOptions): string {
     ? `<br><span style="color:#a3aabd">${BRANDING.legalNote}</span>`
     : "";
 
-  return `<!doctype html>
+  const html = `<!doctype html>
 <html lang="de"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -504,6 +504,22 @@ export function renderMail(o: MailOptions): string {
 </table>
 </td></tr></table>
 </body></html>`;
+
+  // Leerzeichen am Zeilenende entfernen, BEVOR die Mail den Versand
+  // erreicht.
+  //
+  // WOZU. Zeilen wie `  ${utility}` bleiben als reine Leerzeichen stehen,
+  // wenn der eingesetzte Wert leer ist. Quoted-printable muss ein
+  // Leerzeichen am Zeilenende als "=20" schreiben, sonst geht es beim
+  // Transport verloren — soweit richtig. Laeuft der Text aber ein zweites
+  // Mal durch einen Kodierer (bei uns: denomailer und danach IONOS), wird
+  // aus dem "=" ein "=3D", und beim Empfaenger steht ein sichtbares "=20"
+  // mitten in der Mail. Genau das war in den GruenderX-Mails zu sehen.
+  //
+  // Der Kodierer laesst sich nicht abstellen, das Leerzeichen schon: ohne
+  // Whitespace am Zeilenende gibt es nichts zu kodieren, und die doppelte
+  // Kodierung laeuft ins Leere.
+  return html.replace(/[ \t]+$/gm, "");
 }
 
 /** Jede Kampagne liefert beides. `text` ist Pflicht, nicht optional. */
