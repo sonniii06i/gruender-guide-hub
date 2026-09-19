@@ -69,6 +69,8 @@ serve(async (req) => {
       return json({ error: "Bitte zuerst anmelden." }, 401);
     }
     const user = userData.user;
+    // Nach der Pruefung oben ist die Adresse da; der Typ weiss das nicht.
+    const email = user.email as string;
 
     const { code } = await req.json().catch(() => ({ code: "" }));
     if (typeof code !== "string" || code.trim().length < 8) {
@@ -77,39 +79,70 @@ serve(async (req) => {
 
     const { hash } = await hashCode(code);
 
-    // Ein laufendes Abo darf ein Code nicht anfassen.
+    // Ein laufender Zugang darf von einem Code nicht angetastet werden.
     //
-    // Ohne diese Sperre passierte zweierlei auf einmal: `current_period_end`
-    // wuerde auf heute+30 Tage gesetzt und damit ein laengeres Abo verkuerzt,
-    // und `source` spraenge auf 'code' — woraufhin check-subscription Stripe
-    // gar nicht mehr fragt und der zahlende Kunde nach Ablauf der 30 Tage
-    // ausgesperrt waere. Der Code bleibt in diesem Fall unangetastet und
-    // behaelt seinen Wert.
+    // Gepruft wird an ZWEI Stellen, weil ein Kauf ueber CopeCart/Digistore in
+    // `external_entitlements` steht, in `subscriptions` aber erst nach dem
+    // ersten check-subscription-Lauf auftaucht. Wer direkt nach der
+    // Registrierung einloest, haette sonst einen Code verbrannt, der neben
+    // einem laengeren Zugang wirkungslos verpufft.
+    //
+    // Und ohne die Sperre auf `subscriptions` passierte zweierlei auf einmal:
+    // `current_period_end` wuerde auf heute+30 Tage gesetzt und damit ein
+    // laengeres Abo verkuerzt, und `source` spraenge auf 'code' — woraufhin
+    // check-subscription Stripe gar nicht mehr fragt und der zahlende Kunde
+    // nach 30 Tagen ausgesperrt waere.
     const jetzt = Date.now();
+    const jetztIso = new Date(jetzt).toISOString();
+
     const { data: bestehend } = await supabase
       .from("subscriptions")
-      .select("status, source, current_period_end, plan")
+      .select("status, source, current_period_end")
       .eq("user_id", user.id)
       .maybeSingle();
-    const laeuftNoch = bestehend?.status === "active"
-      && (!bestehend.current_period_end || new Date(bestehend.current_period_end).getTime() > jetzt);
-    if (laeuftNoch && bestehend?.source !== "code") {
+    const aboLaeuft = bestehend?.status === "active"
+      && (!bestehend.current_period_end
+          || new Date(bestehend.current_period_end).getTime() > jetzt);
+
+    const { data: extern } = await supabase
+      .from("external_entitlements")
+      .select("provider, period_end")
+      .ilike("email", email)
+      .eq("status", "active")
+      .or(`period_end.is.null,period_end.gt.${jetztIso}`)
+      .order("period_end", { ascending: false, nullsFirst: true })
+      .limit(1)
+      .maybeSingle();
+
+    const fremdeQuelle = (aboLaeuft && bestehend?.source !== "code")
+      || (extern && extern.provider !== "code");
+    if (fremdeQuelle) {
       return json({
-        error: "Dein Zugang läuft bereits über ein Abo. Der Code bleibt gültig —"
-          + " löse ihn ein, sobald das Abo endet.",
+        error: "Dein Zugang läuft bereits. Der Code bleibt gültig —"
+          + " löse ihn ein, sobald der aktuelle Zugang endet.",
       }, 409);
     }
 
     // Beim zweiten Code haengt die Laufzeit hinten an, statt sie zu ersetzen.
     // Alles andere waere bei zwei gekauften Karten ein stiller Verlust.
-    const basis = laeuftNoch && bestehend?.current_period_end
-      ? new Date(bestehend.current_period_end).getTime()
-      : jetzt;
+    // Das Rechnen selbst macht die Datenbankfunktion — sie bekommt nur den
+    // spaetesten bekannten Endzeitpunkt als Startpunkt mit.
+    const enden = [
+      extern?.period_end ? new Date(extern.period_end).getTime() : 0,
+      aboLaeuft && bestehend?.current_period_end
+        ? new Date(bestehend.current_period_end).getTime() : 0,
+    ];
+    const basis = Math.max(jetzt, ...enden);
 
     // Die Datenbankfunktion entscheidet den Wettlauf: Sie markiert den Code
     // und liefert nur dann eine Zeile, wenn er vorher wirklich 'unused' war.
     const { data: rows, error: rpcError } = await supabase
-      .rpc("redeem_code", { p_code_hash: hash, p_email: user.email, p_user_id: user.id });
+      .rpc("redeem_code", {
+        p_code_hash: hash,
+        p_email: email,
+        p_user_id: user.id,
+        p_basis: new Date(basis).toISOString(),
+      });
     if (rpcError) throw new Error(rpcError.message);
 
     const hit = Array.isArray(rows) ? rows[0] : rows;
@@ -131,38 +164,23 @@ serve(async (req) => {
       }, 409);
     }
 
-    const periodEnd = new Date(basis + hit.days * 24 * 60 * 60 * 1000).toISOString();
-
-    const { error: entError } = await supabase.from("external_entitlements").upsert({
-      provider: "code",
-      order_id: hit.code_id,
-      email: user.email,
-      product_id: null,
-      plan: hit.plan,
-      status: "active",
-      period_end: periodEnd,
-      amount_cents: null,
-      currency: "EUR",
-      last_event: "code_redeemed",
-      raw: { code_tail: hit.code_tail, redeemed_by: user.id },
-      updated_at: new Date().toISOString(),
-    }, { onConflict: "provider,order_id" });
-    if (entError) throw new Error(entError.message);
-
-    // Sofort sichtbar machen: useAccess rendert die Paywall aus `subscriptions`.
-    // Ohne diese Zeile saehe der gerade eingeloggte Kaeufer seinen Zugang erst
-    // nach dem naechsten check-subscription-Lauf.
+    // Nur noch die Spiegelung: Der Zugang selbst steht schon in der Datenbank,
+    // geschrieben von redeem_code() in derselben Transaktion wie die
+    // Markierung des Codes. Hier geht es allein um die Anzeige — useAccess
+    // rendert die Paywall aus `subscriptions`. Schlaegt das fehl, holt
+    // check-subscription es beim naechsten Lauf nach; der Zugang ist nicht
+    // davon abhaengig.
     await supabase.from("subscriptions").upsert({
       user_id: user.id,
       plan: hit.plan,
       status: "active",
       source: "code",
-      current_period_end: periodEnd,
+      current_period_end: hit.period_end,
       updated_at: new Date().toISOString(),
     }, { onConflict: "user_id" });
 
-    console.log(`[redeem-code] ${user.email} -> ${hit.plan} bis ${periodEnd} (…${hit.code_tail})`);
-    return json({ ok: true, plan: hit.plan, period_end: periodEnd });
+    console.log(`[redeem-code] ${email} -> ${hit.plan} bis ${hit.period_end} (…${hit.code_tail})`);
+    return json({ ok: true, plan: hit.plan, period_end: hit.period_end });
   } catch (e) {
     console.error("[redeem-code]", e);
     return json({ error: "Einlösung fehlgeschlagen. Bitte später erneut versuchen." }, 500);

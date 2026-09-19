@@ -58,23 +58,34 @@ CREATE TRIGGER redemption_codes_updated_at
 
 -- Einloesung als Transaktion.
 --
--- Warum eine Datenbankfunktion und nicht zwei Aufrufe aus der Edge Function:
--- Zwischen "Code pruefen" und "Code als benutzt markieren" passt ein zweiter
--- Aufruf mit demselben Code. Bei einer Karte, die durch mehrere Haende geht,
--- ist das kein Randfall. Das UPDATE ... WHERE status='unused' entscheidet den
--- Wettlauf in der Datenbank: Genau einer bekommt eine Zeile zurueck.
+-- Warum Markierung UND Zugang hier drin stehen und nicht in der Edge Function:
+-- Zwischen beiden Schritten kann der Aufruf abbrechen (Netz, Timeout, Neustart).
+-- Passiert das dort, ist der Code verbraucht und der Kaeufer hat nichts — bei
+-- einer bezahlten Karte der schlimmste denkbare Ausgang. In einer einzigen
+-- Datenbankfunktion gilt entweder beides oder nichts.
+--
+-- Und: Zwischen "Code pruefen" und "Code als benutzt markieren" passt ein
+-- zweiter Aufruf mit demselben Code. Bei einer Karte, die durch mehrere Haende
+-- geht, ist das kein Randfall. Das UPDATE ... WHERE status='unused'
+-- entscheidet den Wettlauf in der Datenbank: Genau einer bekommt eine Zeile.
+--
+-- p_basis = ab wann gerechnet wird. Die Edge Function setzt hier das Ende
+-- eines schon laufenden Code-Zugangs ein, damit eine zweite Karte ihre
+-- Laufzeit anhaengt statt die erste zu ersetzen.
 CREATE OR REPLACE FUNCTION public.redeem_code(
   p_code_hash TEXT,
   p_email     TEXT,
-  p_user_id   UUID
+  p_user_id   UUID,
+  p_basis     TIMESTAMPTZ DEFAULT NULL
 )
-RETURNS TABLE (code_id UUID, plan TEXT, days INTEGER, code_tail TEXT)
+RETURNS TABLE (plan TEXT, period_end TIMESTAMPTZ, code_tail TEXT)
 LANGUAGE plpgsql
 SECURITY DEFINER
 SET search_path = public
 AS $$
 DECLARE
-  v_row public.redemption_codes%ROWTYPE;
+  v_row  public.redemption_codes%ROWTYPE;
+  v_ende TIMESTAMPTZ;
 BEGIN
   UPDATE public.redemption_codes c
      SET status = 'redeemed',
@@ -90,11 +101,23 @@ BEGIN
     RETURN;  -- leeres Ergebnis: unbekannt, schon benutzt oder gesperrt
   END IF;
 
-  -- Zurueck kommt die Laufzeit, nicht das Enddatum: Ob ab heute oder ab dem
-  -- Ende eines schon laufenden Code-Zugangs gerechnet wird, entscheidet die
-  -- Edge Function. Sie kennt den bestehenden Zugang, diese Funktion nicht.
-  RETURN QUERY SELECT v_row.id, v_row.plan, v_row.days, v_row.code_tail;
+  v_ende := GREATEST(COALESCE(p_basis, now()), now())
+            + (v_row.days || ' days')::interval;
+
+  INSERT INTO public.external_entitlements
+    (provider, order_id, email, product_id, plan, status, period_end,
+     amount_cents, currency, last_event, raw, updated_at)
+  VALUES
+    ('code', v_row.id::text, p_email, NULL, v_row.plan, 'active', v_ende,
+     NULL, 'EUR', 'code_redeemed',
+     jsonb_build_object('code_tail', v_row.code_tail, 'batch', v_row.batch),
+     now())
+  ON CONFLICT (provider, order_id) DO UPDATE
+     SET status = 'active', period_end = EXCLUDED.period_end,
+         last_event = EXCLUDED.last_event, updated_at = now();
+
+  RETURN QUERY SELECT v_row.plan, v_ende, v_row.code_tail;
 END;
 $$;
 
-REVOKE ALL ON FUNCTION public.redeem_code(TEXT, TEXT, UUID) FROM PUBLIC, anon, authenticated;
+REVOKE ALL ON FUNCTION public.redeem_code(TEXT, TEXT, UUID, TIMESTAMPTZ) FROM PUBLIC, anon, authenticated;
