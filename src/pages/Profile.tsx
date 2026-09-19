@@ -12,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Crown, Loader2, Brain } from "lucide-react";
 import { FelixMemoryPanel } from "@/components/profile/FelixMemoryPanel";
 import { TwoFactorPanel } from "@/components/profile/TwoFactorPanel";
+import { CodeEinloesenPanel } from "@/components/profile/CodeEinloesenPanel";
 import { toast } from "sonner";
 import { STRIPE_PRICES } from "@/lib/stripe";
 import { writeProfileCache } from "@/lib/profileCache";
@@ -173,6 +174,10 @@ const Profile = () => {
               <span className={`rounded-full px-3 py-1 text-xs font-bold ${isActive ? "bg-success/15 text-success" : "bg-secondary text-muted-foreground"}`}>
                 {isActive ? "Aktiv" : "Inaktiv"}
               </span>
+            </div>
+
+            <div className="mb-8">
+              <CodeEinloesenPanel onRedeemed={handleStatusCheck} />
             </div>
 
             <div className="rounded-2xl bg-gradient-primary text-primary-foreground p-6 md:p-10 relative overflow-hidden shadow-glow min-h-[460px]">
