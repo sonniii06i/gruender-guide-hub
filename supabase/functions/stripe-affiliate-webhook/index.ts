@@ -11,6 +11,7 @@ import { createClient } from "npm:@supabase/supabase-js@2.57.2";
 import { sendMetaCapiEvent } from "../_shared/metaCapi.ts";
 import { type Produkt } from "../_shared/campaigns.ts";
 import { abTestStrecke } from "../_shared/mailSend.ts";
+import { meldeVerkauf } from "../_shared/discordSales.ts";
 
 const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY")!, { apiVersion: "2025-08-27.basil" });
 const webhookSecret = Deno.env.get("STRIPE_WEBHOOK_SECRET")!;
@@ -57,6 +58,31 @@ Deno.serve(async (req) => {
     switch (event.type) {
       case "checkout.session.completed": {
         const s = event.data.object as any;
+
+        // Verkaufsmeldung nach Discord. Bewusst hier oben, VOR jedem `break`
+        // dieses Falls: gemeldet werden soll jeder Kauf, nicht nur der mit
+        // Reflink. meldeVerkauf wirft nie, der Webhook kann daran nicht kippen.
+        try {
+          let produkt: string | null = (s.metadata?.plan ?? s.metadata?.product ?? null) as string | null;
+          try {
+            const li = await stripe.checkout.sessions.listLineItems(s.id, { limit: 3 });
+            produkt = li.data.map((p: any) => p.description).filter(Boolean).join(", ") || produkt;
+          } catch (_e) { /* Produktname ist Kuer — der Betrag ist Pflicht */ }
+          await meldeVerkauf({
+            marke: "gruenderx",
+            betragCent: s.amount_total,
+            waehrung: s.currency,
+            email: s.customer_details?.email ?? s.customer_email ?? null,
+            name: s.customer_details?.name ?? null,
+            produkt,
+            zahlungsart: (s.payment_method_types ?? []).join(", ") || "Stripe",
+            abo: s.mode === "subscription",
+            quelle: "stripe-webhook",
+            referenz: s.id,
+          });
+        } catch (e) {
+          console.error("[discord] Verkaufsmeldung fehlgeschlagen:", e);
+        }
         // --------------------------------------------------------------
         // Warenkorbstrecke beenden.
         //
