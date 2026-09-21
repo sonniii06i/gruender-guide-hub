@@ -36,6 +36,7 @@
 //   IPN_ELOPAGE_SECRET         elopage/ablefy: optionale HMAC-Signatur
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
+import { meldeVerkauf } from "../_shared/discordSales.ts";
 import {
   ack,
   canonicalProvider,
@@ -157,6 +158,20 @@ async function applyEvent(supabase: any, ev: IpnEvent): Promise<string> {
       status: "active",
       source: ev.provider,
       current_period_end: ev.periodEnd,
+    });
+
+    // Reseller-Verkauf in denselben Discord-Kanal melden wie die Stripe-Kaeufe.
+    // Wirft nie — eine Meldung darf einen IPN-Empfang nicht kippen.
+    await meldeVerkauf({
+      marke: "gruenderx",
+      betragCent: ev.amountCents,
+      waehrung: ev.currency,
+      email: ev.email,
+      produkt: ev.plan ?? ev.productId,
+      zahlungsart: ev.provider,
+      abo: Boolean(ev.periodEnd),
+      quelle: ev.provider,
+      referenz: ev.orderId,
     });
     return `${ev.event}: Zugang für ${ev.email} bis ${ev.periodEnd ?? "unbefristet"}`;
   }

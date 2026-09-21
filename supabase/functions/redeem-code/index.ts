@@ -16,6 +16,7 @@
 // Danke-Seite eine Conversion, die es an dieser Stelle nie gab.
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
+import { meldeVerkauf } from "../_shared/discordSales.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -180,6 +181,20 @@ serve(async (req) => {
     }, { onConflict: "user_id" });
 
     console.log(`[redeem-code] ${email} -> ${hit.plan} bis ${hit.period_end} (…${hit.code_tail})`);
+
+    // Der Verkauf selbst passierte auf der Plattform, die die Karte verkauft hat
+    // (Amazon liefert Abos in DE nicht digital aus). Die Einloesung ist der
+    // einzige Moment, in dem wir davon erfahren — deshalb hier melden.
+    await meldeVerkauf({
+      marke: "gruenderx",
+      email,
+      produkt: hit.plan,
+      abo: Boolean(hit.period_end),
+      quelle: "Aktivierungscode",
+      referenz: `…${hit.code_tail}`,
+      codeEinloesung: true,
+    });
+
     return json({ ok: true, plan: hit.plan, period_end: hit.period_end });
   } catch (e) {
     console.error("[redeem-code]", e);

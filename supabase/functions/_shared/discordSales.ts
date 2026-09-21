@@ -32,6 +32,9 @@ export interface VerkaufMelden {
   abo?: boolean;                  // true = wiederkehrend
   quelle?: string | null;         // z. B. "stripe-webhook", "copecart"
   referenz?: string | null;       // Session-/Bestell-ID
+  /** Aktivierungscode statt Zahlung: der Umsatz entstand auf der Plattform,
+   *  auf der die Karte verkauft wurde — hier gibt es keinen Betrag zu melden. */
+  codeEinloesung?: boolean;
 }
 
 function euro(cent: number | null | undefined, waehrung: string | null | undefined): string {
@@ -51,9 +54,14 @@ export async function meldeVerkauf(v: VerkaufMelden): Promise<void> {
 
   const felder: { name: string; value: string; inline?: boolean }[] = [
     { name: "📦 Produkt", value: v.produkt || (v.abo ? "Abo" : "Kauf"), inline: false },
-    { name: "💰 Gesamtbetrag", value: `**${euro(v.betragCent, v.waehrung)}**`, inline: true },
-    { name: "💳 Zahlungsart", value: v.zahlungsart || "Stripe", inline: true },
   ];
+  if (v.codeEinloesung) {
+    // Kein Betrag: der Umsatz ist dort entstanden, wo die Karte verkauft wurde.
+    felder.push({ name: "🎟️ Weg", value: "Aktivierungscode eingelöst", inline: true });
+  } else {
+    felder.push({ name: "💰 Gesamtbetrag", value: `**${euro(v.betragCent, v.waehrung)}**`, inline: true });
+    felder.push({ name: "💳 Zahlungsart", value: v.zahlungsart || "Stripe", inline: true });
+  }
   if (v.abo !== undefined) {
     felder.push({ name: "🔁 Art", value: v.abo ? "Abo (wiederkehrend)" : "Einmalkauf", inline: true });
   }
@@ -69,7 +77,9 @@ export async function meldeVerkauf(v: VerkaufMelden): Promise<void> {
   const body = {
     username: `${m.name} Sales`,
     embeds: [{
-      title: `${m.emoji} Neuer Verkauf — ${m.name}`,
+      title: v.codeEinloesung
+        ? `🎟️ Code eingelöst — ${m.name}`
+        : `${m.emoji} Neuer Verkauf — ${m.name}`,
       url: m.url,
       color: m.farbe,
       fields: felder,
