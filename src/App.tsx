@@ -14,6 +14,8 @@ import { FREE_TOOL_BY_SLUG } from "@/lib/freetools";
 import Index from "./pages/Index.tsx";
 import Auth from "./pages/Auth.tsx";
 import Willkommen from "./pages/Willkommen.tsx";
+import ZahlungErfolgreich from "./pages/ZahlungErfolgreich.tsx";
+import ZahlungAbgebrochen from "./pages/ZahlungAbgebrochen.tsx";
 import ResetPassword from "./pages/ResetPassword.tsx";
 import Checkout from "./pages/Checkout.tsx";
 import Onboarding from "./pages/Onboarding.tsx";
@@ -174,6 +176,8 @@ const App = () => (
               <Route path="/auth" element={<Auth />} />
               {/* pay-first: hier entsteht das Konto, nachdem gezahlt wurde. */}
               <Route path="/willkommen" element={<Willkommen />} />
+              <Route path="/zahlung-erfolgreich" element={<ZahlungErfolgreich />} />
+              <Route path="/zahlung-abgebrochen" element={<ZahlungAbgebrochen />} />
               <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/onboarding" element={<Onboarding />} />

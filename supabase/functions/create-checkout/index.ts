@@ -215,8 +215,8 @@ serve(async (req) => {
       // (Webhook liest es bei checkout.session.completed + wiederkehrenden Rechnungen).
       metadata: { supabase_user_id: user.id, product, interval, ...(affRef ? { affiliate_ref: affRef } : {}) },
       subscription_data: { metadata: { product, interval, ...(affRef ? { affiliate_ref: affRef } : {}) } },
-      success_url: `${origin}/dashboard?checkout=success`,
-      cancel_url: `${origin}/checkout?canceled=1`,
+      success_url: `${origin}/zahlung-erfolgreich?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${origin}/zahlung-abgebrochen`,
     });
 
     // --------------------------------------------------------------

@@ -52,6 +52,8 @@ User-agent: *
 Allow: /
 Disallow: /auth
 Disallow: /checkout
+Disallow: /zahlung-erfolgreich
+Disallow: /zahlung-abgebrochen
 Disallow: /onboarding
 Disallow: /dashboard
 Disallow: /admin
