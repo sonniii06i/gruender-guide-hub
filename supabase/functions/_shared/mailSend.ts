@@ -192,8 +192,39 @@ export async function sendMail(o: SendOptions): Promise<SendResult> {
     email_id: mailId, brand: BRANDING.slug, campaign: o.campaign,
     variant, recipient: to, event: "sent", subject: o.built.subject,
   });
+  await archivieren({
+    brand: BRANDING.slug, email_id: mailId, campaign: o.campaign, variant,
+    recipient: to, subject: o.built.subject, html,
+  });
   console.log(`[mail] ${o.campaign}/${variant} an ${to} — ${mailId}`);
   return { ok: true, id: mailId, variant };
+}
+
+/**
+ * Kopie der versendeten Mail ans HQ-Portal (arbitragex.de/hq → Mails → Kampagne),
+ * damit dort Layout und Empfaenger je Kampagne sichtbar sind — keine Marke
+ * speichert den Mailinhalt selbst. HMAC-signiert mit HQ_ARCHIV_SECRET; ohne
+ * Secret passiert nichts. Wirft nie und wartet hoechstens 3 Sekunden.
+ */
+async function archivieren(m: Record<string, string>): Promise<void> {
+  const geheim = Deno.env.get("HQ_ARCHIV_SECRET");
+  if (!geheim) return;
+  try {
+    const body = JSON.stringify(m);
+    const key = await crypto.subtle.importKey(
+      "raw", new TextEncoder().encode(geheim), { name: "HMAC", hash: "SHA-256" }, false, ["sign"],
+    );
+    const sig = new Uint8Array(await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(body)));
+    const hex = Array.from(sig).map((b) => b.toString(16).padStart(2, "0")).join("");
+    await fetch("https://arbitragex.de/px/mail", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-HQ-Signatur": hex },
+      body,
+      signal: AbortSignal.timeout(3000),
+    });
+  } catch (err) {
+    console.error("[mail] HQ-Archiv nicht erreichbar:", err);
+  }
 }
 
 /**
