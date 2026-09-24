@@ -17,7 +17,10 @@
 // Datensatz "GruenderX Web" im Business-Portfolio Gruenderx (911919698620630),
 // verbunden mit Werbekonto 1352702709769162. Am 31.07.2026 neu angelegt --
 // vorher existierte fuer GruenderX ueberhaupt kein Meta-Datensatz.
-export const META_PIXEL_ID = "1564567174689976";
+// Datensatz „GründerX NEU“ (1086666527427868), angelegt am 24.09.2026 im Business Cardsnight.de
+// (im anwaltx-Business ging es technisch nicht). Abgeloest: 1564567174689976.
+// Muss zum Supabase-Secret META_PIXEL_ID passen (CAPI-Dedup).
+export const META_PIXEL_ID = "1086666527427868";
 export const GOOGLE_ADS_ID = "";
 
 /** Die vier Stufen der Event-Leiter aus dem Kampagnen-Steuerpult. */
