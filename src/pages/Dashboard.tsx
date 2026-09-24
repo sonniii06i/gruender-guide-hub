@@ -53,6 +53,13 @@ const Dashboard = () => {
   const checkoutSuccess = params.get("checkout") === "success";
   useEffect(() => {
     if (!checkoutSuccess) return;
+    // Nur einmal je Tag und Browser: ?checkout=success bleibt beim Neuladen in der URL
+    // stehen, und jedes Neuladen meldete vorher einen weiteren Kauf.
+    const schluessel = `gx_kauf_dashboard_${new Date().toISOString().slice(0, 10)}`;
+    try {
+      if (localStorage.getItem(schluessel)) return;
+      localStorage.setItem(schluessel, "1");
+    } catch { /* ohne Speicher trotzdem melden */ }
     trackMonetization.subscriptionStarted("gruenderx", 6499);
     trackAdConversion("purchase", { label: "subscription_monthly", value: 64.99 });
   }, [checkoutSuccess]);

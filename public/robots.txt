@@ -2,51 +2,9 @@
 # Öffentlich/indexierbar: / , /tools , /tools/* , /guides , /guides/* , /ratgeber , /ratgeber/* , /faq , Rechtsseiten
 # Blockiert: alles hinter der Paywall (zeigt Crawlern nur die Upsell-Wand) + private Bereiche
 
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-User-agent: Twitterbot
-Allow: /
-
-User-agent: facebookexternalhit
-Allow: /
-
-User-agent: GPTBot
-Allow: /
-
-User-agent: PerplexityBot
-Allow: /
-
-User-agent: ClaudeBot
-Allow: /
-
-User-agent: Claude-Web
-Allow: /
-
-User-agent: anthropic-ai
-Allow: /
-
-# Google Gemini / Vertex AI Grounding
-User-agent: Google-Extended
-Allow: /
-
-# OpenAI / ChatGPT
-User-agent: OAI-SearchBot
-Allow: /
-
-User-agent: ChatGPT-User
-Allow: /
-
-# Apple Intelligence
-User-agent: Applebot-Extended
-Allow: /
-
-# Common Crawl (Trainingsbasis vieler LLMs)
-User-agent: CCBot
-Allow: /
+# Suchmaschinen und KI-Crawler folgen der *-Gruppe. KEINE eigenen "Allow: /"-Gruppen
+# fuer sie anlegen: Ein Crawler mit eigener Gruppe ignoriert die *-Gruppe komplett --
+# damit waren alle Disallows unten fuer Google wirkungslos (Befund 24.09.2026).
 
 User-agent: *
 Allow: /

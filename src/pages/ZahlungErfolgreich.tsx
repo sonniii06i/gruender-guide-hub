@@ -34,10 +34,21 @@ const ZahlungErfolgreich = () => {
   // zustande gekommen ist. Der Wert ist der Listenpreis; das Bundle (99,99)
   // laesst sich hier nicht unterscheiden, den exakten Betrag liefert der
   // Stripe-Webhook per CAPI nach, dedupliziert ueber dieselbe event_id.
+  // Nur EINMAL je Checkout melden: vorher zaehlte jedes Neuladen einen weiteren Kauf.
+  // Die event_id stripe_<session_id> ist dieselbe wie im Stripe-Webhook (CAPI) und in
+  // Willkommen.tsx, Meta fasst die Meldungen damit zu einem Kauf zusammen.
   useEffect(() => {
+    const schluessel = `gx_kauf_gemeldet_${sessionId || "ohne"}`;
+    try {
+      if (localStorage.getItem(schluessel)) return;
+      localStorage.setItem(schluessel, "1");
+    } catch { /* ohne Speicher trotzdem melden */ }
     trackMonetization.subscriptionStarted("gruenderx", 6499);
-    trackAdConversion("purchase", { label: "subscription_monthly", value: 64.99 });
-  }, []);
+    trackAdConversion("purchase", {
+      label: "subscription_monthly", value: 64.99,
+      ...(sessionId ? { eventId: `stripe_${sessionId}` } : {}),
+    });
+  }, [sessionId]);
 
   useEffect(() => {
     let abgebrochen = false;

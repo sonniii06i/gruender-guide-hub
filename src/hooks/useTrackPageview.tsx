@@ -6,6 +6,11 @@ export const useTrackPageview = () => {
   const loc = useLocation();
   useEffect(() => {
     if (loc.pathname.startsWith("/admin")) return;
+    // Der Prerender im Build (Puppeteer auf localhost) lud jede Sitemap-Route einmal und
+    // wurde so zum groessten "Besucher" (Befund 24.09.2026): automatisierte Aufrufe auslassen.
+    const ua = navigator.userAgent || "";
+    if (navigator.webdriver || /HeadlessChrome|bot|crawl|spider|Lighthouse/i.test(ua)
+        || ["localhost", "127.0.0.1"].includes(window.location.hostname)) return;
     const params = new URLSearchParams(loc.search);
     supabase.functions.invoke("track-pageview", {
       body: {
