@@ -113,13 +113,19 @@ const RatgeberPost = () => {
   const guides = [...explicitGuides, ...matchedGuides].slice(0, 3);
   const tools = relatedToolsFor(matchCtx, 3);
 
+  // Ein base64-Bild (data:) taugt weder als og:image noch fuer Article.image —
+  // Crawler und Vorschauen laden keine data-URIs — und stand bisher dreimal
+  // zusaetzlich im HTML (og, twitter, JSON-LD): bis zu 4 MB je Seite.
+  const teilbaresBild =
+    post.hero_image_url && /^https?:\/\//.test(post.hero_image_url) ? post.hero_image_url : undefined;
+
   return (
     <PublicShell>
       <Seo
         title={post.meta_title || post.title}
         description={post.meta_description || post.excerpt}
         path={`/ratgeber/${post.slug}`}
-        image={post.hero_image_url || undefined}
+        image={teilbaresBild}
         type="article"
         jsonLd={[
           {
@@ -127,7 +133,7 @@ const RatgeberPost = () => {
             "@type": "Article",
             headline: post.title,
             description: post.meta_description || post.excerpt,
-            image: post.hero_image_url || undefined,
+            image: teilbaresBild,
             datePublished: post.published_at,
             dateModified: post.updated_at,
             author: { "@type": "Person", name: post.author },

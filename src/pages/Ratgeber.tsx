@@ -40,13 +40,31 @@ const Ratgeber = () => {
 
   useEffect(() => {
     (async () => {
-      const { data } = await supabase
-        .from("blog_posts")
-        .select("id,slug,title,excerpt,hero_image_url,category,tags,reading_minutes,published_at")
-        .eq("status", "published")
-        .order("published_at", { ascending: false })
-        .limit(200);
-      setPosts((data || []) as BlogPostSummary[]);
+      // hero_image_url steht bei 15 von 20 Artikeln als base64-PNG in der
+      // Datenbank (1–5 MB je Bild). Mit in die Liste geladen, war /ratgeber
+      // 14 MB gross (gemessen 25.09.2026). Bilder deshalb nur holen, wenn es
+      // echte URLs sind; die anderen Karten zeigen den Farbverlauf.
+      const [{ data }, { data: bilder }] = await Promise.all([
+        supabase
+          .from("blog_posts")
+          .select("id,slug,title,excerpt,category,tags,reading_minutes,published_at")
+          .eq("status", "published")
+          .order("published_at", { ascending: false })
+          .limit(200),
+        supabase
+          .from("blog_posts")
+          .select("id,hero_image_url")
+          .eq("status", "published")
+          .like("hero_image_url", "http%")
+          .limit(200),
+      ]);
+      const bildVon = new Map((bilder || []).map((b) => [b.id, b.hero_image_url as string | null]));
+      setPosts(
+        ((data || []) as Omit<BlogPostSummary, "hero_image_url">[]).map((p) => ({
+          ...p,
+          hero_image_url: bildVon.get(p.id) ?? null,
+        })) as BlogPostSummary[],
+      );
       setLoading(false);
     })();
   }, []);
