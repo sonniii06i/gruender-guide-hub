@@ -93,10 +93,8 @@ export const gruendungskostenConfig: ToolConfig = {
   badge: "Kosten-Rechner",
   heroTitle: "Kostenloser Gründungskosten-Rechner",
   heroSubtitle:
-    "Berechne dein Gründungsbudget in Minuten – Formalitäten je Rechtsform plus deine individuellen Startkosten. 1 kostenlose Berechnung, nur E-Mail nötig – kein Konto, keine Zahlung.",
+    "Berechne dein Gründungsbudget in Minuten – Formalitäten je Rechtsform plus deine individuellen Startkosten. 1 kostenlose Berechnung, nur E-Mail nötig – kein Konto, keine Zahlung; unbegrenzt im Abo.",
   resultFilename: "gruendungskosten",
-  // Eine kostenlose Nutzung ohne Konto, danach Hinweis auf das Abo.
-  singleFreeUse: true,
   steps: [
     {
       title: "Rechtsform",

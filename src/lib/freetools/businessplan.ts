@@ -135,7 +135,7 @@ export const businessplanConfig: ToolConfig = {
   badge: "Für Gründer & Förderung",
   heroTitle: "Kostenloser Businessplan-Generator",
   heroSubtitle:
-    "Erstelle Schritt für Schritt einen strukturierten Businessplan – mit allen Kapiteln, die Bank, Förderstelle und Investoren erwarten. In Minuten fertig, Kostenlos: Das Ergebnis bekommst du gegen deine E-Mail-Adresse, ohne Konto und ohne Zahlung.",
+    "Erstelle Schritt für Schritt einen strukturierten Businessplan – mit allen Kapiteln, die Bank, Förderstelle und Investoren erwarten. In Minuten fertig. 1 kostenlose Nutzung je Generator, nur E-Mail nötig – ohne Konto und ohne Zahlung; unbegrenzt im Abo.",
   resultFilename: "businessplan",
   steps: [
     {
@@ -220,13 +220,13 @@ export const businessplanConfig: ToolConfig = {
   seo: {
     title: "Kostenloser Businessplan-Generator – in Minuten erstellen | GründerX",
     description:
-      "Businessplan kostenlos erstellen: Schritt-für-Schritt-Generator mit allen Kapiteln für Bank, Gründungszuschuss & Förderung. In Minuten fertig, kostenlos gegen deine E-Mail-Adresse.",
+      "Businessplan kostenlos erstellen: Schritt-für-Schritt-Generator mit allen Kapiteln für Bank, Gründungszuschuss & Förderung. In Minuten fertig: 1 kostenlose Nutzung, nur E-Mail nötig; unbegrenzt im Abo.",
     keywords:
       "businessplan erstellen, businessplan vorlage, businessplan generator, businessplan kostenlos, businessplan gründungszuschuss, businessplan muster",
     faqs: [
       {
         q: "Ist der Businessplan-Generator kostenlos?",
-        a: "Ja. Das Erstellen und Herunterladen deines Businessplans als PDF ist kostenlos – du gibst nur deine E-Mail-Adresse an, um das Ergebnis freizuschalten. Ein Konto brauchst du nicht.",
+        a: "Der erste Businessplan ist kostenlos: Du gibst deine E-Mail-Adresse an und bekommst das Ergebnis samt PDF – ohne Konto und ohne Zahlung. Das ist 1 kostenlose Nutzung je Generator; weitere Durchläufe und alle anderen Tools gibt es unbegrenzt im GründerX-Abo.",
       },
       {
         q: "Reicht der Businessplan für den Gründungszuschuss oder die Bank?",

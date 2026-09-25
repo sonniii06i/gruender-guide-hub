@@ -8,7 +8,7 @@ import { Navbar } from "@/components/landing/Navbar";
 import { Footer } from "@/components/landing/Footer";
 import { FreeToolPromo } from "@/components/freetools/FreeToolPromo";
 import { FREE_TOOLS } from "@/lib/freetools";
-import { TRIAL_TOOLS, TRIAL_CLAIM } from "@/lib/freetools/trialTools";
+import { TRIAL_TOOLS, TRIAL_CLAIM, GENERATOR_CLAIM } from "@/lib/freetools/trialTools";
 import { LANDING_TOOLS } from "@/data/features";
 import { faqSchema, breadcrumbSchema, serviceSchema } from "@/lib/freetools/schema";
 
@@ -17,7 +17,7 @@ const SITE = "https://gruenderx.de";
 const faqs = [
   {
     q: "Sind die Gründer-Tools wirklich kostenlos?",
-    a: "Ja. Businessplan-Generator, Rechtsform-Finder und die beiden Amazon-Widerspruchs-Generatoren sind kostenlos: Du gibst deine E-Mail-Adresse an und bekommst das fertige Dokument samt PDF. Beim Gründungskosten-Rechner, WEEE-Check, Brand-Check und LUCID-Wizard ist je eine Nutzung kostenlos; unbegrenzt nutzt du sie mit dem GründerX-Abo.",
+    a: "Zum Kennenlernen ja: Bei jedem Generator (Businessplan-Generator, Gründungskosten-Rechner, Rechtsform-Finder und die beiden Amazon-Widerspruchs-Generatoren) ist eine Nutzung kostenlos – du gibst deine E-Mail-Adresse an und bekommst das fertige Dokument samt PDF. Beim WEEE-Check, Brand-Check und LUCID-Wizard ist je eine Prüfung kostenlos. Unbegrenzt nutzt du alle Tools mit dem GründerX-Abo.",
   },
   {
     q: "Muss ich ein Konto anlegen?",
@@ -31,7 +31,7 @@ const faqs = [
 
 const steps = [
   { icon: Sparkles, title: "Angaben eingeben", desc: "Beantworte ein paar einfache Fragen im Schritt-für-Schritt-Assistenten." },
-  { icon: Lock, title: "E-Mail angeben", desc: "Das fertige Ergebnis gibt es gegen deine E-Mail-Adresse – ohne Konto, ohne Zahlung." },
+  { icon: Lock, title: "E-Mail angeben", desc: "Das erste fertige Ergebnis je Tool gibt es gegen deine E-Mail-Adresse – ohne Konto, ohne Zahlung." },
   { icon: Rocket, title: "Loslegen", desc: "Lade dein Ergebnis als PDF herunter und starte durch." },
 ];
 
@@ -39,7 +39,7 @@ export default function GratisTools() {
   const jsonLd = [
     serviceSchema(
       "Kostenlose Gründer-Tools",
-      "Tools für Gründer: Businessplan, Gründungskosten-Rechner und Rechtsform-Finder. Das Ergebnis gibt es gegen die E-Mail-Adresse, ohne Konto."
+      "Tools für Gründer: Businessplan, Gründungskosten-Rechner und Rechtsform-Finder. Je Generator eine kostenlose Nutzung gegen die E-Mail-Adresse, ohne Konto; unbegrenzt im Abo."
     ),
     faqSchema(faqs),
     breadcrumbSchema([
@@ -52,7 +52,7 @@ export default function GratisTools() {
     <div className="min-h-screen bg-background">
       <Seo
         title="Kostenlose Gründer-Tools: Businessplan, Gründungskosten & Rechtsform | GründerX"
-        description="Erstelle Businessplan, Gründungskosten-Übersicht und Rechtsform-Empfehlung Schritt für Schritt. Das Ergebnis gibt es gegen deine E-Mail-Adresse – ohne Konto."
+        description="Erstelle Businessplan, Gründungskosten-Übersicht und Rechtsform-Empfehlung Schritt für Schritt. 1 kostenlose Nutzung je Generator, nur E-Mail nötig – ohne Konto; unbegrenzt im Abo."
         path="/gratis-tools"
         type="website"
         jsonLd={jsonLd}
@@ -63,14 +63,15 @@ export default function GratisTools() {
         <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-background to-background" />
         <div className="relative max-w-3xl mx-auto px-4 sm:px-6 text-center">
           <Badge variant="secondary" className="mb-4">
-            <Gift className="mr-1.5 h-3.5 w-3.5" /> Kostenlos, nur E-Mail nötig
+            <Gift className="mr-1.5 h-3.5 w-3.5" /> {GENERATOR_CLAIM}
           </Badge>
           <h1 className="text-3xl md:text-5xl font-bold text-foreground mb-4 leading-tight">
             Kostenlose Tools für deine Gründung
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Businessplan, Gründungskosten-Rechner und Rechtsform-Finder – in Minuten erstellt, ohne
-            Fachchinesisch. Das fertige Ergebnis bekommst du gegen deine E-Mail-Adresse – kein Konto, keine Zahlung.
+            Fachchinesisch. Je Generator ist eine Nutzung kostenlos: Das fertige Ergebnis bekommst du gegen deine
+            E-Mail-Adresse – kein Konto, keine Zahlung. Unbegrenzt nutzt du die Generatoren mit dem GründerX-Abo.
           </p>
         </div>
       </section>
@@ -96,7 +97,7 @@ export default function GratisTools() {
                         </div>
                         <p className="text-sm text-muted-foreground mt-1.5 line-clamp-2">{t.heroSubtitle}</p>
                         <span className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-primary">
-                          Kostenlos erstellen
+                          1 kostenlose Nutzung
                           <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
                         </span>
                       </div>

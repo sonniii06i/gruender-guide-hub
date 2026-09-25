@@ -13,7 +13,7 @@ const FAQS: { q: string; a: string }[] = [
   },
   {
     q: "Gibt es eine kostenlose Testphase?",
-    a: "Eine Testphase mit Konto gibt es nicht – das Konto entsteht erst nach der Zahlung. Ausprobieren kannst du vorher ohne Konto: WEEE-Check, Brand-Check, LUCID-Wizard und Gründungskosten-Rechner je einmal kostenlos, dazu Businessplan-Generator, Rechtsform-Finder und die Amazon-Widerspruchs-Generatoren. Das Ergebnis gibt es jeweils gegen deine E-Mail-Adresse.",
+    a: "Eine Testphase mit Konto gibt es nicht – das Konto entsteht erst nach der Zahlung. Ausprobieren kannst du vorher ohne Konto: WEEE-Check, Brand-Check, LUCID-Wizard sowie Businessplan-Generator, Gründungskosten-Rechner, Rechtsform-Finder und die Amazon-Widerspruchs-Generatoren je einmal kostenlos. Das Ergebnis gibt es jeweils gegen deine E-Mail-Adresse.",
   },
   { q: "Ersetzt GründerX meinen Steuerberater oder Anwalt?", a: "Nein. GründerX bereitet dich strukturiert vor, erklärt Begriffe und liefert Templates. Bei rechtsverbindlichen Themen (Steuererklärung, Vertragsprüfung) verweisen wir auf unser Schwesterprodukt AnwaltX bzw. zertifizierte Partner." },
   { q: "Welche Rechtsformen deckt ihr ab?", a: "Schwerpunkt DE: Einzelunternehmen, GbR, UG, GmbH, GmbH & Co. KG. Zusätzlich US-LLC für Creator/E-Commerce. Der Rechtsform-Wizard berechnet die optimale Form für dein Modell." },

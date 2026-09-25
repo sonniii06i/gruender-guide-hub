@@ -23,7 +23,7 @@ interface EmailGateDialogProps {
   resultName: string;
   /** Tool-Slug, landet als Herkunft `gx-tool:<slug>` am Lead. */
   slug: string;
-  /** Einmal-Nutzung (Checks) oder dauerhaft frei (Generatoren). */
+  /** Hinweis auf die eine kostenlose Nutzung im Dialogtext (Checks und Generatoren). */
   singleUse?: boolean;
 }
 

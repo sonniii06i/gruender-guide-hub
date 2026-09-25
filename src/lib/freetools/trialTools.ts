@@ -67,3 +67,6 @@ export const TRIAL_TOOL_BY_SLUG: Record<string, TrialTool> = Object.fromEntries(
 
 /** Einheitlicher Hinweis auf den Teaser-Seiten. */
 export const TRIAL_CLAIM = "1 kostenlose Prüfung, nur E-Mail nötig";
+
+/** Einheitlicher Hinweis bei den Generatoren (FreeToolWizard, /gratis-tools). */
+export const GENERATOR_CLAIM = "1 kostenlose Nutzung je Generator, nur E-Mail nötig; unbegrenzt im Abo";

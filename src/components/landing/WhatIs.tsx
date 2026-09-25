@@ -56,9 +56,9 @@ export const WhatIs = () => (
             Der volle Zugang mit allen Tools, Wizards, Guides und Felix kostet ab{" "}
             {formatEurCents(PRO_MONTH_GROSS_CENTS)} im Monat inkl. USt. (
             <Link to="/preise" className="underline hover:text-foreground">alle Preise</Link>). Ohne Konto
-            kostenlos: je eine Prüfung im WEEE-Check, Brand-Check, LUCID-Wizard und Gründungskosten-Rechner
-            sowie die <Link to="/gratis-tools" className="underline hover:text-foreground">Gratis-Tools</Link> –
-            nur gegen deine E-Mail-Adresse.
+            kostenlos: je eine Prüfung im WEEE-Check, Brand-Check und LUCID-Wizard sowie je eine Nutzung der
+            Generatoren unter <Link to="/gratis-tools" className="underline hover:text-foreground">Gratis-Tools</Link> –
+            nur gegen deine E-Mail-Adresse; unbegrenzt im Abo.
           </dd>
         </div>
         <div>

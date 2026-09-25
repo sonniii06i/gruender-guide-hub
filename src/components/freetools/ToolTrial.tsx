@@ -138,8 +138,19 @@ function LockedResult({ onUnlock, name }: { onUnlock: () => void; name: string }
   );
 }
 
-/** Hinweis auf das Abo — nach der Nutzung („after") oder wenn sie verbraucht ist („spent"). */
-export function TrialUpsell({ tool, variant }: { tool: Pick<TrialTool, "name">; variant: "after" | "spent" }) {
+/**
+ * Hinweis auf das Abo — nach der Nutzung („after") oder wenn sie verbraucht ist („spent").
+ * `noun`: „Prüfung" bei den Checks, „Nutzung" bei den Generatoren.
+ */
+export function TrialUpsell({
+  tool,
+  variant,
+  noun = "Prüfung",
+}: {
+  tool: Pick<TrialTool, "name">;
+  variant: "after" | "spent";
+  noun?: "Prüfung" | "Nutzung";
+}) {
   return (
     <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5 md:p-6">
       <div className="flex items-start gap-3">
@@ -149,7 +160,7 @@ export function TrialUpsell({ tool, variant }: { tool: Pick<TrialTool, "name">; 
         <div className="flex-1">
           <p className="font-semibold">
             {variant === "after"
-              ? "Das war deine kostenlose Prüfung."
+              ? `Das war deine kostenlose ${noun}.`
               : `Deine kostenlose Nutzung von „${tool.name}" ist aufgebraucht.`}
           </p>
           <p className="mt-1 text-sm text-muted-foreground">

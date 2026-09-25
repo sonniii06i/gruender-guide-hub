@@ -153,9 +153,9 @@ const Datenschutz = () => (
 
       <h3 id="kostenlose-tools" className="font-semibold mt-6">3.9 Kostenlose Tools und Prüfungen (Ergebnis gegen E-Mail-Adresse)</h3>
       <p>
-        Einige Tools kannst du ohne Konto nutzen: den WEEE-Check, den Brand-Check, den LUCID-Wizard und den
-        Gründungskosten-Rechner je einmal, die Generatoren unter „Gratis-Tools" (Businessplan, Rechtsform-Finder,
-        Amazon-Widersprüche) ohne Begrenzung. Das Ergebnis schalten wir frei, wenn du deine E-Mail-Adresse angibst.
+        Einige Tools kannst du ohne Konto je einmal nutzen: den WEEE-Check, den Brand-Check, den LUCID-Wizard, den
+        Gründungskosten-Rechner und die Generatoren unter „Gratis-Tools" (Businessplan, Rechtsform-Finder,
+        Amazon-Widersprüche). Das Ergebnis schalten wir frei, wenn du deine E-Mail-Adresse angibst.
       </p>
       <p>
         <strong>Daten:</strong> E-Mail-Adresse, das genutzte Tool (Herkunft, z. B. „gx-tool:weee-check") und der
@@ -166,7 +166,7 @@ const Datenschutz = () => (
       </p>
       <p>
         <strong>Zweck:</strong> Bereitstellung des angeforderten Ergebnisses und Nachhalten der kostenlosen
-        Nutzung (eine Prüfung je Tool), damit das Angebot nicht missbraucht wird. Ob du ein Tool schon genutzt
+        Nutzung (eine Prüfung bzw. Nutzung je Tool), damit das Angebot nicht missbraucht wird. Ob du ein Tool schon genutzt
         hast, merkt sich zusätzlich dein Browser im lokalen Speicher (siehe Abschnitt 6). Werbung senden wir an
         diese Adresse nicht; einen Newsletter gibt es nur mit gesonderter, ausdrücklicher Einwilligung.
       </p>

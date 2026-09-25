@@ -159,7 +159,7 @@ export const rechtsformConfig: ToolConfig = {
   badge: "Rechtsform-Finder",
   heroTitle: "Kostenloser Rechtsform-Finder",
   heroSubtitle:
-    "Einzelunternehmen, GbR, UG oder GmbH? Beantworte ein paar Fragen und erhalte eine begründete Rechtsform-Empfehlung mit Vor- und Nachteilen. Kostenlos: Das Ergebnis bekommst du gegen deine E-Mail-Adresse, ohne Konto und ohne Zahlung.",
+    "Einzelunternehmen, GbR, UG oder GmbH? Beantworte ein paar Fragen und erhalte eine begründete Rechtsform-Empfehlung mit Vor- und Nachteilen. 1 kostenlose Nutzung je Generator, nur E-Mail nötig – ohne Konto und ohne Zahlung; unbegrenzt im Abo.",
   resultFilename: "rechtsform-empfehlung",
   steps: [
     {
@@ -261,13 +261,13 @@ export const rechtsformConfig: ToolConfig = {
   seo: {
     title: "Rechtsform-Finder: Einzelunternehmen, UG oder GmbH? | GründerX",
     description:
-      "Welche Rechtsform passt zu dir? Kostenloser Rechtsform-Finder mit begründeter Empfehlung (Einzelunternehmen, GbR, UG, GmbH) inkl. Vor- und Nachteilen. Kostenlos gegen deine E-Mail-Adresse, ohne Konto.",
+      "Welche Rechtsform passt zu dir? Kostenloser Rechtsform-Finder mit begründeter Empfehlung (Einzelunternehmen, GbR, UG, GmbH) inkl. Vor- und Nachteilen. 1 kostenlose Nutzung, nur E-Mail nötig; unbegrenzt im Abo.",
     keywords:
       "rechtsform finden, welche rechtsform, rechtsform gründung, einzelunternehmen ug gmbh, rechtsform vergleich, rechtsform wählen",
     faqs: [
       {
         q: "Ist der Rechtsform-Finder kostenlos?",
-        a: "Ja. Die Empfehlung und der PDF-Download sind kostenlos – du gibst nur deine E-Mail-Adresse an, um das Ergebnis freizuschalten. Ein Konto brauchst du nicht.",
+        a: "Die erste Empfehlung ist kostenlos: Du gibst deine E-Mail-Adresse an und bekommst das Ergebnis samt PDF – ohne Konto und ohne Zahlung. Das ist 1 kostenlose Nutzung je Generator; weitere Durchläufe und alle anderen Tools gibt es unbegrenzt im GründerX-Abo.",
       },
       {
         q: "Welche Rechtsform ist die beste?",

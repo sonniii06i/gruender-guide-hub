@@ -31,6 +31,7 @@ import { downloadDocumentPdf } from "@/lib/freetools/pdf";
 import { EmailGateDialog } from "./EmailGateDialog";
 import { TrialUpsell } from "./ToolTrial";
 import { isToolUnlockedLocally } from "@/lib/freetools/leads";
+import { useAccess } from "@/hooks/useAccess";
 
 interface FreeToolWizardProps {
   config: ToolConfig;
@@ -42,28 +43,40 @@ function isVisible(field: FieldDef, data: ToolData): boolean {
 
 export function FreeToolWizard({ config }: FreeToolWizardProps) {
   const { user } = useAuth();
+  // Abo-Erkennung wie auf den Probier-Seiten der Checks (ToolTrialPage):
+  // aktives/laufendes Abo, Gratis-Zugang (comp_access) oder Admin. Ein bloßes
+  // Login zählt nicht — ein gekündigtes Konto bekommt ebenfalls nur die eine
+  // kostenlose Nutzung.
+  const { loading: accessLoading, hasActiveSub, isAdmin } = useAccess();
+  const subscriber = Boolean(user) && (hasActiveSub || isAdmin);
+
   const [data, setData] = useState<ToolData>({});
   const [stepIndex, setStepIndex] = useState(0);
   const [showResult, setShowResult] = useState(false);
   const [gateOpen, setGateOpen] = useState(false);
-  // Einmal-Tools (singleFreeUse): Wer die kostenlose Nutzung in diesem Browser
-  // schon hatte, bekommt den Abo-Hinweis statt eines neuen Ergebnisses.
-  // Übrige Generatoren: einmal E-Mail angegeben = dauerhaft frei.
-  const singleUse = config.singleFreeUse === true;
-  const [unlocked, setUnlocked] = useState(() => !singleUse && isToolUnlockedLocally(config.slug));
-  const [spent, setSpent] = useState(() => singleUse && isToolUnlockedLocally(config.slug));
+  // Eine kostenlose Nutzung je Generator (Slug) und Browser: Das erste fertige
+  // Ergebnis gibt es gegen die E-Mail-Adresse; gemerkt wird das unter
+  // `gruenderx:tool-unlocked:<slug>` (dieselbe Konvention wie bei den Checks).
+  // Ab dem zweiten Durchlauf kommt statt des Ergebnisses der Abo-Hinweis.
+  // Bewusst ein weicher Schutz (localStorage), kein Zugriffsschutz.
+  const [unlocked, setUnlocked] = useState(false);
+  const [spent, setSpent] = useState(() => isToolUnlockedLocally(config.slug));
+  // Das freigeschaltete erste Ergebnis — bleibt ansehbar, solange es im State liegt.
+  const [freeDoc, setFreeDoc] = useState<string | null>(null);
 
   const totalSteps = config.steps.length;
   const isLastStep = stepIndex === totalSteps - 1;
   const step = config.steps[stepIndex];
 
   const gated = config.gated !== false;
-  const isUnlocked = !gated || Boolean(user) || unlocked;
+  const isUnlocked = !gated || subscriber || unlocked;
+  const limited = gated && !subscriber;
 
-  const document = useMemo(
-    () => (showResult ? config.generate(data) : ""),
-    [showResult, data, config]
-  );
+  const document = useMemo(() => {
+    if (!showResult) return "";
+    if (limited && freeDoc !== null) return freeDoc;
+    return config.generate(data);
+  }, [showResult, limited, freeDoc, data, config]);
 
   const setField = (name: string, value: string | boolean) =>
     setData((prev) => ({ ...prev, [name]: value }));
@@ -83,15 +96,23 @@ export function FreeToolWizard({ config }: FreeToolWizardProps) {
     return true;
   };
 
+  const showFreeDoc = () => {
+    setShowResult(true);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   const next = () => {
     if (!validateStep()) return;
     if (isLastStep) {
-      // Einmal-Tool: zweites Ergebnis (auch nach „Angaben ändern") nur mit Abo.
-      if (singleUse && !user && (spent || unlocked)) {
-        setUnlocked(false);
+      if (gated && user && accessLoading) {
+        toast("Dein Zugang wird noch geprüft – bitte gleich noch einmal klicken.");
+        return;
+      }
+      // Zweiter Durchlauf (auch nach „Angaben ändern") nur mit Abo.
+      if (limited && (spent || unlocked)) {
         setSpent(true);
         toast(`Deine kostenlose Nutzung von „${config.shortTitle}" ist aufgebraucht.`, {
-          description: "Mit dem GründerX-Abo nutzt du das Tool unbegrenzt.",
+          description: "Mit dem GründerX-Abo nutzt du alle Generatoren unbegrenzt.",
         });
         window.scrollTo({ top: 0, behavior: "smooth" });
         return;
@@ -169,9 +190,7 @@ export function FreeToolWizard({ config }: FreeToolWizardProps) {
                       Vollständiges Ergebnis gesperrt
                     </p>
                     <p className="text-xs text-muted-foreground mb-4 max-w-xs mx-auto">
-                      {singleUse
-                        ? "Kostenlos gegen deine E-Mail-Adresse – eine Nutzung, kein Konto, keine Zahlung."
-                        : "Kostenlos gegen deine E-Mail-Adresse – kein Konto, keine Zahlung."}
+                      Kostenlos gegen deine E-Mail-Adresse – eine Nutzung, kein Konto, keine Zahlung.
                     </p>
                     <Button onClick={() => setGateOpen(true)}>
                       <Lock className="mr-2 h-4 w-4" />
@@ -212,9 +231,9 @@ export function FreeToolWizard({ config }: FreeToolWizardProps) {
           )}
         </div>
 
-        {singleUse && isUnlocked && !user && (
+        {limited && isUnlocked && (
           <div className="mt-8">
-            <TrialUpsell tool={{ name: config.shortTitle }} variant="after" />
+            <TrialUpsell tool={{ name: config.shortTitle }} variant="after" noun="Nutzung" />
           </div>
         )}
 
@@ -223,11 +242,13 @@ export function FreeToolWizard({ config }: FreeToolWizardProps) {
           onOpenChange={setGateOpen}
           onUnlocked={() => {
             setUnlocked(true);
+            setSpent(true);
+            setFreeDoc(document);
             setGateOpen(false);
           }}
           resultName={config.documentName}
           slug={config.slug}
-          singleUse={singleUse}
+          singleUse
         />
       </div>
     );
@@ -238,9 +259,17 @@ export function FreeToolWizard({ config }: FreeToolWizardProps) {
 
   return (
     <div className="max-w-2xl mx-auto px-4 sm:px-6">
-      {singleUse && spent && !user && (
+      {limited && spent && (
         <div className="mb-8">
-          <TrialUpsell tool={{ name: config.shortTitle }} variant="spent" />
+          <TrialUpsell tool={{ name: config.shortTitle }} variant="spent" noun="Nutzung" />
+          {freeDoc !== null && (
+            <div className="mt-3 text-center">
+              <Button variant="outline" onClick={showFreeDoc}>
+                <FileText className="mr-2 h-4 w-4" />
+                Dein erstes Ergebnis wieder ansehen
+              </Button>
+            </div>
+          )}
         </div>
       )}
       <div className="mb-8">
@@ -249,7 +278,7 @@ export function FreeToolWizard({ config }: FreeToolWizardProps) {
             Schritt {stepIndex + 1} von {totalSteps}
           </span>
           <span className="text-muted-foreground flex items-center gap-1">
-            <Sparkles className="h-3.5 w-3.5" /> {singleUse ? "1 kostenlose Nutzung" : "Kostenlos, nur E-Mail"}
+            <Sparkles className="h-3.5 w-3.5" /> {subscriber ? "Unbegrenzt im Abo" : "1 kostenlose Nutzung, nur E-Mail"}
           </span>
         </div>
         <Progress value={progress} className="h-2" />

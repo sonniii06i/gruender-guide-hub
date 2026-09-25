@@ -3,6 +3,8 @@ import type { LucideIcon } from "lucide-react";
 // Free-Tools-Funnel für GründerX: kostenlose Gründer-Tools als Lead-Magnet.
 // Multi-Step-Wizard → finales Dokument gegen E-Mail-Adresse (kein Konto,
 // kein Abo; Lead in public.tool_leads, siehe lib/freetools/leads.ts).
+// Je Generator EINE kostenlose Nutzung pro Browser, danach Hinweis auf das
+// Abo; Abonnenten unbegrenzt (siehe components/freetools/FreeToolWizard.tsx).
 // Dokumente werden deterministisch aus Templates erzeugt (kein LLM, skaliert, free).
 
 export type FieldType =
@@ -52,11 +54,6 @@ export interface ToolConfig {
   heroSubtitle: string;
   /** true (Default): Ergebnis erst nach Angabe der E-Mail-Adresse (oder Login) sichtbar. */
   gated?: boolean;
-  /**
-   * true: nur EINE kostenlose Nutzung pro Browser, danach Hinweis auf das Abo.
-   * false/leer: nach einmaliger E-Mail-Angabe dauerhaft frei.
-   */
-  singleFreeUse?: boolean;
   resultFilename: string;
   steps: StepDef[];
   generate: (data: ToolData) => string;

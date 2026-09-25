@@ -286,7 +286,7 @@ export const markenFreischaltungConfig: ToolConfig = {
   badge: "Amazon-Ungating",
   heroTitle: "Amazon Marken-Freischaltung abgelehnt? Widerspruch-Generator",
   heroSubtitle:
-    "Antrag auf Verkaufsfreischaltung (Ungating) abgelehnt – z. B. weil plötzlich eine höhere Stückzahl verlangt wird, die Rechnung als „modifiziert“ gilt, der Lieferant nicht akzeptiert wird oder eine Autorisierung fehlt? Erstelle in Minuten einen sachlichen, faktenbasierten Widerspruch nach den aktuellen Amazon-Anforderungen. Kostenlos: Das Ergebnis bekommst du gegen deine E-Mail-Adresse, ohne Konto und ohne Zahlung.",
+    "Antrag auf Verkaufsfreischaltung (Ungating) abgelehnt – z. B. weil plötzlich eine höhere Stückzahl verlangt wird, die Rechnung als „modifiziert“ gilt, der Lieferant nicht akzeptiert wird oder eine Autorisierung fehlt? Erstelle in Minuten einen sachlichen, faktenbasierten Widerspruch nach den aktuellen Amazon-Anforderungen. 1 kostenlose Nutzung je Generator, nur E-Mail nötig – ohne Konto und ohne Zahlung; unbegrenzt im Abo.",
   resultFilename: "amazon-marken-freischaltung-widerspruch",
   steps: [
     {
@@ -385,7 +385,7 @@ export const markenFreischaltungConfig: ToolConfig = {
   seo: {
     title: "Amazon Marken-Freischaltung abgelehnt – Widerspruch-Generator | GründerX",
     description:
-      "Amazon-Ungating abgelehnt (Stückzahl, „modifizierte“ Rechnung, Lieferant, Autorisierung)? Erstelle kostenlos einen faktenbasierten Widerspruch nach den aktuellen Amazon-Anforderungen. Vorlage in Minuten.",
+      "Amazon-Ungating abgelehnt (Stückzahl, „modifizierte“ Rechnung, Lieferant, Autorisierung)? Erstelle einen faktenbasierten Widerspruch nach den aktuellen Amazon-Anforderungen. 1 kostenlose Nutzung, nur E-Mail nötig.",
     keywords:
       "amazon marken freischaltung abgelehnt, amazon ungating widerspruch, amazon kategorie freischalten, amazon rechnung abgelehnt, amazon rechnung modifiziert, amazon verkaufsantrag abgelehnt, amazon brand approval widerspruch, amazon ungating rechnung anforderungen",
     faqs: [
@@ -403,7 +403,7 @@ export const markenFreischaltungConfig: ToolConfig = {
       },
       {
         q: "Ist der Generator kostenlos?",
-        a: "Ja. Erstellung und Download des Widerspruchs sind kostenlos – du gibst nur deine E-Mail-Adresse an, um die fertige Vorlage freizuschalten. Ein Konto brauchst du nicht.",
+        a: "Der erste Widerspruch ist kostenlos: Du gibst deine E-Mail-Adresse an und bekommst die fertige Vorlage samt PDF – ohne Konto und ohne Zahlung. Das ist 1 kostenlose Nutzung je Generator; weitere Durchläufe und alle anderen Tools gibt es unbegrenzt im GründerX-Abo.",
       },
     ],
   },

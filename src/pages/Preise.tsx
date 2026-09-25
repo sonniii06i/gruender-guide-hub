@@ -73,7 +73,7 @@ const FAQS: { q: string; a: string }[] = [
   },
   {
     q: "Kann ich GründerX vorher ausprobieren?",
-    a: `Ja, ohne Konto: WEEE-Check, Brand-Check, LUCID-Wizard und Gründungskosten-Rechner je einmal kostenlos, das Ergebnis gibt es gegen deine E-Mail-Adresse. Dazu kommen die kostenlosen Generatoren unter /gratis-tools. Eine Testphase mit Konto gibt es nicht – das Konto entsteht erst nach der Zahlung.`,
+    a: `Ja, ohne Konto: WEEE-Check, Brand-Check, LUCID-Wizard und Gründungskosten-Rechner je einmal kostenlos, das Ergebnis gibt es gegen deine E-Mail-Adresse. Dazu kommt je eine kostenlose Nutzung der Generatoren unter /gratis-tools (Businessplan, Rechtsform-Finder, Amazon-Widersprüche). Eine Testphase mit Konto gibt es nicht – das Konto entsteht erst nach der Zahlung.`,
   },
   {
     q: "Was ist der Unterschied zwischen Monats- und Jahreszugang?",
