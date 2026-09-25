@@ -151,6 +151,32 @@ const Datenschutz = () => (
       <p>Wenn du uns per E-Mail oder Kontaktformular schreibst, speichern wir deine Anfrage zur Bearbeitung.</p>
       <p><strong>Rechtsgrundlage:</strong> Art. 6 Abs. 1 lit. b/f DSGVO. <strong>Speicherdauer:</strong> 3 Jahre nach Abschluss der Anfrage.</p>
 
+      <h3 id="kostenlose-tools" className="font-semibold mt-6">3.9 Kostenlose Tools und Prüfungen (Ergebnis gegen E-Mail-Adresse)</h3>
+      <p>
+        Einige Tools kannst du ohne Konto nutzen: den WEEE-Check, den Brand-Check, den LUCID-Wizard und den
+        Gründungskosten-Rechner je einmal, die Generatoren unter „Gratis-Tools" (Businessplan, Rechtsform-Finder,
+        Amazon-Widersprüche) ohne Begrenzung. Das Ergebnis schalten wir frei, wenn du deine E-Mail-Adresse angibst.
+      </p>
+      <p>
+        <strong>Daten:</strong> E-Mail-Adresse, das genutzte Tool (Herkunft, z. B. „gx-tool:weee-check") und der
+        Zeitpunkt. Die Inhalte, die du in das Tool eingibst, speichern wir dabei nicht. Beim WEEE-Check und beim
+        Brand-Check geht der gesuchte Marken- oder Firmenname – ohne deine E-Mail-Adresse – über unsere Server an die
+        öffentlichen Quellen, die das Tool abfragt (u. a. EAR-Verzeichnis der stiftung ear, Markenregister, DNS,
+        App Store).
+      </p>
+      <p>
+        <strong>Zweck:</strong> Bereitstellung des angeforderten Ergebnisses und Nachhalten der kostenlosen
+        Nutzung (eine Prüfung je Tool), damit das Angebot nicht missbraucht wird. Ob du ein Tool schon genutzt
+        hast, merkt sich zusätzlich dein Browser im lokalen Speicher (siehe Abschnitt 6). Werbung senden wir an
+        diese Adresse nicht; einen Newsletter gibt es nur mit gesonderter, ausdrücklicher Einwilligung.
+      </p>
+      <p>
+        <strong>Rechtsgrundlage:</strong> Art. 6 Abs. 1 lit. b DSGVO (Bereitstellung des angeforderten Ergebnisses)
+        und Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Missbrauchsabwehr).<br />
+        <strong>Speicherdauer:</strong> 12 Monate, danach automatische Löschung.<br />
+        <strong>Auftragsverarbeiter:</strong> Supabase (Datenbank, Serverstandort Frankfurt am Main).
+      </p>
+
       <h2 id="auftragsverarbeiter" className="text-2xl font-bold mt-10 mb-3">4. Auftragsverarbeiter, eigenverantwortliche Dritte & Datenflüsse</h2>
       <p>
         Im Folgenden listen wir alle Empfänger nach ihrer datenschutzrechtlichen Rolle (Auftragsverarbeiter
@@ -266,6 +292,7 @@ const Datenschutz = () => (
         <li><strong>theme-preference</strong> (LocalStorage) – Hell/Dunkel-Modus</li>
         <li><strong>gx-profile-{`{userId}`}</strong> (LocalStorage) – Profil-Cache zur Vermeidung erneuter DB-Roundtrips</li>
         <li><strong>stripe-session</strong> – nur während aktiver Zahlung gesetzt</li>
+        <li><strong>gruenderx:tool-unlocked:{`{tool}`}</strong> (LocalStorage) – merkt, dass du ein kostenloses Tool bereits freigeschaltet hast (Abschnitt 3.9); enthält nur den Zeitpunkt, keine E-Mail-Adresse</li>
       </ul>
       <p>
         Eine Einwilligung nach § 25 Abs. 1 TDDDG ist daher nicht erforderlich – ein Cookie-Banner wäre

@@ -13,17 +13,19 @@ GründerX kombiniert KI mit Gründungs- und Steuerwissen für E-Commerce-Händle
 ## Pages
 
 - [Startseite](/): Überblick über Plattform, Funktionen und Zielgruppen
+- [Preise](/preise): GründerX 64,99 € im Monat oder 649,90 € im Jahr, Founder-Set (mit AnwaltX) 99,99 € im Monat oder 999,90 € im Jahr – Endpreise inkl. 19 % USt., jederzeit zum Ende der Abrechnungsperiode kündbar. Konto erst nach der Zahlung.
 - [Gründungs-Guides (Übersicht)](/playbooks): Alle Schritt-für-Schritt-Anleitungen
 - [Anbieter-Vergleich](/anbieter): Geschäftskonto, Buchhaltung, Tools für Gründer
 - [Ratgeber](/ratgeber): Aktuelle Artikel zu Gründung, Steuern, E-Commerce, Banking, Recht
 - [FAQ](/faq): Häufig gestellte Fragen zu Gründung und Plattform
 - [Kontakt](/kontakt): Support und Anfragen
 
-## Kostenlose Tools (100 % gratis, Ergebnis nach kostenloser Konto-Erstellung – kein Abo)
+## Kostenlose Tools (ohne Konto, Ergebnis gegen E-Mail-Adresse)
 
 - [Kostenlose Gründer-Tools (Übersicht)](https://gruenderx.de/gratis-tools): Businessplan, Gründungskosten, Rechtsform.
 - [Businessplan-Generator](https://gruenderx.de/businessplan-erstellen): Strukturierter Businessplan mit allen Kapiteln für Bank, Gründungszuschuss und Investoren – Schritt für Schritt.
-- [Gründungskosten-Rechner](https://gruenderx.de/gruendungskosten-rechner): Gründungsbudget berechnen – Formalitäten je Rechtsform plus individuelle Startkosten, inkl. Stammkapital-Hinweis.
+- [Gründungskosten-Rechner](https://gruenderx.de/gruendungskosten-rechner): Gründungsbudget berechnen – Formalitäten je Rechtsform plus individuelle Startkosten, inkl. Stammkapital-Hinweis. Eine Berechnung kostenlos.
+- [WEEE-Check](https://gruenderx.de/tools/weee-check), [Brand-Check](https://gruenderx.de/tools/brand-check), [LUCID-Wizard](https://gruenderx.de/tools/lucid-wizard): je eine Prüfung kostenlos, danach im Abo.
 - [Rechtsform-Finder](https://gruenderx.de/rechtsform-finden): Begründete Empfehlung Einzelunternehmen vs. GbR vs. UG vs. GmbH mit Vor- und Nachteilen.
 
 ## Top-Guides

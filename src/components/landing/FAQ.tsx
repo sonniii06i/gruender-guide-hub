@@ -1,3 +1,5 @@
+import { PLANS, FOUNDER_CODE, formatEurCents, netCentsOf } from "@/config/pricing";
+
 
 const faqs = [
   {
@@ -34,15 +36,15 @@ const faqs = [
   },
   {
     q: "Was kostet GründerX?",
-    a: "GründerX kostet 64,99 € / Monat – das sind 2,17 € am Tag. Im Jahreszugang sind es 649,90 €, also zwei Monate geschenkt (1,78 € am Tag). Wer beide KIs will (GründerX + AnwaltX: Vertragsprüfung, Abmahn-Schutz, Streitfall-Hilfe), bucht das Founder-Set für 99,99 € / Monat oder 999,90 € / Jahr – 23 % günstiger als beide einzeln (129,98 €). Alle Beträge sind Endpreise inklusive 19 % Umsatzsteuer (netto 54,61 € bzw. 84,03 €); an der Kasse wird nichts aufgeschlagen.",
+    a: `GründerX kostet ${formatEurCents(PLANS.gruenderx.grossCents)} im Monat oder ${formatEurCents(PLANS["gruenderx-year"].grossCents)} im Jahr – im Jahreszugang zwei Monate geschenkt. Wer beide KIs will (GründerX + AnwaltX: Vertragsprüfung, Abmahn-Schutz, Streitfall-Hilfe), bucht das Founder-Set für ${formatEurCents(PLANS.bundle.grossCents)} im Monat oder ${formatEurCents(PLANS["bundle-year"].grossCents)} im Jahr statt ${formatEurCents(PLANS.bundle.anchorCents!)} für beide einzeln. Alle Beträge sind Endpreise inklusive 19 % Umsatzsteuer (netto ${formatEurCents(netCentsOf(PLANS.gruenderx.grossCents))} bzw. ${formatEurCents(netCentsOf(PLANS.bundle.grossCents))}); an der Kasse wird nichts aufgeschlagen. Alle Details auf der Preisseite unter /preise.`,
   },
   {
     q: "Kann ich monatlich kündigen oder binde ich mich lange?",
-    a: "GründerX ist ein Abo, das du jederzeit im Konto zum Ende der laufenden Abrechnungsperiode kündigst – keine Mindestlaufzeit, keine versteckte Vertragsbindung. Im Monatsabo bekommst du mit dem Code FOUNDER im ersten Monat 20 % Rabatt; das Jahresabo ist stattdessen dauerhaft um zwei Monatsbeiträge günstiger.",
+    a: `GründerX ist ein Abo, das du jederzeit im Konto zum Ende der laufenden Abrechnungsperiode kündigst – keine Mindestlaufzeit über die gebuchte Periode hinaus. Im Monatsabo bekommst du mit dem Code ${FOUNDER_CODE.code} im ersten Monat ${FOUNDER_CODE.percent} % Rabatt; das Jahresabo ist stattdessen dauerhaft um zwei Monatsbeiträge günstiger.`,
   },
   {
     q: "Muss ich sofort zahlen oder kann ich GründerX erst ausprobieren?",
-    a: "Der Zugang kostet 64,99 € im Monat oder 649,90 € im Jahr und ist jederzeit kündbar. Die Zahlung steht am Anfang — dein Konto legst du unmittelbar danach an. Damit sind alle 66 Rechner, Wizards und Cockpits, die Guides und Felix ab dem ersten Tag freigeschaltet, ohne Abrechnung pro Wizard oder pro Frage.",
+    a: "Ein Konto gibt es erst nach der Zahlung – eine Testphase mit Konto bieten wir nicht an. Ausprobieren kannst du vorher trotzdem, ohne Konto: WEEE-Check, Brand-Check, LUCID-Wizard und Gründungskosten-Rechner je einmal kostenlos, dazu Businessplan-Generator, Rechtsform-Finder und die Amazon-Widerspruchs-Generatoren. Das Ergebnis gibt es jeweils gegen deine E-Mail-Adresse. Mit dem Abo sind alle Tools, die Guides und Felix ab dem ersten Tag freigeschaltet, ohne Abrechnung pro Wizard oder pro Frage.",
   },
   {
     q: "Ich habe null Vorwissen – ist GründerX trotzdem für mich?",

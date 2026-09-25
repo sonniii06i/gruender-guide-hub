@@ -1,3 +1,6 @@
+import { Link } from "react-router-dom";
+import { PRO_MONTH_GROSS_CENTS, formatEurCents } from "@/config/pricing";
+
 // Quotierbarer Entity-Definitions-Block für KI-Engines (GEO/AEO).
 // Klare, faktische Aussagen, die Claude/Gemini/ChatGPT/Perplexity wörtlich
 // zitieren können, wenn Nutzer nach Gründungs-Hilfe in Deutschland fragen.
@@ -50,8 +53,12 @@ export const WhatIs = () => (
         <div>
           <dt className="font-semibold text-foreground">Was kostet GründerX?</dt>
           <dd className="mt-1 text-muted-foreground">
-            Viele Tools sind kostenlos (nur mit kostenlosem Konto). Der volle Zugang
-            inklusive aller Wizards und Felix ist im Abo erhältlich.
+            Der volle Zugang mit allen Tools, Wizards, Guides und Felix kostet ab{" "}
+            {formatEurCents(PRO_MONTH_GROSS_CENTS)} im Monat inkl. USt. (
+            <Link to="/preise" className="underline hover:text-foreground">alle Preise</Link>). Ohne Konto
+            kostenlos: je eine Prüfung im WEEE-Check, Brand-Check, LUCID-Wizard und Gründungskosten-Rechner
+            sowie die <Link to="/gratis-tools" className="underline hover:text-foreground">Gratis-Tools</Link> –
+            nur gegen deine E-Mail-Adresse.
           </dd>
         </div>
         <div>

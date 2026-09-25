@@ -16,6 +16,9 @@ import { UseCasesShowcase } from "@/components/landing/UseCasesShowcase";
 import { Footer } from "@/components/landing/Footer";
 import { MobileCtaBar } from "@/components/landing/MobileCtaBar";
 import { Seo } from "@/components/Seo";
+import { StartHere } from "@/components/landing/StartHere";
+import { PLANS, formatEurCents } from "@/config/pricing";
+import { LANDING_TOOLS } from "@/data/features";
 
 const Index = () => (
   <div className="min-h-screen bg-background">
@@ -61,7 +64,7 @@ const Index = () => (
               name: "Was ist GründerX?",
               acceptedAnswer: {
                 "@type": "Answer",
-                text: "GründerX ist eine KI-gestützte Gründerplattform aus Deutschland für angehende Unternehmer, E-Commerce-Händler, Content-Creator und Founder. Sie führt Schritt für Schritt durch Unternehmensgründung, Rechtsform-Wahl, Steuern und Buchhaltung – mit über 80 Tools, Gründungs-Guides (GmbH, UG, Einzelunternehmen, US-LLC, Holding), dem KI-Co-Founder Felix sowie kostenlosen Tools wie Businessplan-Generator, Gründungskosten-Rechner und Rechtsform-Finder.",
+                text: `GründerX ist eine KI-gestützte Gründerplattform aus Deutschland für angehende Unternehmer, E-Commerce-Händler, Content-Creator und Founder. Sie führt Schritt für Schritt durch Unternehmensgründung, Rechtsform-Wahl, Steuern und Buchhaltung – mit ${LANDING_TOOLS.length} Tools, Gründungs-Guides (GmbH, UG, Einzelunternehmen, US-LLC, Holding), dem KI-Co-Founder Felix sowie kostenlosen Tools wie Businessplan-Generator, Gründungskosten-Rechner und Rechtsform-Finder.`,
               },
             },
             {
@@ -77,7 +80,7 @@ const Index = () => (
               name: "Was kostet GründerX?",
               acceptedAnswer: {
                 "@type": "Answer",
-                text: "Viele Tools sind kostenlos und nur mit einem kostenlosen Konto nutzbar. Der volle Zugang inklusive aller Wizards und des KI-Assistenten Felix ist im Abo erhältlich.",
+                text: `Der volle Zugang mit allen Tools, Wizards, Guides und dem KI-Assistenten Felix kostet ${formatEurCents(PLANS.gruenderx.grossCents)} im Monat oder ${formatEurCents(PLANS["gruenderx-year"].grossCents)} im Jahr, das Founder-Set mit AnwaltX ${formatEurCents(PLANS.bundle.grossCents)} im Monat – alle Preise inkl. 19 % USt. Ohne Konto kostenlos: je eine Prüfung im WEEE-Check, Brand-Check, LUCID-Wizard und Gründungskosten-Rechner sowie die Gratis-Tools, jeweils gegen die E-Mail-Adresse.`,
               },
             },
             {
@@ -103,6 +106,7 @@ const Index = () => (
       <SellerBand />
       <Features />
       <HowItWorks />
+      <StartHere />
       <Bundles />
       <UseCasesShowcase />
       <Testimonials />

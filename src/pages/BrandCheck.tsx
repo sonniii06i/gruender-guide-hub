@@ -4,6 +4,7 @@ import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Input } from "@/components/ui/input";
 import { Search, CheckCircle2, XCircle, AlertCircle, ExternalLink, Loader2, Tag, Globe, AtSign, Smartphone } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { TrialResult, useToolTrial } from "@/components/freetools/ToolTrial";
 
 interface DomainResult {
   tld: string;
@@ -172,12 +173,15 @@ const BrandCheck = () => {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<CheckResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+  // Nur auf der öffentlichen Probier-Seite gesetzt, im Cockpit null.
+  const trial = useToolTrial();
 
   const runCheck = async () => {
     if (!name.trim() || name.trim().length < 2) {
       setError("Bitte mindestens 2 Zeichen eingeben.");
       return;
     }
+    if (trial && !trial.beforeRun()) return;
     setLoading(true);
     setError(null);
     setResult(null);
@@ -247,7 +251,7 @@ const BrandCheck = () => {
 
       {/* Result */}
       {result && (
-        <>
+        <TrialResult>
           {/* Übersicht */}
           <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-4 mb-6">
             <div className="text-xs font-semibold uppercase tracking-wider text-accent-blue mb-2">Schnell-Übersicht</div>
@@ -677,7 +681,7 @@ const BrandCheck = () => {
               </p>
             </div>
           </div>
-        </>
+        </TrialResult>
       )}
 
       {!result && !loading && (

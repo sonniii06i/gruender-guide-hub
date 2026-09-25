@@ -3,6 +3,7 @@ import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
 import { useTrackToolEvent } from "@/hooks/useTrackToolEvent";
+import { TrialResult, useToolTrial } from "@/components/freetools/ToolTrial";
 import {
   Search,
   Loader2,
@@ -106,6 +107,8 @@ const WeeeCheck = () => {
   const [result, setResult] = useState<WeeeResult | null>(null);
   const [onlyActive, setOnlyActive] = useState(false);
   const track = useTrackToolEvent("weee-check");
+  // Nur auf der öffentlichen Probier-Seite gesetzt, im Cockpit null.
+  const trial = useToolTrial();
 
   const runCheck = async () => {
     const q = query.trim();
@@ -113,6 +116,7 @@ const WeeeCheck = () => {
       setError("Bitte mindestens 2 Zeichen eingeben.");
       return;
     }
+    if (trial && !trial.beforeRun()) return;
     setLoading(true);
     setError(null);
     setResult(null);
@@ -203,6 +207,7 @@ const WeeeCheck = () => {
 
       {/* Ergebnis */}
       {result && (
+        <TrialResult>
         <div className="mt-5 space-y-4">
           {/* Summary */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -320,6 +325,7 @@ const WeeeCheck = () => {
             . Keine Rechtsberatung — Registrierungspflicht klärt im Zweifel die stiftung ear.
           </div>
         </div>
+        </TrialResult>
       )}
     </CockpitShell>
   );

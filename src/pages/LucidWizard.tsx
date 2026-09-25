@@ -3,6 +3,7 @@ import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useTrackToolEvent } from "@/hooks/useTrackToolEvent";
+import { TrialResult, useToolTrial } from "@/components/freetools/ToolTrial";
 import {
   ArrowLeft,
   ArrowRight,
@@ -118,6 +119,9 @@ const SYSTEMS: DualesSystem[] = [
 const LucidWizard = () => {
   const trackEvent = useTrackToolEvent("lucid-wizard");
   const [step, setStep] = useState(1);
+  // Nur auf der öffentlichen Probier-Seite gesetzt, im Cockpit null.
+  // Die Auswertung (Schritt 4 + 5) liegt dort hinter dem E-Mail-Tor.
+  const trial = useToolTrial();
 
   // Track Step-Reached (löst bei jedem Step-Wechsel aus)
   useEffect(() => {
@@ -364,7 +368,7 @@ const LucidWizard = () => {
         )}
 
         {step === 4 && (
-          <>
+          <TrialResult>
             <h2 className="text-base font-bold mb-1">4. Empfohlene duale Systeme</h2>
             <p className="text-xs text-muted-foreground mb-4">
               Du musst dich bei einem dualen System lizenzieren — du wählst aus 9 zugelassenen Anbietern. Hier die
@@ -395,11 +399,11 @@ const LucidWizard = () => {
                 </a>
               ))}
             </div>
-          </>
+          </TrialResult>
         )}
 
         {step === 5 && (
-          <>
+          <TrialResult>
             <h2 className="text-base font-bold mb-1">5. Übersicht + nächste Schritte</h2>
             <p className="text-xs text-muted-foreground mb-4">Zusammenfassung deiner Daten + Action-Plan.</p>
 
@@ -490,7 +494,7 @@ const LucidWizard = () => {
                 Liste aller dualen Systeme
               </a>
             </div>
-          </>
+          </TrialResult>
         )}
 
         <div className="flex justify-between mt-6">
@@ -503,7 +507,10 @@ const LucidWizard = () => {
           </button>
           {step < 5 ? (
             <button
-              onClick={() => setStep(step + 1)}
+              onClick={() => {
+                if (step === 3 && trial && !trial.beforeRun()) return;
+                setStep(step + 1);
+              }}
               disabled={(step === 1 && verkauft2024 === false) || (step === 3 && !step3HasMengen)}
               className="inline-flex items-center gap-1 rounded-lg bg-accent-blue text-primary-foreground px-4 py-2 text-sm font-semibold hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed"
               title={

@@ -135,7 +135,7 @@ export const businessplanConfig: ToolConfig = {
   badge: "Für Gründer & Förderung",
   heroTitle: "Kostenloser Businessplan-Generator",
   heroSubtitle:
-    "Erstelle Schritt für Schritt einen strukturierten Businessplan – mit allen Kapiteln, die Bank, Förderstelle und Investoren erwarten. In Minuten fertig, Ausfüllen kostet nichts; das Ergebnis schaltet dein Zugang frei (64,99 €/Monat).",
+    "Erstelle Schritt für Schritt einen strukturierten Businessplan – mit allen Kapiteln, die Bank, Förderstelle und Investoren erwarten. In Minuten fertig, Kostenlos: Das Ergebnis bekommst du gegen deine E-Mail-Adresse, ohne Konto und ohne Zahlung.",
   resultFilename: "businessplan",
   steps: [
     {
@@ -220,13 +220,13 @@ export const businessplanConfig: ToolConfig = {
   seo: {
     title: "Kostenloser Businessplan-Generator – in Minuten erstellen | GründerX",
     description:
-      "Businessplan kostenlos erstellen: Schritt-für-Schritt-Generator mit allen Kapiteln für Bank, Gründungszuschuss & Förderung. In Minuten fertig, das Ergebnis schaltet dein Zugang frei (64,99 €/Monat).",
+      "Businessplan kostenlos erstellen: Schritt-für-Schritt-Generator mit allen Kapiteln für Bank, Gründungszuschuss & Förderung. In Minuten fertig, kostenlos gegen deine E-Mail-Adresse.",
     keywords:
       "businessplan erstellen, businessplan vorlage, businessplan generator, businessplan kostenlos, businessplan gründungszuschuss, businessplan muster",
     faqs: [
       {
         q: "Ist der Businessplan-Generator kostenlos?",
-        a: "Ja. Das Erstellen und Herunterladen deines Businessplans als PDF ist kostenlos – du legst nur ein kostenloses GründerX-Konto an, um das Ergebnis freizuschalten.",
+        a: "Ja. Das Erstellen und Herunterladen deines Businessplans als PDF ist kostenlos – du gibst nur deine E-Mail-Adresse an, um das Ergebnis freizuschalten. Ein Konto brauchst du nicht.",
       },
       {
         q: "Reicht der Businessplan für den Gründungszuschuss oder die Bank?",

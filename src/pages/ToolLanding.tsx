@@ -8,6 +8,9 @@ import { findLandingTool, relatedLandingTools } from "@/data/features";
 import { getToolCopy } from "@/data/landingCopy";
 import { relatedGuidesFor } from "@/lib/internalLinks";
 import { RelatedArticles } from "@/components/landing/RelatedArticles";
+import { Gift, ArrowRight } from "lucide-react";
+import { TRIAL_TOOL_BY_SLUG, TRIAL_CLAIM } from "@/lib/freetools/trialTools";
+import { PRO_MONTH_GROSS_CENTS, formatEurCents, schemaPrice } from "@/config/pricing";
 
 const TOOL_CAT_TOPIC: Record<string, string> = {
   starter: "gruendung", rechtsform: "gruendung", steuer: "steuern", buchhaltung: "buchhaltung",
@@ -52,6 +55,8 @@ const ToolLanding = () => {
   const topic = TOOL_CAT_TOPIC[tool.categorySlug];
   const matchCtx = { text: `${tool.title} ${tool.desc}`, topic };
   const relatedGuides = relatedGuidesFor(matchCtx, 4);
+  // WEEE-Check, Brand-Check, LUCID-Wizard: eine kostenlose Prüfung ohne Konto.
+  const trial = TRIAL_TOOL_BY_SLUG[slug];
 
   const faq: LandingFaq[] = [
     { q: `Was ist „${tool.title}"?`, a: `${tool.desc} Teil von ${cat} im GründerX-Cockpit.` },
@@ -61,7 +66,9 @@ const ToolLanding = () => {
     },
     {
       q: `Was kostet die Nutzung?`,
-      a: `Das Tool ist Teil des GründerX-Abos mit Zugriff auf alle Rechner, Wizards und Schritt-für-Schritt-Guides. Plan wählen und sofort loslegen.`,
+      a: trial
+        ? `Eine Prüfung ist kostenlos: Du brauchst kein Konto, das Ergebnis gibt es gegen deine E-Mail-Adresse. Unbegrenzt nutzt du „${tool.title}" mit dem GründerX-Abo ab ${formatEurCents(PRO_MONTH_GROSS_CENTS)} im Monat inkl. USt., zusammen mit allen anderen Rechnern, Wizards und Guides.`
+        : `Das Tool ist Teil des GründerX-Abos ab ${formatEurCents(PRO_MONTH_GROSS_CENTS)} im Monat inkl. USt., mit Zugriff auf alle Rechner, Wizards und Schritt-für-Schritt-Guides. Alle Preise stehen auf gruenderx.de/preise.`,
     },
   ];
 
@@ -74,7 +81,13 @@ const ToolLanding = () => {
       applicationCategory: "BusinessApplication",
       operatingSystem: "Web",
       url: `${SITE}/tools/${tool.slug}`,
-      offers: { "@type": "Offer", category: "subscription", priceCurrency: "EUR" },
+      offers: {
+        "@type": "Offer",
+        category: "subscription",
+        price: schemaPrice(PRO_MONTH_GROSS_CENTS),
+        priceCurrency: "EUR",
+        url: `${SITE}/preise`,
+      },
       provider: { "@type": "Organization", name: "GründerX", url: SITE },
     },
     {
@@ -107,12 +120,30 @@ const ToolLanding = () => {
       outcomes={copy.outcomes}
       disclaimer={copy.disclaimer}
       faq={faq}
-      ctaTitle={`„${tool.title}" im GründerX-Cockpit freischalten`}
-      ctaText="Mit einem aktiven Abo nutzt du dieses Tool plus über 70 weitere Rechner, Wizards und Schritt-für-Schritt-Guides."
-      primaryHref="/checkout"
-      primaryLabel="Plan wählen & starten"
-      secondaryHref={tool.route!}
-      secondaryLabel="Tool öffnen"
+      topSlot={
+        trial ? (
+          <section className="rounded-2xl border border-border bg-card p-6 md:p-7 shadow-card mb-8">
+            <p className="flex items-center gap-2 text-sm font-semibold text-accent-blue">
+              <Gift className="h-4 w-4" /> {TRIAL_CLAIM}
+            </p>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Kein Konto, keine Zahlung: Du nutzt „{tool.title}" einmal kostenlos und bekommst das Ergebnis gegen
+              deine E-Mail-Adresse. Danach geht es mit dem GründerX-Abo unbegrenzt weiter.
+            </p>
+            <Link to={trial.trialPath} className="mt-4 inline-block">
+              <Button size="lg" className="rounded-full gap-2 bg-gradient-primary hover:opacity-95">
+                Kostenlos prüfen <ArrowRight className="h-4 w-4" />
+              </Button>
+            </Link>
+          </section>
+        ) : undefined
+      }
+      ctaTitle={`„${tool.title}" unbegrenzt im GründerX-Cockpit`}
+      ctaText={`Mit dem Abo ab ${formatEurCents(PRO_MONTH_GROSS_CENTS)} im Monat (inkl. USt.) nutzt du dieses Tool und alle anderen Rechner, Wizards und Schritt-für-Schritt-Guides aus der Tool-Übersicht.`}
+      primaryHref="/preise"
+      primaryLabel="Preise & Leistungen"
+      secondaryHref={trial ? trial.trialPath : tool.route!}
+      secondaryLabel={trial ? TRIAL_CLAIM : "Tool öffnen"}
       relatedTitle="Passende Tools"
       related={related.map((r) => ({ to: `/tools/${r.slug}`, title: r.title, desc: r.desc }))}
       relatedGroups={[

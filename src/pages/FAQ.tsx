@@ -3,11 +3,18 @@ import { Button } from "@/components/ui/button";
 import { LifeBuoy, MessageSquare } from "lucide-react";
 import { Seo } from "@/components/Seo";
 import CockpitShell from "@/components/cockpit/CockpitShell";
+import { PLANS, formatEurCents } from "@/config/pricing";
 
 const FAQS: { q: string; a: string }[] = [
   { q: "Was ist GründerX?", a: "GründerX ist dein KI-Co-Pilot für die Gründung und das Operative – Steuern, Recht, Marketing, Buchhaltung, Tools. Felix (KI) plus geführte Playbooks bringen dich vom ersten Schritt bis zum laufenden Betrieb." },
-  { q: "Wie viel kostet GründerX?", a: "GründerX kostet 64,99 €/Monat. Das Founder Bundle (GründerX + AnwaltX zusammen) kostet 99,99 €/Monat – 23 % günstiger als beide einzeln (129,98 €). Beide jederzeit monatlich kündbar." },
-  { q: "Gibt es eine kostenlose Testphase?", a: "Du kannst dich kostenlos registrieren, das Onboarding durchlaufen und alle Inhalte ansehen. Für aktive Features (Felix-Chat, Cockpits, Wizards) ist ein aktives Abo erforderlich." },
+  {
+    q: "Wie viel kostet GründerX?",
+    a: `GründerX kostet ${formatEurCents(PLANS.gruenderx.grossCents)} im Monat oder ${formatEurCents(PLANS["gruenderx-year"].grossCents)} im Jahr. Das Founder-Set (GründerX + AnwaltX) kostet ${formatEurCents(PLANS.bundle.grossCents)} im Monat oder ${formatEurCents(PLANS["bundle-year"].grossCents)} im Jahr. Alle Preise sind Endpreise inkl. 19 % USt. und jederzeit zum Ende der Abrechnungsperiode kündbar. Alle Details: gruenderx.de/preise.`,
+  },
+  {
+    q: "Gibt es eine kostenlose Testphase?",
+    a: "Eine Testphase mit Konto gibt es nicht – das Konto entsteht erst nach der Zahlung. Ausprobieren kannst du vorher ohne Konto: WEEE-Check, Brand-Check, LUCID-Wizard und Gründungskosten-Rechner je einmal kostenlos, dazu Businessplan-Generator, Rechtsform-Finder und die Amazon-Widerspruchs-Generatoren. Das Ergebnis gibt es jeweils gegen deine E-Mail-Adresse.",
+  },
   { q: "Ersetzt GründerX meinen Steuerberater oder Anwalt?", a: "Nein. GründerX bereitet dich strukturiert vor, erklärt Begriffe und liefert Templates. Bei rechtsverbindlichen Themen (Steuererklärung, Vertragsprüfung) verweisen wir auf unser Schwesterprodukt AnwaltX bzw. zertifizierte Partner." },
   { q: "Welche Rechtsformen deckt ihr ab?", a: "Schwerpunkt DE: Einzelunternehmen, GbR, UG, GmbH, GmbH & Co. KG. Zusätzlich US-LLC für Creator/E-Commerce. Der Rechtsform-Wizard berechnet die optimale Form für dein Modell." },
   { q: "Wie funktioniert die Bezahlung?", a: "Sichere Abwicklung über Stripe. SEPA-Lastschrift, Kreditkarte und Apple/Google Pay. Rechnungen findest du im Profil → Abrechnung. Du kannst dein Abo dort jederzeit über das Stripe-Portal verwalten." },

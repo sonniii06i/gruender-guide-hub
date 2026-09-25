@@ -16,10 +16,12 @@ interface FreeToolPageProps {
   config: ToolConfig;
 }
 
-const trust = [
-  { icon: Gift, label: "100 % kostenlos", desc: "Erstellen & als PDF herunterladen" },
+const trustFor = (config: ToolConfig) => [
+  config.singleFreeUse
+    ? { icon: Gift, label: "1 kostenlose Nutzung", desc: "Nur E-Mail nötig, inkl. PDF-Download" }
+    : { icon: Gift, label: "Kostenlos", desc: "Erstellen & als PDF herunterladen" },
   { icon: Clock, label: "In Minuten fertig", desc: "Schritt für Schritt, ohne Fachchinesisch" },
-  { icon: ShieldCheck, label: "Ausfüllen kostet nichts", desc: "Das fertige Ergebnis schaltet dein Zugang frei" },
+  { icon: ShieldCheck, label: "Kein Konto nötig", desc: "Das Ergebnis gibt es gegen deine E-Mail-Adresse" },
 ];
 
 export default function FreeToolPage({ config }: FreeToolPageProps) {
@@ -70,7 +72,7 @@ export default function FreeToolPage({ config }: FreeToolPageProps) {
       <section className="pb-8">
         <div className="max-w-3xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            {trust.map((t) => (
+            {trustFor(config).map((t) => (
               <div key={t.label} className="flex items-center gap-3 rounded-xl border bg-card p-3">
                 <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-primary/10">
                   <t.icon className="h-5 w-5 text-primary" />

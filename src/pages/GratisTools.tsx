@@ -8,6 +8,8 @@ import { Navbar } from "@/components/landing/Navbar";
 import { Footer } from "@/components/landing/Footer";
 import { FreeToolPromo } from "@/components/freetools/FreeToolPromo";
 import { FREE_TOOLS } from "@/lib/freetools";
+import { TRIAL_TOOLS, TRIAL_CLAIM } from "@/lib/freetools/trialTools";
+import { LANDING_TOOLS } from "@/data/features";
 import { faqSchema, breadcrumbSchema, serviceSchema } from "@/lib/freetools/schema";
 
 const SITE = "https://gruenderx.de";
@@ -15,21 +17,21 @@ const SITE = "https://gruenderx.de";
 const faqs = [
   {
     q: "Sind die Gründer-Tools wirklich kostenlos?",
-    a: "Ja. Das Erstellen und Herunterladen aller Ergebnisse ist kostenlos. Du legst lediglich ein kostenloses GründerX-Konto an, um das fertige Dokument freizuschalten – keine Zahlung, kein Abo.",
+    a: "Ja. Businessplan-Generator, Rechtsform-Finder und die beiden Amazon-Widerspruchs-Generatoren sind kostenlos: Du gibst deine E-Mail-Adresse an und bekommst das fertige Dokument samt PDF. Beim Gründungskosten-Rechner, WEEE-Check, Brand-Check und LUCID-Wizard ist je eine Nutzung kostenlos; unbegrenzt nutzt du sie mit dem GründerX-Abo.",
   },
   {
-    q: "Warum muss ich ein Konto erstellen?",
-    a: "So speichern wir deine Ergebnisse, du kannst sie jederzeit wieder aufrufen und erhältst passende Tipps zur Gründung. Das Konto ist und bleibt kostenlos.",
+    q: "Muss ich ein Konto anlegen?",
+    a: "Nein. Für die kostenlosen Tools brauchst du nur deine E-Mail-Adresse. Ein GründerX-Konto entsteht erst mit dem Abo – nach der Zahlung.",
   },
   {
-    q: "Was bekomme ich nach der Registrierung noch?",
-    a: "Mit deinem kostenlosen Konto bekommst du Zugang zum GründerX-Cockpit und kannst die Vollversionen vieler Tools sowie den KI-Assistenten Felix testen.",
+    q: "Was passiert mit meiner E-Mail-Adresse?",
+    a: "Wir speichern sie zusammen mit dem genutzten Tool, um die kostenlose Nutzung nachzuhalten, und löschen sie nach 12 Monaten. Werbung senden wir an diese Adresse nicht. Details stehen in der Datenschutzerklärung.",
   },
 ];
 
 const steps = [
   { icon: Sparkles, title: "Angaben eingeben", desc: "Beantworte ein paar einfache Fragen im Schritt-für-Schritt-Assistenten." },
-  { icon: Lock, title: "Zugang zum Ergebnis", desc: "Ausfüllen kostet nichts; das fertige Ergebnis schaltet dein Zugang frei." },
+  { icon: Lock, title: "E-Mail angeben", desc: "Das fertige Ergebnis gibt es gegen deine E-Mail-Adresse – ohne Konto, ohne Zahlung." },
   { icon: Rocket, title: "Loslegen", desc: "Lade dein Ergebnis als PDF herunter und starte durch." },
 ];
 
@@ -37,7 +39,7 @@ export default function GratisTools() {
   const jsonLd = [
     serviceSchema(
       "Kostenlose Gründer-Tools",
-      "Tools für Gründer: Businessplan, Gründungskosten-Rechner und Rechtsform-Finder. Ausfüllen kostet nichts; das fertige Ergebnis schaltet dein Zugang frei."
+      "Tools für Gründer: Businessplan, Gründungskosten-Rechner und Rechtsform-Finder. Das Ergebnis gibt es gegen die E-Mail-Adresse, ohne Konto."
     ),
     faqSchema(faqs),
     breadcrumbSchema([
@@ -50,7 +52,7 @@ export default function GratisTools() {
     <div className="min-h-screen bg-background">
       <Seo
         title="Kostenlose Gründer-Tools: Businessplan, Gründungskosten & Rechtsform | GründerX"
-        description="Erstelle Businessplan, Gründungskosten-Übersicht und Rechtsform-Empfehlung Schritt für Schritt. Ausfüllen kostet nichts; das fertige Ergebnis schaltet dein Zugang frei."
+        description="Erstelle Businessplan, Gründungskosten-Übersicht und Rechtsform-Empfehlung Schritt für Schritt. Das Ergebnis gibt es gegen deine E-Mail-Adresse – ohne Konto."
         path="/gratis-tools"
         type="website"
         jsonLd={jsonLd}
@@ -61,14 +63,14 @@ export default function GratisTools() {
         <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-background to-background" />
         <div className="relative max-w-3xl mx-auto px-4 sm:px-6 text-center">
           <Badge variant="secondary" className="mb-4">
-            <Gift className="mr-1.5 h-3.5 w-3.5" /> 100 % kostenlos
+            <Gift className="mr-1.5 h-3.5 w-3.5" /> Kostenlos, nur E-Mail nötig
           </Badge>
           <h1 className="text-3xl md:text-5xl font-bold text-foreground mb-4 leading-tight">
             Kostenlose Tools für deine Gründung
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Businessplan, Gründungskosten-Rechner und Rechtsform-Finder – in Minuten erstellt, ohne
-            Fachchinesisch. Ausfüllen kostet nichts – das fertige Ergebnis schaltet dein Zugang frei.
+            Fachchinesisch. Das fertige Ergebnis bekommst du gegen deine E-Mail-Adresse – kein Konto, keine Zahlung.
           </p>
         </div>
       </section>
@@ -101,6 +103,28 @@ export default function GratisTools() {
                     </div>
                   </CardContent>
                 </Card>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Checks aus dem Cockpit: je eine kostenlose Prüfung */}
+      <section className="pb-16">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6">
+          <h2 className="text-2xl font-bold text-foreground mb-2">Checks aus dem Cockpit: {TRIAL_CLAIM}</h2>
+          <p className="text-sm text-muted-foreground mb-6">
+            Diese Tools gehören zum Abo. Eine Prüfung pro Tool ist kostenlos – das Ergebnis gibt es gegen deine
+            E-Mail-Adresse.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {TRIAL_TOOLS.filter((t) => t.trialPath !== t.landingPath).map((t) => (
+              <Link key={t.slug} to={t.trialPath} className="group rounded-xl border bg-card p-4 hover:shadow-md transition-shadow">
+                <div className="font-semibold text-foreground group-hover:text-primary transition-colors">{t.name}</div>
+                <p className="text-xs text-muted-foreground mt-1 line-clamp-3">{t.desc}</p>
+                <span className="mt-2 inline-flex items-center gap-1 text-sm font-medium text-primary">
+                  Kostenlos prüfen <ArrowRight className="h-4 w-4" />
+                </span>
               </Link>
             ))}
           </div>
@@ -147,13 +171,13 @@ export default function GratisTools() {
         <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
           <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">Mehr als nur Vorlagen</h2>
           <p className="text-muted-foreground mb-8 max-w-xl mx-auto">
-            Mit GründerX bekommst du über 80 Tools fürs Gründen, den KI-Assistenten Felix und
-            Schritt-für-Schritt-Guides. Die kostenlosen Tools sind dein Einstieg.
+            Mit GründerX bekommst du alle {LANDING_TOOLS.length} Tools aus der Tool-Übersicht, den KI-Assistenten
+            Felix und Schritt-für-Schritt-Guides. Die kostenlosen Tools sind dein Einstieg.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-3">
-            <Link to="/auth">
+            <Link to="/preise">
               <Button size="lg">
-                Zugang freischalten
+                Preise &amp; Leistungen
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>

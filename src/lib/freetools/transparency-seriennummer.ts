@@ -259,7 +259,7 @@ export const transparencySeriennummerConfig: ToolConfig = {
   badge: "Amazon-Transparency",
   heroTitle: "Amazon Transparency: Seriennummer/Code-Upload abgelehnt? Widerspruch-Generator",
   heroSubtitle:
-    "Dein Upload von Seriennummern oder Transparency-Codes wird abgelehnt – obwohl die Kennzeichnung auf dem Produkt ist und bereits übermittelt wurde? Erstelle in Minuten einen sachlichen, faktenbasierten Widerspruch nach den Transparency-Vorgaben (gültige Formate, manuelle Prüfung). Ausfüllen kostet nichts; das Ergebnis schaltet dein Zugang frei (64,99 €/Monat).",
+    "Dein Upload von Seriennummern oder Transparency-Codes wird abgelehnt – obwohl die Kennzeichnung auf dem Produkt ist und bereits übermittelt wurde? Erstelle in Minuten einen sachlichen, faktenbasierten Widerspruch nach den Transparency-Vorgaben (gültige Formate, manuelle Prüfung). Kostenlos: Das Ergebnis bekommst du gegen deine E-Mail-Adresse, ohne Konto und ohne Zahlung.",
   resultFilename: "amazon-transparency-widerspruch",
   steps: [
     {
@@ -378,7 +378,7 @@ export const transparencySeriennummerConfig: ToolConfig = {
       },
       {
         q: "Ist der Generator kostenlos?",
-        a: "Ja. Erstellung und Download sind kostenlos – du legst nur ein kostenloses GründerX-Konto an, um die fertige Vorlage freizuschalten.",
+        a: "Ja. Erstellung und Download sind kostenlos – du gibst nur deine E-Mail-Adresse an, um die fertige Vorlage freizuschalten. Ein Konto brauchst du nicht.",
       },
     ],
   },

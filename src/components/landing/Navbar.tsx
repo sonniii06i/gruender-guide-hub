@@ -8,7 +8,7 @@ import { Menu } from "lucide-react";
 const links = [
   { label: "Leistungen", href: "/#leistungen" },
   { label: "Über uns", href: "/#ueber-uns" },
-  { label: "Bundles", href: "/#bundles" },
+  { label: "Preise", href: "/preise" },
   { label: "FAQ", href: "/#faq" },
   { label: "Kontakt", href: "/kontakt", external: true },
 ];

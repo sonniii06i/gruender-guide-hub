@@ -119,6 +119,8 @@ const Tools = lazy(() => import("./pages/Tools.tsx"));
 const UsLlcOffer = lazy(() => import("./pages/UsLlcOffer.tsx"));
 const GruendungKomplett = lazy(() => import("./pages/GruendungKomplett.tsx"));
 const ToolLanding = lazy(() => import("./pages/ToolLanding.tsx"));
+const ToolTrialPage = lazy(() => import("./pages/ToolTrialPage.tsx"));
+const Preise = lazy(() => import("./pages/Preise.tsx"));
 const GuidesIndex = lazy(() => import("./pages/GuidesIndex.tsx"));
 const GuideLanding = lazy(() => import("./pages/GuideLanding.tsx"));
 const GratisTools = lazy(() => import("./pages/GratisTools.tsx"));
@@ -288,10 +290,13 @@ const App = () => (
               <Route path="/us-llc-30-tage" element={<UsLlcOffer />} />
               <Route path="/gruendung-komplett" element={<GruendungKomplett />} />
               <Route path="/tools" element={<Tools />} />
+              {/* Eine kostenlose Nutzung ohne Konto (Ergebnis gegen E-Mail). */}
+              <Route path="/tools/:slug/gratis" element={<ToolTrialPage />} />
               <Route path="/tools/:slug" element={<ToolLanding />} />
+              <Route path="/preise" element={<Preise />} />
               <Route path="/guides" element={<GuidesIndex />} />
               <Route path="/guides/:slug" element={<GuideLanding />} />
-              {/* Kostenlose Lead-Magnet-Tools (konto-gated, kein Abo) */}
+              {/* Kostenlose Lead-Magnet-Tools (Ergebnis gegen E-Mail, kein Konto) */}
               <Route path="/gratis-tools" element={<GratisTools />} />
               <Route path="/businessplan-erstellen" element={<FreeToolPage config={FREE_TOOL_BY_SLUG["businessplan-erstellen"]} />} />
               <Route path="/gruendungskosten-rechner" element={<FreeToolPage config={FREE_TOOL_BY_SLUG["gruendungskosten-rechner"]} />} />

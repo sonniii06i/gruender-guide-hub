@@ -1,11 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Check, Loader2, ShoppingCart, PackageCheck, ClipboardList, Plus } from "lucide-react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { getStoredAffiliateRef } from "@/utils/affiliate";
-import { STRIPE_PRICES } from "@/lib/stripe";
+import { PLANS, PLAN_ORDER, SOLO_CONTENTS, BUNDLE_CONTENTS, NOT_INCLUDED, CANCEL_NOTE, FOUNDER_CODE, formatEurCents } from "@/config/pricing";
 import { rememberCartVariant } from "@/lib/cart";
 import { toast } from "sonner";
 import { ProductGallery, type GalleryImage } from "@/components/product/ProductGallery";
@@ -31,56 +31,16 @@ import { SpecTable, type Spec } from "@/components/product/SpecTable";
    monatlich kaufen.
    --------------------------------------------------------------------------- */
 
-// Alle Beträge sind BRUTTO — AGB § 4 Abs. 1 führt Solo mit „54,61 € netto /
-// Monat (64,99 € brutto)" und das Bundle mit „84,03 € netto (99,99 € brutto)".
-// Der Nettoanteil wird in der Buy-Box herausgerechnet, nicht aufgeschlagen.
-const SOLO: Variant = {
-  id: "gruenderx",
-  name: "GründerX — monatlich",
-  sku: "GX-PRO-M",
-  grossCents: 6499,
-  period: "month",
-};
-
-const SOLO_YEAR: Variant = {
-  id: "gruenderx-year",
-  name: "GründerX — jährlich",
-  sku: "GX-PRO-Y",
-  grossCents: 64990,
-  anchorCents: 77988,
-  period: "year",
-  note: "Zwei Monate geschenkt gegenüber der Monatszahlung (12 × 64,99 € = 779,88 €).",
-};
-
-const BUNDLE: Variant = {
-  id: "bundle",
-  name: "Founder-Set — GründerX + AnwaltX",
-  sku: "GX-AX-SET-M",
-  grossCents: 9999,
-  anchorCents: 12998,
-  period: "month",
-  note: "Enthält zusätzlich den vollen AnwaltX-Zugang (Juri). Ein Konto, eine Abrechnung.",
-};
-
-const BUNDLE_YEAR: Variant = {
-  id: "bundle-year",
-  name: "Founder-Set — jährlich",
-  sku: "GX-AX-SET-Y",
-  grossCents: 99990,
-  anchorCents: 119988,
-  period: "year",
-  note: "Beide Zugänge, zwei Monate geschenkt gegenüber der Monatszahlung.",
-};
-
-const VARIANTS: Variant[] = [SOLO, SOLO_YEAR, BUNDLE, BUNDLE_YEAR];
+// Preise, Ausführungen und Leistungen kommen aus src/config/pricing.ts —
+// dieselbe Quelle wie /preise und /checkout. Alle Beträge sind BRUTTO.
+const SOLO: Variant = PLANS.gruenderx;
+const BUNDLE: Variant = PLANS.bundle;
+const VARIANTS: Variant[] = PLAN_ORDER.map((id) => PLANS[id]);
 
 /** priceId + Intervall je Ausführung. Der Preis selbst kommt aus der Edge-Function. */
-const CHECKOUT: Record<string, { priceId: string; interval: "month" | "year" }> = {
-  "gruenderx": { priceId: STRIPE_PRICES.gruenderx, interval: "month" },
-  "gruenderx-year": { priceId: STRIPE_PRICES.gruenderx, interval: "year" },
-  "bundle": { priceId: STRIPE_PRICES.bundle, interval: "month" },
-  "bundle-year": { priceId: STRIPE_PRICES.bundle, interval: "year" },
-};
+const CHECKOUT: Record<string, { priceId: string; interval: "month" | "year" }> = Object.fromEntries(
+  PLAN_ORDER.map((id) => [id, { priceId: PLANS[id].priceId, interval: PLANS[id].interval }]),
+);
 
 /**
  * Echte Screenshots aus dem laufenden Cockpit statt Maskottchen.
@@ -124,44 +84,7 @@ const BASE_SPECS: Spec[] = [
   { label: "Voraussetzung", value: "Aktueller Webbrowser und Internetverbindung — Desktop und Mobil" },
   { label: "Datenhaltung", value: "Server in der EU, DSGVO-konform" },
   { label: "Anbieter", value: "Sonni Buttke, Einzelunternehmen (siehe Impressum)" },
-  {
-    label: "Nicht enthalten",
-    value:
-      "Steuerberatung und Rechtsberatung im Einzelfall sowie Amtsgebühren (Gewerbeanmeldung, Notar, Handelsregister, Markenanmeldung). GründerX ist eine Software und weder Steuerberatung noch Rechtsdienstleistung.",
-  },
-];
-
-/** Voller Funktionsumfang, gruppiert wie das Cockpit — 66 Tools plus Guides. */
-const SOLO_CONTENTS = [
-  "Felix — KI-Co-Pilot für Gründung, Steuern und Marketplaces, unbegrenzt im Chat",
-  "Gründung: Rechtsform-Wizard, Gewerbeanmeldung, Fragebogen zur steuerlichen Erfassung (Einzel, Personen- und Kapitalgesellschaft), Erste-Schritte-Roadmap, Entscheidungs-Engine, Gewerbe-Check",
-  "Steuer-Cockpit: USt-Voranmeldung, Anlage EÜR, BWA-Generator, DATEV-Mapper, Quartals-Steuerschätzung, IAB-Rechner, Abschreibungs-Erklärer, Fristen-Kalender",
-  "Belege & Buchhaltung: Rechnungs-Generator (PDF), Settlement-Parser, Reisekosten-Logger, Kfz-Optimizer, Crypto-Steuer, Steuer-ABC-Glossar",
-  "E-Commerce: Amazon-Erstattungen & Seller-Automation, Amazon-USt EU vs. US, Marge-Tracker, Shop-Profit-Rechner, ECom-Brand-Roadmap, Side-Hustle-Schwellen-Check, Sales-Tax-Nexus",
-  "Marke & Compliance: Brand-Check, Marken-Wizard, Marken-Monitor, LUCID-Wizard, WEEE/EAR-Check, CE/RoHS-Generator, GPSR, BattG, CPNP, Pre-Year-End-Check",
-  "International: US-LLC- und HK-Limited-Wizard (EIN, ITIN, BOI, Banking), US- und HK-Tax-Helper, DBA-CFC-Rechner, IP-Box-Vergleich, EU-Alternativen, Substance-Checker, Visa-Helper",
-  "Geld & Absicherung: Auszahlung-Optimizer, Salary-vs-Dividende, Runway- & Burn-Rate-Rechner, KV- und Pension-Optimizer, Brutto-Netto Solo, Stundensatz-Rechner, Versicherungs-Basis-Check",
-  "Banking & Karten: Intl. Banking, Geschäftskreditkarten- und US-Kreditkarten-Vergleich, Förderung-Datenbank",
-  "Steuerberater: StB-Finder, StB-Match, Cost-Benefit-Check und Hand-off-Paket für den Wechsel",
-  "Anbieter-Vergleich in 14 Kategorien: Banking, Buchhaltung, 3PL, Versand, Domains, Tracking, Labor und mehr",
-  "Holding-Designer für Struktur- und Beteiligungsfragen",
-  "Gründungs-Guides und Playbooks (GmbH, UG, Einzelunternehmen, US-LLC, Holding) plus laufend gepflegte Ratgeber",
-  "Coop-Deals und Anbieter-Konditionen für Abonnenten",
-  "E-Mail-Support",
-];
-
-const BUNDLE_CONTENTS = [
-  "Alles aus dem GründerX-Zugang (siehe Einzelzugang)",
-  "Juri — KI-Rechts-Assistentin (AnwaltX), unbegrenzt im Chat",
-  "Vertragsprüfung: Vertrag oder AGB hochladen, Risiko-Klauseln markiert zurück",
-  "Vertrags-Builder für eigene Verträge und AGB",
-  "Abmahnungs-Soforthilfe mit Einordnung, Fristenlage und Antwortentwurf",
-  "Abmahn-Radar: laufende Abmahnwellen, bevor sie dich treffen",
-  "Markencheck und Chargeback-Verteidigung",
-  "Rechts-Generatoren: Impressum, Datenschutz, Widerruf, Datenschutzklauseln",
-  "Fristen-Tracker und rechtssichere Mails direkt aus dem System",
-  "Felix und Juri gemeinsam im selben Chat",
-  "Priorisierter Support",
+  { label: "Nicht enthalten", value: NOT_INCLUDED },
 ];
 
 const PRODUCTS: Record<string, { title: string; subtitle: string; contents: string[]; specs: Spec[] }> = {
@@ -184,7 +107,7 @@ const PRODUCTS: Record<string, { title: string; subtitle: string; contents: stri
     specs: [
       { label: "Artikelnummer", value: "GX-PRO-Y" },
       { label: "Laufzeit", value: "12 Monate, verlängert sich automatisch um jeweils zwölf Monate" },
-      { label: "Ersparnis", value: "129,98 € gegenüber zwölf Monatszahlungen (779,88 €) — zwei Monate gratis" },
+      { label: "Ersparnis", value: `${formatEurCents(PLANS["gruenderx-year"].anchorCents! - PLANS["gruenderx-year"].grossCents)} gegenüber zwölf Monatszahlungen (${formatEurCents(PLANS["gruenderx-year"].anchorCents!)}) — zwei Monate gratis` },
       ...BASE_SPECS,
     ],
   },
@@ -209,7 +132,7 @@ const PRODUCTS: Record<string, { title: string; subtitle: string; contents: stri
       { label: "Artikelnummer", value: "GX-AX-SET-Y" },
       { label: "Set-Inhalt", value: "2 Zugänge: GründerX + AnwaltX — ein Konto, eine Abrechnung" },
       { label: "Laufzeit", value: "12 Monate, verlängert sich automatisch um jeweils zwölf Monate" },
-      { label: "Ersparnis", value: "199,98 € gegenüber zwölf Monatszahlungen (1.199,88 €) — zwei Monate gratis" },
+      { label: "Ersparnis", value: `${formatEurCents(PLANS["bundle-year"].anchorCents! - PLANS["bundle-year"].grossCents)} gegenüber zwölf Monatszahlungen (${formatEurCents(PLANS["bundle-year"].anchorCents!)}) — zwei Monate gratis` },
       ...BASE_SPECS,
     ],
   },
@@ -278,7 +201,7 @@ export const Bundles = () => {
             variants={VARIANTS}
             selected={selected}
             onSelect={setSelected}
-            cancelNote="Jederzeit im Konto kündbar, wirksam zum Ende des Abrechnungsmonats — danach keine weitere Abbuchung. Widerrufsrecht für Verbraucher nach § 355 BGB."
+            cancelNote={CANCEL_NOTE}
             seller="Sonni Buttke, Einzelunternehmen (Anbieter lt. Impressum)"
             paymentMethods="Kreditkarte · Klarna · Apple Pay · Link — weitere je nach Land und Gerät"
           >
@@ -305,10 +228,15 @@ export const Bundles = () => {
               </p>
               {variant.period === "month" && (
                 <p className="text-center text-xs text-muted-foreground">
-                  Gutscheincode <span className="font-semibold text-foreground">FOUNDER</span>: 20 % im ersten
+                  Gutscheincode <span className="font-semibold text-foreground">{FOUNDER_CODE.code}</span>: {FOUNDER_CODE.percent} % im ersten
                   Monat, einlösbar an der Kasse unter „Promo-Code hinzufügen“.
                 </p>
               )}
+              <p className="text-center text-xs">
+                <Link to="/preise" className="text-accent-blue hover:underline">
+                  Alle Preise, Kündigung und Fragen zum Abo
+                </Link>
+              </p>
             </div>
           </ProductBuyBox>
         </div>

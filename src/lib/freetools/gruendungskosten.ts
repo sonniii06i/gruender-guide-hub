@@ -93,8 +93,10 @@ export const gruendungskostenConfig: ToolConfig = {
   badge: "Kosten-Rechner",
   heroTitle: "Kostenloser Gründungskosten-Rechner",
   heroSubtitle:
-    "Berechne dein Gründungsbudget in Minuten – Formalitäten je Rechtsform plus deine individuellen Startkosten. Ausfüllen kostet nichts; das Ergebnis schaltet dein Zugang frei (64,99 €/Monat).",
+    "Berechne dein Gründungsbudget in Minuten – Formalitäten je Rechtsform plus deine individuellen Startkosten. 1 kostenlose Berechnung, nur E-Mail nötig – kein Konto, keine Zahlung.",
   resultFilename: "gruendungskosten",
+  // Eine kostenlose Nutzung ohne Konto, danach Hinweis auf das Abo.
+  singleFreeUse: true,
   steps: [
     {
       title: "Rechtsform",
@@ -153,13 +155,13 @@ export const gruendungskostenConfig: ToolConfig = {
   seo: {
     title: "Gründungskosten-Rechner – kostenlos berechnen | GründerX",
     description:
-      "Gründungskosten kostenlos berechnen: Formalitäten je Rechtsform (Einzelunternehmen, UG, GmbH) plus deine Startkosten – inkl. Stammkapital-Hinweis. Das Ergebnis schaltet dein Zugang frei (64,99 €/Monat).",
+      "Gründungskosten kostenlos berechnen: Formalitäten je Rechtsform (Einzelunternehmen, UG, GmbH) plus deine Startkosten – inkl. Stammkapital-Hinweis. 1 kostenlose Berechnung, nur E-Mail nötig.",
     keywords:
       "gründungskosten rechner, gründungskosten gmbh, gründungskosten ug, was kostet eine gründung, startkapital berechnen, gründungsbudget",
     faqs: [
       {
         q: "Ist der Gründungskosten-Rechner kostenlos?",
-        a: "Ja. Die Berechnung und der Download als PDF sind kostenlos – du legst nur ein kostenloses GründerX-Konto an, um das Ergebnis freizuschalten.",
+        a: "Eine Berechnung ist kostenlos: Du gibst deine E-Mail-Adresse an und bekommst die Übersicht samt PDF – ohne Konto und ohne Zahlung. Weitere Berechnungen und alle anderen Tools gibt es mit dem GründerX-Abo.",
       },
       {
         q: "Was kostet die Gründung einer GmbH?",

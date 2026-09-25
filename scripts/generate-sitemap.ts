@@ -28,6 +28,8 @@ const today = new Date().toISOString().slice(0, 10);
 
 const staticEntries: SitemapEntry[] = [
   { path: "/", changefreq: "weekly", priority: "1.0", lastmod: today },
+  // Preisseite: steht hier, damit prerender.mjs sie rendert (Inhalt ohne JS im HTML).
+  { path: "/preise", changefreq: "monthly", priority: "0.9", lastmod: today },
   { path: "/tools", changefreq: "weekly", priority: "0.9", lastmod: today },
   { path: "/guides", changefreq: "weekly", priority: "0.9", lastmod: today },
   { path: "/gratis-tools", changefreq: "weekly", priority: "0.9", lastmod: today },

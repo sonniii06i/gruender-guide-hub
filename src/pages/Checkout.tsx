@@ -10,7 +10,7 @@ import {
   Truck, Tag, ChevronRight, PackageCheck, CreditCard,
 } from "lucide-react";
 import { toast } from "sonner";
-import { STRIPE_PRICES } from "@/lib/stripe";
+import { PLANS } from "@/config/pricing";
 import { isCartVariant, readCartVariant, rememberCartVariant, type CartVariant } from "@/lib/cart";
 import Logo from "@/components/Logo";
 import { UseCasesShowcase } from "@/components/landing/UseCasesShowcase";
@@ -88,11 +88,11 @@ const BUNDLE_CONTENTS = [
 const ITEMS: Item[] = [
   {
     id: "gruenderx",
-    priceId: STRIPE_PRICES.gruenderx,
-    interval: "month",
+    priceId: PLANS["gruenderx"].priceId,
+    interval: PLANS["gruenderx"].interval,
     name: "GründerX — monatlich",
-    sku: "GX-PRO-M",
-    grossCents: 6499,
+    sku: PLANS["gruenderx"].sku,
+    grossCents: PLANS["gruenderx"].grossCents,
     periodLabel: "Monat",
     termLabel: "Laufzeit 1 Monat, verlängert sich automatisch um einen Monat.",
     days: 30,
@@ -103,12 +103,12 @@ const ITEMS: Item[] = [
   },
   {
     id: "gruenderx-year",
-    priceId: STRIPE_PRICES.gruenderx,
-    interval: "year",
+    priceId: PLANS["gruenderx-year"].priceId,
+    interval: PLANS["gruenderx-year"].interval,
     name: "GründerX — jährlich",
-    sku: "GX-PRO-Y",
-    grossCents: 64990,
-    anchorCents: 77988,
+    sku: PLANS["gruenderx-year"].sku,
+    grossCents: PLANS["gruenderx-year"].grossCents,
+    anchorCents: PLANS["gruenderx-year"].anchorCents,
     periodLabel: "Jahr",
     termLabel: "Laufzeit 12 Monate, verlängert sich automatisch um zwölf Monate.",
     days: 365,
@@ -119,12 +119,12 @@ const ITEMS: Item[] = [
   },
   {
     id: "bundle",
-    priceId: STRIPE_PRICES.bundle,
-    interval: "month",
+    priceId: PLANS["bundle"].priceId,
+    interval: PLANS["bundle"].interval,
     name: "Founder-Set — monatlich",
-    sku: "GX-AX-SET-M",
-    grossCents: 9999,
-    anchorCents: 12998,
+    sku: PLANS["bundle"].sku,
+    grossCents: PLANS["bundle"].grossCents,
+    anchorCents: PLANS["bundle"].anchorCents,
     periodLabel: "Monat",
     termLabel: "Laufzeit 1 Monat, verlängert sich automatisch um einen Monat.",
     days: 30,
@@ -135,12 +135,12 @@ const ITEMS: Item[] = [
   },
   {
     id: "bundle-year",
-    priceId: STRIPE_PRICES.bundle,
-    interval: "year",
+    priceId: PLANS["bundle-year"].priceId,
+    interval: PLANS["bundle-year"].interval,
     name: "Founder-Set — jährlich",
-    sku: "GX-AX-SET-Y",
-    grossCents: 99990,
-    anchorCents: 119988,
+    sku: PLANS["bundle-year"].sku,
+    grossCents: PLANS["bundle-year"].grossCents,
+    anchorCents: PLANS["bundle-year"].anchorCents,
     periodLabel: "Jahr",
     termLabel: "Laufzeit 12 Monate, verlängert sich automatisch um zwölf Monate.",
     days: 365,

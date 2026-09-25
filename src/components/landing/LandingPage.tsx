@@ -71,6 +71,8 @@ export interface LandingPageProps {
   relatedGroups?: { title: string; items: RelatedLink[] }[];
   /** Beliebiger Inhalt am Seitenende (z.B. dynamisch geladene Ratgeber-Artikel). */
   bottomSlot?: React.ReactNode;
+  /** Optionaler Block direkt unter dem Hero (z. B. kostenlose Probe eines Tools). */
+  topSlot?: React.ReactNode;
 }
 
 /**
@@ -104,6 +106,8 @@ export const LandingPage = (p: LandingPageProps) => {
           <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">{p.heading}</h1>
           <p className="text-base md:text-lg text-muted-foreground leading-relaxed">{p.lead}</p>
         </header>
+
+        {p.topSlot}
 
         {/* Dringlichkeit / Warum jetzt */}
         <section className="rounded-2xl border border-accent-blue/20 bg-accent-blue/5 p-6 md:p-7 mb-8">
