@@ -46,7 +46,7 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
   },
   "holding": {
     "seoTitle": "Holding gründen 2026 – Struktur, Steuer & Kosten",
-    "seoDescription": "Holding-Struktur aufbauen: Holding-GmbH + operative GmbH für ~1,5 % Steuer auf Ausschüttungen. Schritt für Schritt zur 2-Stufen-Struktur in 6–10 Wochen.",
+    "seoDescription": "Holding-Struktur aufbauen: Holding-GmbH + operative GmbH für ~1,5 % Steuer auf Ausschüttungen (§ 8b KStG, ab 15 % Beteiligung). Schritt für Schritt zur 2-Stufen-Struktur in 6–10 Wochen.",
     "lead": "Dieser Guide erklärt dir Schritt für Schritt, wie du eine Holding-GmbH über deiner operativen GmbH aufbaust – für rund 1,5 % Steuer auf Ausschüttungen und gezielten Vermögensaufbau in der Holding. Für Gründer, die langfristig clever strukturieren.",
     "urgency": "Eine Holding-Struktur spart bei Ausschüttungen und Exit massiv Steuern – aber nur, wenn die Reihenfolge stimmt. Wer die operative GmbH zuerst gründet und die Holding nachschiebt, verschenkt das Steuerprivileg oder löst eine Schenkungssteuer aus. Solche Fehler lassen sich später kaum noch heilen und kosten fünfstellig. Bau die zweistufige Struktur Schritt für Schritt mit GründerX in der richtigen Abfolge auf und sichere dir die steuerlichen Vorteile von Anfang an.",
     "outcomes": [
@@ -200,7 +200,7 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
   },
   "oss-anmeldung": {
     "seoTitle": "OSS-Anmeldung beim BZSt – Anleitung & Kosten 2026",
-    "seoDescription": "One-Stop-Shop richtig anmelden: eine USt-Meldung in DE statt 27 USt-IDs. Pflicht ab 10.000 € EU-Umsatz. In 2–4 Wochen sauber registriert.",
+    "seoDescription": "One-Stop-Shop richtig anmelden: eine USt-Meldung in DE statt 27 USt-IDs. Freiwillig, relevant ab 10.000 € EU-Fernverkäufen. In 2–4 Wochen sauber registriert.",
     "lead": "Dieser Guide führt dich durch die OSS-Registrierung beim BZSt und die quartalsweise Meldung — für E-Commerce-Händler mit grenzüberschreitenden B2C-Verkäufen in der EU.",
     "urgency": "Sobald deine EU-weiten B2C-Verkäufe 10.000 € im Jahr übersteigen, bist du meldepflichtig. Ohne OSS müsstest du dich in jedem Zielland einzeln umsatzsteuerlich registrieren — und falsch abgeführte Umsatzsteuer kann teure Nachzahlungen und Säumniszuschläge auslösen. Je länger du wartest, desto mehr Quartale musst du rückwirkend korrigieren. Registrier dich Schritt für Schritt mit GründerX richtig.",
     "outcomes": [

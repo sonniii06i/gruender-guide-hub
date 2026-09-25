@@ -8,7 +8,7 @@ import { guideHref } from "@/data/guideMerges";
 const SAMPLE_GUIDES = [
   { slug: "gmbh-gruendung", title: "GmbH gründen", meta: "Mittel · 1.000–1.500 €" },
   { slug: "ug-gruendung", title: "UG gründen", meta: "Einfach · ab 1 € Stammkapital" },
-  { slug: "holding", title: "Holding-Struktur", meta: "Komplex · ~1,5 % auf Ausschüttungen" },
+  { slug: "holding", title: "Holding-Struktur", meta: "Komplex · ~1,5 % auf Ausschüttungen (§ 8b KStG)" },
   { slug: "amazon-fba-launch", title: "Amazon FBA Launch", meta: "Mittel · Sourcing bis erster Sale" },
   { slug: "us-llc", title: "US-LLC gründen", meta: "Komplex · EIN, ITIN, BOI" },
   { slug: "oss-anmeldung", title: "OSS-Anmeldung", meta: "Einfach · EU-weit verkaufen" },

@@ -109,7 +109,7 @@ export const HOLDING_STRUCTURES: HoldingStructure[] = [
     setupCost: "1.500–2.500 € Notar + 25.000 € Holding-Stammkapital (selbst nutzbar)",
     runningCost: "1.500–3.000 €/Jahr StB für Konzern-Buchhaltung + 250 € HR-Gebühr",
     worthwhileFrom: "100.000 € Jahresgewinn (operative GmbH) — drunter sind Setup-Kosten höher als Steuer-Ersparnis",
-    taxImpact: "Auf Ausschüttungen: ~1,5 % statt ~30 % (KSt+GewSt+SoliZ). Bei Exit: 5 % statt ~25 % AbgSt. Bei 1 Mio Verkaufserlös: 50 k € Steuer statt 250 k €.",
+    taxImpact: "Auf Ausschüttungen: ~1,5 % statt ~30 % (KSt+GewSt+SoliZ). Bei Exit: Veräußerungsgewinn zu 95 % steuerfrei (§ 8b Abs. 2 KStG), 5 % steuerpflichtig → bei 1 Mio € Gewinn ~50 k € steuerpflichtig, also rund 15 k € Steuer. Beim direkten Verkauf privat (Teileinkünfteverfahren, 60 % zum persönlichen Satz) deutlich mehr.",
     legalBasis: [
       "§8b KStG (Schachtelprivileg)",
       "§22 UmwStG (Sperrfrist bei Anteilseinbringung)",

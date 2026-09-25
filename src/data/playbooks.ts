@@ -354,7 +354,7 @@ export const PLAYBOOKS: Playbook[] = [
     title: "Holding-Struktur aufbauen",
     emoji: "🏛️",
     icon: Building2,
-    tagline: "Holding-GmbH + operative GmbH = ~1,5 % Steuer auf Ausschüttungen",
+    tagline: "Holding-GmbH + operative GmbH = ~1,5 % Steuer auf Ausschüttungen (§ 8b KStG, ab 15 % Beteiligung)",
     outcome: "Steuerlich optimierte 2-Stufen-Struktur mit Vermögensaufbau in der Holding.",
     duration: "6–10 Wochen",
     difficulty: "Komplex",
@@ -1079,7 +1079,7 @@ export const PLAYBOOKS: Playbook[] = [
     outcome: "Voll funktionsfähige US-LLC mit EIN, US-Bankkonto und korrekter US/DE-Steuer-Setup.",
     duration: "4–8 Wochen",
     difficulty: "Mittel",
-    totalCost: "0 € Setup",
+    totalCost: "Staatsgebühr ab ~50 $ (New Mexico) bzw. ~100 $ (Wyoming) + Registered Agent ~25–150 $/Jahr · EIN kostenlos",
     runningCost: "0 € (laufend) · Wechsel später ggf. 200–500 € StB",
     steps: [
       {
@@ -1558,7 +1558,7 @@ export const PLAYBOOKS: Playbook[] = [
     title: "OSS-Anmeldung (One-Stop-Shop) für EU-grenzüberschreitende Verkäufe",
     emoji: "🇪🇺",
     icon: Receipt,
-    tagline: "Eine USt-Meldung in DE statt 27 USt-IDs in jedem EU-Land — Pflicht ab 10.000 € EU-Verkäufen/Jahr",
+    tagline: "Eine USt-Meldung in DE statt 27 USt-IDs in jedem EU-Land — freiwillig, relevant ab 10.000 € EU-Fernverkäufen/Jahr",
     outcome: "Aktive OSS-Registrierung beim BZSt mit korrekter quartalsweiser Meldung aller EU-grenzüberschreitenden B2C-Verkäufe + Marketplace-Ausnahme-Behandlung.",
     duration: "2–4 Wochen",
     difficulty: "Mittel",
@@ -1568,7 +1568,7 @@ export const PLAYBOOKS: Playbook[] = [
       {
         slug: "schwelle-check",
         title: "Schwelle prüfen + Anwendbarkeit",
-        description: "OSS-Pflicht ab 10.000 € EU-grenzüberschreitende B2C-Verkäufe (kumuliert über alle EU-Länder, ein Schwellenwert für ALLE Lieferungen + digitale Dienstleistungen).",
+        description: "Ab 10.000 € EU-grenzüberschreitenden B2C-Verkäufen (kumuliert über alle EU-Länder, ein Schwellenwert für ALLE Lieferungen + digitale Dienstleistungen) wird die Umsatzsteuer im Land des Kunden fällig. OSS ist freiwillig: statt dich in jedem Land zu registrieren, meldest du alles gesammelt über das BZSt.",
         kind: "decision",
         estMinutes: 30,
         estCost: "0 €",
