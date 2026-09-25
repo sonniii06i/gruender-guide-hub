@@ -25,7 +25,7 @@ export const Footer = () => (
             <li><Link to="/#leistungen" className="hover:text-foreground">Leistungen</Link></li>
             <li><Link to="/tools" className="hover:text-foreground">Tools</Link></li>
             <li><Link to="/gratis-tools" className="hover:text-foreground">Gratis-Tools</Link></li>
-            <li><Link to="/#bundles" className="hover:text-foreground">Bundles</Link></li>
+            <li><Link to="/preise" className="hover:text-foreground">Preise</Link></li>
             <li><Link to="/ratgeber" className="hover:text-foreground">Ratgeber</Link></li>
             {/* Zeigte auf den Startseiten-Anker /#faq. Dadurch war /faq -- die
                 eigenstaendige, prerenderte Seite aus der Sitemap -- die einzige
