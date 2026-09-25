@@ -25,11 +25,10 @@ Disallow: /playbooks
 Disallow: /playbook/
 Disallow: /anbieter
 
-# Anzeigen-Landingpage: bewusst NICHT indexieren -- sie wuerde mit /ratgeber
-# um dieselben Begriffe konkurrieren. Das noindex in Seo.tsx greift nicht, weil
-# es erst clientseitig gesetzt wird und die Seite nicht prerendert ist.
-Disallow: /us-llc-30-tage
-Disallow: /gruendung-komplett
+# Anzeigen-Landingpages (/us-llc-30-tage, /gruendung-komplett) stehen bewusst NICHT
+# hier: sie werden ueber PAID_ROUTES in scripts/prerender.mjs vorgerendert und tragen
+# "noindex, nofollow" schon im Roh-HTML (live geprueft 25.09.2026). Ein Disallow wuerde
+# Google genau daran hindern, dieses noindex zu lesen -- die Seite bliebe im Index.
 
 # KI-/LLM-Kurzbeschreibung der Seite: https://gruenderx.de/llms.txt
 Sitemap: https://gruenderx.de/sitemap.xml
