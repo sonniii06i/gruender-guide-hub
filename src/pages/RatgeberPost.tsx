@@ -33,18 +33,36 @@ const RatgeberPost = () => {
   const { slug } = useParams<{ slug: string }>();
   const [post, setPost] = useState<BlogPost | null>(null);
   const [notFound, setNotFound] = useState(false);
+  // Weitere Ratgeber: bisher verlinkte kein Artikel einen anderen — jeder hing
+  // nur an /ratgeber. null = laedt noch (Signal an den Prerender).
+  const [weitere, setWeitere] = useState<Pick<BlogPost, "slug" | "title" | "excerpt" | "category">[] | null>(null);
 
   useEffect(() => {
     if (!slug) return;
+    setWeitere(null);
     (async () => {
-      const { data } = await supabase
-        .from("blog_posts")
-        .select("*")
-        .eq("slug", slug)
-        .eq("status", "published")
-        .maybeSingle();
+      const [{ data }, { data: andere }] = await Promise.all([
+        supabase
+          .from("blog_posts")
+          .select("*")
+          .eq("slug", slug)
+          .eq("status", "published")
+          .maybeSingle(),
+        supabase
+          .from("blog_posts")
+          .select("slug, title, excerpt, category")
+          .eq("status", "published")
+          .neq("slug", slug)
+          .order("published_at", { ascending: false })
+          .limit(30),
+      ]);
       if (!data) setNotFound(true);
       else setPost(data as BlogPost);
+      const liste = (andere ?? []) as Pick<BlogPost, "slug" | "title" | "excerpt" | "category">[];
+      const kat = (data as BlogPost | null)?.category;
+      const gleich = liste.filter((a) => a.category === kat);
+      const rest = liste.filter((a) => a.category !== kat);
+      setWeitere([...gleich, ...rest].slice(0, 3));
     })();
   }, [slug]);
 
@@ -185,7 +203,16 @@ const RatgeberPost = () => {
               prose-blockquote:border-accent-blue prose-blockquote:bg-secondary/50 prose-blockquote:py-1 prose-blockquote:rounded-r-lg
               prose-code:bg-secondary prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm
               prose-img:rounded-xl">
-            <ReactMarkdown>{post.body_md}</ReactMarkdown>
+            <ReactMarkdown
+              components={{
+                // Die Seite traegt ihre H1 schon im Kopf; eine "# …"-Zeile im
+                // Artikeltext ergab bisher zwei H1 je Ratgeber.
+                h1: ({ node: _node, ...props }) => <h2 {...props} />,
+                img: ({ node: _node, ...props }) => <img loading="lazy" decoding="async" {...props} />,
+              }}
+            >
+              {post.body_md}
+            </ReactMarkdown>
           </div>
 
           {post.tags.length > 0 && (
@@ -246,6 +273,30 @@ const RatgeberPost = () => {
               )}
             </div>
           )}
+
+          {weitere === null ? (
+            <p className="mt-14 text-xs text-muted-foreground" data-prerender-pending>
+              Weitere Ratgeber werden geladen …
+            </p>
+          ) : weitere.length > 0 ? (
+            <div className="mt-14">
+              <h2 className="text-lg font-bold tracking-tight mb-3 flex items-center gap-2">
+                <BookOpen className="h-4 w-4 text-accent-blue" /> Weitere Ratgeber
+              </h2>
+              <div className="grid sm:grid-cols-3 gap-3">
+                {weitere.map((a) => (
+                  <Link
+                    key={a.slug}
+                    to={`/ratgeber/${a.slug}`}
+                    className="group rounded-xl border border-border bg-card p-4 hover:border-accent-blue/50 transition-colors"
+                  >
+                    <p className="font-medium text-sm mb-1">{a.title}</p>
+                    <p className="text-xs text-muted-foreground line-clamp-2">{a.excerpt}</p>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          ) : null}
 
           <div className="mt-14 rounded-2xl border border-border bg-secondary/30 p-6">
             <p className="text-sm text-muted-foreground italic">

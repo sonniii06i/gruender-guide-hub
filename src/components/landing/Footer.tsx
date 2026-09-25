@@ -25,7 +25,7 @@ export const Footer = () => (
             <li><Link to="/#leistungen" className="hover:text-foreground">Leistungen</Link></li>
             <li><Link to="/tools" className="hover:text-foreground">Tools</Link></li>
             <li><Link to="/gratis-tools" className="hover:text-foreground">Gratis-Tools</Link></li>
-            <li><Link to="/#bundles" className="hover:text-foreground">Bundles</Link></li>
+            <li><Link to="/preise" className="hover:text-foreground">Preise</Link></li>
             <li><Link to="/ratgeber" className="hover:text-foreground">Ratgeber</Link></li>
             {/* Zeigte auf den Startseiten-Anker /#faq. Dadurch war /faq -- die
                 eigenstaendige, prerenderte Seite aus der Sitemap -- die einzige
@@ -34,6 +34,8 @@ export const Footer = () => (
                 Crawlen ist. Der Anker bleibt auf der Startseite bestehen; der
                 Footer zeigt jetzt auf die Seite, die auch indexiert werden soll. */}
             <li><Link to="/faq" className="hover:text-foreground">FAQ</Link></li>
+            {/* /partner stand in der Sitemap, war aber von keiner Seite verlinkt (25.09.2026). */}
+            <li><Link to="/partner" className="hover:text-foreground">Partnerprogramm</Link></li>
           </ul>
         </div>
 

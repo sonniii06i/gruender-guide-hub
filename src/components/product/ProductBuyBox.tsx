@@ -90,7 +90,8 @@ export const ProductBuyBox = ({
           <span className="font-semibold text-accent-blue">{brand}</span>
           <span className="text-muted-foreground">Art.-Nr. {v.sku}</span>
         </div>
-        <h1 className="mt-1.5 text-3xl font-bold tracking-tight text-foreground md:text-4xl">{title}</h1>
+        {/* h2: die Box steht als Abschnitt auf der Startseite, die H1 gehoert dem Hero. */}
+        <h2 className="mt-1.5 text-3xl font-bold tracking-tight text-foreground md:text-4xl">{title}</h2>
         <p className="mt-2 text-muted-foreground">{subtitle}</p>
       </div>
 
