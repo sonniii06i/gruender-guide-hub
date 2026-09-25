@@ -64,6 +64,12 @@ export interface ToolConfig {
     description: string;
     keywords: string;
     faqs: { q: string; a: string }[];
+    /**
+     * Absolute Canonical-URL, falls eine andere Domain das Thema besitzt
+     * (z. B. die Amazon-Widerspruchsgeneratoren: anwaltx.de). Die Seite bleibt
+     * nutzbar, steht aber nicht in der Sitemap.
+     */
+    canonicalUrl?: string;
   };
 }
 

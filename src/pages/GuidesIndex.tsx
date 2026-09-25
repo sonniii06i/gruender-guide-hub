@@ -4,6 +4,7 @@ import { Footer } from "@/components/landing/Footer";
 import { Seo } from "@/components/Seo";
 import { HubNav } from "@/components/landing/HubNav";
 import { GUIDE_LANDINGS } from "@/data/guides";
+import { guideHref } from "@/data/guideMerges";
 
 const SITE = "https://gruenderx.de";
 
@@ -20,7 +21,7 @@ const GuidesIndex = () => {
       itemListElement: GUIDE_LANDINGS.slice(0, 60).map((g, i) => ({
         "@type": "ListItem",
         position: i + 1,
-        url: `${SITE}/guides/${g.slug}`,
+        url: `${SITE}${guideHref(g.slug)}`,
         name: g.title,
       })),
     },
@@ -56,7 +57,7 @@ const GuidesIndex = () => {
           {GUIDE_LANDINGS.map((g) => (
             <Link
               key={g.slug}
-              to={`/guides/${g.slug}`}
+              to={guideHref(g.slug)}
               className="rounded-xl border border-border bg-card p-4 hover:border-accent-blue/50 transition-colors flex flex-col"
             >
               <p className="font-medium text-sm mb-1">{g.title}</p>

@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Clock, ChevronLeft, BookOpen, Wrench, ListChecks, ArrowRight } from "lucide-react";
 import { relatedToolsFor, relatedGuidesFor, BLOG_CATEGORY_TOPIC, type LinkItem } from "@/lib/internalLinks";
 import { findGuideLanding } from "@/data/guides";
+import { guideHref, guidesMergedInto } from "@/data/guideMerges";
 
 interface BlogPost {
   id: string;
@@ -110,7 +111,15 @@ const RatgeberPost = () => {
     .filter((g): g is NonNullable<typeof g> => !!g)
     .map((g) => ({ slug: g.slug, title: g.title, desc: g.tagline }));
   const matchedGuides = relatedGuidesFor({ ...matchCtx, exclude: explicitGuides.map((g) => g.slug) }, 3);
-  const guides = [...explicitGuides, ...matchedGuides].slice(0, 3);
+  // Guides, die in DIESEN Ratgeber zusammengelegt wurden, zeigt der
+  // Playbook-Kasten unten — als Link wuerden sie auf die Seite selbst zeigen.
+  const zusammengelegt = guidesMergedInto(post.slug)
+    .map((s) => findGuideLanding(s))
+    .filter((g): g is NonNullable<typeof g> => !!g);
+  const selbst = `/ratgeber/${post.slug}`;
+  const guides = [...explicitGuides, ...matchedGuides]
+    .filter((g, i, alle) => guideHref(g.slug) !== selbst && alle.findIndex((x) => guideHref(x.slug) === guideHref(g.slug)) === i)
+    .slice(0, 3);
   const tools = relatedToolsFor(matchCtx, 3);
 
   // Ein base64-Bild (data:) taugt weder als og:image noch fuer Article.image —
@@ -231,6 +240,29 @@ const RatgeberPost = () => {
             </div>
           )}
 
+          {zusammengelegt.map((g) => (
+            <section key={g.slug} className="mt-14 rounded-2xl border border-border bg-card p-6">
+              <h2 className="text-lg font-bold tracking-tight mb-1 flex items-center gap-2">
+                <ListChecks className="h-4 w-4 text-accent-blue" /> Schritt für Schritt: {g.title}
+              </h2>
+              <p className="text-sm text-muted-foreground mb-4">
+                {g.outcome} Aufwand realistisch {g.duration}.
+              </p>
+              <ol className="list-decimal pl-5 space-y-1 text-sm">
+                {g.outline.map((schritt, i) => (
+                  <li key={i}>{schritt.title}</li>
+                ))}
+              </ol>
+              <p className="mt-4 text-sm text-muted-foreground">
+                Die vollständige Anleitung zu allen {g.steps} Schritten – mit Checklisten, Formularen und Direkt-Links zu
+                Ämtern und Registern – ist Teil des GründerX-Abos.
+              </p>
+              <Link to="/preise" className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-accent-blue hover:underline">
+                Preise & Leistungen <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
+            </section>
+          ))}
+
           {(guides.length > 0 || tools.length > 0) && (
             <div className="mt-14 space-y-6">
               {guides.length > 0 && (
@@ -242,7 +274,7 @@ const RatgeberPost = () => {
                     {guides.map((g) => (
                       <Link
                         key={g.slug}
-                        to={`/guides/${g.slug}`}
+                        to={guideHref(g.slug)}
                         className="group rounded-xl border border-border bg-card p-4 hover:border-accent-blue/50 transition-colors"
                       >
                         <p className="font-medium text-sm mb-1 flex items-center justify-between gap-2">

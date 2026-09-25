@@ -10,6 +10,7 @@ import { writeFileSync } from "fs";
 import { resolve } from "path";
 import { LANDING_TOOLS } from "../src/data/features";
 import { GUIDE_LANDINGS } from "../src/data/guides";
+import { isMergedGuide } from "../src/data/guideMerges";
 
 const BASE_URL = "https://gruenderx.de";
 const SUPABASE_URL = process.env.VITE_SUPABASE_URL || "https://rwrjuzemkfghlziretdj.supabase.co";
@@ -36,8 +37,8 @@ const staticEntries: SitemapEntry[] = [
   { path: "/businessplan-erstellen", changefreq: "weekly", priority: "0.8", lastmod: today },
   { path: "/gruendungskosten-rechner", changefreq: "weekly", priority: "0.8", lastmod: today },
   { path: "/rechtsform-finden", changefreq: "weekly", priority: "0.8", lastmod: today },
-  { path: "/amazon-marken-freischaltung-widerspruch-generator", changefreq: "weekly", priority: "0.8", lastmod: today },
-  { path: "/amazon-transparency-seriennummer-widerspruch-generator", changefreq: "weekly", priority: "0.8", lastmod: today },
+  // Die zwei Amazon-Widerspruchsgeneratoren stehen NICHT mehr hier: Canonical
+  // zeigt auf anwaltx.de (Themenbesitz). Prerender ueber EXTRA_ROUTES in prerender.mjs.
   { path: "/ratgeber", changefreq: "daily", priority: "0.9", lastmod: today },
   { path: "/faq", changefreq: "monthly", priority: "0.6" },
   { path: "/kontakt", changefreq: "yearly", priority: "0.4" },
@@ -63,7 +64,8 @@ const toolEntries: SitemapEntry[] = LANDING_TOOLS.map((t) => ({
 
 // Guide-Landings (/guides/:slug) — öffentliche Pitch-Seiten; der Guide-Inhalt
 // selbst bleibt hinter der Paywall, daher hier nur die crawlbare Landing.
-const guideEntries: SitemapEntry[] = GUIDE_LANDINGS.map((g) => ({
+// Zusammengelegte Guides (301 auf den Ratgeber, siehe guideMerges.ts) fehlen.
+const guideEntries: SitemapEntry[] = GUIDE_LANDINGS.filter((g) => !isMergedGuide(g.slug)).map((g) => ({
   path: `/guides/${g.slug}`,
   changefreq: "monthly",
   priority: "0.7",

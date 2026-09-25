@@ -1,4 +1,4 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, Navigate } from "react-router-dom";
 import { Navbar } from "@/components/landing/Navbar";
 import { Footer } from "@/components/landing/Footer";
 import { Seo } from "@/components/Seo";
@@ -8,6 +8,7 @@ import { findGuideLanding, relatedGuides } from "@/data/guides";
 import { getGuideCopy } from "@/data/landingCopy";
 import { relatedToolsFor } from "@/lib/internalLinks";
 import { RelatedArticles } from "@/components/landing/RelatedArticles";
+import { guideHref, isMergedGuide } from "@/data/guideMerges";
 
 const SITE = "https://gruenderx.de";
 
@@ -19,6 +20,10 @@ const SITE = "https://gruenderx.de";
 const GuideLanding = () => {
   const { slug = "" } = useParams();
   const guide = findGuideLanding(slug);
+
+  // Zusammengelegt: Server leitet per 301 (vercel.json), clientseitige
+  // Navigation landet hier und springt ebenfalls zum Ratgeber.
+  if (isMergedGuide(slug)) return <Navigate to={guideHref(slug)} replace />;
 
   if (!guide) {
     return (
@@ -128,7 +133,7 @@ const GuideLanding = () => {
       secondaryHref="/playbooks"
       secondaryLabel="Alle Guides"
       relatedTitle="Passende Guides"
-      related={related.map((r) => ({ to: `/guides/${r.slug}`, title: r.title, desc: r.tagline }))}
+      related={related.map((r) => ({ to: guideHref(r.slug), title: r.title, desc: r.tagline }))}
       relatedGroups={[
         {
           title: "Passende Tools",

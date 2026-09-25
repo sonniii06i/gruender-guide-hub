@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Gift, ListChecks } from "lucide-react";
 import { TRIAL_TOOLS, TRIAL_CLAIM } from "@/lib/freetools/trialTools";
 import { GUIDE_LANDINGS } from "@/data/guides";
+import { guideHref } from "@/data/guideMerges";
 
 /**
  * Einstieg auf der Startseite: die vier Tools mit kostenloser Probe und die
@@ -57,7 +58,7 @@ export const StartHere = () => (
             {TOP_GUIDES.map((g) => (
               <li key={g.slug}>
                 <Link
-                  to={`/guides/${g.slug}`}
+                  to={guideHref(g.slug)}
                   className="group flex items-center justify-between gap-3 rounded-xl border border-border bg-card p-4 hover:border-accent-blue/50 transition-colors"
                 >
                   <span className="font-medium">{g.title}</span>

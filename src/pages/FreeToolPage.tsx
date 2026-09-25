@@ -46,6 +46,7 @@ export default function FreeToolPage({ config }: FreeToolPageProps) {
         title={config.seo.title}
         description={config.seo.description}
         path={`/${config.slug}`}
+        canonicalUrl={config.seo.canonicalUrl}
         type="website"
         jsonLd={jsonLd}
       />

@@ -4,7 +4,29 @@
   "outputDirectory": "dist",
   "redirects": [
     { "source": "/pricing", "destination": "/preise", "statusCode": 301 },
-    { "source": "/pricing/", "destination": "/preise", "statusCode": 301 }
+    { "source": "/pricing/", "destination": "/preise", "statusCode": 301 },
+    { "source": "/guides/us-llc", "destination": "/ratgeber/us-llc-gruenden-deutschland", "statusCode": 301 },
+    { "source": "/guides/us-llc/", "destination": "/ratgeber/us-llc-gruenden-deutschland", "statusCode": 301 },
+    { "source": "/guides/kleinunternehmer", "destination": "/ratgeber/kleinunternehmer-2026", "statusCode": 301 },
+    { "source": "/guides/kleinunternehmer/", "destination": "/ratgeber/kleinunternehmer-2026", "statusCode": 301 },
+    { "source": "/guides/gpsr-compliance", "destination": "/ratgeber/gpsr-verordnung-haendler", "statusCode": 301 },
+    { "source": "/guides/gpsr-compliance/", "destination": "/ratgeber/gpsr-verordnung-haendler", "statusCode": 301 },
+    { "source": "/guides/oss-anmeldung", "destination": "/ratgeber/oss-anmeldung", "statusCode": 301 },
+    { "source": "/guides/oss-anmeldung/", "destination": "/ratgeber/oss-anmeldung", "statusCode": 301 },
+    { "source": "/guides/hk-limited", "destination": "/ratgeber/hk-limited-gruenden", "statusCode": 301 },
+    { "source": "/guides/hk-limited/", "destination": "/ratgeber/hk-limited-gruenden", "statusCode": 301 },
+    { "source": "/guides/gmbh-gruendung", "destination": "/ratgeber/gmbh-gruenden-kosten-2026", "statusCode": 301 },
+    { "source": "/guides/gmbh-gruendung/", "destination": "/ratgeber/gmbh-gruenden-kosten-2026", "statusCode": 301 },
+    { "source": "/guides/marke-anmelden", "destination": "/ratgeber/marke-anmelden-dpma", "statusCode": 301 },
+    { "source": "/guides/marke-anmelden/", "destination": "/ratgeber/marke-anmelden-dpma", "statusCode": 301 },
+    { "source": "/guides/holding", "destination": "/ratgeber/holding-gmbh-gruenden", "statusCode": 301 },
+    { "source": "/guides/holding/", "destination": "/ratgeber/holding-gmbh-gruenden", "statusCode": 301 },
+    { "source": "/guides/einzelunternehmen-gruendung", "destination": "/ratgeber/einzelunternehmen-gruenden-gewerbe-freiberufler", "statusCode": 301 },
+    { "source": "/guides/einzelunternehmen-gruendung/", "destination": "/ratgeber/einzelunternehmen-gruenden-gewerbe-freiberufler", "statusCode": 301 },
+    { "source": "/guides/amazon-fba-launch", "destination": "/ratgeber/amazon-fba-starten-deutschland", "statusCode": 301 },
+    { "source": "/guides/amazon-fba-launch/", "destination": "/ratgeber/amazon-fba-starten-deutschland", "statusCode": 301 },
+    { "source": "/guides/foerderung-stipendium", "destination": "/ratgeber/foerderung-gruender-2026", "statusCode": 301 },
+    { "source": "/guides/foerderung-stipendium/", "destination": "/ratgeber/foerderung-gruender-2026", "statusCode": 301 }
   ],
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }

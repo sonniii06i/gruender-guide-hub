@@ -358,6 +358,8 @@ export const transparencySeriennummerConfig: ToolConfig = {
     },
   ],
   seo: {
+    // Themenbesitz AnwaltX (Haendler-Recht/Compliance-Werkzeuge), SEO-Runde 25.09.2026.
+    canonicalUrl: "https://anwaltx.de/amazon-transparency-seriennummer-widerspruch-generator",
     title: "Amazon Transparency: Seriennummer/Code-Upload abgelehnt – Widerspruch | GründerX",
     description:
       "Transparency-Code oder Seriennummer wird abgelehnt, obwohl vorhanden und übermittelt? Erstelle einen faktenbasierten Widerspruch mit Bitte um manuelle Prüfung, inkl. gültiger Formate. 1 kostenlose Nutzung, nur E-Mail nötig.",

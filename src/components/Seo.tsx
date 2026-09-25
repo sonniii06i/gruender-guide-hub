@@ -12,6 +12,8 @@ interface SeoProps {
   image?: string;
   type?: "website" | "article" | "product";
   noindex?: boolean;
+  /** Absolute Canonical-URL, wenn eine andere Seite/Domain das Thema besitzt. */
+  canonicalUrl?: string;
   /** Optional JSON-LD object(s) */
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 }
@@ -27,9 +29,10 @@ export const Seo = ({
   image = DEFAULT_IMAGE,
   type = "website",
   noindex,
+  canonicalUrl,
   jsonLd,
 }: SeoProps) => {
-  const url = `${SITE}${path}`;
+  const url = canonicalUrl || `${SITE}${path}`;
   const fullTitle = title.length > 60 ? title.slice(0, 57) + "…" : title;
   const desc = description.length > 160 ? description.slice(0, 157) + "…" : description;
   const blocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];

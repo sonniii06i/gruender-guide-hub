@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Mascot } from "./Mascot";
+import { guideHref } from "@/data/guideMerges";
 
 /** Beispielhafte Guides – Slugs entsprechen /guides/:slug aus playbooks.ts */
 const SAMPLE_GUIDES = [
@@ -45,7 +46,7 @@ export const GuidesRoadmap = () => (
             {SAMPLE_GUIDES.map((g) => (
               <Link
                 key={g.slug}
-                to={`/guides/${g.slug}`}
+                to={guideHref(g.slug)}
                 className="group flex items-center justify-between gap-3 rounded-2xl border border-border bg-card px-4 py-3 shadow-card hover:border-brand-green/50 hover:shadow-soft transition-all"
               >
                 <div className="min-w-0">

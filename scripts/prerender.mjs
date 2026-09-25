@@ -55,6 +55,14 @@ const MIME = {
 // Der noindex-Status haengt am robots-Meta, nicht an der Sitemap — er bleibt.
 const PAID_ROUTES = ["/us-llc-30-tage", "/gruendung-komplett"];
 
+// Seiten mit Canonical auf eine andere Domain (Themenbesitz anwaltx.de) —
+// nicht in der Sitemap, aber weiter nutzbar. Ohne Prerender truege ihr HTML
+// Titel und Canonical der Startseite (SPA-Fallback).
+const EXTRA_ROUTES = [
+  "/amazon-marken-freischaltung-widerspruch-generator",
+  "/amazon-transparency-seriennummer-widerspruch-generator",
+];
+
 function routesFromSitemap(xml) {
   const routes = [];
   const re = /<loc>https?:\/\/[^/]+(\/[^<]*)?<\/loc>/g;
@@ -187,7 +195,7 @@ async function run() {
     ? join(DIST, "sitemap.xml")
     : join(__dirname, "..", "public", "sitemap.xml");
   const sitemapRoutes = routesFromSitemap(await readFile(sitemapPath, "utf8"));
-  const routes = [...sitemapRoutes, ...PAID_ROUTES.filter((p) => !sitemapRoutes.includes(p))];
+  const routes = [...sitemapRoutes, ...[...PAID_ROUTES, ...EXTRA_ROUTES].filter((p) => !sitemapRoutes.includes(p))];
   if (routes.length === 0) {
     console.warn("[prerender] keine Routen in sitemap.xml gefunden – übersprungen.");
     return;

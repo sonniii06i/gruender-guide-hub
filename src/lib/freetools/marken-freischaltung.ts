@@ -383,6 +383,8 @@ export const markenFreischaltungConfig: ToolConfig = {
     },
   ],
   seo: {
+    // Themenbesitz AnwaltX (Haendler-Recht/Compliance-Werkzeuge), SEO-Runde 25.09.2026.
+    canonicalUrl: "https://anwaltx.de/amazon-marken-freischaltung-widerspruch-generator",
     title: "Amazon Marken-Freischaltung abgelehnt – Widerspruch-Generator | GründerX",
     description:
       "Amazon-Ungating abgelehnt (Stückzahl, „modifizierte“ Rechnung, Lieferant, Autorisierung)? Erstelle einen faktenbasierten Widerspruch nach den aktuellen Amazon-Anforderungen. 1 kostenlose Nutzung, nur E-Mail nötig.",

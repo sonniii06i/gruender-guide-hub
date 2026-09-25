@@ -11,6 +11,7 @@ import { RelatedArticles } from "@/components/landing/RelatedArticles";
 import { Gift, ArrowRight } from "lucide-react";
 import { TRIAL_TOOL_BY_SLUG, TRIAL_CLAIM } from "@/lib/freetools/trialTools";
 import { PRO_MONTH_GROSS_CENTS, formatEurCents, schemaPrice } from "@/config/pricing";
+import { guideHref } from "@/data/guideMerges";
 
 const TOOL_CAT_TOPIC: Record<string, string> = {
   starter: "gruendung", rechtsform: "gruendung", steuer: "steuern", buchhaltung: "buchhaltung",
@@ -149,7 +150,7 @@ const ToolLanding = () => {
       relatedGroups={[
         {
           title: "Passende Schritt-für-Schritt-Guides",
-          items: relatedGuides.map((r) => ({ to: `/guides/${r.slug}`, title: r.title, desc: r.desc })),
+          items: relatedGuides.map((r) => ({ to: guideHref(r.slug), title: r.title, desc: r.desc })),
         },
       ]}
       bottomSlot={<RelatedArticles context={matchCtx} />}
