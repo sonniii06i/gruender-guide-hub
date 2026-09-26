@@ -11,6 +11,7 @@ import { resolve } from "path";
 import { LANDING_TOOLS } from "../src/data/features";
 import { GUIDE_LANDINGS } from "../src/data/guides";
 import { isMergedGuide } from "../src/data/guideMerges";
+import { fremdKanonisch } from "../src/data/ratgeberKanonisch";
 
 const BASE_URL = "https://gruenderx.de";
 const SUPABASE_URL = process.env.VITE_SUPABASE_URL || "https://rwrjuzemkfghlziretdj.supabase.co";
@@ -89,7 +90,9 @@ async function fetchBlogEntries(): Promise<SitemapEntry[]> {
       return [];
     }
     const rows = (await r.json()) as Array<{ slug: string; published_at: string; updated_at: string }>;
-    return rows.map((p) => ({
+    // Ratgeber mit Canonical auf eine andere Domain (ratgeberKanonisch.ts) fehlen;
+    // prerendert werden sie ueber EXTRA_ROUTES in prerender.mjs.
+    return rows.filter((p) => !fremdKanonisch(p.slug)).map((p) => ({
       path: `/ratgeber/${p.slug}`,
       lastmod: (p.updated_at || p.published_at || today).slice(0, 10),
       changefreq: "weekly" as const,

@@ -9,6 +9,7 @@ import { Clock, ChevronLeft, BookOpen, Wrench, ListChecks, ArrowRight } from "lu
 import { relatedToolsFor, relatedGuidesFor, BLOG_CATEGORY_TOPIC, type LinkItem } from "@/lib/internalLinks";
 import { findGuideLanding } from "@/data/guides";
 import { guideHref, guidesMergedInto } from "@/data/guideMerges";
+import { fremdKanonisch } from "@/data/ratgeberKanonisch";
 
 interface BlogPost {
   id: string;
@@ -99,6 +100,18 @@ const RatgeberPost = () => {
   }
 
   const url = `https://gruenderx.de/ratgeber/${post.slug}`;
+  // Thema gehoert einer anderen Domain (z. B. GPSR -> anwaltx.de): Canonical
+  // dorthin, kein Article-Schema (gehoert auf die kanonische Seite).
+  const kanonisch = fremdKanonisch(post.slug);
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Start", item: "https://gruenderx.de/" },
+      { "@type": "ListItem", position: 2, name: "Ratgeber", item: "https://gruenderx.de/ratgeber" },
+      { "@type": "ListItem", position: 3, name: post.title, item: url },
+    ],
+  };
 
   // Interne Verlinkung: passende Guides + Tools aus Kategorie/Tags/Titel ableiten.
   const matchCtx = {
@@ -136,7 +149,8 @@ const RatgeberPost = () => {
         path={`/ratgeber/${post.slug}`}
         image={teilbaresBild}
         type="article"
-        jsonLd={[
+        canonicalUrl={kanonisch?.url}
+        jsonLd={kanonisch ? [breadcrumbLd] : [
           {
             "@context": "https://schema.org",
             "@type": "Article",
@@ -154,15 +168,7 @@ const RatgeberPost = () => {
             mainEntityOfPage: { "@type": "WebPage", "@id": url },
             keywords: post.keywords.join(", "),
           },
-          {
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Start", item: "https://gruenderx.de/" },
-              { "@type": "ListItem", position: 2, name: "Ratgeber", item: "https://gruenderx.de/ratgeber" },
-              { "@type": "ListItem", position: 3, name: post.title, item: url },
-            ],
-          },
+          breadcrumbLd,
         ]}
       />
 
@@ -194,6 +200,14 @@ const RatgeberPost = () => {
               {post.title}
             </h1>
             <p className="mt-5 text-lg text-muted-foreground text-balance">{post.excerpt}</p>
+            {kanonisch && (
+              <a
+                href={kanonisch.url}
+                className="mt-6 inline-flex items-center gap-1 rounded-xl border border-accent-blue/40 bg-card px-4 py-3 text-sm font-semibold text-accent-blue hover:border-accent-blue transition-colors"
+              >
+                {kanonisch.label} <ArrowRight className="h-3.5 w-3.5 shrink-0" />
+              </a>
+            )}
           </div>
         </header>
 

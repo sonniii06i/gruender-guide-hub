@@ -61,6 +61,8 @@ const PAID_ROUTES = ["/us-llc-30-tage", "/gruendung-komplett"];
 const EXTRA_ROUTES = [
   "/amazon-marken-freischaltung-widerspruch-generator",
   "/amazon-transparency-seriennummer-widerspruch-generator",
+  // Ratgeber mit Canonical auf anwaltx.de (src/data/ratgeberKanonisch.ts).
+  "/ratgeber/gpsr-verordnung-haendler",
 ];
 
 function routesFromSitemap(xml) {
