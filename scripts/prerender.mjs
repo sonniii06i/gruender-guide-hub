@@ -247,7 +247,17 @@ async function run() {
             .waitForSelector('link[rel="canonical"]', { timeout: 5_000 })
             .catch(() => {});
         } catch {
-          console.warn(`[prerender] ⚠ ${route} – keine react-helmet-Tags gefunden, Head evtl. generisch`);
+          // Ein zweiter Versuch: Am 26.09.2026 blieben /ratgeber/oss-anmeldung und /ratgeber/hk-limited-gruenden
+          // im Build im Ladezustand hängen (Supabase-Antwort kam nicht rechtzeitig) — live standen dann der
+          // Startseiten-Titel, kein Canonical und ~110 Wörter Hülle. Live laden beide in < 1 s.
+          console.warn(`[prerender] ⚠ ${route} – keine react-helmet-Tags, zweiter Versuch`);
+          try {
+            await page.reload({ waitUntil: "domcontentloaded", timeout: PER_ROUTE_TIMEOUT });
+            await page.waitForSelector("meta[data-rh]", { timeout: 20_000 });
+            await page.waitForSelector('link[rel="canonical"]', { timeout: 5_000 }).catch(() => {});
+          } catch {
+            console.warn(`[prerender] ⚠ ${route} – keine react-helmet-Tags gefunden, Head evtl. generisch`);
+          }
         }
         // Datengetriebene Listen (z.B. /ratgeber lädt blog_posts aus Supabase) melden
         // sich per data-prerender-pending an, solange sie laden. Ohne diesen Wait
