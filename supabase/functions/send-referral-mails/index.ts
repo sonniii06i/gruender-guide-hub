@@ -25,6 +25,7 @@ import { createClient } from "npm:@supabase/supabase-js@2.57.2";
 import { buildReferral, type Produkt } from "../_shared/campaigns.ts";
 import { sendMail } from "../_shared/sendMail.ts";
 import { unsubscribeUrl } from "../_shared/unsubscribe.ts";
+import { hatCronSecret, istServiceRole } from "../_shared/authGuard.ts";
 
 const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY")!, {
   apiVersion: "2025-08-27.basil",
@@ -42,6 +43,12 @@ const FLAG = "referral_mail_sent";
 const AB_DATUM = Date.parse(Deno.env.get("REFERRAL_START_DATE") || "2026-09-10T00:00:00Z") / 1000;
 
 Deno.serve(async (req) => {
+  // verify_jwt ist aus -> die Function prueft selbst: x-cron-secret (wie
+  // send-weekly) oder der Service-Role-Key, den der bestehende pg_cron-Job
+  // aus dem Vault mitschickt. Vorher konnte jeder den Versand ausloesen.
+  if (!hatCronSecret(req) && !istServiceRole(req)) {
+    return Response.json({ ok: false, error: "unauthorized" }, { status: 401 });
+  }
   const dryRun = new URL(req.url).searchParams.get("dry_run") === "1";
   const bis = Math.floor(Date.now() / 1000) - NACH_TAGEN * 86400;
   const ab = Math.max(AB_DATUM, bis - 60 * 86400); // 60 Tage Rueckschau genuegt
@@ -134,11 +141,12 @@ Deno.serve(async (req) => {
       }
     }
 
-    return Response.json({ ok: true, dryRun, geprueft, gesendet, uebersprungen, fehler });
+    // Keine Kundenadressen in der Antwort — Details stehen im Function-Log.
+    return Response.json({ ok: true, dryRun, geprueft, gesendet, uebersprungen, fehler: fehler.length });
   } catch (e) {
     console.error("❌ send-referral-mails:", (e as Error).message);
     return Response.json(
-      { ok: false, error: (e as Error).message, geprueft, gesendet, fehler },
+      { ok: false, error: "interner Fehler", geprueft, gesendet, fehler: fehler.length },
       { status: 500 },
     );
   }

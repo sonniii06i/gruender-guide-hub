@@ -11,10 +11,11 @@
 //   6. Mark topic as consumed.
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.4";
+import { hatCronSecret, istAdmin, istServiceRole, nutzerAusJwt } from "../_shared/authGuard.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-cron-secret",
   "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
 
@@ -191,6 +192,20 @@ function qualityGate(article: { body_md: string; meta_title: string; meta_descri
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
+
+  // Zugang: pg_cron (Service-Role-Key aus dem Vault oder x-cron-secret) oder
+  // ein eingeloggter Admin (/admin/blog). Vorher konnte jeder mit dem
+  // oeffentlichen anon-Key Artikel generieren und veroeffentlichen lassen
+  // (Gemini-Kosten, Spam im Blog).
+  if (!istServiceRole(req) && !hatCronSecret(req)) {
+    const user = await nutzerAusJwt(req);
+    if (!user || !(await istAdmin(user.id))) {
+      return new Response(JSON.stringify({ ok: false, error: "forbidden" }), {
+        status: 403,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+  }
 
   const supabase = createClient(SUPABASE_URL, SERVICE_KEY);
 
