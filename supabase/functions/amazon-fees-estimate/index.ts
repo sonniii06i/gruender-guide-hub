@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { nutzerAusJwt } from "../_shared/authGuard.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -324,6 +325,15 @@ serve(async (req) => {
     return new Response(null, { headers: corsHeaders });
   }
 
+  // Nur fuer eingeloggte Nutzer (die Funktion haengt hinter der Paywall).
+  // verify_jwt ist aus, der oeffentliche anon-Key allein reicht nicht mehr.
+  if (!(await nutzerAusJwt(req))) {
+    return new Response(JSON.stringify({ error: "Bitte einloggen." }), {
+      status: 401,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
+
   try {
     if (req.method !== "POST") {
       return new Response(JSON.stringify({ error: "Nur POST erlaubt" }), {
@@ -392,7 +402,13 @@ serve(async (req) => {
     const message = e instanceof Error ? e.message : String(e);
     const stack = e instanceof Error ? e.stack : undefined;
     console.error("amazon-fees-estimate error:", message, stack ? `\nSTACK: ${stack}` : "");
-    return new Response(JSON.stringify({ error: message, stack }), {
+    // Stack und Secret-Diagnostik (Anfang/Ende der LWA-Secrets) nur ins Log,
+    // nicht an den Browser. Fachliche Meldungen ("Keine ASIN gefunden ...")
+    // bleiben fuer die Anzeige im Marge-Tracker erhalten.
+    const oeffentlich = /LWA|Secret|SP-API-Call|Lookup fehlgeschlagen/i.test(message)
+      ? "Amazon-Gebührenabfrage gerade nicht möglich. Bitte später erneut versuchen."
+      : message.slice(0, 300);
+    return new Response(JSON.stringify({ error: oeffentlich }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });

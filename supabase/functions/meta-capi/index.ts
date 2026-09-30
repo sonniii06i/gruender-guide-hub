@@ -29,7 +29,10 @@ const ALLOWED: Record<string, CapiEvent> = {
   tool_result: "Lead",
   signup: "CompleteRegistration",
   activation: "StartTrial",
-  purchase: "Purchase",
+  // "purchase" bewusst NICHT: Ein Kauf mit frei waehlbarem Betrag vom
+  // Client haette Metas Kaufdaten und damit die Kampagnen-Optimierung
+  // vergiften koennen. Purchase meldet ausschliesslich der Stripe-/Billing-
+  // Webhook serverseitig mit dem echten Betrag.
 };
 
 Deno.serve(async (req) => {
@@ -41,8 +44,13 @@ Deno.serve(async (req) => {
   try {
     const { kind, eventId, value, email, externalId, sourceUrl } = await req.json();
 
+    if (String(kind) === "purchase") {
+      return new Response(JSON.stringify({ ok: true, skipped: "purchase_nur_serverseitig" }), {
+        headers: { ...CORS, "Content-Type": "application/json" },
+      });
+    }
     const event = ALLOWED[String(kind)];
-    if (!event || !eventId) {
+    if (!event || !eventId || String(eventId).length > 100) {
       return new Response(JSON.stringify({ error: "kind oder eventId fehlt/ungültig" }), {
         status: 400,
         headers: { ...CORS, "Content-Type": "application/json" },
@@ -54,7 +62,10 @@ Deno.serve(async (req) => {
     const ergebnis = await sendMetaCapiEvent({
       event,
       eventId: String(eventId),
-      value: typeof value === "number" ? value : undefined,
+      // Nicht-Kauf-Ereignisse haben keinen echten Geldwert; ein Client-Wert
+      // wird deshalb nur in engen Grenzen durchgereicht.
+      value: typeof value === "number" && Number.isFinite(value) && value >= 0 && value <= 100
+        ? value : undefined,
       currency: "EUR",
       eventSourceUrl: typeof sourceUrl === "string" ? sourceUrl : null,
       user: {

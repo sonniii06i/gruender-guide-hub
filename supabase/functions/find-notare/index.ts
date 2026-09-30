@@ -3,6 +3,7 @@
 // Frei, kein API-Key, strukturiertes JSON, sortiert nach Distanz.
 import { corsHeaders } from "https://esm.sh/@supabase/supabase-js@2.95.0/cors";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.95.0";
+import { nutzerAusJwt } from "../_shared/authGuard.ts";
 
 const NOTAR_CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 Tage
 
@@ -496,6 +497,15 @@ Deno.serve(async (req) => {
       }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: ok ? 200 : 503 },
     );
+  }
+
+  // Nur fuer eingeloggte Nutzer (die Funktion haengt hinter der Paywall).
+  // verify_jwt ist aus, der oeffentliche anon-Key allein reicht nicht mehr.
+  if (!(await nutzerAusJwt(req))) {
+    return new Response(JSON.stringify({ error: "Bitte einloggen." }), {
+      status: 401,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
   }
 
   try {

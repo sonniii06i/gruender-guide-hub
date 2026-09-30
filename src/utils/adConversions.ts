@@ -121,7 +121,9 @@ export function trackAdConversion(
   // einer Navigation an (Registrierung -> Weiterleitung). Ein normales fetch
   // wuerde dabei abgebrochen; keepalive laesst den Request weiterlaufen,
   // nachdem die Seite schon wechselt.
-  void sendServerSide(kind, eventId, value, options.email);
+  // Purchase NICHT: den meldet nur der Zahlungs-Webhook mit echtem Betrag;
+  // meta-capi nimmt ihn vom Browser nicht mehr an.
+  if (kind !== "purchase") void sendServerSide(kind, eventId, value, options.email);
 
   return eventId;
 }

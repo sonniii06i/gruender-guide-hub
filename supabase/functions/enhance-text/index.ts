@@ -1,6 +1,7 @@
 // Verbessert die Formulierung eines kurzen Texts (z.B. Unternehmensgegenstand)
 // ohne den Sinn zu ändern. Nutzt Google Gemini direkt (eigener GEMINI_API_KEY).
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { nutzerAusJwt } from "../_shared/authGuard.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -55,6 +56,15 @@ Beispiel-Output: "Online-Einzelhandel mit eigenen Naturkosmetik-Produkten über 
 
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
+
+  // Nur fuer eingeloggte Nutzer (die Funktion haengt hinter der Paywall).
+  // verify_jwt ist aus, der oeffentliche anon-Key allein reicht nicht mehr.
+  if (!(await nutzerAusJwt(req))) {
+    return new Response(JSON.stringify({ error: "Bitte einloggen." }), {
+      status: 401,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
 
   try {
     const { text, kind } = await req.json();
