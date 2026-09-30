@@ -243,7 +243,7 @@ const Booking = () => {
         user_id: user.id,
         slot_iso: selectedSlot,
         name: name.trim(),
-        email: email.trim(),
+        email: (user.email || email).trim(),
         phone: phone.trim() || null,
         topic,
         message: message.trim() || null,
@@ -634,13 +634,15 @@ const Booking = () => {
               </div>
               <div>
                 <Label className="text-xs">Email *</Label>
+                {/* Die Adresse setzt die Datenbank aus dem Konto (Trigger
+                    bookings_schutz) — hier nur zur Anzeige. */}
                 <Input
                   type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={user?.email || email}
+                  readOnly
                   required
                   placeholder="dein@email.de"
-                  className="h-10 text-sm mt-1"
+                  className="h-10 text-sm mt-1 bg-muted"
                 />
               </div>
               <div>
