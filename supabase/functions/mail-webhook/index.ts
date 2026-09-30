@@ -96,7 +96,14 @@ Deno.serve(async (req) => {
   const secret = Deno.env.get("RESEND_WEBHOOK_SECRET");
   const body = await req.text();
 
-  if (secret) {
+  // Fail-closed: Ohne Secret laesst sich die Herkunft nicht pruefen, und
+  // gefaelschte "bounced"/"complained"-Ereignisse wuerden Kunden auf die
+  // Sperrliste setzen. Dann lieber gar nichts uebernehmen.
+  if (!secret) {
+    console.error("[mail-webhook] RESEND_WEBHOOK_SECRET fehlt — Ereignis abgelehnt");
+    return new Response("webhook secret not configured", { status: 401, headers: corsHeaders });
+  }
+  {
     const ok = await signaturGueltig(
       secret,
       req.headers.get("svix-id") ?? "",
@@ -108,10 +115,6 @@ Deno.serve(async (req) => {
       console.warn("[mail-webhook] Signatur ungueltig — verworfen");
       return new Response("invalid signature", { status: 401, headers: corsHeaders });
     }
-  } else {
-    // Bewusst nur eine Warnung: Ein fehlendes Secret soll die
-    // Einrichtung nicht blockieren, aber es darf nicht unbemerkt bleiben.
-    console.warn("[mail-webhook] RESEND_WEBHOOK_SECRET fehlt — Ereignisse werden UNGEPRUEFT uebernommen");
   }
 
   // deno-lint-ignore no-explicit-any
