@@ -1,41 +1,56 @@
--- Blog-Cron mit Service-Role-Key statt anon-Key (Sicherheitsrunde 30.09.2026)
+-- Cron-Jobs mit x-cron-secret statt Service-Role-Key (Sicherheitsrunde 30.09.2026)
 --
--- generate-blog-post verlangt jetzt Service-Role-Key, x-cron-secret oder
--- einen eingeloggten Admin. Der bisherige Job schickte nur den oeffentlichen
--- anon-Key mit — er wuerde nach dem Deploy mit 403 scheitern.
--- Aufbau wie send-booking-reminders / send-referral-mails: Schluessel aus
--- dem Vault ('cron_service_role_key'), nicht im Klartext in der Migration.
+-- generate-blog-post und send-referral-mails verlangen jetzt den
+-- Service-Role-Key ODER x-cron-secret. Der Service-Role-Weg taugt fuer pg_cron
+-- nicht mehr: Seit der Key-Umstellung am 30.09.2026 kennt die Laufzeit als
+-- SUPABASE_SERVICE_ROLE_KEY den neuen sb_secret-Key, der Vault-Eintrag
+-- 'cron_service_role_key' enthaelt aber den alten JWT -> 401, der
+-- Empfehlungsversand fiel still aus.
 --
--- Voraussetzung (einmalig, falls noch nicht vorhanden — pruefen mit
---   SELECT name FROM vault.decrypted_secrets WHERE name = 'cron_service_role_key';):
---   SELECT vault.create_secret('<SERVICE_ROLE_KEY>', 'cron_service_role_key');
+-- Deshalb wie send-weekly / send-cart-series: Header x-cron-secret aus dem
+-- Vault-Eintrag 'cart_cron_secret' (= Function-Secret CART_CRON_SECRET).
+-- Der Blog-Job schickt den anon-Key weiter mit, damit er auch mit der alten,
+-- noch nicht neu deployten Function-Version laeuft.
 
 DO $$
-DECLARE
-  v_url text := 'https://rwrjuzemkfghlziretdj.supabase.co/functions/v1/generate-blog-post';
 BEGIN
   IF NOT EXISTS (SELECT 1 FROM pg_extension WHERE extname = 'pg_cron') THEN
-    RAISE NOTICE 'pg_cron fehlt — Job nicht eingerichtet.';
+    RAISE NOTICE 'pg_cron fehlt — Jobs nicht eingerichtet.';
     RETURN;
   END IF;
-
-  PERFORM cron.unschedule(jobid) FROM cron.job WHERE jobname = 'gruenderx-generate-blog-post';
 
   PERFORM cron.schedule(
     'gruenderx-generate-blog-post',
     '0 6 * * 2,5',
-    format($cron$
-      SELECT net.http_post(
-        url := %L,
-        headers := jsonb_build_object(
-          'Content-Type', 'application/json',
-          'Authorization', 'Bearer ' || COALESCE(
-            (SELECT decrypted_secret FROM vault.decrypted_secrets WHERE name = 'cron_service_role_key' LIMIT 1),
-            ''
-          )
-        ),
-        body := jsonb_build_object('source', 'cron', 'fired_at', now())
-      ) AS request_id;
-    $cron$, v_url)
+    $job$
+  select net.http_post(
+    url := 'https://rwrjuzemkfghlziretdj.supabase.co/functions/v1/generate-blog-post',
+    headers := jsonb_build_object(
+      'Content-Type', 'application/json',
+      'apikey', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ3cmp1emVta2ZnaGx6aXJldGRqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MTYxMjcsImV4cCI6MjA5MzQ5MjEyN30.2zNrmQwqHyrrhhetpdOjEWbFZ9FZIh8X0KLE4wFYr6U',
+      'x-cron-secret', coalesce(
+        (select decrypted_secret from vault.decrypted_secrets
+          where name = 'cart_cron_secret' limit 1), '')
+    ),
+    body := jsonb_build_object('source', 'cron', 'fired_at', now())
+  ) as request_id;
+$job$
+  );
+
+  PERFORM cron.schedule(
+    'send-referral-mails',
+    '30 9 * * *',
+    $job$
+  select net.http_post(
+    url := 'https://rwrjuzemkfghlziretdj.supabase.co/functions/v1/send-referral-mails',
+    headers := jsonb_build_object(
+      'Content-Type', 'application/json',
+      'x-cron-secret', coalesce(
+        (select decrypted_secret from vault.decrypted_secrets
+          where name = 'cart_cron_secret' limit 1), '')
+    ),
+    body := '{}'::jsonb
+  ) as request_id;
+$job$
   );
 END $$;
