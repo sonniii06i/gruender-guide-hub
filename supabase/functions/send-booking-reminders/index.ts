@@ -2,7 +2,7 @@
 // Wird von pg_cron alle 5 Min aufgerufen.
 // Findet Bookings die 24h oder 15min vor Termin sind und schickt Reminder-Emails.
 
-import { SMTPClient } from "https://deno.land/x/denomailer@1.6.0/mod.ts";
+import { SMTPClient } from "../_shared/smtp.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 import {
   reminder24hEmail,

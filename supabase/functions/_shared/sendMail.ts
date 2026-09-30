@@ -11,7 +11,7 @@
 // IMMER MIT TEXTFASSUNG. Reine HTML-Mails landen deutlich haeufiger im
 // Spam, und manche Clients zeigen nichts anderes an.
 // ===================================================================
-import { SMTPClient } from "https://deno.land/x/denomailer@1.6.0/mod.ts";
+import { SMTPClient } from "./smtp.ts";
 import { BRANDING } from "./mailBrand.ts";
 
 /**

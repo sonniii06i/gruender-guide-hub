@@ -1,5 +1,5 @@
 import { buildTicketEingang } from "../_shared/transaktional.ts";
-import { SMTPClient } from "https://deno.land/x/denomailer@1.6.0/mod.ts";
+import { SMTPClient } from "../_shared/smtp.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 import { esc } from "../_shared/mailLayout.ts";
 import { einzeilig } from "../_shared/authGuard.ts";
