@@ -25,6 +25,18 @@ const TARGET_AMOUNTS: Record<string, Record<Interval, number>> = {
 
 type Interval = "month" | "year";
 
+// Nur diese Anker-Preise darf der Client nennen (identisch mit
+// src/lib/stripe.ts). Vorher wurde jede priceId akzeptiert: resolvePriceId()
+// lud dann deren Produkt und legte dort notfalls einen neuen Preis an —
+// beliebige Stripe-Produkte des Kontos waren so buchbar/veraenderbar.
+const ANKER_PREISE: Record<string, "gruenderx" | "bundle"> = {
+  price_1TTUf764hSN6usxPLDOylK70: "gruenderx",
+  price_1TTUfV64hSN6usxPe60ADpTF: "bundle",
+};
+
+// Wie checkout-guest: success/cancel-URLs nur auf eigene Domains.
+const ALLOWED_ORIGINS = ["https://gruenderx.de", "https://www.gruenderx.de", "http://localhost:8080"];
+
 // In-Memory-Cache pro Warm-Start (product -> price id)
 const priceIdCache = new Map<string, string>();
 
@@ -77,12 +89,18 @@ serve(async (req) => {
   try {
     const { priceId, affiliateRef, interval: rawInterval } = await req.json();
     if (!priceId) throw new Error("priceId required");
+    if (typeof priceId !== "string" || !ANKER_PREISE[priceId]) {
+      return new Response(JSON.stringify({ error: "Unbekannter Tarif." }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
     // Alles ausser "year" ist "month" — ein manipulierter Wert darf nicht in
     // einem Checkout ohne Preis enden.
     const interval: Interval = rawInterval === "year" ? "year" : "month";
     const affRef = typeof affiliateRef === "string" ? affiliateRef.trim().slice(0, 32) : "";
     // Produkt aus priceId ableiten (Bundle = GruenderX + AnwaltX)
-    const product = priceId === "price_1TTUfV64hSN6usxPe60ADpTF" ? "bundle" : "gruenderx";
+    const product = ANKER_PREISE[priceId];
 
     const supabase = createClient(
       Deno.env.get("SUPABASE_URL") ?? "",
@@ -181,7 +199,8 @@ serve(async (req) => {
       })());
     }
 
-    const origin = req.headers.get("origin") || "";
+    const rawOrigin = req.headers.get("origin") || "";
+    const origin = ALLOWED_ORIGINS.includes(rawOrigin) ? rawOrigin : "https://gruenderx.de";
     // Ziel-Preis dynamisch auflösen (64,99 € GründerX / 99,99 € Bundle) — self-healing, kein Dashboard nötig.
     const resolvedPriceId = await resolvePriceId(stripe, product, interval, priceId);
     const session = await stripe.checkout.sessions.create({
