@@ -15,7 +15,7 @@
 // ===================================================================
 
 import {
-  aufmacher, bullets, button, divider, hero, kennung, paragraph, plain,
+  aufmacher, bullets, button, divider, esc, hero, kennung, paragraph, plain,
   priceRows, renderMail, steps, type Built,
 } from "./mailLayout.ts";
 
@@ -43,7 +43,7 @@ export function buildTerminBestaetigt(o: {
     priceRows([
       ["Dauer", dauer],
       ["Format", format],
-      ["Thema", o.thema],
+      ["Thema", esc(o.thema)],
     ]),
     divider(),
     steps([
@@ -159,7 +159,7 @@ export function buildTicketEingang(o: {
   const blocks = [
     aufmacher("Deine Anfrage ist da.",
       `Wir antworten innerhalb von ${frist} — auf diese Adresse.`),
-    paragraph(`<b>Dein Anliegen:</b> ${o.betreff}`),
+    paragraph(`<b>Dein Anliegen:</b> ${esc(o.betreff)}`),
     ...(o.ticketId ? [kennung(o.ticketId,
       "Deine Ticketnummer. Wenn du nachfragst, nenn sie — dann finden wir " +
       "den Vorgang sofort.")] : []),

@@ -62,8 +62,12 @@ export const GOOD = "#15803d";
 
 const FONT = "-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif";
 
-const esc = (v: string) =>
-  String(v).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+/** HTML-Escape fuer alles, was aus Nutzereingaben stammt. paragraph(),
+ *  priceRows(), bullets() und die zweite Spalte von steps()/betonung()
+ *  nehmen bewusst fertiges HTML — Nutzerwerte dort IMMER durch esc(). */
+export const esc = (v: string) =>
+  String(v).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
 
 /** Betrag in Cent -> "12,90 €". Eine Stelle fuer alle Mails, damit nicht
  *  die eine Mail "12.90 EUR" schreibt und die naechste "12,90 €". */

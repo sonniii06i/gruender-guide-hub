@@ -40,9 +40,11 @@ const Kontakt = () => {
     });
     if (error) { setLoading(false); toast.error(error.message); return; }
 
-    // Fire-and-forget email notification (don't block UX on failure)
+    // Fire-and-forget email notification (don't block UX on failure).
+    // Nur die Ticket-ID: Empfaenger und Inhalt laedt die Function selbst
+    // aus contact_tickets (kein offenes Mail-Relay).
     supabase.functions.invoke("send-ticket-email", {
-      body: { ticketId, ...res.data },
+      body: { ticketId },
     }).catch((err) => console.error("email send failed", err));
 
     setLoading(false);

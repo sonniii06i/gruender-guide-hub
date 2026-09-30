@@ -20,9 +20,10 @@
 // SPF/DKIM.
 
 import {
-  betonung, button, heading, hero, paragraph, renderMail, steps,
+  betonung, button, esc, heading, hero, paragraph, renderMail, steps,
 } from "../_shared/mailLayout.ts";
 import { sendMail } from "../_shared/sendMail.ts";
+import { einzeilig, istServiceRole } from "../_shared/authGuard.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -40,22 +41,33 @@ interface Payload {
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
+  // Nur intern aufrufbar. Einziger Aufrufer ist claim-account (Bearer =
+  // Service-Role-Key). Ohne diese Pruefung war die Function ein offenes
+  // Mail-Relay: verify_jwt ist aus, Empfaenger und Text kamen vom Aufrufer.
+  if (!istServiceRole(req)) {
+    return new Response(JSON.stringify({ error: "unauthorized" }), {
+      status: 401,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
+
   try {
     const body = (await req.json()) as Payload;
-    if (!body?.email || !body.email.includes("@")) {
+    body.email = einzeilig(body?.email, 254);
+    if (!body?.email || !/^[^\s@<>"]+@[^\s@<>"]+\.[^\s@<>"]+$/.test(body.email)) {
       return new Response(JSON.stringify({ error: "email fehlt" }), {
         status: 400,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
-    const vorname = (body.firstName || "").trim().split(/\s+/)[0] || "";
+    const vorname = einzeilig(body.firstName, 60).split(/\s+/)[0] || "";
     const greeting = vorname ? `Hallo ${vorname},` : "Hallo,";
-    const plan = (body.plan || "GründerX").trim();
+    const plan = einzeilig(body.plan || "GründerX", 60) || "GründerX";
 
     const blocks = [
       paragraph(
-        `deine Zahlung ist eingegangen und dein Zugang <b>${plan}</b> ist ` +
+        `deine Zahlung ist eingegangen und dein Zugang <b>${esc(plan)}</b> ist ` +
         `freigeschaltet. Melde dich mit genau der Adresse an, an die diese ` +
         `Mail gegangen ist.`,
       ),
@@ -126,7 +138,7 @@ Deno.serve(async (req) => {
     });
   } catch (e) {
     console.error("❌ send-welcome-email:", (e as Error).message);
-    return new Response(JSON.stringify({ error: (e as Error).message }), {
+    return new Response(JSON.stringify({ error: "Versand fehlgeschlagen" }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
