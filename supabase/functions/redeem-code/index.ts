@@ -17,6 +17,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
 import { meldeVerkauf } from "../_shared/discordSales.ts";
+import { ilikeExakt } from "../_shared/emailMatch.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -108,7 +109,7 @@ serve(async (req) => {
     const { data: extern } = await supabase
       .from("external_entitlements")
       .select("provider, period_end")
-      .ilike("email", email)
+      .ilike("email", ilikeExakt(email))
       .eq("status", "active")
       .or(`period_end.is.null,period_end.gt.${jetztIso}`)
       .order("period_end", { ascending: false, nullsFirst: true })

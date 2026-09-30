@@ -47,6 +47,7 @@ import {
   parseElopage,
   timingSafeEqual,
 } from "../_shared/ipn.ts";
+import { ilikeExakt } from "../_shared/emailMatch.ts";
 
 // Plan-Aufloesung: Was der Kunde auf der Plattform gekauft hat -> unser Plan.
 // Die Produkt-IDs vergibt die jeweilige Plattform beim Anlegen des Produkts;
@@ -240,7 +241,7 @@ async function findUserId(supabase: any, email: string): Promise<string | null> 
   const { data } = await supabase
     .from("profiles")
     .select("id")
-    .ilike("email", email)
+    .ilike("email", ilikeExakt(email))
     .maybeSingle();
   return data?.id ?? null;
 }

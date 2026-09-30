@@ -1,5 +1,6 @@
 // manage-affiliate (GruenderX): Self-Service. actions: me | save_payout | request_payout.
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { ilikeExakt } from "../_shared/emailMatch.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -64,10 +65,19 @@ Deno.serve(async (req) => {
       return await handleAdmin(action, payout_id, json);
     }
 
+    // Erst ueber die user_id, dann ueber die Adresse — ohne Wildcards
+    // (frueher `.or(...email.ilike.${user.email})`: `%`/`_` in der Adresse
+    // trafen fremde Affiliate-Konten, Sonderzeichen brachen den Filter).
     let { data: aff } = await hub.from("affiliates")
       .select("*")
-      .or(`user_id.eq.${user.id},email.ilike.${user.email}`)
+      .eq("user_id", user.id)
       .maybeSingle();
+    if (!aff && user.email) {
+      ({ data: aff } = await hub.from("affiliates")
+        .select("*")
+        .ilike("email", ilikeExakt(user.email))
+        .maybeSingle());
+    }
 
     if (!aff) {
       let code = genCode();

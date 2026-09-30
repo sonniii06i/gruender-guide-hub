@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import Stripe from "https://esm.sh/stripe@18.5.0";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
+import { ilikeExakt } from "../_shared/emailMatch.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -68,7 +69,7 @@ serve(async (req) => {
     const { data: ext } = await supabaseService
       .from("external_entitlements")
       .select("plan, provider, period_end")
-      .ilike("email", user.email)
+      .ilike("email", ilikeExakt(user.email))
       .eq("status", "active")
       .or(`period_end.is.null,period_end.gt.${nowIso}`)
       .order("period_end", { ascending: false, nullsFirst: true })
