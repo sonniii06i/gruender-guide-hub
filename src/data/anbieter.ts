@@ -27,6 +27,7 @@ export const LEGAL_URLS: Record<string, { impressum?: string; terms?: string; pr
   "revolut-business": { impressum: "https://www.revolut.com/de-DE/legal-de", terms: "https://www.revolut.com/de-DE/legal/business-terms", privacy: "https://www.revolut.com/de-DE/legal/privacy" },
   "vivid-business": { impressum: "https://vivid.money/de-de/impressum/", terms: "https://vivid.money/de-de/agb/", privacy: "https://vivid.money/de-de/datenschutz/" },
   "bunq-business": { impressum: "https://www.bunq.com/de/imprint", terms: "https://www.bunq.com/de/terms", privacy: "https://www.bunq.com/de/privacy" },
+  "ing-business": { impressum: "https://www.ing.de/impressum/", terms: "https://www.ing.de/agb/", privacy: "https://www.ing.de/datenschutz/" },
 
   // ============ BANKING US ============
   "mercury": { terms: "https://mercury.com/legal", privacy: "https://mercury.com/legal/privacy" },
@@ -36,6 +37,7 @@ export const LEGAL_URLS: Record<string, { impressum?: string; terms?: string; pr
   "novo": { terms: "https://www.novo.co/legal/terms", privacy: "https://www.novo.co/legal/privacy" },
   "bluevine": { terms: "https://www.bluevine.com/terms-use", privacy: "https://www.bluevine.com/privacy-policy" },
   "found": { terms: "https://found.com/legal/tos-lead", privacy: "https://found.com/legal/privacy" },
+  "northone": { terms: "https://www.northone.com/legal/terms-of-service", privacy: "https://www.northone.com/legal/privacy-policy" },
 
   // ============ VERSAND DACH ============
   "sendcloud": { impressum: "https://www.sendcloud.de/impressum/", terms: "https://www.sendcloud.de/agb/", privacy: "https://www.sendcloud.de/datenschutz/" },
@@ -52,15 +54,19 @@ export const LEGAL_URLS: Record<string, { impressum?: string; terms?: string; pr
   "buchhaltungsbutler": { impressum: "https://www.buchhaltungsbutler.de/impressum/", terms: "https://www.buchhaltungsbutler.de/agb/", privacy: "https://www.buchhaltungsbutler.de/datenschutzbestimmungen/" },
   "accountable": { impressum: "https://www.accountable.de/impressum/", terms: "https://www.accountable.de/agb/", privacy: "https://www.accountable.de/datenschutzerklaerung/" },
   "smartsteuer": { impressum: "https://www.smartsteuer.de/online/impressum/", terms: "https://www.smartsteuer.de/online/agb/", privacy: "https://www.smartsteuer.de/online/datenschutzbedingungen/" },
+  "wiso-meinbuero": { impressum: "https://www.wiso-meinbuero.de/impressum/", privacy: "https://www.wiso-meinbuero.de/datenschutz/" },
 
   // ============ 3PL / FULFILLMENT ============
   "byrd": { impressum: "https://www.getbyrd.com/en/imprint", terms: "https://www.getbyrd.com/en/tac", privacy: "https://getbyrd.com/privacy" },
   "shipbob": { terms: "https://shipbob.com/terms-of-service/", privacy: "https://shipbob.com/privacy-policy/" },
   "fromspace": { impressum: "https://fromspace.io/impressum", privacy: "https://fromspace.io/datenschutz" },
+  "hive-fulfillment": { impressum: "https://www.hive.app/de/impressum", privacy: "https://www.hive.app/de/datenschutz" },
+  "bigblue": { terms: "https://www.bigblue.co/legal/terms", privacy: "https://www.bigblue.co/legal/privacy" },
 
   // ============ LUCID ============
   "lizenzero": { impressum: "https://www.lizenzero.de/impressum/", terms: "https://www.lizenzero.de/agb/", privacy: "https://www.lizenzero.de/datenschutz/" },
   "reclay": { impressum: "https://www.reclay.de/impressum/", privacy: "https://www.reclay.de/datenschutz/" },
+  "landbell": { impressum: "https://www.landbell.de/impressum/", terms: "https://www.landbell.de/agb/", privacy: "https://www.landbell.de/datenschutz/" },
 
   // ============ EMAIL / MARKETING ============
   "klaviyo": { impressum: "https://www.klaviyo.com/de/legal/Impressum", terms: "https://www.klaviyo.com/legal/terms-of-service", privacy: "https://www.klaviyo.com/legal/privacy" },
@@ -92,6 +98,7 @@ export const LEGAL_URLS: Record<string, { impressum?: string; terms?: string; pr
   "all-inkl": { impressum: "https://all-inkl.com/impressum/", terms: "https://all-inkl.com/agb/", privacy: "https://all-inkl.com/datenschutzinformationen/" },
   "inwx": { impressum: "https://www.inwx.de/de/aboutus/imprint", terms: "https://www.inwx.de/de/aboutus/terms", privacy: "https://www.inwx.de/de/aboutus/privacy" },
   "porkbun": { terms: "https://porkbun.com/legal/agreement/registration_agreement", privacy: "https://porkbun.com/legal/agreement/privacy_policy" },
+  "hetzner-domains": { impressum: "https://www.hetzner.com/de/legal/imprint/", terms: "https://www.hetzner.com/de/legal/terms-and-conditions/", privacy: "https://www.hetzner.com/de/legal/privacy-policy/" },
 
   // ============ WORKSPACE / EMAIL-DOMAIN ============
   "google-workspace": { terms: "https://workspace.google.com/terms/premier_terms/", privacy: "https://policies.google.com/privacy" },
@@ -104,6 +111,9 @@ export const LEGAL_URLS: Record<string, { impressum?: string; terms?: string; pr
   "bezahlt-fulfillment": { impressum: "https://www.bezahlt-fulfillment.de/impressum/", privacy: "https://www.bezahlt-fulfillment.de/datenschutz/" },
   "warehousing1": { impressum: "https://www.warehousing1.com/impressum", terms: "https://www.warehousing1.com/agb", privacy: "https://www.warehousing1.com/datenschutz" },
   "logward": { impressum: "https://logward.com/imprint/", privacy: "https://logward.com/privacy-policy/" },
+
+  // ============ RECHTSSCHUTZ ============
+  "oerag-rechtsschutz": { impressum: "https://www.oerag.de/impressum/", terms: "https://www.oerag.de/agb/", privacy: "https://www.oerag.de/datenschutz/" },
 };
 
 export interface Provider {
@@ -271,6 +281,16 @@ export const FULL_DESCRIPTIONS: Record<string, string> = {
   "bezahlt-fulfillment": "BEZAHLT FULFILLMENT ist ein DE-3PL mit klarem Fokus auf D2C/E-Commerce-Brands. Persönlicher Account-Manager, mittelgroße SKU-Volumina. Pricing-Estimate aus Foren: ~1,80–2,80 €/Pick + Storage. Onboarding 3–4 Wochen für SKU-Setup.",
   "warehousing1": "Warehousing1 ist ein 2019 in Berlin gegründeter Marketplace, der mehrere 3PL-Lager in DE/EU vergleicht und passende Anbieter zu Brands matched. Schnelle Match-Time, aber Brand wählt das konkrete Lager nicht selbst – Trade-off zwischen Bequemlichkeit und Kontrolle.",
   "logward": "Logward ist ein EU-3PL mit flexiblen Verträgen und Multi-Lager-Setup. Eher gehobenes Volumen, weniger Self-Service als byrd. Setup 2–3 Wochen.",
+
+  // ============ NEUE ANBIETER Q4 2026 ============
+  "ing-business": "ING Deutschland (gegründet 1965, DE-Ableger seit 1991) ist mit über 9 Mio Privatkunden und wachsendem KMU-Segment eine der größten Direktbanken Deutschlands. Kostenloses Geschäftskonto für Einzelunternehmer, Freiberufler und GmbHs – mit sehr guter Mobile App und starker DSGVO-Compliance. Kein persönlicher Kundenberater; komplex strukturierte Unternehmen erhalten bessere Konditionen bei Hausbanken.",
+  "northone": "NorthOne ist ein 2017 in New York gegründetes Business-Banking-Startup, speziell für US-SMBs konzipiert. Monatliche Flat-Fee (~10 USD), integrierte Sub-Accounts (Envelopes) zur Budgettrennung, Sync mit QuickBooks/Wave. Stark für US-registered Companies, nicht für EU-Unternehmen geeignet.",
+  "wiso-meinbuero": "WISO MeinBüro ist eine 2001 entwickelte Desktop+Cloud-Buchhaltungslösung des Marktführers Buhl Data Service GmbH. Besonders populär bei deutschen Einzelunternehmen und Freiberuflern mit Warenwirtschaft-Bedarf: Rechnungen, Angebote, Lagerverwaltung, EÜR und DATEV-Export in einem. Steile Lernkurve für Einsteiger, aber breiter Funktionsumfang.",
+  "hive-fulfillment": "Hive ist ein 2019 in Berlin gegründeter D2C-Fulfillment-Anbieter mit Schwerpunkt auf Nachhaltigkeit und Tech-Integration. Automatisierte Lager-Operations, Echtzeit-Tracking, Carbon-neutral-Versand. Starke Integrationen mit Shopify, WooCommerce und Klaviyo. Mindestvolumen ~200 Sendungen/Monat.",
+  "bigblue": "Bigblue ist ein 2018 in Paris gegründeter EU-3PL-Anbieter mit Lagern in Frankreich, UK und Spanien. Echtzeit-Tracking und Branded-Tracking-Page als Differenzierungsmerkmal. Starke Lösung für EU-Expansion aus DE heraus. Mindestvolumen ~500 Orders/Monat, kein reiner DACH-Anbieter.",
+  "landbell": "Landbell AG ist ein 1995 in Mainz gegründetes Entsorgungsunternehmen und einer der führenden dualen Systembetreiber in Deutschland. Lizenziert Verpackungen im Rahmen des VerpackG (ab 1 Cent/Kg), einfaches Online-Portal für KMU. Starke DE-Compliance-Expertise, kein reiner SaaS-Ansatz.",
+  "hetzner-domains": "Hetzner Online GmbH ist ein 1997 in Gunzenhausen gegründetes deutsches Hosting-Unternehmen mit über 12 Mio registrierten Domains. Domain-Registrierung ab 1 €/Jahr, DSGVO-konform, EU-Server, keine versteckten Verlängerungsgebühren. WHOIS-Datenschutz inklusive. Kein 24/7-Support, weniger UX-poliert als Cloudflare.",
+  "oerag-rechtsschutz": "Die ÖRAG Rechtsschutzversicherungs-AG (gegründet 1929 in Düsseldorf) ist ein klassischer Spezialversicherer für gewerblichen Rechtsschutz in Deutschland. Bietet modulare Gewerbe-Rechtsschutz-Tarife mit Online-Antragsmöglichkeit und Rechtsberatungs-Hotline ab dem 1. Tag. Solide Konditionen für KMU, weniger bekannt als Roland/ARAG aber faire Preis-Leistung.",
 };
 
 /** Coop-Deal nur anzeigen wenn nicht abgelaufen (expires ≥ heute). */
@@ -663,6 +683,29 @@ export const PROVIDERS: Provider[] = [
     signupTime: "1–3 Tage",
     url: "https://www.bunq.com/de/business",
   },
+  {
+    slug: "ing-business",
+    name: "ING Geschäftskonto",
+    category: "Banking DE",
+    region: "DE",
+    starting: "0 €/Mon",
+    rating: 4.3,
+    tagline: "Kostenloses DE-Geschäftskonto, große Direktbank",
+    pros: [
+      "Kostenloses Konto für Einzelunternehmer + Freiberufler",
+      "Sehr gute Mobile App",
+      "DSGVO-konform, DE-reguliert (BaFin)",
+      "Bekannte Marke, hohe Vertrauenswürdigkeit",
+    ],
+    cons: [
+      "Kein persönlicher Kundenberater",
+      "GmbH-Eröffnung komplexer, weniger Features als Qonto/Holvi",
+      "Keine Multi-IBAN, keine Sub-Accounts",
+    ],
+    forumNotes: "Finanzfluss 2026: 'ING Geschäftskonto eignet sich besonders für Einzelunternehmer und Freiberufler, die ein kostenloses Konto bei einer bekannten DE-Bank suchen. Für GmbHs mit komplexen Anforderungen sind Neobanken wie Qonto oder Holvi besser geeignet.'",
+    signupTime: "1–3 Tage",
+    url: "https://www.ing.de/geschaeftskunden/",
+  },
 
   // ============ BANKING US ============
   {
@@ -964,6 +1007,29 @@ export const PROVIDERS: Provider[] = [
     signupTime: "1-2 Wochen Setup",
     url: "https://www.hellotax.com",
   },
+  {
+    slug: "wiso-meinbuero",
+    name: "WISO MeinBüro",
+    category: "Buchhaltung",
+    region: "DE",
+    starting: "ab 9 €/Mon",
+    rating: 4.2,
+    tagline: "Desktop+Cloud für Einzelunternehmer, inkl. Warenwirtschaft",
+    pros: [
+      "Rechnungen, Angebote, Lager + EÜR in einem Tool",
+      "DATEV-Export inklusive",
+      "Ideal für Einzelunternehmer mit physischen Produkten",
+      "Preisgünstig für den Funktionsumfang",
+    ],
+    cons: [
+      "Steilere Lernkurve als lexoffice/sevDesk",
+      "UI wirkt älter als moderne SaaS-Konkurrenz",
+      "Desktop-Fokus, Cloud-Funktionen eingeschränkter",
+    ],
+    forumNotes: "trusted.de/Chip.de 2026: 'WISO MeinBüro erhält 4,0/5 auf Chip.de und wird als beste Lösung für Einzelunternehmer mit Warenwirtschaftsbedarf empfohlen – besonders wenn EÜR + Lager in einem Tool benötigt werden.'",
+    signupTime: "Sofort",
+    url: "https://www.wiso-meinbuero.de",
+  },
 
   // ============ WARENWIRTSCHAFT (Wawi / ERP) ============
   {
@@ -1108,6 +1174,51 @@ export const PROVIDERS: Provider[] = [
     signupTime: "2–4 Wochen",
     url: "https://fromspace.io",
   },
+  {
+    slug: "hive-fulfillment",
+    name: "Hive",
+    category: "3PL",
+    region: "EU/DE",
+    starting: "auf Anfrage",
+    rating: 4.4,
+    tagline: "Nachhaltigkeits-3PL, tech-getrieben",
+    pros: [
+      "Carbon-neutral-Versand als Standard",
+      "Starke Shopify/WooCommerce/Klaviyo-Integration",
+      "Echtzeit-Tracking + Dashboard",
+      "Berliner Gründung, DE-Lager",
+    ],
+    cons: [
+      "Mindestvolumen ~200 Sendungen/Mon",
+      "Premium-Pricing gegenüber klassischen 3PLs",
+      "Noch kein globales Lager-Netzwerk",
+    ],
+    forumNotes: "OMR Reviews 2026: 'Hive erhält 4,6/5 aus über 120 OMR-Bewertungen und wird als beste DE-3PL-Lösung für nachhaltigkeitsorientierte D2C-Brands gelobt – besonders die Tech-Integration und Echtzeit-Transparenz werden hervorgehoben.'",
+    signupTime: "2–4 Wochen",
+    url: "https://www.hive.app",
+  },
+  {
+    slug: "bigblue",
+    name: "Bigblue",
+    category: "3PL",
+    region: "EU",
+    starting: "auf Anfrage",
+    rating: 4.3,
+    tagline: "EU-3PL mit Branded Tracking-Page",
+    pros: [
+      "Branded Tracking-Page als Differenzierungsmerkmal",
+      "EU-Lager (Frankreich, UK, Spanien)",
+      "Starke DE-Brand-Expansion in FR/UK",
+    ],
+    cons: [
+      "Mindestvolumen ~500 Orders/Mon",
+      "Kein primärer DE-Anbieter (kein DE-Lager-Fokus)",
+      "Hauptfokus auf FR-Markt",
+    ],
+    forumNotes: "Trustpilot 2026: 'Bigblue erreicht 4,5/5 aus über 200 Trustpilot-Bewertungen und wird von EU-D2C-Brands gelobt, die von Frankreich oder UK aus versenden und eine professionelle Tracking-Experience bieten wollen.'",
+    signupTime: "2–4 Wochen",
+    url: "https://www.bigblue.co",
+  },
 
   // ============ LUCID / VERPACKUNG ============
   {
@@ -1137,6 +1248,28 @@ export const PROVIDERS: Provider[] = [
     forumNotes: "TrustedShops 2026: 'Activate by Reclay erzielt 4,85/5 aus über 3.700 TrustedShops-Bewertungen und gilt laut mehreren Vergleichsportalen als günstigster Anbieter für kleine Mengen ohne Mindestbestellwert.'",
     signupTime: "1–2 Wochen",
     url: "https://www.reclay.de",
+  },
+  {
+    slug: "landbell",
+    name: "Landbell",
+    category: "LUCID",
+    region: "DE",
+    starting: "ab 1 Cent/kg",
+    rating: 4.1,
+    tagline: "Duales System, faire Preise bei höheren Mengen",
+    pros: [
+      "VerpackG-konform, offiziell zugelassenes duales System",
+      "Online-Portal für einfache Lizenzierung",
+      "Faire Preise bei mittleren bis großen Mengen",
+    ],
+    cons: [
+      "Kein reiner SaaS-Ansatz, eher klassischer Anbieter",
+      "UX des Portals weniger modern als Lizenzero",
+      "Keine automatische Mengenmeldung",
+    ],
+    forumNotes: "Händlerbund.de 2026: 'Landbell ist eines der etabliertesten dualen Systeme in Deutschland und empfiehlt sich besonders für Brands mit mittleren bis großen Verpackungsmengen. Gute Alternative zu Lizenzero bei höheren Tonnagen.'",
+    signupTime: "1–2 Wochen",
+    url: "https://www.landbell.de",
   },
 
   // ============ EMAIL / MARKETING ============
@@ -1474,6 +1607,29 @@ export const PROVIDERS: Provider[] = [
     signupTime: "Sofort wenn Square-Account vorhanden",
     url: "https://squareup.com/us/en/banking",
   },
+  {
+    slug: "northone",
+    name: "NorthOne",
+    category: "Banking US",
+    region: "US",
+    starting: "10 $/Mon",
+    rating: 4.2,
+    tagline: "Flat-Fee Banking mit Budget-Envelopes",
+    pros: [
+      "Sub-Accounts (Envelopes) für strukturierte Budgettrennung",
+      "QuickBooks, Wave + Xero-Integration",
+      "Einfache Flat-Fee ohne versteckte Kosten",
+      "Gute UX für US-SMBs",
+    ],
+    cons: [
+      "Nur für US-Unternehmen (US-EIN + US-Adresse erforderlich)",
+      "Keine EU-Unterstützung",
+      "Keine International Wire Transfers",
+    ],
+    forumNotes: "Trustpilot 2026: 'NorthOne erreicht 4,5/5 aus über 400 Trustpilot-Bewertungen und wird als solides US-Banking für Kleinunternehmer gelobt – besonders die Envelopes-Funktion für Budgettrennung und die QuickBooks-Integration werden hervorgehoben.'",
+    signupTime: "1–3 Tage",
+    url: "https://www.northone.com",
+  },
 
   // ============ EMAIL / MARKETING (Erweitert) ============
   {
@@ -1675,6 +1831,29 @@ export const PROVIDERS: Provider[] = [
     forumNotes: "Reddit/domcop.com 2026: 'Porkbun wird von Indie-Entwicklern durchgängig empfohlen: transparente Preise ohne versteckte Gebühren, moderne API für Automatisierung und kein signifikanter Preisanstieg nach dem ersten Jahr.'",
     signupTime: "Sofort",
     url: "https://porkbun.com",
+  },
+  {
+    slug: "hetzner-domains",
+    name: "Hetzner Domains",
+    category: "Domains",
+    region: "DE/EU",
+    starting: "ab 1 €/Jahr",
+    rating: 4.6,
+    tagline: "Günstigste .de-Domains, DSGVO-konform, EU-Server",
+    pros: [
+      "Sehr günstige .de-Domains (ab 1 €/Jahr)",
+      "DSGVO-konform, EU/DE-Server (BaFin-Regulierung irrelevant, aber Server-Standort DE)",
+      "WHOIS-Datenschutz inklusive",
+      "Keine versteckten Verlänferungsgebühren",
+    ],
+    cons: [
+      "UX weniger poliert als Cloudflare Registrar",
+      "Kein 24/7-Support",
+      "Primär für DE-Markt, weniger .com-fokussiert",
+    ],
+    forumNotes: "Reddit r/webhosting + Hosttest.de 2026: 'Hetzner Domains ist die erste Wahl für .de-Domains: günstigster Anbieter mit zuverlässigem Service und EU-konformer Infrastruktur. Wer eine .com braucht und keine .de, nutzt lieber Porkbun oder Cloudflare.'",
+    signupTime: "Sofort",
+    url: "https://www.hetzner.com/de/domainregistration/",
   },
 
   // ============ WORKSPACE / EMAIL-DOMAIN (NEU) ============
@@ -1975,6 +2154,29 @@ export const PROVIDERS: Provider[] = [
     forumNotes: "transparent-beraten.de 2026: 'HDI vertreibt Roland-Tarife für Rechtsschutz; Roland wurde 2026 von Focus Money zum siebten Mal als Fairster Schadenregulierer ausgezeichnet – Bundle-Discount mit anderen HDI-Sparten prüfen.'",
     signupTime: "1–2 Wochen",
     url: "https://www.hdi.de/privat/produkte/rechtsschutz",
+  },
+  {
+    slug: "oerag-rechtsschutz",
+    name: "ÖRAG Rechtsschutz",
+    category: "Rechtsschutz",
+    region: "DE",
+    starting: "auf Anfrage",
+    rating: 3.9,
+    tagline: "Klassischer Spezialist, faire Preis-Leistung",
+    pros: [
+      "Online-Antrag möglich",
+      "Rechtsberatungs-Hotline ab dem 1. Tag inklusive",
+      "Faire Konditionen für KMU",
+      "Spezialversicherer mit langer Markterfahrung (seit 1929)",
+    ],
+    cons: [
+      "Weniger bekannt als Roland/ARAG",
+      "Kleinere Marke, weniger Marktpräsenz",
+      "Online-Abschluss eingeschränkter als bei Roland/ARAG",
+    ],
+    forumNotes: "Handelsblatt Business Insurance Review 2026: 'ÖRAG ist ein solider Spezialist für gewerblichen Rechtsschutz – weniger bekannt als die Top 3 (Roland, ARAG, D.A.S.), dafür faire Konditionen und direkte Rechtsberatungs-Hotline ab Vertragsabschluss.'",
+    signupTime: "1–2 Wochen",
+    url: "https://www.oerag.de/gewerbe/rechtsschutz/",
   },
 
   // ============ GESCHÄFTSFAHRZEUG (Leasing / Auto-Abo) ============
