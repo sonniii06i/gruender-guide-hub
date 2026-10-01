@@ -271,6 +271,20 @@ export const FULL_DESCRIPTIONS: Record<string, string> = {
   "bezahlt-fulfillment": "BEZAHLT FULFILLMENT ist ein DE-3PL mit klarem Fokus auf D2C/E-Commerce-Brands. Persönlicher Account-Manager, mittelgroße SKU-Volumina. Pricing-Estimate aus Foren: ~1,80–2,80 €/Pick + Storage. Onboarding 3–4 Wochen für SKU-Setup.",
   "warehousing1": "Warehousing1 ist ein 2019 in Berlin gegründeter Marketplace, der mehrere 3PL-Lager in DE/EU vergleicht und passende Anbieter zu Brands matched. Schnelle Match-Time, aber Brand wählt das konkrete Lager nicht selbst – Trade-off zwischen Bequemlichkeit und Kontrolle.",
   "logward": "Logward ist ein EU-3PL mit flexiblen Verträgen und Multi-Lager-Setup. Eher gehobenes Volumen, weniger Self-Service als byrd. Setup 2–3 Wochen.",
+
+  // ============ KREDITKARTEN ============
+  "amex-business-basic": "Die American Express Business Basic Card (auch 'Green') ist der günstigste Einstieg ins Membership-Rewards-Ökosystem von Amex mit einer Jahresgebühr von 70 €. Rewards-Mitgliedschaft kostet weitere 30 €/Jahr extra – anders als bei Gold oder Platinum ist sie nicht inklusive. Für Gründer mit geringem Reise-Bedarf ist sie ein einfacher Einstieg, aber der Upgrade zur Gold (170 €/Jahr) rechnet sich oft bereits ab 10.000 € Jahresausgaben.",
+  "pleo": "Pleo ist eine dänische Spend-Management-Plattform (gegründet 2015, Unicorn seit 2021) mit Fokus auf DACH-Teams. Virtuelle und physische Karten für alle Mitarbeitenden, DATEV-Vorkontierung und automatisches Belegmanagement sind das Alleinstellungsmerkmal. Das Konto läuft auf Debit-/Guthaben-Basis – keine SCHUFA-Prüfung nötig, aber auch kein Liquiditätspuffer. Sweet Spot: Teams ab 3–5 Personen mit regelmäßigen Ausgaben.",
+  "moss": "Moss wurde 2019 in Berlin gegründet und ist die einzige deutsche Spend-Management-Lösung mit echter Kreditlinie (bis 2,5 Mio €) statt reinem Debit. GmbHs mit guter Bonität profitieren von Kreditkarten ohne persönliche Haftung plus DATEV-Integration. Setup erfordert Bonitätsprüfung und Handelsregisterauszug – faktisch nur für etablierte GmbHs zugänglich. Pricing ist intransparent (Sales-Call nötig).",
+  "payhawk": "Payhawk ist ein bulgarisches Fintech (gegründet 2018) mit EU-Fokus auf Mid-Market-Teams. Die native DATEV-Integration via Rechnungsdatenservice ist die tiefste am Markt und spart Buchhaltungs-Aufwand für Finanzteams. Ausschließlich auf Anfrage (Sales-Call) mit Handelsregisterauszug-Pflicht – faktisch primär für GmbHs mit ≥10 Mitarbeitenden sinnvoll. Konkurriert direkt mit Pleo und Moss im DACH-Markt.",
+  "spendesk": "Spendesk ist ein französisches Fintech (Paris, 2016), das Prepaid-Unternehmenskarten ohne persönliche Haftung und ohne SCHUFA-Prüfung anbietet. Das integrierte Belegmanagement und die mehrstufige Genehmigungs-Kette sind für Finance-Teams attraktiv – besonders wenn CFOs keine Kreditrisiken eingehen wollen. Pricing nur auf Anfrage. Lohnt erst ab Team-Größe; Einzelunternehmer zahlen für Features, die sie nicht nutzen.",
+
+  // ============ WARENWIRTSCHAFT ============
+  "billbee": "Billbee ist ein 2013 in Deutschland gegründetes Warenwirtschafts-Tool und der Standard für Solo-Reseller und KMUs bis ~1.000 Bestellungen/Monat. 30+ Marketplace-Integrationen (Amazon, eBay, Kaufland, Otto, Shopify), direkter Sync mit Lexoffice/sevDesk und DHL/Sendcloud sowie ein großzügiger Free-Tier (bis 30 Orders/Mon, dann ab 9 €/Mon) machen Billbee zum idealen Einstieg. Bei >1.000 Orders/Mon empfehlen Foren die Migration zu plentymarkets oder Xentral.",
+  "plentymarkets": "plentymarkets wurde 2001 in Kassel gegründet und ist der DACH-Standard für Multi-Channel-Händler im Mid-Market-Segment. Eigener Shop-Builder, Warenwirtschaft, PIM und ERP in einem System mit über 200 Marketplace-Integrationen. Setup dauert 2–4 Wochen und erfordert technisches Know-how oder einen Systemhaus-Partner. Sweet Spot: 1.000–50.000 Orders/Monat bei Multi-Channel-Setup.",
+  "xentral": "Xentral wurde 2014 in Augsburg gegründet und ist das modernste ERP/Wawi-System für VC-funded und Tech-Startups in DACH. API-first-Architektur ermöglicht eigene Integrationen einfach; EU-Multi-Country-Support ist eingebaut. Teurer als Billbee/JTL, aber deutlich bessere UX und Entwickler-Erfahrung als plentymarkets. Sinnvoll ab Mid-Market-Skalierung wenn das Team APIs selbst bauen kann.",
+  "jtl-wawi": "JTL-Wawi ist ein 2008 in Berlin gegründetes Warenwirtschafts-System und DACH-Klassiker für KMU-Händler. Die Basis-Version ist kostenlos (eingeschränkte Features), Marketplace-Module und Cloud-Hosting sind kostenpflichtig. Die Desktop-App (Windows-only) ist ein bekannter Nachteil gegenüber cloud-nativen Alternativen – dafür ist die DACH-Community und das Partner-Ökosystem sehr groß.",
+  "channable": "Channable wurde 2014 in den Niederlanden gegründet und ist die führende Feed-Management-Plattform für Multi-Channel-Händler in Europa. Über 2.500 Marketplace- und Kanal-Templates (Google Shopping, Meta, Marketplaces) ermöglichen automatisierte Listing-Anpassung pro Kanal. Channable ist kein Wawi-Ersatz – es optimiert Feeds, aber Bestände und Bestellungen brauchen weiterhin Billbee/plenty. Stack-Empfehlung: Channable + Billbee (bis 1k Orders) oder Channable + plenty (darüber).",
 };
 
 /** Coop-Deal nur anzeigen wenn nicht abgelaufen (expires ≥ heute). */
@@ -348,6 +362,7 @@ export const PROVIDERS: Provider[] = [
       "Schwache Versicherung",
       "Bonität/SCHUFA nötig",
     ],
+    forumNotes: "r/Selbststaendig 2026: 'Günstiger Einstieg ins Amex-Ökosystem, aber ohne inkludierte Rewards-Mitgliedschaft nur dann sinnvoll, wenn man die 30 €/Jahr Zusatz-Gebühr plant – sonst nimmt man direkt die Gold oder Platinum.'",
     signupTime: "ca. 1–2 Wochen",
     url: "https://www.americanexpress.com/de-de/business/",
   },
@@ -370,6 +385,7 @@ export const PROVIDERS: Provider[] = [
       "Kein Liquiditätspuffer (Debit)",
       "Solo zahlt für ungenutzte Features",
     ],
+    forumNotes: "r/Selbststaendig + OMR Reviews 2026: 'Für Teams ab 3 Personen Best-in-Class – DATEV-Vorkontierung spart Stunden pro Monat. Solo-Gründer zahlen für Features, die sie nie nutzen.'",
     signupTime: "wenige Tage",
     url: "https://www.pleo.io/de/firmenkarte",
   },
@@ -392,6 +408,7 @@ export const PROVIDERS: Provider[] = [
       "Preise intransparent (Sales-Gespräch nötig)",
       "Eher für GmbH/UG & etablierte Firmen",
     ],
+    forumNotes: "r/Finanzen + OMR Reviews 2026: 'Einziger Anbieter mit echter Kreditlinie ohne persönliche Haftung im KMU-Segment – für etablierte GmbHs mit Bonität die stärkste Karte. Pricing intransparent bleibt das größte Kritikpunkt.'",
     signupTime: "1–2 Wochen (mit Bonitätsprüfung)",
     url: "https://www.getmoss.com/de/",
   },
@@ -413,6 +430,7 @@ export const PROVIDERS: Provider[] = [
       "Handelsregisterauszug-Pflicht → faktisch GmbH/UG",
       "Overkill für Solo-Gründer",
     ],
+    forumNotes: "OMR Reviews 2026: 'Beste DATEV-Integration am Markt laut Finanzleitern – für Mid-Market-Teams (10–200 MA) die erste Wahl. Sales-only Pricing schreckt kleinere Unternehmen ab.'",
     signupTime: "auf Anfrage",
     url: "https://payhawk.com/de",
   },
@@ -434,6 +452,7 @@ export const PROVIDERS: Provider[] = [
       "Lohnt erst ab Teamgröße",
       "Reines Prepaid — kein Liquiditätsvorteil",
     ],
+    forumNotes: "r/Selbststaendig + OMR Reviews 2026: 'Prepaid-Ansatz (keine SCHUFA, keine persönliche Haftung) macht Spendesk für konservative CFOs attraktiv. Belegmanagement und Multi-Karten-Verwaltung werden gelobt; Preisstruktur bleibt undurchsichtig bis zum Sales-Gespräch.'",
     signupTime: "auf Anfrage",
     url: "https://www.spendesk.com/de/",
   },
@@ -1194,6 +1213,7 @@ export const PROVIDERS: Provider[] = [
     tagline: "Server-Side Tracking, Coaching/Info-Ads",
     pros: ["Server-Side-Tracking robust", "Stark bei High-Ticket / Coaching / Info-Products"],
     cons: ["UI komplex", "E-Com weniger Fokus als Triple Whale"],
+    forumNotes: "r/Entrepreneur + DTC-Slack 2026: 'Für Coaching, Info-Products und High-Ticket-Funnels der Goldstandard – robuster gegen iOS-14-Tracking-Verlust als Pixel-Only-Tools. E-Commerce-Brands bleiben bei Triple Whale.'",
     signupTime: "Sofort",
     url: "https://hyros.com",
   },
