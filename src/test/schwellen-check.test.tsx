@@ -64,7 +64,7 @@ describe("SchwellenCheck — Quick-Check Einkommens-Quellen", () => {
     renderWithRouter(<SchwellenCheck />);
     fireEvent.click(screen.getByText(/Übungsleiter \/ Trainer/i));
     expect(document.body.innerHTML).toMatch(/§3 Nr\. 26 EStG/);
-    expect(document.body.innerHTML).toMatch(/3\.000/);
+    expect(document.body.innerHTML).toMatch(/3\.300/);
   });
 });
 
@@ -130,7 +130,7 @@ describe("SchwellenCheck — Kombinations-Hinweise", () => {
   it("zeigt 'Übungsleiter + Ehrenamt kumulierbar'", () => {
     renderWithRouter(<SchwellenCheck />);
     expect(document.body.innerHTML).toMatch(/Übungsleiter.*Ehrenamt.*kumulierbar/i);
-    expect(document.body.innerHTML).toMatch(/3\.840 €/);
+    expect(document.body.innerHTML).toMatch(/4\.260 €/);
   });
   it("warnt vor Abfärbetheorie bei KU + Gewerbe-Mix", () => {
     renderWithRouter(<SchwellenCheck />);
