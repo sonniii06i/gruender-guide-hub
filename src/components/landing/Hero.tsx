@@ -9,7 +9,7 @@ const chips = [
   { icon: ShieldCheck, label: "DSGVO-konform" },
   { icon: Clock, label: "24/7 verfügbar" },
   { icon: Sparkles, label: "KI-gestützt" },
-  { icon: Calculator, label: "Steuer-ready" },
+  { icon: Calculator, label: "Steuer-Cockpit" },
 ];
 
 /** Bewusst faktisch – keine erfundenen Kundenzahlen. */

@@ -13,7 +13,7 @@ const ours = [
   "Wählt mit dir die passende Rechtsform: Einzelunternehmen, UG oder GmbH",
   "Begleitet dich beim Amazon Seller / Business Account und Meta Business Manager",
   "Empfiehlt konkrete Tools: Lexware, sevDesk, Lucid, Qonto, Stripe Tax & Co.",
-  "Erinnert an Fristen (USt-VA, OSS, EÜR) und automatisiert wiederkehrende Aufgaben",
+  "Erinnert an Fristen (USt-VA, OSS, EÜR) und wertet Amazon- & Stripe-Abrechnungen aus",
 ];
 
 export const Comparison = () => (

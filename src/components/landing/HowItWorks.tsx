@@ -7,7 +7,7 @@ const steps = [
   {
     n: "02",
     title: "Mit Felix chatten",
-    desc: "Beschreibe dein Vorhaben. Felix erstellt deinen Gründungs-Fahrplan und alle Dokumente.",
+    desc: "Beschreibe dein Vorhaben. Felix erstellt deinen Gründungs-Fahrplan und zeigt dir, welche Dokumente du brauchst.",
   },
   {
     n: "03",
