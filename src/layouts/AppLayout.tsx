@@ -8,13 +8,14 @@ import { useAuth } from "@/hooks/useAuth";
 import { useAccess } from "@/hooks/useAccess";
 import { Loader2, HelpCircle } from "lucide-react";
 import OnboardingTour, { TourStep } from "@/components/OnboardingTour";
+import { TOOL_COUNT } from "@/data/features";
 
 const GGH_TOUR: TourStep[] = [
   { title: "Willkommen bei GründerX 👋", text: "Kurze Tour durch deinen Gründer-Copiloten – ca. 40 Sekunden. Du kannst sie jederzeit über das Fragezeichen oben rechts erneut starten." },
   { selector: '[data-tour="/dashboard"]', title: "Übersicht", text: "Dein Startpunkt: Fortschritt, empfohlene Guides und Tools – alles an einem Ort." },
   { selector: '[data-tour="/felix"]', title: "Felix-Chat", text: "Dein KI-Berater. Stell Felix jede Gründungs-, Rechts- oder Steuerfrage – er antwortet mit Quellen aus den Guides." },
   { selector: '[data-tour="/playbooks"]', title: "Alle Guides", text: "Schritt-für-Schritt-Playbooks von der Idee bis zur Gründung – zum Durcharbeiten und Abhaken." },
-  { selector: '[data-tour="/dashboard?view=tools"]', title: "Tools & Rechner", text: "Über 80 Rechner & Wizards: Rechtsform, Steuer, Finanzen, Namen – direkt einsatzbereit." },
+  { selector: '[data-tour="/dashboard?view=tools"]', title: "Tools & Rechner", text: `${TOOL_COUNT} Rechner & Wizards: Rechtsform, Steuer, Finanzen, Namen – direkt einsatzbereit.` },
   { selector: '[data-tour="/cockpit/steuer"]', title: "Steuer-Cockpit", text: "Dein Steuer-Überblick: Fristen, Rechner und die wichtigsten To-dos für Gründer." },
   { selector: '[data-tour="/wizard/rechtsform"]', title: "Rechtsform-Wizard", text: "Beantworte ein paar Fragen und finde die passende Rechtsform (Einzelunternehmen, GmbH, UG …)." },
   { selector: '[data-tour="/anbieter"]', title: "Anbieter-Vergleich", text: "Vergleiche Banken, Tools & Dienstleister – kuratiert für Gründer, mit den relevanten Kriterien." },

@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Mascot } from "./Mascot";
 import { guideHref } from "@/data/guideMerges";
+import { GUIDE_COUNT } from "@/data/guides";
 
 /** Beispielhafte Guides – Slugs entsprechen /guides/:slug aus playbooks.ts */
 const SAMPLE_GUIDES = [
@@ -15,7 +16,7 @@ const SAMPLE_GUIDES = [
 ];
 
 /**
- * Guides-Section: zeigt die 78 Playbooks als konkrete Schritt-Kette.
+ * Guides-Section: zeigt die Playbooks (Anzahl aus GUIDE_COUNT) als konkrete Schritt-Kette.
  * Felix zeigt auf den nächsten offenen Schritt – "du bist hier".
  */
 export const GuidesRoadmap = () => (
@@ -35,7 +36,7 @@ export const GuidesRoadmap = () => (
             Guides &amp; Playbooks
           </p>
           <h2 className="text-3xl md:text-4xl font-bold text-balance leading-tight">
-            78 Wege, die schon jemand vor dir gegangen ist.
+            {GUIDE_COUNT} Wege, die schon jemand vor dir gegangen ist.
           </h2>
           <p className="mt-4 text-lg text-muted-foreground max-w-2xl">
             Jeder Guide ist eine abhakbare Schritt-Kette mit Formularen, echten
@@ -60,7 +61,7 @@ export const GuidesRoadmap = () => (
 
           <Button asChild variant="outline" size="lg" className="mt-8 rounded-full">
             <Link to="/guides">
-              Alle 78 Guides ansehen
+              Alle {GUIDE_COUNT} Guides ansehen
               <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
           </Button>

@@ -12,7 +12,7 @@ const steps = [
   {
     n: "03",
     title: "Unternehmen läuft",
-    desc: "Du startest – wir kümmern uns um Steuern, Fristen und das laufende Setup.",
+    desc: "Du startest – GründerX zeigt dir Schritt für Schritt, was bei Steuern und Setup ansteht, und erinnert dich an Fristen. Software, keine Steuer- oder Rechtsberatung.",
   },
 ];
 

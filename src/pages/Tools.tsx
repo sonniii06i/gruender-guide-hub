@@ -44,7 +44,7 @@ const Tools = () => {
     <div className="min-h-screen bg-background">
       <Seo
         title="Alle Tools für Gründer – Steuer, Rechtsform, Buchhaltung 2026 | GründerX"
-        description={`${LANDING_TOOLS.length}+ Rechner, Wizards und Checks für Unternehmensgründung, Steuern, Buchhaltung, Marken und internationale Setups — für deutsche Gründer, E-Commerce & Creator.`}
+        description={`${LANDING_TOOLS.length} Rechner, Wizards und Checks für Unternehmensgründung, Steuern, Buchhaltung, Marken und internationale Setups — für deutsche Gründer, E-Commerce & Creator.`}
         path="/tools"
         jsonLd={jsonLd}
       />
@@ -55,7 +55,7 @@ const Tools = () => {
             Tools für Gründer
           </h1>
           <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
-            {LANDING_TOOLS.length}+ Rechner, Wizards und Checks rund um Gründung, Steuern, Buchhaltung,
+            {LANDING_TOOLS.length} Rechner, Wizards und Checks rund um Gründung, Steuern, Buchhaltung,
             Marken und internationale Setups — gebaut für deutsche Gründer, E-Commerce-Brands, Creator
             und Solo-Selbstständige, die ohne teuren Berater starten wollen.
           </p>

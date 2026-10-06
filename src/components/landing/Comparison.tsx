@@ -3,13 +3,13 @@ import { Check, X } from "lucide-react";
 const generic = [
   "Gibt nur generische Antworten",
   "Kennt weder Amazon noch Meta Ads",
-  "Reicht keine Formulare ein",
+  "Führt nicht Zeile für Zeile durch ELSTER-Formulare",
   "Empfiehlt keine konkreten Anbieter",
   "Verfolgt keine Fristen",
 ];
 
 const ours = [
-  "Trainiert auf realen Gründungen aus Amazon FBA, Shopify & Creator-Bereich",
+  "Schritt-für-Schritt-Guides für Amazon FBA, Shopify & Creator-Business",
   "Wählt mit dir die passende Rechtsform: Einzelunternehmen, UG oder GmbH",
   "Begleitet dich beim Amazon Seller / Business Account und Meta Business Manager",
   "Empfiehlt konkrete Tools: Lexware, sevDesk, Lucid, Qonto, Stripe Tax & Co.",

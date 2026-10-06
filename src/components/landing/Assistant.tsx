@@ -22,15 +22,15 @@ export const Assistant = () => (
               Felix begleitet dich durch Finanzamt-Fragebogen, USt-Voranmeldung,
               Rechnungs- und Buchhaltungs-Setup, OSS, LUCID, WEEE und sagt dir,
               welche Rechtsform, welche Tools und welche Anbieter wirklich zu
-              dir passen. Trainiert auf echten Gründungen aus E-Commerce &
-              Creator-Business – nicht auf Wikipedia.
+              dir passen. Gebaut für E-Commerce & Creator-Business, gestützt auf
+              die Guides und Tools von GründerX.
             </p>
             <Link to="/auth?mode=signup">
               <Button
                 size="lg"
                 className="mt-8 rounded-full bg-card text-primary hover:bg-card/90 h-14 px-7 font-semibold"
               >
-                Jetzt ausprobieren <ArrowRight className="ml-1 h-4 w-4" />
+                Jetzt freischalten <ArrowRight className="ml-1 h-4 w-4" />
               </Button>
             </Link>
           </div>

@@ -242,6 +242,9 @@ export const LANDING_TOOLS: ToolLandingEntry[] = (() => {
   return out;
 })();
 
+/** Anzahl öffentlich verlinkter Tools (/tools). Einzige Quelle für Tool-Zahlen in Texten. */
+export const TOOL_COUNT = LANDING_TOOLS.length;
+
 export const findLandingTool = (slug: string): ToolLandingEntry | undefined =>
   LANDING_TOOLS.find((t) => t.slug === slug);
 

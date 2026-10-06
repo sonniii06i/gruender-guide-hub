@@ -26,8 +26,12 @@ export const FinalCTA = () => (
             Bereit zu gründen?
           </h2>
           <p className="mt-5 text-lg md:text-xl text-primary-foreground/85 max-w-2xl mx-auto text-balance">
-            Starte heute kostenlos – und hab dein Unternehmen in wenigen Tagen
-            startklar.
+            Schalte GründerX frei und geh deine Gründung Schritt für Schritt an.
+            Vorher ausprobieren?{" "}
+            <Link to="/gratis-tools" className="underline underline-offset-2 hover:text-primary-foreground">
+              Einzelne Tools
+            </Link>{" "}
+            kannst du ohne Konto je einmal kostenlos nutzen.
           </p>
           <Link to="/auth?mode=signup">
             <Button

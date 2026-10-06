@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { startGuestCheckout } from "@/utils/guestCheckout";
 import { ArrowRight, Check, CalendarClock, FileSpreadsheet, Landmark, Wallet } from "lucide-react";
+import { TOOL_COUNT } from "@/data/features";
 
 /**
  * Anzeigen-Landingpage für die Meta-Kampagne "Gründungsstack"
@@ -22,10 +23,11 @@ import { ArrowRight, Check, CalendarClock, FileSpreadsheet, Landmark, Wallet } f
  * keine globale Navigation. Jeder zusätzliche Link ist bei bezahltem Traffic
  * ein Ausgang.
  *
- * DIE ZAHL 78 IST GEZÄHLT, NICHT GESCHÄTZT. Sie stammt aus den auf /tools
- * verlinkten Werkzeugen (Stand 07.08.2026). Wer Werkzeuge entfernt oder
- * hinzufügt, zählt bitte neu — eine belegbare Zahl ist das Einzige, was diese
- * Seite von einer beliebigen "Alles-in-einem"-Behauptung unterscheidet.
+ * DIE WERKZEUG-ZAHL IST GEZÄHLT, NICHT GESCHÄTZT: TOOL_COUNT aus
+ * data/features.ts = genau die auf /tools verlinkten Werkzeuge. Seit 06.10.2026
+ * automatisch statt fest eingetragen (vorher „78" von Hand, /tools zeigte 79).
+ * Eine belegbare Zahl ist das Einzige, was diese Seite von einer beliebigen
+ * "Alles-in-einem"-Behauptung unterscheidet.
  *
  * § 5 StBerG. Steuerberatung ist genauso erlaubnispflichtig wie Rechtsberatung
  * nach dem RDG. Deshalb steht hier durchgehend "vorbereiten", "berechnen",
@@ -187,7 +189,7 @@ const GruendungKomplett = () => {
           </p>
           <ul className="mt-8 grid gap-3 sm:grid-cols-2">
             {[
-              "78 Rechner, Assistenten und Vergleiche",
+              `${TOOL_COUNT} Rechner, Assistenten und Vergleiche`,
               "Von der Rechtsformwahl bis zur EÜR",
               "Fristenkalender statt PDF im Downloads-Ordner",
               "KI-Co-Pilot Felix für Zwischenfragen",

@@ -21,12 +21,12 @@ const features = [
   {
     icon: Megaphone,
     title: "Meta Ads & Werbekonten",
-    desc: "Meta Business Manager, Pixel, CAPI, Werbekonto-Limits und richtige Verknüpfung mit deinem Shop – ohne Sperren beim ersten Launch.",
+    desc: "Meta Business Manager, Pixel, CAPI, Werbekonto-Limits und richtige Verknüpfung mit deinem Shop – Schritt für Schritt im Guide.",
   },
   {
     icon: Calculator,
     title: "Buchhaltung & Tools",
-    desc: "Wir sagen dir, welcher Anbieter passt: Lexware Office, sevDesk, Lucid (LucidLink), Datev, Pennylane oder Stripe Tax – inkl. Setup-Anleitung.",
+    desc: "Wir sagen dir, welcher Anbieter passt: Lexware Office, sevDesk, LUCID, Datev, Pennylane oder Stripe Tax – inkl. Setup-Anleitung.",
   },
   {
     icon: Briefcase,

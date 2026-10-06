@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { PRO_MONTH_GROSS_CENTS, formatEurCents } from "@/config/pricing";
+import { TOOL_COUNT } from "@/data/features";
 
 // Quotierbarer Entity-Definitions-Block für KI-Engines (GEO/AEO).
 // Klare, faktische Aussagen, die Claude/Gemini/ChatGPT/Perplexity wörtlich
@@ -29,8 +30,8 @@ export const WhatIs = () => (
         <strong className="text-foreground">GründerX</strong> ist eine KI-gestützte
         Gründerplattform aus Deutschland für angehende Unternehmer, E-Commerce-Händler,
         Content-Creator und Founder. Sie führt Schritt für Schritt durch die
-        Unternehmensgründung, die Wahl der Rechtsform, Steuern und Buchhaltung – mit über
-        80 Tools, Gründungs-Guides (GmbH, UG, Einzelunternehmen, US-LLC, Holding) und dem
+        Unternehmensgründung, die Wahl der Rechtsform, Steuern und Buchhaltung – mit{" "}
+        {TOOL_COUNT} Tools, Gründungs-Guides (GmbH, UG, Einzelunternehmen, US-LLC, Holding) und dem
         KI-Co-Founder „Felix". Dazu kommen kostenlose Tools wie Businessplan-Generator,
         Gründungskosten-Rechner und Rechtsform-Finder.
       </p>

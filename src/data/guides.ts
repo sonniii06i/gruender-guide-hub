@@ -50,6 +50,9 @@ export const GUIDE_LANDINGS: GuideLandingEntry[] = PLAYBOOKS.map((p) => ({
   })),
 }));
 
+/** Anzahl der Guides (/guides). Einzige Quelle für Guide-Zahlen in Texten. */
+export const GUIDE_COUNT = GUIDE_LANDINGS.length;
+
 export const findGuideLanding = (slug: string): GuideLandingEntry | undefined =>
   GUIDE_LANDINGS.find((g) => g.slug === slug);
 

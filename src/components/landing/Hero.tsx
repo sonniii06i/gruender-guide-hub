@@ -2,6 +2,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
 import { ShieldCheck, Clock, Sparkles, Calculator, ArrowRight } from "lucide-react";
+import { TOOL_COUNT } from "@/data/features";
+import { GUIDE_COUNT } from "@/data/guides";
 
 const chips = [
   { icon: ShieldCheck, label: "DSGVO-konform" },
@@ -12,8 +14,8 @@ const chips = [
 
 /** Bewusst faktisch – keine erfundenen Kundenzahlen. */
 const proof = [
-  { value: "80+", label: "Tools & Wizards" },
-  { value: "78", label: "Schritt-für-Schritt-Guides" },
+  { value: String(TOOL_COUNT), label: "Tools & Wizards" },
+  { value: String(GUIDE_COUNT), label: "Schritt-für-Schritt-Guides" },
   { value: "EU", label: "Server, DSGVO-konform" },
   { value: "DE / US / HK", label: "Gründungs-Guides" },
 ];
