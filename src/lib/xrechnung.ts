@@ -76,6 +76,7 @@ export function xrFehlend(d: XrDaten): string[] {
   if (!d.kunde.name.trim()) f.push("Name des Kunden");
   if (!trennePlzOrt(d.kunde.plzOrt).ort) f.push("Ort des Kunden");
   if (!/@/.test(d.kunde.email)) f.push("E-Mail des Kunden (elektronische Adresse)");
+  if (d.modus === "innergemeinschaftlich" && !trennePlzOrt(d.kunde.plzOrt).plz) f.push("PLZ des Kunden (Lieferadresse bei innergemeinschaftlicher Lieferung)");
   if ((d.modus === "reverse-charge" || d.modus === "innergemeinschaftlich") && (!d.kunde.ustId.trim() || !v.ustId.trim()))
     f.push("USt-IdNr. von Verkäufer und Kunde (Pflicht bei Reverse Charge / innergemeinschaftlich)");
   if (!d.rechnungsnummer.trim()) f.push("Rechnungsnummer");
@@ -147,7 +148,11 @@ ${zeilen
   .join("\n")}
     <ram:ApplicableHeaderTradeAgreement>
       <ram:BuyerReference>${x(d.kaeuferReferenz.trim() || d.rechnungsnummer)}</ram:BuyerReference>
-      <ram:SellerTradeParty>
+      <ram:SellerTradeParty>${
+        // BR-CO-26: ohne USt-IdNr. braucht es eine Verkäufer-Kennung (BT-29) –
+        // bei Kleinunternehmern ohne USt-IdNr. ist das die Steuernummer.
+        !v.ustId.trim() && v.steuernummer.trim() ? `\n        <ram:ID>${x(v.steuernummer.trim())}</ram:ID>` : ""
+      }
         <ram:Name>${x(v.name)}</ram:Name>
         <ram:DefinedTradeContact>
           <ram:PersonName>${x(v.kontaktName)}</ram:PersonName>
@@ -172,7 +177,9 @@ ${zeilen
     </ram:ApplicableHeaderTradeAgreement>
     <ram:ApplicableHeaderTradeDelivery>${
       d.modus === "innergemeinschaftlich"
-        ? `<ram:ShipToTradeParty><ram:PostalTradeAddress><ram:CountryID>${landCode(d.kunde.land)}</ram:CountryID></ram:PostalTradeAddress></ram:ShipToTradeParty>`
+        ? `<ram:ShipToTradeParty><ram:Name>${x(d.kunde.name)}</ram:Name><ram:PostalTradeAddress><ram:PostcodeCode>${x(kAdr.plz)}</ram:PostcodeCode>${
+            d.kunde.strasse.trim() ? `<ram:LineOne>${x(d.kunde.strasse)}</ram:LineOne>` : ""
+          }<ram:CityName>${x(kAdr.ort)}</ram:CityName><ram:CountryID>${landCode(d.kunde.land)}</ram:CountryID></ram:PostalTradeAddress></ram:ShipToTradeParty>`
         : ""
     }<ram:ActualDeliverySupplyChainEvent><ram:OccurrenceDateTime><udt:DateTimeString format="102">${d102(d.leistungsdatum || d.rechnungsdatum)}</udt:DateTimeString></ram:OccurrenceDateTime></ram:ActualDeliverySupplyChainEvent></ram:ApplicableHeaderTradeDelivery>
     <ram:ApplicableHeaderTradeSettlement>
