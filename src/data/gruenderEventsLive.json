@@ -1,5 +1,5 @@
 {
- "stand": "2026-10-07T22:51:18.393Z",
+ "stand": "2026-10-07T22:56:45.759Z",
  "quellen": {
   "gruendungswoche": {
    "ok": true,
@@ -7,7 +7,7 @@
    "verworfen": {
     "kommerzielle Online-Serie": 176
    },
-   "letzterErfolg": "2026-10-07T22:50:06.404Z"
+   "letzterErfolg": "2026-10-07T22:55:25.898Z"
   },
   "luma": {
    "ok": true,
@@ -16,43 +16,43 @@
     "nicht in Deutschland": 204,
     "kein Gründer-/Tech-Bezug": 564
    },
-   "letzterErfolg": "2026-10-07T22:50:29.243Z"
+   "letzterErfolg": "2026-10-07T22:55:39.826Z"
   },
   "meetup": {
    "ok": true,
    "roh": 57,
    "verworfen": {},
-   "letzterErfolg": "2026-10-07T22:50:42.714Z"
+   "letzterErfolg": "2026-10-07T22:55:49.969Z"
   },
   "hackathonhub": {
    "ok": true,
    "roh": 88,
    "verworfen": {},
-   "letzterErfolg": "2026-10-07T22:50:43.041Z"
+   "letzterErfolg": "2026-10-07T22:55:50.288Z"
   },
   "gdg": {
    "ok": true,
    "roh": 991,
    "verworfen": {},
-   "letzterErfolg": "2026-10-07T22:50:51.257Z"
+   "letzterErfolg": "2026-10-07T22:55:58.048Z"
   },
   "munich-startup": {
    "ok": true,
    "roh": 66,
    "verworfen": {},
-   "letzterErfolg": "2026-10-07T22:50:54.092Z"
+   "letzterErfolg": "2026-10-07T22:56:02.018Z"
   },
   "startplatz": {
    "ok": true,
    "roh": 85,
    "verworfen": {},
-   "letzterErfolg": "2026-10-07T22:50:54.770Z"
+   "letzterErfolg": "2026-10-07T22:56:03.874Z"
   },
   "startupcity-hamburg": {
    "ok": true,
    "roh": 50,
    "verworfen": {},
-   "letzterErfolg": "2026-10-07T22:50:55.050Z"
+   "letzterErfolg": "2026-10-07T22:56:04.900Z"
   },
   "startup-bw": {
    "ok": true,
@@ -60,19 +60,19 @@
    "verworfen": {
     "unlesbar": 1
    },
-   "letzterErfolg": "2026-10-07T22:50:55.831Z"
+   "letzterErfolg": "2026-10-07T22:56:06.069Z"
   },
   "starthub-hessen": {
    "ok": true,
    "roh": 39,
    "verworfen": {},
-   "letzterErfolg": "2026-10-07T22:51:01.364Z"
+   "letzterErfolg": "2026-10-07T22:56:12.277Z"
   },
   "startupverband": {
    "ok": true,
    "roh": 62,
    "verworfen": {},
-   "letzterErfolg": "2026-10-07T22:51:02.445Z"
+   "letzterErfolg": "2026-10-07T22:56:14.554Z"
   },
   "dev-events": {
    "ok": true,
@@ -80,30 +80,27 @@
    "verworfen": {
     "kein Gründer-/Tech-Bezug": 81
    },
-   "letzterErfolg": "2026-10-07T22:51:04.841Z"
+   "letzterErfolg": "2026-10-07T22:56:18.047Z"
   },
   "eventbrite": {
-   "ok": true,
-   "roh": 88,
-   "verworfen": {
-    "kein Gründer-/Tech-Bezug": 27,
-    "nicht in Deutschland": 1
-   },
+   "ok": false,
+   "fehler": "https://www.eventbrite.de/d/germany/hackathon/: HTTP 405 https://www.eventbrite.de/d/germany/hackathon/; https://www.eventbrite.de/d/germany--berlin/startup/: HTTP 405 https://www.eventbrite.de/d/germany--berlin/startup/; https://www.eventbrite.de/d/germany--munich/k%C3%BCnstliche-intelligenz/: HTTP 405 https://www.eventbrite.de/d/germany--munich/k%C3%BCnstliche-intelligenz/; https://www.eventbrite.de/d/germany--hamburg/startup/: HTTP 405 https://www.eventbrite.de/d/germany--hamburg/startup/; https://www.eventbrite.de/d/germany/gr%C3%BCnder/: HTTP 405 https://www.eventbrite.de/d/germany/gr%C3%BCnder/",
+   "behaltenVomLetztenLauf": 47,
    "letzterErfolg": "2026-10-07T22:51:08.989Z"
   },
   "ki-communities": {
    "ok": true,
    "roh": 52,
    "verworfen": {},
-   "letzterErfolg": "2026-10-07T22:51:18.371Z"
+   "letzterErfolg": "2026-10-07T22:56:45.744Z"
   }
  },
  "verworfen": {
-  "mehr als 9 Monate voraus": 3,
+  "mehr als 9 Monate voraus": 2,
   "vorbei": 44,
   "Dauerangebot (ohne Termin geführt)": 10,
-  "Serientermin zusammengefasst": 196,
-  "Dublette über Quellen": 30
+  "Serientermin zusammengefasst": 193,
+  "Dublette über Quellen": 21
  },
  "anzahl": 757,
  "events": [
