@@ -10,6 +10,41 @@ import {
   type SubLlmCaller,
 } from "../_shared/chat-memory.ts";
 import { retrieveKb, buildKbBlock } from "../_shared/kb-retrieval.ts";
+import { BUNDESLAND_NAME, datumDe, eventsFuer, fristenFuer, ladeEvents, plzZuLand, regionAusText } from "../_shared/gruenderEvents.ts";
+
+// Fragen nach Terminen, Hackathons, Wettbewerben → aktuelle Liste in den Prompt.
+const RE_EVENTFRAGE =
+  /event|veranstaltung|termin|gründerabend|gruenderabend|sprechtag|infoabend|hackathon|build ?day|meetup|stammtisch|messe|konferenz|netzwerk|workshop|seminar|webinar|wettbewerb|gründerpreis|preis\b|stipendium|accelerator|inkubator|frist|bewerb/i;
+
+async function buildEventBlock(frage: string, userId: string | null, db: any): Promise<string> {
+  const daten = await ladeEvents();
+  if (!daten) return "";
+  let { stadt, land } = regionAusText(frage);
+  if (!land && !stadt && userId && db) {
+    const { data } = await db.from("profiles").select("postal_code, city").eq("id", userId).maybeSingle();
+    land = plzZuLand(data?.postal_code) ?? undefined;
+    stadt = (data?.city ?? "").trim().toLowerCase() || undefined;
+  }
+  const bauen = /hackathon|build|vibe|prototyp|ki|ai\b|claude|coding/i.test(frage);
+  const ev = eventsFuer(daten, {
+    land: land ?? null, stadt: stadt ?? null, tage: 60, online: true, max: 12,
+    arten: bauen ? ["hackathon", "build", "netzwerk"] : undefined,
+  });
+  const fr = fristenFuer(daten, { land: land ?? null, tage: 120, max: 6 });
+  if (!ev.length && !fr.length) return "";
+  const wo = stadt ? stadt[0].toUpperCase() + stadt.slice(1) : land ? BUNDESLAND_NAME[land] : "Deutschland/online";
+  const zeilen = [
+    "",
+    "============================================================",
+    `AKTUELLE GRÜNDER-EVENTS & FRISTEN (Region: ${wo}; Stand ${daten.stand.slice(0, 10)})`,
+    "Nenne NUR Termine aus dieser Liste, mit Datum und Link. Erfinde keine Events.",
+    "Für alle weiteren Termine verlinke [Gründer-Events](/gruender-events).",
+    "============================================================",
+    ...ev.map((e) => `- ${datumDe(e.datum!)} · ${e.name} · ${e.format === "online" ? "online" : e.ort} · ${e.veranstalter} · ${e.url}`),
+    ...(fr.length ? ["Bewerbungsfristen:", ...fr.map((f) => `- bis ${datumDe(f.frist!)} · ${f.name}${f.preis ? ` (${f.preis})` : ""} · ${f.url}`)] : []),
+  ];
+  return zeilen.join("\n");
+}
 
 // User-ID aus JWT extrahieren — null wenn anon-Key oder kein JWT.
 async function getUserIdFromRequest(req: Request): Promise<string | null> {
@@ -657,6 +692,8 @@ LAUNCH / COMPLIANCE
 - /cockpit/lucid-wizard – LUCID-Verpackungsregister 5-Step + 6 duale Systeme verglichen
 - /cockpit/ce-generator – CE/RoHS-Konformitätserklärung-PDF für 8 Produkt-Kategorien
 - /cockpit/foerderung – 20+ Programme (KfW, EXIST, HTGF, INVEST/BAFA, 7 Bundesländer, EIC)
+- /gruender-events – täglich aktualisierte Gründer-Events (IHK-Gründerabende, Sprechtage, Messen, Hackathons, KI-Build-Sessions) + Fristen-Radar für Wettbewerbe, Stipendien, Accelerator
+- /cockpit/gruendungszuschuss – Gründungszuschuss-Check (§§ 93/94 SGB III): Ampel, Rechner Phase 1+2, Antrags-Reihenfolge, Unterlagen, IHK-Gebühren
 - /cockpit/ecom-roadmap – 8 Kategorien (Beauty, Supplement, Electronics, Toys, Apparel, Food, Pet, Hardware) mit DE/EU/US-Compliance + Standard-Stack + Stolperfallen
 - /cockpit/visa-helper – 6 Visa-Pfade (§21 Selbstständig, §21 Abs 5 Frei, §18g Blue-Card, §18a/b Fachkraft 2024, §20a Chancenkarte, §28/30 Familie)
 - /cockpit/stb-finder – StB-Auswahl-Wizard: Pflicht-Knowledge + Erst-Termin-Frage-Katalog + Red-Flags pro Spezialisierung
@@ -995,6 +1032,16 @@ serve(async (req) => {
       } catch (e) {
         // KB-Retrieval ist optional — bei Fehler weiter ohne KB
         console.error("[kb] retrieve failed, continuing without:", (e as Error).message);
+      }
+    }
+
+    // === GRÜNDER-EVENTS (nur bei Event-/Fristen-Fragen; Fehler → ohne Events weiter) ===
+    if (!smallTalk && RE_EVENTFRAGE.test(lastUser)) {
+      try {
+        const evBlock = await buildEventBlock(lastUser, userId, supaService);
+        if (evBlock) systemPromptWithMemory = systemPromptWithMemory + evBlock;
+      } catch (e) {
+        console.error("[events] block failed, continuing without:", (e as Error).message);
       }
     }
 

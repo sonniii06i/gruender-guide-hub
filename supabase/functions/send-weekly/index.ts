@@ -43,6 +43,7 @@ import { abTest, sendCampaign } from "../_shared/mailSend.ts";
 import { BRANDING } from "../_shared/mailBrand.ts";
 import { unsubscribeUrl } from "../_shared/unsubscribe.ts";
 import { PLAYBOOK_TITEL } from "../_shared/playbookSteps.ts";
+import { BUNDESLAND_NAME, datumDe, eventsFuer, fristenFuer, ladeEvents, plzZuLand } from "../_shared/gruenderEvents.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -97,6 +98,12 @@ Deno.serve(async (req) => {
     .map((a) => [a.title as string, `/ratgeber/${a.slug}`] as [string, string]);
 
   // ---------------------------------------------------------------
+  // 1b. Gründer-Events + Fristen (gruender-events.json). Fehlt die Datei,
+  //     laeuft die Mail ohne Events weiter – der Fehler steht im Bericht.
+  // ---------------------------------------------------------------
+  const eventDaten = await ladeEvents(basis);
+
+  // ---------------------------------------------------------------
   // 2. Offene Playbook-Laeufe je Nutzer.
   // ---------------------------------------------------------------
   const ruhe = new Date(Date.now() - MAX_RUHE_TAGE * 86400_000).toISOString();
@@ -142,10 +149,10 @@ Deno.serve(async (req) => {
   const berechtigt = (abos ?? []).filter((a) =>
     a.status === "active" || a.comp_access === true);
 
-  let versendet = 0, nichtsZuSagen = 0, uebersprungen = 0, fehler = 0;
+  let versendet = 0, nichtsZuSagen = 0, uebersprungen = 0, fehler = 0, mitEvents = 0;
 
   for (const abo of berechtigt) {
-    const stand: WochenStand = proNutzer.get(abo.user_id) ?? { neueArtikel };
+    const stand: WochenStand = { ...(proNutzer.get(abo.user_id) ?? { neueArtikel }) };
 
     // Provision nur nachschlagen, wenn der Nutzer ueberhaupt Affiliate
     // ist — sonst eine Abfrage je Empfaenger fuer nichts.
@@ -161,10 +168,27 @@ Deno.serve(async (req) => {
       if (summe > 0) stand.provisionCents = summe;
     }
 
-    if (!hatInhalt(stand)) { nichtsZuSagen++; continue; }
-
     const { data: profil } = await db
-      .from("profiles").select("email, first_name").eq("id", abo.user_id).maybeSingle();
+      .from("profiles").select("email, first_name, postal_code, city").eq("id", abo.user_id).maybeSingle();
+
+    // Events nur mit bekannter Region – ohne PLZ/Stadt waere „in deiner Naehe“ geraten.
+    if (eventDaten) {
+      const land = plzZuLand(profil?.postal_code);
+      const stadt = (profil?.city ?? "").trim() || null;
+      if (land || stadt) {
+        const ev = eventsFuer(eventDaten, { land, stadt, tage: 14, max: 4 });
+        if (ev.length) {
+          stand.events = ev.map((e) => ({ name: e.name, wann: datumDe(e.datum!), ort: e.ort, url: e.url }));
+          stand.regionName = stadt && ev.some((e) => e.ort.toLowerCase().includes(stadt.toLowerCase()))
+            ? stadt : land ? BUNDESLAND_NAME[land] : null;
+          mitEvents++;
+        }
+      }
+      const fr = fristenFuer(eventDaten, { land, tage: 30, max: 3 });
+      if (fr.length) stand.fristen = fr.map((f) => ({ name: f.name, wann: datumDe(f.frist!), url: f.url }));
+    }
+
+    if (!hatInhalt(stand)) { nichtsZuSagen++; continue; }
 
     const adresse = (profil?.email ?? "").trim().toLowerCase();
     if (!adresse) { uebersprungen++; continue; }
@@ -196,6 +220,7 @@ Deno.serve(async (req) => {
   const bericht = {
     berechtigt: berechtigt.length, mitOffenemSchritt: proNutzer.size,
     neueArtikel: neueArtikel.length, versendet, nichtsZuSagen, uebersprungen, fehler,
+    eventsGeladen: eventDaten ? eventDaten.events.length : "FEHLER: gruender-events.json nicht ladbar", mitEvents,
   };
   console.log("[weekly]", JSON.stringify(bericht));
   return new Response(JSON.stringify(bericht), {

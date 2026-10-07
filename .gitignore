@@ -44,3 +44,4 @@ docs/elster-fse-ref/*
 # Bun-Lockfiles: npm/package-lock.json ist die einzige Quelle
 bun.lock
 bun.lockb
+public/gruender-events.json
