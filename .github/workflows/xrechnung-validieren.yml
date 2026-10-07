@@ -1,0 +1,40 @@
+# Prüft den XRechnung-Export (src/lib/xrechnung.ts) mit dem offiziellen
+# KoSIT-Validator und der XRechnung-3.0.2-Konfiguration. Rot = mindestens eine
+# Beispielrechnung wird abgelehnt.
+name: XRechnung validieren
+
+on:
+  push:
+    paths: ["src/lib/xrechnung.ts", "scripts/xrechnung-beispiele.ts", ".github/workflows/xrechnung-validieren.yml"]
+  workflow_dispatch: {}
+
+jobs:
+  validieren:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: 17 }
+      - name: Beispiele erzeugen
+        run: npx --yes tsx scripts/xrechnung-beispiele.ts
+      - name: KoSIT-Validator laden
+        run: |
+          curl -sSL -o validator.jar https://github.com/itplr-kosit/validator/releases/download/v1.6.3/validator-1.6.3-standalone.jar
+          curl -sSL -o cfg.zip https://github.com/itplr-kosit/validator-configuration-xrechnung/releases/download/v2026-08-31/xrechnung-3.0.2-validator-configuration-2026-08-31.zip
+          mkdir cfg && unzip -q cfg.zip -d cfg
+      - name: Validieren
+        run: |
+          java -jar validator.jar -s cfg/scenarios.xml -r cfg -o bericht -h xr-beispiele/*.xml | tee lauf.txt
+          echo "--- Ergebnis ---"
+          for f in bericht/*-report.xml; do
+            ok=$(grep -o 'valid="[a-z]*"' "$f" | head -1)
+            echo "$f $ok"
+            grep -o '<svrl:failed-assert[^>]*flag="\(fatal\|error\)"[^>]*id="[^"]*"' "$f" | head -20 || true
+          done
+          ! grep -q "Acceptable recommendation: reject\|reject" lauf.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: xrechnung-berichte, path: bericht/ }
