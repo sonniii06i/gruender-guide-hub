@@ -1,5 +1,5 @@
 {
- "stand": "2026-10-07T21:08:58.987Z",
+ "stand": "2026-10-07T21:13:55.688Z",
  "quellen": {
   "gruendungswoche": {
    "ok": true,
@@ -7,7 +7,7 @@
    "verworfen": {
     "kommerzielle Online-Serie": 180
    },
-   "letzterErfolg": "2026-10-07T21:08:48.289Z"
+   "letzterErfolg": "2026-10-07T21:13:47.210Z"
   },
   "luma": {
    "ok": true,
@@ -16,19 +16,19 @@
     "nicht in Deutschland": 107,
     "kein Gründer-/Tech-Bezug": 72
    },
-   "letzterErfolg": "2026-10-07T21:08:54.337Z"
+   "letzterErfolg": "2026-10-07T21:13:53.270Z"
   },
   "meetup": {
    "ok": true,
    "roh": 1,
    "verworfen": {},
-   "letzterErfolg": "2026-10-07T21:08:58.639Z"
+   "letzterErfolg": "2026-10-07T21:13:55.138Z"
   },
   "hackathonhub": {
    "ok": true,
    "roh": 88,
    "verworfen": {},
-   "letzterErfolg": "2026-10-07T21:08:58.974Z"
+   "letzterErfolg": "2026-10-07T21:13:55.677Z"
   }
  },
  "verworfen": {
@@ -3010,7 +3010,6 @@
    "ort": "online",
    "region": "online",
    "datum": "2026-11-18",
-   "datumBis": "2026-11-16",
    "url": "https://www.gruendungswoche.de/veranstaltungen/veranstaltungskalender/detail/event/ihk-steuerberatungs-sprechtag-fuer-gruendungen-1/",
    "kurz": "Gründungsangebot von IHK zu Dortmund Zweigstelle Hamm – online."
   },

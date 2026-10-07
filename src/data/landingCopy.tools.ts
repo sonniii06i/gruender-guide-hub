@@ -2,6 +2,19 @@ import type { LandingCopy } from "./landingCopy";
 
 // Bespoke-Landing-Copy pro Tool-Slug. Generiert; fehlt ein Slug, greift der Fallback.
 export const TOOL_COPY: Record<string, LandingCopy> = {
+  "gruendungszuschuss": {
+    "seoTitle": "Gründungszuschuss 2026: Check, Rechner & Antrag",
+    "seoDescription": "Bekommst du den Gründungszuschuss? Prüf alle Voraussetzungen nach § 93 SGB III, rechne Phase 1 + 2 aus und stell den Antrag in der richtigen Reihenfolge.",
+    "lead": "Der Check für alle, die aus dem Arbeitslosengeld I gründen: Voraussetzungen als Ampel, Höhe von Phase 1 und 2, die richtige Antrags-Reihenfolge und eine Checkliste aller Unterlagen.",
+    "urgency": "Der häufigste Fehler beim Gründungszuschuss ist nicht inhaltlich, sondern zeitlich: Wer vor dem Antrag schon Räume mietet oder Ware einkauft, verliert den Anspruch – rückwirkend gibt es nur in Härtefällen etwas. Dazu müssen am Gründungstag noch mindestens 150 Tage Arbeitslosengeld übrig sein. Mit dem Gründungszuschuss-Check von GründerX weißt du in zwei Minuten, ob es passt und was du in welcher Reihenfolge tun musst.",
+    "outcomes": [
+      "Ampel-Ergebnis zu allen gesetzlichen Voraussetzungen mit Paragraf",
+      "Deine Förderhöhe für Phase 1 und Phase 2 in Euro",
+      "Die richtige Reihenfolge von Beratung, Stellungnahme, Antrag und Gewerbeanmeldung",
+      "Checkliste aller Unterlagen plus IHK-Gebühren für die Tragfähigkeitsbescheinigung"
+    ],
+    "disclaimer": "Der Gründungszuschuss ist eine Ermessensleistung. Der Check gibt Orientierung nach Rechtsstand Oktober 2026 und ersetzt nicht das Gespräch mit deiner Arbeitsagentur."
+  },
   "gewerbe-check": {
     "seoTitle": "Brauche ich ein Gewerbe? Check in 2 Minuten",
     "seoDescription": "Hobby, Freiberufler oder Gewerbe? Beantworte ein paar Fragen und erfahre, ob du anmelden musst – inkl. Gewinnerzielungsabsicht & §22 EStG.",

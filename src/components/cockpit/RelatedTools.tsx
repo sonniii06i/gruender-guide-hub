@@ -162,6 +162,11 @@ const RELATED: Record<string, ToolRef[]> = {
     { route: "/cockpit/bwa-generator", label: "BWA-Generator", desc: "Reisekosten-Summe in BWA übertragen" },
     { route: "/cockpit/kfz-optimizer", label: "Kfz-Optimizer", desc: "Bei eigenem Geschäfts-Kfz: 1%-Regel vs Fahrtenbuch" },
   ],
+  "/cockpit/gruendungszuschuss": [
+    { route: "/cockpit/gewerbeanmeldung-wizard", label: "Gewerbeanmeldung-Wizard", desc: "Nach dem Antrag: GewA1 sauber ausfüllen" },
+    { route: "/cockpit/foerderung", label: "Förderung-Datenbank", desc: "KfW-Startgeld, EXIST und Länderprogramme zusätzlich nutzen" },
+    { route: "/cockpit/versicherungs-basis-check", label: "Versicherungs-Basis-Check", desc: "Wofür die 300 € Zuschlag gedacht sind: soziale Absicherung" },
+  ],
   "/cockpit/foerderung": [
     { route: "/wizard/rechtsform", label: "Rechtsform-Wizard", desc: "Förder-Eignung hängt oft an Rechtsform (UG vs GmbH)" },
   ],

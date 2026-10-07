@@ -141,7 +141,8 @@ async function quelleGruendungswoche(log) {
         ort: online ? "online" : ort,
         region: online ? "online" : bl ?? "bund",
         datum: daten[0],
-        datumBis: daten[1] && daten[1] !== daten[0] ? daten[1] : undefined,
+        // Ein zweites Datum vor dem ersten ist z. B. ein Anmeldeschluss, kein Ende.
+        datumBis: daten[1] && daten[1] > daten[0] ? daten[1] : undefined,
         weitereTermine: weitere || undefined,
         url: "https://www.gruendungswoche.de" + decode(href),
         kurz: `${oeffentlich ? "Gründungsangebot" : "Veranstaltung"} von ${veranstalter}${online ? " – online" : ort ? ` in ${ort}` : ""}.`,
@@ -404,6 +405,7 @@ for (const e of alle) {
 const gesamtVerworfen = {};
 const zaehl = (g) => (gesamtVerworfen[g] = (gesamtVerworfen[g] ?? 0) + 1);
 alle = alle.filter((e) => {
+  if (e.datumBis && e.datumBis < e.datum) delete e.datumBis;
   const ende = e.datumBis ?? e.datum;
   if (!e.datum || ende < HEUTE) return zaehl("vorbei"), false;
   if (e.datum > HORIZONT) return zaehl("mehr als 9 Monate voraus"), false;

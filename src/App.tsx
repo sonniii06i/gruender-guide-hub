@@ -124,6 +124,7 @@ const Preise = lazy(() => import("./pages/Preise.tsx"));
 const GuidesIndex = lazy(() => import("./pages/GuidesIndex.tsx"));
 const GuideLanding = lazy(() => import("./pages/GuideLanding.tsx"));
 const GratisTools = lazy(() => import("./pages/GratisTools.tsx"));
+const GruendungszuschussCheck = lazy(() => import("./pages/GruendungszuschussCheck.tsx"));
 const GruenderEvents = lazy(() => import("./pages/GruenderEvents.tsx"));
 const FreeToolPage = lazy(() => import("./pages/FreeToolPage.tsx"));
 
@@ -238,6 +239,7 @@ const App = () => (
                 <Route path="/cockpit/shop-profit-rechner" element={<PaywallGate title="Shop-Profit-Rechner"><ShopProfitRechner /></PaywallGate>} />
                 <Route path="/cockpit/pension-optimizer" element={<PaywallGate title="Pension-Optimizer"><PensionOptimizer /></PaywallGate>} />
                 <Route path="/cockpit/kv-optimizer" element={<PaywallGate title="KV-Optimizer"><KvOptimizer /></PaywallGate>} />
+                <Route path="/cockpit/gruendungszuschuss" element={<PaywallGate title="Gründungszuschuss-Check"><GruendungszuschussCheck /></PaywallGate>} />
                 <Route path="/cockpit/gewerbe-check" element={<PaywallGate title="Brauche ich ein Gewerbe?"><GewerbeCheck /></PaywallGate>} />
                 <Route path="/cockpit/schwellen-check" element={<PaywallGate title="Side-Hustle-Schwellen-Check"><SchwellenCheck /></PaywallGate>} />
                 <Route path="/cockpit/steuer-abc" element={<PaywallGate title="Steuer-ABC Glossar"><SteuerABC /></PaywallGate>} />
