@@ -41,6 +41,7 @@ const staticEntries: SitemapEntry[] = [
   // Die zwei Amazon-Widerspruchsgeneratoren stehen NICHT mehr hier: Canonical
   // zeigt auf anwaltx.de (Themenbesitz). Prerender ueber EXTRA_ROUTES in prerender.mjs.
   { path: "/ratgeber", changefreq: "daily", priority: "0.9", lastmod: today },
+  { path: "/gruender-events", changefreq: "weekly", priority: "0.8", lastmod: today },
   { path: "/faq", changefreq: "monthly", priority: "0.6" },
   { path: "/kontakt", changefreq: "yearly", priority: "0.4" },
   { path: "/partner", changefreq: "monthly", priority: "0.6" },
