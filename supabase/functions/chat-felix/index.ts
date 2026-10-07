@@ -1086,6 +1086,16 @@ serve(async (req) => {
       });
     };
 
+    // Fehlertext eines vorherigen Anbieters (z. B. Gemini), damit im Log steht,
+    // WARUM die Kette bis zum letzten Fallback durchgefallen ist.
+    let vorherigerFehler = "";
+    // Kurzform eines Anbieter-Fehlers fürs Log: Status + Fehlertyp, nie Schlüssel.
+    const fehlerKurz = (status: number, text: string) => {
+      const typ = text.match(/"(?:type|code|status)"\s*:\s*"([^"]+)"/)?.[1] ?? "";
+      const msg = text.match(/"message"\s*:\s*"([^"]{0,140})/)?.[1] ?? "";
+      return `${status}${typ ? ` ${typ}` : ""}${msg ? `: ${msg}` : ""}`.replace(/(sk-|AIza)[\w-]+/g, "[key]");
+    };
+
     // Fallback-Helper: versucht Anthropic, dann OpenAI (in dieser Reihenfolge)
     const tryFallbacks = async (): Promise<Response | null> => {
       if (ANTHROPIC_KEY) {
@@ -1105,9 +1115,10 @@ serve(async (req) => {
         logChat({
           user_message: lastUser.slice(0, 2000),
           provider: "openai-gpt",
-          error: `status-${openaiResp.status}`,
+          error: `openai ${fehlerKurz(openaiResp.status, errText)}${vorherigerFehler ? ` | gemini ${vorherigerFehler}` : ""}`.slice(0, 500),
         });
-        return new Response(JSON.stringify({ error: `OpenAI ${openaiResp.status}` }), {
+        // Nutzer sehen keinen Anbieter-Statuscode, sondern was los ist.
+        return new Response(JSON.stringify({ error: "Felix ist gerade nicht erreichbar. Bitte versuch es in ein paar Minuten nochmal." }), {
           status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
@@ -1123,6 +1134,7 @@ serve(async (req) => {
       }
 
       if (geminiResp.status === 429) {
+        vorherigerFehler = fehlerKurz(429, await geminiResp.text().catch(() => ""));
         // Quota/Rate-Limit bei Gemini → erst Fallbacks versuchen, sonst 429 melden
         const fb = await tryFallbacks();
         if (fb) return fb;
@@ -1139,6 +1151,7 @@ serve(async (req) => {
 
       const t = await geminiResp.text();
       console.error("Gemini error", geminiResp.status, t);
+      vorherigerFehler = fehlerKurz(geminiResp.status, t);
       // Bei jedem anderen Fehler: Anthropic ODER OpenAI versuchen
       const fb = await tryFallbacks();
       if (fb) return fb;
