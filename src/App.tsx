@@ -109,6 +109,7 @@ const FAQ = lazy(() => import("./pages/FAQ.tsx"));
 const Kontakt = lazy(() => import("./pages/Kontakt.tsx"));
 const Impressum = lazy(() => import("./pages/Impressum.tsx"));
 const Partner = lazy(() => import("./pages/Partner.tsx"));
+const Angebot = lazy(() => import("./pages/Angebot.tsx"));
 const Datenschutz = lazy(() => import("./pages/Datenschutz.tsx"));
 const AGB = lazy(() => import("./pages/AGB.tsx"));
 const Widerruf = lazy(() => import("./pages/Widerruf.tsx"));
@@ -291,6 +292,8 @@ const App = () => (
               {/* Affiliate-Support-Seite fuer den Digistore24-Marktplatz: muss
                   oeffentlich (ohne Login) erreichbar bleiben. */}
               <Route path="/partner" element={<Partner />} />
+              {/* Affiliate-Verkaufsseite (Digistore24): nur DS24-Checkout, oeffentlich */}
+              <Route path="/angebot" element={<Angebot />} />
               <Route path="/impressum" element={<Impressum />} />
               <Route path="/datenschutz" element={<Datenschutz />} />
               <Route path="/agb" element={<AGB />} />
