@@ -29,6 +29,7 @@ export const Footer = () => (
             <li><Link to="/ratgeber" className="hover:text-foreground">Ratgeber</Link></li>
             <li><Link to="/gruender-events" className="hover:text-foreground">Gründer-Events</Link></li>
             <li><Link to="/hackathon-starter-kit" className="hover:text-foreground">Hackathon-Starter-Kit</Link></li>
+            <li><Link to="/gruendungsberatung" className="hover:text-foreground">Gründungsberatung finden</Link></li>
             {/* Zeigte auf den Startseiten-Anker /#faq. Dadurch war /faq -- die
                 eigenstaendige, prerenderte Seite aus der Sitemap -- die einzige
                 von 188 URLs, die von keiner erreichbaren Seite aus verlinkt war.

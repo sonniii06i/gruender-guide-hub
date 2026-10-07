@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { FOLIEN, elevatorPitch, leeresDeck, pruefePitch, type PitchDeck } from "@/lib/pitchDeck";
+import { FOLIEN, elevatorPitch, felixJuryPrompt, juryFragen, leeresDeck, pruefePitch, type PitchDeck } from "@/lib/pitchDeck";
 import { bauePitchPdf } from "@/lib/pitchDeckPdf";
 
 const SPEICHER = "gx-pitchdeck-v1";
@@ -102,6 +102,18 @@ const PitchDeckGenerator = () => {
               </button>
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed">{pitch || "Füll Problem, Lösung, Traction und Ask aus – dann steht hier dein Elevator-Pitch."}</p>
+          </div>
+          <div className="rounded-2xl border border-border bg-card p-5">
+            <h2 className="font-bold mb-2">Pitch-Training: Das fragt die Jury</h2>
+            <ol className="list-decimal pl-5 space-y-1 text-xs text-muted-foreground">
+              {juryFragen(d).map((f) => <li key={f}>{f}</li>)}
+            </ol>
+            <Link
+              to={`/felix?frage=${encodeURIComponent(felixJuryPrompt(d))}`}
+              className="mt-3 inline-flex items-center text-xs font-semibold text-accent-blue hover:underline"
+            >
+              Mit Felix als Jury üben →
+            </Link>
           </div>
           <div className="rounded-2xl border border-amber-500/30 bg-amber-500/5 p-4 text-xs leading-relaxed">
             <strong>Wohin damit?</strong> Offene Bewerbungsfristen für Businessplan-Wettbewerbe, Stipendien und Accelerator

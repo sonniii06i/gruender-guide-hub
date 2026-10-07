@@ -71,3 +71,30 @@ export function elevatorPitch(d: PitchDeck): string {
   ].filter(Boolean) as string[];
   return teile.join(" ").replace(/\.\./g, ".");
 }
+
+/** Fragen, die eine Jury zu genau diesem Deck stellen würde – gezielt an den Lücken. */
+export function juryFragen(d: PitchDeck): string[] {
+  const t = (id: FolieId) => (d.folien[id] ?? "").toLowerCase();
+  const f: string[] = [];
+  if (!/\d/.test(t("traction"))) f.push("Wie viele zahlende Kunden habt ihr – und was haben sie bisher gezahlt?");
+  else f.push("Welche eurer Zahlen in der Traction ist die wichtigste, und wie hat sie sich im letzten Monat entwickelt?");
+  if (!/quelle|statista|destatis|studie|verband/.test(t("markt"))) f.push("Woher stammen eure Marktzahlen – und wie habt ihr den erreichbaren Markt (SOM) berechnet?");
+  if (!/€|eur|preis|abo|monat/.test(t("geschaeftsmodell"))) f.push("Was zahlt ein Kunde konkret, und wie hoch sind eure Kosten, um ihn zu gewinnen?");
+  else f.push("Wie hoch sind Kundengewinnungskosten (CAC) und Kundenwert (LTV) – und ab wann rechnet sich ein Kunde?");
+  if (!t("wettbewerb")) f.push("Wer ist euer stärkster Wettbewerber, und was macht er besser als ihr?");
+  else f.push("Was hindert einen großen Anbieter daran, euer Produkt in drei Monaten nachzubauen?");
+  if (!/€|eur|k\b|mio/.test(t("ask"))) f.push("Wie viel Geld braucht ihr, wofür genau, und welchen Meilenstein erreicht ihr damit?");
+  else f.push("Welcher Meilenstein ist mit dem Geld erreicht, und was passiert, wenn es 50 % länger dauert?");
+  f.push("Warum seid genau ihr das richtige Team für dieses Problem?");
+  f.push("Was ist das größte Risiko in eurem Plan – und wie geht ihr damit um?");
+  f.push("Warum ist jetzt der richtige Zeitpunkt für diese Lösung?");
+  return f;
+}
+
+/** Prompt für Felix: Jury-Rolle mit Deck-Inhalt, eine Frage nach der anderen. */
+export function felixJuryPrompt(d: PitchDeck): string {
+  const inhalt = FOLIEN.filter((f) => (d.folien[f.id] ?? "").trim())
+    .map((f) => `${f.titel}: ${d.folien[f.id].trim().replace(/\n/g, "; ")}`)
+    .join("\n");
+  return `Sei die Jury eines Gründungswettbewerbs. Hier ist unser Pitch-Deck „${d.name || "ohne Namen"}“:\n${inhalt}\n\nStell mir nacheinander die 5 kritischsten Fragen – immer nur eine, warte auf meine Antwort und bewerte sie kurz (stark/schwach + Verbesserung), bevor du die nächste stellst.`;
+}

@@ -2,6 +2,58 @@ import type { LandingCopy } from "./landingCopy";
 
 // Bespoke-Landing-Copy pro Tool-Slug. Generiert; fehlt ein Slug, greift der Fallback.
 export const TOOL_COPY: Record<string, LandingCopy> = {
+  "steuerkalender": {
+    "seoTitle": "Steuerkalender für Selbstständige & Gründer 2026/27",
+    "seoDescription": "Alle Steuertermine der nächsten 12 Monate für deine Rechtsform: USt-Voranmeldung, Vorauszahlungen, Lohnsteuer, Abgabefristen – mit Feiertagen und Kalender-Export.",
+    "lead": "Der Steuerkalender zeigt dir jeden Abgabe- und Zahlungstermin der nächsten zwölf Monate – passend zu Rechtsform, Umsatzsteuer-Rhythmus, Mitarbeitern und Steuerberater – und schickt alles mit Erinnerung in deinen Kalender.",
+    "urgency": "Wer eine Voranmeldung zu spät abgibt, riskiert Verspätungszuschläge, wer zu spät zahlt, Säumniszuschläge von 1 % pro angefangenem Monat. Dazu kommen Sonderfälle wie die Rückkehr der monatlichen Voranmeldung für Neugründer ab 2027. Mit dem Steuerkalender von GründerX verpasst du keinen Termin mehr.",
+    "outcomes": [
+        "Alle Steuertermine der nächsten 12 Monate für deine Situation",
+        "Termine korrekt verschoben bei Wochenende und Feiertag (§ 108 AO)",
+        "Hinweise zu Neugründer-Regel, Dauerfristverlängerung und Schonfrist",
+        "Kalender-Export mit Erinnerung drei Tage vorher"
+    ],
+    "disclaimer": "Berücksichtigt bundesweite Feiertage; regionale Feiertage können Fristen zusätzlich verschieben."
+},
+  "scheinselbststaendigkeit": {
+    "seoTitle": "Scheinselbstständigkeit prüfen: Check für Freelancer",
+    "seoDescription": "Bin ich scheinselbstständig? Risiko-Check nach den Kriterien der Rentenversicherung plus Rentenversicherungspflicht bei einem Auftraggeber – mit Beiträgen 2026.",
+    "lead": "Der Check zeigt dir anhand der Kriterien der Deutschen Rentenversicherung, wie hoch dein Risiko der Scheinselbstständigkeit ist – und ob du als Selbstständiger mit einem Hauptkunden rentenversicherungspflichtig bist.",
+    "urgency": "Wird eine Scheinselbstständigkeit festgestellt, muss der Auftraggeber Sozialversicherungsbeiträge für bis zu vier Jahre nachzahlen – Aufträge brechen deshalb oft schlagartig weg. Und auch echte Selbstständige mit nur einem Hauptkunden sind rentenversicherungspflichtig, ohne es zu wissen. Mit dem Check von GründerX weißt du in fünf Minuten, wo du stehst.",
+    "outcomes": [
+        "Risiko-Ampel nach den Indizien der Rentenversicherung",
+        "Prüfung der Rentenversicherungspflicht (5/6-Regel, Mitarbeiter, 603-€-Grenze)",
+        "Beitragshöhe 2026 und Befreiungsmöglichkeit für Gründer",
+        "Weg zur verbindlichen Statusfeststellung"
+    ],
+    "disclaimer": "Risikoeinschätzung nach Rechtsstand Oktober 2026; verbindlich entscheidet nur die Deutsche Rentenversicherung."
+},
+  "gz-phase2": {
+    "seoTitle": "Gründungszuschuss Phase 2 beantragen: Bericht-Vorlage",
+    "seoDescription": "Bericht über deine Geschäftstätigkeit für Phase 2 des Gründungszuschusses: Aktivitäten, Einnahmen und Ausgaben, Ausblick – mit Prüfung und PDF.",
+    "lead": "Für Phase 2 des Gründungszuschusses verlangt die Arbeitsagentur einen Bericht über deine bisherige Geschäftstätigkeit. Hier erstellst du ihn strukturiert – mit Einnahmen und Ausgaben je Monat – als fertiges PDF.",
+    "urgency": "Phase 2 ist eine Ermessensleistung: 2.700 € gibt es nur, wenn du eine intensive, hauptberufliche Tätigkeit nachweist. Ein dünner Bericht ohne Zahlen ist der schnellste Weg zur Ablehnung. Mit der Vorlage von GründerX lieferst du genau das, was in den Fachlichen Weisungen steht.",
+    "outcomes": [
+        "Bericht mit allen Pflichtinhalten nach den Fachlichen Weisungen",
+        "Tabelle Einnahmen und Ausgaben der vergangenen Monate",
+        "Warnung bei Ablehnungsgründen wie zu wenig Wochenstunden",
+        "Fertiges PDF für den Online-Antrag"
+    ],
+    "disclaimer": "Phase 2 ist eine Ermessensleistung der Arbeitsagentur; die Vorlage ersetzt keine Beratung."
+},
+  "bankgespraech": {
+    "seoTitle": "KfW-StartGeld: Bankgespräch vorbereiten & Rate rechnen",
+    "seoDescription": "ERP-Gründerkredit StartGeld bis 200.000 €: Raten mit aktuellen KfW-Zinsen rechnen, Unterlagen abhaken und die typischen Bankfragen vorbereiten.",
+    "lead": "Das Tool rechnet deine Raten für den KfW-Gründerkredit StartGeld mit den aktuellen Maximalzinsen, hakt die Unterlagen ab, die Bank und KfW sehen wollen, und hilft dir, die typischen Fragen im Bankgespräch vorzubereiten.",
+    "urgency": "Den Gründerkredit beantragst du über deine Hausbank – und die entscheidet im Gespräch, ob sie den Antrag überhaupt weiterreicht. Wer Kapitaldienst, Sicherheiten und Umsatzplanung nicht sauber erklären kann, bekommt eine Absage, obwohl die KfW 80 % des Risikos übernimmt. Mit der Gesprächsmappe von GründerX gehst du vorbereitet hinein.",
+    "outcomes": [
+        "Raten in tilgungsfreier Zeit und danach, Zinsen gesamt",
+        "Unterlagen-Checkliste nach KfW und IHK",
+        "Die 14 typischen Bankfragen mit deinen Antworten",
+        "Gesprächsmappe als PDF"
+    ],
+    "disclaimer": "Konditionen sind Maximalzinsen laut KfW; maßgeblich ist der Zins am Tag der Zusage."
+},
   "pitch-deck": {
     "seoTitle": "Pitch-Deck erstellen: 10 Folien für Wettbewerbe",
     "seoDescription": "Pitch-Deck für Businessplan-Wettbewerbe, Accelerator und Investoren: 10 Folien mit Jury-Check, 16:9-PDF und 60-Sekunden-Elevator-Pitch.",

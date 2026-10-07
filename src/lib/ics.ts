@@ -9,6 +9,8 @@ export type IcsTermin = {
   ort?: string;
   beschreibung?: string;
   url?: string;
+  /** Erinnerung um 9 Uhr, so viele Tage vor dem Termin (VALARM). */
+  erinnerungTage?: number;
 };
 
 const esc = (s: string) => s.replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\r?\n/g, "\\n");
@@ -57,6 +59,9 @@ export function baueIcs(termine: IcsTermin[], kalenderName: string, jetzt = new 
       ...(t.beschreibung || t.url ? [`DESCRIPTION:${esc([t.beschreibung, t.url].filter(Boolean).join("\n"))}`] : []),
       ...(t.url ? [`URL:${t.url}`] : []),
       "TRANSP:TRANSPARENT",
+      ...(t.erinnerungTage
+        ? ["BEGIN:VALARM", "ACTION:DISPLAY", `DESCRIPTION:${esc(t.titel)}`, `TRIGGER:-P${Math.max(0, t.erinnerungTage - 1)}DT15H`, "END:VALARM"]
+        : []),
       "END:VEVENT",
     );
   }

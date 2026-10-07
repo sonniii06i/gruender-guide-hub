@@ -162,6 +162,22 @@ const RELATED: Record<string, ToolRef[]> = {
     { route: "/cockpit/bwa-generator", label: "BWA-Generator", desc: "Reisekosten-Summe in BWA übertragen" },
     { route: "/cockpit/kfz-optimizer", label: "Kfz-Optimizer", desc: "Bei eigenem Geschäfts-Kfz: 1%-Regel vs Fahrtenbuch" },
   ],
+  "/cockpit/steuerkalender": [
+    { route: "/cockpit/ust-voranmeldung", label: "USt-Voranmeldung-Walkthrough", desc: "Die Voranmeldung Zeile für Zeile in ELSTER" },
+    { route: "/cockpit/quartals-steuer", label: "Quartals-Steuerschätzung", desc: "Wie hoch die Vorauszahlungen ungefähr sein werden" },
+  ],
+  "/cockpit/scheinselbststaendigkeit": [
+    { route: "/cockpit/stundensatz-rechner", label: "Stundensatz-Rechner", desc: "Rentenbeitrag in den Stundensatz einrechnen" },
+    { route: "/cockpit/versicherungs-basis-check", label: "Versicherungs-Basis-Check", desc: "Absicherung als Selbstständiger" },
+  ],
+  "/cockpit/gz-phase2": [
+    { route: "/cockpit/gruendungszuschuss", label: "Gründungszuschuss-Check", desc: "Phase 1, Voraussetzungen und Höhe" },
+    { route: "/cockpit/bwa-generator", label: "BWA-Generator", desc: "Einnahmen und Ausgaben sauber aufbereiten" },
+  ],
+  "/cockpit/bankgespraech": [
+    { route: "/cockpit/gruendungsunterlagen", label: "Finanzplan-Generator", desc: "Kapitaldienst, Rentabilität und Liquidität fürs Gespräch" },
+    { route: "/cockpit/foerderung", label: "Förderung-Datenbank", desc: "Weitere Förderkredite und Zuschüsse der Länder" },
+  ],
   "/cockpit/pitch-deck": [
     { route: "/gruender-events", label: "Fristen-Radar", desc: "Offene Bewerbungsfristen für Wettbewerbe, Stipendien und Accelerator" },
     { route: "/cockpit/gruendungsunterlagen", label: "Finanzplan-Generator", desc: "Zahlen für die Finanzen-Folie: Umsatz über 3 Jahre und Kapitalbedarf" },

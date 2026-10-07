@@ -154,9 +154,35 @@ async function quelleGruendungswoche(log) {
   return out;
 }
 
+// filter: true = gemischter Kalender, nur Titel mit Gründer-/Tech-Bezug übernehmen.
 const LUMA_KALENDER = [
   { id: "cal-TOpA5LAFfuDeFpu", name: "Claude Community" },
   { id: "cal-BoFzAAmfdAK1Fw6", name: "Cursor Community" },
+  { id: "cal-2fhmoASDoE2l7VS", name: "The Delta" },
+  { id: "cal-W7N51nFcd0IF4Up", name: "AI BEAVERS" },
+  { id: "cal-aF0EndfLzVcSK80", name: "AI Safety Berlin" },
+  { id: "cal-XRR8W73B5CyPxoN", name: "Female Founders Breakfast" },
+  { id: "cal-7sHKxsqqNNbPA7k", name: "AI Campus Berlin" },
+  { id: "cal-rqDKfplmbufo7VE", name: "AI Agents Berlin" },
+  { id: "cal-G1XrHlQ6y9kGdJq", name: "KI Park" },
+  { id: "cal-LVB8BmFbKqgCVCi", name: "SpaceXAI Frankfurt" },
+  { id: "cal-vR3QHKpu8K6AzK0", name: "Nebius Developer Community" },
+  { id: "cal-xGJyiAzYfuTLpHh", name: "Startup Stuttgart e.V." },
+  { id: "cal-wLV0zHxRYR9ALqa", name: "START Berlin" },
+  { id: "cal-mvNH1VHlaFtSMFx", name: "LangChain" },
+  { id: "cal-c9CVdKRbXTwUE0q", name: "YFN Berlin" },
+  { id: "cal-SHvMoUk6rRHhfNL", name: "Aspiring Founders Meetup" },
+  { id: "cal-zumjp2xAymV5GF4", name: "Silicon Allee x Fraunhofer HHI" },
+  { id: "cal-jHUW3uwDRl1I7da", name: "Build & Lead Berlin" },
+  { id: "cal-rMdmYCRWtrzLUwa", name: "Superteam Germany", filter: true },
+  { id: "cal-Qrq7kdmcKk8qffU", name: "Munich Climate Week", filter: true },
+  { id: "cal-3aH7Cvqdyre9u3j", name: "Founders Running Club" },
+];
+// Luma-Umkreissuche für Städte ohne eigene Discover-Seite.
+const LUMA_GEO = [
+  ["Köln", 50.94, 6.96], ["Düsseldorf", 51.23, 6.78], ["Essen", 51.46, 7.01], ["Stuttgart", 48.78, 9.18],
+  ["Karlsruhe", 49.01, 8.4], ["Darmstadt", 49.87, 8.65], ["Mannheim", 49.49, 8.47], ["Nürnberg", 49.45, 11.08],
+  ["Leipzig", 51.34, 12.37], ["Dresden", 51.05, 13.74], ["Hannover", 52.37, 9.73], ["Aachen", 50.78, 6.08], ["Münster", 51.96, 7.63],
 ];
 const LUMA_STAEDTE = [
   { id: "discplace-gCfX0s3E9Hgo3rG", name: "Berlin" },
@@ -192,6 +218,7 @@ function lumaEintrag(x, herkunft) {
 
 async function quelleLuma(log) {
   const out = [];
+  const gesehen = new Set();
   for (const k of LUMA_KALENDER) {
     let cursor = "";
     try {
@@ -202,6 +229,12 @@ async function quelleLuma(log) {
       );
       for (const x of d.entries ?? []) {
         log.roh++;
+        if (gesehen.has(x.event?.api_id)) continue;
+        gesehen.add(x.event?.api_id);
+        if (k.filter && (RE_IRRELEVANT.test(x.event?.name ?? "") || !RE_RELEVANT.test(x.event?.name ?? ""))) {
+          log.verwerfen("kein Gründer-/Tech-Bezug");
+          continue;
+        }
         const e = lumaEintrag(x, k.name);
         if (e._land !== "DE") {
           log.verwerfen("nicht in Deutschland");
@@ -227,6 +260,8 @@ async function quelleLuma(log) {
       );
       for (const x of d.entries ?? []) {
         log.roh++;
+        if (gesehen.has(x.event?.api_id)) continue;
+        gesehen.add(x.event?.api_id);
         const name = x.event?.name ?? "";
         if (RE_IRRELEVANT.test(name) || !RE_RELEVANT.test(name)) {
           log.verwerfen("kein Gründer-/Tech-Bezug");
@@ -247,12 +282,54 @@ async function quelleLuma(log) {
       log.fehler.push(`Stadt ${st.name}: ${e.message}`);
     }
   }
+  for (const [stadt, lat, lon] of LUMA_GEO) {
+    try {
+      let cursor = "";
+      for (let seite = 0; seite < 3; seite++) {
+        const d = await holen(
+          `https://api.lu.ma/discover/get-paginated-events?latitude=${lat}&longitude=${lon}&pagination_limit=50${cursor ? `&pagination_cursor=${cursor}` : ""}`,
+          { json: true },
+        );
+        for (const x of d.entries ?? []) {
+          log.roh++;
+          if (gesehen.has(x.event?.api_id)) continue;
+          gesehen.add(x.event?.api_id);
+          const name = x.event?.name ?? "";
+          if (RE_IRRELEVANT.test(name) || !RE_RELEVANT.test(name)) {
+            log.verwerfen("kein Gründer-/Tech-Bezug");
+            continue;
+          }
+          const e = lumaEintrag(x, stadt);
+          if (e._land !== "DE") {
+            log.verwerfen("nicht in Deutschland");
+            continue;
+          }
+          out.push(e);
+        }
+        if (!d.has_more || !d.next_cursor) break;
+        cursor = encodeURIComponent(d.next_cursor);
+        await sleep(500);
+      }
+    } catch (e) {
+      log.fehler.push(`Umkreis ${stadt}: ${e.message}`);
+    }
+  }
   return out.map(({ _land, ...e }) => e);
 }
 
 const MEETUP_GRUPPEN = [
   { slug: "claude-meetup-frankfurt", ort: "Frankfurt am Main", region: "HE" },
   { slug: "agentic-coding-meetup-hamburg", ort: "Hamburg", region: "HH" },
+  { slug: "berlinstartups", ort: "Berlin", region: "BE" },
+  { slug: "ai-beavers", ort: "Hamburg", region: "HH" },
+  { slug: "munchen-ai-machine-learning-and-computer-vision-meetup", ort: "München", region: "BY" },
+  { slug: "startupschoolberlin", ort: "Berlin", region: "BE" },
+  { slug: "berlin-startup-founder-101", ort: "Berlin", region: "BE" },
+  { slug: "cyberforum-e-v-karlsruhe-hightech-unternehmer-netzwerk", ort: "Karlsruhe", region: "BW" },
+  { slug: "ai-nights-nurnberg", ort: "Nürnberg", region: "BY" },
+  { slug: "global-ai-berlin", ort: "Berlin", region: "BE" },
+  { slug: "Big-Data-and-AI-Saxony", ort: "Leipzig", region: "SN" },
+  { slug: "tech-talk-stuttgart", ort: "Stuttgart", region: "BW" },
 ];
 
 async function quelleMeetup(log) {
@@ -308,6 +385,7 @@ const STADT_REGION = {
   erlangen: "BY", wiesbaden: "HE", kassel: "HE", gießen: "HE", marburg: "HE", bonn: "NW", duisburg: "NW", wuppertal: "NW",
   siegen: "NW", kaiserslautern: "RP", trier: "RP", koblenz: "RP", oldenburg: "NI", osnabrück: "NI", lüneburg: "NI",
   flensburg: "SH", chemnitz: "SN", cottbus: "BB", greifswald: "MV", schwerin: "MV", weimar: "TH", ilmenau: "TH",
+  friedrichshafen: "BW", kiel: "SH", rostock: "MV", erlangen: "BY", fürth: "BY", wolfsburg: "NI", "bad homburg": "HE",
   lindau: "BY", fulda: "HE", "neu-isenburg": "HE", neubiberg: "BY", pforzheim: "BW", bremerhaven: "HB", esslingen: "BW",
   bayreuth: "BY", hof: "BY", coburg: "BY", erkelenz: "NW", "halle (saale)": "ST", rosenheim: "BY", passau: "BY",
   landshut: "BY", reutlingen: "BW", ludwigsburg: "BW", gütersloh: "NW", krefeld: "NW", mönchengladbach: "NW",
@@ -316,6 +394,17 @@ const STADT_REGION = {
   dessau: "ST", "dessau-roßlau": "ST", wismar: "MV", stralsund: "MV", neubrandenburg: "MV", "frankfurt (oder)": "BB",
   erfurt: "TH", jena: "TH", magdeburg: "ST", halle: "ST", rostock: "MV", göttingen: "NI", braunschweig: "NI", paderborn: "NW",
 };
+/** Stadt aus Freitext: „12345 Stadt“, „… - Stadt“ oder eine bekannte Stadt im Text. */
+function stadtAusText(t) {
+  const plz = t.match(/\b\d{5}\s+([A-ZÄÖÜ][\wäöüß.-]+(?:\s[A-ZÄÖÜ][\wäöüß.-]+)?)/);
+  if (plz) return plz[1];
+  const strich = t.match(/\s[-–]\s([A-ZÄÖÜ][\wäöüß.-]+)\s*$/);
+  if (strich) return strich[1];
+  const lc = t.toLowerCase();
+  const bekannt = Object.keys(STADT_REGION).find((k) => new RegExp(`\\b${k}`).test(lc) || lc.includes(k.slice(0, 5) + "er "));
+  return bekannt ? STADT_DE[bekannt] ?? bekannt[0].toUpperCase() + bekannt.slice(1) : t.slice(0, 40);
+}
+
 const STADT_DE = { munich: "München", cologne: "Köln", nuremberg: "Nürnberg", hanover: "Hannover", dusseldorf: "Düsseldorf" };
 
 async function quelleHackathonhub(log) {
@@ -364,7 +453,278 @@ async function quelleHackathonhub(log) {
   return out;
 }
 
-const QUELLEN = { gruendungswoche: quelleGruendungswoche, luma: quelleLuma, meetup: quelleMeetup, hackathonhub: quelleHackathonhub };
+
+// ---------- weitere Quellen (getestet 08.10.2026) ----------
+
+const DE_DATUM = /(\d{1,2})\.(\d{1,2})\.(20\d\d)/g;
+const deIso = (t) => [...(t ?? "").matchAll(DE_DATUM)].map(([, d, m, y]) => `${y}-${m.padStart(2, "0")}-${d.padStart(2, "0")}`);
+
+function eintrag(o) {
+  const online = !!o.online;
+  const ort = online ? "online" : (o.ort ?? "").trim();
+  return {
+    quelle: o.quelle,
+    name: decode(o.name).replace(/\s+/g, " ").trim(),
+    veranstalter: decode(o.veranstalter ?? o.quelle).trim(),
+    art: o.art ?? art(o.name, online),
+    format: online ? "online" : "vor-ort",
+    ort,
+    region: online ? "online" : o.region ?? STADT_REGION[ort.toLowerCase()] ?? "bund",
+    datum: o.datum,
+    datumBis: o.datumBis && o.datumBis > o.datum ? o.datumBis : undefined,
+    kostenlos: o.kostenlos,
+    url: o.url,
+    kurz: o.kurz ?? `${online ? "Online-Event" : `Event in ${ort || "Deutschland"}`} – gelistet bei ${o.quellName ?? o.quelle}.`,
+    prio: o.prio ?? 1,
+  };
+}
+
+/** schema.org-Events aus allen JSON-LD-Blöcken einer Seite (auch in ItemList/@graph verschachtelt). */
+function jsonLdEvents(html) {
+  const out = [];
+  const walk = (o) => {
+    if (Array.isArray(o)) o.forEach(walk);
+    else if (o && typeof o === "object") {
+      if (/Event$/.test(String(o["@type"] ?? ""))) out.push(o);
+      Object.values(o).forEach(walk);
+    }
+  };
+  for (const m of html.matchAll(/<script[^>]*application\/ld\+json[^>]*>([\s\S]*?)<\/script>/g)) {
+    try {
+      walk(JSON.parse(m[1]));
+    } catch {
+      /* kaputter Block – überspringen */
+    }
+  }
+  return out;
+}
+
+async function quelleGdg(log) {
+  const out = [];
+  for (const seite of [1, 2]) {
+    const d = await holen(`https://gdg.community.dev/api/event/?status=Live&page_size=500&page=${seite}`, { json: true });
+    for (const e of d.results ?? []) {
+      log.roh++;
+      if (e.chapter?.country !== "DE") continue; // weltweite Liste – nur DE zählt überhaupt
+      if (e.is_test) {
+        log.verwerfen("Testevent");
+        continue;
+      }
+      out.push(eintrag({
+        quelle: "gdg", quellName: "Google Developer Groups", name: e.title, veranstalter: e.chapter?.title ?? "Google Developer Group",
+        ort: STADT_DE[(e.chapter?.city ?? "").toLowerCase()] ?? e.chapter?.city ?? "", datum: istBerlin(e.start_date), datumBis: e.end_date ? istBerlin(e.end_date) : undefined, url: e.url,
+        online: /online|virtual/i.test(e.event_type_title ?? ""),
+      }));
+    }
+    if (!d.links?.next && !d.next) break;
+    await sleep(500);
+  }
+  return out;
+}
+
+async function quelleMunichStartup(log) {
+  const out = [];
+  let url = `https://cms.munich-startup.de/wp-json/tribe/events/v1/events?start_date=${HEUTE}&per_page=50`;
+  for (let i = 0; i < 6 && url; i++) {
+    const d = await holen(url, { json: true });
+    for (const e of d.events ?? []) {
+      log.roh++;
+      out.push(eintrag({
+        quelle: "munich-startup", quellName: "Munich Startup", name: e.title, veranstalter: e.organizer?.[0]?.organizer ?? "Munich Startup",
+        ort: e.venue?.city || "München", region: "BY", online: !!e.is_virtual || !e.venue?.city && /online|virtuell|webinar/i.test(e.title),
+        datum: (e.start_date ?? "").slice(0, 10), datumBis: (e.end_date ?? "").slice(0, 10), url: e.url,
+        kostenlos: /kostenlos|free|0 ?€/i.test(e.cost ?? "") ? true : undefined,
+      }));
+    }
+    url = d.next_rest_url;
+    await sleep(400);
+  }
+  return out;
+}
+
+async function quelleStartplatz(log) {
+  const html = await holen("https://www.startplatz.de/events/");
+  const out = [];
+  const urls = new Set();
+  for (const teil of html.split('<div class="event-searchable"').slice(1)) {
+    log.roh++;
+    const href = teil.match(/class="event-card-stretch"[^>]*href="([^"]+)"|href="([^"]+)"[^>]*class="event-card-stretch"/);
+    const link = href?.[1] ?? href?.[2];
+    const titel = text(teil.match(/<h4[^>]*event-card-title[^>]*>([\s\S]*?)<\/h4>/)?.[1] ?? "");
+    const loc = teil.match(/data-loc="([^"]*)"/)?.[1] ?? "";
+    const datum = deIso(teil.match(/data-search="([^"]*)"/)?.[1])[0];
+    if (!link || !titel || !datum) {
+      log.verwerfen("unlesbar");
+      continue;
+    }
+    const url = new URL(decode(link), "https://www.startplatz.de").href;
+    if (urls.has(url)) continue; // jede Karte steht doppelt im DOM
+    urls.add(url);
+    out.push(eintrag({
+      quelle: "startplatz", quellName: "STARTPLATZ", name: titel, veranstalter: "STARTPLATZ",
+      online: loc === "online", ort: loc === "duesseldorf" ? "Düsseldorf" : "Köln", region: "NW", datum, url,
+    }));
+  }
+  return out;
+}
+
+const US_MONAT = (t) => {
+  const m = (t ?? "").match(/(\d{1,2})\/(\d{1,2})\/(20\d\d)/g) ?? [];
+  return m.map((x) => {
+    const [mo, d, y] = x.split("/");
+    return `${y}-${mo.padStart(2, "0")}-${d.padStart(2, "0")}`;
+  });
+};
+
+async function quelleStartupCityHamburg(log) {
+  const html = await holen("https://startupcity.hamburg/news-events/events");
+  const out = [];
+  const urls = new Set();
+  for (const m of html.matchAll(/<a[^>]+href="(\/news-events\/events\/[^"#?]+)"[^>]*>([\s\S]*?)<\/a>/g)) {
+    const inhalt = m[2];
+    const daten = US_MONAT(text(inhalt.match(/<div[^>]*uppercase[^>]*>([\s\S]*?)<\/div>/)?.[1] ?? ""));
+    const titel = text(inhalt.match(/<h2[^>]*>([\s\S]*?)<\/h2>/)?.[1] ?? "");
+    if (!daten[0] || !titel) continue; // Teaser-Links ohne Datum
+    log.roh++;
+    const url = `https://startupcity.hamburg${m[1]}`;
+    if (urls.has(url)) continue;
+    urls.add(url);
+    out.push(eintrag({ quelle: "startupcity-hamburg", quellName: "Startup City Hamburg", name: titel, veranstalter: "Startup City Hamburg", ort: "Hamburg", region: "HH", datum: daten[0], datumBis: daten[1], url }));
+  }
+  return out;
+}
+
+async function quelleStartupBw(log) {
+  const html = await holen("https://www.startupbw.de/events-wettbewerbe/landesweiter-veranstaltungskalender");
+  const out = [];
+  for (const teil of html.split('class="event-title"').slice(1)) {
+    log.roh++;
+    const titel = text(teil.match(/^[^>]*>([\s\S]*?)<\/h3>/)?.[1] ?? "");
+    const daten = deIso(teil.match(/Datum:\s*<\/dt>\s*<dd>([\s\S]*?)<\/dd>/)?.[1]);
+    const link = teil.match(/href="([^"]*landesweiter-veranstaltungskalender\/veranstaltung\/[^"]+)"/)?.[1];
+    if (!titel || !daten[0] || !link) {
+      log.verwerfen("unlesbar");
+      continue;
+    }
+    out.push(eintrag({
+      quelle: "startup-bw", quellName: "Start-up BW", name: titel, veranstalter: "Start-up BW (Landeskalender)", ort: "Baden-Württemberg", region: "BW",
+      online: /online|webinar|virtuell/i.test(titel), datum: daten[0], datumBis: daten[1], url: new URL(decode(link), "https://www.startupbw.de").href,
+    }));
+  }
+  return out;
+}
+
+async function quelleStarthubHessen(log) {
+  const out = [];
+  const urls = new Set();
+  for (let seite = 1; seite <= 4; seite++) {
+    const html = await holen(`https://www.starthub-hessen.de/de/events/?&page=${seite}`);
+    const teile = html.split(/<a href="(\/de\/events\/[^"]+\/)"/);
+    let neu = 0;
+    for (let i = 1; i < teile.length; i += 2) {
+      const url = `https://www.starthub-hessen.de${teile[i]}`;
+      const block = teile[i + 1] ?? "";
+      const titel = text(block.match(/<h3[^>]*>([\s\S]*?)<\/h3>/)?.[1] ?? "");
+      const datum = deIso(block.match(/<span[^>]*>\s*(\d{1,2}\.\d{1,2}\.20\d\d)/)?.[1])[0];
+      if (!titel || !datum || urls.has(url)) continue;
+      urls.add(url);
+      log.roh++;
+      neu++;
+      out.push(eintrag({ quelle: "starthub-hessen", quellName: "StartHub Hessen", name: titel, veranstalter: "StartHub Hessen", ort: "Hessen", region: "HE", online: /online|webinar/i.test(titel), datum, url }));
+    }
+    if (!neu) break;
+    await sleep(400);
+  }
+  return out;
+}
+
+async function quelleStartupverband(log) {
+  const html = await holen("https://www.startupverband.de/events/");
+  const out = [];
+  for (const m of html.matchAll(/<a href="(\/events\/[^"]+)" title="([^"]*)" class="([^"]*)" data-monat="(\d{4}-\d{2}-\d{2})"[^>]*>([\s\S]*?)<\/a>/g)) {
+    log.roh++;
+    if (/past/.test(m[3])) continue;
+    // Format: „18:30 Uhr, Digital Hub Logistics - Hamburg“ / „…, 18055 Rostock“ / „11:00 Uhr, Online“
+    const info = text(m[5].match(/class="info_left"[^>]*>([\s\S]*?)<\/div>/)?.[1] ?? "").replace(/^\d{1,2}:\d{2}\s*Uhr,?\s*/, "");
+    const online = /online|livestream/i.test(info);
+    const ort = online ? "online" : stadtAusText(info);
+    out.push(eintrag({ quelle: "startupverband", quellName: "Startup-Verband", name: m[2], veranstalter: "Startup-Verband", online, ort, datum: m[4], url: `https://www.startupverband.de${m[1]}` }));
+  }
+  return out;
+}
+
+async function quelleJsonLdSeiten(log, quelle, quellName, urls, nurRelevant) {
+  const out = [];
+  for (const u of urls) {
+    try {
+      const html = await holen(u);
+      for (const e of jsonLdEvents(html)) {
+        log.roh++;
+        const adr = e.location?.address ?? {};
+        const land = adr.addressCountry?.name ?? adr.addressCountry;
+        const online = /Online/.test(e.eventAttendanceMode ?? "") || e.location?.["@type"] === "VirtualLocation";
+        if (!online && land && !/^(DE|Deutschland|Germany)$/i.test(String(land))) {
+          log.verwerfen("nicht in Deutschland");
+          continue;
+        }
+        if (nurRelevant && !RE_RELEVANT.test(e.name ?? "")) {
+          log.verwerfen("kein Gründer-/Tech-Bezug");
+          continue;
+        }
+        if (!e.startDate || !e.url || !e.name) {
+          log.verwerfen("unlesbar");
+          continue;
+        }
+        const stadt = adr.addressLocality || (typeof e.location?.name === "string" ? stadtAusText(e.location.name) : "");
+        // Eventbrite liefert dasselbe Event unter .com/.co.uk/.ie – auf .de vereinheitlichen.
+        const url = String(e.url).replace(/^https:\/\/www\.eventbrite\.[a-z.]+\/e\//, "https://www.eventbrite.de/e/").replace(/\?.*$/, "");
+        out.push(eintrag({
+          quelle, quellName, name: e.name, veranstalter: e.organizer?.name ?? quellName, online, ort: STADT_DE[stadt.toLowerCase()] ?? stadt,
+          datum: String(e.startDate).slice(0, 10), datumBis: e.endDate ? String(e.endDate).slice(0, 10) : undefined, url,
+          kostenlos: e.offers?.price === 0 || e.isAccessibleForFree === true ? true : undefined,
+        }));
+      }
+    } catch (err) {
+      log.fehler.push(`${u}: ${err.message}`);
+    }
+    await sleep(600);
+  }
+  if (!out.length && log.fehler.length === urls.length) throw new Error(log.fehler.join("; "));
+  return out;
+}
+
+const quelleDevEvents = (log) =>
+  quelleJsonLdSeiten(log, "dev-events", "dev.events", ["https://dev.events/EU/DE?page=1", "https://dev.events/EU/DE?page=2", "https://dev.events/EU/DE/ai"], true);
+const quelleEventbrite = (log) =>
+  quelleJsonLdSeiten(log, "eventbrite", "Eventbrite", [
+    "https://www.eventbrite.de/d/germany/hackathon/",
+    "https://www.eventbrite.de/d/germany--berlin/startup/",
+    "https://www.eventbrite.de/d/germany--munich/k%C3%BCnstliche-intelligenz/",
+    "https://www.eventbrite.de/d/germany--hamburg/startup/",
+    "https://www.eventbrite.de/d/germany/gr%C3%BCnder/",
+  ], true);
+const quelleKiCommunities = (log) =>
+  quelleJsonLdSeiten(log, "ki-communities", "appliedAI / AI Tinkerers", [
+    "https://www.appliedai.de/en/events",
+    ...["berlin", "munich", "hamburg", "cologne", "dusseldorf", "karlsruhe"].map((c) => `https://${c}.aitinkerers.org/`),
+  ], false);
+
+const QUELLEN = {
+  gruendungswoche: quelleGruendungswoche,
+  luma: quelleLuma,
+  meetup: quelleMeetup,
+  hackathonhub: quelleHackathonhub,
+  gdg: quelleGdg,
+  "munich-startup": quelleMunichStartup,
+  startplatz: quelleStartplatz,
+  "startupcity-hamburg": quelleStartupCityHamburg,
+  "startup-bw": quelleStartupBw,
+  "starthub-hessen": quelleStarthubHessen,
+  startupverband: quelleStartupverband,
+  "dev-events": quelleDevEvents,
+  eventbrite: quelleEventbrite,
+  "ki-communities": quelleKiCommunities,
+};
 
 // ---------- Lauf ----------
 

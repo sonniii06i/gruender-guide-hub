@@ -119,14 +119,16 @@ const FelixChat = () => {
       });
   }, [user]);
 
-  // Handle ?new=1: clear and remove the param
+  // Handle ?new=1: clear and remove the param. ?frage=… füllt das Eingabefeld vor
+  // (z. B. Pitch-Training aus dem Pitch-Deck-Generator) – gesendet wird erst per Klick.
+  const vorbelegt = params.get("frage");
   useEffect(() => {
-    if (isNew) {
+    if (isNew || vorbelegt) {
       setMessages([]);
-      setInput("");
+      setInput(vorbelegt ?? "");
       setParams({}, { replace: true });
     }
-  }, [isNew, setParams]);
+  }, [isNew, vorbelegt, setParams]);
 
   // Load messages of selected conversation
   useEffect(() => {

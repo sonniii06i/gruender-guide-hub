@@ -130,6 +130,11 @@ const GruendungsUnterlagen = lazy(() => import("./pages/GruendungsUnterlagen.tsx
 const EinstiegsgeldRechner = lazy(() => import("./pages/EinstiegsgeldRechner.tsx"));
 const BafaBeratungCheck = lazy(() => import("./pages/BafaBeratungCheck.tsx"));
 const PitchDeckGenerator = lazy(() => import("./pages/PitchDeckGenerator.tsx"));
+const SteuerFristenKalender = lazy(() => import("./pages/SteuerFristenKalender.tsx"));
+const ScheinselbststaendigkeitCheck = lazy(() => import("./pages/ScheinselbststaendigkeitCheck.tsx"));
+const GzPhase2Bericht = lazy(() => import("./pages/GzPhase2Bericht.tsx"));
+const BankgespraechVorbereitung = lazy(() => import("./pages/BankgespraechVorbereitung.tsx"));
+const GruendungsberatungFinden = lazy(() => import("./pages/GruendungsberatungFinden.tsx"));
 const HackathonStarterKit = lazy(() => import("./pages/HackathonStarterKit.tsx"));
 const GruenderEvents = lazy(() => import("./pages/GruenderEvents.tsx"));
 const FreeToolPage = lazy(() => import("./pages/FreeToolPage.tsx"));
@@ -245,6 +250,10 @@ const App = () => (
                 <Route path="/cockpit/shop-profit-rechner" element={<PaywallGate title="Shop-Profit-Rechner"><ShopProfitRechner /></PaywallGate>} />
                 <Route path="/cockpit/pension-optimizer" element={<PaywallGate title="Pension-Optimizer"><PensionOptimizer /></PaywallGate>} />
                 <Route path="/cockpit/kv-optimizer" element={<PaywallGate title="KV-Optimizer"><KvOptimizer /></PaywallGate>} />
+                <Route path="/cockpit/steuerkalender" element={<PaywallGate title="Steuer- & Fristenkalender"><SteuerFristenKalender /></PaywallGate>} />
+                <Route path="/cockpit/scheinselbststaendigkeit" element={<PaywallGate title="Scheinselbstständigkeits-Check"><ScheinselbststaendigkeitCheck /></PaywallGate>} />
+                <Route path="/cockpit/gz-phase2" element={<PaywallGate title="Gründungszuschuss Phase 2"><GzPhase2Bericht /></PaywallGate>} />
+                <Route path="/cockpit/bankgespraech" element={<PaywallGate title="Bankgespräch & KfW-StartGeld"><BankgespraechVorbereitung /></PaywallGate>} />
                 <Route path="/cockpit/pitch-deck" element={<PaywallGate title="Pitch-Deck-Generator"><PitchDeckGenerator /></PaywallGate>} />
                 <Route path="/cockpit/gruendungsunterlagen" element={<PaywallGate title="Finanzplan-Generator"><GruendungsUnterlagen /></PaywallGate>} />
                 <Route path="/cockpit/einstiegsgeld" element={<PaywallGate title="Einstiegsgeld-Rechner"><EinstiegsgeldRechner /></PaywallGate>} />
@@ -315,6 +324,7 @@ const App = () => (
               <Route path="/gratis-tools" element={<GratisTools />} />
               <Route path="/gruender-events" element={<GruenderEvents />} />
               <Route path="/hackathon-starter-kit" element={<HackathonStarterKit />} />
+              <Route path="/gruendungsberatung" element={<GruendungsberatungFinden />} />
               <Route path="/businessplan-erstellen" element={<FreeToolPage config={FREE_TOOL_BY_SLUG["businessplan-erstellen"]} />} />
               <Route path="/gruendungskosten-rechner" element={<FreeToolPage config={FREE_TOOL_BY_SLUG["gruendungskosten-rechner"]} />} />
               <Route path="/rechtsform-finden" element={<FreeToolPage config={FREE_TOOL_BY_SLUG["rechtsform-finden"]} />} />

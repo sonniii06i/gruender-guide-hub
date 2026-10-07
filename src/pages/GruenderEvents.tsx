@@ -533,7 +533,8 @@ export default function GruenderEvents() {
             <div className="mb-10">
               <h2 className="text-xl md:text-2xl font-bold mb-1">Event-Kalender, die sich lohnen</h2>
               <p className="text-sm text-muted-foreground mb-3">
-                Unser Monitor liest Gründungswoche, Luma, Meetup und hackathonhub täglich aus. Für alles Weitere: Hier
+                Unser Monitor liest täglich 14 Quellen aus – von Gründungswoche, IHK-Kalendern und Startup-Hubs bis Luma,
+                Meetup, Google Developer Groups und Eventbrite. Für alles Weitere: Hier
                 tragen Veranstalter ihre Termine selbst ein.
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">

@@ -699,6 +699,12 @@ LAUNCH / COMPLIANCE
 - /cockpit/bafa-beratung – BAFA-Beratungsförderung: 80 % Ost/Lüneburg/Trier, 50 % sonst, max. 3.500 € Bemessung, Anträge nur bis 31.12.2026
 - /cockpit/pitch-deck – Pitch-Deck-Generator: 10 Folien, Jury-Check, 16:9-PDF, Elevator-Pitch
 - /hackathon-starter-kit – In 3 Stunden zum Prototyp: Phasen-Timer, Prompt-Vorlagen, Packliste
+- /cockpit/steuerkalender – persönlicher Steuer- & Fristenkalender (USt-VA, Vorauszahlungen, Lohn, ZM, Erklärungen, § 108 AO) mit Kalender-Export
+- /cockpit/scheinselbststaendigkeit – Scheinselbstständigkeits-Risiko (DRV-Kriterien) + RV-Pflicht § 2 Nr. 9 SGB VI, Beiträge 2026
+- /cockpit/gz-phase2 – Bericht für Phase 2 des Gründungszuschusses (PDF)
+- /cockpit/bankgespraech – KfW-StartGeld-Rechner + Bankgespräch-Vorbereitung
+- /cockpit/rechnungs-generator – jetzt auch E-Rechnung als XRechnung-XML (KoSIT-validiert)
+- /gruendungsberatung – kostenlose Gründungsberatung nach PLZ (IHK, HWK, Arbeitsagentur, Termine)
 - /cockpit/ecom-roadmap – 8 Kategorien (Beauty, Supplement, Electronics, Toys, Apparel, Food, Pet, Hardware) mit DE/EU/US-Compliance + Standard-Stack + Stolperfallen
 - /cockpit/visa-helper – 6 Visa-Pfade (§21 Selbstständig, §21 Abs 5 Frei, §18g Blue-Card, §18a/b Fachkraft 2024, §20a Chancenkarte, §28/30 Familie)
 - /cockpit/stb-finder – StB-Auswahl-Wizard: Pflicht-Knowledge + Erst-Termin-Frage-Katalog + Red-Flags pro Spezialisierung
