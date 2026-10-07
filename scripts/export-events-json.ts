@@ -22,7 +22,7 @@ const events = aktuelleEvents(heute).map((e) => ({
   kostenlos: e.kostenlos ?? null,
   url: e.url,
 }));
-const out = { stand: LIVE_STAND.stand, erzeugt: new Date().toISOString(), events, fristen: GRUENDER_FRISTEN };
+const out = { stand: LIVE_STAND.stand, erzeugt: new Date().toISOString(), quellen: LIVE_STAND.quellen, events, fristen: GRUENDER_FRISTEN };
 writeFileSync(resolve("public/gruender-events.json"), JSON.stringify(out));
 console.log(`gruender-events.json: ${events.length} Events, ${GRUENDER_FRISTEN.length} Fristen`);
 

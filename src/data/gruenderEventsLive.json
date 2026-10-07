@@ -82,12 +82,6 @@
    },
    "letzterErfolg": "2026-10-07T22:56:18.047Z"
   },
-  "eventbrite": {
-   "ok": false,
-   "fehler": "https://www.eventbrite.de/d/germany/hackathon/: HTTP 405 https://www.eventbrite.de/d/germany/hackathon/; https://www.eventbrite.de/d/germany--berlin/startup/: HTTP 405 https://www.eventbrite.de/d/germany--berlin/startup/; https://www.eventbrite.de/d/germany--munich/k%C3%BCnstliche-intelligenz/: HTTP 405 https://www.eventbrite.de/d/germany--munich/k%C3%BCnstliche-intelligenz/; https://www.eventbrite.de/d/germany--hamburg/startup/: HTTP 405 https://www.eventbrite.de/d/germany--hamburg/startup/; https://www.eventbrite.de/d/germany/gr%C3%BCnder/: HTTP 405 https://www.eventbrite.de/d/germany/gr%C3%BCnder/",
-   "behaltenVomLetztenLauf": 47,
-   "letzterErfolg": "2026-10-07T22:51:08.989Z"
-  },
   "ki-communities": {
    "ok": true,
    "roh": 52,
@@ -102,7 +96,7 @@
   "Serientermin zusammengefasst": 193,
   "Dublette über Quellen": 21
  },
- "anzahl": 757,
+ "anzahl": 710,
  "events": [
   {
    "slug": "gruendungswoche-a0kwx9",
@@ -195,20 +189,6 @@
    "datumBis": "2026-10-08",
    "url": "https://startupcity.hamburg/news-events/events/leat-con",
    "kurz": "Event in Hamburg – gelistet bei Startup City Hamburg."
-  },
-  {
-   "slug": "eventbrite-oug3z0",
-   "quelle": "eventbrite",
-   "name": "Eclipse SDV Hackathon Chapter Four",
-   "veranstalter": "Eventbrite",
-   "art": "hackathon",
-   "format": "vor-ort",
-   "ort": "Friedrichshafen",
-   "region": "BW",
-   "datum": "2026-10-06",
-   "datumBis": "2026-10-08",
-   "url": "https://www.eventbrite.de/e/eclipse-sdv-hackathon-chapter-four-registration-1998344883340",
-   "kurz": "Event in Friedrichshafen – gelistet bei Eventbrite."
   },
   {
    "slug": "gdg-15gfd6w",
@@ -714,45 +694,6 @@
    "kurz": "Event in Hessen – gelistet bei StartHub Hessen."
   },
   {
-   "slug": "eventbrite-1e4e7f3",
-   "quelle": "eventbrite",
-   "name": "Berlin Tech Startup & VC – Rooftop Networking",
-   "veranstalter": "Eventbrite",
-   "art": "netzwerk",
-   "format": "vor-ort",
-   "ort": "Berlin",
-   "region": "BE",
-   "datum": "2026-10-08",
-   "url": "https://www.eventbrite.de/e/berlin-tech-startup-vc-rooftop-networking-registration-1998646016036",
-   "kurz": "Event in Berlin – gelistet bei Eventbrite."
-  },
-  {
-   "slug": "eventbrite-lvpd8b",
-   "quelle": "eventbrite",
-   "name": "Female Founders Pitch Night Project Ada @ Enpal",
-   "veranstalter": "Eventbrite",
-   "art": "netzwerk",
-   "format": "vor-ort",
-   "ort": "Berlin",
-   "region": "BE",
-   "datum": "2026-10-08",
-   "url": "https://www.eventbrite.de/e/female-founders-pitch-night-project-ada-enpal-tickets-1993813751603",
-   "kurz": "Event in Berlin – gelistet bei Eventbrite."
-  },
-  {
-   "slug": "eventbrite-1cj4fb0",
-   "quelle": "eventbrite",
-   "name": "Gründerstammtisch: Der Weg zum eigenen Rechenzentrum",
-   "veranstalter": "Eventbrite",
-   "art": "netzwerk",
-   "format": "vor-ort",
-   "ort": "Aschaffenburg",
-   "region": "bund",
-   "datum": "2026-10-08",
-   "url": "https://www.eventbrite.de/e/grunderstammtisch-der-weg-zum-eigenen-rechenzentrum-tickets-1998545531484",
-   "kurz": "Event in Aschaffenburg – gelistet bei Eventbrite."
-  },
-  {
    "slug": "luma-1ig9ios",
    "quelle": "luma",
    "name": "build fridays hamburg - work on your startup alongside others (bring laptop)",
@@ -1013,19 +954,6 @@
    "url": "https://startupcity.hamburg/news-events/events/build-fridays-hamburg-9-10-26",
    "kurz": "Event in Hamburg – gelistet bei Startup City Hamburg.",
    "weitereTermine": 3
-  },
-  {
-   "slug": "eventbrite-27ehcg",
-   "quelle": "eventbrite",
-   "name": "Valley Visions Berlin: Founders, Investors & Business Networking",
-   "veranstalter": "Eventbrite",
-   "art": "netzwerk",
-   "format": "vor-ort",
-   "ort": "Berlin",
-   "region": "BE",
-   "datum": "2026-10-09",
-   "url": "https://www.eventbrite.de/e/valley-visions-berlin-founders-investors-business-networking-tickets-2001585789979",
-   "kurz": "Event in Berlin – gelistet bei Eventbrite."
   },
   {
    "slug": "luma-88card",
@@ -2159,32 +2087,6 @@
    "kurz": "Event in Hessen – gelistet bei StartHub Hessen."
   },
   {
-   "slug": "eventbrite-1g9avkg",
-   "quelle": "eventbrite",
-   "name": "Founder Meet & Greet: Berlin Startup Networking Cohort Start Edition",
-   "veranstalter": "Eventbrite",
-   "art": "netzwerk",
-   "format": "vor-ort",
-   "ort": "Berlin",
-   "region": "BE",
-   "datum": "2026-10-14",
-   "url": "https://www.eventbrite.de/e/founder-meet-greet-berlin-startup-networking-cohort-start-edition-tickets-2000017185240",
-   "kurz": "Event in Berlin – gelistet bei Eventbrite."
-  },
-  {
-   "slug": "eventbrite-1srh3yy",
-   "quelle": "eventbrite",
-   "name": "Zwischen KI und Mensch",
-   "veranstalter": "Eventbrite",
-   "art": "gruenderabend",
-   "format": "vor-ort",
-   "ort": "München",
-   "region": "BY",
-   "datum": "2026-10-14",
-   "url": "https://www.eventbrite.de/e/zwischen-ki-und-mensch-tickets-1997436714984",
-   "kurz": "Event in München – gelistet bei Eventbrite."
-  },
-  {
    "slug": "ki-communities-1dr2b1g",
    "quelle": "ki-communities",
    "name": "Roundtable: Tooling Survey Results: Partner Discussion",
@@ -2552,71 +2454,6 @@
    "weitereTermine": 1
   },
   {
-   "slug": "eventbrite-ejmxy7",
-   "quelle": "eventbrite",
-   "name": "AI & Innovation Hackathon - Future Career Festival Program",
-   "veranstalter": "Eventbrite",
-   "art": "hackathon",
-   "format": "vor-ort",
-   "ort": "Düsseldorf",
-   "region": "NW",
-   "datum": "2026-10-15",
-   "url": "https://www.eventbrite.de/e/ai-innovation-hackathon-future-career-festival-program-tickets-2000053870968",
-   "kurz": "Event in Düsseldorf – gelistet bei Eventbrite."
-  },
-  {
-   "slug": "eventbrite-1a56iy9",
-   "quelle": "eventbrite",
-   "name": "The Berlin AI Conference 2026",
-   "veranstalter": "Eventbrite",
-   "art": "konferenz",
-   "format": "vor-ort",
-   "ort": "Berlin",
-   "region": "BE",
-   "datum": "2026-10-15",
-   "url": "https://www.eventbrite.de/e/the-berlin-ai-conference-2026-tickets-1983880925252",
-   "kurz": "Event in Berlin – gelistet bei Eventbrite."
-  },
-  {
-   "slug": "eventbrite-1d5n2w2",
-   "quelle": "eventbrite",
-   "name": "GründungsWiese \"Versicherungen für Gründer*innen\"",
-   "veranstalter": "Eventbrite",
-   "art": "gruenderabend",
-   "format": "vor-ort",
-   "ort": "Köln",
-   "region": "NW",
-   "datum": "2026-10-15",
-   "url": "https://www.eventbrite.de/e/grundungswiese-versicherungen-fur-grunderinnen-tickets-1998723763581",
-   "kurz": "Event in Köln – gelistet bei Eventbrite."
-  },
-  {
-   "slug": "eventbrite-70dnmp",
-   "quelle": "eventbrite",
-   "name": "Founders for Good x Creative Hub Afterwork BREMEN",
-   "veranstalter": "Eventbrite",
-   "art": "netzwerk",
-   "format": "vor-ort",
-   "ort": "Bremen",
-   "region": "HB",
-   "datum": "2026-10-15",
-   "url": "https://www.eventbrite.de/e/founders-for-good-x-creative-hub-afterwork-bremen-tickets-2001044231162",
-   "kurz": "Event in Bremen – gelistet bei Eventbrite."
-  },
-  {
-   "slug": "eventbrite-1j3u7xh",
-   "quelle": "eventbrite",
-   "name": "Legal Office Hour: Datenschutz & IT-Recht für Start-ups & Gründer:innen",
-   "veranstalter": "Eventbrite",
-   "art": "gruenderabend",
-   "format": "vor-ort",
-   "ort": "Leipzig",
-   "region": "SN",
-   "datum": "2026-10-15",
-   "url": "https://www.eventbrite.de/e/legal-office-hour-datenschutz-it-recht-fur-start-ups-grunderinnen-tickets-2002617388518",
-   "kurz": "Event in Leipzig – gelistet bei Eventbrite."
-  },
-  {
    "slug": "luma-ltqigr",
    "quelle": "luma",
    "name": "Founders Co-working & Mentoring Day",
@@ -2872,21 +2709,6 @@
    "kurz": "Event in Baden-Württemberg – gelistet bei Start-up BW."
   },
   {
-   "slug": "eventbrite-1nm4nmu",
-   "quelle": "eventbrite",
-   "name": "Entrepreneurship Summit 2026 in Berlin",
-   "veranstalter": "Eventbrite",
-   "art": "konferenz",
-   "format": "vor-ort",
-   "ort": "Berlin",
-   "region": "BE",
-   "datum": "2026-10-16",
-   "datumBis": "2026-10-18",
-   "url": "https://www.eventbrite.de/e/entrepreneurship-summit-2026-in-berlin-tickets-1780515482739",
-   "kurz": "Event in Berlin – gelistet bei Eventbrite.",
-   "weitereTermine": 1
-  },
-  {
    "slug": "ki-communities-1l72kfb",
    "quelle": "ki-communities",
    "name": "Joint Sprints: Reinvent R&D Sprint",
@@ -2970,19 +2792,6 @@
    "kostenlos": true,
    "url": "https://luma.com/apcq3do7",
    "kurz": "Event in Berlin, gelistet auf Luma (START Berlin)."
-  },
-  {
-   "slug": "eventbrite-16gcxkr",
-   "quelle": "eventbrite",
-   "name": "DemoDay Black Forest Hackathon smartXautomation",
-   "veranstalter": "Eventbrite",
-   "art": "hackathon",
-   "format": "vor-ort",
-   "ort": "Offenburg",
-   "region": "BW",
-   "datum": "2026-10-18",
-   "url": "https://www.eventbrite.de/e/demoday-black-forest-hackathon-smartxautomation-tickets-1988767595414",
-   "kurz": "Event in Offenburg – gelistet bei Eventbrite."
   },
   {
    "slug": "gruendungswoche-2ny1ye",
@@ -3434,19 +3243,6 @@
    "datum": "2026-10-20",
    "url": "https://www.starthub-hessen.de/de/events/disrupt-from-the-core-festival/",
    "kurz": "Event in Hessen – gelistet bei StartHub Hessen."
-  },
-  {
-   "slug": "eventbrite-1we4l21",
-   "quelle": "eventbrite",
-   "name": "Gründerinnen- und Gründer-Treff: Hol dir Hilfe! Angebote & Tipps.",
-   "veranstalter": "Eventbrite",
-   "art": "netzwerk",
-   "format": "vor-ort",
-   "ort": "Bad Tölz",
-   "region": "bund",
-   "datum": "2026-10-20",
-   "url": "https://www.eventbrite.de/e/grunderinnen-und-grunder-treff-hol-dir-hilfe-angebote-tipps-tickets-1913731665929",
-   "kurz": "Event in Bad Tölz – gelistet bei Eventbrite."
   },
   {
    "slug": "gruendungswoche-1xlnjhf",
@@ -4091,19 +3887,6 @@
    "kurz": "Event in Hessen – gelistet bei StartHub Hessen."
   },
   {
-   "slug": "eventbrite-18upz2s",
-   "quelle": "eventbrite",
-   "name": "Robotics and AI Hackathon 2026 - sold out",
-   "veranstalter": "Eventbrite",
-   "art": "hackathon",
-   "format": "vor-ort",
-   "ort": "Erlangen",
-   "region": "BY",
-   "datum": "2026-10-22",
-   "url": "https://www.eventbrite.de/e/robotics-and-ai-hackathon-2026-sold-out-tickets-2001306315062",
-   "kurz": "Event in Erlangen – gelistet bei Eventbrite."
-  },
-  {
    "slug": "meetup-17zjt22",
    "quelle": "meetup",
    "name": "Graphs Gone Wild - Mini Hack",
@@ -4286,19 +4069,6 @@
    "url": "https://gdg.community.dev/events/details/google-gdg-ahlen-presents-devfest-2026-ahlen-online-2/",
    "kurz": "Event in Ahlen – gelistet bei Google Developer Groups.",
    "weitereTermine": 2
-  },
-  {
-   "slug": "eventbrite-z36xoq",
-   "quelle": "eventbrite",
-   "name": "Buchhaltung für Gründer (Düsseldorf)",
-   "veranstalter": "Eventbrite",
-   "art": "gruenderabend",
-   "format": "vor-ort",
-   "ort": "Düsseldorf",
-   "region": "NW",
-   "datum": "2026-10-24",
-   "url": "https://www.eventbrite.de/e/buchhaltung-fur-grunder-dusseldorf-tickets-1989541499181",
-   "kurz": "Event in Düsseldorf – gelistet bei Eventbrite."
   },
   {
    "slug": "luma-1ogeq14",
@@ -4577,33 +4347,6 @@
    "datum": "2026-10-27",
    "url": "https://www.starthub-hessen.de/de/events/vertriebscheck-f%C3%BCr-start-ups-2026-2/",
    "kurz": "Event in Hessen – gelistet bei StartHub Hessen."
-  },
-  {
-   "slug": "eventbrite-1osilkx",
-   "quelle": "eventbrite",
-   "name": "Impact Academy: Startup-Ökosystem verstehen",
-   "veranstalter": "Eventbrite",
-   "art": "gruenderabend",
-   "format": "vor-ort",
-   "ort": "Hamburg",
-   "region": "HH",
-   "datum": "2026-10-27",
-   "url": "https://www.eventbrite.de/e/impact-academy-startup-okosystem-verstehen-tickets-2002696591416",
-   "kurz": "Event in Hamburg – gelistet bei Eventbrite."
-  },
-  {
-   "slug": "eventbrite-1t4ai3c",
-   "quelle": "eventbrite",
-   "name": "Workshop: Vor Gruppen sprechen - Founders for Good AfterWork",
-   "veranstalter": "Eventbrite",
-   "art": "netzwerk",
-   "format": "vor-ort",
-   "ort": "Hamburg",
-   "region": "HH",
-   "datum": "2026-10-27",
-   "url": "https://www.eventbrite.de/e/workshop-vor-gruppen-sprechen-founders-for-good-afterwork-tickets-2001885125299",
-   "kurz": "Event in Hamburg – gelistet bei Eventbrite.",
-   "weitereTermine": 1
   },
   {
    "slug": "ki-communities-1yak2bk",
@@ -4906,19 +4649,6 @@
    "weitereTermine": 1
   },
   {
-   "slug": "eventbrite-1uh5wxo",
-   "quelle": "eventbrite",
-   "name": "Founders & Friends Berlin Meetup - Technology & Innovation",
-   "veranstalter": "Eventbrite",
-   "art": "netzwerk",
-   "format": "vor-ort",
-   "ort": "Berlin",
-   "region": "BE",
-   "datum": "2026-10-28",
-   "url": "https://www.eventbrite.de/e/founders-friends-berlin-meetup-technology-innovation-tickets-1981749338619",
-   "kurz": "Event in Berlin – gelistet bei Eventbrite."
-  },
-  {
    "slug": "gruendungswoche-3rwos",
    "quelle": "gruendungswoche",
    "name": "UnternehmerSchule Neumarkt i. d. Oberpfalz",
@@ -5120,58 +4850,6 @@
    "datum": "2026-10-29",
    "url": "https://www.starthub-hessen.de/de/events/grow-workshop-building-teams-for-growth/",
    "kurz": "Event in Hessen – gelistet bei StartHub Hessen."
-  },
-  {
-   "slug": "eventbrite-cigiia",
-   "quelle": "eventbrite",
-   "name": "Klinikum+/ Intro to Digital Health (For Startups)",
-   "veranstalter": "Eventbrite",
-   "art": "gruenderabend",
-   "format": "vor-ort",
-   "ort": "Berlin",
-   "region": "BE",
-   "datum": "2026-10-29",
-   "url": "https://www.eventbrite.de/e/klinikum-intro-to-digital-health-for-startups-tickets-2000015219360",
-   "kurz": "Event in Berlin – gelistet bei Eventbrite."
-  },
-  {
-   "slug": "eventbrite-574gcf",
-   "quelle": "eventbrite",
-   "name": "AI meets Classic -CDI Stammtisch supported by Gentleman's Garage",
-   "veranstalter": "Eventbrite",
-   "art": "netzwerk",
-   "format": "vor-ort",
-   "ort": "München",
-   "region": "BY",
-   "datum": "2026-10-29",
-   "url": "https://www.eventbrite.de/e/ai-meets-classic-cdi-stammtisch-supported-by-gentlemans-garage-tickets-1997978085237",
-   "kurz": "Event in München – gelistet bei Eventbrite."
-  },
-  {
-   "slug": "eventbrite-b43syd",
-   "quelle": "eventbrite",
-   "name": "FrauMachtDigital: Ausgetrickst und verloren. Cybersecurity im KI-Zeitalter",
-   "veranstalter": "Eventbrite",
-   "art": "gruenderabend",
-   "format": "vor-ort",
-   "ort": "München",
-   "region": "BY",
-   "datum": "2026-10-29",
-   "url": "https://www.eventbrite.de/e/fraumachtdigital-ausgetrickst-und-verloren-cybersecurity-im-ki-zeitalter-tickets-1998124675693",
-   "kurz": "Event in München – gelistet bei Eventbrite."
-  },
-  {
-   "slug": "eventbrite-1gwpr28",
-   "quelle": "eventbrite",
-   "name": "Marketing-Basics für Gründer*innen: So wird deine Idee sichtbar",
-   "veranstalter": "Eventbrite",
-   "art": "gruenderabend",
-   "format": "vor-ort",
-   "ort": "Düsseldorf",
-   "region": "NW",
-   "datum": "2026-10-29",
-   "url": "https://www.eventbrite.de/e/marketing-basics-fur-grunderinnen-so-wird-deine-idee-sichtbar-tickets-2000257123903",
-   "kurz": "Event in Düsseldorf – gelistet bei Eventbrite."
   },
   {
    "slug": "luma-89cik7",
@@ -5377,19 +5055,6 @@
    "kurz": "Event in Hamburg – gelistet bei Startup City Hamburg."
   },
   {
-   "slug": "eventbrite-1d2owoe",
-   "quelle": "eventbrite",
-   "name": "Future Tech Bootcamp – Coding, Robotic and AI For Kids (3-tägig)",
-   "veranstalter": "Eventbrite",
-   "art": "gruenderabend",
-   "format": "vor-ort",
-   "ort": "München",
-   "region": "BY",
-   "datum": "2026-11-02",
-   "url": "https://www.eventbrite.de/e/future-tech-bootcamp-coding-robotic-and-ai-for-kids-3-tagig-tickets-2001776705011",
-   "kurz": "Event in München – gelistet bei Eventbrite."
-  },
-  {
    "slug": "gruendungswoche-nhik5c",
    "quelle": "gruendungswoche",
    "name": "GründungsRaum - Stelle deine Fragen",
@@ -5430,32 +5095,6 @@
    "kostenlos": true,
    "url": "https://hackathonhub.eu/events/68-hackergarten-stuttgart-stuttgart-2026",
    "kurz": "Hackergarten Stuttgart is a monthly, open meeting where participants work together on open-source projects in a relaxed atmosphere. It combines elements of a workshop, laboratory, and social gathering to create new thing"
-  },
-  {
-   "slug": "eventbrite-hi3f6w",
-   "quelle": "eventbrite",
-   "name": "Buchhaltung für Gründer (Essen)",
-   "veranstalter": "Eventbrite",
-   "art": "gruenderabend",
-   "format": "vor-ort",
-   "ort": "Essen",
-   "region": "NW",
-   "datum": "2026-11-03",
-   "url": "https://www.eventbrite.de/e/buchhaltung-fur-grunder-essen-tickets-1992562489043",
-   "kurz": "Event in Essen – gelistet bei Eventbrite."
-  },
-  {
-   "slug": "eventbrite-coxuol",
-   "quelle": "eventbrite",
-   "name": "Stimm- und Sprechtraining für Gründer:innen",
-   "veranstalter": "Eventbrite",
-   "art": "gruenderabend",
-   "format": "vor-ort",
-   "ort": "Köln",
-   "region": "NW",
-   "datum": "2026-11-03",
-   "url": "https://www.eventbrite.de/e/stimm-und-sprechtraining-fur-grunderinnen-tickets-2000012096018",
-   "kurz": "Event in Köln – gelistet bei Eventbrite."
   },
   {
    "slug": "gruendungswoche-5wbx23",
@@ -5728,19 +5367,6 @@
    "kurz": "Event in Baden-Württemberg – gelistet bei Start-up BW."
   },
   {
-   "slug": "eventbrite-hnyrma",
-   "quelle": "eventbrite",
-   "name": "Netzwerktreffen für Gründer:innen in OWL (Lippstadt)",
-   "veranstalter": "Eventbrite",
-   "art": "netzwerk",
-   "format": "vor-ort",
-   "ort": "Lippstadt",
-   "region": "bund",
-   "datum": "2026-11-05",
-   "url": "https://www.eventbrite.de/e/netzwerktreffen-fur-grunderinnen-in-owl-lippstadt-tickets-1989917199912",
-   "kurz": "Event in Lippstadt – gelistet bei Eventbrite."
-  },
-  {
    "slug": "gruendungswoche-qw96bl",
    "quelle": "gruendungswoche",
    "name": "Kostenfreier Sprechtag: Uebernahme / Uebergabe am 06.11.2026",
@@ -5883,20 +5509,6 @@
    "kurz": "Event in Karlsruhe – gelistet bei Google Developer Groups."
   },
   {
-   "slug": "eventbrite-18qf1bn",
-   "quelle": "eventbrite",
-   "name": "Women Create Impact Hackathon - Köln",
-   "veranstalter": "Eventbrite",
-   "art": "hackathon",
-   "format": "vor-ort",
-   "ort": "Köln",
-   "region": "NW",
-   "datum": "2026-11-07",
-   "datumBis": "2026-11-08",
-   "url": "https://www.eventbrite.de/e/women-create-impact-hackathon-koln-tickets-1999848270010",
-   "kurz": "Event in Köln – gelistet bei Eventbrite."
-  },
-  {
    "slug": "gruendungswoche-ydtvwk",
    "quelle": "gruendungswoche",
    "name": "GründungsForum: Gründung in Heilberufen 09.11.2026",
@@ -5935,19 +5547,6 @@
    "datumBis": "2026-11-11",
    "url": "https://www.startupbw.de/events-wettbewerbe/landesweiter-veranstaltungskalender/veranstaltung/enlit-europe-2026-in-wien",
    "kurz": "Event in Baden-Württemberg – gelistet bei Start-up BW."
-  },
-  {
-   "slug": "eventbrite-1dawj3c",
-   "quelle": "eventbrite",
-   "name": "Berlin Big Business Tech & Entrepreneur Professional Networking Soiree",
-   "veranstalter": "Eventbrite",
-   "art": "netzwerk",
-   "format": "vor-ort",
-   "ort": "Berlin",
-   "region": "BE",
-   "datum": "2026-11-09",
-   "url": "https://www.eventbrite.de/e/berlin-big-business-tech-entrepreneur-professional-networking-soiree-tickets-944033508637",
-   "kurz": "Event in Berlin – gelistet bei Eventbrite."
   },
   {
    "slug": "gruendungswoche-b9v3gz",
@@ -6085,19 +5684,6 @@
    "kurz": "Event in Baden-Württemberg – gelistet bei Start-up BW."
   },
   {
-   "slug": "eventbrite-1chrr18",
-   "quelle": "eventbrite",
-   "name": "KI und Werte: Transformation der öffentlichen Verwaltung",
-   "veranstalter": "Eventbrite",
-   "art": "gruenderabend",
-   "format": "vor-ort",
-   "ort": "München",
-   "region": "BY",
-   "datum": "2026-11-10",
-   "url": "https://www.eventbrite.de/e/ki-und-werte-transformation-der-offentlichen-verwaltung-tickets-1995644919676",
-   "kurz": "Event in München – gelistet bei Eventbrite."
-  },
-  {
    "slug": "ki-communities-ao83va",
    "quelle": "ki-communities",
    "name": "Roundtable: AI meets Betriebsrat: Co-Determination in Practice",
@@ -6215,58 +5801,6 @@
    "datum": "2026-11-11",
    "url": "https://www.startupbw.de/events-wettbewerbe/landesweiter-veranstaltungskalender/veranstaltung/naechste-ausgabe-von-startuptrifftmittelstand",
    "kurz": "Event in Baden-Württemberg – gelistet bei Start-up BW."
-  },
-  {
-   "slug": "eventbrite-1hzkkkl",
-   "quelle": "eventbrite",
-   "name": "F&B Startup Convention Berlin",
-   "veranstalter": "Eventbrite",
-   "art": "konferenz",
-   "format": "vor-ort",
-   "ort": "Berlin",
-   "region": "BE",
-   "datum": "2026-11-11",
-   "url": "https://www.eventbrite.de/e/fb-startup-convention-berlin-tickets-2000146332523",
-   "kurz": "Event in Berlin – gelistet bei Eventbrite."
-  },
-  {
-   "slug": "eventbrite-6gk4d9",
-   "quelle": "eventbrite",
-   "name": "Executive Roundtable Healthcare: Digitale Souveränität, KI und Zukunftsfähi",
-   "veranstalter": "Eventbrite",
-   "art": "gruenderabend",
-   "format": "vor-ort",
-   "ort": "München",
-   "region": "BY",
-   "datum": "2026-11-11",
-   "url": "https://www.eventbrite.de/e/executive-roundtable-healthcare-digitale-souveranitat-ki-und-zukunftsfahi-tickets-2000144278379",
-   "kurz": "Event in München – gelistet bei Eventbrite."
-  },
-  {
-   "slug": "eventbrite-30mdi7",
-   "quelle": "eventbrite",
-   "name": "Perspektiven auf Künstliche Intelligenz - Perspectives on AI",
-   "veranstalter": "Eventbrite",
-   "art": "gruenderabend",
-   "format": "vor-ort",
-   "ort": "Augsburg",
-   "region": "BY",
-   "datum": "2026-11-11",
-   "url": "https://www.eventbrite.de/e/perspektiven-auf-kunstliche-intelligenz-perspectives-on-ai-tickets-1993682368633",
-   "kurz": "Event in Augsburg – gelistet bei Eventbrite."
-  },
-  {
-   "slug": "eventbrite-o71kam",
-   "quelle": "eventbrite",
-   "name": "Dream and Drive: Welcher Gründer*innen-Typ bin ich?",
-   "veranstalter": "Eventbrite",
-   "art": "gruenderabend",
-   "format": "vor-ort",
-   "ort": "Bochum",
-   "region": "NW",
-   "datum": "2026-11-11",
-   "url": "https://www.eventbrite.de/e/dream-and-drive-welcher-grunderinnen-typ-bin-ich-tickets-1993702769653",
-   "kurz": "Event in Bochum – gelistet bei Eventbrite."
   },
   {
    "slug": "ki-communities-1jt2sjo",
@@ -6487,33 +6021,6 @@
    "kurz": "Event in Baden-Württemberg – gelistet bei Start-up BW."
   },
   {
-   "slug": "eventbrite-bg1qz5",
-   "quelle": "eventbrite",
-   "name": "Healthcare Hackathon Bayern – Erlangen 2026",
-   "veranstalter": "Eventbrite",
-   "art": "hackathon",
-   "format": "vor-ort",
-   "ort": "Erlangen",
-   "region": "BY",
-   "datum": "2026-11-12",
-   "datumBis": "2026-11-14",
-   "url": "https://www.eventbrite.de/e/healthcare-hackathon-bayern-erlangen-2026-tickets-1975590123240",
-   "kurz": "Event in Erlangen – gelistet bei Eventbrite."
-  },
-  {
-   "slug": "eventbrite-1esd8uh",
-   "quelle": "eventbrite",
-   "name": "Art & Tech Talk: Zwischen Innovation und Verantwortung (Dr. Alina Gales)",
-   "veranstalter": "Eventbrite",
-   "art": "gruenderabend",
-   "format": "vor-ort",
-   "ort": "München",
-   "region": "BY",
-   "datum": "2026-11-12",
-   "url": "https://www.eventbrite.de/e/art-tech-talk-zwischen-innovation-und-verantwortung-dr-alina-gales-tickets-2000415423381",
-   "kurz": "Event in München – gelistet bei Eventbrite."
-  },
-  {
    "slug": "gruendungswoche-1ajif9x",
    "quelle": "gruendungswoche",
    "name": "GründungsForum: Gründung einer UG oder GmbH 13.11.2026",
@@ -6718,20 +6225,6 @@
    "datum": "2026-11-13",
    "url": "https://www.munich-startup.de/events/shestartup-frauen-gruenden-1126",
    "kurz": "Event in München – gelistet bei Munich Startup."
-  },
-  {
-   "slug": "eventbrite-j465os",
-   "quelle": "eventbrite",
-   "name": "Enactus Aachen x Collective Incubator Ideathon",
-   "veranstalter": "Eventbrite",
-   "art": "gruenderabend",
-   "format": "vor-ort",
-   "ort": "Aachen",
-   "region": "NW",
-   "datum": "2026-11-13",
-   "datumBis": "2026-11-15",
-   "url": "https://www.eventbrite.de/e/enactus-aachen-x-collective-incubator-ideathon-tickets-2001043395663",
-   "kurz": "Event in Aachen – gelistet bei Eventbrite."
   },
   {
    "slug": "gruendungswoche-obm80o",
@@ -7378,20 +6871,6 @@
    "kurz": "Event in Berlin – gelistet bei dev.events."
   },
   {
-   "slug": "eventbrite-1mley2r",
-   "quelle": "eventbrite",
-   "name": "Green Bonn Hackathon 2026",
-   "veranstalter": "Eventbrite",
-   "art": "hackathon",
-   "format": "vor-ort",
-   "ort": "Bonn",
-   "region": "NW",
-   "datum": "2026-11-16",
-   "datumBis": "2026-11-22",
-   "url": "https://www.eventbrite.de/e/green-bonn-hackathon-2026-tickets-2001168199956",
-   "kurz": "Event in Bonn – gelistet bei Eventbrite."
-  },
-  {
    "slug": "gruendungswoche-l67ejp",
    "quelle": "gruendungswoche",
    "name": "Gründungsmesse Mainfranken 2026",
@@ -7886,19 +7365,6 @@
    "datumBis": "2026-11-19",
    "url": "https://www.startupbw.de/events-wettbewerbe/landesweiter-veranstaltungskalender/veranstaltung/slush-helsinki-2026",
    "kurz": "Event in Baden-Württemberg – gelistet bei Start-up BW."
-  },
-  {
-   "slug": "eventbrite-162ekt8",
-   "quelle": "eventbrite",
-   "name": "Buchhaltung für Gründer (Osnabrück)",
-   "veranstalter": "Eventbrite",
-   "art": "gruenderabend",
-   "format": "vor-ort",
-   "ort": "Osnabrück",
-   "region": "NI",
-   "datum": "2026-11-17",
-   "url": "https://www.eventbrite.de/e/buchhaltung-fur-grunder-osnabruck-tickets-1989542590445",
-   "kurz": "Event in Osnabrück – gelistet bei Eventbrite."
   },
   {
    "slug": "gruendungswoche-4vyiyr",
@@ -9061,34 +8527,6 @@
    "kurz": "Event in Hamburg – gelistet bei Startup City Hamburg."
   },
   {
-   "slug": "eventbrite-1et2lq6",
-   "quelle": "eventbrite",
-   "name": "Hackathon 2026",
-   "veranstalter": "Eventbrite",
-   "art": "hackathon",
-   "format": "vor-ort",
-   "ort": "Coburg",
-   "region": "BY",
-   "datum": "2026-11-20",
-   "datumBis": "2026-11-21",
-   "url": "https://www.eventbrite.de/e/hackathon-2026-tickets-1977379293697",
-   "kurz": "Event in Coburg – gelistet bei Eventbrite."
-  },
-  {
-   "slug": "eventbrite-1f40b61",
-   "quelle": "eventbrite",
-   "name": "Buchhaltung für Gründer (Hamburg)",
-   "veranstalter": "Eventbrite",
-   "art": "gruenderabend",
-   "format": "vor-ort",
-   "ort": "Hamburg",
-   "region": "HH",
-   "datum": "2026-11-20",
-   "url": "https://www.eventbrite.de/e/buchhaltung-fur-grunder-hamburg-tickets-1989540601496",
-   "kurz": "Event in Hamburg – gelistet bei Eventbrite.",
-   "weitereTermine": 1
-  },
-  {
    "slug": "gruendungswoche-q68bi7",
    "quelle": "gruendungswoche",
    "name": "Schieflage? Krisenmanagement für junge und gestandene Unternehmen",
@@ -9141,19 +8579,6 @@
    "datumBis": "2026-11-22",
    "url": "https://www.startupbw.de/events-wettbewerbe/landesweiter-veranstaltungskalender/veranstaltung/save-the-date-landesfinale-start-up-bw-local",
    "kurz": "Event in Baden-Württemberg – gelistet bei Start-up BW."
-  },
-  {
-   "slug": "eventbrite-6ca1qa",
-   "quelle": "eventbrite",
-   "name": "Berlin Robotics & AI hackathon - Hacklab X BRISA",
-   "veranstalter": "Eventbrite",
-   "art": "hackathon",
-   "format": "vor-ort",
-   "ort": "Berlin",
-   "region": "BE",
-   "datum": "2026-11-21",
-   "url": "https://www.eventbrite.de/e/berlin-robotics-ai-hackathon-hacklab-x-brisa-tickets-2001277673394",
-   "kurz": "Event in Berlin – gelistet bei Eventbrite."
   },
   {
    "slug": "startup-bw-y3j0a7",
@@ -9395,19 +8820,6 @@
    "kurz": "Event in Hessen – gelistet bei StartHub Hessen."
   },
   {
-   "slug": "eventbrite-6gcotq",
-   "quelle": "eventbrite",
-   "name": "Intelligente Roboter als KI-Systeme: Deutschlands Zukunft!",
-   "veranstalter": "Eventbrite",
-   "art": "gruenderabend",
-   "format": "vor-ort",
-   "ort": "Garching bei München",
-   "region": "BY",
-   "datum": "2026-11-25",
-   "url": "https://www.eventbrite.de/e/intelligente-roboter-als-ki-systeme-deutschlands-zukunft-tickets-2002048436768",
-   "kurz": "Event in Garching bei München – gelistet bei Eventbrite."
-  },
-  {
    "slug": "gruendungswoche-8gqi9x",
    "quelle": "gruendungswoche",
    "name": "InfoAbend: Gut vorbereitet in die Selbständigkeit - Rödermark 26.11.2026",
@@ -9526,19 +8938,6 @@
    "datum": "2026-11-26",
    "url": "https://www.startupbw.de/events-wettbewerbe/landesweiter-veranstaltungskalender/veranstaltung/weltethos-pitch-day-2026-in-tuebingen",
    "kurz": "Event in Baden-Württemberg – gelistet bei Start-up BW."
-  },
-  {
-   "slug": "eventbrite-m8d6j3",
-   "quelle": "eventbrite",
-   "name": "KI-Einführung: Praxis statt Theorie",
-   "veranstalter": "Eventbrite",
-   "art": "gruenderabend",
-   "format": "vor-ort",
-   "ort": "Augsburg",
-   "region": "BY",
-   "datum": "2026-11-26",
-   "url": "https://www.eventbrite.de/e/ki-einfuhrung-praxis-statt-theorie-tickets-1999999329834",
-   "kurz": "Event in Augsburg – gelistet bei Eventbrite."
   },
   {
    "slug": "luma-13e0vhw",
@@ -10086,19 +9485,6 @@
    "kurz": "Online-Event – gelistet bei STARTPLATZ."
   },
   {
-   "slug": "eventbrite-1aqq963",
-   "quelle": "eventbrite",
-   "name": "Impact Lunch: Social Entrepreneurship City Edition",
-   "veranstalter": "Eventbrite",
-   "art": "gruenderabend",
-   "format": "vor-ort",
-   "ort": "Hamburg",
-   "region": "HH",
-   "datum": "2026-12-16",
-   "url": "https://www.eventbrite.de/e/impact-lunch-social-entrepreneurship-city-edition-tickets-1978294616452",
-   "kurz": "Event in Hamburg – gelistet bei Eventbrite."
-  },
-  {
    "slug": "startplatz-1uisz2o",
    "quelle": "startplatz",
    "name": "Startup BBQ #122",
@@ -10299,19 +9685,6 @@
    "kostenlos": false,
    "url": "https://luma.com/ai-agents-summit-2027",
    "kurz": "Event in Berlin, gelistet auf Luma (AI Agents Berlin)."
-  },
-  {
-   "slug": "eventbrite-duw9yd",
-   "quelle": "eventbrite",
-   "name": "Berlin 2027 Venture Capital World Summit",
-   "veranstalter": "Eventbrite",
-   "art": "konferenz",
-   "format": "vor-ort",
-   "ort": "Berlin",
-   "region": "BE",
-   "datum": "2027-04-06",
-   "url": "https://www.eventbrite.de/e/berlin-2027-venture-capital-world-summit-tickets-1989174085236",
-   "kurz": "Event in Berlin – gelistet bei Eventbrite."
   },
   {
    "slug": "starthub-hessen-mbqr3n",

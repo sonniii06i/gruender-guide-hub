@@ -722,7 +722,8 @@ const QUELLEN = {
   "starthub-hessen": quelleStarthubHessen,
   startupverband: quelleStartupverband,
   "dev-events": quelleDevEvents,
-  eventbrite: quelleEventbrite,
+  // eventbrite: quelleEventbrite – sperrt Rechenzentrums-IPs (GitHub und Hetzner: HTTP 405,
+  // Mac: 200, getestet 08.10.2026). Nicht umgehen; nur sinnvoll über einen Lauf vom Mac mini.
   "ki-communities": quelleKiCommunities,
 };
 

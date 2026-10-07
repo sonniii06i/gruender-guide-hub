@@ -103,6 +103,12 @@ Deno.serve(async (req) => {
     const d = await r.json();
     const std = Math.floor((Date.now() - Date.parse(d.stand)) / 3600_000);
     pruefungen.push({ name: "Event-Daten", ok: std <= EVENTS_MAX_STUNDEN, detail: `${d.events?.length ?? 0} Events, Stand vor ${std} h` });
+    const kaputt = Object.entries(d.quellen ?? {}).filter(([, q]) => !(q as { ok: boolean }).ok).map(([n]) => n);
+    pruefungen.push({
+      name: "Event-Quellen",
+      ok: kaputt.length === 0,
+      detail: kaputt.length ? `fehlerhaft: ${kaputt.join(", ")} (Seitenaufbau geändert oder gesperrt – Daten vom letzten Lauf)` : `${Object.keys(d.quellen ?? {}).length} Quellen ok`,
+    });
   } catch (e) {
     pruefungen.push({ name: "Event-Daten", ok: false, detail: `gruender-events.json: ${(e as Error).message}` });
   }
