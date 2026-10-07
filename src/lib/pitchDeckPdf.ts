@@ -13,7 +13,7 @@ const sauber = (s: string) =>
     .replace(/[−–—]/g, "-")
     .replace(/[“”„]/g, '"')
     .replace(/[‘’‚]/g, "'")
-    .replace(/[^\u0000-ÿ€]/g, "");
+    .replace(/[^\n -ÿ€]/g, "");
 
 export function bauePitchPdf(d: PitchDeck): jsPDF {
   const doc = new jsPDF({ unit: "mm", format: [W, H], orientation: "landscape" });
