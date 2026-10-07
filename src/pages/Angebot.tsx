@@ -160,7 +160,6 @@ const Angebot = () => (
         <a href="/datenschutz" className="hover:text-foreground">Datenschutz</a>
         <a href="/agb" className="hover:text-foreground">AGB</a>
         <a href="/widerruf" className="hover:text-foreground">Widerruf</a>
-        <a href="/partner" className="hover:text-foreground">Partnerprogramm</a>
       </div>
     </footer>
   </div>
