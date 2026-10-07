@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, CalendarDays, ExternalLink, MapPin, Repeat, Search, Timer, Wifi } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -13,6 +13,10 @@ import { BUNDESLAND_NAMES } from "@/data/foerderprogramme";
 import {
   ART_LABELS,
   EVENT_KALENDER,
+  FRIST_LABELS,
+  GRUENDER_FRISTEN,
+  LIVE_STAND,
+  type GruenderFrist,
   aktuelleEvents,
   type EventArt,
   type GruenderEvent,
@@ -26,6 +30,7 @@ const GRUPPEN: { key: string; label: string; arten: EventArt[] }[] = [
   { key: "gruenden", label: "🏛️ IHK, HWK & Gründerabende", arten: ["gruenderabend", "webinar"] },
   { key: "netzwerk", label: "🤝 Netzwerk & Konferenzen", arten: ["netzwerk", "konferenz"] },
   { key: "bauen", label: "⚡ Hackathons & Build-Sessions", arten: ["hackathon", "build"] },
+  { key: "fristen", label: "🏆 Wettbewerbe, Stipendien & Accelerator", arten: [] },
 ];
 
 const FORMAT_LABEL: Record<GruenderEvent["format"], string> = {
@@ -47,6 +52,11 @@ const fmtSpanne = (e: GruenderEvent) => {
   const bis = new Date(`${e.datumBis}T12:00:00`).toLocaleDateString("de-DE", { day: "numeric", month: "long", year: "numeric" });
   return `${von} – ${bis}`;
 };
+
+const SEITE = 30;
+
+const monatsName = (iso: string) =>
+  new Date(`${iso}T12:00:00`).toLocaleDateString("de-DE", { month: "long", year: "numeric" });
 
 const faqs = [
   {
@@ -109,8 +119,49 @@ const EventKarte = ({ e }: { e: GruenderEvent }) => {
         </div>
         <p className="text-sm text-muted-foreground mt-2 leading-relaxed">{e.kurz}</p>
         <div className="text-[11px] text-accent-blue mt-2 inline-flex items-center gap-1">
-          {e.datum ? fmtSpanne(e) : e.rhythmus} · Zum Veranstalter <ExternalLink className="h-3 w-3" />
+          {e.datum ? fmtSpanne(e) : e.rhythmus}
+          {e.weitereTermine ? ` · + ${e.weitereTermine} weitere Termine` : ""} · Zum Veranstalter{" "}
+          <ExternalLink className="h-3 w-3" />
         </div>
+      </div>
+    </a>
+  );
+};
+
+const FristKarte = ({ f, heute }: { f: GruenderFrist; heute: string }) => {
+  const label = FRIST_LABELS[f.art];
+  const tageBis = f.frist ? Math.ceil((Date.parse(f.frist) - Date.parse(heute)) / 864e5) : null;
+  return (
+    <a
+      href={f.url}
+      target="_blank"
+      rel="noreferrer noopener"
+      className="group block rounded-xl border border-border bg-card p-4 hover:border-accent-blue/40 transition-colors"
+    >
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <div className="font-semibold text-sm leading-snug group-hover:text-accent-blue transition-colors">{f.name}</div>
+          <div className="text-xs text-muted-foreground mt-0.5">
+            {label.emoji} {label.name} · {regionName(f.region)}
+            {f.preis ? ` · ${f.preis}` : ""}
+          </div>
+        </div>
+        {tageBis !== null && tageBis >= 0 && (
+          <span
+            className={`shrink-0 rounded-full px-2.5 py-1 text-[11px] font-semibold ${
+              tageBis <= 14 ? "bg-red-500/10 text-red-700" : "bg-emerald-500/10 text-emerald-700"
+            }`}
+          >
+            {tageBis === 0 ? "Frist heute" : `noch ${tageBis} Tage`}
+          </span>
+        )}
+      </div>
+      <p className="text-xs text-muted-foreground mt-2 leading-relaxed">{f.kurz}</p>
+      <div className="text-[11px] text-accent-blue mt-2 inline-flex items-center gap-1">
+        {f.frist
+          ? `Frist ${new Date(`${f.frist}T12:00:00`).toLocaleDateString("de-DE", { day: "numeric", month: "long", year: "numeric" })}`
+          : f.rhythmus}{" "}
+        · Zur Ausschreibung <ExternalLink className="h-3 w-3" />
       </div>
     </a>
   );
@@ -123,6 +174,8 @@ export default function GruenderEvents() {
   const [nurKostenlos, setNurKostenlos] = useState(false);
   const [nurOnline, setNurOnline] = useState(false);
   const [suche, setSuche] = useState("");
+  const [sichtbar, setSichtbar] = useState(SEITE);
+  useEffect(() => setSichtbar(SEITE), [gruppe, region, nurKostenlos, nurOnline, suche]);
 
   const aktiv = useMemo(() => aktuelleEvents(heute), [heute]);
 
@@ -140,6 +193,18 @@ export default function GruenderEvents() {
     });
   }, [aktiv, gruppe, region, nurKostenlos, nurOnline, suche]);
 
+  const fristen = useMemo(() => {
+    const q = suche.trim().toLowerCase();
+    return GRUENDER_FRISTEN.filter((f) => {
+      if (region !== "all" && f.region !== region && f.region !== "bund") return false;
+      if (q && ![f.name, f.veranstalter, f.kurz].some((s) => s.toLowerCase().includes(q))) return false;
+      return true;
+    });
+  }, [region, suche]);
+  const fristenOffen = fristen.filter((f) => f.frist && f.frist >= heute).sort((a, b) => a.frist!.localeCompare(b.frist!));
+  const fristenLaufend = fristen.filter((f) => !f.frist || f.frist < heute);
+  const nurFristen = gruppe === "fristen";
+
   const termine = gefiltert.filter((e) => e.datum).sort((a, b) => a.datum!.localeCompare(b.datum!));
   const laufend = gefiltert.filter((e) => !e.datum);
 
@@ -155,8 +220,11 @@ export default function GruenderEvents() {
       { name: "Gründer-Events", url: `${SITE}/gruender-events` },
     ]),
     faqSchema(faqs),
+    // Die nächsten 40 Termine reichen für Rich Results; alle 300+ würden das HTML aufblähen.
     ...aktiv
       .filter((e) => e.datum)
+      .sort((a, b) => a.datum!.localeCompare(b.datum!))
+      .slice(0, 40)
       .map((e) => ({
         "@context": "https://schema.org",
         "@type": "Event",
@@ -193,7 +261,8 @@ export default function GruenderEvents() {
         <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-background to-background" />
         <div className="relative max-w-3xl mx-auto px-4 sm:px-6 text-center">
           <Badge variant="secondary" className="mb-4">
-            <CalendarDays className="mr-1.5 h-3.5 w-3.5" /> Stand Oktober 2026 · laufend gepflegt
+            <CalendarDays className="mr-1.5 h-3.5 w-3.5" /> Täglich aktualisiert · Stand{" "}
+            {new Date(LIVE_STAND.stand).toLocaleDateString("de-DE", { day: "numeric", month: "long", year: "numeric" })}
           </Badge>
           <h1 className="text-3xl md:text-5xl font-bold text-foreground mb-4 leading-tight">
             Gründer-Events in ganz Deutschland
@@ -268,23 +337,77 @@ export default function GruenderEvents() {
                 Online teilnehmen
               </label>
               <span className="ml-auto text-xs text-muted-foreground">
-                {gefiltert.length} von {aktiv.length}
+                {nurFristen ? `${fristen.length} Programme` : `${gefiltert.length} von ${aktiv.length}`}
               </span>
             </div>
           </div>
 
-          {termine.length > 0 && (
+          {/* Fristen-Radar */}
+          {(nurFristen || fristenOffen.length > 0) && (
+            <div className="rounded-2xl border border-amber-500/30 bg-amber-500/5 p-4 sm:p-5 mb-8">
+              <div className="flex items-center justify-between gap-3 mb-3 flex-wrap">
+                <h2 className="text-lg md:text-xl font-bold">🏆 Fristen-Radar: Wettbewerbe, Stipendien & Accelerator</h2>
+                {!nurFristen && (
+                  <button onClick={() => setGruppe("fristen")} className="text-xs font-semibold text-accent-blue hover:underline">
+                    Alle {fristen.length} Programme →
+                  </button>
+                )}
+              </div>
+              {fristenOffen.length > 0 && (
+                <>
+                  <div className="text-xs uppercase tracking-wider text-muted-foreground mb-2">Bewerbung jetzt offen</div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {(nurFristen ? fristenOffen : fristenOffen.slice(0, 4)).map((f) => (
+                      <FristKarte key={f.slug} f={f} heute={heute} />
+                    ))}
+                  </div>
+                </>
+              )}
+              {nurFristen && fristenLaufend.length > 0 && (
+                <>
+                  <div className="text-xs uppercase tracking-wider text-muted-foreground mt-5 mb-2">
+                    Laufend bewerben oder nächste Runde vormerken
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {fristenLaufend.map((f) => (
+                      <FristKarte key={f.slug} f={f} heute={heute} />
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
+          )}
+
+          {!nurFristen && termine.length > 0 && (
             <>
               <h2 className="text-xl md:text-2xl font-bold mb-3">Nächste Termine</h2>
-              <div className="space-y-3 mb-10">
-                {termine.map((e) => (
-                  <EventKarte key={e.slug} e={e} />
-                ))}
+              <div className="space-y-3 mb-4">
+                {termine.slice(0, sichtbar).map((e, i, liste) => {
+                  const neuerMonat = i === 0 || e.datum!.slice(0, 7) !== liste[i - 1].datum!.slice(0, 7);
+                  return (
+                    <div key={e.slug}>
+                      {neuerMonat && (
+                        <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground pt-3 pb-2">
+                          {monatsName(e.datum!)}
+                        </h3>
+                      )}
+                      <EventKarte e={e} />
+                    </div>
+                  );
+                })}
               </div>
+              {termine.length > sichtbar && (
+                <div className="text-center mb-10">
+                  <Button variant="outline" onClick={() => setSichtbar((n) => n + SEITE * 2)}>
+                    Weitere Termine anzeigen ({termine.length - sichtbar})
+                  </Button>
+                </div>
+              )}
+              {termine.length <= sichtbar && <div className="mb-10" />}
             </>
           )}
 
-          {laufend.length > 0 && (
+          {!nurFristen && laufend.length > 0 && (
             <>
               <h2 className="text-xl md:text-2xl font-bold mb-1">Regelmäßige Formate</h2>
               <p className="text-sm text-muted-foreground mb-3">
@@ -298,7 +421,7 @@ export default function GruenderEvents() {
             </>
           )}
 
-          {gefiltert.length === 0 && (
+          {!nurFristen && gefiltert.length === 0 && (
             <div className="rounded-xl border border-border bg-card p-8 text-center text-sm text-muted-foreground mb-10">
               Für diese Filter gibt es gerade nichts. Nimm einen Filter heraus oder schau in die Event-Kalender unten.
             </div>
@@ -339,8 +462,8 @@ export default function GruenderEvents() {
             <div className="mb-10">
               <h2 className="text-xl md:text-2xl font-bold mb-1">Event-Kalender, die sich lohnen</h2>
               <p className="text-sm text-muted-foreground mb-3">
-                Für alles, was nach unserem letzten Stand dazugekommen ist: Hier tragen Veranstalter ihre Termine selbst
-                ein.
+                Unser Monitor liest Gründungswoche, Luma, Meetup und hackathonhub täglich aus. Für alles Weitere: Hier
+                tragen Veranstalter ihre Termine selbst ein.
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {EVENT_KALENDER.map((k) => (

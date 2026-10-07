@@ -1,4 +1,8 @@
-// Gründer-Events in Deutschland + Online-Build-Events (Stand 07.10.2026).
+// Gründer-Events in Deutschland + Online-Build-Events.
+// Zwei Teile: GRUENDER_EVENTS ist die kuratierte Liste (Stand 07.10.2026),
+// gruenderEventsLive.json schreibt der tägliche Monitor (scripts/sync-events.mjs).
+import live from "./gruenderEventsLive.json";
+
 // Jede Zeile ist gegen die verlinkte Veranstalterseite geprüft. Konkrete Termine
 // stehen nur drin, wenn der Veranstalter sie veröffentlicht hat — sonst
 // `rhythmus` statt `datum`. Vergangene Termine blendet die Seite selbst aus.
@@ -32,6 +36,10 @@ export type GruenderEvent = {
   dauer?: string;
   /** true = kostenlos, false = kostenpflichtig, undefined = unbekannt. */
   kostenlos?: boolean;
+  /** Serien: wie viele weitere Termine nach `datum` kommen. */
+  weitereTermine?: number;
+  /** Nur bei Live-Einträgen: aus welcher Quelle der Monitor sie hat. */
+  quelle?: string;
   url: string;
   kurz: string;
 };
@@ -152,12 +160,91 @@ export const EVENT_KALENDER: EventKalender[] = [
 /** Ende eines Events (datumBis oder datum) liegt vor `heute`. */
 export const istVorbei = (e: GruenderEvent, heute: string) => !!e.datum && (e.datumBis ?? e.datum) < heute;
 
+export type LiveStand = { stand: string; anzahl: number; quellen: Record<string, { ok: boolean }> };
+export const LIVE_STAND = { stand: live.stand, anzahl: live.anzahl, quellen: live.quellen } as LiveStand;
+
+const schluessel = (e: GruenderEvent) =>
+  `${e.name.toLowerCase().replace(/[^a-z0-9äöüß]+/g, " ").trim().slice(0, 50)}|${e.datum ?? ""}`;
+
 /**
- * Was heute noch angezeigt wird: Vergangene Einzeltermine fallen weg, vergangene
- * Termine wiederkehrender Formate rutschen zu „Regelmäßige Formate“ (ohne Datum).
+ * Was heute angezeigt wird: kuratierte Liste + Live-Monitor, ohne Dubletten
+ * (kuratiert gewinnt, weil Texte und Links dort geprüft sind). Vergangene
+ * Einzeltermine fallen weg, vergangene Termine wiederkehrender Formate rutschen
+ * zu „Regelmäßige Formate“ (ohne Datum).
  */
-export const aktuelleEvents = (heute: string): GruenderEvent[] =>
-  GRUENDER_EVENTS.flatMap((e) => {
+export const aktuelleEvents = (heute: string): GruenderEvent[] => {
+  const kuratiert = GRUENDER_EVENTS.flatMap((e) => {
     if (!istVorbei(e, heute)) return [e];
     return e.rhythmus ? [{ ...e, datum: undefined, datumBis: undefined }] : [];
   });
+  const vergeben = new Set(kuratiert.map(schluessel));
+  const urls = new Set(kuratiert.map((e) => e.url.replace(/\/$/, "")));
+  const neu = (live.events as unknown as GruenderEvent[]).filter(
+    (e) => !istVorbei(e, heute) && !vergeben.has(schluessel(e)) && !urls.has(e.url.replace(/\/$/, "")),
+  );
+  return [...kuratiert, ...neu];
+};
+
+// ============ FRISTEN-RADAR: Wettbewerbe, Preise, Stipendien, Accelerator ============
+// Stand 07.10.2026, jede Zeile gegen die verlinkte Seite geprüft. `frist` nur, wenn
+// veröffentlicht; sonst beschreibt `rhythmus` den bisherigen Ablauf.
+
+export type FristArt = "wettbewerb" | "preis" | "stipendium" | "accelerator";
+
+export type GruenderFrist = {
+  slug: string;
+  name: string;
+  veranstalter: string;
+  art: FristArt;
+  region: string;
+  frist?: string;
+  /** Finale, Preisverleihung oder Programmstart. */
+  eventDatum?: string;
+  rhythmus?: string;
+  preis?: string;
+  url: string;
+  kurz: string;
+};
+
+export const FRIST_LABELS: Record<FristArt, { name: string; emoji: string }> = {
+  wettbewerb: { name: "Wettbewerb", emoji: "🏁" },
+  preis: { name: "Gründerpreis", emoji: "🏆" },
+  stipendium: { name: "Stipendium & Zuschuss", emoji: "🎓" },
+  accelerator: { name: "Accelerator & Programm", emoji: "🚀" },
+};
+
+export const GRUENDER_FRISTEN: GruenderFrist[] = [
+  { slug: "female-founders-cup-bw-2026", name: "FEMALE FOUNDERS CUP 2026", veranstalter: "Start-up BW", art: "wettbewerb", region: "BW", frist: "2026-10-15", eventDatum: "2026-11-19", url: "https://www.startupbw.de", kurz: "Pitch-Wettbewerb für Gründungsteams mit mindestens 50 % Frauen aus Baden-Württemberg, Finale in Böblingen." },
+  { slug: "axolotl-2026", name: "AXOLOTL – German Med & Health Businessplan-Wettbewerb", veranstalter: "pro Ruhrgebiet / Startbahn Ruhr", art: "wettbewerb", region: "bund", frist: "2026-10-31", eventDatum: "2026-12-09", preis: "8.000 € plus Sonderpreise", url: "https://axolotl-med.de/der-wettbewerb/", kurz: "Bundesweiter Businessplan-Wettbewerb für die Medizin- und Gesundheitswirtschaft – Phase 2 (Detail-Businessplan) bis 31.10." },
+  { slug: "bpw-mv-2026", name: "Businessplanwettbewerb Mecklenburg-Vorpommern", veranstalter: "Businessplanwettbewerb MV", art: "wettbewerb", region: "MV", frist: "2026-10-31", eventDatum: "2026-11-23", preis: "17.000 €", url: "https://www.businessplanwettbewerb-mv.de/", kurz: "Landesweiter Businessplan-Wettbewerb mit öffentlichem Finale in Greifswald." },
+  { slug: "bpw-berlin-brandenburg-2027", name: "Businessplan-Wettbewerb Berlin-Brandenburg (BPW) 2027", veranstalter: "IBB Business Team / ILB", art: "wettbewerb", region: "BE", frist: "2026-11-10", rhythmus: "3 Phasen: 10.11.2026, 16.02.2027, 27.04.2027", preis: "über 50.000 €", url: "https://www.b-p-w.de", kurz: "Dreiphasiger Wettbewerb mit Akademie, Expertenfeedback und Netzwerk – Einstieg in jeder Phase möglich, kostenlos." },
+  { slug: "gastro-gruenderpreis-2027", name: "Deutscher Gastro-Gründerpreis 2027", veranstalter: "Leaders Club, INTERNORGA, orderbird", art: "preis", region: "bund", frist: "2026-11-23", eventDatum: "2027-03-12", preis: "50.000 € Hauptpreis", url: "https://www.gastro-gruenderpreis.de/", kurz: "Preis für neue Gastronomiekonzepte, Finale auf der INTERNORGA in Hamburg." },
+  { slug: "achema-gruenderpreis-2027", name: "ACHEMA-Gründerpreis 2027", veranstalter: "DECHEMA, High-Tech Gründerfonds, Business Angels FrankfurtRheinMain", art: "preis", region: "bund", frist: "2026-11-30", preis: "15.000 €", url: "https://www.achema.de/de/die-achema/achema-gruenderpreis", kurz: "Für Start-ups aus Chemie, Verfahrenstechnik und Biotechnologie – Businessplan bis 30.11." },
+  { slug: "start2grow-2027", name: "start2grow Gründungswettbewerb 2026/27", veranstalter: "Wirtschaftsförderung Dortmund", art: "wettbewerb", region: "bund", frist: "2027-01-11", eventDatum: "2027-03-03", preis: "94.000 € (1. Platz 40.000 €)", url: "https://www.wirtschaftsfoerderung-dortmund.de/gruendung/start2grow", kurz: "Bundesweiter Wettbewerb für digitale und technologische B2B-/B2G-Gründungen, Auftakt 15.10., kostenlos." },
+  { slug: "htw-berliner-startup-stipendium", name: "Berliner Startup Stipendium – HTW Berlin, Batch 2", veranstalter: "HTW Berlin Startup Center", art: "stipendium", region: "BE", frist: "2027-01-10", eventDatum: "2027-03-01", rhythmus: "Bewerbung 23.11.2026 – 10.01.2027", preis: "2.500 €/Monat je Person", url: "https://entrepreneurship.htw-berlin.de/stipendien-unterstuetzung/berliner-startup-stipendium/", kurz: "Gründungsstipendium für Teams aus 2–4 Personen, Schwerpunkt Greentech, Impact und digitale Technologien." },
+  { slug: "dgp-schueler-2027", name: "Deutscher Gründerpreis für Schüler:innen", veranstalter: "Initiative Deutscher Gründerpreis / Sparkassen", art: "wettbewerb", region: "bund", frist: "2027-02-24", url: "https://www.dgp-schueler.de", kurz: "Planspiel, in dem Schülerteams ab Klasse 9 ein fiktives Unternehmen gründen." },
+  { slug: "unternehmertum-accelerator", name: "UnternehmerTUM Accelerator, Batch #21", veranstalter: "UnternehmerTUM", art: "accelerator", region: "BY", rhythmus: "Bewerbung Dezember 2026 – Januar 2027, Programm März–Juni 2027", url: "https://accelerator.unternehmertum.de/accelerator-program", kurz: "Dreimonatiger Accelerator in München, equity-free, mit Coworking am Munich Urban Colab." },
+  { slug: "baystartup-bpw-2027", name: "BayStartUP Businessplan-Wettbewerbe 2027", veranstalter: "BayStartUP", art: "wettbewerb", region: "BY", rhythmus: "jährlich in 3 Phasen (2026: Jan., März, Juni) – Vorregistrierung offen", preis: "85.000 € gesamt", url: "https://www.baystartup.de/businessplan-wettbewerbe", kurz: "Wettbewerbe in München, Nordbayern und Schwaben – Einstieg in jeder Phase möglich." },
+  { slug: "deutscher-gruenderpreis", name: "Deutscher Gründerpreis", veranstalter: "Initiative Deutscher Gründerpreis", art: "preis", region: "bund", rhythmus: "jährlich, Bewerbung zuletzt bis Mitte November", url: "https://www.deutscher-gruenderpreis.de", kurz: "Renommierter Preis für Start-ups und Wachstumsunternehmen, Finalisten bekommen Beratung und Mentoring." },
+  { slug: "kfw-award-gruenden", name: "KfW Award Gründen", veranstalter: "KfW", art: "preis", region: "bund", rhythmus: "jährlich, Bewerbung ab 1. April", preis: "35.000 € gesamt", url: "https://www.kfw.de/Über-die-KfW/Förderauftrag-und-Geschichte/KfW-Awards/KfW-Award-Gründen/", kurz: "Preis für ab 2021 gegründete oder übernommene Unternehmen mit Landes- und Bundessiegern." },
+  { slug: "elevator-pitch-bw", name: "Start-up BW Elevator Pitch", veranstalter: "Start-up BW", art: "wettbewerb", region: "BW", rhythmus: "Regional Cups im Frühjahr, danach Landesfinale", url: "https://www.startupbw.de", kurz: "Pitch-Wettbewerb mit regionalen Vorentscheiden für Gründungen aus Baden-Württemberg." },
+  { slug: "hessischer-gruenderpreis", name: "Hessischer Gründerpreis", veranstalter: "Hessischer Gründerpreis", art: "preis", region: "HE", rhythmus: "jährlich, Frist zuletzt Mitte Mai – Voranmeldung möglich", url: "https://www.hessischer-gruenderpreis.de", kurz: "Landespreis in vier Kategorien, u. a. innovative Geschäftsidee, gesellschaftliche Wirkung und Nachfolge." },
+  { slug: "saechsischer-gruenderpreis", name: "Sächsischer Gründerpreis", veranstalter: "futureSAX", art: "preis", region: "SN", rhythmus: "jährlich, Bewerbung zuletzt Ende Oktober bis Februar", preis: "bis 30.000 €", url: "https://www.futuresax.de/gruenden/saechsischer-gruenderpreis", kurz: "Staatspreis für Gründungskonzepte aller Branchen in Sachsen." },
+  { slug: "saechsischer-gruenderinnenpreis", name: "Sächsischer Gründerinnenpreis", veranstalter: "Sächsisches Sozialministerium", art: "preis", region: "SN", rhythmus: "jährlich, Frist zuletzt 1. Juni", preis: "je 5.000 € in 2 Kategorien", url: "https://www.gruenderinnenpreis.sachsen.de", kurz: "Landespreis für Unternehmerinnen in Sachsen." },
+  { slug: "senkrechtstarter-bochum", name: "Senkrechtstarter Award", veranstalter: "Bochum Wirtschaftsentwicklung", art: "wettbewerb", region: "NW", rhythmus: "jährlich, Frist zuletzt Mitte Juli", preis: "78.000 €", url: "https://www.senkrechtstarter.de", kurz: "Gründungswettbewerb für junge Unternehmen aus Bochum und NRW mit Live-Pitches." },
+  { slug: "kuer-nrw", name: "KUER.NRW Businessplan-Wettbewerb", veranstalter: "pro Ruhrgebiet / Umweltministerium NRW", art: "wettbewerb", region: "NW", rhythmus: "jährlich ab Mitte April, 2 Phasen", preis: "15.000 €", url: "https://kuer.nrw/kuer-businessplan-wettbewerb/", kurz: "Für grüne Start-ups aus Klima, Umwelt und Energie." },
+  { slug: "hamburg-innovation-award", name: "Hamburg Innovation Award", veranstalter: "Startup City Hamburg, Startup Port, IFB Innovationsstarter", art: "preis", region: "HH", rhythmus: "jährlich, Frist zuletzt im Mai", url: "https://startupcity.hamburg", kurz: "Award in den Kategorien Ideation, Start und International Founders." },
+  { slug: "ideenwettbewerb-rlp", name: "Ideenwettbewerb Rheinland-Pfalz", veranstalter: "Hochschule Koblenz", art: "wettbewerb", region: "RP", rhythmus: "jährlich Juli–September", url: "https://www.ideenwettbewerb-rlp.de/", kurz: "Landesweiter Wettbewerb für innovative Gründungsideen." },
+  { slug: "social-impact-award", name: "Social Impact Award Germany", veranstalter: "Social Impact Award", art: "wettbewerb", region: "bund", rhythmus: "jährlich – Wiederöffnung per Newsletter", url: "https://germany.socialimpactaward.net", kurz: "Inkubation und Award für Social-Impact-Ideen von Teams zwischen 14 und 30 Jahren." },
+  { slug: "exist-gruendungsstipendium", name: "EXIST-Gründungsstipendium", veranstalter: "BMWE / Projektträger Jülich", art: "stipendium", region: "bund", rhythmus: "laufend, Antrag über das Gründungsnetzwerk einer Hochschule", url: "https://exist.de/programm/gruendungsstipendium/antragsstellung/", kurz: "Stipendium für innovative Gründungsvorhaben aus Hochschulen und Forschungseinrichtungen." },
+  { slug: "exist-women", name: "EXIST-Women", veranstalter: "BMWE / Projektträger Jülich", art: "stipendium", region: "bund", rhythmus: "über die Hochschule, Fristen meist Februar–April", preis: "1.000–3.000 €/Monat", url: "https://www.ptj.de/foerdermoeglichkeiten/exist/exist-women", kurz: "Qualifizierungsprogramm mit optionalem Stipendium für gründungsinteressierte Frauen an Hochschulen." },
+  { slug: "innofounder-hamburg", name: "InnoFounder", veranstalter: "IFB Innovationsstarter", art: "stipendium", region: "HH", rhythmus: "laufend, Vergabeausschuss etwa alle 8 Wochen", preis: "bis 2.500 €/Monat, max. 75.000 €", url: "https://innovationsstarter.com/foerderprogramme/innofounder/", kurz: "Nicht rückzahlbarer Zuschuss für wissensbasierte Hamburger Gründungen unter einem Jahr." },
+  { slug: "berliner-startup-stipendium", name: "Berliner Startup Stipendium (alle Träger)", veranstalter: "Senatsverwaltung für Wirtschaft Berlin", art: "stipendium", region: "BE", rhythmus: "jeder Inkubator hat eigene Fristen", preis: "bis 2.500 €/Monat, bis 12 Monate", url: "https://www.berlin.de/sen/web/presse/pressemitteilungen/2026/pressemitteilung.1653813.php", kurz: "Landesstipendium mit Inkubator-Betreuung, inklusive Frauen-Linie BSS Women." },
+  { slug: "startup-bw-pre-seed", name: "Start-up BW Pre-Seed", veranstalter: "Wirtschaftsministerium BW / L-Bank", art: "stipendium", region: "BW", rhythmus: "mehrere Auswahlrunden pro Jahr", preis: "bis 320.000 €", url: "https://www.startupbw.de", kurz: "Frühphasenfinanzierung gemeinsam mit einem privaten Co-Investor." },
+  { slug: "founders-foundation-accelerator", name: "Founders Foundation Accelerator", veranstalter: "Founders Foundation", art: "accelerator", region: "NW", rhythmus: "zweimal jährlich", preis: "Vollstipendium, keine Anteile", url: "https://www.foundersfoundation.de/accelerator/", kurz: "Fünf- bis sechsmonatiges Vollzeitprogramm für B2B-Tech-Start-ups mit Bezug zu OWL." },
+  { slug: "antler-germany", name: "Antler Residency Germany", veranstalter: "Antler", art: "accelerator", region: "BE", rhythmus: "Bewerbung ganzjährig, Start im März und September", preis: "bis 500.000 € Investment", url: "https://www.antler.co/location/germany", kurz: "Residency für (Solo-)Gründer zur Teamfindung und Pre-Seed-Finanzierung." },
+  { slug: "avant-now", name: "Avant Now Accelerator", veranstalter: "Avant Now", art: "accelerator", region: "BE", rhythmus: "Kohorten, Bewerbung laut Website offen", preis: "equity-free", url: "https://avant-now.com", kurz: "Accelerator für Impact-Tech-Start-ups mit mehrheitlich weiblich geführten Teams." },
+  { slug: "google-for-startups-europe", name: "Google for Startups Accelerator: Europe", veranstalter: "Google", art: "accelerator", region: "bund", rhythmus: "thematische Kohorten – derzeit geschlossen, Interessensliste offen", preis: "equity-free", url: "https://startup.google.com/programs/accelerator/europe/", kurz: "Dreimonatiger virtueller Accelerator für Seed- bis Series-A-Start-ups." },
+  { slug: "aws-activate", name: "AWS Activate", veranstalter: "Amazon Web Services", art: "accelerator", region: "bund", rhythmus: "laufend", preis: "bis 5.000 USD Credits (Founders)", url: "https://aws.amazon.com/startups/credits", kurz: "Cloud-Credits für Start-ups, Antwort in 5–10 Werktagen." },
+  { slug: "microsoft-for-startups", name: "Microsoft for Startups", veranstalter: "Microsoft", art: "accelerator", region: "bund", rhythmus: "laufend", preis: "bis 150.000 USD Azure-Credits", url: "https://www.microsoft.com/en-us/startups", kurz: "Start-up-Programm mit Cloud-Credits und kostenlosen Tools." },
+];
