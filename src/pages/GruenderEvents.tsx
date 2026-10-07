@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, CalendarDays, ExternalLink, MapPin, Repeat, Search, Timer, Wifi } from "lucide-react";
+import { ArrowRight, CalendarDays, CalendarPlus, ExternalLink, MapPin, Repeat, Search, Timer, Wifi } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,6 +9,7 @@ import { Navbar } from "@/components/landing/Navbar";
 import { Footer } from "@/components/landing/Footer";
 import { HubNav } from "@/components/landing/HubNav";
 import { breadcrumbSchema, faqSchema } from "@/lib/freetools/schema";
+import { ladeIcsHerunter } from "@/lib/ics";
 import { BUNDESLAND_NAMES } from "@/data/foerderprogramme";
 import {
   ART_LABELS,
@@ -76,12 +77,7 @@ const faqs = [
 const EventKarte = ({ e }: { e: GruenderEvent }) => {
   const art = ART_LABELS[e.art];
   return (
-    <a
-      href={e.url}
-      target="_blank"
-      rel="noreferrer noopener"
-      className="group flex gap-4 rounded-2xl border border-border bg-card p-4 sm:p-5 hover:border-accent-blue/40 hover:shadow-soft transition-all"
-    >
+    <div className="group flex gap-4 rounded-2xl border border-border bg-card p-4 sm:p-5 hover:border-accent-blue/40 hover:shadow-soft transition-all">
       <div className="shrink-0 w-14 sm:w-16 rounded-xl bg-secondary/70 flex flex-col items-center justify-center py-2 text-center">
         {e.datum ? (
           <>
@@ -98,7 +94,11 @@ const EventKarte = ({ e }: { e: GruenderEvent }) => {
         )}
       </div>
       <div className="flex-1 min-w-0">
-        <h3 className="font-bold text-base leading-snug group-hover:text-accent-blue transition-colors">{e.name}</h3>
+        <h3 className="font-bold text-base leading-snug">
+          <a href={e.url} target="_blank" rel="noreferrer noopener" className="hover:text-accent-blue transition-colors">
+            {e.name}
+          </a>
+        </h3>
         <div className="text-xs text-muted-foreground mt-0.5">{e.veranstalter}</div>
         <div className="flex flex-wrap gap-1.5 mt-2">
           <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${art.color}`}>
@@ -118,13 +118,31 @@ const EventKarte = ({ e }: { e: GruenderEvent }) => {
           )}
         </div>
         <p className="text-sm text-muted-foreground mt-2 leading-relaxed">{e.kurz}</p>
-        <div className="text-[11px] text-accent-blue mt-2 inline-flex items-center gap-1">
-          {e.datum ? fmtSpanne(e) : e.rhythmus}
-          {e.weitereTermine ? ` · + ${e.weitereTermine} weitere Termine` : ""} · Zum Veranstalter{" "}
-          <ExternalLink className="h-3 w-3" />
+        <div className="text-[11px] mt-2 flex flex-wrap items-center gap-x-3 gap-y-1">
+          <span className="text-muted-foreground">
+            {e.datum ? fmtSpanne(e) : e.rhythmus}
+            {e.weitereTermine ? ` · + ${e.weitereTermine} weitere Termine` : ""}
+          </span>
+          <a href={e.url} target="_blank" rel="noreferrer noopener" className="text-accent-blue inline-flex items-center gap-1 hover:underline">
+            Zum Veranstalter <ExternalLink className="h-3 w-3" />
+          </a>
+          {e.datum && (
+            <button
+              type="button"
+              onClick={() =>
+                ladeIcsHerunter(
+                  { uid: e.slug, titel: e.name, start: e.datum!, ende: e.datumBis, ort: e.format === "online" ? "Online" : e.ort, beschreibung: e.veranstalter, url: e.url },
+                  e.name,
+                )
+              }
+              className="text-accent-blue inline-flex items-center gap-1 hover:underline"
+            >
+              <CalendarPlus className="h-3 w-3" /> In den Kalender
+            </button>
+          )}
         </div>
       </div>
-    </a>
+    </div>
   );
 };
 
@@ -132,15 +150,12 @@ const FristKarte = ({ f, heute }: { f: GruenderFrist; heute: string }) => {
   const label = FRIST_LABELS[f.art];
   const tageBis = f.frist ? Math.ceil((Date.parse(f.frist) - Date.parse(heute)) / 864e5) : null;
   return (
-    <a
-      href={f.url}
-      target="_blank"
-      rel="noreferrer noopener"
-      className="group block rounded-xl border border-border bg-card p-4 hover:border-accent-blue/40 transition-colors"
-    >
+    <div className="rounded-xl border border-border bg-card p-4 hover:border-accent-blue/40 transition-colors">
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <div className="font-semibold text-sm leading-snug group-hover:text-accent-blue transition-colors">{f.name}</div>
+          <a href={f.url} target="_blank" rel="noreferrer noopener" className="font-semibold text-sm leading-snug hover:text-accent-blue transition-colors">
+            {f.name}
+          </a>
           <div className="text-xs text-muted-foreground mt-0.5">
             {label.emoji} {label.name} · {regionName(f.region)}
             {f.preis ? ` · ${f.preis}` : ""}
@@ -157,13 +172,26 @@ const FristKarte = ({ f, heute }: { f: GruenderFrist; heute: string }) => {
         )}
       </div>
       <p className="text-xs text-muted-foreground mt-2 leading-relaxed">{f.kurz}</p>
-      <div className="text-[11px] text-accent-blue mt-2 inline-flex items-center gap-1">
-        {f.frist
-          ? `Frist ${new Date(`${f.frist}T12:00:00`).toLocaleDateString("de-DE", { day: "numeric", month: "long", year: "numeric" })}`
-          : f.rhythmus}{" "}
-        · Zur Ausschreibung <ExternalLink className="h-3 w-3" />
+      <div className="text-[11px] mt-2 flex flex-wrap items-center gap-x-3 gap-y-1">
+        <span className="text-muted-foreground">
+          {f.frist
+            ? `Frist ${new Date(`${f.frist}T12:00:00`).toLocaleDateString("de-DE", { day: "numeric", month: "long", year: "numeric" })}`
+            : f.rhythmus}
+        </span>
+        <a href={f.url} target="_blank" rel="noreferrer noopener" className="text-accent-blue inline-flex items-center gap-1 hover:underline">
+          Zur Ausschreibung <ExternalLink className="h-3 w-3" />
+        </a>
+        {f.frist && (
+          <button
+            type="button"
+            onClick={() => ladeIcsHerunter({ uid: `frist-${f.slug}`, titel: `Bewerbungsfrist: ${f.name}`, start: f.frist!, beschreibung: f.kurz, url: f.url }, `frist-${f.slug}`)}
+            className="text-accent-blue inline-flex items-center gap-1 hover:underline"
+          >
+            <CalendarPlus className="h-3 w-3" /> Frist in den Kalender
+          </button>
+        )}
       </div>
-    </a>
+    </div>
   );
 };
 
@@ -459,6 +487,45 @@ export default function GruenderEvents() {
                 <Link to="/rechtsform-finden" className="text-accent-blue hover:underline">Rechtsform-Finder</Link>.
               </li>
             </ol>
+          </div>
+
+          {/* Abonnierbare Kalender */}
+          <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5 mb-10">
+            <h2 className="text-lg font-bold mb-1">📅 Termine automatisch im eigenen Kalender</h2>
+            <p className="text-sm text-muted-foreground mb-3">
+              Abonniere den Kalender für dein Bundesland (inklusive Online-Events) oder alle Bewerbungsfristen – er
+              aktualisiert sich von selbst in Google Kalender, Apple Kalender oder Outlook.
+            </p>
+            <div className="flex flex-wrap gap-2 items-center">
+              <select
+                aria-label="Bundesland für den Kalender"
+                className="h-9 rounded-md border border-input bg-background px-2 text-sm"
+                value={region === "all" ? "" : region}
+                onChange={(ev) => setRegion(ev.target.value || "all")}
+              >
+                <option value="">Ganz Deutschland</option>
+                {Object.entries(BUNDESLAND_NAMES).filter(([k]) => k !== "bund").map(([k, n]) => (
+                  <option key={k} value={k}>{n}</option>
+                ))}
+              </select>
+              <a
+                className="rounded-md bg-accent-blue text-primary-foreground px-3 py-2 text-sm font-semibold"
+                href={`webcal://gruenderx.de/kalender/${region === "all" ? "gruender-events" : `gruender-events-${region.toLowerCase()}`}.ics`}
+              >
+                Events abonnieren
+              </a>
+              <a className="rounded-md border border-border bg-card px-3 py-2 text-sm font-semibold" href="webcal://gruenderx.de/kalender/fristen.ics">
+                Fristen abonnieren
+              </a>
+              <a
+                className="text-xs text-accent-blue hover:underline"
+                href={`https://calendar.google.com/calendar/r?cid=${encodeURIComponent(`webcal://gruenderx.de/kalender/${region === "all" ? "gruender-events" : `gruender-events-${region.toLowerCase()}`}.ics`)}`}
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                in Google Kalender öffnen
+              </a>
+            </div>
           </div>
 
           {/* Kalender */}

@@ -45,3 +45,4 @@ docs/elster-fse-ref/*
 bun.lock
 bun.lockb
 public/gruender-events.json
+public/kalender/

@@ -2,9 +2,11 @@
 // kuratierter Liste + Monitor-Daten. Die Edge Functions (Wochenmail, Felix)
 // lesen diese Datei unter https://gruenderx.de/gruender-events.json – so gibt
 // es genau eine Quelle für Termine und Fristen.
-import { writeFileSync } from "fs";
+import { mkdirSync, writeFileSync } from "fs";
 import { resolve } from "path";
-import { aktuelleEvents, GRUENDER_FRISTEN, LIVE_STAND } from "../src/data/gruenderEvents";
+import { aktuelleEvents, GRUENDER_FRISTEN, LIVE_STAND, type GruenderEvent } from "../src/data/gruenderEvents";
+import { BUNDESLAND_NAMES } from "../src/data/foerderprogramme";
+import { baueIcs, type IcsTermin } from "../src/lib/ics";
 
 const heute = new Date().toISOString().slice(0, 10);
 const events = aktuelleEvents(heute).map((e) => ({
@@ -23,3 +25,33 @@ const events = aktuelleEvents(heute).map((e) => ({
 const out = { stand: LIVE_STAND.stand, erzeugt: new Date().toISOString(), events, fristen: GRUENDER_FRISTEN };
 writeFileSync(resolve("public/gruender-events.json"), JSON.stringify(out));
 console.log(`gruender-events.json: ${events.length} Events, ${GRUENDER_FRISTEN.length} Fristen`);
+
+// Abonnierbare Kalender: alle Events, je Bundesland (inkl. Online-Events) und Fristen.
+const datiert = aktuelleEvents(heute).filter((e) => e.datum);
+const alsTermin = (e: GruenderEvent): IcsTermin => ({
+  uid: e.slug,
+  titel: e.name,
+  start: e.datum!,
+  ende: e.datumBis,
+  ort: e.format === "online" ? "Online" : e.ort,
+  beschreibung: `${e.veranstalter}${e.kurz ? ` – ${e.kurz}` : ""}`,
+  url: e.url,
+});
+mkdirSync(resolve("public/kalender"), { recursive: true });
+writeFileSync(resolve("public/kalender/gruender-events.ics"), baueIcs(datiert.map(alsTermin), "Gründer-Events Deutschland (GründerX)"));
+let laender = 0;
+for (const [code, name] of Object.entries(BUNDESLAND_NAMES)) {
+  if (code === "bund") continue;
+  const liste = datiert.filter((e) => e.region === code || e.format === "online" || e.region === "bund");
+  writeFileSync(resolve(`public/kalender/gruender-events-${code.toLowerCase()}.ics`), baueIcs(liste.map(alsTermin), `Gründer-Events ${name} (GründerX)`));
+  laender++;
+}
+const fristTermine: IcsTermin[] = GRUENDER_FRISTEN.filter((f) => f.frist && f.frist >= heute).map((f) => ({
+  uid: `frist-${f.slug}`,
+  titel: `Bewerbungsfrist: ${f.name}`,
+  start: f.frist!,
+  beschreibung: `${f.veranstalter} – ${f.kurz}`,
+  url: f.url,
+}));
+writeFileSync(resolve("public/kalender/fristen.ics"), baueIcs(fristTermine, "Gründer-Fristen: Wettbewerbe & Stipendien (GründerX)"));
+console.log(`Kalender: ${datiert.length} Events, ${laender} Bundesländer, ${fristTermine.length} Fristen`);
