@@ -694,6 +694,11 @@ LAUNCH / COMPLIANCE
 - /cockpit/foerderung – 20+ Programme (KfW, EXIST, HTGF, INVEST/BAFA, 7 Bundesländer, EIC)
 - /gruender-events – täglich aktualisierte Gründer-Events (IHK-Gründerabende, Sprechtage, Messen, Hackathons, KI-Build-Sessions) + Fristen-Radar für Wettbewerbe, Stipendien, Accelerator
 - /cockpit/gruendungszuschuss – Gründungszuschuss-Check (§§ 93/94 SGB III): Ampel, Rechner Phase 1+2, Antrags-Reihenfolge, Unterlagen, IHK-Gebühren
+- /cockpit/gruendungsunterlagen – Finanzplan-Generator: Kapitalbedarf, Finanzierung, Rentabilität 3 J., Liquidität 12 Mon., Lebenshaltung, PDF (für IHK-Stellungnahme, Jobcenter, Bank)
+- /cockpit/einstiegsgeld – Einstiegsgeld-Rechner (§ 16b SGB II, ESGV, Regelbedarfe 2026) + § 16c bis 5.000 €
+- /cockpit/bafa-beratung – BAFA-Beratungsförderung: 80 % Ost/Lüneburg/Trier, 50 % sonst, max. 3.500 € Bemessung, Anträge nur bis 31.12.2026
+- /cockpit/pitch-deck – Pitch-Deck-Generator: 10 Folien, Jury-Check, 16:9-PDF, Elevator-Pitch
+- /hackathon-starter-kit – In 3 Stunden zum Prototyp: Phasen-Timer, Prompt-Vorlagen, Packliste
 - /cockpit/ecom-roadmap – 8 Kategorien (Beauty, Supplement, Electronics, Toys, Apparel, Food, Pet, Hardware) mit DE/EU/US-Compliance + Standard-Stack + Stolperfallen
 - /cockpit/visa-helper – 6 Visa-Pfade (§21 Selbstständig, §21 Abs 5 Frei, §18g Blue-Card, §18a/b Fachkraft 2024, §20a Chancenkarte, §28/30 Familie)
 - /cockpit/stb-finder – StB-Auswahl-Wizard: Pflicht-Knowledge + Erst-Termin-Frage-Katalog + Red-Flags pro Spezialisierung
