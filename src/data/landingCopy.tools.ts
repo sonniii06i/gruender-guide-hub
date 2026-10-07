@@ -2,6 +2,58 @@ import type { LandingCopy } from "./landingCopy";
 
 // Bespoke-Landing-Copy pro Tool-Slug. Generiert; fehlt ein Slug, greift der Fallback.
 export const TOOL_COPY: Record<string, LandingCopy> = {
+  "pitch-deck": {
+    "seoTitle": "Pitch-Deck erstellen: 10 Folien für Wettbewerbe",
+    "seoDescription": "Pitch-Deck für Businessplan-Wettbewerbe, Accelerator und Investoren: 10 Folien mit Jury-Check, 16:9-PDF und 60-Sekunden-Elevator-Pitch.",
+    "lead": "Der Generator führt dich durch die zehn Folien, die Jurys und Investoren erwarten, prüft live auf die typischen Schwächen und erzeugt ein fertiges 16:9-PDF samt Elevator-Pitch.",
+    "urgency": "Jurys bei Gründungswettbewerben und Accelerator-Programmen sichten Dutzende Decks – meist in wenigen Minuten pro Bewerbung. Folien voller Text, Marktgrößen ohne Quelle und Traction ohne Zahlen fallen dabei als Erstes raus. Mit dem Pitch-Deck-Generator von GründerX baust du ein Deck, das diese Fehler gar nicht erst macht.",
+    "outcomes": [
+        "Alle 10 Standardfolien strukturiert ausgefüllt",
+        "Live-Jury-Check auf Länge, Quellen, Zahlen und Ask",
+        "Fertiges Pitch-Deck als 16:9-PDF",
+        "Dein 60-Sekunden-Elevator-Pitch zum Kopieren"
+    ],
+    "disclaimer": "Der Check prüft Form und Vollständigkeit; über Inhalt und Erfolg entscheidet die Jury."
+},
+  "gruendungsunterlagen": {
+    "seoTitle": "Finanzplan für den Gründungszuschuss erstellen",
+    "seoDescription": "Kapitalbedarf, Rentabilitätsvorschau, Liquiditätsplan und Lebenshaltungskosten für IHK, Arbeitsagentur, Jobcenter und Bank – mit Tragfähigkeits-Ampel und PDF.",
+    "lead": "Der Finanzplan-Generator rechnet aus deinen Zahlen alles, was für die Tragfähigkeitsbescheinigung und den Bankkredit verlangt wird: Kapitalbedarf, Finanzierung, Rentabilität über drei Jahre, Liquidität über zwölf Monate und deine privaten Lebenshaltungskosten.",
+    "urgency": "Für den Gründungszuschuss, das Einstiegsgeld und jeden Gründerkredit brauchst du eine Stellungnahme zur Tragfähigkeit – und die steht und fällt mit dem Zahlenteil. Zu optimistische Umsätze, eine fehlende Liquiditätsplanung und zu knapp kalkulierte Betriebsmittel sind die häufigsten Mängel, die IHKs nennen. Mit dem Finanzplan-Generator von GründerX siehst du sofort, ob deine Liquidität irgendwo ins Minus rutscht und welcher Mindestumsatz dich trägt.",
+    "outcomes": [
+        "Kapitalbedarfs- und Finanzierungsplan mit Finanzierungslücke",
+        "Rentabilitätsvorschau über 3 Jahre inklusive Steuerrücklage",
+        "Liquiditätsplan über 12 Monate mit Zahlungsziel und Darlehen",
+        "Tragfähigkeits-Ampel, Mindestumsatz und fertiges PDF"
+    ],
+    "disclaimer": "Planrechnung ohne Gewähr. Die Bewertung der Tragfähigkeit trifft die fachkundige Stelle bzw. die Bank."
+},
+  "einstiegsgeld": {
+    "seoTitle": "Einstiegsgeld-Rechner 2026: Gründen aus Grundsicherung",
+    "seoDescription": "Wie viel Einstiegsgeld gibt es für die Gründung? Höchstbetrag nach § 16b SGB II und ESGV mit Regelbedarfen 2026, plus bis zu 5.000 € Ausstattungszuschuss.",
+    "lead": "Der Rechner zeigt dir den Höchstbetrag des Einstiegsgelds für deine Situation – Grundbetrag, Zuschläge für Langzeitarbeitslosigkeit und Bedarfsgemeinschaft, Deckel und Förderdauer – nach den Regelbedarfen 2026.",
+    "urgency": "Wer aus dem Grundsicherungsgeld gründet, kann bis zu 24 Monate Einstiegsgeld zusätzlich bekommen und bis zu 5.000 € für Ausstattung. Beides sind Ermessensleistungen: Wer mit klaren Zahlen und einem tragfähigen Plan ins Jobcenter geht, hat bessere Karten. Mit dem Einstiegsgeld-Rechner von GründerX kennst du deinen Rahmen, bevor du das Gespräch führst.",
+    "outcomes": [
+        "Dein monatlicher Höchstbetrag nach Einstiegsgeld-Verordnung",
+        "Gesamtsumme für die geplante Förderdauer (max. 24 Monate)",
+        "Überblick über den Ausstattungszuschuss bis 5.000 €",
+        "Liste der Unterlagen fürs Jobcenter"
+    ],
+    "disclaimer": "Das Jobcenter entscheidet nach Ermessen; der Rechner zeigt Höchstbeträge nach Rechtsstand Oktober 2026."
+},
+  "bafa-beratung": {
+    "seoTitle": "BAFA-Beratungsförderung 2026: Check & Rechner",
+    "seoDescription": "Bis 80 % Zuschuss zur Unternehmensberatung, max. 2.800 € – nur noch für Anträge bis 31.12.2026. Prüf deine Förderfähigkeit und rechne deinen Zuschuss aus.",
+    "lead": "Der Check prüft deine Förderfähigkeit nach der aktuellen BAFA-Richtlinie und rechnet deinen Zuschuss nach Region und Umsatzsteuer-Status aus – inklusive Ablauf über Leitstelle und Informationsgespräch.",
+    "urgency": "Die Förderrichtlinie gilt nur für Anträge bis zum 31.12.2026, eine Nachfolgeregelung ist bisher nicht veröffentlicht. Und der häufigste Fehler kostet die ganze Förderung: Wer den Beratungsvertrag vor dem Informationsschreiben unterschreibt, bekommt nichts. Mit dem BAFA-Check von GründerX weißt du in zwei Minuten, ob und wie viel du bekommst und was du in welcher Reihenfolge tun musst.",
+    "outcomes": [
+        "Förderfähigkeits-Ampel nach der Richtlinie in der Fassung von 2024",
+        "Zuschuss in Euro nach Region – 50 % oder 80 %",
+        "Richtiger Ablauf: Informationsgespräch, Antrag, Vertrag, Nachweis",
+        "Countdown bis zum Antragsende am 31.12.2026"
+    ],
+    "disclaimer": "Orientierung nach Rechtsstand Oktober 2026; kein Rechtsanspruch auf die Förderung."
+},
   "gruendungszuschuss": {
     "seoTitle": "Gründungszuschuss 2026: Check, Rechner & Antrag",
     "seoDescription": "Bekommst du den Gründungszuschuss? Prüf alle Voraussetzungen nach § 93 SGB III, rechne Phase 1 + 2 aus und stell den Antrag in der richtigen Reihenfolge.",

@@ -162,7 +162,26 @@ const RELATED: Record<string, ToolRef[]> = {
     { route: "/cockpit/bwa-generator", label: "BWA-Generator", desc: "Reisekosten-Summe in BWA übertragen" },
     { route: "/cockpit/kfz-optimizer", label: "Kfz-Optimizer", desc: "Bei eigenem Geschäfts-Kfz: 1%-Regel vs Fahrtenbuch" },
   ],
+  "/cockpit/pitch-deck": [
+    { route: "/gruender-events", label: "Fristen-Radar", desc: "Offene Bewerbungsfristen für Wettbewerbe, Stipendien und Accelerator" },
+    { route: "/cockpit/gruendungsunterlagen", label: "Finanzplan-Generator", desc: "Zahlen für die Finanzen-Folie: Umsatz über 3 Jahre und Kapitalbedarf" },
+    { route: "/cockpit/check", label: "Marken- & Domain-Check", desc: "Bevor der Name auf die Titelfolie kommt" },
+  ],
+  "/cockpit/gruendungsunterlagen": [
+    { route: "/cockpit/gruendungszuschuss", label: "Gründungszuschuss-Check", desc: "Anspruch prüfen und Zuschuss in den Finanzplan übernehmen" },
+    { route: "/cockpit/runway-rechner", label: "Runway-Rechner", desc: "Wie lange reicht das Geld bei gleichbleibenden Kosten?" },
+    { route: "/cockpit/foerderung", label: "Förderung-Datenbank", desc: "KfW-Startgeld und Landesprogramme für die Finanzierung" },
+  ],
+  "/cockpit/einstiegsgeld": [
+    { route: "/cockpit/gruendungsunterlagen", label: "Finanzplan-Generator", desc: "Die Unterlagen fürs Jobcenter: Kapitalbedarf, Rentabilität, Liquidität" },
+    { route: "/cockpit/gruendungszuschuss", label: "Gründungszuschuss-Check", desc: "Wer ALG I bezieht, ist hier richtig" },
+  ],
+  "/cockpit/bafa-beratung": [
+    { route: "/cockpit/foerderung", label: "Förderung-Datenbank", desc: "Weitere Zuschüsse und Kredite für Gründer" },
+    { route: "/cockpit/stb-finder", label: "StB-Auswahl-Wizard", desc: "Steuerfragen werden über BAFA nicht gefördert – hier den passenden StB finden" },
+  ],
   "/cockpit/gruendungszuschuss": [
+    { route: "/cockpit/gruendungsunterlagen", label: "Finanzplan-Generator", desc: "Kapitalbedarf, Rentabilität, Liquidität und Lebenshaltung für die IHK-Stellungnahme" },
     { route: "/cockpit/gewerbeanmeldung-wizard", label: "Gewerbeanmeldung-Wizard", desc: "Nach dem Antrag: GewA1 sauber ausfüllen" },
     { route: "/cockpit/foerderung", label: "Förderung-Datenbank", desc: "KfW-Startgeld, EXIST und Länderprogramme zusätzlich nutzen" },
     { route: "/cockpit/versicherungs-basis-check", label: "Versicherungs-Basis-Check", desc: "Wofür die 300 € Zuschlag gedacht sind: soziale Absicherung" },

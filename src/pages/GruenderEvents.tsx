@@ -430,6 +430,10 @@ export default function GruenderEvents() {
           {/* Build-Session vorbereiten */}
           <div className="rounded-2xl border border-orange-500/30 bg-orange-500/5 p-5 mb-10">
             <h2 className="text-lg font-bold mb-2">⚡ In 3 Stunden zum ersten Tool – so nutzt du eine Build-Session</h2>
+            <p className="text-sm mb-3">
+              Mit Timer und Prompt-Vorlagen:{" "}
+              <Link to="/hackathon-starter-kit" className="text-accent-blue font-semibold hover:underline">Hackathon-Starter-Kit öffnen →</Link>
+            </p>
             <ol className="list-decimal pl-5 space-y-1.5 text-sm text-muted-foreground">
               <li>
                 <strong className="text-foreground">Vorher (30 Min.):</strong> ein Problem in einem Satz aufschreiben, das
