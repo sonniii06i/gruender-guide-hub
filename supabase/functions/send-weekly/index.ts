@@ -65,21 +65,35 @@ const MAX_ARTIKEL = 3;
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
 
-  const secret = Deno.env.get("CART_CRON_SECRET");
-  if (!secret || req.headers.get("x-cron-secret") !== secret) {
-    return new Response("unauthorized", { status: 401, headers: corsHeaders });
-  }
-
   const db = createClient(
     Deno.env.get("SUPABASE_URL") ?? "",
     Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "",
   );
+  const body = await req.json().catch(() => ({}));
+
+  // Zwei Wege hinein:
+  //  1. Cron mit x-cron-secret (normaler Versand bzw. testAn).
+  //  2. Admin-Selbsttest: eingeloggter Admin (JWT) mit {"testSelbst": true}.
+  //     Geht AUSSCHLIESSLICH an die eigene Profil-Adresse des Admins –
+  //     so muss für einen Test niemand das Cron-Secret anfassen.
+  let selbstTestUser: string | null = null;
+  const secret = Deno.env.get("CART_CRON_SECRET");
+  if (!secret || req.headers.get("x-cron-secret") !== secret) {
+    const jwt = (req.headers.get("authorization") ?? "").replace(/^Bearer\s+/i, "");
+    if (body?.testSelbst !== true || !jwt) return new Response("unauthorized", { status: 401, headers: corsHeaders });
+    const { data: u } = await db.auth.getUser(jwt);
+    const uid = u?.user?.id;
+    const { data: rolle } = uid
+      ? await db.from("user_roles").select("role").eq("user_id", uid).eq("role", "admin").maybeSingle()
+      : { data: null };
+    if (!uid || !rolle) return new Response("unauthorized", { status: 401, headers: corsHeaders });
+    selbstTestUser = uid;
+  }
   const basis = Deno.env.get("PUBLIC_BASE_URL") ?? BRANDING.url;
   const funktionen = `${Deno.env.get("SUPABASE_URL")}/functions/v1`;
 
   // Ein Testlauf schickt an genau eine Adresse und aendert sonst nichts.
   let nurAn: string | null = null;
-  const body = await req.json().catch(() => ({}));
   if (typeof body?.testAn === "string") nurAn = body.testAn.trim().toLowerCase();
 
   // ---------------------------------------------------------------
@@ -146,8 +160,9 @@ Deno.serve(async (req) => {
     .from("subscriptions")
     .select("user_id, status, comp_access");
 
-  const berechtigt = (abos ?? []).filter((a) =>
-    a.status === "active" || a.comp_access === true);
+  const berechtigt = selbstTestUser
+    ? [{ user_id: selbstTestUser, status: "selbsttest", comp_access: true }]
+    : (abos ?? []).filter((a) => a.status === "active" || a.comp_access === true);
 
   let versendet = 0, nichtsZuSagen = 0, uebersprungen = 0, fehler = 0, mitEvents = 0;
 
