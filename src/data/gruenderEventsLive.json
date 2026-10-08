@@ -1,5 +1,5 @@
 {
- "stand": "2026-10-08T11:25:47.188Z",
+ "stand": "2026-10-08T13:13:39.614Z",
  "quellen": {
   "gruendungswoche": {
    "ok": true,
@@ -7,52 +7,52 @@
    "verworfen": {
     "kommerzielle Online-Serie": 176
    },
-   "letzterErfolg": "2026-10-08T11:24:41.682Z"
+   "letzterErfolg": "2026-10-08T13:07:32.961Z"
   },
   "luma": {
    "ok": true,
-   "roh": 1084,
+   "roh": 1087,
    "verworfen": {
     "nicht in Deutschland": 207,
-    "kein Gründer-/Tech-Bezug": 575
+    "kein Gründer-/Tech-Bezug": 578
    },
-   "letzterErfolg": "2026-10-08T11:24:54.489Z"
+   "letzterErfolg": "2026-10-08T13:07:46.079Z"
   },
   "meetup": {
    "ok": true,
    "roh": 56,
    "verworfen": {},
-   "letzterErfolg": "2026-10-08T11:25:04.246Z"
+   "letzterErfolg": "2026-10-08T13:07:56.479Z"
   },
   "hackathonhub": {
    "ok": true,
-   "roh": 86,
+   "roh": 88,
    "verworfen": {},
-   "letzterErfolg": "2026-10-08T11:25:05.645Z"
+   "letzterErfolg": "2026-10-08T13:07:56.957Z"
   },
   "gdg": {
    "ok": true,
    "roh": 1000,
    "verworfen": {},
-   "letzterErfolg": "2026-10-08T11:25:15.248Z"
+   "letzterErfolg": "2026-10-08T13:08:05.314Z"
   },
   "munich-startup": {
    "ok": true,
    "roh": 66,
    "verworfen": {},
-   "letzterErfolg": "2026-10-08T11:25:19.564Z"
+   "letzterErfolg": "2026-10-08T13:13:12.179Z"
   },
   "startplatz": {
    "ok": true,
    "roh": 85,
    "verworfen": {},
-   "letzterErfolg": "2026-10-08T11:25:21.544Z"
+   "letzterErfolg": "2026-10-08T13:13:14.306Z"
   },
   "startupcity-hamburg": {
    "ok": true,
    "roh": 48,
    "verworfen": {},
-   "letzterErfolg": "2026-10-08T11:25:25.064Z"
+   "letzterErfolg": "2026-10-08T13:13:15.476Z"
   },
   "startup-bw": {
    "ok": true,
@@ -60,19 +60,19 @@
    "verworfen": {
     "unlesbar": 1
    },
-   "letzterErfolg": "2026-10-08T11:25:26.279Z"
+   "letzterErfolg": "2026-10-08T13:13:16.845Z"
   },
   "starthub-hessen": {
    "ok": true,
    "roh": 39,
    "verworfen": {},
-   "letzterErfolg": "2026-10-08T11:25:32.654Z"
+   "letzterErfolg": "2026-10-08T13:13:23.640Z"
   },
   "startupverband": {
    "ok": true,
    "roh": 62,
    "verworfen": {},
-   "letzterErfolg": "2026-10-08T11:25:35.197Z"
+   "letzterErfolg": "2026-10-08T13:13:25.893Z"
   },
   "dev-events": {
    "ok": true,
@@ -80,23 +80,23 @@
    "verworfen": {
     "kein Gründer-/Tech-Bezug": 80
    },
-   "letzterErfolg": "2026-10-08T11:25:38.300Z"
+   "letzterErfolg": "2026-10-08T13:13:29.050Z"
   },
   "ki-communities": {
    "ok": true,
    "roh": 52,
    "verworfen": {},
-   "letzterErfolg": "2026-10-08T11:25:47.176Z"
+   "letzterErfolg": "2026-10-08T13:13:39.603Z"
   }
  },
  "verworfen": {
   "mehr als 9 Monate voraus": 2,
   "vorbei": 44,
   "Dauerangebot (ohne Termin geführt)": 10,
-  "Serientermin zusammengefasst": 194,
+  "Serientermin zusammengefasst": 195,
   "Dublette über Quellen": 21
  },
- "anzahl": 710,
+ "anzahl": 711,
  "events": [
   {
    "slug": "gruendungswoche-a0kwx9",
@@ -494,20 +494,6 @@
    "entdeckt": "2026-10-07"
   },
   {
-   "slug": "startupcity-hamburg-1cl5q3o",
-   "quelle": "startupcity-hamburg",
-   "name": "Cap Table Essentials: The Basics of Startup Shareholdings",
-   "veranstalter": "Startup City Hamburg",
-   "art": "netzwerk",
-   "format": "vor-ort",
-   "ort": "Hamburg",
-   "region": "HH",
-   "datum": "2026-10-08",
-   "url": "https://startupcity.hamburg/news-events/events/cap-table-essentials-the-basics-of-startup-shareholdings",
-   "kurz": "Event in Hamburg – gelistet bei Startup City Hamburg.",
-   "entdeckt": "2026-10-07"
-  },
-  {
    "slug": "startupcity-hamburg-1oujbvk",
    "quelle": "startupcity-hamburg",
    "name": "Female Future Meet Up Hamburg",
@@ -709,22 +695,6 @@
    "url": "https://www.meetup.com/ai-beavers/events/313931753/",
    "kurz": "Treffen der Meetup-Gruppe AI BEAVERS | HAMBURG.",
    "weitereTermine": 4,
-   "entdeckt": "2026-10-07"
-  },
-  {
-   "slug": "hackathonhub-14lqpit",
-   "quelle": "hackathonhub",
-   "name": "Strengthen Democracy I Ideathon",
-   "veranstalter": "Mandy Hindenburg",
-   "art": "hackathon",
-   "format": "vor-ort",
-   "ort": "Essen",
-   "region": "NW",
-   "datum": "2026-10-09",
-   "datumBis": "2026-10-10",
-   "kostenlos": true,
-   "url": "https://hackathonhub.eu/events/strengthen-democracy-i-ideathon-essen-2026",
-   "kurz": "This two-day Ideathon invites young people and adults to develop concrete projects for greater social participation and cohesion. Participants work in project groups, are accompanied by mentors, and present their ideas t",
    "entdeckt": "2026-10-07"
   },
   {
@@ -975,22 +945,7 @@
    "kostenlos": true,
    "url": "https://luma.com/7fzrbmox",
    "kurz": "Event in Karlsruhe, gelistet auf Luma (HACK//OPS).",
-   "entdeckt": "2026-10-07"
-  },
-  {
-   "slug": "hackathonhub-1rjesjk",
-   "quelle": "hackathonhub",
-   "name": "VRS Hackathon 2026",
-   "veranstalter": "Ruhr Universität Bochum",
-   "art": "hackathon",
-   "format": "vor-ort",
-   "ort": "Bochum",
-   "region": "NW",
-   "datum": "2026-10-10",
-   "datumBis": "2026-10-12",
-   "kostenlos": true,
-   "url": "https://hackathonhub.eu/events/vrs-hackathon-2026-bochum-2026",
-   "kurz": "The VRS Hackathon 2026 is an upcoming tech event organized by Ruhr University Bochum, focusing on virtual reality and related technologies. Although the exact details regarding the theme, schedule, and registration are y",
+   "weitereTermine": 1,
    "entdeckt": "2026-10-07"
   },
   {
@@ -1007,6 +962,22 @@
    "kostenlos": true,
    "url": "https://hackathonhub.eu/events/mobile-robotics-hackathon-2026-dresden-2026",
    "kurz": "This hands-on hackathon focuses on developing solutions for mobile robots. Participants will have the opportunity to build their own applications and implement innovative ideas. It is an in-person event in Dresden, surro",
+   "entdeckt": "2026-10-07"
+  },
+  {
+   "slug": "hackathonhub-1rjesjk",
+   "quelle": "hackathonhub",
+   "name": "VRS Hackathon 2026",
+   "veranstalter": "Ruhr Universität Bochum",
+   "art": "hackathon",
+   "format": "vor-ort",
+   "ort": "Bochum",
+   "region": "NW",
+   "datum": "2026-10-10",
+   "datumBis": "2026-10-12",
+   "kostenlos": true,
+   "url": "https://hackathonhub.eu/events/vrs-hackathon-2026-bochum-2026",
+   "kurz": "The VRS Hackathon 2026 is an upcoming tech event organized by Ruhr University Bochum, focusing on virtual reality and related technologies. Although the exact details regarding the theme, schedule, and registration are y",
    "entdeckt": "2026-10-07"
   },
   {
@@ -2422,6 +2393,20 @@
    "url": "https://www.startplatz.de/event/start-up-bbq-2026-10-15/",
    "kurz": "Event in Köln – gelistet bei STARTPLATZ.",
    "entdeckt": "2026-10-07"
+  },
+  {
+   "slug": "startupcity-hamburg-1kal0c7",
+   "quelle": "startupcity-hamburg",
+   "name": "IP Consultation Day",
+   "veranstalter": "Startup City Hamburg",
+   "art": "netzwerk",
+   "format": "vor-ort",
+   "ort": "Hamburg",
+   "region": "HH",
+   "datum": "2026-10-15",
+   "url": "https://startupcity.hamburg/news-events/events/ip-consultation-day-understanding-researching-and-making-effective-use-of-intellectual-property-rights",
+   "kurz": "Event in Hamburg – gelistet bei Startup City Hamburg.",
+   "entdeckt": "2026-10-08"
   },
   {
    "slug": "startupcity-hamburg-17ir4ox",
@@ -5799,6 +5784,21 @@
    "kurz": "The German Space Agency at DLR is organizing a school competition where students from 6th to 8th grades are challenged to develop creative ideas for climate and Earth protection. Based on the analysis of Earth observatio",
    "rhythmus": "laufendes Angebot bis 19. März 2027",
    "entdeckt": "2026-10-07"
+  },
+  {
+   "slug": "hackathonhub-1vw564d",
+   "quelle": "hackathonhub",
+   "name": "Cursor x Sandbox Hackathon | Stuttgart",
+   "veranstalter": "SpaceXAI for Stuttgart, Germany (Veranstaltet von Sachin Agrawal)",
+   "art": "hackathon",
+   "format": "vor-ort",
+   "ort": "Stuttgart",
+   "region": "BW",
+   "datum": "2026-11-07",
+   "kostenlos": true,
+   "url": "https://hackathonhub.eu/events/cursor-x-sandbox-hackathon-stuttgart-stuttgart-2026",
+   "kurz": "This one-day hackathon targets software founders and aspiring entrepreneurs to develop and implement startup ideas. Participants start with an idea and work on creating a functional product, a live landing page, and an i",
+   "entdeckt": "2026-10-08"
   },
   {
    "slug": "hackathonhub-c5vz1x",
@@ -10084,6 +10084,21 @@
    "url": "https://www.munich-startup.de/events/tutorial-goodies-oder-mitarbeiterbenefits-im-startup",
    "kurz": "Event in München – gelistet bei Munich Startup.",
    "entdeckt": "2026-10-07"
+  },
+  {
+   "slug": "hackathonhub-1kej76u",
+   "quelle": "hackathonhub",
+   "name": "Winter Hackathon (supported by Lovable)",
+   "veranstalter": "Kiez & Kin",
+   "art": "hackathon",
+   "format": "vor-ort",
+   "ort": "Berlin",
+   "region": "BE",
+   "datum": "2026-12-12",
+   "kostenlos": true,
+   "url": "https://hackathonhub.eu/events/winter-hackathon-supported-by-lovable-berlin-2026",
+   "kurz": "This winter hackathon invites participants to complete their unfinished projects or develop a year-in-review application. It takes place in Berlin and is organized by Kiez & Kin, supported by Lovable. No coding experienc",
+   "entdeckt": "2026-10-08"
   },
   {
    "slug": "gdg-1tmrrqe",
