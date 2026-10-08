@@ -43,6 +43,7 @@ import { abTest, sendCampaign } from "../_shared/mailSend.ts";
 import { BRANDING } from "../_shared/mailBrand.ts";
 import { unsubscribeUrl } from "../_shared/unsubscribe.ts";
 import { PLAYBOOK_TITEL } from "../_shared/playbookSteps.ts";
+import { BUNDESLAND_NAME, datumDe, eventsFuer, fristenFuer, ladeEvents, plzZuLand } from "../_shared/gruenderEvents.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -64,21 +65,35 @@ const MAX_ARTIKEL = 3;
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
 
-  const secret = Deno.env.get("CART_CRON_SECRET");
-  if (!secret || req.headers.get("x-cron-secret") !== secret) {
-    return new Response("unauthorized", { status: 401, headers: corsHeaders });
-  }
-
   const db = createClient(
     Deno.env.get("SUPABASE_URL") ?? "",
     Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "",
   );
+  const body = await req.json().catch(() => ({}));
+
+  // Zwei Wege hinein:
+  //  1. Cron mit x-cron-secret (normaler Versand bzw. testAn).
+  //  2. Admin-Selbsttest: eingeloggter Admin (JWT) mit {"testSelbst": true}.
+  //     Geht AUSSCHLIESSLICH an die eigene Profil-Adresse des Admins –
+  //     so muss für einen Test niemand das Cron-Secret anfassen.
+  let selbstTestUser: string | null = null;
+  const secret = Deno.env.get("CART_CRON_SECRET");
+  if (!secret || req.headers.get("x-cron-secret") !== secret) {
+    const jwt = (req.headers.get("authorization") ?? "").replace(/^Bearer\s+/i, "");
+    if (body?.testSelbst !== true || !jwt) return new Response("unauthorized", { status: 401, headers: corsHeaders });
+    const { data: u } = await db.auth.getUser(jwt);
+    const uid = u?.user?.id;
+    const { data: rolle } = uid
+      ? await db.from("user_roles").select("role").eq("user_id", uid).eq("role", "admin").maybeSingle()
+      : { data: null };
+    if (!uid || !rolle) return new Response("unauthorized", { status: 401, headers: corsHeaders });
+    selbstTestUser = uid;
+  }
   const basis = Deno.env.get("PUBLIC_BASE_URL") ?? BRANDING.url;
   const funktionen = `${Deno.env.get("SUPABASE_URL")}/functions/v1`;
 
   // Ein Testlauf schickt an genau eine Adresse und aendert sonst nichts.
   let nurAn: string | null = null;
-  const body = await req.json().catch(() => ({}));
   if (typeof body?.testAn === "string") nurAn = body.testAn.trim().toLowerCase();
 
   // ---------------------------------------------------------------
@@ -95,6 +110,12 @@ Deno.serve(async (req) => {
 
   const neueArtikel: Array<[string, string]> = (artikelZeilen ?? [])
     .map((a) => [a.title as string, `/ratgeber/${a.slug}`] as [string, string]);
+
+  // ---------------------------------------------------------------
+  // 1b. Gründer-Events + Fristen (gruender-events.json). Fehlt die Datei,
+  //     laeuft die Mail ohne Events weiter – der Fehler steht im Bericht.
+  // ---------------------------------------------------------------
+  const eventDaten = await ladeEvents(basis);
 
   // ---------------------------------------------------------------
   // 2. Offene Playbook-Laeufe je Nutzer.
@@ -139,13 +160,14 @@ Deno.serve(async (req) => {
     .from("subscriptions")
     .select("user_id, status, comp_access");
 
-  const berechtigt = (abos ?? []).filter((a) =>
-    a.status === "active" || a.comp_access === true);
+  const berechtigt = selbstTestUser
+    ? [{ user_id: selbstTestUser, status: "selbsttest", comp_access: true }]
+    : (abos ?? []).filter((a) => a.status === "active" || a.comp_access === true);
 
-  let versendet = 0, nichtsZuSagen = 0, uebersprungen = 0, fehler = 0;
+  let versendet = 0, nichtsZuSagen = 0, uebersprungen = 0, fehler = 0, mitEvents = 0;
 
   for (const abo of berechtigt) {
-    const stand: WochenStand = proNutzer.get(abo.user_id) ?? { neueArtikel };
+    const stand: WochenStand = { ...(proNutzer.get(abo.user_id) ?? { neueArtikel }) };
 
     // Provision nur nachschlagen, wenn der Nutzer ueberhaupt Affiliate
     // ist — sonst eine Abfrage je Empfaenger fuer nichts.
@@ -161,10 +183,27 @@ Deno.serve(async (req) => {
       if (summe > 0) stand.provisionCents = summe;
     }
 
-    if (!hatInhalt(stand)) { nichtsZuSagen++; continue; }
-
     const { data: profil } = await db
-      .from("profiles").select("email, first_name").eq("id", abo.user_id).maybeSingle();
+      .from("profiles").select("email, first_name, postal_code, city").eq("id", abo.user_id).maybeSingle();
+
+    // Events nur mit bekannter Region – ohne PLZ/Stadt waere „in deiner Naehe“ geraten.
+    if (eventDaten) {
+      const land = plzZuLand(profil?.postal_code);
+      const stadt = (profil?.city ?? "").trim() || null;
+      if (land || stadt) {
+        const ev = eventsFuer(eventDaten, { land, stadt, tage: 14, max: 4 });
+        if (ev.length) {
+          stand.events = ev.map((e) => ({ name: e.name, wann: datumDe(e.datum!), ort: e.ort, url: e.url }));
+          stand.regionName = stadt && ev.some((e) => e.ort.toLowerCase().includes(stadt.toLowerCase()))
+            ? stadt : land ? BUNDESLAND_NAME[land] : null;
+          mitEvents++;
+        }
+      }
+      const fr = fristenFuer(eventDaten, { land, tage: 30, max: 3 });
+      if (fr.length) stand.fristen = fr.map((f) => ({ name: f.name, wann: datumDe(f.frist!), url: f.url }));
+    }
+
+    if (!hatInhalt(stand)) { nichtsZuSagen++; continue; }
 
     const adresse = (profil?.email ?? "").trim().toLowerCase();
     if (!adresse) { uebersprungen++; continue; }
@@ -196,6 +235,7 @@ Deno.serve(async (req) => {
   const bericht = {
     berechtigt: berechtigt.length, mitOffenemSchritt: proNutzer.size,
     neueArtikel: neueArtikel.length, versendet, nichtsZuSagen, uebersprungen, fehler,
+    eventsGeladen: eventDaten ? eventDaten.events.length : "FEHLER: gruender-events.json nicht ladbar", mitEvents,
   };
   console.log("[weekly]", JSON.stringify(bericht));
   return new Response(JSON.stringify(bericht), {
