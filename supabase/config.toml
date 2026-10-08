@@ -126,3 +126,6 @@ verify_jwt = false
 
 [functions.system-waechter]
 verify_jwt = false
+
+[functions.discord-abo-pruefen]
+verify_jwt = false

@@ -55,7 +55,13 @@ const items = (xml) => xml.split(/<item[\s>]/).slice(1).map((b) => {
 async function foerderBund(log) {
   const out = [];
   const xml = await holen("https://www.foerderinfo.bund.de/foerderinfo/de/services/rss/bekanntmachungen-alle/rssnewsfeed.xml");
-  const kmu = new Set(items(await holen("https://www.foerderinfo.bund.de/foerderinfo/de/services/rss/bekanntmachungen-kmu-foerderung/rssnewsfeed.xml")).map((i) => i.link));
+  // Der KMU-Feed liefert nur das Etikett „KMU“ – fällt er aus, bleiben die Bekanntmachungen trotzdem (Teilfehler im Protokoll).
+  let kmu = new Set();
+  try {
+    kmu = new Set(items(await holen("https://www.foerderinfo.bund.de/foerderinfo/de/services/rss/bekanntmachungen-kmu-foerderung/rssnewsfeed.xml")).map((i) => i.link));
+  } catch (e) {
+    log.fehler.push(`KMU-Etikett: ${e.message}`);
+  }
   for (const i of items(xml)) {
     log.roh++;
     const m = i.title.match(/\|\s*(\d{2}\.\d{2}\.\d{4})\s*-\s*(\d{2}\.\d{2}\.\d{4})\s*$/);
