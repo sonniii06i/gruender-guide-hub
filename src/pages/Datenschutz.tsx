@@ -23,7 +23,7 @@ const Datenschutz = () => (
     <main className="container max-w-3xl pt-32 pb-24 prose prose-slate prose-headings:scroll-mt-24">
       <p className="text-xs font-semibold uppercase tracking-wider text-accent-blue mb-2 not-prose">Rechtliches</p>
       <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-2">Datenschutzerklärung</h1>
-      <p className="text-sm text-muted-foreground">Stand: Mai 2026 · Version 2.0 (GründerX-spezifisch)</p>
+      <p className="text-sm text-muted-foreground">Stand: Oktober 2026 · Version 2.1 (GründerX-spezifisch)</p>
 
       <h2 id="ueberblick" className="text-2xl font-bold mt-10 mb-3">1. Überblick & Verantwortlicher</h2>
       <p>
@@ -177,6 +177,43 @@ const Datenschutz = () => (
         <strong>Auftragsverarbeiter:</strong> Supabase (Datenbank, Serverstandort Frankfurt am Main).
       </p>
 
+      <h3 id="mitgruender" className="font-semibold mt-6">3.10 Mitgründer-Börse</h3>
+      <p>
+        In der Mitgründer-Börse kannst du freiwillig ein Profil anlegen. <strong>Daten:</strong> Anzeigename, deine Rolle und
+        gesuchte Rollen, Region (Bundesland oder „remote“), Branche, Phase, Zeitumfang, Pitch-Text und Skills sowie die
+        Kontaktanfragen, die du sendest oder erhältst (Nachricht, Antwort, Status, Zeitpunkt). E-Mail-Adresse, Nachname und
+        weitere Kontodaten werden nicht angezeigt.
+      </p>
+      <p>
+        <strong>Sichtbarkeit:</strong> Dein Profil ist nur sichtbar, wenn du es selbst veröffentlichst, und nur für eingeloggte
+        Mitglieder mit aktivem Zugang. Kontaktanfragen sehen nur Absender und Empfänger. Kontaktdaten teilst du erst, wenn du sie
+        selbst in eine Antwort schreibst.<br />
+        <strong>Rechtsgrundlage:</strong> Art. 6 Abs. 1 lit. a DSGVO (deine Einwilligung durch Veröffentlichen) und lit. b
+        (Bereitstellung der Funktion).<br />
+        <strong>Speicherdauer:</strong> bis du das Profil löschst oder dein Konto entfernst; Anfragen werden mit dem Konto gelöscht.
+        Du kannst die Sichtbarkeit jederzeit zurücknehmen.<br />
+        <strong>Auftragsverarbeiter:</strong> Supabase (Datenbank, Serverstandort Frankfurt am Main).
+      </p>
+
+      <h3 id="behoerden" className="font-semibold mt-6">3.11 Behörden-Wegweiser</h3>
+      <p>
+        Gibst du auf der Seite „Gründungsberatung & Behörden finden“ eine Postleitzahl ein, fragt dein Browser direkt beim
+        Portalverbund Online-Gateway (PVOG, betrieben im Auftrag der FITKO – Föderale IT-Kooperation, Frankfurt am Main) ab,
+        welche Stelle für die Gewerbeanmeldung zuständig ist. Dabei werden die Postleitzahl und – technisch bedingt – deine
+        IP-Adresse an den PVOG übermittelt. Wir selbst speichern die Postleitzahl nicht. Der Link zur Finanzamtsuche führt
+        zum Bundeszentralamt für Steuern; dort gelten dessen Datenschutzhinweise.<br />
+        <strong>Rechtsgrundlage:</strong> Art. 6 Abs. 1 lit. b DSGVO (von dir angeforderte Suche).
+      </p>
+
+      <h3 id="lokale-tools" className="font-semibold mt-6">3.12 Tools, die nur in deinem Browser rechnen</h3>
+      <p>
+        Der E-Rechnungs-Leser, der Finanzplan-, Pitch-Deck- und Mahnungs-Generator, der Steuer- und Fristenkalender, der
+        Kleinunternehmer-Wächter, der Bericht für den Gründungszuschuss Phase 2, die Bankgespräch-Vorbereitung und das
+        Event-Radar verarbeiten deine Eingaben und hochgeladenen Dateien ausschließlich in deinem Browser. An uns übertragen
+        wird dabei nichts. Damit deine Eingaben beim nächsten Besuch noch da sind, speichern manche Tools sie im lokalen
+        Speicher deines Browsers (siehe Abschnitt 6); du kannst ihn jederzeit in den Browser-Einstellungen löschen.
+      </p>
+
       <h2 id="auftragsverarbeiter" className="text-2xl font-bold mt-10 mb-3">4. Auftragsverarbeiter, eigenverantwortliche Dritte & Datenflüsse</h2>
       <p>
         Im Folgenden listen wir alle Empfänger nach ihrer datenschutzrechtlichen Rolle (Auftragsverarbeiter
@@ -293,6 +330,7 @@ const Datenschutz = () => (
         <li><strong>gx-profile-{`{userId}`}</strong> (LocalStorage) – Profil-Cache zur Vermeidung erneuter DB-Roundtrips</li>
         <li><strong>stripe-session</strong> – nur während aktiver Zahlung gesetzt</li>
         <li><strong>gruenderx:tool-unlocked:{`{tool}`}</strong> (LocalStorage) – merkt, dass du ein kostenloses Tool bereits freigeschaltet hast (Abschnitt 3.9); enthält nur den Zeitpunkt, keine E-Mail-Adresse</li>
+        <li><strong>gx-event-radar-v1, gx-chancen-radar-besuch, gx-steuerkalender-v1, gx-ku-waechter-v1, gx-gruendungsunterlagen-v1, gx-pitchdeck-v1, gx-gz-phase2-v1, gx-bankgespraech-v1</strong> (LocalStorage) – deine Eingaben in den Tools aus Abschnitt 3.12, damit sie beim nächsten Besuch erhalten bleiben; sie verlassen deinen Browser nicht</li>
       </ul>
       <p>
         Eine Einwilligung nach § 25 Abs. 1 TDDDG ist daher nicht erforderlich – ein Cookie-Banner wäre
