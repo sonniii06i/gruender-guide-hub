@@ -83,7 +83,10 @@ function art(titel, onlineFormat) {
   if (RE_KONF.test(titel)) return "konferenz";
   if (RE_WEB.test(titel) || (onlineFormat && !RE_NETZ.test(titel))) return onlineFormat ? "webinar" : "gruenderabend";
   if (RE_NETZ.test(titel)) return "netzwerk";
-  return "gruenderabend";
+  // „Gründerabend & Sprechtag“ nur, wenn der Titel nach Gründungsberatung klingt – sonst Netzwerk/Meetup.
+  return /gründ|existenz|sprechtag|sprechstunde|beratung|seminar|infotag|info-abend|infoabend|businessplan|förder|finanzierung|steuer|selbstständig|selbständig|nachfolge/i.test(titel)
+    ? "gruenderabend"
+    : "netzwerk";
 }
 
 // Luma-Discovery zeigt alles (Konzerte, Lauftreffs …) – nur Gründer/Tech/KI-Bezug übernehmen.
