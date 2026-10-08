@@ -704,7 +704,12 @@ LAUNCH / COMPLIANCE
 - /cockpit/gz-phase2 – Bericht für Phase 2 des Gründungszuschusses (PDF)
 - /cockpit/bankgespraech – KfW-StartGeld-Rechner + Bankgespräch-Vorbereitung
 - /cockpit/rechnungs-generator – jetzt auch E-Rechnung als XRechnung-XML (KoSIT-validiert)
-- /gruendungsberatung – kostenlose Gründungsberatung nach PLZ (IHK, HWK, Arbeitsagentur, Termine)
+- /gruendungsberatung – Gründungsberatung & Behörden nach PLZ (Online-Gewerbeanmeldung via PVOG, Finanzamt, IHK, HWK, Termine)
+- /e-rechnung-lesen – XRechnung/ZUGFeRD-XML lesbar machen + Prüfung + PDF (öffentlich, läuft im Browser)
+- /cockpit/mahnung – Zahlungserinnerung/Mahnungen mit Verzugszinsen (Basiszins 2. Hj. 2026: 1,52 %), 40-€-Pauschale B2B
+- /cockpit/kleinunternehmer-waechter – Umsatz gegen 25.000/100.000-€-Grenze (§ 19 UStG ab 2025) mit Prognose
+- /cockpit/event-radar – persönliches Event-Radar (Region, Interessen, neu seit letztem Besuch, Merkliste)
+- /community/mitgruender – Mitgründer-Börse (Profile, Anfragen)
 - /cockpit/ecom-roadmap – 8 Kategorien (Beauty, Supplement, Electronics, Toys, Apparel, Food, Pet, Hardware) mit DE/EU/US-Compliance + Standard-Stack + Stolperfallen
 - /cockpit/visa-helper – 6 Visa-Pfade (§21 Selbstständig, §21 Abs 5 Frei, §18g Blue-Card, §18a/b Fachkraft 2024, §20a Chancenkarte, §28/30 Familie)
 - /cockpit/stb-finder – StB-Auswahl-Wizard: Pflicht-Knowledge + Erst-Termin-Frage-Katalog + Red-Flags pro Spezialisierung
