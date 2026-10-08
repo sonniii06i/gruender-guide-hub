@@ -16,6 +16,7 @@ import {
 import {
   CalendarDays,
   Radar,
+  Target,
   Calculator,
   Compass,
   GraduationCap,
@@ -96,6 +97,7 @@ export function AppSidebar() {
               <Item to="/cockpit/steuer" icon={Calculator} label="Steuer-Cockpit" active={isActive("/cockpit/steuer")} />
               <Item to="/wizard/rechtsform" icon={Scale} label="Rechtsform-Wizard" active={isActive("/wizard/rechtsform")} />
               <Item to="/cockpit/event-radar" icon={Radar} label="Event-Radar" active={isActive("/cockpit/event-radar")} badge={radar.neu} />
+              <Item to="/cockpit/chancen-radar" icon={Target} label="Chancen-Radar" active={isActive("/cockpit/chancen-radar")} />
               <Item to="/gruender-events" icon={CalendarDays} label="Gründer-Events" active={isActive("/gruender-events")} />
               <Item to="/community/mitgruender" icon={Users} label="Mitgründer-Börse" active={isActive("/community/mitgruender")} />
               <Item to="/dashboard?view=themen" icon={Compass} label="Themen entdecken" active={pathname === "/dashboard" && search.includes("view=themen")} />

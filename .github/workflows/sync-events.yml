@@ -26,16 +26,19 @@ jobs:
           node-version: 20
       - name: Quellen abrufen
         run: node scripts/sync-events.mjs
+      - name: Chancen abrufen (Förderaufrufe, EU-Calls, Wettbewerbe, Ausschreibungen, Recht, Messen)
+        run: node scripts/sync-chancen.mjs
       - name: Bei Änderungen committen
         run: |
-          if git diff --quiet -- src/data/gruenderEventsLive.json; then
+          if git diff --quiet -- src/data/gruenderEventsLive.json src/data/chancenLive.json; then
             echo "Keine Änderungen."
             exit 0
           fi
           ANZ=$(node -e "console.log(require('./src/data/gruenderEventsLive.json').anzahl)")
           git config user.name "sonniii06i"
           git config user.email "buttkesonni11@gmail.com"
-          git add src/data/gruenderEventsLive.json
-          git commit -m "Events-Monitor: $ANZ aktuelle Gründer-Events"
+          CH=$(node -e "console.log(require('./src/data/chancenLive.json').anzahl)")
+          git add src/data/gruenderEventsLive.json src/data/chancenLive.json
+          git commit -m "Monitore: $ANZ Gründer-Events, $CH Chancen"
           git pull --rebase origin main
           git push origin HEAD:main

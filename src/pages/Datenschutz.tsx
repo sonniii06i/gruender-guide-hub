@@ -330,7 +330,7 @@ const Datenschutz = () => (
         <li><strong>gx-profile-{`{userId}`}</strong> (LocalStorage) – Profil-Cache zur Vermeidung erneuter DB-Roundtrips</li>
         <li><strong>stripe-session</strong> – nur während aktiver Zahlung gesetzt</li>
         <li><strong>gruenderx:tool-unlocked:{`{tool}`}</strong> (LocalStorage) – merkt, dass du ein kostenloses Tool bereits freigeschaltet hast (Abschnitt 3.9); enthält nur den Zeitpunkt, keine E-Mail-Adresse</li>
-        <li><strong>gx-event-radar-v1, gx-steuerkalender-v1, gx-ku-waechter-v1, gx-gruendungsunterlagen-v1, gx-pitchdeck-v1, gx-gz-phase2-v1, gx-bankgespraech-v1</strong> (LocalStorage) – deine Eingaben in den Tools aus Abschnitt 3.12, damit sie beim nächsten Besuch erhalten bleiben; sie verlassen deinen Browser nicht</li>
+        <li><strong>gx-event-radar-v1, gx-chancen-radar-besuch, gx-steuerkalender-v1, gx-ku-waechter-v1, gx-gruendungsunterlagen-v1, gx-pitchdeck-v1, gx-gz-phase2-v1, gx-bankgespraech-v1</strong> (LocalStorage) – deine Eingaben in den Tools aus Abschnitt 3.12, damit sie beim nächsten Besuch erhalten bleiben; sie verlassen deinen Browser nicht</li>
       </ul>
       <p>
         Eine Einwilligung nach § 25 Abs. 1 TDDDG ist daher nicht erforderlich – ein Cookie-Banner wäre

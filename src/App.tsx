@@ -140,6 +140,7 @@ const ERechnungLesen = lazy(() => import("./pages/ERechnungLesen.tsx"));
 const MitgruenderBoerse = lazy(() => import("./pages/MitgruenderBoerse.tsx"));
 const MahnungGenerator = lazy(() => import("./pages/MahnungGenerator.tsx"));
 const KleinunternehmerWaechter = lazy(() => import("./pages/KleinunternehmerWaechter.tsx"));
+const ChancenRadar = lazy(() => import("./pages/ChancenRadar.tsx"));
 const HackathonStarterKit = lazy(() => import("./pages/HackathonStarterKit.tsx"));
 const GruenderEvents = lazy(() => import("./pages/GruenderEvents.tsx"));
 const FreeToolPage = lazy(() => import("./pages/FreeToolPage.tsx"));
@@ -258,6 +259,7 @@ const App = () => (
                 <Route path="/community/mitgruender" element={<PaywallGate title="Mitgründer-Börse"><MitgruenderBoerse /></PaywallGate>} />
                 <Route path="/cockpit/mahnung" element={<PaywallGate title="Mahnungs-Generator"><MahnungGenerator /></PaywallGate>} />
                 <Route path="/cockpit/kleinunternehmer-waechter" element={<PaywallGate title="Kleinunternehmer-Wächter"><KleinunternehmerWaechter /></PaywallGate>} />
+                <Route path="/cockpit/chancen-radar" element={<PaywallGate title="Chancen-Radar"><ChancenRadar /></PaywallGate>} />
                 <Route path="/cockpit/event-radar" element={<PaywallGate title="Event-Radar"><EventRadar /></PaywallGate>} />
                 <Route path="/cockpit/steuerkalender" element={<PaywallGate title="Steuer- & Fristenkalender"><SteuerFristenKalender /></PaywallGate>} />
                 <Route path="/cockpit/scheinselbststaendigkeit" element={<PaywallGate title="Scheinselbstständigkeits-Check"><ScheinselbststaendigkeitCheck /></PaywallGate>} />

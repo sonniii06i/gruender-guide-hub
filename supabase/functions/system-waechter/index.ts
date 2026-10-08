@@ -103,6 +103,11 @@ Deno.serve(async (req) => {
     const d = await r.json();
     const std = Math.floor((Date.now() - Date.parse(d.stand)) / 3600_000);
     pruefungen.push({ name: "Event-Daten", ok: std <= EVENTS_MAX_STUNDEN, detail: `${d.events?.length ?? 0} Events, Stand vor ${std} h` });
+    if (d.chancen) {
+      const chStd = Math.floor((Date.now() - Date.parse(d.chancen.stand)) / 3600_000);
+      const chKaputt = Object.entries(d.chancen.quellen ?? {}).filter(([, q]) => !(q as { ok: boolean }).ok).map(([n]) => n);
+      pruefungen.push({ name: "Chancen-Monitor", ok: chStd <= EVENTS_MAX_STUNDEN && !chKaputt.length, detail: `${d.chancen.anzahl} Chancen, Stand vor ${chStd} h${chKaputt.length ? `, fehlerhaft: ${chKaputt.join(", ")}` : ""}` });
+    }
     const kaputt = Object.entries(d.quellen ?? {}).filter(([, q]) => !(q as { ok: boolean }).ok).map(([n]) => n);
     pruefungen.push({
       name: "Event-Quellen",

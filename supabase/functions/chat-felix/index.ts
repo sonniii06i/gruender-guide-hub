@@ -710,6 +710,7 @@ LAUNCH / COMPLIANCE
 - /cockpit/kleinunternehmer-waechter – Umsatz gegen 25.000/100.000-€-Grenze (§ 19 UStG ab 2025) mit Prognose
 - /cockpit/event-radar – persönliches Event-Radar (Region, Interessen, neu seit letztem Besuch, Merkliste)
 - /community/mitgruender – Mitgründer-Börse (Profile, Anfragen)
+- /cockpit/chancen-radar – täglich: Förderaufrufe des Bundes, EU-Calls (EIC/EIT/SME), Gründerwettbewerbe + SPRIND, öffentliche Ausschreibungen (IT/Dienstleistung/F&E), neue Gesetze/BMF-Schreiben, Gründermessen
 - /cockpit/ecom-roadmap – 8 Kategorien (Beauty, Supplement, Electronics, Toys, Apparel, Food, Pet, Hardware) mit DE/EU/US-Compliance + Standard-Stack + Stolperfallen
 - /cockpit/visa-helper – 6 Visa-Pfade (§21 Selbstständig, §21 Abs 5 Frei, §18g Blue-Card, §18a/b Fachkraft 2024, §20a Chancenkarte, §28/30 Familie)
 - /cockpit/stb-finder – StB-Auswahl-Wizard: Pflicht-Knowledge + Erst-Termin-Frage-Katalog + Red-Flags pro Spezialisierung
