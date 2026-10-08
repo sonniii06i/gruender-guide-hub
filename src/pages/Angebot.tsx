@@ -66,7 +66,7 @@ const Angebot = () => (
     <Seo
       title="GründerX — KI-Gründungs-Copilot für 64,99 € / Monat"
       description="Rechtsform, steuerliche Erfassung, LUCID, WEEE, OSS, Amazon- und TikTok-Shop-Setup: Felix führt dich als KI-Co-Pilot Schritt für Schritt durch. Monatlich kündbar."
-      canonical="https://gruenderx.de/angebot"
+      path="/angebot"
       noindex
     />
 
