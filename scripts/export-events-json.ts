@@ -8,6 +8,7 @@ import { aktuelleEvents, GRUENDER_FRISTEN, LIVE_STAND, type GruenderEvent } from
 import { BUNDESLAND_NAMES } from "../src/data/foerderprogramme";
 import { baueIcs, type IcsTermin } from "../src/lib/ics";
 import chancen from "../src/data/chancenLive.json";
+import perks from "../src/data/perksLive.json";
 
 const heute = new Date().toISOString().slice(0, 10);
 const events = aktuelleEvents(heute).map((e) => ({
@@ -25,7 +26,13 @@ const events = aktuelleEvents(heute).map((e) => ({
 }));
 // Chancen nur als Status für den System-Wächter (die Inhalte stehen im Mitgliederbereich).
 const chancenStatus = { stand: chancen.stand, anzahl: chancen.anzahl, quellen: Object.fromEntries(Object.entries(chancen.quellen).map(([k, v]) => [k, { ok: (v as { ok: boolean }).ok }])) };
-const out = { stand: LIVE_STAND.stand, erzeugt: new Date().toISOString(), quellen: LIVE_STAND.quellen, chancen: chancenStatus, events, fristen: GRUENDER_FRISTEN };
+// Perk-Wächter: nur Zähler + geänderte/kaputte Programme (für den System-Wächter).
+const perksStatus = {
+  stand: perks.stand,
+  zaehler: perks.zaehler,
+  auffaellig: Object.entries(perks.perks as Record<string, { status: string; detail: string }>).filter(([, v]) => v.status === "geaendert" || v.status === "fehler").map(([slug, v]) => ({ slug, status: v.status, detail: v.detail })),
+};
+const out = { stand: LIVE_STAND.stand, erzeugt: new Date().toISOString(), quellen: LIVE_STAND.quellen, chancen: chancenStatus, perks: perksStatus, events, fristen: GRUENDER_FRISTEN };
 writeFileSync(resolve("public/gruender-events.json"), JSON.stringify(out));
 console.log(`gruender-events.json: ${events.length} Events, ${GRUENDER_FRISTEN.length} Fristen`);
 

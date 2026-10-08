@@ -108,6 +108,11 @@ Deno.serve(async (req) => {
       const chKaputt = Object.entries(d.chancen.quellen ?? {}).filter(([, q]) => !(q as { ok: boolean }).ok).map(([n]) => n);
       pruefungen.push({ name: "Chancen-Monitor", ok: chStd <= EVENTS_MAX_STUNDEN && !chKaputt.length, detail: `${d.chancen.anzahl} Chancen, Stand vor ${chStd} h${chKaputt.length ? `, fehlerhaft: ${chKaputt.join(", ")}` : ""}` });
     }
+    if (d.perks) {
+      const pStd = Math.floor((Date.now() - Date.parse(d.perks.stand)) / 3600_000);
+      const auff = (d.perks.auffaellig ?? []) as { slug: string; status: string }[];
+      pruefungen.push({ name: "Perk-Wächter", ok: pStd <= EVENTS_MAX_STUNDEN && !auff.length, detail: `${d.perks.zaehler?.ok ?? 0} Startup-Programme bestätigt, Stand vor ${pStd} h${auff.length ? `, prüfen: ${auff.map((a) => `${a.slug} (${a.status})`).join(", ")}` : ""}` });
+    }
     const kaputt = Object.entries(d.quellen ?? {}).filter(([, q]) => !(q as { ok: boolean }).ok).map(([n]) => n);
     pruefungen.push({
       name: "Event-Quellen",

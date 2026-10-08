@@ -35,7 +35,7 @@ export interface FeatureCategory {
 const _CATEGORIES_RAW: FeatureCategory[] = [
   {
     slug: "starter",
-    title: "🌱 Erste Schritte",
+    title: "Erste Schritte",
     emoji: "🌱",
     icon: Sprout,
     tagline: "Für komplette Anfänger ohne Gewerbe — von 'Idee' bis 'erste Rechnung'",

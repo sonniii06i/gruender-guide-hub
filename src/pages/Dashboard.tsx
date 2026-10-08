@@ -224,7 +224,7 @@ const Dashboard = () => {
               <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-accent-blue mb-1">Themen</p>
               <h2 className="text-xl md:text-2xl font-bold tracking-tight">Was beschäftigt dich?</h2>
             </div>
-            <div className="flex gap-2 overflow-x-auto pb-2 -mx-1 px-1">
+            <div className="flex gap-2 overflow-x-auto pt-2.5 pb-2 -mx-1 px-1">
               {CATEGORIES.map((cat) => {
                 const isStarter = cat.slug === "starter";
                 return (
@@ -239,7 +239,7 @@ const Dashboard = () => {
                     )}
                   >
                     {isStarter && (
-                      <span className="absolute -top-2 -right-2 text-[9px] font-bold uppercase tracking-wider bg-accent-blue text-white px-1.5 py-0.5 rounded-full">Empfohlen</span>
+                      <span className="absolute -top-2.5 right-3 text-[9px] shadow-sm font-bold uppercase tracking-wider bg-accent-blue text-white px-1.5 py-0.5 rounded-full">Empfohlen</span>
                     )}
                     <div className="text-xl mb-1.5">{cat.emoji}</div>
                     <div className="font-semibold text-sm leading-tight">{cat.title}</div>

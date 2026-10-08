@@ -460,7 +460,8 @@ export default function GruenderEvents() {
             <h2 className="text-lg font-bold mb-2">⚡ In 3 Stunden zum ersten Tool – so nutzt du eine Build-Session</h2>
             <p className="text-sm mb-3">
               Mit Timer und Prompt-Vorlagen:{" "}
-              <Link to="/hackathon-starter-kit" className="text-accent-blue font-semibold hover:underline">Hackathon-Starter-Kit öffnen →</Link>
+              <Link to="/hackathon-starter-kit" className="text-accent-blue font-semibold hover:underline">Hackathon-Starter-Kit öffnen →</Link>{" "}
+              <Link to="/startup-guthaben" className="text-accent-blue font-semibold hover:underline">KI- & Cloud-Guthaben sichern →</Link>
             </p>
             <ol className="list-decimal pl-5 space-y-1.5 text-sm text-muted-foreground">
               <li>

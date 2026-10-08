@@ -168,7 +168,8 @@ const ChancenRadar = () => {
         Quellen: Förderberatung des Bundes (foerderinfo.bund.de), EU Funding & Tenders Portal, fuer-gruender.de, SPRIND, service.bund.de,
         Bundesgesetzblatt, Bundesfinanzministerium, messen.de. Fristen immer beim Ausschreibenden prüfen. Passende Programme
         mit Konditionen: <Link to="/cockpit/foerderung" className="text-accent-blue hover:underline">Förder-Datenbank</Link>, Gründer-Events:{" "}
-        <Link to="/cockpit/event-radar" className="text-accent-blue hover:underline">Event-Radar</Link>.
+        <Link to="/cockpit/event-radar" className="text-accent-blue hover:underline">Event-Radar</Link>, Credits und Gratis-Monate von Anbietern:{" "}
+        <Link to="/startup-guthaben" className="text-accent-blue hover:underline">Startup-Guthaben</Link>.
       </div>
     </CockpitShell>
   );

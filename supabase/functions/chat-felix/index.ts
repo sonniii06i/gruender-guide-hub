@@ -699,6 +699,7 @@ LAUNCH / COMPLIANCE
 - /cockpit/bafa-beratung – BAFA-Beratungsförderung: 80 % Ost/Lüneburg/Trier, 50 % sonst, max. 3.500 € Bemessung, Anträge nur bis 31.12.2026
 - /cockpit/pitch-deck – Pitch-Deck-Generator: 10 Folien, Jury-Check, 16:9-PDF, Elevator-Pitch
 - /hackathon-starter-kit – In 3 Stunden zum Prototyp: Phasen-Timer, Prompt-Vorlagen, Packliste
+- /startup-guthaben – Startup-Guthaben & Perks (öffentlich, täglich geprüft): Claude for Startups (1.000 $ API + Claude Team), AWS Activate (1.000–5.000 $ ohne Investor, bis 200.000 $ mit Org ID), Google for Startups Cloud (2.000 $ bis 350.000 $), Microsoft (bis 150.000 $), Cloudflare (10.000 $ bootstrapped), IONOS, Hetzner, PostHog (50.000 $), Sentry, Retool, Mixpanel, Notion, Atlassian, HubSpot, Intercom, Lexware Gründeredition, Amazon Neuverkäufer-Anreize u. a. – mit Perk-Check (Gründungsjahr, Finanzierung, Domain-Mail) und Antrags-Tracker. Häufigster Ablehnungsgrund: Gmail statt Domain-Mail.
 - /cockpit/steuerkalender – persönlicher Steuer- & Fristenkalender (USt-VA, Vorauszahlungen, Lohn, ZM, Erklärungen, § 108 AO) mit Kalender-Export
 - /cockpit/scheinselbststaendigkeit – Scheinselbstständigkeits-Risiko (DRV-Kriterien) + RV-Pflicht § 2 Nr. 9 SGB VI, Beiträge 2026
 - /cockpit/gz-phase2 – Bericht für Phase 2 des Gründungszuschusses (PDF)

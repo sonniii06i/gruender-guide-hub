@@ -43,6 +43,7 @@ const staticEntries: SitemapEntry[] = [
   { path: "/ratgeber", changefreq: "daily", priority: "0.9", lastmod: today },
   { path: "/gruender-events", changefreq: "daily", priority: "0.8", lastmod: today },
   { path: "/hackathon-starter-kit", changefreq: "monthly", priority: "0.7", lastmod: today },
+  { path: "/startup-guthaben", changefreq: "weekly", priority: "0.8", lastmod: today },
   { path: "/gruendungsberatung", changefreq: "daily", priority: "0.8", lastmod: today },
   { path: "/e-rechnung-lesen", changefreq: "monthly", priority: "0.8", lastmod: today },
   { path: "/faq", changefreq: "monthly", priority: "0.6" },
