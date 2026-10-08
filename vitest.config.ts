@@ -9,6 +9,9 @@ export default defineConfig({
     globals: true,
     setupFiles: ["./src/test/setup.ts"],
     include: ["src/**/*.{test,spec}.{ts,tsx}"],
+    // Render-Tests großer Seiten (Anbieter, Event-Radar) brauchen unter voller Parallel-Last
+    // gelegentlich mehr als die Standard-5-s; einzeln laufen sie in < 1 s.
+    testTimeout: 20000,
   },
   resolve: {
     alias: { "@": path.resolve(__dirname, "./src") },

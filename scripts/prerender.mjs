@@ -53,7 +53,9 @@ const MIME = {
 // Startseite statt des beworbenen Angebots.
 //
 // Der noindex-Status haengt am robots-Meta, nicht an der Sitemap — er bleibt.
-const PAID_ROUTES = ["/us-llc-30-tage", "/gruendung-komplett"];
+const PAID_ROUTES = ["/us-llc-30-tage", "/gruendung-komplett",
+  // Affiliate-Verkaufsseite fuer den Digistore24-Marktplatz (noindex, nur DS24-Checkout)
+  "/angebot"];
 
 // Seiten mit Canonical auf eine andere Domain (Themenbesitz anwaltx.de) —
 // nicht in der Sitemap, aber weiter nutzbar. Ohne Prerender truege ihr HTML

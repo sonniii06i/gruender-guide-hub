@@ -14,6 +14,9 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import {
+  CalendarDays,
+  Radar,
+  Target,
   Calculator,
   Compass,
   GraduationCap,
@@ -31,12 +34,14 @@ import {
   Percent,
 } from "lucide-react";
 import { useRole } from "@/hooks/useRole";
+import { useRadarZaehler } from "@/lib/eventRadar";
 
 export function AppSidebar() {
   const { state, isMobile, setOpenMobile } = useSidebar();
   const collapsed = state === "collapsed";
   const { pathname, search } = useLocation();
   const { isAdmin } = useRole();
+  const radar = useRadarZaehler();
 
   // Auf Mobile schließt das Sidebar-Sheet automatisch, sobald ein Eintrag geklickt wird.
   const closeOnMobile = () => {
@@ -91,6 +96,10 @@ export function AppSidebar() {
               <Item to="/anbieter" icon={Trophy} label="Anbieter-Vergleich" active={isActive("/anbieter")} />
               <Item to="/cockpit/steuer" icon={Calculator} label="Steuer-Cockpit" active={isActive("/cockpit/steuer")} />
               <Item to="/wizard/rechtsform" icon={Scale} label="Rechtsform-Wizard" active={isActive("/wizard/rechtsform")} />
+              <Item to="/cockpit/event-radar" icon={Radar} label="Event-Radar" active={isActive("/cockpit/event-radar")} badge={radar.neu} />
+              <Item to="/cockpit/chancen-radar" icon={Target} label="Chancen-Radar" active={isActive("/cockpit/chancen-radar")} />
+              <Item to="/gruender-events" icon={CalendarDays} label="Gründer-Events" active={isActive("/gruender-events")} />
+              <Item to="/community/mitgruender" icon={Users} label="Mitgründer-Börse" active={isActive("/community/mitgruender")} />
               <Item to="/dashboard?view=themen" icon={Compass} label="Themen entdecken" active={pathname === "/dashboard" && search.includes("view=themen")} />
             </SidebarMenu>
           </SidebarGroupContent>
@@ -129,7 +138,7 @@ export function AppSidebar() {
   );
 }
 
-const Item = ({ to, icon: Icon, label, active }: { to: string; icon: any; label: string; active: boolean }) => {
+const Item = ({ to, icon: Icon, label, active, badge }: { to: string; icon: any; label: string; active: boolean; badge?: number }) => {
   const { isMobile, setOpenMobile } = useSidebar();
   return (
     <SidebarMenuItem>
@@ -137,6 +146,11 @@ const Item = ({ to, icon: Icon, label, active }: { to: string; icon: any; label:
         <NavLink to={to} data-tour={to} onClick={() => { if (isMobile) setOpenMobile(false); }}>
           <Icon className="h-4 w-4" />
           <span>{label}</span>
+          {!!badge && (
+            <span className="ml-auto rounded-full bg-accent-blue text-primary-foreground px-1.5 text-[10px] font-bold leading-4" aria-label={`${badge} neu`}>
+              {badge > 99 ? "99+" : badge}
+            </span>
+          )}
         </NavLink>
       </SidebarMenuButton>
     </SidebarMenuItem>

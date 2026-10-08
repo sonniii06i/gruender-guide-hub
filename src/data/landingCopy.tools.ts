@@ -2,6 +2,149 @@ import type { LandingCopy } from "./landingCopy";
 
 // Bespoke-Landing-Copy pro Tool-Slug. Generiert; fehlt ein Slug, greift der Fallback.
 export const TOOL_COPY: Record<string, LandingCopy> = {
+  "mahnung": {
+    "seoTitle": "Mahnung schreiben: Vorlage mit Verzugszinsen 2026",
+    "seoDescription": "Zahlungserinnerung und Mahnung als PDF – mit korrekten Verzugszinsen (Basiszins 1,52 %), 40-€-Pauschale bei Geschäftskunden und dem richtigen Verzugsbeginn.",
+    "lead": "Der Mahnungs-Generator erstellt Zahlungserinnerung, erste, zweite und letzte Mahnung als PDF und rechnet Verzugszinsen, Pauschale und Verzugsbeginn nach den aktuellen Regeln des BGB.",
+    "urgency": "Unbezahlte Rechnungen sind für Gründer oft existenzbedrohend – und viele verschenken Geld, weil sie Verzugszinsen und die 40-€-Pauschale bei Geschäftskunden nicht verlangen oder den Verzug falsch berechnen. Mit dem Mahnungs-Generator von GründerX mahnst du korrekt und mit dem richtigen Ton.",
+    "outcomes": [
+        "Vier Mahnstufen von freundlich bis Mahnbescheid-Ankündigung",
+        "Verzugszinsen je Halbjahr mit aktuellem Basiszins",
+        "Verzugsbeginn nach der 30-Tage-Regel und für Verbraucher",
+        "Fertiges PDF und Hinweise zu Mahnverfahren und Verjährung"
+    ],
+    "disclaimer": "Berechnung nach §§ 286, 288, 247 BGB, Stand Oktober 2026; bei Streit über die Forderung anwaltlich beraten lassen."
+},
+  "kleinunternehmer-waechter": {
+    "seoTitle": "Kleinunternehmer-Grenze 2026: Umsatz-Wächter",
+    "seoDescription": "25.000 € oder 100.000 €? Behalte deinen Umsatz im Blick und erfahre, wann du die Kleinunternehmergrenze reißt – nach den neuen Regeln seit 2025.",
+    "lead": "Der Wächter zeigt dir Monat für Monat, wie nah du an der Kleinunternehmergrenze bist, wann du sie bei gleichem Tempo erreichst und was dann passiert.",
+    "urgency": "Seit 2025 ist schon der Umsatz, mit dem du die Grenze überschreitest, voll umsatzsteuerpflichtig – nicht erst das Folgejahr. Wer es zu spät merkt, schuldet die Steuer auf Rechnungen, die er ohne Umsatzsteuer gestellt hat. Im Gründungsjahr liegt die Grenze sogar bei nur 25.000 €.",
+    "outcomes": [
+        "Fortschritt bis zur Grenze mit Monatsverlauf",
+        "Prognose, in welchem Monat du die Grenze erreichst",
+        "Hinweis, ob du nächstes Jahr noch Kleinunternehmer bist",
+        "Die Regeln seit 2025 kurz erklärt"
+    ],
+    "disclaimer": "Orientierung nach § 19 UStG und BMF-Schreiben vom 18.03.2025; im Grenzfall Steuerberater fragen."
+},
+  "steuerkalender": {
+    "seoTitle": "Steuerkalender für Selbstständige & Gründer 2026/27",
+    "seoDescription": "Alle Steuertermine der nächsten 12 Monate für deine Rechtsform: USt-Voranmeldung, Vorauszahlungen, Lohnsteuer, Abgabefristen – mit Feiertagen und Kalender-Export.",
+    "lead": "Der Steuerkalender zeigt dir jeden Abgabe- und Zahlungstermin der nächsten zwölf Monate – passend zu Rechtsform, Umsatzsteuer-Rhythmus, Mitarbeitern und Steuerberater – und schickt alles mit Erinnerung in deinen Kalender.",
+    "urgency": "Wer eine Voranmeldung zu spät abgibt, riskiert Verspätungszuschläge, wer zu spät zahlt, Säumniszuschläge von 1 % pro angefangenem Monat. Dazu kommen Sonderfälle wie die Rückkehr der monatlichen Voranmeldung für Neugründer ab 2027. Mit dem Steuerkalender von GründerX verpasst du keinen Termin mehr.",
+    "outcomes": [
+        "Alle Steuertermine der nächsten 12 Monate für deine Situation",
+        "Termine korrekt verschoben bei Wochenende und Feiertag (§ 108 AO)",
+        "Hinweise zu Neugründer-Regel, Dauerfristverlängerung und Schonfrist",
+        "Kalender-Export mit Erinnerung drei Tage vorher"
+    ],
+    "disclaimer": "Berücksichtigt bundesweite Feiertage; regionale Feiertage können Fristen zusätzlich verschieben."
+},
+  "scheinselbststaendigkeit": {
+    "seoTitle": "Scheinselbstständigkeit prüfen: Check für Freelancer",
+    "seoDescription": "Bin ich scheinselbstständig? Risiko-Check nach den Kriterien der Rentenversicherung plus Rentenversicherungspflicht bei einem Auftraggeber – mit Beiträgen 2026.",
+    "lead": "Der Check zeigt dir anhand der Kriterien der Deutschen Rentenversicherung, wie hoch dein Risiko der Scheinselbstständigkeit ist – und ob du als Selbstständiger mit einem Hauptkunden rentenversicherungspflichtig bist.",
+    "urgency": "Wird eine Scheinselbstständigkeit festgestellt, muss der Auftraggeber Sozialversicherungsbeiträge für bis zu vier Jahre nachzahlen – Aufträge brechen deshalb oft schlagartig weg. Und auch echte Selbstständige mit nur einem Hauptkunden sind rentenversicherungspflichtig, ohne es zu wissen. Mit dem Check von GründerX weißt du in fünf Minuten, wo du stehst.",
+    "outcomes": [
+        "Risiko-Ampel nach den Indizien der Rentenversicherung",
+        "Prüfung der Rentenversicherungspflicht (5/6-Regel, Mitarbeiter, 603-€-Grenze)",
+        "Beitragshöhe 2026 und Befreiungsmöglichkeit für Gründer",
+        "Weg zur verbindlichen Statusfeststellung"
+    ],
+    "disclaimer": "Risikoeinschätzung nach Rechtsstand Oktober 2026; verbindlich entscheidet nur die Deutsche Rentenversicherung."
+},
+  "gz-phase2": {
+    "seoTitle": "Gründungszuschuss Phase 2 beantragen: Bericht-Vorlage",
+    "seoDescription": "Bericht über deine Geschäftstätigkeit für Phase 2 des Gründungszuschusses: Aktivitäten, Einnahmen und Ausgaben, Ausblick – mit Prüfung und PDF.",
+    "lead": "Für Phase 2 des Gründungszuschusses verlangt die Arbeitsagentur einen Bericht über deine bisherige Geschäftstätigkeit. Hier erstellst du ihn strukturiert – mit Einnahmen und Ausgaben je Monat – als fertiges PDF.",
+    "urgency": "Phase 2 ist eine Ermessensleistung: 2.700 € gibt es nur, wenn du eine intensive, hauptberufliche Tätigkeit nachweist. Ein dünner Bericht ohne Zahlen ist der schnellste Weg zur Ablehnung. Mit der Vorlage von GründerX lieferst du genau das, was in den Fachlichen Weisungen steht.",
+    "outcomes": [
+        "Bericht mit allen Pflichtinhalten nach den Fachlichen Weisungen",
+        "Tabelle Einnahmen und Ausgaben der vergangenen Monate",
+        "Warnung bei Ablehnungsgründen wie zu wenig Wochenstunden",
+        "Fertiges PDF für den Online-Antrag"
+    ],
+    "disclaimer": "Phase 2 ist eine Ermessensleistung der Arbeitsagentur; die Vorlage ersetzt keine Beratung."
+},
+  "bankgespraech": {
+    "seoTitle": "KfW-StartGeld: Bankgespräch vorbereiten & Rate rechnen",
+    "seoDescription": "ERP-Gründerkredit StartGeld bis 200.000 €: Raten mit aktuellen KfW-Zinsen rechnen, Unterlagen abhaken und die typischen Bankfragen vorbereiten.",
+    "lead": "Das Tool rechnet deine Raten für den KfW-Gründerkredit StartGeld mit den aktuellen Maximalzinsen, hakt die Unterlagen ab, die Bank und KfW sehen wollen, und hilft dir, die typischen Fragen im Bankgespräch vorzubereiten.",
+    "urgency": "Den Gründerkredit beantragst du über deine Hausbank – und die entscheidet im Gespräch, ob sie den Antrag überhaupt weiterreicht. Wer Kapitaldienst, Sicherheiten und Umsatzplanung nicht sauber erklären kann, bekommt eine Absage, obwohl die KfW 80 % des Risikos übernimmt. Mit der Gesprächsmappe von GründerX gehst du vorbereitet hinein.",
+    "outcomes": [
+        "Raten in tilgungsfreier Zeit und danach, Zinsen gesamt",
+        "Unterlagen-Checkliste nach KfW und IHK",
+        "Die 14 typischen Bankfragen mit deinen Antworten",
+        "Gesprächsmappe als PDF"
+    ],
+    "disclaimer": "Konditionen sind Maximalzinsen laut KfW; maßgeblich ist der Zins am Tag der Zusage."
+},
+  "pitch-deck": {
+    "seoTitle": "Pitch-Deck erstellen: 10 Folien für Wettbewerbe",
+    "seoDescription": "Pitch-Deck für Businessplan-Wettbewerbe, Accelerator und Investoren: 10 Folien mit Jury-Check, 16:9-PDF und 60-Sekunden-Elevator-Pitch.",
+    "lead": "Der Generator führt dich durch die zehn Folien, die Jurys und Investoren erwarten, prüft live auf die typischen Schwächen und erzeugt ein fertiges 16:9-PDF samt Elevator-Pitch.",
+    "urgency": "Jurys bei Gründungswettbewerben und Accelerator-Programmen sichten Dutzende Decks – meist in wenigen Minuten pro Bewerbung. Folien voller Text, Marktgrößen ohne Quelle und Traction ohne Zahlen fallen dabei als Erstes raus. Mit dem Pitch-Deck-Generator von GründerX baust du ein Deck, das diese Fehler gar nicht erst macht.",
+    "outcomes": [
+        "Alle 10 Standardfolien strukturiert ausgefüllt",
+        "Live-Jury-Check auf Länge, Quellen, Zahlen und Ask",
+        "Fertiges Pitch-Deck als 16:9-PDF",
+        "Dein 60-Sekunden-Elevator-Pitch zum Kopieren"
+    ],
+    "disclaimer": "Der Check prüft Form und Vollständigkeit; über Inhalt und Erfolg entscheidet die Jury."
+},
+  "gruendungsunterlagen": {
+    "seoTitle": "Finanzplan für den Gründungszuschuss erstellen",
+    "seoDescription": "Kapitalbedarf, Rentabilitätsvorschau, Liquiditätsplan und Lebenshaltungskosten für IHK, Arbeitsagentur, Jobcenter und Bank – mit Tragfähigkeits-Ampel und PDF.",
+    "lead": "Der Finanzplan-Generator rechnet aus deinen Zahlen alles, was für die Tragfähigkeitsbescheinigung und den Bankkredit verlangt wird: Kapitalbedarf, Finanzierung, Rentabilität über drei Jahre, Liquidität über zwölf Monate und deine privaten Lebenshaltungskosten.",
+    "urgency": "Für den Gründungszuschuss, das Einstiegsgeld und jeden Gründerkredit brauchst du eine Stellungnahme zur Tragfähigkeit – und die steht und fällt mit dem Zahlenteil. Zu optimistische Umsätze, eine fehlende Liquiditätsplanung und zu knapp kalkulierte Betriebsmittel sind die häufigsten Mängel, die IHKs nennen. Mit dem Finanzplan-Generator von GründerX siehst du sofort, ob deine Liquidität irgendwo ins Minus rutscht und welcher Mindestumsatz dich trägt.",
+    "outcomes": [
+        "Kapitalbedarfs- und Finanzierungsplan mit Finanzierungslücke",
+        "Rentabilitätsvorschau über 3 Jahre inklusive Steuerrücklage",
+        "Liquiditätsplan über 12 Monate mit Zahlungsziel und Darlehen",
+        "Tragfähigkeits-Ampel, Mindestumsatz und fertiges PDF"
+    ],
+    "disclaimer": "Planrechnung ohne Gewähr. Die Bewertung der Tragfähigkeit trifft die fachkundige Stelle bzw. die Bank."
+},
+  "einstiegsgeld": {
+    "seoTitle": "Einstiegsgeld-Rechner 2026: Gründen aus Grundsicherung",
+    "seoDescription": "Wie viel Einstiegsgeld gibt es für die Gründung? Höchstbetrag nach § 16b SGB II und ESGV mit Regelbedarfen 2026, plus bis zu 5.000 € Ausstattungszuschuss.",
+    "lead": "Der Rechner zeigt dir den Höchstbetrag des Einstiegsgelds für deine Situation – Grundbetrag, Zuschläge für Langzeitarbeitslosigkeit und Bedarfsgemeinschaft, Deckel und Förderdauer – nach den Regelbedarfen 2026.",
+    "urgency": "Wer aus dem Grundsicherungsgeld gründet, kann bis zu 24 Monate Einstiegsgeld zusätzlich bekommen und bis zu 5.000 € für Ausstattung. Beides sind Ermessensleistungen: Wer mit klaren Zahlen und einem tragfähigen Plan ins Jobcenter geht, hat bessere Karten. Mit dem Einstiegsgeld-Rechner von GründerX kennst du deinen Rahmen, bevor du das Gespräch führst.",
+    "outcomes": [
+        "Dein monatlicher Höchstbetrag nach Einstiegsgeld-Verordnung",
+        "Gesamtsumme für die geplante Förderdauer (max. 24 Monate)",
+        "Überblick über den Ausstattungszuschuss bis 5.000 €",
+        "Liste der Unterlagen fürs Jobcenter"
+    ],
+    "disclaimer": "Das Jobcenter entscheidet nach Ermessen; der Rechner zeigt Höchstbeträge nach Rechtsstand Oktober 2026."
+},
+  "bafa-beratung": {
+    "seoTitle": "BAFA-Beratungsförderung 2026: Check & Rechner",
+    "seoDescription": "Bis 80 % Zuschuss zur Unternehmensberatung, max. 2.800 € – nur noch für Anträge bis 31.12.2026. Prüf deine Förderfähigkeit und rechne deinen Zuschuss aus.",
+    "lead": "Der Check prüft deine Förderfähigkeit nach der aktuellen BAFA-Richtlinie und rechnet deinen Zuschuss nach Region und Umsatzsteuer-Status aus – inklusive Ablauf über Leitstelle und Informationsgespräch.",
+    "urgency": "Die Förderrichtlinie gilt nur für Anträge bis zum 31.12.2026, eine Nachfolgeregelung ist bisher nicht veröffentlicht. Und der häufigste Fehler kostet die ganze Förderung: Wer den Beratungsvertrag vor dem Informationsschreiben unterschreibt, bekommt nichts. Mit dem BAFA-Check von GründerX weißt du in zwei Minuten, ob und wie viel du bekommst und was du in welcher Reihenfolge tun musst.",
+    "outcomes": [
+        "Förderfähigkeits-Ampel nach der Richtlinie in der Fassung von 2024",
+        "Zuschuss in Euro nach Region – 50 % oder 80 %",
+        "Richtiger Ablauf: Informationsgespräch, Antrag, Vertrag, Nachweis",
+        "Countdown bis zum Antragsende am 31.12.2026"
+    ],
+    "disclaimer": "Orientierung nach Rechtsstand Oktober 2026; kein Rechtsanspruch auf die Förderung."
+},
+  "gruendungszuschuss": {
+    "seoTitle": "Gründungszuschuss 2026: Check, Rechner & Antrag",
+    "seoDescription": "Bekommst du den Gründungszuschuss? Prüf alle Voraussetzungen nach § 93 SGB III, rechne Phase 1 + 2 aus und stell den Antrag in der richtigen Reihenfolge.",
+    "lead": "Der Check für alle, die aus dem Arbeitslosengeld I gründen: Voraussetzungen als Ampel, Höhe von Phase 1 und 2, die richtige Antrags-Reihenfolge und eine Checkliste aller Unterlagen.",
+    "urgency": "Der häufigste Fehler beim Gründungszuschuss ist nicht inhaltlich, sondern zeitlich: Wer vor dem Antrag schon Räume mietet oder Ware einkauft, verliert den Anspruch – rückwirkend gibt es nur in Härtefällen etwas. Dazu müssen am Gründungstag noch mindestens 150 Tage Arbeitslosengeld übrig sein. Mit dem Gründungszuschuss-Check von GründerX weißt du in zwei Minuten, ob es passt und was du in welcher Reihenfolge tun musst.",
+    "outcomes": [
+      "Ampel-Ergebnis zu allen gesetzlichen Voraussetzungen mit Paragraf",
+      "Deine Förderhöhe für Phase 1 und Phase 2 in Euro",
+      "Die richtige Reihenfolge von Beratung, Stellungnahme, Antrag und Gewerbeanmeldung",
+      "Checkliste aller Unterlagen plus IHK-Gebühren für die Tragfähigkeitsbescheinigung"
+    ],
+    "disclaimer": "Der Gründungszuschuss ist eine Ermessensleistung. Der Check gibt Orientierung nach Rechtsstand Oktober 2026 und ersetzt nicht das Gespräch mit deiner Arbeitsagentur."
+  },
   "gewerbe-check": {
     "seoTitle": "Brauche ich ein Gewerbe? Check in 2 Minuten",
     "seoDescription": "Hobby, Freiberufler oder Gewerbe? Beantworte ein paar Fragen und erfahre, ob du anmelden musst – inkl. Gewinnerzielungsabsicht & §22 EStG.",

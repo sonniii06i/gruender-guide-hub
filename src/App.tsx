@@ -109,6 +109,7 @@ const FAQ = lazy(() => import("./pages/FAQ.tsx"));
 const Kontakt = lazy(() => import("./pages/Kontakt.tsx"));
 const Impressum = lazy(() => import("./pages/Impressum.tsx"));
 const Partner = lazy(() => import("./pages/Partner.tsx"));
+const Angebot = lazy(() => import("./pages/Angebot.tsx"));
 const Datenschutz = lazy(() => import("./pages/Datenschutz.tsx"));
 const AGB = lazy(() => import("./pages/AGB.tsx"));
 const Widerruf = lazy(() => import("./pages/Widerruf.tsx"));
@@ -124,6 +125,24 @@ const Preise = lazy(() => import("./pages/Preise.tsx"));
 const GuidesIndex = lazy(() => import("./pages/GuidesIndex.tsx"));
 const GuideLanding = lazy(() => import("./pages/GuideLanding.tsx"));
 const GratisTools = lazy(() => import("./pages/GratisTools.tsx"));
+const GruendungszuschussCheck = lazy(() => import("./pages/GruendungszuschussCheck.tsx"));
+const GruendungsUnterlagen = lazy(() => import("./pages/GruendungsUnterlagen.tsx"));
+const EinstiegsgeldRechner = lazy(() => import("./pages/EinstiegsgeldRechner.tsx"));
+const BafaBeratungCheck = lazy(() => import("./pages/BafaBeratungCheck.tsx"));
+const PitchDeckGenerator = lazy(() => import("./pages/PitchDeckGenerator.tsx"));
+const SteuerFristenKalender = lazy(() => import("./pages/SteuerFristenKalender.tsx"));
+const ScheinselbststaendigkeitCheck = lazy(() => import("./pages/ScheinselbststaendigkeitCheck.tsx"));
+const GzPhase2Bericht = lazy(() => import("./pages/GzPhase2Bericht.tsx"));
+const BankgespraechVorbereitung = lazy(() => import("./pages/BankgespraechVorbereitung.tsx"));
+const GruendungsberatungFinden = lazy(() => import("./pages/GruendungsberatungFinden.tsx"));
+const EventRadar = lazy(() => import("./pages/EventRadar.tsx"));
+const ERechnungLesen = lazy(() => import("./pages/ERechnungLesen.tsx"));
+const MitgruenderBoerse = lazy(() => import("./pages/MitgruenderBoerse.tsx"));
+const MahnungGenerator = lazy(() => import("./pages/MahnungGenerator.tsx"));
+const KleinunternehmerWaechter = lazy(() => import("./pages/KleinunternehmerWaechter.tsx"));
+const ChancenRadar = lazy(() => import("./pages/ChancenRadar.tsx"));
+const HackathonStarterKit = lazy(() => import("./pages/HackathonStarterKit.tsx"));
+const GruenderEvents = lazy(() => import("./pages/GruenderEvents.tsx"));
 const FreeToolPage = lazy(() => import("./pages/FreeToolPage.tsx"));
 
 const queryClient = new QueryClient();
@@ -237,6 +256,20 @@ const App = () => (
                 <Route path="/cockpit/shop-profit-rechner" element={<PaywallGate title="Shop-Profit-Rechner"><ShopProfitRechner /></PaywallGate>} />
                 <Route path="/cockpit/pension-optimizer" element={<PaywallGate title="Pension-Optimizer"><PensionOptimizer /></PaywallGate>} />
                 <Route path="/cockpit/kv-optimizer" element={<PaywallGate title="KV-Optimizer"><KvOptimizer /></PaywallGate>} />
+                <Route path="/community/mitgruender" element={<PaywallGate title="Mitgründer-Börse"><MitgruenderBoerse /></PaywallGate>} />
+                <Route path="/cockpit/mahnung" element={<PaywallGate title="Mahnungs-Generator"><MahnungGenerator /></PaywallGate>} />
+                <Route path="/cockpit/kleinunternehmer-waechter" element={<PaywallGate title="Kleinunternehmer-Wächter"><KleinunternehmerWaechter /></PaywallGate>} />
+                <Route path="/cockpit/chancen-radar" element={<PaywallGate title="Chancen-Radar"><ChancenRadar /></PaywallGate>} />
+                <Route path="/cockpit/event-radar" element={<PaywallGate title="Event-Radar"><EventRadar /></PaywallGate>} />
+                <Route path="/cockpit/steuerkalender" element={<PaywallGate title="Steuer- & Fristenkalender"><SteuerFristenKalender /></PaywallGate>} />
+                <Route path="/cockpit/scheinselbststaendigkeit" element={<PaywallGate title="Scheinselbstständigkeits-Check"><ScheinselbststaendigkeitCheck /></PaywallGate>} />
+                <Route path="/cockpit/gz-phase2" element={<PaywallGate title="Gründungszuschuss Phase 2"><GzPhase2Bericht /></PaywallGate>} />
+                <Route path="/cockpit/bankgespraech" element={<PaywallGate title="Bankgespräch & KfW-StartGeld"><BankgespraechVorbereitung /></PaywallGate>} />
+                <Route path="/cockpit/pitch-deck" element={<PaywallGate title="Pitch-Deck-Generator"><PitchDeckGenerator /></PaywallGate>} />
+                <Route path="/cockpit/gruendungsunterlagen" element={<PaywallGate title="Finanzplan-Generator"><GruendungsUnterlagen /></PaywallGate>} />
+                <Route path="/cockpit/einstiegsgeld" element={<PaywallGate title="Einstiegsgeld-Rechner"><EinstiegsgeldRechner /></PaywallGate>} />
+                <Route path="/cockpit/bafa-beratung" element={<PaywallGate title="BAFA-Beratungsförderung"><BafaBeratungCheck /></PaywallGate>} />
+                <Route path="/cockpit/gruendungszuschuss" element={<PaywallGate title="Gründungszuschuss-Check"><GruendungszuschussCheck /></PaywallGate>} />
                 <Route path="/cockpit/gewerbe-check" element={<PaywallGate title="Brauche ich ein Gewerbe?"><GewerbeCheck /></PaywallGate>} />
                 <Route path="/cockpit/schwellen-check" element={<PaywallGate title="Side-Hustle-Schwellen-Check"><SchwellenCheck /></PaywallGate>} />
                 <Route path="/cockpit/steuer-abc" element={<PaywallGate title="Steuer-ABC Glossar"><SteuerABC /></PaywallGate>} />
@@ -279,6 +312,8 @@ const App = () => (
               {/* Affiliate-Support-Seite fuer den Digistore24-Marktplatz: muss
                   oeffentlich (ohne Login) erreichbar bleiben. */}
               <Route path="/partner" element={<Partner />} />
+              {/* Affiliate-Verkaufsseite (Digistore24): nur DS24-Checkout, oeffentlich */}
+              <Route path="/angebot" element={<Angebot />} />
               <Route path="/impressum" element={<Impressum />} />
               <Route path="/datenschutz" element={<Datenschutz />} />
               <Route path="/agb" element={<AGB />} />
@@ -298,6 +333,10 @@ const App = () => (
               <Route path="/guides/:slug" element={<GuideLanding />} />
               {/* Kostenlose Lead-Magnet-Tools (Ergebnis gegen E-Mail, kein Konto) */}
               <Route path="/gratis-tools" element={<GratisTools />} />
+              <Route path="/gruender-events" element={<GruenderEvents />} />
+              <Route path="/hackathon-starter-kit" element={<HackathonStarterKit />} />
+              <Route path="/gruendungsberatung" element={<GruendungsberatungFinden />} />
+              <Route path="/e-rechnung-lesen" element={<ERechnungLesen />} />
               <Route path="/businessplan-erstellen" element={<FreeToolPage config={FREE_TOOL_BY_SLUG["businessplan-erstellen"]} />} />
               <Route path="/gruendungskosten-rechner" element={<FreeToolPage config={FREE_TOOL_BY_SLUG["gruendungskosten-rechner"]} />} />
               <Route path="/rechtsform-finden" element={<FreeToolPage config={FREE_TOOL_BY_SLUG["rechtsform-finden"]} />} />

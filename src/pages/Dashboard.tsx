@@ -11,6 +11,8 @@ import { CATEGORIES, STATUS_LABEL, categoryToolCount, type Feature, type Feature
 import { PLAYBOOKS } from "@/data/playbooks";
 import { GuideCard } from "@/components/dashboard/GuideCard";
 import { ContinueLearning } from "@/components/dashboard/ContinueLearning";
+import { EventRadarKachel } from "@/components/dashboard/EventRadarKachel";
+import { DeineWoche } from "@/components/dashboard/DeineWoche";
 import { WelcomeChoiceModal } from "@/components/dashboard/WelcomeChoiceModal";
 import { AffiliateSuccessBanner } from "@/components/AffiliateSuccessBanner";
 import { ReferralNudge } from "@/components/ReferralNudge";
@@ -194,6 +196,10 @@ const Dashboard = () => {
       {view === "start" && (
         <>
           <ContinueLearning />
+
+          <EventRadarKachel />
+
+          <DeineWoche />
 
           <StarterHighlight isActive={isActive} />
 
