@@ -9,6 +9,7 @@ import { BUNDESLAND_NAMES } from "../src/data/foerderprogramme";
 import { baueIcs, type IcsTermin } from "../src/lib/ics";
 import chancen from "../src/data/chancenLive.json";
 import perks from "../src/data/perksLive.json";
+import { PERK_KATEGORIEN, STARTUP_PERKS } from "../src/data/startupPerks";
 
 const heute = new Date().toISOString().slice(0, 10);
 const events = aktuelleEvents(heute).map((e) => ({
@@ -34,6 +35,16 @@ const perksStatus = {
 };
 const out = { stand: LIVE_STAND.stand, erzeugt: new Date().toISOString(), quellen: LIVE_STAND.quellen, chancen: chancenStatus, perks: perksStatus, events, fristen: GRUENDER_FRISTEN };
 writeFileSync(resolve("public/gruender-events.json"), JSON.stringify(out));
+// Startup-Guthaben öffentlich (Discord-Bot /guthaben + Perk-Feed): Programmdaten + Prüfstatus.
+const perkStatus = perks.perks as Record<string, { status: string; letzterErfolg: string | null }>;
+writeFileSync(
+  resolve("public/startup-guthaben.json"),
+  JSON.stringify({
+    stand: perks.stand,
+    kategorien: PERK_KATEGORIEN,
+    perks: STARTUP_PERKS.map((p) => ({ ...p, status: perkStatus[p.slug]?.status ?? null, letzterErfolg: perkStatus[p.slug]?.letzterErfolg ?? null })),
+  }),
+);
 console.log(`gruender-events.json: ${events.length} Events, ${GRUENDER_FRISTEN.length} Fristen`);
 
 // Abonnierbare Kalender: alle Events, je Bundesland (inkl. Online-Events) und Fristen.
