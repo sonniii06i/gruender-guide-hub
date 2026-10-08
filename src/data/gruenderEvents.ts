@@ -40,6 +40,8 @@ export type GruenderEvent = {
   weitereTermine?: number;
   /** Nur bei Live-Einträgen: aus welcher Quelle der Monitor sie hat. */
   quelle?: string;
+  /** Nur bei Live-Einträgen: Tag, an dem der Monitor das Event zuerst gefunden hat. */
+  entdeckt?: string;
   url: string;
   kurz: string;
 };

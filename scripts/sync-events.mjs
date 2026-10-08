@@ -797,6 +797,7 @@ for (const e of alle) {
 }
 const gesehen = new Set();
 const events = [];
+const altEntdeckt = new Map((alt.events ?? []).filter((x) => x.entdeckt).map((x) => [x.slug, x.entdeckt]));
 for (const e of serien.values()) {
   const k = `${norm(e.name).slice(0, 60)}|${e.datum}`;
   if (gesehen.has(k)) {
@@ -806,7 +807,10 @@ for (const e of serien.values()) {
   gesehen.add(k);
   const { prio, _laufend, ...rest } = e;
   const slug = `${e.quelle}-${hash(e.url + e.datum)}`;
-  events.push(_laufend ? { slug, ...rest, datum: undefined, datumBis: undefined } : { slug, ...rest });
+  // Wann der Monitor das Event zuerst gesehen hat – Grundlage für „neu“ im Event-Radar.
+  // Altbestand ohne Feld bekommt den Stand des letzten Laufs, damit nicht alles auf einmal „neu“ ist.
+  const entdeckt = altEntdeckt.get(slug) ?? (altEntdeckt.size ? HEUTE : (alt.stand ?? new Date().toISOString()).slice(0, 10));
+  events.push(_laufend ? { slug, ...rest, datum: undefined, datumBis: undefined, entdeckt } : { slug, ...rest, entdeckt });
 }
 
 const ergebnis = {
