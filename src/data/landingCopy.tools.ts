@@ -2,6 +2,32 @@ import type { LandingCopy } from "./landingCopy";
 
 // Bespoke-Landing-Copy pro Tool-Slug. Generiert; fehlt ein Slug, greift der Fallback.
 export const TOOL_COPY: Record<string, LandingCopy> = {
+  "mahnung": {
+    "seoTitle": "Mahnung schreiben: Vorlage mit Verzugszinsen 2026",
+    "seoDescription": "Zahlungserinnerung und Mahnung als PDF – mit korrekten Verzugszinsen (Basiszins 1,52 %), 40-€-Pauschale bei Geschäftskunden und dem richtigen Verzugsbeginn.",
+    "lead": "Der Mahnungs-Generator erstellt Zahlungserinnerung, erste, zweite und letzte Mahnung als PDF und rechnet Verzugszinsen, Pauschale und Verzugsbeginn nach den aktuellen Regeln des BGB.",
+    "urgency": "Unbezahlte Rechnungen sind für Gründer oft existenzbedrohend – und viele verschenken Geld, weil sie Verzugszinsen und die 40-€-Pauschale bei Geschäftskunden nicht verlangen oder den Verzug falsch berechnen. Mit dem Mahnungs-Generator von GründerX mahnst du korrekt und mit dem richtigen Ton.",
+    "outcomes": [
+        "Vier Mahnstufen von freundlich bis Mahnbescheid-Ankündigung",
+        "Verzugszinsen je Halbjahr mit aktuellem Basiszins",
+        "Verzugsbeginn nach der 30-Tage-Regel und für Verbraucher",
+        "Fertiges PDF und Hinweise zu Mahnverfahren und Verjährung"
+    ],
+    "disclaimer": "Berechnung nach §§ 286, 288, 247 BGB, Stand Oktober 2026; bei Streit über die Forderung anwaltlich beraten lassen."
+},
+  "kleinunternehmer-waechter": {
+    "seoTitle": "Kleinunternehmer-Grenze 2026: Umsatz-Wächter",
+    "seoDescription": "25.000 € oder 100.000 €? Behalte deinen Umsatz im Blick und erfahre, wann du die Kleinunternehmergrenze reißt – nach den neuen Regeln seit 2025.",
+    "lead": "Der Wächter zeigt dir Monat für Monat, wie nah du an der Kleinunternehmergrenze bist, wann du sie bei gleichem Tempo erreichst und was dann passiert.",
+    "urgency": "Seit 2025 ist schon der Umsatz, mit dem du die Grenze überschreitest, voll umsatzsteuerpflichtig – nicht erst das Folgejahr. Wer es zu spät merkt, schuldet die Steuer auf Rechnungen, die er ohne Umsatzsteuer gestellt hat. Im Gründungsjahr liegt die Grenze sogar bei nur 25.000 €.",
+    "outcomes": [
+        "Fortschritt bis zur Grenze mit Monatsverlauf",
+        "Prognose, in welchem Monat du die Grenze erreichst",
+        "Hinweis, ob du nächstes Jahr noch Kleinunternehmer bist",
+        "Die Regeln seit 2025 kurz erklärt"
+    ],
+    "disclaimer": "Orientierung nach § 19 UStG und BMF-Schreiben vom 18.03.2025; im Grenzfall Steuerberater fragen."
+},
   "steuerkalender": {
     "seoTitle": "Steuerkalender für Selbstständige & Gründer 2026/27",
     "seoDescription": "Alle Steuertermine der nächsten 12 Monate für deine Rechtsform: USt-Voranmeldung, Vorauszahlungen, Lohnsteuer, Abgabefristen – mit Feiertagen und Kalender-Export.",

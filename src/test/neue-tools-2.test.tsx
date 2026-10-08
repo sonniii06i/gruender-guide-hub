@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
@@ -61,8 +61,11 @@ describe("Seiten rendern", () => {
     expect(screen.getAllByText(text).length).toBeGreaterThan(0);
   });
   it("Beratungs-Finder zeigt nach PLZ das Bundesland", () => {
+    vi.stubGlobal("fetch", vi.fn(() => Promise.reject(new Error("offline"))));
     zeige(<GruendungsberatungFinden />);
     fireEvent.change(screen.getByLabelText("Postleitzahl"), { target: { value: "04109" } });
     expect(screen.getByText(/Nächste Beratungstermine in Sachsen/)).toBeInTheDocument();
+    expect(screen.getByText(/Deine Behörden für die Gründung/)).toBeInTheDocument();
+    vi.unstubAllGlobals();
   });
 });

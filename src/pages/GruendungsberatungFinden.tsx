@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, ExternalLink, MapPin } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -12,6 +12,7 @@ import { breadcrumbSchema, faqSchema } from "@/lib/freetools/schema";
 import { BUNDESLAND_NAMES } from "@/data/foerderprogramme";
 import { aktuelleEvents } from "@/data/gruenderEvents";
 import { plzZuLand } from "@/lib/plz";
+import { finanzamtSucheUrl, gewerbeamtFuerPlz, type Gewerbeamt } from "@/lib/pvog";
 
 const SITE = "https://gruenderx.de";
 
@@ -36,6 +37,15 @@ export default function GruendungsberatungFinden() {
   const [plz, setPlz] = useState("");
   const land = plzZuLand(plz);
   const heute = new Date().toISOString().slice(0, 10);
+  const [amt, setAmt] = useState<{ plz: string; daten: Gewerbeamt | null; fehler?: boolean } | null>(null);
+  useEffect(() => {
+    if (!land) return;
+    const ctrl = new AbortController();
+    gewerbeamtFuerPlz(plz, ctrl.signal)
+      .then((daten) => setAmt({ plz, daten }))
+      .catch((e) => e.name !== "AbortError" && setAmt({ plz, daten: null, fehler: true }));
+    return () => ctrl.abort();
+  }, [plz, land]);
   const termine = useMemo(() => {
     if (!land) return [];
     return aktuelleEvents(heute)
@@ -48,8 +58,8 @@ export default function GruendungsberatungFinden() {
   return (
     <div className="min-h-screen bg-background">
       <Seo
-        title="Kostenlose Gründungsberatung finden – nach Postleitzahl | GründerX"
-        description="IHK, Handwerkskammer, Arbeitsagentur und Gründungsnetzwerke in deiner Nähe – plus die nächsten kostenlosen Gründerabende und Sprechtage in deinem Bundesland."
+        title="Gründungsberatung & Behörden finden – nach PLZ | GründerX"
+        description="Gewerbeamt mit Online-Anmeldung, Finanzamt, IHK, Handwerkskammer und kostenlose Gründerabende in deiner Nähe – nach Postleitzahl, aus amtlichen Quellen."
         path="/gruendungsberatung"
         jsonLd={[breadcrumbSchema([{ name: "Start", url: `${SITE}/` }, { name: "Gründungsberatung finden", url: `${SITE}/gruendungsberatung` }]), faqSchema(faqs)]}
       />
@@ -58,7 +68,7 @@ export default function GruendungsberatungFinden() {
         <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-background to-background" />
         <div className="relative max-w-3xl mx-auto px-4 sm:px-6 text-center">
           <Badge variant="secondary" className="mb-4"><MapPin className="mr-1.5 h-3.5 w-3.5" /> Kostenlose Beratung in deiner Nähe</Badge>
-          <h1 className="text-3xl md:text-5xl font-bold text-foreground mb-4 leading-tight">Gründungsberatung finden</h1>
+          <h1 className="text-3xl md:text-5xl font-bold text-foreground mb-4 leading-tight">Gründungsberatung & Behörden finden</h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-6">
             Gib deine Postleitzahl ein: Du siehst die zuständigen Stellen und die nächsten kostenlosen Gründerabende, Sprechtage und
             Infoveranstaltungen in deinem Bundesland.
@@ -93,6 +103,50 @@ export default function GruendungsberatungFinden() {
                 <p className="text-sm text-muted-foreground">Gerade keine Termine im Kalender – die Stellen unten beraten auch ohne Veranstaltung.</p>
               )}
               <Link to="/gruender-events" className="text-sm text-accent-blue hover:underline inline-flex items-center gap-1 mt-3">Alle Gründer-Events <ArrowRight className="h-3.5 w-3.5" /></Link>
+            </div>
+          )}
+
+          {land && (
+            <div>
+              <h2 className="text-xl md:text-2xl font-bold mb-3">Deine Behörden für die Gründung</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="rounded-xl border border-accent-blue/30 bg-accent-blue/5 p-4 sm:col-span-2">
+                  <div className="font-semibold">Gewerbeanmeldung{amt?.plz === plz && amt.daten?.gemeinde ? ` – ${amt.daten.gemeinde}` : ""}</div>
+                  {amt?.plz !== plz ? (
+                    <p className="text-xs text-muted-foreground mt-1">Suche im Verwaltungsportal …</p>
+                  ) : amt.daten && amt.daten.onlineLinks.length ? (
+                    <ul className="mt-2 space-y-1 text-sm">
+                      {amt.daten.onlineLinks.slice(0, 4).map((l) => (
+                        <li key={l.url}><a href={l.url} target="_blank" rel="noreferrer noopener" className="text-accent-blue hover:underline inline-flex items-center gap-1">{l.titel} <ExternalLink className="h-3 w-3" /></a></li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="text-xs text-muted-foreground mt-1">Kein Online-Antrag hinterlegt – frag beim Gewerbeamt deiner Gemeinde oder nutze das Serviceportal deines Bundeslandes.</p>
+                  )}
+                  {amt?.plz === plz && amt.daten?.stellen.length ? <p className="text-xs text-muted-foreground mt-2">Zuständig: {amt.daten.stellen.slice(0, 4).join(" · ")}{amt.daten.stellen.length > 4 ? " …" : ""}</p> : null}
+                  <p className="text-[11px] text-muted-foreground mt-2">Quelle: Portalverbund Online-Gateway (PVOG). Ausfüllhilfe: <Link to="/tools/gewerbeanmeldung-wizard" className="text-accent-blue hover:underline">Gewerbeanmeldung-Wizard</Link>.</p>
+                </div>
+                <a href={finanzamtSucheUrl(plz)} target="_blank" rel="noreferrer noopener" className="rounded-xl border border-border bg-card p-4 hover:border-accent-blue/40">
+                  <div className="font-semibold">Dein Finanzamt</div>
+                  <p className="text-xs text-muted-foreground mt-1">Amtliche Finanzamtsuche des BZSt für {plz} – in Großstädten mit mehreren Ämtern zählt die Straße. Danach den Fragebogen zur steuerlichen Erfassung über ELSTER.</p>
+                  <span className="text-xs text-accent-blue inline-flex items-center gap-1 mt-2">Finanzamt für {plz} anzeigen <ExternalLink className="h-3 w-3" /></span>
+                </a>
+                <a href="https://www.dguv.de/de/bg-uk-lv/index.jsp" target="_blank" rel="noreferrer noopener" className="rounded-xl border border-border bg-card p-4 hover:border-accent-blue/40">
+                  <div className="font-semibold">Berufsgenossenschaft</div>
+                  <p className="text-xs text-muted-foreground mt-1">Zuständig ist die BG deiner Branche – Pflicht, sobald du Mitarbeiter hast; für Solo-Selbstständige oft freiwillig. Infoline 0800 6050404 (kostenlos).</p>
+                  <span className="text-xs text-accent-blue inline-flex items-center gap-1 mt-2">BG finden <ExternalLink className="h-3 w-3" /></span>
+                </a>
+                <a href="https://www.handelsregister.de/rp_web/welcome.xhtml" target="_blank" rel="noreferrer noopener" className="rounded-xl border border-border bg-card p-4 hover:border-accent-blue/40">
+                  <div className="font-semibold">Handelsregister</div>
+                  <p className="text-xs text-muted-foreground mt-1">Für GmbH/UG und eingetragene Kaufleute – Firmennamen vorher prüfen.</p>
+                  <span className="text-xs text-accent-blue inline-flex items-center gap-1 mt-2">Register öffnen <ExternalLink className="h-3 w-3" /></span>
+                </a>
+                <a href="https://www.transparenzregister.de/" target="_blank" rel="noreferrer noopener" className="rounded-xl border border-border bg-card p-4 hover:border-accent-blue/40">
+                  <div className="font-semibold">Transparenzregister</div>
+                  <p className="text-xs text-muted-foreground mt-1">GmbH/UG müssen ihre wirtschaftlich Berechtigten unverzüglich eintragen.</p>
+                  <span className="text-xs text-accent-blue inline-flex items-center gap-1 mt-2">Zum Register <ExternalLink className="h-3 w-3" /></span>
+                </a>
+              </div>
             </div>
           )}
 

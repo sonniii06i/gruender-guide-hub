@@ -162,6 +162,14 @@ const RELATED: Record<string, ToolRef[]> = {
     { route: "/cockpit/bwa-generator", label: "BWA-Generator", desc: "Reisekosten-Summe in BWA übertragen" },
     { route: "/cockpit/kfz-optimizer", label: "Kfz-Optimizer", desc: "Bei eigenem Geschäfts-Kfz: 1%-Regel vs Fahrtenbuch" },
   ],
+  "/cockpit/mahnung": [
+    { route: "/cockpit/rechnungs-generator", label: "Rechnungs-Generator", desc: "Rechnungen mit Verzugshinweis und als E-Rechnung" },
+    { route: "/cockpit/runway-rechner", label: "Runway-Rechner", desc: "Was offene Forderungen für deine Liquidität bedeuten" },
+  ],
+  "/cockpit/kleinunternehmer-waechter": [
+    { route: "/cockpit/schwellen-check", label: "Schwellen-Check", desc: "Alle Freibeträge und Grenzen 2026 im Überblick" },
+    { route: "/cockpit/ust-rechner", label: "USt-Rechner", desc: "Was sich ändert, wenn du regelbesteuert wirst" },
+  ],
   "/cockpit/steuerkalender": [
     { route: "/cockpit/ust-voranmeldung", label: "USt-Voranmeldung-Walkthrough", desc: "Die Voranmeldung Zeile für Zeile in ELSTER" },
     { route: "/cockpit/quartals-steuer", label: "Quartals-Steuerschätzung", desc: "Wie hoch die Vorauszahlungen ungefähr sein werden" },
