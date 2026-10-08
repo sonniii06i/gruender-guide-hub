@@ -1,22 +1,23 @@
 {
- "stand": "2026-10-08T08:31:45.500Z",
+ "stand": "2026-10-08T11:27:20.697Z",
  "quellen": {
   "foerderung-bund": {
-   "ok": false,
-   "fehler": "HTTP 500 https://www.foerderinfo.bund.de/foerderinfo/de/services/rss/bekanntmachungen-kmu-foerderun",
-   "behaltenVomLetztenLauf": 19,
-   "letzterErfolg": "2026-10-08T08:26:48.964Z"
+   "ok": true,
+   "roh": 20,
+   "uebernommen": 20,
+   "verworfen": {},
+   "letzterErfolg": "2026-10-08T11:25:58.857Z"
   },
   "eu-calls": {
    "ok": true,
    "roh": 1201,
-   "uebernommen": 25,
+   "uebernommen": 31,
    "verworfen": {
-    "Frist vorbei (Status noch offen)": 561,
-    "kein KMU-/Startup-Bezug": 344,
+    "Frist vorbei (Status noch offen)": 594,
+    "kein KMU-/Startup-Bezug": 447,
     "abgesagt": 1
    },
-   "letzterErfolg": "2026-10-08T08:31:25.448Z"
+   "letzterErfolg": "2026-10-08T11:26:23.386Z"
   },
   "wettbewerbe": {
    "ok": true,
@@ -26,16 +27,16 @@
     "keine offene Frist": 156,
     "SPRIND: nicht offen": 20
    },
-   "letzterErfolg": "2026-10-08T08:31:26.762Z"
+   "letzterErfolg": "2026-10-08T11:26:26.312Z"
   },
   "ausschreibungen": {
    "ok": true,
    "roh": 300,
-   "uebernommen": 281,
+   "uebernommen": 279,
    "verworfen": {
-    "keine offene Angebotsfrist": 19
+    "keine offene Angebotsfrist": 21
    },
-   "letzterErfolg": "2026-10-08T08:31:28.818Z"
+   "letzterErfolg": "2026-10-08T11:26:57.447Z"
   },
   "recht": {
    "ok": true,
@@ -45,7 +46,7 @@
     "kein Gründer-Bezug": 48,
     "älter als 45 Tage": 450
    },
-   "letzterErfolg": "2026-10-08T08:31:29.440Z"
+   "letzterErfolg": "2026-10-08T11:26:59.926Z"
   },
   "messen": {
    "ok": true,
@@ -56,10 +57,10 @@
     "Karriere-/Bildungsmesse": 201,
     "kein Gründer-/Business-Bezug": 16
    },
-   "letzterErfolg": "2026-10-08T08:31:45.479Z"
+   "letzterErfolg": "2026-10-08T11:27:20.684Z"
   }
  },
- "anzahl": 361,
+ "anzahl": 365,
  "eintraege": [
   {
    "id": "recht-3batb8",
@@ -470,38 +471,6 @@
    "region": "bund",
    "tags": [
     "IT"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-08"
-  },
-  {
-   "id": "ausschreibungen-afk0ro",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Bodenbelagsarbeiten",
-   "geber": "Potsdam-Insitut für Klimafolgenforschung e. V. Angebotsfrist: 08.10.2026 13:00 V",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/vmp-bb/2026/09/260326.html#track=feed-callforbids",
-   "frist": "2026-10-08",
-   "region": "bund",
-   "tags": [
-    "F&E"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-08"
-  },
-  {
-   "id": "ausschreibungen-2cfev2",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Prüfung ortsveränderlicher elektrischer Betriebsmittel",
-   "geber": "IHP GmbH - Leibniz-Institut für innovative Mikroelektronik Angebotsfrist: 08.10.",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/vmp-bb/2026/09/260133.html#track=feed-callforbids",
-   "frist": "2026-10-08",
-   "region": "bund",
-   "tags": [
-    "F&E"
    ],
    "kurz": "",
    "_q": "ausschreibungen",
@@ -3203,6 +3172,54 @@
    "entdeckt": "2026-10-08"
   },
   {
+   "id": "eu-calls-13kll4p",
+   "kategorie": "eu",
+   "quelle": "EU Funding & Tenders",
+   "titel": "DeepRAP: Deep Reasoning, Abstraction & Planning towards trustworthy Cognitive AI Systems",
+   "geber": "EIC Pathfinder Challenges 2026",
+   "url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-EIC-2026-PATHFINDERCHALLENGES-01-03",
+   "frist": "2026-10-28",
+   "region": "EU",
+   "tags": [
+    "EIC"
+   ],
+   "kurz": "HORIZON-EIC-2026-PATHFINDERCHALLENGES-01-03",
+   "_q": "eu-calls",
+   "entdeckt": "2026-10-08"
+  },
+  {
+   "id": "eu-calls-rz7c8n",
+   "kategorie": "eu",
+   "quelle": "EU Funding & Tenders",
+   "titel": "Advanced Materials for Miniaturised Energy Harvesting Systems",
+   "geber": "EIC Pathfinder Challenges 2026",
+   "url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-EIC-2026-PATHFINDERCHALLENGES-01-01",
+   "frist": "2026-10-28",
+   "region": "EU",
+   "tags": [
+    "EIC"
+   ],
+   "kurz": "HORIZON-EIC-2026-PATHFINDERCHALLENGES-01-01",
+   "_q": "eu-calls",
+   "entdeckt": "2026-10-08"
+  },
+  {
+   "id": "eu-calls-ki9856",
+   "kategorie": "eu",
+   "quelle": "EU Funding & Tenders",
+   "titel": "EIC defence call",
+   "geber": "EIC STEP Scale Up Defence",
+   "url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-EIC-2026-DEFENCE-01",
+   "frist": "2026-10-28",
+   "region": "EU",
+   "tags": [
+    "EIC"
+   ],
+   "kurz": "HORIZON-EIC-2026-DEFENCE-01",
+   "_q": "eu-calls",
+   "entdeckt": "2026-10-08"
+  },
+  {
    "id": "eu-calls-1xagho8",
    "kategorie": "eu",
    "quelle": "EU Funding & Tenders",
@@ -4353,6 +4370,20 @@
    "entdeckt": "2026-10-08"
   },
   {
+   "id": "eu-calls-voedvh",
+   "kategorie": "eu",
+   "quelle": "EU Funding & Tenders",
+   "titel": "Supporting the achievement of the objectives of the Council of Europe Convention on preventing and combating violence against women (VAW) and domestic violence in the Union and the implementation of the Directive on combating VAW and domestic violence",
+   "geber": "Call for proposals to prevent and combat gender-based violence and violence against children",
+   "url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/CERV-2026-DAPHNE-CONVENTION-DIR",
+   "frist": "2026-11-05",
+   "region": "EU",
+   "tags": [],
+   "kurz": "CERV-2026-DAPHNE-CONVENTION-DIR",
+   "_q": "eu-calls",
+   "entdeckt": "2026-10-08"
+  },
+  {
    "id": "ausschreibungen-a9gjw5",
    "kategorie": "ausschreibung",
    "quelle": "service.bund.de",
@@ -5369,6 +5400,20 @@
    "entdeckt": "2026-10-08"
   },
   {
+   "id": "eu-calls-1rndy5x",
+   "kategorie": "eu",
+   "quelle": "EU Funding & Tenders",
+   "titel": "Women Leadership Category",
+   "geber": "The European Prize for Women Innovators",
+   "url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-EIT-2026-PRIZE-WIP-LEADERSHIP",
+   "frist": "2026-12-01",
+   "region": "EU",
+   "tags": [],
+   "kurz": "HORIZON-EIT-2026-PRIZE-WIP-LEADERSHIP",
+   "_q": "eu-calls",
+   "entdeckt": "2026-10-08"
+  },
+  {
    "id": "eu-calls-q583pu",
    "kategorie": "eu",
    "quelle": "EU Funding & Tenders",
@@ -5397,20 +5442,6 @@
     "EIC"
    ],
    "kurz": "HORIZON-EIC-2026-PRIZE-WIP-RisingInnovators",
-   "_q": "eu-calls",
-   "entdeckt": "2026-10-08"
-  },
-  {
-   "id": "eu-calls-1rndy5x",
-   "kategorie": "eu",
-   "quelle": "EU Funding & Tenders",
-   "titel": "Women Leadership Category",
-   "geber": "The European Prize for Women Innovators",
-   "url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-EIT-2026-PRIZE-WIP-LEADERSHIP",
-   "frist": "2026-12-01",
-   "region": "EU",
-   "tags": [],
-   "kurz": "HORIZON-EIT-2026-PRIZE-WIP-LEADERSHIP",
    "_q": "eu-calls",
    "entdeckt": "2026-10-08"
   },
@@ -5521,6 +5552,20 @@
     "EIC"
    ],
    "kurz": "HORIZON-EIC-2025-WOMENTECH",
+   "_q": "eu-calls",
+   "entdeckt": "2026-10-08"
+  },
+  {
+   "id": "eu-calls-1ncqmvz",
+   "kategorie": "eu",
+   "quelle": "EU Funding & Tenders",
+   "titel": "Strengthening cybersecurity capacities of European SMEs with cybersecure AI-powered solutions",
+   "geber": "Strengthening European Cybersecurity Technologies, Capacities and Preparedness",
+   "url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/DIGITAL-ECCC-2027-DEPLOY-CYBER-11-AI4SME",
+   "frist": "2027-01-14",
+   "region": "EU",
+   "tags": [],
+   "kurz": "DIGITAL-ECCC-2027-DEPLOY-CYBER-11-AI4SME",
    "_q": "eu-calls",
    "entdeckt": "2026-10-08"
   },
@@ -5700,6 +5745,20 @@
    "region": "EU",
    "tags": [],
    "kurz": "HORIZON-CL6-2027-02-CLIMATE-03",
+   "_q": "eu-calls",
+   "entdeckt": "2026-10-08"
+  },
+  {
+   "id": "eu-calls-1eltoum",
+   "kategorie": "eu",
+   "quelle": "EU Funding & Tenders",
+   "titel": "Empowering local urban food systems entrepreneurship and innovation",
+   "geber": "Call 02 - single stage (2027)",
+   "url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-CL6-2027-02-COMMUNITIES-02",
+   "frist": "2027-09-23",
+   "region": "EU",
+   "tags": [],
+   "kurz": "HORIZON-CL6-2027-02-COMMUNITIES-02",
    "_q": "eu-calls",
    "entdeckt": "2026-10-08"
   },

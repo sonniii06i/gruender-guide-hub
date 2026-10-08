@@ -1,10 +1,10 @@
 {
- "stand": "2026-10-08T09:56:50.775Z",
+ "stand": "2026-10-08T11:28:05.476Z",
  "zaehler": {
-  "ok": 32,
+  "ok": 31,
   "geaendert": 0,
   "fehler": 0,
-  "browser": 1
+  "browser": 2
  },
  "perks": {
   "claude-for-startups": {
@@ -163,8 +163,11 @@
    "letzterErfolg": "2026-10-08"
   },
   "shopify-1-euro": {
-   "status": "ok",
-   "detail": "1 Prüfwörter gefunden",
+   "status": "browser",
+   "detail": "Inhalt per Skript geladen – fehlt im HTML: 1 €",
+   "fehlend": [
+    "1 €"
+   ],
    "letzterErfolg": "2026-10-08"
   },
   "startup-verband": {
