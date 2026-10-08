@@ -1,0 +1,55 @@
+# Wächter für die GründerX-Automatiken (KI-Anbieter/Felix, Blog-Generator,
+# Event-Daten, Felix-Fehler). Ruft die Edge Function system-waechter auf und
+# meldet Probleme nach Discord #system. Zustellung wird am HTTP-Status geprüft.
+name: System-Wächter
+
+on:
+  schedule:
+    - cron: "40 */6 * * *"
+  workflow_dispatch:
+    inputs:
+      trocken:
+        description: "Trockenlauf: nur anzeigen, nichts nach Discord senden"
+        type: boolean
+        default: false
+
+jobs:
+  pruefen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Wächter abfragen
+        env:
+          WAECHTER_SECRET: ${{ secrets.WAECHTER_SECRET }}
+        run: |
+          code=$(curl -sS -o erg.json -w '%{http_code}' -X POST \
+            https://rwrjuzemkfghlziretdj.supabase.co/functions/v1/system-waechter \
+            -H "x-waechter-secret: $WAECHTER_SECRET")
+          echo "HTTP $code"; cat erg.json; echo
+          [ "$code" = "200" ] || { echo "Wächter selbst nicht erreichbar"; exit 1; }
+      - name: Probleme nach Discord melden
+        env:
+          WEBHOOK: ${{ secrets.GX_SYSTEM_WEBHOOK }}
+          TROCKEN: ${{ inputs.trocken }}
+        run: |
+          node -e '
+            const e = require("./erg.json");
+            if (e.ok) { console.log("Alles grün."); process.exit(0); }
+            const body = {
+              username: "GründerX-Wächter",
+              embeds: [{
+                title: `GründerX: ${e.probleme.length} Problem(e)`,
+                color: 0xEF4444,
+                description: e.probleme.map((p) => "• " + p).join("\n").slice(0, 3900),
+                footer: { text: "system-waechter · " + e.zeit.slice(0, 16).replace("T", " ") + " UTC" },
+              }],
+            };
+            require("fs").writeFileSync("post.json", JSON.stringify(body));
+            console.log(JSON.stringify(body, null, 1));
+          '
+          [ -f post.json ] || exit 0
+          if [ "$TROCKEN" = "true" ]; then echo "Trockenlauf – nichts gesendet."; exit 0; fi
+          case "$WEBHOOK" in https://discord.com/api/webhooks/*|https://discordapp.com/api/webhooks/*) ;; *) echo "GX_SYSTEM_WEBHOOK ist keine Discord-Webhook-URL"; exit 1;; esac
+          code=$(curl -sS -o antwort.txt -w '%{http_code}' -H "content-type: application/json" -d @post.json "$WEBHOOK")
+          echo "Discord HTTP $code"; cat antwort.txt
+          case "$code" in 2*) echo "zugestellt";; *) echo "Zustellung fehlgeschlagen"; exit 1;; esac

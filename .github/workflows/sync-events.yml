@@ -1,0 +1,44 @@
+# Gründer-Events-Monitor: täglich frische Termine für /gruender-events.
+# Schreibt src/data/gruenderEventsLive.json und committet nur bei Änderungen;
+# der Push auf main löst den normalen Vercel-Build aus (Seite wird vorgerendert).
+name: Gründer-Events aktualisieren
+
+on:
+  schedule:
+    - cron: "15 4 * * *" # 06:15 Uhr Sommerzeit / 05:15 Uhr Winterzeit
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-events
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Quellen abrufen
+        run: node scripts/sync-events.mjs
+      - name: Chancen abrufen (Förderaufrufe, EU-Calls, Wettbewerbe, Ausschreibungen, Recht, Messen)
+        run: node scripts/sync-chancen.mjs
+      - name: Bei Änderungen committen
+        run: |
+          if git diff --quiet -- src/data/gruenderEventsLive.json src/data/chancenLive.json; then
+            echo "Keine Änderungen."
+            exit 0
+          fi
+          ANZ=$(node -e "console.log(require('./src/data/gruenderEventsLive.json').anzahl)")
+          git config user.name "sonniii06i"
+          git config user.email "buttkesonni11@gmail.com"
+          CH=$(node -e "console.log(require('./src/data/chancenLive.json').anzahl)")
+          git add src/data/gruenderEventsLive.json src/data/chancenLive.json
+          git commit -m "Monitore: $ANZ Gründer-Events, $CH Chancen"
+          git pull --rebase origin main
+          git push origin HEAD:main

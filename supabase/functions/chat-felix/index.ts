@@ -10,6 +10,41 @@ import {
   type SubLlmCaller,
 } from "../_shared/chat-memory.ts";
 import { retrieveKb, buildKbBlock } from "../_shared/kb-retrieval.ts";
+import { BUNDESLAND_NAME, datumDe, eventsFuer, fristenFuer, ladeEvents, plzZuLand, regionAusText } from "../_shared/gruenderEvents.ts";
+
+// Fragen nach Terminen, Hackathons, Wettbewerben → aktuelle Liste in den Prompt.
+const RE_EVENTFRAGE =
+  /event|veranstaltung|termin|gründerabend|gruenderabend|sprechtag|infoabend|hackathon|build ?day|meetup|stammtisch|messe|konferenz|netzwerk|workshop|seminar|webinar|wettbewerb|gründerpreis|preis\b|stipendium|accelerator|inkubator|frist|bewerb/i;
+
+async function buildEventBlock(frage: string, userId: string | null, db: any): Promise<string> {
+  const daten = await ladeEvents();
+  if (!daten) return "";
+  let { stadt, land } = regionAusText(frage);
+  if (!land && !stadt && userId && db) {
+    const { data } = await db.from("profiles").select("postal_code, city").eq("id", userId).maybeSingle();
+    land = plzZuLand(data?.postal_code) ?? undefined;
+    stadt = (data?.city ?? "").trim().toLowerCase() || undefined;
+  }
+  const bauen = /hackathon|build|vibe|prototyp|ki|ai\b|claude|coding/i.test(frage);
+  const ev = eventsFuer(daten, {
+    land: land ?? null, stadt: stadt ?? null, tage: 60, online: true, max: 12,
+    arten: bauen ? ["hackathon", "build", "netzwerk"] : undefined,
+  });
+  const fr = fristenFuer(daten, { land: land ?? null, tage: 120, max: 6 });
+  if (!ev.length && !fr.length) return "";
+  const wo = stadt ? stadt[0].toUpperCase() + stadt.slice(1) : land ? BUNDESLAND_NAME[land] : "Deutschland/online";
+  const zeilen = [
+    "",
+    "============================================================",
+    `AKTUELLE GRÜNDER-EVENTS & FRISTEN (Region: ${wo}; Stand ${daten.stand.slice(0, 10)})`,
+    "Nenne NUR Termine aus dieser Liste, mit Datum und Link. Erfinde keine Events.",
+    "Für alle weiteren Termine verlinke [Gründer-Events](/gruender-events).",
+    "============================================================",
+    ...ev.map((e) => `- ${datumDe(e.datum!)} · ${e.name} · ${e.format === "online" ? "online" : e.ort} · ${e.veranstalter} · ${e.url}`),
+    ...(fr.length ? ["Bewerbungsfristen:", ...fr.map((f) => `- bis ${datumDe(f.frist!)} · ${f.name}${f.preis ? ` (${f.preis})` : ""} · ${f.url}`)] : []),
+  ];
+  return zeilen.join("\n");
+}
 
 // User-ID aus JWT extrahieren — null wenn anon-Key oder kein JWT.
 async function getUserIdFromRequest(req: Request): Promise<string | null> {
@@ -657,6 +692,25 @@ LAUNCH / COMPLIANCE
 - /cockpit/lucid-wizard – LUCID-Verpackungsregister 5-Step + 6 duale Systeme verglichen
 - /cockpit/ce-generator – CE/RoHS-Konformitätserklärung-PDF für 8 Produkt-Kategorien
 - /cockpit/foerderung – 20+ Programme (KfW, EXIST, HTGF, INVEST/BAFA, 7 Bundesländer, EIC)
+- /gruender-events – täglich aktualisierte Gründer-Events (IHK-Gründerabende, Sprechtage, Messen, Hackathons, KI-Build-Sessions) + Fristen-Radar für Wettbewerbe, Stipendien, Accelerator
+- /cockpit/gruendungszuschuss – Gründungszuschuss-Check (§§ 93/94 SGB III): Ampel, Rechner Phase 1+2, Antrags-Reihenfolge, Unterlagen, IHK-Gebühren
+- /cockpit/gruendungsunterlagen – Finanzplan-Generator: Kapitalbedarf, Finanzierung, Rentabilität 3 J., Liquidität 12 Mon., Lebenshaltung, PDF (für IHK-Stellungnahme, Jobcenter, Bank)
+- /cockpit/einstiegsgeld – Einstiegsgeld-Rechner (§ 16b SGB II, ESGV, Regelbedarfe 2026) + § 16c bis 5.000 €
+- /cockpit/bafa-beratung – BAFA-Beratungsförderung: 80 % Ost/Lüneburg/Trier, 50 % sonst, max. 3.500 € Bemessung, Anträge nur bis 31.12.2026
+- /cockpit/pitch-deck – Pitch-Deck-Generator: 10 Folien, Jury-Check, 16:9-PDF, Elevator-Pitch
+- /hackathon-starter-kit – In 3 Stunden zum Prototyp: Phasen-Timer, Prompt-Vorlagen, Packliste
+- /cockpit/steuerkalender – persönlicher Steuer- & Fristenkalender (USt-VA, Vorauszahlungen, Lohn, ZM, Erklärungen, § 108 AO) mit Kalender-Export
+- /cockpit/scheinselbststaendigkeit – Scheinselbstständigkeits-Risiko (DRV-Kriterien) + RV-Pflicht § 2 Nr. 9 SGB VI, Beiträge 2026
+- /cockpit/gz-phase2 – Bericht für Phase 2 des Gründungszuschusses (PDF)
+- /cockpit/bankgespraech – KfW-StartGeld-Rechner + Bankgespräch-Vorbereitung
+- /cockpit/rechnungs-generator – jetzt auch E-Rechnung als XRechnung-XML (KoSIT-validiert)
+- /gruendungsberatung – Gründungsberatung & Behörden nach PLZ (Online-Gewerbeanmeldung via PVOG, Finanzamt, IHK, HWK, Termine)
+- /e-rechnung-lesen – XRechnung/ZUGFeRD-XML lesbar machen + Prüfung + PDF (öffentlich, läuft im Browser)
+- /cockpit/mahnung – Zahlungserinnerung/Mahnungen mit Verzugszinsen (Basiszins 2. Hj. 2026: 1,52 %), 40-€-Pauschale B2B
+- /cockpit/kleinunternehmer-waechter – Umsatz gegen 25.000/100.000-€-Grenze (§ 19 UStG ab 2025) mit Prognose
+- /cockpit/event-radar – persönliches Event-Radar (Region, Interessen, neu seit letztem Besuch, Merkliste)
+- /community/mitgruender – Mitgründer-Börse (Profile, Anfragen)
+- /cockpit/chancen-radar – täglich: Förderaufrufe des Bundes, EU-Calls (EIC/EIT/SME), Gründerwettbewerbe + SPRIND, öffentliche Ausschreibungen (IT/Dienstleistung/F&E), neue Gesetze/BMF-Schreiben, Gründermessen
 - /cockpit/ecom-roadmap – 8 Kategorien (Beauty, Supplement, Electronics, Toys, Apparel, Food, Pet, Hardware) mit DE/EU/US-Compliance + Standard-Stack + Stolperfallen
 - /cockpit/visa-helper – 6 Visa-Pfade (§21 Selbstständig, §21 Abs 5 Frei, §18g Blue-Card, §18a/b Fachkraft 2024, §20a Chancenkarte, §28/30 Familie)
 - /cockpit/stb-finder – StB-Auswahl-Wizard: Pflicht-Knowledge + Erst-Termin-Frage-Katalog + Red-Flags pro Spezialisierung
@@ -998,6 +1052,16 @@ serve(async (req) => {
       }
     }
 
+    // === GRÜNDER-EVENTS (nur bei Event-/Fristen-Fragen; Fehler → ohne Events weiter) ===
+    if (!smallTalk && RE_EVENTFRAGE.test(lastUser)) {
+      try {
+        const evBlock = await buildEventBlock(lastUser, userId, supaService);
+        if (evBlock) systemPromptWithMemory = systemPromptWithMemory + evBlock;
+      } catch (e) {
+        console.error("[events] block failed, continuing without:", (e as Error).message);
+      }
+    }
+
     // Sub-LLM-Caller für Memory-Extract (günstigeres Modell)
     const subLlm = makeSubLlmCaller(GEMINI_KEY, ANTHROPIC_KEY, OPENAI_KEY);
 
@@ -1034,6 +1098,16 @@ serve(async (req) => {
       });
     };
 
+    // Fehlertext eines vorherigen Anbieters (z. B. Gemini), damit im Log steht,
+    // WARUM die Kette bis zum letzten Fallback durchgefallen ist.
+    let vorherigerFehler = "";
+    // Kurzform eines Anbieter-Fehlers fürs Log: Status + Fehlertyp, nie Schlüssel.
+    const fehlerKurz = (status: number, text: string) => {
+      const typ = text.match(/"(?:type|code|status)"\s*:\s*"([^"]+)"/)?.[1] ?? "";
+      const msg = text.match(/"message"\s*:\s*"([^"]{0,140})/)?.[1] ?? "";
+      return `${status}${typ ? ` ${typ}` : ""}${msg ? `: ${msg}` : ""}`.replace(/(sk-|AIza)[\w-]+/g, "[key]");
+    };
+
     // Fallback-Helper: versucht Anthropic, dann OpenAI (in dieser Reihenfolge)
     const tryFallbacks = async (): Promise<Response | null> => {
       if (ANTHROPIC_KEY) {
@@ -1053,9 +1127,10 @@ serve(async (req) => {
         logChat({
           user_message: lastUser.slice(0, 2000),
           provider: "openai-gpt",
-          error: `status-${openaiResp.status}`,
+          error: `openai ${fehlerKurz(openaiResp.status, errText)}${vorherigerFehler ? ` | gemini ${vorherigerFehler}` : ""}`.slice(0, 500),
         });
-        return new Response(JSON.stringify({ error: `OpenAI ${openaiResp.status}` }), {
+        // Nutzer sehen keinen Anbieter-Statuscode, sondern was los ist.
+        return new Response(JSON.stringify({ error: "Felix ist gerade nicht erreichbar. Bitte versuch es in ein paar Minuten nochmal." }), {
           status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
@@ -1071,6 +1146,7 @@ serve(async (req) => {
       }
 
       if (geminiResp.status === 429) {
+        vorherigerFehler = fehlerKurz(429, await geminiResp.text().catch(() => ""));
         // Quota/Rate-Limit bei Gemini → erst Fallbacks versuchen, sonst 429 melden
         const fb = await tryFallbacks();
         if (fb) return fb;
@@ -1087,6 +1163,7 @@ serve(async (req) => {
 
       const t = await geminiResp.text();
       console.error("Gemini error", geminiResp.status, t);
+      vorherigerFehler = fehlerKurz(geminiResp.status, t);
       // Bei jedem anderen Fehler: Anthropic ODER OpenAI versuchen
       const fb = await tryFallbacks();
       if (fb) return fb;

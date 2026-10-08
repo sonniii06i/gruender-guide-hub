@@ -440,10 +440,16 @@ export interface WochenStand {
   provisionCents?: number;
   /** Neue Ratgeber-Artikel dieser Woche: [Titel, Pfad]. */
   neueArtikel?: Array<[string, string]>;
+  /** Gründer-Events der nächsten 14 Tage in der Region des Nutzers. */
+  events?: Array<{ name: string; wann: string; ort: string; url: string }>;
+  /** Für die Region: z. B. „Bayern“ oder „München“. */
+  regionName?: string | null;
+  /** Bewerbungsfristen, die in den nächsten 30 Tagen enden. */
+  fristen?: Array<{ name: string; wann: string; url: string }>;
 }
 
 export function hatInhalt(s: WochenStand): boolean {
-  return !!(s.naechsterSchritt || s.provisionCents || s.neueArtikel?.length);
+  return !!(s.naechsterSchritt || s.provisionCents || s.neueArtikel?.length || s.events?.length || s.fristen?.length);
 }
 
 export function buildWeekly(o: {
@@ -463,7 +469,10 @@ export function buildWeekly(o: {
   // sagt, was zu tun ist, wird geoeffnet; "Dein Wochenupdate" nicht.
   const subject = offen
     ? (v === "b" ? `Als Nächstes: ${offen}`.slice(0, 60) : "Ein Schritt fehlt noch")
-    : (v === "b" ? "Neu diese Woche" : "Deine Woche bei GründerX");
+    : s.events?.length
+      // Ohne offenen Schritt sind die Termine das Konkreteste, was die Mail hat.
+      ? `${s.events.length} Gründer-Termine in ${s.regionName ?? "deiner Nähe"}`.slice(0, 60)
+      : (v === "b" ? "Neu diese Woche" : "Deine Woche bei GründerX");
 
   const blocks: string[] = [];
 
@@ -489,6 +498,21 @@ export function buildWeekly(o: {
 
   blocks.push(button(ziel, offen ? "Weitermachen" : "Zum Dashboard"));
 
+  if (s.events?.length) {
+    blocks.push(divider());
+    blocks.push(heading(s.regionName ? `Gründer-Events in ${s.regionName}` : "Gründer-Events in deiner Nähe"));
+    blocks.push(bullets(s.events.map((e) =>
+      `<b>${e.wann}</b> · <a href="${e.url}" style="color:${BRAND}">${e.name}</a> <span style="color:#6b7280">(${e.ort})</span>`)));
+    blocks.push(paragraph(`<a href="${track(`${url}/gruender-events`, "weekly", v)}" style="color:${BRAND}">Alle Termine ansehen</a>`));
+  }
+
+  if (s.fristen?.length) {
+    blocks.push(divider());
+    blocks.push(heading("Bewerbungsfristen, die bald ablaufen"));
+    blocks.push(bullets(s.fristen.map((f) =>
+      `<b>bis ${f.wann}</b> · <a href="${f.url}" style="color:${BRAND}">${f.name}</a>`)));
+  }
+
   if (s.neueArtikel?.length) {
     blocks.push(divider());
     blocks.push(heading("Neu im Ratgeber"));
@@ -507,6 +531,8 @@ export function buildWeekly(o: {
         offen ? `Naechster offener Punkt: ${offen}` : "",
         s.provisionCents ? `Provision: ${eur(s.provisionCents).replace(" €", " EUR")}` : "",
         "",
+        ...(s.events ?? []).map((e) => `- ${e.wann}: ${e.name} (${e.ort}) ${e.url}`),
+        ...(s.fristen ?? []).map((f) => `- Frist ${f.wann}: ${f.name} ${f.url}`),
         ...(s.neueArtikel ?? []).map(([t, p]) => `- ${t}: ${url}${p}`),
       ].filter(Boolean),
       cta: [offen ? "Weitermachen" : "Zum Dashboard", ziel],
