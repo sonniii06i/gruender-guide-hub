@@ -34,6 +34,7 @@ import {
   X,
 } from "lucide-react";
 import jsPDF from "jspdf";
+import { baueXRechnung, xrFehlend, type XrDaten } from "@/lib/xrechnung";
 import autoTable from "jspdf-autotable";
 
 type UstModus = "standard" | "kleinunternehmer" | "reverse-charge" | "innergemeinschaftlich";
@@ -57,6 +58,8 @@ type SenderData = {
   bank: string;
   email: string;
   telefon: string;
+  /** Ansprechpartner – Pflicht in der XRechnung (BR-DE-5). */
+  kontaktName: string;
   logoDataUrl: string | null;
 };
 
@@ -68,7 +71,11 @@ type RechnungsData = {
     plzOrt: string;
     land: string;
     ustId: string;
+    /** Elektronische Adresse des Kunden – Pflicht in der XRechnung. */
+    email: string;
   };
+  /** Käufer-Referenz / Bestellnummer / Leitweg-ID (BT-10). */
+  kaeuferReferenz: string;
   rechnungsnummer: string;
   rechnungsdatum: string;
   leistungsdatum: string;
@@ -86,12 +93,13 @@ const emptySender: SenderData = {
   name: "", strasse: "", plzOrt: "",
   steuernummer: "", ustId: "",
   iban: "", bic: "", bank: "",
-  email: "", telefon: "",
+  email: "", telefon: "", kontaktName: "",
   logoDataUrl: null,
 };
 
 const emptyInvoice = (): Omit<RechnungsData, "sender"> => ({
-  kunde: { name: "", strasse: "", plzOrt: "", land: "Deutschland", ustId: "" },
+  kunde: { name: "", strasse: "", plzOrt: "", land: "Deutschland", ustId: "", email: "" },
+  kaeuferReferenz: "",
   rechnungsnummer: `RE-${new Date().getFullYear()}-001`,
   rechnungsdatum: heute(),
   leistungsdatum: heute(),
@@ -242,6 +250,31 @@ const RechnungsGenerator = () => {
       }
     };
     reader.readAsText(file);
+  };
+
+  const xrDaten = (): XrDaten => ({
+    verkaeufer: { ...data.sender, kontaktName: data.sender.kontaktName ?? "" },
+    kunde: { ...data.kunde, email: data.kunde.email ?? "" },
+    kaeuferReferenz: data.kaeuferReferenz ?? "",
+    rechnungsnummer: data.rechnungsnummer,
+    rechnungsdatum: data.rechnungsdatum,
+    leistungsdatum: data.leistungsdatum,
+    zahlungsziel: data.zahlungsziel,
+    modus: data.ustModus,
+    positionen: data.positionen,
+    freitext: data.freitext,
+  });
+  const xrFehlt = xrFehlend(xrDaten());
+  const xrechnungHerunterladen = () => {
+    const blob = new Blob([baueXRechnung(xrDaten())], { type: "application/xml;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${(data.rechnungsnummer || "rechnung").replace(/[^a-z0-9-]+/gi, "-")}-xrechnung.xml`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
   };
 
   const generatePdf = () => {
@@ -522,6 +555,7 @@ const RechnungsGenerator = () => {
           <Field label="PLZ + Ort" value={data.sender.plzOrt} onChange={(v) => updateSender("plzOrt", v)} />
           <Field label="Email" value={data.sender.email} onChange={(v) => updateSender("email", v)} />
           <Field label="Telefon" value={data.sender.telefon} onChange={(v) => updateSender("telefon", v)} />
+          <Field label="Ansprechpartner" value={data.sender.kontaktName} onChange={(v) => updateSender("kontaktName", v)} hint="für die E-Rechnung" />
           <Field label="Steuernummer (FA)" value={data.sender.steuernummer} onChange={(v) => updateSender("steuernummer", v)} hint="Format: 12/345/67890" />
           <Field label="USt-ID (DE...)" value={data.sender.ustId} onChange={(v) => updateSender("ustId", v)} hint="Bei EU-Geschäft Pflicht" />
           <Field label="Bank" value={data.sender.bank} onChange={(v) => updateSender("bank", v)} />
@@ -540,6 +574,8 @@ const RechnungsGenerator = () => {
           <Field label="Land" value={data.kunde.land} onChange={(v) => updateKunde("land", v)} />
           <Field label="USt-ID Kunde" value={data.kunde.ustId} onChange={(v) => updateKunde("ustId", v)}
             hint={data.ustModus === "reverse-charge" || data.ustModus === "innergemeinschaftlich" ? "⚠ PFLICHT bei §13b / §6a" : "optional"} />
+          <Field label="E-Mail Kunde (Rechnungsempfang)" value={data.kunde.email} onChange={(v) => updateKunde("email", v)} hint="für die E-Rechnung" />
+          <Field label="Bestell-Nr. / Käufer-Referenz" value={data.kaeuferReferenz} onChange={(v) => setData((d) => ({ ...d, kaeuferReferenz: v }))} hint="bei Behörden: Leitweg-ID" />
         </div>
       </div>
 
@@ -644,10 +680,27 @@ const RechnungsGenerator = () => {
         </div>
       </div>
 
+      {/* === E-Rechnung === */}
+      <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-4 mb-4 text-xs leading-relaxed">
+        <div className="font-bold text-sm mb-1">E-Rechnung (XRechnung)</div>
+        Empfangen müssen alle Unternehmen E-Rechnungen schon seit 01.01.2025. Ausstellen ist Pflicht für Rechnungen an
+        Unternehmen ab 2027 (Vorjahresumsatz über 800.000 €) und ab 2028 für alle – ausgenommen Kleinbeträge bis 250 € und
+        Kleinunternehmer. Die XML-Datei ist die eigentliche Rechnung; das PDF dient als Lesefassung. Geprüft gegen den
+        offiziellen KoSIT-Validator (XRechnung 3.0.2).
+        {xrFehlt.length > 0 && (
+          <div className="mt-2 text-amber-800">
+            Für die E-Rechnung fehlt noch: {xrFehlt.join(" · ")}
+          </div>
+        )}
+      </div>
+
       {/* === Action-Buttons === */}
       <div className="flex flex-wrap gap-2 mb-2">
         <Button onClick={generatePdf} className="bg-emerald-700 hover:bg-emerald-800 text-white" disabled={!pflichtCheck.alleOk}>
           <FileDown className="h-4 w-4 mr-2" /> PDF herunterladen
+        </Button>
+        <Button onClick={xrechnungHerunterladen} variant="outline" disabled={!pflichtCheck.alleOk || xrFehlt.length > 0} title={xrFehlt.length ? `Es fehlt: ${xrFehlt.join(", ")}` : "XRechnung 3.0 (CII) herunterladen"}>
+          <FileText className="h-4 w-4 mr-2" /> E-Rechnung (XRechnung-XML)
         </Button>
         <Button onClick={resetInvoice} variant="outline">
           <Trash2 className="h-4 w-4 mr-2" /> Neue Rechnung (Felder leeren)
