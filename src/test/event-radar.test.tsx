@@ -21,11 +21,10 @@ describe("Event-Radar-Logik", () => {
     expect(passt(ev({}), { ...s, stichworte: "e-commerce" })).toBe(false);
     expect(passt(ev({}), { ...s, arten: ["netzwerk"] })).toBe(false);
   });
-  it("neu = nach dem letzten Besuch entdeckt; ohne Besuch: letzte 7 Tage", () => {
+  it("neu = nach dem letzten Besuch entdeckt; beim ersten Besuch nichts", () => {
     expect(istNeu(ev({ entdeckt: "2026-10-08" }), "2026-10-05", "2026-10-08")).toBe(true);
     expect(istNeu(ev({ entdeckt: "2026-10-04" }), "2026-10-05", "2026-10-08")).toBe(false);
-    expect(istNeu(ev({ entdeckt: "2026-10-03" }), null, "2026-10-08")).toBe(true);
-    expect(istNeu(ev({ entdeckt: "2026-09-20" }), null, "2026-10-08")).toBe(false);
+    expect(istNeu(ev({ entdeckt: "2026-10-07" }), null, "2026-10-08")).toBe(false);
     expect(istNeu(ev({}), null, "2026-10-08")).toBe(false);
   });
 });

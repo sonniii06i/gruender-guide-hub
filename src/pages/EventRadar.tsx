@@ -153,7 +153,9 @@ const EventRadar = () => {
             <div className="flex items-center gap-2 text-accent-blue text-xs font-semibold uppercase tracking-wider"><Bell className="h-4 w-4" /> {s.region ? BUNDESLAND_NAMES[s.region] : "Ganz Deutschland"}{s.online ? " + online" : ""}</div>
             <div className="text-3xl font-bold mt-1">{neu.length} neu <span className="text-base font-normal text-muted-foreground">· {treffer.length} passende Events · {fristen.length} Fristen bald</span></div>
             <p className="text-xs text-muted-foreground mt-1">
-              {vorherigerBesuch ? `Neu seit deinem letzten Besuch am ${vorherigerBesuch.split("-").reverse().join(".")}.` : "Neu = in den letzten 7 Tagen gefunden."}
+              {vorherigerBesuch
+                ? `Neu seit deinem letzten Besuch am ${vorherigerBesuch.split("-").reverse().join(".")}.`
+                : "Ab jetzt markiert das Radar alles, was der Monitor neu findet – beim nächsten Besuch siehst du es oben und in der Seitenleiste."}
             </p>
           </div>
           <Button variant="outline" size="sm" onClick={() => setEinrichten((x) => !x)}>

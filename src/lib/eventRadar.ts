@@ -65,11 +65,13 @@ export function passt(e: GruenderEvent, s: RadarEinstellungen): boolean {
   return true;
 }
 
-/** Neu = vom Monitor nach dem letzten Besuch gefunden (beim ersten Besuch: in den letzten 7 Tagen). */
-export function istNeu(e: GruenderEvent, letzterBesuch: string | null, heute: string): boolean {
-  if (!e.entdeckt) return false;
-  const grenze = letzterBesuch ?? new Date(Date.parse(`${heute}T12:00:00Z`) - 7 * 864e5).toISOString().slice(0, 10);
-  return e.entdeckt > grenze;
+/**
+ * Neu = vom Monitor nach dem letzten Besuch gefunden. Beim allerersten Besuch ist
+ * nichts „neu“ – sonst wäre der ganze Bestand markiert; ab dann zählt jeder neue Fund.
+ */
+export function istNeu(e: GruenderEvent, letzterBesuch: string | null, _heute: string): boolean {
+  if (!e.entdeckt || !letzterBesuch) return false;
+  return e.entdeckt > letzterBesuch;
 }
 
 /**
