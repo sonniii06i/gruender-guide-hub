@@ -120,7 +120,7 @@ export default function StartupGuthaben() {
   return (
     <div className="min-h-screen bg-background">
       <Seo
-        title={`Startup-Guthaben ${new Date().getFullYear()}: ${STARTUP_PERKS.length} Credits & Perks für Gründer | GründerX`}
+        title={`Startup-Guthaben ${new Date().getFullYear()}: ${STARTUP_PERKS.length} Credits & Perks | GründerX`}
         description={`Claude, AWS, Google Cloud, Microsoft, Cloudflare, Notion, PostHog & Co.: ${STARTUP_PERKS.length} Startup-Programme mit Guthaben und Gratis-Monaten – an der Anbieterseite geprüft, täglich gegengecheckt. Mit Perk-Check: was bekommst du ohne Investor?`}
         path="/startup-guthaben"
         jsonLd={jsonLd}
