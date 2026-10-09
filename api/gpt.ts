@@ -1,5 +1,5 @@
-// GPT-Actions: GET /api/gpt/openapi.json (Schema) und POST /api/gpt/<werkzeug>. Logik: api/_lib/gxMcp.ts
-import { gptAntwort } from "../_lib/gxMcp";
+// GPT-Actions: GET /api/gpt/openapi.json (Schema) und POST /api/gpt/<werkzeug> (Rewrite -> /api/gpt?name=...). Logik: api/_lib/gxMcp.ts
+import { gptAntwort } from "./_lib/gxMcp";
 
 export const config = { runtime: "edge" };
 

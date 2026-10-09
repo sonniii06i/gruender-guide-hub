@@ -417,7 +417,9 @@ export function openapi() {
 
 export async function gptAntwort(req: Request): Promise<Response> {
   if (req.method === "OPTIONS") return new Response(null, { status: 204, headers: CORS });
-  const name = new URL(req.url).pathname.split("/").pop() || "";
+  const u = new URL(req.url);
+  // Vercel-Rewrite /api/gpt/:name -> /api/gpt?name=:name; lokal/Tests auch direkt über den Pfad.
+  const name = u.searchParams.get("name") || u.pathname.split("/").pop() || "";
   if (name === "openapi.json") return json(openapi());
   if (req.method !== "POST") return json({ error: "POST erwartet" }, 405, { Allow: "POST, OPTIONS" });
   if (gedrosselt(req)) return json({ error: "Zu viele Anfragen, bitte kurz warten" }, 429);

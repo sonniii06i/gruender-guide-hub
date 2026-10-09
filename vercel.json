@@ -30,6 +30,7 @@
   ],
   "rewrites": [
     { "source": "/mcp", "destination": "/api/mcp" },
+    { "source": "/api/gpt/:name", "destination": "/api/gpt?name=:name" },
     { "source": "/.well-known/mcp-registry-auth", "destination": "/api/wellknown?f=mcp-registry-auth" },
     { "source": "/.well-known/openai-apps-challenge", "destination": "/api/wellknown?f=openai-apps-challenge" },
     { "source": "/.well-known/mcp/server-card.json", "destination": "/api/wellknown?f=server-card" },
