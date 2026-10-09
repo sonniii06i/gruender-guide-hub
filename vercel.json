@@ -29,6 +29,7 @@
     { "source": "/guides/foerderung-stipendium/", "destination": "/ratgeber/foerderung-gruender-2026", "statusCode": 301 }
   ],
   "rewrites": [
+    { "source": "/mcp", "destination": "/api/mcp" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }

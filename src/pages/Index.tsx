@@ -1,6 +1,7 @@
 import { Navbar } from "@/components/landing/Navbar";
 import { Hero } from "@/components/landing/Hero";
 import { ProblemBand } from "@/components/landing/ProblemBand";
+import { KiAssistentBand } from "@/components/landing/KiAssistentBand";
 import { GuidesRoadmap } from "@/components/landing/GuidesRoadmap";
 import { SellerBand } from "@/components/landing/SellerBand";
 import { WhatIs } from "@/components/landing/WhatIs";
@@ -98,6 +99,7 @@ const Index = () => (
     <Navbar />
     <main>
       <Hero />
+      <KiAssistentBand />
       <ProblemBand />
       <Assistant />
       <WhatIs />

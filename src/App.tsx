@@ -143,6 +143,7 @@ const KleinunternehmerWaechter = lazy(() => import("./pages/KleinunternehmerWaec
 const ChancenRadar = lazy(() => import("./pages/ChancenRadar.tsx"));
 const HackathonStarterKit = lazy(() => import("./pages/HackathonStarterKit.tsx"));
 const StartupGuthaben = lazy(() => import("./pages/StartupGuthaben.tsx"));
+const KiAssistent = lazy(() => import("./pages/KiAssistent.tsx"));
 const GruenderEvents = lazy(() => import("./pages/GruenderEvents.tsx"));
 const FreeToolPage = lazy(() => import("./pages/FreeToolPage.tsx"));
 
@@ -337,6 +338,7 @@ const App = () => (
               <Route path="/gruender-events" element={<GruenderEvents />} />
               <Route path="/hackathon-starter-kit" element={<HackathonStarterKit />} />
               <Route path="/startup-guthaben" element={<StartupGuthaben />} />
+              <Route path="/ki-assistent" element={<KiAssistent />} />
               <Route path="/gruendungsberatung" element={<GruendungsberatungFinden />} />
               <Route path="/e-rechnung-lesen" element={<ERechnungLesen />} />
               <Route path="/businessplan-erstellen" element={<FreeToolPage config={FREE_TOOL_BY_SLUG["businessplan-erstellen"]} />} />

@@ -25,6 +25,7 @@ export const Footer = () => (
             <li><Link to="/#leistungen" className="hover:text-foreground">Leistungen</Link></li>
             <li><Link to="/tools" className="hover:text-foreground">Tools</Link></li>
             <li><Link to="/gratis-tools" className="hover:text-foreground">Gratis-Tools</Link></li>
+            <li><Link to="/ki-assistent" className="hover:text-foreground">In ChatGPT &amp; Claude (MCP)</Link></li>
             <li><Link to="/preise" className="hover:text-foreground">Preise</Link></li>
             <li><Link to="/ratgeber" className="hover:text-foreground">Ratgeber</Link></li>
             <li><Link to="/gruender-events" className="hover:text-foreground">Gründer-Events</Link></li>
