@@ -188,6 +188,16 @@ export default function KiAssistent() {
             </div>
           </div>
 
+          <div id="support" className="scroll-mt-24 rounded-2xl border border-border bg-card p-6">
+            <h2 className="text-2xl font-bold mb-2">Support</h2>
+            <p className="text-muted-foreground">
+              Fragen, Fehler oder Wünsche zum MCP-Server oder zur GPT-Schnittstelle? Schreib uns an{" "}
+              <a href="mailto:impressum@xn--grnderx-o2a.de" className="underline">impressum@gründerx.de</a> oder über das{" "}
+              <Link to="/kontakt" className="underline">Kontaktformular</Link>. Wie wir dabei mit Daten umgehen, steht in der{" "}
+              <Link to="/datenschutz#ki-schnittstelle" className="underline">Datenschutzerklärung</Link>.
+            </p>
+          </div>
+
           <div>
             <h2 className="text-2xl font-bold mb-4">Häufige Fragen</h2>
             {faqs.map((f) => (

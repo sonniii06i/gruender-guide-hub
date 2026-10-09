@@ -214,6 +214,22 @@ const Datenschutz = () => (
         Speicher deines Browsers (siehe Abschnitt 6); du kannst ihn jederzeit in den Browser-Einstellungen löschen.
       </p>
 
+      <h3 id="ki-schnittstelle" className="font-semibold mt-6">3.13 KI-Schnittstelle (MCP-Server und GPT-Schnittstelle)</h3>
+      <p>
+        Unter gruenderx.de/mcp (MCP-Server) und gruenderx.de/api/gpt (Schnittstelle für ChatGPT-GPTs) können KI-Assistenten wie
+        ChatGPT oder Claude öffentlich zugängliche GründerX-Inhalte abfragen: Gründer-Events, Bewerbungsfristen, Startup-Guthaben
+        und veröffentlichte Ratgeber. Verarbeitet werden nur die Werte, die der Assistent an das jeweilige Werkzeug übergibt, etwa
+        ein Bundesland, ein Zeitraum oder ein Stichwort. Diese Werte dienen ausschließlich dazu, die Antwort zu erzeugen, und werden
+        nicht gespeichert. Auf deinen Chatverlauf und auf ein GründerX-Konto haben wir keinen Zugriff; eine Anmeldung ist nicht nötig.
+        Deine IP-Adresse wird nur kurzzeitig im Arbeitsspeicher der Server-Funktion gehalten (höchstens eine Minute), um zu viele
+        Anfragen in kurzer Zeit abzuwehren. Zusätzlich zählen wir, welches Werkzeug aufgerufen wurde, ohne IP-Adresse, ohne
+        Eingaben und ohne Bezug zu einer Person (Tabelle der internen Produktanalytik, siehe 3.6). Für die Server-Log-Dateien des
+        Hosters gilt Abschnitt 3.7. Für die Verarbeitung in ChatGPT, Claude oder einem anderen KI-Assistenten ist der jeweilige
+        Anbieter verantwortlich; dort gelten dessen Datenschutzhinweise.<br />
+        <strong>Rechtsgrundlage:</strong> Art. 6 Abs. 1 lit. b DSGVO (angeforderte Abfrage) und Art. 6 Abs. 1 lit. f DSGVO
+        (berechtigtes Interesse an einem stabilen, missbrauchsgeschützten Dienst und an der Reichweitenmessung ohne Personenbezug).
+      </p>
+
       <h2 id="auftragsverarbeiter" className="text-2xl font-bold mt-10 mb-3">4. Auftragsverarbeiter, eigenverantwortliche Dritte & Datenflüsse</h2>
       <p>
         Im Folgenden listen wir alle Empfänger nach ihrer datenschutzrechtlichen Rolle (Auftragsverarbeiter

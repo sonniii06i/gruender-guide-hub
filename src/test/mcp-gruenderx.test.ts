@@ -95,3 +95,26 @@ describe("GründerX-MCP", () => {
     expect((await gptAntwort(new Request("https://test.local/api/gpt/x", { method: "POST", body: "{}" }))).status).toBe(404);
   });
 });
+
+describe(".well-known", async () => {
+  const wk = (await import("../../api/wellknown")).default;
+  const hole = (f: string) => wk(new Request(`https://test.local/api/wellknown?f=${f}`));
+  it("Registry-Nachweis exakt als text/plain", async () => {
+    const r = hole("mcp-registry-auth");
+    expect(r.headers.get("content-type")).toContain("text/plain");
+    expect(await r.text()).toBe("v=MCPv1; k=ed25519; p=dpvti1Do+m/a/b1bEKHq0c3tWzXCbrIHco+yKydsx48=");
+  });
+  it("OpenAI-Challenge: ohne Token 404, mit Token der Token", async () => {
+    vi.stubEnv("OPENAI_APPS_CHALLENGE", "");
+    expect(hole("openai-apps-challenge").status).toBe(404);
+    vi.stubEnv("OPENAI_APPS_CHALLENGE", " abc123 ");
+    expect(await hole("openai-apps-challenge").text()).toBe("abc123");
+    vi.unstubAllEnvs();
+  });
+  it("Server-Karte", async () => {
+    const k = await hole("server-card").json();
+    expect(k.transport).toEqual({ type: "streamable-http", url: "https://gruenderx.de/mcp" });
+    expect(k.authentication.required).toBe(false);
+    expect(k.tools).toHaveLength(TOOLS.length);
+  });
+});

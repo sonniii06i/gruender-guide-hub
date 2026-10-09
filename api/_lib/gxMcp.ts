@@ -16,7 +16,7 @@ const SUPABASE_ANON =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ3cmp1emVta2ZnaGx6aXJldGRqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MTYxMjcsImV4cCI6MjA5MzQ5MjEyN30.2zNrmQwqHyrrhhetpdOjEWbFZ9FZIh8X0KLE4wFYr6U";
 
 const PROTOKOLLE = ["2025-06-18", "2025-03-26", "2024-11-05"];
-const SERVER_INFO = { name: "gruenderx", title: "GründerX – Events, Fristen & Startup-Guthaben", version: "1.0.0" };
+export const SERVER_INFO = { name: "gruenderx", title: "GründerX – Events, Fristen & Startup-Guthaben", version: "1.0.0" };
 export const LIMIT = 60; // Anfragen je IP und Minute (pro Edge-Instanz, best effort)
 const FENSTER_MS = 60_000;
 
