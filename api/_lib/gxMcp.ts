@@ -161,7 +161,7 @@ async function holeJson<T>(url: string, init?: RequestInit): Promise<T> {
 type Ev = { name: string; veranstalter: string; art: string; format: string; ort: string; region: string; datum: string | null; datumBis: string | null; rhythmus: string | null; kostenlos: boolean | null; url: string };
 type Fr = { slug: string; name: string; veranstalter: string; art: string; region: string; frist?: string; eventDatum?: string; rhythmus?: string; preis?: string; url: string; kurz: string };
 type EvDatei = { stand: string; events: Ev[]; fristen: Fr[] };
-type Perk = { slug: string; name: string; anbieter: string; kategorie: string; wert: string; leistungen: string[]; voraussetzungen: string[]; vcNoetig: boolean | null; gruendungMaxJahre: number | null; url: string; hinweis?: string; geprueft?: string; status?: string | null };
+type Perk = { slug: string; name: string; anbieter: string; kategorie: string; wert: string; leistungen: string[]; voraussetzungen: string[]; vcNoetig: boolean | "teilweise" | null; gruendungMaxJahre: number | null; url: string; hinweis?: string; geprueft?: string; status?: string | null };
 type PerkDatei = { stand: string; kategorien: Record<string, { name: string }>; perks: Perk[] };
 
 const heute = () => new Date().toISOString().slice(0, 10);
@@ -249,7 +249,8 @@ async function tGuthaben(a: Record<string, unknown>, origin: string): Promise<Er
       benefits: p.leistungen, requirements: p.voraussetzungen, needs_investor: p.vcNoetig, max_company_age_years: p.gruendungMaxJahre,
       note: p.hinweis ?? null, checked: p.geprueft ?? null, url: p.url }));
   const zeilen = liste.map((p) =>
-    `- ${p.name} (${p.provider}, ${p.category}): ${p.value}. Voraussetzungen: ${p.requirements.join("; ")}. ${p.url}`);
+    `- ${p.name} (${p.provider}, ${p.category}): ${p.value}${p.needs_investor === "teilweise" ? " (höhere Stufen nur mit Investor/Accelerator)" : ""}. ` +
+    `Voraussetzungen: ${p.requirements.join("; ")}. ${p.url}`);
   const txt = liste.length ? `${liste.length} Programme:\n${zeilen.join("\n")}` : "Kein passendes Programm gefunden.";
   return [txt + fuss("/startup-guthaben"), { programs: liste, data_as_of: d.stand }];
 }
