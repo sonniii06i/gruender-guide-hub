@@ -50,12 +50,12 @@ export const STARTUP_PERKS: StartupPerk[] = [
   // ---------- KI ----------
   {
     slug: "claude-for-startups", name: "Claude for Startups", anbieter: "Anthropic", kategorie: "ki",
-    wert: "1.000 $ Claude-API-Guthaben + 1 Jahr Claude Team (5 Plätze) + Partnerangebote bis 45.000 $", wertUsd: 1000,
-    leistungen: ["1.000 $ API-Guthaben (verfällt 6 Monate nach Vergabe)", "1 Jahr Claude Team für bis zu 5 Premium-Plätze (nur Organisationen, die neu bei Team sind)", "Startup Stack: Partnerangebote bis 45.000 $ (z. B. ClickHouse, Hex)", "Höhere API-Rate-Limits", "Applied-AI-Sprechstunde (45 Min.) alle zwei Wochen, Startup-Events"],
-    voraussetzungen: ["Gegründet in den letzten 5 Jahren oder finanziert in den letzten 2 Jahren", "Konto in der Claude Console", "Firmen-E-Mail, die zur Website-Domain passt (keine Gmail-Adresse)", "Kurze Beschreibung, was du mit Claude baust"],
-    vcNoetig: false, gruendungMaxJahre: 5, url: "https://claude.com/programs/startups", pruefWorte: ["$1,000", "45K"],
-    hinweis: "Guthaben gilt nur für die Claude-API direkt, nicht über AWS Bedrock oder Google Vertex. Mit einem VC aus dem Partnernetz bis zu 100.000 $ zusätzlich. Entscheidung meist in Minuten, sonst 2–3 Werktage. Freitexte im Formular: 50–500 Zeichen.",
-    geprueft: "2026-10-08",
+    wert: "Startup Stack: Partnerangebote bis 45.000 $ – API-Guthaben und Claude Team derzeit ausgesetzt", wertUsd: null,
+    leistungen: ["Startup Stack: Rabatte und Guthaben bis 45.000 $ bei Partnern, die mit Claude bauen", "Applied-AI-Sprechstunde und Startup-Events", "1.000 $ API-Guthaben und 1 Jahr Claude Team: laut Anthropic derzeit ausgelastet („over capacity“), Anträge werden neu geprüft"],
+    voraussetzungen: ["Startup (bootstrapped, Pre-Seed oder VC-finanziert – kein VC nötig)", "Antrag in der Claude Console", "Prüfung laut Anthropic bis zu einer Woche"],
+    vcNoetig: false, gruendungMaxJahre: null, url: "https://claude.com/programs/startups", pruefWorte: ["$45,000", "over capacity"],
+    hinweis: "Stand 10.10.2026: Anthropic hat nach Hunderttausenden Anträgen das 1.000-$-API-Guthaben und Claude Team pausiert und baut das Programm um; bereits eingelöste Angebote bleiben gültig, alle Anträge werden neu geprüft. Mit einem VC aus dem Partnernetz bis zu 100.000 $ API-Guthaben über den VC. Verschwindet „over capacity“ von der Seite, meldet der Perk-Wächter das – dann neu prüfen.",
+    geprueft: "2026-10-10",
   },
   {
     slug: "elevenlabs-startup-grants", name: "ElevenLabs Startup Grants", anbieter: "ElevenLabs", kategorie: "ki",

@@ -1,104 +1,101 @@
 {
- "stand": "2026-10-09T11:24:14.165Z",
+ "stand": "2026-10-10T09:16:48.562Z",
  "zaehler": {
-  "ok": 30,
-  "geaendert": 1,
+  "ok": 32,
+  "geaendert": 0,
   "fehler": 0,
-  "browser": 2
+  "browser": 1
  },
  "perks": {
   "claude-for-startups": {
-   "status": "geaendert",
-   "detail": "Fehlt auf der Seite: 45K – Programm vermutlich geändert",
-   "fehlend": [
-    "45K"
-   ],
-   "letzterErfolg": "2026-10-08"
+   "status": "ok",
+   "detail": "2 Prüfwörter gefunden",
+   "letzterErfolg": "2026-10-10"
   },
   "elevenlabs-startup-grants": {
    "status": "ok",
    "detail": "2 Prüfwörter gefunden",
-   "letzterErfolg": "2026-10-09"
+   "letzterErfolg": "2026-10-10"
   },
   "nvidia-inception": {
    "status": "ok",
    "detail": "1 Prüfwörter gefunden",
-   "letzterErfolg": "2026-10-09"
+   "letzterErfolg": "2026-10-10"
   },
   "google-for-startups-cloud": {
    "status": "ok",
    "detail": "1 Prüfwörter gefunden",
-   "letzterErfolg": "2026-10-09"
+   "letzterErfolg": "2026-10-10"
   },
   "aws-activate-founders": {
    "status": "ok",
    "detail": "2 Prüfwörter gefunden",
-   "letzterErfolg": "2026-10-09"
+   "letzterErfolg": "2026-10-10"
   },
   "aws-activate-portfolio": {
    "status": "ok",
    "detail": "2 Prüfwörter gefunden",
-   "letzterErfolg": "2026-10-09"
+   "letzterErfolg": "2026-10-10"
   },
   "microsoft-for-startups": {
    "status": "ok",
    "detail": "1 Prüfwörter gefunden",
-   "letzterErfolg": "2026-10-09"
+   "letzterErfolg": "2026-10-10"
   },
   "cloudflare-for-startups": {
    "status": "ok",
    "detail": "2 Prüfwörter gefunden",
-   "letzterErfolg": "2026-10-09"
+   "letzterErfolg": "2026-10-10"
   },
   "digitalocean-startups": {
    "status": "ok",
    "detail": "1 Prüfwörter gefunden",
-   "letzterErfolg": "2026-10-09"
+   "letzterErfolg": "2026-10-10"
   },
   "vercel-for-startups": {
    "status": "ok",
    "detail": "1 Prüfwörter gefunden",
-   "letzterErfolg": "2026-10-09"
+   "letzterErfolg": "2026-10-10"
   },
   "mongodb-for-startups": {
    "status": "ok",
    "detail": "2 Prüfwörter gefunden",
-   "letzterErfolg": "2026-10-09"
+   "letzterErfolg": "2026-10-10"
   },
   "ionos-cloud-startup": {
    "status": "ok",
    "detail": "2 Prüfwörter gefunden",
-   "letzterErfolg": "2026-10-09"
+   "letzterErfolg": "2026-10-10"
   },
   "hetzner-startguthaben": {
    "status": "ok",
    "detail": "2 Prüfwörter gefunden",
-   "letzterErfolg": "2026-10-09"
+   "letzterErfolg": "2026-10-10"
   },
   "github-for-startups": {
    "status": "ok",
    "detail": "2 Prüfwörter gefunden",
-   "letzterErfolg": "2026-10-09"
+   "letzterErfolg": "2026-10-10"
   },
   "posthog-for-startups": {
    "status": "ok",
    "detail": "2 Prüfwörter gefunden",
-   "letzterErfolg": "2026-10-09"
+   "letzterErfolg": "2026-10-10"
   },
   "sentry-for-startups": {
    "status": "ok",
    "detail": "2 Prüfwörter gefunden",
-   "letzterErfolg": "2026-10-09"
+   "letzterErfolg": "2026-10-10"
   },
   "retool-for-startups": {
    "status": "ok",
    "detail": "2 Prüfwörter gefunden",
-   "letzterErfolg": "2026-10-09"
+   "letzterErfolg": "2026-10-10"
   },
   "linear-startups": {
    "status": "ok",
    "detail": "1 Prüfwörter gefunden",
-   "letzterErfolg": "2026-10-09"
+   "letzterErfolg": "2026-10-10"
   },
   "webflow-for-startups": {
    "status": "browser",
@@ -108,75 +105,72 @@
   "notion-for-startups": {
    "status": "ok",
    "detail": "2 Prüfwörter gefunden",
-   "letzterErfolg": "2026-10-09"
+   "letzterErfolg": "2026-10-10"
   },
   "atlassian-for-startups": {
    "status": "ok",
    "detail": "2 Prüfwörter gefunden",
-   "letzterErfolg": "2026-10-09"
+   "letzterErfolg": "2026-10-10"
   },
   "intercom-early-stage": {
    "status": "ok",
    "detail": "2 Prüfwörter gefunden",
-   "letzterErfolg": "2026-10-09"
+   "letzterErfolg": "2026-10-10"
   },
   "zendesk-for-startups": {
    "status": "ok",
    "detail": "2 Prüfwörter gefunden",
-   "letzterErfolg": "2026-10-09"
+   "letzterErfolg": "2026-10-10"
   },
   "mixpanel-for-startups": {
    "status": "ok",
    "detail": "1 Prüfwörter gefunden",
-   "letzterErfolg": "2026-10-09"
+   "letzterErfolg": "2026-10-10"
   },
   "amplitude-scholarship": {
    "status": "ok",
    "detail": "2 Prüfwörter gefunden",
-   "letzterErfolg": "2026-10-09"
+   "letzterErfolg": "2026-10-10"
   },
   "miro-startups": {
    "status": "ok",
    "detail": "1 Prüfwörter gefunden",
-   "letzterErfolg": "2026-10-09"
+   "letzterErfolg": "2026-10-10"
   },
   "hubspot-for-startups": {
    "status": "ok",
    "detail": "2 Prüfwörter gefunden",
-   "letzterErfolg": "2026-10-09"
+   "letzterErfolg": "2026-10-10"
   },
   "salesforce-launchpad": {
    "status": "ok",
    "detail": "1 Prüfwörter gefunden",
-   "letzterErfolg": "2026-10-09"
+   "letzterErfolg": "2026-10-10"
   },
   "lexware-gruenderedition": {
    "status": "ok",
    "detail": "2 Prüfwörter gefunden",
-   "letzterErfolg": "2026-10-09"
+   "letzterErfolg": "2026-10-10"
   },
   "stripe-atlas": {
    "status": "ok",
    "detail": "2 Prüfwörter gefunden",
-   "letzterErfolg": "2026-10-09"
+   "letzterErfolg": "2026-10-10"
   },
   "amazon-neue-verkaeufer": {
    "status": "ok",
    "detail": "1 Prüfwörter gefunden",
-   "letzterErfolg": "2026-10-09"
+   "letzterErfolg": "2026-10-10"
   },
   "shopify-1-euro": {
-   "status": "browser",
-   "detail": "Inhalt per Skript geladen – fehlt im HTML: 1 €",
-   "fehlend": [
-    "1 €"
-   ],
-   "letzterErfolg": "2026-10-08"
+   "status": "ok",
+   "detail": "1 Prüfwörter gefunden",
+   "letzterErfolg": "2026-10-10"
   },
   "startup-verband": {
    "status": "ok",
    "detail": "2 Prüfwörter gefunden",
-   "letzterErfolg": "2026-10-09"
+   "letzterErfolg": "2026-10-10"
   }
  }
 }

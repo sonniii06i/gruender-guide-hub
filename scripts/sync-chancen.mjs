@@ -28,18 +28,30 @@ const hash = (s) => {
   return (h >>> 0).toString(36);
 };
 
+// Vorübergehende Fehler (5xx, 429, Netz) bekommen vier Versuche mit wachsender Pause –
+// das BMF-RSS antwortete am 09.10.2026 einmalig 503 und riss die ganze Quelle „recht“ mit.
+// 4xx und Bot-Schutz sind endgültig: einmal wiederholen, dann aufgeben.
+const PAUSEN = [2000, 8000, 20000];
 async function holen(url, opt = {}) {
   let letzter;
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; ; i++) {
+    let voruebergehend = true;
     try {
       const r = await fetch(url, { ...opt, headers: { "User-Agent": UA, ...(opt.headers ?? {}) } });
-      if (!r.ok) throw new Error(`HTTP ${r.status} ${url.slice(0, 90)}`);
+      if (!r.ok) {
+        voruebergehend = r.status >= 500 || r.status === 429;
+        throw new Error(`HTTP ${r.status} ${url.slice(0, 90)}`);
+      }
       const t = await r.text();
-      if (/validate\.perfdrive|captcha|x-amzn-waf/i.test(t.slice(0, 3000))) throw new Error(`Bot-Schutz ${url.slice(0, 60)}`);
+      if (/validate\.perfdrive|captcha|x-amzn-waf/i.test(t.slice(0, 3000))) {
+        voruebergehend = false;
+        throw new Error(`Bot-Schutz ${url.slice(0, 60)}`);
+      }
       return t;
     } catch (e) {
       letzter = e;
-      await sleep(1500);
+      if (i >= (voruebergehend ? PAUSEN.length : 1)) break;
+      await sleep(PAUSEN[i]);
     }
   }
   throw letzter;
