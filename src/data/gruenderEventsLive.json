@@ -1,102 +1,102 @@
 {
- "stand": "2026-10-09T11:22:40.666Z",
+ "stand": "2026-10-10T10:39:57.407Z",
  "quellen": {
   "gruendungswoche": {
    "ok": true,
-   "roh": 478,
+   "roh": 476,
    "verworfen": {
-    "kommerzielle Online-Serie": 172
+    "kommerzielle Online-Serie": 171
    },
-   "letzterErfolg": "2026-10-09T11:21:41.439Z"
+   "letzterErfolg": "2026-10-10T10:38:57.566Z"
   },
   "luma": {
    "ok": true,
-   "roh": 1080,
+   "roh": 1070,
    "verworfen": {
-    "nicht in Deutschland": 202,
-    "kein Gründer-/Tech-Bezug": 588
+    "nicht in Deutschland": 208,
+    "kein Gründer-/Tech-Bezug": 584
    },
-   "letzterErfolg": "2026-10-09T11:21:56.311Z"
+   "letzterErfolg": "2026-10-10T10:39:11.186Z"
   },
   "meetup": {
    "ok": true,
    "roh": 54,
    "verworfen": {},
-   "letzterErfolg": "2026-10-09T11:22:05.248Z"
+   "letzterErfolg": "2026-10-10T10:39:20.779Z"
   },
   "hackathonhub": {
    "ok": true,
-   "roh": 87,
+   "roh": 85,
    "verworfen": {},
-   "letzterErfolg": "2026-10-09T11:22:05.653Z"
+   "letzterErfolg": "2026-10-10T10:39:22.079Z"
   },
   "gdg": {
    "ok": true,
    "roh": 1000,
    "verworfen": {},
-   "letzterErfolg": "2026-10-09T11:22:13.927Z"
+   "letzterErfolg": "2026-10-10T10:39:29.538Z"
   },
   "munich-startup": {
    "ok": true,
-   "roh": 66,
+   "roh": 63,
    "verworfen": {},
-   "letzterErfolg": "2026-10-09T11:22:17.529Z"
+   "letzterErfolg": "2026-10-10T10:39:33.552Z"
   },
   "startplatz": {
    "ok": true,
-   "roh": 84,
+   "roh": 80,
    "verworfen": {},
-   "letzterErfolg": "2026-10-09T11:22:19.051Z"
+   "letzterErfolg": "2026-10-10T10:39:35.036Z"
   },
   "startupcity-hamburg": {
    "ok": true,
-   "roh": 45,
+   "roh": 43,
    "verworfen": {},
-   "letzterErfolg": "2026-10-09T11:22:19.718Z"
+   "letzterErfolg": "2026-10-10T10:39:36.108Z"
   },
   "startup-bw": {
    "ok": true,
-   "roh": 38,
+   "roh": 39,
    "verworfen": {
     "unlesbar": 1
    },
-   "letzterErfolg": "2026-10-09T11:22:20.706Z"
+   "letzterErfolg": "2026-10-10T10:39:37.109Z"
   },
   "starthub-hessen": {
    "ok": true,
    "roh": 37,
    "verworfen": {},
-   "letzterErfolg": "2026-10-09T11:22:26.521Z"
+   "letzterErfolg": "2026-10-10T10:39:42.800Z"
   },
   "startupverband": {
    "ok": true,
-   "roh": 62,
+   "roh": 63,
    "verworfen": {},
-   "letzterErfolg": "2026-10-09T11:22:28.031Z"
+   "letzterErfolg": "2026-10-10T10:39:44.860Z"
   },
   "dev-events": {
    "ok": true,
-   "roh": 95,
+   "roh": 96,
    "verworfen": {
-    "kein Gründer-/Tech-Bezug": 80
+    "kein Gründer-/Tech-Bezug": 81
    },
-   "letzterErfolg": "2026-10-09T11:22:30.726Z"
+   "letzterErfolg": "2026-10-10T10:39:48.107Z"
   },
   "ki-communities": {
    "ok": true,
    "roh": 52,
    "verworfen": {},
-   "letzterErfolg": "2026-10-09T11:22:40.650Z"
+   "letzterErfolg": "2026-10-10T10:39:57.394Z"
   }
  },
  "verworfen": {
   "mehr als 9 Monate voraus": 2,
   "vorbei": 44,
   "Dauerangebot (ohne Termin geführt)": 10,
-  "Serientermin zusammengefasst": 191,
+  "Serientermin zusammengefasst": 183,
   "Dublette über Quellen": 22
  },
- "anzahl": 695,
+ "anzahl": 688,
  "events": [
   {
    "slug": "gruendungswoche-a0kwx9",
@@ -183,21 +183,6 @@
    "entdeckt": "2026-10-07"
   },
   {
-   "slug": "gdg-15gfd6w",
-   "quelle": "gdg",
-   "name": "Join GDG Berlin Android at next.app devCon!",
-   "veranstalter": "GDG Berlin Android",
-   "art": "netzwerk",
-   "format": "vor-ort",
-   "ort": "Berlin",
-   "region": "BE",
-   "datum": "2026-10-07",
-   "datumBis": "2026-10-09",
-   "url": "https://gdg.community.dev/events/details/google-gdg-berlin-android-presents-join-gdg-berlin-android-at-nextapp-devcon/",
-   "kurz": "Event in Berlin – gelistet bei Google Developer Groups.",
-   "entdeckt": "2026-10-07"
-  },
-  {
    "slug": "startup-bw-ncbnsl",
    "quelle": "startup-bw",
    "name": "THE LÄND auf der Frankfurter Buchmesse 2026",
@@ -213,285 +198,6 @@
    "entdeckt": "2026-10-09"
   },
   {
-   "slug": "gruendungswoche-mx6c18",
-   "quelle": "gruendungswoche",
-   "name": "Get ready to Connect - Building Work Connections: Berufliche Chancen durch Unternehmenskontakte",
-   "veranstalter": "jumpp - Ihr Sprungbrett in die Selbständigkeit, Frauenbetriebe e. V.",
-   "art": "netzwerk",
-   "format": "vor-ort",
-   "ort": "Frankfurt am Main",
-   "region": "HE",
-   "datum": "2026-10-09",
-   "weitereTermine": 30,
-   "url": "https://www.gruendungswoche.de/veranstaltungen/veranstaltungskalender/detail/event/get-ready-to-connect-building-work-connections-berufliche-chancen-durch-unternehmenskontakte/",
-   "kurz": "Gründungsangebot von jumpp - Ihr Sprungbrett in die Selbständigkeit, Frauenbetriebe e. V. in Frankfurt am Main.",
-   "entdeckt": "2026-10-09"
-  },
-  {
-   "slug": "gruendungswoche-17zetxu",
-   "quelle": "gruendungswoche",
-   "name": "Von Content zu Kunden - Die Challenge",
-   "veranstalter": "dat stützwerk",
-   "art": "webinar",
-   "format": "online",
-   "ort": "online",
-   "region": "online",
-   "datum": "2026-10-09",
-   "url": "https://www.gruendungswoche.de/veranstaltungen/veranstaltungskalender/detail/event/von-content-zu-kunden-die-challenge/",
-   "kurz": "Veranstaltung von dat stützwerk – online.",
-   "entdeckt": "2026-10-09"
-  },
-  {
-   "slug": "luma-1ig9ios",
-   "quelle": "luma",
-   "name": "build fridays hamburg - work on your startup alongside others (bring laptop)",
-   "veranstalter": "AI BEAVERS",
-   "art": "netzwerk",
-   "format": "vor-ort",
-   "ort": "Hamburg",
-   "region": "HH",
-   "datum": "2026-10-09",
-   "kostenlos": true,
-   "url": "https://luma.com/t4hbpeev",
-   "kurz": "Event in Hamburg, gelistet auf Luma (AI BEAVERS).",
-   "weitereTermine": 4,
-   "entdeckt": "2026-10-07"
-  },
-  {
-   "slug": "luma-14qaxpy",
-   "quelle": "luma",
-   "name": "build fridays kiel - work on your startup alongside others (bring laptop)",
-   "veranstalter": "AI BEAVERS",
-   "art": "netzwerk",
-   "format": "vor-ort",
-   "ort": "Kiel",
-   "region": "SH",
-   "datum": "2026-10-09",
-   "kostenlos": true,
-   "url": "https://luma.com/da42bwzd",
-   "kurz": "Event in Kiel, gelistet auf Luma (AI BEAVERS).",
-   "entdeckt": "2026-10-07"
-  },
-  {
-   "slug": "luma-1412wal",
-   "quelle": "luma",
-   "name": "build fridays dortmund - work on your startup alongside others (bring laptop)",
-   "veranstalter": "AI BEAVERS",
-   "art": "netzwerk",
-   "format": "vor-ort",
-   "ort": "Dortmund",
-   "region": "NRW",
-   "datum": "2026-10-09",
-   "kostenlos": true,
-   "url": "https://luma.com/dp6d6zn1",
-   "kurz": "Event in Dortmund, gelistet auf Luma (AI BEAVERS).",
-   "entdeckt": "2026-10-07"
-  },
-  {
-   "slug": "luma-h8omge",
-   "quelle": "luma",
-   "name": "Kick-off Physical AI & Robotics",
-   "veranstalter": "KI Park",
-   "art": "netzwerk",
-   "format": "vor-ort",
-   "ort": "Landau an der Isar",
-   "region": "BY",
-   "datum": "2026-10-09",
-   "kostenlos": true,
-   "url": "https://luma.com/ofhdhwqa",
-   "kurz": "Event in Landau an der Isar, gelistet auf Luma (KI Park).",
-   "entdeckt": "2026-10-07"
-  },
-  {
-   "slug": "luma-1lamwsh",
-   "quelle": "luma",
-   "name": "Hands-On with Claude Code + Notion: Build Your AI Content System in 3 Hours ✍️",
-   "veranstalter": "Co-Work &",
-   "art": "build",
-   "format": "vor-ort",
-   "ort": "Berlin",
-   "region": "BE",
-   "datum": "2026-10-09",
-   "kostenlos": false,
-   "url": "https://luma.com/q20yt274",
-   "kurz": "Event in Berlin, gelistet auf Luma (Co-Work &).",
-   "entdeckt": "2026-10-07"
-  },
-  {
-   "slug": "meetup-1dkavbg",
-   "quelle": "meetup",
-   "name": "build fridays - work on your startup alongside other founders (bring laptop)",
-   "veranstalter": "AI BEAVERS | HAMBURG",
-   "art": "netzwerk",
-   "format": "vor-ort",
-   "ort": "Hamburg",
-   "region": "HH",
-   "datum": "2026-10-09",
-   "url": "https://www.meetup.com/ai-beavers/events/313931753/",
-   "kurz": "Treffen der Meetup-Gruppe AI BEAVERS | HAMBURG.",
-   "weitereTermine": 4,
-   "entdeckt": "2026-10-07"
-  },
-  {
-   "slug": "gdg-18vp4xe",
-   "quelle": "gdg",
-   "name": "AI-Managed Community: How We Organize a Community with AI",
-   "veranstalter": "GDG BGL",
-   "art": "netzwerk",
-   "format": "vor-ort",
-   "ort": "Freilassing",
-   "region": "bund",
-   "datum": "2026-10-09",
-   "url": "https://gdg.community.dev/events/details/google-gdg-bgl-presents-ai-managed-community-how-we-organize-a-community-with-ai/",
-   "kurz": "Event in Freilassing – gelistet bei Google Developer Groups.",
-   "entdeckt": "2026-10-07"
-  },
-  {
-   "slug": "gdg-1ccjjjq",
-   "quelle": "gdg",
-   "name": "GDG Saarbrücken, start of the new season",
-   "veranstalter": "GDG Saarbrücken",
-   "art": "netzwerk",
-   "format": "vor-ort",
-   "ort": "Saarbrucken",
-   "region": "bund",
-   "datum": "2026-10-09",
-   "url": "https://gdg.community.dev/events/details/google-gdg-saarbrucken-presents-gdg-saarbrucken-start-of-the-new-season/",
-   "kurz": "Event in Saarbrucken – gelistet bei Google Developer Groups.",
-   "entdeckt": "2026-10-07"
-  },
-  {
-   "slug": "munich-startup-pztbtn",
-   "quelle": "munich-startup",
-   "name": "BAND Deep Dive: Entscheidungen unter Unsicherheit – vom Pitch zur Beteiligung",
-   "veranstalter": "BAND",
-   "art": "netzwerk",
-   "format": "vor-ort",
-   "ort": "München",
-   "region": "BY",
-   "datum": "2026-10-09",
-   "url": "https://www.munich-startup.de/events/band-deep-dive-entscheidungen-unter-unsicherheit-vom-pitch-zur-beteiligung",
-   "kurz": "Event in München – gelistet bei Munich Startup.",
-   "entdeckt": "2026-10-07"
-  },
-  {
-   "slug": "munich-startup-26a0x3",
-   "quelle": "munich-startup",
-   "name": "Tutorial: Darlehensfinanzierung für Startups. Welche Beurteilungskriterien legt die Bank zugrunde?",
-   "veranstalter": "BayStartUP",
-   "art": "gruenderabend",
-   "format": "vor-ort",
-   "ort": "München",
-   "region": "BY",
-   "datum": "2026-10-09",
-   "url": "https://www.munich-startup.de/events/tutorial-darlehensfinanzierung-fuer-startups-welche-beurteilungskriterien-legt-die-bank-zugrunde",
-   "kurz": "Event in München – gelistet bei Munich Startup.",
-   "entdeckt": "2026-10-07"
-  },
-  {
-   "slug": "munich-startup-9j7czz",
-   "quelle": "munich-startup",
-   "name": "Gründerpokern im WERK1",
-   "veranstalter": "WERK1",
-   "art": "gruenderabend",
-   "format": "vor-ort",
-   "ort": "München",
-   "region": "BY",
-   "datum": "2026-10-09",
-   "datumBis": "2026-10-10",
-   "url": "https://www.munich-startup.de/events/gruenderpokern-im-werk1",
-   "kurz": "Event in München – gelistet bei Munich Startup.",
-   "entdeckt": "2026-10-07"
-  },
-  {
-   "slug": "startplatz-1vylb7v",
-   "quelle": "startplatz",
-   "name": "Open Coworking – powered by cozama",
-   "veranstalter": "STARTPLATZ",
-   "art": "netzwerk",
-   "format": "vor-ort",
-   "ort": "Köln",
-   "region": "NW",
-   "datum": "2026-10-09",
-   "url": "https://www.startplatz.de/event/open-coworking-koeln/2026-10-09",
-   "kurz": "Event in Köln – gelistet bei STARTPLATZ.",
-   "weitereTermine": 10,
-   "entdeckt": "2026-10-07"
-  },
-  {
-   "slug": "startplatz-1bgahqw",
-   "quelle": "startplatz",
-   "name": "Harness Engineering",
-   "veranstalter": "STARTPLATZ",
-   "art": "webinar",
-   "format": "online",
-   "ort": "online",
-   "region": "online",
-   "datum": "2026-10-09",
-   "url": "https://www.startplatz.de/event/harness-engineering-andre-machon-2026-10-09/",
-   "kurz": "Online-Event – gelistet bei STARTPLATZ.",
-   "entdeckt": "2026-10-07"
-  },
-  {
-   "slug": "startplatz-1h819ea",
-   "quelle": "startplatz",
-   "name": "AI Friday Düsseldorf: KI-Community & Networking",
-   "veranstalter": "STARTPLATZ",
-   "art": "netzwerk",
-   "format": "vor-ort",
-   "ort": "Düsseldorf",
-   "region": "NW",
-   "datum": "2026-10-09",
-   "url": "https://www.startplatz.de/event/ai-friday-ki-community-meetup-duesseldorf/2026-10-09",
-   "kurz": "Event in Düsseldorf – gelistet bei STARTPLATZ.",
-   "weitereTermine": 2,
-   "entdeckt": "2026-10-07"
-  },
-  {
-   "slug": "startplatz-1lzfa9r",
-   "quelle": "startplatz",
-   "name": "Founders Anonymous – powered by cozama",
-   "veranstalter": "STARTPLATZ",
-   "art": "netzwerk",
-   "format": "vor-ort",
-   "ort": "Köln",
-   "region": "NW",
-   "datum": "2026-10-09",
-   "url": "https://www.startplatz.de/event/founders-anonymous/2026-10-09",
-   "kurz": "Event in Köln – gelistet bei STARTPLATZ.",
-   "weitereTermine": 5,
-   "entdeckt": "2026-10-07"
-  },
-  {
-   "slug": "startupcity-hamburg-1ge4w99",
-   "quelle": "startupcity-hamburg",
-   "name": "Beiersdorf Connect 2026",
-   "veranstalter": "Startup City Hamburg",
-   "art": "netzwerk",
-   "format": "vor-ort",
-   "ort": "Hamburg",
-   "region": "HH",
-   "datum": "2026-10-09",
-   "url": "https://startupcity.hamburg/news-events/events/beiersdorf-connect-2026",
-   "kurz": "Event in Hamburg – gelistet bei Startup City Hamburg.",
-   "entdeckt": "2026-10-07"
-  },
-  {
-   "slug": "startupcity-hamburg-sv7h73",
-   "quelle": "startupcity-hamburg",
-   "name": "build fridays hamburg",
-   "veranstalter": "Startup City Hamburg",
-   "art": "netzwerk",
-   "format": "vor-ort",
-   "ort": "Hamburg",
-   "region": "HH",
-   "datum": "2026-10-09",
-   "url": "https://startupcity.hamburg/news-events/events/build-fridays-hamburg-9-10-26",
-   "kurz": "Event in Hamburg – gelistet bei Startup City Hamburg.",
-   "weitereTermine": 3,
-   "entdeckt": "2026-10-07"
-  },
-  {
    "slug": "luma-88card",
    "quelle": "luma",
    "name": "Founders Growth Lab - 1-Day Curated Program To Hack Your Performance As Founder or Operator",
@@ -504,52 +210,6 @@
    "kostenlos": false,
    "url": "https://luma.com/thedelta-auan",
    "kurz": "Event in Berlin, gelistet auf Luma (The Delta).",
-   "entdeckt": "2026-10-07"
-  },
-  {
-   "slug": "luma-1dcsvgx",
-   "quelle": "luma",
-   "name": "agentic coding studio",
-   "veranstalter": "Rodrigo R. Espitia",
-   "art": "netzwerk",
-   "format": "vor-ort",
-   "ort": "Hamburg",
-   "region": "HH",
-   "datum": "2026-10-10",
-   "kostenlos": true,
-   "url": "https://luma.com/j1lh1k3u",
-   "kurz": "Event in Hamburg, gelistet auf Luma.",
-   "weitereTermine": 1,
-   "entdeckt": "2026-10-07"
-  },
-  {
-   "slug": "luma-1421gnn",
-   "quelle": "luma",
-   "name": "Founders Running Club | Run + Networking",
-   "veranstalter": "Founders Running Club",
-   "art": "netzwerk",
-   "format": "vor-ort",
-   "ort": "Hamburg",
-   "region": "HH",
-   "datum": "2026-10-10",
-   "kostenlos": true,
-   "url": "https://luma.com/b8ne4gvw",
-   "kurz": "Event in Hamburg, gelistet auf Luma (Founders Running Club).",
-   "entdeckt": "2026-10-07"
-  },
-  {
-   "slug": "luma-1akxluk",
-   "quelle": "luma",
-   "name": "Founders Running Club :: Munich",
-   "veranstalter": "Founders Running Club",
-   "art": "netzwerk",
-   "format": "vor-ort",
-   "ort": "München",
-   "region": "BY",
-   "datum": "2026-10-10",
-   "kostenlos": true,
-   "url": "https://luma.com/r2ncxi15",
-   "kurz": "Event in München, gelistet auf Luma (Founders Running Club).",
    "entdeckt": "2026-10-07"
   },
   {
@@ -580,40 +240,22 @@
    "kostenlos": true,
    "url": "https://luma.com/7fzrbmox",
    "kurz": "Event in Karlsruhe, gelistet auf Luma (HACK//OPS).",
-   "weitereTermine": 1,
    "entdeckt": "2026-10-07"
   },
   {
-   "slug": "hackathonhub-hc4nt6",
-   "quelle": "hackathonhub",
-   "name": "MOBILE ROBOTICS HACKATHON 2026",
-   "veranstalter": "Deutsche Telekom Chair of Communication Networks",
-   "art": "hackathon",
+   "slug": "meetup-162mmjf",
+   "quelle": "meetup",
+   "name": "agentic coding studio",
+   "veranstalter": "AI BEAVERS | HAMBURG",
+   "art": "netzwerk",
    "format": "vor-ort",
-   "ort": "Dresden",
-   "region": "SN",
+   "ort": "Hamburg",
+   "region": "HH",
    "datum": "2026-10-10",
-   "datumBis": "2026-10-11",
-   "kostenlos": true,
-   "url": "https://hackathonhub.eu/events/mobile-robotics-hackathon-2026-dresden-2026",
-   "kurz": "This hands-on hackathon focuses on developing solutions for mobile robots. Participants will have the opportunity to build their own applications and implement innovative ideas. It is an in-person event in Dresden, surro",
-   "entdeckt": "2026-10-07"
-  },
-  {
-   "slug": "hackathonhub-1rjesjk",
-   "quelle": "hackathonhub",
-   "name": "VRS Hackathon 2026",
-   "veranstalter": "Ruhr Universität Bochum",
-   "art": "hackathon",
-   "format": "vor-ort",
-   "ort": "Bochum",
-   "region": "NW",
-   "datum": "2026-10-10",
-   "datumBis": "2026-10-12",
-   "kostenlos": true,
-   "url": "https://hackathonhub.eu/events/vrs-hackathon-2026-bochum-2026",
-   "kurz": "The VRS Hackathon 2026 is an upcoming tech event organized by Ruhr University Bochum, focusing on virtual reality and related technologies. Although the exact details regarding the theme, schedule, and registration are y",
-   "entdeckt": "2026-10-07"
+   "url": "https://www.meetup.com/ai-beavers/events/316633316/",
+   "kurz": "Treffen der Meetup-Gruppe AI BEAVERS | HAMBURG.",
+   "weitereTermine": 2,
+   "entdeckt": "2026-10-10"
   },
   {
    "slug": "startupcity-hamburg-svd6uh",
@@ -644,6 +286,21 @@
    "url": "https://www.startupbw.de/events-wettbewerbe/landesweiter-veranstaltungskalender/veranstaltung/save-the-date-pitch-der-kommunen",
    "kurz": "Event in Baden-Württemberg – gelistet bei Start-up BW.",
    "entdeckt": "2026-10-07"
+  },
+  {
+   "slug": "gruendungswoche-mx6c1w",
+   "quelle": "gruendungswoche",
+   "name": "Get ready to Connect - Building Work Connections: Berufliche Chancen durch Unternehmenskontakte",
+   "veranstalter": "jumpp - Ihr Sprungbrett in die Selbständigkeit, Frauenbetriebe e. V.",
+   "art": "netzwerk",
+   "format": "vor-ort",
+   "ort": "Frankfurt am Main",
+   "region": "HE",
+   "datum": "2026-10-12",
+   "weitereTermine": 28,
+   "url": "https://www.gruendungswoche.de/veranstaltungen/veranstaltungskalender/detail/event/get-ready-to-connect-building-work-connections-berufliche-chancen-durch-unternehmenskontakte/",
+   "kurz": "Gründungsangebot von jumpp - Ihr Sprungbrett in die Selbständigkeit, Frauenbetriebe e. V. in Frankfurt am Main.",
+   "entdeckt": "2026-10-10"
   },
   {
    "slug": "luma-cvu4qo",
@@ -1321,6 +978,21 @@
    "entdeckt": "2026-10-07"
   },
   {
+   "slug": "luma-fnc15f",
+   "quelle": "luma",
+   "name": "Foresight’s AI Salon: Matin Mahmood | Hyperbolic Embeddings and Jev for Search",
+   "veranstalter": "Foresight Institute Calendar",
+   "art": "netzwerk",
+   "format": "vor-ort",
+   "ort": "Berlin",
+   "region": "BE",
+   "datum": "2026-10-14",
+   "kostenlos": true,
+   "url": "https://luma.com/hyper3labs-salon",
+   "kurz": "Event in Berlin, gelistet auf Luma (Foresight Institute Calendar).",
+   "entdeckt": "2026-10-10"
+  },
+  {
    "slug": "luma-vctuov",
    "quelle": "luma",
    "name": "The FFX x FFB Climate Leaders Breakfast: Projects, Capital & Impact",
@@ -1665,9 +1337,23 @@
    "entdeckt": "2026-10-07"
   },
   {
-   "slug": "startup-bw-bz59pd",
+   "slug": "startup-bw-119jcms",
    "quelle": "startup-bw",
    "name": "DMW: Future Skills - Kompetenzen, die dein Business zukunftsfähig machen",
+   "veranstalter": "Start-up BW (Landeskalender)",
+   "art": "netzwerk",
+   "format": "vor-ort",
+   "ort": "Baden-Württemberg",
+   "region": "BW",
+   "datum": "2026-10-14",
+   "url": "https://www.startupbw.de/events-wettbewerbe/landesweiter-veranstaltungskalender/veranstaltung/16-ausgabe-der-startupcon-tuebingen",
+   "kurz": "Event in Baden-Württemberg – gelistet bei Start-up BW.",
+   "entdeckt": "2026-10-10"
+  },
+  {
+   "slug": "startup-bw-bz59pd",
+   "quelle": "startup-bw",
+   "name": "16. Ausgabe der Startup:con Tübingen",
    "veranstalter": "Start-up BW (Landeskalender)",
    "art": "netzwerk",
    "format": "vor-ort",
@@ -1840,7 +1526,7 @@
   {
    "slug": "luma-n2d9v0",
    "quelle": "luma",
-   "name": "Berlin Demo Dinner: Founders and Funders",
+   "name": "Founders & Funders: A Private Dinner in Berlin",
    "veranstalter": "Superteam Germany",
    "art": "netzwerk",
    "format": "vor-ort",
@@ -2174,6 +1860,22 @@
    "entdeckt": "2026-10-07"
   },
   {
+   "slug": "luma-185m82f",
+   "quelle": "luma",
+   "name": "build fridays hamburg - work on your startup alongside others (bring laptop)",
+   "veranstalter": "AI BEAVERS",
+   "art": "netzwerk",
+   "format": "vor-ort",
+   "ort": "Hamburg",
+   "region": "HH",
+   "datum": "2026-10-16",
+   "kostenlos": true,
+   "url": "https://luma.com/ywt0kolm",
+   "kurz": "Event in Hamburg, gelistet auf Luma (AI BEAVERS).",
+   "weitereTermine": 3,
+   "entdeckt": "2026-10-10"
+  },
+  {
    "slug": "luma-10kttuo",
    "quelle": "luma",
    "name": "NEBIUS Workshops on AI Inference, Physical AI & Post-Training ( part of Nebius Build Week)",
@@ -2263,20 +1965,19 @@
    "entdeckt": "2026-10-07"
   },
   {
-   "slug": "hackathonhub-1elq4bo",
-   "quelle": "hackathonhub",
-   "name": "Tax Tech Hackathon 2026",
-   "veranstalter": "RSM Ebner Stolz, Live & Learn Events by Fachmedien Otto Schmidt, PSP München",
-   "art": "hackathon",
+   "slug": "meetup-1jniia4",
+   "quelle": "meetup",
+   "name": "build fridays - work on your startup alongside other founders (bring laptop)",
+   "veranstalter": "AI BEAVERS | HAMBURG",
+   "art": "netzwerk",
    "format": "vor-ort",
-   "ort": "Frankfurt",
-   "region": "HE",
+   "ort": "Hamburg",
+   "region": "HH",
    "datum": "2026-10-16",
-   "datumBis": "2026-10-18",
-   "kostenlos": true,
-   "url": "https://hackathonhub.eu/events/tax-tech-hackathon-2026-frankfurt-2026",
-   "kurz": "The Tax Tech Hackathon is a three-day event focused on developing innovative solutions in the field of tax and finance. Participants can bring their own challenges or join existing ones to jointly develop prototypes or c",
-   "entdeckt": "2026-10-07"
+   "url": "https://www.meetup.com/ai-beavers/events/316723186/",
+   "kurz": "Treffen der Meetup-Gruppe AI BEAVERS | HAMBURG.",
+   "weitereTermine": 3,
+   "entdeckt": "2026-10-10"
   },
   {
    "slug": "hackathonhub-1mq7io1",
@@ -2292,6 +1993,22 @@
    "kostenlos": true,
    "url": "https://hackathonhub.eu/events/black-forest-hackathon-smart-automation-offenburg-2026",
    "kurz": "The Black Forest Hackathon \"Smart Automation\" is a hackathon that brings together visionary minds for 48 hours to develop innovative projects in the field of Smart Production. Participants can solve practical industrial ",
+   "entdeckt": "2026-10-07"
+  },
+  {
+   "slug": "hackathonhub-1elq4bo",
+   "quelle": "hackathonhub",
+   "name": "Tax Tech Hackathon 2026",
+   "veranstalter": "RSM Ebner Stolz, Live & Learn Events by Fachmedien Otto Schmidt, PSP München",
+   "art": "hackathon",
+   "format": "vor-ort",
+   "ort": "Frankfurt",
+   "region": "HE",
+   "datum": "2026-10-16",
+   "datumBis": "2026-10-18",
+   "kostenlos": true,
+   "url": "https://hackathonhub.eu/events/tax-tech-hackathon-2026-frankfurt-2026",
+   "kurz": "The Tax Tech Hackathon is a three-day event focused on developing innovative solutions in the field of tax and finance. Participants can bring their own challenges or join existing ones to jointly develop prototypes or c",
    "entdeckt": "2026-10-07"
   },
   {
@@ -2311,22 +2028,6 @@
    "entdeckt": "2026-10-07"
   },
   {
-   "slug": "hackathonhub-dixuxx",
-   "quelle": "hackathonhub",
-   "name": "Hinterland Hack",
-   "veranstalter": "Hinterland of Things",
-   "art": "hackathon",
-   "format": "vor-ort",
-   "ort": "Bielefeld",
-   "region": "NW",
-   "datum": "2026-10-16",
-   "datumBis": "2026-10-18",
-   "kostenlos": true,
-   "url": "https://hackathonhub.eu/events/hinterland-hackvdvdvdv-bielefeld-2026",
-   "kurz": "The Hinterland Hack is a 48-hour hackathon where 60 selected talents gather in Bielefeld to solve real industry challenges. Participants develop innovative solutions for leading companies and receive expert mentoring. Th",
-   "entdeckt": "2026-10-07"
-  },
-  {
    "slug": "hackathonhub-kfoati",
    "quelle": "hackathonhub",
    "name": "Qhack 2026",
@@ -2340,6 +2041,22 @@
    "kostenlos": true,
    "url": "https://hackathonhub.eu/events/qhack-2026-2026",
    "kurz": "Qhack 2026 is a world-renowned annual quantum coding competition powered by PennyLane. It targets hobbyists, students, and curious developers interested in hands-on quantum computing, machine learning, and quantum chemis",
+   "entdeckt": "2026-10-07"
+  },
+  {
+   "slug": "hackathonhub-dixuxx",
+   "quelle": "hackathonhub",
+   "name": "Hinterland Hack",
+   "veranstalter": "Hinterland of Things",
+   "art": "hackathon",
+   "format": "vor-ort",
+   "ort": "Bielefeld",
+   "region": "NW",
+   "datum": "2026-10-16",
+   "datumBis": "2026-10-18",
+   "kostenlos": true,
+   "url": "https://hackathonhub.eu/events/hinterland-hackvdvdvdv-bielefeld-2026",
+   "kurz": "The Hinterland Hack is a 48-hour hackathon where 60 selected talents gather in Bielefeld to solve real industry challenges. Participants develop innovative solutions for leading companies and receive expert mentoring. Th",
    "entdeckt": "2026-10-07"
   },
   {
@@ -2416,6 +2133,36 @@
    "entdeckt": "2026-10-07"
   },
   {
+   "slug": "startplatz-h6sls3",
+   "quelle": "startplatz",
+   "name": "Open Coworking – powered by cozama",
+   "veranstalter": "STARTPLATZ",
+   "art": "netzwerk",
+   "format": "vor-ort",
+   "ort": "Köln",
+   "region": "NW",
+   "datum": "2026-10-16",
+   "url": "https://www.startplatz.de/event/open-coworking-koeln/2026-10-16",
+   "kurz": "Event in Köln – gelistet bei STARTPLATZ.",
+   "weitereTermine": 9,
+   "entdeckt": "2026-10-10"
+  },
+  {
+   "slug": "startupcity-hamburg-jdt1il",
+   "quelle": "startupcity-hamburg",
+   "name": "build fridays hamburg",
+   "veranstalter": "Startup City Hamburg",
+   "art": "netzwerk",
+   "format": "vor-ort",
+   "ort": "Hamburg",
+   "region": "HH",
+   "datum": "2026-10-16",
+   "url": "https://startupcity.hamburg/news-events/events/build-fridays-hamburg-16-10-26",
+   "kurz": "Event in Hamburg – gelistet bei Startup City Hamburg.",
+   "weitereTermine": 2,
+   "entdeckt": "2026-10-10"
+  },
+  {
    "slug": "startup-bw-1yb6lwn",
    "quelle": "startup-bw",
    "name": "22. Frauenwirtschaftstage BW",
@@ -2473,6 +2220,36 @@
    "url": "https://luma.com/claude-oofc",
    "kurz": "Event in Berlin, gelistet auf Luma (Claude Community Events).",
    "entdeckt": "2026-10-07"
+  },
+  {
+   "slug": "luma-166j7qk",
+   "quelle": "luma",
+   "name": "SPECIAL: Founders Court x Founders Running Club | Run + Networking",
+   "veranstalter": "Founders Running Club",
+   "art": "netzwerk",
+   "format": "vor-ort",
+   "ort": "Hamburg",
+   "region": "HH",
+   "datum": "2026-10-17",
+   "kostenlos": true,
+   "url": "https://luma.com/wg3kdkae",
+   "kurz": "Event in Hamburg, gelistet auf Luma (Founders Running Club).",
+   "entdeckt": "2026-10-10"
+  },
+  {
+   "slug": "luma-1akxlur",
+   "quelle": "luma",
+   "name": "Founders Running Club :: Munich",
+   "veranstalter": "Founders Running Club",
+   "art": "netzwerk",
+   "format": "vor-ort",
+   "ort": "München",
+   "region": "BY",
+   "datum": "2026-10-17",
+   "kostenlos": true,
+   "url": "https://luma.com/r2ncxi15",
+   "kurz": "Event in München, gelistet auf Luma (Founders Running Club).",
+   "entdeckt": "2026-10-10"
   },
   {
    "slug": "hackathonhub-8yh8zs",
@@ -3846,6 +3623,21 @@
    "entdeckt": "2026-10-07"
   },
   {
+   "slug": "startplatz-rgxxdb",
+   "quelle": "startplatz",
+   "name": "Founders Anonymous – powered by cozama",
+   "veranstalter": "STARTPLATZ",
+   "art": "netzwerk",
+   "format": "vor-ort",
+   "ort": "Köln",
+   "region": "NW",
+   "datum": "2026-10-23",
+   "url": "https://www.startplatz.de/event/founders-anonymous/2026-10-23",
+   "kurz": "Event in Köln – gelistet bei STARTPLATZ.",
+   "weitereTermine": 4,
+   "entdeckt": "2026-10-10"
+  },
+  {
    "slug": "startupcity-hamburg-130q61r",
    "quelle": "startupcity-hamburg",
    "name": "From idea to business – your path to implementation Part 2",
@@ -3873,6 +3665,21 @@
    "url": "https://www.gruendungswoche.de/veranstaltungen/veranstaltungskalender/detail/event/existenzgruendungsseminar-kompakt-sicher-mit-gutem-gefuehl-starten/",
    "kurz": "Veranstaltung von gruenderberatungen.de in Weiterstadt.",
    "entdeckt": "2026-10-07"
+  },
+  {
+   "slug": "luma-1t1ok0o",
+   "quelle": "luma",
+   "name": "agentic coding studio",
+   "veranstalter": "Rodrigo R. Espitia",
+   "art": "netzwerk",
+   "format": "vor-ort",
+   "ort": "Hamburg",
+   "region": "HH",
+   "datum": "2026-10-24",
+   "kostenlos": true,
+   "url": "https://luma.com/m1doh0e1",
+   "kurz": "Event in Hamburg, gelistet auf Luma.",
+   "entdeckt": "2026-10-10"
   },
   {
    "slug": "luma-1a64nzu",
@@ -5068,6 +4875,20 @@
    "entdeckt": "2026-10-07"
   },
   {
+   "slug": "startupverband-7to6i",
+   "quelle": "startupverband",
+   "name": "Founders Circle RLP",
+   "veranstalter": "Startup-Verband",
+   "art": "netzwerk",
+   "format": "vor-ort",
+   "ort": "Mainz",
+   "region": "RP",
+   "datum": "2026-11-03",
+   "url": "https://www.startupverband.de/events/founderscirclerlp-03-11-2026",
+   "kurz": "Event in Mainz – gelistet bei Startup-Verband.",
+   "entdeckt": "2026-10-10"
+  },
+  {
    "slug": "gruendungswoche-5wbx23",
    "quelle": "gruendungswoche",
    "name": "NachfolgeStation",
@@ -5094,6 +4915,21 @@
    "url": "https://www.gruendungswoche.de/veranstaltungen/veranstaltungskalender/detail/event/11-gruendungsstammtisch-im-zukunftszentrum-develup/",
    "kurz": "Veranstaltung von Zukunftszentrum DeveLUP in Ludwigslust.",
    "entdeckt": "2026-10-07"
+  },
+  {
+   "slug": "luma-rx6c3q",
+   "quelle": "luma",
+   "name": "Berlin | Claude Conversation x Foresight Institute — Can AI help us solve science's hardest problems?",
+   "veranstalter": "Claude Community Events",
+   "art": "netzwerk",
+   "format": "vor-ort",
+   "ort": "Berlin",
+   "region": "BE",
+   "datum": "2026-11-04",
+   "kostenlos": true,
+   "url": "https://luma.com/claude-c8ht",
+   "kurz": "Event in Berlin, gelistet auf Luma (Claude Community Events).",
+   "entdeckt": "2026-10-10"
   },
   {
    "slug": "luma-102xxua",
@@ -5465,6 +5301,21 @@
    "entdeckt": "2026-10-07"
   },
   {
+   "slug": "luma-z0zhpp",
+   "quelle": "luma",
+   "name": "Berlin | Claude Impact Lab x Foresight Institute — AI Research Loops for Open Science Problems",
+   "veranstalter": "Claude Community Events",
+   "art": "netzwerk",
+   "format": "vor-ort",
+   "ort": "Berlin",
+   "region": "BE",
+   "datum": "2026-11-07",
+   "kostenlos": true,
+   "url": "https://luma.com/claude-wmbq",
+   "kurz": "Event in Berlin, gelistet auf Luma (Claude Community Events).",
+   "entdeckt": "2026-10-10"
+  },
+  {
    "slug": "hackathonhub-19pu8lv",
    "quelle": "hackathonhub",
    "name": "Guardians of the Earth – Space for Change",
@@ -5477,22 +5328,6 @@
    "url": "https://hackathonhub.eu/events/guardians-of-the-earth-space-for-change-bremerhaven-2026",
    "kurz": "The German Space Agency at DLR is organizing a school competition where students from 6th to 8th grades are challenged to develop creative ideas for climate and Earth protection. Based on the analysis of Earth observatio",
    "rhythmus": "laufendes Angebot bis 19. März 2027",
-   "entdeckt": "2026-10-07"
-  },
-  {
-   "slug": "hackathonhub-c5vz1x",
-   "quelle": "hackathonhub",
-   "name": "Saar Hackathon",
-   "veranstalter": "Saar Hackathon e.V.",
-   "art": "hackathon",
-   "format": "vor-ort",
-   "ort": "Saarbrücken",
-   "region": "SL",
-   "datum": "2026-11-07",
-   "datumBis": "2026-11-08",
-   "kostenlos": true,
-   "url": "https://hackathonhub.eu/events/saar-hackathon-saarbrucken-2026",
-   "kurz": "The Saar Hackathon is a two-day event that brings together programmers, designers, and other interested individuals to collaboratively develop solutions for social and sustainable problems. Participants work in teams on ",
    "entdeckt": "2026-10-07"
   },
   {
@@ -5509,6 +5344,22 @@
    "url": "https://hackathonhub.eu/events/cursor-x-sandbox-hackathon-stuttgart-stuttgart-2026",
    "kurz": "This one-day hackathon targets software founders and aspiring entrepreneurs to develop and implement startup ideas. Participants start with an idea and work on creating a functional product, a live landing page, and an i",
    "entdeckt": "2026-10-08"
+  },
+  {
+   "slug": "hackathonhub-c5vz1x",
+   "quelle": "hackathonhub",
+   "name": "Saar Hackathon",
+   "veranstalter": "Saar Hackathon e.V.",
+   "art": "hackathon",
+   "format": "vor-ort",
+   "ort": "Saarbrücken",
+   "region": "SL",
+   "datum": "2026-11-07",
+   "datumBis": "2026-11-08",
+   "kostenlos": true,
+   "url": "https://hackathonhub.eu/events/saar-hackathon-saarbrucken-2026",
+   "kurz": "The Saar Hackathon is a two-day event that brings together programmers, designers, and other interested individuals to collaboratively develop solutions for social and sustainable problems. Participants work in teams on ",
+   "entdeckt": "2026-10-07"
   },
   {
    "slug": "gdg-126dw24",
@@ -5971,6 +5822,21 @@
    "entdeckt": "2026-10-07"
   },
   {
+   "slug": "hackathonhub-fud4zy",
+   "quelle": "hackathonhub",
+   "name": "Miro Meetup Berlin: AI Buildathon",
+   "veranstalter": "Datentreiber",
+   "art": "hackathon",
+   "format": "vor-ort",
+   "ort": "Berlin",
+   "region": "BE",
+   "datum": "2026-11-12",
+   "kostenlos": true,
+   "url": "https://hackathonhub.eu/events/miro-meetup-berlin-ai-buildathon-berlin-2026",
+   "kurz": "This meetup in Berlin is an \"AI Buildathon\" where participants collaboratively develop an AI application using Miro AI. It targets innovation managers, product designers, and data & AI engineers. The goal is to demonstra",
+   "entdeckt": "2026-10-07"
+  },
+  {
    "slug": "hackathonhub-1bdksf",
    "quelle": "hackathonhub",
    "name": "Talent Excursion & Hackathon Experience",
@@ -5984,21 +5850,6 @@
    "kostenlos": true,
    "url": "https://hackathonhub.eu/events/talent-excursion-hackathon-experience-esslingen-2026",
    "kurz": "The Talent Excursion & Hackathon Experience is a unique event that combines a company excursion with two parallel hackathons taking place at Festo and Vector. Students of computer science, electrical engineering, and rel",
-   "entdeckt": "2026-10-07"
-  },
-  {
-   "slug": "hackathonhub-fud4zy",
-   "quelle": "hackathonhub",
-   "name": "Miro Meetup Berlin: AI Buildathon",
-   "veranstalter": "Datentreiber",
-   "art": "hackathon",
-   "format": "vor-ort",
-   "ort": "Berlin",
-   "region": "BE",
-   "datum": "2026-11-12",
-   "kostenlos": true,
-   "url": "https://hackathonhub.eu/events/miro-meetup-berlin-ai-buildathon-berlin-2026",
-   "kurz": "This meetup in Berlin is an \"AI Buildathon\" where participants collaboratively develop an AI application using Miro AI. It targets innovation managers, product designers, and data & AI engineers. The goal is to demonstra",
    "entdeckt": "2026-10-07"
   },
   {
@@ -6119,38 +5970,6 @@
    "entdeckt": "2026-10-07"
   },
   {
-   "slug": "hackathonhub-gigd3v",
-   "quelle": "hackathonhub",
-   "name": "HANSEATIC HACKATHON 2026",
-   "veranstalter": "Hanse Innovation Campus Lübeck",
-   "art": "hackathon",
-   "format": "vor-ort",
-   "ort": "Lübeck",
-   "region": "SH",
-   "datum": "2026-11-13",
-   "datumBis": "2026-11-14",
-   "kostenlos": true,
-   "url": "https://hackathonhub.eu/events/hanseatic-hackathon-2026-lubeck-2026",
-   "kurz": "The Hanseatic Hackathon 2026 is a 48-hour AI innovation competition in Northern Germany, bringing together interdisciplinary teams from companies, AI experts, and skilled professionals. Participants develop innovative so",
-   "entdeckt": "2026-10-07"
-  },
-  {
-   "slug": "hackathonhub-gsca7t",
-   "quelle": "hackathonhub",
-   "name": "Future City Hackathon 2026",
-   "veranstalter": "Hochschule Heilbronn, EUonAir",
-   "art": "hackathon",
-   "format": "vor-ort",
-   "ort": "Heilbronn",
-   "region": "BW",
-   "datum": "2026-11-13",
-   "datumBis": "2026-11-15",
-   "kostenlos": true,
-   "url": "https://hackathonhub.eu/events/future-city-hackathon-2026-heilbronn-2026",
-   "kurz": "Heilbronn University’s three-day Future City Hackathon 2026 invites participants to develop innovative solutions for sustainable, livable cities. Teams will use data and challenges provided by partner organizations to pr",
-   "entdeckt": "2026-10-07"
-  },
-  {
    "slug": "hackathonhub-vtqix2",
    "quelle": "hackathonhub",
    "name": "GreenBonn Hackathon 2026",
@@ -6183,6 +6002,54 @@
    "entdeckt": "2026-10-07"
   },
   {
+   "slug": "hackathonhub-gsca7t",
+   "quelle": "hackathonhub",
+   "name": "Future City Hackathon 2026",
+   "veranstalter": "Hochschule Heilbronn, EUonAir",
+   "art": "hackathon",
+   "format": "vor-ort",
+   "ort": "Heilbronn",
+   "region": "BW",
+   "datum": "2026-11-13",
+   "datumBis": "2026-11-15",
+   "kostenlos": true,
+   "url": "https://hackathonhub.eu/events/future-city-hackathon-2026-heilbronn-2026",
+   "kurz": "Heilbronn University’s three-day Future City Hackathon 2026 invites participants to develop innovative solutions for sustainable, livable cities. Teams will use data and challenges provided by partner organizations to pr",
+   "entdeckt": "2026-10-07"
+  },
+  {
+   "slug": "hackathonhub-gigd3v",
+   "quelle": "hackathonhub",
+   "name": "HANSEATIC HACKATHON 2026",
+   "veranstalter": "Hanse Innovation Campus Lübeck",
+   "art": "hackathon",
+   "format": "vor-ort",
+   "ort": "Lübeck",
+   "region": "SH",
+   "datum": "2026-11-13",
+   "datumBis": "2026-11-14",
+   "kostenlos": true,
+   "url": "https://hackathonhub.eu/events/hanseatic-hackathon-2026-lubeck-2026",
+   "kurz": "The Hanseatic Hackathon 2026 is a 48-hour AI innovation competition in Northern Germany, bringing together interdisciplinary teams from companies, AI experts, and skilled professionals. Participants develop innovative so",
+   "entdeckt": "2026-10-07"
+  },
+  {
+   "slug": "hackathonhub-15ljqd",
+   "quelle": "hackathonhub",
+   "name": "Franken Game Jam 2026 Würzburg",
+   "veranstalter": "Franken Game Jam",
+   "art": "hackathon",
+   "format": "vor-ort",
+   "ort": "Würzburg",
+   "region": "BY",
+   "datum": "2026-11-13",
+   "datumBis": "2026-11-15",
+   "kostenlos": false,
+   "url": "https://hackathonhub.eu/events/franken-game-jam-2026-wurzburg-wurzburg-2026",
+   "kurz": "The Franken Game Jam 2026 invites programmers, artists, sound designers, and storytellers to develop a game within 48 hours. This on-site event promises a weekend full of creativity and collaborative work. The games crea",
+   "entdeckt": "2026-10-07"
+  },
+  {
    "slug": "hackathonhub-119xdb9",
    "quelle": "hackathonhub",
    "name": "Franken Game Jam 2026 (Coburg)",
@@ -6212,22 +6079,6 @@
    "kostenlos": false,
    "url": "https://hackathonhub.eu/events/franken-game-jam-2026-nuremberg-nuremberg-2026",
    "kurz": "The Franken Game Jam is a 48-hour event where participants have the opportunity to develop a complete game. It is aimed at creative minds from all areas of game development, including programmers, artists, and storytelle",
-   "entdeckt": "2026-10-07"
-  },
-  {
-   "slug": "hackathonhub-15ljqd",
-   "quelle": "hackathonhub",
-   "name": "Franken Game Jam 2026 Würzburg",
-   "veranstalter": "Franken Game Jam",
-   "art": "hackathon",
-   "format": "vor-ort",
-   "ort": "Würzburg",
-   "region": "BY",
-   "datum": "2026-11-13",
-   "datumBis": "2026-11-15",
-   "kostenlos": false,
-   "url": "https://hackathonhub.eu/events/franken-game-jam-2026-wurzburg-wurzburg-2026",
-   "kurz": "The Franken Game Jam 2026 invites programmers, artists, sound designers, and storytellers to develop a game within 48 hours. This on-site event promises a weekend full of creativity and collaborative work. The games crea",
    "entdeckt": "2026-10-07"
   },
   {
@@ -6309,6 +6160,21 @@
    "entdeckt": "2026-10-07"
   },
   {
+   "slug": "startplatz-c7pz2a",
+   "quelle": "startplatz",
+   "name": "AI Friday Düsseldorf: KI-Community & Networking",
+   "veranstalter": "STARTPLATZ",
+   "art": "netzwerk",
+   "format": "vor-ort",
+   "ort": "Düsseldorf",
+   "region": "NW",
+   "datum": "2026-11-13",
+   "url": "https://www.startplatz.de/event/ai-friday-ki-community-meetup-duesseldorf/2026-11-13",
+   "kurz": "Event in Düsseldorf – gelistet bei STARTPLATZ.",
+   "weitereTermine": 1,
+   "entdeckt": "2026-10-10"
+  },
+  {
    "slug": "gruendungswoche-obm80o",
    "quelle": "gruendungswoche",
    "name": "Gut vorbereitet in die Zukunft: Ihre Betriebsnachfolge clever planen",
@@ -6337,6 +6203,22 @@
    "entdeckt": "2026-10-07"
   },
   {
+   "slug": "hackathonhub-19982ng",
+   "quelle": "hackathonhub",
+   "name": "NASA Space Apps Challenge Berlin 2026",
+   "veranstalter": "NASA",
+   "art": "hackathon",
+   "format": "vor-ort",
+   "ort": "Berlin",
+   "region": "BE",
+   "datum": "2026-11-14",
+   "datumBis": "2026-11-15",
+   "kostenlos": true,
+   "url": "https://hackathonhub.eu/events/nasa-space-apps-challenge-berlin-2026-berlin-2026",
+   "kurz": "The NASA International Space Apps Challenge is a global hackathon where participants use NASA and partner data to tackle real-world challenges related to space and Earth. Teams collaborate over a weekend to develop innov",
+   "entdeckt": "2026-10-07"
+  },
+  {
    "slug": "hackathonhub-3sb2i4",
    "quelle": "hackathonhub",
    "name": "NASA Space Apps Challenge Ahlen 2026",
@@ -6349,6 +6231,22 @@
    "datumBis": "2026-11-15",
    "kostenlos": true,
    "url": "https://hackathonhub.eu/events/nasa-space-apps-challenge-ahlen-2026-ahlen-2026",
+   "kurz": "The NASA International Space Apps Challenge is a global hackathon where participants use NASA and partner data to tackle real-world challenges related to space and Earth. Teams collaborate over a weekend to develop innov",
+   "entdeckt": "2026-10-07"
+  },
+  {
+   "slug": "hackathonhub-1fcpne4",
+   "quelle": "hackathonhub",
+   "name": "NASA Space Apps Challenge Hamburg 2026",
+   "veranstalter": "NASA",
+   "art": "hackathon",
+   "format": "vor-ort",
+   "ort": "Hamburg",
+   "region": "HH",
+   "datum": "2026-11-14",
+   "datumBis": "2026-11-15",
+   "kostenlos": true,
+   "url": "https://hackathonhub.eu/events/nasa-space-apps-challenge-hamburg-2026-hamburg-2026",
    "kurz": "The NASA International Space Apps Challenge is a global hackathon where participants use NASA and partner data to tackle real-world challenges related to space and Earth. Teams collaborate over a weekend to develop innov",
    "entdeckt": "2026-10-07"
   },
@@ -6385,22 +6283,6 @@
    "entdeckt": "2026-10-07"
   },
   {
-   "slug": "hackathonhub-1fcpne4",
-   "quelle": "hackathonhub",
-   "name": "NASA Space Apps Challenge Hamburg 2026",
-   "veranstalter": "NASA",
-   "art": "hackathon",
-   "format": "vor-ort",
-   "ort": "Hamburg",
-   "region": "HH",
-   "datum": "2026-11-14",
-   "datumBis": "2026-11-15",
-   "kostenlos": true,
-   "url": "https://hackathonhub.eu/events/nasa-space-apps-challenge-hamburg-2026-hamburg-2026",
-   "kurz": "The NASA International Space Apps Challenge is a global hackathon where participants use NASA and partner data to tackle real-world challenges related to space and Earth. Teams collaborate over a weekend to develop innov",
-   "entdeckt": "2026-10-07"
-  },
-  {
    "slug": "hackathonhub-qb71cc",
    "quelle": "hackathonhub",
    "name": "NASA Space Apps Challenge Heilbronn 2026",
@@ -6413,22 +6295,6 @@
    "datumBis": "2026-11-15",
    "kostenlos": true,
    "url": "https://hackathonhub.eu/events/nasa-space-apps-challenge-heilbronn-2026-heilbronn-2026",
-   "kurz": "The NASA International Space Apps Challenge is a global hackathon where participants use NASA and partner data to tackle real-world challenges related to space and Earth. Teams collaborate over a weekend to develop innov",
-   "entdeckt": "2026-10-07"
-  },
-  {
-   "slug": "hackathonhub-19982ng",
-   "quelle": "hackathonhub",
-   "name": "NASA Space Apps Challenge Berlin 2026",
-   "veranstalter": "NASA",
-   "art": "hackathon",
-   "format": "vor-ort",
-   "ort": "Berlin",
-   "region": "BE",
-   "datum": "2026-11-14",
-   "datumBis": "2026-11-15",
-   "kostenlos": true,
-   "url": "https://hackathonhub.eu/events/nasa-space-apps-challenge-berlin-2026-berlin-2026",
    "kurz": "The NASA International Space Apps Challenge is a global hackathon where participants use NASA and partner data to tackle real-world challenges related to space and Earth. Teams collaborate over a weekend to develop innov",
    "entdeckt": "2026-10-07"
   },
@@ -8868,6 +8734,22 @@
    "entdeckt": "2026-10-07"
   },
   {
+   "slug": "luma-336y6d",
+   "quelle": "luma",
+   "name": "ROBOTICS X AI - HACKLAB",
+   "veranstalter": "Hacklab",
+   "art": "hackathon",
+   "format": "vor-ort",
+   "ort": "Berlin",
+   "region": "BE",
+   "datum": "2026-11-21",
+   "datumBis": "2026-11-22",
+   "kostenlos": true,
+   "url": "https://luma.com/h0mcaqio",
+   "kurz": "Event in Berlin, gelistet auf Luma (Hacklab).",
+   "entdeckt": "2026-10-10"
+  },
+  {
    "slug": "hackathonhub-13jw2oc",
    "quelle": "hackathonhub",
    "name": "DevFest Münster 2026 | Agentic AI Hackathon",
@@ -9083,6 +8965,22 @@
    "url": "https://luma.com/g1nwa9oa",
    "kurz": "Event in Frankfurt am Main, gelistet auf Luma.",
    "entdeckt": "2026-10-07"
+  },
+  {
+   "slug": "hackathonhub-enhojq",
+   "quelle": "hackathonhub",
+   "name": "Future Health Hackathon",
+   "veranstalter": "AOK Neckar-Fils, HfWU Nürtingen-Geislingen",
+   "art": "hackathon",
+   "format": "vor-ort",
+   "ort": "Göppingen",
+   "region": "bund",
+   "datum": "2026-11-25",
+   "datumBis": "2026-11-27",
+   "kostenlos": true,
+   "url": "https://hackathonhub.eu/events/future-health-hackathon-goppingen-2026",
+   "kurz": "The Future Health Hackathon unites creative minds from technology and healthcare to shape tomorrow's digital health care using agentic AI. Over 48 hours, real healthcare challenges are addressed, and prototypes are devel",
+   "entdeckt": "2026-10-10"
   },
   {
    "slug": "munich-startup-11z025p",
@@ -9327,19 +9225,19 @@
    "entdeckt": "2026-10-07"
   },
   {
-   "slug": "hackathonhub-u39z8o",
+   "slug": "hackathonhub-1xodtmp",
    "quelle": "hackathonhub",
-   "name": "European Defense Tech Hackathon - Berlin",
-   "veranstalter": "European Defense Tech Hub",
+   "name": "hackaTUM",
+   "veranstalter": "Department of Computer Science at the Technical University of Munich",
    "art": "hackathon",
    "format": "vor-ort",
-   "ort": "Berlin",
-   "region": "BE",
+   "ort": "München",
+   "region": "BY",
    "datum": "2026-11-27",
    "datumBis": "2026-11-29",
    "kostenlos": true,
-   "url": "https://hackathonhub.eu/events/european-defense-tech-hackathon-berlin-berlin-2026-2",
-   "kurz": "The European Defense Tech Hackathon brings together over 200 hackers from across Europe to accelerate innovation in defense technology. Its goal is to bridge gaps between technologists, the public sector, investors, and ",
+   "url": "https://hackathonhub.eu/events/hackatum-munich-2026",
+   "kurz": "hackaTUM is the official hackathon of the Department of Computer Science at the Technical University of Munich, and is one of the largest events of its kind in the EU. During this three-day event, motivated participants ",
    "entdeckt": "2026-10-07"
   },
   {
@@ -9359,35 +9257,19 @@
    "entdeckt": "2026-10-07"
   },
   {
-   "slug": "hackathonhub-1xodtmp",
+   "slug": "hackathonhub-u39z8o",
    "quelle": "hackathonhub",
-   "name": "hackaTUM",
-   "veranstalter": "Department of Computer Science at the Technical University of Munich",
+   "name": "European Defense Tech Hackathon - Berlin",
+   "veranstalter": "European Defense Tech Hub",
    "art": "hackathon",
    "format": "vor-ort",
-   "ort": "München",
-   "region": "BY",
+   "ort": "Berlin",
+   "region": "BE",
    "datum": "2026-11-27",
    "datumBis": "2026-11-29",
    "kostenlos": true,
-   "url": "https://hackathonhub.eu/events/hackatum-munich-2026",
-   "kurz": "hackaTUM is the official hackathon of the Department of Computer Science at the Technical University of Munich, and is one of the largest events of its kind in the EU. During this three-day event, motivated participants ",
-   "entdeckt": "2026-10-07"
-  },
-  {
-   "slug": "hackathonhub-1twzodf",
-   "quelle": "hackathonhub",
-   "name": "12th CASSINI Hackathon",
-   "veranstalter": "CESAH (im Auftrag von EUSPA)",
-   "art": "hackathon",
-   "format": "vor-ort",
-   "ort": "Darmstadt",
-   "region": "HE",
-   "datum": "2026-11-27",
-   "datumBis": "2026-11-29",
-   "kostenlos": true,
-   "url": "https://hackathonhub.eu/events/12th-cassini-hackathon-darmstadt-2026",
-   "kurz": "The 12th CASSINI Hackathon invites participants to develop solutions for safety and security in Europe using space data over an intensive 48 hours. The event offers expert mentoring, workshops, and social activities to s",
+   "url": "https://hackathonhub.eu/events/european-defense-tech-hackathon-berlin-berlin-2026-2",
+   "kurz": "The European Defense Tech Hackathon brings together over 200 hackers from across Europe to accelerate innovation in defense technology. Its goal is to bridge gaps between technologists, the public sector, investors, and ",
    "entdeckt": "2026-10-07"
   },
   {
@@ -9404,6 +9286,22 @@
    "kostenlos": true,
    "url": "https://hackathonhub.eu/events/ai-thon-2-0-dusseldorf-2026",
    "kurz": "CGI's AI-Thon 2.0 is a 36-hour hackathon where students from all over Germany develop innovative AI applications for real-world business challenges. Participants can test their skills in a secure and GDPR-compliant cloud",
+   "entdeckt": "2026-10-07"
+  },
+  {
+   "slug": "hackathonhub-1twzodf",
+   "quelle": "hackathonhub",
+   "name": "12th CASSINI Hackathon",
+   "veranstalter": "CESAH (im Auftrag von EUSPA)",
+   "art": "hackathon",
+   "format": "vor-ort",
+   "ort": "Darmstadt",
+   "region": "HE",
+   "datum": "2026-11-27",
+   "datumBis": "2026-11-29",
+   "kostenlos": true,
+   "url": "https://hackathonhub.eu/events/12th-cassini-hackathon-darmstadt-2026",
+   "kurz": "The 12th CASSINI Hackathon invites participants to develop solutions for safety and security in Europe using space data over an intensive 48 hours. The event offers expert mentoring, workshops, and social activities to s",
    "entdeckt": "2026-10-07"
   },
   {
