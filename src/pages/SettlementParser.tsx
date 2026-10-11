@@ -1,8 +1,23 @@
 import { useState, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import CockpitShell from "@/components/cockpit/CockpitShell";
-import { Label } from "@/components/ui/label";
-import { Upload, Download, AlertTriangle, CheckCircle2, Package, CreditCard, FileText } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Callout, ChoiceGroup, EmptyState, Field, KitTable, StatGrid, StatTile, ToolSection } from "@/components/cockpit/kit";
+import { cn } from "@/lib/utils";
+import {
+  Upload,
+  Download,
+  CheckCircle2,
+  Package,
+  CreditCard,
+  FileText,
+  FileUp,
+  FileSpreadsheet,
+  FlaskConical,
+  Layers,
+  ListTree,
+  Play,
+} from "lucide-react";
 import { lookupAmazonCode } from "@/lib/amazonBookingCodes";
 
 type Mode = "amazon" | "stripe";
@@ -468,75 +483,67 @@ const SettlementParser = () => {
     URL.revokeObjectURL(url);
   };
 
+  const eur = (n: number) => Math.round(n).toLocaleString("de-DE");
+  const ladeDemo = () => {
+    const demo = mode === "amazon" ? AMAZON_DEMO_CSV : STRIPE_DEMO_CSV;
+    setCsvText(demo);
+    parseCsv(demo);
+  };
+
   return (
     <CockpitShell
-      eyebrow="Settlement-Parser"
+      eyebrow="Buchhaltung · Settlement-Parser"
       title={mode === "amazon" ? "Amazon-Settlement-Parser" : "Stripe-Payout-Parser"}
       subtitle={
         mode === "amazon"
-          ? "CSV-Upload eines Amazon-Settlement-Berichts → automatisch aufgesplittet pro Fee-Typ + SKR03/04-Mapping. Nutzt die 130+ Codes aus dem Amazon-Buchungstexte-Tool."
-          : "Stripe-Payout-CSV → automatisch aufgesplittet (Verkäufe, Fees, Refunds, Chargebacks, Trinkgelder, Auszahlungen) + SKR03/04-Mapping."
+          ? "Lade den Settlement-Bericht aus Seller Central hoch: Jede Zeile wird nach Gebührenart aufgeteilt und mit einem SKR03/04-Konto versehen. Grundlage sind die 130+ Codes aus dem Amazon-Buchungstexte-Tool."
+          : "Lade den Stripe-Payout-Export hoch: Verkäufe, Gebühren, Erstattungen, Chargebacks, Trinkgelder und Auszahlungen werden getrennt und mit SKR03/04-Konten versehen."
       }
     >
-      {/* Mode Toggle */}
-      <div className="flex gap-2 mb-6">
-        <button
-          onClick={() => switchMode("amazon")}
-          className={`inline-flex items-center gap-1 rounded-full px-4 py-2 text-xs font-semibold transition-colors ${
-            mode === "amazon"
-              ? "bg-accent-blue text-primary-foreground"
-              : "bg-secondary text-muted-foreground hover:bg-secondary/80"
-          }`}
-        >
-          <Package className="h-3.5 w-3.5" /> Amazon
-        </button>
-        <button
-          onClick={() => switchMode("stripe")}
-          className={`inline-flex items-center gap-1 rounded-full px-4 py-2 text-xs font-semibold transition-colors ${
-            mode === "stripe"
-              ? "bg-accent-blue text-primary-foreground"
-              : "bg-secondary text-muted-foreground hover:bg-secondary/80"
-          }`}
-        >
-          <CreditCard className="h-3.5 w-3.5" /> Stripe
-        </button>
-      </div>
+      <ChoiceGroup
+        className="mb-6"
+        label="Quelle wählen"
+        value={mode}
+        onChange={switchMode}
+        options={[
+          { value: "amazon", label: <span className="inline-flex items-center gap-2"><Package className="h-4 w-4" aria-hidden="true" /> Amazon-Settlement</span> },
+          { value: "stripe", label: <span className="inline-flex items-center gap-2"><CreditCard className="h-4 w-4" aria-hidden="true" /> Stripe-Payout</span> },
+        ]}
+      />
 
       {/* Upload */}
-      <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5 mb-6">
-        <div className="flex items-center gap-2 mb-3">
-          <Upload className="h-4 w-4 text-accent-blue" />
-          <h3 className="font-bold text-sm">
-            {mode === "amazon" ? "Amazon-Settlement-CSV" : "Stripe-Payout-CSV"} hochladen
-          </h3>
-        </div>
-        <div className="text-xs text-muted-foreground mb-3 leading-relaxed">
-          {mode === "amazon" ? (
-            <>
-              <strong>Wo CSV finden:</strong> Seller Central → Reports → Payments → All Statements → Settlement Report
-              herunterladen (Format: Flat-File). Spalten: transaction-type, amount-description, amount, posted-date,
-              currency, etc.
-            </>
-          ) : (
-            <>
-              <strong>Wo CSV finden:</strong> Stripe Dashboard → Payments → Payouts → CSV Export. Oder Reports → All
-              transactions → Export.
-            </>
-          )}
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Datei wählen</Label>
-            <input
-              type="file"
-              accept=".csv,.tsv,.txt"
-              onChange={onFile}
-              className="mt-1 block w-full text-xs text-muted-foreground file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:bg-accent-blue file:text-primary-foreground file:font-semibold hover:file:opacity-90"
-            />
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Oder CSV-Text einfügen</Label>
+      <ToolSection
+        className="mb-6"
+        icon={Upload}
+        title={`${mode === "amazon" ? "Amazon-Settlement-CSV" : "Stripe-Payout-CSV"} hochladen`}
+        description={
+          mode === "amazon"
+            ? "Seller Central → Berichte → Zahlungen → Alle Abrechnungen → Settlement-Bericht als Flat-File herunterladen. Benötigte Spalten: transaction-type, amount-description, amount, posted-date, currency."
+            : "Stripe Dashboard → Zahlungen → Auszahlungen → CSV-Export. Ausführlicher: Berichte → Alle Transaktionen → Export."
+        }
+        actions={
+          <Button variant="outline" size="sm" onClick={ladeDemo}>
+            <FlaskConical aria-hidden="true" /> Demo-CSV laden
+          </Button>
+        }
+      >
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+          <Field label="Datei wählen" htmlFor="sp-file" hint="Die Datei wird nur in deinem Browser ausgewertet.">
+            <label
+              htmlFor="sp-file"
+              className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-border bg-secondary/30 px-4 py-6 text-center transition-colors hover:border-accent-blue/40 hover:bg-accent/50"
+            >
+              <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent text-accent-blue">
+                <FileUp className="h-5 w-5" aria-hidden="true" />
+              </span>
+              <span className="text-sm font-medium">Datei auswählen</span>
+              <span className="text-xs text-muted-foreground">CSV, TSV oder TXT</span>
+              <input id="sp-file" type="file" accept=".csv,.tsv,.txt" onChange={onFile} className="sr-only" />
+            </label>
+          </Field>
+          <Field label="Oder CSV-Text einfügen" htmlFor="sp-text" hint="Wird beim Verlassen des Feldes automatisch ausgewertet.">
             <textarea
+              id="sp-text"
               value={csvText}
               onChange={(e) => setCsvText(e.target.value)}
               onBlur={() => csvText && parseCsv(csvText)}
@@ -545,202 +552,170 @@ const SettlementParser = () => {
                   ? "settlement-id,transaction-type,amount-description,amount,..."
                   : "id,type,amount,fee,net,currency,available_on,..."
               }
-              className="mt-1 w-full h-20 rounded-md border border-input bg-background px-3 py-2 text-xs font-mono"
+              className="h-[8.25rem] w-full rounded-md border border-input bg-card px-3 py-2 font-mono text-xs shadow-[0_1px_2px_hsl(var(--primary)/0.04)] transition-[border-color,box-shadow] focus:border-ring focus:outline-none focus:ring-[3px] focus:ring-ring/25"
             />
-          </div>
+          </Field>
         </div>
-        <div className="mt-3 flex flex-wrap items-center gap-2">
-          {csvText && (
-            <button
-              onClick={() => parseCsv(csvText)}
-              className="inline-flex items-center gap-1 rounded-lg bg-accent-blue text-primary-foreground px-4 py-2 text-xs font-semibold hover:opacity-90"
-            >
-              CSV parsen
-            </button>
-          )}
-          <button
-            onClick={() => {
-              const demo = mode === "amazon" ? AMAZON_DEMO_CSV : STRIPE_DEMO_CSV;
-              setCsvText(demo);
-              parseCsv(demo);
-            }}
-            className="inline-flex items-center gap-1 rounded-lg border border-dashed border-accent-blue/40 bg-accent-blue/5 text-accent-blue px-3 py-2 text-xs font-semibold hover:bg-accent-blue/10"
-          >
-            🧪 Demo-CSV laden (zum Testen)
-          </button>
-        </div>
-        {error && (
-          <div className="rounded-xl border border-red-500/30 bg-red-500/5 p-3 text-xs text-red-600 mt-3">
-            <AlertTriangle className="h-3 w-3 inline mr-1" /> {error}
+        {csvText && (
+          <div className="mt-4 flex flex-wrap gap-2">
+            <Button onClick={() => parseCsv(csvText)}>
+              <Play aria-hidden="true" /> CSV auswerten
+            </Button>
           </div>
         )}
-      </div>
+        {error && (
+          <Callout tone="danger" title="Die CSV konnte nicht gelesen werden" className="mt-4">
+            {error}
+          </Callout>
+        )}
+      </ToolSection>
 
       {/* Results */}
-      {rows.length > 0 && (
+      {rows.length > 0 ? (
         <>
-          {/* Summary */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6">
-            <div className="rounded-2xl border border-border bg-card p-4">
-              <div className="text-[10px] uppercase tracking-wider text-muted-foreground mb-1">Anzahl Zeilen</div>
-              <div className="text-xl font-bold">{rows.length}</div>
-            </div>
-            <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/5 p-4">
-              <div className="text-[10px] uppercase tracking-wider text-emerald-700 mb-1">Plus-Beträge</div>
-              <div className="text-xl font-bold text-emerald-700">+{Math.round(totalIn).toLocaleString("de-DE")} €</div>
-            </div>
-            <div className="rounded-2xl border border-red-500/30 bg-red-500/5 p-4">
-              <div className="text-[10px] uppercase tracking-wider text-red-700 mb-1">Minus-Beträge</div>
-              <div className="text-xl font-bold text-red-700">{Math.round(totalOut).toLocaleString("de-DE")} €</div>
-            </div>
-          </div>
+          <StatGrid cols={3} className="mb-6">
+            <StatTile label="Zeilen erkannt" value={rows.length.toLocaleString("de-DE")} />
+            <StatTile label="Summe Gutschriften" value={`+${eur(totalIn)} €`} tone="success" emphasis />
+            <StatTile label="Summe Belastungen" value={`${eur(totalOut)} €`} tone="danger" emphasis />
+          </StatGrid>
 
-          {/* Aggregat per Category */}
-          <div className="rounded-2xl border border-border bg-card p-5 mb-6">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="font-bold text-sm">Aggregat nach Kategorie</h3>
-              <button
-                onClick={exportSummary}
-                className="inline-flex items-center gap-1 rounded-lg border border-border px-3 py-1.5 text-xs hover:bg-secondary"
-              >
-                <Download className="h-3.5 w-3.5" /> Summary CSV
-              </button>
-            </div>
-            <div className="overflow-x-auto">
-            <table className="w-full text-xs">
+          <ToolSection
+            className="mb-6"
+            icon={Layers}
+            title="Summen nach Kategorie"
+            description="Sortiert nach Betrag. Der Export enthält zusätzlich die SKR03- und SKR04-Konten."
+            actions={
+              <Button variant="outline" size="sm" onClick={exportSummary}>
+                <Download aria-hidden="true" /> Zusammenfassung als CSV
+              </Button>
+            }
+          >
+            <KitTable caption="Summen nach Kategorie">
               <thead>
-                <tr className="border-b border-border">
-                  <th className="text-left py-2 pr-2">Kategorie</th>
-                  <th className="text-right py-2 px-2">Anzahl</th>
-                  <th className="text-right py-2 pl-2">Summe</th>
+                <tr>
+                  <th>Kategorie</th>
+                  <th className="!text-right">Anzahl</th>
+                  <th className="!text-right">Summe</th>
                 </tr>
               </thead>
               <tbody>
                 {summary.map((s) => (
-                  <tr key={s.category} className="border-b border-border last:border-0">
-                    <td className="py-2 pr-2 font-semibold">{s.category}</td>
-                    <td className="py-2 px-2 text-right text-muted-foreground">{s.count}</td>
-                    <td
-                      className={`py-2 pl-2 text-right font-mono font-semibold ${
-                        s.sum >= 0 ? "text-emerald-700" : "text-red-700"
-                      }`}
-                    >
+                  <tr key={s.category}>
+                    <td className="font-medium">{s.category}</td>
+                    <td className="text-right text-muted-foreground">{s.count}</td>
+                    <td className={cn("whitespace-nowrap text-right font-semibold", s.sum >= 0 ? "text-success" : "text-danger")}>
                       {s.sum >= 0 ? "+" : ""}
-                      {Math.round(s.sum).toLocaleString("de-DE")} €
+                      {eur(s.sum)} €
                     </td>
                   </tr>
                 ))}
               </tbody>
-            </table>
-            </div>
-          </div>
+            </KitTable>
+          </ToolSection>
 
-          {/* Detail-Liste (max 100) */}
-          <div className="rounded-2xl border border-border bg-card p-5 mb-6">
-            <h3 className="font-bold text-sm mb-3">Zeilen-Detail (Top 100)</h3>
-            <div className="overflow-x-auto">
-              <table className="w-full text-[11px]">
-                <thead>
-                  <tr className="border-b border-border">
-                    <th className="text-left py-2 pr-2">Datum</th>
-                    <th className="text-left py-2 px-2">Type</th>
-                    <th className="text-left py-2 px-2">Kategorie</th>
-                    <th className="text-left py-2 px-2">SKR03</th>
-                    <th className="text-right py-2 pl-2">Betrag</th>
+          <ToolSection
+            className="mb-6"
+            icon={ListTree}
+            title="Einzelzeilen"
+            description={rows.length > 100 ? "Die ersten 100 Zeilen. Für die vollständige Liste die Zusammenfassung exportieren." : "Alle Zeilen mit vorgeschlagenem SKR03-Konto."}
+          >
+            <KitTable caption="Einzelzeilen des Berichts" className="max-h-[520px] overflow-y-auto">
+              <thead className="sticky top-0">
+                <tr>
+                  <th>Datum</th>
+                  <th>Typ</th>
+                  <th>Kategorie</th>
+                  <th>SKR03</th>
+                  <th className="!text-right">Betrag</th>
+                </tr>
+              </thead>
+              <tbody>
+                {rows.slice(0, 100).map((r, i) => (
+                  <tr key={i}>
+                    <td className="whitespace-nowrap text-muted-foreground">{r.date?.slice(0, 10) || "n/a"}</td>
+                    <td className="font-mono text-xs">{r.type}</td>
+                    <td>{r.category}</td>
+                    <td className="text-xs text-muted-foreground">{r.skr03 || "n/a"}</td>
+                    <td className={cn("whitespace-nowrap text-right font-medium", r.amount >= 0 ? "text-success" : "text-danger")}>
+                      {r.amount >= 0 ? "+" : ""}
+                      {r.amount.toFixed(2)} {r.currency || "€"}
+                    </td>
                   </tr>
-                </thead>
-                <tbody>
-                  {rows.slice(0, 100).map((r, i) => (
-                    <tr key={i} className="border-b border-border last:border-0">
-                      <td className="py-1.5 pr-2 text-muted-foreground font-mono text-[10px]">
-                        {r.date?.slice(0, 10) || "—"}
-                      </td>
-                      <td className="py-1.5 px-2 font-mono text-[10px]">{r.type}</td>
-                      <td className="py-1.5 px-2">{r.category}</td>
-                      <td className="py-1.5 px-2 text-muted-foreground text-[10px]">{r.skr03 || "—"}</td>
-                      <td
-                        className={`py-1.5 pl-2 text-right font-mono ${
-                          r.amount >= 0 ? "text-emerald-700" : "text-red-700"
-                        }`}
-                      >
-                        {r.amount >= 0 ? "+" : ""}
-                        {r.amount.toFixed(2)} {r.currency || "€"}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                ))}
+              </tbody>
+            </KitTable>
             {rows.length > 100 && (
-              <div className="text-[11px] text-muted-foreground mt-2">
-                +{rows.length - 100} weitere Zeilen — exportiere CSV für vollständige Liste
-              </div>
+              <p className="mt-3 text-xs text-muted-foreground tabular">
+                {rows.length - 100} Zeilen mehr, im CSV-Export vollständig enthalten.
+              </p>
             )}
-          </div>
+          </ToolSection>
         </>
+      ) : (
+        <EmptyState
+          className="mb-6"
+          icon={FileSpreadsheet}
+          title="Noch kein Bericht ausgewertet"
+          description={
+            mode === "amazon"
+              ? "Lade deinen Settlement-Bericht hoch oder probiere es mit der Demo-CSV. Danach siehst du Summen je Gebührenart und die passenden Konten."
+              : "Lade deinen Payout-Export hoch oder probiere es mit der Demo-CSV. Danach siehst du Summen je Kategorie und die passenden Konten."
+          }
+          action={
+            <Button variant="outline" onClick={ladeDemo}>
+              <FlaskConical aria-hidden="true" /> Demo-CSV laden
+            </Button>
+          }
+        />
       )}
 
       {/* Tipps */}
-      <div className="rounded-2xl border border-border bg-card p-4 text-xs leading-relaxed">
-        <div className="flex items-start gap-2">
-          <FileText className="h-4 w-4 text-accent-blue shrink-0 mt-0.5" />
-          <div>
-            <div className="font-semibold mb-1">
-              {mode === "amazon" ? "Amazon-Settlement-Workflow" : "Stripe-Payout-Workflow"}:
-            </div>
-            <ul className="list-disc pl-4 space-y-1 text-muted-foreground">
-              {mode === "amazon" ? (
-                <>
-                  <li>
-                    <strong>Wann CSV ziehen:</strong> nach jedem Settlement (alle 14 Tage Payout) — komplette
-                    Historie unter Reports → Payments
-                  </li>
-                  <li>
-                    <strong>Mapping:</strong> nutzt die 130+ Codes aus dem{" "}
-                    <a href="/cockpit/amazon-buchungen" className="text-accent-blue underline">
-                      Amazon-Buchungstexte-Tool
-                    </a>{" "}
-                    automatisch (AMA-SG-DE, AMA-BG-DE, FBAFees, MZNFS, AUSZ-DE, etc.)
-                  </li>
-                  <li>
-                    <strong>Alternative für Auto-Sync:</strong> PayJoe / Amainvoice / Easybill verbinden Amazon
-                    direkt mit Lexoffice/sevDesk
-                  </li>
-                </>
-              ) : (
-                <>
-                  <li>
-                    <strong>Wann CSV ziehen:</strong> Stripe Dashboard → Payouts → letzten Monat exportieren
-                  </li>
-                  <li>
-                    <strong>Stripe-Sicht:</strong> Reports → All transactions ist umfangreicher (zeigt auch
-                    Disputes, Refunds-Details)
-                  </li>
-                  <li>
-                    <strong>Stripe Tax:</strong> wenn aktiviert, ist USt automatisch dabei → bei Buchung 1:1
-                    übernehmen
-                  </li>
-                  <li>
-                    <strong>Direkt-Integration:</strong> Lexoffice, sevDesk haben Stripe-Connector — automatisches
-                    Sync ohne CSV
-                  </li>
-                </>
-              )}
-              <li>
-                <strong>SKR03/04-Mapping:</strong> Tool gibt Empfehlung — final mit StB klären, da Sonderfälle
-                (z.B. Mahnungen, Cashback) individuell zu buchen
-              </li>
-              <li>
-                <strong>USt-Behandlung:</strong> Verkäufe + 19 % USt-Default. OSS-Anteil bei EU-B2C separat. Bei
-                US-/Drittland: Reverse-Charge oder steuerfreie Ausfuhr.
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
+      <ToolSection icon={FileText} title={mode === "amazon" ? "Amazon-Settlement: so gehst du vor" : "Stripe-Payout: so gehst du vor"}>
+        <ul className="space-y-2.5 text-sm leading-relaxed text-muted-foreground">
+          {mode === "amazon" ? (
+            <>
+              <Tipp titel="Wann CSV ziehen">
+                Nach jedem Settlement (Auszahlung alle 14 Tage). Die komplette Historie liegt unter Berichte → Zahlungen.
+              </Tipp>
+              <Tipp titel="Zuordnung">
+                Nutzt automatisch die 130+ Codes aus dem{" "}
+                <a href="/cockpit/amazon-buchungen" className="font-medium text-accent-blue hover:underline">
+                  Amazon-Buchungstexte-Tool
+                </a>{" "}
+                (AMA-SG-DE, AMA-BG-DE, FBAFees, MZNFS, AUSZ-DE usw.).
+              </Tipp>
+              <Tipp titel="Automatischer Abgleich">
+                PayJoe, Amainvoice oder Easybill verbinden Amazon direkt mit Lexoffice oder sevDesk.
+              </Tipp>
+            </>
+          ) : (
+            <>
+              <Tipp titel="Wann CSV ziehen">Stripe Dashboard → Auszahlungen → letzten Monat exportieren.</Tipp>
+              <Tipp titel="Ausführlichere Sicht">Berichte → Alle Transaktionen zeigt auch Disputes und Details zu Erstattungen.</Tipp>
+              <Tipp titel="Stripe Tax">Wenn aktiviert, ist die USt automatisch enthalten und wird 1:1 übernommen.</Tipp>
+              <Tipp titel="Direkt-Integration">Lexoffice und sevDesk haben einen Stripe-Connector, der ohne CSV synchronisiert.</Tipp>
+            </>
+          )}
+          <Tipp titel="SKR03/04-Konten">
+            Das Tool gibt eine Empfehlung. Sonderfälle (z.B. Mahnungen, Cashback) final mit deiner Steuerberatung klären.
+          </Tipp>
+          <Tipp titel="Umsatzsteuer">
+            Verkäufe standardmäßig mit 19 % USt. OSS-Anteil bei EU-B2C separat. Bei US/Drittland: Reverse-Charge oder steuerfreie Ausfuhr.
+          </Tipp>
+        </ul>
+      </ToolSection>
     </CockpitShell>
   );
 };
+
+const Tipp = ({ titel, children }: { titel: string; children: React.ReactNode }) => (
+  <li className="flex gap-2.5">
+    <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-accent-blue" aria-hidden="true" />
+    <span>
+      <strong className="font-medium text-foreground">{titel}:</strong> {children}
+    </span>
+  </li>
+);
 
 // ============================================================
 // Demo-CSVs für Self-Test — realistische Beispiele inkl. Edge-Cases
