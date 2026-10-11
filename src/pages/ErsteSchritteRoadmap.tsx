@@ -7,24 +7,42 @@
  * Status-Tracking pro Aufgabe (offen / in arbeit / erledigt) via localStorage.
  * Fortschritts-Bar pro Phase + Gesamt-Fortschritt.
  */
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ElementType } from "react";
 import { Link } from "react-router-dom";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import Stand2026Footer from "@/components/cockpit/Stand2026Footer";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
 import {
-  Lightbulb,
+  ChoiceGroup,
+  EmptyState,
+  Field,
+  ResultPanel,
+  ToneBadge,
+  ToolLayout,
+  ToolSection,
+  selectCls,
+  toneSoft,
+  toneText,
+  type Tone,
+} from "@/components/cockpit/kit";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import {
+  ArrowRight,
+  CalendarDays,
+  CalendarRange,
   CheckCircle2,
+  ChevronDown,
   Circle,
   Clock,
   ExternalLink,
   ChevronRight,
+  Flag,
   RotateCcw,
   Filter,
   HelpCircle,
+  Rocket,
   Target,
+  Wallet,
 } from "lucide-react";
 import {
   ROADMAP_TASKS,
@@ -127,117 +145,133 @@ const ErsteSchritteRoadmap = () => {
     return { total, done, laufend, prozent: total > 0 ? (done / total) * 100 : 0, proPhase };
   }, [relevantTasks, status]);
 
+
   return (
     <CockpitShell
       eyebrow="🌱 Erste Schritte · für komplette Anfänger:innen"
       title="Erste-Schritte-Roadmap (T0/T30/T60/T90)"
-      subtitle="Personalisierte Timeline mit 15-25 Pflicht- und Soll-Aufgaben für die ersten 90 Tage deiner Selbstständigkeit. Setup-Fragen klären deine Situation, dann werden nur relevante Aufgaben angezeigt. Status-Tracking lokal im Browser."
+      subtitle="Personalisierte Timeline mit 15 bis 25 Pflicht- und Soll-Aufgaben für die ersten 90 Tage deiner Selbstständigkeit. Die Setup-Fragen klären deine Situation, danach siehst du nur relevante Aufgaben. Der Status bleibt lokal in deinem Browser."
     >
       <BeginnerHero />
 
-      {/* === Setup === */}
-      <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5 mb-4">
-        <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
-          <Target className="h-4 w-4 text-accent-blue" /> Setup — wer bist du? (5 Fragen)
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <div>
-            <Label className="text-xs">Rechtsform</Label>
-            <select value={setup.rechtsform} onChange={(e) => updateSetup("rechtsform", e.target.value as Rechtsform)} className="mt-1 h-10 w-full rounded-md border border-input bg-background px-3 text-sm">
-              <option value="freiberuf">Freiberufler (§18 EStG)</option>
-              <option value="einzel-gewerbe">Einzel-Gewerbe</option>
-              <option value="gbr">GbR</option>
-              <option value="ug-gmbh">UG / GmbH</option>
-            </select>
-          </div>
-          <div>
-            <Label className="text-xs">USt-Status</Label>
-            <select value={setup.ustStatus} onChange={(e) => updateSetup("ustStatus", e.target.value as UstStatus)} className="mt-1 h-10 w-full rounded-md border border-input bg-background px-3 text-sm">
-              <option value="ku">Kleinunternehmer §19 UStG (keine USt)</option>
-              <option value="regel">Regelbesteuerung (mit USt)</option>
-              <option value="unsicher">Noch unsicher</option>
-            </select>
-          </div>
-          <label className="flex items-center gap-2 text-xs cursor-pointer rounded-lg border border-border p-3">
-            <input type="checkbox" checked={setup.bereitsAngemeldet} onChange={(e) => updateSetup("bereitsAngemeldet", e.target.checked)} className="h-4 w-4" />
-            <div>
-              <strong>Bereits angemeldet?</strong>
-              <div className="text-[10px] text-muted-foreground">Gewerbe + FA-Anmeldung schon durch</div>
+      <ToolLayout
+        className="mb-8"
+        inputs={
+          /* === Setup === */
+          <ToolSection title="Setup: wer bist du? (5 Fragen)" icon={Target}>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <Field label="Rechtsform" htmlFor="rm-rechtsform">
+                <select id="rm-rechtsform" value={setup.rechtsform} onChange={(e) => updateSetup("rechtsform", e.target.value as Rechtsform)} className={selectCls}>
+                  <option value="freiberuf">Freiberufler (§18 EStG)</option>
+                  <option value="einzel-gewerbe">Einzel-Gewerbe</option>
+                  <option value="gbr">GbR</option>
+                  <option value="ug-gmbh">UG / GmbH</option>
+                </select>
+              </Field>
+              <Field label="USt-Status" htmlFor="rm-ust">
+                <select id="rm-ust" value={setup.ustStatus} onChange={(e) => updateSetup("ustStatus", e.target.value as UstStatus)} className={selectCls}>
+                  <option value="ku">Kleinunternehmer §19 UStG (keine USt)</option>
+                  <option value="regel">Regelbesteuerung (mit USt)</option>
+                  <option value="unsicher">Noch unsicher</option>
+                </select>
+              </Field>
+              <CheckKarte
+                checked={setup.bereitsAngemeldet}
+                onChange={(v) => updateSetup("bereitsAngemeldet", v)}
+                titel="Bereits angemeldet?"
+                hinweis="Gewerbe + FA-Anmeldung schon durch"
+              />
+              <CheckKarte
+                checked={setup.b2b}
+                onChange={(v) => updateSetup("b2b", v)}
+                titel="B2B-Geschäft?"
+                hinweis="Verkauf an Unternehmen / nicht nur Endkunden"
+              />
+              <CheckKarte
+                checked={setup.euGeschaeft}
+                onChange={(v) => updateSetup("euGeschaeft", v)}
+                titel="EU-Geschäft?"
+                hinweis="Kunden in EU-Ausland (B2B oder B2C)"
+              />
+              <CheckKarte
+                checked={setup.mitarbeiter}
+                onChange={(v) => updateSetup("mitarbeiter", v)}
+                titel="Mitarbeiter?"
+                hinweis="Plant Minijob/Festanstellung in 90 Tagen"
+              />
             </div>
-          </label>
-          <label className="flex items-center gap-2 text-xs cursor-pointer rounded-lg border border-border p-3">
-            <input type="checkbox" checked={setup.b2b} onChange={(e) => updateSetup("b2b", e.target.checked)} className="h-4 w-4" />
-            <div>
-              <strong>B2B-Geschäft?</strong>
-              <div className="text-[10px] text-muted-foreground">Verkauf an Unternehmen / nicht nur Endkunden</div>
+          </ToolSection>
+        }
+        result={
+          /* === Fortschritt === */
+          <ResultPanel
+            variant="ink"
+            kicker="Fortschritt"
+            title={`${Math.round(fortschritt.prozent)} % erledigt`}
+            value={
+              <>
+                {fortschritt.done} / {fortschritt.total}
+              </>
+            }
+            valueHint="Aufgaben erledigt"
+            actions={
+              <Button
+                onClick={resetStatus}
+                variant="outline"
+                size="sm"
+                className="border-white/20 bg-white/10 text-primary-foreground hover:border-white/30 hover:bg-white/15"
+              >
+                <RotateCcw aria-hidden="true" /> Status zurücksetzen
+              </Button>
+            }
+          >
+            <div className="h-2 overflow-hidden rounded-full bg-white/10" aria-hidden="true">
+              <div className="h-full rounded-full bg-brand-green transition-all" style={{ width: `${fortschritt.prozent}%` }} />
             </div>
-          </label>
-          <label className="flex items-center gap-2 text-xs cursor-pointer rounded-lg border border-border p-3">
-            <input type="checkbox" checked={setup.euGeschaeft} onChange={(e) => updateSetup("euGeschaeft", e.target.checked)} className="h-4 w-4" />
-            <div>
-              <strong>EU-Geschäft?</strong>
-              <div className="text-[10px] text-muted-foreground">Kunden in EU-Ausland (B2B oder B2C)</div>
+            <div className="mt-4 grid grid-cols-2 gap-px overflow-hidden rounded-xl bg-white/10">
+              {(["T0", "T30", "T60", "T90"] as Phase[]).map((p) => (
+                <div key={p} className="bg-white/[0.04] p-3">
+                  <div className="text-xs text-primary-foreground/65">{PHASE_LABELS[p].titel.split(":")[0]}</div>
+                  <div className="mt-0.5 font-semibold text-primary-foreground tabular">
+                    {fortschritt.proPhase[p].done} / {fortschritt.proPhase[p].total}
+                  </div>
+                  <div className="mt-1.5 h-1 overflow-hidden rounded-full bg-white/10">
+                    <div className="h-full rounded-full bg-brand-green" style={{ width: `${fortschritt.proPhase[p].total > 0 ? (fortschritt.proPhase[p].done / fortschritt.proPhase[p].total) * 100 : 0}%` }} />
+                  </div>
+                </div>
+              ))}
             </div>
-          </label>
-          <label className="flex items-center gap-2 text-xs cursor-pointer rounded-lg border border-border p-3">
-            <input type="checkbox" checked={setup.mitarbeiter} onChange={(e) => updateSetup("mitarbeiter", e.target.checked)} className="h-4 w-4" />
-            <div>
-              <strong>Mitarbeiter?</strong>
-              <div className="text-[10px] text-muted-foreground">Plant Minijob/Festanstellung in 90 Tagen</div>
-            </div>
-          </label>
-        </div>
-      </div>
-
-      {/* === Fortschritt-Hero === */}
-      <div className="rounded-2xl border-2 border-accent-blue/40 bg-gradient-to-br from-accent-blue/10 via-card to-card p-5 mb-4">
-        <div className="flex items-center justify-between flex-wrap gap-3 mb-3">
-          <div>
-            <div className="text-xs uppercase tracking-wider text-muted-foreground">Fortschritt</div>
-            <div className="text-3xl font-bold text-emerald-700">
-              {fortschritt.done} / {fortschritt.total}
-              <span className="text-base text-muted-foreground ml-2">Aufgaben erledigt ({Math.round(fortschritt.prozent)} %)</span>
-            </div>
-          </div>
-          <Button onClick={resetStatus} variant="outline" size="sm">
-            <RotateCcw className="h-4 w-4 mr-1" /> Status zurücksetzen
-          </Button>
-        </div>
-        <div className="h-3 rounded-full bg-secondary overflow-hidden mb-3">
-          <div className="h-full bg-emerald-500 transition-all" style={{ width: `${fortschritt.prozent}%` }} />
-        </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
-          {(["T0", "T30", "T60", "T90"] as Phase[]).map((p) => (
-            <div key={p} className="rounded-lg bg-secondary/40 p-2">
-              <div className="text-[10px] uppercase text-muted-foreground">{PHASE_LABELS[p].titel.split(":")[0]}</div>
-              <div className="font-mono font-semibold">{fortschritt.proPhase[p].done} / {fortschritt.proPhase[p].total}</div>
-              <div className="h-1 rounded-full bg-secondary mt-1 overflow-hidden">
-                <div className="h-full bg-emerald-500" style={{ width: `${fortschritt.proPhase[p].total > 0 ? (fortschritt.proPhase[p].done / fortschritt.proPhase[p].total) * 100 : 0}%` }} />
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+            {fortschritt.laufend > 0 && (
+              <p className="mt-3 text-sm text-primary-foreground/70">
+                <span className="tabular">{fortschritt.laufend}</span> {fortschritt.laufend === 1 ? "Aufgabe" : "Aufgaben"} in Arbeit
+              </p>
+            )}
+          </ResultPanel>
+        }
+      />
 
       {/* === Filter === */}
-      <div className="rounded-2xl border border-border bg-card p-3 mb-4 flex flex-wrap items-center gap-2">
-        <Filter className="h-4 w-4 text-muted-foreground" />
-        <span className="text-xs text-muted-foreground">Filter:</span>
-        <select value={filterPflicht} onChange={(e) => setFilterPflicht(e.target.value as Pflicht | "alle")} className="h-8 rounded-md border border-input bg-background px-2 text-xs">
-          <option value="alle">Alle Pflicht-Stufen</option>
-          <option value="muss">Nur MUSS</option>
-          <option value="soll">Nur SOLL</option>
-          <option value="kann">Nur KANN</option>
-        </select>
-        <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value as TaskStatus | "alle")} className="h-8 rounded-md border border-input bg-background px-2 text-xs">
-          <option value="alle">Alle Status</option>
-          <option value="offen">Nur offen</option>
-          <option value="laufend">Nur in Arbeit</option>
-          <option value="erledigt">Nur erledigt</option>
-        </select>
-        <div className="text-xs text-muted-foreground ml-auto">
-          {filtered.length} von {relevantTasks.length} sichtbar
-        </div>
+      <div className="mb-6 flex flex-wrap items-end gap-3 rounded-2xl border border-border bg-card p-4 shadow-card">
+        <Field label="Pflicht-Stufe" htmlFor="rm-f-pflicht" className="min-w-[180px] flex-1 sm:flex-none">
+          <select id="rm-f-pflicht" value={filterPflicht} onChange={(e) => setFilterPflicht(e.target.value as Pflicht | "alle")} className={selectCls}>
+            <option value="alle">Alle Pflicht-Stufen</option>
+            <option value="muss">Nur MUSS</option>
+            <option value="soll">Nur SOLL</option>
+            <option value="kann">Nur KANN</option>
+          </select>
+        </Field>
+        <Field label="Status" htmlFor="rm-f-status" className="min-w-[180px] flex-1 sm:flex-none">
+          <select id="rm-f-status" value={filterStatus} onChange={(e) => setFilterStatus(e.target.value as TaskStatus | "alle")} className={selectCls}>
+            <option value="alle">Alle Status</option>
+            <option value="offen">Nur offen</option>
+            <option value="laufend">Nur in Arbeit</option>
+            <option value="erledigt">Nur erledigt</option>
+          </select>
+        </Field>
+        <p className="flex items-center gap-1.5 pb-2.5 text-sm text-muted-foreground sm:ml-auto">
+          <Filter className="h-4 w-4" aria-hidden="true" />
+          <span className="tabular">{filtered.length} von {relevantTasks.length} sichtbar</span>
+        </p>
       </div>
 
       {/* === Phasen-Listen === */}
@@ -246,25 +280,33 @@ const ErsteSchritteRoadmap = () => {
       ))}
 
       {filtered.length === 0 && (
-        <div className="rounded-2xl border border-border bg-card p-8 text-center text-sm text-muted-foreground">
-          Keine Aufgaben matchen den aktuellen Filter. Filter zurücksetzen oder Setup anpassen.
-        </div>
+        <EmptyState
+          icon={Filter}
+          className="mb-6"
+          title="Keine Aufgaben passen zum Filter"
+          description="Ändere die Filter oben oder passe dein Setup an."
+        />
       )}
 
       {/* === Cross-Links === */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mt-6 mb-6">
-        <Link to="/cockpit/gewerbeanmeldung-wizard" className="rounded-xl border border-border bg-card p-3 text-xs hover:border-accent-blue transition">
-          <div className="font-semibold mb-0.5">Gewerbeanmeldung-Wizard (Tool 10) →</div>
-          <div className="text-muted-foreground">GewA1-Vorbereitung</div>
-        </Link>
-        <Link to="/cockpit/stb-cost-benefit" className="rounded-xl border border-border bg-card p-3 text-xs hover:border-accent-blue transition">
-          <div className="font-semibold mb-0.5">StB Cost-Benefit (Tool 7) →</div>
-          <div className="text-muted-foreground">DIY oder Steuerberater?</div>
-        </Link>
-        <Link to="/cockpit/rechnungs-generator" className="rounded-xl border border-border bg-card p-3 text-xs hover:border-accent-blue transition">
-          <div className="font-semibold mb-0.5">Rechnungs-Generator (Tool 9) →</div>
-          <div className="text-muted-foreground">Erste §14-Rechnung</div>
-        </Link>
+      <div className="mb-6 mt-8 grid grid-cols-1 gap-3 md:grid-cols-3">
+        {[
+          { to: "/cockpit/gewerbeanmeldung-wizard", t: "Gewerbeanmeldung-Wizard", d: "GewA1-Vorbereitung" },
+          { to: "/cockpit/stb-cost-benefit", t: "Steuerberater: Kosten und Nutzen", d: "DIY oder Steuerberater?" },
+          { to: "/cockpit/rechnungs-generator", t: "Rechnungs-Generator", d: "Erste §14-Rechnung" },
+        ].map((l) => (
+          <Link
+            key={l.to}
+            to={l.to}
+            className="group flex items-center justify-between gap-3 rounded-xl border border-border bg-card p-4 shadow-card transition-colors hover:border-accent-blue/40"
+          >
+            <span>
+              <span className="block text-sm font-semibold">{l.t}</span>
+              <span className="mt-0.5 block text-sm text-muted-foreground">{l.d}</span>
+            </span>
+            <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-accent-blue" aria-hidden="true" />
+          </Link>
+        ))}
       </div>
 
       <Glossar />
@@ -283,6 +325,34 @@ const ErsteSchritteRoadmap = () => {
 };
 
 // ============================================================================
+// Setup-Checkbox als Karte
+// ============================================================================
+const CheckKarte = ({ checked, onChange, titel, hinweis }: {
+  checked: boolean;
+  onChange: (v: boolean) => void;
+  titel: string;
+  hinweis: string;
+}) => (
+  <label
+    className={cn(
+      "flex cursor-pointer items-start gap-3 rounded-xl border p-3.5 transition-colors",
+      checked ? "border-accent-blue/40 bg-accent" : "border-border bg-card hover:border-foreground/25",
+    )}
+  >
+    <input
+      type="checkbox"
+      checked={checked}
+      onChange={(e) => onChange(e.target.checked)}
+      className="mt-0.5 h-4 w-4 shrink-0 accent-[hsl(var(--accent-blue))]"
+    />
+    <span className="text-sm">
+      <span className="block font-medium">{titel}</span>
+      <span className="mt-0.5 block text-muted-foreground">{hinweis}</span>
+    </span>
+  </label>
+);
+
+// ============================================================================
 // Phase-Section
 // ============================================================================
 const PhaseSection = ({ phase, tasks, status, onCycle, onSetStatus }: {
@@ -294,25 +364,42 @@ const PhaseSection = ({ phase, tasks, status, onCycle, onSetStatus }: {
 }) => {
   if (tasks.length === 0) return null;
   const labels = PHASE_LABELS[phase];
+  const erledigt = tasks.filter((t) => status[t.id] === "erledigt").length;
 
   return (
-    <div className="mb-4">
-      <div className="flex items-baseline gap-2 mb-2 px-1">
-        <h3 className="font-bold text-base">{labels.titel}</h3>
-        <span className="text-xs text-muted-foreground">— {labels.subtitel}</span>
-      </div>
-      <div className="space-y-2">
+    <ToolSection
+      title={labels.titel}
+      description={labels.subtitel}
+      icon={PHASE_ICON[phase]}
+      className="mb-6"
+      bodyClassName="p-3 md:p-4"
+      actions={
+        <span className="text-sm text-muted-foreground tabular">
+          {erledigt} von {tasks.length} erledigt
+        </span>
+      }
+    >
+      <ul className="space-y-2">
         {tasks.map((task) => (
           <TaskCard key={task.id} task={task} status={status[task.id] || "offen"} onCycle={() => onCycle(task.id)} onSetStatus={onSetStatus} />
         ))}
-      </div>
-    </div>
+      </ul>
+    </ToolSection>
   );
 };
+
+const PHASE_ICON: Record<Phase, ElementType> = { T0: Flag, T30: CalendarDays, T60: CalendarRange, T90: Rocket };
 
 // ============================================================================
 // Task-Card
 // ============================================================================
+const PFLICHT: Record<Pflicht, { label: string; tone: Tone }> = {
+  muss: { label: "Muss", tone: "danger" },
+  soll: { label: "Soll", tone: "warning" },
+  kann: { label: "Kann", tone: "info" },
+};
+const STATUS_LABEL: Record<TaskStatus, string> = { offen: "Offen", laufend: "In Arbeit", erledigt: "Erledigt" };
+
 const TaskCard = ({ task, status, onCycle, onSetStatus }: {
   task: RoadmapTask;
   status: TaskStatus;
@@ -320,82 +407,86 @@ const TaskCard = ({ task, status, onCycle, onSetStatus }: {
   onSetStatus: (id: string, s: TaskStatus) => void;
 }) => {
   const [expanded, setExpanded] = useState(false);
-
-  const pflichtFarbe = task.pflicht === "muss" ? "text-red-700 bg-red-500/10 border-red-500/30"
-    : task.pflicht === "soll" ? "text-amber-700 bg-amber-500/10 border-amber-500/30"
-    : "text-blue-700 bg-blue-500/10 border-blue-500/30";
-
-  const phaseColor = task.phase === "T0" ? "bg-accent-blue/20 text-accent-blue"
-    : task.phase === "T30" ? "bg-emerald-500/20 text-emerald-700"
-    : task.phase === "T60" ? "bg-blue-500/20 text-blue-700"
-    : "bg-amber-500/20 text-amber-700";
+  const pflicht = PFLICHT[task.pflicht];
 
   return (
-    <div className={`rounded-xl border bg-card p-3 transition ${status === "erledigt" ? "opacity-60" : ""}`}>
+    <li className={cn("rounded-xl border border-border bg-card p-3.5 transition-colors", status === "erledigt" && "bg-secondary/40")}>
       <div className="flex items-start gap-3">
-        <button onClick={onCycle} className="mt-0.5 shrink-0" title="Klicken zum Wechseln: offen → in Arbeit → erledigt">
-          {status === "erledigt" ? <CheckCircle2 className="h-5 w-5 text-emerald-600" />
-            : status === "laufend" ? <Clock className="h-5 w-5 text-amber-600" />
-            : <Circle className="h-5 w-5 text-muted-foreground" />}
+        <button
+          type="button"
+          onClick={onCycle}
+          className="mt-0.5 shrink-0 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          title="Klicken zum Wechseln: offen → in Arbeit → erledigt"
+          aria-label={`Status von „${task.titel}“: ${STATUS_LABEL[status]}. Klicken zum Wechseln`}
+        >
+          {status === "erledigt" ? <CheckCircle2 className="h-5 w-5 text-success" aria-hidden="true" />
+            : status === "laufend" ? <Clock className="h-5 w-5 text-warning" aria-hidden="true" />
+            : <Circle className="h-5 w-5 text-muted-foreground" aria-hidden="true" />}
         </button>
 
-        <div className="flex-1 min-w-0">
-          <div className="flex items-start justify-between gap-2 flex-wrap">
-            <div className="flex items-center gap-2 flex-wrap">
-              <span className={`text-[10px] font-bold uppercase px-1.5 py-0.5 rounded ${phaseColor}`}>{task.phase}</span>
-              <span className={`text-[10px] font-bold uppercase border px-1.5 py-0.5 rounded ${pflichtFarbe}`}>{task.pflicht}</span>
-              <span className={`font-semibold text-sm ${status === "erledigt" ? "line-through" : ""}`}>{task.titel}</span>
+        <div className="min-w-0 flex-1">
+          <div className="flex flex-wrap items-start justify-between gap-2">
+            <div className="flex min-w-0 flex-wrap items-center gap-2">
+              <ToneBadge tone={pflicht.tone}>{pflicht.label}</ToneBadge>
+              <span className={cn("text-sm font-semibold", status === "erledigt" && "text-muted-foreground line-through decoration-muted-foreground/50")}>
+                {task.titel}
+              </span>
             </div>
-            <button onClick={() => setExpanded(!expanded)} className="text-[11px] text-accent-blue hover:underline">
-              {expanded ? "weniger" : "mehr"}
+            <button
+              type="button"
+              onClick={() => setExpanded(!expanded)}
+              aria-expanded={expanded}
+              className="inline-flex items-center gap-0.5 text-sm font-medium text-accent-blue hover:underline"
+            >
+              {expanded ? "weniger" : "mehr"}<ChevronDown className={cn("h-4 w-4 transition-transform", expanded && "rotate-180")} aria-hidden="true" />
             </button>
           </div>
-          <p className="text-xs text-muted-foreground mt-1">{task.beschreibung}</p>
-          <div className="flex items-center gap-3 mt-1 text-[11px] text-muted-foreground">
-            <span>⏱ {task.zeitaufwand}</span>
-            {task.kostenHint && <span>💰 {task.kostenHint}</span>}
+          <p className="mt-1 text-sm text-muted-foreground">{task.beschreibung}</p>
+          <div className="mt-1.5 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
+            <span className="inline-flex items-center gap-1">
+              <Clock className="h-3.5 w-3.5" aria-hidden="true" /> {task.zeitaufwand}
+            </span>
+            {task.kostenHint && (
+              <span className="inline-flex items-center gap-1">
+                <Wallet className="h-3.5 w-3.5" aria-hidden="true" /> {task.kostenHint}
+              </span>
+            )}
           </div>
 
           {expanded && (
-            <div className="mt-3 space-y-2">
+            <div className="mt-3 space-y-3 border-t border-border/70 pt-3">
               <div>
-                <div className="font-semibold text-xs mb-1">Schritte:</div>
-                <ul className="text-xs space-y-0.5 list-disc list-inside text-muted-foreground">
+                <p className="mb-1 text-sm font-semibold">Schritte:</p>
+                <ol className="list-decimal space-y-1 pl-5 text-sm text-muted-foreground marker:text-muted-foreground/70">
                   {task.schritte.map((s, i) => <li key={i}>{s}</li>)}
-                </ul>
+                </ol>
               </div>
-              <div className="flex flex-wrap gap-2 pt-1">
-                {task.toolLink && (
-                  <Link to={task.toolLink.route} className="inline-flex items-center gap-1 text-[11px] text-accent-blue hover:underline">
-                    <ChevronRight className="h-3 w-3" /> {task.toolLink.label}
-                  </Link>
-                )}
-                {task.externalLink && (
-                  <a href={task.externalLink.url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-[11px] text-accent-blue hover:underline">
-                    <ExternalLink className="h-3 w-3" /> {task.externalLink.label}
-                  </a>
-                )}
-              </div>
-              <div className="flex gap-1 pt-1">
-                {(["offen", "laufend", "erledigt"] as TaskStatus[]).map((s) => (
-                  <button
-                    key={s}
-                    onClick={() => onSetStatus(task.id, s)}
-                    className={`text-[10px] px-2 py-1 rounded border transition ${
-                      status === s
-                        ? "bg-accent-blue text-white border-accent-blue"
-                        : "border-border bg-card hover:border-accent-blue"
-                    }`}
-                  >
-                    {s}
-                  </button>
-                ))}
-              </div>
+              {(task.toolLink || task.externalLink) && (
+                <div className="flex flex-wrap gap-x-4 gap-y-2">
+                  {task.toolLink && (
+                    <Link to={task.toolLink.route} className="inline-flex items-center gap-1 text-sm font-medium text-accent-blue hover:underline">
+                      <ChevronRight className="h-4 w-4" aria-hidden="true" /> {task.toolLink.label}
+                    </Link>
+                  )}
+                  {task.externalLink && (
+                    <a href={task.externalLink.url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-sm font-medium text-accent-blue hover:underline">
+                      <ExternalLink className="h-4 w-4" aria-hidden="true" /> {task.externalLink.label}
+                    </a>
+                  )}
+                </div>
+              )}
+              <ChoiceGroup<TaskStatus>
+                label="Status setzen"
+                size="sm"
+                value={status}
+                onChange={(s) => onSetStatus(task.id, s)}
+                options={(["offen", "laufend", "erledigt"] as TaskStatus[]).map((s) => ({ value: s, label: STATUS_LABEL[s] }))}
+              />
             </div>
           )}
         </div>
       </div>
-    </div>
+    </li>
   );
 };
 
@@ -403,41 +494,40 @@ const TaskCard = ({ task, status, onCycle, onSetStatus }: {
 // Sub-Components
 // ============================================================================
 const BeginnerHero = () => (
-  <div className="rounded-2xl border-2 border-accent-blue/30 bg-gradient-to-br from-accent-blue/10 via-card to-card p-5 mb-6">
-    <div className="flex items-start gap-3">
-      <Lightbulb className="h-6 w-6 text-accent-blue shrink-0 mt-0.5" />
-      <div className="flex-1">
-        <h3 className="font-bold text-sm mb-1">90-Tage-Plan für die ersten 3 Monate</h3>
-        <p className="text-xs text-muted-foreground leading-relaxed mb-2">
-          Anfänger:innen wissen oft nicht WAS in WELCHER REIHENFOLGE kommt. Diese Roadmap personalisiert
-          25 Pflicht- und Soll-Aufgaben anhand deiner Situation (Rechtsform, USt-Status, B2B/B2C, EU-Geschäft) und
-          gruppiert sie in 4 Phasen (T0/T30/T60/T90). Status-Tracking lokal im Browser — kein Konto nötig.
-        </p>
-        <div className="grid grid-cols-3 gap-2 text-[11px]">
-          <div className="rounded-lg bg-red-500/5 p-2 border border-red-500/20">
-            <strong className="text-red-700">MUSS</strong>
-            <div className="text-muted-foreground mt-0.5">Pflicht — fehlende Erfüllung = Bußgeld/Nachzahlung</div>
-          </div>
-          <div className="rounded-lg bg-amber-500/5 p-2 border border-amber-500/20">
-            <strong className="text-amber-700">SOLL</strong>
-            <div className="text-muted-foreground mt-0.5">Dringend empfohlen — meiste Profis machen es</div>
-          </div>
-          <div className="rounded-lg bg-blue-500/5 p-2 border border-blue-500/20">
-            <strong className="text-blue-700">KANN</strong>
-            <div className="text-muted-foreground mt-0.5">Optional je nach Strategie / Geschäftsmodell</div>
-          </div>
+  <section className="mb-8 rounded-2xl border border-border bg-card p-5 shadow-card md:p-6">
+    <h2 className="text-base font-semibold tracking-tight">90-Tage-Plan für die ersten 3 Monate</h2>
+    <p className="mt-1.5 max-w-[80ch] text-sm leading-relaxed text-muted-foreground">
+      Anfänger:innen wissen oft nicht WAS in WELCHER REIHENFOLGE kommt. Diese Roadmap personalisiert
+      25 Pflicht- und Soll-Aufgaben anhand deiner Situation (Rechtsform, USt-Status, B2B/B2C, EU-Geschäft) und
+      gruppiert sie in 4 Phasen (T0/T30/T60/T90). Status-Tracking lokal im Browser — kein Konto nötig.
+    </p>
+    <div className="mt-4 grid grid-cols-1 gap-2.5 sm:grid-cols-3">
+      {[
+        { k: "MUSS", d: "Pflicht — fehlende Erfüllung = Bußgeld/Nachzahlung", tone: "danger" as Tone },
+        { k: "SOLL", d: "Dringend empfohlen — meiste Profis machen es", tone: "warning" as Tone },
+        { k: "KANN", d: "Optional je nach Strategie / Geschäftsmodell", tone: "info" as Tone },
+      ].map((c) => (
+        <div key={c.k} className={cn("rounded-xl border p-3", toneSoft(c.tone))}>
+          <strong className={cn("text-sm font-semibold", toneText(c.tone))}>{c.k}</strong>
+          <div className="mt-0.5 text-sm text-foreground/75">{c.d}</div>
         </div>
-      </div>
+      ))}
     </div>
-  </div>
+  </section>
 );
 
 const Glossar = () => (
-  <details className="rounded-2xl border border-border bg-card p-5 mb-6">
-    <summary className="cursor-pointer font-bold text-sm flex items-center gap-2">
-      <HelpCircle className="h-4 w-4 text-accent-blue" /> Glossar — Begriffe einfach erklärt
+  <details className="group mb-6 rounded-2xl border border-border bg-card shadow-card [&_summary::-webkit-details-marker]:hidden">
+    <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-5 py-4 text-base font-semibold md:px-6">
+      <span className="flex items-center gap-3">
+        <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-accent-blue">
+          <HelpCircle className="h-4 w-4" aria-hidden="true" />
+        </span>
+        Glossar: Begriffe einfach erklärt
+      </span>
+      <ChevronDown className="h-4 w-4 text-muted-foreground transition-transform group-open:rotate-180" aria-hidden="true" />
     </summary>
-    <div className="mt-3 space-y-3 text-xs leading-relaxed">
+    <dl className="divide-y divide-border/70 border-t border-border/70 px-5 md:px-6">
       {[
         { b: "T0 / T30 / T60 / T90", e: "Zeit-Phasen relativ zum Start: T0 = vor/bei der Anmeldung, T30 = innerhalb der ersten 30 Tage danach, T60 = Tag 31-60, T90 = Tag 61-90. Nach T90 = laufender Betrieb." },
         { b: "MUSS vs SOLL vs KANN", e: "MUSS = rechtliche oder vertragliche Pflicht (z.B. GewA1, KV, USt-VA). SOLL = dringend empfohlen (z.B. Geschäftskonto, Buchhaltungs-Software, Berufshaftpflicht). KANN = optional je nach Geschäftsmodell (z.B. Marken-Anmeldung, BU)." },
@@ -447,12 +537,12 @@ const Glossar = () => (
         { b: "Dauerfristverlängerung", e: "Verlängerung der USt-VA-Frist um 1 Monat. Antrag online via ELSTER. Bei monatlicher USt-VA: 1/11 als Sondervorauszahlung (wird im Dez. zurückgerechnet). Lohnt sich fast immer." },
         { b: "Notgroschen + Steuer-Rücklage", e: "Solo-Selbstständige sollten 3-6 Monatsausgaben Notgroschen + 30-40 % vom Gewinn Steuer-Rücklage haben. Sub-Konto bei Geschäftskonto einrichten und automatisch monatlich transferieren. Sonst böses Erwachen beim ESt-Bescheid." },
       ].map((g) => (
-        <div key={g.b} className="rounded-lg bg-secondary/30 p-3">
-          <div className="font-semibold text-foreground mb-1">{g.b}</div>
-          <div className="text-muted-foreground">{g.e}</div>
+        <div key={g.b} className="py-4">
+          <dt className="text-sm font-semibold">{g.b}</dt>
+          <dd className="mt-1 text-sm leading-relaxed text-muted-foreground">{g.e}</dd>
         </div>
       ))}
-    </div>
+    </dl>
   </details>
 );
 
