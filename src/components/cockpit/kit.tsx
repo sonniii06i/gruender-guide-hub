@@ -401,7 +401,7 @@ export const EmptyState = ({
 
 /** Rahmen für <table>: scrollt mobil horizontal, Kopfzeile dezent, Zahlen tabellarisch. */
 export const KitTable = ({ children, className, caption }: { children: ReactNode; className?: string; caption?: ReactNode }) => (
-  <div className={cn("overflow-x-auto rounded-xl border border-border bg-card", className)}>
+  <div className={cn("max-w-full overflow-x-auto rounded-xl border border-border bg-card [contain:paint]", className)}>
     <table
       className={cn(
         "w-full border-collapse text-sm tabular",
