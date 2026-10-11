@@ -1,9 +1,11 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, type ReactNode } from "react";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import Stand2026Footer from "@/components/cockpit/Stand2026Footer";
+import { Callout, ChoiceGroup, EmptyState, Field, StatGrid, StatTile, ToolSection, selectCls } from "@/components/cockpit/kit";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Plus, Trash2, Download, Receipt, Plane } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Plus, Trash2, Receipt, Plane, Utensils, BookOpen } from "lucide-react";
 
 type Reise = {
   id: string;
@@ -208,421 +210,391 @@ const ReisekostenLogger = () => {
     return { reisen: reisenTotal, bewirtung: bewirtungenTotal };
   }, [reisen, bewirtungen]);
 
+
+  const eur = (n: number) => `${n.toLocaleString("de-DE", { maximumFractionDigits: 2 })} €`;
+
   return (
     <CockpitShell
       eyebrow="Reisekosten-Logger"
-      title="Reisekosten + Bewirtung erfassen"
-      subtitle="Mit auto-berechneten Verpflegungs-Pauschalen DE (28 €/14 €) + 35+ Auslands-Länder · 8h-Schwelle für Tagesreise (§9 (4a) EStG) · Fahrtkosten 0,30 €/km · Bewirtung 70 % BA mit Vorsteuer-Abzug · CSV-Export für StB."
+      title="Reisekosten und Bewirtung erfassen"
+      subtitle="Verpflegungspauschalen DE (28 € / 14 €) und 35+ Auslandsziele werden automatisch berechnet. Mit 8-Stunden-Schwelle für Tagesreisen (§9 Abs. 4a EStG), Fahrtkosten 0,30 €/km und Bewirtung zu 70 % als Betriebsausgabe mit Vorsteuerabzug."
     >
       {/* Tab Toggle */}
-      <div className="flex gap-2 mb-6">
-        <button
-          onClick={() => setActiveTab("reisen")}
-          className={`inline-flex items-center gap-1 rounded-full px-4 py-2 text-xs font-semibold transition-colors ${
-            activeTab === "reisen"
-              ? "bg-accent-blue text-primary-foreground"
-              : "bg-secondary text-muted-foreground hover:bg-secondary/80"
-          }`}
-        >
-          <Plane className="h-3.5 w-3.5" /> Reisen ({reisen.length})
-        </button>
-        <button
-          onClick={() => setActiveTab("bewirtung")}
-          className={`inline-flex items-center gap-1 rounded-full px-4 py-2 text-xs font-semibold transition-colors ${
-            activeTab === "bewirtung"
-              ? "bg-accent-blue text-primary-foreground"
-              : "bg-secondary text-muted-foreground hover:bg-secondary/80"
-          }`}
-        >
-          <Receipt className="h-3.5 w-3.5" /> Bewirtung ({bewirtungen.length})
-        </button>
+      <div role="group" aria-label="Bereich wählen" className="mb-6 inline-flex rounded-xl bg-secondary p-1">
+        {[
+          { v: "reisen" as const, l: "Reisen", n: reisen.length, icon: Plane },
+          { v: "bewirtung" as const, l: "Bewirtung", n: bewirtungen.length, icon: Receipt },
+        ].map((t) => (
+          <button
+            key={t.v}
+            type="button"
+            aria-pressed={activeTab === t.v}
+            onClick={() => setActiveTab(t.v)}
+            className={cn(
+              "inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-[background-color,color,box-shadow]",
+              activeTab === t.v ? "bg-card text-foreground shadow-card" : "text-muted-foreground hover:text-foreground",
+            )}
+          >
+            <t.icon className="h-4 w-4" aria-hidden="true" /> {t.l}
+            <span className="rounded-md bg-secondary px-1.5 py-0.5 text-xs tabular">{t.n}</span>
+          </button>
+        ))}
       </div>
 
       {/* Summary */}
-      <div className="grid grid-cols-2 gap-3 mb-6">
-        <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/5 p-4">
-          <div className="text-[10px] uppercase tracking-wider text-emerald-700">Reisekosten total</div>
-          <div className="text-xl font-bold text-emerald-700">
-            {totals.reisen.toLocaleString("de-DE", { maximumFractionDigits: 2 })} €
-          </div>
-          <div className="text-[10px] text-muted-foreground mt-1">100 % als BA absetzbar</div>
-        </div>
-        <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-4">
-          <div className="text-[10px] uppercase tracking-wider text-accent-blue">Bewirtung absetzbar (70 %)</div>
-          <div className="text-xl font-bold text-accent-blue">
-            {totals.bewirtung.toLocaleString("de-DE", { maximumFractionDigits: 2 })} €
-          </div>
-          <div className="text-[10px] text-muted-foreground mt-1">Vorsteuer voll abziehbar</div>
-        </div>
-      </div>
+      <StatGrid cols={2} className="mb-6">
+        <StatTile emphasis tone="success" label="Reisekosten gesamt" value={eur(totals.reisen)} hint="100 % als Betriebsausgabe absetzbar" />
+        <StatTile emphasis tone="accent" label="Bewirtung absetzbar (70 %)" value={eur(totals.bewirtung)} hint="Vorsteuer voll abziehbar" />
+      </StatGrid>
 
       {/* Reisen Tab */}
       {activeTab === "reisen" && (
-        <div>
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="font-bold text-sm">Geschäftsreisen</h3>
-            <button
-              onClick={addReise}
-              className="inline-flex items-center gap-1 rounded-lg bg-accent-blue text-primary-foreground px-3 py-1.5 text-xs font-semibold hover:opacity-90"
-            >
-              <Plus className="h-3.5 w-3.5" /> Reise hinzufügen
-            </button>
-          </div>
-
-          <div className="space-y-3">
-            {reisen.map((r) => {
+        <ToolSection
+          title="Geschäftsreisen"
+          icon={Plane}
+          className="mb-6"
+          actions={
+            reisen.length > 0 && (
+              <Button size="sm" onClick={addReise}>
+                <Plus aria-hidden="true" /> Reise hinzufügen
+              </Button>
+            )
+          }
+        >
+          <div className="space-y-4">
+            {reisen.map((r, idx) => {
               const c = calcReise(r);
               return (
-                <div key={r.id} className="rounded-2xl border border-border bg-card p-4">
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-3">
-                    <div className="md:col-span-2">
-                      <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">Zweck</Label>
-                      <Input
-                        value={r.zweck}
-                        onChange={(e) => updateReise(r.id, { zweck: e.target.value })}
-                        placeholder="z.B. Kunden-Termin München"
-                        className="h-8 text-sm mt-1"
-                      />
-                    </div>
-                    <div>
-                      <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">Ziel</Label>
-                      <Input
-                        value={r.ziel}
-                        onChange={(e) => updateReise(r.id, { ziel: e.target.value })}
-                        placeholder="z.B. München"
-                        className="h-8 text-sm mt-1"
-                      />
-                    </div>
-                    <div>
-                      <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">Beginn</Label>
-                      <Input
-                        type="date"
-                        value={r.datum}
-                        onChange={(e) => updateReise(r.id, { datum: e.target.value })}
-                        className="h-8 text-sm mt-1"
-                      />
-                    </div>
-                    <div>
-                      <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">Ende</Label>
-                      <Input
-                        type="date"
-                        value={r.endeDatum}
-                        onChange={(e) => updateReise(r.id, { endeDatum: e.target.value })}
-                        className="h-8 text-sm mt-1"
-                      />
-                    </div>
-                    <div>
-                      <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">Inland / Ausland</Label>
-                      <select
-                        value={r.istAusland ? r.verpflegungPauschalenLand : "Deutschland"}
-                        onChange={(e) => {
-                          const v = e.target.value;
-                          if (v === "Deutschland") updateReise(r.id, { istAusland: false });
-                          else updateReise(r.id, { istAusland: true, verpflegungPauschalenLand: v });
-                        }}
-                        className="h-8 w-full rounded-md border border-input bg-background px-2 text-xs mt-1"
-                      >
-                        <option value="Deutschland">🇩🇪 Deutschland</option>
-                        {Object.keys(VERPFLEGUNG_AUSLAND).map((l) => (
-                          <option key={l} value={l}>
-                            🌍 {l}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
+                <article key={r.id} className="rounded-xl border border-border bg-secondary/30">
+                  <div className="flex items-center justify-between gap-3 border-b border-border/70 px-4 py-3">
+                    <p className="min-w-0 truncate text-sm font-semibold">
+                      Reise <span className="tabular">{idx + 1}</span>
+                      {r.ziel && <span className="font-normal text-muted-foreground"> · {r.ziel}</span>}
+                    </p>
+                    <Button
+                      size="icon"
+                      variant="ghost"
+                      onClick={() => removeReise(r.id)}
+                      className="h-8 w-8 text-danger hover:text-danger"
+                      aria-label={`Reise ${idx + 1} entfernen`}
+                    >
+                      <Trash2 aria-hidden="true" />
+                    </Button>
                   </div>
+                  <div className="space-y-4 p-4">
+                    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                      <Field label="Zweck" htmlFor={`${r.id}-zweck`} className="sm:col-span-2">
+                        <Input
+                          id={`${r.id}-zweck`}
+                          value={r.zweck}
+                          onChange={(e) => updateReise(r.id, { zweck: e.target.value })}
+                          placeholder="z.B. Kunden-Termin München"
+                        />
+                      </Field>
+                      <Field label="Ziel" htmlFor={`${r.id}-ziel`}>
+                        <Input
+                          id={`${r.id}-ziel`}
+                          value={r.ziel}
+                          onChange={(e) => updateReise(r.id, { ziel: e.target.value })}
+                          placeholder="z.B. München"
+                        />
+                      </Field>
+                      <Field label="Beginn" htmlFor={`${r.id}-beginn`}>
+                        <Input
+                          id={`${r.id}-beginn`}
+                          type="date"
+                          value={r.datum}
+                          onChange={(e) => updateReise(r.id, { datum: e.target.value })}
+                        />
+                      </Field>
+                      <Field label="Ende" htmlFor={`${r.id}-ende`}>
+                        <Input
+                          id={`${r.id}-ende`}
+                          type="date"
+                          value={r.endeDatum}
+                          onChange={(e) => updateReise(r.id, { endeDatum: e.target.value })}
+                        />
+                      </Field>
+                      <Field label="Inland oder Ausland" htmlFor={`${r.id}-land`}>
+                        <select
+                          id={`${r.id}-land`}
+                          value={r.istAusland ? r.verpflegungPauschalenLand : "Deutschland"}
+                          onChange={(e) => {
+                            const v = e.target.value;
+                            if (v === "Deutschland") updateReise(r.id, { istAusland: false });
+                            else updateReise(r.id, { istAusland: true, verpflegungPauschalenLand: v });
+                          }}
+                          className={selectCls}
+                        >
+                          <option value="Deutschland">Deutschland</option>
+                          {Object.keys(VERPFLEGUNG_AUSLAND).map((l) => (
+                            <option key={l} value={l}>
+                              {l}
+                            </option>
+                          ))}
+                        </select>
+                      </Field>
+                    </div>
 
-                  {/* Bei Tagesreise (Start = Ende): 8h-Abwesenheit-Check für Verpflegungspauschale */}
-                  {r.datum === r.endeDatum && r.datum && (
-                    <div className="mb-2 rounded-md border border-amber-500/30 bg-amber-500/5 p-2">
-                      <label className="flex items-center gap-2 text-xs cursor-pointer">
+                    {/* Bei Tagesreise (Start = Ende): 8h-Abwesenheit-Check für Verpflegungspauschale */}
+                    {r.datum === r.endeDatum && r.datum && (
+                      <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-warning/25 bg-warning-soft p-3.5 text-sm">
                         <input
                           type="checkbox"
                           checked={!!r.tagesreiseUeber8h}
                           onChange={(e) => updateReise(r.id, { tagesreiseUeber8h: e.target.checked })}
-                          className="h-4 w-4"
+                          className="mt-0.5 h-4 w-4 accent-[hsl(var(--accent-blue))]"
                         />
                         <span>
-                          <strong>Tagesreise &gt; 8 h Abwesenheit</strong> — Pflicht für 14 € Pauschale (§9 Abs. 4a EStG). Ohne Haken: 0 €.
+                          <span className="block font-medium">Tagesreise mit mehr als 8 Stunden Abwesenheit</span>
+                          <span className="mt-0.5 block text-foreground/75">
+                            Pflicht für die 14-€-Pauschale (§9 Abs. 4a EStG). Ohne Haken: 0 €.
+                          </span>
                         </span>
                       </label>
-                    </div>
-                  )}
+                    )}
 
-                  <div className="grid grid-cols-1 md:grid-cols-4 gap-2 mb-3">
-                    <div>
-                      <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">Übernachtung €/Nacht</Label>
-                      <Input
-                        type="number"
-                        value={r.uebernachtungEffektiv || ""}
-                        onChange={(e) =>
-                          updateReise(r.id, { uebernachtungEffektiv: Math.max(0, Number(e.target.value) || 0) })
-                        }
-                        className="h-8 text-sm mt-1"
-                      />
-                    </div>
-                    <div>
-                      <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">Anzahl Nächte</Label>
-                      <Input
-                        type="number"
-                        value={r.uebernachtungAnzahl || ""}
-                        onChange={(e) =>
-                          updateReise(r.id, { uebernachtungAnzahl: Math.max(0, Number(e.target.value) || 0) })
-                        }
-                        className="h-8 text-sm mt-1"
-                      />
-                    </div>
-                    <div>
-                      <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">Verkehrsmittel</Label>
-                      <select
-                        value={r.fahrtMittel}
-                        onChange={(e) => updateReise(r.id, { fahrtMittel: e.target.value as Reise["fahrtMittel"] })}
-                        className="h-8 w-full rounded-md border border-input bg-background px-2 text-xs mt-1"
-                      >
-                        <option value="auto">Auto (0,30 €/km)</option>
-                        <option value="bahn">Bahn (belegt)</option>
-                        <option value="flug">Flug (belegt)</option>
-                        <option value="mix">Mix</option>
-                      </select>
-                    </div>
-                    <div>
-                      <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">
-                        {r.fahrtMittel === "auto" ? "km gefahren" : "Belegte Kosten €"}
-                      </Label>
-                      {r.fahrtMittel === "auto" ? (
+                    <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+                      <Field label="Übernachtung €/Nacht" htmlFor={`${r.id}-uen`}>
                         <Input
+                          id={`${r.id}-uen`}
                           type="number"
-                          value={r.kmGefahren || ""}
-                          onChange={(e) => updateReise(r.id, { kmGefahren: Math.max(0, Number(e.target.value) || 0) })}
-                          className="h-8 text-sm mt-1"
-                        />
-                      ) : (
-                        <Input
-                          type="number"
-                          value={r.fahrtKostenBelegt || ""}
+                          value={r.uebernachtungEffektiv || ""}
                           onChange={(e) =>
-                            updateReise(r.id, { fahrtKostenBelegt: Math.max(0, Number(e.target.value) || 0) })
+                            updateReise(r.id, { uebernachtungEffektiv: Math.max(0, Number(e.target.value) || 0) })
                           }
-                          className="h-8 text-sm mt-1"
+                          className="tabular"
                         />
-                      )}
+                      </Field>
+                      <Field label="Anzahl Nächte" htmlFor={`${r.id}-naechte`}>
+                        <Input
+                          id={`${r.id}-naechte`}
+                          type="number"
+                          value={r.uebernachtungAnzahl || ""}
+                          onChange={(e) =>
+                            updateReise(r.id, { uebernachtungAnzahl: Math.max(0, Number(e.target.value) || 0) })
+                          }
+                          className="tabular"
+                        />
+                      </Field>
+                      <Field label="Verkehrsmittel" htmlFor={`${r.id}-mittel`}>
+                        <select
+                          id={`${r.id}-mittel`}
+                          value={r.fahrtMittel}
+                          onChange={(e) => updateReise(r.id, { fahrtMittel: e.target.value as Reise["fahrtMittel"] })}
+                          className={selectCls}
+                        >
+                          <option value="auto">Auto (0,30 €/km)</option>
+                          <option value="bahn">Bahn (belegt)</option>
+                          <option value="flug">Flug (belegt)</option>
+                          <option value="mix">Mix</option>
+                        </select>
+                      </Field>
+                      <Field label={r.fahrtMittel === "auto" ? "Gefahrene km" : "Belegte Kosten €"} htmlFor={`${r.id}-fahrt`}>
+                        {r.fahrtMittel === "auto" ? (
+                          <Input
+                            id={`${r.id}-fahrt`}
+                            type="number"
+                            value={r.kmGefahren || ""}
+                            onChange={(e) => updateReise(r.id, { kmGefahren: Math.max(0, Number(e.target.value) || 0) })}
+                            className="tabular"
+                          />
+                        ) : (
+                          <Input
+                            id={`${r.id}-fahrt`}
+                            type="number"
+                            value={r.fahrtKostenBelegt || ""}
+                            onChange={(e) =>
+                              updateReise(r.id, { fahrtKostenBelegt: Math.max(0, Number(e.target.value) || 0) })
+                            }
+                            className="tabular"
+                          />
+                        )}
+                      </Field>
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-between gap-3 mt-3 pt-3 border-t border-border">
-                    <div className="grid grid-cols-3 gap-3 text-xs flex-1">
-                      <div>
-                        <div className="text-[10px] text-muted-foreground uppercase">{c.tage} Tage</div>
-                        <div className="font-mono">Verpflegung: {c.verpflegung.toFixed(2)} €</div>
-                      </div>
-                      <div>
-                        <div className="text-[10px] text-muted-foreground uppercase">Fahrt</div>
-                        <div className="font-mono">{c.fahrt.toFixed(2)} €</div>
-                      </div>
-                      <div>
-                        <div className="text-[10px] text-muted-foreground uppercase">Total</div>
-                        <div className="font-mono font-bold text-emerald-700">{c.total.toFixed(2)} €</div>
-                      </div>
-                    </div>
-                    <button
-                      onClick={() => removeReise(r.id)}
-                      className="text-red-600 hover:bg-red-500/10 p-1 rounded"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </button>
-                  </div>
-                </div>
+                  <dl className="grid grid-cols-3 gap-px overflow-hidden rounded-b-xl border-t border-border/70 bg-border/70 text-sm">
+                    <Kennzahl label={`Verpflegung · ${c.tage} ${c.tage === 1 ? "Tag" : "Tage"}`} value={`${c.verpflegung.toFixed(2)} €`} />
+                    <Kennzahl label="Fahrt" value={`${c.fahrt.toFixed(2)} €`} />
+                    <Kennzahl label="Gesamt" value={`${c.total.toFixed(2)} €`} strong />
+                  </dl>
+                </article>
               );
             })}
             {reisen.length === 0 && (
-              <div className="rounded-xl border border-dashed border-border p-8 text-center text-sm text-muted-foreground">
-                Noch keine Reisen erfasst. Klick "Reise hinzufügen" oben rechts.
-              </div>
+              <EmptyState
+                icon={Plane}
+                title="Noch keine Reisen erfasst"
+                description="Lege deine erste Geschäftsreise an. Verpflegungspauschale, Fahrtkosten und Summe rechnet das Tool automatisch."
+                action={
+                  <Button onClick={addReise}>
+                    <Plus aria-hidden="true" /> Reise hinzufügen
+                  </Button>
+                }
+              />
             )}
           </div>
-        </div>
+        </ToolSection>
       )}
 
       {/* Bewirtung Tab */}
       {activeTab === "bewirtung" && (
-        <div>
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="font-bold text-sm">Bewirtungs-Belege</h3>
-            <button
-              onClick={addBewirtung}
-              className="inline-flex items-center gap-1 rounded-lg bg-accent-blue text-primary-foreground px-3 py-1.5 text-xs font-semibold hover:opacity-90"
-            >
-              <Plus className="h-3.5 w-3.5" /> Beleg hinzufügen
-            </button>
-          </div>
-
-          <div className="space-y-3">
-            {bewirtungen.map((b) => {
+        <ToolSection
+          title="Bewirtungsbelege"
+          icon={Utensils}
+          className="mb-6"
+          actions={
+            bewirtungen.length > 0 && (
+              <Button size="sm" onClick={addBewirtung}>
+                <Plus aria-hidden="true" /> Beleg hinzufügen
+              </Button>
+            )
+          }
+        >
+          <div className="space-y-4">
+            {bewirtungen.map((b, idx) => {
               const c = calcBewirtung(b);
               return (
-                <div key={b.id} className="rounded-2xl border border-border bg-card p-4">
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-3">
-                    <div>
-                      <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">Datum</Label>
+                <article key={b.id} className="rounded-xl border border-border bg-secondary/30">
+                  <div className="flex items-center justify-between gap-3 border-b border-border/70 px-4 py-3">
+                    <p className="min-w-0 truncate text-sm font-semibold">
+                      Beleg <span className="tabular">{idx + 1}</span>
+                      {b.ort && <span className="font-normal text-muted-foreground"> · {b.ort}</span>}
+                    </p>
+                    <Button
+                      size="icon"
+                      variant="ghost"
+                      onClick={() => removeBewirtung(b.id)}
+                      className="h-8 w-8 text-danger hover:text-danger"
+                      aria-label={`Beleg ${idx + 1} entfernen`}
+                    >
+                      <Trash2 aria-hidden="true" />
+                    </Button>
+                  </div>
+                  <div className="grid grid-cols-1 gap-3 p-4 sm:grid-cols-2 lg:grid-cols-3">
+                    <Field label="Datum" htmlFor={`${b.id}-datum`}>
                       <Input
+                        id={`${b.id}-datum`}
                         type="date"
                         value={b.datum}
                         onChange={(e) => updateBewirtung(b.id, { datum: e.target.value })}
-                        className="h-8 text-sm mt-1"
                       />
-                    </div>
-                    <div className="md:col-span-2">
-                      <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">Restaurant / Ort</Label>
+                    </Field>
+                    <Field label="Restaurant / Ort" htmlFor={`${b.id}-ort`} className="lg:col-span-2">
                       <Input
+                        id={`${b.id}-ort`}
                         value={b.ort}
                         onChange={(e) => updateBewirtung(b.id, { ort: e.target.value })}
                         placeholder="z.B. Restaurant Borchardt, Berlin"
-                        className="h-8 text-sm mt-1"
                       />
-                    </div>
-                    <div className="md:col-span-2">
-                      <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">
-                        Gäste (Vor- + Nachname Pflicht)
-                      </Label>
+                    </Field>
+                    <Field label="Gäste" hint="Vor- und Nachname sind Pflicht" htmlFor={`${b.id}-gaeste`} className="sm:col-span-2">
                       <Input
+                        id={`${b.id}-gaeste`}
                         value={b.gaeste}
                         onChange={(e) => updateBewirtung(b.id, { gaeste: e.target.value })}
                         placeholder="z.B. Max Müller (Acme GmbH), Jane Doe (Beta Inc.)"
-                        className="h-8 text-sm mt-1"
                       />
-                    </div>
-                    <div>
-                      <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">Anlass</Label>
+                    </Field>
+                    <Field label="Anlass" htmlFor={`${b.id}-anlass`}>
                       <Input
+                        id={`${b.id}-anlass`}
                         value={b.anlass}
                         onChange={(e) => updateBewirtung(b.id, { anlass: e.target.value })}
                         placeholder="z.B. Vertrags-Abschluss"
-                        className="h-8 text-sm mt-1"
                       />
-                    </div>
-                    <div>
-                      <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">Brutto-Rechnung €</Label>
+                    </Field>
+                    <Field label="Brutto-Rechnung €" htmlFor={`${b.id}-brutto`}>
                       <Input
+                        id={`${b.id}-brutto`}
                         type="number"
                         step="0.01"
                         value={b.bruttoBetrag || ""}
                         onChange={(e) =>
                           updateBewirtung(b.id, { bruttoBetrag: Math.max(0, Number(e.target.value) || 0) })
                         }
-                        className="h-8 text-sm mt-1"
+                        className="tabular"
                       />
-                    </div>
-                    <div>
-                      <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">Trinkgeld €</Label>
+                    </Field>
+                    <Field label="Trinkgeld €" htmlFor={`${b.id}-tip`}>
                       <Input
+                        id={`${b.id}-tip`}
                         type="number"
                         step="0.01"
                         value={b.trinkgeld || ""}
                         onChange={(e) => updateBewirtung(b.id, { trinkgeld: Math.max(0, Number(e.target.value) || 0) })}
-                        className="h-8 text-sm mt-1"
+                        className="tabular"
                       />
-                    </div>
-                    <div>
-                      <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">Geschäftlich?</Label>
-                      <div className="grid grid-cols-2 gap-1 mt-1">
-                        {[
-                          { v: true, l: "Ja (70%)" },
-                          { v: false, l: "Privat" },
-                        ].map((o) => (
-                          <button
-                            key={String(o.v)}
-                            onClick={() => updateBewirtung(b.id, { bewirtetGeschaeftlich: o.v })}
-                            className={`h-8 rounded-md border text-xs transition-colors ${
-                              b.bewirtetGeschaeftlich === o.v
-                                ? "border-accent-blue bg-accent-blue/10 text-accent-blue font-semibold"
-                                : "border-border hover:bg-secondary"
-                            }`}
-                          >
-                            {o.l}
-                          </button>
-                        ))}
-                      </div>
+                    </Field>
+                    <div className="space-y-1.5">
+                      <p className="text-sm font-medium">Geschäftlich?</p>
+                      <ChoiceGroup<boolean>
+                        label="Geschäftlich"
+                        value={b.bewirtetGeschaeftlich}
+                        onChange={(v) => updateBewirtung(b.id, { bewirtetGeschaeftlich: v })}
+                        options={[
+                          { value: true, label: "Ja (70%)" },
+                          { value: false, label: "Privat" },
+                        ]}
+                        className="[&>button]:flex-1 [&>button]:text-center"
+                      />
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-between gap-3 pt-3 border-t border-border">
-                    <div className="grid grid-cols-3 gap-3 text-xs flex-1">
-                      <div>
-                        <div className="text-[10px] text-muted-foreground uppercase">Total Brutto</div>
-                        <div className="font-mono">{c.total.toFixed(2)} €</div>
-                      </div>
-                      <div>
-                        <div className="text-[10px] text-muted-foreground uppercase">Absetzbar ({c.anteil}%)</div>
-                        <div className="font-mono font-bold text-emerald-700">{c.absetzbar.toFixed(2)} €</div>
-                      </div>
-                      <div>
-                        <div className="text-[10px] text-muted-foreground uppercase">Vorsteuer (100%)</div>
-                        <div className="font-mono">{c.vorsteuer.toFixed(2)} €</div>
-                      </div>
-                    </div>
-                    <button
-                      onClick={() => removeBewirtung(b.id)}
-                      className="text-red-600 hover:bg-red-500/10 p-1 rounded"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </button>
-                  </div>
-                </div>
+                  <dl className="grid grid-cols-3 gap-px overflow-hidden rounded-b-xl border-t border-border/70 bg-border/70 text-sm">
+                    <Kennzahl label="Brutto gesamt" value={`${c.total.toFixed(2)} €`} />
+                    <Kennzahl label={`Absetzbar (${c.anteil}%)`} value={`${c.absetzbar.toFixed(2)} €`} strong />
+                    <Kennzahl label="Vorsteuer (100%)" value={`${c.vorsteuer.toFixed(2)} €`} />
+                  </dl>
+                </article>
               );
             })}
             {bewirtungen.length === 0 && (
-              <div className="rounded-xl border border-dashed border-border p-8 text-center text-sm text-muted-foreground">
-                Noch keine Bewirtungs-Belege. Klick "Beleg hinzufügen" oben rechts.
-              </div>
+              <EmptyState
+                icon={Receipt}
+                title="Noch keine Bewirtungsbelege"
+                description="Erfasse Geschäftsessen mit Gästen und Anlass. Das Tool zeigt dir den absetzbaren Anteil und die Vorsteuer."
+                action={
+                  <Button onClick={addBewirtung}>
+                    <Plus aria-hidden="true" /> Beleg hinzufügen
+                  </Button>
+                }
+              />
             )}
           </div>
-        </div>
+        </ToolSection>
       )}
 
       {/* Tipps */}
-      <div className="rounded-2xl border border-amber-500/30 bg-amber-500/5 p-4 mt-6 text-xs leading-relaxed">
-        <div className="flex items-start gap-2">
-          <Receipt className="h-4 w-4 text-amber-700 shrink-0 mt-0.5" />
-          <div>
-            <div className="font-semibold mb-1">Wichtige Regeln:</div>
-            <ul className="list-disc pl-4 space-y-1 text-muted-foreground">
-              <li>
-                <strong>Verpflegungs-Pauschalen DE 2026</strong>: 28 € ganzer Tag (≥24h Abwesenheit), 14 € halber
-                Tag (8-24h), 0 € unter 8h.
-              </li>
-              <li>
-                <strong>Auslands-Pauschalen</strong>: BMF-Schreiben listet 200+ Länder/Regionen. Tool zeigt 12
-                wichtigste — restliche manuell eintragen.
-              </li>
-              <li>
-                <strong>Übernachtung</strong>: ENTWEDER Pauschale (DE 20 €/Nacht) ODER belegt — nicht beides.
-                Belegt ist meist höher.
-              </li>
-              <li>
-                <strong>Bewirtungs-70%-Regel</strong>: §4 Abs 5 Nr 2 EStG. Vorsteuer bleibt aber 100 %
-                abziehbar.
-              </li>
-              <li>
-                <strong>Bewirtungs-Pflichtangaben</strong>: Datum, Ort, Gäste (Name + Firma!), Anlass, alle Speisen
-                + Getränke detailliert. Maschinell erstellter Quittung-Beleg + handschriftlicher Anlass auf der
-                Rückseite.
-              </li>
-              <li>
-                <strong>Trinkgeld</strong>: muss separat auf der Rechnung sein ODER via Quittung mit Bezug zur
-                Hauptrechnung dokumentiert.
-              </li>
-              <li>
-                <strong>Privat-Bewirtung</strong>: 0 % absetzbar. Geburtstage, Hochzeiten — nicht versuchen
-                hineinzuschmuggeln.
-              </li>
-              <li>
-                <strong>Reisekosten-Belege 10 Jahre aufbewahren</strong> (§147 AO).
-              </li>
-              <li>OCR-Belege via Apps (Lexoffice, sevDesk) reduzieren manuelles Erfassen.</li>
-            </ul>
-          </div>
-        </div>
-      </div>
+      <ToolSection title="Wichtige Regeln" icon={BookOpen} className="mb-6">
+        <ul className="grid grid-cols-1 gap-x-8 gap-y-2.5 text-sm leading-relaxed text-muted-foreground md:grid-cols-2">
+          <Regel titel="Verpflegungs-Pauschalen DE 2026">
+            28 € ganzer Tag (≥24h Abwesenheit), 14 € halber Tag (8-24h), 0 € unter 8h.
+          </Regel>
+          <Regel titel="Auslands-Pauschalen">
+            BMF-Schreiben listet 200+ Länder/Regionen. Tool zeigt 12 wichtigste — restliche manuell eintragen.
+          </Regel>
+          <Regel titel="Übernachtung">
+            ENTWEDER Pauschale (DE 20 €/Nacht) ODER belegt — nicht beides. Belegt ist meist höher.
+          </Regel>
+          <Regel titel="Bewirtungs-70%-Regel">§4 Abs 5 Nr 2 EStG. Vorsteuer bleibt aber 100 % abziehbar.</Regel>
+          <Regel titel="Bewirtungs-Pflichtangaben">
+            Datum, Ort, Gäste (Name + Firma!), Anlass, alle Speisen + Getränke detailliert. Maschinell erstellter
+            Quittung-Beleg + handschriftlicher Anlass auf der Rückseite.
+          </Regel>
+          <Regel titel="Trinkgeld">
+            muss separat auf der Rechnung sein ODER via Quittung mit Bezug zur Hauptrechnung dokumentiert.
+          </Regel>
+          <Regel titel="Privat-Bewirtung">
+            0 % absetzbar. Geburtstage, Hochzeiten — nicht versuchen hineinzuschmuggeln.
+          </Regel>
+          <Regel titel="Reisekosten-Belege 10 Jahre aufbewahren">(§147 AO).</Regel>
+        </ul>
+        <Callout tone="info" className="mt-5" icon={Receipt}>
+          OCR-Belege via Apps (Lexoffice, sevDesk) reduzieren manuelles Erfassen.
+        </Callout>
+      </ToolSection>
 
       <Stand2026Footer
         sources={[
@@ -635,5 +607,21 @@ const ReisekostenLogger = () => {
     </CockpitShell>
   );
 };
+
+const Kennzahl = ({ label, value, strong = false }: { label: string; value: string; strong?: boolean }) => (
+  <div className="bg-card px-4 py-3">
+    <dt className="text-xs text-muted-foreground">{label}</dt>
+    <dd className={cn("mt-0.5 tabular", strong ? "font-semibold text-success" : "font-medium")}>{value}</dd>
+  </div>
+);
+
+const Regel = ({ titel, children }: { titel: string; children: ReactNode }) => (
+  <li className="flex gap-2.5">
+    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent-blue" aria-hidden="true" />
+    <span>
+      <strong className="font-semibold text-foreground">{titel}:</strong> {children}
+    </span>
+  </li>
+);
 
 export default ReisekostenLogger;
