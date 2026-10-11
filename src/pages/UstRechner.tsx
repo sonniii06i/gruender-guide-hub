@@ -1,18 +1,31 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Badge } from "@/components/ui/badge";
+import {
+  Callout,
+  ChoiceGroup,
+  Field,
+  ResultPanel,
+  ResultRow,
+  StatGrid,
+  StatTile,
+  ToneBadge,
+  ToolLayout,
+  ToolSection,
+  selectCls,
+} from "@/components/cockpit/kit";
 import {
   Calculator,
   AlertTriangle,
   CheckCircle2,
   Globe,
   Building2,
-  Hammer,
   ShoppingCart,
-  Info,
+  Truck,
+  ListChecks,
+  SlidersHorizontal,
+  XCircle,
 } from "lucide-react";
 
 // ============================================================
@@ -42,61 +55,57 @@ const UstRechner = () => {
   return (
     <CockpitShell
       eyebrow="USt-Rechner · Stand Mai 2026"
-      title="Deutsche Umsatzsteuer — alle wichtigen Fälle"
-      subtitle="Brutto↔Netto · Kleinunternehmer §19 (Reform 2025!) · Reverse-Charge §13b · OSS-EU · IGL B2B-EU. Mit Quellen und Schwellen."
+      title="Deutsche Umsatzsteuer: alle wichtigen Fälle"
+      subtitle="Brutto und Netto, Kleinunternehmer §19 (Reform 2025), Reverse Charge §13b, OSS für B2C in der EU und innergemeinschaftliche Lieferung. Mit Quellen und Schwellen."
     >
       <Tabs defaultValue="brutto-netto" className="w-full">
-        <TabsList className="mb-6 flex-wrap h-auto">
-          <TabsTrigger value="brutto-netto">
-            <Calculator className="h-4 w-4 mr-1" /> Brutto↔Netto
-          </TabsTrigger>
-          <TabsTrigger value="kleinunternehmer">
-            <Building2 className="h-4 w-4 mr-1" /> Kleinunternehmer §19
-          </TabsTrigger>
-          <TabsTrigger value="reverse-charge">
-            <Globe className="h-4 w-4 mr-1" /> Reverse-Charge §13b
-          </TabsTrigger>
-          <TabsTrigger value="oss">
-            <ShoppingCart className="h-4 w-4 mr-1" /> OSS B2C-EU
-          </TabsTrigger>
-          <TabsTrigger value="igl">
-            <Globe className="h-4 w-4 mr-1" /> IGL B2B-EU
-          </TabsTrigger>
-        </TabsList>
+        <div className="-mx-4 mb-6 overflow-x-auto px-4 md:mx-0 md:px-0">
+          <TabsList className="h-auto w-max gap-0.5 rounded-xl p-1">
+            <TabsTrigger value="brutto-netto" className="gap-1.5 rounded-lg px-3.5 py-2">
+              <Calculator className="h-4 w-4" aria-hidden="true" /> Brutto und Netto
+            </TabsTrigger>
+            <TabsTrigger value="kleinunternehmer" className="gap-1.5 rounded-lg px-3.5 py-2">
+              <Building2 className="h-4 w-4" aria-hidden="true" /> Kleinunternehmer §19
+            </TabsTrigger>
+            <TabsTrigger value="reverse-charge" className="gap-1.5 rounded-lg px-3.5 py-2">
+              <Globe className="h-4 w-4" aria-hidden="true" /> Reverse Charge §13b
+            </TabsTrigger>
+            <TabsTrigger value="oss" className="gap-1.5 rounded-lg px-3.5 py-2">
+              <ShoppingCart className="h-4 w-4" aria-hidden="true" /> OSS B2C-EU
+            </TabsTrigger>
+            <TabsTrigger value="igl" className="gap-1.5 rounded-lg px-3.5 py-2">
+              <Truck className="h-4 w-4" aria-hidden="true" /> IGL B2B-EU
+            </TabsTrigger>
+          </TabsList>
+        </div>
 
-        <TabsContent value="brutto-netto"><BruttoNetto /></TabsContent>
-        <TabsContent value="kleinunternehmer"><Kleinunternehmer /></TabsContent>
-        <TabsContent value="reverse-charge"><ReverseCharge /></TabsContent>
-        <TabsContent value="oss"><OssVerfahren /></TabsContent>
-        <TabsContent value="igl"><IglRechner /></TabsContent>
+        <TabsContent value="brutto-netto" className="mt-0"><BruttoNetto /></TabsContent>
+        <TabsContent value="kleinunternehmer" className="mt-0"><Kleinunternehmer /></TabsContent>
+        <TabsContent value="reverse-charge" className="mt-0"><ReverseCharge /></TabsContent>
+        <TabsContent value="oss" className="mt-0"><OssVerfahren /></TabsContent>
+        <TabsContent value="igl" className="mt-0"><IglRechner /></TabsContent>
       </Tabs>
 
-      <div className="mt-6 rounded-2xl border border-amber-500/30 bg-amber-500/5 p-4 text-xs leading-relaxed">
-        <div className="flex items-start gap-2">
-          <AlertTriangle className="h-4 w-4 text-amber-700 shrink-0 mt-0.5" />
-          <div>
-            <strong>Wichtige Hinweise:</strong>
-            <ul className="list-disc pl-4 space-y-1 mt-1 text-muted-foreground">
-              <li>
-                §19 UStG wurde zum <strong>1.1.2025 reformiert</strong>: Schwellen 22k→25k (Vorjahr)
-                und 50k→100k (laufendes Jahr). Echte Schwelle, nicht Schätzung.
-              </li>
-              <li>
-                OSS-Schwelle <strong>10.000 €/Jahr</strong> gilt seit 1.7.2021 für ALLE EU-Länder
-                zusammen (nicht pro Land!).
-              </li>
-              <li>
-                Reverse-Charge §13b ist Pflicht — Rechnung muss "Steuerschuldnerschaft des
-                Leistungsempfängers" enthalten.
-              </li>
-              <li>
-                Konkrete Berechnung bei Bauleistungen / IGL-Versendung / Drittland-Konstellationen
-                mit StB klären (haftungsbeschränkt: Verkauf an Endkunden in DE).
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
+      <Callout tone="warning" title="Wichtige Hinweise" className="mt-8">
+        <ul className="list-disc space-y-1 pl-4">
+          <li>
+            §19 UStG wurde zum <strong>1.1.2025 reformiert</strong>: Schwellen 22k→25k (Vorjahr)
+            und 50k→100k (laufendes Jahr). Echte Schwelle, nicht Schätzung.
+          </li>
+          <li>
+            OSS-Schwelle <strong>10.000 €/Jahr</strong> gilt seit 1.7.2021 für ALLE EU-Länder
+            zusammen (nicht pro Land!).
+          </li>
+          <li>
+            Reverse-Charge §13b ist Pflicht — Rechnung muss "Steuerschuldnerschaft des
+            Leistungsempfängers" enthalten.
+          </li>
+          <li>
+            Konkrete Berechnung bei Bauleistungen / IGL-Versendung / Drittland-Konstellationen
+            mit StB klären (haftungsbeschränkt: Verkauf an Endkunden in DE).
+          </li>
+        </ul>
+      </Callout>
     </CockpitShell>
   );
 };
@@ -125,69 +134,90 @@ const BruttoNetto = () => {
     }
   }, [direction, betrag, satz]);
 
+  const zuBrutto = direction === "netto-zu-brutto";
+
   return (
-    <div className="space-y-4">
-      <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Richtung</Label>
-            <select
-              value={direction}
-              onChange={(e) => setDirection(e.target.value as typeof direction)}
-              className="mt-1 h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
-            >
-              <option value="netto-zu-brutto">Netto → Brutto (USt aufschlagen)</option>
-              <option value="brutto-zu-netto">Brutto → Netto (USt herausrechnen)</option>
-            </select>
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">USt-Satz</Label>
-            <div className="grid grid-cols-2 gap-2 mt-1">
-              {[19, 7].map((s) => (
-                <button
-                  key={s}
-                  onClick={() => setSatz(s as 7 | 19)}
-                  className={`rounded-md border h-10 text-sm font-semibold ${
-                    satz === s
-                      ? "border-accent-blue bg-accent-blue/10 text-accent-blue"
-                      : "border-border hover:bg-secondary"
-                  }`}
+    <ToolLayout
+      inputs={
+        <>
+          <ToolSection title="Betrag und Steuersatz" icon={SlidersHorizontal}>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <Field label="Richtung" htmlFor="bn-richtung">
+                <select
+                  id="bn-richtung"
+                  value={direction}
+                  onChange={(e) => setDirection(e.target.value as typeof direction)}
+                  className={selectCls}
                 >
-                  {s}%
-                </button>
-              ))}
+                  <option value="netto-zu-brutto">Netto → Brutto (USt aufschlagen)</option>
+                  <option value="brutto-zu-netto">Brutto → Netto (USt herausrechnen)</option>
+                </select>
+              </Field>
+              <div className="space-y-1.5">
+                <p className="text-sm font-medium">USt-Satz</p>
+                <ChoiceGroup<7 | 19>
+                  label="USt-Satz"
+                  value={satz}
+                  onChange={(v) => setSatz(v)}
+                  options={[
+                    { value: 19 as const, label: "19 %" },
+                    { value: 7 as const, label: "7 %" },
+                  ]}
+                  className="[&>button]:flex-1 [&>button]:text-center"
+                />
+              </div>
+              <Field
+                className="sm:col-span-2"
+                label={zuBrutto ? "Netto-Betrag (€)" : "Brutto-Betrag (€)"}
+                htmlFor="bn-betrag"
+              >
+                <Input
+                  id="bn-betrag"
+                  type="number"
+                  min={0}
+                  step={0.01}
+                  value={betrag}
+                  onChange={(e) => setBetrag(Math.max(0, Number(e.target.value) || 0))}
+                  className="tabular"
+                />
+              </Field>
             </div>
+          </ToolSection>
+
+          <ToolSection title="So wird gerechnet" icon={Calculator}>
+            <dl className="space-y-3 text-sm">
+              <div>
+                <dt className="font-medium">Formel</dt>
+                <dd className="mt-0.5 text-muted-foreground">
+                  Brutto = Netto × (1 + USt-Satz) · Netto = Brutto / (1 + USt-Satz) · USt = Netto × USt-Satz
+                </dd>
+              </div>
+              <div>
+                <dt className="font-medium">Reduzierter Satz 7 %</dt>
+                <dd className="mt-0.5 text-muted-foreground">
+                  Lebensmittel, Bücher, Zeitungen, Personenbeförderung, Beherbergung (§12 Abs. 2 UStG, Anlage 2)
+                </dd>
+              </div>
+            </dl>
+          </ToolSection>
+        </>
+      }
+      result={
+        <ResultPanel
+          variant="ink"
+          kicker={zuBrutto ? "Netto → Brutto" : "Brutto → Netto"}
+          title={zuBrutto ? "Brutto-Betrag" : "Netto-Betrag"}
+          value={formatEur(zuBrutto ? calc.brutto : calc.netto)}
+          valueHint={`bei ${satz} % Umsatzsteuer`}
+        >
+          <div className="divide-y divide-white/10 border-t border-white/10">
+            <ResultRow label="Netto" value={formatEur(calc.netto)} />
+            <ResultRow label={`USt ${satz}%`} value={formatEur(calc.ust)} />
+            <ResultRow label="Brutto" value={formatEur(calc.brutto)} strong />
           </div>
-        </div>
-        <div>
-          <Label className="text-xs uppercase tracking-wider text-muted-foreground">
-            {direction === "netto-zu-brutto" ? "Netto-Betrag (€)" : "Brutto-Betrag (€)"}
-          </Label>
-          <Input
-            type="number"
-            min={0}
-            step={0.01}
-            value={betrag}
-            onChange={(e) => setBetrag(Math.max(0, Number(e.target.value) || 0))}
-            className="mt-1"
-          />
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-        <ResultCard label="Netto" value={formatEur(calc.netto)} color="emerald" />
-        <ResultCard label={`USt ${satz}%`} value={formatEur(calc.ust)} color="amber" />
-        <ResultCard label="Brutto" value={formatEur(calc.brutto)} color="blue" highlight />
-      </div>
-
-      <div className="rounded-xl border border-border bg-card p-3 text-xs text-muted-foreground">
-        <strong className="text-foreground">Formel:</strong> Brutto = Netto × (1 + USt-Satz) ·{" "}
-        Netto = Brutto / (1 + USt-Satz) · USt = Netto × USt-Satz
-        <br />
-        <strong className="text-foreground">Reduzierter Satz 7%:</strong> Lebensmittel, Bücher,
-        Zeitungen, Personenbeförderung, Beherbergung (§12 Abs. 2 UStG, Anlage 2)
-      </div>
-    </div>
+        </ResultPanel>
+      }
+    />
   );
 };
 
@@ -225,139 +255,134 @@ const Kleinunternehmer = () => {
   }, [umsatzVorjahr, umsatzAktuell, istExistenzgruender, gruendungsMonat]);
 
   return (
-    <div className="space-y-4">
-      <div className="rounded-2xl border border-blue-500/30 bg-blue-500/5 p-4">
-        <div className="flex items-start gap-2">
-          <Info className="h-4 w-4 text-blue-700 shrink-0 mt-0.5" />
-          <div className="text-xs">
-            <strong className="text-blue-700">Reform 1.1.2025:</strong> Schwellen erhöht von
-            22.000/50.000 € auf <strong>25.000/100.000 €</strong>. KU-Umsatz ist jetzt
+    <ToolLayout
+      inputs={
+        <>
+          <Callout tone="info" title="Reform 1.1.2025">
+            Schwellen erhöht von 22.000/50.000 € auf <strong>25.000/100.000 €</strong>. KU-Umsatz ist jetzt
             "steuerfrei" (vorher "wird nicht erhoben"). Bei Überschreitung der 100k im laufenden
             Jahr → sofortiger Verlust des KU-Status (vorher: erst im Folgejahr).
-          </div>
-        </div>
-      </div>
+          </Callout>
 
-      <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5">
-        <label className="flex items-center gap-2 text-xs cursor-pointer mb-3">
-          <input type="checkbox" checked={istExistenzgruender} onChange={(e) => setIstExistenzgruender(e.target.checked)} className="h-4 w-4" />
-          <span><strong>Existenzgründer im Gründungsjahr</strong> — kein Vorjahres-Umsatz, anteilige 25k-Schwelle</span>
-        </label>
-        {istExistenzgruender && (
-          <div className="mb-3">
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Gründungs-Monat</Label>
-            <select
-              value={gruendungsMonat}
-              onChange={(e) => setGruendungsMonat(Number(e.target.value))}
-              className="mt-1 h-9 w-full md:w-48 rounded-md border border-input bg-background px-2 text-sm"
-            >
-              {["Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"].map((m, i) => (
-                <option key={m} value={i + 1}>{m} ({12 - i} Mon. verbleibend)</option>
-              ))}
-            </select>
-            <div className="text-[10px] text-muted-foreground mt-1">
-              Anteilige Schwelle: <strong>{Math.round(result.anteiligeSchwelle).toLocaleString("de-DE")} €</strong> (= 25.000 × {12 - (gruendungsMonat - 1)}/12)
-            </div>
-          </div>
-        )}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          {!istExistenzgruender && (
-            <div>
-              <Label className="text-xs uppercase tracking-wider text-muted-foreground">
-                Vorjahres-Umsatz (Netto, €)
-              </Label>
-              <Input
-                type="number"
-                min={0}
-                value={umsatzVorjahr}
-                onChange={(e) => setUmsatzVorjahr(Math.max(0, Number(e.target.value) || 0))}
-                className="mt-1"
-              />
-              <div className="text-[10px] text-muted-foreground mt-1">
-                Schwelle: {KU_VORJAHR_NEU.toLocaleString("de-DE")} €
+          <ToolSection title="Deine Umsätze" icon={SlidersHorizontal}>
+            <div className="space-y-4">
+              <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-border p-3.5 transition-colors hover:border-foreground/25 has-[:checked]:border-accent-blue/40 has-[:checked]:bg-accent">
+                <input
+                  type="checkbox"
+                  checked={istExistenzgruender}
+                  onChange={(e) => setIstExistenzgruender(e.target.checked)}
+                  className="mt-0.5 h-4 w-4 accent-[hsl(var(--accent-blue))]"
+                />
+                <span className="text-sm">
+                  <span className="block font-medium">Existenzgründer im Gründungsjahr</span>
+                  <span className="mt-0.5 block text-muted-foreground">Kein Vorjahres-Umsatz, anteilige 25k-Schwelle</span>
+                </span>
+              </label>
+              {istExistenzgruender && (
+                <Field
+                  label="Gründungsmonat"
+                  htmlFor="ku-monat"
+                  hint={
+                    <>
+                      Anteilige Schwelle:{" "}
+                      <strong className="text-foreground tabular">{Math.round(result.anteiligeSchwelle).toLocaleString("de-DE")} €</strong>{" "}
+                      (= 25.000 × {12 - (gruendungsMonat - 1)}/12)
+                    </>
+                  }
+                >
+                  <select
+                    id="ku-monat"
+                    value={gruendungsMonat}
+                    onChange={(e) => setGruendungsMonat(Number(e.target.value))}
+                    className={selectCls}
+                  >
+                    {["Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"].map((m, i) => (
+                      <option key={m} value={i + 1}>{m} ({12 - i} Mon. verbleibend)</option>
+                    ))}
+                  </select>
+                </Field>
+              )}
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                {!istExistenzgruender && (
+                  <Field label="Vorjahres-Umsatz (netto, €)" htmlFor="ku-vorjahr" hint={`Schwelle: ${KU_VORJAHR_NEU.toLocaleString("de-DE")} €`}>
+                    <Input
+                      id="ku-vorjahr"
+                      type="number"
+                      min={0}
+                      value={umsatzVorjahr}
+                      onChange={(e) => setUmsatzVorjahr(Math.max(0, Number(e.target.value) || 0))}
+                      className="tabular"
+                    />
+                  </Field>
+                )}
+                <Field
+                  label="Aktueller Jahres-Umsatz (netto, €)"
+                  htmlFor="ku-aktuell"
+                  hint={`Schwelle: ${istExistenzgruender ? Math.round(result.anteiligeSchwelle).toLocaleString("de-DE") : KU_AKTUELL_NEU.toLocaleString("de-DE")} €`}
+                >
+                  <Input
+                    id="ku-aktuell"
+                    type="number"
+                    min={0}
+                    value={umsatzAktuell}
+                    onChange={(e) => setUmsatzAktuell(Math.max(0, Number(e.target.value) || 0))}
+                    className="tabular"
+                  />
+                </Field>
               </div>
             </div>
-          )}
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">
-              Aktueller Jahres-Umsatz (Netto, €)
-            </Label>
-            <Input
-              type="number"
-              min={0}
-              value={umsatzAktuell}
-              onChange={(e) => setUmsatzAktuell(Math.max(0, Number(e.target.value) || 0))}
-              className="mt-1"
+          </ToolSection>
+
+          <ToolSection title="Was bedeutet der KU-Status konkret?" icon={ListChecks}>
+            <ul className="list-disc space-y-1.5 pl-4 text-sm text-muted-foreground">
+              <li><strong className="text-foreground">Keine USt-Berechnung</strong> auf Rechnungen (kein 19%/7%-Aufschlag)</li>
+              <li>Rechnungs-Hinweis: <em>"Gemäß §19 UStG wird keine Umsatzsteuer erhoben"</em></li>
+              <li><strong className="text-foreground">KEIN Vorsteuer-Abzug</strong> möglich (eingekaufte USt = Aufwand)</li>
+              <li>
+                <strong className="text-foreground">Verzicht auf KU-Regelung</strong> ("Option zur Regelbesteuerung") bindet 5
+                Jahre — schriftlich beim Finanzamt anmelden
+              </li>
+              <li>
+                <strong className="text-foreground">Reverse-Charge §13b</strong>: greift auch für KU bei Einkauf aus EU-Ausland —
+                USt-Schuldnerschaft, aber kein VSt-Abzug
+              </li>
+              <li>
+                <strong className="text-foreground">Ab Überschreitung 100k im laufenden Jahr</strong>: SOFORTIGER Wechsel zur
+                Regelbesteuerung — Rechnungen für Umsätze NACH Überschreitung mit USt
+              </li>
+            </ul>
+          </ToolSection>
+        </>
+      }
+      result={
+        <StatusPanel
+          ok={result.istKu}
+          okTone="success"
+          failTone="danger"
+          kicker="KU-Status §19 UStG"
+          title={
+            result.istKu
+              ? "Kleinunternehmer"
+              : result.verlustImLaufendenJahr
+              ? "Verlust im laufenden Jahr"
+              : "Regelbesteuerer"
+          }
+        >
+          <div className="space-y-2">
+            <FactRow
+              ok={result.vorjahrOk}
+              label={`Vorjahr ≤ ${KU_VORJAHR_NEU.toLocaleString("de-DE")} €`}
+              value={`${umsatzVorjahr.toLocaleString("de-DE")} €`}
             />
-            <div className="text-[10px] text-muted-foreground mt-1">
-              Schwelle: {istExistenzgruender ? Math.round(result.anteiligeSchwelle).toLocaleString("de-DE") : KU_AKTUELL_NEU.toLocaleString("de-DE")} €
-            </div>
+            <FactRow
+              ok={result.aktuellOk}
+              label={`Aktuell ≤ ${KU_AKTUELL_NEU.toLocaleString("de-DE")} €`}
+              value={`${umsatzAktuell.toLocaleString("de-DE")} €`}
+            />
           </div>
-        </div>
-      </div>
-
-      <div
-        className={`rounded-2xl border-2 p-5 ${
-          result.istKu
-            ? "border-emerald-500/40 bg-emerald-500/5"
-            : "border-red-500/40 bg-red-500/5"
-        }`}
-      >
-        <div className="flex items-center gap-3 mb-3">
-          {result.istKu ? (
-            <CheckCircle2 className="h-6 w-6 text-emerald-700" />
-          ) : (
-            <AlertTriangle className="h-6 w-6 text-red-700" />
-          )}
-          <div>
-            <div className="text-xs uppercase tracking-wider text-muted-foreground">
-              KU-Status §19 UStG
-            </div>
-            <div className="text-2xl font-bold">
-              {result.istKu
-                ? "✓ Kleinunternehmer"
-                : result.verlustImLaufendenJahr
-                ? "✗ Verlust im laufenden Jahr"
-                : "✗ Regelbesteuerer"}
-            </div>
-          </div>
-        </div>
-
-        <div className="space-y-2 text-sm">
-          <FactRow
-            ok={result.vorjahrOk}
-            label={`Vorjahr ≤ ${KU_VORJAHR_NEU.toLocaleString("de-DE")} €`}
-            value={`${umsatzVorjahr.toLocaleString("de-DE")} €`}
-          />
-          <FactRow
-            ok={result.aktuellOk}
-            label={`Aktuell ≤ ${KU_AKTUELL_NEU.toLocaleString("de-DE")} €`}
-            value={`${umsatzAktuell.toLocaleString("de-DE")} €`}
-          />
-        </div>
-      </div>
-
-      <div className="rounded-xl border border-border bg-card p-4 text-xs space-y-2">
-        <div className="font-semibold text-sm mb-1">Was bedeutet KU-Status konkret?</div>
-        <ul className="list-disc pl-4 space-y-1 text-muted-foreground">
-          <li><strong>Keine USt-Berechnung</strong> auf Rechnungen (kein 19%/7%-Aufschlag)</li>
-          <li>Rechnungs-Hinweis: <em>"Gemäß §19 UStG wird keine Umsatzsteuer erhoben"</em></li>
-          <li><strong>KEIN Vorsteuer-Abzug</strong> möglich (eingekaufte USt = Aufwand)</li>
-          <li>
-            <strong>Verzicht auf KU-Regelung</strong> ("Option zur Regelbesteuerung") bindet 5
-            Jahre — schriftlich beim Finanzamt anmelden
-          </li>
-          <li>
-            <strong>Reverse-Charge §13b</strong>: greift auch für KU bei Einkauf aus EU-Ausland —
-            USt-Schuldnerschaft, aber kein VSt-Abzug
-          </li>
-          <li>
-            <strong>Ab Überschreitung 100k im laufenden Jahr</strong>: SOFORTIGER Wechsel zur
-            Regelbesteuerung — Rechnungen für Umsätze NACH Überschreitung mit USt
-          </li>
-        </ul>
-      </div>
-    </div>
+        </StatusPanel>
+      }
+    />
   );
 };
 
@@ -423,133 +448,90 @@ const ReverseCharge = () => {
   }, [empfaengerSitz, art, istB2b, hatUstId]);
 
   return (
-    <div className="space-y-4">
-      <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">
-              Empfänger-Sitz
-            </Label>
-            <select
-              value={empfaengerSitz}
-              onChange={(e) => setEmpfaengerSitz(e.target.value as typeof empfaengerSitz)}
-              className="mt-1 h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
-            >
-              <option value="de">🇩🇪 Deutschland</option>
-              <option value="eu">🇪🇺 EU-Ausland</option>
-              <option value="drittland">🌍 Drittland (US, UK, CH...)</option>
-            </select>
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">
-              Art der Leistung
-            </Label>
-            <select
-              value={art}
-              onChange={(e) => setArt(e.target.value as typeof art)}
-              className="mt-1 h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
-            >
-              <option value="dienstleistung">Dienstleistung (IT, Beratung, SaaS)</option>
-              <option value="werklieferung">Werklieferung (Lieferung + Montage)</option>
-              <option value="bauleistung">Bauleistung (§13b Abs. 2 Nr. 4)</option>
-              <option value="metalle">Metalle/Schrott (§13b Abs. 2 Nr. 7)</option>
-            </select>
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">
-              B2B oder B2C?
-            </Label>
-            <div className="grid grid-cols-2 gap-2 mt-1">
-              {[
-                { v: true, l: "B2B (Unternehmer)" },
-                { v: false, l: "B2C (Privatkunde)" },
-              ].map((o) => (
-                <button
-                  key={String(o.v)}
-                  onClick={() => setIstB2b(o.v)}
-                  className={`rounded-md border h-10 text-sm ${
-                    istB2b === o.v
-                      ? "border-accent-blue bg-accent-blue/10 text-accent-blue font-semibold"
-                      : "border-border hover:bg-secondary"
-                  }`}
-                >
-                  {o.l}
-                </button>
-              ))}
+    <ToolLayout
+      inputs={
+        <ToolSection title="Dein Fall" icon={SlidersHorizontal}>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <Field label="Sitz des Empfängers" htmlFor="rc-sitz">
+              <select
+                id="rc-sitz"
+                value={empfaengerSitz}
+                onChange={(e) => setEmpfaengerSitz(e.target.value as typeof empfaengerSitz)}
+                className={selectCls}
+              >
+                <option value="de">Deutschland</option>
+                <option value="eu">EU-Ausland</option>
+                <option value="drittland">Drittland (US, UK, CH ...)</option>
+              </select>
+            </Field>
+            <Field label="Art der Leistung" htmlFor="rc-art">
+              <select
+                id="rc-art"
+                value={art}
+                onChange={(e) => setArt(e.target.value as typeof art)}
+                className={selectCls}
+              >
+                <option value="dienstleistung">Dienstleistung (IT, Beratung, SaaS)</option>
+                <option value="werklieferung">Werklieferung (Lieferung + Montage)</option>
+                <option value="bauleistung">Bauleistung (§13b Abs. 2 Nr. 4)</option>
+                <option value="metalle">Metalle/Schrott (§13b Abs. 2 Nr. 7)</option>
+              </select>
+            </Field>
+            <div className="space-y-1.5">
+              <p className="text-sm font-medium">B2B oder B2C?</p>
+              <ChoiceGroup<boolean>
+                label="B2B oder B2C"
+                value={istB2b}
+                onChange={setIstB2b}
+                options={[
+                  { value: true, label: "B2B (Unternehmer)" },
+                  { value: false, label: "B2C (Privatkunde)" },
+                ]}
+                className="[&>button]:flex-1 [&>button]:text-center"
+              />
             </div>
-          </div>
-          {empfaengerSitz === "eu" && istB2b && (
-            <div>
-              <Label className="text-xs uppercase tracking-wider text-muted-foreground">
-                Gültige USt-IdNr. vorhanden?
-              </Label>
-              <div className="grid grid-cols-2 gap-2 mt-1">
-                {[
-                  { v: true, l: "Ja, geprüft" },
-                  { v: false, l: "Nein" },
-                ].map((o) => (
-                  <button
-                    key={String(o.v)}
-                    onClick={() => setHatUstId(o.v)}
-                    className={`rounded-md border h-10 text-sm ${
-                      hatUstId === o.v
-                        ? "border-accent-blue bg-accent-blue/10 text-accent-blue font-semibold"
-                        : "border-border hover:bg-secondary"
-                    }`}
+            {empfaengerSitz === "eu" && istB2b && (
+              <div className="space-y-1.5">
+                <p className="text-sm font-medium">Gültige USt-IdNr. vorhanden?</p>
+                <ChoiceGroup<boolean>
+                  label="Gültige USt-IdNr. vorhanden"
+                  value={hatUstId}
+                  onChange={setHatUstId}
+                  options={[
+                    { value: true, label: "Ja, geprüft" },
+                    { value: false, label: "Nein" },
+                  ]}
+                  className="[&>button]:flex-1 [&>button]:text-center"
+                />
+                <p className="text-xs text-muted-foreground">
+                  Pflicht-Validierung über das{" "}
+                  <a
+                    href="https://evatr.bff-online.de/eVatR/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-medium text-accent-blue underline-offset-2 hover:underline"
                   >
-                    {o.l}
-                  </button>
-                ))}
+                    BZSt-Bestätigungsverfahren
+                  </a>
+                </p>
               </div>
-              <div className="text-[10px] text-muted-foreground mt-1">
-                Pflicht-Validierung via{" "}
-                <a
-                  href="https://evatr.bff-online.de/eVatR/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-accent-blue underline"
-                >
-                  BZSt-Bestätigungsverfahren
-                </a>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-
-      <div
-        className={`rounded-2xl border-2 p-5 ${
-          result.rcGreift
-            ? "border-emerald-500/40 bg-emerald-500/5"
-            : "border-amber-500/40 bg-amber-500/5"
-        }`}
-      >
-        <div className="flex items-center gap-3 mb-3">
-          {result.rcGreift ? (
-            <CheckCircle2 className="h-6 w-6 text-emerald-700" />
-          ) : (
-            <Info className="h-6 w-6 text-amber-700" />
-          )}
-          <div>
-            <div className="text-xs uppercase tracking-wider text-muted-foreground">
-              Reverse-Charge-Status
-            </div>
-            <div className="text-2xl font-bold">
-              {result.rcGreift ? "✓ Reverse-Charge greift" : "✗ Standard-USt (kein RC)"}
-            </div>
+            )}
           </div>
-        </div>
-        <div className="text-sm text-muted-foreground mb-2">{result.begruendung}</div>
-        {result.rechnungsHinweis && (
-          <div className="rounded-xl bg-card border border-border p-3 mt-2">
-            <div className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-1">
-              Rechnungs-Hinweis (Pflicht)
-            </div>
-            <div className="font-mono text-sm">"{result.rechnungsHinweis}"</div>
-          </div>
-        )}
-      </div>
-    </div>
+        </ToolSection>
+      }
+      result={
+        <StatusPanel
+          ok={result.rcGreift}
+          okTone="success"
+          failTone="warning"
+          kicker="Reverse-Charge-Status"
+          title={result.rcGreift ? "Reverse Charge greift" : "Standard-USt (kein RC)"}
+        >
+          <p className="text-sm leading-relaxed text-foreground/80">{result.begruendung}</p>
+          {result.rechnungsHinweis && <PflichtHinweis text={result.rechnungsHinweis} />}
+        </StatusPanel>
+      }
+    />
   );
 };
 
@@ -576,116 +558,97 @@ const OssVerfahren = () => {
   }, [umsatzB2cEu, zielLand]);
 
   return (
-    <div className="space-y-4">
-      <div className="rounded-2xl border border-blue-500/30 bg-blue-500/5 p-4">
-        <div className="flex items-start gap-2">
-          <Info className="h-4 w-4 text-blue-700 shrink-0 mt-0.5" />
-          <div className="text-xs leading-relaxed">
-            <strong className="text-blue-700">OSS-Verfahren (seit 1.7.2021):</strong> Bei B2C-
-            Verkäufen in andere EU-Länder gilt eine{" "}
+    <ToolLayout
+      inputs={
+        <>
+          <Callout tone="info" title="OSS-Verfahren (seit 1.7.2021)">
+            Bei B2C-Verkäufen in andere EU-Länder gilt eine{" "}
             <strong>einheitliche Lieferschwelle 10.000 €/Jahr für ALLE EU-Länder zusammen</strong>{" "}
             (nicht pro Land!). Unter 10k → DE-USt. Über 10k → USt des Ziel-Landes via OSS
             (One-Stop-Shop beim BZSt, quartalsweise Meldung).
-          </div>
-        </div>
-      </div>
+          </Callout>
 
-      <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">
-              Gesamt-B2C-EU-Umsatz / Jahr (€)
-            </Label>
-            <Input
-              type="number"
-              min={0}
-              value={umsatzB2cEu}
-              onChange={(e) => setUmsatzB2cEu(Math.max(0, Number(e.target.value) || 0))}
-              className="mt-1"
-            />
-            <div className="text-[10px] text-muted-foreground mt-1">
-              Schwelle: {OSS_SCHWELLE.toLocaleString("de-DE")} € (alle EU-Länder kombiniert)
+          <ToolSection title="Deine EU-Verkäufe" icon={SlidersHorizontal}>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <Field
+                label="B2C-EU-Umsatz gesamt pro Jahr (€)"
+                htmlFor="oss-umsatz"
+                hint={`Schwelle: ${OSS_SCHWELLE.toLocaleString("de-DE")} € (alle EU-Länder kombiniert)`}
+              >
+                <Input
+                  id="oss-umsatz"
+                  type="number"
+                  min={0}
+                  value={umsatzB2cEu}
+                  onChange={(e) => setUmsatzB2cEu(Math.max(0, Number(e.target.value) || 0))}
+                  className="tabular"
+                />
+              </Field>
+              <Field label="Zielland (Beispiel)" htmlFor="oss-land">
+                <select
+                  id="oss-land"
+                  value={zielLand}
+                  onChange={(e) => setZielLand(e.target.value as typeof zielLand)}
+                  className={selectCls}
+                >
+                  {Object.entries(ZIEL_LAENDER).map(([k, v]) => (
+                    <option key={k} value={k}>
+                      {v.name} ({v.ust}% USt)
+                    </option>
+                  ))}
+                </select>
+              </Field>
             </div>
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">
-              Ziel-Land (Beispiel)
-            </Label>
-            <select
-              value={zielLand}
-              onChange={(e) => setZielLand(e.target.value as typeof zielLand)}
-              className="mt-1 h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
-            >
-              {Object.entries(ZIEL_LAENDER).map(([k, v]) => (
-                <option key={k} value={k}>
-                  {v.name} ({v.ust}% USt)
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-      </div>
+          </ToolSection>
 
-      <div
-        className={`rounded-2xl border-2 p-5 ${
-          result.ueberSchwelle
-            ? "border-amber-500/40 bg-amber-500/5"
-            : "border-emerald-500/40 bg-emerald-500/5"
-        }`}
-      >
-        <div className="flex items-center gap-3 mb-3">
+          <ToolSection title="OSS in der Praxis" icon={ListChecks}>
+            <ul className="list-disc space-y-1.5 pl-4 text-sm text-muted-foreground">
+              <li>OSS-Anmeldung beim BZSt: <code className="rounded bg-secondary px-1 py-0.5 text-xs text-foreground">BOP-Portal</code> (BZSt-Online-Portal)</li>
+              <li>
+                <strong className="text-foreground">Quartals-Meldung</strong>: bis Ende des Folgemonats (Q1 → 30.4., Q2 → 31.7., Q3
+                → 31.10., Q4 → 31.1.)
+              </li>
+              <li>
+                <strong className="text-foreground">Verzicht möglich</strong>: bewusst auf OSS verzichten, dann nationale
+                Registrierung im Ziel-Land Pflicht (lohnt sich kaum)
+              </li>
+              <li>Amazon Pan-EU-FBA hat eigene Komplikationen (Lager in IT/FR/ES/PL/CZ) — siehe Amazon-USt-Tool</li>
+            </ul>
+          </ToolSection>
+        </>
+      }
+      result={
+        <StatusPanel
+          ok={!result.ueberSchwelle}
+          okTone="success"
+          failTone="warning"
+          kicker="OSS-Status"
+          title={result.ueberSchwelle ? "Über 10k: OSS-Pflicht" : "Unter 10k: DE-USt"}
+        >
           {result.ueberSchwelle ? (
-            <AlertTriangle className="h-6 w-6 text-amber-700" />
+            <div className="space-y-3 text-sm">
+              <p className="leading-relaxed text-foreground/80">
+                Du musst <strong className="text-foreground">{ZIEL_LAENDER[zielLand].name}-USt {result.zielUst}%</strong>{" "}
+                abführen, gemeldet via OSS-Portal beim BZSt (quartalsweise, ohne nationale
+                Registrierung im Ziel-Land nötig).
+              </p>
+              <div className="rounded-xl border border-border bg-card p-3.5">
+                <p className="text-sm font-medium">Beispiel: 100 € Brutto-Verkauf nach {ZIEL_LAENDER[zielLand].name}</p>
+                <div className="mt-1 divide-y divide-border/70">
+                  <ResultRow label="Netto" value={`~${(100 / (1 + result.zielUst / 100)).toFixed(2)} €`} />
+                  <ResultRow label={`${result.zielUst}% USt an BZSt`} value={`${(100 - 100 / (1 + result.zielUst / 100)).toFixed(2)} €`} />
+                </div>
+              </div>
+            </div>
           ) : (
-            <CheckCircle2 className="h-6 w-6 text-emerald-700" />
+            <p className="text-sm leading-relaxed text-foreground/80">
+              Du verrechnest <strong className="text-foreground">DE-USt 19%/7%</strong> wie bei Inlandskunden. Erst ab
+              Überschreitung der 10k-Schwelle wechselt die USt-Pflicht zum Ziel-Land.
+            </p>
           )}
-          <div>
-            <div className="text-xs uppercase tracking-wider text-muted-foreground">
-              OSS-Status
-            </div>
-            <div className="text-2xl font-bold">
-              {result.ueberSchwelle ? "✗ Über 10k → OSS-Pflicht" : "✓ Unter 10k → DE-USt"}
-            </div>
-          </div>
-        </div>
-
-        {result.ueberSchwelle ? (
-          <div className="text-sm">
-            <div className="mb-2">
-              Du musst <strong>{ZIEL_LAENDER[zielLand].name}-USt {result.zielUst}%</strong>{" "}
-              abführen, gemeldet via OSS-Portal beim BZSt (quartalsweise, ohne nationale
-              Registrierung im Ziel-Land nötig).
-            </div>
-            <div className="rounded-lg bg-card border border-border p-3 text-xs">
-              <strong>Beispiel:</strong> 100 € Brutto-Verkauf nach {ZIEL_LAENDER[zielLand].name} = ~
-              {(100 / (1 + result.zielUst / 100)).toFixed(2)} € Netto + {result.zielUst}% USt ={" "}
-              {(100 - 100 / (1 + result.zielUst / 100)).toFixed(2)} € USt an BZSt
-            </div>
-          </div>
-        ) : (
-          <div className="text-sm">
-            Du verrechnest <strong>DE-USt 19%/7%</strong> wie bei Inlandskunden. Erst ab
-            Überschreitung der 10k-Schwelle wechselt die USt-Pflicht zum Ziel-Land.
-          </div>
-        )}
-      </div>
-
-      <div className="rounded-xl border border-border bg-card p-4 text-xs space-y-2">
-        <div className="font-semibold text-sm">OSS-Praxis:</div>
-        <ul className="list-disc pl-4 space-y-1 text-muted-foreground">
-          <li>OSS-Anmeldung beim BZSt: <code>BOP-Portal</code> (BZSt-Online-Portal)</li>
-          <li>
-            <strong>Quartals-Meldung</strong>: bis Ende des Folgemonats (Q1 → 30.4., Q2 → 31.7., Q3
-            → 31.10., Q4 → 31.1.)
-          </li>
-          <li>
-            <strong>Verzicht möglich</strong>: bewusst auf OSS verzichten, dann nationale
-            Registrierung im Ziel-Land Pflicht (lohnt sich kaum)
-          </li>
-          <li>Amazon Pan-EU-FBA hat eigene Komplikationen (Lager in IT/FR/ES/PL/CZ) — siehe Amazon-USt-Tool</li>
-        </ul>
-      </div>
-    </div>
+        </StatusPanel>
+      }
+    />
   );
 };
 
@@ -700,215 +663,196 @@ const IglRechner = () => {
   const istIgl = hatUstId && hatBelege;
 
   return (
-    <div className="space-y-4">
-      <div className="rounded-2xl border border-blue-500/30 bg-blue-500/5 p-4">
-        <div className="flex items-start gap-2">
-          <Info className="h-4 w-4 text-blue-700 shrink-0 mt-0.5" />
-          <div className="text-xs leading-relaxed">
-            <strong className="text-blue-700">Innergemeinschaftliche Lieferung (IGL) §6a UStG:</strong>{" "}
+    <ToolLayout
+      inputs={
+        <>
+          <Callout tone="info" title="Innergemeinschaftliche Lieferung (IGL) §6a UStG">
             B2B-Warenverkauf an EU-Empfänger ist <strong>steuerfrei</strong> wenn (1) Empfänger eine
             gültige USt-IdNr. hat, (2) Ware DE verlässt, (3) Belegnachweis (Frachtbrief/Spediteur)
             UND Buchnachweis (USt-IdNr.-Bestätigung) vorliegen. Pflicht: Zusammenfassende Meldung
             (ZM) bis 25. des Folgemonats.
-          </div>
-        </div>
-      </div>
+          </Callout>
 
-      <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">
-              Warenwert Netto (€)
-            </Label>
-            <Input
-              type="number"
-              min={0}
-              value={warenwert}
-              onChange={(e) => setWarenwert(Math.max(0, Number(e.target.value) || 0))}
-              className="mt-1"
+          <ToolSection title="Deine Lieferung" icon={SlidersHorizontal}>
+            <div className="space-y-4">
+              <Field label="Warenwert netto (€)" htmlFor="igl-wert">
+                <Input
+                  id="igl-wert"
+                  type="number"
+                  min={0}
+                  value={warenwert}
+                  onChange={(e) => setWarenwert(Math.max(0, Number(e.target.value) || 0))}
+                  className="tabular"
+                />
+              </Field>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div className="space-y-1.5">
+                  <p className="text-sm font-medium">Gültige USt-IdNr. und qualifizierte Bestätigung?</p>
+                  <ChoiceGroup<boolean>
+                    label="Gültige USt-IdNr. und qualifizierte Bestätigung"
+                    value={hatUstId}
+                    onChange={setHatUstId}
+                    options={[
+                      { value: true, label: "Ja" },
+                      { value: false, label: "Nein" },
+                    ]}
+                    className="[&>button]:flex-1 [&>button]:text-center"
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <p className="text-sm font-medium">Belegnachweis (Frachtbrief, CMR, Spediteur-Bestätigung)?</p>
+                  <ChoiceGroup<boolean>
+                    label="Belegnachweis vorhanden"
+                    value={hatBelege}
+                    onChange={setHatBelege}
+                    options={[
+                      { value: true, label: "Ja, vorhanden" },
+                      { value: false, label: "Nein/unvollständig" },
+                    ]}
+                    className="[&>button]:flex-1 [&>button]:text-center"
+                  />
+                </div>
+              </div>
+            </div>
+          </ToolSection>
+
+          <ToolSection title="IGL in der Praxis: Pflichten" icon={ListChecks}>
+            <ul className="list-disc space-y-1.5 pl-4 text-sm text-muted-foreground">
+              <li>
+                <strong className="text-foreground">USt-IdNr. validieren:</strong> qualifizierte Bestätigung via{" "}
+                <a
+                  href="https://evatr.bff-online.de/eVatR/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-medium text-accent-blue underline-offset-2 hover:underline"
+                >
+                  evatr.bff-online.de
+                </a>{" "}
+                (Bestätigungsverfahren §18e UStG) — bei jeder neuen Geschäftsbeziehung
+              </li>
+              <li>
+                <strong className="text-foreground">Zusammenfassende Meldung (ZM):</strong> bis 25. des Folgemonats elektronisch
+                via BZSt-Portal
+              </li>
+              <li>
+                <strong className="text-foreground">Quick Fixes 2020</strong>: USt-IdNr. ist materielle Voraussetzung, nicht nur
+                formell. Ohne USt-IdNr.: keine IGL!
+              </li>
+              <li>
+                <strong className="text-foreground">Belegnachweis</strong>: Gelangensbestätigung, Frachtbrief (CMR), Spediteur-
+                Bescheinigung — mind. einer davon zwingend
+              </li>
+            </ul>
+          </ToolSection>
+        </>
+      }
+      result={
+        <StatusPanel
+          ok={istIgl}
+          okTone="success"
+          failTone="danger"
+          kicker="IGL-Status"
+          title={istIgl ? "Steuerfrei (IGL)" : "DE-USt 19% Pflicht"}
+        >
+          <StatGrid cols={2}>
+            <StatTile label="Rechnungsbetrag" value={formatEur(istIgl ? warenwert : warenwert * 1.19)} />
+            <StatTile
+              label="USt-Anteil"
+              value={formatEur(istIgl ? 0 : warenwert * 0.19)}
+              tone={istIgl ? "success" : "danger"}
             />
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">
-              Gültige USt-IdNr. + qualifizierte Bestätigung?
-            </Label>
-            <div className="grid grid-cols-2 gap-2 mt-1">
-              {[
-                { v: true, l: "Ja" },
-                { v: false, l: "Nein" },
-              ].map((o) => (
-                <button
-                  key={String(o.v)}
-                  onClick={() => setHatUstId(o.v)}
-                  className={`rounded-md border h-10 text-sm ${
-                    hatUstId === o.v
-                      ? "border-accent-blue bg-accent-blue/10 text-accent-blue font-semibold"
-                      : "border-border hover:bg-secondary"
-                  }`}
-                >
-                  {o.l}
-                </button>
-              ))}
-            </div>
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">
-              Belegnachweis (Frachtbrief, CMR, Spediteur-Bestätigung)?
-            </Label>
-            <div className="grid grid-cols-2 gap-2 mt-1">
-              {[
-                { v: true, l: "Ja, vorhanden" },
-                { v: false, l: "Nein/unvollständig" },
-              ].map((o) => (
-                <button
-                  key={String(o.v)}
-                  onClick={() => setHatBelege(o.v)}
-                  className={`rounded-md border h-10 text-sm ${
-                    hatBelege === o.v
-                      ? "border-accent-blue bg-accent-blue/10 text-accent-blue font-semibold"
-                      : "border-border hover:bg-secondary"
-                  }`}
-                >
-                  {o.l}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
+          </StatGrid>
 
-      <div
-        className={`rounded-2xl border-2 p-5 ${
-          istIgl ? "border-emerald-500/40 bg-emerald-500/5" : "border-red-500/40 bg-red-500/5"
-        }`}
-      >
-        <div className="flex items-center gap-3 mb-3">
-          {istIgl ? (
-            <CheckCircle2 className="h-6 w-6 text-emerald-700" />
-          ) : (
-            <AlertTriangle className="h-6 w-6 text-red-700" />
+          {istIgl && (
+            <PflichtHinweis
+              text="Steuerfreie innergemeinschaftliche Lieferung gem. §4 Nr. 1b i.V.m. §6a UStG"
+              zusatz="Dazu Pflichtangaben: eigene USt-IdNr., USt-IdNr. des Empfängers und Hinweis auf IGL"
+            />
           )}
-          <div>
-            <div className="text-xs uppercase tracking-wider text-muted-foreground">IGL-Status</div>
-            <div className="text-2xl font-bold">
-              {istIgl ? "✓ Steuerfrei (IGL)" : "✗ DE-USt 19% Pflicht"}
-            </div>
-          </div>
-        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
-          <div className="rounded-lg bg-card border border-border p-3">
-            <div className="text-xs text-muted-foreground mb-1">Rechnungsbetrag</div>
-            <div className="text-xl font-bold">
-              {formatEur(istIgl ? warenwert : warenwert * 1.19)}
-            </div>
-          </div>
-          <div className="rounded-lg bg-card border border-border p-3">
-            <div className="text-xs text-muted-foreground mb-1">USt-Anteil</div>
-            <div className={`text-xl font-bold ${istIgl ? "text-emerald-700" : "text-red-700"}`}>
-              {formatEur(istIgl ? 0 : warenwert * 0.19)}
-            </div>
-          </div>
-        </div>
-
-        {istIgl && (
-          <div className="rounded-xl bg-card border border-border p-3 mt-3">
-            <div className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-1">
-              Rechnungs-Hinweis (Pflicht)
-            </div>
-            <div className="font-mono text-sm">
-              "Steuerfreie innergemeinschaftliche Lieferung gem. §4 Nr. 1b i.V.m. §6a UStG"
-            </div>
-            <div className="text-[10px] text-muted-foreground mt-2">
-              + Pflichtangaben: eigene USt-IdNr. + USt-IdNr. des Empfängers + Hinweis auf IGL
-            </div>
-          </div>
-        )}
-
-        {!istIgl && (
-          <div className="text-sm mt-3">
-            <strong>Folge:</strong> ohne gültige USt-IdNr. ODER ohne Belegnachweis greift IGL nicht
-            — du musst <strong>19% DE-USt</strong> berechnen und abführen. Rückwirkend Erstattung
-            möglich, wenn Nachweise nachgereicht werden (komplexer Prozess).
-          </div>
-        )}
-      </div>
-
-      <div className="rounded-xl border border-border bg-card p-4 text-xs space-y-2">
-        <div className="font-semibold text-sm">IGL-Praxis (Pflichten):</div>
-        <ul className="list-disc pl-4 space-y-1 text-muted-foreground">
-          <li>
-            <strong>USt-IdNr. validieren:</strong> qualifizierte Bestätigung via{" "}
-            <a
-              href="https://evatr.bff-online.de/eVatR/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-accent-blue underline"
-            >
-              evatr.bff-online.de
-            </a>{" "}
-            (Bestätigungsverfahren §18e UStG) — bei jeder neuen Geschäftsbeziehung
-          </li>
-          <li>
-            <strong>Zusammenfassende Meldung (ZM):</strong> bis 25. des Folgemonats elektronisch
-            via BZSt-Portal
-          </li>
-          <li>
-            <strong>Quick Fixes 2020</strong>: USt-IdNr. ist materielle Voraussetzung, nicht nur
-            formell. Ohne USt-IdNr.: keine IGL!
-          </li>
-          <li>
-            <strong>Belegnachweis</strong>: Gelangensbestätigung, Frachtbrief (CMR), Spediteur-
-            Bescheinigung — mind. einer davon zwingend
-          </li>
-        </ul>
-      </div>
-    </div>
+          {!istIgl && (
+            <p className="mt-3 text-sm leading-relaxed text-foreground/80">
+              <strong className="text-foreground">Folge:</strong> ohne gültige USt-IdNr. ODER ohne Belegnachweis greift IGL nicht
+              — du musst <strong className="text-foreground">19% DE-USt</strong> berechnen und abführen. Rückwirkend Erstattung
+              möglich, wenn Nachweise nachgereicht werden (komplexer Prozess).
+            </p>
+          )}
+        </StatusPanel>
+      }
+    />
   );
 };
 
 // ============================================================
 // SHARED HELPERS
 // ============================================================
-const ResultCard = ({
-  label,
-  value,
-  color,
-  highlight,
+
+/** Ergebnis-Karte mit Status-Ton (grün = passt, sonst Warnung/Gefahr). */
+const StatusPanel = ({
+  ok,
+  okTone,
+  failTone,
+  kicker,
+  title,
+  children,
 }: {
-  label: string;
-  value: string;
-  color: "emerald" | "amber" | "blue";
-  highlight?: boolean;
+  ok: boolean;
+  okTone: "success";
+  failTone: "warning" | "danger";
+  kicker: string;
+  title: string;
+  children: ReactNode;
 }) => {
-  const colorClass = {
-    emerald: "border-emerald-500/40 bg-emerald-500/5 text-emerald-700",
-    amber: "border-amber-500/40 bg-amber-500/5 text-amber-700",
-    blue: "border-blue-500/40 bg-blue-500/5 text-blue-700",
-  }[color];
+  const tone = ok ? okTone : failTone;
+  const Icon = ok ? CheckCircle2 : failTone === "danger" ? XCircle : AlertTriangle;
   return (
-    <div
-      className={`rounded-2xl border ${highlight ? "border-2" : ""} ${colorClass} p-4 ${
-        highlight ? "shadow-md" : ""
-      }`}
+    <section
+      aria-live="polite"
+      className={
+        tone === "success"
+          ? "rounded-2xl border border-success/30 bg-success-soft p-5 shadow-soft md:p-6"
+          : tone === "warning"
+          ? "rounded-2xl border border-warning/30 bg-warning-soft p-5 shadow-soft md:p-6"
+          : "rounded-2xl border border-danger/30 bg-danger-soft p-5 shadow-soft md:p-6"
+      }
     >
-      <div className="text-xs uppercase tracking-wider opacity-80 mb-1">{label}</div>
-      <div className="text-2xl font-bold">{value}</div>
-    </div>
+      <div className="flex items-start gap-3">
+        <Icon
+          className={`mt-0.5 h-6 w-6 shrink-0 ${tone === "success" ? "text-success" : tone === "warning" ? "text-warning" : "text-danger"}`}
+          aria-hidden="true"
+        />
+        <div className="min-w-0">
+          <p className="text-sm text-muted-foreground">{kicker}</p>
+          <h2 className="mt-0.5 text-2xl font-semibold tracking-tight">{title}</h2>
+        </div>
+      </div>
+      <div className="mt-4">{children}</div>
+    </section>
   );
 };
 
+const PflichtHinweis = ({ text, zusatz }: { text: string; zusatz?: string }) => (
+  <div className="mt-3 rounded-xl border border-border bg-card p-3.5">
+    <div className="flex items-center justify-between gap-2">
+      <p className="text-sm font-medium">Rechnungs-Hinweis</p>
+      <ToneBadge tone="danger">Pflicht</ToneBadge>
+    </div>
+    <p className="mt-1.5 font-mono text-sm">"{text}"</p>
+    {zusatz && <p className="mt-2 text-xs text-muted-foreground">{zusatz}</p>}
+  </div>
+);
+
 const FactRow = ({ ok, label, value }: { ok: boolean; label: string; value: string }) => (
-  <div className="flex items-center justify-between rounded-lg bg-card border border-border px-3 py-2">
+  <div className="flex items-center justify-between gap-3 rounded-xl border border-border bg-card px-3.5 py-2.5 text-sm">
     <div className="flex items-center gap-2">
       {ok ? (
-        <CheckCircle2 className="h-4 w-4 text-emerald-700" />
+        <CheckCircle2 className="h-4 w-4 shrink-0 text-success" aria-label="erfüllt" />
       ) : (
-        <AlertTriangle className="h-4 w-4 text-red-700" />
+        <AlertTriangle className="h-4 w-4 shrink-0 text-danger" aria-label="überschritten" />
       )}
       <span>{label}</span>
     </div>
-    <span className="font-mono text-sm">{value}</span>
+    <span className="font-medium tabular">{value}</span>
   </div>
 );
 
