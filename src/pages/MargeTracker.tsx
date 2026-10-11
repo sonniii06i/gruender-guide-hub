@@ -1,8 +1,35 @@
 import { useState, useMemo, useEffect, useRef } from "react";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { TrendingUp, TrendingDown, Plus, Trash2, AlertTriangle, Loader2, RefreshCw, CheckCircle2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  TrendingUp,
+  TrendingDown,
+  Plus,
+  Trash2,
+  AlertTriangle,
+  Loader2,
+  RefreshCw,
+  CheckCircle2,
+  ChevronDown,
+  Lightbulb,
+  Package,
+  PieChart,
+} from "lucide-react";
+import {
+  Callout,
+  EmptyState,
+  Field,
+  ResultRow,
+  StatGrid,
+  StatTile,
+  ToneBadge,
+  ToolSection,
+  selectCls,
+  toneSoft,
+  toneText,
+  type Tone,
+} from "@/components/cockpit/kit";
 import { supabase } from "@/integrations/supabase/client";
 import {
   calcMarketplaceFees,
@@ -382,202 +409,206 @@ const MargeTracker = () => {
     return groups;
   }, [skus]);
 
+  const margeTone = (pct: number): Tone => (pct > 20 ? "success" : pct > 10 ? "accent" : "danger");
+
   return (
     <CockpitShell
-      eyebrow="Marge-Tracker"
+      eyebrow="E-Commerce · Marge-Tracker"
       title="Multi-Channel-Marge pro SKU"
-      subtitle="7 Channels (Shopify, Amazon FBA/FBM, eBay, Kaufland, Otto, Etsy) mit Default-Provisionen. Pro SKU: VK, COGS, Versand, Verpackung, Marketplace-Provision, Payment-Fee, Fulfilment, Werbung, Retouren — Live-Marge-Berechnung."
+      subtitle="Sieben Channels (Shopify, Amazon FBA/FBM, eBay, Kaufland, Otto, Etsy) mit Standard-Provisionen. Pro SKU: VK, Wareneinsatz, Versand, Verpackung, Provision, Payment-Fee, Fulfilment, Werbung und Retouren, die Marge rechnet live mit."
+      actions={
+        <Button onClick={addSku}>
+          <Plus className="h-4 w-4" aria-hidden="true" /> SKU hinzufügen
+        </Button>
+      }
     >
       {/* Summary */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
-        <div className="rounded-2xl border border-border bg-card p-4">
-          <div className="text-[10px] uppercase tracking-wider text-muted-foreground">Anzahl SKUs</div>
-          <div className="text-xl font-bold">{skus.length}</div>
-        </div>
-        <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/5 p-4">
-          <div className="text-[10px] uppercase tracking-wider text-emerald-700">Gesamt VK netto</div>
-          <div className="text-xl font-bold text-emerald-700">
-            {aggregat.totalVk.toLocaleString("de-DE", { maximumFractionDigits: 2 })} €
-          </div>
-        </div>
-        <div className={`rounded-2xl border p-4 ${
-          aggregat.totalMarge > 0 ? "border-emerald-500/30 bg-emerald-500/5" : "border-red-500/30 bg-red-500/5"
-        }`}>
-          <div className="text-[10px] uppercase tracking-wider text-muted-foreground">Marge gesamt</div>
-          <div className={`text-xl font-bold ${aggregat.totalMarge > 0 ? "text-emerald-700" : "text-red-700"}`}>
-            {aggregat.totalMarge.toLocaleString("de-DE", { maximumFractionDigits: 2 })} €
-          </div>
-        </div>
-        <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-4">
-          <div className="text-[10px] uppercase tracking-wider text-accent-blue">Avg Marge %</div>
-          <div className="text-xl font-bold text-accent-blue">{aggregat.avgMargePct.toFixed(1)} %</div>
-        </div>
-      </div>
+      <StatGrid cols={4} className="mb-6">
+        <StatTile label="Anzahl SKUs" value={skus.length} />
+        <StatTile
+          label="Gesamt-VK netto"
+          value={`${aggregat.totalVk.toLocaleString("de-DE", { maximumFractionDigits: 2 })} €`}
+        />
+        <StatTile
+          label="Marge gesamt"
+          value={`${aggregat.totalMarge.toLocaleString("de-DE", { maximumFractionDigits: 2 })} €`}
+          tone={aggregat.totalVk === 0 ? "neutral" : aggregat.totalMarge > 0 ? "success" : "danger"}
+          emphasis={aggregat.totalVk !== 0}
+        />
+        <StatTile label="Durchschnittliche Marge" value={`${aggregat.avgMargePct.toFixed(1)} %`} tone="accent" emphasis />
+      </StatGrid>
 
       {/* Per-Channel Breakdown */}
       {Object.keys(channelGroup).length > 0 && (
-        <div className="rounded-2xl border border-border bg-card p-5 mb-6">
-          <h3 className="font-bold text-sm mb-3">Channel-Aufsplittung</h3>
-          <div className="space-y-2 text-sm">
+        <ToolSection title="Aufteilung nach Channel" icon={PieChart} className="mb-6" bodyClassName="p-0 md:p-0">
+          <ul className="divide-y divide-border/70">
             {(Object.entries(channelGroup) as [Channel, typeof channelGroup[Channel]][]).map(([ch, g]) => {
               const margePct = g.vkBrutto > 0 ? (g.marge / g.vkBrutto) * 100 : 0;
               return (
-                <div key={ch} className="flex items-center justify-between gap-3 rounded-lg bg-secondary/40 p-3">
-                  <div className="flex items-center gap-2">
-                    <span className="text-xl">{CHANNEL_INFO[ch].emoji}</span>
-                    <span className="font-semibold">{CHANNEL_INFO[ch].name}</span>
-                    <span className="text-[10px] text-muted-foreground">({g.count} SKU)</span>
-                  </div>
-                  <div className="flex items-center gap-3 text-xs">
-                    <span className="text-muted-foreground">
-                      VK: <span className="font-mono">{g.vk.toFixed(2)} €</span>
-                    </span>
-                    <span className={`font-mono font-semibold ${margePct > 20 ? "text-emerald-700" : margePct > 10 ? "text-accent-blue" : "text-red-700"}`}>
-                      {margePct.toFixed(1)} %
+                <li key={ch} className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 px-5 py-3 md:px-6">
+                  <div className="flex min-w-0 items-center gap-2">
+                    <span className="text-sm font-semibold">{CHANNEL_INFO[ch].name}</span>
+                    <span className="text-xs text-muted-foreground tabular">
+                      {g.count} {g.count === 1 ? "SKU" : "SKUs"}
                     </span>
                   </div>
-                </div>
+                  <div className="flex items-center gap-4 text-sm tabular">
+                    <span className="text-muted-foreground">VK {g.vk.toFixed(2)} €</span>
+                    <ToneBadge tone={g.vk > 0 ? margeTone(margePct) : "neutral"}>{margePct.toFixed(1)} %</ToneBadge>
+                  </div>
+                </li>
               );
             })}
-          </div>
-        </div>
+          </ul>
+        </ToolSection>
       )}
 
       {/* SKU-Eingabe */}
-      <div className="flex items-center justify-between mb-3">
-        <h3 className="font-bold text-sm">SKUs ({skus.length})</h3>
-        <button
-          onClick={addSku}
-          className="inline-flex items-center gap-1 rounded-lg bg-accent-blue text-primary-foreground px-3 py-1.5 text-xs font-semibold hover:opacity-90"
-        >
-          <Plus className="h-3.5 w-3.5" /> SKU hinzufügen
-        </button>
+      <div className="mb-3 flex items-center justify-between gap-3">
+        <h2 className="text-lg font-semibold tracking-tight">
+          SKUs <span className="font-normal text-muted-foreground tabular">({skus.length})</span>
+        </h2>
       </div>
 
-      <div className="space-y-3 mb-6">
+      <div className="mb-6 space-y-4">
+        {skus.length === 0 && (
+          <EmptyState
+            icon={Package}
+            title="Noch keine SKU angelegt"
+            description="Lege eine SKU an, wähle den Channel und trage VK und Einkaufspreis ein. Die Marge erscheint sofort."
+            action={
+              <Button onClick={addSku}>
+                <Plus className="h-4 w-4" aria-hidden="true" /> SKU hinzufügen
+              </Button>
+            }
+          />
+        )}
         {skus.map((s) => {
           const c = calcSku(s);
           const ch = CHANNEL_INFO[s.channel];
-          const margeColor =
-            c.margePct > 20 ? "text-emerald-700" : c.margePct > 10 ? "text-accent-blue" : "text-red-700";
+          const tone: Tone = s.vkNetto > 0 ? margeTone(c.margePct) : "neutral";
+          const isAmazon = s.channel === "amazon-fba" || s.channel === "amazon-fbm";
           return (
-            <div key={s.id} className="rounded-2xl border border-border bg-card p-5">
-              <div className="flex items-start justify-between gap-3 mb-3 flex-wrap">
-                <div className="flex items-start gap-3 flex-1 min-w-0">
-                  <span className="text-2xl">{ch.emoji}</span>
-                  <div className="flex-1 min-w-0">
+            <article key={s.id} className="rounded-2xl border border-border bg-card shadow-card">
+              {/* Kopf: Name, Channel, Marge */}
+              <div className="flex flex-wrap items-start gap-4 border-b border-border/70 px-5 py-4 md:px-6">
+                <div className="grid min-w-0 flex-1 basis-full grid-cols-1 gap-3 sm:basis-0 sm:grid-cols-[minmax(0,1fr)_minmax(0,220px)]">
+                  <Field label="SKU-Name" htmlFor={`sku-name-${s.id}`}>
                     <Input
+                      id={`sku-name-${s.id}`}
                       value={s.name}
                       onChange={(e) => updateSku(s.id, { name: e.target.value })}
-                      className="font-bold text-base mb-1"
+                      className="font-semibold"
                       placeholder="SKU-Name"
                     />
+                  </Field>
+                  <Field label="Channel" htmlFor={`sku-channel-${s.id}`}>
                     <select
+                      id={`sku-channel-${s.id}`}
                       value={s.channel}
                       onChange={(e) => updateChannel(s.id, e.target.value as Channel)}
-                      className="text-xs h-7 rounded-md border border-input bg-background px-2"
+                      className={selectCls}
                     >
                       {(Object.keys(CHANNEL_INFO) as Channel[]).map((k) => (
                         <option key={k} value={k}>
-                          {CHANNEL_INFO[k].emoji} {CHANNEL_INFO[k].name}
+                          {CHANNEL_INFO[k].name}
                         </option>
                       ))}
                     </select>
-                  </div>
+                  </Field>
                 </div>
-                <div className="text-right shrink-0">
-                  <div className={`text-2xl font-bold ${margeColor}`}>{c.margePct.toFixed(1)} %</div>
-                  <div className="text-[10px] text-muted-foreground">
-                    {c.margeNetto.toFixed(2)} € / Einheit
+                <div className="flex w-full items-start justify-between gap-2 sm:w-auto">
+                  <div className={`min-w-[132px] flex-1 sm:flex-none rounded-xl border px-4 py-2.5 text-right ${toneSoft(tone)}`}>
+                    <p className="text-xs text-muted-foreground">Marge netto</p>
+                    <p className={`flex items-center justify-end gap-1 text-2xl font-semibold tracking-tight tabular ${toneText(tone)}`}>
+                      {s.vkNetto <= 0 ? null : c.margePct >= 20 ? (
+                        <TrendingUp className="h-4 w-4" aria-hidden="true" />
+                      ) : c.margePct < 10 ? (
+                        <TrendingDown className="h-4 w-4" aria-hidden="true" />
+                      ) : null}
+                      {c.margePct.toFixed(1)} %
+                    </p>
+                    <p className="text-xs text-muted-foreground tabular">{c.margeNetto.toFixed(2)} € je Einheit</p>
                   </div>
-                  {c.margePct >= 20 ? (
-                    <TrendingUp className="h-4 w-4 text-emerald-700 inline" />
-                  ) : c.margePct < 10 ? (
-                    <TrendingDown className="h-4 w-4 text-red-700 inline" />
-                  ) : null}
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => removeSku(s.id)}
+                    aria-label={`${s.name || "SKU"} entfernen`}
+                    className="text-muted-foreground hover:bg-danger-soft hover:text-danger"
+                  >
+                    <Trash2 className="h-4 w-4" aria-hidden="true" />
+                  </Button>
                 </div>
-                <button
-                  onClick={() => removeSku(s.id)}
-                  className="text-red-600 hover:bg-red-500/10 p-1 rounded"
-                >
-                  <Trash2 className="h-4 w-4" />
-                </button>
               </div>
 
-              <div className="text-[10px] text-muted-foreground italic mb-3">{ch.bemerkung}</div>
+              <div className="space-y-5 p-5 md:p-6">
+                <p className="text-sm leading-relaxed text-muted-foreground">{ch.bemerkung}</p>
 
-              {ch.supportsFeePull && (
-                <div className="rounded-xl border border-accent-blue/30 bg-accent-blue/5 p-3 mb-3">
-                  <div className="flex items-start gap-2 flex-wrap">
-                    {(s.channel === "amazon-fba" || s.channel === "amazon-fbm") && (
-                      <>
-                        <div className="flex-1 min-w-[140px]">
-                          <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">
-                            EAN/GTIN (Primär)
-                          </Label>
-                          <Input
-                            value={s.ean || ""}
-                            onChange={(e) =>
-                              updateSku(s.id, { ean: e.target.value.replace(/\D/g, ""), feesPullError: undefined })
-                            }
-                            placeholder="4012345678901"
-                            maxLength={14}
-                            className="h-8 mt-1 font-mono text-xs"
-                          />
-                        </div>
-                        <div className="flex-1 min-w-[140px]">
-                          <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">
-                            oder ASIN (Fallback)
-                          </Label>
-                          <Input
-                            value={s.asin || ""}
-                            onChange={(e) =>
-                              updateSku(s.id, { asin: e.target.value.toUpperCase(), feesPullError: undefined })
-                            }
-                            placeholder="B0XXXXXXXX"
-                            maxLength={10}
-                            className="h-8 mt-1 font-mono text-xs uppercase"
-                          />
-                        </div>
-                      </>
-                    )}
-                    {CHANNEL_TO_MARKETPLACE[s.channel] && (
-                      <>
-                        <div className="flex-1 min-w-[140px]">
-                          <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">
-                            EAN/GTIN (optional)
-                          </Label>
-                          <Input
-                            value={s.ean || ""}
-                            onChange={(e) =>
-                              updateSku(s.id, { ean: e.target.value.replace(/\D/g, ""), feesPullError: undefined })
-                            }
-                            placeholder="4012345678901"
-                            maxLength={14}
-                            className="h-8 mt-1 font-mono text-xs"
-                          />
-                        </div>
-                        <div className="flex-1 min-w-[180px]">
-                          <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">
-                            Kategorie (für Fee-Lookup)
-                          </Label>
-                          <select
-                            value={s.category || ""}
-                            onChange={(e) => updateSku(s.id, { category: e.target.value, feesPullError: undefined })}
-                            className="h-8 mt-1 w-full rounded-md border border-input bg-background px-2 text-xs"
-                          >
-                            <option value="">— wählen —</option>
-                            {getMarketplaceCategories(CHANNEL_TO_MARKETPLACE[s.channel]!).map((c) => (
-                              <option key={c.slug} value={c.slug}>
-                                {c.label} ({c.provisionPct} %)
-                              </option>
-                            ))}
-                          </select>
-                        </div>
-                      </>
-                    )}
-                    <div className="shrink-0 pt-5">
-                      <button
+                {ch.supportsFeePull && (
+                  <div className="rounded-xl border border-accent-blue/20 bg-accent p-4">
+                    <p className="text-sm font-semibold">{isAmazon ? "Fees und VK automatisch holen" : "Echte Marketplace-Fees"}</p>
+                    <div className="mt-3 flex flex-wrap items-end gap-3">
+                      {isAmazon && (
+                        <>
+                          <Field label="EAN/GTIN" hint="Primärer Schlüssel" className="min-w-[160px] flex-1" htmlFor={`sku-ean-${s.id}`}>
+                            <Input
+                              id={`sku-ean-${s.id}`}
+                              value={s.ean || ""}
+                              onChange={(e) =>
+                                updateSku(s.id, { ean: e.target.value.replace(/\D/g, ""), feesPullError: undefined })
+                              }
+                              placeholder="4012345678901"
+                              maxLength={14}
+                              className="font-mono tabular"
+                            />
+                          </Field>
+                          <Field label="oder ASIN" hint="Fallback, 10 Zeichen" className="min-w-[160px] flex-1" htmlFor={`sku-asin-${s.id}`}>
+                            <Input
+                              id={`sku-asin-${s.id}`}
+                              value={s.asin || ""}
+                              onChange={(e) =>
+                                updateSku(s.id, { asin: e.target.value.toUpperCase(), feesPullError: undefined })
+                              }
+                              placeholder="B0XXXXXXXX"
+                              maxLength={10}
+                              className="font-mono uppercase"
+                            />
+                          </Field>
+                        </>
+                      )}
+                      {CHANNEL_TO_MARKETPLACE[s.channel] && (
+                        <>
+                          <Field label="EAN/GTIN (optional)" className="min-w-[160px] flex-1" htmlFor={`sku-ean-${s.id}`}>
+                            <Input
+                              id={`sku-ean-${s.id}`}
+                              value={s.ean || ""}
+                              onChange={(e) =>
+                                updateSku(s.id, { ean: e.target.value.replace(/\D/g, ""), feesPullError: undefined })
+                              }
+                              placeholder="4012345678901"
+                              maxLength={14}
+                              className="font-mono tabular"
+                            />
+                          </Field>
+                          <Field label="Kategorie" hint="Für die Fee-Tabelle" className="min-w-[200px] flex-1" htmlFor={`sku-cat-${s.id}`}>
+                            <select
+                              id={`sku-cat-${s.id}`}
+                              value={s.category || ""}
+                              onChange={(e) => updateSku(s.id, { category: e.target.value, feesPullError: undefined })}
+                              className={selectCls}
+                            >
+                              <option value="">Bitte wählen</option>
+                              {getMarketplaceCategories(CHANNEL_TO_MARKETPLACE[s.channel]!).map((c) => (
+                                <option key={c.slug} value={c.slug}>
+                                  {c.label} ({c.provisionPct} %)
+                                </option>
+                              ))}
+                            </select>
+                          </Field>
+                        </>
+                      )}
+                      <Button
                         onClick={() => {
                           // Manueller Re-Pull: Identifier auf "force-refresh" setzen, damit Auto-Trigger
                           // nicht parallel feuert. Erst nach Pull-Ende übernimmt der Auto-Trigger wieder.
@@ -588,233 +619,229 @@ const MargeTracker = () => {
                           pullFees(s);
                         }}
                         disabled={pullingFees === s.id}
-                        className="inline-flex items-center gap-1 rounded-lg bg-accent-blue text-primary-foreground px-3 py-2 text-xs font-semibold hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="mb-[22px] shrink-0"
                       >
                         {pullingFees === s.id ? (
-                          <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                          <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
                         ) : (
-                          <RefreshCw className="h-3.5 w-3.5" />
+                          <RefreshCw className="h-4 w-4" aria-hidden="true" />
                         )}
-                        {s.channel === "amazon-fba" || s.channel === "amazon-fbm" ? "Fees + VK neu ziehen" : "Echte Fees ziehen"}
-                      </button>
+                        {pullingFees === s.id ? "Wird geladen …" : isAmazon ? "Fees und VK neu ziehen" : "Echte Fees ziehen"}
+                      </Button>
                     </div>
                     {s.feesPulledAt && !s.feesPullError && (
-                      <div className="basis-full text-[10px] text-emerald-700 flex items-center gap-1">
-                        <CheckCircle2 className="h-3 w-3" />
-                        Fees + VK (Lowest-FBA) aktualisiert {new Date(s.feesPulledAt).toLocaleString("de-DE")}
-                        {s.asin ? ` · ASIN ${s.asin}` : ""}
-                        {(s.channel === "amazon-fba") && " · inkl. 0,99 €/Mon Storage-Schätzung in FBA/Stk"}
-                      </div>
+                      <p className="mt-3 flex items-start gap-1.5 text-xs text-success">
+                        <CheckCircle2 className="mt-px h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+                        <span>
+                          Fees und VK (Lowest-FBA) aktualisiert {new Date(s.feesPulledAt).toLocaleString("de-DE")}
+                          {s.asin ? `, ASIN ${s.asin}` : ""}
+                          {(s.channel === "amazon-fba") && ", inkl. 0,99 €/Monat Storage-Schätzung in FBA/Stück"}
+                        </span>
+                      </p>
                     )}
-                    {(s.channel === "amazon-fba" || s.channel === "amazon-fbm") &&
-                      !s.feesPulledAt && !s.feesPullError && (
-                        <div className="basis-full text-[10px] text-muted-foreground italic">
-                          Tipp: ASIN einfügen → Tool zieht Lowest-FBA-Preis + Fees automatisch. Dann nur noch EK eingeben → Marge live.
-                        </div>
-                      )}
+                    {isAmazon && !s.feesPulledAt && !s.feesPullError && (
+                      <p className="mt-3 text-xs text-muted-foreground">
+                        Tipp: ASIN oder EAN einfügen, das Tool zieht Lowest-FBA-Preis und Fees automatisch. Danach nur noch den EK eintragen.
+                      </p>
+                    )}
                     {s.feesPullError && (
-                      <div className="basis-full text-[10px] text-red-700 flex items-center gap-1">
-                        <AlertTriangle className="h-3 w-3" />
+                      <p className="mt-3 flex items-start gap-1.5 text-xs font-medium text-danger" role="alert">
+                        <AlertTriangle className="mt-px h-3.5 w-3.5 shrink-0" aria-hidden="true" />
                         {s.feesPullError}
-                      </div>
+                      </p>
                     )}
                   </div>
-                </div>
-              )}
+                )}
 
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2 text-xs mb-3">
                 <div>
-                  <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">
-                    VK brutto € <span className="normal-case text-muted-foreground/60">(= Listing Price)</span>
-                  </Label>
-                  <NumberInput
-                    value={s.vkNetto * 1.19}
-                    onChange={(brutto) => updateSku(s.id, { vkNetto: brutto / 1.19 })}
-                    placeholder="0,00"
-                  />
-                  <div className="text-[9px] text-muted-foreground/70 mt-0.5 text-right">
-                    netto: {s.vkNetto.toFixed(2)} €
+                  <p className="mb-3 text-sm font-semibold">Preise und Kosten je Stück</p>
+                  <div className="grid grid-cols-2 gap-x-3 gap-y-4 md:grid-cols-3 lg:grid-cols-4">
+                    <Field label="VK brutto (€)" hint={<span className="tabular">Listing-Preis, netto {s.vkNetto.toFixed(2)} €</span>}>
+                      <NumberInput
+                        value={s.vkNetto * 1.19}
+                        onChange={(brutto) => updateSku(s.id, { vkNetto: brutto / 1.19 })}
+                        placeholder="0,00"
+                        ariaLabel="VK brutto in Euro"
+                      />
+                    </Field>
+                    <NumField
+                      label="Versand vom Kunden"
+                      value={s.versandKundeNetto}
+                      onChange={(v) => updateSku(s.id, { versandKundeNetto: v })}
+                      suffix="€"
+                    />
+                    <Field label="EK brutto (€)" hint={<span className="tabular">Einkaufspreis, netto {s.cogs.toFixed(2)} €</span>}>
+                      <NumberInput
+                        value={s.cogs * 1.19}
+                        onChange={(brutto) => updateSku(s.id, { cogs: brutto / 1.19 })}
+                        placeholder="0,00"
+                        ariaLabel="EK brutto in Euro"
+                      />
+                    </Field>
+                    <NumField
+                      label="Eigener Versand"
+                      value={s.versandKostenNetto}
+                      onChange={(v) => updateSku(s.id, { versandKostenNetto: v })}
+                      suffix="€"
+                    />
+                    <NumField
+                      label="Verpackung"
+                      value={s.verpackung}
+                      onChange={(v) => updateSku(s.id, { verpackung: v })}
+                      suffix="€"
+                    />
+                    <NumField
+                      label="Provision"
+                      value={s.provisionPct}
+                      onChange={(v) => updateSku(s.id, { provisionPct: v })}
+                      suffix="%"
+                    />
+                    <NumField
+                      label="Payment-Fee"
+                      value={s.paymentFeePct}
+                      onChange={(v) => updateSku(s.id, { paymentFeePct: v })}
+                      suffix="%"
+                    />
+                    <NumField
+                      label="Payment fix"
+                      value={s.paymentFeeFixed}
+                      onChange={(v) => updateSku(s.id, { paymentFeeFixed: v })}
+                      suffix="€"
+                    />
+                    <NumField
+                      label="FBA/3PL je Stück"
+                      value={s.fulfilmentPerUnit}
+                      onChange={(v) => updateSku(s.id, { fulfilmentPerUnit: v })}
+                      suffix="€"
+                    />
+                    <NumField
+                      label="Werbung je Stück"
+                      value={s.werbungPerUnit}
+                      onChange={(v) => updateSku(s.id, { werbungPerUnit: v })}
+                      suffix="€"
+                    />
+                    <NumField
+                      label="Retourenquote"
+                      value={s.retourenPct}
+                      onChange={(v) => updateSku(s.id, { retourenPct: v })}
+                      suffix="%"
+                    />
                   </div>
                 </div>
-                <Field
-                  label="Versand v. Kunde netto"
-                  value={s.versandKundeNetto}
-                  onChange={(v) => updateSku(s.id, { versandKundeNetto: v })}
-                  suffix="€"
-                />
-                <div>
-                  <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">
-                    EK brutto € <span className="normal-case text-muted-foreground/60">(Cost Price)</span>
-                  </Label>
-                  <NumberInput
-                    value={s.cogs * 1.19}
-                    onChange={(brutto) => updateSku(s.id, { cogs: brutto / 1.19 })}
-                    placeholder="0,00"
-                  />
-                  <div className="text-[9px] text-muted-foreground/70 mt-0.5 text-right">
-                    netto: {s.cogs.toFixed(2)} €
+
+                {/* Zusatz-Kosten: bei eigenem Shop aufgeklappt, sonst eingeklappt */}
+                <details open={ch.isOwnShop} className="group rounded-xl border border-border [&_summary::-webkit-details-marker]:hidden">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 text-sm font-semibold select-none">
+                    <span>
+                      Zusatzkosten{" "}
+                      <span className="font-normal text-muted-foreground">
+                        {ch.isOwnShop ? "(eigener Shop)" : "(Affiliate, Preisvergleich, Sonstige)"}
+                      </span>
+                    </span>
+                    <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-open:rotate-180" aria-hidden="true" />
+                  </summary>
+                  <div className="space-y-3 border-t border-border/70 px-4 py-4">
+                    <div className="grid grid-cols-2 gap-x-3 gap-y-4 md:grid-cols-4">
+                      <NumField
+                        label="Affiliate"
+                        value={s.affiliatePct}
+                        onChange={(v) => updateSku(s.id, { affiliatePct: v })}
+                        suffix="%"
+                      />
+                      <NumField
+                        label="Idealo-CPC"
+                        value={s.preisvergleichCpc}
+                        onChange={(v) => updateSku(s.id, { preisvergleichCpc: v })}
+                        suffix="€"
+                      />
+                      <NumField
+                        label="Klick zu Sale"
+                        value={s.preisvergleichConversionPct}
+                        onChange={(v) => updateSku(s.id, { preisvergleichConversionPct: v })}
+                        suffix="%"
+                      />
+                      <NumField
+                        label="Sonstige je Stück"
+                        value={s.sonstigeGebuehren}
+                        onChange={(v) => updateSku(s.id, { sonstigeGebuehren: v })}
+                        suffix="€"
+                      />
+                    </div>
+                    {(s.preisvergleichCpc > 0 && s.preisvergleichConversionPct > 0) && (
+                      <p className="text-xs text-muted-foreground tabular">
+                        Preisvergleich: {s.preisvergleichCpc.toFixed(2)} €/Klick × {(100 / s.preisvergleichConversionPct).toFixed(1)} Klicks/Sale ={" "}
+                        <span className="font-semibold text-foreground">{c.preisvergleichFeePerSale.toFixed(2)} €/Sale</span>
+                      </p>
+                    )}
+                    {ch.isOwnShop && (
+                      <Callout tone="neutral" icon={Lightbulb} title="Tipps für den eigenen Shop">
+                        Affiliate-Programme typisch 5 bis 15 % Provision. Idealo-CPC Standard 0,15 bis 0,70 € (Elektronik 0,40 bis 0,60 €).
+                        Klick-zu-Sale-Conversion typisch 3 bis 8 % (Median 5 %).
+                      </Callout>
+                    )}
                   </div>
-                </div>
-                <Field
-                  label="Versand-K (du)"
-                  value={s.versandKostenNetto}
-                  onChange={(v) => updateSku(s.id, { versandKostenNetto: v })}
-                  suffix="€"
-                />
-                <Field
-                  label="Verpackung"
-                  value={s.verpackung}
-                  onChange={(v) => updateSku(s.id, { verpackung: v })}
-                  suffix="€"
-                />
-                <Field
-                  label="Provision %"
-                  value={s.provisionPct}
-                  onChange={(v) => updateSku(s.id, { provisionPct: v })}
-                  suffix="%"
-                />
-                <Field
-                  label="Payment %"
-                  value={s.paymentFeePct}
-                  onChange={(v) => updateSku(s.id, { paymentFeePct: v })}
-                  suffix="%"
-                />
-                <Field
-                  label="Payment fix €/Stk"
-                  value={s.paymentFeeFixed}
-                  onChange={(v) => updateSku(s.id, { paymentFeeFixed: v })}
-                  suffix="€"
-                />
-                <Field
-                  label="FBA/3PL/Stück"
-                  value={s.fulfilmentPerUnit}
-                  onChange={(v) => updateSku(s.id, { fulfilmentPerUnit: v })}
-                  suffix="€"
-                />
-                <Field
-                  label="Werbung/Stück"
-                  value={s.werbungPerUnit}
-                  onChange={(v) => updateSku(s.id, { werbungPerUnit: v })}
-                  suffix="€"
-                />
-                <Field
-                  label="Retouren %"
-                  value={s.retourenPct}
-                  onChange={(v) => updateSku(s.id, { retourenPct: v })}
-                  suffix="%"
-                />
+                </details>
+
+                <details className="group rounded-xl border border-border [&_summary::-webkit-details-marker]:hidden">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 text-sm font-semibold select-none">
+                    Berechnung im Detail
+                    <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-open:rotate-180" aria-hidden="true" />
+                  </summary>
+                  <div className="grid grid-cols-1 gap-x-8 border-t border-border/70 px-4 py-2 md:grid-cols-2 [&>div]:border-b [&>div]:border-border/50">
+                    <ResultRow label="VK brutto (mit USt)" value={`${c.vkBrutto.toFixed(2)} €`} />
+                    <ResultRow label="Provision" value={`${c.provision.toFixed(2)} €`} />
+                    <ResultRow label="Payment-Fee" value={`${c.paymentFee.toFixed(2)} €`} />
+                    {c.affiliateFee > 0 && <ResultRow label="Affiliate-Fee" value={`${c.affiliateFee.toFixed(2)} €`} />}
+                    {c.preisvergleichFeePerSale > 0 && (
+                      <ResultRow label="Preisvergleich je Sale" value={`${c.preisvergleichFeePerSale.toFixed(2)} €`} />
+                    )}
+                    <ResultRow label="FBA und Versand" value={`${(s.fulfilmentPerUnit + s.versandKostenNetto).toFixed(2)} €`} />
+                    <ResultRow label="Werbung" value={`${s.werbungPerUnit.toFixed(2)} €`} />
+                    <ResultRow label="Kosten gesamt" value={`${c.totalKosten.toFixed(2)} €`} />
+                    <ResultRow label="Marge vor Retoure" value={`${c.margeBrutto.toFixed(2)} €`} />
+                    <ResultRow label={`Retoure-Last (${s.retourenPct} %)`} value={`${c.retoureLast.toFixed(2)} €`} />
+                  </div>
+                  <div className="px-4 pb-2">
+                    <ResultRow label="Marge netto" value={`${c.margeNetto.toFixed(2)} €`} tone={tone} strong />
+                  </div>
+                </details>
               </div>
-
-              {/* Zusatz-Kosten — bei eigenem Shop aufgeklappt, sonst eingeklappt */}
-              <details open={ch.isOwnShop} className="text-xs mb-3 group">
-                <summary className="cursor-pointer font-semibold text-foreground select-none">
-                  Zusatz-Kosten {ch.isOwnShop ? "(Eigener Shop)" : "(Affiliate, Preisvergleich, Sonstige)"} ▾
-                </summary>
-                <div className="mt-2 grid grid-cols-2 md:grid-cols-4 gap-2">
-                  <Field
-                    label="Affiliate %"
-                    value={s.affiliatePct}
-                    onChange={(v) => updateSku(s.id, { affiliatePct: v })}
-                    suffix="%"
-                  />
-                  <Field
-                    label="Idealo CPC €"
-                    value={s.preisvergleichCpc}
-                    onChange={(v) => updateSku(s.id, { preisvergleichCpc: v })}
-                    suffix="€"
-                  />
-                  <Field
-                    label="Klick→Sale %"
-                    value={s.preisvergleichConversionPct}
-                    onChange={(v) => updateSku(s.id, { preisvergleichConversionPct: v })}
-                    suffix="%"
-                  />
-                  <Field
-                    label="Sonstige €/Stk"
-                    value={s.sonstigeGebuehren}
-                    onChange={(v) => updateSku(s.id, { sonstigeGebuehren: v })}
-                    suffix="€"
-                  />
-                </div>
-                {(s.preisvergleichCpc > 0 && s.preisvergleichConversionPct > 0) && (
-                  <div className="mt-1 text-[10px] text-muted-foreground italic">
-                    Preisvergleich-Cost: {s.preisvergleichCpc.toFixed(2)} €/Klick × {(100 / s.preisvergleichConversionPct).toFixed(1)} Klicks/Sale =
-                    <span className="font-mono font-semibold text-foreground"> {c.preisvergleichFeePerSale.toFixed(2)} €/Sale</span>
-                  </div>
-                )}
-                {ch.isOwnShop && (
-                  <div className="mt-2 text-[10px] text-muted-foreground bg-secondary/40 rounded p-2 leading-relaxed">
-                    <strong>Eigener-Shop-Tipps:</strong> Affiliate-Programme typisch 5-15 % Commission ·
-                    Idealo CPC Standard 0,15-0,70 € (Elektronik 0,40-0,60 €) ·
-                    Klick→Sale-Conversion 3-8 % typisch (5 % Median).
-                  </div>
-                )}
-              </details>
-
-              <details className="text-xs">
-                <summary className="cursor-pointer font-semibold text-foreground">Berechnungs-Details ▾</summary>
-                <div className="mt-2 grid grid-cols-1 md:grid-cols-2 gap-1 text-muted-foreground">
-                  <div>VK brutto (mit USt): <span className="font-mono">{c.vkBrutto.toFixed(2)} €</span></div>
-                  <div>Provision: <span className="font-mono">{c.provision.toFixed(2)} €</span></div>
-                  <div>Payment-Fee: <span className="font-mono">{c.paymentFee.toFixed(2)} €</span></div>
-                  {c.affiliateFee > 0 && (
-                    <div>Affiliate-Fee: <span className="font-mono">{c.affiliateFee.toFixed(2)} €</span></div>
-                  )}
-                  {c.preisvergleichFeePerSale > 0 && (
-                    <div>Preisvergleich/Sale: <span className="font-mono">{c.preisvergleichFeePerSale.toFixed(2)} €</span></div>
-                  )}
-                  <div>FBA/Versand: <span className="font-mono">{(s.fulfilmentPerUnit + s.versandKostenNetto).toFixed(2)} €</span></div>
-                  <div>Werbung: <span className="font-mono">{s.werbungPerUnit.toFixed(2)} €</span></div>
-                  <div>Total Kosten: <span className="font-mono">{c.totalKosten.toFixed(2)} €</span></div>
-                  <div>Marge vor Retoure: <span className="font-mono">{c.margeBrutto.toFixed(2)} €</span></div>
-                  <div>Retoure-Last ({s.retourenPct} %): <span className="font-mono">{c.retoureLast.toFixed(2)} €</span></div>
-                  <div className="col-span-2 border-t pt-1 mt-1">
-                    <strong>Marge netto: <span className="font-mono">{c.margeNetto.toFixed(2)} €</span></strong>
-                  </div>
-                </div>
-              </details>
-            </div>
+            </article>
           );
         })}
+        {skus.length > 0 && (
+          <Button variant="outline" onClick={addSku} className="w-full border-dashed">
+            <Plus className="h-4 w-4" aria-hidden="true" /> Weitere SKU hinzufügen
+          </Button>
+        )}
       </div>
 
       {/* Tipps */}
-      <div className="rounded-2xl border border-amber-500/30 bg-amber-500/5 p-4 text-xs leading-relaxed">
-        <div className="flex items-start gap-2">
-          <AlertTriangle className="h-4 w-4 text-amber-700 shrink-0 mt-0.5" />
-          <div>
-            <div className="font-semibold mb-1">Healthy-Marge-Benchmarks pro Channel:</div>
-            <ul className="list-disc pl-4 space-y-1 text-muted-foreground">
-              <li>
-                <strong>Shopify D2C</strong>: 30 %+ Marge Pflicht (Werbe-Spend frisst sonst alles auf — Faustregel
-                CAC = 25–35 % vom AOV)
-              </li>
-              <li>
-                <strong>Amazon FBA</strong>: 20 %+ Marge nach allen Fees (Provision 15 % + FBA-PnP 3–5 €/Stück +
-                Werbung 10–20 % bei Launch)
-              </li>
-              <li>
-                <strong>eBay/Kaufland/Otto</strong>: 15 %+ — niedrigere Werbekosten, aber niedrigerer AOV
-              </li>
-              <li>
-                <strong>Etsy</strong>: 25 %+ wegen niedriger Werbe-Notwendigkeit aber 4 % Payment + 6,5 %
-                Transaktion
-              </li>
-              <li>
-                <strong>Retouren</strong>: bei Mode/Beauty 15–25 %, Elektronik 5–10 %, Verbrauchsgüter &lt; 5 %
-              </li>
-              <li>
-                <strong>Cash-Marge ≠ Profit-Marge</strong>: Tool berechnet Stück-Marge. Plus du brauchst Fixkosten
-                (Personal, Tools, Miete) zu deckenden Marge × Stückzahl
-              </li>
-              <li>
-                <strong>USt</strong>: Tool nimmt 19 % an. Bei 7 % (Lebensmittel/Bücher) oder Reverse-Charge B2B-EU:
-                manuelle Korrektur nötig
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
+      <ToolSection title="Gesunde Margen je Channel" icon={Lightbulb}>
+        <ul className="space-y-3 text-sm leading-relaxed text-muted-foreground">
+          <li>
+            <strong className="font-semibold text-foreground">Shopify D2C:</strong> ab 30 % Marge Pflicht, sonst frisst der Werbe-Spend alles auf (Faustregel: CAC = 25 bis 35 % vom AOV).
+          </li>
+          <li>
+            <strong className="font-semibold text-foreground">Amazon FBA:</strong> ab 20 % Marge nach allen Fees (Provision 15 %, FBA-Pick&amp;Pack 3 bis 5 €/Stück, Werbung 10 bis 20 % beim Launch).
+          </li>
+          <li>
+            <strong className="font-semibold text-foreground">eBay, Kaufland, Otto:</strong> ab 15 %, niedrigere Werbekosten, aber auch niedrigerer AOV.
+          </li>
+          <li>
+            <strong className="font-semibold text-foreground">Etsy:</strong> ab 25 %, wenig Werbung nötig, aber 4 % Payment und 6,5 % Transaktion.
+          </li>
+          <li>
+            <strong className="font-semibold text-foreground">Retouren:</strong> Mode/Beauty 15 bis 25 %, Elektronik 5 bis 10 %, Verbrauchsgüter unter 5 %.
+          </li>
+          <li>
+            <strong className="font-semibold text-foreground">Stück-Marge ist nicht Gewinn:</strong> Das Tool rechnet die Marge je Stück. Marge × Stückzahl muss zusätzlich deine Fixkosten (Personal, Tools, Miete) decken.
+          </li>
+          <li>
+            <strong className="font-semibold text-foreground">USt:</strong> Das Tool nimmt 19 % an. Bei 7 % (Lebensmittel, Bücher) oder Reverse-Charge B2B-EU manuell korrigieren.
+          </li>
+        </ul>
+      </ToolSection>
     </CockpitShell>
   );
 };
@@ -828,11 +855,13 @@ const NumberInput = ({
   onChange,
   placeholder,
   className,
+  ariaLabel,
 }: {
   value: number;
   onChange: (v: number) => void;
   placeholder?: string;
   className?: string;
+  ariaLabel?: string;
 }) => {
   // Lokaler String-State: erlaubt Zwischenstände wie "1," oder "0."
   const initial = value > 0 ? String(Math.round(value * 100) / 100).replace(".", ",") : "";
@@ -861,7 +890,8 @@ const NumberInput = ({
       inputMode="decimal"
       value={text}
       placeholder={placeholder ?? "0"}
-      className={className ?? "h-8 text-right text-xs mt-1"}
+      aria-label={ariaLabel}
+      className={className ?? "text-right tabular"}
       onChange={(e) => {
         const raw = e.target.value;
         // Erlaube nur Ziffern, ein Komma/Punkt, leer
@@ -882,7 +912,7 @@ const NumberInput = ({
   );
 };
 
-const Field = ({
+const NumField = ({
   label,
   value,
   onChange,
@@ -892,13 +922,13 @@ const Field = ({
   value: number;
   onChange: (v: number) => void;
   suffix?: string;
-}) => (
-  <div>
-    <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">
-      {label} {suffix}
-    </Label>
-    <NumberInput value={value} onChange={onChange} />
-  </div>
-);
+}) => {
+  const text = suffix ? `${label} (${suffix})` : label;
+  return (
+    <Field label={text}>
+      <NumberInput value={value} onChange={onChange} ariaLabel={text} />
+    </Field>
+  );
+};
 
 export default MargeTracker;
