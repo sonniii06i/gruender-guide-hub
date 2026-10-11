@@ -1,32 +1,54 @@
 import { useMemo, useState } from "react";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import {
+  Callout,
+  ChoiceGroup,
+  Field,
+  ResultPanel,
+  StatGrid,
+  StatTile,
+  ToneBadge,
+  ToolLayout,
+  ToolSection,
+  type Tone,
+} from "@/components/cockpit/kit";
 import {
   ArrowLeft,
+  ArrowRight,
   AlertTriangle,
+  Check,
   CheckCircle2,
-  Sparkles,
   ExternalLink,
   TrendingDown,
   ListChecks,
   FileCheck,
   Globe,
+  Plus,
+  Minus,
+  Building2,
+  Microscope,
+  NotebookPen,
+  Sparkles,
 } from "lucide-react";
 import { IP_BOX_REGIMES, type IPBoxRegime } from "@/data/ipBoxRegimes";
 
-const FIT_COLOR: Record<IPBoxRegime["fitForGermans"], string> = {
-  "Sehr gut": "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400",
-  Gut: "bg-accent-blue/10 text-accent-blue",
-  Mittel: "bg-amber-500/10 text-amber-700 dark:text-amber-400",
-  Schwierig: "bg-red-500/10 text-red-700 dark:text-red-400",
+const FIT_TONE: Record<IPBoxRegime["fitForGermans"], Tone> = {
+  "Sehr gut": "success",
+  Gut: "accent",
+  Mittel: "warning",
+  Schwierig: "danger",
 };
 
-const CFC_COLOR: Record<IPBoxRegime["cfcRisk"], string> = {
-  Niedrig: "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400",
-  Mittel: "bg-amber-500/10 text-amber-700 dark:text-amber-400",
-  Hoch: "bg-red-500/10 text-red-700 dark:text-red-400",
+const CFC_TONE: Record<IPBoxRegime["cfcRisk"], Tone> = {
+  Niedrig: "success",
+  Mittel: "warning",
+  Hoch: "danger",
 };
+
+const eur = (n: number) => `${Math.round(n).toLocaleString("de-DE")} €`;
+const satz = (n: number) => `${String(n).replace(".", ",")} %`;
 
 const IpBoxVergleich = () => {
   const [royalties, setRoyalties] = useState(500000);
@@ -50,9 +72,9 @@ const IpBoxVergleich = () => {
   if (selected) {
     return (
       <CockpitShell
-        eyebrow={`${selected.flag} IP-Box-Regime`}
+        eyebrow={`IP-Box-Regime · ${selected.country}`}
         title={selected.regimeName}
-        subtitle={`${selected.country} · ${selected.effectiveRate} % effektiv vs. DE-Baseline ~30 %`}
+        subtitle={`${selected.country}: ${satz(selected.effectiveRate)} effektiv, gegenüber rund 30 % in Deutschland.`}
       >
         <Detail s={selected} royalties={royalties} onBack={() => setSelected(null)} />
       </CockpitShell>
@@ -61,108 +83,88 @@ const IpBoxVergleich = () => {
 
   return (
     <CockpitShell
-      eyebrow="IP-Box-Vergleich"
-      title="9 EU-/CH-IP-Box-Regimes für Software, Patente, Lizenzen"
-      subtitle="Effektive Steuersätze 1,75-9 % auf qualifizierte IP-Einkünfte. BEPS-Nexus-konform — Substanz vor Ort Pflicht. DE-FA prüft scharf — keine Mailbox-Strukturen mehr seit ATAD."
+      eyebrow="Steuern & Optimierung · IP-Box"
+      title="9 IP-Box-Regime in EU und Schweiz für Software, Patente und Lizenzen"
+      subtitle="Effektive Steuersätze von 1,75 bis 9 % auf qualifizierte IP-Einkünfte. Alle Regime folgen dem BEPS-Nexus-Ansatz, Substanz vor Ort ist Pflicht. Das deutsche Finanzamt prüft genau; reine Briefkasten-Strukturen funktionieren seit ATAD nicht mehr."
     >
-      {/* Wichtige Hinweise vorweg */}
-      <div className="rounded-2xl border border-amber-500/30 bg-amber-500/5 p-4 mb-6 text-xs leading-relaxed">
-        <div className="flex items-start gap-2">
-          <AlertTriangle className="h-4 w-4 text-amber-700 dark:text-amber-400 shrink-0 mt-0.5" />
-          <div>
-            <div className="font-semibold mb-1">Wichtig vorweg (Stand 2026):</div>
-            <ul className="list-disc pl-4 space-y-1 text-muted-foreground">
-              <li>
-                <strong>BEPS Action 5 Nexus-Approach</strong>: nur der Anteil qualifizierter F&E-Ausgaben
-                im IP-Box-Land profitiert vom Box-Satz. Reine Mailbox-Lizenzholdings funktionieren nicht mehr.
-              </li>
-              <li>
-                <strong>§AStG Hinzurechnungsbesteuerung</strong>: bei DE-Wohnsitz + Beherrschung &gt; 50 % +
-                IP-Box-Steuer &lt; 15 % + passiven Royalty-Einkünften → BMF rechnet hinzu. Aktive
-                IP-Lizenzierung mit eigener R&D-Aktivität = aktiv (Befreiung möglich).
-              </li>
-              <li>
-                <strong>Pillar 2 OECD ab 2024</strong>: 15 % Mindeststeuer für Konzerne &gt; 750 Mio €.
-                Bei IP-Box mit 3,0 % effektiv: Top-Up Tax auf 15 %. Kleine KMUs unbetroffen.
-              </li>
-              <li>
-                <strong>Substanz ist Pflicht</strong>: lokale Mitarbeiter, Büro, R&D-Aktivität — nicht nur
-                ein 'Director auf dem Papier'. Audits seit 2018 verschärft.
-              </li>
-              <li>
-                <strong>DE-Verrechnungspreise §1 AStG</strong>: Lizenzgebühren-Höhe muss arm's-length sein.
-                Inter-Company-Lizenzen brauchen Verrechnungspreis-Dokumentation (typisch 5-15 % vom IP-Wert).
-              </li>
-            </ul>
-          </div>
-        </div>
+      <ToolLayout
+        className="mb-8"
+        inputs={
+          <>
+            <ToolSection title="Deine geplanten IP-Einkünfte" icon={Sparkles}>
+              <Field
+                label="Lizenzeinnahmen pro Jahr (€)"
+                htmlFor="ip-royalties"
+                hint="Brutto-Lizenzgebühren bzw. Gewinne aus IP-Veräußerung pro Jahr"
+              >
+                <Input
+                  id="ip-royalties"
+                  type="number"
+                  value={royalties}
+                  onChange={(e) => setRoyalties(Math.max(0, Number(e.target.value) || 0))}
+                  className="tabular"
+                />
+              </Field>
+            </ToolSection>
+            <Callout tone="warning" title="Wichtig vorweg (Stand 2026)">
+              <ul className="list-disc space-y-1.5 pl-4">
+                <li>
+                  <strong>BEPS Action 5, Nexus-Ansatz:</strong> Nur der Anteil qualifizierter F&E-Ausgaben im IP-Box-Land
+                  profitiert vom Box-Satz. Reine Briefkasten-Lizenzholdings funktionieren nicht mehr.
+                </li>
+                <li>
+                  <strong>Hinzurechnungsbesteuerung nach AStG:</strong> Bei Wohnsitz in Deutschland, Beherrschung über 50 %,
+                  IP-Box-Steuer unter 15 % und passiven Lizenzeinkünften wird hinzugerechnet. Aktive Lizenzierung mit eigener
+                  F&E gilt als aktiv (Befreiung möglich).
+                </li>
+                <li>
+                  <strong>Pillar 2 (OECD, seit 2024):</strong> 15 % Mindeststeuer für Konzerne über 750 Mio. € Umsatz. Bei
+                  3 % effektiv wird auf 15 % aufgestockt. Kleine und mittlere Unternehmen sind nicht betroffen.
+                </li>
+                <li>
+                  <strong>Substanz ist Pflicht:</strong> lokale Mitarbeitende, Büro und F&E-Tätigkeit, kein Direktor nur auf dem
+                  Papier. Prüfungen sind seit 2018 verschärft.
+                </li>
+                <li>
+                  <strong>Verrechnungspreise nach § 1 AStG:</strong> Lizenzgebühren müssen fremdüblich sein. Konzerninterne
+                  Lizenzen brauchen eine Verrechnungspreis-Dokumentation (typisch 5 bis 15 % vom IP-Wert).
+                </li>
+              </ul>
+            </Callout>
+          </>
+        }
+        result={
+          <ResultPanel
+            variant="ink"
+            kicker="Vergleichsbasis Deutschland"
+            title="Steuer ohne IP-Box (KSt und GewSt rund 30 %)"
+            value={eur(deBaseline)}
+            valueHint={`auf ${eur(royalties)} Lizenzeinnahmen pro Jahr`}
+          >
+            <p className="text-sm leading-relaxed">
+              Jede Karte unten zeigt die Steuer im jeweiligen Land und die Ersparnis gegenüber dieser Basis. Öffne ein Land für
+              Substanzanforderungen, Dokumentationspflichten und DBA-Hinweise.
+            </p>
+          </ResultPanel>
+        }
+      />
+
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+        <h2 className="text-lg font-semibold tracking-tight">Alle Regime im Vergleich</h2>
+        <ChoiceGroup<"fit" | "rate" | "cost">
+          label="Sortierung"
+          size="sm"
+          value={sortBy}
+          onChange={setSortBy}
+          options={[
+            { value: "fit", label: "Eignung für Deutsche" },
+            { value: "rate", label: "Effektiver Steuersatz" },
+            { value: "cost", label: "Compliance-Kosten" },
+          ]}
+        />
       </div>
 
-      {/* Royalties Input */}
-      <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5 mb-6">
-        <div className="flex items-center gap-2 mb-3">
-          <Sparkles className="h-4 w-4 text-accent-blue" />
-          <h3 className="font-bold text-sm">Deine geplanten IP-Einkünfte</h3>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">
-              Jährliche Royalties / IP-Lizenz-Einnahmen (€)
-            </Label>
-            <Input
-              type="number"
-              value={royalties}
-              onChange={(e) => setRoyalties(Math.max(0, Number(e.target.value) || 0))}
-              className="mt-1"
-            />
-            <div className="text-[10px] text-muted-foreground mt-1">
-              Brutto-Lizenzgebühren bzw. IP-Veräußerungsgewinne pro Jahr
-            </div>
-          </div>
-          <div className="rounded-lg bg-secondary/50 p-3">
-            <div className="text-[10px] uppercase tracking-wider text-muted-foreground mb-1">
-              DE-Baseline-Vergleich (KSt + GewSt ~30 %)
-            </div>
-            <div className="text-2xl font-bold text-foreground">
-              {Math.round(deBaseline).toLocaleString("de-DE")} €
-            </div>
-            <div className="text-[10px] text-muted-foreground mt-1">
-              Steuer in DE ohne IP-Box-Setup
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Sort Toggle */}
-      <div className="flex flex-wrap gap-2 mb-4">
-        <button
-          onClick={() => setSortBy("fit")}
-          className={`rounded-full px-3 py-1.5 text-[11px] font-semibold transition-colors ${
-            sortBy === "fit" ? "bg-accent-blue text-primary-foreground" : "bg-secondary text-muted-foreground hover:bg-secondary/80"
-          }`}
-        >
-          Nach DE-Eignung
-        </button>
-        <button
-          onClick={() => setSortBy("rate")}
-          className={`rounded-full px-3 py-1.5 text-[11px] font-semibold transition-colors ${
-            sortBy === "rate" ? "bg-accent-blue text-primary-foreground" : "bg-secondary text-muted-foreground hover:bg-secondary/80"
-          }`}
-        >
-          Nach effektivem Steuersatz
-        </button>
-        <button
-          onClick={() => setSortBy("cost")}
-          className={`rounded-full px-3 py-1.5 text-[11px] font-semibold transition-colors ${
-            sortBy === "cost" ? "bg-accent-blue text-primary-foreground" : "bg-secondary text-muted-foreground hover:bg-secondary/80"
-          }`}
-        >
-          Nach Compliance-Kosten
-        </button>
-      </div>
-
-      {/* Country Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
+      <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2">
         {sorted.map((s) => {
           const steuer = (royalties * s.effectiveRate) / 100;
           const ersparnis = deBaseline - steuer;
@@ -170,75 +172,67 @@ const IpBoxVergleich = () => {
           return (
             <button
               key={s.slug}
+              type="button"
               onClick={() => setSelected(s)}
-              className="text-left rounded-2xl border border-border bg-card p-5 hover:border-accent-blue/40 hover:shadow-soft transition-all group"
+              className="group flex flex-col rounded-2xl border border-border bg-card p-5 text-left shadow-card transition-[border-color,box-shadow] duration-200 hover:border-accent-blue/40 hover:shadow-soft"
             >
-              <div className="flex items-start justify-between gap-3 mb-3">
-                <div className="flex items-center gap-2">
-                  <span className="text-3xl">{s.flag}</span>
-                  <div>
-                    <div className="font-bold text-lg leading-tight">{s.country}</div>
-                    <div className="text-[11px] text-muted-foreground">{s.regimeName.split(" — ")[0]}</div>
-                  </div>
+              <div className="flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <h3 className="text-base font-semibold leading-snug">{s.country}</h3>
+                  <p className="mt-0.5 text-sm text-muted-foreground">{s.regimeName.split(" — ")[0]}</p>
                 </div>
-                <span className={`text-[10px] font-semibold uppercase tracking-wider rounded-full px-2 py-0.5 shrink-0 ${FIT_COLOR[s.fitForGermans]}`}>
+                <ToneBadge tone={FIT_TONE[s.fitForGermans]} className="shrink-0">
                   {s.fitForGermans}
-                </span>
+                </ToneBadge>
               </div>
 
-              <div className="grid grid-cols-2 gap-2 mb-3">
-                <div className="rounded-lg bg-emerald-500/5 border border-emerald-500/20 p-2.5">
-                  <div className="text-[10px] uppercase tracking-wider text-emerald-700 dark:text-emerald-400 font-semibold">Effektiv-Satz</div>
-                  <div className="text-xl font-bold text-foreground">{s.effectiveRate} %</div>
-                  <div className="text-[10px] text-muted-foreground">Standard-KSt: {s.standardKSt} %</div>
+              <div className="mt-4 grid grid-cols-2 gap-2">
+                <div className="rounded-xl border border-success/20 bg-success-soft/60 p-3">
+                  <p className="text-xs text-muted-foreground">Effektiver Satz</p>
+                  <p className="mt-0.5 text-xl font-semibold tabular">{satz(s.effectiveRate)}</p>
+                  <p className="text-xs text-muted-foreground tabular">Regulär {satz(s.standardKSt)}</p>
                 </div>
-                <div className="rounded-lg bg-secondary/50 p-2.5">
-                  <div className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">Steuer auf {Math.round(royalties / 1000)}k €</div>
-                  <div className="text-xl font-bold text-foreground">{Math.round(steuer / 1000)}k €</div>
-                  <div className="text-[10px] text-emerald-700 dark:text-emerald-400">−{Math.round(ersparnis / 1000)}k vs. DE</div>
+                <div className="rounded-xl bg-secondary/60 p-3">
+                  <p className="text-xs text-muted-foreground tabular">Steuer auf {Math.round(royalties / 1000)}k €</p>
+                  <p className="mt-0.5 text-xl font-semibold tabular">{Math.round(steuer / 1000)}k €</p>
+                  <p className="text-xs font-medium text-success tabular">−{Math.round(ersparnis / 1000)}k gegenüber DE</p>
                 </div>
               </div>
 
-              <div className="flex flex-wrap gap-1.5 text-[10px] mb-2">
-                <span className={`rounded-full px-2 py-0.5 ${CFC_COLOR[s.cfcRisk]}`}>
-                  AStG-Risiko {s.cfcRisk}
-                </span>
-                <span className="rounded-full bg-secondary text-muted-foreground px-2 py-0.5">
-                  Setup {s.setupComplexity}
-                </span>
-                {!meetsMin && (
-                  <span className="rounded-full bg-red-500/10 text-red-700 dark:text-red-400 px-2 py-0.5">
-                    &lt; Min-Volume
-                  </span>
-                )}
+              <div className="mt-3 flex flex-wrap gap-1.5">
+                <ToneBadge tone={CFC_TONE[s.cfcRisk]}>AStG-Risiko {s.cfcRisk.toLowerCase()}</ToneBadge>
+                <ToneBadge tone="neutral">Setup {s.setupComplexity}</ToneBadge>
+                {!meetsMin && <ToneBadge tone="danger">Unter Mindestvolumen</ToneBadge>}
               </div>
 
-              <div className="text-[11px] text-muted-foreground leading-snug line-clamp-2">
-                {s.mechanism}
-              </div>
+              <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-muted-foreground">{s.mechanism}</p>
+              <span className="mt-auto inline-flex items-center gap-1 pt-3 text-sm font-medium text-accent-blue">
+                Details ansehen
+                <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+              </span>
             </button>
           );
         })}
       </div>
 
-      {/* Universal hints */}
-      <div className="rounded-2xl border border-border bg-secondary/30 p-5 text-xs leading-relaxed">
-        <div className="flex items-start gap-2">
-          <ListChecks className="h-4 w-4 text-accent-blue shrink-0 mt-0.5" />
-          <div>
-            <div className="font-semibold text-foreground mb-2">Was alle 9 Regimes gemeinsam haben:</div>
-            <ul className="list-disc pl-4 space-y-1 text-muted-foreground">
-              <li>BEPS-Nexus-Approach: Steuer-Vorteil nur proportional zur F&E-Aktivität im IP-Box-Land</li>
-              <li>Software-Copyrights ohne Patent qualifizieren in: MT, NL, LU, BE, PL — NICHT in CY, IE, HU</li>
-              <li>Buchhaltung muss IP-Income separat tracken (vom Standard-Income)</li>
-              <li>R&D-Tagebuch + Spend-Tracking pro IP-Asset Pflicht</li>
-              <li>Audited Accounts für IP-Box-Anträge in den meisten Ländern Pflicht</li>
-              <li>DE-Verrechnungspreis-Doku §1 AStG bei Inter-Company-Lizenzen Pflicht</li>
-              <li>Tax-Ruling im IP-Box-Land empfohlen für Rechtssicherheit (NL/CH/LU bieten Ruling-Systeme)</li>
-            </ul>
-          </div>
-        </div>
-      </div>
+      <ToolSection title="Was alle 9 Regime gemeinsam haben" icon={ListChecks}>
+        <ul className="grid grid-cols-1 gap-x-8 gap-y-2.5 text-sm text-muted-foreground md:grid-cols-2">
+          {[
+            "BEPS-Nexus-Ansatz: Steuervorteil nur im Verhältnis zur F&E-Tätigkeit im IP-Box-Land",
+            "Software-Urheberrechte ohne Patent qualifizieren in MT, NL, LU, BE und PL, nicht in CY, IE und HU",
+            "Die Buchhaltung muss IP-Einkünfte getrennt von den übrigen Einkünften erfassen",
+            "F&E-Tagebuch und Ausgaben-Tracking je IP-Asset sind Pflicht",
+            "Geprüfte Abschlüsse sind für IP-Box-Anträge in den meisten Ländern Pflicht",
+            "Verrechnungspreis-Dokumentation nach § 1 AStG bei konzerninternen Lizenzen ist Pflicht",
+            "Ein Tax Ruling im IP-Box-Land schafft Rechtssicherheit (NL, CH und LU bieten Ruling-Verfahren)",
+          ].map((t) => (
+            <li key={t} className="flex items-start gap-2">
+              <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-accent-blue" aria-hidden="true" />
+              <span className="leading-relaxed">{t}</span>
+            </li>
+          ))}
+        </ul>
+      </ToolSection>
     </CockpitShell>
   );
 };
@@ -249,204 +243,124 @@ const Detail = ({ s, royalties, onBack }: { s: IPBoxRegime; royalties: number; o
   const meetsMin = royalties >= s.minRoyaltiesEur;
 
   return (
-    <div className="space-y-5">
-      <button
-        onClick={onBack}
-        className="inline-flex items-center gap-1.5 text-xs font-semibold text-accent-blue hover:underline"
-      >
-        <ArrowLeft className="h-3.5 w-3.5" /> Zurück zur Übersicht
-      </button>
+    <div className="space-y-6">
+      <Button variant="ghost" size="sm" onClick={onBack} className="-ml-2">
+        <ArrowLeft aria-hidden="true" /> Zurück zur Übersicht
+      </Button>
 
-      {/* Steuer-Resultat */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-        <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/5 p-4">
-          <div className="text-[10px] uppercase tracking-wider text-emerald-700 dark:text-emerald-400 font-semibold mb-1">
-            Effektiver Steuersatz
-          </div>
-          <div className="text-3xl font-bold text-foreground">{s.effectiveRate} %</div>
-          <div className="text-[11px] text-muted-foreground mt-1">{s.mechanism}</div>
-        </div>
-        <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-4">
-          <div className="text-[10px] uppercase tracking-wider text-accent-blue font-semibold mb-1">
-            Steuer auf deine Royalties
-          </div>
-          <div className="text-3xl font-bold text-foreground">{Math.round(steuer).toLocaleString("de-DE")} €</div>
-          <div className="text-[11px] text-muted-foreground mt-1">
-            Bei {Math.round(royalties / 1000)}k € Lizenz-Einnahmen
-          </div>
-        </div>
-        <div className="rounded-2xl border border-amber-500/30 bg-amber-500/5 p-4">
-          <div className="text-[10px] uppercase tracking-wider text-amber-700 dark:text-amber-400 font-semibold mb-1">
-            Ersparnis vs. DE-Baseline
-          </div>
-          <div className="text-3xl font-bold text-foreground">{Math.round(ersparnis).toLocaleString("de-DE")} €</div>
-          <div className="text-[11px] text-muted-foreground mt-1">
-            DE-KSt+GewSt ~30 % Vergleichsbasis
-          </div>
-        </div>
-      </div>
+      <StatGrid cols={3}>
+        <StatTile emphasis tone="success" label="Effektiver Steuersatz" value={satz(s.effectiveRate)} hint={s.mechanism} />
+        <StatTile
+          label="Steuer auf deine Lizenzeinnahmen"
+          value={eur(steuer)}
+          hint={`Bei ${Math.round(royalties / 1000)}k € Lizenzeinnahmen`}
+        />
+        <StatTile
+          label="Ersparnis gegenüber Deutschland"
+          value={eur(ersparnis)}
+          tone={ersparnis > 0 ? "success" : "danger"}
+          hint="Vergleichsbasis KSt und GewSt rund 30 %"
+        />
+      </StatGrid>
 
-      {/* Min-Volume Warning */}
       {!meetsMin && (
-        <div className="rounded-2xl border border-red-500/30 bg-red-500/5 p-4 text-xs">
-          <div className="flex items-start gap-2">
-            <AlertTriangle className="h-4 w-4 text-red-700 dark:text-red-400 shrink-0 mt-0.5" />
-            <div>
-              <div className="font-semibold text-foreground mb-1">
-                Setup wirtschaftlich fragwürdig: deine Royalties sind unter dem Empfehlungs-Minimum
-              </div>
-              <div className="text-muted-foreground">
-                Empfohlener Minimum-Royalty-Volume für {s.country}: {s.minRoyaltiesEur.toLocaleString("de-DE")} €/Jahr.
-                Bei deinen {royalties.toLocaleString("de-DE")} € Royalties werden Setup ({s.setupCostEur}) +
-                jährliche Compliance ({s.runningCostEur}) die Steuer-Ersparnis (~{Math.round(ersparnis).toLocaleString("de-DE")} €) auffressen.
-              </div>
-            </div>
-          </div>
-        </div>
+        <Callout tone="danger" title="Wirtschaftlich fragwürdig: deine Lizenzeinnahmen liegen unter dem empfohlenen Minimum">
+          Empfohlenes Mindestvolumen für {s.country}: {s.minRoyaltiesEur.toLocaleString("de-DE")} € pro Jahr. Bei deinen{" "}
+          {royalties.toLocaleString("de-DE")} € fressen Setup ({s.setupCostEur}) und jährliche Compliance ({s.runningCostEur})
+          die Steuerersparnis (rund {Math.round(ersparnis).toLocaleString("de-DE")} €) auf.
+        </Callout>
       )}
 
-      {/* Eckdaten */}
-      <div className="rounded-2xl border border-border bg-card p-5">
-        <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
-          <Globe className="h-4 w-4 text-accent-blue" />
-          Eckdaten
-        </h3>
-        <dl className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
-          <div className="rounded-lg bg-secondary/50 p-3">
-            <dt className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">Standard-KSt</dt>
-            <dd className="font-semibold text-foreground mt-1">{s.standardKSt} %</dd>
-          </div>
-          <div className="rounded-lg bg-secondary/50 p-3">
-            <dt className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">Effektive IP-Box-Steuer</dt>
-            <dd className="font-semibold text-foreground mt-1">{s.effectiveRate} %</dd>
-          </div>
-          <div className="rounded-lg bg-secondary/50 p-3">
-            <dt className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">Setup-Kosten</dt>
-            <dd className="font-semibold text-foreground mt-1">{s.setupCostEur}</dd>
-          </div>
-          <div className="rounded-lg bg-secondary/50 p-3">
-            <dt className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">Jährliche Compliance</dt>
-            <dd className="font-semibold text-foreground mt-1">{s.runningCostEur}</dd>
-          </div>
-          <div className="rounded-lg bg-secondary/50 p-3">
-            <dt className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">AStG-Risiko</dt>
-            <dd className={`font-semibold mt-1 inline-flex rounded-full px-2 py-0.5 text-[11px] ${CFC_COLOR[s.cfcRisk]}`}>
-              {s.cfcRisk}
-            </dd>
-          </div>
-          <div className="rounded-lg bg-secondary/50 p-3">
-            <dt className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">DE-Eignung</dt>
-            <dd className={`font-semibold mt-1 inline-flex rounded-full px-2 py-0.5 text-[11px] ${FIT_COLOR[s.fitForGermans]}`}>
-              {s.fitForGermans}
-            </dd>
-          </div>
-          <div className="rounded-lg bg-secondary/50 p-3">
-            <dt className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">Setup-Komplexität</dt>
-            <dd className="font-semibold text-foreground mt-1">{s.setupComplexity}</dd>
-          </div>
-          <div className="rounded-lg bg-secondary/50 p-3">
-            <dt className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">Min-Royalties (wirtschaftlich)</dt>
-            <dd className="font-semibold text-foreground mt-1">≥ {s.minRoyaltiesEur.toLocaleString("de-DE")} €/Jahr</dd>
-          </div>
+      <ToolSection title="Eckdaten" icon={Globe}>
+        <dl className="grid grid-cols-1 gap-3 text-sm sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            { t: "Reguläre Körperschaftsteuer", d: satz(s.standardKSt) },
+            { t: "Effektive IP-Box-Steuer", d: satz(s.effectiveRate) },
+            { t: "Setup-Kosten", d: s.setupCostEur },
+            { t: "Jährliche Compliance", d: s.runningCostEur },
+            { t: "AStG-Risiko", d: <ToneBadge tone={CFC_TONE[s.cfcRisk]}>{s.cfcRisk}</ToneBadge> },
+            { t: "Eignung für Deutsche", d: <ToneBadge tone={FIT_TONE[s.fitForGermans]}>{s.fitForGermans}</ToneBadge> },
+            { t: "Setup-Komplexität", d: s.setupComplexity },
+            { t: "Mindestvolumen (wirtschaftlich)", d: `ab ${s.minRoyaltiesEur.toLocaleString("de-DE")} € pro Jahr` },
+          ].map((e) => (
+            <div key={e.t} className="rounded-xl bg-secondary/60 p-3">
+              <dt className="text-xs text-muted-foreground">{e.t}</dt>
+              <dd className="mt-1 font-semibold tabular">{e.d}</dd>
+            </div>
+          ))}
         </dl>
-      </div>
+      </ToolSection>
 
-      {/* Qualifizierende Einkommen */}
-      <div className="rounded-2xl border border-border bg-card p-5">
-        <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
-          <FileCheck className="h-4 w-4 text-accent-blue" />
-          Qualifizierende IP-Einkommen
-        </h3>
-        <ul className="space-y-1.5 text-xs text-muted-foreground">
+      <ToolSection title="Qualifizierende IP-Einkünfte" icon={FileCheck}>
+        <ul className="space-y-2 text-sm text-muted-foreground">
           {s.qualifyingIncome.map((q, i) => (
-            <li key={i} className="flex gap-2">
-              <CheckCircle2 className="h-3.5 w-3.5 text-emerald-700 dark:text-emerald-400 shrink-0 mt-0.5" />
-              <span>{q}</span>
+            <li key={i} className="flex items-start gap-2">
+              <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-success" aria-hidden="true" />
+              <span className="leading-relaxed">{q}</span>
             </li>
           ))}
         </ul>
-      </div>
+      </ToolSection>
 
-      {/* Nexus + Substanz */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-        <div className="rounded-2xl border border-border bg-card p-5">
-          <h3 className="font-bold text-sm mb-2">BEPS-Nexus-Anforderung</h3>
-          <p className="text-xs text-muted-foreground leading-relaxed">{s.nexusRequirement}</p>
-        </div>
-        <div className="rounded-2xl border border-border bg-card p-5">
-          <h3 className="font-bold text-sm mb-2">Substanz-Anforderung vor Ort</h3>
-          <ul className="space-y-1 text-xs text-muted-foreground">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <ToolSection title="BEPS-Nexus-Anforderung" icon={Microscope}>
+          <p className="text-sm leading-relaxed text-muted-foreground">{s.nexusRequirement}</p>
+        </ToolSection>
+        <ToolSection title="Substanz vor Ort" icon={Building2}>
+          <ul className="list-disc space-y-1.5 pl-4 text-sm leading-relaxed text-muted-foreground marker:text-accent-blue">
             {s.substanceRequirement.map((r, i) => (
-              <li key={i} className="flex gap-2">
-                <span className="text-accent-blue shrink-0">•</span>
-                <span>{r}</span>
-              </li>
+              <li key={i}>{r}</li>
             ))}
           </ul>
-        </div>
+        </ToolSection>
       </div>
 
-      {/* R&D-Doku */}
-      <div className="rounded-2xl border border-border bg-card p-5">
-        <h3 className="font-bold text-sm mb-3">R&D-Dokumentations-Pflichten</h3>
-        <ul className="space-y-1.5 text-xs text-muted-foreground">
+      <ToolSection title="Dokumentationspflichten für F&E" icon={NotebookPen}>
+        <ol className="space-y-2.5 text-sm">
           {s.rdDocumentation.map((r, i) => (
-            <li key={i} className="flex gap-2">
-              <span className="text-accent-blue font-semibold shrink-0">{i + 1}.</span>
-              <span>{r}</span>
+            <li key={i} className="flex items-start gap-3">
+              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-secondary text-xs font-semibold tabular">
+                {i + 1}
+              </span>
+              <span className="leading-relaxed text-muted-foreground">{r}</span>
             </li>
           ))}
-        </ul>
-      </div>
+        </ol>
+      </ToolSection>
 
-      {/* Pros / Cons */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-        <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/5 p-5">
-          <h3 className="font-bold text-sm mb-2 text-emerald-700 dark:text-emerald-400 flex items-center gap-2">
-            <CheckCircle2 className="h-4 w-4" /> Vorteile
-          </h3>
-          <ul className="space-y-1.5 text-xs text-muted-foreground">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <ToolSection title="Vorteile" icon={CheckCircle2} className="border-success/25">
+          <ul className="space-y-2 text-sm text-muted-foreground">
             {s.pros.map((p, i) => (
-              <li key={i} className="flex gap-2">
-                <span className="text-emerald-700 dark:text-emerald-400 shrink-0">+</span>
-                <span>{p}</span>
+              <li key={i} className="flex items-start gap-2">
+                <Plus className="mt-0.5 h-3.5 w-3.5 shrink-0 text-success" aria-hidden="true" />
+                <span className="leading-relaxed">{p}</span>
               </li>
             ))}
           </ul>
-        </div>
-        <div className="rounded-2xl border border-red-500/20 bg-red-500/5 p-5">
-          <h3 className="font-bold text-sm mb-2 text-red-700 dark:text-red-400 flex items-center gap-2">
-            <TrendingDown className="h-4 w-4" /> Nachteile / Stolperfallen
-          </h3>
-          <ul className="space-y-1.5 text-xs text-muted-foreground">
+        </ToolSection>
+        <ToolSection title="Nachteile und Stolperfallen" icon={TrendingDown} className="border-danger/25">
+          <ul className="space-y-2 text-sm text-muted-foreground">
             {s.cons.map((c, i) => (
-              <li key={i} className="flex gap-2">
-                <span className="text-red-700 dark:text-red-400 shrink-0">−</span>
-                <span>{c}</span>
+              <li key={i} className="flex items-start gap-2">
+                <Minus className="mt-0.5 h-3.5 w-3.5 shrink-0 text-danger" aria-hidden="true" />
+                <span className="leading-relaxed">{c}</span>
               </li>
             ))}
           </ul>
-        </div>
+        </ToolSection>
       </div>
 
-      {/* DBA-Hinweis */}
-      <div className="rounded-2xl border border-amber-500/20 bg-amber-500/5 p-5">
-        <h3 className="font-bold text-sm mb-2 text-amber-700 dark:text-amber-400 flex items-center gap-2">
-          <AlertTriangle className="h-4 w-4" /> DBA-Deutschland + AStG-Behandlung
-        </h3>
-        <p className="text-xs text-muted-foreground leading-relaxed">{s.dbaNote}</p>
-      </div>
+      <Callout tone="warning" icon={AlertTriangle} title="Doppelbesteuerungsabkommen mit Deutschland und AStG">
+        {s.dbaNote}
+      </Callout>
 
-      {/* Official Link */}
-      <div className="text-center">
-        <a
-          href={s.officialUrl}
-          target="_blank"
-          rel="noreferrer"
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-accent-blue hover:underline"
-        >
-          Offizielle Steuerbehörde {s.country} <ExternalLink className="h-3 w-3" />
-        </a>
+      <div className="flex justify-center">
+        <Button asChild variant="outline">
+          <a href={s.officialUrl} target="_blank" rel="noreferrer">
+            Offizielle Steuerbehörde {s.country} <ExternalLink aria-hidden="true" />
+          </a>
+        </Button>
       </div>
     </div>
   );
