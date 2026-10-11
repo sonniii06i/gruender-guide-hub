@@ -18,21 +18,24 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import Stand2026Footer from "@/components/cockpit/Stand2026Footer";
+import { Callout, ChoiceGroup, StatGrid, StatTile, ToneBadge, ToolSection } from "@/components/cockpit/kit";
 import {
   Lightbulb,
   ExternalLink,
-  Info,
   AlertTriangle,
   CheckCircle2,
   HelpCircle,
+  ChevronDown,
+  ArrowLeft,
+  ArrowRight,
 } from "lucide-react";
 
 const FseWizard = () => {
   return (
     <CockpitShell
-      eyebrow="🌱 Erste Schritte · für komplette Anfänger:innen"
-      title="Fragebogen zur steuerlichen Erfassung (FsE) — Vollständiger Erklär-Begleiter"
-      subtitle="1:1 Walkthrough der echten 24 Teilseiten des ELSTER-FsE (Einzelunternehmen, Version 2026) in der Reihenfolge wie sie abgefragt werden — mit den echten ELSTER-Zeilennummern und Erklärung was zu beantworten ist. Für die 4 verbindlichen Entscheidungen (KU §19, EÜR/Bilanz, Soll/Ist, USt-IdNr) gibt's Empfehlungs-Widgets. Du füllst direkt in ELSTER aus, diese Seite liest parallel mit."
+      eyebrow="Erste Schritte · für komplette Anfänger:innen"
+      title="Fragebogen zur steuerlichen Erfassung (FsE): der Erklär-Begleiter"
+      subtitle="Alle 24 Teilseiten des ELSTER-FsE (Einzelunternehmen, Version 2026) in der Reihenfolge, in der ELSTER sie abfragt, mit den echten Zeilennummern und einer Erklärung je Feld. Für die 4 verbindlichen Entscheidungen (KU §19, EÜR/Bilanz, Soll/Ist, USt-IdNr) gibt es Empfehlungs-Widgets. Du füllst direkt in ELSTER aus, diese Seite liest parallel mit."
     >
       <HeroBlock />
       <ElsterLinks />
@@ -58,7 +61,7 @@ const FseWizard = () => {
       <Section
         nr="1"
         title="Allgemeine Angaben (Zeilen 2–21)"
-        intro="Steuerpflichtige(r), Stand der Ehe, Adresse, Telefon, Web, Art der Tätigkeit — alles auf EINER Teilseite."
+        intro="Steuerpflichtige(r), Stand der Ehe, Adresse, Telefon, Web, Art der Tätigkeit: alles auf einer Teilseite."
       >
         <Field nr={2} label="Anrede, Titel · Name · Vorname · Namensvorsatz/Namenszusatz">
           Wie im Personalausweis. Diese vier Felder teilen sich in ELSTER die Zeilenmarke 2.
@@ -89,7 +92,7 @@ const FseWizard = () => {
         <Field nr={11} label="Stand der Ehe / eingetragene Lebenspartnerschaft · seit dem">
           Relevant für das <strong>Splitting-Verfahren</strong>: verheiratet / eingetragene Lebenspartnerschaft → Splitting-Tarif (kann bei stark unterschiedlichen Einkommen mehrere Tausend €/Jahr sparen). „seit dem" = Datum.
         </Field>
-        <Field nr={7} label="Adresse (Inland / Ausland) — Straße, Hausnummer, Hausnummerzusatz">
+        <Field nr={7} label="Adresse (Inland / Ausland): Straße, Hausnummer, Hausnummerzusatz">
           Deine Privatadresse. ELSTER unterscheidet „Adresse im Inland" / „im Ausland".
         </Field>
         <Field nr={8} label="Adressergänzung" optional>Z.B. „c/o Müller", „2. OG links".</Field>
@@ -98,7 +101,7 @@ const FseWizard = () => {
         <Field nr={19} label="Telefon (Vorwahl international / national / Rufnummer)" optional>
           Mehrere Nummern möglich.
         </Field>
-        <Field nr={20} label="Web — Internetadresse" optional>Wenn vorhanden.</Field>
+        <Field nr={20} label="Web: Internetadresse" optional>Wenn vorhanden.</Field>
         <Field nr={21} label="Art der Tätigkeit (genaue Bezeichnung des Gewerbezweiges)">
           <strong>Freitext (max. 200 Zeichen)</strong> — präzise, was du machst. KEIN WZ-Code-Feld im FsE (das FA ordnet den Code selbst zu). Beispiel: „Online-Handel mit Sneakern (Ein- und Verkauf)" statt nur „Handel".
         </Field>
@@ -122,7 +125,7 @@ const FseWizard = () => {
       <Section
         nr="3"
         title="Bankverbindung(en) für Steuererstattungen / SEPA-Lastschriftverfahren"
-        intro="Wohin erstattet das FA — und darf es Steuern automatisch abbuchen?"
+        intro="Wohin erstattet das FA, und darf es Steuern automatisch abbuchen?"
       >
         <Field label="IBAN (inländisches oder ausländisches Geldinstitut)">
           Konto für <strong>Erstattungen</strong> des Finanzamts. In ELSTER nur eine IBAN-Tabelle (inländisch/ausländisch) — KEINE 20 Einzelfelder.
@@ -171,7 +174,7 @@ const FseWizard = () => {
       <Section
         nr="5"
         title="Empfangsbevollmächtigte(r) für alle Steuerarten (Zeilen 39–46)"
-        intro="Wer bekommt die Bescheide? (NICHT nur für Ausländer — für jeden relevant, der die Post an jemand anderen leiten will.)"
+        intro="Wer bekommt die Bescheide? (Nicht nur für Ausländer, sondern für jeden relevant, der die Post an jemand anderen leiten will.)"
       >
         <Field nr={39} label='Checkbox „Die angegebene steuerliche Beratung ist empfangsbevollmächtigt."' optional>
           Häkchen, wenn der StB aus Teilseite 4 alle Bescheide bekommen soll.
@@ -239,7 +242,7 @@ const FseWizard = () => {
       <Section
         nr="10"
         title="Handelsregistereintragung (Zeilen 80–84)"
-        intro="Nur relevant bei e.K. / HR-Eintrag — für Klein-Einzelunternehmer meist nicht."
+        intro="Nur relevant bei e.K. / HR-Eintrag, für Klein-Einzelunternehmer meist nicht."
         collapsedByDefault
       >
         <Field nr={80} label="Eintragung beabsichtigt / Antrag gestellt / bereits erfolgt" optional>
@@ -254,7 +257,7 @@ const FseWizard = () => {
       <Section
         nr="11"
         title="Gründungsform (Zeilen 85–92)"
-        intro="Neugründung, Übernahme, Umwandlung — und ggf. Vorgänger."
+        intro="Neugründung, Übernahme, Umwandlung, und ggf. Vorgänger."
       >
         <Field nr={85} label="Gründungsart + Gründungsdatum">
           Neugründung (Standard) / Übernahme / Umwandlung / Verlegung.
@@ -339,11 +342,11 @@ const FseWizard = () => {
       <Section
         nr="15"
         title="Angaben zur Gewinnermittlung (Zeilen 114–116)"
-        intro="EÜR vs. Bilanz — eine der verbindlichen Entscheidungen."
+        intro="EÜR vs. Bilanz: eine der verbindlichen Entscheidungen."
       >
         <Field nr={114} label="Gewinnermittlungsart (Dropdown)">
           <RecommendationCard
-            title="EÜR vs. Bilanz — was passt?"
+            title="EÜR vs. Bilanz: was passt?"
             questions={[
               { id: "rf", q: "Rechtsform?", options: [
                 { v: "kapges", label: "UG/GmbH/AG/eG" },
@@ -376,7 +379,7 @@ const FseWizard = () => {
       <Section
         nr="16"
         title="Freistellungsbescheinigung gemäß § 48b EStG (Bauabzugssteuer) (Zeile 117)"
-        intro="Nur eine einzige Checkbox — relevant für Bauleistende."
+        intro="Nur eine einzige Checkbox, relevant für Bauleistende."
         collapsedByDefault
       >
         <Field nr={117} label='Checkbox „Ich beantrage die Erteilung einer Bescheinigung zur Freistellung vom Steuerabzug bei Bauleistungen gemäß § 48b EStG."' optional>
@@ -405,7 +408,7 @@ const FseWizard = () => {
       <Section
         nr="18"
         title="Angaben zur Anmeldung und Abführung der Umsatzsteuer (Zeilen 127–162)"
-        intro="Die wichtigste Teilseite — hier liegen 3 der 4 verbindlichen Entscheidungen: Kleinunternehmer §19, Soll/Ist, USt-IdNr."
+        intro="Die wichtigste Teilseite: hier liegen 3 der 4 verbindlichen Entscheidungen: Kleinunternehmer §19, Soll/Ist, USt-IdNr."
         warn="Mehrere bindende Entscheidungen. §19-KU-Wahl bindet 5 Jahre. Sorgfältig prüfen."
       >
         <Field nr={127} label="Geschäftsveräußerung im Ganzen (§ 1 Absatz 1a UStG)" optional>
@@ -553,7 +556,7 @@ const FseWizard = () => {
       <Section
         nr="20"
         title='Besonderes Besteuerungsverfahren „One-Stop-Shop" (Zeilen 163–174)'
-        intro="OSS — für B2C-Verkäufe an Privatkunden in andere EU-Länder."
+        intro="OSS: für B2C-Verkäufe an Privatkunden in andere EU-Länder."
         collapsedByDefault
       >
         <Field nr={163} label="Teilnahme am OSS-Verfahren (Inland / anderer EU-Mitgliedstaat)" optional>
@@ -635,62 +638,78 @@ const FseWizard = () => {
 // Sub-Components
 // ============================================================================
 
+const TEILSEITEN_NAV = Array.from({ length: 25 }, (_, i) => String(i));
+
 const HeroBlock = () => (
-  <div className="rounded-2xl border-2 border-accent-blue/30 bg-gradient-to-br from-accent-blue/10 via-card to-card p-5 mb-4">
-    <div className="flex items-start gap-3">
-      <Lightbulb className="h-6 w-6 text-accent-blue shrink-0 mt-0.5" />
-      <div className="flex-1">
-        <h3 className="font-bold text-sm mb-1">Wie du dieses Tool benutzt</h3>
-        <ol className="text-xs text-muted-foreground leading-relaxed mb-2 list-decimal list-inside space-y-1">
-          <li>ELSTER-Konto erstellen (falls noch nicht — Aktivierungs-Brief braucht 2–4 Wochen!).</li>
-          <li>In ELSTER „Fragebogen zur steuerlichen Erfassung für Einzelunternehmen" öffnen.</li>
-          <li>Diese Seite <strong>parallel</strong> öffnen (2. Tab/Monitor).</li>
-          <li>Teilseiten in der Reihenfolge unten — bei jeder Frage hier nachlesen, dann in ELSTER eintragen.</li>
-          <li>Bei den 4 verbindlichen Entscheidungen Empfehlungs-Widgets nutzen.</li>
-        </ol>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-[11px] mt-3">
-          <div className="rounded-lg bg-red-500/10 p-2 border border-red-500/30">
-            <strong className="text-red-700">⚠ § 19 KU</strong>
-            <div className="text-muted-foreground mt-0.5">5 Jahre Bindung</div>
-          </div>
-          <div className="rounded-lg bg-amber-500/10 p-2 border border-amber-500/30">
-            <strong className="text-amber-700">⚠ § 138 AO</strong>
-            <div className="text-muted-foreground mt-0.5">Frist 1 Monat</div>
-          </div>
-          <div className="rounded-lg bg-emerald-500/10 p-2 border border-emerald-500/30">
-            <strong className="text-emerald-700">✅ 24 Teilseiten</strong>
-            <div className="text-muted-foreground mt-0.5">echtes ELSTER-Formular</div>
-          </div>
-          <div className="rounded-lg bg-blue-500/10 p-2 border border-blue-500/30">
-            <strong className="text-blue-700">⏱ Dauer</strong>
-            <div className="text-muted-foreground mt-0.5">~60-120 Min</div>
-          </div>
-        </div>
+  <ToolSection
+    title="So nutzt du den Begleiter"
+    description="ELSTER in einem Tab, diese Seite im zweiten. Teilseite für Teilseite nachlesen, dann eintragen."
+    icon={Lightbulb}
+    className="mb-6"
+  >
+    <ol className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+      {[
+        <>ELSTER-Konto erstellen, falls noch nicht vorhanden. Der Aktivierungs-Brief braucht 2–4 Wochen.</>,
+        <>In ELSTER den „Fragebogen zur steuerlichen Erfassung für Einzelunternehmen" öffnen.</>,
+        <>Diese Seite <strong>parallel</strong> öffnen (zweiter Tab oder Monitor).</>,
+        <>Teilseiten in der Reihenfolge unten durchgehen: hier nachlesen, dann in ELSTER eintragen.</>,
+        <>Bei den 4 verbindlichen Entscheidungen die Empfehlungs-Widgets nutzen.</>,
+      ].map((text, i) => (
+        <li key={i} className="flex gap-3 rounded-xl border border-border bg-secondary/40 p-3.5 text-sm leading-relaxed text-foreground/85 lg:flex-col lg:gap-2">
+          <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-semibold text-primary-foreground tabular">
+            {i + 1}
+          </span>
+          <span>{text}</span>
+        </li>
+      ))}
+    </ol>
+    <StatGrid cols={4} className="mt-5">
+      <StatTile label="§ 19 KU" value="5 Jahre Bindung" tone="danger" hint="bei Verzicht auf § 19 UStG" />
+      <StatTile label="§ 138 AO" value="Frist 1 Monat" tone="warning" hint="ab Aufnahme der Tätigkeit" />
+      <StatTile label="Umfang" value="24 Teilseiten" tone="success" hint="echtes ELSTER-Formular" />
+      <StatTile label="Dauer" value="60–120 Min" tone="info" hint="mit diesem Begleiter" />
+    </StatGrid>
+    <nav aria-label="Springe zu Teilseite" className="mt-5 border-t border-border/70 pt-4">
+      <p className="mb-2 text-sm font-medium text-foreground">Springe zu Teilseite</p>
+      <div className="flex flex-wrap gap-1.5">
+        {TEILSEITEN_NAV.map((nr) => (
+          <a
+            key={nr}
+            href={`#teilseite-${nr}`}
+            className="flex h-8 min-w-[2rem] items-center justify-center rounded-lg border border-border bg-card px-2 text-xs font-medium text-foreground/80 tabular transition-colors hover:border-accent-blue/40 hover:text-accent-blue"
+          >
+            {nr === "0" ? "Start" : nr}
+          </a>
+        ))}
       </div>
-    </div>
-  </div>
+    </nav>
+  </ToolSection>
 );
 
 const ElsterLinks = () => (
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-4">
-    <a href="https://www.elster.de/eportal/formulare-leistungen/alleformulare/fseeun"
-      target="_blank" rel="noreferrer"
-      className="rounded-xl border-2 border-accent-blue bg-accent-blue/5 p-3 text-xs hover:bg-accent-blue/10 transition flex items-center justify-between">
-      <div>
-        <div className="font-semibold text-foreground">FsE EUn (Einzelunternehmer)</div>
-        <div className="text-muted-foreground">Solo-Gewerbe, Freiberufler, e.K.</div>
-      </div>
-      <ExternalLink className="h-4 w-4 text-accent-blue" />
-    </a>
-    <a href="https://www.elster.de/eportal/formulare-leistungen/alleformulare/fsekapg"
-      target="_blank" rel="noreferrer"
-      className="rounded-xl border-2 border-accent-blue bg-accent-blue/5 p-3 text-xs hover:bg-accent-blue/10 transition flex items-center justify-between">
-      <div>
-        <div className="font-semibold text-foreground">FsE KapG (Kapitalgesellschaften)</div>
-        <div className="text-muted-foreground">UG, GmbH, AG, eG</div>
-      </div>
-      <ExternalLink className="h-4 w-4 text-accent-blue" />
-    </a>
+  <div className="mb-8 grid grid-cols-1 gap-3 md:grid-cols-2">
+    {[
+      { href: "https://www.elster.de/eportal/formulare-leistungen/alleformulare/fseeun", t: "FsE für Einzelunternehmen", d: "Solo-Gewerbe, Freiberufler, e.K.", primary: true },
+      { href: "https://www.elster.de/eportal/formulare-leistungen/alleformulare/fsekapg", t: "FsE für Kapitalgesellschaften", d: "UG, GmbH, AG, eG", primary: false },
+    ].map((l) => (
+      <a
+        key={l.href}
+        href={l.href}
+        target="_blank"
+        rel="noreferrer"
+        className={`press group flex items-center justify-between gap-3 rounded-2xl border p-4 shadow-card transition-colors ${
+          l.primary ? "border-accent-blue/30 bg-accent hover:border-accent-blue/50" : "border-border bg-card hover:border-accent-blue/40"
+        }`}
+      >
+        <div className="min-w-0">
+          <div className="text-sm font-semibold text-foreground">{l.t}</div>
+          <div className="mt-0.5 text-sm text-muted-foreground">{l.d}</div>
+        </div>
+        <span className="flex shrink-0 items-center gap-1.5 text-sm font-medium text-accent-blue">
+          In ELSTER öffnen <ExternalLink className="h-4 w-4" aria-hidden="true" />
+        </span>
+      </a>
+    ))}
   </div>
 );
 
@@ -702,21 +721,30 @@ const Section = ({ nr, title, intro, warn, children, collapsedByDefault }: {
   children: React.ReactNode;
   collapsedByDefault?: boolean;
 }) => (
-  <details open={!collapsedByDefault} className="rounded-2xl border border-border bg-card p-4 mb-3">
-    <summary className="cursor-pointer">
-      <span className="font-bold text-sm">
-        <span className="inline-block min-w-[2rem] h-7 px-2 rounded-full bg-accent-blue/15 text-accent-blue text-center mr-2 leading-7">{nr}</span>
-        {title}
+  <details
+    id={`teilseite-${nr}`}
+    open={!collapsedByDefault}
+    className="group mb-3 scroll-mt-24 rounded-2xl border border-border bg-card shadow-card [&_summary::-webkit-details-marker]:hidden"
+  >
+    <summary className="flex cursor-pointer list-none items-start gap-3 px-4 py-4 md:px-6">
+      <span className="flex h-8 min-w-[2rem] shrink-0 items-center justify-center rounded-lg bg-accent px-2 text-sm font-semibold text-accent-blue tabular">
+        {nr}
       </span>
-      <div className="text-xs text-muted-foreground mt-1 ml-10">{intro}</div>
-    </summary>
-    {warn && (
-      <div className="rounded-lg bg-red-500/10 border border-red-500/30 p-2 text-[11px] my-3 flex items-start gap-1.5">
-        <AlertTriangle className="h-3.5 w-3.5 text-red-700 shrink-0 mt-0.5" />
-        <span className="text-red-700">{warn}</span>
+      <div className="min-w-0 flex-1">
+        <span className="block text-xs font-medium text-muted-foreground">{nr === "0" ? "Vor den Teilseiten" : `Teilseite ${nr}`}</span>
+        <h2 className="text-base font-semibold leading-snug tracking-tight">{title}</h2>
+        <p className="mt-0.5 text-sm leading-relaxed text-muted-foreground">{intro}</p>
       </div>
-    )}
-    <div className="mt-3 space-y-2">{children}</div>
+      <ChevronDown className="mt-2 h-4 w-4 shrink-0 text-muted-foreground transition-transform group-open:rotate-180" aria-hidden="true" />
+    </summary>
+    <div className="space-y-2 border-t border-border/70 px-4 pb-5 pt-4 md:px-6">
+      {warn && (
+        <Callout tone="danger" className="mb-3">
+          {warn}
+        </Callout>
+      )}
+      {children}
+    </div>
   </details>
 );
 
@@ -726,25 +754,29 @@ const Field = ({ nr, label, optional, children }: {
   optional?: boolean;
   children?: React.ReactNode;
 }) => (
-  <div className="rounded-lg bg-secondary/30 p-2.5">
-    <div className="font-semibold text-xs flex items-start gap-2 mb-1">
-      {nr != null && <span className="text-[10px] font-mono bg-card text-muted-foreground px-1.5 py-0.5 rounded shrink-0 mt-0.5">{nr}</span>}
-      <span className="flex-1">
-        {label}
-        {optional && <span className="ml-1.5 text-[9px] font-normal text-muted-foreground uppercase">(optional)</span>}
+  <div className="flex gap-3 rounded-xl border border-border/70 bg-secondary/30 p-3.5">
+    {nr != null && (
+      <span
+        className="mt-0.5 flex h-6 min-w-[2.75rem] shrink-0 items-center justify-center rounded-md border border-border bg-card px-1.5 text-[11px] font-medium text-muted-foreground tabular"
+        aria-label={`ELSTER-Zeile ${nr}`}
+      >
+        Z. {nr}
       </span>
-    </div>
-    {children && (
-      <div className="text-[11px] text-foreground/80 leading-relaxed ml-7">{children}</div>
     )}
+    <div className="min-w-0 flex-1">
+      <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+        <span className="text-sm font-medium leading-snug text-foreground">{label}</span>
+        {optional && <ToneBadge>optional</ToneBadge>}
+      </div>
+      {children && <div className="mt-1.5 text-sm leading-relaxed text-foreground/75 [&_ul]:mt-1.5">{children}</div>}
+    </div>
   </div>
 );
 
 const ToolNote = ({ children }: { children: React.ReactNode }) => (
-  <div className="mt-1.5 rounded bg-accent-blue/10 border border-accent-blue/30 p-1.5 text-[10px] flex items-start gap-1.5">
-    <Info className="h-3 w-3 text-accent-blue shrink-0 mt-0.5" />
-    <span>{children}</span>
-  </div>
+  <Callout tone="info" className="mt-2 p-3">
+    {children}
+  </Callout>
 );
 
 const RecommendationCard = ({ title, questions, decide }: {
@@ -757,43 +789,51 @@ const RecommendationCard = ({ title, questions, decide }: {
   const allAnswered = questions.every((q) => answers[q.id]);
 
   return (
-    <div className="rounded-lg bg-accent-blue/8 border border-accent-blue/30 p-3 my-2">
+    <div className="my-3 rounded-xl border border-accent-blue/25 bg-accent/60">
       {!open ? (
-        <button type="button" onClick={() => setOpen(true)}
-          className="w-full text-left text-xs font-semibold text-accent-blue hover:text-accent-blue flex items-center gap-1.5">
-          <Lightbulb className="h-3.5 w-3.5" /> {title} — Empfehlung anzeigen ↓
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left text-sm font-medium text-foreground transition-colors hover:text-accent-blue"
+        >
+          <span className="flex items-center gap-2.5">
+            <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-card text-accent-blue">
+              <Lightbulb className="h-4 w-4" aria-hidden="true" />
+            </span>
+            <span>
+              {title}
+              <span className="sr-only"> · </span>
+              <span className="block text-xs font-normal text-accent-blue">Empfehlung anzeigen</span>
+            </span>
+          </span>
+          <ChevronDown className="h-4 w-4 shrink-0 text-accent-blue" aria-hidden="true" />
         </button>
       ) : (
-        <div className="space-y-2">
-          <div className="text-xs font-semibold text-accent-blue flex items-center gap-1.5">
-            <Lightbulb className="h-3.5 w-3.5" /> {title}
+        <div className="space-y-4 p-4">
+          <div className="flex items-center gap-2.5 text-sm font-semibold text-foreground">
+            <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-card text-accent-blue">
+              <Lightbulb className="h-4 w-4" aria-hidden="true" />
+            </span>
+            {title}
           </div>
           {questions.map((q) => (
             <div key={q.id}>
-              <div className="text-[11px] font-medium text-foreground mb-1">{q.q}</div>
-              <div className="flex flex-wrap gap-1.5">
-                {q.options.map((opt) => (
-                  <button
-                    key={opt.v}
-                    type="button"
-                    onClick={() => setAnswers((a) => ({ ...a, [q.id]: opt.v }))}
-                    className={`text-[11px] rounded-full px-2.5 py-1 border transition ${
-                      answers[q.id] === opt.v
-                        ? "bg-accent-blue text-white border-accent-blue"
-                        : "bg-card border-border hover:border-accent-blue"
-                    }`}
-                  >
-                    {opt.label}
-                  </button>
-                ))}
-              </div>
+              <p className="mb-2 text-sm font-medium text-foreground">{q.q}</p>
+              <ChoiceGroup<string>
+                size="sm"
+                label={q.q}
+                value={answers[q.id] ?? ""}
+                onChange={(v) => setAnswers((a) => ({ ...a, [q.id]: v }))}
+                options={q.options.map((opt) => ({ value: opt.v, label: opt.label }))}
+              />
             </div>
           ))}
-          {allAnswered && (
-            <div className="rounded bg-emerald-500/10 border border-emerald-500/30 p-2 text-xs text-emerald-800 flex items-start gap-1.5 mt-2">
-              <CheckCircle2 className="h-3.5 w-3.5 text-emerald-700 shrink-0 mt-0.5" />
-              <span>{decide(answers)}</span>
-            </div>
+          {allAnswered ? (
+            <Callout tone="success" title="Empfehlung" icon={CheckCircle2}>
+              {decide(answers)}
+            </Callout>
+          ) : (
+            <p className="text-xs text-muted-foreground">Beantworte alle Fragen, dann erscheint die Empfehlung.</p>
           )}
         </div>
       )}
@@ -802,52 +842,64 @@ const RecommendationCard = ({ title, questions, decide }: {
 };
 
 const FinalNotes = () => (
-  <div className="rounded-2xl bg-amber-500/10 border-2 border-amber-500/50 p-4 mb-4 text-xs">
-    <div className="flex items-start gap-2">
-      <AlertTriangle className="h-5 w-5 text-amber-700 shrink-0 mt-0.5" />
-      <div className="flex-1 space-y-2">
-        <div className="font-bold text-amber-800">Vor dem Absenden — letzte Checks:</div>
-        <ul className="space-y-1 list-disc list-inside text-foreground/90">
-          <li><strong>IdNr</strong> dreimal prüfen (11 Stellen, nicht 13!)</li>
-          <li><strong>§ 19 KU</strong>-Entscheidung sicher? <strong>5-Jahres-Bindung bei Verzicht!</strong></li>
-          <li><strong>Ist-Versteuerung</strong> beantragt (wenn passend)?</li>
-          <li><strong>USt-IdNr</strong>-Häkchen gesetzt (wenn EU-Geschäft möglich)?</li>
-          <li><strong>IBAN</strong> auf Tippfehler prüfen — falscher Eingang = Verzögerung</li>
-          <li><strong>Lastschriftmandat</strong>: ja oder nein bewusst entschieden?</li>
-          <li><strong>Gewinnermittlungsart</strong>: EÜR vs. Bilanz korrekt?</li>
-          <li><strong>Vorauszahlungs-Schätzung</strong> realistisch (nicht zu niedrig)?</li>
-        </ul>
-        <div className="text-[11px] text-muted-foreground italic mt-2">
-          Nach Absenden: ELSTER-Bestätigungs-Quittung als PDF speichern. Steuernummer kommt 2–6 Wochen per Post.
-        </div>
-      </div>
-    </div>
-  </div>
+  <Callout tone="warning" title="Vor dem Absenden: letzte Checks" icon={AlertTriangle} className="mb-6 mt-8 p-5">
+    <ul className="mt-2 grid gap-x-6 gap-y-2 md:grid-cols-2">
+      {[
+        <><strong>IdNr</strong> dreimal prüfen (11 Stellen, nicht 13!)</>,
+        <><strong>§ 19 KU</strong>-Entscheidung sicher? <strong>5-Jahres-Bindung bei Verzicht!</strong></>,
+        <><strong>Ist-Versteuerung</strong> beantragt (wenn passend)?</>,
+        <><strong>USt-IdNr</strong>-Häkchen gesetzt (wenn EU-Geschäft möglich)?</>,
+        <><strong>IBAN</strong> auf Tippfehler prüfen, falscher Eingang bedeutet Verzögerung</>,
+        <><strong>Lastschriftmandat</strong>: ja oder nein bewusst entschieden?</>,
+        <><strong>Gewinnermittlungsart</strong>: EÜR vs. Bilanz korrekt?</>,
+        <><strong>Vorauszahlungs-Schätzung</strong> realistisch (nicht zu niedrig)?</>,
+      ].map((item, i) => (
+        <li key={i} className="flex items-start gap-2">
+          <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-warning" aria-hidden="true" />
+          <span>{item}</span>
+        </li>
+      ))}
+    </ul>
+    <p className="mt-3 text-xs text-muted-foreground">
+      Nach dem Absenden: ELSTER-Bestätigungs-Quittung als PDF speichern. Die Steuernummer kommt nach 2–6 Wochen per Post.
+    </p>
+  </Callout>
 );
 
 const CrossLinks = () => (
-  <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-6">
-    <Link to="/cockpit/gewerbeanmeldung-wizard" className="rounded-xl border border-border bg-card p-3 text-xs hover:border-accent-blue transition">
-      <div className="font-semibold mb-0.5">← Gewerbeanmeldung-Wizard</div>
-      <div className="text-muted-foreground">GewA1 BEVOR du FsE machst</div>
-    </Link>
-    <Link to="/cockpit/schwellen-check" className="rounded-xl border border-border bg-card p-3 text-xs hover:border-accent-blue transition">
-      <div className="font-semibold mb-0.5">Schwellen-Check (KU-Grenzen)</div>
-      <div className="text-muted-foreground">25k/100k §19 KU verstehen</div>
-    </Link>
-    <Link to="/cockpit/erste-schritte-roadmap" className="rounded-xl border border-border bg-card p-3 text-xs hover:border-accent-blue transition">
-      <div className="font-semibold mb-0.5">90-Tage-Roadmap →</div>
-      <div className="text-muted-foreground">Was kommt nach dem FsE</div>
-    </Link>
+  <div className="mb-6 grid grid-cols-1 gap-3 md:grid-cols-3">
+    {[
+      { to: "/cockpit/gewerbeanmeldung-wizard", t: "Gewerbeanmeldung-Wizard", d: "GewA1 erledigen, bevor du den FsE machst", icon: ArrowLeft },
+      { to: "/cockpit/schwellen-check", t: "Schwellen-Check", d: "Die KU-Grenzen 25k/100k nach §19 verstehen", icon: ArrowRight },
+      { to: "/cockpit/erste-schritte-roadmap", t: "90-Tage-Roadmap", d: "Was nach dem FsE kommt", icon: ArrowRight },
+    ].map((l) => (
+      <Link
+        key={l.to}
+        to={l.to}
+        className="press group flex items-start justify-between gap-3 rounded-2xl border border-border bg-card p-4 shadow-card transition-colors hover:border-accent-blue/40"
+      >
+        <div className="min-w-0">
+          <div className="text-sm font-semibold text-foreground">{l.t}</div>
+          <div className="mt-0.5 text-sm text-muted-foreground">{l.d}</div>
+        </div>
+        <l.icon className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground transition-colors group-hover:text-accent-blue" aria-hidden="true" />
+      </Link>
+    ))}
   </div>
 );
 
 const Glossar = () => (
-  <details className="rounded-2xl border border-border bg-card p-5 mb-6">
-    <summary className="cursor-pointer font-bold text-sm flex items-center gap-2">
-      <HelpCircle className="h-4 w-4 text-accent-blue" /> Glossar — FsE-Begriffe einfach erklärt
+  <details className="group mb-6 rounded-2xl border border-border bg-card shadow-card [&_summary::-webkit-details-marker]:hidden">
+    <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-5 py-4 text-base font-semibold md:px-6">
+      <span className="flex items-center gap-3">
+        <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-accent-blue">
+          <HelpCircle className="h-4 w-4" aria-hidden="true" />
+        </span>
+        Glossar: FsE-Begriffe einfach erklärt
+      </span>
+      <ChevronDown className="h-4 w-4 text-muted-foreground transition-transform group-open:rotate-180" aria-hidden="true" />
     </summary>
-    <div className="mt-3 space-y-3 text-xs leading-relaxed">
+    <dl className="divide-y divide-border/70 border-t border-border/70 px-5 md:px-6">
       {[
         { b: "FsE (Fragebogen zur steuerlichen Erfassung)", e: "Pflicht-Online-Formular bei ELSTER, das jeder Selbstständige innerhalb 1 Monat nach Tätigkeitsaufnahme abgeben muss (§ 138 AO). Hier teilt das FA dir die Steuernummer zu, legt Vorauszahlungen + USt-Status fest. 100 % digital, kein Papier. Beim Einzelunternehmen 24 Teilseiten." },
         { b: "Steuer-ID (IdNr) vs. Steuernummer", e: "IdNr = 11-stellige LEBENSLANGE Nummer vom BZSt, bekommst du bei Geburt/Zuwanderung. Steuernummer = vom Wohnsitz-FA zugeteilt, ändert sich bei Umzug. Im FsE brauchst du die IdNr; die Steuernummer KOMMT NACH der FsE-Abgabe." },
@@ -861,12 +913,12 @@ const Glossar = () => (
         { b: "OSS / IOSS", e: "One-Stop-Shop (Teilseite 20) für EU-B2C-Versandhandel ab 10.000 €/Jahr in EU-Länder. IOSS für Importe aus Drittländern bis 150 € an EU-Privatkunden. Beides vereinfacht Steuermeldung in EU-Ländern." },
         { b: "Reverse Charge § 13b UStG", e: "Bei B2B-Leistungen an EU-Ausland: Leistungsempfänger schuldet USt in seinem Land. Du stellst Rechnung netto + Hinweis 'Steuerschuldnerschaft des Leistungsempfängers'. USt-IdNr beider Parteien Pflicht." },
       ].map((g) => (
-        <div key={g.b} className="rounded-lg bg-secondary/30 p-3">
-          <div className="font-semibold text-foreground mb-1">{g.b}</div>
-          <div className="text-muted-foreground">{g.e}</div>
+        <div key={g.b} className="py-3.5">
+          <dt className="text-sm font-semibold text-foreground">{g.b}</dt>
+          <dd className="mt-1 text-sm leading-relaxed text-muted-foreground">{g.e}</dd>
         </div>
       ))}
-    </div>
+    </dl>
   </details>
 );
 
