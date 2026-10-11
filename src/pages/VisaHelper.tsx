@@ -1,20 +1,32 @@
 import { useState, useMemo } from "react";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Plane,
-  CheckCircle2,
-  AlertTriangle,
   ExternalLink,
   Globe,
   MapPin,
   ShieldAlert,
   Info,
   TrendingDown,
+  ChevronDown,
+  UserRound,
+  ListOrdered,
+  XCircle,
 } from "lucide-react";
+import {
+  Callout,
+  ChoiceGroup,
+  EmptyState,
+  Field,
+  ResultPanel,
+  ToneBadge,
+  ToolLayout,
+  ToolSection,
+  selectCls,
+} from "@/components/cockpit/kit";
 import { VISA_PROGRAMS, CATEGORY_META, AVOID_LIST, STEUER_BLOCK, type VisaCategory } from "@/data/visaPrograms";
 
 // ============================================================
@@ -251,14 +263,18 @@ const PFADE: Pfad[] = [
 const VisaHelper = () => {
   return (
     <CockpitShell
-      eyebrow="Visa-Helper · Stand Mai 2026"
-      title="Visa-Pfade in beide Richtungen — international"
-      subtitle="🇩🇪 NACH Deutschland: 6 Aufenthaltstitel-Pfade (§21/§18g/§18a/b/§20a/§28/§30) · 🌍 AUS Deutschland raus: 27 Visa weltweit (USA O-1/EB-2/E-2/L-1, UK Innovator, Portugal D8/D2/Golden, Spanien DNV+Beckham, UAE Golden, Singapore Tech.Pass, Thailand LTR, Georgien 1% etc.) + §6 AStG Wegzugsbesteuerung-Block + AVOID-Liste verifiziert."
+      eyebrow="International · Visa-Helper, Stand Mai 2026"
+      title="Visa-Pfade in beide Richtungen"
+      subtitle="Nach Deutschland: 6 Aufenthaltstitel-Pfade (§21, §18g, §18a/b, §20a, §28/§30). Aus Deutschland raus: 27 Visa weltweit (USA O-1/EB-2/E-2/L-1, UK Innovator, Portugal D8/D2/Golden, Spanien DNV und Beckham, UAE Golden, Singapore Tech.Pass, Thailand LTR, Georgien 1 % u. a.), dazu §6 AStG Wegzugsbesteuerung und eine geprüfte Liste von Mythen."
     >
       <Tabs defaultValue="raus" className="w-full">
-        <TabsList className="mb-6 flex-wrap h-auto">
-          <TabsTrigger value="rein">🇩🇪 Nach Deutschland (6 Pfade)</TabsTrigger>
-          <TabsTrigger value="raus">🌍 Aus Deutschland raus (27 Visa)</TabsTrigger>
+        <TabsList className="mb-6 h-auto flex-wrap">
+          <TabsTrigger value="rein" className="gap-2">
+            <MapPin className="h-4 w-4" aria-hidden="true" /> Nach Deutschland <span className="text-muted-foreground tabular">(6 Pfade)</span>
+          </TabsTrigger>
+          <TabsTrigger value="raus" className="gap-2">
+            <Plane className="h-4 w-4" aria-hidden="true" /> Aus Deutschland raus <span className="text-muted-foreground tabular">(27 Visa)</span>
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="rein"><NachDeutschland /></TabsContent>
@@ -291,185 +307,172 @@ const NachDeutschland = () => {
   );
   const top = ranked[0];
 
-  return (
-    <div className="space-y-4">
-      {/* Profile-Input */}
-      <div className="rounded-2xl border border-border bg-card p-4">
-        <h3 className="font-semibold text-sm mb-3">Dein Profil</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <div>
-            <Label className="text-xs">Hauptzweck</Label>
-            <select
-              value={input.zweck}
-              onChange={(e) => setInput({ ...input, zweck: e.target.value as ProfileInput["zweck"] })}
-              className="h-9 w-full rounded-md border border-input bg-background px-2 text-sm mt-1"
-            >
-              <option value="selbstaendig">Eigenes Unternehmen gründen (GmbH, UG, Einzelunternehmer)</option>
-              <option value="freiberuflich">Freiberufler (IT, Design, Beratung, Heilberuf)</option>
-              <option value="tech-fachkraft">Angestellt in DE (mit Job-Offer / Job-Suche)</option>
-              <option value="gehoben-akademisch">Hochqualifiziert (Akademiker, Forschung)</option>
-              <option value="ehepartner">Familien-Nachzug zu Partner in DE</option>
-            </select>
-          </div>
-          <div>
-            <Label className="text-xs">Hochschulabschluss?</Label>
-            <div className="grid grid-cols-2 gap-1 mt-1">
-              {[
-                { v: true, l: "Ja" },
-                { v: false, l: "Nein" },
-              ].map((o) => (
-                <button
-                  key={String(o.v)}
-                  onClick={() => setInput({ ...input, hatHochschule: o.v })}
-                  className={`h-9 rounded-md border text-xs ${
-                    input.hatHochschule === o.v
-                      ? "border-accent-blue bg-accent-blue/10 text-accent-blue font-semibold"
-                      : "border-border hover:bg-secondary"
-                  }`}
-                >
-                  {o.l}
-                </button>
-              ))}
-            </div>
-          </div>
-          <div>
-            <Label className="text-xs">Berufserfahrung (Jahre)</Label>
-            <Input
-              type="number"
-              value={input.hatBerufserfahrungJahre || ""}
-              onChange={(e) =>
-                setInput({ ...input, hatBerufserfahrungJahre: Math.max(0, Number(e.target.value) || 0) })
-              }
-              className="mt-1"
-            />
-          </div>
-          <div>
-            <Label className="text-xs">Job-Offer DE Brutto/Jahr (€)</Label>
-            <Input
-              type="number"
-              value={input.jobBruttoJahr || ""}
-              onChange={(e) =>
-                setInput({
-                  ...input,
-                  jobBruttoJahr: Math.max(0, Number(e.target.value) || 0),
-                  jobOffer: Number(e.target.value) > 0,
-                })
-              }
-              placeholder="0 = kein Job-Offer"
-              className="mt-1"
-            />
-          </div>
-          <div>
-            <Label className="text-xs">Kapital (€) für Gründung</Label>
-            <Input
-              type="number"
-              value={input.kapitalEur || ""}
-              onChange={(e) =>
-                setInput({
-                  ...input,
-                  kapitalEur: Math.max(0, Number(e.target.value) || 0),
-                  hatKapital: Number(e.target.value) > 0,
-                })
-              }
-              className="mt-1"
-            />
-          </div>
-          <div>
-            <Label className="text-xs">Business-Plan vorhanden?</Label>
-            <div className="grid grid-cols-2 gap-1 mt-1">
-              {[
-                { v: true, l: "Ja" },
-                { v: false, l: "Nein" },
-              ].map((o) => (
-                <button
-                  key={String(o.v)}
-                  onClick={() => setInput({ ...input, hatBusinessPlan: o.v })}
-                  className={`h-9 rounded-md border text-xs ${
-                    input.hatBusinessPlan === o.v
-                      ? "border-accent-blue bg-accent-blue/10 text-accent-blue font-semibold"
-                      : "border-border hover:bg-secondary"
-                  }`}
-                >
-                  {o.l}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
+  const jaNein = [
+    { value: true, label: "Ja" },
+    { value: false, label: "Nein" },
+  ];
 
-      {/* Top-Match */}
-      <div className="rounded-2xl border-2 border-emerald-500/40 bg-emerald-500/5 p-5">
-        <div className="flex items-center gap-3 mb-2">
-          <Plane className="h-5 w-5 text-emerald-700" />
-          <div>
-            <div className="text-xs uppercase tracking-wider text-muted-foreground">Top-Match für dein Profil</div>
-            <div className="text-xl font-bold">{top.name}</div>
-          </div>
-          <div className="ml-auto rounded-full bg-emerald-500/15 text-emerald-700 px-3 py-1 text-xs font-bold">
-            Score {top.score}/100
-          </div>
-        </div>
-        <p className="text-sm text-muted-foreground mb-2">{top.zielgruppe}</p>
-      </div>
+  return (
+    <div className="space-y-6">
+      <ToolLayout
+        inputs={
+          <ToolSection title="Dein Profil" description="Aus deinen Angaben ergibt sich die Reihenfolge der Pfade." icon={UserRound}>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <Field className="sm:col-span-2" label="Hauptzweck" htmlFor="visa-zweck">
+                <select
+                  id="visa-zweck"
+                  value={input.zweck}
+                  onChange={(e) => setInput({ ...input, zweck: e.target.value as ProfileInput["zweck"] })}
+                  className={selectCls}
+                >
+                  <option value="selbstaendig">Eigenes Unternehmen gründen (GmbH, UG, Einzelunternehmer)</option>
+                  <option value="freiberuflich">Freiberufler (IT, Design, Beratung, Heilberuf)</option>
+                  <option value="tech-fachkraft">Angestellt in DE (mit Job-Offer / Job-Suche)</option>
+                  <option value="gehoben-akademisch">Hochqualifiziert (Akademiker, Forschung)</option>
+                  <option value="ehepartner">Familien-Nachzug zu Partner in DE</option>
+                </select>
+              </Field>
+              <Field label="Hochschulabschluss?">
+                <ChoiceGroup
+                  label="Hochschulabschluss"
+                  value={input.hatHochschule}
+                  onChange={(v) => setInput({ ...input, hatHochschule: v })}
+                  options={jaNein}
+                  className="[&>button]:flex-1 [&>button]:text-center"
+                />
+              </Field>
+              <Field label="Business-Plan vorhanden?">
+                <ChoiceGroup
+                  label="Business-Plan vorhanden"
+                  value={input.hatBusinessPlan}
+                  onChange={(v) => setInput({ ...input, hatBusinessPlan: v })}
+                  options={jaNein}
+                  className="[&>button]:flex-1 [&>button]:text-center"
+                />
+              </Field>
+              <Field label="Berufserfahrung (Jahre)" htmlFor="visa-erfahrung">
+                <Input
+                  id="visa-erfahrung"
+                  type="number"
+                  value={input.hatBerufserfahrungJahre || ""}
+                  onChange={(e) =>
+                    setInput({ ...input, hatBerufserfahrungJahre: Math.max(0, Number(e.target.value) || 0) })
+                  }
+                  className="tabular"
+                />
+              </Field>
+              <Field label="Job-Offer DE, brutto pro Jahr (€)" hint="0 oder leer: kein Job-Offer" htmlFor="visa-job">
+                <Input
+                  id="visa-job"
+                  type="number"
+                  value={input.jobBruttoJahr || ""}
+                  onChange={(e) =>
+                    setInput({
+                      ...input,
+                      jobBruttoJahr: Math.max(0, Number(e.target.value) || 0),
+                      jobOffer: Number(e.target.value) > 0,
+                    })
+                  }
+                  placeholder="0 = kein Job-Offer"
+                  className="tabular"
+                />
+              </Field>
+              <Field className="sm:col-span-2" label="Kapital für die Gründung (€)" htmlFor="visa-kapital">
+                <Input
+                  id="visa-kapital"
+                  type="number"
+                  value={input.kapitalEur || ""}
+                  onChange={(e) =>
+                    setInput({
+                      ...input,
+                      kapitalEur: Math.max(0, Number(e.target.value) || 0),
+                      hatKapital: Number(e.target.value) > 0,
+                    })
+                  }
+                  className="tabular"
+                />
+              </Field>
+            </div>
+          </ToolSection>
+        }
+        result={
+          <>
+            <ResultPanel
+              variant="ink"
+              kicker="Top-Match für dein Profil"
+              title={top.name}
+              value={
+                <>
+                  {top.score}
+                  <span className="ml-1.5 text-2xl font-medium text-primary-foreground/55">/ 100</span>
+                </>
+              }
+              valueHint={top.zielgruppe}
+            />
+            <ToolSection title="Alle Pfade im Vergleich" icon={ListOrdered}>
+              <ol className="-my-1 space-y-2.5">
+                {ranked.map((p) => (
+                  <li key={p.slug} className="flex items-center gap-3 text-sm">
+                    <span className="min-w-0 flex-1 truncate">{p.rechtsgrundlage}</span>
+                    <span className="h-1.5 w-24 shrink-0 overflow-hidden rounded-full bg-secondary" aria-hidden="true">
+                      <span className="block h-full rounded-full bg-accent-blue" style={{ width: `${Math.min(100, p.score)}%` }} />
+                    </span>
+                    <span className="w-8 shrink-0 text-right font-semibold tabular">{p.score}</span>
+                  </li>
+                ))}
+              </ol>
+            </ToolSection>
+          </>
+        }
+      />
 
       {/* Alle Pfade */}
       <div className="space-y-3">
+        <h2 className="text-lg font-semibold tracking-tight">Pfade im Detail</h2>
         {ranked.map((p) => (
-          <details key={p.slug} className="rounded-2xl border border-border bg-card p-4" open={p.slug === top.slug}>
-            <summary className="cursor-pointer flex items-start justify-between gap-3">
-              <div>
-                <div className="font-bold text-sm">{p.name}</div>
-                <div className="text-xs text-muted-foreground">{p.zielgruppe}</div>
+          <details
+            key={p.slug}
+            className="group rounded-2xl border border-border bg-card shadow-card [&_summary::-webkit-details-marker]:hidden"
+            open={p.slug === top.slug}
+          >
+            <summary className="flex cursor-pointer list-none items-start justify-between gap-3 px-5 py-4 md:px-6">
+              <div className="min-w-0">
+                <p className="text-base font-semibold leading-snug">{p.name}</p>
+                <p className="mt-0.5 text-sm text-muted-foreground">{p.zielgruppe}</p>
               </div>
-              <Badge variant="outline" className="shrink-0 font-mono">Score {p.score}</Badge>
+              <span className="flex shrink-0 items-center gap-2">
+                <ToneBadge tone={p.slug === top.slug ? "accent" : "neutral"} className="tabular">Score {p.score}</ToneBadge>
+                <ChevronDown className="h-4 w-4 text-muted-foreground transition-transform group-open:rotate-180" aria-hidden="true" />
+              </span>
             </summary>
-            <div className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
-              <div className="rounded-lg bg-emerald-500/5 border border-emerald-500/20 p-3">
-                <div className="text-[10px] uppercase tracking-wider text-emerald-700 font-semibold mb-1">Voraussetzungen</div>
-                <ul className="space-y-1 text-muted-foreground list-disc pl-4">
-                  {p.voraussetzungen.map((v, i) => <li key={i}>{v}</li>)}
-                </ul>
+            <div className="space-y-4 border-t border-border/70 px-5 py-5 md:px-6">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <ListBox title="Voraussetzungen" items={p.voraussetzungen} />
+                <ListBox title="Prozess" items={p.prozess} ordered />
               </div>
-              <div className="rounded-lg bg-blue-500/5 border border-blue-500/20 p-3">
-                <div className="text-[10px] uppercase tracking-wider text-blue-700 font-semibold mb-1">Prozess</div>
-                <ol className="space-y-1 text-muted-foreground list-decimal pl-4">
-                  {p.prozess.map((s, i) => <li key={i}>{s}</li>)}
-                </ol>
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                <Stat label="Dauer" value={p.dauer} />
+                <Stat label="Behörden-Kosten" value={p.kostenAmt} />
+                <Stat label="Anwalt (optional)" value={p.kostenAnwalt} />
+                <Stat label="Niederlassung" value={p.niederlassungsAfter} />
               </div>
-            </div>
-            <div className="mt-3 grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
-              <Stat label="Dauer" value={p.dauer} />
-              <Stat label="Behörden-Kosten" value={p.kostenAmt} />
-              <Stat label="Anwalt (optional)" value={p.kostenAnwalt} />
-              <Stat label="Niederlassung" value={p.niederlassungsAfter} />
-            </div>
-            <div className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
-              <div className="rounded-lg bg-emerald-500/5 border border-emerald-500/20 p-3">
-                <div className="text-[10px] uppercase tracking-wider text-emerald-700 font-semibold mb-1">Vorteile</div>
-                <ul className="space-y-1 text-muted-foreground list-disc pl-4">
-                  {p.vorteile.map((v, i) => <li key={i}>{v}</li>)}
-                </ul>
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <ListBox title="Vorteile" items={p.vorteile} tone="success" />
+                <ListBox title="Nachteile" items={p.nachteile} tone="danger" />
               </div>
-              <div className="rounded-lg bg-red-500/5 border border-red-500/20 p-3">
-                <div className="text-[10px] uppercase tracking-wider text-red-700 font-semibold mb-1">Nachteile</div>
-                <ul className="space-y-1 text-muted-foreground list-disc pl-4">
-                  {p.nachteile.map((c, i) => <li key={i}>{c}</li>)}
-                </ul>
+              <div className="flex flex-wrap gap-x-4 gap-y-2">
+                {p.links.map((l, i) => (
+                  <a
+                    key={i}
+                    href={l.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-sm font-medium text-accent-blue hover:underline"
+                  >
+                    <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" /> {l.label}
+                  </a>
+                ))}
               </div>
-            </div>
-            <div className="mt-3 flex flex-wrap gap-2">
-              {p.links.map((l, i) => (
-                <a
-                  key={i}
-                  href={l.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-xs text-accent-blue hover:underline"
-                >
-                  <ExternalLink className="h-3 w-3" /> {l.label}
-                </a>
-              ))}
             </div>
           </details>
         ))}
@@ -479,7 +482,7 @@ const NachDeutschland = () => {
 };
 
 // ============================================================
-// TAB 2: AUS DEUTSCHLAND (NEU — 27 Visa)
+// TAB 2: AUS DEUTSCHLAND (NEU · 27 Visa)
 // ============================================================
 const AusDeutschland = () => {
   const [countryFilter, setCountryFilter] = useState<string>("all");
@@ -504,57 +507,48 @@ const AusDeutschland = () => {
   }, [countryFilter, categoryFilter, profileFilter]);
 
   return (
-    <div className="space-y-4">
-      {/* KRITISCHE WARNUNG */}
-      <div className="rounded-2xl border-2 border-red-500/40 bg-red-500/5 p-4">
-        <div className="flex items-start gap-2">
-          <AlertTriangle className="h-5 w-5 text-red-700 shrink-0 mt-0.5" />
-          <div className="text-xs leading-relaxed">
-            <div className="font-bold text-red-700 mb-1">★ Kritische 2025/2026-Updates</div>
-            <ul className="list-disc pl-4 space-y-0.5 text-muted-foreground">
-              <li>
-                <strong className="text-foreground">DE HAT E-2-Treaty mit USA</strong> (seit 1956!) — Mythos
-                widerlegt. KEIN Grenada-CBI-Umweg nötig.
-              </li>
-              <li>
-                <strong className="text-foreground">Canada Start-Up Visa CLOSED</strong> für Neuanträge seit
-                31.12.2025
-              </li>
-              <li>
-                <strong className="text-foreground">UK Non-Dom-Regime abgeschafft</strong> seit April 2025
-              </li>
-              <li>
-                <strong className="text-foreground">Portugal NHR abgeschafft</strong> 2024 (Nachfolger IFICI
-                ist eng)
-              </li>
-              <li>
-                <strong className="text-foreground">§6 AStG verschärft 2025</strong>: zinslose EU-Stundung weg,
-                jetzt 7-Jahres-Ratenzahlung mit Sicherheit
-              </li>
-              <li>
-                <strong className="text-foreground">Paraguay $5k-Mythos tot</strong> seit Gesetz 6984/2022
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
+    <div className="space-y-6">
+      {/* Kritische Hinweise */}
+      <Callout tone="danger" title="Kritische Änderungen 2025/2026">
+        <ul className="list-disc space-y-1 pl-4">
+          <li>
+            <strong className="font-semibold text-foreground">DE hat einen E-2-Treaty mit den USA</strong> (seit 1956). Mythos
+            widerlegt, kein Grenada-CBI-Umweg nötig.
+          </li>
+          <li>
+            <strong className="font-semibold text-foreground">Canada Start-Up Visa geschlossen</strong> für Neuanträge seit
+            31.12.2025.
+          </li>
+          <li>
+            <strong className="font-semibold text-foreground">UK Non-Dom-Regime abgeschafft</strong> seit April 2025.
+          </li>
+          <li>
+            <strong className="font-semibold text-foreground">Portugal NHR abgeschafft</strong> 2024 (Nachfolger IFICI
+            ist eng).
+          </li>
+          <li>
+            <strong className="font-semibold text-foreground">§6 AStG verschärft 2025:</strong> zinslose EU-Stundung weg,
+            jetzt 7-Jahres-Ratenzahlung mit Sicherheit.
+          </li>
+          <li>
+            <strong className="font-semibold text-foreground">Paraguay-$5k-Mythos überholt</strong> seit Gesetz 6984/2022.
+          </li>
+        </ul>
+      </Callout>
 
       {/* Filter */}
-      <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-4">
-        <div className="flex items-center gap-2 mb-3">
-          <Globe className="h-4 w-4 text-accent-blue" />
-          <h3 className="font-bold text-sm">Filter</h3>
-          <span className="text-xs text-muted-foreground ml-auto">{filtered.length} von {VISA_PROGRAMS.length}</span>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Land</Label>
-            <select
-              value={countryFilter}
-              onChange={(e) => setCountryFilter(e.target.value)}
-              className="h-9 w-full rounded-md border border-input bg-background px-2 text-sm mt-1"
-            >
+      <ToolSection
+        title="Filter"
+        icon={Globe}
+        actions={
+          <span className="text-sm text-muted-foreground tabular">
+            {filtered.length} von {VISA_PROGRAMS.length}
+          </span>
+        }
+      >
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          <Field label="Land" htmlFor="visa-land">
+            <select id="visa-land" value={countryFilter} onChange={(e) => setCountryFilter(e.target.value)} className={selectCls}>
               <option value="all">Alle Länder ({countries.length})</option>
               {countries.map((c) => (
                 <option key={c} value={c}>
@@ -562,128 +556,116 @@ const AusDeutschland = () => {
                 </option>
               ))}
             </select>
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Kategorie</Label>
+          </Field>
+          <Field label="Kategorie" htmlFor="visa-kategorie">
             <select
+              id="visa-kategorie"
               value={categoryFilter}
               onChange={(e) => setCategoryFilter(e.target.value as VisaCategory | "all")}
-              className="h-9 w-full rounded-md border border-input bg-background px-2 text-sm mt-1"
+              className={selectCls}
             >
               <option value="all">Alle Kategorien</option>
               {(Object.entries(CATEGORY_META) as [VisaCategory, typeof CATEGORY_META[VisaCategory]][]).map(([k, v]) => (
                 <option key={k} value={k}>
-                  {v.emoji} {v.label}
+                  {v.label}
                 </option>
               ))}
             </select>
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Profil</Label>
+          </Field>
+          <Field label="Profil" htmlFor="visa-profil">
             <select
+              id="visa-profil"
               value={profileFilter}
               onChange={(e) => setProfileFilter(e.target.value as typeof profileFilter)}
-              className="h-9 w-full rounded-md border border-input bg-background px-2 text-sm mt-1"
+              className={selectCls}
             >
               <option value="all">Alle Profile</option>
               <option value="solo">Solo-Founder</option>
               <option value="family">Mit Familie</option>
             </select>
-          </div>
+          </Field>
         </div>
-      </div>
+      </ToolSection>
 
       {/* Visa Cards */}
-      <div className="space-y-3">
+      <div className="space-y-4">
         {filtered.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-border p-12 text-center text-sm text-muted-foreground">
-            Keine Visa-Programme passen zu den Filtern.
-          </div>
+          <EmptyState
+            icon={Globe}
+            title="Kein Visa-Programm passt zu den Filtern"
+            description="Lockere einen Filter, zum Beispiel Land oder Profil, um wieder Programme zu sehen."
+            action={
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setCountryFilter("all");
+                  setCategoryFilter("all");
+                  setProfileFilter("all");
+                }}
+              >
+                Filter zurücksetzen
+              </Button>
+            }
+          />
         ) : (
           filtered.map((v) => {
             const cat = CATEGORY_META[v.category];
             return (
-              <div key={v.id} className="rounded-2xl border border-border bg-card p-4">
-                <div className="flex items-start justify-between gap-3 mb-2 flex-wrap">
-                  <div className="flex items-start gap-3">
-                    <div className="text-3xl">{v.countryEmoji}</div>
-                    <div>
-                      <div className="text-xs text-muted-foreground">{v.country}</div>
-                      <h3 className="font-bold text-base">{v.name}</h3>
-                      <div className="flex flex-wrap gap-1.5 mt-1">
-                        <Badge variant="outline" className={`text-[10px] ${cat.color}`}>
-                          {cat.emoji} {cat.label}
-                        </Badge>
-                        {v.bestForSolo && (
-                          <Badge variant="outline" className="text-[10px]">Solo OK</Badge>
-                        )}
-                        {v.bestForFamily && (
-                          <Badge variant="outline" className="text-[10px]">Familie OK</Badge>
-                        )}
+              <article key={v.id} className="rounded-2xl border border-border bg-card shadow-card">
+                <div className="flex flex-wrap items-start justify-between gap-3 px-5 pt-5 md:px-6">
+                  <div className="flex min-w-0 items-start gap-3">
+                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-secondary text-2xl" aria-hidden="true">
+                      {v.countryEmoji}
+                    </span>
+                    <div className="min-w-0">
+                      <p className="text-sm text-muted-foreground">{v.country}</p>
+                      <h3 className="text-lg font-semibold leading-snug tracking-tight">{v.name}</h3>
+                      <div className="mt-2 flex flex-wrap gap-1.5">
+                        <ToneBadge tone="accent">{cat.label}</ToneBadge>
+                        {v.bestForSolo && <ToneBadge>Solo geeignet</ToneBadge>}
+                        {v.bestForFamily && <ToneBadge>Familie geeignet</ToneBadge>}
                       </div>
                     </div>
                   </div>
-                  <a
-                    href={v.officialUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 rounded-lg bg-accent-blue text-primary-foreground px-3 py-1.5 text-xs font-semibold hover:opacity-90 shrink-0"
-                  >
-                    <ExternalLink className="h-3 w-3" /> Offizielle Seite
-                  </a>
+                  <Button asChild variant="outline" size="sm" className="shrink-0">
+                    <a href={v.officialUrl} target="_blank" rel="noopener noreferrer">
+                      <ExternalLink className="h-4 w-4" aria-hidden="true" /> Offizielle Seite
+                    </a>
+                  </Button>
                 </div>
 
-                {v.forDeFounder && (
-                  <div
-                    className={`rounded-lg p-3 mb-3 text-sm ${
-                      v.forDeFounder.startsWith("★")
-                        ? "border border-emerald-500/30 bg-emerald-500/5"
-                        : "border border-border bg-secondary/30"
-                    }`}
-                  >
-                    <strong>Für DE-Founder:</strong> {v.forDeFounder}
-                  </div>
-                )}
-
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-3">
-                  <Stat label="Dauer" value={v.durationYears} />
-                  <Stat label="Bearbeitung" value={v.processingTime} />
-                  <Stat label="Setup-Kosten" value={v.costEur} />
-                  <Stat label="PR-Pfad" value={v.pathToPr} />
-                </div>
-
-                <details className="text-xs">
-                  <summary className="cursor-pointer font-semibold text-foreground mb-2">
-                    Voraussetzungen, Steuer, Watchouts ▾
-                  </summary>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-2">
-                    <div className="rounded-lg bg-card border border-border p-3">
-                      <div className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold mb-1">
-                        Voraussetzungen
-                      </div>
-                      <ul className="space-y-1 text-muted-foreground list-disc pl-4">
-                        {v.requirements.map((r, i) => <li key={i}>{r}</li>)}
-                      </ul>
-                    </div>
-                    <div className="rounded-lg bg-card border border-border p-3">
-                      <div className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold mb-1">
-                        Steuer-Implikationen (DE-Bezug)
-                      </div>
-                      <div className="text-muted-foreground leading-relaxed">{v.taxImplications}</div>
-                    </div>
-                  </div>
-                  {v.watchouts.length > 0 && (
-                    <div className="rounded-lg bg-amber-500/5 border border-amber-500/20 p-3 mt-2">
-                      <div className="text-[10px] uppercase tracking-wider text-amber-700 font-semibold mb-1">
-                        Watchouts
-                      </div>
-                      <ul className="space-y-0.5 text-muted-foreground list-disc pl-4">
-                        {v.watchouts.map((w, i) => <li key={i}>{w}</li>)}
-                      </ul>
-                    </div>
+                <div className="space-y-4 px-5 pb-5 pt-4 md:px-6">
+                  {v.forDeFounder && (
+                    <Callout tone={v.forDeFounder.startsWith("★") ? "success" : "neutral"} icon={false}>
+                      <strong className="font-semibold text-foreground">Für Gründer aus DE:</strong> {v.forDeFounder}
+                    </Callout>
                   )}
-                </details>
-              </div>
+
+                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                    <Stat label="Dauer" value={v.durationYears} />
+                    <Stat label="Bearbeitung" value={v.processingTime} />
+                    <Stat label="Setup-Kosten" value={v.costEur} />
+                    <Stat label="Weg zur Daueraufenthaltserlaubnis" value={v.pathToPr} />
+                  </div>
+
+                  <details className="group rounded-xl border border-border [&_summary::-webkit-details-marker]:hidden">
+                    <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 text-sm font-semibold">
+                      Voraussetzungen, Steuer, Fallstricke
+                      <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-open:rotate-180" aria-hidden="true" />
+                    </summary>
+                    <div className="space-y-4 border-t border-border/70 p-4">
+                      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                        <ListBox title="Voraussetzungen" items={v.requirements} />
+                        <div className="rounded-xl border border-border bg-secondary/30 p-4">
+                          <p className="text-sm font-semibold">Steuerliche Folgen (DE-Bezug)</p>
+                          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{v.taxImplications}</p>
+                        </div>
+                      </div>
+                      {v.watchouts.length > 0 && <ListBox title="Fallstricke" items={v.watchouts} tone="warning" />}
+                    </div>
+                  </details>
+                </div>
+              </article>
             );
           })
         )}
@@ -693,16 +675,15 @@ const AusDeutschland = () => {
       <CollapsiblePanel
         open={showSteuer}
         onToggle={() => setShowSteuer((v) => !v)}
-        icon={<TrendingDown className="h-5 w-5 text-red-700" />}
-        title="§6 AStG Wegzugsbesteuerung + Steuer-Strategie"
-        subtitle={`${STEUER_BLOCK.length} Sektionen — KRITISCH vor jedem Wegzug`}
-        colorClass="border-red-500/30 bg-red-500/5"
+        icon={TrendingDown}
+        title="§6 AStG Wegzugsbesteuerung und Steuer-Strategie"
+        subtitle={`${STEUER_BLOCK.length} Abschnitte, vor jedem Wegzug kritisch`}
       >
-        <div className="space-y-2">
+        <div className="space-y-3">
           {STEUER_BLOCK.map((s, i) => (
-            <div key={i} className="rounded-xl border border-border bg-card p-3">
-              <div className="font-semibold text-sm mb-1">{s.title}</div>
-              <div className="text-xs text-muted-foreground leading-relaxed">{s.detail}</div>
+            <div key={i} className="rounded-xl border border-border bg-secondary/30 p-4">
+              <p className="text-sm font-semibold">{s.title}</p>
+              <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{s.detail}</p>
             </div>
           ))}
         </div>
@@ -712,27 +693,28 @@ const AusDeutschland = () => {
       <CollapsiblePanel
         open={showAvoid}
         onToggle={() => setShowAvoid((v) => !v)}
-        icon={<ShieldAlert className="h-5 w-5 text-red-700" />}
-        title="AVOID-Liste — Mythen + Pitfalls"
-        subtitle={`${AVOID_LIST.length} Marketing-Mythen die DE-Founder regelmäßig in Steuer-/Compliance-Probleme bringen`}
-        colorClass="border-red-500/30 bg-red-500/5"
+        icon={ShieldAlert}
+        title="Mythen und Fallstricke"
+        subtitle={`${AVOID_LIST.length} Marketing-Mythen, die Gründer aus DE regelmäßig in Steuer- oder Compliance-Probleme bringen`}
       >
-        <div className="space-y-2">
+        <div className="space-y-3">
           {AVOID_LIST.map((a, i) => (
-            <div key={i} className="rounded-xl border border-red-500/20 bg-card p-3">
-              <div className="font-semibold text-sm text-red-700">{a.title}</div>
-              <div className="text-xs text-muted-foreground mt-1">{a.detail}</div>
-            </div>
+            <Callout key={i} tone="danger" title={a.title} icon={XCircle}>
+              {a.detail}
+            </Callout>
           ))}
         </div>
       </CollapsiblePanel>
 
-      <div className="rounded-2xl border border-border bg-card p-4 text-[11px] text-muted-foreground leading-relaxed">
-        <strong>Disclaimer:</strong> Stand Mai 2026 verifiziert. Quellen: USCIS, GOV.UK, AIMA Portugal,
-        Spain Exteriores, Startup Estonia, UAE Government, Singapore EDB/MOM, Canada IRCC, IND NL, Swiss SEM,
-        Thailand BOI/SMART, Bahrain Golden Residency, Georgia Revenue Service. Konditionen ändern sich —
-        zwingend Migrationsanwalt + Steuerberater 12-18 Monate vor Wegzug. §6 AStG ist seit 2025 verschärft.
-      </div>
+      <p className="flex items-start gap-2 text-xs leading-relaxed text-muted-foreground">
+        <Info className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+        <span>
+          <strong className="font-semibold text-foreground">Hinweis:</strong> Stand Mai 2026 geprüft. Quellen: USCIS, GOV.UK, AIMA Portugal,
+          Spain Exteriores, Startup Estonia, UAE Government, Singapore EDB/MOM, Canada IRCC, IND NL, Swiss SEM,
+          Thailand BOI/SMART, Bahrain Golden Residency, Georgia Revenue Service. Konditionen ändern sich, deshalb
+          zwingend 12 bis 18 Monate vor dem Wegzug Migrationsanwalt und Steuerberater einbinden. §6 AStG ist seit 2025 verschärft.
+        </span>
+      </p>
     </div>
   );
 };
@@ -741,42 +723,91 @@ const AusDeutschland = () => {
 // HELPERS
 // ============================================================
 const Stat = ({ label, value }: { label: string; value: string }) => (
-  <div className="rounded-md bg-secondary/40 px-2 py-1.5">
-    <div className="text-[10px] uppercase tracking-wider text-muted-foreground">{label}</div>
-    <div className="font-semibold text-xs mt-0.5">{value}</div>
+  <div className="rounded-xl border border-border bg-secondary/30 px-3.5 py-3">
+    <p className="text-xs text-muted-foreground">{label}</p>
+    <p className="mt-1 text-sm font-semibold leading-snug">{value}</p>
   </div>
 );
+
+const LIST_TONE: Record<"neutral" | "success" | "danger" | "warning", { box: string; dot: string }> = {
+  neutral: { box: "border-border bg-secondary/30", dot: "bg-muted-foreground/50" },
+  success: { box: "border-success/25 bg-success-soft", dot: "bg-success" },
+  danger: { box: "border-danger/25 bg-danger-soft", dot: "bg-danger" },
+  warning: { box: "border-warning/25 bg-warning-soft", dot: "bg-warning" },
+};
+
+const ListBox = ({
+  title,
+  items,
+  ordered = false,
+  tone = "neutral",
+}: {
+  title: string;
+  items: string[];
+  ordered?: boolean;
+  tone?: keyof typeof LIST_TONE;
+}) => {
+  const t = LIST_TONE[tone];
+  return (
+    <div className={`rounded-xl border p-4 ${t.box}`}>
+      <p className="text-sm font-semibold">{title}</p>
+      {ordered ? (
+        <ol className="mt-2 space-y-1.5 text-sm leading-relaxed text-foreground/80">
+          {items.map((s, i) => (
+            <li key={i} className="flex gap-2.5">
+              <span className="mt-px flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-card text-xs font-semibold text-accent-blue tabular">
+                {i + 1}
+              </span>
+              <span>{s}</span>
+            </li>
+          ))}
+        </ol>
+      ) : (
+        <ul className="mt-2 space-y-1.5 text-sm leading-relaxed text-foreground/80">
+          {items.map((s, i) => (
+            <li key={i} className="flex gap-2.5">
+              <span className={`mt-[0.55rem] h-1.5 w-1.5 shrink-0 rounded-full ${t.dot}`} aria-hidden="true" />
+              <span>{s}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+};
 
 const CollapsiblePanel = ({
   open,
   onToggle,
-  icon,
+  icon: Icon,
   title,
   subtitle,
-  colorClass,
   children,
 }: {
   open: boolean;
   onToggle: () => void;
-  icon: React.ReactNode;
+  icon: React.ElementType;
   title: string;
   subtitle: string;
-  colorClass: string;
   children: React.ReactNode;
 }) => (
-  <div className={`rounded-2xl border ${colorClass} overflow-hidden`}>
+  <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-card">
     <button
+      type="button"
       onClick={onToggle}
-      className="w-full p-4 text-left flex items-start gap-3 hover:bg-black/5 transition-colors"
+      aria-expanded={open}
+      className="flex w-full items-start gap-3 px-5 py-4 text-left transition-colors hover:bg-secondary/40 md:px-6"
     >
-      <div className="shrink-0">{icon}</div>
-      <div className="flex-1 min-w-0">
-        <div className="font-bold text-sm">{title}</div>
-        <div className="text-xs text-muted-foreground">{subtitle}</div>
-      </div>
-      <div className="text-muted-foreground text-xs shrink-0 mt-1">{open ? "▲" : "▼"}</div>
+      <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-danger-soft text-danger">
+        <Icon className="h-4 w-4" aria-hidden="true" />
+      </span>
+      <span className="min-w-0 flex-1">
+        <span className="block text-base font-semibold">{title}</span>
+        <span className="block text-sm text-muted-foreground">{subtitle}</span>
+      </span>
+      <ChevronDown className={`mt-2 h-4 w-4 shrink-0 text-muted-foreground transition-transform ${open ? "rotate-180" : ""}`} aria-hidden="true" />
     </button>
-    {open && <div className="px-4 pb-4">{children}</div>}
+    {open && <div className="border-t border-border/70 px-5 py-5 md:px-6">{children}</div>}
   </div>
 );
 
