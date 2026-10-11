@@ -1,19 +1,33 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ElementType, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { Callout, ChoiceGroup, EmptyState, Field, KitTable, ToneBadge, ToolSection } from "@/components/cockpit/kit";
 import {
   ArrowRight,
   ArrowLeft,
+  Check,
   CheckCircle2,
+  ChevronDown,
   Sparkles,
   ExternalLink,
   AlertTriangle,
   Calculator,
   ListChecks,
   Scale,
-  Eye,
+  LayoutGrid,
+  Network,
+  Wallet,
+  Repeat,
+  TrendingUp,
+  Building2,
+  Globe,
+  BookOpen,
+  Minus,
+  Plus,
+  RotateCcw,
 } from "lucide-react";
 import {
   HOLDING_STRUCTURES,
@@ -21,6 +35,10 @@ import {
   type HoldingStructure,
   type WizardAnswers,
 } from "@/data/holdingStructures";
+
+const fett = (s: string) => s.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+const kurzKosten = (s: HoldingStructure) => s.setupCost.split("(")[0].trim().split("+")[0].trim();
+const kurzAb = (s: HoldingStructure) => s.worthwhileFrom.split("/")[0].split("—")[0].trim();
 
 const HoldingDesigner = () => {
   const [mode, setMode] = useState<"overview" | "wizard">("overview");
@@ -32,42 +50,46 @@ const HoldingDesigner = () => {
 
   return (
     <CockpitShell
-      eyebrow="Holding-Designer"
+      eyebrow="Rechtsform & Struktur · Holding-Designer"
       title="Holding-Strukturen für deutsche Gründer"
-      subtitle="8 echte Holding-Strukturen die in Deutschland legal sind und von Mittelstand bis Startup tatsächlich genutzt werden — mit Steuer-Effekt, Sperrfristen und konkreten Real-World-Beispielen."
+      subtitle="Acht Holding-Strukturen, die in Deutschland legal sind und vom Mittelstand bis zum Startup tatsächlich genutzt werden: mit Steuereffekt, Sperrfristen und echten Beispielen."
     >
-      {/* Mode Toggle */}
-      <div className="flex gap-2 mb-6">
-        <button
-          onClick={() => {
-            setMode("overview");
-            setSelected(null);
-          }}
-          className={`rounded-full px-4 py-2 text-xs font-semibold transition-colors ${
-            mode === "overview"
-              ? "bg-accent-blue text-primary-foreground"
-              : "bg-secondary text-muted-foreground hover:bg-secondary/80"
-          }`}
-        >
-          Alle 8 Strukturen
-        </button>
-        <button
-          onClick={() => {
-            setMode("wizard");
-            setStep(1);
-            setSelected(null);
-          }}
-          className={`rounded-full px-4 py-2 text-xs font-semibold transition-colors inline-flex items-center gap-1 ${
-            mode === "wizard"
-              ? "bg-accent-blue text-primary-foreground"
-              : "bg-secondary text-muted-foreground hover:bg-secondary/80"
-          }`}
-        >
-          <Sparkles className="h-3 w-3" /> Empfehlung-Wizard
-        </button>
+      {/* Ansicht wählen */}
+      <div role="tablist" aria-label="Ansicht" className="mb-6 inline-flex rounded-xl border border-border bg-secondary/60 p-1">
+        {[
+          { key: "overview" as const, label: "Alle 8 Strukturen", kurz: "Übersicht", icon: LayoutGrid },
+          { key: "wizard" as const, label: "Empfehlung in 5 Fragen", kurz: "Empfehlung", icon: Sparkles },
+        ].map((t) => {
+          const active = mode === t.key && !selected;
+          return (
+            <button
+              key={t.key}
+              type="button"
+              role="tab"
+              aria-selected={active}
+              onClick={() => {
+                if (t.key === "overview") {
+                  setMode("overview");
+                  setSelected(null);
+                } else {
+                  setMode("wizard");
+                  setStep(1);
+                  setSelected(null);
+                }
+              }}
+              className={cn(
+                "inline-flex items-center gap-2 rounded-lg px-3.5 py-2 text-sm font-medium transition-colors",
+                active ? "bg-card text-foreground shadow-card" : "text-muted-foreground hover:text-foreground",
+              )}
+            >
+              <t.icon className="h-4 w-4" aria-hidden="true" />
+              <span className="hidden sm:inline">{t.label}</span>
+              <span className="sm:hidden">{t.kurz}</span>
+            </button>
+          );
+        })}
       </div>
 
-      {/* Detail-View */}
       {selected ? (
         <StructureDetail s={selected} onBack={() => setSelected(null)} />
       ) : mode === "wizard" ? (
@@ -83,111 +105,122 @@ const HoldingDesigner = () => {
         <Overview onSelect={setSelected} />
       )}
 
-      {/* Disclaimer */}
-      <div className="rounded-2xl border border-border bg-card p-4 mt-6 text-[11px] text-muted-foreground leading-relaxed">
-        <strong>Disclaimer:</strong> Dieses Tool ist Orientierungshilfe, keine Steuer- oder Rechtsberatung. Holding-
-        Strukturen müssen IMMER mit StB + ggf. Fachanwalt für Steuerrecht final aufgesetzt werden — Fehler kosten oft
-        sechsstellig (z.B. verfehlte Sperrfristen §22 UmwStG, falsche Verrechnungspreise, Lohnsummen-Klausel-Verstöße).
-        Stand der Daten: Mai 2026. Steuersätze, Verschonungsabschläge und Sperrfristen können sich ändern.
-      </div>
+      <Callout tone="neutral" title="Orientierungshilfe, keine Steuer- oder Rechtsberatung" className="mt-8">
+        Holding-Strukturen immer mit Steuerberatung und gegebenenfalls Fachanwalt für Steuerrecht final aufsetzen. Fehler
+        kosten oft sechsstellig, z. B. verfehlte Sperrfristen nach § 22 UmwStG, falsche Verrechnungspreise oder Verstöße
+        gegen die Lohnsummen-Klausel. Datenstand: Mai 2026. Steuersätze, Verschonungsabschläge und Sperrfristen können sich
+        ändern.
+      </Callout>
     </CockpitShell>
   );
 };
 
 // ============================================================
-// Übersicht — alle 8 Strukturen als Karten
+// Übersicht: alle 8 Strukturen als Karten
 // ============================================================
 const Overview = ({ onSelect }: { onSelect: (s: HoldingStructure) => void }) => (
-  <div>
-    <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-4 mb-6 text-xs leading-relaxed">
-      <div className="font-semibold mb-1">Wie wähle ich die richtige Struktur?</div>
-      <div className="text-muted-foreground">
-        Klick auf eine Karte für volle Details (Steuer-Effekt, Sperrfristen, Real-Beispiele, Setup-Schritte). Oder
-        nutze den Empfehlung-Wizard oben — der schlägt dir basierend auf 6 Fragen die passenden Strukturen vor.
-      </div>
-    </div>
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
+  <div className="space-y-6">
+    <Callout tone="accent" title="Wie wähle ich die richtige Struktur?">
+      Öffne eine Karte für alle Details: Steuereffekt, Sperrfristen, Beispiele und Umsetzungsschritte. Oder nutze die
+      Empfehlung in 5 Fragen oben.
+    </Callout>
+
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
       {HOLDING_STRUCTURES.map((s) => (
         <button
           key={s.slug}
+          type="button"
           onClick={() => onSelect(s)}
-          className="text-left rounded-2xl border border-border bg-card p-5 hover:border-accent-blue/40 hover:shadow-soft transition-all group"
+          className="group flex flex-col rounded-2xl border border-border bg-card p-5 text-left shadow-card transition-[border-color,box-shadow] duration-200 hover:border-accent-blue/40 hover:shadow-soft"
         >
-          <div className="flex items-start justify-between gap-3 mb-2">
-            <div className="flex items-center gap-2">
-              <span className="text-2xl">{s.emoji}</span>
-              <div>
-                <h3 className="font-bold text-sm leading-tight">{s.shortName}</h3>
-                <p className="text-[11px] text-muted-foreground line-clamp-2">{s.tagline}</p>
+          <div className="flex items-start justify-between gap-3">
+            <div className="flex min-w-0 items-start gap-3">
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-accent text-accent-blue">
+                <Network className="h-4 w-4" aria-hidden="true" />
+              </span>
+              <div className="min-w-0">
+                <h2 className="text-base font-semibold leading-snug">{s.shortName}</h2>
+                <p className="mt-0.5 line-clamp-2 text-sm leading-relaxed text-muted-foreground">{s.tagline}</p>
               </div>
             </div>
-            <Eye className="h-4 w-4 text-muted-foreground group-hover:text-accent-blue shrink-0" />
+            <ArrowRight
+              className="mt-1 h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-accent-blue"
+              aria-hidden="true"
+            />
           </div>
-          <div className="flex flex-wrap gap-1.5 mt-3">
-            <span className="rounded-full bg-emerald-500/10 text-emerald-700 px-2 py-0.5 text-[10px] font-semibold">
-              💶 {s.setupCost.split("(")[0].trim().split("+")[0].trim()}
-            </span>
-            <span className="rounded-full bg-secondary text-muted-foreground px-2 py-0.5 text-[10px]">
-              ab {s.worthwhileFrom.split("/")[0].split("—")[0].trim()}
-            </span>
+          <div className="mt-4 flex flex-wrap gap-1.5">
+            <ToneBadge tone="neutral" className="tabular">Setup {kurzKosten(s)}</ToneBadge>
+            <ToneBadge tone="neutral">ab {kurzAb(s)}</ToneBadge>
             {s.taxScenarios && s.taxScenarios.length > 0 && (
-              <span className="rounded-full bg-accent-blue/10 text-accent-blue px-2 py-0.5 text-[10px] font-semibold">
-                📊 {s.taxScenarios.length} Steuer-Sims
-              </span>
+              <ToneBadge tone="accent">{s.taxScenarios.length} Steuer-Beispiele</ToneBadge>
             )}
-            {s.pitfalls && s.pitfalls.length > 0 && (
-              <span className="rounded-full bg-amber-500/10 text-amber-700 px-2 py-0.5 text-[10px]">
-                ⚠ {s.pitfalls.length} Pitfalls
-              </span>
-            )}
+            {s.pitfalls && s.pitfalls.length > 0 && <ToneBadge tone="warning">{s.pitfalls.length} typische Fehler</ToneBadge>}
           </div>
         </button>
       ))}
     </div>
 
-    {/* Side-by-Side Compare-Tabelle */}
-    <div className="rounded-2xl border border-border bg-card p-5 overflow-x-auto">
-      <h3 className="font-bold text-sm mb-3">Side-by-Side Vergleich</h3>
-      <table className="w-full text-xs">
+    <ToolSection title="Alle Strukturen im Vergleich" icon={Scale} bodyClassName="p-0 md:p-0">
+      <KitTable caption="Vergleich aller Holding-Strukturen" className="rounded-none border-0">
         <thead>
-          <tr className="border-b border-border">
-            <th className="text-left py-2 pr-3">Struktur</th>
-            <th className="text-left py-2 px-2">Setup</th>
-            <th className="text-left py-2 px-2">Lohnt sich ab</th>
-            <th className="text-left py-2 pl-2">Hauptvorteil</th>
+          <tr>
+            <th>Struktur</th>
+            <th className="whitespace-nowrap">Setup</th>
+            <th className="whitespace-nowrap">Lohnt sich ab</th>
+            <th>Hauptvorteil</th>
           </tr>
         </thead>
         <tbody>
           {HOLDING_STRUCTURES.map((s) => (
-            <tr
-              key={s.slug}
-              onClick={() => onSelect(s)}
-              className="border-b border-border last:border-0 cursor-pointer hover:bg-secondary/30"
-            >
-              <td className="py-2 pr-3">
-                <div className="flex items-center gap-1.5">
-                  <span>{s.emoji}</span>
-                  <span className="font-semibold">{s.shortName}</span>
-                </div>
+            <tr key={s.slug} onClick={() => onSelect(s)} className="cursor-pointer">
+              <td className="min-w-[10rem]">
+                <button type="button" onClick={() => onSelect(s)} className="text-left font-medium hover:text-accent-blue">
+                  {s.shortName}
+                </button>
               </td>
-              <td className="py-2 px-2 text-muted-foreground font-mono text-[10px]">
-                {s.setupCost.split("(")[0].trim().split("+")[0].trim()}
+              <td className="whitespace-nowrap text-muted-foreground">{kurzKosten(s)}</td>
+              <td className="min-w-[8rem] text-muted-foreground">{kurzAb(s)}</td>
+              <td className="min-w-[14rem] max-w-md text-muted-foreground">
+                <span className="line-clamp-2">{s.tagline}</span>
               </td>
-              <td className="py-2 px-2 text-muted-foreground text-[10px]">
-                {s.worthwhileFrom.split("/")[0].split("—")[0].trim()}
-              </td>
-              <td className="py-2 pl-2 text-muted-foreground text-[10px] line-clamp-2 max-w-xs">{s.tagline}</td>
             </tr>
           ))}
         </tbody>
-      </table>
-    </div>
+      </KitTable>
+    </ToolSection>
   </div>
 );
 
 // ============================================================
-// Wizard — 5 Fragen → Empfehlung
+// Wizard: 5 Fragen, dann Empfehlung
 // ============================================================
+const JaNeinWahl = ({
+  label,
+  value,
+  onChange,
+  ja,
+  nein,
+}: {
+  label: string;
+  value: boolean | undefined;
+  onChange: (v: boolean) => void;
+  ja: string;
+  nein: string;
+}) => (
+  <ChoiceGroup
+    label={label}
+    className="grid grid-cols-1 sm:grid-cols-2"
+    value={value === true ? "ja" : value === false ? "nein" : ""}
+    onChange={(v) => onChange(v === "ja")}
+    options={[
+      { value: "ja", label: ja },
+      { value: "nein", label: nein },
+    ]}
+  />
+);
+
+const WIZARD_TITEL = ["Gewinn", "Hauptziel", "Investoren", "Familie", "Marken und IP", "Empfehlung"];
+
 const Wizard = ({
   step,
   setStep,
@@ -206,149 +239,103 @@ const Wizard = ({
   const update = (patch: Partial<WizardAnswers>) => setAnswers({ ...answers, ...patch });
 
   return (
-    <div>
-      <div className="flex items-center gap-2 mb-6">
-        {[1, 2, 3, 4, 5, 6].map((s) => (
-          <div key={s} className="flex items-center gap-1.5 flex-1">
-            <div
-              className={`h-6 w-6 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 ${
-                s < step
-                  ? "bg-emerald-500 text-white"
-                  : s === step
-                  ? "bg-accent-blue text-primary-foreground"
-                  : "bg-secondary text-muted-foreground"
-              }`}
-            >
-              {s < step ? <CheckCircle2 className="h-3 w-3" /> : s}
-            </div>
-            {s < 6 && <div className={`h-0.5 flex-1 ${s < step ? "bg-emerald-500" : "bg-border"}`} />}
-          </div>
-        ))}
+    <div className="space-y-6">
+      <div>
+        <div className="mb-2 flex items-baseline justify-between gap-3 text-sm">
+          <p className="font-medium">
+            {step < 6 ? `Frage ${step} von 5` : "Empfehlung"}
+            {step < 6 && <span className="font-normal text-muted-foreground"> · {WIZARD_TITEL[step - 1]}</span>}
+          </p>
+          <p className="text-muted-foreground tabular">{Math.round(((step - 1) / 5) * 100)} %</p>
+        </div>
+        <div className="flex gap-1" aria-hidden="true">
+          {[1, 2, 3, 4, 5, 6].map((s) => (
+            <span
+              key={s}
+              className={cn("h-1.5 flex-1 rounded-full", s < step ? "bg-accent-blue" : s === step ? "bg-primary" : "bg-secondary")}
+            />
+          ))}
+        </div>
       </div>
 
-      <div className="rounded-2xl border border-border bg-card p-6">
+      <ToolSection>
         {step === 1 && (
           <>
-            <h2 className="text-base font-bold mb-1">1. Wie hoch ist dein Jahres-Gewinn?</h2>
-            <p className="text-xs text-muted-foreground mb-4">
-              Operative Gesellschaft (vor Steuer). Holding-Setup lohnt sich erst ab ~100 k €/Jahr.
-            </p>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">€ pro Jahr</Label>
-            <Input
-              type="number"
-              value={answers.jahresGewinn ?? ""}
-              onChange={(e) => update({ jahresGewinn: Number(e.target.value) || undefined })}
-              placeholder="z.B. 250000"
-              className="mt-1"
-              autoFocus
-            />
+            <FrageKopf nr={1} titel="Wie hoch ist dein Jahresgewinn?" text="Operative Gesellschaft, vor Steuern. Eine Holding lohnt sich meist erst ab etwa 100.000 € pro Jahr." />
+            <Field label="Gewinn pro Jahr (€)" htmlFor="hd-gewinn" className="max-w-sm">
+              <Input
+                id="hd-gewinn"
+                type="number"
+                value={answers.jahresGewinn ?? ""}
+                onChange={(e) => update({ jahresGewinn: Number(e.target.value) || undefined })}
+                placeholder="z. B. 250000"
+                className="tabular"
+                autoFocus
+              />
+            </Field>
           </>
         )}
 
         {step === 2 && (
           <>
-            <h2 className="text-base font-bold mb-1">2. Was ist dein Hauptziel?</h2>
-            <p className="text-xs text-muted-foreground mb-4">
-              Wähle die wichtigste Motivation. Mehrere Ziele → Wizard nochmal mit anderem Ziel laufen lassen.
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-              {[
-                { v: "steuer", l: "Steuer-Optimierung (Ausschüttungen)" },
-                { v: "exit", l: "Geplanter Exit / Verkauf" },
-                { v: "familie", l: "Familie / Erbplanung / Schenkung" },
-                { v: "vermoegen", l: "Vermögensverwaltung (ETF, Immobilien)" },
-                { v: "multi-brand", l: "Multi-Brand / mehrere Geschäftsfelder" },
-              ].map((o) => (
-                <button
-                  key={o.v}
-                  onClick={() => update({ primaryGoal: o.v as WizardAnswers["primaryGoal"] })}
-                  className={`text-left rounded-xl border p-3 text-sm transition-colors ${
-                    answers.primaryGoal === o.v
-                      ? "border-accent-blue bg-accent-blue/5 ring-1 ring-accent-blue/30"
-                      : "border-border hover:border-accent-blue/40"
-                  }`}
-                >
-                  {o.l}
-                </button>
-              ))}
-            </div>
+            <FrageKopf
+              nr={2}
+              titel="Was ist dein Hauptziel?"
+              text="Wähle die wichtigste Motivation. Bei mehreren Zielen den Wizard einfach noch einmal mit einem anderen Ziel durchlaufen."
+            />
+            <ChoiceGroup
+              label="Hauptziel"
+              className="grid grid-cols-1 sm:grid-cols-2"
+              value={answers.primaryGoal ?? ""}
+              onChange={(v) => update({ primaryGoal: v as WizardAnswers["primaryGoal"] })}
+              options={[
+                { value: "steuer", label: "Steuer-Optimierung (Ausschüttungen)" },
+                { value: "exit", label: "Geplanter Exit oder Verkauf" },
+                { value: "familie", label: "Familie, Erbplanung, Schenkung" },
+                { value: "vermoegen", label: "Vermögensverwaltung (ETF, Immobilien)" },
+                { value: "multi-brand", label: "Mehrere Marken oder Geschäftsfelder" },
+              ]}
+            />
           </>
         )}
 
         {step === 3 && (
           <>
-            <h2 className="text-base font-bold mb-1">3. Investoren / VC?</h2>
-            <p className="text-xs text-muted-foreground mb-4">
-              VC-Runde, Business Angels oder strategischer Investor in den nächsten 12 Monaten geplant?
-            </p>
-            <div className="grid grid-cols-2 gap-2">
-              {[
-                { v: true, l: "Ja, VC/Investor geplant" },
-                { v: false, l: "Nein / kein Investor" },
-              ].map((o) => (
-                <button
-                  key={String(o.v)}
-                  onClick={() => update({ vcPlanned: o.v })}
-                  className={`text-left rounded-xl border p-3 text-sm transition-colors ${
-                    answers.vcPlanned === o.v
-                      ? "border-accent-blue bg-accent-blue/5 ring-1 ring-accent-blue/30"
-                      : "border-border hover:border-accent-blue/40"
-                  }`}
-                >
-                  {o.l}
-                </button>
-              ))}
-            </div>
+            <FrageKopf
+              nr={3}
+              titel="Sind Investoren geplant?"
+              text="VC-Runde, Business Angels oder strategischer Investor in den nächsten 12 Monaten?"
+            />
+            <JaNeinWahl
+              label="Investoren geplant"
+              value={answers.vcPlanned}
+              onChange={(v) => update({ vcPlanned: v })}
+              ja="Ja, VC oder Investor geplant"
+              nein="Nein, kein Investor"
+            />
           </>
         )}
 
         {step === 4 && (
           <>
-            <h2 className="text-base font-bold mb-1">4. Familien-/Erbplanung relevant?</h2>
-            <p className="text-xs text-muted-foreground mb-4">
-              Mehrere Generationen oder Erbschaftssteuer-Optimierung wichtig?
-            </p>
-            <div className="grid grid-cols-2 gap-2">
-              {[
-                { v: true, l: "Ja, Familie soll mit involviert sein" },
-                { v: false, l: "Nein, nur ich" },
-              ].map((o) => (
-                <button
-                  key={String(o.v)}
-                  onClick={() => update({ familyContext: o.v })}
-                  className={`text-left rounded-xl border p-3 text-sm transition-colors ${
-                    answers.familyContext === o.v
-                      ? "border-accent-blue bg-accent-blue/5 ring-1 ring-accent-blue/30"
-                      : "border-border hover:border-accent-blue/40"
-                  }`}
-                >
-                  {o.l}
-                </button>
-              ))}
-            </div>
+            <FrageKopf nr={4} titel="Spielt Familien- oder Erbplanung eine Rolle?" text="Mehrere Generationen oder Erbschaftsteuer-Optimierung wichtig?" />
+            <JaNeinWahl
+              label="Familienplanung"
+              value={answers.familyContext}
+              onChange={(v) => update({ familyContext: v })}
+              ja="Ja, die Familie soll eingebunden sein"
+              nein="Nein, nur ich"
+            />
             {answers.familyContext === true && (
-              <div className="mt-4">
-                <Label className="text-xs uppercase tracking-wider text-muted-foreground">
-                  Vermögen über 5 Mio € (Stiftung sinnvoll)?
-                </Label>
-                <div className="grid grid-cols-2 gap-2 mt-2">
-                  {[
-                    { v: true, l: "Ja, > 5 Mio €" },
-                    { v: false, l: "Nein, kleiner" },
-                  ].map((o) => (
-                    <button
-                      key={String(o.v)}
-                      onClick={() => update({ hasLargeWealth: o.v })}
-                      className={`text-left rounded-xl border p-3 text-sm transition-colors ${
-                        answers.hasLargeWealth === o.v
-                          ? "border-accent-blue bg-accent-blue/5 ring-1 ring-accent-blue/30"
-                          : "border-border hover:border-accent-blue/40"
-                      }`}
-                    >
-                      {o.l}
-                    </button>
-                  ))}
-                </div>
+              <div className="mt-5 space-y-2">
+                <p className="text-sm font-medium">Vermögen über 5 Mio. € (dann kann eine Stiftung sinnvoll sein)?</p>
+                <JaNeinWahl
+                  label="Vermögen über 5 Mio. €"
+                  value={answers.hasLargeWealth}
+                  onChange={(v) => update({ hasLargeWealth: v })}
+                  ja="Ja, über 5 Mio. €"
+                  nein="Nein, weniger"
+                />
               </div>
             )}
           </>
@@ -356,56 +343,27 @@ const Wizard = ({
 
         {step === 5 && (
           <>
-            <h2 className="text-base font-bold mb-1">5. Multi-Brand & IP?</h2>
-            <p className="text-xs text-muted-foreground mb-4">
-              Mehrere Geschäftsfelder oder hoher IP-Wert (Marken, Patente, Software)?
-            </p>
-            <div className="space-y-3">
-              <div>
-                <Label className="text-xs uppercase tracking-wider text-muted-foreground">
-                  Mehrere Brands / Geschäftsfelder?
-                </Label>
-                <div className="grid grid-cols-2 gap-2 mt-2">
-                  {[
-                    { v: true, l: "Ja, mehrere Brands" },
-                    { v: false, l: "Nein, ein Brand" },
-                  ].map((o) => (
-                    <button
-                      key={String(o.v)}
-                      onClick={() => update({ multiBrand: o.v })}
-                      className={`text-left rounded-xl border p-3 text-sm transition-colors ${
-                        answers.multiBrand === o.v
-                          ? "border-accent-blue bg-accent-blue/5 ring-1 ring-accent-blue/30"
-                          : "border-border hover:border-accent-blue/40"
-                      }`}
-                    >
-                      {o.l}
-                    </button>
-                  ))}
-                </div>
+            <FrageKopf nr={5} titel="Mehrere Marken, viel geistiges Eigentum?" />
+            <div className="space-y-5">
+              <div className="space-y-2">
+                <p className="text-sm font-medium">Mehrere Marken oder Geschäftsfelder?</p>
+                <JaNeinWahl
+                  label="Mehrere Marken"
+                  value={answers.multiBrand}
+                  onChange={(v) => update({ multiBrand: v })}
+                  ja="Ja, mehrere Marken"
+                  nein="Nein, eine Marke"
+                />
               </div>
-              <div>
-                <Label className="text-xs uppercase tracking-wider text-muted-foreground">
-                  Hoher IP-Wert (Marken/Patente/Software, Lizenz-Potenzial &gt; 100 k €/Jahr)?
-                </Label>
-                <div className="grid grid-cols-2 gap-2 mt-2">
-                  {[
-                    { v: true, l: "Ja, viel IP" },
-                    { v: false, l: "Nein, wenig IP" },
-                  ].map((o) => (
-                    <button
-                      key={String(o.v)}
-                      onClick={() => update({ hasIp: o.v })}
-                      className={`text-left rounded-xl border p-3 text-sm transition-colors ${
-                        answers.hasIp === o.v
-                          ? "border-accent-blue bg-accent-blue/5 ring-1 ring-accent-blue/30"
-                          : "border-border hover:border-accent-blue/40"
-                      }`}
-                    >
-                      {o.l}
-                    </button>
-                  ))}
-                </div>
+              <div className="space-y-2">
+                <p className="text-sm font-medium">Hoher IP-Wert (Marken, Patente, Software; Lizenzpotenzial über 100.000 € pro Jahr)?</p>
+                <JaNeinWahl
+                  label="Hoher IP-Wert"
+                  value={answers.hasIp}
+                  onChange={(v) => update({ hasIp: v })}
+                  ja="Ja, viel IP"
+                  nein="Nein, wenig IP"
+                />
               </div>
             </div>
           </>
@@ -413,381 +371,348 @@ const Wizard = ({
 
         {step === 6 && (
           <>
-            <h2 className="text-base font-bold mb-1">6. Empfehlung</h2>
-            <p className="text-xs text-muted-foreground mb-4">
-              Basierend auf deinen Antworten — die Top-3 passendsten Strukturen für dich:
-            </p>
+            <div className="mb-5">
+              <p className="text-sm font-medium text-accent-blue">Empfehlung</p>
+              <h2 className="mt-1 text-lg font-semibold tracking-tight">Die drei passendsten Strukturen für dich</h2>
+              <p className="mt-1 text-sm text-muted-foreground">Auf Basis deiner Antworten. Öffne eine Struktur für alle Details.</p>
+            </div>
             {recommendations.length === 0 ? (
-              <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-4 text-sm text-amber-800">
-                Keine spezifische Empfehlung. Schau dir die "Alle 8 Strukturen"-Übersicht an.
-              </div>
+              <EmptyState
+                icon={Network}
+                title="Keine konkrete Empfehlung"
+                description="Für deine Antworten passt keine Struktur eindeutig. Schau dir die Übersicht aller acht Strukturen an."
+              />
             ) : (
-              <div className="space-y-2">
+              <ol className="space-y-3">
                 {recommendations.slice(0, 3).map((r, i) => (
-                  <button
-                    key={r.structure.slug}
-                    onClick={() => onSelect(r.structure)}
-                    className="text-left w-full rounded-xl border border-accent-blue/30 bg-accent-blue/5 hover:bg-accent-blue/10 p-4 transition-colors group"
-                  >
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-1">
-                          <span className="rounded-full bg-accent-blue text-primary-foreground px-2 py-0.5 text-[10px] font-bold">
-                            #{i + 1}
-                          </span>
-                          <span className="text-2xl">{r.structure.emoji}</span>
-                          <span className="font-bold">{r.structure.shortName}</span>
-                        </div>
-                        <p className="text-xs text-muted-foreground mb-1">{r.structure.tagline}</p>
-                        <p className="text-[11px] text-accent-blue">→ {r.why}</p>
-                      </div>
-                      <ArrowRight className="h-4 w-4 text-accent-blue shrink-0 group-hover:translate-x-1 transition-transform" />
-                    </div>
-                  </button>
+                  <li key={r.structure.slug}>
+                    <button
+                      type="button"
+                      onClick={() => onSelect(r.structure)}
+                      className={cn(
+                        "group flex w-full items-start gap-4 rounded-xl border p-4 text-left transition-[border-color,box-shadow] duration-200",
+                        i === 0
+                          ? "border-accent-blue/40 bg-accent/60 hover:shadow-soft"
+                          : "border-border bg-card hover:border-foreground/25",
+                      )}
+                    >
+                      <span
+                        className={cn(
+                          "flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-semibold tabular",
+                          i === 0 ? "bg-primary text-primary-foreground" : "bg-secondary text-foreground",
+                        )}
+                      >
+                        {i + 1}
+                      </span>
+                      <span className="min-w-0 flex-1">
+                        <span className="block font-semibold">{r.structure.shortName}</span>
+                        <span className="mt-0.5 block text-sm leading-relaxed text-muted-foreground">{r.structure.tagline}</span>
+                        <span className="mt-1.5 block text-sm text-accent-blue">{r.why}</span>
+                      </span>
+                      <ArrowRight
+                        className="mt-1 h-4 w-4 shrink-0 text-accent-blue transition-transform group-hover:translate-x-0.5"
+                        aria-hidden="true"
+                      />
+                    </button>
+                  </li>
                 ))}
-              </div>
+              </ol>
             )}
           </>
         )}
 
-        {/* Nav-Buttons */}
-        <div className="flex justify-between mt-6">
-          <button
-            onClick={() => setStep(Math.max(1, step - 1))}
-            disabled={step === 1}
-            className="inline-flex items-center gap-1 rounded-lg border border-border px-4 py-2 text-sm hover:bg-secondary disabled:opacity-40"
-          >
-            <ArrowLeft className="h-4 w-4" /> Zurück
-          </button>
+        <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-border/70 pt-5">
+          <Button variant="outline" onClick={() => setStep(Math.max(1, step - 1))} disabled={step === 1}>
+            <ArrowLeft aria-hidden="true" /> Zurück
+          </Button>
           {step < 6 ? (
-            <button
-              onClick={() => setStep(step + 1)}
-              className="inline-flex items-center gap-1 rounded-lg bg-accent-blue text-primary-foreground px-4 py-2 text-sm font-semibold hover:opacity-90"
-            >
-              Weiter <ArrowRight className="h-4 w-4" />
-            </button>
+            <Button className="bg-gradient-primary" onClick={() => setStep(step + 1)}>
+              {step === 5 ? "Empfehlung anzeigen" : "Weiter"} <ArrowRight aria-hidden="true" />
+            </Button>
           ) : (
-            <button
+            <Button
+              variant="outline"
               onClick={() => {
                 setStep(1);
                 setAnswers({});
               }}
-              className="inline-flex items-center gap-1 rounded-lg border border-border px-4 py-2 text-sm hover:bg-secondary"
             >
-              Nochmal mit anderen Antworten
-            </button>
+              <RotateCcw aria-hidden="true" /> Mit anderen Antworten neu starten
+            </Button>
           )}
         </div>
-      </div>
+      </ToolSection>
     </div>
   );
 };
 
+const FrageKopf = ({ nr, titel, text }: { nr: number; titel: string; text?: string }) => (
+  <div className="mb-5">
+    <p className="text-sm font-medium text-accent-blue">Frage {nr}</p>
+    <h2 className="mt-1 text-lg font-semibold tracking-tight">{titel}</h2>
+    {text && <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{text}</p>}
+  </div>
+);
+
 // ============================================================
-// Detail-View — alle Infos zu einer Struktur
+// Detail-Ansicht: alle Infos zu einer Struktur
 // ============================================================
+const ListeKarte = ({
+  title,
+  icon: Icon,
+  tone,
+  children,
+}: {
+  title: string;
+  icon: ElementType;
+  tone: "success" | "danger" | "warning" | "accent" | "neutral";
+  children: ReactNode;
+}) => {
+  const ring = {
+    success: "border-success/25",
+    danger: "border-danger/25",
+    warning: "border-warning/25",
+    accent: "border-accent-blue/20",
+    neutral: "border-border",
+  }[tone];
+  const iconCls = {
+    success: "bg-success-soft text-success",
+    danger: "bg-danger-soft text-danger",
+    warning: "bg-warning-soft text-warning",
+    accent: "bg-accent text-accent-blue",
+    neutral: "bg-secondary text-muted-foreground",
+  }[tone];
+  return (
+    <section className={cn("rounded-2xl border bg-card p-5 shadow-card", ring)}>
+      <h3 className="mb-3 flex items-center gap-2.5 text-base font-semibold">
+        <span className={cn("flex h-7 w-7 items-center justify-center rounded-lg", iconCls)}>
+          <Icon className="h-4 w-4" aria-hidden="true" />
+        </span>
+        {title}
+      </h3>
+      {children}
+    </section>
+  );
+};
+
 const StructureDetail = ({ s, onBack }: { s: HoldingStructure; onBack: () => void }) => (
-  <div>
-    <button onClick={onBack} className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-accent-blue mb-4">
-      <ArrowLeft className="h-3 w-3" /> Zurück zur Übersicht
-    </button>
+  <div className="space-y-6">
+    <Button variant="ghost" size="sm" onClick={onBack} className="-ml-2">
+      <ArrowLeft aria-hidden="true" /> Zurück zur Übersicht
+    </Button>
 
-    {/* Header */}
-    <div className="rounded-2xl border border-accent-blue/30 bg-gradient-to-br from-card via-card to-accent-blue/5 p-6 mb-6">
-      <div className="flex items-start gap-4">
-        <div className="text-4xl">{s.emoji}</div>
-        <div className="flex-1">
-          <h2 className="text-xl md:text-2xl font-bold mb-1">{s.name}</h2>
-          <p className="text-sm text-muted-foreground">{s.tagline}</p>
-        </div>
+    <section className="rounded-2xl bg-ink p-6 text-primary-foreground shadow-soft md:p-8">
+      <p className="text-sm font-medium text-brand-green-glow">Holding-Struktur</p>
+      <h2 className="mt-1 text-xl font-semibold tracking-tight md:text-2xl">{s.name}</h2>
+      <p className="mt-2 max-w-3xl text-sm leading-relaxed text-primary-foreground/75">{s.tagline}</p>
+      <div className="mt-6 grid grid-cols-1 gap-px overflow-hidden rounded-xl bg-white/10 sm:grid-cols-2">
+        {[
+          { l: "Setup-Kosten", v: s.setupCost, icon: Wallet },
+          { l: "Laufende Kosten", v: s.runningCost, icon: Repeat },
+          { l: "Lohnt sich ab", v: s.worthwhileFrom, icon: TrendingUp },
+          { l: "Steuereffekt", v: s.taxImpact, icon: Scale },
+        ].map((k) => (
+          <div key={k.l} className="bg-white/[0.04] p-4">
+            <div className="flex items-center gap-1.5 text-xs text-primary-foreground/65">
+              <k.icon className="h-3.5 w-3.5" aria-hidden="true" />
+              {k.l}
+            </div>
+            <div className="mt-1 text-sm font-semibold leading-snug">{k.v}</div>
+          </div>
+        ))}
       </div>
-    </div>
+    </section>
 
-    {/* Diagram */}
-    <div className="rounded-2xl border border-border bg-card p-5 mb-6">
-      <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Struktur-Diagramm</div>
-      <pre className="font-mono text-[11px] leading-tight whitespace-pre overflow-x-auto bg-secondary/40 rounded-lg p-3">{s.diagram}</pre>
-    </div>
+    <ToolSection title="Struktur-Diagramm" icon={Network}>
+      <pre className="overflow-x-auto whitespace-pre rounded-xl bg-secondary/60 p-4 font-mono text-xs leading-snug">{s.diagram}</pre>
+    </ToolSection>
 
-    {/* Key Stats */}
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
-      <Stat icon={<Calculator className="h-4 w-4" />} label="Setup-Kosten" value={s.setupCost} />
-      <Stat icon={<Calculator className="h-4 w-4" />} label="Laufende Kosten" value={s.runningCost} />
-      <Stat icon={<Sparkles className="h-4 w-4" />} label="Lohnt sich ab" value={s.worthwhileFrom} />
-      <Stat icon={<Scale className="h-4 w-4" />} label="Steuer-Effekt" value={s.taxImpact} />
-    </div>
-
-    {/* Best for + Real-World */}
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
-      <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/5 p-4">
-        <div className="text-xs font-semibold uppercase tracking-wider text-emerald-700 mb-2">Wann sinnvoll</div>
-        <ul className="space-y-1 text-sm">
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <ListeKarte title="Wann sinnvoll" icon={CheckCircle2} tone="success">
+        <ul className="space-y-2 text-sm">
           {s.bestFor.map((b, i) => (
             <li key={i} className="flex items-start gap-2">
-              <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600 shrink-0 mt-0.5" />
-              <span>{b}</span>
+              <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-success" aria-hidden="true" />
+              <span className="leading-relaxed">{b}</span>
             </li>
           ))}
         </ul>
-      </div>
-      <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-4">
-        <div className="text-xs font-semibold uppercase tracking-wider text-accent-blue mb-2">Wer das nutzt (real)</div>
-        <ul className="space-y-1 text-sm">
+      </ListeKarte>
+      <ListeKarte title="Wer das in der Praxis nutzt" icon={Building2} tone="accent">
+        <ul className="list-disc space-y-1.5 pl-4 text-sm leading-relaxed text-muted-foreground marker:text-accent-blue">
           {s.realWorldExamples.map((e, i) => (
-            <li key={i} className="text-muted-foreground">
-              · {e}
-            </li>
+            <li key={i}>{e}</li>
           ))}
         </ul>
-      </div>
+      </ListeKarte>
     </div>
 
-    {/* Pros / Cons */}
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
-      <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/5 p-4">
-        <div className="text-xs font-semibold uppercase tracking-wider text-emerald-700 mb-2">Vorteile</div>
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <ListeKarte title="Vorteile" icon={Plus} tone="success">
         <ul className="space-y-2 text-sm">
           {s.pros.map((p, i) => (
             <li key={i} className="flex items-start gap-2">
-              <span className="text-emerald-600 shrink-0">+</span>
-              <span dangerouslySetInnerHTML={{ __html: p.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>") }} />
+              <Plus className="mt-0.5 h-3.5 w-3.5 shrink-0 text-success" aria-hidden="true" />
+              <span className="leading-relaxed" dangerouslySetInnerHTML={{ __html: fett(p) }} />
             </li>
           ))}
         </ul>
-      </div>
-      <div className="rounded-2xl border border-red-500/30 bg-red-500/5 p-4">
-        <div className="text-xs font-semibold uppercase tracking-wider text-red-700 mb-2">Nachteile / Fallstricke</div>
+      </ListeKarte>
+      <ListeKarte title="Nachteile und Fallstricke" icon={Minus} tone="danger">
         <ul className="space-y-2 text-sm">
           {s.cons.map((c, i) => (
             <li key={i} className="flex items-start gap-2">
-              <span className="text-red-600 shrink-0">−</span>
-              <span dangerouslySetInnerHTML={{ __html: c.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>") }} />
+              <Minus className="mt-0.5 h-3.5 w-3.5 shrink-0 text-danger" aria-hidden="true" />
+              <span className="leading-relaxed" dangerouslySetInnerHTML={{ __html: fett(c) }} />
             </li>
           ))}
         </ul>
-      </div>
+      </ListeKarte>
     </div>
 
-    {/* Lock-up Periods */}
     {s.lockUpPeriods && s.lockUpPeriods.length > 0 && (
-      <div className="rounded-2xl border border-amber-500/30 bg-amber-500/5 p-4 mb-6">
-        <div className="flex items-start gap-2 mb-2">
-          <AlertTriangle className="h-4 w-4 text-amber-700 shrink-0 mt-0.5" />
-          <div className="text-xs font-semibold uppercase tracking-wider text-amber-700">Sperrfristen / Lock-ups</div>
-        </div>
-        <ul className="space-y-1 text-sm">
+      <Callout tone="warning" title="Sperrfristen">
+        <ul className="list-disc space-y-1 pl-4">
           {s.lockUpPeriods.map((l, i) => (
-            <li key={i} className="text-muted-foreground" dangerouslySetInnerHTML={{ __html: "· " + l.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>") }} />
+            <li key={i} dangerouslySetInnerHTML={{ __html: fett(l) }} />
           ))}
         </ul>
-      </div>
+      </Callout>
     )}
 
-    {/* Setup-Steps */}
-    <div className="rounded-2xl border border-border bg-card p-5 mb-6">
-      <div className="flex items-center gap-2 mb-3">
-        <ListChecks className="h-4 w-4 text-accent-blue" />
-        <div className="text-xs font-semibold uppercase tracking-wider">Setup-Schritte</div>
-      </div>
-      <ol className="space-y-2 text-sm">
+    <ToolSection title="Umsetzung Schritt für Schritt" icon={ListChecks}>
+      <ol className="space-y-3 text-sm">
         {s.setupSteps.map((step, i) => (
-          <li key={i} className="flex items-start gap-2">
-            <span className="rounded-full bg-accent-blue text-primary-foreground h-5 w-5 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">
+          <li key={i} className="flex items-start gap-3">
+            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-secondary text-xs font-semibold tabular">
               {i + 1}
             </span>
-            <span className="text-muted-foreground leading-relaxed">{step.replace(/^\d+\.\s*/, "")}</span>
+            <span className="leading-relaxed text-muted-foreground">{step.replace(/^\d+\.\s*/, "")}</span>
           </li>
         ))}
       </ol>
-    </div>
+    </ToolSection>
 
-    {/* Steuer-Szenarien (Beispielrechnungen) */}
     {s.taxScenarios && s.taxScenarios.length > 0 && (
-      <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/5 p-5 mb-6">
-        <div className="flex items-center gap-2 mb-3">
-          <Calculator className="h-4 w-4 text-emerald-700" />
-          <div className="text-xs font-semibold uppercase tracking-wider text-emerald-700">
-            Steuer-Beispielrechnungen
-          </div>
-        </div>
-        <div className="space-y-4">
+      <ToolSection title="Steuer-Beispielrechnungen" icon={Calculator}>
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
           {s.taxScenarios.map((sc, i) => (
-            <div key={i} className="rounded-xl border border-emerald-500/20 bg-card p-4">
-              <div className="flex items-start justify-between gap-3 mb-3">
-                <div>
-                  <div className="font-bold text-sm">{sc.label}</div>
-                  <div className="text-[11px] text-muted-foreground">
-                    Op-Gewinn: {sc.opGewinn.toLocaleString("de-DE")} €
-                  </div>
+            <div key={i} className="rounded-xl border border-border bg-card p-4">
+              <div className="flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <p className="font-semibold">{sc.label}</p>
+                  <p className="mt-0.5 text-xs text-muted-foreground tabular">
+                    Operativer Gewinn {sc.opGewinn.toLocaleString("de-DE")} €
+                  </p>
                 </div>
-                <div className="text-right">
-                  <div className="text-xs text-muted-foreground">Effektivsatz</div>
-                  <div className="text-lg font-bold text-emerald-700">{sc.effektivPct.toFixed(1)} %</div>
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-2 mb-3">
-                <div className="rounded-lg bg-secondary/40 p-2">
-                  <div className="text-[10px] text-muted-foreground uppercase">Total Steuer</div>
-                  <div className="font-mono font-semibold text-sm">
-                    {sc.totalSteuer.toLocaleString("de-DE")} €
-                  </div>
-                </div>
-                <div className="rounded-lg bg-secondary/40 p-2">
-                  <div className="text-[10px] text-muted-foreground uppercase">Privat netto</div>
-                  <div className="font-mono font-semibold text-sm">
-                    {sc.privatNetto.toLocaleString("de-DE")} €
-                  </div>
+                <div className="shrink-0 text-right">
+                  <p className="text-xs text-muted-foreground">Effektivsatz</p>
+                  <p className="text-lg font-semibold text-success tabular">{sc.effektivPct.toFixed(1).replace(".", ",")} %</p>
                 </div>
               </div>
-              <details className="text-xs text-muted-foreground">
-                <summary className="cursor-pointer font-semibold text-foreground">Berechnungs-Details ▾</summary>
-                <ul className="mt-2 space-y-1 list-disc pl-4">
+              <div className="mt-3 grid grid-cols-2 gap-2">
+                <div className="rounded-lg bg-secondary/60 p-3">
+                  <p className="text-xs text-muted-foreground">Steuern gesamt</p>
+                  <p className="mt-0.5 font-semibold tabular">{sc.totalSteuer.toLocaleString("de-DE")} €</p>
+                </div>
+                <div className="rounded-lg bg-secondary/60 p-3">
+                  <p className="text-xs text-muted-foreground">Privat netto</p>
+                  <p className="mt-0.5 font-semibold tabular">{sc.privatNetto.toLocaleString("de-DE")} €</p>
+                </div>
+              </div>
+              <details className="group mt-3 text-sm [&_summary::-webkit-details-marker]:hidden">
+                <summary className="flex cursor-pointer list-none items-center gap-1 font-medium text-muted-foreground hover:text-foreground">
+                  Rechenweg
+                  <ChevronDown className="h-3.5 w-3.5 transition-transform group-open:rotate-180" aria-hidden="true" />
+                </summary>
+                <ul className="mt-2 list-disc space-y-1 pl-4 text-muted-foreground">
                   {sc.breakdown.map((b, j) => (
                     <li key={j}>{b}</li>
                   ))}
                 </ul>
                 {sc.vsEinzel && (
-                  <div className="mt-3 rounded-lg bg-accent-blue/5 border border-accent-blue/20 p-2 text-[11px]">
-                    <span className="font-semibold text-accent-blue">vs. Einzelunternehmen:</span> {sc.vsEinzel}
-                  </div>
+                  <p className="mt-3 rounded-lg border border-accent-blue/20 bg-accent px-3 py-2 text-xs">
+                    <span className="font-semibold text-accent-blue">Im Vergleich zum Einzelunternehmen:</span> {sc.vsEinzel}
+                  </p>
                 )}
               </details>
             </div>
           ))}
         </div>
-      </div>
+      </ToolSection>
     )}
 
-    {/* Common Pitfalls */}
     {s.pitfalls && s.pitfalls.length > 0 && (
-      <div className="rounded-2xl border border-red-500/30 bg-red-500/5 p-5 mb-6">
-        <div className="flex items-center gap-2 mb-3">
-          <AlertTriangle className="h-4 w-4 text-red-700" />
-          <div className="text-xs font-semibold uppercase tracking-wider text-red-700">
-            Typische Fehler die User mit dieser Struktur machen
-          </div>
-        </div>
+      <ListeKarte title="Typische Fehler mit dieser Struktur" icon={AlertTriangle} tone="danger">
         <ul className="space-y-2 text-sm">
           {s.pitfalls.map((p, i) => (
             <li key={i} className="flex items-start gap-2">
-              <span className="text-red-600 shrink-0">⚠</span>
-              <span
-                className="leading-relaxed"
-                dangerouslySetInnerHTML={{ __html: p.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>") }}
-              />
+              <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-danger" aria-hidden="true" />
+              <span className="leading-relaxed" dangerouslySetInnerHTML={{ __html: fett(p) }} />
             </li>
           ))}
         </ul>
-      </div>
+      </ListeKarte>
     )}
 
-    {/* Migration-Pfad + Internationales */}
     {(s.migrationPath || s.intlConsiderations) && (
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         {s.migrationPath && (
-          <div className="rounded-2xl border border-border bg-card p-4">
-            <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
-              Migration-Pfad
-            </div>
-            <div
-              className="text-sm leading-relaxed"
-              dangerouslySetInnerHTML={{
-                __html: s.migrationPath.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>"),
-              }}
-            />
-          </div>
+          <ListeKarte title="Migrationspfad" icon={Repeat} tone="neutral">
+            <div className="text-sm leading-relaxed text-muted-foreground" dangerouslySetInnerHTML={{ __html: fett(s.migrationPath) }} />
+          </ListeKarte>
         )}
         {s.intlConsiderations && (
-          <div className="rounded-2xl border border-border bg-card p-4">
-            <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
-              Internationale Aspekte
-            </div>
-            <div
-              className="text-sm leading-relaxed"
-              dangerouslySetInnerHTML={{
-                __html: s.intlConsiderations.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>"),
-              }}
-            />
-          </div>
+          <ListeKarte title="Internationale Aspekte" icon={Globe} tone="neutral">
+            <div className="text-sm leading-relaxed text-muted-foreground" dangerouslySetInnerHTML={{ __html: fett(s.intlConsiderations) }} />
+          </ListeKarte>
         )}
       </div>
     )}
 
-    {/* Legal Basis */}
-    <div className="rounded-2xl border border-border bg-secondary/30 p-4 mb-6">
-      <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
-        Rechtliche Grundlage
-      </div>
+    <ToolSection title="Rechtliche Grundlage" icon={BookOpen}>
       <div className="flex flex-wrap gap-1.5">
         {s.legalBasis.map((l) => (
-          <span key={l} className="rounded-full bg-card border border-border px-2.5 py-1 text-[11px] font-mono">
+          <span key={l} className="rounded-md border border-border bg-secondary/60 px-2 py-1 font-mono text-xs">
             {l}
           </span>
         ))}
       </div>
-    </div>
-
-    {/* CTA: Playbook starten */}
-    {s.playbookSlug && (
-      <div className="rounded-2xl border border-accent-blue/40 bg-gradient-to-br from-card via-card to-accent-blue/5 p-5">
-        <div className="flex items-center justify-between gap-4 flex-wrap">
-          <div>
-            <div className="font-bold mb-1">Bereit umzusetzen?</div>
-            <div className="text-xs text-muted-foreground">
-              Geh durch das Holding-Playbook mit Notar-Vorbereitung, HR-Anmeldung, Stammkapital und
-              Ausschüttungs-Setup.
-            </div>
-          </div>
-          <Link
-            to={`/playbook/preview/${s.playbookSlug}`}
-            className="inline-flex items-center gap-2 rounded-xl bg-accent-blue text-primary-foreground px-5 py-2.5 text-sm font-bold hover:opacity-90"
+      <p className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground">
+        Zum Nachlesen:
+        {[
+          { l: "KStG", u: "https://www.gesetze-im-internet.de/kstg_1977/" },
+          { l: "UmwStG", u: "https://www.gesetze-im-internet.de/umwstg_2006/" },
+          { l: "ErbStG", u: "https://www.gesetze-im-internet.de/erbstg_1974/" },
+        ].map((g) => (
+          <a
+            key={g.l}
+            href={g.u}
+            target="_blank"
+            rel="noreferrer noopener"
+            className="inline-flex items-center gap-1 font-medium text-accent-blue hover:underline"
           >
-            <Sparkles className="h-4 w-4" /> Playbook-Übersicht <ArrowRight className="h-4 w-4" />
-          </Link>
+            {g.l} <ExternalLink className="h-3 w-3" aria-hidden="true" />
+          </a>
+        ))}
+      </p>
+    </ToolSection>
+
+    {s.playbookSlug && (
+      <section className="flex flex-col gap-4 rounded-2xl border border-accent-blue/25 bg-accent p-5 sm:flex-row sm:items-center sm:justify-between md:p-6">
+        <div>
+          <h3 className="text-base font-semibold">Bereit zur Umsetzung?</h3>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Das Holding-Playbook führt durch Notar-Vorbereitung, Handelsregister, Stammkapital und Ausschüttungs-Setup.
+          </p>
         </div>
-      </div>
+        <Button asChild size="lg" className="shrink-0 rounded-xl bg-gradient-primary">
+          <Link to={`/playbook/preview/${s.playbookSlug}`}>
+            Zum Playbook <ArrowRight aria-hidden="true" />
+          </Link>
+        </Button>
+      </section>
     )}
-
-    {/* External resources */}
-    <div className="text-[11px] text-muted-foreground mt-4 leading-relaxed">
-      Für tiefer gehende Recherche:{" "}
-      <a
-        href="https://www.gesetze-im-internet.de/kstg_1977/"
-        target="_blank"
-        rel="noreferrer noopener"
-        className="text-accent-blue hover:underline inline-flex items-center gap-0.5"
-      >
-        KStG <ExternalLink className="h-3 w-3" />
-      </a>{" "}
-      ·{" "}
-      <a
-        href="https://www.gesetze-im-internet.de/umwstg_2006/"
-        target="_blank"
-        rel="noreferrer noopener"
-        className="text-accent-blue hover:underline inline-flex items-center gap-0.5"
-      >
-        UmwStG <ExternalLink className="h-3 w-3" />
-      </a>{" "}
-      ·{" "}
-      <a
-        href="https://www.gesetze-im-internet.de/erbstg_1974/"
-        target="_blank"
-        rel="noreferrer noopener"
-        className="text-accent-blue hover:underline inline-flex items-center gap-0.5"
-      >
-        ErbStG <ExternalLink className="h-3 w-3" />
-      </a>
-    </div>
-  </div>
-);
-
-const Stat = ({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) => (
-  <div className="rounded-xl border border-border bg-card p-3">
-    <div className="flex items-center gap-1.5 text-muted-foreground mb-1">
-      {icon}
-      <div className="text-[10px] uppercase tracking-wider font-semibold">{label}</div>
-    </div>
-    <div className="text-sm font-semibold leading-snug">{value}</div>
   </div>
 );
 
