@@ -3,11 +3,37 @@ import CockpitShell from "@/components/cockpit/CockpitShell";
 import Stand2026Footer from "@/components/cockpit/Stand2026Footer";
 import { Input } from "@/components/ui/input";
 import { HebesatzPicker } from "@/components/ui/hebesatz-picker";
-import { Label } from "@/components/ui/label";
-import { Calculator, AlertTriangle, CheckCircle2, TrendingDown, Info, Calendar } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Callout, Field, ResultPanel, ToolLayout, ToolSection, selectCls } from "@/components/cockpit/kit";
+import {
+  Calculator,
+  Calendar,
+  Check,
+  ChevronDown,
+  MousePointerClick,
+  Package,
+  ShoppingCart,
+  Briefcase,
+  Umbrella,
+  TrendingDown,
+  ClipboardList,
+  HeartHandshake,
+  type LucideIcon,
+} from "lucide-react";
 import { progressionESt, ABG_ST, kstGewstRate, holdingRate, SOLZ_RATE } from "@/lib/germanTax";
 
 type LegalForm = "einzel" | "ug" | "gmbh" | "holding";
+
+/** Icons je Hebel (ersetzen die Emojis in der Oberfläche). */
+const HEBEL_ICON: Record<string, LucideIcon> = {
+  iab: Package,
+  invest: ShoppingCart,
+  boni: Briefcase,
+  pension: Umbrella,
+  verlust: TrendingDown,
+  oss: ClipboardList,
+  spende: HeartHandshake,
+};
 
 function steuerForm(form: LegalForm, gewinn: number, hebesatz: number): number {
   if (gewinn <= 0) return 0;
@@ -215,183 +241,190 @@ const PreYearEndCheck = () => {
 
   const toggleHebel = (id: string) => setAktivitaeten({ ...aktivitaeten, [id]: !aktivitaeten[id] });
 
+  const eur = (n: number) => `${Math.round(n).toLocaleString("de-DE")} €`;
+
   return (
     <CockpitShell
-      eyebrow="Pre-Year-End-Check"
-      title="7 Steuer-Hebel die du noch ziehen kannst"
-      subtitle="Ab November: Was du jetzt noch tun kannst um Steuer für das laufende Jahr zu reduzieren. Mit Live-Berechnung der Ersparnis pro Hebel + 31.12.-Deadlines."
+      eyebrow="Steuern & Optimierung · Jahresende"
+      title="7 Steuer-Hebel, die du vor dem 31.12. noch ziehen kannst"
+      subtitle="Ab November zählt jede Woche: Was du jetzt noch tun kannst, um die Steuer für das laufende Jahr zu senken. Mit Live-Berechnung der Ersparnis je Hebel und den Fristen zum Jahresende."
     >
-      {/* Inputs */}
-      <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5 mb-6">
-        <div className="flex items-center gap-2 mb-3">
-          <Calculator className="h-4 w-4 text-accent-blue" />
-          <h3 className="font-bold text-sm">Deine Situation</h3>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Rechtsform</Label>
-            <select
-              value={form}
-              onChange={(e) => setForm(e.target.value as LegalForm)}
-              className="mt-1 h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
-            >
-              <option value="einzel">Einzelunternehmen</option>
-              <option value="ug">UG</option>
-              <option value="gmbh">GmbH</option>
-              <option value="holding">GmbH + Holding</option>
-            </select>
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Erwarteter Gewinn (€)</Label>
-            <Input
-              type="number"
-              value={gewinn}
-              onChange={(e) => setGewinn(Math.max(0, Number(e.target.value) || 0))}
-              className="mt-1"
-            />
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">ESt-Satz (Fallback)</Label>
-            <select
-              value={estSatz}
-              onChange={(e) => setEstSatz(Number(e.target.value))}
-              className="mt-1 h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
-            >
-              <option value={0.14}>14 %</option>
-              <option value={0.24}>24 %</option>
-              <option value={0.32}>32 %</option>
-              <option value={0.42}>42 % (Spitzensatz)</option>
-              <option value={0.45}>45 % (Reichensteuer)</option>
-            </select>
-            <div className="text-[10px] text-muted-foreground mt-1">Einzel: Tool nutzt echte Progression. Wert nur informativ.</div>
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">GewSt-Hebesatz Gemeinde (%)</Label>
-            <HebesatzPicker value={hebesatz} onChange={setHebesatz} className="mt-1" />
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Geplante Investition 3 Jahre (IAB)</Label>
-            <Input
-              type="number"
-              value={iabBasis}
-              onChange={(e) => setIabBasis(Math.max(0, Number(e.target.value) || 0))}
-              className="mt-1"
-            />
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Investitionen vorziehen (€)</Label>
-            <Input
-              type="number"
-              value={investitionVorziehen}
-              onChange={(e) => setInvestitionVorziehen(Math.max(0, Number(e.target.value) || 0))}
-              className="mt-1"
-            />
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Boni / Tantiemen geplant (€)</Label>
-            <Input
-              type="number"
-              value={boniGesamt}
-              onChange={(e) => setBoniGesamt(Math.max(0, Number(e.target.value) || 0))}
-              className="mt-1"
-            />
-          </div>
-        </div>
-      </div>
-
-      {/* Summary */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6">
-        <div className="rounded-2xl border border-border bg-card p-4">
-          <div className="text-[10px] uppercase tracking-wider text-muted-foreground mb-1">Steuer ohne Hebel</div>
-          <div className="text-xl font-bold">{Math.round(baselineSteuer).toLocaleString("de-DE")} €</div>
-        </div>
-        <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/5 p-4">
-          <div className="text-[10px] uppercase tracking-wider text-emerald-700 mb-1">
-            Mögliche Ersparnis ({aktiverHebel.length} aktive Hebel)
-          </div>
-          <div className="text-xl font-bold text-emerald-700">
-            -{Math.round(totalErsparnis).toLocaleString("de-DE")} €
-          </div>
-        </div>
-        <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-4">
-          <div className="text-[10px] uppercase tracking-wider text-accent-blue mb-1">Steuer mit Hebeln</div>
-          <div className="text-xl font-bold text-accent-blue">
-            {Math.round(tatsaechlicheSteuer).toLocaleString("de-DE")} €
-          </div>
-        </div>
-      </div>
-
-      {/* Hebel-Liste */}
-      <h3 className="text-base font-bold mb-3">7 Hebel — wähle aus was du nutzen willst</h3>
-      <div className="space-y-3 mb-6">
-        {hebel.map((h) => (
-          <div
-            key={h.id}
-            className={`rounded-2xl border p-4 transition-colors cursor-pointer ${
-              h.aktiv ? "border-emerald-500/40 bg-emerald-500/5" : "border-border bg-card hover:border-accent-blue/40"
-            }`}
-            onClick={() => toggleHebel(h.id)}
-          >
-            <div className="flex items-start justify-between gap-3 mb-2">
-              <div className="flex items-start gap-3">
-                <div
-                  className={`h-6 w-6 rounded border-2 flex items-center justify-center shrink-0 mt-0.5 ${
-                    h.aktiv ? "bg-emerald-500 border-emerald-500" : "border-border"
-                  }`}
-                >
-                  {h.aktiv && <CheckCircle2 className="h-4 w-4 text-white" />}
-                </div>
-                <div>
-                  <div className="flex items-center gap-2 flex-wrap mb-1">
-                    <span className="text-xl">{h.emoji}</span>
-                    <span className="font-bold">{h.title}</span>
-                    <span className="rounded-full bg-secondary text-muted-foreground px-2 py-0.5 text-[10px] inline-flex items-center gap-1">
-                      <Calendar className="h-2.5 w-2.5" /> {h.deadline}
-                    </span>
-                  </div>
-                  <p className="text-xs text-muted-foreground">{h.description}</p>
-                </div>
-              </div>
-              {h.ersparnis > 0 && (
-                <div className="text-right shrink-0">
-                  <div className="text-[10px] text-muted-foreground uppercase">Ersparnis</div>
-                  <div className="text-lg font-bold text-emerald-700">
-                    {Math.round(h.ersparnis).toLocaleString("de-DE")} €
-                  </div>
-                </div>
-              )}
+      <ToolLayout
+        className="mb-8"
+        inputs={
+          <ToolSection title="Deine Situation" icon={Calculator}>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <Field label="Rechtsform" htmlFor="pye-form">
+                <select id="pye-form" value={form} onChange={(e) => setForm(e.target.value as LegalForm)} className={selectCls}>
+                  <option value="einzel">Einzelunternehmen</option>
+                  <option value="ug">UG</option>
+                  <option value="gmbh">GmbH</option>
+                  <option value="holding">GmbH + Holding</option>
+                </select>
+              </Field>
+              <Field label="Erwarteter Gewinn (€)" htmlFor="pye-gewinn">
+                <Input
+                  id="pye-gewinn"
+                  type="number"
+                  value={gewinn}
+                  onChange={(e) => setGewinn(Math.max(0, Number(e.target.value) || 0))}
+                  className="tabular"
+                />
+              </Field>
+              <Field
+                label="Einkommensteuersatz"
+                htmlFor="pye-est"
+                hint="Für Einzelunternehmen rechnet das Tool mit echter Progression; der Wert dient dort nur zur Info."
+              >
+                <select id="pye-est" value={estSatz} onChange={(e) => setEstSatz(Number(e.target.value))} className={selectCls}>
+                  <option value={0.14}>14 %</option>
+                  <option value={0.24}>24 %</option>
+                  <option value={0.32}>32 %</option>
+                  <option value={0.42}>42 % (Spitzensatz)</option>
+                  <option value={0.45}>45 % (Reichensteuer)</option>
+                </select>
+              </Field>
+              <Field label="Gewerbesteuer-Hebesatz der Gemeinde (%)">
+                <HebesatzPicker value={hebesatz} onChange={setHebesatz} />
+              </Field>
+              <Field label="Geplante Investitionen in 3 Jahren (€)" htmlFor="pye-iab" hint="Basis für den Investitionsabzugsbetrag (IAB)">
+                <Input
+                  id="pye-iab"
+                  type="number"
+                  value={iabBasis}
+                  onChange={(e) => setIabBasis(Math.max(0, Number(e.target.value) || 0))}
+                  className="tabular"
+                />
+              </Field>
+              <Field label="Investitionen vorziehen (€)" htmlFor="pye-invest">
+                <Input
+                  id="pye-invest"
+                  type="number"
+                  value={investitionVorziehen}
+                  onChange={(e) => setInvestitionVorziehen(Math.max(0, Number(e.target.value) || 0))}
+                  className="tabular"
+                />
+              </Field>
+              <Field label="Geplante Boni oder Tantiemen (€)" htmlFor="pye-boni" className="sm:col-span-2">
+                <Input
+                  id="pye-boni"
+                  type="number"
+                  value={boniGesamt}
+                  onChange={(e) => setBoniGesamt(Math.max(0, Number(e.target.value) || 0))}
+                  className="tabular"
+                />
+              </Field>
             </div>
-            <details onClick={(e) => e.stopPropagation()} className="text-xs text-muted-foreground">
-              <summary className="cursor-pointer font-semibold text-foreground">Details ▾</summary>
-              <ul className="mt-2 space-y-1 list-disc pl-4">
-                {h.details.map((d, i) => (
-                  <li key={i}>{d}</li>
+          </ToolSection>
+        }
+        result={
+          <>
+            <ResultPanel
+              variant="ink"
+              kicker="Steuer mit Hebeln"
+              title={
+                aktiverHebel.length === 0
+                  ? "Noch kein Hebel ausgewählt"
+                  : `${aktiverHebel.length} Hebel aktiv`
+              }
+              value={eur(tatsaechlicheSteuer)}
+              valueHint="voraussichtliche Steuer für das laufende Jahr"
+            >
+              <div className="grid grid-cols-2 gap-px overflow-hidden rounded-xl bg-white/10">
+                {[
+                  { l: "Steuer ohne Hebel", v: eur(baselineSteuer) },
+                  { l: "Mögliche Ersparnis", v: totalErsparnis > 0 ? `−${eur(totalErsparnis)}` : eur(0) },
+                ].map((k) => (
+                  <div key={k.l} className="bg-white/[0.04] p-3">
+                    <div className="text-xs text-primary-foreground/65">{k.l}</div>
+                    <div className="mt-0.5 font-semibold text-primary-foreground tabular">{k.v}</div>
+                  </div>
                 ))}
-              </ul>
-            </details>
-          </div>
-        ))}
+              </div>
+            </ResultPanel>
+            <Callout tone="info" icon={MousePointerClick}>
+              Wähle unten die Hebel aus, die du nutzen willst. Die Ersparnis wird sofort eingerechnet.
+            </Callout>
+          </>
+        }
+      />
+
+      <div className="mb-4 flex flex-wrap items-baseline justify-between gap-2">
+        <h2 className="text-lg font-semibold tracking-tight">Hebel auswählen</h2>
+        <p className="text-sm text-muted-foreground tabular">
+          {aktiverHebel.length} von {hebel.length} ausgewählt
+        </p>
+      </div>
+      <div className="mb-8 space-y-3">
+        {hebel.map((h) => {
+          const Icon = HEBEL_ICON[h.id] ?? Calculator;
+          return (
+            <article
+              key={h.id}
+              className={cn(
+                "rounded-2xl border bg-card shadow-card transition-[border-color,box-shadow] duration-200",
+                h.aktiv ? "border-success/40 shadow-[0_0_0_3px_hsl(var(--success)/0.1)]" : "border-border hover:border-foreground/20",
+              )}
+            >
+              <button
+                type="button"
+                role="checkbox"
+                aria-checked={h.aktiv}
+                onClick={() => toggleHebel(h.id)}
+                className="flex w-full items-start gap-3 p-4 text-left md:p-5"
+              >
+                <span
+                  className={cn(
+                    "mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-md border",
+                    h.aktiv ? "border-success bg-success text-primary-foreground" : "border-input bg-card",
+                  )}
+                >
+                  {h.aktiv && <Check className="h-3.5 w-3.5" aria-hidden="true" />}
+                </span>
+                <span className="hidden h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-accent text-accent-blue sm:flex">
+                  <Icon className="h-4 w-4" aria-hidden="true" />
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="block font-semibold leading-snug">{h.title.replace(" — ", ": ")}</span>
+                  <span className="mt-1 block text-sm leading-relaxed text-muted-foreground">{h.description}</span>
+                  <span className="mt-2 inline-flex items-center gap-1.5 rounded-md bg-secondary px-2 py-0.5 text-xs text-muted-foreground">
+                    <Calendar className="h-3 w-3" aria-hidden="true" /> Frist {h.deadline}
+                  </span>
+                </span>
+                {h.ersparnis > 0 && (
+                  <span className="shrink-0 text-right">
+                    <span className="block text-xs text-muted-foreground">Ersparnis</span>
+                    <span className="block text-lg font-semibold text-success tabular">{eur(h.ersparnis)}</span>
+                  </span>
+                )}
+              </button>
+              <details className="group border-t border-border/70 [&_summary::-webkit-details-marker]:hidden">
+                <summary className="flex cursor-pointer list-none items-center gap-1 px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground md:px-5">
+                  Details und Voraussetzungen
+                  <ChevronDown className="h-3.5 w-3.5 transition-transform group-open:rotate-180" aria-hidden="true" />
+                </summary>
+                <ul className="list-disc space-y-1 px-4 pb-4 pl-8 text-sm leading-relaxed text-muted-foreground md:px-5 md:pl-9">
+                  {h.details.map((d, i) => (
+                    <li key={i}>{d}</li>
+                  ))}
+                </ul>
+              </details>
+            </article>
+          );
+        })}
       </div>
 
-      <div className="rounded-2xl border border-amber-500/30 bg-amber-500/5 p-4 text-xs leading-relaxed">
-        <div className="flex items-start gap-2">
-          <AlertTriangle className="h-4 w-4 text-amber-700 shrink-0 mt-0.5" />
-          <div>
-            <div className="font-semibold mb-1">Wichtig zum 31.12.:</div>
-            <ul className="list-disc pl-4 space-y-1 text-muted-foreground">
-              <li>
-                IAB, Boni-Zusage, Investitions-Vorzug, Pensions-Rückstellung müssen <strong>vor 31.12.</strong> dokumentiert sein.
-              </li>
-              <li>Spätestens Mitte November mit StB Termin machen — er hat im Dezember keine Zeit mehr.</li>
-              <li>Tatsächliche Lieferung/Inbetriebnahme bei Investitionen entscheidend (nicht Bestelldatum).</li>
-              <li>
-                Tantieme-Vereinbarungen schriftlich VOR Geschäftsjahres-Ende, sonst nicht aufwandswirksam im
-                laufenden Jahr.
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
+      <Callout tone="warning" title="Wichtig zum 31.12." className="mb-6">
+        <ul className="list-disc space-y-1 pl-4">
+          <li>
+            IAB, Bonus-Zusage, vorgezogene Investitionen und Pensionsrückstellung müssen <strong>vor dem 31.12.</strong>{" "}
+            dokumentiert sein.
+          </li>
+          <li>Spätestens Mitte November einen Termin mit der Steuerberatung machen, im Dezember wird es knapp.</li>
+          <li>Bei Investitionen zählt die tatsächliche Lieferung und Inbetriebnahme, nicht das Bestelldatum.</li>
+          <li>Tantieme-Vereinbarungen schriftlich vor Ende des Geschäftsjahres, sonst kein Aufwand im laufenden Jahr.</li>
+        </ul>
+      </Callout>
 
       <Stand2026Footer
         sources={[
