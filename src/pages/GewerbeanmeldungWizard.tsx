@@ -27,18 +27,27 @@ import CockpitShell from "@/components/cockpit/CockpitShell";
 import Stand2026Footer from "@/components/cockpit/Stand2026Footer";
 import { Input } from "@/components/ui/input";
 import { NumberField } from "@/components/ui/number-field";
-import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { Callout, EmptyState, Field, ResultPanel, ToneBadge, ToolLayout, selectCls, type Tone } from "@/components/cockpit/kit";
+import { cn } from "@/lib/utils";
 import {
   Lightbulb,
   ChevronLeft,
   ChevronRight,
+  ChevronDown,
   CheckCircle2,
+  CircleDashed,
   AlertCircle,
   HelpCircle,
   FileDown,
   Search,
   XCircle,
+  Check,
+  Save,
+  RotateCcw,
+  ArrowLeft,
+  ArrowRight,
+  HardDrive,
 } from "lucide-react";
 import { PDFDocument } from "pdf-lib";
 import { WZ_2008, WZ_GRUPPEN, type WzEntry, type WzGruppe } from "@/data/wz2008";
@@ -392,76 +401,156 @@ const GewerbeanmeldungWizard = () => {
     };
   }, [data.taetigkeit]);
 
+
+  const erledigt = stepValid.filter(Boolean).length;
+
   return (
     <CockpitShell
-      eyebrow="🌱 Erste Schritte · für komplette Anfänger:innen"
+      eyebrow="Erste Schritte · für komplette Anfänger:innen"
       title="Gewerbeanmeldung-Wizard"
-      subtitle="7-Step-Wizard, der das amtliche GewA1 (Mustervordruck Anlage 1 zur GewAnzV) mit deinen Daten füllt. Mit Tätigkeits-Qualitäts-Check, WZ-2008-Suche, §19 KU-Entscheidung. Persönliche Daten werden lokal gespeichert und beim nächsten Mal automatisch vorausgefüllt."
+      subtitle="Acht kurze Schritte, am Ende steht das amtliche GewA1 (Mustervordruck Anlage 1 zur GewAnzV) mit deinen Daten gefüllt. Mit Qualitäts-Check für die Tätigkeit, WZ-2008-Suche und Entscheidungshilfe zu § 19 UStG. Persönliche Daten bleiben lokal in deinem Browser gespeichert."
     >
       <BeginnerHero />
 
-      {/* === Progress === */}
-      <div className="rounded-2xl border border-border bg-card p-4 mb-4">
-        <div className="flex items-center justify-between mb-3 gap-2 flex-wrap">
-          <div className="text-xs text-muted-foreground">Schritt {step + 1} von {STEP_LABELS.length}: <strong className="text-foreground">{STEP_LABELS[step]}</strong></div>
-          <div className="flex gap-1">
-            {STEP_LABELS.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setStep(i)}
-                className={`h-2 w-8 rounded-full transition ${
-                  i === step ? "bg-accent-blue"
-                  : stepValid[i] ? "bg-emerald-500"
-                  : i < step ? "bg-amber-500" : "bg-secondary"
-                }`}
-                title={`Step ${i + 1}: ${STEP_LABELS[i]} ${stepValid[i] ? "✓" : ""}`}
-              />
-            ))}
-          </div>
-        </div>
+      {/* === Fortschritt === */}
+      <nav aria-label="Schritte der Gewerbeanmeldung" className="mb-6">
+        <ol className="grid grid-cols-4 gap-x-2 gap-y-3 sm:grid-cols-8">
+          {STEP_LABELS.map((label, i) => {
+            const current = i === step;
+            const done = stepValid[i] && !current;
+            const offen = !stepValid[i] && i < step;
+            return (
+              <li key={label} className="min-w-0" aria-current={current ? "step" : undefined}>
+                <button
+                  type="button"
+                  onClick={() => setStep(i)}
+                  title={`Step ${i + 1}: ${label} ${stepValid[i] ? "✓" : ""}`}
+                  className="group block w-full rounded-md text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  <span
+                    className={cn(
+                      "block h-1.5 rounded-full transition-colors",
+                      current ? "bg-accent-blue" : done ? "bg-success" : offen ? "bg-warning" : "bg-border group-hover:bg-foreground/20",
+                    )}
+                  />
+                  <span className="mt-2 flex items-center gap-1.5 text-sm">
+                    <span
+                      className={cn(
+                        "flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[11px] font-semibold tabular",
+                        current && "bg-accent-blue text-primary-foreground",
+                        done && "bg-success text-primary-foreground",
+                        offen && "bg-warning-soft text-warning",
+                        !current && !done && !offen && "border border-border text-muted-foreground",
+                      )}
+                    >
+                      {done ? <Check className="h-3 w-3" aria-hidden="true" /> : i + 1}
+                    </span>
+                    <span className={cn("hidden truncate lg:inline", current ? "font-medium text-foreground" : "text-muted-foreground")}>
+                      {label}
+                    </span>
+                  </span>
+                </button>
+              </li>
+            );
+          })}
+        </ol>
+      </nav>
 
-        {/* === Step Content === */}
-        <div className="min-h-[400px]">
-          {step === 0 && <StepPerson data={data} update={update} />}
-          {step === 1 && <StepAnschrift data={data} update={update} />}
-          {step === 2 && <StepRechtsform data={data} update={update} />}
-          {step === 3 && <StepTaetigkeit data={data} update={update} qualitaet={taetigkeitsQualitaet} />}
-          {step === 4 && <StepBranche data={data} update={update} />}
-          {step === 5 && <StepBeginn data={data} update={update} />}
-          {step === 6 && <StepBehoerden data={data} update={update} />}
-          {step === 7 && <StepZusammenfassung data={data} stepValid={stepValid} allValid={allValid} onGeneratePdf={generatePdf} />}
-        </div>
+      <ToolLayout
+        className="mb-8"
+        inputs={
+          <section className="rounded-2xl border border-border bg-card shadow-card">
+            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border/70 px-5 py-3 md:px-6">
+              <p className="text-sm text-muted-foreground">
+                Schritt {step + 1} von {STEP_LABELS.length}: <strong className="font-medium text-foreground">{STEP_LABELS[step]}</strong>
+              </p>
+              {(step === STEP_LABELS.length - 1 ? allValid : stepValid[step]) ? (
+                <ToneBadge tone="success">Vollständig</ToneBadge>
+              ) : (
+                <ToneBadge tone="neutral">Pflichtfelder offen</ToneBadge>
+              )}
+            </div>
 
-        {/* === Navigation === */}
-        <div className="flex items-center justify-between mt-4 pt-4 border-t border-border">
-          <Button onClick={() => setStep(Math.max(0, step - 1))} variant="outline" disabled={step === 0}>
-            <ChevronLeft className="h-4 w-4 mr-1" /> Zurück
-          </Button>
-          <div className="flex gap-2">
-            <Button onClick={saveLocal} variant="ghost" size="sm" className="text-xs">Zwischenspeichern</Button>
-            <Button onClick={reset} variant="ghost" size="sm" className="text-xs text-red-700">Reset</Button>
-          </div>
-          <Button
-            onClick={() => setStep(Math.min(STEP_LABELS.length - 1, step + 1))}
-            disabled={step === STEP_LABELS.length - 1}
-            className="bg-accent-blue text-white hover:bg-accent-blue/90"
-          >
-            Weiter <ChevronRight className="h-4 w-4 ml-1" />
-          </Button>
-        </div>
-      </div>
+            <div className="p-5 md:p-6">
+              {step === 0 && <StepPerson data={data} update={update} />}
+              {step === 1 && <StepAnschrift data={data} update={update} />}
+              {step === 2 && <StepRechtsform data={data} update={update} />}
+              {step === 3 && <StepTaetigkeit data={data} update={update} qualitaet={taetigkeitsQualitaet} />}
+              {step === 4 && <StepBranche data={data} update={update} />}
+              {step === 5 && <StepBeginn data={data} update={update} />}
+              {step === 6 && <StepBehoerden data={data} update={update} />}
+              {step === 7 && <StepZusammenfassung data={data} stepValid={stepValid} allValid={allValid} onGeneratePdf={generatePdf} />}
+            </div>
 
-      {/* === Cross-Links === */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-6">
-        <Link to="/cockpit/gewerbe-check" className="rounded-xl border border-border bg-card p-3 text-xs hover:border-accent-blue transition">
-          <div className="font-semibold mb-0.5">← Brauche ich Gewerbe? (Tool 1)</div>
-          <div className="text-muted-foreground">Vorab klären: ist überhaupt nötig?</div>
-        </Link>
-        <Link to="/cockpit/schwellen-check" className="rounded-xl border border-border bg-card p-3 text-xs hover:border-accent-blue transition">
-          <div className="font-semibold mb-0.5">KU-Schwellen (Tool 3) →</div>
-          <div className="text-muted-foreground">25k/100k Grenze 2025/2026</div>
-        </Link>
-      </div>
+            {/* === Navigation === */}
+            <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border/70 px-5 py-4 md:px-6">
+              <Button onClick={() => setStep(Math.max(0, step - 1))} variant="outline" disabled={step === 0}>
+                <ChevronLeft aria-hidden="true" /> Zurück
+              </Button>
+              <div className="order-3 -mb-1 flex w-full flex-wrap justify-center gap-1 border-t border-border/50 pt-2">
+                <Button onClick={saveLocal} variant="ghost" size="sm">
+                  <Save aria-hidden="true" /> Zwischenspeichern
+                </Button>
+                <Button onClick={reset} variant="ghost" size="sm" className="text-danger hover:text-danger">
+                  <RotateCcw aria-hidden="true" /> Neu beginnen
+                </Button>
+              </div>
+              <Button onClick={() => setStep(Math.min(STEP_LABELS.length - 1, step + 1))} disabled={step === STEP_LABELS.length - 1}>
+                Weiter <ChevronRight aria-hidden="true" />
+              </Button>
+            </div>
+          </section>
+        }
+        result={
+          <>
+            <ResultPanel
+              kicker="Dein Stand"
+              title={allValid ? "Bereit für das GewA1-PDF" : "Noch nicht vollständig"}
+              value={`${erledigt} von ${STEP_LABELS.length}`}
+              valueHint="Schritte vollständig ausgefüllt"
+            >
+              <ul className="divide-y divide-border/70">
+                {STEP_LABELS.map((label, i) => (
+                  <li key={label} className="flex items-center justify-between gap-3 py-2 text-sm">
+                    <span className={cn("flex min-w-0 items-center gap-2", i === step ? "font-medium text-foreground" : "text-foreground/80")}>
+                      <span className="w-4 shrink-0 text-xs text-muted-foreground tabular">{i + 1}</span>
+                      <span className="truncate">{label}</span>
+                    </span>
+                    {stepValid[i] ? (
+                      <CheckCircle2 className="h-4 w-4 shrink-0 text-success" aria-label="vollständig" />
+                    ) : (
+                      <CircleDashed className="h-4 w-4 shrink-0 text-muted-foreground" aria-label="offen" />
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </ResultPanel>
+
+            <div className="grid grid-cols-1 gap-3">
+              <Link
+                to="/cockpit/gewerbe-check"
+                className="group flex items-start gap-3 rounded-xl border border-border bg-card p-4 transition-colors hover:border-accent-blue/40"
+              >
+                <ArrowLeft className="mt-0.5 h-4 w-4 shrink-0 text-accent-blue" aria-hidden="true" />
+                <span>
+                  <span className="block text-sm font-semibold">Brauche ich ein Gewerbe?</span>
+                  <span className="block text-sm text-muted-foreground">Vorab klären, ob die Anmeldung überhaupt nötig ist.</span>
+                </span>
+              </Link>
+              <Link
+                to="/cockpit/schwellen-check"
+                className="group flex items-start gap-3 rounded-xl border border-border bg-card p-4 transition-colors hover:border-accent-blue/40"
+              >
+                <ArrowRight className="mt-0.5 h-4 w-4 shrink-0 text-accent-blue" aria-hidden="true" />
+                <span>
+                  <span className="block text-sm font-semibold">Kleinunternehmer-Schwellen</span>
+                  <span className="block text-sm text-muted-foreground">Grenzen 25.000 € und 100.000 € ab 2025/2026.</span>
+                </span>
+              </Link>
+            </div>
+          </>
+        }
+      />
 
       <Glossar />
       <Stand2026Footer
@@ -482,189 +571,235 @@ const GewerbeanmeldungWizard = () => {
 // ============================================================================
 type StepProps = { data: WizardData; update: <K extends keyof WizardData>(field: K, value: WizardData[K]) => void };
 
+const RECHTSFORM_LABEL: Record<Rechtsform, string> = {
+  einzel: "Einzelunternehmen",
+  gbr: "GbR",
+  ohg: "OHG",
+  kg: "KG",
+  ug: "UG (haftungsbeschränkt)",
+  gmbh: "GmbH",
+  ag: "AG",
+  eg: "eG",
+  andere: "Andere",
+};
+const ANMELDEGRUND_LABEL: Record<Anmeldegrund, string> = {
+  neugruendung: "Neugründung",
+  uebernahme: "Übernahme",
+  filiale: "Filiale / Zweigniederlassung",
+  wiederaufnahme: "Wiederaufnahme",
+  umzug: "Verlegung aus anderer Gemeinde",
+};
+
+const StepHead = ({ title, children }: { title: string; children?: React.ReactNode }) => (
+  <div className="mb-5">
+    <h2 className="text-lg font-semibold tracking-tight">{title}</h2>
+    {children && <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{children}</p>}
+  </div>
+);
+
+const Pflicht = () => <span className="text-muted-foreground" aria-hidden="true"> *</span>;
+
 const StepPerson = ({ data, update }: StepProps) => (
-  <div className="space-y-3">
-    <h3 className="font-bold text-sm">1. Persönliche Daten</h3>
-    <p className="text-xs text-muted-foreground mb-2">Wie sie im Personalausweis stehen. Wird vom Bürgeramt mit dem Ausweis abgeglichen.</p>
-    <div className="rounded-lg bg-blue-500/10 border border-blue-500/30 p-2 mb-3 text-[11px]">
-      💾 <strong>Einmal eingeben, immer nutzen:</strong> Vorname, Nachname, Geburtsdaten und Anschrift
-      werden lokal im Browser gespeichert — bei der nächsten Gewerbeanmeldung sind sie schon da.
-    </div>
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-      <div>
-        <Label className="text-xs">Vorname *</Label>
-        <Input value={data.vorname} onChange={(e) => update("vorname", e.target.value)} className="h-9 mt-1" autoComplete="given-name" />
-      </div>
-      <div>
-        <Label className="text-xs">Nachname *</Label>
-        <Input value={data.nachname} onChange={(e) => update("nachname", e.target.value)} className="h-9 mt-1" autoComplete="family-name" />
-      </div>
-      <div>
-        <Label className="text-xs">Geburtsname (falls abweichend)</Label>
-        <Input value={data.geburtsname} onChange={(e) => update("geburtsname", e.target.value)} className="h-9 mt-1" />
-      </div>
-      <div>
-        <Label className="text-xs">Geschlecht (GewA1)</Label>
+  <div>
+    <StepHead title="1. Persönliche Daten">Wie sie im Personalausweis stehen. Das Bürgeramt gleicht sie mit dem Ausweis ab.</StepHead>
+    <Callout tone="info" icon={HardDrive} className="mb-5">
+      <strong className="font-semibold text-foreground">Einmal eingeben, immer nutzen:</strong> Vorname, Nachname, Geburtsdaten
+      und Anschrift werden lokal im Browser gespeichert. Bei der nächsten Gewerbeanmeldung sind sie schon da.
+    </Callout>
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <Field label={<>Vorname<Pflicht /></>} htmlFor="gw-vorname">
+        <Input id="gw-vorname" value={data.vorname} onChange={(e) => update("vorname", e.target.value)} autoComplete="given-name" />
+      </Field>
+      <Field label={<>Nachname<Pflicht /></>} htmlFor="gw-nachname">
+        <Input id="gw-nachname" value={data.nachname} onChange={(e) => update("nachname", e.target.value)} autoComplete="family-name" />
+      </Field>
+      <Field label="Geburtsname" hint="Nur falls abweichend" htmlFor="gw-geburtsname">
+        <Input id="gw-geburtsname" value={data.geburtsname} onChange={(e) => update("geburtsname", e.target.value)} />
+      </Field>
+      <Field label="Geschlecht" hint="Wird im GewA1 abgefragt" htmlFor="gw-geschlecht">
         <select
+          id="gw-geschlecht"
           value={data.geschlecht}
           onChange={(e) => update("geschlecht", e.target.value as WizardData["geschlecht"])}
-          className="mt-1 h-9 w-full rounded-md border border-input bg-background px-2 text-sm"
+          className={selectCls}
         >
-          <option value="">— nicht angegeben —</option>
+          <option value="">nicht angegeben</option>
           <option value="maennlich">männlich</option>
           <option value="weiblich">weiblich</option>
         </select>
-      </div>
-      <div>
-        <Label className="text-xs">Geburtsdatum *</Label>
-        <Input type="date" value={data.geburtsdatum} onChange={(e) => update("geburtsdatum", e.target.value)} className="h-9 mt-1" />
-      </div>
-      <div>
-        <Label className="text-xs">Geburtsort *</Label>
-        <Input value={data.geburtsort} onChange={(e) => update("geburtsort", e.target.value)} className="h-9 mt-1" />
-      </div>
-      <div className="md:col-span-2">
-        <Label className="text-xs">Staatsangehörigkeit *</Label>
-        <Input value={data.staatsangehoerigkeit} onChange={(e) => update("staatsangehoerigkeit", e.target.value)} className="h-9 mt-1" />
-        <div className="text-[10px] text-muted-foreground mt-1">Bei nicht-EU-Bürgern: Aufenthaltstitel + Selbstständigkeits-Erlaubnis im Bürgeramt zeigen.</div>
-      </div>
+      </Field>
+      <Field label={<>Geburtsdatum<Pflicht /></>} htmlFor="gw-geburtsdatum">
+        <Input id="gw-geburtsdatum" type="date" value={data.geburtsdatum} onChange={(e) => update("geburtsdatum", e.target.value)} />
+      </Field>
+      <Field label={<>Geburtsort<Pflicht /></>} htmlFor="gw-geburtsort">
+        <Input id="gw-geburtsort" value={data.geburtsort} onChange={(e) => update("geburtsort", e.target.value)} />
+      </Field>
+      <Field
+        className="md:col-span-2"
+        label={<>Staatsangehörigkeit<Pflicht /></>}
+        hint="Bei Nicht-EU-Bürgern: Aufenthaltstitel und Erlaubnis zur Selbstständigkeit im Bürgeramt vorlegen."
+        htmlFor="gw-staat"
+      >
+        <Input id="gw-staat" value={data.staatsangehoerigkeit} onChange={(e) => update("staatsangehoerigkeit", e.target.value)} />
+      </Field>
     </div>
+    <p className="mt-5 text-xs text-muted-foreground">* Pflichtfeld</p>
   </div>
 );
 
 const StepAnschrift = ({ data, update }: StepProps) => (
-  <div className="space-y-3">
-    <h3 className="font-bold text-sm">2. Anschrift + Kontakt</h3>
-    <p className="text-xs text-muted-foreground mb-3">Privatanschrift = Wohnsitz. Betriebsstätte = wo du arbeitest (kann gleich sein).</p>
-    <div className="rounded-lg bg-secondary/40 p-3 space-y-2">
-      <div className="text-xs font-semibold">Privatanschrift</div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-        <Input placeholder="Straße + Nr." value={data.privatStrasse} onChange={(e) => update("privatStrasse", e.target.value)} className="h-9" autoComplete="street-address" />
-        <Input placeholder="PLZ" value={data.privatPlz} onChange={(e) => update("privatPlz", e.target.value)} className="h-9" autoComplete="postal-code" />
-        <Input placeholder="Ort" value={data.privatOrt} onChange={(e) => update("privatOrt", e.target.value)} className="h-9" autoComplete="address-level2" />
+  <div>
+    <StepHead title="2. Anschrift und Kontakt">Privatanschrift ist dein Wohnsitz. Die Betriebsstätte ist der Ort, an dem du arbeitest (oft dieselbe Adresse).</StepHead>
+    <fieldset className="rounded-xl border border-border bg-secondary/30 p-4">
+      <legend className="px-1 text-sm font-semibold">Privatanschrift</legend>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-[minmax(0,2fr)_minmax(0,1fr)_minmax(0,1.4fr)]">
+        <Field label={<>Straße und Hausnummer<Pflicht /></>} htmlFor="gw-p-str">
+          <Input id="gw-p-str" placeholder="Straße + Nr." value={data.privatStrasse} onChange={(e) => update("privatStrasse", e.target.value)} autoComplete="street-address" />
+        </Field>
+        <Field label={<>PLZ<Pflicht /></>} htmlFor="gw-p-plz">
+          <Input id="gw-p-plz" placeholder="PLZ" inputMode="numeric" value={data.privatPlz} onChange={(e) => update("privatPlz", e.target.value)} autoComplete="postal-code" />
+        </Field>
+        <Field label={<>Ort<Pflicht /></>} htmlFor="gw-p-ort">
+          <Input id="gw-p-ort" placeholder="Ort" value={data.privatOrt} onChange={(e) => update("privatOrt", e.target.value)} autoComplete="address-level2" />
+        </Field>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-        <Input type="tel" placeholder="Telefon" value={data.telefon} onChange={(e) => update("telefon", e.target.value)} className="h-9" autoComplete="tel" />
-        <Input type="email" placeholder="E-Mail" value={data.email} onChange={(e) => update("email", e.target.value)} className="h-9" autoComplete="email" />
+      <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
+        <Field label="Telefon" htmlFor="gw-tel">
+          <Input id="gw-tel" type="tel" placeholder="Telefon" value={data.telefon} onChange={(e) => update("telefon", e.target.value)} autoComplete="tel" />
+        </Field>
+        <Field label="E-Mail" htmlFor="gw-mail">
+          <Input id="gw-mail" type="email" placeholder="E-Mail" value={data.email} onChange={(e) => update("email", e.target.value)} autoComplete="email" />
+        </Field>
       </div>
-    </div>
-    <label className="flex items-center gap-2 text-xs cursor-pointer">
-      <input type="checkbox" checked={data.betriebsstaetteAndere} onChange={(e) => update("betriebsstaetteAndere", e.target.checked)} className="h-4 w-4" />
-      <span>Betriebsstätte ist eine andere Adresse als die Privatanschrift</span>
+    </fieldset>
+
+    <label className="mt-4 flex cursor-pointer items-start gap-3 rounded-xl border border-border p-4 text-sm transition-colors hover:border-foreground/25 has-[:checked]:border-accent-blue/40 has-[:checked]:bg-accent">
+      <input
+        type="checkbox"
+        checked={data.betriebsstaetteAndere}
+        onChange={(e) => update("betriebsstaetteAndere", e.target.checked)}
+        className="mt-0.5 h-4 w-4 accent-[hsl(var(--primary))]"
+      />
+      <span>Die Betriebsstätte hat eine andere Adresse als die Privatanschrift</span>
     </label>
+
     {data.betriebsstaetteAndere && (
-      <div className="rounded-lg bg-secondary/40 p-3 space-y-2">
-        <div className="text-xs font-semibold">Betriebsstätte</div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-          <Input placeholder="Straße + Nr." value={data.betriebStrasse} onChange={(e) => update("betriebStrasse", e.target.value)} className="h-9" />
-          <Input placeholder="PLZ" value={data.betriebPlz} onChange={(e) => update("betriebPlz", e.target.value)} className="h-9" />
-          <Input placeholder="Ort" value={data.betriebOrt} onChange={(e) => update("betriebOrt", e.target.value)} className="h-9" />
+      <fieldset className="mt-4 rounded-xl border border-border bg-secondary/30 p-4">
+        <legend className="px-1 text-sm font-semibold">Betriebsstätte</legend>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-[minmax(0,2fr)_minmax(0,1fr)_minmax(0,1.4fr)]">
+          <Field label={<>Straße und Hausnummer<Pflicht /></>} htmlFor="gw-b-str">
+            <Input id="gw-b-str" placeholder="Straße + Nr." value={data.betriebStrasse} onChange={(e) => update("betriebStrasse", e.target.value)} />
+          </Field>
+          <Field label={<>PLZ<Pflicht /></>} htmlFor="gw-b-plz">
+            <Input id="gw-b-plz" placeholder="PLZ" inputMode="numeric" value={data.betriebPlz} onChange={(e) => update("betriebPlz", e.target.value)} />
+          </Field>
+          <Field label={<>Ort<Pflicht /></>} htmlFor="gw-b-ort">
+            <Input id="gw-b-ort" placeholder="Ort" value={data.betriebOrt} onChange={(e) => update("betriebOrt", e.target.value)} />
+          </Field>
         </div>
-        <div className="text-[10px] text-muted-foreground">Bei Co-Working/virtueller Adresse: muss eine GENUTZTE Räumlichkeit sein (FA prüft).</div>
-      </div>
+        <p className="mt-3 text-xs text-muted-foreground">
+          Bei Co-Working oder virtueller Adresse: Es muss eine tatsächlich genutzte Räumlichkeit sein, das Finanzamt prüft das.
+        </p>
+      </fieldset>
     )}
   </div>
 );
 
 const StepRechtsform = ({ data, update }: StepProps) => (
-  <div className="space-y-3">
-    <h3 className="font-bold text-sm">3. Rechtsform + Anmeldegrund</h3>
-    <p className="text-xs text-muted-foreground mb-3">90 % der Solo-Selbstständigen = Einzelunternehmen (keine Stammkapital, einfache Anmeldung).</p>
-    <div>
-      <Label className="text-xs">Rechtsform *</Label>
-      <select value={data.rechtsform} onChange={(e) => update("rechtsform", e.target.value as Rechtsform)} className="mt-1 h-10 w-full rounded-md border border-input bg-background px-3 text-sm">
-        <option value="einzel">Einzelunternehmen (Empfohlen für Solo)</option>
-        <option value="gbr">GbR (Gesellschaft bürgerlichen Rechts, 2+ Personen)</option>
-        <option value="ohg">OHG (Offene Handelsgesellschaft, ins Handelsregister)</option>
-        <option value="kg">KG (Kommanditgesellschaft)</option>
-        <option value="ug">UG (haftungsbeschränkt, Mini-GmbH, ab 1 € Stammkapital)</option>
-        <option value="gmbh">GmbH (25.000 € Stammkapital)</option>
-        <option value="ag">AG (Aktiengesellschaft, 50.000 € Grundkapital)</option>
-        <option value="eg">eG (Eingetragene Genossenschaft)</option>
-        <option value="andere">Andere</option>
-      </select>
-    </div>
-    <div>
-      <Label className="text-xs">Anmeldegrund *</Label>
-      <select value={data.anmeldegrund} onChange={(e) => update("anmeldegrund", e.target.value as Anmeldegrund)} className="mt-1 h-10 w-full rounded-md border border-input bg-background px-3 text-sm">
-        <option value="neugruendung">Neugründung</option>
-        <option value="uebernahme">Übernahme eines bestehenden Betriebs</option>
-        <option value="filiale">Filiale / Zweigniederlassung</option>
-        <option value="wiederaufnahme">Wiederaufnahme nach Pause</option>
-        <option value="umzug">Verlegung aus anderer Gemeinde</option>
-      </select>
-    </div>
-    <div>
-      <Label className="text-xs">Firmierung (optional, bei UG/GmbH Pflicht)</Label>
-      <Input value={data.firmierung} onChange={(e) => update("firmierung", e.target.value)} placeholder="z.B. 'Max Mustermann Beratung'" className="h-9 mt-1" />
-      <div className="text-[10px] text-muted-foreground mt-1">
-        Einzel: optional, aber sinnvoll. Format: Vor- und Nachname + ggf. Branche. UG/GmbH: muss Rechtsform enthalten.
-      </div>
+  <div>
+    <StepHead title="3. Rechtsform und Anmeldegrund">
+      Rund 90 % der Solo-Selbstständigen starten als Einzelunternehmen: kein Stammkapital, einfache Anmeldung.
+    </StepHead>
+    <div className="space-y-4">
+      <Field label={<>Rechtsform<Pflicht /></>} htmlFor="gw-rechtsform">
+        <select id="gw-rechtsform" value={data.rechtsform} onChange={(e) => update("rechtsform", e.target.value as Rechtsform)} className={selectCls}>
+          <option value="einzel">Einzelunternehmen (Empfohlen für Solo)</option>
+          <option value="gbr">GbR (Gesellschaft bürgerlichen Rechts, 2+ Personen)</option>
+          <option value="ohg">OHG (Offene Handelsgesellschaft, ins Handelsregister)</option>
+          <option value="kg">KG (Kommanditgesellschaft)</option>
+          <option value="ug">UG (haftungsbeschränkt, Mini-GmbH, ab 1 € Stammkapital)</option>
+          <option value="gmbh">GmbH (25.000 € Stammkapital)</option>
+          <option value="ag">AG (Aktiengesellschaft, 50.000 € Grundkapital)</option>
+          <option value="eg">eG (Eingetragene Genossenschaft)</option>
+          <option value="andere">Andere</option>
+        </select>
+      </Field>
+      <Field label={<>Anmeldegrund<Pflicht /></>} htmlFor="gw-grund">
+        <select id="gw-grund" value={data.anmeldegrund} onChange={(e) => update("anmeldegrund", e.target.value as Anmeldegrund)} className={selectCls}>
+          <option value="neugruendung">Neugründung</option>
+          <option value="uebernahme">Übernahme eines bestehenden Betriebs</option>
+          <option value="filiale">Filiale / Zweigniederlassung</option>
+          <option value="wiederaufnahme">Wiederaufnahme nach Pause</option>
+          <option value="umzug">Verlegung aus anderer Gemeinde</option>
+        </select>
+      </Field>
+      <Field
+        label="Firmierung"
+        htmlFor="gw-firma"
+        hint="Optional, bei UG und GmbH Pflicht. Einzelunternehmen: Vor- und Nachname, gern mit Branche. UG/GmbH: muss die Rechtsform enthalten."
+      >
+        <Input id="gw-firma" value={data.firmierung} onChange={(e) => update("firmierung", e.target.value)} placeholder="z.B. 'Max Mustermann Beratung'" />
+      </Field>
     </div>
   </div>
 );
 
+const QUALI_TONE: Record<string, Tone> = { gut: "success", ausreichend: "warning", unzureichend: "danger" };
+
 const StepTaetigkeit = ({ data, update, qualitaet }: StepProps & { qualitaet: { len: number; woerter: number; ok: boolean; issues: string[]; qualitaet: string } }) => (
-  <div className="space-y-3">
-    <h3 className="font-bold text-sm">4. Tätigkeitsbeschreibung</h3>
-    <p className="text-xs text-muted-foreground mb-3">
-      Wichtigstes Feld im GewA1. <strong>So genau wie möglich beschreiben</strong> — sonst fragt das FA nach.
-    </p>
+  <div>
+    <StepHead title="4. Tätigkeitsbeschreibung">
+      Das wichtigste Feld im GewA1. Beschreibe so genau wie möglich, was du wie und an wen verkaufst, sonst fragt das Finanzamt nach.
+    </StepHead>
 
     {/* Beispiele */}
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-      <div className="rounded-lg bg-red-500/5 border border-red-500/30 p-3 text-xs">
-        <div className="flex items-center gap-1 font-semibold text-red-700 mb-1">
-          <XCircle className="h-3 w-3" /> Schlecht
-        </div>
-        <ul className="text-muted-foreground space-y-1">
-          <li>• „Onlinehandel"</li>
-          <li>• „Beratung"</li>
-          <li>• „Dienstleistungen"</li>
-          <li>• „IT"</li>
+    <div className="mb-5 grid grid-cols-1 gap-3 md:grid-cols-2">
+      <div className="rounded-xl border border-danger/25 bg-danger-soft p-4 text-sm">
+        <p className="flex items-center gap-1.5 font-semibold text-danger">
+          <XCircle className="h-4 w-4" aria-hidden="true" /> Zu ungenau
+        </p>
+        <ul className="mt-2 space-y-1 text-foreground/80">
+          <li>„Onlinehandel"</li>
+          <li>„Beratung"</li>
+          <li>„Dienstleistungen"</li>
+          <li>„IT"</li>
         </ul>
       </div>
-      <div className="rounded-lg bg-emerald-500/5 border border-emerald-500/30 p-3 text-xs">
-        <div className="flex items-center gap-1 font-semibold text-emerald-700 mb-1">
-          <CheckCircle2 className="h-3 w-3" /> Gut
-        </div>
-        <ul className="text-muted-foreground space-y-1">
-          <li>• „Onlinehandel mit Sportbekleidung, Sportzubehör und Nahrungsergänzungsmitteln über eigenen Shop und Amazon Marketplace"</li>
-          <li>• „Unternehmensberatung im Bereich Online-Marketing für KMU"</li>
-          <li>• „Erstellung von Web-Anwendungen und Mobile-Apps für gewerbliche Kunden"</li>
+      <div className="rounded-xl border border-success/25 bg-success-soft p-4 text-sm">
+        <p className="flex items-center gap-1.5 font-semibold text-success">
+          <CheckCircle2 className="h-4 w-4" aria-hidden="true" /> So passt es
+        </p>
+        <ul className="mt-2 space-y-1.5 text-foreground/80">
+          <li>„Onlinehandel mit Sportbekleidung, Sportzubehör und Nahrungsergänzungsmitteln über eigenen Shop und Amazon Marketplace"</li>
+          <li>„Unternehmensberatung im Bereich Online-Marketing für KMU"</li>
+          <li>„Erstellung von Web-Anwendungen und Mobile-Apps für gewerbliche Kunden"</li>
         </ul>
       </div>
     </div>
 
-    <div>
-      <Label className="text-xs">Beschreibung *</Label>
+    <Field label={<>Beschreibung<Pflicht /></>} htmlFor="gw-taetigkeit">
       <textarea
+        id="gw-taetigkeit"
         value={data.taetigkeit}
         onChange={(e) => update("taetigkeit", e.target.value)}
         rows={4}
-        className="mt-1 w-full rounded-md border border-input bg-background p-2 text-sm"
+        className="w-full rounded-md border border-input bg-card px-3 py-2 text-sm shadow-[0_1px_2px_hsl(var(--primary)/0.04)] transition-[border-color,box-shadow] focus:border-ring focus:outline-none focus:ring-[3px] focus:ring-ring/25"
         placeholder="z.B. Onlinehandel mit Naturkosmetik, Hautpflegeprodukten und ergänzenden Wellness-Artikeln über eigenen Webshop und Marktplätze (Amazon, Etsy)"
       />
-      <div className="flex items-center justify-between text-[11px] mt-1">
-        <span className={`font-semibold ${
-          qualitaet.qualitaet === "gut" ? "text-emerald-700"
-          : qualitaet.qualitaet === "ausreichend" ? "text-amber-700"
-          : "text-red-700"
-        }`}>
-          Qualität: {qualitaet.qualitaet.toUpperCase()}
-        </span>
-        <span className="text-muted-foreground">{qualitaet.len} Zeichen · {qualitaet.woerter} Wörter</span>
-      </div>
-      {qualitaet.issues.length > 0 && (
-        <ul className="mt-2 space-y-1">
-          {qualitaet.issues.map((i) => (
-            <li key={i} className="flex items-start gap-1 text-[11px] text-amber-700">
-              <AlertCircle className="h-3 w-3 mt-0.5 shrink-0" /> <span>{i}</span>
-            </li>
-          ))}
-        </ul>
-      )}
+    </Field>
+    <div className="mt-2 flex flex-wrap items-center justify-between gap-2">
+      <ToneBadge tone={QUALI_TONE[qualitaet.qualitaet] ?? "neutral"}>Qualität: {qualitaet.qualitaet.toUpperCase()}</ToneBadge>
+      <span className="text-xs text-muted-foreground tabular">{qualitaet.len} Zeichen · {qualitaet.woerter} Wörter</span>
     </div>
+    {qualitaet.issues.length > 0 && (
+      <ul className="mt-3 space-y-1.5 rounded-xl border border-warning/25 bg-warning-soft p-4">
+        {qualitaet.issues.map((i) => (
+          <li key={i} className="flex items-start gap-2 text-sm text-foreground/85">
+            <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-warning" aria-hidden="true" /> <span>{i}</span>
+          </li>
+        ))}
+      </ul>
+    )}
   </div>
 );
 
@@ -686,112 +821,136 @@ const StepBranche = ({ data, update }: StepProps) => {
   const aktuell = WZ_2008.find((w) => w.code === data.wzCode);
 
   return (
-    <div className="space-y-3">
-      <h3 className="font-bold text-sm">5. Branchenschlüssel WZ 2008</h3>
-      <p className="text-xs text-muted-foreground mb-3">
-        5-stellige WZ-2008-Klassifikation. Beste-Schätzung reicht — FA kann später korrigieren.
-        Hier eine Auswahl der häufigsten für Solo-Selbstständige.
-      </p>
+    <div>
+      <StepHead title="5. Branchenschlüssel WZ 2008">
+        Die 5-stellige WZ-2008-Klassifikation. Eine gute Schätzung reicht, das Finanzamt kann später korrigieren. Hier steht eine
+        Auswahl der häufigsten Schlüssel für Solo-Selbstständige.
+      </StepHead>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
         <div className="relative">
-          <Search className="h-4 w-4 absolute left-2 top-3 text-muted-foreground" />
-          <Input placeholder="Suche (z.B. 'Versandhandel', 'Programmierung', '70.22')" value={suche} onChange={(e) => setSuche(e.target.value)} className="h-9 pl-8" />
+          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
+          <Input
+            aria-label="WZ-Schlüssel suchen"
+            placeholder="Suche (z.B. 'Versandhandel', 'Programmierung', '70.22')"
+            value={suche}
+            onChange={(e) => setSuche(e.target.value)}
+            className="pl-9"
+          />
         </div>
-        <select value={gruppe} onChange={(e) => setGruppe(e.target.value as WzGruppe | "alle")} className="h-9 rounded-md border border-input bg-background px-3 text-sm">
+        <select aria-label="Gruppe" value={gruppe} onChange={(e) => setGruppe(e.target.value as WzGruppe | "alle")} className={selectCls}>
           <option value="alle">Alle Gruppen</option>
           {WZ_GRUPPEN.map((g) => <option key={g} value={g}>{g}</option>)}
         </select>
       </div>
 
       {aktuell && (
-        <div className="rounded-lg bg-emerald-500/10 border border-emerald-500/40 p-3 text-xs">
-          <div className="font-semibold text-emerald-700">✅ Ausgewählt: {aktuell.code} — {aktuell.label}</div>
-          <div className="text-muted-foreground mt-1">Beispiele: {aktuell.beispiele.join(" · ")}</div>
+        <div className="mt-4 rounded-xl border border-success/25 bg-success-soft p-4 text-sm">
+          <p className="flex items-start gap-2 font-semibold">
+            <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-success" aria-hidden="true" />
+            <span>Ausgewählt: <span className="font-mono tabular">{aktuell.code}</span>, {aktuell.label}</span>
+          </p>
+          <p className="mt-1 pl-6 text-muted-foreground">Beispiele: {aktuell.beispiele.join(" · ")}</p>
         </div>
       )}
 
-      <div className="max-h-80 overflow-y-auto rounded-lg border border-border bg-card divide-y divide-border">
-        {gefiltert.map((w) => (
-          <button
-            key={w.code}
-            onClick={() => update("wzCode", w.code)}
-            className={`w-full text-left p-2 text-xs hover:bg-secondary/50 transition ${data.wzCode === w.code ? "bg-emerald-500/10" : ""}`}
-          >
-            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 sm:gap-2">
-              <div className="min-w-0">
-                <span className="font-mono font-semibold text-accent-blue">{w.code}</span>
-                <span className="ml-2 font-medium">{w.label}</span>
-              </div>
-              <span className="text-[10px] text-muted-foreground shrink-0">{w.gruppe}</span>
-            </div>
-            <div className="text-[10px] text-muted-foreground mt-0.5">{w.beispiele.join(" · ")}</div>
-          </button>
-        ))}
+      <p className="mt-4 mb-2 text-xs text-muted-foreground tabular">{gefiltert.length} Einträge</p>
+      <div className="max-h-96 divide-y divide-border/70 overflow-y-auto rounded-xl border border-border bg-card">
+        {gefiltert.map((w) => {
+          const aktiv = data.wzCode === w.code;
+          return (
+            <button
+              key={w.code}
+              type="button"
+              aria-pressed={aktiv}
+              onClick={() => update("wzCode", w.code)}
+              className={cn(
+                "w-full px-4 py-3 text-left text-sm transition-colors hover:bg-secondary/50",
+                aktiv && "bg-success-soft hover:bg-success-soft",
+              )}
+            >
+              <span className="flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between sm:gap-3">
+                <span className="min-w-0">
+                  <span className="font-mono font-semibold text-accent-blue tabular">{w.code}</span>
+                  <span className="ml-2 font-medium">{w.label}</span>
+                </span>
+                <span className="shrink-0 text-xs text-muted-foreground">{w.gruppe}</span>
+              </span>
+              <span className="mt-0.5 block text-xs text-muted-foreground">{w.beispiele.join(" · ")}</span>
+            </button>
+          );
+        })}
         {gefiltert.length === 0 && (
-          <div className="p-4 text-xs text-muted-foreground text-center">
-            Keine Treffer. Versuche einen anderen Suchbegriff oder wähle "Alle Gruppen".
-          </div>
+          <EmptyState
+            icon={Search}
+            className="m-3 border-0 bg-transparent py-8"
+            title="Keine Treffer"
+            description="Versuche einen anderen Suchbegriff oder wähle „Alle Gruppen“."
+          />
         )}
       </div>
     </div>
   );
 };
 
+const KU_OPTIONEN: { v: KuStatus; titel: string; text: string }[] = [
+  { v: "ja", titel: "Ja, § 19 KU nutzen", text: "Empfohlen bei B2C (Endverbraucher), niedrigem Anschaffungs-Aufwand und Umsatz unter Grenze." },
+  { v: "nein", titel: "Nein, Regelbesteuerung", text: "Empfohlen bei B2B-Geschäft (Kunden brauchen USt-Beleg) oder hohem Vorsteuer-Volumen." },
+  { v: "unsicher", titel: "Noch unsicher", text: "Im FsE (Fragebogen zur steuerlichen Erfassung) entscheiden, der kommt etwa 4 Wochen nach der Anmeldung." },
+];
+
 const StepBeginn = ({ data, update }: StepProps) => (
-  <div className="space-y-3">
-    <h3 className="font-bold text-sm">6. Beginn der Tätigkeit + § 19 UStG</h3>
-    <p className="text-xs text-muted-foreground mb-3">Datum darf in der Vergangenheit liegen (rückwirkende Anmeldung möglich, FA prüft).</p>
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-      <div>
-        <Label className="text-xs">Beginn der Tätigkeit *</Label>
-        <Input type="date" value={data.beginnDatum} onChange={(e) => update("beginnDatum", e.target.value)} className="h-9 mt-1" />
-      </div>
-      <div>
-        <Label className="text-xs">Anzahl Mitarbeiter (ohne dich)</Label>
-        <NumberField value={data.mitarbeiterZahl} onChange={(n) => update("mitarbeiterZahl", n)} min={0} className="h-9 mt-1" />
-      </div>
+  <div>
+    <StepHead title="6. Beginn der Tätigkeit und § 19 UStG">
+      Das Datum darf in der Vergangenheit liegen (rückwirkende Anmeldung ist möglich, das Finanzamt prüft).
+    </StepHead>
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <Field label={<>Beginn der Tätigkeit<Pflicht /></>} htmlFor="gw-beginn">
+        <Input id="gw-beginn" type="date" value={data.beginnDatum} onChange={(e) => update("beginnDatum", e.target.value)} />
+      </Field>
+      <Field label="Anzahl Mitarbeitende" hint="Ohne dich selbst">
+        <NumberField value={data.mitarbeiterZahl} onChange={(n) => update("mitarbeiterZahl", n)} min={0} aria-label="Anzahl Mitarbeitende" />
+      </Field>
     </div>
 
-    <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-4">
-      <h4 className="font-bold text-sm mb-2">§ 19 UStG Kleinunternehmer — Entscheidung</h4>
-      <p className="text-xs text-muted-foreground mb-3">
-        Wenn dein Umsatz im 1. Jahr <strong>{"<"} 25.000 €</strong> bleibt (und prognostiziert {"<"} 100.000 € im Folgejahr): KU-Option.
-        Vorteil: keine USt-Ausweisung, keine USt-VA. Nachteil: kein Vorsteuer-Abzug (Anschaffungen ohne USt-Erstattung). 5 Jahre Bindung.
+    <div className="mt-6 rounded-xl border border-accent-blue/20 bg-accent/60 p-4 md:p-5">
+      <h3 className="text-base font-semibold">§ 19 UStG Kleinunternehmer: deine Entscheidung</h3>
+      <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+        Bleibt dein Umsatz im ersten Jahr <strong className="font-medium text-foreground">unter 25.000 €</strong> (und voraussichtlich unter
+        100.000 € im Folgejahr), kannst du die Kleinunternehmerregelung nutzen. Vorteil: keine USt auf Rechnungen, keine
+        USt-Voranmeldung. Nachteil: kein Vorsteuerabzug. Bindung: 5 Jahre.
       </p>
-      <div className="space-y-2">
-        <Label className="text-xs">Möchtest du § 19 UStG nutzen? *</Label>
-        {(["ja", "nein", "unsicher"] as KuStatus[]).map((opt) => (
-          <label key={opt} className="flex items-start gap-2 text-xs cursor-pointer rounded-lg border border-border p-2 hover:border-accent-blue">
-            <input
-              type="radio"
-              name="kuStatus"
-              checked={data.kuStatus === opt}
-              onChange={() => update("kuStatus", opt)}
-              className="h-4 w-4 mt-0.5"
-            />
-            <div>
-              <strong>
-                {opt === "ja" ? "Ja, § 19 KU nutzen" : opt === "nein" ? "Nein, Regelbesteuerung" : "Noch unsicher"}
-              </strong>
-              <div className="text-muted-foreground">
-                {opt === "ja" ? "Empfohlen bei B2C (Endverbraucher), niedrigem Anschaffungs-Aufwand und Umsatz unter Grenze."
-                  : opt === "nein" ? "Empfohlen bei B2B-Geschäft (Kunden brauchen USt-Beleg) oder hohem Vorsteuer-Volumen."
-                  : "Im FsE (Fragebogen zur steuerlichen Erfassung) entscheiden — kommt 4 Wochen nach Anmeldung."}
-              </div>
-            </div>
-          </label>
-        ))}
-      </div>
-      <div className="mt-3">
-        <Label className="text-xs">Voraussichtlicher Jahres-Umsatz (€)</Label>
-        <NumberField value={data.voraussichtlicherUmsatz} onChange={(n) => update("voraussichtlicherUmsatz", n)} min={0} className="h-9 mt-1" />
-        {data.voraussichtlicherUmsatz > 25000 && data.kuStatus === "ja" && (
-          <div className="text-[11px] text-amber-700 mt-1 flex items-center gap-1">
-            <AlertCircle className="h-3 w-3" /> ⚠ Bei {">"} 25k € Umsatz funktioniert KU nicht. Wähle "Nein" oder reduziere Prognose.
-          </div>
-        )}
-      </div>
+      <fieldset className="mt-4">
+        <legend className="mb-2 text-sm font-medium">Möchtest du § 19 UStG nutzen?<Pflicht /></legend>
+        <div className="grid grid-cols-1 gap-2">
+          {KU_OPTIONEN.map((opt) => (
+            <label
+              key={opt.v}
+              className="flex cursor-pointer items-start gap-3 rounded-xl border border-border bg-card p-3.5 text-sm transition-colors hover:border-foreground/25 has-[:checked]:border-primary has-[:checked]:ring-1 has-[:checked]:ring-primary"
+            >
+              <input
+                type="radio"
+                name="kuStatus"
+                checked={data.kuStatus === opt.v}
+                onChange={() => update("kuStatus", opt.v)}
+                className="mt-0.5 h-4 w-4 accent-[hsl(var(--primary))]"
+              />
+              <span>
+                <span className="block font-medium">{opt.titel}</span>
+                <span className="mt-0.5 block text-muted-foreground">{opt.text}</span>
+              </span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
+      <Field className="mt-4" label="Voraussichtlicher Jahresumsatz (€)">
+        <NumberField value={data.voraussichtlicherUmsatz} onChange={(n) => update("voraussichtlicherUmsatz", n)} min={0} aria-label="Voraussichtlicher Jahresumsatz in Euro" />
+      </Field>
+      {data.voraussichtlicherUmsatz > 25000 && data.kuStatus === "ja" && (
+        <Callout tone="warning" className="mt-3">
+          Bei über 25.000 € Umsatz funktioniert KU nicht. Wähle „Nein“ oder prüfe deine Prognose.
+        </Callout>
+      )}
     </div>
   </div>
 );
@@ -799,73 +958,72 @@ const StepBeginn = ({ data, update }: StepProps) => (
 const StepBehoerden = ({ data, update }: StepProps) => {
   const istDeutsch = data.staatsangehoerigkeit.trim().toLowerCase() === "deutsch";
   return (
-    <div className="space-y-3">
-      <h3 className="font-bold text-sm">7. Erlaubnisse + Behörden-Status (Felder 28–31)</h3>
-      <p className="text-xs text-muted-foreground mb-3">
-        Alle Felder optional — nur ausfüllen falls zutreffend. Betrifft erlaubnispflichtige
-        Tätigkeiten (Gaststätte, Bewachung, Makler, Versicherungsvermittler etc.),
-        Handwerksbetriebe und Nicht-EU-Bürger.
-      </p>
+    <div>
+      <StepHead title="7. Erlaubnisse und Behörden-Status (Felder 28 bis 31)">
+        Alle Felder sind optional, nur ausfüllen, wenn sie zutreffen. Betrifft erlaubnispflichtige Tätigkeiten (Gaststätte, Bewachung,
+        Makler, Versicherungsvermittlung usw.), Handwerksbetriebe und Nicht-EU-Bürger.
+      </StepHead>
 
-      {/* Feld 28: Erlaubnis */}
-      <ErlaubnisBlock
-        nr={28}
-        title="Liegt eine Erlaubnis vor?"
-        hint="Nur falls deine Tätigkeit erlaubnispflichtig ist (z.B. GastG, BewachV, Makler §34c GewO)."
-        status={data.erlaubnisStatus}
-        onStatus={(s) => update("erlaubnisStatus", s)}
-        details={data.erlaubnisDetails}
-        onDetails={(v) => update("erlaubnisDetails", v)}
-        detailsPlaceholder="Wenn ja: Ausstellungsdatum und erteilende Behörde"
-      />
+      <div className="space-y-3">
+        {/* Feld 28: Erlaubnis */}
+        <ErlaubnisBlock
+          nr={28}
+          title="Liegt eine Erlaubnis vor?"
+          hint="Nur falls deine Tätigkeit erlaubnispflichtig ist (z.B. GastG, BewachV, Makler §34c GewO)."
+          status={data.erlaubnisStatus}
+          onStatus={(s) => update("erlaubnisStatus", s)}
+          details={data.erlaubnisDetails}
+          onDetails={(v) => update("erlaubnisDetails", v)}
+          detailsPlaceholder="Wenn ja: Ausstellungsdatum und erteilende Behörde"
+        />
 
-      {/* Feld 29: Handwerkskarte */}
-      <ErlaubnisBlock
-        nr={29}
-        title="(Nur für Handwerksbetriebe) Liegt eine Handwerkskarte vor?"
-        hint="Nur relevant für zulassungspflichtige Handwerksberufe (Anlage A HwO, z.B. Maurer, Elektriker, Friseur)."
-        status={data.handwerkskarteStatus}
-        onStatus={(s) => update("handwerkskarteStatus", s)}
-        details={data.handwerkskarteDetails}
-        onDetails={(v) => update("handwerkskarteDetails", v)}
-        detailsPlaceholder="Wenn ja: Ausstellungsdatum und Name der Handwerkskammer"
-      />
+        {/* Feld 29: Handwerkskarte */}
+        <ErlaubnisBlock
+          nr={29}
+          title="Liegt eine Handwerkskarte vor? (nur Handwerksbetriebe)"
+          hint="Nur relevant für zulassungspflichtige Handwerksberufe (Anlage A HwO, z.B. Maurer, Elektriker, Friseur)."
+          status={data.handwerkskarteStatus}
+          onStatus={(s) => update("handwerkskarteStatus", s)}
+          details={data.handwerkskarteDetails}
+          onDetails={(v) => update("handwerkskarteDetails", v)}
+          detailsPlaceholder="Wenn ja: Ausstellungsdatum und Name der Handwerkskammer"
+        />
 
-      {/* Feld 30: Aufenthaltsgenehmigung — nur für Nicht-Deutsche */}
-      {!istDeutsch && data.staatsangehoerigkeit !== "" && (
-        <>
-          <ErlaubnisBlock
-            nr={30}
-            title="Liegt eine Aufenthaltsgenehmigung vor?"
-            hint="Pflichtfeld für Nicht-EU-Bürger. EU/EWR-Bürger: nicht erforderlich."
-            status={data.aufenthaltStatus}
-            onStatus={(s) => update("aufenthaltStatus", s)}
-            details={data.aufenthaltDetails}
-            onDetails={(v) => update("aufenthaltDetails", v)}
-            detailsPlaceholder="Wenn ja: Ausstellungsdatum und erteilende Behörde"
-          />
-
-          {/* Feld 31: Auflagen — nur wenn 30 = ja */}
-          {data.aufenthaltStatus === "ja" && (
+        {/* Feld 30: Aufenthaltsgenehmigung, nur für Nicht-Deutsche */}
+        {!istDeutsch && data.staatsangehoerigkeit !== "" && (
+          <>
             <ErlaubnisBlock
-              nr={31}
-              title="Enthält die Aufenthaltsgenehmigung Auflagen oder Beschränkungen?"
-              hint="z.B. eingeschränkte Erwerbserlaubnis, Sperrfristen, regionale Beschränkungen."
-              status={data.aufenthaltAuflagenStatus}
-              onStatus={(s) => update("aufenthaltAuflagenStatus", s)}
-              details={data.aufenthaltAuflagenDetails}
-              onDetails={(v) => update("aufenthaltAuflagenDetails", v)}
-              detailsPlaceholder="Wenn ja: welche Auflagen / Beschränkungen"
+              nr={30}
+              title="Liegt eine Aufenthaltsgenehmigung vor?"
+              hint="Pflichtfeld für Nicht-EU-Bürger. EU/EWR-Bürger: nicht erforderlich."
+              status={data.aufenthaltStatus}
+              onStatus={(s) => update("aufenthaltStatus", s)}
+              details={data.aufenthaltDetails}
+              onDetails={(v) => update("aufenthaltDetails", v)}
+              detailsPlaceholder="Wenn ja: Ausstellungsdatum und erteilende Behörde"
             />
-          )}
-        </>
-      )}
+
+            {/* Feld 31: Auflagen, nur wenn 30 = ja */}
+            {data.aufenthaltStatus === "ja" && (
+              <ErlaubnisBlock
+                nr={31}
+                title="Enthält die Aufenthaltsgenehmigung Auflagen oder Beschränkungen?"
+                hint="z.B. eingeschränkte Erwerbserlaubnis, Sperrfristen, regionale Beschränkungen."
+                status={data.aufenthaltAuflagenStatus}
+                onStatus={(s) => update("aufenthaltAuflagenStatus", s)}
+                details={data.aufenthaltAuflagenDetails}
+                onDetails={(v) => update("aufenthaltAuflagenDetails", v)}
+                detailsPlaceholder="Wenn ja: welche Auflagen / Beschränkungen"
+              />
+            )}
+          </>
+        )}
+      </div>
 
       {istDeutsch && (
-        <div className="text-[11px] text-muted-foreground italic">
-          Felder 30 + 31 (Aufenthaltsgenehmigung) entfallen — als deutsche:r
-          Staatsangehörige:r nicht erforderlich.
-        </div>
+        <p className="mt-4 text-sm text-muted-foreground">
+          Die Felder 30 und 31 (Aufenthaltsgenehmigung) entfallen, für deutsche Staatsangehörige sind sie nicht erforderlich.
+        </p>
       )}
     </div>
   );
@@ -883,189 +1041,188 @@ const ErlaubnisBlock = ({
   onDetails: (v: string) => void;
   detailsPlaceholder: string;
 }) => (
-  <div className="rounded-lg border border-border bg-card p-3 space-y-2">
-    <div className="flex items-start gap-2">
-      <span className="text-[10px] font-mono text-muted-foreground pt-0.5">{nr}</span>
-      <div className="flex-1">
-        <div className="text-xs font-semibold">{title}</div>
-        <div className="text-[10px] text-muted-foreground mt-0.5">{hint}</div>
+  <fieldset className="rounded-xl border border-border bg-card p-4">
+    <legend className="sr-only">Feld {nr}: {title}</legend>
+    <div className="flex items-start gap-3">
+      <span className="flex h-6 min-w-6 shrink-0 items-center justify-center rounded-md bg-secondary px-1.5 text-xs font-semibold text-muted-foreground tabular">
+        {nr}
+      </span>
+      <div className="min-w-0 flex-1">
+        <p className="text-sm font-semibold">{title}</p>
+        <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground">{hint}</p>
+        <div className="mt-3 flex flex-wrap gap-1.5">
+          {([["ja", "ja"], ["nein", "nein"], ["", "nicht angegeben"]] as const).map(([v, l]) => (
+            <label
+              key={l}
+              className="flex cursor-pointer items-center gap-2 rounded-lg border border-border px-3 py-1.5 text-sm transition-colors hover:border-foreground/25 has-[:checked]:border-primary has-[:checked]:bg-primary has-[:checked]:text-primary-foreground"
+            >
+              <input type="radio" name={`erlaubnis-${nr}`} checked={status === v} onChange={() => onStatus(v)} className="sr-only" />
+              <span>{l}</span>
+            </label>
+          ))}
+        </div>
+        {status === "ja" && (
+          <Input
+            value={details}
+            onChange={(e) => onDetails(e.target.value)}
+            placeholder={detailsPlaceholder}
+            aria-label={detailsPlaceholder}
+            className="mt-3"
+          />
+        )}
       </div>
     </div>
-    <div className="flex gap-2">
-      <label className="flex items-center gap-1.5 text-xs cursor-pointer">
-        <input type="radio" name={`erlaubnis-${nr}`} checked={status === "ja"} onChange={() => onStatus("ja")} className="h-4 w-4" />
-        <span>ja</span>
-      </label>
-      <label className="flex items-center gap-1.5 text-xs cursor-pointer">
-        <input type="radio" name={`erlaubnis-${nr}`} checked={status === "nein"} onChange={() => onStatus("nein")} className="h-4 w-4" />
-        <span>nein</span>
-      </label>
-      <label className="flex items-center gap-1.5 text-xs cursor-pointer text-muted-foreground">
-        <input type="radio" name={`erlaubnis-${nr}`} checked={status === ""} onChange={() => onStatus("")} className="h-4 w-4" />
-        <span>nicht angegeben</span>
-      </label>
-    </div>
-    {status === "ja" && (
-      <Input
-        value={details}
-        onChange={(e) => onDetails(e.target.value)}
-        placeholder={detailsPlaceholder}
-        className="h-9 text-xs"
-      />
-    )}
-  </div>
+  </fieldset>
 );
 
 const StepZusammenfassung = ({ data, stepValid, allValid, onGeneratePdf }: { data: WizardData; stepValid: boolean[]; allValid: boolean; onGeneratePdf: () => void }) => {
   const wzEntry = WZ_2008.find((w) => w.code === data.wzCode);
 
   return (
-    <div className="space-y-3">
-      <h3 className="font-bold text-sm">7. Zusammenfassung & PDF</h3>
+    <div className="space-y-5">
+      <StepHead title="8. Zusammenfassung und PDF">Prüfe deine Angaben. Mit dem Knopf unten füllst du das amtliche GewA1 aus.</StepHead>
 
       {!allValid && (
-        <div className="rounded-lg bg-amber-500/10 border border-amber-500/40 p-3 text-xs">
-          ⚠ Es fehlen noch Eingaben in einigen Steps. Bitte vervollständige sie zuerst.
-          <ul className="mt-1 list-disc list-inside">
+        <Callout tone="warning" title="Es fehlen noch Eingaben in einigen Steps.">
+          Bitte vervollständige sie zuerst:
+          <ul className="mt-1.5 list-inside list-disc">
             {stepValid.map((v, i) => !v && <li key={i}>Step {i + 1}: {STEP_LABELS[i]}</li>)}
           </ul>
-        </div>
+        </Callout>
       )}
 
-      <div className="rounded-lg bg-card border border-border p-4 text-xs space-y-3">
+      <div className="grid grid-cols-1 gap-3">
         <SummaryGroup title="1. Person">
-          <SummaryRow label="Name" value={`${data.vorname} ${data.nachname}`} />
-          <SummaryRow label="Geburt" value={`${data.geburtsdatum} in ${data.geburtsort}`} />
+          <SummaryRow label="Name" value={`${data.vorname} ${data.nachname}`.trim()} />
+          <SummaryRow label="Geburt" value={data.geburtsdatum || data.geburtsort ? `${data.geburtsdatum} in ${data.geburtsort}` : ""} />
           <SummaryRow label="Staatsangehörigkeit" value={data.staatsangehoerigkeit} />
         </SummaryGroup>
         <SummaryGroup title="2. Anschrift">
-          <SummaryRow label="Privat" value={`${data.privatStrasse}, ${data.privatPlz} ${data.privatOrt}`} />
+          <SummaryRow label="Privat" value={data.privatStrasse || data.privatOrt ? `${data.privatStrasse}, ${data.privatPlz} ${data.privatOrt}` : ""} />
           <SummaryRow label="Betrieb" value={data.betriebsstaetteAndere ? `${data.betriebStrasse}, ${data.betriebPlz} ${data.betriebOrt}` : "wie Privat"} />
         </SummaryGroup>
         <SummaryGroup title="3. Rechtsform">
-          <SummaryRow label="Form" value={data.rechtsform} />
-          <SummaryRow label="Grund" value={data.anmeldegrund} />
+          <SummaryRow label="Form" value={RECHTSFORM_LABEL[data.rechtsform] ?? data.rechtsform} />
+          <SummaryRow label="Grund" value={ANMELDEGRUND_LABEL[data.anmeldegrund] ?? data.anmeldegrund} />
           {data.firmierung && <SummaryRow label="Firmierung" value={data.firmierung} />}
         </SummaryGroup>
         <SummaryGroup title="4. Tätigkeit">
-          <div className="text-xs italic bg-secondary/40 p-2 rounded">"{data.taetigkeit}"</div>
+          {data.taetigkeit ? (
+            <p className="text-sm leading-relaxed text-foreground/85">„{data.taetigkeit}“</p>
+          ) : (
+            <p className="text-sm text-muted-foreground">Noch keine Beschreibung</p>
+          )}
         </SummaryGroup>
         <SummaryGroup title="5. WZ 2008">
-          <SummaryRow label="Code" value={`${data.wzCode}${wzEntry ? ` — ${wzEntry.label}` : ""}`} />
+          <SummaryRow label="Code" value={`${data.wzCode}${wzEntry ? `, ${wzEntry.label}` : ""}`} />
         </SummaryGroup>
-        <SummaryGroup title="6. Beginn + § 19">
+        <SummaryGroup title="6. Beginn und § 19">
           <SummaryRow label="Beginn" value={data.beginnDatum} />
-          <SummaryRow label="Mitarbeiter" value={String(data.mitarbeiterZahl)} />
+          <SummaryRow label="Mitarbeitende" value={String(data.mitarbeiterZahl)} />
           <SummaryRow label="§ 19 UStG" value={data.kuStatus === "ja" ? "Ja, KU nutzen" : data.kuStatus === "nein" ? "Nein, Regelbesteuerung" : "Noch unsicher (im FsE entscheiden)"} />
           <SummaryRow label="Prognose Umsatz" value={`${data.voraussichtlicherUmsatz.toLocaleString("de-DE")} €`} />
         </SummaryGroup>
       </div>
 
-      <div className="flex flex-wrap gap-2">
-        <Button onClick={onGeneratePdf} disabled={!allValid} className="bg-emerald-700 hover:bg-emerald-800 text-white">
-          <FileDown className="h-4 w-4 mr-2" /> Offizielles GewA1-PDF herunterladen
+      <div>
+        <Button onClick={onGeneratePdf} disabled={!allValid} size="lg" className="h-auto min-h-11 w-full whitespace-normal rounded-xl bg-gradient-primary py-2.5 sm:w-auto">
+          <FileDown aria-hidden="true" /> Offizielles GewA1-PDF herunterladen
         </Button>
+        <p className="mt-2 text-xs text-muted-foreground">
+          Erzeugt das amtliche Mustervordruck-PDF (Anlage 1 zur GewAnzV) mit deinen Daten. Die Felder bleiben im Reader editierbar.
+        </p>
       </div>
 
-      <div className="rounded-lg bg-amber-500/10 border-2 border-amber-500/50 p-3 text-xs space-y-2">
-        <div className="flex items-start gap-2">
-          <AlertCircle className="h-4 w-4 text-amber-700 shrink-0 mt-0.5" />
-          <div className="flex-1">
-            <strong className="text-amber-800">Wichtig — was du nach dem Download machen musst:</strong>
-            <ol className="mt-1.5 space-y-1 list-decimal list-inside text-foreground/90">
-              <li>PDF im Reader öffnen, alle Werte gegenprüfen (Felder bleiben editierbar).</li>
-              <li><strong>Ausdrucken</strong> auf Papier.</li>
-              <li><strong>Eigenhändig unterschreiben</strong> (Feld „Unterschrift" am Ende der Seite 2). Ohne Unterschrift ungültig.</li>
-              <li><strong>Beim Gewerbeamt einreichen</strong> — persönlich im Bürgeramt/Ordnungsamt deiner Stadt ODER postalisch.
-                Gebühr: 20–65 € (je nach Stadt). Ausweis mitbringen.</li>
-              <li>Manche Städte bieten auch Online-Einreichung an (verwaltung.bund.de / Servicekonto deines Landes).</li>
-            </ol>
-            <div className="text-[11px] text-muted-foreground mt-2 italic">
-              Hinweis: Das GewA1 geht ans <strong>Gewerbeamt</strong>, NICHT ans Amtsgericht.
-              Amtsgericht ist nur für den Handelsregister-Eintrag bei UG/GmbH/AG (separater Vorgang
-              beim Notar). Bei Einzelunternehmen / GbR ist KEIN Amtsgericht beteiligt.
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="text-[11px] text-muted-foreground">
-        Erzeugt das amtliche Mustervordruck-PDF (Anlage 1 zur GewAnzV) mit deinen Daten gefüllt.
-        Felder bleiben editierbar — Anpassungen direkt im Reader möglich.
-      </div>
-
-      <div className="rounded-lg bg-blue-500/10 border border-blue-500/40 p-3 text-xs">
-        <strong className="text-blue-700">Was kommt nach der Anmeldung?</strong>
-        <ol className="mt-2 space-y-1 list-decimal list-inside text-muted-foreground">
-          <li>Ausgefülltes GewA1 unterschreiben, persönlich im Bürgeramt einreichen ODER online via verwaltung.bund.de (Gebühr 20-65 €).</li>
-          <li>Nach 2-4 Wochen kommt automatisch der Fragebogen zur steuerlichen Erfassung (FsE) vom Finanzamt.</li>
-          <li>Im FsE: finale Entscheidung § 19 KU / Regelbesteuerung (5 Jahre Bindung!).</li>
-          <li>Steuernummer + ggf. USt-ID werden zugeteilt.</li>
-          <li>IHK-/HwK-Mitgliedschaft automatisch (Beitrag erst ab Gewinn {">"} 5.200 €).</li>
-          <li>Geschäftskonto eröffnen, Berufshaftpflicht prüfen, erste Rechnung mit Tool 9.</li>
+      <Callout tone="warning" title="Wichtig: Das machst du nach dem Download">
+        <ol className="mt-1 list-inside list-decimal space-y-1">
+          <li>PDF im Reader öffnen, alle Werte gegenprüfen (Felder bleiben editierbar).</li>
+          <li><strong className="font-medium text-foreground">Ausdrucken</strong> auf Papier.</li>
+          <li><strong className="font-medium text-foreground">Eigenhändig unterschreiben</strong> (Feld „Unterschrift" am Ende der Seite 2). Ohne Unterschrift ungültig.</li>
+          <li><strong className="font-medium text-foreground">Beim Gewerbeamt einreichen</strong>, persönlich im Bürgeramt/Ordnungsamt deiner Stadt oder per Post.
+            Gebühr: 20 bis 65 € (je nach Stadt). Ausweis mitbringen.</li>
+          <li>Manche Städte bieten auch Online-Einreichung an (verwaltung.bund.de / Servicekonto deines Landes).</li>
         </ol>
-      </div>
+        <p className="mt-2 text-xs text-muted-foreground">
+          Hinweis: Das GewA1 geht ans <strong className="font-medium text-foreground">Gewerbeamt</strong>, NICHT ans Amtsgericht.
+          Das Amtsgericht ist nur für den Handelsregister-Eintrag bei UG/GmbH/AG zuständig (separater Vorgang beim Notar). Bei
+          Einzelunternehmen und GbR ist kein Amtsgericht beteiligt.
+        </p>
+      </Callout>
+
+      <Callout tone="info" title="Was kommt nach der Anmeldung?">
+        <ol className="mt-1 list-inside list-decimal space-y-1">
+          <li>Ausgefülltes GewA1 unterschreiben, persönlich im Bürgeramt einreichen oder online über verwaltung.bund.de (Gebühr 20-65 €).</li>
+          <li>Nach 2-4 Wochen kommt automatisch der Fragebogen zur steuerlichen Erfassung (FsE) vom Finanzamt.</li>
+          <li>Im FsE: finale Entscheidung § 19 KU oder Regelbesteuerung (5 Jahre Bindung).</li>
+          <li>Steuernummer und ggf. USt-ID werden zugeteilt.</li>
+          <li>IHK-/HwK-Mitgliedschaft automatisch (Beitrag erst ab Gewinn über 5.200 €).</li>
+          <li>Geschäftskonto eröffnen, Berufshaftpflicht prüfen, erste Rechnung mit dem Rechnungs-Tool schreiben.</li>
+        </ol>
+      </Callout>
     </div>
   );
 };
 
-const SummaryGroup = ({ title, children }: { title: string; children: React.ReactNode }) => (
-  <div>
-    <div className="font-semibold text-foreground mb-1">{title}</div>
-    <div className="space-y-1">{children}</div>
+const SummaryGroup = ({ title, children, className }: { title: string; children: React.ReactNode; className?: string }) => (
+  <div className={cn("rounded-xl border border-border bg-secondary/30 p-4", className)}>
+    <h3 className="text-sm font-semibold">{title}</h3>
+    <div className="mt-2 space-y-1.5">{children}</div>
   </div>
 );
 
 const SummaryRow = ({ label, value }: { label: string; value: string }) => (
-  <div className="flex">
-    <span className="text-muted-foreground w-32 shrink-0">{label}:</span>
-    <span className="font-medium">{value || "—"}</span>
+  <div className="grid grid-cols-[9.5rem_minmax(0,1fr)] sm:grid-cols-[10.5rem_minmax(0,1fr)] gap-2 text-sm">
+    <span className="text-muted-foreground">{label}</span>
+    <span className={cn("min-w-0 break-words", value ? "font-medium" : "text-muted-foreground")}>{value || "fehlt"}</span>
   </div>
 );
 
 const BeginnerHero = () => (
-  <div className="rounded-2xl border-2 border-accent-blue/30 bg-gradient-to-br from-accent-blue/10 via-card to-card p-5 mb-6">
-    <div className="flex items-start gap-3">
-      <Lightbulb className="h-6 w-6 text-accent-blue shrink-0 mt-0.5" />
-      <div className="flex-1">
-        <h3 className="font-bold text-sm mb-1">Gewerbeanmeldung GewA1 — schrittweise vorbereitet</h3>
-        <p className="text-xs text-muted-foreground leading-relaxed mb-2">
-          Das amtliche GewA1-Formular ist nicht kompliziert, aber 2 Felder verwirren Anfänger systematisch:
-          (1) <strong>Tätigkeitsbeschreibung</strong> — zu generisch führt zu Nachfrage vom FA;
-          (2) <strong>WZ-2008-Branchenschlüssel</strong> — 5-stellige Klassifikation, oft falsch geraten.
-          Dieser Wizard führt dich durch beide mit Beispielen + Suche und füllt am Ende das offizielle GewA1-PDF zum Ausdrucken und Unterschreiben.
-        </p>
-        <div className="rounded-lg bg-amber-500/10 border border-amber-500/30 p-2 text-[11px]">
-          <strong className="text-amber-700">⚠ Vorab klären:</strong> Bist du sicher dass es Gewerbe ist und nicht Freiberuf?
-          {" "}<Link to="/cockpit/gewerbe-check" className="underline text-accent-blue">→ Tool 1: Brauche ich Gewerbe?</Link>
-        </div>
-      </div>
-    </div>
-  </div>
+  <Callout tone="accent" icon={Lightbulb} title="Gewerbeanmeldung GewA1, schrittweise vorbereitet" className="mb-6 p-5">
+    <p>
+      Das amtliche GewA1-Formular ist nicht kompliziert, aber zwei Felder verwirren Anfänger regelmäßig: die{" "}
+      <strong className="font-medium text-foreground">Tätigkeitsbeschreibung</strong> (zu allgemein führt zu Rückfragen vom
+      Finanzamt) und der <strong className="font-medium text-foreground">WZ-2008-Branchenschlüssel</strong> (5-stellig, oft
+      geraten). Der Wizard führt dich mit Beispielen und Suche durch beide und füllt am Ende das offizielle GewA1-PDF zum
+      Ausdrucken und Unterschreiben.
+    </p>
+    <p className="mt-2">
+      Vorab klären: Ist es wirklich ein Gewerbe und kein Freiberuf?{" "}
+      <Link to="/cockpit/gewerbe-check" className="inline-flex items-center gap-1 font-medium text-accent-blue hover:underline">
+        Gewerbe-Check öffnen <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+      </Link>
+    </p>
+  </Callout>
 );
 
 const Glossar = () => (
-  <details className="rounded-2xl border border-border bg-card p-5 mb-6">
-    <summary className="cursor-pointer font-bold text-sm flex items-center gap-2">
-      <HelpCircle className="h-4 w-4 text-accent-blue" /> Glossar — Begriffe einfach erklärt
+  <details className="group mb-6 rounded-2xl border border-border bg-card shadow-card [&_summary::-webkit-details-marker]:hidden">
+    <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-5 py-4 text-base font-semibold md:px-6">
+      <span className="flex items-center gap-3">
+        <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-accent-blue">
+          <HelpCircle className="h-4 w-4" aria-hidden="true" />
+        </span>
+        Glossar: Begriffe einfach erklärt
+      </span>
+      <ChevronDown className="h-4 w-4 text-muted-foreground transition-transform group-open:rotate-180" aria-hidden="true" />
     </summary>
-    <div className="mt-3 space-y-3 text-xs leading-relaxed">
+    <dl className="divide-y divide-border/70 border-t border-border/70 px-5 md:px-6">
       {[
         { b: "GewA1-Formular", e: "Bundeseinheitliches Formular zur Anzeige eines Gewerbes nach § 14 GewO. Online (service.bund.de / verwaltung.bund.de) oder im Bürgeramt/Gewerbeamt. Gebühr 20-65 € (stadt-abhängig). Anmeldung MUSS bei oder kurz nach Aufnahme der Tätigkeit erfolgen — rückwirkend bis ~6 Monate ok, dann Bußgeld möglich." },
         { b: "WZ 2008 Branchenschlüssel", e: "5-stellige Klassifikation der Wirtschaftszweige (Ausgabe 2008) vom Statistischen Bundesamt. Beispiele: 47.91.1 = Versandhandel Textilien, 62.01.0 = Programmierungstätigkeiten, 70.22.0 = Unternehmensberatung. Im GewA1 zu wählen. Wenn falsch: FA korrigiert später, kein Drama." },
         { b: "Tätigkeitsbeschreibung", e: "Pflicht-Klartext-Feld im GewA1. So GENAU wie möglich. Schlecht: 'Onlinehandel'. Gut: 'Onlinehandel mit Sportbekleidung, Sportzubehör und Nahrungsergänzungsmitteln über eigenen Shop und Amazon Marketplace'. Faustregel: Antwort auf 'WAS verkaufst du WIE und an WEN'. Auch Nebentätigkeiten mit erfassen (Definition wird sonst zu eng)." },
         { b: "Einzelunternehmen vs UG/GmbH", e: "Einzel = einfachste Form, kein Stammkapital, Anmeldung nur GewA1. UG = ab 1 € Stammkapital, Notar nötig (300-800 €), Eintrag Handelsregister. GmbH = 25k Stammkapital, Notar (~1.500 €). Für >90 % der Solo-Selbstständigen reicht Einzel — UG/GmbH sinnvoll bei: Haftungs-Risiko, Investor-Eintritt, Erbschaftsplanung." },
-        { b: "FsE — Fragebogen zur steuerlichen Erfassung", e: "Kommt 2-4 Wochen NACH Gewerbeanmeldung automatisch vom Finanzamt. Dort: § 19 KU finalisieren, Anlage S/G, voraussichtliche Einkünfte, USt-Vorauszahlungen. Muss via ELSTER abgegeben werden. Empfehlung: nicht raten — beim FA nachfragen oder Tool 5 (Brutto-Netto) + Tool 7 (StB) konsultieren." },
+        { b: "FsE: Fragebogen zur steuerlichen Erfassung", e: "Kommt 2-4 Wochen NACH Gewerbeanmeldung automatisch vom Finanzamt. Dort: § 19 KU finalisieren, Anlage S/G, voraussichtliche Einkünfte, USt-Vorauszahlungen. Muss via ELSTER abgegeben werden. Empfehlung: nicht raten — beim FA nachfragen oder Tool 5 (Brutto-Netto) + Tool 7 (StB) konsultieren." },
         { b: "IHK / HwK-Mitgliedschaft", e: "Automatisch bei Gewerbeanmeldung. IHK = Industrie- und Handelskammer (Handel, Service). HwK = Handwerkskammer (handwerkliche Tätigkeit, ggf. Meister-Pflicht). Beitrag: Grundbeitrag ~40-150 €/Jahr ab Gewinn > 5.200 €, plus Umlage 0,2-0,5 % vom Gewinn. Befreiung für Neugründer 2 Jahre möglich." },
         { b: "Erlaubnispflichtige Gewerbe", e: "Manche Gewerbe brauchen ZUSÄTZLICHE Erlaubnis VOR Anmeldung: Gastronomie (§ 4 GastG), Makler (§ 34c GewO), Sicherheit (§ 34a), Spielhalle, Bewachung, Pfandleiher. Ohne Erlaubnis = Ordnungswidrigkeit. Bei IT/Beratung/Handel meist keine Erlaubnis nötig." },
         { b: "§ 19 UStG Kleinunternehmer-Optierung", e: "Im FsE wählst du: KU (keine USt) oder Regelbesteuerung. Voraussetzung KU: Vorjahres-Umsatz < 25.000 € + prognostiziert < 100.000 € (Reform 2025). Bindung 5 Jahre (Verzicht nur einmal). Vorteil KU: keine USt-VA, simple Rechnung. Nachteil: kein Vorsteuer-Abzug. Tool 3 hat Detail-Schwellen, Tool 9 die Rechnungs-Logik." },
       ].map((g) => (
-        <div key={g.b} className="rounded-lg bg-secondary/30 p-3">
-          <div className="font-semibold text-foreground mb-1">{g.b}</div>
-          <div className="text-muted-foreground">{g.e}</div>
+        <div key={g.b} className="py-3.5 text-sm">
+          <dt className="font-semibold text-foreground">{g.b}</dt>
+          <dd className="mt-1 leading-relaxed text-muted-foreground">{g.e}</dd>
         </div>
       ))}
-    </div>
+    </dl>
   </details>
 );
 
