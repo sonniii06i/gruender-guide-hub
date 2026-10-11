@@ -171,8 +171,8 @@ export function NotarFinder({ companyName }: { companyName?: string }) {
                   </div>
                   <div className="flex items-center gap-2 shrink-0 mt-0.5 text-[10px] text-muted-foreground tabular-nums">
                     {typeof n.rating === "number" && (
-                      <span className="inline-flex items-center gap-0.5 text-yellow-700 dark:text-yellow-400 font-semibold">
-                        <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+                      <span className="inline-flex items-center gap-0.5 text-warning font-semibold">
+                        <Star className="h-3 w-3 fill-warning text-warning" />
                         {n.rating.toFixed(1)}
                         {typeof n.reviewCount === "number" && <span className="text-muted-foreground font-normal">·{n.reviewCount}</span>}
                       </span>
@@ -208,7 +208,7 @@ export function NotarFinder({ companyName }: { companyName?: string }) {
                     className="text-accent-blue underline inline-flex items-center gap-0.5"
                     title="Bewertungen auf Google Maps ansehen"
                   >
-                    <Star className="h-2.5 w-2.5 fill-yellow-400 text-yellow-400" /> Bewertungen
+                    <Star className="h-2.5 w-2.5 fill-warning text-warning" /> Bewertungen
                   </a>
                   {n.website && (
                     <a
@@ -315,7 +315,7 @@ ${form.senderEmail}`;
       {/* "An:" Block – zeigt klar welcher Notar ausgewählt ist */}
       {notar ? (
         <div className="rounded-lg border-2 border-accent-blue/30 bg-accent-blue/5 p-3 space-y-1">
-          <div className="text-[10px] uppercase tracking-wider text-accent-blue font-semibold">Anschreiben an</div>
+          <div className="text-xs text-accent-blue font-semibold">Anschreiben an</div>
           <div className="text-sm font-semibold">{notar.name}</div>
           {notar.street && <div className="text-xs text-muted-foreground">{notar.street}</div>}
           {(notar.postalCode || notar.city) && (
@@ -343,7 +343,7 @@ ${form.senderEmail}`;
           ["musterprotokoll", "Musterprotokoll? (ja/nein)"],
         ].map(([k, l]) => (
           <div key={k}>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">{l}</Label>
+            <Label className="text-sm font-medium text-foreground">{l}</Label>
             <Input value={(form as any)[k]} onChange={(e) => update(k, e.target.value)} className="mt-1" />
           </div>
         ))}

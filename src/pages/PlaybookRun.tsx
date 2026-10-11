@@ -5,14 +5,17 @@ import { useAuth } from "@/hooks/useAuth";
 import { getPlaybook, type PlaybookStep } from "@/data/playbooks";
 import { useGuideDetail, mergeStepDetail } from "@/hooks/useGuideDetail";
 import CockpitShell from "@/components/cockpit/CockpitShell";
+import { Callout, Field, ToneBadge } from "@/components/cockpit/kit";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
+import { Skeleton } from "@/components/ui/skeleton";
+import { cn } from "@/lib/utils";
 import {
   CheckCircle2, Circle, ChevronLeft, ExternalLink,
   AlertTriangle, Clock, Trophy, Loader2,
   ClipboardList, FileText, Info, Lightbulb, Sparkles, Zap,
+  Wallet, Repeat, Check,
 } from "lucide-react";
 import { CompanyNameCheck, NotarFinder } from "@/components/playbook/StepWidgets";
 import { NotarPreparation } from "@/components/playbook/NotarPreparation";
@@ -149,10 +152,19 @@ const PlaybookRun = () => {
     }, 500);
   };
 
+
   if (loading || authLoading || !pb || !run) {
     return (
-      <div className="min-h-[60vh] flex items-center justify-center">
-        <Loader2 className="h-6 w-6 animate-spin text-accent-blue" />
+      <div className="container max-w-6xl px-4 pb-16 pt-8 md:px-6 md:pt-10" aria-busy="true">
+        <p className="sr-only" role="status">Playbook wird geladen…</p>
+        <Skeleton className="h-4 w-24" />
+        <Skeleton className="mt-3 h-9 w-2/3 max-w-md" />
+        <Skeleton className="mt-3 h-4 w-full max-w-xl" />
+        <Skeleton className="mt-8 h-40 w-full rounded-2xl" />
+        <div className="mt-6 grid gap-6 lg:grid-cols-[300px_minmax(0,1fr)]">
+          <Skeleton className="h-80 w-full rounded-2xl" />
+          <Skeleton className="h-80 w-full rounded-2xl" />
+        </div>
       </div>
     );
   }
@@ -228,236 +240,271 @@ const PlaybookRun = () => {
     setSaving(false);
   };
 
+
+  const fertig = progress === 100;
+  const ActiveIcon = STEP_KIND_ICON[step.kind];
+
   return (
     <CockpitShell
-      eyebrow={`${pb.emoji} Playbook`}
+      eyebrow="Playbook"
       title={pb.title}
       subtitle={pb.outcome}
     >
-      {/* GAMIFIED HERO PROGRESS */}
-      <div className="rounded-3xl border border-border bg-gradient-to-br from-card via-card to-accent-blue/5 p-6 md:p-8 mb-6">
-        <div className="flex items-start justify-between gap-4 mb-5 flex-wrap">
-          <div>
-            <div className="text-xs font-bold uppercase tracking-wider text-accent-blue mb-1">{pb.emoji} {pb.difficulty} · {pb.duration}</div>
-            <div className="text-3xl md:text-4xl font-bold leading-none">
-              {progress === 100 ? (
-                <span className="inline-flex items-center gap-2"><Trophy className="h-8 w-8 text-yellow-500" /> Geschafft!</span>
+      {/* Fortschritt */}
+      <section className="mb-6 rounded-2xl border border-border bg-card p-5 shadow-card md:p-6" aria-label="Fortschritt">
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div className="min-w-0">
+            <p className="text-sm text-muted-foreground">
+              {pb.difficulty} · {pb.duration}
+            </p>
+            <div className="mt-1 text-3xl font-semibold tracking-tight tabular md:text-4xl">
+              {fertig ? (
+                <span className="inline-flex items-center gap-2">
+                  <Trophy className="h-7 w-7 text-success" aria-hidden="true" /> Geschafft!
+                </span>
               ) : (
-                <>{completedCount} <span className="text-muted-foreground/50 text-2xl">/ {pb.steps.length}</span></>
+                <>
+                  {completedCount} <span className="text-2xl font-normal text-muted-foreground">von {pb.steps.length} Schritten</span>
+                </>
               )}
             </div>
-            <div className="text-sm text-muted-foreground mt-1">
-              {progress === 100
+            <p className="mt-1.5 text-sm text-muted-foreground">
+              {fertig
                 ? "Du hast alle Schritte abgeschlossen."
-                : <>Schritt {activeIndex + 1} aktiv · noch <strong>{remainingLabel}</strong> · {progress} %</>}
-            </div>
+                : <>Schritt {activeIndex + 1} aktiv · noch <strong className="font-semibold text-foreground">{remainingLabel}</strong> · <span className="tabular">{progress} %</span></>}
+            </p>
             {(pb.totalCost || pb.runningCost) && (
-              <div className="mt-3 flex flex-wrap gap-2 text-[11px]">
+              <div className="mt-3 flex flex-wrap gap-2 text-xs">
                 {pb.totalCost && (
-                  <div className="rounded-full bg-emerald-500/10 text-emerald-700 px-3 py-1 font-semibold">
-                    💶 Setup: {pb.totalCost}
-                  </div>
+                  <span className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-secondary/60 px-2.5 py-1 font-medium">
+                    <Wallet className="h-3.5 w-3.5 text-accent-blue" aria-hidden="true" /> Setup: {pb.totalCost}
+                  </span>
                 )}
                 {pb.runningCost && (
-                  <div className="rounded-full bg-secondary text-muted-foreground px-3 py-1">
-                    🔁 {pb.runningCost}
-                  </div>
+                  <span className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-secondary/60 px-2.5 py-1 text-muted-foreground">
+                    <Repeat className="h-3.5 w-3.5" aria-hidden="true" /> {pb.runningCost}
+                  </span>
                 )}
               </div>
             )}
           </div>
 
-          {progress < 100 && (
-            <div className="flex items-center gap-1.5 rounded-xl bg-accent-blue/10 text-accent-blue px-3 py-2 shrink-0">
-              <Zap className="h-4 w-4" />
-              <span className="text-sm font-bold">{completedCount * 100} XP</span>
-            </div>
+          {!fertig && (
+            <span className="inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-accent px-3 py-2 text-sm font-semibold text-accent-blue tabular">
+              <Zap className="h-4 w-4" aria-hidden="true" /> {completedCount * 100} XP
+            </span>
           )}
         </div>
 
         {/* Progress-Bar mit Meilensteinen */}
-        <div className="relative h-3 rounded-full bg-secondary overflow-hidden mb-3">
+        <div
+          className="relative mt-5 h-2.5 overflow-hidden rounded-full bg-secondary"
+          role="progressbar"
+          aria-valuenow={progress}
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-label="Fortschritt im Playbook"
+        >
           <div
-            className="h-full bg-gradient-to-r from-accent-blue to-yellow-400 transition-all duration-700 ease-out"
+            className="h-full rounded-full bg-gradient-to-r from-accent-blue to-brand-green transition-all duration-700 ease-out"
             style={{ width: `${progress}%` }}
           />
           {milestones.map((m) => (
             <div
               key={m}
-              className={`absolute top-0 h-full w-px ${progress >= m ? "bg-yellow-300/60" : "bg-border"}`}
+              className={cn("absolute top-0 h-full w-px", progress >= m ? "bg-white/50" : "bg-border")}
               style={{ left: `${m}%` }}
             />
           ))}
         </div>
-        <div className="flex justify-between text-[10px] text-muted-foreground">
-          <span className={progress >= 25 ? "text-accent-blue font-semibold" : ""}>25 %</span>
-          <span className={progress >= 50 ? "text-accent-blue font-semibold" : ""}>50 %</span>
-          <span className={progress >= 75 ? "text-accent-blue font-semibold" : ""}>75 %</span>
-          <span className={progress >= 100 ? "text-success font-bold" : ""}>🏆 100 %</span>
+        <div className="relative mt-2 h-4 text-xs text-muted-foreground tabular">
+          {milestones.map((m) => (
+            <span
+              key={m}
+              className={cn(
+                "absolute top-0 whitespace-nowrap",
+                m === 100 ? "right-0" : "-translate-x-1/2",
+                progress >= m && (m === 100 ? "font-semibold text-success" : "font-medium text-accent-blue"),
+              )}
+              style={m === 100 ? undefined : { left: `${m}%` }}
+            >
+              {m} %
+            </span>
+          ))}
         </div>
 
-        {progress === 100 && (
-          <div className="mt-5 rounded-xl bg-success/10 border border-success/30 text-success p-4 flex items-start gap-3">
-            <Sparkles className="h-5 w-5 mt-0.5 shrink-0" />
-            <div>
-              <div className="font-bold">Playbook abgeschlossen!</div>
-              <div className="text-sm opacity-90">{pb.outcome}</div>
-            </div>
-          </div>
+        {fertig && (
+          <Callout tone="success" title="Playbook abgeschlossen!" icon={Sparkles} className="mt-5">
+            {pb.outcome}
+          </Callout>
         )}
-      </div>
+      </section>
 
-      <div className="grid lg:grid-cols-[300px_1fr] gap-6">
-        {/* Gamified Step-Sidebar */}
-        <aside className="rounded-2xl border border-border bg-card p-3 h-fit lg:sticky lg:top-20">
-          <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground px-3 py-2 flex items-center justify-between">
-            <span>Schritte</span>
-            <span className="text-accent-blue">{completedCount} / {pb.steps.length}</span>
+      <div className="grid items-start gap-6 lg:grid-cols-[300px_minmax(0,1fr)]">
+        {/* Schrittliste */}
+        <aside className="order-2 rounded-2xl border border-border bg-card p-3 shadow-card lg:order-1 lg:sticky lg:top-20">
+          <div className="flex items-center justify-between px-3 py-2 text-sm">
+            <span className="font-semibold">Schritte</span>
+            <span className="text-muted-foreground tabular">{completedCount} / {pb.steps.length}</span>
           </div>
-          <div className="space-y-1">
+          <ol className="space-y-0.5">
             {pb.steps.map((s, i) => {
               const st = steps[i];
               const done = st?.status === "done";
               const active = i === activeIndex;
               const StepKindIcon = STEP_KIND_ICON[s.kind];
               return (
-                <button key={s.slug} onClick={() => setActiveIndex(i)}
-                  className={`w-full flex items-start gap-2.5 rounded-lg px-3 py-2.5 text-left text-sm transition-colors ${
-                    active ? "bg-accent-blue/10 ring-1 ring-accent-blue/30" : done ? "hover:bg-secondary opacity-70" : "hover:bg-secondary"
-                  }`}>
-                  <div className="shrink-0 mt-0.5">
-                    {done ? (
-                      <CheckCircle2 className="h-5 w-5 text-success" />
-                    ) : active ? (
-                      <div className="h-5 w-5 rounded-full bg-accent-blue text-primary-foreground flex items-center justify-center text-[10px] font-bold">{i + 1}</div>
-                    ) : (
-                      <div className="h-5 w-5 rounded-full border border-border flex items-center justify-center text-[10px] text-muted-foreground">{i + 1}</div>
+                <li key={s.slug}>
+                  <button
+                    type="button"
+                    onClick={() => setActiveIndex(i)}
+                    aria-current={active ? "step" : undefined}
+                    className={cn(
+                      "flex w-full items-start gap-3 rounded-lg px-3 py-2.5 text-left text-sm transition-colors",
+                      active ? "bg-accent" : "hover:bg-secondary",
                     )}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className={`leading-snug font-medium text-sm ${done ? "line-through text-muted-foreground" : active ? "text-foreground" : ""}`}>
-                      {s.title}
-                    </div>
-                    <div className="flex items-center gap-2 text-[10px] text-muted-foreground mt-0.5 flex-wrap">
-                      <StepKindIcon className="h-2.5 w-2.5" />
-                      <span>{STEP_KIND_LABEL[s.kind]} · {s.estMinutes} min</span>
-                    </div>
-                    {s.estCost && (
-                      <div className="mt-1 text-[10px] font-semibold text-emerald-700 leading-snug">
-                        💶 {s.estCost.length > 50 ? s.estCost.slice(0, 50) + "…" : s.estCost}
-                      </div>
-                    )}
-                  </div>
-                </button>
+                  >
+                    <span className="mt-0.5 shrink-0">
+                      {done ? (
+                        <span className="flex h-5 w-5 items-center justify-center rounded-full bg-success text-primary-foreground">
+                          <Check className="h-3 w-3" aria-hidden="true" />
+                        </span>
+                      ) : active ? (
+                        <span className="flex h-5 w-5 items-center justify-center rounded-full bg-accent-blue text-[11px] font-semibold text-primary-foreground tabular">{i + 1}</span>
+                      ) : (
+                        <span className="flex h-5 w-5 items-center justify-center rounded-full border border-border text-[11px] text-muted-foreground tabular">{i + 1}</span>
+                      )}
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className={cn("block font-medium leading-snug", done && "text-muted-foreground line-through decoration-muted-foreground/50")}>
+                        {s.title}
+                      </span>
+                      <span className="mt-0.5 flex flex-wrap items-center gap-1.5 text-xs text-muted-foreground">
+                        <StepKindIcon className="h-3 w-3" aria-hidden="true" />
+                        {STEP_KIND_LABEL[s.kind]} · <span className="tabular">{s.estMinutes} min</span>
+                      </span>
+                      {s.estCost && (
+                        <span className="mt-1 flex items-start gap-1 text-xs leading-snug text-foreground/75">
+                          <Wallet className="mt-px h-3 w-3 shrink-0 text-accent-blue" aria-hidden="true" />
+                          {s.estCost.length > 50 ? s.estCost.slice(0, 50) + "…" : s.estCost}
+                        </span>
+                      )}
+                    </span>
+                  </button>
+                </li>
               );
             })}
-          </div>
+          </ol>
         </aside>
 
-        {/* Active step */}
-        <div ref={activeStepRef} className="rounded-2xl border border-border bg-card p-6 scroll-mt-20">
-          {(() => {
-            const ActiveIcon = STEP_KIND_ICON[step.kind];
-            return (
-              <div className="flex items-start gap-4 mb-4">
-                <div className="rounded-xl bg-accent-blue/10 text-accent-blue p-3 shrink-0">
-                  <ActiveIcon className="h-6 w-6" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between gap-3 flex-wrap">
-                    <div className="text-xs font-bold uppercase tracking-wider text-accent-blue">
-                      Schritt {activeIndex + 1} von {pb.steps.length} · {STEP_KIND_LABEL[step.kind]}
-                    </div>
-                    <div className="flex items-center gap-3 shrink-0">
-                      <div className="text-xs text-muted-foreground inline-flex items-center gap-1">
-                        <Clock className="h-3 w-3" /> ~{step.estMinutes} min
-                      </div>
-                      {step.estCost && (
-                        <div className="text-xs font-semibold inline-flex items-center gap-1 rounded-full bg-emerald-500/10 text-emerald-700 px-2 py-0.5">
-                          💶 {step.estCost.length > 30 ? step.estCost.split("·")[0].trim() : step.estCost}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  <h2 className="text-2xl font-bold mt-1 leading-tight">{step.title}</h2>
+        {/* Aktiver Schritt */}
+        <section ref={activeStepRef} className="order-1 min-w-0 scroll-mt-20 lg:order-2 rounded-2xl border border-border bg-card shadow-card">
+          <header className="flex items-start gap-4 border-b border-border/70 p-5 md:p-6">
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-accent text-accent-blue">
+              <ActiveIcon className="h-5 w-5" aria-hidden="true" />
+            </span>
+            <div className="min-w-0 flex-1">
+              <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1.5">
+                <p className="text-sm font-medium text-accent-blue">
+                  Schritt {activeIndex + 1} von {pb.steps.length} · {STEP_KIND_LABEL[step.kind]}
+                </p>
+                <div className="flex shrink-0 flex-wrap items-center gap-2">
+                  <span className="inline-flex items-center gap-1 text-xs text-muted-foreground tabular">
+                    <Clock className="h-3.5 w-3.5" aria-hidden="true" /> ~{step.estMinutes} min
+                  </span>
+                  {step.estCost && (
+                    <ToneBadge tone="neutral">
+                      <Wallet className="h-3 w-3" aria-hidden="true" />
+                      {step.estCost.length > 30 ? step.estCost.split("·")[0].trim() : step.estCost}
+                    </ToneBadge>
+                  )}
                 </div>
               </div>
-            );
-          })()}
-          <p className="text-muted-foreground mb-3 leading-relaxed">{step.description}</p>
-
-          {step.slug === "shopify-account" && step.externalLinks?.[0] && (
-            <a
-              href={step.externalLinks[0].url}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-xl bg-accent-blue text-white hover:bg-accent-blue/90 px-5 py-3 text-sm font-semibold w-full sm:w-auto mb-5 transition-colors shadow-card"
-            >
-              {step.externalLinks[0].label} <ExternalLink className="h-4 w-4" />
-            </a>
-          )}
-
-          {step.estCost && step.estCost.length > 30 && (
-            <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-3 mb-5 text-xs leading-relaxed">
-              <span className="font-semibold text-emerald-700">Geschätzte Kosten:</span>{" "}
-              <span className="text-muted-foreground">{step.estCost}</span>
+              <h2 className="mt-1 text-xl font-semibold leading-tight tracking-tight md:text-2xl">{step.title}</h2>
             </div>
-          )}
+          </header>
 
-          {step.warning && (
-            <div className="flex items-start gap-2 rounded-xl bg-destructive/10 text-destructive p-3 mb-5 text-sm">
-              <AlertTriangle className="h-4 w-4 mt-0.5 shrink-0" />
-              <span>{step.warning}</span>
-            </div>
-          )}
+          <div className="space-y-5 p-5 md:p-6">
+            <p className="leading-relaxed text-muted-foreground">{step.description}</p>
 
-          {detailLoading ? (
-            <div className="flex items-center gap-2 rounded-xl border border-border bg-secondary/30 p-4 text-sm text-muted-foreground">
-              <Loader2 className="h-4 w-4 animate-spin text-accent-blue" /> Detailschritte werden geladen…
-            </div>
-          ) : (
-            <StepBody step={step} formData={formData} setFormData={setFormData} allSteps={steps} pb={pb} runCtx={runCtx} updateRunCtx={updateRunCtx} />
-          )}
+            {step.slug === "shopify-account" && step.externalLinks?.[0] && (
+              <a
+                href={step.externalLinks[0].url}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-primary px-5 py-3 text-sm font-semibold text-primary-foreground shadow-card transition-opacity hover:opacity-95 sm:w-auto"
+              >
+                {step.externalLinks[0].label} <ExternalLink className="h-4 w-4" aria-hidden="true" />
+              </a>
+            )}
 
-          <div className="mt-5">
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Deine Notizen</Label>
-            <Textarea value={notes} onChange={(e) => setNotes(e.target.value)} className="mt-2" rows={3} placeholder="Anmerkungen, Ansprechpartner, Folge-Termine..." />
+            {step.estCost && step.estCost.length > 30 && (
+              <Callout tone="neutral" title="Geschätzte Kosten" icon={Wallet}>
+                {step.estCost}
+              </Callout>
+            )}
+
+            {step.warning && (
+              <Callout tone="danger" icon={AlertTriangle}>
+                {step.warning}
+              </Callout>
+            )}
+
+            {detailLoading ? (
+              <div className="space-y-3 rounded-xl border border-border p-4" aria-busy="true">
+                <p className="flex items-center gap-2 text-sm text-muted-foreground" role="status">
+                  <Loader2 className="h-4 w-4 animate-spin text-accent-blue" aria-hidden="true" /> Detailschritte werden geladen…
+                </p>
+                <Skeleton className="h-4 w-11/12" />
+                <Skeleton className="h-4 w-3/4" />
+                <Skeleton className="h-4 w-5/6" />
+              </div>
+            ) : (
+              <StepBody step={step} formData={formData} setFormData={setFormData} allSteps={steps} pb={pb} runCtx={runCtx} updateRunCtx={updateRunCtx} />
+            )}
+
+            <Field label="Deine Notizen" htmlFor="pb-notizen">
+              <Textarea
+                id="pb-notizen"
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                rows={3}
+                placeholder="Anmerkungen, Ansprechpartner, Folge-Termine …"
+              />
+            </Field>
           </div>
 
-          <div className="mt-6 space-y-2">
+          <footer className="space-y-3 border-t border-border/70 p-5 md:p-6">
             {missingRequired.length > 0 && (
-              <div className="flex items-start gap-2 rounded-lg bg-warning/10 border border-warning/30 text-warning-foreground p-3 text-xs">
-                <AlertTriangle className="h-3.5 w-3.5 mt-0.5 shrink-0" />
-                <div>
-                  <strong>Pflichtfelder fehlen:</strong> {missingRequired.join(", ")}
-                </div>
-              </div>
+              <Callout tone="warning" title="Pflichtfelder fehlen">
+                {missingRequired.join(", ")}
+              </Callout>
             )}
-            <div className="flex flex-wrap gap-3 justify-between">
+            <div className="flex flex-wrap justify-between gap-3">
               <Button variant="outline" onClick={() => setActiveIndex(Math.max(0, activeIndex - 1))} disabled={activeIndex === 0}>
-                <ChevronLeft className="h-4 w-4 mr-1" /> Zurück
+                <ChevronLeft aria-hidden="true" /> Zurück
               </Button>
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2">
                 <Button variant="outline" onClick={() => saveStep("pending")} disabled={saving}>
                   Speichern
                 </Button>
                 <Button
                   onClick={() => saveStep("done")}
                   disabled={saving || detailLoading || missingRequired.length > 0}
-                  className="bg-success hover:bg-success/90 text-success-foreground"
+                  className="bg-success text-success-foreground hover:bg-success/90"
                 >
-                  {saving ? <Loader2 className="h-4 w-4 animate-spin mr-1" /> : <CheckCircle2 className="h-4 w-4 mr-1" />}
+                  {saving ? <Loader2 className="animate-spin" aria-hidden="true" /> : <CheckCircle2 aria-hidden="true" />}
                   Schritt erledigt
                 </Button>
               </div>
             </div>
-          </div>
-        </div>
+          </footer>
+        </section>
       </div>
 
       <div className="mt-6">
-        <Link to="/dashboard" className="text-sm text-muted-foreground hover:text-foreground inline-flex items-center">
-          <ChevronLeft className="h-4 w-4" /> Zurück zum Cockpit
+        <Link to="/dashboard" className="inline-flex items-center gap-1 text-sm text-muted-foreground transition-colors hover:text-foreground">
+          <ChevronLeft className="h-4 w-4" aria-hidden="true" /> Zurück zum Cockpit
         </Link>
       </div>
     </CockpitShell>
@@ -483,7 +530,7 @@ const StepBody = ({
 }) => {
   const sharedCompanyName = runCtx.company_name ?? formData.company_name ?? "";
   return (
-  <div className="space-y-4">
+  <div className="space-y-5">
     {step.slug === "name" && (
       <CompanyNameCheck
         initial={sharedCompanyName}
@@ -512,66 +559,72 @@ const StepBody = ({
       <FamiliengerichtForm answers={formData} setAnswers={setFormData} />
     )}
     {step.checklist && (
-      <div className="rounded-xl border border-border bg-secondary/30 p-4 space-y-2">
-        {step.checklist.map((c, i) => {
-          const checked = formData[`chk_${i}`] === "1";
-          return (
-            <button key={i} type="button"
-              onClick={() => setFormData({ ...formData, [`chk_${i}`]: checked ? "" : "1" })}
-              className="flex items-start gap-2 w-full text-left">
-              {checked ? <CheckCircle2 className="h-4 w-4 text-success mt-0.5 shrink-0" /> : <Circle className="h-4 w-4 text-muted-foreground mt-0.5 shrink-0" />}
-              <span className={`text-sm ${checked ? "line-through text-muted-foreground" : ""}`}>{c}</span>
-            </button>
-          );
-        })}
+      <div className="rounded-xl border border-border">
+        <p className="border-b border-border/70 px-4 py-3 text-sm font-semibold">Checkliste</p>
+        <ul className="divide-y divide-border/70">
+          {step.checklist.map((c, i) => {
+            const checked = formData[`chk_${i}`] === "1";
+            return (
+              <li key={i}>
+                <button
+                  type="button"
+                  aria-pressed={checked}
+                  onClick={() => setFormData({ ...formData, [`chk_${i}`]: checked ? "" : "1" })}
+                  className="flex w-full items-start gap-3 px-4 py-3 text-left transition-colors hover:bg-secondary/50"
+                >
+                  {checked
+                    ? <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-success" aria-hidden="true" />
+                    : <Circle className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" aria-hidden="true" />}
+                  <span className={cn("text-sm", checked && "text-muted-foreground line-through decoration-muted-foreground/50")}>{c}</span>
+                </button>
+              </li>
+            );
+          })}
+        </ul>
       </div>
     )}
     {step.extendedNotes && step.extendedNotes.length > 0 && (
-      <div className="rounded-xl border border-accent-blue/20 bg-accent-blue/5 p-4 space-y-1.5">
-        <div className="text-xs font-semibold uppercase tracking-wider text-accent-blue mb-1">
-          Detail-Hinweise & Pro-Tipps
-        </div>
-        <ul className="space-y-1.5 text-sm text-muted-foreground leading-relaxed list-disc pl-5">
+      <Callout tone="accent" title="Detail-Hinweise und Profi-Tipps" icon={Lightbulb}>
+        <ul className="list-disc space-y-1.5 pl-4">
           {step.extendedNotes.map((n, i) => (
             <li key={i}>{n}</li>
           ))}
         </ul>
-      </div>
+      </Callout>
     )}
     {step.externalLinks && (() => {
       const links = step.slug === "shopify-account" ? step.externalLinks.slice(1) : step.externalLinks;
       if (links.length === 0) return null;
       return (
-        <div className="grid sm:grid-cols-2 gap-2">
+        <div className="grid gap-2 sm:grid-cols-2">
           {links.map((l) => (
             <a key={l.url} href={l.url} target="_blank" rel="noreferrer"
-              className="inline-flex items-center justify-between gap-2 rounded-xl border border-border bg-card hover:border-accent-blue/40 px-4 py-3 text-sm font-semibold transition-colors">
-              {l.label} <ExternalLink className="h-4 w-4 text-muted-foreground" />
+              className="group inline-flex items-center justify-between gap-2 rounded-xl border border-border bg-card px-4 py-3 text-sm font-medium transition-colors hover:border-accent-blue/40">
+              {l.label} <ExternalLink className="h-4 w-4 shrink-0 text-muted-foreground group-hover:text-accent-blue" aria-hidden="true" />
             </a>
           ))}
         </div>
       );
     })()}
     {step.fields && (
-      <div className="grid sm:grid-cols-2 gap-3">
+      <div className="grid gap-4 sm:grid-cols-2">
         {step.fields.map((f) => (
-          <div key={f.name} className={f.type === "textarea" ? "sm:col-span-2" : ""}>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">{f.label}</Label>
+          <Field key={f.name} label={f.label} htmlFor={`pb-f-${f.name}`} className={f.type === "textarea" ? "sm:col-span-2" : undefined}>
             {f.type === "textarea" ? (
-              <Textarea value={formData[f.name] ?? ""} onChange={(e) => setFormData({ ...formData, [f.name]: e.target.value })} className="mt-2" rows={3} />
+              <Textarea id={`pb-f-${f.name}`} value={formData[f.name] ?? ""} onChange={(e) => setFormData({ ...formData, [f.name]: e.target.value })} rows={3} />
             ) : (
-              <Input type={f.type === "number" ? "number" : f.type === "date" ? "date" : "text"}
+              <Input id={`pb-f-${f.name}`} type={f.type === "number" ? "number" : f.type === "date" ? "date" : "text"}
                 value={formData[f.name] ?? ""}
-                onChange={(e) => setFormData({ ...formData, [f.name]: e.target.value })}
-                className="mt-2" />
+                onChange={(e) => setFormData({ ...formData, [f.name]: e.target.value })} />
             )}
-          </div>
+          </Field>
         ))}
       </div>
     )}
   </div>
   );
 };
+
 
 /** Icon pro Step-Kind für die Sidebar-Visualisierung */
 const STEP_KIND_ICON: Record<string, typeof FileText> = {

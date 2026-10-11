@@ -743,12 +743,12 @@ function BankCard({ b }: { b: Bank }) {
       "border-border hover:border-accent-blue/40"
     }`}>
       {b.dealbreaker && (
-        <div className="-mx-4 -mt-4 px-4 py-1.5 bg-destructive text-destructive-foreground text-[10px] font-bold uppercase tracking-wider rounded-t-xl flex items-center gap-1.5">
+        <div className="-mx-4 -mt-4 px-4 py-1.5 bg-destructive text-destructive-foreground text-xs font-semibold rounded-t-xl flex items-center gap-1.5">
           <AlertTriangle className="h-3 w-3" /> Nicht für GmbH-Gründung
         </div>
       )}
       {b.communityPick && !b.dealbreaker && (
-        <div className="-mx-4 -mt-4 px-4 py-1.5 bg-accent-blue text-accent-blue-foreground text-[10px] font-bold uppercase tracking-wider rounded-t-xl flex items-center gap-1.5">
+        <div className="-mx-4 -mt-4 px-4 py-1.5 bg-accent-blue text-accent-blue-foreground text-xs font-semibold rounded-t-xl flex items-center gap-1.5">
           <Sparkles className="h-3 w-3" /> Community-Tipp (vorerst)
         </div>
       )}
@@ -758,7 +758,7 @@ function BankCard({ b }: { b: Bank }) {
           <Icon className="h-4 w-4 text-accent-blue mt-0.5 shrink-0" />
           <div className="min-w-0">
             <div className="font-semibold leading-tight">{b.name}</div>
-            <div className="text-[10px] uppercase tracking-wider text-muted-foreground mt-0.5">
+            <div className="text-xs text-muted-foreground mt-0.5">
               {TYPE_LABEL[b.type]}
             </div>
           </div>

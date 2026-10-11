@@ -193,9 +193,9 @@ export const FamiliengerichtForm = ({ answers, setAnswers }: Props) => {
 
   return (
     <div className="space-y-4">
-      <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-4 text-xs leading-relaxed">
+      <div className="rounded-xl border border-warning/25 bg-warning-soft p-4 text-xs leading-relaxed">
         <div className="flex items-start gap-2">
-          <AlertTriangle className="h-4 w-4 text-amber-700 shrink-0 mt-0.5" />
+          <AlertTriangle className="h-4 w-4 text-warning shrink-0 mt-0.5" />
           <div>
             <div className="font-semibold mb-1">Rechtlicher Rahmen:</div>
             <ul className="list-disc pl-4 space-y-1 text-muted-foreground">
@@ -248,7 +248,7 @@ export const FamiliengerichtForm = ({ answers, setAnswers }: Props) => {
         className="grid sm:grid-cols-2 gap-3"
       >
         <div className="sm:col-span-2">
-          <Label htmlFor="fg-amtsgericht" className="text-xs uppercase tracking-wider text-muted-foreground">
+          <Label htmlFor="fg-amtsgericht" className="text-sm font-medium text-foreground">
             Zuständiges Familiengericht (Amtsgericht des Kind-Wohnsitzes)
           </Label>
           <Input
@@ -275,41 +275,41 @@ export const FamiliengerichtForm = ({ answers, setAnswers }: Props) => {
 
         {/* Kind-Daten: section-child damit Browser nicht User-Daten reinfüllt */}
         <div>
-          <Label htmlFor="fg-kind-name" className="text-xs uppercase tracking-wider text-muted-foreground">Vor- + Nachname Kind</Label>
+          <Label htmlFor="fg-kind-name" className="text-sm font-medium text-foreground">Vor- + Nachname Kind</Label>
           <Input id="fg-kind-name" name="child-name" autoComplete="section-child name" value={answers.fg_kind_name ?? ""} onChange={(e) => update("fg_kind_name", e.target.value)} className="mt-1" />
         </div>
         <div>
-          <Label htmlFor="fg-kind-bday" className="text-xs uppercase tracking-wider text-muted-foreground">Geburtsdatum Kind</Label>
+          <Label htmlFor="fg-kind-bday" className="text-sm font-medium text-foreground">Geburtsdatum Kind</Label>
           <Input id="fg-kind-bday" name="child-bday" autoComplete="section-child bday" type="date" value={answers.fg_kind_geburtsdatum ?? ""} onChange={(e) => update("fg_kind_geburtsdatum", e.target.value)} className="mt-1" />
         </div>
         <div>
-          <Label htmlFor="fg-kind-birthplace" className="text-xs uppercase tracking-wider text-muted-foreground">Geburtsort Kind</Label>
+          <Label htmlFor="fg-kind-birthplace" className="text-sm font-medium text-foreground">Geburtsort Kind</Label>
           <Input id="fg-kind-birthplace" name="child-birthplace" autoComplete="off" value={answers.fg_kind_geburtsort ?? ""} onChange={(e) => update("fg_kind_geburtsort", e.target.value)} className="mt-1" />
         </div>
         <div>
-          <Label htmlFor="fg-kind-address" className="text-xs uppercase tracking-wider text-muted-foreground">Wohnanschrift Kind (falls abweichend)</Label>
+          <Label htmlFor="fg-kind-address" className="text-sm font-medium text-foreground">Wohnanschrift Kind (falls abweichend)</Label>
           <Input id="fg-kind-address" name="child-address" autoComplete="section-child street-address" value={answers.fg_kind_adresse ?? ""} onChange={(e) => update("fg_kind_adresse", e.target.value)} className="mt-1" placeholder="(wie Eltern)" />
         </div>
 
         {/* Eltern-Daten: standard Autofill (das ist meist der User selbst bzw. dessen Partner) */}
         <div>
-          <Label htmlFor="fg-mutter" className="text-xs uppercase tracking-wider text-muted-foreground">Mutter (Name + Geburtsdatum)</Label>
+          <Label htmlFor="fg-mutter" className="text-sm font-medium text-foreground">Mutter (Name + Geburtsdatum)</Label>
           <Input id="fg-mutter" name="mother-name" autoComplete="off" value={answers.fg_mutter_name ?? ""} onChange={(e) => update("fg_mutter_name", e.target.value)} className="mt-1" />
         </div>
         <div>
-          <Label htmlFor="fg-vater" className="text-xs uppercase tracking-wider text-muted-foreground">Vater (Name + Geburtsdatum)</Label>
+          <Label htmlFor="fg-vater" className="text-sm font-medium text-foreground">Vater (Name + Geburtsdatum)</Label>
           <Input id="fg-vater" name="father-name" autoComplete="off" value={answers.fg_vater_name ?? ""} onChange={(e) => update("fg_vater_name", e.target.value)} className="mt-1" />
         </div>
         <div className="sm:col-span-2">
-          <Label htmlFor="fg-eltern-strasse" className="text-xs uppercase tracking-wider text-muted-foreground">Anschrift Eltern</Label>
+          <Label htmlFor="fg-eltern-strasse" className="text-sm font-medium text-foreground">Anschrift Eltern</Label>
           <Input id="fg-eltern-strasse" name="street-address" autoComplete="street-address" value={answers.fg_eltern_strasse ?? ""} onChange={(e) => update("fg_eltern_strasse", e.target.value)} className="mt-1" placeholder="Straße + Nr." />
         </div>
         <div className="sm:col-span-2">
-          <Label htmlFor="fg-eltern-plz-ort" className="text-xs uppercase tracking-wider text-muted-foreground">PLZ + Ort Eltern</Label>
+          <Label htmlFor="fg-eltern-plz-ort" className="text-sm font-medium text-foreground">PLZ + Ort Eltern</Label>
           <Input id="fg-eltern-plz-ort" name="address-line2" autoComplete="address-line2" value={answers.fg_eltern_plz_ort ?? ""} onChange={(e) => update("fg_eltern_plz_ort", e.target.value)} placeholder="PLZ Ort" className="mt-1" />
         </div>
         <div>
-          <Label htmlFor="fg-sorgerecht" className="text-xs uppercase tracking-wider text-muted-foreground">Sorgerecht</Label>
+          <Label htmlFor="fg-sorgerecht" className="text-sm font-medium text-foreground">Sorgerecht</Label>
           <Select value={answers.fg_sorgerecht ?? ""} onValueChange={(v) => update("fg_sorgerecht", v)}>
             <SelectTrigger id="fg-sorgerecht" className="mt-1">
               <SelectValue placeholder="Auswählen…" />
@@ -327,8 +327,8 @@ export const FamiliengerichtForm = ({ answers, setAnswers }: Props) => {
 
         <div className="sm:col-span-2">
           <div className="flex items-end justify-between gap-2 mb-1">
-            <Label htmlFor="fg-taetigkeit" className="text-xs uppercase tracking-wider text-muted-foreground">
-              Genaue Tätigkeit <span className="text-red-500">*</span>
+            <Label htmlFor="fg-taetigkeit" className="text-sm font-medium text-foreground">
+              Genaue Tätigkeit <span className="text-danger">*</span>
             </Label>
             <button
               type="button"
@@ -348,32 +348,32 @@ export const FamiliengerichtForm = ({ answers, setAnswers }: Props) => {
             onChange={(e) => update("fg_taetigkeit", e.target.value)}
             placeholder="z.B. Online-Verkauf von selbst hergestellten Schmuck-Produkten via Etsy und eigenem Shopify-Shop. Keine Mitarbeiter, kein physisches Lager."
             className={`min-h-[70px] ${
-              taetigkeitWords > 0 && !taetigkeitOk ? "border-amber-500/60 focus-visible:ring-amber-500/30" : ""
+              taetigkeitWords > 0 && !taetigkeitOk ? "border-warning/60 focus-visible:ring-warning/30" : ""
             }`}
           />
           <div className="flex items-center justify-between mt-1 text-[10px]">
-            <span className={taetigkeitOk ? "text-emerald-600" : taetigkeitWords > 0 ? "text-amber-700" : "text-muted-foreground"}>
+            <span className={taetigkeitOk ? "text-success" : taetigkeitWords > 0 ? "text-warning" : "text-muted-foreground"}>
               {taetigkeitWords} {taetigkeitWords === 1 ? "Wort" : "Wörter"}
               {!taetigkeitOk && " · mind. 5 Wörter empfohlen"}
               {taetigkeitOk && " ✓"}
             </span>
-            {enhanceError && <span className="text-red-500">{enhanceError}</span>}
+            {enhanceError && <span className="text-danger">{enhanceError}</span>}
           </div>
         </div>
         <div>
-          <Label htmlFor="fg-beginn" className="text-xs uppercase tracking-wider text-muted-foreground">Geplanter Beginn</Label>
+          <Label htmlFor="fg-beginn" className="text-sm font-medium text-foreground">Geplanter Beginn</Label>
           <Input id="fg-beginn" name="biz-start" autoComplete="off" type="date" value={answers.fg_beginn ?? ""} onChange={(e) => update("fg_beginn", e.target.value)} className="mt-1" />
         </div>
         <div>
-          <Label htmlFor="fg-umsatz" className="text-xs uppercase tracking-wider text-muted-foreground">Voraussichtlicher Jahresumsatz</Label>
+          <Label htmlFor="fg-umsatz" className="text-sm font-medium text-foreground">Voraussichtlicher Jahresumsatz</Label>
           <Input id="fg-umsatz" name="revenue" autoComplete="off" value={answers.fg_umsatz ?? ""} onChange={(e) => update("fg_umsatz", e.target.value)} placeholder="z.B. bis 5.000 €/Jahr" className="mt-1" />
         </div>
         <div className="sm:col-span-2">
-          <Label htmlFor="fg-standort" className="text-xs uppercase tracking-wider text-muted-foreground">Standort</Label>
+          <Label htmlFor="fg-standort" className="text-sm font-medium text-foreground">Standort</Label>
           <Input id="fg-standort" name="biz-location" autoComplete="off" value={answers.fg_standort ?? ""} onChange={(e) => update("fg_standort", e.target.value)} placeholder="Wohnanschrift / separates Büro / Coworking" className="mt-1" />
         </div>
         <div className="sm:col-span-2">
-          <Label htmlFor="fg-risiko" className="text-xs uppercase tracking-wider text-muted-foreground">Risiko-Einschätzung</Label>
+          <Label htmlFor="fg-risiko" className="text-sm font-medium text-foreground">Risiko-Einschätzung</Label>
           <Textarea
             id="fg-risiko"
             name="risk-assessment"
@@ -389,7 +389,7 @@ export const FamiliengerichtForm = ({ answers, setAnswers }: Props) => {
           </div>
         </div>
         <div className="sm:col-span-2">
-          <Label htmlFor="fg-begruendung" className="text-xs uppercase tracking-wider text-muted-foreground">Begründung (optional, Standard-Text reicht)</Label>
+          <Label htmlFor="fg-begruendung" className="text-sm font-medium text-foreground">Begründung (optional, Standard-Text reicht)</Label>
           <Textarea
             id="fg-begruendung"
             name="reasoning"

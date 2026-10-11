@@ -735,7 +735,7 @@ const Grid = ({ children }: { children: React.ReactNode }) => (
 
 const Field = ({ label, help, full, required, children }: { label: string; help?: string; full?: boolean; required?: boolean; children: React.ReactNode }) => (
   <div className={full ? "sm:col-span-2" : ""}>
-    <Label className="text-xs uppercase tracking-wider text-muted-foreground">
+    <Label className="text-sm font-medium text-foreground">
       {label}
       {required && <span className="text-destructive ml-1">*</span>}
     </Label>
@@ -747,7 +747,7 @@ const Field = ({ label, help, full, required, children }: { label: string; help?
 const FieldWithAction = ({ label, help, full, required, action, children }: { label: string; help?: string; full?: boolean; required?: boolean; action: React.ReactNode; children: React.ReactNode }) => (
   <div className={full ? "sm:col-span-2" : ""}>
     <div className="flex items-center justify-between gap-2">
-      <Label className="text-xs uppercase tracking-wider text-muted-foreground">
+      <Label className="text-sm font-medium text-foreground">
         {label}
         {required && <span className="text-destructive ml-1">*</span>}
       </Label>

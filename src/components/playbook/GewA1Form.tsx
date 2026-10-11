@@ -218,7 +218,7 @@ export const GewA1Form = ({ answers, setAnswers }: Props) => {
       >
         {FIELDS.map((f) => (
           <div key={f.key} className={f.col === 2 ? "sm:col-span-2" : ""}>
-            <Label htmlFor={`gewa-${f.key}`} className="text-xs uppercase tracking-wider text-muted-foreground">
+            <Label htmlFor={`gewa-${f.key}`} className="text-sm font-medium text-foreground">
               {f.label}
             </Label>
             <Input
