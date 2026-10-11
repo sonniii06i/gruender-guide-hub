@@ -1,13 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, CalendarDays, CalendarPlus, ExternalLink, MapPin, Repeat, Search, Timer, Wifi } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import { ArrowRight, CalendarDays, CalendarPlus, ExternalLink, Landmark, MapPin, Repeat, Search, Timer, Trophy, Wifi, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Seo } from "@/components/Seo";
 import { Navbar } from "@/components/landing/Navbar";
 import { Footer } from "@/components/landing/Footer";
 import { HubNav } from "@/components/landing/HubNav";
+import { PageHeader } from "@/components/landing/PageHeader";
 import { breadcrumbSchema, faqSchema } from "@/lib/freetools/schema";
 import { ladeIcsHerunter } from "@/lib/ics";
 import { BUNDESLAND_NAMES } from "@/data/foerderprogramme";
@@ -285,46 +285,49 @@ export default function GruenderEvents() {
       />
       <Navbar />
 
-      <section className="relative pt-28 pb-8 md:pt-32 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-background to-background" />
-        <div className="relative max-w-3xl mx-auto px-4 sm:px-6 text-center">
-          <Badge variant="secondary" className="mb-4">
-            <CalendarDays className="mr-1.5 h-3.5 w-3.5" /> Täglich aktualisiert · Stand{" "}
+      <PageHeader
+        width="max-w-4xl"
+        kicker={
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1 text-[13px] font-medium text-muted-foreground shadow-card">
+            <CalendarDays className="h-3.5 w-3.5 text-accent-blue" aria-hidden="true" /> Täglich aktualisiert, Stand{" "}
             {new Date(LIVE_STAND.stand).toLocaleDateString("de-DE", { day: "numeric", month: "long", year: "numeric" })}
-          </Badge>
-          <h1 className="text-3xl md:text-5xl font-bold text-foreground mb-4 leading-tight">
-            Gründer-Events in ganz Deutschland
-          </h1>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            IHK-Gründerabende und Sprechtage, Startup-Konferenzen und Meetups – und Hackathons und KI-Build-Sessions,
-            bei denen du in ein paar Stunden dein erstes Tool baust. Alles an einem Ort, jeder Termin mit Link zum
-            Veranstalter.
+          </span>
+        }
+        title="Gründer-Events in ganz Deutschland"
+        lead={
+          <p>
+            IHK-Gründerabende und Sprechtage, Startup-Konferenzen und Meetups, dazu Hackathons und KI-Build-Sessions,
+            bei denen du in ein paar Stunden dein erstes Tool baust. Jeder Termin mit Link zum Veranstalter.
           </p>
-          <div className="mt-6 flex flex-wrap justify-center gap-3 text-sm">
-            <span className="rounded-full border border-border bg-card px-4 py-1.5">
-              <strong>{aktiv.length}</strong> Events & Formate
-            </span>
-            <span className="rounded-full border border-border bg-card px-4 py-1.5">
-              <strong>{anzahlStaedte}</strong> Orte
-            </span>
-            <span className="rounded-full border border-border bg-card px-4 py-1.5">
-              <strong>{anzahlBauen}</strong> Hackathons & Build-Sessions
-            </span>
-          </div>
-        </div>
-      </section>
+        }
+      >
+        <dl className="grid max-w-2xl grid-cols-3 overflow-hidden rounded-2xl border border-border bg-card shadow-card">
+          {[
+            { n: aktiv.length, l: "Events & Formate" },
+            { n: anzahlStaedte, l: "Orte" },
+            { n: anzahlBauen, l: "Hackathons & Build-Sessions" },
+          ].map((k, i) => (
+            <div key={k.l} className={`px-4 py-4 sm:px-5 ${i > 0 ? "border-l border-border" : ""}`}>
+              <dt className="sr-only">{k.l}</dt>
+              <dd className="text-2xl font-semibold tracking-tight tabular">{k.n}</dd>
+              <dd className="mt-0.5 text-xs leading-snug text-muted-foreground sm:text-sm">{k.l}</dd>
+            </div>
+          ))}
+        </dl>
+      </PageHeader>
 
-      <section className="pb-12">
+      <section className="py-10 pb-16 md:py-14">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
           {/* Filter */}
-          <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-4 sm:p-5 mb-6 space-y-3">
+          <div className="mb-8 space-y-3 rounded-2xl border border-border bg-card p-4 shadow-card sm:p-5">
             <div className="flex flex-wrap gap-1.5">
               {GRUPPEN.map((g) => (
                 <button
                   key={g.key}
                   onClick={() => setGruppe(g.key)}
-                  className={`rounded-full px-3 py-1.5 text-xs font-semibold transition-colors ${
-                    gruppe === g.key ? "bg-accent-blue text-primary-foreground" : "border border-border bg-card hover:bg-secondary"
+                  aria-pressed={gruppe === g.key}
+                  className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors ${
+                    gruppe === g.key ? "bg-primary text-primary-foreground" : "border border-border bg-card text-foreground/75 hover:border-foreground/20 hover:text-foreground"
                   }`}
                 >
                   {g.label}
@@ -345,7 +348,7 @@ export default function GruenderEvents() {
                 value={region}
                 onChange={(e) => setRegion(e.target.value)}
                 aria-label="Bundesland"
-                className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
+                className="h-10 w-full rounded-md border border-input bg-card px-3 text-sm shadow-[0_1px_2px_hsl(var(--primary)/0.04)] focus:border-ring focus:outline-none focus:ring-[3px] focus:ring-ring/25"
               >
                 <option value="all">Alle Bundesländer</option>
                 {regionen.map((r) => (
@@ -372,9 +375,9 @@ export default function GruenderEvents() {
 
           {/* Fristen-Radar */}
           {(nurFristen || fristenOffen.length > 0) && (
-            <div className="rounded-2xl border border-amber-500/30 bg-amber-500/5 p-4 sm:p-5 mb-8">
+            <div className="mb-10 rounded-2xl border border-amber-500/25 bg-amber-50/60 p-4 sm:p-6">
               <div className="flex items-center justify-between gap-3 mb-3 flex-wrap">
-                <h2 className="text-lg md:text-xl font-bold">🏆 Fristen-Radar: Wettbewerbe, Stipendien & Accelerator</h2>
+                <h2 className="flex items-center gap-2 text-lg font-semibold md:text-xl"><Trophy className="h-5 w-5 text-amber-600" aria-hidden="true" /> Fristen-Radar: Wettbewerbe, Stipendien & Accelerator</h2>
                 {!nurFristen && (
                   <button onClick={() => setGruppe("fristen")} className="text-xs font-semibold text-accent-blue hover:underline">
                     Alle {fristen.length} Programme →
@@ -383,7 +386,7 @@ export default function GruenderEvents() {
               </div>
               {fristenOffen.length > 0 && (
                 <>
-                  <div className="text-xs uppercase tracking-wider text-muted-foreground mb-2">Bewerbung jetzt offen</div>
+                  <div className="mb-2 text-sm font-medium text-muted-foreground">Bewerbung jetzt offen</div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {(nurFristen ? fristenOffen : fristenOffen.slice(0, 4)).map((f) => (
                       <FristKarte key={f.slug} f={f} heute={heute} />
@@ -393,7 +396,7 @@ export default function GruenderEvents() {
               )}
               {nurFristen && fristenLaufend.length > 0 && (
                 <>
-                  <div className="text-xs uppercase tracking-wider text-muted-foreground mt-5 mb-2">
+                  <div className="mb-2 mt-5 text-sm font-medium text-muted-foreground">
                     Laufend bewerben oder nächste Runde vormerken
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -408,14 +411,14 @@ export default function GruenderEvents() {
 
           {!nurFristen && termine.length > 0 && (
             <>
-              <h2 className="text-xl md:text-2xl font-bold mb-3">Nächste Termine</h2>
+              <h2 className="mb-3 text-xl font-semibold md:text-2xl">Nächste Termine</h2>
               <div className="space-y-3 mb-4">
                 {termine.slice(0, sichtbar).map((e, i, liste) => {
                   const neuerMonat = i === 0 || e.datum!.slice(0, 7) !== liste[i - 1].datum!.slice(0, 7);
                   return (
                     <div key={e.slug}>
                       {neuerMonat && (
-                        <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground pt-3 pb-2">
+                        <h3 className="pb-2 pt-4 text-sm font-semibold text-muted-foreground">
                           {monatsName(e.datum!)}
                         </h3>
                       )}
@@ -437,7 +440,7 @@ export default function GruenderEvents() {
 
           {!nurFristen && laufend.length > 0 && (
             <>
-              <h2 className="text-xl md:text-2xl font-bold mb-1">Regelmäßige Formate</h2>
+              <h2 className="mb-1 text-xl font-semibold md:text-2xl">Regelmäßige Formate</h2>
               <p className="text-sm text-muted-foreground mb-3">
                 Finden laufend statt – den nächsten Termin findest du jeweils beim Veranstalter.
               </p>
@@ -450,14 +453,14 @@ export default function GruenderEvents() {
           )}
 
           {!nurFristen && gefiltert.length === 0 && (
-            <div className="rounded-xl border border-border bg-card p-8 text-center text-sm text-muted-foreground mb-10">
+            <div className="mb-10 rounded-2xl border border-dashed border-border bg-card p-10 text-center text-sm text-muted-foreground">
               Für diese Filter gibt es gerade nichts. Nimm einen Filter heraus oder schau in die Event-Kalender unten.
             </div>
           )}
 
           {/* Build-Session vorbereiten */}
-          <div className="rounded-2xl border border-orange-500/30 bg-orange-500/5 p-5 mb-10">
-            <h2 className="text-lg font-bold mb-2">⚡ In 3 Stunden zum ersten Tool – so nutzt du eine Build-Session</h2>
+          <div className="mb-10 rounded-2xl border border-border bg-card p-5 shadow-card sm:p-6">
+            <h2 className="mb-2 flex items-center gap-2 text-lg font-semibold"><Zap className="h-5 w-5 text-accent-blue" aria-hidden="true" /> In 3 Stunden zum ersten Tool: so nutzt du eine Build-Session</h2>
             <p className="text-sm mb-3">
               Mit Timer und Prompt-Vorlagen:{" "}
               <Link to="/hackathon-starter-kit" className="text-accent-blue font-semibold hover:underline">Hackathon-Starter-Kit öffnen →</Link>{" "}
@@ -491,8 +494,8 @@ export default function GruenderEvents() {
           </div>
 
           {/* Abonnierbare Kalender */}
-          <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5 mb-10">
-            <h2 className="text-lg font-bold mb-1">📅 Termine automatisch im eigenen Kalender</h2>
+          <div className="mb-10 rounded-2xl border border-accent-blue/20 bg-accent/60 p-5 sm:p-6">
+            <h2 className="mb-1 flex items-center gap-2 text-lg font-semibold"><CalendarPlus className="h-5 w-5 text-accent-blue" aria-hidden="true" /> Termine automatisch im eigenen Kalender</h2>
             <p className="text-sm text-muted-foreground mb-3">
               Abonniere den Kalender für dein Bundesland (inklusive Online-Events) oder alle Bewerbungsfristen – er
               aktualisiert sich von selbst in Google Kalender, Apple Kalender oder Outlook.
@@ -500,7 +503,7 @@ export default function GruenderEvents() {
             <div className="flex flex-wrap gap-2 items-center">
               <select
                 aria-label="Bundesland für den Kalender"
-                className="h-9 rounded-md border border-input bg-background px-2 text-sm"
+                className="h-10 rounded-md border border-input bg-card px-2 text-sm"
                 value={region === "all" ? "" : region}
                 onChange={(ev) => setRegion(ev.target.value || "all")}
               >
@@ -510,12 +513,12 @@ export default function GruenderEvents() {
                 ))}
               </select>
               <a
-                className="rounded-md bg-accent-blue text-primary-foreground px-3 py-2 text-sm font-semibold"
+                className="inline-flex h-10 items-center rounded-lg bg-primary px-4 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
                 href={`webcal://gruenderx.de/kalender/${region === "all" ? "gruender-events" : `gruender-events-${region.toLowerCase()}`}.ics`}
               >
                 Events abonnieren
               </a>
-              <a className="rounded-md border border-border bg-card px-3 py-2 text-sm font-semibold" href="webcal://gruenderx.de/kalender/fristen.ics">
+              <a className="inline-flex h-10 items-center rounded-lg border border-input bg-card px-4 text-sm font-semibold transition-colors hover:bg-secondary" href="webcal://gruenderx.de/kalender/fristen.ics">
                 Fristen abonnieren
               </a>
               <a
@@ -532,7 +535,7 @@ export default function GruenderEvents() {
           {/* Kalender */}
           {EVENT_KALENDER.length > 0 && (
             <div className="mb-10">
-              <h2 className="text-xl md:text-2xl font-bold mb-1">Event-Kalender, die sich lohnen</h2>
+              <h2 className="mb-1 text-xl font-semibold md:text-2xl">Event-Kalender, die sich lohnen</h2>
               <p className="text-sm text-muted-foreground mb-3">
                 Unser Monitor liest täglich 14 Quellen aus – von Gründungswoche, IHK-Kalendern und Startup-Hubs bis Luma,
                 Meetup, Google Developer Groups und Eventbrite. Für alles Weitere: Hier
@@ -548,7 +551,7 @@ export default function GruenderEvents() {
                     className="group rounded-xl border border-border bg-card p-4 hover:border-accent-blue/40 transition-colors"
                   >
                     <div className="flex items-center gap-2">
-                      <span>{k.art === "build" ? "⚡" : "🏛️"}</span>
+                      {k.art === "build" ? <Zap className="h-4 w-4 text-accent-blue" aria-hidden="true" /> : <Landmark className="h-4 w-4 text-muted-foreground" aria-hidden="true" />}
                       <span className="font-semibold text-sm flex-1">{k.name}</span>
                       <ExternalLink className="h-3.5 w-3.5 text-muted-foreground" />
                     </div>
@@ -560,7 +563,7 @@ export default function GruenderEvents() {
           )}
 
           {/* FAQ */}
-          <h2 className="text-xl md:text-2xl font-bold mb-3">Häufige Fragen</h2>
+          <h2 className="mb-3 text-xl font-semibold md:text-2xl">Häufige Fragen</h2>
           <div className="space-y-3 mb-10">
             {faqs.map((f) => (
               <div key={f.q} className="rounded-xl border border-border bg-card p-5">
@@ -570,20 +573,20 @@ export default function GruenderEvents() {
             ))}
           </div>
 
-          <div className="rounded-2xl bg-primary/5 p-6 text-center">
-            <h2 className="text-xl font-bold mb-2">Vom Gründerabend zur fertigen Gründung</h2>
-            <p className="text-sm text-muted-foreground mb-4 max-w-xl mx-auto">
+          <div className="relative overflow-hidden rounded-2xl bg-ink p-8 text-center text-primary-foreground">
+            <h2 className="mb-2 text-2xl font-semibold">Vom Gründerabend zur fertigen Gründung</h2>
+            <p className="mx-auto mb-6 max-w-xl text-sm text-primary-foreground/75">
               Auf dem Event bekommst du den Überblick – GründerX führt dich danach Schritt für Schritt durch
               Gewerbeanmeldung, Steuern und Förderung.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-3">
               <Link to="/gratis-tools">
-                <Button size="lg">
-                  Gratis-Tools ansehen <ArrowRight className="ml-2 h-5 w-5" />
+                <Button size="lg" className="w-full rounded-xl bg-card font-semibold text-primary hover:bg-card/90 sm:w-auto">
+                  Gratis-Tools ansehen <ArrowRight />
                 </Button>
               </Link>
               <Link to="/guides">
-                <Button size="lg" variant="outline">Alle Guides</Button>
+                <Button size="lg" variant="outline" className="w-full rounded-xl border-white/20 bg-transparent text-primary-foreground hover:bg-white/10 hover:text-primary-foreground sm:w-auto">Alle Guides</Button>
               </Link>
             </div>
           </div>

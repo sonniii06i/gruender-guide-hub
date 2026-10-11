@@ -20,49 +20,47 @@ const SAMPLE_GUIDES = [
  * Felix zeigt auf den nächsten offenen Schritt – "du bist hier".
  */
 export const GuidesRoadmap = () => (
-  <section id="guides" className="py-20 md:py-24">
+  <section id="guides" className="border-y border-border/70 bg-card py-20 md:py-28">
     <div className="container max-w-6xl">
-      <div className="grid lg:grid-cols-[auto,1fr] gap-10 lg:gap-14 items-center">
+      <div className="grid items-center gap-10 lg:grid-cols-[0.8fr,1.2fr] lg:gap-16">
         <div className="flex justify-center">
           <Mascot
             name="felix-roadmap"
             alt="Felix zeigt auf den nächsten offenen Schritt einer Gründungs-Roadmap"
-            className="w-52 md:w-64"
+            className="w-56 md:w-72"
           />
         </div>
 
         <div>
-          <p className="text-sm font-semibold uppercase tracking-wider text-brand-green mb-3">
-            Guides &amp; Playbooks
-          </p>
-          <h2 className="text-3xl md:text-4xl font-bold text-balance leading-tight">
+          <p className="mb-4 text-sm font-medium text-brand-green">Guides &amp; Playbooks</p>
+          <h2 className="text-3xl font-semibold leading-[1.1] md:text-[2.75rem]">
             {GUIDE_COUNT} Wege, die schon jemand vor dir gegangen ist.
           </h2>
-          <p className="mt-4 text-lg text-muted-foreground max-w-2xl">
+          <p className="mt-4 max-w-xl text-lg leading-relaxed text-muted-foreground">
             Jeder Guide ist eine abhakbare Schritt-Kette mit Formularen, echten
-            Beträgen und Paragrafen – nicht der übliche Blog-Artikel.
+            Beträgen und Paragrafen, nicht der übliche Blog-Artikel.
           </p>
 
-          <div className="mt-8 grid sm:grid-cols-2 gap-3">
+          <div className="mt-8 grid gap-2.5 sm:grid-cols-2">
             {SAMPLE_GUIDES.map((g) => (
               <Link
                 key={g.slug}
                 to={guideHref(g.slug)}
-                className="group flex items-center justify-between gap-3 rounded-2xl border border-border bg-card px-4 py-3 shadow-card hover:border-brand-green/50 hover:shadow-soft transition-all"
+                className="press group flex items-center justify-between gap-3 rounded-xl border border-border bg-background px-4 py-3.5 hover:border-brand-green/50 hover:bg-card hover:shadow-card"
               >
                 <div className="min-w-0">
-                  <p className="font-medium text-foreground truncate">{g.title}</p>
-                  <p className="text-xs text-muted-foreground truncate">{g.meta}</p>
+                  <p className="truncate font-medium text-foreground">{g.title}</p>
+                  <p className="truncate text-xs text-muted-foreground">{g.meta}</p>
                 </div>
-                <ArrowRight className="h-4 w-4 text-muted-foreground shrink-0 group-hover:text-brand-green group-hover:translate-x-0.5 transition-all" />
+                <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-brand-green" />
               </Link>
             ))}
           </div>
 
-          <Button asChild variant="outline" size="lg" className="mt-8 rounded-full">
+          <Button asChild variant="outline" size="lg" className="mt-8 rounded-xl">
             <Link to="/guides">
               Alle {GUIDE_COUNT} Guides ansehen
-              <ArrowRight className="ml-2 h-4 w-4" />
+              <ArrowRight />
             </Link>
           </Button>
         </div>

@@ -1,51 +1,68 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Sparkles, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+
+const TOPICS = [
+  "Fragebogen zur steuerlichen Erfassung",
+  "USt-Voranmeldung",
+  "Rechnungs- & Buchhaltungs-Setup",
+  "OSS, LUCID, WEEE",
+  "Rechtsform & Anbieterwahl",
+];
 
 export const Assistant = () => (
-  <section className="py-24">
+  <section className="pb-20 md:pb-28">
     <div className="container max-w-6xl">
-      <div className="rounded-3xl bg-gradient-primary p-8 md:p-14 text-primary-foreground relative overflow-hidden shadow-glow">
-        <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-accent-blue/30 blur-3xl" />
-        <div className="absolute -bottom-32 -left-32 w-96 h-96 rounded-full bg-white/10 blur-3xl" />
+      <div className="relative overflow-hidden rounded-[2rem] bg-ink text-primary-foreground shadow-soft">
+        <div className="pointer-events-none absolute inset-0 bg-dots-light" aria-hidden="true" />
+        <div
+          className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-accent-blue/25 blur-3xl"
+          aria-hidden="true"
+        />
 
-        <div className="grid md:grid-cols-[1fr,auto] gap-10 items-center relative">
+        <div className="relative grid items-center gap-8 p-8 md:grid-cols-[1fr,auto] md:p-14">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-xs font-medium mb-5 backdrop-blur">
-              <Sparkles className="h-3.5 w-3.5" /> KI-Assistent
-            </div>
-            <h3 className="text-3xl md:text-5xl font-bold leading-tight text-balance">
-              Lerne Felix kennen –<br />
-              dein persönlicher Gründungs-Co-Pilot.
-            </h3>
-            <p className="mt-5 text-lg text-primary-foreground/85 max-w-2xl text-balance">
-              Felix begleitet dich durch Finanzamt-Fragebogen, USt-Voranmeldung,
-              Rechnungs- und Buchhaltungs-Setup, OSS, LUCID, WEEE und sagt dir,
-              welche Rechtsform, welche Tools und welche Anbieter wirklich zu
-              dir passen. Gebaut für E-Commerce & Creator-Business, gestützt auf
-              die Guides und Tools von GründerX.
+            <p className="mb-4 text-sm font-medium text-brand-green-glow">KI-Assistent</p>
+            <h2 className="max-w-2xl text-3xl font-semibold leading-[1.1] md:text-[2.75rem]">
+              Lerne Felix kennen, deinen persönlichen Gründungs-Co-Pilot.
+            </h2>
+            <p className="mt-5 max-w-xl text-lg leading-relaxed text-primary-foreground/75">
+              Felix sagt dir, welche Rechtsform, welche Tools und welche Anbieter zu dir passen. Gebaut für
+              E-Commerce und Creator-Business, gestützt auf die Guides und Tools von GründerX.
             </p>
-            <Link to="/auth?mode=signup">
-              <Button
-                size="lg"
-                className="mt-8 rounded-full bg-card text-primary hover:bg-card/90 h-14 px-7 font-semibold"
-              >
-                Jetzt freischalten <ArrowRight className="ml-1 h-4 w-4" />
-              </Button>
-            </Link>
+
+            <ul className="mt-7 flex flex-wrap gap-2" aria-label="Themen, bei denen Felix begleitet">
+              {TOPICS.map((t) => (
+                <li
+                  key={t}
+                  className="rounded-lg border border-white/10 bg-white/[0.06] px-3 py-1.5 text-sm text-primary-foreground/85"
+                >
+                  {t}
+                </li>
+              ))}
+            </ul>
+
+            <Button
+              asChild
+              size="lg"
+              className="mt-9 h-12 rounded-xl bg-card px-6 font-semibold text-primary shadow-none hover:bg-card/90"
+            >
+              <Link to="/auth?mode=signup">
+                Zugang freischalten <ArrowRight />
+              </Link>
+            </Button>
           </div>
 
-          <div className="relative mx-auto md:mx-0 mt-8 md:mt-0 flex items-center justify-center">
-            <div className="absolute inset-0 -z-0 flex items-center justify-center" aria-hidden="true">
-              <div className="w-56 h-56 md:w-72 md:h-72 rounded-full bg-white/20 blur-3xl" />
-            </div>
+          <div className="relative mx-auto flex items-center justify-center md:mx-0">
             <img
               src="/mascots/felix-present.webp"
               srcSet="/mascots/felix-present.webp 1x, /mascots/felix-present@2x.webp 2x"
               alt="Felix, dein KI-Gründungs-Copilot, erklärt den nächsten Schritt"
               loading="lazy"
               decoding="async"
-              className="relative h-56 w-56 md:h-72 md:w-72 object-contain drop-shadow-xl"
+              width={288}
+              height={288}
+              className="relative h-56 w-56 object-contain drop-shadow-2xl md:h-72 md:w-72"
             />
           </div>
         </div>

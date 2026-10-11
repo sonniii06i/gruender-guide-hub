@@ -5,46 +5,43 @@ import { CATEGORIES, categoryToolCount, LANDING_TOOLS } from "@/data/features";
 export const UseCasesShowcase = ({ compact = false }: { compact?: boolean }) => {
   const total = LANDING_TOOLS.length;
   return (
-    <section className={compact ? "py-2" : "py-16 md:py-20"}>
+    <section className={compact ? "py-2" : "py-20 md:py-28"}>
       <div className="container max-w-6xl px-4">
-        <div className="text-center mb-8 md:mb-10">
+        <div className={compact ? "mb-6 text-center" : "mb-12 max-w-3xl"}>
           {/* Felix bewusst entfernt – siehe Features.tsx */}
-          <div className="inline-flex items-center gap-2 rounded-full bg-accent-blue/10 border border-accent-blue/20 px-3 py-1 text-xs font-semibold text-accent-blue mb-3">
-            Alles in einem Cockpit
-          </div>
-          <h2 className="text-2xl md:text-3xl font-bold tracking-tight">
+          <h2 className={compact ? "text-2xl font-semibold tracking-tight" : "text-3xl font-semibold leading-[1.1] md:text-[2.75rem]"}>
             {compact ? "Das schaltest du frei" : "Für jeden Schritt deiner Gründung das richtige Tool"}
           </h2>
-          <p className="mt-3 text-muted-foreground max-w-2xl mx-auto text-sm md:text-base">
-            Von der ersten Idee bis zur internationalen Holding – {total}+ Tools, Wizards, Rechner &
+          <p className={`mt-4 text-muted-foreground ${compact ? "mx-auto max-w-2xl text-sm md:text-base" : "max-w-2xl text-lg leading-relaxed"}`}>
+            Von der ersten Idee bis zur internationalen Holding: {total} Tools, Wizards, Rechner und
             Guides plus Felix als KI-Co-Founder. Ein Abo, alles drin.
           </p>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
+        <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {CATEGORIES.map((c) => {
             const Icon = c.icon;
             return (
-              <div
+              <li
                 key={c.slug}
-                className="rounded-2xl border border-border bg-card p-4 md:p-5 hover:border-accent-blue/40 hover:shadow-card transition-all"
+                className="group flex items-start gap-4 rounded-2xl border border-border bg-card p-5 transition-[border-color,box-shadow] hover:border-accent-blue/35 hover:shadow-card"
               >
-                <div className="flex items-start gap-3">
-                  <div className="h-9 w-9 rounded-xl bg-accent-blue/10 flex items-center justify-center shrink-0">
-                    <Icon className="h-5 w-5 text-accent-blue" />
-                  </div>
-                  <div className="min-w-0">
-                    <h3 className="font-semibold text-sm leading-tight">{c.title}</h3>
-                    <p className="text-xs text-muted-foreground mt-1 leading-relaxed">{c.tagline}</p>
-                    <p className="text-[11px] font-semibold text-accent-blue mt-2">
-                      {categoryToolCount(c.slug)} Tools & Guides
-                    </p>
-                  </div>
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent text-accent-blue">
+                  <Icon className="h-5 w-5" aria-hidden="true" />
                 </div>
-              </div>
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-baseline justify-between gap-3">
+                    <h3 className="text-[15px] font-semibold leading-tight">{c.title}</h3>
+                    <span className="shrink-0 text-xs font-medium text-muted-foreground tabular">
+                      {categoryToolCount(c.slug)} Tools
+                    </span>
+                  </div>
+                  <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{c.tagline}</p>
+                </div>
+              </li>
             );
           })}
-        </div>
+        </ul>
       </div>
     </section>
   );

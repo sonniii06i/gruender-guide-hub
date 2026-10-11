@@ -3,6 +3,8 @@ import { Navbar } from "@/components/landing/Navbar";
 import { Footer } from "@/components/landing/Footer";
 import { Seo } from "@/components/Seo";
 import { HubNav } from "@/components/landing/HubNav";
+import { PageHeader } from "@/components/landing/PageHeader";
+import { ArrowRight } from "lucide-react";
 import { CATEGORIES, LANDING_TOOLS } from "@/data/features";
 
 const SITE = "https://gruenderx.de";
@@ -49,42 +51,71 @@ const Tools = () => {
         jsonLd={jsonLd}
       />
       <Navbar />
-      <main className="container max-w-5xl pt-28 pb-12 md:pt-32 md:pb-16 px-4">
-        <header className="mb-10 max-w-2xl">
-          <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
-            Tools für Gründer
-          </h1>
-          <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
-            {LANDING_TOOLS.length} Rechner, Wizards und Checks rund um Gründung, Steuern, Buchhaltung,
-            Marken und internationale Setups — gebaut für deutsche Gründer, E-Commerce-Brands, Creator
-            und Solo-Selbstständige, die ohne teuren Berater starten wollen.
-          </p>
-        </header>
-
-        <div className="space-y-12">
-          {grouped.map(({ cat, tools }) => (
-            <section key={cat.slug}>
-              <h2 className="text-xl md:text-2xl font-bold tracking-tight mb-1">
+      <main>
+        <PageHeader
+          crumbs={[{ label: "Start", to: "/" }, { label: "Tools" }]}
+          title="Tools für Gründer"
+          lead={
+            <p>
+              {LANDING_TOOLS.length} Rechner, Wizards und Checks rund um Gründung, Steuern, Buchhaltung, Marken und
+              internationale Setups, gebaut für deutsche Gründer, E-Commerce-Brands, Creator und
+              Solo-Selbstständige, die ohne teuren Berater starten wollen.
+            </p>
+          }
+        >
+          <nav aria-label="Kategorien" className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] md:flex-wrap">
+            {grouped.map(({ cat, tools }) => (
+              <a
+                key={cat.slug}
+                href={`#${cat.slug}`}
+                className="inline-flex shrink-0 items-center gap-2 rounded-lg border border-border bg-card px-3 py-2 text-sm font-medium text-foreground/80 shadow-card transition-colors hover:border-accent-blue/40 hover:text-foreground"
+              >
                 {cat.title.replace(/^[^\wÄÖÜäöü]+/, "").trim()}
-              </h2>
-              <p className="text-sm text-muted-foreground mb-5">{cat.tagline}</p>
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                {tools.map((t) => (
-                  <Link
-                    key={t.slug}
-                    to={`/tools/${t.slug}`}
-                    className="rounded-xl border border-border bg-card p-4 hover:border-accent-blue/50 transition-colors"
-                  >
-                    <p className="font-medium text-sm mb-1">{t.title}</p>
-                    <p className="text-xs text-muted-foreground line-clamp-3">{t.desc}</p>
-                  </Link>
-                ))}
-              </div>
-            </section>
-          ))}
-        </div>
+                <span className="text-xs text-muted-foreground tabular">{tools.length}</span>
+              </a>
+            ))}
+          </nav>
+        </PageHeader>
 
-        <HubNav show={["guides", "ratgeber"]} />
+        <div className="container max-w-5xl px-4 py-14 md:py-20">
+          <div className="space-y-16">
+            {grouped.map(({ cat, tools }) => {
+              const Icon = cat.icon;
+              return (
+                <section key={cat.slug} id={cat.slug} className="scroll-mt-24">
+                  <div className="mb-6 flex items-start gap-4">
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-accent text-accent-blue">
+                      <Icon className="h-5 w-5" aria-hidden="true" />
+                    </div>
+                    <div>
+                      <h2 className="text-xl font-semibold tracking-tight md:text-2xl">
+                        {cat.title.replace(/^[^\wÄÖÜäöü]+/, "").trim()}
+                      </h2>
+                      <p className="mt-1 text-sm text-muted-foreground">{cat.tagline}</p>
+                    </div>
+                  </div>
+                  <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                    {tools.map((t) => (
+                      <Link
+                        key={t.slug}
+                        to={`/tools/${t.slug}`}
+                        className="press group flex flex-col rounded-xl border border-border bg-card p-4 hover:border-accent-blue/40 hover:shadow-card"
+                      >
+                        <p className="mb-1 flex items-start justify-between gap-2 text-sm font-semibold">
+                          {t.title}
+                          <ArrowRight className="mt-0.5 h-3.5 w-3.5 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-accent-blue" aria-hidden="true" />
+                        </p>
+                        <p className="line-clamp-3 text-xs leading-relaxed text-muted-foreground">{t.desc}</p>
+                      </Link>
+                    ))}
+                  </div>
+                </section>
+              );
+            })}
+          </div>
+
+          <HubNav show={["guides", "ratgeber"]} />
+        </div>
       </main>
       <Footer />
     </div>

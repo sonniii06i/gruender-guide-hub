@@ -182,9 +182,9 @@ export const Bundles = () => {
   const busy = loading === selected;
 
   return (
-    <section id="bundles" className="py-24 bg-secondary/40">
+    <section id="bundles" className="border-y border-border/70 bg-secondary/50 py-20 md:py-28">
       <div className="container max-w-6xl">
-        <p className="mb-3 text-sm font-semibold uppercase tracking-wider text-accent-blue">Produkt</p>
+        <p className="mb-6 text-sm font-medium text-accent-blue">Produkt</p>
 
         {/* Galerie + Buy-Box */}
         {/* Die Galerie zeigt 16:9-Screenshots — sie bekommt die breite Spalte,
@@ -210,7 +210,7 @@ export const Bundles = () => {
                 size="lg"
                 onClick={() => handleCheckout(selected)}
                 disabled={busy}
-                className="h-14 w-full rounded-full bg-gradient-primary text-base font-semibold text-primary-foreground shadow-glow hover:opacity-95"
+                className="h-14 w-full rounded-xl bg-gradient-primary text-base font-semibold text-primary-foreground shadow-glow hover:opacity-95"
               >
                 {busy ? (
                   <Loader2 className="h-5 w-5 animate-spin" />
@@ -244,7 +244,7 @@ export const Bundles = () => {
         {/* Lieferumfang + Produktdetails */}
         <div className="mt-16 grid gap-10 lg:grid-cols-2">
           <div>
-            <h3 className="mb-4 flex items-center gap-2 text-2xl font-bold">
+            <h3 className="mb-4 flex items-center gap-2 text-2xl font-semibold">
               <PackageCheck className="h-6 w-6 text-accent-blue" />
               Lieferumfang
             </h3>
@@ -264,7 +264,7 @@ export const Bundles = () => {
           </div>
 
           <div>
-            <h3 className="mb-4 flex items-center gap-2 text-2xl font-bold">
+            <h3 className="mb-4 flex items-center gap-2 text-2xl font-semibold">
               <ClipboardList className="h-6 w-6 text-accent-blue" />
               Produktdetails
             </h3>
@@ -278,8 +278,8 @@ export const Bundles = () => {
         {/* Set-Empfehlung — nur solange der Einzelzugang gewählt ist */}
         {selected.startsWith("gruenderx") && (
           <div className="mt-16 max-w-4xl">
-            <h3 className="mb-4 text-2xl font-bold">Häufig zusammen gekauft</h3>
-            <div className="flex flex-col items-center gap-4 rounded-3xl border border-border bg-card p-6 shadow-card sm:flex-row">
+            <h3 className="mb-4 text-2xl font-semibold">Häufig zusammen gekauft</h3>
+            <div className="flex flex-col items-center gap-4 rounded-2xl border border-border bg-card p-6 shadow-card sm:flex-row">
               <img src="/mascots/felix-pricecard.webp" alt="" aria-hidden className="h-20 w-20 shrink-0 object-contain" loading="lazy" />
               <Plus className="h-5 w-5 shrink-0 text-muted-foreground" />
               <img src="/mascots/bundle-duo.webp" alt="" aria-hidden className="h-20 w-20 shrink-0 object-contain" loading="lazy" />
@@ -294,7 +294,7 @@ export const Bundles = () => {
               <Button
                 variant="outline"
                 onClick={() => { setSelected("bundle"); window.scrollTo({ top: document.getElementById("bundles")?.offsetTop ?? 0, behavior: "smooth" }); }}
-                className="w-full shrink-0 rounded-full sm:w-auto"
+                className="w-full shrink-0 rounded-xl sm:w-auto"
               >
                 Set wählen
               </Button>

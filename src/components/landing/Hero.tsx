@@ -1,121 +1,95 @@
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
-import { ShieldCheck, Clock, Sparkles, Calculator, ArrowRight } from "lucide-react";
+import { ArrowRight, Store } from "lucide-react";
 import { TOOL_COUNT } from "@/data/features";
 import { GUIDE_COUNT } from "@/data/guides";
+import { PLANS, FOUNDER_CODE, formatEurCents } from "@/config/pricing";
 
-const chips = [
-  { icon: ShieldCheck, label: "DSGVO-konform" },
-  { icon: Clock, label: "24/7 verfügbar" },
-  { icon: Sparkles, label: "KI-gestützt" },
-  { icon: Calculator, label: "Steuer-Cockpit" },
-];
-
-/** Bewusst faktisch – keine erfundenen Kundenzahlen. */
+/** Bewusst faktisch, keine erfundenen Kundenzahlen. Zahlen kommen aus den Datenquellen. */
 const proof = [
   { value: String(TOOL_COUNT), label: "Tools & Wizards" },
   { value: String(GUIDE_COUNT), label: "Schritt-für-Schritt-Guides" },
   { value: "EU", label: "Server, DSGVO-konform" },
-  { value: "DE / US / HK", label: "Gründungs-Guides" },
+  { value: "DE · US · HK", label: "Gründungs-Guides" },
 ];
 
 export const Hero = () => {
   return (
-    <section className="relative bg-hero pt-32 pb-20 md:pt-36 md:pb-24 overflow-hidden">
-      <div className="absolute inset-0 -z-10 opacity-60" aria-hidden="true">
-        <div className="absolute top-20 left-1/4 w-96 h-96 rounded-full bg-accent-blue/20 blur-3xl" />
-        <div className="absolute top-40 right-1/4 w-96 h-96 rounded-full bg-brand-green/15 blur-3xl" />
-      </div>
+    <section className="relative overflow-hidden bg-hero pt-28 md:pt-32">
+      <div className="pointer-events-none absolute inset-0 bg-dots [mask-image:linear-gradient(to_bottom,black,transparent_70%)]" aria-hidden="true" />
 
-      <div className="container max-w-6xl">
-        <div className="grid lg:grid-cols-2 gap-10 lg:gap-12 items-center">
+      <div className="container relative max-w-6xl">
+        <div className="grid items-center gap-10 pb-14 lg:grid-cols-[1.15fr,0.85fr] lg:gap-14 lg:pb-20">
           {/* Text-Spalte */}
-          <div className="text-center lg:text-left">
+          <div>
             {/* Zielgruppe zuerst: Relevanz muss in 3 Sekunden sitzen. */}
-            <Badge
-              variant="outline"
-              className="mb-6 rounded-full border-brand-green/30 bg-brand-green-soft text-brand-green px-4 py-1.5"
-            >
-              <Sparkles className="h-3.5 w-3.5 mr-1.5" /> Für E-Commerce-Händler
-              &amp; Creator in Deutschland
-            </Badge>
-
-            <h1 className="text-4xl md:text-6xl font-extrabold leading-[1.12] tracking-tight text-balance">
-              <span className="block">Gründung, Steuer &amp; Marketplace-Setup.</span>
-              <span className="block text-accent-blue">In der richtigen Reihenfolge.</span>
-            </h1>
-
-            <p className="mt-6 text-lg md:text-xl text-muted-foreground max-w-xl mx-auto lg:mx-0 text-balance">
-              Rechtsform, Fragebogen zur steuerlichen Erfassung, LUCID, WEEE, OSS,
-              Amazon- und TikTok-Shop-Setup: Felix führt dich als KI-Co-Pilot
-              Schritt für Schritt durch – in der Reihenfolge, in der es wirklich
-              gebraucht wird.
+            <p className="mb-6 inline-flex items-center gap-2 rounded-full border border-brand-green/25 bg-brand-green-soft px-3 py-1 text-[13px] font-medium text-brand-green">
+              <Store className="h-3.5 w-3.5" aria-hidden="true" />
+              Für E-Commerce-Händler &amp; Creator in Deutschland
             </p>
 
-            <div className="mt-8 flex flex-wrap items-center justify-center lg:justify-start gap-2">
-              {chips.map((c) => (
-                <div
-                  key={c.label}
-                  className="flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-medium text-muted-foreground shadow-card"
-                >
-                  <c.icon className="h-3.5 w-3.5 text-brand-green" />
-                  {c.label}
-                </div>
-              ))}
+            <h1 className="text-[2.4rem] font-semibold leading-[1.05] tracking-[-0.04em] text-foreground sm:text-5xl lg:text-[3.35rem]">
+              Gründung, Steuer &amp; Marketplace-Setup.{" "}
+              <span className="text-accent-blue">In der richtigen Reihenfolge.</span>
+            </h1>
+
+            <p className="mt-6 max-w-[34rem] text-lg leading-relaxed text-muted-foreground md:text-xl md:leading-relaxed">
+              Rechtsform, Steuer-Fragebogen, LUCID, WEEE, OSS und Shop-Setup: Felix führt dich als KI-Co-Pilot
+              Schritt für Schritt durch.
+            </p>
+
+            <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
+              <Button
+                asChild
+                size="lg"
+                className="group h-[52px] rounded-xl bg-gradient-primary px-7 text-base font-semibold shadow-glow hover:opacity-95"
+              >
+                <Link to="/auth">
+                  Zugang freischalten
+                  <ArrowRight className="transition-transform group-hover:translate-x-0.5" />
+                </Link>
+              </Button>
+              <Button asChild size="lg" variant="outline" className="h-[52px] rounded-xl px-6 text-base">
+                <Link to="/gratis-tools">Gratis-Tools testen</Link>
+              </Button>
             </div>
 
-            <div className="mt-9 flex flex-col sm:flex-row gap-3 justify-center lg:justify-start items-center">
-              <Link to="/auth" className="w-full sm:w-auto">
-                <Button
-                  size="lg"
-                  className="group w-full sm:w-auto rounded-full bg-gradient-primary hover:opacity-95 text-primary-foreground h-14 px-10 shadow-glow hover:-translate-y-0.5 transition-all duration-300 text-base font-semibold"
-                >
-                  Zugang freischalten{" "}
-                  <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                </Button>
-              </Link>
-              {/* Bewusst KEIN zweiter CTA daneben — ein Ziel pro Hero.
-                  Der Early-Bird-Code steht als Hinweis darunter. */}
-              <span className="text-sm text-muted-foreground">
-                20 % im ersten Monat mit Code{" "}
-                <strong className="text-foreground">FOUNDER</strong>
-              </span>
-            </div>
-
-            <p className="mt-4 text-xs text-muted-foreground">
-              64,99 €/Monat · monatlich kündbar · Konto nach der Zahlung
+            <p className="mt-5 text-sm text-muted-foreground tabular">
+              {formatEurCents(PLANS.gruenderx.grossCents)} im Monat inkl. USt., monatlich kündbar.{" "}
+              {FOUNDER_CODE.percent} % im ersten Monat mit Code{" "}
+              <strong className="font-semibold text-foreground">{FOUNDER_CODE.code}</strong>.
             </p>
           </div>
 
           {/* Felix arbeitet, statt zu posieren */}
-          <div className="relative order-first lg:order-last">
-            <div
-              className="absolute inset-6 -z-10 rounded-[2rem] bg-gradient-to-br from-brand-green/25 via-accent-blue/10 to-transparent blur-2xl"
-              aria-hidden="true"
-            />
-            <img
-              src="/mascots/felix-hero-desk.webp"
-              srcSet="/mascots/felix-hero-desk.webp 1x, /mascots/felix-hero-desk@2x.webp 2x"
-              alt="Felix, dein KI-Gründungs-Copilot, arbeitet am Laptop eine Gründungs-Checkliste ab"
-              width={1376}
-              height={768}
-              fetchPriority="high"
-              decoding="async"
-              className="w-full rounded-3xl shadow-card"
-            />
+          <div className="relative">
+            <div className="relative rounded-[1.75rem] border border-border/80 bg-card/70 p-2 shadow-soft backdrop-blur">
+              <img
+                src="/mascots/felix-hero-desk.webp"
+                srcSet="/mascots/felix-hero-desk.webp 1x, /mascots/felix-hero-desk@2x.webp 2x"
+                alt="Felix, dein KI-Gründungs-Copilot, arbeitet am Laptop eine Gründungs-Checkliste ab"
+                width={1376}
+                height={768}
+                fetchPriority="high"
+                decoding="async"
+                className="aspect-[1376/768] w-full rounded-[1.35rem] object-cover"
+              />
+            </div>
           </div>
         </div>
+      </div>
 
-        {/* Honest Proof-Strip — echte Fakten statt Fake-Testimonials */}
-        <div className="mt-12 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm">
+      {/* Ehrlicher Fakten-Streifen, eigenes Band unter dem Hero */}
+      <div className="relative border-y border-border/80 bg-card/60 backdrop-blur">
+        <dl className="container grid max-w-6xl grid-cols-2 divide-border/80 md:grid-cols-4 md:divide-x">
           {proof.map((p) => (
-            <div key={p.label} className="flex items-baseline gap-1.5">
-              <span className="font-bold text-foreground">{p.value}</span>
-              <span className="text-muted-foreground">{p.label}</span>
+            <div key={p.label} className="px-2 py-5 md:px-6 md:first:pl-0">
+              <dt className="sr-only">{p.label}</dt>
+              <dd className="text-2xl font-semibold tracking-tight text-foreground tabular md:text-[1.7rem]">{p.value}</dd>
+              <dd className="mt-0.5 text-sm text-muted-foreground">{p.label}</dd>
             </div>
           ))}
-        </div>
+        </dl>
       </div>
     </section>
   );

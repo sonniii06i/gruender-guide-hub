@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Clock, BookOpen, Search } from "lucide-react";
 import { HubNav } from "@/components/landing/HubNav";
+import { PageHeader } from "@/components/landing/PageHeader";
 
 interface BlogPostSummary {
   id: string;
@@ -99,41 +100,40 @@ const Ratgeber = () => {
         }}
       />
 
-      <section className="pt-28 pb-12 bg-hero">
-        <div className="container max-w-5xl">
-          <p className="text-xs font-semibold uppercase tracking-wider text-accent-blue mb-2">
-            Ratgeber
+      <PageHeader
+        title="Gründer-Wissen, das wirklich weiterhilft."
+        lead={
+          <p>
+            Praxis-Guides zu Rechtsform, Steuern, E-Commerce-Compliance und Banking. Recherchiert für den deutschen
+            Markt, jede Woche neu, Stand 2026.
           </p>
-          <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-balance leading-tight">
-            Gründer-Wissen, das wirklich weiterhilft.
-          </h1>
-          <p className="mt-5 text-lg text-muted-foreground max-w-2xl">
-            Praxis-Guides zu Rechtsform, Steuern, E-Commerce-Compliance und Banking. Recherchiert für
-            den deutschen Markt, jede Woche neu — Stand 2026.
-          </p>
-
-          <div className="mt-8 max-w-xl relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Thema suchen … z. B. GmbH, OSS, Holding"
-              className="pl-11 h-12 rounded-full"
-            />
-          </div>
+        }
+      >
+        <div className="relative max-w-xl">
+          <label htmlFor="ratgeber-suche" className="sr-only">Ratgeber durchsuchen</label>
+          <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
+          <Input
+            id="ratgeber-suche"
+            type="search"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Thema suchen, z. B. GmbH, OSS, Holding"
+            className="h-12 rounded-xl pl-11 text-base shadow-card"
+          />
         </div>
-      </section>
+      </PageHeader>
 
-      <section className="py-14">
+      <section className="py-12 md:py-16">
         <div className="container max-w-5xl">
           {cats.length > 0 && (
             <div className="flex flex-wrap gap-2 mb-10">
               <button
                 onClick={() => setCategory(null)}
-                className={`px-4 py-1.5 text-sm rounded-full border transition-colors ${
+                aria-pressed={!category}
+                className={`rounded-lg border px-3.5 py-1.5 text-sm font-medium transition-colors ${
                   !category
-                    ? "bg-primary text-primary-foreground border-primary"
-                    : "border-border hover:bg-secondary"
+                    ? "border-primary bg-primary text-primary-foreground"
+                    : "border-border bg-card text-foreground/75 hover:border-foreground/20 hover:text-foreground"
                 }`}
               >
                 Alle
@@ -142,10 +142,11 @@ const Ratgeber = () => {
                 <button
                   key={c}
                   onClick={() => setCategory(c)}
-                  className={`px-4 py-1.5 text-sm rounded-full border transition-colors ${
+                  aria-pressed={category === c}
+                  className={`rounded-lg border px-3.5 py-1.5 text-sm font-medium transition-colors ${
                     category === c
-                      ? "bg-primary text-primary-foreground border-primary"
-                      : "border-border hover:bg-secondary"
+                      ? "border-primary bg-primary text-primary-foreground"
+                      : "border-border bg-card text-foreground/75 hover:border-foreground/20 hover:text-foreground"
                   }`}
                 >
                   {CATEGORY_LABELS[c] ?? c}
@@ -158,9 +159,21 @@ const Ratgeber = () => {
             /* data-prerender-pending: Signal an scripts/prerender.mjs, dass hier noch
                asynchron geladen wird. Ohne das friert der Prerender "Lade Artikel …"
                ein und der Crawler sieht KEINEN einzigen Artikel-Link. */
-            <p className="text-muted-foreground" data-prerender-pending>
-              Lade Artikel …
-            </p>
+            <div data-prerender-pending aria-busy="true">
+              <p className="sr-only">Lade Artikel …</p>
+              <div className="grid gap-6 md:grid-cols-2" aria-hidden="true">
+                {[0, 1, 2, 3].map((i) => (
+                  <div key={i} className="overflow-hidden rounded-2xl border border-border bg-card">
+                    <div className="aspect-[16/9] animate-pulse bg-secondary" />
+                    <div className="space-y-3 p-6">
+                      <div className="h-3 w-1/3 animate-pulse rounded bg-secondary" />
+                      <div className="h-5 w-4/5 animate-pulse rounded bg-secondary" />
+                      <div className="h-3 w-full animate-pulse rounded bg-secondary" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           ) : filtered.length === 0 ? (
             <div className="text-center py-16">
               <BookOpen className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
@@ -175,7 +188,7 @@ const Ratgeber = () => {
                 <Link
                   key={p.id}
                   to={`/ratgeber/${p.slug}`}
-                  className="group rounded-2xl border border-border bg-card overflow-hidden hover:shadow-soft hover:-translate-y-1 transition-all"
+                  className="group overflow-hidden rounded-2xl border border-border bg-card transition-[border-color,box-shadow] hover:border-accent-blue/30 hover:shadow-soft"
                 >
                   {p.hero_image_url ? (
                     <div className="aspect-[16/9] overflow-hidden bg-secondary">
@@ -183,7 +196,7 @@ const Ratgeber = () => {
                         src={p.hero_image_url}
                         alt={p.title}
                         loading="lazy"
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                       />
                     </div>
                   ) : (
@@ -206,7 +219,7 @@ const Ratgeber = () => {
                         })}
                       </time>
                     </div>
-                    <h2 className="text-xl font-bold leading-snug mb-2 group-hover:text-accent-blue transition-colors">
+                    <h2 className="mb-2 text-xl font-semibold leading-snug tracking-tight transition-colors group-hover:text-accent-blue">
                       {p.title}
                     </h2>
                     <p className="text-sm text-muted-foreground line-clamp-3">{p.excerpt}</p>

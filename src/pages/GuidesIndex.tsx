@@ -3,6 +3,8 @@ import { Navbar } from "@/components/landing/Navbar";
 import { Footer } from "@/components/landing/Footer";
 import { Seo } from "@/components/Seo";
 import { HubNav } from "@/components/landing/HubNav";
+import { PageHeader } from "@/components/landing/PageHeader";
+import { ArrowRight } from "lucide-react";
 import { GUIDE_LANDINGS } from "@/data/guides";
 import { guideHref } from "@/data/guideMerges";
 
@@ -44,32 +46,41 @@ const GuidesIndex = () => {
         jsonLd={jsonLd}
       />
       <Navbar />
-      <main className="container max-w-5xl pt-28 pb-12 md:pt-32 md:pb-16 px-4">
-        <header className="mb-10 max-w-2xl">
-          <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">Guides für Gründer</h1>
-          <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
-            {GUIDE_LANDINGS.length} Schritt-für-Schritt-Guides rund um Gründung, Rechtsform, Holding, Steuern und
-            E-Commerce — jeder Schritt in der richtigen Reihenfolge, verständlich erklärt, ohne Behörden-Deutsch.
-          </p>
-        </header>
+      <main>
+        <PageHeader
+          crumbs={[{ label: "Start", to: "/" }, { label: "Guides" }]}
+          title="Guides für Gründer"
+          lead={
+            <p>
+              {GUIDE_LANDINGS.length} Schritt-für-Schritt-Guides rund um Gründung, Rechtsform, Holding, Steuern und
+              E-Commerce. Jeder Schritt in der richtigen Reihenfolge, verständlich erklärt, ohne Behörden-Deutsch.
+            </p>
+          }
+        />
+        <div className="container max-w-5xl px-4 py-14 md:py-20">
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {GUIDE_LANDINGS.map((g) => (
+              <Link
+                key={g.slug}
+                to={guideHref(g.slug)}
+                className="press group flex flex-col rounded-xl border border-border bg-card p-5 hover:border-brand-green/40 hover:shadow-card"
+              >
+                <p className="mb-1.5 flex items-start justify-between gap-2 font-semibold">
+                  {g.title}
+                  <ArrowRight className="mt-1 h-3.5 w-3.5 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-brand-green" aria-hidden="true" />
+                </p>
+                <p className="mb-4 line-clamp-2 flex-1 text-sm leading-relaxed text-muted-foreground">{g.tagline}</p>
+                <p className="flex flex-wrap gap-1.5 text-[11px] font-medium text-muted-foreground">
+                  <span className="rounded-md bg-secondary px-2 py-0.5">{g.duration}</span>
+                  <span className="rounded-md bg-secondary px-2 py-0.5">{g.difficulty}</span>
+                  <span className="rounded-md bg-secondary px-2 py-0.5 tabular">{g.steps} Schritte</span>
+                </p>
+              </Link>
+            ))}
+          </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {GUIDE_LANDINGS.map((g) => (
-            <Link
-              key={g.slug}
-              to={guideHref(g.slug)}
-              className="rounded-xl border border-border bg-card p-4 hover:border-accent-blue/50 transition-colors flex flex-col"
-            >
-              <p className="font-medium text-sm mb-1">{g.title}</p>
-              <p className="text-xs text-muted-foreground line-clamp-2 mb-3 flex-1">{g.tagline}</p>
-              <p className="text-[11px] text-muted-foreground/80">
-                {g.duration} · {g.difficulty} · {g.steps} Schritte
-              </p>
-            </Link>
-          ))}
+          <HubNav show={["tools", "ratgeber"]} />
         </div>
-
-        <HubNav show={["tools", "ratgeber"]} />
       </main>
       <Footer />
     </div>

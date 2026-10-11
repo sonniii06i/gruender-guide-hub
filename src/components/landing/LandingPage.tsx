@@ -85,9 +85,9 @@ export const LandingPage = (p: LandingPageProps) => {
     <div className="min-h-screen bg-background">
       <Seo title={p.seoTitle} description={p.seoDescription} path={p.path} type="website" jsonLd={p.jsonLd} />
       <Navbar />
-      <main className="container max-w-3xl py-12 md:py-16 px-4">
+      <main className="container max-w-3xl px-4 pb-16 pt-28 md:pb-20 md:pt-32">
         {/* Breadcrumb */}
-        <nav className="text-xs text-muted-foreground mb-6 flex flex-wrap items-center gap-1.5" aria-label="Breadcrumb">
+        <nav className="mb-8 flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground" aria-label="Breadcrumb">
           {p.crumbs.map((c, i) => (
             <span key={i} className="flex items-center gap-1.5">
               {c.to ? (
@@ -95,22 +95,22 @@ export const LandingPage = (p: LandingPageProps) => {
               ) : (
                 <span className="text-foreground">{c.label}</span>
               )}
-              {i < p.crumbs.length - 1 && <span>/</span>}
+              {i < p.crumbs.length - 1 && <span aria-hidden="true">/</span>}
             </span>
           ))}
         </nav>
 
         {/* Hero */}
-        <header className="mb-8">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-accent-blue mb-2">{p.eyebrow}</p>
-          <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">{p.heading}</h1>
-          <p className="text-base md:text-lg text-muted-foreground leading-relaxed">{p.lead}</p>
+        <header className="mb-10">
+          <p className="mb-3 text-sm font-medium text-accent-blue">{p.eyebrow}</p>
+          <h1 className="mb-5 text-[2.1rem] font-semibold leading-[1.08] tracking-[-0.035em] md:text-5xl">{p.heading}</h1>
+          <p className="text-lg leading-relaxed text-muted-foreground">{p.lead}</p>
         </header>
 
         {p.topSlot}
 
         {/* Dringlichkeit / Warum jetzt */}
-        <section className="rounded-2xl border border-accent-blue/20 bg-accent-blue/5 p-6 md:p-7 mb-8">
+        <section className="mb-10 rounded-2xl border border-accent-blue/15 bg-accent/60 p-6 md:p-7">
           <div className="flex items-start gap-3">
             <TrendingUp className="h-5 w-5 mt-0.5 shrink-0 text-accent-blue" />
             <p className="text-sm md:text-[15px] leading-relaxed text-foreground/90">{p.urgency}</p>
@@ -120,11 +120,11 @@ export const LandingPage = (p: LandingPageProps) => {
         {/* Das hast du am Ende */}
         {p.outcomes.length > 0 && (
           <section className="mb-8">
-            <h2 className="text-xl md:text-2xl font-bold tracking-tight mb-4">Das hast du am Ende</h2>
+            <h2 className="mb-4 text-xl font-semibold tracking-tight md:text-2xl">Das hast du am Ende</h2>
             <ul className="space-y-2.5">
               {p.outcomes.map((o, i) => (
                 <li key={i} className="flex items-start gap-2.5 text-sm md:text-[15px] leading-relaxed">
-                  <Check className="h-4 w-4 mt-1 shrink-0 text-accent-blue" />
+                  <Check className="mt-1 h-4 w-4 shrink-0 text-brand-green" aria-hidden="true" />
                   <span>{o}</span>
                 </li>
               ))}
@@ -135,7 +135,7 @@ export const LandingPage = (p: LandingPageProps) => {
         {/* Ablauf-Umriss (Guides): sichtbare Struktur, Detail hinter Paywall */}
         {p.outline && p.outline.steps.length > 0 && (
           <section className="mb-8">
-            <h2 className="text-xl md:text-2xl font-bold tracking-tight mb-4">{p.outline.heading}</h2>
+            <h2 className="mb-4 text-xl font-semibold tracking-tight md:text-2xl">{p.outline.heading}</h2>
             <ol className="space-y-3">
               {p.outline.steps.map((s, i) => (
                 <li key={i} className="rounded-xl border border-border bg-card p-4">
@@ -169,9 +169,9 @@ export const LandingPage = (p: LandingPageProps) => {
         )}
 
         {/* Primärer CTA (Paywall) */}
-        <div className="rounded-2xl border border-border bg-card p-6 md:p-7 shadow-card mb-8">
+        <div className="mb-8 rounded-2xl border border-border bg-card p-6 shadow-soft md:p-8">
           <div className="flex items-start gap-3 mb-4">
-            <div className="h-10 w-10 shrink-0 rounded-xl bg-gradient-primary flex items-center justify-center text-primary-foreground shadow-glow">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-primary text-primary-foreground shadow-glow">
               <Lock className="h-5 w-5" />
             </div>
             <div>
@@ -181,13 +181,13 @@ export const LandingPage = (p: LandingPageProps) => {
           </div>
           <div className="flex flex-wrap items-center gap-2">
             <Link to={p.primaryHref}>
-              <Button size="lg" className="rounded-full gap-2 bg-gradient-primary hover:opacity-95">
+              <Button size="lg" className="gap-2 rounded-xl bg-gradient-primary font-semibold shadow-glow hover:opacity-95">
                 <Sparkles className="h-4 w-4" /> {p.primaryLabel}
               </Button>
             </Link>
             {p.secondaryHref && (
               <Link to={p.secondaryHref}>
-                <Button size="lg" variant="ghost" className="rounded-full gap-1">
+                <Button size="lg" variant="ghost" className="gap-1 rounded-xl">
                   {p.secondaryLabel} <ArrowRight className="h-4 w-4" />
                 </Button>
               </Link>
@@ -206,7 +206,7 @@ export const LandingPage = (p: LandingPageProps) => {
         {/* FAQ */}
         {p.faq.length > 0 && (
           <section className="mb-10">
-            <h2 className="text-xl md:text-2xl font-bold tracking-tight mb-5">Häufige Fragen</h2>
+            <h2 className="mb-5 text-xl font-semibold tracking-tight md:text-2xl">Häufige Fragen</h2>
             <div className="space-y-5">
               {p.faq.map((f) => (
                 <div key={f.q}>
@@ -226,15 +226,15 @@ export const LandingPage = (p: LandingPageProps) => {
           ...(p.relatedGroups ?? []).filter((g) => g.items.length > 0),
         ].map((group) => (
           <section key={group.title} className="mt-10 first:mt-0">
-            <h2 className="text-xl md:text-2xl font-bold tracking-tight mb-5">{group.title}</h2>
+            <h2 className="mb-5 text-xl font-semibold tracking-tight md:text-2xl">{group.title}</h2>
             <div className="grid sm:grid-cols-2 gap-3">
               {group.items.map((r) => (
                 <Link
                   key={r.to}
                   to={r.to}
-                  className="rounded-xl border border-border bg-card p-4 hover:border-accent-blue/50 transition-colors"
+                  className="press rounded-xl border border-border bg-card p-4 hover:border-accent-blue/40 hover:shadow-card"
                 >
-                  <p className="font-medium text-sm mb-1">{r.title}</p>
+                  <p className="mb-1 text-sm font-semibold">{r.title}</p>
                   <p className="text-xs text-muted-foreground line-clamp-2">{r.desc}</p>
                 </Link>
               ))}

@@ -1,15 +1,15 @@
-import { Heart, Lightbulb, Compass } from "lucide-react";
+import { Compass, Lightbulb, Heart } from "lucide-react";
 
 const points = [
   {
     icon: Compass,
     title: "Wir starten gerade selbst",
-    text: "GründerX ist brandneu – noch keine Kundenstimmen, keine Fake-Logos, keine ausgedachten Founder-Quotes. Stattdessen: ein ehrliches Werkzeug, an dem wir täglich bauen.",
+    text: "GründerX ist brandneu: noch keine Kundenstimmen, keine Fake-Logos, keine ausgedachten Founder-Quotes. Stattdessen ein ehrliches Werkzeug, an dem wir täglich bauen.",
   },
   {
     icon: Lightbulb,
     title: "Aus eigener Frustration entstanden",
-    text: "Wir haben selbst Amazon-Seller, UGs, US-LLCs und Hong-Kong-Setups durchgezogen – und uns jedes Mal gewünscht, dass uns jemand klar an die Hand nimmt, statt 40 Browser-Tabs offen zu haben.",
+    text: "Wir haben selbst Amazon-Seller, UGs, US-LLCs und Hong-Kong-Setups durchgezogen und uns jedes Mal gewünscht, dass uns jemand klar an die Hand nimmt, statt 40 Browser-Tabs offen zu haben.",
   },
   {
     icon: Heart,
@@ -19,48 +19,40 @@ const points = [
 ];
 
 export const Testimonials = () => (
-  <section className="py-24">
-    <div className="container max-w-6xl">
-      <div className="text-center mb-14">
-        <div className="relative flex justify-center mb-6">
-          <div className="absolute inset-0 -z-10 flex items-center justify-center" aria-hidden="true">
-            <div className="w-36 h-36 md:w-44 md:h-44 rounded-full bg-primary/15 blur-3xl" />
-          </div>
-          <img
-            src="/mascots/felix-cheer.png"
-            alt="Felix, dein KI-Gründungs-Copilot, freut sich mit dir"
-            loading="lazy"
-            className="w-28 md:w-40 max-w-full drop-shadow-xl"
-          />
-        </div>
-        <p className="text-sm font-semibold uppercase tracking-wider text-accent-blue mb-3">
-          Warum es GründerX gibt
-        </p>
-        <h2 className="text-3xl md:text-5xl font-bold text-balance">
+  <section className="border-t border-border/70 bg-card py-20 md:py-28">
+    <div className="container grid max-w-6xl items-start gap-12 lg:grid-cols-[0.9fr,1.1fr] lg:gap-20">
+      <div className="lg:sticky lg:top-28">
+        <img
+          src="/mascots/felix-cheer.png"
+          alt="Felix, dein KI-Gründungs-Copilot, freut sich mit dir"
+          loading="lazy"
+          width={160}
+          height={160}
+          className="mb-6 w-28 drop-shadow-xl md:w-36"
+        />
+        <p className="mb-4 text-sm font-medium text-accent-blue">Warum es GründerX gibt</p>
+        <h2 className="text-3xl font-semibold leading-[1.1] md:text-[2.75rem]">
           Das Tool, das wir uns selbst gewünscht hätten.
         </h2>
-        <p className="mt-5 text-muted-foreground max-w-2xl mx-auto text-balance">
-          Keine Fake-Testimonials, keine erfundenen 5-Sterne-Bewertungen.
-          Nur die ehrliche Geschichte, warum wir GründerX bauen.
+        <p className="mt-5 max-w-md text-lg leading-relaxed text-muted-foreground">
+          Keine Fake-Testimonials, keine erfundenen 5-Sterne-Bewertungen. Nur die ehrliche Geschichte, warum
+          wir GründerX bauen.
         </p>
       </div>
 
-      <div className="grid md:grid-cols-3 gap-5">
+      <ul className="divide-y divide-border border-y border-border">
         {points.map((p) => (
-          <div
-            key={p.title}
-            className="rounded-2xl border border-border bg-card p-7 shadow-card"
-          >
-            <div className="h-11 w-11 rounded-xl bg-gradient-primary flex items-center justify-center text-primary-foreground mb-5">
-              <p.icon className="h-5 w-5" />
+          <li key={p.title} className="flex gap-5 py-8">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-secondary text-primary">
+              <p.icon className="h-5 w-5" aria-hidden="true" />
             </div>
-            <h3 className="font-semibold text-lg mb-2">{p.title}</h3>
-            <p className="text-muted-foreground leading-relaxed text-sm">
-              {p.text}
-            </p>
-          </div>
+            <div>
+              <h3 className="text-lg font-semibold">{p.title}</h3>
+              <p className="mt-2 max-w-prose leading-relaxed text-muted-foreground">{p.text}</p>
+            </div>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   </section>
 );

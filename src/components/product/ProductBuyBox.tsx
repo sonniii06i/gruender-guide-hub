@@ -91,7 +91,7 @@ export const ProductBuyBox = ({
           <span className="text-muted-foreground">Art.-Nr. {v.sku}</span>
         </div>
         {/* h2: die Box steht als Abschnitt auf der Startseite, die H1 gehoert dem Hero. */}
-        <h2 className="mt-1.5 text-3xl font-bold tracking-tight text-foreground md:text-4xl">{title}</h2>
+        <h2 className="mt-1.5 text-3xl font-semibold tracking-tight text-foreground md:text-4xl">{title}</h2>
         <p className="mt-2 text-muted-foreground">{subtitle}</p>
       </div>
 
@@ -100,7 +100,7 @@ export const ProductBuyBox = ({
       {/* Preisblock */}
       <div>
         <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-          <span className="text-4xl font-extrabold tracking-tight text-foreground md:text-5xl">
+          <span className="text-4xl font-semibold tracking-[-0.04em] tabular text-foreground md:text-5xl">
             {eur(v.grossCents)}
           </span>
           <span className="text-lg text-muted-foreground">/ {v.period === "year" ? "Jahr" : "Monat"}</span>

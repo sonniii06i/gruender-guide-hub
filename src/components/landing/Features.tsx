@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import {
   Building2,
   ShoppingBag,
@@ -40,36 +41,69 @@ const features = [
   },
 ];
 
+/* Bento: 6 Leistungen, 6 Zellen. Rechtsform breit (Einstiegsthema), Felix als
+   hohe dunkle Kachel (das Herzstück), Banking breit unten. Mobil einspaltig. */
+const LAYOUT: Record<string, string> = {
+  "Rechtsform & Gründung": "lg:col-span-2 bg-accent/70 border-accent-blue/15",
+  "Felix – KI-Chat 24/7": "lg:row-span-2 bg-ink text-primary-foreground border-transparent",
+  "Banking, Förderungen & Versicherung": "lg:col-span-2 bg-brand-green-soft/70 border-brand-green/15",
+};
+
+const ORDER = [
+  "Rechtsform & Gründung",
+  "Felix – KI-Chat 24/7",
+  "Amazon Seller & Business",
+  "Meta Ads & Werbekonten",
+  "Buchhaltung & Tools",
+  "Banking, Förderungen & Versicherung",
+];
+const ordered = ORDER.map((t) => features.find((f) => f.title === t)!).filter(Boolean);
+
 export const Features = () => (
-  <section id="leistungen" className="py-24 bg-secondary/40">
+  <section id="leistungen" className="border-y border-border/70 bg-secondary/50 py-20 md:py-28">
     <div className="container max-w-6xl">
-      <div className="text-center mb-14">
+      <div className="mb-12 max-w-3xl">
+        <p className="mb-4 text-sm font-medium text-accent-blue">Leistungen</p>
         {/* Felix bewusst entfernt: er stand hier nur dekorativ. Er tritt jetzt
             dort auf, wo er etwas tut (Hero, Problem, Guides, Seller, CTA). */}
-        <p className="text-sm font-semibold uppercase tracking-wider text-accent-blue mb-3">
-          Leistungen
-        </p>
-        <h2 className="text-3xl md:text-5xl font-bold text-balance max-w-3xl mx-auto">
-          Alles, was du zum Gründen brauchst –{" "}
-          <span className="text-gradient-primary inline-block">
-            an einem Ort.
-          </span>
+        <h2 className="text-3xl font-semibold leading-[1.1] md:text-[2.75rem]">
+          Alles, was du zum Gründen brauchst, an einem Ort.
         </h2>
       </div>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-        {features.map((f) => (
-          <div
-            key={f.title}
-            className="rounded-2xl border border-border bg-card p-6 shadow-card hover:shadow-soft hover:-translate-y-1 transition-all"
-          >
-            <div className="h-11 w-11 rounded-xl bg-accent flex items-center justify-center mb-5">
-              <f.icon className="h-5 w-5 text-accent-blue" />
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {ordered.map((f) => {
+          const dark = f.title.startsWith("Felix");
+          return (
+            <div
+              key={f.title}
+              className={cn("relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card p-7", LAYOUT[f.title])}
+            >
+              <div
+                className={`mb-6 flex h-11 w-11 items-center justify-center rounded-xl ${
+                  dark ? "bg-white/10 text-brand-green-glow" : "bg-card text-accent-blue shadow-card"
+                }`}
+              >
+                <f.icon className="h-5 w-5" aria-hidden="true" />
+              </div>
+              <h3 className="mb-2 text-lg font-semibold">{f.title.replace(" – ", ": ")}</h3>
+              <p className={`max-w-prose text-[15px] leading-relaxed ${dark ? "text-primary-foreground/75" : "text-muted-foreground"}`}>
+                {f.desc}
+              </p>
+              {dark && (
+                <img
+                  src="/mascots/felix-34-t.webp"
+                  alt=""
+                  aria-hidden="true"
+                  loading="lazy"
+                  width={160}
+                  height={197}
+                  className="pointer-events-none mt-auto hidden w-40 self-end pt-6 drop-shadow-2xl lg:block"
+                />
+              )}
             </div>
-            <h3 className="font-bold text-lg mb-2">{f.title}</h3>
-            <p className="text-sm text-muted-foreground leading-relaxed">{f.desc}</p>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   </section>

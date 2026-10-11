@@ -1,71 +1,97 @@
 import { Link } from "react-router-dom";
 import Logo from "@/components/Logo";
+
+/* Alle Links bleiben erhalten (interne Verlinkung): /faq und /partner waren
+   früher von keiner Seite aus verlinkt und standen nur in der Sitemap. Die
+   Footer-Links sind deshalb Pflicht, nicht Deko. Nur neu gruppiert. */
+const COLUMNS: { title: string; links: { to: string; label: string; native?: boolean }[] }[] = [
+  {
+    title: "Produkt",
+    links: [
+      { to: "/#leistungen", label: "Leistungen" },
+      { to: "/tools", label: "Tools" },
+      { to: "/gratis-tools", label: "Gratis-Tools" },
+      { to: "/ki-assistent", label: "In ChatGPT & Claude (MCP)" },
+      { to: "/preise", label: "Preise" },
+      { to: "/partner", label: "Partnerprogramm" },
+    ],
+  },
+  {
+    title: "Ressourcen",
+    links: [
+      { to: "/ratgeber", label: "Ratgeber" },
+      { to: "/gruender-events", label: "Gründer-Events" },
+      { to: "/hackathon-starter-kit", label: "Hackathon-Starter-Kit" },
+      { to: "/startup-guthaben", label: "Startup-Guthaben & Credits" },
+      { to: "/gruendungsberatung", label: "Gründungsberatung finden" },
+      { to: "/e-rechnung-lesen", label: "E-Rechnung lesen" },
+      { to: "/faq", label: "FAQ" },
+    ],
+  },
+  {
+    title: "Rechtliches",
+    links: [
+      { to: "/impressum", label: "Impressum", native: true },
+      { to: "/datenschutz", label: "Datenschutz", native: true },
+      { to: "/agb", label: "AGB", native: true },
+      { to: "/widerruf", label: "Widerruf", native: true },
+      { to: "/kontakt", label: "Kontakt" },
+    ],
+  },
+];
+
+const linkCls = "text-muted-foreground transition-colors hover:text-foreground";
+
 export const Footer = () => (
   <footer id="kontakt" className="border-t border-border bg-card">
-    <div className="container max-w-6xl py-14">
-      <div className="grid md:grid-cols-4 gap-10">
-        <div className="md:col-span-2">
-          <Link to="/" aria-label="Zur Startseite" className="flex items-center gap-2 mb-4 w-fit">
+    <div className="container max-w-6xl pb-10 pt-16">
+      <div className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-[1.4fr,1fr,1fr,1fr] md:gap-8">
+        <div className="col-span-2 md:col-span-1">
+          <Link to="/" aria-label="Zur Startseite" className="mb-4 flex w-fit items-center gap-2">
             <Logo asImage className="h-8 w-8" />
-            <span className="font-bold text-lg">GründerX</span>
+            <span className="text-lg font-semibold tracking-tight">GründerX</span>
           </Link>
-          <p className="text-muted-foreground max-w-md text-sm leading-relaxed">
-            Der KI-Co-Pilot für Gründer, Creator und E-Commerce-Operator.
-            Schwesterprodukt von{" "}
-            <a href="https://anwaltx.de" className="text-accent-blue hover:underline">
+          <p className="max-w-xs text-sm leading-relaxed text-muted-foreground">
+            Der KI-Co-Pilot für Gründer, Creator und E-Commerce-Operator. Schwesterprodukt von{" "}
+            <a href="https://anwaltx.de" className="font-medium text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground">
               AnwaltX
             </a>
             .
           </p>
         </div>
 
-        <div>
-          <h4 className="font-semibold mb-4 text-sm">Produkt</h4>
-          <ul className="space-y-2 text-sm text-muted-foreground">
-            <li><Link to="/#leistungen" className="hover:text-foreground">Leistungen</Link></li>
-            <li><Link to="/tools" className="hover:text-foreground">Tools</Link></li>
-            <li><Link to="/gratis-tools" className="hover:text-foreground">Gratis-Tools</Link></li>
-            <li><Link to="/ki-assistent" className="hover:text-foreground">In ChatGPT &amp; Claude (MCP)</Link></li>
-            <li><Link to="/preise" className="hover:text-foreground">Preise</Link></li>
-            <li><Link to="/ratgeber" className="hover:text-foreground">Ratgeber</Link></li>
-            <li><Link to="/gruender-events" className="hover:text-foreground">Gründer-Events</Link></li>
-            <li><Link to="/hackathon-starter-kit" className="hover:text-foreground">Hackathon-Starter-Kit</Link></li>
-            <li><Link to="/startup-guthaben" className="hover:text-foreground">Startup-Guthaben & Credits</Link></li>
-            <li><Link to="/gruendungsberatung" className="hover:text-foreground">Gründungsberatung finden</Link></li>
-            <li><Link to="/e-rechnung-lesen" className="hover:text-foreground">E-Rechnung lesen</Link></li>
-            {/* Zeigte auf den Startseiten-Anker /#faq. Dadurch war /faq -- die
-                eigenstaendige, prerenderte Seite aus der Sitemap -- die einzige
-                von 188 URLs, die von keiner erreichbaren Seite aus verlinkt war.
-                Google kannte sie nur aus der Sitemap, was allein kein Anlass zum
-                Crawlen ist. Der Anker bleibt auf der Startseite bestehen; der
-                Footer zeigt jetzt auf die Seite, die auch indexiert werden soll. */}
-            <li><Link to="/faq" className="hover:text-foreground">FAQ</Link></li>
-            {/* /partner stand in der Sitemap, war aber von keiner Seite verlinkt (25.09.2026). */}
-            <li><Link to="/partner" className="hover:text-foreground">Partnerprogramm</Link></li>
-          </ul>
-        </div>
-
-        <div>
-          <h4 className="font-semibold mb-4 text-sm">Rechtliches</h4>
-          <ul className="space-y-2 text-sm text-muted-foreground">
-            <li><a href="/impressum" className="hover:text-foreground">Impressum</a></li>
-            <li><a href="/datenschutz" className="hover:text-foreground">Datenschutz</a></li>
-            <li><a href="/agb" className="hover:text-foreground">AGB</a></li>
-            <li><a href="/widerruf" className="hover:text-foreground">Widerruf</a></li>
-          </ul>
-        </div>
+        {COLUMNS.map((col) => (
+          <nav key={col.title} aria-label={col.title}>
+            <h2 className="mb-4 text-sm font-semibold text-foreground">{col.title}</h2>
+            <ul className="space-y-0.5 text-sm md:space-y-2.5">
+              {col.links.map((l) => (
+                <li key={l.to}>
+                  {l.native ? (
+                    <a href={l.to} className={linkCls}>
+                      {l.label}
+                    </a>
+                  ) : (
+                    <Link to={l.to} className={linkCls}>
+                      {l.label}
+                    </Link>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </nav>
+        ))}
       </div>
 
-      <div className="mt-12 pt-6 border-t border-border text-xs text-muted-foreground flex flex-col md:flex-row justify-between gap-2">
+      <div className="mt-14 flex flex-col justify-between gap-2 border-t border-border pt-6 text-xs text-muted-foreground md:flex-row">
         <span>© {new Date().getFullYear()} GründerX. Alle Rechte vorbehalten.</span>
-        <span>Made with ♥ in Deutschland</span>
+        <span>Gebaut in Deutschland</span>
       </div>
-      <div className="mt-2 text-[10px] text-muted-foreground/80 leading-relaxed">
-        <strong>*Affiliate-Hinweis:</strong> Manche Links auf dieser Seite sind Partner-Links. Bei einem
+      <p className="mt-3 max-w-4xl text-[11px] leading-relaxed text-muted-foreground">
+        <strong className="font-semibold">*Affiliate-Hinweis:</strong> Manche Links auf dieser Seite sind Partner-Links. Bei einem
         Vertragsabschluss über diese Links erhält GründerX ggf. eine Provision — für dich entstehen
         keine Mehrkosten. Empfehlungen erfolgen unabhängig von der Vergütung. Details in{" "}
         <a href="/agb" className="underline hover:text-foreground">§ 14 AGB</a>.
-      </div>
+      </p>
     </div>
   </footer>
 );

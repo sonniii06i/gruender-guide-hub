@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+import { Plus } from "lucide-react";
 import { PLANS, FOUNDER_CODE, formatEurCents, netCentsOf } from "@/config/pricing";
 
 
@@ -61,15 +63,21 @@ const faqs = [
 ];
 
 export const FAQ = () => (
-  <section id="faq" className="py-24 bg-secondary/40">
-    <div className="container max-w-3xl">
-      <div className="text-center mb-12">
-        <p className="text-sm font-semibold uppercase tracking-wider text-accent-blue mb-3">
-          FAQ
+  <section id="faq" className="border-y border-border/70 bg-secondary/50 py-20 md:py-28">
+    <div className="container grid max-w-6xl gap-10 lg:grid-cols-[0.8fr,1.2fr] lg:gap-16">
+      <div>
+        <h2 className="text-3xl font-semibold leading-[1.1] md:text-[2.75rem]">Häufige Fragen.</h2>
+        <p className="mt-4 max-w-sm text-lg leading-relaxed text-muted-foreground">
+          Mehr Antworten auf der{" "}
+          <Link to="/faq" className="font-medium text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground">
+            FAQ-Seite
+          </Link>
+          . Etwas anderes? Schreib uns über{" "}
+          <Link to="/kontakt" className="font-medium text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground">
+            Kontakt
+          </Link>
+          .
         </p>
-        <h2 className="text-3xl md:text-5xl font-bold text-balance">
-          Häufige Fragen.
-        </h2>
       </div>
 
       {/*
@@ -78,17 +86,14 @@ export const FAQ = () => (
         Fragen im prerenderten HTML, keine einzige Antwort — genau der Teil,
         der Einwände abbaut, war für den Index unsichtbar.
       */}
-      <div className="space-y-3">
+      <div className="divide-y divide-border overflow-hidden rounded-2xl border border-border bg-card shadow-card">
         {faqs.map((f, i) => (
-          <details
-            key={i}
-            className="group rounded-2xl border border-border bg-card px-6 py-4 shadow-card"
-          >
-            <summary className="cursor-pointer list-none text-left font-semibold flex items-center justify-between gap-3">
+          <details key={i} className="group px-6 [&_summary::-webkit-details-marker]:hidden">
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-left font-semibold transition-colors hover:text-accent-blue">
               {f.q}
-              <span className="text-muted-foreground transition-transform group-open:rotate-45 shrink-0">+</span>
+              <Plus className="h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200 group-open:rotate-45" aria-hidden="true" />
             </summary>
-            <p className="mt-3 text-muted-foreground">{f.a}</p>
+            <p className="-mt-1 pb-5 leading-relaxed text-muted-foreground">{f.a}</p>
           </details>
         ))}
       </div>
