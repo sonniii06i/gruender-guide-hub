@@ -19,11 +19,14 @@
  *  - GewSt-Freibetrag 24.500 €/J Einzelunternehmer/Personengesellschaft
  *  - Werbungskosten-Pauschbetrag Anlage S 102 €
  */
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ElementType, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import Stand2026Footer from "@/components/cockpit/Stand2026Footer";
+import { Callout, EmptyState, Field, KitTable, ToneBadge, ToolLayout, ToolSection } from "@/components/cockpit/kit";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
 import {
   Lightbulb,
   CheckCircle2,
@@ -32,6 +35,22 @@ import {
   ArrowRight,
   HelpCircle,
   XCircle,
+  Bitcoin,
+  ChevronDown,
+  Coins,
+  Combine,
+  Dumbbell,
+  HeartHandshake,
+  Home,
+  Laptop,
+  MousePointerClick,
+  Package,
+  Search,
+  SearchX,
+  Tag,
+  TrendingUp,
+  Video,
+  X,
 } from "lucide-react";
 
 // ============================================================================
@@ -224,245 +243,292 @@ const SchwellenCheck = () => {
     };
   }, [quelle, eingenommen]);
 
+
+  const skalaMax = quelle ? Math.max(quelle.schwelle * 2, eingenommen * 1.2) : 0;
+
   return (
     <CockpitShell
       eyebrow="🌱 Erste Schritte · für komplette Anfänger:innen"
-      title="Side-Hustle-Schwellen — wann muss ich was melden?"
-      subtitle="Alle wichtigen Freibeträge, Freigrenzen und Pflicht-Schwellen für Anfänger:innen auf einer Page. Mit Live-Check pro Einkommens-Quelle + DAC7-Plattform-Meldung-Warnung."
+      title="Side-Hustle-Schwellen: wann muss ich was melden?"
+      subtitle="Alle wichtigen Freibeträge, Freigrenzen und Pflicht-Schwellen für Anfänger:innen auf einer Seite. Mit Live-Check je Einkommensquelle und Warnung zur DAC7-Plattform-Meldung."
     >
       <BeginnerHero />
 
       {/* === Quick-Check === */}
-      <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5 mb-6">
-        <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
-          <Lightbulb className="h-4 w-4 text-accent-blue" />
-          Quick-Check für deine Einkommens-Quelle
-        </h3>
+      <ToolLayout
+        className="mb-8"
+        resultFirstOnMobile={!!quelle}
+        inputs={
+          <ToolSection
+            title="Quick-Check für deine Einkommensquelle"
+            description="Wähle die Quelle, aus der dein Geld kommt."
+            icon={Lightbulb}
+          >
+            <div className="relative mb-4">
+              <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
+              <Input
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="z.B. eBay, Crypto, Übungsleiter, YouTube, Zinsen, Airbnb …"
+                aria-label="Einkommensquelle suchen"
+                className="h-11 pl-9"
+              />
+            </div>
 
-        <Input
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder="🔍 z.B. eBay, Crypto, Übungsleiter, YouTube, Zinsen, Airbnb …"
-          className="h-11 text-base mb-3"
-        />
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-          {filtered.map((q) => (
-            <button
-              key={q.v}
-              onClick={() => { setSelectedQuelle(q.v); setEingenommen(0); }}
-              className={`text-left rounded-xl border p-3 transition ${
-                selectedQuelle === q.v
-                  ? "border-accent-blue bg-accent-blue/10 ring-1 ring-accent-blue/30"
-                  : "border-border bg-card hover:border-accent-blue/40"
-              }`}
-            >
-              <div className="flex items-start gap-3">
-                <span className="text-2xl">{q.emoji}</span>
-                <div className="flex-1 min-w-0">
-                  <div className="font-semibold text-sm leading-tight mb-1">{q.label}</div>
-                  <div className="text-[10px] text-muted-foreground">
-                    {q.schwelle > 0 ? (
-                      <>
-                        Schwelle: <strong className="text-foreground font-semibold">{q.schwelle.toLocaleString("de-DE")} €/J</strong> · {q.paragraph}
-                      </>
-                    ) : (
-                      <>
-                        <span className="text-red-700 font-semibold">Keine Freigrenze</span> · {q.paragraph}
-                      </>
+            <div className="grid grid-cols-1 gap-2">
+              {filtered.map((q) => {
+                const Icon = QUELLE_ICON[q.v];
+                const aktiv = selectedQuelle === q.v;
+                return (
+                  <button
+                    key={q.v}
+                    type="button"
+                    aria-pressed={aktiv}
+                    onClick={() => { setSelectedQuelle(q.v); setEingenommen(0); }}
+                    className={cn(
+                      "flex items-start gap-3 rounded-xl border p-3.5 text-left transition-[background-color,border-color,box-shadow] duration-200 active:translate-y-px",
+                      aktiv
+                        ? "border-accent-blue bg-accent shadow-[0_0_0_1px_hsl(var(--accent-blue)/0.35)]"
+                        : "border-border bg-card hover:border-foreground/25",
                     )}
-                  </div>
-                </div>
-              </div>
-            </button>
-          ))}
-        </div>
-        {filtered.length === 0 && (
-          <div className="text-sm text-muted-foreground p-3">
-            Keine Treffer für „{search}". Tipp: allgemeinere Begriffe wie „Crypto", „Ehrenamt", „Vermietung".
-          </div>
-        )}
-      </div>
-
-      {/* === Detail-Check für gewählte Quelle === */}
-      {quelle && (
-        <div className="rounded-2xl border-2 border-accent-blue/40 bg-accent-blue/5 p-5 mb-6">
-          <div className="flex items-start justify-between gap-3 mb-3">
-            <div className="flex items-start gap-3">
-              <span className="text-3xl">{quelle.emoji}</span>
-              <div>
-                <h2 className="text-lg font-bold">{quelle.label}</h2>
-                <div className="text-xs text-muted-foreground mt-0.5">{quelle.schwellenName}</div>
-              </div>
+                  >
+                    <span
+                      className={cn(
+                        "flex h-9 w-9 shrink-0 items-center justify-center rounded-lg",
+                        aktiv ? "bg-accent-blue text-primary-foreground" : "bg-secondary text-foreground/70",
+                      )}
+                    >
+                      <Icon className="h-4 w-4" aria-hidden="true" />
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block text-sm font-semibold leading-snug">{q.label}</span>
+                      <span className="mt-1 block text-xs text-muted-foreground">
+                        {q.schwelle > 0 ? (
+                          <>
+                            Schwelle <strong className="font-semibold text-foreground tabular">{q.schwelle.toLocaleString("de-DE")} €/J</strong> · {q.paragraph}
+                          </>
+                        ) : (
+                          <>
+                            <span className="font-semibold text-danger">Keine Freigrenze</span> · {q.paragraph}
+                          </>
+                        )}
+                      </span>
+                    </span>
+                  </button>
+                );
+              })}
             </div>
-            <button onClick={() => setSelectedQuelle(null)} className="text-xs text-muted-foreground hover:text-foreground">
-              ✕ Andere Quelle
-            </button>
-          </div>
-
-          {quelle.schwelle > 0 && (
-            <div className="rounded-lg bg-secondary/40 p-3 mb-3">
-              <label className="text-xs font-medium block mb-2">Wie viel hast du dieses Jahr eingenommen?</label>
-              <div className="flex items-center gap-3">
-                <Input
-                  type="number"
-                  value={eingenommen || ""}
-                  onChange={(e) => setEingenommen(Math.max(0, Number(e.target.value) || 0))}
-                  placeholder="0"
-                  className="h-10 text-base flex-1"
-                />
-                <div className="text-xs text-muted-foreground">€/Jahr</div>
-              </div>
-              {/* Visuelle Schwellen-Anzeige */}
-              <div className="mt-3">
-                <div className="flex items-center justify-between text-[10px] text-muted-foreground mb-1">
-                  <span>0 €</span>
-                  <span>
-                    Schwelle {quelle.schwelle.toLocaleString("de-DE")} €
-                  </span>
-                  <span>{Math.max(quelle.schwelle * 2, eingenommen * 1.2).toLocaleString("de-DE")} €</span>
-                </div>
-                <div className="h-3 rounded-full bg-secondary overflow-hidden relative">
-                  <div
-                    className={`absolute inset-y-0 left-0 transition-all ${eingenommen > quelle.schwelle ? "bg-amber-500" : "bg-emerald-500"}`}
-                    style={{ width: `${Math.min(100, (eingenommen / Math.max(quelle.schwelle * 2, eingenommen * 1.2)) * 100)}%` }}
-                  />
-                  {/* Schwelle-Marker */}
-                  <div className="absolute inset-y-0 w-0.5 bg-foreground" style={{ left: `${Math.min(100, (quelle.schwelle / Math.max(quelle.schwelle * 2, eingenommen * 1.2)) * 100)}%` }} />
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Verdict-Anzeige */}
-          {verdict && (
-            <div className={`rounded-xl p-4 border-2 ${
-              verdict.ueber
-                ? "border-amber-500/50 bg-amber-500/5"
-                : "border-emerald-500/50 bg-emerald-500/5"
-            }`}>
-              <div className="flex items-start gap-3">
-                {verdict.ueber ? (
-                  <AlertTriangle className="h-6 w-6 text-amber-700 shrink-0" />
-                ) : (
-                  <CheckCircle2 className="h-6 w-6 text-emerald-700 shrink-0" />
-                )}
-                <div className="flex-1">
-                  <div className="text-xs uppercase tracking-wider font-semibold mb-1">
-                    {verdict.ueber
-                      ? `Über der Schwelle (${eingenommen.toLocaleString("de-DE")} € > ${quelle.schwelle.toLocaleString("de-DE")} €)`
-                      : quelle.schwelle === 0
-                      ? "Keine Freigrenze — sofort melde-/anmeldepflichtig"
-                      : eingenommen === 0
-                      ? "Schwelle: " + quelle.schwelle.toLocaleString("de-DE") + " € pro Jahr"
-                      : `Unter der Schwelle (${eingenommen.toLocaleString("de-DE")} € ≤ ${quelle.schwelle.toLocaleString("de-DE")} €)`}
+            {filtered.length === 0 && (
+              <EmptyState
+                icon={SearchX}
+                className="py-8"
+                title={`Keine Treffer für „${search}“`}
+                description="Probier allgemeinere Begriffe wie „Crypto“, „Ehrenamt“ oder „Vermietung“."
+              />
+            )}
+          </ToolSection>
+        }
+        result={
+          !quelle ? (
+            <EmptyState
+              icon={MousePointerClick}
+              className="hidden lg:flex"
+              title="Noch keine Quelle gewählt"
+              description="Wähle links eine Einkommensquelle. Dann siehst du die passende Schwelle, kannst deinen Jahresbetrag eintragen und bekommst die Einschätzung."
+            />
+          ) : (
+            <>
+              {/* === Detail-Check für gewählte Quelle === */}
+              <section className="rounded-2xl border border-accent-blue/20 bg-card shadow-soft" aria-live="polite">
+                <div className="flex flex-wrap items-start justify-between gap-3 border-b border-border/70 px-5 py-4 md:px-6">
+                  <div className="flex min-w-0 items-start gap-3">
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-accent text-accent-blue">
+                      {(() => {
+                        const Icon = QUELLE_ICON[quelle.v];
+                        return <Icon className="h-4 w-4" aria-hidden="true" />;
+                      })()}
+                    </span>
+                    <div className="min-w-0">
+                      <h2 className="text-base font-semibold leading-snug">{quelle.label}</h2>
+                      <p className="mt-0.5 text-sm text-muted-foreground">{quelle.schwellenName}</p>
+                    </div>
                   </div>
-                  <p className="text-sm leading-relaxed">{verdict.info}</p>
-                  {!verdict.ueber && verdict.grenze && eingenommen > 0 && eingenommen >= quelle.schwelle * 0.85 && (
-                    <div className="mt-2 text-xs text-amber-700 font-semibold">
-                      ⚠ Vorsicht: du näherst dich der Freigrenze. Erinnerung — Freigrenze ≠ Freibetrag! Schon 1 € über der Grenze macht den GESAMTEN Betrag steuerpflichtig.
+                  <Button variant="ghost" size="sm" onClick={() => setSelectedQuelle(null)}>
+                    <X aria-hidden="true" /> Andere Quelle
+                  </Button>
+                </div>
+
+                <div className="space-y-4 p-5 md:p-6">
+                  {quelle.schwelle > 0 && (
+                    <div>
+                      <Field label="Wie viel hast du dieses Jahr eingenommen?" htmlFor="sc-betrag">
+                        <div className="relative">
+                          <Input
+                            id="sc-betrag"
+                            type="number"
+                            value={eingenommen || ""}
+                            onChange={(e) => setEingenommen(Math.max(0, Number(e.target.value) || 0))}
+                            placeholder="0"
+                            className="h-11 pr-16 text-base tabular"
+                          />
+                          <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">€/Jahr</span>
+                        </div>
+                      </Field>
+                      {/* Visuelle Schwellen-Anzeige */}
+                      <div className="mt-4">
+                        <div className="relative h-2.5 overflow-hidden rounded-full bg-secondary">
+                          <div
+                            className={cn("absolute inset-y-0 left-0 rounded-full transition-all", eingenommen > quelle.schwelle ? "bg-warning" : "bg-success")}
+                            style={{ width: `${Math.min(100, (eingenommen / skalaMax) * 100)}%` }}
+                          />
+                          {/* Schwelle-Marker */}
+                          <div className="absolute inset-y-0 w-0.5 bg-foreground" style={{ left: `${Math.min(100, (quelle.schwelle / skalaMax) * 100)}%` }} />
+                        </div>
+                        <div className="mt-1.5 flex items-center justify-between text-xs text-muted-foreground tabular">
+                          <span>0 €</span>
+                          <span className="font-medium text-foreground">Schwelle {quelle.schwelle.toLocaleString("de-DE")} €</span>
+                          <span>{skalaMax.toLocaleString("de-DE")} €</span>
+                        </div>
+                      </div>
                     </div>
                   )}
-                </div>
-              </div>
-            </div>
-          )}
 
-          {/* Stolperfalle */}
-          {quelle.warnung && (
-            <div className="mt-3 rounded-lg bg-red-500/5 border border-red-500/30 p-3 text-xs leading-relaxed flex items-start gap-2">
-              <XCircle className="h-4 w-4 text-red-700 shrink-0 mt-0.5" />
-              <div>
-                <strong className="text-red-900">Stolperfalle:</strong> {quelle.warnung}
-              </div>
-            </div>
-          )}
-        </div>
-      )}
+                  {/* Verdict-Anzeige */}
+                  {verdict && (
+                    <div
+                      className={cn(
+                        "rounded-xl border p-4",
+                        verdict.ueber ? "border-warning/30 bg-warning-soft" : "border-success/30 bg-success-soft",
+                      )}
+                    >
+                      <div className="flex items-start gap-3">
+                        {verdict.ueber ? (
+                          <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-warning" aria-hidden="true" />
+                        ) : (
+                          <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-success" aria-hidden="true" />
+                        )}
+                        <div className="min-w-0 flex-1">
+                          <p className="font-semibold tabular">
+                            {verdict.ueber
+                              ? `Über der Schwelle (${eingenommen.toLocaleString("de-DE")} € > ${quelle.schwelle.toLocaleString("de-DE")} €)`
+                              : quelle.schwelle === 0
+                              ? "Keine Freigrenze: sofort melde-/anmeldepflichtig"
+                              : eingenommen === 0
+                              ? "Schwelle: " + quelle.schwelle.toLocaleString("de-DE") + " € pro Jahr"
+                              : `Unter der Schwelle (${eingenommen.toLocaleString("de-DE")} € ≤ ${quelle.schwelle.toLocaleString("de-DE")} €)`}
+                          </p>
+                          <p className="mt-1 text-sm leading-relaxed text-foreground/80">{verdict.info}</p>
+                          {!verdict.ueber && verdict.grenze && eingenommen > 0 && eingenommen >= quelle.schwelle * 0.85 && (
+                            <p className="mt-2 flex items-start gap-1.5 text-sm font-medium text-warning">
+                              <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+                              <span>
+                                Vorsicht: du näherst dich der Freigrenze. Erinnerung — Freigrenze ≠ Freibetrag! Schon 1 € über der Grenze macht den GESAMTEN Betrag steuerpflichtig.
+                              </span>
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Stolperfalle */}
+                  {quelle.warnung && (
+                    <Callout tone="danger" title="Stolperfalle" icon={XCircle}>
+                      {quelle.warnung}
+                    </Callout>
+                  )}
+                </div>
+              </section>
+            </>
+          )
+        }
+      />
 
       {/* === Alle Schwellen-Übersicht 2026 === */}
-      <div className="rounded-2xl border border-border bg-card p-5 mb-6">
-        <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
-          <Info className="h-4 w-4 text-accent-blue" />
-          Alle wichtigen Schwellen 2026 auf einen Blick
-        </h3>
-        <div className="overflow-x-auto">
-          <table className="w-full text-xs">
-            <thead>
-              <tr className="text-left text-[10px] uppercase tracking-wider text-muted-foreground border-b border-border">
-                <th className="py-2 pr-3">Schwelle</th>
-                <th className="py-2 pr-3">Wert 2026</th>
-                <th className="py-2 pr-3">Typ</th>
-                <th className="py-2">§</th>
+      <ToolSection title="Alle wichtigen Schwellen 2026 auf einen Blick" icon={Info} className="mb-6">
+        <KitTable caption="Schwellen, Freibeträge und Freigrenzen 2026">
+          <thead>
+            <tr>
+              <th>Schwelle</th>
+              <th>Wert 2026</th>
+              <th>Typ</th>
+              <th>Rechtsgrundlage</th>
+            </tr>
+          </thead>
+          <tbody>
+            {[
+              { name: "Grundfreibetrag ESt (Single)", wert: `${SCHWELLEN_2026.GRUND_FREIBETRAG_SINGLE.toLocaleString("de-DE")} €/J`, typ: "Freibetrag", par: "§32a EStG" },
+              { name: "Grundfreibetrag ESt (Verheiratet)", wert: `${SCHWELLEN_2026.GRUND_FREIBETRAG_VERHEIRATET.toLocaleString("de-DE")} €/J`, typ: "Freibetrag", par: "§32a EStG" },
+              { name: "Sonstige Einkünfte Freigrenze", wert: `${SCHWELLEN_2026.SONSTIGE_EINKUENFTE_22_NR_3} €/J`, typ: "Freigrenze ⚠", par: "§22 Nr. 3 EStG" },
+              { name: "Übungsleiter-Pauschale", wert: `${SCHWELLEN_2026.UEBUNGSLEITER_PAUSCHALE.toLocaleString("de-DE")} €/J`, typ: "Freibetrag", par: "§3 Nr. 26 EStG" },
+              { name: "Ehrenamts-Pauschale", wert: `${SCHWELLEN_2026.EHRENAMTS_PAUSCHALE} €/J`, typ: "Freibetrag", par: "§3 Nr. 26a EStG" },
+              { name: "Privates Veräußerungsgeschäft (Crypto, Antiquitäten)", wert: `${SCHWELLEN_2026.PRIV_VERAEUSSERUNG_23.toLocaleString("de-DE")} €/J`, typ: "Freigrenze ⚠", par: "§23 EStG" },
+              { name: "Kleinunternehmer Vorjahres-Umsatz", wert: `${SCHWELLEN_2026.KU_VORJAHR.toLocaleString("de-DE")} €/J`, typ: "Schwelle", par: "§19 UStG" },
+              { name: "Kleinunternehmer aktueller Umsatz", wert: `${SCHWELLEN_2026.KU_AKTUELL.toLocaleString("de-DE")} €/J`, typ: "Schwelle", par: "§19 UStG" },
+              { name: "Sparerpauschbetrag (Single)", wert: `${SCHWELLEN_2026.SPARERPAUSCHBETRAG_SINGLE.toLocaleString("de-DE")} €/J`, typ: "Freibetrag", par: "§20 EStG" },
+              { name: "Sparerpauschbetrag (Verheiratet)", wert: `${SCHWELLEN_2026.SPARERPAUSCHBETRAG_VERHEIRATET.toLocaleString("de-DE")} €/J`, typ: "Freibetrag", par: "§20 EStG" },
+              { name: "DAC7-Plattform-Meldung Verkäufe", wert: `${SCHWELLEN_2026.DAC7_VERKAEUFE_PA} /J`, typ: "Meldungs-Schwelle", par: "DAC7 RL (EU 2021/514)" },
+              { name: "DAC7-Plattform-Meldung Umsatz", wert: `${SCHWELLEN_2026.DAC7_UMSATZ_PA.toLocaleString("de-DE")} €/J`, typ: "Meldungs-Schwelle", par: "DAC7 RL (EU 2021/514)" },
+              { name: "GewSt-Freibetrag Einzelunternehmer", wert: `${SCHWELLEN_2026.GEWST_FREIBETRAG.toLocaleString("de-DE")} €/J Gewinn`, typ: "Freibetrag", par: "§11 GewStG" },
+              { name: "Werbungskosten-Pauschbetrag (sonstige Einkünfte/Renten, Anlage SO/R)", wert: `${SCHWELLEN_2026.WERBUNGSKOSTEN_ANLAGE_S} €/J`, typ: "Pauschbetrag", par: "§9a S.1 Nr.3 EStG" },
+            ].map((row, i) => (
+              <tr key={i}>
+                <td className="min-w-48 font-medium">{row.name}</td>
+                <td className="whitespace-nowrap">{row.wert}</td>
+                <td>
+                  <ToneBadge tone={row.typ.startsWith("Freigrenze") ? "warning" : row.typ === "Freibetrag" ? "success" : "neutral"} className="whitespace-nowrap">
+                    {row.typ}
+                  </ToneBadge>
+                </td>
+                <td className="whitespace-nowrap text-muted-foreground">{row.par}</td>
               </tr>
-            </thead>
-            <tbody className="divide-y divide-border">
-              {[
-                { name: "Grundfreibetrag ESt (Single)", wert: `${SCHWELLEN_2026.GRUND_FREIBETRAG_SINGLE.toLocaleString("de-DE")} €/J`, typ: "Freibetrag", par: "§32a EStG" },
-                { name: "Grundfreibetrag ESt (Verheiratet)", wert: `${SCHWELLEN_2026.GRUND_FREIBETRAG_VERHEIRATET.toLocaleString("de-DE")} €/J`, typ: "Freibetrag", par: "§32a EStG" },
-                { name: "Sonstige Einkünfte Freigrenze", wert: `${SCHWELLEN_2026.SONSTIGE_EINKUENFTE_22_NR_3} €/J`, typ: "Freigrenze ⚠", par: "§22 Nr. 3 EStG" },
-                { name: "Übungsleiter-Pauschale", wert: `${SCHWELLEN_2026.UEBUNGSLEITER_PAUSCHALE.toLocaleString("de-DE")} €/J`, typ: "Freibetrag", par: "§3 Nr. 26 EStG" },
-                { name: "Ehrenamts-Pauschale", wert: `${SCHWELLEN_2026.EHRENAMTS_PAUSCHALE} €/J`, typ: "Freibetrag", par: "§3 Nr. 26a EStG" },
-                { name: "Privates Veräußerungsgeschäft (Crypto, Antiquitäten)", wert: `${SCHWELLEN_2026.PRIV_VERAEUSSERUNG_23.toLocaleString("de-DE")} €/J`, typ: "Freigrenze ⚠", par: "§23 EStG" },
-                { name: "Kleinunternehmer Vorjahres-Umsatz", wert: `${SCHWELLEN_2026.KU_VORJAHR.toLocaleString("de-DE")} €/J`, typ: "Schwelle", par: "§19 UStG" },
-                { name: "Kleinunternehmer aktueller Umsatz", wert: `${SCHWELLEN_2026.KU_AKTUELL.toLocaleString("de-DE")} €/J`, typ: "Schwelle", par: "§19 UStG" },
-                { name: "Sparerpauschbetrag (Single)", wert: `${SCHWELLEN_2026.SPARERPAUSCHBETRAG_SINGLE.toLocaleString("de-DE")} €/J`, typ: "Freibetrag", par: "§20 EStG" },
-                { name: "Sparerpauschbetrag (Verheiratet)", wert: `${SCHWELLEN_2026.SPARERPAUSCHBETRAG_VERHEIRATET.toLocaleString("de-DE")} €/J`, typ: "Freibetrag", par: "§20 EStG" },
-                { name: "DAC7-Plattform-Meldung Verkäufe", wert: `${SCHWELLEN_2026.DAC7_VERKAEUFE_PA} /J`, typ: "Meldungs-Schwelle", par: "DAC7 RL (EU 2021/514)" },
-                { name: "DAC7-Plattform-Meldung Umsatz", wert: `${SCHWELLEN_2026.DAC7_UMSATZ_PA.toLocaleString("de-DE")} €/J`, typ: "Meldungs-Schwelle", par: "DAC7 RL (EU 2021/514)" },
-                { name: "GewSt-Freibetrag Einzelunternehmer", wert: `${SCHWELLEN_2026.GEWST_FREIBETRAG.toLocaleString("de-DE")} €/J Gewinn`, typ: "Freibetrag", par: "§11 GewStG" },
-                { name: "Werbungskosten-Pauschbetrag (sonstige Einkünfte/Renten, Anlage SO/R)", wert: `${SCHWELLEN_2026.WERBUNGSKOSTEN_ANLAGE_S} €/J`, typ: "Pauschbetrag", par: "§9a S.1 Nr.3 EStG" },
-              ].map((row, i) => (
-                <tr key={i} className="hover:bg-secondary/30">
-                  <td className="py-2 pr-3 font-medium">{row.name}</td>
-                  <td className="py-2 pr-3 font-mono text-foreground">{row.wert}</td>
-                  <td className="py-2 pr-3 text-muted-foreground">{row.typ}</td>
-                  <td className="py-2 text-muted-foreground text-[11px] font-mono">{row.par}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <div className="text-[11px] text-muted-foreground mt-3 leading-relaxed">
-          <strong>Freibetrag</strong> = Beträge bis Schwelle steuerfrei, darüber NUR Mehrbetrag versteuern · <strong>Freigrenze</strong> = bei Überschreitung wird der GESAMTE Betrag steuerpflichtig (⚠ tückisch!).
-        </div>
-      </div>
+            ))}
+          </tbody>
+        </KitTable>
+        <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
+          <strong className="text-foreground">Freibetrag</strong> = Beträge bis Schwelle steuerfrei, darüber NUR Mehrbetrag versteuern · <strong className="text-foreground">Freigrenze</strong> = bei Überschreitung wird der GESAMTE Betrag steuerpflichtig (tückisch!).
+        </p>
+      </ToolSection>
 
       {/* === Kombinations-Hinweise === */}
-      <div className="rounded-2xl border border-amber-500/30 bg-amber-500/5 p-5 mb-6">
-        <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
-          <Lightbulb className="h-4 w-4 text-amber-700" />
-          Kombinations-Hinweise (was geht zusammen, was nicht)
-        </h3>
-        <ul className="text-xs space-y-2 leading-relaxed text-muted-foreground">
-          <li>
-            ✅ <strong>Übungsleiter (3.300 €) + Ehrenamt (960 €)</strong> kumulierbar bei unterschiedlichen Tätigkeiten → 4.260 € steuerfrei möglich
-          </li>
-          <li>
-            ❌ <strong>§22 Nr. 3 Sonstige (256 €) + Gewerbe</strong> nicht kumulierbar — sobald nachhaltig → Gewerbe
-          </li>
-          <li>
-            ⚠ <strong>Kleinunternehmer + Freiberuf</strong> = ja, aber bei Nebeneinkünften aus Gewerbe greift Abfärbetheorie §15 Abs. 3 → ALLES Gewerbe (siehe Freiberuf-Check)
-          </li>
-          <li>
-            ⚠ <strong>Sparerpauschbetrag (1.000 €) + Crypto-Freigrenze (1.000 €)</strong> sind separat — du kannst beide voll nutzen
-          </li>
-          <li>
-            ✅ <strong>Hauptberuf-Anstellung + nebenberuflicher Side-Hustle</strong> → separate Anlage S/G, ESt-Progression auf Summe. Sozial-Versicherungs-rechtlich: nur wenn nebenberuf {">"} 50 % Hauptberuf-Brutto wird er pflichtversichert.
-          </li>
+      <ToolSection title="Kombinations-Hinweise: was geht zusammen, was nicht" icon={Combine} className="mb-6">
+        <ul className="divide-y divide-border/70 text-sm leading-relaxed">
+          <KombiZeile tone="success">
+            <strong className="text-foreground">Übungsleiter (3.300 €) + Ehrenamt (960 €)</strong> kumulierbar bei unterschiedlichen Tätigkeiten → 4.260 € steuerfrei möglich
+          </KombiZeile>
+          <KombiZeile tone="danger">
+            <strong className="text-foreground">§22 Nr. 3 Sonstige (256 €) + Gewerbe</strong> nicht kumulierbar — sobald nachhaltig → Gewerbe
+          </KombiZeile>
+          <KombiZeile tone="warning">
+            <strong className="text-foreground">Kleinunternehmer + Freiberuf</strong> = ja, aber bei Nebeneinkünften aus Gewerbe greift Abfärbetheorie §15 Abs. 3 → ALLES Gewerbe (siehe Freiberuf-Check)
+          </KombiZeile>
+          <KombiZeile tone="warning">
+            <strong className="text-foreground">Sparerpauschbetrag (1.000 €) + Crypto-Freigrenze (1.000 €)</strong> sind separat — du kannst beide voll nutzen
+          </KombiZeile>
+          <KombiZeile tone="success">
+            <strong className="text-foreground">Hauptberuf-Anstellung + nebenberuflicher Side-Hustle</strong> → separate Anlage S/G, ESt-Progression auf Summe. Sozial-Versicherungs-rechtlich: nur wenn nebenberuf {">"} 50 % Hauptberuf-Brutto wird er pflichtversichert.
+          </KombiZeile>
         </ul>
-      </div>
+      </ToolSection>
 
       {/* === Cross-Links === */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-6">
-        <Link to="/cockpit/gewerbe-check" className="rounded-xl border border-border bg-card p-3 text-xs hover:border-accent-blue transition">
-          <div className="font-semibold mb-0.5">← Brauche ich Gewerbe? (Tool 1)</div>
-          <div className="text-muted-foreground">Decision-Tree für Anfänger:innen</div>
-        </Link>
-        <Link to="/cockpit/ust-rechner" className="rounded-xl border border-border bg-card p-3 text-xs hover:border-accent-blue transition">
-          <div className="font-semibold mb-0.5">USt-Rechner (KU §19 etc.) →</div>
-          <div className="text-muted-foreground">5 Tabs für USt-Spezialfälle</div>
-        </Link>
+      <div className="mb-6 grid grid-cols-1 gap-3 md:grid-cols-2">
+        {[
+          { to: "/cockpit/gewerbe-check", t: "Brauche ich ein Gewerbe?", d: "Entscheidungsbaum für Anfänger:innen" },
+          { to: "/cockpit/ust-rechner", t: "USt-Rechner (KU §19 und mehr)", d: "5 Tabs für USt-Spezialfälle" },
+        ].map((l) => (
+          <Link
+            key={l.to}
+            to={l.to}
+            className="group flex items-center justify-between gap-3 rounded-xl border border-border bg-card p-4 shadow-card transition-colors hover:border-accent-blue/40"
+          >
+            <span>
+              <span className="block text-sm font-semibold">{l.t}</span>
+              <span className="mt-0.5 block text-sm text-muted-foreground">{l.d}</span>
+            </span>
+            <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-accent-blue" aria-hidden="true" />
+          </Link>
+        ))}
       </div>
 
       <Glossar />
@@ -484,36 +550,67 @@ const SchwellenCheck = () => {
 // ============================================================================
 // Sub-Components (Anfänger-Layout-Pattern)
 // ============================================================================
+const QUELLE_ICON: Record<Quelle, ElementType> = {
+  "ebay-private": Tag,
+  "ebay-handel": Package,
+  "freelance-side": Laptop,
+  uebungsleiter: Dumbbell,
+  ehrenamt: HeartHandshake,
+  crypto: Bitcoin,
+  kapitalertraege: TrendingUp,
+  vermietung: Home,
+  "occasion-einnahme": Coins,
+  "youtube-twitch": Video,
+};
+
+const KombiZeile = ({ tone, children }: { tone: "success" | "warning" | "danger"; children: ReactNode }) => {
+  const Icon = tone === "success" ? CheckCircle2 : tone === "danger" ? XCircle : AlertTriangle;
+  return (
+    <li className="flex gap-3 py-3 text-muted-foreground first:pt-0 last:pb-0">
+      <Icon
+        className={cn("mt-0.5 h-4 w-4 shrink-0", tone === "success" ? "text-success" : tone === "danger" ? "text-danger" : "text-warning")}
+        aria-hidden="true"
+      />
+      <span>{children}</span>
+    </li>
+  );
+};
+
 const BeginnerHero = () => (
-  <div className="rounded-2xl border-2 border-accent-blue/30 bg-gradient-to-br from-accent-blue/10 via-card to-card p-5 mb-6">
-    <div className="flex items-start gap-3">
-      <Lightbulb className="h-6 w-6 text-accent-blue shrink-0 mt-0.5" />
-      <div className="flex-1">
-        <h3 className="font-bold text-sm mb-1">Was ist das hier?</h3>
-        <p className="text-xs text-muted-foreground leading-relaxed mb-3">
-          Du fragst dich: „Wenn ich nur 200 € nebenbei verdiene — muss ich das versteuern?" oder „Mein Verein zahlt mir 500 € Übungsleiter-Honorar — steuerfrei?". Dieses Tool zeigt dir alle relevanten Freibeträge und Freigrenzen für Side-Hustles, plus die DAC7-Plattform-Meldepflicht (gilt seit 2023 für eBay, Vinted etc.).
+  <section className="mb-8 rounded-2xl border border-border bg-card p-5 shadow-card md:p-6">
+    <h2 className="text-base font-semibold tracking-tight">Was ist das hier?</h2>
+    <p className="mt-1.5 max-w-[80ch] text-sm leading-relaxed text-muted-foreground">
+      Du fragst dich: „Wenn ich nur 200 € nebenbei verdiene — muss ich das versteuern?" oder „Mein Verein zahlt mir 500 € Übungsleiter-Honorar — steuerfrei?". Dieses Tool zeigt dir alle relevanten Freibeträge und Freigrenzen für Side-Hustles, plus die DAC7-Plattform-Meldepflicht (gilt seit 2023 für eBay, Vinted etc.).
+    </p>
+    <div className="mt-4 grid grid-cols-1 gap-3 md:grid-cols-2">
+      <div className="rounded-xl border border-success/25 bg-success-soft p-3.5">
+        <p className="flex items-center gap-2 text-sm font-semibold text-success">
+          <CheckCircle2 className="h-4 w-4" aria-hidden="true" /> Freibetrag
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-[11px]">
-          <div className="rounded-lg bg-emerald-500/5 p-2 border border-emerald-500/20">
-            <strong className="text-emerald-700">✅ Freibetrag</strong>
-            <div className="text-muted-foreground mt-0.5">Beträge bis Schwelle steuerfrei, NUR der Mehrbetrag wird besteuert. Beispiel: Übungsleiter 3.500 € → 500 € steuerpflichtig.</div>
-          </div>
-          <div className="rounded-lg bg-amber-500/5 p-2 border border-amber-500/20">
-            <strong className="text-amber-700">⚠ Freigrenze</strong>
-            <div className="text-muted-foreground mt-0.5">Bei Überschreitung wird der GESAMTE Betrag steuerpflichtig. Beispiel: §23 EStG 1.001 € Crypto-Gewinn → ALLE 1.001 € steuerpflichtig.</div>
-          </div>
-        </div>
+        <p className="mt-1 text-sm text-foreground/75">Beträge bis Schwelle steuerfrei, NUR der Mehrbetrag wird besteuert. Beispiel: Übungsleiter 3.500 € → 500 € steuerpflichtig.</p>
+      </div>
+      <div className="rounded-xl border border-warning/25 bg-warning-soft p-3.5">
+        <p className="flex items-center gap-2 text-sm font-semibold text-warning">
+          <AlertTriangle className="h-4 w-4" aria-hidden="true" /> Freigrenze
+        </p>
+        <p className="mt-1 text-sm text-foreground/75">Bei Überschreitung wird der GESAMTE Betrag steuerpflichtig. Beispiel: §23 EStG 1.001 € Crypto-Gewinn → ALLE 1.001 € steuerpflichtig.</p>
       </div>
     </div>
-  </div>
+  </section>
 );
 
 const Glossar = () => (
-  <details className="rounded-2xl border border-border bg-card p-5 mb-6">
-    <summary className="cursor-pointer font-bold text-sm flex items-center gap-2">
-      <HelpCircle className="h-4 w-4 text-accent-blue" /> Glossar — Begriffe einfach erklärt
+  <details className="group mb-6 rounded-2xl border border-border bg-card shadow-card [&_summary::-webkit-details-marker]:hidden">
+    <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-5 py-4 text-base font-semibold md:px-6">
+      <span className="flex items-center gap-3">
+        <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-accent-blue">
+          <HelpCircle className="h-4 w-4" aria-hidden="true" />
+        </span>
+        Glossar: Begriffe einfach erklärt
+      </span>
+      <ChevronDown className="h-4 w-4 text-muted-foreground transition-transform group-open:rotate-180" aria-hidden="true" />
     </summary>
-    <div className="mt-3 space-y-3 text-xs leading-relaxed">
+    <dl className="divide-y divide-border/70 border-t border-border/70 px-5 md:px-6">
       {[
         { begriff: "Freibetrag vs. Freigrenze", erklaerung: "Freibetrag (z.B. Übungsleiter 3.300 €): bis Schwelle steuerfrei, NUR der Mehrbetrag wird besteuert. Freigrenze (z.B. §23 EStG 1.000 €): bei Überschreitung wird der GESAMTE Betrag steuerpflichtig — extrem tückisch! Schon 1 € drüber → alles versteuert." },
         { begriff: "§22 Nr. 3 EStG (Sonstige Einkünfte)", erklaerung: "Auffangtatbestand für gelegentliche Einnahmen, die kein Lohn / Gewinn aus Selbstständigkeit / Kapitalertrag etc. sind. 256 €/J Freigrenze. Beispiele: Vermittlungs-Tipps, Reichweiten-Awards, gelegentliche Vermietung." },
@@ -526,12 +623,12 @@ const Glossar = () => (
         { begriff: "Abgeltungsteuer", erklaerung: "Pauschale 25 % Steuer auf Kapitalerträge (Zinsen, Dividenden, ETF-Gewinne) plus 5,5 % Solidaritätszuschlag = effektiv 26,375 %. Wird i.d.R. direkt von der Bank einbehalten und abgeführt. Bei niedrigem persönlichen Steuersatz: Günstigerprüfung in Anlage KAP." },
         { begriff: "CARF (Crypto-Asset Reporting Framework)", erklaerung: "OECD-Standard für Krypto-Meldepflicht ähnlich DAC7 für klassische Plattformen. Greift schrittweise ab 2025/26 — Crypto-Börsen müssen das FA informieren. Auch internationale Börsen wie Binance, Coinbase betroffen." },
       ].map((g) => (
-        <div key={g.begriff} className="rounded-lg bg-secondary/30 p-3">
-          <div className="font-semibold text-foreground mb-1">{g.begriff}</div>
-          <div className="text-muted-foreground">{g.erklaerung}</div>
+        <div key={g.begriff} className="py-4">
+          <dt className="text-sm font-semibold">{g.begriff}</dt>
+          <dd className="mt-1 text-sm leading-relaxed text-muted-foreground">{g.erklaerung}</dd>
         </div>
       ))}
-    </div>
+    </dl>
   </details>
 );
 
