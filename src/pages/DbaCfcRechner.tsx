@@ -1,7 +1,17 @@
 import { useMemo, useState } from "react";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import {
+  Callout,
+  ChoiceGroup,
+  Field,
+  ResultPanel,
+  ToolLayout,
+  ToolSection,
+  selectCls,
+  type Tone,
+} from "@/components/cockpit/kit";
+import { cn } from "@/lib/utils";
 import {
   Calculator,
   Globe,
@@ -11,6 +21,8 @@ import {
   Info,
   Plane,
   Building2,
+  Users,
+  MapPin,
 } from "lucide-react";
 
 // ============================================================
@@ -506,413 +518,415 @@ const DbaCfcRechner = () => {
     };
   }, [country, land, beteiligung, haltedauer, auslandsgewinn, einkuenfteArt, hatHoldingDe, useSmallCit, useProgressiveLow, estlandThesauriert, estSatzPrivat, usStateRate]);
 
+  const hatOptionen =
+    country.smallCit !== undefined || country.progressiveLow !== undefined || !!country.distributedProfitsTax || land === "usa";
+
   return (
     <CockpitShell
-      eyebrow="DBA-CFC-Rechner · Stand Mai 2026"
-      title="Auslands-Gewinn → DE-Steuer-Rechnung"
-      subtitle="§AStG (15%-Schwelle seit 2024) + DBA-Anrechnung + Mutter-Tochter-RL + §8b/§9 GewSt-Schachtel + Estland-DPT für 14 Länder. Alle Werte mit Quellen-Tag."
+      eyebrow="Internationales Steuerrecht · Stand Mai 2026"
+      title="DBA-CFC-Rechner: Auslandsgewinn und deutsche Steuer"
+      subtitle="Was vom Gewinn deiner Auslandsgesellschaft in Deutschland ankommt: lokale Steuer, Quellensteuer nach DBA oder Mutter-Tochter-Richtlinie, Schachtelprivileg nach § 8b KStG und § 9 GewStG, Hinzurechnung nach AStG (15-%-Schwelle seit 2024) und Estlands Ausschüttungssteuer. 14 Länder, jeder Wert mit Quelle."
     >
-      {/* ============ INPUTS ============ */}
-      <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5 mb-6">
-        <div className="flex items-center gap-2 mb-3">
-          <Globe className="h-4 w-4 text-accent-blue" />
-          <h3 className="font-bold text-sm">Auslandsgesellschaft</h3>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Land</Label>
-            <select
-              value={land}
-              onChange={(e) => {
-                setLand(e.target.value as keyof typeof COUNTRIES);
-                setUseSmallCit(false);
-                setUseProgressiveLow(false);
-                setEstlandThesauriert(false);
-              }}
-              className="mt-1 h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
-            >
-              {Object.entries(COUNTRIES).map(([k, v]) => (
-                <option key={k} value={k}>
-                  {v.flag} {v.name} ({v.cit}% CIT)
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Auslandsgewinn (€)</Label>
-            <Input
-              type="number"
-              value={auslandsgewinn}
-              onChange={(e) => setAuslandsgewinn(Math.max(0, Number(e.target.value) || 0))}
-              className="mt-1"
-            />
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Beteiligung %</Label>
-            <Input
-              type="number"
-              min={0}
-              max={100}
-              value={beteiligung}
-              onChange={(e) => setBeteiligung(Math.max(0, Math.min(100, Number(e.target.value) || 0)))}
-              className="mt-1"
-            />
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Haltedauer (Monate)</Label>
-            <Input
-              type="number"
-              min={0}
-              value={haltedauer}
-              onChange={(e) => setHaltedauer(Math.max(0, Number(e.target.value) || 0))}
-              className="mt-1"
-            />
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Einkünfte-Art</Label>
-            <select
-              value={einkuenfteArt}
-              onChange={(e) => setEinkuenfteArt(e.target.value as typeof einkuenfteArt)}
-              className="mt-1 h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
-            >
-              <option value="aktiv">Aktiv (Handel, Service, Produktion — §8 Abs. 1 AStG)</option>
-              <option value="passive">Passiv (Lizenz, Zinsen, Mieten — außerhalb Aktivkatalog)</option>
-            </select>
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">DE-Empfänger</Label>
-            <div className="grid grid-cols-2 gap-2 mt-1">
-              {[
-                { v: true, l: "DE-Holding-GmbH" },
-                { v: false, l: "DE-Privatperson" },
-              ].map((o) => (
-                <button
-                  key={String(o.v)}
-                  onClick={() => setHatHoldingDe(o.v)}
-                  className={`rounded-md border h-10 text-sm transition-colors ${
-                    hatHoldingDe === o.v
-                      ? "border-accent-blue bg-accent-blue/10 text-accent-blue font-semibold"
-                      : "border-border hover:bg-secondary"
-                  }`}
-                >
-                  {o.l}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Länder-spezifische Optionen */}
-        {(country.smallCit !== undefined || country.progressiveLow !== undefined || country.distributedProfitsTax || land === "usa") && (
-          <div className="mt-4 rounded-xl bg-card border border-border p-3 space-y-2">
-            <div className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
-              {country.flag} {country.name}-spezifische Optionen
-            </div>
-            {country.smallCit !== undefined && (
-              <label className="flex items-start gap-2 cursor-pointer text-sm">
-                <input
-                  type="checkbox"
-                  checked={useSmallCit}
-                  onChange={(e) => {
-                    setUseSmallCit(e.target.checked);
-                    if (e.target.checked) setUseProgressiveLow(false);
-                  }}
-                  className="mt-0.5"
-                />
-                <span>
-                  <strong>{country.smallCit}% Small-CIT</strong> — {country.smallCitLabel}
-                </span>
-              </label>
-            )}
-            {country.progressiveLow !== undefined && (
-              <label className="flex items-start gap-2 cursor-pointer text-sm">
-                <input
-                  type="checkbox"
-                  checked={useProgressiveLow}
-                  onChange={(e) => {
-                    setUseProgressiveLow(e.target.checked);
-                    if (e.target.checked) setUseSmallCit(false);
-                  }}
-                  className="mt-0.5"
-                />
-                <span>
-                  <strong>{country.progressiveLow}%</strong> — {country.progressiveLowLabel}
-                </span>
-              </label>
-            )}
-            {country.distributedProfitsTax && (
-              <label className="flex items-start gap-2 cursor-pointer text-sm">
-                <input
-                  type="checkbox"
-                  checked={estlandThesauriert}
-                  onChange={(e) => setEstlandThesauriert(e.target.checked)}
-                  className="mt-0.5"
-                />
-                <span>
-                  <strong>Thesauriert</strong> — keine Ausschüttung, daher keine {country.cit}% DPT
-                </span>
-              </label>
-            )}
-            {land === "usa" && (
-              <div className="flex flex-col gap-1">
-                <Label className="text-xs">US-State CIT %</Label>
-                <select
-                  value={usStateRate}
-                  onChange={(e) => setUsStateRate(Number(e.target.value))}
-                  className="h-9 rounded-md border border-input bg-background px-2 text-sm"
-                >
-                  <option value={0}>0% — WY / NV / SD / TX (Margin Tax) / WA / OH</option>
-                  <option value={2}>2,0% — NC (niedrigster mit Income Tax)</option>
-                  <option value={8.7}>8,7% — Delaware (+ Gross Receipts Tax)</option>
-                  <option value={8.84}>8,84% — California</option>
-                  <option value={11.5}>11,5% — New Jersey (höchster)</option>
-                </select>
+      <ToolLayout
+        className="mb-8"
+        inputs={
+          <>
+            <ToolSection title="Auslandsgesellschaft" icon={Globe}>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <Field label="Land" htmlFor="dba-land" hint="In Klammern der reguläre Körperschaftsteuersatz">
+                  <select
+                    id="dba-land"
+                    value={land}
+                    onChange={(e) => {
+                      setLand(e.target.value as keyof typeof COUNTRIES);
+                      setUseSmallCit(false);
+                      setUseProgressiveLow(false);
+                      setEstlandThesauriert(false);
+                    }}
+                    className={selectCls}
+                  >
+                    {Object.entries(COUNTRIES).map(([k, v]) => (
+                      <option key={k} value={k}>
+                        {v.flag} {v.name} ({v.cit}% CIT)
+                      </option>
+                    ))}
+                  </select>
+                </Field>
+                <Field label="Gewinn vor Steuern (€)" htmlFor="dba-gewinn" hint="Jahresgewinn der Auslandsgesellschaft">
+                  <Input
+                    id="dba-gewinn"
+                    type="number"
+                    value={auslandsgewinn}
+                    onChange={(e) => setAuslandsgewinn(Math.max(0, Number(e.target.value) || 0))}
+                    className="tabular"
+                  />
+                </Field>
+                <Field label="Art der Einkünfte" htmlFor="dba-art" className="sm:col-span-2" hint="Passive Einkünfte in Niedrigsteuerländern lösen die AStG-Hinzurechnung aus">
+                  <select
+                    id="dba-art"
+                    value={einkuenfteArt}
+                    onChange={(e) => setEinkuenfteArt(e.target.value as typeof einkuenfteArt)}
+                    className={selectCls}
+                  >
+                    <option value="aktiv">Aktiv (Handel, Service, Produktion, § 8 Abs. 1 AStG)</option>
+                    <option value="passive">Passiv (Lizenz, Zinsen, Mieten, außerhalb Aktivkatalog)</option>
+                  </select>
+                </Field>
               </div>
-            )}
-          </div>
-        )}
 
-        {/* §AStG ESt-Satz nur bei Privatperson + passive Einkünfte */}
-        {!hatHoldingDe && einkuenfteArt === "passive" && (
-          <div className="mt-3 rounded-xl bg-amber-500/5 border border-amber-500/20 p-3">
-            <Label className="text-xs uppercase tracking-wider text-amber-700 font-semibold">
-              Persönlicher ESt-Spitzensatz (für §AStG-Hinzurechnung)
-            </Label>
-            <Input
-              type="number"
-              min={14}
-              max={47.5}
-              value={estSatzPrivat}
-              onChange={(e) => setEstSatzPrivat(Math.max(14, Math.min(47.5, Number(e.target.value) || 42)))}
-              className="mt-1"
-            />
-            <div className="text-[10px] text-muted-foreground mt-1">
-              §32a EStG: 14% Grenz-Eingang bis 47,5% Spitzensatz (inkl. SolZ + ggf. Reichensteuer)
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* ============ BERECHNUNG SCHRITT-FÜR-SCHRITT ============ */}
-      <div className="rounded-2xl border border-border bg-card p-5 mb-6">
-        <h3 className="font-bold text-sm mb-4 flex items-center gap-2">
-          <Calculator className="h-4 w-4" /> Berechnung Schritt-für-Schritt
-        </h3>
-
-        <div className="space-y-3 text-sm">
-          {/* 1. Auslandssteuer */}
-          <div className="rounded-xl bg-secondary/40 p-3">
-            <div className="flex items-center justify-between gap-2 mb-1">
-              <span className="font-semibold min-w-0">
-                1) Lokale {country.name}-Steuer ({calc.effCit}%)
-              </span>
-              <span className="font-mono shrink-0">-{formatEur(calc.auslandsSteuer)}</span>
-            </div>
-            <div className="text-[11px] text-muted-foreground">
-              {auslandsgewinn.toLocaleString("de-DE")} € × {calc.effCit}% = {formatEur(calc.auslandsSteuer)}
-              {calc.citNote && <div className="mt-0.5 italic">{calc.citNote}</div>}
-            </div>
-            <div className="text-[11px] mt-1">
-              Verbleibend: <span className="font-mono">{formatEur(calc.auslandsNetto)}</span>
-            </div>
-          </div>
-
-          {/* 2. Quellensteuer */}
-          <div className="rounded-xl bg-secondary/40 p-3">
-            <div className="flex items-center justify-between gap-2 mb-1">
-              <span className="font-semibold min-w-0">2) Quellensteuer beim Ausschütten ({calc.whtRate}%)</span>
-              <span className="font-mono shrink-0">-{formatEur(calc.whtAbsolute)}</span>
-            </div>
-            <div className="text-[11px] text-muted-foreground">
-              {calc.motherDaughterEligible && (
-                <div className="text-emerald-700">✓ EU-Mutter-Tochter-RL: 0% (Kap-Ges. zu Kap-Ges., ≥10% + 12M)</div>
+              {/* Länder-spezifische Optionen */}
+              {hatOptionen && (
+                <fieldset className="mt-5 rounded-xl border border-border bg-secondary/30 p-4">
+                  <legend className="px-1 text-sm font-semibold">Optionen für {country.name}</legend>
+                  <div className="space-y-3">
+                    {country.smallCit !== undefined && (
+                      <label className="flex cursor-pointer items-start gap-3 text-sm">
+                        <input
+                          type="checkbox"
+                          checked={useSmallCit}
+                          onChange={(e) => {
+                            setUseSmallCit(e.target.checked);
+                            if (e.target.checked) setUseProgressiveLow(false);
+                          }}
+                          className="mt-0.5 h-4 w-4 accent-[hsl(var(--primary))]"
+                        />
+                        <span>
+                          <strong className="font-medium tabular">{country.smallCit}% Small-CIT:</strong>{" "}
+                          <span className="text-muted-foreground">{country.smallCitLabel}</span>
+                        </span>
+                      </label>
+                    )}
+                    {country.progressiveLow !== undefined && (
+                      <label className="flex cursor-pointer items-start gap-3 text-sm">
+                        <input
+                          type="checkbox"
+                          checked={useProgressiveLow}
+                          onChange={(e) => {
+                            setUseProgressiveLow(e.target.checked);
+                            if (e.target.checked) setUseSmallCit(false);
+                          }}
+                          className="mt-0.5 h-4 w-4 accent-[hsl(var(--primary))]"
+                        />
+                        <span>
+                          <strong className="font-medium tabular">{country.progressiveLow}%:</strong>{" "}
+                          <span className="text-muted-foreground">{country.progressiveLowLabel}</span>
+                        </span>
+                      </label>
+                    )}
+                    {country.distributedProfitsTax && (
+                      <label className="flex cursor-pointer items-start gap-3 text-sm">
+                        <input
+                          type="checkbox"
+                          checked={estlandThesauriert}
+                          onChange={(e) => setEstlandThesauriert(e.target.checked)}
+                          className="mt-0.5 h-4 w-4 accent-[hsl(var(--primary))]"
+                        />
+                        <span>
+                          <strong className="font-medium">Gewinn thesaurieren:</strong>{" "}
+                          <span className="text-muted-foreground">keine Ausschüttung, daher keine {country.cit}% DPT</span>
+                        </span>
+                      </label>
+                    )}
+                    {land === "usa" && (
+                      <Field label="Körperschaftsteuer des US-Bundesstaats" htmlFor="dba-state">
+                        <select
+                          id="dba-state"
+                          value={usStateRate}
+                          onChange={(e) => setUsStateRate(Number(e.target.value))}
+                          className={selectCls}
+                        >
+                          <option value={0}>0%: WY / NV / SD / TX (Margin Tax) / WA / OH</option>
+                          <option value={2}>2,0%: NC (niedrigster mit Income Tax)</option>
+                          <option value={8.7}>8,7%: Delaware (+ Gross Receipts Tax)</option>
+                          <option value={8.84}>8,84%: California</option>
+                          <option value={11.5}>11,5%: New Jersey (höchster)</option>
+                        </select>
+                      </Field>
+                    )}
+                  </div>
+                </fieldset>
               )}
-              {calc.qualifiedApplies && (
-                <div className="text-emerald-700">✓ Qualified-Rate aktiv: {calc.whtNote}</div>
-              )}
-              {!calc.motherDaughterEligible && !calc.qualifiedApplies && (
-                <div>{calc.whtNote}</div>
-              )}
-              {!hatHoldingDe && country.motherDaughter && (
-                <div className="text-amber-700 mt-1">
-                  ⚠ MTR-Befreiung nicht anwendbar — gilt nur Kap-Ges. zu Kap-Ges. (§43b EStG)
+            </ToolSection>
+
+            <ToolSection title="Beteiligung und Empfänger in Deutschland" icon={Users}>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <Field label="Beteiligung (%)" htmlFor="dba-bet" hint="Ab 10 % KSt-Schachtel, ab 15 % GewSt-Schachtel">
+                  <Input
+                    id="dba-bet"
+                    type="number"
+                    min={0}
+                    max={100}
+                    value={beteiligung}
+                    onChange={(e) => setBeteiligung(Math.max(0, Math.min(100, Number(e.target.value) || 0)))}
+                    className="tabular"
+                  />
+                </Field>
+                <Field label="Haltedauer (Monate)" htmlFor="dba-halt" hint="DBA-Reduktion und Mutter-Tochter-RL ab 12 Monaten">
+                  <Input
+                    id="dba-halt"
+                    type="number"
+                    min={0}
+                    value={haltedauer}
+                    onChange={(e) => setHaltedauer(Math.max(0, Number(e.target.value) || 0))}
+                    className="tabular"
+                  />
+                </Field>
+                <div className="space-y-1.5 sm:col-span-2">
+                  <p className="text-sm font-medium">Wer hält die Beteiligung?</p>
+                  <ChoiceGroup<boolean>
+                    label="Empfänger in Deutschland"
+                    value={hatHoldingDe}
+                    onChange={setHatHoldingDe}
+                    className="grid grid-cols-1 sm:grid-cols-2"
+                    options={[
+                      { value: true, label: "DE-Holding-GmbH", hint: "§ 8b KStG, Mutter-Tochter-RL möglich" },
+                      { value: false, label: "DE-Privatperson", hint: "Abgeltungsteuer 26,375 %" },
+                    ]}
+                  />
+                </div>
+              </div>
+
+              {/* §AStG ESt-Satz nur bei Privatperson + passive Einkünfte */}
+              {!hatHoldingDe && einkuenfteArt === "passive" && (
+                <div className="mt-5 rounded-xl border border-warning/25 bg-warning-soft p-4">
+                  <Field
+                    label="Persönlicher Einkommensteuersatz (für die AStG-Hinzurechnung)"
+                    htmlFor="dba-est"
+                    hint="§ 32a EStG: 14 % Eingangssatz bis 47,5 % Spitzensatz (inkl. SolZ und ggf. Reichensteuer)"
+                  >
+                    <Input
+                      id="dba-est"
+                      type="number"
+                      min={14}
+                      max={47.5}
+                      value={estSatzPrivat}
+                      onChange={(e) => setEstSatzPrivat(Math.max(14, Math.min(47.5, Number(e.target.value) || 42)))}
+                      className="tabular"
+                    />
+                  </Field>
                 </div>
               )}
-            </div>
-            <div className="text-[11px] mt-1">
-              Beim Empfänger ankommend:{" "}
-              <span className="font-mono">{formatEur(calc.inDeAusgeschuettet)}</span>
-            </div>
-          </div>
-
-          {/* 3. DE-Steuer */}
-          <div className="rounded-xl bg-secondary/40 p-3">
-            <div className="flex items-center justify-between gap-2 mb-1">
-              <span className="font-semibold min-w-0">3) DE-Empfänger-Steuer</span>
-              <span className="font-mono shrink-0">-{formatEur(calc.deSteuer)}</span>
-            </div>
-            <div className="text-[11px] text-muted-foreground">{calc.deBezeichnung}</div>
-            {calc.streubesitz && (
-              <div className="text-[11px] text-red-700 mt-1">
-                ⚠ Streubesitz {beteiligung}% &lt; {STREUBESITZ_KST_SCHWELLE}% → §8b Abs. 4 KStG: keine 95%-Befreiung
+            </ToolSection>
+          </>
+        }
+        result={
+          <>
+            <ResultPanel
+              variant="ink"
+              kicker={`${country.name} → Deutschland`}
+              title="Netto beim Empfänger"
+              value={formatEur(calc.finalNetto)}
+              valueHint={`von ${formatEur(auslandsgewinn)} Gewinn vor Steuern`}
+            >
+              <div className="grid grid-cols-2 gap-px overflow-hidden rounded-xl bg-white/10">
+                {[
+                  { l: "Steuern gesamt", v: formatEur(calc.totalSteuer) },
+                  { l: "Effektiver Satz", v: `${calc.effektivPct.toFixed(1)}%` },
+                ].map((k) => (
+                  <div key={k.l} className="bg-white/[0.04] p-3">
+                    <div className="text-xs text-primary-foreground/65">{k.l}</div>
+                    <div className="mt-0.5 font-semibold text-primary-foreground tabular">{k.v}</div>
+                  </div>
+                ))}
               </div>
-            )}
-            {calc.gewstFehlend && (
-              <div className="text-[11px] text-amber-700 mt-1">
-                ⚠ Beteiligung {beteiligung}% reicht für KSt-Schachtel (≥{STREUBESITZ_KST_SCHWELLE}%) ABER nicht für GewSt (≥{SCHACHTEL_GEWST_SCHWELLE}%) → volle GewSt fällt an
-              </div>
-            )}
-          </div>
+            </ResultPanel>
 
-          {/* 4. §AStG */}
-          {calc.astgGreift && (
-            <div className="rounded-xl border border-red-500/30 bg-red-500/5 p-3">
-              <div className="flex items-center justify-between gap-2 mb-1">
-                <span className="font-semibold text-red-700 min-w-0">⚠ 4) §AStG-Hinzurechnung greift</span>
-                <span className="font-mono text-red-700 shrink-0">-{formatEur(calc.astgZusatz)}</span>
-              </div>
-              <div className="text-[11px] text-muted-foreground">{calc.astgBezeichnung}</div>
-            </div>
-          )}
-          {!calc.astgGreift && einkuenfteArt === "passive" && (
-            <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-3 text-xs text-emerald-700">
-              ✓ §AStG greift NICHT —{" "}
-              {!calc.istNiedrigsteuer && `Steuersatz ${calc.effCit}% ≥ ${ASTG_NIEDRIGSTEUER_SCHWELLE}% (keine Niedrigsteuer)`}
-              {calc.istNiedrigsteuer && !calc.istBeherrschungSchwelle && `Beteiligung ${beteiligung}% ≤ 50% (keine Beherrschung)`}
-            </div>
-          )}
-          {einkuenfteArt === "aktiv" && (
-            <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-3 text-xs text-emerald-700">
-              ✓ §AStG greift NICHT bei aktiver Tätigkeit (§8 Abs. 1 Aktivkatalog) — aber Funktionsprüfung
-              für Handel/DL mit beherrschendem Inländer beachten!
-            </div>
-          )}
-        </div>
-      </div>
+            <ToolSection title="Berechnung Schritt für Schritt" icon={Calculator} bodyClassName="p-0">
+              <ol className="divide-y divide-border/70">
+                {/* 1. Auslandssteuer */}
+                <Schritt nr={1} titel={`Lokale Steuer in ${country.name} (${calc.effCit}%)`} betrag={calc.auslandsSteuer}>
+                  <p className="tabular">
+                    {auslandsgewinn.toLocaleString("de-DE")} € × {calc.effCit}% = {formatEur(calc.auslandsSteuer)}
+                  </p>
+                  {calc.citNote && <p className="mt-0.5">{calc.citNote}</p>}
+                  <p className="mt-1 text-foreground/80">
+                    Verbleibend: <span className="font-medium tabular">{formatEur(calc.auslandsNetto)}</span>
+                  </p>
+                </Schritt>
 
-      {/* ============ TOTAL ============ */}
-      <div className="rounded-2xl border-2 border-accent-blue/40 bg-gradient-to-br from-card via-card to-accent-blue/5 p-6 mb-6">
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          <div>
-            <div className="text-xs uppercase tracking-wider text-muted-foreground mb-1">Total Steuer</div>
-            <div className="text-xl font-bold text-red-700">{formatEur(calc.totalSteuer)}</div>
-          </div>
-          <div>
-            <div className="text-xs uppercase tracking-wider text-muted-foreground mb-1">Effektiv-Satz</div>
-            <div className="text-xl font-bold text-accent-blue">{calc.effektivPct.toFixed(1)}%</div>
-          </div>
-          <div>
-            <div className="text-xs uppercase tracking-wider text-muted-foreground mb-1">Netto beim Empfänger</div>
-            <div className="text-xl font-bold text-emerald-700">{formatEur(calc.finalNetto)}</div>
-          </div>
-        </div>
-      </div>
+                {/* 2. Quellensteuer */}
+                <Schritt nr={2} titel={`Quellensteuer bei Ausschüttung (${calc.whtRate}%)`} betrag={calc.whtAbsolute}>
+                  {calc.motherDaughterEligible && (
+                    <p className="flex items-start gap-1.5 text-success">
+                      <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+                      EU-Mutter-Tochter-RL: 0% (Kap-Ges. zu Kap-Ges., ≥10% + 12M)
+                    </p>
+                  )}
+                  {calc.qualifiedApplies && (
+                    <p className="flex items-start gap-1.5 text-success">
+                      <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+                      Qualified-Rate aktiv: {calc.whtNote}
+                    </p>
+                  )}
+                  {!calc.motherDaughterEligible && !calc.qualifiedApplies && <p>{calc.whtNote}</p>}
+                  {!hatHoldingDe && country.motherDaughter && (
+                    <p className="mt-1 flex items-start gap-1.5 text-warning">
+                      <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+                      MTR-Befreiung nicht anwendbar, sie gilt nur Kap-Ges. zu Kap-Ges. (§43b EStG)
+                    </p>
+                  )}
+                  <p className="mt-1 text-foreground/80">
+                    Kommt beim Empfänger an: <span className="font-medium tabular">{formatEur(calc.inDeAusgeschuettet)}</span>
+                  </p>
+                </Schritt>
+
+                {/* 3. DE-Steuer */}
+                <Schritt nr={3} titel="Steuer beim Empfänger in Deutschland" betrag={calc.deSteuer}>
+                  <p>{calc.deBezeichnung}</p>
+                  {calc.streubesitz && (
+                    <p className="mt-1 flex items-start gap-1.5 text-danger">
+                      <XCircle className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+                      Streubesitz {beteiligung}% &lt; {STREUBESITZ_KST_SCHWELLE}%: nach §8b Abs. 4 KStG keine 95%-Befreiung
+                    </p>
+                  )}
+                  {calc.gewstFehlend && (
+                    <p className="mt-1 flex items-start gap-1.5 text-warning">
+                      <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+                      Beteiligung {beteiligung}% reicht für die KSt-Schachtel (≥{STREUBESITZ_KST_SCHWELLE}%), aber nicht für die GewSt-Schachtel (≥{SCHACHTEL_GEWST_SCHWELLE}%): volle GewSt fällt an
+                    </p>
+                  )}
+                </Schritt>
+
+                {/* 4. §AStG */}
+                {calc.astgGreift && (
+                  <Schritt nr={4} titel="Hinzurechnung nach AStG greift" betrag={calc.astgZusatz} tone="danger">
+                    <p>{calc.astgBezeichnung}</p>
+                  </Schritt>
+                )}
+              </ol>
+              <div className="border-t border-border/70 p-4 md:px-6">
+                {!calc.astgGreift && einkuenfteArt === "passive" && (
+                  <Callout tone="success" title="Keine Hinzurechnung nach AStG">
+                    {!calc.istNiedrigsteuer && `Steuersatz ${calc.effCit}% ≥ ${ASTG_NIEDRIGSTEUER_SCHWELLE}% (keine Niedrigsteuer).`}
+                    {calc.istNiedrigsteuer && !calc.istBeherrschungSchwelle && `Beteiligung ${beteiligung}% ≤ 50% (keine Beherrschung).`}
+                  </Callout>
+                )}
+                {einkuenfteArt === "aktiv" && (
+                  <Callout tone="success" title="Keine Hinzurechnung nach AStG">
+                    Aktive Tätigkeit fällt unter den Aktivkatalog (§ 8 Abs. 1 AStG). Bei Handel oder Dienstleistungen mit einem
+                    beherrschenden Inländer trotzdem die Funktionsprüfung beachten.
+                  </Callout>
+                )}
+                {calc.astgGreift && (
+                  <Callout tone="danger" title="Achtung: AStG-Hinzurechnung">
+                    Passive Einkünfte, Niedrigsteuer und Beherrschung treffen zusammen. Die Belastung in Deutschland ist hier
+                    mit dem höheren Wert aus Ausschüttungs- und Hinzurechnungsbesteuerung angesetzt.
+                  </Callout>
+                )}
+              </div>
+            </ToolSection>
+          </>
+        }
+      />
 
       {/* ============ COUNTRY-NOTES ============ */}
-      <div className="rounded-2xl border border-border bg-card p-4 mb-6 text-xs leading-relaxed">
-        <div className="font-semibold mb-2 flex items-center gap-2">
-          {country.flag} {country.name} — Spezifika
-          {country.citSource && (
-            <span className="text-[10px] text-muted-foreground font-normal italic">
-              · Quelle: {country.citSource}
-            </span>
-          )}
-        </div>
-        <ul className="list-disc pl-4 space-y-1 text-muted-foreground">
+      <ToolSection
+        className="mb-6"
+        icon={MapPin}
+        title={`Besonderheiten in ${country.name}`}
+        description={country.citSource ? `Quelle: ${country.citSource}` : undefined}
+      >
+        <ul className="space-y-2 text-sm leading-relaxed text-muted-foreground">
           {country.notes.map((n, i) => (
-            <li key={i}>{n}</li>
+            <li key={i} className="flex gap-2.5">
+              <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent-blue" aria-hidden="true" />
+              <span>{n}</span>
+            </li>
           ))}
-          {country.motherDaughter && (
-            <li className="text-emerald-700">
-              ✓ EU-Mutter-Tochter-RL anwendbar (0% WHT bei ≥10% + 12M, nur Kap-Ges. zu Kap-Ges.)
-            </li>
-          )}
-          {country.isLowTaxCountry && (
-            <li className="text-amber-700">
-              ⚠ Niedrigsteuer-Land (CIT &lt; {ASTG_NIEDRIGSTEUER_SCHWELLE}%) — §AStG-Risiko bei passiven Einkünften + Beherrschung
-            </li>
-          )}
         </ul>
-      </div>
-
-      {/* ============ WEGZUGSBESTEUERUNG-HINWEIS ============ */}
-      <div className="rounded-2xl border border-amber-500/30 bg-amber-500/5 p-4 mb-4">
-        <div className="flex items-start gap-2">
-          <Plane className="h-4 w-4 text-amber-700 shrink-0 mt-0.5" />
-          <div className="text-xs leading-relaxed">
-            <div className="font-semibold mb-1 text-amber-700">§6 AStG Wegzugsbesteuerung — neu seit JStG 2024</div>
-            <div className="text-muted-foreground">
-              Wenn du als DE-Inhaber einer Kap-Ges-Beteiligung (≥1% in den letzten 5 Jahren) ins Ausland ziehst:
-              fiktiver Verkauf, Steuer auf stille Reserven (Teileinkünfteverfahren {TEILEINKUENFTE_ANTEIL}%).{" "}
-              <strong className="text-foreground">EU/EWR-Stundung ENTFALLEN seit 2022</strong> — nur noch 7-Raten gegen
-              Sicherheit. Bei {">"}25% Ausschüttungen in 7 Jahren: sofortiger Stundungs-Widerruf.
-              JStG 2024 erweitert auf Investmentfonds-Anteile ab 1.1.2025.
-            </div>
+        {(country.motherDaughter || country.isLowTaxCountry) && (
+          <div className="mt-4 space-y-2 border-t border-border/70 pt-4 text-sm">
+            {country.motherDaughter && (
+              <p className="flex items-start gap-2 text-success">
+                <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+                <span>EU-Mutter-Tochter-RL anwendbar (0% WHT bei ≥10% + 12M, nur Kap-Ges. zu Kap-Ges.)</span>
+              </p>
+            )}
+            {country.isLowTaxCountry && (
+              <p className="flex items-start gap-2 text-warning">
+                <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+                <span>Niedrigsteuerland (CIT &lt; {ASTG_NIEDRIGSTEUER_SCHWELLE}%): AStG-Risiko bei passiven Einkünften und Beherrschung</span>
+              </p>
+            )}
           </div>
-        </div>
-      </div>
+        )}
+      </ToolSection>
 
-      {/* ============ SUBSTANCE / §50d Abs. 3 EStG ============ */}
-      <div className="rounded-2xl border border-amber-500/30 bg-amber-500/5 p-4 mb-4">
-        <div className="flex items-start gap-2">
-          <Building2 className="h-4 w-4 text-amber-700 shrink-0 mt-0.5" />
-          <div className="text-xs leading-relaxed">
-            <div className="font-semibold mb-1 text-amber-700">
-              §50d Abs. 3 EStG Anti-Treaty-Shopping — Substance erforderlich
-            </div>
-            <div className="text-muted-foreground">
-              DBA-/MTR-Vorteile werden versagt wenn die Auslands-Holding keine wirtschaftliche Substanz hat:
-              eigenes Personal mit Entscheidungsbefugnis, eigene Räumlichkeiten, eigene Wertschöpfung, eigenes
-              Bankkonto. BZSt-Praxis-Update März 2025: Limited-Look-Through möglich.{" "}
-              <strong className="text-foreground">
-                ATAD III ("Unshell"-RL) wurde am 18.06.2025 von der EU zurückgezogen
-              </strong>{" "}
-              — aber §50d und PPT-Tests in DBAs bleiben scharf.
-            </div>
-          </div>
-        </div>
+      <div className="mb-6 grid grid-cols-1 gap-4 lg:grid-cols-2">
+        {/* ============ WEGZUGSBESTEUERUNG-HINWEIS ============ */}
+        <Callout tone="warning" icon={Plane} title="§ 6 AStG Wegzugsbesteuerung: neu seit JStG 2024">
+          Wenn du als DE-Inhaber einer Kap-Ges-Beteiligung (≥1% in den letzten 5 Jahren) ins Ausland ziehst:
+          fiktiver Verkauf, Steuer auf stille Reserven (Teileinkünfteverfahren {TEILEINKUENFTE_ANTEIL}%).{" "}
+          <strong className="font-medium text-foreground">EU/EWR-Stundung entfällt seit 2022</strong>, es bleiben nur noch 7 Raten gegen
+          Sicherheit. Bei {">"}25% Ausschüttungen in 7 Jahren: sofortiger Widerruf der Stundung. Das JStG 2024 erweitert die
+          Regel ab 1.1.2025 auf Investmentfonds-Anteile.
+        </Callout>
+
+        {/* ============ SUBSTANCE / §50d Abs. 3 EStG ============ */}
+        <Callout tone="warning" icon={Building2} title="§ 50d Abs. 3 EStG: Substanz ist Pflicht">
+          DBA- und MTR-Vorteile werden versagt, wenn die Auslands-Holding keine wirtschaftliche Substanz hat: eigenes Personal mit
+          Entscheidungsbefugnis, eigene Räume, eigene Wertschöpfung, eigenes Bankkonto. BZSt-Praxis-Update März 2025:
+          Limited-Look-Through möglich.{" "}
+          <strong className="font-medium text-foreground">ATAD III („Unshell“-RL) wurde am 18.06.2025 von der EU zurückgezogen</strong>,
+          § 50d und die PPT-Tests in DBAs bleiben aber scharf.
+        </Callout>
       </div>
 
       {/* ============ DISCLAIMER ============ */}
-      <div className="rounded-2xl border border-amber-500/30 bg-amber-500/5 p-4 text-xs leading-relaxed">
-        <div className="flex items-start gap-2">
-          <AlertTriangle className="h-4 w-4 text-amber-700 shrink-0 mt-0.5" />
-          <div>
-            <div className="font-semibold mb-1">Modell-Annahmen + verbleibende Vereinfachungen:</div>
-            <ul className="list-disc pl-4 space-y-1 text-muted-foreground">
-              <li>
-                DE-GmbH-Steuer-Mix ~{KST_GEWST_KOMBI}% (KSt {KST_SATZ}% + SolZ {SOLZ_KST}% + GewSt typisch {GEWST_SATZ_TYPISCH}%
-                bei Hebesatz 400%). Bei München (490%) oder Berlin (410%) variiert das.
-              </li>
-              <li>
-                §AStG-Aktivkatalog vereinfacht — Funktionsprüfung für Handel/DL mit beherrschendem Inländer im
-                Detail mit StB klären
-              </li>
-              <li>
-                §12 AStG: tatsächlich gezahlte Auslandssteuer automatisch anrechenbar (per-country-limitation
-                §34c EStG nicht modelliert)
-              </li>
-              <li>
-                Bei Drittland-Töchtern (CH/USA/HK): Einzelfall-DBA-Prüfung — LoB-Tests + Antragsverfahren
-              </li>
-              <li>
-                <strong>Pillar 2 (15% Mindeststeuer)</strong> nur für Konzerne ≥€750M — für Solo-Founder
-                irrelevant, AStG-15%-Schwelle synchron
-              </li>
-              <li>
-                Maltas 6/7-Refund: nominell 35% Cash-out, Refund nach 4-6 Monaten — Cashflow-Risiko nicht
-                modelliert
-              </li>
-              <li>
-                <strong>Konkrete Berechnung immer mit StB für internationales Steuerrecht</strong> — Tool
-                liefert Orientierung, keine Beratung im Sinne StBerG
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
+      <ToolSection icon={Info} title="Modell-Annahmen und Vereinfachungen">
+        <ul className="space-y-2 text-sm leading-relaxed text-muted-foreground">
+          {[
+            <>DE-GmbH-Steuer-Mix ~{KST_GEWST_KOMBI}% (KSt {KST_SATZ}% + SolZ {SOLZ_KST}% + GewSt typisch {GEWST_SATZ_TYPISCH}% bei Hebesatz 400%). In München (490%) oder Berlin (410%) weicht das ab.</>,
+            <>AStG-Aktivkatalog vereinfacht: Funktionsprüfung für Handel/DL mit beherrschendem Inländer im Detail mit der Steuerberatung klären.</>,
+            <>§ 12 AStG: tatsächlich gezahlte Auslandssteuer automatisch anrechenbar (per-country-limitation nach § 34c EStG nicht modelliert).</>,
+            <>Drittland-Töchter (CH/USA/HK): DBA im Einzelfall prüfen, inklusive LoB-Tests und Antragsverfahren.</>,
+            <><strong className="font-medium text-foreground">Pillar 2 (15% Mindeststeuer)</strong> gilt nur für Konzerne ab 750 Mio. €, für Solo-Founder irrelevant. Die AStG-15%-Schwelle ist synchron.</>,
+            <>Maltas 6/7-Refund: nominell 35% Cash-out, Erstattung nach 4 bis 6 Monaten. Das Cashflow-Risiko ist nicht modelliert.</>,
+            <><strong className="font-medium text-foreground">Konkrete Berechnung immer mit einer Steuerberatung für internationales Steuerrecht.</strong> Das Tool liefert Orientierung, keine Beratung im Sinne des StBerG.</>,
+          ].map((t, i) => (
+            <li key={i} className="flex gap-2.5">
+              <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-muted-foreground/50" aria-hidden="true" />
+              <span>{t}</span>
+            </li>
+          ))}
+        </ul>
+      </ToolSection>
     </CockpitShell>
   );
 };
+
+const Schritt = ({
+  nr,
+  titel,
+  betrag,
+  tone = "neutral",
+  children,
+}: {
+  nr: number;
+  titel: string;
+  betrag: number;
+  tone?: Tone;
+  children: React.ReactNode;
+}) => (
+  <li className={cn("px-5 py-4 md:px-6", tone === "danger" && "bg-danger-soft")}>
+    <div className="flex items-start justify-between gap-3">
+      <div className="flex min-w-0 items-start gap-3">
+        <span
+          className={cn(
+            "flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-semibold tabular",
+            tone === "danger" ? "bg-danger text-primary-foreground" : "bg-secondary text-muted-foreground",
+          )}
+        >
+          {nr}
+        </span>
+        <span className={cn("pt-0.5 text-sm font-semibold", tone === "danger" && "text-danger")}>{titel}</span>
+      </div>
+      <span className={cn("shrink-0 pt-0.5 text-sm font-semibold tabular", tone === "danger" ? "text-danger" : "text-foreground")}>
+        −{formatEur(betrag)}
+      </span>
+    </div>
+    <div className="mt-1.5 pl-9 text-xs leading-relaxed text-muted-foreground">{children}</div>
+  </li>
+);
 
 export default DbaCfcRechner;
