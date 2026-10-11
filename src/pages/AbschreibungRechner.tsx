@@ -1,14 +1,26 @@
 import { useMemo, useState } from "react";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
+import { Link } from "react-router-dom";
+import {
+  Callout,
+  ChoiceGroup,
+  EmptyState,
+  Field,
+  KitTable,
+  ResultPanel,
+  ResultRow,
+  ToneBadge,
+  ToolLayout,
+  ToolSection,
+  selectCls,
+  type Tone,
+} from "@/components/cockpit/kit";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Calculator,
   AlertTriangle,
-  CheckCircle2,
   Info,
   Laptop,
   Smartphone,
@@ -207,20 +219,20 @@ const calcAbschreibung = (
 const AbschreibungRechner = () => {
   return (
     <CockpitShell
-      eyebrow="Abschreibungs-Rechner · Stand Mai 2026"
-      title="Was kann ich abschreiben — und wieviel Steuer spare ich?"
-      subtitle="Einzel-Rechner mit Steuer-Ersparnis · Asset-Cart für mehrere Anschaffungen gleichzeitig · 18 Asset-Types · BMF-Sofortabschreibung Computer + GWG ≤800€ + Sammelposten 250-1000€ + Lineare AfA §7. Inkl. SKR03/04-Buchungssatz."
+      eyebrow="Steuern · Abschreibung, Stand Mai 2026"
+      title="Was kann ich abschreiben, und wie viel Steuer spare ich?"
+      subtitle="Rechne eine Anschaffung oder mehrere auf einmal durch: BMF-Sofortabschreibung für Computer, GWG bis 800 €, Sammelposten 250–1000 € und lineare AfA nach §7. Mit Steuer-Ersparnis und SKR03/04-Buchungssatz."
     >
       <Tabs defaultValue="einzel" className="w-full">
-        <TabsList className="mb-6 flex-wrap h-auto">
-          <TabsTrigger value="einzel">
-            <Calculator className="h-4 w-4 mr-1" /> Einzel-Rechner
+        <TabsList className="mb-6 h-auto flex-wrap justify-start">
+          <TabsTrigger value="einzel" className="gap-1.5">
+            <Calculator className="h-4 w-4" aria-hidden="true" /> Eine Anschaffung
           </TabsTrigger>
-          <TabsTrigger value="cart">
-            <ShoppingCart className="h-4 w-4 mr-1" /> Asset-Cart (mehrere)
+          <TabsTrigger value="cart" className="gap-1.5">
+            <ShoppingCart className="h-4 w-4" aria-hidden="true" /> Mehrere Anschaffungen
           </TabsTrigger>
-          <TabsTrigger value="quickref">
-            <FileText className="h-4 w-4 mr-1" /> AfA-Tabelle + Modi-Erklärung
+          <TabsTrigger value="quickref" className="gap-1.5">
+            <FileText className="h-4 w-4" aria-hidden="true" /> AfA-Tabelle und Modi
           </TabsTrigger>
         </TabsList>
 
@@ -275,349 +287,280 @@ const EinzelRechner = () => {
   const istPoolRange = nettoPreis >= POOL_UNTERGRENZE && nettoPreis <= POOL_OBERGRENZE;
 
   return (
-    <div className="space-y-4">
-      {/* ===== INPUTS ===== */}
-      <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">
-              Was wurde angeschafft?
-            </Label>
-            <select
-              value={assetId}
-              onChange={(e) => setAssetId(e.target.value)}
-              className="mt-1 h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
-            >
-              {Object.entries(
-                AFA_ASSETS.reduce<Record<string, AssetType[]>>((acc, a) => {
-                  if (!acc[a.category]) acc[a.category] = [];
-                  acc[a.category].push(a);
-                  return acc;
-                }, {}),
-              ).map(([cat, items]) => (
-                <optgroup key={cat} label={cat}>
-                  {items.map((a) => (
-                    <option key={a.id} value={a.id}>
-                      {a.name} ({a.bmfSofort ? "1 Jahr Sofort" : `${a.nutzungsdauer} Jahre`})
-                    </option>
-                  ))}
-                </optgroup>
-              ))}
-            </select>
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground flex items-center justify-between">
-              <span>{istBrutto && !istKu ? "Brutto-Preis (€)" : "Netto-Preis (€)"}</span>
-              {!istKu && (
-                <button
-                  onClick={() => setIstBrutto((v) => !v)}
-                  className="text-[10px] underline hover:text-foreground"
-                >
-                  → {istBrutto ? "Netto" : "Brutto"} eingeben
-                </button>
-              )}
-            </Label>
-            <Input
-              type="number"
-              min={0}
-              step={0.01}
-              value={betrag}
-              onChange={(e) => setBetrag(Math.max(0, Number(e.target.value) || 0))}
-              className="mt-1"
-            />
-            {istBrutto && !istKu && (
-              <div className="text-[10px] text-muted-foreground mt-1">
-                → Netto: {formatEur(nettoPreis)} · USt-Abzug: {formatEur(ustAbzug)}
+    <div className="space-y-6">
+      <ToolLayout
+        inputs={
+          <>
+            <ToolSection title="Anschaffung" description="Was du gekauft hast, wann und zu welchem Preis." icon={Package}>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <Field label="Was wurde angeschafft?" htmlFor="afa-asset" className="sm:col-span-2" hint={asset.hinweis}>
+                  <select id="afa-asset" value={assetId} onChange={(e) => setAssetId(e.target.value)} className={selectCls}>
+                    {Object.entries(
+                      AFA_ASSETS.reduce<Record<string, AssetType[]>>((acc, a) => {
+                        if (!acc[a.category]) acc[a.category] = [];
+                        acc[a.category].push(a);
+                        return acc;
+                      }, {}),
+                    ).map(([cat, items]) => (
+                      <optgroup key={cat} label={cat}>
+                        {items.map((a) => (
+                          <option key={a.id} value={a.id}>
+                            {a.name} ({a.bmfSofort ? "1 Jahr Sofort" : `${a.nutzungsdauer} Jahre`})
+                          </option>
+                        ))}
+                      </optgroup>
+                    ))}
+                  </select>
+                </Field>
+                <div className="space-y-1.5">
+                  <div className="flex items-baseline justify-between gap-2">
+                    <label htmlFor="afa-betrag" className="block text-sm font-medium text-foreground">
+                      {istBrutto && !istKu ? "Brutto-Preis (€)" : "Netto-Preis (€)"}
+                    </label>
+                    {!istKu && (
+                      <button
+                        type="button"
+                        onClick={() => setIstBrutto((v) => !v)}
+                        className="text-xs font-medium text-accent-blue hover:underline"
+                      >
+                        {istBrutto ? "Netto" : "Brutto"} eingeben
+                      </button>
+                    )}
+                  </div>
+                  <Input
+                    id="afa-betrag"
+                    type="number"
+                    min={0}
+                    step={0.01}
+                    value={betrag}
+                    onChange={(e) => setBetrag(Math.max(0, Number(e.target.value) || 0))}
+                    className="tabular"
+                  />
+                  {istBrutto && !istKu && (
+                    <p className="text-xs text-muted-foreground tabular">
+                      Netto: {formatEur(nettoPreis)} · USt-Abzug: {formatEur(ustAbzug)}
+                    </p>
+                  )}
+                </div>
+                <Field label="Anschaffungs-Monat (1–12)" htmlFor="afa-monat" hint="Bestimmt die anteilige AfA im ersten Jahr.">
+                  <Input
+                    id="afa-monat"
+                    type="number"
+                    min={1}
+                    max={12}
+                    value={monat}
+                    onChange={(e) => setMonat(Math.max(1, Math.min(12, Number(e.target.value) || 1)))}
+                    className="tabular"
+                  />
+                </Field>
+                <Field label="Privater Nutzungsanteil (%)" htmlFor="afa-privat" hint="Z. B. Laptop 30 % privat: nur 70 % absetzbar." className="sm:col-span-2">
+                  <Input
+                    id="afa-privat"
+                    type="number"
+                    min={0}
+                    max={100}
+                    value={privatAnteil}
+                    onChange={(e) => setPrivatAnteil(Math.max(0, Math.min(100, Number(e.target.value) || 0)))}
+                    className="tabular"
+                  />
+                </Field>
               </div>
-            )}
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">
-              Anschaffungs-Monat (1-12)
-            </Label>
-            <Input
-              type="number"
-              min={1}
-              max={12}
-              value={monat}
-              onChange={(e) => setMonat(Math.max(1, Math.min(12, Number(e.target.value) || 1)))}
-              className="mt-1"
-            />
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">
-              Steuer-Typ
-            </Label>
-            <div className="grid grid-cols-2 gap-2 mt-1">
-              {[
-                { v: false, l: "Regelbesteuerer" },
-                { v: true, l: "Kleinunternehmer §19" },
-              ].map((o) => (
-                <button
-                  key={String(o.v)}
-                  onClick={() => {
-                    setIstKu(o.v);
-                    if (o.v) setIstBrutto(true);
-                  }}
-                  className={`rounded-md border h-10 text-sm ${
-                    istKu === o.v
-                      ? "border-accent-blue bg-accent-blue/10 text-accent-blue font-semibold"
-                      : "border-border hover:bg-secondary"
-                  }`}
-                >
-                  {o.l}
-                </button>
-              ))}
-            </div>
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">
-              Privater Nutzungsanteil (%)
-            </Label>
-            <Input
-              type="number"
-              min={0}
-              max={100}
-              value={privatAnteil}
-              onChange={(e) => setPrivatAnteil(Math.max(0, Math.min(100, Number(e.target.value) || 0)))}
-              className="mt-1"
-            />
-            <div className="text-[10px] text-muted-foreground mt-1">
-              Z.B. Laptop 30% privat → nur 70% absetzbar
-            </div>
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">
-              Empfänger
-            </Label>
-            <div className="grid grid-cols-2 gap-2 mt-1">
-              {[
-                { v: "gmbh" as const, l: `GmbH (~${STEUERSATZ_GMBH}%)` },
-                { v: "privat" as const, l: "Privatperson (§32a)" },
-              ].map((o) => (
-                <button
-                  key={o.v}
-                  onClick={() => setEmpfaengerTyp(o.v)}
-                  className={`rounded-md border h-10 text-sm ${
-                    empfaengerTyp === o.v
-                      ? "border-accent-blue bg-accent-blue/10 text-accent-blue font-semibold"
-                      : "border-border hover:bg-secondary"
-                  }`}
-                >
-                  {o.l}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
+              {istPoolRange && !asset.bmfSofort && (
+                <label className="mt-4 flex cursor-pointer items-start gap-3 rounded-xl border border-border bg-secondary/40 p-3.5 text-sm">
+                  <input
+                    type="checkbox"
+                    checked={poolGenutzt}
+                    onChange={(e) => setPoolGenutzt(e.target.checked)}
+                    className="mt-0.5 h-4 w-4 accent-[hsl(var(--primary))]"
+                  />
+                  <span>
+                    <span className="font-medium">Sammelposten §6 Abs. 2a EStG nutzen</span>
+                    <span className="block text-muted-foreground">Pool 250–1000 €, 5 Jahre gleichmäßig. Alternative zur GWG-Regel.</span>
+                  </span>
+                </label>
+              )}
+            </ToolSection>
 
-        {empfaengerTyp === "privat" && (
-          <div className="rounded-xl bg-card border border-border p-3 mt-2">
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">
-              Persönlicher Grenzsteuersatz (%)
-            </Label>
-            <Input
-              type="number"
-              min={14}
-              max={47.5}
-              step={0.5}
-              value={steuersatzCustom}
-              onChange={(e) => setSteuersatzCustom(Math.max(14, Math.min(47.5, Number(e.target.value) || 42)))}
-              className="mt-1"
-            />
-            <div className="text-[10px] text-muted-foreground mt-1">
-              §32a EStG: 14% Eingangsgrenze bis 47,5% Spitzensatz (inkl. SolZ + Reichensteuer)
-            </div>
-          </div>
-        )}
-
-        {istPoolRange && !asset.bmfSofort && (
-          <div className="rounded-xl bg-card border border-border p-3 mt-2">
-            <label className="flex items-start gap-2 cursor-pointer text-sm">
-              <input
-                type="checkbox"
-                checked={poolGenutzt}
-                onChange={(e) => setPoolGenutzt(e.target.checked)}
-                className="mt-0.5"
-              />
-              <span>
-                <strong>Sammelposten §6 Abs. 2a EStG nutzen</strong> (Pool 250-1000€, 5 Jahre
-                gleichmäßig) — alternativ zur GWG-Regel
-              </span>
-            </label>
-          </div>
-        )}
-      </div>
-
-      {/* ===== ABSCHREIBUNGS-MODUS ===== */}
-      <div className="rounded-2xl border-2 border-emerald-500/40 bg-emerald-500/5 p-5">
-        <div className="flex items-start gap-3 mb-3">
-          <Calculator className="h-6 w-6 text-emerald-700 shrink-0" />
-          <div>
-            <div className="text-xs uppercase tracking-wider text-muted-foreground">
-              Abschreibungs-Modus
-            </div>
-            <div className="text-2xl font-bold">{result.modus}</div>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
-          <ResultCard label="Erstjahres-AfA" value={formatEur(result.erstjahrAfa)} color="emerald" />
-          <ResultCard label="Jahres-AfA (volljährig)" value={formatEur(result.jahresAfa)} color="blue" />
-          <ResultCard label="Über gesamt" value={`${result.anzahlJahre} Jahr${result.anzahlJahre === 1 ? "" : "e"}`} color="purple" />
-        </div>
-
-        <details className="rounded-xl bg-card border border-border p-3 mb-3">
-          <summary className="cursor-pointer text-sm font-semibold">
-            Vollständiger Abschreibungs-Plan ({result.details.length} Zeilen)
-          </summary>
-          <ul className="mt-2 text-sm space-y-1 font-mono">
-            {result.details.map((d) => (
-              <li key={d.jahr} className="flex justify-between">
-                <span>{d.label}</span>
-                <span className="font-bold">{formatEur(d.betrag)}</span>
-              </li>
-            ))}
-          </ul>
-        </details>
-
-        <div className="rounded-lg bg-blue-500/5 border border-blue-500/20 p-3 text-xs flex items-start gap-2">
-          <Info className="h-3.5 w-3.5 text-blue-700 shrink-0 mt-0.5" />
-          <div className="text-muted-foreground">{result.hinweis}</div>
-        </div>
-      </div>
-
-      {/* ===== STEUER-ERSPARNIS (das was User WIRKLICH wissen will) ===== */}
-      <div className="rounded-2xl border-2 border-accent-blue/40 bg-gradient-to-br from-accent-blue/5 to-card p-5">
-        <div className="flex items-start gap-3 mb-3">
-          <TrendingDown className="h-6 w-6 text-accent-blue shrink-0" />
-          <div>
-            <div className="text-xs uppercase tracking-wider text-muted-foreground">
-              Was du tatsächlich sparst (Steuer + USt)
-            </div>
-            <div className="text-2xl font-bold">€-Effekt ({steuersatz}% Steuersatz)</div>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
-          <div className="rounded-xl bg-card border border-border p-4">
-            <div className="text-xs text-muted-foreground mb-1">Steuer-Ersparnis Jahr 1</div>
-            <div className="text-2xl font-bold text-emerald-700">
-              {formatEur(steuerErsparnisErstjahr)}
-            </div>
-            <div className="text-[10px] text-muted-foreground mt-1">
-              = {formatEur(result.erstjahrAfa)} × {steuersatz}%
-            </div>
-          </div>
-          <div className="rounded-xl bg-card border border-border p-4">
-            <div className="text-xs text-muted-foreground mb-1">Steuer-Ersparnis gesamt</div>
-            <div className="text-2xl font-bold text-emerald-700">
-              {formatEur(steuerErsparnisGesamt)}
-            </div>
-            <div className="text-[10px] text-muted-foreground mt-1">
-              über {result.anzahlJahre} Jahr{result.anzahlJahre === 1 ? "" : "e"} verteilt
-            </div>
-          </div>
-        </div>
-
-        {ustAbzug > 0 && (
-          <div className="rounded-xl bg-card border border-amber-500/30 p-4 mb-3">
-            <div className="text-xs text-muted-foreground mb-1">Zusätzlich: USt-Vorsteuer-Abzug</div>
-            <div className="text-xl font-bold text-amber-700">
-              + {formatEur(ustAbzug)} sofort
-            </div>
-            <div className="text-[10px] text-muted-foreground mt-1">
-              VSt geht in deine USt-Voranmeldung — Erstattung im selben Monat/Quartal
-            </div>
-          </div>
-        )}
-
-        <div className="rounded-xl bg-emerald-500/10 border border-emerald-500/30 p-4">
-          <div className="text-xs uppercase tracking-wider text-emerald-700 font-bold mb-1">
-            Liquiditäts-Effekt Jahr 1 (Steuer + USt-VSt)
-          </div>
-          <div className="text-3xl font-bold text-emerald-700">
-            {formatEur(liquiditätsersparnisJahr1)}
-          </div>
-          <div className="text-xs text-muted-foreground mt-1">
-            Effektive Anschaffungskosten:{" "}
-            <strong>{formatEur(betrag - liquiditätsersparnisJahr1)}</strong> (statt {formatEur(betrag)} brutto)
-            {result.anzahlJahre > 1 && " — restliche Steuer-Ersparnis kommt in Folgejahren"}
-          </div>
-        </div>
-      </div>
-
-      {/* ===== BUCHUNGSSATZ ===== */}
-      {(asset.skr03 || asset.skr04) && !istKu && (
-        <div className="rounded-2xl border border-border bg-card p-4">
-          <h3 className="font-bold text-sm mb-2 flex items-center gap-2">
-            <FileText className="h-4 w-4" /> Buchungssatz (Regelbesteuerer)
-          </h3>
-          <div className="overflow-x-auto">
-            <table className="w-full text-xs font-mono">
-              <thead>
-                <tr className="border-b border-border text-left">
-                  <th className="py-1 pr-2">Soll</th>
-                  <th className="py-1 px-2">Konto</th>
-                  <th className="py-1 px-2 text-right">Betrag</th>
-                  <th className="py-1 pl-2">an Haben</th>
-                </tr>
-              </thead>
-              <tbody>
-                {result.modusKey === "bmf-sofort" || result.modusKey === "gwg" ? (
-                  <>
-                    <tr className="border-b border-border/40">
-                      <td className="py-1 pr-2">SKR03 {asset.skr03} / SKR04 {asset.skr04}</td>
-                      <td className="py-1 px-2 text-muted-foreground">
-                        {result.modusKey === "bmf-sofort" ? "Sofortabschr. Hardware" : "GWG-Aufwand"}
-                      </td>
-                      <td className="py-1 px-2 text-right">{formatEur(nettoPreis)}</td>
-                      <td className="py-1 pl-2 text-muted-foreground">1200 / 1800 Bank</td>
-                    </tr>
-                    {ustAbzug > 0 && (
-                      <tr>
-                        <td className="py-1 pr-2">SKR03 1576 / SKR04 1406</td>
-                        <td className="py-1 px-2 text-muted-foreground">Vorsteuer 19%</td>
-                        <td className="py-1 px-2 text-right">{formatEur(ustAbzug)}</td>
-                        <td className="py-1 pl-2 text-muted-foreground">1200 / 1800 Bank</td>
-                      </tr>
-                    )}
-                  </>
-                ) : (
-                  <>
-                    <tr className="border-b border-border/40">
-                      <td className="py-1 pr-2">SKR03 0410 / SKR04 0650</td>
-                      <td className="py-1 px-2 text-muted-foreground">
-                        Anlage (AfA-pflichtig)
-                      </td>
-                      <td className="py-1 px-2 text-right">{formatEur(nettoPreis)}</td>
-                      <td className="py-1 pl-2 text-muted-foreground">1200 / 1800 Bank</td>
-                    </tr>
-                    {ustAbzug > 0 && (
-                      <tr className="border-b border-border/40">
-                        <td className="py-1 pr-2">SKR03 1576 / SKR04 1406</td>
-                        <td className="py-1 px-2 text-muted-foreground">Vorsteuer 19%</td>
-                        <td className="py-1 px-2 text-right">{formatEur(ustAbzug)}</td>
-                        <td className="py-1 pl-2 text-muted-foreground">1200 / 1800 Bank</td>
-                      </tr>
-                    )}
-                    <tr>
-                      <td className="py-1 pr-2 text-accent-blue">SKR03 {asset.skr03} / SKR04 {asset.skr04}</td>
-                      <td className="py-1 px-2 text-muted-foreground">
-                        AfA-Aufwand (jährlich)
-                      </td>
-                      <td className="py-1 px-2 text-right text-accent-blue">{formatEur(result.jahresAfa)}/Jahr</td>
-                      <td className="py-1 pl-2 text-muted-foreground">0410 / 0650 (Wertberichtigung)</td>
-                    </tr>
-                  </>
+            <ToolSection title="Steuerliche Situation" description="Davon hängen Vorsteuer und Steuersatz ab." icon={Calculator}>
+              <div className="space-y-5">
+                <Field label="Steuer-Typ">
+                  <ChoiceGroup<boolean>
+                    label="Steuer-Typ"
+                    value={istKu}
+                    onChange={(v) => {
+                      setIstKu(v);
+                      if (v) setIstBrutto(true);
+                    }}
+                    options={[
+                      { value: false, label: "Regelbesteuerer" },
+                      { value: true, label: "Kleinunternehmer §19" },
+                    ]}
+                  />
+                </Field>
+                <Field label="Wer setzt die Anschaffung ab?">
+                  <ChoiceGroup<"gmbh" | "privat">
+                    label="Empfänger"
+                    value={empfaengerTyp}
+                    onChange={setEmpfaengerTyp}
+                    options={[
+                      { value: "gmbh", label: `GmbH (~${STEUERSATZ_GMBH}%)` },
+                      { value: "privat", label: "Privatperson (§32a)" },
+                    ]}
+                  />
+                </Field>
+                {empfaengerTyp === "privat" && (
+                  <Field
+                    label="Persönlicher Grenzsteuersatz (%)"
+                    htmlFor="afa-satz"
+                    hint="§32a EStG: 14 % Eingangssatz bis 47,5 % Spitzensatz (inkl. SolZ und Reichensteuer)."
+                  >
+                    <Input
+                      id="afa-satz"
+                      type="number"
+                      min={14}
+                      max={47.5}
+                      step={0.5}
+                      value={steuersatzCustom}
+                      onChange={(e) => setSteuersatzCustom(Math.max(14, Math.min(47.5, Number(e.target.value) || 42)))}
+                      className="tabular"
+                    />
+                  </Field>
                 )}
-              </tbody>
-            </table>
-          </div>
-          <div className="text-[10px] text-muted-foreground mt-2">
-            Konten-Pseudoangaben — exakte Konten je Kanzlei-Kontenrahmen variieren. Sprich mit deinem StB für DATEV/Lexoffice-Mapping.
-          </div>
-        </div>
+              </div>
+            </ToolSection>
+          </>
+        }
+        result={
+          <>
+            <ResultPanel
+              variant="ink"
+              kicker="Liquiditäts-Effekt Jahr 1"
+              title="Steuer-Ersparnis plus Vorsteuer"
+              value={formatEur(liquiditätsersparnisJahr1)}
+              valueHint={
+                <>
+                  Effektive Anschaffungskosten: <span className="font-semibold text-primary-foreground tabular">{formatEur(betrag - liquiditätsersparnisJahr1)}</span> statt{" "}
+                  <span className="tabular">{formatEur(betrag)}</span> brutto
+                  {result.anzahlJahre > 1 && ". Die restliche Steuer-Ersparnis kommt in den Folgejahren."}
+                </>
+              }
+            >
+              <div className="grid grid-cols-2 gap-px overflow-hidden rounded-xl bg-white/10">
+                {[
+                  { l: "Steuer-Ersparnis Jahr 1", v: formatEur(steuerErsparnisErstjahr), h: `${formatEur(result.erstjahrAfa)} × ${steuersatz} %` },
+                  { l: "Steuer-Ersparnis gesamt", v: formatEur(steuerErsparnisGesamt), h: `über ${result.anzahlJahre} Jahr${result.anzahlJahre === 1 ? "" : "e"} verteilt` },
+                  { l: "Vorsteuer sofort", v: ustAbzug > 0 ? `+ ${formatEur(ustAbzug)}` : "0,00 €", h: ustAbzug > 0 ? "über die USt-Voranmeldung" : "kein Vorsteuer-Abzug" },
+                  { l: "Steuersatz", v: `${steuersatz} %`, h: empfaengerTyp === "gmbh" ? "GmbH pauschal" : "persönlicher Grenzsteuersatz" },
+                ].map((k) => (
+                  <div key={k.l} className="bg-white/[0.04] p-3">
+                    <div className="text-xs text-primary-foreground/65">{k.l}</div>
+                    <div className="mt-0.5 font-semibold text-primary-foreground tabular">{k.v}</div>
+                    <div className="mt-0.5 text-[11px] text-primary-foreground/55 tabular">{k.h}</div>
+                  </div>
+                ))}
+              </div>
+            </ResultPanel>
+
+            <ResultPanel kicker="Abschreibungs-Modus" title={result.modus}>
+              <div className="divide-y divide-border/70">
+                <ResultRow label="Erstjahres-AfA" value={formatEur(result.erstjahrAfa)} strong />
+                <ResultRow label="Jahres-AfA (volles Jahr)" value={formatEur(result.jahresAfa)} />
+                <ResultRow label="Verteilt über" value={`${result.anzahlJahre} Jahr${result.anzahlJahre === 1 ? "" : "e"}`} />
+              </div>
+              <Callout tone="info" className="mt-4">
+                {result.hinweis}
+              </Callout>
+            </ResultPanel>
+          </>
+        }
+      />
+
+      <ToolSection
+        title="Abschreibungs-Plan"
+        description={`${result.details.length} ${result.details.length === 1 ? "Zeile" : "Zeilen"}, Beträge nach Abzug des Privatanteils`}
+        icon={TrendingDown}
+      >
+        <KitTable caption="Abschreibungs-Plan je Jahr">
+          <thead>
+            <tr>
+              <th>Zeitraum</th>
+              <th className="!text-right">AfA-Betrag</th>
+              <th className="!text-right">Steuer-Ersparnis ({steuersatz} %)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {result.details.map((d) => (
+              <tr key={d.jahr}>
+                <td>{d.label}</td>
+                <td className="text-right font-medium">{formatEur(d.betrag)}</td>
+                <td className="text-right text-success">{formatEur((d.betrag * steuersatz) / 100)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </KitTable>
+      </ToolSection>
+
+      {(asset.skr03 || asset.skr04) && !istKu && (
+        <ToolSection title="Buchungssatz (Regelbesteuerer)" description="So bucht dein StB oder du die Anschaffung." icon={FileText}>
+          <KitTable caption="Buchungssatz SKR03 und SKR04">
+            <thead>
+              <tr>
+                <th>Soll</th>
+                <th>Konto</th>
+                <th className="!text-right">Betrag</th>
+                <th>an Haben</th>
+              </tr>
+            </thead>
+            <tbody>
+              {result.modusKey === "bmf-sofort" || result.modusKey === "gwg" ? (
+                <>
+                  <tr>
+                    <td className="whitespace-nowrap">SKR03 {asset.skr03} / SKR04 {asset.skr04}</td>
+                    <td className="text-muted-foreground">
+                      {result.modusKey === "bmf-sofort" ? "Sofortabschr. Hardware" : "GWG-Aufwand"}
+                    </td>
+                    <td className="whitespace-nowrap text-right">{formatEur(nettoPreis)}</td>
+                    <td className="whitespace-nowrap text-muted-foreground">1200 / 1800 Bank</td>
+                  </tr>
+                  {ustAbzug > 0 && (
+                    <tr>
+                      <td className="whitespace-nowrap">SKR03 1576 / SKR04 1406</td>
+                      <td className="text-muted-foreground">Vorsteuer 19%</td>
+                      <td className="whitespace-nowrap text-right">{formatEur(ustAbzug)}</td>
+                      <td className="whitespace-nowrap text-muted-foreground">1200 / 1800 Bank</td>
+                    </tr>
+                  )}
+                </>
+              ) : (
+                <>
+                  <tr>
+                    <td className="whitespace-nowrap">SKR03 0410 / SKR04 0650</td>
+                    <td className="text-muted-foreground">Anlage (AfA-pflichtig)</td>
+                    <td className="whitespace-nowrap text-right">{formatEur(nettoPreis)}</td>
+                    <td className="whitespace-nowrap text-muted-foreground">1200 / 1800 Bank</td>
+                  </tr>
+                  {ustAbzug > 0 && (
+                    <tr>
+                      <td className="whitespace-nowrap">SKR03 1576 / SKR04 1406</td>
+                      <td className="text-muted-foreground">Vorsteuer 19%</td>
+                      <td className="whitespace-nowrap text-right">{formatEur(ustAbzug)}</td>
+                      <td className="whitespace-nowrap text-muted-foreground">1200 / 1800 Bank</td>
+                    </tr>
+                  )}
+                  <tr>
+                    <td className="whitespace-nowrap font-medium text-accent-blue">SKR03 {asset.skr03} / SKR04 {asset.skr04}</td>
+                    <td className="text-muted-foreground">AfA-Aufwand (jährlich)</td>
+                    <td className="whitespace-nowrap text-right font-medium text-accent-blue">{formatEur(result.jahresAfa)}/Jahr</td>
+                    <td className="whitespace-nowrap text-muted-foreground">0410 / 0650 (Wertberichtigung)</td>
+                  </tr>
+                </>
+              )}
+            </tbody>
+          </KitTable>
+          <p className="mt-3 text-xs text-muted-foreground">
+            Konten-Pseudoangaben: exakte Konten variieren je Kanzlei-Kontenrahmen. Sprich mit deinem StB für das DATEV- oder Lexoffice-Mapping.
+          </p>
+        </ToolSection>
       )}
     </div>
   );
@@ -691,192 +634,204 @@ const AssetCart = () => {
   });
 
   return (
-    <div className="space-y-4">
-      {/* Header */}
-      <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-4">
-        <div className="flex items-start gap-2">
-          <Info className="h-4 w-4 text-accent-blue shrink-0 mt-0.5" />
-          <div className="text-xs leading-relaxed">
-            <strong className="text-accent-blue">Asset-Cart:</strong> Mehrere Anschaffungen
-            gleichzeitig durchrechnen. Zeigt Gesamt-Abschreibung pro Jahr + kumulierte
-            Steuer-Ersparnis. Sinnvoll für Pre-Year-End-Planung oder Setup-Phase.
-          </div>
-        </div>
-      </div>
+    <div className="space-y-6">
+      <Callout tone="accent" title="Mehrere Anschaffungen auf einmal">
+        Rechne alle Käufe gemeinsam durch: Abschreibung pro Jahr und kumulierte Steuer-Ersparnis. Sinnvoll für die Planung vor dem Jahresende oder in der Setup-Phase.
+      </Callout>
 
-      {/* Steuer-Typ Switch */}
-      <div className="rounded-2xl border border-border bg-card p-4">
-        <Label className="text-xs uppercase tracking-wider text-muted-foreground mb-2 block">
-          Steuersatz für Ersparnis-Berechnung
-        </Label>
-        <div className="grid grid-cols-2 gap-2 mb-2">
-          {[
-            { v: "gmbh" as const, l: `GmbH (~${STEUERSATZ_GMBH}%)` },
-            { v: "privat" as const, l: "Privatperson (§32a)" },
-          ].map((o) => (
-            <button
-              key={o.v}
-              onClick={() => setEmpfaengerTyp(o.v)}
-              className={`rounded-md border h-10 text-sm ${
-                empfaengerTyp === o.v
-                  ? "border-accent-blue bg-accent-blue/10 text-accent-blue font-semibold"
-                  : "border-border hover:bg-secondary"
-              }`}
+      <ToolLayout
+        inputs={
+          <>
+            <ToolSection title="Steuersatz für die Ersparnis" icon={Calculator}>
+              <div className="space-y-4">
+                <ChoiceGroup<"gmbh" | "privat">
+                  label="Steuersatz für Ersparnis-Berechnung"
+                  value={empfaengerTyp}
+                  onChange={setEmpfaengerTyp}
+                  options={[
+                    { value: "gmbh", label: `GmbH (~${STEUERSATZ_GMBH}%)` },
+                    { value: "privat", label: "Privatperson (§32a)" },
+                  ]}
+                />
+                {empfaengerTyp === "privat" && (
+                  <Field label="Persönlicher Grenzsteuersatz (%)" htmlFor="cart-satz" hint="14 % bis 47,5 %">
+                    <Input
+                      id="cart-satz"
+                      type="number"
+                      min={14}
+                      max={47.5}
+                      step={0.5}
+                      value={steuersatzCustom}
+                      onChange={(e) => setSteuersatzCustom(Math.max(14, Math.min(47.5, Number(e.target.value) || 42)))}
+                      placeholder="Grenzsteuersatz %"
+                      className="tabular"
+                    />
+                  </Field>
+                )}
+                <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-border bg-secondary/40 p-3.5 text-sm">
+                  <input type="checkbox" checked={cartIstKu} onChange={(e) => setCartIstKu(e.target.checked)} className="mt-0.5 h-4 w-4 accent-[hsl(var(--primary))]" />
+                  <span>
+                    <span className="font-medium">Kleinunternehmer (§19 UStG)</span>
+                    <span className="block text-muted-foreground">Preise inkl. USt, kein Vorsteuer-Abzug. AfA-Basis ist der Bruttopreis.</span>
+                  </span>
+                </label>
+              </div>
+            </ToolSection>
+
+            <ToolSection
+              title="Anschaffungen"
+              description={`${items.length} ${items.length === 1 ? "Position" : "Positionen"}`}
+              icon={ShoppingCart}
+              actions={
+                <Button onClick={addItem} variant="outline" size="sm">
+                  <Plus className="mr-1 h-4 w-4" /> Hinzufügen
+                </Button>
+              }
             >
-              {o.l}
-            </button>
-          ))}
-        </div>
-        {empfaengerTyp === "privat" && (
-          <Input
-            type="number"
-            min={14}
-            max={47.5}
-            step={0.5}
-            value={steuersatzCustom}
-            onChange={(e) => setSteuersatzCustom(Math.max(14, Math.min(47.5, Number(e.target.value) || 42)))}
-            placeholder="Grenzsteuersatz %"
-          />
-        )}
-        <label className="flex items-center gap-2 text-xs cursor-pointer mt-3 pt-3 border-t border-border">
-          <input type="checkbox" checked={cartIstKu} onChange={(e) => setCartIstKu(e.target.checked)} className="h-4 w-4" />
-          <span><strong>Kleinunternehmer (§19 UStG)</strong> — Preise inkl. USt, kein Vorsteuer-Abzug → AfA-Basis = Brutto</span>
-        </label>
-      </div>
-
-      {/* Cart-Items */}
-      <div className="space-y-2">
-        {results.map(({ item, asset, result }) => (
-          <div key={item.id} className="rounded-2xl border border-border bg-card p-3">
-            <div className="grid grid-cols-1 md:grid-cols-[1fr_120px_80px_80px_auto] gap-2 items-end mb-2">
-              <div>
-                <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">Asset</Label>
-                <select
-                  value={item.assetId}
-                  onChange={(e) => updateItem(item.id, { assetId: e.target.value })}
-                  className="mt-0.5 h-9 w-full rounded-md border border-input bg-background px-2 text-xs"
-                >
-                  {AFA_ASSETS.map((a) => (
-                    <option key={a.id} value={a.id}>
-                      {a.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div>
-                <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">
-                  Netto (€)
-                </Label>
-                <Input
-                  type="number"
-                  min={0}
-                  value={item.nettoPreis}
-                  onChange={(e) => updateItem(item.id, { nettoPreis: Math.max(0, Number(e.target.value) || 0) })}
-                  className="mt-0.5 h-9 text-xs"
-                />
-              </div>
-              <div>
-                <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">Monat</Label>
-                <Input
-                  type="number"
-                  min={1}
-                  max={12}
-                  value={item.monat}
-                  onChange={(e) => updateItem(item.id, { monat: Math.max(1, Math.min(12, Number(e.target.value) || 1)) })}
-                  className="mt-0.5 h-9 text-xs"
-                />
-              </div>
-              <div>
-                <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">Privat %</Label>
-                <Input
-                  type="number"
-                  min={0}
-                  max={100}
-                  value={item.privatAnteilPct}
-                  onChange={(e) =>
-                    updateItem(item.id, { privatAnteilPct: Math.max(0, Math.min(100, Number(e.target.value) || 0)) })
+              {results.length === 0 ? (
+                <EmptyState
+                  icon={ShoppingCart}
+                  title="Noch keine Anschaffung"
+                  description="Füge die erste Anschaffung hinzu, um Abschreibung und Steuer-Ersparnis zu sehen."
+                  action={
+                    <Button onClick={addItem}>
+                      <Plus className="mr-1 h-4 w-4" /> Anschaffung hinzufügen
+                    </Button>
                   }
-                  className="mt-0.5 h-9 text-xs"
                 />
-              </div>
-              <button
-                onClick={() => removeItem(item.id)}
-                className="h-9 px-2 text-red-700 hover:bg-red-500/10 rounded-md self-end"
-                title="Entfernen"
-              >
-                <Trash2 className="h-4 w-4" />
-              </button>
-            </div>
-            <div className="flex items-center gap-2 flex-wrap text-[11px] text-muted-foreground">
-              <Badge variant={asset.bmfSofort ? "default" : "outline"} className="text-[10px]">
-                {result.modus}
-              </Badge>
-              <span>
-                Jahr 1: <strong className="text-foreground">{formatEur(result.erstjahrAfa)}</strong>
-              </span>
-              <span>
-                · Steuer-Ersparnis Jahr 1:{" "}
-                <strong className="text-emerald-700">
-                  {formatEur((result.erstjahrAfa * steuersatz) / 100)}
-                </strong>
-              </span>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <Button onClick={addItem} variant="outline" className="w-full">
-        <Plus className="h-4 w-4 mr-1" /> Asset hinzufügen
-      </Button>
-
-      {/* Totals */}
-      <div className="rounded-2xl border-2 border-accent-blue/40 bg-gradient-to-br from-card via-card to-accent-blue/5 p-5">
-        <h3 className="font-bold text-base mb-3 flex items-center gap-2">
-          <ShoppingCart className="h-5 w-5 text-accent-blue" /> Cart-Total ({items.length} Assets)
-        </h3>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
-          <ResultCard label="Anschaffungs-Volumen" value={formatEur(totalNetto)} color="blue" />
-          <ResultCard label="AfA Jahr 1" value={formatEur(totalErstjahrAfa)} color="purple" />
-          <ResultCard
-            label="Steuer-Ersparnis Jahr 1"
-            value={formatEur(totalErstjahrSteuerErsparnis)}
-            color="emerald"
-            highlight
-          />
-          <ResultCard label="Steuer-Ersparnis gesamt" value={formatEur(totalSteuerErsparnisGesamt)} color="emerald" />
-        </div>
-
-        {/* Mehrjahres-Tabelle */}
-        {maxYears > 1 && (
-          <details className="rounded-xl bg-card border border-border p-3">
-            <summary className="cursor-pointer text-sm font-semibold">
-              Kumulierter Abschreibungs-Plan über {maxYears} Jahre
-            </summary>
-            <div className="overflow-x-auto">
-            <table className="w-full text-xs mt-2 font-mono">
-              <thead>
-                <tr className="border-b border-border text-left">
-                  <th className="py-1">Jahr</th>
-                  <th className="py-1 text-right">AfA Total</th>
-                  <th className="py-1 text-right">Steuer-Ersparnis ({steuersatz}%)</th>
-                </tr>
-              </thead>
-              <tbody>
-                {yearlyTotals.map((total, idx) => (
-                  <tr key={idx} className="border-b border-border/40">
-                    <td className="py-1">Jahr {idx + 1}</td>
-                    <td className="py-1 text-right">{formatEur(total)}</td>
-                    <td className="py-1 text-right text-emerald-700">
-                      {formatEur((total * steuersatz) / 100)}
-                    </td>
-                  </tr>
+              ) : (
+                <div className="space-y-3">
+                  {results.map(({ item, asset, result }, idx) => (
+                    <div key={item.id} className="rounded-xl border border-border bg-secondary/30 p-4">
+                      <div className="mb-3 flex items-center justify-between gap-2">
+                        <span className="text-sm font-semibold tabular">Position {idx + 1}</span>
+                        <button
+                          type="button"
+                          onClick={() => removeItem(item.id)}
+                          className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-danger-soft hover:text-danger"
+                          title="Entfernen"
+                          aria-label={`Position ${idx + 1} entfernen`}
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </button>
+                      </div>
+                      <div className="grid grid-cols-2 gap-3 sm:grid-cols-[minmax(0,1fr)_110px_80px_80px]">
+                        <Field label="Anschaffung" htmlFor={`cart-a-${item.id}`} className="col-span-2 sm:col-span-1">
+                          <select
+                            id={`cart-a-${item.id}`}
+                            value={item.assetId}
+                            onChange={(e) => updateItem(item.id, { assetId: e.target.value })}
+                            className={selectCls}
+                          >
+                            {AFA_ASSETS.map((a) => (
+                              <option key={a.id} value={a.id}>
+                                {a.name}
+                              </option>
+                            ))}
+                          </select>
+                        </Field>
+                        <Field label="Netto (€)" htmlFor={`cart-n-${item.id}`} className="col-span-2 sm:col-span-1">
+                          <Input
+                            id={`cart-n-${item.id}`}
+                            type="number"
+                            min={0}
+                            value={item.nettoPreis}
+                            onChange={(e) => updateItem(item.id, { nettoPreis: Math.max(0, Number(e.target.value) || 0) })}
+                            className="tabular"
+                          />
+                        </Field>
+                        <Field label="Monat" htmlFor={`cart-m-${item.id}`}>
+                          <Input
+                            id={`cart-m-${item.id}`}
+                            type="number"
+                            min={1}
+                            max={12}
+                            value={item.monat}
+                            onChange={(e) => updateItem(item.id, { monat: Math.max(1, Math.min(12, Number(e.target.value) || 1)) })}
+                            className="tabular"
+                          />
+                        </Field>
+                        <Field label="Privat %" htmlFor={`cart-p-${item.id}`}>
+                          <Input
+                            id={`cart-p-${item.id}`}
+                            type="number"
+                            min={0}
+                            max={100}
+                            value={item.privatAnteilPct}
+                            onChange={(e) =>
+                              updateItem(item.id, { privatAnteilPct: Math.max(0, Math.min(100, Number(e.target.value) || 0)) })
+                            }
+                            className="tabular"
+                          />
+                        </Field>
+                      </div>
+                      <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-xs text-muted-foreground">
+                        <ToneBadge tone={asset.bmfSofort ? "success" : "neutral"}>{result.modus}</ToneBadge>
+                        <span className="tabular">
+                          Jahr 1: <strong className="font-semibold text-foreground">{formatEur(result.erstjahrAfa)}</strong>
+                        </span>
+                        <span className="tabular">
+                          Ersparnis Jahr 1: <strong className="font-semibold text-success">{formatEur((result.erstjahrAfa * steuersatz) / 100)}</strong>
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                  <Button onClick={addItem} variant="outline" className="w-full">
+                    <Plus className="mr-1 h-4 w-4" /> Weitere Anschaffung hinzufügen
+                  </Button>
+                </div>
+              )}
+            </ToolSection>
+          </>
+        }
+        result={
+          <>
+            <ResultPanel
+              variant="ink"
+              kicker={`Summe aus ${items.length} ${items.length === 1 ? "Anschaffung" : "Anschaffungen"}`}
+              title="Steuer-Ersparnis Jahr 1"
+              value={formatEur(totalErstjahrSteuerErsparnis)}
+              valueHint={`bei ${steuersatz} % Steuersatz`}
+            >
+              <div className="grid grid-cols-1 gap-px overflow-hidden rounded-xl bg-white/10 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
+                {[
+                  { l: "Anschaffungs-Volumen", v: formatEur(totalNetto) },
+                  { l: "AfA Jahr 1", v: formatEur(totalErstjahrAfa) },
+                  { l: "Ersparnis gesamt", v: formatEur(totalSteuerErsparnisGesamt) },
+                ].map((k) => (
+                  <div key={k.l} className="bg-white/[0.04] p-3">
+                    <div className="text-xs text-primary-foreground/65">{k.l}</div>
+                    <div className="mt-0.5 font-semibold text-primary-foreground tabular">{k.v}</div>
+                  </div>
                 ))}
-              </tbody>
-            </table>
-            </div>
-          </details>
-        )}
-      </div>
+              </div>
+            </ResultPanel>
+
+            {maxYears > 1 && (
+              <ToolSection title="Kumulierter Plan" description={`Abschreibung über ${maxYears} Jahre`} icon={TrendingDown}>
+                <KitTable caption="Kumulierter Abschreibungs-Plan" className="max-h-[380px] overflow-y-auto">
+                  <thead className="sticky top-0">
+                    <tr>
+                      <th>Jahr</th>
+                      <th className="!text-right">AfA gesamt</th>
+                      <th className="!text-right">Ersparnis ({steuersatz} %)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {yearlyTotals.map((total, idx) => (
+                      <tr key={idx}>
+                        <td>Jahr {idx + 1}</td>
+                        <td className="text-right">{formatEur(total)}</td>
+                        <td className="text-right text-success">{formatEur((total * steuersatz) / 100)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </KitTable>
+              </ToolSection>
+            )}
+          </>
+        }
+      />
     </div>
   );
 };
@@ -886,13 +841,9 @@ const AssetCart = () => {
 // ============================================================
 const QuickRef = () => {
   return (
-    <div className="space-y-4">
-      {/* 4 Modi-Karten */}
-      <div className="rounded-2xl border border-border bg-card p-5">
-        <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
-          <Info className="h-4 w-4" /> Die 5 Abschreibungs-Modi
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+    <div className="space-y-6">
+      <ToolSection title="Die 5 Abschreibungs-Modi" description="Welche Regel gilt wann, mit Beispiel." icon={Info}>
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
           <ModusCard
             title="BMF-Sofortabschreibung (1 Jahr)"
             applies="Computer-Hardware + Software (Laptop, PC, Handy, Tablet, Monitor, Drucker, Software-Lizenzen)"
@@ -922,100 +873,86 @@ const QuickRef = () => {
             color="purple"
           />
           <ModusCard
-            title="Degressive AfA §7 Abs. 2 EStG (2025–2027)"
+            title="Degressive AfA §7 Abs. 2 EStG (2025 bis 2027)"
             applies="Bewegliche WG des Anlagevermögens, angeschafft/hergestellt 1.7.2025–31.12.2027"
             rule="Wiedereingeführt durch das Investitionssofortprogramm: max. das 3-Fache der linearen AfA, höchstens 30 %/Jahr (vom Restbuchwert). Wechsel zur linearen AfA möglich."
             example="Maschine 10.000€, lineare ND 10 J (10%) → degressiv 30%: Jahr 1 = 3.000€, Jahr 2 = 2.100€ (30% v. 7.000€) usw."
             color="emerald"
           />
         </div>
-        <p className="text-[11px] text-muted-foreground mt-3">
+        <p className="mt-4 text-xs text-muted-foreground">
           Hinweis: Der interaktive Rechner deckt aktuell die ersten 4 Modi ab; die degressive AfA ist hier
           als Referenz beschrieben (separater Rechen-Modus in Arbeit).
         </p>
-      </div>
+      </ToolSection>
 
-      {/* AfA-Tabelle */}
-      <div className="rounded-2xl border border-border bg-card p-5">
-        <h3 className="font-bold text-sm mb-3">AfA-Nutzungsdauern Quick-Reference</h3>
-        <div className="overflow-x-auto">
-          <table className="w-full text-xs">
-            <thead>
-              <tr className="border-b border-border text-left">
-                <th className="py-2 px-2 font-semibold">Asset</th>
-                <th className="py-2 px-2 font-semibold">Kategorie</th>
-                <th className="py-2 px-2 font-semibold">Nutzungsdauer</th>
-                <th className="py-2 px-2 font-semibold">% / Jahr</th>
-                <th className="py-2 px-2 font-semibold">Modus</th>
+      <ToolSection title="AfA-Nutzungsdauern" description={`${AFA_ASSETS.length} typische Anschaffungen im Überblick`} icon={FileText}>
+        <KitTable caption="AfA-Nutzungsdauern Quick-Reference">
+          <thead>
+            <tr>
+              <th>Anschaffung</th>
+              <th>Kategorie</th>
+              <th className="!text-right">Nutzungsdauer</th>
+              <th className="!text-right">% / Jahr</th>
+              <th>Modus</th>
+            </tr>
+          </thead>
+          <tbody>
+            {AFA_ASSETS.map((a) => (
+              <tr key={a.id}>
+                <td className="font-medium">{a.name}</td>
+                <td className="text-muted-foreground">{a.category}</td>
+                <td className="whitespace-nowrap text-right">
+                  {a.nutzungsdauer} Jahr{a.nutzungsdauer === 1 ? "" : "e"}
+                </td>
+                <td className="text-right">{(100 / a.nutzungsdauer).toFixed(1)}%</td>
+                <td>
+                  {a.bmfSofort ? <ToneBadge tone="success">BMF-Sofort</ToneBadge> : <ToneBadge>AfA-Tabelle</ToneBadge>}
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {AFA_ASSETS.map((a) => (
-                <tr key={a.id} className="border-b border-border/40 hover:bg-secondary/30">
-                  <td className="py-2 px-2 font-medium">{a.name}</td>
-                  <td className="py-2 px-2 text-muted-foreground">{a.category}</td>
-                  <td className="py-2 px-2 font-mono">
-                    {a.nutzungsdauer} Jahr{a.nutzungsdauer === 1 ? "" : "e"}
-                  </td>
-                  <td className="py-2 px-2 font-mono">{(100 / a.nutzungsdauer).toFixed(1)}%</td>
-                  <td className="py-2 px-2">
-                    {a.bmfSofort ? (
-                      <Badge className="bg-emerald-500/10 text-emerald-700 border-emerald-500/30">
-                        BMF-Sofort
-                      </Badge>
-                    ) : (
-                      <Badge variant="outline">AfA-Tabelle</Badge>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+            ))}
+          </tbody>
+        </KitTable>
+      </ToolSection>
 
-      {/* Praxis-Hinweise */}
-      <div className="rounded-2xl border border-amber-500/30 bg-amber-500/5 p-4 text-xs leading-relaxed">
-        <div className="flex items-start gap-2">
-          <AlertTriangle className="h-4 w-4 text-amber-700 shrink-0 mt-0.5" />
-          <div>
-            <strong>Wichtige Praxis-Hinweise:</strong>
-            <ul className="list-disc pl-4 space-y-1 mt-1 text-muted-foreground">
-              <li>
-                <strong>Selbständige Nutzbarkeit</strong> ist Pflicht für GWG: Monitor-Standfuß
-                allein ≠ GWG, Monitor schon
-              </li>
-              <li>
-                <strong>BMF-Sofortabschreibung Computer/Software</strong> ist optional — bei IAB
-                (§7g) ggf. besser lineare AfA wählen
-              </li>
-              <li>
-                <strong>Kleinunternehmer §19:</strong> Brutto-Preis ist Bemessungsgrundlage,
-                800€-Schwelle ~952€ brutto
-              </li>
-              <li>
-                <strong>Pro rata temporis:</strong> Schreibtisch 1.200€ im Oktober (3 Monate) =
-                1.200/13/12*3 = 23,08€ Jahr 1
-              </li>
-              <li>
-                <strong>Sammelposten-Falle:</strong> pro Wirtschaftsjahr EINMAL entscheiden — ALLE
-                GWG oder ALLE Pool, kein Mix
-              </li>
-              <li>
-                <strong>Bewegliche vs. unbewegliche WG:</strong> Sofortabschreibung nur für
-                bewegliche. Einbauküche, Aufzug = unbeweglich
-              </li>
-              <li>
-                <strong>Private Nutzung:</strong> bei gemischter Nutzung anteilig kürzen
-              </li>
-              <li>
-                <strong>IAB §7g:</strong> bei KMU bis 200k€ Gewinn kannst du bis 50% der geplanten
-                Investition VOR Anschaffung steuermindernd abziehen — siehe /cockpit/iab-rechner
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
+      <Callout tone="warning" title="Wichtige Praxis-Hinweise" icon={AlertTriangle}>
+        <ul className="mt-1 list-disc space-y-1.5 pl-4">
+          <li>
+            <strong>Selbständige Nutzbarkeit</strong> ist Pflicht für GWG: Monitor-Standfuß
+            allein ≠ GWG, Monitor schon
+          </li>
+          <li>
+            <strong>BMF-Sofortabschreibung Computer/Software</strong> ist optional, bei IAB
+            (§7g) ggf. besser lineare AfA wählen
+          </li>
+          <li>
+            <strong>Kleinunternehmer §19:</strong> Brutto-Preis ist Bemessungsgrundlage,
+            800€-Schwelle ~952€ brutto
+          </li>
+          <li>
+            <strong>Pro rata temporis:</strong> Schreibtisch 1.200€ im Oktober (3 Monate) =
+            1.200/13/12*3 = 23,08€ Jahr 1
+          </li>
+          <li>
+            <strong>Sammelposten-Falle:</strong> pro Wirtschaftsjahr EINMAL entscheiden, ALLE
+            GWG oder ALLE Pool, kein Mix
+          </li>
+          <li>
+            <strong>Bewegliche vs. unbewegliche WG:</strong> Sofortabschreibung nur für
+            bewegliche. Einbauküche, Aufzug = unbeweglich
+          </li>
+          <li>
+            <strong>Private Nutzung:</strong> bei gemischter Nutzung anteilig kürzen
+          </li>
+          <li>
+            <strong>IAB §7g:</strong> bei KMU bis 200k€ Gewinn kannst du bis 50% der geplanten
+            Investition VOR Anschaffung steuermindernd abziehen, siehe{" "}
+            <Link to="/cockpit/iab-rechner" className="font-medium text-accent-blue underline-offset-2 hover:underline">
+              IAB-Rechner
+            </Link>
+          </li>
+        </ul>
+      </Callout>
     </div>
   );
 };
@@ -1023,35 +960,6 @@ const QuickRef = () => {
 // ============================================================
 // SHARED HELPERS
 // ============================================================
-const ResultCard = ({
-  label,
-  value,
-  color,
-  highlight,
-}: {
-  label: string;
-  value: string;
-  color: "emerald" | "amber" | "blue" | "purple";
-  highlight?: boolean;
-}) => {
-  const colorClass = {
-    emerald: "border-emerald-500/40 bg-emerald-500/5 text-emerald-700",
-    amber: "border-amber-500/40 bg-amber-500/5 text-amber-700",
-    blue: "border-blue-500/40 bg-blue-500/5 text-blue-700",
-    purple: "border-purple-500/40 bg-purple-500/5 text-purple-700",
-  }[color];
-  return (
-    <div
-      className={`rounded-2xl border ${highlight ? "border-2" : ""} ${colorClass} p-4 ${
-        highlight ? "shadow-md" : ""
-      }`}
-    >
-      <div className="text-xs uppercase tracking-wider opacity-80 mb-1">{label}</div>
-      <div className="text-xl font-bold">{value}</div>
-    </div>
-  );
-};
-
 const ModusCard = ({
   title,
   applies,
@@ -1065,28 +973,26 @@ const ModusCard = ({
   example: string;
   color: "emerald" | "blue" | "amber" | "purple";
 }) => {
-  const colorClass = {
-    emerald: "border-emerald-500/30 bg-emerald-500/5",
-    blue: "border-blue-500/30 bg-blue-500/5",
-    amber: "border-amber-500/30 bg-amber-500/5",
-    purple: "border-purple-500/30 bg-purple-500/5",
-  }[color];
+  const tone = { emerald: "success", blue: "info", amber: "warning", purple: "accent" }[color] as Tone;
   return (
-    <div className={`rounded-xl border ${colorClass} p-3`}>
-      <div className="font-bold text-sm mb-2">{title}</div>
-      <div className="space-y-1.5 text-xs">
+    <div className="flex flex-col rounded-xl border border-border bg-card p-4">
+      <div className="flex items-start gap-2.5">
+        <span className={`mt-1.5 h-2 w-2 shrink-0 rounded-full ${{ success: "bg-success", info: "bg-info", warning: "bg-warning", accent: "bg-accent-blue" }[tone as "success"]}`} aria-hidden="true" />
+        <h3 className="text-sm font-semibold leading-snug">{title}</h3>
+      </div>
+      <dl className="mt-3 space-y-2 text-sm">
         <div>
-          <strong className="text-foreground">Gilt für:</strong>{" "}
-          <span className="text-muted-foreground">{applies}</span>
+          <dt className="text-xs font-medium text-muted-foreground">Gilt für</dt>
+          <dd className="mt-0.5 text-foreground/85">{applies}</dd>
         </div>
         <div>
-          <strong className="text-foreground">Regel:</strong>{" "}
-          <span className="text-muted-foreground">{rule}</span>
+          <dt className="text-xs font-medium text-muted-foreground">Regel</dt>
+          <dd className="mt-0.5 text-foreground/85">{rule}</dd>
         </div>
-        <div className="rounded-md bg-card border border-border px-2 py-1.5">
-          <strong className="text-foreground">Beispiel:</strong>{" "}
-          <span className="text-muted-foreground">{example}</span>
-        </div>
+      </dl>
+      <div className="mt-3 rounded-lg bg-secondary/60 px-3 py-2 text-sm">
+        <span className="text-xs font-medium text-muted-foreground">Beispiel</span>
+        <p className="mt-0.5 text-foreground/85 tabular">{example}</p>
       </div>
     </div>
   );
