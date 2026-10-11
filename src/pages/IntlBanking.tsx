@@ -1,12 +1,18 @@
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import CockpitShell from "@/components/cockpit/CockpitShell";
+import { Callout, ChoiceGroup, EmptyState, KitTable, ToneBadge, ToolSection, type Tone } from "@/components/cockpit/kit";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import {
   ExternalLink,
+  Check,
   CheckCircle2,
+  ChevronDown,
   XCircle,
-  AlertCircle,
   Globe,
   Banknote,
+  ListChecks,
+  Minus,
   ShieldAlert,
   Star,
   MessageCircle,
@@ -74,11 +80,11 @@ type Bank = {
   hiddenFees: string[];
 };
 
-const CLOSURE_RISK_META: Record<ClosureRisk, { label: string; color: string; icon: string }> = {
-  low: { label: "Niedrig", color: "bg-emerald-500/10 text-emerald-700 border-emerald-500/30", icon: "🟢" },
-  medium: { label: "Mittel", color: "bg-amber-500/10 text-amber-700 border-amber-500/30", icon: "🟡" },
-  high: { label: "Hoch", color: "bg-orange-500/10 text-orange-700 border-orange-500/30", icon: "🟠" },
-  very_high: { label: "Sehr hoch", color: "bg-red-500/10 text-red-700 border-red-500/30", icon: "🔴" },
+const CLOSURE_RISK_META: Record<ClosureRisk, { label: string; tone: Tone }> = {
+  low: { label: "Niedrig", tone: "success" },
+  medium: { label: "Mittel", tone: "warning" },
+  high: { label: "Hoch", tone: "danger" },
+  very_high: { label: "Sehr hoch", tone: "danger" },
 };
 
 const BANKS: Bank[] = [
@@ -479,13 +485,17 @@ const FEATURE_LABELS: Record<keyof Bank["features"], string> = {
   crypto: "Crypto-OnRamp",
 };
 
-const NON_RESIDENT_BADGE: Record<Bank["nonResident"], { label: string; color: string }> = {
-  ja: { label: "✓ 100% remote", color: "bg-emerald-500/10 text-emerald-700" },
-  schwierig: { label: "⚠ Schwierig", color: "bg-amber-500/10 text-amber-700" },
-  "vor-ort-pflicht": { label: "✗ Vor-Ort-Termin", color: "bg-red-500/10 text-red-700" },
+const NON_RESIDENT_BADGE: Record<Bank["nonResident"], { label: string; tone: Tone }> = {
+  ja: { label: "100 % remote", tone: "success" },
+  schwierig: { label: "Schwierig", tone: "warning" },
+  "vor-ort-pflicht": { label: "Vor-Ort-Termin", tone: "danger" },
 };
 
+const REGION_LABEL: Record<Bank["region"], string> = { us: "USA", hk: "Hong Kong", "wise-personal": "Personal" };
+
 type FilterRegion = "all" | "us" | "hk" | "personal";
+
+const md = (s: string) => s.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
 
 const IntlBanking = () => {
   const [region, setRegion] = useState<FilterRegion>("all");
@@ -499,435 +509,372 @@ const IntlBanking = () => {
   return (
     <CockpitShell
       eyebrow="International Banking · Stand Mai 2026"
-      title="US + HK Banking für non-Resident Founder — verifizierter Vergleich"
-      subtitle="9 Anbieter (Mercury, Wise Personal + Business, Relay, Brex · Statrys, Airwallex, Currenxie, HSBC) mit echten 2026er Pricings + Closure-Risiken aus Trustpilot/Reddit/OffshoreCorpTalk + Hidden-Fees + Survival-Tipps. Brex hat 'very_high' Closure-Risk für Solo, Wise verlangt Address-Proof-Updates."
+      title="US- und HK-Banking für non-Resident Founder: verifizierter Vergleich"
+      subtitle="Neun Anbieter (Mercury, Wise Personal und Business, Relay, Brex, Statrys, Airwallex, Currenxie, HSBC) mit echten Preisen 2026, Closure-Risiken aus Trustpilot, Reddit und OffshoreCorpTalk, versteckten Gebühren und Survival-Tipps."
     >
-      {/* === KRITISCHE WARNUNG OBEN === */}
-      <div className="rounded-2xl border-2 border-amber-500/40 bg-amber-500/5 p-4 mb-4">
-        <div className="flex items-start gap-2">
-          <AlertTriangle className="h-5 w-5 text-amber-700 shrink-0 mt-0.5" />
-          <div className="text-xs leading-relaxed">
-            <div className="font-bold text-amber-700 mb-1">★ Multi-Bank-Setup ist Pflicht 2026</div>
-            <div className="text-muted-foreground">
-              Nach den Closure-Wellen 2024-2026 (Mercury Ukraine-Sweep, Wise NBB-Mandate, Brex Mass-Closure,
-              Airwallex Q2 2026): <strong>Niemals nur eine Fintech-Bank.</strong> Standard-Setup:
-              DE-Geschäftsbank (Qonto/Sparkasse) + Mercury (US-LLC) + Wise (FX-Bridge).
-              Max 70% Cash in einer Bank halten.
-            </div>
-          </div>
-        </div>
-      </div>
+      <div className="space-y-6">
+        {/* === KRITISCHE WARNUNG OBEN === */}
+        <Callout tone="warning" title="Multi-Bank-Setup ist 2026 Pflicht">
+          Nach den Closure-Wellen 2024 bis 2026 (Mercury Ukraine-Sweep, Wise NBB-Mandate, Brex Mass-Closure, Airwallex Q2
+          2026): <strong>Niemals nur eine Fintech-Bank.</strong> Standard-Setup: DE-Geschäftsbank (Qonto/Sparkasse) +
+          Mercury (US-LLC) + Wise (FX-Bridge). Maximal 70 % des Cash-Bestands in einer Bank halten.
+        </Callout>
 
-      {/* Region Toggle */}
-      <div className="flex gap-2 mb-6 flex-wrap">
-        <button
-          onClick={() => setRegion("all")}
-          className={`rounded-full px-4 py-2 text-xs font-semibold transition-colors ${
-            region === "all" ? "bg-accent-blue text-primary-foreground" : "bg-secondary text-muted-foreground hover:bg-secondary/80"
-          }`}
+        {/* Region-Filter + Quick-Compare */}
+        <ToolSection
+          title="Schnellvergleich"
+          description="Kosten, Remote-Eröffnung, Closure-Risiko und Trustpilot auf einen Blick."
+          icon={Banknote}
+          bodyClassName="space-y-4"
         >
-          Alle ({BANKS.length})
-        </button>
-        <button
-          onClick={() => setRegion("personal")}
-          className={`rounded-full px-4 py-2 text-xs font-semibold transition-colors ${
-            region === "personal" ? "bg-accent-blue text-primary-foreground" : "bg-secondary text-muted-foreground hover:bg-secondary/80"
-          }`}
-        >
-          👤 Wise Personal (Solo)
-        </button>
-        <button
-          onClick={() => setRegion("us")}
-          className={`rounded-full px-4 py-2 text-xs font-semibold transition-colors ${
-            region === "us" ? "bg-accent-blue text-primary-foreground" : "bg-secondary text-muted-foreground hover:bg-secondary/80"
-          }`}
-        >
-          🇺🇸 USA ({BANKS.filter((b) => b.region === "us").length})
-        </button>
-        <button
-          onClick={() => setRegion("hk")}
-          className={`rounded-full px-4 py-2 text-xs font-semibold transition-colors ${
-            region === "hk" ? "bg-accent-blue text-primary-foreground" : "bg-secondary text-muted-foreground hover:bg-secondary/80"
-          }`}
-        >
-          🇭🇰 Hong Kong ({BANKS.filter((b) => b.region === "hk").length})
-        </button>
-      </div>
-
-      {/* Quick-Compare Tabelle mit Closure-Risk */}
-      <div className="rounded-2xl border border-border bg-card p-5 mb-6 overflow-x-auto">
-        <h3 className="font-bold text-sm mb-3">Quick-Compare (mit Closure-Risk + Trustpilot)</h3>
-        <table className="w-full text-xs">
-          <thead>
-            <tr className="border-b border-border">
-              <th className="text-left py-2 pr-2">Bank</th>
-              <th className="text-left py-2 px-2">Setup</th>
-              <th className="text-left py-2 px-2">Lfd.</th>
-              <th className="text-left py-2 px-2">Non-Res</th>
-              <th className="text-left py-2 px-2">Closure-Risk</th>
-              <th className="text-left py-2 pl-2">Trustpilot</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filtered.map((b) => {
-              const badge = NON_RESIDENT_BADGE[b.nonResident];
-              const closure = CLOSURE_RISK_META[b.closureRisk];
-              return (
-                <tr key={b.slug} className="border-b border-border last:border-0">
-                  <td className="py-2 pr-2">
-                    <span className="mr-1.5">{b.emoji}</span>
-                    <span className="font-semibold">{b.name}</span>
-                  </td>
-                  <td className="py-2 px-2 font-mono text-[10px] max-w-[200px]">{b.setupFee}</td>
-                  <td className="py-2 px-2 font-mono text-[10px]">{b.monthlyFee}</td>
-                  <td className="py-2 px-2">
-                    <span className={`rounded-full px-1.5 py-0.5 text-[9px] font-semibold ${badge.color}`}>
-                      {badge.label}
-                    </span>
-                  </td>
-                  <td className="py-2 px-2">
-                    <span className={`rounded-full border px-1.5 py-0.5 text-[9px] font-semibold ${closure.color}`}>
-                      {closure.icon} {closure.label}
-                    </span>
-                  </td>
-                  <td className="py-2 pl-2 text-[10px]">
-                    {b.trustpilotRating ? (
-                      b.trustpilotUrl ? (
-                        <a
-                          href={b.trustpilotUrl}
-                          target="_blank"
-                          rel="noreferrer noopener"
-                          className="font-mono text-accent-blue hover:underline"
-                          title="Auf Trustpilot ansehen"
-                        >
-                          ★ {b.trustpilotRating} ({b.trustpilotCount})
-                        </a>
-                      ) : (
-                        <span className="font-mono">
-                          ★ {b.trustpilotRating} ({b.trustpilotCount})
-                        </span>
-                      )
-                    ) : (
-                      <span className="text-muted-foreground">n/a</span>
-                    )}
-                  </td>
+          <ChoiceGroup<FilterRegion>
+            label="Region filtern"
+            size="sm"
+            value={region}
+            onChange={setRegion}
+            options={[
+              { value: "all", label: `Alle (${BANKS.length})` },
+              { value: "personal", label: "Wise Personal (Solo)" },
+              { value: "us", label: `USA (${BANKS.filter((b) => b.region === "us").length})` },
+              { value: "hk", label: `Hong Kong (${BANKS.filter((b) => b.region === "hk").length})` },
+            ]}
+          />
+          {filtered.length === 0 ? (
+            <EmptyState icon={Banknote} title="Keine Anbieter in dieser Region" description="Wähle oben eine andere Region." />
+          ) : (
+            <KitTable caption="Schnellvergleich der Banken">
+              <thead>
+                <tr>
+                  <th scope="col">Bank</th>
+                  <th scope="col">Setup</th>
+                  <th scope="col">Laufend</th>
+                  <th scope="col">Non-Resident</th>
+                  <th scope="col">Closure-Risiko</th>
+                  <th scope="col">Trustpilot</th>
                 </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
+              </thead>
+              <tbody>
+                {filtered.map((b) => {
+                  const badge = NON_RESIDENT_BADGE[b.nonResident];
+                  const closure = CLOSURE_RISK_META[b.closureRisk];
+                  return (
+                    <tr key={b.slug}>
+                      <td className="whitespace-nowrap font-semibold">
+                        <a href={`#bank-${b.slug}`} className="hover:text-accent-blue hover:underline">{b.name}</a>
+                        <span className="block text-xs font-normal text-muted-foreground">{REGION_LABEL[b.region]}</span>
+                      </td>
+                      <td className="min-w-[180px] max-w-[240px] text-xs text-muted-foreground" dangerouslySetInnerHTML={{ __html: md(b.setupFee) }} />
+                      <td className="min-w-[120px] text-xs">{b.monthlyFee}</td>
+                      <td className="whitespace-nowrap">
+                        <ToneBadge tone={badge.tone}>{badge.label}</ToneBadge>
+                      </td>
+                      <td className="whitespace-nowrap">
+                        <ToneBadge tone={closure.tone}>{closure.label}</ToneBadge>
+                      </td>
+                      <td className="min-w-[140px] max-w-[220px] text-xs">
+                        {b.trustpilotRating ? (
+                          b.trustpilotUrl ? (
+                            <a
+                              href={b.trustpilotUrl}
+                              target="_blank"
+                              rel="noreferrer noopener"
+                              className="inline-flex items-center gap-1 font-medium text-accent-blue hover:underline"
+                              title="Auf Trustpilot ansehen"
+                            >
+                              <Star className="h-3 w-3 fill-current" aria-hidden="true" /> {b.trustpilotRating}
+                              <span className="font-normal text-muted-foreground">({b.trustpilotCount})</span>
+                            </a>
+                          ) : (
+                            <span className="inline-flex items-center gap-1">
+                              <Star className="h-3 w-3 fill-current text-warning" aria-hidden="true" /> {b.trustpilotRating}
+                              <span className="text-muted-foreground">({b.trustpilotCount})</span>
+                            </span>
+                          )
+                        ) : (
+                          <span className="text-muted-foreground">k. A.</span>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </KitTable>
+          )}
+        </ToolSection>
 
-      {/* Detail-Cards */}
-      <div className="space-y-3 mb-6">
-        {filtered.map((b) => {
-          const badge = NON_RESIDENT_BADGE[b.nonResident];
-          const closure = CLOSURE_RISK_META[b.closureRisk];
-          return (
-            <div
-              key={b.slug}
-              className={`rounded-2xl border bg-card p-5 ${
-                b.closureRisk === "very_high" ? "border-red-500/40" : "border-border"
-              }`}
-            >
-              <div className="flex items-start justify-between gap-3 mb-3 flex-wrap">
-                <div className="flex items-start gap-3">
-                  <div className="text-3xl">{b.emoji}</div>
-                  <div>
-                    <h3 className="font-bold text-base">{b.name}</h3>
-                    <div className="flex flex-wrap gap-1.5 mt-1">
-                      <span className="rounded-full bg-secondary text-muted-foreground px-2 py-0.5 text-[10px]">
-                        {b.region === "us" ? "🇺🇸 USA" : b.region === "hk" ? "🇭🇰 HK" : "👤 Personal"}
-                      </span>
-                      <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${badge.color}`}>
-                        {badge.label}
-                      </span>
-                      <span className={`rounded-full border px-2 py-0.5 text-[10px] font-semibold ${closure.color}`}>
-                        {closure.icon} Closure {closure.label}
-                      </span>
-                      <span className="rounded-full bg-emerald-500/10 text-emerald-700 px-2 py-0.5 text-[10px] font-semibold">
-                        {b.monthlyFee}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <a
-                  href={b.url}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  className="inline-flex items-center gap-1 rounded-lg bg-accent-blue text-primary-foreground px-3 py-1.5 text-xs font-semibold hover:opacity-90"
-                >
-                  <ExternalLink className="h-3 w-3" /> Eröffnen
-                </a>
-              </div>
-
-              <p className="text-sm mb-2">
-                <strong>Best for:</strong> <span className="text-muted-foreground">{b.bestFor}</span>
-              </p>
-
-              <div className="rounded-lg bg-card border border-border p-2 mb-3 text-xs flex gap-3 flex-wrap">
-                <div><strong>Setup:</strong> <span className="text-muted-foreground">{b.setupFee}</span></div>
-                {b.trustpilotRating && (
-                  b.trustpilotUrl ? (
-                    <a
-                      href={b.trustpilotUrl}
-                      target="_blank"
-                      rel="noreferrer noopener"
-                      className="inline-flex items-center gap-1 hover:underline group"
-                      title="Auf Trustpilot ansehen"
-                    >
-                      <Star className="h-3 w-3 fill-amber-500 text-amber-500" />
-                      <strong>{b.trustpilotRating}/5</strong>{" "}
-                      <span className="text-muted-foreground group-hover:text-accent-blue">
-                        Trustpilot ({b.trustpilotCount}) ↗
-                      </span>
-                    </a>
-                  ) : (
-                    <div className="inline-flex items-center gap-1">
-                      <Star className="h-3 w-3 fill-amber-500 text-amber-500" />
-                      <strong>{b.trustpilotRating}/5</strong>{" "}
-                      <span className="text-muted-foreground">Trustpilot ({b.trustpilotCount})</span>
-                    </div>
-                  )
+        {/* Detail-Cards */}
+        <section aria-labelledby="ib-details" className="space-y-4">
+          <h2 id="ib-details" className="text-lg font-semibold tracking-tight">Anbieter im Detail</h2>
+          {filtered.map((b) => {
+            const badge = NON_RESIDENT_BADGE[b.nonResident];
+            const closure = CLOSURE_RISK_META[b.closureRisk];
+            return (
+              <article
+                key={b.slug}
+                id={`bank-${b.slug}`}
+                className={cn(
+                  "scroll-mt-24 rounded-2xl border bg-card shadow-card",
+                  b.closureRisk === "very_high" ? "border-danger/35" : "border-border",
                 )}
-                {b.g2Rating && (
-                  <div className="inline-flex items-center gap-1">
-                    <Star className="h-3 w-3 fill-blue-500 text-blue-500" />
-                    <strong>{b.g2Rating}/5</strong> <span className="text-muted-foreground">G2</span>
-                  </div>
-                )}
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
-                <div className="rounded-lg bg-emerald-500/5 border border-emerald-500/20 p-3">
-                  <div className="text-[10px] uppercase tracking-wider text-emerald-700 font-semibold mb-1">Vorteile</div>
-                  <ul className="space-y-1 text-xs">
-                    {b.pros.map((p, i) => (
-                      <li
-                        key={i}
-                        dangerouslySetInnerHTML={{ __html: "+ " + p.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>") }}
-                      />
-                    ))}
-                  </ul>
-                </div>
-                <div className="rounded-lg bg-red-500/5 border border-red-500/20 p-3">
-                  <div className="text-[10px] uppercase tracking-wider text-red-700 font-semibold mb-1">Nachteile</div>
-                  <ul className="space-y-1 text-xs">
-                    {b.cons.map((c, i) => (
-                      <li
-                        key={i}
-                        dangerouslySetInnerHTML={{ __html: "− " + c.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>") }}
-                      />
-                    ))}
-                  </ul>
-                </div>
-              </div>
-
-              {/* CLOSURE-RISK-BLOCK */}
-              <div className={`rounded-lg border p-3 mb-3 ${closure.color}`}>
-                <div className="flex items-start gap-2">
-                  <ShieldAlert className="h-4 w-4 shrink-0 mt-0.5" />
-                  <div className="text-xs flex-1">
-                    <div className="font-bold mb-1">Closure-Risk: {closure.label} {closure.icon}</div>
-                    <div className="opacity-90">{b.closurePattern}</div>
-                    {b.freezeDuration && (
-                      <div className="mt-1 opacity-80">
-                        <strong>Typische Freeze-Dauer:</strong> {b.freezeDuration}
+              >
+                <header className="flex flex-wrap items-start justify-between gap-4 border-b border-border/70 px-5 py-4 md:px-6">
+                  <div className="flex min-w-0 items-start gap-3">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent text-sm font-semibold text-accent-blue">
+                      {b.name.slice(0, 2)}
+                    </span>
+                    <div className="min-w-0">
+                      <h3 className="text-base font-semibold leading-snug tracking-tight">{b.name}</h3>
+                      <div className="mt-1.5 flex flex-wrap gap-1.5">
+                        <ToneBadge tone="neutral">{REGION_LABEL[b.region]}</ToneBadge>
+                        <ToneBadge tone={badge.tone}>{badge.label}</ToneBadge>
+                        <ToneBadge tone={closure.tone}>Closure {closure.label}</ToneBadge>
+                        <ToneBadge tone="accent">{b.monthlyFee}</ToneBadge>
                       </div>
+                    </div>
+                  </div>
+                  <a href={b.url} target="_blank" rel="noreferrer noopener" className={cn(buttonVariants({ size: "sm" }))}>
+                    Eröffnen <ExternalLink aria-hidden="true" />
+                  </a>
+                </header>
+
+                <div className="space-y-4 p-5 md:p-6">
+                  <dl className="grid gap-3 text-sm sm:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
+                    <div>
+                      <dt className="font-medium">Ideal für</dt>
+                      <dd className="mt-0.5 text-muted-foreground">{b.bestFor}</dd>
+                    </div>
+                    <div>
+                      <dt className="font-medium">Setup</dt>
+                      <dd className="mt-0.5 text-muted-foreground" dangerouslySetInnerHTML={{ __html: md(b.setupFee) }} />
+                    </div>
+                  </dl>
+
+                  {(b.trustpilotRating || b.g2Rating) && (
+                    <div className="flex flex-wrap gap-x-5 gap-y-1 text-sm">
+                      {b.trustpilotRating && (
+                        b.trustpilotUrl ? (
+                          <a
+                            href={b.trustpilotUrl}
+                            target="_blank"
+                            rel="noreferrer noopener"
+                            className="group inline-flex items-center gap-1.5"
+                            title="Auf Trustpilot ansehen"
+                          >
+                            <Star className="h-3.5 w-3.5 fill-current text-warning" aria-hidden="true" />
+                            <strong className="font-semibold tabular">{b.trustpilotRating}/5</strong>
+                            <span className="text-muted-foreground group-hover:text-accent-blue group-hover:underline">
+                              Trustpilot ({b.trustpilotCount})
+                            </span>
+                            <ExternalLink className="h-3 w-3 text-muted-foreground" aria-hidden="true" />
+                          </a>
+                        ) : (
+                          <span className="inline-flex items-center gap-1.5">
+                            <Star className="h-3.5 w-3.5 fill-current text-warning" aria-hidden="true" />
+                            <strong className="font-semibold tabular">{b.trustpilotRating}/5</strong>
+                            <span className="text-muted-foreground">Trustpilot ({b.trustpilotCount})</span>
+                          </span>
+                        )
+                      )}
+                      {b.g2Rating && (
+                        <span className="inline-flex items-center gap-1.5">
+                          <Star className="h-3.5 w-3.5 fill-current text-info" aria-hidden="true" />
+                          <strong className="font-semibold tabular">{b.g2Rating}/5</strong>
+                          <span className="text-muted-foreground">G2</span>
+                        </span>
+                      )}
+                    </div>
+                  )}
+
+                  <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+                    <div className="rounded-xl border border-success/25 bg-success-soft p-4">
+                      <p className="text-sm font-semibold text-success">Vorteile</p>
+                      <ul className="mt-2 space-y-1.5 text-sm">
+                        {b.pros.map((p, i) => (
+                          <li key={i} className="flex gap-2">
+                            <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-success" aria-hidden="true" />
+                            <span dangerouslySetInnerHTML={{ __html: md(p) }} />
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div className="rounded-xl border border-danger/25 bg-danger-soft p-4">
+                      <p className="text-sm font-semibold text-danger">Nachteile</p>
+                      <ul className="mt-2 space-y-1.5 text-sm">
+                        {b.cons.map((c, i) => (
+                          <li key={i} className="flex gap-2">
+                            <Minus className="mt-0.5 h-3.5 w-3.5 shrink-0 text-danger" aria-hidden="true" />
+                            <span dangerouslySetInnerHTML={{ __html: md(c) }} />
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  {/* CLOSURE-RISK-BLOCK */}
+                  <Callout tone={closure.tone} icon={ShieldAlert} title={`Closure-Risiko: ${closure.label}`}>
+                    {b.closurePattern}
+                    {b.freezeDuration && (
+                      <span className="mt-1 block">
+                        <strong>Typische Freeze-Dauer:</strong> <span className="tabular">{b.freezeDuration}</span>
+                      </span>
                     )}
+                  </Callout>
+
+                  {/* User-Quote */}
+                  {b.redditQuote && (
+                    <blockquote className="flex gap-2.5 rounded-xl border border-border bg-secondary/40 p-4 text-sm italic text-muted-foreground">
+                      <MessageCircle className="mt-0.5 h-4 w-4 shrink-0 not-italic text-accent-blue" aria-hidden="true" />
+                      <span>{b.redditQuote}</span>
+                    </blockquote>
+                  )}
+
+                  {/* Features */}
+                  <div>
+                    <p className="mb-2 text-sm font-medium">Funktionen</p>
+                    <ul className="flex flex-wrap gap-1.5">
+                      {(Object.keys(b.features) as (keyof Bank["features"])[]).map((f) => (
+                        <li
+                          key={f}
+                          className={cn(
+                            "inline-flex items-center gap-1 rounded-lg border px-2.5 py-1 text-xs font-medium",
+                            b.features[f] ? "border-success/25 bg-success-soft text-success" : "border-border bg-secondary/50 text-muted-foreground line-through decoration-muted-foreground/40",
+                          )}
+                        >
+                          {b.features[f] ? <CheckCircle2 className="h-3 w-3" aria-hidden="true" /> : <XCircle className="h-3 w-3" aria-hidden="true" />}
+                          <span className="sr-only">{b.features[f] ? "vorhanden:" : "nicht vorhanden:"}</span>
+                          {FEATURE_LABELS[f]}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="divide-y divide-border/70 rounded-xl border border-border">
+                    {/* Hidden Fees */}
+                    {b.hiddenFees.length > 0 && (
+                      <details className="group px-4 py-3 text-sm">
+                        <summary className="flex cursor-pointer list-none items-center justify-between gap-2 font-medium [&::-webkit-details-marker]:hidden">
+                          <span className="flex items-center gap-2">
+                            <AlertTriangle className="h-4 w-4 text-warning" aria-hidden="true" />
+                            Versteckte Gebühren und Fallstricke
+                            <ToneBadge tone="warning">{b.hiddenFees.length}</ToneBadge>
+                          </span>
+                          <ChevronDown className="h-4 w-4 text-muted-foreground transition-transform group-open:rotate-180" aria-hidden="true" />
+                        </summary>
+                        <ul className="mt-2 list-disc space-y-1 pl-5 text-muted-foreground">
+                          {b.hiddenFees.map((h, i) => <li key={i}>{h}</li>)}
+                        </ul>
+                      </details>
+                    )}
+                    <details className="group px-4 py-3 text-sm">
+                      <summary className="flex cursor-pointer list-none items-center justify-between gap-2 font-medium [&::-webkit-details-marker]:hidden">
+                        <span className="flex items-center gap-2">
+                          <ListChecks className="h-4 w-4 text-accent-blue" aria-hidden="true" />
+                          Unterlagen für die Eröffnung
+                        </span>
+                        <ChevronDown className="h-4 w-4 text-muted-foreground transition-transform group-open:rotate-180" aria-hidden="true" />
+                      </summary>
+                      <ul className="mt-2 list-disc space-y-1 pl-5 text-muted-foreground">
+                        {b.setupRequirements.map((r, i) => <li key={i}>{r}</li>)}
+                      </ul>
+                    </details>
                   </div>
                 </div>
+              </article>
+            );
+          })}
+        </section>
+
+        {/* CLOSURE-SURVIVAL-TIPPS */}
+        <ToolSection title="12 Closure-Survival-Tipps 2026" icon={ShieldAlert}>
+          <ol className="grid gap-x-8 gap-y-3 text-sm md:grid-cols-2">
+            {SURVIVAL_TIPPS.map(([titel, text], i) => (
+              <li key={titel} className="flex gap-3">
+                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent text-xs font-semibold text-accent-blue tabular">
+                  {i + 1}
+                </span>
+                <span className="min-w-0">
+                  <strong className="font-semibold text-foreground">{titel}</strong>
+                  <span className="block text-muted-foreground">{text}</span>
+                </span>
+              </li>
+            ))}
+          </ol>
+        </ToolSection>
+
+        {/* Compliance-Updates 2025/2026 */}
+        <ToolSection title="Wichtige Compliance-Updates 2025/2026" icon={Info}>
+          <dl className="divide-y divide-border/70 text-sm">
+            {COMPLIANCE_UPDATES.map(([titel, text]) => (
+              <div key={titel} className="grid gap-1 py-2.5 sm:grid-cols-[14rem_minmax(0,1fr)] sm:gap-4">
+                <dt className="font-medium">{titel}</dt>
+                <dd className="text-muted-foreground">{text}</dd>
               </div>
+            ))}
+          </dl>
+        </ToolSection>
 
-              {/* User-Quote */}
-              {b.redditQuote && (
-                <div className="rounded-lg border border-blue-500/20 bg-blue-500/5 p-3 mb-3">
-                  <div className="flex items-start gap-2">
-                    <MessageCircle className="h-3.5 w-3.5 text-blue-700 shrink-0 mt-0.5" />
-                    <div className="text-xs italic text-muted-foreground">{b.redditQuote}</div>
-                  </div>
-                </div>
-              )}
-
-              {/* Hidden Fees */}
-              {b.hiddenFees.length > 0 && (
-                <details className="text-xs mb-2">
-                  <summary className="cursor-pointer font-semibold text-amber-700">
-                    Hidden Fees / Gotchas ▾ ({b.hiddenFees.length})
-                  </summary>
-                  <ul className="mt-2 space-y-1 list-disc pl-4 text-muted-foreground">
-                    {b.hiddenFees.map((h, i) => <li key={i}>{h}</li>)}
-                  </ul>
-                </details>
-              )}
-
-              {/* Features */}
-              <div className="grid grid-cols-3 md:grid-cols-6 gap-1.5 text-[10px] mb-3">
-                {(Object.keys(b.features) as (keyof Bank["features"])[]).map((f) => (
-                  <div
-                    key={f}
-                    className={`rounded-md border px-2 py-1 text-center ${
-                      b.features[f]
-                        ? "border-emerald-500/30 bg-emerald-500/5 text-emerald-700"
-                        : "border-border bg-secondary/30 text-muted-foreground"
-                    }`}
-                  >
-                    {b.features[f] ? (
-                      <CheckCircle2 className="h-2.5 w-2.5 inline mr-0.5" />
-                    ) : (
-                      <XCircle className="h-2.5 w-2.5 inline mr-0.5" />
-                    )}
-                    {FEATURE_LABELS[f]}
-                  </div>
-                ))}
-              </div>
-
-              <details className="text-xs">
-                <summary className="cursor-pointer font-semibold text-foreground">
-                  Setup-Requirements ▾
-                </summary>
-                <ul className="mt-2 space-y-1 list-disc pl-4 text-muted-foreground">
-                  {b.setupRequirements.map((r, i) => <li key={i}>{r}</li>)}
-                </ul>
-              </details>
-            </div>
-          );
-        })}
-      </div>
-
-      {/* CLOSURE-SURVIVAL-TIPPS (NEU) */}
-      <div className="rounded-2xl border border-red-500/30 bg-red-500/5 p-4 mb-3">
-        <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
-          <ShieldAlert className="h-4 w-4 text-red-700" />
-          12 Closure-Survival-Tipps 2026
-        </h3>
-        <ul className="text-xs space-y-1.5 list-decimal pl-5 text-muted-foreground">
-          <li>
-            <strong className="text-foreground">Dokumente konsistent halten</strong> — Address, ID, EIN über alle
-            Banken identisch (selbst Tippfehler kann Mercury-Review triggern)
-          </li>
-          <li>
-            <strong className="text-foreground">Niemals Registered-Agent als Principal Office</strong> — Mercury
-            akzeptiert seit 2025 keine Registered-Agent-Adressen mehr. iPostal1/Earth Class Mail mit echtem
-            Lease OK; UPS-Store/PO Box abgelehnt
-          </li>
-          <li>
-            <strong className="text-foreground">Multi-Bank-Strategie</strong> — mind. 2 Banken, max. 70%
-            Cash-Bestand in einer Bank
-          </li>
-          <li>
-            <strong className="text-foreground">Saubere KYB-Story</strong> — Business-Description, Customer-Liste,
-            Supplier-Liste, Source-of-Funds (bei Statrys/HSBC zwingend)
-          </li>
-          <li>
-            <strong className="text-foreground">Keine Crypto-Bridge ohne Lizenz</strong> — plötzliche
-            Coinbase/Binance/Kraken-Conversions = Top-Closure-Trigger 2024-2026
-          </li>
-          <li>
-            <strong className="text-foreground">Multi-Entity-Risk vermeiden</strong> — mehrere LLCs/GmbHs unter
-            selbem UBO an derselben Bank = höchstes Closure-Risk. Pro Entity eine Bank
-          </li>
-          <li>
-            <strong className="text-foreground">RFI binnen 24h beantworten</strong> — ignorierte RFIs führen zu
-            Auto-Closure binnen 14-30 Tagen
-          </li>
-          <li>
-            <strong className="text-foreground">Volume-Spikes ankündigen</strong> — bei $200k+ inbound erwartet:
-            vorher Compliance kontaktieren (Mercury, Wise, Airwallex bieten proactive Outreach)
-          </li>
-          <li>
-            <strong className="text-foreground">Prohibited-Countries vermeiden</strong> — auch nur als
-            Empfänger/Sender. Mercury's Liste = 37 Länder
-          </li>
-          <li>
-            <strong className="text-foreground">Bei Closure-Notice sofort agieren</strong> — Withdraw via Wire
-            (nicht ACH — schneller). Mercury: 15-Werktage-Window für US-Residents
-          </li>
-          <li>
-            <strong className="text-foreground">Address-Proof aktuell halten</strong> — nach NBB-Mandate Q4 2024
-            verlangt Wise regelmäßig neue Address-Proofs. Versäumnis = sofortiger Freeze
-          </li>
-          <li>
-            <strong className="text-foreground">HSBC HK: Account-Review alle 12-24 Monate proaktiv vorbereiten</strong>
-            {" "}— komplette neue KYC-Runde, sonst Account-Closure
-          </li>
-        </ul>
-      </div>
-
-      {/* Compliance-Updates 2025/2026 */}
-      <div className="rounded-2xl border border-blue-500/30 bg-blue-500/5 p-4 mb-3">
-        <h3 className="font-bold text-sm mb-2 flex items-center gap-2">
-          <Info className="h-4 w-4 text-blue-700" />
-          Wichtige Compliance-Updates 2025/2026
-        </h3>
-        <ul className="text-xs space-y-1.5 list-disc pl-5 text-muted-foreground">
-          <li>
-            <strong className="text-foreground">BOI-Filing US (FinCEN):</strong> 21.3.2025 — alle US-Companies
-            + US-Persons von BOI-Reporting BEFREIT. Foreign Reporting Companies bleiben pflichtig
-          </li>
-          <li>
-            <strong className="text-foreground">Mercury OCC-Charter:</strong> April 2026 conditional Approval
-            — Übergang von Partner-Banking weg. Aktuelle Partner: Choice Financial Group, Column N.A., Patriot Bank
-          </li>
-          <li>
-            <strong className="text-foreground">Capital One acquires Brex:</strong> Closed 7.4.2026 ($5.15B).
-            Eligibility und Pricing können 2026/2027 kippen
-          </li>
-          <li>
-            <strong className="text-foreground">HKMA Stablecoin-Lizenz:</strong> 10.4.2026 HSBC + Anchorpoint
-            erste Lizenzen. Travel-Rule ab HK$8.000 — verschärft KYC für alle HK-Banken
-          </li>
-          <li>
-            <strong className="text-foreground">Wise US $4.2M Settlement (2025):</strong> SAR-Lookbacks +
-            strengere AML → Closure-Welle Q4 2025/Q1 2026
-          </li>
-          <li>
-            <strong className="text-foreground">NBB Wise Remediation Plan (Q4 2024):</strong> Address-Proof-Sweep
-            EU-weit → tausende Freezes 2025-2026
-          </li>
-        </ul>
-      </div>
-
-      {/* Empfehlungs-Matrix */}
-      <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-4 mb-3 text-xs leading-relaxed">
-        <div className="flex items-start gap-2">
-          <Banknote className="h-4 w-4 text-accent-blue shrink-0 mt-0.5" />
-          <div>
-            <div className="font-semibold mb-2">Banking-Empfehlung nach Profil (Mai 2026):</div>
-            <ul className="list-disc pl-4 space-y-1.5 text-muted-foreground">
-              <li>
-                <strong className="text-foreground">DE-Solo-Founder ohne US-LLC:</strong> Wise Personal
-                (kostenlos!) für Multi-Currency-Wallets + DE-Geschäftsbank (Qonto/Sparkasse) für EUR-Ops
-              </li>
-              <li>
-                <strong className="text-foreground">DE-Founder mit US-LLC:</strong> Mercury (Operating + Stripe +
-                Treasury 4,97%) + Wise Business (FX-Bridge USD↔EUR) parallel. Niemals nur eine
-              </li>
-              <li>
-                <strong className="text-foreground">DE-Founder mit HK-LTD:</strong> Statrys (Trustpilot 4,6/5,
-                3-Tage-Onboarding) als Primary. HSBC nur bei HKD 500k+/Mo + persönlichem Besuch
-              </li>
-              <li>
-                <strong className="text-foreground">"Don't bother":</strong> Brex (Solo systematisch
-                abgelehnt) · Airwallex single-Bank (Closure-Trend 2026) · HSBC ohne HK-Besuch · Currenxie
-                ohne HK-LTD
-              </li>
-            </ul>
+        {/* Empfehlungs-Matrix */}
+        <ToolSection title="Banking-Empfehlung nach Profil" description="Stand Mai 2026" icon={Globe}>
+          <div className="grid gap-3 md:grid-cols-2">
+            <ProfilKarte titel="DE-Solo-Founder ohne US-LLC">
+              Wise Personal (kostenlos!) für Multi-Currency-Wallets + DE-Geschäftsbank (Qonto/Sparkasse) für EUR-Ops
+            </ProfilKarte>
+            <ProfilKarte titel="DE-Founder mit US-LLC">
+              Mercury (Operating + Stripe + Treasury 4,97 %) + Wise Business (FX-Bridge USD↔EUR) parallel. Niemals nur eine
+            </ProfilKarte>
+            <ProfilKarte titel="DE-Founder mit HK-LTD">
+              Statrys (Trustpilot 4,6/5, 3-Tage-Onboarding) als Primary. HSBC nur bei HKD 500k+/Mo und persönlichem Besuch
+            </ProfilKarte>
+            <ProfilKarte titel="Lieber nicht" tone="danger">
+              Brex (Solo systematisch abgelehnt) · Airwallex als einzige Bank (Closure-Trend 2026) · HSBC ohne HK-Besuch ·
+              Currenxie ohne HK-LTD
+            </ProfilKarte>
           </div>
-        </div>
-      </div>
+        </ToolSection>
 
-      <div className="rounded-2xl border border-border bg-card p-4 text-[11px] text-muted-foreground leading-relaxed">
-        <strong>Disclaimer:</strong> Pricing + Closure-Risk Stand Mai 2026 — Quellen: Issuer-Pricing-Pages,
-        Trustpilot, OffshoreCorpTalk, Reddit r/Entrepreneur, Hacker News, TechCrunch. Onboarding-Erfolg
-        ist nicht garantiert (Bank-eigenes Risk-Scoring). Bei US-LLC-Setup zwingend Reihenfolge: erst
-        LLC-Filing → EIN → DANN Bank-Account-Antrag (BOI seit März 2025 NICHT mehr Pflicht).
-        <strong> Pricing-Variabilität:</strong> Wise Personal kostet €0 Setup (typisch €20
-        Min-Einzahlung für KYC), Wise Business hat regionales Pricing (DE €45 / US $31 / UK £45 / SG SGD 99 / EEA €50).
-        Eigene Erfahrungen können abweichen — Referral-Links + Promotionen reduzieren das auf €0.
+        <p className="text-xs leading-relaxed text-muted-foreground">
+          <strong className="font-semibold text-foreground">Hinweis:</strong> Preise und Closure-Risiko Stand Mai 2026.
+          Quellen: Issuer-Pricing-Pages, Trustpilot, OffshoreCorpTalk, Reddit r/Entrepreneur, Hacker News, TechCrunch. Der
+          Onboarding-Erfolg ist nicht garantiert (Bank-eigenes Risk-Scoring). Bei US-LLC-Setup zwingend diese Reihenfolge:
+          erst LLC-Filing, dann EIN, DANN Bank-Account-Antrag (BOI seit März 2025 NICHT mehr Pflicht).{" "}
+          <strong className="font-semibold text-foreground">Preis-Variabilität:</strong> Wise Personal kostet €0 Setup
+          (typisch €20 Mindest-Einzahlung für KYC), Wise Business hat regionales Pricing (DE €45 / US $31 / UK £45 / SG SGD
+          99 / EEA €50). Eigene Erfahrungen können abweichen; Referral-Links und Promotionen reduzieren das auf €0.
+        </p>
       </div>
     </CockpitShell>
   );
 };
+
+const SURVIVAL_TIPPS: [string, string][] = [
+  ["Dokumente konsistent halten", "Address, ID, EIN über alle Banken identisch (selbst ein Tippfehler kann ein Mercury-Review triggern)"],
+  ["Niemals Registered-Agent als Principal Office", "Mercury akzeptiert seit 2025 keine Registered-Agent-Adressen mehr. iPostal1/Earth Class Mail mit echtem Lease OK; UPS-Store/PO Box abgelehnt"],
+  ["Multi-Bank-Strategie", "Mind. 2 Banken, max. 70 % Cash-Bestand in einer Bank"],
+  ["Saubere KYB-Story", "Business-Description, Customer-Liste, Supplier-Liste, Source-of-Funds (bei Statrys/HSBC zwingend)"],
+  ["Keine Crypto-Bridge ohne Lizenz", "Plötzliche Coinbase/Binance/Kraken-Conversions sind Top-Closure-Trigger 2024 bis 2026"],
+  ["Multi-Entity-Risiko vermeiden", "Mehrere LLCs/GmbHs unter selbem UBO an derselben Bank = höchstes Closure-Risiko. Pro Entity eine Bank"],
+  ["RFI binnen 24h beantworten", "Ignorierte RFIs führen zu Auto-Closure binnen 14 bis 30 Tagen"],
+  ["Volume-Spikes ankündigen", "Bei $200k+ erwartetem Inbound vorher Compliance kontaktieren (Mercury, Wise, Airwallex bieten proaktiven Outreach)"],
+  ["Prohibited-Countries vermeiden", "Auch nur als Empfänger/Sender. Mercurys Liste umfasst 37 Länder"],
+  ["Bei Closure-Notice sofort handeln", "Abheben per Wire (nicht ACH, Wire ist schneller). Mercury: 15-Werktage-Fenster für US-Residents"],
+  ["Address-Proof aktuell halten", "Nach dem NBB-Mandate Q4 2024 verlangt Wise regelmäßig neue Address-Proofs. Versäumnis = sofortiger Freeze"],
+  ["HSBC HK: Account-Review alle 12 bis 24 Monate proaktiv vorbereiten", "Komplette neue KYC-Runde, sonst Account-Closure"],
+];
+
+const COMPLIANCE_UPDATES: [string, string][] = [
+  ["BOI-Filing US (FinCEN)", "21.3.2025: alle US-Companies und US-Persons von BOI-Reporting BEFREIT. Foreign Reporting Companies bleiben pflichtig"],
+  ["Mercury OCC-Charter", "April 2026 conditional Approval, Übergang weg vom Partner-Banking. Aktuelle Partner: Choice Financial Group, Column N.A., Patriot Bank"],
+  ["Capital One übernimmt Brex", "Closed 7.4.2026 ($5.15B). Eligibility und Pricing können 2026/2027 kippen"],
+  ["HKMA Stablecoin-Lizenz", "10.4.2026: HSBC und Anchorpoint erste Lizenzen. Travel-Rule ab HK$8.000 verschärft KYC für alle HK-Banken"],
+  ["Wise US $4.2M Settlement (2025)", "SAR-Lookbacks und strengere AML, Closure-Welle Q4 2025/Q1 2026"],
+  ["NBB Wise Remediation Plan (Q4 2024)", "Address-Proof-Sweep EU-weit, tausende Freezes 2025 bis 2026"],
+];
+
+const ProfilKarte = ({ titel, tone = "neutral", children }: { titel: string; tone?: "neutral" | "danger"; children: ReactNode }) => (
+  <div className={cn("rounded-xl border p-4 text-sm", tone === "danger" ? "border-danger/25 bg-danger-soft" : "border-border bg-secondary/40")}>
+    <p className={cn("font-semibold", tone === "danger" && "text-danger")}>{titel}</p>
+    <p className="mt-1 text-muted-foreground">{children}</p>
+  </div>
+);
 
 export default IntlBanking;
