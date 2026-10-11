@@ -1,18 +1,32 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import {
+  Callout,
+  EmptyState,
+  Field,
+  KitTable,
+  ResultPanel,
+  StatTile,
+  ToneBadge,
+  ToolSection,
+  selectCls,
+} from "@/components/cockpit/kit";
 import {
   ArrowLeft,
   ArrowRight,
+  Check,
   CheckCircle2,
-  Sparkles,
-  ExternalLink,
+  ChevronDown,
   AlertTriangle,
   TrendingUp,
   XCircle,
   Calculator,
+  RotateCcw,
+  Scale,
 } from "lucide-react";
 
 // ============================================================
@@ -505,9 +519,57 @@ function calculateAll(s: Setup): StructureCalc[] {
   return calcs.sort((a, b) => b.fitScore - a.fitScore);
 }
 
-// ============================================================
-// COMPONENT
-// ============================================================
+const STEP_TITEL = [
+  "Gewinn",
+  "Privater Bedarf",
+  "Bisherige Struktur",
+  "Gesellschafter",
+  "VC und Exit",
+  "International",
+  "Besonderheiten",
+  "Persönliches",
+  "Ergebnis",
+];
+
+const OptionCard = ({
+  active,
+  onClick,
+  children,
+  center = false,
+  check = false,
+}: {
+  active: boolean;
+  onClick: () => void;
+  children: ReactNode;
+  center?: boolean;
+  check?: boolean;
+}) => (
+  <button
+    type="button"
+    onClick={onClick}
+    aria-pressed={active}
+    className={cn(
+      "flex w-full items-center gap-3 rounded-xl border px-4 py-3 text-sm font-medium transition-[border-color,background-color,box-shadow] duration-200",
+      center ? "justify-center text-center" : "text-left",
+      active
+        ? "border-accent-blue/50 bg-accent shadow-[0_0_0_3px_hsl(var(--accent-blue)/0.12)]"
+        : "border-border bg-card hover:border-foreground/25",
+    )}
+  >
+    {check && (
+      <span
+        className={cn(
+          "flex h-5 w-5 shrink-0 items-center justify-center rounded-md border",
+          active ? "border-primary bg-primary text-primary-foreground" : "border-input bg-card",
+        )}
+      >
+        {active && <Check className="h-3.5 w-3.5" aria-hidden="true" />}
+      </span>
+    )}
+    <span className="min-w-0 flex-1">{children}</span>
+    {!check && active && <CheckCircle2 className="h-4 w-4 shrink-0 text-accent-blue" aria-hidden="true" />}
+  </button>
+);
 
 const EntscheidungsEngine = () => {
   const [setup, setSetup] = useState<Setup>({
@@ -524,298 +586,288 @@ const EntscheidungsEngine = () => {
   const excluded = calcs.filter((c) => c.fitScore === 0);
 
   const totalSteps = 9;
+  const istErgebnis = step === totalSteps;
+
+  const nav = (
+    <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-border/70 pt-5">
+      <Button variant="outline" onClick={() => setStep(Math.max(1, step - 1))} disabled={step === 1}>
+        <ArrowLeft aria-hidden="true" /> Zurück
+      </Button>
+      {step < totalSteps ? (
+        <Button className="bg-gradient-primary" onClick={() => setStep(step + 1)}>
+          {step === totalSteps - 1 ? "Ergebnis anzeigen" : "Weiter"} <ArrowRight aria-hidden="true" />
+        </Button>
+      ) : (
+        <Button variant="outline" onClick={() => setStep(1)}>
+          <RotateCcw aria-hidden="true" /> Daten ändern
+        </Button>
+      )}
+    </div>
+  );
 
   return (
     <CockpitShell
-      eyebrow="Entscheidungs-Engine 2.0"
-      title="Welche Struktur passt — mit echten Zahlen?"
-      subtitle="9-Fragen-Wizard mit ECHTER Steuer-Berechnung pro Setup, 5-Jahres-Projektion, Side-by-Side-Vergleich + Warum-NICHT-Sektion. Keine Heuristik — konkrete Zahlen für DEINEN Gewinn + DEINEN Liquiditätsbedarf."
+      eyebrow="Rechtsform & Struktur · Entscheidungs-Engine"
+      title="Welche Struktur passt, mit echten Zahlen?"
+      subtitle="Acht Fragen, danach rechnen wir jede Struktur für deinen Gewinn und deinen privaten Bedarf durch: Steuer pro Jahr, Fünf-Jahres-Projektion, direkter Vergleich und warum andere Strukturen nicht passen."
     >
-      {/* Progress */}
-      <div className="flex items-center gap-1 mb-6">
-        {Array.from({ length: totalSteps }, (_, i) => i + 1).map((s) => (
-          <div key={s} className="flex items-center gap-1 flex-1">
-            <div
-              className={`h-5 w-5 rounded-full flex items-center justify-center text-[9px] font-bold shrink-0 ${
-                s < step
-                  ? "bg-emerald-500 text-white"
-                  : s === step
-                  ? "bg-accent-blue text-primary-foreground"
-                  : "bg-secondary text-muted-foreground"
-              }`}
-            >
-              {s < step ? <CheckCircle2 className="h-2.5 w-2.5" /> : s}
-            </div>
-            {s < totalSteps && <div className={`h-0.5 flex-1 ${s < step ? "bg-emerald-500" : "bg-border"}`} />}
-          </div>
-        ))}
-      </div>
-
-      <div className="rounded-2xl border border-border bg-card p-6 mb-6">
-        {step === 1 && (
-          <>
-            <h2 className="text-base font-bold mb-1">1. Erwarteter Jahres-Gewinn?</h2>
-            <p className="text-xs text-muted-foreground mb-4">Operativer Gewinn vor Steuer.</p>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">€/Jahr</Label>
-            <Input
-              type="number"
-              value={setup.jahresGewinn ?? ""}
-              onChange={(e) => update({ jahresGewinn: Number(e.target.value) || undefined })}
-              className="mt-1"
-              autoFocus
+      {/* Fortschritt */}
+      <div className="mb-6">
+        <div className="mb-2 flex items-baseline justify-between gap-3 text-sm">
+          <p className="font-medium">
+            {istErgebnis ? "Ergebnis" : `Frage ${step} von ${totalSteps - 1}`}
+            {!istErgebnis && <span className="font-normal text-muted-foreground"> · {STEP_TITEL[step - 1]}</span>}
+          </p>
+          <p className="text-muted-foreground tabular">{Math.round(((step - 1) / (totalSteps - 1)) * 100)} %</p>
+        </div>
+        <div className="flex gap-1" aria-hidden="true">
+          {Array.from({ length: totalSteps }, (_, i) => i + 1).map((s) => (
+            <span
+              key={s}
+              className={cn(
+                "h-1.5 flex-1 rounded-full transition-colors",
+                s < step ? "bg-accent-blue" : s === step ? "bg-primary" : "bg-secondary",
+              )}
             />
-          </>
-        )}
-
-        {step === 2 && (
-          <>
-            <h2 className="text-base font-bold mb-1">2. Wieviel privat brauchst du pro Jahr?</h2>
-            <p className="text-xs text-muted-foreground mb-4">
-              Liquiditätsbedarf: was du privat ausgibst (Lifestyle, Steuer-Privatentnahme). Rest bleibt für Reinvest.
-            </p>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">€/Jahr privat</Label>
-            <Input
-              type="number"
-              value={setup.liquiditaetsbedarfPrivat ?? ""}
-              onChange={(e) => update({ liquiditaetsbedarfPrivat: Number(e.target.value) || undefined })}
-              placeholder={setup.jahresGewinn ? `z.B. ${Math.round((setup.jahresGewinn ?? 0) * 0.5).toLocaleString("de-DE")}` : ""}
-              className="mt-1"
-            />
-            <div className="text-[10px] text-muted-foreground mt-2">
-              Tipp: Lifestyle 60–120k privat reicht für die meisten. Rest in Holding bringt mehr Compounding.
-            </div>
-          </>
-        )}
-
-        {step === 3 && (
-          <>
-            <h2 className="text-base font-bold mb-1">3. Existing Setup?</h2>
-            <p className="text-xs text-muted-foreground mb-4">Hast du schon eine Rechtsform?</p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-              {[
-                { v: "none", l: "Noch nichts" },
-                { v: "einzel", l: "Einzelunternehmen" },
-                { v: "ug", l: "UG" },
-                { v: "gmbh", l: "GmbH (ohne Holding)" },
-                { v: "holding", l: "Holding-Setup vorhanden" },
-              ].map((o) => (
-                <button
-                  key={o.v}
-                  onClick={() => update({ existingSetup: o.v as Setup["existingSetup"] })}
-                  className={`text-left rounded-xl border p-3 text-sm transition-colors ${
-                    setup.existingSetup === o.v
-                      ? "border-accent-blue bg-accent-blue/5 ring-1 ring-accent-blue/30"
-                      : "border-border hover:border-accent-blue/40"
-                  }`}
-                >
-                  {o.l}
-                </button>
-              ))}
-            </div>
-          </>
-        )}
-
-        {step === 4 && (
-          <>
-            <h2 className="text-base font-bold mb-1">4. Anzahl Co-Founder/Gesellschafter?</h2>
-            <div className="grid grid-cols-5 gap-2 mt-2">
-              {[1, 2, 3, 4, 5].map((n) => (
-                <button
-                  key={n}
-                  onClick={() => update({ founders: n })}
-                  className={`text-center rounded-xl border p-3 text-sm transition-colors ${
-                    setup.founders === n
-                      ? "border-accent-blue bg-accent-blue/5 ring-1 ring-accent-blue/30"
-                      : "border-border hover:border-accent-blue/40"
-                  }`}
-                >
-                  {n === 5 ? "5+" : n}
-                </button>
-              ))}
-            </div>
-          </>
-        )}
-
-        {step === 5 && (
-          <>
-            <h2 className="text-base font-bold mb-1">5. VC / Exit geplant?</h2>
-            <div className="grid grid-cols-2 gap-2 mt-2">
-              {[
-                { v: true, l: "Ja, VC/Exit in Planung" },
-                { v: false, l: "Nein, Bootstrap" },
-              ].map((o) => (
-                <button
-                  key={String(o.v)}
-                  onClick={() => update({ vcPlanned: o.v })}
-                  className={`text-left rounded-xl border p-3 text-sm transition-colors ${
-                    setup.vcPlanned === o.v
-                      ? "border-accent-blue bg-accent-blue/5 ring-1 ring-accent-blue/30"
-                      : "border-border hover:border-accent-blue/40"
-                  }`}
-                >
-                  {o.l}
-                </button>
-              ))}
-            </div>
-            {setup.vcPlanned !== undefined && (
-              <div className="mt-4">
-                <Label className="text-xs uppercase tracking-wider text-muted-foreground">
-                  Exit-Horizont (Jahre, 0 = nie)
-                </Label>
-                <Input
-                  type="number"
-                  min={0}
-                  max={30}
-                  value={setup.exitInYears ?? ""}
-                  onChange={(e) => update({ exitInYears: Number(e.target.value) || undefined })}
-                  placeholder="z.B. 5"
-                  className="mt-1"
-                />
-              </div>
-            )}
-          </>
-        )}
-
-        {step === 6 && (
-          <>
-            <h2 className="text-base font-bold mb-1">6. Internationale Geschäftstätigkeit?</h2>
-            <div className="grid grid-cols-3 gap-2 mt-2">
-              {[
-                { v: "none", l: "Nur DACH" },
-                { v: "eu", l: "EU-weit" },
-                { v: "global", l: "Global" },
-              ].map((o) => (
-                <button
-                  key={o.v}
-                  onClick={() => update({ international: o.v as Setup["international"] })}
-                  className={`text-center rounded-xl border p-3 text-sm transition-colors ${
-                    setup.international === o.v
-                      ? "border-accent-blue bg-accent-blue/5 ring-1 ring-accent-blue/30"
-                      : "border-border hover:border-accent-blue/40"
-                  }`}
-                >
-                  {o.l}
-                </button>
-              ))}
-            </div>
-          </>
-        )}
-
-        {step === 7 && (
-          <>
-            <h2 className="text-base font-bold mb-1">7. Familie / Multi-Brand / IP?</h2>
-            <p className="text-xs text-muted-foreground mb-3">Mehrfach-Auswahl möglich.</p>
-            <div className="space-y-2">
-              {[
-                { k: "familyContext", l: "Familien-Kontext (Erbplanung, Pool mit Kindern)" },
-                { k: "largeWealth", l: "Vermögen > 5 Mio € (Stiftung-relevant)" },
-                { k: "multiBrand", l: "Mehrere Brands / Geschäftsfelder" },
-                { k: "hasIP", l: "Hoher IP-Wert (Marken/Patente/Software)" },
-              ].map((o) => (
-                <button
-                  key={o.k}
-                  onClick={() => update({ [o.k]: !setup[o.k as keyof Setup] } as Partial<Setup>)}
-                  className={`w-full text-left rounded-xl border p-3 text-sm transition-colors flex items-center gap-3 ${
-                    setup[o.k as keyof Setup]
-                      ? "border-accent-blue bg-accent-blue/5 ring-1 ring-accent-blue/30"
-                      : "border-border hover:border-accent-blue/40"
-                  }`}
-                >
-                  <div className={`h-5 w-5 rounded border ${setup[o.k as keyof Setup] ? "bg-accent-blue border-accent-blue" : "border-border"} flex items-center justify-center shrink-0`}>
-                    {setup[o.k as keyof Setup] && <CheckCircle2 className="h-3 w-3 text-primary-foreground" />}
-                  </div>
-                  {o.l}
-                </button>
-              ))}
-            </div>
-          </>
-        )}
-
-        {step === 8 && (
-          <>
-            <h2 className="text-base font-bold mb-1">8. Persönliches</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              <div>
-                <Label className="text-xs uppercase tracking-wider text-muted-foreground">Alter</Label>
-                <Input
-                  type="number"
-                  value={setup.alter ?? ""}
-                  onChange={(e) => update({ alter: Number(e.target.value) || undefined })}
-                  placeholder="z.B. 38"
-                  className="mt-1"
-                />
-              </div>
-              <div>
-                <Label className="text-xs uppercase tracking-wider text-muted-foreground">Familienstand</Label>
-                <select
-                  value={setup.familienstand ?? ""}
-                  onChange={(e) => update({ familienstand: e.target.value as Setup["familienstand"] })}
-                  className="mt-1 h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
-                >
-                  <option value="">– wählen –</option>
-                  <option value="ledig">ledig</option>
-                  <option value="verheiratet">verheiratet</option>
-                  <option value="geschieden">geschieden</option>
-                </select>
-              </div>
-              <div className="md:col-span-2">
-                <Label className="text-xs uppercase tracking-wider text-muted-foreground">
-                  Persönlicher ESt-Spitzensatz
-                </Label>
-                <select
-                  value={setup.estSatz ?? ""}
-                  onChange={(e) => update({ estSatz: Number(e.target.value) })}
-                  className="mt-1 h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
-                >
-                  <option value={0.14}>14 % (geringes Einkommen)</option>
-                  <option value={0.24}>24 % (mittel)</option>
-                  <option value={0.32}>32 %</option>
-                  <option value={0.42}>42 % (Spitzensatz ab 62k)</option>
-                  <option value={0.45}>45 % (Reichensteuer ab 278k)</option>
-                </select>
-              </div>
-            </div>
-          </>
-        )}
-
-        {step === 9 && (
-          <Results top3={top3} excluded={excluded} setup={setup} />
-        )}
-
-        <div className="flex justify-between mt-6">
-          <button
-            onClick={() => setStep(Math.max(1, step - 1))}
-            disabled={step === 1}
-            className="inline-flex items-center gap-1 rounded-lg border border-border px-4 py-2 text-sm hover:bg-secondary disabled:opacity-40"
-          >
-            <ArrowLeft className="h-4 w-4" /> Zurück
-          </button>
-          {step < totalSteps ? (
-            <button
-              onClick={() => setStep(step + 1)}
-              className="inline-flex items-center gap-1 rounded-lg bg-accent-blue text-primary-foreground px-4 py-2 text-sm font-semibold hover:opacity-90"
-            >
-              Weiter <ArrowRight className="h-4 w-4" />
-            </button>
-          ) : (
-            <button
-              onClick={() => setStep(1)}
-              className="inline-flex items-center gap-1 rounded-lg border border-border px-4 py-2 text-sm hover:bg-secondary"
-            >
-              <Sparkles className="h-4 w-4" /> Daten ändern
-            </button>
-          )}
+          ))}
         </div>
       </div>
 
-      <div className="rounded-2xl border border-border bg-card p-4 text-[11px] text-muted-foreground leading-relaxed">
-        <strong>Disclaimer:</strong> Vereinfachte Modellrechnung — KSt+GewSt 30 % pauschal, ESt nach §32a 2026,
-        AbgSt 26,375 % inkl. SoliZ. Holding §8b: 5 % steuerpflichtig × ~30 % = 1,5 % effektiv. Konkrete
-        Strukturierung immer mit StB klären.
-      </div>
+      {!istErgebnis && (
+        <ToolSection className="mb-6">
+          {step === 1 && (
+            <StepKopf nr={1} titel="Wie hoch ist dein erwarteter Jahresgewinn?" text="Operativer Gewinn vor Steuern." />
+          )}
+          {step === 1 && (
+            <Field label="Gewinn pro Jahr (€)" htmlFor="ee-gewinn" className="max-w-sm">
+              <Input
+                id="ee-gewinn"
+                type="number"
+                value={setup.jahresGewinn ?? ""}
+                onChange={(e) => update({ jahresGewinn: Number(e.target.value) || undefined })}
+                className="tabular"
+                autoFocus
+              />
+            </Field>
+          )}
+
+          {step === 2 && (
+            <>
+              <StepKopf
+                nr={2}
+                titel="Wie viel brauchst du privat pro Jahr?"
+                text="Dein Liquiditätsbedarf: was du privat ausgibst, inklusive Steuern auf Entnahmen. Der Rest bleibt zum Reinvestieren."
+              />
+              <Field
+                label="Privater Bedarf pro Jahr (€)"
+                htmlFor="ee-privat"
+                hint="Für die meisten reichen 60.000 bis 120.000 € privat. Was in der Holding bleibt, arbeitet mit Zinseszins."
+                className="max-w-sm"
+              >
+                <Input
+                  id="ee-privat"
+                  type="number"
+                  value={setup.liquiditaetsbedarfPrivat ?? ""}
+                  onChange={(e) => update({ liquiditaetsbedarfPrivat: Number(e.target.value) || undefined })}
+                  placeholder={setup.jahresGewinn ? `z. B. ${Math.round((setup.jahresGewinn ?? 0) * 0.5).toLocaleString("de-DE")}` : ""}
+                  className="tabular"
+                />
+              </Field>
+            </>
+          )}
+
+          {step === 3 && (
+            <>
+              <StepKopf nr={3} titel="Hast du schon eine Rechtsform?" />
+              <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 md:grid-cols-3">
+                {[
+                  { v: "none", l: "Noch nichts" },
+                  { v: "einzel", l: "Einzelunternehmen" },
+                  { v: "ug", l: "UG" },
+                  { v: "gmbh", l: "GmbH (ohne Holding)" },
+                  { v: "holding", l: "Holding-Setup vorhanden" },
+                ].map((o) => (
+                  <OptionCard
+                    key={o.v}
+                    active={setup.existingSetup === o.v}
+                    onClick={() => update({ existingSetup: o.v as Setup["existingSetup"] })}
+                  >
+                    {o.l}
+                  </OptionCard>
+                ))}
+              </div>
+            </>
+          )}
+
+          {step === 4 && (
+            <>
+              <StepKopf nr={4} titel="Wie viele Gründer oder Gesellschafter seid ihr?" />
+              <div className="grid grid-cols-5 gap-2 sm:max-w-md">
+                {[1, 2, 3, 4, 5].map((n) => (
+                  <OptionCard key={n} center active={setup.founders === n} onClick={() => update({ founders: n })}>
+                    <span className="tabular">{n === 5 ? "5+" : n}</span>
+                  </OptionCard>
+                ))}
+              </div>
+            </>
+          )}
+
+          {step === 5 && (
+            <>
+              <StepKopf nr={5} titel="Ist Wagniskapital oder ein Exit geplant?" />
+              <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+                {[
+                  { v: true, l: "Ja, VC oder Exit in Planung" },
+                  { v: false, l: "Nein, Bootstrap" },
+                ].map((o) => (
+                  <OptionCard key={String(o.v)} active={setup.vcPlanned === o.v} onClick={() => update({ vcPlanned: o.v })}>
+                    {o.l}
+                  </OptionCard>
+                ))}
+              </div>
+              {setup.vcPlanned !== undefined && (
+                <Field label="Exit-Horizont in Jahren" hint="0 bedeutet: kein Exit geplant" htmlFor="ee-exit" className="mt-5 max-w-sm">
+                  <Input
+                    id="ee-exit"
+                    type="number"
+                    min={0}
+                    max={30}
+                    value={setup.exitInYears ?? ""}
+                    onChange={(e) => update({ exitInYears: Number(e.target.value) || undefined })}
+                    placeholder="z. B. 5"
+                    className="tabular"
+                  />
+                </Field>
+              )}
+            </>
+          )}
+
+          {step === 6 && (
+            <>
+              <StepKopf nr={6} titel="Wie international ist dein Geschäft?" />
+              <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-3">
+                {[
+                  { v: "none", l: "Nur DACH" },
+                  { v: "eu", l: "EU-weit" },
+                  { v: "global", l: "Global" },
+                ].map((o) => (
+                  <OptionCard
+                    key={o.v}
+                    active={setup.international === o.v}
+                    onClick={() => update({ international: o.v as Setup["international"] })}
+                  >
+                    {o.l}
+                  </OptionCard>
+                ))}
+              </div>
+            </>
+          )}
+
+          {step === 7 && (
+            <>
+              <StepKopf nr={7} titel="Familie, mehrere Marken, geistiges Eigentum?" text="Mehrfachauswahl möglich." />
+              <div className="space-y-2.5">
+                {[
+                  { k: "familyContext", l: "Familien-Kontext (Erbplanung, Pool mit Kindern)" },
+                  { k: "largeWealth", l: "Vermögen über 5 Mio. € (relevant für Stiftung)" },
+                  { k: "multiBrand", l: "Mehrere Marken oder Geschäftsfelder" },
+                  { k: "hasIP", l: "Hoher IP-Wert (Marken, Patente, Software)" },
+                ].map((o) => (
+                  <OptionCard
+                    key={o.k}
+                    check
+                    active={!!setup[o.k as keyof Setup]}
+                    onClick={() => update({ [o.k]: !setup[o.k as keyof Setup] } as Partial<Setup>)}
+                  >
+                    {o.l}
+                  </OptionCard>
+                ))}
+              </div>
+            </>
+          )}
+
+          {step === 8 && (
+            <>
+              <StepKopf nr={8} titel="Ein paar persönliche Angaben" />
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <Field label="Alter" htmlFor="ee-alter">
+                  <Input
+                    id="ee-alter"
+                    type="number"
+                    value={setup.alter ?? ""}
+                    onChange={(e) => update({ alter: Number(e.target.value) || undefined })}
+                    placeholder="z. B. 38"
+                    className="tabular"
+                  />
+                </Field>
+                <Field label="Familienstand" htmlFor="ee-familienstand">
+                  <select
+                    id="ee-familienstand"
+                    value={setup.familienstand ?? ""}
+                    onChange={(e) => update({ familienstand: e.target.value as Setup["familienstand"] })}
+                    className={selectCls}
+                  >
+                    <option value="">Bitte wählen</option>
+                    <option value="ledig">ledig</option>
+                    <option value="verheiratet">verheiratet</option>
+                    <option value="geschieden">geschieden</option>
+                  </select>
+                </Field>
+                <Field label="Persönlicher Einkommensteuer-Spitzensatz" htmlFor="ee-est" className="md:col-span-2">
+                  <select
+                    id="ee-est"
+                    value={setup.estSatz ?? ""}
+                    onChange={(e) => update({ estSatz: Number(e.target.value) })}
+                    className={selectCls}
+                  >
+                    <option value={0.14}>14 % (geringes Einkommen)</option>
+                    <option value={0.24}>24 % (mittel)</option>
+                    <option value={0.32}>32 %</option>
+                    <option value={0.42}>42 % (Spitzensatz ab 62k)</option>
+                    <option value={0.45}>45 % (Reichensteuer ab 278k)</option>
+                  </select>
+                </Field>
+              </div>
+            </>
+          )}
+
+          {nav}
+        </ToolSection>
+      )}
+
+      {istErgebnis && (
+        <div className="mb-6 space-y-6">
+          <Results top3={top3} excluded={excluded} setup={setup} />
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <Button variant="outline" onClick={() => setStep(Math.max(1, step - 1))}>
+              <ArrowLeft aria-hidden="true" /> Zurück
+            </Button>
+            <Button variant="outline" onClick={() => setStep(1)}>
+              <RotateCcw aria-hidden="true" /> Daten ändern
+            </Button>
+          </div>
+        </div>
+      )}
+
+      <Callout tone="neutral" title="Vereinfachte Modellrechnung">
+        KSt und GewSt pauschal 30 %, ESt nach § 32a EStG 2026, Abgeltungsteuer 26,375 % inklusive Soli. Holding nach § 8b
+        KStG: 5 % steuerpflichtig mal rund 30 % ergibt etwa 1,5 % effektiv. Die konkrete Strukturierung immer mit der
+        Steuerberatung klären.
+      </Callout>
     </CockpitShell>
   );
 };
+
+const StepKopf = ({ nr, titel, text }: { nr: number; titel: string; text?: string }) => (
+  <div className="mb-5">
+    <p className="text-sm font-medium text-accent-blue">Frage {nr}</p>
+    <h2 className="mt-1 text-lg font-semibold tracking-tight">{titel}</h2>
+    {text && <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{text}</p>}
+  </div>
+);
+
+const fett = (s: string) => s.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+const eur0 = (n: number) => `${Math.round(n).toLocaleString("de-DE")} €`;
 
 // ============================================================
 // RESULTS-COMPONENT
@@ -830,163 +882,162 @@ const Results = ({
   excluded: StructureCalc[];
   setup: Setup;
 }) => (
-  <div>
-    <h2 className="text-base font-bold mb-1">Top-3 Empfehlungen mit echten Zahlen</h2>
-    <p className="text-xs text-muted-foreground mb-4">
-      Berechnet für deinen Op-Gewinn {(setup.jahresGewinn ?? 0).toLocaleString("de-DE")} € + Liquiditätsbedarf{" "}
-      {(setup.liquiditaetsbedarfPrivat ?? Math.round((setup.jahresGewinn ?? 0) * 0.5)).toLocaleString("de-DE")} €/Jahr.
-    </p>
-
+  <div className="space-y-6">
     {top3.length === 0 ? (
-      <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-4 text-sm text-amber-800">
-        Keine spezifische Empfehlung. Bitte alle Felder ausfüllen.
-      </div>
+      <EmptyState
+        icon={Calculator}
+        title="Keine konkrete Empfehlung möglich"
+        description="Bitte alle Fragen beantworten, vor allem Gewinn und privaten Bedarf."
+      />
     ) : (
       <>
-        {/* Side-by-Side Tabelle */}
-        <div className="overflow-x-auto mb-6">
-          <table className="w-full text-xs">
-            <thead>
-              <tr className="border-b border-border">
-                <th className="text-left py-2 pr-2 font-semibold">Struktur</th>
-                <th className="text-right py-2 px-2 font-semibold">Steuer/Jahr</th>
-                <th className="text-right py-2 px-2 font-semibold">Privat netto/Jahr</th>
-                <th className="text-right py-2 px-2 font-semibold">Effektiv-%</th>
-                <th className="text-right py-2 pl-2 font-semibold">5-Jahres-Steuer</th>
-              </tr>
-            </thead>
-            <tbody>
-              {top3.map((c, i) => (
-                <tr
-                  key={c.slug}
-                  className={`border-b border-border last:border-0 ${i === 0 ? "bg-emerald-500/5" : ""}`}
-                >
-                  <td className="py-2 pr-2">
-                    <div className="flex items-center gap-1.5">
-                      <span className="rounded-full bg-secondary text-muted-foreground px-1.5 py-0.5 text-[9px] font-bold">
-                        #{i + 1}
-                      </span>
-                      <span>{c.emoji}</span>
-                      <span className="font-semibold">{c.name}</span>
-                    </div>
-                  </td>
-                  <td className="py-2 px-2 text-right font-mono">
-                    {Math.round(c.steuerProJahr).toLocaleString("de-DE")} €
-                  </td>
-                  <td className="py-2 px-2 text-right font-mono">
-                    {Math.round(c.privatNettoProJahr).toLocaleString("de-DE")} €
-                  </td>
-                  <td className="py-2 px-2 text-right font-mono">{c.effektivPct.toFixed(1)} %</td>
-                  <td className="py-2 pl-2 text-right font-mono font-semibold">
-                    {Math.round(c.steuer5Jahre).toLocaleString("de-DE")} €
-                  </td>
-                </tr>
+        <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]">
+          <ResultPanel
+            variant="ink"
+            kicker="Beste Struktur für dich"
+            title={top3[0].name}
+            value={eur0(top3[0].steuerProJahr)}
+            valueHint={`Steuern pro Jahr, effektiv ${top3[0].effektivPct.toFixed(1).replace(".", ",")} %`}
+          >
+            <div className="grid grid-cols-2 gap-px overflow-hidden rounded-xl bg-white/10">
+              {[
+                { l: "Privat netto pro Jahr", v: eur0(top3[0].privatNettoProJahr) },
+                { l: "Steuern in 5 Jahren", v: eur0(top3[0].steuer5Jahre) },
+                { l: "Einmalige Kosten", v: eur0(top3[0].setupCost) },
+                { l: "Laufend pro Jahr", v: eur0(top3[0].runningCost) },
+              ].map((k) => (
+                <div key={k.l} className="bg-white/[0.04] p-3">
+                  <div className="text-xs text-primary-foreground/65">{k.l}</div>
+                  <div className="mt-0.5 font-semibold text-primary-foreground tabular">{k.v}</div>
+                </div>
               ))}
-            </tbody>
-          </table>
+            </div>
+            <p className="mt-4 text-xs text-primary-foreground/65">
+              Gerechnet mit {(setup.jahresGewinn ?? 0).toLocaleString("de-DE")} € operativem Gewinn und{" "}
+              {(setup.liquiditaetsbedarfPrivat ?? Math.round((setup.jahresGewinn ?? 0) * 0.5)).toLocaleString("de-DE")} € privatem
+              Bedarf pro Jahr.
+            </p>
+          </ResultPanel>
+
+          <div className="min-w-0 space-y-4">
+            <ToolSection title="Die drei besten Strukturen im Vergleich" icon={Scale} bodyClassName="p-0 md:p-0">
+              <KitTable caption="Vergleich der drei besten Strukturen" className="rounded-none border-0 [&_th]:whitespace-nowrap">
+                <thead>
+                  <tr>
+                    <th>Struktur</th>
+                    <th className="!text-right">Steuer pro Jahr</th>
+                    <th className="!text-right">Privat netto</th>
+                    <th className="!text-right">Effektiv</th>
+                    <th className="!text-right">Steuer 5 Jahre</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {top3.map((c, i) => (
+                    <tr key={c.slug} className={i === 0 ? "bg-success-soft/50" : undefined}>
+                      <td>
+                        <div className="flex min-w-[10rem] items-center gap-2">
+                          <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-secondary text-[11px] font-semibold">
+                            {i + 1}
+                          </span>
+                          <span className="font-medium">{c.name}</span>
+                        </div>
+                      </td>
+                      <td className="whitespace-nowrap text-right">{eur0(c.steuerProJahr)}</td>
+                      <td className="whitespace-nowrap text-right">{eur0(c.privatNettoProJahr)}</td>
+                      <td className="whitespace-nowrap text-right">{c.effektivPct.toFixed(1).replace(".", ",")} %</td>
+                      <td className="whitespace-nowrap text-right font-semibold">{eur0(c.steuer5Jahre)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </KitTable>
+            </ToolSection>
+
+            {top3.length >= 2 && top3[1].steuer5Jahre > top3[0].steuer5Jahre && (
+              <StatTile
+                emphasis
+                tone="success"
+                label="Ersparnis über 5 Jahre, wenn du Platz 1 statt Platz 2 wählst"
+                value={eur0(top3[1].steuer5Jahre - top3[0].steuer5Jahre)}
+                hint="Differenz der kumulierten Steuern bei gleichbleibendem Gewinn"
+              />
+            )}
+          </div>
         </div>
 
-        {/* Detail Cards */}
-        <div className="space-y-3 mb-6">
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
           {top3.map((c, i) => (
-            <div
+            <article
               key={c.slug}
-              className={`rounded-2xl border p-4 ${
-                i === 0 ? "border-emerald-500/40 bg-emerald-500/5" : "border-border bg-card"
-              }`}
+              className={cn(
+                "flex flex-col rounded-2xl border bg-card p-5 shadow-card",
+                i === 0 ? "border-success/30" : "border-border",
+              )}
             >
-              <div className="flex items-start justify-between gap-3 flex-wrap mb-2">
-                <div className="flex items-center gap-2">
-                  <span className="rounded-full bg-accent-blue text-primary-foreground px-2 py-0.5 text-[10px] font-bold">
-                    #{i + 1}
-                  </span>
-                  <span className="text-2xl">{c.emoji}</span>
-                  <span className="font-bold">{c.name}</span>
-                  {i === 0 && (
-                    <span className="rounded-full bg-emerald-500/10 text-emerald-700 px-2 py-0.5 text-[10px] font-semibold">
-                      ✓ Beste für dich
-                    </span>
-                  )}
-                </div>
-                <Link
-                  to={c.link}
-                  className="inline-flex items-center gap-1 text-xs text-accent-blue hover:underline"
-                >
-                  Detail <ExternalLink className="h-3 w-3" />
-                </Link>
+              <div className="flex flex-wrap items-center gap-2">
+                <ToneBadge tone={i === 0 ? "success" : "neutral"}>Platz {i + 1}</ToneBadge>
+                {i === 0 && <ToneBadge tone="success">Beste für dich</ToneBadge>}
               </div>
+              <h3 className="mt-2.5 text-base font-semibold leading-snug">{c.name}</h3>
+              <p className="mt-1 text-xs text-muted-foreground tabular">
+                Einmalig {c.setupCost.toLocaleString("de-DE")} € · laufend {c.runningCost.toLocaleString("de-DE")} € pro Jahr
+              </p>
 
               {c.exitErsparnis !== undefined && c.exitErsparnis > 0 && (
-                <div className="rounded-lg bg-accent-blue/5 border border-accent-blue/20 p-2 mb-2 text-xs">
-                  <TrendingUp className="h-3 w-3 inline mr-1 text-accent-blue" />
-                  <strong>Bei Exit:</strong> ~{Math.round(c.exitErsparnis).toLocaleString("de-DE")} € zusätzliche
-                  Steuer-Ersparnis vs. Privat-Verkauf
-                </div>
+                <Callout tone="accent" icon={TrendingUp} className="mt-3 p-3 text-xs">
+                  <strong>Bei Exit:</strong> rund {Math.round(c.exitErsparnis).toLocaleString("de-DE")} € zusätzliche
+                  Steuerersparnis gegenüber einem Privatverkauf
+                </Callout>
               )}
 
-              <div className="text-[11px] text-muted-foreground mb-2">
-                Setup einmalig: {c.setupCost.toLocaleString("de-DE")} € · Laufend: {c.runningCost.toLocaleString("de-DE")} €/Jahr
-              </div>
-
-              <ul className="space-y-1 text-xs mb-2">
+              <ul className="mt-3 space-y-1.5 text-sm">
                 {c.why.map((w, j) => (
-                  <li key={j} className="flex items-start gap-1.5">
-                    <span className="text-emerald-600 shrink-0">→</span>
-                    <span dangerouslySetInnerHTML={{ __html: w.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>") }} />
+                  <li key={j} className="flex items-start gap-2">
+                    <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-success" aria-hidden="true" />
+                    <span className="leading-relaxed" dangerouslySetInnerHTML={{ __html: fett(w) }} />
                   </li>
                 ))}
               </ul>
+
               {c.caveats.length > 0 && (
-                <details className="text-xs text-muted-foreground">
-                  <summary className="cursor-pointer font-semibold text-amber-700">⚠ Caveats ({c.caveats.length})</summary>
-                  <ul className="mt-2 space-y-1 list-disc pl-4">
+                <details className="group mt-4 rounded-xl border border-warning/25 bg-warning-soft/60 text-sm [&_summary::-webkit-details-marker]:hidden">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-2 px-3 py-2.5 font-medium">
+                    <span className="flex items-center gap-2">
+                      <AlertTriangle className="h-4 w-4 text-warning" aria-hidden="true" />
+                      Worauf du achten musst ({c.caveats.length})
+                    </span>
+                    <ChevronDown className="h-4 w-4 text-muted-foreground transition-transform group-open:rotate-180" aria-hidden="true" />
+                  </summary>
+                  <ul className="list-disc space-y-1 border-t border-warning/20 px-3 py-2.5 pl-7 text-foreground/80">
                     {c.caveats.map((cv, j) => (
-                      <li key={j} dangerouslySetInnerHTML={{ __html: cv.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>") }} />
+                      <li key={j} dangerouslySetInnerHTML={{ __html: fett(cv) }} />
                     ))}
                   </ul>
                 </details>
               )}
-            </div>
+
+              <Link
+                to={c.link}
+                className="mt-auto inline-flex items-center gap-1 pt-4 text-sm font-medium text-accent-blue hover:underline"
+              >
+                Details ansehen <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+              </Link>
+            </article>
           ))}
         </div>
 
-        {/* Warum NICHT */}
         {excluded.length > 0 && (
-          <div className="rounded-2xl border border-border bg-secondary/20 p-4">
-            <div className="flex items-center gap-2 mb-3">
-              <XCircle className="h-4 w-4 text-muted-foreground" />
-              <h3 className="font-bold text-sm">Warum diese Strukturen für dich NICHT passen</h3>
-            </div>
-            <div className="space-y-1.5 text-xs">
+          <ToolSection title="Warum diese Strukturen für dich nicht passen" icon={XCircle}>
+            <ul className="divide-y divide-border/70">
               {excluded.map((c) => (
-                <div key={c.slug} className="flex items-start gap-2">
-                  <span className="text-muted-foreground shrink-0">{c.emoji}</span>
-                  <div>
-                    <span className="font-semibold">{c.name}</span>
-                    <span className="text-muted-foreground">: {c.caveats[0] || "Setup nicht passend für deine Daten"}</span>
-                  </div>
-                </div>
+                <li key={c.slug} className="py-2.5 text-sm first:pt-0 last:pb-0">
+                  <span className="font-medium">{c.name}</span>
+                  <span className="text-muted-foreground">
+                    : <span dangerouslySetInnerHTML={{ __html: fett(c.caveats[0] || "Setup nicht passend für deine Daten") }} />
+                  </span>
+                </li>
               ))}
-            </div>
-          </div>
-        )}
-
-        {/* 5-Jahres-Compounding-Hinweis */}
-        {top3.length >= 2 && top3[1].steuer5Jahre > top3[0].steuer5Jahre && (
-          <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/5 p-4 mt-3">
-            <div className="flex items-start gap-2">
-              <Calculator className="h-4 w-4 text-emerald-700 shrink-0 mt-0.5" />
-              <div>
-                <div className="font-semibold text-sm mb-1">5-Jahres-Ersparnis wenn du #1 wählst statt #2:</div>
-                <div className="text-2xl font-bold text-emerald-700">
-                  {Math.round(top3[1].steuer5Jahre - top3[0].steuer5Jahre).toLocaleString("de-DE")} €
-                </div>
-                <div className="text-[11px] text-muted-foreground mt-1">
-                  (Differenz kumulierte Steuern über 5 Jahre, bei gleichbleibendem Op-Gewinn)
-                </div>
-              </div>
-            </div>
-          </div>
+            </ul>
+          </ToolSection>
         )}
       </>
     )}
