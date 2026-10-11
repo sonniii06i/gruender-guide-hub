@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Bot, Check, Copy } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import { ArrowRight, Bot, Check, Copy, LifeBuoy, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Seo } from "@/components/Seo";
 import { Navbar } from "@/components/landing/Navbar";
 import { Footer } from "@/components/landing/Footer";
+import { PageHeader } from "@/components/landing/PageHeader";
+import { PublicSection, InfoCard, FaqList, CtaBand, ctaPrimaryOnInk, ctaSecondaryOnInk } from "@/components/public/PublicBlocks";
 import { breadcrumbSchema, faqSchema } from "@/lib/freetools/schema";
 import { KURZ, TOOLS } from "../../api/_lib/gxMcp";
 
@@ -58,15 +59,14 @@ function Kopieren({ text }: { text: string }) {
 
 function Karte({ titel, children }: { titel: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-2xl border border-border bg-card p-5">
-      <h3 className="font-semibold text-lg mb-3">{titel}</h3>
+    <InfoCard title={titel} className="min-w-0">
       {children}
-    </div>
+    </InfoCard>
   );
 }
 
 const Code = ({ children }: { children: string }) => (
-  <pre className="mt-2 overflow-x-auto rounded-lg bg-slate-950 p-3 text-xs text-slate-100">{children}</pre>
+  <pre className="overflow-x-auto rounded-lg bg-[hsl(224_60%_11%)] p-3.5 text-xs leading-relaxed text-primary-foreground/90">{children}</pre>
 );
 
 export default function KiAssistent() {
@@ -99,44 +99,47 @@ export default function KiAssistent() {
         jsonLd={jsonLd}
       />
       <Navbar />
-
-      <section className="relative pt-28 pb-8 md:pt-32">
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-background to-background" />
-        <div className="relative max-w-3xl mx-auto px-4 sm:px-6 text-center">
-          <Badge variant="secondary" className="mb-4">
-            <Bot className="mr-1.5 h-3.5 w-3.5" /> Neu · kostenlos · ohne Anmeldung
-          </Badge>
-          <h1 className="text-3xl md:text-5xl font-bold text-foreground mb-4 leading-tight">GründerX direkt in ChatGPT und Claude</h1>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Frag deinen KI-Assistenten nach Gründer-Events in deiner Region, nach Bewerbungsfristen für Wettbewerbe und Stipendien
-            oder nach Startup-Guthaben. Er holt sich die Antwort aus den aktuellen GründerX-Daten.
-          </p>
-          <div className="mx-auto mt-7 flex max-w-xl items-center gap-2 rounded-xl border border-border bg-card p-2 pl-4">
-            <code className="min-w-0 flex-1 truncate text-left font-semibold">{MCP_URL}</code>
-            <Kopieren text={MCP_URL} />
+      <main>
+        <PageHeader
+          width="max-w-5xl"
+          kicker={
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1 text-[13px] font-medium text-muted-foreground shadow-card">
+              <Bot className="h-3.5 w-3.5 text-accent-blue" aria-hidden="true" /> Neu, kostenlos, ohne Anmeldung
+            </span>
+          }
+          title="GründerX direkt in ChatGPT und Claude"
+          lead={
+            <p>
+              Frag deinen KI-Assistenten nach Gründer-Events in deiner Region, nach Bewerbungsfristen für Wettbewerbe und
+              Stipendien oder nach Startup-Guthaben. Er holt sich die Antwort aus den aktuellen GründerX-Daten.
+            </p>
+          }
+        >
+          <div className="max-w-xl">
+            <div className="flex items-center gap-2 rounded-xl border border-border bg-card p-2 pl-4 shadow-card">
+              <code className="min-w-0 flex-1 truncate text-left text-sm font-semibold" translate="no">{MCP_URL}</code>
+              <Kopieren text={MCP_URL} />
+            </div>
+            <p className="mt-2 text-sm text-muted-foreground">MCP-Server-URL, Streamable HTTP. Keine Anmeldung, kein API-Schlüssel.</p>
           </div>
-          <p className="mt-2 text-sm text-muted-foreground">MCP-Server-URL · Streamable HTTP · keine Anmeldung, kein API-Schlüssel</p>
-        </div>
-      </section>
+        </PageHeader>
 
-      <section className="pb-12">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 space-y-12">
-          <div>
-            <h2 className="text-2xl font-bold mb-4">In zwei Minuten verbunden</h2>
+        <div className="container max-w-5xl space-y-16 px-4 py-14 md:py-20">
+          <PublicSection title="In zwei Minuten verbunden">
             <div className="grid gap-4 md:grid-cols-2">
               <Karte titel="ChatGPT">
-                <ol className="list-decimal space-y-1 pl-5 text-sm">
-                  <li>Einstellungen → <b>Apps &amp; Connectors</b> öffnen.</li>
+                <ol className="list-decimal space-y-1.5 pl-5 text-sm leading-relaxed">
+                  <li>Einstellungen, dann <b>Apps &amp; Connectors</b> öffnen.</li>
                   <li>Unter „Erweitert“ den <b>Entwicklermodus</b> aktivieren (je nach Tarif verfügbar).</li>
-                  <li><b>Connector erstellen</b>, Name „GründerX“, URL <code>{MCP_URL}</code>, Authentifizierung „Keine“.</li>
+                  <li><b>Connector erstellen</b>, Name „GründerX“, URL <code className="break-all">{MCP_URL}</code>, Authentifizierung „Keine“.</li>
                   <li>Im Chat über „+“ den Connector auswählen.</li>
                 </ol>
               </Karte>
               <Karte titel="Claude (claude.ai & Desktop)">
-                <ol className="list-decimal space-y-1 pl-5 text-sm">
-                  <li>Einstellungen → <b>Connectors</b> öffnen.</li>
+                <ol className="list-decimal space-y-1.5 pl-5 text-sm leading-relaxed">
+                  <li>Einstellungen, dann <b>Connectors</b> öffnen.</li>
                   <li><b>Benutzerdefinierten Connector hinzufügen</b>.</li>
-                  <li>Name „GründerX“, URL <code>{MCP_URL}</code> eintragen, speichern.</li>
+                  <li>Name „GründerX“, URL <code className="break-all">{MCP_URL}</code> eintragen, speichern.</li>
                   <li>Im Chat im Werkzeug-Menü aktivieren.</li>
                 </ol>
               </Karte>
@@ -147,68 +150,71 @@ export default function KiAssistent() {
                 <Code>{`{\n  "mcpServers": {\n    "gruenderx": { "url": "${MCP_URL}" }\n  }\n}`}</Code>
               </Karte>
             </div>
-          </div>
+          </PublicSection>
 
-          <div>
-            <h2 className="text-2xl font-bold mb-4">Was der Assistent damit kann</h2>
-            <div className="divide-y divide-border rounded-2xl border border-border bg-card">
+          <PublicSection title="Was der Assistent damit kann">
+            <div className="divide-y divide-border overflow-hidden rounded-2xl border border-border bg-card shadow-card">
               {TOOLS.map((t) => (
-                <div key={t.name} className="grid gap-1 p-4 sm:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] sm:gap-4">
-                  <div>
+                <div key={t.name} className="grid gap-1 p-4 sm:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] sm:gap-6 md:px-6">
+                  <div className="min-w-0">
                     <div className="font-semibold">{t.title}</div>
-                    <code className="text-xs text-muted-foreground">{t.name}</code>
+                    <code className="break-all text-xs text-muted-foreground" translate="no">{t.name}</code>
                   </div>
-                  <p className="text-sm text-muted-foreground">{KURZ[t.name]}</p>
+                  <p className="text-sm leading-relaxed text-muted-foreground">{KURZ[t.name]}</p>
                 </div>
               ))}
             </div>
-            <p className="mt-3 text-sm text-muted-foreground">
-              Dieselben Daten findest du auf <Link to="/gruender-events" className="underline">Gründer-Events</Link>,{" "}
-              <Link to="/startup-guthaben" className="underline">Startup-Guthaben</Link> und im{" "}
-              <Link to="/ratgeber" className="underline">Ratgeber</Link>. Angaben ohne Gewähr, keine Rechts- oder Steuerberatung.
+            <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+              Dieselben Daten findest du auf <Link to="/gruender-events" className="font-medium text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground">Gründer-Events</Link>,{" "}
+              <Link to="/startup-guthaben" className="font-medium text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground">Startup-Guthaben</Link> und im{" "}
+              <Link to="/ratgeber" className="font-medium text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground">Ratgeber</Link>. Angaben ohne Gewähr, keine Rechts- oder Steuerberatung.
             </p>
-          </div>
+          </PublicSection>
 
-          <div>
-            <h2 className="text-2xl font-bold mb-4">So fragst du</h2>
-            <div className="rounded-2xl border border-border bg-muted/40 p-5 space-y-2 text-sm">
-              {BEISPIELE.map((b) => <p key={b}>„{b}“</p>)}
-            </div>
-          </div>
+          <PublicSection title="So fragst du">
+            <ul className="grid gap-3 sm:grid-cols-2">
+              {BEISPIELE.map((b) => (
+                <li key={b} className="flex gap-3 rounded-xl border border-border bg-card p-4 text-sm leading-relaxed">
+                  <MessageSquare className="mt-0.5 h-4 w-4 shrink-0 text-accent-blue" aria-hidden="true" />
+                  <span>„{b}“</span>
+                </li>
+              ))}
+            </ul>
+          </PublicSection>
 
-          <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-6">
-            <h2 className="text-2xl font-bold mb-2">Mehr als Termine und Fristen</h2>
-            <p className="text-muted-foreground mb-4">
-              Im GründerX-Cockpit rechnest du Gründungszuschuss, Finanzplan, Rechtsform und Steuern durch und bekommst Schritt-für-Schritt-Guides
-              für deine Gründung.
-            </p>
-            <div className="flex flex-wrap gap-3">
-              <Button asChild><Link to="/preise">Preise ansehen <ArrowRight className="ml-1.5 h-4 w-4" /></Link></Button>
-              <Button asChild variant="outline"><Link to="/gratis-tools">Gratis-Tools</Link></Button>
-            </div>
-          </div>
+          <CtaBand
+            title="Mehr als Termine und Fristen"
+            actions={
+              <>
+                <Button asChild size="lg" className={ctaPrimaryOnInk}>
+                  <Link to="/preise">Preise ansehen <ArrowRight /></Link>
+                </Button>
+                <Button asChild size="lg" variant="outline" className={ctaSecondaryOnInk}>
+                  <Link to="/gratis-tools">Gratis-Tools</Link>
+                </Button>
+              </>
+            }
+          >
+            Im GründerX-Cockpit rechnest du Gründungszuschuss, Finanzplan, Rechtsform und Steuern durch und bekommst
+            Schritt-für-Schritt-Guides für deine Gründung.
+          </CtaBand>
 
-          <div id="support" className="scroll-mt-24 rounded-2xl border border-border bg-card p-6">
-            <h2 className="text-2xl font-bold mb-2">Support</h2>
-            <p className="text-muted-foreground">
-              Fragen, Fehler oder Wünsche zum MCP-Server oder zur GPT-Schnittstelle? Schreib uns an{" "}
-              <a href="mailto:impressum@xn--grnderx-o2a.de" className="underline">impressum@gründerx.de</a> oder über das{" "}
-              <Link to="/kontakt" className="underline">Kontaktformular</Link>. Wie wir dabei mit Daten umgehen, steht in der{" "}
-              <Link to="/datenschutz#ki-schnittstelle" className="underline">Datenschutzerklärung</Link>.
-            </p>
-          </div>
+          <PublicSection id="support" title="Support">
+            <InfoCard icon={LifeBuoy}>
+              <p className="leading-relaxed text-muted-foreground">
+                Fragen, Fehler oder Wünsche zum MCP-Server oder zur GPT-Schnittstelle? Schreib uns an{" "}
+                <a href="mailto:impressum@xn--grnderx-o2a.de" className="font-medium text-foreground underline underline-offset-4">impressum@gründerx.de</a> oder über das{" "}
+                <Link to="/kontakt" className="font-medium text-foreground underline underline-offset-4">Kontaktformular</Link>. Wie wir dabei mit Daten umgehen, steht in der{" "}
+                <Link to="/datenschutz#ki-schnittstelle" className="font-medium text-foreground underline underline-offset-4">Datenschutzerklärung</Link>.
+              </p>
+            </InfoCard>
+          </PublicSection>
 
-          <div>
-            <h2 className="text-2xl font-bold mb-4">Häufige Fragen</h2>
-            {faqs.map((f) => (
-              <details key={f.q} className="border-b border-border py-3">
-                <summary className="cursor-pointer font-semibold">{f.q}</summary>
-                <p className="mt-2 text-muted-foreground">{f.a}</p>
-              </details>
-            ))}
-          </div>
+          <PublicSection title="Häufige Fragen">
+            <FaqList items={faqs} />
+          </PublicSection>
         </div>
-      </section>
+      </main>
       <Footer />
     </div>
   );

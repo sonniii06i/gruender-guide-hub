@@ -5,7 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { TokenBudgetNotice } from "@/components/TokenBudgetNotice";
-import { Send, Loader2, FileText, Download } from "lucide-react";
+import { Send, Loader2, FileText, Download, ArrowUpRight } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import type { Components } from "react-markdown";
 import { toast } from "sonner";
@@ -41,14 +41,14 @@ const PdfAttachment = ({ url }: { url: string }) => (
     download
     target="_blank"
     rel="noopener noreferrer"
-    className="mt-3 flex items-center gap-3 rounded-xl border border-border bg-card hover:border-accent-blue/50 hover:bg-accent transition-colors p-3 no-underline group"
+    className="group mt-3 flex items-center gap-3 rounded-xl border border-border bg-card p-3 no-underline transition-[border-color,box-shadow] hover:border-accent-blue/40 hover:shadow-card"
   >
-    <div className="h-10 w-10 rounded-lg bg-red-500/10 text-red-600 flex items-center justify-center shrink-0">
-      <FileText className="h-5 w-5" />
+    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-danger-soft text-danger">
+      <FileText className="h-5 w-5" aria-hidden="true" />
     </div>
     <div className="min-w-0 flex-1">
       <p className="text-sm font-medium text-foreground truncate">{pdfLabel(url)}</p>
-      <p className="text-xs text-muted-foreground">PDF · zum Herunterladen tippen</p>
+      <p className="text-xs text-muted-foreground">PDF zum Herunterladen</p>
     </div>
     <Download className="h-4 w-4 text-muted-foreground group-hover:text-accent-blue shrink-0" />
   </a>
@@ -283,53 +283,62 @@ const FelixChat = () => {
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-3.5rem)] overflow-hidden bg-background">
+    <div className="flex h-[calc(100dvh-3.5rem)] flex-col overflow-hidden bg-background">
       <div ref={scrollRef} className="flex-1 overflow-y-auto overscroll-contain">
         {loading ? (
-          <div className="h-full flex items-center justify-center text-muted-foreground">
-            <Loader2 className="h-5 w-5 animate-spin" />
+          <div className="mx-auto max-w-3xl space-y-4 px-4 py-8 md:px-6" aria-busy="true">
+            <span className="sr-only">Chat wird geladen…</span>
+            {[0, 1, 2].map((i) => (
+              <div key={i} className={`flex ${i % 2 ? "justify-end" : "justify-start"}`}>
+                <div className={`h-12 animate-pulse rounded-2xl bg-secondary ${i % 2 ? "w-1/2" : "w-2/3"}`} />
+              </div>
+            ))}
           </div>
         ) : messages.length === 0 ? (
-          <div className="h-full flex flex-col items-center justify-center text-center px-4">
-            <div className="mb-5">
-              <img
-                src="/mascots/felix-face.png"
-                alt="Felix, dein KI-Gründungs-Copilot"
-                className="h-16 w-16 rounded-full object-contain bg-primary/10 border border-border shadow-card p-1"
-              />
-            </div>
-            <h3 className="text-3xl md:text-4xl font-bold tracking-tight mb-2">
+          <div className="flex min-h-full flex-col items-center justify-center px-4 py-10 text-center">
+            <img
+              src="/mascots/felix-face.png"
+              alt="Felix, dein KI-Gründungs-Copilot"
+              width={72}
+              height={72}
+              className="mb-5 h-[4.5rem] w-[4.5rem] rounded-2xl border border-border bg-card object-contain p-1.5 shadow-card"
+            />
+            <h1 className="mb-2 text-[1.75rem] font-semibold tracking-[-0.03em] md:text-4xl">
               {firstName ? `Willkommen zurück, ${firstName}` : "Willkommen zurück"}
-            </h3>
-            <p className="text-base md:text-lg text-muted-foreground mb-8 max-w-md">
+            </h1>
+            <p className="mb-8 max-w-md text-base text-muted-foreground md:text-lg">
               Wobei kann ich dir heute helfen?
             </p>
-            <div className="grid sm:grid-cols-2 gap-2 max-w-2xl w-full">
+            <div className="grid w-full max-w-2xl gap-2.5 sm:grid-cols-2">
               {SUGGESTIONS.map((s) => (
                 <button
                   key={s}
                   onClick={() => setInput(s)}
-                  className="rounded-xl border border-border bg-card hover:border-accent-blue/50 hover:bg-accent text-sm text-left p-3 transition-colors"
+                  className="press group flex items-start justify-between gap-3 rounded-xl border border-border bg-card p-3.5 text-left text-sm leading-relaxed hover:border-accent-blue/40 hover:shadow-card"
                 >
-                  {s}
+                  <span>{s}</span>
+                  <ArrowUpRight className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground transition-colors group-hover:text-accent-blue" aria-hidden="true" />
                 </button>
               ))}
             </div>
           </div>
         ) : (
-          <div className="max-w-3xl mx-auto px-4 md:px-6 py-6 space-y-4">
+          <div className="mx-auto max-w-3xl space-y-5 px-4 py-6 md:px-6 md:py-8">
+            <h1 className="sr-only">Chat mit Felix</h1>
             {messages.map((m, i) => (
               <div key={i} className={`flex items-start gap-2.5 ${m.role === "user" ? "justify-end" : "justify-start"}`}>
                 {m.role === "assistant" && (
                   <img
                     src="/mascots/felix-face.png"
                     alt="Felix"
-                    className="h-8 w-8 rounded-full object-contain bg-primary/10 border border-border shrink-0 mt-0.5"
+                    width={32}
+                    height={32}
+                    className="mt-0.5 h-8 w-8 shrink-0 rounded-lg border border-border bg-card object-contain p-0.5"
                   />
                 )}
                 <div
-                  className={`max-w-[85%] rounded-2xl px-4 py-2.5 ${
-                    m.role === "user" ? "bg-primary text-primary-foreground" : "bg-secondary"
+                  className={`max-w-[85%] rounded-2xl px-4 py-3 ${
+                    m.role === "user" ? "rounded-br-md bg-primary text-primary-foreground" : "rounded-tl-md border border-border bg-card shadow-card"
                   }`}
                 >
                   {m.role === "user" ? (
@@ -352,10 +361,12 @@ const FelixChat = () => {
                 <img
                   src="/mascots/felix-face.png"
                   alt="Felix"
-                  className="h-8 w-8 rounded-full object-contain bg-primary/10 border border-border shrink-0 mt-0.5"
+                  width={32}
+                  height={32}
+                  className="mt-0.5 h-8 w-8 shrink-0 rounded-lg border border-border bg-card object-contain p-0.5"
                 />
-                <div className="bg-secondary rounded-2xl px-4 py-2.5 inline-flex items-center gap-2 text-sm text-muted-foreground">
-                  <Loader2 className="h-3.5 w-3.5 animate-spin" /> Felix denkt nach...
+                <div className="inline-flex items-center gap-2 rounded-2xl rounded-tl-md border border-border bg-card px-4 py-3 text-sm text-muted-foreground shadow-card" role="status">
+                  <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden="true" /> Felix denkt nach…
                 </div>
               </div>
             )}
@@ -369,13 +380,15 @@ const FelixChat = () => {
         )}
       </div>
 
-      <div className="border-t border-border bg-background">
+      <div className="border-t border-border bg-card/80 backdrop-blur supports-[backdrop-filter]:bg-card/70">
         <div className="max-w-3xl mx-auto px-4 md:px-6 py-3 md:py-4">
           {/* Kosten-Kontingent (weich). Rendert nichts unterhalb der
               Warnschwelle — ein Dauerbanner liest niemand mehr. */}
           <TokenBudgetNotice className="mb-3" />
-          <div className="flex gap-2 items-end">
+          <div className="flex items-end gap-2 rounded-2xl border border-input bg-card p-1.5 shadow-card transition-[border-color,box-shadow] focus-within:border-ring focus-within:ring-[3px] focus-within:ring-ring/25">
+            <label htmlFor="felix-eingabe" className="sr-only">Nachricht an Felix</label>
             <Textarea
+              id="felix-eingabe"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => {
@@ -384,17 +397,17 @@ const FelixChat = () => {
                   send();
                 }
               }}
-              placeholder="Frag Felix..."
+              placeholder="Frag Felix…"
               rows={1}
-              className="resize-none min-h-[44px] max-h-32"
+              className="max-h-32 min-h-[44px] resize-none border-0 bg-transparent shadow-none focus-visible:ring-0"
             />
-            <Button onClick={send} disabled={!input.trim() || streaming} size="icon" className="h-11 w-11 shrink-0">
-              {streaming ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
+            <Button onClick={send} disabled={!input.trim() || streaming} size="icon" className="h-10 w-10 shrink-0 rounded-xl" aria-label="Nachricht senden">
+              {streaming ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : <Send className="h-4 w-4" aria-hidden="true" />}
             </Button>
           </div>
-          <p className="text-[10px] text-muted-foreground mt-2 text-center">
-            Enter sendet · Shift+Enter neue Zeile · Felix kann Fehler machen, prüfe wichtige Infos.
-            Keine Steuer-/Rechtsberatung — bei verbindlicher Auslegung{" "}
+          <p className="mt-2 text-center text-[11px] leading-relaxed text-muted-foreground">
+            <span className="hidden sm:inline">Enter sendet, Shift+Enter für eine neue Zeile. </span>Felix kann Fehler machen, prüfe wichtige Infos.
+            Keine Steuer- oder Rechtsberatung. Für eine verbindliche Auslegung den{" "}
             <Link to="/cockpit/stb-finder" className="underline hover:text-foreground">
               StB-Finder
             </Link>{" "}

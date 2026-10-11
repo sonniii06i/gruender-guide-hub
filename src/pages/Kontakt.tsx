@@ -7,9 +7,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { ArrowLeft, Loader2, Mail, MessageSquare, CheckCircle2 } from "lucide-react";
+import { Loader2, Mail, MessageSquare, CheckCircle2, BookOpen, HelpCircle } from "lucide-react";
 import { toast } from "sonner";
 import { Seo } from "@/components/Seo";
+import { Navbar } from "@/components/landing/Navbar";
+import { Footer } from "@/components/landing/Footer";
+import { PageHeader } from "@/components/landing/PageHeader";
 
 const schema = z.object({
   name: z.string().trim().min(2, "Name zu kurz").max(100),
@@ -52,7 +55,7 @@ const Kontakt = () => {
   };
 
   return (
-    <div className="min-h-screen bg-hero">
+    <div className="flex min-h-screen flex-col bg-background">
       <Seo
         title="Kontakt | GründerX"
         description="Frag das GründerX-Team — zu Gründung, Steuern, Tools, Abo oder Kooperationen. Wir antworten zeitnah."
@@ -68,59 +71,89 @@ const Kontakt = () => {
           isPartOf: { "@type": "WebSite", name: "GründerX", url: "https://gruenderx.de" },
         }}
       />
-      <div className="container max-w-3xl py-6">
-        <Link to="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
-          <ArrowLeft className="h-4 w-4" /> Zurück
-        </Link>
-      </div>
-      <div className="container max-w-2xl pb-20">
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 rounded-full bg-accent-blue/10 border border-accent-blue/20 px-3 py-1 text-xs font-semibold text-accent-blue mb-4">
-            <MessageSquare className="h-3.5 w-3.5" /> Support
-          </div>
-          <h1 className="text-3xl md:text-4xl font-bold tracking-tight">Wie können wir helfen?</h1>
-          <p className="mt-3 text-muted-foreground">
-            Antwort innerhalb von 24h – meist schneller. Bei dringenden Steuer-/Rechtsfragen bitte Priorität im Betreff vermerken.
-          </p>
-        </div>
+      <Navbar />
+      <main className="flex-1">
+        <PageHeader
+          width="max-w-5xl"
+          crumbs={[{ label: "Start", to: "/" }, { label: "Kontakt" }]}
+          kicker={
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1 text-[13px] font-medium text-muted-foreground shadow-card">
+              <MessageSquare className="h-3.5 w-3.5 text-accent-blue" aria-hidden="true" /> Support
+            </span>
+          }
+          title="Wie können wir helfen?"
+          lead={
+            <p>
+              Schreib uns zu Gründung, Steuern, Tools, Abo oder Kooperationen. Wir antworten per E-Mail. Bei dringenden
+              Steuer- oder Rechtsfragen bitte Priorität im Betreff vermerken.
+            </p>
+          }
+        />
 
-        <div className="bg-card border border-border rounded-3xl p-8 shadow-card">
-          {done ? (
-            <div className="text-center py-8">
-              <CheckCircle2 className="h-12 w-12 text-success mx-auto mb-3" />
-              <h2 className="text-xl font-bold">Anfrage gesendet!</h2>
-              <p className="text-muted-foreground mt-2">Wir melden uns per E-Mail an <strong>{form.email}</strong>.</p>
-              <Button onClick={() => { setDone(false); setForm({ name: "", email: user?.email ?? "", subject: "", message: "" }); }} variant="outline" className="mt-6 rounded-full">
-                Weitere Anfrage stellen
-              </Button>
-            </div>
-          ) : (
-            <form onSubmit={submit} className="space-y-4">
-              <div className="grid md:grid-cols-2 gap-3">
-                <div className="space-y-1.5">
-                  <Label htmlFor="name">Name</Label>
-                  <Input id="name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="Max Mustermann" required />
+        <div className="container grid max-w-5xl gap-8 px-4 py-12 md:py-16 lg:grid-cols-[minmax(0,1fr)_18rem]">
+          <section aria-label="Kontaktformular" className="rounded-2xl border border-border bg-card p-6 shadow-card md:p-8">
+            {done ? (
+              <div className="py-8 text-center" role="status">
+                <span className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-success-soft text-success">
+                  <CheckCircle2 className="h-6 w-6" aria-hidden="true" />
+                </span>
+                <h2 className="text-xl font-semibold">Anfrage gesendet</h2>
+                <p className="mt-2 text-muted-foreground">Wir melden uns per E-Mail an <strong className="font-semibold text-foreground">{form.email}</strong>.</p>
+                <Button onClick={() => { setDone(false); setForm({ name: "", email: user?.email ?? "", subject: "", message: "" }); }} variant="outline" className="mt-6 rounded-xl">
+                  Weitere Anfrage stellen
+                </Button>
+              </div>
+            ) : (
+              <form onSubmit={submit} className="space-y-5">
+                <div className="grid gap-4 md:grid-cols-2">
+                  <div className="space-y-1.5">
+                    <Label htmlFor="name">Name</Label>
+                    <Input id="name" name="name" autoComplete="name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="Vor- und Nachname" required />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label htmlFor="email">E-Mail</Label>
+                    <Input id="email" name="email" type="email" autoComplete="email" spellCheck={false} value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="du@firma.de" required />
+                  </div>
                 </div>
                 <div className="space-y-1.5">
-                  <Label htmlFor="email">E-Mail</Label>
-                  <Input id="email" type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="du@firma.de" required />
+                  <Label htmlFor="subject">Betreff</Label>
+                  <Input id="subject" name="subject" value={form.subject} onChange={(e) => setForm({ ...form, subject: e.target.value })} placeholder="z. B. Frage zur US-LLC-Gründung" required />
                 </div>
-              </div>
-              <div className="space-y-1.5">
-                <Label htmlFor="subject">Betreff</Label>
-                <Input id="subject" value={form.subject} onChange={(e) => setForm({ ...form, subject: e.target.value })} placeholder="z. B. Frage zur US-LLC Gründung" required />
-              </div>
-              <div className="space-y-1.5">
-                <Label htmlFor="message">Beschreibung</Label>
-                <Textarea id="message" value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} placeholder="Beschreibe deinen Fall so detailliert wie möglich…" rows={7} required />
-              </div>
-              <Button type="submit" size="lg" disabled={loading} className="w-full rounded-full bg-gradient-primary text-primary-foreground hover:opacity-95 shadow-glow h-12 font-semibold">
-                {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <><Mail className="h-4 w-4 mr-2" /> Anfrage absenden</>}
-              </Button>
-            </form>
-          )}
+                <div className="space-y-1.5">
+                  <Label htmlFor="message">Beschreibung</Label>
+                  <Textarea id="message" name="message" value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} placeholder="Beschreibe deinen Fall so genau wie möglich …" rows={7} required />
+                  <p className="text-xs text-muted-foreground">Mindestens 10 Zeichen. Keine Passwörter oder Kontodaten mitschicken.</p>
+                </div>
+                <Button type="submit" size="lg" disabled={loading} className="h-12 w-full rounded-xl bg-gradient-primary font-semibold text-primary-foreground shadow-glow hover:opacity-95 sm:w-auto sm:px-8">
+                  {loading ? <><Loader2 className="h-4 w-4 animate-spin" /> Wird gesendet …</> : <><Mail className="h-4 w-4" /> Anfrage absenden</>}
+                </Button>
+              </form>
+            )}
+          </section>
+
+          <aside className="space-y-3" aria-label="Weitere Hilfe">
+            <Link to="/faq" className="press group flex gap-3 rounded-xl border border-border bg-card p-4 hover:border-accent-blue/40 hover:shadow-card">
+              <HelpCircle className="mt-0.5 h-4 w-4 shrink-0 text-accent-blue" aria-hidden="true" />
+              <span>
+                <span className="block text-sm font-semibold">FAQ</span>
+                <span className="block text-sm text-muted-foreground">Antworten zu Abo, Tools und Daten</span>
+              </span>
+            </Link>
+            <Link to="/ratgeber" className="press group flex gap-3 rounded-xl border border-border bg-card p-4 hover:border-accent-blue/40 hover:shadow-card">
+              <BookOpen className="mt-0.5 h-4 w-4 shrink-0 text-accent-blue" aria-hidden="true" />
+              <span>
+                <span className="block text-sm font-semibold">Ratgeber</span>
+                <span className="block text-sm text-muted-foreground">Artikel zu Steuern, Recht und E-Commerce</span>
+              </span>
+            </Link>
+            <p className="px-1 text-xs leading-relaxed text-muted-foreground">
+              GründerX ist Software, keine Steuer- oder Rechtsberatung. Wie wir mit deiner Anfrage umgehen, steht in der{" "}
+              <Link to="/datenschutz" className="underline underline-offset-2 hover:text-foreground">Datenschutzerklärung</Link>.
+            </p>
+          </aside>
         </div>
-      </div>
+      </main>
+      <Footer />
     </div>
   );
 };

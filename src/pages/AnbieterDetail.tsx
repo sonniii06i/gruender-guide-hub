@@ -19,7 +19,9 @@ import {
   MapPin,
   Wallet,
   Sparkles,
+  Search,
 } from "lucide-react";
+import { Callout, EmptyState, ToolSection } from "@/components/cockpit/kit";
 import { FULL_DESCRIPTIONS, isCoopActive, LEGAL_URLS, PROVIDERS, type Provider } from "./Anbieter";
 import { Seo } from "@/components/Seo";
 
@@ -41,7 +43,7 @@ const ProviderLogo = ({ url, name, size = "md" }: { url: string; name: string; s
 
   if (failed) {
     return (
-      <div className={`${dim} rounded-2xl bg-gradient-primary text-primary-foreground flex items-center justify-center ${text} font-bold shadow-soft shrink-0`}>
+      <div className={`${dim} flex shrink-0 items-center justify-center rounded-2xl bg-gradient-primary ${text} font-semibold text-primary-foreground shadow-card`} aria-hidden="true">
         {name.charAt(0).toUpperCase()}
       </div>
     );
@@ -55,7 +57,7 @@ const ProviderLogo = ({ url, name, size = "md" }: { url: string; name: string; s
       decoding="async"
       // @ts-expect-error fetchpriority is valid HTML
       fetchpriority="high"
-      className={`${dim} rounded-2xl bg-white border border-border object-contain shadow-soft shrink-0`}
+      className={`${dim} shrink-0 rounded-2xl border border-border bg-white object-contain p-1.5 shadow-card`}
       onError={() => {
         if (idx + 1 < sources.length) setIdx(idx + 1);
         else setFailed(true);
@@ -65,12 +67,12 @@ const ProviderLogo = ({ url, name, size = "md" }: { url: string; name: string; s
 };
 
 const StatCard = ({ icon: Icon, label, value, accent }: { icon: typeof Wallet; label: string; value: string; accent?: boolean }) => (
-  <div className={`rounded-xl border ${accent ? "border-accent-blue/30 bg-accent-blue/5" : "border-border bg-card"} p-4`}>
-    <div className="flex items-center gap-2 text-[10px] uppercase tracking-wider text-muted-foreground mb-1.5">
-      <Icon className="h-3 w-3" />
+  <div className={`rounded-xl border p-4 ${accent ? "border-accent-blue/20 bg-accent" : "border-border bg-card"}`}>
+    <div className="mb-1 flex items-center gap-1.5 text-sm text-muted-foreground">
+      <Icon className="h-3.5 w-3.5" aria-hidden="true" />
       {label}
     </div>
-    <div className="font-semibold text-sm leading-tight">{value}</div>
+    <div className="font-semibold leading-tight tabular">{value}</div>
   </div>
 );
 
@@ -80,16 +82,25 @@ const AnbieterDetail = () => {
 
   if (!p) {
     return (
-      <CockpitShell eyebrow="404" title="Anbieter nicht gefunden">
+      <CockpitShell eyebrow="Anbieter-Vergleich" title="Anbieter nicht gefunden" showRelated={false}>
         <Seo
           title="Anbieter nicht gefunden | GründerX"
           description="Dieser Anbieter existiert nicht in unserem Vergleich. Sieh dir alle Anbieter an."
           path={`/anbieter/${slug ?? ""}`}
           noindex
         />
-        <Link to="/anbieter" className="text-accent-blue hover:underline inline-flex items-center gap-1">
-          <ArrowLeft className="h-4 w-4" /> Zurück zum Vergleich
-        </Link>
+        <EmptyState
+          icon={Search}
+          title="Diesen Anbieter gibt es im Vergleich nicht"
+          description="Vielleicht wurde er umbenannt oder entfernt. Im Vergleich findest du alle aktuellen Anbieter nach Kategorie."
+          action={
+            <Button asChild variant="outline">
+              <Link to="/anbieter">
+                <ArrowLeft aria-hidden="true" /> Zurück zum Vergleich
+              </Link>
+            </Button>
+          }
+        />
       </CockpitShell>
     );
   }
@@ -107,7 +118,7 @@ const AnbieterDetail = () => {
 
   return (
     <CockpitShell
-      eyebrow={`🏆 ${p.category}`}
+      eyebrow={`Anbieter-Vergleich · ${p.category}`}
       title={p.name}
       subtitle={p.tagline}
     >
@@ -140,76 +151,77 @@ const AnbieterDetail = () => {
           },
         ]}
       />
-      <Link to="/anbieter" className="text-xs text-muted-foreground hover:text-foreground inline-flex items-center gap-1 mb-6">
-        <ArrowLeft className="h-3.5 w-3.5" /> Alle Anbieter
-      </Link>
+      <Button asChild variant="ghost" size="sm" className="-ml-2 mb-5 text-muted-foreground">
+        <Link to="/anbieter">
+          <ArrowLeft aria-hidden="true" /> Alle Anbieter
+        </Link>
+      </Button>
 
-      {/* HERO */}
-      <div className="rounded-3xl overflow-hidden border border-border bg-gradient-to-br from-card via-card to-accent-blue/5 mb-6">
+      {/* Kopf: Logo, Name, Bewertung, CTA */}
+      <section className="mb-6 overflow-hidden rounded-2xl border border-border bg-card shadow-card">
         <div className="p-6 md:p-8">
-          <div className="flex flex-col md:flex-row md:items-start gap-6">
+          <div className="flex flex-col gap-6 md:flex-row md:items-start">
             <ProviderLogo url={p.url} name={p.name} size="lg" />
-            <div className="flex-1 min-w-0">
-              <div className="flex items-start justify-between gap-3 flex-wrap">
-                <div>
-                  <div className="text-xs font-bold uppercase tracking-wider text-accent-blue mb-1">{p.category} · {p.region}</div>
-                  <h2 className="text-3xl md:text-4xl font-bold leading-tight">{p.name}</h2>
-                  <p className="text-base text-muted-foreground mt-2 max-w-2xl">{p.tagline}</p>
+            <div className="min-w-0 flex-1">
+              <div className="flex flex-wrap items-start justify-between gap-4">
+                <div className="min-w-0">
+                  <p className="text-sm font-medium text-accent-blue">
+                    {p.category} <span className="font-normal text-muted-foreground">· {p.region}</span>
+                  </p>
+                  <h2 className="mt-1 text-2xl font-semibold tracking-tight md:text-3xl">{p.name}</h2>
+                  <p className="mt-2 max-w-2xl text-base leading-relaxed text-muted-foreground">{p.tagline}</p>
                 </div>
-                <div className="flex items-center gap-1.5 rounded-xl bg-yellow-50 dark:bg-yellow-950/40 text-yellow-700 dark:text-yellow-300 px-3 py-2 shrink-0">
-                  <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
-                  <span className="text-lg font-bold">{p.rating.toFixed(1)}</span>
-                  <span className="text-xs opacity-70">/ 5</span>
+                <div className="flex shrink-0 items-center gap-1.5 rounded-xl border border-warning/25 bg-warning-soft px-3 py-2" aria-label={`Bewertung ${p.rating.toFixed(1)} von 5`}>
+                  <Star className="h-5 w-5 fill-current text-warning" aria-hidden="true" />
+                  <span className="text-lg font-semibold tabular">{p.rating.toFixed(1)}</span>
+                  <span className="text-xs text-muted-foreground">/ 5</span>
                 </div>
               </div>
 
-              {/* CTA – im Hero */}
-              <div className="flex gap-2 mt-5">
-                <a href={p.url} target="_blank" rel="noreferrer" className="flex-1 md:flex-none">
-                  <Button size="lg" className="w-full md:w-auto">
-                    Zum Anbieter <ExternalLink className="h-4 w-4 ml-2" />
-                  </Button>
-                </a>
-                <a href={`https://${getDomain(p.url)}`} target="_blank" rel="noreferrer" className="hidden md:inline-block">
-                  <Button size="lg" variant="outline">{getDomain(p.url)}</Button>
-                </a>
+              <div className="mt-6 flex flex-wrap gap-2">
+                <Button asChild size="lg" className="w-full rounded-xl font-semibold sm:w-auto">
+                  <a href={p.url} target="_blank" rel="noreferrer">
+                    Zum Anbieter <ExternalLink aria-hidden="true" />
+                  </a>
+                </Button>
+                <Button asChild size="lg" variant="outline" className="hidden rounded-xl md:inline-flex">
+                  <a href={`https://${getDomain(p.url)}`} target="_blank" rel="noreferrer">{getDomain(p.url)}</a>
+                </Button>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Coop-Deal Banner direkt unter Hero */}
+        {/* Kooperations-Deal direkt unter dem Kopf */}
         {showCoop && p.coop && (
-          <div className="border-t-2 border-dashed border-accent-blue/30 bg-accent-blue/10 p-5">
+          <div className="border-t border-dashed border-accent-blue/30 bg-accent/70 p-5 md:px-8">
             <div className="flex items-start gap-3">
-              <div className="rounded-xl bg-accent-blue text-primary-foreground p-2.5 shrink-0">
-                <Sparkles className="h-5 w-5" />
-              </div>
-              <div className="flex-1">
-                <div className="text-[10px] font-bold uppercase tracking-wider text-accent-blue mb-1">Aktueller Deal · gültig bis {p.coop.expires}</div>
-                <div className="font-semibold text-base">{p.coop.text}</div>
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-accent-blue text-accent-blue-foreground">
+                <Sparkles className="h-4 w-4" aria-hidden="true" />
+              </span>
+              <div className="min-w-0 flex-1">
+                <p className="text-sm font-medium text-accent-blue">Aktueller Deal, gültig bis {p.coop.expires}</p>
+                <p className="mt-0.5 font-semibold">{p.coop.text}</p>
                 {p.coop.code && (
-                  <div className="mt-2 inline-flex items-center gap-2 rounded-lg bg-card border-2 border-accent-blue/30 border-dashed px-3 py-1.5">
-                    <Tag className="h-3.5 w-3.5 text-accent-blue" />
+                  <div className="mt-2 inline-flex items-center gap-2 rounded-lg border border-dashed border-accent-blue/40 bg-card px-3 py-1.5">
+                    <Tag className="h-3.5 w-3.5 text-accent-blue" aria-hidden="true" />
                     <span className="text-xs text-muted-foreground">Code:</span>
-                    <span className="font-mono font-bold text-sm">{p.coop.code}</span>
+                    <span className="font-mono text-sm font-semibold">{p.coop.code}</span>
                   </div>
                 )}
               </div>
             </div>
           </div>
         )}
-      </div>
+      </section>
 
-      {/* BRAND-INTRO – 3-5 Zeiler über das Unternehmen */}
+      {/* Kurzporträt */}
       {description && (
-        <div className="rounded-2xl border border-border bg-card p-6 mb-6">
-          <p className="text-base leading-relaxed text-foreground/90">{description}</p>
-        </div>
+        <p className="mb-6 max-w-[72ch] text-base leading-relaxed text-foreground/85">{description}</p>
       )}
 
-      {/* STATS GRID */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+      {/* Eckdaten */}
+      <div className="mb-6 grid grid-cols-2 gap-3 md:grid-cols-4">
         <StatCard icon={Wallet} label="Preis ab" value={p.starting} accent />
         <StatCard icon={Clock} label="Setup" value={p.signupTime ?? "Sofort"} />
         <StatCard icon={MapPin} label="Region" value={p.region} />
@@ -217,107 +229,91 @@ const AnbieterDetail = () => {
       </div>
 
       {p.monthlyMin && (
-        <div className="flex items-start gap-2 rounded-xl bg-warning/10 border border-warning/30 p-3 mb-6 text-sm">
-          <AlertCircle className="h-4 w-4 text-warning-foreground mt-0.5 shrink-0" />
-          <span><strong>Mindestumsatz/-volumen:</strong> {p.monthlyMin}</span>
-        </div>
+        <Callout tone="warning" icon={AlertCircle} className="mb-6">
+          <strong className="text-foreground">Mindestumsatz/-volumen:</strong> {p.monthlyMin}
+        </Callout>
       )}
 
-      <div className="grid lg:grid-cols-[1fr_300px] gap-6">
-        {/* HAUPTSPALTE */}
-        <div className="space-y-6">
-          {/* Pros / Cons */}
-          <div className="grid sm:grid-cols-2 gap-4">
-            <div className="rounded-2xl border border-success/30 bg-success/5 p-5">
-              <div className="flex items-center gap-2 mb-3">
-                <div className="rounded-lg bg-success text-success-foreground p-1.5">
-                  <CheckCircle2 className="h-4 w-4" />
-                </div>
-                <h3 className="font-bold text-sm">Stärken</h3>
-              </div>
+      <div className="grid gap-6 lg:grid-cols-[1fr_300px]">
+        {/* Hauptspalte */}
+        <div className="min-w-0 space-y-6">
+          <div className="grid gap-4 sm:grid-cols-2">
+            <ToolSection title="Stärken" icon={CheckCircle2}>
               <ul className="space-y-2.5">
-                {p.pros.map((s, i) => (
-                  <li key={i} className="flex items-start gap-2 text-sm leading-snug">
-                    <CheckCircle2 className="h-3.5 w-3.5 text-success mt-1 shrink-0" />
-                    <span>{s}</span>
+                {p.pros.map((x, i) => (
+                  <li key={i} className="flex items-start gap-2.5 text-sm leading-snug">
+                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-success" aria-hidden="true" />
+                    <span>{x}</span>
                   </li>
                 ))}
               </ul>
-            </div>
-
-            <div className="rounded-2xl border border-destructive/30 bg-destructive/5 p-5">
-              <div className="flex items-center gap-2 mb-3">
-                <div className="rounded-lg bg-destructive text-destructive-foreground p-1.5">
-                  <XCircle className="h-4 w-4" />
-                </div>
-                <h3 className="font-bold text-sm">Schwächen</h3>
-              </div>
+            </ToolSection>
+            <ToolSection title="Schwächen" icon={XCircle}>
               <ul className="space-y-2.5">
-                {p.cons.map((s, i) => (
-                  <li key={i} className="flex items-start gap-2 text-sm leading-snug">
-                    <XCircle className="h-3.5 w-3.5 text-destructive mt-1 shrink-0" />
-                    <span>{s}</span>
+                {p.cons.map((x, i) => (
+                  <li key={i} className="flex items-start gap-2.5 text-sm leading-snug">
+                    <XCircle className="mt-0.5 h-4 w-4 shrink-0 text-danger" aria-hidden="true" />
+                    <span>{x}</span>
                   </li>
                 ))}
               </ul>
-            </div>
+            </ToolSection>
           </div>
 
-          {/* Community-Quote */}
+          {/* Community-Stimmen (aggregiert, keine Einzelzitate) */}
           {p.forumNotes && (
-            <div className="relative rounded-2xl border border-accent-blue/30 bg-gradient-to-br from-accent-blue/5 to-transparent p-6">
-              <Quote className="absolute top-4 right-4 h-12 w-12 text-accent-blue/10" strokeWidth={1.5} />
-              <div className="relative">
-                <div className="text-xs font-bold uppercase tracking-wider text-accent-blue mb-2">Was die Community sagt</div>
-                <p className="text-base italic leading-relaxed">{p.forumNotes}</p>
-                <div className="text-[10px] text-muted-foreground mt-4 pt-4 border-t border-border">
-                  Aggregiert aus r/Selbststaendig, r/ecommerce_de, DTC-Slack, Indie Hackers, Trustpilot, finanzfluss.
-                </div>
-              </div>
-            </div>
+            <section className="relative rounded-2xl border border-border bg-card p-6 shadow-card">
+              <Quote className="absolute right-5 top-5 h-10 w-10 text-accent-blue/10" strokeWidth={1.5} aria-hidden="true" />
+              <h3 className="text-base font-semibold">Was die Community sagt</h3>
+              <p className="mt-2 max-w-[68ch] text-base leading-relaxed text-foreground/85">{p.forumNotes}</p>
+              <p className="mt-4 border-t border-border/70 pt-3 text-xs text-muted-foreground">
+                Zusammengefasst aus r/Selbststaendig, r/ecommerce_de, DTC-Slack, Indie Hackers, Trustpilot und finanzfluss.
+              </p>
+            </section>
           )}
 
-          {/* Alternativen — horizontal scroll */}
           {related.length > 0 && (
-            <div>
-              <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground mb-3">Alternativen in {p.category}</h3>
-              <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-3">
+            <section>
+              <h3 className="mb-3 text-base font-semibold">Alternativen in {p.category}</h3>
+              <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3">
                 {related.map((r) => (
-                  <Link key={r.slug} to={`/anbieter/${r.slug}`} className="rounded-xl border border-border bg-card p-3 hover:border-accent-blue/40 transition-colors flex items-center gap-3">
+                  <Link
+                    key={r.slug}
+                    to={`/anbieter/${r.slug}`}
+                    className="press flex items-center gap-3 rounded-xl border border-border bg-card p-3 hover:border-accent-blue/40 hover:shadow-card"
+                  >
                     <ProviderLogo url={r.url} name={r.name} size="sm" />
                     <div className="min-w-0 flex-1">
-                      <div className="font-semibold text-sm leading-tight truncate">{r.name}</div>
-                      <div className="text-[10px] text-muted-foreground mt-0.5 truncate">{r.tagline}</div>
+                      <div className="truncate text-sm font-semibold leading-tight">{r.name}</div>
+                      <div className="mt-0.5 truncate text-xs text-muted-foreground">{r.tagline}</div>
                     </div>
-                    <div className="flex items-center gap-0.5 text-[10px] shrink-0">
-                      <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+                    <div className="flex shrink-0 items-center gap-0.5 text-xs tabular" aria-label={`Bewertung ${r.rating.toFixed(1)}`}>
+                      <Star className="h-3 w-3 fill-current text-warning" aria-hidden="true" />
                       {r.rating.toFixed(1)}
                     </div>
                   </Link>
                 ))}
               </div>
-            </div>
+            </section>
           )}
         </div>
 
-        {/* SIDEBAR */}
-        <aside className="space-y-4 lg:sticky lg:top-20 h-fit">
-          {/* CTA wiederholen für Sticky */}
-          <a href={p.url} target="_blank" rel="noreferrer" className="block">
-            <Button className="w-full" size="lg">
-              Zum Anbieter <ExternalLink className="h-4 w-4 ml-2" />
-            </Button>
-          </a>
+        {/* Seitenleiste */}
+        <aside className="h-fit space-y-4 lg:sticky lg:top-20">
+          <Button asChild size="lg" className="w-full rounded-xl font-semibold">
+            <a href={p.url} target="_blank" rel="noreferrer">
+              Zum Anbieter <ExternalLink aria-hidden="true" />
+            </a>
+          </Button>
 
-          {/* Quick-Links */}
           {p.links && p.links.length > 0 && (
-            <div className="rounded-2xl border border-border bg-card p-4">
-              <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-2">Direkt-Links</div>
+            <div className="rounded-2xl border border-border bg-card p-4 shadow-card">
+              <h3 className="mb-2 text-sm font-semibold">Direkt-Links</h3>
               <ul className="space-y-1.5 text-sm">
                 {p.links.map((l) => (
                   <li key={l.url}>
-                    <a href={l.url} target="_blank" rel="noreferrer" className="text-accent-blue hover:underline inline-flex items-center gap-1">
-                      <ExternalLink className="h-3 w-3" /> {l.label}
+                    <a href={l.url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 text-accent-blue hover:underline">
+                      <ExternalLink className="h-3 w-3" aria-hidden="true" /> {l.label}
                     </a>
                   </li>
                 ))}
@@ -325,29 +321,28 @@ const AnbieterDetail = () => {
             </div>
           )}
 
-          {/* Rechtsseiten */}
           {hasAnyLegal && (
-            <div className="rounded-2xl border border-border bg-card p-4">
-              <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-2">Rechtliches</div>
-              <ul className="space-y-1.5 text-xs">
+            <div className="rounded-2xl border border-border bg-card p-4 shadow-card">
+              <h3 className="mb-2 text-sm font-semibold">Rechtliches</h3>
+              <ul className="space-y-1.5 text-sm">
                 {legalImpressum && (
                   <li>
-                    <a href={legalImpressum} target="_blank" rel="noreferrer" className="text-accent-blue hover:underline inline-flex items-center gap-1.5">
-                      <FileText className="h-3 w-3" /> Impressum
+                    <a href={legalImpressum} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 text-accent-blue hover:underline">
+                      <FileText className="h-3.5 w-3.5" aria-hidden="true" /> Impressum
                     </a>
                   </li>
                 )}
                 {legalTerms && (
                   <li>
-                    <a href={legalTerms} target="_blank" rel="noreferrer" className="text-accent-blue hover:underline inline-flex items-center gap-1.5">
-                      <Scale className="h-3 w-3" /> AGB / Terms
+                    <a href={legalTerms} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 text-accent-blue hover:underline">
+                      <Scale className="h-3.5 w-3.5" aria-hidden="true" /> AGB / Terms
                     </a>
                   </li>
                 )}
                 {legalPrivacy && (
                   <li>
-                    <a href={legalPrivacy} target="_blank" rel="noreferrer" className="text-accent-blue hover:underline inline-flex items-center gap-1.5">
-                      <ShieldCheck className="h-3 w-3" /> Datenschutz
+                    <a href={legalPrivacy} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 text-accent-blue hover:underline">
+                      <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" /> Datenschutz
                     </a>
                   </li>
                 )}

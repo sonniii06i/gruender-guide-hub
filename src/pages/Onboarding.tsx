@@ -133,7 +133,7 @@ const Onboarding = () => {
     if (error) { toast.error(error.message); return; }
     // Direkt ins Dashboard (frei nutzbar) – kein Paywall-Zwang. Das Abo ist als
     // Upsell in Sidebar/Bannern erreichbar (passt zu "Kostenlos starten").
-    toast.success("Profil gespeichert – los geht's! 🚀");
+    toast.success("Profil gespeichert. Los geht's.");
     navigate("/dashboard");
   };
 
@@ -148,33 +148,34 @@ const Onboarding = () => {
   };
 
   if (authLoading || accLoading || !user) {
-    return <div className="min-h-screen flex items-center justify-center"><Loader2 className="h-6 w-6 animate-spin text-accent-blue" /></div>;
+    return <div className="flex min-h-[100dvh] items-center justify-center" role="status"><Loader2 className="h-6 w-6 animate-spin text-accent-blue" aria-hidden="true" /><span className="sr-only">Lädt…</span></div>;
   }
 
   return (
-    <div className="min-h-screen bg-hero">
-      <div className="container max-w-2xl py-8">
-        <div className="mb-10">
-          <div className="flex items-center justify-between mb-3">
+    <div className="relative min-h-[100dvh] bg-hero">
+      <div className="pointer-events-none absolute inset-0 bg-dots [mask-image:linear-gradient(to_bottom,black,transparent_60%)]" aria-hidden="true" />
+      <div className="container relative max-w-2xl px-4 py-8 md:py-12">
+        <div className="mb-8">
+          <div className="mb-3 flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Logo className="h-8 w-8" />
-              <span className="font-bold tracking-tight">GründerX</span>
+              <span className="font-semibold tracking-tight">GründerX</span>
             </div>
-            <span className="text-xs font-semibold text-muted-foreground">Schritt {step + 1} von {totalSteps}</span>
+            <span className="text-sm text-muted-foreground tabular">Schritt {step + 1} von {totalSteps}</span>
           </div>
-          <div className="h-1.5 bg-secondary rounded-full overflow-hidden">
-            <div className="h-full bg-gradient-primary transition-all duration-500 rounded-full" style={{ width: `${progress}%` }} />
+          <div className="h-1.5 overflow-hidden rounded-full bg-secondary" role="progressbar" aria-valuenow={step + 1} aria-valuemin={1} aria-valuemax={totalSteps} aria-label="Fortschritt">
+            <div className="h-full rounded-full bg-accent-blue transition-[width] duration-500" style={{ width: `${progress}%` }} />
           </div>
         </div>
 
-        <div className="bg-card border border-border rounded-3xl p-8 md:p-10 shadow-card">
+        <div className="rounded-2xl border border-border bg-card p-6 shadow-soft md:p-10">
           {step === 0 && (
             <Step eyebrow="Schön dich kennenzulernen" title="Wie heißt du?" subtitle="Felix nutzt das in jeder Antwort.">
               <div className="space-y-4">
                 <div className="space-y-1.5">
-                  <Label>Anrede</Label>
+                  <Label htmlFor="ob-salutation">Anrede</Label>
                   <Select value={salutation} onValueChange={setSalutation}>
-                    <SelectTrigger><SelectValue placeholder="Bitte wählen" /></SelectTrigger>
+                    <SelectTrigger id="ob-salutation"><SelectValue placeholder="Bitte wählen" /></SelectTrigger>
                     <SelectContent>
                       <SelectItem value="Herr">Herr</SelectItem>
                       <SelectItem value="Frau">Frau</SelectItem>
@@ -182,29 +183,29 @@ const Onboarding = () => {
                     </SelectContent>
                   </Select>
                 </div>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid gap-3 sm:grid-cols-2">
                   <div className="space-y-1.5">
                     <Label htmlFor="fn">Vorname</Label>
-                    <Input id="fn" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+                    <Input id="fn" autoComplete="given-name" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
                   </div>
                   <div className="space-y-1.5">
                     <Label htmlFor="ln">Nachname</Label>
-                    <Input id="ln" value={lastName} onChange={(e) => setLastName(e.target.value)} />
+                    <Input id="ln" autoComplete="family-name" value={lastName} onChange={(e) => setLastName(e.target.value)} />
                   </div>
                 </div>
                 <div className="space-y-1.5">
                   <Label htmlFor="phone">Telefon (optional)</Label>
-                  <Input id="phone" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+49 …" />
+                  <Input id="phone" type="tel" autoComplete="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+49 …" />
                 </div>
               </div>
             </Step>
           )}
 
           {step === 1 && (
-            <Step eyebrow="Dein Vorhaben" title="Hast du schon eine Firma?" subtitle="Optional – als Gründer kannst du das auch später ergänzen.">
+            <Step eyebrow="Dein Vorhaben" title="Hast du schon eine Firma?" subtitle="Optional. Als Gründer kannst du das auch später ergänzen.">
               <div className="space-y-1.5">
                 <Label htmlFor="company">Firmenname (optional)</Label>
-                <Input id="company" value={companyName} onChange={(e) => setCompanyName(e.target.value)} placeholder="z. B. Acme GmbH" />
+                <Input id="company" value={companyName} onChange={(e) => setCompanyName(e.target.value)} autoComplete="organization" placeholder="z. B. Muster Handels GmbH" />
               </div>
             </Step>
           )}
@@ -213,31 +214,31 @@ const Onboarding = () => {
             <Step eyebrow="Adresse" title="Deine Anschrift" subtitle="Wird für Rechnungen und Behörden-Templates genutzt.">
               <div className="space-y-4">
                 <div className="space-y-1.5">
-                  <Label>Straße & Nr.</Label>
-                  <Input value={street} onChange={(e) => setStreet(e.target.value)} />
+                  <Label htmlFor="ob-street">Straße & Nr.</Label>
+                  <Input id="ob-street" autoComplete="street-address" value={street} onChange={(e) => setStreet(e.target.value)} />
                 </div>
                 <div className="grid grid-cols-3 gap-3">
                   <div className="space-y-1.5">
-                    <Label>PLZ</Label>
-                    <Input value={postalCode} onChange={(e) => setPostalCode(e.target.value)} />
+                    <Label htmlFor="ob-plz">PLZ</Label>
+                    <Input id="ob-plz" autoComplete="postal-code" inputMode="numeric" value={postalCode} onChange={(e) => setPostalCode(e.target.value)} />
                   </div>
                   <div className="space-y-1.5 col-span-2">
-                    <Label>Ort</Label>
-                    <Input value={city} onChange={(e) => setCity(e.target.value)} />
+                    <Label htmlFor="ob-city">Ort</Label>
+                    <Input id="ob-city" autoComplete="address-level2" value={city} onChange={(e) => setCity(e.target.value)} />
                   </div>
                 </div>
                 <div className="space-y-1.5">
-                  <Label>Land</Label>
-                  <Input value={country} onChange={(e) => setCountry(e.target.value)} />
+                  <Label htmlFor="ob-country">Land</Label>
+                  <Input id="ob-country" autoComplete="country-name" value={country} onChange={(e) => setCountry(e.target.value)} />
                 </div>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid gap-3 sm:grid-cols-2">
                   <div className="space-y-1.5">
-                    <Label>USt-IdNr. (optional)</Label>
-                    <Input value={vatId} onChange={(e) => setVatId(e.target.value)} placeholder="DE123456789" />
+                    <Label htmlFor="ob-vat">USt-IdNr. (optional)</Label>
+                    <Input id="ob-vat" spellCheck={false} value={vatId} onChange={(e) => setVatId(e.target.value)} placeholder="DE123456789" />
                   </div>
                   <div className="space-y-1.5">
-                    <Label>Steuernummer (optional)</Label>
-                    <Input value={taxId} onChange={(e) => setTaxId(e.target.value)} />
+                    <Label htmlFor="ob-tax">Steuernummer (optional)</Label>
+                    <Input id="ob-tax" spellCheck={false} value={taxId} onChange={(e) => setTaxId(e.target.value)} />
                   </div>
                 </div>
               </div>
@@ -250,7 +251,7 @@ const Onboarding = () => {
                 {businessModels.map((b) => (
                   <ChoiceCard key={b.id} active={businessModels_.includes(b.id)} onClick={() => toggleModel(b.id)}>
                     <div className="flex items-center gap-3">
-                      <div className="h-9 w-9 rounded-lg bg-accent-blue/10 flex items-center justify-center">
+                      <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent text-accent-blue">
                         <b.icon className="h-4 w-4 text-accent-blue" />
                       </div>
                       <span className="font-medium">{b.label}</span>
@@ -267,7 +268,7 @@ const Onboarding = () => {
                 {stages.map((s) => (
                   <ChoiceCard key={s.id} active={stage === s.id} onClick={() => setStage(s.id)}>
                     <div className="flex items-center gap-3">
-                      <div className="h-9 w-9 rounded-lg bg-accent-blue/10 flex items-center justify-center">
+                      <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent text-accent-blue">
                         <s.icon className="h-4 w-4 text-accent-blue" />
                       </div>
                       <span className="font-medium">{s.label}</span>
@@ -279,12 +280,12 @@ const Onboarding = () => {
           )}
 
           {step === 5 && (
-            <Step eyebrow="Rechtsform" title="Hast du schon eine Rechtsform im Kopf?" subtitle="Wenn nicht – Felix führt dich durch den Vergleich.">
+            <Step eyebrow="Rechtsform" title="Hast du schon eine Rechtsform im Kopf?" subtitle="Wenn nicht, führt Felix dich durch den Vergleich.">
               <div className="grid sm:grid-cols-2 gap-3">
                 {legalForms.map((l) => (
                   <ChoiceCard key={l.id} active={legalForm === l.id} onClick={() => setLegalForm(l.id)}>
                     <div className="flex items-start gap-3">
-                      <div className="h-9 w-9 rounded-lg bg-accent-blue/10 flex items-center justify-center flex-shrink-0">
+                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-accent text-accent-blue">
                         <Globe className="h-4 w-4 text-accent-blue" />
                       </div>
                       <div>
@@ -298,19 +299,19 @@ const Onboarding = () => {
             </Step>
           )}
 
-          <div className="flex items-center justify-between mt-10 pt-6 border-t border-border">
-            <Button variant="ghost" onClick={back} disabled={step === 0} className="rounded-full">
-              <ArrowLeft className="h-4 w-4 mr-1" /> Zurück
+          <div className="mt-10 flex items-center justify-between border-t border-border/70 pt-6">
+            <Button variant="ghost" onClick={back} disabled={step === 0}>
+              <ArrowLeft className="h-4 w-4" aria-hidden="true" /> Zurück
             </Button>
             {step < 5 ? (
               <Button onClick={next} disabled={!canContinue()} size="lg"
-                className="rounded-full bg-gradient-primary text-primary-foreground hover:opacity-95 shadow-glow h-12 px-7 font-semibold">
-                Weiter <ArrowRight className="h-4 w-4 ml-1" />
+                className="h-12 rounded-xl bg-gradient-primary px-7 font-semibold shadow-glow hover:opacity-95">
+                Weiter <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </Button>
             ) : (
               <Button onClick={finish} disabled={saving} size="lg"
-                className="rounded-full bg-gradient-primary text-primary-foreground hover:opacity-95 shadow-glow h-12 px-7 font-semibold">
-                {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <>Fertig <Check className="h-4 w-4 ml-1" /></>}
+                className="h-12 rounded-xl bg-gradient-primary px-7 font-semibold shadow-glow hover:opacity-95">
+                {saving ? <><Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> Speichert…</> : <>Fertig <Check className="h-4 w-4" aria-hidden="true" /></>}
               </Button>
             )}
           </div>
@@ -322,8 +323,8 @@ const Onboarding = () => {
 
 const Step = ({ eyebrow, title, subtitle, children }: { eyebrow: string; title: string; subtitle: string; children: React.ReactNode }) => (
   <div>
-    <p className="text-xs font-semibold uppercase tracking-wider text-accent-blue mb-3">{eyebrow}</p>
-    <h2 className="text-2xl md:text-3xl font-bold tracking-tight">{title}</h2>
+    <p className="text-sm font-medium text-accent-blue">{eyebrow}</p>
+    <h1 className="mt-2 text-2xl font-semibold tracking-[-0.03em] md:text-3xl">{title}</h1>
     <p className="mt-2 text-muted-foreground">{subtitle}</p>
     <div className="mt-8">{children}</div>
   </div>
@@ -331,8 +332,9 @@ const Step = ({ eyebrow, title, subtitle, children }: { eyebrow: string; title: 
 
 const ChoiceCard = ({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) => (
   <button type="button" onClick={onClick}
-    className={`text-left rounded-2xl border-2 p-4 transition-all hover:-translate-y-0.5 ${
-      active ? "border-accent-blue bg-accent-blue/5 shadow-glow" : "border-border bg-card hover:border-accent-blue/40"
+    aria-pressed={active}
+    className={`rounded-xl border p-4 text-left transition-[border-color,background-color,box-shadow] duration-200 active:translate-y-px ${
+      active ? "border-accent-blue bg-accent/70 ring-1 ring-accent-blue" : "border-border bg-card hover:border-accent-blue/40 hover:shadow-card"
     }`}>
     {children}
   </button>

@@ -4,7 +4,8 @@ import CockpitShell from "@/components/cockpit/CockpitShell";
 import Stand2026Footer from "@/components/cockpit/Stand2026Footer";
 import { Input } from "@/components/ui/input";
 import { useTrackToolEvent } from "@/hooks/useTrackToolEvent";
-import { Calculator, TrendingUp, Receipt, CalendarClock, Star, Info } from "lucide-react";
+import { ArrowRight, Calculator, CalendarClock, Star, Info } from "lucide-react";
+import { Callout, Field, ResultPanel, ToolSection } from "@/components/cockpit/kit";
 
 /**
  * Read-only Walkthrough der Umsatzsteuer-Voranmeldung (USt 1 A) + Antrag auf
@@ -104,128 +105,154 @@ const UstVoranmeldung = () => {
   return (
     <CockpitShell
       eyebrow="USt-Voranmeldung + Dauerfristverlängerung"
-      title="Umsatzsteuer-Voranmeldung (USt 1 A) — Schritt für Schritt"
-      subtitle="Was bedeutet welche Kennzahl? Walkthrough des echten ELSTER-Vordrucks 2026 (USt 1 A) mit den Kennzahlen, die für Solo-Selbstständige & E-Commerce zählen — plus Dauerfristverlängerung und Sondervorauszahlung (USt 1 H). Du füllst in ELSTER aus, diese Seite erklärt parallel."
+      title="Umsatzsteuer-Voranmeldung (USt 1 A) Schritt für Schritt"
+      subtitle="Was bedeutet welche Kennzahl? Walkthrough des echten ELSTER-Vordrucks 2026 (USt 1 A) mit den Kennzahlen, die für Solo-Selbstständige und E-Commerce zählen, plus Dauerfristverlängerung und Sondervorauszahlung (USt 1 H). Du füllst in ELSTER aus, diese Seite erklärt parallel."
     >
-      {/* Wer / Wann */}
-      <div className="rounded-2xl border-2 border-accent-blue/30 bg-gradient-to-br from-accent-blue/10 via-card to-card p-5 mb-4">
-        <div className="flex items-start gap-3">
-          <CalendarClock className="h-6 w-6 text-accent-blue shrink-0 mt-0.5" />
-          <div className="text-sm">
-            <h3 className="font-bold mb-1">Wer muss wann abgeben? (Stand 2026)</h3>
-            <ul className="list-disc list-inside space-y-1 text-muted-foreground">
-              <li><strong>Monatlich</strong>, wenn die USt-Zahllast des Vorjahres &gt; 9.000 € war.</li>
-              <li><strong>Vierteljährlich</strong> bei Vorjahres-Zahllast 2.000–9.000 €.</li>
-              <li><strong>Keine</strong> Voranmeldung (nur Jahreserklärung) bei ≤ 2.000 € (Werte seit BEG IV, 2025 angehoben).</li>
-              <li><strong>Kleinunternehmer § 19:</strong> gar keine Voranmeldung, solange KU-Status besteht.</li>
-              <li><strong>Neugründer:</strong> Die frühere Pflicht zur monatlichen Abgabe in den ersten 2 Jahren ist bis 2026 ausgesetzt — es gilt die geschätzte Zahllast.</li>
-            </ul>
-            <p className="mt-2 text-muted-foreground">
-              <strong>Frist:</strong> 10. Tag nach Ablauf des Zeitraums (z. B. 10.02. für Januar). Mit <strong>Dauerfristverlängerung</strong> +1 Monat. Übermittlung nur authentifiziert via ELSTER (§ 18 Abs. 1 UStG).
-            </p>
-          </div>
-        </div>
-      </div>
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
+        {/* Wer / Wann */}
+        <ToolSection icon={CalendarClock} title="Wer muss wann abgeben?" description="Stand 2026">
+          <ul className="space-y-2.5 text-sm leading-relaxed text-foreground/85">
+            <li><strong className="text-foreground">Monatlich</strong>, wenn die USt-Zahllast des Vorjahres über 9.000 € lag.</li>
+            <li><strong className="text-foreground">Vierteljährlich</strong> bei Vorjahres-Zahllast 2.000 bis 9.000 €.</li>
+            <li><strong className="text-foreground">Keine</strong> Voranmeldung (nur Jahreserklärung) bei höchstens 2.000 € (Werte seit BEG IV, 2025 angehoben).</li>
+            <li><strong className="text-foreground">Kleinunternehmer § 19:</strong> gar keine Voranmeldung, solange der KU-Status besteht.</li>
+            <li><strong className="text-foreground">Neugründer:</strong> Die frühere Pflicht zur monatlichen Abgabe in den ersten 2 Jahren ist bis 2026 ausgesetzt; es gilt die geschätzte Zahllast.</li>
+          </ul>
+          <Callout tone="info" icon={CalendarClock} className="mt-4" title="Frist">
+            10. Tag nach Ablauf des Zeitraums (z. B. 10.02. für Januar). Mit <strong>Dauerfristverlängerung</strong> ein Monat
+            mehr. Übermittlung nur authentifiziert via ELSTER (§ 18 Abs. 1 UStG).
+          </Callout>
+        </ToolSection>
 
-      {/* Sondervorauszahlungs-Rechner */}
-      <div className="rounded-2xl border border-border bg-card p-5 mb-4">
-        <h3 className="font-bold text-sm mb-1 flex items-center gap-2">
-          <Calculator className="h-4 w-4 text-accent-blue" /> Sondervorauszahlung 1/11 (USt 1 H)
-        </h3>
-        <p className="text-xs text-muted-foreground mb-3">
-          Wer <strong>monatlich</strong> abgibt und Dauerfristverlängerung will, muss eine Sondervorauszahlung leisten:
-          <strong> 1/11 der Summe der USt-Vorauszahlungen des Vorjahres</strong>. Vierteljährliche Abgeber zahlen
-          KEINE Sondervorauszahlung (Antrag trotzdem einmal stellen). Du bekommst sie über Kz 39 in der letzten
-          Voranmeldung wieder angerechnet.
-        </p>
-        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-          Summe deiner USt-Vorauszahlungen 2025 (€)
-        </label>
-        <Input
-          type="number"
-          min={0}
-          value={vorjahr || ""}
-          onChange={(e) => {
-            setVorjahr(Math.max(0, Number(e.target.value) || 0));
-            track("sonder_calc");
-          }}
-          placeholder="z. B. 12000"
-          className="mt-1 max-w-xs"
-        />
-        <div className="mt-3 rounded-lg bg-accent-blue/8 border border-accent-blue/30 p-3 text-sm">
-          Sondervorauszahlung 2026 (Kz 38):{" "}
-          <strong className="tabular-nums">
-            {sonder.toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €
-          </strong>
-        </div>
+        {/* Sondervorauszahlungs-Rechner */}
+        <ToolSection
+          icon={Calculator}
+          title="Sondervorauszahlung 1/11 (USt 1 H)"
+          description={
+            <>
+              Wer <strong>monatlich</strong> abgibt und Dauerfristverlängerung will, leistet eine Sondervorauszahlung:
+              <strong> 1/11 der Summe der USt-Vorauszahlungen des Vorjahres</strong>. Vierteljährliche Abgeber zahlen keine
+              (Antrag trotzdem einmal stellen). Über Kz 39 in der letzten Voranmeldung wird sie wieder angerechnet.
+            </>
+          }
+        >
+          <Field label="Summe deiner USt-Vorauszahlungen 2025 (€)" htmlFor="ust-vorjahr">
+            <Input
+              id="ust-vorjahr"
+              type="number"
+              inputMode="decimal"
+              min={0}
+              value={vorjahr || ""}
+              onChange={(e) => {
+                setVorjahr(Math.max(0, Number(e.target.value) || 0));
+                track("sonder_calc");
+              }}
+              placeholder="z. B. 12000"
+            />
+          </Field>
+          <ResultPanel
+            className="mt-5"
+            variant="ink"
+            title="Sondervorauszahlung 2026 (Kz 38)"
+            value={`${sonder.toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €`}
+            valueHint={vorjahr ? "1/11 der Vorjahressumme" : "Trag die Vorjahressumme ein"}
+          />
+        </ToolSection>
       </div>
 
       {/* Kennzahlen-Walkthrough */}
+      <div className="mt-10 mb-4 flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <h2 className="text-lg font-semibold tracking-tight">Die Kennzahlen im Vordruck</h2>
+          <p className="mt-1 text-sm text-muted-foreground">Z = Zeile im Vordruck, Kz = Kennzahl in ELSTER.</p>
+        </div>
+        <p className="flex items-center gap-1.5 text-sm text-muted-foreground">
+          <Star className="h-3.5 w-3.5 fill-warning text-warning" aria-hidden="true" /> häufig bei Solo und E-Commerce
+        </p>
+      </div>
       <div className="space-y-4">
         {BLOCKS.map((b) => (
-          <div key={b.letter} className="rounded-2xl border border-border bg-card p-5">
-            <div className="flex items-baseline gap-2 mb-2">
-              <span className="text-xs font-bold text-accent-blue shrink-0">{b.letter}</span>
-              <h2 className="text-base font-bold">{b.title}</h2>
-            </div>
-            <div className="space-y-0">
+          <ToolSection
+            key={b.letter}
+            title={
+              <span className="flex items-baseline gap-2.5">
+                <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-primary text-xs font-semibold text-primary-foreground">
+                  {b.letter}
+                </span>
+                {b.title}
+              </span>
+            }
+            bodyClassName="px-5 py-1 md:px-6"
+          >
+            <ul className="divide-y divide-border/70">
               {b.rows.map((r) => (
-                <div key={r.kz} className="border-t border-border/60 py-2 flex items-start gap-3">
-                  <span className="text-[10px] font-mono text-muted-foreground shrink-0 w-8 mt-0.5">Z {r.z}</span>
-                  <span className="shrink-0 rounded bg-muted px-2 py-0.5 text-xs font-mono font-semibold">Kz {r.kz}</span>
-                  <div className="flex-1 min-w-0">
-                    <div className="text-sm font-medium flex items-center gap-1.5">
+                <li key={r.kz} className="grid grid-cols-[auto_minmax(0,1fr)] items-start gap-x-3 gap-y-1 py-3 sm:grid-cols-[2.75rem_auto_minmax(0,1fr)]">
+                  <span className="hidden pt-0.5 text-xs text-muted-foreground tabular sm:block">Z {r.z}</span>
+                  <span className="shrink-0 rounded-md bg-secondary px-2 py-0.5 font-mono text-xs font-semibold tabular">Kz {r.kz}</span>
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-1.5 text-sm font-medium">
                       {r.label}
-                      {r.star && <Star className="h-3 w-3 text-amber-500 shrink-0" aria-label="häufig für Solo/E-Com" />}
+                      {r.star && <Star className="h-3.5 w-3.5 shrink-0 fill-warning text-warning" aria-label="häufig für Solo/E-Com" />}
                     </div>
-                    {r.hint && <div className="text-xs text-muted-foreground mt-0.5">{r.hint}</div>}
+                    {r.hint && <div className="mt-0.5 text-sm leading-relaxed text-muted-foreground">{r.hint}</div>}
+                    <div className="mt-0.5 text-xs text-muted-foreground tabular sm:hidden">Zeile {r.z}</div>
                   </div>
-                </div>
+                </li>
               ))}
-            </div>
-          </div>
+            </ul>
+          </ToolSection>
         ))}
       </div>
 
       {/* Dauerfristverlängerung */}
-      <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/5 p-5 mt-4 text-sm">
-        <h3 className="font-bold mb-1 flex items-center gap-2"><Info className="h-4 w-4 text-emerald-700" /> Dauerfristverlängerung (USt 1 H) — fast immer sinnvoll</h3>
-        <p className="text-muted-foreground">
-          Verlängert die Abgabe- UND Zahlfrist dauerhaft um einen Monat (z. B. Januar-VA erst am 10.03. statt 10.02.).
-          Einmal beantragen, gilt fort — nicht jährlich wiederholen. Monatliche Abgeber leisten dafür die 1/11-Sondervorauszahlung
-          (oben), vierteljährliche nicht. Mehr Cashflow-Puffer, praktisch kein Nachteil.
-        </p>
-        <h4 className="font-bold mt-3 mb-1">So beantragst du sie</h4>
-        <ol className="list-decimal list-inside space-y-1 text-muted-foreground">
-          <li><strong>Frist:</strong> bis <strong>10.02.</strong> (Monatszahler) bzw. <strong>10.04.</strong> (Vierteljahreszahler) — jeweils bis zur Fälligkeit der ersten betroffenen Voranmeldung. Kein Bewilligungsbescheid; gilt, solange das FA nicht widerspricht.</li>
-          <li><strong>In ELSTER:</strong> Formular <strong>„Dauerfristverlängerung/Sondervorauszahlung (monatlich)"</strong> bzw. <strong>„Dauerfristverlängerung (vierteljährlich)"</strong> → Jahr + Finanzamt → Monatszahler tragen die 1/11-Sondervorauszahlung (Kz 38, oben berechnet) ein, Vierteljahreszahler lassen das Feld leer → authentifiziert absenden. Gilt fortlaufend.</li>
-          <li><strong>Per Software:</strong> <strong>Lexware Office</strong> unter „Buchhaltung → Steuerliche Meldung", <strong>sevDesk</strong> im Bereich „Umsatzsteuer & Buchhaltung" — Antrag direkt mit ELSTER-Übermittlung.</li>
-          <li><strong>Sondervorauszahlung zurück:</strong> die 1/11-Vorauszahlung holst du über <strong>Kz 39</strong> in der letzten Voranmeldung des Jahres (Dezember) wieder an.</li>
+      <ToolSection
+        className="mt-6 border-success/25"
+        icon={Info}
+        title="Dauerfristverlängerung (USt 1 H): fast immer sinnvoll"
+        description="Verlängert Abgabe- und Zahlfrist dauerhaft um einen Monat (z. B. Januar-VA erst am 10.03. statt 10.02.). Einmal beantragen, gilt fort. Monatliche Abgeber leisten dafür die 1/11-Sondervorauszahlung (oben), vierteljährliche nicht. Mehr Cashflow-Puffer, praktisch kein Nachteil."
+      >
+        <h3 className="mb-3 text-sm font-semibold">So beantragst du sie</h3>
+        <ol className="space-y-3 text-sm leading-relaxed text-foreground/85">
+          {[
+            <><strong className="text-foreground">Frist:</strong> bis <strong>10.02.</strong> (Monatszahler) bzw. <strong>10.04.</strong> (Vierteljahreszahler), jeweils bis zur Fälligkeit der ersten betroffenen Voranmeldung. Kein Bewilligungsbescheid; gilt, solange das FA nicht widerspricht.</>,
+            <><strong className="text-foreground">In ELSTER:</strong> Formular <strong>„Dauerfristverlängerung/Sondervorauszahlung (monatlich)"</strong> bzw. <strong>„Dauerfristverlängerung (vierteljährlich)"</strong>, dann Jahr und Finanzamt wählen. Monatszahler tragen die 1/11-Sondervorauszahlung (Kz 38, oben berechnet) ein, Vierteljahreszahler lassen das Feld leer. Authentifiziert absenden; gilt fortlaufend.</>,
+            <><strong className="text-foreground">Per Software:</strong> <strong>Lexware Office</strong> unter „Buchhaltung → Steuerliche Meldung", <strong>sevDesk</strong> im Bereich „Umsatzsteuer & Buchhaltung", Antrag direkt mit ELSTER-Übermittlung.</>,
+            <><strong className="text-foreground">Sondervorauszahlung zurück:</strong> Die 1/11-Vorauszahlung holst du über <strong>Kz 39</strong> in der letzten Voranmeldung des Jahres (Dezember) wieder.</>,
+          ].map((li, i) => (
+            <li key={i} className="flex gap-3">
+              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-success-soft text-xs font-semibold text-success tabular">{i + 1}</span>
+              <span>{li}</span>
+            </li>
+          ))}
         </ol>
-      </div>
+      </ToolSection>
 
       {/* Zusammenfassende Meldung */}
-      <div className="rounded-2xl border border-border bg-card p-5 mt-4 text-sm">
-        <h3 className="font-bold mb-1 flex items-center gap-2"><Info className="h-4 w-4 text-accent-blue" /> Nicht verwechseln: Zusammenfassende Meldung (ZM)</h3>
-        <p className="text-muted-foreground">
-          Sobald du <strong>innergemeinschaftliche B2B-Umsätze</strong> hast (EU-Lieferungen/-Leistungen an Kunden mit
-          USt-IdNr — Kz 41 oben), brauchst du zusätzlich zur USt-VA die <strong>Zusammenfassende Meldung</strong>. Sie
-          meldet diese EU-Umsätze gesammelt ans <strong>Bundeszentralamt für Steuern (BZSt)</strong> (nicht ans Finanzamt),
-          ist eine <em>eigene</em> Meldung und <strong>kennt keine Dauerfristverlängerung</strong> — Frist immer der
-          <strong> 25. des Folgemonats</strong>. Abgabe über ELSTER oder auf Knopfdruck aus Lexware Office / sevDesk (siehe{" "}
-          <Link to="/cockpit/buchhaltungssoftware-guide" className="text-accent-blue underline">Buchhaltungssoftware-Guide</Link>).
-        </p>
-      </div>
+      <Callout tone="info" className="mt-6" title="Nicht verwechseln: Zusammenfassende Meldung (ZM)">
+        Sobald du <strong>innergemeinschaftliche B2B-Umsätze</strong> hast (EU-Lieferungen/-Leistungen an Kunden mit
+        USt-IdNr, Kz 41 oben), brauchst du zusätzlich zur USt-VA die <strong>Zusammenfassende Meldung</strong>. Sie meldet
+        diese EU-Umsätze gesammelt ans <strong>Bundeszentralamt für Steuern (BZSt)</strong> (nicht ans Finanzamt), ist eine{" "}
+        <em>eigene</em> Meldung und <strong>kennt keine Dauerfristverlängerung</strong>: Frist ist immer der
+        <strong> 25. des Folgemonats</strong>. Abgabe über ELSTER oder auf Knopfdruck aus Lexware Office / sevDesk (siehe{" "}
+        <Link to="/cockpit/buchhaltungssoftware-guide" className="font-medium text-accent-blue underline underline-offset-2">Buchhaltungssoftware-Guide</Link>).
+      </Callout>
 
       {/* Cross-Links */}
-      <div className="rounded-2xl border border-border bg-card p-5 mt-4 text-sm">
-        <h3 className="font-bold mb-2">Passt dazu</h3>
-        <ul className="space-y-1">
-          <li><Link to="/cockpit/ust-rechner" className="text-accent-blue underline">USt-Rechner (alle Fälle: §19, §13b, OSS, IGL)</Link></li>
-          <li><Link to="/cockpit/fse-wizard" className="text-accent-blue underline">FsE-Wizard — hier legst du den USt-Status überhaupt erst fest</Link></li>
-          <li><Link to="/cockpit/schwellen-check" className="text-accent-blue underline">Schwellen-Check (KU-Grenzen, DAC7)</Link></li>
-        </ul>
-      </div>
+      <ToolSection className="mt-6" title="Passt dazu" bodyClassName="grid gap-2 sm:grid-cols-3">
+        {[
+          { to: "/cockpit/ust-rechner", t: "USt-Rechner", d: "Alle Fälle: §19, §13b, OSS, IGL" },
+          { to: "/cockpit/fse-wizard", t: "FsE-Wizard", d: "Hier legst du den USt-Status überhaupt erst fest" },
+          { to: "/cockpit/schwellen-check", t: "Schwellen-Check", d: "KU-Grenzen, DAC7" },
+        ].map((l) => (
+          <Link key={l.to} to={l.to} className="press group rounded-xl border border-border bg-background/60 p-3.5 hover:border-accent-blue/40 hover:bg-card">
+            <span className="flex items-center justify-between gap-2 text-sm font-semibold">
+              {l.t}
+              <ArrowRight className="h-3.5 w-3.5 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-accent-blue" aria-hidden="true" />
+            </span>
+            <span className="mt-0.5 block text-xs text-muted-foreground">{l.d}</span>
+          </Link>
+        ))}
+      </ToolSection>
 
       <Stand2026Footer
         sources={[

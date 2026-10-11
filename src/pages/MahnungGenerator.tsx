@@ -1,12 +1,12 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { Download } from "lucide-react";
+import { Building2, Download, FileText, Gavel, User } from "lucide-react";
 import jsPDF from "jspdf";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { eur } from "@/components/cockpit/AmpelCheck";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Callout, Field, ResultPanel, ResultRow, ToolLayout, ToolSection, selectCls } from "@/components/cockpit/kit";
 import { MAHNVERFAHREN_MINDESTGEBUEHR, PAUSCHALE_B2B, verjaehrung, verzugsbeginn, verzugszinsen } from "@/lib/mahnung";
 
 type Stufe = "erinnerung" | "mahnung1" | "mahnung2" | "letzte";
@@ -89,81 +89,107 @@ const MahnungGenerator = () => {
     doc.save(`${STUFEN[stufe].titel.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${r.nummer || "rechnung"}.pdf`);
   };
 
-  const feld = (label: string, wert: string, setze: (v: string) => void, typ = "text") => (
-    <div>
-      <Label className="text-xs">{label}</Label>
-      <Input type={typ} value={wert} onChange={(e) => setze(e.target.value)} className="mt-1 h-9" />
-    </div>
+  const feld = (label: string, wert: string, setze: (v: string) => void, typ = "text", gruppe = "r") => {
+    const id = `mahnung-${gruppe}-${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
+    return (
+      <Field label={label} htmlFor={id}>
+        <Input id={id} type={typ} value={wert} onChange={(e) => setze(e.target.value)} className={typ === "number" ? "tabular" : undefined} />
+      </Field>
+    );
+  };
+
+  const checkbox = (checked: boolean, setze: (v: boolean) => void, text: string) => (
+    <label className="flex cursor-pointer items-start gap-2.5 rounded-lg py-1 text-sm leading-snug">
+      <input type="checkbox" checked={checked} onChange={(e) => setze(e.target.checked)} className="mt-0.5 h-4 w-4 shrink-0 accent-[hsl(var(--primary))]" />
+      <span>{text}</span>
+    </label>
   );
+
+  const fehlt = [!r.nummer && "Rechnungsnummer", !kunde.name && "Kundenname", !abs.name && "Absender"].filter(Boolean) as string[];
 
   return (
     <CockpitShell
       eyebrow="Forderungen · §§ 286, 288 BGB · Basiszins 2. Halbjahr 2026: 1,52 %"
       title="Mahnungs-Generator: Erinnerung, Mahnung, letzte Mahnung"
-      subtitle="Erstellt Zahlungserinnerung und Mahnungen als PDF – mit korrekt berechneten Verzugszinsen, 40-€-Pauschale bei Geschäftskunden und dem richtigen Verzugsbeginn."
+      subtitle="Erstellt Zahlungserinnerung und Mahnungen als PDF, mit korrekt berechneten Verzugszinsen, 40-€-Pauschale bei Geschäftskunden und dem richtigen Verzugsbeginn."
     >
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-6 mb-6">
-        <div className="space-y-4">
-          <div className="rounded-2xl border border-border bg-card p-5 grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <h2 className="sm:col-span-2 font-bold">Rechnung</h2>
-            {feld("Rechnungsnummer", r.nummer, (v) => setR((x) => ({ ...x, nummer: v })))}
-            {feld("Betrag (brutto, offen)", String(r.betrag), (v) => setR((x) => ({ ...x, betrag: Number(v) || 0 })), "number")}
-            {feld("Rechnungsdatum / Zugang", r.datum, (v) => setR((x) => ({ ...x, datum: v })), "date")}
-            {feld("Fällig am", r.faellig, (v) => setR((x) => ({ ...x, faellig: v })), "date")}
-            {feld("Erste Mahnung verschickt am (falls schon)", r.ersteMahnung, (v) => setR((x) => ({ ...x, ersteMahnung: v })), "date")}
-            <div className="space-y-1.5 text-sm pt-5">
-              <label className="flex gap-2"><input type="checkbox" checked={verbraucher} onChange={(e) => setVerbraucher(e.target.checked)} /> Kunde ist Verbraucher (Privatperson)</label>
-              {verbraucher && <label className="flex gap-2"><input type="checkbox" checked={hinweis} onChange={(e) => setHinweis(e.target.checked)} /> Rechnung enthielt Hinweis auf Verzug nach 30 Tagen</label>}
-              <label className="flex gap-2"><input type="checkbox" checked={kalender} onChange={(e) => setKalender(e.target.checked)} /> Zahlungsdatum war fest vereinbart</label>
-            </div>
-          </div>
-          <div className="rounded-2xl border border-border bg-card p-5 grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <h2 className="sm:col-span-3 font-bold">Kunde</h2>
-            {feld("Name / Firma", kunde.name, (v) => setKunde((x) => ({ ...x, name: v })))}
-            {feld("Straße", kunde.strasse, (v) => setKunde((x) => ({ ...x, strasse: v })))}
-            {feld("PLZ Ort", kunde.plzOrt, (v) => setKunde((x) => ({ ...x, plzOrt: v })))}
-          </div>
-          <div className="rounded-2xl border border-border bg-card p-5 grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <h2 className="sm:col-span-2 font-bold">Absender <span className="text-xs font-normal text-muted-foreground">(aus dem Rechnungs-Generator übernommen, falls vorhanden)</span></h2>
-            {feld("Name / Firma", abs.name, (v) => setAbs((x) => ({ ...x, name: v })))}
-            {feld("Straße", abs.strasse, (v) => setAbs((x) => ({ ...x, strasse: v })))}
-            {feld("PLZ Ort", abs.plzOrt, (v) => setAbs((x) => ({ ...x, plzOrt: v })))}
-            {feld("IBAN", abs.iban, (v) => setAbs((x) => ({ ...x, iban: v })))}
-          </div>
-        </div>
+      <ToolLayout
+        inputs={
+          <>
+            <ToolSection title="Rechnung" icon={FileText} description="Die offene Rechnung, um die es geht.">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                {feld("Rechnungsnummer", r.nummer, (v) => setR((x) => ({ ...x, nummer: v })))}
+                {feld("Betrag (brutto, offen)", String(r.betrag), (v) => setR((x) => ({ ...x, betrag: Number(v) || 0 })), "number")}
+                {feld("Rechnungsdatum / Zugang", r.datum, (v) => setR((x) => ({ ...x, datum: v })), "date")}
+                {feld("Fällig am", r.faellig, (v) => setR((x) => ({ ...x, faellig: v })), "date")}
+                {feld("Erste Mahnung verschickt am (falls schon)", r.ersteMahnung, (v) => setR((x) => ({ ...x, ersteMahnung: v })), "date")}
+              </div>
+              <div className="mt-5 space-y-1 border-t border-border/70 pt-4">
+                {checkbox(verbraucher, setVerbraucher, "Kunde ist Verbraucher (Privatperson)")}
+                {verbraucher && checkbox(hinweis, setHinweis, "Rechnung enthielt Hinweis auf Verzug nach 30 Tagen")}
+                {checkbox(kalender, setKalender, "Zahlungsdatum war fest vereinbart")}
+              </div>
+            </ToolSection>
+            <ToolSection title="Kunde" icon={User}>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 [&>*:first-child]:sm:col-span-2">
+                {feld("Name / Firma", kunde.name, (v) => setKunde((x) => ({ ...x, name: v })), "text", "k")}
+                {feld("Straße", kunde.strasse, (v) => setKunde((x) => ({ ...x, strasse: v })), "text", "k")}
+                {feld("PLZ Ort", kunde.plzOrt, (v) => setKunde((x) => ({ ...x, plzOrt: v })), "text", "k")}
+              </div>
+            </ToolSection>
+            <ToolSection title="Absender" icon={Building2} description="Aus dem Rechnungs-Generator übernommen, falls vorhanden.">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                {feld("Name / Firma", abs.name, (v) => setAbs((x) => ({ ...x, name: v })), "text", "a")}
+                {feld("Straße", abs.strasse, (v) => setAbs((x) => ({ ...x, strasse: v })), "text", "a")}
+                {feld("PLZ Ort", abs.plzOrt, (v) => setAbs((x) => ({ ...x, plzOrt: v })), "text", "a")}
+                {feld("IBAN", abs.iban, (v) => setAbs((x) => ({ ...x, iban: v })), "text", "a")}
+              </div>
+            </ToolSection>
+          </>
+        }
+        result={
+          <>
+            <ResultPanel kicker={STUFEN[stufe].titel} title="Forderung gesamt" value={eur(gesamt, 2)} valueHint={`Zahlbar bis ${de(frist)}`}>
+              <Field label="Stufe" htmlFor="mahnung-stufe">
+                <select id="mahnung-stufe" value={stufe} onChange={(e) => setStufe(e.target.value as Stufe)} className={selectCls}>
+                  {Object.entries(STUFEN).map(([k, v]) => <option key={k} value={k}>{v.titel}</option>)}
+                </select>
+              </Field>
+              <div className="mt-4 grid grid-cols-2 gap-3">
+                {feld("Neue Frist", frist, setFrist, "date")}
+                {feld("Mahnkosten (€)", String(mahnkosten), (v) => setMahnkosten(Math.max(0, Number(v) || 0)), "number")}
+              </div>
+              <p className="mt-2 text-xs leading-relaxed text-muted-foreground">Nur echte Sachkosten (Porto, Papier), meist höchstens 1,50 €; per E-Mail und für die erste, verzugsbegründende Mahnung 0 €.</p>
 
-        <div className="space-y-4 lg:sticky lg:top-4 self-start">
-          <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5">
-            <Label className="text-xs">Stufe</Label>
-            <select value={stufe} onChange={(e) => setStufe(e.target.value as Stufe)} className="mt-1 h-10 w-full rounded-md border border-input bg-background px-3 text-sm">
-              {Object.entries(STUFEN).map(([k, v]) => <option key={k} value={k}>{v.titel}</option>)}
-            </select>
-            <div className="grid grid-cols-2 gap-2 mt-3">
-              {feld("Neue Frist", frist, setFrist, "date")}
-              {feld("Mahnkosten (€)", String(mahnkosten), (v) => setMahnkosten(Math.max(0, Number(v) || 0)), "number")}
-            </div>
-            <p className="text-[11px] text-muted-foreground mt-1">Nur echte Sachkosten (Porto, Papier), meist höchstens 1,50 €; per E-Mail und für die erste, verzugsbegründende Mahnung 0 €.</p>
-            <div className={`text-xs mt-3 rounded-lg p-2 ${imVerzug ? "bg-red-500/10 text-red-800" : "bg-secondary/60"}`}>
-              {verzug.datum ? `${imVerzug ? "Im Verzug seit" : "Verzug ab"} ${de(verzug.datum)}. ` : ""}{verzug.grund}
-            </div>
-            <div className="mt-3 space-y-1 text-sm">
-              <div className="flex justify-between"><span>Offene Rechnung</span><strong>{eur(r.betrag, 2)}</strong></div>
-              {zinsen.abschnitte.map((a) => <div key={a.von} className="flex justify-between text-xs text-muted-foreground"><span>Zinsen {a.tage} T. à {a.satz.toLocaleString("de-DE")} %</span><span>{eur(a.zins, 2)}</span></div>)}
-              {pauschale > 0 && <div className="flex justify-between"><span>Pauschale § 288 Abs. 5</span><strong>{eur(pauschale, 2)}</strong></div>}
-              {kosten > 0 && <div className="flex justify-between"><span>Mahnkosten</span><strong>{eur(kosten, 2)}</strong></div>}
-              <div className="flex justify-between border-t border-border pt-1 text-base"><span className="font-semibold">Gesamt</span><strong>{eur(gesamt, 2)}</strong></div>
-            </div>
-            {zinsen.veraltet && <p className="text-[11px] text-amber-700 mt-2">Für das aktuelle Halbjahr ist der Basiszins noch nicht hinterlegt – Zinsen mit dem letzten bekannten Wert gerechnet.</p>}
-            {stufe === "erinnerung" && <p className="text-[11px] text-muted-foreground mt-2">Die freundliche Erinnerung verlangt bewusst keine Zinsen und Gebühren.</p>}
-            <Button className="w-full mt-4" onClick={pdf} disabled={!r.nummer || !kunde.name || !abs.name}><Download className="h-4 w-4 mr-2" /> {STUFEN[stufe].titel} als PDF</Button>
-          </div>
-          <div className="rounded-2xl border border-border bg-card p-4 text-xs leading-relaxed space-y-2">
-            <div className="font-bold text-sm">Wenn nichts passiert</div>
-            <p>Gerichtlicher Mahnbescheid über <a href="https://www.online-mahnantrag.de/" target="_blank" rel="noreferrer noopener" className="text-accent-blue hover:underline">online-mahnantrag.de</a>: Gerichtsgebühr 0,5 – mindestens {MAHNVERFAHREN_MINDESTGEBUEHR} € (bei 1.000 € Forderung genau 38 €), muss der Schuldner am Ende tragen.</p>
-            <p>Verjährung dieser Forderung: <strong>{de(verjaehrung(r.faellig))}</strong> (3 Jahre ab Jahresende). Rechnungen schreiben: <Link to="/cockpit/rechnungs-generator" className="text-accent-blue hover:underline">Rechnungs-Generator</Link>.</p>
-          </div>
-        </div>
-      </div>
+              <Callout tone={imVerzug ? "danger" : "neutral"} className="mt-4">
+                {verzug.datum ? <strong className="font-semibold">{imVerzug ? "Im Verzug seit" : "Verzug ab"} {de(verzug.datum)}. </strong> : null}
+                {verzug.grund}
+              </Callout>
+
+              <div className="mt-4 divide-y divide-border/70 border-y border-border/70">
+                <ResultRow label="Offene Rechnung" value={eur(r.betrag, 2)} />
+                {zinsen.abschnitte.map((a) => (
+                  <ResultRow key={a.von} label={`Zinsen ${a.tage} Tage à ${a.satz.toLocaleString("de-DE")} %`} value={eur(a.zins, 2)} />
+                ))}
+                {pauschale > 0 && <ResultRow label="Pauschale § 288 Abs. 5 BGB" value={eur(pauschale, 2)} />}
+                {kosten > 0 && <ResultRow label="Mahnkosten" value={eur(kosten, 2)} />}
+                <ResultRow label="Gesamt" value={eur(gesamt, 2)} strong />
+              </div>
+              {zinsen.veraltet && <Callout tone="warning" className="mt-3">Für das aktuelle Halbjahr ist der Basiszins noch nicht hinterlegt. Zinsen sind mit dem letzten bekannten Wert gerechnet.</Callout>}
+              {stufe === "erinnerung" && <p className="mt-3 text-xs text-muted-foreground">Die freundliche Erinnerung verlangt bewusst keine Zinsen und Gebühren.</p>}
+              <Button size="lg" className="mt-5 w-full rounded-xl font-semibold" onClick={pdf} disabled={fehlt.length > 0}>
+                <Download className="h-4 w-4" aria-hidden="true" /> {STUFEN[stufe].titel} als PDF
+              </Button>
+              {fehlt.length > 0 && <p className="mt-2 text-xs text-muted-foreground">Für das PDF fehlt noch: {fehlt.join(", ")}.</p>}
+            </ResultPanel>
+
+            <ToolSection title="Wenn nichts passiert" icon={Gavel} bodyClassName="space-y-2 text-sm leading-relaxed text-foreground/85">
+              <p>Gerichtlicher Mahnbescheid über <a href="https://www.online-mahnantrag.de/" target="_blank" rel="noreferrer noopener" className="text-accent-blue hover:underline">online-mahnantrag.de</a>: Gerichtsgebühr 0,5, mindestens {MAHNVERFAHREN_MINDESTGEBUEHR} € (bei 1.000 € Forderung genau 38 €), muss der Schuldner am Ende tragen.</p>
+              <p>Verjährung dieser Forderung: <strong className="tabular">{de(verjaehrung(r.faellig))}</strong> (3 Jahre ab Jahresende). Rechnungen schreiben: <Link to="/cockpit/rechnungs-generator" className="text-accent-blue hover:underline">Rechnungs-Generator</Link>.</p>
+            </ToolSection>
+          </>
+        }
+      />
     </CockpitShell>
   );
 };

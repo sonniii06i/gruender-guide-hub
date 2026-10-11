@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { Bell, CalendarPlus, ExternalLink, MapPin, Settings2, Sparkles, Star, Timer, Wifi } from "lucide-react";
+import { ArrowRight, Bell, CalendarPlus, CalendarSearch, ExternalLink, Hourglass, MapPin, Settings2, Sparkles, Star, Timer, Wifi } from "lucide-react";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { EmptyState, Field, ToneBadge, ToolSection, selectCls } from "@/components/cockpit/kit";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { BUNDESLAND_NAMES } from "@/data/foerderprogramme";
@@ -19,38 +19,47 @@ const plusTage = (iso: string, n: number) => new Date(Date.parse(`${iso}T12:00:0
 const RadarKarte = ({ e, neu, gemerkt, merken }: { e: GruenderEvent; neu: boolean; gemerkt: boolean; merken: () => void }) => {
   const art = ART_LABELS[e.art];
   return (
-    <div className={`rounded-xl border bg-card p-3 flex gap-3 ${neu ? "border-accent-blue/50 shadow-soft" : "border-border"}`}>
-      <div className="w-14 shrink-0 text-center rounded-lg bg-secondary/70 py-1.5">
-        <div className="text-[10px] uppercase text-muted-foreground">{new Date(`${e.datum}T12:00:00`).toLocaleDateString("de-DE", { weekday: "short" })}</div>
-        <div className="text-lg font-bold leading-none">{e.datum!.slice(8, 10)}</div>
-        <div className="text-[10px] uppercase text-muted-foreground">{new Date(`${e.datum}T12:00:00`).toLocaleDateString("de-DE", { month: "short" })}</div>
+    <div className={`flex gap-3 rounded-xl border bg-card p-3 transition-[border-color,box-shadow] hover:shadow-card sm:gap-4 sm:p-4 ${neu ? "border-accent-blue/40" : "border-border"}`}>
+      <div className="w-14 shrink-0 rounded-lg bg-secondary/70 py-1.5 text-center">
+        <div className="text-[11px] text-muted-foreground">{new Date(`${e.datum}T12:00:00`).toLocaleDateString("de-DE", { weekday: "short" })}</div>
+        <div className="text-lg font-semibold leading-tight tabular">{e.datum!.slice(8, 10)}</div>
+        <div className="text-[11px] text-muted-foreground">{new Date(`${e.datum}T12:00:00`).toLocaleDateString("de-DE", { month: "short" })}</div>
       </div>
-      <div className="flex-1 min-w-0">
+      <div className="min-w-0 flex-1">
         <div className="flex items-start gap-2">
-          <a href={e.url} target="_blank" rel="noreferrer noopener" className="font-semibold text-sm leading-snug hover:text-accent-blue flex-1">
+          <a href={e.url} target="_blank" rel="noreferrer noopener" className="flex-1 text-sm font-semibold leading-snug hover:text-accent-blue">
             {e.name}
           </a>
-          {neu && <span className="shrink-0 rounded-full bg-accent-blue text-primary-foreground px-2 py-0.5 text-[10px] font-bold">NEU</span>}
+          {neu && <ToneBadge tone="accent" className="shrink-0">Neu</ToneBadge>}
         </div>
-        <div className="flex flex-wrap gap-1.5 mt-1.5 text-[10px]">
-          <span className={`rounded-full px-2 py-0.5 font-semibold ${art.color}`}>{art.emoji} {art.name}</span>
-          <span className="rounded-full bg-secondary text-muted-foreground px-2 py-0.5 inline-flex items-center gap-1">
-            {e.format === "online" ? <Wifi className="h-3 w-3" /> : <MapPin className="h-3 w-3" />} {e.format === "online" ? "Online" : e.ort}
+        <div className="mt-2 flex flex-wrap gap-1.5 text-[11px]">
+          <span className="rounded-md bg-accent px-1.5 py-0.5 font-medium text-accent-foreground">{art.name}</span>
+          <span className="inline-flex items-center gap-1 rounded-md bg-secondary px-1.5 py-0.5 text-muted-foreground">
+            {e.format === "online" ? <Wifi className="h-3 w-3" aria-hidden="true" /> : <MapPin className="h-3 w-3" aria-hidden="true" />} {e.format === "online" ? "Online" : e.ort}
           </span>
-          {e.dauer && <span className="rounded-full bg-secondary text-muted-foreground px-2 py-0.5 inline-flex items-center gap-1"><Timer className="h-3 w-3" /> {e.dauer}</span>}
-          {e.kostenlos && <span className="rounded-full bg-emerald-500/10 text-emerald-700 px-2 py-0.5 font-semibold">kostenlos</span>}
+          {e.dauer && (
+            <span className="inline-flex items-center gap-1 rounded-md bg-secondary px-1.5 py-0.5 text-muted-foreground">
+              <Timer className="h-3 w-3" aria-hidden="true" /> {e.dauer}
+            </span>
+          )}
+          {e.kostenlos && <ToneBadge tone="success">kostenlos</ToneBadge>}
         </div>
-        <div className="text-[11px] text-muted-foreground mt-1 truncate">{e.veranstalter}</div>
+        <div className="mt-1.5 truncate text-xs text-muted-foreground">{e.veranstalter}</div>
       </div>
-      <div className="flex flex-col gap-1 shrink-0">
-        <button type="button" onClick={merken} aria-label={gemerkt ? "Von der Merkliste nehmen" : "Merken"} className={`p-1.5 rounded-md hover:bg-secondary ${gemerkt ? "text-amber-500" : "text-muted-foreground"}`}>
+      <div className="flex shrink-0 flex-col gap-1">
+        <button
+          type="button"
+          onClick={merken}
+          aria-label={gemerkt ? "Von der Merkliste nehmen" : "Merken"}
+          className={`rounded-md p-1.5 transition-colors hover:bg-secondary ${gemerkt ? "text-warning" : "text-muted-foreground"}`}
+        >
           <Star className="h-4 w-4" fill={gemerkt ? "currentColor" : "none"} />
         </button>
         <button
           type="button"
           aria-label="In den Kalender"
           onClick={() => ladeIcsHerunter({ uid: e.slug, titel: e.name, start: e.datum!, ende: e.datumBis, ort: e.format === "online" ? "Online" : e.ort, beschreibung: e.veranstalter, url: e.url }, e.name)}
-          className="p-1.5 rounded-md hover:bg-secondary text-muted-foreground"
+          className="rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-secondary"
         >
           <CalendarPlus className="h-4 w-4" />
         </button>
@@ -120,8 +129,10 @@ const EventRadar = () => {
   const Liste = ({ id, titel, liste, leer }: { id: string; titel: string; liste: GruenderEvent[]; leer: string }) => {
     const n = sichtbar[id] ?? 25;
     return (
-      <div>
-        <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-2">{titel} <span className="text-foreground">({liste.length})</span></h2>
+      <section>
+        <h2 className="mb-3 flex items-baseline gap-2 text-base font-semibold tracking-tight">
+          {titel} <span className="text-sm font-normal text-muted-foreground tabular">{liste.length}</span>
+        </h2>
         {liste.length ? (
           <>
             <div className="space-y-2">
@@ -134,9 +145,9 @@ const EventRadar = () => {
             )}
           </>
         ) : (
-          <p className="text-sm text-muted-foreground rounded-xl border border-dashed border-border p-4">{leer}</p>
+          <EmptyState icon={CalendarSearch} title="Keine Treffer" description={leer} className="py-8" />
         )}
-      </div>
+      </section>
     );
   };
 
@@ -144,120 +155,142 @@ const EventRadar = () => {
     <CockpitShell
       eyebrow="Event-Radar · täglich aktualisiert"
       title="Dein Event-Radar"
-      subtitle="Gründerabende, Hackathons, KI-Meetups und Fristen – gefiltert auf deine Region und Interessen. Was seit deinem letzten Besuch dazugekommen ist, ist markiert."
+      subtitle="Gründerabende, Hackathons, KI-Meetups und Fristen, gefiltert auf deine Region und Interessen. Was seit deinem letzten Besuch dazugekommen ist, ist markiert."
+      actions={
+        <Button variant="outline" onClick={() => setEinrichten((x) => !x)}>
+          <Settings2 className="h-4 w-4" /> {einrichten ? "Schließen" : "Radar einstellen"}
+        </Button>
+      }
     >
       {/* Kopf: Zusammenfassung */}
-      <div className="rounded-3xl border-2 border-accent-blue/30 bg-gradient-to-br from-accent-blue/10 via-card to-card p-5 md:p-6 mb-6">
-        <div className="flex items-start justify-between gap-4 flex-wrap">
-          <div>
-            <div className="flex items-center gap-2 text-accent-blue text-xs font-semibold uppercase tracking-wider"><Bell className="h-4 w-4" /> {s.region ? BUNDESLAND_NAMES[s.region] : "Ganz Deutschland"}{s.online ? " + online" : ""}</div>
-            <div className="text-3xl font-bold mt-1">{neu.length} neu <span className="text-base font-normal text-muted-foreground">· {treffer.length} passende Events · {fristen.length} Fristen bald</span></div>
-            <p className="text-xs text-muted-foreground mt-1">
+      <section className="mb-6 rounded-2xl border border-border bg-card shadow-card" aria-live="polite">
+        <div className="grid grid-cols-1 gap-px overflow-hidden rounded-2xl bg-border sm:grid-cols-[1.4fr_1fr_1fr_1fr]">
+          <div className="bg-card p-5">
+            <p className="flex items-center gap-1.5 text-sm font-medium text-accent-blue">
+              <Bell className="h-4 w-4" aria-hidden="true" /> {s.region ? BUNDESLAND_NAMES[s.region] : "Ganz Deutschland"}
+              {s.online ? " + online" : ""}
+            </p>
+            <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
               {vorherigerBesuch
                 ? `Neu seit deinem letzten Besuch am ${vorherigerBesuch.split("-").reverse().join(".")}.`
-                : "Ab jetzt markiert das Radar alles, was der Monitor neu findet – beim nächsten Besuch siehst du es oben und in der Seitenleiste."}
+                : "Ab jetzt markiert das Radar alles, was der Monitor neu findet. Beim nächsten Besuch siehst du es oben und in der Seitenleiste."}
             </p>
           </div>
-          <Button variant="outline" size="sm" onClick={() => setEinrichten((x) => !x)}>
-            <Settings2 className="h-4 w-4 mr-2" /> {einrichten ? "Schließen" : "Radar einstellen"}
-          </Button>
+          {[
+            { n: neu.length, l: "neu" },
+            { n: treffer.length, l: "passende Events" },
+            { n: fristen.length, l: "Fristen bald" },
+          ].map((k) => (
+            <div key={k.l} className="bg-card p-5">
+              <div className="text-3xl font-semibold tracking-tight tabular">{k.n}</div>
+              <div className="mt-0.5 text-sm text-muted-foreground">{k.l}</div>
+            </div>
+          ))}
         </div>
 
         {einrichten && (
-          <div className="mt-5 grid grid-cols-1 md:grid-cols-2 gap-4 border-t border-border pt-5">
-            <div>
-              <Label className="text-xs">Region</Label>
-              <select value={entwurf.region ?? ""} onChange={(e) => setEntwurf((x) => ({ ...x, region: e.target.value || null }))} className="mt-1 h-10 w-full rounded-md border border-input bg-background px-3 text-sm">
-                <option value="">Ganz Deutschland</option>
-                {Object.entries(BUNDESLAND_NAMES).filter(([k]) => k !== "bund").map(([k, n]) => <option key={k} value={k}>{n}</option>)}
-              </select>
-              <Label className="text-xs mt-3 block">Stichworte (optional, mit Komma getrennt)</Label>
-              <Input value={entwurf.stichworte} onChange={(e) => setEntwurf((x) => ({ ...x, stichworte: e.target.value }))} placeholder="z. B. KI, E-Commerce, Förderung" className="mt-1" />
-              <div className="flex flex-col gap-1.5 mt-3 text-sm">
-                <label className="inline-flex items-center gap-2"><input type="checkbox" checked={entwurf.online} onChange={(e) => setEntwurf((x) => ({ ...x, online: e.target.checked }))} /> Online-Events einbeziehen</label>
-                <label className="inline-flex items-center gap-2"><input type="checkbox" checked={entwurf.nurKostenlos} onChange={(e) => setEntwurf((x) => ({ ...x, nurKostenlos: e.target.checked }))} /> Nur kostenlose</label>
+          <div className="grid grid-cols-1 gap-6 border-t border-border p-5 md:grid-cols-2 md:p-6">
+            <div className="space-y-4">
+              <Field label="Region" htmlFor="radar-region">
+                <select id="radar-region" value={entwurf.region ?? ""} onChange={(e) => setEntwurf((x) => ({ ...x, region: e.target.value || null }))} className={selectCls}>
+                  <option value="">Ganz Deutschland</option>
+                  {Object.entries(BUNDESLAND_NAMES).filter(([k]) => k !== "bund").map(([k, n]) => <option key={k} value={k}>{n}</option>)}
+                </select>
+              </Field>
+              <Field label="Stichworte" hint="Optional, mit Komma getrennt." htmlFor="radar-stichworte">
+                <Input id="radar-stichworte" value={entwurf.stichworte} onChange={(e) => setEntwurf((x) => ({ ...x, stichworte: e.target.value }))} placeholder="z. B. KI, E-Commerce, Förderung" />
+              </Field>
+              <div className="flex flex-col gap-2 text-sm">
+                <label className="inline-flex cursor-pointer items-center gap-2"><input type="checkbox" className="h-4 w-4 accent-[hsl(var(--primary))]" checked={entwurf.online} onChange={(e) => setEntwurf((x) => ({ ...x, online: e.target.checked }))} /> Online-Events einbeziehen</label>
+                <label className="inline-flex cursor-pointer items-center gap-2"><input type="checkbox" className="h-4 w-4 accent-[hsl(var(--primary))]" checked={entwurf.nurKostenlos} onChange={(e) => setEntwurf((x) => ({ ...x, nurKostenlos: e.target.checked }))} /> Nur kostenlose</label>
               </div>
             </div>
             <div>
-              <Label className="text-xs">Was interessiert dich?</Label>
-              <div className="grid grid-cols-2 gap-1.5 mt-1">
+              <p className="mb-1.5 text-sm font-medium">Was interessiert dich?</p>
+              <div className="grid grid-cols-1 gap-1.5 sm:grid-cols-2">
                 {(Object.keys(ART_LABELS) as EventArt[]).map((a) => (
-                  <label key={a} className={`rounded-lg border px-2.5 py-2 text-xs cursor-pointer ${entwurf.arten.includes(a) ? "border-accent-blue bg-accent-blue/5" : "border-border"}`}>
+                  <label
+                    key={a}
+                    className={`flex cursor-pointer items-center gap-2 rounded-lg border px-3 py-2 text-sm transition-colors ${entwurf.arten.includes(a) ? "border-primary bg-accent" : "border-border hover:border-foreground/20"}`}
+                  >
                     <input
                       type="checkbox"
-                      className="mr-1.5 align-middle"
+                      className="h-4 w-4 accent-[hsl(var(--primary))]"
                       checked={entwurf.arten.includes(a)}
                       onChange={(e) => setEntwurf((x) => ({ ...x, arten: e.target.checked ? [...x.arten, a] : x.arten.filter((y) => y !== a) }))}
                     />
-                    {ART_LABELS[a].emoji} {ART_LABELS[a].name}
+                    {ART_LABELS[a].name}
                   </label>
                 ))}
               </div>
-              <Button className="w-full mt-4" onClick={sichern} disabled={!entwurf.arten.length}>Radar speichern</Button>
-              <p className="text-[11px] text-muted-foreground mt-2">Die Einstellungen und deine Merkliste bleiben in diesem Browser gespeichert.</p>
+              <Button className="mt-4 w-full" onClick={sichern} disabled={!entwurf.arten.length}>Radar speichern</Button>
+              <p className="mt-2 text-xs text-muted-foreground">Die Einstellungen und deine Merkliste bleiben in diesem Browser gespeichert.</p>
             </div>
           </div>
         )}
-      </div>
+      </section>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6">
-        <div className="space-y-8">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-8">
+        <div className="min-w-0 space-y-10">
           {neu.length > 0 && (
-            <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-4">
-              <h2 className="font-bold mb-3 inline-flex items-center gap-2"><Sparkles className="h-4 w-4 text-accent-blue" /> Neu für dich</h2>
+            <section className="rounded-2xl border border-accent-blue/25 bg-accent/50 p-4 sm:p-5">
+              <h2 className="mb-3 inline-flex items-center gap-2 text-base font-semibold"><Sparkles className="h-4 w-4 text-accent-blue" aria-hidden="true" /> Neu für dich</h2>
               <div className="space-y-2">
                 {neu.slice(0, 12).map((e) => <RadarKarte key={e.slug} e={e} neu gemerkt={z.gemerkt.includes(e.slug)} merken={() => merken(e.slug)} />)}
               </div>
-              {neu.length > 12 && <p className="text-xs text-muted-foreground mt-2">… und {neu.length - 12} weitere unten in der Liste.</p>}
-            </div>
+              {neu.length > 12 && <p className="mt-2 text-xs text-muted-foreground">… und {neu.length - 12} weitere unten in der Liste.</p>}
+            </section>
           )}
-          <Liste id="woche" titel="Die nächsten 7 Tage" liste={woche} leer="In den nächsten 7 Tagen nichts Passendes – schau weiter unten oder erweitere dein Radar." />
+          <Liste id="woche" titel="Die nächsten 7 Tage" liste={woche} leer="In den nächsten 7 Tagen nichts Passendes. Schau weiter unten oder erweitere dein Radar." />
           <Liste id="spaeter" titel="Danach (bis 45 Tage)" liste={spaeter} leer="Nichts Passendes im Zeitraum." />
         </div>
 
-        <div className="space-y-4 lg:sticky lg:top-4 self-start">
-          <div className="rounded-2xl border border-border bg-card p-4">
-            <div className="flex items-center justify-between mb-2">
-              <h2 className="font-bold text-sm inline-flex items-center gap-1.5"><Star className="h-4 w-4 text-amber-500" fill="currentColor" /> Merkliste ({gemerkt.length})</h2>
-              {gemerkt.length > 0 && (
-                <button type="button" onClick={merklisteExport} className="text-[11px] text-accent-blue hover:underline inline-flex items-center gap-1"><CalendarPlus className="h-3 w-3" /> alle in den Kalender</button>
-              )}
-            </div>
+        <aside className="space-y-4 self-start lg:sticky lg:top-20">
+          <ToolSection
+            title={`Merkliste (${gemerkt.length})`}
+            icon={Star}
+            actions={
+              gemerkt.length > 0 ? (
+                <Button variant="ghost" size="sm" onClick={merklisteExport}>
+                  <CalendarPlus className="h-4 w-4" /> Alle in den Kalender
+                </Button>
+              ) : undefined
+            }
+            bodyClassName="p-4 md:p-5"
+          >
             {gemerkt.length ? (
-              <ul className="space-y-1.5 text-xs">
+              <ul className="space-y-2 text-sm">
                 {gemerkt.map((e) => (
                   <li key={e.slug} className="flex gap-2">
-                    <span className="w-16 shrink-0 text-muted-foreground">{tagLabel(e.datum!)}</span>
-                    <a href={e.url} target="_blank" rel="noreferrer noopener" className="hover:text-accent-blue flex-1">{e.name}</a>
+                    <span className="w-20 shrink-0 text-xs text-muted-foreground tabular">{tagLabel(e.datum!)}</span>
+                    <a href={e.url} target="_blank" rel="noreferrer noopener" className="flex-1 hover:text-accent-blue">{e.name}</a>
                   </li>
                 ))}
               </ul>
             ) : (
-              <p className="text-xs text-muted-foreground">Markiere Events mit dem Stern – sie landen hier und lassen sich gesammelt in den Kalender übernehmen.</p>
+              <p className="text-sm text-muted-foreground">Markiere Events mit dem Stern. Sie landen hier und lassen sich gesammelt in den Kalender übernehmen.</p>
             )}
-          </div>
-          <div className="rounded-2xl border border-amber-500/30 bg-amber-500/5 p-4">
-            <h2 className="font-bold text-sm mb-2">⏳ Fristen in den nächsten 45 Tagen</h2>
+          </ToolSection>
+          <ToolSection title="Fristen in den nächsten 45 Tagen" icon={Hourglass} bodyClassName="p-4 md:p-5">
             {fristen.length ? (
-              <ul className="space-y-2 text-xs">
+              <ul className="space-y-3 text-sm">
                 {fristen.map((f) => (
                   <li key={f.slug}>
-                    <a href={f.url} target="_blank" rel="noreferrer noopener" className="font-medium hover:text-accent-blue inline-flex items-center gap-1">{f.name} <ExternalLink className="h-3 w-3" /></a>
-                    <div className="text-muted-foreground">bis {f.frist!.split("-").reverse().join(".")} · {FRIST_LABELS[f.art].name}{f.preis ? ` · ${f.preis}` : ""}</div>
+                    <a href={f.url} target="_blank" rel="noreferrer noopener" className="inline-flex items-center gap-1 font-medium hover:text-accent-blue">{f.name} <ExternalLink className="h-3 w-3" aria-hidden="true" /></a>
+                    <div className="text-xs text-muted-foreground">bis {f.frist!.split("-").reverse().join(".")} · {FRIST_LABELS[f.art].name}{f.preis ? ` · ${f.preis}` : ""}</div>
                   </li>
                 ))}
               </ul>
             ) : (
-              <p className="text-xs text-muted-foreground">Gerade keine Frist in deiner Region.</p>
+              <p className="text-sm text-muted-foreground">Gerade keine Frist in deiner Region.</p>
             )}
-          </div>
-          <div className="rounded-2xl border border-border bg-card p-4 text-xs space-y-2">
-            <div className="font-bold text-sm">Mehr</div>
-            <Link to="/gruender-events" className="block text-accent-blue hover:underline">Alle Gründer-Events & Kalender-Abos →</Link>
-            <Link to="/hackathon-starter-kit" className="block text-accent-blue hover:underline">Hackathon-Starter-Kit →</Link>
-            <Link to="/cockpit/pitch-deck" className="block text-accent-blue hover:underline">Pitch-Deck für Wettbewerbe →</Link>
-          </div>
-        </div>
+          </ToolSection>
+          <ToolSection title="Mehr" bodyClassName="space-y-2 p-4 text-sm md:p-5">
+            <Link to="/gruender-events" className="flex items-center justify-between font-medium text-accent-blue hover:underline">Alle Gründer-Events & Kalender-Abos <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" /></Link>
+            <Link to="/hackathon-starter-kit" className="flex items-center justify-between font-medium text-accent-blue hover:underline">Hackathon-Starter-Kit <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" /></Link>
+            <Link to="/cockpit/pitch-deck" className="flex items-center justify-between font-medium text-accent-blue hover:underline">Pitch-Deck für Wettbewerbe <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" /></Link>
+          </ToolSection>
+        </aside>
       </div>
     </CockpitShell>
   );

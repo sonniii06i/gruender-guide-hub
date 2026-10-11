@@ -37,6 +37,17 @@
 
     --success: 152 58% 34%;
     --success-foreground: 0 0% 100%;
+    --success-soft: 150 50% 95%;
+
+    /* Status-Töne für Tool-Ergebnisse (Ampel, Hinweise). Statt roher
+       emerald/amber/red-Klassen in den Seiten: success / warning / danger / info. */
+    --warning: 32 92% 38%;
+    --warning-foreground: 0 0% 100%;
+    --warning-soft: 40 90% 95%;
+    --danger: 0 68% 46%;
+    --danger-soft: 0 80% 97%;
+    --info: 221 80% 46%;
+    --info-soft: 220 85% 96.5%;
 
     /* Felix-Grün als Markenfarbe. Bewusst getrennt von --success:
        success ist ein Status, brand-green ist die zweite Markenfarbe

@@ -7,6 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { getStoredAffiliateRef } from "@/utils/affiliate";
 import { PLANS, PLAN_ORDER, SOLO_CONTENTS, BUNDLE_CONTENTS, NOT_INCLUDED, CANCEL_NOTE, FOUNDER_CODE, formatEurCents } from "@/config/pricing";
 import { rememberCartVariant } from "@/lib/cart";
+import { ANBIETER_ANZAHL } from "@/data/kennzahlen";
 import { toast } from "sonner";
 import { ProductGallery, type GalleryImage } from "@/components/product/ProductGallery";
 import { ProductBuyBox, eur, type Variant } from "@/components/product/ProductBuyBox";
@@ -54,7 +55,7 @@ const SOLO_GALLERY: GalleryImage[] = [
   { src: "/screens/cockpit-uebersicht.jpg", alt: "GründerX-Cockpit mit laufenden Guides und Einsteiger-Tools", caption: "Dein Cockpit — laufende Guides, Tools und Empfehlungen an einer Stelle" },
   { src: "/screens/cockpit-rechtsform.jpg", alt: "Rechtsform-Wizard mit Empfehlung UG und Begründung", caption: "Rechtsform-Wizard: fünf Fragen, dann eine begründete Empfehlung samt Fallstricken" },
   { src: "/screens/cockpit-steuer.jpg", alt: "Steuer-Cockpit mit Fristen-Kalender 2026 und USt-Einstellungen", caption: "Steuer-Cockpit: Fristen richten sich live nach Rechtsform, USt-Rhythmus und OSS" },
-  { src: "/screens/cockpit-anbieter.jpg", alt: "Anbieter-Vergleich mit 213 Anbietern nach Kategorien", caption: "Anbieter-Vergleich: 213 Anbieter mit Stärken und Schwächen, wöchentlich gepflegt" },
+  { src: "/screens/cockpit-anbieter.jpg", alt: `Anbieter-Vergleich mit ${ANBIETER_ANZAHL} Anbietern nach Kategorien`, caption: `Anbieter-Vergleich: ${ANBIETER_ANZAHL} Anbieter mit Stärken und Schwächen, wöchentlich gepflegt` },
 ];
 
 const BUNDLE_GALLERY: GalleryImage[] = [

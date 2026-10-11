@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Plus } from "lucide-react";
 import { PLANS, FOUNDER_CODE, formatEurCents, netCentsOf } from "@/config/pricing";
+import { ANBIETER_ANZAHL, ANBIETER_KATEGORIEN } from "@/data/kennzahlen";
 
 
 const faqs = [
@@ -34,7 +35,7 @@ const faqs = [
   },
   {
     q: "Welche Anbieter werden verglichen?",
-    a: "Über 90 Anbieter in 14 Kategorien – inkl. ehrlicher Stärken/Schwächen-Analyse aus Reddit, DTC-Slack und E-Commerce-Foren: Banking DE (Qonto, Holvi, Finom, Kontist, Deutsche Bank, Commerzbank, Sparkasse, Volksbank, Postbank, HVB, Targobank, DKB, Fyrst, N26, Revolut, Vivid, Bunq), Banking US (Mercury, Wise, Relay, Brex, Novo, Bluevine, Found), Versand DACH (DHL, DPD, GLS, Hermes, UPS, Sendcloud), Buchhaltung (lexoffice, sevDesk, Candis, BuchhaltungsButler, Accountable, smartsteuer), 3PL/Fulfillment (byrd, ShipBob, FromSpace, Warehousing1, Logward, BEZAHLT), LUCID (Lizenzero, Reclay), Email-Marketing (Klaviyo, Brevo, Mailchimp, MailerLite, Omnisend, Postmark, ActiveCampaign), Tracking (Triple Whale, Hyros, Northbeam, Polar Analytics, RockerBox), Shop-Systeme (Shopify, Shopware, WooCommerce, BigCommerce, Lightspeed), Domains (Cloudflare Registrar, Namecheap, IONOS, ALL-INKL, INWX, Porkbun), Workspace/Email (Google Workspace, Microsoft 365, mailbox.org, Proton, Fastmail), Geschäftsfahrzeug (Sixt Leasing, ALD/Ayvens, VW/Mercedes/BMW Financial Services, Vehiculum, LeasePlan, FINN), Haftpflichtversicherung (Hiscox, exali, mailo, Andsafe, Adam Riese, Allianz, AXA, HDI, thinksurance, VOV) und Rechtsschutz (Roland, ARAG, DAS, Advocard, DEURAG, HDI). Liste wird wöchentlich + monatlich automatisiert aktualisiert – neue Anbieter werden vorgeschlagen, tote URLs gemeldet, Preise nachgezogen.",
+    a: `${ANBIETER_ANZAHL} Anbieter in ${ANBIETER_KATEGORIEN} Kategorien, jeweils mit Stärken und Schwächen aus Reddit, DTC-Slack und E-Commerce-Foren. Darunter: Banking DE (Qonto, Holvi, Finom, Kontist, Deutsche Bank, Commerzbank, Sparkasse, Volksbank, Postbank, HVB, Targobank, DKB, Fyrst, N26, Revolut, Vivid, Bunq), Banking US (Mercury, Wise, Relay, Brex, Novo, Bluevine, Found), Versand DACH (DHL, DPD, GLS, Hermes, UPS, Sendcloud), Buchhaltung (lexoffice, sevDesk, Candis, BuchhaltungsButler, Accountable, smartsteuer), 3PL/Fulfillment (byrd, ShipBob, FromSpace, Warehousing1, Logward, BEZAHLT), LUCID (Lizenzero, Reclay), Email-Marketing (Klaviyo, Brevo, Mailchimp, MailerLite, Omnisend, Postmark, ActiveCampaign), Tracking (Triple Whale, Hyros, Northbeam, Polar Analytics, RockerBox), Shop-Systeme (Shopify, Shopware, WooCommerce, BigCommerce, Lightspeed), Domains (Cloudflare Registrar, Namecheap, IONOS, ALL-INKL, INWX, Porkbun), Workspace/Email (Google Workspace, Microsoft 365, mailbox.org, Proton, Fastmail), Geschäftsfahrzeug (Sixt Leasing, ALD/Ayvens, VW/Mercedes/BMW Financial Services, Vehiculum, LeasePlan, FINN), Haftpflichtversicherung (Hiscox, exali, mailo, Andsafe, Adam Riese, Allianz, AXA, HDI, thinksurance, VOV) und Rechtsschutz (Roland, ARAG, DAS, Advocard, DEURAG, HDI). Die Liste wird automatisiert geprüft: neue Anbieter werden vorgeschlagen, tote Links gemeldet, Preise nachgezogen.`,
   },
   {
     q: "Was kostet GründerX?",

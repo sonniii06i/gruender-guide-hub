@@ -11,9 +11,8 @@ import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import Stand2026Footer from "@/components/cockpit/Stand2026Footer";
-import { Input } from "@/components/ui/input";
 import { NumberField } from "@/components/ui/number-field";
-import { Label } from "@/components/ui/label";
+import { Callout, Field, ResultPanel, ToneBadge, ToolLayout, ToolSection, selectCls, type Tone } from "@/components/cockpit/kit";
 import {
   Lightbulb,
   Shield,
@@ -21,7 +20,10 @@ import {
   AlertTriangle,
   CheckCircle2,
   ChevronDown,
-  Award,
+  ArrowRight,
+  Building2,
+  FileCheck,
+  Target,
 } from "lucide-react";
 import {
   VERSICHERUNGEN,
@@ -82,84 +84,82 @@ const VersicherungsBasisCheck = () => {
     return { anzahl: relevant.length, min, mittel, max };
   }, [empfehlungen]);
 
+  const nichtNoetig = empfehlungen.filter((e) => e.priorityResult === "nicht-noetig");
+
   return (
     <CockpitShell
       eyebrow="🌱 Erste Schritte · für komplette Anfänger:innen"
       title="Versicherungs-Basis-Check Solo"
-      subtitle="Welche Versicherungen brauchst du WIRKLICH? 7-Frage-Setup → priorisierte Empfehlungen aus 11 Versicherungs-Typen mit Schadenbeispielen, Beitrags-Schätzung und Worauf-Achten-Liste. Kein Versicherungs-Verkauf — neutrale Orientierung."
+      subtitle="Welche Versicherungen brauchst du WIRKLICH? 7-Frage-Setup → priorisierte Empfehlungen aus 11 Versicherungs-Typen mit Schadenbeispielen, Beitrags-Schätzung und Worauf-Achten-Liste. Kein Versicherungs-Verkauf, neutrale Orientierung."
     >
       <BeginnerHero />
 
-      {/* === Setup === */}
-      <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5 mb-4">
-        <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
-          <Shield className="h-4 w-4 text-accent-blue" /> Setup — 7 Fragen
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <div>
-            <Label className="text-xs">Berufsbild *</Label>
-            <select value={setup.berufsbild} onChange={(e) => updateSetup("berufsbild", e.target.value as Berufsbild)} className="mt-1 h-10 w-full rounded-md border border-input bg-background px-3 text-sm">
-              {Object.entries(BERUFSBILD_LABELS).map(([k, v]) => (
-                <option key={k} value={k}>{v}</option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <Label className="text-xs">Rechtsform</Label>
-            <select value={setup.rechtsform} onChange={(e) => updateSetup("rechtsform", e.target.value as Rechtsform)} className="mt-1 h-10 w-full rounded-md border border-input bg-background px-3 text-sm">
-              <option value="einzel-freiberuf">Freiberuf (Einzelunternehmen)</option>
-              <option value="einzel-gewerbe">Einzel-Gewerbe</option>
-              <option value="gbr">GbR</option>
-              <option value="ug-gmbh">UG / GmbH</option>
-            </select>
-          </div>
-          <div>
-            <Label className="text-xs">Voraussichtlicher Jahres-Umsatz (€)</Label>
-            <NumberField value={setup.jahresUmsatz} onChange={(n) => updateSetup("jahresUmsatz", n)} min={0} className="h-9 mt-1" />
-          </div>
-          <div className="space-y-1.5">
-            <Label className="text-xs">Situation</Label>
-            <label className="flex items-center gap-2 text-xs cursor-pointer rounded-lg border border-border p-2">
-              <input type="checkbox" checked={setup.mitarbeiter} onChange={(e) => updateSetup("mitarbeiter", e.target.checked)} className="h-4 w-4" />
-              <span>Mitarbeiter / Praktikant / Minijob</span>
-            </label>
-            <label className="flex items-center gap-2 text-xs cursor-pointer rounded-lg border border-border p-2">
-              <input type="checkbox" checked={setup.eigenesBuero} onChange={(e) => updateSetup("eigenesBuero", e.target.checked)} className="h-4 w-4" />
-              <span>Eigenes Büro / Lager mit Inventar &gt; 5k €</span>
-            </label>
-            <label className="flex items-center gap-2 text-xs cursor-pointer rounded-lg border border-border p-2">
-              <input type="checkbox" checked={setup.onlineDatenverarbeitung} onChange={(e) => updateSetup("onlineDatenverarbeitung", e.target.checked)} className="h-4 w-4" />
-              <span>Online-Geschäft / Kundendaten verarbeitend</span>
-            </label>
-            <label className="flex items-center gap-2 text-xs cursor-pointer rounded-lg border border-border p-2">
-              <input type="checkbox" checked={setup.eigeneProdukte} onChange={(e) => updateSetup("eigeneProdukte", e.target.checked)} className="h-4 w-4" />
-              <span>Eigene Produkte / Eigenmarke (verkauft, nicht nur Dienstleistung)</span>
-            </label>
-          </div>
-        </div>
-      </div>
+      <ToolLayout
+        className="mb-10"
+        inputs={
+          <ToolSection icon={Shield} title="Setup: 7 Fragen" description="Deine Antworten bleiben in diesem Browser gespeichert.">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              <Field label="Berufsbild" htmlFor="vb-beruf">
+                <select id="vb-beruf" value={setup.berufsbild} onChange={(e) => updateSetup("berufsbild", e.target.value as Berufsbild)} className={selectCls}>
+                  {Object.entries(BERUFSBILD_LABELS).map(([k, v]) => (
+                    <option key={k} value={k}>{v}</option>
+                  ))}
+                </select>
+              </Field>
+              <Field label="Rechtsform" htmlFor="vb-rf">
+                <select id="vb-rf" value={setup.rechtsform} onChange={(e) => updateSetup("rechtsform", e.target.value as Rechtsform)} className={selectCls}>
+                  <option value="einzel-freiberuf">Freiberuf (Einzelunternehmen)</option>
+                  <option value="einzel-gewerbe">Einzel-Gewerbe</option>
+                  <option value="gbr">GbR</option>
+                  <option value="ug-gmbh">UG / GmbH</option>
+                </select>
+              </Field>
+              <Field label="Voraussichtlicher Jahres-Umsatz (€)" className="md:col-span-2">
+                <NumberField aria-label="Voraussichtlicher Jahres-Umsatz in Euro" value={setup.jahresUmsatz} onChange={(n) => updateSetup("jahresUmsatz", n)} min={0} className="tabular" />
+              </Field>
+            </div>
+            <fieldset className="mt-5">
+              <legend className="mb-2 text-sm font-medium">Deine Situation</legend>
+              <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                {([
+                  ["mitarbeiter", "Mitarbeiter / Praktikant / Minijob"],
+                  ["eigenesBuero", "Eigenes Büro / Lager mit Inventar > 5k €"],
+                  ["onlineDatenverarbeitung", "Online-Geschäft / Kundendaten verarbeitend"],
+                  ["eigeneProdukte", "Eigene Produkte / Eigenmarke (verkauft, nicht nur Dienstleistung)"],
+                ] as const).map(([k, label]) => (
+                  <label
+                    key={k}
+                    className={`flex cursor-pointer items-start gap-2.5 rounded-xl border p-3 text-sm transition-colors ${
+                      setup[k] ? "border-accent-blue/40 bg-accent/60" : "border-border bg-card hover:border-foreground/20"
+                    }`}
+                  >
+                    <input type="checkbox" checked={setup[k]} onChange={(e) => updateSetup(k, e.target.checked)} className="mt-0.5 h-4 w-4 shrink-0 accent-[hsl(var(--primary))]" />
+                    <span>{label}</span>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+          </ToolSection>
+        }
+        result={
+          <ResultPanel
+            variant="ink"
+            kicker={<>Geschätzte Jahreskosten für PFLICHT + DRINGEND ({kostenSchaetzung.anzahl} Versicherungen)</>}
+            title={null}
+            value={<>{kostenSchaetzung.mittel.toLocaleString("de-DE")} €</>}
+            valueHint={<>Spanne: {kostenSchaetzung.min.toLocaleString("de-DE")} bis {kostenSchaetzung.max.toLocaleString("de-DE")} € pro Jahr</>}
+          >
+            <div className="flex items-baseline justify-between border-t border-white/10 pt-4 text-sm">
+              <span>Pro Monat</span>
+              <span className="text-lg font-semibold tabular">~{Math.round(kostenSchaetzung.mittel / 12).toLocaleString("de-DE")} €</span>
+            </div>
+            <p className="mt-3 text-xs text-primary-foreground/65">Schätzwerte für Solo-Selbstständige bei mittlerem Risiko-Profil.</p>
+          </ResultPanel>
+        }
+      />
 
-      {/* === Kosten-Hero === */}
-      <div className="rounded-2xl border-2 border-accent-blue/40 bg-gradient-to-br from-accent-blue/10 via-card to-card p-5 mb-4">
-        <div className="text-xs uppercase tracking-wider text-muted-foreground mb-1">
-          Geschätzte Jahreskosten für PFLICHT + DRINGEND ({kostenSchaetzung.anzahl} Versicherungen)
-        </div>
-        <div className="flex items-baseline gap-3 flex-wrap mb-2">
-          <div className="text-4xl font-bold text-emerald-700">
-            {kostenSchaetzung.mittel.toLocaleString("de-DE")} €
-          </div>
-          <div className="text-sm text-muted-foreground">
-            Spanne: {kostenSchaetzung.min.toLocaleString("de-DE")} – {kostenSchaetzung.max.toLocaleString("de-DE")} €/Jahr
-          </div>
-        </div>
-        <div className="text-xs text-muted-foreground">
-          Pro Monat: ~{Math.round(kostenSchaetzung.mittel / 12).toLocaleString("de-DE")} €
-          {" · "}Schätzwerte für Solo-Selbstständige bei mittlerem Risiko-Profil.
-        </div>
-      </div>
-
-      {/* === Empfehlungs-Liste === */}
-      <div className="space-y-3 mb-6">
+      <h2 className="mb-4 text-lg font-semibold tracking-tight">Deine Empfehlungen</h2>
+      <div className="mb-6 space-y-3">
         {empfehlungen.filter((e) => e.priorityResult !== "nicht-noetig").map((v) => (
           <VersicherungsCard
             key={v.id}
@@ -170,38 +170,37 @@ const VersicherungsBasisCheck = () => {
         ))}
       </div>
 
-      {/* === Nicht nötig === */}
-      {empfehlungen.some((e) => e.priorityResult === "nicht-noetig") && (
-        <details className="rounded-2xl border border-border bg-card p-4 mb-6">
-          <summary className="cursor-pointer font-bold text-sm flex items-center gap-2">
-            <ChevronDown className="h-4 w-4" />
-            Versicherungen die du laut deinem Setup NICHT brauchst ({empfehlungen.filter((e) => e.priorityResult === "nicht-noetig").length})
+      {nichtNoetig.length > 0 && (
+        <details className="group mb-8 rounded-2xl border border-border bg-card [&_summary::-webkit-details-marker]:hidden">
+          <summary className="flex cursor-pointer list-none items-center gap-2 px-5 py-4 text-sm font-semibold">
+            <ChevronDown className="h-4 w-4 transition-transform group-open:rotate-180" aria-hidden="true" />
+            Versicherungen die du laut deinem Setup NICHT brauchst ({nichtNoetig.length})
           </summary>
-          <div className="mt-3 space-y-2">
-            {empfehlungen.filter((e) => e.priorityResult === "nicht-noetig").map((v) => (
-              <div key={v.id} className="rounded-lg bg-secondary/20 p-3 text-xs">
-                <div className="font-semibold text-muted-foreground">{v.name}</div>
-                <div className="text-muted-foreground mt-0.5">{v.beschreibung}</div>
+          <div className="grid gap-2 px-5 pb-5 sm:grid-cols-2">
+            {nichtNoetig.map((v) => (
+              <div key={v.id} className="rounded-xl bg-secondary/50 p-3 text-sm">
+                <div className="font-medium text-foreground/80">{v.name}</div>
+                <div className="mt-0.5 text-xs text-muted-foreground">{v.beschreibung}</div>
               </div>
             ))}
           </div>
         </details>
       )}
 
-      {/* === Cross-Links === */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-6">
-        <Link to="/cockpit/kv-optimizer" className="rounded-xl border border-border bg-card p-3 text-xs hover:border-accent-blue transition">
-          <div className="font-semibold mb-0.5">KV-Optimizer →</div>
-          <div className="text-muted-foreground">Krankenversicherung im Detail</div>
-        </Link>
-        <Link to="/cockpit/erste-schritte-roadmap" className="rounded-xl border border-border bg-card p-3 text-xs hover:border-accent-blue transition">
-          <div className="font-semibold mb-0.5">Erste-Schritte-Roadmap (Tool 11) →</div>
-          <div className="text-muted-foreground">Wann welche Versicherung?</div>
-        </Link>
-        <Link to="/cockpit/pension-optimizer" className="rounded-xl border border-border bg-card p-3 text-xs hover:border-accent-blue transition">
-          <div className="font-semibold mb-0.5">Pension-Optimizer →</div>
-          <div className="text-muted-foreground">Altersvorsorge ergänzen</div>
-        </Link>
+      <div className="mb-8 grid grid-cols-1 gap-3 md:grid-cols-3">
+        {[
+          { to: "/cockpit/kv-optimizer", t: "KV-Optimizer", d: "Krankenversicherung im Detail" },
+          { to: "/cockpit/erste-schritte-roadmap", t: "Erste-Schritte-Roadmap (Tool 11)", d: "Wann welche Versicherung?" },
+          { to: "/cockpit/pension-optimizer", t: "Pension-Optimizer", d: "Altersvorsorge ergänzen" },
+        ].map((l) => (
+          <Link key={l.to} to={l.to} className="press group rounded-xl border border-border bg-card p-4 hover:border-accent-blue/40 hover:shadow-card">
+            <div className="flex items-center justify-between gap-2 text-sm font-semibold">
+              {l.t}
+              <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-accent-blue" aria-hidden="true" />
+            </div>
+            <div className="mt-0.5 text-xs text-muted-foreground">{l.d}</div>
+          </Link>
+        ))}
       </div>
 
       <Glossar />
@@ -212,10 +211,25 @@ const VersicherungsBasisCheck = () => {
           { label: "§51 BRAO (Anwalt-BHV)", url: "https://www.gesetze-im-internet.de/brao/__51.html" },
           { label: "§193 VVG (KV-Pflicht)", url: "https://www.gesetze-im-internet.de/vvg_2008/__193.html" },
         ]}
-        note="Beitrags-Ranges sind 2025/2026-Markt-Durchschnitte für Solo bei mittlerem Risiko. Bei Hochrisiko-Tätigkeiten (USA-Geschäft, Health-Tech, Hochleistungs-Sport, Architekt) deutlich höher. Tool ist NEUTRALE Orientierung — kein Versicherungs-Verkauf. Vor Abschluss: Makler-Beratung empfohlen wegen Detail-Komplexität (Klauseln, Ausschlüsse, Selbstbehalt). Mein Tipp: 2-3 Angebote einholen + Bedingungen vergleichen, nicht nur Preis."
+        note="Beitrags-Ranges sind 2025/2026-Markt-Durchschnitte für Solo bei mittlerem Risiko. Bei Hochrisiko-Tätigkeiten (USA-Geschäft, Health-Tech, Hochleistungs-Sport, Architekt) deutlich höher. Tool ist NEUTRALE Orientierung, kein Versicherungs-Verkauf. Vor Abschluss: Makler-Beratung empfohlen wegen Detail-Komplexität (Klauseln, Ausschlüsse, Selbstbehalt). Mein Tipp: 2-3 Angebote einholen + Bedingungen vergleichen, nicht nur Preis."
       />
     </CockpitShell>
   );
+};
+
+const TONE: Record<Prioritaet, Tone> = {
+  pflicht: "danger",
+  dringend: "warning",
+  sinnvoll: "info",
+  optional: "neutral",
+  "nicht-noetig": "neutral",
+};
+const RAND: Record<Prioritaet, string> = {
+  pflicht: "border-l-danger",
+  dringend: "border-l-warning",
+  sinnvoll: "border-l-info",
+  optional: "border-l-border",
+  "nicht-noetig": "border-l-border",
 };
 
 // ============================================================================
@@ -230,75 +244,77 @@ const VersicherungsCard = ({ versicherung: v, prioritaet, pflichtGrund }: {
   const c = PRIORITAET_FARBE[prioritaet];
 
   return (
-    <div className={`rounded-xl border-2 ${c.border} bg-card p-4 transition`}>
-      <div className="flex items-start justify-between gap-3 flex-wrap mb-2">
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 flex-wrap mb-1">
-            <span className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded ${c.bg} ${c.text} border ${c.border}`}>
-              {c.label}
-            </span>
-            <span className="text-[10px] uppercase font-mono text-muted-foreground">{v.kuerzel}</span>
+    <article className={`rounded-2xl border border-l-4 border-border bg-card p-5 shadow-card ${RAND[prioritaet]}`}>
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div className="min-w-0 flex-1">
+          <div className="mb-1.5 flex flex-wrap items-center gap-2">
+            <ToneBadge tone={TONE[prioritaet]}>{c.label}</ToneBadge>
+            <span className="text-xs text-muted-foreground">{v.kuerzel}</span>
           </div>
-          <h3 className="font-bold text-base">{v.name}</h3>
+          <h3 className="text-base font-semibold">{v.name}</h3>
         </div>
         <div className="text-right">
-          <div className="text-[10px] uppercase text-muted-foreground">Beitrag/Jahr (mittel)</div>
-          <div className="text-lg font-bold font-mono text-emerald-700">
+          <div className="text-xs text-muted-foreground">Beitrag/Jahr (mittel)</div>
+          <div className="text-lg font-semibold tabular">
             {v.beitragRange.mittel.toLocaleString("de-DE")} €
           </div>
-          <div className="text-[10px] text-muted-foreground font-mono">
-            {v.beitragRange.min.toLocaleString("de-DE")} – {v.beitragRange.max.toLocaleString("de-DE")} €
+          <div className="text-xs text-muted-foreground tabular">
+            {v.beitragRange.min.toLocaleString("de-DE")} bis {v.beitragRange.max.toLocaleString("de-DE")} €
           </div>
         </div>
       </div>
 
       {pflichtGrund && (
-        <div className="rounded-lg bg-red-500/10 border border-red-500/30 p-2 text-xs flex items-start gap-2 mb-2">
-          <AlertTriangle className="h-4 w-4 text-red-700 shrink-0 mt-0.5" />
-          <div><strong className="text-red-700">Pflicht-Begründung:</strong> {pflichtGrund}</div>
-        </div>
+        <Callout tone="danger" className="mt-3 p-3 text-xs">
+          <strong className="text-danger">Pflicht-Begründung:</strong> {pflichtGrund}
+        </Callout>
       )}
 
-      <p className="text-xs text-muted-foreground mb-2">{v.beschreibung}</p>
+      <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{v.beschreibung}</p>
 
-      <div className="rounded-lg bg-amber-500/5 border border-amber-500/20 p-2 text-xs mb-2">
-        <strong className="text-amber-700">🎯 Beispiel-Schadensfall:</strong>
-        <div className="text-muted-foreground mt-0.5">{v.schadenbeispiel}</div>
+      <div className="mt-3 rounded-xl bg-secondary/60 p-3 text-sm">
+        <p className="flex items-center gap-1.5 font-medium text-foreground">
+          <Target className="h-3.5 w-3.5 text-warning" aria-hidden="true" /> Beispiel-Schadensfall
+        </p>
+        <p className="mt-0.5 text-muted-foreground">{v.schadenbeispiel}</p>
       </div>
 
       <button
+        type="button"
+        aria-expanded={expanded}
         onClick={() => setExpanded(!expanded)}
-        className="text-[11px] text-accent-blue hover:underline mt-1"
+        className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-accent-blue hover:underline"
       >
-        {expanded ? "weniger anzeigen ▲" : "mehr Details ▼"}
+        {expanded ? "weniger anzeigen" : "mehr Details"}
+        <ChevronDown className={`h-3.5 w-3.5 transition-transform ${expanded ? "rotate-180" : ""}`} aria-hidden="true" />
       </button>
 
       {expanded && (
-        <div className="mt-3 space-y-3 text-xs">
+        <div className="mt-4 grid gap-4 border-t border-border/70 pt-4 text-sm md:grid-cols-3">
           <div>
-            <div className="font-semibold mb-1">📋 Empfohlene Deckungssumme</div>
-            <div className="text-muted-foreground">{v.deckungssumme}</div>
+            <p className="mb-1 flex items-center gap-1.5 font-medium"><FileCheck className="h-3.5 w-3.5 text-accent-blue" aria-hidden="true" /> Empfohlene Deckungssumme</p>
+            <p className="text-muted-foreground">{v.deckungssumme}</p>
           </div>
           <div>
-            <div className="font-semibold mb-1">⚠️ Worauf achten</div>
+            <p className="mb-1 flex items-center gap-1.5 font-medium"><AlertTriangle className="h-3.5 w-3.5 text-warning" aria-hidden="true" /> Worauf achten</p>
             <ul className="space-y-1 text-muted-foreground">
               {v.worauf_achten.map((w, i) => (
-                <li key={i} className="flex items-start gap-1">
-                  <CheckCircle2 className="h-3 w-3 text-emerald-600 mt-0.5 shrink-0" />
+                <li key={i} className="flex items-start gap-1.5">
+                  <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-success" aria-hidden="true" />
                   <span>{w}</span>
                 </li>
               ))}
             </ul>
           </div>
           <div>
-            <div className="font-semibold mb-1">🏢 Anbieter-Hinweise (nur Orientierung, keine Empfehlung)</div>
-            <ul className="space-y-0.5 text-muted-foreground">
-              {v.anbieter_hinweise.map((a, i) => <li key={i}>• {a}</li>)}
+            <p className="mb-1 flex items-center gap-1.5 font-medium"><Building2 className="h-3.5 w-3.5 text-muted-foreground" aria-hidden="true" /> Anbieter-Hinweise (nur Orientierung, keine Empfehlung)</p>
+            <ul className="list-disc space-y-0.5 pl-4 text-muted-foreground">
+              {v.anbieter_hinweise.map((a, i) => <li key={i}>{a}</li>)}
             </ul>
           </div>
         </div>
       )}
-    </div>
+    </article>
   );
 };
 
@@ -306,33 +322,28 @@ const VersicherungsCard = ({ versicherung: v, prioritaet, pflichtGrund }: {
 // Sub-Components
 // ============================================================================
 const BeginnerHero = () => (
-  <div className="rounded-2xl border-2 border-accent-blue/30 bg-gradient-to-br from-accent-blue/10 via-card to-card p-5 mb-6">
-    <div className="flex items-start gap-3">
-      <Lightbulb className="h-6 w-6 text-accent-blue shrink-0 mt-0.5" />
-      <div className="flex-1">
-        <h3 className="font-bold text-sm mb-1">Welche Versicherungen brauchst du als Solo-Selbstständige:r?</h3>
-        <p className="text-xs text-muted-foreground leading-relaxed mb-2">
-          Versicherungsmakler verkaufen oft zu viel. Diese Tool gibt eine NEUTRALE Orientierung: aus 11 Typen
-          werden nur die wirklich nötigen empfohlen. 4 Pflicht-Stufen sortiert. Mit Schadenbeispielen,
-          Beitrags-Schätzung und Hinweisen worauf bei den Bedingungen zu achten ist.
-        </p>
-        <div className="flex flex-wrap gap-2 text-[11px]">
-          <span className="rounded-lg bg-red-500/5 px-2 py-1 border border-red-500/20"><strong className="text-red-700">PFLICHT</strong> = rechtlich vorgeschrieben</span>
-          <span className="rounded-lg bg-amber-500/5 px-2 py-1 border border-amber-500/20"><strong className="text-amber-700">DRINGEND</strong> = ohne = existenzbedrohend</span>
-          <span className="rounded-lg bg-blue-500/5 px-2 py-1 border border-blue-500/20"><strong className="text-blue-700">SINNVOLL</strong> = je nach Risiko-Profil</span>
-          <span className="rounded-lg bg-secondary/40 px-2 py-1 border border-border"><strong>OPTIONAL</strong> = nur bei spezifischem Bedarf</span>
-        </div>
-      </div>
+  <Callout tone="accent" icon={Lightbulb} title="Welche Versicherungen brauchst du als Solo-Selbstständige:r?" className="mb-8 p-5">
+    <p className="mb-3">
+      Versicherungsmakler verkaufen oft zu viel. Dieses Tool gibt eine NEUTRALE Orientierung: aus 11 Typen
+      werden nur die wirklich nötigen empfohlen, nach 4 Pflicht-Stufen sortiert. Mit Schadenbeispielen,
+      Beitrags-Schätzung und Hinweisen, worauf bei den Bedingungen zu achten ist.
+    </p>
+    <div className="flex flex-wrap gap-2 text-xs">
+      <span className="inline-flex items-center gap-1.5 rounded-lg bg-card px-2 py-1"><ToneBadge tone="danger">PFLICHT</ToneBadge> rechtlich vorgeschrieben</span>
+      <span className="inline-flex items-center gap-1.5 rounded-lg bg-card px-2 py-1"><ToneBadge tone="warning">DRINGEND</ToneBadge> ohne existenzbedrohend</span>
+      <span className="inline-flex items-center gap-1.5 rounded-lg bg-card px-2 py-1"><ToneBadge tone="info">SINNVOLL</ToneBadge> je nach Risiko-Profil</span>
+      <span className="inline-flex items-center gap-1.5 rounded-lg bg-card px-2 py-1"><ToneBadge tone="neutral">OPTIONAL</ToneBadge> nur bei spezifischem Bedarf</span>
     </div>
-  </div>
+  </Callout>
 );
 
 const Glossar = () => (
-  <details className="rounded-2xl border border-border bg-card p-5 mb-6">
-    <summary className="cursor-pointer font-bold text-sm flex items-center gap-2">
-      <HelpCircle className="h-4 w-4 text-accent-blue" /> Glossar — Begriffe einfach erklärt
+  <details className="group mb-6 rounded-2xl border border-border bg-card [&_summary::-webkit-details-marker]:hidden">
+    <summary className="flex cursor-pointer list-none items-center gap-2 px-5 py-4 text-sm font-semibold">
+      <HelpCircle className="h-4 w-4 text-accent-blue" aria-hidden="true" /> Glossar: Begriffe einfach erklärt
+      <ChevronDown className="ml-auto h-4 w-4 transition-transform group-open:rotate-180" aria-hidden="true" />
     </summary>
-    <div className="mt-3 space-y-3 text-xs leading-relaxed">
+    <dl className="grid gap-3 px-5 pb-5 text-sm leading-relaxed md:grid-cols-2">
       {[
         { b: "Berufshaftpflicht (BHV) vs Privathaftpflicht (PHV)", e: "Zwei VERSCHIEDENE Versicherungen! BHV deckt berufliche Schäden (Kunde-Schaden durch deine Arbeit), PHV private Schäden (privat verursachte Schäden). Beide sind nötig — PHV ist Basis, BHV beruflich obendrauf. PHV ist KEIN Ersatz für BHV." },
         { b: "Deckungssumme vs Versicherungssumme", e: "Deckungssumme = max. Auszahlung pro Schadensfall. Versicherungssumme = max. pro Jahr (kann mehrere Schäden bündeln). Bei Personen-Schäden Mindest 5-10 Mio €, bei Sach 1-3 Mio. Klein-Wahl spart 10-30 % Beitrag, aber Risiko-Lücke!" },
@@ -343,12 +354,12 @@ const Glossar = () => (
         { b: "Vermögensschaden vs Personen-/Sachschaden", e: "Personen-Schaden = jemand verletzt. Sach-Schaden = etwas kaputt. Vermögens-Schaden = reiner Geldverlust ohne körperliches Schadensereignis (z.B. Fehl-Beratung). Klassische BHV deckt Personen+Sach, REINE Vermögensschäden braucht VSH-Modul." },
         { b: "D&O bei UG/GmbH", e: "Geschäftsführer haften persönlich für Pflichtverletzungen (§43 GmbHG). Insolvenzantragspflicht-Versäumnis, Steuerverkürzung, Verletzung von Sorgfaltspflichten → persönliche Haftung bis Privatvermögen. D&O schützt das, kostet 800-3.500 €/J." },
       ].map((g) => (
-        <div key={g.b} className="rounded-lg bg-secondary/30 p-3">
-          <div className="font-semibold text-foreground mb-1">{g.b}</div>
-          <div className="text-muted-foreground">{g.e}</div>
+        <div key={g.b} className="rounded-xl bg-secondary/50 p-4">
+          <dt className="mb-1 font-medium text-foreground">{g.b}</dt>
+          <dd className="text-muted-foreground">{g.e}</dd>
         </div>
       ))}
-    </div>
+    </dl>
   </details>
 );
 

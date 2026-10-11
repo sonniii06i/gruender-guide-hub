@@ -3,12 +3,14 @@ import { Link } from "react-router-dom";
 import { ArrowRight, CheckCircle2, Download, FileUp, ShieldCheck, XCircle } from "lucide-react";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Seo } from "@/components/Seo";
 import { Navbar } from "@/components/landing/Navbar";
 import { Footer } from "@/components/landing/Footer";
 import { HubNav } from "@/components/landing/HubNav";
+import { PageHeader } from "@/components/landing/PageHeader";
+import { KitTable } from "@/components/cockpit/kit";
+import { PublicSection, FaqList, CtaBand, ctaPrimaryOnInk } from "@/components/public/PublicBlocks";
 import { breadcrumbSchema, faqSchema } from "@/lib/freetools/schema";
 import { ErFehler, leseERechnung, pruefeERechnung, typName, type ErPartei, type ErRechnung } from "@/lib/eRechnungLesen";
 import { baueXRechnung } from "@/lib/xrechnung";
@@ -24,12 +26,12 @@ const faqs = [
 ];
 
 const Partei = ({ titel, p }: { titel: string; p: ErPartei }) => (
-  <div className="rounded-xl border border-border bg-card p-4 text-sm">
-    <div className="text-[10px] uppercase tracking-wider text-muted-foreground mb-1">{titel}</div>
+  <div className="rounded-2xl border border-border bg-card p-5 text-sm shadow-card">
+    <div className="mb-1.5 text-sm text-muted-foreground">{titel}</div>
     <div className="font-semibold">{p.name || "–"}</div>
     <div className="text-muted-foreground">{p.strasse}</div>
     <div className="text-muted-foreground">{[p.plz, p.ort].filter(Boolean).join(" ")} {p.land && p.land !== "DE" ? `(${p.land})` : ""}</div>
-    {(p.ustId || p.steuernummer) && <div className="text-xs mt-1">{p.ustId ? `USt-IdNr. ${p.ustId}` : `St.-Nr. ${p.steuernummer}`}</div>}
+    {(p.ustId || p.steuernummer) && <div className="mt-2 text-xs">{p.ustId ? `USt-IdNr. ${p.ustId}` : `St.-Nr. ${p.steuernummer}`}</div>}
     {(p.kontakt || p.email) && <div className="text-xs text-muted-foreground">{[p.kontakt, p.email].filter(Boolean).join(" · ")}</div>}
   </div>
 );
@@ -130,124 +132,143 @@ export default function ERechnungLesen() {
         jsonLd={[breadcrumbSchema([{ name: "Start", url: `${SITE}/` }, { name: "E-Rechnung lesen", url: `${SITE}/e-rechnung-lesen` }]), faqSchema(faqs)]}
       />
       <Navbar />
-      <section className="relative pt-28 pb-8 md:pt-32">
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-background to-background" />
-        <div className="relative max-w-3xl mx-auto px-4 sm:px-6 text-center">
-          <Badge variant="secondary" className="mb-4"><ShieldCheck className="mr-1.5 h-3.5 w-3.5" /> Kostenlos · Datei bleibt auf deinem Gerät</Badge>
-          <h1 className="text-3xl md:text-5xl font-bold text-foreground mb-4 leading-tight">E-Rechnung lesen</h1>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            XRechnung bekommen und nur XML-Code gesehen? Datei hochladen – du siehst sofort die lesbare Rechnung, eine Rechenprüfung
-            und kannst sie als PDF speichern.
-          </p>
-        </div>
-      </section>
+      <main>
+        <PageHeader
+          width="max-w-4xl"
+          kicker={
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-brand-green/25 bg-brand-green-soft px-3 py-1 text-[13px] font-medium text-brand-green">
+              <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" /> Kostenlos, die Datei bleibt auf deinem Gerät
+            </span>
+          }
+          title="E-Rechnung lesen"
+          lead={
+            <p>
+              XRechnung bekommen und nur XML-Code gesehen? Datei hochladen: Du siehst sofort die lesbare Rechnung, eine
+              Rechenprüfung und kannst sie als PDF speichern.
+            </p>
+          }
+        />
 
-      <section className="pb-12">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 space-y-6">
-          <label
-            onDragOver={(e) => e.preventDefault()}
-            onDrop={(e) => {
-              e.preventDefault();
-              datei_waehlen(e.dataTransfer.files?.[0]);
-            }}
-            className="flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-accent-blue/40 bg-accent-blue/5 p-8 text-center cursor-pointer hover:bg-accent-blue/10"
-          >
-            <FileUp className="h-8 w-8 text-accent-blue mb-2" />
-            <span className="font-semibold">XML-Datei hierher ziehen oder auswählen</span>
-            <span className="text-xs text-muted-foreground mt-1">XRechnung oder ZUGFeRD/Factur-X-XML, CII- oder UBL-Syntax</span>
-            <input type="file" accept=".xml,text/xml,application/xml" className="hidden" onChange={(e) => datei_waehlen(e.target.files?.[0])} aria-label="E-Rechnung auswählen" />
-          </label>
-          <div className="text-center">
-            <button type="button" onClick={beispiel} className="text-xs text-accent-blue hover:underline">Keine Datei zur Hand? Beispiel-XRechnung anzeigen</button>
-          </div>
-          {fehler && <div className="rounded-xl border border-red-500/40 bg-red-500/5 p-4 text-sm text-red-700">{fehler}</div>}
+        <div className="container max-w-4xl space-y-12 px-4 py-12 md:py-16">
+          <section aria-label="Datei hochladen" className="space-y-3">
+            <label
+              onDragOver={(e) => e.preventDefault()}
+              onDrop={(e) => {
+                e.preventDefault();
+                datei_waehlen(e.dataTransfer.files?.[0]);
+              }}
+              className="group flex cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed border-accent-blue/35 bg-card px-6 py-12 text-center shadow-card transition-colors hover:border-accent-blue/60 hover:bg-accent/40 focus-within:border-accent-blue focus-within:ring-[3px] focus-within:ring-ring/25"
+            >
+              <span className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-accent text-accent-blue transition-transform group-hover:-translate-y-0.5">
+                <FileUp className="h-6 w-6" aria-hidden="true" />
+              </span>
+              <span className="text-base font-semibold">XML-Datei hierher ziehen oder auswählen</span>
+              <span className="mt-1 text-sm text-muted-foreground">XRechnung oder ZUGFeRD/Factur-X-XML, CII- oder UBL-Syntax</span>
+              <input type="file" accept=".xml,text/xml,application/xml" className="sr-only" onChange={(e) => datei_waehlen(e.target.files?.[0])} aria-label="E-Rechnung auswählen" />
+            </label>
+            <div className="text-center">
+              <button type="button" onClick={beispiel} className="text-sm font-medium text-accent-blue hover:underline">Keine Datei zur Hand? Beispiel-XRechnung anzeigen</button>
+            </div>
+            {fehler && (
+              <div role="alert" className="flex gap-2.5 rounded-xl border border-danger/25 bg-danger-soft p-4 text-sm">
+                <XCircle className="mt-0.5 h-4 w-4 shrink-0 text-danger" aria-hidden="true" />
+                <span>{fehler}</span>
+              </div>
+            )}
+          </section>
 
           {r && (
-            <div className="space-y-4">
-              <div className="flex items-start justify-between gap-3 flex-wrap rounded-2xl border border-border bg-card p-5">
-                <div>
-                  <div className="text-xs text-muted-foreground">{datei} · {r.syntax}{r.spezifikation.includes("xrechnung") ? " · XRechnung" : r.spezifikation.includes("factur-x") || r.spezifikation.includes("zugferd") ? " · ZUGFeRD" : ""}</div>
-                  <h2 className="text-2xl font-bold">{typName(r.typ)} {r.nummer}</h2>
-                  <div className="text-sm text-muted-foreground">vom {tag(r.datum)} · Leistung {tag(r.leistungsdatum)} · fällig {tag(r.faellig)}{r.kaeuferReferenz ? ` · Referenz ${r.kaeuferReferenz}` : ""}</div>
-                </div>
-                <div className="text-right">
-                  <div className="text-xs text-muted-foreground">zu zahlen</div>
-                  <div className="text-3xl font-bold">{geld(r.summen.zahlbar, r.waehrung)}</div>
-                  <Button size="sm" className="mt-2" onClick={() => rechnungAlsPdf(r).save(`${(r.nummer || "e-rechnung").replace(/[^a-z0-9-]+/gi, "-")}.pdf`)}>
-                    <Download className="h-4 w-4 mr-2" /> Als PDF speichern
-                  </Button>
+            <section aria-label="Gelesene Rechnung" className="space-y-4" aria-live="polite">
+              <div className="overflow-hidden rounded-2xl bg-ink text-primary-foreground shadow-soft">
+                <div className="flex flex-wrap items-end justify-between gap-6 p-6 md:p-7">
+                  <div className="min-w-0">
+                    <div className="text-sm text-primary-foreground/65">
+                      {datei}, {r.syntax}{r.spezifikation.includes("xrechnung") ? ", XRechnung" : r.spezifikation.includes("factur-x") || r.spezifikation.includes("zugferd") ? ", ZUGFeRD" : ""}
+                    </div>
+                    <h2 className="mt-1 break-words text-2xl font-semibold tracking-tight">{typName(r.typ)} {r.nummer}</h2>
+                    <div className="mt-1 text-sm text-primary-foreground/70 tabular">
+                      vom {tag(r.datum)}, Leistung {tag(r.leistungsdatum)}, fällig {tag(r.faellig)}{r.kaeuferReferenz ? `, Referenz ${r.kaeuferReferenz}` : ""}
+                    </div>
+                  </div>
+                  <div className="sm:text-right">
+                    <div className="text-sm text-primary-foreground/65">Zu zahlen</div>
+                    <div className="text-4xl font-semibold tracking-[-0.03em] tabular">{geld(r.summen.zahlbar, r.waehrung)}</div>
+                    <Button size="sm" className="mt-3 rounded-lg bg-card font-semibold text-primary shadow-none hover:bg-card/90" onClick={() => rechnungAlsPdf(r).save(`${(r.nummer || "e-rechnung").replace(/[^a-z0-9-]+/gi, "-")}.pdf`)}>
+                      <Download className="h-4 w-4" /> Als PDF speichern
+                    </Button>
+                  </div>
                 </div>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <Partei titel="Von (Rechnungssteller)" p={r.verkaeufer} />
                 <Partei titel="An (Rechnungsempfänger)" p={r.kaeufer} />
               </div>
-              <div className="rounded-2xl border border-border bg-card p-4 overflow-x-auto">
-                <table className="w-full text-sm min-w-[520px]">
-                  <thead>
-                    <tr className="text-xs text-muted-foreground text-left">
-                      <th className="py-1 font-medium">Position</th><th className="text-right font-medium">Menge</th><th className="text-right font-medium">Einzelpreis</th><th className="text-right font-medium">USt</th><th className="text-right font-medium">Netto</th>
+              <KitTable caption="Rechnungspositionen" className="shadow-card">
+                <thead>
+                  <tr>
+                    <th>Position</th><th className="!text-right">Menge</th><th className="!text-right">Einzelpreis</th><th className="!text-right">USt</th><th className="!text-right">Netto</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {r.positionen.map((p, i) => (
+                    <tr key={i}>
+                      <td className="min-w-[12rem]">{p.name}</td>
+                      <td className="whitespace-nowrap text-right">{p.menge.toLocaleString("de-DE")} {p.einheit}</td>
+                      <td className="whitespace-nowrap text-right">{geld(p.preis, r.waehrung)}</td>
+                      <td className="whitespace-nowrap text-right">{p.satz === null ? p.kategorie : `${p.satz} %`}</td>
+                      <td className="whitespace-nowrap text-right">{geld(p.netto, r.waehrung)}</td>
                     </tr>
-                  </thead>
-                  <tbody>
-                    {r.positionen.map((p, i) => (
-                      <tr key={i} className="border-t border-border">
-                        <td className="py-1.5">{p.name}</td>
-                        <td className="text-right">{p.menge.toLocaleString("de-DE")} {p.einheit}</td>
-                        <td className="text-right">{geld(p.preis, r.waehrung)}</td>
-                        <td className="text-right">{p.satz === null ? p.kategorie : `${p.satz} %`}</td>
-                        <td className="text-right">{geld(p.netto, r.waehrung)}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-                <div className="mt-3 ml-auto max-w-xs space-y-1 text-sm">
-                  {r.zuAbschlaege.map((z, i) => <div key={i} className="flex justify-between text-muted-foreground"><span>{z.grund}</span><span>{geld(z.betrag, r.waehrung)}</span></div>)}
-                  <div className="flex justify-between"><span>Netto</span><span>{geld(r.summen.netto, r.waehrung)}</span></div>
-                  {r.steuern.map((s, i) => <div key={i} className="flex justify-between text-muted-foreground"><span>USt {s.satz} % ({s.kategorie})</span><span>{geld(s.betrag, r.waehrung)}</span></div>)}
-                  <div className="flex justify-between font-bold border-t border-border pt-1"><span>Brutto</span><span>{geld(r.summen.brutto, r.waehrung)}</span></div>
-                </div>
+                  ))}
+                </tbody>
+              </KitTable>
+              <div className="ml-auto max-w-sm space-y-1.5 rounded-2xl border border-border bg-card p-5 text-sm shadow-card tabular">
+                {r.zuAbschlaege.map((z, i) => <div key={i} className="flex justify-between gap-4 text-muted-foreground"><span>{z.grund}</span><span>{geld(z.betrag, r.waehrung)}</span></div>)}
+                <div className="flex justify-between gap-4"><span>Netto</span><span>{geld(r.summen.netto, r.waehrung)}</span></div>
+                {r.steuern.map((s, i) => <div key={i} className="flex justify-between gap-4 text-muted-foreground"><span>USt {s.satz} % ({s.kategorie})</span><span>{geld(s.betrag, r.waehrung)}</span></div>)}
+                <div className="flex justify-between gap-4 border-t border-border pt-2 text-base font-semibold"><span>Brutto</span><span>{geld(r.summen.brutto, r.waehrung)}</span></div>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="rounded-2xl border border-border bg-card p-4 text-sm">
-                  <div className="font-semibold mb-1">Zahlung</div>
-                  {r.zahlung.iban ? <div>IBAN <span className="font-mono">{r.zahlung.iban}</span>{r.zahlung.bic ? ` · BIC ${r.zahlung.bic}` : ""}</div> : <div className="text-muted-foreground">Keine Bankverbindung angegeben</div>}
-                  {r.zahlung.verwendungszweck && <div>Verwendungszweck: {r.zahlung.verwendungszweck}</div>}
-                  {r.zahlung.bedingungen && <div className="text-muted-foreground text-xs mt-1">{r.zahlung.bedingungen}</div>}
-                  {r.steuern.filter((s) => s.grund).map((s, i) => <div key={i} className="text-xs text-muted-foreground mt-1">{s.grund}</div>)}
-                  {r.notizen.map((n, i) => <div key={i} className="text-xs text-muted-foreground mt-1">{n}</div>)}
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <div className="rounded-2xl border border-border bg-card p-5 text-sm shadow-card">
+                  <h3 className="mb-2 font-semibold">Zahlung</h3>
+                  {r.zahlung.iban ? <div>IBAN <span className="font-mono">{r.zahlung.iban}</span>{r.zahlung.bic ? `, BIC ${r.zahlung.bic}` : ""}</div> : <div className="text-muted-foreground">Keine Bankverbindung angegeben</div>}
+                  {r.zahlung.verwendungszweck && <div className="mt-1">Verwendungszweck: {r.zahlung.verwendungszweck}</div>}
+                  {r.zahlung.bedingungen && <div className="mt-1.5 text-xs text-muted-foreground">{r.zahlung.bedingungen}</div>}
+                  {r.steuern.filter((s) => s.grund).map((s, i) => <div key={i} className="mt-1.5 text-xs text-muted-foreground">{s.grund}</div>)}
+                  {r.notizen.map((n, i) => <div key={i} className="mt-1.5 text-xs text-muted-foreground">{n}</div>)}
                 </div>
-                <div className="rounded-2xl border border-border bg-card p-4 text-sm">
-                  <div className="font-semibold mb-1">Prüfung</div>
-                  <ul className="space-y-1 text-xs">
+                <div className="rounded-2xl border border-border bg-card p-5 text-sm shadow-card">
+                  <h3 className="mb-2 font-semibold">Prüfung</h3>
+                  <ul className="space-y-1.5 text-sm">
                     {pruefung.map((p, i) => (
-                      <li key={i} className={`flex gap-1.5 ${p.ok ? "text-emerald-700" : "text-red-700"}`}>
-                        {p.ok ? <CheckCircle2 className="h-3.5 w-3.5 shrink-0 mt-0.5" /> : <XCircle className="h-3.5 w-3.5 shrink-0 mt-0.5" />} {p.text}
+                      <li key={i} className="flex gap-2">
+                        {p.ok ? <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-success" aria-label="in Ordnung" /> : <XCircle className="mt-0.5 h-4 w-4 shrink-0 text-danger" aria-label="Fehler" />}
+                        <span className={p.ok ? "text-foreground/85" : "font-medium text-danger"}>{p.text}</span>
                       </li>
                     ))}
                   </ul>
-                  <p className="text-[11px] text-muted-foreground mt-2">Rechnerische Prüfung; die vollständige Formatprüfung macht der KoSIT-Validator.</p>
+                  <p className="mt-3 text-xs text-muted-foreground">Rechnerische Prüfung; die vollständige Formatprüfung macht der KoSIT-Validator.</p>
                 </div>
               </div>
-            </div>
+            </section>
           )}
 
-          <div className="rounded-2xl bg-primary/5 p-6 text-center">
-            <h2 className="text-xl font-bold mb-2">Selbst E-Rechnungen schreiben</h2>
-            <p className="text-sm text-muted-foreground mb-4">Ab 2027/2028 musst du an Unternehmen E-Rechnungen ausstellen. Der Rechnungs-Generator im GründerX-Cockpit erzeugt geprüfte XRechnungen.</p>
-            <Link to="/tools/rechnungs-generator"><Button size="lg">Zum Rechnungs-Generator <ArrowRight className="ml-2 h-5 w-5" /></Button></Link>
-          </div>
-          <div>
-            <h2 className="text-xl md:text-2xl font-bold mb-3">Häufige Fragen</h2>
-            <div className="space-y-3">
-              {faqs.map((f) => (
-                <div key={f.q} className="rounded-xl border border-border bg-card p-5"><h3 className="font-semibold mb-1.5">{f.q}</h3><p className="text-sm text-muted-foreground">{f.a}</p></div>
-              ))}
-            </div>
-          </div>
+          <CtaBand
+            title="Selbst E-Rechnungen schreiben"
+            actions={
+              <Button asChild size="lg" className={ctaPrimaryOnInk}>
+                <Link to="/tools/rechnungs-generator">Zum Rechnungs-Generator <ArrowRight /></Link>
+              </Button>
+            }
+          >
+            Ab 2027/2028 musst du an Unternehmen E-Rechnungen ausstellen. Der Rechnungs-Generator im GründerX-Cockpit erzeugt geprüfte XRechnungen.
+          </CtaBand>
+
+          <PublicSection title="Häufige Fragen">
+            <FaqList items={faqs} />
+          </PublicSection>
           <HubNav show={["tools", "guides", "ratgeber"]} />
         </div>
-      </section>
+      </main>
       <Footer />
     </div>
   );

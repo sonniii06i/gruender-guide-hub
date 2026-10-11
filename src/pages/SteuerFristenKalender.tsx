@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { CalendarPlus } from "lucide-react";
+import { CalendarPlus, SlidersHorizontal } from "lucide-react";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Callout, EmptyState, Field, ResultPanel, ToneBadge, ToolSection, selectCls, type Tone } from "@/components/cockpit/kit";
 import { fristenFuer, type Frist, type FristProfil } from "@/lib/steuerFristen";
 import { baueIcs } from "@/lib/ics";
 
@@ -21,34 +22,47 @@ const lade = (): FristProfil => {
   }
 };
 
-const FARBE: Record<Frist["art"], string> = {
-  ust: "bg-accent-blue/10 text-accent-blue",
-  est: "bg-purple-500/10 text-purple-700",
-  gewst: "bg-orange-500/10 text-orange-700",
-  lohn: "bg-emerald-500/10 text-emerald-700",
-  sv: "bg-emerald-500/10 text-emerald-700",
-  zm: "bg-pink-500/10 text-pink-700",
-  erklaerung: "bg-red-500/10 text-red-700",
-  hgb: "bg-amber-500/10 text-amber-700",
+const TON: Record<Frist["art"], Tone> = {
+  ust: "info",
+  est: "accent",
+  gewst: "warning",
+  lohn: "success",
+  sv: "success",
+  zm: "neutral",
+  erklaerung: "danger",
+  hgb: "warning",
 };
 
-const Auswahl = <T extends string>({ label, wert, setze, optionen }: { label: string; wert: T; setze: (v: T) => void; optionen: [T, string][] }) => (
-  <div>
-    <Label className="text-xs">{label}</Label>
-    <select value={wert} onChange={(e) => setze(e.target.value as T)} className="mt-1 h-10 w-full rounded-md border border-input bg-background px-3 text-sm">
-      {optionen.map(([v, t]) => (
-        <option key={v} value={v}>{t}</option>
-      ))}
-    </select>
-  </div>
-);
+const KURZ: Record<Frist["art"], string> = {
+  ust: "USt",
+  est: "ESt/KSt",
+  gewst: "GewSt",
+  lohn: "Lohn",
+  sv: "SV",
+  zm: "ZM",
+  erklaerung: "Erklärung",
+  hgb: "HGB",
+};
+
+const Auswahl = <T extends string>({ label, wert, setze, optionen }: { label: string; wert: T; setze: (v: T) => void; optionen: [T, string][] }) => {
+  const id = `sfk-${label.replace(/\W+/g, "-").toLowerCase()}`;
+  return (
+    <Field label={label} htmlFor={id}>
+      <select id={id} value={wert} onChange={(e) => setze(e.target.value as T)} className={selectCls}>
+        {optionen.map(([v, t]) => (
+          <option key={v} value={v}>{t}</option>
+        ))}
+      </select>
+    </Field>
+  );
+};
 
 const Haken = ({ label, wert, setze, hilfe }: { label: string; wert: boolean; setze: (v: boolean) => void; hilfe?: string }) => (
-  <label className="flex items-start gap-2 text-sm cursor-pointer">
-    <input type="checkbox" className="mt-1" checked={wert} onChange={(e) => setze(e.target.checked)} />
+  <label className="flex cursor-pointer items-start gap-3 rounded-lg border border-border bg-background/60 px-3 py-2.5 text-sm transition-colors hover:border-foreground/20">
+    <input type="checkbox" className="mt-0.5 h-4 w-4 accent-[hsl(var(--primary))]" checked={wert} onChange={(e) => setze(e.target.checked)} />
     <span>
-      {label}
-      {hilfe && <span className="block text-[11px] text-muted-foreground">{hilfe}</span>}
+      <span className="font-medium">{label}</span>
+      {hilfe && <span className="mt-0.5 block text-xs text-muted-foreground">{hilfe}</span>}
     </span>
   </label>
 );
@@ -87,66 +101,88 @@ const SteuerFristenKalender = () => {
     <CockpitShell
       eyebrow="Steuer- & Fristenkalender · Stand Oktober 2026"
       title="Dein persönlicher Steuerkalender"
-      subtitle="Alle Abgabe- und Zahlungstermine der nächsten 12 Monate für deine Situation – USt-Voranmeldung, Vorauszahlungen, Lohn, Zusammenfassende Meldung, Jahreserklärungen. Wochenenden und Feiertage sind schon eingerechnet. Ein Klick, und alles steht mit Erinnerung in deinem Kalender."
+      subtitle="Alle Abgabe- und Zahlungstermine der nächsten 12 Monate für deine Situation: USt-Voranmeldung, Vorauszahlungen, Lohn, Zusammenfassende Meldung, Jahreserklärungen. Wochenenden und Feiertage sind eingerechnet. Ein Klick, und alles steht mit Erinnerung in deinem Kalender."
     >
-      <div className="grid grid-cols-1 lg:grid-cols-[340px_1fr] gap-6 mb-8">
-        <div className="rounded-2xl border border-border bg-card p-5 space-y-3 self-start lg:sticky lg:top-4">
-          <h2 className="font-bold">Deine Situation</h2>
+      <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-[340px_minmax(0,1fr)] lg:gap-8">
+        <ToolSection title="Deine Situation" description="Wird nur in diesem Browser gespeichert." icon={SlidersHorizontal} className="lg:sticky lg:top-20" bodyClassName="space-y-4">
           <Auswahl label="Rechtsform" wert={p.rechtsform} setze={(v) => set("rechtsform", v)} optionen={[["einzel", "Einzelunternehmen (Gewerbe)"], ["freiberufler", "Freiberufler"], ["kapital", "GmbH / UG"]]} />
           <Auswahl label="Umsatzsteuer" wert={p.ust} setze={(v) => set("ust", v)} optionen={[["quartal", "Quartalsweise Voranmeldung"], ["monat", "Monatliche Voranmeldung"], ["jahr", "Keine Voranmeldung (Vorjahr ≤ 2.000 €)"], ["kleinunternehmer", "Kleinunternehmer (§ 19)"]]} />
-          <div>
-            <Label className="text-xs">Gründungsjahr</Label>
-            <input type="number" value={p.gruendungsjahr} onChange={(e) => set("gruendungsjahr", Number(e.target.value) || STANDARD.gruendungsjahr)} className="mt-1 h-10 w-full rounded-md border border-input bg-background px-3 text-sm" />
+          <Field label="Gründungsjahr" htmlFor="sfk-gruendungsjahr">
+            <Input id="sfk-gruendungsjahr" type="number" inputMode="numeric" value={p.gruendungsjahr} onChange={(e) => set("gruendungsjahr", Number(e.target.value) || STANDARD.gruendungsjahr)} />
+          </Field>
+          <div className="space-y-2">
+            {p.ust !== "kleinunternehmer" && p.ust !== "jahr" && <Haken label="Dauerfristverlängerung" wert={p.dauerfrist} setze={(v) => set("dauerfrist", v)} hilfe="Ein Monat mehr Zeit; bei Monatszahlern Sondervorauszahlung 1/11" />}
+            <Haken label={`${p.rechtsform === "kapital" ? "Körperschaftsteuer" : "Einkommensteuer"}-Vorauszahlungen festgesetzt`} wert={p.ekVorauszahlung} setze={(v) => set("ekVorauszahlung", v)} hilfe="Steht im Vorauszahlungsbescheid" />
+            {p.rechtsform !== "freiberufler" && <Haken label="Gewerbesteuer-Vorauszahlungen festgesetzt" wert={p.gewstVorauszahlung} setze={(v) => set("gewstVorauszahlung", v)} />}
           </div>
-          {p.ust !== "kleinunternehmer" && p.ust !== "jahr" && <Haken label="Dauerfristverlängerung" wert={p.dauerfrist} setze={(v) => set("dauerfrist", v)} hilfe="Ein Monat mehr Zeit; bei Monatszahlern Sondervorauszahlung 1/11" />}
-          <Haken label={`${p.rechtsform === "kapital" ? "Körperschaftsteuer" : "Einkommensteuer"}-Vorauszahlungen festgesetzt`} wert={p.ekVorauszahlung} setze={(v) => set("ekVorauszahlung", v)} hilfe="Steht im Vorauszahlungsbescheid" />
-          {p.rechtsform !== "freiberufler" && <Haken label="Gewerbesteuer-Vorauszahlungen festgesetzt" wert={p.gewstVorauszahlung} setze={(v) => set("gewstVorauszahlung", v)} />}
           <Auswahl label="Mitarbeiter" wert={p.mitarbeiter} setze={(v) => set("mitarbeiter", v)} optionen={[["keine", "keine"], ["minijob", "nur Minijobber"], ["sv", "sozialversicherungspflichtig"]]} />
-          {p.mitarbeiter !== "keine" && <Auswahl label="Lohnsteuer-Anmeldung" wert={p.lohnsteuer} setze={(v) => set("lohnsteuer", v)} optionen={[["monat", "monatlich (> 5.000 € Vorjahr)"], ["quartal", "vierteljährlich (1.080–5.000 €)"], ["jahr", "jährlich (≤ 1.080 €)"]]} />}
+          {p.mitarbeiter !== "keine" && <Auswahl label="Lohnsteuer-Anmeldung" wert={p.lohnsteuer} setze={(v) => set("lohnsteuer", v)} optionen={[["monat", "monatlich (> 5.000 € Vorjahr)"], ["quartal", "vierteljährlich (1.080 bis 5.000 €)"], ["jahr", "jährlich (≤ 1.080 €)"]]} />}
           <Auswahl label="EU-Geschäft an Unternehmen (ZM)" wert={p.zm} setze={(v) => set("zm", v)} optionen={[["keine", "keine"], ["quartal", "vierteljährlich"], ["monat", "monatlich (> 50.000 € Lieferungen)"]]} />
           <Haken label="Mit Steuerberater" wert={p.steuerberater} setze={(v) => set("steuerberater", v)} hilfe="Verlängert die Frist der Jahreserklärungen" />
-        </div>
+        </ToolSection>
 
-        <div>
-          <div className="flex items-center justify-between flex-wrap gap-3 mb-3">
-            <h2 className="text-lg font-bold">{fristen.length} Termine in den nächsten 12 Monaten</h2>
-            <Button onClick={exportieren} disabled={!fristen.length}>
-              <CalendarPlus className="h-4 w-4 mr-2" /> Alle in den Kalender (mit Erinnerung)
-            </Button>
-          </div>
+        <div className="min-w-0 space-y-5">
+          <ResultPanel
+            variant="ink"
+            kicker="Deine nächsten 12 Monate"
+            title={`${fristen.length} Termine in den nächsten 12 Monaten`}
+            actions={
+              <Button onClick={exportieren} disabled={!fristen.length} className="bg-card text-primary shadow-none hover:bg-card/90">
+                <CalendarPlus className="h-4 w-4" /> In den Kalender (mit Erinnerung)
+              </Button>
+            }
+          >
+            {fristen[0] && (
+              <p className="text-sm">
+                Nächster Termin:{" "}
+                <span className="font-semibold text-primary-foreground">
+                  {new Date(`${fristen[0].datum}T12:00:00`).toLocaleDateString("de-DE", { weekday: "long", day: "numeric", month: "long" })}
+                </span>
+                , {fristen[0].titel}
+              </p>
+            )}
+          </ResultPanel>
+
           {hinweise.length > 0 && (
-            <ul className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-3 mb-4 text-xs space-y-1 list-disc pl-6">
-              {hinweise.map((h) => <li key={h}>{h}</li>)}
-            </ul>
+            <Callout tone="warning" title="Hinweise zu deiner Situation">
+              <ul className="list-disc space-y-1 pl-4">
+                {hinweise.map((h) => <li key={h}>{h}</li>)}
+              </ul>
+            </Callout>
           )}
-          <div className="space-y-1.5">
-            {fristen.map((f, i) => {
-              const monat = new Date(`${f.datum}T12:00:00`).toLocaleDateString("de-DE", { month: "long", year: "numeric" });
-              const kopf = monat !== letzterMonat;
-              letzterMonat = monat;
-              return (
-                <div key={`${f.datum}-${f.titel}-${i}`}>
-                  {kopf && <h3 className="text-xs uppercase tracking-wider text-muted-foreground pt-4 pb-1">{monat}</h3>}
-                  <div className="flex items-start gap-3 rounded-lg border border-border bg-card px-3 py-2">
-                    <div className="w-20 shrink-0 text-sm font-semibold tabular-nums">
-                      {new Date(`${f.datum}T12:00:00`).toLocaleDateString("de-DE", { weekday: "short", day: "2-digit", month: "2-digit" })}
+
+          {fristen.length === 0 ? (
+            <EmptyState icon={CalendarPlus} title="Keine Termine in den nächsten 12 Monaten" description="Für deine Angaben stehen keine Abgabe- oder Zahlungstermine an. Ändere links deine Situation, falls etwas nicht passt." />
+          ) : (
+            <ol className="overflow-hidden rounded-2xl border border-border bg-card shadow-card">
+              {fristen.map((f, i) => {
+                const monat = new Date(`${f.datum}T12:00:00`).toLocaleDateString("de-DE", { month: "long", year: "numeric" });
+                const kopf = monat !== letzterMonat;
+                letzterMonat = monat;
+                return (
+                  <li key={`${f.datum}-${f.titel}-${i}`}>
+                    {kopf && <h3 className="border-b border-border/70 bg-secondary/60 px-4 py-2 text-sm font-semibold text-foreground">{monat}</h3>}
+                    <div className="flex items-start gap-3 border-b border-border/60 px-4 py-3 last:border-b-0">
+                      <div className="w-16 shrink-0 text-sm font-semibold tabular sm:w-20">
+                        {new Date(`${f.datum}T12:00:00`).toLocaleDateString("de-DE", { weekday: "short", day: "2-digit", month: "2-digit" })}
+                      </div>
+                      <div className="min-w-0 flex-1 text-sm">
+                        {f.titel}
+                        {(f.hinweis || f.datum !== f.original) && (
+                          <div className="mt-0.5 text-xs text-muted-foreground">
+                            {f.datum !== f.original && `verschoben vom ${f.original.split("-").reverse().join(".")} (Wochenende/Feiertag). `}
+                            {f.hinweis}
+                          </div>
+                        )}
+                      </div>
+                      <ToneBadge tone={TON[f.art]} className="shrink-0">{KURZ[f.art]}</ToneBadge>
                     </div>
-                    <div className="flex-1 min-w-0 text-sm">
-                      {f.titel}
-                      {(f.hinweis || f.datum !== f.original) && (
-                        <div className="text-[11px] text-muted-foreground">
-                          {f.datum !== f.original && `verschoben vom ${f.original.split("-").reverse().join(".")} (Wochenende/Feiertag). `}
-                          {f.hinweis}
-                        </div>
-                      )}
-                    </div>
-                    <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-semibold ${FARBE[f.art]}`}>{f.art.toUpperCase()}</span>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-          <p className="text-[11px] text-muted-foreground mt-4">
+                  </li>
+                );
+              })}
+            </ol>
+          )}
+          <p className="text-xs leading-relaxed text-muted-foreground">
             Eingerechnet sind bundesweite Feiertage (§ 108 Abs. 3 AO). Landesfeiertage wie Reformationstag oder Allerheiligen
             können eine Frist in deinem Bundesland um einen Tag verschieben. Die IHK-Beitragsfälligkeit steht im Bescheid
             deiner IHK. Mehr zur Voranmeldung:{" "}

@@ -49,6 +49,20 @@ export default {
         success: {
           DEFAULT: "hsl(var(--success))",
           foreground: "hsl(var(--success-foreground))",
+          soft: "hsl(var(--success-soft))",
+        },
+        warning: {
+          DEFAULT: "hsl(var(--warning))",
+          foreground: "hsl(var(--warning-foreground))",
+          soft: "hsl(var(--warning-soft))",
+        },
+        danger: {
+          DEFAULT: "hsl(var(--danger))",
+          soft: "hsl(var(--danger-soft))",
+        },
+        info: {
+          DEFAULT: "hsl(var(--info))",
+          soft: "hsl(var(--info-soft))",
         },
         "brand-green": {
           DEFAULT: "hsl(var(--brand-green))",

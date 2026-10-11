@@ -1,13 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { Download } from "lucide-react";
+import { Download, Info, UserRound, Wallet, PenLine, AlertTriangle, CheckCircle2, XCircle } from "lucide-react";
+import { ToolLayout, ToolSection, Field, ResultPanel, Callout, KitTable } from "@/components/cockpit/kit";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { eur } from "@/components/cockpit/AmpelCheck";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
 // Bericht für Phase 2 des Gründungszuschusses (§ 94 Abs. 2 SGB III, FW 94.10–94.13):
@@ -116,70 +116,115 @@ const GzPhase2Bericht = () => {
     <CockpitShell
       eyebrow="Gründungszuschuss · Phase 2"
       title="Bericht für Phase 2 des Gründungszuschusses"
-      subtitle="Nach sechs Monaten gibt es auf Antrag weitere 9 × 300 € – wenn du eine intensive, hauptberufliche Geschäftstätigkeit belegst. Hier erstellst du den Bericht, den die Agentur dafür sehen will, als PDF."
+      subtitle="Nach sechs Monaten gibt es auf Antrag weitere 9 × 300 €, wenn du eine intensive, hauptberufliche Geschäftstätigkeit belegst. Hier erstellst du den Bericht, den die Agentur dafür sehen will, als PDF."
     >
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-6 mb-8">
-        <div className="space-y-4">
-          <div className="rounded-2xl border border-border bg-card p-5 grid grid-cols-2 md:grid-cols-4 gap-3">
-            <div className="col-span-2"><Label className="text-xs">Name</Label><Input value={b.name} onChange={(e) => set("name", e.target.value)} className="mt-1" /></div>
-            <div><Label className="text-xs">Kundennummer der Agentur</Label><Input value={b.kundennummer} onChange={(e) => set("kundennummer", e.target.value)} className="mt-1" /></div>
-            <div><Label className="text-xs">Start der Selbstständigkeit</Label><Input type="date" value={b.start} onChange={(e) => set("start", e.target.value)} className="mt-1" /></div>
-            <div><Label className="text-xs">Wochenstunden</Label><Input type="number" value={b.stunden} onChange={(e) => set("stunden", Number(e.target.value) || 0)} className="mt-1" /></div>
-            <div><Label className="text-xs">Lebenshaltung / Monat (€)</Label><Input type="number" value={b.lebenshaltung} onChange={(e) => set("lebenshaltung", Number(e.target.value) || 0)} className="mt-1" /></div>
-          </div>
-          <div className="rounded-2xl border border-border bg-card p-5">
-            <h2 className="font-bold mb-3">Einnahmen und Ausgaben (netto) der vergangenen Monate</h2>
-            <div className="grid grid-cols-[80px_1fr_1fr] gap-2 text-xs items-center">
-              <span />
-              <span className="text-muted-foreground">Einnahmen €</span>
-              <span className="text-muted-foreground">Ausgaben €</span>
-              {b.monate.map((m, i) => (
-                <div key={i} className="contents">
-                  <span>Monat {i + 1}</span>
-                  <Input type="number" value={m.einnahmen} onChange={(e) => setMonat(i, "einnahmen", Number(e.target.value) || 0)} className="h-9" />
-                  <Input type="number" value={m.ausgaben} onChange={(e) => setMonat(i, "ausgaben", Number(e.target.value) || 0)} className="h-9" />
-                </div>
-              ))}
-            </div>
-          </div>
-          {(
-            [
-              ["aktivitaeten", "Unternehmerische Aktivitäten (Pflicht)", "Was hast du in den Monaten gemacht? Kunden, Projekte, Marketing, Website, Netzwerk, Messen, Investitionen …"],
-              ["auftraege", "Auftragseingänge und Akquise", "Welche Aufträge sind fest, welche Angebote offen, wie gewinnst du Kunden?"],
-              ["ausblick", "Ausblick auf die nächsten Monate", "Was planst du, wie entwickeln sich Umsatz und Kosten, wann trägst du dich selbst?"],
-            ] as const
-          ).map(([k, t, ph]) => (
-            <div key={k} className="rounded-2xl border border-border bg-card p-5">
-              <Label className="text-sm font-bold">{t}</Label>
-              <Textarea rows={5} value={b[k]} onChange={(e) => set(k, e.target.value)} placeholder={ph} className="mt-2" />
-            </div>
-          ))}
-        </div>
-        <div className="space-y-4 lg:sticky lg:top-4 self-start">
-          <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5">
-            <h2 className="font-bold mb-2">Prüfung</h2>
-            <ul className="space-y-1.5 text-xs">
-              {a.hinweise.map((h) => (
-                <li key={h.text} className={h.stufe === "ok" ? "text-emerald-700" : h.stufe === "warnung" ? "text-amber-700" : "text-red-700"}>
-                  {h.stufe === "ok" ? "✅" : h.stufe === "warnung" ? "⚠️" : "⛔"} {h.text}
-                </li>
-              ))}
-            </ul>
-            <div className="mt-3 text-sm space-y-1">
-              <div className="flex justify-between"><span>Einnahmen gesamt</span><strong>{eur(a.einnahmen)}</strong></div>
-              <div className="flex justify-between"><span>Ausgaben gesamt</span><strong>{eur(a.ausgaben)}</strong></div>
-              <div className="flex justify-between"><span>Ergebnis</span><strong>{eur(a.ergebnis)}</strong></div>
-            </div>
-            <Button className="w-full mt-4" onClick={pdf}><Download className="h-4 w-4 mr-2" /> Bericht als PDF</Button>
-          </div>
-          <div className="rounded-2xl border border-border bg-card p-4 text-xs leading-relaxed">
-            Den Antrag stellst du online in der Vorgangsübersicht deines Kontos bei der Arbeitsagentur, im Anschluss an Phase 1.
-            Phase 2 ist eine Ermessensleistung (9 × 300 €). Ist die Lage unklar, kann die Agentur eine neue Stellungnahme einer
-            fachkundigen Stelle verlangen – die Zahlen dafür liefert der{" "}
-            <Link to="/cockpit/gruendungsunterlagen" className="text-accent-blue hover:underline">Finanzplan-Generator</Link>.
-          </div>
-        </div>
-      </div>
+      <ToolLayout
+        inputs={
+          <>
+            <ToolSection title="Angaben zu dir" icon={UserRound}>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <Field label="Name" htmlFor="gz-name" className="sm:col-span-2">
+                  <Input id="gz-name" autoComplete="name" value={b.name} onChange={(e) => set("name", e.target.value)} />
+                </Field>
+                <Field label="Kundennummer der Agentur" htmlFor="gz-kdnr">
+                  <Input id="gz-kdnr" value={b.kundennummer} onChange={(e) => set("kundennummer", e.target.value)} />
+                </Field>
+                <Field label="Start der Selbstständigkeit" htmlFor="gz-start">
+                  <Input id="gz-start" type="date" value={b.start} onChange={(e) => set("start", e.target.value)} />
+                </Field>
+                <Field label="Wochenstunden" htmlFor="gz-std" hint="Ab 15 Stunden gilt die Tätigkeit als hauptberuflich.">
+                  <Input id="gz-std" type="number" inputMode="numeric" value={b.stunden} onChange={(e) => set("stunden", Number(e.target.value) || 0)} />
+                </Field>
+                <Field label="Lebenshaltung pro Monat (€)" htmlFor="gz-leb">
+                  <Input id="gz-leb" type="number" inputMode="numeric" value={b.lebenshaltung} onChange={(e) => set("lebenshaltung", Number(e.target.value) || 0)} />
+                </Field>
+              </div>
+            </ToolSection>
+
+            <ToolSection title="Einnahmen und Ausgaben" description="Netto, je Monat seit dem Start." icon={Wallet} className="overflow-hidden" bodyClassName="p-0 md:p-0">
+              <KitTable caption="Einnahmen und Ausgaben je Monat" className="rounded-none border-0">
+                <thead>
+                  <tr>
+                    <th scope="col">Monat</th>
+                    <th scope="col">Einnahmen (€)</th>
+                    <th scope="col">Ausgaben (€)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {b.monate.map((m, i) => (
+                    <tr key={i}>
+                      <td className="whitespace-nowrap font-medium">Monat {i + 1}</td>
+                      <td>
+                        <Input type="number" inputMode="decimal" aria-label={`Einnahmen Monat ${i + 1}`} value={m.einnahmen} onChange={(e) => setMonat(i, "einnahmen", Number(e.target.value) || 0)} className="h-9 min-w-[7rem]" />
+                      </td>
+                      <td>
+                        <Input type="number" inputMode="decimal" aria-label={`Ausgaben Monat ${i + 1}`} value={m.ausgaben} onChange={(e) => setMonat(i, "ausgaben", Number(e.target.value) || 0)} className="h-9 min-w-[7rem]" />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </KitTable>
+            </ToolSection>
+
+            <ToolSection title="Bericht in deinen Worten" icon={PenLine} description="Konkret und mit Zahlen. Die Agentur prüft, ob die Tätigkeit intensiv und hauptberuflich ist.">
+              <div className="space-y-5">
+                {(
+                  [
+                    ["aktivitaeten", "Unternehmerische Aktivitäten (Pflicht)", "Was hast du in den Monaten gemacht? Kunden, Projekte, Marketing, Website, Netzwerk, Messen, Investitionen …"],
+                    ["auftraege", "Auftragseingänge und Akquise", "Welche Aufträge sind fest, welche Angebote offen, wie gewinnst du Kunden?"],
+                    ["ausblick", "Ausblick auf die nächsten Monate", "Was planst du, wie entwickeln sich Umsatz und Kosten, wann trägst du dich selbst?"],
+                  ] as const
+                ).map(([k, t, ph]) => (
+                  <Field key={k} label={t} htmlFor={`gz-${k}`}>
+                    <Textarea id={`gz-${k}`} rows={5} value={b[k]} onChange={(e) => set(k, e.target.value)} placeholder={ph} />
+                  </Field>
+                ))}
+              </div>
+            </ToolSection>
+          </>
+        }
+        result={
+          <>
+            <ResultPanel
+              variant="ink"
+              kicker="Prüfung"
+              title="Ergebnis der letzten Monate"
+              value={eur(a.ergebnis)}
+              valueHint={`Ø letzte drei Monate: ${eur(a.letzte3)} pro Monat`}
+            >
+              <div className="divide-y divide-white/10 text-primary-foreground">
+                <div className="flex justify-between py-2 text-sm"><span className="text-primary-foreground/70">Einnahmen gesamt</span><span className="font-semibold tabular">{eur(a.einnahmen)}</span></div>
+                <div className="flex justify-between py-2 text-sm"><span className="text-primary-foreground/70">Ausgaben gesamt</span><span className="font-semibold tabular">{eur(a.ausgaben)}</span></div>
+              </div>
+              <Button className="mt-5 h-11 w-full rounded-xl bg-card font-semibold text-primary hover:bg-card/90" onClick={pdf}>
+                <Download className="h-4 w-4" aria-hidden="true" /> Bericht als PDF
+              </Button>
+            </ResultPanel>
+
+            <ToolSection title="Hinweise zum Antrag">
+              <ul className="space-y-3 text-sm leading-relaxed">
+                {a.hinweise.map((h) => {
+                  const I = h.stufe === "ok" ? CheckCircle2 : h.stufe === "warnung" ? AlertTriangle : XCircle;
+                  const c = h.stufe === "ok" ? "text-success" : h.stufe === "warnung" ? "text-warning" : "text-danger";
+                  return (
+                    <li key={h.text} className="flex gap-2.5">
+                      <I className={`mt-0.5 h-4 w-4 shrink-0 ${c}`} aria-hidden="true" />
+                      <span>{h.text}</span>
+                    </li>
+                  );
+                })}
+              </ul>
+            </ToolSection>
+
+            <Callout tone="neutral" icon={Info} title="So stellst du den Antrag">
+              Online in der Vorgangsübersicht deines Kontos bei der Arbeitsagentur, im Anschluss an Phase 1.
+              Phase 2 ist eine Ermessensleistung (9 × 300 €). Ist die Lage unklar, kann die Agentur eine neue Stellungnahme einer
+              fachkundigen Stelle verlangen. Die Zahlen dafür liefert der{" "}
+              <Link to="/cockpit/gruendungsunterlagen" className="font-medium text-accent-blue hover:underline">Finanzplan-Generator</Link>.
+            </Callout>
+          </>
+        }
+      />
     </CockpitShell>
   );
 };

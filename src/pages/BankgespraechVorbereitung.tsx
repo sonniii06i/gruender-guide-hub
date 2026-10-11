@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { Download, ExternalLink } from "lucide-react";
+import { Download, ExternalLink, ListChecks, MessageSquareText } from "lucide-react";
 import jsPDF from "jspdf";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { eur } from "@/components/cockpit/AmpelCheck";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Callout, Field, ResultPanel, ToneBadge, ToolLayout, ToolSection, selectCls } from "@/components/cockpit/kit";
 import { Textarea } from "@/components/ui/textarea";
 import { darlehensplan } from "@/lib/finanzplan";
 
@@ -118,71 +118,97 @@ const BankgespraechVorbereitung = () => {
     doc.save("bankgespraech-vorbereitung.pdf");
   };
 
+  const beantwortet = FRAGEN.filter((_, i) => (antworten[i] ?? "").trim().length > 0).length;
+  const abgehakt = UNTERLAGEN.filter((_, i) => haken[i]).length;
+
   return (
     <CockpitShell
       eyebrow="Finanzierung · KfW ERP-Gründerkredit StartGeld"
       title="Bankgespräch vorbereiten: KfW-StartGeld"
-      subtitle="Bis 200.000 € Gründerkredit über deine Hausbank, 80 % Haftungsfreistellung für die Bank – auch im Nebenerwerb. Rechne die Raten aus, hak die Unterlagen ab und bereite die Antworten auf die typischen Bankfragen vor."
+      subtitle="Bis 200.000 € Gründerkredit über deine Hausbank, 80 % Haftungsfreistellung für die Bank, auch im Nebenerwerb. Rechne die Raten aus, hak die Unterlagen ab und bereite die Antworten auf die typischen Bankfragen vor."
     >
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-6 mb-6">
-        <div className="rounded-2xl border border-border bg-card p-5">
-          <h2 className="font-bold mb-3">Die Fragen, die die Bank stellt</h2>
-          <div className="space-y-3">
-            {FRAGEN.map((f, i) => (
-              <div key={f}>
-                <Label className="text-sm">{i + 1}. {f}</Label>
-                <Textarea rows={2} value={antworten[i] ?? ""} onChange={(e) => setAntworten((a) => ({ ...a, [i]: e.target.value }))} className="mt-1" placeholder="Deine Antwort in 2–3 Sätzen, mit Zahlen" />
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="space-y-4 lg:sticky lg:top-4 self-start">
-          <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5">
-            <h2 className="font-bold mb-3">Kreditrechner StartGeld</h2>
-            <Label className="text-xs">Kreditbetrag (max. 200.000 €, davon max. 80.000 € Betriebsmittel)</Label>
-            <Input type="number" value={betrag} onChange={(e) => setBetrag(Number(e.target.value) || 0)} className="mt-1 bg-background" />
-            <Label className="text-xs mt-3 block">Variante</Label>
-            <select value={variante} onChange={(e) => setVariante(Number(e.target.value))} className="mt-1 h-10 w-full rounded-md border border-input bg-background px-3 text-sm">
-              {STARTGELD.varianten.map((x, i) => (
-                <option key={i} value={i}>{x.laufzeit} Jahre, {x.tilgungsfrei} tilgungsfrei – {x.sollzins} % (eff. {x.effektiv} %)</option>
-              ))}
-            </select>
-            <div className="mt-4 space-y-1 text-sm">
-              <div className="flex justify-between"><span>Rate tilgungsfreie Zeit</span><strong>{eur(rateTilgungsfrei)}</strong></div>
-              <div className="flex justify-between"><span>Rate danach</span><strong>{eur(rateDanach)}</strong></div>
-              <div className="flex justify-between"><span>Zinsen gesamt</span><strong>{eur(zinsenGesamt)}</strong></div>
-            </div>
-            {betrag > STARTGELD.max && <p className="text-xs text-red-700 mt-2">Über 200.000 € – gerechnet mit dem Höchstbetrag.</p>}
-            <p className="text-[11px] text-muted-foreground mt-3">
-              Maximalzinsen laut KfW ab {STARTGELD.konditionenStand}; der Zins wird am Tag der Zusage festgeschrieben.{" "}
-              <a href="https://www.kfw.de/konditionen" target="_blank" rel="noreferrer noopener" className="text-accent-blue hover:underline inline-flex items-center gap-0.5">
-                Aktuelle Konditionen <ExternalLink className="h-3 w-3" />
-              </a>
-            </p>
-            <Button className="w-full mt-4" onClick={pdf}><Download className="h-4 w-4 mr-2" /> Gesprächsmappe als PDF</Button>
-          </div>
-          <div className="rounded-2xl border border-border bg-card p-5">
-            <h2 className="font-bold mb-2 text-sm">Unterlagen-Checkliste</h2>
-            <ul className="space-y-1.5 text-xs">
-              {UNTERLAGEN.map((u, i) => (
-                <li key={u} className="flex gap-2">
-                  <input type="checkbox" checked={!!haken[i]} onChange={(e) => setHaken((h) => ({ ...h, [i]: e.target.checked }))} className="mt-0.5" aria-label={u} />
-                  <span className={haken[i] ? "line-through text-muted-foreground" : ""}>{u}</span>
+      <ToolLayout
+        inputs={
+          <ToolSection
+            title="Die Fragen, die die Bank stellt"
+            icon={MessageSquareText}
+            description="Antworte in zwei bis drei Sätzen, möglichst mit Zahlen. Deine Antworten bleiben in diesem Browser gespeichert."
+            actions={<ToneBadge tone={beantwortet === FRAGEN.length ? "success" : "neutral"}><span className="tabular">{beantwortet} / {FRAGEN.length}</span> beantwortet</ToneBadge>}
+          >
+            <ol className="space-y-5">
+              {FRAGEN.map((f, i) => (
+                <li key={f}>
+                  <Field label={<span className="flex gap-2"><span className="tabular text-muted-foreground">{i + 1}.</span><span>{f}</span></span>} htmlFor={`bank-frage-${i}`}>
+                    <Textarea id={`bank-frage-${i}`} rows={2} value={antworten[i] ?? ""} onChange={(e) => setAntworten((a) => ({ ...a, [i]: e.target.value }))} placeholder="Deine Antwort in 2 bis 3 Sätzen, mit Zahlen …" />
+                  </Field>
                 </li>
               ))}
-            </ul>
-            <p className="text-[11px] text-muted-foreground mt-3">
-              Zahlen fürs Gespräch: <Link to="/cockpit/gruendungsunterlagen" className="text-accent-blue hover:underline">Finanzplan-Generator</Link>.
-              Tipp der IHK: Unterlagen eine Woche vorher schicken, mindestens zwei Banken ansprechen, Gespräch protokollieren.
-            </p>
-          </div>
-        </div>
-      </div>
-      <div className="rounded-2xl border border-amber-500/30 bg-amber-500/5 p-4 text-xs leading-relaxed">
-        <strong>StartGeld (067), Stand 18.06.2026:</strong> für Gründer und kleine Unternehmen unter 5 Jahren am Markt, auch im
-        Nebenerwerb. Antrag über die Hausbank vor Beginn des Vorhabens; kein Mindest-Eigenkapital, aber eigene Mittel verbessern die
-        Bonität. Nicht kombinierbar mit anderen KfW-/ERP-Programmen für dasselbe Vorhaben, keine Umschuldung.
-      </div>
+            </ol>
+          </ToolSection>
+        }
+        result={
+          <>
+            <ResultPanel variant="ink" kicker="Kreditrechner StartGeld" title="Monatliche Rate nach der tilgungsfreien Zeit" value={eur(rateDanach)} valueHint={`${v.laufzeit} Jahre Laufzeit, ${v.tilgungsfrei} Jahr${v.tilgungsfrei > 1 ? "e" : ""} tilgungsfrei, Sollzins ${v.sollzins.toLocaleString("de-DE")} %`}>
+              <div className="space-y-4">
+                <div className="space-y-1.5">
+                  <label htmlFor="bank-betrag" className="block text-sm font-medium text-primary-foreground">Kreditbetrag</label>
+                  <Input id="bank-betrag" type="number" value={betrag} onChange={(e) => setBetrag(Number(e.target.value) || 0)} className="tabular text-foreground" />
+                  <p className="text-xs text-primary-foreground/65">Max. 200.000 €, davon max. 80.000 € Betriebsmittel.</p>
+                </div>
+                <div className="space-y-1.5">
+                  <label htmlFor="bank-variante" className="block text-sm font-medium text-primary-foreground">Variante</label>
+                  <select id="bank-variante" value={variante} onChange={(e) => setVariante(Number(e.target.value))} className={`${selectCls} text-foreground`}>
+                    {STARTGELD.varianten.map((x, i) => (
+                      <option key={i} value={i}>{x.laufzeit} Jahre, {x.tilgungsfrei} tilgungsfrei, {x.sollzins} % (eff. {x.effektiv} %)</option>
+                    ))}
+                  </select>
+                </div>
+                <dl className="divide-y divide-white/10 border-y border-white/10 text-sm">
+                  <div className="flex justify-between gap-4 py-2.5"><dt className="text-primary-foreground/75">Rate in der tilgungsfreien Zeit</dt><dd className="font-semibold tabular">{eur(rateTilgungsfrei)}</dd></div>
+                  <div className="flex justify-between gap-4 py-2.5"><dt className="text-primary-foreground/75">Rate danach</dt><dd className="font-semibold tabular">{eur(rateDanach)}</dd></div>
+                  <div className="flex justify-between gap-4 py-2.5"><dt className="text-primary-foreground/75">Zinsen gesamt</dt><dd className="font-semibold tabular">{eur(zinsenGesamt)}</dd></div>
+                </dl>
+                {betrag > STARTGELD.max && <p className="rounded-lg bg-white/10 px-3 py-2 text-xs text-primary-foreground">Über 200.000 €: gerechnet mit dem Höchstbetrag.</p>}
+                <p className="text-xs leading-relaxed text-primary-foreground/65">
+                  Maximalzinsen laut KfW ab {STARTGELD.konditionenStand}; der Zins wird am Tag der Zusage festgeschrieben.{" "}
+                  <a href="https://www.kfw.de/konditionen" target="_blank" rel="noreferrer noopener" className="inline-flex items-center gap-0.5 text-primary-foreground underline underline-offset-2">
+                    Aktuelle Konditionen <ExternalLink className="h-3 w-3" aria-hidden="true" />
+                  </a>
+                </p>
+                <Button size="lg" className="w-full rounded-xl bg-card font-semibold text-primary shadow-none hover:bg-card/90" onClick={pdf}>
+                  <Download className="h-4 w-4" aria-hidden="true" /> Gesprächsmappe als PDF
+                </Button>
+              </div>
+            </ResultPanel>
+
+            <ToolSection
+              title="Unterlagen-Checkliste"
+              icon={ListChecks}
+              actions={<ToneBadge tone={abgehakt === UNTERLAGEN.length ? "success" : "neutral"}><span className="tabular">{abgehakt} / {UNTERLAGEN.length}</span></ToneBadge>}
+            >
+              <ul className="space-y-2.5 text-sm">
+                {UNTERLAGEN.map((u, i) => (
+                  <li key={u}>
+                    <label className="flex cursor-pointer gap-2.5 leading-snug">
+                      <input type="checkbox" checked={!!haken[i]} onChange={(e) => setHaken((h) => ({ ...h, [i]: e.target.checked }))} className="mt-0.5 h-4 w-4 shrink-0 accent-[hsl(var(--primary))]" />
+                      <span className={haken[i] ? "text-muted-foreground line-through" : ""}>{u}</span>
+                    </label>
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-4 border-t border-border/70 pt-4 text-xs leading-relaxed text-muted-foreground">
+                Zahlen fürs Gespräch: <Link to="/cockpit/gruendungsunterlagen" className="text-accent-blue hover:underline">Finanzplan-Generator</Link>.
+                Tipp der IHK: Unterlagen eine Woche vorher schicken, mindestens zwei Banken ansprechen, Gespräch protokollieren.
+              </p>
+            </ToolSection>
+          </>
+        }
+      />
+      <Callout tone="warning" title="StartGeld (067), Stand 18.06.2026" className="mt-8">
+        Für Gründer und kleine Unternehmen unter 5 Jahren am Markt, auch im Nebenerwerb. Antrag über die Hausbank vor Beginn des
+        Vorhabens; kein Mindest-Eigenkapital, aber eigene Mittel verbessern die Bonität. Nicht kombinierbar mit anderen KfW-/ERP-Programmen
+        für dasselbe Vorhaben, keine Umschuldung.
+      </Callout>
     </CockpitShell>
   );
 };

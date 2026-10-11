@@ -1,7 +1,9 @@
 import { useMemo } from "react";
 import { Link, useParams } from "react-router-dom";
 import CockpitShell from "@/components/cockpit/CockpitShell";
-import { ArrowLeft, ArrowRight, Clock, ListChecks, Target, FileText, AlertTriangle, ExternalLink, Loader2, Sparkles } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, Clock, Coins, ListChecks, Target, FileText, AlertTriangle, ExternalLink, Loader2, Repeat } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Callout, EmptyState, ResultPanel, StatGrid, StatTile, ToneBadge, ToolSection, type Tone } from "@/components/cockpit/kit";
 import { getPlaybook, type PlaybookStep } from "@/data/playbooks";
 import { useGuideStart } from "@/hooks/useGuideStart";
 import { useGuideDetail, mergeStepDetail } from "@/hooks/useGuideDetail";
@@ -15,12 +17,12 @@ const STEP_KIND_LABEL: Record<PlaybookStep["kind"], string> = {
   external: "Extern",
 };
 
-const STEP_KIND_COLOR: Record<PlaybookStep["kind"], string> = {
-  checklist: "bg-emerald-500/10 text-emerald-700",
-  form: "bg-accent-blue/10 text-accent-blue",
-  info: "bg-secondary text-muted-foreground",
-  decision: "bg-purple-500/10 text-purple-700",
-  external: "bg-orange-500/10 text-orange-700",
+const STEP_KIND_TONE: Record<PlaybookStep["kind"], Tone> = {
+  checklist: "success",
+  form: "info",
+  info: "neutral",
+  decision: "accent",
+  external: "warning",
 };
 
 // Keywords die typische Unterlagen / Mitbringel signalisieren
@@ -110,12 +112,18 @@ const PlaybookPreview = () => {
           path={`/playbook/preview/${slug ?? ""}`}
           noindex
         />
-        <Link
-          to="/playbooks"
-          className="inline-flex items-center gap-1 rounded-lg bg-accent-blue text-primary-foreground px-4 py-2 text-sm font-semibold hover:opacity-90"
-        >
-          <ArrowLeft className="h-4 w-4" /> Zur Guide-Übersicht
-        </Link>
+        <EmptyState
+          icon={FileText}
+          title="Diesen Guide gibt es nicht"
+          description="Der Link ist veraltet oder falsch geschrieben. In der Übersicht findest du alle Guides."
+          action={
+            <Button asChild>
+              <Link to="/playbooks">
+                <ArrowLeft className="h-4 w-4" aria-hidden="true" /> Zur Guide-Übersicht
+              </Link>
+            </Button>
+          }
+        />
       </CockpitShell>
     );
   }
@@ -126,7 +134,7 @@ const PlaybookPreview = () => {
 
   return (
     <CockpitShell
-      eyebrow={`${pb.emoji} Guide-Übersicht`}
+      eyebrow="Guide-Übersicht"
       title={pb.title}
       subtitle={pb.tagline}
     >
@@ -165,175 +173,130 @@ const PlaybookPreview = () => {
         ]}
       />
       <div className="mb-6">
-        <Link
-          to="/playbooks"
-          className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-accent-blue"
-        >
-          <ArrowLeft className="h-3 w-3" /> Zur Guide-Übersicht
+        <Link to="/playbooks" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground">
+          <ArrowLeft className="h-4 w-4" aria-hidden="true" /> Zur Guide-Übersicht
         </Link>
       </div>
 
-      {/* Hero-Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
-        <Stat
-          icon={<Clock className="h-4 w-4" />}
-          label="Gesamt-Aufwand"
-          value={totalTimeLabel}
-          sub={`${pb.duration} Real-Zeit`}
-        />
-        <Stat
-          icon={<ListChecks className="h-4 w-4" />}
-          label="Schritte"
-          value={`${pb.steps.length}`}
-          sub={`Schwierigkeit: ${pb.difficulty}`}
-        />
-        <Stat
-          icon={<Target className="h-4 w-4" />}
-          label="Setup-Kosten"
+      {/* Kennzahlen */}
+      <StatGrid cols={4} className="mb-8">
+        <StatTile label={<span className="inline-flex items-center gap-1.5"><Clock className="h-4 w-4" aria-hidden="true" /> Gesamt-Aufwand</span>} value={totalTimeLabel} hint={`${pb.duration} Real-Zeit`} />
+        <StatTile label={<span className="inline-flex items-center gap-1.5"><ListChecks className="h-4 w-4" aria-hidden="true" /> Schritte</span>} value={`${pb.steps.length}`} hint={`Schwierigkeit: ${pb.difficulty}`} />
+        <StatTile
+          label={<span className="inline-flex items-center gap-1.5"><Target className="h-4 w-4" aria-hidden="true" /> Setup-Kosten</span>}
           value={pb.totalCost ? pb.totalCost.split("(")[0].trim() : "–"}
-          sub={pb.totalCost?.includes("(") ? `(${pb.totalCost.split("(")[1]}` : ""}
+          hint={pb.totalCost?.includes("(") ? `(${pb.totalCost.split("(")[1]}` : undefined}
         />
-        <Stat
-          icon={<FileText className="h-4 w-4" />}
-          label="Pflicht-Unterlagen"
-          value={`${docs.length}`}
-          sub={docs.length > 0 ? "Übersicht unten" : ""}
-        />
-      </div>
+        <StatTile label={<span className="inline-flex items-center gap-1.5"><FileText className="h-4 w-4" aria-hidden="true" /> Pflicht-Unterlagen</span>} value={`${docs.length}`} hint={docs.length > 0 ? "Übersicht unten" : undefined} />
+      </StatGrid>
 
-      {/* Outcome */}
-      <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/5 p-5 mb-6">
-        <div className="flex items-start gap-2">
-          <Target className="h-5 w-5 text-emerald-700 shrink-0 mt-0.5" />
-          <div>
-            <div className="text-xs font-semibold uppercase tracking-wider text-emerald-700 mb-1">
-              Was du am Ende hast
-            </div>
-            <div className="text-sm leading-relaxed">{pb.outcome}</div>
-          </div>
-        </div>
-      </div>
+      <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-8">
+        <div className="min-w-0 space-y-6">
+          <Callout tone="success" icon={Target} title="Was du am Ende hast">
+            {pb.outcome}
+          </Callout>
 
-      {/* Folgekosten falls da */}
-      {pb.runningCost && (
-        <div className="rounded-xl border border-border bg-card p-4 mb-6 text-xs leading-relaxed">
-          <span className="font-semibold">🔁 Laufende Folgekosten:</span>{" "}
-          <span className="text-muted-foreground">{pb.runningCost}</span>
-        </div>
-      )}
+          {pb.runningCost && (
+            <Callout tone="neutral" icon={Repeat} title="Laufende Folgekosten">
+              {pb.runningCost}
+            </Callout>
+          )}
 
-      {/* Step-Rundown */}
-      <div className="mb-6">
-        <h2 className="text-base font-bold mb-3 flex items-center gap-2">
-          <ListChecks className="h-4 w-4" /> Schritt-für-Schritt-Plan
-        </h2>
-        <div className="rounded-2xl border border-border bg-card divide-y divide-border">
-          {mergedSteps.map((s, i) => (
-            <div key={s.slug} className="p-4 hover:bg-secondary/30 transition-colors">
-              <div className="flex items-start gap-3">
-                <div className="h-6 w-6 rounded-full bg-secondary text-muted-foreground flex items-center justify-center text-[11px] font-bold shrink-0 mt-0.5">
-                  {i + 1}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-start justify-between gap-2 flex-wrap mb-1">
-                    <h3 className="font-semibold text-sm leading-snug">{s.title}</h3>
-                    <div className="flex items-center gap-1.5 shrink-0">
-                      <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider ${STEP_KIND_COLOR[s.kind]}`}>
-                        {STEP_KIND_LABEL[s.kind]}
-                      </span>
-                      <span className="inline-flex items-center gap-0.5 text-[10px] text-muted-foreground">
-                        <Clock className="h-2.5 w-2.5" /> {s.estMinutes} Min
-                      </span>
+          {/* Step-Rundown */}
+          <ToolSection title="Schritt-für-Schritt-Plan" icon={ListChecks} bodyClassName="p-0 md:p-0">
+            <ol className="divide-y divide-border/70">
+              {mergedSteps.map((s, i) => (
+                <li key={s.slug} id={s.slug} className="scroll-mt-24 px-5 py-4 transition-colors hover:bg-secondary/30 md:px-6">
+                  <div className="flex items-start gap-3.5">
+                    <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-border bg-card text-xs font-semibold tabular shadow-card">
+                      {i + 1}
+                    </span>
+                    <div className="min-w-0 flex-1">
+                      <div className="mb-1 flex flex-wrap items-start justify-between gap-2">
+                        <h3 className="text-[15px] font-semibold leading-snug">{s.title}</h3>
+                        <div className="flex shrink-0 items-center gap-2">
+                          <ToneBadge tone={STEP_KIND_TONE[s.kind]}>{STEP_KIND_LABEL[s.kind]}</ToneBadge>
+                          <span className="inline-flex items-center gap-1 text-xs text-muted-foreground tabular">
+                            <Clock className="h-3 w-3" aria-hidden="true" /> {s.estMinutes} Min
+                          </span>
+                        </div>
+                      </div>
+                      <p className="mb-1.5 line-clamp-2 text-sm leading-relaxed text-muted-foreground">{s.description}</p>
+                      <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs">
+                        {s.estCost && (
+                          <span className="inline-flex items-center gap-1 font-medium text-success">
+                            <Coins className="h-3 w-3" aria-hidden="true" />
+                            {s.estCost.length > 80 ? s.estCost.split("·")[0].trim() : s.estCost}
+                          </span>
+                        )}
+                        {s.checklist && s.checklist.length > 0 && (
+                          <span className="text-muted-foreground">
+                            Checkliste: {s.checklist.length} Punkt{s.checklist.length !== 1 ? "e" : ""}
+                          </span>
+                        )}
+                        {s.externalLinks && s.externalLinks.length > 0 && (
+                          <span className="inline-flex items-center gap-1 text-muted-foreground">
+                            <ExternalLink className="h-3 w-3" aria-hidden="true" />
+                            {s.externalLinks.length} extern{s.externalLinks.length === 1 ? "er Link" : "e Links"}
+                          </span>
+                        )}
+                      </div>
+                      {s.warning && (
+                        <div className="mt-1.5 inline-flex items-start gap-1.5 text-xs text-danger">
+                          <AlertTriangle className="mt-0.5 h-3 w-3 shrink-0" aria-hidden="true" />
+                          <span className="line-clamp-1">{s.warning}</span>
+                        </div>
+                      )}
                     </div>
                   </div>
-                  <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2 mb-1">{s.description}</p>
-                  {s.estCost && (
-                    <div className="text-[11px] font-semibold text-emerald-700 mb-1">
-                      💶 {s.estCost.length > 80 ? s.estCost.split("·")[0].trim() : s.estCost}
-                    </div>
-                  )}
-                  {s.warning && (
-                    <div className="text-[11px] text-red-600 inline-flex items-start gap-1 mt-1">
-                      <AlertTriangle className="h-3 w-3 shrink-0 mt-0.5" />
-                      <span className="line-clamp-1">{s.warning}</span>
-                    </div>
-                  )}
-                  {s.checklist && s.checklist.length > 0 && (
-                    <div className="text-[11px] text-muted-foreground mt-1">
-                      <span className="font-semibold">Checkliste:</span> {s.checklist.length} Punkt{s.checklist.length !== 1 ? "e" : ""}
-                    </div>
-                  )}
-                  {s.externalLinks && s.externalLinks.length > 0 && (
-                    <div className="text-[11px] text-muted-foreground mt-1 flex items-center gap-1">
-                      <ExternalLink className="h-2.5 w-2.5" />
-                      {s.externalLinks.length} extern{s.externalLinks.length === 1 ? "er Link" : "e Links"}
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          ))}
+                </li>
+              ))}
+            </ol>
+          </ToolSection>
         </div>
-      </div>
 
-      {/* Pflicht-Unterlagen */}
-      {docs.length > 0 && (
-        <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5 mb-6">
-          <h2 className="text-base font-bold mb-3 flex items-center gap-2">
-            <FileText className="h-4 w-4 text-accent-blue" /> Was du an Unterlagen brauchst (über alle Schritte)
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-1.5 text-sm">
-            {docs.map((d) => (
-              <div key={d} className="flex items-start gap-2">
-                <span className="text-accent-blue mt-0.5">•</span>
-                <span className="text-muted-foreground">{d}</span>
-              </div>
-            ))}
-          </div>
-          <div className="text-[11px] text-muted-foreground mt-3 leading-relaxed">
-            Diese Liste ist aus den Schritten auto-extrahiert — pro Schritt nochmal genauer drin (welcher Schritt
-            welches Doc braucht).
-          </div>
-        </div>
-      )}
+        <aside className="min-w-0 space-y-6 lg:sticky lg:top-20">
+          {/* CTA */}
+          <ResultPanel variant="ink" kicker="Bereit anzufangen?" title={null}>
+            <p className="text-sm leading-relaxed">
+              Geschätzt <span className="font-semibold text-primary-foreground">{totalTimeLabel}</span> Aktiv-Zeit über {pb.duration}. Du kannst jederzeit pausieren.
+            </p>
+            <Button
+              onClick={() => slug && start(slug)}
+              disabled={isStarting}
+              size="lg"
+              className="mt-5 w-full rounded-xl bg-card font-semibold text-primary shadow-none hover:bg-card/90"
+            >
+              {isStarting ? (
+                <Loader2 className="h-4 w-4 animate-spin" aria-label="Guide wird gestartet" />
+              ) : (
+                <>
+                  Guide starten <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </>
+              )}
+            </Button>
+          </ResultPanel>
 
-      {/* CTA */}
-      <div className="rounded-2xl border border-accent-blue/40 bg-gradient-to-br from-card via-card to-accent-blue/5 p-6">
-        <div className="flex items-center justify-between gap-4 flex-wrap">
-          <div>
-            <div className="font-bold text-lg mb-1">Bereit anzufangen?</div>
-            <div className="text-sm text-muted-foreground">
-              Geschätzt {totalTimeLabel} Aktiv-Zeit über {pb.duration}. Du kannst jederzeit pausieren.
-            </div>
-          </div>
-          <button
-            onClick={() => slug && start(slug)}
-            disabled={isStarting}
-            className="inline-flex items-center gap-2 rounded-xl bg-accent-blue text-primary-foreground px-6 py-3 text-sm font-bold hover:opacity-90 disabled:opacity-50"
-          >
-            {isStarting ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            ) : (
-              <>
-                <Sparkles className="h-4 w-4" /> Guide starten <ArrowRight className="h-4 w-4" />
-              </>
-            )}
-          </button>
-        </div>
+          {/* Pflicht-Unterlagen */}
+          {docs.length > 0 && (
+            <ToolSection title="Unterlagen, die du brauchst" description="Über alle Schritte hinweg" icon={FileText}>
+              <ul className="space-y-2 text-sm">
+                {docs.map((d) => (
+                  <li key={d} className="flex items-start gap-2">
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-accent-blue" aria-hidden="true" />
+                    <span>{d}</span>
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
+                Automatisch aus den Schritten zusammengestellt. Welcher Schritt welches Dokument braucht, steht im jeweiligen Schritt.
+              </p>
+            </ToolSection>
+          )}
+        </aside>
       </div>
     </CockpitShell>
   );
 };
-
-const Stat = ({ icon, label, value, sub }: { icon: React.ReactNode; label: string; value: string; sub?: string }) => (
-  <div className="rounded-xl border border-border bg-card p-3">
-    <div className="flex items-center gap-1.5 text-muted-foreground mb-1">
-      {icon}
-      <div className="text-[10px] uppercase tracking-wider font-semibold">{label}</div>
-    </div>
-    <div className="text-lg font-bold leading-tight">{value}</div>
-    {sub && <div className="text-[10px] text-muted-foreground mt-0.5 line-clamp-1">{sub}</div>}
-  </div>
-);
 
 export default PlaybookPreview;

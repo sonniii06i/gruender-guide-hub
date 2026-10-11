@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
@@ -23,7 +23,9 @@ import {
   MessageSquare,
   Search,
   Sparkles,
+  Sprout,
 } from "lucide-react";
+import { EmptyState, ToneBadge, stripEmoji, type Tone } from "@/components/cockpit/kit";
 import { cn } from "@/lib/utils";
 
 interface Profile { first_name: string | null; onboarding_completed: boolean | null }
@@ -127,8 +129,15 @@ const Dashboard = () => {
       .filter((c) => c.features.length > 0);
   }, [query, activeCatSlug]);
 
+  const TABS: { id: View; label: string }[] = [
+    { id: "start", label: "Start" },
+    { id: "meine", label: "Meine Guides" },
+    { id: "tools", label: "Tools & Rechner" },
+    { id: "themen", label: "Themen" },
+  ];
+
   return (
-    <div className="container max-w-6xl py-8 px-4 md:px-6">
+    <div className="container max-w-6xl px-4 pb-16 pt-8 md:px-6 md:pt-10">
       {params.get("checkout") === "success" ? (
         <AffiliateSuccessBanner />
       ) : (
@@ -139,54 +148,49 @@ const Dashboard = () => {
       <WelcomeChoiceModal firstName={profile?.first_name} eligible={isActive} />
       {/* Hero */}
       <header className="mb-8">
-        <p className="text-xs font-semibold uppercase tracking-wider text-accent-blue mb-1">
-          Lernplattform · Cockpit
-        </p>
-        <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
+        <p className="text-sm font-medium text-accent-blue">Dein Cockpit</p>
+        <h1 className="mt-2 text-[1.75rem] font-semibold leading-[1.12] tracking-[-0.03em] md:text-[2.25rem]">
           Hi {profile?.first_name ?? "Gründer"}. Wo willst du heute weitermachen?
         </h1>
-        <p className="mt-2 text-muted-foreground max-w-2xl text-sm">
-          Schritt-für-Schritt-Guides, Rechner und Anbieter-Vergleiche für Gründung, Steuern, Compliance & Skalierung – immer aktuell.
+        <p className="mt-3 max-w-[68ch] text-[15px] leading-relaxed text-muted-foreground">
+          Schritt-für-Schritt-Guides, Rechner und Anbieter-Vergleiche für Gründung, Steuern, Compliance und Skalierung.
         </p>
 
         {/* Banner Onboarding */}
         {profile && !profile.onboarding_completed && (
-          <div className="mt-5 rounded-2xl border border-accent-blue/30 bg-accent/40 px-4 py-3 flex items-center justify-between gap-3 flex-wrap">
-            <div className="flex items-center gap-3 min-w-0">
-              <div className="h-8 w-8 rounded-lg bg-accent-blue/15 flex items-center justify-center text-accent-blue shrink-0">
-                <Sparkles className="h-4 w-4" />
+          <div className="mt-6 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-accent-blue/20 bg-accent/60 px-4 py-3.5">
+            <div className="flex min-w-0 items-center gap-3">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-card text-accent-blue shadow-card">
+                <Sparkles className="h-4 w-4" aria-hidden="true" />
               </div>
               <div className="min-w-0">
-                <p className="font-semibold text-sm">Profil vervollständigen</p>
-                <p className="text-xs text-muted-foreground">Damit wir dir die passenden Guides empfehlen können.</p>
+                <p className="text-sm font-semibold">Profil vervollständigen</p>
+                <p className="text-sm text-muted-foreground">Damit wir dir die passenden Guides empfehlen können.</p>
               </div>
             </div>
-            <Link to="/onboarding">
-              <Button size="sm" variant="outline" className="rounded-full">Jetzt einrichten</Button>
-            </Link>
+            <Button asChild size="sm" variant="outline">
+              <Link to="/onboarding">Jetzt einrichten</Link>
+            </Button>
           </div>
         )}
       </header>
 
       {/* View tabs */}
-      <div className="flex items-center gap-1.5 mb-8 border-b border-border overflow-x-auto">
-        {[
-          { id: "start", label: "Start" },
-          { id: "meine", label: "Meine Guides" },
-          { id: "tools", label: "Tools & Rechner" },
-          { id: "themen", label: "Themen" },
-        ].map((t) => (
+      <div role="tablist" aria-label="Bereiche" className="-mx-4 mb-8 flex items-center gap-1 overflow-x-auto border-b border-border px-4 md:mx-0 md:px-0">
+        {TABS.map((t) => (
           <button
             key={t.id}
+            role="tab"
+            aria-selected={view === t.id}
             onClick={() => { params.delete("cat"); params.set("view", t.id); setParams(params); }}
             className={cn(
-              "relative px-3 py-2.5 text-sm font-medium transition-colors whitespace-nowrap",
+              "relative whitespace-nowrap px-3 py-3 text-sm font-medium transition-colors",
               view === t.id ? "text-foreground" : "text-muted-foreground hover:text-foreground"
             )}
           >
             {t.label}
             {view === t.id && (
-              <span className="absolute inset-x-2 -bottom-px h-0.5 bg-accent-blue rounded-full" />
+              <span className="absolute inset-x-2 -bottom-px h-0.5 rounded-full bg-accent-blue" aria-hidden="true" />
             )}
           </button>
         ))}
@@ -194,7 +198,7 @@ const Dashboard = () => {
 
       {/* START view */}
       {view === "start" && (
-        <>
+        <div className="space-y-10">
           <ContinueLearning />
 
           <EventRadarKachel />
@@ -203,47 +207,47 @@ const Dashboard = () => {
 
           <StarterHighlight isActive={isActive} />
 
-          <section className="mb-12">
-            <div className="flex items-end justify-between mb-4 gap-4 flex-wrap">
-              <div>
-                <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-accent-blue mb-1">Beliebte Guides</p>
-                <h2 className="text-xl md:text-2xl font-bold tracking-tight">Direkt loslegen</h2>
-                <p className="text-sm text-muted-foreground mt-1">Praxis-Guides, die dich von 0 bis fertig führen.</p>
-              </div>
-              <Link to="/playbooks" className="text-xs text-muted-foreground hover:text-foreground inline-flex items-center gap-1">
-                Alle Guides <ArrowRight className="h-3 w-3" />
-              </Link>
-            </div>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <section>
+            <SectionHead
+              title="Direkt loslegen"
+              lead="Praxis-Guides, die dich von 0 bis fertig führen."
+              action={
+                <Link to="/playbooks" className="inline-flex items-center gap-1 text-sm font-medium text-accent-blue hover:underline">
+                  Alle Guides <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+                </Link>
+              }
+            />
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {featuredGuides.map((p) => <GuideCard key={p.slug} pb={p} />)}
             </div>
           </section>
 
-          <section className="mb-12">
-            <div className="mb-4">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-accent-blue mb-1">Themen</p>
-              <h2 className="text-xl md:text-2xl font-bold tracking-tight">Was beschäftigt dich?</h2>
-            </div>
-            <div className="flex gap-2 overflow-x-auto pt-2.5 pb-2 -mx-1 px-1">
+          <section>
+            <SectionHead title="Was beschäftigt dich?" lead="Alle Tools nach Themen sortiert." />
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {CATEGORIES.map((cat) => {
                 const isStarter = cat.slug === "starter";
+                const Icon = cat.icon;
                 return (
                   <button
                     key={cat.slug}
                     onClick={() => { params.set("view", "themen"); params.set("cat", cat.slug); setParams(params); }}
                     className={cn(
-                      "group shrink-0 rounded-2xl border px-4 py-3 transition-all text-left min-w-[180px] relative",
-                      isStarter
-                        ? "border-accent-blue/40 bg-gradient-to-br from-accent-blue/10 via-card to-card hover:shadow-soft hover:border-accent-blue/60"
-                        : "border-border bg-card hover:border-accent-blue/40 hover:shadow-soft"
+                      "press group flex items-start gap-3 rounded-xl border bg-card p-4 text-left hover:shadow-card",
+                      isStarter ? "border-accent-blue/30 hover:border-accent-blue/50" : "border-border hover:border-accent-blue/35"
                     )}
                   >
-                    {isStarter && (
-                      <span className="absolute -top-2.5 right-3 text-[9px] shadow-sm font-bold uppercase tracking-wider bg-accent-blue text-white px-1.5 py-0.5 rounded-full">Empfohlen</span>
-                    )}
-                    <div className="text-xl mb-1.5">{cat.emoji}</div>
-                    <div className="font-semibold text-sm leading-tight">{cat.title}</div>
-                    <div className="text-[11px] text-muted-foreground mt-0.5 line-clamp-1">{cat.tagline}</div>
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-accent text-accent-blue">
+                      <Icon className="h-4 w-4" aria-hidden="true" />
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="flex items-center gap-2">
+                        <span className="text-sm font-semibold leading-tight">{stripEmoji(cat.title)}</span>
+                        {isStarter && <ToneBadge tone="accent">Empfohlen</ToneBadge>}
+                      </span>
+                      <span className="mt-0.5 block text-xs leading-relaxed text-muted-foreground line-clamp-2">{cat.tagline}</span>
+                    </span>
+                    <span className="shrink-0 text-xs text-muted-foreground tabular">{cat.features.length}</span>
                   </button>
                 );
               })}
@@ -251,30 +255,27 @@ const Dashboard = () => {
           </section>
 
           <FelixCTA />
-        </>
+        </div>
       )}
 
       {/* MEINE view */}
       {view === "meine" && (
-        <>
+        <div className="space-y-10">
           <ContinueLearning />
-          <section className="mt-2">
-            <div className="mb-4">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-accent-blue mb-1">Empfohlen</p>
-              <h2 className="text-xl md:text-2xl font-bold tracking-tight">Starte einen neuen Guide</h2>
-            </div>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <section>
+            <SectionHead title="Starte einen neuen Guide" lead="Alle Guides, mit Fortschritt und Abhak-Listen." />
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {PLAYBOOKS.map((p) => <GuideCard key={p.slug} pb={p} />)}
             </div>
           </section>
-        </>
+        </div>
       )}
 
       {/* TOOLS view */}
       {view === "tools" && (
         <>
           <SearchBar query={query} setQuery={setQuery} />
-          <div className="space-y-12 mt-6">
+          <div className="mt-8 space-y-12">
             {filteredCats.map((cat) => (
               <CategorySection key={cat.slug} cat={cat} locked={!isActive} />
             ))}
@@ -286,42 +287,41 @@ const Dashboard = () => {
       {/* THEMEN view */}
       {view === "themen" && (
         <>
-          <div className="flex items-center gap-2 mb-6 flex-wrap">
+          <div className="-mx-4 mb-6 flex gap-1.5 overflow-x-auto px-4 pb-1 md:mx-0 md:flex-wrap md:px-0" role="group" aria-label="Themen filtern">
             <button
               onClick={() => { params.delete("cat"); setParams(params); }}
+              aria-pressed={!activeCatSlug}
               className={cn(
-                "text-xs px-3 py-1.5 rounded-full border transition-colors",
+                "shrink-0 rounded-lg border px-3 py-1.5 text-sm font-medium transition-colors",
                 !activeCatSlug
-                  ? "border-accent-blue bg-accent-blue/10 text-accent-blue font-semibold"
-                  : "border-border hover:bg-accent text-muted-foreground"
+                  ? "border-primary bg-primary text-primary-foreground"
+                  : "border-border bg-card text-foreground/75 hover:border-foreground/25 hover:text-foreground"
               )}
             >
               Alle
             </button>
             {CATEGORIES.map((cat) => {
-              const isStarter = cat.slug === "starter";
               const isActive = activeCatSlug === cat.slug;
+              const Icon = cat.icon;
               return (
                 <button
                   key={cat.slug}
                   onClick={() => { params.set("cat", cat.slug); setParams(params); }}
+                  aria-pressed={isActive}
                   className={cn(
-                    "text-xs px-3 py-1.5 rounded-full border transition-colors inline-flex items-center gap-1.5 relative",
+                    "inline-flex shrink-0 items-center gap-1.5 rounded-lg border px-3 py-1.5 text-sm font-medium transition-colors",
                     isActive
-                      ? (isStarter ? "border-accent-blue bg-accent-blue/10 text-accent-blue font-semibold" : "border-accent-blue bg-accent-blue/10 text-accent-blue font-semibold")
-                      : (isStarter ? "border-accent-blue/30 hover:bg-accent-blue/5" : "border-border hover:bg-accent")
+                      ? "border-primary bg-primary text-primary-foreground"
+                      : "border-border bg-card text-foreground/75 hover:border-foreground/25 hover:text-foreground"
                   )}
                 >
-                  <span>{cat.emoji}</span> {cat.title}
-                  {isStarter && !isActive && (
-                    <span className="text-[8px] font-bold uppercase tracking-wider bg-accent-blue text-white px-1 py-0 rounded-full ml-1">NEU</span>
-                  )}
+                  <Icon className="h-3.5 w-3.5" aria-hidden="true" /> {stripEmoji(cat.title)}
                 </button>
               );
             })}
           </div>
           <SearchBar query={query} setQuery={setQuery} />
-          <div className="space-y-12 mt-6">
+          <div className="mt-8 space-y-12">
             {filteredCats.map((cat) => (
               <CategorySection key={cat.slug} cat={cat} locked={!isActive} />
             ))}
@@ -333,45 +333,59 @@ const Dashboard = () => {
   );
 };
 
+const SectionHead = ({ title, lead, action }: { title: string; lead?: string; action?: ReactNode }) => (
+  <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
+    <div>
+      <h2 className="text-lg font-semibold tracking-tight md:text-xl">{title}</h2>
+      {lead && <p className="mt-1 text-sm text-muted-foreground">{lead}</p>}
+    </div>
+    {action}
+  </div>
+);
+
 const SearchBar = ({ query, setQuery }: { query: string; setQuery: (s: string) => void }) => (
   <div className="relative max-w-md">
-    <Search className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+    <label htmlFor="dashboard-tool-suche" className="sr-only">Tools durchsuchen</label>
+    <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
     <Input
+      id="dashboard-tool-suche"
+      type="search"
       value={query}
       onChange={(e) => setQuery(e.target.value)}
       placeholder="Tools durchsuchen…"
-      className="pl-9 h-10 rounded-full bg-card"
+      className="h-11 pl-9"
     />
   </div>
 );
 
 const NoResults = ({ q }: { q: string }) => (
-  <div className="text-center py-16 text-muted-foreground">
-    <Search className="h-8 w-8 mx-auto mb-3 opacity-40" />
-    <p className="text-sm">Keine Treffer{q ? ` für „${q}"` : ""}.</p>
-  </div>
+  <EmptyState
+    icon={Search}
+    title={`Keine Treffer${q ? ` für „${q}“` : ""}`}
+    description="Versuch einen anderen Begriff, zum Beispiel USt, GmbH oder Rechnung."
+  />
 );
 
 const FelixCTA = () => (
-  <div className="rounded-3xl bg-gradient-primary p-6 md:p-8 text-primary-foreground relative overflow-hidden shadow-glow">
-    <div className="absolute -top-24 -right-24 w-72 h-72 rounded-full bg-accent-blue/30 blur-3xl pointer-events-none" />
-    <div className="relative flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
+  <div className="relative overflow-hidden rounded-2xl bg-ink p-6 text-primary-foreground shadow-soft md:p-8">
+    <div className="pointer-events-none absolute inset-0 bg-dots-light" aria-hidden="true" />
+    <div className="relative flex flex-col items-start justify-between gap-5 md:flex-row md:items-center">
       <div className="flex items-start gap-4">
-        <div className="h-12 w-12 rounded-xl bg-white/15 backdrop-blur flex items-center justify-center shrink-0">
-          <Sparkles className="h-6 w-6" />
+        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/10 text-brand-green-glow">
+          <MessageSquare className="h-5 w-5" aria-hidden="true" />
         </div>
         <div>
-          <h2 className="text-xl md:text-2xl font-bold leading-tight">Steckst du fest? Frag Felix.</h2>
-          <p className="mt-1.5 text-primary-foreground/85 text-sm max-w-lg">
+          <h2 className="text-xl font-semibold leading-tight md:text-2xl">Steckst du fest? Frag Felix.</h2>
+          <p className="mt-1.5 max-w-lg text-sm text-primary-foreground/75">
             Dein KI-Co-Founder kennt sich mit Rechtsformen, Steuern, Holdings, US-LLC und Marketplaces aus.
           </p>
         </div>
       </div>
-      <Link to="/felix">
-        <Button size="lg" className="rounded-full bg-card text-primary hover:bg-card/90 h-11 px-6 font-semibold gap-1.5">
-          Chat öffnen <ArrowRight className="h-4 w-4" />
-        </Button>
-      </Link>
+      <Button asChild size="lg" className="h-11 rounded-xl bg-card px-6 font-semibold text-primary shadow-none hover:bg-card/90">
+        <Link to="/felix">
+          Chat öffnen <ArrowRight aria-hidden="true" />
+        </Link>
+      </Button>
     </div>
   </div>
 );
@@ -379,35 +393,28 @@ const FelixCTA = () => (
 const CategorySection = ({ cat, locked }: { cat: FeatureCategory; locked: boolean }) => {
   const liveCount = cat.features.filter((f) => f.status === "live" || f.status === "beta").length;
   const isStarter = cat.slug === "starter";
+  const Icon = cat.icon;
   return (
-    <section className={cn(isStarter && "rounded-3xl border-2 border-accent-blue/30 bg-gradient-to-br from-accent-blue/5 via-card to-card p-4 md:p-6")}>
-      <div className={cn(
-        "flex items-center justify-between gap-3 mb-5 pb-3",
-        !isStarter && "border-b border-border"
-      )}>
-        <div className="flex items-center gap-3 min-w-0">
-          <div className={cn(
-            "h-11 w-11 rounded-xl flex items-center justify-center text-xl shrink-0",
-            isStarter ? "bg-accent-blue/15" : "bg-accent"
-          )}>{cat.emoji}</div>
+    <section className={cn(isStarter && "rounded-2xl border border-accent-blue/20 bg-accent/40 p-4 md:p-6")}>
+      <div className="mb-5 flex items-center justify-between gap-3 border-b border-border/70 pb-4">
+        <div className="flex min-w-0 items-center gap-3">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-card text-accent-blue shadow-card">
+            <Icon className="h-5 w-5" aria-hidden="true" />
+          </div>
           <div className="min-w-0">
-            <div className="flex items-center gap-2 flex-wrap">
-              <h2 className="text-lg md:text-xl font-bold leading-tight">{cat.title}</h2>
-              {isStarter && (
-                <span className="text-[9px] font-bold uppercase tracking-wider bg-accent-blue text-white px-1.5 py-0.5 rounded-full">Für Anfänger:innen</span>
-              )}
+            <div className="flex flex-wrap items-center gap-2">
+              <h2 className="text-lg font-semibold leading-tight tracking-tight">{stripEmoji(cat.title)}</h2>
+              {isStarter && <ToneBadge tone="accent">Für Anfänger:innen</ToneBadge>}
             </div>
-            <p className="text-xs text-muted-foreground truncate">{cat.tagline}</p>
+            <p className="truncate text-sm text-muted-foreground">{cat.tagline}</p>
           </div>
         </div>
         {liveCount > 0 && (
-          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-success/10 text-success font-semibold text-[11px]">
-            <span className="h-1.5 w-1.5 rounded-full bg-success" /> {liveCount} aktiv
-          </span>
+          <span className="shrink-0 text-sm text-muted-foreground tabular">{liveCount} aktiv</span>
         )}
       </div>
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-        {cat.features.map((f) => <FeatureCard key={f.slug} f={f} locked={locked} isStarter={isStarter} />)}
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {cat.features.map((f) => <FeatureCard key={f.slug} f={f} locked={locked} />)}
       </div>
     </section>
   );
@@ -424,81 +431,73 @@ const StarterHighlight = ({ isActive }: { isActive: boolean }) => {
   // Erste 4 Tools als Quick-Start-Cards
   const quickStart = starterCat.features.slice(0, 4);
   return (
-    <section className="mb-12 rounded-3xl border-2 border-accent-blue/30 bg-gradient-to-br from-accent-blue/10 via-card to-card p-5 md:p-7">
-      <div className="flex items-start justify-between gap-4 flex-wrap mb-5">
-        <div className="flex items-start gap-3 min-w-0">
-          <div className="h-12 w-12 rounded-2xl bg-accent-blue/15 flex items-center justify-center text-2xl shrink-0">
-            🌱
+    <section className="rounded-2xl border border-accent-blue/20 bg-card p-5 shadow-card md:p-7">
+      <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
+        <div className="flex min-w-0 items-start gap-3">
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-green-soft text-brand-green">
+            <Sprout className="h-5 w-5" aria-hidden="true" />
           </div>
           <div className="min-w-0">
-            <div className="flex items-center gap-2 flex-wrap mb-1">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-accent-blue">Für Einsteiger:innen</p>
-              <span className="text-[9px] font-bold uppercase tracking-wider bg-accent-blue text-white px-1.5 py-0.5 rounded-full">{STARTER_COUNT} neue Tools</span>
-            </div>
-            <h2 className="text-xl md:text-2xl font-bold tracking-tight">Du startest gerade? Hier entlang.</h2>
-            <p className="text-sm text-muted-foreground mt-1 max-w-2xl">
-              Von „Brauche ich überhaupt ein Gewerbe?" bis zur ersten §14-konformen Rechnung — {STARTER_COUNT} Tools, die durch die ersten 90 Tage führen. Mit personalisierten Empfehlungen und PDF-Vorbereitung für Bürgeramt/Finanzamt.
+            <p className="text-sm font-medium text-brand-green">Für Einsteiger:innen, {STARTER_COUNT} Tools</p>
+            <h2 className="mt-0.5 text-lg font-semibold tracking-tight md:text-xl">Du startest gerade? Hier entlang.</h2>
+            <p className="mt-1 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+              Von „Brauche ich überhaupt ein Gewerbe?“ bis zur ersten §14-konformen Rechnung: {STARTER_COUNT} Tools, die durch die ersten 90 Tage führen. Mit personalisierten Empfehlungen und PDF-Vorbereitung für Bürgeramt und Finanzamt.
             </p>
           </div>
         </div>
-        <Link
-          to="/dashboard?view=themen&cat=starter"
-          className="inline-flex items-center gap-1.5 rounded-full bg-accent-blue hover:bg-accent-blue/90 text-white px-4 py-2 text-sm font-semibold transition shrink-0"
-        >
-          Alle {STARTER_COUNT} Tools <ArrowRight className="h-4 w-4" />
-        </Link>
-      </div>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5">
-        {quickStart.map((f, i) => (
-          <Link
-            key={f.slug}
-            to={isActive && f.route ? f.route : "#"}
-            className="rounded-xl border border-accent-blue/20 bg-card/80 hover:bg-card hover:border-accent-blue/50 hover:shadow-soft transition p-3 group"
-          >
-            <div className="text-[10px] font-bold uppercase tracking-wider text-accent-blue mb-1">Schritt {i + 1}</div>
-            <div className="font-semibold text-xs leading-tight mb-1 group-hover:text-accent-blue transition">{f.title}</div>
-            <div className="text-[10px] text-muted-foreground line-clamp-2">{f.desc.slice(0, 90)}…</div>
+        <Button asChild className="shrink-0">
+          <Link to="/dashboard?view=themen&cat=starter">
+            Alle {STARTER_COUNT} Tools <ArrowRight aria-hidden="true" />
           </Link>
-        ))}
+        </Button>
       </div>
+      <ol className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 lg:grid-cols-4">
+        {quickStart.map((f, i) => (
+          <li key={f.slug}>
+            <Link
+              to={isActive && f.route ? f.route : "#"}
+              className="press group flex h-full flex-col rounded-xl border border-border bg-background p-3.5 hover:border-accent-blue/40 hover:bg-card hover:shadow-card"
+            >
+              <span className="mb-2 flex h-6 w-6 items-center justify-center rounded-full border border-border bg-card text-xs font-semibold tabular">{i + 1}</span>
+              <span className="mb-1 text-sm font-semibold leading-tight transition-colors group-hover:text-accent-blue">{f.title}</span>
+              <span className="text-xs leading-relaxed text-muted-foreground line-clamp-2">{f.desc}</span>
+            </Link>
+          </li>
+        ))}
+      </ol>
     </section>
   );
 };
 
-const STATUS_STYLES: Record<Feature["status"], string> = {
-  live: "bg-success/15 text-success",
-  beta: "bg-accent-blue/15 text-accent-blue",
-  soon: "bg-secondary text-muted-foreground",
-  planned: "bg-secondary text-muted-foreground",
+const STATUS_TONE: Record<Feature["status"], Tone> = {
+  live: "success",
+  beta: "info",
+  soon: "neutral",
+  planned: "neutral",
 };
 
-const FeatureCard = ({ f, locked, isStarter }: { f: Feature; locked: boolean; isStarter?: boolean }) => {
+const FeatureCard = ({ f, locked }: { f: Feature; locked: boolean }) => {
   const isClickable = !!f.route;
   const showLock = locked && isClickable;
   const inner = (
     <div className={cn(
-      "relative h-full rounded-2xl border bg-card p-4 transition-all flex flex-col",
-      isStarter ? "border-accent-blue/25" : "border-border",
-      isClickable && (isStarter
-        ? "hover:shadow-soft hover:-translate-y-0.5 hover:border-accent-blue/60 cursor-pointer"
-        : "hover:shadow-soft hover:-translate-y-0.5 hover:border-accent-blue/40 cursor-pointer"),
+      "relative flex h-full flex-col rounded-xl border border-border bg-card p-4 transition-[border-color,box-shadow,transform] duration-200",
+      isClickable && "cursor-pointer hover:border-accent-blue/40 hover:shadow-card active:translate-y-px",
       !isClickable && "opacity-90"
     )}>
-      <div className="flex items-start justify-between mb-2.5">
-        <span className={cn("inline-flex rounded-full text-[9px] font-bold uppercase tracking-wider px-2 py-0.5", STATUS_STYLES[f.status])}>
-          {STATUS_LABEL[f.status]}
-        </span>
+      <div className="mb-2.5 flex items-start justify-between">
+        <ToneBadge tone={STATUS_TONE[f.status]}>{STATUS_LABEL[f.status]}</ToneBadge>
         {showLock && (
-          <div className="h-6 w-6 rounded-full bg-secondary flex items-center justify-center">
-            <Lock className="h-3 w-3 text-muted-foreground" />
-          </div>
+          <span className="flex h-6 w-6 items-center justify-center rounded-md bg-secondary" aria-label="Im Abo enthalten">
+            <Lock className="h-3 w-3 text-muted-foreground" aria-hidden="true" />
+          </span>
         )}
       </div>
-      <h3 className="font-semibold text-sm mb-1 leading-tight">{f.title}</h3>
-      <p className="text-xs text-muted-foreground leading-relaxed flex-1 line-clamp-3">{f.desc}</p>
+      <h3 className="mb-1 text-sm font-semibold leading-tight">{f.title}</h3>
+      <p className="flex-1 text-xs leading-relaxed text-muted-foreground line-clamp-3">{f.desc}</p>
       {isClickable && (
-        <div className="mt-3 inline-flex items-center text-[11px] font-semibold text-accent-blue">
-          Öffnen <ArrowUpRight className="h-3 w-3 ml-1" />
+        <div className="mt-3 inline-flex items-center text-xs font-semibold text-accent-blue">
+          Öffnen <ArrowUpRight className="ml-1 h-3 w-3" aria-hidden="true" />
         </div>
       )}
     </div>

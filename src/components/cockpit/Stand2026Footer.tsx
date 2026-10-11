@@ -19,13 +19,13 @@ type Props = {
  * Zeigt Stand, Quellen-Liste und StB-Verifizierungs-Hinweis.
  */
 const Stand2026Footer = ({ sources, note, stand = "Stand 2026" }: Props) => (
-  <div className="mt-8 rounded-2xl border border-border bg-secondary/30 p-4 text-[11px] leading-relaxed text-muted-foreground">
+  <div className="mt-10 rounded-xl border border-border bg-secondary/40 p-4 text-xs leading-relaxed text-muted-foreground md:p-5">
     <div className="flex items-start gap-2">
-      <Info className="h-3.5 w-3.5 text-accent-blue shrink-0 mt-0.5" />
+      <Info className="mt-0.5 h-4 w-4 shrink-0 text-accent-blue" aria-hidden="true" />
       <div className="flex-1 space-y-1.5">
         <div>
-          <span className="font-semibold text-foreground">{stand}</span> · Berechnungen sind Schätzungen
-          basierend auf den unten genannten Quellen — vor steuerlich oder rechtlich relevanten
+          <span className="font-semibold text-foreground">{stand}.</span> Berechnungen sind Schätzungen
+          auf Basis der unten genannten Quellen. Vor steuerlich oder rechtlich relevanten
           Entscheidungen{" "}
           <span className="font-semibold text-foreground">mit Steuerberater verifizieren</span>.
           BMF-Schreiben + Gesetzeslage ändern sich kontinuierlich.

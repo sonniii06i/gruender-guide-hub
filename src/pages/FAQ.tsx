@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { LifeBuoy, MessageSquare } from "lucide-react";
+import { LifeBuoy, MessageSquare, Plus } from "lucide-react";
 import { Seo } from "@/components/Seo";
+import { Navbar } from "@/components/landing/Navbar";
+import { Footer } from "@/components/landing/Footer";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { PLANS, formatEurCents } from "@/config/pricing";
 
@@ -20,7 +22,7 @@ const FAQS: { q: string; a: string }[] = [
   { q: "Wie funktioniert die Bezahlung?", a: "Sichere Abwicklung über Stripe. SEPA-Lastschrift, Kreditkarte und Apple/Google Pay. Rechnungen findest du im Profil → Abrechnung. Du kannst dein Abo dort jederzeit über das Stripe-Portal verwalten." },
   { q: "Kann ich jederzeit kündigen?", a: "Ja. Monatlich kündbar mit einem Klick im Stripe-Kundenportal (Profil → Abrechnung → Verwalten). Nach Ende der bezahlten Periode bleiben deine Daten erhalten, Premium-Features werden gesperrt." },
   { q: "Was passiert mit meinen Daten?", a: "Speicherung auf EU-Servern (Frankfurt). DSGVO-konform. Deine Eingaben werden nicht an Dritte verkauft. Felix-Chats werden zur Qualitätssicherung anonymisiert ausgewertet (kann deaktiviert werden)." },
-  { q: "Wie schnell antwortet der Support?", a: "Per E-Mail / Ticket innerhalb von 24h (werktags meist <4h). Founder Bundle-Kunden bekommen Priority-Support innerhalb von 2h." },
+  { q: "Wie schnell antwortet der Support?", a: "Per E-Mail oder Ticket, in der Regel innerhalb von 24 Stunden." },
   { q: "Funktioniert GründerX auch für US-LLCs / Creator?", a: "Ja, dafür gibt es eigene Playbooks (US-LLC Setup, Creator-Steuern, Stripe-Setup). Für E-Commerce decken wir Shopify, Amazon FBA, EU-OSS und USt-IDs ab." },
   { q: "Bietet ihr Buchhaltung & Lohn?", a: "Wir integrieren Tools (z. B. Lexware, sevDesk) und liefern Vorlagen. Eigene Buchhaltungs-Engine ist in der Roadmap." },
   { q: "Kann ich meinen Account löschen?", a: "Ja – schreib uns ein Ticket über Support, wir löschen Account & Daten innerhalb von 7 Tagen vollständig (Backup-Rotation gemäß DSGVO)." },
@@ -28,6 +30,9 @@ const FAQS: { q: string; a: string }[] = [
 ];
 
 const FAQ = () => (
+  <div className="flex min-h-screen flex-col bg-background">
+  <Navbar />
+  <main className="flex-1 pt-20 md:pt-24">
   <CockpitShell
     eyebrow="Hilfe"
     title="Häufige Fragen"
@@ -57,33 +62,38 @@ const FAQ = () => (
       nicht.
       <details> haelt den Inhalt immer im DOM und klappt trotzdem zu.
     */}
-    <div className="divide-y divide-border rounded-2xl border border-border bg-card">
-      {FAQS.map((f, i) => (
-        <details key={i} className="group px-5 py-4">
-          <summary className="cursor-pointer list-none text-left font-semibold flex items-center justify-between gap-3">
-            <h2 className="text-base font-semibold">{f.q}</h2>
-            <span className="text-muted-foreground transition-transform group-open:rotate-45 shrink-0">+</span>
-          </summary>
-          <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{f.a}</p>
-        </details>
-      ))}
-    </div>
-
-    <div className="mt-10 rounded-3xl bg-gradient-primary p-6 md:p-8 text-primary-foreground shadow-glow flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-      <div className="flex items-start gap-3">
-        <LifeBuoy className="h-6 w-6 shrink-0 mt-0.5" />
-        <div>
-          <h3 className="font-bold text-lg">Antwort nicht dabei?</h3>
-          <p className="text-sm text-primary-foreground/85">Öffne ein Ticket – wir melden uns innerhalb von 24h.</p>
-        </div>
+    <div className="grid items-start gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
+      <div className="divide-y divide-border overflow-hidden rounded-2xl border border-border bg-card shadow-card">
+        {FAQS.map((f, i) => (
+          <details key={i} className="group px-5 md:px-6 [&_summary::-webkit-details-marker]:hidden">
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-4 text-left transition-colors hover:text-accent-blue">
+              <h2 className="text-[15px] font-semibold leading-snug">{f.q}</h2>
+              <Plus className="h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200 group-open:rotate-45" aria-hidden="true" />
+            </summary>
+            <p className="-mt-1 max-w-[68ch] pb-5 text-sm leading-relaxed text-muted-foreground">{f.a}</p>
+          </details>
+        ))}
       </div>
-      <Link to="/kontakt">
-        <Button size="lg" className="rounded-full bg-card text-primary hover:bg-card/90 font-semibold">
-          <MessageSquare className="h-4 w-4 mr-2" /> Ticket öffnen
+
+      <aside className="rounded-2xl bg-ink p-6 text-primary-foreground shadow-soft lg:sticky lg:top-20">
+        <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 text-brand-green-glow">
+          <LifeBuoy className="h-5 w-5" aria-hidden="true" />
+        </span>
+        <h2 className="mt-4 text-lg font-semibold">Antwort nicht dabei?</h2>
+        <p className="mt-1.5 text-sm leading-relaxed text-primary-foreground/75">
+          Öffne ein Ticket. Wir melden uns in der Regel innerhalb von 24 Stunden.
+        </p>
+        <Button asChild size="lg" className="mt-5 w-full rounded-xl bg-card font-semibold text-primary shadow-none hover:bg-card/90">
+          <Link to="/kontakt">
+            <MessageSquare className="h-4 w-4" aria-hidden="true" /> Ticket öffnen
+          </Link>
         </Button>
-      </Link>
+      </aside>
     </div>
   </CockpitShell>
+  </main>
+  <Footer />
+  </div>
 );
 
 export default FAQ;

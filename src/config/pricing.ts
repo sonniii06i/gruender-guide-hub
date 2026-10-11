@@ -18,6 +18,7 @@
  * aus diesen Werten.
  */
 import { STRIPE_PRICES } from "@/lib/stripe";
+import { ANBIETER_ANZAHL, ANBIETER_KATEGORIEN } from "@/data/kennzahlen";
 
 export const VAT_RATE = 0.19;
 
@@ -120,7 +121,7 @@ export const SOLO_CONTENTS = [
   "Geld & Absicherung: Auszahlung-Optimizer, Salary-vs-Dividende, Runway- & Burn-Rate-Rechner, KV- und Pension-Optimizer, Brutto-Netto Solo, Stundensatz-Rechner, Versicherungs-Basis-Check",
   "Banking & Karten: Intl. Banking, Geschäftskreditkarten- und US-Kreditkarten-Vergleich, Förderung-Datenbank",
   "Steuerberater: StB-Finder, StB-Match, Cost-Benefit-Check und Hand-off-Paket für den Wechsel",
-  "Anbieter-Vergleich in 14 Kategorien: Banking, Buchhaltung, 3PL, Versand, Domains, Tracking, Labor und mehr",
+  `Anbieter-Vergleich: ${ANBIETER_ANZAHL} Anbieter in ${ANBIETER_KATEGORIEN} Kategorien, von Banking und Buchhaltung über 3PL und Versand bis Domains und Tracking`,
   "Holding-Designer für Struktur- und Beteiligungsfragen",
   "Gründungs-Guides und Playbooks (GmbH, UG, Einzelunternehmen, US-LLC, Holding) plus laufend gepflegte Ratgeber",
   "Coop-Deals und Anbieter-Konditionen für Abonnenten",
@@ -139,7 +140,9 @@ export const BUNDLE_CONTENTS = [
   "Rechts-Generatoren: Impressum, Datenschutz, Widerruf, Datenschutzklauseln",
   "Fristen-Tracker und rechtssichere Mails direkt aus dem System",
   "Felix und Juri gemeinsam im selben Chat",
-  "Priorisierter Support",
+  // "Priorisierter Support" gestrichen (10/2026): kein belegbarer Unterschied
+  // zum E-Mail-Support des Einzelzugangs. Stattdessen das, was nachweislich gilt.
+  "Ein Konto und eine Abrechnung für beide Zugänge",
 ];
 
 /** Was ausdrücklich NICHT enthalten ist. */

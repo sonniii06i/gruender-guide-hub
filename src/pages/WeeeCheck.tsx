@@ -1,6 +1,8 @@
 import { useMemo, useState } from "react";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { ToolSection, Field, StatGrid, StatTile, ToneBadge, EmptyState, selectCls } from "@/components/cockpit/kit";
 import { supabase } from "@/integrations/supabase/client";
 import { useTrackToolEvent } from "@/hooks/useTrackToolEvent";
 import { TrialResult, useToolTrial } from "@/components/freetools/ToolTrial";
@@ -13,7 +15,6 @@ import {
   Recycle,
   Building2,
   Hash,
-  AlertCircle,
   Tag,
 } from "lucide-react";
 
@@ -149,136 +150,127 @@ const WeeeCheck = () => {
     <CockpitShell
       eyebrow="WEEE / EAR-Register-Check"
       title="WEEE-Registrierung prüfen"
-      subtitle="Gib eine Marke ein und sieh, welche Einträge im offiziellen EAR-Verzeichnis der stiftung ear dazu registriert sind — mit WEEE-Reg.-Nr., Hersteller bzw. Bevollmächtigtem, Kategorie und Geräteart. Live aus der offiziellen Schnittstelle, kein Scraping."
+      subtitle="Gib eine Marke ein und sieh, welche Einträge im offiziellen EAR-Verzeichnis der stiftung ear dazu registriert sind: mit WEEE-Reg.-Nr., Hersteller bzw. Bevollmächtigtem, Kategorie und Geräteart."
     >
-      {/* Eingabe */}
-      <div className="rounded-xl border border-border bg-card p-4 md:p-5">
-        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-          Marke
-        </label>
-        <div className="mt-2 flex gap-2">
-          <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              onKeyDown={onKey}
-              placeholder="z. B. Anker, Bosch, deine Marke …"
-              className="pl-9"
-            />
-          </div>
-          <button
-            onClick={runCheck}
-            disabled={loading}
-            className="inline-flex items-center gap-2 rounded-lg bg-accent-blue px-4 py-2 text-sm font-semibold text-white hover:opacity-90 disabled:opacity-50"
-          >
-            {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Search className="h-4 w-4" />}
-            Prüfen
-          </button>
+      <ToolSection title="Marke im EAR-Verzeichnis suchen" icon={Recycle} description="Live aus der offiziellen Schnittstelle der stiftung ear.">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-[minmax(0,1fr)_16rem]">
+          <Field label="Marke" htmlFor="weee-marke" error={error ?? undefined}>
+            <div className="flex flex-col gap-2 sm:flex-row">
+              <div className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
+                <Input
+                  id="weee-marke"
+                  type="search"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  onKeyDown={onKey}
+                  placeholder="z. B. Anker, Bosch, deine Marke …"
+                  className="pl-9"
+                />
+              </div>
+              <Button onClick={runCheck} disabled={loading} className="h-10 shrink-0 font-semibold">
+                {loading ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : <Search className="h-4 w-4" aria-hidden="true" />}
+                {loading ? "Prüfe …" : "Prüfen"}
+              </Button>
+            </div>
+          </Field>
+          <Field label="Kategorie (optional)" htmlFor="weee-kat">
+            <select id="weee-kat" value={kategorie} onChange={(e) => setKategorie(Number(e.target.value))} className={selectCls}>
+              <option value={0}>Alle Kategorien</option>
+              {KATEGORIEN.map((k) => (
+                <option key={k.nr} value={k.nr}>
+                  {k.label}
+                </option>
+              ))}
+            </select>
+          </Field>
         </div>
-        <div className="mt-3">
-          <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-            Kategorie (optional)
-          </label>
-          <select
-            value={kategorie}
-            onChange={(e) => setKategorie(Number(e.target.value))}
-            className="mt-2 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm"
-          >
-            <option value={0}>Alle Kategorien</option>
-            {KATEGORIEN.map((k) => (
-              <option key={k.nr} value={k.nr}>
-                {k.label}
-              </option>
-            ))}
-          </select>
-        </div>
-        <p className="mt-2 text-xs text-muted-foreground">
-          Enthält-Suche (Treffer enthalten den Begriff). Mit <code>*</code> kannst du selbst Platzhalter
-          setzen, z. B. <code>Bosch*</code> für „beginnt mit". Nur Wortmarken, keine Bildmarken.
+        <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
+          Enthält-Suche: Treffer enthalten den Begriff. Mit <code className="rounded bg-secondary px-1">*</code> setzt du selbst Platzhalter,
+          z. B. <code className="rounded bg-secondary px-1">Bosch*</code> für „beginnt mit“. Nur Wortmarken, keine Bildmarken.
         </p>
-        {error && (
-          <div className="mt-3 flex items-center gap-2 rounded-lg bg-destructive/10 px-3 py-2 text-sm text-destructive">
-            <AlertCircle className="h-4 w-4" />
-            {error}
-          </div>
-        )}
-      </div>
+      </ToolSection>
+
+      {!result && !loading && (
+        <EmptyState
+          className="mt-6"
+          icon={Search}
+          title="Noch keine Suche"
+          description="Gib oben eine Marke ein. Du siehst danach jede Registrierung mit WEEE-Nummer, Hersteller, Status und Geräteart."
+        />
+      )}
+      {loading && (
+        <div className="mt-6 space-y-3" aria-busy="true" aria-label="Suche läuft …">
+          {[0, 1, 2].map((i) => (
+            <div key={i} className="h-24 animate-pulse rounded-xl border border-border bg-secondary/60" />
+          ))}
+        </div>
+      )}
 
       {/* Ergebnis */}
       {result && (
         <TrialResult>
-        <div className="mt-5 space-y-4">
-          {/* Summary */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            <SummaryCard icon={<Hash className="h-4 w-4" />} label="Treffer gesamt" value={result.total} />
-            <SummaryCard
-              icon={<CheckCircle2 className="h-4 w-4 text-emerald-500" />}
-              label="davon aktiv"
-              value={result.aktivCount}
-            />
-            <SummaryCard icon={<Recycle className="h-4 w-4" />} label="WEEE-Nummern" value={result.distinctWeee} />
-            <SummaryCard
-              icon={<Building2 className="h-4 w-4" />}
-              label="Hersteller/Bevollm."
-              value={result.distinctHersteller}
-            />
-          </div>
+        <div className="mt-6 space-y-5" aria-live="polite">
+          <StatGrid cols={4}>
+            <StatTile label="Treffer gesamt" value={result.total} />
+            <StatTile label="davon aktiv" value={result.aktivCount} tone="success" />
+            <StatTile label="WEEE-Nummern" value={result.distinctWeee} />
+            <StatTile label="Hersteller oder Bevollmächtigte" value={result.distinctHersteller} />
+          </StatGrid>
 
           {result.total === 0 ? (
-            <div className="rounded-xl border border-border bg-card p-6 text-center text-sm text-muted-foreground">
-              Keine Einträge im EAR-Verzeichnis zu „{result.query}" gefunden. Das heißt nicht zwingend, dass
-              keine Registrierung existiert — prüfe Schreibweise/Variationen oder suche direkt im{" "}
-              <a href={result.verzeichnisUrl} target="_blank" rel="noreferrer" className="text-accent-blue underline">
-                offiziellen Verzeichnis
-              </a>
-              .
-            </div>
+            <EmptyState
+              icon={XCircle}
+              title={`Keine Einträge zu „${result.query}“ gefunden`}
+              description={
+                <>
+                  Das heißt nicht zwingend, dass keine Registrierung existiert. Prüfe Schreibweise und Varianten oder suche direkt im{" "}
+                  <a href={result.verzeichnisUrl} target="_blank" rel="noreferrer" className="text-accent-blue underline">
+                    offiziellen Verzeichnis
+                  </a>
+                  .
+                </>
+              }
+            />
           ) : (
             <>
-              <div className="flex items-center justify-between flex-wrap gap-2">
-                <div className="text-sm text-muted-foreground">
-                  {visibleGroups.length} {visibleGroups.length === 1 ? "Eintrag" : "Einträge"}
-                  {result.moreFound && " (weitere vorhanden — Suche verfeinern)"}
-                </div>
-                <label className="inline-flex items-center gap-2 text-sm cursor-pointer select-none">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <h2 className="text-base font-semibold tracking-tight">
+                  <span className="tabular">{visibleGroups.length}</span> {visibleGroups.length === 1 ? "Eintrag" : "Einträge"}
+                  {result.moreFound && <span className="font-normal text-muted-foreground"> (weitere vorhanden, Suche verfeinern)</span>}
+                </h2>
+                <label className="inline-flex cursor-pointer select-none items-center gap-2 text-sm">
                   <input
                     type="checkbox"
                     checked={onlyActive}
                     onChange={(e) => setOnlyActive(e.target.checked)}
-                    className="rounded border-border"
+                    className="h-4 w-4 rounded border-border accent-[hsl(var(--primary))]"
                   />
                   Nur aktive Registrierungen
                 </label>
               </div>
 
-              <div className="space-y-3">
+              <ul className="space-y-3">
                 {visibleGroups.map((g) => (
-                  <div
+                  <li
                     key={g.key}
-                    className={`rounded-xl border bg-card p-4 ${
-                      g.aktiv ? "border-border" : "border-border/60 opacity-80"
-                    }`}
+                    className={`rounded-xl border bg-card p-4 md:p-5 ${g.aktiv ? "border-border shadow-card" : "border-border/60 bg-secondary/30"}`}
                   >
-                    <div className="flex items-start justify-between gap-3 flex-wrap">
+                    <div className="flex flex-wrap items-start justify-between gap-3">
                       <div className="min-w-0">
-                        <div className="flex items-center gap-2 flex-wrap">
+                        <div className="flex flex-wrap items-center gap-2">
                           <span className="inline-flex items-center gap-1.5 font-semibold">
-                            <Building2 className="h-4 w-4 shrink-0 text-muted-foreground" />
+                            <Building2 className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden="true" />
                             {g.herstellername}
                           </span>
                           {g.aktiv ? (
-                            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-0.5 text-xs font-medium text-emerald-600">
-                              <CheckCircle2 className="h-3 w-3" /> aktiv
-                            </span>
+                            <ToneBadge tone="success"><CheckCircle2 className="h-3 w-3" aria-hidden="true" /> aktiv</ToneBadge>
                           ) : (
-                            <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground">
-                              <XCircle className="h-3 w-3" /> ausgetreten {g.markaustritt && `· ${fmtDate(g.markaustritt)}`}
-                            </span>
+                            <ToneBadge tone="neutral"><XCircle className="h-3 w-3" aria-hidden="true" /> ausgetreten{g.markaustritt && `, ${fmtDate(g.markaustritt)}`}</ToneBadge>
                           )}
                         </div>
                         <div className="mt-1 flex items-center gap-1.5 text-sm text-muted-foreground">
-                          <Tag className="h-3.5 w-3.5 shrink-0" />
+                          <Tag className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
                           Marke: <span className="font-medium text-foreground">{g.marke}</span>
                         </div>
                       </div>
@@ -286,59 +278,44 @@ const WeeeCheck = () => {
                         href={`https://www.ear-system.de/ear-verzeichnis/hersteller`}
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center gap-1.5 rounded-lg border border-border px-2.5 py-1.5 text-xs font-mono hover:bg-muted shrink-0"
+                        className="inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-border bg-background px-2.5 py-1.5 text-xs font-medium tabular transition-colors hover:bg-secondary"
                         title="Im offiziellen EAR-Verzeichnis nachschlagen"
                       >
+                        <Hash className="h-3 w-3 text-muted-foreground" aria-hidden="true" />
                         {g.weeeNr}
-                        <ExternalLink className="h-3 w-3" />
+                        <ExternalLink className="h-3 w-3" aria-hidden="true" />
                       </a>
                     </div>
 
                     {/* Gerätearten */}
                     <div className="mt-3 flex flex-wrap gap-1.5">
                       {g.arten.map((a, i) => (
-                        <span
-                          key={i}
-                          className="inline-flex items-center rounded-md bg-muted px-2 py-1 text-xs text-foreground/80"
-                          title={a.kategorie}
-                        >
+                        <span key={i} className="inline-flex items-center rounded-md bg-secondary px-2 py-1 text-xs text-foreground/80" title={a.kategorie}>
                           {a.geraeteart}
                         </span>
                       ))}
                     </div>
                     {g.veroeffentlichung && (
-                      <div className="mt-2 text-xs text-muted-foreground">
-                        Veröffentlicht: {fmtDate(g.veroeffentlichung)}
-                      </div>
+                      <div className="mt-2 text-xs text-muted-foreground tabular">Veröffentlicht: {fmtDate(g.veroeffentlichung)}</div>
                     )}
-                  </div>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </>
           )}
 
-          <div className="text-xs text-muted-foreground pt-1">
-            Quelle: {result.source} ·{" "}
+          <p className="text-xs leading-relaxed text-muted-foreground">
+            Quelle: {result.source},{" "}
             <a href={result.verzeichnisUrl} target="_blank" rel="noreferrer" className="text-accent-blue underline">
               offizielles EAR-Verzeichnis
             </a>
-            . Keine Rechtsberatung — Registrierungspflicht klärt im Zweifel die stiftung ear.
-          </div>
+            . Keine Rechtsberatung, die Registrierungspflicht klärt im Zweifel die stiftung ear.
+          </p>
         </div>
         </TrialResult>
       )}
     </CockpitShell>
   );
 };
-
-const SummaryCard = ({ icon, label, value }: { icon: React.ReactNode; label: string; value: number }) => (
-  <div className="rounded-xl border border-border bg-card p-3">
-    <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-      {icon}
-      {label}
-    </div>
-    <div className="mt-1 text-2xl font-bold tabular-nums">{value}</div>
-  </div>
-);
 
 export default WeeeCheck;

@@ -32,17 +32,17 @@ export const ContinueLearning = () => {
   if (!runs || runs.length === 0) return null;
 
   return (
-    <section className="mb-10">
-      <div className="flex items-end justify-between mb-4">
+    <section>
+      <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
         <div>
-          <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-accent-blue mb-1">Weitermachen</p>
-          <h2 className="text-xl md:text-2xl font-bold tracking-tight">Deine laufenden Guides</h2>
+          <h2 className="text-lg font-semibold tracking-tight md:text-xl">Deine laufenden Guides</h2>
+          <p className="mt-1 text-sm text-muted-foreground">Da weitermachen, wo du aufgehört hast.</p>
         </div>
-        <Link to="/playbooks" className="text-xs text-muted-foreground hover:text-foreground inline-flex items-center gap-1">
-          Alle anzeigen <ArrowRight className="h-3 w-3" />
+        <Link to="/playbooks" className="inline-flex items-center gap-1 text-sm font-medium text-accent-blue hover:underline">
+          Alle anzeigen <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
         </Link>
       </div>
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {runs.map((r) => {
           const pb = getPlaybook(r.playbook_slug);
           const pct = Math.min(100, Math.round((r.current_step / Math.max(1, r.total_steps)) * 100));
@@ -50,20 +50,20 @@ export const ContinueLearning = () => {
             <Link
               key={r.id}
               to={`/playbook/${r.id}`}
-              className="group rounded-2xl border border-border bg-card p-4 hover:border-accent-blue/50 hover:shadow-soft transition-all"
+              className="press group rounded-xl border border-border bg-card p-4 hover:border-accent-blue/40 hover:shadow-card"
             >
               <div className="flex items-center gap-3 mb-3">
-                <div className="h-10 w-10 rounded-xl bg-accent flex items-center justify-center text-xl shrink-0">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-accent text-xl" aria-hidden="true">
                   {pb?.emoji ?? "📘"}
                 </div>
                 <div className="min-w-0 flex-1">
                   <h3 className="font-semibold text-sm truncate">{r.title}</h3>
-                  <p className="text-[11px] text-muted-foreground">{r.current_step} / {r.total_steps} Schritte</p>
+                  <p className="text-xs text-muted-foreground tabular">{r.current_step} von {r.total_steps} Schritten</p>
                 </div>
-                <PlayCircle className="h-5 w-5 text-accent-blue group-hover:scale-110 transition-transform" />
+                <PlayCircle className="h-5 w-5 shrink-0 text-accent-blue transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
               </div>
-              <div className="h-1.5 rounded-full bg-secondary overflow-hidden">
-                <div className="h-full bg-gradient-primary transition-all" style={{ width: `${pct}%` }} />
+              <div className="h-1.5 overflow-hidden rounded-full bg-secondary" role="progressbar" aria-valuenow={pct} aria-valuemin={0} aria-valuemax={100} aria-label="Fortschritt">
+                <div className="h-full rounded-full bg-accent-blue transition-[width] duration-500" style={{ width: `${pct}%` }} />
               </div>
             </Link>
           );

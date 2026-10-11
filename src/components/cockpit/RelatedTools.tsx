@@ -223,26 +223,24 @@ const RelatedTools = () => {
   if (!items || items.length === 0) return null;
 
   return (
-    <div className="mt-10 pt-8 border-t border-border">
-      <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">
-        Verwandte Tools
-      </h3>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+    <nav aria-label="Verwandte Tools" className="mt-14 border-t border-border/70 pt-8">
+      <h2 className="mb-4 text-base font-semibold tracking-tight">Verwandte Tools</h2>
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
         {items.map((t) => (
           <Link
             key={t.route}
             to={t.route}
-            className="group rounded-2xl border border-border bg-card p-4 hover:border-accent-blue hover:shadow-sm transition-all"
+            className="press group rounded-xl border border-border bg-card p-4 hover:border-accent-blue/40 hover:shadow-card"
           >
             <div className="flex items-start justify-between gap-2 mb-1">
               <div className="font-semibold text-sm">{t.label}</div>
-              <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-accent-blue group-hover:translate-x-0.5 transition-all shrink-0" />
+              <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-accent-blue" aria-hidden="true" />
             </div>
             <div className="text-xs text-muted-foreground leading-snug">{t.desc}</div>
           </Link>
         ))}
       </div>
-    </div>
+    </nav>
   );
 };
 

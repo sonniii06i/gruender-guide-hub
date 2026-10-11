@@ -4,7 +4,8 @@ import { Input } from "@/components/ui/input";
 import { GuideCard } from "@/components/dashboard/GuideCard";
 import { PLAYBOOKS } from "@/data/playbooks";
 import { Search } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { ChoiceGroup, EmptyState } from "@/components/cockpit/kit";
 import { Seo } from "@/components/Seo";
 
 const FILTERS = [
@@ -49,46 +50,50 @@ const Playbooks = () => {
         }}
       />
       <CockpitShell
-        eyebrow="🎓 Guides"
+        eyebrow="Guides"
         title="Alle Gründungs-Guides"
-        subtitle="Wähle einen Guide – wir führen dich Schritt für Schritt durch jedes Detail. Kein Vergessen, keine Lücken."
+        subtitle="Wähle einen Guide, wir führen dich Schritt für Schritt durch jedes Detail. Nichts wird vergessen, keine Lücken."
       >
-      <div className="flex flex-col md:flex-row gap-3 md:items-center mb-6">
-        <div className="relative flex-1 max-w-md">
-          <Search className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+      <div className="mb-6 flex flex-col gap-3 rounded-2xl border border-border bg-card p-3 shadow-card md:flex-row md:items-center md:p-4">
+        <div className="relative flex-1 md:max-w-md">
+          <label htmlFor="guide-suche" className="sr-only">Guides durchsuchen</label>
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
           <Input
+            id="guide-suche"
+            type="search"
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="Guide suchen…"
-            className="pl-9 h-10 rounded-full bg-card"
+            placeholder="Guide suchen, z. B. GmbH, Holding, Marke…"
+            className="h-10 pl-9"
           />
         </div>
-        <div className="flex items-center gap-1.5 flex-wrap">
-          {FILTERS.map((f) => (
-            <button
-              key={f.id}
-              onClick={() => setFilter(f.id)}
-              className={cn(
-                "text-xs px-3 py-1.5 rounded-full border transition-colors",
-                filter === f.id
-                  ? "border-accent-blue bg-accent-blue/10 text-accent-blue font-semibold"
-                  : "border-border hover:bg-accent text-muted-foreground"
-              )}
-            >
-              {f.label}
-            </button>
-          ))}
-        </div>
+        <ChoiceGroup<string>
+          label="Schwierigkeit"
+          size="sm"
+          value={filter}
+          onChange={setFilter}
+          options={FILTERS.map((f) => ({ value: f.id, label: f.label }))}
+        />
+        <p className="text-sm text-muted-foreground tabular md:ml-auto" aria-live="polite">
+          {list.length} von {PLAYBOOKS.length} Guides
+        </p>
       </div>
 
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {list.map((p) => <GuideCard key={p.slug} pb={p} />)}
-      </div>
-      {list.length === 0 && (
-        <div className="text-center py-16 text-muted-foreground">
-          <Search className="h-8 w-8 mx-auto mb-3 opacity-40" />
-          <p className="text-sm">Keine Guides gefunden.</p>
+      {list.length > 0 ? (
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {list.map((p) => <GuideCard key={p.slug} pb={p} />)}
         </div>
+      ) : (
+        <EmptyState
+          icon={Search}
+          title="Keine Guides gefunden"
+          description="Versuch einen anderen Suchbegriff oder setz den Filter auf „Alle“."
+          action={
+            <Button variant="outline" onClick={() => { setQ(""); setFilter("all"); }}>
+              Suche zurücksetzen
+            </Button>
+          }
+        />
       )}
       </CockpitShell>
     </>

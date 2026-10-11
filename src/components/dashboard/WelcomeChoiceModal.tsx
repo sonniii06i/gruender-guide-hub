@@ -12,8 +12,8 @@
  */
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Sprout, Rocket, X } from "lucide-react";
-import { categoryToolCount } from "@/data/features";
+import { ArrowRight, Sprout, Rocket, X } from "lucide-react";
+import { categoryToolCount, TOOL_COUNT } from "@/data/features";
 
 const LS_KEY = "ggh-welcome-choice-v1";
 const STARTER_COUNT = categoryToolCount("starter");
@@ -48,65 +48,70 @@ export const WelcomeChoiceModal = ({
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-      <div className="relative w-full max-w-2xl rounded-3xl bg-card border border-border shadow-glow p-6 md:p-8 animate-in zoom-in-95 duration-300">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center overscroll-contain bg-[hsl(var(--foreground)/0.55)] p-4 backdrop-blur-sm animate-in fade-in duration-200"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="welcome-choice-title"
+    >
+      <div className="relative w-full max-w-2xl rounded-2xl border border-border bg-card p-6 shadow-soft animate-in zoom-in-95 duration-300 md:p-8">
         <button
           onClick={() => dismiss("close")}
-          className="absolute top-3 right-3 h-8 w-8 rounded-full bg-secondary/50 hover:bg-secondary flex items-center justify-center transition"
+          className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
           aria-label="Schließen"
         >
           <X className="h-4 w-4" />
         </button>
 
-        <div className="text-center mb-6">
-          <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-accent-blue mb-2">
-            Willkommen{firstName ? `, ${firstName}` : ""}!
+        <div className="mb-6 text-center">
+          <p className="mb-2 text-sm font-medium text-accent-blue">
+            Willkommen{firstName ? `, ${firstName}` : ""}
           </p>
-          <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-2">
+          <h2 id="welcome-choice-title" className="mb-2 text-2xl font-semibold tracking-tight md:text-3xl">
             Wo stehst du gerade?
           </h2>
-          <p className="text-sm text-muted-foreground max-w-md mx-auto">
-            Wir haben 40+ Tools — von Anfänger:innen-freundlichen Decision-Trees bis zu Profi-Werkzeugen für Holdings &amp; internationale Setups. Damit wir dir den passenden Einstieg zeigen:
+          <p className="mx-auto max-w-md text-sm leading-relaxed text-muted-foreground">
+            GründerX hat {TOOL_COUNT} Tools, von einfachen Entscheidungshilfen für Anfänger:innen bis zu Profi-Werkzeugen für Holdings und internationale Setups. Damit wir dir den passenden Einstieg zeigen:
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
           <Link
             to="/dashboard?view=themen&cat=starter"
             onClick={() => dismiss("anfaenger")}
-            className="group rounded-2xl border-2 border-accent-blue/40 bg-gradient-to-br from-accent-blue/10 via-card to-card p-5 hover:border-accent-blue hover:shadow-soft transition-all text-left"
+            className="press group rounded-xl border border-accent-blue/30 bg-accent/50 p-5 text-left hover:border-accent-blue/60 hover:shadow-card"
           >
-            <div className="h-12 w-12 rounded-xl bg-accent-blue/15 flex items-center justify-center mb-3 group-hover:scale-110 transition">
-              <Sprout className="h-6 w-6 text-accent-blue" />
+            <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-card text-brand-green shadow-card">
+              <Sprout className="h-5 w-5" aria-hidden="true" />
             </div>
-            <div className="font-bold text-base mb-1">Komplette:r Anfänger:in</div>
-            <p className="text-xs text-muted-foreground leading-relaxed">
-              Noch kein Gewerbe / kein Wissen über Steuern / vor der ersten Rechnung. {STARTER_COUNT} Tools, die dich von Tag 0 bis Tag 90 führen.
+            <div className="mb-1 text-base font-semibold">Komplette:r Anfänger:in</div>
+            <p className="text-sm leading-relaxed text-muted-foreground">
+              Noch kein Gewerbe, kein Wissen über Steuern, vor der ersten Rechnung. {STARTER_COUNT} Tools, die dich von Tag 0 bis Tag 90 führen.
             </p>
-            <div className="mt-3 inline-flex items-center text-[11px] font-semibold text-accent-blue">
-              → Erste Schritte zeigen
+            <div className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-accent-blue">
+              Erste Schritte zeigen <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
             </div>
           </Link>
 
           <button
             onClick={() => dismiss("profi")}
-            className="group rounded-2xl border-2 border-accent-blue/30 bg-gradient-to-br from-accent-blue/5 via-card to-card p-5 hover:border-accent-blue hover:shadow-soft transition-all text-left"
+            className="press group rounded-xl border border-border bg-card p-5 text-left hover:border-accent-blue/40 hover:shadow-card"
           >
-            <div className="h-12 w-12 rounded-xl bg-accent-blue/15 flex items-center justify-center mb-3 group-hover:scale-110 transition">
-              <Rocket className="h-6 w-6 text-accent-blue" />
+            <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-accent text-accent-blue">
+              <Rocket className="h-5 w-5" aria-hidden="true" />
             </div>
-            <div className="font-bold text-base mb-1">Schon Selbstständig / Profi</div>
-            <p className="text-xs text-muted-foreground leading-relaxed">
-              Gewerbe läuft, Buchhaltung steht, Suche nach speziellen Tools: Holdings, US-LLC, Crypto-Steuer, BWA, Amazon-USt-OSS.
+            <div className="mb-1 text-base font-semibold">Schon selbstständig oder Profi</div>
+            <p className="text-sm leading-relaxed text-muted-foreground">
+              Gewerbe läuft, Buchhaltung steht, du suchst spezielle Tools: Holdings, US-LLC, Crypto-Steuer, BWA, Amazon-USt und OSS.
             </p>
-            <div className="mt-3 inline-flex items-center text-[11px] font-semibold text-accent-blue">
-              → Cockpit öffnen
+            <div className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-accent-blue">
+              Cockpit öffnen <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
             </div>
           </button>
         </div>
 
-        <p className="text-[11px] text-muted-foreground text-center mt-5">
-          Du kannst jederzeit zwischen beiden wechseln — die Wahl bestimmt nur den ersten Eindruck.
+        <p className="mt-5 text-center text-xs text-muted-foreground">
+          Du kannst jederzeit zwischen beiden wechseln. Die Wahl bestimmt nur den ersten Eindruck.
         </p>
       </div>
     </div>

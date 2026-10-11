@@ -11,8 +11,10 @@ import {
   Download,
   ExternalLink,
   Info,
-  CheckCircle2,
+  ArrowRight,
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Callout, Field, ResultPanel, ToneBadge, ToolLayout, ToolSection, selectCls } from "@/components/cockpit/kit";
 
 // ============================================================
 // HK-TAX-HELPER · Stand Mai 2026
@@ -216,131 +218,161 @@ const HkTaxHelper = () => {
     <CockpitShell
       eyebrow="HK-Tax-Helper"
       title="Hongkong-Steuern: welche Abgaben musst du machen?"
-      subtitle="Wähle dein HK-Setup — der Helper zeigt alle IRD-Filings (Profits Tax Return, Employer's Return, Business Registration) plus Companies-Registry-Pflichten, mit Fristen, Strafen und den amtlichen Formular-Quellen. Inklusive personalisierter Filing-Checkliste als PDF."
+      subtitle="Wähle dein HK-Setup: Der Helper zeigt alle IRD-Filings (Profits Tax Return, Employer's Return, Business Registration) plus Companies-Registry-Pflichten, mit Fristen, Strafen und den amtlichen Formular-Quellen. Inklusive personalisierter Filing-Checkliste als PDF."
+      actions={
+        <Button onClick={generatePdf} variant="outline" className="rounded-xl">
+          <Download aria-hidden="true" /> Checkliste als PDF
+        </Button>
+      }
     >
-      {/* Profil-Selektor */}
-      <div className="rounded-2xl border border-border bg-card p-5 mb-4">
-        <h3 className="font-bold text-sm mb-3 flex items-center gap-2"><Building2 className="h-4 w-4 text-accent-blue" /> Dein HK-Setup</h3>
+      <ToolLayout
+        inputs={
+          <ToolSection icon={Building2} title="Dein HK-Setup">
+            <div className="space-y-5">
+              <Field label="Entity-Typ">
+                <div className="grid gap-2 sm:grid-cols-2">
+                  {ENTITIES.map((e) => (
+                    <button
+                      key={e.key}
+                      type="button"
+                      aria-pressed={entity === e.key}
+                      onClick={() => { setEntity(e.key); track(`entity_${e.key}`); }}
+                      className={`rounded-xl border p-3 text-left text-sm transition-colors active:translate-y-px ${
+                        entity === e.key ? "border-primary bg-primary text-primary-foreground" : "border-border bg-card hover:border-foreground/25"
+                      }`}
+                    >
+                      <div className="font-medium">{e.label}</div>
+                      <div className={`mt-0.5 text-xs ${entity === e.key ? "text-primary-foreground/75" : "text-muted-foreground"}`}>{e.hint}</div>
+                    </button>
+                  ))}
+                </div>
+              </Field>
 
-        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Entity-Typ</label>
-        <div className="grid sm:grid-cols-2 gap-2 mt-1 mb-4">
-          {ENTITIES.map((e) => (
-            <button key={e.key} onClick={() => { setEntity(e.key); track(`entity_${e.key}`); }}
-              className={`text-left rounded-lg border p-2.5 text-sm transition ${entity === e.key ? "border-accent-blue bg-accent-blue/10 font-semibold" : "border-border hover:border-accent-blue/50"}`}>
-              <div>{e.label}</div>
-              <div className="text-xs text-muted-foreground font-normal mt-0.5">{e.hint}</div>
-            </button>
-          ))}
-        </div>
+              <Field label="Geschäftsjahres-Abschluss" hint="Bestimmt die Frist für den Profits Tax Return." htmlFor="hk-acct">
+                <select id="hk-acct" value={acct} onChange={(e) => setAcct(e.target.value as AcctDate)} className={selectCls}>
+                  {(Object.keys(ACCT_DATES) as AcctDate[]).map((k) => <option key={k} value={k}>{ACCT_DATES[k].label}</option>)}
+                </select>
+              </Field>
 
-        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Geschäftsjahres-Abschluss (bestimmt die PTR-Frist)</label>
-        <select value={acct} onChange={(e) => setAcct(e.target.value as AcctDate)} className="mt-1 w-full rounded-lg border border-border bg-background p-2 text-sm mb-4">
-          {(Object.keys(ACCT_DATES) as AcctDate[]).map((k) => <option key={k} value={k}>{ACCT_DATES[k].label}</option>)}
-        </select>
-
-        <div className="flex flex-col gap-2">
-          <label className="flex items-center gap-2 text-sm cursor-pointer">
-            <input type="checkbox" checked={employs} onChange={(e) => setEmploys(e.target.checked)} />
-            <span>Ich beschäftige Mitarbeiter / zahle Director-Gehalt</span>
-          </label>
-          <label className="flex items-center gap-2 text-sm cursor-pointer">
-            <input type="checkbox" checked={offshore} onChange={(e) => setOffshore(e.target.checked)} />
-            <span>Ich will einen <strong>Offshore-Claim</strong> (kein HK-Quellen-Gewinn)</span>
-          </label>
-        </div>
-      </div>
-
-      {/* Profits-Tax-Satz-Karte */}
-      <div className="rounded-2xl border-2 border-accent-blue/30 bg-gradient-to-br from-accent-blue/10 via-card to-card p-5 mb-4 text-sm">
-        <div className="flex items-start gap-3">
-          <CalendarClock className="h-6 w-6 text-accent-blue shrink-0 mt-0.5" />
-          <div>
-            <h3 className="font-bold mb-1">Profits Tax — {entityMeta.label}</h3>
-            <p className="text-muted-foreground">Two-Tier-Satz: <strong>{entityMeta.rate}</strong>. HK besteuert <strong>territorial</strong> — nur in HK entstandener Gewinn ist steuerbar. {ACCT_DATES[acct].ptr}</p>
-          </div>
-        </div>
-      </div>
-
-      {offshore && (
-        <div className="rounded-2xl border border-amber-500/40 bg-amber-500/5 p-5 mb-4 text-sm">
-          <h3 className="font-bold mb-1 flex items-center gap-2 text-amber-700 dark:text-amber-400"><AlertTriangle className="h-4 w-4" /> Offshore-Claim ≠ keine Abgabe</h3>
-          <p className="text-muted-foreground">
-            Auch mit Offshore-Claim musst du <strong>PTR + geprüften Abschluss einreichen</strong> und den Claim aktiv begründen (Operations-Test). Das IRD stellt regelmäßig Rückfragen. Beachte zusätzlich das <strong>FSIE-Regime</strong>: passives Auslandseinkommen (Zinsen, Dividenden, IP, Veräußerungsgewinne) von MNE-Entities gilt als HK-Quelle, außer du erfüllst die Substanz-/Beteiligungs-/Nexus-Ausnahme.
-          </p>
-        </div>
-      )}
+              <div className="space-y-2">
+                <label className="flex cursor-pointer items-start gap-2.5 rounded-xl border border-border bg-background/60 p-3 text-sm">
+                  <input type="checkbox" className="mt-0.5 h-4 w-4 accent-[hsl(var(--primary))]" checked={employs} onChange={(e) => setEmploys(e.target.checked)} />
+                  <span>Ich beschäftige Mitarbeiter oder zahle ein Director-Gehalt</span>
+                </label>
+                <label className="flex cursor-pointer items-start gap-2.5 rounded-xl border border-border bg-background/60 p-3 text-sm">
+                  <input type="checkbox" className="mt-0.5 h-4 w-4 accent-[hsl(var(--primary))]" checked={offshore} onChange={(e) => setOffshore(e.target.checked)} />
+                  <span>Ich will einen <strong>Offshore-Claim</strong> (kein HK-Quellen-Gewinn)</span>
+                </label>
+              </div>
+            </div>
+          </ToolSection>
+        }
+        result={
+          <>
+            <ResultPanel variant="ink" kicker="Profits Tax" title={entityMeta.label} value={entityMeta.rate} valueHint="Two-Tier-Satz">
+              <p className="text-sm leading-relaxed">
+                HK besteuert <strong className="text-primary-foreground">territorial</strong>: Nur in HK entstandener Gewinn ist steuerbar. {ACCT_DATES[acct].ptr}
+              </p>
+              <p className="mt-3 text-sm text-primary-foreground/70 tabular">{filings.length} Pflichten für dein Setup</p>
+            </ResultPanel>
+            {offshore && (
+              <Callout tone="warning" title="Offshore-Claim heißt nicht: keine Abgabe">
+                Auch mit Offshore-Claim musst du <strong>PTR und geprüften Abschluss einreichen</strong> und den Claim aktiv begründen
+                (Operations-Test). Das IRD stellt regelmäßig Rückfragen. Beachte zusätzlich das <strong>FSIE-Regime</strong>: passives
+                Auslandseinkommen (Zinsen, Dividenden, IP, Veräußerungsgewinne) von MNE-Entities gilt als HK-Quelle, außer du erfüllst
+                die Substanz-, Beteiligungs- oder Nexus-Ausnahme.
+              </Callout>
+            )}
+          </>
+        }
+      />
 
       {/* Filing-Matrix */}
-      <div className="space-y-3">
-        <h2 className="text-base font-bold flex items-center gap-2"><CalendarClock className="h-4 w-4 text-accent-blue" /> Deine HK-Pflichten</h2>
+      <h2 className="mb-4 mt-10 flex items-center gap-2 text-lg font-semibold tracking-tight">
+        <CalendarClock className="h-5 w-5 text-accent-blue" aria-hidden="true" /> Deine HK-Pflichten
+      </h2>
+      <ol className="space-y-3">
         {filings.map((fi) => (
-          <div key={fi.form + fi.title} className="rounded-2xl border border-border bg-card p-4">
-            <div className="flex items-start gap-3">
-              <span className="shrink-0 rounded bg-muted px-2 py-0.5 text-xs font-mono font-semibold mt-0.5">{fi.form}</span>
-              <div className="flex-1 min-w-0">
-                <div className="text-sm font-semibold flex items-center gap-1.5">
+          <li key={fi.form + fi.title} className="rounded-2xl border border-border bg-card p-4 shadow-card md:p-5">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-start">
+              <span className="w-fit shrink-0 rounded-md bg-secondary px-2 py-1 font-mono text-xs font-semibold">{fi.form}</span>
+              <div className="min-w-0 flex-1">
+                <div className="flex flex-wrap items-center gap-2 font-semibold">
                   {fi.title}
-                  {fi.star && <CheckCircle2 className="h-3.5 w-3.5 text-amber-500 shrink-0" aria-label="kritisch" />}
+                  {fi.star && <ToneBadge tone="warning">kritisch</ToneBadge>}
                 </div>
-                <div className="text-xs text-muted-foreground mt-1">{fi.who}</div>
-                <div className="text-xs mt-1.5"><strong>Frist:</strong> {fi.deadline}</div>
-                {fi.penalty && (
-                  <div className="text-xs text-red-600 dark:text-red-400 mt-1 flex items-start gap-1">
-                    <AlertTriangle className="h-3.5 w-3.5 shrink-0 mt-0.5" /> <span>{fi.penalty}</span>
+                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{fi.who}</p>
+                <dl className="mt-3 grid gap-2 text-sm sm:grid-cols-2">
+                  <div className="rounded-lg bg-secondary/60 px-3 py-2">
+                    <dt className="text-xs text-muted-foreground">Frist</dt>
+                    <dd className="font-medium">{fi.deadline}</dd>
                   </div>
-                )}
+                  {fi.penalty && (
+                    <div className="rounded-lg bg-danger-soft px-3 py-2">
+                      <dt className="text-xs text-danger">Strafe bei Verspätung</dt>
+                      <dd className="font-medium">{fi.penalty}</dd>
+                    </div>
+                  )}
+                </dl>
                 {fi.doc && (
-                  <a href={fi.doc.url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-xs text-accent-blue underline mt-1.5">
-                    <FileText className="h-3.5 w-3.5" /> {fi.doc.label} <ExternalLink className="h-3 w-3" />
+                  <a href={fi.doc.url} target="_blank" rel="noreferrer" className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-accent-blue hover:underline">
+                    <FileText className="h-3.5 w-3.5" aria-hidden="true" /> {fi.doc.label} <ExternalLink className="h-3 w-3" aria-hidden="true" />
                   </a>
                 )}
               </div>
             </div>
-          </div>
+          </li>
         ))}
-      </div>
+      </ol>
 
-      {/* Records */}
-      <div className="rounded-2xl border border-border bg-card p-5 mt-4 text-sm">
-        <h3 className="font-bold mb-1 flex items-center gap-2"><Info className="h-4 w-4 text-accent-blue" /> Aufbewahrung & Tax Representative</h3>
-        <p className="text-muted-foreground">
-          Geschäftsunterlagen <strong>7 Jahre</strong> aufbewahren (§51C IRO). Mit einem HK-<strong>Tax Representative</strong> kommst du automatisch ins <strong>Block-Extension-Scheme</strong> — sonst gilt strikt „1 Monat ab Ausstellung". Die meisten DACH-Setups nutzen einen lokalen Sekretariats-/CPA-Dienstleister (Sleek, Osome, Statrys u. a.).
-        </p>
-      </div>
+      <div className="mt-8 grid gap-6 lg:grid-cols-2">
+        {/* Records */}
+        <ToolSection icon={Info} title="Aufbewahrung & Tax Representative">
+          <p className="text-sm leading-relaxed text-foreground/85">
+            Geschäftsunterlagen <strong>7 Jahre</strong> aufbewahren (§51C IRO). Mit einem HK-<strong>Tax Representative</strong> kommst du
+            automatisch ins <strong>Block-Extension-Scheme</strong>, sonst gilt strikt „1 Monat ab Ausstellung“. Die meisten DACH-Setups nutzen
+            einen lokalen Sekretariats-/CPA-Dienstleister (Sleek, Osome, Statrys u. a.).
+          </p>
+        </ToolSection>
 
-      {/* Dokumente bereitstellen */}
-      <div className="rounded-2xl border-2 border-accent-blue/30 bg-gradient-to-br from-accent-blue/10 via-card to-card p-5 mt-4">
-        <h3 className="font-bold text-sm mb-2 flex items-center gap-2"><Download className="h-4 w-4 text-accent-blue" /> Dokumente & Formulare bereitstellen</h3>
-        <p className="text-xs text-muted-foreground mb-3">Direkt zu den amtlichen IRD-/Companies-Registry-Quellen für dein Setup — plus deine personalisierte Filing-Checkliste als PDF.</p>
-        <div className="grid sm:grid-cols-2 gap-2 mb-3">
-          {allDocs.map((d) => (
-            <a key={d.url} href={d.url} target="_blank" rel="noreferrer" className="flex items-center gap-2 rounded-lg border border-border bg-background p-2.5 text-sm hover:border-accent-blue/50">
-              <FileText className="h-4 w-4 text-accent-blue shrink-0" />
-              <span className="flex-1 min-w-0 truncate">{d.label}</span>
-              <ExternalLink className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
-            </a>
-          ))}
-          <a href={IRD_EXT} target="_blank" rel="noreferrer" className="flex items-center gap-2 rounded-lg border border-border bg-background p-2.5 text-sm hover:border-accent-blue/50">
-            <FileText className="h-4 w-4 text-accent-blue shrink-0" />
-            <span className="flex-1 min-w-0 truncate">IRD: Block Extension Scheme</span>
-            <ExternalLink className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
-          </a>
-        </div>
-        <button onClick={generatePdf} className="inline-flex items-center gap-2 rounded-lg bg-accent-blue px-4 py-2 text-sm font-semibold text-white hover:opacity-90">
-          <Download className="h-4 w-4" /> Filing-Checkliste als PDF herunterladen
-        </button>
+        {/* Dokumente bereitstellen */}
+        <ToolSection
+          icon={Download}
+          title="Dokumente & Formulare"
+          description="Direkt zu den amtlichen IRD-/Companies-Registry-Quellen für dein Setup, plus deine Filing-Checkliste als PDF."
+        >
+          <div className="mb-4 grid gap-2">
+            {[...allDocs.map((d) => ({ url: d.url, label: d.label })), { url: IRD_EXT, label: "IRD: Block Extension Scheme" }].map((d) => (
+              <a key={d.url} href={d.url} target="_blank" rel="noreferrer" className="flex items-center gap-2 rounded-lg border border-border bg-background/60 p-2.5 text-sm transition-colors hover:border-accent-blue/40 hover:bg-card">
+                <FileText className="h-4 w-4 shrink-0 text-accent-blue" aria-hidden="true" />
+                <span className="min-w-0 flex-1 truncate">{d.label}</span>
+                <ExternalLink className="h-3.5 w-3.5 shrink-0 text-muted-foreground" aria-hidden="true" />
+              </a>
+            ))}
+          </div>
+          <Button onClick={generatePdf} className="rounded-xl">
+            <Download aria-hidden="true" /> Filing-Checkliste als PDF herunterladen
+          </Button>
+        </ToolSection>
       </div>
 
       {/* Cross-Links */}
-      <div className="rounded-2xl border border-border bg-card p-5 mt-4 text-sm">
-        <h3 className="font-bold mb-2">Passt dazu</h3>
-        <ul className="space-y-1">
-          <li><Link to="/cockpit/hk-limited-wizard" className="text-accent-blue underline">HK-Limited Setup-Wizard (Gründung von A–Z)</Link></li>
-          <li><Link to="/cockpit/us-tax-helper" className="text-accent-blue underline">US-Tax-Helper (USA-Pendant)</Link></li>
-          <li><Link to="/cockpit/intl-banking" className="text-accent-blue underline">US + HK Banking-Vergleich</Link></li>
-          <li><Link to="/cockpit/dba-cfc" className="text-accent-blue underline">DBA-CFC-Rechner (Hinzurechnung & DBA DE-HK)</Link></li>
-        </ul>
-      </div>
+      <ToolSection className="mt-6" title="Passt dazu" bodyClassName="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+        {[
+          { to: "/cockpit/hk-limited-wizard", t: "HK-Limited Setup-Wizard", d: "Gründung von A bis Z" },
+          { to: "/cockpit/us-tax-helper", t: "US-Tax-Helper", d: "Das USA-Pendant" },
+          { to: "/cockpit/intl-banking", t: "US + HK Banking", d: "Banken im Vergleich" },
+          { to: "/cockpit/dba-cfc", t: "DBA-CFC-Rechner", d: "Hinzurechnung & DBA DE-HK" },
+        ].map((l) => (
+          <Link key={l.to} to={l.to} className="press group rounded-xl border border-border bg-background/60 p-3.5 hover:border-accent-blue/40 hover:bg-card">
+            <span className="flex items-center justify-between gap-2 text-sm font-semibold">
+              {l.t}
+              <ArrowRight className="h-3.5 w-3.5 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-accent-blue" aria-hidden="true" />
+            </span>
+            <span className="mt-0.5 block text-xs text-muted-foreground">{l.d}</span>
+          </Link>
+        ))}
+      </ToolSection>
 
       <Stand2026Footer
         sources={[

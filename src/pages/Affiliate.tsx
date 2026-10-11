@@ -3,8 +3,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { EmptyState, Field, StatGrid, StatTile, ToolSection } from "@/components/cockpit/kit";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Copy, Gift, Percent, Wallet, Users, Loader2, Check, X } from "lucide-react";
 import { useRole } from "@/hooks/useRole";
 
@@ -68,62 +68,80 @@ export default function Affiliate() {
     setBusy(false);
   };
 
-  if (loading) return <div className="flex items-center justify-center py-24"><Loader2 className="h-6 w-6 animate-spin" /></div>;
+  if (loading)
+    return (
+      <div className="container max-w-4xl space-y-4 px-4 pb-16 pt-10 md:px-6" aria-busy="true">
+        <span className="sr-only">Partnerdaten werden geladen…</span>
+        <div className="h-8 w-1/2 animate-pulse rounded bg-secondary" />
+        <div className="h-24 animate-pulse rounded-2xl bg-secondary" />
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+          {[0, 1, 2, 3].map((i) => <div key={i} className="h-20 animate-pulse rounded-xl bg-secondary" />)}
+        </div>
+      </div>
+    );
   if (!data) return null;
   const s = data.stats;
 
   return (
-    <div className="max-w-3xl mx-auto p-4 md:p-6 space-y-6">
-      <div className="text-center space-y-2">
-        <div className="inline-flex items-center gap-2 text-primary"><Percent className="h-5 w-5" /><span className="font-semibold">20 % Umsatzbeteiligung – lebenslang</span></div>
-        <h1 className="text-2xl md:text-3xl font-bold">Partnerprogramm</h1>
-        <p className="text-muted-foreground">Empfiehl GründerX, AnwaltX oder das Founder-Set. Du bekommst <strong>20 % von jeder Zahlung</strong> deiner Geworbenen – dauerhaft, nicht nur im ersten Monat. Auszahlung in echtem Geld.</p>
-      </div>
+    <div className="container max-w-4xl space-y-6 px-4 pb-16 pt-8 md:px-6 md:pt-10">
+      <header className="border-b border-border/70 pb-7">
+        <p className="inline-flex items-center gap-1.5 text-sm font-medium text-accent-blue">
+          <Percent className="h-4 w-4" aria-hidden="true" /> 20 % Umsatzbeteiligung, lebenslang
+        </p>
+        <h1 className="mt-2 text-[1.75rem] font-semibold leading-[1.12] tracking-[-0.03em] md:text-[2.25rem]">Partnerprogramm</h1>
+        <p className="mt-3 max-w-[68ch] text-[15px] leading-relaxed text-muted-foreground">
+          Empfiehl GründerX, AnwaltX oder das Founder-Set. Du bekommst <strong className="font-semibold text-foreground">20 % von jeder Zahlung</strong> deiner Geworbenen, dauerhaft und nicht nur im ersten Monat. Auszahlung in echtem Geld.
+        </p>
+      </header>
 
-      <Card>
-        <CardHeader><CardTitle className="flex items-center gap-2 text-base"><Gift className="h-4 w-4" /> Dein Reflink</CardTitle></CardHeader>
-        <CardContent className="flex flex-col sm:flex-row gap-2">
-          <Input readOnly value={data.ref_link} className="font-mono text-sm" onFocus={(e) => e.currentTarget.select()} />
-          <Button onClick={copy} className="shrink-0"><Copy className="h-4 w-4 mr-1.5" /> Kopieren</Button>
-        </CardContent>
-      </Card>
+      <ToolSection title="Dein Reflink" icon={Gift} description="Jeder Kauf über diesen Link wird dir zugeordnet.">
+        <div className="flex flex-col gap-2 sm:flex-row">
+          <label htmlFor="reflink" className="sr-only">Dein Reflink</label>
+          <Input id="reflink" readOnly value={data.ref_link} className="font-mono text-sm" onFocus={(e) => e.currentTarget.select()} />
+          <Button onClick={copy} className="shrink-0"><Copy className="h-4 w-4" aria-hidden="true" /> Kopieren</Button>
+        </div>
+      </ToolSection>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-        <Stat icon={<Wallet className="h-4 w-4" />} label="Verfügbar" value={eur(s.available_cents)} />
-        <Stat icon={<Wallet className="h-4 w-4" />} label="Auszahlbar" value={eur(s.requestable_cents)} />
-        <Stat icon={<Percent className="h-4 w-4" />} label="Ausgezahlt" value={eur(s.paid_out_cents)} />
-        <Stat icon={<Users className="h-4 w-4" />} label="Aktive Abos" value={String(s.active_referrals)} />
-      </div>
+      <StatGrid cols={4}>
+        <StatTile label="Verfügbar" value={eur(s.available_cents)} />
+        <StatTile label="Auszahlbar" value={eur(s.requestable_cents)} tone={s.requestable_cents >= 2000 ? "success" : "neutral"} emphasis={s.requestable_cents >= 2000} />
+        <StatTile label="Ausgezahlt" value={eur(s.paid_out_cents)} />
+        <StatTile label="Aktive Abos" value={String(s.active_referrals)} />
+      </StatGrid>
 
-      <Card>
-        <CardHeader><CardTitle className="text-base">Auszahlung</CardTitle></CardHeader>
-        <CardContent className="space-y-3">
-          <div className="grid sm:grid-cols-2 gap-3">
-            <div><Label>Kontoinhaber</Label><Input value={name} onChange={(e) => setName(e.target.value)} placeholder="Vor- und Nachname" /></div>
-            <div><Label>IBAN</Label><Input value={iban} onChange={(e) => setIban(e.target.value)} placeholder="DE.." className="font-mono" /></div>
+      <ToolSection title="Auszahlung" icon={Wallet} description="Mindestauszahlung 20 €, manuell per Überweisung.">
+        <div className="space-y-4">
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Field label="Kontoinhaber" htmlFor="payout-name">
+              <Input id="payout-name" autoComplete="name" value={name} onChange={(e) => setName(e.target.value)} placeholder="Vor- und Nachname" />
+            </Field>
+            <Field label="IBAN" htmlFor="payout-iban">
+              <Input id="payout-iban" spellCheck={false} value={iban} onChange={(e) => setIban(e.target.value)} placeholder="DE…" className="font-mono" />
+            </Field>
           </div>
           <div className="flex flex-wrap gap-2">
             <Button variant="outline" onClick={savePayout} disabled={busy}>Daten speichern</Button>
             <Button onClick={requestPayout} disabled={busy || s.requestable_cents < 2000 || !data.payout_iban}>
-              {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : `Auszahlung anfordern (${eur(s.requestable_cents)})`}
+              {busy ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : `Auszahlung anfordern (${eur(s.requestable_cents)})`}
             </Button>
           </div>
-          <p className="text-xs text-muted-foreground">Mindestauszahlung 20 €. Auszahlung manuell per Überweisung. Als Partner stellst du dafür eine Rechnung/Gutschrift; die 20 % sind Netto-Umsatzbeteiligung.</p>
-        </CardContent>
-      </Card>
+          <p className="text-xs leading-relaxed text-muted-foreground">Als Partner stellst du für die Auszahlung eine Rechnung oder Gutschrift; die 20 % sind Netto-Umsatzbeteiligung.</p>
+        </div>
+      </ToolSection>
 
-      {data.commissions.length > 0 && (
-        <Card>
-          <CardHeader><CardTitle className="text-base">Letzte Provisionen</CardTitle></CardHeader>
-          <CardContent className="space-y-1.5 text-sm">
+      {data.commissions.length > 0 ? (
+        <ToolSection title="Letzte Provisionen" bodyClassName="p-0">
+          <ul className="divide-y divide-border/70 text-sm">
             {data.commissions.slice(0, 10).map((c, i) => (
-              <div key={i} className="flex justify-between border-b border-border/50 py-1.5 last:border-0">
+              <li key={i} className="flex justify-between gap-4 px-5 py-3 md:px-6">
                 <span className="text-muted-foreground">{new Date(c.created_at).toLocaleDateString("de-DE")} · {c.product} · {c.status}</span>
-                <span className="font-medium">{eur(c.commission_cents)}</span>
-              </div>
+                <span className="font-medium tabular">{eur(c.commission_cents)}</span>
+              </li>
             ))}
-          </CardContent>
-        </Card>
+          </ul>
+        </ToolSection>
+      ) : (
+        <EmptyState icon={Users} title="Noch keine Provisionen" description="Sobald jemand über deinen Reflink kauft, erscheint die Provision hier." />
       )}
 
       <AdminPayouts />
@@ -153,8 +171,8 @@ function AdminPayouts() {
   };
 
   return (
-    <Card className="border-primary/30">
-      <CardHeader><CardTitle className="text-base">Admin · Auszahlungsanfragen</CardTitle></CardHeader>
+    <Card className="border-accent-blue/25">
+      <CardHeader><CardTitle className="text-base">Admin: Auszahlungsanfragen</CardTitle></CardHeader>
       <CardContent className="space-y-2">
         {!rows ? <Loader2 className="h-5 w-5 animate-spin" /> : rows.length === 0 ? (
           <p className="text-sm text-muted-foreground">Keine offenen Auszahlungen.</p>
@@ -162,7 +180,7 @@ function AdminPayouts() {
           <div key={p.id} className="flex items-center justify-between gap-3 border-b border-border/50 py-2 last:border-0 flex-wrap">
             <div className="text-sm min-w-0">
               <div className="font-medium">{eur(p.amount_cents)} · {p.affiliates?.payout_name || p.affiliates?.email}</div>
-              <div className="text-muted-foreground font-mono text-xs truncate">{p.affiliates?.payout_iban || "— keine IBAN —"} · {p.affiliates?.email}</div>
+              <div className="truncate font-mono text-xs text-muted-foreground">{p.affiliates?.payout_iban || "keine IBAN"} · {p.affiliates?.email}</div>
             </div>
             <div className="flex gap-2 shrink-0">
               <Button size="sm" onClick={() => act("admin_mark_paid", p.id)} disabled={busy === p.id}><Check className="h-4 w-4 mr-1" />Bezahlt</Button>
@@ -172,14 +190,5 @@ function AdminPayouts() {
         ))}
       </CardContent>
     </Card>
-  );
-}
-
-function Stat({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
-  return (
-    <Card><CardContent className="p-4">
-      <div className="flex items-center gap-1.5 text-muted-foreground text-xs mb-1">{icon}{label}</div>
-      <div className="text-lg font-bold">{value}</div>
-    </CardContent></Card>
   );
 }

@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Plus, Search, MessageSquare, MoreHorizontal, Pencil, Trash2, Loader2 } from "lucide-react";
+import { Plus, Search, MessageSquare, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { EmptyState } from "@/components/cockpit/kit";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -76,56 +77,71 @@ export default function FelixChatsOverview() {
   };
 
   return (
-    <div className="container max-w-6xl py-8 px-4 md:px-6">
-      <div className="flex items-start justify-between gap-4 mb-6">
+    <div className="container max-w-4xl px-4 pb-16 pt-8 md:px-6 md:pt-10">
+      <header className="mb-8 flex flex-wrap items-end justify-between gap-4 border-b border-border/70 pb-7">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-wider text-accent-blue mb-1">Felix · Chats</p>
-          <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Deine Chats</h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            Alle Gespräche mit Felix – durchsuchbar und jederzeit fortsetzbar.
+          <p className="text-sm font-medium text-accent-blue">Felix</p>
+          <h1 className="mt-2 text-[1.75rem] font-semibold leading-[1.12] tracking-[-0.03em] md:text-[2.25rem]">Deine Chats</h1>
+          <p className="mt-3 text-[15px] text-muted-foreground">
+            Alle Gespräche mit Felix, durchsuchbar und jederzeit fortsetzbar.
           </p>
         </div>
-        <Button onClick={() => navigate("/felix?new=1")} size="sm" className="gap-1.5">
-          <Plus className="h-4 w-4" />
+        <Button onClick={() => navigate("/felix?new=1")} className="gap-1.5">
+          <Plus className="h-4 w-4" aria-hidden="true" />
           Neuer Chat
         </Button>
-      </div>
+      </header>
 
       <div className="relative mb-6">
-        <Search className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+        <label htmlFor="chats-suche" className="sr-only">Chats durchsuchen</label>
+        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
         <Input
+          id="chats-suche"
+          type="search"
           autoFocus
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          placeholder="Chats durchsuchen (Titel und Inhalt)..."
-          className="pl-9 h-11"
+          placeholder="Chats durchsuchen (Titel und Inhalt)…"
+          className="h-11 pl-9"
         />
       </div>
 
       {loading ? (
-        <div className="py-16 flex justify-center">
-          <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
-        </div>
+        <ul className="divide-y divide-border/70 rounded-2xl border border-border bg-card" aria-busy="true">
+          <li className="sr-only">Chats werden geladen…</li>
+          {[0, 1, 2, 3].map((i) => (
+            <li key={i} className="space-y-2 px-5 py-4">
+              <div className="h-4 w-1/2 animate-pulse rounded bg-secondary" />
+              <div className="h-3 w-24 animate-pulse rounded bg-secondary" />
+            </li>
+          ))}
+        </ul>
       ) : filtered.length === 0 ? (
-        <div className="py-16 text-center text-muted-foreground">
-          <MessageSquare className="h-10 w-10 mx-auto mb-3 opacity-40" />
-          <p className="text-sm">{search ? "Keine Treffer." : "Noch keine Chats. Starte einen neuen!"}</p>
-        </div>
+        <EmptyState
+          icon={MessageSquare}
+          title={search ? "Keine Treffer" : "Noch keine Chats"}
+          description={search ? "Kein Chat enthält diesen Begriff im Titel oder Text." : "Stell Felix deine erste Frage, zum Beispiel zur Rechtsform oder zur Umsatzsteuer."}
+          action={!search && (
+            <Button onClick={() => navigate("/felix?new=1")} className="gap-1.5">
+              <Plus className="h-4 w-4" aria-hidden="true" /> Neuer Chat
+            </Button>
+          )}
+        />
       ) : (
-        <ul className="divide-y divide-border rounded-lg border border-border bg-card">
+        <ul className="divide-y divide-border/70 overflow-hidden rounded-2xl border border-border bg-card shadow-card">
           {filtered.map((c) => (
-            <li key={c.id} className="group flex items-center gap-3 px-4 py-3 hover:bg-accent/50 transition-colors">
+            <li key={c.id} className="group flex items-center gap-3 px-5 py-3.5 transition-colors hover:bg-secondary/40">
               <button
                 onClick={() => navigate(`/felix?c=${c.id}`)}
                 className="flex-1 min-w-0 text-left"
               >
-                <p className="font-medium truncate">{c.title}</p>
-                <p className="text-xs text-muted-foreground mt-0.5">{formatDate(c.last_message_at)}</p>
+                <p className="truncate font-medium">{c.title}</p>
+                <p className="mt-0.5 text-xs text-muted-foreground tabular">{formatDate(c.last_message_at)}</p>
               </button>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <button className="opacity-0 group-hover:opacity-100 p-2 rounded hover:bg-background transition-opacity">
-                    <MoreHorizontal className="h-4 w-4" />
+                  <button aria-label={`Aktionen für ${c.title}`} className="rounded-lg p-2 text-muted-foreground transition-[opacity,background-color] hover:bg-secondary hover:text-foreground focus-visible:opacity-100 md:opacity-0 md:group-hover:opacity-100">
+                    <MoreHorizontal className="h-4 w-4" aria-hidden="true" />
                   </button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">

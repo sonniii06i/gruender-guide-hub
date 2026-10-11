@@ -4,7 +4,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { Loader2, MessageSquare, Plus, Inbox, Clock, CheckCircle2 } from "lucide-react";
+import { MessageSquare, Plus, Inbox, Clock, CheckCircle2 } from "lucide-react";
+import { EmptyState, ToneBadge, type Tone } from "@/components/cockpit/kit";
 import { formatDistanceToNow } from "date-fns";
 import { de } from "date-fns/locale";
 
@@ -13,10 +14,10 @@ interface Ticket {
 }
 interface Msg { id: string; body: string; author_role: string; created_at: string; }
 
-const STATUS_BADGE: Record<string, { label: string; cls: string; icon: any }> = {
-  open: { label: "Offen", cls: "bg-accent-blue/15 text-accent-blue", icon: Inbox },
-  in_progress: { label: "In Bearbeitung", cls: "bg-warning/15 text-warning", icon: Clock },
-  resolved: { label: "Gelöst", cls: "bg-success/15 text-success", icon: CheckCircle2 },
+const STATUS_BADGE: Record<string, { label: string; tone: Tone; icon: any }> = {
+  open: { label: "Offen", tone: "info", icon: Inbox },
+  in_progress: { label: "In Bearbeitung", tone: "warning", icon: Clock },
+  resolved: { label: "Gelöst", tone: "success", icon: CheckCircle2 },
 };
 
 const Support = () => {
@@ -39,54 +40,58 @@ const Support = () => {
   }, [active]);
 
   return (
-    <div className="container max-w-6xl py-8 px-4 md:px-6">
-      <div className="flex items-start justify-between gap-4 mb-8">
+    <div className="container max-w-4xl px-4 pb-16 pt-8 md:px-6 md:pt-10">
+      <header className="mb-8 flex flex-wrap items-end justify-between gap-4 border-b border-border/70 pb-7">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-wider text-accent-blue mb-1">Support</p>
-          <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Deine Tickets</h1>
-          <p className="mt-1 text-sm text-muted-foreground">Alle vergangenen Anfragen und Antworten an einem Ort.</p>
+          <p className="text-sm font-medium text-accent-blue">Support</p>
+          <h1 className="mt-2 text-[1.75rem] font-semibold leading-[1.12] tracking-[-0.03em] md:text-[2.25rem]">Deine Tickets</h1>
+          <p className="mt-3 text-[15px] text-muted-foreground">Alle vergangenen Anfragen und Antworten an einem Ort.</p>
         </div>
-        <Link to="/kontakt">
-          <Button className="rounded-full bg-gradient-primary text-primary-foreground shadow-glow">
-            <Plus className="h-4 w-4 mr-1" /> Neues Ticket
-          </Button>
-        </Link>
-      </div>
+        <Button asChild>
+          <Link to="/kontakt">
+            <Plus className="h-4 w-4" aria-hidden="true" /> Neues Ticket
+          </Link>
+        </Button>
+      </header>
 
       {loading ? (
-        <div className="flex justify-center py-20"><Loader2 className="h-6 w-6 animate-spin text-muted-foreground" /></div>
-      ) : tickets.length === 0 ? (
-        <div className="rounded-3xl border border-dashed border-border bg-card p-12 text-center">
-          <MessageSquare className="h-10 w-10 mx-auto text-muted-foreground mb-3" />
-          <h3 className="font-bold mb-1">Noch keine Tickets</h3>
-          <p className="text-sm text-muted-foreground mb-5">Stelle deine erste Anfrage – wir melden uns innerhalb von 24h.</p>
-          <Link to="/kontakt"><Button className="rounded-full">Ticket öffnen</Button></Link>
+        <div className="space-y-3" aria-busy="true">
+          <span className="sr-only">Tickets werden geladen…</span>
+          {[0, 1, 2].map((i) => <div key={i} className="h-24 animate-pulse rounded-2xl bg-secondary" />)}
         </div>
+      ) : tickets.length === 0 ? (
+        <EmptyState
+          icon={MessageSquare}
+          title="Noch keine Tickets"
+          description="Stell deine erste Anfrage, wir melden uns innerhalb von 24 Stunden."
+          action={<Button asChild><Link to="/kontakt">Ticket öffnen</Link></Button>}
+        />
       ) : (
-        <div className="space-y-3">
+        <ul className="space-y-3">
           {tickets.map((t) => {
             const s = STATUS_BADGE[t.status] ?? STATUS_BADGE.open;
             const Icon = s.icon;
             return (
-              <button
-                key={t.id}
-                onClick={() => setActive(t)}
-                className="w-full text-left rounded-2xl border border-border bg-card p-5 hover:shadow-soft hover:-translate-y-0.5 transition-all"
-              >
-                <div className="flex items-start justify-between gap-3 mb-1">
-                  <h3 className="font-semibold leading-tight">{t.subject}</h3>
-                  <span className={`inline-flex items-center gap-1 rounded-full text-[10px] font-bold uppercase px-2 py-1 ${s.cls}`}>
-                    <Icon className="h-3 w-3" /> {s.label}
-                  </span>
-                </div>
-                <p className="text-sm text-muted-foreground line-clamp-2">{t.message}</p>
-                <p className="text-xs text-muted-foreground mt-2">
-                  {formatDistanceToNow(new Date(t.created_at), { addSuffix: true, locale: de })}
-                </p>
-              </button>
+              <li key={t.id}>
+                <button
+                  onClick={() => setActive(t)}
+                  className="press w-full rounded-xl border border-border bg-card p-5 text-left hover:border-accent-blue/40 hover:shadow-card"
+                >
+                  <div className="mb-1 flex items-start justify-between gap-3">
+                    <h2 className="font-semibold leading-tight">{t.subject}</h2>
+                    <ToneBadge tone={s.tone} className="shrink-0">
+                      <Icon className="h-3 w-3" aria-hidden="true" /> {s.label}
+                    </ToneBadge>
+                  </div>
+                  <p className="text-sm text-muted-foreground line-clamp-2">{t.message}</p>
+                  <p className="mt-2 text-xs text-muted-foreground">
+                    {formatDistanceToNow(new Date(t.created_at), { addSuffix: true, locale: de })}
+                  </p>
+                </button>
+              </li>
             );
           })}
-        </div>
+        </ul>
       )}
 
       <Sheet open={!!active} onOpenChange={(o) => !o && setActive(null)}>
@@ -97,16 +102,16 @@ const Support = () => {
                 <SheetTitle>{active.subject}</SheetTitle>
               </SheetHeader>
               <div className="mt-6 space-y-4">
-                <div className="rounded-2xl bg-secondary p-4">
-                  <p className="text-[10px] font-bold uppercase text-muted-foreground mb-1">Deine Anfrage</p>
+                <div className="rounded-xl border border-border bg-secondary/60 p-4">
+                  <p className="mb-1 text-xs font-medium text-muted-foreground">Deine Anfrage</p>
                   <p className="text-sm whitespace-pre-wrap">{active.message}</p>
                 </div>
                 {msgs.length === 0 ? (
-                  <p className="text-xs text-muted-foreground text-center py-6">Noch keine Antwort. Wir melden uns bald.</p>
+                  <p className="py-6 text-center text-sm text-muted-foreground">Noch keine Antwort. Wir melden uns bald.</p>
                 ) : (
                   msgs.map((m) => (
-                    <div key={m.id} className={`rounded-2xl p-4 ${m.author_role === "admin" ? "bg-accent-blue/10 border border-accent-blue/20" : "bg-secondary"}`}>
-                      <p className="text-[10px] font-bold uppercase text-muted-foreground mb-1">
+                    <div key={m.id} className={`rounded-xl border p-4 ${m.author_role === "admin" ? "border-accent-blue/20 bg-accent/60" : "border-border bg-secondary/60"}`}>
+                      <p className="mb-1 text-xs font-medium text-muted-foreground">
                         {m.author_role === "admin" ? "GründerX Team" : "Du"} · {formatDistanceToNow(new Date(m.created_at), { addSuffix: true, locale: de })}
                       </p>
                       <p className="text-sm whitespace-pre-wrap">{m.body}</p>

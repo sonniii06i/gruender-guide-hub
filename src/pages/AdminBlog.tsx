@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
+import { KitTable } from "@/components/cockpit/kit";
 import { Badge } from "@/components/ui/badge";
 import { Loader2, RefreshCw, Sparkles, ExternalLink } from "lucide-react";
 import { toast } from "sonner";
@@ -77,11 +78,12 @@ const AdminBlog = () => {
   };
 
   return (
-    <div className="container max-w-6xl py-10 px-4">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+    <div className="container max-w-6xl px-4 pb-16 pt-8 md:px-6 md:pt-10">
+      <div className="mb-8 flex flex-col justify-between gap-4 border-b border-border/70 pb-7 md:flex-row md:items-end">
         <div>
-          <h1 className="text-2xl md:text-3xl font-bold">Ratgeber-Verwaltung</h1>
-          <p className="text-muted-foreground text-sm mt-1">
+          <p className="text-sm font-medium text-accent-blue">Admin</p>
+          <h1 className="mt-2 text-[1.75rem] font-semibold tracking-[-0.03em] md:text-[2.25rem]">Ratgeber-Verwaltung</h1>
+          <p className="mt-3 max-w-[68ch] text-[15px] text-muted-foreground">
             Automatisierte Blog-Generierung: 2× pro Woche (Di/Fr 06:00 UTC) wird der nächste fällige Topic verarbeitet.
           </p>
         </div>
@@ -97,37 +99,36 @@ const AdminBlog = () => {
       </div>
 
       {loading ? (
-        <p className="text-muted-foreground">Lädt …</p>
+        <div className="space-y-3" aria-busy="true"><span className="sr-only">Lädt…</span>{[0, 1, 2].map((i) => <div key={i} className="h-12 animate-pulse rounded-xl bg-secondary" />)}</div>
       ) : (
         <>
           <section className="mb-12">
-            <h2 className="text-xl font-bold mb-4">Posts ({posts.length})</h2>
-            <div className="rounded-xl border border-border overflow-hidden overflow-x-auto">
-              <table className="w-full text-sm min-w-[640px]">
-                <thead className="bg-secondary/50">
+            <h2 className="mb-4 text-lg font-semibold tracking-tight">Posts <span className="text-muted-foreground tabular">({posts.length})</span></h2>
+            <KitTable caption="Posts" className="[&_table]:min-w-[640px]">
+                <thead>
                   <tr>
-                    <th className="text-left p-3">Titel</th>
-                    <th className="text-left p-3">Kategorie</th>
-                    <th className="text-left p-3">Status</th>
-                    <th className="text-left p-3">Veröffentlicht</th>
-                    <th className="text-left p-3">Views</th>
-                    <th className="text-left p-3"></th>
+                    <th>Titel</th>
+                    <th>Kategorie</th>
+                    <th>Status</th>
+                    <th>Veröffentlicht</th>
+                    <th>Aufrufe</th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody>
                   {posts.length === 0 && (
-                    <tr><td colSpan={6} className="p-6 text-center text-muted-foreground">Noch keine Posts. Klick "Jetzt generieren".</td></tr>
+                    <tr><td colSpan={6} className="text-center text-muted-foreground">Noch keine Posts. Klick auf „Jetzt nächsten Post generieren“.</td></tr>
                   )}
                   {posts.map((p) => (
-                    <tr key={p.id} className="border-t border-border">
-                      <td className="p-3 font-medium">{p.title}</td>
-                      <td className="p-3"><Badge variant="secondary">{p.category}</Badge></td>
-                      <td className="p-3">
+                    <tr key={p.id}>
+                      <td className="font-medium">{p.title}</td>
+                      <td><Badge variant="secondary">{p.category}</Badge></td>
+                      <td>
                         <Badge variant={p.status === "published" ? "default" : "outline"}>{p.status}</Badge>
                       </td>
-                      <td className="p-3 text-muted-foreground">{p.published_at ? new Date(p.published_at).toLocaleDateString("de-DE") : "—"}</td>
-                      <td className="p-3 text-muted-foreground">{p.view_count}</td>
-                      <td className="p-3 flex gap-2">
+                      <td className="text-muted-foreground">{p.published_at ? new Date(p.published_at).toLocaleDateString("de-DE") : "-"}</td>
+                      <td className="text-muted-foreground">{p.view_count}</td>
+                      <td className="flex gap-2">
                         {p.status === "published" && (
                           <Link to={`/ratgeber/${p.slug}`} target="_blank" className="text-accent-blue hover:underline inline-flex items-center text-xs">
                             Ansehen <ExternalLink className="h-3 w-3 ml-1" />
@@ -140,34 +141,32 @@ const AdminBlog = () => {
                     </tr>
                   ))}
                 </tbody>
-              </table>
-            </div>
+            </KitTable>
           </section>
 
           <section>
-            <h2 className="text-xl font-bold mb-4">Topic-Queue ({topics.filter(t => !t.consumed_at).length} offen)</h2>
-            <div className="rounded-xl border border-border overflow-hidden overflow-x-auto">
-              <table className="w-full text-sm min-w-[560px]">
-                <thead className="bg-secondary/50">
+            <h2 className="mb-4 text-lg font-semibold tracking-tight">Topic-Queue <span className="text-muted-foreground tabular">({topics.filter(t => !t.consumed_at).length} offen)</span></h2>
+            <KitTable caption="Topic-Queue" className="[&_table]:min-w-[560px]">
+                <thead>
                   <tr>
-                    <th className="text-left p-3">Topic</th>
-                    <th className="text-left p-3">Keyword</th>
-                    <th className="text-left p-3">Geplant</th>
-                    <th className="text-left p-3">Status</th>
-                    <th className="text-left p-3"></th>
+                    <th>Topic</th>
+                    <th>Keyword</th>
+                    <th>Geplant</th>
+                    <th>Status</th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody>
                   {topics.map((t) => (
-                    <tr key={t.id} className="border-t border-border">
-                      <td className="p-3">{t.topic}</td>
-                      <td className="p-3 text-muted-foreground"><code className="text-xs">{t.keyword_primary}</code></td>
-                      <td className="p-3 text-muted-foreground">{new Date(t.scheduled_for).toLocaleDateString("de-DE")}</td>
-                      <td className="p-3">
+                    <tr key={t.id}>
+                      <td>{t.topic}</td>
+                      <td className="text-muted-foreground"><code className="text-xs">{t.keyword_primary}</code></td>
+                      <td className="text-muted-foreground">{new Date(t.scheduled_for).toLocaleDateString("de-DE")}</td>
+                      <td>
                         {t.consumed_at ? <Badge variant="secondary">erledigt</Badge> : <Badge variant="outline">offen</Badge>}
                         {t.last_error && <p className="text-xs text-destructive mt-1">{t.last_error}</p>}
                       </td>
-                      <td className="p-3">
+                      <td>
                         {!t.consumed_at && (
                           <Button size="sm" variant="ghost" onClick={() => triggerGenerate(t.id)} disabled={generating !== null}>
                             {generating === t.id ? <Loader2 className="h-4 w-4 animate-spin" /> : "Jetzt generieren"}
@@ -177,8 +176,7 @@ const AdminBlog = () => {
                     </tr>
                   ))}
                 </tbody>
-              </table>
-            </div>
+            </KitTable>
           </section>
         </>
       )}

@@ -9,25 +9,25 @@ export const EventRadarKachel = () => {
   return (
     <Link
       to="/cockpit/event-radar"
-      className="mb-12 flex items-center gap-4 rounded-2xl border border-accent-blue/30 bg-gradient-to-r from-accent-blue/10 via-card to-card p-4 md:p-5 hover:border-accent-blue/60 transition-colors group"
+      className="press group flex items-center gap-4 rounded-2xl border border-border bg-card p-4 shadow-card hover:border-accent-blue/40 hover:shadow-soft md:p-5"
     >
-      <div className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-accent-blue text-primary-foreground">
-        <Bell className="h-5 w-5" />
+      <div className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-accent text-accent-blue">
+        <Bell className="h-5 w-5" aria-hidden="true" />
         {neu > 0 && (
-          <span className="absolute -top-1.5 -right-1.5 rounded-full bg-red-500 text-white text-[10px] font-bold px-1.5 leading-4">{neu > 99 ? "99+" : neu}</span>
+          <span className="absolute -right-1.5 -top-1.5 rounded-full bg-danger px-1.5 text-[10px] font-semibold leading-4 text-white tabular">{neu > 99 ? "99+" : neu}</span>
         )}
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-accent-blue">Event-Radar</p>
-        <p className="font-semibold">
+        <p className="text-sm font-medium text-accent-blue">Event-Radar</p>
+        <p className="font-semibold leading-snug">
           {!eingerichtet
-            ? "Hackathons, IHK-Gründerabende & KI-Meetups in deiner Nähe – Radar einrichten"
+            ? "Hackathons, IHK-Gründerabende und KI-Meetups in deiner Nähe: Radar einrichten"
             : neu > 0
               ? `${neu} neue Events ${region ? `in ${BUNDESLAND_NAMES[region]}` : "für dich"} seit deinem letzten Besuch`
-              : `Nichts Neues ${region ? `in ${BUNDESLAND_NAMES[region]}` : ""} – deine nächsten Termine ansehen`}
+              : `Nichts Neues ${region ? `in ${BUNDESLAND_NAMES[region]}` : ""}. Deine nächsten Termine ansehen`}
         </p>
       </div>
-      <ArrowRight className="h-5 w-5 text-muted-foreground group-hover:translate-x-0.5 transition-transform" />
+      <ArrowRight className="h-5 w-5 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-accent-blue" aria-hidden="true" />
     </Link>
   );
 };

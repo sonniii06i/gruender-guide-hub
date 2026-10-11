@@ -4,7 +4,8 @@ import CockpitShell from "@/components/cockpit/CockpitShell";
 import Stand2026Footer from "@/components/cockpit/Stand2026Footer";
 import { Input } from "@/components/ui/input";
 import { useTrackToolEvent } from "@/hooks/useTrackToolEvent";
-import { Calculator, Star, Info, CalendarClock } from "lucide-react";
+import { ArrowRight, Star, CalendarClock } from "lucide-react";
+import { Callout, Field, ResultPanel, ToolLayout, ToolSection } from "@/components/cockpit/kit";
 
 /**
  * Read-only Walkthrough der Anlage EUER (Einnahmenueberschussrechnung nach
@@ -161,128 +162,142 @@ const AnlageEuer = () => {
 
   return (
     <CockpitShell
-      eyebrow="Anlage EÜR — Jahres-Gewinnermittlung"
-      title="Anlage EÜR (Einnahmenüberschussrechnung) — Schritt für Schritt"
+      eyebrow="Anlage EÜR · Jahres-Gewinnermittlung"
+      title="Anlage EÜR (Einnahmenüberschussrechnung) Schritt für Schritt"
       subtitle="Was gehört in welche Zeile? Walkthrough des echten ELSTER-Vordrucks (Anlage EÜR nach § 4 Abs. 3 EStG, Stand Vordruckmuster 2025) mit den Zeilen, die für Solo-Selbstständige & E-Commerce zählen. Du füllst in ELSTER aus, diese Seite erklärt parallel."
     >
-      {/* Wer / Wann / Wie */}
-      <div className="rounded-2xl border-2 border-accent-blue/30 bg-gradient-to-br from-accent-blue/10 via-card to-card p-5 mb-4">
-        <div className="flex items-start gap-3">
-          <CalendarClock className="h-6 w-6 text-accent-blue shrink-0 mt-0.5" />
-          <div className="text-sm">
-            <h3 className="font-bold mb-1">Wer muss die EÜR abgeben? (und wann)</h3>
-            <ul className="list-disc list-inside space-y-1 text-muted-foreground">
-              <li><strong>Wer:</strong> alle, die ihren Gewinn per Einnahmenüberschussrechnung ermitteln — Freiberufler und Gewerbetreibende, die nicht bilanzieren müssen (Umsatz ≤ 800.000 € und Gewinn ≤ 80.000 €, § 141 AO).</li>
-              <li><strong>Pro Betrieb eine eigene Anlage EÜR.</strong> Mehrere Betriebe = mehrere Formulare.</li>
-              <li><strong>Wann:</strong> einmal jährlich mit der Einkommensteuererklärung. Frist regulär 31. Juli des Folgejahres (mit Steuerberater später).</li>
-              <li><strong>Wie:</strong> nur elektronisch authentifiziert über ELSTER (§ 60 Abs. 4 EStDV). Papier nur in Härtefällen auf Antrag.</li>
-            </ul>
-            <p className="mt-2 text-muted-foreground">
-              <strong>Brutto-Methode:</strong> In der EÜR ist die vereinnahmte USt eine Einnahme (Zeile 17) und die gezahlte Vorsteuer/USt eine Ausgabe (Zeilen 57/58). Kleinunternehmer rechnen dagegen rein mit Brutto-Beträgen ohne USt-Zeilen.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* Mini-Gewinnrechner */}
-      <div className="rounded-2xl border border-border bg-card p-5 mb-4">
-        <h3 className="font-bold text-sm mb-1 flex items-center gap-2">
-          <Calculator className="h-4 w-4 text-accent-blue" /> Mini-Check: dein Überschuss
-        </h3>
-        <p className="text-xs text-muted-foreground mb-3">
-          Schnell-Vorschau der Grundrechnung (Zeile 23 − Zeile 75 = Gewinn). Ersetzt nicht das ELSTER-Formular,
-          gibt dir aber sofort die Hausnummer.
-        </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-lg">
-          <div>
-            <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-              Summe Betriebseinnahmen (Zeile 23, €)
-            </label>
-            <Input
-              type="number"
-              min={0}
-              value={einnahmen || ""}
-              onChange={(e) => {
-                setEinnahmen(Math.max(0, Number(e.target.value) || 0));
-                track("gewinn_calc");
-              }}
-              placeholder="z. B. 80000"
-              className="mt-1"
-            />
-          </div>
-          <div>
-            <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-              Summe Betriebsausgaben (Zeile 75, €)
-            </label>
-            <Input
-              type="number"
-              min={0}
-              value={ausgaben || ""}
-              onChange={(e) => {
-                setAusgaben(Math.max(0, Number(e.target.value) || 0));
-                track("gewinn_calc");
-              }}
-              placeholder="z. B. 30000"
-              className="mt-1"
-            />
-          </div>
-        </div>
-        <div className="mt-3 rounded-lg bg-accent-blue/8 border border-accent-blue/30 p-3 text-sm">
-          Steuerpflichtiger Gewinn / Verlust (Zeile 97):{" "}
-          <strong className={`tabular-nums ${gewinn < 0 ? "text-red-600" : ""}`}>
-            {gewinn.toLocaleString("de-DE")} €
-          </strong>
-        </div>
-      </div>
-
-      {/* Zeilen-Walkthrough */}
-      <div className="space-y-4">
-        {BLOCKS.map((b) => (
-          <div key={b.nr} className="rounded-2xl border border-border bg-card p-5">
-            <div className="flex items-baseline gap-2 mb-2">
-              <span className="text-xs font-bold text-accent-blue shrink-0">{b.nr}</span>
-              <h2 className="text-base font-bold">{b.title}</h2>
-            </div>
-            <div className="space-y-0">
-              {b.rows.map((r) => (
-                <div key={`${b.nr}-${r.z}`} className="border-t border-border/60 py-2 flex items-start gap-3">
-                  <span className="text-[10px] font-mono text-muted-foreground shrink-0 w-9 mt-0.5">Z {r.z}</span>
-                  <span className="shrink-0 rounded bg-muted px-2 py-0.5 text-xs font-mono font-semibold">Kz {r.kz}</span>
-                  <div className="flex-1 min-w-0">
-                    <div className="text-sm font-medium flex items-center gap-1.5">
-                      {r.label}
-                      {r.star && <Star className="h-3 w-3 text-amber-500 shrink-0" aria-label="häufig für Solo/E-Com" />}
-                    </div>
-                    {r.hint && <div className="text-xs text-muted-foreground mt-0.5">{r.hint}</div>}
-                  </div>
+      <ToolLayout
+        inputs={
+          <ToolSection title="Wer muss die EÜR abgeben, und wann?" icon={CalendarClock}>
+            <dl className="space-y-3 text-sm leading-relaxed">
+              {[
+                ["Wer", "Alle, die ihren Gewinn per Einnahmenüberschussrechnung ermitteln: Freiberufler und Gewerbetreibende, die nicht bilanzieren müssen (Umsatz ≤ 800.000 € und Gewinn ≤ 80.000 €, § 141 AO)."],
+                ["Wie viele", "Pro Betrieb eine eigene Anlage EÜR. Mehrere Betriebe = mehrere Formulare."],
+                ["Wann", "Einmal jährlich mit der Einkommensteuererklärung. Frist regulär 31. Juli des Folgejahres (mit Steuerberater später)."],
+                ["Wie", "Nur elektronisch authentifiziert über ELSTER (§ 60 Abs. 4 EStDV). Papier nur in Härtefällen auf Antrag."],
+              ].map(([k, v]) => (
+                <div key={k} className="grid gap-1 sm:grid-cols-[6.5rem_1fr] sm:gap-4">
+                  <dt className="font-semibold text-foreground">{k}</dt>
+                  <dd className="text-foreground/80">{v}</dd>
                 </div>
               ))}
+            </dl>
+            <Callout tone="info" title="Brutto-Methode" className="mt-5">
+              In der EÜR ist die vereinnahmte USt eine Einnahme (Zeile 17) und die gezahlte Vorsteuer/USt eine Ausgabe (Zeilen 57/58).
+              Kleinunternehmer rechnen dagegen rein mit Brutto-Beträgen ohne USt-Zeilen.
+            </Callout>
+          </ToolSection>
+        }
+        result={
+          <ResultPanel
+            kicker="Mini-Check"
+            title="Dein Überschuss (Zeile 97)"
+            value={<span className={gewinn < 0 ? "text-danger" : ""}>{gewinn.toLocaleString("de-DE")} €</span>}
+            valueHint="Zeile 23 minus Zeile 75. Ersetzt nicht das ELSTER-Formular, gibt dir aber sofort die Hausnummer."
+          >
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <Field label="Betriebseinnahmen (Zeile 23, €)" htmlFor="euer-einnahmen">
+                <Input
+                  id="euer-einnahmen"
+                  type="number"
+                  inputMode="decimal"
+                  min={0}
+                  value={einnahmen || ""}
+                  onChange={(e) => {
+                    setEinnahmen(Math.max(0, Number(e.target.value) || 0));
+                    track("gewinn_calc");
+                  }}
+                  placeholder="z. B. 80000"
+                />
+              </Field>
+              <Field label="Betriebsausgaben (Zeile 75, €)" htmlFor="euer-ausgaben">
+                <Input
+                  id="euer-ausgaben"
+                  type="number"
+                  inputMode="decimal"
+                  min={0}
+                  value={ausgaben || ""}
+                  onChange={(e) => {
+                    setAusgaben(Math.max(0, Number(e.target.value) || 0));
+                    track("gewinn_calc");
+                  }}
+                  placeholder="z. B. 30000"
+                />
+              </Field>
             </div>
-          </div>
-        ))}
+          </ResultPanel>
+        }
+      />
+
+      {/* Zeilen-Walkthrough */}
+      <div className="mt-10">
+        <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
+          <h2 className="text-lg font-semibold tracking-tight">Zeile für Zeile durch den Vordruck</h2>
+          <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
+            <Star className="h-3.5 w-3.5 text-warning" fill="currentColor" aria-hidden="true" /> häufig für Solo-Selbstständige und E-Commerce
+          </p>
+        </div>
+        <div className="space-y-4">
+          {BLOCKS.map((b) => (
+            <ToolSection
+              key={b.nr}
+              title={
+                <span className="flex items-baseline gap-2.5">
+                  <span className="text-sm font-semibold text-accent-blue tabular">{b.nr}</span>
+                  {b.title.replace(" — ", ": ")}
+                </span>
+              }
+              bodyClassName="p-0"
+            >
+              <ul className="divide-y divide-border/70">
+                {b.rows.map((r) => (
+                  <li key={`${b.nr}-${r.z}`} className="flex items-start gap-3 px-5 py-3 md:px-6">
+                    <div className="flex w-[5.5rem] shrink-0 flex-col items-start gap-1 sm:w-auto sm:flex-row sm:items-center">
+                      <span className="w-10 text-xs text-muted-foreground tabular">Z {r.z}</span>
+                      <span className="inline-flex w-[4.25rem] justify-center rounded-md bg-secondary px-1.5 py-0.5 text-xs font-semibold tabular">Kz {r.kz}</span>
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-start gap-1.5 text-sm font-medium">
+                        <span>{r.label}</span>
+                        {r.star && <Star className="mt-0.5 h-3.5 w-3.5 shrink-0 text-warning" fill="currentColor" aria-label="häufig für Solo/E-Com" />}
+                      </div>
+                      {r.hint && <div className="mt-0.5 text-xs leading-relaxed text-muted-foreground">{r.hint}</div>}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </ToolSection>
+          ))}
+        </div>
       </div>
 
-      {/* Hinweis Anlage AVEÜR */}
-      <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/5 p-5 mt-4 text-sm">
-        <h3 className="font-bold mb-1 flex items-center gap-2"><Info className="h-4 w-4 text-emerald-700" /> Anlage AVEÜR nicht vergessen</h3>
-        <p className="text-muted-foreground">
-          Wenn du Anlagevermögen hast (Laptop, Maschinen, Software über 800 € …), gehört die{" "}
-          <strong>Anlage AVEÜR</strong> (Anlageverzeichnis) zwingend dazu — die AfA-Zeilen 31–38 ziehen
-          ihre Werte von dort. Außerdem: Schuldzinsen über 2.050 € erfordern bei Einzelunternehmen die
-          <strong> Anlage SZ</strong> (§ 4 Abs. 4a EStG, Überentnahmen).
-        </p>
-      </div>
-
-      {/* Cross-Links */}
-      <div className="rounded-2xl border border-border bg-card p-5 mt-4 text-sm">
-        <h3 className="font-bold mb-2">Passt dazu</h3>
-        <ul className="space-y-1">
-          <li><Link to="/cockpit/ust-voranmeldung" className="text-accent-blue underline">USt-Voranmeldung-Walkthrough (die unterjährige Meldung)</Link></li>
-          <li><Link to="/cockpit/abschreibung" className="text-accent-blue underline">Abschreibungs-Rechner (AfA, GWG, Sammelposten — Zeilen 33/36/37)</Link></li>
-          <li><Link to="/cockpit/iab-rechner" className="text-accent-blue underline">IAB-Rechner (§ 7g, Zeile 88)</Link></li>
-          <li><Link to="/cockpit/kfz-optimizer" className="text-accent-blue underline">Kfz-Optimizer (1 %-Regel vs. Fahrtenbuch — Zeilen 20/68–73)</Link></li>
-          <li><Link to="/cockpit/buchhaltungssoftware-guide" className="text-accent-blue underline">Buchhaltungssoftware-Guide (EÜR auf Knopfdruck per Lexware/sevDesk)</Link></li>
-        </ul>
+      <div className="mt-6 grid gap-4 md:grid-cols-2">
+        <Callout tone="success" title="Anlage AVEÜR nicht vergessen">
+          Wenn du Anlagevermögen hast (Laptop, Maschinen, Software über 800 € …), gehört die <strong>Anlage AVEÜR</strong>{" "}
+          (Anlageverzeichnis) zwingend dazu, denn die AfA-Zeilen 31 bis 38 ziehen ihre Werte von dort. Außerdem: Schuldzinsen über
+          2.050 € erfordern bei Einzelunternehmen die <strong>Anlage SZ</strong> (§ 4 Abs. 4a EStG, Überentnahmen).
+        </Callout>
+        <ToolSection title="Passt dazu" bodyClassName="p-0">
+          <ul className="divide-y divide-border/70 text-sm">
+            {[
+              ["/cockpit/ust-voranmeldung", "USt-Voranmeldung-Walkthrough", "die unterjährige Meldung"],
+              ["/cockpit/abschreibung", "Abschreibungs-Rechner", "AfA, GWG, Sammelposten (Zeilen 33/36/37)"],
+              ["/cockpit/iab-rechner", "IAB-Rechner", "§ 7g, Zeile 88"],
+              ["/cockpit/kfz-optimizer", "Kfz-Optimizer", "1 %-Regel vs. Fahrtenbuch (Zeilen 20/68 bis 73)"],
+              ["/cockpit/buchhaltungssoftware-guide", "Buchhaltungssoftware-Guide", "EÜR auf Knopfdruck per Lexware/sevDesk"],
+            ].map(([to, t, d]) => (
+              <li key={to}>
+                <Link to={to} className="group flex items-center justify-between gap-3 px-5 py-3 hover:bg-secondary/40 md:px-6">
+                  <span>
+                    <span className="font-medium text-foreground group-hover:text-accent-blue">{t}</span>
+                    <span className="block text-xs text-muted-foreground">{d}</span>
+                  </span>
+                  <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </ToolSection>
       </div>
 
       <Stand2026Footer

@@ -1,8 +1,8 @@
 import { useState } from "react";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { CheckCircle2, AlertTriangle, Sparkles, Info } from "lucide-react";
+import { CheckCircle2, AlertTriangle, Info, SlidersHorizontal } from "lucide-react";
+import { Callout, ChoiceGroup, Field, KitTable, ResultPanel, ToolLayout, ToolSection } from "@/components/cockpit/kit";
 
 type Branche = "freier-beruf" | "dienstleistung" | "ecommerce" | "produktion";
 
@@ -127,158 +127,152 @@ const RechtsformWizard = () => {
 
   return (
     <CockpitShell
-      eyebrow="🏗️ Rechtsform-Wizard"
+      eyebrow="Rechtsform-Wizard"
       title="Welche Rechtsform passt zu deinem Setup?"
-      subtitle="Beantworte 5 Fragen – wir empfehlen Einzel, UG, GmbH oder PartG. Holding ist immer ein Aufsatz auf eine GmbH, nie eigenständig."
+      subtitle="Beantworte 5 Fragen, wir empfehlen Einzelunternehmen, UG, GmbH oder PartG. Eine Holding ist immer ein Aufsatz auf eine GmbH, nie eigenständig."
     >
-      <div className="grid lg:grid-cols-2 gap-6">
-        <div className="rounded-2xl border border-border bg-card p-6 space-y-5">
-          {/* Branche */}
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground mb-2 block">Branche / Tätigkeit</Label>
-            <div className="grid grid-cols-2 gap-2">
-              {(Object.keys(BRANCHE_LABEL) as Branche[]).map((b) => (
-                <button
-                  key={b}
-                  onClick={() => setBranche(b)}
-                  className={`text-left rounded-xl border px-3 py-2.5 text-sm font-semibold transition-colors ${
-                    branche === b ? "bg-primary text-primary-foreground border-primary" : "bg-card border-border hover:border-accent-blue/40"
-                  }`}
-                >
-                  <div>{BRANCHE_LABEL[b]}</div>
-                  <div className={`text-[10px] font-normal mt-0.5 ${branche === b ? "opacity-80" : "text-muted-foreground"}`}>
-                    {BRANCHE_HELP[b]}
-                  </div>
-                </button>
-              ))}
+      <ToolLayout
+        inputs={
+          <ToolSection title="Dein Vorhaben" icon={SlidersHorizontal} bodyClassName="space-y-6">
+            {/* Branche */}
+            <div>
+              <p className="mb-2 text-sm font-medium" id="rf-branche">Branche / Tätigkeit</p>
+              <div className="grid grid-cols-1 gap-2 sm:grid-cols-2" role="group" aria-labelledby="rf-branche">
+                {(Object.keys(BRANCHE_LABEL) as Branche[]).map((b) => (
+                  <button
+                    key={b}
+                    type="button"
+                    aria-pressed={branche === b}
+                    onClick={() => setBranche(b)}
+                    className={`rounded-xl border px-3.5 py-3 text-left transition-[background-color,border-color] active:translate-y-px ${
+                      branche === b ? "border-primary bg-primary text-primary-foreground" : "border-border bg-card hover:border-foreground/25"
+                    }`}
+                  >
+                    <span className="block text-sm font-semibold">{BRANCHE_LABEL[b]}</span>
+                    <span className={`mt-0.5 block text-xs leading-snug ${branche === b ? "text-primary-foreground/75" : "text-muted-foreground"}`}>
+                      {BRANCHE_HELP[b]}
+                    </span>
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
 
-          {/* Gewinn */}
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Erwarteter Jahres-<strong>Gewinn</strong> (€)</Label>
-            <Input type="number" value={gewinn} onChange={(e) => setGewinn(Number(e.target.value) || 0)} className="mt-2" />
-            <p className="text-[11px] text-muted-foreground mt-1">Nicht Umsatz – Gewinn nach Kosten. Das ist der relevante Treiber für die Rechtsform-Wahl.</p>
-          </div>
+            <Field
+              label={<>Erwarteter Jahres-<strong>Gewinn</strong> (€)</>}
+              htmlFor="rf-gewinn"
+              hint="Nicht Umsatz, sondern Gewinn nach Kosten. Das ist der relevante Treiber für die Rechtsform-Wahl."
+            >
+              <Input id="rf-gewinn" type="number" inputMode="numeric" value={gewinn} onChange={(e) => setGewinn(Number(e.target.value) || 0)} className="tabular" />
+            </Field>
 
-          {/* Gründer */}
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground mb-2 block">Anzahl Gründer</Label>
-            <div className="flex gap-2">
-              {[1, 2, 3].map((n) => (
-                <button key={n} onClick={() => setGruender(n)}
-                  className={`flex-1 rounded-xl border px-3 py-2 text-sm font-semibold ${gruender === n ? "bg-primary text-primary-foreground border-primary" : "bg-card border-border hover:border-accent-blue/40"}`}>
-                  {n}{n === 3 ? "+" : ""}
-                </button>
-              ))}
+            <div>
+              <p className="mb-2 text-sm font-medium">Anzahl Gründer</p>
+              <ChoiceGroup<number>
+                label="Anzahl Gründer"
+                value={gruender}
+                onChange={setGruender}
+                options={[1, 2, 3].map((n) => ({ value: n, label: `${n}${n === 3 ? "+" : ""}` }))}
+                className="[&>button]:min-w-16 [&>button]:text-center"
+              />
             </div>
-          </div>
 
-          <Toggle label="Hohes Haftungsrisiko (Produkthaftung, Personenschäden, hohe Verträge)" value={haftung} onChange={setHaftung} />
-          <Toggle label="Langfristig: Vermögensaufbau, Reinvestition oder Exit geplant" value={holdingPlan} onChange={setHoldingPlan} />
-        </div>
-
-        {/* Empfehlung */}
-        <div className="rounded-2xl bg-gradient-primary p-6 text-primary-foreground shadow-glow relative overflow-hidden">
-          <div className="absolute -top-16 -right-16 w-56 h-56 rounded-full bg-accent-blue/30 blur-3xl" />
-          <div className="relative">
-            <div className="inline-flex items-center gap-1.5 rounded-full bg-white/20 backdrop-blur px-3 py-1 text-xs font-semibold mb-3">
-              <Sparkles className="h-3.5 w-3.5" /> Empfehlung
+            <div className="space-y-2">
+              <Toggle label="Hohes Haftungsrisiko (Produkthaftung, Personenschäden, hohe Verträge)" value={haftung} onChange={setHaftung} />
+              <Toggle label="Langfristig: Vermögensaufbau, Reinvestition oder Exit geplant" value={holdingPlan} onChange={setHoldingPlan} />
             </div>
-            <h2 className="text-2xl md:text-3xl font-bold mb-3">{r.form}</h2>
-            <p className="text-primary-foreground/90 leading-relaxed">{r.reason}</p>
+          </ToolSection>
+        }
+        result={
+          <ResultPanel variant="ink" kicker="Empfehlung" title={null}>
+            <h2 className="text-2xl font-semibold leading-tight tracking-tight text-primary-foreground md:text-3xl">{r.form}</h2>
+            <p className="mt-3 leading-relaxed">{r.reason}</p>
             {r.next && (
-              <div className="mt-4 flex items-start gap-2 rounded-xl bg-white/15 backdrop-blur p-3 text-sm">
-                <CheckCircle2 className="h-4 w-4 mt-0.5 shrink-0" />
+              <div className="mt-5 flex items-start gap-2.5 rounded-xl border border-white/10 bg-white/[0.06] p-3.5 text-sm">
+                <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-brand-green-glow" aria-hidden="true" />
                 <span>{r.next}</span>
               </div>
             )}
             {r.holdingAddon && (
-              <div className="mt-3 flex items-start gap-2 rounded-xl bg-white/20 backdrop-blur p-3 text-sm">
-                <Info className="h-4 w-4 mt-0.5 shrink-0" />
+              <div className="mt-3 flex items-start gap-2.5 rounded-xl border border-white/10 bg-white/[0.06] p-3.5 text-sm">
+                <Info className="mt-0.5 h-4 w-4 shrink-0 text-primary-foreground/80" aria-hidden="true" />
                 <span>{r.holdingAddon}</span>
               </div>
             )}
             {r.warn && (
-              <div className="mt-3 flex items-start gap-2 rounded-xl bg-destructive/30 backdrop-blur p-3 text-sm">
-                <AlertTriangle className="h-4 w-4 mt-0.5 shrink-0" />
+              <div className="mt-3 flex items-start gap-2.5 rounded-xl border border-warning/40 bg-warning/15 p-3.5 text-sm">
+                <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-warning-soft" aria-hidden="true" />
                 <span>{r.warn}</span>
               </div>
             )}
-          </div>
-        </div>
-      </div>
+          </ResultPanel>
+        }
+      />
 
-      {/* Compare-Cards: Einzel / UG / GmbH (Holding ist Add-on, separat erklärt) */}
-      <div className="mt-8">
-        <div className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-3">Direkt-Vergleich</div>
-        <div className="grid md:grid-cols-3 gap-4 text-sm">
-          <Compare title="Einzelunternehmen" steuer="14–45 % (ESt)" haftung="privat unbeschränkt" kosten="0 € (ggf. 20–60 € Gewerbeanmeldung)" pros="schnell, billig, EÜR statt Bilanz" />
-          <Compare title="UG (haftungsbeschränkt)" steuer="~30 % (KSt + GewSt + Soli)" haftung="beschränkt auf Stammkapital" kosten="ab 300 € Notar + HR" pros="schneller GmbH-Einstieg ab 1 €" />
-          <Compare title="GmbH" steuer="~30 % (KSt + GewSt + Soli)" haftung="beschränkt auf 25k €" kosten="ab 800 € + 25k € Stammkapital" pros="Standard für B2B + Banken" />
-        </div>
+      {/* Direkt-Vergleich: Einzel / UG / GmbH (Holding ist Add-on, separat erklärt) */}
+      <section className="mt-12" aria-labelledby="rf-vergleich">
+        <h2 id="rf-vergleich" className="mb-4 text-lg font-semibold tracking-tight">Direkt-Vergleich</h2>
+        <KitTable caption="Vergleich Einzelunternehmen, UG und GmbH">
+          <thead>
+            <tr>
+              <th scope="col" className="w-28"><span className="sr-only">Merkmal</span></th>
+              {VERGLEICH.map((v) => (
+                <th key={v.title} scope="col" className="!text-sm !text-foreground">{v.title}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {(["steuer", "haftung", "kosten", "pros"] as const).map((k) => (
+              <tr key={k}>
+                <th scope="row" className="border-t border-border/70 px-3 py-2.5 text-left text-sm font-medium text-muted-foreground">{VERGLEICH_LABEL[k]}</th>
+                {VERGLEICH.map((v) => (
+                  <td key={v.title} className="min-w-40 font-medium">{v[k]}</td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </KitTable>
 
-        {/* Holding-Erklärung als separater Block */}
-        <div className="mt-4 rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5">
-          <div className="flex items-start gap-3">
-            <Info className="h-5 w-5 text-accent-blue mt-0.5 shrink-0" />
-            <div>
-              <div className="font-bold mb-1">Holding-Struktur ist ein Add-on, keine eigene Rechtsform</div>
-              <div className="text-sm text-muted-foreground leading-relaxed">
-                Eine Holding besteht IMMER aus zwei GmbHs: einer operativen GmbH (macht Umsatz) und einer Holding GmbH (hält die Anteile).
-                Sinnvoll ab ~150k € jährlich thesaurierten Gewinn oder bei Exit-Plan – dann sind Ausschüttungen Operativ → Holding zu 95 % steuerfrei (§ 8b KStG, effektiv ~1,5 %).
-                <strong> Holding alleine macht keinen Sinn.</strong>
-              </div>
-            </div>
-          </div>
-        </div>
+        <div className="mt-4 space-y-3">
+          <Callout tone="accent" title="Holding-Struktur ist ein Add-on, keine eigene Rechtsform">
+            Eine Holding besteht immer aus zwei GmbHs: einer operativen GmbH (macht Umsatz) und einer Holding GmbH (hält die Anteile).
+            Sinnvoll ab ~150k € jährlich thesaurierten Gewinn oder bei Exit-Plan, dann sind Ausschüttungen Operativ → Holding zu 95 % steuerfrei (§ 8b KStG, effektiv ~1,5 %).
+            <strong> Holding alleine macht keinen Sinn.</strong>
+          </Callout>
 
-        {/* Freier-Beruf-Erklärung */}
-        {branche === "freier-beruf" && (
-          <div className="mt-3 rounded-2xl border border-success/30 bg-success/5 p-5">
-            <div className="flex items-start gap-3">
-              <Info className="h-5 w-5 text-success mt-0.5 shrink-0" />
-              <div>
-                <div className="font-bold mb-1">Freier Beruf = Sonderstatus</div>
-                <div className="text-sm text-muted-foreground leading-relaxed">
-                  Freie Berufe (Katalog § 18 EStG: Ärzte, Anwälte, StB, Architekten, Designer, Journalisten, IT-Freelancer, ...) sind <strong>kein Gewerbe</strong>: keine Gewerbeanmeldung, keine Gewerbesteuer, keine IHK-Pflicht. Anmeldung direkt beim Finanzamt mit ELSTER-FsE.
-                  Bei Teams: <strong>PartG</strong> (Partnerschaftsgesellschaft) statt GbR – mit Eintrag im Partnerschaftsregister.
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
+          {branche === "freier-beruf" && (
+            <Callout tone="success" title="Freier Beruf = Sonderstatus">
+              Freie Berufe (Katalog § 18 EStG: Ärzte, Anwälte, StB, Architekten, Designer, Journalisten, IT-Freelancer, ...) sind <strong>kein Gewerbe</strong>: keine Gewerbeanmeldung, keine Gewerbesteuer, keine IHK-Pflicht. Anmeldung direkt beim Finanzamt mit ELSTER-FsE.
+              Bei Teams: <strong>PartG</strong> (Partnerschaftsgesellschaft) statt GbR, mit Eintrag im Partnerschaftsregister.
+            </Callout>
+          )}
+        </div>
+      </section>
     </CockpitShell>
   );
 };
 
+const VERGLEICH = [
+  { title: "Einzelunternehmen", steuer: "14 bis 45 % (ESt)", haftung: "privat unbeschränkt", kosten: "0 € (ggf. 20 bis 60 € Gewerbeanmeldung)", pros: "schnell, billig, EÜR statt Bilanz" },
+  { title: "UG (haftungsbeschränkt)", steuer: "~30 % (KSt + GewSt + Soli)", haftung: "beschränkt auf Stammkapital", kosten: "ab 300 € Notar + HR", pros: "schneller GmbH-Einstieg ab 1 €" },
+  { title: "GmbH", steuer: "~30 % (KSt + GewSt + Soli)", haftung: "beschränkt auf 25k €", kosten: "ab 800 € + 25k € Stammkapital", pros: "Standard für B2B + Banken" },
+];
+const VERGLEICH_LABEL = { steuer: "Steuer", haftung: "Haftung", kosten: "Kosten", pros: "Stärke" } as const;
+
 const Toggle = ({ label, value, onChange }: { label: string; value: boolean; onChange: (v: boolean) => void }) => (
-  <button onClick={() => onChange(!value)}
-    className={`w-full text-left rounded-xl border p-4 transition-colors ${value ? "border-accent-blue bg-accent" : "border-border bg-card hover:border-accent-blue/40"}`}>
+  <button
+    type="button"
+    role="switch"
+    aria-checked={value}
+    onClick={() => onChange(!value)}
+    className={`w-full rounded-xl border p-4 text-left transition-colors ${value ? "border-accent-blue/40 bg-accent" : "border-border bg-card hover:border-foreground/25"}`}
+  >
     <div className="flex items-center justify-between gap-4">
       <span className="text-sm font-medium">{label}</span>
-      <div className={`w-10 h-6 rounded-full p-0.5 transition-colors ${value ? "bg-accent-blue" : "bg-secondary"}`}>
-        <div className={`h-5 w-5 rounded-full bg-card transition-transform ${value ? "translate-x-4" : ""}`} />
-      </div>
+      <span className={`h-6 w-10 shrink-0 rounded-full p-0.5 transition-colors ${value ? "bg-accent-blue" : "bg-input"}`}>
+        <span className={`block h-5 w-5 rounded-full bg-card shadow-sm transition-transform ${value ? "translate-x-4" : ""}`} />
+      </span>
     </div>
   </button>
-);
-
-const Compare = ({ title, steuer, haftung, kosten, pros }: { title: string; steuer: string; haftung: string; kosten: string; pros: string }) => (
-  <div className="rounded-2xl border border-border bg-card p-4">
-    <div className="font-bold mb-3">{title}</div>
-    <Stat label="Steuer" value={steuer} />
-    <Stat label="Haftung" value={haftung} />
-    <Stat label="Kosten" value={kosten} />
-    <Stat label="Stärke" value={pros} />
-  </div>
-);
-const Stat = ({ label, value }: { label: string; value: string }) => (
-  <div className="flex justify-between gap-2 py-1.5 border-b border-border last:border-0 text-xs">
-    <span className="text-muted-foreground">{label}</span>
-    <span className="font-semibold text-right">{value}</span>
-  </div>
 );
 
 export default RechtsformWizard;

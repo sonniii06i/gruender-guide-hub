@@ -4,6 +4,7 @@ import { CalendarClock, MessageSquare } from "lucide-react";
 import { fristenFuer, type FristProfil } from "@/lib/steuerFristen";
 import { ladeRadar, passt, istNeu } from "@/lib/eventRadar";
 import type { GruenderEvent, GruenderFrist } from "@/data/gruenderEvents";
+import { ToneBadge } from "@/components/cockpit/kit";
 
 // „Diese Woche für dich“: Steuertermine (aus dem Steuerkalender-Profil), neue
 // Events und Fristen (aus dem Event-Radar) in einer Kachel. Funktioniert ohne KI;
@@ -59,28 +60,37 @@ export const DeineWoche = () => {
   const felixFrage = `Das steht bei mir in den nächsten 14 Tagen an:\n${(punkte ?? []).map((p) => `- ${tag(p.datum)}: ${p.text}`).join("\n")}\n\nWas sollte ich davon zuerst erledigen, und worauf muss ich bei den Steuerterminen achten?`;
 
   return (
-    <section className="mb-12 rounded-3xl border border-border bg-card p-5 md:p-6">
-      <div className="flex items-start justify-between gap-3 flex-wrap mb-3">
-        <div>
-          <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-accent-blue mb-1">Diese Woche für dich</p>
-          <h2 className="text-xl font-bold tracking-tight">Die nächsten 14 Tage</h2>
+    <section className="rounded-2xl border border-border bg-card shadow-card">
+      <div className="flex flex-wrap items-start justify-between gap-3 border-b border-border/70 px-5 py-4 md:px-6">
+        <div className="flex items-start gap-3">
+          <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-accent text-accent-blue">
+            <CalendarClock className="h-4 w-4" aria-hidden="true" />
+          </span>
+          <div>
+            <h2 className="text-base font-semibold tracking-tight">Die nächsten 14 Tage</h2>
+            <p className="mt-0.5 text-sm text-muted-foreground">Steuertermine, gemerkte Events und Bewerbungsfristen.</p>
+          </div>
         </div>
         {punkte && punkte.length > 0 && (
-          <Link to={`/felix?frage=${encodeURIComponent(felixFrage)}`} className="text-xs font-semibold text-accent-blue inline-flex items-center gap-1 hover:underline">
-            <MessageSquare className="h-3.5 w-3.5" /> Mit Felix besprechen
+          <Link to={`/felix?frage=${encodeURIComponent(felixFrage)}`} className="inline-flex items-center gap-1.5 text-sm font-medium text-accent-blue hover:underline">
+            <MessageSquare className="h-4 w-4" aria-hidden="true" /> Mit Felix besprechen
           </Link>
         )}
       </div>
+      <div className="px-5 py-3 md:px-6">
       {punkte === null ? (
-        <p className="text-sm text-muted-foreground">Lädt …</p>
+        <div className="space-y-2 py-2" aria-busy="true">
+          <span className="sr-only">Lädt…</span>
+          {[0, 1].map((i) => <div key={i} className="h-5 animate-pulse rounded bg-secondary" />)}
+        </div>
       ) : punkte.length ? (
-        <ul className="divide-y divide-border">
+        <ul className="divide-y divide-border/70">
           {punkte.slice(0, 8).map((p, i) => (
-            <li key={i} className="flex items-center gap-3 py-2 text-sm">
-              <span className="w-20 shrink-0 font-semibold tabular-nums">{tag(p.datum)}</span>
-              <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-semibold ${p.art === "steuer" ? "bg-red-500/10 text-red-700" : p.art === "frist" ? "bg-amber-500/10 text-amber-700" : "bg-accent-blue/10 text-accent-blue"}`}>
+            <li key={i} className="flex items-center gap-3 py-2.5 text-sm">
+              <span className="w-24 shrink-0 font-medium tabular">{tag(p.datum)}</span>
+              <ToneBadge tone={p.art === "steuer" ? "danger" : p.art === "frist" ? "warning" : "info"} className="shrink-0">
                 {p.art === "steuer" ? "Steuer" : p.art === "frist" ? "Frist" : "Event"}
-              </span>
+              </ToneBadge>
               {p.link ? (
                 p.extern ? <a href={p.link} target="_blank" rel="noreferrer noopener" className="hover:text-accent-blue truncate">{p.text}</a> : <Link to={p.link} className="hover:text-accent-blue truncate">{p.text}</Link>
               ) : (
@@ -90,12 +100,15 @@ export const DeineWoche = () => {
           ))}
         </ul>
       ) : (
-        <p className="text-sm text-muted-foreground">In den nächsten 14 Tagen steht nichts an.</p>
+        <p className="py-3 text-sm text-muted-foreground">In den nächsten 14 Tagen steht nichts an.</p>
       )}
-      <div className="flex flex-wrap gap-x-4 gap-y-1 mt-3 text-xs">
-        {!steuerProfil && <Link to="/cockpit/steuerkalender" className="text-accent-blue hover:underline inline-flex items-center gap-1"><CalendarClock className="h-3.5 w-3.5" /> Steuerkalender einrichten, damit deine Termine hier erscheinen</Link>}
-        {neueEvents > 0 && <Link to="/cockpit/event-radar" className="text-accent-blue hover:underline">{neueEvents} neue Events im Radar →</Link>}
       </div>
+      {(!steuerProfil || neueEvents > 0) && (
+        <div className="flex flex-wrap gap-x-5 gap-y-1 border-t border-border/70 px-5 py-3 text-sm md:px-6">
+          {!steuerProfil && <Link to="/cockpit/steuerkalender" className="inline-flex items-center gap-1.5 font-medium text-accent-blue hover:underline"><CalendarClock className="h-4 w-4" aria-hidden="true" /> Steuerkalender einrichten, damit deine Termine hier erscheinen</Link>}
+          {neueEvents > 0 && <Link to="/cockpit/event-radar" className="font-medium text-accent-blue hover:underline tabular">{neueEvents} neue Events im Radar</Link>}
+        </div>
+      )}
     </section>
   );
 };

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { ANBIETER_ANZAHL } from "@/data/kennzahlen";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { useAccess } from "@/hooks/useAccess";
@@ -71,7 +72,7 @@ const SOLO_CONTENTS = [
   "E-Commerce: Amazon-Erstattungen, Marge, Schwellen, Nexus",
   "Marke & Compliance: WEEE/EAR, LUCID, GPSR, CE/RoHS, Marken-Monitor",
   "International: US-LLC, HK-Limited, DBA/CFC, IP-Box, Banking",
-  "Anbieter-Vergleich in 14 Kategorien, Guides und Playbooks",
+  `Anbieter-Vergleich (${ANBIETER_ANZAHL} Anbieter), Guides und Playbooks`,
 ];
 
 const BUNDLE_CONTENTS = [
@@ -82,7 +83,7 @@ const BUNDLE_CONTENTS = [
   "Markencheck und Chargeback-Verteidigung",
   "Rechts-Generatoren und Fristen-Tracker",
   "Felix und Juri gemeinsam im Chat",
-  "Priorisierter Support",
+  "Ein Konto und eine Abrechnung für beide",
 ];
 
 const ITEMS: Item[] = [

@@ -4,8 +4,8 @@ import CockpitShell from "@/components/cockpit/CockpitShell";
 import Stand2026Footer from "@/components/cockpit/Stand2026Footer";
 import { Input } from "@/components/ui/input";
 import { HebesatzPicker } from "@/components/ui/hebesatz-picker";
-import { Label } from "@/components/ui/label";
-import { TrendingUp, AlertTriangle, Info } from "lucide-react";
+import { AlertTriangle, ArrowRight, Info, SlidersHorizontal } from "lucide-react";
+import { Callout, ChoiceGroup, Field, KitTable, ResultPanel, ToneBadge, ToolLayout, ToolSection, selectCls } from "@/components/cockpit/kit";
 import {
   progressionESt as calcEst2026,
   calcSv,
@@ -88,213 +88,187 @@ const SalaryDividendOptimizer = () => {
     return [...scenarios].sort((a, b) => b.total - a.total)[0];
   }, [scenarios]);
 
+  const n0 = (v: number) => v.toLocaleString("de-DE", { maximumFractionDigits: 0 });
+
   return (
     <CockpitShell
       eyebrow="Salary-vs-Dividende-Optimizer"
-      title="GF-Gehalt vs. Gewinnausschüttung – live durchgerechnet"
+      title="GF-Gehalt vs. Gewinnausschüttung, live durchgerechnet"
       subtitle="KSt 15 % + GewSt + SolZ vs. ESt §32a 2026 + SV-Beiträge. Berücksichtigt Teileinkünfte vs. Abgeltungssteuer + KiSt 8/9 %. 5 Gehalts-Szenarien gegenübergestellt."
     >
-      {/* Cross-Link zu Auszahlung-Optimizer */}
-      <div className="rounded-2xl border border-border bg-secondary/30 p-3 mb-5 text-xs flex items-start gap-2">
-        <Info className="h-3.5 w-3.5 text-accent-blue shrink-0 mt-0.5" />
-        <div className="flex-1">
-          <strong className="text-foreground">Detail-Modus.</strong>{" "}
-          Echte ESt-Progression + SV + 5 Gehalts-Szenarien. Für{" "}
-          <strong className="text-foreground">erweiterten 7-Wege-Vergleich</strong>{" "}
-          inkl. Holding · Pension · Tantieme:{" "}
-          <Link to="/cockpit/auszahlung-optimizer" className="text-accent-blue hover:underline">
-            Gewinn-Auszahlungs-Optimizer →
-          </Link>
-        </div>
-      </div>
+      <Callout tone="neutral" icon={Info} className="mb-6">
+        <strong className="text-foreground">Detail-Modus.</strong> Echte ESt-Progression, SV und 5 Gehalts-Szenarien. Für den{" "}
+        <strong className="text-foreground">erweiterten 7-Wege-Vergleich</strong> inklusive Holding, Pension und Tantieme:{" "}
+        <Link to="/cockpit/auszahlung-optimizer" className="inline-flex items-center gap-1 font-medium text-accent-blue hover:underline">
+          Gewinn-Auszahlungs-Optimizer <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+        </Link>
+      </Callout>
 
-      {/* Inputs */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6">
-        <div>
-          <Label className="text-xs">GmbH-Gewinn vor GF-Gehalt (€/Jahr)</Label>
-          <Input
-            type="number"
-            value={gewinnVorGehalt || ""}
-            onChange={(e) => setGewinnVorGehalt(Math.max(0, Number(e.target.value) || 0))}
-            className="h-9 text-sm mt-1"
-          />
-        </div>
-        <div>
-          <Label className="text-xs">GewSt-Hebesatz</Label>
-          <HebesatzPicker value={hebesatz} onChange={setHebesatz} className="mt-1" />
-        </div>
-        <div>
-          <Label className="text-xs">Kirchensteuer (% — 0/8/9)</Label>
-          <select
-            value={kistSatz}
-            onChange={(e) => setKistSatz(Number(e.target.value))}
-            className="h-9 w-full rounded-md border border-input bg-background px-2 text-sm mt-1"
-          >
-            <option value={0}>0 % (kein KiSt-Pflicht)</option>
-            <option value={8}>8 % (BY/BW)</option>
-            <option value={9}>9 % (Rest)</option>
-          </select>
-        </div>
-
-        <div>
-          <Label className="text-xs">Custom-GF-Gehalt (€/Jahr brutto)</Label>
-          <Input
-            type="number"
-            value={gehaltJahresbrutto || ""}
-            onChange={(e) => setGehaltJahresbrutto(Math.max(0, Number(e.target.value) || 0))}
-            className="h-9 text-sm mt-1"
-          />
-        </div>
-        <div>
-          <Label className="text-xs">Ausschüttungs-Modus</Label>
-          <select
-            value={mode}
-            onChange={(e) => setMode(e.target.value as Mode)}
-            className="h-9 w-full rounded-md border border-input bg-background px-2 text-sm mt-1"
-          >
-            <option value="abgeltung">Abgeltungssteuer 25 % (Privat-Halten)</option>
-            <option value="tev">Teileinkünfte 60 % zu pers. Steuersatz (BV)</option>
-          </select>
-        </div>
-        <div>
-          <Label className="text-xs">SV-Pflicht (kein beherrschender GF)</Label>
-          <div className="grid grid-cols-2 gap-1 mt-1">
-            {[
-              { v: false, l: "Nein (>50 %)" },
-              { v: true, l: "Ja (<50 %)" },
-            ].map((o) => (
-              <button
-                key={String(o.v)}
-                onClick={() => setSozialversicherungspflichtig(o.v)}
-                className={`h-9 rounded-md border text-xs transition-colors ${
-                  sozialversicherungspflichtig === o.v
-                    ? "border-accent-blue bg-accent-blue/10 text-accent-blue font-semibold"
-                    : "border-border hover:bg-secondary"
-                }`}
-              >
-                {o.l}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {mode === "tev" && (
-          <div className="md:col-span-3">
-            <Label className="text-xs">Persönlicher Grenzsteuersatz für TEV (%)</Label>
-            <Input
-              type="number"
-              value={grenzsatz || ""}
-              onChange={(e) => setGrenzsatz(Math.min(45, Math.max(0, Number(e.target.value) || 0)))}
-              className="h-9 text-sm mt-1 max-w-xs"
-            />
-          </div>
-        )}
-      </div>
-
-      {/* Best-Szenario */}
-      <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/5 p-5 mb-6">
-        <div className="flex items-start gap-2">
-          <TrendingUp className="h-5 w-5 text-emerald-700 shrink-0 mt-0.5" />
-          <div>
-            <div className="text-[10px] uppercase tracking-wider text-emerald-700 mb-1">Bestes Szenario</div>
-            <h3 className="font-bold text-base">{best.label} → Gehalt {(best.gehalt / 1000).toFixed(0)}k €</h3>
-            <div className="text-xs text-muted-foreground mt-1">
-              Netto-Cashflow GF gesamt: <strong className="text-emerald-700">{best.total.toLocaleString("de-DE", { maximumFractionDigits: 0 })} €</strong>
-              {" "}(Gehalts-Netto {best.gehaltNetto.toLocaleString("de-DE", { maximumFractionDigits: 0 })} € +
-              Netto-Ausschüttung {best.nettoAusschuettung.toLocaleString("de-DE", { maximumFractionDigits: 0 })} €)
+      <ToolLayout
+        inputs={
+          <ToolSection icon={SlidersHorizontal} title="Deine Ausgangslage">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <Field label="GmbH-Gewinn vor GF-Gehalt (€/Jahr)" htmlFor="sd-gewinn">
+                <Input
+                  id="sd-gewinn"
+                  type="number"
+                  inputMode="decimal"
+                  value={gewinnVorGehalt || ""}
+                  onChange={(e) => setGewinnVorGehalt(Math.max(0, Number(e.target.value) || 0))}
+                />
+              </Field>
+              <Field label="Eigenes GF-Gehalt (€/Jahr brutto)" htmlFor="sd-gehalt" hint="Wird als Szenario „Custom“ mitgerechnet.">
+                <Input
+                  id="sd-gehalt"
+                  type="number"
+                  inputMode="decimal"
+                  value={gehaltJahresbrutto || ""}
+                  onChange={(e) => setGehaltJahresbrutto(Math.max(0, Number(e.target.value) || 0))}
+                />
+              </Field>
+              <Field label="GewSt-Hebesatz">
+                <HebesatzPicker value={hebesatz} onChange={setHebesatz} />
+              </Field>
+              <Field label="Kirchensteuer" htmlFor="sd-kist">
+                <select id="sd-kist" value={kistSatz} onChange={(e) => setKistSatz(Number(e.target.value))} className={selectCls}>
+                  <option value={0}>0 % (keine KiSt-Pflicht)</option>
+                  <option value={8}>8 % (BY/BW)</option>
+                  <option value={9}>9 % (übrige Länder)</option>
+                </select>
+              </Field>
+              <Field label="Ausschüttungs-Modus" htmlFor="sd-mode" className="sm:col-span-2">
+                <select id="sd-mode" value={mode} onChange={(e) => setMode(e.target.value as Mode)} className={selectCls}>
+                  <option value="abgeltung">Abgeltungssteuer 25 % (Privat-Halten)</option>
+                  <option value="tev">Teileinkünfte 60 % zu pers. Steuersatz (BV)</option>
+                </select>
+              </Field>
+              <Field label="SV-Pflicht (kein beherrschender GF)" className="sm:col-span-2">
+                <ChoiceGroup<boolean>
+                  label="SV-Pflicht"
+                  value={sozialversicherungspflichtig}
+                  onChange={setSozialversicherungspflichtig}
+                  options={[
+                    { value: false, label: "Nein, Anteil über 50 %" },
+                    { value: true, label: "Ja, Anteil unter 50 %" },
+                  ]}
+                />
+              </Field>
+              {mode === "tev" && (
+                <Field label="Persönlicher Grenzsteuersatz für TEV (%)" htmlFor="sd-grenz" className="sm:col-span-2">
+                  <Input
+                    id="sd-grenz"
+                    type="number"
+                    inputMode="decimal"
+                    value={grenzsatz || ""}
+                    onChange={(e) => setGrenzsatz(Math.min(45, Math.max(0, Number(e.target.value) || 0)))}
+                    className="max-w-xs"
+                  />
+                </Field>
+              )}
             </div>
-          </div>
-        </div>
-      </div>
+          </ToolSection>
+        }
+        result={
+          <ResultPanel
+            variant="ink"
+            kicker="Bestes Szenario"
+            title={`${best.label}: Gehalt ${(best.gehalt / 1000).toFixed(0)}k €`}
+            value={`${n0(best.total)} €`}
+            valueHint="Netto-Cashflow GF gesamt pro Jahr"
+          >
+            <div className="grid grid-cols-2 gap-3">
+              <div className="rounded-xl bg-white/[0.07] p-3.5">
+                <p className="text-sm text-primary-foreground/70">Gehalts-Netto</p>
+                <p className="mt-1 text-lg font-semibold tabular text-primary-foreground">{n0(best.gehaltNetto)} €</p>
+              </div>
+              <div className="rounded-xl bg-white/[0.07] p-3.5">
+                <p className="text-sm text-primary-foreground/70">Netto-Ausschüttung</p>
+                <p className="mt-1 text-lg font-semibold tabular text-primary-foreground">{n0(best.nettoAusschuettung)} €</p>
+              </div>
+            </div>
+          </ResultPanel>
+        }
+      />
 
       {/* Szenarien-Vergleich */}
-      <div className="rounded-2xl border border-border bg-card overflow-hidden mb-6">
-        <div className="overflow-x-auto">
-          <table className="w-full text-xs">
-            <thead className="bg-secondary text-[10px] uppercase tracking-wider">
-              <tr>
-                <th className="text-left p-2.5">Szenario</th>
-                <th className="text-right p-2.5">Gehalt</th>
-                <th className="text-right p-2.5">SV-Aufw.</th>
-                <th className="text-right p-2.5">Gewinn n. Gehalt</th>
-                <th className="text-right p-2.5">GmbH-Steuer</th>
-                <th className="text-right p-2.5">Auss.-Steuer</th>
-                <th className="text-right p-2.5">Gehalt-Netto</th>
-                <th className="text-right p-2.5">Auss.-Netto</th>
-                <th className="text-right p-2.5">Total Netto</th>
+      <h2 className="mb-3 mt-10 text-lg font-semibold tracking-tight">Alle Szenarien im Vergleich</h2>
+      <KitTable caption="Gehalts-Szenarien im Vergleich" className="mb-8">
+        <thead>
+          <tr>
+            <th>Szenario</th>
+            <th className="!text-right">Gehalt</th>
+            <th className="!text-right">SV-Aufw.</th>
+            <th className="!text-right">Gewinn n. Gehalt</th>
+            <th className="!text-right">GmbH-Steuer</th>
+            <th className="!text-right">Auss.-Steuer</th>
+            <th className="!text-right">Gehalt-Netto</th>
+            <th className="!text-right">Auss.-Netto</th>
+            <th className="!text-right">Total Netto</th>
+          </tr>
+        </thead>
+        <tbody>
+          {scenarios.map((s) => {
+            const isBest = s.label === best.label;
+            return (
+              <tr key={s.label} className={isBest ? "bg-success-soft" : ""}>
+                <td className="whitespace-nowrap font-medium">
+                  {s.label}
+                  {isBest && <ToneBadge tone="success" className="ml-2">bestes</ToneBadge>}
+                </td>
+                <td className="whitespace-nowrap text-right">{s.gehalt.toLocaleString("de-DE")} €</td>
+                <td className="whitespace-nowrap text-right text-muted-foreground">{n0(s.sv)}</td>
+                <td className="whitespace-nowrap text-right">{n0(s.gewinnNachGehalt)}</td>
+                <td className="whitespace-nowrap text-right text-danger">−{n0(s.gmbhSteuer)}</td>
+                <td className="whitespace-nowrap text-right text-danger">−{n0(s.ausschuettungSteuer)}</td>
+                <td className="whitespace-nowrap text-right text-success">{n0(s.gehaltNetto)}</td>
+                <td className="whitespace-nowrap text-right text-success">{n0(s.nettoAusschuettung)}</td>
+                <td className="whitespace-nowrap text-right font-semibold">{n0(s.total)} €</td>
               </tr>
-            </thead>
-            <tbody>
-              {scenarios.map((s) => {
-                const isBest = s.label === best.label;
-                return (
-                  <tr key={s.label} className={`border-t border-border ${isBest ? "bg-emerald-500/5" : ""}`}>
-                    <td className="p-2.5 font-semibold">
-                      {s.label}
-                      {isBest && <span className="ml-1 text-emerald-700">★</span>}
-                    </td>
-                    <td className="p-2.5 text-right font-mono">{s.gehalt.toLocaleString("de-DE")} €</td>
-                    <td className="p-2.5 text-right font-mono text-muted-foreground">{s.sv.toLocaleString("de-DE", { maximumFractionDigits: 0 })}</td>
-                    <td className="p-2.5 text-right font-mono">{s.gewinnNachGehalt.toLocaleString("de-DE", { maximumFractionDigits: 0 })}</td>
-                    <td className="p-2.5 text-right font-mono text-red-700">−{s.gmbhSteuer.toLocaleString("de-DE", { maximumFractionDigits: 0 })}</td>
-                    <td className="p-2.5 text-right font-mono text-red-700">−{s.ausschuettungSteuer.toLocaleString("de-DE", { maximumFractionDigits: 0 })}</td>
-                    <td className="p-2.5 text-right font-mono text-emerald-700">{s.gehaltNetto.toLocaleString("de-DE", { maximumFractionDigits: 0 })}</td>
-                    <td className="p-2.5 text-right font-mono text-emerald-700">{s.nettoAusschuettung.toLocaleString("de-DE", { maximumFractionDigits: 0 })}</td>
-                    <td className="p-2.5 text-right font-mono font-bold">{s.total.toLocaleString("de-DE", { maximumFractionDigits: 0 })} €</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      </div>
+            );
+          })}
+        </tbody>
+      </KitTable>
 
       {/* Hinweise */}
-      <div className="rounded-2xl border border-amber-500/30 bg-amber-500/5 p-4 text-xs leading-relaxed">
-        <div className="flex items-start gap-2">
-          <AlertTriangle className="h-4 w-4 text-amber-700 shrink-0 mt-0.5" />
-          <div>
-            <div className="font-semibold mb-2">Wichtige Stellschrauben</div>
-            <ul className="list-disc pl-4 space-y-1 text-muted-foreground">
-              <li>
-                <strong>Beherrschender GF (≥50 %)</strong>: keine SV-Pflicht, kein Anspruch auf Krankengeld/ALG.
-                Alternative: PKV + private RV.
-              </li>
-                <li>
-                <strong>Mindest-Gehalt für Anerkennung GF-Vertrag</strong>: ca. 24-36k €/Jahr, sonst Risiko
-                "verdeckte Gewinnausschüttung" durch Finanzamt — lieber zu hoch als zu niedrig.
-              </li>
-              <li>
-                <strong>Tantieme-Regelung</strong>: zusätzlich zu Festgehalt, oft 25-50 % vom Jahres-Gewinn
-                vor Steuern, deckelbar. Auch BA-Aufwand → mindert KSt + GewSt.
-              </li>
-              <li>
-                <strong>Pensionszusage</strong>: Pensions-Rückstellung mindert KSt heute, Auszahlung später als
-                Versorgungsbezug zu pers. Steuersatz. Sinnvoll bei dauerhaft hohem GF-Einkommen.
-                Tool: <a href="/cockpit/pension-optimizer" className="text-accent-blue underline">Pension-Optimizer</a>.
-              </li>
-              <li>
-                <strong>Holding über GmbH</strong>: bei Ausschüttung von Tochter an Holding sind 95 %
-                steuerfrei (§8b KStG). Reinvestieren ohne Privat-Steuer = Compounding-Effekt.
-                Tool: <a href="/cockpit/holding-designer" className="text-accent-blue underline">Holding-Designer</a> +
-                <a href="/cockpit/auszahlung-optimizer" className="text-accent-blue underline"> Auszahlung-Optimizer</a>.
-              </li>
-              <li>
-                <strong>TEV (Teileinkünfteverfahren)</strong>: nur Vorteil bei pers. Grenzsteuersatz unter
-                ~32-35 %. Bei 42 % oder 45 % schlechter als Abgeltungssteuer.
-              </li>
-              <li>
-                <strong>GewSt-Hebesatz prüfen</strong>: München 490 %, Frankfurt 460 %, Berlin 410 %, Köln 475 %.
-                Bei freier Stadt-Wahl (Sitzverlegung): Hochstadt vs. Niedrigstadt 5-15k € Differenz pro 100k Gewinn.
-              </li>
-              <li>
-                <strong>Vereinfachung</strong>: ESt 2026 §32a-Formel ohne Steuerklassen, Kinderfreibetrag oder
-                Sonderausgaben. Reale Berechnung kann ±10-15 % abweichen.
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
+      <ToolSection icon={AlertTriangle} title="Wichtige Stellschrauben">
+        <ul className="grid gap-x-8 gap-y-4 text-sm leading-relaxed text-foreground/85 md:grid-cols-2">
+          <li>
+            <strong className="text-foreground">Beherrschender GF (ab 50 %):</strong> keine SV-Pflicht, kein Anspruch auf Krankengeld/ALG.
+            Alternative: PKV + private RV.
+          </li>
+          <li>
+            <strong className="text-foreground">Mindest-Gehalt für Anerkennung des GF-Vertrags:</strong> ca. 24-36k €/Jahr, sonst Risiko
+            „verdeckte Gewinnausschüttung“ durch das Finanzamt. Lieber zu hoch als zu niedrig.
+          </li>
+          <li>
+            <strong className="text-foreground">Tantieme-Regelung:</strong> zusätzlich zum Festgehalt, oft 25-50 % vom Jahresgewinn vor
+            Steuern, deckelbar. Auch BA-Aufwand, mindert KSt + GewSt.
+          </li>
+          <li>
+            <strong className="text-foreground">Pensionszusage:</strong> Pensions-Rückstellung mindert KSt heute, Auszahlung später als
+            Versorgungsbezug zum pers. Steuersatz. Sinnvoll bei dauerhaft hohem GF-Einkommen. Tool:{" "}
+            <Link to="/cockpit/pension-optimizer" className="font-medium text-accent-blue underline underline-offset-2">Pension-Optimizer</Link>.
+          </li>
+          <li>
+            <strong className="text-foreground">Holding über GmbH:</strong> Bei Ausschüttung von der Tochter an die Holding sind 95 %
+            steuerfrei (§8b KStG). Reinvestieren ohne Privat-Steuer = Compounding-Effekt. Tools:{" "}
+            <Link to="/cockpit/holding-designer" className="font-medium text-accent-blue underline underline-offset-2">Holding-Designer</Link> und{" "}
+            <Link to="/cockpit/auszahlung-optimizer" className="font-medium text-accent-blue underline underline-offset-2">Auszahlung-Optimizer</Link>.
+          </li>
+          <li>
+            <strong className="text-foreground">TEV (Teileinkünfteverfahren):</strong> nur Vorteil bei pers. Grenzsteuersatz unter
+            ~32-35 %. Bei 42 % oder 45 % schlechter als Abgeltungssteuer.
+          </li>
+          <li>
+            <strong className="text-foreground">GewSt-Hebesatz prüfen:</strong> München 490 %, Frankfurt 460 %, Berlin 410 %, Köln 475 %.
+            Bei freier Stadt-Wahl (Sitzverlegung): Hochstadt vs. Niedrigstadt 5-15k € Differenz pro 100k Gewinn.
+          </li>
+          <li>
+            <strong className="text-foreground">Vereinfachung:</strong> ESt 2026 §32a-Formel ohne Steuerklassen, Kinderfreibetrag oder
+            Sonderausgaben. Reale Berechnung kann ±10-15 % abweichen.
+          </li>
+        </ul>
+      </ToolSection>
 
       <Stand2026Footer
         sources={[

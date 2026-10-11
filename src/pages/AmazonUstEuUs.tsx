@@ -1,6 +1,8 @@
 import { useState, useMemo } from "react";
 import CockpitShell from "@/components/cockpit/CockpitShell";
-import { Globe, AlertCircle, CheckCircle2, ExternalLink } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Globe, AlertCircle, ArrowRight, BookOpen, CheckCircle2, ExternalLink } from "lucide-react";
+import { Callout, ResultPanel, ToneBadge, ToolSection, toneText, type Tone } from "@/components/cockpit/kit";
 
 type Marketplace = {
   slug: string;
@@ -163,168 +165,154 @@ const MARKETPLACES: Marketplace[] = [
   },
 ];
 
+/** Länderkürzel statt Flaggen-Emoji in der Oberfläche. */
+const KUERZEL: Record<string, string> = { "🇩🇪": "DE", "🇪🇺": "EU", "🇺🇸": "US", "🇬🇧": "UK" };
+const VERANTWORTUNG: Record<Marketplace["ustVerantwortlich"], { text: string; tone: Tone }> = {
+  du: { text: "Du bist USt-Schuldner", tone: "warning" },
+  amazon: { text: "Amazon zieht ein", tone: "success" },
+  mix: { text: "Gemischt", tone: "info" },
+};
+
 const AmazonUstEuUs = () => {
   const [selectedSlug, setSelectedSlug] = useState<string>("amazon-de");
   const selected = useMemo(() => MARKETPLACES.find((m) => m.slug === selectedSlug)!, [selectedSlug]);
+  const v = VERANTWORTUNG[selected.ustVerantwortlich];
 
   return (
     <CockpitShell
       eyebrow="Amazon-USt EU vs US"
-      title="USt-Behandlung pro Marketplace + Bestelltyp"
-      subtitle="6 Konstellationen (DE-Verkauf, DE-Provisionen seit Aug 2024, IT/FR/ES/NL §13b, EU-FBA-Lager + OSS, US Marketplace-Facilitator, UK Brexit) mit konkreten Konten, Steuerschlüsseln, Pflicht-Registrierungen + Stolperfallen."
+      title="USt-Behandlung pro Marketplace und Bestelltyp"
+      subtitle="6 Konstellationen (DE-Verkauf, DE-Provisionen seit Aug 2024, IT/FR/ES/NL §13b, EU-FBA-Lager mit OSS, US Marketplace-Facilitator, UK nach dem Brexit) mit konkreten Konten, Steuerschlüsseln, Pflicht-Registrierungen und Stolperfallen."
     >
-      {/* Selector */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 mb-6">
-        {MARKETPLACES.map((m) => (
-          <button
-            key={m.slug}
-            onClick={() => setSelectedSlug(m.slug)}
-            className={`text-left rounded-xl border p-3 transition-colors ${
-              selectedSlug === m.slug
-                ? "border-accent-blue bg-accent-blue/5"
-                : "border-border bg-card hover:bg-secondary/30"
-            }`}
-          >
-            <div className="flex items-center gap-2 mb-1">
-              <span className="text-xl">{m.flag}</span>
-              <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-                {m.ustVerantwortlich === "du" && "Du USt-Schuldner"}
-                {m.ustVerantwortlich === "amazon" && "Amazon zieht ein"}
-                {m.ustVerantwortlich === "mix" && "Mix"}
-              </span>
-            </div>
-            <div className="font-semibold text-xs">{m.name}</div>
-          </button>
-        ))}
-      </div>
+      <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,320px)_minmax(0,1fr)]">
+        {/* Auswahl */}
+        <nav aria-label="Konstellation wählen" className="space-y-2 lg:sticky lg:top-20">
+          <p className="mb-1 text-sm font-medium text-muted-foreground">Konstellation wählen</p>
+          {MARKETPLACES.map((m) => {
+            const aktiv = selectedSlug === m.slug;
+            const vv = VERANTWORTUNG[m.ustVerantwortlich];
+            return (
+              <button
+                key={m.slug}
+                type="button"
+                aria-pressed={aktiv}
+                onClick={() => setSelectedSlug(m.slug)}
+                className={`flex w-full items-start gap-3 rounded-xl border p-3 text-left transition-[border-color,background-color,box-shadow] ${
+                  aktiv ? "border-accent-blue/50 bg-card shadow-card ring-1 ring-accent-blue/20" : "border-border bg-card/60 hover:border-foreground/20 hover:bg-card"
+                }`}
+              >
+                <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-xs font-semibold ${aktiv ? "bg-primary text-primary-foreground" : "bg-secondary text-foreground"}`}>
+                  {KUERZEL[m.flag] ?? "EU"}
+                </span>
+                <span className="min-w-0">
+                  <span className="block text-sm font-medium leading-snug">{m.name}</span>
+                  <span className={`mt-1 block text-xs ${toneText(vv.tone)}`}>{vv.text}</span>
+                </span>
+              </button>
+            );
+          })}
+        </nav>
 
-      {/* Detail */}
-      <div className="rounded-2xl border border-border bg-card p-5 mb-4">
-        <div className="flex items-center gap-2 mb-2">
-          <span className="text-2xl">{selected.flag}</span>
-          <h3 className="font-bold text-base">{selected.name}</h3>
-        </div>
-
-        <div className="text-xs leading-relaxed text-muted-foreground mb-4">{selected.ustMechanismus}</div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-          <div>
-            <div className="text-[11px] uppercase tracking-wider text-muted-foreground font-semibold mb-1.5">
-              Buchung in DE
+        {/* Detail */}
+        <div className="min-w-0 space-y-5">
+          <ResultPanel kicker={KUERZEL[selected.flag] ?? "EU"} title={selected.name}>
+            <div className="flex flex-wrap items-center gap-2">
+              <ToneBadge tone={v.tone}>{v.text}</ToneBadge>
             </div>
-            <div className="rounded-lg border border-border bg-secondary/30 p-3 text-xs">
-              <div>
-                <span className="text-muted-foreground">Konto: </span>
-                <span className="font-mono font-semibold">{selected.buchungDe.konto}</span>
-              </div>
-              <div>
-                <span className="text-muted-foreground">Steuerschlüssel: </span>
-                <span className="font-mono font-semibold">{selected.buchungDe.steuerschluessel}</span>
-              </div>
-              <div className="text-muted-foreground mt-1.5 leading-relaxed">{selected.buchungDe.hinweis}</div>
-            </div>
+            <p className="mt-3 text-[15px] leading-relaxed text-foreground/85">{selected.ustMechanismus}</p>
+          </ResultPanel>
+
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+            <ToolSection title="Buchung in DE" icon={BookOpen}>
+              <dl className="divide-y divide-border/70 text-sm">
+                <div className="pb-2.5">
+                  <dt className="text-xs text-muted-foreground">Konto</dt>
+                  <dd className="mt-0.5 font-mono text-[13px] font-semibold">{selected.buchungDe.konto}</dd>
+                </div>
+                <div className="py-2.5">
+                  <dt className="text-xs text-muted-foreground">Steuerschlüssel</dt>
+                  <dd className="mt-0.5 font-mono text-[13px] font-semibold">{selected.buchungDe.steuerschluessel}</dd>
+                </div>
+                <div className="pt-2.5 leading-relaxed text-muted-foreground">{selected.buchungDe.hinweis}</div>
+              </dl>
+            </ToolSection>
+            <ToolSection title="Marketplace-Facilitator-Tax?" icon={Globe}>
+              <p className="text-sm leading-relaxed text-foreground/85">{selected.facilitatorTax}</p>
+            </ToolSection>
           </div>
 
-          <div>
-            <div className="text-[11px] uppercase tracking-wider text-muted-foreground font-semibold mb-1.5 flex items-center gap-1">
-              <Globe className="h-3 w-3" /> Marketplace-Facilitator-Tax?
-            </div>
-            <div className="rounded-lg border border-border bg-secondary/30 p-3 text-xs leading-relaxed">
-              {selected.facilitatorTax}
-            </div>
-          </div>
-        </div>
+          <ToolSection title="Pflicht-Registrierungen" icon={CheckCircle2}>
+            <ul className="space-y-2 text-sm leading-relaxed">
+              {selected.registrierungen.map((r, idx) => (
+                <li key={idx} className="flex gap-2.5">
+                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-success" aria-hidden="true" />
+                  <span className="text-foreground/85">{r}</span>
+                </li>
+              ))}
+            </ul>
+          </ToolSection>
 
-        <div className="mb-4">
-          <div className="text-[11px] uppercase tracking-wider text-emerald-700 font-semibold mb-1.5 flex items-center gap-1">
-            <CheckCircle2 className="h-3 w-3" /> Pflicht-Registrierungen
-          </div>
-          <ul className="list-disc pl-5 space-y-0.5 text-xs text-muted-foreground">
-            {selected.registrierungen.map((r, idx) => (
-              <li key={idx}>{r}</li>
+          <ToolSection title="Stolperfallen" icon={AlertCircle}>
+            <ul className="space-y-2 text-sm leading-relaxed">
+              {selected.stolperfallen.map((x, idx) => (
+                <li key={idx} className="flex gap-2.5">
+                  <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-danger" aria-hidden="true" />
+                  <span className="text-foreground/85">{x}</span>
+                </li>
+              ))}
+            </ul>
+          </ToolSection>
+
+          {/* Cross-Tool-Verlinkung */}
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+            {[
+              { to: "/cockpit/amazon-buchungen", t: "Amazon-Buchungstexte", d: "Codes wie AMA-SG-DE, FBAFees, CoAdv im Detail" },
+              { to: "/cockpit/settlement-parser?mode=amazon", t: "Settlement-Parser", d: "CSV automatisch aufsplitten, SKR03-Mapping" },
+              { to: "/cockpit/sales-tax-nexus", t: "Sales-Tax-Nexus US", d: "45 US-Staaten und DC: Wayfair-Schwellen prüfen" },
+            ].map((l) => (
+              <Link key={l.to} to={l.to} className="press group rounded-xl border border-border bg-card p-4 hover:border-accent-blue/40 hover:shadow-card">
+                <span className="flex items-center justify-between gap-2 text-sm font-semibold">
+                  {l.t}
+                  <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-accent-blue" aria-hidden="true" />
+                </span>
+                <span className="mt-1 block text-xs leading-relaxed text-muted-foreground">{l.d}</span>
+              </Link>
             ))}
-          </ul>
-        </div>
-
-        <div>
-          <div className="text-[11px] uppercase tracking-wider text-red-700 font-semibold mb-1.5 flex items-center gap-1">
-            <AlertCircle className="h-3 w-3" /> Stolperfallen
           </div>
-          <ul className="list-disc pl-5 space-y-0.5 text-xs text-muted-foreground">
-            {selected.stolperfallen.map((s, idx) => (
-              <li key={idx}>{s}</li>
-            ))}
-          </ul>
-        </div>
-      </div>
 
-      {/* Cross-Tool-Verlinkung */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-6">
-        <a
-          href="/cockpit/amazon-buchungen"
-          className="rounded-xl border border-border bg-card p-3 text-xs hover:border-accent-blue transition-colors"
-        >
-          <div className="font-semibold mb-0.5">Amazon-Buchungstexte →</div>
-          <div className="text-muted-foreground">130+ Codes wie AMA-SG-DE, FBAFees, CoAdv im Detail</div>
-        </a>
-        <a
-          href="/cockpit/settlement-parser?mode=amazon"
-          className="rounded-xl border border-border bg-card p-3 text-xs hover:border-accent-blue transition-colors"
-        >
-          <div className="font-semibold mb-0.5">Settlement-Parser →</div>
-          <div className="text-muted-foreground">CSV automatisch aufsplitten + SKR03-Mapping</div>
-        </a>
-        <a
-          href="/cockpit/sales-tax-nexus"
-          className="rounded-xl border border-border bg-card p-3 text-xs hover:border-accent-blue transition-colors"
-        >
-          <div className="font-semibold mb-0.5">Sales-Tax-Nexus US →</div>
-          <div className="text-muted-foreground">45 US-Staaten + DC Wayfair-Schwellen prüfen</div>
-        </a>
-      </div>
-
-      {/* Generelle Hinweise */}
-      <div className="rounded-2xl border border-amber-500/30 bg-amber-500/5 p-4 text-xs leading-relaxed">
-        <div className="font-semibold mb-2">Generelle USt-Logik im Amazon-Kontext</div>
-        <ul className="list-disc pl-4 space-y-1 text-muted-foreground">
-          <li>
-            <strong>Marketplace-Facilitator-Tax</strong> = Amazon ist als "Marktplatz" verpflichtet, die USt
-            direkt vom Kunden einzuziehen. Greift in: USA (45 Staaten + DC), UK ({"<"} £135), AU/NZ, IT/FR/UK B2C-EU.
-          </li>
-          <li>
-            <strong>Reverse-Charge §13b UStG</strong> = Bei B2B-Leistung aus EU-Ausland an dich (DE) bist DU
-            USt-Schuldner. Du buchst die USt auf der einen Seite, ziehst sie auf der anderen als VSt — saldo 0.
-          </li>
-          <li>
-            <strong>OSS (One-Stop-Shop)</strong> = EU-weit zentralisiert beim BZSt für deine eigenen B2C-Verkäufe
-            ins EU-Ausland. Greift NICHT bei Verkäufen aus ausländischem Lager.
-          </li>
-          <li>
-            <strong>Pan-EU-FBA</strong> = Amazon verteilt deine Ware automatisch in 6+ EU-Lager. Heißt: du
-            brauchst USt-ID in jedem Land, in das Amazon legt — auch wenn du nichts dafür tust.
-          </li>
-          <li>
-            <strong>Drittland-Verkäufe (US/UK/CH)</strong> = Steuer-Schlüssel 94 (DE-Buchhaltung). Sales-Tax /
-            VAT ist Sache des Empfängerlands, nicht der DE-USt.
-          </li>
-        </ul>
-        <div className="mt-3 flex flex-wrap gap-2">
-          <a
-            href="https://www.bzst.de/DE/Unternehmen/Umsatzsteuer/OSS/oss_node.html"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 text-accent-blue hover:underline font-semibold"
-          >
-            BZSt — OSS-Verfahren <ExternalLink className="h-3 w-3" />
-          </a>
-          <a
-            href="https://sellercentral.amazon.de"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 text-accent-blue hover:underline font-semibold"
-          >
-            Seller Central — VAT-Services <ExternalLink className="h-3 w-3" />
-          </a>
+          {/* Generelle Hinweise */}
+          <Callout tone="warning" title="Generelle USt-Logik im Amazon-Kontext">
+            <ul className="mt-1 space-y-2 leading-relaxed">
+              <li>
+                <strong className="font-semibold text-foreground">Marketplace-Facilitator-Tax:</strong> Amazon ist als Marktplatz verpflichtet, die USt
+                direkt vom Kunden einzuziehen. Greift in: USA (45 Staaten und DC), UK (unter £135), AU/NZ, IT/FR/UK B2C-EU.
+              </li>
+              <li>
+                <strong className="font-semibold text-foreground">Reverse-Charge §13b UStG:</strong> Bei B2B-Leistung aus dem EU-Ausland an dich (DE) bist du
+                USt-Schuldner. Du buchst die USt auf der einen Seite und ziehst sie auf der anderen als VSt ab, saldo 0.
+              </li>
+              <li>
+                <strong className="font-semibold text-foreground">OSS (One-Stop-Shop):</strong> EU-weit zentralisiert beim BZSt für deine eigenen B2C-Verkäufe
+                ins EU-Ausland. Greift nicht bei Verkäufen aus ausländischem Lager.
+              </li>
+              <li>
+                <strong className="font-semibold text-foreground">Pan-EU-FBA:</strong> Amazon verteilt deine Ware automatisch in 6+ EU-Lager. Du brauchst
+                eine USt-ID in jedem Land, in das Amazon einlagert, auch wenn du nichts dafür tust.
+              </li>
+              <li>
+                <strong className="font-semibold text-foreground">Drittland-Verkäufe (US/UK/CH):</strong> Steuerschlüssel 94 (DE-Buchhaltung). Sales-Tax bzw.
+                VAT ist Sache des Empfängerlands, nicht der DE-USt.
+              </li>
+            </ul>
+            <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2">
+              <a href="https://www.bzst.de/DE/Unternehmen/Umsatzsteuer/OSS/oss_node.html" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 font-medium text-accent-blue hover:underline">
+                BZSt: OSS-Verfahren <ExternalLink className="h-3 w-3" aria-hidden="true" />
+              </a>
+              <a href="https://sellercentral.amazon.de" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 font-medium text-accent-blue hover:underline">
+                Seller Central: VAT-Services <ExternalLink className="h-3 w-3" aria-hidden="true" />
+              </a>
+            </div>
+          </Callout>
         </div>
       </div>
     </CockpitShell>
