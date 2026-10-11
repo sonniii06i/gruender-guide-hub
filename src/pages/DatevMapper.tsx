@@ -1,8 +1,11 @@
 import { useState, useMemo } from "react";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Download, Upload, Plus, Trash2, FileSpreadsheet, Wand2 } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { EmptyState, Field, KitTable, StatGrid, StatTile, ToneBadge, ToolSection } from "@/components/cockpit/kit";
+import { Download, Upload, Plus, Trash2, FileSpreadsheet, Wand2, ListChecks, Info } from "lucide-react";
 
 type Direction = "soll" | "haben"; // S = Aufwand/Vermögen, H = Erlös/Verbindlichkeit aus Sicht des "Haupt"-Kontos
 
@@ -445,200 +448,209 @@ const DatevMapper = () => {
     return { ausgaben, einnahmen, ungemappt };
   }, [lines]);
 
+  const geld = (n: number) => `${n.toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €`;
+  const zellInput = "h-8 rounded-md px-2 text-xs";
+
   return (
     <CockpitShell
-      eyebrow="DATEV / Lexoffice Auto-Mapper"
-      title="Bank-CSV → DATEV-Stapel + Lexoffice-Import"
-      subtitle="35+ Auto-Regeln (Amazon, Stripe, PayPal, Klarna, Shopify, AWS, Meta/TikTok/Google Ads, DHL, Steuerberater, Versicherungen, Reise, Strom). Auto-erkennt Reverse-Charge §13b für IE-Sub-Anbieter. Editierbar pro Zeile."
+      eyebrow="Buchhaltung & Reporting · DATEV und Lexoffice"
+      title="Bank-CSV zu DATEV-Stapel und Lexoffice-Import"
+      subtitle="Über 35 Regeln ordnen deine Kontoumsätze automatisch zu (Amazon, Stripe, PayPal, Klarna, Shopify, AWS, Werbeplattformen, DHL, Steuerberatung, Versicherungen, Reisen, Strom). Reverse-Charge nach § 13b wird für Anbieter mit irischer Tochter erkannt. Jede Zeile bleibt editierbar."
     >
-      {/* Summary */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
-        <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/5 p-4">
-          <div className="text-[10px] uppercase tracking-wider text-emerald-700">Einnahmen</div>
-          <div className="text-xl font-bold text-emerald-700">
-            {stats.einnahmen.toLocaleString("de-DE", { maximumFractionDigits: 2 })} €
-          </div>
-        </div>
-        <div className="rounded-2xl border border-red-500/30 bg-red-500/5 p-4">
-          <div className="text-[10px] uppercase tracking-wider text-red-700">Ausgaben</div>
-          <div className="text-xl font-bold text-red-700">
-            {stats.ausgaben.toLocaleString("de-DE", { maximumFractionDigits: 2 })} €
-          </div>
-        </div>
-        <div className="rounded-2xl border border-amber-500/30 bg-amber-500/5 p-4">
-          <div className="text-[10px] uppercase tracking-wider text-amber-700">Ungemappt</div>
-          <div className="text-xl font-bold text-amber-700">{stats.ungemappt}</div>
-          <div className="text-[10px] text-muted-foreground mt-1">Manuell prüfen</div>
-        </div>
-      </div>
-
-      {/* CSV Import */}
-      <div className="rounded-2xl border border-border bg-card p-4 mb-6">
-        <div className="flex items-center gap-2 mb-2">
-          <Upload className="h-4 w-4 text-accent-blue" />
-          <h3 className="font-semibold text-sm">Bank-CSV einfügen (Holvi/Qonto/Penta/N26 etc.)</h3>
-        </div>
-        <textarea
-          value={csvPaste}
-          onChange={(e) => setCsvPaste(e.target.value)}
-          placeholder="Datum;Betrag;Verwendungszweck&#10;01.05.2026;-149,90;Stripe Technology Inc Fees&#10;02.05.2026;3245,12;Amazon EU SARL Auszahlung"
-          className="w-full h-32 rounded-md border border-input bg-background px-3 py-2 text-xs font-mono"
+      <StatGrid cols={3} className="mb-6">
+        <StatTile label="Einnahmen" value={geld(stats.einnahmen)} tone="success" />
+        <StatTile label="Ausgaben" value={geld(stats.ausgaben)} tone="danger" />
+        <StatTile
+          label="Ohne Regel zugeordnet"
+          value={stats.ungemappt}
+          tone={stats.ungemappt > 0 ? "warning" : "neutral"}
+          hint="Vor dem Export manuell prüfen"
         />
-        <div className="flex gap-2 mt-2">
-          <button
-            onClick={importCsv}
-            disabled={!csvPaste.trim()}
-            className="inline-flex items-center gap-1 rounded-lg bg-accent-blue text-primary-foreground px-3 py-1.5 text-xs font-semibold hover:opacity-90 disabled:opacity-50"
-          >
-            <Wand2 className="h-3.5 w-3.5" /> Auto-Mappen
-          </button>
-          <button
-            onClick={addLine}
-            className="inline-flex items-center gap-1 rounded-lg border border-border px-3 py-1.5 text-xs font-semibold hover:bg-secondary"
-          >
-            <Plus className="h-3.5 w-3.5" /> Manuelle Zeile
-          </button>
-        </div>
-      </div>
+      </StatGrid>
 
-      {/* Lines Table */}
-      {lines.length > 0 && (
-        <div className="rounded-2xl border border-border bg-card overflow-hidden mb-6">
-          <div className="overflow-x-auto">
-            <table className="w-full text-xs">
-              <thead className="bg-secondary text-[10px] uppercase tracking-wider">
-                <tr>
-                  <th className="text-left p-2">Datum</th>
-                  <th className="text-right p-2">Betrag</th>
-                  <th className="text-left p-2">Zweck</th>
-                  <th className="text-left p-2">Konto</th>
-                  <th className="text-left p-2">Gegen</th>
-                  <th className="text-left p-2">BU</th>
-                  <th className="text-left p-2">Match</th>
-                  <th></th>
+      <ToolSection
+        title="Bank-CSV einfügen"
+        description="Export aus Holvi, Qonto, Penta, N26 und anderen. Trennzeichen Semikolon, Komma oder Tab; Datum, Betrag und Verwendungszweck werden erkannt."
+        icon={Upload}
+        className="mb-6"
+      >
+        <Field label="CSV-Inhalt" htmlFor="dm-csv">
+          <Textarea
+            id="dm-csv"
+            value={csvPaste}
+            onChange={(e) => setCsvPaste(e.target.value)}
+            placeholder={"Datum;Betrag;Verwendungszweck\n01.05.2026;-149,90;Stripe Technology Inc Fees\n02.05.2026;3245,12;Amazon EU SARL Auszahlung"}
+            className="h-36 font-mono text-xs"
+          />
+        </Field>
+        <div className="mt-4 flex flex-wrap gap-2">
+          <Button className="bg-gradient-primary" onClick={importCsv} disabled={!csvPaste.trim()}>
+            <Wand2 aria-hidden="true" /> Automatisch zuordnen
+          </Button>
+          <Button variant="outline" onClick={addLine}>
+            <Plus aria-hidden="true" /> Zeile manuell hinzufügen
+          </Button>
+        </div>
+      </ToolSection>
+
+      {lines.length === 0 ? (
+        <EmptyState
+          icon={FileSpreadsheet}
+          title="Noch keine Buchungen"
+          description="Füge oben einen Kontoauszug als CSV ein oder lege eine Zeile manuell an. Danach kannst du jede Zuordnung prüfen und als DATEV-Stapel oder Lexoffice-CSV exportieren."
+          className="mb-6"
+        />
+      ) : (
+        <ToolSection
+          title="Buchungen"
+          description={`${lines.length} Zeile${lines.length === 1 ? "" : "n"}. Konto, Gegenkonto und BU-Schlüssel lassen sich direkt ändern.`}
+          icon={ListChecks}
+          className="mb-6"
+          bodyClassName="p-0 md:p-0"
+          actions={
+            <>
+              <Button size="sm" onClick={exportLexoffice}>
+                <Download aria-hidden="true" /> Lexoffice-CSV ({lines.length})
+              </Button>
+              <Button size="sm" variant="outline" onClick={exportDatev}>
+                <FileSpreadsheet aria-hidden="true" /> DATEV-Stapel ({lines.length})
+              </Button>
+            </>
+          }
+        >
+          <KitTable caption="Zugeordnete Buchungen" className="rounded-none border-0 [contain:paint] [&_td]:!px-2 [&_td]:!py-2 [&_th]:whitespace-nowrap">
+            <thead>
+              <tr>
+                <th>Datum</th>
+                <th className="!text-right">Betrag</th>
+                <th>Verwendungszweck</th>
+                <th>Konto</th>
+                <th>Gegenkonto</th>
+                <th>BU</th>
+                <th>Regel</th>
+                <th>
+                  <span className="sr-only">Aktionen</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {lines.map((l) => (
+                <tr key={l.id}>
+                  <td>
+                    <Input
+                      type="date"
+                      aria-label="Datum"
+                      value={l.datum}
+                      onChange={(e) => updateLine(l.id, { datum: e.target.value })}
+                      className={cn(zellInput, "w-36")}
+                    />
+                  </td>
+                  <td>
+                    <Input
+                      type="number"
+                      step="0.01"
+                      aria-label="Betrag"
+                      value={l.betrag || ""}
+                      onChange={(e) => updateLine(l.id, { betrag: Number(e.target.value) || 0 })}
+                      className={cn(zellInput, "w-28 text-right tabular", l.betrag < 0 ? "text-danger" : l.betrag > 0 ? "text-success" : "")}
+                    />
+                  </td>
+                  <td>
+                    <Input
+                      aria-label="Verwendungszweck"
+                      value={l.zweck}
+                      onChange={(e) => updateLine(l.id, { zweck: e.target.value })}
+                      className={cn(zellInput, "w-64")}
+                    />
+                  </td>
+                  <td>
+                    <Input
+                      aria-label="Konto"
+                      value={l.konto}
+                      onChange={(e) => updateLine(l.id, { konto: e.target.value })}
+                      className={cn(zellInput, "w-20 font-mono")}
+                    />
+                  </td>
+                  <td>
+                    <Input
+                      aria-label="Gegenkonto"
+                      value={l.gegenkonto}
+                      onChange={(e) => updateLine(l.id, { gegenkonto: e.target.value })}
+                      className={cn(zellInput, "w-20 font-mono")}
+                    />
+                  </td>
+                  <td>
+                    <Input
+                      aria-label="BU-Schlüssel"
+                      value={l.steuerschluessel}
+                      onChange={(e) => updateLine(l.id, { steuerschluessel: e.target.value })}
+                      className={cn(zellInput, "w-14 font-mono")}
+                    />
+                  </td>
+                  <td className="max-w-[200px]" title={l.matched}>
+                    {l.matched === "—" ? (
+                      <ToneBadge tone="warning">Keine Regel</ToneBadge>
+                    ) : (
+                      <span className="line-clamp-2 text-xs text-muted-foreground">{l.matched}</span>
+                    )}
+                  </td>
+                  <td>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => removeLine(l.id)}
+                      aria-label="Zeile löschen"
+                      className="h-8 w-8 text-muted-foreground hover:bg-danger-soft hover:text-danger"
+                    >
+                      <Trash2 aria-hidden="true" />
+                    </Button>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {lines.map((l) => (
-                  <tr key={l.id} className="border-t border-border">
-                    <td className="p-1.5">
-                      <Input
-                        type="date"
-                        value={l.datum}
-                        onChange={(e) => updateLine(l.id, { datum: e.target.value })}
-                        className="h-7 text-xs w-32"
-                      />
-                    </td>
-                    <td className="p-1.5">
-                      <Input
-                        type="number"
-                        step="0.01"
-                        value={l.betrag || ""}
-                        onChange={(e) => updateLine(l.id, { betrag: Number(e.target.value) || 0 })}
-                        className={`h-7 text-xs w-24 text-right font-mono ${l.betrag < 0 ? "text-red-700" : l.betrag > 0 ? "text-emerald-700" : ""}`}
-                      />
-                    </td>
-                    <td className="p-1.5">
-                      <Input
-                        value={l.zweck}
-                        onChange={(e) => updateLine(l.id, { zweck: e.target.value })}
-                        className="h-7 text-xs w-64"
-                      />
-                    </td>
-                    <td className="p-1.5">
-                      <Input
-                        value={l.konto}
-                        onChange={(e) => updateLine(l.id, { konto: e.target.value })}
-                        className="h-7 text-xs w-16 font-mono"
-                      />
-                    </td>
-                    <td className="p-1.5">
-                      <Input
-                        value={l.gegenkonto}
-                        onChange={(e) => updateLine(l.id, { gegenkonto: e.target.value })}
-                        className="h-7 text-xs w-14 font-mono"
-                      />
-                    </td>
-                    <td className="p-1.5">
-                      <Input
-                        value={l.steuerschluessel}
-                        onChange={(e) => updateLine(l.id, { steuerschluessel: e.target.value })}
-                        className="h-7 text-xs w-12 font-mono"
-                      />
-                    </td>
-                    <td className="p-1.5 text-[10px] text-muted-foreground max-w-[160px] truncate" title={l.matched}>
-                      {l.matched}
-                    </td>
-                    <td className="p-1.5">
-                      <button
-                        onClick={() => removeLine(l.id)}
-                        className="text-red-600 hover:bg-red-500/10 p-1 rounded"
-                      >
-                        <Trash2 className="h-3 w-3" />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
+              ))}
+            </tbody>
+          </KitTable>
+        </ToolSection>
       )}
 
-      {/* Export */}
-      {lines.length > 0 && (
-        <div className="flex flex-wrap gap-2 mb-6">
-          <button
-            onClick={exportLexoffice}
-            className="inline-flex items-center gap-1 rounded-lg bg-accent-blue text-primary-foreground px-4 py-2 text-xs font-semibold hover:opacity-90"
-          >
-            <Download className="h-3.5 w-3.5" /> Lexoffice-CSV ({lines.length})
-          </button>
-          <button
-            onClick={exportDatev}
-            className="inline-flex items-center gap-1 rounded-lg border border-border px-4 py-2 text-xs font-semibold hover:bg-secondary"
-          >
-            <FileSpreadsheet className="h-3.5 w-3.5" /> DATEV-Stapel ({lines.length})
-          </button>
-        </div>
-      )}
-
-      {/* Hinweise */}
-      <div className="rounded-2xl border border-amber-500/30 bg-amber-500/5 p-4 text-xs leading-relaxed">
-        <div className="font-semibold mb-2">Auto-Mapping-Logik</div>
-        <ul className="list-disc pl-4 space-y-1 text-muted-foreground">
-          <li>
-            <strong>Reverse-Charge §13b UStG</strong> (BU 19): IE-Sub-Anbieter wie Meta, Google, AWS, Microsoft,
-            TikTok, Stripe (IE) — du buchst USt selbst + ziehst sie sofort wieder als VSt (saldo 0).
-          </li>
-          <li>
-            <strong>Vorsteuer 19%</strong> (BU 9): DE-USt mit ausgewiesenem 19%-Satz (Versand DHL, Steuerberater,
-            Hotels, Strom).
-          </li>
-          <li>
-            <strong>Ohne Steuerschlüssel</strong>: Versicherung, Sozialabgaben, Behördenzahlungen, Geldtransit
-            (Auszahlung Marketplace → 1360).
-          </li>
-          <li>
-            <strong>Konten-Cheat-Sheet</strong> (SKR03): 1200 Bank · 1360 Geldtransit · 3100 Fremdleistungen
-            (Marketplace-Fees) · 4600 Werbung · 4730 Versand · 4900 Sonst Aufwand · 4910 Buchführung · 4925
-            Telefon · 4930 Strom · 4970 Bankgebühr · 4980 Sonst Lieferung·Leistung · 6750 Reisekosten · 8400
-            Sonst Erträge.
-          </li>
-          <li>
-            <strong>Ungemappte Zeilen</strong> landen auf 4900 (Aufwand) bzw. 8400 (Ertrag) — manuell auf
-            korrektes Konto umstellen vor Export.
-          </li>
-          <li>
-            <strong>DATEV-Stapel</strong> ist vereinfacht (Buchungssatz-Zeilen ohne Header-Block). Für
-            DATEV-Pro-Import muss dein StB die Datei in den DATEV-Format-Convert-Helfer laden — Header werden
-            dort automatisch ergänzt.
-          </li>
-          <li>
-            <strong>Lexoffice-CSV</strong> ist sofort import-bar via "Buchhaltung → Buchungssätze importieren".
-          </li>
-        </ul>
-      </div>
+      <ToolSection title="So ordnet der Mapper zu" icon={Info}>
+        <dl className="grid grid-cols-1 gap-x-8 gap-y-4 text-sm md:grid-cols-2">
+          {[
+            {
+              t: "Reverse-Charge nach § 13b UStG (BU 19)",
+              d: "Anbieter mit irischer Tochter wie Meta, Google, AWS, Microsoft, TikTok und Stripe: Du buchst die Umsatzsteuer selbst und ziehst sie sofort als Vorsteuer wieder ab, im Saldo null.",
+            },
+            {
+              t: "Vorsteuer 19 % (BU 9)",
+              d: "Deutsche Rechnungen mit ausgewiesenen 19 %: Versand per DHL, Steuerberatung, Hotels, Strom.",
+            },
+            {
+              t: "Ohne Steuerschlüssel",
+              d: "Versicherungen, Sozialabgaben, Zahlungen an Behörden und Geldtransit (Auszahlungen von Marktplätzen auf 1360).",
+            },
+            {
+              t: "Kontenübersicht SKR03",
+              d: "1200 Bank · 1360 Geldtransit · 3100 Fremdleistungen (Marktplatz-Gebühren) · 4600 Werbung · 4730 Versand · 4900 Sonstiger Aufwand · 4910 Buchführung · 4925 Telefon · 4930 Strom · 4970 Bankgebühr · 4980 Sonstige Leistungen · 6750 Reisekosten · 8400 Sonstige Erträge.",
+            },
+            {
+              t: "Zeilen ohne Regel",
+              d: "Landen auf 4900 (Aufwand) bzw. 8400 (Ertrag). Vor dem Export auf das richtige Konto umstellen.",
+            },
+            {
+              t: "DATEV-Stapel",
+              d: "Vereinfacht, nur Buchungszeilen ohne Kopfblock. Für den Import in DATEV Pro lädt deine Steuerberatung die Datei in den Format-Konverter, der die Kopfdaten ergänzt.",
+            },
+            {
+              t: "Lexoffice-CSV",
+              d: "Direkt importierbar über „Buchhaltung → Buchungssätze importieren“.",
+            },
+          ].map((p) => (
+            <div key={p.t}>
+              <dt className="font-medium">{p.t}</dt>
+              <dd className="mt-0.5 leading-relaxed text-muted-foreground">{p.d}</dd>
+            </div>
+          ))}
+        </dl>
+      </ToolSection>
     </CockpitShell>
   );
 };
