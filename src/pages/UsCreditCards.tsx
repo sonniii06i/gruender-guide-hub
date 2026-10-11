@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import CockpitShell from "@/components/cockpit/CockpitShell";
-import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Callout, EmptyState, KitTable, ResultRow, StatTile, ToneBadge } from "@/components/cockpit/kit";
 import {
   US_CARDS,
   USE_CASE_META,
@@ -32,6 +33,13 @@ import {
   TrendingUp,
   Calendar,
   Zap,
+  ChevronDown,
+  Check,
+  ArrowRight,
+  XCircle,
+  UserRound,
+  Building2,
+  Gift,
 } from "lucide-react";
 
 // Deadline-Status dynamisch aus dem Datum berechnen (statt hartkodiertem status-Feld),
@@ -81,32 +89,41 @@ const UsCreditCards = () => {
     return counts;
   }, []);
 
+  const offeneDeadlines = DEADLINES_2026.filter((d) => !isDeadlinePast(d.date)).length;
+
   return (
     <CockpitShell
-      eyebrow="US-Kreditkarten · Stand Mai 2026"
-      title="US-Cards für DE-Kunden — kuratierter Guide"
-      subtitle="23 verifizierte Karten + 15 Miles-Sweet-Spots + DE→US-MR-Transfer-Hack (~17% FX-Bonus!) + Velocity-Strategie (€8-12k SUB/Jahr) + Auswanderer-Timeline + BOI/Tax-Compliance. Quellen: Issuer-Sites + The Points Guy + LoyaltyLobby."
+      eyebrow="International · US-Kreditkarten, Stand Mai 2026"
+      title="US-Kreditkarten für Gründer aus Deutschland"
+      subtitle="23 geprüfte Karten, 15 Miles-Sweet-Spots, der DE-zu-US-MR-Transfer (rund 17 % FX-Bonus), eine Velocity-Strategie (8 bis 12 Tsd. € Signup-Bonus pro Jahr), die Auswanderer-Timeline und BOI-/Steuer-Compliance. Quellen: Issuer-Seiten, The Points Guy, LoyaltyLobby."
     >
       {/* ===== USE-CASE-SWITCHER ===== */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-4">
+      <div role="group" aria-label="Einsatzzweck" className="mb-4 grid grid-cols-2 gap-3 md:grid-cols-4">
         {(Object.entries(USE_CASE_META) as [CardUseCase, typeof USE_CASE_META[CardUseCase]][]).map(
           ([key, meta]) => {
             const active = activeUseCase === key;
+            const Icon = USE_CASE_ICON[key] ?? CreditCard;
             return (
               <button
                 key={key}
+                type="button"
+                aria-pressed={active}
                 onClick={() => setActiveUseCase(key)}
-                className={`rounded-2xl border-2 p-4 text-left transition-all ${
+                className={`press rounded-2xl border p-4 text-left transition-[border-color,background-color,box-shadow] duration-200 ${
                   active
-                    ? "border-accent-blue bg-accent-blue/5 shadow-md"
-                    : "border-border bg-card hover:border-accent-blue/40"
+                    ? "border-accent-blue bg-accent shadow-card ring-1 ring-accent-blue/30"
+                    : "border-border bg-card hover:border-foreground/25"
                 }`}
               >
-                <div className="text-2xl mb-1">{meta.emoji}</div>
-                <div className="font-bold text-sm">{meta.label}</div>
-                <div className="text-[10px] text-muted-foreground mt-0.5">
-                  {useCaseCounts[key]} Karten
-                </div>
+                <span
+                  className={`flex h-8 w-8 items-center justify-center rounded-lg ${
+                    active ? "bg-accent-blue text-primary-foreground" : "bg-secondary text-muted-foreground"
+                  }`}
+                >
+                  <Icon className="h-4 w-4" aria-hidden="true" />
+                </span>
+                <span className="mt-3 block text-sm font-semibold">{meta.label}</span>
+                <span className="mt-0.5 block text-xs text-muted-foreground tabular">{useCaseCounts[key]} Karten</span>
               </button>
             );
           },
@@ -115,254 +132,205 @@ const UsCreditCards = () => {
 
       {/* Active Use-Case Description */}
       {activeUseCase !== "all" && (
-        <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-4 mb-4 text-sm">
+        <Callout tone="accent" className="mb-4">
           {USE_CASE_META[activeUseCase].description}
-        </div>
+        </Callout>
       )}
 
       {/* ===== FILTER-CHIPS ===== */}
-      <div className="flex flex-wrap gap-2 mb-4 items-center">
-        <button
-          onClick={() => setActiveUseCase("all")}
-          className={`rounded-full px-3 py-1.5 text-xs font-semibold ${
-            activeUseCase === "all"
-              ? "bg-accent-blue text-primary-foreground"
-              : "border border-border bg-card hover:bg-secondary"
-          }`}
-        >
+      <div className="mb-5 flex flex-wrap items-center gap-2">
+        <FilterChip active={activeUseCase === "all"} onClick={() => setActiveUseCase("all")}>
           Alle {US_CARDS.length} Karten
-        </button>
-        <button
-          onClick={() => setNoFeeOnly((v) => !v)}
-          className={`rounded-full px-3 py-1.5 text-xs font-semibold ${
-            noFeeOnly
-              ? "bg-emerald-500 text-white"
-              : "border border-border bg-card hover:bg-secondary"
-          }`}
-        >
-          Nur ohne Annual Fee
-        </button>
-        <button
-          onClick={() => setForeignOk((v) => !v)}
-          className={`rounded-full px-3 py-1.5 text-xs font-semibold ${
-            foreignOk
-              ? "bg-emerald-500 text-white"
-              : "border border-border bg-card hover:bg-secondary"
-          }`}
-        >
-          Foreign-Address OK
-        </button>
-        <span className="text-xs text-muted-foreground ml-2">
-          → {filtered.length} Treffer
+        </FilterChip>
+        <FilterChip active={noFeeOnly} onClick={() => setNoFeeOnly((v) => !v)}>
+          Nur ohne Jahresgebühr
+        </FilterChip>
+        <FilterChip active={foreignOk} onClick={() => setForeignOk((v) => !v)}>
+          Ausländische Adresse möglich
+        </FilterChip>
+        <span className="ml-auto text-sm text-muted-foreground tabular">
+          {filtered.length} Treffer
         </span>
       </div>
 
       {/* ===== KARTEN-GRID ===== */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-8">
+      <div className="mb-10 grid grid-cols-1 gap-4 md:grid-cols-2">
         {filtered.length === 0 ? (
-          <div className="md:col-span-2 rounded-2xl border border-dashed border-border p-12 text-center text-sm text-muted-foreground">
-            Keine Karten passen zu deinen Filtern.
-          </div>
+          <EmptyState
+            className="md:col-span-2"
+            icon={CreditCard}
+            title="Keine Karte passt zu deinen Filtern"
+            description="Nimm einen Filter heraus oder wähle einen anderen Einsatzzweck."
+            action={
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setActiveUseCase("all");
+                  setNoFeeOnly(false);
+                  setForeignOk(false);
+                }}
+              >
+                Alle Karten zeigen
+              </Button>
+            }
+          />
         ) : (
           filtered.map((card) => {
             const isStar = card.bestFor.startsWith("★");
             return (
-              <div
+              <article
                 key={card.id}
-                className={`rounded-2xl border p-4 ${
-                  isStar
-                    ? "border-emerald-500/40 bg-emerald-500/5"
-                    : "border-border bg-card"
+                className={`flex flex-col rounded-2xl border bg-card p-5 shadow-card ${
+                  isStar ? "border-success/40 ring-1 ring-success/20" : "border-border"
                 }`}
               >
-                <div className="flex items-start justify-between mb-2 gap-2">
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-bold text-base flex items-center gap-2">
-                      <CreditCard className="h-4 w-4 text-muted-foreground shrink-0" />
-                      <span className="truncate">{card.name}</span>
-                    </h3>
-                    <div className="text-[11px] text-muted-foreground">{card.issuer}</div>
-                  </div>
-                  <div className="text-right shrink-0">
-                    <div className="text-xs text-muted-foreground">Annual Fee</div>
-                    <div
-                      className={`font-bold ${
-                        card.annualFee === 0 ? "text-emerald-700" : "text-foreground"
-                      }`}
-                    >
-                      {card.annualFee === 0 ? "$0" : `$${card.annualFee}`}
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex min-w-0 items-start gap-3">
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-secondary text-muted-foreground">
+                      <CreditCard className="h-4 w-4" aria-hidden="true" />
+                    </span>
+                    <div className="min-w-0">
+                      <h3 className="text-base font-semibold leading-snug">{card.name}</h3>
+                      <p className="text-sm text-muted-foreground">{card.issuer}</p>
                     </div>
+                  </div>
+                  <div className="shrink-0 text-right">
+                    <p className="text-xs text-muted-foreground">Jahresgebühr</p>
+                    <p className={`text-lg font-semibold tabular ${card.annualFee === 0 ? "text-success" : ""}`}>
+                      {card.annualFee === 0 ? "$0" : `$${card.annualFee}`}
+                    </p>
                   </div>
                 </div>
 
                 {/* Best-For */}
-                <div
-                  className={`text-sm mb-2 ${
-                    isStar ? "font-semibold text-emerald-800" : "text-foreground"
-                  }`}
-                >
+                <p className={`mt-3 text-sm leading-relaxed ${isStar ? "font-medium text-foreground" : "text-foreground/80"}`}>
                   {card.bestFor}
-                </div>
+                </p>
 
                 {/* Bonus */}
                 {card.signupBonus !== "Kein Bonus" && (
-                  <div className="rounded-lg bg-secondary/40 p-2 mb-2 text-xs">
-                    <div className="font-semibold text-accent-blue">{card.signupBonus}</div>
+                  <div className="mt-3 rounded-xl border border-accent-blue/20 bg-accent px-3.5 py-2.5">
+                    <p className="text-sm font-semibold text-accent-blue">{card.signupBonus}</p>
                     {card.spendingRequirement && (
-                      <div className="text-muted-foreground text-[11px]">
-                        Spend: {card.spendingRequirement}
-                      </div>
+                      <p className="mt-0.5 text-xs text-muted-foreground">Mindestumsatz: {card.spendingRequirement}</p>
                     )}
                   </div>
                 )}
 
                 {/* Badges */}
-                <div className="flex flex-wrap gap-1 mb-2">
-                  {!card.needsSsn && (
-                    <Badge variant="outline" className="text-[10px] text-emerald-700 border-emerald-500/30 bg-emerald-500/5">
-                      Kein SSN nötig
-                    </Badge>
-                  )}
-                  {card.einOnlyBusiness && (
-                    <Badge variant="outline" className="text-[10px] text-blue-700 border-blue-500/30 bg-blue-500/5">
-                      EIN-only
-                    </Badge>
-                  )}
-                  {card.acceptsForeignAddress && (
-                    <Badge variant="outline" className="text-[10px] text-purple-700 border-purple-500/30 bg-purple-500/5">
-                      Foreign Address OK
-                    </Badge>
-                  )}
-                  {card.foreignTransactionFee === 0 && (
-                    <Badge variant="outline" className="text-[10px] text-muted-foreground border-border">
-                      0% FX-Fee
-                    </Badge>
-                  )}
+                <div className="mt-3 flex flex-wrap gap-1.5">
+                  {!card.needsSsn && <ToneBadge tone="success">Kein SSN nötig</ToneBadge>}
+                  {card.einOnlyBusiness && <ToneBadge tone="accent">Nur EIN</ToneBadge>}
+                  {card.acceptsForeignAddress && <ToneBadge tone="info">Ausländische Adresse OK</ToneBadge>}
+                  {card.foreignTransactionFee === 0 && <ToneBadge>0 % FX-Gebühr</ToneBadge>}
                   {card.minCreditScore !== null && card.minCreditScore > 0 && (
-                    <Badge variant="outline" className="text-[10px] text-muted-foreground border-border">
-                      Min FICO {card.minCreditScore}
-                    </Badge>
+                    <ToneBadge className="tabular">Min. FICO {card.minCreditScore}</ToneBadge>
                   )}
                 </div>
 
-                {/* Watchouts */}
-                {card.watchouts.length > 0 && (
-                  <details className="text-xs">
-                    <summary className="cursor-pointer text-amber-700 hover:text-amber-800 font-medium flex items-center gap-1">
-                      <AlertTriangle className="h-3 w-3" /> {card.watchouts.length} Watchout
-                      {card.watchouts.length === 1 ? "" : "s"}
-                    </summary>
-                    <ul className="list-disc pl-4 mt-1 space-y-0.5 text-muted-foreground">
-                      {card.watchouts.map((w, i) => (
-                        <li key={i}>{w}</li>
-                      ))}
-                    </ul>
-                  </details>
-                )}
+                <div className="mt-auto pt-4">
+                  {/* Watchouts */}
+                  {card.watchouts.length > 0 && (
+                    <details className="group mb-3 text-sm [&_summary::-webkit-details-marker]:hidden">
+                      <summary className="flex cursor-pointer list-none items-center gap-1.5 font-medium text-warning">
+                        <AlertTriangle className="h-3.5 w-3.5" aria-hidden="true" />
+                        {card.watchouts.length} {card.watchouts.length === 1 ? "Fallstrick" : "Fallstricke"}
+                        <ChevronDown className="h-3.5 w-3.5 transition-transform group-open:rotate-180" aria-hidden="true" />
+                      </summary>
+                      <ul className="mt-2 list-disc space-y-1 pl-4 text-muted-foreground">
+                        {card.watchouts.map((w, i) => (
+                          <li key={i}>{w}</li>
+                        ))}
+                      </ul>
+                    </details>
+                  )}
 
-                {/* Link */}
-                <a
-                  href={card.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-xs text-accent-blue hover:underline mt-2"
-                >
-                  Zur Karten-Seite <ExternalLink className="h-3 w-3" />
-                </a>
-              </div>
+                  {/* Link */}
+                  <a
+                    href={card.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-sm font-medium text-accent-blue hover:underline"
+                  >
+                    Zur Karten-Seite <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+                  </a>
+                </div>
+              </article>
             );
           })
         )}
       </div>
 
       {/* ===== MILES & POINTS-STRATEGIEN ===== */}
+      <h2 className="mb-3 text-lg font-semibold tracking-tight">Miles und Punkte</h2>
 
-      {/* Deadline-Banner — wenn noch unaufgeklappt, prominent oben */}
+      {/* Deadline-Banner: wenn noch unaufgeklappt, prominent oben */}
       {!showDeadlines && DEADLINES_2026.some((d) => !isDeadlinePast(d.date)) && (
-        <div className="rounded-2xl border-2 border-red-500/40 bg-red-500/5 p-4 mb-3">
-          <button
-            onClick={() => setShowDeadlines(true)}
-            className="w-full text-left flex items-start gap-3"
-          >
-            <Calendar className="h-6 w-6 text-red-700 shrink-0" />
-            <div className="flex-1">
-              <div className="font-bold text-base text-red-700">
-                🚨 {DEADLINES_2026.filter((d) => !isDeadlinePast(d.date)).length} kritische Miles-Deadlines 2026
-              </div>
-              <div className="text-sm text-muted-foreground mt-0.5">
-                Hyatt (20.5.) · Aeroplan (1.6.) · Etihad-Ende (30.6.) · Amex-LH-Lounge-Ende (1.10.) — jetzt buchen, später bereuen
-              </div>
-            </div>
-            <div className="text-red-700 text-xs">▼</div>
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={() => setShowDeadlines(true)}
+          className="mb-3 flex w-full items-start gap-3 rounded-2xl border border-danger/25 bg-danger-soft p-4 text-left transition-colors hover:border-danger/40 md:px-6"
+        >
+          <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-card text-danger">
+            <Calendar className="h-4 w-4" aria-hidden="true" />
+          </span>
+          <span className="min-w-0 flex-1">
+            <span className="block text-base font-semibold text-danger tabular">
+              {offeneDeadlines} kritische Miles-Deadlines 2026
+            </span>
+            <span className="mt-0.5 block text-sm text-foreground/75">
+              Hyatt (20.5.), Aeroplan (1.6.), Etihad-Ende (30.6.), Amex-LH-Lounge-Ende (1.10.): jetzt buchen statt später bereuen.
+            </span>
+          </span>
+          <ChevronDown className="mt-2 h-4 w-4 shrink-0 text-danger" aria-hidden="true" />
+        </button>
       )}
 
-      {/* DE→US-Transfer-Hack — DER zentrale Hebel */}
+      {/* DE→US-Transfer-Hack: DER zentrale Hebel */}
       <CollapsiblePanel
         open={showMrTransfer}
         onToggle={() => setShowMrTransfer((v) => !v)}
-        icon={<Phone className="h-5 w-5 text-purple-700" />}
-        title="🎯 DE → US Amex MR-Transfer — der Haupt-Hack"
+        icon={Phone}
+        tone="accent"
+        title="DE-zu-US Amex MR-Transfer: der zentrale Hebel"
         subtitle={`Konversion ~${MR_TRANSFER_DE_US.conversionRatio} dank EUR-USD-FX = ${MR_TRANSFER_DE_US.fxBonus}`}
-        colorClass="border-purple-500/30 bg-purple-500/5"
       >
         <div className="space-y-3">
-          <div className="rounded-xl bg-card border border-border p-4">
-            <div className="text-xs font-bold uppercase tracking-wider text-purple-700 mb-2">
-              Wie es funktioniert
+          <InfoBox title="Wie es funktioniert">
+            <p className="text-sm leading-relaxed text-muted-foreground">{MR_TRANSFER_DE_US.mechanism}</p>
+          </InfoBox>
+
+          <InfoBox title="Hotline-Nummern" icon={Phone}>
+            <div className="divide-y divide-border/70">
+              <ResultRow label="US Global Card Transfer Team (24/7)" value={<strong>877-621-2639</strong>} />
+              <ResultRow label="Amex US Platinum-Hotline" value={<strong>1-800-525-3355</strong>} />
             </div>
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              {MR_TRANSFER_DE_US.mechanism}
-            </p>
+          </InfoBox>
+
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+            <InfoBox title="Voraussetzungen">
+              <ul className="list-disc space-y-1 pl-5 text-sm text-muted-foreground">
+                {MR_TRANSFER_DE_US.requirements.map((r, i) => (
+                  <li key={i}>{r}</li>
+                ))}
+              </ul>
+            </InfoBox>
+            <InfoBox title="Ablauf">
+              <ol className="list-decimal space-y-1 pl-5 text-sm text-muted-foreground">
+                {MR_TRANSFER_DE_US.process.map((p, i) => (
+                  <li key={i}>{p}</li>
+                ))}
+              </ol>
+            </InfoBox>
           </div>
 
-          <div className="rounded-xl bg-card border border-border p-4">
-            <div className="text-xs font-bold uppercase tracking-wider text-purple-700 mb-2 flex items-center gap-2">
-              <Phone className="h-3.5 w-3.5" /> Hotline-Nummern
-            </div>
-            <ul className="text-sm space-y-1.5">
-              <li>
-                <strong>877-621-2639</strong> — US Global Card Transfer Team (24/7)
-              </li>
-              <li>
-                <strong>1-800-525-3355</strong> — Amex US Platinum-Hotline
-              </li>
-            </ul>
-          </div>
-
-          <div className="rounded-xl bg-card border border-border p-4">
-            <div className="text-xs font-bold uppercase tracking-wider text-emerald-700 mb-2">
-              Voraussetzungen
-            </div>
-            <ul className="text-sm space-y-1 list-disc pl-5 text-muted-foreground">
-              {MR_TRANSFER_DE_US.requirements.map((r, i) => (
-                <li key={i}>{r}</li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="rounded-xl bg-card border border-border p-4">
-            <div className="text-xs font-bold uppercase tracking-wider text-emerald-700 mb-2">
-              Prozess
-            </div>
-            <ol className="text-sm space-y-1 list-decimal pl-5 text-muted-foreground">
-              {MR_TRANSFER_DE_US.process.map((p, i) => (
-                <li key={i}>{p}</li>
-              ))}
-            </ol>
-          </div>
-
-          <div className="rounded-xl bg-amber-500/5 border border-amber-500/20 p-4">
-            <div className="text-xs font-bold uppercase tracking-wider text-amber-700 mb-2 flex items-center gap-2">
-              <AlertTriangle className="h-3.5 w-3.5" /> Watchouts
-            </div>
-            <ul className="text-sm space-y-1 list-disc pl-5 text-muted-foreground">
+          <Callout tone="warning" title="Fallstricke">
+            <ul className="list-disc space-y-1 pl-4">
               {MR_TRANSFER_DE_US.watchouts.map((w, i) => (
                 <li key={i}>{w}</li>
               ))}
             </ul>
-          </div>
+          </Callout>
         </div>
       </CollapsiblePanel>
 
@@ -370,74 +338,65 @@ const UsCreditCards = () => {
       <CollapsiblePanel
         open={showSweetSpots}
         onToggle={() => setShowSweetSpots((v) => !v)}
-        icon={<Plane className="h-5 w-5 text-blue-700" />}
-        title={`${SWEET_SPOTS.length} Sweet-Spots 2026 — Awards mit höchstem €-Wert`}
-        subtitle="Aeroplan / Virgin / Hyatt / Iberia / Avianca / KrisFlyer — Cent-pro-Punkt-Wert verifiziert"
-        colorClass="border-blue-500/30 bg-blue-500/5"
+        icon={Plane}
+        tone="info"
+        title={`${SWEET_SPOTS.length} Sweet-Spots 2026: Prämien mit dem höchsten €-Wert`}
+        subtitle="Aeroplan, Virgin, Hyatt, Iberia, Avianca, KrisFlyer: Cent-pro-Punkt-Wert geprüft"
       >
-        <div className="space-y-2">
-          {SWEET_SPOTS.map((s) => (
-            <div
-              key={s.id}
-              className={`rounded-xl border p-3 ${
-                s.deadline && !isDeadlinePast(s.deadline) ? "border-amber-500/30 bg-amber-500/5" : "border-border bg-card"
-              }`}
-            >
-              <div className="flex items-start justify-between gap-2 mb-2">
-                <div className="flex-1 min-w-0">
-                  <div className="font-bold text-sm">{s.title}</div>
-                  <div className="text-[11px] text-muted-foreground mt-0.5">{s.bestFor}</div>
-                </div>
-                <div className="shrink-0 text-right">
-                  <div className="text-lg font-bold text-emerald-700">
-                    €{s.realerWertEur.toLocaleString("de-DE")}
+        <div className="space-y-3">
+          {SWEET_SPOTS.map((s) => {
+            const deadlineOffen = !!s.deadline && !isDeadlinePast(s.deadline);
+            return (
+              <div
+                key={s.id}
+                className={`rounded-xl border p-4 ${deadlineOffen ? "border-warning/30 bg-warning-soft" : "border-border bg-card"}`}
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0 flex-1">
+                    <p className="text-sm font-semibold">{s.title}</p>
+                    <p className="mt-0.5 text-xs text-muted-foreground">{s.bestFor}</p>
                   </div>
-                  <div className="text-[10px] text-muted-foreground">realer Wert</div>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-3 gap-2 mb-2 text-[11px]">
-                <div className="rounded-md bg-secondary/40 px-2 py-1">
-                  <div className="text-muted-foreground">Punkte</div>
-                  <div className="font-semibold">
-                    {s.punkte > 0 ? s.punkte.toLocaleString("de-DE") : "n/a"}
+                  <div className="shrink-0 text-right">
+                    <p className="text-lg font-semibold text-success tabular">€{s.realerWertEur.toLocaleString("de-DE")}</p>
+                    <p className="text-xs text-muted-foreground">realer Wert</p>
                   </div>
                 </div>
-                <div className="rounded-md bg-secondary/40 px-2 py-1">
-                  <div className="text-muted-foreground">Cent/Punkt</div>
-                  <div className="font-semibold">{s.centProPunkt > 0 ? `${s.centProPunkt}¢` : "—"}</div>
+
+                <div className="mt-3 grid grid-cols-3 gap-2">
+                  <MiniStat label="Punkte" value={s.punkte > 0 ? s.punkte.toLocaleString("de-DE") : "n/a"} />
+                  <MiniStat label="Cent/Punkt" value={s.centProPunkt > 0 ? `${s.centProPunkt}¢` : "—"} />
+                  <MiniStat label="Verhältnis" value={s.ratio} />
                 </div>
-                <div className="rounded-md bg-secondary/40 px-2 py-1">
-                  <div className="text-muted-foreground">Ratio</div>
-                  <div className="font-semibold truncate">{s.ratio}</div>
-                </div>
+
+                <p className="mt-3 flex flex-wrap items-center gap-1.5 text-xs text-muted-foreground">
+                  <span className="font-medium text-foreground">{s.fromProgram}</span>
+                  <ArrowRight className="h-3 w-3" aria-label="zu" />
+                  <span className="font-medium text-foreground">{s.toProgram}</span>
+                </p>
+
+                {s.deadline && (
+                  <p className={`mt-2 flex items-center gap-1.5 text-xs font-semibold ${isDeadlinePast(s.deadline) ? "text-muted-foreground" : "text-warning"}`}>
+                    <Clock className="h-3.5 w-3.5" aria-hidden="true" />
+                    Deadline: {s.deadline}{isDeadlinePast(s.deadline) ? " (abgelaufen)" : ""}
+                  </p>
+                )}
+
+                {s.watchouts.length > 0 && (
+                  <details className="group mt-2 text-xs [&_summary::-webkit-details-marker]:hidden">
+                    <summary className="flex cursor-pointer list-none items-center gap-1 text-muted-foreground hover:text-foreground">
+                      {s.watchouts.length} {s.watchouts.length === 1 ? "Fallstrick" : "Fallstricke"}
+                      <ChevronDown className="h-3 w-3 transition-transform group-open:rotate-180" aria-hidden="true" />
+                    </summary>
+                    <ul className="mt-1 list-disc space-y-0.5 pl-4 text-muted-foreground">
+                      {s.watchouts.map((w, i) => (
+                        <li key={i}>{w}</li>
+                      ))}
+                    </ul>
+                  </details>
+                )}
               </div>
-
-              <div className="text-[11px] text-muted-foreground">
-                <strong className="text-foreground">Aus:</strong> {s.fromProgram}{" "}
-                <strong className="text-foreground ml-2">→</strong> {s.toProgram}
-              </div>
-
-              {s.deadline && (
-                <div className={`mt-2 text-xs font-semibold flex items-center gap-1 ${isDeadlinePast(s.deadline) ? "text-muted-foreground" : "text-amber-700"}`}>
-                  ⏰ Deadline: {s.deadline}{isDeadlinePast(s.deadline) ? " (abgelaufen)" : ""}
-                </div>
-              )}
-
-              {s.watchouts.length > 0 && (
-                <details className="text-[11px] mt-2">
-                  <summary className="cursor-pointer text-muted-foreground hover:text-foreground">
-                    {s.watchouts.length} Watchout{s.watchouts.length === 1 ? "" : "s"}
-                  </summary>
-                  <ul className="list-disc pl-4 mt-1 space-y-0.5 text-muted-foreground">
-                    {s.watchouts.map((w, i) => (
-                      <li key={i}>{w}</li>
-                    ))}
-                  </ul>
-                </details>
-              )}
-            </div>
-          ))}
+            );
+          })}
         </div>
       </CollapsiblePanel>
 
@@ -445,77 +404,66 @@ const UsCreditCards = () => {
       <CollapsiblePanel
         open={showDeadlines}
         onToggle={() => setShowDeadlines((v) => !v)}
-        icon={<Calendar className="h-5 w-5 text-red-700" />}
-        title={`${DEADLINES_2026.length} kritische Miles/Hotel-Deadlines 2026`}
-        subtitle="Hyatt (20.5.) · Aeroplan (1.6.) · Etihad-Ende (30.6.) · Amex-LH-Lounge (1.10.)"
-        colorClass="border-red-500/30 bg-red-500/5"
+        icon={Calendar}
+        tone="danger"
+        title={`${DEADLINES_2026.length} kritische Miles- und Hotel-Deadlines 2026`}
+        subtitle="Hyatt (20.5.), Aeroplan (1.6.), Etihad-Ende (30.6.), Amex-LH-Lounge (1.10.)"
       >
-        <div className="space-y-2">
-          {DEADLINES_2026.map((d, i) => (
-            <div
-              key={i}
-              className={`rounded-xl border p-3 flex items-start gap-3 ${
-                !isDeadlinePast(d.date)
-                  ? "border-red-500/30 bg-card"
-                  : "border-border bg-secondary/30 opacity-60"
-              }`}
-            >
-              <div className="shrink-0 w-24">
-                <div
-                  className={`text-xs font-bold ${
-                    !isDeadlinePast(d.date) ? "text-red-700" : "text-muted-foreground"
-                  }`}
-                >
-                  {d.date}
+        <ul className="space-y-2">
+          {DEADLINES_2026.map((d, i) => {
+            const past = isDeadlinePast(d.date);
+            return (
+              <li
+                key={i}
+                className={`flex items-start gap-4 rounded-xl border p-3.5 ${past ? "border-border bg-secondary/30 opacity-60" : "border-danger/25 bg-card"}`}
+              >
+                <div className="w-24 shrink-0">
+                  <p className={`text-sm font-semibold tabular ${past ? "text-muted-foreground" : "text-danger"}`}>{d.date}</p>
+                  <ToneBadge tone={past ? "neutral" : "danger"} className="mt-1">
+                    {past ? "vorbei" : "aktiv"}
+                  </ToneBadge>
                 </div>
-                <div className="text-[10px] uppercase tracking-wider text-muted-foreground">
-                  {!isDeadlinePast(d.date) ? "AKTIV" : "passiert"}
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm font-semibold">{d.event}</p>
+                  <p className="mt-0.5 text-sm text-muted-foreground">{d.detail}</p>
                 </div>
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="font-semibold text-sm">{d.event}</div>
-                <div className="text-xs text-muted-foreground mt-0.5">{d.detail}</div>
-              </div>
-            </div>
-          ))}
-        </div>
+              </li>
+            );
+          })}
+        </ul>
       </CollapsiblePanel>
 
       {/* Velocity-Strategie */}
       <CollapsiblePanel
         open={showVelocity}
         onToggle={() => setShowVelocity((v) => !v)}
-        icon={<TrendingUp className="h-5 w-5 text-emerald-700" />}
-        title={`Velocity-Strategie: 12 Monate für €${VELOCITY_TOTAL_VALUE.realistic.replace("€", "")} SUB-Wert`}
-        subtitle="Optimale Reihenfolge der Card-Applies für DE-Resident mit US-LLC"
-        colorClass="border-emerald-500/30 bg-emerald-500/5"
+        icon={TrendingUp}
+        tone="success"
+        title={`Velocity-Strategie: 12 Monate für €${VELOCITY_TOTAL_VALUE.realistic.replace("€", "")} Bonus-Wert`}
+        subtitle="Optimale Reihenfolge der Kartenanträge für DE-Residents mit US-LLC"
       >
-        <div className="space-y-2 mb-3">
+        <ol className="mb-4 space-y-2">
           {VELOCITY_STRATEGY.map((step, i) => (
-            <div
-              key={i}
-              className="rounded-lg border border-border bg-card p-3 flex gap-3 items-start"
-            >
-              <div className="shrink-0 w-32">
-                <Badge variant="outline" className="text-[10px] font-bold uppercase tracking-wider">
-                  {step.month}
-                </Badge>
+            <li key={i} className="flex flex-col gap-2 rounded-xl border border-border bg-card p-3.5 sm:flex-row sm:items-start sm:gap-4">
+              <div className="shrink-0 sm:w-32">
+                <ToneBadge tone="accent">{step.month}</ToneBadge>
               </div>
-              <div className="flex-1 min-w-0">
-                <div className="font-semibold text-sm">{step.action}</div>
-                <div className="text-[11px] text-muted-foreground mt-0.5">{step.note}</div>
+              <div className="min-w-0 flex-1">
+                <p className="text-sm font-semibold">{step.action}</p>
+                <p className="mt-0.5 text-sm text-muted-foreground">{step.note}</p>
               </div>
-            </div>
+            </li>
           ))}
-        </div>
-        <div className="rounded-xl bg-emerald-500/10 border border-emerald-500/30 p-3 text-sm">
-          <div className="font-bold text-emerald-700 mb-1">Realistischer Jahres-SUB-Wert</div>
-          <div className="text-foreground">
-            <strong>{VELOCITY_TOTAL_VALUE.realistic}</strong> bei sauberer Ausführung
-          </div>
-          <div className="text-xs text-muted-foreground mt-1">
-            Aggressiv: {VELOCITY_TOTAL_VALUE.aggressive}
-          </div>
+        </ol>
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <StatTile
+            label="Realistischer Bonus-Wert pro Jahr"
+            value={VELOCITY_TOTAL_VALUE.realistic}
+            hint="bei sauberer Ausführung"
+            tone="success"
+            emphasis
+          />
+          <StatTile label="Aggressive Variante" value={VELOCITY_TOTAL_VALUE.aggressive} />
         </div>
       </CollapsiblePanel>
 
@@ -523,103 +471,88 @@ const UsCreditCards = () => {
       <CollapsiblePanel
         open={showTransferPartners}
         onToggle={() => setShowTransferPartners((v) => !v)}
-        icon={<Zap className="h-5 w-5 text-orange-700" />}
-        title={`${TRANSFER_PARTNERS.length} Transfer-Partner: DE-MR vs US-MR Vergleich`}
-        subtitle="Wo US-Karten 25-100% bessere Conversions haben (Aeroplan, Virgin, Avianca, ANA — alle DE-killing US-only)"
-        colorClass="border-orange-500/30 bg-orange-500/5"
+        icon={Zap}
+        tone="warning"
+        title={`${TRANSFER_PARTNERS.length} Transfer-Partner: DE-MR und US-MR im Vergleich`}
+        subtitle="Wo US-Karten 25 bis 100 % bessere Umrechnungen haben (Aeroplan, Virgin, Avianca, ANA: alle nur über US)"
       >
-        <div className="overflow-x-auto -mx-2 px-2">
-          <table className="w-full text-xs">
-            <thead>
-              <tr className="border-b border-border text-left">
-                <th className="py-2 px-2 font-semibold">Partner</th>
-                <th className="py-2 px-2 font-semibold">US-MR</th>
-                <th className="py-2 px-2 font-semibold">DE-MR</th>
-                <th className="py-2 px-2 font-semibold">Winner</th>
+        <KitTable caption="Transfer-Partner im Vergleich">
+          <thead>
+            <tr>
+              <th>Partner</th>
+              <th>US-MR</th>
+              <th>DE-MR</th>
+              <th>Vorteil</th>
+            </tr>
+          </thead>
+          <tbody>
+            {TRANSFER_PARTNERS.map((p) => (
+              <tr key={p.name}>
+                <td className="font-medium">
+                  {p.name}
+                  {p.note && <span className="block text-xs font-normal text-muted-foreground">{p.note}</span>}
+                </td>
+                <td className="whitespace-nowrap">{p.usRatio}</td>
+                <td className="whitespace-nowrap">{p.deRatio}</td>
+                <td>
+                  {p.winner === "us" && <ToneBadge tone="success">US</ToneBadge>}
+                  {p.winner === "us-only" && <ToneBadge tone="accent">nur US</ToneBadge>}
+                  {p.winner === "de-only" && <ToneBadge tone="warning">nur DE</ToneBadge>}
+                  {p.winner === "equal" && <ToneBadge>gleich</ToneBadge>}
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {TRANSFER_PARTNERS.map((p) => (
-                <tr key={p.name} className="border-b border-border/40 hover:bg-secondary/30">
-                  <td className="py-2 px-2 font-medium">
-                    {p.name}
-                    {p.note && <div className="text-[10px] text-muted-foreground italic">{p.note}</div>}
-                  </td>
-                  <td className="py-2 px-2 font-mono">{p.usRatio}</td>
-                  <td className="py-2 px-2 font-mono">{p.deRatio}</td>
-                  <td className="py-2 px-2">
-                    {p.winner === "us" && <Badge className="bg-emerald-500/10 text-emerald-700 border-emerald-500/30">US 🇺🇸</Badge>}
-                    {p.winner === "us-only" && <Badge className="bg-blue-500/10 text-blue-700 border-blue-500/30">US-only</Badge>}
-                    {p.winner === "de-only" && <Badge className="bg-amber-500/10 text-amber-700 border-amber-500/30">DE-only</Badge>}
-                    {p.winner === "equal" && <Badge variant="outline">Gleich</Badge>}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+            ))}
+          </tbody>
+        </KitTable>
       </CollapsiblePanel>
 
       {/* Miles-Steuer */}
       <CollapsiblePanel
         open={showMilesTax}
         onToggle={() => setShowMilesTax((v) => !v)}
-        icon={<FileText className="h-5 w-5 text-emerald-700" />}
-        title="Steuer: SUBs & Punkte für DE-Resident"
-        subtitle="Privat = steuerfrei (BFH/§3 Nr. 38 EStG), Business = Grauzone"
-        colorClass="border-emerald-500/30 bg-emerald-500/5"
+        icon={FileText}
+        tone="success"
+        title="Steuer: Boni und Punkte für DE-Residents"
+        subtitle="Privat steuerfrei (BFH, §3 Nr. 38 EStG), geschäftlich Grauzone"
       >
-        <div className="space-y-2">
-          {MILES_TAX_NOTES.map((n, i) => (
-            <div key={i} className="rounded-xl border border-border bg-card p-3">
-              <div className="font-semibold text-sm mb-1 flex items-start gap-2">
-                <CheckCircle2 className="h-4 w-4 text-emerald-700 shrink-0 mt-0.5" />
-                {n.headline}
-              </div>
-              <div className="text-xs text-muted-foreground leading-relaxed pl-6">{n.detail}</div>
-            </div>
-          ))}
-        </div>
+        <CheckList items={MILES_TAX_NOTES.map((n) => ({ title: n.headline, detail: n.detail }))} />
       </CollapsiblePanel>
 
       {/* Miles-AVOID */}
       <CollapsiblePanel
         open={showMilesAvoid}
         onToggle={() => setShowMilesAvoid((v) => !v)}
-        icon={<ShieldAlert className="h-5 w-5 text-red-700" />}
-        title={`${MILES_AVOID.length} Miles-AVOIDs 2026`}
-        subtitle="Manufactured Spending, Etihad-Ende, Bilt 2.0 etc."
-        colorClass="border-red-500/30 bg-red-500/5"
+        icon={ShieldAlert}
+        tone="danger"
+        title={`${MILES_AVOID.length} Miles-Fallen 2026`}
+        subtitle="Manufactured Spending, Etihad-Ende, Bilt 2.0 u. a."
       >
         <div className="space-y-2">
           {MILES_AVOID.map((a, i) => (
-            <div key={i} className="rounded-xl border border-red-500/20 bg-card p-3">
-              <div className="font-semibold text-sm text-red-700">{a.item}</div>
-              <div className="text-xs text-muted-foreground mt-1">{a.reason}</div>
-            </div>
+            <Callout key={i} tone="danger" icon={XCircle} title={a.item}>
+              {a.reason}
+            </Callout>
           ))}
         </div>
       </CollapsiblePanel>
 
-      <div className="h-3" />
-
       {/* ===== KARTEN-SEKTIONEN (existing) ===== */}
+      <h2 className="mb-3 mt-10 text-lg font-semibold tracking-tight">Wissen für Gründer</h2>
 
       {/* Geheim-Tipps */}
       <CollapsiblePanel
         open={showTips}
         onToggle={() => setShowTips((v) => !v)}
-        icon={<Lightbulb className="h-5 w-5 text-amber-700" />}
-        title="Geheim-Tipps DE-Founder-Szene"
-        subtitle={`${SECRET_TIPS.length} unkonventionelle Setups die selten erwähnt werden`}
-        colorClass="border-amber-500/30 bg-amber-500/5"
+        icon={Lightbulb}
+        tone="warning"
+        title="Insider-Tipps aus der Gründerszene"
+        subtitle={`${SECRET_TIPS.length} unkonventionelle Setups, die selten erwähnt werden`}
       >
         <div className="space-y-3">
           {SECRET_TIPS.map((tip, i) => (
-            <div key={i} className="rounded-xl border border-border bg-card p-3">
-              <div className="font-semibold text-sm mb-1">{tip.title}</div>
-              <div className="text-xs text-muted-foreground leading-relaxed">{tip.detail}</div>
-            </div>
+            <InfoBox key={i} title={tip.title}>
+              <p className="text-sm leading-relaxed text-muted-foreground">{tip.detail}</p>
+            </InfoBox>
           ))}
         </div>
       </CollapsiblePanel>
@@ -628,139 +561,171 @@ const UsCreditCards = () => {
       <CollapsiblePanel
         open={showTimeline}
         onToggle={() => setShowTimeline((v) => !v)}
-        icon={<Clock className="h-5 w-5 text-blue-700" />}
-        title="Auswanderer-Timeline: 0 → 700 FICO in 12-18 Monaten"
-        subtitle={`${AUSWANDERER_TIMELINE.length} Steps von ITIN-Antrag bis Premium-Card`}
-        colorClass="border-blue-500/30 bg-blue-500/5"
+        icon={Clock}
+        tone="info"
+        title="Auswanderer-Timeline: von 0 auf 700 FICO in 12 bis 18 Monaten"
+        subtitle={`${AUSWANDERER_TIMELINE.length} Schritte vom ITIN-Antrag bis zur Premium-Karte`}
       >
-        <div className="space-y-2">
+        <ol className="space-y-2">
           {AUSWANDERER_TIMELINE.map((step, i) => (
-            <div
-              key={i}
-              className="flex gap-3 rounded-lg border border-border bg-card p-3 items-start"
-            >
-              <div className="shrink-0 w-20">
-                <Badge variant="outline" className="text-[10px] font-bold uppercase tracking-wider">
-                  {step.time}
-                </Badge>
+            <li key={i} className="flex flex-col gap-2 rounded-xl border border-border bg-card p-3.5 sm:flex-row sm:items-start sm:gap-4">
+              <div className="shrink-0 sm:w-24">
+                <ToneBadge tone="info">{step.time}</ToneBadge>
               </div>
-              <div className="flex-1 min-w-0">
-                <div className="font-semibold text-sm">{step.step}</div>
-                <div className="text-xs text-muted-foreground mt-0.5">{step.detail}</div>
+              <div className="min-w-0 flex-1">
+                <p className="text-sm font-semibold">{step.step}</p>
+                <p className="mt-0.5 text-sm text-muted-foreground">{step.detail}</p>
               </div>
-            </div>
+            </li>
           ))}
-        </div>
+        </ol>
       </CollapsiblePanel>
 
       {/* Tax / Compliance */}
       <CollapsiblePanel
         open={showTax}
         onToggle={() => setShowTax((v) => !v)}
-        icon={<FileText className="h-5 w-5 text-emerald-700" />}
-        title="Tax / Compliance für DE-Kunden"
-        subtitle="BOI ist tot, Punkte sind steuerfrei, FX-Fees absetzbar — alles was du wissen musst"
-        colorClass="border-emerald-500/30 bg-emerald-500/5"
+        icon={FileText}
+        tone="success"
+        title="Steuer und Compliance für Kunden aus DE"
+        subtitle="BOI entfällt, Punkte sind steuerfrei, FX-Gebühren absetzbar: alles, was du wissen musst"
       >
-        <div className="space-y-2">
-          {TAX_COMPLIANCE.map((t, i) => (
-            <div key={i} className="rounded-xl border border-border bg-card p-3">
-              <div className="font-semibold text-sm mb-1 flex items-start gap-2">
-                <CheckCircle2 className="h-4 w-4 text-emerald-700 shrink-0 mt-0.5" />
-                {t.headline}
-              </div>
-              <div className="text-xs text-muted-foreground leading-relaxed pl-6">{t.detail}</div>
-            </div>
-          ))}
-        </div>
+        <CheckList items={TAX_COMPLIANCE.map((t) => ({ title: t.headline, detail: t.detail }))} />
       </CollapsiblePanel>
 
       {/* AVOID-Liste */}
       <CollapsiblePanel
         open={showAvoid}
         onToggle={() => setShowAvoid((v) => !v)}
-        icon={<ShieldAlert className="h-5 w-5 text-red-700" />}
-        title="AVOID-Liste — vermeiden 2026"
-        subtitle={`${AVOID_LIST.length} Karten/Strategien wo Community/Issuer-Praxis warnen`}
-        colorClass="border-red-500/30 bg-red-500/5"
+        icon={ShieldAlert}
+        tone="danger"
+        title="Lieber meiden: Karten und Strategien 2026"
+        subtitle={`${AVOID_LIST.length} Karten und Strategien, vor denen Community und Issuer-Praxis warnen`}
       >
         <div className="space-y-2">
           {AVOID_LIST.map((a, i) => (
-            <div key={i} className="rounded-xl border border-red-500/20 bg-card p-3">
-              <div className="font-semibold text-sm text-red-700">{a.name}</div>
-              <div className="text-xs text-muted-foreground mt-1">{a.reason}</div>
-            </div>
+            <Callout key={i} tone="danger" icon={XCircle} title={a.name}>
+              {a.reason}
+            </Callout>
           ))}
         </div>
       </CollapsiblePanel>
 
       {/* ===== DISCLAIMER ===== */}
-      <div className="mt-6 rounded-2xl border border-amber-500/30 bg-amber-500/5 p-4 text-xs leading-relaxed">
-        <div className="flex items-start gap-2">
-          <AlertTriangle className="h-4 w-4 text-amber-700 shrink-0 mt-0.5" />
-          <div>
-            <div className="font-semibold mb-1">Wichtige Hinweise:</div>
-            <ul className="list-disc pl-4 space-y-1 text-muted-foreground">
-              <li>
-                Sign-Up-Bonuses ändern sich monatlich — Werte stand Mai 2026, vor Apply auf
-                Issuer-Webseite verifizieren!
-              </li>
-              <li>
-                Mercury / Brex / Ramp Approval-Prozess kann 1-3 Wochen dauern für
-                DE-Founder mit US-LLC — Mindest-Balance-Anforderungen ändern sich
-              </li>
-              <li>
-                5/24 / 2/90 / 1/6 sind ungeschriebene Issuer-Regeln — können sich ohne
-                Vorwarnung ändern
-              </li>
-              <li>
-                Steuer-Aussagen sind keine Beratung (StBerG) — bei US-LLC-Setup zwingend
-                StB + ggfs. US-CPA konsultieren
-              </li>
-              <li>
-                <strong>BOI-Filing-Status:</strong> FinCEN Interim Final Rule vom 26.3.2025
-                hat US-LLCs vom Reporting ausgenommen — vor 2025-Filings prüfen ob das
-                noch aktuell ist
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
+      <Callout tone="warning" title="Wichtige Hinweise" className="mt-6">
+        <ul className="list-disc space-y-1 pl-4">
+          <li>Signup-Boni ändern sich monatlich. Werte Stand Mai 2026, vor dem Antrag auf der Issuer-Seite prüfen.</li>
+          <li>
+            Mercury, Brex und Ramp brauchen für Gründer aus DE mit US-LLC oft 1 bis 3 Wochen bis zur Freigabe;
+            Mindestguthaben ändern sich.
+          </li>
+          <li>5/24, 2/90 und 1/6 sind ungeschriebene Issuer-Regeln und können sich ohne Vorwarnung ändern.</li>
+          <li>Steuer-Aussagen sind keine Beratung (StBerG). Beim US-LLC-Setup zwingend StB und ggf. US-CPA einbinden.</li>
+          <li>
+            <strong className="font-semibold text-foreground">BOI-Filing:</strong> Die FinCEN Interim Final Rule vom
+            26.3.2025 hat US-LLCs vom Reporting ausgenommen. Vor Filings für 2025 prüfen, ob das noch aktuell ist.
+          </li>
+        </ul>
+      </Callout>
     </CockpitShell>
   );
 };
 
-// ===== HELPER: Collapsible Panel =====
+// ===== HELPER =====
+const USE_CASE_ICON: Partial<Record<CardUseCase, React.ElementType>> = {
+  "de-personal": UserRound,
+  "business-ein": Building2,
+  "credit-builder": TrendingUp,
+  rewards: Gift,
+};
+
+const PANEL_TONE: Record<"accent" | "info" | "success" | "warning" | "danger", string> = {
+  accent: "bg-accent text-accent-blue",
+  info: "bg-info-soft text-info",
+  success: "bg-success-soft text-success",
+  warning: "bg-warning-soft text-warning",
+  danger: "bg-danger-soft text-danger",
+};
+
+const FilterChip = ({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) => (
+  <button
+    type="button"
+    aria-pressed={active}
+    onClick={onClick}
+    className={`inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-sm font-medium transition-colors ${
+      active ? "border-primary bg-primary text-primary-foreground" : "border-border bg-card text-foreground/80 hover:border-foreground/25"
+    }`}
+  >
+    {active && <Check className="h-3.5 w-3.5" aria-hidden="true" />}
+    {children}
+  </button>
+);
+
+const MiniStat = ({ label, value }: { label: string; value: string }) => (
+  <div className="min-w-0 rounded-lg bg-secondary/50 px-2.5 py-1.5">
+    <p className="text-xs text-muted-foreground">{label}</p>
+    <p className="truncate text-sm font-semibold tabular">{value}</p>
+  </div>
+);
+
+const InfoBox = ({ title, icon: Icon, children }: { title: string; icon?: React.ElementType; children: React.ReactNode }) => (
+  <div className="rounded-xl border border-border bg-card p-4">
+    <p className="mb-2 flex items-center gap-2 text-sm font-semibold">
+      {Icon && <Icon className="h-4 w-4 text-muted-foreground" aria-hidden="true" />}
+      {title}
+    </p>
+    {children}
+  </div>
+);
+
+const CheckList = ({ items }: { items: { title: string; detail: string }[] }) => (
+  <ul className="space-y-2">
+    {items.map((it, i) => (
+      <li key={i} className="flex gap-3 rounded-xl border border-border bg-card p-3.5">
+        <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-success" aria-hidden="true" />
+        <div className="min-w-0">
+          <p className="text-sm font-semibold">{it.title}</p>
+          <p className="mt-0.5 text-sm leading-relaxed text-muted-foreground">{it.detail}</p>
+        </div>
+      </li>
+    ))}
+  </ul>
+);
+
 const CollapsiblePanel = ({
   open,
   onToggle,
-  icon,
+  icon: Icon,
+  tone,
   title,
   subtitle,
-  colorClass,
   children,
 }: {
   open: boolean;
   onToggle: () => void;
-  icon: React.ReactNode;
+  icon: React.ElementType;
+  tone: keyof typeof PANEL_TONE;
   title: string;
   subtitle: string;
-  colorClass: string;
   children: React.ReactNode;
 }) => (
-  <div className={`rounded-2xl border ${colorClass} mb-3 overflow-hidden`}>
+  <div className="mb-3 overflow-hidden rounded-2xl border border-border bg-card shadow-card">
     <button
+      type="button"
       onClick={onToggle}
-      className="w-full p-4 text-left flex items-start gap-3 hover:bg-black/5 transition-colors"
+      aria-expanded={open}
+      className="flex w-full items-start gap-3 px-5 py-4 text-left transition-colors hover:bg-secondary/40 md:px-6"
     >
-      <div className="shrink-0">{icon}</div>
-      <div className="flex-1 min-w-0">
-        <div className="font-bold text-sm">{title}</div>
-        <div className="text-xs text-muted-foreground">{subtitle}</div>
-      </div>
-      <div className="text-muted-foreground text-xs shrink-0 mt-1">{open ? "▲" : "▼"}</div>
+      <span className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${PANEL_TONE[tone]}`}>
+        <Icon className="h-4 w-4" aria-hidden="true" />
+      </span>
+      <span className="min-w-0 flex-1">
+        <span className="block text-base font-semibold leading-snug">{title}</span>
+        <span className="mt-0.5 block text-sm text-muted-foreground">{subtitle}</span>
+      </span>
+      <ChevronDown className={`mt-2 h-4 w-4 shrink-0 text-muted-foreground transition-transform ${open ? "rotate-180" : ""}`} aria-hidden="true" />
     </button>
-    {open && <div className="px-4 pb-4">{children}</div>}
+    {open && <div className="border-t border-border/70 px-5 py-5 md:px-6">{children}</div>}
   </div>
 );
 
