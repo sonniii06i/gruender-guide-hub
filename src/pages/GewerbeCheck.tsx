@@ -10,10 +10,13 @@
  * 4. Next-Steps — konkrete Action-Items mit Links zu weiterführenden Tools
  * 5. Glossar — Fachbegriffe einklappbar erklärt
  */
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ElementType, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import Stand2026Footer from "@/components/cockpit/Stand2026Footer";
+import { Callout, ResultPanel, ToneBadge, ToolSection, toneSoft, toneText, type Tone } from "@/components/cockpit/kit";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import {
   Lightbulb,
   CheckCircle2,
@@ -21,8 +24,23 @@ import {
   Info,
   ArrowRight,
   ArrowLeft,
+  BookOpen,
+  Briefcase,
+  ChevronDown,
+  Code2,
+  ExternalLink,
+  GraduationCap,
   HelpCircle,
+  ListChecks,
+  Minus,
+  Package,
+  Palette,
+  Plus,
+  RotateCcw,
+  Scale,
   Sparkles,
+  Stethoscope,
+  Store,
 } from "lucide-react";
 
 type Taetigkeit =
@@ -334,312 +352,295 @@ const GewerbeCheck = () => {
 
   return (
     <CockpitShell
-      eyebrow="🌱 Erste Schritte · für komplette Anfänger:innen"
+      eyebrow="Erste Schritte · für komplette Anfänger:innen"
       title="Brauche ich überhaupt ein Gewerbe?"
-      subtitle="Decision-Tree in 4 Fragen: Hobby, Freiberuf oder Gewerbe? Klartext-Empfehlung mit konkreten Action-Items — keine Steuer-Vorkenntnisse nötig."
+      subtitle="Vier Fragen bis zur Einordnung: Hobby, Freiberuf oder Gewerbe? Du bekommst eine Klartext-Empfehlung mit konkreten nächsten Schritten, ganz ohne Steuer-Vorkenntnisse."
     >
-      {/* === BeginnerHero: "Was ist das hier?" === */}
-      <BeginnerHero />
+      <div className="mx-auto max-w-4xl space-y-6">
+        {/* === BeginnerHero: "Was ist das hier?" === */}
+        <BeginnerHero />
 
-      {/* === Progress-Bar === */}
-      <div className="mb-6">
-        <div className="flex items-center justify-between mb-2 text-xs">
-          <span className="text-muted-foreground">
-            {step < stepCount ? `Frage ${step + 1} von ${stepCount}` : "Fertig!"}
-          </span>
-          <span className="text-muted-foreground">{Math.round(progressPct)} %</span>
+        {/* === Fortschritt === */}
+        <div className="rounded-2xl border border-border bg-card p-4 shadow-card">
+          <div className="flex items-baseline justify-between gap-3 text-sm">
+            <span className="font-medium">
+              {step < stepCount ? `Frage ${step + 1} von ${stepCount}` : "Fertig!"}
+            </span>
+            <span className="text-muted-foreground tabular">{Math.round(progressPct)} %</span>
+          </div>
+          <div
+            className="mt-3 h-1.5 overflow-hidden rounded-full bg-secondary"
+            role="progressbar"
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-valuenow={Math.round(progressPct)}
+            aria-label="Fortschritt"
+          >
+            <div className="h-full rounded-full bg-accent-blue transition-[width] duration-300" style={{ width: `${progressPct}%` }} />
+          </div>
         </div>
-        <div className="h-2 rounded-full bg-secondary overflow-hidden">
-          <div className="h-full bg-accent-blue transition-all" style={{ width: `${progressPct}%` }} />
-        </div>
-      </div>
 
-      {/* === Steps === */}
-      {step === 0 && (
-        <StepFrame
-          title="Was machst du genau?"
-          erklaerung="Die Tätigkeit bestimmt, ob du beim Gewerbeamt anmelden musst oder nur beim Finanzamt. Manche Berufe (Katalogberufe §18 EStG) sind automatisch freiberuflich — kein Gewerbe nötig."
-          onNext={setup.taetigkeit ? next : undefined}
-          onPrev={undefined}
-        >
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-            {TAETIGKEITEN.map((t) => (
-              <button
-                key={t.v}
-                onClick={() => setSetup({ ...setup, taetigkeit: t.v })}
-                className={`text-left rounded-xl border p-3 transition ${
-                  setup.taetigkeit === t.v
-                    ? "border-accent-blue bg-accent-blue/5 ring-1 ring-accent-blue/30"
-                    : "border-border bg-card hover:bg-secondary/40"
-                }`}
-              >
-                <div className="flex items-start gap-3">
-                  <span className="text-2xl">{t.emoji}</span>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-1">
-                      <div className="font-semibold text-sm">{t.label}</div>
-                      {t.freiberuf === "ja" && (
-                        <span className="rounded-full bg-blue-500/10 text-blue-700 px-2 py-0.5 text-[10px] font-semibold">
-                          Freiberuf
+        {/* === Steps === */}
+        {step === 0 && (
+          <StepFrame
+            n={1}
+            title="Was machst du genau?"
+            erklaerung="Die Tätigkeit bestimmt, ob du beim Gewerbeamt anmelden musst oder nur beim Finanzamt. Manche Berufe (Katalogberufe §18 EStG) sind automatisch freiberuflich, dann ist kein Gewerbe nötig."
+            onNext={setup.taetigkeit ? next : undefined}
+            onPrev={undefined}
+          >
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+              {TAETIGKEITEN.map((t) => {
+                const Icon = TAETIGKEIT_ICON[t.v];
+                return (
+                  <OptionCard key={t.v} active={setup.taetigkeit === t.v} onClick={() => setSetup({ ...setup, taetigkeit: t.v })}>
+                    <span className="flex items-start gap-3">
+                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-secondary text-foreground/70">
+                        <Icon className="h-4 w-4" aria-hidden="true" />
+                      </span>
+                      <span className="min-w-0 flex-1">
+                        <span className="flex flex-wrap items-center gap-2">
+                          <span className="text-sm font-semibold">{t.label}</span>
+                          {t.freiberuf === "ja" && <ToneBadge tone="info">Freiberuf</ToneBadge>}
+                          {t.freiberuf === "nein" && <ToneBadge tone="warning">Gewerbe</ToneBadge>}
+                          {t.freiberuf === "vielleicht" && <ToneBadge tone="accent">Beides möglich</ToneBadge>}
                         </span>
-                      )}
-                      {t.freiberuf === "nein" && (
-                        <span className="rounded-full bg-amber-500/10 text-amber-700 px-2 py-0.5 text-[10px] font-semibold">
-                          Gewerbe
-                        </span>
-                      )}
-                      {t.freiberuf === "vielleicht" && (
-                        <span className="rounded-full bg-accent-blue/10 text-accent-blue px-2 py-0.5 text-[10px] font-semibold">
-                          Beides möglich
-                        </span>
+                        <span className="mt-1 block text-xs leading-relaxed text-muted-foreground">{t.beispiele}</span>
+                      </span>
+                    </span>
+                  </OptionCard>
+                );
+              })}
+            </div>
+          </StepFrame>
+        )}
+
+        {step === 1 && (
+          <StepFrame
+            n={2}
+            title="Wie regelmäßig machst du das?"
+            erklaerung="Eine einmalige Aktion (z.B. Garagenflohmarkt) ist KEIN Gewerbe. Sobald du regelmäßig mit Gewinn handelst, sieht das FA das als 'nachhaltige Gewinnerzielungsabsicht', dann musst du anmelden."
+            onNext={setup.regelmaessigkeit ? next : undefined}
+            onPrev={prev}
+          >
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+              {([
+                { v: "einmalig", l: "Einmalig / Ausnahme", d: "Z.B. einmal etwas verkauft, nicht geplant zu wiederholen" },
+                { v: "selten", l: "1-3 mal im Jahr", d: "Sporadisch, kein laufendes Geschäft" },
+                { v: "nebenbei-regelmaessig", l: "Regelmäßig nebenbei", d: "Wöchentlich/monatlich neben Hauptjob" },
+                { v: "hauptberuflich", l: "Hauptberuflich / Vollzeit", d: "Ist (oder wird) dein Haupt-Einkommen" },
+              ] as { v: Regelmaessigkeit; l: string; d: string }[]).map((o) => (
+                <OptionCard key={o.v} active={setup.regelmaessigkeit === o.v} onClick={() => setSetup({ ...setup, regelmaessigkeit: o.v })}>
+                  <span className="block text-sm font-semibold">{o.l}</span>
+                  <span className="mt-0.5 block text-xs text-muted-foreground">{o.d}</span>
+                </OptionCard>
+              ))}
+            </div>
+          </StepFrame>
+        )}
+
+        {step === 2 && (
+          <StepFrame
+            n={3}
+            title="Willst du Gewinn machen?"
+            erklaerung="Das ist die entscheidende Frage des Finanzamts: 'Gewinnerzielungsabsicht?'. Ohne Gewinnabsicht = Liebhaberei = kein Gewerbe nötig. Mit Gewinnabsicht (auch langfristig, auch kleine Beträge) musst du anmelden."
+            onNext={setup.gewinnabsicht ? next : undefined}
+            onPrev={prev}
+          >
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+              {([
+                { v: "ja", l: "Ja, das soll Geld bringen", d: "Wirtschaftlich denken, Wachstum oder Nebeneinkommen" },
+                { v: "nein-hobby", l: "Nein, reines Hobby", d: "Spaß steht im Vordergrund, Gewinne zufällig" },
+                { v: "unsicher", l: "Vielleicht später", d: "Aktuell noch unklar, könnte sich entwickeln" },
+              ] as { v: Gewinnabsicht; l: string; d: string }[]).map((o) => (
+                <OptionCard key={o.v} active={setup.gewinnabsicht === o.v} onClick={() => setSetup({ ...setup, gewinnabsicht: o.v })}>
+                  <span className="block text-sm font-semibold">{o.l}</span>
+                  <span className="mt-0.5 block text-xs text-muted-foreground">{o.d}</span>
+                </OptionCard>
+              ))}
+            </div>
+          </StepFrame>
+        )}
+
+        {step === 3 && (
+          <StepFrame
+            n={4}
+            title="Wie viel Gewinn erwartest du pro Jahr?"
+            erklaerung="Wichtig für: Kleinunternehmer-Regelung §19 UStG (bis 25.000 € Vorjahres-Umsatz / 100.000 € aktuelles Jahr 2026), GewSt-Freibetrag (24.500 €), IHK-Befreiung. Schätze ehrlich; bei deutlicher Abweichung stellst du später einen Anpassungs-Antrag."
+            onNext={setup.gewinnstufe ? next : undefined}
+            onPrev={prev}
+          >
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+              {([
+                { v: "unter-410", l: "Unter 410 € pro Jahr", d: "Mini-Gewinn, wahrscheinlich noch Hobby-Schwelle" },
+                { v: "unter-3000", l: "410 € – 3.000 € pro Jahr", d: "Klassisches Side-Hustle-Niveau" },
+                { v: "unter-25000", l: "3.000 € – 25.000 € pro Jahr", d: "Hauptberuflicher Verdienst möglich" },
+                { v: "ueber-25000", l: "Über 25.000 € pro Jahr", d: "Skalierter Solo-Self oder Vollzeit-Business" },
+              ] as { v: Gewinnstufe; l: string; d: string }[]).map((o) => (
+                <OptionCard key={o.v} active={setup.gewinnstufe === o.v} onClick={() => setSetup({ ...setup, gewinnstufe: o.v })}>
+                  <span className="block text-sm font-semibold tabular">{o.l}</span>
+                  <span className="mt-0.5 block text-xs text-muted-foreground">{o.d}</span>
+                </OptionCard>
+              ))}
+            </div>
+          </StepFrame>
+        )}
+
+        {/* === Ergebnis === */}
+        {step === 4 && verdict && (
+          <>
+            <section aria-live="polite" className={cn("rounded-2xl border p-5 shadow-card md:p-6", toneSoft(FARBE_TONE[verdict.farbe]))}>
+              <div className="flex items-start gap-4">
+                <span className={cn("flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-card", toneText(FARBE_TONE[verdict.farbe]))}>
+                  {verdict.farbe === "gruen" ? (
+                    <CheckCircle2 className="h-6 w-6" aria-hidden="true" />
+                  ) : verdict.farbe === "blau" ? (
+                    <Sparkles className="h-6 w-6" aria-hidden="true" />
+                  ) : (
+                    <AlertTriangle className="h-6 w-6" aria-hidden="true" />
+                  )}
+                </span>
+                <div className="min-w-0 flex-1">
+                  <p className={cn("text-sm font-medium", toneText(FARBE_TONE[verdict.farbe]))}>Dein Ergebnis</p>
+                  <h2 className="mt-0.5 text-2xl font-semibold leading-tight tracking-tight">{verdict.titel}</h2>
+                  <p className="mt-3 text-sm leading-relaxed text-foreground/85">{verdict.begruendung}</p>
+                </div>
+              </div>
+            </section>
+
+            {/* === Rechtsform-Empfehlung === */}
+            {rechtsformEmpfehlung && verdict.type !== "hobby" && (
+              <RechtsformBox reco={rechtsformEmpfehlung} />
+            )}
+
+            <ToolSection title="Was du jetzt tun musst" icon={ListChecks}>
+              <ol className="space-y-3">
+                {verdict.nextSteps.map((s, i) => (
+                  <li key={i} className="flex items-start gap-3 text-sm">
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent text-xs font-semibold text-accent-blue tabular">
+                      {i + 1}
+                    </span>
+                    <div className="min-w-0 flex-1 leading-relaxed">
+                      {s.route ? (
+                        <Link to={s.route} className="inline-flex items-center gap-1 font-medium text-accent-blue hover:underline">
+                          {s.text} <ArrowRight className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+                        </Link>
+                      ) : s.extern ? (
+                        <a
+                          href={s.extern}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="font-medium text-accent-blue hover:underline"
+                        >
+                          {s.text} <ExternalLink className="inline h-3 w-3 align-baseline" aria-hidden="true" />
+                        </a>
+                      ) : (
+                        <span>{s.text}</span>
                       )}
                     </div>
-                    <div className="text-[11px] text-muted-foreground leading-relaxed">{t.beispiele}</div>
-                  </div>
-                </div>
-              </button>
-            ))}
-          </div>
-        </StepFrame>
-      )}
+                  </li>
+                ))}
+              </ol>
+            </ToolSection>
 
-      {step === 1 && (
-        <StepFrame
-          title="Wie regelmäßig machst du das?"
-          erklaerung="Eine einmalige Aktion (z.B. Garagenflohmarkt) ist KEIN Gewerbe. Sobald du regelmäßig mit Gewinn handelst, sieht das FA das als 'nachhaltige Gewinnerzielungsabsicht' — dann musst du anmelden."
-          onNext={setup.regelmaessigkeit ? next : undefined}
-          onPrev={prev}
-        >
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-            {([
-              { v: "einmalig", l: "Einmalig / Ausnahme", d: "Z.B. einmal etwas verkauft, nicht geplant zu wiederholen" },
-              { v: "selten", l: "1-3 mal im Jahr", d: "Sporadisch, kein laufendes Geschäft" },
-              { v: "nebenbei-regelmaessig", l: "Regelmäßig nebenbei", d: "Wöchentlich/monatlich neben Hauptjob" },
-              { v: "hauptberuflich", l: "Hauptberuflich / Vollzeit", d: "Ist (oder wird) dein Haupt-Einkommen" },
-            ] as { v: Regelmaessigkeit; l: string; d: string }[]).map((o) => (
-              <button
-                key={o.v}
-                onClick={() => setSetup({ ...setup, regelmaessigkeit: o.v })}
-                className={`text-left rounded-xl border p-3 transition ${
-                  setup.regelmaessigkeit === o.v
-                    ? "border-accent-blue bg-accent-blue/5 ring-1 ring-accent-blue/30"
-                    : "border-border bg-card hover:bg-secondary/40"
-                }`}
-              >
-                <div className="font-semibold text-sm mb-1">{o.l}</div>
-                <div className="text-[11px] text-muted-foreground">{o.d}</div>
-              </button>
-            ))}
-          </div>
-        </StepFrame>
-      )}
-
-      {step === 2 && (
-        <StepFrame
-          title="Willst du Gewinn machen?"
-          erklaerung="Das ist die entscheidende Frage des Finanzamts: 'Gewinnerzielungsabsicht?'. Ohne Gewinnabsicht = Liebhaberei = kein Gewerbe nötig. Mit Gewinnabsicht (auch langfristig, auch kleine Beträge) musst du anmelden."
-          onNext={setup.gewinnabsicht ? next : undefined}
-          onPrev={prev}
-        >
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-            {([
-              { v: "ja", l: "Ja, das soll Geld bringen", d: "Wirtschaftlich denken, Wachstum oder Nebeneinkommen" },
-              { v: "nein-hobby", l: "Nein, reines Hobby", d: "Spaß steht im Vordergrund, Gewinne zufällig" },
-              { v: "unsicher", l: "Vielleicht später", d: "Aktuell noch unklar, könnte sich entwickeln" },
-            ] as { v: Gewinnabsicht; l: string; d: string }[]).map((o) => (
-              <button
-                key={o.v}
-                onClick={() => setSetup({ ...setup, gewinnabsicht: o.v })}
-                className={`text-left rounded-xl border p-3 transition ${
-                  setup.gewinnabsicht === o.v
-                    ? "border-accent-blue bg-accent-blue/5 ring-1 ring-accent-blue/30"
-                    : "border-border bg-card hover:bg-secondary/40"
-                }`}
-              >
-                <div className="font-semibold text-sm mb-1">{o.l}</div>
-                <div className="text-[11px] text-muted-foreground">{o.d}</div>
-              </button>
-            ))}
-          </div>
-        </StepFrame>
-      )}
-
-      {step === 3 && (
-        <StepFrame
-          title="Wie viel Gewinn erwartest du pro Jahr?"
-          erklaerung="Wichtig für: Kleinunternehmer-Regelung §19 UStG (bis 25.000 € Vorjahres-Umsatz / 100.000 € aktuelles Jahr 2026), GewSt-Freibetrag (24.500 €), IHK-Befreiung. Schätze ehrlich — bei deutlicher Abweichung später Anpassungs-Antrag stellen."
-          onNext={setup.gewinnstufe ? next : undefined}
-          onPrev={prev}
-        >
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-            {([
-              { v: "unter-410", l: "Unter 410 € pro Jahr", d: "Mini-Gewinn — wahrscheinlich noch Hobby-Schwelle" },
-              { v: "unter-3000", l: "410 € – 3.000 € pro Jahr", d: "Klassisches Side-Hustle-Niveau" },
-              { v: "unter-25000", l: "3.000 € – 25.000 € pro Jahr", d: "Hauptberuflicher Verdienst möglich" },
-              { v: "ueber-25000", l: "Über 25.000 € pro Jahr", d: "Skalierter Solo-Self oder Vollzeit-Business" },
-            ] as { v: Gewinnstufe; l: string; d: string }[]).map((o) => (
-              <button
-                key={o.v}
-                onClick={() => setSetup({ ...setup, gewinnstufe: o.v })}
-                className={`text-left rounded-xl border p-3 transition ${
-                  setup.gewinnstufe === o.v
-                    ? "border-accent-blue bg-accent-blue/5 ring-1 ring-accent-blue/30"
-                    : "border-border bg-card hover:bg-secondary/40"
-                }`}
-              >
-                <div className="font-semibold text-sm mb-1">{o.l}</div>
-                <div className="text-[11px] text-muted-foreground">{o.d}</div>
-              </button>
-            ))}
-          </div>
-        </StepFrame>
-      )}
-
-      {/* === Ergebnis === */}
-      {step === 4 && verdict && (
-        <>
-          <div
-            className={`rounded-2xl border-2 p-6 mb-6 ${
-              verdict.farbe === "gruen"
-                ? "border-emerald-500/40 bg-emerald-500/5"
-                : verdict.farbe === "blau"
-                ? "border-blue-500/40 bg-blue-500/5"
-                : verdict.farbe === "amber"
-                ? "border-amber-500/40 bg-amber-500/5"
-                : "border-red-500/40 bg-red-500/5"
-            }`}
-          >
-            <div className="flex items-start gap-3 mb-3">
-              {verdict.farbe === "gruen" ? (
-                <CheckCircle2 className="h-8 w-8 text-emerald-700 shrink-0" />
-              ) : verdict.farbe === "blau" ? (
-                <Sparkles className="h-8 w-8 text-blue-700 shrink-0" />
-              ) : (
-                <AlertTriangle className="h-8 w-8 text-amber-700 shrink-0" />
-              )}
-              <div className="flex-1">
-                <div className="text-xs uppercase tracking-wider text-muted-foreground mb-1">Dein Ergebnis</div>
-                <h2 className="text-2xl font-bold">{verdict.titel}</h2>
-              </div>
+            <div>
+              <Button variant="outline" onClick={reset}>
+                <RotateCcw aria-hidden="true" /> Nochmal starten
+              </Button>
             </div>
-            <p className="text-sm leading-relaxed">{verdict.begruendung}</p>
-          </div>
+          </>
+        )}
 
-          {/* === Rechtsform-Empfehlung === */}
-          {rechtsformEmpfehlung && verdict.type !== "hobby" && (
-            <RechtsformBox reco={rechtsformEmpfehlung} />
-          )}
+        {/* === Glossar === */}
+        <Glossar />
 
-          <div className="rounded-2xl border border-border bg-card p-5 mb-6">
-            <h3 className="font-bold text-base mb-3 flex items-center gap-2">
-              <ArrowRight className="h-4 w-4 text-accent-blue" />
-              Was du jetzt tun musst
-            </h3>
-            <ol className="space-y-2">
-              {verdict.nextSteps.map((s, i) => (
-                <li key={i} className="flex items-start gap-3 text-sm">
-                  <span className="rounded-full bg-accent-blue/10 text-accent-blue h-6 w-6 flex items-center justify-center font-bold text-xs shrink-0">
-                    {i + 1}
-                  </span>
-                  <div className="flex-1 leading-relaxed">
-                    {s.route ? (
-                      <Link to={s.route} className="text-accent-blue hover:underline font-medium">
-                        {s.text} →
-                      </Link>
-                    ) : s.extern ? (
-                      <a
-                        href={s.extern}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-accent-blue hover:underline font-medium"
-                      >
-                        {s.text} ↗
-                      </a>
-                    ) : (
-                      <span>{s.text}</span>
-                    )}
-                  </div>
-                </li>
-              ))}
-            </ol>
-          </div>
-
-          <div className="flex gap-2 mb-6">
-            <button
-              onClick={reset}
-              className="inline-flex items-center gap-1 rounded-lg border border-border px-4 py-2 text-sm hover:bg-secondary"
-            >
-              <ArrowLeft className="h-4 w-4" /> Nochmal starten
-            </button>
-          </div>
-        </>
-      )}
-
-      {/* === Glossar === */}
-      <Glossar />
-
-      <Stand2026Footer
-        sources={[
-          { label: "§14 GewO Gewerbeanmeldung", url: "https://www.gesetze-im-internet.de/gewo/__14.html" },
-          { label: "§18 EStG Katalogberufe Freiberufler", url: "https://www.gesetze-im-internet.de/estg/__18.html" },
-          { label: "§15 EStG Gewerbebetrieb", url: "https://www.gesetze-im-internet.de/estg/__15.html" },
-          { label: "§19 UStG Kleinunternehmer-Regelung", url: "https://www.gesetze-im-internet.de/ustg_1980/__19.html" },
-          { label: "§22 EStG Sonstige Einkünfte (Hobby/Liebhaberei)", url: "https://www.gesetze-im-internet.de/estg/__22.html" },
-          { label: "IHK Gründung-Beratung", url: "https://www.ihk.de" },
-        ]}
-        note="Decision-Tree ist Orientierung — finale Einordnung trifft das Finanzamt im Einzelfall. Bei Grenzfällen schriftliche FA-Anfrage stellen oder Erstgespräch beim Steuerberater. Status freiberuflich vs gewerblich kann vom FA jederzeit per Betriebsprüfung umgewidmet werden."
-      />
+        <Stand2026Footer
+          sources={[
+            { label: "§14 GewO Gewerbeanmeldung", url: "https://www.gesetze-im-internet.de/gewo/__14.html" },
+            { label: "§18 EStG Katalogberufe Freiberufler", url: "https://www.gesetze-im-internet.de/estg/__18.html" },
+            { label: "§15 EStG Gewerbebetrieb", url: "https://www.gesetze-im-internet.de/estg/__15.html" },
+            { label: "§19 UStG Kleinunternehmer-Regelung", url: "https://www.gesetze-im-internet.de/ustg_1980/__19.html" },
+            { label: "§22 EStG Sonstige Einkünfte (Hobby/Liebhaberei)", url: "https://www.gesetze-im-internet.de/estg/__22.html" },
+            { label: "IHK Gründung-Beratung", url: "https://www.ihk.de" },
+          ]}
+          note="Decision-Tree ist Orientierung — finale Einordnung trifft das Finanzamt im Einzelfall. Bei Grenzfällen schriftliche FA-Anfrage stellen oder Erstgespräch beim Steuerberater. Status freiberuflich vs gewerblich kann vom FA jederzeit per Betriebsprüfung umgewidmet werden."
+        />
+      </div>
     </CockpitShell>
   );
 };
 
 // ===== Sub-Components =====
 
-const RechtsformBox = ({ reco }: { reco: RechtsformReco }) => (
-  <div className="rounded-2xl border-2 border-accent-blue/40 bg-gradient-to-br from-accent-blue/10 via-card to-card p-5 mb-6">
-    <div className="flex items-start gap-3 mb-3">
-      <div className="h-10 w-10 rounded-xl bg-accent-blue/15 flex items-center justify-center text-xl shrink-0">
-        🏛️
-      </div>
-      <div className="flex-1 min-w-0">
-        <div className="text-xs uppercase tracking-wider text-accent-blue font-semibold mb-1">
-          Empfohlene Rechtsform + USt-Modus
-        </div>
-        <h3 className="text-lg font-bold">{reco.empfohlenLabel}</h3>
-      </div>
-    </div>
+const TAETIGKEIT_ICON: Record<Taetigkeit, ElementType> = {
+  "dienstleistung-handel": Store,
+  produktverkauf: Package,
+  "beratung-coaching": Briefcase,
+  "kunst-schreiben-musik": Palette,
+  "software-entwicklung": Code2,
+  "lehre-unterricht": GraduationCap,
+  "heilberuf-medizin": Stethoscope,
+  "rechts-steuer-beratung": Scale,
+  unsicher: HelpCircle,
+};
 
-    <p className="text-sm leading-relaxed mb-4">{reco.begruendung}</p>
+const FARBE_TONE: Record<"gruen" | "blau" | "amber" | "rot", Tone> = {
+  gruen: "success",
+  blau: "info",
+  amber: "warning",
+  rot: "danger",
+};
+
+const OptionCard = ({ active, onClick, children }: { active: boolean; onClick: () => void; children: ReactNode }) => (
+  <button
+    type="button"
+    aria-pressed={active}
+    onClick={onClick}
+    className={cn(
+      "block w-full rounded-xl border p-4 text-left text-foreground transition-[background-color,border-color,box-shadow] duration-200 active:translate-y-px",
+      active
+        ? "border-accent-blue bg-accent shadow-[0_0_0_1px_hsl(var(--accent-blue)/0.35)]"
+        : "border-border bg-card hover:border-foreground/25",
+    )}
+  >
+    {children}
+  </button>
+);
+
+const RechtsformBox = ({ reco }: { reco: RechtsformReco }) => (
+  <ResultPanel kicker="Empfohlene Rechtsform und USt-Modus" title={reco.empfohlenLabel}>
+    <p className="text-sm leading-relaxed text-foreground/85">{reco.begruendung}</p>
 
     {/* USt-Modus-Hinweis */}
-    <div className="rounded-xl bg-card border border-border p-3 mb-4">
-      <div className="flex items-start gap-2">
-        <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded shrink-0 mt-0.5 ${
-          reco.ustModus === "ku-19" ? "bg-emerald-500/15 text-emerald-700"
-          : reco.ustModus === "regel" ? "bg-blue-500/15 text-blue-700"
-          : "bg-secondary/50 text-muted-foreground"
-        }`}>
-          {reco.ustModus === "ku-19" ? "§19 KU empfohlen"
-           : reco.ustModus === "regel" ? "Regelbesteuerung"
-           : "USt egal"}
-        </span>
-        <div className="flex-1 text-xs leading-relaxed text-muted-foreground">{reco.ustHinweis}</div>
-      </div>
+    <div className="mt-4 flex flex-col gap-2 rounded-xl border border-border bg-secondary/40 p-4 sm:flex-row sm:items-start sm:gap-3">
+      <ToneBadge tone={reco.ustModus === "ku-19" ? "success" : reco.ustModus === "regel" ? "info" : "neutral"} className="shrink-0 self-start">
+        {reco.ustModus === "ku-19" ? "§19 KU empfohlen"
+         : reco.ustModus === "regel" ? "Regelbesteuerung"
+         : "USt egal"}
+      </ToneBadge>
+      <p className="text-sm leading-relaxed text-muted-foreground">{reco.ustHinweis}</p>
     </div>
 
     {/* Alternativen */}
     {reco.alternativen.length > 0 && (
-      <details className="rounded-xl border border-border bg-card/60 p-3">
-        <summary className="cursor-pointer text-xs font-semibold flex items-center gap-1.5">
-          <span className="text-accent-blue">▸</span> Alternativen ansehen ({reco.alternativen.length})
+      <details className="group mt-3 rounded-xl border border-border">
+        <summary className="flex cursor-pointer list-none items-center justify-between gap-2 px-4 py-3 text-sm font-medium [&::-webkit-details-marker]:hidden">
+          <span>Alternativen ansehen ({reco.alternativen.length})</span>
+          <ChevronDown className="h-4 w-4 text-muted-foreground transition-transform group-open:rotate-180" aria-hidden="true" />
         </summary>
-        <div className="mt-3 space-y-3">
+        <div className="space-y-3 border-t border-border/70 p-4">
           {reco.alternativen.map((alt) => (
-            <div key={alt.id} className="rounded-lg bg-secondary/30 p-3 text-xs">
-              <div className="font-semibold mb-1">{alt.label}</div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                <div className="text-emerald-700"><strong>+ Pro:</strong> <span className="text-muted-foreground">{alt.pro}</span></div>
-                <div className="text-amber-700"><strong>− Contra:</strong> <span className="text-muted-foreground">{alt.contra}</span></div>
+            <div key={alt.id} className="text-sm">
+              <p className="font-semibold">{alt.label}</p>
+              <div className="mt-1.5 grid grid-cols-1 gap-2 sm:grid-cols-2">
+                <p className="flex gap-2 rounded-lg border border-success/25 bg-success-soft p-2.5">
+                  <Plus className="mt-0.5 h-3.5 w-3.5 shrink-0 text-success" aria-hidden="true" />
+                  <span><strong className="font-semibold">Pro:</strong> <span className="text-muted-foreground">{alt.pro}</span></span>
+                </p>
+                <p className="flex gap-2 rounded-lg border border-warning/25 bg-warning-soft p-2.5">
+                  <Minus className="mt-0.5 h-3.5 w-3.5 shrink-0 text-warning" aria-hidden="true" />
+                  <span><strong className="font-semibold">Contra:</strong> <span className="text-muted-foreground">{alt.contra}</span></span>
+                </p>
               </div>
             </div>
           ))}
@@ -648,97 +649,92 @@ const RechtsformBox = ({ reco }: { reco: RechtsformReco }) => (
     )}
 
     {/* Cross-Links zu vertiefenden Tools */}
-    <div className="mt-3 pt-3 border-t border-border flex flex-wrap gap-2 text-[11px]">
+    <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-border/70 pt-4 text-sm">
       <span className="text-muted-foreground">Tiefer einsteigen:</span>
-      <Link to="/cockpit/gewerbeanmeldung-wizard" className="text-accent-blue hover:underline font-medium">
-        Gewerbeanmeldung-Wizard →
+      <Link to="/cockpit/gewerbeanmeldung-wizard" className="inline-flex items-center gap-1 font-medium text-accent-blue hover:underline">
+        Gewerbeanmeldung-Wizard <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
       </Link>
-      <Link to="/wizard/rechtsform" className="text-accent-blue hover:underline font-medium">
-        Rechtsform-Wizard →
+      <Link to="/wizard/rechtsform" className="inline-flex items-center gap-1 font-medium text-accent-blue hover:underline">
+        Rechtsform-Wizard <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
       </Link>
-      <Link to="/cockpit/brutto-netto-solo" className="text-accent-blue hover:underline font-medium">
-        Brutto-Netto-Rechner →
+      <Link to="/cockpit/brutto-netto-solo" className="inline-flex items-center gap-1 font-medium text-accent-blue hover:underline">
+        Brutto-Netto-Rechner <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
       </Link>
     </div>
-  </div>
+  </ResultPanel>
 );
 
 const BeginnerHero = () => (
-  <div className="rounded-2xl border-2 border-accent-blue/30 bg-gradient-to-br from-accent-blue/10 via-card to-card p-5 mb-6">
-    <div className="flex items-start gap-3">
-      <Lightbulb className="h-6 w-6 text-accent-blue shrink-0 mt-0.5" />
-      <div className="flex-1">
-        <h3 className="font-bold text-sm mb-1">Was ist das hier?</h3>
-        <p className="text-xs text-muted-foreground leading-relaxed mb-3">
-          Du verkaufst was, machst Beratung, oder hast eine Idee — und weißt nicht, ob du <strong>überhaupt</strong>{" "}
-          ein Gewerbe anmelden musst? Dieses Tool führt dich in 4 Fragen durch die wichtigste Vorentscheidung
-          deiner Selbstständigkeit: <strong>Hobby, Freiberuf oder Gewerbe?</strong>
-        </p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-[11px]">
-          <div className="rounded-lg bg-emerald-500/5 p-2 border border-emerald-500/20">
-            <strong className="text-emerald-700">🌿 Hobby</strong>
-            <div className="text-muted-foreground mt-0.5">Keine Gewinnabsicht oder einmalig — nichts melden, evtl. Anlage 'Sonstige' §22 EStG</div>
-          </div>
-          <div className="rounded-lg bg-blue-500/5 p-2 border border-blue-500/20">
-            <strong className="text-blue-700">📘 Freiberuf</strong>
-            <div className="text-muted-foreground mt-0.5">Katalogberuf §18 EStG — nur Finanzamt-Fragebogen, kein Gewerbeschein, keine GewSt, keine IHK-Pflicht</div>
-          </div>
-          <div className="rounded-lg bg-amber-500/5 p-2 border border-amber-500/20">
-            <strong className="text-amber-700">🏪 Gewerbe</strong>
-            <div className="text-muted-foreground mt-0.5">Handel/Produktion/Dienstleistung — Gewerbeamt (15-65€), IHK, ggf. GewSt ab 24.500€ Gewinn</div>
-          </div>
-        </div>
+  <ToolSection title="Was ist das hier?" icon={Lightbulb}>
+    <p className="text-sm leading-relaxed text-muted-foreground">
+      Du verkaufst was, machst Beratung oder hast eine Idee und weißt nicht, ob du <strong className="text-foreground">überhaupt</strong>{" "}
+      ein Gewerbe anmelden musst? Dieses Tool führt dich in 4 Fragen durch die wichtigste Vorentscheidung deiner
+      Selbstständigkeit: <strong className="text-foreground">Hobby, Freiberuf oder Gewerbe?</strong>
+    </p>
+    <div className="mt-4 grid grid-cols-1 gap-3 md:grid-cols-3">
+      <div className="rounded-xl border border-success/25 bg-success-soft p-4 text-sm">
+        <strong className="font-semibold text-success">🌿 Hobby</strong>
+        <p className="mt-1 text-muted-foreground">Keine Gewinnabsicht oder einmalig: nichts melden, evtl. Anlage 'Sonstige' §22 EStG</p>
+      </div>
+      <div className="rounded-xl border border-info/20 bg-info-soft p-4 text-sm">
+        <strong className="font-semibold text-info">📘 Freiberuf</strong>
+        <p className="mt-1 text-muted-foreground">Katalogberuf §18 EStG: nur Finanzamt-Fragebogen, kein Gewerbeschein, keine GewSt, keine IHK-Pflicht</p>
+      </div>
+      <div className="rounded-xl border border-warning/25 bg-warning-soft p-4 text-sm">
+        <strong className="font-semibold text-warning">🏪 Gewerbe</strong>
+        <p className="mt-1 text-muted-foreground">Handel/Produktion/Dienstleistung: Gewerbeamt (15-65 €), IHK, ggf. GewSt ab 24.500 € Gewinn</p>
       </div>
     </div>
-  </div>
+  </ToolSection>
 );
 
 const StepFrame = ({
+  n,
   title,
   erklaerung,
   children,
   onNext,
   onPrev,
 }: {
+  n: number;
   title: string;
   erklaerung: string;
   children: React.ReactNode;
   onNext?: () => void;
   onPrev?: () => void;
 }) => (
-  <div className="rounded-2xl border border-border bg-card p-5 mb-6">
-    <h2 className="text-lg font-bold mb-2">{title}</h2>
-    <div className="rounded-lg bg-blue-500/5 border border-blue-500/20 p-3 mb-4 text-xs leading-relaxed flex items-start gap-2">
-      <Info className="h-4 w-4 text-blue-700 shrink-0 mt-0.5" />
-      <div className="text-muted-foreground">{erklaerung}</div>
+  <section className="rounded-2xl border border-border bg-card shadow-card">
+    <div className="flex items-start gap-3 border-b border-border/70 px-5 py-4 md:px-6">
+      <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-accent text-sm font-semibold text-accent-blue tabular">{n}</span>
+      <h2 className="text-lg font-semibold leading-snug tracking-tight">{title}</h2>
     </div>
-    <div className="mb-4">{children}</div>
-    <div className="flex justify-between gap-2">
-      <button
-        onClick={onPrev}
-        disabled={!onPrev}
-        className="inline-flex items-center gap-1 rounded-lg border border-border px-4 py-2 text-sm disabled:opacity-30 disabled:cursor-not-allowed hover:bg-secondary"
-      >
-        <ArrowLeft className="h-4 w-4" /> Zurück
-      </button>
-      <button
-        onClick={onNext}
-        disabled={!onNext}
-        className="inline-flex items-center gap-1 rounded-lg bg-accent-blue text-primary-foreground px-4 py-2 text-sm font-semibold disabled:opacity-30 disabled:cursor-not-allowed hover:opacity-90"
-      >
-        Weiter <ArrowRight className="h-4 w-4" />
-      </button>
+    <div className="space-y-5 p-5 md:p-6">
+      <Callout tone="info" icon={Info}>{erklaerung}</Callout>
+      {children}
+      <div className="flex items-center justify-between gap-3 border-t border-border/70 pt-5">
+        <Button variant="outline" onClick={onPrev} disabled={!onPrev}>
+          <ArrowLeft aria-hidden="true" /> Zurück
+        </Button>
+        <Button onClick={onNext} disabled={!onNext}>
+          Weiter <ArrowRight aria-hidden="true" />
+        </Button>
+      </div>
     </div>
-  </div>
+  </section>
 );
 
 const Glossar = () => (
-  <details className="rounded-2xl border border-border bg-card p-5 mb-6">
-    <summary className="cursor-pointer font-bold text-sm flex items-center gap-2">
-      <HelpCircle className="h-4 w-4 text-accent-blue" />
-      Glossar — Begriffe einfach erklärt
+  <details className="group rounded-2xl border border-border bg-card shadow-card">
+    <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-5 py-4 md:px-6 [&::-webkit-details-marker]:hidden">
+      <span className="flex items-center gap-3">
+        <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-accent-blue">
+          <BookOpen className="h-4 w-4" aria-hidden="true" />
+        </span>
+        <span className="text-base font-semibold">Glossar: Begriffe einfach erklärt</span>
+      </span>
+      <ChevronDown className="h-4 w-4 text-muted-foreground transition-transform group-open:rotate-180" aria-hidden="true" />
     </summary>
-    <div className="mt-3 space-y-3 text-xs leading-relaxed">
+    <dl className="grid gap-3 border-t border-border/70 p-5 text-sm leading-relaxed md:grid-cols-2 md:p-6">
       {[
         { begriff: "Freiberufler:in", erklaerung: "Selbstständig in einem 'Katalogberuf' nach §18 Abs. 1 Nr. 1 EStG (Ärzt:innen, Rechtsanwält:innen, Ingenieur:innen, Künstler:innen, Journalist:innen u.a.) oder in einem 'ähnlichen Beruf'. KEINE Gewerbeanmeldung, KEINE Gewerbesteuer, KEINE IHK-Pflichtmitgliedschaft. Nur Fragebogen beim Finanzamt." },
         { begriff: "Gewerbe", erklaerung: "Selbstständige, nachhaltige Tätigkeit mit Gewinnerzielungsabsicht, die nicht freiberuflich, land-/forstwirtschaftlich oder Vermögensverwaltung ist. Pflicht: Anmeldung beim Gewerbeamt (15-65 €), IHK-Mitgliedschaft, ggf. Gewerbesteuer ab 24.500 €/J Gewinn." },
@@ -753,12 +749,12 @@ const Glossar = () => (
         { begriff: "IHK-Pflichtmitgliedschaft", erklaerung: "Alle Gewerbetreibenden in DE sind Pflichtmitglied der IHK (oder HWK bei Handwerk). Kosten: Grundbeitrag 30-300 €/J + Umlage 0,1-0,3 % vom Gewerbeertrag. Befreiung bei Existenzgründer:innen mit Gewinn < 25.000 €/J (§3 IHKG)." },
         { begriff: "Berufsgenossenschaft", erklaerung: "Gesetzliche Unfallversicherung für Beschäftigte UND Selbstständige (Pflicht bei manchen Branchen, freiwillig sonst). Anmeldung binnen 1 Woche nach Gründung (§192 SGB VII). Beitrag richtet sich nach Beruf + Lohnsumme." },
       ].map((g) => (
-        <div key={g.begriff} className="rounded-lg bg-secondary/30 p-3">
-          <div className="font-semibold text-foreground mb-1">{g.begriff}</div>
-          <div className="text-muted-foreground">{g.erklaerung}</div>
+        <div key={g.begriff} className="rounded-xl border border-border bg-secondary/40 p-4">
+          <dt className="font-semibold text-foreground">{g.begriff}</dt>
+          <dd className="mt-1 text-muted-foreground">{g.erklaerung}</dd>
         </div>
       ))}
-    </div>
+    </dl>
   </details>
 );
 
