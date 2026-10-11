@@ -1,8 +1,22 @@
 import { useState, useMemo, useEffect } from "react";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Mail, FileText, Plus, Trash2, CheckCircle2, Clipboard } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import {
+  Mail,
+  FileText,
+  Plus,
+  Trash2,
+  Clipboard,
+  Building2,
+  CalendarRange,
+  ListChecks,
+  Paperclip,
+  ArrowUpRight,
+  Lightbulb,
+} from "lucide-react";
+import { EmptyState, Field, ResultPanel, ToneBadge, ToolLayout, ToolSection, selectCls } from "@/components/cockpit/kit";
 
 type Anhang = { id: string; name: string; typ: string; bemerkung: string };
 
@@ -256,293 +270,258 @@ const StbHandoff = () => {
     }
   };
 
+  const fortschritt = counts.total > 0 ? Math.round((counts.done / counts.total) * 100) : 0;
+
   return (
     <CockpitShell
-      eyebrow="StB-Hand-off / Übergabe-Bundle"
-      title="Sauberes Übergabe-Pack für deinen Steuerberater"
-      subtitle="Manifest-PDF + Email-Helper. 30+ Pflicht-Posten in 5 Gruppen (Buchführung, Steuer-relevante Tools, International, Personal, Sonstiges) — speichert lokal, jederzeit fortsetzen."
+      eyebrow="Steuerberatung · Übergabe-Bundle"
+      title="Sauberes Übergabe-Paket für deine Steuerberatung"
+      subtitle="Manifest-PDF und E-Mail-Helfer. Über 30 Pflichtposten in 5 Gruppen (Buchführung, steuerrelevante Tools, International, Personal, Sonstiges). Alles wird lokal gespeichert, du kannst jederzeit weitermachen."
     >
-      {/* Mandant */}
-      <div className="rounded-2xl border border-border bg-card p-4 mb-6">
-        <h3 className="font-semibold text-sm mb-3">Mandantendaten</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <div>
-            <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">Firma</Label>
-            <Input
-              value={form.firma}
-              onChange={(e) => update("firma", e.target.value)}
-              placeholder="z.B. Acme Vertriebs GmbH"
-              className="h-8 text-sm mt-1"
-            />
-          </div>
-          <div>
-            <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">Rechtsform</Label>
-            <select
-              value={form.rechtsform}
-              onChange={(e) => update("rechtsform", e.target.value)}
-              className="h-8 w-full rounded-md border border-input bg-background px-2 text-xs mt-1"
+      <ToolLayout
+        className="mb-8"
+        inputs={
+          <>
+            {/* Mandant */}
+            <ToolSection title="Mandantendaten" icon={Building2}>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <Field label="Firma" htmlFor="stb-firma">
+                  <Input id="stb-firma" value={form.firma} onChange={(e) => update("firma", e.target.value)} placeholder="z. B. Acme Vertriebs GmbH" />
+                </Field>
+                <Field label="Rechtsform" htmlFor="stb-rechtsform">
+                  <select id="stb-rechtsform" value={form.rechtsform} onChange={(e) => update("rechtsform", e.target.value)} className={selectCls}>
+                    {["GmbH", "UG", "GmbH & Co. KG", "AG", "Einzelunternehmen", "OHG", "GbR", "Holding", "US-LLC", "HK-Limited"].map(
+                      (r) => (
+                        <option key={r}>{r}</option>
+                      ),
+                    )}
+                  </select>
+                </Field>
+                <Field label="Steuernummer" htmlFor="stb-stnr">
+                  <Input id="stb-stnr" value={form.steuernr} onChange={(e) => update("steuernr", e.target.value)} className="font-mono" />
+                </Field>
+                <Field label="USt-IdNr." htmlFor="stb-ustid">
+                  <Input id="stb-ustid" value={form.ustId} onChange={(e) => update("ustId", e.target.value)} placeholder="DE123456789" className="font-mono" />
+                </Field>
+                <Field label="Mandantennummer bei der Kanzlei" htmlFor="stb-mandnr" className="sm:col-span-2">
+                  <Input id="stb-mandnr" value={form.mandantennr} onChange={(e) => update("mandantennr", e.target.value)} className="font-mono sm:max-w-[50%]" />
+                </Field>
+                <Field label="Ansprechpartner" htmlFor="stb-ansprech">
+                  <Input id="stb-ansprech" value={form.ansprechpartner} onChange={(e) => update("ansprechpartner", e.target.value)} />
+                </Field>
+                <Field label="E-Mail Mandant" htmlFor="stb-ansprechmail">
+                  <Input id="stb-ansprechmail" type="email" value={form.ansprechMail} onChange={(e) => update("ansprechMail", e.target.value)} />
+                </Field>
+              </div>
+            </ToolSection>
+
+            {/* StB + Period */}
+            <ToolSection title="Steuerberatung und Buchungszeitraum" icon={CalendarRange}>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <Field label="Name der Kanzlei oder des StB" htmlFor="stb-name">
+                  <Input id="stb-name" value={form.stbName} onChange={(e) => update("stbName", e.target.value)} placeholder="z. B. Max Müller, Müller Steuerberatung" />
+                </Field>
+                <Field label="E-Mail der Kanzlei" hint="Nötig für „E-Mail öffnen“" htmlFor="stb-mail">
+                  <Input id="stb-mail" type="email" value={form.stbMail} onChange={(e) => update("stbMail", e.target.value)} placeholder="kanzlei@example.de" />
+                </Field>
+                <Field label="Zeitraum von" htmlFor="stb-von">
+                  <Input id="stb-von" type="date" value={form.periodVon} onChange={(e) => update("periodVon", e.target.value)} />
+                </Field>
+                <Field label="Zeitraum bis" htmlFor="stb-bis">
+                  <Input id="stb-bis" type="date" value={form.periodBis} onChange={(e) => update("periodBis", e.target.value)} />
+                </Field>
+                <Field className="sm:col-span-2" label="Sonderhinweise" hint="Freitext, erscheint im PDF und in der E-Mail." htmlFor="stb-hinweise">
+                  <Textarea
+                    id="stb-hinweise"
+                    value={form.hinweise}
+                    onChange={(e) => update("hinweise", e.target.value)}
+                    placeholder="z. B. Crypto-Trades mit FIFO berechnet (Tool-Output anbei). 2 US-LLCs unter dieser Holding, siehe Substance-Checker. IAB-Auflösung in Q4 vorgesehen."
+                    rows={4}
+                  />
+                </Field>
+              </div>
+            </ToolSection>
+
+            {/* Checklist */}
+            <ToolSection
+              title="Pflicht-Checkliste"
+              description="Was offen bleibt, teilst du der Kanzlei direkt mit."
+              icon={ListChecks}
+              actions={
+                <ToneBadge tone={counts.done === counts.total ? "success" : "neutral"} className="tabular">
+                  {counts.done} / {counts.total} erledigt
+                </ToneBadge>
+              }
             >
-              {["GmbH", "UG", "GmbH & Co. KG", "AG", "Einzelunternehmen", "OHG", "GbR", "Holding", "US-LLC", "HK-Limited"].map(
-                (r) => (
-                  <option key={r}>{r}</option>
-                ),
-              )}
-            </select>
-          </div>
-          <div>
-            <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">Steuernummer</Label>
-            <Input
-              value={form.steuernr}
-              onChange={(e) => update("steuernr", e.target.value)}
-              className="h-8 text-sm mt-1 font-mono"
-            />
-          </div>
-          <div>
-            <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">USt-IdNr</Label>
-            <Input
-              value={form.ustId}
-              onChange={(e) => update("ustId", e.target.value)}
-              placeholder="DE123456789"
-              className="h-8 text-sm mt-1 font-mono"
-            />
-          </div>
-          <div>
-            <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">Mandanten-Nr (StB)</Label>
-            <Input
-              value={form.mandantennr}
-              onChange={(e) => update("mandantennr", e.target.value)}
-              className="h-8 text-sm mt-1 font-mono"
-            />
-          </div>
-          <div className="md:col-span-1" />
-          <div>
-            <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">Ansprechpartner</Label>
-            <Input
-              value={form.ansprechpartner}
-              onChange={(e) => update("ansprechpartner", e.target.value)}
-              className="h-8 text-sm mt-1"
-            />
-          </div>
-          <div>
-            <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">Email Mandant</Label>
-            <Input
-              type="email"
-              value={form.ansprechMail}
-              onChange={(e) => update("ansprechMail", e.target.value)}
-              className="h-8 text-sm mt-1"
-            />
-          </div>
-        </div>
-      </div>
-
-      {/* StB + Period */}
-      <div className="rounded-2xl border border-border bg-card p-4 mb-6">
-        <h3 className="font-semibold text-sm mb-3">Steuerberater + Buchungs-Periode</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <div>
-            <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">StB-Name</Label>
-            <Input
-              value={form.stbName}
-              onChange={(e) => update("stbName", e.target.value)}
-              placeholder="z.B. Max Müller, Müller Steuerberatung"
-              className="h-8 text-sm mt-1"
-            />
-          </div>
-          <div>
-            <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">StB-Email</Label>
-            <Input
-              type="email"
-              value={form.stbMail}
-              onChange={(e) => update("stbMail", e.target.value)}
-              placeholder="kanzlei@example.de"
-              className="h-8 text-sm mt-1"
-            />
-          </div>
-          <div>
-            <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">Periode von</Label>
-            <Input
-              type="date"
-              value={form.periodVon}
-              onChange={(e) => update("periodVon", e.target.value)}
-              className="h-8 text-sm mt-1"
-            />
-          </div>
-          <div>
-            <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">Periode bis</Label>
-            <Input
-              type="date"
-              value={form.periodBis}
-              onChange={(e) => update("periodBis", e.target.value)}
-              className="h-8 text-sm mt-1"
-            />
-          </div>
-        </div>
-        <div className="mt-3">
-          <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">
-            Sonderhinweise (frei-Text, geht in PDF + Email)
-          </Label>
-          <textarea
-            value={form.hinweise}
-            onChange={(e) => update("hinweise", e.target.value)}
-            placeholder="z.B. Crypto-Trades mit FIFO berechnet (Tool-Output anbei). 2 US-LLCs unter dieser Holding — siehe Substance-Checker-Bewertung. IAB-Auflösung in Q4 vorgesehen."
-            className="w-full h-24 rounded-md border border-input bg-background px-3 py-2 text-xs mt-1"
-          />
-        </div>
-      </div>
-
-      {/* Checklist */}
-      <div className="rounded-2xl border border-border bg-card p-4 mb-6">
-        <div className="flex items-center justify-between mb-3">
-          <h3 className="font-semibold text-sm">
-            Pflicht-Checklist
-            <span className="ml-2 text-xs font-normal text-muted-foreground">
-              ({counts.done} / {counts.total} erledigt)
-            </span>
-          </h3>
-          <div className="text-xs">
-            {counts.done === counts.total ? (
-              <span className="inline-flex items-center gap-1 text-emerald-700 font-semibold">
-                <CheckCircle2 className="h-3.5 w-3.5" /> Komplett
-              </span>
-            ) : (
-              <span className="text-muted-foreground">Was offen ist, dem StB direkt mitteilen</span>
-            )}
-          </div>
-        </div>
-
-        <div className="space-y-4">
-          {CHECKLIST_GROUPS.map((g) => (
-            <div key={g.gruppe}>
-              <div className="text-[11px] uppercase tracking-wider text-muted-foreground font-semibold mb-2">
-                {g.gruppe}
+              <div className="space-y-6">
+                {CHECKLIST_GROUPS.map((g) => {
+                  const erledigt = g.items.filter((i) => form.checklist[i.key]).length;
+                  return (
+                    <fieldset key={g.gruppe}>
+                      <legend className="mb-2 flex w-full items-baseline justify-between gap-2 text-sm font-semibold">
+                        {g.gruppe}
+                        <span className="text-xs font-normal text-muted-foreground tabular">
+                          {erledigt} / {g.items.length}
+                        </span>
+                      </legend>
+                      <div className="divide-y divide-border/60 rounded-xl border border-border">
+                        {g.items.map((i) => {
+                          const checked = !!form.checklist[i.key];
+                          return (
+                            <div key={i.key} className="flex items-start gap-3 px-3.5 py-2.5 transition-colors hover:bg-secondary/40">
+                              <input
+                                id={`stb-check-${i.key}`}
+                                type="checkbox"
+                                checked={checked}
+                                onChange={() => toggleCheck(i.key)}
+                                className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer rounded accent-primary"
+                              />
+                              <div className="min-w-0 flex-1 sm:flex sm:items-start sm:justify-between sm:gap-3">
+                                <label htmlFor={`stb-check-${i.key}`} className="block cursor-pointer text-sm leading-snug">
+                                  <span className={checked ? "text-muted-foreground line-through" : ""}>{i.label}</span>
+                                </label>
+                                {i.route && (
+                                  <a
+                                    href={i.route}
+                                    className="mt-1 inline-flex shrink-0 items-center gap-1 text-xs font-medium text-accent-blue hover:underline sm:mt-0"
+                                  >
+                                    {i.tool} <ArrowUpRight className="h-3 w-3" aria-hidden="true" />
+                                  </a>
+                                )}
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </fieldset>
+                  );
+                })}
               </div>
-              <div className="space-y-1">
-                {g.items.map((i) => (
-                  <label
-                    key={i.key}
-                    className="flex items-start gap-2 py-1.5 px-2 rounded hover:bg-secondary/50 cursor-pointer"
-                  >
-                    <input
-                      type="checkbox"
-                      checked={!!form.checklist[i.key]}
-                      onChange={() => toggleCheck(i.key)}
-                      className="mt-0.5 h-3.5 w-3.5"
-                    />
-                    <div className="flex-1 text-xs">
-                      <span className={form.checklist[i.key] ? "line-through text-muted-foreground" : ""}>
-                        {i.label}
-                      </span>
-                      {i.route && (
-                        <a
-                          href={i.route}
-                          className="ml-2 text-accent-blue text-[10px] hover:underline font-semibold"
-                        >
-                          → {i.tool}
-                        </a>
-                      )}
+            </ToolSection>
+
+            {/* Anhänge */}
+            <ToolSection
+              title="Anhänge"
+              description="Dateinamen der separat verschickten Dateien. Sie erscheinen im Manifest und in der E-Mail."
+              icon={Paperclip}
+              actions={
+                <Button size="sm" variant="outline" onClick={addAnhang}>
+                  <Plus className="h-4 w-4" aria-hidden="true" /> Anhang
+                </Button>
+              }
+            >
+              {form.anhaenge.length === 0 ? (
+                <EmptyState
+                  className="py-8"
+                  icon={Paperclip}
+                  title="Noch keine Anhänge eingetragen"
+                  description="Trag hier die Dateien ein, die du separat hochlädst oder anhängst, zum Beispiel bwa-2026-q1.pdf."
+                  action={
+                    <Button size="sm" onClick={addAnhang}>
+                      <Plus className="h-4 w-4" aria-hidden="true" /> Anhang hinzufügen
+                    </Button>
+                  }
+                />
+              ) : (
+                <div className="space-y-3">
+                  {form.anhaenge.map((a, idx) => (
+                    <div key={a.id} className="grid grid-cols-[minmax(0,1fr)_auto] gap-2 rounded-xl border border-border p-3 sm:grid-cols-12 sm:items-center sm:border-0 sm:p-0">
+                      <Input
+                        value={a.name}
+                        onChange={(e) => updateAnhang(a.id, { name: e.target.value })}
+                        placeholder="Dateiname (z. B. bwa-2026-q1.pdf)"
+                        aria-label={`Anhang ${idx + 1}: Dateiname`}
+                        className="min-w-0 sm:col-span-5"
+                      />
+                      <select
+                        value={a.typ}
+                        onChange={(e) => updateAnhang(a.id, { typ: e.target.value })}
+                        aria-label={`Anhang ${idx + 1}: Typ`}
+                        className={`${selectCls} min-w-0 sm:col-span-2`}
+                      >
+                        {["PDF", "CSV", "DATEV-Stapel", "Lexoffice", "Excel", "ZIP"].map((t) => (
+                          <option key={t}>{t}</option>
+                        ))}
+                      </select>
+                      <Input
+                        value={a.bemerkung}
+                        onChange={(e) => updateAnhang(a.id, { bemerkung: e.target.value })}
+                        placeholder="Bemerkung"
+                        aria-label={`Anhang ${idx + 1}: Bemerkung`}
+                        className="min-w-0 sm:col-span-4"
+                      />
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => removeAnhang(a.id)}
+                        aria-label={`Anhang ${idx + 1} entfernen`}
+                        className="justify-self-end text-muted-foreground hover:bg-danger-soft hover:text-danger sm:col-span-1 sm:justify-self-center"
+                      >
+                        <Trash2 className="h-4 w-4" aria-hidden="true" />
+                      </Button>
                     </div>
-                  </label>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Anhänge */}
-      <div className="rounded-2xl border border-border bg-card p-4 mb-6">
-        <div className="flex items-center justify-between mb-3">
-          <h3 className="font-semibold text-sm">Anhänge / Dateien (im Manifest gelistet)</h3>
-          <button
-            onClick={addAnhang}
-            className="inline-flex items-center gap-1 rounded-lg bg-accent-blue text-primary-foreground px-3 py-1.5 text-xs font-semibold hover:opacity-90"
-          >
-            <Plus className="h-3.5 w-3.5" /> Anhang
-          </button>
-        </div>
-
-        {form.anhaenge.length === 0 ? (
-          <div className="text-xs text-muted-foreground py-4 text-center border border-dashed border-border rounded-lg">
-            Trag hier deine separat hochgeladenen Dateien ein (Datei-Name + Typ). Sie erscheinen im
-            Manifest-PDF + in der Email.
-          </div>
-        ) : (
-          <div className="space-y-2">
-            {form.anhaenge.map((a) => (
-              <div key={a.id} className="grid grid-cols-2 md:grid-cols-12 gap-2 items-center">
-                <Input
-                  value={a.name}
-                  onChange={(e) => updateAnhang(a.id, { name: e.target.value })}
-                  placeholder="Dateiname (z.B. bwa-2026-q1.pdf)"
-                  className="col-span-2 md:col-span-5 h-8 text-xs min-w-0"
-                />
-                <select
-                  value={a.typ}
-                  onChange={(e) => updateAnhang(a.id, { typ: e.target.value })}
-                  className="col-span-1 md:col-span-2 h-8 rounded-md border border-input bg-background px-2 text-xs min-w-0"
-                >
-                  {["PDF", "CSV", "DATEV-Stapel", "Lexoffice", "Excel", "ZIP"].map((t) => (
-                    <option key={t}>{t}</option>
                   ))}
-                </select>
-                <Input
-                  value={a.bemerkung}
-                  onChange={(e) => updateAnhang(a.id, { bemerkung: e.target.value })}
-                  placeholder="Bemerkung"
-                  className="col-span-1 md:col-span-4 h-8 text-xs min-w-0"
-                />
-                <button
-                  onClick={() => removeAnhang(a.id)}
-                  className="col-span-2 md:col-span-1 text-red-600 hover:bg-red-500/10 p-1 rounded justify-self-center"
-                >
-                  <Trash2 className="h-4 w-4" />
-                </button>
+                </div>
+              )}
+            </ToolSection>
+          </>
+        }
+        result={
+          <>
+            <ResultPanel
+              variant="ink"
+              kicker="Übergabe-Stand"
+              title={counts.done === counts.total ? "Checkliste komplett" : "Checkliste in Arbeit"}
+              value={`${fortschritt} %`}
+              valueHint={`${counts.done} von ${counts.total} Posten erledigt`}
+            >
+              <div className="h-2 overflow-hidden rounded-full bg-white/10" aria-hidden="true">
+                <div className="h-full rounded-full bg-brand-green" style={{ width: `${fortschritt}%` }} />
               </div>
-            ))}
-          </div>
-        )}
-      </div>
+              <div className="mt-5 space-y-2">
+                <Button onClick={generatePdf} size="lg" className="w-full rounded-xl bg-white text-primary hover:bg-white/90">
+                  <FileText className="h-4 w-4" aria-hidden="true" /> Manifest-PDF erstellen
+                </Button>
+                <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                  <Button
+                    variant="secondary"
+                    onClick={sendEmail}
+                    disabled={!form.stbMail}
+                    className="bg-white/10 text-primary-foreground hover:bg-white/15"
+                  >
+                    <Mail className="h-4 w-4" aria-hidden="true" /> E-Mail öffnen
+                  </Button>
+                  <Button variant="secondary" onClick={copyEmail} className="bg-white/10 text-primary-foreground hover:bg-white/15">
+                    <Clipboard className="h-4 w-4" aria-hidden="true" /> E-Mail-Text kopieren
+                  </Button>
+                </div>
+                {!form.stbMail && (
+                  <p className="text-xs text-primary-foreground/65">Für „E-Mail öffnen“ zuerst die E-Mail der Kanzlei eintragen.</p>
+                )}
+              </div>
+            </ResultPanel>
 
-      {/* Actions */}
-      <div className="flex flex-wrap gap-2 mb-6">
-        <button
-          onClick={generatePdf}
-          className="inline-flex items-center gap-1.5 rounded-lg bg-accent-blue text-primary-foreground px-4 py-2 text-xs font-semibold hover:opacity-90"
-        >
-          <FileText className="h-4 w-4" /> Manifest-PDF generieren
-        </button>
-        <button
-          onClick={sendEmail}
-          disabled={!form.stbMail}
-          className="inline-flex items-center gap-1.5 rounded-lg border border-border px-4 py-2 text-xs font-semibold hover:bg-secondary disabled:opacity-50"
-        >
-          <Mail className="h-4 w-4" /> Email an StB öffnen
-        </button>
-        <button
-          onClick={copyEmail}
-          className="inline-flex items-center gap-1.5 rounded-lg border border-border px-4 py-2 text-xs font-semibold hover:bg-secondary"
-        >
-          <Clipboard className="h-4 w-4" /> Email-Text kopieren
-        </button>
-      </div>
-
-      <div className="rounded-2xl border border-amber-500/30 bg-amber-500/5 p-4 text-xs leading-relaxed">
-        <div className="font-semibold mb-2">So nutzt du das Tool:</div>
-        <ol className="list-decimal pl-4 space-y-1 text-muted-foreground">
-          <li>Mandantendaten + StB + Periode oben eintragen — wird lokal gespeichert.</li>
-          <li>
-            Checklist durchgehen. Klick die Tool-Links rechts für Direkt-Sprung zu BWA-Generator,
-            DATEV-Mapper, Crypto-Steuer etc. Dort exportieren, dann zurück und Häkchen setzen.
-          </li>
-          <li>
-            Anhangs-Dateien (BWA-PDF, DATEV-CSV usw.) kommen in einen separaten Cloud-Ordner / Email-Anhang.
-            Hier nur Datei-Namen erfassen — sie tauchen dann im Manifest auf.
-          </li>
-          <li>"Manifest-PDF generieren" → Cover-Sheet mit allem.</li>
-          <li>"Email an StB öffnen" → Standard-Mail-Client wird mit fertigem Body geöffnet, du hängst die
-            Files manuell an.</li>
-        </ol>
-      </div>
+            <ToolSection title="So nutzt du das Tool" icon={Lightbulb}>
+              <ol className="space-y-3 text-sm leading-relaxed text-muted-foreground">
+                {[
+                  "Mandantendaten, Kanzlei und Zeitraum eintragen. Alles wird lokal gespeichert.",
+                  "Checkliste durchgehen. Die Tool-Links führen direkt zu BWA-Generator, DATEV-Mapper, Crypto-Steuer und Co. Dort exportieren, zurückkommen, Haken setzen.",
+                  "Die Dateien selbst (BWA-PDF, DATEV-CSV usw.) kommen in einen Cloud-Ordner oder als E-Mail-Anhang. Hier nur die Dateinamen erfassen, sie erscheinen im Manifest.",
+                  "„Manifest-PDF erstellen“ erzeugt das Deckblatt mit allem.",
+                  "„E-Mail öffnen“ startet dein Mailprogramm mit fertigem Text, die Dateien hängst du selbst an.",
+                ].map((s, i) => (
+                  <li key={i} className="flex gap-3">
+                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent text-xs font-semibold text-accent-blue tabular">
+                      {i + 1}
+                    </span>
+                    <span>{s}</span>
+                  </li>
+                ))}
+              </ol>
+            </ToolSection>
+          </>
+        }
+      />
     </CockpitShell>
   );
 };
