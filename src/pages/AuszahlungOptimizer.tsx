@@ -4,8 +4,20 @@ import CockpitShell from "@/components/cockpit/CockpitShell";
 import Stand2026Footer from "@/components/cockpit/Stand2026Footer";
 import { Input } from "@/components/ui/input";
 import { HebesatzPicker } from "@/components/ui/hebesatz-picker";
-import { Label } from "@/components/ui/label";
-import { Calculator, TrendingUp, Info, AlertTriangle, ArrowRight } from "lucide-react";
+import { cn } from "@/lib/utils";
+import {
+  Callout,
+  ChoiceGroup,
+  EmptyState,
+  Field,
+  KitTable,
+  ResultPanel,
+  ToneBadge,
+  ToolLayout,
+  ToolSection,
+  selectCls,
+} from "@/components/cockpit/kit";
+import { Calculator, ArrowRight, Scale, ChevronDown, Plus, Minus } from "lucide-react";
 import {
   kstGewstRate,
   holdingRate,
@@ -246,252 +258,234 @@ const AuszahlungOptimizer = () => {
   const sorted = [...results].sort((a, b) => a.totalSteuer - b.totalSteuer);
   const best = sorted[0];
 
+  const eur = (n: number) => `${Math.round(n).toLocaleString("de-DE")} €`;
+  const pctTxt = (n: number) => `${n.toFixed(1).replace(".", ",")} %`;
+  const fett = (s: string) => s.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+
   return (
     <CockpitShell
-      eyebrow="Auszahlung-Optimizer"
-      title="Wie ziehst du Gewinn am steuer-effizientesten raus?"
-      subtitle="Vergleich von 7 Auszahlungs-Wegen aus deiner GmbH: GF-Gehalt · Standard-Dividende · Teileinkünfteverfahren · Holding · Mix · Pensionszusage · Tantieme. Mit konkreten Steuer-Berechnungen."
+      eyebrow="Steuern & Optimierung · Auszahlung"
+      title="Wie ziehst du Gewinn am steuereffizientesten raus?"
+      subtitle="Sieben Wege, Gewinn aus deiner GmbH zu holen, mit konkreter Steuerberechnung: GF-Gehalt, Standard-Dividende, Teileinkünfteverfahren, Holding, Mix, Pensionszusage und Tantieme."
     >
-      {/* Cross-Link zu SalaryDividend */}
-      <div className="rounded-2xl border border-border bg-secondary/30 p-3 mb-5 text-xs flex items-start gap-2">
-        <Info className="h-3.5 w-3.5 text-accent-blue shrink-0 mt-0.5" />
-        <div className="flex-1">
-          <strong className="text-foreground">Übersichts-Modus.</strong>{" "}
-          7-Wege-Vergleich mit Spitzensatz-Wahl. Für{" "}
-          <strong className="text-foreground">präzise Salary-vs-Dividende-Optimierung</strong>{" "}
-          mit echter ESt-Progression + SV-Beiträgen + KiSt:{" "}
-          <Link to="/cockpit/salary-dividende" className="text-accent-blue hover:underline inline-flex items-center gap-0.5">
-            Salary-vs-Dividende-Optimizer <ArrowRight className="h-3 w-3" />
-          </Link>
-        </div>
-      </div>
+      <Callout tone="accent" title="Übersichts-Modus" className="mb-6">
+        Sieben Wege im Vergleich, mit wählbarem Spitzensteuersatz. Für die präzise Aufteilung zwischen Gehalt und Dividende
+        mit echter Progression, Sozialversicherung und Kirchensteuer:{" "}
+        <Link to="/cockpit/salary-dividende" className="inline-flex items-center gap-1 font-medium text-accent-blue hover:underline">
+          Gehalt-oder-Dividende-Optimizer <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+        </Link>
+      </Callout>
 
-      {/* Inputs */}
-      <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5 mb-6">
-        <div className="flex items-center gap-2 mb-3">
-          <Calculator className="h-4 w-4 text-accent-blue" />
-          <h3 className="font-bold text-sm">Deine Situation</h3>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Op-GmbH-Gewinn (€/Jahr)</Label>
-            <Input
-              type="number"
-              value={opGewinn}
-              onChange={(e) => setOpGewinn(Math.max(0, Number(e.target.value) || 0))}
-              className="mt-1"
-            />
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">
-              Persönl. ESt-Satz (Spitzensatz)
-            </Label>
-            <select
-              value={eStSatz}
-              onChange={(e) => setEStSatz(Number(e.target.value))}
-              className="mt-1 h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
-            >
-              <option value={0.14}>14 % (geringes Einkommen)</option>
-              <option value={0.24}>24 % (mittel)</option>
-              <option value={0.32}>32 % (gut verdienend)</option>
-              <option value={0.42}>42 % (Spitzensatz ab ~62k)</option>
-              <option value={0.45}>45 % (Reichensteuer ab ~278k)</option>
-            </select>
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Holding vorhanden?</Label>
-            <div className="grid grid-cols-2 gap-1 mt-1">
-              {[
-                { v: true, l: "Ja" },
-                { v: false, l: "Nein" },
-              ].map((o) => (
-                <button
-                  key={String(o.v)}
-                  onClick={() => setHatHolding(o.v)}
-                  className={`rounded-md border h-10 text-sm transition-colors ${
-                    hatHolding === o.v
-                      ? "border-accent-blue bg-accent-blue/10 text-accent-blue font-semibold"
-                      : "border-border hover:bg-secondary"
-                  }`}
-                >
-                  {o.l}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Erweiterte Stellschrauben */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3 border-t border-accent-blue/20 pt-3">
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">
-              GewSt-Hebesatz (in %)
-            </Label>
-            <HebesatzPicker value={hebesatz} onChange={setHebesatz} className="mt-1" />
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">
-              GF-Gehalt-Anteil bei Variante 1 (in % vom Gewinn)
-            </Label>
-            <Input
-              type="number"
-              value={gehaltsAnteil}
-              onChange={(e) => setGehaltsAnteil(Math.max(0, Math.min(100, Number(e.target.value) || 0)))}
-              className="mt-1"
-            />
-            <div className="text-[10px] text-muted-foreground mt-1">
-              Marktüblich 30-50 %. 100 % wäre Angemessenheits-Verstoß (vGA-Risiko).
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Best Recommendation */}
-      {best && (
-        <div className="rounded-2xl border border-emerald-500/40 bg-gradient-to-br from-card via-card to-emerald-500/5 p-5 mb-6">
-          <div className="flex items-center gap-2 mb-2">
-            <TrendingUp className="h-5 w-5 text-emerald-700" />
-            <span className="text-xs font-semibold uppercase tracking-wider text-emerald-700">
-              Steuer-Optimale Variante für dich
-            </span>
-          </div>
-          <h3 className="text-xl font-bold mb-1">{best.name}</h3>
-          <p className="text-sm text-muted-foreground mb-3">{best.description}</p>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-center">
-            <div className="rounded-lg bg-secondary/40 p-3">
-              <div className="text-[10px] text-muted-foreground uppercase">Total Steuer</div>
-              <div className="text-lg font-bold">{Math.round(best.totalSteuer).toLocaleString("de-DE")} €</div>
-            </div>
-            <div className="rounded-lg bg-secondary/40 p-3">
-              <div className="text-[10px] text-muted-foreground uppercase">Privat netto</div>
-              <div className="text-lg font-bold">
-                {Math.round(best.privatNetto).toLocaleString("de-DE")} €
+      <ToolLayout
+        className="mb-8"
+        inputs={
+          <ToolSection title="Deine Situation" icon={Calculator}>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <Field label="Gewinn der operativen GmbH (€ pro Jahr)" htmlFor="ao-gewinn" className="sm:col-span-2">
+                <Input
+                  id="ao-gewinn"
+                  type="number"
+                  value={opGewinn}
+                  onChange={(e) => setOpGewinn(Math.max(0, Number(e.target.value) || 0))}
+                  className="tabular"
+                />
+              </Field>
+              <Field label="Persönlicher Spitzensteuersatz" htmlFor="ao-est">
+                <select id="ao-est" value={eStSatz} onChange={(e) => setEStSatz(Number(e.target.value))} className={selectCls}>
+                  <option value={0.14}>14 % (geringes Einkommen)</option>
+                  <option value={0.24}>24 % (mittel)</option>
+                  <option value={0.32}>32 % (gut verdienend)</option>
+                  <option value={0.42}>42 % (Spitzensatz ab ~62k)</option>
+                  <option value={0.45}>45 % (Reichensteuer ab ~278k)</option>
+                </select>
+              </Field>
+              <div className="space-y-1.5">
+                <p className="text-sm font-medium">Holding vorhanden?</p>
+                <ChoiceGroup<boolean>
+                  label="Holding vorhanden"
+                  className="grid grid-cols-2"
+                  value={hatHolding}
+                  onChange={setHatHolding}
+                  options={[
+                    { value: true, label: "Ja" },
+                    { value: false, label: "Nein" },
+                  ]}
+                />
               </div>
+              <Field label="Gewerbesteuer-Hebesatz (%)">
+                <HebesatzPicker value={hebesatz} onChange={setHebesatz} />
+              </Field>
+              <Field
+                label="GF-Gehalt in Variante 1 (% vom Gewinn)"
+                htmlFor="ao-gehalt"
+                hint="Marktüblich 30 bis 50 %. 100 % wäre unangemessen (Risiko verdeckter Gewinnausschüttung)."
+              >
+                <Input
+                  id="ao-gehalt"
+                  type="number"
+                  value={gehaltsAnteil}
+                  onChange={(e) => setGehaltsAnteil(Math.max(0, Math.min(100, Number(e.target.value) || 0)))}
+                  className="tabular"
+                />
+              </Field>
             </div>
-            <div className="rounded-lg bg-emerald-500/10 p-3">
-              <div className="text-[10px] text-emerald-700 uppercase">Effektivsatz</div>
-              <div className="text-lg font-bold text-emerald-700">{best.effektivPct.toFixed(1)} %</div>
-            </div>
+          </ToolSection>
+        }
+        result={
+          best ? (
+            <ResultPanel
+              variant="ink"
+              kicker="Steuerlich beste Variante für dich"
+              title={best.name}
+              value={pctTxt(best.effektivPct)}
+              valueHint="effektive Gesamtsteuer auf den Gewinn"
+            >
+              <p className="mb-4 text-sm leading-relaxed text-primary-foreground/75">{best.description}</p>
+              <div className="grid grid-cols-2 gap-px overflow-hidden rounded-xl bg-white/10">
+                {[
+                  { l: "Steuern gesamt", v: eur(best.totalSteuer) },
+                  { l: "Privat netto", v: eur(best.privatNetto) },
+                ].map((k) => (
+                  <div key={k.l} className="bg-white/[0.04] p-3">
+                    <div className="text-xs text-primary-foreground/65">{k.l}</div>
+                    <div className="mt-0.5 font-semibold text-primary-foreground tabular">{k.v}</div>
+                  </div>
+                ))}
+              </div>
+            </ResultPanel>
+          ) : (
+            <EmptyState
+              icon={Calculator}
+              title="Noch kein Gewinn eingetragen"
+              description="Trage den Jahresgewinn deiner GmbH ein, dann vergleichen wir alle Auszahlungswege."
+            />
+          )
+        }
+      />
+
+      {sorted.length > 0 && (
+        <>
+          <ToolSection
+            title={`Alle ${sorted.length} Auszahlungswege im Vergleich`}
+            description={hatHolding ? undefined : "Ohne Holding sind die Holding- und Mix-Varianten ausgeblendet."}
+            icon={Scale}
+            className="mb-6"
+            bodyClassName="p-0 md:p-0"
+          >
+            <KitTable caption="Vergleich der Auszahlungswege" className="rounded-none border-0 [contain:paint] [&_th]:whitespace-nowrap">
+              <thead>
+                <tr>
+                  <th>Weg</th>
+                  <th className="!text-right">GmbH-Steuer</th>
+                  <th className="!text-right">Privat-Steuer</th>
+                  <th className="!text-right">Privat netto</th>
+                  <th className="!text-right">Effektiv</th>
+                </tr>
+              </thead>
+              <tbody>
+                {sorted.map((r, i) => (
+                  <tr key={r.name} className={i === 0 ? "bg-success-soft/50" : undefined}>
+                    <td className="min-w-[13rem]">
+                      <div className="flex items-center gap-2">
+                        <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-secondary text-[11px] font-semibold">
+                          {i + 1}
+                        </span>
+                        <span className="font-medium">{r.name}</span>
+                      </div>
+                    </td>
+                    <td className="whitespace-nowrap text-right">{eur(r.steuerGmbh)}</td>
+                    <td className="whitespace-nowrap text-right">{eur(r.steuerPrivat)}</td>
+                    <td className="whitespace-nowrap text-right">{eur(r.privatNetto)}</td>
+                    <td
+                      className={cn(
+                        "whitespace-nowrap text-right font-semibold",
+                        i === 0 ? "text-success" : i === sorted.length - 1 && sorted.length > 1 ? "text-danger" : "",
+                      )}
+                    >
+                      {pctTxt(r.effektivPct)}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </KitTable>
+          </ToolSection>
+
+          <div className="mb-6 grid grid-cols-1 gap-4 lg:grid-cols-2">
+            {sorted.map((r, i) => {
+              const beste = i === 0;
+              const schlechteste = i === sorted.length - 1 && sorted.length > 1;
+              return (
+                <article
+                  key={r.name}
+                  className={cn(
+                    "rounded-2xl border bg-card p-5 shadow-card",
+                    beste ? "border-success/30" : schlechteste ? "border-danger/25" : "border-border",
+                  )}
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      <div className="flex flex-wrap items-center gap-1.5">
+                        <ToneBadge tone="neutral" className="tabular">Platz {i + 1}</ToneBadge>
+                        {beste && <ToneBadge tone="success">Beste</ToneBadge>}
+                        {schlechteste && <ToneBadge tone="danger">Schlechteste</ToneBadge>}
+                      </div>
+                      <h3 className="mt-2 text-base font-semibold leading-snug">{r.name}</h3>
+                    </div>
+                    <div className="shrink-0 text-right">
+                      <p className="text-xs text-muted-foreground">Effektivsatz</p>
+                      <p className="text-xl font-semibold tabular">{pctTxt(r.effektivPct)}</p>
+                    </div>
+                  </div>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{r.description}</p>
+                  <details className="group mt-3 text-sm [&_summary::-webkit-details-marker]:hidden">
+                    <summary className="flex cursor-pointer list-none items-center gap-1 border-t border-border/70 pt-3 font-medium text-muted-foreground hover:text-foreground">
+                      Vor- und Nachteile
+                      <ChevronDown className="h-3.5 w-3.5 transition-transform group-open:rotate-180" aria-hidden="true" />
+                    </summary>
+                    <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                      <div>
+                        <p className="mb-1.5 font-medium text-success">Vorteile</p>
+                        <ul className="space-y-1.5 text-muted-foreground">
+                          {r.pros.map((p, j) => (
+                            <li key={j} className="flex items-start gap-2">
+                              <Plus className="mt-1 h-3 w-3 shrink-0 text-success" aria-hidden="true" />
+                              <span dangerouslySetInnerHTML={{ __html: fett(p) }} />
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      <div>
+                        <p className="mb-1.5 font-medium text-danger">Nachteile</p>
+                        <ul className="space-y-1.5 text-muted-foreground">
+                          {r.cons.map((c, j) => (
+                            <li key={j} className="flex items-start gap-2">
+                              <Minus className="mt-1 h-3 w-3 shrink-0 text-danger" aria-hidden="true" />
+                              <span>{c}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  </details>
+                </article>
+              );
+            })}
           </div>
-        </div>
+        </>
       )}
 
-      {/* All Options Compared */}
-      <h3 className="text-base font-bold mb-3">Alle 7 Auszahlungs-Wege im Vergleich</h3>
-      <div className="space-y-3 mb-6">
-        {sorted.map((r, i) => (
-          <div
-            key={r.name}
-            className={`rounded-2xl border p-5 ${
-              i === 0
-                ? "border-emerald-500/40 bg-emerald-500/5"
-                : i === sorted.length - 1
-                ? "border-red-500/30 bg-red-500/5"
-                : "border-border bg-card"
-            }`}
-          >
-            <div className="flex items-start justify-between gap-3 flex-wrap mb-2">
-              <div>
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="rounded-full bg-secondary text-muted-foreground px-2 py-0.5 text-[10px] font-bold">
-                    #{i + 1}
-                  </span>
-                  <span className="font-bold">{r.name}</span>
-                  {i === 0 && (
-                    <span className="rounded-full bg-emerald-500/10 text-emerald-700 px-2 py-0.5 text-[10px] font-semibold">
-                      ✓ Beste
-                    </span>
-                  )}
-                  {i === sorted.length - 1 && sorted.length > 1 && (
-                    <span className="rounded-full bg-red-500/10 text-red-700 px-2 py-0.5 text-[10px] font-semibold">
-                      ⚠ Schlechteste
-                    </span>
-                  )}
-                </div>
-                <p className="text-xs text-muted-foreground">{r.description}</p>
-              </div>
-              <div className="text-right">
-                <div className="text-[10px] text-muted-foreground uppercase">Effektivsatz</div>
-                <div className="text-xl font-bold">{r.effektivPct.toFixed(1)} %</div>
-              </div>
-            </div>
-            <div className="grid grid-cols-3 gap-2 mb-3">
-              <div className="rounded-lg bg-secondary/40 p-2">
-                <div className="text-[10px] text-muted-foreground uppercase">GmbH-Steuer</div>
-                <div className="font-mono text-xs font-semibold">
-                  {Math.round(r.steuerGmbh).toLocaleString("de-DE")} €
-                </div>
-              </div>
-              <div className="rounded-lg bg-secondary/40 p-2">
-                <div className="text-[10px] text-muted-foreground uppercase">Privat-Steuer</div>
-                <div className="font-mono text-xs font-semibold">
-                  {Math.round(r.steuerPrivat).toLocaleString("de-DE")} €
-                </div>
-              </div>
-              <div className="rounded-lg bg-secondary/40 p-2">
-                <div className="text-[10px] text-muted-foreground uppercase">Privat netto</div>
-                <div className="font-mono text-xs font-semibold">
-                  {Math.round(r.privatNetto).toLocaleString("de-DE")} €
-                </div>
-              </div>
-            </div>
-            <details className="text-xs">
-              <summary className="cursor-pointer font-semibold text-muted-foreground">
-                Pros / Cons ▾
-              </summary>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
-                <div>
-                  <div className="text-[10px] uppercase tracking-wider text-emerald-700 font-semibold mb-1">
-                    + Vorteile
-                  </div>
-                  <ul className="space-y-0.5 text-muted-foreground">
-                    {r.pros.map((p, j) => (
-                      <li key={j} dangerouslySetInnerHTML={{ __html: "· " + p.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>") }} />
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <div className="text-[10px] uppercase tracking-wider text-red-700 font-semibold mb-1">
-                    − Nachteile
-                  </div>
-                  <ul className="space-y-0.5 text-muted-foreground">
-                    {r.cons.map((c, j) => (
-                      <li key={j}>· {c}</li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </details>
-          </div>
-        ))}
-      </div>
-
-      {/* Disclaimer */}
-      <div className="rounded-2xl border border-amber-500/30 bg-amber-500/5 p-4 text-xs leading-relaxed">
-        <div className="flex items-start gap-2">
-          <AlertTriangle className="h-4 w-4 text-amber-700 shrink-0 mt-0.5" />
-          <div>
-            <div className="font-semibold mb-1">Wichtig (vereinfachte Modellrechnung):</div>
-            <ul className="list-disc pl-4 space-y-1 text-muted-foreground">
-              <li>
-                Annahmen: Gesellschafter-GF mit ≥ 50 % Anteilen (sv-frei). KSt+GewSt-Hebesatz ~30 % (Bundesdurchschnitt).
-                Soli-Zuschlag inkludiert.
-              </li>
-              <li>
-                Pensionszusage stark vereinfacht — in Realität versicherungsmathematisch komplex.
-              </li>
-              <li>
-                §AStG, vGA-Risiken, Angemessenheits-Prüfungen NICHT modelliert — können je nach Setup signifikant
-                ändern.
-              </li>
-              <li>
-                Real: Mix von 2-3 Wegen typisch (z.B. Mindest-Gehalt + Tantieme + Rest in Holding).
-              </li>
-              <li>Konkrete Strategie immer mit StB durchrechnen.</li>
-            </ul>
-          </div>
-        </div>
-      </div>
+      <Callout tone="warning" title="Vereinfachte Modellrechnung" className="mb-6">
+        <ul className="list-disc space-y-1 pl-4">
+          <li>
+            Annahmen: Gesellschafter-Geschäftsführer mit mindestens 50 % Anteilen (sozialversicherungsfrei). KSt und GewSt
+            nach deinem Hebesatz, Solidaritätszuschlag enthalten.
+          </li>
+          <li>Pensionszusage stark vereinfacht, in der Praxis versicherungsmathematisch komplex.</li>
+          <li>AStG, vGA-Risiken und Angemessenheitsprüfungen sind nicht modelliert und können das Ergebnis deutlich ändern.</li>
+          <li>In der Praxis ist ein Mix aus zwei bis drei Wegen üblich, z. B. Mindestgehalt, Tantieme und Rest in die Holding.</li>
+          <li>Die konkrete Strategie immer mit der Steuerberatung durchrechnen.</li>
+        </ul>
+      </Callout>
 
       <Stand2026Footer
         sources={[
