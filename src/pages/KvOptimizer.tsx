@@ -1,9 +1,31 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ElementType } from "react";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import Stand2026Footer from "@/components/cockpit/Stand2026Footer";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Heart, TrendingDown, AlertTriangle, Info, CheckCircle2, ExternalLink } from "lucide-react";
+import {
+  Callout,
+  Field,
+  KitTable,
+  ResultPanel,
+  StatGrid,
+  StatTile,
+  ToolLayout,
+  ToolSection,
+} from "@/components/cockpit/kit";
+import {
+  TrendingDown,
+  AlertTriangle,
+  Info,
+  ExternalLink,
+  ArrowRight,
+  ArrowLeftRight,
+  Briefcase,
+  Landmark,
+  Shield,
+  UserRound,
+  Lightbulb,
+  FileText,
+} from "lucide-react";
 
 // === Stand 2026 (recherchiert Mai 2026) ===
 const GKV_ALLG_SATZ = 14.6; // % — unverändert seit 2015
@@ -114,21 +136,27 @@ const KvOptimizer = () => {
     };
   }, [bruttoMonat, aktuellerZusatz, kinderlos, kinderAnzahl, pkvBeitragMonat, pkvAlter, pkvSelbstbehalt, bruttoJahr, istGmbHGF]);
 
+  const eur = (n: number) => `${Math.round(n).toLocaleString("de-DE")} €`;
+  const pct = (n: number) => `${n.toFixed(2).replace(".", ",")} %`;
+
   return (
     <CockpitShell
-      eyebrow="KV-Optimizer · Stand 2026"
-      title="Krankenkasse: Spar-Hebel + GKV-vs-PKV-Vergleich"
-      subtitle="Zusatzbeitrag-Vergleich GKV (2,18 % - 4,39 % Spanne 2026), günstigste Kassen + Spar-Potenzial pro Jahr. PKV-Hebel: §204 VVG Tarifwechsel (15-30 %), Selbstbehalt, BRE. Wechsel-Check GKV ↔ PKV mit JAEG 77.400 €."
+      eyebrow="Versicherungen · Stand 2026"
+      title="Krankenkasse: Spar-Hebel und GKV-PKV-Vergleich"
+      subtitle="Zusatzbeiträge der GKV im Vergleich (Spanne 2026: 2,18 bis 4,39 %), günstigste Kassen und dein Sparpotenzial pro Jahr. Dazu die PKV-Hebel (Tarifwechsel nach § 204 VVG, Selbstbehalt, Beitragsrückerstattung) und der Wechsel-Check GKV oder PKV mit der JAEG von 77.400 €."
     >
-      {/* Sticky Anchor-Navigation — alle 4 Sektionen permanent sichtbar */}
-      <div className="sticky top-0 z-10 -mx-4 md:-mx-6 px-4 md:px-6 py-3 bg-background/95 backdrop-blur border-b border-border mb-6">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-          {([
-            { v: "sektion-gkv-pflicht", l: "GKV Pflicht", emoji: "👔" },
-            { v: "sektion-gkv-freiwillig", l: "GKV freiwillig", emoji: "🏛️" },
-            { v: "sektion-pkv", l: "PKV Spar-Hebel", emoji: "💎" },
-            { v: "sektion-wechsel", l: "Wechsel-Check", emoji: "🔄" },
-          ]).map((s) => (
+      {/* Sprungmarken */}
+      <nav
+        aria-label="Abschnitte"
+        className="sticky top-0 z-10 -mx-4 mb-6 border-b border-border bg-background/95 px-4 py-3 backdrop-blur md:-mx-6 md:px-6"
+      >
+        <div className="flex gap-2 overflow-x-auto [scrollbar-width:none]">
+          {[
+            { v: "sektion-gkv-pflicht", l: "GKV Pflicht", icon: Briefcase },
+            { v: "sektion-gkv-freiwillig", l: "GKV freiwillig", icon: Landmark },
+            { v: "sektion-pkv", l: "PKV Spar-Hebel", icon: Shield },
+            { v: "sektion-wechsel", l: "Wechsel-Check", icon: ArrowLeftRight },
+          ].map((s) => (
             <a
               key={s.v}
               href={`#${s.v}`}
@@ -136,383 +164,382 @@ const KvOptimizer = () => {
                 e.preventDefault();
                 document.getElementById(s.v)?.scrollIntoView({ behavior: "smooth", block: "start" });
               }}
-              className="rounded-xl border border-border bg-card hover:bg-accent-blue/5 hover:border-accent-blue/40 p-2 text-left transition flex items-center gap-2"
+              className="inline-flex shrink-0 items-center gap-2 rounded-lg border border-border bg-card px-3 py-2 text-sm font-medium transition-colors hover:border-accent-blue/40 hover:text-accent-blue"
             >
-              <span className="text-base">{s.emoji}</span>
-              <span className="text-xs font-semibold leading-tight">{s.l}</span>
+              <s.icon className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
+              {s.l}
             </a>
           ))}
         </div>
-      </div>
+      </nav>
 
-      {/* Common Inputs */}
-      <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5 mb-6">
-        <h3 className="font-bold text-sm mb-3">Deine Daten</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Brutto-Einkommen / Monat (€)</Label>
+      {/* Gemeinsame Eingaben */}
+      <ToolSection title="Deine Daten" description="Gilt für alle vier Abschnitte." icon={UserRound} className="mb-8">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          <Field
+            label="Bruttoeinkommen pro Monat (€)"
+            htmlFor="kv-brutto"
+            hint={
+              <>
+                Entspricht <strong className="text-foreground tabular">{bruttoJahr.toLocaleString("de-DE")} €</strong> im Jahr.
+                Beitragsbemessungsgrenze 2026: {BBG_KV_MONAT_2026.toLocaleString("de-DE")} € pro Monat
+              </>
+            }
+          >
             <Input
+              id="kv-brutto"
               type="number"
               value={bruttoMonat}
               onChange={(e) => setBruttoMonat(Math.max(0, Number(e.target.value) || 0))}
-              className="mt-1"
+              className="tabular"
             />
-            <div className="text-[10px] text-muted-foreground mt-1">
-              = <strong className="text-foreground">{bruttoJahr.toLocaleString("de-DE")} €/Jahr</strong> · BBG-Cap 2026: {BBG_KV_MONAT_2026.toLocaleString("de-DE")} €/Mon ({(BBG_KV_MONAT_2026 * 12).toLocaleString("de-DE")} €/J)
-            </div>
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Aktueller Zusatzbeitrag (%)</Label>
+          </Field>
+          <Field
+            label="Aktueller Zusatzbeitrag (%)"
+            htmlFor="kv-zusatz"
+            hint={`Durchschnitt 2026: ${String(GKV_ZUSATZ_SCHNITT_2026).replace(".", ",")} %, Spanne 2,18 bis 4,39 %`}
+          >
             <Input
+              id="kv-zusatz"
               type="number"
               step="0.01"
               value={aktuellerZusatz}
               onChange={(e) => setAktuellerZusatz(Math.max(0, Number(e.target.value) || 0))}
-              className="mt-1"
+              className="tabular"
             />
-            <div className="text-[10px] text-muted-foreground mt-1">
-              Durchschnitt 2026: {GKV_ZUSATZ_SCHNITT_2026} % · Spanne 2,18 - 4,39 %
-            </div>
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Familie</Label>
-            <div className="mt-1 space-y-1">
-              <label className="flex items-center gap-2 text-xs cursor-pointer">
-                <input type="checkbox" checked={kinderlos} onChange={(e) => setKinderlos(e.target.checked)} />
-                <span>Kinderlos (PV-Zuschlag +0,6 %)</span>
-              </label>
-              {!kinderlos && (
-                <Input
-                  type="number"
-                  value={kinderAnzahl}
-                  onChange={(e) => setKinderAnzahl(Math.max(0, Number(e.target.value) || 0))}
-                  placeholder="Anzahl Kinder unter 25"
-                  className="h-8 text-xs"
-                />
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* === Modus: GKV-Pflicht === */}
-      <section id="sektion-gkv-pflicht" className="scroll-mt-32">
-        <h2 className="text-lg font-bold mb-3 flex items-center gap-2">👔 GKV Pflicht (Angestellte)</h2>
-          <div className="rounded-2xl border-2 border-emerald-500/40 bg-emerald-500/5 p-5 mb-6">
-            <div className="flex items-center gap-2 mb-3">
-              <TrendingDown className="h-5 w-5 text-emerald-700" />
-              <h3 className="font-bold text-base">Spar-Potenzial durch Kassenwechsel</h3>
-            </div>
-            <div className="text-xs mb-3 text-muted-foreground">
-              Dein AN-Anteil bei aktuellem Zusatzbeitrag <strong>{aktuellerZusatz.toFixed(2)} %</strong>:{" "}
-              <strong className="text-foreground">{calc.gkvPflichtAN.toFixed(2)} €/Monat</strong> ({(calc.gkvPflichtAN * 12).toFixed(0)} €/Jahr)
-            </div>
-            <div className="space-y-2">
-              {calc.sparPotenzial.slice(0, 5).map((k) => (
-                <div
-                  key={k.name}
-                  className={`flex items-center justify-between rounded-lg p-3 text-xs ${
-                    k.sparungJahr > 100 ? "bg-emerald-500/10 border border-emerald-500/30" : "bg-secondary/40"
-                  }`}
-                >
-                  <div className="flex-1 min-w-0">
-                    <div className="font-semibold text-sm">{k.name}</div>
-                    <div className="text-[11px] text-muted-foreground">{k.bemerkung}</div>
-                  </div>
-                  <div className="text-right shrink-0 ml-3">
-                    <div className="font-mono">Zusatz {k.zusatz.toFixed(2)} % · Total {k.gesamt.toFixed(2)} %</div>
-                    {k.sparungJahr > 0 ? (
-                      <div className="text-emerald-700 font-bold">
-                        − {k.sparungMonat.toFixed(0)} €/Mon · {k.sparungJahr.toFixed(0)} €/Jahr
-                      </div>
-                    ) : (
-                      <div className="text-muted-foreground">teurer als aktuell</div>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="rounded-2xl border border-amber-500/30 bg-amber-500/5 p-4 text-xs leading-relaxed mb-6">
-            <div className="font-bold mb-2">3 weitere GKV-Spar-Hebel:</div>
-            <ul className="list-disc pl-4 space-y-1.5 text-muted-foreground">
-              <li>
-                <strong>Bonusprogramme</strong>: TK bis 480 €/J, AOK ~200 €/J, BARMER ~200 €/J — für
-                Check-up, Sport-Verein, Zahn-Vorsorge. Geld <em>steuerfrei</em>.
-              </li>
-              <li>
-                <strong>Familienversicherung §10 SGB V</strong>: Ehepartner/Kinder unter 23 (Studium 25)
-                mit Einkommen unter 565 €/Monat (Stand 2026) → kostenlos mitversichert. Spart bei dir
-                kein Geld, aber spart dem Partner ~280 €/Monat.
-              </li>
-              <li>
-                <strong>Sonderkündigungsrecht</strong>: Wenn deine Kasse 2026 den Zusatz erhöht → 2
-                Monate Frist, Wechsel zum übernächsten Monat. Vorversicherungszeit muss <em>nicht</em>{" "}
-                12 Monate sein (Sonderkündigung).
-              </li>
-            </ul>
-          </div>
-      </section>
-
-      {/* === Sektion: GKV-freiwillig (Selbstständige) === */}
-      <section id="sektion-gkv-freiwillig" className="scroll-mt-32">
-        <h2 className="text-lg font-bold mb-3 flex items-center gap-2">🏛️ GKV freiwillig (Selbstständige)</h2>
-          <div className="rounded-2xl border-2 border-blue-500/40 bg-blue-500/5 p-5 mb-6">
-            <h3 className="font-bold text-base mb-3">Dein Beitrag als Selbstständiger</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
-              <div className="rounded-lg bg-secondary/40 p-3">
-                <div className="text-[10px] text-muted-foreground uppercase">Beitrag dein Brutto</div>
-                <div className="text-lg font-bold">{calc.freiwilligGesamt.toFixed(0)} €/Mon</div>
-                <div className="text-[10px] text-muted-foreground">Bemessung: {calc.bemessung.toFixed(0)} €</div>
-              </div>
-              <div className="rounded-lg bg-amber-500/10 p-3">
-                <div className="text-[10px] text-muted-foreground uppercase">Mindestbeitrag 2026</div>
-                <div className="text-lg font-bold">{calc.freiwilligMindest.toFixed(0)} €/Mon</div>
-                <div className="text-[10px] text-muted-foreground">Bei Einkommen &lt; 1.318 €/Mon</div>
-              </div>
-              <div className="rounded-lg bg-red-500/10 p-3">
-                <div className="text-[10px] text-muted-foreground uppercase">Höchstbeitrag 2026</div>
-                <div className="text-lg font-bold">{calc.freiwilligHoechst.toFixed(0)} €/Mon</div>
-                <div className="text-[10px] text-muted-foreground">Cap bei 5.812,50 €/Mon Einkommen</div>
-              </div>
-            </div>
-            <div className="text-xs text-muted-foreground space-y-1.5">
-              <div>
-                · <strong>Krankengeld-Wahltarif</strong>: Mit Wahltarif (+0,5-1 %) bekommst du bei AU ab Tag 43
-                Krankengeld. Ohne Wahltarif zahlst du günstigeren ermäßigten Satz (14,0 statt 14,6 %), bekommst
-                aber kein Krankengeld. Bei Rücklagen + Berufsunfähigkeitsversicherung oft sinnvoller.
-              </div>
-              <div>
-                · <strong>Einnahmen nicht melden &lt; BBG</strong>: Beitrag bemisst sich nur nach gemeldetem
-                Einkommen. Bei schwankendem Einkommen vorsichtig — FA-Bescheid + StB-Schreiben gegenüber
-                Kasse nutzen.
-              </div>
-              <div>
-                · <strong>KSK-Mitgliedschaft prüfen</strong> (Künstler, Publizisten, Programmierer-grenze):
-                Bundeszuschuss übernimmt 50 % der KV-Beiträge wie bei AN.
-              </div>
-            </div>
-          </div>
-
-          <div className="rounded-2xl border border-amber-500/30 bg-amber-500/5 p-4 text-xs leading-relaxed mb-6">
-            <div className="font-bold mb-2">Spar-Hebel als Selbstständiger:</div>
-            <ul className="list-disc pl-4 space-y-1.5 text-muted-foreground">
-              <li>
-                <strong>Wechsel zu günstiger Kasse:</strong> gleiche Spar-Logik wie bei Angestellten —
-                zusätzliche Ersparnis: <strong>{(calc.sparPotenzial[0].sparungJahr * 2).toFixed(0)} €/Jahr</strong>{" "}
-                (×2 weil du sowohl AN- als auch AG-Anteil trägst!)
-              </li>
-              <li>
-                <strong>Ermäßigter Beitrag ohne Krankengeld:</strong> 14,0 % statt 14,6 % allgemein
-              </li>
-              <li>
-                <strong>Wechsel-Check PKV</strong> (Tab 4): bei Brutto &gt; 70 k €/J + jung + gesund kann
-                PKV deutlich günstiger sein
-              </li>
-            </ul>
-          </div>
-      </section>
-
-      {/* === Sektion: PKV === */}
-      <section id="sektion-pkv" className="scroll-mt-32">
-        <h2 className="text-lg font-bold mb-3 flex items-center gap-2">💎 PKV Spar-Hebel</h2>
-          <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5 mb-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-              <div>
-                <Label className="text-xs uppercase tracking-wider text-muted-foreground">Aktueller PKV-Beitrag (€/Mon)</Label>
-                <Input
-                  type="number"
-                  value={pkvBeitragMonat}
-                  onChange={(e) => setPkvBeitragMonat(Math.max(0, Number(e.target.value) || 0))}
-                  className="mt-1"
-                />
-              </div>
-              <div>
-                <Label className="text-xs uppercase tracking-wider text-muted-foreground">Alter</Label>
-                <Input
-                  type="number"
-                  value={pkvAlter}
-                  onChange={(e) => setPkvAlter(Math.max(18, Math.min(90, Number(e.target.value) || 35)))}
-                  className="mt-1"
-                />
-              </div>
-              <div>
-                <Label className="text-xs uppercase tracking-wider text-muted-foreground">Aktueller Selbstbehalt (€/J)</Label>
-                <Input
-                  type="number"
-                  value={pkvSelbstbehalt}
-                  onChange={(e) => setPkvSelbstbehalt(Math.max(0, Number(e.target.value) || 0))}
-                  className="mt-1"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div className="rounded-2xl border-2 border-emerald-500/40 bg-emerald-500/5 p-5 mb-6">
-            <h3 className="font-bold text-base mb-3 flex items-center gap-2">
-              <TrendingDown className="h-5 w-5 text-emerald-700" />
-              PKV-Spar-Hebel (sortiert nach Sparpotenzial)
-            </h3>
-            <div className="space-y-2">
-              {calc.pkvSparSzenarien.map((s, i) => (
-                <div key={i} className="rounded-lg bg-card border border-border p-3">
-                  <div className="flex items-start justify-between gap-3 mb-1">
-                    <div className="font-semibold text-sm flex-1">{s.titel}</div>
-                    <div className="text-right shrink-0">
-                      <div className="text-emerald-700 font-bold text-sm">− {s.ersparnisMonat.toFixed(0)} €/Mon</div>
-                      <div className="text-[10px] text-muted-foreground">{s.ersparnisJahr.toFixed(0)} €/Jahr</div>
-                    </div>
-                  </div>
-                  <div className="text-[11px] text-muted-foreground leading-relaxed">{s.hinweis}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="rounded-2xl border border-amber-500/30 bg-amber-500/5 p-4 text-xs leading-relaxed mb-6">
-            <div className="flex items-start gap-2">
-              <Info className="h-4 w-4 text-amber-700 shrink-0 mt-0.5" />
-              <div>
-                <div className="font-bold mb-2">§204 VVG Tarifwechsel — der wichtigste Hebel (2026: 13 % Beitragserhöhung trifft 60 %)</div>
-                <ul className="list-disc pl-4 space-y-1.5 text-muted-foreground">
-                  <li>
-                    <strong>Was es ist:</strong> Wechsel in einen <em>günstigeren Tarif derselben</em> Versicherung
-                    unter Mitnahme der Altersrückstellungen. Keine Gesundheitsprüfung für gleiche/niedrigere Leistungen.
-                  </li>
-                  <li>
-                    <strong>Pflicht der Kasse</strong> (§204 VVG): du fragst aktiv nach Vergleichstarifen,
-                    Versicherung MUSS antworten. Banche bei der Kasse beantragen, nicht via Vermittler (der
-                    bekommt sonst Bestandsprovision).
-                  </li>
-                  <li>
-                    <strong>Honorarberater (NICHT Vermittler):</strong> 200-400 € Pauschale, oft 1.500-5.000 €/J
-                    Ersparnis. ROI in 1-3 Monaten.
-                  </li>
-                  <li>
-                    <strong>Standard- &amp; Basistarif</strong>: Notlösung gedeckelt auf max. GKV-Höchstbeitrag.
-                    Standardtarif: bei ≥10 J PKV + ≥55 J. Basistarif: jederzeit, aber eingeschränkte Leistungen
-                    auf GKV-Niveau.
-                  </li>
-                  <li>
-                    <strong>Beihilfe-Wechsel (Beamte/Verwaltungs-AN):</strong> nur Restkostenversicherung statt
-                    Vollkosten — deutlich günstiger. Nur für anspruchsberechtigte Beamte.
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-      </section>
-
-      {/* === Sektion: Wechsel-Check === */}
-      <section id="sektion-wechsel" className="scroll-mt-32">
-        <h2 className="text-lg font-bold mb-3 flex items-center gap-2">🔄 Wechsel-Check GKV ↔ PKV</h2>
-          <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5 mb-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              <div className="rounded-lg bg-secondary/40 p-3">
-                <Label className="text-xs uppercase tracking-wider text-muted-foreground">Jahresbrutto (aus Brutto-Monat oben × 12)</Label>
-                <div className="text-2xl font-bold mt-1">{bruttoJahr.toLocaleString("de-DE")} €</div>
-                <div className="text-[10px] text-muted-foreground mt-1">
-                  Basis: {bruttoMonat.toLocaleString("de-DE")} €/Monat. Zum Ändern oben anpassen.
-                </div>
-              </div>
-              <label className="flex items-center gap-2 text-xs cursor-pointer rounded-lg border border-border p-3">
-                <input type="checkbox" checked={istGmbHGF} onChange={(e) => setIstGmbHGF(e.target.checked)} />
-                <span>Ich bin <strong>GmbH-Gesellschafter-GF</strong> oder Selbstständig (kein JAEG-Check nötig)</span>
-              </label>
-            </div>
-          </div>
-
-          <div className={`rounded-2xl border-2 p-5 mb-6 ${
-            calc.wechselErlaubt ? "border-emerald-500/40 bg-emerald-500/5" : "border-red-500/40 bg-red-500/5"
-          }`}>
-            <h3 className="font-bold text-base mb-3 flex items-center gap-2">
-              {calc.wechselErlaubt ? <CheckCircle2 className="h-5 w-5 text-emerald-700" /> : <AlertTriangle className="h-5 w-5 text-red-700" />}
-              {calc.wechselErlaubt ? "Du darfst in die PKV wechseln" : `Wechsel nicht möglich — Brutto < JAEG ${JAEG_2026.toLocaleString("de-DE")} €`}
-            </h3>
-            {calc.wechselErlaubt ? (
-              <>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs mb-3">
-                  <div className="rounded-lg bg-secondary/40 p-3">
-                    <div className="text-[10px] uppercase text-muted-foreground">GKV-Kosten (AN-Anteil)</div>
-                    <div className="text-lg font-bold">{(calc.wechselGkvJahresKostenAn).toFixed(0)} €/Jahr</div>
-                    <div className="text-[10px] text-muted-foreground">{(calc.wechselGkvJahresKostenAn / 12).toFixed(0)} €/Mon AN</div>
-                  </div>
-                  <div className="rounded-lg bg-secondary/40 p-3">
-                    <div className="text-[10px] uppercase text-muted-foreground">PKV-Schätzung Jung-Single</div>
-                    <div className="text-lg font-bold">{calc.pkvAnKostenJahr.toFixed(0)} €/Jahr</div>
-                    <div className="text-[10px] text-muted-foreground">{(calc.pkvAnKostenJahr / 12).toFixed(0)} €/Mon {istGmbHGF ? "(50% AG-Zuschuss)" : ""}</div>
-                  </div>
-                  <div className={`rounded-lg p-3 ${calc.wechselErsparnisJahr > 0 ? "bg-emerald-500/10" : "bg-amber-500/10"}`}>
-                    <div className="text-[10px] uppercase text-muted-foreground">Differenz heute</div>
-                    <div className={`text-lg font-bold ${calc.wechselErsparnisJahr > 0 ? "text-emerald-700" : "text-amber-700"}`}>
-                      {calc.wechselErsparnisJahr > 0 ? "− " : "+ "}
-                      {Math.abs(calc.wechselErsparnisJahr).toFixed(0)} €/Jahr
-                    </div>
-                    <div className="text-[10px] text-muted-foreground">
-                      {calc.wechselErsparnisJahr > 0 ? "PKV günstiger" : "GKV günstiger"}
-                    </div>
-                  </div>
-                </div>
-              </>
-            ) : (
-              <div className="text-xs text-muted-foreground leading-relaxed">
-                Als Arbeitnehmer brauchst du Bruttoeinkommen über JAEG <strong>{JAEG_2026.toLocaleString("de-DE")} €/Jahr</strong>{" "}
-                ({(JAEG_2026 / 12).toFixed(0)} €/Monat) für 12 Monate ununterbrochen. Bei Selbstständigen / GmbH-GF entfällt der JAEG-Check.
-              </div>
+          </Field>
+          <div className="space-y-1.5">
+            <p className="text-sm font-medium">Familie</p>
+            <label className="flex h-10 cursor-pointer items-center gap-2.5 rounded-md border border-input bg-card px-3 text-sm">
+              <input
+                type="checkbox"
+                checked={kinderlos}
+                onChange={(e) => setKinderlos(e.target.checked)}
+                className="h-4 w-4 accent-[hsl(var(--primary))]"
+              />
+              Kinderlos (Pflege-Zuschlag 0,6 %)
+            </label>
+            {!kinderlos && (
+              <Input
+                type="number"
+                value={kinderAnzahl}
+                onChange={(e) => setKinderAnzahl(Math.max(0, Number(e.target.value) || 0))}
+                placeholder="Anzahl Kinder unter 25"
+                aria-label="Anzahl Kinder unter 25"
+                className="tabular"
+              />
             )}
           </div>
+        </div>
+      </ToolSection>
 
-          <div className="rounded-2xl border-2 border-red-500/30 bg-red-500/5 p-4 text-xs leading-relaxed mb-6">
-            <div className="flex items-start gap-2">
-              <AlertTriangle className="h-4 w-4 text-red-700 shrink-0 mt-0.5" />
-              <div>
-                <div className="font-bold text-red-800 mb-2">⚠ Langzeit-Risiken PKV (oft unterschätzt)</div>
-                <ul className="list-disc pl-4 space-y-1.5 text-muted-foreground">
-                  <li>
-                    <strong>PKV-Beitrag steigt mit Alter</strong> stark: 2026 zogen 60 % der PKVs um ~13 % an.
-                    Heute günstig ≠ in 20 Jahren günstig.
-                  </li>
-                  <li>
-                    <strong>Rück-Wechsel ab 55 unmöglich:</strong> Ausnahmen nur über Arbeitslosigkeit + JAEG-
-                    Unterschreitung 12 Monate. Faktisch lebenslange Bindung.
-                  </li>
-                  <li>
-                    <strong>Kinder PKV:</strong> jedes Kind eigener Vertrag (~150-250 €/Mon). GKV: kostenlos
-                    familienversichert. Ein Kind kostet PKV ~30k € über 18 Jahre.
-                  </li>
-                  <li>
-                    <strong>Rente:</strong> GKV-Rentner zahlen ~50 % Beitragssatz aus AG-Zuschuss-Hälfte. PKV-
-                    Rentner: voller PKV-Beitrag aus eigener Tasche, oft 600-900 €/Mon.
-                  </li>
-                  <li>
-                    <strong>Bei großer Krankheit / Familienplanung:</strong> GKV sicherer (Familien-Verbund,
-                    keine Reha-Limit, keine Beitrags-Sprünge).
-                  </li>
-                  <li>
-                    <strong>Sweet-Spot PKV:</strong> Single, ≥70 k €/J, jung (&lt; 35), gesund, hohe Rücklagen,
-                    kein Familienwunsch — sonst sehr genau prüfen.
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
+      {/* === GKV Pflicht === */}
+      <section id="sektion-gkv-pflicht" className="mb-10 scroll-mt-32 space-y-4">
+        <AbschnittKopf icon={Briefcase} titel="GKV Pflicht" zusatz="für Angestellte" />
+        <div className="grid items-start gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] [&>*]:min-w-0">
+          <ResultPanel
+            variant="ink"
+            kicker="Dein Arbeitnehmer-Anteil"
+            title={`bei ${pct(aktuellerZusatz)} Zusatzbeitrag`}
+            value={`${calc.gkvPflichtAN.toFixed(2).replace(".", ",")} €`}
+            valueHint={`pro Monat, ${eur(calc.gkvPflichtAN * 12)} im Jahr`}
+          />
+          <ToolSection title="Sparpotenzial durch Kassenwechsel" icon={TrendingDown} bodyClassName="p-0 md:p-0">
+            <KitTable caption="Sparpotenzial je Krankenkasse" className="rounded-none border-0">
+              <thead>
+                <tr>
+                  <th>Kasse</th>
+                  <th className="whitespace-nowrap !text-right">Zusatz</th>
+                  <th className="whitespace-nowrap !text-right">Gesamt</th>
+                  <th className="whitespace-nowrap !text-right">Ersparnis</th>
+                </tr>
+              </thead>
+              <tbody>
+                {calc.sparPotenzial.slice(0, 5).map((k) => (
+                  <tr key={k.name} className={k.sparungJahr > 100 ? "bg-success-soft/40" : undefined}>
+                    <td className="min-w-[11rem]">
+                      <p className="font-medium">{k.name}</p>
+                      <p className="text-xs text-muted-foreground">{k.bemerkung}</p>
+                    </td>
+                    <td className="whitespace-nowrap text-right">{pct(k.zusatz)}</td>
+                    <td className="whitespace-nowrap text-right">{pct(k.gesamt)}</td>
+                    <td className="whitespace-nowrap text-right">
+                      {k.sparungJahr > 0 ? (
+                        <>
+                          <p className="font-semibold text-success">{eur(k.sparungJahr)} pro Jahr</p>
+                          <p className="text-xs text-muted-foreground">{eur(k.sparungMonat)} pro Monat</p>
+                        </>
+                      ) : (
+                        <span className="text-muted-foreground">teurer als aktuell</span>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </KitTable>
+          </ToolSection>
+        </div>
+        <Callout tone="info" icon={Lightbulb} title="Drei weitere Spar-Hebel in der GKV">
+          <ul className="list-disc space-y-1.5 pl-4">
+            <li>
+              <strong>Bonusprogramme:</strong> TK bis 480 € im Jahr, AOK und BARMER rund 200 € für Check-up, Sportverein oder
+              Zahnvorsorge. Das Geld ist <em>steuerfrei</em>.
+            </li>
+            <li>
+              <strong>Familienversicherung nach § 10 SGB V:</strong> Ehepartner und Kinder unter 23 (im Studium 25) mit
+              Einkommen unter 565 € im Monat (Stand 2026) sind kostenlos mitversichert. Spart dir selbst nichts, dem Partner
+              aber rund 280 € im Monat.
+            </li>
+            <li>
+              <strong>Sonderkündigungsrecht:</strong> Erhöht deine Kasse 2026 den Zusatzbeitrag, kannst du mit zwei Monaten
+              Frist zum übernächsten Monat wechseln. Die Vorversicherungszeit muss dann <em>nicht</em> 12 Monate betragen.
+            </li>
+          </ul>
+        </Callout>
       </section>
 
-      {/* Cross-Links */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-6">
-        <a href="/cockpit/pension-optimizer" className="rounded-xl border border-border bg-card p-3 text-xs hover:border-accent-blue transition">
-          <div className="font-semibold mb-0.5">Pension-Optimizer →</div>
-          <div className="text-muted-foreground">bAV-KV-Pflicht in Rente jetzt mit Freibetrag 2.373 €/J modelliert</div>
-        </a>
-        <a href="/cockpit/salary-dividende" className="rounded-xl border border-border bg-card p-3 text-xs hover:border-accent-blue transition">
-          <div className="font-semibold mb-0.5">Salary vs. Dividende →</div>
-          <div className="text-muted-foreground">Optimum GF-Gehalt vs. Ausschüttung mit SV-Effekt</div>
-        </a>
-        <a href="https://www.zusatzbeitrag.net/" target="_blank" rel="noopener noreferrer" className="rounded-xl border border-border bg-card p-3 text-xs hover:border-accent-blue transition">
-          <div className="font-semibold mb-0.5 flex items-center gap-1">Aktuelle GKV-Zusatzbeiträge <ExternalLink className="h-3 w-3" /></div>
-          <div className="text-muted-foreground">Live-Tabelle aller Kassen (zusatzbeitrag.net)</div>
-        </a>
+      {/* === GKV freiwillig === */}
+      <section id="sektion-gkv-freiwillig" className="mb-10 scroll-mt-32 space-y-4">
+        <AbschnittKopf icon={Landmark} titel="GKV freiwillig" zusatz="für Selbstständige" />
+        <StatGrid cols={3}>
+          <StatTile
+            emphasis
+            label="Dein Beitrag bei deinem Brutto"
+            value={`${eur(calc.freiwilligGesamt)} / Monat`}
+            hint={`Bemessungsgrundlage: ${eur(calc.bemessung)}`}
+          />
+          <StatTile label="Mindestbeitrag 2026" value={`${eur(calc.freiwilligMindest)} / Monat`} hint="Bei Einkommen unter 1.318 € im Monat" />
+          <StatTile label="Höchstbeitrag 2026" value={`${eur(calc.freiwilligHoechst)} / Monat`} hint="Gedeckelt ab 5.812,50 € Monatseinkommen" />
+        </StatGrid>
+        <div className="grid gap-4 md:grid-cols-2">
+          <ToolSection title="Gut zu wissen" icon={Info}>
+            <ul className="space-y-3 text-sm leading-relaxed text-muted-foreground">
+              <li>
+                <strong className="text-foreground">Krankengeld-Wahltarif:</strong> Mit Wahltarif (plus 0,5 bis 1 %) gibt es
+                bei Arbeitsunfähigkeit ab Tag 43 Krankengeld. Ohne zahlst du den ermäßigten Satz (14,0 statt 14,6 %), bekommst
+                aber kein Krankengeld. Mit Rücklagen und Berufsunfähigkeitsversicherung oft die bessere Wahl.
+              </li>
+              <li>
+                <strong className="text-foreground">Einkommen unter der BBG:</strong> Der Beitrag bemisst sich nach dem
+                gemeldeten Einkommen. Bei schwankenden Einnahmen vorsichtig sein und Steuerbescheid oder ein Schreiben der
+                Steuerberatung gegenüber der Kasse nutzen.
+              </li>
+              <li>
+                <strong className="text-foreground">KSK-Mitgliedschaft prüfen</strong> (Künstler, Publizisten, teils
+                Programmierer): Der Bundeszuschuss übernimmt wie bei Angestellten 50 % der KV-Beiträge.
+              </li>
+            </ul>
+          </ToolSection>
+          <ToolSection title="Spar-Hebel als Selbstständiger" icon={TrendingDown}>
+            <ul className="space-y-3 text-sm leading-relaxed text-muted-foreground">
+              <li>
+                <strong className="text-foreground">Wechsel zu einer günstigeren Kasse:</strong> zusätzliche Ersparnis{" "}
+                <strong className="text-success tabular">{eur(calc.sparPotenzial[0].sparungJahr * 2)} pro Jahr</strong>, doppelt
+                so viel wie bei Angestellten, weil du Arbeitnehmer- und Arbeitgeber-Anteil trägst.
+              </li>
+              <li>
+                <strong className="text-foreground">Ermäßigter Beitrag ohne Krankengeld:</strong> 14,0 % statt 14,6 %.
+              </li>
+              <li>
+                <strong className="text-foreground">Wechsel-Check PKV</strong> (unten): Bei mehr als 70.000 € im Jahr, jung und
+                gesund kann die PKV deutlich günstiger sein.
+              </li>
+            </ul>
+          </ToolSection>
+        </div>
+      </section>
+
+      {/* === PKV === */}
+      <section id="sektion-pkv" className="mb-10 scroll-mt-32 space-y-4">
+        <AbschnittKopf icon={Shield} titel="PKV Spar-Hebel" />
+        <ToolLayout
+          inputs={
+            <ToolSection title="Dein PKV-Vertrag" icon={FileText}>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
+                <Field label="Beitrag pro Monat (€)" htmlFor="kv-pkv-beitrag">
+                  <Input
+                    id="kv-pkv-beitrag"
+                    type="number"
+                    value={pkvBeitragMonat}
+                    onChange={(e) => setPkvBeitragMonat(Math.max(0, Number(e.target.value) || 0))}
+                    className="tabular"
+                  />
+                </Field>
+                <Field label="Alter" htmlFor="kv-pkv-alter">
+                  <Input
+                    id="kv-pkv-alter"
+                    type="number"
+                    value={pkvAlter}
+                    onChange={(e) => setPkvAlter(Math.max(18, Math.min(90, Number(e.target.value) || 35)))}
+                    className="tabular"
+                  />
+                </Field>
+                <Field label="Selbstbehalt pro Jahr (€)" htmlFor="kv-pkv-sb">
+                  <Input
+                    id="kv-pkv-sb"
+                    type="number"
+                    value={pkvSelbstbehalt}
+                    onChange={(e) => setPkvSelbstbehalt(Math.max(0, Number(e.target.value) || 0))}
+                    className="tabular"
+                  />
+                </Field>
+              </div>
+            </ToolSection>
+          }
+          result={
+            <ResultPanel title="Spar-Hebel für deinen Beitrag">
+              <ul className="divide-y divide-border/70">
+                {calc.pkvSparSzenarien.map((s, i) => (
+                  <li key={i} className="py-3 first:pt-0 last:pb-0">
+                    <div className="flex items-start justify-between gap-3">
+                      <p className="text-sm font-medium">{s.titel}</p>
+                      <div className="shrink-0 text-right">
+                        <p className="text-sm font-semibold text-success tabular">{eur(s.ersparnisMonat)} / Monat</p>
+                        <p className="text-xs text-muted-foreground tabular">{eur(s.ersparnisJahr)} im Jahr</p>
+                      </div>
+                    </div>
+                    <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{s.hinweis}</p>
+                  </li>
+                ))}
+              </ul>
+            </ResultPanel>
+          }
+        />
+        <Callout tone="warning" title="Tarifwechsel nach § 204 VVG: der wichtigste Hebel (2026 trifft eine Erhöhung um 13 % rund 60 % der Versicherten)">
+          <ul className="list-disc space-y-1.5 pl-4">
+            <li>
+              <strong>Was es ist:</strong> Wechsel in einen <em>günstigeren Tarif derselben</em> Versicherung, die
+              Altersrückstellungen bleiben erhalten. Keine Gesundheitsprüfung bei gleichen oder geringeren Leistungen.
+            </li>
+            <li>
+              <strong>Pflicht der Versicherung</strong> (§ 204 VVG): Du fragst aktiv nach Vergleichstarifen, die Versicherung
+              muss antworten. Direkt bei der Versicherung beantragen, nicht über Vermittler (die erhalten sonst
+              Bestandsprovision).
+            </li>
+            <li>
+              <strong>Honorarberater statt Vermittler:</strong> 200 bis 400 € Pauschale, oft 1.500 bis 5.000 € Ersparnis im
+              Jahr. Das rechnet sich in ein bis drei Monaten.
+            </li>
+            <li>
+              <strong>Standard- und Basistarif:</strong> Notlösung, gedeckelt auf den GKV-Höchstbeitrag. Standardtarif ab 10
+              Jahren PKV und Alter 55, Basistarif jederzeit, aber mit Leistungen auf GKV-Niveau.
+            </li>
+            <li>
+              <strong>Beihilfe-Wechsel (Beamte):</strong> Restkosten- statt Vollkostenversicherung, deutlich günstiger. Nur für
+              beihilfeberechtigte Beamte.
+            </li>
+          </ul>
+        </Callout>
+      </section>
+
+      {/* === Wechsel-Check === */}
+      <section id="sektion-wechsel" className="mb-10 scroll-mt-32 space-y-4">
+        <AbschnittKopf icon={ArrowLeftRight} titel="Wechsel-Check GKV oder PKV" />
+        <div className="grid gap-4 md:grid-cols-2">
+          <StatTile
+            label="Jahresbrutto (Monatsbrutto mal 12)"
+            value={`${bruttoJahr.toLocaleString("de-DE")} €`}
+            hint={`Basis: ${bruttoMonat.toLocaleString("de-DE")} € pro Monat, oben unter „Deine Daten“ änderbar`}
+          />
+          <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-border bg-card p-4 text-sm">
+            <input
+              type="checkbox"
+              checked={istGmbHGF}
+              onChange={(e) => setIstGmbHGF(e.target.checked)}
+              className="mt-0.5 h-4 w-4 shrink-0 accent-[hsl(var(--primary))]"
+            />
+            <span>
+              <span className="block font-medium">Ich bin Gesellschafter-Geschäftsführer einer GmbH oder selbstständig</span>
+              <span className="mt-0.5 block text-muted-foreground">Dann entfällt die Prüfung der Jahresarbeitsentgeltgrenze.</span>
+            </span>
+          </label>
+        </div>
+
+        {calc.wechselErlaubt ? (
+          <ResultPanel kicker="Ergebnis" title="Du darfst in die PKV wechseln">
+            <StatGrid cols={3}>
+              <StatTile
+                label="GKV, Arbeitnehmer-Anteil"
+                value={`${eur(calc.wechselGkvJahresKostenAn)} / Jahr`}
+                hint={`${eur(calc.wechselGkvJahresKostenAn / 12)} pro Monat`}
+              />
+              <StatTile
+                label="PKV, Schätzung junger Single"
+                value={`${eur(calc.pkvAnKostenJahr)} / Jahr`}
+                hint={`${eur(calc.pkvAnKostenJahr / 12)} pro Monat${istGmbHGF ? ", mit 50 % Arbeitgeber-Zuschuss" : ""}`}
+              />
+              <StatTile
+                emphasis
+                tone={calc.wechselErsparnisJahr > 0 ? "success" : "warning"}
+                label="Differenz heute"
+                value={`${calc.wechselErsparnisJahr > 0 ? "−" : "+"} ${eur(Math.abs(calc.wechselErsparnisJahr))}`}
+                hint={calc.wechselErsparnisJahr > 0 ? "PKV günstiger" : "GKV günstiger"}
+              />
+            </StatGrid>
+          </ResultPanel>
+        ) : (
+          <Callout tone="danger" title={`Wechsel nicht möglich: Brutto unter der JAEG von ${JAEG_2026.toLocaleString("de-DE")} €`}>
+            Als Arbeitnehmer brauchst du ein Bruttoeinkommen über{" "}
+            <strong className="tabular">{JAEG_2026.toLocaleString("de-DE")} € im Jahr</strong> (
+            <span className="tabular">{(JAEG_2026 / 12).toFixed(0)} €</span> im Monat), und zwar 12 Monate am Stück. Für
+            Selbstständige und GmbH-Geschäftsführer entfällt diese Prüfung.
+          </Callout>
+        )}
+
+        <Callout tone="danger" icon={AlertTriangle} title="Langzeit-Risiken der PKV, oft unterschätzt">
+          <ul className="list-disc space-y-1.5 pl-4">
+            <li>
+              <strong>Der Beitrag steigt mit dem Alter</strong> deutlich: 2026 erhöhten 60 % der Versicherer um rund 13 %.
+              Heute günstig heißt nicht in 20 Jahren günstig.
+            </li>
+            <li>
+              <strong>Rückwechsel ab 55 praktisch unmöglich:</strong> Ausnahmen nur über Arbeitslosigkeit oder 12 Monate unter
+              der JAEG. Faktisch eine lebenslange Bindung.
+            </li>
+            <li>
+              <strong>Kinder in der PKV:</strong> Jedes Kind braucht einen eigenen Vertrag (rund 150 bis 250 € im Monat). In der
+              GKV sind Kinder kostenlos familienversichert. Ein Kind kostet in der PKV über 18 Jahre rund 30.000 €.
+            </li>
+            <li>
+              <strong>Rente:</strong> GKV-Rentner zahlen etwa den halben Beitragssatz. PKV-Rentner tragen den vollen Beitrag
+              selbst, oft 600 bis 900 € im Monat.
+            </li>
+            <li>
+              <strong>Schwere Krankheit, Familienplanung:</strong> Die GKV ist sicherer (Familienversicherung, keine
+              Reha-Limits, keine Beitragssprünge).
+            </li>
+            <li>
+              <strong>Wann die PKV passt:</strong> Single, mindestens 70.000 € im Jahr, jung (unter 35), gesund, hohe Rücklagen,
+              kein Kinderwunsch. Sonst sehr genau prüfen.
+            </li>
+          </ul>
+        </Callout>
+      </section>
+
+      {/* Weiterführend */}
+      <div className="mb-8 grid grid-cols-1 gap-3 md:grid-cols-3">
+        {[
+          { href: "/cockpit/pension-optimizer", t: "Pension-Optimizer", d: "KV-Pflicht der bAV in der Rente, mit Freibetrag 2.373 € im Jahr", ext: false },
+          { href: "/cockpit/salary-dividende", t: "Gehalt oder Dividende", d: "Optimales GF-Gehalt gegenüber Ausschüttung, mit SV-Effekt", ext: false },
+          { href: "https://www.zusatzbeitrag.net/", t: "Aktuelle GKV-Zusatzbeiträge", d: "Live-Tabelle aller Kassen auf zusatzbeitrag.net", ext: true },
+        ].map((l) => (
+          <a
+            key={l.href}
+            href={l.href}
+            {...(l.ext ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+            className="group rounded-xl border border-border bg-card p-4 shadow-card transition-colors hover:border-accent-blue/40"
+          >
+            <p className="flex items-center gap-1.5 text-sm font-semibold">
+              {l.t}
+              {l.ext ? (
+                <ExternalLink className="h-3.5 w-3.5 text-muted-foreground" aria-hidden="true" />
+              ) : (
+                <ArrowRight className="h-3.5 w-3.5 text-muted-foreground transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+              )}
+            </p>
+            <p className="mt-1 text-sm text-muted-foreground">{l.d}</p>
+          </a>
+        ))}
       </div>
 
       <Stand2026Footer
@@ -529,5 +556,17 @@ const KvOptimizer = () => {
     </CockpitShell>
   );
 };
+
+const AbschnittKopf = ({ icon: Icon, titel, zusatz }: { icon: ElementType; titel: string; zusatz?: string }) => (
+  <div className="flex items-center gap-3 border-b border-border/70 pb-3">
+    <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent text-accent-blue">
+      <Icon className="h-4 w-4" aria-hidden="true" />
+    </span>
+    <h2 className="text-lg font-semibold tracking-tight">
+      {titel}
+      {zusatz && <span className="font-normal text-muted-foreground"> {zusatz}</span>}
+    </h2>
+  </div>
+);
 
 export default KvOptimizer;
