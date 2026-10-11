@@ -1,25 +1,54 @@
 import { useState } from "react";
 import CockpitShell from "@/components/cockpit/CockpitShell";
+import { Button } from "@/components/ui/button";
 import {
   ArrowLeft,
   CheckCircle2,
-  AlertTriangle,
   ExternalLink,
-  Eye,
   Globe,
   Calculator,
   ListChecks,
   Scale,
+  ChevronRight,
+  ChevronDown,
+  Info,
+  Plus,
+  Minus,
+  Check,
+  Lightbulb,
+  Landmark,
+  Wallet,
+  Building2,
 } from "lucide-react";
+import { Callout, ChoiceGroup, KitTable, ToneBadge, ToolSection, type Tone } from "@/components/cockpit/kit";
 import { EU_ALTERNATIVES, type EUAlternative } from "@/data/euAlternatives";
 import { REAL_STRUCTURES, type RealStructure } from "@/data/realStructureExamples";
 
-const FIT_COLOR: Record<EUAlternative["fitForGermans"], string> = {
-  "Sehr gut": "bg-emerald-500/10 text-emerald-700",
-  Gut: "bg-accent-blue/10 text-accent-blue",
-  Mittel: "bg-amber-500/10 text-amber-700",
-  Schwierig: "bg-red-500/10 text-red-700",
+const FIT_TONE: Record<EUAlternative["fitForGermans"], Tone> = {
+  "Sehr gut": "success",
+  Gut: "accent",
+  Mittel: "warning",
+  Schwierig: "danger",
 };
+const fitTone = (f: EUAlternative["fitForGermans"]): Tone => {
+  const key = (["Sehr gut", "Gut", "Mittel", "Schwierig"] as const).find((k) => f.startsWith(k));
+  return key ? FIT_TONE[key] : "neutral";
+};
+
+/** Rendert **fett** aus den Datentexten ohne innerHTML. */
+const Md = ({ text }: { text: string }) => (
+  <>
+    {text.split(/\*\*([^*]+)\*\*/g).map((part, j) =>
+      j % 2 === 1 ? (
+        <strong key={j} className="font-semibold text-foreground">
+          {part}
+        </strong>
+      ) : (
+        <span key={j}>{part}</span>
+      ),
+    )}
+  </>
+);
 
 const EUAlternativen = () => {
   const [selected, setSelected] = useState<EUAlternative | null>(null);
@@ -35,7 +64,7 @@ const EUAlternativen = () => {
   if (selected) {
     return (
       <CockpitShell
-        eyebrow={`${selected.flag} EU-Alternative`}
+        eyebrow={`EU-Alternativen · ${selected.country}`}
         title={`${selected.legalForm} (${selected.country})`}
         subtitle={selected.shortName}
       >
@@ -46,121 +75,104 @@ const EUAlternativen = () => {
 
   return (
     <CockpitShell
-      eyebrow="EU-Alternativen"
-      title="13 EU-/CH-Rechtsform-Alternativen für deutsche Gründer"
-      subtitle="Statt DE-GmbH → EU-Alternative gründen. Vergleich nach KSt, Stammkapital, Substanz-Anforderung, DE-Eignung. ATAD-konforme Strukturen die in 2026 funktionieren — keine ‚Briefkasten-Tricks'."
+      eyebrow="Rechtsform · EU-Alternativen"
+      title="13 EU- und CH-Rechtsformen als Alternative für deutsche Gründer"
+      subtitle="Statt DE-GmbH eine EU-Alternative gründen? Vergleich nach Körperschaftsteuer, Stammkapital, Substanz-Anforderung und Eignung für Gründer aus DE. ATAD-konforme Strukturen, die 2026 funktionieren, keine Briefkasten-Tricks."
     >
       {/* Wichtige Hinweise */}
-      <div className="rounded-2xl border border-amber-500/30 bg-amber-500/5 p-4 mb-6 text-xs leading-relaxed">
-        <div className="flex items-start gap-2">
-          <AlertTriangle className="h-4 w-4 text-amber-700 shrink-0 mt-0.5" />
-          <div>
-            <div className="font-semibold mb-1">Wichtig vorweg (Stand 2026):</div>
-            <ul className="list-disc pl-4 space-y-1 text-muted-foreground">
-              <li>
-                <strong>§AStG-Hinzurechnungsbesteuerung</strong>: bei DE-Wohnsitz + Beherrschung &gt; 50 % +
-                niedrigerer Steuer (&lt; 25 %) + passiven Einkünften → BMF rechnet Gewinne in DE hinzu.
-                Aktive Geschäftstätigkeit + echte Substanz vor Ort ist zwingend.
-              </li>
-              <li>
-                <strong>ATAD III seit 2024</strong>: Mailbox-Companies werden EU-weit durchschaut. Ohne lokale
-                Substanz (Adresse + Mitarbeiter + echte Geschäftsleitung) wird Sitz nach DE umqualifiziert.
-              </li>
-              <li>
-                <strong>Pillar 2 OECD ab 2024</strong>: 15 % Mindeststeuer für Konzerne &gt; 750 Mio Umsatz —
-                kleine KMUs unbetroffen.
-              </li>
-              <li>
-                <strong>Wegzugsbesteuerung §6 AStG</strong>: bei Wegzug aus DE mit GmbH-Anteilen → Anteile gelten
-                als verkauft mit Wertaufholung. Bei EU-Wegzug: nur Stundung (kein Verzicht mehr seit 2022).
-              </li>
-            </ul>
-          </div>
+      <Callout tone="warning" title="Wichtig vorweg (Stand 2026)" className="mb-6">
+        <ul className="list-disc space-y-1 pl-4">
+          <li>
+            <strong className="font-semibold text-foreground">§AStG-Hinzurechnungsbesteuerung:</strong> Bei DE-Wohnsitz,
+            Beherrschung über 50 %, niedrigerer Steuer (unter 25 %) und passiven Einkünften rechnet das BMF die Gewinne in DE
+            hinzu. Aktive Geschäftstätigkeit und echte Substanz vor Ort sind zwingend.
+          </li>
+          <li>
+            <strong className="font-semibold text-foreground">ATAD III seit 2024:</strong> Briefkastenfirmen werden EU-weit
+            durchschaut. Ohne lokale Substanz (Adresse, Mitarbeiter, echte Geschäftsleitung) wird der Sitz nach DE verlegt.
+          </li>
+          <li>
+            <strong className="font-semibold text-foreground">Pillar 2 OECD ab 2024:</strong> 15 % Mindeststeuer für Konzerne
+            über 750 Mio. Umsatz, kleine KMU sind nicht betroffen.
+          </li>
+          <li>
+            <strong className="font-semibold text-foreground">Wegzugsbesteuerung §6 AStG:</strong> Beim Wegzug aus DE mit
+            GmbH-Anteilen gelten die Anteile als verkauft. Bei EU-Wegzug nur Stundung (kein Verzicht mehr seit 2022).
+          </li>
+        </ul>
+      </Callout>
+
+      {/* Sort Toggle */}
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+        <h2 className="text-lg font-semibold tracking-tight">Länder im Überblick</h2>
+        <div className="flex items-center gap-2">
+          <span className="hidden text-sm text-muted-foreground sm:inline">Sortieren:</span>
+          <ChoiceGroup<"tax" | "capital" | "fit">
+            label="Sortierung"
+            size="sm"
+            value={sortBy}
+            onChange={setSortBy}
+            options={[
+              { value: "fit", label: "Eignung" },
+              { value: "tax", label: "Steuersatz" },
+              { value: "capital", label: "Stammkapital" },
+            ]}
+          />
         </div>
       </div>
 
-      {/* Sort Toggle */}
-      <div className="flex flex-wrap gap-2 mb-4">
-        <button
-          onClick={() => setSortBy("fit")}
-          className={`rounded-full px-3 py-1.5 text-[11px] font-semibold transition-colors ${
-            sortBy === "fit" ? "bg-accent-blue text-primary-foreground" : "bg-secondary text-muted-foreground hover:bg-secondary/80"
-          }`}
-        >
-          Nach Eignung für DE-Gründer
-        </button>
-        <button
-          onClick={() => setSortBy("tax")}
-          className={`rounded-full px-3 py-1.5 text-[11px] font-semibold transition-colors ${
-            sortBy === "tax" ? "bg-accent-blue text-primary-foreground" : "bg-secondary text-muted-foreground hover:bg-secondary/80"
-          }`}
-        >
-          Nach Steuersatz
-        </button>
-        <button
-          onClick={() => setSortBy("capital")}
-          className={`rounded-full px-3 py-1.5 text-[11px] font-semibold transition-colors ${
-            sortBy === "capital" ? "bg-accent-blue text-primary-foreground" : "bg-secondary text-muted-foreground hover:bg-secondary/80"
-          }`}
-        >
-          Nach Stammkapital
-        </button>
-      </div>
-
       {/* Country-Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
+      <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2">
         {sorted.map((s) => (
           <button
             key={s.slug}
+            type="button"
             onClick={() => setSelected(s)}
-            className="text-left rounded-2xl border border-border bg-card p-5 hover:border-accent-blue/40 hover:shadow-soft transition-all group"
+            className="press group rounded-2xl border border-border bg-card p-5 text-left shadow-card transition-[border-color,box-shadow] duration-200 hover:border-accent-blue/40 hover:shadow-soft"
           >
-            <div className="flex items-start justify-between gap-3 mb-2">
-              <div className="flex items-center gap-2">
-                <span className="text-3xl">{s.flag}</span>
-                <div>
-                  <h3 className="font-bold text-sm leading-tight">{s.country}</h3>
-                  <p className="text-[11px] text-muted-foreground">{s.legalForm}</p>
+            <div className="flex items-start justify-between gap-3">
+              <div className="flex min-w-0 items-center gap-3">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-secondary text-2xl" aria-hidden="true">
+                  {s.flag}
+                </span>
+                <div className="min-w-0">
+                  <h3 className="text-base font-semibold leading-tight">{s.country}</h3>
+                  <p className="text-sm text-muted-foreground">{s.legalForm}</p>
                 </div>
               </div>
-              <Eye className="h-4 w-4 text-muted-foreground group-hover:text-accent-blue shrink-0" />
+              <ChevronRight className="mt-1 h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-accent-blue" aria-hidden="true" />
             </div>
-            <div className="grid grid-cols-2 gap-2 text-[11px] mb-3">
-              <div className="rounded-lg bg-secondary/40 p-2">
-                <div className="text-[10px] uppercase tracking-wider text-muted-foreground">KSt</div>
-                <div className="font-mono font-semibold">{s.effectiveTotal.split("·")[0].trim()}</div>
+            <div className="mt-4 grid grid-cols-2 gap-2">
+              <div className="rounded-lg bg-secondary/50 px-3 py-2">
+                <p className="text-xs text-muted-foreground">Steuer effektiv</p>
+                <p className="text-sm font-semibold tabular">{s.effectiveTotal.split("·")[0].trim()}</p>
               </div>
-              <div className="rounded-lg bg-secondary/40 p-2">
-                <div className="text-[10px] uppercase tracking-wider text-muted-foreground">Min. Kapital</div>
-                <div className="font-mono font-semibold">
+              <div className="rounded-lg bg-secondary/50 px-3 py-2">
+                <p className="text-xs text-muted-foreground">Mindestkapital</p>
+                <p className="text-sm font-semibold tabular">
                   {s.minCapital < 100 ? `${s.minCapital} €` : `${s.minCapital.toLocaleString("de-DE")} €`}
-                </div>
+                </p>
               </div>
             </div>
-            <div className="flex flex-wrap gap-1.5">
-              <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${FIT_COLOR[s.fitForGermans]}`}>
-                DE-Eignung: {s.fitForGermans}
-              </span>
-              <span className="rounded-full bg-secondary text-muted-foreground px-2 py-0.5 text-[10px]">
-                Setup: {s.setupTime}
-              </span>
+            <div className="mt-3 flex flex-wrap gap-1.5">
+              <ToneBadge tone={fitTone(s.fitForGermans)}>Eignung: {s.fitForGermans}</ToneBadge>
+              <ToneBadge>Setup: {s.setupTime}</ToneBadge>
             </div>
           </button>
         ))}
       </div>
 
       {/* Compare-Table */}
-      <div className="rounded-2xl border border-border bg-card p-5 overflow-x-auto">
-        <h3 className="font-bold text-sm mb-3">Side-by-Side Steuer-Vergleich</h3>
-        <table className="w-full text-xs">
+      <ToolSection title="Steuern im direkten Vergleich" description="Zeile anklicken für Details" icon={Scale} className="mb-8">
+        <KitTable caption="Steuervergleich der EU-Alternativen" className="relative">
           <thead>
-            <tr className="border-b border-border">
-              <th className="text-left py-2 pr-2">Land</th>
-              <th className="text-left py-2 px-2">KSt</th>
-              <th className="text-left py-2 px-2">Min. Kap.</th>
-              <th className="text-left py-2 px-2">Setup</th>
-              <th className="text-left py-2 px-2">Quellen-St.</th>
-              <th className="text-left py-2 pl-2">DE-Eignung</th>
+            <tr>
+              <th>Land</th>
+              <th>KSt</th>
+              <th>Min. Kapital</th>
+              <th>Setup</th>
+              <th>Quellensteuer</th>
+              <th>Eignung</th>
             </tr>
           </thead>
           <tbody>
@@ -168,37 +180,39 @@ const EUAlternativen = () => {
               <tr
                 key={s.slug}
                 onClick={() => setSelected(s)}
-                className="border-b border-border last:border-0 cursor-pointer hover:bg-secondary/30"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") setSelected(s);
+                }}
+                tabIndex={0}
+                className="cursor-pointer focus-visible:bg-secondary/50 focus-visible:outline-none"
               >
-                <td className="py-2 pr-2">
-                  <span className="mr-1.5">{s.flag}</span>
+                <td className="whitespace-nowrap">
+                  <span className="mr-2" aria-hidden="true">{s.flag}</span>
                   <span className="font-semibold">{s.country}</span>
                 </td>
-                <td className="py-2 px-2 font-mono text-[10px]">{s.corporateTax.split("·")[0].trim()}</td>
-                <td className="py-2 px-2 font-mono text-[10px]">
+                <td className="whitespace-nowrap">{s.corporateTax.split("·")[0].trim()}</td>
+                <td className="whitespace-nowrap">
                   {s.minCapital < 100 ? `${s.minCapital} €` : `${(s.minCapital / 1000).toFixed(0)}k`}
                 </td>
-                <td className="py-2 px-2 text-muted-foreground text-[10px]">{s.setupTime}</td>
-                <td className="py-2 px-2 font-mono text-[10px]">{s.withholdingDividends.split("·")[0].trim()}</td>
-                <td className="py-2 pl-2">
-                  <span className={`rounded-full px-1.5 py-0.5 text-[9px] font-semibold ${FIT_COLOR[s.fitForGermans]}`}>
-                    {s.fitForGermans}
-                  </span>
+                <td className="text-muted-foreground">{s.setupTime}</td>
+                <td className="whitespace-nowrap">{s.withholdingDividends.split("·")[0].trim()}</td>
+                <td>
+                  <ToneBadge tone={fitTone(s.fitForGermans)}>{s.fitForGermans}</ToneBadge>
                 </td>
               </tr>
             ))}
           </tbody>
-        </table>
-      </div>
+        </KitTable>
+      </ToolSection>
 
       {/* Real-World Multi-Jurisdiktion Strukturen */}
-      <div className="mt-8">
-        <h3 className="font-bold text-base mb-3 flex items-center gap-2">
-          <Globe className="h-5 w-5 text-accent-blue" /> Real-World Multi-Jurisdiktions-Konstrukte
-        </h3>
-        <p className="text-xs text-muted-foreground mb-4">
-          Echte Holding-Architekturen die in der DACH-Wirtschaft + UHNW-Familien tatsächlich genutzt werden. Keine
-          theoretischen Modelle — sondern Strukturen aus Handelsregistern, Pressemeldungen und Case Studies.
+      <div>
+        <h2 className="flex items-center gap-2 text-lg font-semibold tracking-tight">
+          <Globe className="h-5 w-5 text-accent-blue" aria-hidden="true" /> Multi-Jurisdiktions-Strukturen aus der Praxis
+        </h2>
+        <p className="mb-4 mt-1 max-w-[68ch] text-sm text-muted-foreground">
+          Holding-Architekturen, die in der DACH-Wirtschaft und von sehr vermögenden Familien tatsächlich genutzt werden.
+          Keine theoretischen Modelle, sondern Strukturen aus Handelsregistern, Pressemeldungen und Fallstudien.
         </p>
         <div className="space-y-3">
           {REAL_STRUCTURES.map((rs) => (
@@ -207,11 +221,14 @@ const EUAlternativen = () => {
         </div>
       </div>
 
-      <div className="rounded-2xl border border-border bg-card p-4 mt-6 text-[11px] text-muted-foreground leading-relaxed">
-        <strong>Disclaimer:</strong> Dieses Tool ist Orientierungshilfe, keine Steuer-/Rechtsberatung. EU-Setup ist
-        komplex und länderspezifisch. Immer mit StB UND Anwalt in DE + im Zielland final klären, BEVOR du eine
-        ausländische Gesellschaft gründest. Stand: Mai 2026.
-      </div>
+      <p className="mt-6 flex items-start gap-2 text-xs leading-relaxed text-muted-foreground">
+        <Info className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+        <span>
+          <strong className="font-semibold text-foreground">Hinweis:</strong> Dieses Tool ist eine Orientierungshilfe, keine
+          Steuer- oder Rechtsberatung. Ein EU-Setup ist komplex und länderspezifisch. Immer mit StB und Anwalt in DE und im
+          Zielland final klären, bevor du eine ausländische Gesellschaft gründest. Stand: Mai 2026.
+        </span>
+      </p>
     </CockpitShell>
   );
 };
@@ -219,56 +236,55 @@ const EUAlternativen = () => {
 const RealStructureCard = ({ rs }: { rs: RealStructure }) => {
   const [open, setOpen] = useState(false);
   return (
-    <div className="rounded-2xl border border-border bg-card overflow-hidden">
+    <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-card">
       <button
+        type="button"
         onClick={() => setOpen(!open)}
-        className="w-full text-left p-4 hover:bg-secondary/30 transition-colors"
+        aria-expanded={open}
+        className="w-full px-5 py-4 text-left transition-colors hover:bg-secondary/40"
       >
         <div className="flex items-start gap-3">
-          <div className="text-3xl">{rs.emoji}</div>
-          <div className="flex-1">
-            <h4 className="font-bold text-sm mb-1">{rs.name}</h4>
-            <div className="text-[11px] text-muted-foreground mb-1">Familie: {rs.family}</div>
-            <p className="text-xs text-muted-foreground line-clamp-2">{rs.description}</p>
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-secondary text-xl" aria-hidden="true">
+            {rs.emoji}
+          </span>
+          <div className="min-w-0 flex-1">
+            <h3 className="text-base font-semibold leading-snug">{rs.name}</h3>
+            <p className="text-sm text-muted-foreground">Familie: {rs.family}</p>
+            <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">{rs.description}</p>
           </div>
-          <div className="text-xs text-accent-blue shrink-0">{open ? "▲" : "▼"}</div>
+          <ChevronDown className={`mt-1 h-4 w-4 shrink-0 text-muted-foreground transition-transform ${open ? "rotate-180" : ""}`} aria-hidden="true" />
         </div>
       </button>
       {open && (
-        <div className="border-t border-border p-4 bg-secondary/20 space-y-3">
+        <div className="space-y-4 border-t border-border/70 bg-secondary/20 px-5 py-5">
           <div>
-            <div className="text-[10px] uppercase tracking-wider text-muted-foreground mb-1">Diagramm</div>
-            <pre className="font-mono text-[10px] leading-tight whitespace-pre overflow-x-auto bg-card border border-border rounded-lg p-3">
+            <p className="mb-2 text-sm font-semibold">Struktur</p>
+            <pre className="overflow-x-auto whitespace-pre rounded-xl border border-border bg-card p-4 font-mono text-xs leading-tight">
               {rs.diagram}
             </pre>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-3">
-              <div className="text-[10px] uppercase tracking-wider text-emerald-700 font-semibold mb-1">
-                Warum es funktioniert
-              </div>
-              <ul className="space-y-1 text-xs">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div className="rounded-xl border border-success/25 bg-success-soft p-4">
+              <p className="text-sm font-semibold">Warum es funktioniert</p>
+              <ul className="mt-2 space-y-1.5 text-sm leading-relaxed text-foreground/80">
                 {rs.whyThisWorks.map((w, i) => (
-                  <li key={i} className="flex items-start gap-1.5">
-                    <span className="text-emerald-600 shrink-0">+</span>
-                    <span dangerouslySetInnerHTML={{ __html: w.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>") }} />
+                  <li key={i} className="flex items-start gap-2">
+                    <Plus className="mt-1 h-3.5 w-3.5 shrink-0 text-success" aria-hidden="true" />
+                    <span>
+                      <Md text={w} />
+                    </span>
                   </li>
                 ))}
               </ul>
             </div>
-            <div className="rounded-xl border border-accent-blue/30 bg-accent-blue/5 p-3">
-              <div className="text-[10px] uppercase tracking-wider text-accent-blue font-semibold mb-1">
-                Steuer-Logik
-              </div>
-              <p className="text-xs leading-relaxed">{rs.taxLogic}</p>
+            <div className="rounded-xl border border-accent-blue/20 bg-accent p-4">
+              <p className="text-sm font-semibold">Steuer-Logik</p>
+              <p className="mt-2 text-sm leading-relaxed text-foreground/80">{rs.taxLogic}</p>
             </div>
           </div>
-          <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-3 text-xs">
-            <div className="text-[10px] uppercase tracking-wider text-amber-700 font-semibold mb-1">
-              Take-Away für DACH-Founder
-            </div>
-            <p className="leading-relaxed">{rs.takeaway}</p>
-          </div>
+          <Callout tone="warning" icon={Lightbulb} title="Was Gründer aus der DACH-Region mitnehmen">
+            {rs.takeaway}
+          </Callout>
         </div>
       )}
     </div>
@@ -276,103 +292,94 @@ const RealStructureCard = ({ rs }: { rs: RealStructure }) => {
 };
 
 const Detail = ({ s, onBack }: { s: EUAlternative; onBack: () => void }) => (
-  <div>
-    <button onClick={onBack} className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-accent-blue mb-4">
-      <ArrowLeft className="h-3 w-3" /> Zurück zur Übersicht
-    </button>
+  <div className="space-y-6">
+    <Button variant="ghost" size="sm" onClick={onBack} className="-ml-2 text-muted-foreground">
+      <ArrowLeft className="h-4 w-4" aria-hidden="true" /> Zurück zur Übersicht
+    </Button>
 
     {/* Hero */}
-    <div className="rounded-2xl border border-accent-blue/30 bg-gradient-to-br from-card via-card to-accent-blue/5 p-6 mb-6">
-      <div className="flex items-start gap-4">
-        <div className="text-5xl">{s.flag}</div>
-        <div className="flex-1">
-          <div className="text-xs text-muted-foreground mb-1">{s.country}</div>
-          <h2 className="text-xl md:text-2xl font-bold mb-1">{s.legalForm}</h2>
-          <div className="flex flex-wrap gap-1.5 mt-2">
-            <span className={`rounded-full px-2 py-0.5 text-[11px] font-semibold ${FIT_COLOR[s.fitForGermans]}`}>
-              DE-Eignung: {s.fitForGermans}
-            </span>
-            <span className="rounded-full bg-secondary text-muted-foreground px-2 py-0.5 text-[11px]">
-              {s.setupTime} Setup
-            </span>
-            {s.motherDaughterApplies && (
-              <span className="rounded-full bg-emerald-500/10 text-emerald-700 px-2 py-0.5 text-[11px] font-semibold">
-                ✓ Mutter-Tochter-RL
-              </span>
-            )}
-          </div>
+    <div className="flex flex-wrap items-center gap-4 rounded-2xl border border-border bg-card p-5 shadow-card md:p-6">
+      <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-secondary text-3xl" aria-hidden="true">
+        {s.flag}
+      </span>
+      <div className="min-w-0 flex-1">
+        <p className="text-sm text-muted-foreground">{s.country}</p>
+        <p className="text-xl font-semibold tracking-tight">{s.legalForm}</p>
+        <div className="mt-2 flex flex-wrap gap-1.5">
+          <ToneBadge tone={fitTone(s.fitForGermans)}>Eignung: {s.fitForGermans}</ToneBadge>
+          <ToneBadge>{s.setupTime} Setup</ToneBadge>
+          {s.motherDaughterApplies && (
+            <ToneBadge tone="success">
+              <Check className="h-3 w-3" aria-hidden="true" /> Mutter-Tochter-RL
+            </ToneBadge>
+          )}
         </div>
       </div>
     </div>
 
     {/* Key Stats */}
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
-      <Stat icon={<Calculator className="h-4 w-4" />} label="KSt-Satz" value={s.corporateTax} />
-      <Stat icon={<Calculator className="h-4 w-4" />} label="Effektiv-Steuer" value={s.effectiveTotal} />
-      <Stat icon={<Globe className="h-4 w-4" />} label="Min. Stammkapital" value={`${s.minCapital.toLocaleString("de-DE")} €`} sub={s.capitalPaidUp} />
-      <Stat icon={<Globe className="h-4 w-4" />} label="Quellensteuer" value={s.withholdingDividends} />
-      <Stat icon={<Calculator className="h-4 w-4" />} label="Setup-Kosten" value={s.setupCost} />
-      <Stat icon={<Calculator className="h-4 w-4" />} label="Lfd. Kosten" value={s.runningCost} />
+    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      <Stat icon={Calculator} label="KSt-Satz" value={s.corporateTax} />
+      <Stat icon={Calculator} label="Effektive Steuer" value={s.effectiveTotal} />
+      <Stat icon={Landmark} label="Mindest-Stammkapital" value={`${s.minCapital.toLocaleString("de-DE")} €`} sub={s.capitalPaidUp} />
+      <Stat icon={Globe} label="Quellensteuer" value={s.withholdingDividends} />
+      <Stat icon={Wallet} label="Setup-Kosten" value={s.setupCost} />
+      <Stat icon={Wallet} label="Laufende Kosten" value={s.runningCost} />
     </div>
 
     {/* Substanz */}
-    <div className="rounded-2xl border border-amber-500/30 bg-amber-500/5 p-4 mb-6">
-      <div className="flex items-start gap-2">
-        <AlertTriangle className="h-4 w-4 text-amber-700 shrink-0 mt-0.5" />
-        <div>
-          <div className="text-xs font-semibold uppercase tracking-wider text-amber-700 mb-1">
-            Substanz-Anforderungen (kritisch!)
-          </div>
-          <div className="text-sm leading-relaxed">{s.substance}</div>
-        </div>
-      </div>
-    </div>
+    <Callout tone="warning" title="Substanz-Anforderungen (kritisch)">
+      {s.substance}
+    </Callout>
 
     {/* Best for + Pros */}
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
-      <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/5 p-4">
-        <div className="text-xs font-semibold uppercase tracking-wider text-emerald-700 mb-2">Wann sinnvoll</div>
-        <ul className="space-y-1 text-sm">
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <ToolSection title="Wann sinnvoll" icon={CheckCircle2}>
+        <ul className="space-y-2 text-sm leading-relaxed">
           {s.bestFor.map((b, i) => (
             <li key={i} className="flex items-start gap-2">
-              <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600 shrink-0 mt-0.5" />
+              <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-success" aria-hidden="true" />
               <span>{b}</span>
             </li>
           ))}
         </ul>
-      </div>
-      <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-4">
-        <div className="text-xs font-semibold uppercase tracking-wider text-accent-blue mb-2">Real-Beispiele</div>
-        <ul className="space-y-1 text-sm">
+      </ToolSection>
+      <ToolSection title="Beispiele aus der Praxis" icon={Building2}>
+        <ul className="space-y-2 text-sm leading-relaxed text-muted-foreground">
           {s.realExamples.map((e, i) => (
-            <li key={i} className="text-muted-foreground">
-              · {e}
+            <li key={i} className="flex items-start gap-2">
+              <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-muted-foreground/50" aria-hidden="true" />
+              <span>{e}</span>
             </li>
           ))}
         </ul>
-      </div>
+      </ToolSection>
     </div>
 
     {/* Pros + Cons */}
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
-      <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/5 p-4">
-        <div className="text-xs font-semibold uppercase tracking-wider text-emerald-700 mb-2">Vorteile</div>
-        <ul className="space-y-2 text-sm">
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <div className="rounded-2xl border border-success/25 bg-success-soft p-5">
+        <p className="text-base font-semibold">Vorteile</p>
+        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-foreground/80">
           {s.pros.map((p, i) => (
             <li key={i} className="flex items-start gap-2">
-              <span className="text-emerald-600 shrink-0">+</span>
-              <span dangerouslySetInnerHTML={{ __html: p.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>") }} />
+              <Plus className="mt-1 h-3.5 w-3.5 shrink-0 text-success" aria-hidden="true" />
+              <span>
+                <Md text={p} />
+              </span>
             </li>
           ))}
         </ul>
       </div>
-      <div className="rounded-2xl border border-red-500/30 bg-red-500/5 p-4">
-        <div className="text-xs font-semibold uppercase tracking-wider text-red-700 mb-2">Nachteile / Fallstricke</div>
-        <ul className="space-y-2 text-sm">
+      <div className="rounded-2xl border border-danger/25 bg-danger-soft p-5">
+        <p className="text-base font-semibold">Nachteile und Fallstricke</p>
+        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-foreground/80">
           {s.cons.map((c, i) => (
             <li key={i} className="flex items-start gap-2">
-              <span className="text-red-600 shrink-0">−</span>
-              <span dangerouslySetInnerHTML={{ __html: c.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>") }} />
+              <Minus className="mt-1 h-3.5 w-3.5 shrink-0 text-danger" aria-hidden="true" />
+              <span>
+                <Md text={c} />
+              </span>
             </li>
           ))}
         </ul>
@@ -380,62 +387,47 @@ const Detail = ({ s, onBack }: { s: EUAlternative; onBack: () => void }) => (
     </div>
 
     {/* DE-Steuer-Auswirkung */}
-    <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5 mb-6">
-      <div className="flex items-center gap-2 mb-2">
-        <Scale className="h-4 w-4 text-accent-blue" />
-        <div className="text-xs font-semibold uppercase tracking-wider text-accent-blue">DE-Steuer-Auswirkung</div>
-      </div>
+    <ToolSection title="Auswirkung auf die Steuer in DE" icon={Scale}>
       <p className="text-sm leading-relaxed">{s.deTaxImpact}</p>
-    </div>
+    </ToolSection>
 
     {/* Setup-Steps */}
-    <div className="rounded-2xl border border-border bg-card p-5 mb-6">
-      <div className="flex items-center gap-2 mb-3">
-        <ListChecks className="h-4 w-4 text-accent-blue" />
-        <div className="text-xs font-semibold uppercase tracking-wider">Setup-Schritte</div>
-      </div>
-      <ol className="space-y-2 text-sm">
+    <ToolSection title="Setup-Schritte" icon={ListChecks}>
+      <ol className="space-y-3 text-sm">
         {s.setupSteps.map((step, i) => (
-          <li key={i} className="flex items-start gap-2">
-            <span className="rounded-full bg-accent-blue text-primary-foreground h-5 w-5 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">
+          <li key={i} className="flex items-start gap-3">
+            <span className="mt-px flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent text-xs font-semibold text-accent-blue tabular">
               {i + 1}
             </span>
-            <span className="text-muted-foreground leading-relaxed">{step.replace(/^\d+\.\s*/, "")}</span>
+            <span className="leading-relaxed text-foreground/80">{step.replace(/^\d+\.\s*/, "")}</span>
           </li>
         ))}
       </ol>
-    </div>
+    </ToolSection>
 
     {/* Official Links */}
-    <div className="rounded-2xl border border-border bg-secondary/30 p-4">
-      <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
-        Offizielle Quellen
-      </div>
+    <ToolSection title="Offizielle Quellen" icon={ExternalLink}>
       <div className="flex flex-wrap gap-2">
         {s.officialLinks.map((l) => (
-          <a
-            key={l.url}
-            href={l.url}
-            target="_blank"
-            rel="noreferrer noopener"
-            className="inline-flex items-center gap-1 rounded-lg bg-card border border-border px-3 py-1.5 text-[11px] hover:bg-secondary"
-          >
-            {l.label} <ExternalLink className="h-3 w-3" />
-          </a>
+          <Button key={l.url} asChild variant="outline" size="sm">
+            <a href={l.url} target="_blank" rel="noreferrer noopener">
+              {l.label} <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+            </a>
+          </Button>
         ))}
       </div>
-    </div>
+    </ToolSection>
   </div>
 );
 
-const Stat = ({ icon, label, value, sub }: { icon: React.ReactNode; label: string; value: string; sub?: string }) => (
-  <div className="rounded-xl border border-border bg-card p-3">
-    <div className="flex items-center gap-1.5 text-muted-foreground mb-1">
-      {icon}
-      <div className="text-[10px] uppercase tracking-wider font-semibold">{label}</div>
-    </div>
-    <div className="text-sm font-semibold leading-snug">{value}</div>
-    {sub && <div className="text-[10px] text-muted-foreground mt-0.5">{sub}</div>}
+const Stat = ({ icon: Icon, label, value, sub }: { icon: React.ElementType; label: string; value: string; sub?: string }) => (
+  <div className="rounded-xl border border-border bg-card p-4">
+    <p className="flex items-center gap-1.5 text-sm text-muted-foreground">
+      <Icon className="h-4 w-4" aria-hidden="true" />
+      {label}
+    </p>
+    <p className="mt-1 text-sm font-semibold leading-snug">{value}</p>
+    {sub && <p className="mt-0.5 text-xs text-muted-foreground">{sub}</p>}
   </div>
 );
 
