@@ -326,8 +326,9 @@ export const ResultRow = ({
 }) => (
   <div className={cn("flex items-baseline justify-between gap-4 py-2.5", strong && "font-semibold")}>
     <div className="min-w-0">
-      <span className={cn("text-sm", !strong && "text-foreground/85")}>{label}</span>
-      {hint && <span className="block text-xs text-muted-foreground">{hint}</span>}
+      {/* Farbe erbt vom Container: funktioniert in hellen Karten und im dunklen ResultPanel. */}
+      <span className={cn("text-sm", !strong && "opacity-80")}>{label}</span>
+      {hint && <span className="block text-xs opacity-65">{hint}</span>}
     </div>
     <span className={cn("shrink-0 text-sm tabular", strong && "text-base", tone !== "neutral" && TONE_TEXT[tone])}>{value}</span>
   </div>
