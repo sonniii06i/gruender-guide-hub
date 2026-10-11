@@ -476,7 +476,7 @@ const UsCreditCards = () => {
         title={`${TRANSFER_PARTNERS.length} Transfer-Partner: DE-MR und US-MR im Vergleich`}
         subtitle="Wo US-Karten 25 bis 100 % bessere Umrechnungen haben (Aeroplan, Virgin, Avianca, ANA: alle nur über US)"
       >
-        <KitTable caption="Transfer-Partner im Vergleich">
+        <KitTable caption="Transfer-Partner im Vergleich" className="relative">
           <thead>
             <tr>
               <th>Partner</th>
