@@ -27,7 +27,7 @@ export type Tone = "neutral" | "info" | "success" | "warning" | "danger" | "acce
 /** Entfernt führende Emojis/Symbole und Mehrfach-Leerzeichen aus UI-Texten. */
 export const stripEmoji = (s: string): string =>
   s
-    .replace(/[\p{Extended_Pictographic}\u{FE0F}\u{200D}\u{20E3}]/gu, "")
+    .replace(/[\p{Extended_Pictographic}\u{1F1E6}-\u{1F1FF}\u{FE0F}\u{200D}\u{20E3}]/gu, "")
     .replace(/\s{2,}/g, " ")
     .replace(/^[\s·•|:–-]+/, "")
     .trim();
