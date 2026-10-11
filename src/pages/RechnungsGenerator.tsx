@@ -17,11 +17,16 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import Stand2026Footer from "@/components/cockpit/Stand2026Footer";
+import { Callout, Field, ResultPanel, ResultRow, ToneBadge, ToolLayout, ToolSection, selectCls } from "@/components/cockpit/kit";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import {
-  Lightbulb,
+  ArrowRight,
+  Building2,
+  CalendarDays,
+  ChevronDown,
   FileDown,
   Upload,
   Trash2,
@@ -31,6 +36,11 @@ import {
   AlertCircle,
   FileText,
   ImagePlus,
+  ListChecks,
+  MessageSquareText,
+  Percent,
+  Rows3,
+  UserRound,
   X,
 } from "lucide-react";
 import jsPDF from "jspdf";
@@ -468,270 +478,325 @@ const RechnungsGenerator = () => {
     doc.save(`${data.rechnungsnummer || "rechnung"}.pdf`);
   };
 
+  const eur2 = (n: number) => `${n.toLocaleString("de-DE", { minimumFractionDigits: 2 })} €`;
+  const pflichtUstId = data.ustModus === "reverse-charge" || data.ustModus === "innergemeinschaftlich";
+
   return (
     <CockpitShell
       eyebrow="🌱 Erste Schritte · für komplette Anfänger:innen"
       title="Rechnungs-Generator (PDF)"
-      subtitle="Erste richtige Rechnung schreiben — §14 UStG-konform, mit 4 USt-Modi (Standard / Kleinunternehmer / Reverse-Charge / innergemeinschaftliche Lieferung), Live-Pflichtangaben-Check und PDF-Download."
+      subtitle="Deine erste richtige Rechnung, §14 UStG-konform: vier USt-Modi (Standard, Kleinunternehmer, Reverse Charge, innergemeinschaftliche Lieferung), Live-Check der Pflichtangaben und PDF-Download."
     >
       <BeginnerHero />
 
-      {/* === USt-Modus === */}
-      <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5 mb-4">
-        <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
-          <Lightbulb className="h-4 w-4 text-accent-blue" /> 1. Welcher USt-Modus passt?
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-3">
-          <UstModusCard
-            modus="standard"
-            current={data.ustModus}
-            onSelect={(m) => setData((d) => ({ ...d, ustModus: m }))}
-            title="Standard (19 % / 7 %)"
-            desc="Regelbesteuert, USt wird ausgewiesen. Default für die meisten Selbstständigen."
-          />
-          <UstModusCard
-            modus="kleinunternehmer"
-            current={data.ustModus}
-            onSelect={(m) => setData((d) => ({ ...d, ustModus: m }))}
-            title="Kleinunternehmer §19 UStG"
-            desc="Umsatz < 25k € (2025/2026 nach Reform): keine USt ausweisen, KU-Hinweis pflicht."
-          />
-          <UstModusCard
-            modus="reverse-charge"
-            current={data.ustModus}
-            onSelect={(m) => setData((d) => ({ ...d, ustModus: m }))}
-            title="Reverse Charge §13b"
-            desc="B2B-Dienstleistung an EU-Ausland (mit USt-ID): Kunde schuldet USt. Bauleistungen DE auch."
-          />
-          <UstModusCard
-            modus="innergemeinschaftlich"
-            current={data.ustModus}
-            onSelect={(m) => setData((d) => ({ ...d, ustModus: m }))}
-            title="Innergemeinsch. Lieferung §6a"
-            desc="WAREN-Lieferung B2B in EU-Ausland (mit USt-ID): steuerfrei + USt-ID-Pflicht."
-          />
-        </div>
-      </div>
-
-      {/* === Sender === */}
-      <div className="rounded-2xl border border-border bg-card p-5 mb-4">
-        <div className="flex items-start justify-between mb-3 gap-3">
-          <div>
-            <h3 className="font-bold text-sm">2. Dein Unternehmen (Sender)</h3>
-            <p className="text-[11px] text-muted-foreground mt-0.5">
-              Einmal eingeben — wird automatisch im Browser gespeichert und für jede weitere Rechnung
-              wiederverwendet. Bei „Reset" bleibt dieses Profil erhalten.
-            </p>
-          </div>
-        </div>
-
-        {/* Logo-Upload */}
-        <div className="flex items-center gap-3 mb-4 rounded-lg bg-secondary/30 p-3">
-          {data.sender.logoDataUrl ? (
-            <img src={data.sender.logoDataUrl} alt="Firmen-Logo" className="h-14 w-auto max-w-[120px] object-contain rounded bg-white border border-border" />
-          ) : (
-            <div className="h-14 w-[120px] rounded border border-dashed border-border bg-background flex items-center justify-center text-[10px] text-muted-foreground">kein Logo</div>
-          )}
-          <div className="flex-1">
-            <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">Firmen-Logo (optional, einmalig)</Label>
-            <div className="flex gap-2 mt-1">
-              <label className="inline-flex items-center gap-1.5 rounded-md border border-border bg-background px-2.5 py-1.5 text-xs cursor-pointer hover:bg-secondary/40">
-                <ImagePlus className="h-3.5 w-3.5" /> {data.sender.logoDataUrl ? "Logo ersetzen" : "Logo hochladen"}
-                <input type="file" accept="image/png,image/jpeg,image/webp" onChange={handleLogoUpload} className="hidden" />
-              </label>
-              {data.sender.logoDataUrl && (
-                <Button onClick={removeLogo} size="sm" variant="ghost" className="h-7 text-xs text-red-700">
-                  <X className="h-3.5 w-3.5 mr-1" /> entfernen
-                </Button>
-              )}
-            </div>
-            <div className="text-[10px] text-muted-foreground mt-1">PNG/JPEG, max 250 KB. Erscheint oben links auf der PDF.</div>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-          <Field label="Name / Firmierung" value={data.sender.name} onChange={(v) => updateSender("name", v)} />
-          <Field label="Straße + Nr." value={data.sender.strasse} onChange={(v) => updateSender("strasse", v)} />
-          <Field label="PLZ + Ort" value={data.sender.plzOrt} onChange={(v) => updateSender("plzOrt", v)} />
-          <Field label="Email" value={data.sender.email} onChange={(v) => updateSender("email", v)} />
-          <Field label="Telefon" value={data.sender.telefon} onChange={(v) => updateSender("telefon", v)} />
-          <Field label="Ansprechpartner" value={data.sender.kontaktName} onChange={(v) => updateSender("kontaktName", v)} hint="für die E-Rechnung" />
-          <Field label="Steuernummer (FA)" value={data.sender.steuernummer} onChange={(v) => updateSender("steuernummer", v)} hint="Format: 12/345/67890" />
-          <Field label="USt-ID (DE...)" value={data.sender.ustId} onChange={(v) => updateSender("ustId", v)} hint="Bei EU-Geschäft Pflicht" />
-          <Field label="Bank" value={data.sender.bank} onChange={(v) => updateSender("bank", v)} />
-          <Field label="IBAN" value={data.sender.iban} onChange={(v) => updateSender("iban", v)} />
-          <Field label="BIC" value={data.sender.bic} onChange={(v) => updateSender("bic", v)} />
-        </div>
-      </div>
-
-      {/* === Kunde === */}
-      <div className="rounded-2xl border border-border bg-card p-5 mb-4">
-        <h3 className="font-bold text-sm mb-3">3. Kunde (Rechnungsempfänger)</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-          <Field label="Name / Firmierung" value={data.kunde.name} onChange={(v) => updateKunde("name", v)} />
-          <Field label="Straße + Nr." value={data.kunde.strasse} onChange={(v) => updateKunde("strasse", v)} />
-          <Field label="PLZ + Ort" value={data.kunde.plzOrt} onChange={(v) => updateKunde("plzOrt", v)} />
-          <Field label="Land" value={data.kunde.land} onChange={(v) => updateKunde("land", v)} />
-          <Field label="USt-ID Kunde" value={data.kunde.ustId} onChange={(v) => updateKunde("ustId", v)}
-            hint={data.ustModus === "reverse-charge" || data.ustModus === "innergemeinschaftlich" ? "⚠ PFLICHT bei §13b / §6a" : "optional"} />
-          <Field label="E-Mail Kunde (Rechnungsempfang)" value={data.kunde.email} onChange={(v) => updateKunde("email", v)} hint="für die E-Rechnung" />
-          <Field label="Bestell-Nr. / Käufer-Referenz" value={data.kaeuferReferenz} onChange={(v) => setData((d) => ({ ...d, kaeuferReferenz: v }))} hint="bei Behörden: Leitweg-ID" />
-        </div>
-      </div>
-
-      {/* === Metadaten === */}
-      <div className="rounded-2xl border border-border bg-card p-5 mb-4">
-        <h3 className="font-bold text-sm mb-3">4. Rechnungs-Metadaten</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
-          <Field label="Rechnungs-Nr." value={data.rechnungsnummer} onChange={(v) => setData((d) => ({ ...d, rechnungsnummer: v }))} hint="fortlaufend, lückenlos" />
-          <Field label="Rechnungsdatum" type="date" value={data.rechnungsdatum} onChange={(v) => setData((d) => ({ ...d, rechnungsdatum: v }))} />
-          <Field label="Leistungsdatum" type="date" value={data.leistungsdatum} onChange={(v) => setData((d) => ({ ...d, leistungsdatum: v }))} />
-          <Field label="Zahlungsziel (Tage)" type="number" value={String(data.zahlungsziel)} onChange={(v) => setData((d) => ({ ...d, zahlungsziel: Number(v) || 14 }))} />
-        </div>
-      </div>
-
-      {/* === Positionen === */}
-      <div className="rounded-2xl border border-border bg-card p-5 mb-4">
-        <div className="flex items-center justify-between mb-3">
-          <h3 className="font-bold text-sm">5. Positionen</h3>
-          <Button onClick={addPosition} size="sm" variant="outline" className="text-xs">
-            <Plus className="h-3 w-3 mr-1" /> Position hinzufügen
-          </Button>
-        </div>
-        {/* Spalten-Header (nur auf md+, mobile hat eh nur 1 Spalte) */}
-        <div className="hidden md:grid md:grid-cols-12 gap-2 px-2 mb-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-          <div className="md:col-span-1">#</div>
-          <div className="md:col-span-5">Artikel / Dienstleistung</div>
-          <div className="md:col-span-1">Menge</div>
-          <div className="md:col-span-2">Preis netto / Einheit</div>
-          <div className="md:col-span-2">Umsatzsteuer</div>
-          <div className="md:col-span-1"></div>
-        </div>
-        <div className="space-y-2">
-          {data.positionen.map((p, idx) => (
-            <div key={p.id} className="grid grid-cols-1 md:grid-cols-12 gap-2 items-start rounded-lg bg-secondary/30 p-2">
-              <div className="md:col-span-1 text-xs text-muted-foreground pt-2">#{idx + 1}</div>
-              <div className="md:col-span-5">
-                <Input value={p.beschreibung} onChange={(e) => updatePosition(p.id, "beschreibung", e.target.value)} placeholder="z.B. Beratung Marketing-Strategie" className="h-9" />
+      <ToolLayout
+        className="mb-8"
+        inputs={
+          <>
+            {/* === USt-Modus === */}
+            <ToolSection title="Welcher USt-Modus passt?" icon={Percent}>
+              <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+                <UstModusCard
+                  modus="standard"
+                  current={data.ustModus}
+                  onSelect={(m) => setData((d) => ({ ...d, ustModus: m }))}
+                  title="Standard (19 % / 7 %)"
+                  desc="Regelbesteuert, USt wird ausgewiesen. Default für die meisten Selbstständigen."
+                />
+                <UstModusCard
+                  modus="kleinunternehmer"
+                  current={data.ustModus}
+                  onSelect={(m) => setData((d) => ({ ...d, ustModus: m }))}
+                  title="Kleinunternehmer §19 UStG"
+                  desc="Umsatz < 25k € (2025/2026 nach Reform): keine USt ausweisen, KU-Hinweis pflicht."
+                />
+                <UstModusCard
+                  modus="reverse-charge"
+                  current={data.ustModus}
+                  onSelect={(m) => setData((d) => ({ ...d, ustModus: m }))}
+                  title="Reverse Charge §13b"
+                  desc="B2B-Dienstleistung an EU-Ausland (mit USt-ID): Kunde schuldet USt. Bauleistungen DE auch."
+                />
+                <UstModusCard
+                  modus="innergemeinschaftlich"
+                  current={data.ustModus}
+                  onSelect={(m) => setData((d) => ({ ...d, ustModus: m }))}
+                  title="Innergemeinsch. Lieferung §6a"
+                  desc="WAREN-Lieferung B2B in EU-Ausland (mit USt-ID): steuerfrei + USt-ID-Pflicht."
+                />
               </div>
-              <div className="md:col-span-1">
-                <Input type="number" step="0.5" value={p.menge} onChange={(e) => updatePosition(p.id, "menge", Number(e.target.value) || 0)} placeholder="Menge" className="h-9" />
-              </div>
-              <div className="md:col-span-2">
-                <Input type="number" step="0.01" value={p.einzelpreisNetto} onChange={(e) => updatePosition(p.id, "einzelpreisNetto", Number(e.target.value) || 0)} placeholder="Einzelpreis netto" className="h-9" />
-              </div>
-              <div className="md:col-span-2">
-                <select value={p.ustSatz} onChange={(e) => updatePosition(p.id, "ustSatz", Number(e.target.value))} className="h-9 w-full rounded-md border border-input bg-background px-2 text-sm" disabled={berechnung.istSteuerfrei}>
-                  <option value={19}>19 % USt</option>
-                  <option value={7}>7 % USt</option>
-                  <option value={0}>0 % / steuerfrei</option>
-                </select>
-              </div>
-              <div className="md:col-span-1 flex justify-end pt-1">
-                <Button onClick={() => removePosition(p.id)} size="sm" variant="ghost" className="h-9 w-9 p-0 text-red-700" disabled={data.positionen.length === 1}>
-                  <Trash2 className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+            </ToolSection>
 
-      {/* === Freitext === */}
-      <div className="rounded-2xl border border-border bg-card p-5 mb-4">
-        <Label className="text-xs uppercase tracking-wider text-muted-foreground">6. Freitext (z.B. Dankeschön, Hinweis)</Label>
-        <textarea value={data.freitext} onChange={(e) => setData((d) => ({ ...d, freitext: e.target.value }))} className="mt-1 w-full rounded-md border border-input bg-background p-2 text-sm" rows={2} />
-      </div>
-
-      {/* === Summen-Hero === */}
-      <div className="rounded-2xl border-2 border-accent-blue/40 bg-gradient-to-br from-accent-blue/10 via-card to-card p-5 mb-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <div className="text-xs uppercase tracking-wider text-muted-foreground mb-2">Rechnungssumme</div>
-            <div className="space-y-1 text-sm">
-              <div className="flex justify-between"><span>Netto:</span><span className="font-mono">{berechnung.nettoSumme.toLocaleString("de-DE", { minimumFractionDigits: 2 })} €</span></div>
-              {!berechnung.istSteuerfrei && berechnung.ustSummen[19] > 0 && (
-                <div className="flex justify-between"><span>+ 19 % USt:</span><span className="font-mono">{berechnung.ustSummen[19].toLocaleString("de-DE", { minimumFractionDigits: 2 })} €</span></div>
-              )}
-              {!berechnung.istSteuerfrei && berechnung.ustSummen[7] > 0 && (
-                <div className="flex justify-between"><span>+ 7 % USt:</span><span className="font-mono">{berechnung.ustSummen[7].toLocaleString("de-DE", { minimumFractionDigits: 2 })} €</span></div>
-              )}
-              <div className="flex justify-between border-t pt-1 font-bold text-base">
-                <span>{berechnung.istSteuerfrei ? "Rechnungsbetrag:" : "Brutto:"}</span>
-                <span className="font-mono text-emerald-700">{berechnung.brutto.toLocaleString("de-DE", { minimumFractionDigits: 2 })} €</span>
-              </div>
-            </div>
-          </div>
-          <div>
-            <div className="text-xs uppercase tracking-wider text-muted-foreground mb-2">
-              §14 UStG-Pflichtangaben: {pflichtCheck.alleOk ? "✅ vollständig" : `⚠ ${pflichtCheck.anzahlMissing} fehlen`}
-            </div>
-            <div className="space-y-0.5 text-[11px] max-h-32 overflow-y-auto">
-              {pflichtCheck.checks.map((c) => (
-                <div key={c.label} className="flex items-start gap-1">
-                  {c.ok
-                    ? <CheckCircle2 className="h-3 w-3 text-emerald-600 mt-0.5 shrink-0" />
-                    : <AlertCircle className="h-3 w-3 text-red-600 mt-0.5 shrink-0" />}
-                  <span className={c.ok ? "text-muted-foreground" : "text-red-700"}>{c.label}</span>
+            {/* === Sender === */}
+            <ToolSection
+              title="Dein Unternehmen"
+              icon={Building2}
+              description={'Einmal eingeben: wird automatisch im Browser gespeichert und für jede weitere Rechnung wiederverwendet. „Neue Rechnung" lässt dieses Profil stehen.'}
+            >
+              {/* Logo-Upload */}
+              <div className="mb-5 flex flex-wrap items-center gap-4 rounded-xl border border-border bg-secondary/40 p-3.5">
+                {data.sender.logoDataUrl ? (
+                  <img src={data.sender.logoDataUrl} alt="Firmen-Logo" className="h-14 w-auto max-w-[120px] rounded-lg border border-border bg-white object-contain" />
+                ) : (
+                  <div className="flex h-14 w-24 shrink-0 items-center justify-center rounded-lg border border-dashed sm:w-[120px] border-border bg-card text-xs text-muted-foreground">
+                    Kein Logo
+                  </div>
+                )}
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm font-medium">Firmen-Logo (optional)</p>
+                  <div className="mt-1.5 flex flex-wrap gap-2">
+                    <label className="inline-flex h-9 cursor-pointer items-center gap-1.5 whitespace-nowrap rounded-md border border-input bg-card px-3 text-sm font-medium shadow-[0_1px_2px_hsl(var(--primary)/0.05)] transition-colors hover:bg-secondary focus-within:ring-2 focus-within:ring-ring">
+                      <ImagePlus className="h-4 w-4" aria-hidden="true" /> {data.sender.logoDataUrl ? "Logo ersetzen" : "Logo hochladen"}
+                      <input type="file" accept="image/png,image/jpeg,image/webp" onChange={handleLogoUpload} className="sr-only" />
+                    </label>
+                    {data.sender.logoDataUrl && (
+                      <Button onClick={removeLogo} size="sm" variant="ghost" className="text-danger hover:text-danger">
+                        <X aria-hidden="true" /> Entfernen
+                      </Button>
+                    )}
+                  </div>
+                  <p className="mt-1.5 text-xs text-muted-foreground">PNG oder JPEG, max. 250 KB. Erscheint oben links auf der PDF.</p>
                 </div>
-              ))}
+              </div>
+
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <TextFeld id="s-name" label="Name / Firmierung" value={data.sender.name} onChange={(v) => updateSender("name", v)} />
+                <TextFeld id="s-strasse" label="Straße + Nr." value={data.sender.strasse} onChange={(v) => updateSender("strasse", v)} />
+                <TextFeld id="s-plz" label="PLZ + Ort" value={data.sender.plzOrt} onChange={(v) => updateSender("plzOrt", v)} />
+                <TextFeld id="s-email" label="E-Mail" value={data.sender.email} onChange={(v) => updateSender("email", v)} />
+                <TextFeld id="s-tel" label="Telefon" value={data.sender.telefon} onChange={(v) => updateSender("telefon", v)} />
+                <TextFeld id="s-kontakt" label="Ansprechpartner" value={data.sender.kontaktName} onChange={(v) => updateSender("kontaktName", v)} hint="Für die E-Rechnung" />
+                <TextFeld id="s-stnr" label="Steuernummer (FA)" value={data.sender.steuernummer} onChange={(v) => updateSender("steuernummer", v)} hint="Format: 12/345/67890" />
+                <TextFeld id="s-ustid" label="USt-ID (DE…)" value={data.sender.ustId} onChange={(v) => updateSender("ustId", v)} hint="Bei EU-Geschäft Pflicht" />
+                <TextFeld id="s-bank" label="Bank" value={data.sender.bank} onChange={(v) => updateSender("bank", v)} />
+                <TextFeld id="s-iban" label="IBAN" value={data.sender.iban} onChange={(v) => updateSender("iban", v)} />
+                <TextFeld id="s-bic" label="BIC" value={data.sender.bic} onChange={(v) => updateSender("bic", v)} />
+              </div>
+            </ToolSection>
+
+            {/* === Kunde === */}
+            <ToolSection title="Kunde" description="Rechnungsempfänger" icon={UserRound}>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <TextFeld id="k-name" label="Name / Firmierung" value={data.kunde.name} onChange={(v) => updateKunde("name", v)} />
+                <TextFeld id="k-strasse" label="Straße + Nr." value={data.kunde.strasse} onChange={(v) => updateKunde("strasse", v)} />
+                <TextFeld id="k-plz" label="PLZ + Ort" value={data.kunde.plzOrt} onChange={(v) => updateKunde("plzOrt", v)} />
+                <TextFeld id="k-land" label="Land" value={data.kunde.land} onChange={(v) => updateKunde("land", v)} />
+                <TextFeld
+                  id="k-ustid"
+                  label="USt-ID Kunde"
+                  value={data.kunde.ustId}
+                  onChange={(v) => updateKunde("ustId", v)}
+                  hint={pflichtUstId ? <span className="font-medium text-warning">PFLICHT bei §13b / §6a</span> : "Optional"}
+                />
+                <TextFeld id="k-email" label="E-Mail Kunde (Rechnungsempfang)" value={data.kunde.email} onChange={(v) => updateKunde("email", v)} hint="Für die E-Rechnung" />
+                <TextFeld
+                  id="k-ref"
+                  className="sm:col-span-2"
+                  label="Bestell-Nr. / Käufer-Referenz"
+                  value={data.kaeuferReferenz}
+                  onChange={(v) => setData((d) => ({ ...d, kaeuferReferenz: v }))}
+                  hint="Bei Behörden: Leitweg-ID"
+                />
+              </div>
+            </ToolSection>
+
+            {/* === Metadaten === */}
+            <ToolSection title="Rechnungsdaten" icon={CalendarDays}>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <TextFeld id="m-nr" label="Rechnungs-Nr." value={data.rechnungsnummer} onChange={(v) => setData((d) => ({ ...d, rechnungsnummer: v }))} hint="Fortlaufend und lückenlos" />
+                <TextFeld id="m-ziel" label="Zahlungsziel (Tage)" type="number" value={String(data.zahlungsziel)} onChange={(v) => setData((d) => ({ ...d, zahlungsziel: Number(v) || 14 }))} />
+                <TextFeld id="m-datum" label="Rechnungsdatum" type="date" value={data.rechnungsdatum} onChange={(v) => setData((d) => ({ ...d, rechnungsdatum: v }))} />
+                <TextFeld id="m-leistung" label="Leistungsdatum" type="date" value={data.leistungsdatum} onChange={(v) => setData((d) => ({ ...d, leistungsdatum: v }))} />
+              </div>
+            </ToolSection>
+
+            {/* === Positionen === */}
+            <ToolSection
+              title="Positionen"
+              icon={Rows3}
+              actions={
+                <Button onClick={addPosition} size="sm" variant="outline">
+                  <Plus aria-hidden="true" /> Position hinzufügen
+                </Button>
+              }
+            >
+              <div className="space-y-3">
+                {data.positionen.map((p, idx) => (
+                  <div key={p.id} className="rounded-xl border border-border bg-secondary/30 p-4">
+                    <div className="mb-3 flex items-center justify-between gap-3">
+                      <span className="text-sm font-semibold">
+                        Position <span className="tabular">{idx + 1}</span>
+                      </span>
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm font-semibold tabular">{eur2(p.menge * p.einzelpreisNetto)}</span>
+                        <Button
+                          onClick={() => removePosition(p.id)}
+                          size="icon"
+                          variant="ghost"
+                          className="h-8 w-8 text-danger hover:text-danger"
+                          disabled={data.positionen.length === 1}
+                          aria-label={`Position ${idx + 1} entfernen`}
+                        >
+                          <Trash2 aria-hidden="true" />
+                        </Button>
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-3 sm:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)_minmax(0,1.2fr)]">
+                      <Field label="Artikel / Dienstleistung" htmlFor={`${p.id}-beschr`} className="col-span-2 sm:col-span-3">
+                        <Input id={`${p.id}-beschr`} value={p.beschreibung} onChange={(e) => updatePosition(p.id, "beschreibung", e.target.value)} placeholder="z.B. Beratung Marketing-Strategie" />
+                      </Field>
+                      <Field label="Menge" htmlFor={`${p.id}-menge`}>
+                        <Input id={`${p.id}-menge`} type="number" step="0.5" value={p.menge} onChange={(e) => updatePosition(p.id, "menge", Number(e.target.value) || 0)} placeholder="Menge" className="tabular" />
+                      </Field>
+                      <Field label="Preis netto / Einheit" htmlFor={`${p.id}-preis`}>
+                        <Input id={`${p.id}-preis`} type="number" step="0.01" value={p.einzelpreisNetto} onChange={(e) => updatePosition(p.id, "einzelpreisNetto", Number(e.target.value) || 0)} placeholder="Einzelpreis netto" className="tabular" />
+                      </Field>
+                      <Field label="Umsatzsteuer" htmlFor={`${p.id}-ust`} className="col-span-2 sm:col-span-1">
+                        <select id={`${p.id}-ust`} value={p.ustSatz} onChange={(e) => updatePosition(p.id, "ustSatz", Number(e.target.value))} className={selectCls} disabled={berechnung.istSteuerfrei}>
+                          <option value={19}>19 % USt</option>
+                          <option value={7}>7 % USt</option>
+                          <option value={0}>0 % / steuerfrei</option>
+                        </select>
+                      </Field>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </ToolSection>
+
+            {/* === Freitext === */}
+            <ToolSection title="Freitext" icon={MessageSquareText} description="Optional, z. B. ein Dankeschön oder ein Hinweis.">
+              <Textarea
+                aria-label="Freitext"
+                value={data.freitext}
+                onChange={(e) => setData((d) => ({ ...d, freitext: e.target.value }))}
+                rows={3}
+              />
+            </ToolSection>
+          </>
+        }
+        result={
+          <>
+            {/* === Summen === */}
+            <ResultPanel
+              variant="ink"
+              kicker="Rechnungssumme"
+              title={berechnung.istSteuerfrei ? "Rechnungsbetrag" : "Brutto"}
+              value={eur2(berechnung.brutto)}
+              valueHint={berechnung.istSteuerfrei ? "Ohne Umsatzsteuer-Ausweis" : "Inklusive Umsatzsteuer"}
+            >
+              <div className="divide-y divide-white/10 border-t border-white/10">
+                <ResultRow label="Netto" value={eur2(berechnung.nettoSumme)} />
+                {!berechnung.istSteuerfrei && berechnung.ustSummen[19] > 0 && (
+                  <ResultRow label="+ 19 % USt" value={eur2(berechnung.ustSummen[19])} />
+                )}
+                {!berechnung.istSteuerfrei && berechnung.ustSummen[7] > 0 && (
+                  <ResultRow label="+ 7 % USt" value={eur2(berechnung.ustSummen[7])} />
+                )}
+              </div>
+            </ResultPanel>
+
+            {/* === Pflichtangaben === */}
+            <ToolSection
+              title="§14 UStG-Pflichtangaben"
+              icon={ListChecks}
+              actions={
+                pflichtCheck.alleOk ? (
+                  <ToneBadge tone="success">Vollständig</ToneBadge>
+                ) : (
+                  <ToneBadge tone="warning">
+                    <span className="tabular">{pflichtCheck.anzahlMissing}</span> fehlen
+                  </ToneBadge>
+                )
+              }
+              bodyClassName="p-4 md:p-5"
+            >
+              <ul className="space-y-1.5 text-sm">
+                {pflichtCheck.checks.map((c) => (
+                  <li key={c.label} className="flex items-start gap-2">
+                    {c.ok ? (
+                      <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-success" aria-label="erfüllt" />
+                    ) : (
+                      <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-danger" aria-label="fehlt" />
+                    )}
+                    <span className={c.ok ? "text-muted-foreground" : "text-foreground"}>{c.label}</span>
+                  </li>
+                ))}
+              </ul>
+            </ToolSection>
+
+            {/* === Aktionen === */}
+            <div className="space-y-3 rounded-2xl border border-border bg-card p-4 shadow-card md:p-5">
+              <Button onClick={generatePdf} size="lg" className="w-full bg-gradient-primary" disabled={!pflichtCheck.alleOk}>
+                <FileDown aria-hidden="true" /> PDF herunterladen
+              </Button>
+              <Button
+                onClick={xrechnungHerunterladen}
+                variant="outline"
+                className="w-full"
+                disabled={!pflichtCheck.alleOk || xrFehlt.length > 0}
+                title={xrFehlt.length ? `Es fehlt: ${xrFehlt.join(", ")}` : "XRechnung 3.0 (CII) herunterladen"}
+              >
+                <FileText aria-hidden="true" /> E-Rechnung (XRechnung-XML)
+              </Button>
+              {!pflichtCheck.alleOk && (
+                <p className="text-xs leading-relaxed text-muted-foreground">
+                  Die Downloads werden aktiv, sobald alle Pflichtangaben ausgefüllt sind.
+                </p>
+              )}
+              <div className="flex flex-wrap items-center gap-2 border-t border-border/70 pt-3">
+                <Button onClick={resetInvoice} variant="outline" size="sm">
+                  <Trash2 aria-hidden="true" /> Neue Rechnung (Felder leeren)
+                </Button>
+                <Button onClick={exportJson} variant="ghost" size="sm" title="Komplette Rechnung als JSON-Datei sichern (inkl. Firmen-Vorlage). Nützlich für Backup oder Übertrag zwischen Geräten.">
+                  <FileText aria-hidden="true" /> Backup (JSON)
+                </Button>
+                <label
+                  className="inline-flex h-9 cursor-pointer items-center gap-2 rounded-md px-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground focus-within:ring-2 focus-within:ring-ring"
+                  title="Eine vorher exportierte Rechnungs-JSON wieder laden"
+                >
+                  <Upload className="h-4 w-4" aria-hidden="true" /> Backup laden
+                  <input type="file" accept=".json" onChange={importJson} className="sr-only" />
+                </label>
+              </div>
+              <p className="text-xs leading-relaxed text-muted-foreground">
+                Firmen-Daten und Logo bleiben im Browser gespeichert. „Neue Rechnung" leert nur Kunde, Positionen und Freitext.
+              </p>
             </div>
-          </div>
-        </div>
-      </div>
 
-      {/* === E-Rechnung === */}
-      <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-4 mb-4 text-xs leading-relaxed">
-        <div className="font-bold text-sm mb-1">E-Rechnung (XRechnung)</div>
-        Empfangen müssen alle Unternehmen E-Rechnungen schon seit 01.01.2025. Ausstellen ist Pflicht für Rechnungen an
-        Unternehmen ab 2027 (Vorjahresumsatz über 800.000 €) und ab 2028 für alle – ausgenommen Kleinbeträge bis 250 € und
-        Kleinunternehmer. Die XML-Datei ist die eigentliche Rechnung; das PDF dient als Lesefassung. Geprüft gegen den
-        offiziellen KoSIT-Validator (XRechnung 3.0.2).
-        {xrFehlt.length > 0 && (
-          <div className="mt-2 text-amber-800">
-            Für die E-Rechnung fehlt noch: {xrFehlt.join(" · ")}
-          </div>
-        )}
-      </div>
-
-      {/* === Action-Buttons === */}
-      <div className="flex flex-wrap gap-2 mb-2">
-        <Button onClick={generatePdf} className="bg-emerald-700 hover:bg-emerald-800 text-white" disabled={!pflichtCheck.alleOk}>
-          <FileDown className="h-4 w-4 mr-2" /> PDF herunterladen
-        </Button>
-        <Button onClick={xrechnungHerunterladen} variant="outline" disabled={!pflichtCheck.alleOk || xrFehlt.length > 0} title={xrFehlt.length ? `Es fehlt: ${xrFehlt.join(", ")}` : "XRechnung 3.0 (CII) herunterladen"}>
-          <FileText className="h-4 w-4 mr-2" /> E-Rechnung (XRechnung-XML)
-        </Button>
-        <Button onClick={resetInvoice} variant="outline">
-          <Trash2 className="h-4 w-4 mr-2" /> Neue Rechnung (Felder leeren)
-        </Button>
-        <Button onClick={exportJson} variant="ghost" size="sm" title="Komplette Rechnung als JSON-Datei sichern (inkl. Firmen-Vorlage). Nützlich für Backup oder Übertrag zwischen Geräten.">
-          <FileText className="h-3.5 w-3.5 mr-1" /> Backup (JSON)
-        </Button>
-        <label className="inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs cursor-pointer hover:bg-secondary/40 text-muted-foreground" title="Eine vorher exportierte Rechnungs-JSON wieder laden">
-          <Upload className="h-3.5 w-3.5" /> Backup laden
-          <input type="file" accept=".json" onChange={importJson} className="hidden" />
-        </label>
-      </div>
-      <p className="text-[11px] text-muted-foreground mb-6">
-        Firmen-Daten + Logo werden automatisch im Browser gespeichert — beim nächsten Besuch sofort wieder da.
-        „Neue Rechnung" leert nur Kunde / Positionen / Freitext.
-      </p>
+            {/* === E-Rechnung === */}
+            <Callout tone="info" title="E-Rechnung (XRechnung)">
+              Empfangen müssen alle Unternehmen E-Rechnungen schon seit 01.01.2025. Ausstellen ist Pflicht für Rechnungen an
+              Unternehmen ab 2027 (Vorjahresumsatz über 800.000 €) und ab 2028 für alle – ausgenommen Kleinbeträge bis 250 € und
+              Kleinunternehmer. Die XML-Datei ist die eigentliche Rechnung; das PDF dient als Lesefassung. Geprüft gegen den
+              offiziellen KoSIT-Validator (XRechnung 3.0.2).
+              {xrFehlt.length > 0 && (
+                <span className="mt-2 block font-medium text-warning">Für die E-Rechnung fehlt noch: {xrFehlt.join(" · ")}</span>
+              )}
+            </Callout>
+          </>
+        }
+      />
 
       {/* === Cross-Links === */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-6">
-        <Link to="/cockpit/schwellen-check" className="rounded-xl border border-border bg-card p-3 text-xs hover:border-accent-blue transition">
-          <div className="font-semibold mb-0.5">← Schwellen-Check (Tool 3)</div>
-          <div className="text-muted-foreground">Kleinunternehmer-Grenze 25k/100k</div>
-        </Link>
-        <Link to="/cockpit/ust-rechner" className="rounded-xl border border-border bg-card p-3 text-xs hover:border-accent-blue transition">
-          <div className="font-semibold mb-0.5">USt-Rechner →</div>
-          <div className="text-muted-foreground">Komplexe USt-Fälle (RC, IGL, OSS)</div>
-        </Link>
-        <Link to="/cockpit/quartals-steuer" className="rounded-xl border border-border bg-card p-3 text-xs hover:border-accent-blue transition">
-          <div className="font-semibold mb-0.5">Quartals-Steuerschätzung →</div>
-          <div className="text-muted-foreground">Wann musst du USt-VA abgeben?</div>
-        </Link>
+      <div className="mb-6 grid grid-cols-1 gap-3 md:grid-cols-3">
+        {[
+          { to: "/cockpit/schwellen-check", t: "Schwellen-Check", d: "Kleinunternehmer-Grenze 25k/100k" },
+          { to: "/cockpit/ust-rechner", t: "USt-Rechner", d: "Komplexe USt-Fälle (RC, IGL, OSS)" },
+          { to: "/cockpit/quartals-steuer", t: "Quartals-Steuerschätzung", d: "Wann musst du USt-VA abgeben?" },
+        ].map((l) => (
+          <Link
+            key={l.to}
+            to={l.to}
+            className="group flex items-center justify-between gap-3 rounded-xl border border-border bg-card p-4 shadow-card transition-colors hover:border-accent-blue/40"
+          >
+            <span>
+              <span className="block text-sm font-semibold">{l.t}</span>
+              <span className="mt-0.5 block text-sm text-muted-foreground">{l.d}</span>
+            </span>
+            <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-accent-blue" aria-hidden="true" />
+          </Link>
+        ))}
       </div>
 
       <Glossar />
@@ -753,37 +818,27 @@ const RechnungsGenerator = () => {
 // Sub-Components
 // ============================================================================
 const BeginnerHero = () => (
-  <div className="rounded-2xl border-2 border-accent-blue/30 bg-gradient-to-br from-accent-blue/10 via-card to-card p-5 mb-6">
-    <div className="flex items-start gap-3">
-      <Lightbulb className="h-6 w-6 text-accent-blue shrink-0 mt-0.5" />
-      <div className="flex-1">
-        <h3 className="font-bold text-sm mb-1">Erste richtige Rechnung schreiben</h3>
-        <p className="text-xs text-muted-foreground leading-relaxed mb-2">
-          Eine Rechnung muss <strong>10 Pflichtangaben nach §14 UStG</strong> enthalten — sonst ist sie für den Kunden
-          nicht zum Vorsteuerabzug berechtigt (Kunde verärgert) und du musst nachbessern. Dieses Tool prüft alle
-          Pflichten LIVE während du tippst und gibt dir am Ende eine §14-konforme PDF zum Download.
-        </p>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-[11px]">
-          <div className="rounded-lg bg-emerald-500/5 p-2 border border-emerald-500/20">
-            <strong className="text-emerald-700">Standard</strong>
-            <div className="text-muted-foreground mt-0.5">19/7 % USt für die meisten</div>
-          </div>
-          <div className="rounded-lg bg-blue-500/5 p-2 border border-blue-500/20">
-            <strong className="text-blue-700">§19 KU</strong>
-            <div className="text-muted-foreground mt-0.5">{"<"}25k € Umsatz, keine USt</div>
-          </div>
-          <div className="rounded-lg bg-amber-500/5 p-2 border border-amber-500/20">
-            <strong className="text-amber-700">§13b RC</strong>
-            <div className="text-muted-foreground mt-0.5">B2B EU-Dienstleistung</div>
-          </div>
-          <div className="rounded-lg bg-accent-blue/5 p-2 border border-accent-blue/20">
-            <strong className="text-accent-blue">§6a IGL</strong>
-            <div className="text-muted-foreground mt-0.5">Waren B2B EU steuerfrei</div>
-          </div>
+  <section className="mb-8 rounded-2xl border border-border bg-card p-5 shadow-card md:p-6">
+    <h2 className="text-base font-semibold tracking-tight">Erste richtige Rechnung schreiben</h2>
+    <p className="mt-1.5 max-w-[80ch] text-sm leading-relaxed text-muted-foreground">
+      Eine Rechnung muss <strong className="text-foreground">10 Pflichtangaben nach §14 UStG</strong> enthalten — sonst ist sie für den Kunden
+      nicht zum Vorsteuerabzug berechtigt (Kunde verärgert) und du musst nachbessern. Dieses Tool prüft alle
+      Pflichten LIVE während du tippst und gibt dir am Ende eine §14-konforme PDF zum Download.
+    </p>
+    <div className="mt-4 grid grid-cols-2 gap-2.5 md:grid-cols-4">
+      {[
+        { k: "Standard", d: "19/7 % USt für die meisten", cls: "border-success/25 bg-success-soft", t: "text-success" },
+        { k: "§19 KU", d: "<25k € Umsatz, keine USt", cls: "border-info/20 bg-info-soft", t: "text-info" },
+        { k: "§13b RC", d: "B2B EU-Dienstleistung", cls: "border-warning/25 bg-warning-soft", t: "text-warning" },
+        { k: "§6a IGL", d: "Waren B2B EU steuerfrei", cls: "border-accent-blue/20 bg-accent", t: "text-accent-blue" },
+      ].map((c) => (
+        <div key={c.k} className={cn("rounded-xl border p-3", c.cls)}>
+          <strong className={cn("text-sm font-semibold", c.t)}>{c.k}</strong>
+          <div className="mt-0.5 text-xs text-foreground/75">{c.d}</div>
         </div>
-      </div>
+      ))}
     </div>
-  </div>
+  </section>
 );
 
 const UstModusCard = ({ modus, current, onSelect, title, desc }: {
@@ -792,33 +847,42 @@ const UstModusCard = ({ modus, current, onSelect, title, desc }: {
   const active = modus === current;
   return (
     <button
+      type="button"
+      aria-pressed={active}
       onClick={() => onSelect(modus)}
-      className={`text-left rounded-xl border-2 p-3 transition ${
-        active ? "border-accent-blue bg-accent-blue/10" : "border-border bg-card hover:border-accent-blue/40"
-      }`}
+      className={cn(
+        "rounded-xl border p-3.5 text-left transition-[background-color,border-color,box-shadow] duration-200 active:translate-y-px",
+        active
+          ? "border-accent-blue bg-accent shadow-[0_0_0_1px_hsl(var(--accent-blue)/0.35)]"
+          : "border-border bg-card hover:border-foreground/25",
+      )}
     >
-      <div className="font-semibold text-xs mb-1">{title}</div>
-      <div className="text-[11px] text-muted-foreground">{desc}</div>
+      <div className="text-sm font-semibold">{title}</div>
+      <div className="mt-1 text-xs leading-relaxed text-muted-foreground">{desc}</div>
     </button>
   );
 };
 
-const Field = ({ label, value, onChange, type = "text", hint }: {
-  label: string; value: string; onChange: (v: string) => void; type?: string; hint?: string;
+const TextFeld = ({ id, label, value, onChange, type = "text", hint, className }: {
+  id: string; label: string; value: string; onChange: (v: string) => void; type?: string; hint?: React.ReactNode; className?: string;
 }) => (
-  <div>
-    <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">{label}</Label>
-    <Input type={type} value={value} onChange={(e) => onChange(e.target.value)} className="h-9 mt-1" />
-    {hint && <div className="text-[10px] text-muted-foreground mt-0.5">{hint}</div>}
-  </div>
+  <Field label={label} htmlFor={id} hint={hint} className={className}>
+    <Input id={id} type={type} value={value} onChange={(e) => onChange(e.target.value)} className={type === "number" ? "tabular" : undefined} />
+  </Field>
 );
 
 const Glossar = () => (
-  <details className="rounded-2xl border border-border bg-card p-5 mb-6">
-    <summary className="cursor-pointer font-bold text-sm flex items-center gap-2">
-      <HelpCircle className="h-4 w-4 text-accent-blue" /> Glossar — Begriffe einfach erklärt
+  <details className="group mb-6 rounded-2xl border border-border bg-card shadow-card [&_summary::-webkit-details-marker]:hidden">
+    <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-5 py-4 text-base font-semibold md:px-6">
+      <span className="flex items-center gap-3">
+        <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-accent-blue">
+          <HelpCircle className="h-4 w-4" aria-hidden="true" />
+        </span>
+        Glossar: Begriffe einfach erklärt
+      </span>
+      <ChevronDown className="h-4 w-4 text-muted-foreground transition-transform group-open:rotate-180" aria-hidden="true" />
     </summary>
-    <div className="mt-3 space-y-3 text-xs leading-relaxed">
+    <dl className="divide-y divide-border/70 border-t border-border/70 px-5 md:px-6">
       {[
         { b: "§14 UStG Pflichtangaben", e: "10 Pflichtfelder: 1) voller Name+Anschrift Sender, 2) voller Name+Anschrift Empfänger, 3) Steuernummer ODER USt-ID Sender, 4) Ausstellungsdatum, 5) eindeutige fortlaufende Rechnungsnummer, 6) Menge+Art Leistung, 7) Leistungs-/Lieferdatum, 8) Netto-Entgelt aufgeschlüsselt nach Steuersätzen, 9) USt-Satz+Betrag (oder Hinweis auf Steuerbefreiung), 10) ggf. Hinweis auf Aufbewahrungspflicht bei Bauleistungen. Fehlt eines davon: Kunde verliert Vorsteuerabzug." },
         { b: "Rechnungsnummer fortlaufend", e: "Muss LÜCKENLOS und EINDEUTIG sein. Format frei wählbar (RE-2026-001, 26-001, 0001 etc.). Verschiedene Nummernkreise pro Bereich (z.B. RE-WEB / RE-COACH) sind erlaubt, aber innerhalb des Kreises lückenlos. Lücke = FA stellt Frage 'wo ist Nr. 0042?'" },
@@ -829,12 +893,12 @@ const Glossar = () => (
         { b: "E-Rechnung 2025/2026", e: "Ab 01.01.2025: B2B-Rechnungen >250€ müssen als strukturierte E-Rechnung (XRechnung XML oder ZUGFeRD-PDF) EMPFANGBAR sein (= Email-Postfach reicht). Versand-Pflicht stufenweise bis 2028. PDF allein reicht ÜBERGANGS-weise bis 31.12.2026 (mit Empfänger-Zustimmung). Für vollwertige E-Rechnung brauchst du lexoffice/sevdesk/StB." },
         { b: "Zahlungsziel", e: "Standard 14 Tage. Rechtlich keine Vorgabe — du kannst auch 7, 30, 60 Tage. Bei Verzug (nach Mahnung): 9 Prozentpunkte über Basiszinssatz bei Verbrauchern, 8 PP bei B2B (§288 BGB). Skonto-Option möglich (z.B. 2 % bei Zahlung innerhalb 7 Tage)." },
       ].map((g) => (
-        <div key={g.b} className="rounded-lg bg-secondary/30 p-3">
-          <div className="font-semibold text-foreground mb-1">{g.b}</div>
-          <div className="text-muted-foreground">{g.e}</div>
+        <div key={g.b} className="py-4">
+          <dt className="text-sm font-semibold">{g.b}</dt>
+          <dd className="mt-1 text-sm leading-relaxed text-muted-foreground">{g.e}</dd>
         </div>
       ))}
-    </div>
+    </dl>
   </details>
 );
 
