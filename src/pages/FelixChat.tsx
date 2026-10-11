@@ -407,7 +407,7 @@ const FelixChat = () => {
           </div>
           <p className="mt-2 text-center text-[11px] leading-relaxed text-muted-foreground">
             <span className="hidden sm:inline">Enter sendet, Shift+Enter für eine neue Zeile. </span>Felix kann Fehler machen, prüfe wichtige Infos.
-            Keine Steuer- oder Rechtsberatung. Für eine verbindliche Auslegung den{" "}
+            Keine Steuer-/Rechtsberatung. Für eine verbindliche Auslegung den{" "}
             <Link to="/cockpit/stb-finder" className="underline hover:text-foreground">
               StB-Finder
             </Link>{" "}

@@ -200,7 +200,7 @@ export default function HackathonStarterKit() {
                   <div className="mb-2 flex items-center justify-between gap-3">
                     <h3 className="text-sm font-semibold">{p.titel}</h3>
                     <Button type="button" size="sm" variant="outline" onClick={() => kopieren(i, p.text)} className="h-8 shrink-0" aria-live="polite">
-                      <Copy className="h-3.5 w-3.5" /> {kopiert === i ? "Kopiert" : "Kopieren"}
+                      <Copy className="h-3.5 w-3.5" /> <span className="capitalize">{kopiert === i ? "kopiert" : "kopieren"}</span>
                     </Button>
                   </div>
                   <p className="rounded-lg bg-secondary/60 p-3 font-mono text-[13px] leading-relaxed text-foreground/80">{p.text}</p>
