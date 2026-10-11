@@ -2,19 +2,39 @@ import { useMemo, useState } from "react";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Input } from "@/components/ui/input";
 import { NumberField } from "@/components/ui/number-field";
-import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
 import {
   Calculator,
   Download,
   TrendingUp,
-  AlertTriangle,
   Banknote,
   Building2,
   ArrowDown,
   ArrowUp,
   Minus,
-  Info,
+  Check,
+  Plus,
+  ChevronRight,
+  FileText,
+  Landmark,
+  Gauge,
+  Lightbulb,
+  XCircle,
 } from "lucide-react";
+import {
+  Callout,
+  Field,
+  ResultPanel,
+  ResultRow,
+  StatGrid,
+  StatTile,
+  ToneBadge,
+  ToolLayout,
+  ToolSection,
+  selectCls,
+  type Tone,
+} from "@/components/cockpit/kit";
 import {
   type BranchenTyp,
   BWA_STRUCTURE,
@@ -56,11 +76,11 @@ type Summary = {
 
 type AmpelStatus = "gruen" | "gelb" | "rot" | "neutral";
 
-const ampelMeta: Record<AmpelStatus, { color: string; bg: string; label: string }> = {
-  gruen: { color: "text-emerald-700", bg: "bg-emerald-500/10 border-emerald-500/30", label: "✓ Bank-stark" },
-  gelb: { color: "text-amber-700", bg: "bg-amber-500/10 border-amber-500/30", label: "⚠ Akzeptabel" },
-  rot: { color: "text-red-700", bg: "bg-red-500/10 border-red-500/30", label: "✗ Bank-Risiko" },
-  neutral: { color: "text-muted-foreground", bg: "bg-secondary/30 border-border", label: "— Keine Daten" },
+const ampelMeta: Record<AmpelStatus, { label: string }> = {
+  gruen: { label: "Bank-stark" },
+  gelb: { label: "Akzeptabel" },
+  rot: { label: "Bank-Risiko" },
+  neutral: { label: "Keine Daten" },
 };
 
 const ampelHex: Record<AmpelStatus, string> = {
@@ -838,262 +858,299 @@ const BwaGenerator = () => {
     doc.save(`bwa-${(companyName || "firma").toLowerCase().replace(/[^a-z0-9]/g, "-")}-${zeitraum.replace(/\s+/g, "-")}-bankfaehig.pdf`);
   };
 
+  const ratingTone: Tone = !bankRating
+    ? "neutral"
+    : bankRating.color === "emerald"
+    ? "success"
+    : bankRating.color === "amber"
+    ? "warning"
+    : "danger";
+  const pdfDisabled = totals.erloese === 0 && totals.aufwand === 0;
+
   return (
     <CockpitShell
-      eyebrow="BWA-Generator · Bank-tauglich (2026)"
+      eyebrow="Buchhaltung & Reporting · BWA-Generator"
       title="Bank-feste BWA mit Banker-Kennzahlen-Set 2026"
-      subtitle="Vollständige Banker-Story: Management-Summary · Bank-KPI-Dashboard mit Ampeln (EBITDA, EK-Quote, Net Debt/EBITDA, DSCR, FCF, ROCE) · branchenadjustierte Benchmarks · YoY-Vergleich · Bilanz + Cashflow-Analyse. Score nur bei plausibler Datenlage."
+      subtitle="Management-Summary, Kennzahlen-Dashboard mit Ampeln (EBITDA, EK-Quote, Net Debt/EBITDA, DSCR, FCF, ROCE), branchenadjustierte Benchmarks, Vorjahresvergleich sowie Bilanz- und Cashflow-Analyse. Der Bank-Score erscheint erst bei plausibler Datenlage."
     >
-      {/* Bank-Score-Hero ODER Validation-Hinweis */}
-      {bankScore !== null && bankRating ? (
-        <div className={`rounded-2xl border-2 p-5 mb-6 ${
-          bankRating.color === "emerald" ? "border-emerald-500/40 bg-emerald-500/5"
-          : bankRating.color === "amber" ? "border-amber-500/40 bg-amber-500/5"
-          : "border-red-500/40 bg-red-500/5"
-        }`}>
-          <div className="flex items-center justify-between gap-4 flex-wrap">
-            <div>
-              <div className="text-xs uppercase tracking-wider text-muted-foreground mb-1">Bank-Tauglichkeits-Score</div>
-              <div className="flex items-baseline gap-3">
-                <div className={`text-4xl font-bold ${
-                  bankRating.color === "emerald" ? "text-emerald-700"
-                  : bankRating.color === "amber" ? "text-amber-700"
-                  : "text-red-700"
-                }`}>{bankScore}</div>
-                <div className="text-lg text-muted-foreground">/ 100</div>
-                <div className={`rounded-full px-3 py-1 text-sm font-bold ${
-                  bankRating.color === "emerald" ? "bg-emerald-500/10 text-emerald-700"
-                  : bankRating.color === "amber" ? "bg-amber-500/10 text-amber-700"
-                  : "bg-red-500/10 text-red-700"
-                }`}>{bankRating.grade}</div>
+      <ToolLayout
+        className="mb-8"
+        inputs={
+          <>
+            {/* Stammdaten */}
+            <ToolSection title="Stammdaten" description="Erscheinen auf dem Deckblatt des PDFs." icon={Building2}>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <Field className="sm:col-span-2" label="Firma" htmlFor="bwa-firma">
+                  <Input id="bwa-firma" value={companyName} onChange={(e) => setCompanyName(e.target.value)} placeholder="z. B. Mustermann GmbH" />
+                </Field>
+                <Field label="Rechtsform" htmlFor="bwa-rechtsform">
+                  <select id="bwa-rechtsform" value={rechtsform} onChange={(e) => setRechtsform(e.target.value)} className={selectCls}>
+                    {["Einzelunternehmen", "GbR", "UG (haftungsbeschränkt)", "GmbH", "GmbH & Co. KG", "AG", "Holding"].map((r) => <option key={r}>{r}</option>)}
+                  </select>
+                </Field>
+                <Field label="Zeitraum" htmlFor="bwa-zeitraum">
+                  <Input id="bwa-zeitraum" value={zeitraum} onChange={(e) => setZeitraum(e.target.value)} placeholder="z. B. Q1 2026" />
+                </Field>
               </div>
-              <div className="text-sm text-muted-foreground mt-1">{bankRating.label} · Benchmark: {benchmark.label}</div>
-            </div>
-            <Banknote className="h-12 w-12 text-muted-foreground/40" />
-          </div>
-        </div>
-      ) : (
-        <div className="rounded-2xl border-2 border-amber-500/40 bg-amber-500/5 p-5 mb-6">
-          <div className="flex items-start gap-3">
-            <Info className="h-6 w-6 text-amber-700 shrink-0 mt-0.5" />
-            <div className="flex-1">
-              <div className="text-base font-bold text-amber-900 mb-1">Eingaben unvollständig — Bank-Score noch nicht berechenbar</div>
-              <p className="text-sm text-muted-foreground mb-2">
-                Damit der Score aussagekräftig ist, müssen Erlöse + mindestens 3 Aufwandskategorien erfasst sein.
-              </p>
-              {validation.issues.length > 0 && (
-                <ul className="text-sm text-red-700 list-disc pl-5 space-y-0.5">
-                  {validation.issues.map((i) => <li key={i}>{i}</li>)}
-                </ul>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
+            </ToolSection>
 
-      {/* Plausibilitäts-Warnungen */}
-      {validation.warnings.length > 0 && (
-        <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-3 mb-4 text-xs">
-          <div className="flex items-start gap-2">
-            <AlertTriangle className="h-4 w-4 text-amber-700 shrink-0 mt-0.5" />
-            <div>
-              <div className="font-semibold text-amber-900 mb-1">Plausibilitäts-Hinweise (Banker-Sicht)</div>
-              <ul className="list-disc pl-4 space-y-0.5 text-muted-foreground">
-                {validation.warnings.map((w) => <li key={w}>{w}</li>)}
-              </ul>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Stammdaten */}
-      <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5 mb-4">
-        <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
-          <Building2 className="h-4 w-4 text-accent-blue" /> Stammdaten
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Firma</Label>
-            <Input value={companyName} onChange={(e) => setCompanyName(e.target.value)} placeholder="z.B. Mustermann GmbH" className="mt-1" />
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Rechtsform</Label>
-            <select value={rechtsform} onChange={(e) => setRechtsform(e.target.value)} className="h-9 w-full rounded-md border border-input bg-background px-2 text-sm mt-1">
-              {["Einzelunternehmen", "GbR", "UG (haftungsbeschränkt)", "GmbH", "GmbH & Co. KG", "AG", "Holding"].map((r) => <option key={r}>{r}</option>)}
-            </select>
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Zeitraum</Label>
-            <Input value={zeitraum} onChange={(e) => setZeitraum(e.target.value)} placeholder="z.B. Q1 2026" className="mt-1" />
-          </div>
-        </div>
-      </div>
-
-      {/* Management-Summary */}
-      <details className="rounded-2xl border-2 border-amber-500/40 bg-amber-500/5 p-5 mb-4" open>
-        <summary className="cursor-pointer font-bold text-sm flex items-center gap-2">
-          <Sparkle className="h-4 w-4 text-amber-700" /> Management-Summary (Cover-Letter für Bank) ★ Wichtig
-        </summary>
-        <p className="text-xs text-muted-foreground mt-2 mb-3">
-          Banker wollen Story sehen, nicht nur Zahlen. Diese Felder landen auf Seite 1 des PDFs. Branchen-Typ steuert die Benchmark-Schwellen.
-        </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <div>
-            <Label className="text-xs">Anlass der BWA</Label>
-            <Input value={summary.anlass} onChange={(e) => setSummary({ ...summary, anlass: e.target.value })} placeholder="z.B. Kreditverlängerung 2026, Wachstumsfinanzierung 500k" className="mt-1 h-9 text-sm" />
-          </div>
-          <div>
-            <Label className="text-xs">Branchen-Typ (für Benchmark) ★</Label>
-            <select
-              value={summary.branchen_typ}
-              onChange={(e) => setSummary({ ...summary, branchen_typ: e.target.value as BranchenTyp })}
-              className="mt-1 h-9 w-full rounded-md border border-input bg-background px-2 text-sm"
+            {/* Management-Summary */}
+            <ToolSection
+              title="Management-Summary"
+              description="Das Anschreiben für die Bank: Banker wollen die Geschichte hinter den Zahlen sehen. Die Felder landen auf Seite 1 des PDFs."
+              icon={FileText}
             >
-              {(Object.keys(BRANCHEN_BENCHMARKS) as BranchenTyp[]).map((k) => (
-                <option key={k} value={k}>{BRANCHEN_BENCHMARKS[k].label}</option>
-              ))}
-            </select>
-          </div>
-          <div className="md:col-span-2">
-            <Label className="text-xs">Branche (Freitext)</Label>
-            <Input value={summary.branche} onChange={(e) => setSummary({ ...summary, branche: e.target.value })} placeholder="z.B. D2C-Beauty / SaaS B2B / Online-Handel" className="mt-1 h-9 text-sm" />
-          </div>
-          <div className="md:col-span-2">
-            <Label className="text-xs">Geschäftsmodell (1-2 Sätze)</Label>
-            <textarea value={summary.geschaeftsmodell} onChange={(e) => setSummary({ ...summary, geschaeftsmodell: e.target.value })} rows={2} className="w-full mt-1 rounded-md border border-input bg-background px-2 py-1.5 text-sm" placeholder="z.B. D2C Skincare-Brand mit Razor-Blade-Modell. 60% Wiederkäufer, AOV 65€, LTV/CAC 3,2x." />
-          </div>
-          <div className="md:col-span-2">
-            <Label className="text-xs">USP / Wettbewerbsvorteil</Label>
-            <textarea value={summary.usp} onChange={(e) => setSummary({ ...summary, usp: e.target.value })} rows={2} className="w-full mt-1 rounded-md border border-input bg-background px-2 py-1.5 text-sm" placeholder="z.B. Eigene Formulierung mit Naturstoff X — patentgeschützt, Apothekenmarken konkurrieren nicht direkt." />
-          </div>
-          <div className="md:col-span-2">
-            <Label className="text-xs">Ausblick / Forecast nächste 12 Monate</Label>
-            <textarea value={summary.ausblick} onChange={(e) => setSummary({ ...summary, ausblick: e.target.value })} rows={2} className="w-full mt-1 rounded-md border border-input bg-background px-2 py-1.5 text-sm" placeholder="z.B. Umsatz-Plan +35% YoY, Skalierung auf AT/CH Q3 2026, EBITDA-Marge soll auf 18% steigen." />
-          </div>
-        </div>
-      </details>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <Field label="Anlass der BWA" htmlFor="bwa-anlass">
+                  <Input id="bwa-anlass" value={summary.anlass} onChange={(e) => setSummary({ ...summary, anlass: e.target.value })} placeholder="z. B. Kreditverlängerung 2026, Wachstumsfinanzierung 500k" />
+                </Field>
+                <Field label="Branchen-Typ" hint="Steuert die Benchmark-Schwellen der Ampeln." htmlFor="bwa-branchentyp">
+                  <select
+                    id="bwa-branchentyp"
+                    value={summary.branchen_typ}
+                    onChange={(e) => setSummary({ ...summary, branchen_typ: e.target.value as BranchenTyp })}
+                    className={selectCls}
+                  >
+                    {(Object.keys(BRANCHEN_BENCHMARKS) as BranchenTyp[]).map((k) => (
+                      <option key={k} value={k}>{BRANCHEN_BENCHMARKS[k].label}</option>
+                    ))}
+                  </select>
+                </Field>
+                <Field className="sm:col-span-2" label="Branche (Freitext)" htmlFor="bwa-branche">
+                  <Input id="bwa-branche" value={summary.branche} onChange={(e) => setSummary({ ...summary, branche: e.target.value })} placeholder="z. B. D2C-Beauty, SaaS B2B, Online-Handel" />
+                </Field>
+                <Field className="sm:col-span-2" label="Geschäftsmodell" hint="Ein bis zwei Sätze." htmlFor="bwa-gm">
+                  <Textarea id="bwa-gm" value={summary.geschaeftsmodell} onChange={(e) => setSummary({ ...summary, geschaeftsmodell: e.target.value })} rows={2} placeholder="z. B. D2C Skincare-Brand mit Razor-Blade-Modell. 60 % Wiederkäufer, AOV 65 €, LTV/CAC 3,2x." />
+                </Field>
+                <Field className="sm:col-span-2" label="USP oder Wettbewerbsvorteil" htmlFor="bwa-usp">
+                  <Textarea id="bwa-usp" value={summary.usp} onChange={(e) => setSummary({ ...summary, usp: e.target.value })} rows={2} placeholder="z. B. Eigene Formulierung mit Naturstoff X, patentgeschützt; Apothekenmarken konkurrieren nicht direkt." />
+                </Field>
+                <Field className="sm:col-span-2" label="Ausblick für die nächsten 12 Monate" htmlFor="bwa-ausblick">
+                  <Textarea id="bwa-ausblick" value={summary.ausblick} onChange={(e) => setSummary({ ...summary, ausblick: e.target.value })} rows={2} placeholder="z. B. Umsatz-Plan +35 % YoY, Skalierung auf AT/CH Q3 2026, EBITDA-Marge soll auf 18 % steigen." />
+                </Field>
+              </div>
+            </ToolSection>
 
-      {/* GuV-Eingabe */}
-      <div className="space-y-3 mb-4">
-        <h3 className="font-bold text-sm flex items-center gap-2">
-          <Calculator className="h-4 w-4" /> GuV-Positionen
-          <button
-            onClick={() => setVorperiodeAktiv(!vorperiodeAktiv)}
-            className={`ml-auto rounded-full px-3 py-1 text-[10px] font-semibold ${
-              vorperiodeAktiv ? "bg-accent-blue text-primary-foreground" : "border border-border bg-card hover:bg-secondary"
-            }`}
-          >
-            {vorperiodeAktiv ? "✓ Vorperioden-Vergleich AN" : "+ Vorperioden-Vergleich (YoY) aktivieren"}
-          </button>
-        </h3>
-        {vorperiodeAktiv && (
-          <div className="rounded-xl border border-accent-blue/30 bg-accent-blue/5 p-3">
-            <Label className="text-xs">Vorperiode (für YoY-Vergleich)</Label>
-            <Input value={zeitraumVor} onChange={(e) => setZeitraumVor(e.target.value)} placeholder="z.B. Q1 2025" className="mt-1 h-9 text-sm max-w-xs" />
-          </div>
-        )}
-        {BWA_STRUCTURE.map((g) => {
-          const groupTotal = g.positions.reduce((s, p) => s + (values[p.key] ?? 0), 0);
-          const groupTotalVor = g.positions.reduce((s, p) => s + (valuesVor[p.key] ?? 0), 0);
-          return (
-            <details key={g.category} className={`rounded-2xl border bg-card overflow-hidden ${groupTotal > 0 ? "border-accent-blue/30" : "border-border"}`} open={groupTotal > 0}>
-              <summary className="cursor-pointer p-4 hover:bg-secondary/30">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <span className="text-xl">{g.emoji}</span>
-                    <span className="font-bold">{g.category}</span>
-                    <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${g.type === "erloes" ? "bg-emerald-500/10 text-emerald-700" : "bg-red-500/10 text-red-700"}`}>
-                      {g.type === "erloes" ? "Erlös" : "Aufwand"}
-                    </span>
+            {/* GuV-Eingabe */}
+            <ToolSection
+              title="GuV-Positionen"
+              description="Nettobeträge für den gewählten Zeitraum."
+              icon={Calculator}
+              actions={
+                <Button
+                  type="button"
+                  size="sm"
+                  variant={vorperiodeAktiv ? "default" : "outline"}
+                  aria-pressed={vorperiodeAktiv}
+                  onClick={() => setVorperiodeAktiv(!vorperiodeAktiv)}
+                >
+                  {vorperiodeAktiv ? <Check className="h-4 w-4" aria-hidden="true" /> : <Plus className="h-4 w-4" aria-hidden="true" />}
+                  Vorjahresvergleich
+                </Button>
+              }
+              bodyClassName="space-y-3"
+            >
+              {vorperiodeAktiv && (
+                <Field label="Vorperiode" hint="Bezeichnung der Vergleichsperiode, z. B. Q1 2025." htmlFor="bwa-zeitraum-vor" className="max-w-xs">
+                  <Input id="bwa-zeitraum-vor" value={zeitraumVor} onChange={(e) => setZeitraumVor(e.target.value)} placeholder="z. B. Q1 2025" />
+                </Field>
+              )}
+              {BWA_STRUCTURE.map((g) => {
+                const groupTotal = g.positions.reduce((s, p) => s + (values[p.key] ?? 0), 0);
+                const groupTotalVor = g.positions.reduce((s, p) => s + (valuesVor[p.key] ?? 0), 0);
+                return (
+                  <details
+                    key={g.category}
+                    className={`group overflow-hidden rounded-xl border bg-card [&_summary::-webkit-details-marker]:hidden ${groupTotal > 0 ? "border-accent-blue/30" : "border-border"}`}
+                    open={groupTotal > 0}
+                  >
+                    <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 transition-colors hover:bg-secondary/40">
+                      <span className="flex min-w-0 items-center gap-2.5">
+                        <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-open:rotate-90" aria-hidden="true" />
+                        <span className="truncate text-sm font-semibold">{g.category}</span>
+                        <ToneBadge className="hidden sm:inline-flex" tone={g.type === "erloes" ? "success" : "neutral"}>{g.type === "erloes" ? "Erlös" : "Aufwand"}</ToneBadge>
+                      </span>
+                      <span className="shrink-0 text-right">
+                        <span className="block text-sm font-semibold tabular">{formatEur(groupTotal)} €</span>
+                        {vorperiodeAktiv && groupTotalVor > 0 && <YoyDelta now={groupTotal} prev={groupTotalVor} />}
+                      </span>
+                    </summary>
+                    <div className="space-y-2.5 border-t border-border/70 bg-secondary/20 px-4 py-3">
+                      {vorperiodeAktiv && (
+                        <div className="hidden grid-cols-4 gap-2 text-xs text-muted-foreground md:grid">
+                          <span className="col-span-2">Position</span>
+                          <span className="text-right">{zeitraumVor}</span>
+                          <span className="text-right">{zeitraum}</span>
+                        </div>
+                      )}
+                      {g.positions.map((p) => (
+                        <div key={p.key} className={`grid items-center gap-2 ${vorperiodeAktiv ? "grid-cols-2 md:grid-cols-4" : "grid-cols-1 sm:grid-cols-3"}`}>
+                          <label className={`text-sm ${vorperiodeAktiv ? "col-span-2" : "sm:col-span-2"}`}>
+                            {p.name}
+                            {p.skr03 && <span className="ml-1.5 text-xs text-muted-foreground tabular">SKR03 {p.skr03}</span>}
+                          </label>
+                          {vorperiodeAktiv && (
+                            <NumberField emptyAsZero value={valuesVor[p.key] ?? 0} onChange={(n) => updateVor(p.key, n)} min={0} placeholder={`${zeitraumVor}`} aria-label={`${p.name} ${zeitraumVor}`} className="h-9 bg-secondary/40 text-right text-sm tabular" />
+                          )}
+                          <NumberField emptyAsZero value={values[p.key] ?? 0} onChange={(n) => update(p.key, n)} min={0} placeholder={zeitraum} aria-label={`${p.name} ${zeitraum}`} className="h-9 text-right text-sm tabular" />
+                        </div>
+                      ))}
+                    </div>
+                  </details>
+                );
+              })}
+            </ToolSection>
+
+            {/* Bilanz + Kapitaldienst */}
+            <ToolSection
+              title="Bilanz und Kapitaldienst"
+              description="Für EK-Quote, Net Debt/EBITDA, DSCR, ROCE."
+              icon={Landmark}
+              actions={<ToggleButton active={bilanzAktiv} onClick={() => setBilanzAktiv(!bilanzAktiv)} />}
+              bodyClassName={bilanzAktiv ? undefined : "hidden"}
+              className={bilanzAktiv ? undefined : "[&>div:first-child]:border-b-0"}
+            >
+              {bilanzAktiv && (
+                <div className="space-y-5">
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
+                    <BilanzInput label="Eigenkapital (€)" val={bilanz.ek} onChange={(v) => setBilanz({ ...bilanz, ek: v })} hint="Gezeichnetes Kapital, Rücklagen, Gewinnvortrag" />
+                    <BilanzInput label="FK langfristig (€)" val={bilanz.fk_langfr} onChange={(v) => setBilanz({ ...bilanz, fk_langfr: v })} hint="Kredite über 1 Jahr, Anleihen, sonstige langfristige Verbindlichkeiten" />
+                    <BilanzInput label="FK kurzfristig (€)" val={bilanz.fk_kurzfr} onChange={(v) => setBilanz({ ...bilanz, fk_kurzfr: v })} hint="Lieferanten, Lohn, Steuern, Kreditlinien unter 1 Jahr" />
+                    <BilanzInput label="Cash und Bank (€)" val={bilanz.cash} onChange={(v) => setBilanz({ ...bilanz, cash: v })} hint="Liquide Mittel" />
+                    <BilanzInput label="Forderungen (€)" val={bilanz.forderungen} onChange={(v) => setBilanz({ ...bilanz, forderungen: v })} hint="Offene Kundenrechnungen" />
+                    <BilanzInput label="Vorräte (€)" val={bilanz.vorraete} onChange={(v) => setBilanz({ ...bilanz, vorraete: v })} hint="Lager, Roh-, Hilfs- und Betriebsstoffe, FBA-Inventar" />
                   </div>
-                  <div className="text-right text-xs">
-                    <div className="font-mono font-bold">{formatEur(groupTotal)} €</div>
-                    {vorperiodeAktiv && groupTotalVor > 0 && (
-                      <YoyDelta now={groupTotal} prev={groupTotalVor} />
-                    )}
+                  <div className="rounded-xl border border-border bg-secondary/30 p-4">
+                    <p className="text-sm font-semibold">Kapitaldienst (für DSCR)</p>
+                    <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                      <BilanzInput label="Tilgung p. a. (€)" val={kapitaldienst.tilgung_pa} onChange={(v) => setKapitaldienst({ ...kapitaldienst, tilgung_pa: v })} hint="Jährliche Tilgungsleistung aller Kredite" />
+                      <BilanzInput label="Zinsen p. a. (€)" val={kapitaldienst.zinsen_pa} onChange={(v) => setKapitaldienst({ ...kapitaldienst, zinsen_pa: v })} hint="Jährlicher Zinsaufwand aller Kredite" />
+                    </div>
+                    <div className="mt-3 divide-y divide-border/70 border-t border-border/70">
+                      <ResultRow
+                        label="Kapitaldienst gesamt"
+                        value={`${formatEur(kpis.kapitaldienstGesamt)} €`}
+                      />
+                      {kpis.kapitaldienstGesamt > 0 && (
+                        <ResultRow label="DSCR" value={`${kpis.dscr.toFixed(2)}x`} tone={AMPEL_TONE[ampel.dscr.status]} strong />
+                      )}
+                      <ResultRow label="Net Debt" value={`${formatEur(netDebt)} €`} />
+                      {kpis.leverage !== null && (
+                        <ResultRow label="Net Debt / EBITDA" value={`${kpis.leverage.toFixed(2)}x`} tone={AMPEL_TONE[ampel.leverage.status]} strong />
+                      )}
+                    </div>
                   </div>
                 </div>
-              </summary>
-              <div className="border-t border-border p-4 space-y-2">
-                {g.positions.map((p) => (
-                  <div key={p.key} className={`grid gap-2 items-center ${vorperiodeAktiv ? "grid-cols-1 md:grid-cols-4" : "grid-cols-1 md:grid-cols-3"}`}>
-                    <Label className={`text-sm ${vorperiodeAktiv ? "md:col-span-2" : "md:col-span-2"}`}>
-                      {p.name}
-                      {p.skr03 && <span className="text-[10px] text-muted-foreground ml-1">(SKR03 {p.skr03})</span>}
-                    </Label>
-                    {vorperiodeAktiv && (
-                      <NumberField emptyAsZero value={valuesVor[p.key] ?? 0} onChange={(n) => updateVor(p.key, n)} min={0} placeholder={`${zeitraumVor}`} className="text-right h-8 text-sm bg-secondary/30" />
-                    )}
-                    <NumberField emptyAsZero value={values[p.key] ?? 0} onChange={(n) => update(p.key, n)} min={0} placeholder={zeitraum} className="text-right h-8 text-sm" />
-                  </div>
-                ))}
-              </div>
-            </details>
-          );
-        })}
-      </div>
+              )}
+            </ToolSection>
 
-      {/* Bilanz + Kapitaldienst */}
-      <details className="rounded-2xl border-2 border-purple-500/30 bg-purple-500/5 p-5 mb-4" open={bilanzAktiv}>
-        <summary className="cursor-pointer font-bold text-sm flex items-center gap-2" onClick={(e) => { e.preventDefault(); setBilanzAktiv(!bilanzAktiv); }}>
-          <Building2 className="h-4 w-4 text-purple-700" />
-          Bilanz-Eckwerte + Kapitaldienst ★ aktiviert EK-Quote, Net Debt/EBITDA, DSCR, ROCE im Bank-Score
-          <span className="ml-auto text-xs text-purple-700">{bilanzAktiv ? "AN" : "AUS"}</span>
-        </summary>
-        {bilanzAktiv && (
-          <div className="mt-3 space-y-3">
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-              <BilanzInput label="Eigenkapital (€)" val={bilanz.ek} onChange={(v) => setBilanz({ ...bilanz, ek: v })} hint="Gezeichnetes Kapital + Rücklagen + Gewinnvortrag" />
-              <BilanzInput label="FK langfristig (€)" val={bilanz.fk_langfr} onChange={(v) => setBilanz({ ...bilanz, fk_langfr: v })} hint="Kredite >1J, Anleihen, sonst. langfr. Verbindlichkeiten" />
-              <BilanzInput label="FK kurzfristig (€)" val={bilanz.fk_kurzfr} onChange={(v) => setBilanz({ ...bilanz, fk_kurzfr: v })} hint="Lieferanten, Lohn, Steuern, Kreditlinien <1J" />
-              <BilanzInput label="Cash + Bank (€)" val={bilanz.cash} onChange={(v) => setBilanz({ ...bilanz, cash: v })} hint="Liquide Mittel" />
-              <BilanzInput label="Forderungen (€)" val={bilanz.forderungen} onChange={(v) => setBilanz({ ...bilanz, forderungen: v })} hint="Offene Kundenrechnungen" />
-              <BilanzInput label="Vorräte (€)" val={bilanz.vorraete} onChange={(v) => setBilanz({ ...bilanz, vorraete: v })} hint="Lager, Roh/Hilfs/Betriebsstoffe, FBA-Inventar" />
+            {/* Erweiterte Angaben */}
+            <ToolSection
+              title="Steuern, CapEx, Team, Kunden"
+              description="Für FCF, ROCE, Produktivität."
+              icon={TrendingUp}
+              actions={<ToggleButton active={erweitertAktiv} onClick={() => setErweitertAktiv(!erweitertAktiv)} />}
+              bodyClassName={erweitertAktiv ? undefined : "hidden"}
+              className={erweitertAktiv ? undefined : "[&>div:first-child]:border-b-0"}
+            >
+              {erweitertAktiv && (
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <BilanzInput label="Steuern p. a. (€)" val={erweitert.steuern_pa} onChange={(v) => setErweitert({ ...erweitert, steuern_pa: v })} hint="KSt, GewSt, Solidaritätszuschlag" />
+                  <BilanzInput label="CapEx p. a. (€)" val={erweitert.capex_pa} onChange={(v) => setErweitert({ ...erweitert, capex_pa: v })} hint="Investitionen in Sachanlagen und immaterielle Werte" />
+                  <BilanzInput label="Mitarbeiter (FTE)" val={erweitert.mitarbeiter} onChange={(v) => setErweitert({ ...erweitert, mitarbeiter: v })} hint="Vollzeit-Äquivalente" />
+                  <BilanzInput label="Top-3-Kunden (%)" val={erweitert.kundenkonzentration_top3} onChange={(v) => setErweitert({ ...erweitert, kundenkonzentration_top3: v })} hint="Anteil der drei größten Kunden am Umsatz" />
+                </div>
+              )}
+            </ToolSection>
+          </>
+        }
+        result={
+          <>
+            {bankScore !== null && bankRating ? (
+              <ResultPanel
+                variant="ink"
+                kicker="Bank-Tauglichkeits-Score"
+                title={bankRating.label}
+                value={
+                  <>
+                    {bankScore}
+                    <span className="ml-1.5 text-2xl font-medium text-primary-foreground/55">/ 100</span>
+                  </>
+                }
+                valueHint={`Benchmark: ${benchmark.label}`}
+                actions={
+                  <span className="rounded-lg bg-white/10 px-2.5 py-1 text-sm font-semibold tabular">Rating {bankRating.grade}</span>
+                }
+              >
+                <div className="h-2 overflow-hidden rounded-full bg-white/10" aria-hidden="true">
+                  <div
+                    className={`h-full rounded-full ${ratingTone === "success" ? "bg-success" : ratingTone === "warning" ? "bg-warning" : "bg-danger"}`}
+                    style={{ width: `${bankScore}%` }}
+                  />
+                </div>
+              </ResultPanel>
+            ) : (
+              <ResultPanel variant="ink" kicker="Bank-Tauglichkeits-Score" title="Noch nicht berechenbar">
+                <p className="text-sm leading-relaxed">
+                  Damit der Score aussagekräftig ist, braucht es Erlöse und mindestens drei Aufwandskategorien.
+                </p>
+                {validation.issues.length > 0 && (
+                  <ul className="mt-3 space-y-1.5">
+                    {validation.issues.map((i) => (
+                      <li key={i} className="flex items-start gap-2 text-sm">
+                        <XCircle className="mt-0.5 h-4 w-4 shrink-0 text-danger" aria-hidden="true" />
+                        <span>{i}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </ResultPanel>
+            )}
+
+            <ToolSection title="Kernzahlen" description={zeitraum || undefined} icon={Banknote}>
+              <div className="-my-2.5 divide-y divide-border/70">
+                <ResultRow label="Gesamterlöse" value={`${formatEur(totals.erloese)} €`} />
+                <ResultRow label="Rohertrag" value={`${formatEur(totals.rohertrag)} €`} />
+                <ResultRow label="EBITDA" value={`${formatEur(totals.ebitda)} €`} />
+                <ResultRow
+                  label="Ergebnis vor Steuern"
+                  value={`${formatEur(totals.gewinn)} €`}
+                  tone={totals.erloese === 0 && totals.aufwand === 0 ? "neutral" : totals.gewinn >= 0 ? "success" : "danger"}
+                  strong
+                />
+              </div>
+            </ToolSection>
+
+            {validation.warnings.length > 0 && (
+              <Callout tone="warning" title="Plausibilitäts-Hinweise aus Bankensicht">
+                <ul className="list-disc space-y-1 pl-4">
+                  {validation.warnings.map((w) => <li key={w}>{w}</li>)}
+                </ul>
+              </Callout>
+            )}
+
+            <div className="rounded-2xl border border-border bg-card p-5 shadow-card">
+              <p className="text-base font-semibold">Bank-feste BWA als PDF</p>
+              <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                Deckblatt mit Bank-Score, Kennzahlen-Dashboard, GuV mit Vorjahresvergleich, Bilanz, Net Debt/EBITDA, FCF und ROCE.
+              </p>
+              <Button onClick={downloadPdf} disabled={pdfDisabled} size="lg" className="mt-4 w-full rounded-xl">
+                <Download className="h-4 w-4" aria-hidden="true" /> Bank-BWA herunterladen
+              </Button>
+              {pdfDisabled && <p className="mt-2 text-xs text-muted-foreground">Erfasse zuerst mindestens eine GuV-Position.</p>}
             </div>
-            <div className="rounded-xl bg-white border border-purple-500/20 p-3">
-              <div className="text-xs font-bold mb-2">Kapitaldienst (für DSCR)</div>
-              <div className="grid grid-cols-2 gap-3">
-                <BilanzInput label="Tilgung p.a. (€)" val={kapitaldienst.tilgung_pa} onChange={(v) => setKapitaldienst({ ...kapitaldienst, tilgung_pa: v })} hint="Jährliche Tilgungsleistung aller Kredite" />
-                <BilanzInput label="Zinsen p.a. (€)" val={kapitaldienst.zinsen_pa} onChange={(v) => setKapitaldienst({ ...kapitaldienst, zinsen_pa: v })} hint="Jährlicher Zinsaufwand aller Kredite" />
-              </div>
-              <div className="mt-2 text-xs text-muted-foreground space-y-1">
-                <div>
-                  Kapitaldienst gesamt: <strong>{formatEur(kpis.kapitaldienstGesamt)} €</strong>
-                  {kpis.kapitaldienstGesamt > 0 && <> · DSCR = <strong className={ampelMeta[ampel.dscr.status].color}>{kpis.dscr.toFixed(2)}x</strong></>}
-                </div>
-                <div>
-                  Net Debt: <strong>{formatEur(netDebt)} €</strong>
-                  {kpis.leverage !== null && <> · Net Debt/EBITDA = <strong className={ampelMeta[ampel.leverage.status].color}>{kpis.leverage.toFixed(2)}x</strong></>}
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-      </details>
-
-      {/* Erweiterte Angaben (Steuern, CapEx, MA, Konzentration) */}
-      <details className="rounded-2xl border-2 border-emerald-500/30 bg-emerald-500/5 p-5 mb-4" open={erweitertAktiv}>
-        <summary className="cursor-pointer font-bold text-sm flex items-center gap-2" onClick={(e) => { e.preventDefault(); setErweitertAktiv(!erweitertAktiv); }}>
-          <TrendingUp className="h-4 w-4 text-emerald-700" />
-          Erweitert: Steuern, CapEx, Mitarbeiter, Kundenkonzentration ★ aktiviert FCF, ROCE, Personalproduktivität
-          <span className="ml-auto text-xs text-emerald-700">{erweitertAktiv ? "AN" : "AUS"}</span>
-        </summary>
-        {erweitertAktiv && (
-          <div className="mt-3 grid grid-cols-2 md:grid-cols-4 gap-3">
-            <BilanzInput label="Steuern p.a. (€)" val={erweitert.steuern_pa} onChange={(v) => setErweitert({ ...erweitert, steuern_pa: v })} hint="KSt + GewSt + Solidar." />
-            <BilanzInput label="CapEx p.a. (€)" val={erweitert.capex_pa} onChange={(v) => setErweitert({ ...erweitert, capex_pa: v })} hint="Investitionen Sachanlagen + immat." />
-            <BilanzInput label="Mitarbeiter (FTE)" val={erweitert.mitarbeiter} onChange={(v) => setErweitert({ ...erweitert, mitarbeiter: v })} hint="Vollzeit-Äquivalente" />
-            <BilanzInput label="Top-3-Kunden (%)" val={erweitert.kundenkonzentration_top3} onChange={(v) => setErweitert({ ...erweitert, kundenkonzentration_top3: v })} hint="Anteil Top-3 Kunden am Umsatz" />
-          </div>
-        )}
-      </details>
+          </>
+        }
+      />
 
       {/* Bank-Kennzahlen-Dashboard */}
-      <div className="rounded-2xl border-2 border-emerald-500/30 bg-emerald-500/5 p-5 mb-4">
-        <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
-          <TrendingUp className="h-4 w-4 text-emerald-700" /> Bank-Kennzahlen-Dashboard 2026 · Benchmark: {benchmark.label}
-        </h3>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+      <ToolSection
+        title="Bank-Kennzahlen 2026"
+        description={`Ampeln nach Banker-Praxis, Benchmark: ${benchmark.label}`}
+        icon={Gauge}
+        className="mb-6"
+      >
+        <StatGrid cols={4}>
           <KpiCard label="EBITDA-Marge" val={totals.erloese > 0 ? formatPct(kpis.ebitdaMarge) : "—"} status={ampel.ebitdaMarge.status} hint={ampel.ebitdaMarge.hint} />
           <KpiCard label="EBIT-Marge" val={totals.erloese > 0 ? formatPct(kpis.ebitMarge) : "—"} status={ampel.ebitMarge.status} hint={ampel.ebitMarge.hint} />
           <KpiCard label="Rohertragsmarge" val={totals.material > 0 ? formatPct(kpis.rohertragsmarge) : "—"} status={ampel.rohertragsmarge.status} hint={ampel.rohertragsmarge.hint} />
@@ -1106,94 +1163,76 @@ const BwaGenerator = () => {
           <KpiCard label="Current Ratio" val={bilanz.fk_kurzfr > 0 ? kpis.currentRatio.toFixed(2) : "—"} status={ampel.currentRatio.status} hint={ampel.currentRatio.hint} />
           <KpiCard label="Wachstum YoY" val={kpis.umsatzwachstum !== null ? `${kpis.umsatzwachstum >= 0 ? "+" : ""}${formatPct(kpis.umsatzwachstum)}` : "—"} status={ampel.wachstum.status} hint={ampel.wachstum.hint} />
           <KpiCard label="Personal-Quote" val={totals.erloese > 0 ? formatPct(kpis.personalquote) : "—"} status={ampel.personalquote.status} hint={ampel.personalquote.hint} />
-        </div>
-      </div>
-
-      {/* PDF-Download */}
-      <div className="rounded-2xl border-2 border-accent-blue/40 bg-gradient-to-br from-card via-card to-accent-blue/5 p-5 mb-6">
-        <div className="flex items-center justify-between gap-4 flex-wrap">
-          <div>
-            <div className="font-bold text-lg mb-1">Bank-feste BWA als PDF</div>
-            <div className="text-sm text-muted-foreground">
-              Cover mit Bank-Score · KPI-Dashboard · GuV mit YoY · Bilanz · Net-Debt/EBITDA · FCF · ROCE
-            </div>
-          </div>
-          <button
-            onClick={downloadPdf}
-            disabled={totals.erloese === 0 && totals.aufwand === 0}
-            className="inline-flex items-center gap-2 rounded-xl bg-accent-blue text-primary-foreground px-6 py-3 text-sm font-bold hover:opacity-90 disabled:opacity-50"
-          >
-            <Download className="h-4 w-4" /> Bank-BWA herunterladen
-          </button>
-        </div>
-      </div>
+        </StatGrid>
+      </ToolSection>
 
       {/* Tipps */}
-      <div className="rounded-2xl border border-amber-500/30 bg-amber-500/5 p-4 text-xs leading-relaxed">
-        <div className="flex items-start gap-2">
-          <AlertTriangle className="h-4 w-4 text-amber-700 shrink-0 mt-0.5" />
-          <div>
-            <div className="font-semibold mb-2">Banker-Praxis 2026:</div>
-            <ul className="list-disc pl-4 space-y-1 text-muted-foreground">
-              <li>
-                <strong>Net Debt / EBITDA</strong> ist seit Basel IV (gilt 01/2025) die wichtigste Kennzahl — &lt;3x = grün, &gt;4,5x = Bank stoppt fast immer
-              </li>
-              <li>
-                <strong>Hausbank-Rating</strong>: DSCR ~1,2–1,25 als Faustregel (KfW vergibt über das Hausbankprinzip — keine fixe Programm-DSCR-Vorgabe), EK-Quote ≥15% üblich
-              </li>
-              <li>
-                <strong>Was Banker zuerst checken</strong>: Net Debt/EBITDA · EK-Quote · Cash-Flow-Stabilität (FCF) · Personal-Quote · Kunden-Konzentration
-              </li>
-              <li>
-                <strong>Pro-Tipp</strong>: Management-Summary auf Seite 1 ist Differenzierungs-Faktor — schwammig = schlechtes Signal beim Rating-Termin
-              </li>
-              <li>
-                <strong>Wann zur Bank?</strong> Monatlich bei laufendem Kredit · Quartalsweise bei Anfragen · Vor jeder Kreditverlängerung
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
+      <ToolSection title="Banker-Praxis 2026" icon={Lightbulb}>
+        <ul className="space-y-3 text-sm leading-relaxed text-muted-foreground">
+          <li>
+            <strong className="font-semibold text-foreground">Net Debt / EBITDA</strong> ist seit Basel IV (gilt ab 01/2025) die wichtigste Kennzahl: unter 3x grün, über 4,5x stoppt die Bank fast immer.
+          </li>
+          <li>
+            <strong className="font-semibold text-foreground">Hausbank-Rating:</strong> DSCR um 1,2 bis 1,25 als Faustregel (KfW vergibt über das Hausbankprinzip, ohne fixe Programm-DSCR-Vorgabe), EK-Quote ab 15 % üblich.
+          </li>
+          <li>
+            <strong className="font-semibold text-foreground">Was Banker zuerst prüfen:</strong> Net Debt/EBITDA, EK-Quote, Stabilität des Cashflows (FCF), Personal-Quote, Kunden-Konzentration.
+          </li>
+          <li>
+            <strong className="font-semibold text-foreground">Tipp:</strong> Die Management-Summary auf Seite 1 unterscheidet dich. Schwammige Angaben sind beim Rating-Termin ein schlechtes Signal.
+          </li>
+          <li>
+            <strong className="font-semibold text-foreground">Wann zur Bank?</strong> Monatlich bei laufendem Kredit, quartalsweise bei Anfragen, vor jeder Kreditverlängerung.
+          </li>
+        </ul>
+      </ToolSection>
     </CockpitShell>
   );
 };
 
 // ===== Sub-Components =====
 
-const Sparkle = ({ className }: { className?: string }) => (
-  <svg viewBox="0 0 24 24" fill="currentColor" className={className}><path d="M12 2l2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4L12 2z" /></svg>
+const AMPEL_TONE: Record<AmpelStatus, Tone> = {
+  gruen: "success",
+  gelb: "warning",
+  rot: "danger",
+  neutral: "neutral",
+};
+
+const ToggleButton = ({ active, onClick }: { active: boolean; onClick: () => void }) => (
+  <Button type="button" size="sm" variant={active ? "default" : "outline"} aria-pressed={active} onClick={onClick}>
+    {active ? <Check className="h-4 w-4" aria-hidden="true" /> : <Plus className="h-4 w-4" aria-hidden="true" />}
+    {active ? "Aktiv" : "Aktivieren"}
+  </Button>
 );
 
 const YoyDelta = ({ now, prev }: { now: number; prev: number }) => {
   if (prev === 0) return null;
   const pct = ((now - prev) / Math.abs(prev)) * 100;
-  const color = pct > 0 ? "text-emerald-700" : pct < 0 ? "text-red-700" : "text-muted-foreground";
+  const color = pct > 0 ? "text-success" : pct < 0 ? "text-danger" : "text-muted-foreground";
   const Icon = pct > 0 ? ArrowUp : pct < 0 ? ArrowDown : Minus;
   return (
-    <div className={`text-[10px] ${color} flex items-center justify-end gap-0.5`}>
-      <Icon className="h-3 w-3" /> {pct >= 0 ? "+" : ""}{pct.toFixed(0)}% YoY
-    </div>
+    <span className={`flex items-center justify-end gap-0.5 text-xs tabular ${color}`}>
+      <Icon className="h-3 w-3" aria-hidden="true" /> {pct >= 0 ? "+" : ""}{pct.toFixed(0)} % YoY
+    </span>
   );
 };
 
 const BilanzInput = ({ label, val, onChange, hint }: { label: string; val: number; onChange: (v: number) => void; hint?: string }) => (
-  <div>
-    <Label className="text-xs font-semibold">{label}</Label>
-    {hint && <div className="text-[10px] text-muted-foreground leading-tight mb-1">{hint}</div>}
-    <NumberField emptyAsZero value={val} onChange={onChange} min={0} placeholder="0" className="h-9 text-sm text-right" />
-  </div>
+  <Field label={label} hint={hint}>
+    <NumberField emptyAsZero value={val} onChange={onChange} min={0} placeholder="0" aria-label={label} className="text-right tabular" />
+  </Field>
 );
 
-const KpiCard = ({ label, val, status, hint }: { label: string; val: string; status: AmpelStatus; hint: string }) => {
-  const meta = ampelMeta[status];
-  return (
-    <div className={`rounded-xl border p-3 ${meta.bg}`}>
-      <div className="text-[10px] uppercase tracking-wider text-muted-foreground">{label}</div>
-      <div className={`text-lg font-bold ${meta.color}`}>{val}</div>
-      <div className={`text-[10px] mt-0.5 ${meta.color}`}>{hint}</div>
-    </div>
-  );
-};
+const KpiCard = ({ label, val, status, hint }: { label: string; val: string; status: AmpelStatus; hint: string }) => (
+  <StatTile
+    label={label}
+    value={val}
+    hint={hint || ampelMeta[status].label}
+    tone={AMPEL_TONE[status]}
+    emphasis={status !== "neutral"}
+  />
+);
 
 // === Helpers ===
 function hexToRgb(hex: string, alpha = 1): [number, number, number] {
