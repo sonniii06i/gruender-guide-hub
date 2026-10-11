@@ -2,8 +2,19 @@ import { useMemo, useState, useRef } from "react";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import Stand2026Footer from "@/components/cockpit/Stand2026Footer";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Calculator, Plus, Trash2, AlertTriangle, Coins, Download, Upload, CheckCircle2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Calculator, Plus, Trash2, AlertTriangle, Coins, Download, Upload, ChevronDown, ArrowLeftRight } from "lucide-react";
+import {
+  Callout,
+  EmptyState,
+  Field,
+  KitTable,
+  ResultPanel,
+  ToneBadge,
+  ToolLayout,
+  ToolSection,
+  selectCls,
+} from "@/components/cockpit/kit";
 import { parseCsv, type ExchangeFormat } from "@/lib/cryptoCsvParsers";
 
 type Trade = {
@@ -200,376 +211,334 @@ const CryptoSteuer = () => {
     URL.revokeObjectURL(url);
   };
 
+  const eur = (n: number) => `${Math.round(n).toLocaleString("de-DE")} €`;
+
   return (
     <CockpitShell
-      eyebrow="Crypto-Steuer-Modul"
-      title="FIFO-Berechnung Crypto-Veräußerungsgewinne"
-      subtitle="Trade-by-Trade FIFO-Match nach §23 EStG: Veräußerungsgewinn pro Verkauf, automatische 1-Jahres-Haltefrist-Erkennung, Freigrenze 1.000 € seit 2024. CSV-Export für StB."
+      eyebrow="Steuern · Crypto-Steuer-Modul"
+      title="FIFO-Berechnung für Crypto-Veräußerungsgewinne"
+      subtitle="Trade für Trade nach FIFO gemäß §23 EStG: Veräußerungsgewinn je Verkauf, automatische Erkennung der 1-Jahres-Haltefrist, Freigrenze 1.000 € seit 2024. CSV-Export für die Steuerberatung."
     >
-      {/* Inputs */}
-      <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5 mb-6">
-        <div className="flex items-center gap-2 mb-3">
-          <Coins className="h-4 w-4 text-accent-blue" />
-          <h3 className="font-bold text-sm">Steuerjahr + Tarif</h3>
-        </div>
-        <div className="grid grid-cols-2 gap-3">
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Steuerjahr</Label>
-            <select
-              value={steuerJahr}
-              onChange={(e) => setSteuerJahr(Number(e.target.value))}
-              className="mt-1 h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
-            >
-              {[2023, 2024, 2025, 2026].map((y) => (
-                <option key={y} value={y}>
-                  {y}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Persönlicher ESt-Satz</Label>
-            <select
-              value={estSatz}
-              onChange={(e) => setEstSatz(Number(e.target.value))}
-              className="mt-1 h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
-            >
-              <option value={0.14}>14 %</option>
-              <option value={0.24}>24 %</option>
-              <option value={0.32}>32 %</option>
-              <option value={0.42}>42 % (Spitzensatz)</option>
-              <option value={0.45}>45 % (Reichensteuer)</option>
-            </select>
-          </div>
-        </div>
-      </div>
+      <ToolLayout
+        className="mb-8"
+        inputs={
+          <>
+            <ToolSection title="Steuerjahr und Tarif" icon={Coins}>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <Field label="Steuerjahr" htmlFor="crypto-jahr">
+                  <select id="crypto-jahr" value={steuerJahr} onChange={(e) => setSteuerJahr(Number(e.target.value))} className={selectCls}>
+                    {[2023, 2024, 2025, 2026].map((y) => (
+                      <option key={y} value={y}>
+                        {y}
+                      </option>
+                    ))}
+                  </select>
+                </Field>
+                <Field label="Persönlicher ESt-Satz" hint="Grenzsteuersatz, nicht Abgeltungsteuer" htmlFor="crypto-satz">
+                  <select id="crypto-satz" value={estSatz} onChange={(e) => setEstSatz(Number(e.target.value))} className={selectCls}>
+                    <option value={0.14}>14 %</option>
+                    <option value={0.24}>24 %</option>
+                    <option value={0.32}>32 %</option>
+                    <option value={0.42}>42 % (Spitzensatz)</option>
+                    <option value={0.45}>45 % (Reichensteuer)</option>
+                  </select>
+                </Field>
+              </div>
+            </ToolSection>
 
-      {/* CSV-Import */}
-      <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5 mb-6">
-        <div className="flex items-center gap-2 mb-3">
-          <Upload className="h-4 w-4 text-accent-blue" />
-          <h3 className="font-bold text-sm">CSV-Import von Exchange</h3>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Format</Label>
-            <select
-              value={importFormat}
-              onChange={(e) => setImportFormat(e.target.value as ExchangeFormat)}
-              className="mt-1 h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
+            <ToolSection title="CSV-Import von der Börse" description="Trades werden an die Liste angehängt." icon={Upload}>
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
+                <Field label="Format" className="flex-1" htmlFor="crypto-format">
+                  <select
+                    id="crypto-format"
+                    value={importFormat}
+                    onChange={(e) => setImportFormat(e.target.value as ExchangeFormat)}
+                    className={selectCls}
+                  >
+                    <option value="generic">Automatisch erkennen</option>
+                    <option value="binance">Binance Spot Trade History</option>
+                    <option value="kraken">Kraken trades.csv</option>
+                    <option value="coinbase">Coinbase Transactions</option>
+                    <option value="bison">Bison (Boerse Stuttgart)</option>
+                  </select>
+                </Field>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept=".csv,text/csv"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) handleCsvImport(file);
+                    e.target.value = ""; // Reset für erneuten Upload
+                  }}
+                  className="hidden"
+                />
+                <Button type="button" onClick={() => fileInputRef.current?.click()} className="shrink-0">
+                  <Upload className="h-4 w-4" aria-hidden="true" /> CSV-Datei wählen
+                </Button>
+              </div>
+              {importStatus && (
+                <Callout tone={importStatus.ok ? "success" : "danger"} className="mt-4">
+                  <span role={importStatus.ok ? undefined : "alert"}>{importStatus.msg}</span>
+                </Callout>
+              )}
+              <details className="group mt-4 text-sm [&_summary::-webkit-details-marker]:hidden">
+                <summary className="flex cursor-pointer list-none items-center gap-1.5 font-medium text-accent-blue">
+                  Wo finde ich die CSV?
+                  <ChevronDown className="h-3.5 w-3.5 transition-transform group-open:rotate-180" aria-hidden="true" />
+                </summary>
+                <ul className="mt-2 space-y-1 text-muted-foreground">
+                  <li><strong className="font-medium text-foreground">Binance:</strong> Profil, Wallet, Order History, Spot Order, Export (CSV)</li>
+                  <li><strong className="font-medium text-foreground">Kraken:</strong> History, Trades, Export, trades.csv</li>
+                  <li><strong className="font-medium text-foreground">Coinbase:</strong> Account, Statements, Generate Report (Transaction History)</li>
+                  <li><strong className="font-medium text-foreground">Bison:</strong> Übersicht, Steuerreport / Transaktionsliste (.csv)</li>
+                </ul>
+              </details>
+            </ToolSection>
+          </>
+        }
+        result={
+          <>
+            <ResultPanel
+              variant="ink"
+              kicker={`Steuerjahr ${steuerJahr}`}
+              title="Einkommensteuer auf Crypto-Gewinne"
+              value={eur(steuerlast)}
+              valueHint={`bei ${Math.round(estSatz * 100)} % Grenzsteuersatz`}
             >
-              <option value="generic">Auto-Detect</option>
-              <option value="binance">Binance Spot Trade History</option>
-              <option value="kraken">Kraken trades.csv</option>
-              <option value="coinbase">Coinbase Transactions</option>
-              <option value="bison">Bison (Boerse Stuttgart)</option>
-            </select>
-          </div>
-          <div className="md:col-span-2 flex items-end gap-2">
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept=".csv,text/csv"
-              onChange={(e) => {
-                const file = e.target.files?.[0];
-                if (file) handleCsvImport(file);
-                e.target.value = ""; // Reset für erneuten Upload
-              }}
-              className="hidden"
-            />
-            <button
-              onClick={() => fileInputRef.current?.click()}
-              className="inline-flex items-center gap-1.5 rounded-lg bg-accent-blue text-primary-foreground px-4 py-2 text-xs font-semibold hover:opacity-90"
-            >
-              <Upload className="h-3.5 w-3.5" /> CSV-Datei wählen
-            </button>
-          </div>
-        </div>
-        {importStatus && (
-          <div
-            className={`rounded-lg border p-3 text-xs flex items-start gap-2 ${
-              importStatus.ok
-                ? "border-emerald-500/30 bg-emerald-500/5"
-                : "border-red-500/30 bg-red-500/5"
-            }`}
-          >
-            {importStatus.ok ? (
-              <CheckCircle2 className="h-4 w-4 text-emerald-700 dark:text-emerald-400 shrink-0 mt-0.5" />
-            ) : (
-              <AlertTriangle className="h-4 w-4 text-red-700 dark:text-red-400 shrink-0 mt-0.5" />
+              <div className="grid grid-cols-3 gap-px overflow-hidden rounded-xl bg-white/10">
+                {[
+                  { l: "Verkäufe", v: String(yearResults.length) },
+                  { l: "Steuerfrei", v: eur(totalSteuerfrei) },
+                  { l: "Steuerpflichtig", v: eur(totalSteuerpflichtig) },
+                ].map((k) => (
+                  <div key={k.l} className="min-w-0 bg-white/[0.04] p-3">
+                    <div className="text-xs text-primary-foreground/65">{k.l}</div>
+                    <div className="mt-0.5 truncate font-semibold text-primary-foreground tabular">{k.v}</div>
+                  </div>
+                ))}
+              </div>
+              <Button
+                variant="secondary"
+                onClick={exportCSV}
+                className="mt-4 w-full bg-white/10 text-primary-foreground hover:bg-white/15"
+              >
+                <Download className="h-4 w-4" aria-hidden="true" /> CSV für die Steuerberatung exportieren
+              </Button>
+            </ResultPanel>
+
+            {totalSteuerpflichtig > 0 && totalSteuerpflichtig <= freigrenze && (
+              <Callout tone="success" title="Freigrenze nach §23 EStG greift">
+                Die steuerpflichtigen Gewinne von {eur(totalSteuerpflichtig)} liegen unter 1.000 €, damit komplett steuerfrei.
+              </Callout>
             )}
-            <div className="text-foreground">{importStatus.msg}</div>
-          </div>
-        )}
-        <div className="text-[11px] text-muted-foreground mt-3 leading-relaxed">
-          <strong>Wo finde ich die CSV?</strong> Binance: Profil → Wallet → Order History → Spot Order → Export
-          (CSV) · Kraken: History → Trades → Export → trades.csv · Coinbase: Account → Statements →
-          Generate Report (Transaction History) · Bison: Übersicht → Steuerreport / Transaktionsliste
-          (.csv).
-        </div>
-      </div>
+            {verlustvortrag > 0 && (
+              <Callout tone="warning" title={`Verlustvortrag nach §23 (3) EStG: ${eur(verlustvortrag)}`}>
+                Nur mit künftigen Gewinnen aus §23-Geschäften verrechenbar, nicht mit anderen Einkunftsarten. In der
+                ESt-Erklärung als „Verlustvortrag nach §10d EStG für private Veräußerungsgeschäfte“ eintragen; das
+                Finanzamt stellt ihn fest.
+              </Callout>
+            )}
+          </>
+        }
+      />
 
       {/* Trades */}
-      <div className="rounded-2xl border border-border bg-card p-5 mb-6">
-        <div className="flex items-center justify-between mb-3">
-          <h3 className="font-bold text-sm">Deine Trades ({trades.length})</h3>
-          <div className="flex gap-2">
-            <button
-              onClick={() => setTrades([])}
-              disabled={trades.length === 0}
-              className="inline-flex items-center gap-1 rounded-lg border border-border px-3 py-1.5 text-xs font-semibold hover:bg-secondary disabled:opacity-40"
-            >
-              <Trash2 className="h-3.5 w-3.5" /> Alle löschen
-            </button>
-            <button
-              onClick={addTrade}
-              className="inline-flex items-center gap-1 rounded-lg bg-accent-blue text-primary-foreground px-3 py-1.5 text-xs font-semibold hover:opacity-90"
-            >
-              <Plus className="h-3.5 w-3.5" /> Trade hinzufügen
-            </button>
-          </div>
-        </div>
-        <div className="overflow-x-auto">
-          <table className="w-full text-xs">
+      <ToolSection
+        title={
+          <>
+            Deine Trades <span className="font-normal text-muted-foreground tabular">({trades.length})</span>
+          </>
+        }
+        icon={ArrowLeftRight}
+        className="mb-6"
+        actions={
+          <>
+            <Button variant="outline" size="sm" onClick={() => setTrades([])} disabled={trades.length === 0}>
+              <Trash2 className="h-4 w-4" aria-hidden="true" /> Alle löschen
+            </Button>
+            <Button size="sm" onClick={addTrade}>
+              <Plus className="h-4 w-4" aria-hidden="true" /> Trade hinzufügen
+            </Button>
+          </>
+        }
+      >
+        {trades.length === 0 ? (
+          <EmptyState
+            icon={Coins}
+            title="Noch keine Trades erfasst"
+            description="Füge Käufe und Verkäufe manuell hinzu oder importiere die CSV deiner Börse."
+            action={
+              <Button onClick={addTrade}>
+                <Plus className="h-4 w-4" aria-hidden="true" /> Trade hinzufügen
+              </Button>
+            }
+          />
+        ) : (
+          <KitTable caption="Deine Crypto-Trades" className="relative">
             <thead>
-              <tr className="border-b border-border">
-                <th className="text-left py-2 pr-2">Datum</th>
-                <th className="text-left py-2 px-2">Typ</th>
-                <th className="text-left py-2 px-2">Asset</th>
-                <th className="text-right py-2 px-2">Menge</th>
-                <th className="text-right py-2 px-2">Preis/Einheit</th>
-                <th className="text-right py-2 px-2">Fee</th>
-                <th className="text-center py-2 pl-2"></th>
+              <tr>
+                <th>Datum</th>
+                <th>Typ</th>
+                <th>Asset</th>
+                <th className="!text-right">Menge</th>
+                <th className="!text-right">Preis je Einheit (€)</th>
+                <th className="!text-right">Gebühr (€)</th>
+                <th aria-label="Aktionen" />
               </tr>
             </thead>
             <tbody>
               {trades.map((t) => (
-                <tr key={t.id} className="border-b border-border last:border-0">
-                  <td className="py-1 pr-2">
+                <tr key={t.id}>
+                  <td className="min-w-[150px]">
                     <Input
                       type="date"
                       value={t.datum}
                       onChange={(e) => updateTrade(t.id, { datum: e.target.value })}
-                      className="h-8 text-xs"
+                      aria-label="Datum"
+                      className="h-9"
                     />
                   </td>
-                  <td className="py-1 px-2">
+                  <td className="min-w-[110px]">
                     <select
                       value={t.type}
                       onChange={(e) => updateTrade(t.id, { type: e.target.value as Trade["type"] })}
-                      className="h-8 w-full rounded-md border border-input bg-background px-2 text-xs"
+                      aria-label="Typ"
+                      className={`${selectCls} h-9`}
                     >
                       <option value="buy">Kauf</option>
                       <option value="sell">Verkauf</option>
                     </select>
                   </td>
-                  <td className="py-1 px-2">
+                  <td className="min-w-[90px]">
                     <Input
                       value={t.asset}
                       onChange={(e) => updateTrade(t.id, { asset: e.target.value.toUpperCase() })}
-                      className="h-8 text-xs"
+                      aria-label="Asset"
+                      className="h-9 font-medium"
                       placeholder="BTC"
                     />
                   </td>
-                  <td className="py-1 px-2">
+                  <td className="min-w-[110px]">
                     <Input
                       type="number"
                       step="0.000001"
                       value={t.amount || ""}
                       onChange={(e) => updateTrade(t.id, { amount: Number(e.target.value) || 0 })}
-                      className="h-8 text-xs text-right"
+                      aria-label="Menge"
+                      className="h-9 text-right tabular"
                     />
                   </td>
-                  <td className="py-1 px-2">
+                  <td className="min-w-[120px]">
                     <Input
                       type="number"
                       step="0.01"
                       value={t.preisProEinheit || ""}
                       onChange={(e) => updateTrade(t.id, { preisProEinheit: Number(e.target.value) || 0 })}
-                      className="h-8 text-xs text-right"
+                      aria-label="Preis je Einheit"
+                      className="h-9 text-right tabular"
                     />
                   </td>
-                  <td className="py-1 px-2">
+                  <td className="min-w-[96px]">
                     <Input
                       type="number"
                       step="0.01"
                       value={t.fee || ""}
                       onChange={(e) => updateTrade(t.id, { fee: Number(e.target.value) || 0 })}
-                      className="h-8 text-xs text-right"
+                      aria-label="Gebühr"
+                      className="h-9 text-right tabular"
                     />
                   </td>
-                  <td className="py-1 pl-2 text-center">
-                    <button
+                  <td className="w-10 text-center">
+                    <Button
+                      variant="ghost"
+                      size="icon"
                       onClick={() => removeTrade(t.id)}
-                      className="text-red-600 hover:bg-red-500/10 p-1 rounded"
+                      aria-label="Trade entfernen"
+                      className="h-8 w-8 text-muted-foreground hover:bg-danger-soft hover:text-danger"
                     >
-                      <Trash2 className="h-3.5 w-3.5" />
-                    </button>
+                      <Trash2 className="h-4 w-4" aria-hidden="true" />
+                    </Button>
                   </td>
                 </tr>
               ))}
             </tbody>
-          </table>
-        </div>
-      </div>
-
-      {/* Summary für Steuerjahr */}
-      <div className="rounded-2xl border-2 border-accent-blue/40 bg-gradient-to-br from-card via-card to-accent-blue/5 p-5 mb-6">
-        <div className="flex items-center gap-2 mb-3">
-          <Calculator className="h-5 w-5 text-accent-blue" />
-          <h3 className="font-bold">Zusammenfassung Steuerjahr {steuerJahr}</h3>
-        </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          <div className="rounded-lg bg-secondary/40 p-3">
-            <div className="text-[10px] uppercase tracking-wider text-muted-foreground">Verkäufe im Jahr</div>
-            <div className="text-lg font-bold">{yearResults.length}</div>
-          </div>
-          <div className="rounded-lg bg-emerald-500/10 p-3">
-            <div className="text-[10px] uppercase tracking-wider text-emerald-700">Steuerfrei (&gt; 1 Jahr)</div>
-            <div className="text-lg font-bold text-emerald-700">
-              {Math.round(totalSteuerfrei).toLocaleString("de-DE")} €
-            </div>
-          </div>
-          <div className="rounded-lg bg-amber-500/10 p-3">
-            <div className="text-[10px] uppercase tracking-wider text-amber-700">Steuerpflichtig</div>
-            <div className="text-lg font-bold text-amber-700">
-              {Math.round(totalSteuerpflichtig).toLocaleString("de-DE")} €
-            </div>
-          </div>
-          <div className="rounded-lg bg-red-500/10 p-3">
-            <div className="text-[10px] uppercase tracking-wider text-red-700">ESt-Last</div>
-            <div className="text-lg font-bold text-red-700">
-              {Math.round(steuerlast).toLocaleString("de-DE")} €
-            </div>
-          </div>
-        </div>
-        {totalSteuerpflichtig > 0 && totalSteuerpflichtig <= freigrenze && (
-          <div className="rounded-lg bg-emerald-500/10 border border-emerald-500/20 p-3 text-xs mt-3">
-            ✓ <strong>Freigrenze §23 EStG greift:</strong> Steuerpflichtige Gewinne {Math.round(totalSteuerpflichtig).toLocaleString("de-DE")} € liegen unter 1.000 € → komplett steuerfrei
-          </div>
+          </KitTable>
         )}
-        {verlustvortrag > 0 && (
-          <div className="rounded-lg bg-amber-500/10 border border-amber-500/30 p-3 text-xs mt-3">
-            ⚠ <strong>Verlustvortrag §23 (3) EStG:</strong> {Math.round(verlustvortrag).toLocaleString("de-DE")} € Verlust. Diese sind nur mit zukünftigen Gewinnen aus §23-Geschäften verrechenbar (NICHT mit anderen Einkunftsarten). In die ESt-Erklärung als „Verlustvortrag nach §10d EStG für private Veräußerungsgeschäfte" eintragen — wird vom Finanzamt festgestellt.
-          </div>
-        )}
-        <div className="flex justify-end mt-3">
-          <button
-            onClick={exportCSV}
-            className="inline-flex items-center gap-1 rounded-lg border border-border px-3 py-1.5 text-xs hover:bg-secondary"
-          >
-            <Download className="h-3.5 w-3.5" /> CSV für StB exportieren
-          </button>
-        </div>
-      </div>
+      </ToolSection>
 
       {/* Detail pro Verkauf */}
-      {yearResults.length > 0 && (
-        <div className="rounded-2xl border border-border bg-card p-5 mb-6">
-          <h3 className="font-bold text-sm mb-3">Detail pro Verkauf (FIFO-matched)</h3>
+      <ToolSection title={`Verkäufe ${steuerJahr} im Detail`} description="FIFO-Zuordnung zu den Käufen" icon={Calculator} className="mb-6">
+        {yearResults.length === 0 ? (
+          <EmptyState
+            className="py-8"
+            icon={Calculator}
+            title={`Keine Verkäufe in ${steuerJahr}`}
+            description="Sobald ein Verkauf im gewählten Steuerjahr liegt, erscheint hier die FIFO-Zuordnung."
+          />
+        ) : (
           <div className="space-y-3">
             {yearResults.map((r) => (
-              <div key={r.saleId} className="rounded-xl border border-border bg-secondary/20 p-3">
-                <div className="flex items-center justify-between gap-2 flex-wrap mb-2">
-                  <div>
-                    <span className="font-bold">
+              <div key={r.saleId} className="rounded-xl border border-border">
+                <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border/70 px-4 py-3">
+                  <p className="text-sm">
+                    <span className="font-semibold tabular">
                       {r.amount} {r.asset}
                     </span>
-                    <span className="text-muted-foreground ml-2">
-                      verkauft am {new Date(r.saleDate).toLocaleDateString("de-DE")} zu{" "}
-                      {r.salePreis.toLocaleString("de-DE")} €
+                    <span className="ml-2 text-muted-foreground tabular">
+                      verkauft am {new Date(r.saleDate).toLocaleDateString("de-DE")} zu {r.salePreis.toLocaleString("de-DE")} €
                     </span>
-                  </div>
-                  <div className={`font-mono font-semibold ${r.veraeuserungsgewinn >= 0 ? "text-emerald-700" : "text-red-700"}`}>
+                  </p>
+                  <span className={`font-semibold tabular ${r.veraeuserungsgewinn >= 0 ? "text-success" : "text-danger"}`}>
                     {r.veraeuserungsgewinn >= 0 ? "+" : ""}
-                    {Math.round(r.veraeuserungsgewinn).toLocaleString("de-DE")} €
-                  </div>
+                    {eur(r.veraeuserungsgewinn)}
+                  </span>
                 </div>
-                <div className="space-y-1 text-xs">
+                <ul className="divide-y divide-border/60">
                   {r.matched.map((m, j) => (
-                    <div
-                      key={j}
-                      className={`flex items-center justify-between gap-2 rounded-md p-1.5 ${
-                        m.steuerfrei ? "bg-emerald-500/10" : "bg-amber-500/10"
-                      }`}
-                    >
-                      <div className="flex items-center gap-1.5 flex-wrap">
-                        <span className="font-mono">{m.amount.toFixed(6)}</span>
-                        <span className="text-muted-foreground">
-                          gekauft {new Date(m.buyDate).toLocaleDateString("de-DE")}
-                        </span>
-                        <span className="text-muted-foreground">à</span>
-                        <span className="font-mono">{m.buyPreis.toFixed(2)} €</span>
-                        <span className="rounded-full bg-card px-1.5 py-0.5 text-[10px]">
-                          {m.gehaltenTage} Tage
-                        </span>
-                      </div>
+                    <li key={j} className="flex flex-wrap items-center justify-between gap-2 px-4 py-2.5 text-sm">
+                      <span className="flex flex-wrap items-center gap-x-2 gap-y-1 tabular">
+                        <span className="font-medium">{m.amount.toFixed(6)}</span>
+                        <span className="text-muted-foreground">gekauft {new Date(m.buyDate).toLocaleDateString("de-DE")} à {m.buyPreis.toFixed(2)} €</span>
+                        <ToneBadge>{m.gehaltenTage} Tage</ToneBadge>
+                      </span>
                       {m.steuerfrei ? (
-                        <span className="text-emerald-700 text-[10px] font-semibold">✓ steuerfrei (&gt; 1 J)</span>
+                        <ToneBadge tone="success">steuerfrei, über 1 Jahr</ToneBadge>
                       ) : (
-                        <span className="text-amber-700 text-[10px] font-semibold">⚠ steuerpflichtig</span>
+                        <ToneBadge tone="warning">steuerpflichtig</ToneBadge>
                       )}
-                    </div>
+                    </li>
                   ))}
-                </div>
+                </ul>
               </div>
             ))}
           </div>
-        </div>
-      )}
+        )}
+      </ToolSection>
 
       {/* Disclaimer */}
-      <div className="rounded-2xl border border-amber-500/30 bg-amber-500/5 p-4 text-xs leading-relaxed">
-        <div className="flex items-start gap-2">
-          <AlertTriangle className="h-4 w-4 text-amber-700 shrink-0 mt-0.5" />
-          <div>
-            <div className="font-semibold mb-1">Wichtig — §23 EStG (Privates Veräußerungsgeschäft):</div>
-            <ul className="list-disc pl-4 space-y-1 text-muted-foreground">
-              <li>
-                <strong>1-Jahres-Haltefrist:</strong> Crypto-Coins die länger als 12 Monate gehalten wurden sind
-                bei Verkauf STEUERFREI (auch bei Millionen-Gewinn!).
-              </li>
-              <li>
-                <strong>FIFO-Pflicht:</strong> First-In-First-Out für Anschaffungs-/Verkaufs-Match. Andere
-                Verfahren (LIFO, Avg) seit BMF-Schreiben 2022 nicht mehr zulässig.
-              </li>
-              <li>
-                <strong>Freigrenze 1.000 €</strong> (seit 2024, vorher 600 €) — bei Unterschreitung KOMPLETT
-                steuerfrei. Bei Überschreitung VOLL steuerpflichtig (nicht nur über 1k).
-              </li>
-              <li>
-                <strong>Staking / Lending:</strong> Erträge gelten als Einkünfte aus sonstigen Leistungen (§22 Nr.
-                3 EStG) — separat von Veräußerungsgewinnen, eigene Freigrenze 256 €.
-              </li>
-              <li>
-                <strong>NFTs</strong>: gelten meist auch als Crypto-Coins → §23 EStG-Logik.
-              </li>
-              <li>
-                <strong>Mining</strong>: gewerbliche Einkünfte → §15 EStG, dann KSt+GewSt-Pflicht oder ESt-Tarif.
-              </li>
-              <li>
-                <strong>Verlustverrechnung §23 (3) EStG:</strong> Verluste aus Crypto-Verkäufen können NUR mit Gewinnen
-                aus privaten Veräußerungsgeschäften verrechnet werden — nicht mit Gehalt, Dividenden oder Zinsen.
-                Verbleibende Verluste werden auf Folgejahre vorgetragen (unbegrenzt) oder rückgetragen (1 Jahr).
-              </li>
-              <li>
-                <strong>Loss-Harvesting Strategie:</strong> Vor Jahres-Ende Coins mit Buchverlust verkaufen
-                + sofort wieder kaufen (kein Wash-Sale-Verbot in DE!) → Verlust steuerlich realisiert,
-                Position bleibt erhalten. Nur unter 1 Jahr Haltedauer relevant (sonst eh steuerfrei).
-              </li>
-              <li>
-                <strong>Steuersatz:</strong> Veräußerungsgewinne werden mit deinem ESt-Grenzsteuersatz besteuert
-                (NICHT Abgeltungssteuer 25 %). Bei hohem Einkommen 42-45 %, bei niedrigem nur 14-32 %.
-              </li>
-              <li>
-                <strong>Wallets-Daten</strong>: idealerweise CSV-Export von der Börse (Coinbase, Binance, Kraken
-                etc.). Tools wie Cointracking, Koinly machen das automatisch.
-              </li>
-              <li>Modell ist vereinfacht — bei großen Volumina mit StB für Crypto klären.</li>
-            </ul>
-          </div>
-        </div>
-      </div>
+      <ToolSection title="Wichtig zu §23 EStG (privates Veräußerungsgeschäft)" icon={AlertTriangle} className="mb-6">
+        <dl className="divide-y divide-border/70 text-sm">
+          {[
+            { t: "1-Jahres-Haltefrist", d: "Coins, die länger als 12 Monate gehalten wurden, sind beim Verkauf steuerfrei, auch bei Millionengewinnen." },
+            { t: "FIFO-Pflicht", d: "First-In-First-Out für die Zuordnung von Kauf und Verkauf. Andere Verfahren (LIFO, Durchschnitt) sind seit dem BMF-Schreiben 2022 nicht mehr zulässig." },
+            { t: "Freigrenze 1.000 €", d: "Seit 2024 (vorher 600 €). Darunter komplett steuerfrei, darüber voll steuerpflichtig, nicht nur der übersteigende Teil." },
+            { t: "Staking und Lending", d: "Erträge gelten als Einkünfte aus sonstigen Leistungen (§22 Nr. 3 EStG), getrennt von Veräußerungsgewinnen, eigene Freigrenze 256 €." },
+            { t: "NFTs", d: "Gelten meist ebenfalls als Crypto-Coins, also §23-EStG-Logik." },
+            { t: "Mining", d: "Gewerbliche Einkünfte nach §15 EStG, dann KSt und GewSt oder ESt-Tarif." },
+            { t: "Verlustverrechnung nach §23 (3) EStG", d: "Verluste aus Crypto-Verkäufen sind nur mit Gewinnen aus privaten Veräußerungsgeschäften verrechenbar, nicht mit Gehalt, Dividenden oder Zinsen. Verbleibende Verluste werden unbegrenzt vorgetragen oder 1 Jahr zurückgetragen." },
+            { t: "Loss-Harvesting", d: "Vor Jahresende Coins mit Buchverlust verkaufen und sofort zurückkaufen (in DE kein Wash-Sale-Verbot): Der Verlust ist steuerlich realisiert, die Position bleibt. Nur bei weniger als 1 Jahr Haltedauer relevant." },
+            { t: "Steuersatz", d: "Veräußerungsgewinne werden mit deinem persönlichen Grenzsteuersatz besteuert, nicht mit der Abgeltungsteuer von 25 %. Bei hohem Einkommen 42 bis 45 %, bei niedrigem 14 bis 32 %." },
+            { t: "Daten der Wallets", d: "Am besten CSV-Export der Börse (Coinbase, Binance, Kraken u. a.). Tools wie Cointracking oder Koinly machen das automatisch." },
+          ].map((g) => (
+            <div key={g.t} className="py-3 first:pt-0 last:pb-0">
+              <dt className="font-semibold">{g.t}</dt>
+              <dd className="mt-1 leading-relaxed text-muted-foreground">{g.d}</dd>
+            </div>
+          ))}
+        </dl>
+        <p className="mt-4 text-xs text-muted-foreground">Das Modell ist vereinfacht. Bei großen Volumina mit einer auf Crypto spezialisierten Steuerberatung klären.</p>
+      </ToolSection>
 
       <Stand2026Footer
         sources={[
