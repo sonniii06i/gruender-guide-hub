@@ -6,10 +6,24 @@ import { getStoredAffiliateRef } from "@/utils/affiliate";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Crown, Loader2, Brain } from "lucide-react";
+import {
+  Crown,
+  Loader2,
+  Brain,
+  UserRound,
+  Building2,
+  CreditCard,
+  ShieldCheck,
+  KeyRound,
+  Mail,
+  Trash2,
+  Check,
+  RefreshCw,
+  Settings2,
+} from "lucide-react";
+import { Field as KitField, ResultRow, ToneBadge, ToolSection } from "@/components/cockpit/kit";
 import { FelixMemoryPanel } from "@/components/profile/FelixMemoryPanel";
 import { TwoFactorPanel } from "@/components/profile/TwoFactorPanel";
 import { CodeEinloesenPanel } from "@/components/profile/CodeEinloesenPanel";
@@ -110,22 +124,26 @@ const Profile = () => {
   const isActive = sub?.status === "active" || sub?.status === "trialing";
 
   return (
-    <CockpitShell eyebrow="👤 Profil & Abrechnung" title="Deine Stammdaten" subtitle="Wird auf Rechnungen, in Wizards und im Felix-Kontext genutzt.">
+    <CockpitShell
+      eyebrow="Konto · Profil und Abrechnung"
+      title="Dein Konto"
+      subtitle="Stammdaten, Firma, Abo, Felix-Memory und Sicherheit an einem Ort. Die Angaben nutzen wir auf Rechnungen, in Wizards und im Felix-Kontext."
+    >
       <Tabs value={tab} onValueChange={(v) => setParams(v === "stamm" ? {} : { tab: v })} className="w-full">
-        <TabsList className="mb-6 flex-wrap h-auto">
-          <TabsTrigger value="stamm">Stammdaten</TabsTrigger>
-          <TabsTrigger value="firma">Firma</TabsTrigger>
-          <TabsTrigger value="abrechnung">Abrechnung</TabsTrigger>
-          <TabsTrigger value="felix-memory"><Brain className="h-3.5 w-3.5 mr-1" /> Felix-Memory</TabsTrigger>
-          <TabsTrigger value="sicherheit">Sicherheit</TabsTrigger>
+        <TabsList className="mb-6 h-auto flex-wrap">
+          <TabsTrigger value="stamm" className="gap-1.5"><UserRound className="h-4 w-4" aria-hidden="true" /> Stammdaten</TabsTrigger>
+          <TabsTrigger value="firma" className="gap-1.5"><Building2 className="h-4 w-4" aria-hidden="true" /> Firma</TabsTrigger>
+          <TabsTrigger value="abrechnung" className="gap-1.5"><CreditCard className="h-4 w-4" aria-hidden="true" /> Abrechnung</TabsTrigger>
+          <TabsTrigger value="felix-memory" className="gap-1.5"><Brain className="h-4 w-4" aria-hidden="true" /> Felix-Memory</TabsTrigger>
+          <TabsTrigger value="sicherheit" className="gap-1.5"><ShieldCheck className="h-4 w-4" aria-hidden="true" /> Sicherheit</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="stamm">
-          <Card>
+        <TabsContent value="stamm" className="max-w-3xl">
+          <ToolSection title="Persönliche Angaben" description="Für Anrede und Rechnungen." icon={UserRound}>
             <Grid>
               <Field label="Anrede">
                 <Select value={profile.salutation ?? ""} onValueChange={(v) => update("salutation", v)}>
-                  <SelectTrigger><SelectValue placeholder="Bitte wählen" /></SelectTrigger>
+                  <SelectTrigger aria-label="Anrede"><SelectValue placeholder="Bitte wählen" /></SelectTrigger>
                   <SelectContent>
                     <SelectItem value="Herr">Herr</SelectItem>
                     <SelectItem value="Frau">Frau</SelectItem>
@@ -133,88 +151,104 @@ const Profile = () => {
                   </SelectContent>
                 </Select>
               </Field>
-              <Field label="Telefon"><Input value={profile.phone ?? ""} onChange={(e) => update("phone", e.target.value)} /></Field>
-              <Field label="Vorname"><Input value={profile.first_name ?? ""} onChange={(e) => update("first_name", e.target.value)} /></Field>
-              <Field label="Nachname"><Input value={profile.last_name ?? ""} onChange={(e) => update("last_name", e.target.value)} /></Field>
-              <Field label="E-Mail" full><Input value={user?.email ?? ""} disabled /></Field>
+              <Field label="Telefon" htmlFor="pf-phone"><Input id="pf-phone" type="tel" value={profile.phone ?? ""} onChange={(e) => update("phone", e.target.value)} /></Field>
+              <Field label="Vorname" htmlFor="pf-first"><Input id="pf-first" value={profile.first_name ?? ""} onChange={(e) => update("first_name", e.target.value)} /></Field>
+              <Field label="Nachname" htmlFor="pf-last"><Input id="pf-last" value={profile.last_name ?? ""} onChange={(e) => update("last_name", e.target.value)} /></Field>
+              <Field label="E-Mail" hint="Die Login-Adresse lässt sich hier nicht ändern." htmlFor="pf-mail" full>
+                <Input id="pf-mail" value={user?.email ?? ""} disabled />
+              </Field>
             </Grid>
             <SaveBtn saving={saving} onClick={save} />
-          </Card>
+          </ToolSection>
         </TabsContent>
 
-        <TabsContent value="firma">
-          <Card>
+        <TabsContent value="firma" className="max-w-3xl">
+          <ToolSection title="Firmendaten" description="Erscheinen auf Rechnungen und füllen Wizards vor." icon={Building2}>
             <Grid>
-              <Field label="Firmenname" full><Input value={profile.company_name ?? ""} onChange={(e) => update("company_name", e.target.value)} /></Field>
-              <Field label="Rechtsform"><Input value={profile.legal_form ?? ""} onChange={(e) => update("legal_form", e.target.value)} /></Field>
-              <Field label="Land"><Input value={profile.country ?? "DE"} onChange={(e) => update("country", e.target.value)} /></Field>
-              <Field label="Straße & Nr." full><Input value={profile.street ?? ""} onChange={(e) => update("street", e.target.value)} /></Field>
-              <Field label="PLZ"><Input value={profile.postal_code ?? ""} onChange={(e) => update("postal_code", e.target.value)} /></Field>
-              <Field label="Ort"><Input value={profile.city ?? ""} onChange={(e) => update("city", e.target.value)} /></Field>
-              <Field label="USt-IdNr."><Input value={profile.vat_id ?? ""} onChange={(e) => update("vat_id", e.target.value)} placeholder="DE123456789" /></Field>
-              <Field label="Steuernummer"><Input value={profile.tax_id ?? ""} onChange={(e) => update("tax_id", e.target.value)} /></Field>
+              <Field label="Firmenname" htmlFor="pf-company" full><Input id="pf-company" value={profile.company_name ?? ""} onChange={(e) => update("company_name", e.target.value)} /></Field>
+              <Field label="Rechtsform" htmlFor="pf-legal"><Input id="pf-legal" value={profile.legal_form ?? ""} onChange={(e) => update("legal_form", e.target.value)} /></Field>
+              <Field label="Land" htmlFor="pf-country"><Input id="pf-country" value={profile.country ?? "DE"} onChange={(e) => update("country", e.target.value)} /></Field>
+              <Field label="Straße und Hausnummer" htmlFor="pf-street" full><Input id="pf-street" value={profile.street ?? ""} onChange={(e) => update("street", e.target.value)} /></Field>
+              <Field label="PLZ" htmlFor="pf-zip"><Input id="pf-zip" value={profile.postal_code ?? ""} onChange={(e) => update("postal_code", e.target.value)} className="tabular" /></Field>
+              <Field label="Ort" htmlFor="pf-city"><Input id="pf-city" value={profile.city ?? ""} onChange={(e) => update("city", e.target.value)} /></Field>
+              <Field label="USt-IdNr." htmlFor="pf-vat"><Input id="pf-vat" value={profile.vat_id ?? ""} onChange={(e) => update("vat_id", e.target.value)} placeholder="DE123456789" className="font-mono" /></Field>
+              <Field label="Steuernummer" htmlFor="pf-tax"><Input id="pf-tax" value={profile.tax_id ?? ""} onChange={(e) => update("tax_id", e.target.value)} className="font-mono" /></Field>
             </Grid>
             <SaveBtn saving={saving} onClick={save} />
-          </Card>
+          </ToolSection>
         </TabsContent>
 
         <TabsContent value="abrechnung">
-          <div className="rounded-2xl border border-border bg-card p-6 md:p-8">
-            <div className="flex items-start justify-between gap-4 mb-8">
-              <div>
-                <div className="text-xs uppercase font-bold tracking-wider text-muted-foreground">Aktueller Plan</div>
-                <div className="text-3xl font-bold mt-1">{isActive ? sub.plan : "Kein aktives Abo"}</div>
-                <div className="text-sm text-muted-foreground mt-1">Status: {sub?.status ?? "inactive"}</div>
-                {sub?.current_period_end && (
-                  <div className="text-sm text-muted-foreground mt-1">
-                    Verlängerung: {new Date(sub.current_period_end).toLocaleDateString("de-DE")}
-                  </div>
-                )}
-              </div>
-              <span className={`rounded-full px-3 py-1 text-xs font-bold ${isActive ? "bg-success/15 text-success" : "bg-secondary text-muted-foreground"}`}>
-                {isActive ? "Aktiv" : "Inaktiv"}
-              </span>
-            </div>
+          <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.35fr)]">
+            <div className="space-y-6">
+              {/* Aktueller Plan */}
+              <ToolSection
+                title="Aktueller Plan"
+                icon={CreditCard}
+                actions={<ToneBadge tone={isActive ? "success" : "neutral"}>{isActive ? "Aktiv" : "Inaktiv"}</ToneBadge>}
+              >
+                <p className="text-2xl font-semibold tracking-tight">{isActive ? sub.plan : "Kein aktives Abo"}</p>
+                <div className="mt-3 divide-y divide-border/70">
+                  <ResultRow label="Status" value={sub?.status ?? "inactive"} />
+                  {sub?.current_period_end && (
+                    <ResultRow label="Verlängerung" value={new Date(sub.current_period_end).toLocaleDateString("de-DE")} />
+                  )}
+                </div>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  <Button onClick={portal} disabled={busy === "portal" || !isActive} variant="outline">
+                    {busy === "portal" ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : <Settings2 className="h-4 w-4" aria-hidden="true" />}
+                    Abo verwalten
+                  </Button>
+                  <Button onClick={handleStatusCheck} disabled={checkingSub} variant="ghost">
+                    {checkingSub ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : <RefreshCw className="h-4 w-4" aria-hidden="true" />}
+                    {checkingSub ? "Prüfe …" : "Status prüfen"}
+                  </Button>
+                </div>
+              </ToolSection>
 
-            <div className="mb-8">
               <CodeEinloesenPanel onRedeemed={handleStatusCheck} />
             </div>
 
-            <div className="rounded-2xl bg-gradient-primary text-primary-foreground p-6 md:p-10 relative overflow-hidden shadow-glow min-h-[460px]">
-              <div className="absolute -top-16 -right-16 w-72 h-72 rounded-full bg-accent-blue/30 blur-3xl" />
+            {/* Plan wählen */}
+            <section className="relative overflow-hidden rounded-2xl bg-ink p-5 text-primary-foreground shadow-soft md:p-6">
+              <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-accent-blue/25 blur-3xl" aria-hidden="true" />
               <div className="relative">
-                <div className="inline-flex items-center gap-1.5 rounded-full bg-white/20 backdrop-blur px-3 py-1 text-xs font-semibold mb-5">
-                  <Crown className="h-3.5 w-3.5" /> {isActive ? "Plan ändern" : "Plan wählen"}
-                </div>
-                <div className="grid md:grid-cols-2 gap-5">
-                  <div className="rounded-2xl bg-white/10 backdrop-blur p-6 flex flex-col min-h-[260px]">
-                    <div className="font-bold text-lg">GründerX</div>
-                    <div className="text-3xl font-bold mt-2">64,99 €<span className="text-sm font-normal opacity-70">/Mon</span></div>
-                    <p className="text-sm opacity-85 mt-3 flex-1">Felix KI, alle Wizards, Anbieter-Vergleich, Coop-Deals.</p>
-                    <Button onClick={() => checkout(STRIPE_PRICES.gruenderx)} disabled={busy === STRIPE_PRICES.gruenderx} className="mt-4 rounded-full bg-card text-primary hover:bg-card/90 h-11">
+                <p className="flex items-center gap-1.5 text-sm font-medium text-brand-green-glow">
+                  <Crown className="h-4 w-4" aria-hidden="true" /> {isActive ? "Plan ändern" : "Plan wählen"}
+                </p>
+                <h2 className="mt-1 text-lg font-semibold tracking-tight">Wähle deinen Plan</h2>
+                <div className="mt-5 grid gap-4 sm:grid-cols-2">
+                  <div className="flex flex-col rounded-xl border border-white/10 bg-white/[0.06] p-5">
+                    <p className="text-base font-semibold">GründerX</p>
+                    <p className="mt-2 text-3xl font-semibold tracking-tight tabular">
+                      64,99 €<span className="ml-0.5 text-sm font-normal text-primary-foreground/65">/Mon</span>
+                    </p>
+                    <p className="mt-3 flex-1 text-sm leading-relaxed text-primary-foreground/80">Felix KI, alle Wizards, Anbieter-Vergleich, Coop-Deals.</p>
+                    <Button
+                      onClick={() => checkout(STRIPE_PRICES.gruenderx)}
+                      disabled={busy === STRIPE_PRICES.gruenderx}
+                      className="mt-5 h-11 rounded-xl bg-white text-primary hover:bg-white/90"
+                    >
                       {busy === STRIPE_PRICES.gruenderx ? <Loader2 className="h-4 w-4 animate-spin" /> : "Abonnieren"}
                     </Button>
                   </div>
-                  <div className="rounded-2xl bg-white/10 backdrop-blur p-6 flex flex-col min-h-[260px]">
-                    <div className="font-bold text-lg">Founder Bundle</div>
-                    <div className="text-3xl font-bold mt-2">99,99 €<span className="text-sm font-normal opacity-70">/Mon</span></div>
-                    <p className="text-sm opacity-85 mt-3 flex-1">GründerX + AnwaltX (Vertrags-Templates, Compliance-Audit).</p>
-                    <Button onClick={() => checkout(STRIPE_PRICES.bundle)} disabled={busy === STRIPE_PRICES.bundle} className="mt-4 rounded-full bg-card text-primary hover:bg-card/90 h-11">
+                  <div className="flex flex-col rounded-xl border border-brand-green/40 bg-white/[0.06] p-5 ring-1 ring-brand-green/20">
+                    <p className="text-base font-semibold">Founder Bundle</p>
+                    <p className="mt-2 text-3xl font-semibold tracking-tight tabular">
+                      99,99 €<span className="ml-0.5 text-sm font-normal text-primary-foreground/65">/Mon</span>
+                    </p>
+                    <p className="mt-3 flex-1 text-sm leading-relaxed text-primary-foreground/80">GründerX + AnwaltX (Vertrags-Templates, Compliance-Audit).</p>
+                    <Button
+                      onClick={() => checkout(STRIPE_PRICES.bundle)}
+                      disabled={busy === STRIPE_PRICES.bundle}
+                      className="mt-5 h-11 rounded-xl bg-white text-primary hover:bg-white/90"
+                    >
                       {busy === STRIPE_PRICES.bundle ? <Loader2 className="h-4 w-4 animate-spin" /> : "Bundle sichern"}
                     </Button>
                   </div>
                 </div>
-                <div className="flex flex-wrap gap-2 mt-8">
-                  <Button onClick={portal} disabled={busy === "portal" || !isActive} variant="secondary" className="rounded-full h-11 px-6">
-                    {busy === "portal" ? <Loader2 className="h-4 w-4 animate-spin" /> : "Abo verwalten"}
-                  </Button>
-                  <Button onClick={handleStatusCheck} disabled={checkingSub} variant="ghost" className="rounded-full text-primary-foreground hover:bg-white/10 h-11">
-                    {checkingSub && <Loader2 className="h-4 w-4 mr-1 animate-spin" />}
-                    {checkingSub ? "Prüfe …" : "Status prüfen"}
-                  </Button>
-                </div>
               </div>
-            </div>
+            </section>
           </div>
         </TabsContent>
 
@@ -222,78 +256,76 @@ const Profile = () => {
           <FelixMemoryPanel />
         </TabsContent>
 
-        <TabsContent value="sicherheit">
-          <div className="mb-6">
-            <TwoFactorPanel />
-          </div>
+        <TabsContent value="sicherheit" className="max-w-3xl space-y-6">
+          <TwoFactorPanel />
 
-          <Card>
-            <h3 className="font-bold mb-2">Passwort ändern</h3>
-            <p className="text-sm text-muted-foreground mb-4">Sende dir einen Link zum Zurücksetzen.</p>
+          <ToolSection title="Passwort ändern" description="Wir schicken dir einen Link zum Zurücksetzen." icon={KeyRound}>
             <Button variant="outline" onClick={async () => {
               if (!user?.email) return;
               const { error } = await supabase.auth.resetPasswordForEmail(user.email, { redirectTo: window.location.origin });
               if (error) toast.error(error.message); else toast.success("Mail verschickt – bitte Postfach prüfen.");
-            }}>Reset-Mail senden</Button>
-          </Card>
-
-          <div className="rounded-2xl border border-destructive/40 bg-destructive/5 p-6 mt-6">
-            <h3 className="font-bold mb-2 text-destructive">Konto & alle Daten löschen</h3>
-            <p className="text-sm text-muted-foreground mb-4">
-              Löscht dein Konto und unwiderruflich alle deine Daten (Profil, Guide-Fortschritt inkl.
-              Notar-Vorbereitung, Felix-Chats, Benachrichtigungen). Das lässt sich nicht rückgängig machen.
-              Ein aktives Abo kündigst du vorher bitte unter „Abrechnung".
-            </p>
-            <Button
-              variant="destructive"
-              disabled={deleting}
-              onClick={async () => {
-                if (!window.confirm("Wirklich dein Konto und ALLE Daten unwiderruflich löschen?")) return;
-                if (!window.confirm("Letzte Warnung: Das kann nicht rückgängig gemacht werden. Fortfahren?")) return;
-                setDeleting(true);
-                const { data, error } = await supabase.functions.invoke("delete-account");
-                if (error || (data as any)?.error) {
-                  setDeleting(false);
-                  toast.error("Löschen fehlgeschlagen. Bitte Support kontaktieren.");
-                  return;
-                }
-                toast.success("Konto gelöscht. Auf Wiedersehen.");
-                await supabase.auth.signOut();
-                window.location.href = "/";
-              }}
-            >
-              {deleting ? <Loader2 className="h-4 w-4 mr-1 animate-spin" /> : null}
-              Konto endgültig löschen
+            }}>
+              <Mail className="h-4 w-4" aria-hidden="true" /> Reset-Mail senden
             </Button>
-          </div>
+          </ToolSection>
+
+          <section className="rounded-2xl border border-danger/30 bg-danger-soft p-5 md:p-6">
+            <div className="flex items-start gap-3">
+              <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-card text-danger">
+                <Trash2 className="h-4 w-4" aria-hidden="true" />
+              </span>
+              <div className="min-w-0">
+                <h2 className="text-base font-semibold text-danger">Konto und alle Daten löschen</h2>
+                <p className="mt-1 text-sm leading-relaxed text-foreground/80">
+                  Löscht dein Konto und unwiderruflich alle deine Daten (Profil, Guide-Fortschritt inkl.
+                  Notar-Vorbereitung, Felix-Chats, Benachrichtigungen). Das lässt sich nicht rückgängig machen.
+                  Ein aktives Abo kündigst du vorher bitte unter „Abrechnung“.
+                </p>
+                <Button
+                  variant="destructive"
+                  disabled={deleting}
+                  className="mt-4"
+                  onClick={async () => {
+                    if (!window.confirm("Wirklich dein Konto und ALLE Daten unwiderruflich löschen?")) return;
+                    if (!window.confirm("Letzte Warnung: Das kann nicht rückgängig gemacht werden. Fortfahren?")) return;
+                    setDeleting(true);
+                    const { data, error } = await supabase.functions.invoke("delete-account");
+                    if (error || (data as any)?.error) {
+                      setDeleting(false);
+                      toast.error("Löschen fehlgeschlagen. Bitte Support kontaktieren.");
+                      return;
+                    }
+                    toast.success("Konto gelöscht. Auf Wiedersehen.");
+                    await supabase.auth.signOut();
+                    window.location.href = "/";
+                  }}
+                >
+                  {deleting ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : null}
+                  Konto endgültig löschen
+                </Button>
+              </div>
+            </div>
+          </section>
         </TabsContent>
       </Tabs>
     </CockpitShell>
   );
 };
 
-const Card = ({ children }: { children: React.ReactNode }) => (
-  <div className="rounded-2xl border border-border bg-card p-6">{children}</div>
-);
 const Grid = ({ children }: { children: React.ReactNode }) => (
-  <div className="grid md:grid-cols-2 gap-4">{children}</div>
+  <div className="grid gap-4 sm:grid-cols-2">{children}</div>
 );
-const Field = ({ label, children, full }: { label: string; children: React.ReactNode; full?: boolean }) => (
-  <div className={full ? "md:col-span-2" : ""}>
-    <Label className="text-xs uppercase tracking-wider text-muted-foreground">{label}</Label>
-    <div className="mt-2">{children}</div>
-  </div>
+const Field = ({ label, children, full, hint, htmlFor }: { label: string; children: React.ReactNode; full?: boolean; hint?: string; htmlFor?: string }) => (
+  <KitField label={label} hint={hint} htmlFor={htmlFor} className={full ? "sm:col-span-2" : ""}>
+    {children}
+  </KitField>
 );
 const SaveBtn = ({ saving, onClick }: { saving: boolean; onClick: () => void }) => (
-  <Button onClick={onClick} disabled={saving} className="mt-6 rounded-full">
-    {saving && <Loader2 className="h-4 w-4 mr-1 animate-spin" />}Speichern
-  </Button>
-);
-const Plan = ({ title, price, desc }: { title: string; price: string; desc: string }) => (
-  <div className="rounded-2xl bg-white/10 backdrop-blur p-4">
-    <div className="font-bold">{title}</div>
-    <div className="text-2xl font-bold mt-1">{price}<span className="text-sm font-normal opacity-70">/Mon</span></div>
-    <p className="text-xs opacity-85 mt-2">{desc}</p>
+  <div className="mt-6 flex justify-end border-t border-border/70 pt-5">
+    <Button onClick={onClick} disabled={saving}>
+      {saving ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : <Check className="h-4 w-4" aria-hidden="true" />}
+      {saving ? "Speichert …" : "Speichern"}
+    </Button>
   </div>
 );
 

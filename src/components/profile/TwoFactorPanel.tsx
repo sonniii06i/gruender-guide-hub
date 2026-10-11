@@ -112,8 +112,8 @@ export const TwoFactorPanel = () => {
   // --- Einrichtung laeuft --------------------------------------------------
   if (setup) {
     return (
-      <div className="rounded-2xl border border-border bg-card p-6">
-        <h3 className="font-bold mb-2">Zwei-Faktor-Authentifizierung einrichten</h3>
+      <div className="rounded-2xl border border-border bg-card p-5 shadow-card md:p-6">
+        <h2 className="mb-1.5 text-base font-semibold">Zwei-Faktor-Authentifizierung einrichten</h2>
         <p className="text-sm text-muted-foreground mb-4">
           Scanne den Code mit einer Authenticator-App (Google Authenticator, 1Password,
           Authy) und bestätige mit dem angezeigten 6-stelligen Code.
@@ -124,14 +124,14 @@ export const TwoFactorPanel = () => {
             <img
               src={setup.qr_code}
               alt="QR-Code für die Authenticator-App"
-              className="h-44 w-44 rounded-lg border border-border bg-white p-2"
+              className="h-44 w-44 rounded-xl border border-border bg-white p-2"
             />
           ) : null}
 
           <div className="flex-1 space-y-4">
             <div>
-              <Label className="text-xs text-muted-foreground">
-                Falls der QR-Code nicht funktioniert – Schlüssel manuell eingeben:
+              <Label className="text-sm font-medium">
+                Falls der QR-Code nicht funktioniert, Schlüssel manuell eingeben:
               </Label>
               <code className="mt-1 block break-all rounded-lg bg-muted px-3 py-2 text-xs">
                 {setup.secret}
@@ -154,9 +154,9 @@ export const TwoFactorPanel = () => {
           </div>
         </div>
 
-        <div className="mt-6 rounded-xl border border-amber-500/40 bg-amber-500/5 p-4">
-          <p className="text-sm font-medium mb-2">
-            Backup-Codes – jetzt sichern, sie werden nur einmal angezeigt
+        <div className="mt-6 rounded-xl border border-warning/25 bg-warning-soft p-4">
+          <p className="text-sm font-semibold mb-2">
+            Backup-Codes jetzt sichern, sie werden nur einmal angezeigt
           </p>
           <p className="text-xs text-muted-foreground mb-3">
             Jeder Code funktioniert genau einmal und ersetzt den Code aus der App,
@@ -164,16 +164,16 @@ export const TwoFactorPanel = () => {
           </p>
           <div className="grid grid-cols-2 gap-2 font-mono text-sm sm:grid-cols-3">
             {setup.backup_codes.map((c) => (
-              <span key={c} className="rounded bg-muted px-2 py-1 text-center">
+              <span key={c} className="rounded-lg bg-card px-2 py-1.5 text-center">
                 {c}
               </span>
             ))}
           </div>
           <Button variant="outline" size="sm" className="mt-3" onClick={copyCodes}>
             {copied ? (
-              <Check className="h-3.5 w-3.5 mr-1" />
+              <Check className="h-3.5 w-3.5" aria-hidden="true" />
             ) : (
-              <Copy className="h-3.5 w-3.5 mr-1" />
+              <Copy className="h-3.5 w-3.5" aria-hidden="true" />
             )}
             {copied ? "Kopiert" : "Alle kopieren"}
           </Button>
@@ -181,7 +181,7 @@ export const TwoFactorPanel = () => {
 
         <div className="mt-6 flex gap-2">
           <Button onClick={confirmSetup} disabled={busy}>
-            {busy ? <Loader2 className="h-4 w-4 mr-1 animate-spin" /> : null}
+            {busy ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : null}
             Aktivieren
           </Button>
           <Button
@@ -201,11 +201,13 @@ export const TwoFactorPanel = () => {
   // --- Aktiv ---------------------------------------------------------------
   if (status?.enabled) {
     return (
-      <div className="rounded-2xl border border-border bg-card p-6">
+      <div className="rounded-2xl border border-border bg-card p-5 shadow-card md:p-6">
         <div className="flex items-start gap-3">
-          <ShieldCheck className="h-5 w-5 shrink-0 text-emerald-500 mt-0.5" />
+          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-success-soft text-success">
+            <ShieldCheck className="h-4 w-4" aria-hidden="true" />
+          </span>
           <div className="flex-1">
-            <h3 className="font-bold mb-1">Zwei-Faktor-Authentifizierung ist aktiv</h3>
+            <h2 className="mb-1 text-base font-semibold">Zwei-Faktor-Authentifizierung ist aktiv</h2>
             <p className="text-sm text-muted-foreground">
               Beim Anmelden wird zusätzlich ein Code aus deiner Authenticator-App
               abgefragt. Noch {status.backup_codes_remaining} Backup-Code
@@ -213,7 +215,7 @@ export const TwoFactorPanel = () => {
             </p>
 
             {status.backup_codes_remaining <= 2 ? (
-              <p className="mt-2 text-sm text-amber-600 dark:text-amber-500">
+              <p className="mt-2 text-sm font-medium text-warning">
                 Wenige Backup-Codes übrig. Deaktiviere 2FA und richte sie neu ein,
                 um einen frischen Satz zu erhalten.
               </p>
@@ -236,7 +238,7 @@ export const TwoFactorPanel = () => {
                 </div>
                 <div className="flex gap-2">
                   <Button variant="destructive" onClick={disable} disabled={busy}>
-                    {busy ? <Loader2 className="h-4 w-4 mr-1 animate-spin" /> : null}
+                    {busy ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : null}
                     Deaktivieren
                   </Button>
                   <Button
@@ -256,7 +258,7 @@ export const TwoFactorPanel = () => {
                 className="mt-4"
                 onClick={() => setDisabling(true)}
               >
-                <ShieldOff className="h-4 w-4 mr-1" />
+                <ShieldOff className="h-4 w-4" aria-hidden="true" />
                 Deaktivieren
               </Button>
             )}
@@ -268,15 +270,20 @@ export const TwoFactorPanel = () => {
 
   // --- Nicht eingerichtet --------------------------------------------------
   return (
-    <div className="rounded-2xl border border-border bg-card p-6">
-      <h3 className="font-bold mb-2">Zwei-Faktor-Authentifizierung</h3>
+    <div className="rounded-2xl border border-border bg-card p-5 shadow-card md:p-6">
+      <div className="mb-1.5 flex items-center gap-3">
+        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-accent text-accent-blue">
+          <ShieldCheck className="h-4 w-4" aria-hidden="true" />
+        </span>
+        <h2 className="text-base font-semibold">Zwei-Faktor-Authentifizierung</h2>
+      </div>
       <p className="text-sm text-muted-foreground mb-4">
         Zusätzlicher Schutz beim Anmelden: neben dem Passwort wird ein Code aus
         deiner Authenticator-App abgefragt. Wer nur dein Passwort kennt, kommt
         damit nicht mehr in dein Konto.
       </p>
       <Button onClick={startSetup} disabled={busy || status === null}>
-        {busy ? <Loader2 className="h-4 w-4 mr-1 animate-spin" /> : null}
+        {busy ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : null}
         Einrichten
       </Button>
     </div>

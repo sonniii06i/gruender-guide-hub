@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { EmptyState, ToneBadge, ToolSection, type Tone } from "@/components/cockpit/kit";
 import { Brain, Trash2, Loader2, RefreshCw, Info } from "lucide-react";
 import { toast } from "sonner";
 
@@ -25,13 +25,13 @@ const CATEGORY_LABELS: Record<string, string> = {
   allgemein: "Allgemein",
 };
 
-const CATEGORY_COLORS: Record<string, string> = {
-  business: "bg-blue-500/10 text-blue-700 border-blue-500/20",
-  tax: "bg-emerald-500/10 text-emerald-700 border-emerald-500/20",
-  brand: "bg-purple-500/10 text-purple-700 border-purple-500/20",
-  goal: "bg-amber-500/10 text-amber-700 border-amber-500/20",
-  preference: "bg-pink-500/10 text-pink-700 border-pink-500/20",
-  tooling: "bg-slate-500/10 text-slate-700 border-slate-500/20",
+const CATEGORY_TONE: Record<string, Tone> = {
+  business: "accent",
+  tax: "success",
+  brand: "info",
+  goal: "warning",
+  preference: "info",
+  tooling: "neutral",
 };
 
 export const FelixMemoryPanel = () => {
@@ -86,105 +86,97 @@ export const FelixMemoryPanel = () => {
 
   if (loading) {
     return (
-      <div className="rounded-2xl border border-border bg-card p-8 text-center text-muted-foreground">
-        <Loader2 className="h-5 w-5 animate-spin mx-auto" />
+      <div className="space-y-3" aria-busy="true">
+        <div className="h-24 animate-pulse rounded-2xl bg-secondary/60" />
+        {[0, 1, 2].map((k) => (
+          <div key={k} className="h-16 animate-pulse rounded-xl bg-secondary/40" />
+        ))}
+        <p className="sr-only">Memories werden geladen …</p>
       </div>
     );
   }
 
   return (
     <div className="space-y-4">
-      <div className="rounded-2xl border border-accent-blue/30 bg-gradient-to-br from-accent-blue/5 to-card p-5">
-        <div className="flex items-start gap-3">
-          <div className="inline-flex items-center justify-center h-10 w-10 rounded-full bg-accent-blue/15 shrink-0">
-            <Brain className="h-5 w-5 text-accent-blue" />
-          </div>
-          <div className="flex-1">
-            <h3 className="font-bold text-base mb-1">Was Felix über dich weiß</h3>
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              Felix extrahiert nach jedem Chat relevante Fakten und nutzt sie für zukünftige
-              Antworten. Du kannst jederzeit einzelne Memories löschen — Felix vergisst sie dann.
-              {memories.length > 0 && (
-                <>
-                  {" "}<strong className="text-foreground">{memories.length} Memories gespeichert.</strong>
-                </>
-              )}
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div className="flex items-center justify-between">
-        <div className="text-xs text-muted-foreground">
-          {memories.length === 0
-            ? "Noch keine Memories — chatte mit Felix, dann lernt er dich kennen."
-            : `${memories.length} Fakten gespeichert`}
-        </div>
-        <div className="flex gap-2">
-          <Button variant="outline" size="sm" onClick={load}>
-            <RefreshCw className="h-4 w-4 mr-1" /> Refresh
-          </Button>
-          {memories.length > 0 && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={deleteAll}
-              className="text-red-700 hover:bg-red-500/10 border-red-500/30"
-            >
-              <Trash2 className="h-4 w-4 mr-1" /> Alle löschen
+      <ToolSection
+        title="Was Felix über dich weiß"
+        icon={Brain}
+        actions={
+          <>
+            <Button variant="outline" size="sm" onClick={load}>
+              <RefreshCw className="h-4 w-4" aria-hidden="true" /> Aktualisieren
             </Button>
+            {memories.length > 0 && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={deleteAll}
+                className="border-danger/30 text-danger hover:bg-danger-soft hover:text-danger"
+              >
+                <Trash2 className="h-4 w-4" aria-hidden="true" /> Alle löschen
+              </Button>
+            )}
+          </>
+        }
+      >
+        <p className="text-sm leading-relaxed text-muted-foreground">
+          Felix extrahiert nach jedem Chat relevante Fakten und nutzt sie für künftige Antworten. Du kannst einzelne
+          Memories jederzeit löschen, Felix vergisst sie dann.
+          {memories.length > 0 && (
+            <>
+              {" "}<strong className="font-semibold text-foreground tabular">{memories.length} Fakten gespeichert.</strong>
+            </>
           )}
-        </div>
-      </div>
+        </p>
+      </ToolSection>
 
       {memories.length === 0 ? (
-        <div className="rounded-2xl border border-dashed border-border p-12 text-center text-sm text-muted-foreground">
-          <Info className="h-8 w-8 mx-auto mb-3 opacity-40" />
-          Felix lernt automatisch beim Chatten — keine manuelle Eingabe nötig.
-        </div>
+        <EmptyState
+          icon={Info}
+          title="Noch keine Memories"
+          description="Felix lernt automatisch beim Chatten, du musst nichts eintragen."
+        />
       ) : (
-        <div className="space-y-2">
+        <ul className="space-y-2">
           {memories.map((m) => {
             const cat = m.category || "allgemein";
             return (
-              <div
+              <li
                 key={m.id}
-                className="rounded-xl border border-border bg-card p-3 flex items-start gap-3 group hover:border-accent-blue/40 transition-colors"
+                className="group flex items-start gap-3 rounded-xl border border-border bg-card p-4 transition-colors hover:border-accent-blue/40"
               >
-                <Badge
-                  variant="outline"
-                  className={`shrink-0 text-[10px] font-bold uppercase tracking-wider ${
-                    CATEGORY_COLORS[cat] || CATEGORY_COLORS.tooling
-                  }`}
-                >
+                <ToneBadge tone={CATEGORY_TONE[cat] ?? "neutral"} className="mt-0.5 shrink-0">
                   {CATEGORY_LABELS[cat] || cat}
-                </Badge>
-                <div className="flex-1 text-sm">
+                </ToneBadge>
+                <div className="min-w-0 flex-1 text-sm">
                   {m.fact}
-                  <div className="text-[10px] text-muted-foreground mt-1 flex gap-3">
-                    <span>Confidence: {Math.round(m.confidence * 100)}%</span>
+                  <div className="mt-1 flex flex-wrap gap-x-3 gap-y-0.5 text-xs text-muted-foreground tabular">
+                    <span>Sicherheit: {Math.round(m.confidence * 100)} %</span>
                     <span>Erstellt: {new Date(m.created_at).toLocaleDateString("de-DE")}</span>
                     {m.last_used_at && (
                       <span>Zuletzt genutzt: {new Date(m.last_used_at).toLocaleDateString("de-DE")}</span>
                     )}
                   </div>
                 </div>
-                <button
+                <Button
+                  variant="ghost"
+                  size="icon"
                   onClick={() => deleteMemory(m.id)}
                   disabled={deleting === m.id}
-                  className="opacity-0 group-hover:opacity-100 text-red-700 hover:bg-red-500/10 p-1.5 rounded transition-opacity"
+                  className="h-8 w-8 shrink-0 text-muted-foreground hover:bg-danger-soft hover:text-danger sm:opacity-0 sm:group-hover:opacity-100 sm:focus-visible:opacity-100"
                   title="Memory löschen"
+                  aria-label="Memory löschen"
                 >
                   {deleting === m.id ? (
-                    <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                    <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
                   ) : (
-                    <Trash2 className="h-3.5 w-3.5" />
+                    <Trash2 className="h-4 w-4" aria-hidden="true" />
                   )}
-                </button>
-              </div>
+                </Button>
+              </li>
             );
           })}
-        </div>
+        </ul>
       )}
     </div>
   );

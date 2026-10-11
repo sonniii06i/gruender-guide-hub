@@ -2,6 +2,7 @@ import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { ToolSection } from "@/components/cockpit/kit";
 import { Loader2, Ticket } from "lucide-react";
 import { toast } from "sonner";
 
@@ -60,32 +61,29 @@ export const CodeEinloesenPanel = ({ onRedeemed }: { onRedeemed?: () => void }) 
   };
 
   return (
-    <div className="rounded-2xl border border-border bg-card p-6">
-      <div className="flex items-center gap-2 mb-1">
-        <Ticket className="h-4 w-4 text-muted-foreground" />
-        <h3 className="font-bold">Aktivierungscode einlösen</h3>
-      </div>
-      <p className="text-sm text-muted-foreground mb-4">
-        Code von einer Aktivierungskarte oder aus einem Gutschein. Der Zugang startet
-        sofort und läuft ohne Kündigung aus — es entsteht kein Abo.
-      </p>
-      <div className="flex flex-col sm:flex-row gap-3">
+    <ToolSection
+      title="Aktivierungscode einlösen"
+      description="Code von einer Aktivierungskarte oder aus einem Gutschein. Der Zugang startet sofort und läuft ohne Kündigung aus, es entsteht kein Abo."
+      icon={Ticket}
+    >
+      <div className="flex flex-col gap-3 sm:flex-row">
         <Input
           value={code}
           onChange={(e) => setCode(format(e.target.value))}
           onKeyDown={(e) => { if (e.key === "Enter") einloesen(); }}
           placeholder="XXXX-XXXX-XXXX-XXXX"
+          aria-label="Aktivierungscode"
           autoCapitalize="characters"
           autoComplete="off"
           spellCheck={false}
           className="font-mono tracking-wider sm:max-w-xs"
         />
-        <Button onClick={einloesen} disabled={busy} className="rounded-full sm:w-auto">
-          {busy && <Loader2 className="h-4 w-4 mr-1 animate-spin" />}
+        <Button onClick={einloesen} disabled={busy} className="sm:w-auto">
+          {busy && <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />}
           {busy ? "Prüfe …" : "Einlösen"}
         </Button>
       </div>
-    </div>
+    </ToolSection>
   );
 };
 
