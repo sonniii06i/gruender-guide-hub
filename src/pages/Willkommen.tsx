@@ -20,9 +20,8 @@ import { useNavigate, useSearchParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { CheckCircle, Eye, EyeOff, Loader2 } from "lucide-react";
+import { CheckCircle2, Eye, EyeOff, Loader2, Lock, LifeBuoy, AlertTriangle, UserCheck, Receipt } from "lucide-react";
+import { KontoRahmen, kontoCta } from "@/components/KontoRahmen";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { trackAdConversion } from "@/utils/adConversions";
@@ -194,184 +193,191 @@ const Willkommen = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
-      </div>
+      <KontoRahmen icon={Loader2} iconSpin tone="neutral" title="Zahlung wird geprüft …" subtitle="Einen Moment bitte, wir ordnen deine Bestellung zu.">
+        <div className="space-y-3" aria-hidden="true">
+          <div className="h-12 animate-pulse rounded-xl bg-secondary" />
+          <div className="h-4 w-24 animate-pulse rounded bg-secondary" />
+          <div className="h-11 animate-pulse rounded-lg bg-secondary" />
+          <div className="h-11 animate-pulse rounded-xl bg-secondary" />
+        </div>
+      </KontoRahmen>
     );
   }
 
   if (infoOnly) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background px-4 py-10">
-        <Card className="w-full max-w-md">
-          <CardHeader>
-            <CardTitle>Hier geht es nach dem Kauf weiter</CardTitle>
-            <CardDescription>
-              Diese Seite öffnet sich automatisch, sobald deine Zahlung durch ist.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4 text-sm text-muted-foreground">
-            <ol className="space-y-2 list-decimal pl-5">
-              <li>Nach dem Kauf landest du automatisch hier — mit deiner Bestellung im Link.</li>
-              <li>Du legst einmalig dein Passwort fest. Die E-Mail kommt aus deiner Zahlung.</li>
-              <li>Der Zugang ist sofort im Browser nutzbar. Kein Download, kein Versand.</li>
-            </ol>
-            {/*
-              Beide Plattformen sind Merchant of Record und verlangen ihren Satz
-              woertlich auf der Danke-Seite. Ohne Bestellung wissen wir nicht,
-              welcher Kaufweg gemeint ist — deshalb hier beide, nach Kaufweg
-              beschriftet. Genau diese Ansicht bekommt auch der Pruefer der
-              Plattform zu sehen.
-            */}
-            <div className="rounded-md border p-3 space-y-1">
-              <p className="font-medium text-foreground">Wer abbucht</p>
+      <KontoRahmen
+        icon={Receipt}
+        title="Hier geht es nach dem Kauf weiter"
+        subtitle="Diese Seite öffnet sich automatisch, sobald deine Zahlung durch ist."
+      >
+        <div className="space-y-5 text-sm">
+          <ol className="space-y-3">
+            {[
+              "Nach dem Kauf landest du automatisch hier, mit deiner Bestellung im Link.",
+              "Du legst einmalig dein Passwort fest. Die E-Mail kommt aus deiner Zahlung.",
+              "Der Zugang ist sofort im Browser nutzbar. Kein Download, kein Versand.",
+            ].map((t, i) => (
+              <li key={t} className="flex items-start gap-3">
+                <span className="tabular flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent text-xs font-semibold text-accent-blue">
+                  {i + 1}
+                </span>
+                <span className="pt-0.5 text-foreground/85">{t}</span>
+              </li>
+            ))}
+          </ol>
+          {/*
+            Beide Plattformen sind Merchant of Record und verlangen ihren Satz
+            woertlich auf der Danke-Seite. Ohne Bestellung wissen wir nicht,
+            welcher Kaufweg gemeint ist — deshalb hier beide, nach Kaufweg
+            beschriftet. Genau diese Ansicht bekommt auch der Pruefer der
+            Plattform zu sehen.
+          */}
+          <div className="rounded-xl border border-border bg-secondary/40 p-4">
+            <p className="mb-2 font-semibold text-foreground">Wer abbucht</p>
+            <div className="space-y-1.5 text-muted-foreground">
               <p>Über Digistore24: Die Abbuchung erfolgt durch Digistore24.</p>
               <p>Über CopeCart: Die Abbuchung erfolgt durch CopeCart.</p>
               <p>Direkt bei uns: Die Abbuchung erfolgt durch uns selbst.</p>
             </div>
-            <p>
-              Du hast bezahlt und bist trotzdem ohne Bestellung hier gelandet? Dann melde
-              dich bei uns, wir schalten dich von Hand frei.
-            </p>
-            <Button asChild variant="outline" className="w-full">
-              <Link to="/kontakt">Support kontaktieren</Link>
-            </Button>
-          </CardContent>
-        </Card>
-      </div>
+          </div>
+          <p className="text-muted-foreground">
+            Du hast bezahlt und bist trotzdem ohne Bestellung hier gelandet? Dann melde
+            dich bei uns, wir schalten dich von Hand frei.
+          </p>
+          <Button asChild variant="outline" size="lg" className="h-11 w-full gap-2 rounded-xl">
+            <Link to="/kontakt"><LifeBuoy className="h-4 w-4" aria-hidden="true" /> Support kontaktieren</Link>
+          </Button>
+        </div>
+      </KontoRahmen>
     );
   }
 
   if (fatal) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background px-4">
-        <Card className="w-full max-w-md">
-          <CardHeader>
-            <CardTitle>Das hat nicht geklappt</CardTitle>
-            <CardDescription>{fatal}</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <p className="text-sm text-muted-foreground">
-              Falls Geld abgebucht wurde, ist es nicht verloren — melde dich mit der
-              Bestätigungsmail von Stripe, wir legen das Konto von Hand an.
-            </p>
-            <Button asChild variant="outline" className="w-full">
-              <Link to="/kontakt">Support kontaktieren</Link>
-            </Button>
-          </CardContent>
-        </Card>
-      </div>
+      <KontoRahmen icon={AlertTriangle} tone="warning" title="Das hat nicht geklappt" subtitle={fatal}>
+        <div className="space-y-4">
+          <p className="rounded-xl border border-border bg-secondary/40 p-4 text-sm text-foreground/85">
+            Falls Geld abgebucht wurde, ist es nicht verloren. Melde dich mit der
+            Bestätigungsmail von Stripe, wir legen das Konto von Hand an.
+          </p>
+          <Button asChild variant="outline" size="lg" className="h-11 w-full gap-2 rounded-xl">
+            <Link to="/kontakt"><LifeBuoy className="h-4 w-4" aria-hidden="true" /> Support kontaktieren</Link>
+          </Button>
+        </div>
+      </KontoRahmen>
     );
   }
 
   if (alreadyExists) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background px-4">
-        <Card className="w-full max-w-md">
-          <CardHeader>
-            <CardTitle>Zu dieser Adresse gibt es schon ein Konto</CardTitle>
-            <CardDescription>
-              Melde dich mit <strong>{email}</strong> an — das Abo ist bereits hinterlegt.
-            </CardDescription>
-            {merchantHinweis && (
-              <p className="text-xs text-muted-foreground mt-2">{merchantHinweis}</p>
-            )}
-          </CardHeader>
-          <CardContent>
-            <Button className="w-full" onClick={() => navigate("/auth")}>
-              Zur Anmeldung
-            </Button>
-          </CardContent>
-        </Card>
-      </div>
+      <KontoRahmen
+        icon={UserCheck}
+        title="Zu dieser Adresse gibt es schon ein Konto"
+        subtitle={
+          <>
+            Melde dich mit <strong className="font-semibold text-foreground">{email}</strong> an. Das Abo ist bereits hinterlegt.
+            {merchantHinweis && <span className="mt-2 block text-xs">{merchantHinweis}</span>}
+          </>
+        }
+      >
+        <Button size="lg" className={kontoCta} onClick={() => navigate("/auth")}>
+          Zur Anmeldung
+        </Button>
+      </KontoRahmen>
     );
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background px-4 py-10">
-      <Card className="w-full max-w-md">
-        <CardHeader>
-          <div className="flex items-center gap-2 text-green-600 mb-2">
-            <CheckCircle className="h-5 w-5" />
-            <span className="text-sm font-medium">Zahlung bestätigt</span>
+    <KontoRahmen
+      backLink={false}
+      icon={CheckCircle2}
+      tone="success"
+      kicker="Zahlung bestätigt"
+      title="Noch ein Schritt: Passwort festlegen"
+      subtitle={
+        <>
+          Dein Zugang läuft auf <strong className="font-semibold text-foreground">{email}</strong>.
+          {merchantHinweis && <span className="mt-2 block text-xs">{merchantHinweis}</span>}
+        </>
+      }
+    >
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="flex items-start gap-3 rounded-xl border border-border bg-secondary/40 p-3.5 text-sm">
+          <Lock className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" aria-hidden="true" />
+          <p className="text-foreground/85">
+            Die E-Mail stammt aus deiner Zahlung und lässt sich hier nicht ändern,
+            daran hängt dein Abo.
+          </p>
+        </div>
+
+        <div className="space-y-1.5">
+          <Label htmlFor="password">Passwort</Label>
+          <div className="relative">
+            <Input
+              id="password"
+              type={showPassword ? "text" : "password"}
+              className="h-11 rounded-lg pr-10"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Mindestens 8 Zeichen"
+              autoComplete="new-password"
+              autoFocus
+              required
+            />
+            <button
+              type="button"
+              className="absolute inset-y-0 right-2 flex items-center px-1 text-muted-foreground hover:text-foreground"
+              onClick={() => setShowPassword((v) => !v)}
+              aria-label={showPassword ? "Passwort verbergen" : "Passwort anzeigen"}
+            >
+              {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+            </button>
           </div>
-          <CardTitle>Noch ein Schritt: Passwort festlegen</CardTitle>
-          <CardDescription>
-            Dein Zugang läuft auf <strong>{email}</strong>.
-          </CardDescription>
-          {merchantHinweis && (
-            <p className="text-xs text-muted-foreground mt-2">{merchantHinweis}</p>
+          <p className={`text-xs ${password.length >= 8 ? "text-success" : "text-muted-foreground"}`}>
+            {password.length >= 8 ? "Passt, mindestens 8 Zeichen." : "Mindestens 8 Zeichen."}
+          </p>
+        </div>
+
+        {/* Optional und bewusst nach dem Passwort: Pflichtfelder hinter der
+            Bezahlschranke sind der haeufigste Grund, warum ein bezahlter
+            Kunde nie ankommt. */}
+        <div className="grid grid-cols-2 gap-3">
+          <div className="space-y-1.5">
+            <Label htmlFor="firstName">
+              Vorname <span className="font-normal text-muted-foreground">(optional)</span>
+            </Label>
+            <Input
+              id="firstName"
+              className="h-11 rounded-lg"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              autoComplete="given-name"
+            />
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="lastName">
+              Nachname <span className="font-normal text-muted-foreground">(optional)</span>
+            </Label>
+            <Input
+              id="lastName"
+              className="h-11 rounded-lg"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              autoComplete="family-name"
+            />
+          </div>
+        </div>
+
+        <Button type="submit" size="lg" className={kontoCta} disabled={submitting}>
+          {submitting ? (
+            <><Loader2 className="mr-2 h-4 w-4 animate-spin" aria-hidden="true" /> Konto wird angelegt …</>
+          ) : (
+            "Konto anlegen und starten"
           )}
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <Alert>
-              <AlertDescription className="text-sm">
-                Die E-Mail stammt aus deiner Zahlung und lässt sich hier nicht ändern —
-                daran hängt dein Abo.
-              </AlertDescription>
-            </Alert>
-
-            <div className="space-y-2">
-              <Label htmlFor="password">Passwort *</Label>
-              <div className="relative">
-                <Input
-                  id="password"
-                  type={showPassword ? "text" : "password"}
-                  className="pr-10"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="mindestens 8 Zeichen"
-                  autoComplete="new-password"
-                  autoFocus
-                  required
-                />
-                <button
-                  type="button"
-                  className="absolute right-3 top-3 text-muted-foreground"
-                  onClick={() => setShowPassword((v) => !v)}
-                  aria-label={showPassword ? "Passwort verbergen" : "Passwort anzeigen"}
-                >
-                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                </button>
-              </div>
-            </div>
-
-            {/* Optional und bewusst nach dem Passwort: Pflichtfelder hinter der
-                Bezahlschranke sind der haeufigste Grund, warum ein bezahlter
-                Kunde nie ankommt. */}
-            <div className="grid grid-cols-2 gap-3">
-              <div className="space-y-2">
-                <Label htmlFor="firstName" className="text-muted-foreground">Vorname</Label>
-                <Input
-                  id="firstName"
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
-                  autoComplete="given-name"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="lastName" className="text-muted-foreground">Nachname</Label>
-                <Input
-                  id="lastName"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
-                  autoComplete="family-name"
-                />
-              </div>
-            </div>
-
-            <Button type="submit" className="w-full" disabled={submitting}>
-              {submitting ? (
-                <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Konto wird angelegt…</>
-              ) : (
-                "Konto anlegen und starten"
-              )}
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
-    </div>
+        </Button>
+      </form>
+    </KontoRahmen>
   );
 };
 
