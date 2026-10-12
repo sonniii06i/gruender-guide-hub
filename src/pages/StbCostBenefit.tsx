@@ -19,9 +19,7 @@ import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import Stand2026Footer from "@/components/cockpit/Stand2026Footer";
-import { Input } from "@/components/ui/input";
 import { NumberField } from "@/components/ui/number-field";
-import { Label } from "@/components/ui/label";
 import {
   Lightbulb,
   Calculator,
@@ -31,7 +29,23 @@ import {
   Clock,
   AlertTriangle,
   CheckCircle2,
+  ArrowLeft,
+  ArrowRight,
+  ChevronDown,
 } from "lucide-react";
+import { cn } from "@/lib/utils";
+import {
+  Callout,
+  Field,
+  ResultPanel,
+  ResultRow,
+  ToneBadge,
+  ToolLayout,
+  ToolSection,
+  selectCls,
+  toneSoft,
+  type Tone,
+} from "@/components/cockpit/kit";
 
 type Rechnungsart = "euer" | "bilanz";
 type UstVaFrequenz = "monatlich" | "quartal" | "keine";
@@ -144,252 +158,225 @@ const StbCostBenefit = () => {
     };
   }, [umsatz, betriebsausgaben, rechnungsart, ustVa, belegeProMonat, stundenlohnEigen, stundenBuchhaltungMonat]);
 
+  const eur = (n: number) => `${Math.round(n).toLocaleString("de-DE")} €`;
+  const tonOf = (name: string): Tone => (name === "Voll-StB" ? "accent" : name === "DIY" ? "success" : "info");
+
   return (
     <CockpitShell
-      eyebrow="🌱 Erste Schritte · für komplette Anfänger:innen"
+      eyebrow="Erste Schritte · für komplette Anfänger:innen"
       title="Steuerberater Cost-Benefit-Check"
-      subtitle="Lohnt sich ein Steuerberater oder mache ich es selbst? Vergleich von 3 Szenarien (Voll-StB / DIY-Software / Hybrid) basierend auf StBVV-Mittelgebühren und realistischen DIY-Kosten — mit Empfehlung."
+      subtitle="Lohnt sich ein Steuerberater oder mache ich es selbst? Drei Szenarien (Voll-StB, DIY-Software, Hybrid) im Vergleich, gerechnet mit StBVV-Mittelgebühren und realistischen DIY-Kosten, mit Empfehlung."
     >
       <BeginnerHero />
 
-      {/* === Inputs === */}
-      <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5 mb-4">
-        <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
-          <Lightbulb className="h-4 w-4 text-accent-blue" /> Deine Eckdaten
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Jahres-Umsatz (€)</Label>
-            <NumberField value={umsatz} onChange={setUmsatz} min={0} className="mt-1" />
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Betriebsausgaben/Jahr (€)</Label>
-            <NumberField value={betriebsausgaben} onChange={setBetriebsausgaben} min={0} className="mt-1" />
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Gewinn (berechnet)</Label>
-            <div className="mt-1 h-10 flex items-center px-3 rounded-md bg-secondary/40 font-mono text-sm font-semibold">
-              {calc.gewinn.toLocaleString("de-DE")} €
-            </div>
-          </div>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Buchführung</Label>
-            <select value={rechnungsart} onChange={(e) => setRechnungsart(e.target.value as Rechnungsart)} className="mt-1 h-10 w-full rounded-md border border-input bg-background px-3 text-sm">
-              <option value="euer">EÜR (Freiberufler/Gewerbe ≤ 800k Umsatz)</option>
-              <option value="bilanz">Bilanz (Kaufmann/GmbH)</option>
-            </select>
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">USt-Voranmeldung</Label>
-            <select value={ustVa} onChange={(e) => setUstVa(e.target.value as UstVaFrequenz)} className="mt-1 h-10 w-full rounded-md border border-input bg-background px-3 text-sm">
-              <option value="monatlich">Monatlich (12×/J, &gt;7.500 € USt/J)</option>
-              <option value="quartal">Quartalsweise (4×/J)</option>
-              <option value="keine">Keine (Kleinunternehmer §19 UStG)</option>
-            </select>
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Belege pro Monat (ca.)</Label>
-            <NumberField value={belegeProMonat} onChange={setBelegeProMonat} min={0} className="mt-1" />
-          </div>
-        </div>
-      </div>
+      <ToolLayout
+        className="mb-8"
+        inputs={
+          <>
+            <ToolSection title="Deine Eckdaten" icon={Calculator} description="Umsatz, Kosten und Buchführungsart bestimmen die StB-Honorare.">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <Field label="Jahresumsatz (€)">
+                  <NumberField value={umsatz} onChange={setUmsatz} min={0} aria-label="Jahresumsatz in Euro" />
+                </Field>
+                <Field label="Betriebsausgaben pro Jahr (€)">
+                  <NumberField value={betriebsausgaben} onChange={setBetriebsausgaben} min={0} aria-label="Betriebsausgaben pro Jahr in Euro" />
+                </Field>
+                <Field label="Gewinn (berechnet)" hint="Umsatz minus Betriebsausgaben">
+                  <div className="flex h-10 items-center rounded-md border border-border bg-secondary/50 px-3 text-sm font-semibold tabular">
+                    {calc.gewinn.toLocaleString("de-DE")} €
+                  </div>
+                </Field>
+                <Field label="Belege pro Monat (ca.)" hint="Bestimmt Software-Tarif und Buchhaltungsaufwand">
+                  <NumberField value={belegeProMonat} onChange={setBelegeProMonat} min={0} aria-label="Belege pro Monat" />
+                </Field>
+                <Field label="Buchführung" htmlFor="stb-rechnungsart">
+                  <select id="stb-rechnungsart" value={rechnungsart} onChange={(e) => setRechnungsart(e.target.value as Rechnungsart)} className={selectCls}>
+                    <option value="euer">EÜR (Freiberufler/Gewerbe ≤ 800k Umsatz)</option>
+                    <option value="bilanz">Bilanz (Kaufmann/GmbH)</option>
+                  </select>
+                </Field>
+                <Field label="USt-Voranmeldung" htmlFor="stb-ustva">
+                  <select id="stb-ustva" value={ustVa} onChange={(e) => setUstVa(e.target.value as UstVaFrequenz)} className={selectCls}>
+                    <option value="monatlich">Monatlich (12×/J, &gt;7.500 € USt/J)</option>
+                    <option value="quartal">Quartalsweise (4×/J)</option>
+                    <option value="keine">Keine (Kleinunternehmer §19 UStG)</option>
+                  </select>
+                </Field>
+              </div>
+            </ToolSection>
 
-      {/* === DIY-Eigenzeit-Eingaben === */}
-      <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5 mb-4">
-        <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
-          <Clock className="h-4 w-4 text-accent-blue" /> DIY-Setup: was kostet dich deine Zeit?
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Dein Stundenlohn (€)</Label>
-            <NumberField value={stundenlohnEigen} onChange={setStundenlohnEigen} min={10} className="mt-1" />
-            <div className="text-[10px] text-muted-foreground mt-1">
-              Aus Tool 6 oder dein normaler Stundensatz für Kunden-Arbeit. Wert dieser Zeit ist Opportunitätskosten.
-            </div>
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Stunden Buchhaltung / Monat</Label>
-            <NumberField value={stundenBuchhaltungMonat} onChange={setStundenBuchhaltungMonat} min={0} className="mt-1" />
-            <div className="text-[10px] text-muted-foreground mt-1">
-              Belege scannen, Bank kategorisieren, USt-VA. Realistisch: 30 Belege ≈ 4h, 60 ≈ 8h, 120 ≈ 15h/Mon.
-            </div>
-          </div>
-        </div>
-      </div>
+            <ToolSection title="DIY-Setup: Was kostet dich deine Zeit?" icon={Clock}>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <Field label="Dein Stundenlohn (€)" hint="Aus Tool 6 oder dein normaler Stundensatz für Kundenarbeit. Der Wert dieser Zeit sind Opportunitätskosten.">
+                  <NumberField value={stundenlohnEigen} onChange={setStundenlohnEigen} min={10} aria-label="Stundenlohn in Euro" />
+                </Field>
+                <Field label="Stunden Buchhaltung pro Monat" hint="Belege scannen, Bank kategorisieren, USt-VA. Realistisch: 30 Belege ≈ 4h, 60 ≈ 8h, 120 ≈ 15h/Mon.">
+                  <NumberField value={stundenBuchhaltungMonat} onChange={setStundenBuchhaltungMonat} min={0} aria-label="Stunden Buchhaltung pro Monat" />
+                </Field>
+              </div>
+            </ToolSection>
+          </>
+        }
+        result={
+          <>
+            <ResultPanel
+              variant="ink"
+              kicker="Günstigste Option für dich"
+              title={calc.cheapest.name}
+              value={eur(calc.cheapest.kosten)}
+              valueHint="pro Jahr, inkl. USt-VA, Jahresabschluss und ESt"
+            >
+              <p className="text-sm leading-relaxed text-primary-foreground/80">{calc.breakEvenSichtbar}</p>
+              <div className="mt-4 divide-y divide-white/10 rounded-xl bg-white/[0.04] px-4">
+                <ResultRow label="Voll-StB" value={eur(calc.stbGesamtMittel)} strong={calc.cheapest.name === "Voll-StB"} />
+                <ResultRow label="DIY" value={eur(calc.diyGesamt)} strong={calc.cheapest.name === "DIY"} />
+                <ResultRow label="Hybrid" value={eur(calc.hybridGesamt)} strong={calc.cheapest.name === "Hybrid"} />
+              </div>
+            </ResultPanel>
 
-      {/* === Ergebnis-Karten: 3 Szenarien === */}
-      <h3 className="font-bold text-sm mb-2 mt-6 px-1">3 Szenarien im Vergleich (€/Jahr, alle inkl. USt-VA + Jahresabschluss + ESt)</h3>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6">
-        <ScenarioCard
-          title="Voll-StB"
-          subtitle="StB macht alles"
-          kosten={calc.stbGesamtMittel}
-          min={calc.stbGesamtMin}
-          max={calc.stbGesamtMax}
-          highlight={calc.cheapest.name === "Voll-StB"}
-          color="amber"
-          pros={[
-            "Maximale Sicherheit (Haftung beim StB)",
-            "Kein Eigen-Aufwand für Buchhaltung",
-            "StB kennt Steuer-Optimierungen",
-            "Vertretung bei Betriebsprüfung",
-          ]}
-          cons={[
-            "Höchste Kosten",
-            "Belege müssen trotzdem aufbereitet werden",
-            "Abhängigkeit vom StB-Tempo",
-          ]}
-        />
-        <ScenarioCard
-          title="DIY"
-          subtitle="lexoffice + WISO"
-          kosten={calc.diyGesamt}
-          highlight={calc.cheapest.name === "DIY"}
-          color="emerald"
-          pros={[
-            "Volle Kostenkontrolle",
-            "Schneller Überblick über Zahlen",
-            "Lern-Effekt für Steuer-Verständnis",
-            "Bei wenig Belegen sehr günstig",
-          ]}
-          cons={[
-            "Zeitaufwand 4-15 h/Monat",
-            "Haftung liegt bei dir",
-            "Fehler-Risiko bei komplexen Fällen",
-            "Kein StB-Wissen für Optimierungen",
-          ]}
-        />
-        <ScenarioCard
-          title="Hybrid"
-          subtitle="DIY + StB nur Jahresabschluss"
-          kosten={calc.hybridGesamt}
-          highlight={calc.cheapest.name === "Hybrid"}
-          color="blue"
-          pros={[
-            "Mittelweg: günstig + sicher",
-            "Lfd. Buchhaltung in eigener Hand",
-            "StB-Quality-Check am Jahresende",
-            "ESt-Erklärung wird abgegeben (Haftung)",
-          ]}
-          cons={[
-            "Trotzdem ~6h/Mon Eigenzeit",
-            "lexoffice/sevdesk + StB-Lernkurve",
-            "Kein StB-Sparring bei Quartal-Fragen",
-          ]}
-        />
-      </div>
-
-      {/* === Empfehlung === */}
-      <div className={`rounded-2xl border-2 p-5 mb-6 ${
-        calc.cheapest.name === "Voll-StB" ? "border-amber-500/40 bg-amber-500/5"
-        : calc.cheapest.name === "DIY" ? "border-emerald-500/40 bg-gradient-to-br from-emerald-500/10 via-card to-card"
-        : "border-blue-500/40 bg-blue-500/5"
-      }`}>
-        <div className="flex items-start gap-3">
-          <Award className={`h-6 w-6 shrink-0 mt-0.5 ${
-            calc.cheapest.name === "Voll-StB" ? "text-amber-700"
-            : calc.cheapest.name === "DIY" ? "text-emerald-700"
-            : "text-blue-700"
-          }`} />
-          <div className="flex-1">
-            <div className="text-xs uppercase tracking-wider text-muted-foreground mb-1">Günstigste Option für dich</div>
-            <div className={`text-2xl font-bold mb-1 ${
-              calc.cheapest.name === "Voll-StB" ? "text-amber-700"
-              : calc.cheapest.name === "DIY" ? "text-emerald-700"
-              : "text-blue-700"
-            }`}>
-              {calc.cheapest.name} · {Math.round(calc.cheapest.kosten).toLocaleString("de-DE")} €/Jahr
-            </div>
-            <p className="text-sm text-muted-foreground mb-2">{calc.breakEvenSichtbar}</p>
-            <div className="text-xs text-foreground bg-secondary/40 rounded-lg p-3">
-              <strong>💡 Kontext zur Entscheidung:</strong> Reine Kostenrechnung ist NICHT die ganze Wahrheit.
-              Berücksichtige auch:
-              <ul className="mt-1 list-disc list-inside space-y-0.5">
-                <li>Bei komplexen Fällen (Holding, US-LLC, Crypto) → IMMER StB</li>
-                <li>Bei Betriebsprüfung ohne StB stehst du allein da</li>
-                <li>StB kann durch Optimierungen mehr sparen als er kostet (Faktor 1,5-3× bei aktiver Beratung)</li>
-                <li>Dein Stundensatz × Buchhaltungs-Zeit ist Opportunitätskosten — diese Zeit fehlt im Kundengeschäft</li>
+            <Callout tone="info" icon={Lightbulb} title="Kontext zur Entscheidung">
+              <p>Die reine Kostenrechnung ist nicht die ganze Wahrheit. Berücksichtige auch:</p>
+              <ul className="mt-2 list-disc space-y-1 pl-4">
+                <li>Bei komplexen Fällen (Holding, US-LLC, Crypto): immer StB</li>
+                <li>Bei einer Betriebsprüfung ohne StB stehst du allein da</li>
+                <li>Ein StB kann durch Optimierungen mehr sparen, als er kostet (Faktor 1,5-3× bei aktiver Beratung)</li>
+                <li>Dein Stundensatz × Buchhaltungszeit sind Opportunitätskosten: Diese Zeit fehlt im Kundengeschäft</li>
               </ul>
-            </div>
-          </div>
-        </div>
-      </div>
+            </Callout>
+          </>
+        }
+      />
 
-      {/* === Detail-Aufschlüsselung === */}
-      <div className="rounded-2xl border border-border bg-card p-5 mb-6">
-        <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
-          <Calculator className="h-4 w-4 text-accent-blue" /> Detail-Aufschlüsselung
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
-          {/* StB */}
+      <section className="mb-8" aria-labelledby="stb-szenarien">
+        <div className="mb-4">
+          <h2 id="stb-szenarien" className="text-lg font-semibold tracking-tight">Drei Szenarien im Vergleich</h2>
+          <p className="mt-0.5 text-sm text-muted-foreground">Euro pro Jahr, jeweils inkl. USt-VA, Jahresabschluss und ESt-Erklärung</p>
+        </div>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          <ScenarioCard
+            title="Voll-StB"
+            subtitle="StB macht alles"
+            kosten={calc.stbGesamtMittel}
+            min={calc.stbGesamtMin}
+            max={calc.stbGesamtMax}
+            highlight={calc.cheapest.name === "Voll-StB"}
+            tone={tonOf("Voll-StB")}
+            pros={[
+              "Maximale Sicherheit (Haftung beim StB)",
+              "Kein Eigen-Aufwand für Buchhaltung",
+              "StB kennt Steuer-Optimierungen",
+              "Vertretung bei Betriebsprüfung",
+            ]}
+            cons={[
+              "Höchste Kosten",
+              "Belege müssen trotzdem aufbereitet werden",
+              "Abhängigkeit vom StB-Tempo",
+            ]}
+          />
+          <ScenarioCard
+            title="DIY"
+            subtitle="lexoffice + WISO"
+            kosten={calc.diyGesamt}
+            highlight={calc.cheapest.name === "DIY"}
+            tone={tonOf("DIY")}
+            pros={[
+              "Volle Kostenkontrolle",
+              "Schneller Überblick über Zahlen",
+              "Lern-Effekt für Steuer-Verständnis",
+              "Bei wenig Belegen sehr günstig",
+            ]}
+            cons={[
+              "Zeitaufwand 4-15 h/Monat",
+              "Haftung liegt bei dir",
+              "Fehler-Risiko bei komplexen Fällen",
+              "Kein StB-Wissen für Optimierungen",
+            ]}
+          />
+          <ScenarioCard
+            title="Hybrid"
+            subtitle="DIY + StB nur Jahresabschluss"
+            kosten={calc.hybridGesamt}
+            highlight={calc.cheapest.name === "Hybrid"}
+            tone={tonOf("Hybrid")}
+            pros={[
+              "Mittelweg: günstig + sicher",
+              "Lfd. Buchhaltung in eigener Hand",
+              "StB-Quality-Check am Jahresende",
+              "ESt-Erklärung wird abgegeben (Haftung)",
+            ]}
+            cons={[
+              "Trotzdem ~6h/Mon Eigenzeit",
+              "lexoffice/sevdesk + StB-Lernkurve",
+              "Kein StB-Sparring bei Quartal-Fragen",
+            ]}
+          />
+        </div>
+      </section>
+
+      <ToolSection title="Detail-Aufschlüsselung" icon={Calculator} className="mb-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
           <div>
-            <div className="font-bold text-amber-700 mb-2 text-sm">Voll-StB</div>
-            <DetailRow label="Lfd. Buchhaltung" wert={calc.stbBuchhaltungMittel} hinweis={`Mittel: ${Math.round(calc.stbBuchhaltungMin).toLocaleString("de-DE")}-${Math.round(calc.stbBuchhaltungMax).toLocaleString("de-DE")} € (Min-Max-Spanne)`} />
-            <DetailRow label={`Jahresabschluss (${rechnungsart.toUpperCase()})`} wert={calc.stbAbschlussMittel} hinweis={`Mittel: ${Math.round(calc.stbAbschlussMin).toLocaleString("de-DE")}-${Math.round(calc.stbAbschlussMax).toLocaleString("de-DE")} €`} />
-            <DetailRow label="ESt-Erklärung" wert={calc.stbEstMittel} hinweis={`Mittel: ${Math.round(calc.stbEstMin).toLocaleString("de-DE")}-${Math.round(calc.stbEstMax).toLocaleString("de-DE")} €`} />
-            {calc.stbUstVaJahr > 0 && <DetailRow label="USt-VAs" wert={calc.stbUstVaJahr} hinweis={`${ustVa === "monatlich" ? 12 : 4}× á 50 €`} />}
-            <Summe wert={calc.stbGesamtMittel} farbe="amber" min={calc.stbGesamtMin} max={calc.stbGesamtMax} />
+            <h3 className="mb-2 text-sm font-semibold">Voll-StB</h3>
+            <DetailRow label="Lfd. Buchhaltung" wert={calc.stbBuchhaltungMittel} hinweis={`Mittel, Spanne ${Math.round(calc.stbBuchhaltungMin).toLocaleString("de-DE")}-${Math.round(calc.stbBuchhaltungMax).toLocaleString("de-DE")} €`} />
+            <DetailRow label={`Jahresabschluss (${rechnungsart.toUpperCase()})`} wert={calc.stbAbschlussMittel} hinweis={`Mittel, Spanne ${Math.round(calc.stbAbschlussMin).toLocaleString("de-DE")}-${Math.round(calc.stbAbschlussMax).toLocaleString("de-DE")} €`} />
+            <DetailRow label="ESt-Erklärung" wert={calc.stbEstMittel} hinweis={`Mittel, Spanne ${Math.round(calc.stbEstMin).toLocaleString("de-DE")}-${Math.round(calc.stbEstMax).toLocaleString("de-DE")} €`} />
+            {calc.stbUstVaJahr > 0 && <DetailRow label="USt-VAs" wert={calc.stbUstVaJahr} hinweis={`${ustVa === "monatlich" ? 12 : 4}× à 50 €`} />}
+            <Summe wert={calc.stbGesamtMittel} tone={tonOf("Voll-StB")} min={calc.stbGesamtMin} max={calc.stbGesamtMax} />
           </div>
-          {/* DIY */}
           <div>
-            <div className="font-bold text-emerald-700 mb-2 text-sm">DIY (Software + Eigenzeit)</div>
+            <h3 className="mb-2 text-sm font-semibold">DIY (Software + Eigenzeit)</h3>
             <DetailRow label="lexoffice / sevdesk Abo" wert={calc.diySoftware} hinweis="je nach Beleganzahl" />
             <DetailRow label="ESt-Software (WISO etc.)" wert={calc.diyEstSoftware} hinweis="ca. 30-50 €/Jahr" />
             <DetailRow label="Eigenzeit lfd. Buchhaltung" wert={calc.diyZeitkosten} hinweis={`${stundenBuchhaltungMonat} h/Mon × 12 × ${stundenlohnEigen} €/h`} />
             <DetailRow label="Eigenzeit Jahresabschluss" wert={calc.diyZeitAbschluss} hinweis={`${rechnungsart === "euer" ? 8 : 25} h × ${stundenlohnEigen} €/h`} />
             <DetailRow label="Eigenzeit ESt-Erklärung" wert={calc.diyZeitEst} hinweis={`6 h × ${stundenlohnEigen} €/h`} />
-            <Summe wert={calc.diyGesamt} farbe="emerald" />
+            <Summe wert={calc.diyGesamt} tone={tonOf("DIY")} />
           </div>
-          {/* Hybrid */}
           <div>
-            <div className="font-bold text-blue-700 mb-2 text-sm">Hybrid (DIY + StB Abschluss)</div>
+            <h3 className="mb-2 text-sm font-semibold">Hybrid (DIY + StB Abschluss)</h3>
             <DetailRow label="Software" wert={calc.hybridSoftware} hinweis="lexoffice + WISO" />
             <DetailRow label="Eigenzeit lfd. Buchhaltung" wert={calc.hybridZeit} hinweis="wie DIY" />
-            <DetailRow label="StB Jahresabschluss" wert={calc.hybridStbAbschluss} hinweis="-15% wegen Daten-Übernahme" />
+            <DetailRow label="StB Jahresabschluss" wert={calc.hybridStbAbschluss} hinweis="15 % weniger wegen Datenübernahme" />
             <DetailRow label="StB ESt-Erklärung" wert={calc.hybridStbEst} hinweis="Mittel" />
-            <Summe wert={calc.hybridGesamt} farbe="blue" />
+            <Summe wert={calc.hybridGesamt} tone={tonOf("Hybrid")} />
           </div>
         </div>
-      </div>
+      </ToolSection>
 
-      {/* === Faustregeln === */}
-      <div className="rounded-2xl border border-border bg-card p-5 mb-6">
-        <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
-          <TrendingUp className="h-4 w-4 text-accent-blue" /> Faustregeln nach Gewinn
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
-          <div className="rounded-lg bg-emerald-500/5 border border-emerald-500/30 p-3">
-            <div className="font-bold text-emerald-700 mb-1">≤ 30k Gewinn</div>
-            <div className="text-muted-foreground">DIY mit lexoffice/sevdesk + WISO meist günstigste Option. Buchhaltung ist überschaubar. StB für ESt-Erklärung optional (~450 €).</div>
-          </div>
-          <div className="rounded-lg bg-blue-500/5 border border-blue-500/30 p-3">
-            <div className="font-bold text-blue-700 mb-1">30-100k Gewinn</div>
-            <div className="text-muted-foreground">Hybrid-Empfehlung: DIY-Buchhaltung selbst, Jahresabschluss + ESt vom StB. Komplexität steigt (GewSt, ggf. Anlage S vs G).</div>
-          </div>
-          <div className="rounded-lg bg-amber-500/5 border border-amber-500/30 p-3">
-            <div className="font-bold text-amber-700 mb-1">&gt; 100k Gewinn</div>
-            <div className="text-muted-foreground">Voll-StB lohnt sich meist: Optimierungs-Potenzial (IAB, Pension, Rechtsform-Wechsel) übersteigt Honorar. Zeit ist wertvoller als 3-5k € StB-Honorar.</div>
-          </div>
+      <ToolSection title="Faustregeln nach Gewinn" icon={TrendingUp} className="mb-6">
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+          <Callout tone="success" icon={false} title="≤ 30k Gewinn">
+            DIY mit lexoffice/sevdesk + WISO meist günstigste Option. Buchhaltung ist überschaubar. StB für ESt-Erklärung optional (~450 €).
+          </Callout>
+          <Callout tone="info" icon={false} title="30-100k Gewinn">
+            Hybrid-Empfehlung: DIY-Buchhaltung selbst, Jahresabschluss + ESt vom StB. Komplexität steigt (GewSt, ggf. Anlage S vs G).
+          </Callout>
+          <Callout tone="accent" icon={false} title="> 100k Gewinn">
+            Voll-StB lohnt sich meist: Optimierungs-Potenzial (IAB, Pension, Rechtsform-Wechsel) übersteigt Honorar. Zeit ist wertvoller als 3-5k € StB-Honorar.
+          </Callout>
         </div>
-      </div>
+      </ToolSection>
 
-      {/* === Cross-Links === */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-6">
-        <Link to="/cockpit/stundensatz-rechner" className="rounded-xl border border-border bg-card p-3 text-xs hover:border-accent-blue transition">
-          <div className="font-semibold mb-0.5">← Stundensatz-Rechner (Tool 6)</div>
-          <div className="text-muted-foreground">Wert deiner Eigenzeit bestimmen</div>
-        </Link>
-        <Link to="/cockpit/stb-finder" className="rounded-xl border border-border bg-card p-3 text-xs hover:border-accent-blue transition">
-          <div className="font-semibold mb-0.5">StB-Auswahl-Wizard →</div>
-          <div className="text-muted-foreground">Wenn StB: welcher passt?</div>
-        </Link>
-        <Link to="/cockpit/stb-handoff" className="rounded-xl border border-border bg-card p-3 text-xs hover:border-accent-blue transition">
-          <div className="font-semibold mb-0.5">StB-Hand-off-Checkliste →</div>
-          <div className="text-muted-foreground">Was übergibst du dem StB?</div>
-        </Link>
-      </div>
+      <nav aria-label="Weiterführende Tools" className="mb-6 grid grid-cols-1 gap-3 md:grid-cols-3">
+        {[
+          { to: "/cockpit/stundensatz-rechner", t: "Stundensatz-Rechner (Tool 6)", d: "Wert deiner Eigenzeit bestimmen", back: true },
+          { to: "/cockpit/stb-finder", t: "StB-Auswahl-Wizard", d: "Wenn StB: welcher passt?" },
+          { to: "/cockpit/stb-handoff", t: "StB-Hand-off-Checkliste", d: "Was übergibst du dem StB?" },
+        ].map((l) => (
+          <Link
+            key={l.to}
+            to={l.to}
+            className="group flex items-center gap-3 rounded-xl border border-border bg-card p-4 shadow-card transition-colors hover:border-accent-blue/40"
+          >
+            {l.back && <ArrowLeft className="h-4 w-4 shrink-0 text-muted-foreground transition-colors group-hover:text-accent-blue" aria-hidden="true" />}
+            <span className="min-w-0 flex-1">
+              <span className="block text-sm font-semibold">{l.t}</span>
+              <span className="block text-xs text-muted-foreground">{l.d}</span>
+            </span>
+            {!l.back && <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground transition-colors group-hover:text-accent-blue" aria-hidden="true" />}
+          </Link>
+        ))}
+      </nav>
 
       <Glossar />
       <Stand2026Footer
@@ -409,113 +396,113 @@ const StbCostBenefit = () => {
 // Sub-Components
 // ============================================================================
 const BeginnerHero = () => (
-  <div className="rounded-2xl border-2 border-accent-blue/30 bg-gradient-to-br from-accent-blue/10 via-card to-card p-5 mb-6">
+  <ToolSection className="mb-8" bodyClassName="p-5 md:p-6">
     <div className="flex items-start gap-3">
-      <Lightbulb className="h-6 w-6 text-accent-blue shrink-0 mt-0.5" />
-      <div className="flex-1">
-        <h3 className="font-bold text-sm mb-1">Brauche ich einen Steuerberater?</h3>
-        <p className="text-xs text-muted-foreground leading-relaxed mb-2">
-          Die häufigste Anfänger-Frage. Antwort hängt von Umsatz, Komplexität und deiner verfügbaren Zeit ab —
-          aber NICHT vom Bauchgefühl. Dieses Tool rechnet 3 Szenarien (Voll-StB / DIY / Hybrid) durch und zeigt
-          dir die GÜNSTIGSTE Option — inklusive Opportunitätskosten deiner Eigenzeit.
+      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-accent text-accent-blue">
+        <HelpCircle className="h-4 w-4" aria-hidden="true" />
+      </span>
+      <div className="min-w-0 flex-1">
+        <h2 className="text-base font-semibold tracking-tight">Brauche ich einen Steuerberater?</h2>
+        <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+          Die häufigste Anfänger-Frage. Die Antwort hängt von Umsatz, Komplexität und deiner verfügbaren Zeit ab, nicht
+          vom Bauchgefühl. Dieses Tool rechnet drei Szenarien (Voll-StB, DIY, Hybrid) durch und zeigt dir die günstigste
+          Option, inklusive Opportunitätskosten deiner Eigenzeit.
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-[11px]">
-          <div className="rounded-lg bg-amber-500/5 p-2 border border-amber-500/20">
-            <strong className="text-amber-700">Voll-StB</strong>
-            <div className="text-muted-foreground mt-0.5">Maximale Sicherheit, höchste Kosten. Typ. 2.500-5.000 €/J bei Solo.</div>
-          </div>
-          <div className="rounded-lg bg-emerald-500/5 p-2 border border-emerald-500/20">
-            <strong className="text-emerald-700">DIY</strong>
-            <div className="text-muted-foreground mt-0.5">Günstigste Software-Kosten, aber 4-15 h/Mon Eigenzeit. Haftung bei dir.</div>
-          </div>
-          <div className="rounded-lg bg-blue-500/5 p-2 border border-blue-500/20">
-            <strong className="text-blue-700">Hybrid</strong>
-            <div className="text-muted-foreground mt-0.5">DIY-Buchhaltung + StB nur Jahresabschluss. Mittelweg, sehr beliebt.</div>
-          </div>
-        </div>
       </div>
     </div>
-  </div>
+    <div className="mt-4 grid grid-cols-1 gap-3 md:grid-cols-3">
+      {[
+        { t: "Voll-StB", d: "Maximale Sicherheit, höchste Kosten. Typ. 2.500-5.000 €/J bei Solo.", tone: "accent" as Tone },
+        { t: "DIY", d: "Günstigste Software-Kosten, aber 4-15 h/Mon Eigenzeit. Haftung bei dir.", tone: "success" as Tone },
+        { t: "Hybrid", d: "DIY-Buchhaltung + StB nur Jahresabschluss. Mittelweg, sehr beliebt.", tone: "info" as Tone },
+      ].map((x) => (
+        <div key={x.t} className="rounded-xl border border-border bg-secondary/40 p-3.5">
+          <ToneBadge tone={x.tone}>{x.t}</ToneBadge>
+          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{x.d}</p>
+        </div>
+      ))}
+    </div>
+  </ToolSection>
 );
 
 const ScenarioCard = ({
-  title, subtitle, kosten, min, max, highlight, color, pros, cons,
+  title, subtitle, kosten, min, max, highlight, tone, pros, cons,
 }: {
   title: string; subtitle: string; kosten: number; min?: number; max?: number;
-  highlight: boolean; color: "amber" | "emerald" | "blue"; pros: string[]; cons: string[];
-}) => {
-  const colorMap = {
-    amber: { border: "border-amber-500/40", bg: "bg-amber-500/5", text: "text-amber-700", high: "bg-amber-500/15 border-amber-500" },
-    emerald: { border: "border-emerald-500/40", bg: "bg-emerald-500/5", text: "text-emerald-700", high: "bg-emerald-500/15 border-emerald-500" },
-    blue: { border: "border-blue-500/40", bg: "bg-blue-500/5", text: "text-blue-700", high: "bg-blue-500/15 border-blue-500" },
-  };
-  const c = colorMap[color];
-  return (
-    <div className={`rounded-xl border-2 p-4 ${highlight ? c.high : `${c.border} ${c.bg}`}`}>
+  highlight: boolean; tone: Tone; pros: string[]; cons: string[];
+}) => (
+  <div
+    className={cn(
+      "flex flex-col rounded-2xl border bg-card p-5",
+      highlight ? "border-accent-blue/40 shadow-soft ring-1 ring-accent-blue/25" : "border-border shadow-card",
+    )}
+  >
+    <div className="flex flex-wrap items-center justify-between gap-2">
+      <ToneBadge tone={tone}>{title}</ToneBadge>
       {highlight && (
-        <div className="text-[10px] uppercase tracking-wider font-bold mb-1 flex items-center gap-1">
-          <Award className={`h-3 w-3 ${c.text}`} /> <span className={c.text}>Günstigste Option</span>
-        </div>
+        <span className="inline-flex items-center gap-1 text-xs font-semibold text-accent-blue">
+          <Award className="h-3.5 w-3.5" aria-hidden="true" /> Günstigste Option
+        </span>
       )}
-      <div className={`font-bold text-base ${c.text}`}>{title}</div>
-      <div className="text-[11px] text-muted-foreground mb-2">{subtitle}</div>
-      <div className="text-2xl font-bold mb-1">{Math.round(kosten).toLocaleString("de-DE")} €</div>
-      <div className="text-[10px] text-muted-foreground mb-3">
-        {min && max ? `Spanne: ${Math.round(min).toLocaleString("de-DE")}-${Math.round(max).toLocaleString("de-DE")} €` : "pro Jahr"}
-      </div>
-      <div className="space-y-1 mb-2">
-        {pros.map((p) => (
-          <div key={p} className="flex items-start gap-1 text-[11px]">
-            <CheckCircle2 className="h-3 w-3 text-emerald-600 mt-0.5 shrink-0" />
-            <span>{p}</span>
-          </div>
-        ))}
-      </div>
-      <div className="space-y-1">
-        {cons.map((co) => (
-          <div key={co} className="flex items-start gap-1 text-[11px]">
-            <AlertTriangle className="h-3 w-3 text-amber-600 mt-0.5 shrink-0" />
-            <span className="text-muted-foreground">{co}</span>
-          </div>
-        ))}
-      </div>
     </div>
-  );
-};
-
-const DetailRow = ({ label, wert, hinweis }: { label: string; wert: number; hinweis?: string }) => (
-  <div className="border-b border-border/40 py-1.5 last:border-0">
-    <div className="flex justify-between">
-      <span className="text-foreground">{label}</span>
-      <span className="font-mono">{Math.round(wert).toLocaleString("de-DE")} €</span>
-    </div>
-    {hinweis && <div className="text-[10px] text-muted-foreground mt-0.5">{hinweis}</div>}
+    <p className="mt-2 text-sm text-muted-foreground">{subtitle}</p>
+    <p className="mt-3 text-3xl font-semibold tracking-[-0.03em] tabular">{Math.round(kosten).toLocaleString("de-DE")} €</p>
+    <p className="mt-0.5 text-xs text-muted-foreground tabular">
+      {min && max ? `Spanne: ${Math.round(min).toLocaleString("de-DE")}-${Math.round(max).toLocaleString("de-DE")} €` : "pro Jahr"}
+    </p>
+    <ul className="mt-4 space-y-1.5 border-t border-border/70 pt-4">
+      {pros.map((p) => (
+        <li key={p} className="flex items-start gap-2 text-sm">
+          <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-success" aria-hidden="true" />
+          <span>{p}</span>
+        </li>
+      ))}
+      {cons.map((co) => (
+        <li key={co} className="flex items-start gap-2 text-sm">
+          <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-warning" aria-hidden="true" />
+          <span className="text-muted-foreground">{co}</span>
+        </li>
+      ))}
+    </ul>
   </div>
 );
 
-const Summe = ({ wert, farbe, min, max }: { wert: number; farbe: "amber" | "emerald" | "blue"; min?: number; max?: number }) => {
-  const colorMap = { amber: "text-amber-700", emerald: "text-emerald-700", blue: "text-blue-700" };
-  return (
-    <div className="mt-2 pt-2 border-t-2 border-border">
-      <div className="flex justify-between">
-        <span className="font-bold">Summe / Jahr</span>
-        <span className={`font-bold font-mono ${colorMap[farbe]}`}>{Math.round(wert).toLocaleString("de-DE")} €</span>
-      </div>
-      {min && max && (
-        <div className="text-[10px] text-muted-foreground text-right">
-          Spanne: {Math.round(min).toLocaleString("de-DE")}-{Math.round(max).toLocaleString("de-DE")} €
-        </div>
-      )}
+const DetailRow = ({ label, wert, hinweis }: { label: string; wert: number; hinweis?: string }) => (
+  <div className="border-b border-border/60 py-2.5 last:border-0">
+    <div className="flex justify-between gap-3 text-sm">
+      <span className="text-foreground">{label}</span>
+      <span className="shrink-0 tabular">{Math.round(wert).toLocaleString("de-DE")} €</span>
     </div>
-  );
-};
+    {hinweis && <div className="mt-0.5 text-xs text-muted-foreground tabular">{hinweis}</div>}
+  </div>
+);
+
+const Summe = ({ wert, tone, min, max }: { wert: number; tone: Tone; min?: number; max?: number }) => (
+  <div className={cn("mt-3 rounded-xl border px-3 py-2.5", toneSoft(tone))}>
+    <div className="flex justify-between gap-3 text-sm">
+      <span className="font-semibold">Summe pro Jahr</span>
+      <span className="font-semibold tabular">{Math.round(wert).toLocaleString("de-DE")} €</span>
+    </div>
+    {min && max && (
+      <div className="mt-0.5 text-right text-xs text-muted-foreground tabular">
+        Spanne: {Math.round(min).toLocaleString("de-DE")}-{Math.round(max).toLocaleString("de-DE")} €
+      </div>
+    )}
+  </div>
+);
 
 const Glossar = () => (
-  <details className="rounded-2xl border border-border bg-card p-5 mb-6">
-    <summary className="cursor-pointer font-bold text-sm flex items-center gap-2">
-      <HelpCircle className="h-4 w-4 text-accent-blue" /> Glossar — Begriffe einfach erklärt
+  <details className="group mb-6 rounded-2xl border border-border bg-card shadow-card [&_summary::-webkit-details-marker]:hidden">
+    <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-5 py-4 text-base font-semibold md:px-6">
+      <span className="flex items-center gap-3">
+        <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-accent-blue">
+          <HelpCircle className="h-4 w-4" aria-hidden="true" />
+        </span>
+        Glossar: Begriffe einfach erklärt
+      </span>
+      <ChevronDown className="h-4 w-4 text-muted-foreground transition-transform group-open:rotate-180" aria-hidden="true" />
     </summary>
-    <div className="mt-3 space-y-3 text-xs leading-relaxed">
+    <dl className="divide-y divide-border/70 border-t border-border/70 px-5 md:px-6">
       {[
         { begriff: "StBVV (Steuerberatervergütungsverordnung)", erklaerung: "Bundes-Verordnung die StB-Honorare regelt. Drei Tabellen: A (Steuererklärungen, %-vom-Wert), B (Jahresabschluss, 5/10-30/10 von Tabellen-Gebühr), C (lfd. Buchhaltung pro Monat). StB kann innerhalb der Spanne (Mindest- bis Höchstgebühr) frei kalkulieren, je nach Schwierigkeit. Mittelgebühr ist typischer Wert für Standard-Fälle." },
         { begriff: "Mittelgebühr (7/10 Tabelle C)", erklaerung: "Bei laufender Buchhaltung darf StB 2/10 bis 12/10 der vollen Gebühr berechnen. Mittelwert 7/10 ist üblich. Bei einfachen Fällen (wenige Belege, klare Struktur) eher 2-4/10. Bei komplexen Fällen 8-12/10." },
@@ -525,12 +512,12 @@ const Glossar = () => (
         { begriff: "Hybrid-Modell", erklaerung: "Sehr beliebte Lösung: Du machst lfd. Buchhaltung selbst in lexoffice/sevdesk, gibst am Jahresende die Daten an StB. StB macht Jahresabschluss + ESt-Erklärung + Steuer-Optimierung. Kostet 30-50 % weniger als Voll-Mandat bei gleicher Sicherheit am Jahresende." },
         { begriff: "Voll-Mandat", erklaerung: "StB übernimmt komplette Buchhaltung. Du gibst nur Belege ab (digital oder Pendelordner). Höchste Kosten, aber Null Eigen-Aufwand außer Beleg-Sammlung. Sinnvoll bei: hohem Stundensatz, komplexen Fällen, vielen USt-VAs, fehlender Buchhaltungs-Affinität." },
       ].map((g) => (
-        <div key={g.begriff} className="rounded-lg bg-secondary/30 p-3">
-          <div className="font-semibold text-foreground mb-1">{g.begriff}</div>
-          <div className="text-muted-foreground">{g.erklaerung}</div>
+        <div key={g.begriff} className="py-3.5 text-sm">
+          <dt className="font-semibold text-foreground">{g.begriff}</dt>
+          <dd className="mt-1 leading-relaxed text-muted-foreground">{g.erklaerung}</dd>
         </div>
       ))}
-    </div>
+    </dl>
   </details>
 );
 
