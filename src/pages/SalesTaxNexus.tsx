@@ -1,8 +1,18 @@
 import { useState } from "react";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Calculator, AlertTriangle, CheckCircle2, MapPin, ExternalLink } from "lucide-react";
+import {
+  Callout,
+  ChoiceGroup,
+  EmptyState,
+  KitTable,
+  ResultPanel,
+  ResultRow,
+  ToneBadge,
+  ToolLayout,
+  ToolSection,
+} from "@/components/cockpit/kit";
+import { Calculator, AlertTriangle, MapPin, ExternalLink, Store, Info, Wrench } from "lucide-react";
 
 // ============================================================
 // US-SALES-TAX-NEXUS · Stand Mai 2026
@@ -131,206 +141,199 @@ const SalesTaxNexus = () => {
     <CockpitShell
       eyebrow="Sales-Tax-Nexus · Stand Mai 2026"
       title="US-Sales-Tax: pro Staat ab welchem Umsatz registrieren?"
-      subtitle="Live-Check der Wayfair-Schwellen (Economic Nexus) für 45 sales-tax-Staaten + DC (Alaska nur lokal). Updates 2026: 9 Staaten haben Transaction-Threshold abgeschafft (SD/LA/IN/NC/WY/AK/UT/IL/KY). FBA-Inventar = $0-Nexus. 4 Staaten (DC/ND/PA/SD) blockieren DE-LLC ohne SSN."
+      subtitle="Live-Check der Wayfair-Schwellen (Economic Nexus) für 45 Sales-Tax-Staaten plus DC (Alaska nur lokal). Updates 2026: 9 Staaten haben die Transaktions-Schwelle abgeschafft (SD, LA, IN, NC, WY, AK, UT, IL, KY). FBA-Inventar bedeutet Nexus ab 0 $. 4 Staaten (DC, ND, PA, SD) blockieren DE-LLCs ohne SSN."
     >
-      {/* Mode Toggle */}
-      <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-4 mb-6">
-        <Label className="text-xs uppercase tracking-wider text-muted-foreground mb-2 block">
-          Hauptverkaufs-Kanal
-        </Label>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-          {[
-            { v: "shopify", l: "🛍️ Eigener Shop (Shopify/eigene Website)" },
-            { v: "amazon", l: "📦 Amazon FBA (Marketplace)" },
-            { v: "mixed", l: "Beides parallel" },
-          ].map((o) => (
-            <button
-              key={o.v}
-              onClick={() => setMarketplaceMix(o.v as typeof marketplaceMix)}
-              className={`text-left rounded-xl border p-3 text-xs transition-colors ${
-                marketplaceMix === o.v
-                  ? "border-accent-blue bg-accent-blue/10 text-accent-blue font-semibold"
-                  : "border-border hover:border-accent-blue/40"
-              }`}
+      <ToolLayout
+        className="mb-8"
+        inputs={
+          <>
+            <ToolSection title="Hauptverkaufskanal" icon={Store}>
+              <ChoiceGroup<typeof marketplaceMix>
+                label="Hauptverkaufskanal"
+                value={marketplaceMix}
+                onChange={setMarketplaceMix}
+                className="grid grid-cols-1 sm:grid-cols-3"
+                options={[
+                  { value: "shopify", label: "Eigener Shop", hint: "Shopify oder eigene Website" },
+                  { value: "amazon", label: "Amazon FBA", hint: "Marketplace" },
+                  { value: "mixed", label: "Beides parallel", hint: "Shop und Marketplace" },
+                ]}
+              />
+              {showMarketplaceHint && (
+                <Callout tone="success" title="Marketplace-Facilitator-Law" className="mt-4">
+                  Amazon kassiert Sales Tax automatisch in allen 45 Staaten plus DC (Alaska nur lokal). Du musst dich nur
+                  für Direct Sales (eigener Shop) registrieren, wenn die Schwelle dort erreicht ist. Reine Amazon-Seller
+                  haben oft keine Nexus-Pflicht.
+                </Callout>
+              )}
+            </ToolSection>
+
+            <Callout tone="success" title="Staaten ohne Sales Tax (kein Nexus möglich)">
+              <div className="mt-1 flex flex-wrap gap-1.5">
+                {NO_SALES_TAX_STATES.map((n) => (
+                  <ToneBadge key={n} tone="success">
+                    {n}
+                  </ToneBadge>
+                ))}
+              </div>
+              <p className="mt-2">
+                Hier brauchst du keine State-Sales-Tax-Registrierung. Verkaufst du nur in diese 4 Staaten, entsteht keine
+                Nexus-Pflicht.
+              </p>
+            </Callout>
+          </>
+        }
+        result={
+          <>
+            <ResultPanel
+              variant="ink"
+              kicker="Nexus erreicht in"
+              title="Staaten mit Registrierungspflicht"
+              value={
+                <>
+                  {triggeredStates.length}
+                  <span className="text-2xl text-primary-foreground/60"> / {US_STATES.length}</span>
+                </>
+              }
             >
-              {o.l}
-            </button>
-          ))}
-        </div>
-        {showMarketplaceHint && (
-          <div className="rounded-lg bg-emerald-500/10 border border-emerald-500/20 p-3 text-xs text-emerald-700 mt-3">
-            <CheckCircle2 className="h-3 w-3 inline mr-1" />
-            <strong>Marketplace-Facilitator-Law:</strong> Amazon kassiert Sales Tax automatisch in allen 45 Staaten + DC (Alaska nur lokal).
-            Du musst dich NUR für DIRECT-Sales (eigener Shop) registrieren wenn die Schwelle dort erreicht ist.
-            Reine Amazon-Sellers haben oft 0 Nexus-Pflicht.
-          </div>
-        )}
-      </div>
+              <div className="divide-y divide-white/10">
+                <ResultRow label="Gesamt-US-Umsatz" value={`$${totalAllUmsatz.toLocaleString("en-US")}`} />
+                <ResultRow label="Davon in Nexus-Staaten" value={`$${totalNexusUmsatz.toLocaleString("en-US")}`} />
+                <ResultRow
+                  label="Geschätzte Sales-Tax-Last"
+                  hint="Combined-Durchschnitt je Staat"
+                  value={`$${Math.round(estimatedTax).toLocaleString("en-US")}`}
+                  strong
+                />
+              </div>
+            </ResultPanel>
+          </>
+        }
+      />
 
-      {/* Summary */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-3 mb-6">
-        <div className="rounded-2xl border border-border bg-card p-4">
-          <div className="text-[10px] uppercase tracking-wider text-muted-foreground mb-1">Gesamt-US-Umsatz</div>
-          <div className="text-xl font-bold">${totalAllUmsatz.toLocaleString("en-US")}</div>
-        </div>
-        <div className="rounded-2xl border border-amber-500/30 bg-amber-500/5 p-4">
-          <div className="text-[10px] uppercase tracking-wider text-amber-700 mb-1">Nexus erreicht in</div>
-          <div className="text-xl font-bold text-amber-700">
-            {triggeredStates.length} / {US_STATES.length} Staaten
-          </div>
-        </div>
-        <div className="rounded-2xl border border-orange-500/30 bg-orange-500/5 p-4">
-          <div className="text-[10px] uppercase tracking-wider text-orange-700 mb-1">Davon Umsatz</div>
-          <div className="text-xl font-bold text-orange-700">${totalNexusUmsatz.toLocaleString("en-US")}</div>
-        </div>
-        <div className="rounded-2xl border border-red-500/30 bg-red-500/5 p-4">
-          <div className="text-[10px] uppercase tracking-wider text-red-700 mb-1">Geschätzte Tax-Last</div>
-          <div className="text-xl font-bold text-red-700">${Math.round(estimatedTax).toLocaleString("en-US")}</div>
-        </div>
-      </div>
-
-      {/* Triggered States */}
-      {triggeredStates.length > 0 && (
-        <div className="rounded-2xl border border-amber-500/40 bg-amber-500/5 p-5 mb-6">
-          <div className="flex items-center gap-2 mb-3">
-            <AlertTriangle className="h-5 w-5 text-amber-700" />
-            <h3 className="font-bold">⚠ Registrierungs-Pflicht in folgenden Staaten</h3>
-          </div>
-          <div className="space-y-2">
+      <ToolSection
+        className="mb-6"
+        title="Umsatz pro Staat (USD)"
+        description="Jahresumsatz und, wo relevant, Anzahl Transaktionen eintragen."
+        icon={Calculator}
+      >
+        <KitTable caption="Umsatz und Transaktionen pro US-Staat" className="max-h-[640px] overflow-y-auto">
+          <thead className="sticky top-0 z-10">
+            <tr>
+              <th>Staat</th>
+              <th>Schwelle</th>
+              <th className="!text-right">Satz</th>
+              <th className="!text-right">Umsatz ($)</th>
+              <th className="!text-right">Transaktionen</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {US_STATES.map((s) => {
+              const sales = umsatzPerState[s.code] ?? 0;
+              const txns = transaktionenPerState[s.code] ?? 0;
+              const triggered = checkNexus(s);
+              return (
+                <tr key={s.code} className={triggered ? "bg-warning-soft/60" : undefined}>
+                  <td className="whitespace-nowrap">
+                    <span className="font-medium">{s.name}</span>
+                    <span className="ml-1 text-muted-foreground">({s.code})</span>
+                  </td>
+                  <td className="whitespace-nowrap text-xs text-muted-foreground">
+                    ${(s.salesThreshold / 1000).toFixed(0)}k
+                    {s.transactionThreshold && (
+                      <>
+                        {" "}
+                        {s.logic === "AND" ? "&" : "/"} {s.transactionThreshold} Txn
+                      </>
+                    )}
+                  </td>
+                  <td className="whitespace-nowrap text-right text-xs">{s.combinedAvg.toFixed(1)} %</td>
+                  <td className="text-right">
+                    <Input
+                      type="number"
+                      min={0}
+                      value={sales || ""}
+                      onChange={(e) => updateUmsatz(s.code, Math.max(0, Number(e.target.value) || 0))}
+                      placeholder="0"
+                      aria-label={`Umsatz ${s.name} in USD`}
+                      className="ml-auto h-8 w-28 text-right text-sm tabular"
+                    />
+                  </td>
+                  <td className="text-right">
+                    {s.transactionThreshold && (
+                      <Input
+                        type="number"
+                        min={0}
+                        value={txns || ""}
+                        onChange={(e) => updateTransactions(s.code, Math.max(0, Number(e.target.value) || 0))}
+                        placeholder="0"
+                        aria-label={`Transaktionen ${s.name}`}
+                        className="ml-auto h-8 w-24 text-right text-sm tabular"
+                      />
+                    )}
+                  </td>
+                  <td className="whitespace-nowrap">
+                    {triggered ? (
+                      <ToneBadge tone="warning">Pflicht</ToneBadge>
+                    ) : sales > 0 ? (
+                      <ToneBadge tone="success">unter Schwelle</ToneBadge>
+                    ) : (
+                      <span className="text-xs text-muted-foreground">offen</span>
+                    )}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </KitTable>
+      </ToolSection>
+      {triggeredStates.length > 0 ? (
+        <ToolSection title="Registrierungspflicht in diesen Staaten" icon={AlertTriangle} className="mb-6">
+          <ul className="grid grid-cols-1 gap-3 md:grid-cols-2">
             {triggeredStates.map((s) => {
               const sales = umsatzPerState[s.code] ?? 0;
               const taxAmt = sales * (s.combinedAvg / 100);
               return (
-                <div key={s.code} className="rounded-xl bg-card border border-amber-500/20 p-3">
-                  <div className="flex items-center justify-between gap-3 flex-wrap mb-1">
-                    <div className="flex items-center gap-2">
-                      <MapPin className="h-3.5 w-3.5 text-amber-700" />
-                      <span className="font-bold text-sm">
-                        {s.name} ({s.code})
-                      </span>
-                      <span className="rounded-full bg-amber-500/10 text-amber-700 px-2 py-0.5 text-[10px] font-semibold">
-                        {s.combinedAvg.toFixed(2)} % combined
-                      </span>
+                <li key={s.code} className="rounded-xl border border-warning/25 bg-warning-soft p-3.5">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <span className="flex items-center gap-2 text-sm font-semibold">
+                      <MapPin className="h-4 w-4 text-warning" aria-hidden="true" />
+                      {s.name} ({s.code})
+                    </span>
+                    <ToneBadge tone="warning">{s.combinedAvg.toFixed(2)} % combined</ToneBadge>
+                  </div>
+                  <div className="mt-2 grid grid-cols-2 gap-2 text-xs">
+                    <div>
+                      <p className="text-muted-foreground">Umsatz / Schwelle</p>
+                      <p className="font-medium tabular">
+                        ${sales.toLocaleString("en-US")} / ${s.salesThreshold.toLocaleString("en-US")}
+                      </p>
                     </div>
-                    <div className="text-xs text-muted-foreground">
-                      Umsatz: ${sales.toLocaleString("en-US")} (Schwelle: ${s.salesThreshold.toLocaleString("en-US")})
+                    <div>
+                      <p className="text-muted-foreground">Sales Tax geschätzt</p>
+                      <p className="font-semibold tabular">${Math.round(taxAmt).toLocaleString("en-US")}</p>
                     </div>
                   </div>
-                  <div className="text-xs">
-                    Sales Tax geschätzt:{" "}
-                    <span className="font-mono font-semibold">${Math.round(taxAmt).toLocaleString("en-US")}</span>
-                  </div>
-                  {s.notes && <div className="text-[11px] text-muted-foreground italic mt-1">{s.notes}</div>}
-                </div>
+                  {s.notes && <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{s.notes}</p>}
+                </li>
               );
             })}
-          </div>
-        </div>
+          </ul>
+        </ToolSection>
+      ) : (
+        <EmptyState
+          icon={MapPin}
+          title="Noch keine Registrierungspflicht"
+          description="Trag oben deinen Umsatz pro Staat ein. Staaten über der Schwelle erscheinen hier mit geschätzter Sales Tax."
+          className="mb-6 py-10"
+        />
       )}
 
-      {/* All States Input Table */}
-      <div className="rounded-2xl border border-border bg-card p-5 mb-6">
-        <h3 className="font-bold text-sm mb-3">Umsatz pro Staat eingeben (in USD)</h3>
-        <div className="overflow-x-auto">
-          <table className="w-full text-xs">
-            <thead>
-              <tr className="border-b border-border">
-                <th className="text-left py-2 pr-2">Staat</th>
-                <th className="text-left py-2 px-2">Schwelle</th>
-                <th className="text-left py-2 px-2">Tax-Satz</th>
-                <th className="text-right py-2 px-2">Dein Umsatz ($)</th>
-                <th className="text-right py-2 pl-2">Transaktionen</th>
-                <th className="text-center py-2 pl-2">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {US_STATES.map((s) => {
-                const sales = umsatzPerState[s.code] ?? 0;
-                const txns = transaktionenPerState[s.code] ?? 0;
-                const triggered = checkNexus(s);
-                return (
-                  <tr key={s.code} className="border-b border-border last:border-0">
-                    <td className="py-2 pr-2">
-                      <span className="font-semibold">{s.name}</span>
-                      <span className="text-muted-foreground ml-1">({s.code})</span>
-                    </td>
-                    <td className="py-2 px-2 text-muted-foreground font-mono text-[10px]">
-                      ${(s.salesThreshold / 1000).toFixed(0)}k
-                      {s.transactionThreshold && (
-                        <>
-                          {" "}
-                          {s.logic === "AND" ? "&" : "/"} {s.transactionThreshold} txn
-                        </>
-                      )}
-                    </td>
-                    <td className="py-2 px-2 font-mono text-[10px]">{s.combinedAvg.toFixed(1)} %</td>
-                    <td className="py-2 px-2 text-right">
-                      <Input
-                        type="number"
-                        min={0}
-                        value={sales || ""}
-                        onChange={(e) => updateUmsatz(s.code, Math.max(0, Number(e.target.value) || 0))}
-                        placeholder="0"
-                        className="h-8 text-right text-xs"
-                      />
-                    </td>
-                    <td className="py-2 pl-2 text-right">
-                      {s.transactionThreshold && (
-                        <Input
-                          type="number"
-                          min={0}
-                          value={txns || ""}
-                          onChange={(e) => updateTransactions(s.code, Math.max(0, Number(e.target.value) || 0))}
-                          placeholder="0"
-                          className="h-8 text-right text-xs"
-                        />
-                      )}
-                    </td>
-                    <td className="py-2 pl-2 text-center">
-                      {triggered ? (
-                        <span className="inline-flex items-center gap-1 rounded-full bg-amber-500/10 text-amber-700 px-2 py-0.5 text-[10px] font-semibold">
-                          ⚠ Pflicht
-                        </span>
-                      ) : sales > 0 ? (
-                        <span className="text-[10px] text-emerald-600">✓ unter Schwelle</span>
-                      ) : (
-                        <span className="text-[10px] text-muted-foreground">—</span>
-                      )}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      {/* No-Sales-Tax States */}
-      <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/5 p-4 mb-6 text-xs leading-relaxed">
-        <div className="flex items-start gap-2">
-          <CheckCircle2 className="h-4 w-4 text-emerald-700 shrink-0 mt-0.5" />
-          <div>
-            <div className="font-semibold mb-1">Staaten OHNE Sales Tax (kein Nexus möglich):</div>
-            <div className="flex flex-wrap gap-1.5">
-              {NO_SALES_TAX_STATES.map((n) => (
-                <span key={n} className="rounded-full bg-emerald-500/10 text-emerald-700 px-2 py-0.5 text-[10px]">
-                  {n}
-                </span>
-              ))}
-            </div>
-            <div className="text-muted-foreground mt-1">
-              Hier brauchst du keine State-Sales-Tax-Registration. Verkaufst du nur in diese 4 Staaten: 0 Nexus-Pflicht.
-            </div>
-          </div>
-        </div>
-      </div>
 
       {/* CRITICAL: Was Solo-FBA-Seller WIRKLICH wissen müssen */}
-      <div className="rounded-2xl border-2 border-red-500/40 bg-red-500/5 p-4 mb-4 text-xs leading-relaxed">
-        <h3 className="font-bold text-sm mb-2 text-red-700">
-          ⚠ KRITISCH für FBA-Seller — was du wirklich wissen musst (Mai 2026)
-        </h3>
-        <ul className="list-disc pl-4 space-y-1.5 text-muted-foreground">
+      <Callout tone="danger" title="Kritisch für FBA-Seller: was du wirklich wissen musst (Mai 2026)" className="mb-6">
+        <ul className="mt-1 list-disc space-y-1.5 pl-4">
           <li>
             <strong className="text-foreground">Marketplace-Facilitator ≠ "set & forget":</strong>{" "}
             Amazon kassiert zwar, aber Marketplace-Sales zählen TROTZDEM zur Nexus-Schwelle in den
@@ -363,12 +366,10 @@ const SalesTaxNexus = () => {
             zusätzlich (B&O-Tax bzw. GET-Pyramidierung bzw. GRT) NEBEN Sales Tax.
           </li>
         </ul>
-      </div>
+      </Callout>
 
-      {/* Tipps */}
-      <div className="rounded-2xl border border-border bg-card p-4 text-xs leading-relaxed mb-6">
-        <h3 className="font-bold text-sm mb-2">Wichtige Hinweise zu US-Sales-Tax (Stand Mai 2026)</h3>
-        <ul className="list-disc pl-4 space-y-1.5 text-muted-foreground">
+      <ToolSection title="Wichtige Hinweise zu US-Sales-Tax (Stand Mai 2026)" icon={Info} className="mb-6">
+        <ul className="list-disc space-y-2 pl-4 text-sm leading-relaxed text-muted-foreground [&_strong]:font-semibold [&_strong]:text-foreground">
           <li>
             <strong>Wayfair-Urteil 2018</strong>: Seitdem dürfen Staaten Out-of-State-Verkäufer zur
             Sales-Tax-Registrierung zwingen ab Erreichen der Schwelle (Economic Nexus).
@@ -403,50 +404,31 @@ const SalesTaxNexus = () => {
             US-CPA klären.
           </li>
         </ul>
-      </div>
+      </ToolSection>
 
-      {/* Tools */}
-      <div className="rounded-2xl border border-border bg-card p-4 text-xs">
-        <h3 className="font-bold mb-2">Empfohlene Tools für Sales-Tax-Compliance:</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-          <a
-            href="https://www.taxjar.com"
-            target="_blank"
-            rel="noreferrer noopener"
-            className="rounded-lg border border-border bg-secondary/40 p-3 hover:bg-secondary transition-colors"
-          >
-            <div className="font-semibold mb-0.5">TaxJar (Stripe)</div>
-            <div className="text-[11px] text-muted-foreground">
-              Automatisches Filing pro Staat, ab 19 $/Mon
-              <ExternalLink className="h-3 w-3 inline ml-1" />
-            </div>
-          </a>
-          <a
-            href="https://stripe.com/tax"
-            target="_blank"
-            rel="noreferrer noopener"
-            className="rounded-lg border border-border bg-secondary/40 p-3 hover:bg-secondary transition-colors"
-          >
-            <div className="font-semibold mb-0.5">Stripe Tax</div>
-            <div className="text-[11px] text-muted-foreground">
-              Bis 100k $ kostenlos, dann 0,5 % Transaction-Fee
-              <ExternalLink className="h-3 w-3 inline ml-1" />
-            </div>
-          </a>
-          <a
-            href="https://www.avalara.com"
-            target="_blank"
-            rel="noreferrer noopener"
-            className="rounded-lg border border-border bg-secondary/40 p-3 hover:bg-secondary transition-colors"
-          >
-            <div className="font-semibold mb-0.5">Avalara</div>
-            <div className="text-[11px] text-muted-foreground">
-              Enterprise-Lösung, custom Pricing
-              <ExternalLink className="h-3 w-3 inline ml-1" />
-            </div>
-          </a>
+      <ToolSection title="Empfohlene Tools für Sales-Tax-Compliance" icon={Wrench}>
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+          {[
+            { href: "https://www.taxjar.com", t: "TaxJar (Stripe)", d: "Automatisches Filing pro Staat, ab 19 $/Mon" },
+            { href: "https://stripe.com/tax", t: "Stripe Tax", d: "Bis 100k $ kostenlos, dann 0,5 % Transaction-Fee" },
+            { href: "https://www.avalara.com", t: "Avalara", d: "Enterprise-Lösung, custom Pricing" },
+          ].map((l) => (
+            <a
+              key={l.href}
+              href={l.href}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="group rounded-xl border border-border bg-card p-4 transition-[border-color,box-shadow] duration-200 hover:border-accent-blue/40 hover:shadow-card"
+            >
+              <p className="flex items-center justify-between gap-2 text-sm font-semibold">
+                {l.t}
+                <ExternalLink className="h-3.5 w-3.5 text-muted-foreground group-hover:text-accent-blue" aria-hidden="true" />
+              </p>
+              <p className="mt-1 text-sm text-muted-foreground">{l.d}</p>
+            </a>
+          ))}
         </div>
-      </div>
+      </ToolSection>
     </CockpitShell>
   );
 };
