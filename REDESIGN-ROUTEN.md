@@ -7,328 +7,339 @@ Legende: [x] neu gestaltet und per Screenshot (1440 + 390 px) geprüft. Komponen
 
 ## Öffentliche Seiten (34)
 
-- [ ] `/` (Index)
-- [ ] `/auth` (Auth)
-- [ ] `/willkommen` (Willkommen)
-- [ ] `/zahlung-erfolgreich` (ZahlungErfolgreich)
-- [ ] `/zahlung-abgebrochen` (ZahlungAbgebrochen)
-- [ ] `/reset-password` (ResetPassword)
-- [ ] `/checkout` (Checkout)
-- [ ] `/onboarding` (Onboarding)
-- [ ] `/faq` (FAQ)
-- [ ] `/kontakt` (Kontakt)
-- [ ] `/partner` (Partner)
-- [ ] `/angebot` (Angebot)
-- [ ] `/impressum` (Impressum)
-- [ ] `/datenschutz` (Datenschutz)
-- [ ] `/agb` (AGB)
-- [ ] `/widerruf` (Widerruf)
-- [ ] `/ratgeber` (Ratgeber)
-- [ ] `/us-llc-30-tage` (UsLlcOffer)
-- [ ] `/gruendung-komplett` (GruendungKomplett)
-- [ ] `/tools` (Tools)
-- [ ] `/preise` (Preise)
-- [ ] `/guides` (GuidesIndex)
-- [ ] `/gratis-tools` (GratisTools)
-- [ ] `/gruender-events` (GruenderEvents)
-- [ ] `/hackathon-starter-kit` (HackathonStarterKit)
-- [ ] `/startup-guthaben` (StartupGuthaben)
-- [ ] `/ki-assistent` (KiAssistent)
-- [ ] `/gruendungsberatung` (GruendungsberatungFinden)
-- [ ] `/e-rechnung-lesen` (ERechnungLesen)
-- [ ] `/businessplan-erstellen` (FreeToolPage)
-- [ ] `/gruendungskosten-rechner` (FreeToolPage)
-- [ ] `/rechtsform-finden` (FreeToolPage)
-- [ ] `/amazon-marken-freischaltung-widerspruch-generator` (FreeToolPage)
-- [ ] `/amazon-transparency-seriennummer-widerspruch-generator` (FreeToolPage)
+- [x] `/` (Index)
+- [x] `/auth` (Auth)
+- [x] `/willkommen` (Willkommen)
+- [x] `/zahlung-erfolgreich` (ZahlungErfolgreich)
+- [x] `/zahlung-abgebrochen` (ZahlungAbgebrochen)
+- [x] `/reset-password` (ResetPassword)
+- [x] `/checkout` (Checkout)
+- [x] `/onboarding` (Onboarding)
+- [x] `/faq` (FAQ)
+- [x] `/kontakt` (Kontakt)
+- [x] `/partner` (Partner)
+- [x] `/angebot` (Angebot)
+- [x] `/impressum` (Impressum)
+- [x] `/datenschutz` (Datenschutz)
+- [x] `/agb` (AGB)
+- [x] `/widerruf` (Widerruf)
+- [x] `/ratgeber` (Ratgeber)
+- [x] `/us-llc-30-tage` (UsLlcOffer)
+- [x] `/gruendung-komplett` (GruendungKomplett)
+- [x] `/tools` (Tools)
+- [x] `/preise` (Preise)
+- [x] `/guides` (GuidesIndex)
+- [x] `/gratis-tools` (GratisTools)
+- [x] `/gruender-events` (GruenderEvents)
+- [x] `/hackathon-starter-kit` (HackathonStarterKit)
+- [x] `/startup-guthaben` (StartupGuthaben)
+- [x] `/ki-assistent` (KiAssistent)
+- [x] `/gruendungsberatung` (GruendungsberatungFinden)
+- [x] `/e-rechnung-lesen` (ERechnungLesen)
+- [x] `/businessplan-erstellen` (FreeToolPage)
+- [x] `/gruendungskosten-rechner` (FreeToolPage)
+- [x] `/rechtsform-finden` (FreeToolPage)
+- [x] `/amazon-marken-freischaltung-widerspruch-generator` (FreeToolPage)
+- [x] `/amazon-transparency-seriennummer-widerspruch-generator` (FreeToolPage)
 
 ## App-Innenbereich (AppLayout, Login nötig) (92)
 
-- [ ] `/dashboard` (Dashboard)
-- [ ] `/affiliate` (Affiliate)
-- [ ] `/cockpit/steuer` (SteuerCockpit)
-- [ ] `/cockpit/amazon-buchungen` (AmazonBuchungen)
-- [ ] `/cockpit/check` (BrandCheck)
-- [ ] `/cockpit/marken-wizard` (MarkenWizard)
-- [ ] `/cockpit/marken-monitor` (MarkenMonitor)
-- [ ] `/cockpit/holding-designer` (HoldingDesigner)
-- [ ] `/cockpit/eu-alternativen` (EUAlternativen)
-- [ ] `/cockpit/ip-box` (IpBoxVergleich)
-- [ ] `/cockpit/iab-rechner` (IabRechner)
-- [ ] `/cockpit/quartals-steuer` (QuartalsSteuer)
-- [ ] `/cockpit/entscheidungs-engine` (EntscheidungsEngine)
-- [ ] `/cockpit/auszahlung-optimizer` (AuszahlungOptimizer)
-- [ ] `/cockpit/pre-year-end` (PreYearEndCheck)
-- [ ] `/cockpit/kfz-optimizer` (KfzOptimizer)
-- [ ] `/cockpit/substance-checker` (SubstanceChecker)
-- [ ] `/cockpit/dba-cfc` (DbaCfcRechner)
-- [ ] `/cockpit/sales-tax-nexus` (SalesTaxNexus)
-- [ ] `/cockpit/crypto-steuer` (CryptoSteuer)
-- [ ] `/cockpit/settlement-parser` (SettlementParser)
-- [ ] `/cockpit/lucid-wizard` (LucidWizard)
-- [ ] `/cockpit/ce-generator` (CeRohsGenerator)
-- [ ] `/cockpit/weee-check` (WeeeCheck)
-- [ ] `/cockpit/foerderung` (FoerderungDb)
-- [ ] `/cockpit/us-llc-wizard` (UsLlcWizard)
-- [ ] `/cockpit/us-kreditkarten` (UsCreditCards)
-- [ ] `/cockpit/geschaeftskreditkarten` (BusinessCreditCards)
-- [ ] `/cockpit/ust-rechner` (UstRechner)
-- [ ] `/cockpit/ust-voranmeldung` (UstVoranmeldung)
-- [ ] `/cockpit/buchhaltungssoftware-guide` (BuchhaltungssoftwareGuide)
-- [ ] `/cockpit/anlage-euer` (AnlageEuer)
-- [ ] `/cockpit/fse-kapitalgesellschaft` (FseKapgWizard)
-- [ ] `/cockpit/fse-personengesellschaft` (FsePersgWizard)
-- [ ] `/cockpit/abschreibung` (AbschreibungRechner)
-- [ ] `/cockpit/hk-limited-wizard` (HkLimitedWizard)
-- [ ] `/cockpit/us-tax-helper` (UsTaxHelper)
-- [ ] `/cockpit/hk-tax-helper` (HkTaxHelper)
-- [ ] `/cockpit/intl-banking` (IntlBanking)
-- [ ] `/cockpit/bwa-generator` (BwaGenerator)
-- [ ] `/cockpit/marge-tracker` (MargeTracker)
-- [ ] `/cockpit/shop-profit-rechner` (ShopProfitRechner)
-- [ ] `/cockpit/pension-optimizer` (PensionOptimizer)
-- [ ] `/cockpit/kv-optimizer` (KvOptimizer)
-- [ ] `/community/mitgruender` (MitgruenderBoerse)
-- [ ] `/cockpit/mahnung` (MahnungGenerator)
-- [ ] `/cockpit/kleinunternehmer-waechter` (KleinunternehmerWaechter)
-- [ ] `/cockpit/chancen-radar` (ChancenRadar)
-- [ ] `/cockpit/event-radar` (EventRadar)
-- [ ] `/cockpit/steuerkalender` (SteuerFristenKalender)
-- [ ] `/cockpit/scheinselbststaendigkeit` (ScheinselbststaendigkeitCheck)
-- [ ] `/cockpit/gz-phase2` (GzPhase2Bericht)
-- [ ] `/cockpit/bankgespraech` (BankgespraechVorbereitung)
-- [ ] `/cockpit/pitch-deck` (PitchDeckGenerator)
-- [ ] `/cockpit/gruendungsunterlagen` (GruendungsUnterlagen)
-- [ ] `/cockpit/einstiegsgeld` (EinstiegsgeldRechner)
-- [ ] `/cockpit/bafa-beratung` (BafaBeratungCheck)
-- [ ] `/cockpit/gruendungszuschuss` (GruendungszuschussCheck)
-- [ ] `/cockpit/gewerbe-check` (GewerbeCheck)
-- [ ] `/cockpit/schwellen-check` (SchwellenCheck)
-- [ ] `/cockpit/steuer-abc` (SteuerABC)
-- [ ] `/cockpit/brutto-netto-solo` (BruttoNettoSolo)
-- [ ] `/cockpit/stundensatz-rechner` (StundensatzRechner)
-- [ ] `/cockpit/app-umsatz-rechner` (AppUmsatzRechner)
-- [ ] `/cockpit/runway-rechner` (RunwayRechner)
-- [ ] `/cockpit/stb-cost-benefit` (StbCostBenefit)
-- [ ] `/cockpit/rechnungs-generator` (RechnungsGenerator)
-- [ ] `/cockpit/gewerbeanmeldung-wizard` (GewerbeanmeldungWizard)
-- [ ] `/cockpit/fse-wizard` (FseWizard)
-- [ ] `/cockpit/erste-schritte-roadmap` (ErsteSchritteRoadmap)
-- [ ] `/cockpit/versicherungs-basis-check` (VersicherungsBasisCheck)
-- [ ] `/cockpit/reisekosten-logger` (ReisekostenLogger)
-- [ ] `/cockpit/datev-mapper` (DatevMapper)
-- [ ] `/cockpit/stb-handoff` (StbHandoff)
-- [ ] `/cockpit/ecom-roadmap` (EcomRoadmap)
-- [ ] `/cockpit/labor-vergleich` (LaborVergleich)
-- [ ] `/cockpit/salary-dividende` (SalaryDividendOptimizer)
-- [ ] `/cockpit/visa-helper` (VisaHelper)
-- [ ] `/cockpit/stb-finder` (StbFinder)
-- [ ] `/cockpit/amazon-ust` (AmazonUstEuUs)
-- [ ] `/cockpit/amazon-erstattungen` (AmazonErstattungen)
-- [ ] `/booking` (Booking)
-- [ ] `/cockpit/stb-match` (StbMatch)
-- [ ] `/wizard/rechtsform` (RechtsformWizard)
-- [ ] `/playbooks` (Playbooks)
-- [ ] `/anbieter` (Anbieter)
-- [ ] `/felix` (FelixChat)
-- [ ] `/felix/chats` (FelixChatsOverview)
-- [ ] `/profile` (Profile)
-- [ ] `/admin` (Admin)
-- [ ] `/admin/blog` (AdminBlog)
-- [ ] `/support` (Support)
+- [x] `/dashboard` (Dashboard)
+- [x] `/affiliate` (Affiliate)
+- [x] `/cockpit/steuer` (SteuerCockpit)
+- [x] `/cockpit/amazon-buchungen` (AmazonBuchungen)
+- [x] `/cockpit/check` (BrandCheck)
+- [x] `/cockpit/marken-wizard` (MarkenWizard)
+- [x] `/cockpit/marken-monitor` (MarkenMonitor)
+- [x] `/cockpit/holding-designer` (HoldingDesigner)
+- [x] `/cockpit/eu-alternativen` (EUAlternativen)
+- [x] `/cockpit/ip-box` (IpBoxVergleich)
+- [x] `/cockpit/iab-rechner` (IabRechner)
+- [x] `/cockpit/quartals-steuer` (QuartalsSteuer)
+- [x] `/cockpit/entscheidungs-engine` (EntscheidungsEngine)
+- [x] `/cockpit/auszahlung-optimizer` (AuszahlungOptimizer)
+- [x] `/cockpit/pre-year-end` (PreYearEndCheck)
+- [x] `/cockpit/kfz-optimizer` (KfzOptimizer)
+- [x] `/cockpit/substance-checker` (SubstanceChecker)
+- [x] `/cockpit/dba-cfc` (DbaCfcRechner)
+- [x] `/cockpit/sales-tax-nexus` (SalesTaxNexus)
+- [x] `/cockpit/crypto-steuer` (CryptoSteuer)
+- [x] `/cockpit/settlement-parser` (SettlementParser)
+- [x] `/cockpit/lucid-wizard` (LucidWizard)
+- [x] `/cockpit/ce-generator` (CeRohsGenerator)
+- [x] `/cockpit/weee-check` (WeeeCheck)
+- [x] `/cockpit/foerderung` (FoerderungDb)
+- [x] `/cockpit/us-llc-wizard` (UsLlcWizard)
+- [x] `/cockpit/us-kreditkarten` (UsCreditCards)
+- [x] `/cockpit/geschaeftskreditkarten` (BusinessCreditCards)
+- [x] `/cockpit/ust-rechner` (UstRechner)
+- [x] `/cockpit/ust-voranmeldung` (UstVoranmeldung)
+- [x] `/cockpit/buchhaltungssoftware-guide` (BuchhaltungssoftwareGuide)
+- [x] `/cockpit/anlage-euer` (AnlageEuer)
+- [x] `/cockpit/fse-kapitalgesellschaft` (FseKapgWizard)
+- [x] `/cockpit/fse-personengesellschaft` (FsePersgWizard)
+- [x] `/cockpit/abschreibung` (AbschreibungRechner)
+- [x] `/cockpit/hk-limited-wizard` (HkLimitedWizard)
+- [x] `/cockpit/us-tax-helper` (UsTaxHelper)
+- [x] `/cockpit/hk-tax-helper` (HkTaxHelper)
+- [x] `/cockpit/intl-banking` (IntlBanking)
+- [x] `/cockpit/bwa-generator` (BwaGenerator)
+- [x] `/cockpit/marge-tracker` (MargeTracker)
+- [x] `/cockpit/shop-profit-rechner` (ShopProfitRechner)
+- [x] `/cockpit/pension-optimizer` (PensionOptimizer)
+- [x] `/cockpit/kv-optimizer` (KvOptimizer)
+- [x] `/community/mitgruender` (MitgruenderBoerse)
+- [x] `/cockpit/mahnung` (MahnungGenerator)
+- [x] `/cockpit/kleinunternehmer-waechter` (KleinunternehmerWaechter)
+- [x] `/cockpit/chancen-radar` (ChancenRadar)
+- [x] `/cockpit/event-radar` (EventRadar)
+- [x] `/cockpit/steuerkalender` (SteuerFristenKalender)
+- [x] `/cockpit/scheinselbststaendigkeit` (ScheinselbststaendigkeitCheck)
+- [x] `/cockpit/gz-phase2` (GzPhase2Bericht)
+- [x] `/cockpit/bankgespraech` (BankgespraechVorbereitung)
+- [x] `/cockpit/pitch-deck` (PitchDeckGenerator)
+- [x] `/cockpit/gruendungsunterlagen` (GruendungsUnterlagen)
+- [x] `/cockpit/einstiegsgeld` (EinstiegsgeldRechner)
+- [x] `/cockpit/bafa-beratung` (BafaBeratungCheck)
+- [x] `/cockpit/gruendungszuschuss` (GruendungszuschussCheck)
+- [x] `/cockpit/gewerbe-check` (GewerbeCheck)
+- [x] `/cockpit/schwellen-check` (SchwellenCheck)
+- [x] `/cockpit/steuer-abc` (SteuerABC)
+- [x] `/cockpit/brutto-netto-solo` (BruttoNettoSolo)
+- [x] `/cockpit/stundensatz-rechner` (StundensatzRechner)
+- [x] `/cockpit/app-umsatz-rechner` (AppUmsatzRechner)
+- [x] `/cockpit/runway-rechner` (RunwayRechner)
+- [x] `/cockpit/stb-cost-benefit` (StbCostBenefit)
+- [x] `/cockpit/rechnungs-generator` (RechnungsGenerator)
+- [x] `/cockpit/gewerbeanmeldung-wizard` (GewerbeanmeldungWizard)
+- [x] `/cockpit/fse-wizard` (FseWizard)
+- [x] `/cockpit/erste-schritte-roadmap` (ErsteSchritteRoadmap)
+- [x] `/cockpit/versicherungs-basis-check` (VersicherungsBasisCheck)
+- [x] `/cockpit/reisekosten-logger` (ReisekostenLogger)
+- [x] `/cockpit/datev-mapper` (DatevMapper)
+- [x] `/cockpit/stb-handoff` (StbHandoff)
+- [x] `/cockpit/ecom-roadmap` (EcomRoadmap)
+- [x] `/cockpit/labor-vergleich` (LaborVergleich)
+- [x] `/cockpit/salary-dividende` (SalaryDividendOptimizer)
+- [x] `/cockpit/visa-helper` (VisaHelper)
+- [x] `/cockpit/stb-finder` (StbFinder)
+- [x] `/cockpit/amazon-ust` (AmazonUstEuUs)
+- [x] `/cockpit/amazon-erstattungen` (AmazonErstattungen)
+- [x] `/booking` (Booking)
+- [x] `/cockpit/stb-match` (StbMatch)
+- [x] `/wizard/rechtsform` (RechtsformWizard)
+- [x] `/playbooks` (Playbooks)
+- [x] `/anbieter` (Anbieter)
+- [x] `/felix` (FelixChat)
+- [x] `/felix/chats` (FelixChatsOverview)
+- [x] `/profile` (Profile)
+- [x] `/admin` (Admin)
+- [x] `/admin/blog` (AdminBlog)
+- [x] `/support` (Support)
 
 ## Routen mit Parameter (Vorlagen) (7)
 
-- [ ] `/playbook/preview/:slug` (PlaybookPreview)
-- [ ] `/playbook/:runId` (PlaybookRun)
-- [ ] `/anbieter/:slug` (AnbieterDetail)
-- [ ] `/ratgeber/:slug` (RatgeberPost)
-- [ ] `/tools/:slug/gratis` (ToolTrialPage)
-- [ ] `/tools/:slug` (ToolLanding)
-- [ ] `/guides/:slug` (GuideLanding)
+- [x] `/playbook/preview/:slug` (PlaybookPreview)
+- [x] `/playbook/:runId` (PlaybookRun)
+- [x] `/anbieter/:slug` (AnbieterDetail)
+- [x] `/ratgeber/:slug` (RatgeberPost)
+- [x] `/tools/:slug/gratis` (ToolTrialPage)
+- [x] `/tools/:slug` (ToolLanding)
+- [x] `/guides/:slug` (GuideLanding)
 
 ## Tool-Landings /tools/:slug (ToolLanding) (90)
 
-- [ ] `/tools/gewerbe-check`
-- [ ] `/tools/schwellen-check`
-- [ ] `/tools/gruendungszuschuss`
-- [ ] `/tools/gruendungsunterlagen`
-- [ ] `/tools/einstiegsgeld`
-- [ ] `/tools/bafa-beratung`
-- [ ] `/tools/pitch-deck`
-- [ ] `/tools/steuerkalender`
-- [ ] `/tools/scheinselbststaendigkeit`
-- [ ] `/tools/gz-phase2`
-- [ ] `/tools/bankgespraech`
-- [ ] `/tools/mahnung`
-- [ ] `/tools/kleinunternehmer-waechter`
-- [ ] `/tools/gewerbeanmeldung-wizard`
-- [ ] `/tools/erste-schritte-roadmap`
-- [ ] `/tools/fse-wizard`
-- [ ] `/tools/fse-kapitalgesellschaft`
-- [ ] `/tools/fse-personengesellschaft`
-- [ ] `/tools/stb-cost-benefit`
-- [ ] `/tools/buchhaltungssoftware-guide`
-- [ ] `/tools/ust-voranmeldung`
-- [ ] `/tools/anlage-euer`
-- [ ] `/tools/stundensatz-rechner`
-- [ ] `/tools/rechnungs-generator`
-- [ ] `/tools/brutto-netto-solo`
-- [ ] `/tools/versicherungs-basis-check`
-- [ ] `/tools/steuer-abc`
-- [ ] `/tools/rechtsform-wizard`
-- [ ] `/tools/holding-designer`
-- [ ] `/tools/ip-box`
-- [ ] `/tools/eu-alternativen`
-- [ ] `/tools/entscheidungs-engine`
-- [ ] `/tools/auszahlung-optimizer`
-- [ ] `/tools/frist-kalender`
-- [ ] `/tools/amazon-buchungen`
-- [ ] `/tools/pre-year-end`
-- [ ] `/tools/iab-rechner`
-- [ ] `/tools/kfz-optimizer`
-- [ ] `/tools/reisekosten`
-- [ ] `/tools/salary-vs-dividende`
-- [ ] `/tools/crypto-steuer`
-- [ ] `/tools/pension`
-- [ ] `/tools/kv-optimizer`
-- [ ] `/tools/quartal-schaetzung`
-- [ ] `/tools/amazon-erstattungen`
-- [ ] `/tools/amazon-parser`
-- [ ] `/tools/datev-mapping`
-- [ ] `/tools/amazon-ust`
-- [ ] `/tools/stripe-parser`
-- [ ] `/tools/marge-tracker`
-- [ ] `/tools/shop-profit-rechner`
-- [ ] `/tools/bwa`
-- [ ] `/tools/runway-rechner`
-- [ ] `/tools/datev-export`
-- [ ] `/tools/geschaeftskreditkarten`
-- [ ] `/tools/brand-check`
-- [ ] `/tools/dpma-wizard`
-- [ ] `/tools/marken-monitor`
-- [ ] `/tools/vergleich-versand-de`
-- [ ] `/tools/vergleich-versand-int`
-- [ ] `/tools/vergleich-buchhaltung`
-- [ ] `/tools/vergleich-banking-de`
-- [ ] `/tools/vergleich-banking-us`
-- [ ] `/tools/vergleich-3pl`
-- [ ] `/tools/vergleich-lucid`
-- [ ] `/tools/vergleich-shop`
-- [ ] `/tools/vergleich-email`
-- [ ] `/tools/vergleich-tracking`
-- [ ] `/tools/stb-marketplace`
-- [ ] `/tools/ecom-roadmap`
-- [ ] `/tools/lucid-wizard`
-- [ ] `/tools/ce-rohs`
-- [ ] `/tools/weee-check`
-- [ ] `/tools/labor-vergleich`
-- [ ] `/tools/visa-helper`
-- [ ] `/tools/foerderung-db`
-- [ ] `/tools/app-umsatz-rechner`
-- [ ] `/tools/us-llc-wizard`
-- [ ] `/tools/hk-limited-wizard`
-- [ ] `/tools/us-tax-helper`
-- [ ] `/tools/hk-tax-helper`
-- [ ] `/tools/us-hk-banking`
-- [ ] `/tools/sales-tax-nexus`
-- [ ] `/tools/substance-checker`
-- [ ] `/tools/dba-cfc`
-- [ ] `/tools/us-kreditkarten`
-- [ ] `/tools/ust-rechner`
-- [ ] `/tools/abschreibung`
-- [ ] `/tools/stb-handoff`
-- [ ] `/tools/experten-bookings`
+- [x] `/tools/gewerbe-check`
+- [x] `/tools/schwellen-check`
+- [x] `/tools/gruendungszuschuss`
+- [x] `/tools/gruendungsunterlagen`
+- [x] `/tools/einstiegsgeld`
+- [x] `/tools/bafa-beratung`
+- [x] `/tools/pitch-deck`
+- [x] `/tools/steuerkalender`
+- [x] `/tools/scheinselbststaendigkeit`
+- [x] `/tools/gz-phase2`
+- [x] `/tools/bankgespraech`
+- [x] `/tools/mahnung`
+- [x] `/tools/kleinunternehmer-waechter`
+- [x] `/tools/gewerbeanmeldung-wizard`
+- [x] `/tools/erste-schritte-roadmap`
+- [x] `/tools/fse-wizard`
+- [x] `/tools/fse-kapitalgesellschaft`
+- [x] `/tools/fse-personengesellschaft`
+- [x] `/tools/stb-cost-benefit`
+- [x] `/tools/buchhaltungssoftware-guide`
+- [x] `/tools/ust-voranmeldung`
+- [x] `/tools/anlage-euer`
+- [x] `/tools/stundensatz-rechner`
+- [x] `/tools/rechnungs-generator`
+- [x] `/tools/brutto-netto-solo`
+- [x] `/tools/versicherungs-basis-check`
+- [x] `/tools/steuer-abc`
+- [x] `/tools/rechtsform-wizard`
+- [x] `/tools/holding-designer`
+- [x] `/tools/ip-box`
+- [x] `/tools/eu-alternativen`
+- [x] `/tools/entscheidungs-engine`
+- [x] `/tools/auszahlung-optimizer`
+- [x] `/tools/frist-kalender`
+- [x] `/tools/amazon-buchungen`
+- [x] `/tools/pre-year-end`
+- [x] `/tools/iab-rechner`
+- [x] `/tools/kfz-optimizer`
+- [x] `/tools/reisekosten`
+- [x] `/tools/salary-vs-dividende`
+- [x] `/tools/crypto-steuer`
+- [x] `/tools/pension`
+- [x] `/tools/kv-optimizer`
+- [x] `/tools/quartal-schaetzung`
+- [x] `/tools/amazon-erstattungen`
+- [x] `/tools/amazon-parser`
+- [x] `/tools/datev-mapping`
+- [x] `/tools/amazon-ust`
+- [x] `/tools/stripe-parser`
+- [x] `/tools/marge-tracker`
+- [x] `/tools/shop-profit-rechner`
+- [x] `/tools/bwa`
+- [x] `/tools/runway-rechner`
+- [x] `/tools/datev-export`
+- [x] `/tools/geschaeftskreditkarten`
+- [x] `/tools/brand-check`
+- [x] `/tools/dpma-wizard`
+- [x] `/tools/marken-monitor`
+- [x] `/tools/vergleich-versand-de`
+- [x] `/tools/vergleich-versand-int`
+- [x] `/tools/vergleich-buchhaltung`
+- [x] `/tools/vergleich-banking-de`
+- [x] `/tools/vergleich-banking-us`
+- [x] `/tools/vergleich-3pl`
+- [x] `/tools/vergleich-lucid`
+- [x] `/tools/vergleich-shop`
+- [x] `/tools/vergleich-email`
+- [x] `/tools/vergleich-tracking`
+- [x] `/tools/stb-marketplace`
+- [x] `/tools/ecom-roadmap`
+- [x] `/tools/lucid-wizard`
+- [x] `/tools/ce-rohs`
+- [x] `/tools/weee-check`
+- [x] `/tools/labor-vergleich`
+- [x] `/tools/visa-helper`
+- [x] `/tools/foerderung-db`
+- [x] `/tools/app-umsatz-rechner`
+- [x] `/tools/us-llc-wizard`
+- [x] `/tools/hk-limited-wizard`
+- [x] `/tools/us-tax-helper`
+- [x] `/tools/hk-tax-helper`
+- [x] `/tools/us-hk-banking`
+- [x] `/tools/sales-tax-nexus`
+- [x] `/tools/substance-checker`
+- [x] `/tools/dba-cfc`
+- [x] `/tools/us-kreditkarten`
+- [x] `/tools/ust-rechner`
+- [x] `/tools/abschreibung`
+- [x] `/tools/stb-handoff`
+- [x] `/tools/experten-bookings`
 
 ## Guide-Landings /guides/:slug (GuideLanding) (68)
 
-- [ ] `/guides/ug-gruendung`
-- [ ] `/guides/shopify-launch`
-- [ ] `/guides/kaufland-launch`
-- [ ] `/guides/creator-setup`
-- [ ] `/guides/us-accounts-deutscher`
-- [ ] `/guides/dsgvo-shop`
-- [ ] `/guides/pan-eu-fba`
-- [ ] `/guides/tiktok-shop-launch`
-- [ ] `/guides/email-marketing-stack`
-- [ ] `/guides/buchhaltung-setup`
-- [ ] `/guides/wegzugsbesteuerung`
-- [ ] `/guides/mitarbeiter-beteiligung`
-- [ ] `/guides/co-founder-agreement`
-- [ ] `/guides/vc-pitch-deck`
-- [ ] `/guides/performance-marketing-stack`
-- [ ] `/guides/hiring-erste-10`
-- [ ] `/guides/cashflow-forecasting`
-- [ ] `/guides/insurance-stack`
-- [ ] `/guides/logistik-3pl`
-- [ ] `/guides/seo-ecommerce`
-- [ ] `/guides/b2b-saas-spezifika`
-- [ ] `/guides/patente-schutzrechte`
-- [ ] `/guides/ma-sell-side`
-- [ ] `/guides/crowdfunding-token`
-- [ ] `/guides/elster-fse-fillout`
-- [ ] `/guides/brand-owner-d2c-setup`
-- [ ] `/guides/reseller-marketplace-setup`
-- [ ] `/guides/agency-services-setup`
-- [ ] `/guides/creator-influencer-setup`
-- [ ] `/guides/coach-experte-setup`
-- [ ] `/guides/freiberufler-anmelden`
-- [ ] `/guides/gbr-gruenden`
-- [ ] `/guides/restaurant-eroeffnen`
-- [ ] `/guides/handwerk-gruenden`
-- [ ] `/guides/immobilien-gmbh`
-- [ ] `/guides/ag-gruenden`
-- [ ] `/guides/verein-gug`
-- [ ] `/guides/unternehmenskauf`
-- [ ] `/guides/meta-ads-setup`
-- [ ] `/guides/klaviyo-setup`
-- [ ] `/guides/google-ads-merchant-console-setup`
-- [ ] `/guides/seo-step-by-step`
-- [ ] `/guides/tiktok-ads-setup`
-- [ ] `/guides/creator-tiktok-instagram`
-- [ ] `/guides/creator-youtube-longform`
-- [ ] `/guides/creator-twitter-reddit`
-- [ ] `/guides/creator-pinterest`
-- [ ] `/guides/coach-1-on-1`
-- [ ] `/guides/coach-group-mastermind`
-- [ ] `/guides/coach-online-course`
-- [ ] `/guides/coach-membership`
-- [ ] `/guides/crowdfunding-equity`
-- [ ] `/guides/crowdfunding-reward`
-- [ ] `/guides/crowdfunding-token-launch`
-- [ ] `/guides/hiring-festanstellung`
-- [ ] `/guides/hiring-freelancer`
-- [ ] `/guides/hiring-minijob-werkstudent`
-- [ ] `/guides/amazon-brand-registry`
-- [ ] `/guides/amazon-transparency`
-- [ ] `/guides/weee-registrierung`
-- [ ] `/guides/amazon-produkt-anlegen`
-- [ ] `/guides/reseller-freischaltung`
-- [ ] `/guides/dac7`
-- [ ] `/guides/amazon-verkaeuferkonto-setup`
-- [ ] `/guides/kaufland-produkt-anlegen`
-- [ ] `/guides/otto-produkt-anlegen`
-- [ ] `/guides/erste-webseite-seo`
-- [ ] `/guides/eigene-app-launchen`
+- [x] `/guides/ug-gruendung`
+- [x] `/guides/shopify-launch`
+- [x] `/guides/kaufland-launch`
+- [x] `/guides/creator-setup`
+- [x] `/guides/us-accounts-deutscher`
+- [x] `/guides/dsgvo-shop`
+- [x] `/guides/pan-eu-fba`
+- [x] `/guides/tiktok-shop-launch`
+- [x] `/guides/email-marketing-stack`
+- [x] `/guides/buchhaltung-setup`
+- [x] `/guides/wegzugsbesteuerung`
+- [x] `/guides/mitarbeiter-beteiligung`
+- [x] `/guides/co-founder-agreement`
+- [x] `/guides/vc-pitch-deck`
+- [x] `/guides/performance-marketing-stack`
+- [x] `/guides/hiring-erste-10`
+- [x] `/guides/cashflow-forecasting`
+- [x] `/guides/insurance-stack`
+- [x] `/guides/logistik-3pl`
+- [x] `/guides/seo-ecommerce`
+- [x] `/guides/b2b-saas-spezifika`
+- [x] `/guides/patente-schutzrechte`
+- [x] `/guides/ma-sell-side`
+- [x] `/guides/crowdfunding-token`
+- [x] `/guides/elster-fse-fillout`
+- [x] `/guides/brand-owner-d2c-setup`
+- [x] `/guides/reseller-marketplace-setup`
+- [x] `/guides/agency-services-setup`
+- [x] `/guides/creator-influencer-setup`
+- [x] `/guides/coach-experte-setup`
+- [x] `/guides/freiberufler-anmelden`
+- [x] `/guides/gbr-gruenden`
+- [x] `/guides/restaurant-eroeffnen`
+- [x] `/guides/handwerk-gruenden`
+- [x] `/guides/immobilien-gmbh`
+- [x] `/guides/ag-gruenden`
+- [x] `/guides/verein-gug`
+- [x] `/guides/unternehmenskauf`
+- [x] `/guides/meta-ads-setup`
+- [x] `/guides/klaviyo-setup`
+- [x] `/guides/google-ads-merchant-console-setup`
+- [x] `/guides/seo-step-by-step`
+- [x] `/guides/tiktok-ads-setup`
+- [x] `/guides/creator-tiktok-instagram`
+- [x] `/guides/creator-youtube-longform`
+- [x] `/guides/creator-twitter-reddit`
+- [x] `/guides/creator-pinterest`
+- [x] `/guides/coach-1-on-1`
+- [x] `/guides/coach-group-mastermind`
+- [x] `/guides/coach-online-course`
+- [x] `/guides/coach-membership`
+- [x] `/guides/crowdfunding-equity`
+- [x] `/guides/crowdfunding-reward`
+- [x] `/guides/crowdfunding-token-launch`
+- [x] `/guides/hiring-festanstellung`
+- [x] `/guides/hiring-freelancer`
+- [x] `/guides/hiring-minijob-werkstudent`
+- [x] `/guides/amazon-brand-registry`
+- [x] `/guides/amazon-transparency`
+- [x] `/guides/weee-registrierung`
+- [x] `/guides/amazon-produkt-anlegen`
+- [x] `/guides/reseller-freischaltung`
+- [x] `/guides/dac7`
+- [x] `/guides/amazon-verkaeuferkonto-setup`
+- [x] `/guides/kaufland-produkt-anlegen`
+- [x] `/guides/otto-produkt-anlegen`
+- [x] `/guides/erste-webseite-seo`
+- [x] `/guides/eigene-app-launchen`
 
 ## Ratgeber-Artikel /ratgeber/:slug (RatgeberPost) (19)
 
-- [ ] `/ratgeber/versicherung-selbststaendige`
-- [ ] `/ratgeber/e-rechnung-pflicht-b2b-2026`
-- [ ] `/ratgeber/datev-export-buchhaltung-guide`
-- [ ] `/ratgeber/brutto-netto-selbstaendig`
-- [ ] `/ratgeber/hk-limited-gruenden`
-- [ ] `/ratgeber/foerderung-gruender-2026`
-- [ ] `/ratgeber/crypto-steuer-deutschland-2026`
-- [ ] `/ratgeber/einzelunternehmen-gruenden-gewerbe-freiberufler`
-- [ ] `/ratgeber/lucid-verpackungsregister-anmelden`
-- [ ] `/ratgeber/marke-anmelden-dpma`
-- [ ] `/ratgeber/amazon-fba-starten-deutschland`
-- [ ] `/ratgeber/bestes-geschaeftskonto-gruender-vergleich-2026`
-- [ ] `/ratgeber/holding-gmbh-gruenden`
-- [ ] `/ratgeber/us-llc-gruenden-deutschland`
-- [ ] `/ratgeber/investitionsabzugsbetrag-2026-7g-estg`
-- [ ] `/ratgeber/oss-anmeldung`
-- [ ] `/ratgeber/kleinunternehmer-2026`
-- [ ] `/ratgeber/ug-oder-gmbh`
-- [ ] `/ratgeber/gmbh-gruenden-kosten-2026`
+- [x] `/ratgeber/versicherung-selbststaendige`
+- [x] `/ratgeber/e-rechnung-pflicht-b2b-2026`
+- [x] `/ratgeber/datev-export-buchhaltung-guide`
+- [x] `/ratgeber/brutto-netto-selbstaendig`
+- [x] `/ratgeber/hk-limited-gruenden`
+- [x] `/ratgeber/foerderung-gruender-2026`
+- [x] `/ratgeber/crypto-steuer-deutschland-2026`
+- [x] `/ratgeber/einzelunternehmen-gruenden-gewerbe-freiberufler`
+- [x] `/ratgeber/lucid-verpackungsregister-anmelden`
+- [x] `/ratgeber/marke-anmelden-dpma`
+- [x] `/ratgeber/amazon-fba-starten-deutschland`
+- [x] `/ratgeber/bestes-geschaeftskonto-gruender-vergleich-2026`
+- [x] `/ratgeber/holding-gmbh-gruenden`
+- [x] `/ratgeber/us-llc-gruenden-deutschland`
+- [x] `/ratgeber/investitionsabzugsbetrag-2026-7g-estg`
+- [x] `/ratgeber/oss-anmeldung`
+- [x] `/ratgeber/kleinunternehmer-2026`
+- [x] `/ratgeber/ug-oder-gmbh`
+- [x] `/ratgeber/gmbh-gruenden-kosten-2026`
+
+## Stand 12.10.2026
+
+Alle Routen neu gestaltet und mit Screenshots (Desktop 1440 px, Mobil 390 px) geprüft:
+Vorher in `gx-final2/vorher/` (Build von main), Nachher in `gx-final2/nachher/` (Build dieses Branches), Paare der 15 wichtigsten Seiten in `gx-final2/paare/` (alles im Scratchpad der Sitzung, nicht im Repo).
+App-Seiten laufen dabei mit einer vorgetäuschten Test-Sitzung, alle Supabase-Aufrufe werden lokal beantwortet (keine Kundendaten).
+
+Einschränkungen der Prüfung:
+- `/playbook/:runId`, Erfolgszustand von `/zahlung-erfolgreich` und Passwortformular von `/willkommen` brauchen echte Daten bzw. Edge Functions; geprüft wurden Leer-/Fehlerzustand und der Code.
+- Wizards und Tabs: weitere Schritte stichprobenartig per Klick-Skript, nicht jeder Zustand.
+- Ergebnisansicht der Gratis-Generatoren und von BrandCheck nicht live (Edge Function im Test leer).
