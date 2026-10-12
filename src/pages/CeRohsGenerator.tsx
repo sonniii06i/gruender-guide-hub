@@ -425,13 +425,13 @@ const CeRohsGenerator = () => {
             <ToolSection title="Produkt und Hersteller" icon={FileText}>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <Field label="Produktname" htmlFor="ce-name">
-                  <Input id="ce-name" value={productName} onChange={(e) => setProductName(e.target.value)} placeholder="z.B. SmartLamp X1" />
+                  <Input id="ce-name" value={productName} onChange={(e) => setProductName(e.target.value)} placeholder="z. B. SmartLamp X1" />
                 </Field>
                 <Field label="Modell / Typ-Bezeichnung" htmlFor="ce-modell">
-                  <Input id="ce-modell" value={modelNumber} onChange={(e) => setModelNumber(e.target.value)} placeholder="z.B. SL-X1-2026" />
+                  <Input id="ce-modell" value={modelNumber} onChange={(e) => setModelNumber(e.target.value)} placeholder="z. B. SL-X1-2026" />
                 </Field>
                 <Field label="Hersteller: Firmenname" htmlFor="ce-hersteller" className="sm:col-span-2">
-                  <Input id="ce-hersteller" value={manufacturer} onChange={(e) => setManufacturer(e.target.value)} placeholder="z.B. Mustermann GmbH" />
+                  <Input id="ce-hersteller" value={manufacturer} onChange={(e) => setManufacturer(e.target.value)} placeholder="z. B. Mustermann GmbH" />
                 </Field>
                 <Field label="Vollständige Anschrift" htmlFor="ce-anschrift" className="sm:col-span-2">
                   <Textarea
@@ -532,7 +532,7 @@ const CeRohsGenerator = () => {
               {includeGPSR && (
                 <div className="mt-4 grid grid-cols-1 gap-4 border-t border-border/70 pt-4 sm:grid-cols-2">
                   <Field label="Name / Firmenname" htmlFor="gpsr-name">
-                    <Input id="gpsr-name" value={gpsrRpName} onChange={(e) => setGpsrRpName(e.target.value)} placeholder="z.B. Importeur GmbH" />
+                    <Input id="gpsr-name" value={gpsrRpName} onChange={(e) => setGpsrRpName(e.target.value)} placeholder="z. B. Importeur GmbH" />
                   </Field>
                   <Field label="Anschrift (EU)" htmlFor="gpsr-adr">
                     <Input id="gpsr-adr" value={gpsrRpAddress} onChange={(e) => setGpsrRpAddress(e.target.value)} placeholder="Musterstr. 1, 12345 Berlin, DE" />
@@ -581,7 +581,7 @@ const CeRohsGenerator = () => {
                     </select>
                   </Field>
                   <Field label="Chemie" htmlFor="bat-chemie">
-                    <Input id="bat-chemie" value={batteryChemistry} onChange={(e) => setBatteryChemistry(e.target.value)} placeholder="z.B. Li-Ion NMC, LiFePO4, NiMH" />
+                    <Input id="bat-chemie" value={batteryChemistry} onChange={(e) => setBatteryChemistry(e.target.value)} placeholder="z. B. Li-Ion NMC, LiFePO4, NiMH" />
                   </Field>
                   <Field label="Nennkapazität (Wh)" htmlFor="bat-wh">
                     <Input
@@ -589,7 +589,7 @@ const CeRohsGenerator = () => {
                       type="number"
                       value={batteryCapacityWh || ""}
                       onChange={(e) => setBatteryCapacityWh(Math.max(0, Number(e.target.value) || 0))}
-                      placeholder="z.B. 50"
+                      placeholder="z. B. 50"
                       className="tabular"
                     />
                   </Field>
