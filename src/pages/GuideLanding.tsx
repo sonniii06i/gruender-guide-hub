@@ -30,10 +30,10 @@ const GuideLanding = () => {
       <div className="min-h-screen bg-background">
         <Seo title="Guide nicht gefunden | GründerX" description="Dieser Guide existiert nicht." path={`/guides/${slug}`} noindex />
         <Navbar />
-        <main className="container max-w-2xl py-24 px-4 text-center">
-          <h1 className="text-2xl font-bold mb-4">Guide nicht gefunden</h1>
-          <p className="text-muted-foreground mb-6">Diese Seite existiert nicht (mehr).</p>
-          <Link to="/guides"><Button className="rounded-full">Alle Guides ansehen</Button></Link>
+        <main className="container max-w-xl px-4 pb-24 pt-36 text-center">
+          <h1 className="mb-3 text-3xl font-semibold tracking-tight">Guide nicht gefunden</h1>
+          <p className="mb-7 text-muted-foreground">Diese Seite existiert nicht (mehr).</p>
+          <Button asChild size="lg" className="h-11 rounded-xl bg-gradient-primary font-semibold"><Link to="/guides">Alle Guides ansehen</Link></Button>
         </main>
         <Footer />
       </div>
