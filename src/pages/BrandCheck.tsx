@@ -80,6 +80,31 @@ interface CheckResult {
   timestamp: string;
 }
 
+/**
+ * Antwort der Edge Function absichern: Fehlen Felder (z. B. `domains`, wenn
+ * die DNS-Abfrage ausfällt), arbeitet die Seite mit leeren Listen weiter statt
+ * abzustürzen. Leere Domain-Liste heißt "nicht geprüft", nicht "0 frei".
+ */
+export const ergebnisNormalisieren = (data: Partial<CheckResult> | null | undefined, name: string): CheckResult => {
+  const tm: Partial<TrademarkResult> = data?.trademarks ?? {};
+  return {
+    query: data?.query ?? name,
+    sanitized: data?.sanitized ?? name,
+    domains: Array.isArray(data?.domains) ? data!.domains : [],
+    socials: Array.isArray(data?.socials) ? data!.socials : undefined,
+    appStore: data?.appStore ? { ...data.appStore, appleHits: data.appStore.appleHits ?? [] } : undefined,
+    trademarks: {
+      query: tm.query ?? name,
+      totalHits: tm.totalHits ?? null,
+      hits: Array.isArray(tm.hits) ? tm.hits : [],
+      searchLinks: Array.isArray(tm.searchLinks) ? tm.searchLinks : [],
+      source: tm.source,
+      sourceStatus: tm.sourceStatus,
+    },
+    timestamp: data?.timestamp ?? new Date().toISOString(),
+  };
+};
+
 const linkPill =
   "inline-flex items-center gap-1 rounded-lg border border-border bg-card px-3 py-1.5 text-xs font-medium text-foreground transition-colors hover:border-foreground/25";
 const linkPillPrimary =
@@ -194,7 +219,7 @@ const BrandCheck = () => {
       });
       if (fnError) throw fnError;
       if (data?.error) throw new Error(data.error);
-      setResult(data as CheckResult);
+      setResult(ergebnisNormalisieren(data, name.trim()));
     } catch (e: any) {
       setError(e?.message || "Check fehlgeschlagen. Bitte später nochmal versuchen.");
     } finally {
@@ -298,16 +323,26 @@ const BrandCheck = () => {
             icon={Globe}
             className="mb-6"
             actions={
-              <ToneBadge tone={availableCount > 0 ? "success" : "danger"}>
-                {availableCount} von {result.domains.length} frei
-              </ToneBadge>
+              result.domains.length > 0 ? (
+                <ToneBadge tone={availableCount > 0 ? "success" : "danger"}>
+                  {availableCount} von {result.domains.length} frei
+                </ToneBadge>
+              ) : (
+                <ToneBadge tone="warning">nicht geprüft</ToneBadge>
+              )
             }
           >
-            <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
-              {result.domains.map((d) => (
-                <DomainBadge key={d.tld} d={d} />
-              ))}
-            </div>
+            {result.domains.length > 0 ? (
+              <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
+                {result.domains.map((d) => (
+                  <DomainBadge key={d.tld} d={d} />
+                ))}
+              </div>
+            ) : (
+              <p className="text-sm text-muted-foreground">
+                Die Domain-Abfrage hat diesmal keine Ergebnisse geliefert. Starte den Check in ein paar Minuten erneut.
+              </p>
+            )}
             <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
               Quelle: DNS-over-HTTPS (Google, Cloudflare als Fallback) für die Verfügbarkeit, RDAP für Registrar und Ablaufdatum.
               Ein Klick öffnet bei freien Domains den Bestell-Link bei IONOS, bei vergebenen die Live-Seite.
@@ -523,8 +558,8 @@ const BrandCheck = () => {
               const allMarkenSourcesFailed = totalSources > 0 && failedSources.length === totalSources;
               const partialMarkenCheck = failedSources.length > 0 && failedSources.length < totalSources;
               const hasMarkenHits = (tmCount ?? 0) > 0;
-              const allDomainsTaken = takenCount === result.domains.length;
-              const allDomainsFree = availableCount === result.domains.length;
+              const allDomainsTaken = result.domains.length > 0 && takenCount === result.domains.length;
+              const allDomainsFree = result.domains.length > 0 && availableCount === result.domains.length;
               const markeLink = (txt: string) => (
                 <Link to="/playbook/marke-anmelden" className="font-semibold text-accent-blue underline underline-offset-2">
                   {txt}
@@ -591,6 +626,14 @@ const BrandCheck = () => {
                 return (
                   <Callout tone="success" title={`${availableCount} Domains frei, keine Marken-Treffer`}>
                     Brauchbar. Prüfe, ob die wichtigen Endungen (.de, .com) unter den freien sind, dann: {markeLink("Marke anmelden")}.
+                  </Callout>
+                );
+              }
+              // Domain-Abfrage ohne Ergebnis: kein Urteil ueber Domains faellen
+              if (result.domains.length === 0) {
+                return (
+                  <Callout tone="info" title="Domains nicht geprüft">
+                    Die Domain-Abfrage hat keine Ergebnisse geliefert. Starte den Check später erneut, bevor du dich festlegst.
                   </Callout>
                 );
               }

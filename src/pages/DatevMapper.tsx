@@ -239,6 +239,65 @@ const RULES: Rule[] = [
   },
 ];
 
+/**
+ * Betrag aus einer CSV-Zelle. Erkennt DE-Format (1.234,56) und EN-Format
+ * (1,234.56 oder 149.90). Gibt null zurück, wenn die Zelle keine Zahl ist.
+ */
+export const parseMoney = (raw: string): number | null => {
+  const s = raw.trim().replace(/\s/g, "").replace(/[€$£]/g, "");
+  if (!/^-?[\d.,]+$/.test(s)) return null;
+  const hasComma = s.includes(",");
+  const hasDot = s.includes(".");
+  let normalized: string;
+  if (hasComma && hasDot) {
+    // Letztes Komma/Punkt = Dezimaltrenner, der andere ist Tausender
+    normalized = s.lastIndexOf(",") > s.lastIndexOf(".") ? s.replace(/\./g, "").replace(",", ".") : s.replace(/,/g, "");
+  } else if (hasComma) {
+    normalized = s.replace(",", ".");
+  } else {
+    // Nur Punkte: ≥2 Punkte oder ein Punkt an Tausender-Position = Tausender, sonst EN-Dezimal.
+    const parts = s.split(".");
+    normalized = parts.length > 2 || (parts.length === 2 && parts[1].length === 3 && parts[0].length <= 3) ? s.replace(/\./g, "") : s;
+  }
+  const n = parseFloat(normalized);
+  return Number.isFinite(n) ? n : null;
+};
+
+const DATUM_RE = /^(\d{1,2})[./-](\d{1,2})[./-](\d{2,4})$|^(\d{4})-(\d{2})-(\d{2})$/;
+
+/**
+ * Eine Zeile eines Bank-CSV-Exports lesen: Datum, Betrag, Verwendungszweck.
+ * Datumszellen werden nie als Betrag gelesen (früher wurde 01.05.2026 als
+ * 1.052.026 € erkannt, weil das Datum vor dem Betrag steht).
+ */
+export const csvZeileLesen = (row: string, heute = new Date().toISOString().slice(0, 10)) => {
+  const sep = row.includes(";") ? ";" : row.includes("\t") ? "\t" : ",";
+  const cols = row.split(sep).map((c) => c.replace(/^["']|["']$/g, "").trim());
+  let datum: string | null = null;
+  let betrag = 0;
+  for (const c of cols) {
+    const d = c.match(DATUM_RE);
+    if (d) {
+      if (!datum) {
+        if (d[4]) datum = `${d[4]}-${d[5]}-${d[6]}`;
+        else {
+          const yyyy = d[3].length === 2 ? "20" + d[3] : d[3];
+          datum = `${yyyy}-${d[2].padStart(2, "0")}-${d[1].padStart(2, "0")}`;
+        }
+      }
+      continue;
+    }
+    if (betrag === 0) {
+      const parsed = parseMoney(c);
+      if (parsed !== null && Math.abs(parsed) > 0) betrag = parsed;
+    }
+  }
+  // Zweck: längster nicht-numerischer Text
+  const textCols = cols.filter((c) => c && !/^-?[\d.,\s€$£]+$/.test(c) && !DATUM_RE.test(c));
+  const zweck = textCols.length > 0 ? [...textCols].sort((x, y) => y.length - x.length)[0] : row;
+  return { datum: datum ?? heute, betrag, zweck };
+};
+
 const guessMapping = (zweck: string, betrag: number): Partial<Line> => {
   for (const r of RULES) {
     if (r.pattern.test(zweck)) {
@@ -305,66 +364,7 @@ const DatevMapper = () => {
       // Skip Header-Zeile
       if (idx === 0 && /datum|betrag|verwendung/i.test(row) && !/^\d/.test(row)) return;
 
-      // Versuche zu splitten
-      const sep = row.includes(";") ? ";" : row.includes("\t") ? "\t" : ",";
-      const cols = row.split(sep).map((c) => c.replace(/^["']|["']$/g, "").trim());
-
-      // Heuristik: Datum, Betrag, Zweck — find them
-      let datum = new Date().toISOString().slice(0, 10);
-      let betrag = 0;
-      let zweck = row;
-
-      // Robuste Zahl-Parser: erkennt DE-Format (1.234,56) UND EN-Format (1,234.56 oder 149.90).
-      // Heuristik: wenn `,` UND `.` vorhanden → letztes Zeichen ist Dezimaltrenner.
-      // Wenn nur `,` → DE-Dezimal. Wenn nur `.` → EN-Dezimal (Punkt als Dezimal beibehalten).
-      const parseMoney = (raw: string): number | null => {
-        const s = raw.trim().replace(/\s/g, "").replace(/[€$£]/g, "");
-        if (!/^-?[\d.,]+$/.test(s)) return null;
-        const hasComma = s.includes(",");
-        const hasDot = s.includes(".");
-        let normalized: string;
-        if (hasComma && hasDot) {
-          // Letztes Komma/Punkt = Dezimaltrenner, der andere ist Tausender
-          const lastComma = s.lastIndexOf(",");
-          const lastDot = s.lastIndexOf(".");
-          if (lastComma > lastDot) {
-            normalized = s.replace(/\./g, "").replace(",", ".");
-          } else {
-            normalized = s.replace(/,/g, "");
-          }
-        } else if (hasComma) {
-          // DE-Format: Komma = Dezimal, Punkt war nicht vorhanden
-          normalized = s.replace(",", ".");
-        } else {
-          // Nur Punkt(e) — wenn ≥2 Punkte ODER der einzige Punkt 3 Stellen Tausender-Position hat:
-          // gilt als Tausender (DE-Schreibweise ohne Komma). Sonst EN-Dezimal.
-          const parts = s.split(".");
-          if (parts.length > 2 || (parts.length === 2 && parts[1].length === 3 && parts[0].length <= 3)) {
-            normalized = s.replace(/\./g, "");
-          } else {
-            normalized = s;
-          }
-        }
-        const n = parseFloat(normalized);
-        return Number.isFinite(n) ? n : null;
-      };
-
-      cols.forEach((c) => {
-        const dMatch = c.match(/^(\d{1,2})[\.\/-](\d{1,2})[\.\/-](\d{2,4})/);
-        if (dMatch && datum === new Date().toISOString().slice(0, 10)) {
-          let yyyy = dMatch[3];
-          if (yyyy.length === 2) yyyy = "20" + yyyy;
-          datum = `${yyyy}-${dMatch[2].padStart(2, "0")}-${dMatch[1].padStart(2, "0")}`;
-        }
-        if (betrag === 0) {
-          const parsed = parseMoney(c);
-          if (parsed !== null && Math.abs(parsed) > 0) betrag = parsed;
-        }
-      });
-
-      // Zweck: längster nicht-numerischer Text
-      const textCols = cols.filter((c) => !/^-?[\d\.,]+$/.test(c) && !/^\d{1,2}[\.\/-]\d{1,2}/.test(c));
-      if (textCols.length > 0) zweck = textCols.sort((a, b) => b.length - a.length)[0];
+      const { datum, betrag, zweck } = csvZeileLesen(row);
 
       const guess = guessMapping(zweck, betrag);
       newLines.push({
