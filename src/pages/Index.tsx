@@ -18,6 +18,7 @@ import { Footer } from "@/components/landing/Footer";
 import { MobileCtaBar } from "@/components/landing/MobileCtaBar";
 import { Seo } from "@/components/Seo";
 import { StartHere } from "@/components/landing/StartHere";
+import { ProductPreview } from "@/components/landing/ProductPreview";
 import { PLANS, formatEurCents } from "@/config/pricing";
 import { LANDING_TOOLS } from "@/data/features";
 
@@ -100,6 +101,7 @@ const Index = () => (
     <main>
       <Hero />
       <KiAssistentBand />
+      <ProductPreview />
       <ProblemBand />
       <Assistant />
       <WhatIs />

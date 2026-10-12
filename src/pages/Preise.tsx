@@ -274,6 +274,34 @@ const Preise = () => {
           </p>
         </section>
 
+        {/* Einblick: echte Ansicht nach der Freischaltung (Testkonto) */}
+        <section aria-labelledby="einblick" className="mb-16 grid items-center gap-8 rounded-2xl border border-border bg-card p-6 shadow-card md:grid-cols-[1fr,1.3fr] md:p-8">
+          <div>
+            <h2 id="einblick" className="text-2xl font-semibold tracking-tight">Das schaltest du frei</h2>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+              Nach der Zahlung legst du dein Konto an und landest im Cockpit. Alle {LANDING_TOOLS.length} Tools, die
+              Guides und Felix sind sofort freigeschaltet, ohne Abrechnung pro Tool oder pro Frage.
+            </p>
+            <Link to="/tools" className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-accent-blue hover:underline">
+              Alle Tools ansehen
+            </Link>
+          </div>
+          <figure>
+            <img
+              src="/screens/2026-10/uebersicht.webp"
+              srcSet="/screens/2026-10/uebersicht-720.webp 720w, /screens/2026-10/uebersicht.webp 1440w"
+              sizes="(min-width: 768px) 560px, 100vw"
+              width={1440}
+              height={900}
+              loading="lazy"
+              decoding="async"
+              alt="GründerX-Cockpit nach der Anmeldung mit Fristen, Event-Radar und Einstieg für Anfänger"
+              className="aspect-[16/10] w-full rounded-xl border border-border object-cover object-left-top"
+            />
+            <figcaption className="mt-2 text-xs text-muted-foreground">Echte Ansicht der App, aufgenommen mit einem Testkonto.</figcaption>
+          </figure>
+        </section>
+
         {/* Kündigung + Abrechnung */}
         <section className="mb-16 grid overflow-hidden rounded-2xl border border-border bg-card md:grid-cols-2 md:divide-x md:divide-border">
           <div className="p-6 md:p-8">
