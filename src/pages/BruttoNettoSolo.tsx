@@ -17,16 +17,29 @@ import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import Stand2026Footer from "@/components/cockpit/Stand2026Footer";
-import { Input } from "@/components/ui/input";
 import { NumberField } from "@/components/ui/number-field";
 import { HebesatzPicker } from "@/components/ui/hebesatz-picker";
-import { Label } from "@/components/ui/label";
+import {
+  Callout,
+  Field,
+  ResultPanel,
+  StatGrid,
+  StatTile,
+  ToolLayout,
+  ToolSection,
+  selectCls,
+} from "@/components/cockpit/kit";
 import {
   Lightbulb,
   Wallet,
   TrendingDown,
-  AlertTriangle,
   HelpCircle,
+  Landmark,
+  ShieldCheck,
+  ListOrdered,
+  ArrowRight,
+  ChevronDown,
+  Check,
 } from "lucide-react";
 import {
   progressionESt,
@@ -142,226 +155,202 @@ const BruttoNettoSolo = () => {
     };
   }, [umsatz, betriebsausgaben, rechtsform, hebesatz, kvVariante, zusatzBeitrag, kinderlos, pkvBeitragMonat, rvFreiwillig, kistSatz, verheiratet]);
 
+  const vorteil = calc.nettoMonat > calc.anNetto / 12;
+
   return (
     <CockpitShell
-      eyebrow="🌱 Erste Schritte · für komplette Anfänger:innen"
+      eyebrow="Erste Schritte · für komplette Anfänger:innen"
       title="Brutto-Netto-Rechner für Solo-Selbstständige"
-      subtitle="Was bleibt am Ende wirklich übrig? Umsatz → Betriebsausgaben → ESt + SolZ + ggf. KSt/GewSt + KV/PV → Netto. Mit Step-by-Step-Erklärung jeder Position und Fair-Vergleich gegen 'gleiches AG-Total als Angestellter' (inkl. AG-SV-Anteil)."
+      subtitle="Was bleibt am Ende wirklich übrig? Umsatz → Betriebsausgaben → ESt + SolZ + ggf. KSt/GewSt + KV/PV → Netto. Mit Erklärung jeder Position und fairem Vergleich gegen „gleiches AG-Total als Angestellter“ (inkl. AG-SV-Anteil)."
     >
       <BeginnerHero />
 
-      {/* === Eingaben === */}
-      <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5 mb-6">
-        <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
-          <Wallet className="h-4 w-4 text-accent-blue" /> Deine Zahlen
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Jahres-Umsatz (€)</Label>
-            <NumberField value={umsatz} onChange={setUmsatz} min={0} className="mt-1" />
-            <div className="text-[10px] text-muted-foreground mt-1">Summe Honorare/Erlöse netto (= ohne USt)</div>
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Jahres-Betriebsausgaben (€)</Label>
-            <NumberField value={betriebsausgaben} onChange={setBetriebsausgaben} min={0} className="mt-1" />
-            <div className="text-[10px] text-muted-foreground mt-1">Bürokosten, Software, Reisen, Werbung, AfA, etc.</div>
-          </div>
-        </div>
+      <ToolLayout
+        className="mb-8"
+        inputs={
+          <>
+            <ToolSection title="Deine Zahlen" description="Werte pro Jahr, ohne Umsatzsteuer" icon={Wallet}>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <Field label="Jahres-Umsatz (€)" hint="Summe Honorare/Erlöse netto (= ohne USt)">
+                  <NumberField value={umsatz} onChange={setUmsatz} min={0} aria-label="Jahres-Umsatz in Euro" />
+                </Field>
+                <Field label="Jahres-Betriebsausgaben (€)" hint="Bürokosten, Software, Reisen, Werbung, AfA usw.">
+                  <NumberField value={betriebsausgaben} onChange={setBetriebsausgaben} min={0} aria-label="Jahres-Betriebsausgaben in Euro" />
+                </Field>
+              </div>
+            </ToolSection>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Rechtsform</Label>
-            <select value={rechtsform} onChange={(e) => setRechtsform(e.target.value as Rechtsform)} className="mt-1 h-10 w-full rounded-md border border-input bg-background px-3 text-sm">
-              <option value="freiberuf">Freiberufler:in (§18 EStG) — keine GewSt</option>
-              <option value="gewerbe">Einzel-Gewerbe — GewSt ab 24.500€ Gewinn</option>
-            </select>
-          </div>
-          {rechtsform === "gewerbe" && (
-            <div>
-              <Label className="text-xs uppercase tracking-wider text-muted-foreground">GewSt-Hebesatz (%) der Gemeinde</Label>
-              <HebesatzPicker value={hebesatz} onChange={setHebesatz} className="mt-1" />
-            </div>
-          )}
-        </div>
+            <ToolSection title="Rechtsform und Steuer" icon={Landmark}>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <Field label="Rechtsform" htmlFor="bns-rf" className={rechtsform === "gewerbe" ? undefined : "sm:col-span-2"}>
+                  <select id="bns-rf" value={rechtsform} onChange={(e) => setRechtsform(e.target.value as Rechtsform)} className={selectCls}>
+                    <option value="freiberuf">Freiberufler:in (§18 EStG), keine GewSt</option>
+                    <option value="gewerbe">Einzel-Gewerbe, GewSt ab 24.500€ Gewinn</option>
+                  </select>
+                </Field>
+                {rechtsform === "gewerbe" && (
+                  <Field label="GewSt-Hebesatz der Gemeinde (%)">
+                    <HebesatzPicker value={hebesatz} onChange={setHebesatz} />
+                  </Field>
+                )}
+                <Field label="Kirchensteuer" htmlFor="bns-kist">
+                  <select id="bns-kist" value={kistSatz} onChange={(e) => setKistSatz(Number(e.target.value))} className={selectCls}>
+                    <option value={0}>0 % (kein Eintrag)</option>
+                    <option value={8}>8 % (BY, BW)</option>
+                    <option value={9}>9 % (Rest DE)</option>
+                  </select>
+                </Field>
+                <div className="flex items-end">
+                  <CheckOption checked={verheiratet} onChange={setVerheiratet} label="Verheiratet" hint="Splitting-Tarif" />
+                </div>
+              </div>
+            </ToolSection>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Krankenversicherung</Label>
-            <select value={kvVariante} onChange={(e) => setKvVariante(e.target.value as KvVariante)} className="mt-1 h-10 w-full rounded-md border border-input bg-background px-3 text-sm">
-              <option value="gkv-freiwillig">GKV freiwillig (Mindestbeitrag 260-280€)</option>
-              <option value="pkv">PKV (eigener Beitrag)</option>
-              <option value="ksk">KSK (Bund zahlt 50% — nur Künstler/Publizisten)</option>
-            </select>
-          </div>
-          {kvVariante === "gkv-freiwillig" || kvVariante === "ksk" ? (
-            <div>
-              <Label className="text-xs uppercase tracking-wider text-muted-foreground">Zusatzbeitrag deiner Kasse (%)</Label>
-              <NumberField step="0.01" value={zusatzBeitrag} onChange={setZusatzBeitrag} min={0} className="mt-1" />
-              <div className="text-[10px] text-muted-foreground mt-1">2026 ⌀ 2,9 % · Spanne 2,18 – 4,39 %</div>
-            </div>
-          ) : (
-            <div>
-              <Label className="text-xs uppercase tracking-wider text-muted-foreground">PKV-Beitrag pro Monat (€)</Label>
-              <NumberField value={pkvBeitragMonat} onChange={setPkvBeitragMonat} min={0} className="mt-1" />
-            </div>
-          )}
-        </div>
+            <ToolSection title="Kranken- und Rentenversicherung" icon={ShieldCheck}>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <Field label="Krankenversicherung" htmlFor="bns-kv" className="sm:col-span-2">
+                  <select id="bns-kv" value={kvVariante} onChange={(e) => setKvVariante(e.target.value as KvVariante)} className={selectCls}>
+                    <option value="gkv-freiwillig">GKV freiwillig (Mindestbeitrag 260-280€)</option>
+                    <option value="pkv">PKV (eigener Beitrag)</option>
+                    <option value="ksk">KSK (Bund zahlt 50%, nur Künstler/Publizisten)</option>
+                  </select>
+                </Field>
+                {kvVariante === "gkv-freiwillig" || kvVariante === "ksk" ? (
+                  <Field className="sm:col-span-2" label="Zusatzbeitrag deiner Kasse (%)" hint="2026 ⌀ 2,9 % · Spanne 2,18 bis 4,39 %">
+                    <NumberField step="0.01" value={zusatzBeitrag} onChange={setZusatzBeitrag} min={0} aria-label="Zusatzbeitrag in Prozent" />
+                  </Field>
+                ) : (
+                  <Field className="sm:col-span-2" label="PKV-Beitrag pro Monat (€)">
+                    <NumberField value={pkvBeitragMonat} onChange={setPkvBeitragMonat} min={0} aria-label="PKV-Beitrag pro Monat in Euro" />
+                  </Field>
+                )}
+                <CheckOption checked={kinderlos} onChange={setKinderlos} label="Kinderlos" hint="+0,6 % Pflegeversicherung" />
+                <CheckOption checked={rvFreiwillig} onChange={setRvFreiwillig} label="Freiwillige Rentenversicherung" hint={`${RV_SATZ} % auf den Gewinn`} />
+              </div>
+            </ToolSection>
+          </>
+        }
+        result={
+          <>
+            <ResultPanel
+              variant="ink"
+              kicker="Dein Netto"
+              title="Was nach Steuern und Versicherung bleibt"
+              value={`${Math.round(calc.nettoMonat).toLocaleString("de-DE")} € / Monat`}
+              valueHint={`= ${Math.round(calc.nettoJahr).toLocaleString("de-DE")} € pro Jahr`}
+            >
+              <div className="grid grid-cols-2 gap-px overflow-hidden rounded-xl bg-white/10">
+                {[
+                  { l: "Gewinn", v: `${calc.gewinn.toLocaleString("de-DE")} €` },
+                  { l: "Steuern", v: `${Math.round(calc.steuerGesamt).toLocaleString("de-DE")} €`, h: `${calc.steuerquote.toFixed(1)} % vom Gewinn` },
+                  { l: "Sozialversicherung", v: `${Math.round(calc.sozialGesamt).toLocaleString("de-DE")} €` },
+                  { l: "Belastung gesamt", v: `${calc.gesamtbelastung.toFixed(1)} %` },
+                ].map((k) => (
+                  <div key={k.l} className="bg-white/[0.04] p-3">
+                    <div className="text-xs text-primary-foreground/65">{k.l}</div>
+                    <div className="mt-0.5 font-semibold text-primary-foreground tabular">{k.v}</div>
+                    {k.h && <div className="text-xs text-primary-foreground/55 tabular">{k.h}</div>}
+                  </div>
+                ))}
+              </div>
+            </ResultPanel>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-3">
-          <label className="flex items-center gap-2 text-xs cursor-pointer rounded-lg border border-border p-2">
-            <input type="checkbox" checked={kinderlos} onChange={(e) => setKinderlos(e.target.checked)} className="h-4 w-4" />
-            <span>Kinderlos (+0,6 % PV)</span>
-          </label>
-          <label className="flex items-center gap-2 text-xs cursor-pointer rounded-lg border border-border p-2">
-            <input type="checkbox" checked={verheiratet} onChange={(e) => setVerheiratet(e.target.checked)} className="h-4 w-4" />
-            <span>Verheiratet (Splitting)</span>
-          </label>
-          <label className="flex items-center gap-2 text-xs cursor-pointer rounded-lg border border-border p-2">
-            <input type="checkbox" checked={rvFreiwillig} onChange={(e) => setRvFreiwillig(e.target.checked)} className="h-4 w-4" />
-            <span>Freiw. Renten-Vers.</span>
-          </label>
-          <div>
-            <Label className="text-[10px] uppercase text-muted-foreground">Kirchensteuer</Label>
-            <select value={kistSatz} onChange={(e) => setKistSatz(Number(e.target.value))} className="h-8 w-full rounded-md border border-input bg-background px-2 text-xs mt-1">
-              <option value={0}>0 % (kein Eintrag)</option>
-              <option value={8}>8 % (BY, BW)</option>
-              <option value={9}>9 % (Rest DE)</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      {/* === Ergebnis-Karte === */}
-      <div className="rounded-2xl border-2 border-accent-blue/40 bg-gradient-to-br from-accent-blue/10 via-card to-card p-5 mb-6">
-        <div className="text-xs uppercase tracking-wider text-muted-foreground mb-1">Dein Netto</div>
-        <div className="flex items-baseline gap-3 flex-wrap mb-3">
-          <div className="text-4xl font-bold text-emerald-700">
-            {Math.round(calc.nettoMonat).toLocaleString("de-DE")} €
-          </div>
-          <div className="text-lg text-muted-foreground">/ Monat</div>
-          <div className="text-sm text-muted-foreground">
-            = {Math.round(calc.nettoJahr).toLocaleString("de-DE")} €/Jahr
-          </div>
-        </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
-          <div className="rounded-lg bg-secondary/40 p-2">
-            <div className="text-[10px] uppercase text-muted-foreground">Gewinn</div>
-            <div className="font-mono text-base font-semibold">{calc.gewinn.toLocaleString("de-DE")} €</div>
-          </div>
-          <div className="rounded-lg bg-amber-500/10 p-2">
-            <div className="text-[10px] uppercase text-amber-700">Steuern</div>
-            <div className="font-mono text-base font-semibold">{Math.round(calc.steuerGesamt).toLocaleString("de-DE")} €</div>
-            <div className="text-[10px] text-muted-foreground">{calc.steuerquote.toFixed(1)} %</div>
-          </div>
-          <div className="rounded-lg bg-blue-500/10 p-2">
-            <div className="text-[10px] uppercase text-blue-700">Sozialvers.</div>
-            <div className="font-mono text-base font-semibold">{Math.round(calc.sozialGesamt).toLocaleString("de-DE")} €</div>
-          </div>
-          <div className="rounded-lg bg-emerald-500/10 p-2">
-            <div className="text-[10px] uppercase text-emerald-700">Belastung total</div>
-            <div className="font-mono text-base font-semibold">{calc.gesamtbelastung.toFixed(1)} %</div>
-          </div>
-        </div>
-      </div>
-
-      {/* === Detail-Rechnung === */}
-      <div className="rounded-2xl border border-border bg-card p-5 mb-6">
-        <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
-          <Wallet className="h-4 w-4 text-accent-blue" /> Detail-Rechnung Step-by-Step
-        </h3>
-        <div className="space-y-1 text-sm">
-          <Row label="Jahres-Umsatz (netto)" val={umsatz} />
-          <Row label="./. Betriebsausgaben" val={-betriebsausgaben} />
-          <Row label="= Gewinn (Bemessungsgrundlage)" val={calc.gewinn} bold />
-          <div className="h-3" />
-          <Row label="./. Einkommensteuer §32a EStG (Progression)" val={-calc.eSt}
-               note={verheiratet ? "Splitting-Tarif (verheiratet)" : "Grundtarif (Single)"} />
-          {calc.solz > 0 && <Row label="./. Solidaritätszuschlag 5,5 % auf ESt" val={-calc.solz} note="Freigrenze 20.350 € ESt" />}
-          {calc.kist > 0 && <Row label={`./. Kirchensteuer ${kistSatz} %`} val={-calc.kist} />}
-          {calc.gewSt > 0 && (
-            <Row label="./. Gewerbesteuer (nach §35-Anrechnung)" val={-calc.gewSt}
-                 note={`Hebesatz ${hebesatz}% · Anrechnung ${Math.round(calc.gewStAnrechnung).toLocaleString("de-DE")}€ auf ESt`} />
-          )}
-          <Row label="= Nach Steuern" val={calc.gewinn - calc.steuerGesamt} bold />
-          <div className="h-3" />
-          {calc.kvJahr > 0 && (
-            <Row label={
-              kvVariante === "gkv-freiwillig" ? "./. KV/PV freiwillig (auf Bemessung)"
-              : kvVariante === "pkv" ? "./. PKV-Beitrag (eigene Kasse)"
-              : "./. KSK-Anteil (Bund zahlt 50%)"
-            } val={-calc.kvJahr} note={
-              kvVariante === "gkv-freiwillig"
-                ? `${(KV_ALLG_SATZ + zusatzBeitrag + (kinderlos ? PV_SATZ_KINDERLOS : PV_SATZ_KIND)).toFixed(1)}% × Bemessung min. ${MINDEST_BEMESSUNG_GKV_MONAT_2026.toFixed(0)}€/Mon`
-                : kvVariante === "pkv" ? `${pkvBeitragMonat} €/Mon × 12`
-                : "Bundeszuschuss ~50% bei Künstlern/Publizisten"
-            } />
-          )}
-          {calc.rvJahr > 0 && (
-            <Row label="./. Renten-Versicherung freiwillig" val={-calc.rvJahr}
-                 note={`${RV_SATZ}% × min(Gewinn, BBG-RV ${BBG_RV_MONAT_2026.toLocaleString("de-DE")} €/Mon)`} />
-          )}
-          <Row label="= Netto pro Jahr" val={calc.nettoJahr} bold highlight />
-          <Row label="= Netto pro Monat" val={calc.nettoMonat} bold highlight />
-        </div>
-      </div>
+            <ToolSection title="Rechnung Schritt für Schritt" icon={ListOrdered}>
+              <div className="text-sm">
+                <Row label="Jahres-Umsatz (netto)" val={umsatz} />
+                <Row label="./. Betriebsausgaben" val={-betriebsausgaben} />
+                <Row label="= Gewinn (Bemessungsgrundlage)" val={calc.gewinn} bold />
+                <div className="my-2 border-t border-border/70" />
+                <Row label="./. Einkommensteuer §32a EStG (Progression)" val={-calc.eSt}
+                     note={verheiratet ? "Splitting-Tarif (verheiratet)" : "Grundtarif (Single)"} />
+                {calc.solz > 0 && <Row label="./. Solidaritätszuschlag 5,5 % auf ESt" val={-calc.solz} note="Freigrenze 20.350 € ESt" />}
+                {calc.kist > 0 && <Row label={`./. Kirchensteuer ${kistSatz} %`} val={-calc.kist} />}
+                {calc.gewSt > 0 && (
+                  <Row label="./. Gewerbesteuer (nach §35-Anrechnung)" val={-calc.gewSt}
+                       note={`Hebesatz ${hebesatz}% · Anrechnung ${Math.round(calc.gewStAnrechnung).toLocaleString("de-DE")}€ auf ESt`} />
+                )}
+                <Row label="= Nach Steuern" val={calc.gewinn - calc.steuerGesamt} bold />
+                <div className="my-2 border-t border-border/70" />
+                {calc.kvJahr > 0 && (
+                  <Row label={
+                    kvVariante === "gkv-freiwillig" ? "./. KV/PV freiwillig (auf Bemessung)"
+                    : kvVariante === "pkv" ? "./. PKV-Beitrag (eigene Kasse)"
+                    : "./. KSK-Anteil (Bund zahlt 50%)"
+                  } val={-calc.kvJahr} note={
+                    kvVariante === "gkv-freiwillig"
+                      ? `${(KV_ALLG_SATZ + zusatzBeitrag + (kinderlos ? PV_SATZ_KINDERLOS : PV_SATZ_KIND)).toFixed(1)}% × Bemessung min. ${MINDEST_BEMESSUNG_GKV_MONAT_2026.toFixed(0)}€/Mon`
+                      : kvVariante === "pkv" ? `${pkvBeitragMonat} €/Mon × 12`
+                      : "Bundeszuschuss ~50% bei Künstlern/Publizisten"
+                  } />
+                )}
+                {calc.rvJahr > 0 && (
+                  <Row label="./. Renten-Versicherung freiwillig" val={-calc.rvJahr}
+                       note={`${RV_SATZ}% × min(Gewinn, BBG-RV ${BBG_RV_MONAT_2026.toLocaleString("de-DE")} €/Mon)`} />
+                )}
+                <div className="mt-2 space-y-1">
+                  <Row label="= Netto pro Jahr" val={calc.nettoJahr} bold highlight />
+                  <Row label="= Netto pro Monat" val={calc.nettoMonat} bold highlight />
+                </div>
+              </div>
+            </ToolSection>
+          </>
+        }
+      />
 
       {/* === Vergleich Angestellter === */}
-      <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5 mb-6">
-        <h3 className="font-bold text-sm mb-2 flex items-center gap-2">
-          <TrendingDown className="h-4 w-4 text-accent-blue" />
-          Vergleich: gleiches AG-Total als Angestellter
-        </h3>
-        <p className="text-xs text-muted-foreground mb-3">
+      <ToolSection title="Vergleich: gleiches AG-Total als Angestellter" icon={TrendingDown} className="mb-6">
+        <p className="mb-4 max-w-[80ch] text-sm leading-relaxed text-muted-foreground">
           Fair-Vergleich: dein Solo-Gewinn ({Math.round(calc.gewinn).toLocaleString("de-DE")} €/Jahr) ist das,
-          was du als „virtueller AG" für dich aufbringst — Steuer + KV + RV gehen alles aus diesem Topf.
+          was du als „virtueller AG" für dich aufbringst. Steuer, KV und RV gehen alle aus diesem Topf.
           Beim Angestellten zahlt der AG seinen ~20,5 % SV-Anteil <em>zusätzlich</em>. Bei gleichem AG-Total
-          ist das AN-Bruttogehalt also <strong>{Math.round(calc.anBrutto).toLocaleString("de-DE")} €/Jahr</strong>
+          ist das AN-Bruttogehalt also <strong className="text-foreground tabular">{Math.round(calc.anBrutto).toLocaleString("de-DE")} €/Jahr</strong>
           {" "}(= Gewinn / 1,205), nicht der volle Gewinn.
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-xs">
-          <div className="rounded-lg bg-secondary/40 p-3">
-            <div className="text-[10px] uppercase text-muted-foreground">Selbstständig (du)</div>
-            <div className="text-base font-bold text-emerald-700">{Math.round(calc.nettoMonat).toLocaleString("de-DE")} €/Mon</div>
-            <div className="text-[10px] text-muted-foreground">netto nach Steuer + KV/RV</div>
-          </div>
-          <div className="rounded-lg bg-secondary/40 p-3">
-            <div className="text-[10px] uppercase text-muted-foreground">Angestellt (gleiches AG-Total)</div>
-            <div className="text-base font-bold text-accent-blue">{Math.round(calc.anNetto / 12).toLocaleString("de-DE")} €/Mon</div>
-            <div className="text-[10px] text-muted-foreground">netto nach ESt + AN-SV-Anteil 20,5 %</div>
-          </div>
-          <div className={`rounded-lg p-3 ${calc.nettoMonat > calc.anNetto / 12 ? "bg-emerald-500/10" : "bg-amber-500/10"}`}>
-            <div className="text-[10px] uppercase text-muted-foreground">Differenz</div>
-            <div className={`text-base font-bold ${calc.nettoMonat > calc.anNetto / 12 ? "text-emerald-700" : "text-amber-700"}`}>
-              {calc.nettoMonat > calc.anNetto / 12 ? "+" : ""}
-              {Math.round(calc.nettoMonat - calc.anNetto / 12).toLocaleString("de-DE")} €/Mon
-            </div>
-            <div className="text-[10px] text-muted-foreground">
-              {calc.nettoMonat > calc.anNetto / 12 ? "Mehr Netto" : "Weniger Netto"} als Angestellter
-            </div>
-          </div>
-        </div>
-        <div className="rounded-lg bg-amber-500/10 border border-amber-500/30 p-2 mt-3 text-[11px] leading-relaxed">
-          <strong>⚠ Trotzdem aufpassen:</strong> Als Selbstständig fehlen dir AG-Leistungen (Lohnfortzahlung
-          6 Wochen, bezahlter Urlaub, Mutterschutz, Arbeitslosenversicherung optional, gesetzliche
-          RV-Anwartschaft). Faustregel: Selbstständig wirklich rentabel ab <strong>~20-30 % Mehr-Netto</strong>{" "}
-          als Angestellter — der Aufschlag deckt die fehlende Absicherung (BU, Krankentagegeld, eigene Rente).
-        </div>
-      </div>
+        <StatGrid cols={3}>
+          <StatTile
+            label="Selbstständig (du)"
+            value={`${Math.round(calc.nettoMonat).toLocaleString("de-DE")} €/Mon`}
+            hint="netto nach Steuer + KV/RV"
+          />
+          <StatTile
+            label="Angestellt (gleiches AG-Total)"
+            value={`${Math.round(calc.anNetto / 12).toLocaleString("de-DE")} €/Mon`}
+            hint="netto nach ESt + AN-SV-Anteil 20,5 %"
+          />
+          <StatTile
+            label="Differenz"
+            tone={vorteil ? "success" : "warning"}
+            emphasis
+            value={`${vorteil ? "+" : ""}${Math.round(calc.nettoMonat - calc.anNetto / 12).toLocaleString("de-DE")} €/Mon`}
+            hint={`${vorteil ? "Mehr Netto" : "Weniger Netto"} als Angestellter`}
+          />
+        </StatGrid>
+        <Callout tone="warning" title="Trotzdem aufpassen" className="mt-4">
+          Als Selbstständige:r fehlen dir AG-Leistungen (Lohnfortzahlung 6 Wochen, bezahlter Urlaub, Mutterschutz,
+          Arbeitslosenversicherung optional, gesetzliche RV-Anwartschaft). Faustregel: Selbstständig wirklich rentabel ab <strong>~20-30 % Mehr-Netto</strong>{" "}
+          als Angestellter. Der Aufschlag deckt die fehlende Absicherung (BU, Krankentagegeld, eigene Rente).
+        </Callout>
+      </ToolSection>
 
       {/* === Cross-Links === */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-6">
-        <Link to="/cockpit/gewerbe-check" className="rounded-xl border border-border bg-card p-3 text-xs hover:border-accent-blue transition">
-          <div className="font-semibold mb-0.5">← Brauche ich Gewerbe? (Tool 1)</div>
-          <div className="text-muted-foreground">Falls noch unklar ob Anmeldung nötig</div>
-        </Link>
-        <Link to="/cockpit/quartals-steuer" className="rounded-xl border border-border bg-card p-3 text-xs hover:border-accent-blue transition">
-          <div className="font-semibold mb-0.5">Quartals-Steuerschätzung →</div>
-          <div className="text-muted-foreground">VZ-Termine 10.3/6/9/12 + Rücklage planen</div>
-        </Link>
-        <Link to="/cockpit/kv-optimizer" className="rounded-xl border border-border bg-card p-3 text-xs hover:border-accent-blue transition">
-          <div className="font-semibold mb-0.5">KV-Optimizer →</div>
-          <div className="text-muted-foreground">Kasse wechseln + Spar-Potenzial</div>
-        </Link>
+      <div className="mb-6 grid grid-cols-1 gap-3 md:grid-cols-3">
+        {[
+          { to: "/cockpit/gewerbe-check", t: "Brauche ich ein Gewerbe?", d: "Falls noch unklar ist, ob eine Anmeldung nötig ist" },
+          { to: "/cockpit/quartals-steuer", t: "Quartals-Steuerschätzung", d: "VZ-Termine 10.3/6/9/12 + Rücklage planen" },
+          { to: "/cockpit/kv-optimizer", t: "KV-Optimizer", d: "Kasse wechseln + Spar-Potenzial" },
+        ].map((l) => (
+          <Link
+            key={l.to}
+            to={l.to}
+            className="group rounded-2xl border border-border bg-card p-4 shadow-card transition-[border-color,box-shadow] duration-200 hover:border-accent-blue/40 hover:shadow-soft"
+          >
+            <p className="flex items-center justify-between gap-2 text-sm font-semibold">
+              {l.t}
+              <ArrowRight className="h-4 w-4 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-accent-blue" aria-hidden="true" />
+            </p>
+            <p className="mt-1 text-sm text-muted-foreground">{l.d}</p>
+          </Link>
+        ))}
       </div>
 
       <Glossar />
@@ -382,65 +371,90 @@ const BruttoNettoSolo = () => {
 // ============================================================================
 // Sub-Components
 // ============================================================================
+const GLOSSAR = [
+  { begriff: "Gewinn (= Bemessungsgrundlage)", erklaerung: "Umsatz minus Betriebsausgaben. Aus dem Gewinn werden alle Steuern (ESt, GewSt) und Sozialversicherungs-Beiträge berechnet. Wichtig: nicht der Umsatz, sondern der Gewinn ist die Basis!" },
+  { begriff: "Einkommensteuer-Progression §32a EStG", erklaerung: "Je höher dein Einkommen, desto höher der Steuersatz: 0% bis 12.348€ Grundfreibetrag, dann 14% (Eingangssatz), bis 42% (Spitzensatz ab 69.879€), 45% Reichensteuer ab 277.826€. Splitting bei Verheirateten halbiert effektiv den Tarif." },
+  { begriff: "Solidaritätszuschlag (SolZ)", erklaerung: "5,5 % auf die ESt. Aber: Freigrenze 20.350 € ESt (Single) — darunter zahlst du keinen SolZ. Bei verheirateten Paaren liegt die Grenze bei 40.700 € ESt." },
+  { begriff: "Gewerbesteuer (GewSt)", erklaerung: "Nur bei Gewerbe (nicht Freiberuf). Freibetrag 24.500 € Gewinn. Rest mit Messzahl 3,5 % × Hebesatz der Gemeinde. Wichtig: GewSt wird via §35 EStG mit Faktor 4,0 auf die ESt angerechnet — bei Hebesatz ≤400% effektiv neutral!" },
+  { begriff: "Kirchensteuer (KiSt)", erklaerung: "8 % der ESt in Bayern und Baden-Württemberg, 9 % im Rest. Nur wenn du Mitglied einer steuererhebenden Religionsgemeinschaft bist. Austritt = sofortige Befreiung." },
+  { begriff: "KV/PV freiwillig (Mindestbemessung)", erklaerung: "Als Selbstständiger zahlst du GKV freiwillig: mindestens auf 1.318,33 €/Monat fingiertes Einkommen (Mindestbemessung 2026 ≈ 260-280 €/Mon Beitrag), max. auf BBG 5.812,50 €/Mon (höchster Beitrag ~1.210 €/Mon)." },
+  { begriff: "Künstlersozialkasse (KSK)", erklaerung: "Bund übernimmt 50 % der GKV+RV-Beiträge für selbstständige Künstler/Publizisten — wie bei Angestellten. Pflicht-Mitgliedschaft für: Maler, Musiker, Autor, Journalist, Designer, Fotograf etc. Mindesteinkommen 3.900 €/J (sonst Befreiung)." },
+  { begriff: "Vergleich Selbstständig vs. Angestellt (fair)", erklaerung: "Der faire Vergleich rechnet auf gleichem AG-Total, NICHT auf gleichem Brutto-Gehalt. Grund: dein Solo-Gewinn entspricht konzeptionell dem, was ein AG insgesamt für seinen Mitarbeiter aufbringen müsste (AN-Brutto + AG-SV-Anteil ~20,5 %). Würdest du Solo-Gewinn = AN-Brutto setzen, ignoriert das den AG-Anteil und macht Selbstständige systematisch ärmer aussehen als sie sind. Faustregel: Selbstständig rentabel ab ~20-30 % Mehr-Netto — der Aufschlag deckt Sicherheits-Lücke (Lohnfortzahlung, Urlaub, BU, Rente)." },
+];
+
 const Row = ({ label, val, bold, highlight, note }: { label: string; val: number; bold?: boolean; highlight?: boolean; note?: string }) => (
-  <div className={`flex items-baseline justify-between gap-3 py-1 ${highlight ? "rounded-lg bg-emerald-500/5 px-3" : ""}`}>
-    <div className={`flex-1 ${bold ? "font-bold" : ""}`}>
+  <div className={`flex items-baseline justify-between gap-3 py-1.5 ${highlight ? "rounded-lg bg-success-soft px-3" : ""}`}>
+    <div className={`min-w-0 flex-1 ${bold ? "font-semibold" : "text-foreground/85"}`}>
       {label}
-      {note && <div className="text-[10px] text-muted-foreground font-normal">{note}</div>}
+      {note && <div className="text-xs font-normal text-muted-foreground">{note}</div>}
     </div>
-    <div className={`font-mono ${bold ? "font-bold text-base" : "text-sm"} ${highlight ? "text-emerald-700" : ""}`}>
+    <div className={`shrink-0 tabular ${bold ? "text-base font-semibold" : "text-sm"} ${highlight ? "text-success" : ""}`}>
       {val < 0 ? "−" : ""}
       {Math.round(Math.abs(val)).toLocaleString("de-DE")} €
     </div>
   </div>
 );
 
+/** Ankreuz-Option als Karte; natives Checkbox-Feld bleibt für Tastatur und Tests erhalten. */
+const CheckOption = ({ checked, onChange, label, hint }: { checked: boolean; onChange: (v: boolean) => void; label: string; hint?: string }) => (
+  <label
+    className={`flex w-full cursor-pointer items-start gap-3 rounded-xl border p-3 transition-colors ${
+      checked ? "border-accent-blue/40 bg-accent" : "border-border bg-card hover:border-foreground/25"
+    }`}
+  >
+    <input type="checkbox" checked={checked} onChange={(e) => onChange(e.target.checked)} className="peer sr-only" />
+    <span
+      className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border peer-focus-visible:ring-2 peer-focus-visible:ring-ring ${
+        checked ? "border-primary bg-primary text-primary-foreground" : "border-input bg-card"
+      }`}
+      aria-hidden="true"
+    >
+      {checked && <Check className="h-3 w-3" />}
+    </span>
+    <span className="min-w-0">
+      <span className="block text-sm font-medium">{label}</span>
+      {hint && <span className="block text-xs text-muted-foreground">{hint}</span>}
+    </span>
+  </label>
+);
+
 const BeginnerHero = () => (
-  <div className="rounded-2xl border-2 border-accent-blue/30 bg-gradient-to-br from-accent-blue/10 via-card to-card p-5 mb-6">
-    <div className="flex items-start gap-3">
-      <Lightbulb className="h-6 w-6 text-accent-blue shrink-0 mt-0.5" />
-      <div className="flex-1">
-        <h3 className="font-bold text-sm mb-1">Was ist das hier?</h3>
-        <p className="text-xs text-muted-foreground leading-relaxed mb-2">
-          Du fragst dich: „Wenn ich 60.000 € im Jahr einnehme — was bleibt davon NACH allem (Steuer, KV, Rente) am Ende übrig?" Standard-Brutto-Netto-Rechner aus dem Web sind für Angestellte gemacht und geben Selbstständigen falsche Werte. Dieses Tool rechnet Solo-Selbstständige-spezifisch: Umsatz minus BA = Gewinn → ESt mit Progression → ggf. GewSt → freiwillige KV/PV → Netto.
-        </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-[11px]">
-          <div className="rounded-lg bg-accent-blue/5 p-2 border border-accent-blue/20">
-            <strong className="text-accent-blue">✅ Step-by-Step-Transparenz</strong>
-            <div className="text-muted-foreground mt-0.5">Jede Abzug-Position wird einzeln gezeigt mit §-Verweis und Begründung</div>
-          </div>
-          <div className="rounded-lg bg-accent-blue/5 p-2 border border-accent-blue/20">
-            <strong className="text-accent-blue">🔄 Vergleich Angestellter</strong>
-            <div className="text-muted-foreground mt-0.5">Fair-Vergleich: was würde dasselbe AG-Total als Angestellter abwerfen? (inkl. AG-Anteil SV)</div>
-          </div>
-        </div>
+  <Callout tone="accent" icon={Lightbulb} title="Was ist das hier?" className="mb-6 p-5">
+    <p className="max-w-[90ch]">
+      Du fragst dich: „Wenn ich 60.000 € im Jahr einnehme, was bleibt davon NACH allem (Steuer, KV, Rente) am Ende übrig?" Standard-Brutto-Netto-Rechner aus dem Web sind für Angestellte gemacht und geben Selbstständigen falsche Werte. Dieses Tool rechnet Solo-Selbstständige-spezifisch: Umsatz minus BA = Gewinn → ESt mit Progression → ggf. GewSt → freiwillige KV/PV → Netto.
+    </p>
+    <div className="mt-3 grid grid-cols-1 gap-2 md:grid-cols-2">
+      <div className="rounded-lg border border-accent-blue/15 bg-card/70 p-3">
+        <p className="font-semibold text-foreground">Schritt-für-Schritt-Transparenz</p>
+        <p className="mt-0.5 text-muted-foreground">Jede Abzug-Position wird einzeln gezeigt mit §-Verweis und Begründung</p>
+      </div>
+      <div className="rounded-lg border border-accent-blue/15 bg-card/70 p-3">
+        <p className="font-semibold text-foreground">Vergleich Angestellter</p>
+        <p className="mt-0.5 text-muted-foreground">Fair-Vergleich: was würde dasselbe AG-Total als Angestellter abwerfen? (inkl. AG-Anteil SV)</p>
       </div>
     </div>
-  </div>
+  </Callout>
 );
 
 const Glossar = () => (
-  <details className="rounded-2xl border border-border bg-card p-5 mb-6">
-    <summary className="cursor-pointer font-bold text-sm flex items-center gap-2">
-      <HelpCircle className="h-4 w-4 text-accent-blue" /> Glossar — Begriffe einfach erklärt
+  <details className="group mb-6 rounded-2xl border border-border bg-card shadow-card [&_summary::-webkit-details-marker]:hidden">
+    <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-5 py-4 text-base font-semibold md:px-6">
+      <span className="flex items-center gap-3">
+        <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-accent-blue">
+          <HelpCircle className="h-4 w-4" aria-hidden="true" />
+        </span>
+        Glossar: Begriffe einfach erklärt
+      </span>
+      <ChevronDown className="h-4 w-4 text-muted-foreground transition-transform group-open:rotate-180" aria-hidden="true" />
     </summary>
-    <div className="mt-3 space-y-3 text-xs leading-relaxed">
-      {[
-        { begriff: "Gewinn (= Bemessungsgrundlage)", erklaerung: "Umsatz minus Betriebsausgaben. Aus dem Gewinn werden alle Steuern (ESt, GewSt) und Sozialversicherungs-Beiträge berechnet. Wichtig: nicht der Umsatz, sondern der Gewinn ist die Basis!" },
-        { begriff: "Einkommensteuer-Progression §32a EStG", erklaerung: "Je höher dein Einkommen, desto höher der Steuersatz: 0% bis 12.348€ Grundfreibetrag, dann 14% (Eingangssatz), bis 42% (Spitzensatz ab 69.879€), 45% Reichensteuer ab 277.826€. Splitting bei Verheirateten halbiert effektiv den Tarif." },
-        { begriff: "Solidaritätszuschlag (SolZ)", erklaerung: "5,5 % auf die ESt. Aber: Freigrenze 20.350 € ESt (Single) — darunter zahlst du keinen SolZ. Bei verheirateten Paaren liegt die Grenze bei 40.700 € ESt." },
-        { begriff: "Gewerbesteuer (GewSt)", erklaerung: "Nur bei Gewerbe (nicht Freiberuf). Freibetrag 24.500 € Gewinn. Rest mit Messzahl 3,5 % × Hebesatz der Gemeinde. Wichtig: GewSt wird via §35 EStG mit Faktor 4,0 auf die ESt angerechnet — bei Hebesatz ≤400% effektiv neutral!" },
-        { begriff: "Kirchensteuer (KiSt)", erklaerung: "8 % der ESt in Bayern und Baden-Württemberg, 9 % im Rest. Nur wenn du Mitglied einer steuererhebenden Religionsgemeinschaft bist. Austritt = sofortige Befreiung." },
-        { begriff: "KV/PV freiwillig (Mindestbemessung)", erklaerung: "Als Selbstständiger zahlst du GKV freiwillig: mindestens auf 1.318,33 €/Monat fingiertes Einkommen (Mindestbemessung 2026 ≈ 260-280 €/Mon Beitrag), max. auf BBG 5.812,50 €/Mon (höchster Beitrag ~1.210 €/Mon)." },
-        { begriff: "Künstlersozialkasse (KSK)", erklaerung: "Bund übernimmt 50 % der GKV+RV-Beiträge für selbstständige Künstler/Publizisten — wie bei Angestellten. Pflicht-Mitgliedschaft für: Maler, Musiker, Autor, Journalist, Designer, Fotograf etc. Mindesteinkommen 3.900 €/J (sonst Befreiung)." },
-        { begriff: "Vergleich Selbstständig vs. Angestellt (fair)", erklaerung: "Der faire Vergleich rechnet auf gleichem AG-Total, NICHT auf gleichem Brutto-Gehalt. Grund: dein Solo-Gewinn entspricht konzeptionell dem, was ein AG insgesamt für seinen Mitarbeiter aufbringen müsste (AN-Brutto + AG-SV-Anteil ~20,5 %). Würdest du Solo-Gewinn = AN-Brutto setzen, ignoriert das den AG-Anteil und macht Selbstständige systematisch ärmer aussehen als sie sind. Faustregel: Selbstständig rentabel ab ~20-30 % Mehr-Netto — der Aufschlag deckt Sicherheits-Lücke (Lohnfortzahlung, Urlaub, BU, Rente)." },
-      ].map((g) => (
-        <div key={g.begriff} className="rounded-lg bg-secondary/30 p-3">
-          <div className="font-semibold text-foreground mb-1">{g.begriff}</div>
-          <div className="text-muted-foreground">{g.erklaerung}</div>
+    <dl className="divide-y divide-border/70 border-t border-border/70 px-5 md:px-6">
+      {GLOSSAR.map((g) => (
+        <div key={g.begriff} className="py-3.5 text-sm">
+          <dt className="font-semibold text-foreground">{g.begriff}</dt>
+          <dd className="mt-1 leading-relaxed text-muted-foreground">{g.erklaerung}</dd>
         </div>
       ))}
-    </div>
+    </dl>
   </details>
 );
 
