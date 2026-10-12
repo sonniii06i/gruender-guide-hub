@@ -9,9 +9,9 @@
 // Anzeigen-Conversions nicht abreissen.
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { CheckCircle2, Clock, Loader2, Receipt } from "lucide-react";
+import { ArrowRight, CheckCircle2, Clock, Loader2, Receipt } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { KontoRahmen, kontoCta } from "@/components/KontoRahmen";
 import { AffiliateSuccessBanner } from "@/components/AffiliateSuccessBanner";
 import { Seo } from "@/components/Seo";
 import { trackMonetization } from "@/utils/analytics";
@@ -80,104 +80,107 @@ const ZahlungErfolgreich = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background px-4 py-10">
+    <>
       <Seo
         title="Zahlung erfolgreich – GründerX"
         description="Bestätigung deiner Zahlung bei GründerX."
         path="/zahlung-erfolgreich"
         noindex
       />
-      <div className="mx-auto w-full max-w-lg space-y-6">
-        <Card>
-          <CardHeader className="text-center">
-            {zustand === "pruefen" ? (
-              <Loader2 className="mx-auto mb-3 h-12 w-12 animate-spin text-primary" />
-            ) : zustand === "bestaetigt" ? (
-              <CheckCircle2 className="mx-auto mb-3 h-12 w-12 text-green-500" />
-            ) : (
-              <Clock className="mx-auto mb-3 h-12 w-12 text-amber-500" />
-            )}
-            <CardTitle className="text-2xl">
-              {zustand === "pruefen"
-                ? "Zahlung wird bestätigt …"
-                : zustand === "bestaetigt"
-                  ? "Dein Zugang ist aktiv"
-                  : "Zahlung noch nicht bestätigt"}
-            </CardTitle>
-            <CardDescription>
-              {zustand === "pruefen"
-                ? "Einen Moment bitte, das dauert nur Sekunden."
-                : zustand === "bestaetigt"
-                  ? "Vielen Dank! Die Zahlung ist durch, alle Guides und Rechner sind freigeschaltet."
-                  : "Deine Zahlung ist bei Stripe angekommen, bei uns aber noch nicht verbucht. Bitte zahle nicht erneut — das erledigt sich meist innerhalb weniger Minuten von selbst."}
-            </CardDescription>
-          </CardHeader>
-
-          {zustand !== "pruefen" && (
-            <CardContent className="space-y-4">
-              {zustand === "bestaetigt" && (
-                <div className="space-y-2 rounded-lg border bg-muted/40 p-4 text-sm">
-                  {plan && (
-                    <div className="flex justify-between">
-                      <span className="text-muted-foreground">Plan</span>
-                      <span className="font-semibold">{plan}</span>
-                    </div>
-                  )}
-                  {bisWann && (
-                    <div className="flex justify-between">
-                      <span className="text-muted-foreground">Nächste Abrechnung</span>
-                      <span className="font-semibold">
-                        {new Date(bisWann).toLocaleDateString("de-DE", { dateStyle: "long" })}
-                      </span>
-                    </div>
-                  )}
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Abbuchung durch</span>
-                    <span className="font-semibold">GründerX</span>
+      <KontoRahmen
+        backLink={false}
+        extra={zustand === "bestaetigt" ? <AffiliateSuccessBanner /> : undefined}
+        icon={zustand === "pruefen" ? Loader2 : zustand === "bestaetigt" ? CheckCircle2 : Clock}
+        iconSpin={zustand === "pruefen"}
+        tone={zustand === "pruefen" ? "accent" : zustand === "bestaetigt" ? "success" : "warning"}
+        kicker={zustand === "bestaetigt" ? "Zahlung bestätigt" : undefined}
+        title={
+          zustand === "pruefen"
+            ? "Zahlung wird bestätigt …"
+            : zustand === "bestaetigt"
+              ? "Dein Zugang ist aktiv"
+              : "Zahlung noch nicht bestätigt"
+        }
+        subtitle={
+          zustand === "pruefen"
+            ? "Einen Moment bitte, das dauert nur Sekunden."
+            : zustand === "bestaetigt"
+              ? "Vielen Dank! Die Zahlung ist durch, alle Guides und Rechner sind freigeschaltet."
+              : "Deine Zahlung ist bei Stripe angekommen, bei uns aber noch nicht verbucht. Bitte zahle nicht erneut, das erledigt sich meist innerhalb weniger Minuten von selbst."
+        }
+      >
+        {zustand === "pruefen" ? (
+          <div className="space-y-2.5" aria-hidden="true">
+            <div className="h-10 animate-pulse rounded-lg bg-secondary" />
+            <div className="h-10 animate-pulse rounded-lg bg-secondary" />
+            <div className="h-11 animate-pulse rounded-xl bg-secondary" />
+          </div>
+        ) : (
+          <div className="space-y-5">
+            {zustand === "bestaetigt" && (
+              <dl className="divide-y divide-border rounded-xl border border-border bg-secondary/40 text-sm">
+                {plan && (
+                  <div className="flex items-center justify-between gap-4 px-4 py-3">
+                    <dt className="text-muted-foreground">Plan</dt>
+                    <dd className="text-right font-semibold">{plan}</dd>
                   </div>
-                </div>
-              )}
-
-              <p className="text-sm text-muted-foreground">
-                Rechnungen und Kündigung findest du jederzeit in deinem{" "}
-                <Link to="/profile" className="underline underline-offset-4">
-                  Profil
-                </Link>
-                .
-              </p>
-
-              <div className="grid gap-2">
-                <Button asChild>
-                  <Link to="/dashboard">Weiter zum Cockpit</Link>
-                </Button>
-                <Button asChild variant="outline">
-                  <Link to="/profile">
-                    <Receipt className="mr-2 h-4 w-4" /> Rechnung ansehen
-                  </Link>
-                </Button>
-                {zustand === "ungeklaert" && (
-                  <Button asChild variant="ghost">
-                    <a
-                      href={`mailto:${SUPPORT}?subject=Zahlung%20GruenderX${
-                        sessionId ? `%20(${sessionId})` : ""
-                      }`}
-                    >
-                      Support schreiben
-                    </a>
-                  </Button>
                 )}
-              </div>
+                {bisWann && (
+                  <div className="flex items-center justify-between gap-4 px-4 py-3">
+                    <dt className="text-muted-foreground">Nächste Abrechnung</dt>
+                    <dd className="tabular text-right font-semibold">
+                      {new Date(bisWann).toLocaleDateString("de-DE", { dateStyle: "long" })}
+                    </dd>
+                  </div>
+                )}
+                <div className="flex items-center justify-between gap-4 px-4 py-3">
+                  <dt className="text-muted-foreground">Abbuchung durch</dt>
+                  <dd className="text-right font-semibold">GründerX</dd>
+                </div>
+              </dl>
+            )}
 
-              {zustand === "ungeklaert" && sessionId && (
-                <p className="text-center text-xs text-muted-foreground">Referenz: {sessionId}</p>
+            <div className="grid gap-2">
+              <Button asChild size="lg" className={kontoCta}>
+                <Link to="/dashboard">
+                  Weiter zum Cockpit <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden="true" />
+                </Link>
+              </Button>
+              <Button asChild variant="outline" size="lg" className="h-11 rounded-xl">
+                <Link to="/profile">
+                  <Receipt className="mr-2 h-4 w-4" aria-hidden="true" /> Rechnung ansehen
+                </Link>
+              </Button>
+              {zustand === "ungeklaert" && (
+                <Button asChild variant="ghost" size="lg" className="h-11 rounded-xl">
+                  <a
+                    href={`mailto:${SUPPORT}?subject=Zahlung%20GruenderX${
+                      sessionId ? `%20(${sessionId})` : ""
+                    }`}
+                  >
+                    Support schreiben
+                  </a>
+                </Button>
               )}
-            </CardContent>
-          )}
-        </Card>
+            </div>
 
-        {zustand === "bestaetigt" && <AffiliateSuccessBanner />}
-      </div>
-    </div>
+            <p className="text-center text-sm text-muted-foreground">
+              Rechnungen und Kündigung findest du jederzeit in deinem{" "}
+              <Link to="/profile" className="font-medium text-foreground/80 underline underline-offset-4">
+                Profil
+              </Link>
+              .
+            </p>
+
+            {zustand === "ungeklaert" && sessionId && (
+              <p className="break-all rounded-lg bg-secondary/60 px-3 py-2 text-center font-mono text-xs text-muted-foreground">
+                Referenz: {sessionId}
+              </p>
+            )}
+          </div>
+        )}
+      </KontoRahmen>
+    </>
   );
 };
 

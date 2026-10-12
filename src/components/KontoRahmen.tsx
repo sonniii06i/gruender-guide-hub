@@ -19,6 +19,7 @@ export const KontoRahmen = ({
   subtitle,
   children,
   footer,
+  extra,
   backLink = true,
 }: {
   icon?: ElementType;
@@ -29,6 +30,8 @@ export const KontoRahmen = ({
   subtitle?: ReactNode;
   children?: ReactNode;
   footer?: ReactNode;
+  /** Zusatzinhalt unter der Karte (z. B. Banner). */
+  extra?: ReactNode;
   backLink?: boolean;
 }) => (
   <div className="flex min-h-screen flex-col bg-hero">
@@ -68,6 +71,8 @@ export const KontoRahmen = ({
           {subtitle && <div className="mt-2 text-sm leading-relaxed text-muted-foreground">{subtitle}</div>}
           {children && <div className="mt-6">{children}</div>}
         </div>
+
+        {extra && <div className="mt-5">{extra}</div>}
 
         {footer && <div className="mt-5 text-center text-xs leading-relaxed text-muted-foreground">{footer}</div>}
 
