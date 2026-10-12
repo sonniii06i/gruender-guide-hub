@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { Cookie } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { hasDecidedConsent, setMarketingConsent } from "@/utils/consent";
 
@@ -44,17 +45,22 @@ export const ConsentBanner = () => {
       role="dialog"
       aria-live="polite"
       aria-label="Einwilligung für Marketing-Cookies"
-      className="fixed inset-x-0 bottom-0 z-[100] border-t border-border bg-background/98 backdrop-blur supports-[backdrop-filter]:bg-background/90"
+      className="fixed inset-x-3 bottom-3 z-[100] mx-auto max-w-4xl rounded-2xl border border-border bg-card/95 shadow-soft backdrop-blur supports-[backdrop-filter]:bg-card/90 sm:inset-x-4 sm:bottom-4"
     >
-      <div className="mx-auto flex max-w-4xl flex-col gap-4 px-5 py-5 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-sm leading-relaxed text-muted-foreground">
-          Wir nutzen Cookies von Meta und Google, um zu messen, welche Anzeigen
-          zu einer Registrierung führen. Ohne diese Messung können wir Werbung
-          nicht sinnvoll steuern.{" "}
-          <Link to="/datenschutz" className="font-medium text-primary underline underline-offset-2">
-            Datenschutzerklärung
-          </Link>
-        </p>
+      <div className="flex flex-col gap-4 p-4 sm:flex-row sm:items-center sm:justify-between sm:gap-6 sm:p-5">
+        <div className="flex min-w-0 items-start gap-3">
+          <span className="hidden h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-accent text-accent-blue sm:flex">
+            <Cookie className="h-4 w-4" aria-hidden="true" />
+          </span>
+          <p className="text-sm leading-relaxed text-muted-foreground">
+            Wir nutzen Cookies von Meta und Google, um zu messen, welche Anzeigen
+            zu einer Registrierung führen. Ohne diese Messung können wir Werbung
+            nicht sinnvoll steuern.{" "}
+            <Link to="/datenschutz" className="font-medium text-foreground underline underline-offset-2 hover:text-accent-blue">
+              Datenschutzerklärung
+            </Link>
+          </p>
+        </div>
 
         <div className="flex w-full min-w-0 gap-2 sm:w-auto sm:shrink-0">
           <Button variant="outline" className="min-w-0 flex-1 px-3 sm:flex-none sm:px-4" onClick={() => decide(false)}>
