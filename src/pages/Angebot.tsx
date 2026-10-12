@@ -1,7 +1,6 @@
 import { ArrowRight, Briefcase, Building2, Calculator, Check, Megaphone, MessageSquare, ShoppingBag } from "lucide-react";
 import Logo from "@/components/Logo";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { Seo } from "@/components/Seo";
 
 /**
@@ -47,22 +46,27 @@ const BEREICHE = [
   },
   {
     icon: MessageSquare,
-    title: "Felix – KI-Chat 24/7",
+    title: "Felix: KI-Chat 24/7",
     desc: "Stell jederzeit deine Frage – Felix antwortet mit Quellen, nächsten Schritten und konkreten Anbieter-Empfehlungen für dein Setup.",
   },
 ];
 
-const Kaufknopf = ({ href, children }: { href: string; children: React.ReactNode }) => (
-  <Button asChild size="lg" className="w-full sm:w-auto text-base px-8">
+const Kaufknopf = ({ href, children, variante = "primaer" }: { href: string; children: React.ReactNode; variante?: "primaer" | "sekundaer" }) => (
+  <Button
+    asChild
+    size="lg"
+    variant={variante === "sekundaer" ? "outline" : "default"}
+    className={`h-12 w-full rounded-xl px-8 text-base font-semibold sm:w-auto ${variante === "primaer" ? "bg-gradient-primary hover:opacity-95" : ""}`}
+  >
     <a href={href} rel="nofollow">
       {children}
-      <ArrowRight className="ml-2 h-5 w-5" />
+      <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
     </a>
   </Button>
 );
 
 const Angebot = () => (
-  <div className="min-h-screen bg-background">
+  <div className="relative min-h-screen bg-background">
     <Seo
       title="GründerX — KI-Gründungs-Copilot für 64,99 € / Monat"
       description="Rechtsform, steuerliche Erfassung, LUCID, WEEE, OSS, Amazon- und TikTok-Shop-Setup: Felix führt dich als KI-Co-Pilot Schritt für Schritt durch. Monatlich kündbar."
@@ -70,25 +74,30 @@ const Angebot = () => (
       noindex
     />
 
-    <header className="border-b border-border">
-      <div className="max-w-5xl mx-auto px-6 py-4 flex items-center gap-2">
-        <Logo asImage className="h-8 w-8" />
-        <span className="font-bold text-lg text-foreground">GründerX</span>
+    <header className="absolute inset-x-0 top-0 z-10">
+      <div className="container flex h-16 max-w-5xl items-center gap-2 px-4">
+        <Logo asImage className="h-7 w-7" />
+        <span className="text-base font-semibold tracking-tight text-foreground">GründerX</span>
       </div>
     </header>
 
-    <section className="py-16 md:py-20">
-      <div className="max-w-4xl mx-auto px-6 text-center">
-        <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-balance">
+    <main>
+    <section className="relative overflow-hidden border-b border-border/70 bg-hero pb-16 pt-28 md:pb-20 md:pt-32">
+      <div
+        className="pointer-events-none absolute inset-0 bg-dots [mask-image:linear-gradient(to_bottom,black,transparent_80%)]"
+        aria-hidden="true"
+      />
+      <div className="container relative max-w-4xl px-4 text-center">
+        <h1 className="text-balance text-[2.25rem] font-semibold leading-[1.05] tracking-[-0.04em] md:text-[3.5rem]">
           <span className="block">Gründung, Steuer &amp; Marketplace-Setup.</span>
           <span className="block text-accent-blue">In der richtigen Reihenfolge.</span>
         </h1>
-        <p className="mt-6 text-lg md:text-xl text-muted-foreground text-balance">
+        <p className="mx-auto mt-6 max-w-2xl text-balance text-lg leading-relaxed text-muted-foreground">
           Rechtsform, Fragebogen zur steuerlichen Erfassung, LUCID, WEEE, OSS, Amazon- und
           TikTok-Shop-Setup: Felix führt dich als KI-Co-Pilot Schritt für Schritt durch – in der
           Reihenfolge, in der es wirklich gebraucht wird.
         </p>
-        <div className="mt-8 flex justify-center">
+        <div className="mt-9 flex justify-center">
           <Kaufknopf href={DS24_GRUENDERX}>GründerX für 64,99 € / Monat starten</Kaufknopf>
         </div>
         <p className="mt-3 text-sm text-muted-foreground">
@@ -97,65 +106,65 @@ const Angebot = () => (
       </div>
     </section>
 
-    <section className="py-16 bg-muted/30">
-      <div className="max-w-5xl mx-auto px-6">
-        <h2 className="text-3xl font-bold text-center mb-10">Wobei Felix dich begleitet</h2>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <section className="py-16 md:py-20">
+      <div className="container max-w-5xl px-4">
+        <h2 className="text-center text-2xl font-semibold tracking-tight md:text-[1.75rem]">Wobei Felix dich begleitet</h2>
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {BEREICHE.map((b) => (
-            <Card key={b.title}>
-              <CardContent className="p-5">
-                <b.icon className="h-6 w-6 mb-3 text-accent-blue" />
-                <div className="font-semibold">{b.title}</div>
-                <p className="text-sm text-muted-foreground mt-1">{b.desc}</p>
-              </CardContent>
-            </Card>
+            <div key={b.title} className="rounded-2xl border border-border bg-card p-6 shadow-card">
+              <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent text-accent-blue">
+                <b.icon className="h-5 w-5" aria-hidden="true" />
+              </span>
+              <h3 className="mt-4 text-base font-semibold tracking-tight">{b.title}</h3>
+              <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{b.desc}</p>
+            </div>
           ))}
         </div>
       </div>
     </section>
 
-    <section className="py-16">
-      <div className="max-w-5xl mx-auto px-6 grid md:grid-cols-2 gap-6">
-        <Card className="border-accent-blue">
-          <CardContent className="p-6">
-            <div className="text-sm font-semibold text-accent-blue">GründerX</div>
-            <div className="mt-2 text-4xl font-bold">
-              64,99 €<span className="text-base font-normal text-muted-foreground"> / Monat</span>
-            </div>
-            <ul className="mt-5 space-y-2">
+    <section className="border-t border-border/70 bg-secondary/40 py-16 md:py-20">
+      <div className="container max-w-5xl px-4">
+        <h2 className="text-center text-2xl font-semibold tracking-tight md:text-[1.75rem]">Dein Zugang</h2>
+        <div className="mt-10 grid gap-4 md:grid-cols-2">
+          <div className="flex flex-col rounded-2xl border-2 border-primary bg-card p-6 shadow-soft md:p-7">
+            <h3 className="text-base font-semibold">GründerX</h3>
+            <p className="mt-3 text-4xl font-semibold tracking-tight tabular">
+              64,99 €<span className="text-base font-normal tracking-normal text-muted-foreground"> / Monat</span>
+            </p>
+            <ul className="mt-6 space-y-2.5">
               {BEREICHE.map((b) => (
-                <li key={b.title} className="flex gap-2 text-sm">
-                  <Check className="h-4 w-4 mt-0.5 text-accent-blue shrink-0" /> {b.title}
+                <li key={b.title} className="flex gap-2.5 text-sm">
+                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-brand-green" aria-hidden="true" /> {b.title}
                 </li>
               ))}
             </ul>
-            <div className="mt-6"><Kaufknopf href={DS24_GRUENDERX}>Jetzt starten</Kaufknopf></div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-6">
-            <div className="text-sm font-semibold text-accent-blue">Founder Bundle — GründerX + AnwaltX</div>
-            <div className="mt-2 text-4xl font-bold">
-              99,99 €<span className="text-base font-normal text-muted-foreground"> / Monat</span>
-            </div>
-            <p className="mt-1 text-sm text-muted-foreground">statt 129,98 € einzeln · 23 % günstiger</p>
-            <p className="mt-5 text-sm">
+            <div className="mt-auto pt-7"><Kaufknopf href={DS24_GRUENDERX}>Jetzt starten</Kaufknopf></div>
+          </div>
+          <div className="flex flex-col rounded-2xl border border-border bg-card p-6 shadow-card md:p-7">
+            <h3 className="text-base font-semibold">Founder Bundle: GründerX + AnwaltX</h3>
+            <p className="mt-3 text-4xl font-semibold tracking-tight tabular">
+              99,99 €<span className="text-base font-normal tracking-normal text-muted-foreground"> / Monat</span>
+            </p>
+            <p className="mt-1.5 text-sm text-muted-foreground tabular">statt 129,98 € einzeln · 23 % günstiger</p>
+            <p className="mt-6 text-sm leading-relaxed">
               Alles aus GründerX plus AnwaltX, der KI-Rechtsassistent für Onlinehändler und
               Gründer — in einem Abo, monatlich kündbar.
             </p>
-            <div className="mt-6"><Kaufknopf href={DS24_BUNDLE}>Bundle starten</Kaufknopf></div>
-          </CardContent>
-        </Card>
+            <div className="mt-auto pt-7"><Kaufknopf href={DS24_BUNDLE} variante="sekundaer">Bundle starten</Kaufknopf></div>
+          </div>
+        </div>
+        <p className="mx-auto mt-8 max-w-3xl text-center text-xs leading-relaxed text-muted-foreground">
+          Bestellung, Zahlung und Rechnung über Digistore24 als Reseller. Die Abbuchung erfolgt durch
+          Digistore24. GründerX ist keine Rechts- oder Steuerberatung; siehe{" "}
+          <a href="/agb" className="underline underline-offset-2 hover:text-foreground">AGB</a>.
+        </p>
       </div>
-      <p className="max-w-3xl mx-auto px-6 mt-8 text-center text-xs text-muted-foreground">
-        Bestellung, Zahlung und Rechnung über Digistore24 als Reseller. Die Abbuchung erfolgt durch
-        Digistore24. GründerX ist keine Rechts- oder Steuerberatung; siehe{" "}
-        <a href="/agb" className="underline">AGB</a>.
-      </p>
     </section>
+    </main>
 
-    <footer className="border-t border-border py-8">
-      <div className="max-w-5xl mx-auto px-6 flex flex-wrap gap-6 justify-center text-sm text-muted-foreground">
+    <footer className="border-t border-border/70 py-8">
+      <div className="container flex max-w-5xl flex-wrap justify-center gap-x-6 gap-y-2 px-4 text-sm text-muted-foreground">
         <a href="/impressum" className="hover:text-foreground">Impressum</a>
         <a href="/datenschutz" className="hover:text-foreground">Datenschutz</a>
         <a href="/agb" className="hover:text-foreground">AGB</a>
