@@ -16,6 +16,9 @@ export type GalleryImage = {
  * sich Hineinzoomen lohnen würde, und eine Lupe, die nichts vergrößert, wirkt
  * wie ein kaputtes Feature.
  */
+/** Kleine Variante (720 px) neben jedem .webp-Screenshot, falls vorhanden. */
+const small = (src: string) => (src.endsWith(".webp") ? src.replace(/\.webp$/, "-720.webp") : src);
+
 export const ProductGallery = ({
   images,
   className,
@@ -40,12 +43,16 @@ export const ProductGallery = ({
         className={cn(
           "relative overflow-hidden rounded-2xl border border-border",
           variant === "screenshot"
-            ? "aspect-[1535/784] bg-card shadow-card"
+            ? "aspect-[16/10] bg-card shadow-card"
             : "aspect-square bg-gradient-to-br from-muted/60 via-background to-muted/30",
         )}
       >
         <img
           src={current.src}
+          srcSet={current.src.endsWith(".webp") ? `${small(current.src)} 720w, ${current.src} 1440w` : undefined}
+          sizes="(min-width: 1024px) 680px, 100vw"
+          width={1440}
+          height={900}
           alt={current.alt}
           className={cn("h-full w-full", variant === "screenshot" ? "object-cover object-top" : "object-contain p-6")}
           loading="eager"
@@ -74,7 +81,7 @@ export const ProductGallery = ({
                   : "border-border hover:border-accent-blue/50",
               )}
             >
-              <img src={img.src} alt="" aria-hidden className={cn("h-full w-full", variant === "screenshot" ? "object-cover object-top" : "object-contain p-1.5")} loading="lazy" />
+              <img src={small(img.src)} alt="" aria-hidden className={cn("h-full w-full", variant === "screenshot" ? "object-cover object-top" : "object-contain p-1.5")} loading="lazy" />
             </button>
           ))}
         </div>

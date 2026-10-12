@@ -7,7 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { getStoredAffiliateRef } from "@/utils/affiliate";
 import { PLANS, PLAN_ORDER, SOLO_CONTENTS, BUNDLE_CONTENTS, NOT_INCLUDED, CANCEL_NOTE, FOUNDER_CODE, formatEurCents } from "@/config/pricing";
 import { rememberCartVariant } from "@/lib/cart";
-import { ANBIETER_ANZAHL } from "@/data/kennzahlen";
+import { ANBIETER_ANZAHL, ANBIETER_KATEGORIEN } from "@/data/kennzahlen";
 import { toast } from "sonner";
 import { ProductGallery, type GalleryImage } from "@/components/product/ProductGallery";
 import { ProductBuyBox, eur, type Variant } from "@/components/product/ProductBuyBox";
@@ -51,17 +51,20 @@ const CHECKOUT: Record<string, { priceId: string; interval: "month" | "year" }> 
  * Oberflaeche das Produkt -- ein Screenshot schlaegt hier jede Illustration
  * und jedes 3D-Mockup.
  */
+// Echte Ansichten der App (10/2026, Testkonto ohne Kundendaten).
+const S = "/screens/2026-10";
 const SOLO_GALLERY: GalleryImage[] = [
-  { src: "/screens/cockpit-uebersicht.jpg", alt: "GründerX-Cockpit mit laufenden Guides und Einsteiger-Tools", caption: "Dein Cockpit — laufende Guides, Tools und Empfehlungen an einer Stelle" },
-  { src: "/screens/cockpit-rechtsform.jpg", alt: "Rechtsform-Wizard mit Empfehlung UG und Begründung", caption: "Rechtsform-Wizard: fünf Fragen, dann eine begründete Empfehlung samt Fallstricken" },
-  { src: "/screens/cockpit-steuer.jpg", alt: "Steuer-Cockpit mit Fristen-Kalender 2026 und USt-Einstellungen", caption: "Steuer-Cockpit: Fristen richten sich live nach Rechtsform, USt-Rhythmus und OSS" },
-  { src: "/screens/cockpit-anbieter.jpg", alt: `Anbieter-Vergleich mit ${ANBIETER_ANZAHL} Anbietern nach Kategorien`, caption: `Anbieter-Vergleich: ${ANBIETER_ANZAHL} Anbieter mit Stärken und Schwächen, wöchentlich gepflegt` },
+  { src: `${S}/uebersicht.webp`, alt: "GründerX-Cockpit mit Fristen der nächsten 14 Tage, Event-Radar und Einstieg für Anfänger", caption: "Dein Cockpit: anstehende Fristen, Event-Radar und der Einstieg für Anfänger (Ansicht mit Testkonto)" },
+  { src: `${S}/rechtsform.webp`, alt: "Rechtsform-Wizard mit Empfehlung UG und Begründung", caption: "Rechtsform-Wizard: wenige Fragen, dann eine begründete Empfehlung samt Fallstricken" },
+  { src: `${S}/steuerkalender.webp`, alt: "Steuer- und Fristenkalender mit den Terminen der nächsten 12 Monate", caption: "Steuer- und Fristenkalender: alle Termine der nächsten 12 Monate für deine Situation" },
+  { src: `${S}/anbieter.webp`, alt: `Anbieter-Vergleich mit ${ANBIETER_ANZAHL} Anbietern nach Kategorien`, caption: `Anbieter-Vergleich: ${ANBIETER_ANZAHL} Anbieter in ${ANBIETER_KATEGORIEN} Kategorien mit Stärken und Schwächen` },
+  { src: `${S}/runway.webp`, alt: "Runway-Rechner mit Ergebnis in Monaten", caption: "Runway-Rechner: wie lange das Geld reicht und ab wann du profitabel bist" },
 ];
 
 const BUNDLE_GALLERY: GalleryImage[] = [
-  { src: "/screens/cockpit-uebersicht.jpg", alt: "GründerX-Cockpit mit laufenden Guides", caption: "Founder-Set — enthält den vollen GründerX-Zugang, dazu Juri von AnwaltX" },
-  { src: "/screens/cockpit-rechtsform.jpg", alt: "Rechtsform-Wizard mit Empfehlung", caption: "Alle Wizards und Cockpits ohne Aufpreis" },
-  { src: "/screens/cockpit-steuer.jpg", alt: "Steuer-Cockpit mit Fristen-Kalender", caption: "Fristen, USt und OSS im Blick" },
+  { src: `${S}/uebersicht.webp`, alt: "GründerX-Cockpit mit Fristen und Einstieg", caption: "Founder-Set: enthält den vollen GründerX-Zugang, dazu Juri von AnwaltX" },
+  { src: `${S}/rechtsform.webp`, alt: "Rechtsform-Wizard mit Empfehlung", caption: "Alle Wizards und Rechner ohne Aufpreis" },
+  { src: `${S}/steuerkalender.webp`, alt: "Steuer- und Fristenkalender", caption: "Fristen, USt und OSS im Blick" },
 ];
 
 const GALLERY: Record<string, GalleryImage[]> = {
