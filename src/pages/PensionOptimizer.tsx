@@ -2,8 +2,8 @@ import { useMemo, useState } from "react";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import Stand2026Footer from "@/components/cockpit/Stand2026Footer";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Calculator, AlertTriangle, TrendingUp } from "lucide-react";
+import { Callout, Field, ResultPanel, ToneBadge, ToolLayout, ToolSection, selectCls } from "@/components/cockpit/kit";
+import { Calculator, AlertTriangle, TrendingUp, SlidersHorizontal, ChevronDown, Plus, Minus } from "lucide-react";
 import {
   annuityFV as annuity_fv,
   RUERUP_MAX_SINGLE,
@@ -245,309 +245,278 @@ const PensionOptimizer = () => {
     ].sort((a, b) => b.finalEffekt - a.finalEffekt);
   }, [calc]);
 
+
+  const eur = (n: number) => `${Math.round(n).toLocaleString("de-DE")} €`;
+  const top = sortedOptions[0];
+  const checkCls = "mt-0.5 h-4 w-4 shrink-0 accent-[hsl(var(--primary))]";
+
   return (
     <CockpitShell
       eyebrow="Pension-Optimizer"
-      title="Rürup vs. bAV vs. Riester vs. ETF-Privat"
-      subtitle="Steuer-Effekt-Vergleich der 4 wichtigsten Altersvorsorge-Vehikel für Selbstständige + Angestellte. Live-Berechnung der End-Kapitale + Steuer-Ersparnis."
+      title="Rürup, bAV, Riester oder ETF privat"
+      subtitle="Steuer-Effekt-Vergleich der 4 wichtigsten Altersvorsorge-Wege für Selbstständige und Angestellte. Endkapital und Steuer-Ersparnis werden live berechnet."
     >
-      {/* Inputs */}
-      <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5 mb-6">
-        <h3 className="font-bold text-sm mb-3">Deine Situation</h3>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Aktuelles Alter</Label>
-            <Input
-              type="number"
-              value={alter}
-              onChange={(e) => setAlter(Math.max(18, Math.min(80, Number(e.target.value) || 35)))}
-              className="mt-1"
-            />
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Renteneintritts-Alter</Label>
-            <Input
-              type="number"
-              value={renteAlter}
-              onChange={(e) => setRenteAlter(Math.max(60, Math.min(85, Number(e.target.value) || 67)))}
-              className="mt-1"
-            />
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Sparrate / Monat</Label>
-            <Input
-              type="number"
-              value={monatlichSparen}
-              onChange={(e) => setMonatlichSparen(Math.max(0, Number(e.target.value) || 0))}
-              className="mt-1"
-            />
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Jahres-Einkommen (€)</Label>
-            <Input
-              type="number"
-              value={jahresEinkommen}
-              onChange={(e) => setJahresEinkommen(Math.max(0, Number(e.target.value) || 0))}
-              className="mt-1"
-            />
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Persönl. ESt-Satz</Label>
-            <select
-              value={estSatz}
-              onChange={(e) => setEstSatz(Number(e.target.value))}
-              className="mt-1 h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
-            >
-              <option value={0.14}>14 %</option>
-              <option value={0.24}>24 %</option>
-              <option value={0.32}>32 %</option>
-              <option value={0.42}>42 %</option>
-              <option value={0.45}>45 %</option>
-            </select>
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Erwartete Rendite p.a.</Label>
-            <select
-              value={annualReturn}
-              onChange={(e) => setAnnualReturn(Number(e.target.value))}
-              className="mt-1 h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
-            >
-              <option value={0.04}>4 % (konservativ)</option>
-              <option value={0.06}>6 % (Standard MSCI World)</option>
-              <option value={0.08}>8 % (aggressiv)</option>
-              <option value={0.10}>10 % (sehr aggressiv)</option>
-            </select>
-          </div>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
-          <label className="flex items-center gap-2 text-xs cursor-pointer rounded-lg border border-border p-2">
-            <input
-              type="checkbox"
-              checked={istBeherrschenderGF}
-              onChange={(e) => setIstBeherrschenderGF(e.target.checked)}
-              className="h-4 w-4"
-            />
-            <span>Ich bin <strong>beherrschender GF</strong> (i.d.R. SV-frei → keine bAV-SV-Ersparnis)</span>
-          </label>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Riester-Kinder ab 2008 (Zulage je 300 €)</Label>
-            <Input
-              type="number"
-              value={riesterKinderAb2008}
-              onChange={(e) => setRiesterKinderAb2008(Math.max(0, Number(e.target.value) || 0))}
-              className="mt-1 h-9 text-sm"
-            />
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Riester-Kinder vor 2008 (Zulage je 185 €)</Label>
-            <Input
-              type="number"
-              value={riesterKinderVor2008}
-              onChange={(e) => setRiesterKinderVor2008(Math.max(0, Number(e.target.value) || 0))}
-              className="mt-1 h-9 text-sm"
-            />
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">NPV-Diskontierungssatz p.a.</Label>
-            <select
-              value={diskontierungssatz}
-              onChange={(e) => setDiskontierungssatz(Number(e.target.value))}
-              className="mt-1 h-9 w-full rounded-md border border-input bg-background px-2 text-sm"
-            >
-              <option value={0}>0 % (nominal — keine Diskontierung)</option>
-              <option value={0.02}>2 % (EZB-Inflations-Ziel)</option>
-              <option value={0.025}>2,5 % (real, Standard)</option>
-              <option value={0.04}>4 % (Opportunitäts-Rendite konservativ)</option>
-              <option value={0.06}>6 % (Aktien-Opportunität)</option>
-            </select>
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">ETF-Typ (Teilfreistellung §20 InvStG)</Label>
-            <select
-              value={etfTyp}
-              onChange={(e) => setEtfTyp(e.target.value as EtfTyp)}
-              className="mt-1 h-9 w-full rounded-md border border-input bg-background px-2 text-sm"
-            >
-              <option value="aktien">Aktien-ETF (≥51% Aktien — 30% TF)</option>
-              <option value="misch">Misch-ETF (25-50% Aktien — 15% TF)</option>
-              <option value="anleihen">Anleihen-/Geldmarkt-ETF (0% TF)</option>
-            </select>
-          </div>
-          <label className="flex items-start gap-2 text-xs cursor-pointer rounded-lg border border-emerald-500/30 bg-emerald-500/5 p-2">
-            <input
-              type="checkbox"
-              checked={reinvestSteuerErsparnis}
-              onChange={(e) => setReinvestSteuerErsparnis(e.target.checked)}
-              className="h-4 w-4 mt-0.5"
-            />
-            <span>
-              <strong>Steuer-Ersparnis reinvestieren</strong> (realistisch — sonst Apfel+Birne-Vergleich Sparphasen-Cash vs. Renten-Auszahlung in 30 J.)
-            </span>
-          </label>
-        </div>
-        <div className="rounded-xl bg-secondary/40 p-3 mt-3 text-xs">
-          <strong>{jahre} Jahre bis Rente</strong> · {jaehrlichSparen.toLocaleString("de-DE")} €/Jahr Sparrate · Total
-          eingezahlt: {(jaehrlichSparen * jahre).toLocaleString("de-DE")} €
-        </div>
-      </div>
+      <ToolLayout
+        className="mb-8"
+        inputs={
+          <>
+            <ToolSection title="Deine Situation" icon={Calculator}>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <Field label="Aktuelles Alter" htmlFor="po-alter">
+                  <Input
+                    id="po-alter"
+                    type="number"
+                    value={alter}
+                    onChange={(e) => setAlter(Math.max(18, Math.min(80, Number(e.target.value) || 35)))}
+                    className="tabular"
+                  />
+                </Field>
+                <Field label="Renteneintrittsalter" htmlFor="po-rente">
+                  <Input
+                    id="po-rente"
+                    type="number"
+                    value={renteAlter}
+                    onChange={(e) => setRenteAlter(Math.max(60, Math.min(85, Number(e.target.value) || 67)))}
+                    className="tabular"
+                  />
+                </Field>
+                <Field label="Sparrate pro Monat (€)" htmlFor="po-sparen">
+                  <Input
+                    id="po-sparen"
+                    type="number"
+                    value={monatlichSparen}
+                    onChange={(e) => setMonatlichSparen(Math.max(0, Number(e.target.value) || 0))}
+                    className="tabular"
+                  />
+                </Field>
+                <Field label="Jahreseinkommen (€)" htmlFor="po-einkommen">
+                  <Input
+                    id="po-einkommen"
+                    type="number"
+                    value={jahresEinkommen}
+                    onChange={(e) => setJahresEinkommen(Math.max(0, Number(e.target.value) || 0))}
+                    className="tabular"
+                  />
+                </Field>
+                <Field label="Persönlicher Steuersatz" htmlFor="po-est">
+                  <select id="po-est" value={estSatz} onChange={(e) => setEstSatz(Number(e.target.value))} className={selectCls}>
+                    <option value={0.14}>14 %</option>
+                    <option value={0.24}>24 %</option>
+                    <option value={0.32}>32 %</option>
+                    <option value={0.42}>42 %</option>
+                    <option value={0.45}>45 %</option>
+                  </select>
+                </Field>
+                <Field label="Erwartete Rendite pro Jahr" htmlFor="po-rendite">
+                  <select id="po-rendite" value={annualReturn} onChange={(e) => setAnnualReturn(Number(e.target.value))} className={selectCls}>
+                    <option value={0.04}>4 % (konservativ)</option>
+                    <option value={0.06}>6 % (Standard MSCI World)</option>
+                    <option value={0.08}>8 % (aggressiv)</option>
+                    <option value={0.10}>10 % (sehr aggressiv)</option>
+                  </select>
+                </Field>
+              </div>
+              <div className="mt-4 rounded-xl bg-secondary/60 px-4 py-3 text-sm tabular">
+                <strong className="font-semibold">{jahre} Jahre bis zur Rente</strong> · {jaehrlichSparen.toLocaleString("de-DE")} € pro Jahr ·
+                insgesamt eingezahlt: {(jaehrlichSparen * jahre).toLocaleString("de-DE")} €
+              </div>
+            </ToolSection>
 
-      {/* Top-Empfehlung */}
-      {sortedOptions.length > 0 && (
-        <div className="rounded-2xl border-2 border-emerald-500/40 bg-gradient-to-br from-card via-card to-emerald-500/5 p-5 mb-6">
-          <div className="flex items-center gap-2 mb-2">
-            <TrendingUp className="h-5 w-5 text-emerald-700" />
-            <span className="text-xs font-semibold uppercase tracking-wider text-emerald-700">
-              Steuer-optimal für dich
-            </span>
-          </div>
-          <h3 className="text-2xl font-bold mb-1">
-            {sortedOptions[0].emoji} {sortedOptions[0].name}
-          </h3>
-          <p className="text-sm text-muted-foreground mb-3">{sortedOptions[0].description}</p>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-center">
-            <div className="rounded-lg bg-secondary/40 p-3">
-              <div className="text-[10px] text-muted-foreground uppercase">Endkapital</div>
-              <div className="text-base font-bold">
-                {Math.round(sortedOptions[0].endkapital).toLocaleString("de-DE")} €
+            <ToolSection title="Feinheiten" description="Annahmen für bAV, Riester, ETF und die Barwert-Rechnung." icon={SlidersHorizontal}>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <Field label="Riester-Kinder ab 2008" hint="Zulage je 300 €" htmlFor="po-kinder-ab">
+                  <Input
+                    id="po-kinder-ab"
+                    type="number"
+                    value={riesterKinderAb2008}
+                    onChange={(e) => setRiesterKinderAb2008(Math.max(0, Number(e.target.value) || 0))}
+                    className="tabular"
+                  />
+                </Field>
+                <Field label="Riester-Kinder vor 2008" hint="Zulage je 185 €" htmlFor="po-kinder-vor">
+                  <Input
+                    id="po-kinder-vor"
+                    type="number"
+                    value={riesterKinderVor2008}
+                    onChange={(e) => setRiesterKinderVor2008(Math.max(0, Number(e.target.value) || 0))}
+                    className="tabular"
+                  />
+                </Field>
+                <Field label="NPV-Diskontierungssatz pro Jahr" htmlFor="po-npv" className="sm:col-span-2">
+                  <select id="po-npv" value={diskontierungssatz} onChange={(e) => setDiskontierungssatz(Number(e.target.value))} className={selectCls}>
+                    <option value={0}>0 % (nominal, keine Diskontierung)</option>
+                    <option value={0.02}>2 % (EZB-Inflationsziel)</option>
+                    <option value={0.025}>2,5 % (real, Standard)</option>
+                    <option value={0.04}>4 % (Opportunitäts-Rendite konservativ)</option>
+                    <option value={0.06}>6 % (Aktien-Opportunität)</option>
+                  </select>
+                </Field>
+                <Field label="ETF-Typ (Teilfreistellung § 20 InvStG)" htmlFor="po-etf" className="sm:col-span-2">
+                  <select id="po-etf" value={etfTyp} onChange={(e) => setEtfTyp(e.target.value as EtfTyp)} className={selectCls}>
+                    <option value="aktien">Aktien-ETF (ab 51 % Aktien, 30 % TF)</option>
+                    <option value="misch">Misch-ETF (25 bis 50 % Aktien, 15 % TF)</option>
+                    <option value="anleihen">Anleihen-/Geldmarkt-ETF (0 % TF)</option>
+                  </select>
+                </Field>
               </div>
-            </div>
-            <div className="rounded-lg bg-secondary/40 p-3">
-              <div className="text-[10px] text-muted-foreground uppercase">Steuer-Ersparnis (kumuliert)</div>
-              <div className="text-base font-bold text-emerald-700">
-                {Math.round(sortedOptions[0].steuerErsparnis).toLocaleString("de-DE")} €
-              </div>
-            </div>
-            <div className="rounded-lg bg-emerald-500/10 p-3">
-              <div className="text-[10px] text-emerald-700 uppercase">Total-Effekt</div>
-              <div className="text-base font-bold text-emerald-700">
-                {Math.round(sortedOptions[0].finalEffekt).toLocaleString("de-DE")} €
-              </div>
-              <div className="text-[10px] text-muted-foreground mt-0.5">Netto + Steuer-Ersparnis{reinvestSteuerErsparnis ? " (reinvestiert)" : " (undiskontiert)"}</div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Alle Optionen Vergleich */}
-      <h3 className="text-base font-bold mb-3">Alle 4 Optionen im Vergleich</h3>
-      <div className="space-y-3 mb-6">
-        {sortedOptions.map((o, i) => (
-          <div
-            key={o.slug}
-            className={`rounded-2xl border p-5 ${
-              i === 0
-                ? "border-emerald-500/40 bg-emerald-500/5"
-                : i === sortedOptions.length - 1
-                ? "border-red-500/30 bg-red-500/5"
-                : "border-border bg-card"
-            }`}
-          >
-            <div className="flex items-start justify-between gap-3 mb-3 flex-wrap">
-              <div className="flex items-start gap-3">
-                <span className="text-3xl">{o.emoji}</span>
-                <div>
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="rounded-full bg-secondary text-muted-foreground px-2 py-0.5 text-[10px] font-bold">
-                      #{i + 1}
+              <div className="mt-4 space-y-2">
+                <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-border p-3.5 text-sm transition-colors hover:border-foreground/25">
+                  <input
+                    type="checkbox"
+                    checked={istBeherrschenderGF}
+                    onChange={(e) => setIstBeherrschenderGF(e.target.checked)}
+                    className={checkCls}
+                  />
+                  <span>
+                    <span className="font-medium">Ich bin beherrschender Geschäftsführer</span>
+                    <span className="mt-0.5 block text-xs text-muted-foreground">In der Regel SV-frei, daher keine SV-Ersparnis bei der bAV.</span>
+                  </span>
+                </label>
+                <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-border p-3.5 text-sm transition-colors hover:border-foreground/25">
+                  <input
+                    type="checkbox"
+                    checked={reinvestSteuerErsparnis}
+                    onChange={(e) => setReinvestSteuerErsparnis(e.target.checked)}
+                    className={checkCls}
+                  />
+                  <span>
+                    <span className="font-medium">Steuer-Ersparnis reinvestieren</span>
+                    <span className="mt-0.5 block text-xs text-muted-foreground">
+                      Realistischer Vergleich. Sonst stehen Sparphasen-Cash und Renten-Auszahlung in 30 Jahren unvergleichbar nebeneinander.
                     </span>
-                    <h4 className="font-bold">{o.name}</h4>
-                    {i === 0 && (
-                      <span className="rounded-full bg-emerald-500/10 text-emerald-700 px-2 py-0.5 text-[10px] font-semibold">
-                        ✓ Beste
-                      </span>
-                    )}
+                  </span>
+                </label>
+              </div>
+            </ToolSection>
+          </>
+        }
+        result={
+          top && (
+            <ResultPanel
+              variant="ink"
+              kicker="Steuer-optimal für dich"
+              title={top.name}
+              value={eur(top.finalEffekt)}
+              valueHint={`Total-Effekt: Netto plus Steuer-Ersparnis${reinvestSteuerErsparnis ? " (reinvestiert)" : " (undiskontiert)"}`}
+            >
+              <p className="text-sm leading-relaxed text-primary-foreground/75">{top.description}</p>
+              <div className="mt-4 grid grid-cols-2 gap-px overflow-hidden rounded-xl bg-white/10">
+                {[
+                  { l: "Endkapital", v: eur(top.endkapital) },
+                  { l: "Steuer-Ersparnis (kumuliert)", v: eur(top.steuerErsparnis) },
+                ].map((k) => (
+                  <div key={k.l} className="bg-white/[0.04] p-3">
+                    <div className="text-xs text-primary-foreground/65">{k.l}</div>
+                    <div className="mt-0.5 font-semibold text-primary-foreground tabular">{k.v}</div>
                   </div>
-                  <p className="text-xs text-muted-foreground">{o.description}</p>
-                </div>
+                ))}
               </div>
-              <div className="text-right">
-                <div className="text-xl font-bold">{Math.round(o.finalEffekt).toLocaleString("de-DE")} €</div>
-                <div className="text-[10px] text-muted-foreground">Total-Effekt nach Steuer</div>
-              </div>
-            </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs mb-3">
-              <div className="rounded-lg bg-secondary/40 p-2">
-                <div className="text-[10px] text-muted-foreground uppercase">Endkapital</div>
-                <div className="font-mono">{Math.round(o.endkapital).toLocaleString("de-DE")} €</div>
-              </div>
-              <div className="rounded-lg bg-secondary/40 p-2">
-                <div className="text-[10px] text-muted-foreground uppercase">Netto nach Steuer</div>
-                <div className="font-mono">{Math.round(o.netto).toLocaleString("de-DE")} €</div>
-              </div>
-              <div className="rounded-lg bg-emerald-500/10 p-2">
-                <div className="text-[10px] text-emerald-700 uppercase">Steuer-Ersparnis</div>
-                <div className="font-mono">{Math.round(o.steuerErsparnis).toLocaleString("de-DE")} €</div>
-              </div>
-              <div className="rounded-lg bg-blue-500/10 p-2">
-                <div className="text-[10px] text-blue-700 uppercase">NPV ({(diskontierungssatz * 100).toFixed(1)}%)</div>
-                <div className="font-mono">{Math.round((o as any).npv ?? 0).toLocaleString("de-DE")} €</div>
-              </div>
-            </div>
-            {(o as any).warnung && (
-              <div className="text-[11px] text-amber-700 bg-amber-500/10 border border-amber-500/30 rounded p-2 mb-2">
-                {(o as any).warnung}
-              </div>
-            )}
-            <details className="text-xs">
-              <summary className="cursor-pointer font-semibold text-muted-foreground">Pros / Cons ▾</summary>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
-                <div>
-                  <div className="text-[10px] uppercase tracking-wider text-emerald-700 font-semibold mb-1">+</div>
-                  <ul className="space-y-0.5 text-muted-foreground">
-                    {o.pros.map((p, j) => (
-                      <li key={j} dangerouslySetInnerHTML={{ __html: "· " + p.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>") }} />
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <div className="text-[10px] uppercase tracking-wider text-red-700 font-semibold mb-1">−</div>
-                  <ul className="space-y-0.5 text-muted-foreground">
-                    {o.cons.map((c, j) => (
-                      <li key={j} dangerouslySetInnerHTML={{ __html: "· " + c.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>") }} />
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </details>
-          </div>
-        ))}
-      </div>
+            </ResultPanel>
+          )
+        }
+      />
 
-      <div className="rounded-2xl border border-amber-500/30 bg-amber-500/5 p-4 text-xs leading-relaxed">
-        <div className="flex items-start gap-2">
-          <AlertTriangle className="h-4 w-4 text-amber-700 shrink-0 mt-0.5" />
-          <div>
-            <div className="font-semibold mb-1">Wichtige Vereinfachungen:</div>
-            <ul className="list-disc pl-4 space-y-1 text-muted-foreground">
-              <li>
-                Vereinfachtes Modell — reale Berechnung mit StB und individueller Vermögens-Situation prüfen
-              </li>
-              <li>
-                <strong>Rürup ist meist beste Wahl für Selbstständige mit hohem ESt-Satz</strong> (42–45 %) —
-                Steuer-Ersparnis sofort, Rente erst in der Zukunft besteuert (oft niedrigerer Rentner-Tarif)
-              </li>
-              <li>
-                <strong>Mix-Strategie</strong>: 50 % Rürup für Steuer-Vorteil + 50 % ETF für Liquidität ist typische
-                Empfehlung
-              </li>
-              <li>
-                <strong>bAV nur sinnvoll mit GmbH</strong> (du als GF-Versicherter). Beachte: der
-                bAV-KV-Freibetrag (2.373 €/J, 2026) im Rentenalter greift NUR bei
-                KVdR-Pflichtversicherten — als beherrschender GmbH-GF (meist freiwillig/privat
-                versichert) zahlst du den vollen KV-Beitrag auf die gesamte bAV. Der Rechner
-                berücksichtigt das, sobald du „beherrschender GF" anhakst.
-              </li>
-              <li>
-                <strong>Riester</strong>: nur für Angestellte oder Ehepartner von Selbstständigen
-              </li>
-              <li>
-                Rendite-Annahmen historisch (MSCI World 1990–2024 ~7,5 % real). Zukunft kann anders sein.
-              </li>
-              <li>Konkrete Produktwahl mit Honorarberater (NICHT Provisions-Verkäufer) klären</li>
-            </ul>
-          </div>
+      <ToolSection title="Alle 4 Optionen im Vergleich" description="Sortiert nach Total-Effekt nach Steuer." icon={TrendingUp} className="mb-6">
+        <div className="space-y-3">
+          {sortedOptions.map((o, i) => (
+            <article
+              key={o.slug}
+              className={`rounded-xl border p-4 md:p-5 ${
+                i === 0
+                  ? "border-success/30 bg-success-soft/60"
+                  : i === sortedOptions.length - 1
+                  ? "border-danger/20 bg-danger-soft/40"
+                  : "border-border bg-card"
+              }`}
+            >
+              <div className="mb-3 flex flex-wrap items-start justify-between gap-3">
+                <div className="min-w-0 flex-1">
+                  <div className="mb-1 flex flex-wrap items-center gap-2">
+                    <ToneBadge tone="neutral" className="tabular">#{i + 1}</ToneBadge>
+                    <h3 className="font-semibold">{o.name}</h3>
+                    {i === 0 && <ToneBadge tone="success">Beste Option</ToneBadge>}
+                  </div>
+                  <p className="text-sm text-muted-foreground">{o.description}</p>
+                </div>
+                <div className="text-left sm:text-right">
+                  <div className="text-xl font-semibold tracking-tight tabular">{eur(o.finalEffekt)}</div>
+                  <div className="text-xs text-muted-foreground">Total-Effekt nach Steuer</div>
+                </div>
+              </div>
+              <div className="mb-3 grid grid-cols-2 gap-2 md:grid-cols-4">
+                {[
+                  { l: "Endkapital", v: o.endkapital },
+                  { l: "Netto nach Steuer", v: o.netto },
+                  { l: "Steuer-Ersparnis", v: o.steuerErsparnis, tone: "text-success" },
+                  { l: `NPV (${(diskontierungssatz * 100).toFixed(1)} %)`, v: (o as any).npv ?? 0, tone: "text-info" },
+                ].map((k) => (
+                  <div key={k.l} className="rounded-lg bg-card/80 p-2.5 ring-1 ring-border/70">
+                    <div className="text-xs text-muted-foreground">{k.l}</div>
+                    <div className={`mt-0.5 text-sm font-semibold tabular ${k.tone ?? ""}`}>{eur(k.v)}</div>
+                  </div>
+                ))}
+              </div>
+              {(o as any).warnung && (
+                <Callout tone="warning" className="mb-3 p-3 text-xs">
+                  {(o as any).warnung}
+                </Callout>
+              )}
+              <details className="group text-sm">
+                <summary className="flex cursor-pointer list-none items-center gap-1 font-medium text-accent-blue [&::-webkit-details-marker]:hidden">
+                  Vor- und Nachteile
+                  <ChevronDown className="h-4 w-4 transition-transform group-open:rotate-180" aria-hidden="true" />
+                </summary>
+                <div className="mt-3 grid grid-cols-1 gap-4 md:grid-cols-2">
+                  <div>
+                    <p className="mb-1.5 flex items-center gap-1.5 text-xs font-semibold text-success">
+                      <Plus className="h-3.5 w-3.5" aria-hidden="true" /> Vorteile
+                    </p>
+                    <ul className="space-y-1 text-muted-foreground [&_strong]:text-foreground">
+                      {o.pros.map((p, j) => (
+                        <li key={j} dangerouslySetInnerHTML={{ __html: "· " + p.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>") }} />
+                      ))}
+                    </ul>
+                  </div>
+                  <div>
+                    <p className="mb-1.5 flex items-center gap-1.5 text-xs font-semibold text-danger">
+                      <Minus className="h-3.5 w-3.5" aria-hidden="true" /> Nachteile
+                    </p>
+                    <ul className="space-y-1 text-muted-foreground [&_strong]:text-foreground">
+                      {o.cons.map((c, j) => (
+                        <li key={j} dangerouslySetInnerHTML={{ __html: "· " + c.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>") }} />
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </details>
+            </article>
+          ))}
         </div>
-      </div>
+      </ToolSection>
+
+      <Callout tone="warning" title="Wichtige Vereinfachungen" icon={AlertTriangle} className="mb-6">
+        <ul className="mt-1 list-disc space-y-1 pl-4">
+          <li>Vereinfachtes Modell: Die reale Berechnung mit Steuerberatung und deiner individuellen Vermögenssituation prüfen.</li>
+          <li>
+            <strong>Rürup ist für Selbstständige mit hohem Steuersatz (42 bis 45 %) meist die beste Wahl</strong>: Steuer-Ersparnis
+            sofort, die Rente wird erst später besteuert (oft mit niedrigerem Rentner-Tarif).
+          </li>
+          <li>
+            <strong>Mix-Strategie</strong>: 50 % Rürup für den Steuervorteil und 50 % ETF für Liquidität ist eine typische Empfehlung.
+          </li>
+          <li>
+            <strong>bAV nur sinnvoll mit GmbH</strong> (du als versicherter GF). Beachte: Der bAV-KV-Freibetrag (2.373 € pro Jahr,
+            2026) im Rentenalter greift NUR bei KVdR-Pflichtversicherten. Als beherrschender GmbH-GF (meist freiwillig oder privat
+            versichert) zahlst du den vollen KV-Beitrag auf die gesamte bAV. Der Rechner berücksichtigt das, sobald du
+            „beherrschender GF“ anhakst.
+          </li>
+          <li>
+            <strong>Riester</strong>: nur für Angestellte oder Ehepartner von Selbstständigen.
+          </li>
+          <li>Rendite-Annahmen historisch (MSCI World 1990 bis 2024 etwa 7,5 % real). Die Zukunft kann anders aussehen.</li>
+          <li>Konkrete Produktwahl mit Honorarberatung klären, NICHT mit Provisions-Verkäufern.</li>
+        </ul>
+      </Callout>
 
       <Stand2026Footer
         sources={[
