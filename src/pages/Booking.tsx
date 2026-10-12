@@ -1,21 +1,34 @@
 import { useState, useEffect, useMemo, useRef } from "react";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import {
+  Callout,
+  EmptyState,
+  Field,
+  ResultPanel,
+  ToneBadge,
+  ToolLayout,
+  ToolSection,
+  selectCls,
+} from "@/components/cockpit/kit";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import {
   Calendar,
   Clock,
   CheckCircle2,
-  AlertCircle,
   Loader2,
   Zap,
   Shield,
   Star,
   Video,
   ArrowRight,
-  Sparkles,
+  ArrowLeft,
+  HelpCircle,
+  ListChecks,
   Download,
   CalendarPlus,
   Mail,
@@ -282,18 +295,19 @@ const Booking = () => {
     return (
       <CockpitShell
         eyebrow="1:1-Berater-Termin"
-        title="Termin gebucht ✓"
-        subtitle="Speicher dir den Termin direkt in den Kalender — Bestätigungs-Email folgt."
+        title="Termin gebucht"
+        subtitle="Speicher dir den Termin direkt im Kalender. Die Bestätigungs-E-Mail folgt."
         showRelated={false}
       >
-        <div className="max-w-2xl mx-auto">
-          <div className="rounded-3xl border-2 border-emerald-500/40 bg-gradient-to-br from-emerald-500/10 to-emerald-500/5 p-6 md:p-8 shadow-sm">
+        <div className="mx-auto max-w-2xl space-y-6">
+          <section className="relative overflow-hidden rounded-2xl border border-success/25 bg-card p-6 shadow-soft md:p-8">
+            <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-brand-green to-accent-blue" aria-hidden="true" />
             <div className="flex flex-col items-center text-center">
-              <div className="inline-flex items-center justify-center h-16 w-16 rounded-full bg-emerald-500/15 mb-4">
-                <CheckCircle2 className="h-9 w-9 text-emerald-700" />
-              </div>
-              <h3 className="font-bold text-2xl mb-2">Termin steht ✓</h3>
-              <div className="text-base text-foreground mb-1 font-semibold">
+              <span className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-success-soft text-success">
+                <CheckCircle2 className="h-7 w-7" aria-hidden="true" />
+              </span>
+              <h2 className="text-xl font-semibold tracking-tight">Dein Termin steht</h2>
+              <p className="mt-2 text-base font-medium tabular">
                 {slotDate.toLocaleString("de-DE", {
                   weekday: "long",
                   day: "numeric",
@@ -301,438 +315,425 @@ const Booking = () => {
                   hour: "2-digit",
                   minute: "2-digit",
                 })}{" "}
-                –{" "}
-                {endDate.toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" })} Uhr
-              </div>
-              <div className="text-sm text-muted-foreground mb-5">
-                30 Min · Google Meet · Thema: <strong className="text-foreground">{topic}</strong>
-              </div>
+                bis {endDate.toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" })} Uhr
+              </p>
+              <p className="mt-1 text-sm text-muted-foreground">
+                30 Min · Google Meet · Thema: <span className="font-medium text-foreground">{topic}</span>
+              </p>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 w-full mb-5">
-                <button
-                  onClick={() => downloadIcs(success.slot, topic, name, email)}
-                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-accent-blue text-primary-foreground px-4 py-3 text-sm font-bold hover:opacity-90 shadow-md transition-all"
-                >
-                  <Download className="h-4 w-4" /> .ics-Datei herunterladen
-                </button>
-                <a
-                  href={googleCalendarUrl(success.slot, topic)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 rounded-xl border-2 border-accent-blue/30 bg-card px-4 py-3 text-sm font-bold hover:bg-accent-blue/5 transition-all"
-                >
-                  <CalendarPlus className="h-4 w-4" /> Google Calendar
-                </a>
+              <div className="mt-6 grid w-full grid-cols-1 gap-2 sm:grid-cols-2">
+                <Button size="lg" className="rounded-xl" onClick={() => downloadIcs(success.slot, topic, name, email)}>
+                  <Download /> .ics-Datei herunterladen
+                </Button>
+                <Button asChild size="lg" variant="outline" className="rounded-xl">
+                  <a href={googleCalendarUrl(success.slot, topic)} target="_blank" rel="noopener noreferrer">
+                    <CalendarPlus /> In Google Calendar
+                  </a>
+                </Button>
               </div>
             </div>
+          </section>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-5">
-              <div className="rounded-xl bg-white/70 border border-emerald-500/20 p-4">
-                <div className="text-xs font-semibold text-emerald-700 mb-2 uppercase tracking-wider flex items-center gap-1.5">
-                  <Mail className="h-3.5 w-3.5" /> Bestätigung
-                </div>
-                <div className="text-sm text-muted-foreground leading-relaxed">
-                  Email an <strong className="text-foreground break-all">{email}</strong> innerhalb 24h
-                  mit Calendar-Invite + Meet-Link.
-                </div>
-              </div>
-              <div className="rounded-xl bg-white/70 border border-emerald-500/20 p-4">
-                <div className="text-xs font-semibold text-emerald-700 mb-2 uppercase tracking-wider flex items-center gap-1.5">
-                  <Video className="h-3.5 w-3.5" /> Am Termin-Tag
-                </div>
-                <div className="text-sm text-muted-foreground leading-relaxed">
-                  Google-Meet-Link kommt 1h vorher per Email. Kein Download nötig.
-                </div>
-              </div>
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+            <div className="rounded-xl border border-border bg-card p-4">
+              <p className="flex items-center gap-2 text-sm font-semibold">
+                <Mail className="h-4 w-4 text-accent-blue" aria-hidden="true" /> Bestätigung
+              </p>
+              <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+                E-Mail an <span className="break-all font-medium text-foreground">{email}</span> innerhalb von 24 h, mit
+                Kalendereinladung und Meet-Link.
+              </p>
             </div>
-
-            <div className="rounded-xl bg-white/70 border border-emerald-500/20 p-4 mb-5">
-              <div className="text-xs font-semibold text-emerald-700 mb-2 uppercase tracking-wider">
-                Was passiert jetzt
-              </div>
-              <ol className="text-sm space-y-1.5 text-muted-foreground">
-                <li>1. Bestätigungs-Email mit Calendar-Invite (.ics) — innerhalb 24h</li>
-                <li>2. Video-Call-Link (Google Meet) per Email — am Termin-Tag</li>
-                <li>3. 30-Min-Call zum gewählten Termin</li>
-                <li>4. Optional: Follow-up-Notes per Email nach dem Call</li>
-              </ol>
+            <div className="rounded-xl border border-border bg-card p-4">
+              <p className="flex items-center gap-2 text-sm font-semibold">
+                <Video className="h-4 w-4 text-accent-blue" aria-hidden="true" /> Am Termin-Tag
+              </p>
+              <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+                Der Google-Meet-Link kommt 1 h vorher per E-Mail. Kein Download nötig.
+              </p>
             </div>
+          </div>
 
-            <div className="text-xs text-muted-foreground mb-5 text-center">
-              Booking-ID: <span className="font-mono">{success.bookingId.slice(0, 8)}</span> ·{" "}
-              Stornierung bis 24h vorher kostenlos.
-            </div>
+          <ToolSection title="Was jetzt passiert" icon={ListChecks}>
+            <ol className="space-y-3">
+              {[
+                "Bestätigungs-E-Mail mit Kalendereinladung (.ics), innerhalb von 24 h",
+                "Video-Call-Link (Google Meet) per E-Mail, am Termin-Tag",
+                "30-Minuten-Call zum gewählten Termin",
+                "Optional: Follow-up-Notizen per E-Mail nach dem Call",
+              ].map((s, i) => (
+                <li key={s} className="flex gap-3 text-sm">
+                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent text-xs font-semibold text-accent-blue tabular">
+                    {i + 1}
+                  </span>
+                  <span className="pt-0.5 text-foreground/85">{s}</span>
+                </li>
+              ))}
+            </ol>
+          </ToolSection>
 
-            <div className="flex flex-col sm:flex-row gap-2 justify-center">
-              <a
-                href="/dashboard"
-                className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-border bg-card px-5 py-2.5 text-sm font-semibold hover:bg-secondary"
-              >
-                ← Zurück zum Dashboard
+          <p className="text-center text-xs text-muted-foreground">
+            Buchungs-ID: <span className="font-mono">{success.bookingId.slice(0, 8)}</span> · Stornierung bis 24 h vorher
+            kostenlos.
+          </p>
+
+          <div className="flex flex-col justify-center gap-2 sm:flex-row">
+            <Button asChild variant="outline">
+              <a href="/dashboard">
+                <ArrowLeft /> Zurück zum Dashboard
               </a>
-              <button
-                onClick={() => {
-                  setSuccess(null);
-                  setSelectedSlot(null);
-                  setMessage("");
-                }}
-                className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-border bg-card px-5 py-2.5 text-sm font-semibold hover:bg-secondary"
-              >
-                Weiteren Termin buchen <ArrowRight className="h-4 w-4" />
-              </button>
-            </div>
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => {
+                setSuccess(null);
+                setSelectedSlot(null);
+                setMessage("");
+              }}
+            >
+              Weiteren Termin buchen <ArrowRight />
+            </Button>
           </div>
         </div>
       </CockpitShell>
     );
   }
 
+  const auslastungText = utilisation < 50 ? "Viele Slots frei" : utilisation < 80 ? "Bald voll" : "Fast ausgebucht";
+
   return (
-    <CockpitShell eyebrow="1:1-Berater-Termin" title="Lass uns 30 Min reden" showRelated={false}>
-      {/* === HERO mit Value-Props === */}
-      <div className="relative rounded-3xl border border-accent-blue/20 bg-gradient-to-br from-accent-blue/5 via-card to-card p-6 md:p-8 mb-6 overflow-hidden">
-        <div className="absolute top-0 right-0 w-48 h-48 bg-accent-blue/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-        <div className="relative grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="md:col-span-2">
-            <div className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 text-emerald-700 px-3 py-1 text-[11px] font-bold uppercase tracking-wider mb-3">
-              <Sparkles className="h-3 w-3" /> Kostenlos · 30 Min · Video-Call
-            </div>
-            <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight leading-tight mb-3">
-              Konkrete Antworten zu deinem Setup —
-              <br className="hidden md:block" /> ohne stundenlange Recherche.
-            </h2>
-            <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-              30-Minuten-Strategie-Call zu Rechtsform, Holding, US-LLC, Steuer-Setup, ECom-Brand oder
-              EU-Alternativen. Ich höre dir zu, zeige dir den passenden Pfad und welche Tools im Hub
-              genau dein Problem lösen.
-            </p>
-            <div className="grid grid-cols-2 gap-2 text-xs">
-              {[
-                { icon: Zap, label: "Konkrete Roadmap statt Theorie" },
-                { icon: Shield, label: "9 Themen-Tracks zur Auswahl" },
-                { icon: Video, label: "Google Meet — kein Download" },
-                { icon: Star, label: "Follow-up-Notes auf Wunsch" },
-              ].map((b, i) => (
-                <div key={i} className="flex items-center gap-1.5 text-muted-foreground">
-                  <b.icon className="h-3.5 w-3.5 text-accent-blue shrink-0" />
-                  <span>{b.label}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="rounded-2xl bg-card border border-border p-4 self-start">
-            <div className="text-[10px] uppercase tracking-wider text-muted-foreground mb-2">
-              Verfügbarkeit nächste 14 Werktage
-            </div>
-            <div className="flex items-baseline gap-2 mb-1">
-              <div className="text-3xl font-bold">{availableFlat.length}</div>
-              <div className="text-xs text-muted-foreground">freie Slots</div>
-            </div>
-            <div className="h-1.5 bg-secondary rounded-full overflow-hidden mb-2">
-              <div
-                className="h-full bg-gradient-to-r from-emerald-500 to-emerald-600 transition-all"
-                style={{ width: `${100 - utilisation}%` }}
-              />
-            </div>
-            <div className="text-[10px] text-muted-foreground">
-              {utilisation < 50 ? "Viele Slots frei" : utilisation < 80 ? "Bald voll" : "Fast ausgebucht"}
-            </div>
-          </div>
-        </div>
-      </div>
-
+    <CockpitShell
+      eyebrow="1:1-Berater-Termin"
+      title="Lass uns 30 Min reden"
+      subtitle="Kostenloser Strategie-Call zu Rechtsform, Holding, US-LLC, Steuer-Setup, E-Com-Brand oder EU-Alternativen. Ich höre dir zu, zeige dir den passenden Pfad und welche Tools im Hub dein Problem lösen."
+      showRelated={false}
+    >
       {!user && (
-        <div className="rounded-2xl border border-amber-500/30 bg-amber-500/5 p-4 mb-6 text-sm">
-          <div className="flex items-start gap-2">
-            <AlertCircle className="h-4 w-4 text-amber-700 shrink-0 mt-0.5" />
-            <div className="flex-1">
-              <strong>Bitte einloggen</strong>, um einen Termin zu buchen.{" "}
-              <a href="/auth" className="text-accent-blue underline font-semibold">
-                Zum Login →
-              </a>
-            </div>
-          </div>
-        </div>
+        <Callout tone="warning" title="Bitte einloggen, um einen Termin zu buchen." className="mb-6">
+          Die Slots siehst du auch ohne Konto.{" "}
+          <a href="/auth" className="font-medium text-accent-blue underline underline-offset-4">
+            Zum Login
+          </a>
+        </Callout>
       )}
 
-      {/* === QUICK-PICK: nächste 3 freie Slots === */}
-      {!loadingSlots && nextThree.length > 0 && (
-        <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/5 p-4 mb-6">
-          <div className="text-[10px] uppercase tracking-wider text-emerald-700 font-bold mb-3 flex items-center gap-1.5">
-            <Zap className="h-3 w-3" /> Schnell-Auswahl — die 3 nächsten freien Slots
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-            {nextThree.map((s) => (
-              <button
-                key={s.iso}
-                onClick={() => user && handleSelectSlot(s.iso)}
-                disabled={!user}
-                className={`group rounded-xl border-2 px-4 py-3 text-left transition-all ${
-                  selectedSlot === s.iso
-                    ? "border-accent-blue bg-accent-blue/5"
-                    : "border-emerald-500/30 bg-white hover:border-emerald-500 hover:shadow-md"
-                } disabled:opacity-50 disabled:cursor-not-allowed`}
-              >
-                <div className="text-[10px] uppercase tracking-wider text-emerald-700 font-bold mb-0.5">
-                  {formatDayLabel(s.date)}
-                </div>
-                <div className="text-base font-bold">{formatHour(s.hour)} Uhr</div>
-                <div className="text-[11px] text-muted-foreground mt-0.5 flex items-center gap-1">
-                  Slot wählen <ArrowRight className="h-3 w-3 group-hover:translate-x-0.5 transition-transform" />
-                </div>
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* === Slot-Grid === */}
-      <div className="rounded-2xl border border-border bg-card p-4 md:p-5 mb-6">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="font-bold text-sm flex items-center gap-2">
-            <Calendar className="h-4 w-4 text-accent-blue" /> Alle Slots im Überblick
-          </h3>
-          <div className="flex flex-wrap gap-2 text-[10px]">
-            <span className="inline-flex items-center gap-1 text-muted-foreground">
-              <span className="inline-block h-2.5 w-2.5 rounded-sm border border-border bg-card" /> frei
-            </span>
-            <span className="inline-flex items-center gap-1 text-muted-foreground">
-              <span className="inline-block h-2.5 w-2.5 rounded-sm bg-accent-blue" /> ausgewählt
-            </span>
-            <span className="inline-flex items-center gap-1 text-muted-foreground">
-              <span className="inline-block h-2.5 w-2.5 rounded-sm bg-secondary line-through" /> belegt
-            </span>
-          </div>
-        </div>
-
-        {loadingSlots ? (
-          <div className="text-sm text-muted-foreground py-12 text-center flex items-center justify-center gap-2">
-            <Loader2 className="h-4 w-4 animate-spin" /> Lade Verfügbarkeit…
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-            {days.map((day) => {
-              const dayLabel = formatDayLabel(day);
-              const isToday = dayLabel === "Heute";
-              const isTomorrow = dayLabel === "Morgen";
-              const dayAvailable = SLOT_HOURS.filter((h) => {
-                const iso = formatSlotIso(day, h);
-                return !bookedSlots.has(iso) && !isPastSlot(iso);
-              }).length;
-
-              return (
-                <div
-                  key={day.toISOString()}
-                  className={`rounded-xl border p-3 transition-colors ${
-                    isToday
-                      ? "border-emerald-500/40 bg-emerald-500/5"
-                      : "border-border bg-card"
-                  }`}
-                >
-                  <div className="flex items-center justify-between mb-2.5">
-                    <div>
-                      <div className={`text-sm font-bold ${isToday ? "text-emerald-700" : ""}`}>
-                        {dayLabel}
-                      </div>
-                      <div className="text-[10px] text-muted-foreground capitalize">
-                        {(isToday || isTomorrow) ? formatDayLabelSub(day) : ""}
-                      </div>
-                    </div>
-                    <div
-                      className={`text-[10px] font-semibold rounded-full px-2 py-0.5 ${
-                        dayAvailable === 0
-                          ? "bg-red-500/10 text-red-700"
-                          : dayAvailable >= 4
-                          ? "bg-emerald-500/10 text-emerald-700"
-                          : "bg-amber-500/10 text-amber-700"
-                      }`}
-                    >
-                      {dayAvailable === 0
-                        ? "ausgebucht"
-                        : dayAvailable >= 4
-                        ? `${dayAvailable} frei`
-                        : `noch ${dayAvailable} frei`}
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-3 gap-1.5">
-                    {SLOT_HOURS.map((h) => {
-                      const iso = formatSlotIso(day, h);
-                      const isBooked = bookedSlots.has(iso);
-                      const isPast = isPastSlot(iso);
-                      const isSelected = selectedSlot === iso;
-                      const disabled = isBooked || isPast || !user;
-                      return (
-                        <button
-                          key={h}
-                          onClick={() => !disabled && handleSelectSlot(iso)}
-                          disabled={disabled}
-                          className={`h-10 rounded-md text-xs font-mono transition-all ${
-                            isSelected
-                              ? "bg-accent-blue text-primary-foreground font-bold ring-2 ring-accent-blue ring-offset-2 ring-offset-card scale-[1.04]"
-                              : disabled
-                              ? "bg-secondary/40 text-muted-foreground/50 cursor-not-allowed line-through"
-                              : "border border-border bg-card hover:border-accent-blue hover:bg-accent-blue/5 hover:scale-[1.02] active:scale-[0.98]"
-                          }`}
-                          title={isBooked ? "Belegt" : isPast ? "Vergangenheit" : `${formatHour(h)} Uhr`}
+      <ToolLayout
+        className="mb-8"
+        inputs={
+          <>
+            {/* === QUICK-PICK: nächste 3 freie Slots === */}
+            {!loadingSlots && nextThree.length > 0 && (
+              <ToolSection title="Schnellauswahl" description="Die drei nächsten freien Slots" icon={Zap}>
+                <div className="grid grid-cols-3 gap-2">
+                  {nextThree.map((s) => {
+                    const active = selectedSlot === s.iso;
+                    return (
+                      <button
+                        key={s.iso}
+                        type="button"
+                        onClick={() => user && handleSelectSlot(s.iso)}
+                        disabled={!user}
+                        aria-pressed={active}
+                        className={cn(
+                          "group min-w-0 rounded-xl border px-3 py-2.5 text-left sm:px-4 sm:py-3 transition-[border-color,background-color,box-shadow] duration-200 disabled:cursor-not-allowed disabled:opacity-50",
+                          active
+                            ? "border-primary bg-primary text-primary-foreground"
+                            : "border-border bg-card hover:border-accent-blue/50 hover:shadow-card",
+                        )}
+                      >
+                        <span className={cn("block text-xs font-medium", active ? "text-primary-foreground/75" : "text-accent-blue")}>
+                          {formatDayLabel(s.date)}
+                        </span>
+                        <span className="mt-0.5 block text-base font-semibold tabular sm:text-lg">
+                          {formatHour(s.hour)}<span className="hidden sm:inline"> Uhr</span>
+                        </span>
+                        <span
+                          className={cn(
+                            "mt-0.5 hidden items-center gap-1 text-xs sm:flex",
+                            active ? "text-primary-foreground/75" : "text-muted-foreground",
+                          )}
                         >
-                          {formatHour(h)}
-                        </button>
-                      );
-                    })}
-                  </div>
+                          {active ? "Ausgewählt" : "Slot wählen"}
+                          {!active && <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />}
+                        </span>
+                      </button>
+                    );
+                  })}
                 </div>
-              );
-            })}
-          </div>
-        )}
-      </div>
-
-      {/* === FORMULAR (sticky-ish nach Slot-Selection) === */}
-      <div ref={formRef}>
-        {selectedSlot ? (
-          <form
-            onSubmit={handleSubmit}
-            className="rounded-3xl border-2 border-accent-blue/30 bg-gradient-to-br from-accent-blue/5 to-card p-5 md:p-6 mb-6 shadow-md"
-          >
-            <div className="flex items-start gap-3 mb-4">
-              <div className="inline-flex items-center justify-center h-10 w-10 rounded-full bg-accent-blue/10 shrink-0">
-                <Clock className="h-5 w-5 text-accent-blue" />
-              </div>
-              <div>
-                <div className="text-[10px] uppercase tracking-wider text-accent-blue font-bold">
-                  Schritt 2 von 2
-                </div>
-                <h3 className="font-bold text-base">Nur noch deine Daten — dann steht der Termin</h3>
-                <div className="text-sm text-muted-foreground mt-0.5">
-                  <strong className="text-foreground">
-                    {new Date(selectedSlot).toLocaleString("de-DE", {
-                      weekday: "long",
-                      day: "numeric",
-                      month: "long",
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}{" "}
-                    Uhr
-                  </strong>{" "}
-                  · 30 Min · Google Meet
-                </div>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              <div>
-                <Label className="text-xs">Vor- + Nachname *</Label>
-                <Input
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  required
-                  placeholder="z.B. Sonni Buttke"
-                  className="h-10 text-sm mt-1"
-                />
-              </div>
-              <div>
-                <Label className="text-xs">Email *</Label>
-                {/* Die Adresse setzt die Datenbank aus dem Konto (Trigger
-                    bookings_schutz) — hier nur zur Anzeige. */}
-                <Input
-                  type="email"
-                  value={user?.email || email}
-                  readOnly
-                  required
-                  placeholder="dein@email.de"
-                  className="h-10 text-sm mt-1 bg-muted"
-                />
-              </div>
-              <div>
-                <Label className="text-xs">Telefon (optional)</Label>
-                <Input
-                  type="tel"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  placeholder="+49 175 ..."
-                  className="h-10 text-sm mt-1"
-                />
-              </div>
-              <div>
-                <Label className="text-xs">Worum geht's? *</Label>
-                <select
-                  value={topic}
-                  onChange={(e) => setTopic(e.target.value)}
-                  required
-                  className="h-10 w-full rounded-md border border-input bg-background px-2 text-sm mt-1"
-                >
-                  {TOPICS.map((t) => (
-                    <option key={t}>{t}</option>
-                  ))}
-                </select>
-              </div>
-              <div className="md:col-span-2">
-                <Label className="text-xs">Kontext / aktuelle Frage (hilft fürs Vorbereiten — empfohlen!)</Label>
-                <textarea
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  rows={3}
-                  placeholder="z.B. Plane GmbH+Holding-Setup für 3 Brands. Frage zu §22 UmwStG-Sperrfrist und IP-Verlagerung."
-                  className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm mt-1"
-                />
-              </div>
-            </div>
-
-            {error && (
-              <div className="mt-4 rounded-lg border border-red-500/30 bg-red-500/5 p-3 text-xs text-red-700">
-                {error}
-              </div>
+              </ToolSection>
             )}
 
-            <div className="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-3 mt-5">
-              <button
-                type="button"
-                onClick={() => setSelectedSlot(null)}
-                className="rounded-lg border border-border px-4 py-2 text-sm font-semibold hover:bg-secondary"
-              >
-                ← Anderen Slot wählen
-              </button>
-              <button
-                type="submit"
-                disabled={submitting || !user}
-                className="inline-flex items-center justify-center gap-2 rounded-xl bg-accent-blue text-primary-foreground px-6 py-3 text-sm font-bold hover:opacity-90 disabled:opacity-50 shadow-md hover:shadow-lg transition-all"
-              >
-                {submitting ? (
-                  <>
-                    <Loader2 className="h-4 w-4 animate-spin" /> Wird gebucht…
-                  </>
-                ) : (
-                  <>
-                    Termin verbindlich buchen <ArrowRight className="h-4 w-4" />
-                  </>
-                )}
-              </button>
-            </div>
+            {/* === Slot-Grid === */}
+            <ToolSection
+              title="Alle Slots im Überblick"
+              description="Mo bis Fr, 10 bis 16 Uhr, mindestens 1 h Vorlauf"
+              icon={Calendar}
+              actions={
+                <div className="flex flex-wrap gap-3 text-xs text-muted-foreground">
+                  <span className="inline-flex items-center gap-1.5">
+                    <span className="inline-block h-2.5 w-2.5 rounded-sm border border-border bg-card" /> frei
+                  </span>
+                  <span className="inline-flex items-center gap-1.5">
+                    <span className="inline-block h-2.5 w-2.5 rounded-sm bg-primary" /> ausgewählt
+                  </span>
+                  <span className="inline-flex items-center gap-1.5">
+                    <span className="inline-block h-2.5 w-2.5 rounded-sm bg-secondary" /> belegt
+                  </span>
+                </div>
+              }
+            >
+              {loadingSlots ? (
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2" aria-busy="true">
+                  <span className="sr-only">Lade Verfügbarkeit…</span>
+                  {Array.from({ length: 4 }).map((_, i) => (
+                    <div key={i} className="h-32 animate-pulse rounded-xl bg-secondary/70" />
+                  ))}
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                  {days.map((day) => {
+                    const dayLabel = formatDayLabel(day);
+                    const isToday = dayLabel === "Heute";
+                    const isTomorrow = dayLabel === "Morgen";
+                    const dayAvailable = SLOT_HOURS.filter((h) => {
+                      const iso = formatSlotIso(day, h);
+                      return !bookedSlots.has(iso) && !isPastSlot(iso);
+                    }).length;
 
-            <div className="mt-3 text-[10px] text-muted-foreground flex flex-wrap gap-3 justify-center">
-              <span className="inline-flex items-center gap-1">
-                <Shield className="h-3 w-3" /> Kostenlos
-              </span>
-              <span className="inline-flex items-center gap-1">
-                <CheckCircle2 className="h-3 w-3" /> Stornierung bis 24h vorher
-              </span>
-              <span className="inline-flex items-center gap-1">
-                <Star className="h-3 w-3" /> Bestätigungs-Email innerhalb 24h
-              </span>
+                    return (
+                      <div
+                        key={day.toISOString()}
+                        className={cn(
+                          "rounded-xl border p-3",
+                          isToday ? "border-accent-blue/25 bg-accent" : "border-border bg-card",
+                        )}
+                      >
+                        <div className="mb-2.5 flex items-start justify-between gap-2">
+                          <div className="min-w-0">
+                            <p className="text-sm font-semibold">{dayLabel}</p>
+                            {(isToday || isTomorrow) && (
+                              <p className="text-xs text-muted-foreground">{formatDayLabelSub(day)}</p>
+                            )}
+                          </div>
+                          <ToneBadge tone={dayAvailable === 0 ? "danger" : dayAvailable >= 4 ? "success" : "warning"}>
+                            {dayAvailable === 0
+                              ? "ausgebucht"
+                              : dayAvailable >= 4
+                              ? `${dayAvailable} frei`
+                              : `noch ${dayAvailable} frei`}
+                          </ToneBadge>
+                        </div>
+
+                        <div className="grid grid-cols-3 gap-1.5">
+                          {SLOT_HOURS.map((h) => {
+                            const iso = formatSlotIso(day, h);
+                            const isBooked = bookedSlots.has(iso);
+                            const isPast = isPastSlot(iso);
+                            const isSelected = selectedSlot === iso;
+                            const disabled = isBooked || isPast || !user;
+                            return (
+                              <button
+                                key={h}
+                                type="button"
+                                onClick={() => !disabled && handleSelectSlot(iso)}
+                                disabled={disabled}
+                                aria-pressed={isSelected}
+                                className={cn(
+                                  "h-9 rounded-lg text-xs font-medium tabular transition-[background-color,border-color,color] duration-200",
+                                  isSelected
+                                    ? "bg-primary text-primary-foreground ring-2 ring-primary ring-offset-2 ring-offset-card"
+                                    : disabled
+                                    ? "cursor-not-allowed bg-secondary/60 text-muted-foreground/60 line-through"
+                                    : "border border-border bg-card hover:border-accent-blue hover:bg-accent active:translate-y-px",
+                                )}
+                                title={isBooked ? "Belegt" : isPast ? "Vergangenheit" : `${formatHour(h)} Uhr`}
+                              >
+                                {formatHour(h)}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </ToolSection>
+          </>
+        }
+        result={
+          <>
+            <ResultPanel
+              variant="ink"
+              kicker="Kostenlos · 30 Min · Video-Call"
+              title="Freie Slots, nächste 14 Werktage"
+              value={loadingSlots ? "…" : availableFlat.length}
+              valueHint={loadingSlots ? "Lade Verfügbarkeit…" : auslastungText}
+            >
+              <div className="h-1.5 overflow-hidden rounded-full bg-white/10">
+                <div
+                  className="h-full rounded-full bg-brand-green transition-[width] duration-500"
+                  style={{ width: `${loadingSlots ? 0 : 100 - utilisation}%` }}
+                />
+              </div>
+              <ul className="mt-5 grid grid-cols-1 gap-2.5 text-sm sm:grid-cols-2 lg:grid-cols-1">
+                {[
+                  { icon: Zap, label: "Konkrete Roadmap statt Theorie" },
+                  { icon: Shield, label: "9 Themen-Tracks zur Auswahl" },
+                  { icon: Video, label: "Google Meet, kein Download" },
+                  { icon: Star, label: "Follow-up-Notizen auf Wunsch" },
+                ].map((b) => (
+                  <li key={b.label} className="flex items-center gap-2">
+                    <b.icon className="h-4 w-4 shrink-0 text-brand-green-glow" aria-hidden="true" />
+                    <span>{b.label}</span>
+                  </li>
+                ))}
+              </ul>
+            </ResultPanel>
+
+            {/* === FORMULAR nach Slot-Auswahl === */}
+            <div ref={formRef} className="scroll-mt-24">
+              {selectedSlot ? (
+                <form onSubmit={handleSubmit}>
+                <ToolSection
+                  title="Schritt 2 von 2: deine Daten"
+                  description={
+                    <>
+                      <span className="font-medium text-foreground">
+                        {new Date(selectedSlot).toLocaleString("de-DE", {
+                          weekday: "long",
+                          day: "numeric",
+                          month: "long",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}{" "}
+                        Uhr
+                      </span>{" "}
+                      · 30 Min · Google Meet
+                    </>
+                  }
+                  icon={Clock}
+                  className="border-accent-blue/30"
+                >
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+                    <Field label="Vor- und Nachname" htmlFor="bk-name">
+                      <Input
+                        id="bk-name"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        required
+                        placeholder="z. B. Sonni Buttke"
+                      />
+                    </Field>
+                    <Field label="E-Mail" hint="Kommt aus deinem Konto" htmlFor="bk-email">
+                      {/* Die Adresse setzt die Datenbank aus dem Konto (Trigger
+                          bookings_schutz) — hier nur zur Anzeige. */}
+                      <Input
+                        id="bk-email"
+                        type="email"
+                        value={user?.email || email}
+                        readOnly
+                        required
+                        placeholder="dein@email.de"
+                        className="bg-muted"
+                      />
+                    </Field>
+                    <Field label="Telefon (optional)" htmlFor="bk-phone">
+                      <Input
+                        id="bk-phone"
+                        type="tel"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        placeholder="+49 175 ..."
+                      />
+                    </Field>
+                    <Field className="sm:col-span-2 lg:col-span-1 xl:col-span-2" label="Worum geht's?" htmlFor="bk-topic">
+                      <select
+                        id="bk-topic"
+                        value={topic}
+                        onChange={(e) => setTopic(e.target.value)}
+                        required
+                        className={selectCls}
+                      >
+                        {TOPICS.map((t) => (
+                          <option key={t}>{t}</option>
+                        ))}
+                      </select>
+                    </Field>
+                    <Field
+                      className="sm:col-span-2 lg:col-span-1 xl:col-span-2"
+                      label="Kontext oder aktuelle Frage"
+                      hint="Empfohlen: hilft beim Vorbereiten, damit der Call fokussiert ist."
+                      htmlFor="bk-message"
+                    >
+                      <Textarea
+                        id="bk-message"
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        rows={3}
+                        placeholder="z. B. Plane GmbH+Holding-Setup für 3 Brands. Frage zu §22 UmwStG-Sperrfrist und IP-Verlagerung."
+                      />
+                    </Field>
+                  </div>
+
+                  {error && (
+                    <Callout tone="danger" className="mt-4">
+                      {error}
+                    </Callout>
+                  )}
+
+                  <div className="mt-5 flex flex-col-reverse gap-2 sm:flex-row sm:items-center sm:justify-between">
+                    <Button type="button" variant="outline" onClick={() => setSelectedSlot(null)}>
+                      <ArrowLeft /> Anderen Slot wählen
+                    </Button>
+                    <Button type="submit" size="lg" disabled={submitting || !user} className="rounded-xl bg-gradient-primary hover:opacity-95">
+                      {submitting ? (
+                        <>
+                          <Loader2 className="animate-spin" /> Wird gebucht…
+                        </>
+                      ) : (
+                        <>
+                          Termin verbindlich buchen <ArrowRight />
+                        </>
+                      )}
+                    </Button>
+                  </div>
+
+                  <div className="mt-4 flex flex-wrap justify-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
+                    <span className="inline-flex items-center gap-1">
+                      <Shield className="h-3.5 w-3.5" aria-hidden="true" /> Kostenlos
+                    </span>
+                    <span className="inline-flex items-center gap-1">
+                      <CheckCircle2 className="h-3.5 w-3.5" aria-hidden="true" /> Stornierung bis 24 h vorher
+                    </span>
+                    <span className="inline-flex items-center gap-1">
+                      <Mail className="h-3.5 w-3.5" aria-hidden="true" /> Bestätigung innerhalb 24 h
+                    </span>
+                  </div>
+                </ToolSection>
+                </form>
+              ) : (
+                <>
+                  {error && (
+                    <Callout tone="danger" className="mb-4">
+                      {error}
+                    </Callout>
+                  )}
+                  <EmptyState
+                    icon={Calendar}
+                    title="Noch kein Slot gewählt"
+                    description="Wähle links einen freien Slot. Danach fragen wir nur noch Name und Thema ab."
+                    className="py-10"
+                  />
+                </>
+              )}
             </div>
-          </form>
-        ) : (
-          <div className="rounded-2xl border border-dashed border-border p-8 text-center text-sm text-muted-foreground mb-6">
-            <Calendar className="h-8 w-8 mx-auto mb-2 opacity-50" />
-            Wähle oben einen freien Slot — dann fragen wir nur noch deinen Namen + Thema ab.
-          </div>
-        )}
-      </div>
+          </>
+        }
+      />
 
       {/* === FAQ / Trust === */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+      <div className="mb-6 grid grid-cols-1 gap-3 md:grid-cols-3">
         {[
           {
             q: "Was kostet der Call?",
@@ -740,25 +741,26 @@ const Booking = () => {
           },
           {
             q: "Worauf bereiten wir uns vor?",
-            a: "Beschreib dein Setup im Kontext-Feld — Rechtsform, Umsatz-Range, Brands, geplante Auslandskonstrukte. Dann ist der Call fokussiert.",
+            a: "Beschreib dein Setup im Kontext-Feld: Rechtsform, Umsatz-Range, Brands, geplante Auslandskonstrukte. Dann ist der Call fokussiert.",
           },
           {
             q: "Stornierung möglich?",
-            a: "Bis 24h vorher kostenlos via Email. Danach wenn möglich verschieben statt stornieren.",
+            a: "Bis 24 h vorher kostenlos per E-Mail. Danach wenn möglich verschieben statt stornieren.",
           },
-        ].map((f, i) => (
-          <div key={i} className="rounded-xl border border-border bg-card p-4 text-xs">
-            <div className="font-semibold mb-1.5">{f.q}</div>
-            <div className="text-muted-foreground leading-relaxed">{f.a}</div>
+        ].map((f) => (
+          <div key={f.q} className="rounded-2xl border border-border bg-card p-5 shadow-card">
+            <p className="flex items-center gap-2 text-sm font-semibold">
+              <HelpCircle className="h-4 w-4 text-accent-blue" aria-hidden="true" /> {f.q}
+            </p>
+            <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{f.a}</p>
           </div>
         ))}
       </div>
 
-      <div className="mt-4 rounded-xl border border-amber-500/20 bg-amber-500/5 p-3 text-[11px] text-muted-foreground leading-relaxed">
-        <strong>Disclaimer:</strong> Keine Steuer-/Rechtsberatung im Sinne des StBerG/RDG. Sondern
-        strategische Orientierung mit Verweis auf passende Tools im Hub + ggf. Empfehlung qualifizierter
-        StB/RA.
-      </div>
+      <Callout tone="neutral" title="Hinweis">
+        Keine Steuer- oder Rechtsberatung im Sinne des StBerG/RDG, sondern strategische Orientierung mit Verweis auf
+        passende Tools im Hub und ggf. Empfehlung qualifizierter StB/RA.
+      </Callout>
     </CockpitShell>
   );
 };
