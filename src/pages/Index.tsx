@@ -100,21 +100,21 @@ const Index = () => (
     <Navbar />
     <main>
       <Hero />
-      <KiAssistentBand />
+      <Features />
       <ProductPreview />
+      <HowItWorks />
       <ProblemBand />
       <Assistant />
-      <WhatIs />
-      <Comparison />
       <GuidesRoadmap />
       <SellerBand />
-      <Features />
-      <HowItWorks />
+      <Comparison />
       <StartHere />
       <Bundles />
       <UseCasesShowcase />
       <Testimonials />
+      <WhatIs />
       <FAQ />
+      <KiAssistentBand />
       <FinalCTA />
     </main>
     <Footer />
