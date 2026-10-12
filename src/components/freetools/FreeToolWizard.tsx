@@ -165,7 +165,7 @@ export function FreeToolWizard({ config }: FreeToolWizardProps) {
           </span>
           <div>
           <h2 className="text-xl font-semibold tracking-tight md:text-2xl">
-            Dein {config.documentName} ist fertig
+            Fertig: {config.documentName}
           </h2>
           <p className="mt-1 text-[15px] leading-relaxed text-muted-foreground">
             {isUnlocked

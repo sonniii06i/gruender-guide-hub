@@ -18,7 +18,7 @@ export function FreeToolPromo() {
         <div className="flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1.5 rounded-lg border border-brand-green/25 bg-brand-green-soft px-4 py-2 text-sm text-foreground">
           <BadgePercent className="h-4 w-4 flex-shrink-0 text-brand-green" />
           <span>
-            <span className="font-semibold">20 % Rabatt</span> auf dein Abo mit Code
+            <span className="font-semibold">20 % Rabatt</span> im ersten Monat mit Code
           </span>
           <button
             onClick={copyCode}
