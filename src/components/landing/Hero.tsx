@@ -1,16 +1,15 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { ArrowRight, Store } from "lucide-react";
-import { TOOL_COUNT } from "@/data/features";
-import { GUIDE_COUNT } from "@/data/guides";
+import { TOOL_COUNT, GUIDE_COUNT, ANBIETER_ANZAHL } from "@/data/kennzahlen";
 import { PLANS, FOUNDER_CODE, formatEurCents } from "@/config/pricing";
 
 /** Bewusst faktisch, keine erfundenen Kundenzahlen. Zahlen kommen aus den Datenquellen. */
 const proof = [
   { value: String(TOOL_COUNT), label: "Tools & Wizards" },
   { value: String(GUIDE_COUNT), label: "Schritt-für-Schritt-Guides" },
+  { value: String(ANBIETER_ANZAHL), label: "Anbieter im Vergleich" },
   { value: "EU", label: "Server, DSGVO-konform" },
-  { value: "DE · US · HK", label: "Gründungs-Guides" },
 ];
 
 export const Hero = () => {
