@@ -11,8 +11,20 @@ import {
   Download,
   ExternalLink,
   Info,
-  CheckCircle2,
+  ArrowRight,
+  Compass,
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Callout,
+  ChoiceGroup,
+  Field,
+  ResultPanel,
+  ToneBadge,
+  ToolLayout,
+  ToolSection,
+  selectCls,
+} from "@/components/cockpit/kit";
 
 // ============================================================
 // US-TAX-HELPER · Stand Mai 2026
@@ -272,130 +284,205 @@ const UsTaxHelper = () => {
     <CockpitShell
       eyebrow="US-Tax-Helper"
       title="US-Steuern: welche Abgaben musst du machen?"
-      subtitle="Wähle dein US-Setup — der Helper zeigt dir alle Pflicht-Filings beim IRS und im Bundesstaat, mit Fristen, Strafen und den amtlichen Formularen zum Download. Plus eine personalisierte Filing-Checkliste als PDF."
+      subtitle="Wähle dein US-Setup. Der Helper zeigt dir alle Pflicht-Filings beim IRS und im Bundesstaat, mit Fristen, Strafen und den amtlichen Formularen zum Download. Dazu eine persönliche Filing-Checkliste als PDF."
     >
-      {/* Profil-Selektor */}
-      <div className="rounded-2xl border border-border bg-card p-5 mb-4">
-        <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
-          <Flag className="h-4 w-4 text-accent-blue" /> Dein US-Setup
-        </h3>
+      <ToolLayout
+        className="mb-8"
+        inputs={
+          <ToolSection title="Dein US-Setup" icon={Flag}>
+            <div className="space-y-5">
+              <Field label="Entity-Typ">
+                <ChoiceGroup<Entity>
+                  label="Entity-Typ"
+                  value={entity}
+                  onChange={(v) => { setEntity(v); track(`entity_${v}`); }}
+                  className="grid grid-cols-1 sm:grid-cols-2"
+                  options={ENTITIES.map((e) => ({ value: e.key, label: e.label, hint: e.hint }))}
+                />
+              </Field>
 
-        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Entity-Typ</label>
-        <div className="grid sm:grid-cols-2 gap-2 mt-1 mb-4">
-          {ENTITIES.map((e) => (
-            <button
-              key={e.key}
-              onClick={() => { setEntity(e.key); track(`entity_${e.key}`); }}
-              className={`text-left rounded-lg border p-2.5 text-sm transition ${entity === e.key ? "border-accent-blue bg-accent-blue/10 font-semibold" : "border-border hover:border-accent-blue/50"}`}
-            >
-              <div>{e.label}</div>
-              <div className="text-xs text-muted-foreground font-normal mt-0.5">{e.hint}</div>
-            </button>
-          ))}
-        </div>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <Field label="Eigner-Typ">
+                  <ChoiceGroup<OwnerType>
+                    label="Eigner-Typ"
+                    value={owner}
+                    onChange={setOwner}
+                    className="grid grid-cols-2"
+                    options={[
+                      { value: "foreign", label: "Ausländisch (DACH)" },
+                      { value: "usperson", label: "US-Person" },
+                    ]}
+                  />
+                </Field>
+                <Field label="Bundesstaat" htmlFor="ustax-state">
+                  <select id="ustax-state" value={state} onChange={(e) => setState(e.target.value)} className={selectCls}>
+                    {Object.entries(STATES).map(([k, v]) => <option key={k} value={k}>{v.name}</option>)}
+                  </select>
+                </Field>
+              </div>
 
-        <div className="grid sm:grid-cols-2 gap-4">
-          <div>
-            <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Eigner-Typ</label>
-            <div className="flex gap-2 mt-1">
-              <button onClick={() => setOwner("foreign")} className={`flex-1 rounded-lg border p-2 text-sm ${owner === "foreign" ? "border-accent-blue bg-accent-blue/10 font-semibold" : "border-border"}`}>Ausländischer Eigner (DACH)</button>
-              <button onClick={() => setOwner("usperson")} className={`flex-1 rounded-lg border p-2 text-sm ${owner === "usperson" ? "border-accent-blue bg-accent-blue/10 font-semibold" : "border-border"}`}>US-Person</button>
+              {owner === "foreign" && (entity === "smllc" || entity === "mmllc") && (
+                <label
+                  className={`flex cursor-pointer items-start gap-3 rounded-xl border p-4 text-sm transition-colors ${
+                    eci ? "border-accent-blue/40 bg-accent" : "border-border bg-card hover:border-foreground/25"
+                  }`}
+                >
+                  <input
+                    type="checkbox"
+                    checked={eci}
+                    onChange={(e) => setEci(e.target.checked)}
+                    className="mt-0.5 h-4 w-4 shrink-0 accent-[hsl(var(--primary))]"
+                  />
+                  <span className="leading-relaxed">
+                    <span className="block font-medium">Ich habe ECI (Effectively Connected Income)</span>
+                    <span className="block text-muted-foreground">
+                      US-Lager im eigenen Namen, US-Mitarbeiter/abhängiger Agent oder US-Büro: dann besteht echte
+                      US-Einkommensteuerpflicht.
+                    </span>
+                  </span>
+                </label>
+              )}
             </div>
-          </div>
-          <div>
-            <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Bundesstaat</label>
-            <select value={state} onChange={(e) => setState(e.target.value)} className="mt-1 w-full rounded-lg border border-border bg-background p-2 text-sm">
-              {Object.entries(STATES).map(([k, v]) => <option key={k} value={k}>{v.name}</option>)}
-            </select>
-          </div>
-        </div>
-
-        {owner === "foreign" && (entity === "smllc" || entity === "mmllc") && (
-          <label className="flex items-start gap-2 mt-4 text-sm cursor-pointer">
-            <input type="checkbox" checked={eci} onChange={(e) => setEci(e.target.checked)} className="mt-0.5" />
-            <span>Ich habe <strong>ECI</strong> (Effectively Connected Income): US-Lager im eigenen Namen, US-Mitarbeiter/abhängiger Agent oder US-Büro → dann besteht echte US-Einkommensteuerpflicht.</span>
-          </label>
-        )}
-      </div>
-
-      {scorpWarn(entity, owner)}
+          </ToolSection>
+        }
+        result={
+          <>
+            <ResultPanel
+              variant="ink"
+              kicker="Deine Bundes-Pflichten (IRS)"
+              title={ENTITIES.find((e) => e.key === entity)?.label}
+              value={`${filings.length} Filings`}
+              valueHint={`${filings.filter((f) => f.star).length} davon kritisch · State: ${STATES[state]?.name}`}
+            >
+              <div className="flex flex-wrap gap-1.5">
+                {filings.map((fi) => (
+                  <span
+                    key={fi.form + fi.title}
+                    className="rounded-md border border-white/15 bg-white/[0.06] px-2 py-1 font-mono text-xs text-primary-foreground"
+                  >
+                    {fi.form}
+                  </span>
+                ))}
+              </div>
+              <Button onClick={generatePdf} size="lg" className="mt-5 w-full rounded-xl bg-white text-primary hover:bg-white/90">
+                <Download /> Filing-Checkliste als PDF
+              </Button>
+            </ResultPanel>
+            {scorpWarn(entity, owner)}
+          </>
+        }
+      />
 
       {/* Filing-Matrix */}
-      <div className="space-y-3">
-        <h2 className="text-base font-bold flex items-center gap-2"><CalendarClock className="h-4 w-4 text-accent-blue" /> Deine Bundes-Pflichten (IRS)</h2>
-        {filings.map((fi) => (
-          <div key={fi.form + fi.title} className="rounded-2xl border border-border bg-card p-4">
-            <div className="flex items-start gap-3">
-              <span className="shrink-0 rounded bg-muted px-2 py-0.5 text-xs font-mono font-semibold mt-0.5">{fi.form}</span>
-              <div className="flex-1 min-w-0">
-                <div className="text-sm font-semibold flex items-center gap-1.5">
-                  {fi.title}
-                  {fi.star && <CheckCircle2 className="h-3.5 w-3.5 text-amber-500 shrink-0" aria-label="kritisch" />}
-                </div>
-                <div className="text-xs text-muted-foreground mt-1">{fi.who}</div>
-                <div className="text-xs mt-1.5"><strong>Frist:</strong> {fi.deadline}</div>
-                {fi.penalty && (
-                  <div className="text-xs text-red-600 dark:text-red-400 mt-1 flex items-start gap-1">
-                    <AlertTriangle className="h-3.5 w-3.5 shrink-0 mt-0.5" /> <span>{fi.penalty}</span>
+      <ToolSection
+        title="Deine Bundes-Pflichten (IRS)"
+        description="Mit Frist, Strafe und amtlichem Formular"
+        icon={CalendarClock}
+        className="mb-6"
+      >
+        <ul className="space-y-3">
+          {filings.map((fi) => (
+            <li key={fi.form + fi.title} className="rounded-xl border border-border bg-card p-4">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-start">
+                <span className="w-fit shrink-0 rounded-md bg-secondary px-2 py-1 font-mono text-xs font-semibold">{fi.form}</span>
+                <div className="min-w-0 flex-1">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <p className="text-sm font-semibold">{fi.title}</p>
+                    {fi.star && <ToneBadge tone="warning">kritisch</ToneBadge>}
                   </div>
-                )}
-                {fi.doc && (
-                  <a href={fi.doc.url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-xs text-accent-blue underline mt-1.5">
-                    <FileText className="h-3.5 w-3.5" /> {fi.doc.label} <ExternalLink className="h-3 w-3" />
-                  </a>
-                )}
+                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{fi.who}</p>
+                  <p className="mt-2 text-sm">
+                    <span className="font-medium">Frist:</span> {fi.deadline}
+                  </p>
+                  {fi.penalty && (
+                    <p className="mt-1.5 flex items-start gap-1.5 text-sm text-danger">
+                      <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" /> <span>{fi.penalty}</span>
+                    </p>
+                  )}
+                  {fi.doc && (
+                    <a
+                      href={fi.doc.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="mt-2 inline-flex items-center gap-1.5 text-sm font-medium text-accent-blue underline-offset-4 hover:underline"
+                    >
+                      <FileText className="h-4 w-4" aria-hidden="true" /> {fi.doc.label} <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+                    </a>
+                  )}
+                </div>
               </div>
-            </div>
-          </div>
-        ))}
-      </div>
+            </li>
+          ))}
+        </ul>
+      </ToolSection>
 
-      {/* State */}
-      <div className="rounded-2xl border border-border bg-card p-5 mt-4 text-sm">
-        <h3 className="font-bold mb-1 flex items-center gap-2"><Info className="h-4 w-4 text-accent-blue" /> State-Pflichten — {STATES[state]?.name}</h3>
-        <p className="text-muted-foreground">{STATES[state]?.note}</p>
-        <p className="text-muted-foreground mt-2">
-          <strong>Sales Tax separat prüfen:</strong> Umsatzsteuer-Nexus entsteht unabhängig vom Sitz durch Umsatz-/Transaktions-Schwellen (Wayfair).{" "}
-          <Link to="/cockpit/sales-tax-nexus" className="text-accent-blue underline">→ Sales-Tax-Nexus-Check</Link>
-        </p>
-      </div>
+      <div className="mb-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
+        {/* State */}
+        <ToolSection title={`State-Pflichten: ${STATES[state]?.name}`} icon={Info}>
+          <p className="text-sm leading-relaxed text-muted-foreground">{STATES[state]?.note}</p>
+          <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+            <span className="font-semibold text-foreground">Sales Tax separat prüfen:</span> Umsatzsteuer-Nexus entsteht unabhängig vom Sitz durch Umsatz-/Transaktions-Schwellen (Wayfair).{" "}
+            <Link to="/cockpit/sales-tax-nexus" className="inline-flex items-center gap-1 font-medium text-accent-blue underline-offset-4 hover:underline">
+              Sales-Tax-Nexus-Check <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+            </Link>
+          </p>
+        </ToolSection>
 
-      {/* BOI / CTA */}
-      <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/5 p-5 mt-4 text-sm">
-        <h3 className="font-bold mb-1 flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-emerald-700" /> BOI / Corporate Transparency Act — Entwarnung 2025</h3>
-        <p className="text-muted-foreground">
+        {/* BOI / CTA */}
+        <Callout tone="success" title="BOI / Corporate Transparency Act: Entwarnung 2025" className="p-5">
           Seit der <strong>FinCEN Interim Final Rule vom 21.03.2025</strong> sind <strong>US-inländisch gegründete</strong> Reporting Companies (also auch deine in den USA gegründete LLC, egal ob in DACH-Hand) sowie US-Personen von der <strong>BOI-Meldung befreit</strong>. Melden müssen nur noch <em>ausländisch</em> gegründete Entities, die zur Geschäftstätigkeit in einem US-Bundesstaat registriert sind. Für die typische DACH-US-LLC also <strong>keine BOI-Pflicht</strong> mehr.
-        </p>
+        </Callout>
       </div>
 
       {/* Dokumente bereitstellen */}
-      <div className="rounded-2xl border-2 border-accent-blue/30 bg-gradient-to-br from-accent-blue/10 via-card to-card p-5 mt-4">
-        <h3 className="font-bold text-sm mb-2 flex items-center gap-2"><Download className="h-4 w-4 text-accent-blue" /> Dokumente & Formulare bereitstellen</h3>
-        <p className="text-xs text-muted-foreground mb-3">Alle für dein Setup nötigen amtlichen IRS-Formulare direkt zum Download — plus deine personalisierte Filing-Checkliste als PDF.</p>
-        <div className="grid sm:grid-cols-2 gap-2 mb-3">
+      <ToolSection
+        title="Dokumente und Formulare"
+        description="Alle für dein Setup nötigen amtlichen IRS-Formulare, dazu deine persönliche Filing-Checkliste als PDF."
+        icon={Download}
+        className="mb-6"
+        actions={
+          <Button onClick={generatePdf}>
+            <Download /> Checkliste als PDF
+          </Button>
+        }
+      >
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
           {allDocs.map((d) => (
-            <a key={d.url} href={d.url} target="_blank" rel="noreferrer" className="flex items-center gap-2 rounded-lg border border-border bg-background p-2.5 text-sm hover:border-accent-blue/50">
-              <FileText className="h-4 w-4 text-accent-blue shrink-0" />
-              <span className="flex-1 min-w-0 truncate">{d.label}</span>
-              <ExternalLink className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+            <a
+              key={d.url}
+              href={d.url}
+              target="_blank"
+              rel="noreferrer"
+              className="flex items-center gap-2.5 rounded-xl border border-border bg-card p-3 text-sm transition-[border-color,box-shadow] duration-200 hover:border-accent-blue/40 hover:shadow-card"
+            >
+              <FileText className="h-4 w-4 shrink-0 text-accent-blue" aria-hidden="true" />
+              <span className="min-w-0 flex-1 truncate">{d.label}</span>
+              <ExternalLink className="h-3.5 w-3.5 shrink-0 text-muted-foreground" aria-hidden="true" />
             </a>
           ))}
         </div>
-        <button onClick={generatePdf} className="inline-flex items-center gap-2 rounded-lg bg-accent-blue px-4 py-2 text-sm font-semibold text-white hover:opacity-90">
-          <Download className="h-4 w-4" /> Filing-Checkliste als PDF herunterladen
-        </button>
-      </div>
+      </ToolSection>
 
       {/* Cross-Links */}
-      <div className="rounded-2xl border border-border bg-card p-5 mt-4 text-sm">
-        <h3 className="font-bold mb-2">Passt dazu</h3>
-        <ul className="space-y-1">
-          <li><Link to="/cockpit/us-llc-wizard" className="text-accent-blue underline">US-LLC Setup-Wizard (Gründung von A–Z)</Link></li>
-          <li><Link to="/cockpit/sales-tax-nexus" className="text-accent-blue underline">Sales-Tax-Nexus-Check (46 Staaten + DC)</Link></li>
-          <li><Link to="/cockpit/hk-tax-helper" className="text-accent-blue underline">HK-Tax-Helper (Hongkong-Pendant)</Link></li>
-          <li><Link to="/cockpit/dba-cfc" className="text-accent-blue underline">DBA-CFC-Rechner (Hinzurechnung & Quellensteuer DE)</Link></li>
-        </ul>
-      </div>
+      <ToolSection title="Passt dazu" icon={Compass} className="mb-6">
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+          {[
+            { to: "/cockpit/us-llc-wizard", l: "US-LLC Setup-Wizard (Gründung von A bis Z)" },
+            { to: "/cockpit/sales-tax-nexus", l: "Sales-Tax-Nexus-Check (46 Staaten + DC)" },
+            { to: "/cockpit/hk-tax-helper", l: "HK-Tax-Helper (Hongkong-Pendant)" },
+            { to: "/cockpit/dba-cfc", l: "DBA-CFC-Rechner (Hinzurechnung & Quellensteuer DE)" },
+          ].map((x) => (
+            <Link
+              key={x.to}
+              to={x.to}
+              className="group flex items-center justify-between gap-2 rounded-xl border border-border bg-card p-3 text-sm font-medium transition-colors hover:border-accent-blue/40"
+            >
+              {x.l}
+              <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-accent-blue" aria-hidden="true" />
+            </Link>
+          ))}
+        </div>
+      </ToolSection>
 
       <Stand2026Footer
         sources={[
@@ -415,12 +502,9 @@ const UsTaxHelper = () => {
 function scorpWarn(entity: Entity, owner: OwnerType) {
   if (entity !== "scorp" || owner !== "foreign") return null;
   return (
-    <div className="rounded-2xl border-2 border-red-500/40 bg-red-500/5 p-5 mb-4 text-sm">
-      <h3 className="font-bold mb-1 flex items-center gap-2 text-red-600 dark:text-red-400"><AlertTriangle className="h-4 w-4" /> S-Corp ist für dich nicht zulässig</h3>
-      <p className="text-muted-foreground">
-        Eine S-Corporation darf <strong>keine</strong> Non-Resident-Alien-Gesellschafter haben (§1361 IRC). Als DACH-Gründer ohne US-Steueransässigkeit kommt nur C-Corp, LLC oder (als US-Person) S-Corp in Frage. Wähle oben ein anderes Setup.
-      </p>
-    </div>
+    <Callout tone="danger" title="S-Corp ist für dich nicht zulässig">
+      Eine S-Corporation darf <strong>keine</strong> Non-Resident-Alien-Gesellschafter haben (§1361 IRC). Als DACH-Gründer ohne US-Steueransässigkeit kommt nur C-Corp, LLC oder (als US-Person) S-Corp in Frage. Wähle ein anderes Setup.
+    </Callout>
   );
 }
 
