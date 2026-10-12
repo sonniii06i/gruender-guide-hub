@@ -1,5 +1,6 @@
 import { Navbar } from "@/components/landing/Navbar";
 import { Footer } from "@/components/landing/Footer";
+import { PageHeader } from "@/components/landing/PageHeader";
 import { Seo } from "@/components/Seo";
 
 /**
@@ -29,12 +30,21 @@ const Widerruf = () => (
       }}
     />
     <Navbar />
-    <main className="container max-w-3xl pt-32 pb-24 prose prose-slate prose-headings:scroll-mt-24">
-      <p className="text-xs font-semibold uppercase tracking-wider text-accent-blue mb-2 not-prose">Rechtliches</p>
-      <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-2">Widerrufsbelehrung</h1>
-      <p className="text-sm text-muted-foreground">Stand: August 2026</p>
+    <main>
+      <PageHeader
+        width="max-w-3xl"
+        kicker={
+          <span className="inline-flex items-center rounded-full border border-accent-blue/20 bg-accent px-3 py-1 text-[13px] font-medium text-accent-blue">
+            Rechtliches
+          </span>
+        }
+        title="Widerrufsbelehrung"
+        lead={<p className="text-base tabular">Stand: August 2026</p>}
+      />
+      <div className="container max-w-3xl px-4 py-10 md:py-14">
+      <div className="prose prose-slate max-w-none rounded-2xl border border-border bg-card p-5 shadow-card prose-headings:scroll-mt-24 prose-headings:tracking-tight prose-a:text-accent-blue sm:p-8 md:p-10">
 
-      <h2 className="text-2xl font-bold mt-10 mb-3">Widerrufsrecht für Verbraucher</h2>
+      <h2 className="mt-10 mb-3 text-xl font-semibold md:text-2xl">Widerrufsrecht für Verbraucher</h2>
       <p>
         Verbraucher:innen haben gemäß § 312g BGB ein 14-tägiges Widerrufsrecht. Verbraucher ist
         gemäß § 13 BGB jede natürliche Person, die ein Rechtsgeschäft zu Zwecken abschließt, die
@@ -73,7 +83,7 @@ const Widerruf = () => (
         (*) Unzutreffendes streichen.
       </div>
 
-      <h2 className="text-2xl font-bold mt-10 mb-3">Vorzeitiges Erlöschen des Widerrufsrechts</h2>
+      <h2 className="mt-10 mb-3 text-xl font-semibold md:text-2xl">Vorzeitiges Erlöschen des Widerrufsrechts</h2>
       <p>
         Das Widerrufsrecht erlischt vorzeitig, wenn du ausdrücklich zugestimmt hast, dass wir mit der
         Leistungserbringung vor Ablauf der Widerrufsfrist beginnen, und du gleichzeitig deine Kenntnis
@@ -81,7 +91,7 @@ const Widerruf = () => (
         Widerrufsrecht verlierst (§ 356 Abs. 4 BGB).
       </p>
 
-      <h2 className="text-2xl font-bold mt-10 mb-3">Käufe über externe Verkaufsplattformen</h2>
+      <h2 className="mt-10 mb-3 text-xl font-semibold md:text-2xl">Käufe über externe Verkaufsplattformen</h2>
       <p>
         Wird GründerX über eine externe Verkaufsplattform (z. B. CopeCart, Digistore24 oder
         elopage/ablefy) gekauft, kommt der Kaufvertrag mit der jeweiligen Plattform als
@@ -94,6 +104,8 @@ const Widerruf = () => (
       <p className="text-sm text-muted-foreground">
         Siehe auch <a href="/agb" className="underline">§ 7 unserer AGB</a>.
       </p>
+      </div>
+      </div>
     </main>
     <Footer />
   </div>
