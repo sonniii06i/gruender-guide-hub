@@ -2,7 +2,20 @@ import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Input } from "@/components/ui/input";
-import { Search, ArrowDownCircle, ArrowUpCircle, RefreshCcw, Info, ChevronRight, ExternalLink } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Callout, ChoiceGroup, EmptyState, ToneBadge, ToolSection, type Tone } from "@/components/cockpit/kit";
+import {
+  Search,
+  ArrowDownCircle,
+  ArrowUpCircle,
+  RefreshCcw,
+  ChevronRight,
+  ExternalLink,
+  ScanSearch,
+  Star,
+  ListTree,
+  BookOpen,
+} from "lucide-react";
 import {
   ALL_AMAZON_CODES,
   PREFIX_CODES,
@@ -17,73 +30,68 @@ import {
 const SignBadge = ({ sign }: { sign: AmazonCode["sign"] }) => {
   if (sign === "minus") {
     return (
-      <span className="inline-flex items-center gap-1 rounded-full bg-red-500/10 text-red-600 px-2 py-0.5 text-[11px] font-semibold">
-        <ArrowDownCircle className="h-3 w-3" /> Minus
-      </span>
+      <ToneBadge tone="danger">
+        <ArrowDownCircle className="h-3 w-3" aria-hidden="true" /> Minus
+      </ToneBadge>
     );
   }
   if (sign === "plus") {
     return (
-      <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 text-emerald-600 px-2 py-0.5 text-[11px] font-semibold">
-        <ArrowUpCircle className="h-3 w-3" /> Plus
-      </span>
+      <ToneBadge tone="success">
+        <ArrowUpCircle className="h-3 w-3" aria-hidden="true" /> Plus
+      </ToneBadge>
     );
   }
   return (
-    <span className="inline-flex items-center gap-1 rounded-full bg-amber-500/10 text-amber-700 px-2 py-0.5 text-[11px] font-semibold">
-      <RefreshCcw className="h-3 w-3" /> ±
-    </span>
+    <ToneBadge tone="warning">
+      <RefreshCcw className="h-3 w-3" aria-hidden="true" /> ±
+    </ToneBadge>
   );
 };
 
-const UstBadge = ({ ust }: { ust: AmazonCode["ust"] }) => {
-  const colors: Record<AmazonCode["ust"], string> = {
-    "19% VSt-abziehbar": "bg-accent-blue/10 text-accent-blue",
-    "Reverse Charge": "bg-purple-500/10 text-purple-600",
-    "0% steuerfrei": "bg-secondary text-muted-foreground",
-    OSS: "bg-cyan-500/10 text-cyan-600",
-    innergemeinschaftlich: "bg-cyan-500/10 text-cyan-600",
-    "Drittland steuerfrei": "bg-secondary text-muted-foreground",
-    "Erlös-Korrektur": "bg-orange-500/10 text-orange-600",
-    "nicht steuerbar": "bg-secondary text-muted-foreground",
-  };
-  return (
-    <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-semibold ${colors[ust] || "bg-secondary"}`}>
-      {ust}
-    </span>
-  );
+const UST_TONE: Record<AmazonCode["ust"], Tone> = {
+  "19% VSt-abziehbar": "accent",
+  "Reverse Charge": "info",
+  "0% steuerfrei": "neutral",
+  OSS: "info",
+  innergemeinschaftlich: "info",
+  "Drittland steuerfrei": "neutral",
+  "Erlös-Korrektur": "warning",
+  "nicht steuerbar": "neutral",
 };
+
+const UstBadge = ({ ust }: { ust: AmazonCode["ust"] }) => <ToneBadge tone={UST_TONE[ust] ?? "neutral"}>{ust}</ToneBadge>;
 
 const CodeCard = ({ code }: { code: AmazonCode }) => (
-  <div className="rounded-2xl border border-border bg-card p-4 hover:border-accent-blue/40 transition-colors">
-    <div className="flex items-start justify-between gap-3 mb-2">
-      <div>
-        <code className="font-mono text-sm font-bold text-accent-blue">{code.code}</code>
-        <div className="text-sm font-semibold mt-0.5">{code.label}</div>
+  <div className="rounded-xl border border-border bg-card p-4 transition-[border-color,box-shadow] duration-200 hover:border-accent-blue/40 hover:shadow-card">
+    <div className="mb-2 flex items-start justify-between gap-3">
+      <div className="min-w-0">
+        <code className="break-all font-mono text-sm font-semibold text-accent-blue">{code.code}</code>
+        <p className="mt-0.5 text-sm font-semibold">{code.label}</p>
       </div>
-      <div className="flex flex-col items-end gap-1 shrink-0">
+      <div className="flex shrink-0 flex-col items-end gap-1">
         <SignBadge sign={code.sign} />
         <UstBadge ust={code.ust} />
       </div>
     </div>
-    <p className="text-xs text-muted-foreground leading-relaxed mb-3">{code.meaning}</p>
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
-      <div className="rounded-lg bg-secondary/40 px-2 py-1.5">
-        <div className="text-[10px] uppercase tracking-wide text-muted-foreground mb-0.5">SKR03</div>
-        <div className="font-mono">{code.skr03}</div>
+    <p className="mb-3 text-sm leading-relaxed text-muted-foreground">{code.meaning}</p>
+    <div className="grid grid-cols-2 gap-2 text-sm">
+      <div className="rounded-lg bg-secondary/60 px-3 py-2">
+        <p className="text-xs text-muted-foreground">SKR03</p>
+        <p className="font-mono text-sm">{code.skr03}</p>
       </div>
-      <div className="rounded-lg bg-secondary/40 px-2 py-1.5">
-        <div className="text-[10px] uppercase tracking-wide text-muted-foreground mb-0.5">SKR04</div>
-        <div className="font-mono">{code.skr04}</div>
+      <div className="rounded-lg bg-secondary/60 px-3 py-2">
+        <p className="text-xs text-muted-foreground">SKR04</p>
+        <p className="font-mono text-sm">{code.skr04}</p>
       </div>
     </div>
-    <div className="mt-2 text-[11px] text-muted-foreground italic leading-snug">
-      <span className="font-semibold not-italic">So buchen:</span> {code.bookingHint}
-    </div>
+    <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
+      <span className="font-semibold text-foreground">So buchen:</span> {code.bookingHint}
+    </p>
     {code.example && (
-      <div className="mt-2 text-[11px] rounded-lg bg-accent-blue/5 border border-accent-blue/20 px-2 py-1.5">
-        <span className="font-semibold">Beispiel:</span> <span className="font-mono">{code.example}</span>
-      </div>
+      <p className="mt-2 rounded-lg border border-accent-blue/15 bg-accent px-3 py-2 text-xs">
+        <span className="font-semibold">Beispiel:</span> <span className="break-all font-mono">{code.example}</span>
+      </p>
     )}
   </div>
 );
@@ -129,230 +137,230 @@ const AmazonBuchungen = () => {
   return (
     <CockpitShell
       eyebrow="Steuer-Cockpit"
-      title="Amazon-Buchungstexte – die komplette Liste"
-      subtitle="Wenn du als Amazon-Verkäufer (FBA / FBM) Buchungen wie AMA-SG-DE-MZNFS, AMA-BG-IT, AUSZ-DE oder MZNFS auf deiner Bank/PayJoe siehst – hier ist die Konto-Empfehlung pro Code (SKR03/04, USt-Behandlung, Soll/Haben). Stand Mai 2026."
+      title="Amazon-Buchungstexte: die komplette Liste"
+      subtitle="Wenn du als Amazon-Verkäufer (FBA / FBM) Buchungen wie AMA-SG-DE-MZNFS, AMA-BG-IT, AUSZ-DE oder MZNFS auf deiner Bank oder in PayJoe siehst: hier ist die Konto-Empfehlung pro Code (SKR03/04, USt-Behandlung, Soll/Haben). Stand Mai 2026."
     >
       {/* Wichtige Hinweise */}
-      <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-4 mb-6 text-xs leading-relaxed">
-        <div className="flex items-start gap-2">
-          <Info className="h-4 w-4 text-accent-blue shrink-0 mt-0.5" />
-          <div>
-            <div className="font-semibold mb-1">Wichtig zu wissen (Stand 2026):</div>
-            <ul className="space-y-1 text-muted-foreground list-disc pl-4">
-              <li>
-                <strong>Seit 01.08.2024</strong> rechnet Amazon EU Sarl Niederlassung Deutschland mit{" "}
-                <strong>deutscher 19% USt</strong> ab → Vorsteuer abziehbar (Schlüssel <strong>9</strong> in
-                SKR03 bzw. <strong>9 oder 401</strong> lt. PayJoe-Doku). KEIN Reverse Charge mehr für DE!
-              </li>
-              <li>
-                Für Marketplaces außerhalb DE (IT/FR/ES/NL/UK/COM): Amazon AEU rechnet mit lokaler EU-USt →
-                Reverse Charge §13b UStG für DE-Händler. Für UK/US: Drittland (Schlüssel 94).
-              </li>
-              <li>
-                <strong>AUSZ-DE</strong> ist KEIN Aufwand und KEIN Erlös – nur Geldtransit (1360 bzw. 1460).
-              </li>
-              <li>
-                <strong>Reimbursements (FBA-Erstattungen für Schäden/Verluste)</strong> = sonstiger Ertrag,
-                meist nicht steuerbar (echter Schadensersatz).
-              </li>
-              <li>
-                <strong>Refunds (A-to-z, Customer-Returns)</strong> = Erlösschmälerung (8730/4730), nicht als
-                Aufwand buchen.
-              </li>
-              <li>Disclaimer: Orientierungshilfe – konkrete Buchung immer mit StB klären.</li>
-            </ul>
-          </div>
-        </div>
-      </div>
+      <Callout tone="accent" title="Wichtig zu wissen (Stand 2026)" className="mb-6 p-5">
+        <ul className="mt-1 list-disc space-y-1 pl-4">
+          <li>
+            <strong>Seit 01.08.2024</strong> rechnet Amazon EU Sarl Niederlassung Deutschland mit{" "}
+            <strong>deutscher 19% USt</strong> ab → Vorsteuer abziehbar (Schlüssel <strong>9</strong> in
+            SKR03 bzw. <strong>9 oder 401</strong> lt. PayJoe-Doku). KEIN Reverse Charge mehr für DE!
+          </li>
+          <li>
+            Für Marketplaces außerhalb DE (IT/FR/ES/NL/UK/COM): Amazon AEU rechnet mit lokaler EU-USt →
+            Reverse Charge §13b UStG für DE-Händler. Für UK/US: Drittland (Schlüssel 94).
+          </li>
+          <li>
+            <strong>AUSZ-DE</strong> ist KEIN Aufwand und KEIN Erlös, nur Geldtransit (1360 bzw. 1460).
+          </li>
+          <li>
+            <strong>Reimbursements (FBA-Erstattungen für Schäden/Verluste)</strong> = sonstiger Ertrag,
+            meist nicht steuerbar (echter Schadensersatz).
+          </li>
+          <li>
+            <strong>Refunds (A-to-z, Customer-Returns)</strong> = Erlösschmälerung (8730/4730), nicht als
+            Aufwand buchen.
+          </li>
+          <li>Disclaimer: Orientierungshilfe, konkrete Buchung immer mit StB klären.</li>
+        </ul>
+      </Callout>
 
-      {/* Live-Lookup: Felix-artiges Tool */}
-      <div className="rounded-2xl border border-accent-blue/40 bg-card p-5 mb-8">
-        <div className="flex items-center gap-2 mb-3">
-          <span className="rounded-full bg-accent-blue text-primary-foreground px-3 py-1 text-xs font-bold">
-            Live-Lookup
-          </span>
-          <span className="text-sm font-semibold">Code aus Bank/Lexoffice einfügen</span>
+      {/* Live-Lookup */}
+      <ToolSection
+        title="Live-Lookup"
+        description="Code aus Bank, PayJoe oder Lexoffice einfügen"
+        icon={ScanSearch}
+        className="mb-8 border-accent-blue/30"
+      >
+        <div className="relative">
+          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
+          <Input
+            value={lookupInput}
+            onChange={(e) => setLookupInput(e.target.value)}
+            placeholder="z.B. AMA-SG-DE-MZNFS, AMA-BG-DE, AUSZ-DE oder MZNFS"
+            aria-label="Amazon-Buchungscode nachschlagen"
+            className="h-11 pl-9 font-mono"
+          />
         </div>
-        <Input
-          value={lookupInput}
-          onChange={(e) => setLookupInput(e.target.value)}
-          placeholder="z.B. AMA-SG-DE-MZNFS, AMA-BG-DE, AUSZ-DE oder MZNFS"
-          className="font-mono mb-3"
-        />
         {lookup && (lookup.prefix || lookup.sub) && (
-          <div className="space-y-3">
+          <div className="mt-4 space-y-4">
             {lookup.fallbackHint && (
-              <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-3 text-xs leading-relaxed">
-                <span className="font-semibold">Heuristik:</span> {lookup.fallbackHint}
-              </div>
+              <Callout tone="warning" title="Heuristik">
+                {lookup.fallbackHint}
+              </Callout>
             )}
-            {lookup.prefix && (
-              <div className="rounded-xl bg-secondary/40 p-3">
-                <div className="text-[10px] uppercase tracking-wide text-muted-foreground mb-1">Prefix erkannt</div>
-                <CodeCard code={lookup.prefix} />
-              </div>
-            )}
-            {lookup.sub && (
-              <div className="rounded-xl bg-secondary/40 p-3">
-                <div className="text-[10px] uppercase tracking-wide text-muted-foreground mb-1">Sub-Code</div>
-                <CodeCard code={lookup.sub} />
-              </div>
-            )}
-            {lookup.prefix && lookup.sub && (
-              <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-3 text-xs">
-                <div className="font-semibold mb-1">Empfehlung kombiniert:</div>
-                <div className="text-muted-foreground leading-relaxed">
-                  Verbuche als <strong>{lookup.sub.label}</strong> auf{" "}
-                  <span className="font-mono">{lookup.sub.skr03}</span> (SKR03) bzw.{" "}
-                  <span className="font-mono">{lookup.sub.skr04}</span> (SKR04). USt:{" "}
-                  <strong>{lookup.sub.ust}</strong>. {lookup.sub.bookingHint}
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              {lookup.prefix && (
+                <div>
+                  <p className="mb-2 text-sm font-medium text-muted-foreground">Prefix erkannt</p>
+                  <CodeCard code={lookup.prefix} />
                 </div>
-              </div>
+              )}
+              {lookup.sub && (
+                <div>
+                  <p className="mb-2 text-sm font-medium text-muted-foreground">Sub-Code</p>
+                  <CodeCard code={lookup.sub} />
+                </div>
+              )}
+            </div>
+            {lookup.prefix && lookup.sub && (
+              <Callout tone="success" title="Empfehlung kombiniert">
+                Verbuche als <strong>{lookup.sub.label}</strong> auf{" "}
+                <span className="font-mono">{lookup.sub.skr03}</span> (SKR03) bzw.{" "}
+                <span className="font-mono">{lookup.sub.skr04}</span> (SKR04). USt:{" "}
+                <strong>{lookup.sub.ust}</strong>. {lookup.sub.bookingHint}
+              </Callout>
             )}
           </div>
         )}
         {lookup && !lookup.prefix && !lookup.sub && lookupInput.trim() && (
-          <div className="rounded-xl bg-amber-500/10 border border-amber-500/30 p-3 text-xs text-amber-800 leading-relaxed">
-            <div className="font-semibold mb-1">Code nicht eindeutig zuordenbar.</div>
-            <div className="mb-2">{lookup.fallbackHint}</div>
-            <div>
-              Versuche es mit nur dem Sub-Teil (z.B. <code>MZNFS</code> statt <code>AMA-SG-DE-MZNFS</code>),
-              schau in der Liste unten oder frag{" "}
-              <Link to="/felix" className="underline font-semibold">
+          <Callout tone="warning" title="Code nicht eindeutig zuordenbar." className="mt-4">
+            <p className="mb-2">{lookup.fallbackHint}</p>
+            <p>
+              Versuche es mit nur dem Sub-Teil (z.B. <code className="font-mono">MZNFS</code> statt{" "}
+              <code className="font-mono">AMA-SG-DE-MZNFS</code>), schau in der Liste unten oder frag{" "}
+              <Link to="/felix" className="font-semibold underline underline-offset-4">
                 Felix
               </Link>{" "}
               direkt mit deinem PayJoe-Auszug.
-            </div>
-          </div>
+            </p>
+          </Callout>
         )}
-      </div>
+        {!lookupInput.trim() && (
+          <p className="mt-3 text-sm text-muted-foreground">
+            Prefix und Sub-Code werden getrennt erkannt, danach siehst du die kombinierte Buchungsempfehlung.
+          </p>
+        )}
+      </ToolSection>
 
       {/* Top-Codes */}
-      <div className="mb-8">
-        <h2 className="text-base font-bold mb-3">Die wichtigsten Codes (~95% aller Auszüge)</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <ToolSection title="Die wichtigsten Codes" description="Decken rund 95 % aller Auszüge ab" icon={Star} className="mb-8">
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
           {POPULAR_CODES.map((c) => (
             <CodeCard key={c.code} code={c} />
           ))}
         </div>
-      </div>
+      </ToolSection>
 
       {/* Vollständige Liste mit Filter + Suche */}
-      <div className="mb-4">
-        <h2 className="text-base font-bold mb-3">Vollständige Code-Liste ({ALL_AMAZON_CODES.length} Einträge)</h2>
-        <div className="flex gap-2 mb-3">
-          <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Code, Bedeutung, Konto-Empfehlung suchen..."
-              className="pl-9"
-            />
-          </div>
+      <ToolSection
+        title="Vollständige Code-Liste"
+        icon={ListTree}
+        className="mb-8"
+        actions={<ToneBadge tone="neutral" className="tabular">{filtered.length} von {ALL_AMAZON_CODES.length}</ToneBadge>}
+      >
+        <div className="relative mb-4">
+          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
+          <Input
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Code, Bedeutung, Konto-Empfehlung suchen …"
+            aria-label="Codes durchsuchen"
+            className="pl-9"
+          />
         </div>
-        <div className="flex flex-wrap gap-1.5 mb-4">
-          <button
-            onClick={() => setFilterCategory("all")}
-            className={`rounded-full px-3 py-1 text-[11px] font-semibold transition-colors ${
-              filterCategory === "all"
-                ? "bg-accent-blue text-primary-foreground"
-                : "bg-secondary text-muted-foreground hover:bg-secondary/80"
-            }`}
-          >
-            Alle ({ALL_AMAZON_CODES.length})
-          </button>
-          {categories.map((cat) => {
-            const count = ALL_AMAZON_CODES.filter((c) => c.category === cat).length;
-            if (count === 0) return null;
-            return (
-              <button
-                key={cat}
-                onClick={() => setFilterCategory(cat)}
-                className={`rounded-full px-3 py-1 text-[11px] font-semibold transition-colors ${
-                  filterCategory === cat
-                    ? "bg-accent-blue text-primary-foreground"
-                    : "bg-secondary text-muted-foreground hover:bg-secondary/80"
-                }`}
-              >
-                {CATEGORY_LABELS[cat]} ({count})
-              </button>
-            );
-          })}
-        </div>
+        <ChoiceGroup<AmazonCodeCategory | "all">
+          label="Kategorie"
+          size="sm"
+          className="mb-5"
+          value={filterCategory}
+          onChange={setFilterCategory}
+          options={[
+            { value: "all", label: <>Alle <span className="tabular opacity-70">({ALL_AMAZON_CODES.length})</span></> },
+            ...categories
+              .map((cat) => ({ cat, count: ALL_AMAZON_CODES.filter((c) => c.category === cat).length }))
+              .filter((x) => x.count > 0)
+              .map((x) => ({
+                value: x.cat,
+                label: (
+                  <>
+                    {CATEGORY_LABELS[x.cat]} <span className="tabular opacity-70">({x.count})</span>
+                  </>
+                ),
+              })),
+          ]}
+        />
         {filtered.length === 0 ? (
-          <div className="rounded-xl border border-border bg-card p-6 text-center text-sm text-muted-foreground">
-            Keine Codes gefunden für "{query}".
-          </div>
+          <EmptyState
+            icon={Search}
+            title="Keine Codes gefunden"
+            description={query ? `Für „${query}“ gibt es in dieser Kategorie keinen Treffer. Probier einen kürzeren Suchbegriff oder „Alle“.` : "In dieser Kategorie gibt es keinen Treffer."}
+          />
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
             {filtered.map((c) => (
               <CodeCard key={c.code} code={c} />
             ))}
           </div>
         )}
-      </div>
+      </ToolSection>
 
       {/* Buchungs-Logik (Cheatsheet) */}
-      <div className="rounded-2xl border border-border bg-card p-5 mt-8">
-        <h2 className="text-base font-bold mb-3">Buchungs-Logik in einem Satz</h2>
-        <div className="space-y-2 text-xs leading-relaxed">
-          <div className="flex items-start gap-2 rounded-lg bg-secondary/40 px-3 py-2">
-            <ArrowDownCircle className="h-4 w-4 text-red-600 shrink-0 mt-0.5" />
-            <div>
-              <strong>Minus = Aufwand</strong> – meist Fremdleistungen (3100/5900) oder Werbekosten
-              (4600/6600). Seit 08/2024 mit 19% VSt abziehbar (Schlüssel 9).
-            </div>
-          </div>
-          <div className="flex items-start gap-2 rounded-lg bg-secondary/40 px-3 py-2">
-            <ArrowUpCircle className="h-4 w-4 text-emerald-600 shrink-0 mt-0.5" />
-            <div>
-              <strong>Plus auf SG/BG-Code = Aufwandsminderung</strong> (Refund einer Gebühr) – gegen das
-              gleiche Aufwandskonto buchen, VSt korrigieren.
-            </div>
-          </div>
-          <div className="flex items-start gap-2 rounded-lg bg-secondary/40 px-3 py-2">
-            <ArrowUpCircle className="h-4 w-4 text-emerald-600 shrink-0 mt-0.5" />
-            <div>
-              <strong>Plus aus FBA-Reimbursement (verlorene/beschädigte Ware)</strong> = sonstiger Ertrag
-              (8400/4830), 0% USt (Schadensersatz).
-            </div>
-          </div>
-          <div className="flex items-start gap-2 rounded-lg bg-secondary/40 px-3 py-2">
-            <RefreshCcw className="h-4 w-4 text-accent-blue shrink-0 mt-0.5" />
-            <div>
-              <strong>AUSZ-* (Auszahlung)</strong> = Geldtransit (1360/1460). Bank an Geldtransit. Erlöse
-              werden separat aus PayJoe gebucht und gegen Geldtransit verrechnet.
-            </div>
-          </div>
-          <div className="flex items-start gap-2 rounded-lg bg-secondary/40 px-3 py-2">
-            <ArrowDownCircle className="h-4 w-4 text-orange-600 shrink-0 mt-0.5" />
-            <div>
-              <strong>A-to-z, Chargeback, Customer-Return</strong> = Erlösschmälerung (8730/4730), KEIN
-              Aufwand! Mindert deinen Umsatz.
-            </div>
-          </div>
-        </div>
-      </div>
+      <ToolSection title="Buchungs-Logik in einem Satz" icon={BookOpen} className="mb-6">
+        <ul className="space-y-2 text-sm leading-relaxed">
+          {[
+            {
+              icon: ArrowDownCircle,
+              cls: "text-danger",
+              t: "Minus = Aufwand",
+              d: "Meist Fremdleistungen (3100/5900) oder Werbekosten (4600/6600). Seit 08/2024 mit 19% VSt abziehbar (Schlüssel 9).",
+            },
+            {
+              icon: ArrowUpCircle,
+              cls: "text-success",
+              t: "Plus auf SG/BG-Code = Aufwandsminderung",
+              d: "(Refund einer Gebühr): gegen das gleiche Aufwandskonto buchen, VSt korrigieren.",
+            },
+            {
+              icon: ArrowUpCircle,
+              cls: "text-success",
+              t: "Plus aus FBA-Reimbursement (verlorene/beschädigte Ware)",
+              d: "= sonstiger Ertrag (8400/4830), 0% USt (Schadensersatz).",
+            },
+            {
+              icon: RefreshCcw,
+              cls: "text-accent-blue",
+              t: "AUSZ-* (Auszahlung)",
+              d: "= Geldtransit (1360/1460). Bank an Geldtransit. Erlöse werden separat aus PayJoe gebucht und gegen Geldtransit verrechnet.",
+            },
+            {
+              icon: ArrowDownCircle,
+              cls: "text-warning",
+              t: "A-to-z, Chargeback, Customer-Return",
+              d: "= Erlösschmälerung (8730/4730), KEIN Aufwand! Mindert deinen Umsatz.",
+            },
+          ].map((r) => (
+            <li key={r.t} className="flex items-start gap-3 rounded-xl bg-secondary/60 px-4 py-3">
+              <r.icon className={`mt-0.5 h-4 w-4 shrink-0 ${r.cls}`} aria-hidden="true" />
+              <p className="text-foreground/85">
+                <strong className="font-semibold text-foreground">{r.t}</strong> {r.d}
+              </p>
+            </li>
+          ))}
+        </ul>
+      </ToolSection>
 
       {/* Felix-CTA */}
-      <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5 mt-6 text-center">
-        <div className="text-sm font-semibold mb-1">Code unklar oder Sonderfall?</div>
-        <div className="text-xs text-muted-foreground mb-3">
-          Felix kennt diese Liste auswendig und hilft mit konkreten Buchungssätzen.
+      <section className="mb-6 flex flex-col items-start justify-between gap-4 rounded-2xl bg-ink p-6 text-primary-foreground shadow-soft md:flex-row md:items-center">
+        <div>
+          <h2 className="text-base font-semibold">Code unklar oder Sonderfall?</h2>
+          <p className="mt-1 text-sm text-primary-foreground/75">
+            Felix kennt diese Liste auswendig und hilft mit konkreten Buchungssätzen.
+          </p>
         </div>
-        <Link
-          to="/felix"
-          className="inline-flex items-center gap-1 rounded-full bg-accent-blue text-primary-foreground px-4 py-1.5 text-xs font-semibold hover:opacity-90"
-        >
-          Felix fragen <ChevronRight className="h-3 w-3" />
-        </Link>
-      </div>
+        <Button asChild className="bg-white text-primary hover:bg-white/90">
+          <Link to="/felix">
+            Felix fragen <ChevronRight />
+          </Link>
+        </Button>
+      </section>
 
       {/* Quellen */}
-      <div className="text-[11px] text-muted-foreground mt-6 leading-relaxed">
+      <p className="text-xs leading-relaxed text-muted-foreground">
         Quellen: PayJoe-Dokumentation (hilfe.payjoe.de), JERA Fibu-Schnittstelle (Amazon-USt-Update
-        01.08.2024), Amazon Seller Forum DE, Standard SKR03/SKR04. Keine Steuerberatung – konkrete Verbuchung
+        01.08.2024), Amazon Seller Forum DE, Standard SKR03/SKR04. Keine Steuerberatung, konkrete Verbuchung
         mit eigenem StB klären.{" "}
         <a
           href="https://hilfe.payjoe.de/online-haendler/Content/topics_payjoe/zahlungssysteme/amazon.htm"
@@ -360,9 +368,9 @@ const AmazonBuchungen = () => {
           rel="noreferrer noopener"
           className="inline-flex items-center gap-0.5 text-accent-blue hover:underline"
         >
-          PayJoe-Doku <ExternalLink className="h-3 w-3" />
+          PayJoe-Doku <ExternalLink className="h-3 w-3" aria-hidden="true" />
         </a>
-      </div>
+      </p>
     </CockpitShell>
   );
 };
