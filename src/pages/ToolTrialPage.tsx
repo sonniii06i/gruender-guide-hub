@@ -1,6 +1,6 @@
 import { lazy, Suspense } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
-import { Loader2 } from "lucide-react";
+import { SearchX } from "lucide-react";
 import { Navbar } from "@/components/landing/Navbar";
 import { Footer } from "@/components/landing/Footer";
 import { Seo } from "@/components/Seo";
@@ -37,9 +37,15 @@ const ToolTrialPage = () => {
       <div className="min-h-screen bg-background">
         <Seo title="Tool nicht gefunden | GründerX" description="Für dieses Tool gibt es keine kostenlose Probe." path={`/tools/${slug}/gratis`} noindex />
         <Navbar />
-        <main className="container max-w-2xl py-24 px-4 text-center">
-          <h1 className="text-2xl font-bold mb-4">Keine kostenlose Probe für dieses Tool</h1>
-          <Link to="/tools"><Button className="rounded-full">Alle Tools ansehen</Button></Link>
+        <main className="container max-w-xl px-4 pb-24 pt-36 text-center">
+          <span className="mx-auto flex h-11 w-11 items-center justify-center rounded-xl bg-accent text-accent-blue">
+            <SearchX className="h-5 w-5" aria-hidden="true" />
+          </span>
+          <h1 className="mt-5 text-3xl font-semibold tracking-tight">Keine kostenlose Probe für dieses Tool</h1>
+          <p className="mt-3 text-muted-foreground">Alle Tools mit Beschreibung und den kostenlosen Proben findest du in der Übersicht.</p>
+          <Button asChild size="lg" className="mt-7 h-11 rounded-xl bg-gradient-primary font-semibold">
+            <Link to="/tools">Alle Tools ansehen</Link>
+          </Button>
         </main>
         <Footer />
       </div>
@@ -50,8 +56,17 @@ const ToolTrialPage = () => {
 
   const ToolComponent = TOOL_COMPONENTS[slug];
   const spinner = (
-    <div className="flex items-center justify-center py-20">
-      <Loader2 className="h-5 w-5 animate-spin text-accent-blue" />
+    <div className="container max-w-5xl px-4 py-10" role="status" aria-live="polite">
+      <span className="sr-only">Tool wird geladen …</span>
+      <div className="animate-pulse space-y-4" aria-hidden="true">
+        <div className="h-4 w-32 rounded bg-secondary" />
+        <div className="h-9 w-2/3 max-w-md rounded-lg bg-secondary" />
+        <div className="h-4 w-full max-w-xl rounded bg-secondary" />
+        <div className="grid gap-4 pt-4 md:grid-cols-[1fr_340px]">
+          <div className="h-72 rounded-2xl border border-border bg-card" />
+          <div className="h-48 rounded-2xl bg-secondary" />
+        </div>
+      </div>
     </div>
   );
 
