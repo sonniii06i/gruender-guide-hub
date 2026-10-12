@@ -1,6 +1,6 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ElementType } from "react";
 import CockpitShell from "@/components/cockpit/CockpitShell";
-import { Badge } from "@/components/ui/badge";
+import { Callout, EmptyState, ToneBadge, ToolSection, stripEmoji, type Tone } from "@/components/cockpit/kit";
 import {
   BIZ_CARDS,
   SEGMENT_META,
@@ -19,13 +19,16 @@ import {
   Award,
   Crown,
   ArrowRight,
+  ChevronDown,
+  Gift,
+  SlidersHorizontal,
 } from "lucide-react";
 
-const cardTypeBadge: Record<string, string> = {
-  Charge: "text-purple-700 border-purple-500/30 bg-purple-500/5",
-  Debit: "text-blue-700 border-blue-500/30 bg-blue-500/5",
-  Kreditkarte: "text-emerald-700 border-emerald-500/30 bg-emerald-500/5",
-  Prepaid: "text-amber-700 border-amber-500/30 bg-amber-500/5",
+const cardTypeTone: Record<string, Tone> = {
+  Charge: "accent",
+  Debit: "info",
+  Kreditkarte: "success",
+  Prepaid: "warning",
 };
 
 const BusinessCreditCards = () => {
@@ -59,300 +62,258 @@ const BusinessCreditCards = () => {
     return counts;
   }, []);
 
+  const filterChip = (active: boolean) =>
+    `inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-sm font-medium transition-colors ${
+      active
+        ? "border-primary bg-primary text-primary-foreground"
+        : "border-border bg-card text-foreground/80 hover:border-foreground/25 hover:text-foreground"
+    }`;
+
   return (
     <CockpitShell
       eyebrow="DE-Geschäftskreditkarten · Stand Mai 2026"
       title="Geschäftskreditkarten-Vergleich für Gründer"
-      subtitle="12 Karten/Spend-Cards für Selbstständige & Firmen — gefiltert nach Gründer-Typ. Charge (Liquidität) vs. Debit (SCHUFA-frei) vs. echte Kreditlinie. Mit DATEV-Anbindung, FX-Gebühr, SCHUFA-Hürde & echten Watchouts. Quellen: Anbieter-Pricing-Seiten + Finanzfluss. Konditionen vor Antrag verifizieren."
+      subtitle="12 Karten und Spend-Cards für Selbstständige und Firmen, gefiltert nach Gründer-Typ: Charge (Liquidität), Debit (SCHUFA-frei) oder echte Kreditlinie. Mit DATEV-Anbindung, FX-Gebühr, SCHUFA-Hürde und echten Watchouts. Quellen: Preisseiten der Anbieter und Finanzfluss. Konditionen vor dem Antrag prüfen."
     >
       {/* ===== TOP-EMPFEHLUNG: AMEX BUSINESS ===== */}
-      <div className="rounded-2xl border-2 border-amber-500/40 bg-gradient-to-br from-amber-500/10 to-yellow-500/5 p-4 md:p-5 mb-5">
-        <div className="flex items-center gap-2 mb-1">
-          <Award className="h-5 w-5 text-amber-600" />
-          <span className="text-xs font-bold uppercase tracking-wider text-amber-700">
-            Unsere Empfehlung für Gründer
-          </span>
-        </div>
-        <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
-          Für die meisten Gründer ist eine <strong className="text-foreground">American Express
-          Business</strong> die beste Wahl: Das <strong className="text-foreground">Zahlungsziel von
-          bis zu 50–58 Tagen</strong> überbrückt Ad-Spend &amp; Wareneinkauf bis zur Abrechnung
-          (echter Cashflow-Hebel), dazu Membership-Rewards-Punkte, starke Reise-/Mietwagen-
-          Versicherungen und bis zu 99 kostenlose Zusatzkarten — alles, was Debit-Karten nicht
-          bieten.
-        </p>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <ToolSection
+        title="Unsere Empfehlung für Gründer"
+        icon={Award}
+        className="mb-6"
+        description={
+          <>
+            Für die meisten Gründer ist eine <strong className="text-foreground">American Express Business</strong> die beste Wahl:
+            Das <strong className="text-foreground">Zahlungsziel von bis zu 50 bis 58 Tagen</strong> überbrückt Ad-Spend und
+            Wareneinkauf bis zur Abrechnung (echter Cashflow-Hebel). Dazu Membership-Rewards-Punkte, starke Reise- und
+            Mietwagen-Versicherungen und bis zu 99 kostenlose Zusatzkarten, alles, was Debit-Karten nicht bieten.
+          </>
+        }
+      >
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {/* GOLD — Primär */}
-          <div className="rounded-xl border-2 border-amber-500/50 bg-card p-4 flex flex-col">
-            <div className="flex items-center justify-between mb-1">
-              <span className="inline-flex items-center gap-1 rounded-full bg-amber-500 text-white text-[10px] font-bold uppercase tracking-wider px-2 py-0.5">
-                <Award className="h-3 w-3" /> Top-Empfehlung
+          <div className="flex flex-col rounded-2xl bg-ink p-5 text-primary-foreground shadow-soft">
+            <div className="mb-1 flex items-center justify-between gap-2">
+              <span className="inline-flex items-center gap-1 rounded-md bg-white/10 px-2 py-0.5 text-xs font-semibold text-brand-green-glow">
+                <Award className="h-3.5 w-3.5" aria-hidden="true" /> Top-Empfehlung
               </span>
-              <span className="text-xs font-bold">175 € / Jahr</span>
+              <span className="text-sm font-semibold tabular">175 € / Jahr</span>
             </div>
-            <h3 className="font-bold text-lg mt-1">Amex Business Gold</h3>
-            <p className="text-xs text-muted-foreground mb-2">
-              Der beste Allrounder für die meisten Gründer.
-            </p>
-            <ul className="text-xs space-y-1 text-muted-foreground mb-3 flex-1">
-              <li className="flex gap-1.5"><CheckCircle2 className="h-3.5 w-3.5 text-emerald-600 shrink-0 mt-0.5" /> bis 50 Tage zinsfreies Zahlungsziel</li>
-              <li className="flex gap-1.5"><CheckCircle2 className="h-3.5 w-3.5 text-emerald-600 shrink-0 mt-0.5" /> 75.000 MR-Punkte Willkommensbonus (Aktion)</li>
-              <li className="flex gap-1.5"><CheckCircle2 className="h-3.5 w-3.5 text-emerald-600 shrink-0 mt-0.5" /> starke Reise- &amp; Mietwagen-Versicherung</li>
-              <li className="flex gap-1.5"><CheckCircle2 className="h-3.5 w-3.5 text-emerald-600 shrink-0 mt-0.5" /> 1. Jahr oft beitragsfrei · bis 99 Zusatzkarten gratis</li>
+            <h3 className="mt-2 text-lg font-semibold tracking-tight">Amex Business Gold</h3>
+            <p className="mb-3 text-sm text-primary-foreground/70">Der beste Allrounder für die meisten Gründer.</p>
+            <ul className="mb-4 flex-1 space-y-1.5 text-sm text-primary-foreground/85">
+              {[
+                "bis 50 Tage zinsfreies Zahlungsziel",
+                "75.000 MR-Punkte Willkommensbonus (Aktion)",
+                "starke Reise- und Mietwagen-Versicherung",
+                "1. Jahr oft beitragsfrei · bis 99 Zusatzkarten gratis",
+              ].map((t) => (
+                <li key={t} className="flex gap-2">
+                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-brand-green-glow" aria-hidden="true" /> {t}
+                </li>
+              ))}
             </ul>
             <a
               href={AMEX_REFERRAL.gold}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-semibold text-sm px-4 py-2.5 transition-colors"
+              className="press inline-flex h-11 items-center justify-center gap-1.5 rounded-xl bg-card px-4 text-sm font-semibold text-foreground transition-colors hover:bg-card/90"
             >
-              Amex Gold beantragen <ArrowRight className="h-4 w-4" />
+              Amex Gold beantragen <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </a>
           </div>
 
           {/* PLATINUM — Premium */}
-          <div className="rounded-xl border-2 border-slate-400/50 bg-card p-4 flex flex-col">
-            <div className="flex items-center justify-between mb-1">
-              <span className="inline-flex items-center gap-1 rounded-full bg-slate-700 text-white text-[10px] font-bold uppercase tracking-wider px-2 py-0.5">
-                <Crown className="h-3 w-3" /> Premium
-              </span>
-              <span className="text-xs font-bold">850 € / Jahr</span>
+          <div className="flex flex-col rounded-2xl border border-border bg-card p-5">
+            <div className="mb-1 flex items-center justify-between gap-2">
+              <ToneBadge tone="accent">
+                <Crown className="h-3 w-3" aria-hidden="true" /> Premium
+              </ToneBadge>
+              <span className="text-sm font-semibold tabular">850 € / Jahr</span>
             </div>
-            <h3 className="font-bold text-lg mt-1">Amex Business Platinum</h3>
-            <p className="text-xs text-muted-foreground mb-2">
-              Für Vielreiser &amp; maximale Liquidität.
-            </p>
-            <ul className="text-xs space-y-1 text-muted-foreground mb-3 flex-1">
-              <li className="flex gap-1.5"><CheckCircle2 className="h-3.5 w-3.5 text-emerald-600 shrink-0 mt-0.5" /> bis 58 Tage zinsfreies Zahlungsziel</li>
-              <li className="flex gap-1.5"><CheckCircle2 className="h-3.5 w-3.5 text-emerald-600 shrink-0 mt-0.5" /> bis 200.000 MR-Punkte Willkommensbonus (Aktion)</li>
-              <li className="flex gap-1.5"><CheckCircle2 className="h-3.5 w-3.5 text-emerald-600 shrink-0 mt-0.5" /> umfangreichstes Versicherungspaket am Markt</li>
-              <li className="flex gap-1.5"><CheckCircle2 className="h-3.5 w-3.5 text-emerald-600 shrink-0 mt-0.5" /> Lounge-Zugang (Kooperation bis 30.09.2026)</li>
+            <h3 className="mt-2 text-lg font-semibold tracking-tight">Amex Business Platinum</h3>
+            <p className="mb-3 text-sm text-muted-foreground">Für Vielreiser und maximale Liquidität.</p>
+            <ul className="mb-4 flex-1 space-y-1.5 text-sm text-muted-foreground">
+              {[
+                "bis 58 Tage zinsfreies Zahlungsziel",
+                "bis 200.000 MR-Punkte Willkommensbonus (Aktion)",
+                "umfangreichstes Versicherungspaket am Markt",
+                "Lounge-Zugang (Kooperation bis 30.09.2026)",
+              ].map((t) => (
+                <li key={t} className="flex gap-2">
+                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-success" aria-hidden="true" /> {t}
+                </li>
+              ))}
             </ul>
             <a
               href={AMEX_REFERRAL.platinum}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-slate-800 hover:bg-slate-900 text-white font-semibold text-sm px-4 py-2.5 transition-colors"
+              className="press inline-flex h-11 items-center justify-center gap-1.5 rounded-xl bg-primary px-4 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
             >
-              Amex Platinum beantragen <ArrowRight className="h-4 w-4" />
+              Amex Platinum beantragen <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </a>
           </div>
         </div>
 
-        <p className="text-[10px] text-muted-foreground mt-3 leading-relaxed">
-          Hinweis: Amex ist eine Charge-Card mit Bonitätsprüfung (SCHUFA ohne Negativeintrag) und
-          setzt ein bestehendes Geschäft voraus. Wenn du SCHUFA-frei oder ohne Historie ab Tag 1
-          startest, findest du unten passende Debit-Alternativen (Qonto, Finom, Vivid …). Die Amex-
-          Links sind Empfehlungs-/Affiliate-Links.
+        <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
+          Hinweis: Amex ist eine Charge-Card mit Bonitätsprüfung (SCHUFA ohne Negativeintrag) und setzt ein bestehendes Geschäft
+          voraus. Startest du SCHUFA-frei oder ohne Historie ab Tag 1, findest du unten passende Debit-Alternativen (Qonto, Finom,
+          Vivid …). Die Amex-Links sind Empfehlungs- bzw. Affiliate-Links.
         </p>
-      </div>
+      </ToolSection>
 
-      {/* ===== SEGMENT-SWITCHER ===== */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-4">
-        {(Object.entries(SEGMENT_META) as [CardSegment, typeof SEGMENT_META[CardSegment]][]).map(
-          ([key, meta]) => {
+      {/* ===== SEGMENT-SWITCHER + FILTER ===== */}
+      <ToolSection title="Karten filtern" icon={SlidersHorizontal} className="mb-6">
+        <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
+          {(Object.entries(SEGMENT_META) as [CardSegment, typeof SEGMENT_META[CardSegment]][]).map(([key, meta]) => {
             const active = activeSegment === key;
             return (
               <button
                 key={key}
+                type="button"
+                aria-pressed={active}
                 onClick={() => setActiveSegment(key)}
-                className={`rounded-2xl border-2 p-4 text-left transition-all ${
+                className={`rounded-xl border p-3.5 text-left transition-colors ${
                   active
-                    ? "border-accent-blue bg-accent-blue/5 shadow-md"
-                    : "border-border bg-card hover:border-accent-blue/40"
+                    ? "border-primary bg-primary text-primary-foreground"
+                    : "border-border bg-card hover:border-foreground/25"
                 }`}
               >
-                <div className="text-2xl mb-1">{meta.emoji}</div>
-                <div className="font-bold text-sm">{meta.label}</div>
-                <div className="text-[10px] text-muted-foreground mt-0.5">
+                <span className="block text-sm font-semibold">{stripEmoji(meta.label)}</span>
+                <span className={`mt-0.5 block text-xs tabular ${active ? "text-primary-foreground/75" : "text-muted-foreground"}`}>
                   {segmentCounts[key]} Karten
-                </div>
+                </span>
               </button>
             );
-          },
-        )}
-      </div>
-
-      {/* Active Segment Description */}
-      {activeSegment !== "all" && (
-        <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-4 mb-4 text-sm">
-          {SEGMENT_META[activeSegment].description}
+          })}
         </div>
-      )}
 
-      {/* ===== FILTER-CHIPS ===== */}
-      <div className="flex flex-wrap gap-2 mb-4 items-center">
-        <button
-          onClick={() => setActiveSegment("all")}
-          className={`rounded-full px-3 py-1.5 text-xs font-semibold ${
-            activeSegment === "all"
-              ? "bg-accent-blue text-primary-foreground"
-              : "border border-border bg-card hover:bg-secondary"
-          }`}
-        >
-          Alle {BIZ_CARDS.length} Karten
-        </button>
-        <button
-          onClick={() => setNoSchufaOnly((v) => !v)}
-          className={`rounded-full px-3 py-1.5 text-xs font-semibold ${
-            noSchufaOnly ? "bg-emerald-500 text-white" : "border border-border bg-card hover:bg-secondary"
-          }`}
-        >
-          Nur SCHUFA-frei
-        </button>
-        <button
-          onClick={() => setSoloDayOneOnly((v) => !v)}
-          className={`rounded-full px-3 py-1.5 text-xs font-semibold ${
-            soloDayOneOnly ? "bg-emerald-500 text-white" : "border border-border bg-card hover:bg-secondary"
-          }`}
-        >
-          Solo ab Tag 1
-        </button>
-        <button
-          onClick={() => setDatevOnly((v) => !v)}
-          className={`rounded-full px-3 py-1.5 text-xs font-semibold ${
-            datevOnly ? "bg-emerald-500 text-white" : "border border-border bg-card hover:bg-secondary"
-          }`}
-        >
-          Native DATEV
-        </button>
-        <button
-          onClick={() => setFreeTierOnly((v) => !v)}
-          className={`rounded-full px-3 py-1.5 text-xs font-semibold ${
-            freeTierOnly ? "bg-emerald-500 text-white" : "border border-border bg-card hover:bg-secondary"
-          }`}
-        >
-          0 €-Einstieg
-        </button>
-        <span className="text-xs text-muted-foreground ml-2">→ {filtered.length} Treffer</span>
-      </div>
+        {activeSegment !== "all" && (
+          <Callout tone="accent" icon={false} className="mt-3">
+            {SEGMENT_META[activeSegment].description}
+          </Callout>
+        )}
+
+        <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-border/70 pt-4">
+          <button type="button" aria-pressed={activeSegment === "all"} onClick={() => setActiveSegment("all")} className={filterChip(activeSegment === "all")}>
+            Alle {BIZ_CARDS.length} Karten
+          </button>
+          <button type="button" aria-pressed={noSchufaOnly} onClick={() => setNoSchufaOnly((v) => !v)} className={filterChip(noSchufaOnly)}>
+            Nur SCHUFA-frei
+          </button>
+          <button type="button" aria-pressed={soloDayOneOnly} onClick={() => setSoloDayOneOnly((v) => !v)} className={filterChip(soloDayOneOnly)}>
+            Solo ab Tag 1
+          </button>
+          <button type="button" aria-pressed={datevOnly} onClick={() => setDatevOnly((v) => !v)} className={filterChip(datevOnly)}>
+            Native DATEV
+          </button>
+          <button type="button" aria-pressed={freeTierOnly} onClick={() => setFreeTierOnly((v) => !v)} className={filterChip(freeTierOnly)}>
+            0 €-Einstieg
+          </button>
+          <span className="ml-auto text-sm text-muted-foreground tabular" aria-live="polite">
+            {filtered.length} Treffer
+          </span>
+        </div>
+      </ToolSection>
 
       {/* ===== KARTEN-GRID ===== */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
-        {filtered.length === 0 ? (
-          <div className="md:col-span-2 rounded-2xl border border-dashed border-border p-12 text-center text-sm text-muted-foreground">
-            Keine Karten passen zu deinen Filtern.
-          </div>
-        ) : (
-          filtered.map((card) => {
+      {filtered.length === 0 ? (
+        <EmptyState
+          icon={CreditCard}
+          title="Keine Karten passen zu deinen Filtern."
+          description="Nimm einen Filter heraus oder wechsle zu „Alle Karten“."
+          className="mb-6"
+        />
+      ) : (
+        <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-2">
+          {filtered.map((card) => {
             const isStar = card.bestFor.startsWith("★");
             return (
-              <div
+              <article
                 key={card.id}
-                className={`rounded-2xl border p-4 ${
-                  isStar ? "border-emerald-500/40 bg-emerald-500/5" : "border-border bg-card"
+                className={`flex flex-col rounded-2xl border p-5 shadow-card ${
+                  isStar ? "border-success/30 bg-success-soft/50" : "border-border bg-card"
                 }`}
               >
-                <div className="flex items-start justify-between mb-2 gap-2">
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-bold text-base flex items-center gap-2">
-                      <CreditCard className="h-4 w-4 text-muted-foreground shrink-0" />
+                <div className="mb-2 flex items-start justify-between gap-3">
+                  <div className="min-w-0 flex-1">
+                    <h3 className="flex items-center gap-2 text-base font-semibold">
+                      <CreditCard className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden="true" />
                       <span className="truncate">{card.name}</span>
                     </h3>
-                    <div className="text-[11px] text-muted-foreground">
+                    <div className="text-xs text-muted-foreground">
                       {card.issuer} · {card.network}
                     </div>
                   </div>
-                  <div className="text-right shrink-0">
+                  <div className="shrink-0 text-right">
                     <div className="text-xs text-muted-foreground">Preis</div>
-                    <div
-                      className={`font-bold text-sm ${
-                        card.hasFreeTier ? "text-emerald-700" : "text-foreground"
-                      }`}
-                    >
+                    <div className={`text-sm font-semibold tabular ${card.hasFreeTier ? "text-success" : "text-foreground"}`}>
                       {card.hasFreeTier ? "ab 0 €" : card.annualEur ? `${card.annualEur} €/J` : "auf Anfrage"}
                     </div>
                   </div>
                 </div>
 
-                {/* Best-For */}
-                <div
-                  className={`text-sm mb-2 ${
-                    isStar ? "font-semibold text-emerald-800" : "text-foreground"
-                  }`}
-                >
-                  {card.bestFor}
-                </div>
+                <p className={`mb-3 text-sm ${isStar ? "font-semibold text-foreground" : "text-foreground/90"}`}>{card.bestFor}</p>
 
-                {/* Preis-Detail + Rewards */}
-                <div className="rounded-lg bg-secondary/40 p-2 mb-2 text-xs space-y-1">
+                <dl className="mb-3 space-y-1 rounded-xl bg-secondary/60 p-3 text-xs">
                   <div>
-                    <span className="text-muted-foreground">Tarif: </span>
-                    {card.priceLabel}
+                    <dt className="inline text-muted-foreground">Tarif: </dt>
+                    <dd className="inline">{card.priceLabel}</dd>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">Rewards: </span>
-                    {card.rewards}
+                    <dt className="inline text-muted-foreground">Rewards: </dt>
+                    <dd className="inline">{card.rewards}</dd>
                   </div>
                   {card.paymentTerm && (
                     <div>
-                      <span className="text-muted-foreground">Zahlungsziel: </span>
-                      {card.paymentTerm}
+                      <dt className="inline text-muted-foreground">Zahlungsziel: </dt>
+                      <dd className="inline">{card.paymentTerm}</dd>
                     </div>
                   )}
                   <div>
-                    <span className="text-muted-foreground">FX-Gebühr: </span>
-                    {card.fxFee}
+                    <dt className="inline text-muted-foreground">FX-Gebühr: </dt>
+                    <dd className="inline">{card.fxFee}</dd>
                   </div>
                   {card.signupBonus && (
-                    <div className="text-accent-blue font-medium">🎁 {card.signupBonus}</div>
+                    <div className="flex items-start gap-1.5 font-medium text-accent-blue">
+                      <Gift className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden="true" /> {card.signupBonus}
+                    </div>
                   )}
+                </dl>
+
+                <div className="mb-3 flex flex-wrap gap-1.5">
+                  <ToneBadge tone={cardTypeTone[card.cardType] ?? "neutral"}>{card.cardType}</ToneBadge>
+                  {!card.schufa && <ToneBadge tone="success">SCHUFA-frei</ToneBadge>}
+                  {card.schufa && <ToneBadge tone="warning">Bonität/SCHUFA nötig</ToneBadge>}
+                  {card.soloDayOne && <ToneBadge tone="info">Solo ab Tag 1</ToneBadge>}
+                  {card.datevNative && <ToneBadge tone="accent">Native DATEV</ToneBadge>}
                 </div>
 
-                {/* Badges */}
-                <div className="flex flex-wrap gap-1 mb-2">
-                  <Badge variant="outline" className={`text-[10px] ${cardTypeBadge[card.cardType]}`}>
-                    {card.cardType}
-                  </Badge>
-                  {!card.schufa && (
-                    <Badge variant="outline" className="text-[10px] text-emerald-700 border-emerald-500/30 bg-emerald-500/5">
-                      SCHUFA-frei
-                    </Badge>
-                  )}
-                  {card.schufa && (
-                    <Badge variant="outline" className="text-[10px] text-amber-700 border-amber-500/30 bg-amber-500/5">
-                      Bonität/SCHUFA nötig
-                    </Badge>
-                  )}
-                  {card.soloDayOne && (
-                    <Badge variant="outline" className="text-[10px] text-blue-700 border-blue-500/30 bg-blue-500/5">
-                      Solo ab Tag 1
-                    </Badge>
-                  )}
-                  {card.datevNative && (
-                    <Badge variant="outline" className="text-[10px] text-purple-700 border-purple-500/30 bg-purple-500/5">
-                      Native DATEV
-                    </Badge>
-                  )}
-                </div>
-
-                {/* Wer + Zusatzkarten */}
-                <div className="text-[11px] text-muted-foreground space-y-0.5 mb-2">
+                <div className="mb-3 space-y-0.5 text-xs text-muted-foreground">
                   <div>
-                    <span className="font-semibold text-foreground/70">Wer: </span>
+                    <span className="font-medium text-foreground/80">Wer: </span>
                     {card.who}
                   </div>
                   <div>
-                    <span className="font-semibold text-foreground/70">Zusatzkarten: </span>
+                    <span className="font-medium text-foreground/80">Zusatzkarten: </span>
                     {card.extraCards}
                   </div>
                   {card.insurance && (
                     <div>
-                      <span className="font-semibold text-foreground/70">Versicherung: </span>
+                      <span className="font-medium text-foreground/80">Versicherung: </span>
                       {card.insurance}
                     </div>
                   )}
                 </div>
 
-                {/* Watchouts */}
                 {card.watchouts.length > 0 && (
-                  <details className="text-xs">
-                    <summary className="cursor-pointer text-amber-700 hover:text-amber-800 font-medium flex items-center gap-1">
-                      <AlertTriangle className="h-3 w-3" /> {card.watchouts.length} Watchout
+                  <details className="group text-xs">
+                    <summary className="flex cursor-pointer list-none items-center gap-1 font-medium text-warning [&::-webkit-details-marker]:hidden">
+                      <AlertTriangle className="h-3.5 w-3.5" aria-hidden="true" /> {card.watchouts.length} Watchout
                       {card.watchouts.length === 1 ? "" : "s"}
+                      <ChevronDown className="h-3.5 w-3.5 transition-transform group-open:rotate-180" aria-hidden="true" />
                     </summary>
-                    <ul className="list-disc pl-4 mt-1 space-y-0.5 text-muted-foreground">
+                    <ul className="mt-1.5 list-disc space-y-0.5 pl-4 text-muted-foreground">
                       {card.watchouts.map((w, i) => (
                         <li key={i}>{w}</li>
                       ))}
@@ -360,37 +321,33 @@ const BusinessCreditCards = () => {
                   </details>
                 )}
 
-                {/* Data-Note */}
                 {card.dataNote && (
-                  <div className="mt-2 rounded bg-amber-500/10 border border-amber-500/20 p-1.5 text-[10px] text-amber-800 flex items-start gap-1.5">
-                    <Info className="h-3 w-3 shrink-0 mt-0.5" />
-                    <span>{card.dataNote}</span>
-                  </div>
+                  <Callout tone="warning" icon={Info} className="mt-3 p-2.5 text-xs">
+                    {card.dataNote}
+                  </Callout>
                 )}
 
-                {/* Link */}
                 <a
                   href={card.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-xs text-accent-blue hover:underline mt-2"
+                  className="mt-auto inline-flex items-center gap-1 pt-3 text-sm font-medium text-accent-blue hover:underline"
                 >
-                  Zur Anbieter-Seite <ExternalLink className="h-3 w-3" />
+                  Zur Anbieter-Seite <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
                 </a>
-              </div>
+              </article>
             );
-          })
-        )}
-      </div>
+          })}
+        </div>
+      )}
 
       {/* ===== KARTEN-TYPEN ERKLÄRT ===== */}
       <CollapsiblePanel
         open={showTypes}
         onToggle={() => setShowTypes((v) => !v)}
-        icon={<Layers className="h-5 w-5 text-blue-700" />}
-        title="Charge vs. Debit vs. Kreditkarte vs. Prepaid — was heißt das?"
-        subtitle="Der wichtigste Unterschied: Liquiditätsvorteil vs. SCHUFA-Hürde"
-        colorClass="border-blue-500/30 bg-blue-500/5"
+        icon={Layers}
+        title="Charge vs. Debit vs. Kreditkarte vs. Prepaid: was heißt das?"
+        subtitle="Der wichtigste Unterschied: Liquiditätsvorteil oder SCHUFA-Hürde"
       >
         <div className="space-y-2">
           {[
@@ -411,9 +368,9 @@ const BusinessCreditCards = () => {
               d: "Karte wird vorab aufgeladen, keine persönliche Haftung, keine Kreditlinie. Typisch für Team-Spend-Management. Spendesk.",
             },
           ].map((row) => (
-            <div key={row.t} className="rounded-xl border border-border bg-card p-3">
-              <div className="font-semibold text-sm mb-0.5">{row.t}</div>
-              <div className="text-xs text-muted-foreground leading-relaxed">{row.d}</div>
+            <div key={row.t} className="rounded-xl border border-border bg-secondary/40 p-3.5">
+              <div className="mb-0.5 text-sm font-semibold">{row.t}</div>
+              <div className="text-sm leading-relaxed text-muted-foreground">{row.d}</div>
             </div>
           ))}
         </div>
@@ -423,52 +380,41 @@ const BusinessCreditCards = () => {
       <CollapsiblePanel
         open={showGuide}
         onToggle={() => setShowGuide((v) => !v)}
-        icon={<Compass className="h-5 w-5 text-emerald-700" />}
+        icon={Compass}
         title="Welche Karte für welchen Gründer-Typ?"
-        subtitle={`${DECISION_GUIDE.length} Profile mit konkreter Empfehlung + Begründung`}
-        colorClass="border-emerald-500/30 bg-emerald-500/5"
+        subtitle={`${DECISION_GUIDE.length} Profile mit konkreter Empfehlung und Begründung`}
       >
         <div className="space-y-2">
           {DECISION_GUIDE.map((g, i) => (
-            <div key={i} className="rounded-xl border border-border bg-card p-3">
-              <div className="font-semibold text-sm mb-1 flex items-start gap-2">
-                <CheckCircle2 className="h-4 w-4 text-emerald-700 shrink-0 mt-0.5" />
+            <div key={i} className="rounded-xl border border-border bg-secondary/40 p-3.5">
+              <div className="mb-1 flex items-start gap-2 text-sm font-semibold">
+                <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-success" aria-hidden="true" />
                 {g.profile}
               </div>
-              <div className="text-sm text-accent-blue font-medium pl-6">→ {g.pick}</div>
-              <div className="text-xs text-muted-foreground leading-relaxed pl-6 mt-0.5">{g.why}</div>
+              <div className="flex items-start gap-1 pl-6 text-sm font-medium text-accent-blue">
+                <ArrowRight className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden="true" /> {g.pick}
+              </div>
+              <div className="mt-0.5 pl-6 text-sm leading-relaxed text-muted-foreground">{g.why}</div>
             </div>
           ))}
         </div>
       </CollapsiblePanel>
 
       {/* ===== DISCLAIMER ===== */}
-      <div className="mt-6 rounded-2xl border border-amber-500/30 bg-amber-500/5 p-4 text-xs leading-relaxed">
-        <div className="flex items-start gap-2">
-          <AlertTriangle className="h-4 w-4 text-amber-700 shrink-0 mt-0.5" />
-          <div>
-            <div className="font-semibold mb-1">Wichtige Hinweise:</div>
-            <ul className="list-disc pl-4 space-y-1 text-muted-foreground">
-              <li>
-                Konditionen, Gebühren & Boni ändern sich laufend — Werte Stand Mai 2026, vor Antrag
-                auf der Anbieter-Seite verifizieren.
-              </li>
-              <li>
-                Amex-Willkommensboni sind Aktionswerte (keine Dauerkonditionen) und an Mindest-Umsätze
-                gebunden.
-              </li>
-              <li>
-                Payhawk &amp; Spendesk veröffentlichen keine Preise → „auf Anfrage". Revolut-Tarife wurden
-                3/2026 geändert, vor Wahl gegenprüfen.
-              </li>
-              <li>
-                Keine Steuer-/Finanzberatung (StBerG) — diese Seite ist eine kuratierte Orientierung,
-                keine Empfehlung im aufsichtsrechtlichen Sinn.
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
+      <Callout tone="warning" title="Wichtige Hinweise" icon={AlertTriangle} className="mt-6">
+        <ul className="mt-1 list-disc space-y-1 pl-4">
+          <li>Konditionen, Gebühren und Boni ändern sich laufend. Werte Stand Mai 2026, vor dem Antrag auf der Anbieter-Seite prüfen.</li>
+          <li>Amex-Willkommensboni sind Aktionswerte (keine Dauerkonditionen) und an Mindestumsätze gebunden.</li>
+          <li>
+            Payhawk und Spendesk veröffentlichen keine Preise, daher „auf Anfrage“. Revolut hat die Tarife 3/2026 geändert, vor der
+            Wahl gegenprüfen.
+          </li>
+          <li>
+            Keine Steuer- oder Finanzberatung (StBerG). Diese Seite ist eine kuratierte Orientierung, keine Empfehlung im
+            aufsichtsrechtlichen Sinn.
+          </li>
+        </ul>
+      </Callout>
     </CockpitShell>
   );
 };
@@ -477,33 +423,38 @@ const BusinessCreditCards = () => {
 const CollapsiblePanel = ({
   open,
   onToggle,
-  icon,
+  icon: Icon,
   title,
   subtitle,
-  colorClass,
   children,
 }: {
   open: boolean;
   onToggle: () => void;
-  icon: React.ReactNode;
+  icon: ElementType;
   title: string;
   subtitle: string;
-  colorClass: string;
   children: React.ReactNode;
 }) => (
-  <div className={`rounded-2xl border ${colorClass} mb-3 overflow-hidden`}>
+  <div className="mb-3 overflow-hidden rounded-2xl border border-border bg-card shadow-card">
     <button
+      type="button"
+      aria-expanded={open}
       onClick={onToggle}
-      className="w-full p-4 text-left flex items-start gap-3 hover:bg-black/5 transition-colors"
+      className="flex w-full items-start gap-3 px-5 py-4 text-left transition-colors hover:bg-secondary/40 md:px-6"
     >
-      <div className="shrink-0">{icon}</div>
-      <div className="flex-1 min-w-0">
-        <div className="font-bold text-sm">{title}</div>
-        <div className="text-xs text-muted-foreground">{subtitle}</div>
-      </div>
-      <div className="text-muted-foreground text-xs shrink-0 mt-1">{open ? "▲" : "▼"}</div>
+      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-accent text-accent-blue">
+        <Icon className="h-4 w-4" aria-hidden="true" />
+      </span>
+      <span className="min-w-0 flex-1">
+        <span className="block text-base font-semibold">{title}</span>
+        <span className="block text-sm text-muted-foreground">{subtitle}</span>
+      </span>
+      <ChevronDown
+        className={`mt-1 h-4 w-4 shrink-0 text-muted-foreground transition-transform ${open ? "rotate-180" : ""}`}
+        aria-hidden="true"
+      />
     </button>
-    {open && <div className="px-4 pb-4">{children}</div>}
+    {open && <div className="border-t border-border/70 px-5 py-4 md:px-6">{children}</div>}
   </div>
 );
 
