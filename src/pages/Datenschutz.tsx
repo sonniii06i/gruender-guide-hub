@@ -1,5 +1,6 @@
 import { Navbar } from "@/components/landing/Navbar";
 import { Footer } from "@/components/landing/Footer";
+import { PageHeader } from "@/components/landing/PageHeader";
 import { Seo } from "@/components/Seo";
 
 const Datenschutz = () => (
@@ -20,12 +21,21 @@ const Datenschutz = () => (
       }}
     />
     <Navbar />
-    <main className="container max-w-3xl pt-32 pb-24 prose prose-slate prose-headings:scroll-mt-24">
-      <p className="text-xs font-semibold uppercase tracking-wider text-accent-blue mb-2 not-prose">Rechtliches</p>
-      <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-2">Datenschutzerklärung</h1>
-      <p className="text-sm text-muted-foreground">Stand: Oktober 2026 · Version 2.1 (GründerX-spezifisch)</p>
+    <main>
+      <PageHeader
+        width="max-w-3xl"
+        kicker={
+          <span className="inline-flex items-center rounded-full border border-accent-blue/20 bg-accent px-3 py-1 text-[13px] font-medium text-accent-blue">
+            Rechtliches
+          </span>
+        }
+        title="Datenschutzerklärung"
+        lead={<p className="text-base tabular">Stand: Oktober 2026 · Version 2.1 (GründerX-spezifisch)</p>}
+      />
+      <div className="container max-w-3xl px-4 py-10 md:py-14">
+      <div className="prose prose-slate max-w-none rounded-2xl border border-border bg-card p-5 shadow-card prose-headings:scroll-mt-24 prose-headings:tracking-tight prose-a:text-accent-blue sm:p-8 md:p-10">
 
-      <h2 id="ueberblick" className="text-2xl font-bold mt-10 mb-3">1. Überblick & Verantwortlicher</h2>
+      <h2 id="ueberblick" className="mt-10 mb-3 text-xl font-semibold md:text-2xl">1. Überblick & Verantwortlicher</h2>
       <p>
         Diese Datenschutzerklärung beschreibt, welche personenbezogenen Daten beim Besuch der Website
         gründerx.de und bei der Nutzung der dort angebotenen GründerX-Plattform verarbeitet werden.
@@ -43,7 +53,7 @@ const Datenschutz = () => (
         wende dich direkt an die o. g. Adresse.
       </p>
 
-      <h2 id="was-machen-wir" className="text-2xl font-bold mt-10 mb-3">2. Was ist GründerX – und welche Daten verarbeiten wir dafür?</h2>
+      <h2 id="was-machen-wir" className="mt-10 mb-3 text-xl font-semibold md:text-2xl">2. Was ist GründerX – und welche Daten verarbeiten wir dafür?</h2>
       <p>
         GründerX ist eine SaaS-Plattform für deutsche Gründer:innen mit u. a. folgenden Funktionen:
       </p>
@@ -57,7 +67,7 @@ const Datenschutz = () => (
         <li><strong>Firmenname-Check</strong> – Live-Verfügbarkeit über NorthData + GLEIF.</li>
       </ul>
 
-      <h2 id="kategorien" className="text-2xl font-bold mt-10 mb-3">3. Datenkategorien & Zwecke im Detail</h2>
+      <h2 id="kategorien" className="mt-10 mb-3 text-xl font-semibold md:text-2xl">3. Datenkategorien & Zwecke im Detail</h2>
 
       <h3 className="font-semibold mt-6">3.1 Konto- und Stammdaten</h3>
       <p><strong>Daten:</strong> E-Mail-Adresse, Passwort-Hash (bcrypt/argon2 via Supabase Auth), optional Vor-/Nachname, Profilbild, Telefonnummer, Rechnungsadresse.</p>
@@ -230,21 +240,21 @@ const Datenschutz = () => (
         (berechtigtes Interesse an einem stabilen, missbrauchsgeschützten Dienst und an der Reichweitenmessung ohne Personenbezug).
       </p>
 
-      <h2 id="auftragsverarbeiter" className="text-2xl font-bold mt-10 mb-3">4. Auftragsverarbeiter, eigenverantwortliche Dritte & Datenflüsse</h2>
+      <h2 id="auftragsverarbeiter" className="mt-10 mb-3 text-xl font-semibold md:text-2xl">4. Auftragsverarbeiter, eigenverantwortliche Dritte & Datenflüsse</h2>
       <p>
         Im Folgenden listen wir alle Empfänger nach ihrer datenschutzrechtlichen Rolle (Auftragsverarbeiter
         nach Art. 28 DSGVO oder eigenverantwortlicher Dritter nach Art. 4 Nr. 7 DSGVO):
       </p>
 
-      <div className="overflow-x-auto -mx-4 px-4 my-4">
-      <table className="w-full min-w-[640px] text-sm border border-border">
-        <thead className="bg-secondary">
+      <div className="not-prose my-6 overflow-x-auto rounded-xl border border-border">
+      <table className="w-full min-w-[640px] text-sm">
+        <thead className="bg-secondary/60">
           <tr>
-            <th className="text-left px-3 py-2">Anbieter</th>
-            <th className="text-left px-3 py-2">Rolle</th>
-            <th className="text-left px-3 py-2">Zweck</th>
-            <th className="text-left px-3 py-2">Standort</th>
-            <th className="text-left px-3 py-2">Schutzgarantie</th>
+            <th className="px-3 py-2.5 text-left font-medium">Anbieter</th>
+            <th className="px-3 py-2.5 text-left font-medium">Rolle</th>
+            <th className="px-3 py-2.5 text-left font-medium">Zweck</th>
+            <th className="px-3 py-2.5 text-left font-medium">Standort</th>
+            <th className="px-3 py-2.5 text-left font-medium">Schutzgarantie</th>
           </tr>
         </thead>
         <tbody>
@@ -326,7 +336,7 @@ const Datenschutz = () => (
         eigenverantwortlich und ist insoweit kein Auftragsverarbeiter; siehe <a href="https://stripe.com/de/privacy" target="_blank" rel="noreferrer">stripe.com/de/privacy</a>.
       </p>
 
-      <h2 id="drittland" className="text-2xl font-bold mt-10 mb-3">5. Drittlandtransfer (USA / Nicht-EU)</h2>
+      <h2 id="drittland" className="mt-10 mb-3 text-xl font-semibold md:text-2xl">5. Drittlandtransfer (USA / Nicht-EU)</h2>
       <p>
         Bei der Nutzung von Felix-Chat (Google Gemini-Backend) findet eine Übermittlung in die USA statt.
         Wir stellen den Schutz über die EU-Standardvertragsklauseln (SCC) sicher und nutzen Anbieter,
@@ -334,7 +344,7 @@ const Datenschutz = () => (
         nicht nutzen – die anderen Funktionen der Plattform funktionieren ohne KI-Drittland-Transfer.
       </p>
 
-      <h2 id="cookies" className="text-2xl font-bold mt-10 mb-3">6. Cookies & lokaler Speicher</h2>
+      <h2 id="cookies" className="mt-10 mb-3 text-xl font-semibold md:text-2xl">6. Cookies & lokaler Speicher</h2>
       <p>
         Wir verwenden ausschließlich <strong>technisch unbedingt erforderliche Cookies</strong> i. S. d. § 25 Abs. 2 Nr. 2 TDDDG
         (Telekommunikation-Digitale-Dienste-Datenschutz-Gesetz, vormals TTDSG). Diese sind erforderlich, damit der
@@ -354,7 +364,7 @@ const Datenschutz = () => (
         holen wir vorab deine Einwilligung über ein TDDDG-konformes Consent-Layer ein.
       </p>
 
-      <h2 id="ki-hinweis" className="text-2xl font-bold mt-10 mb-3">7. Keine automatisierte Entscheidungsfindung mit Rechtswirkung</h2>
+      <h2 id="ki-hinweis" className="mt-10 mb-3 text-xl font-semibold md:text-2xl">7. Keine automatisierte Entscheidungsfindung mit Rechtswirkung</h2>
       <p>
         Felix-Chat, Rechtsform-Wizard und Steuer-Cockpit liefern <strong>menschlich überprüfbare Vorschläge</strong>,
         keine rechtlich verbindlichen Entscheidungen. Der Output enthält stets den Hinweis, dass eine zugelassene
@@ -372,7 +382,7 @@ const Datenschutz = () => (
         den Leitlinien WP251rev.01 sowie der Rechtsprechung des EuGH (C-634/21, „SCHUFA").
       </p>
 
-      <h2 id="rechte" className="text-2xl font-bold mt-10 mb-3">8. Deine Rechte als Betroffene:r</h2>
+      <h2 id="rechte" className="mt-10 mb-3 text-xl font-semibold md:text-2xl">8. Deine Rechte als Betroffene:r</h2>
       <ul>
         <li><strong>Auskunft</strong> (Art. 15 DSGVO) – welche Daten haben wir von dir?</li>
         <li><strong>Berichtigung</strong> (Art. 16) – falsche Daten korrigieren lassen.</li>
@@ -385,7 +395,7 @@ const Datenschutz = () => (
       </ul>
       <p>Anfragen formlos an: <a href="mailto:datenschutz@gründerx.de">datenschutz@gründerx.de</a></p>
 
-      <h2 id="sicherheit" className="text-2xl font-bold mt-10 mb-3">9. Sicherheit der Datenverarbeitung</h2>
+      <h2 id="sicherheit" className="mt-10 mb-3 text-xl font-semibold md:text-2xl">9. Sicherheit der Datenverarbeitung</h2>
       <ul>
         <li>HTTPS/TLS 1.3 für alle Verbindungen</li>
         <li>Passwörter werden niemals im Klartext gespeichert (Supabase Auth, bcrypt/argon2)</li>
@@ -395,7 +405,7 @@ const Datenschutz = () => (
         <li>2FA-Optionen für Mitarbeiter-Accounts (intern)</li>
       </ul>
 
-      <h2 id="aenderungen" className="text-2xl font-bold mt-10 mb-3">10. Änderungen dieser Erklärung</h2>
+      <h2 id="aenderungen" className="mt-10 mb-3 text-xl font-semibold md:text-2xl">10. Änderungen dieser Erklärung</h2>
       <p>
         Wir passen diese Datenschutzerklärung gelegentlich an, wenn sich Funktionen oder Auftragsverarbeiter
         ändern. Die jeweils aktuelle Version findest du auf dieser Seite. Bei wesentlichen Änderungen informieren
@@ -403,6 +413,8 @@ const Datenschutz = () => (
       </p>
 
       <p className="mt-8 text-sm text-muted-foreground">Stand: Mai 2026 · Version 2.0</p>
+      </div>
+      </div>
     </main>
     <Footer />
   </div>
