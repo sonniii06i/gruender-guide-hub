@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import Stand2026Footer from "@/components/cockpit/Stand2026Footer";
-import { Star, Info, AlertTriangle, FileText } from "lucide-react";
+import { Star, Info, AlertTriangle, FileText, ArrowRight } from "lucide-react";
+import { Callout, ToolSection } from "@/components/cockpit/kit";
 
 /**
  * Read-only Walkthrough des ELSTER-Formulars
@@ -260,94 +261,151 @@ const TEILSEITEN: Teilseite[] = [
 ];
 
 const FseKapgWizard = () => {
+  const wichtigGesamt = TEILSEITEN.reduce((n, ts) => n + ts.fields.filter((f) => f.star).length, 0);
   return (
     <CockpitShell
-      eyebrow="Fragebogen zur steuerlichen Erfassung - Kapitalgesellschaft"
-      title="FsE Kapitalgesellschaft / Genossenschaft - Schritt fuer Schritt"
-      subtitle="Walkthrough aller 23 Teilseiten des echten ELSTER-Formulars (fsekapg, Stand 2026) fuer die Gruendung einer GmbH / UG / AG / eG - in ELSTER-Reihenfolge, mit Zeilennummern und Erklaerung. Du fuellst direkt in ELSTER aus, diese Seite erklaert parallel. Mit ⭐ markiert: was fuer GmbH-/UG-Gruender besonders zaehlt."
+      eyebrow="Fragebogen zur steuerlichen Erfassung: Kapitalgesellschaft"
+      title="FsE Kapitalgesellschaft / Genossenschaft Schritt für Schritt"
+      subtitle={
+        <>
+          Walkthrough aller 23 Teilseiten des echten ELSTER-Formulars (fsekapg, Stand 2026) für die Gründung einer GmbH, UG, AG
+          oder eG: in ELSTER-Reihenfolge, mit Zeilennummern und Erklärung. Du füllst direkt in ELSTER aus, diese Seite erklärt
+          parallel. Mit <Star className="inline h-3.5 w-3.5 -translate-y-px fill-warning text-warning" aria-label="Stern" /> markiert:
+          was für GmbH- und UG-Gründer besonders zählt.
+        </>
+      }
     >
-      {/* Hinweis-Box */}
-      <div className="rounded-2xl border-2 border-accent-blue/30 bg-gradient-to-br from-accent-blue/10 via-card to-card p-5 mb-4">
-        <div className="flex items-start gap-3">
-          <Info className="h-6 w-6 text-accent-blue shrink-0 mt-0.5" />
-          <div className="text-sm">
-            <h3 className="font-bold mb-1">Vorab: das ist der FsE NACH dem Notar</h3>
-            <p className="text-muted-foreground leading-relaxed">
-              Die Reihenfolge bei der GmbH/UG: <strong>1.</strong> Notarieller Gesellschaftsvertrag,
-              <strong> 2.</strong> Geschaeftskonto + Stammkapital einzahlen, <strong>3.</strong> Eintragung
-              ins Handelsregister (HRB), <strong>4.</strong> dieser Fragebogen zur steuerlichen Erfassung.
-              Du brauchst also Notarvertrag, HRB-Nummer (falls schon da) und die Gesellschafter-/GF-Daten griffbereit.
-            </p>
-            <p className="mt-2 text-muted-foreground">
-              Abgabe nur authentifiziert ueber ELSTER. Das FA vergibt danach die Steuernummer und
-              (auf Wunsch, Teilseite 18) die USt-IdNr.
-            </p>
-          </div>
-        </div>
+      <div className="mb-6 grid gap-4 break-words [hyphens:auto] lg:grid-cols-2">
+        <Callout tone="info" title="Vorab: Das ist der FsE nach dem Notar">
+          <p>
+            Die Reihenfolge bei der GmbH/UG: <strong>1.</strong> notarieller Gesellschaftsvertrag, <strong>2.</strong> Geschäftskonto
+            und Stammkapital einzahlen, <strong>3.</strong> Eintragung ins Handelsregister (HRB), <strong>4.</strong> dieser Fragebogen
+            zur steuerlichen Erfassung. Halte Notarvertrag, HRB-Nummer (falls schon da) und die Gesellschafter- und GF-Daten bereit.
+          </p>
+          <p className="mt-2">
+            Abgabe nur authentifiziert über ELSTER. Das Finanzamt vergibt danach die Steuernummer und (auf Wunsch, Teilseite 18) die
+            USt-IdNr.
+          </p>
+        </Callout>
+        <Callout tone="warning" title="Die 4 Entscheidungen, die wirklich zählen" icon={AlertTriangle}>
+          <ul className="space-y-1.5">
+            <li>
+              <strong>Istversteuerung (Teilseite 17):</strong> USt erst bei Zahlungseingang abführen statt bei Rechnungsstellung. Bis
+              800.000 € Vorjahresumsatz beantragbar, schont die Liquidität: fast immer Ja.
+            </li>
+            <li>
+              <strong>Kleinunternehmer § 19 (Teilseite 17):</strong> Für eine operative GmbH mit Einkauf und Aufbau meist NEIN, du willst
+              den Vorsteuerabzug. Regelbesteuerung ist der Normalfall.
+            </li>
+            <li>
+              <strong>USt-IdNr. (Teilseite 18):</strong> Ja, sobald du EU-B2B kaufst oder verkaufst (Meta- und Google-Ads aus IE,
+              EU-Lieferanten, OSS).
+            </li>
+            <li>
+              <strong>Vorauszahlungen (Teilseite 15):</strong> Gewinn realistisch schätzen. Zu hoch bindet Liquidität, zu niedrig führt
+              zu Nachzahlung und angepasster Vorauszahlung.
+            </li>
+          </ul>
+        </Callout>
       </div>
 
-      {/* Binding-critical Entscheidungen */}
-      <div className="rounded-2xl border border-amber-500/30 bg-amber-500/5 p-5 mb-4 text-sm">
-        <h3 className="font-bold mb-2 flex items-center gap-2"><AlertTriangle className="h-4 w-4 text-amber-600" /> Die 4 Entscheidungen, die wirklich zaehlen</h3>
-        <ul className="space-y-1.5 text-muted-foreground">
-          <li><strong>Istversteuerung (Teilseite 17):</strong> USt erst bei Zahlungseingang abfuehren statt bei Rechnungsstellung. Bis 800.000 EUR Vorjahresumsatz beantragbar, schont Liquiditaet - fast immer Ja.</li>
-          <li><strong>Kleinunternehmer Paragraf 19 (Teilseite 17):</strong> Fuer eine operative GmbH mit Einkauf/Aufbau meist NEIN - du willst den Vorsteuerabzug. Regelbesteuerung ist der Normalfall.</li>
-          <li><strong>USt-IdNr. (Teilseite 18):</strong> Ja, sobald du EU-B2B kaufst/verkaufst (Meta-/Google-Ads aus IE, EU-Lieferanten, OSS).</li>
-          <li><strong>Vorauszahlungen (Teilseite 15):</strong> Gewinn realistisch schaetzen - zu hoch = Liquiditaet gebunden, zu niedrig = Nachzahlung + angepasste Vorauszahlung.</li>
-        </ul>
-      </div>
+      <div className="grid items-start gap-6 break-words [hyphens:auto] lg:grid-cols-[220px_minmax(0,1fr)]">
+        <nav aria-label="Teilseiten" className="hidden [hyphens:manual] rounded-2xl border border-border bg-card p-3 shadow-card lg:sticky lg:top-20 lg:block">
+          <p className="px-2 pb-2 pt-1 text-sm font-semibold">23 Teilseiten</p>
+          <ol className="max-h-[70vh] space-y-0.5 overflow-y-auto pr-1 text-sm">
+            {TEILSEITEN.map((ts) => (
+              <li key={ts.nr}>
+                <a
+                  href={`#teilseite-${ts.nr}`}
+                  className="flex items-start gap-2 rounded-lg px-2 py-1.5 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+                >
+                  <span className="w-5 shrink-0 text-xs font-semibold text-accent-blue tabular">{ts.nr}</span>
+                  <span className="line-clamp-2 leading-snug">{ts.title}</span>
+                </a>
+              </li>
+            ))}
+          </ol>
+        </nav>
 
-      {/* Teilseiten */}
-      <div className="space-y-4">
-        {TEILSEITEN.map((ts) => (
-          <div key={ts.nr} className="rounded-2xl border border-border bg-card p-5">
-            <div className="flex items-baseline gap-2 mb-1">
-              <span className="text-xs font-bold text-accent-blue shrink-0 w-6">{ts.nr}</span>
-              <h2 className="text-base font-bold">{ts.title}</h2>
-            </div>
-            {ts.intro && <p className="text-xs text-muted-foreground mb-2 ml-8">{ts.intro}</p>}
-            <div className="space-y-0 ml-8">
-              {ts.fields.map((f, i) => (
-                <div key={i} className="border-t border-border/60 py-2 flex items-start gap-3">
-                  {f.z ? (
-                    <span className="shrink-0 rounded bg-muted px-2 py-0.5 text-[10px] font-mono font-semibold mt-0.5">Z {f.z}</span>
-                  ) : (
-                    <span className="shrink-0 w-[34px]" />
-                  )}
-                  <div className="flex-1 min-w-0">
-                    <div className="text-sm font-medium flex items-center gap-1.5">
-                      {f.label}
-                      {f.star && <Star className="h-3 w-3 text-amber-500 shrink-0" aria-label="wichtig fuer GmbH/UG" />}
-                    </div>
-                    {f.hint && <div className="text-xs text-muted-foreground mt-0.5">{f.hint}</div>}
-                  </div>
+        <div className="min-w-0 space-y-4">
+          <p className="text-sm text-muted-foreground">
+            <span className="font-medium text-foreground tabular">{wichtigGesamt}</span> Felder sind für GmbH- und UG-Gründer besonders
+            wichtig.
+          </p>
+          {TEILSEITEN.map((ts) => (
+            <section
+              key={ts.nr}
+              id={`teilseite-${ts.nr}`}
+              className="scroll-mt-24 rounded-2xl border border-border bg-card shadow-card"
+            >
+              <div className="flex items-start gap-3 border-b border-border/70 px-5 py-4 md:px-6">
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-accent text-sm font-semibold text-accent-blue tabular">
+                  {ts.nr}
+                </span>
+                <div className="min-w-0">
+                  <h2 className="text-base font-semibold leading-snug tracking-tight">{ts.title}</h2>
+                  {ts.intro && <p className="mt-0.5 text-sm leading-relaxed text-muted-foreground">{ts.intro}</p>}
                 </div>
+              </div>
+              <ul className="divide-y divide-border/70 px-5 md:px-6">
+                {ts.fields.map((f, i) => (
+                  <li key={i} className="flex items-start gap-3 py-3">
+                    <span className="mt-0.5 w-14 shrink-0 sm:w-16">
+                      {f.z && (
+                        <span className="inline-block rounded-md bg-secondary px-1.5 py-0.5 font-mono text-[11px] font-semibold text-foreground/80">
+                          Z {f.z}
+                        </span>
+                      )}
+                    </span>
+                    <div className="min-w-0 flex-1">
+                      <div className="text-sm font-medium">
+                        {f.label}
+                        {f.star && (
+                          <Star
+                            className="ml-1.5 inline h-3.5 w-3.5 -translate-y-px fill-warning text-warning"
+                            aria-label="wichtig für GmbH/UG"
+                          />
+                        )}
+                      </div>
+                      {f.hint && <p className="mt-0.5 text-sm leading-relaxed text-muted-foreground">{f.hint}</p>}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))}
+
+          <Callout tone="success" title="Diese Anlagen brauchst du fast immer" icon={FileText}>
+            Gesellschaftsvertrag/Satzung (Teilseite 22, Z 227), SEPA-Lastschriftmandat (Z 226), bei Betreuung durch Steuerberatung die
+            Vollmacht (Z 224). Alles als PDF auf Teilseite 23 hochladen. Bei Sachgründung zusätzlich den Sachgründungsbericht (Z 230),
+            bei Organschaft den Gewinnabführungsvertrag (Z 234).
+          </Callout>
+
+          <ToolSection title="Passt dazu" icon={Info}>
+            <ul className="grid gap-2 sm:grid-cols-2">
+              {[
+                { to: "/cockpit/fse-wizard", t: "FsE Einzelunternehmen", s: "Wenn du doch ohne Kapitalgesellschaft startest" },
+                { to: "/wizard/rechtsform", t: "Rechtsform-Wizard", s: "Einzelunternehmen, UG, GmbH oder Holding" },
+                { to: "/cockpit/ust-voranmeldung", t: "USt-Voranmeldung-Walkthrough", s: "Nach der Anmeldung" },
+                { to: "/cockpit/salary-dividende", t: "Salary-vs-Dividende-Optimizer", s: "GF-Gehalt oder Ausschüttung" },
+                { to: "/cockpit/buchhaltungssoftware-guide", t: "Buchhaltungssoftware-Guide", s: "Die GmbH braucht eine Bilanz" },
+              ].map((l) => (
+                <li key={l.to}>
+                  <Link
+                    to={l.to}
+                    className="group flex items-start justify-between gap-3 rounded-xl border border-border p-3.5 transition-colors hover:border-accent-blue/40"
+                  >
+                    <span className="min-w-0">
+                      <span className="block text-sm font-semibold">{l.t}</span>
+                      <span className="block text-xs text-muted-foreground">{l.s}</span>
+                    </span>
+                    <ArrowRight className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+                  </Link>
+                </li>
               ))}
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Pflicht-Anlagen */}
-      <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/5 p-5 mt-4 text-sm">
-        <h3 className="font-bold mb-1 flex items-center gap-2"><FileText className="h-4 w-4 text-emerald-700" /> Diese Anlagen brauchst du fast immer</h3>
-        <p className="text-muted-foreground">
-          Gesellschaftsvertrag/Satzung (Teilseite 22, Z227), SEPA-Lastschriftmandat (Z226), bei StB-Betreuung
-          Vollmacht (Z224) - und alles als PDF auf Teilseite 23 hochladen. Bei Sachgruendung zusaetzlich
-          Sachgruendungsbericht (Z230), bei Organschaft Gewinnabfuehrungsvertrag (Z234).
-        </p>
-      </div>
-
-      {/* Cross-Links */}
-      <div className="rounded-2xl border border-border bg-card p-5 mt-4 text-sm">
-        <h3 className="font-bold mb-2">Passt dazu</h3>
-        <ul className="space-y-1">
-          <li><Link to="/cockpit/fse-wizard" className="text-accent-blue underline">FsE Einzelunternehmen (wenn du doch ohne Kapitalgesellschaft startest)</Link></li>
-          <li><Link to="/wizard/rechtsform" className="text-accent-blue underline">Rechtsform-Wizard (Einzelunternehmen vs. UG vs. GmbH vs. Holding)</Link></li>
-          <li><Link to="/cockpit/ust-voranmeldung" className="text-accent-blue underline">USt-Voranmeldung-Walkthrough (nach der Anmeldung)</Link></li>
-          <li><Link to="/cockpit/salary-dividende" className="text-accent-blue underline">Salary-vs-Dividende-Optimizer (GF-Gehalt vs. Ausschuettung)</Link></li>
-          <li><Link to="/cockpit/buchhaltungssoftware-guide" className="text-accent-blue underline">Buchhaltungssoftware-Guide (GmbH braucht Bilanz - StB/Software-Frage)</Link></li>
-        </ul>
+            </ul>
+          </ToolSection>
+        </div>
       </div>
 
       <Stand2026Footer
