@@ -82,7 +82,7 @@ const EventKarte = ({ e }: { e: GruenderEvent }) => {
         {e.datum ? (
           <>
             <span className="text-lg sm:text-xl font-bold leading-none">{fmtTag(e.datum).split(".")[0]}</span>
-            <span className="text-[10px] uppercase tracking-wider text-muted-foreground mt-1">
+            <span className="mt-1 text-[11px] font-medium text-muted-foreground">
               {fmtTag(e.datum).split(".").slice(1).join("").trim()}
             </span>
           </>
@@ -114,7 +114,7 @@ const EventKarte = ({ e }: { e: GruenderEvent }) => {
             </span>
           )}
           {e.kostenlos === true && (
-            <span className="rounded-full bg-emerald-500/10 text-emerald-700 px-2 py-0.5 text-[10px] font-semibold">kostenlos</span>
+            <span className="rounded-full bg-success-soft px-2 py-0.5 text-[10px] font-semibold text-success">kostenlos</span>
           )}
         </div>
         <p className="text-sm text-muted-foreground mt-2 leading-relaxed">{e.kurz}</p>
@@ -164,7 +164,7 @@ const FristKarte = ({ f, heute }: { f: GruenderFrist; heute: string }) => {
         {tageBis !== null && tageBis >= 0 && (
           <span
             className={`shrink-0 rounded-full px-2.5 py-1 text-[11px] font-semibold ${
-              tageBis <= 14 ? "bg-red-500/10 text-red-700" : "bg-emerald-500/10 text-emerald-700"
+              tageBis <= 14 ? "bg-danger-soft text-danger" : "bg-success-soft text-success"
             }`}
           >
             {tageBis === 0 ? "Frist heute" : `noch ${tageBis} Tage`}
@@ -375,9 +375,9 @@ export default function GruenderEvents() {
 
           {/* Fristen-Radar */}
           {(nurFristen || fristenOffen.length > 0) && (
-            <div className="mb-10 rounded-2xl border border-amber-500/25 bg-amber-50/60 p-4 sm:p-6">
+            <div className="mb-10 rounded-2xl border border-warning/25 bg-warning-soft p-4 sm:p-6">
               <div className="flex items-center justify-between gap-3 mb-3 flex-wrap">
-                <h2 className="flex items-center gap-2 text-lg font-semibold md:text-xl"><Trophy className="h-5 w-5 text-amber-600" aria-hidden="true" /> Fristen-Radar: Wettbewerbe, Stipendien & Accelerator</h2>
+                <h2 className="flex items-center gap-2 text-lg font-semibold md:text-xl"><Trophy className="h-5 w-5 text-warning" aria-hidden="true" /> Fristen-Radar: Wettbewerbe, Stipendien & Accelerator</h2>
                 {!nurFristen && (
                   <button onClick={() => setGruppe("fristen")} className="text-xs font-semibold text-accent-blue hover:underline">
                     Alle {fristen.length} Programme →

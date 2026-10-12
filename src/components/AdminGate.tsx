@@ -19,7 +19,7 @@ export const AdminGate = ({ children }: { children: React.ReactNode }) => {
         <div className="h-14 w-14 mx-auto rounded-2xl bg-destructive/10 flex items-center justify-center text-destructive mb-5">
           <ShieldAlert className="h-6 w-6" />
         </div>
-        <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-destructive mb-2">Admin-Only</p>
+        <p className="mb-2 text-sm font-medium text-danger">Nur für Admins</p>
         <h1 className="text-2xl md:text-3xl font-bold tracking-tight mb-3">Kein Zugriff</h1>
         <p className="text-sm text-muted-foreground max-w-md mx-auto mb-6">
           Diese Seite ist nur für Administratoren sichtbar.

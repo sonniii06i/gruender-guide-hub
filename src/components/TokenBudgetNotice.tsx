@@ -28,7 +28,7 @@ export const TokenBudgetNotice = ({ className }: { className?: string }) => {
     <div
       className={`rounded-lg border px-4 py-3 text-sm ${
         over
-          ? "border-amber-500/40 bg-amber-500/10 text-amber-900 dark:text-amber-200"
+          ? "border-warning/30 bg-warning-soft text-foreground"
           : "border-border bg-muted/50 text-muted-foreground"
       } ${className || ""}`}
       role="status"
