@@ -1,5 +1,6 @@
 import { Navbar } from "@/components/landing/Navbar";
 import { Footer } from "@/components/landing/Footer";
+import { PageHeader } from "@/components/landing/PageHeader";
 import { Seo } from "@/components/Seo";
 
 const Impressum = () => (
@@ -19,11 +20,20 @@ const Impressum = () => (
       }}
     />
     <Navbar />
-    <main className="container max-w-3xl pt-32 pb-24 prose prose-slate">
-      <p className="text-xs font-semibold uppercase tracking-wider text-accent-blue mb-2 not-prose">Rechtliches</p>
-      <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-8">Impressum</h1>
+    <main>
+      <PageHeader
+        width="max-w-3xl"
+        kicker={
+          <span className="inline-flex items-center rounded-full border border-accent-blue/20 bg-accent px-3 py-1 text-[13px] font-medium text-accent-blue">
+            Rechtliches
+          </span>
+        }
+        title="Impressum"
+      />
+      <div className="container max-w-3xl px-4 py-10 md:py-14">
+      <div className="prose prose-slate max-w-none rounded-2xl border border-border bg-card p-5 shadow-card prose-headings:scroll-mt-24 prose-headings:tracking-tight prose-a:text-accent-blue sm:p-8 md:p-10">
 
-      <h2 className="text-2xl font-bold mt-8 mb-3">Angaben gemäß § 5 TMG</h2>
+      <h2 className="mt-8 mb-3 text-xl font-semibold md:text-2xl">Angaben gemäß § 5 TMG</h2>
       <h3 className="font-semibold mt-4">Verantwortlich für den Inhalt:</h3>
       <p>Sonni Buttke<br />Einzelunternehmen<br />(Aktuell Ummeldung auf GründerX GmbH im Gange)</p>
 
@@ -39,7 +49,7 @@ const Impressum = () => (
       <h3 className="font-semibold mt-4">E-Mail:</h3>
       <p>impressum@gründerx.de</p>
 
-      <h2 className="text-2xl font-bold mt-8 mb-3">Wichtiger Hinweis</h2>
+      <h2 className="mt-8 mb-3 text-xl font-semibold md:text-2xl">Wichtiger Hinweis</h2>
       <p>
         GründerX bietet KI-gestützte Orientierung zu Gründung, Steuern und E-Commerce-Setup,
         keine Rechts- oder Steuerberatung im Sinne des Rechtsdienstleistungs- bzw.
@@ -47,7 +57,7 @@ const Impressum = () => (
         zugelassenen Steuerberater oder Rechtsanwalt.
       </p>
 
-      <h2 className="text-2xl font-bold mt-8 mb-3">Haftungsausschluss</h2>
+      <h2 className="mt-8 mb-3 text-xl font-semibold md:text-2xl">Haftungsausschluss</h2>
       <h3 className="font-semibold mt-4">Haftung für Inhalte</h3>
       <p>
         Als Diensteanbieter sind wir gemäß § 7 Abs. 1 TMG für eigene Inhalte auf diesen Seiten nach
@@ -69,7 +79,7 @@ const Impressum = () => (
         des jeweiligen Autors bzw. Erstellers.
       </p>
 
-      <h2 className="text-2xl font-bold mt-8 mb-3">Affiliate- und Werbe-Hinweis (§ 6 TMG)</h2>
+      <h2 className="mt-8 mb-3 text-xl font-semibold md:text-2xl">Affiliate- und Werbe-Hinweis (§ 6 TMG)</h2>
       <p>
         Auf GründerX werden externe Anbieter (z. B. für Banking, Buchhaltung, Versand, Domains,
         Shop-Systeme) verlinkt. Ein Teil dieser Links sind <strong>Partner-Links / Affiliate-Links</strong>{" "}
@@ -80,7 +90,7 @@ const Impressum = () => (
         <a href="/agb" className="text-accent-blue underline">§ 14 unserer AGB</a>.
       </p>
 
-      <h2 className="text-2xl font-bold mt-8 mb-3">Streitschlichtung</h2>
+      <h2 className="mt-8 mb-3 text-xl font-semibold md:text-2xl">Streitschlichtung</h2>
       <p>
         Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit:{" "}
         <a href="https://ec.europa.eu/consumers/odr/" className="text-accent-blue underline">
@@ -89,6 +99,8 @@ const Impressum = () => (
         . Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer
         Verbraucherschlichtungsstelle teilzunehmen.
       </p>
+      </div>
+      </div>
     </main>
     <Footer />
   </div>
