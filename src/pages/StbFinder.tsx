@@ -1,6 +1,43 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, type ElementType } from "react";
 import CockpitShell from "@/components/cockpit/CockpitShell";
-import { Search, CheckCircle2, AlertTriangle, Copy, Wand2 } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import {
+  Callout,
+  ChoiceGroup,
+  EmptyState,
+  ToneBadge,
+  ToolSection,
+  toneSoft,
+  toneText,
+  type Tone,
+} from "@/components/cockpit/kit";
+import {
+  Search,
+  CheckCircle2,
+  AlertTriangle,
+  Copy,
+  Wand2,
+  ShoppingCart,
+  Bitcoin,
+  Building2,
+  Globe,
+  Hammer,
+  Briefcase,
+  ListChecks,
+  Sparkles,
+  MapPin,
+  Lightbulb,
+} from "lucide-react";
+
+/** Icons statt Emojis in Überschriften (Daten behalten ihr emoji-Feld). */
+const SPEZ_ICON: Record<string, ElementType> = {
+  ecom: ShoppingCart,
+  crypto: Bitcoin,
+  holding: Building2,
+  international: Globe,
+  starter: Hammer,
+};
 
 type Spezialisierung = {
   slug: string;
@@ -288,157 +325,168 @@ const StbFinder = () => {
     <CockpitShell
       eyebrow="StB-Auswahl-Wizard"
       title="Was du beim Steuerberater-Erstgespräch testen musst"
-      subtitle="5 Spezialisierungen (E-Com, Crypto, Holding, International, Standard) mit Pflicht-Knowledge + Bonus-Knowledge + Honorar-Ranges + Erst-Termin-Frage-Katalog. Du wählst aus, kopierst die Fragen und gehst informiert in den Termin."
+      subtitle="5 Spezialisierungen (E-Com, Crypto, Holding, International, Standard) mit Pflicht-Wissen, Bonus-Wissen, Honorar-Spannen und Fragenkatalog fürs Erstgespräch. Du wählst aus, kopierst die Fragen und gehst informiert in den Termin."
     >
       {/* Auswahl */}
-      <div className="rounded-2xl border border-border bg-card p-4 mb-6">
-        <h3 className="font-semibold text-sm mb-3">Welche Spezialisierungen brauchst du?</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-          {SPEZIALISIERUNGEN.map((s) => (
-            <label
-              key={s.slug}
-              className={`flex items-start gap-2 p-3 rounded-xl border transition-colors cursor-pointer ${
-                aktive.has(s.slug)
-                  ? "border-accent-blue bg-accent-blue/5"
-                  : "border-border hover:bg-secondary/30"
-              }`}
-            >
-              <input
-                type="checkbox"
-                checked={aktive.has(s.slug)}
-                onChange={() => toggle(s.slug)}
-                className="mt-0.5 h-3.5 w-3.5"
-              />
-              <div className="flex-1">
-                <div className="flex items-center gap-1.5">
-                  <span>{s.emoji}</span>
-                  <span className="font-semibold text-sm">{s.name}</span>
+      <ToolSection
+        title="Welche Spezialisierungen brauchst du?"
+        description="Mehrfachauswahl möglich"
+        icon={ListChecks}
+        className="mb-6"
+        actions={<ToneBadge tone="accent">{selected.length} gewählt</ToneBadge>}
+      >
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+          {SPEZIALISIERUNGEN.map((s) => {
+            const on = aktive.has(s.slug);
+            const Icon = SPEZ_ICON[s.slug] ?? Briefcase;
+            return (
+              <label
+                key={s.slug}
+                className={`flex cursor-pointer items-start gap-3 rounded-xl border p-4 transition-[border-color,background-color] duration-200 ${
+                  on ? "border-accent-blue/40 bg-accent" : "border-border bg-card hover:border-foreground/25"
+                }`}
+              >
+                <input
+                  type="checkbox"
+                  checked={on}
+                  onChange={() => toggle(s.slug)}
+                  className="mt-1 h-4 w-4 shrink-0 accent-[hsl(var(--primary))]"
+                />
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center gap-2">
+                    <Icon className={`h-4 w-4 shrink-0 ${on ? "text-accent-blue" : "text-muted-foreground"}`} aria-hidden="true" />
+                    <span className="text-sm font-semibold">{s.name}</span>
+                  </div>
+                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{s.desc}</p>
                 </div>
-                <p className="text-xs text-muted-foreground mt-1 leading-relaxed">{s.desc}</p>
-              </div>
-            </label>
-          ))}
+              </label>
+            );
+          })}
         </div>
-      </div>
+      </ToolSection>
 
       {/* Filter + Copy-All */}
       {selected.length > 0 && (
-        <div className="flex flex-wrap items-center gap-2 mb-4">
-          <div className="flex-1 min-w-[200px] relative">
-            <Search className="h-3.5 w-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
-            <input
+        <div className="mb-6 flex flex-col gap-3 rounded-2xl border border-border bg-card p-4 shadow-card md:flex-row md:items-center">
+          <div className="relative min-w-0 flex-1">
+            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
+            <Input
               value={filter}
               onChange={(e) => setFilter(e.target.value)}
-              placeholder="Filter Fragen / Pflichten..."
-              className="w-full h-8 pl-8 pr-3 rounded-md border border-input bg-background text-xs"
+              placeholder="Fragen und Pflicht-Wissen filtern …"
+              aria-label="Fragen und Pflicht-Wissen filtern"
+              className="pl-9"
             />
           </div>
-          <button
-            onClick={copyQuestions}
-            className="inline-flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-xs font-semibold hover:bg-secondary"
-          >
-            <Copy className="h-3.5 w-3.5" /> Alle Fragen kopieren ({allQuestions.length})
-          </button>
-          <button
-            onClick={() => setShowQuestions(!showQuestions)}
-            className="inline-flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-xs font-semibold hover:bg-secondary"
-          >
-            {showQuestions ? "Pflicht-Knowledge zeigen" : "Erstterm.-Fragen zeigen"}
-          </button>
+          <div className="flex flex-wrap items-center gap-2">
+            <ChoiceGroup<boolean>
+              label="Ansicht"
+              size="sm"
+              value={showQuestions}
+              onChange={setShowQuestions}
+              options={[
+                { value: true, label: "Erstgespräch-Fragen" },
+                { value: false, label: "Wissen und Red-Flags" },
+              ]}
+            />
+            <Button variant="outline" size="sm" onClick={copyQuestions}>
+              <Copy /> Alle Fragen kopieren <span className="tabular text-muted-foreground">({allQuestions.length})</span>
+            </Button>
+          </div>
         </div>
       )}
 
       {/* Spezialisierungs-Detail */}
-      <div className="space-y-4">
-        {filtered.map((s) => (
-          <div key={s.slug} className="rounded-2xl border border-border bg-card p-5">
-            <div className="flex items-start justify-between mb-3">
-              <h4 className="font-bold text-base flex items-center gap-2">
-                <span className="text-xl">{s.emoji}</span> {s.name}
-              </h4>
-              <span className="inline-flex rounded-full bg-emerald-500/10 text-emerald-700 text-[10px] font-semibold px-2 py-0.5">
-                {s.honorarJahr}
-              </span>
-            </div>
-
-            {showQuestions ? (
-              <div>
-                <div className="text-[11px] uppercase tracking-wider text-muted-foreground mb-2 flex items-center gap-1.5">
-                  <Wand2 className="h-3 w-3" /> Erst-Termin-Frage-Katalog
-                </div>
-                <ol className="list-decimal pl-5 space-y-1.5 text-xs text-muted-foreground leading-relaxed">
-                  {s.erstterminFragen.map((q, idx) => (
-                    <li key={idx}>{q}</li>
-                  ))}
-                </ol>
-              </div>
-            ) : (
-              <div className="space-y-3">
+      <div className="space-y-6">
+        {filtered.map((s) => {
+          const Icon = SPEZ_ICON[s.slug] ?? Briefcase;
+          return (
+            <ToolSection
+              key={s.slug}
+              title={s.name}
+              icon={Icon}
+              actions={<ToneBadge tone="neutral" className="tabular">{s.honorarJahr}</ToneBadge>}
+            >
+              {showQuestions ? (
                 <div>
-                  <div className="text-[11px] uppercase tracking-wider text-emerald-700 font-semibold mb-1.5 flex items-center gap-1">
-                    <CheckCircle2 className="h-3 w-3" /> Pflicht-Knowledge (das MUSS er können)
-                  </div>
-                  <ul className="list-disc pl-5 space-y-0.5 text-xs text-muted-foreground">
-                    {s.pflicht.map((p, idx) => (
-                      <li key={idx}>{p}</li>
-                    ))}
-                  </ul>
+                  <p className="mb-3 flex items-center gap-2 text-sm font-semibold">
+                    <Wand2 className="h-4 w-4 text-accent-blue" aria-hidden="true" /> Fragenkatalog fürs Erstgespräch
+                  </p>
+                  {s.erstterminFragen.length > 0 ? (
+                    <ol className="space-y-2.5">
+                      {s.erstterminFragen.map((q, idx) => (
+                        <li key={idx} className="flex gap-3 text-sm leading-relaxed">
+                          <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-secondary text-xs font-semibold text-muted-foreground tabular">
+                            {idx + 1}
+                          </span>
+                          <span className="pt-0.5 text-foreground/85">{q}</span>
+                        </li>
+                      ))}
+                    </ol>
+                  ) : (
+                    <p className="text-sm text-muted-foreground">Keine Frage passt zum Filter.</p>
+                  )}
                 </div>
-                <div>
-                  <div className="text-[11px] uppercase tracking-wider text-accent-blue font-semibold mb-1.5">
-                    Bonus-Knowledge (sehr selten — das macht ihn premium)
-                  </div>
-                  <ul className="list-disc pl-5 space-y-0.5 text-xs text-muted-foreground">
-                    {s.bonus.map((b, idx) => (
-                      <li key={idx}>{b}</li>
-                    ))}
-                  </ul>
+              ) : (
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                  <WissenBlock tone="success" icon={CheckCircle2} title="Pflicht-Wissen (das MUSS er können)" items={s.pflicht} />
+                  <WissenBlock tone="accent" icon={Sparkles} title="Bonus-Wissen (selten, macht ihn premium)" items={s.bonus} />
+                  <WissenBlock tone="danger" icon={AlertTriangle} title="Red-Flags (sofort disqualifizieren)" items={s.redFlags} />
+                  <WissenBlock tone="neutral" icon={MapPin} title="Wo du nach diesen StBs suchst" items={s.wofindet} />
                 </div>
-                <div>
-                  <div className="text-[11px] uppercase tracking-wider text-red-700 font-semibold mb-1.5 flex items-center gap-1">
-                    <AlertTriangle className="h-3 w-3" /> Red-Flags (sofort disqualifizieren)
-                  </div>
-                  <ul className="list-disc pl-5 space-y-0.5 text-xs text-muted-foreground">
-                    {s.redFlags.map((r, idx) => (
-                      <li key={idx}>{r}</li>
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <div className="text-[11px] uppercase tracking-wider text-muted-foreground mb-1.5">
-                    Wo du nach diesen StBs suchst
-                  </div>
-                  <ul className="list-disc pl-5 space-y-0.5 text-xs text-muted-foreground">
-                    {s.wofindet.map((w, idx) => (
-                      <li key={idx}>{w}</li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            )}
-          </div>
-        ))}
+              )}
+            </ToolSection>
+          );
+        })}
       </div>
 
       {selected.length === 0 && (
-        <div className="rounded-xl border border-dashed border-border p-8 text-center text-sm text-muted-foreground">
-          Wähle oben mindestens eine Spezialisierung.
-        </div>
+        <EmptyState
+          icon={ListChecks}
+          title="Noch keine Spezialisierung gewählt"
+          description="Wähle oben mindestens eine Spezialisierung, dann erscheinen Fragenkatalog, Pflicht-Wissen und Red-Flags."
+        />
       )}
 
       {/* Hinweis */}
-      <div className="rounded-2xl border border-amber-500/30 bg-amber-500/5 p-4 mt-6 text-xs leading-relaxed">
-        <div className="font-semibold mb-2">Erstgespräch-Strategie</div>
-        <ul className="list-disc pl-4 space-y-1 text-muted-foreground">
-          <li>3-4 StBs anrufen, alle gleiche Fragen stellen — vergleichbare Antworten</li>
-          <li>StB der bei einer Pflicht-Frage zögert oder umschweift = nicht qualifiziert in dem Bereich</li>
-          <li>Honorar IMMER schriftlich fixieren — Buchführung pro Monat + Jahresabschluss separat</li>
+      <Callout tone="warning" title="Strategie fürs Erstgespräch" icon={Lightbulb} className="mt-6 p-5">
+        <ul className="mt-1 list-disc space-y-1 pl-4">
+          <li>3-4 StBs anrufen, allen die gleichen Fragen stellen: so bekommst du vergleichbare Antworten</li>
+          <li>StB, der bei einer Pflicht-Frage zögert oder ausweicht = nicht qualifiziert in dem Bereich</li>
+          <li>Honorar IMMER schriftlich fixieren: Buchführung pro Monat und Jahresabschluss separat</li>
           <li>Mandanten-Referenzen in deiner Branche fragen (z.B. 'darf ich 1 Amazon-Mandanten anrufen?')</li>
           <li>Erstgespräch i.d.R. kostenlos. Erste Beratung ab Termin 2 ist Honorar-pflichtig (250-450 €/h)</li>
         </ul>
-      </div>
+      </Callout>
     </CockpitShell>
   );
 };
+
+const WissenBlock = ({
+  tone,
+  icon: Icon,
+  title,
+  items,
+}: {
+  tone: Tone;
+  icon: ElementType;
+  title: string;
+  items: string[];
+}) => (
+  <div className={`rounded-xl border p-4 ${toneSoft(tone)}`}>
+    <p className="flex items-center gap-2 text-sm font-semibold">
+      <Icon className={`h-4 w-4 shrink-0 ${toneText(tone)}`} aria-hidden="true" /> {title}
+    </p>
+    {items.length > 0 ? (
+      <ul className="mt-2 list-disc space-y-1 pl-5 text-sm leading-relaxed text-foreground/80">
+        {items.map((it, idx) => (
+          <li key={idx}>{it}</li>
+        ))}
+      </ul>
+    ) : (
+      <p className="mt-2 text-sm text-muted-foreground">Kein Eintrag passt zum Filter.</p>
+    )}
+  </div>
+);
 
 export default StbFinder;
