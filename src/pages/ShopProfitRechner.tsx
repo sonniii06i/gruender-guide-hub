@@ -20,7 +20,7 @@ import { useMemo, useState } from "react";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import Stand2026Footer from "@/components/cockpit/Stand2026Footer";
 import { NumberField } from "@/components/ui/number-field";
-import { Label } from "@/components/ui/label";
+import { Callout, ChoiceGroup, Field, ResultPanel, ResultRow, StatGrid, StatTile, ToolLayout, ToolSection } from "@/components/cockpit/kit";
 import {
   ShoppingCart,
   Truck,
@@ -29,28 +29,10 @@ import {
   Target,
   HelpCircle,
   AlertTriangle,
+  ChevronDown,
 } from "lucide-react";
 
 const UST_SAETZE = [19, 7, 0];
-
-const UstWahl = ({ wert, setzen, id }: { wert: number; setzen: (n: number) => void; id: string }) => (
-  <div className="mt-1 inline-flex rounded-lg border border-border overflow-hidden">
-    {UST_SAETZE.map((s) => (
-      <button
-        key={s}
-        type="button"
-        aria-pressed={wert === s}
-        onClick={() => setzen(s)}
-        className={`px-3 py-1.5 text-xs font-medium border-r border-border last:border-r-0 transition-colors ${
-          wert === s ? "bg-accent-blue text-accent-blue-foreground" : "bg-secondary/40 text-muted-foreground hover:bg-secondary"
-        }`}
-        id={`${id}-${s}`}
-      >
-        {s} %
-      </button>
-    ))}
-  </div>
-);
 
 const ShopProfitRechner = () => {
   // Einkauf
@@ -135,301 +117,257 @@ const ShopProfitRechner = () => {
   };
 
   const verteilung = [
-    { label: "Ware", wert: calc.ekNetto, klasse: "bg-slate-500" },
-    { label: "Versand", wert: calc.versandNetto, klasse: "bg-sky-600" },
-    { label: "PayPal", wert: calc.paypal, klasse: "bg-amber-500" },
-    { label: "Sonstiges", wert: calc.sonstNetto, klasse: "bg-slate-400" },
+    { label: "Ware", wert: calc.ekNetto, klasse: "bg-primary/75" },
+    { label: "Versand", wert: calc.versandNetto, klasse: "bg-info" },
+    { label: "PayPal", wert: calc.paypal, klasse: "bg-warning" },
+    { label: "Sonstiges", wert: calc.sonstNetto, klasse: "bg-muted-foreground/45" },
     { label: "Werbung", wert: calc.werbung, klasse: "bg-accent-blue" },
-    { label: "Gewinn", wert: Math.max(calc.gewinn, 0), klasse: "bg-emerald-600" },
+    { label: "Gewinn", wert: Math.max(calc.gewinn, 0), klasse: "bg-success" },
   ].filter((t) => t.wert > 0 && calc.nettoErloes > 0);
+
+  const checkCls = "h-4 w-4 shrink-0 accent-[hsl(var(--primary))]";
 
   return (
     <CockpitShell
-      eyebrow="📊 Buchhaltung & Reporting"
-      title="Shop-Profit-Rechner (eigener Onlineshop)"
-      subtitle="Einkaufspreis brutto rein, Verkaufspreis brutto rein — das Tool zieht Vorsteuer und Umsatzsteuer heraus und rechnet Versand, PayPal-Gebühren und Klickkosten gegen. Am Ende steht, was je Bestellung wirklich übrig bleibt und wie viele Klicks eine Bestellung tragen kann."
+      eyebrow="Buchhaltung & Reporting"
+      title="Shop-Profit-Rechner für den eigenen Onlineshop"
+      subtitle="Einkaufs- und Verkaufspreis brutto eingeben, das Tool zieht Vorsteuer und Umsatzsteuer heraus und rechnet Versand, PayPal-Gebühren und Klickkosten gegen. Am Ende steht, was je Bestellung wirklich übrig bleibt und wie viele Klicks eine Bestellung tragen kann."
     >
-      <div className="mb-4 rounded-xl border border-border bg-secondary/30 px-4 py-2.5 text-xs text-muted-foreground">
-        Die Felder sind mit <strong className="text-foreground">Beispielwerten</strong> vorbelegt (12,90 € Einkauf · 39,90 € Verkauf · 2 % Conversion-Rate)
-        — überschreib sie mit deinen Zahlen, alles rechnet sich sofort neu.
-      </div>
+      <Callout tone="neutral" className="mb-6">
+        Die Felder sind mit <strong className="text-foreground">Beispielwerten</strong> vorbelegt (12,90 € Einkauf · 39,90 € Verkauf · 2 %
+        Conversion-Rate). Überschreib sie mit deinen Zahlen, alles rechnet sich sofort neu.
+      </Callout>
 
-      {/* === 1. Einkauf === */}
-      <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5 mb-4">
-        <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
-          <ShoppingCart className="h-4 w-4 text-accent-blue" /> 1. Einkauf — du ziehst die Vorsteuer
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Einkaufspreis brutto (€)</Label>
-            <NumberField step="0.01" value={ekBrutto} onChange={setEkBrutto} min={0} className="mt-1" />
-            <div className="text-[10px] text-muted-foreground mt-1">So wie er auf der Lieferantenrechnung steht — inkl. USt</div>
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">USt im Einkauf</Label>
-            <UstWahl wert={ekUst} setzen={setEkUst} id="ekust" />
-            <div className="text-[10px] text-muted-foreground mt-1">0 % bei Import/IGL oder wenn du Kleinunternehmer bist</div>
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Verpackung / Sonstiges (€ brutto)</Label>
-            <NumberField step="0.01" value={sonstBrutto} onChange={setSonstBrutto} min={0} className="mt-1" />
-            <label className="flex items-center gap-2 text-[10px] text-muted-foreground mt-1.5 cursor-pointer">
-              <input type="checkbox" checked={sonstVorsteuer} onChange={(e) => setSonstVorsteuer(e.target.checked)} className="h-3.5 w-3.5" />
-              enthält 19 % USt (Vorsteuer ziehbar)
-            </label>
-          </div>
-        </div>
-      </div>
-
-      {/* === 2. Verkauf === */}
-      <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5 mb-4">
-        <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
-          <Receipt className="h-4 w-4 text-accent-blue" /> 2. Verkauf — die USt gehört dem Finanzamt
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Verkaufspreis brutto (€)</Label>
-            <NumberField step="0.01" value={vkBrutto} onChange={setVkBrutto} min={0} className="mt-1" />
-            <div className="text-[10px] text-muted-foreground mt-1">Der Preis, den der Kunde im Shop sieht</div>
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">USt im Verkauf</Label>
-            <UstWahl wert={vkUst} setzen={setVkUst} id="vkust" />
-            <div className="text-[10px] text-muted-foreground mt-1">7 % z. B. Bücher/Lebensmittel · 0 % als Kleinunternehmer § 19</div>
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Versandpauschale vom Kunden (€ brutto)</Label>
-            <NumberField step="0.01" value={versandKunde} onChange={setVersandKunde} min={0} className="mt-1" />
-            <div className="text-[10px] text-muted-foreground mt-1">0 bei Gratisversand — zählt zum Umsatz und wird mitversteuert</div>
-          </div>
-        </div>
-      </div>
-
-      {/* === 3. Versand & Zahlung === */}
-      <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5 mb-4">
-        <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
-          <Truck className="h-4 w-4 text-accent-blue" /> 3. Versand &amp; Zahlungsgebühren
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Deine Versandkosten (€ brutto)</Label>
-            <NumberField step="0.01" value={versandKosten} onChange={setVersandKosten} min={0} className="mt-1" />
-            <label className="flex items-center gap-2 text-[10px] text-muted-foreground mt-1.5 cursor-pointer">
-              <input type="checkbox" checked={versandVorsteuer} onChange={(e) => setVersandVorsteuer(e.target.checked)} className="h-3.5 w-3.5" />
-              enthält 19 % USt
-            </label>
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">PayPal prozentual (%)</Label>
-            <NumberField step="0.01" value={ppProzent} onChange={setPpProzent} min={0} max={20} className="mt-1" />
-            <div className="text-[10px] text-muted-foreground mt-1">Inland-Standard 2,49 % — auf Bruttoumsatz inkl. Versand</div>
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">PayPal fix (€ je Transaktion)</Label>
-            <NumberField step="0.01" value={ppFix} onChange={setPpFix} min={0} className="mt-1" />
-            <div className="text-[10px] text-muted-foreground mt-1">0,35 € Inland · Gebühren sind USt-frei, also keine Vorsteuer</div>
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Anteil PayPal-Zahler (%)</Label>
-            <NumberField step="1" value={ppQuote} onChange={setPpQuote} min={0} max={100} className="mt-1" />
-            <div className="text-[10px] text-muted-foreground mt-1">100 = jede Bestellung. Bei Mix aus Kauf auf Rechnung o. ä. senken</div>
-          </div>
-        </div>
-      </div>
-
-      {/* === 4. Werbung === */}
-      <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5 mb-4">
-        <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
-          <MousePointerClick className="h-4 w-4 text-accent-blue" /> 4. Klickkosten
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Klickpreis netto (€)</Label>
-            <NumberField step="0.01" value={cpc} onChange={setCpc} min={0} className="mt-1" />
-            <div className="text-[10px] text-muted-foreground mt-1">Google/Meta rechnen mit USt ab → hier netto eintragen</div>
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Eingabe über</Label>
-            <div className="mt-1 inline-flex rounded-lg border border-border overflow-hidden">
-              {([["cr", "Conversion-Rate"], ["klicks", "Klicks je Verkauf"]] as const).map(([wert, text]) => (
-                <button
-                  key={wert}
-                  type="button"
-                  aria-pressed={modus === wert}
-                  onClick={() => wechsleModus(wert)}
-                  className={`px-3 py-1.5 text-xs font-medium border-r border-border last:border-r-0 transition-colors ${
-                    modus === wert ? "bg-accent-blue text-accent-blue-foreground" : "bg-secondary/40 text-muted-foreground hover:bg-secondary"
-                  }`}
-                >
-                  {text}
-                </button>
-              ))}
-            </div>
-            <div className="mt-2">
-              {modus === "cr" ? (
-                <NumberField step="0.1" value={conversionRate} onChange={setConversionRate} min={0.01} max={100} />
-              ) : (
-                <NumberField step="1" value={klicksJeVerkauf} onChange={setKlicksJeVerkauf} min={0} />
-              )}
-            </div>
-            <div className="text-[10px] text-muted-foreground mt-1">
-              {modus === "cr"
-                ? `${dez(calc.klicks)} Klicks je Verkauf · Shop-Schnitt liegt bei 1–3 %`
-                : `entspricht ${dez(100 / Math.max(klicksJeVerkauf, 0.0001), 2)} % Conversion-Rate`}
-            </div>
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Organisch / ohne Klick (%)</Label>
-            <NumberField step="1" value={organischProzent} onChange={setOrganischProzent} min={0} max={100} className="mt-1" />
-            <div className="text-[10px] text-muted-foreground mt-1">
-              Anteil der Bestellungen ohne bezahlten Klick (SEO, Direkt, Stammkunden) — senkt die Werbekosten anteilig
-            </div>
-          </div>
-        </div>
-        <div className="mt-3 rounded-lg bg-secondary/40 p-2.5 text-xs font-mono">
-          {dez(calc.klicks)} Klicks × {eur(cpc)}
-          {organischProzent > 0 && ` × ${100 - organischProzent} % bezahlt`} = <strong>{eur(calc.werbung)}</strong> Werbung je Bestellung
-        </div>
-      </div>
-
-      {/* === Ergebnis === */}
-      <div
-        className={`rounded-2xl border-2 p-5 mb-6 ${
-          calc.gewinn >= 0
-            ? "border-emerald-500/40 bg-gradient-to-br from-emerald-500/10 via-card to-card"
-            : "border-red-500/40 bg-red-500/5"
-        }`}
-      >
-        <div className="text-xs uppercase tracking-wider text-muted-foreground mb-1">Gewinn je Bestellung (netto)</div>
-        <div className="flex items-baseline gap-3 flex-wrap mb-4">
-          <div className={`text-5xl font-bold ${calc.gewinn >= 0 ? "text-emerald-700" : "text-red-700"}`}>
-            {calc.gewinn >= 0 ? "" : "−"}{eur(Math.abs(calc.gewinn))}
-          </div>
-          <div className="text-lg text-muted-foreground">
-            {dez(calc.marge)} % Nettomarge
-          </div>
-        </div>
-
-        {/* Rechenweg als Beleg-Liste */}
-        <div className="rounded-xl bg-card border border-border p-4 mb-4">
-          <table className="w-full text-xs font-mono">
-            <tbody>
-              <tr><td className="py-1 text-muted-foreground font-sans">Bruttoumsatz (VK + Versandpauschale)</td><td className="py-1 text-right">{eur(calc.bruttoUmsatz)}</td></tr>
-              <tr><td className="py-1 text-muted-foreground font-sans">./. Umsatzsteuer {vkUst} %</td><td className="py-1 text-right">− {eur(calc.ustVerkauf)}</td></tr>
-              <tr className="border-t border-border font-semibold"><td className="py-1.5 font-sans">Nettoerlös</td><td className="py-1.5 text-right">{eur(calc.nettoErloes)}</td></tr>
-              <tr><td className="py-1 text-muted-foreground font-sans">./. Wareneinsatz netto</td><td className="py-1 text-right">− {eur(calc.ekNetto)}</td></tr>
-              <tr><td className="py-1 text-muted-foreground font-sans">./. Versand netto</td><td className="py-1 text-right">− {eur(calc.versandNetto)}</td></tr>
-              <tr><td className="py-1 text-muted-foreground font-sans">./. PayPal-Gebühr (ohne Vorsteuer)</td><td className="py-1 text-right">− {eur(calc.paypal)}</td></tr>
-              <tr><td className="py-1 text-muted-foreground font-sans">./. Verpackung / Sonstiges netto</td><td className="py-1 text-right">− {eur(calc.sonstNetto)}</td></tr>
-              <tr className="border-t border-border font-semibold"><td className="py-1.5 font-sans">Deckungsbeitrag vor Werbung</td><td className="py-1.5 text-right">{eur(calc.db1)}</td></tr>
-              <tr><td className="py-1 text-muted-foreground font-sans">./. Werbekosten netto</td><td className="py-1 text-right">− {eur(calc.werbung)}</td></tr>
-              <tr className={`border-t-2 border-foreground/40 font-bold ${calc.gewinn >= 0 ? "text-emerald-700" : "text-red-700"}`}>
-                <td className="py-1.5 font-sans">Gewinn je Bestellung</td><td className="py-1.5 text-right">{eur(calc.gewinn)}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        {/* Wohin geht der Nettoerlös */}
-        {verteilung.length > 0 && (
-          <div className="mb-4">
-            <div className="flex h-3.5 w-full overflow-hidden rounded-full border border-border">
-              {verteilung.map((t) => (
-                <div key={t.label} className={t.klasse} style={{ width: `${(t.wert / calc.nettoErloes) * 100}%` }} />
-              ))}
-            </div>
-            <div className="flex flex-wrap gap-x-4 gap-y-1 mt-2 text-[10px] text-muted-foreground">
-              {verteilung.map((t) => (
-                <span key={t.label} className="inline-flex items-center gap-1.5">
-                  <span className={`h-2 w-2 rounded-sm ${t.klasse}`} />
-                  {t.label} {dez((t.wert / calc.nettoErloes) * 100)} %
-                </span>
-              ))}
-              {calc.gewinn < 0 && <span className="text-red-700 font-semibold">Verlust {dez((Math.abs(calc.gewinn) / calc.nettoErloes) * 100)} %</span>}
-            </div>
-          </div>
-        )}
-
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
-          <div className="rounded-lg bg-secondary/40 p-2">
-            <div className="text-[10px] uppercase text-muted-foreground">Nettomarge</div>
-            <div className={`font-mono text-base font-semibold ${calc.gewinn >= 0 ? "text-emerald-700" : "text-red-700"}`}>{dez(calc.marge)} %</div>
-          </div>
-          <div className="rounded-lg bg-secondary/40 p-2">
-            <div className="text-[10px] uppercase text-muted-foreground">Aufschlag auf EK</div>
-            <div className="font-mono text-base font-semibold">{dez(calc.aufschlag, 2)}×</div>
-          </div>
-          <div className="rounded-lg bg-secondary/40 p-2">
-            <div className="text-[10px] uppercase text-muted-foreground">ROAS</div>
-            <div className="font-mono text-base font-semibold">{calc.roas === null ? "—" : dez(calc.roas, 2)}</div>
-          </div>
-          <div className="rounded-lg bg-secondary/40 p-2">
-            <div className="text-[10px] uppercase text-muted-foreground">USt-Zahllast</div>
-            <div className="font-mono text-base font-semibold">{eur(calc.zahllast)}</div>
-          </div>
-        </div>
-      </div>
-
-      {/* === Break-even === */}
-      <div className="rounded-2xl border border-border bg-card p-5 mb-6">
-        <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
-          <Target className="h-4 w-4 text-accent-blue" /> Break-even: was die Werbung tragen kann
-        </h3>
-        {calc.db1 > 0 ? (
+      <ToolLayout
+        className="mb-8"
+        inputs={
           <>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs mb-3">
-              <div className="rounded-lg bg-secondary/40 p-2.5">
-                <div className="text-[10px] uppercase text-muted-foreground">Klicks je Verkauf max.</div>
-                <div className="font-mono text-base font-semibold">{dez(calc.maxKlicks)}</div>
+            <ToolSection title="1. Einkauf" description="Du ziehst die Vorsteuer." icon={ShoppingCart}>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <Field label="Einkaufspreis brutto (€)" hint="So wie er auf der Lieferantenrechnung steht, inkl. USt.">
+                  <NumberField step="0.01" value={ekBrutto} onChange={setEkBrutto} min={0} aria-label="Einkaufspreis brutto in Euro" />
+                </Field>
+                <Field label="USt im Einkauf" hint="0 % bei Import/IGL oder als Kleinunternehmer.">
+                  <ChoiceGroup<number>
+                    label="USt im Einkauf"
+                    size="sm"
+                    value={ekUst}
+                    onChange={setEkUst}
+                    options={UST_SAETZE.map((s) => ({ value: s, label: `${s} %` }))}
+                  />
+                </Field>
+                <Field label="Verpackung und Sonstiges (€ brutto)" className="sm:col-span-2">
+                  <NumberField step="0.01" value={sonstBrutto} onChange={setSonstBrutto} min={0} aria-label="Verpackung und Sonstiges brutto in Euro" />
+                  <label className="mt-2 flex cursor-pointer items-center gap-2 text-xs text-muted-foreground">
+                    <input type="checkbox" checked={sonstVorsteuer} onChange={(e) => setSonstVorsteuer(e.target.checked)} className={checkCls} />
+                    enthält 19 % USt (Vorsteuer ziehbar)
+                  </label>
+                </Field>
               </div>
-              <div className="rounded-lg bg-secondary/40 p-2.5">
-                <div className="text-[10px] uppercase text-muted-foreground">Conversion-Rate min.</div>
-                <div className="font-mono text-base font-semibold">{dez(calc.minCr, 2)} %</div>
-              </div>
-              <div className="rounded-lg bg-secondary/40 p-2.5">
-                <div className="text-[10px] uppercase text-muted-foreground">Klickpreis max.</div>
-                <div className="font-mono text-base font-semibold">{eur(Math.max(calc.maxCpc, 0))}</div>
-              </div>
-              <div className="rounded-lg bg-secondary/40 p-2.5">
-                <div className="text-[10px] uppercase text-muted-foreground">ROAS min.</div>
-                <div className="font-mono text-base font-semibold">{dez(calc.minRoas, 2)}</div>
-              </div>
-            </div>
-            {calc.gewinn >= 0 ? (
-              <div className="rounded-lg bg-emerald-500/10 border border-emerald-500/40 p-3 text-xs leading-relaxed">
-                ✅ <strong>Puffer:</strong> {dez(Math.max(calc.maxKlicks - calc.klicks, 0))} Klicks je Verkauf mehr, oder ein Klickpreis
-                bis {eur(Math.max(calc.maxCpc, 0))} — dann steht die Null. Alles darunter ist dein Gewinn.
-              </div>
-            ) : (
-              <div className="rounded-lg bg-red-500/10 border border-red-500/40 p-3 text-xs leading-relaxed flex items-start gap-2">
-                <AlertTriangle className="h-4 w-4 text-red-700 shrink-0 mt-0.5" />
-                <div>
-                  <strong className="text-red-900">Die Werbung frisst den Deckungsbeitrag.</strong> Bei {eur(cpc)} je Klick trägt eine
-                  Bestellung nur {dez(calc.maxKlicks)} Klicks — gerechnet sind {dez(calc.klicks)}. Hebel: Conversion-Rate hoch
-                  (mindestens {dez(calc.minCr, 2)} %), Klickpreis runter (max. {eur(Math.max(calc.maxCpc, 0))}), Warenkorb größer
-                  (Bundle, Versandpauschale) oder besser einkaufen.
-                </div>
-              </div>
-            )}
-          </>
-        ) : (
-          <div className="rounded-lg bg-red-500/10 border border-red-500/40 p-3 text-xs leading-relaxed flex items-start gap-2">
-            <AlertTriangle className="h-4 w-4 text-red-700 shrink-0 mt-0.5" />
-            <div>
-              <strong className="text-red-900">Schon ohne Werbung im Minus.</strong> Der Deckungsbeitrag vor Werbung liegt bei{" "}
-              {eur(calc.db1)} — jeder bezahlte Klick vergrößert nur den Verlust. Hier hilft kein Kampagnen-Tuning, sondern Preis,
-              Einkauf oder Versandkosten.
-            </div>
-          </div>
-        )}
-      </div>
+            </ToolSection>
 
-      {/* === Glossar === */}
-      <details className="rounded-2xl border border-border bg-card p-5 mb-6">
-        <summary className="cursor-pointer font-bold text-sm flex items-center gap-2">
-          <HelpCircle className="h-4 w-4 text-accent-blue" /> Warum brutto rein und netto raus?
+            <ToolSection title="2. Verkauf" description="Die USt gehört dem Finanzamt." icon={Receipt}>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <Field label="Verkaufspreis brutto (€)" hint="Der Preis, den der Kunde im Shop sieht.">
+                  <NumberField step="0.01" value={vkBrutto} onChange={setVkBrutto} min={0} aria-label="Verkaufspreis brutto in Euro" />
+                </Field>
+                <Field label="USt im Verkauf" hint="7 % z. B. Bücher und Lebensmittel, 0 % als Kleinunternehmer (§ 19).">
+                  <ChoiceGroup<number>
+                    label="USt im Verkauf"
+                    size="sm"
+                    value={vkUst}
+                    onChange={setVkUst}
+                    options={UST_SAETZE.map((s) => ({ value: s, label: `${s} %` }))}
+                  />
+                </Field>
+                <Field
+                  label="Versandpauschale vom Kunden (€ brutto)"
+                  hint="0 bei Gratisversand. Zählt zum Umsatz und wird mitversteuert."
+                  className="sm:col-span-2"
+                >
+                  <NumberField step="0.01" value={versandKunde} onChange={setVersandKunde} min={0} aria-label="Versandpauschale vom Kunden in Euro" />
+                </Field>
+              </div>
+            </ToolSection>
+
+            <ToolSection title="3. Versand und Zahlungsgebühren" icon={Truck}>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <Field label="Deine Versandkosten (€ brutto)">
+                  <NumberField step="0.01" value={versandKosten} onChange={setVersandKosten} min={0} aria-label="Versandkosten brutto in Euro" />
+                  <label className="mt-2 flex cursor-pointer items-center gap-2 text-xs text-muted-foreground">
+                    <input type="checkbox" checked={versandVorsteuer} onChange={(e) => setVersandVorsteuer(e.target.checked)} className={checkCls} />
+                    enthält 19 % USt
+                  </label>
+                </Field>
+                <Field label="PayPal prozentual (%)" hint="Inland-Standard 2,49 %, auf den Bruttoumsatz inkl. Versand.">
+                  <NumberField step="0.01" value={ppProzent} onChange={setPpProzent} min={0} max={20} aria-label="PayPal-Gebühr in Prozent" />
+                </Field>
+                <Field label="PayPal fix (€ je Transaktion)" hint="0,35 € Inland. Gebühren sind USt-frei, also keine Vorsteuer.">
+                  <NumberField step="0.01" value={ppFix} onChange={setPpFix} min={0} aria-label="PayPal-Fixgebühr in Euro" />
+                </Field>
+                <Field label="Anteil PayPal-Zahler (%)" hint="100 = jede Bestellung. Bei Mix mit Kauf auf Rechnung o. ä. senken.">
+                  <NumberField step="1" value={ppQuote} onChange={setPpQuote} min={0} max={100} aria-label="Anteil PayPal-Zahler in Prozent" />
+                </Field>
+              </div>
+            </ToolSection>
+
+            <ToolSection title="4. Klickkosten" icon={MousePointerClick}>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <Field label="Klickpreis netto (€)" hint="Google und Meta rechnen mit USt ab, hier netto eintragen.">
+                  <NumberField step="0.01" value={cpc} onChange={setCpc} min={0} aria-label="Klickpreis netto in Euro" />
+                </Field>
+                <Field
+                  label="Organisch oder ohne Klick (%)"
+                  hint="Bestellungen ohne bezahlten Klick (SEO, Direkt, Stammkunden) senken die Werbekosten anteilig."
+                >
+                  <NumberField step="1" value={organischProzent} onChange={setOrganischProzent} min={0} max={100} aria-label="Anteil organischer Bestellungen in Prozent" />
+                </Field>
+                <Field
+                  label="Eingabe über"
+                  className="sm:col-span-2"
+                  hint={
+                    modus === "cr"
+                      ? `${dez(calc.klicks)} Klicks je Verkauf · Shop-Schnitt liegt bei 1 bis 3 %`
+                      : `entspricht ${dez(100 / Math.max(klicksJeVerkauf, 0.0001), 2)} % Conversion-Rate`
+                  }
+                >
+                  <ChoiceGroup<"cr" | "klicks">
+                    label="Eingabe über"
+                    size="sm"
+                    value={modus}
+                    onChange={wechsleModus}
+                    options={[
+                      { value: "cr", label: "Conversion-Rate (%)" },
+                      { value: "klicks", label: "Klicks je Verkauf" },
+                    ]}
+                  />
+                  <div className="mt-2">
+                    {modus === "cr" ? (
+                      <NumberField step="0.1" value={conversionRate} onChange={setConversionRate} min={0.01} max={100} aria-label="Conversion-Rate in Prozent" />
+                    ) : (
+                      <NumberField step="1" value={klicksJeVerkauf} onChange={setKlicksJeVerkauf} min={0} aria-label="Klicks je Verkauf" />
+                    )}
+                  </div>
+                </Field>
+              </div>
+              <div className="mt-4 rounded-xl bg-secondary/60 px-4 py-3 text-sm tabular">
+                {dez(calc.klicks)} Klicks × {eur(cpc)}
+                {organischProzent > 0 && ` × ${100 - organischProzent} % bezahlt`} = <strong className="font-semibold">{eur(calc.werbung)}</strong>{" "}
+                Werbung je Bestellung
+              </div>
+            </ToolSection>
+          </>
+        }
+        result={
+          <>
+            <ResultPanel
+              variant="ink"
+              kicker="Gewinn je Bestellung (netto)"
+              title={calc.gewinn >= 0 ? "Die Bestellung trägt sich" : "Jede Bestellung kostet dich Geld"}
+              value={`${calc.gewinn >= 0 ? "" : "−"}${eur(Math.abs(calc.gewinn))}`}
+              valueHint={`${dez(calc.marge)} % Nettomarge`}
+            >
+              <div className="grid grid-cols-2 gap-px overflow-hidden rounded-xl bg-white/10">
+                {[
+                  { l: "Aufschlag auf EK", v: `${dez(calc.aufschlag, 2)}×` },
+                  { l: "ROAS", v: calc.roas === null ? "keine Werbung" : dez(calc.roas, 2) },
+                  { l: "Deckungsbeitrag vor Werbung", v: eur(calc.db1) },
+                  { l: "USt-Zahllast", v: eur(calc.zahllast) },
+                ].map((k) => (
+                  <div key={k.l} className="bg-white/[0.04] p-3">
+                    <div className="text-xs text-primary-foreground/65">{k.l}</div>
+                    <div className="mt-0.5 font-semibold text-primary-foreground tabular">{k.v}</div>
+                  </div>
+                ))}
+              </div>
+            </ResultPanel>
+
+            <ResultPanel title="Rechenweg je Bestellung">
+              <div className="divide-y divide-border/70">
+                <ResultRow label="Bruttoumsatz (VK + Versandpauschale)" value={eur(calc.bruttoUmsatz)} />
+                <ResultRow label={`./. Umsatzsteuer ${vkUst} %`} value={`− ${eur(calc.ustVerkauf)}`} />
+                <ResultRow label="Nettoerlös" value={eur(calc.nettoErloes)} strong />
+                <ResultRow label="./. Wareneinsatz netto" value={`− ${eur(calc.ekNetto)}`} />
+                <ResultRow label="./. Versand netto" value={`− ${eur(calc.versandNetto)}`} />
+                <ResultRow label="./. PayPal-Gebühr (ohne Vorsteuer)" value={`− ${eur(calc.paypal)}`} />
+                <ResultRow label="./. Verpackung und Sonstiges netto" value={`− ${eur(calc.sonstNetto)}`} />
+                <ResultRow label="Deckungsbeitrag vor Werbung" value={eur(calc.db1)} strong />
+                <ResultRow label="./. Werbekosten netto" value={`− ${eur(calc.werbung)}`} />
+                <ResultRow
+                  label="Gewinn je Bestellung"
+                  value={eur(calc.gewinn)}
+                  strong
+                  tone={calc.gewinn >= 0 ? "success" : "danger"}
+                />
+              </div>
+
+              {verteilung.length > 0 && (
+                <div className="mt-5">
+                  <p className="mb-2 text-sm font-medium">Wohin der Nettoerlös geht</p>
+                  <div className="flex h-3 w-full overflow-hidden rounded-full bg-secondary">
+                    {verteilung.map((t) => (
+                      <div key={t.label} className={t.klasse} style={{ width: `${(t.wert / calc.nettoErloes) * 100}%` }} />
+                    ))}
+                  </div>
+                  <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground tabular">
+                    {verteilung.map((t) => (
+                      <span key={t.label} className="inline-flex items-center gap-1.5">
+                        <span className={`h-2 w-2 rounded-sm ${t.klasse}`} aria-hidden="true" />
+                        {t.label} {dez((t.wert / calc.nettoErloes) * 100)} %
+                      </span>
+                    ))}
+                    {calc.gewinn < 0 && (
+                      <span className="font-semibold text-danger">Verlust {dez((Math.abs(calc.gewinn) / calc.nettoErloes) * 100)} %</span>
+                    )}
+                  </div>
+                </div>
+              )}
+            </ResultPanel>
+
+            <ToolSection title="Break-even: was die Werbung tragen kann" icon={Target}>
+              {calc.db1 > 0 ? (
+                <>
+                  <StatGrid cols={2} className="mb-4">
+                    <StatTile label="Klicks je Verkauf max." value={dez(calc.maxKlicks)} />
+                    <StatTile label="Conversion-Rate min." value={`${dez(calc.minCr, 2)} %`} />
+                    <StatTile label="Klickpreis max." value={eur(Math.max(calc.maxCpc, 0))} />
+                    <StatTile label="ROAS min." value={dez(calc.minRoas, 2)} />
+                  </StatGrid>
+                  {calc.gewinn >= 0 ? (
+                    <Callout tone="success" title="Puffer">
+                      {dez(Math.max(calc.maxKlicks - calc.klicks, 0))} Klicks je Verkauf mehr oder ein Klickpreis bis{" "}
+                      {eur(Math.max(calc.maxCpc, 0))}, dann steht die Null. Alles darunter ist dein Gewinn.
+                    </Callout>
+                  ) : (
+                    <Callout tone="danger" title="Die Werbung frisst den Deckungsbeitrag.">
+                      Bei {eur(cpc)} je Klick trägt eine Bestellung nur {dez(calc.maxKlicks)} Klicks, gerechnet sind {dez(calc.klicks)}.
+                      Hebel: Conversion-Rate hoch (mindestens {dez(calc.minCr, 2)} %), Klickpreis runter (max.{" "}
+                      {eur(Math.max(calc.maxCpc, 0))}), Warenkorb größer (Bundle, Versandpauschale) oder besser einkaufen.
+                    </Callout>
+                  )}
+                </>
+              ) : (
+                <Callout tone="danger" title="Schon ohne Werbung im Minus." icon={AlertTriangle}>
+                  Der Deckungsbeitrag vor Werbung liegt bei {eur(calc.db1)}. Jeder bezahlte Klick vergrößert nur den Verlust. Hier hilft
+                  kein Kampagnen-Tuning, sondern Preis, Einkauf oder Versandkosten.
+                </Callout>
+              )}
+            </ToolSection>
+          </>
+        }
+      />
+
+      <details className="group mb-6 rounded-2xl border border-border bg-card shadow-card [&_summary::-webkit-details-marker]:hidden">
+        <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-5 py-4 text-base font-semibold md:px-6">
+          <span className="flex items-center gap-3">
+            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-accent-blue">
+              <HelpCircle className="h-4 w-4" aria-hidden="true" />
+            </span>
+            Warum brutto rein und netto raus?
+          </span>
+          <ChevronDown className="h-4 w-4 text-muted-foreground transition-transform group-open:rotate-180" aria-hidden="true" />
         </summary>
-        <div className="mt-3 space-y-3 text-xs leading-relaxed">
+        <dl className="divide-y divide-border/70 border-t border-border/70 px-5 md:px-6">
           {[
             {
               begriff: "Vorsteuer im Einkauf",
@@ -456,12 +394,12 @@ const ShopProfitRechner = () => {
               erklaerung: "Return on Ad Spend: Umsatz je Werbe-Euro. Der ROAS allein sagt nichts — erst der Mindest-ROAS aus diesem Rechner sagt, ab wann er reicht. Ein ROAS von 3 ist bei 70 % Marge großartig und bei 25 % Marge ein Verlustgeschäft.",
             },
           ].map((g) => (
-            <div key={g.begriff} className="rounded-lg bg-secondary/30 p-3">
-              <div className="font-semibold text-foreground mb-1">{g.begriff}</div>
-              <div className="text-muted-foreground">{g.erklaerung}</div>
+            <div key={g.begriff} className="py-3.5 text-sm">
+              <dt className="font-semibold text-foreground">{g.begriff}</dt>
+              <dd className="mt-1 leading-relaxed text-muted-foreground">{g.erklaerung}</dd>
             </div>
           ))}
-        </div>
+        </dl>
       </details>
 
       <Stand2026Footer
