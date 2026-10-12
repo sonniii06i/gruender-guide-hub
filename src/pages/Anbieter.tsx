@@ -2,8 +2,10 @@ import { useMemo, useState, useEffect, useRef } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { EmptyState, ToneBadge } from "@/components/cockpit/kit";
 import {
-  Star, Tag, ExternalLink, Clock, AlertCircle,
+  Star, Tag, ArrowRight, Info, Clock, AlertCircle,
   Search, Wallet, Truck, Receipt, Warehouse, Recycle,
   Mail, BarChart3, ShoppingCart, Globe2, Briefcase,
   Shield, Scale, Car, Grid3x3, X,
@@ -166,26 +168,24 @@ const Anbieter = () => {
 
   return (
     <CockpitShell
-      eyebrow="🏆 Anbieter-Vergleichs-Engine"
+      eyebrow="Anbieter-Vergleichs-Engine"
       title="Die besten Tools für deine Gründung"
-      subtitle="Top-Anbieter pro Kategorie – mit Stärken/Schwächen aus Reddit & E-Com-Foren. Aktive Aktionen werden wöchentlich aktualisiert."
+      subtitle="Top-Anbieter pro Kategorie, mit Stärken und Schwächen aus Reddit und E-Com-Foren. Aktive Aktionen werden wöchentlich aktualisiert."
     >
       <Seo
         title="Anbieter-Vergleich 2026 – Geschäftskonto, Buchhaltung, Hosting | GründerX"
         description={`Über ${PROVIDERS.length} Anbieter im Vergleich: Geschäftskonto, Buchhaltung, Notar, Tools für Gründer & E-Commerce. Mit echten Erfahrungen aus Foren.`}
         path="/anbieter"
       />
-      <div className="rounded-xl border border-border bg-secondary/30 px-3 py-2 mb-4 text-[11px] text-muted-foreground">
-        <strong>*Affiliate-Hinweis:</strong> Einige Anbieter-Links sind Partner-Links. Bei Vertragsabschluss erhält GründerX ggf. eine Provision — für dich keine Mehrkosten. Bewertungen sind unabhängig von der Vergütung. Details in <a href="/agb" className="underline hover:text-foreground">§ 14 AGB</a>.
-      </div>
 
-      {/* === Such- + Master-Filter-Bar === */}
-      <div className="rounded-2xl border border-border bg-gradient-to-br from-card via-card to-secondary/20 p-4 mb-6 shadow-sm">
-        <div className="flex flex-col md:flex-row md:items-center gap-3 mb-4">
+      {/* Such- und Filterleiste */}
+      <section aria-label="Anbieter filtern" className="mb-6 rounded-2xl border border-border bg-card shadow-card">
+        <div className="flex flex-col gap-3 border-b border-border/70 p-4 md:flex-row md:items-center md:p-5">
           <div className="relative flex-1">
-            <Search className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
+            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
             <Input
-              placeholder="Anbieter, Stärke oder Schwäche suchen..."
+              placeholder="Anbieter, Stärke oder Schwäche suchen…"
+              aria-label="Anbieter suchen"
               value={q}
               onChange={(e) => {
                 const val = e.target.value;
@@ -194,12 +194,13 @@ const Anbieter = () => {
                 // wirkt die Suche „kaputt" wenn man via ?cat=-Link reinkommt.
                 if (val !== "" && cat !== "Alle") setCatWithUrl("Alle");
               }}
-              className="h-11 pl-10 pr-10 text-sm bg-background"
+              className="h-11 pl-10 pr-10"
             />
             {q && (
               <button
+                type="button"
                 onClick={() => setQ("")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                className="absolute right-3 top-1/2 -translate-y-1/2 rounded-md p-0.5 text-muted-foreground hover:text-foreground"
                 aria-label="Suche löschen"
               >
                 <X className="h-4 w-4" />
@@ -207,34 +208,30 @@ const Anbieter = () => {
             )}
           </div>
           <button
+            type="button"
+            aria-pressed={cat === "Alle"}
             onClick={() => setCatWithUrl("Alle")}
-            className={`inline-flex items-center justify-center gap-2 rounded-xl px-4 h-11 text-sm font-bold transition-all whitespace-nowrap ${
+            className={`inline-flex h-11 items-center justify-center gap-2 whitespace-nowrap rounded-xl border px-4 text-sm font-semibold transition-colors ${
               cat === "Alle"
-                ? "bg-accent-blue text-primary-foreground shadow-md"
-                : "bg-background border border-border hover:border-accent-blue/40"
+                ? "border-primary bg-primary text-primary-foreground"
+                : "border-border bg-card hover:border-foreground/25"
             }`}
           >
-            <Grid3x3 className="h-4 w-4" />
+            <Grid3x3 className="h-4 w-4" aria-hidden="true" />
             Alle Anbieter
-            <span className={`rounded-md px-2 py-0.5 text-[11px] font-bold ${
-              cat === "Alle" ? "bg-white/25 text-white" : "bg-secondary text-muted-foreground"
+            <span className={`rounded-md px-1.5 py-0.5 text-xs font-semibold tabular ${
+              cat === "Alle" ? "bg-white/15 text-primary-foreground" : "bg-secondary text-muted-foreground"
             }`}>
               {counts.Alle}
             </span>
           </button>
         </div>
 
-        {/* === Kategorie-Karten-Grid === */}
-        <div className="space-y-4">
+        <div className="space-y-5 p-4 md:p-5">
           {CAT_GROUPS.map((group) => (
             <div key={group.label}>
-              <div className="flex items-center gap-2 mb-2">
-                <div className="text-[10px] font-bold uppercase tracking-[0.12em] text-muted-foreground/80">
-                  {group.label}
-                </div>
-                <div className="h-px flex-1 bg-border/60" />
-              </div>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
+              <p className="mb-2 text-sm font-medium text-muted-foreground">{group.label}</p>
+              <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
                 {group.cats.map(({ name, icon: Icon }) => {
                   const active = cat === name;
                   const count = counts[name] || 0;
@@ -242,41 +239,24 @@ const Anbieter = () => {
                   return (
                     <button
                       key={name}
+                      type="button"
+                      aria-pressed={active}
                       onClick={() => setCatWithUrl(active ? "Alle" : name)}
-                      className={`group relative rounded-xl px-3 py-3 text-left transition-all ${
+                      className={`flex min-w-0 items-center gap-2 rounded-xl border px-3 py-2.5 text-left transition-colors active:translate-y-px ${
                         active
-                          ? "bg-accent-blue text-primary-foreground shadow-md ring-2 ring-accent-blue/30 ring-offset-2 ring-offset-card"
-                          : "bg-background border border-border hover:border-accent-blue/40 hover:bg-accent-blue/5 hover:-translate-y-0.5"
+                          ? "border-primary bg-primary text-primary-foreground"
+                          : "border-border bg-card hover:border-accent-blue/40 hover:bg-accent/50"
                       }`}
                     >
-                      <div className="flex items-start justify-between mb-1.5">
-                        <Icon
-                          className={`h-4 w-4 transition-colors ${
-                            active ? "text-primary-foreground" : "text-accent-blue"
-                          }`}
-                        />
-                        <span
-                          className={`text-[10px] font-bold rounded-md px-1.5 py-0.5 ${
-                            active
-                              ? "bg-white/25 text-white"
-                              : "bg-secondary text-muted-foreground"
-                          }`}
-                        >
-                          {count}
-                        </span>
-                      </div>
-                      <div
-                        className={`text-xs font-semibold leading-tight ${
-                          active ? "text-primary-foreground" : "text-foreground"
+                      <Icon className={`h-4 w-4 shrink-0 ${active ? "text-primary-foreground" : "text-accent-blue"}`} aria-hidden="true" />
+                      <span className="min-w-0 flex-1 truncate text-sm font-medium">{name}</span>
+                      <span
+                        className={`shrink-0 rounded-md px-1.5 py-0.5 text-xs font-semibold tabular ${
+                          active ? "bg-white/15 text-primary-foreground" : "bg-secondary text-muted-foreground"
                         }`}
                       >
-                        {name}
-                      </div>
-                      {active && (
-                        <div className="text-[10px] text-primary-foreground/80 mt-0.5">
-                          Filter aktiv ✓
-                        </div>
-                      )}
+                        {count}
+                      </span>
                     </button>
                   );
                 })}
@@ -285,103 +265,123 @@ const Anbieter = () => {
           ))}
         </div>
 
-        {/* Reset-Footer wenn Filter aktiv */}
+        {/* Zurücksetzen, wenn ein Filter aktiv ist */}
         {(cat !== "Alle" || q) && (
-          <div className="mt-4 pt-4 border-t border-border/60 flex items-center justify-between text-xs">
-            <div className="text-muted-foreground">
-              Aktive Filter:{" "}
+          <div className="flex flex-wrap items-center justify-between gap-2 border-t border-border/70 px-4 py-3 text-sm md:px-5">
+            <div className="flex flex-wrap items-center gap-1.5 text-muted-foreground">
+              Aktive Filter:
               {cat !== "Alle" && (
-                <span className="inline-flex items-center gap-1 ml-1 rounded-md bg-accent-blue/10 text-accent-blue px-2 py-0.5 font-semibold">
+                <span className="inline-flex items-center gap-1 rounded-md border border-accent-blue/20 bg-accent px-2 py-0.5 text-xs font-semibold text-accent-blue">
                   {cat}
-                  <button onClick={() => setCatWithUrl("Alle")} className="hover:bg-accent-blue/20 rounded-sm">
+                  <button type="button" onClick={() => setCatWithUrl("Alle")} className="rounded-sm hover:bg-accent-blue/15" aria-label="Kategorie-Filter entfernen">
                     <X className="h-3 w-3" />
                   </button>
                 </span>
               )}
               {q && (
-                <span className="inline-flex items-center gap-1 ml-1 rounded-md bg-accent-blue/10 text-accent-blue px-2 py-0.5 font-semibold">
+                <span className="inline-flex items-center gap-1 rounded-md border border-accent-blue/20 bg-accent px-2 py-0.5 text-xs font-semibold text-accent-blue">
                   „{q}"
-                  <button onClick={() => setQ("")} className="hover:bg-accent-blue/20 rounded-sm">
+                  <button type="button" onClick={() => setQ("")} className="rounded-sm hover:bg-accent-blue/15" aria-label="Suche entfernen">
                     <X className="h-3 w-3" />
                   </button>
                 </span>
               )}
             </div>
             <button
+              type="button"
               onClick={() => {
                 setCatWithUrl("Alle");
                 setQ("");
               }}
-              className="text-accent-blue hover:underline font-semibold"
+              className="font-semibold text-accent-blue hover:underline"
             >
               Alle Filter zurücksetzen
             </button>
           </div>
         )}
-      </div>
+      </section>
 
-      {/* Resultats-Header */}
-      <div ref={resultsRef} className="flex items-baseline justify-between mb-4 scroll-mt-4">
-        <h2 className="text-sm font-semibold text-muted-foreground">
+      {/* Ergebnis-Kopf */}
+      <div ref={resultsRef} className="mb-4 flex flex-wrap items-baseline justify-between gap-2 scroll-mt-20">
+        <h2 className="text-lg font-semibold tracking-tight">
           {cat === "Alle" ? "Alle Kategorien" : cat}
-          {q && <span className="ml-2 text-foreground">· „{q}"</span>}
-          <span className="ml-2 text-xs text-muted-foreground/70">
+          {q && <span className="ml-2 font-normal text-muted-foreground">· „{q}"</span>}
+          <span className="ml-2 text-sm font-normal text-muted-foreground tabular">
             ({list.length} Anbieter)
           </span>
         </h2>
       </div>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-        {list.map((p) => <ProviderCard key={p.slug} p={p} />)}
-      </div>
-
-      {list.length === 0 && (
-        <div className="text-center py-16 text-muted-foreground">
-          <Search className="h-10 w-10 mx-auto mb-3 opacity-30" />
-          <div className="font-semibold mb-1">Keine Anbieter gefunden</div>
-          <div className="text-xs">Versuch andere Filter oder die Suche zu löschen.</div>
+      {list.length === 0 ? (
+        <EmptyState
+          icon={Search}
+          title="Keine Anbieter gefunden"
+          description="Versuch andere Filter oder lösche die Suche."
+          action={
+            <Button
+              variant="outline"
+              onClick={() => {
+                setCatWithUrl("Alle");
+                setQ("");
+              }}
+            >
+              Filter zurücksetzen
+            </Button>
+          }
+        />
+      ) : (
+        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {list.map((p) => <ProviderCard key={p.slug} p={p} />)}
         </div>
       )}
+
+      <p className="mt-8 flex items-start gap-2 text-xs leading-relaxed text-muted-foreground">
+        <Info className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+        <span>
+          <strong className="font-semibold text-foreground">*Affiliate-Hinweis:</strong> Einige Anbieter-Links sind Partner-Links. Bei Vertragsabschluss erhält GründerX ggf. eine Provision, für dich ohne Mehrkosten. Bewertungen sind unabhängig von der Vergütung. Details in <a href="/agb" className="underline hover:text-foreground">§ 14 AGB</a>.
+        </span>
+      </p>
     </CockpitShell>
   );
 };
 
 const ProviderCard = ({ p }: { p: Provider }) => (
-  <Link to={`/anbieter/${p.slug}`} className="rounded-2xl border border-border bg-card p-5 shadow-card hover:shadow-soft hover:border-accent-blue/40 transition-all flex flex-col">
-    {/* Header: Kategorie · Name · Rating */}
-    <div className="flex items-start justify-between mb-2 gap-3">
+  <Link
+    to={`/anbieter/${p.slug}`}
+    className="group flex min-w-0 flex-col rounded-2xl border border-border bg-card p-5 shadow-card transition-[border-color,box-shadow] hover:border-accent-blue/40 hover:shadow-soft"
+  >
+    {/* Kopf: Kategorie, Name, Bewertung */}
+    <div className="mb-2 flex items-start justify-between gap-3">
       <div className="min-w-0">
-        <div className="text-[10px] font-semibold uppercase tracking-wider text-accent-blue truncate">{p.category}</div>
-        <h3 className="font-bold text-lg leading-tight truncate">{p.name}</h3>
+        <p className="truncate text-xs font-medium text-accent-blue">{p.category}</p>
+        <h3 className="truncate text-lg font-semibold leading-tight tracking-tight">{p.name}</h3>
       </div>
-      <div className="flex items-center gap-1 text-xs font-semibold shrink-0 rounded-md bg-yellow-50 dark:bg-yellow-950/40 text-yellow-700 dark:text-yellow-300 px-2 py-0.5">
-        <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+      <span className="inline-flex shrink-0 items-center gap-1 rounded-md border border-warning/25 bg-warning-soft px-2 py-0.5 text-xs font-semibold tabular">
+        <Star className="h-3 w-3 fill-warning text-warning" aria-hidden="true" />
         {p.rating.toFixed(1)}
-      </div>
+      </span>
     </div>
 
-    {/* Tagline – fixed 2 lines */}
-    <p className="text-sm text-muted-foreground leading-snug mb-4 line-clamp-2 min-h-[2.5rem]">{p.tagline}</p>
+    <p className="mb-4 line-clamp-2 min-h-[2.5rem] text-sm leading-snug text-muted-foreground">{p.tagline}</p>
 
-    {/* Pros / Cons als eigene Boxen mit fixer Höhe */}
-    <div className="grid grid-cols-2 gap-2 mb-4">
-      <div className="rounded-lg border border-success/20 bg-success/5 p-2.5 min-h-[7rem]">
-        <div className="text-[10px] font-bold uppercase tracking-wider text-success mb-1.5">Stärken</div>
-        <ul className="space-y-1.5 text-[11px] leading-snug text-foreground/80">
+    <div className="mb-4 grid grid-cols-2 gap-2">
+      <div className="min-h-[7rem] min-w-0 rounded-xl border border-success/20 bg-success-soft p-3">
+        <p className="mb-1.5 text-xs font-semibold text-success">Stärken</p>
+        <ul className="space-y-1.5 text-xs leading-snug text-foreground/80 [overflow-wrap:anywhere]">
           {p.pros.slice(0, 3).map((s, i) => (
             <li key={i} className="flex gap-1">
-              <span className="shrink-0 text-success">+</span>
+              <span className="shrink-0 text-success" aria-hidden="true">+</span>
               <span className="line-clamp-2">{s}</span>
             </li>
           ))}
         </ul>
       </div>
-      <div className="rounded-lg border border-destructive/20 bg-destructive/5 p-2.5 min-h-[7rem]">
-        <div className="text-[10px] font-bold uppercase tracking-wider text-destructive mb-1.5">Schwächen</div>
-        <ul className="space-y-1.5 text-[11px] leading-snug text-foreground/80">
+      <div className="min-h-[7rem] min-w-0 rounded-xl border border-danger/20 bg-danger-soft p-3">
+        <p className="mb-1.5 text-xs font-semibold text-danger">Schwächen</p>
+        <ul className="space-y-1.5 text-xs leading-snug text-foreground/80 [overflow-wrap:anywhere]">
           {p.cons.slice(0, 3).map((s, i) => (
             <li key={i} className="flex gap-1">
-              <span className="shrink-0 text-destructive">−</span>
+              <span className="shrink-0 text-danger" aria-hidden="true">−</span>
               <span className="line-clamp-2">{s}</span>
             </li>
           ))}
@@ -389,40 +389,36 @@ const ProviderCard = ({ p }: { p: Provider }) => (
       </div>
     </div>
 
-    {/* Footer-Zeile: Region (Label) + Preis (volle Breite) */}
-    <div className="mb-3 border-t border-border pt-3">
-      <div className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70 mb-1">{p.region}</div>
-      <div className="text-xs font-semibold text-foreground leading-snug break-words">{p.starting}</div>
+    <div className="mb-3 border-t border-border/70 pt-3">
+      <p className="mb-0.5 text-xs text-muted-foreground">{p.region}</p>
+      <p className="break-words text-sm font-semibold leading-snug">{p.starting}</p>
     </div>
 
-    {/* Tags – nur wenn vorhanden, einheitlich */}
     {(p.signupTime || p.monthlyMin) && (
-      <div className="flex flex-wrap gap-1.5 text-[10px] mb-3">
+      <div className="mb-3 flex flex-wrap gap-1.5">
         {p.signupTime && (
-          <span className="rounded-full bg-secondary text-muted-foreground px-2 py-0.5 inline-flex items-center gap-1">
-            <Clock className="h-2.5 w-2.5" />{p.signupTime}
-          </span>
+          <ToneBadge tone="neutral">
+            <Clock className="h-3 w-3" aria-hidden="true" />{p.signupTime}
+          </ToneBadge>
         )}
         {p.monthlyMin && (
-          <span className="rounded-full bg-warning/10 text-warning-foreground border border-warning/30 px-2 py-0.5 inline-flex items-center gap-1">
-            <AlertCircle className="h-2.5 w-2.5" />Min-Umsatz
-          </span>
+          <ToneBadge tone="warning">
+            <AlertCircle className="h-3 w-3" aria-hidden="true" />Min-Umsatz
+          </ToneBadge>
         )}
       </div>
     )}
 
-    {/* Aktiver Deal (kompakt) */}
     {isCoopActive(p.coop) && p.coop && (
-      <div className="rounded-lg bg-accent-blue/10 border border-accent-blue/30 text-foreground p-2 text-[11px] font-medium mb-3 flex items-start gap-1.5">
-        <Tag className="h-3 w-3 mt-0.5 shrink-0 text-accent-blue" />
+      <div className="mb-3 flex items-start gap-1.5 rounded-lg border border-accent-blue/20 bg-accent p-2.5 text-xs font-medium">
+        <Tag className="mt-0.5 h-3 w-3 shrink-0 text-accent-blue" aria-hidden="true" />
         <span className="line-clamp-2">{p.coop.text}{p.coop.code ? ` · ${p.coop.code}` : ""}</span>
       </div>
     )}
 
-    {/* CTA */}
-    <div className="mt-auto inline-flex items-center gap-1 text-xs font-semibold text-accent-blue">
-      Details ansehen <ExternalLink className="h-3 w-3" />
-    </div>
+    <span className="mt-auto inline-flex items-center gap-1 text-sm font-semibold text-accent-blue">
+      Details ansehen <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+    </span>
   </Link>
 );
 
