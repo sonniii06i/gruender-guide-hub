@@ -479,6 +479,7 @@ export const PROVIDERS: Provider[] = [
     cons: ["Junges Brand in DE", "Support gelegentlich langsam"],
     forumNotes: "Trustpilot ~4,4. r/Selbststaendig: 'preissensible Alternative zu Qonto, hat sich 2024–25 stark verbessert.'",
     signupTime: "1–2 Tage",
+    coop: { text: "350 € Neukundenbonus + 5 % Zinsen p.a. für 5 Monate (Onboarding ab 23.09., Aktivierung bis 31.10.2026, mind. 1.000 € Kartenumsatz im ersten 30-Tage-Zeitraum)", expires: "2026-10-31" },
     url: "https://finom.co/de-de/",
   },
   {
