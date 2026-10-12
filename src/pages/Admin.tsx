@@ -7,11 +7,11 @@ import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Badge } from "@/components/ui/badge";
+import { Callout, EmptyState, KitTable, ToneBadge, ToolSection, type Tone } from "@/components/cockpit/kit";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Loader2, Send, Inbox, Users, CreditCard, BarChart3, Search, Download,
-  TrendingUp, UserPlus, Activity, MessageSquare, Calendar, Megaphone,
+  TrendingUp, UserPlus, Activity, MessageSquare, Calendar, Megaphone, MousePointerClick,
 } from "lucide-react";
 import { BookingsAdmin } from "@/components/admin/BookingsAdmin";
 import { AdminGuideAnnounce } from "@/components/admin/AdminGuideAnnounce";
@@ -231,26 +231,26 @@ const Admin = () => {
     setSelected({ ...selected, status });
   };
 
-  if (authLoading || roleLoading) return <div className="p-12 text-center text-muted-foreground"><Loader2 className="h-6 w-6 animate-spin mx-auto" /></div>;
+  if (authLoading || roleLoading) return <div className="p-12 text-center text-sm text-muted-foreground"><Loader2 className="mx-auto mb-2 h-5 w-5 animate-spin" aria-hidden="true" />Zugang wird geprüft…</div>;
   if (!user) return <Navigate to="/auth" replace />;
   if (!isAdmin) return <Navigate to="/dashboard" replace />;
 
   return (
-    <CockpitShell eyebrow="🛡️ Admin" title="Kommandozentrale" subtitle="Marketing-Insights, Kunden, Abos & Tickets.">
+    <CockpitShell eyebrow="Admin" title="Kommandozentrale" subtitle="Marketing-Insights, Kunden, Abos und Tickets auf einen Blick.">
       {stripeError && (
-        <div className="mb-4 rounded-xl border border-destructive/40 bg-destructive/10 text-destructive px-4 py-3 text-sm">
-          Stripe-Daten nicht ladbar: {stripeError}
-        </div>
+        <Callout tone="danger" title="Stripe-Daten nicht ladbar" className="mb-6">
+          {stripeError}
+        </Callout>
       )}
-      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
-        <Kpi icon={Users} label="Besucher (30T)" value={stats.uniqueVisitors30d} hint={`Heute: ${stats.uniqueVisitorsToday} · Signups 30T: ${stats.newUsers30d}`} />
+      <div className="mb-8 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <Kpi icon={Users} label="Besucher (30 Tage)" value={stats.uniqueVisitors30d} hint={`Heute: ${stats.uniqueVisitorsToday} · Signups 30 Tage: ${stats.newUsers30d}`} />
         <Kpi icon={UserPlus} label="Registrierte" value={stats.totalUsers} hint={`Visitor→Signup ${stats.visitorToSignup}%`} />
         <Kpi icon={CreditCard} label="Zahlende Kunden" value={stats.activePaid} hint={`+ ${stats.trialing} Trial · Signup→Paid ${stats.signupToPaid}%`} accent />
-        <Kpi icon={TrendingUp} label="MRR (Stripe live)" value={`€${stats.mrr.toFixed(2)}`} hint={`ARR €${stats.arr.toFixed(0)} · Visitor→Paid ${stats.visitorToPaid}%`} />
+        <Kpi icon={TrendingUp} label="MRR (Stripe live)" value={`${stats.mrr.toFixed(2)} €`} hint={`ARR ${stats.arr.toFixed(0)} € · Visitor→Paid ${stats.visitorToPaid}%`} />
       </div>
 
       <Tabs defaultValue="overview">
-        <TabsList className="mb-6 flex-wrap">
+        <TabsList className="mb-6 h-auto w-full flex-wrap justify-start gap-1 p-1 sm:w-auto">
           <TabsTrigger value="overview"><BarChart3 className="h-4 w-4 mr-1" /> Übersicht</TabsTrigger>
           <TabsTrigger value="kunden"><Users className="h-4 w-4 mr-1" /> Kunden ({stats.totalUsers})</TabsTrigger>
           <TabsTrigger value="abos"><CreditCard className="h-4 w-4 mr-1" /> Abos ({stats.activePaid})</TabsTrigger>
@@ -265,7 +265,7 @@ const Admin = () => {
         </TabsContent>
 
         <TabsContent value="overview">
-          <div className="grid lg:grid-cols-2 gap-4">
+          <div className="grid gap-4 lg:grid-cols-2">
             <Panel title="Funnel (30 Tage)" icon={TrendingUp}>
               <FunnelBars
                 steps={[
@@ -277,13 +277,13 @@ const Admin = () => {
             </Panel>
             <Panel title="Besucher (letzte 30 Tage, unique/Tag)" icon={Activity}>
               <Sparkline values={Object.values(stats.visitorDaysCounts)} />
-              <div className="text-xs text-muted-foreground mt-2">
+              <div className="mt-3 text-xs text-muted-foreground tabular">
                 Spitze: {Math.max(...Object.values(stats.visitorDaysCounts), 0)} · Schnitt: {(Object.values(stats.visitorDaysCounts).reduce((a, b) => a + b, 0) / 30).toFixed(1)} / Tag
               </div>
             </Panel>
             <Panel title="Signups (letzte 30 Tage)" icon={UserPlus}>
               <Sparkline values={Object.values(stats.days)} />
-              <div className="text-xs text-muted-foreground mt-2">
+              <div className="mt-3 text-xs text-muted-foreground tabular">
                 Spitze: {Math.max(...Object.values(stats.days), 0)} · Schnitt: {(Object.values(stats.days).reduce((a, b) => a + b, 0) / 30).toFixed(1)} / Tag
               </div>
             </Panel>
@@ -306,7 +306,7 @@ const Admin = () => {
               <Bars data={stats.topCountries} />
             </Panel>
             <Panel title="Engagement" icon={MessageSquare}>
-              <div className="space-y-2 text-sm">
+              <div className="text-sm">
                 <Row k="Onboarding-Rate" v={`${stats.onboardingRate}%`} />
                 <Row k="Felix-Chat-Nachrichten gesamt" v={chatCount.toString()} />
                 <Row k="Playbook-Runs gesamt" v={runsCount.toString()} />
@@ -326,33 +326,35 @@ const Admin = () => {
         </TabsContent>
 
         <TabsContent value="tickets">
-          <div className="grid lg:grid-cols-[340px_1fr] gap-4">
-            <div className="rounded-2xl border border-border bg-card p-3 max-h-[70vh] overflow-y-auto">
-              {tickets.length === 0 && <p className="text-sm text-muted-foreground p-4">Noch keine Tickets.</p>}
+          <div className="grid gap-4 lg:grid-cols-[340px_minmax(0,1fr)]">
+            <div className="max-h-[70vh] overflow-y-auto rounded-2xl border border-border bg-card p-2 shadow-card">
+              {tickets.length === 0 && (
+                <EmptyState icon={Inbox} title="Noch keine Tickets" description="Anfragen aus dem Kontaktformular landen hier." className="border-0 bg-transparent py-10" />
+              )}
               {tickets.map((t) => (
                 <button key={t.id} onClick={() => openTicket(t)}
-                  className={`w-full text-left p-3 rounded-xl mb-1 transition-colors ${selected?.id === t.id ? "bg-secondary" : "hover:bg-secondary/50"}`}>
+                  className={`mb-1 w-full rounded-xl border p-3 text-left transition-colors ${selected?.id === t.id ? "border-accent-blue/25 bg-accent" : "border-transparent hover:bg-secondary/60"}`}>
                   <div className="flex items-center justify-between gap-2">
-                    <span className="font-semibold text-sm truncate">{t.subject}</span>
+                    <span className="truncate text-sm font-semibold">{t.subject}</span>
                     <StatusBadge status={t.status} />
                   </div>
                   <div className="text-xs text-muted-foreground mt-1 truncate">{t.name} · {t.email}</div>
-                  <div className="text-[11px] text-muted-foreground mt-1">{formatDistanceToNow(new Date(t.created_at), { addSuffix: true, locale: de })}</div>
+                  <div className="mt-1 text-xs text-muted-foreground">{formatDistanceToNow(new Date(t.created_at), { addSuffix: true, locale: de })}</div>
                 </button>
               ))}
             </div>
 
-            <div className="rounded-2xl border border-border bg-card p-6">
+            <div className="min-w-0 rounded-2xl border border-border bg-card p-5 shadow-card md:p-6">
               {!selected ? (
-                <p className="text-sm text-muted-foreground">Wähle ein Ticket aus, um es zu beantworten.</p>
+                <EmptyState icon={MessageSquare} title="Kein Ticket ausgewählt" description="Wähle links ein Ticket, um den Verlauf zu sehen und zu antworten." className="border-0 bg-transparent" />
               ) : (
                 <>
-                  <div className="flex items-start justify-between gap-3 mb-4 pb-4 border-b border-border">
-                    <div>
-                      <h2 className="text-xl font-bold">{selected.subject}</h2>
-                      <p className="text-sm text-muted-foreground mt-1">{selected.name} – <a href={`mailto:${selected.email}`} className="underline">{selected.email}</a></p>
+                  <div className="mb-4 flex flex-wrap items-start justify-between gap-3 border-b border-border/70 pb-4">
+                    <div className="min-w-0">
+                      <h2 className="text-lg font-semibold tracking-tight">{selected.subject}</h2>
+                      <p className="mt-1 break-all text-sm text-muted-foreground">{selected.name} · <a href={`mailto:${selected.email}`} className="text-accent-blue hover:underline">{selected.email}</a></p>
                     </div>
-                    <div className="flex gap-1">
+                    <div className="flex flex-wrap gap-1.5">
                       <Button size="sm" variant="outline" onClick={() => setStatus("in_progress")}>In Arbeit</Button>
                       <Button size="sm" variant="outline" onClick={() => setStatus("resolved")}>Erledigt</Button>
                       <Button size="sm" variant="ghost" onClick={() => setStatus("closed")}>Schließen</Button>
@@ -360,22 +362,22 @@ const Admin = () => {
                   </div>
                   <div className="space-y-3 max-h-[40vh] overflow-y-auto pr-1">
                     <div className="rounded-xl bg-secondary/60 p-4">
-                      <div className="text-xs font-bold text-muted-foreground mb-1">{selected.name}</div>
+                      <div className="mb-1 text-xs font-semibold text-muted-foreground">{selected.name}</div>
                       <p className="text-sm whitespace-pre-wrap">{selected.message}</p>
                     </div>
                     {msgs.map((m) => (
-                      <div key={m.id} className={`rounded-xl p-4 ${m.author_role === "admin" ? "bg-primary/10 ml-8" : "bg-secondary/60 mr-8"}`}>
-                        <div className="text-xs font-bold text-muted-foreground mb-1">
+                      <div key={m.id} className={`rounded-xl border p-4 ${m.author_role === "admin" ? "ml-6 border-accent-blue/20 bg-accent md:ml-8" : "mr-6 border-border bg-secondary/60 md:mr-8"}`}>
+                        <div className="mb-1 text-xs font-semibold text-muted-foreground">
                           {m.author_role === "admin" ? "Du (Admin)" : selected.name} · {formatDistanceToNow(new Date(m.created_at), { addSuffix: true, locale: de })}
                         </div>
                         <p className="text-sm whitespace-pre-wrap">{m.body}</p>
                       </div>
                     ))}
                   </div>
-                  <div className="mt-4 pt-4 border-t border-border">
+                  <div className="mt-4 border-t border-border/70 pt-4">
                     <Textarea value={reply} onChange={(e) => setReply(e.target.value)} placeholder="Deine Antwort an den Kunden…" rows={4} />
-                    <Button onClick={send} disabled={sending || !reply.trim()} className="mt-2 rounded-full">
-                      {sending ? <Loader2 className="h-4 w-4 animate-spin" /> : <><Send className="h-4 w-4 mr-1" /> Antwort senden</>}
+                    <Button onClick={send} disabled={sending || !reply.trim()} className="mt-3">
+                      {sending ? <Loader2 className="h-4 w-4 animate-spin" /> : <><Send className="mr-1.5 h-4 w-4" /> Antwort senden</>}
                     </Button>
                   </div>
                 </>
@@ -390,19 +392,16 @@ const Admin = () => {
 
         <TabsContent value="tools">
           <div className="space-y-4">
-            <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-4 text-sm">
-              <div className="font-bold mb-1">📊 Welche Tools verdienen Tiefe vs. Wegwerfen</div>
-              <div className="text-muted-foreground text-xs">
-                Daten aus letzten 30 Tagen. Unique-Visitor pro Tool zählt — nicht Total-Views (gleicher User der 5× klickt = 1 unique). Tools mit 0 uniques sollten geprüft werden:
-                möglicherweise schlecht beworben, falscher Bedarf oder kaputt.
-              </div>
-            </div>
+            <Callout tone="accent" icon={BarChart3} title="Welche Tools verdienen Tiefe, welche können weg">
+              Daten der letzten 30 Tage. Gezählt werden Unique-Visitors pro Tool, nicht alle Views (derselbe User mit 5 Klicks zählt 1). Tools mit 0 Uniques prüfen:
+              möglicherweise schlecht beworben, falscher Bedarf oder kaputt.
+            </Callout>
 
             <Panel title={`Top-Tools nach Unique-Visitors (${stats.toolRanking.length} aktive)`} icon={TrendingUp}>
               {stats.toolRanking.length === 0 ? (
-                <div className="text-xs text-muted-foreground">Noch keine Tool-Views in den letzten 30 Tagen.</div>
+                <EmptyState icon={MousePointerClick} title="Noch keine Tool-Views" description="In den letzten 30 Tagen wurde kein Cockpit-Tool aufgerufen." className="py-8" />
               ) : (
-                <div className="space-y-1.5">
+                <div className="space-y-2.5">
                   {stats.toolRanking.map((t, idx) => {
                     const maxUniques = stats.toolRanking[0].uniques;
                     const pct = maxUniques ? Math.round((t.uniques / maxUniques) * 100) : 0;
@@ -410,16 +409,16 @@ const Admin = () => {
                       <div key={t.path} className="space-y-0.5">
                         <div className="flex items-center justify-between text-xs">
                           <div className="flex items-center gap-2 min-w-0">
-                            <span className="text-muted-foreground font-mono w-6 shrink-0">#{idx + 1}</span>
-                            <code className="font-mono text-[11px] truncate">{t.path}</code>
+                            <span className="w-7 shrink-0 text-muted-foreground tabular">{idx + 1}.</span>
+                            <code className="truncate font-mono text-xs">{t.path}</code>
                           </div>
-                          <div className="flex items-center gap-3 shrink-0 ml-2">
+                          <div className="ml-2 flex shrink-0 items-center gap-2 tabular">
                             <span className="font-semibold">{t.uniques}</span>
-                            <span className="text-muted-foreground text-[10px]">({t.views} views)</span>
+                            <span className="text-muted-foreground">({t.views} Views)</span>
                           </div>
                         </div>
-                        <div className="h-1.5 bg-secondary rounded overflow-hidden">
-                          <div className="h-full bg-accent-blue" style={{ width: `${pct}%` }} />
+                        <div className="h-1.5 overflow-hidden rounded-full bg-secondary">
+                          <div className="h-full rounded-full bg-accent-blue" style={{ width: `${pct}%` }} />
                         </div>
                       </div>
                     );
@@ -429,14 +428,14 @@ const Admin = () => {
             </Panel>
 
             {stats.deadTools.length > 0 && (
-              <Panel title={`⚠ Tote Tools (0 Views in 30T) — ${stats.deadTools.length} Stück`} icon={Inbox}>
-                <div className="text-xs text-muted-foreground mb-2">
+              <Panel title={`Tote Tools ohne Views in 30 Tagen: ${stats.deadTools.length}`} icon={Inbox}>
+                <div className="mb-3 text-sm text-muted-foreground">
                   Diese Routes sind in features.ts definiert, aber niemand hat sie in den letzten 30 Tagen aufgerufen.
-                  Kandidaten für: Promotion vom Dashboard pushen · neue Use-Cases testen · oder löschen.
+                  Kandidaten für: im Dashboard stärker bewerben, neue Use-Cases testen oder löschen.
                 </div>
                 <div className="flex flex-wrap gap-1.5">
                   {stats.deadTools.map((path) => (
-                    <code key={path} className="text-[10px] font-mono bg-rose-500/10 text-rose-700 border border-rose-500/20 rounded px-2 py-1">
+                    <code key={path} className="rounded-md border border-danger/25 bg-danger-soft px-2 py-1 font-mono text-xs text-danger">
                       {path}
                     </code>
                   ))}
@@ -445,7 +444,7 @@ const Admin = () => {
             )}
 
             <Panel title="Tool-Funnels (Step-Tracking)" icon={Activity}>
-              <div className="text-xs text-muted-foreground">
+              <div className="text-sm leading-relaxed text-muted-foreground">
                 Funnel-Events (User kommt in Step 1 vs. Step 5) sind ab Mai 2026 instrumentiert für ausgewählte
                 Wizards. Sobald genug Daten gesammelt sind, erscheint hier eine Step-für-Step-Conversion pro Tool.
                 Aktuell instrumentiert: LUCID-Wizard.
@@ -459,45 +458,43 @@ const Admin = () => {
 };
 
 const Kpi = ({ icon: Icon, label, value, hint, accent }: { icon: any; label: string; value: any; hint?: string; accent?: boolean }) => (
-  <div className={`rounded-2xl p-5 border ${accent ? "border-accent-blue/40 bg-gradient-primary text-primary-foreground" : "border-border bg-card"}`}>
-    <div className="flex items-center justify-between">
-      <span className={`text-[11px] uppercase tracking-wider font-bold ${accent ? "opacity-90" : "text-muted-foreground"}`}>{label}</span>
-      <Icon className="h-4 w-4 opacity-70" />
+  <div className={`rounded-2xl border p-5 ${accent ? "border-transparent bg-ink text-primary-foreground shadow-soft" : "border-border bg-card shadow-card"}`}>
+    <div className="flex items-center justify-between gap-2">
+      <span className={`text-sm font-medium ${accent ? "text-primary-foreground/75" : "text-muted-foreground"}`}>{label}</span>
+      <span className={`flex h-8 w-8 items-center justify-center rounded-lg ${accent ? "bg-white/10 text-brand-green-glow" : "bg-accent text-accent-blue"}`}>
+        <Icon className="h-4 w-4" aria-hidden="true" />
+      </span>
     </div>
-    <div className="text-3xl font-bold mt-2">{value}</div>
-    {hint && <div className={`text-xs mt-1 ${accent ? "opacity-85" : "text-muted-foreground"}`}>{hint}</div>}
+    <div className="mt-2 text-3xl font-semibold tracking-[-0.03em] tabular">{value}</div>
+    {hint && <div className={`mt-1 text-xs leading-relaxed tabular ${accent ? "text-primary-foreground/70" : "text-muted-foreground"}`}>{hint}</div>}
   </div>
 );
 
-const Panel = ({ title, icon: Icon, children }: { title: string; icon: any; children: React.ReactNode }) => (
-  <div className="rounded-2xl border border-border bg-card p-5">
-    <div className="flex items-center gap-2 mb-4">
-      <Icon className="h-4 w-4 text-accent-blue" />
-      <h3 className="font-bold">{title}</h3>
-    </div>
+const Panel = ({ title, icon, children }: { title: string; icon: any; children: React.ReactNode }) => (
+  <ToolSection title={title} icon={icon}>
     {children}
-  </div>
+  </ToolSection>
 );
 
 const Row = ({ k, v }: { k: string; v: string }) => (
-  <div className="flex items-center justify-between border-b border-border/60 py-1.5 last:border-0">
-    <span className="text-muted-foreground">{k}</span><span className="font-semibold">{v}</span>
+  <div className="flex items-center justify-between gap-4 border-b border-border/60 py-2.5 last:border-0">
+    <span className="text-muted-foreground">{k}</span><span className="font-semibold tabular">{v}</span>
   </div>
 );
 
 const Bars = ({ data, labelMap }: { data: [string, number][]; labelMap?: Record<string, string> }) => {
-  if (!data.length) return <p className="text-xs text-muted-foreground">Keine Daten.</p>;
+  if (!data.length) return <p className="rounded-xl border border-dashed border-border px-4 py-6 text-center text-sm text-muted-foreground">Noch keine Daten.</p>;
   const max = Math.max(...data.map((d) => d[1]));
   return (
-    <div className="space-y-2">
+    <div className="space-y-2.5">
       {data.map(([k, n]) => (
         <div key={k}>
-          <div className="flex items-center justify-between text-xs mb-1">
-            <span className="font-medium">{labelMap?.[k] ?? k}</span>
-            <span className="text-muted-foreground">{n}</span>
+          <div className="mb-1 flex items-center justify-between gap-3 text-sm">
+            <span className="truncate font-medium">{labelMap?.[k] ?? k}</span>
+            <span className="text-muted-foreground tabular">{n}</span>
           </div>
-          <div className="h-2 bg-secondary rounded-full overflow-hidden">
-            <div className="h-full bg-gradient-primary" style={{ width: `${(n / max) * 100}%` }} />
+          <div className="h-2 overflow-hidden rounded-full bg-secondary">
+            <div className="h-full rounded-full bg-gradient-primary" style={{ width: `${(n / max) * 100}%` }} />
           </div>
         </div>
       ))}
@@ -508,21 +505,21 @@ const Bars = ({ data, labelMap }: { data: [string, number][]; labelMap?: Record<
 const FunnelBars = ({ steps }: { steps: { label: string; n: number }[] }) => {
   const max = Math.max(...steps.map((s) => s.n), 1);
   return (
-    <div className="space-y-3">
+    <div className="space-y-4">
       {steps.map((s, i) => {
         const prev = i > 0 ? steps[i - 1].n : null;
         const pct = prev && prev > 0 ? ((s.n / prev) * 100).toFixed(1) : null;
         return (
           <div key={s.label}>
-            <div className="flex items-center justify-between text-sm mb-1">
+            <div className="mb-1.5 flex flex-wrap items-baseline justify-between gap-x-3 text-sm">
               <span className="font-semibold">{s.label}</span>
-              <span className="text-muted-foreground">
+              <span className="text-muted-foreground tabular">
                 {s.n.toLocaleString("de-DE")}
-                {pct !== null && <span className="ml-2 text-xs">({pct}% vs. {steps[i - 1].label})</span>}
+                {pct !== null && <span className="ml-2 text-xs">({pct} % vs. {steps[i - 1].label})</span>}
               </span>
             </div>
-            <div className="h-3 bg-secondary rounded-full overflow-hidden">
-              <div className="h-full bg-gradient-primary" style={{ width: `${(s.n / max) * 100}%` }} />
+            <div className="h-3 overflow-hidden rounded-full bg-secondary">
+              <div className="h-full rounded-full bg-gradient-primary" style={{ width: `${(s.n / max) * 100}%` }} />
             </div>
           </div>
         );
@@ -534,27 +531,25 @@ const FunnelBars = ({ steps }: { steps: { label: string; n: number }[] }) => {
 const Sparkline = ({ values }: { values: number[] }) => {
   const max = Math.max(...values, 1);
   return (
-    <div className="flex items-end gap-0.5 h-24">
+    <div className="flex h-24 items-end gap-0.5 rounded-xl bg-secondary/40 p-2">
       {values.map((v, i) => (
-        <div key={i} className="flex-1 bg-accent-blue/70 rounded-sm transition-all hover:bg-accent-blue"
+        <div key={i} className="flex-1 rounded-sm bg-accent-blue/70 transition-colors hover:bg-accent-blue"
           style={{ height: `${(v / max) * 100}%`, minHeight: 2 }} title={`${v}`} />
       ))}
     </div>
   );
 };
 
-const StatusBadge = ({ status }: { status: string }) => {
-  const map: Record<string, string> = {
-    open: "bg-accent-blue/15 text-accent-blue",
-    in_progress: "bg-warning/15 text-warning",
-    resolved: "bg-success/15 text-success",
-    closed: "bg-secondary text-muted-foreground",
-    active: "bg-success/15 text-success",
-    trialing: "bg-accent-blue/15 text-accent-blue",
-    inactive: "bg-secondary text-muted-foreground",
-  };
-  return <Badge className={`${map[status] ?? ""} text-[10px]`}>{status}</Badge>;
+const STATUS_TONE: Record<string, Tone> = {
+  open: "accent",
+  in_progress: "warning",
+  resolved: "success",
+  closed: "neutral",
+  active: "success",
+  trialing: "info",
+  inactive: "neutral",
 };
+const StatusBadge = ({ status }: { status: string }) => <ToneBadge tone={STATUS_TONE[status] ?? "neutral"}>{status}</ToneBadge>;
 
 const exportCsv = (rows: any[], filename: string) => {
   if (!rows.length) return;
@@ -580,28 +575,30 @@ const CustomerTable = ({ rows, subByUser }: { rows: ProfileRow[]; subByUser: Map
   });
   return (
     <div className="space-y-3">
-      <div className="flex items-center gap-2">
-        <div className="relative flex-1 max-w-sm">
-          <Search className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-          <Input placeholder="Name, E-Mail, Firma, Land…" value={q} onChange={(e) => setQ(e.target.value)} className="pl-9" />
+      <div className="flex flex-wrap items-center gap-2">
+        <div className="relative min-w-0 flex-1 sm:max-w-sm">
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
+          <Input placeholder="Name, E-Mail, Firma, Land…" aria-label="Kunden durchsuchen" value={q} onChange={(e) => setQ(e.target.value)} className="pl-9" />
         </div>
         <Button variant="outline" size="sm" onClick={() => exportCsv(filtered, "kunden.csv")}>
-          <Download className="h-4 w-4 mr-1" /> CSV
+          <Download className="mr-1.5 h-4 w-4" /> CSV
         </Button>
-        <span className="text-xs text-muted-foreground ml-auto">{filtered.length} / {rows.length}</span>
+        <span className="ml-auto text-sm text-muted-foreground tabular">{filtered.length} von {rows.length}</span>
       </div>
-      <div className="rounded-2xl border border-border bg-card overflow-hidden overflow-x-auto">
-        <table className="w-full text-sm min-w-[900px]">
-          <thead className="bg-secondary/60"><tr>
+      {rows.length === 0 ? (
+        <EmptyState icon={Users} title="Noch keine Kunden" description="Sobald sich jemand registriert, erscheint das Profil hier." />
+      ) : (
+      <KitTable caption="Kundenliste" className="[&_table]:min-w-[900px]">
+          <thead><tr>
             <Th>Name</Th><Th>E-Mail</Th><Th>Firma</Th><Th>Modell</Th><Th>Rechtsform</Th><Th>Land/Stadt</Th><Th>Plan</Th><Th>Status</Th><Th>Erstellt</Th>
           </tr></thead>
           <tbody>
             {filtered.map((r) => {
               const s = subByUser.get(r.id);
               return (
-                <tr key={r.id} className="border-t border-border hover:bg-secondary/30">
+                <tr key={r.id}>
                   <Td>{[r.first_name, r.last_name].filter(Boolean).join(" ") || "—"}</Td>
-                  <Td>{r.email ? <a className="underline" href={`mailto:${r.email}`}>{r.email}</a> : "—"}</Td>
+                  <Td>{r.email ? <a className="text-accent-blue hover:underline" href={`mailto:${r.email}`}>{r.email}</a> : "—"}</Td>
                   <Td>{r.company_name ?? "—"}</Td>
                   <Td className="text-xs">{(r.business_model ?? "").split(",").filter(Boolean).map((m) => MODEL_LABEL[m] ?? m).join(", ") || "—"}</Td>
                   <Td>{r.legal_form ?? "—"}</Td>
@@ -613,8 +610,8 @@ const CustomerTable = ({ rows, subByUser }: { rows: ProfileRow[]; subByUser: Map
               );
             })}
           </tbody>
-        </table>
-      </div>
+      </KitTable>
+      )}
     </div>
   );
 };
@@ -627,21 +624,24 @@ const SubsTable = ({ rows, profiles }: { rows: SubRow[]; profiles: ProfileRow[] 
   }, [profiles]);
   return (
     <div className="space-y-3">
-      <div className="flex items-center justify-end">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <span className="text-sm text-muted-foreground tabular">{rows.length} Abos</span>
         <Button variant="outline" size="sm" onClick={() => exportCsv(rows, "abos.csv")}>
-          <Download className="h-4 w-4 mr-1" /> CSV
+          <Download className="mr-1.5 h-4 w-4" /> CSV
         </Button>
       </div>
-      <div className="rounded-2xl border border-border bg-card overflow-hidden overflow-x-auto">
-        <table className="w-full text-sm min-w-[800px]">
-          <thead className="bg-secondary/60"><tr>
-            <Th>Kunde</Th><Th>E-Mail</Th><Th>Plan</Th><Th>Status</Th><Th>Period End</Th><Th>Aktualisiert</Th>
+      {rows.length === 0 ? (
+        <EmptyState icon={CreditCard} title="Noch keine Abos" description="Abos aus Stripe erscheinen hier nach dem ersten Checkout." />
+      ) : (
+      <KitTable caption="Abos" className="[&_table]:min-w-[800px]">
+          <thead><tr>
+            <Th>Kunde</Th><Th>E-Mail</Th><Th>Plan</Th><Th>Status</Th><Th>Laufzeitende</Th><Th>Aktualisiert</Th>
           </tr></thead>
           <tbody>
             {rows.map((r) => {
               const p = profById.get(r.user_id);
               return (
-                <tr key={r.id} className="border-t border-border hover:bg-secondary/30">
+                <tr key={r.id}>
                   <Td>{p ? [p.first_name, p.last_name].filter(Boolean).join(" ") : r.user_id.slice(0, 8) + "…"}</Td>
                   <Td>{p?.email ?? "—"}</Td>
                   <Td>{r.plan}</Td>
@@ -652,13 +652,13 @@ const SubsTable = ({ rows, profiles }: { rows: SubRow[]; profiles: ProfileRow[] 
               );
             })}
           </tbody>
-        </table>
-      </div>
+      </KitTable>
+      )}
     </div>
   );
 };
 
-const Th = ({ children }: { children: React.ReactNode }) => <th className="text-left p-3 font-semibold text-xs uppercase tracking-wider whitespace-nowrap">{children}</th>;
-const Td = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => <td className={`p-3 ${className}`}>{children}</td>;
+const Th = ({ children }: { children: React.ReactNode }) => <th className="whitespace-nowrap">{children}</th>;
+const Td = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => <td className={className}>{children}</td>;
 
 export default Admin;

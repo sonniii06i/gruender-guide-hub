@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Loader2, Save, Video, Mail, AlertCircle, RefreshCw } from "lucide-react";
+import { Loader2, Save, Video, Mail, AlertCircle, RefreshCw, CalendarX } from "lucide-react";
+import { EmptyState, ToneBadge } from "@/components/cockpit/kit";
 import { toast } from "sonner";
 
 interface BookingAdminRow {
@@ -83,30 +83,34 @@ export const BookingsAdmin = () => {
 
   if (loading) {
     return (
-      <div className="py-12 text-center text-muted-foreground">
-        <Loader2 className="h-6 w-6 animate-spin mx-auto" />
+      <div className="space-y-3" aria-busy="true" aria-label="Bookings werden geladen…">
+        {[0, 1].map((i) => (
+          <div key={i} className="h-28 animate-pulse rounded-2xl border border-border bg-secondary/50" />
+        ))}
       </div>
     );
   }
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h3 className="font-bold text-lg">1:1-Bookings</h3>
+          <h2 className="text-lg font-semibold tracking-tight">1:1-Bookings</h2>
           <p className="text-sm text-muted-foreground">
-            Anstehend: <strong className="text-foreground">{upcoming.length}</strong> · Insgesamt: {rows.length}
+            Anstehend: <strong className="font-semibold text-foreground tabular">{upcoming.length}</strong> · Insgesamt: <span className="tabular">{rows.length}</span>
           </p>
         </div>
         <Button variant="outline" size="sm" onClick={load}>
-          <RefreshCw className="h-4 w-4 mr-1" /> Refresh
+          <RefreshCw className="mr-1.5 h-4 w-4" /> Aktualisieren
         </Button>
       </div>
 
       {upcoming.length === 0 && (
-        <div className="rounded-xl border border-dashed border-border p-8 text-center text-sm text-muted-foreground">
-          Keine kommenden Bookings.
-        </div>
+        <EmptyState
+          icon={CalendarX}
+          title="Keine kommenden Bookings"
+          description="Neue Termine aus /booking erscheinen hier automatisch."
+        />
       )}
 
       {upcoming.map((b) => {
@@ -119,49 +123,45 @@ export const BookingsAdmin = () => {
             key={b.id}
             className={`rounded-2xl border p-4 md:p-5 transition-colors ${
               linkMissing && isImminent
-                ? "border-red-500/40 bg-red-500/5"
+                ? "border-danger/30 bg-danger-soft"
                 : isImminent
-                ? "border-amber-500/40 bg-amber-500/5"
-                : "border-border bg-card"
+                ? "border-warning/30 bg-warning-soft"
+                : "border-border bg-card shadow-card"
             }`}
           >
             <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3 mb-3">
               <div>
                 <div className="flex items-center gap-2 flex-wrap mb-1">
-                  <strong className="text-base">{b.name}</strong>
+                  <strong className="text-base font-semibold">{b.name}</strong>
                   <a href={`mailto:${b.email}`} className="text-sm text-accent-blue hover:underline">
                     {b.email}
                   </a>
                   {b.phone && <span className="text-sm text-muted-foreground">· {b.phone}</span>}
                 </div>
-                <div className="text-sm font-semibold">{formatSlot(b.slot_iso)} Uhr</div>
-                <div className="text-xs text-muted-foreground">
+                <div className="text-sm font-semibold tabular">{formatSlot(b.slot_iso)} Uhr</div>
+                <div className="text-xs text-muted-foreground tabular">
                   in {hUntil >= 0 ? `${hUntil}h` : "(vergangen)"} · 30 Min · {b.topic}
                 </div>
               </div>
               <div className="flex flex-wrap gap-1.5 shrink-0">
-                <Badge variant={b.status === "confirmed" ? "default" : "secondary"}>{b.status}</Badge>
+                <ToneBadge tone={b.status === "confirmed" ? "success" : "neutral"}>{b.status}</ToneBadge>
                 {b.confirmation_sent_at && (
-                  <Badge variant="outline" className="text-emerald-700 border-emerald-500/30 bg-emerald-500/5">
-                    <Mail className="h-3 w-3 mr-1" /> Bestätigt
-                  </Badge>
+                  <ToneBadge tone="success">
+                    <Mail className="h-3 w-3" aria-hidden="true" /> Bestätigt
+                  </ToneBadge>
                 )}
                 {b.reminder_24h_sent_at && (
-                  <Badge variant="outline" className="text-blue-700 border-blue-500/30 bg-blue-500/5">
-                    24h ✓
-                  </Badge>
+                  <ToneBadge tone="info">Erinnerung 24 h</ToneBadge>
                 )}
                 {b.reminder_15min_sent_at && (
-                  <Badge variant="outline" className="text-red-700 border-red-500/30 bg-red-500/5">
-                    15min ✓
-                  </Badge>
+                  <ToneBadge tone="accent">Erinnerung 15 min</ToneBadge>
                 )}
               </div>
             </div>
 
             {b.message && (
-              <div className="rounded-lg bg-muted/40 border border-border p-3 mb-3 text-sm whitespace-pre-wrap">
-                <div className="text-xs uppercase tracking-wider text-muted-foreground font-semibold mb-1">
+              <div className="mb-3 whitespace-pre-wrap rounded-xl border border-border bg-card/70 p-3 text-sm">
+                <div className="mb-1 text-xs font-medium text-muted-foreground">
                   Kontext
                 </div>
                 {b.message}
@@ -171,10 +171,10 @@ export const BookingsAdmin = () => {
             <div>
               <div className="flex items-center gap-2 mb-2">
                 <Video className="h-4 w-4 text-accent-blue" />
-                <strong className="text-sm">Google-Meet-Link</strong>
+                <strong className="text-sm font-semibold">Google-Meet-Link</strong>
                 {linkMissing && isImminent && (
-                  <span className="inline-flex items-center gap-1 text-xs text-red-700 font-semibold">
-                    <AlertCircle className="h-3 w-3" /> dringend setzen!
+                  <span className="inline-flex items-center gap-1 text-xs font-semibold text-danger">
+                    <AlertCircle className="h-3 w-3" aria-hidden="true" /> Dringend setzen
                   </span>
                 )}
               </div>
@@ -227,17 +227,15 @@ export const BookingsAdmin = () => {
       })}
 
       {past.length > 0 && (
-        <details className="rounded-xl border border-border bg-card p-4">
+        <details className="rounded-2xl border border-border bg-card p-4 shadow-card">
           <summary className="cursor-pointer text-sm font-semibold">
-            Vergangene / Storniert ({past.length})
+            Vergangen oder storniert (<span className="tabular">{past.length}</span>)
           </summary>
           <div className="mt-3 space-y-2">
             {past.map((b) => (
               <div key={b.id} className="text-xs flex flex-wrap items-center gap-2 py-1.5 border-b border-border/40 last:border-0">
-                <Badge variant="outline" className="font-mono text-[10px]">
-                  {b.status}
-                </Badge>
-                <span>{formatSlot(b.slot_iso)}</span>
+                <ToneBadge tone="neutral">{b.status}</ToneBadge>
+                <span className="tabular">{formatSlot(b.slot_iso)}</span>
                 <span className="text-muted-foreground">·</span>
                 <span>{b.name}</span>
                 <span className="text-muted-foreground">·</span>
