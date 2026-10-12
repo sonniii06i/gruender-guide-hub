@@ -2,17 +2,23 @@ import { useEffect, useMemo, useState } from "react";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { Callout, ChoiceGroup, Field, ResultPanel, ResultRow, ToneBadge, ToolSection } from "@/components/cockpit/kit";
 import { useTrackToolEvent } from "@/hooks/useTrackToolEvent";
 import { TrialResult, useToolTrial } from "@/components/freetools/ToolTrial";
 import {
   ArrowLeft,
   ArrowRight,
   CheckCircle2,
-  AlertTriangle,
   Package,
   ExternalLink,
   Calculator,
-  Sparkles,
+  HelpCircle,
+  Building2,
+  Scale,
+  ListChecks,
+  Lightbulb,
+  RotateCcw,
 } from "lucide-react";
 
 type MaterialKey = "papier" | "kunststoff" | "glas" | "metall" | "holz" | "verbund";
@@ -190,212 +196,184 @@ const LucidWizard = () => {
   const updateMenge = (k: MaterialKey, val: number) =>
     setMaterialMengen({ ...materialMengen, [k]: Math.max(0, val) });
 
+  const STEP_LABELS = ["Pflicht", "Firmendaten", "Mengen", "Systeme", "Action-Plan"];
+  const STEP_TITLES = [
+    "Bist du LUCID-pflichtig?",
+    "Firmendaten",
+    "Verpackungsmengen pro Jahr",
+    "Empfohlene duale Systeme",
+    "Übersicht und nächste Schritte",
+  ];
+  const STEP_DESC = [
+    "Pflicht für jeden, der Verpackungen erstmals in Verkehr bringt: Versand-, Produkt- und Serviceverpackungen.",
+    "Stammdaten für die LUCID-Anmeldung.",
+    "Trage die Gesamtmenge pro Material ein (Schätzung bis Jahresende). LUCID und das duale System brauchen das jährlich.",
+    "Du lizenzierst bei einem der 9 zugelassenen dualen Systeme. Diese passen am besten zu deinen Mengen:",
+    "Zusammenfassung deiner Daten und Action-Plan.",
+  ];
+  const STEP_ICONS = [HelpCircle, Building2, Scale, Package, ListChecks];
+  const StepIcon = STEP_ICONS[step - 1];
+
   return (
     <CockpitShell
-      eyebrow="LUCID-Wizard · 5-Step-Rechner (kein Verzeichnis)"
+      eyebrow="LUCID-Wizard · 5-Schritte-Rechner (kein Verzeichnis)"
       title="Verpackungslizenz-Rechner + Anbieter-Empfehlung"
-      subtitle="Schätzt deine jährlichen Lizenz-Kosten basierend auf Material-Mengen + vergleicht 9 zugelassene duale Systeme + gibt Action-Plan für die LUCID-Eintragung (die machst du selbst auf verpackungsregister.org). Tarife 2026 (+9-24% vs 2025). Inkl. PPWR (EU 2025/40, Hauptpflichten 12.8.2026), EWKFondsG-Doppelbelastung (€8,97/kg Tabakfilter!), Mehrweg-Pflicht §33, §7c-Marketplace-Haftung. Stand Mai 2026."
+      subtitle="Schätzt deine jährlichen Lizenzkosten anhand der Materialmengen, vergleicht 9 zugelassene duale Systeme und gibt dir einen Action-Plan für die LUCID-Eintragung (die machst du selbst auf verpackungsregister.org). Tarife 2026 (+9-24 % ggü. 2025), inkl. PPWR (EU 2025/40, Hauptpflichten 12.8.2026), EWKFondsG-Doppelbelastung, Mehrweg-Pflicht §33 und §7c-Marketplace-Haftung. Stand Mai 2026."
     >
-      {/* Progress */}
-      <div className="flex items-center gap-2 mb-6">
-        {[1, 2, 3, 4, 5].map((s) => (
-          <div key={s} className="flex items-center gap-1.5 flex-1">
-            <div
-              className={`h-6 w-6 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 ${
-                s < step
-                  ? "bg-emerald-500 text-white"
-                  : s === step
-                  ? "bg-accent-blue text-primary-foreground"
-                  : "bg-secondary text-muted-foreground"
-              }`}
-            >
-              {s < step ? <CheckCircle2 className="h-3 w-3" /> : s}
-            </div>
-            {s < 5 && <div className={`h-0.5 flex-1 ${s < step ? "bg-emerald-500" : "bg-border"}`} />}
-          </div>
-        ))}
-      </div>
-
-      <div className="rounded-2xl border border-border bg-card p-6 mb-6">
-        {step === 1 && (
-          <>
-            <h2 className="text-base font-bold mb-1">1. Bist du LUCID-pflichtig?</h2>
-            <p className="text-xs text-muted-foreground mb-4">
-              Pflicht für JEDEN der erste in Verkehr bringt: Versand-Verpackungen, Produkt-Verpackungen,
-              Service-Verpackungen.
-            </p>
-            <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-4 mb-4">
-              <div className="font-semibold text-sm mb-2">⚠ Pflicht ab 1. verkaufter Sendung wenn:</div>
-              <ul className="text-xs space-y-1 text-muted-foreground list-disc pl-5">
-                <li>Du verkaufst Waren an Privatkunden in DE (B2C)</li>
-                <li>Du verpackst die Ware (Karton, Tüte, Folie, Polster) — auch wenn nur Versand-Karton</li>
-                <li>Auch Marketplace-Verkäufer (Amazon FBA, Kaufland, eBay) sind selbst pflichtig</li>
-              </ul>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {[
-                { v: true, l: "Ja, ich verkaufe Waren mit Verpackung an DE-Kunden" },
-                { v: false, l: "Nein, nur Dienstleistungen / digital" },
-              ].map((o) => (
-                <button
-                  key={String(o.v)}
-                  onClick={() => setVerkauft2024(o.v)}
-                  className={`text-left rounded-xl border p-3 text-sm transition-colors ${
-                    verkauft2024 === o.v
-                      ? "border-accent-blue bg-accent-blue/5 ring-1 ring-accent-blue/30"
-                      : "border-border hover:border-accent-blue/40"
+      <div className="mx-auto max-w-4xl">
+        {/* Fortschritt */}
+        <nav aria-label="Fortschritt" className="mb-6">
+          <p className="mb-3 text-sm text-muted-foreground tabular">
+            Schritt {step} von 5 · <span className="font-medium text-foreground">{STEP_LABELS[step - 1]}</span>
+          </p>
+          <ol className="flex items-center gap-1.5 sm:gap-2">
+            {[1, 2, 3, 4, 5].map((s) => (
+              <li key={s} className="flex min-w-0 flex-1 items-center gap-1.5 sm:gap-2" aria-current={s === step ? "step" : undefined}>
+                <span
+                  className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-semibold tabular transition-colors ${
+                    s < step
+                      ? "bg-success text-white"
+                      : s === step
+                      ? "bg-primary text-primary-foreground ring-4 ring-primary/15"
+                      : "border border-border bg-card text-muted-foreground"
                   }`}
                 >
-                  {o.l}
-                </button>
-              ))}
-            </div>
+                  {s < step ? <CheckCircle2 className="h-3.5 w-3.5" aria-hidden="true" /> : s}
+                </span>
+                <span className={`hidden truncate text-xs font-medium md:inline ${s === step ? "text-foreground" : "text-muted-foreground"}`}>
+                  {STEP_LABELS[s - 1]}
+                </span>
+                {s < 5 && <span className={`h-px min-w-2 flex-1 ${s < step ? "bg-success" : "bg-border"}`} aria-hidden="true" />}
+              </li>
+            ))}
+          </ol>
+        </nav>
+
+        <ToolSection
+          className="mb-6"
+          icon={StepIcon}
+          title={`${step}. ${STEP_TITLES[step - 1]}`}
+          description={STEP_DESC[step - 1]}
+        >
+        {step === 1 && (
+          <div className="space-y-4">
+            <Callout tone="warning" title="Pflicht ab der ersten verkauften Sendung, wenn:">
+              <ul className="list-disc space-y-1 pl-4">
+                <li>Du verkaufst Waren an Privatkunden in DE (B2C)</li>
+                <li>Du verpackst die Ware (Karton, Tüte, Folie, Polster), auch wenn es nur der Versandkarton ist</li>
+                <li>Auch Marketplace-Verkäufer (Amazon FBA, Kaufland, eBay) sind selbst pflichtig</li>
+              </ul>
+            </Callout>
+            <ChoiceGroup<boolean>
+              label="Verkaufst du Waren mit Verpackung?"
+              value={verkauft2024}
+              onChange={setVerkauft2024}
+              options={[
+                { value: true, label: "Ja, ich verkaufe Waren mit Verpackung an DE-Kunden" },
+                { value: false, label: "Nein, nur Dienstleistungen oder digital" },
+              ]}
+            />
             {verkauft2024 === false && (
-              <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-4 text-sm text-emerald-700 mt-4">
-                ✓ Keine LUCID-Pflicht für reine Dienstleister / digitale Produkte. Wenn du später physische Ware
-                verkaufst, MUSS Anmeldung VOR der ersten Sendung erfolgen.
-              </div>
+              <Callout tone="success" title="Keine LUCID-Pflicht">
+                Reine Dienstleister und digitale Produkte sind nicht pflichtig. Wenn du später physische Ware verkaufst,
+                muss die Anmeldung vor der ersten Sendung erfolgen.
+              </Callout>
             )}
-          </>
+          </div>
         )}
 
         {step === 2 && (
-          <>
-            <h2 className="text-base font-bold mb-1">2. Firmen-Daten</h2>
-            <p className="text-xs text-muted-foreground mb-4">Daten für die LUCID-Anmeldung.</p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              <div className="md:col-span-2">
-                <Label className="text-xs uppercase tracking-wider text-muted-foreground">Firmenname</Label>
-                <Input
-                  value={firmenname}
-                  onChange={(e) => setFirmenname(e.target.value)}
-                  placeholder="z.B. Mustermann GmbH"
-                  className="mt-1"
-                />
-              </div>
-              <div>
-                <Label className="text-xs uppercase tracking-wider text-muted-foreground">HR-Nummer</Label>
-                <Input
-                  value={hrnummer}
-                  onChange={(e) => setHrnummer(e.target.value)}
-                  placeholder="HRB 12345 B"
-                  className="mt-1"
-                />
-              </div>
-              <div>
-                <Label className="text-xs uppercase tracking-wider text-muted-foreground">USt-ID</Label>
-                <Input
-                  value={ustId}
-                  onChange={(e) => setUstId(e.target.value)}
-                  placeholder="DE123456789"
-                  className="mt-1"
-                />
-              </div>
-              <div className="md:col-span-2">
-                <Label className="text-xs uppercase tracking-wider text-muted-foreground">Geschäftsadresse</Label>
-                <Input
-                  value={adresse}
-                  onChange={(e) => setAdresse(e.target.value)}
-                  placeholder="Musterstr. 1, 10115 Berlin"
-                  className="mt-1"
-                />
-              </div>
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              <Field label="Firmenname" htmlFor="lucid-firma" className="md:col-span-2">
+                <Input id="lucid-firma" value={firmenname} onChange={(e) => setFirmenname(e.target.value)} placeholder="z. B. Mustermann GmbH" />
+              </Field>
+              <Field label="HR-Nummer" htmlFor="lucid-hr" hint="Falls im Handelsregister eingetragen">
+                <Input id="lucid-hr" value={hrnummer} onChange={(e) => setHrnummer(e.target.value)} placeholder="HRB 12345 B" />
+              </Field>
+              <Field label="USt-ID" htmlFor="lucid-ustid">
+                <Input id="lucid-ustid" value={ustId} onChange={(e) => setUstId(e.target.value)} placeholder="DE123456789" />
+              </Field>
+              <Field label="Geschäftsadresse" htmlFor="lucid-adresse" className="md:col-span-2">
+                <Input id="lucid-adresse" value={adresse} onChange={(e) => setAdresse(e.target.value)} placeholder="Musterstr. 1, 10115 Berlin" />
+              </Field>
             </div>
-            <div className="rounded-xl border border-accent-blue/30 bg-accent-blue/5 p-3 mt-4 text-xs">
-              💡 LUCID-Registrierung selbst ist <strong>kostenlos</strong> bei der Stiftung Zentrale Stelle. Der
-              Pflichtteil sind nur Stammdaten.
-            </div>
-          </>
+            <Callout tone="info" icon={Lightbulb}>
+              Die LUCID-Registrierung selbst ist <strong>kostenlos</strong> bei der Stiftung Zentrale Stelle. Pflicht sind
+              nur die Stammdaten.
+            </Callout>
+          </div>
         )}
 
         {step === 3 && (
-          <>
-            <h2 className="text-base font-bold mb-1">3. Verpackungs-Mengen pro Jahr</h2>
-            <p className="text-xs text-muted-foreground mb-4">
-              Trage die Gesamt-Menge pro Material ein (Schätzung Jahresende). LUCID + duales System brauchen das
-              jährlich.
-            </p>
-            <div className="space-y-2">
+          <div className="space-y-3">
+            <div className="divide-y divide-border/70 rounded-xl border border-border">
               {(Object.keys(MATERIAL_LABELS) as MaterialKey[]).map((k) => (
-                <div key={k} className="rounded-xl border border-border bg-card p-3">
-                  <div className="flex items-center justify-between gap-3">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xl">{MATERIAL_LABELS[k].emoji}</span>
-                      <Label className="text-sm font-semibold">{MATERIAL_LABELS[k].name}</Label>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Input
-                        type="number"
-                        min={0}
-                        value={materialMengen[k] || ""}
-                        onChange={(e) => updateMenge(k, Number(e.target.value) || 0)}
-                        placeholder="0"
-                        className="w-32 h-8 text-right text-sm"
-                      />
-                      <span className="text-xs text-muted-foreground">kg/Jahr</span>
-                    </div>
+                <div key={k} className="flex flex-col gap-2 p-3.5 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+                  <div className="min-w-0">
+                    <Label htmlFor={`lucid-m-${k}`} className="text-sm font-medium">{MATERIAL_LABELS[k].name}</Label>
+                    {materialMengen[k] > 0 && (
+                      <p className="mt-0.5 text-xs text-muted-foreground tabular">
+                        Geschätzte Lizenzkosten: {(materialMengen[k] * MATERIAL_LABELS[k].ratePerKg.low).toFixed(0)} € bis{" "}
+                        {(materialMengen[k] * MATERIAL_LABELS[k].ratePerKg.high).toFixed(0)} € pro Jahr
+                      </p>
+                    )}
                   </div>
-                  {materialMengen[k] > 0 && (
-                    <div className="text-[10px] text-muted-foreground mt-1">
-                      Geschätzte Lizenzkosten:{" "}
-                      {(materialMengen[k] * MATERIAL_LABELS[k].ratePerKg.low).toFixed(0)} €
-                      —{" "}
-                      {(materialMengen[k] * MATERIAL_LABELS[k].ratePerKg.high).toFixed(0)} €/Jahr
-                    </div>
-                  )}
+                  <div className="flex shrink-0 items-center gap-2">
+                    <Input
+                      id={`lucid-m-${k}`}
+                      type="number"
+                      min={0}
+                      value={materialMengen[k] || ""}
+                      onChange={(e) => updateMenge(k, Number(e.target.value) || 0)}
+                      placeholder="0"
+                      className="h-9 w-full text-right tabular sm:w-32"
+                    />
+                    <span className="w-14 shrink-0 text-xs text-muted-foreground">kg/Jahr</span>
+                  </div>
                 </div>
               ))}
             </div>
-            <div className="rounded-xl bg-secondary/40 p-3 mt-3 text-xs">
-              <strong>Total: {totalKg.toLocaleString("de-DE")} kg/Jahr</strong>
+            <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl bg-secondary/60 px-4 py-3 text-sm">
+              <span className="font-semibold tabular">Gesamt: {totalKg.toLocaleString("de-DE")} kg/Jahr</span>
               {isKleinmenge && totalKg > 0 && (
-                <span className="text-emerald-700 ml-2">→ Kleinmengen-Tarif möglich (oft 75–150 €/Jahr)</span>
+                <ToneBadge tone="success">Kleinmengen-Tarif möglich (oft 75-150 €/Jahr)</ToneBadge>
               )}
             </div>
             {!step3HasMengen && (
-              <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-3 mt-3 text-xs text-amber-800">
-                ⚠ Trag mindestens ein Material mit Menge &gt; 0 ein, damit die Empfehlung in Step 4 sinnvoll ist.
-              </div>
+              <Callout tone="warning">
+                Trag mindestens ein Material mit Menge &gt; 0 ein, damit die Empfehlung in Schritt 4 sinnvoll ist.
+              </Callout>
             )}
             {veSchwellen.length > 0 && (
-              <div className="rounded-xl border border-red-500/30 bg-red-500/5 p-3 mt-3 text-xs">
-                <strong className="text-red-700">★ Vollständigkeitserklärung (VE) §11 VerpackG pflicht:</strong>{" "}
-                {veSchwellen.join(" · ")}. VE muss bis <strong>15.05.</strong> des Folgejahres von einem
-                IHK-Sachverständigen geprüft werden (typisch 800–3.000 € Prüfkosten).
-              </div>
+              <Callout tone="danger" title="Vollständigkeitserklärung (VE) nach §11 VerpackG ist Pflicht">
+                {veSchwellen.join(" · ")}. Die VE muss bis <strong>15.05.</strong> des Folgejahres von einem
+                IHK-Sachverständigen geprüft werden (typisch 800-3.000 € Prüfkosten).
+              </Callout>
             )}
-          </>
+          </div>
         )}
 
         {step === 4 && (
           <TrialResult>
-            <h2 className="text-base font-bold mb-1">4. Empfohlene duale Systeme</h2>
-            <p className="text-xs text-muted-foreground mb-4">
-              Du musst dich bei einem dualen System lizenzieren — du wählst aus 9 zugelassenen Anbietern. Hier die
-              für deine Mengen passendsten:
-            </p>
-            <div className="space-y-2">
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
               {recommendedSystems.map((s) => (
                 <a
                   key={s.slug}
                   href={s.url}
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="block rounded-xl border border-border bg-card p-4 hover:border-accent-blue/40 transition-colors"
+                  className="group flex flex-col rounded-xl border border-border bg-card p-4 transition-colors hover:border-accent-blue/40"
                 >
                   <div className="flex items-start justify-between gap-3">
-                    <div>
-                      <div className="font-bold text-sm mb-1">
-                        {s.name}{" "}
-                        <span className="text-[10px] font-normal text-muted-foreground">
-                          ({s.marketShare} Markt)
-                        </span>
-                      </div>
-                      <div className="text-xs text-muted-foreground mb-1">{s.pricing}</div>
-                      <div className="text-[11px] text-emerald-700">→ Best für: {s.bestFor}</div>
-                    </div>
-                    <ExternalLink className="h-3.5 w-3.5 text-muted-foreground shrink-0 mt-1" />
+                    <span className="text-sm font-semibold">{s.name}</span>
+                    <ExternalLink className="mt-0.5 h-3.5 w-3.5 shrink-0 text-muted-foreground transition-colors group-hover:text-accent-blue" aria-hidden="true" />
                   </div>
+                  <span className="mt-1 text-xs text-muted-foreground tabular">Marktanteil {s.marketShare}</span>
+                  <span className="mt-2 text-sm text-muted-foreground">{s.pricing}</span>
+                  <span className="mt-3 border-t border-border/70 pt-3 text-xs">
+                    <span className="font-medium text-success">Passt für:</span> {s.bestFor}
+                  </span>
                 </a>
               ))}
             </div>
@@ -404,115 +382,85 @@ const LucidWizard = () => {
 
         {step === 5 && (
           <TrialResult>
-            <h2 className="text-base font-bold mb-1">5. Übersicht + nächste Schritte</h2>
-            <p className="text-xs text-muted-foreground mb-4">Zusammenfassung deiner Daten + Action-Plan.</p>
+            <div className="space-y-4">
+              <ResultPanel
+                variant="ink"
+                kicker="Geschätzte Lizenzkosten"
+                title={firmenname || "Deine Firma"}
+                value={totalKg > 0 ? `~${Math.round(costEstimate.mid)} €` : "0 €"}
+                valueHint={`Mittlere Schätzung pro Jahr, Spanne ${Math.round(costEstimate.low)}-${Math.round(costEstimate.high)} €`}
+              >
+                <div className="divide-y divide-white/10 rounded-xl bg-white/[0.04] px-4">
+                  <ResultRow label="Firma" value={firmenname || "nicht angegeben"} />
+                  <ResultRow label="USt-ID" value={ustId || "nicht angegeben"} />
+                  <ResultRow label="Verpackung gesamt" value={`${totalKg.toLocaleString("de-DE")} kg/Jahr`} />
+                </div>
+              </ResultPanel>
 
-            <div className="rounded-2xl border border-border bg-secondary/30 p-4 mb-4 text-sm">
-              <div className="space-y-1.5">
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Firma:</span>
-                  <span className="font-semibold">{firmenname || "—"}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">USt-ID:</span>
-                  <span className="font-mono">{ustId || "—"}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Total Verpackung:</span>
-                  <span className="font-mono">{totalKg.toLocaleString("de-DE")} kg/Jahr</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Geschätzte Kosten:</span>
-                  <span className="font-mono">
-                    {Math.round(costEstimate.low)}–{Math.round(costEstimate.high)} €/Jahr
-                  </span>
-                </div>
-                {totalKg > 0 && (
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground text-[11px]">↳ Mid-Schätzung (Empfehlung):</span>
-                    <span className="font-mono text-[11px] text-accent-blue">
-                      ~{Math.round(costEstimate.mid)} €/Jahr
-                    </span>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {veSchwellen.length > 0 && (
-              <div className="rounded-2xl border border-red-500/30 bg-red-500/5 p-4 mb-4 text-xs">
-                <div className="font-bold text-red-700 mb-1">
-                  ★ Vollständigkeitserklärung (VE) §11 VerpackG pflicht
-                </div>
-                <div className="text-muted-foreground">
+              {veSchwellen.length > 0 && (
+                <Callout tone="danger" title="Vollständigkeitserklärung (VE) nach §11 VerpackG ist Pflicht">
                   {veSchwellen.join(" · ")}. Prüfung durch IHK-Sachverständigen bis <strong>15.05.</strong> des
-                  Folgejahres. Prüfkosten typisch 800–3.000 €.
-                </div>
+                  Folgejahres. Prüfkosten typisch 800-3.000 €.
+                </Callout>
+              )}
+
+              <div className="rounded-xl border border-success/25 bg-success-soft p-4 md:p-5">
+                <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold">
+                  <Calculator className="h-4 w-4 text-success" aria-hidden="true" />
+                  Action-Plan
+                </h3>
+                <ol className="space-y-2">
+                  {[
+                    "1. **LUCID-Registrierung** bei https://lucid.verpackungsregister.org (kostenlos, ~15 Min)",
+                    "2. **Stamm-Daten eintragen**: Firma, USt-ID, HR-Nr, Adresse, Marken-Namen",
+                    "3. **Duales System wählen** (Top-Liste vorher) und Lizenz abschließen",
+                    "4. **Mengen-Erklärung** in LUCID hochladen (vom dualen System bekommst du den Beleg)",
+                    "5. **Jährliche Vollständigkeitserklärung** (VE) bis 15.05. des Folgejahres bei Über-Schwellen-Mengen",
+                    "6. **Bei Marketplaces** (Amazon FBA, Kaufland, eBay): zusätzlich dein LUCID-Codenummer als Verkäufer hinterlegen",
+                  ].map((s, i) => (
+                    <li
+                      key={i}
+                      className="text-sm leading-relaxed text-foreground/85"
+                      dangerouslySetInnerHTML={{
+                        __html: s.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>"),
+                      }}
+                    />
+                  ))}
+                </ol>
               </div>
-            )}
 
-            <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/5 p-4 mb-4">
-              <h3 className="font-bold text-sm mb-2 flex items-center gap-2">
-                <Calculator className="h-4 w-4 text-emerald-700" />
-                Action-Plan
-              </h3>
-              <ol className="space-y-2 text-sm">
-                {[
-                  "1. **LUCID-Registrierung** bei https://lucid.verpackungsregister.org (kostenlos, ~15 Min)",
-                  "2. **Stamm-Daten eintragen**: Firma, USt-ID, HR-Nr, Adresse, Marken-Namen",
-                  "3. **Duales System wählen** (Top-Liste vorher) und Lizenz abschließen",
-                  "4. **Mengen-Erklärung** in LUCID hochladen (vom dualen System bekommst du den Beleg)",
-                  "5. **Jährliche Vollständigkeitserklärung** (VE) bis 15.05. des Folgejahres bei Über-Schwellen-Mengen",
-                  "6. **Bei Marketplaces** (Amazon FBA, Kaufland, eBay): zusätzlich dein LUCID-Codenummer als Verkäufer hinterlegen",
-                ].map((s, i) => (
-                  <li
-                    key={i}
-                    className="text-xs leading-relaxed"
-                    dangerouslySetInnerHTML={{
-                      __html: s.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>"),
-                    }}
-                  />
-                ))}
-              </ol>
-            </div>
-
-            <div className="flex flex-wrap gap-2">
-              <a
-                href="https://lucid.verpackungsregister.org"
-                target="_blank"
-                rel="noreferrer noopener"
-                onClick={() => trackEvent("cta_clicked", { which: "lucid_portal" })}
-                className="inline-flex items-center gap-1 rounded-lg bg-accent-blue text-primary-foreground px-4 py-2 text-sm font-semibold hover:opacity-90"
-              >
-                <ExternalLink className="h-4 w-4" /> LUCID-Portal öffnen
-              </a>
-              <a
-                href="https://www.verpackungsregister.org/themen/duale-systeme"
-                target="_blank"
-                rel="noreferrer noopener"
-                className="inline-flex items-center gap-1 rounded-lg border border-border px-4 py-2 text-sm hover:bg-secondary"
-              >
-                Liste aller dualen Systeme
-              </a>
+              <div className="flex flex-wrap gap-2">
+                <Button asChild>
+                  <a
+                    href="https://lucid.verpackungsregister.org"
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    onClick={() => trackEvent("cta_clicked", { which: "lucid_portal" })}
+                  >
+                    <ExternalLink className="mr-1.5 h-4 w-4" aria-hidden="true" /> LUCID-Portal öffnen
+                  </a>
+                </Button>
+                <Button asChild variant="outline">
+                  <a href="https://www.verpackungsregister.org/themen/duale-systeme" target="_blank" rel="noreferrer noopener">
+                    Liste aller dualen Systeme
+                  </a>
+                </Button>
+              </div>
             </div>
           </TrialResult>
         )}
 
-        <div className="flex justify-between mt-6">
-          <button
-            onClick={() => setStep(Math.max(1, step - 1))}
-            disabled={step === 1}
-            className="inline-flex items-center gap-1 rounded-lg border border-border px-4 py-2 text-sm hover:bg-secondary disabled:opacity-40"
-          >
-            <ArrowLeft className="h-4 w-4" /> Zurück
-          </button>
+        <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-border/70 pt-5">
+          <Button variant="outline" onClick={() => setStep(Math.max(1, step - 1))} disabled={step === 1}>
+            <ArrowLeft className="mr-1.5 h-4 w-4" aria-hidden="true" /> Zurück
+          </Button>
           {step < 5 ? (
-            <button
+            <Button
               onClick={() => {
                 if (step === 3 && trial && !trial.beforeRun()) return;
                 setStep(step + 1);
               }}
               disabled={(step === 1 && verkauft2024 === false) || (step === 3 && !step3HasMengen)}
-              className="inline-flex items-center gap-1 rounded-lg bg-accent-blue text-primary-foreground px-4 py-2 text-sm font-semibold hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed"
               title={
                 step === 1 && verkauft2024 === false
                   ? "Du hast 'keine physische Ware' gewählt — keine LUCID-Pflicht. Falls sich das ändert, wähle oben Ja."
@@ -521,88 +469,72 @@ const LucidWizard = () => {
                   : ""
               }
             >
-              Weiter <ArrowRight className="h-4 w-4" />
-            </button>
+              Weiter <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden="true" />
+            </Button>
           ) : (
-            <button
-              onClick={() => setStep(1)}
-              className="inline-flex items-center gap-1 rounded-lg border border-border px-4 py-2 text-sm hover:bg-secondary"
-            >
-              <Sparkles className="h-4 w-4" /> Nochmal
-            </button>
+            <Button variant="outline" onClick={() => setStep(1)}>
+              <RotateCcw className="mr-1.5 h-4 w-4" aria-hidden="true" /> Neu starten
+            </Button>
           )}
         </div>
-      </div>
+        </ToolSection>
 
-      {/* ★ KRITISCHE 2025/2026-UPDATES (NEU) */}
-      <div className="rounded-2xl border-2 border-red-500/40 bg-red-500/5 p-4 mb-3 text-xs leading-relaxed">
-        <div className="flex items-start gap-2">
-          <AlertTriangle className="h-5 w-5 text-red-700 shrink-0 mt-0.5" />
-          <div>
-            <div className="font-bold text-red-700 mb-2">★ Kritische Verpackungs-Regelungen 2025/2026</div>
-            <ul className="list-disc pl-4 space-y-1.5 text-muted-foreground">
-              <li>
-                <strong className="text-foreground">PPWR (EU 2025/40):</strong> in Kraft 11.2.2025,
-                Hauptpflichten ab <strong>12.8.2026</strong>. Empty-Space-Ratio ≤50% in E-Com-Kartons,
-                Recyclat-Quoten 10-35% ab 2030, Single-Use-Verbote für To-Go (2030).
-              </li>
-              <li>
-                <strong className="text-foreground">EWKFondsG (Einwegkunststofffonds):</strong> live seit
-                01.01.2024 — DOPPELBELASTUNG zu LUCID! Sätze pro kg:
-                Getränkebecher €1,236 · Tüten €0,876 · Lebensmittelbehälter €0,177 · Feuchttücher €0,061 ·
-                <strong className="text-red-700"> Tabakfilter €8,972</strong>. Meldung via DIVID-Plattform (UBA),
-                KEINE Schwellenwerte — ab 1 kg/Jahr meldepflichtig.
-              </li>
-              <li>
-                <strong className="text-foreground">Mehrweg-Pflicht §33 VerpackG</strong> seit 1.1.2023 —
-                Letztvertreiber von Einweg-Plastik-Lebensmittelverpackungen + Einweg-Bechern. Ausnahme: ≤5 MA
-                UND ≤80 m² Verkaufsfläche.
-              </li>
-              <li>
-                <strong className="text-foreground">§7c VerpackG Marketplace-Haftung</strong> seit 1.7.2022:
-                Amazon/eBay/Etsy MÜSSEN LUCID-Nr. + Systembeteiligung jedes Sellers prüfen — sonst
-                Mitstörer-Haftung. Ohne LUCID: Listing-Blockade binnen Tagen!
-              </li>
-              <li>
-                <strong className="text-foreground">Tarife 2026 stark erhöht:</strong> Kunststoff +9,4%,
-                Aluminium +12,2%, Glas <strong className="text-red-700">+23,9%</strong>, Verbund +8-10%.
-                Gesamtmenge im System sinkt -2,3% YoY → Druck auf Preise. Anbieter-Vergleich Pflicht ab
-                ~500 kg Plastik.
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
+        <Callout tone="danger" title="Kritische Verpackungsregeln 2025/2026" className="mb-4">
+          <ul className="list-disc space-y-1.5 pl-4">
+            <li>
+              <strong className="text-foreground">PPWR (EU 2025/40):</strong> in Kraft 11.2.2025,
+              Hauptpflichten ab <strong>12.8.2026</strong>. Empty-Space-Ratio ≤50% in E-Com-Kartons,
+              Recyclat-Quoten 10-35% ab 2030, Single-Use-Verbote für To-Go (2030).
+            </li>
+            <li>
+              <strong className="text-foreground">EWKFondsG (Einwegkunststofffonds):</strong> live seit
+              01.01.2024, Doppelbelastung zu LUCID. Sätze pro kg:
+              Getränkebecher €1,236 · Tüten €0,876 · Lebensmittelbehälter €0,177 · Feuchttücher €0,061 ·
+              <strong className="text-danger"> Tabakfilter €8,972</strong>. Meldung via DIVID-Plattform (UBA),
+              keine Schwellenwerte: ab 1 kg/Jahr meldepflichtig.
+            </li>
+            <li>
+              <strong className="text-foreground">Mehrweg-Pflicht §33 VerpackG</strong> seit 1.1.2023:
+              Letztvertreiber von Einweg-Plastik-Lebensmittelverpackungen + Einweg-Bechern. Ausnahme: ≤5 MA
+              UND ≤80 m² Verkaufsfläche.
+            </li>
+            <li>
+              <strong className="text-foreground">§7c VerpackG Marketplace-Haftung</strong> seit 1.7.2022:
+              Amazon/eBay/Etsy müssen LUCID-Nr. + Systembeteiligung jedes Sellers prüfen, sonst
+              Mitstörer-Haftung. Ohne LUCID: Listing-Blockade binnen Tagen.
+            </li>
+            <li>
+              <strong className="text-foreground">Tarife 2026 stark erhöht:</strong> Kunststoff +9,4%,
+              Aluminium +12,2%, Glas <strong className="text-danger">+23,9%</strong>, Verbund +8-10%.
+              Gesamtmenge im System sinkt -2,3% YoY, Druck auf Preise. Anbieter-Vergleich Pflicht ab
+              ~500 kg Plastik.
+            </li>
+          </ul>
+        </Callout>
 
-      {/* Disclaimer */}
-      <div className="rounded-2xl border border-amber-500/30 bg-amber-500/5 p-4 text-xs leading-relaxed">
-        <div className="flex items-start gap-2">
-          <AlertTriangle className="h-4 w-4 text-amber-700 shrink-0 mt-0.5" />
-          <div>
-            <div className="font-semibold mb-1">Wichtig:</div>
-            <ul className="list-disc pl-4 space-y-1 text-muted-foreground">
-              <li>
-                <strong>Bußgeld bis 200.000 €</strong> bei fehlender Registrierung + Vertriebsverbot
-              </li>
-              <li>
-                <strong>VerpackG seit 2019</strong> — Nachfolger der alten Verpackungsverordnung. ZSVR (Zentrale
-                Stelle Verpackungsregister) als Behörde
-              </li>
-              <li>
-                <strong>Marketplace-Verkäufer</strong>: seit 2022 sind Amazon, eBay, Kaufland verpflichtet,
-                LUCID-Nummer ihrer Seller zu prüfen → wer keine hat, wird gesperrt
-              </li>
-              <li>
-                <strong>Kleinmengen</strong> (typisch &lt; 80 kg/Jahr): Mehrere Systeme bieten Mini-Lizenzen ab 75
-                €/Jahr
-              </li>
-              <li>
-                <strong>Vollständigkeitserklärung (§11 VerpackG)</strong> bei Über-Schwellen-Mengen (80.000 kg Glas, 50.000 kg
-                Papier/Karton, 30.000 kg LVP) — geprüft durch IHK-Sachverständigen
-              </li>
-            </ul>
-          </div>
-        </div>
+        <Callout tone="warning" title="Wichtig">
+          <ul className="list-disc space-y-1 pl-4">
+            <li>
+              <strong>Bußgeld bis 200.000 €</strong> bei fehlender Registrierung + Vertriebsverbot
+            </li>
+            <li>
+              <strong>VerpackG seit 2019</strong>: Nachfolger der alten Verpackungsverordnung. ZSVR (Zentrale
+              Stelle Verpackungsregister) als Behörde
+            </li>
+            <li>
+              <strong>Marketplace-Verkäufer</strong>: Seit 2022 sind Amazon, eBay, Kaufland verpflichtet, die
+              LUCID-Nummer ihrer Seller zu prüfen. Wer keine hat, wird gesperrt
+            </li>
+            <li>
+              <strong>Kleinmengen</strong> (typisch &lt; 80 kg/Jahr): Mehrere Systeme bieten Mini-Lizenzen ab 75
+              €/Jahr
+            </li>
+            <li>
+              <strong>Vollständigkeitserklärung (§11 VerpackG)</strong> bei Über-Schwellen-Mengen (80.000 kg Glas, 50.000 kg
+              Papier/Karton, 30.000 kg LVP), geprüft durch IHK-Sachverständigen
+            </li>
+          </ul>
+        </Callout>
       </div>
     </CockpitShell>
   );
