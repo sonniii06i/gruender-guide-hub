@@ -18,10 +18,13 @@ import ZahlungErfolgreich from "./pages/ZahlungErfolgreich.tsx";
 import ZahlungAbgebrochen from "./pages/ZahlungAbgebrochen.tsx";
 import ResetPassword from "./pages/ResetPassword.tsx";
 import Checkout from "./pages/Checkout.tsx";
-import Onboarding from "./pages/Onboarding.tsx";
-import Dashboard from "./pages/Dashboard.tsx";
+// Hinter dem Login: per Code-Splitting nachgeladen, hält das Startseiten-Bundle schlank (10/2026).
+const Onboarding = lazy(() => import("./pages/Onboarding.tsx"));
+// Hinter dem Login: per Code-Splitting nachgeladen, hält das Startseiten-Bundle schlank (10/2026).
+const Dashboard = lazy(() => import("./pages/Dashboard.tsx"));
 const Affiliate = lazy(() => import("./pages/Affiliate.tsx"));
-import Playbooks from "./pages/Playbooks.tsx";
+// Hinter dem Login: per Code-Splitting nachgeladen, hält das Startseiten-Bundle schlank (10/2026).
+const Playbooks = lazy(() => import("./pages/Playbooks.tsx"));
 import NotFound from "./pages/NotFound.tsx";
 import { AnalyticsCapture } from "@/components/AnalyticsCapture";
 import { ConsentBanner } from "@/components/ConsentBanner";
