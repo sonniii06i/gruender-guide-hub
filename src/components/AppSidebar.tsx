@@ -124,8 +124,8 @@ export function AppSidebar() {
           <Logo asImage className="h-8 w-8 shrink-0" />
           {!collapsed && (
             <div className="flex flex-col leading-tight">
-              <span className="font-bold tracking-tight text-sm">GründerX</span>
-              <span className="text-[10px] text-muted-foreground">Dein Gründer-Cockpit</span>
+              <span className="text-sm font-semibold tracking-tight">GründerX</span>
+              <span className="text-[11px] text-muted-foreground">Dein Gründer-Cockpit</span>
             </div>
           )}
         </Link>
@@ -231,7 +231,7 @@ const Gruppe = ({
         <button type="button" onClick={() => umschalten(id)} aria-expanded={offen} className="w-full justify-between hover:text-sidebar-foreground">
           <span>{titel}</span>
           <span className="flex items-center gap-1.5">
-            {!offen && !!badge && <span className="rounded-full bg-accent-blue text-primary-foreground px-1.5 text-[10px] font-bold leading-4">{badge > 99 ? "99+" : badge}</span>}
+            {!offen && !!badge && <span className="tabular rounded-full bg-accent-blue px-1.5 text-[10px] font-semibold leading-4 text-primary-foreground">{badge > 99 ? "99+" : badge}</span>}
             <ChevronDown className={`h-3.5 w-3.5 transition-transform ${offen ? "" : "-rotate-90"}`} />
           </span>
         </button>
@@ -287,9 +287,9 @@ const ToolSuche = ({ onGo }: { onGo: () => void }) => {
   };
 
   return (
-    <div className="px-2 pt-3 pb-1">
+    <div className="px-2 pb-1 pt-3">
       <div className="relative">
-        <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
+        <Search className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
         <input
           ref={ref}
           value={q}
@@ -312,26 +312,26 @@ const ToolSuche = ({ onGo }: { onGo: () => void }) => {
           }}
           placeholder="Tool suchen …"
           aria-label="Tool suchen"
-          className="h-8 w-full rounded-md border border-sidebar-border bg-background pl-8 pr-10 text-xs outline-none focus:ring-2 focus:ring-accent-blue/40"
+          className="h-9 w-full rounded-lg border border-sidebar-border bg-background pl-8 pr-10 text-[13px] outline-none transition-shadow placeholder:text-muted-foreground focus:border-accent-blue/40 focus:ring-2 focus:ring-accent-blue/30"
         />
-        <kbd className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 rounded border border-sidebar-border px-1 text-[9px] text-muted-foreground">⌘K</kbd>
+        <kbd className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 rounded-md border border-sidebar-border bg-secondary/60 px-1.5 py-px font-sans text-[10px] text-muted-foreground">⌘K</kbd>
       </div>
       {q.trim() && (
-        <ul className="mt-1 rounded-md border border-sidebar-border bg-background py-1 shadow-sm" role="listbox">
+        <ul className="mt-1.5 overflow-hidden rounded-xl border border-sidebar-border bg-background p-1 shadow-soft" role="listbox">
           {treffer.map((t, i) => (
             <li key={t.slug} role="option" aria-selected={i === aktiv}>
               <button
                 type="button"
                 onMouseEnter={() => setAktiv(i)}
                 onClick={() => geh(t.route!)}
-                className={`w-full px-2.5 py-1.5 text-left text-xs leading-snug ${i === aktiv ? "bg-secondary" : ""}`}
+                className={`w-full rounded-lg px-2.5 py-1.5 text-left text-[13px] leading-snug transition-colors ${i === aktiv ? "bg-secondary" : ""}`}
               >
                 <span className="font-medium">{t.title}</span>
-                <span className="block text-[10px] text-muted-foreground truncate">{t.categoryTitle}</span>
+                <span className="block truncate text-[11px] text-muted-foreground">{t.categoryTitle}</span>
               </button>
             </li>
           ))}
-          {!treffer.length && <li className="px-2.5 py-1.5 text-xs text-muted-foreground">Kein Tool gefunden – frag Felix.</li>}
+          {!treffer.length && <li className="px-2.5 py-2 text-xs leading-relaxed text-muted-foreground">Kein Tool gefunden. Frag Felix, er hilft dir weiter.</li>}
         </ul>
       )}
     </div>
@@ -342,12 +342,12 @@ const Item = ({ to, icon: Icon, label, hint, active, badge }: { to: string; icon
   const { isMobile, setOpenMobile } = useSidebar();
   return (
     <SidebarMenuItem>
-      <SidebarMenuButton asChild isActive={active} tooltip={hint ? `${label} – ${hint}` : label}>
+      <SidebarMenuButton asChild isActive={active} tooltip={hint ? `${label}: ${hint}` : label}>
         <NavLink to={to} data-tour={to} onClick={() => { if (isMobile) setOpenMobile(false); }}>
           <Icon className="h-4 w-4" />
           <span>{label}</span>
           {!!badge && (
-            <span className="ml-auto rounded-full bg-accent-blue text-primary-foreground px-1.5 text-[10px] font-bold leading-4" aria-label={`${badge} neu`}>
+            <span className="tabular ml-auto rounded-full bg-accent-blue px-1.5 text-[10px] font-semibold leading-4 text-primary-foreground" aria-label={`${badge} neu`}>
               {badge > 99 ? "99+" : badge}
             </span>
           )}
