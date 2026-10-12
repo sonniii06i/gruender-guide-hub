@@ -1,11 +1,11 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import CockpitShell from "@/components/cockpit/CockpitShell";
-import { Input } from "@/components/ui/input";
 import { NumberField } from "@/components/ui/number-field";
 import { HebesatzPicker } from "@/components/ui/hebesatz-picker";
-import { Label } from "@/components/ui/label";
-import { Calendar, Calculator, PiggyBank, Info, ShoppingCart, AlertTriangle } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Calendar, Calculator, PiggyBank, ShoppingCart, Settings2, Sparkles, ArrowRight } from "lucide-react";
+import { Callout, ChoiceGroup, EmptyState, Field, ToneBadge, ToolSection, type Tone } from "@/components/cockpit/kit";
 import { progressionESt, kstGewstRate, grenzSteuerSatz, SOLZ_RATE } from "@/lib/germanTax";
 
 type LegalForm = "ein" | "ug" | "gmbh";
@@ -167,16 +167,16 @@ function buildFristen(s: Setup): Frist[] {
   });
 }
 
-const CATEGORY_COLOR: Record<Frist["category"], string> = {
-  ust: "bg-accent-blue/10 text-accent-blue",
-  lohn: "bg-purple-500/10 text-purple-700 dark:text-purple-300",
-  kst: "bg-amber-500/10 text-amber-700 dark:text-amber-300",
-  est: "bg-amber-500/10 text-amber-700 dark:text-amber-300",
-  gewst: "bg-rose-500/10 text-rose-700 dark:text-rose-300",
-  oss: "bg-cyan-500/10 text-cyan-700 dark:text-cyan-300",
-  zm: "bg-emerald-500/10 text-emerald-700 dark:text-emerald-300",
-  stb: "bg-secondary text-foreground",
-  "year-end": "bg-yellow-500/10 text-yellow-700 dark:text-yellow-300",
+const CATEGORY_TONE: Record<Frist["category"], Tone> = {
+  ust: "accent",
+  lohn: "info",
+  kst: "neutral",
+  est: "neutral",
+  gewst: "warning",
+  oss: "info",
+  zm: "success",
+  stb: "neutral",
+  "year-end": "warning",
 };
 
 const CATEGORY_LABEL: Record<Frist["category"], string> = {
@@ -243,46 +243,39 @@ const SteuerCockpit = () => {
 
   return (
     <CockpitShell
-      eyebrow="💰 DE-Steuer-Cockpit"
+      eyebrow="DE-Steuer-Cockpit"
       title="Fristen, IAB & Quartals-Schätzung"
-      subtitle="Personalisiert auf deine Konstellation – Toggles unten setzen, Fristen aktualisieren sich live."
+      subtitle="Personalisiert auf deine Konstellation: Setup unten wählen, die Fristen aktualisieren sich live."
     >
-      {/* Setup */}
-      <div className="rounded-2xl border border-border bg-card p-6 mb-8">
-        <h2 className="font-bold mb-4">Dein Setup</h2>
-        <div className="grid sm:grid-cols-2 gap-4 mb-4">
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Rechtsform</Label>
-            <div className="flex gap-2 mt-2">
-              {[["ein", "Einzel"], ["ug", "UG"], ["gmbh", "GmbH"]].map(([v, l]) => (
-                <button
-                  key={v}
-                  onClick={() => setLegalForm(v as LegalForm)}
-                  className={`flex-1 rounded-xl border px-3 py-2 text-sm font-semibold ${
-                    legalForm === v ? "bg-primary text-primary-foreground border-primary" : "bg-card border-border hover:border-accent-blue/40"
-                  }`}
-                >{l}</button>
-              ))}
-            </div>
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">USt-Voranmeldung</Label>
-            <div className="flex gap-2 mt-2">
-              {[["monatlich", "Monatlich"], ["quartal", "Quartal"], ["keine", "Keine (KU)"]].map(([v, l]) => (
-                <button
-                  key={v}
-                  onClick={() => setUstMode(v as UstMode)}
-                  className={`flex-1 rounded-xl border px-3 py-2 text-xs font-semibold ${
-                    ustMode === v ? "bg-primary text-primary-foreground border-primary" : "bg-card border-border hover:border-accent-blue/40"
-                  }`}
-                >{l}</button>
-              ))}
-            </div>
-          </div>
+      <ToolSection title="Dein Setup" icon={Settings2} className="mb-6" description="Rechtsform, USt-Rhythmus und Sonderfälle bestimmen deinen Frist-Kalender.">
+        <div className="mb-5 grid gap-5 sm:grid-cols-2">
+          <Field label="Rechtsform">
+            <ChoiceGroup<LegalForm>
+              label="Rechtsform"
+              value={legalForm}
+              onChange={setLegalForm}
+              options={[
+                { value: "ein", label: "Einzel" },
+                { value: "ug", label: "UG" },
+                { value: "gmbh", label: "GmbH" },
+              ]}
+            />
+          </Field>
+          <Field label="USt-Voranmeldung">
+            <ChoiceGroup<UstMode>
+              label="USt-Voranmeldung"
+              value={ustMode}
+              onChange={setUstMode}
+              options={[
+                { value: "monatlich", label: "Monatlich" },
+                { value: "quartal", label: "Quartal" },
+                { value: "keine", label: "Keine (KU)" },
+              ]}
+            />
+          </Field>
         </div>
 
-        {/* Toggle-Reihe für Erweiterungen */}
-        <div className="grid sm:grid-cols-2 gap-3">
+        <div className="grid gap-3 sm:grid-cols-2">
           <Toggle
             checked={dauerfrist}
             onChange={setDauerfrist}
@@ -300,153 +293,116 @@ const SteuerCockpit = () => {
             checked={zm}
             onChange={setZm}
             label="Zusammenfassende Meldung (ZM)"
-            help="Pflicht bei innergemeinschaftlichen B2B-Lieferungen / sonstigen Leistungen. 25. des Folgemonats, KEINE Dauerfrist."
+            help="Pflicht bei innergemeinschaftlichen B2B-Lieferungen und sonstigen Leistungen. 25. des Folgemonats, keine Dauerfrist."
           />
           <Toggle
             checked={mitarbeiter}
             onChange={setMitarbeiter}
             label="Mitarbeiter beschäftigt"
-            help="Aktiviert Lohnsteuer-Anmeldung. Auch bei Einzelunternehmen relevant – ohne MA: keine Lohnsteuer."
+            help="Aktiviert die Lohnsteuer-Anmeldung. Auch bei Einzelunternehmen relevant; ohne Mitarbeiter keine Lohnsteuer."
           />
         </div>
-      </div>
+      </ToolSection>
 
-      {/* Fristen */}
-      <div className="rounded-2xl border border-border bg-card p-6 mb-8">
-        <div className="flex items-center justify-between gap-2 mb-4 flex-wrap">
-          <div className="flex items-center gap-2">
-            <Calendar className="h-5 w-5 text-accent-blue" />
-            <h2 className="font-bold">Frist-Kalender {new Date().getFullYear()}</h2>
-          </div>
-          <div className="text-xs text-muted-foreground">
-            {fristen.length} Termine · sortiert nach Datum
-          </div>
-        </div>
-
+      <ToolSection
+        title={`Frist-Kalender ${new Date().getFullYear()}`}
+        icon={Calendar}
+        className="mb-6"
+        actions={<span className="text-sm text-muted-foreground tabular">{fristen.length} Termine, nach Datum sortiert</span>}
+      >
         {dauerfrist && ustMode !== "keine" && (
-          <div className="flex items-start gap-2 rounded-lg bg-accent-blue/10 border border-accent-blue/30 p-3 mb-4 text-xs">
-            <Info className="h-3.5 w-3.5 mt-0.5 shrink-0 text-accent-blue" />
-            <span>
-              <strong>Dauerfristverlängerung aktiv:</strong> USt-VA-Termine sind +1 Monat verschoben. Q4 wird also erst am <strong>10.02.</strong> (statt 10.01.) fällig. Sondervorauszahlung 1/11 wird im Februar fällig.
-            </span>
-          </div>
+          <Callout tone="info" title="Dauerfristverlängerung aktiv" className="mb-4">
+            USt-VA-Termine sind um 1 Monat verschoben. Q4 wird also erst am <strong>10.02.</strong> (statt 10.01.) fällig.
+            Die Sondervorauszahlung 1/11 wird im Februar fällig.
+          </Callout>
         )}
 
-        <div className="divide-y divide-border">
-          {fristen.map((f, i) => (
-            <div key={i} className="flex items-center gap-3 py-3">
-              <div className="w-16 shrink-0 font-mono font-bold text-accent-blue">{f.date}</div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 flex-wrap">
-                  <span className={`text-[10px] uppercase tracking-wider rounded-md px-1.5 py-0.5 font-bold ${CATEGORY_COLOR[f.category]}`}>
-                    {CATEGORY_LABEL[f.category]}
-                  </span>
-                  <span className="text-sm font-medium">{f.title}</span>
+        {fristen.length === 0 ? (
+          <EmptyState icon={Calendar} title="Keine Fristen konfiguriert" description="Passe dein Setup oben an." />
+        ) : (
+          <ol className="divide-y divide-border/70 rounded-xl border border-border">
+            {fristen.map((f, i) => (
+              <li key={i} className="flex items-start gap-3 px-4 py-3 sm:items-center">
+                <span className="w-14 shrink-0 text-sm font-semibold text-accent-blue tabular">{f.date}</span>
+                <div className="min-w-0 flex-1">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <ToneBadge tone={CATEGORY_TONE[f.category]}>{CATEGORY_LABEL[f.category]}</ToneBadge>
+                    <span className="text-sm font-medium">{f.title}</span>
+                  </div>
+                  {f.detail && <p className="mt-0.5 text-xs text-muted-foreground">{f.detail}</p>}
                 </div>
-                {f.detail && (
-                  <div className="text-[11px] text-muted-foreground mt-0.5">{f.detail}</div>
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {fristen.length === 0 && (
-          <div className="text-center py-8 text-muted-foreground text-sm">
-            Keine Fristen konfiguriert – Setup oben anpassen.
-          </div>
+              </li>
+            ))}
+          </ol>
         )}
-      </div>
+      </ToolSection>
 
-      {/* IAB + Quartals-Schätzung */}
-      <div className="grid md:grid-cols-2 gap-6 mb-8">
-        <div className="rounded-2xl border border-border bg-card p-6">
-          <div className="flex items-center gap-2 mb-2">
-            <Calculator className="h-5 w-5 text-accent-blue" />
-            <h2 className="font-bold">IAB-Rechner</h2>
-          </div>
-          <p className="text-xs text-muted-foreground leading-relaxed mb-4">
-            <strong>Investitionsabzugsbetrag (§ 7g EStG):</strong> Du kannst bis zu 50 % einer geplanten Investition (binnen 3 Jahren) <em>vorab</em> als Betriebsausgabe ansetzen und damit deinen aktuellen Gewinn (und Steuerlast) reduzieren. Sinnvoll z.&nbsp;B. für geplante Geschäftsfahrzeuge, Maschinen, Lager-Equipment oder IT-Hardware.
+      <div className="mb-6 grid gap-6 md:grid-cols-2">
+        <ToolSection title="IAB-Rechner" icon={Calculator}>
+          <p className="mb-5 text-sm leading-relaxed text-muted-foreground">
+            <strong className="text-foreground">Investitionsabzugsbetrag (§ 7g EStG):</strong> Du kannst bis zu 50 % einer geplanten Investition (binnen 3 Jahren) <em>vorab</em> als Betriebsausgabe ansetzen und damit deinen aktuellen Gewinn (und Steuerlast) reduzieren. Sinnvoll z.&nbsp;B. für geplante Geschäftsfahrzeuge, Maschinen, Lager-Equipment oder IT-Hardware.
           </p>
-          <Label className="text-xs uppercase tracking-wider text-muted-foreground">Geplante Investition in 3 Jahren (€)</Label>
-          <NumberField value={iabBasis} onChange={setIabBasis} min={0} className="mt-2" />
-
-          <div className="grid grid-cols-2 gap-2 mt-3">
-            {iabKapGes ? (
-              <div>
-                <Label className="text-[10px] uppercase text-muted-foreground">Bilanzsumme (€)</Label>
-                <NumberField value={iabBilanzsumme} onChange={setIabBilanzsumme} min={0} className="h-8 text-sm" />
-              </div>
-            ) : (
-              <div>
-                <Label className="text-[10px] uppercase text-muted-foreground">Gewinn vor IAB (€/Jahr)</Label>
-                <NumberField value={iabGewinnVor} onChange={setIabGewinnVor} min={0} className="h-8 text-sm" />
-              </div>
-            )}
-            <div>
-              <Label className="text-[10px] uppercase text-muted-foreground">GewSt-Hebesatz (%)</Label>
-              <HebesatzPicker value={hebesatz} onChange={setHebesatz} />
+          <div className="space-y-4">
+            <Field label="Geplante Investition in 3 Jahren (€)">
+              <NumberField value={iabBasis} onChange={setIabBasis} min={0} aria-label="Geplante Investition in Euro" />
+            </Field>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {iabKapGes ? (
+                <Field label="Bilanzsumme (€)">
+                  <NumberField value={iabBilanzsumme} onChange={setIabBilanzsumme} min={0} aria-label="Bilanzsumme in Euro" />
+                </Field>
+              ) : (
+                <Field label="Gewinn vor IAB (€/Jahr)">
+                  <NumberField value={iabGewinnVor} onChange={setIabGewinnVor} min={0} aria-label="Gewinn vor IAB in Euro pro Jahr" />
+                </Field>
+              )}
+              <Field label="GewSt-Hebesatz (%)">
+                <HebesatzPicker value={hebesatz} onChange={setHebesatz} />
+              </Field>
             </div>
           </div>
 
           {!iabEligible && (
-            <div className="mt-3 rounded-lg border border-amber-500/40 bg-amber-500/10 p-2 text-xs text-amber-900 flex items-start gap-2">
-              <AlertTriangle className="h-3.5 w-3.5 shrink-0 mt-0.5" />
-              <div>
-                <strong>IAB nicht möglich:</strong>{" "}
-                {iabKapGes
-                  ? `Bilanzsumme ${iabBilanzsumme.toLocaleString("de-DE")} € > 235.000 €`
-                  : `Gewinn ${iabGewinnVor.toLocaleString("de-DE")} € > 200.000 €`}
-              </div>
-            </div>
+            <Callout tone="warning" title="IAB nicht möglich" className="mt-4">
+              {iabKapGes
+                ? `Bilanzsumme ${iabBilanzsumme.toLocaleString("de-DE")} € > 235.000 €`
+                : `Gewinn ${iabGewinnVor.toLocaleString("de-DE")} € > 200.000 €`}
+            </Callout>
           )}
 
           <div className="mt-5 space-y-2 text-sm">
             <Row label="IAB-Vorab-Abzug (50 %)" value={`${iab.toLocaleString("de-DE")} €`} />
             <Row label="Steuer-Ersparnis heute" value={`${Math.round(iabSteuer).toLocaleString("de-DE")} €`} highlight />
-            <p className="text-[11px] text-muted-foreground pt-2">
-              Max. 200.000 € pro Betrieb. Voraussetzungen 2026: Gewinn &lt; 200k €/Jahr (Einzel/PersGes) oder Bilanzsumme &lt; 235k € (KapGes). Bei Nicht-Investition binnen 3 Jahren: rückwirkende Auflösung + 6 % Verzinsung.
-            </p>
           </div>
-        </div>
+          <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
+            Max. 200.000 € pro Betrieb. Voraussetzungen 2026: Gewinn &lt; 200k €/Jahr (Einzel/PersGes) oder Bilanzsumme &lt; 235k € (KapGes). Bei Nicht-Investition binnen 3 Jahren: rückwirkende Auflösung + 6 % Verzinsung.
+          </p>
+        </ToolSection>
 
-        <div className="rounded-2xl border border-border bg-card p-6">
-          <div className="flex items-center gap-2 mb-4">
-            <PiggyBank className="h-5 w-5 text-accent-blue" />
-            <h2 className="font-bold">Quartals-Schätzung</h2>
-          </div>
-
-          {/* Brutto/Netto-Toggle (bei Kleinunternehmer keine USt → ausgeblendet) */}
+        <ToolSection title="Quartals-Schätzung" icon={PiggyBank}>
+          {/* Brutto/Netto-Umschalter (bei Kleinunternehmer keine USt, daher ausgeblendet) */}
           {!istKU && (
-            <div className="flex gap-1 mb-3 p-1 rounded-lg bg-secondary">
-              <button
-                onClick={() => setEingabeBrutto(false)}
-                className={`flex-1 rounded-md px-3 py-1.5 text-xs font-semibold transition-colors ${
-                  !eingabeBrutto ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
-                }`}
-              >Netto</button>
-              <button
-                onClick={() => setEingabeBrutto(true)}
-                className={`flex-1 rounded-md px-3 py-1.5 text-xs font-semibold transition-colors ${
-                  eingabeBrutto ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
-                }`}
-              >Brutto (inkl. 19 %)</button>
-            </div>
+            <Field label="Eingabe" className="mb-4">
+              <ChoiceGroup<boolean>
+                label="Eingabe netto oder brutto"
+                size="sm"
+                value={eingabeBrutto}
+                onChange={setEingabeBrutto}
+                options={[
+                  { value: false, label: "Netto" },
+                  { value: true, label: "Brutto (inkl. 19 %)" },
+                ]}
+              />
+            </Field>
           )}
 
-          <div className="grid grid-cols-2 gap-3">
-            <div>
-              <Label className="text-xs uppercase tracking-wider text-muted-foreground">
-                Umsatz Q ({istKU ? "€" : eingabeBrutto ? "brutto" : "netto"})
-              </Label>
-              <NumberField value={umsatz} onChange={setUmsatz} min={0} className="mt-2" />
-            </div>
-            <div>
-              <Label className="text-xs uppercase tracking-wider text-muted-foreground">
-                Kosten Q ({istKU ? "€" : eingabeBrutto ? "brutto" : "netto"})
-              </Label>
-              <NumberField value={kosten} onChange={setKosten} min={0} className="mt-2" />
-            </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Field label={`Umsatz im Quartal (${istKU ? "€" : eingabeBrutto ? "brutto" : "netto"})`}>
+              <NumberField value={umsatz} onChange={setUmsatz} min={0} aria-label="Umsatz im Quartal in Euro" />
+            </Field>
+            <Field label={`Kosten im Quartal (${istKU ? "€" : eingabeBrutto ? "brutto" : "netto"})`}>
+              <NumberField value={kosten} onChange={setKosten} min={0} aria-label="Kosten im Quartal in Euro" />
+            </Field>
           </div>
 
           <div className="mt-5 space-y-2 text-sm">
@@ -460,51 +416,47 @@ const SteuerCockpit = () => {
             <Row label="Gewinn (netto)" value={`${gewinn.toLocaleString("de-DE")} €`} />
             <Row label={`Steuer-Rücklage (${(steuersatz * 100).toFixed(0)} %)`} value={`${Math.round(ruecklage).toLocaleString("de-DE")} €`} highlight />
           </div>
-        </div>
+        </ToolSection>
       </div>
 
-      {/* Amazon-Buchhaltung-Hinweis */}
-      <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5 mb-6">
-        <div className="flex items-start gap-3">
-          <div className="rounded-xl bg-accent-blue text-primary-foreground p-2 shrink-0">
-            <ShoppingCart className="h-5 w-5" />
-          </div>
-          <div className="flex-1">
-            <div className="font-bold mb-1">Amazon-Verkäufer mit PayJoe oder Taxdoo?</div>
-            <div className="text-sm text-muted-foreground leading-relaxed mb-3">
-              Amazon-FBA-Buchhaltung ist Spezialthema – die meisten Steuerberater kennen die FBA-Spezifika nicht (Lagerumlagerungen zwischen EU-Lagern, OSS vs. lokale Registrierung, VCS-Reports, Auszahlungs-Splits, MwSt.-Trennung pro Marktplatz, B2B-Reverse-Charge). Wir helfen bei:
-            </div>
-            <ul className="text-sm text-muted-foreground space-y-1 mb-3 list-disc pl-5">
-              <li>Korrekter Verbuchung von Amazon-Auszahlungen (PayJoe / Taxdoo / Amainvoice)</li>
-              <li>OSS-Setup vs. lokale UStID in EU-Lagerländern (PL, CZ, IT, ES, FR)</li>
-              <li>Stock-Movement-Verbuchung (Sachspende vs. Lagerumlagerung)</li>
-              <li>Integration mit lexoffice / sevDesk / DATEV (DATEV-Export aus PayJoe)</li>
-              <li>Empfehlungen für FBA-erfahrene StB in deinem Bundesland</li>
-            </ul>
-            <div className="rounded-xl bg-accent-blue/10 border border-accent-blue/30 p-3 mb-3 text-xs leading-relaxed">
-              <span className="font-semibold">Neu:</span> Komplette Liste aller PayJoe/Lexoffice
-              Amazon-Buchungstexte (AMA-SG-DE, AMA-BG-IT, AUSZ-DE, MZNFS, FBAFees etc.) mit SKR03/04-Konto,
-              USt-Behandlung und Live-Lookup-Tool.
-            </div>
-            <div className="flex flex-wrap gap-2">
-              <Link to="/cockpit/amazon-buchungen" className="rounded-full bg-accent-blue text-primary-foreground px-4 py-1.5 text-xs font-semibold hover:opacity-90 transition-opacity">
-                Buchungs-Codes nachschlagen →
-              </Link>
-              <Link to="/felix" className="rounded-full border border-accent-blue/40 text-accent-blue px-4 py-1.5 text-xs font-semibold hover:bg-accent-blue/10 transition-colors">
-                Felix fragen →
-              </Link>
-              <Link to="/kontakt" className="rounded-full border border-border text-foreground px-4 py-1.5 text-xs font-semibold hover:bg-secondary/50 transition-colors">
-                Setup-Call buchen →
-              </Link>
-            </div>
-          </div>
+      <ToolSection
+        title="Amazon-Verkäufer mit PayJoe oder Taxdoo?"
+        icon={ShoppingCart}
+        className="mb-6"
+        description="Amazon-FBA-Buchhaltung ist ein Spezialthema: Die meisten Steuerberater kennen die FBA-Spezifika nicht (Lagerumlagerungen zwischen EU-Lagern, OSS vs. lokale Registrierung, VCS-Reports, Auszahlungs-Splits, MwSt.-Trennung pro Marktplatz, B2B-Reverse-Charge)."
+      >
+        <p className="mb-2 text-sm font-medium">Wir helfen bei:</p>
+        <ul className="mb-4 list-disc space-y-1 pl-5 text-sm text-muted-foreground">
+          <li>Korrekter Verbuchung von Amazon-Auszahlungen (PayJoe / Taxdoo / Amainvoice)</li>
+          <li>OSS-Setup vs. lokale UStID in EU-Lagerländern (PL, CZ, IT, ES, FR)</li>
+          <li>Stock-Movement-Verbuchung (Sachspende vs. Lagerumlagerung)</li>
+          <li>Integration mit lexoffice / sevDesk / DATEV (DATEV-Export aus PayJoe)</li>
+          <li>Empfehlungen für FBA-erfahrene StB in deinem Bundesland</li>
+        </ul>
+        <Callout tone="accent" icon={Sparkles} className="mb-4">
+          <span className="font-semibold text-foreground">Neu:</span> Komplette Liste aller PayJoe/Lexoffice
+          Amazon-Buchungstexte (AMA-SG-DE, AMA-BG-IT, AUSZ-DE, MZNFS, FBAFees etc.) mit SKR03/04-Konto,
+          USt-Behandlung und Live-Lookup-Tool.
+        </Callout>
+        <div className="flex flex-wrap gap-2">
+          <Button asChild size="sm">
+            <Link to="/cockpit/amazon-buchungen">
+              Buchungs-Codes nachschlagen <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden="true" />
+            </Link>
+          </Button>
+          <Button asChild size="sm" variant="outline">
+            <Link to="/felix">Felix fragen</Link>
+          </Button>
+          <Button asChild size="sm" variant="outline">
+            <Link to="/kontakt">Setup-Call buchen</Link>
+          </Button>
         </div>
-      </div>
+      </ToolSection>
 
-      <div className="text-xs text-muted-foreground">
+      <p className="text-xs leading-relaxed text-muted-foreground">
         Hinweis: Orientierende Schätzungen, keine Steuerberatung. Final immer mit StB klären.
-        Termine 2026 ohne Wochenend-/Feiertags-Verschiebung – fällt ein Termin auf Sa/So/Feiertag, ist der nächste Werktag maßgeblich.
-      </div>
+        Termine 2026 ohne Wochenend- und Feiertagsverschiebung: Fällt ein Termin auf Sa/So/Feiertag, ist der nächste Werktag maßgeblich.
+      </p>
     </CockpitShell>
   );
 };
@@ -512,29 +464,31 @@ const SteuerCockpit = () => {
 const Toggle = ({ checked, onChange, label, help, disabled }: { checked: boolean; onChange: (v: boolean) => void; label: string; help: string; disabled?: boolean }) => (
   <button
     type="button"
+    role="switch"
+    aria-checked={checked}
     onClick={() => !disabled && onChange(!checked)}
     disabled={disabled}
-    className={`text-left rounded-xl border p-3 transition-all ${
-      disabled ? "opacity-40 cursor-not-allowed border-border bg-card" :
-      checked ? "border-accent-blue bg-accent-blue/5 ring-1 ring-accent-blue/30" : "border-border bg-card hover:border-accent-blue/40"
+    className={`rounded-xl border p-3.5 text-left transition-colors ${
+      disabled ? "cursor-not-allowed border-border bg-card opacity-50" :
+      checked ? "border-accent-blue/40 bg-accent" : "border-border bg-card hover:border-foreground/25"
     }`}
   >
-    <div className="flex items-start gap-2">
-      <div className={`w-9 h-5 rounded-full transition-colors shrink-0 mt-0.5 ${checked ? "bg-accent-blue" : "bg-secondary"}`}>
-        <div className={`w-4 h-4 rounded-full bg-white shadow transition-transform mt-0.5 ${checked ? "translate-x-[18px]" : "translate-x-0.5"}`} />
-      </div>
-      <div className="flex-1 min-w-0">
-        <div className="text-sm font-semibold">{label}</div>
-        <div className="text-[11px] text-muted-foreground leading-snug mt-0.5">{help}</div>
-      </div>
+    <div className="flex items-start gap-3">
+      <span className={`mt-0.5 flex h-5 w-9 shrink-0 items-center rounded-full transition-colors ${checked ? "bg-primary" : "bg-border"}`} aria-hidden="true">
+        <span className={`h-4 w-4 rounded-full bg-white shadow transition-transform ${checked ? "translate-x-[18px]" : "translate-x-0.5"}`} />
+      </span>
+      <span className="min-w-0 flex-1">
+        <span className="block text-sm font-semibold">{label}</span>
+        <span className="mt-0.5 block text-xs leading-snug text-muted-foreground">{help}</span>
+      </span>
     </div>
   </button>
 );
 
 const Row = ({ label, value, highlight }: { label: string; value: string; highlight?: boolean }) => (
-  <div className={`flex items-center justify-between rounded-lg px-3 py-2 ${highlight ? "bg-accent text-accent-foreground" : "bg-secondary/50"}`}>
-    <span className="text-muted-foreground">{label}</span>
-    <span className="font-bold">{value}</span>
+  <div className={`flex items-center justify-between gap-3 rounded-lg px-3 py-2.5 ${highlight ? "border border-accent-blue/20 bg-accent" : "bg-secondary/60"}`}>
+    <span className={highlight ? "font-medium text-foreground" : "text-muted-foreground"}>{label}</span>
+    <span className={`font-semibold tabular ${highlight ? "text-accent-blue" : ""}`}>{value}</span>
   </div>
 );
 
