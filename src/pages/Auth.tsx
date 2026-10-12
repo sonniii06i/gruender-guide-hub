@@ -10,7 +10,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
-import { ArrowLeft, Sparkles, Loader2, Eye, EyeOff, Check, X, Mail } from "lucide-react";
+import { Loader2, Eye, EyeOff, Mail, Check } from "lucide-react";
+import { KontoRahmen, FormFehler, kontoCta } from "@/components/KontoRahmen";
+import { PLANS, formatEurCents } from "@/config/pricing";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -125,41 +127,31 @@ const Auth = () => {
   // Nach erfolgreichem Signup mit nötiger E-Mail-Bestätigung: Hinweis + Login-Link statt Loop.
   if (signupEmail) {
     return (
-      <div className="min-h-screen bg-hero flex flex-col">
-        <div className="container max-w-6xl py-6">
-          <Link to="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
-            <ArrowLeft className="h-4 w-4" /> Zurück zur Startseite
-          </Link>
-        </div>
-        <div className="flex-1 flex items-center justify-center px-4 pb-16">
-          <div className="w-full max-w-md text-center">
-            <div className="inline-flex items-center justify-center h-14 w-14 rounded-2xl bg-accent-blue/10 mb-6">
-              <Mail className="h-7 w-7 text-accent-blue" />
-            </div>
-            <h1 className="text-3xl md:text-4xl font-bold tracking-tight">Fast geschafft!</h1>
-            <p className="mt-3 text-muted-foreground">
-              Wir haben dir eine Bestätigungs-E-Mail an <span className="font-semibold text-foreground">{signupEmail}</span> geschickt.
-              Klick den Link darin, um deinen Account zu aktivieren – danach kannst du dich einloggen.
-            </p>
-            <div className="mt-8 bg-card border border-border rounded-3xl p-8 shadow-card">
-              <p className="text-sm text-muted-foreground mb-4">E-Mail bestätigt?</p>
-              <Button
-                size="lg"
-                onClick={() => { setSignupEmail(null); setPassword(""); setMode("signin"); }}
-                className="w-full rounded-full bg-gradient-primary text-primary-foreground hover:opacity-95 shadow-glow h-12 font-semibold"
-              >
-                Zum Login
-              </Button>
-              <p className="mt-4 text-xs text-muted-foreground">
-                Keine E-Mail erhalten? Prüfe den Spam-Ordner oder{" "}
-                <button onClick={() => { setSignupEmail(null); setMode("signup"); }} className="text-accent-blue font-semibold hover:underline">
-                  erneut registrieren
-                </button>.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
+      <KontoRahmen
+        icon={Mail}
+        tone="accent"
+        title="Fast geschafft"
+        subtitle={
+          <>
+            Wir haben dir eine Bestätigungs-E-Mail an <span className="font-semibold text-foreground">{signupEmail}</span> geschickt.
+            Klick den Link darin, um deinen Account zu aktivieren. Danach kannst du dich anmelden.
+          </>
+        }
+      >
+        <Button
+          size="lg"
+          onClick={() => { setSignupEmail(null); setPassword(""); setMode("signin"); }}
+          className={kontoCta}
+        >
+          Zum Login
+        </Button>
+        <p className="mt-4 text-center text-xs text-muted-foreground">
+          Keine E-Mail erhalten? Prüfe den Spam-Ordner oder{" "}
+          <button onClick={() => { setSignupEmail(null); setMode("signup"); }} className="font-semibold text-accent-blue hover:underline">
+            erneut registrieren
+          </button>.
+        </p>
+      </KontoRahmen>
     );
   }
 
@@ -181,153 +173,146 @@ const Auth = () => {
   }
 
   return (
-    <div className="min-h-screen bg-hero flex flex-col">
-      <div className="container max-w-6xl py-6">
-        <Link to="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
-          <ArrowLeft className="h-4 w-4" /> Zurück zur Startseite
-        </Link>
-      </div>
+    <KontoRahmen
+      kicker={mode === "signup" ? "Zugang freischalten" : "Willkommen zurück"}
+      title={mode === "signup" ? "Gründe schlauer mit Felix" : "Bei GründerX anmelden"}
+      subtitle={
+        mode === "signup"
+          ? `${formatEurCents(PLANS.gruenderx.grossCents)} im Monat, monatlich kündbar. Nach der Zahlung legst du dein Konto an.`
+          : "Schön, dass du wieder da bist. Melde dich mit deiner E-Mail und deinem Passwort an."
+      }
+      footer={
+        mode === "signup" && (
+        <>
+          Mit dem Kauf akzeptierst du unsere{" "}
+          <Link to="/agb" className="underline underline-offset-4 hover:text-foreground">AGB</Link> und{" "}
+          <Link to="/datenschutz" className="underline underline-offset-4 hover:text-foreground">Datenschutzerklärung</Link>.
+        </>
+        )
+      }
+    >
+      {mode === "signup" && (
+        <ul className="mb-5 space-y-2 rounded-xl border border-border bg-secondary/50 p-4 text-sm">
+          {[
+            "Bezahlung sicher über Stripe",
+            "Danach legst du einmalig dein Passwort fest",
+            "Jederzeit im Konto kündbar",
+          ].map((t) => (
+            <li key={t} className="flex items-start gap-2">
+              <Check className="mt-0.5 h-4 w-4 shrink-0 text-success" aria-hidden="true" />
+              <span>{t}</span>
+            </li>
+          ))}
+        </ul>
+      )}
 
-      <div className="flex-1 flex items-center justify-center px-4 pb-16">
-        <div className="w-full max-w-md">
-          <div className="text-center mb-8">
-            <div className="inline-flex items-center gap-2 rounded-full bg-accent-blue/10 border border-accent-blue/20 px-3 py-1 text-xs font-semibold text-accent-blue mb-5">
-              <Sparkles className="h-3.5 w-3.5" /> {mode === "signup" ? "Zugang freischalten" : "Willkommen zurück"}
-            </div>
-            <h1 className="text-3xl md:text-4xl font-bold tracking-tight">
-              {mode === "signup" ? "Gründe schlauer mit Felix." : "Anmelden bei GründerX"}
-            </h1>
-            <p className="mt-3 text-muted-foreground">
-              {mode === "signup"
-                ? "64,99 € im Monat, monatlich kündbar. Nach der Zahlung legst du dein Konto an."
-                : "Schön dich wiederzusehen."}
-            </p>
-          </div>
-
-          <div className="bg-card border border-border rounded-3xl p-8 shadow-card">
-            <form onSubmit={handleSubmit} className="space-y-4">
-              {/* pay-first: Im Kaufweg erhebt Stripe E-Mail und Rechnungsdaten,
-                  das Passwort entsteht danach auf /willkommen. Jedes Feld, das
-                  hier trotzdem stuende, waere eine Huerde vor dem Preis ohne
-                  jeden Nutzen. */}
-              {mode === "signin" && (
-              <>
-              <div className="space-y-1.5">
-                <Label htmlFor="email">E-Mail</Label>
-                <Input id="email" type="email" value={email} onChange={(e) => { markSignupStarted(); setEmail(e.target.value); }} placeholder="du@firma.de" required />
-              </div>
-              <div className="space-y-1.5">
-                <Label htmlFor="pw">Passwort</Label>
-                <div className="relative">
-                  <Input
-                    id="pw"
-                    type={showPw ? "text" : "password"}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Mind. 8 Zeichen, 1 Zahl, 1 Sonderzeichen"
-                    minLength={8}
-                    required
-                    className="pr-10"
-                    autoComplete="current-password"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPw((s) => !s)}
-                    aria-label={showPw ? "Passwort verbergen" : "Passwort anzeigen"}
-                    className="absolute inset-y-0 right-2 flex items-center text-muted-foreground hover:text-foreground"
-                  >
-                    {showPw ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                  </button>
-                </div>
-                {/* Die Passwort-Regelliste stand hier fuer den Registrier-Modus.
-                    Seit pay-first zeigt dieser Block nur noch die ANMELDUNG —
-                    tsc meldete sie als unerreichbar (mode ist hier immer
-                    "signin"). Das Passwort entsteht jetzt auf /willkommen; dort
-                    steht die Liste. */}
-              </div>
-
-                <div className="text-right -mt-1">
-                  <button type="button" onClick={handleForgot} className="text-xs text-accent-blue font-semibold hover:underline">
-                    Passwort vergessen?
-                  </button>
-                </div>
-              </>
-              )}
-
-              {errorMsg && (
-                <div className="flex items-start gap-2 rounded-xl border border-destructive/30 bg-destructive/10 px-3 py-2.5 text-sm text-destructive">
-                  <X className="h-4 w-4 mt-0.5 flex-shrink-0" />
-                  <span>{errorMsg}</span>
-                </div>
-              )}
-
-              <Button
-                type="submit"
-                size="lg"
-                disabled={loading}
-                className="w-full rounded-full bg-gradient-primary text-primary-foreground hover:opacity-95 shadow-glow h-12 font-semibold mt-2"
-              >
-                {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : (mode === "signup" ? "Weiter zur Zahlung" : "Anmelden")}
-              </Button>
-            </form>
-
-            {/* pay-first: Google nur im Anmelde-Modus. Im Kaufweg wuerde
-                signInWithOAuth ein frisches Konto OHNE Zahlung anlegen — genau
-                die Luecke, die der Umbau schliessen soll. */}
-            {mode === "signin" && (
-            <>
-            <div className="relative my-5">
-              <div className="absolute inset-0 flex items-center"><span className="w-full border-t border-border" /></div>
-              <div className="relative flex justify-center text-xs"><span className="bg-card px-2 text-muted-foreground">oder</span></div>
-            </div>
-
-            <Button
-              type="button"
-              variant="outline"
-              size="lg"
-              disabled={loading}
-              onClick={async () => {
-                // Vor dem Redirect: danach ist die Seite weg und ein hier
-                // abgesetztes Event ginge verloren.
-                trackSignup.ssoClicked("google");
-                setLoading(true);
-                const { error } = await supabase.auth.signInWithOAuth({
-                  provider: "google",
-                  options: { redirectTo: `${window.location.origin}/onboarding` },
-                });
-                if (error) {
-                  toast.error(error.message);
-                  setLoading(false);
-                }
-              }}
-              className="w-full rounded-full h-12 font-semibold gap-2"
-            >
-              <svg className="h-4 w-4" viewBox="0 0 24 24" aria-hidden="true">
-                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.99.66-2.26 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                <path fill="#FBBC05" d="M5.84 14.1c-.22-.66-.35-1.36-.35-2.1s.13-1.44.35-2.1V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.83z"/>
-                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.83C6.71 7.31 9.14 5.38 12 5.38z"/>
-              </svg>
-              Mit Google anmelden
-            </Button>
-            </>
-            )}
-
-            <div className="mt-6 text-center text-sm text-muted-foreground">
-              {mode === "signup" ? (
-                <>Schon einen Account? <button onClick={() => setMode("signin")} className="text-accent-blue font-semibold hover:underline">Anmelden</button></>
-              ) : (
-                <>Neu hier? <button onClick={() => setMode("signup")} className="text-accent-blue font-semibold hover:underline">Zugang freischalten</button></>
-              )}
-            </div>
-          </div>
-
-          <p className="mt-6 text-xs text-muted-foreground text-center">
-            Mit dem Kauf akzeptierst du unsere <Link to="/agb" className="underline">AGB</Link> und <Link to="/datenschutz" className="underline">Datenschutzerklärung</Link>.
-          </p>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        {/* pay-first: Im Kaufweg erhebt Stripe E-Mail und Rechnungsdaten,
+            das Passwort entsteht danach auf /willkommen. Jedes Feld, das
+            hier trotzdem stuende, waere eine Huerde vor dem Preis ohne
+            jeden Nutzen. */}
+        {mode === "signin" && (
+        <>
+        <div className="space-y-1.5">
+          <Label htmlFor="email">E-Mail</Label>
+          <Input id="email" type="email" value={email} onChange={(e) => { markSignupStarted(); setEmail(e.target.value); }} placeholder="du@firma.de" required className="h-11 rounded-lg" />
         </div>
+        <div className="space-y-1.5">
+          <div className="flex items-center justify-between gap-2">
+            <Label htmlFor="pw">Passwort</Label>
+            <button type="button" onClick={handleForgot} className="text-xs font-medium text-accent-blue hover:underline">
+              Passwort vergessen?
+            </button>
+          </div>
+          <div className="relative">
+            <Input
+              id="pw"
+              type={showPw ? "text" : "password"}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Dein Passwort"
+              minLength={8}
+              required
+              className="h-11 rounded-lg pr-10"
+              autoComplete="current-password"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPw((s) => !s)}
+              aria-label={showPw ? "Passwort verbergen" : "Passwort anzeigen"}
+              className="absolute inset-y-0 right-2 flex items-center px-1 text-muted-foreground hover:text-foreground"
+            >
+              {showPw ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+            </button>
+          </div>
+          {/* Die Passwort-Regelliste stand hier fuer den Registrier-Modus.
+              Seit pay-first zeigt dieser Block nur noch die ANMELDUNG —
+              tsc meldete sie als unerreichbar (mode ist hier immer
+              "signin"). Das Passwort entsteht jetzt auf /willkommen; dort
+              steht die Liste. */}
+        </div>
+        </>
+        )}
+
+        {errorMsg && <FormFehler>{errorMsg}</FormFehler>}
+
+        <Button type="submit" size="lg" disabled={loading} className={kontoCta}>
+          {loading ? (
+            <><Loader2 className="mr-2 h-4 w-4 animate-spin" aria-hidden="true" />{mode === "signup" ? "Weiterleitung zur Zahlung …" : "Anmeldung läuft …"}</>
+          ) : (mode === "signup" ? "Weiter zur Zahlung" : "Anmelden")}
+        </Button>
+      </form>
+
+      {/* pay-first: Google nur im Anmelde-Modus. Im Kaufweg wuerde
+          signInWithOAuth ein frisches Konto OHNE Zahlung anlegen — genau
+          die Luecke, die der Umbau schliessen soll. */}
+      {mode === "signin" && (
+      <>
+      <div className="relative my-5">
+        <div className="absolute inset-0 flex items-center"><span className="w-full border-t border-border" /></div>
+        <div className="relative flex justify-center text-xs"><span className="bg-card px-2 text-muted-foreground">oder</span></div>
       </div>
-    </div>
+
+      <Button
+        type="button"
+        variant="outline"
+        size="lg"
+        disabled={loading}
+        onClick={async () => {
+          // Vor dem Redirect: danach ist die Seite weg und ein hier
+          // abgesetztes Event ginge verloren.
+          trackSignup.ssoClicked("google");
+          setLoading(true);
+          const { error } = await supabase.auth.signInWithOAuth({
+            provider: "google",
+            options: { redirectTo: `${window.location.origin}/onboarding` },
+          });
+          if (error) {
+            toast.error(error.message);
+            setLoading(false);
+          }
+        }}
+        className="h-11 w-full gap-2 rounded-xl font-semibold"
+      >
+        <svg className="h-4 w-4" viewBox="0 0 24 24" aria-hidden="true">
+          <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+          <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.99.66-2.26 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+          <path fill="#FBBC05" d="M5.84 14.1c-.22-.66-.35-1.36-.35-2.1s.13-1.44.35-2.1V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.83z"/>
+          <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.83C6.71 7.31 9.14 5.38 12 5.38z"/>
+        </svg>
+        Mit Google anmelden
+      </Button>
+      </>
+      )}
+
+      <div className="mt-6 border-t border-border pt-5 text-center text-sm text-muted-foreground">
+        {mode === "signup" ? (
+          <>Schon einen Account? <button onClick={() => setMode("signin")} className="font-semibold text-accent-blue hover:underline">Anmelden</button></>
+        ) : (
+          <>Neu hier? <button onClick={() => setMode("signup")} className="font-semibold text-accent-blue hover:underline">Zugang freischalten</button></>
+        )}
+      </div>
+    </KontoRahmen>
   );
 };
 
