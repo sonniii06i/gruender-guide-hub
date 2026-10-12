@@ -20,7 +20,7 @@ import { Link } from "react-router-dom";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import Stand2026Footer from "@/components/cockpit/Stand2026Footer";
 import { NumberField } from "@/components/ui/number-field";
-import { Label } from "@/components/ui/label";
+import { Callout, ChoiceGroup, Field, KitTable, ResultPanel, ToolLayout, ToolSection } from "@/components/cockpit/kit";
 import {
   Smartphone,
   Calculator,
@@ -29,6 +29,7 @@ import {
   Lightbulb,
   Landmark,
   HelpCircle,
+  ChevronDown,
 } from "lucide-react";
 
 const UST_SATZ = 0.19;
@@ -115,283 +116,258 @@ const AppUmsatzRechner = () => {
   const rentabel = calc.breakEvenMonat !== null && calc.breakEvenMonat <= 18;
   const nieRentabel = calc.breakEvenMonat === null;
 
+
+  const statusTon = nieRentabel ? "danger" : rentabel ? "success" : "warning";
+  const schritt = (n: number) => (
+    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent text-xs font-semibold text-accent-blue tabular">{n}</span>
+  );
+
   return (
     <CockpitShell
-      eyebrow="🚀 Launch · Companion zum App-Guide"
+      eyebrow="Launch · Companion zum App-Guide"
       title="App-Store-Umsatz-Rechner"
-      subtitle="Von 9,99 € im Store kommen bei dir ~7,14 € an — USt führt der Store ab, dann geht die Provision runter. Dieses Tool rechnet Preis → Netto-Erlös → MRR/LTV → Break-even gegen deine Entwicklungskosten."
+      subtitle="Von 9,99 € im Store kommen bei dir etwa 7,14 € an: Die USt führt der Store ab, dann geht die Provision runter. Das Tool rechnet Preis, Netto-Erlös, MRR und LTV bis zum Break-even gegen deine Entwicklungskosten."
     >
-      {/* === 1. Monetarisierung === */}
-      <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5 mb-4">
-        <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
-          <Smartphone className="h-4 w-4 text-accent-blue" /> 1. Wie verdient deine App Geld?
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Modell</Label>
-            <select
-              value={modell}
-              onChange={(e) => setModell(e.target.value as Modell)}
-              className="mt-1 h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
-            >
-              {(Object.entries(MODELL_LABEL) as [Modell, string][]).map(([k, v]) => (
-                <option key={k} value={k}>{v}</option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">
-              Store-Preis (€ brutto{modell === "abo-jahr" ? " / Jahr" : modell === "abo-monat" ? " / Monat" : ""})
-            </Label>
-            <NumberField step="0.01" value={preis} onChange={setPreis} min={0} className="mt-1" />
-            <div className="text-[10px] text-muted-foreground mt-1">Der Preis, den Endkunden im Store sehen (inkl. USt)</div>
-          </div>
-          <label className="flex items-center gap-2 text-xs cursor-pointer rounded-lg border border-border p-2 self-end h-10">
-            <input
-              type="checkbox"
-              checked={smallBusiness}
-              onChange={(e) => setSmallBusiness(e.target.checked)}
-              className="h-4 w-4"
-            />
-            <span>Small-Business-Tarif (15 % statt 30 %) — gilt unter 1 Mio. $/Jahr</span>
-          </label>
-        </div>
-      </div>
-
-      {/* === 2. Volumen === */}
-      <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5 mb-4">
-        <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
-          <TrendingUp className="h-4 w-4 text-accent-blue" /> 2. Wie viele Nutzer erwartest du?
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Downloads / Monat</Label>
-            <NumberField value={downloadsMonat} onChange={setDownloadsMonat} min={0} className="mt-1" />
-            <div className="text-[10px] text-muted-foreground mt-1">Ohne Audience sind 300–1.500/Mon im 1. Jahr realistisch</div>
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Conversion zu zahlend (%)</Label>
-            <NumberField step="0.1" value={conversion} onChange={setConversion} min={0} max={100} className="mt-1" />
-            <div className="text-[10px] text-muted-foreground mt-1">Benchmark (RevenueCat): ~3–7 % der Downloads zahlen je</div>
-          </div>
-          {istAbo && (
-            <div>
-              <Label className="text-xs uppercase tracking-wider text-muted-foreground">Monatlicher Abo-Churn (%)</Label>
-              <NumberField step="0.1" value={churnMonat} onChange={setChurnMonat} min={0.1} max={100} className="mt-1" />
-              <div className="text-[10px] text-muted-foreground mt-1">Monats-Abos: 8–15 % · Jahres-Abos: 3–6 % (auf Monat gerechnet)</div>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* === 3. Kosten === */}
-      <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5 mb-4">
-        <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
-          <Calculator className="h-4 w-4 text-accent-blue" /> 3. Was kostet dich die App?
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Entwicklung einmalig (€)</Label>
-            <NumberField value={devKosten} onChange={setDevKosten} min={0} className="mt-1" />
-            <div className="text-[10px] text-muted-foreground mt-1">0 € (selbst mit KI) · 3–10k (Freelancer) · 15k+ (Agentur)</div>
-          </div>
-          <div>
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Laufende Kosten / Monat (€)</Label>
-            <NumberField value={laufendMonat} onChange={setLaufendMonat} min={0} className="mt-1" />
-            <div className="text-[10px] text-muted-foreground mt-1">Server/Backend, Tools, APIs — Apple-Jahresgebühr rechnen wir automatisch drauf</div>
-          </div>
-          <div className="rounded-lg bg-secondary/40 p-3 self-end">
-            <div className="text-[10px] uppercase text-muted-foreground">Fixkosten gesamt / Monat</div>
-            <div className="font-mono text-base font-semibold">{eur(calc.fixkostenMonat, 2)} €</div>
-            <div className="text-[10px] text-muted-foreground">inkl. 99 $/Jahr Apple Developer</div>
-          </div>
-        </div>
-      </div>
-
-      {/* === Ergebnis-Hero === */}
-      <div
-        className={`rounded-2xl border-2 p-5 mb-6 ${
-          nieRentabel
-            ? "border-red-500/40 bg-red-500/5"
-            : rentabel
-              ? "border-emerald-500/40 bg-gradient-to-br from-emerald-500/10 via-card to-card"
-              : "border-amber-500/40 bg-amber-500/5"
-        }`}
-      >
-        <div className="text-xs uppercase tracking-wider text-muted-foreground mb-1">
-          Dein Netto-Erlös pro Zahler {istAbo ? "und Monat" : ""}
-        </div>
-        <div className="flex items-baseline gap-3 flex-wrap mb-3">
-          <div className={`text-5xl font-bold ${nieRentabel ? "text-red-700" : rentabel ? "text-emerald-700" : "text-amber-700"}`}>
-            {eur(istAbo ? calc.erloesProZahlerMonat : calc.ltv, 2)} €
-          </div>
-          <div className="text-lg text-muted-foreground">
-            von {eur(modell === "abo-jahr" ? preis / 12 : preis, 2)} € Store-Preis{modell === "abo-jahr" ? "/Monat" : ""}
-          </div>
-        </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs mb-3">
-          <div className="rounded-lg bg-secondary/40 p-2">
-            <div className="text-[10px] uppercase text-muted-foreground">{istAbo ? "MRR nach 12 Monaten" : "Umsatz / Monat"}</div>
-            <div className="font-mono text-base font-semibold">{eur(calc.mrr12)} €</div>
-          </div>
-          <div className="rounded-lg bg-secondary/40 p-2">
-            <div className="text-[10px] uppercase text-muted-foreground">LTV pro Zahler</div>
-            <div className="font-mono text-base font-semibold">{eur(calc.ltv, 2)} €</div>
-          </div>
-          {istAbo && (
-            <div className="rounded-lg bg-secondary/40 p-2">
-              <div className="text-[10px] uppercase text-muted-foreground">Abonnenten-Plateau</div>
-              <div className="font-mono text-base font-semibold">{eur(calc.steadyAbonnenten)}</div>
-            </div>
-          )}
-          <div className="rounded-lg bg-secondary/40 p-2">
-            <div className="text-[10px] uppercase text-muted-foreground">Break-even (Dev-Kosten)</div>
-            <div className="font-mono text-base font-semibold">
-              {calc.breakEvenMonat === null ? "> 36 Mon" : `Monat ${calc.breakEvenMonat}`}
-            </div>
-          </div>
-        </div>
-
-        {nieRentabel && (
-          <div className="rounded-lg bg-red-500/10 border border-red-500/40 p-3 text-xs leading-relaxed flex items-start gap-2">
-            <AlertTriangle className="h-4 w-4 text-red-700 shrink-0 mt-0.5" />
-            <div>
-              <strong className="text-red-900">⚠ In 36 Monaten kein Break-even.</strong> Mit diesen Annahmen trägt sich
-              die App nicht. Hebel in dieser Reihenfolge: Preis rauf (Store-Nutzer sind weniger preissensibel als du
-              denkst), Conversion verbessern (Paywall/Onboarding), Churn senken (Jahres-Abo pushen) — oder
-              Entwicklungskosten drücken (KI-selbst statt Agentur).
-            </div>
-          </div>
-        )}
-        {rentabel && (
-          <div className="rounded-lg bg-emerald-500/10 border border-emerald-500/40 p-3 text-xs">
-            ✅ Break-even in {calc.breakEvenMonat} Monaten — solide. Kumulierter Gewinn nach 36 Monaten:{" "}
-            <strong>{eur(calc.kumGewinn36)} €</strong>. Ab hier lohnt es, in Wachstum (ASO, Content, Ads) zu investieren.
-          </div>
-        )}
-        {!rentabel && !nieRentabel && (
-          <div className="rounded-lg bg-amber-500/10 border border-amber-500/40 p-3 text-xs leading-relaxed">
-            <strong>💡 Break-even erst in Monat {calc.breakEvenMonat}.</strong> Machbar, aber lang — prüfe, ob ein
-            höherer Preis oder ein Jahres-Abo als Default (weniger Churn) die Kurve steiler macht, bevor du in
-            Marketing investierst.
-          </div>
-        )}
-      </div>
-
-      {/* === So wird gerechnet === */}
-      <div className="rounded-2xl border border-border bg-card p-5 mb-6">
-        <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
-          <Calculator className="h-4 w-4 text-accent-blue" /> So wird gerechnet
-        </h3>
-        <ol className="space-y-3 text-sm">
-          <li className="flex items-start gap-3">
-            <span className="rounded-full bg-accent-blue/10 text-accent-blue h-6 w-6 flex items-center justify-center font-bold text-xs shrink-0">1</span>
-            <div className="flex-1">
-              <div className="font-semibold">USt raus: Store-Preis ÷ 1,19</div>
-              <div className="text-xs text-muted-foreground">
-                Apple/Google treten als Kommissionär auf und führen die USt auf den Endkundenpreis selbst ab →{" "}
-                <strong className="text-foreground">{eur(calc.nettoPreis, 2)} € netto{istAbo ? "/Monat" : ""}</strong>
+      <ToolLayout
+        className="mb-8"
+        inputs={
+          <>
+            <ToolSection title="1. Wie verdient deine App Geld?" icon={Smartphone}>
+              <div className="space-y-4">
+                <Field label="Modell">
+                  <ChoiceGroup<Modell>
+                    label="Modell"
+                    value={modell}
+                    onChange={setModell}
+                    options={(Object.entries(MODELL_LABEL) as [Modell, string][]).map(([k, v]) => ({ value: k, label: v }))}
+                  />
+                </Field>
+                <Field
+                  label={`Store-Preis (€ brutto${modell === "abo-jahr" ? " pro Jahr" : modell === "abo-monat" ? " pro Monat" : ""})`}
+                  hint="Der Preis, den Endkunden im Store sehen (inkl. USt)."
+                >
+                  <NumberField step="0.01" value={preis} onChange={setPreis} min={0} aria-label="Store-Preis brutto in Euro" />
+                </Field>
+                <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-border p-3.5 text-sm transition-colors hover:border-foreground/25">
+                  <input
+                    type="checkbox"
+                    checked={smallBusiness}
+                    onChange={(e) => setSmallBusiness(e.target.checked)}
+                    className="mt-0.5 h-4 w-4 shrink-0 accent-[hsl(var(--primary))]"
+                  />
+                  <span>
+                    <span className="font-medium">Small-Business-Tarif (15 % statt 30 %)</span>
+                    <span className="mt-0.5 block text-xs text-muted-foreground">Gilt unter 1 Mio. $ Umsatz pro Jahr.</span>
+                  </span>
+                </label>
               </div>
-            </div>
-          </li>
-          <li className="flex items-start gap-3">
-            <span className="rounded-full bg-accent-blue/10 text-accent-blue h-6 w-6 flex items-center justify-center font-bold text-xs shrink-0">2</span>
-            <div className="flex-1">
-              <div className="font-semibold">Store-Provision: −{Math.round(calc.cut * 100)} %</div>
-              <div className="text-xs text-muted-foreground">
-                {smallBusiness
-                  ? "Small Business Program (Apple, aktiv beantragen!) bzw. 15 %-Tier auf die erste 1 Mio. $ (Google, automatisch)"
-                  : "Standard-Provision 30 % — unter 1 Mio. $/Jahr verschenkst du Geld: Small Business Program beantragen!"}{" "}
-                → <strong className="text-foreground">{eur(calc.erloesProZahlerMonat, 2)} € Erlös pro Zahler{istAbo ? "/Monat" : ""}</strong>
-              </div>
-            </div>
-          </li>
-          <li className="flex items-start gap-3">
-            <span className="rounded-full bg-accent-blue/10 text-accent-blue h-6 w-6 flex items-center justify-center font-bold text-xs shrink-0">3</span>
-            <div className="flex-1">
-              <div className="font-semibold">Zahler: {eur(downloadsMonat)} Downloads × {conversion} % Conversion</div>
-              <div className="text-xs text-muted-foreground">
-                = <strong className="text-foreground">{eur(calc.neueZahlerMonat, 1)} neue Zahler/Monat</strong>
+            </ToolSection>
+
+            <ToolSection title="2. Wie viele Nutzer erwartest du?" icon={TrendingUp}>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <Field label="Downloads pro Monat" hint="Ohne Audience sind 300 bis 1.500 pro Monat im 1. Jahr realistisch.">
+                  <NumberField value={downloadsMonat} onChange={setDownloadsMonat} min={0} aria-label="Downloads pro Monat" />
+                </Field>
+                <Field label="Conversion zu zahlend (%)" hint="Benchmark (RevenueCat): etwa 3 bis 7 % der Downloads zahlen.">
+                  <NumberField step="0.1" value={conversion} onChange={setConversion} min={0} max={100} aria-label="Conversion in Prozent" />
+                </Field>
                 {istAbo && (
-                  <> · mit {churnMonat} % Churn pendelt sich der Bestand bei ~{eur(calc.steadyAbonnenten)} Abonnenten ein (Zugänge = Abgänge)</>
+                  <Field
+                    label="Monatlicher Abo-Churn (%)"
+                    hint="Monats-Abos 8 bis 15 %, Jahres-Abos 3 bis 6 % (auf den Monat gerechnet)."
+                    className="sm:col-span-2"
+                  >
+                    <NumberField step="0.1" value={churnMonat} onChange={setChurnMonat} min={0.1} max={100} aria-label="Churn pro Monat in Prozent" />
+                  </Field>
                 )}
               </div>
-            </div>
-          </li>
-          <li className="flex items-start gap-3">
-            <span className="rounded-full bg-accent-blue/10 text-accent-blue h-6 w-6 flex items-center justify-center font-bold text-xs shrink-0">4</span>
-            <div className="flex-1">
-              <div className="font-semibold">Break-even: kumulierter Gewinn gegen {eur(devKosten)} € Entwicklung</div>
-              <div className="text-xs text-muted-foreground">
-                Monatlicher Gewinn = Umsatz − {eur(calc.fixkostenMonat, 2)} € Fixkosten; Startsaldo −{eur(devKosten)} € →{" "}
-                <strong className="text-foreground">
-                  {calc.breakEvenMonat === null ? "kein Break-even in 36 Monaten" : `Break-even in Monat ${calc.breakEvenMonat}`}
-                </strong>
+            </ToolSection>
+
+            <ToolSection title="3. Was kostet dich die App?" icon={Calculator}>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <Field label="Entwicklung einmalig (€)" hint="0 € (selbst mit KI) · 3 bis 10k (Freelancer) · ab 15k (Agentur)">
+                  <NumberField value={devKosten} onChange={setDevKosten} min={0} aria-label="Entwicklungskosten in Euro" />
+                </Field>
+                <Field label="Laufende Kosten pro Monat (€)" hint="Server, Backend, Tools, APIs. Die Apple-Jahresgebühr rechnen wir automatisch drauf.">
+                  <NumberField value={laufendMonat} onChange={setLaufendMonat} min={0} aria-label="Laufende Kosten pro Monat in Euro" />
+                </Field>
               </div>
-            </div>
-          </li>
-        </ol>
-      </div>
+              <div className="mt-4 flex flex-wrap items-baseline justify-between gap-2 rounded-xl bg-secondary/60 px-4 py-3 text-sm">
+                <span>
+                  Fixkosten gesamt pro Monat <span className="text-xs text-muted-foreground">(inkl. 99 $ pro Jahr Apple Developer)</span>
+                </span>
+                <strong className="font-semibold tabular">{eur(calc.fixkostenMonat, 2)} €</strong>
+              </div>
+            </ToolSection>
+          </>
+        }
+        result={
+          <>
+            <ResultPanel
+              variant="ink"
+              kicker={`Dein Netto-Erlös pro Zahler${istAbo ? " und Monat" : ""}`}
+              title={
+                calc.breakEvenMonat === null ? "Kein Break-even in 36 Monaten" : `Break-even in Monat ${calc.breakEvenMonat}`
+              }
+              value={`${eur(istAbo ? calc.erloesProZahlerMonat : calc.ltv, 2)} €`}
+              valueHint={`von ${eur(modell === "abo-jahr" ? preis / 12 : preis, 2)} € Store-Preis${modell === "abo-jahr" ? " pro Monat" : ""}`}
+            >
+              <div className="grid grid-cols-2 gap-px overflow-hidden rounded-xl bg-white/10">
+                {[
+                  { l: istAbo ? "MRR nach 12 Monaten" : "Umsatz pro Monat", v: `${eur(calc.mrr12)} €` },
+                  { l: "LTV pro Zahler", v: `${eur(calc.ltv, 2)} €` },
+                  ...(istAbo ? [{ l: "Abonnenten-Plateau", v: eur(calc.steadyAbonnenten) }] : []),
+                  { l: "Break-even (Dev-Kosten)", v: calc.breakEvenMonat === null ? "> 36 Mon" : `Monat ${calc.breakEvenMonat}` },
+                ].map((k) => (
+                  <div key={k.l} className="bg-white/[0.04] p-3">
+                    <div className="text-xs text-primary-foreground/65">{k.l}</div>
+                    <div className="mt-0.5 font-semibold text-primary-foreground tabular">{k.v}</div>
+                  </div>
+                ))}
+              </div>
+            </ResultPanel>
 
-      {/* === Verlaufs-Tabelle === */}
-      <div className="rounded-2xl border border-border bg-card p-5 mb-6">
-        <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
-          <TrendingUp className="h-4 w-4 text-accent-blue" /> Umsatz-Verlauf (Simulation)
-        </h3>
-        <div className="overflow-x-auto">
-          <table className="w-full text-xs">
-            <thead>
-              <tr className="text-left text-muted-foreground border-b border-border">
-                <th className="py-1.5 pr-3">Monat</th>
-                <th className="py-1.5 pr-3">Umsatz</th>
-                <th className="py-1.5 pr-3">Gewinn/Monat</th>
-                <th className="py-1.5">Kumuliert (inkl. Dev-Kosten)</th>
+            {nieRentabel && (
+              <Callout tone={statusTon} title="In 36 Monaten kein Break-even." icon={AlertTriangle}>
+                Mit diesen Annahmen trägt sich die App nicht. Hebel in dieser Reihenfolge: Preis rauf (Store-Nutzer sind weniger
+                preissensibel als du denkst), Conversion verbessern (Paywall, Onboarding), Churn senken (Jahres-Abo pushen) oder
+                Entwicklungskosten drücken (mit KI selbst statt Agentur).
+              </Callout>
+            )}
+            {rentabel && (
+              <Callout tone={statusTon} title={`Break-even in ${calc.breakEvenMonat} Monaten: solide.`}>
+                Kumulierter Gewinn nach 36 Monaten: <strong className="tabular">{eur(calc.kumGewinn36)} €</strong>. Ab hier lohnt es, in
+                Wachstum (ASO, Content, Ads) zu investieren.
+              </Callout>
+            )}
+            {!rentabel && !nieRentabel && (
+              <Callout tone={statusTon} title={`Break-even erst in Monat ${calc.breakEvenMonat}.`} icon={Lightbulb}>
+                Machbar, aber lang. Prüfe, ob ein höherer Preis oder ein Jahres-Abo als Standard (weniger Churn) die Kurve steiler
+                macht, bevor du in Marketing investierst.
+              </Callout>
+            )}
+
+            <ToolSection title="So wird gerechnet" icon={Calculator}>
+              <ol className="space-y-4 text-sm">
+                <li className="flex items-start gap-3">
+                  {schritt(1)}
+                  <div className="min-w-0 flex-1">
+                    <div className="font-semibold">USt raus: Store-Preis ÷ 1,19</div>
+                    <div className="mt-0.5 text-muted-foreground">
+                      Apple und Google treten als Kommissionär auf und führen die USt auf den Endkundenpreis selbst ab:{" "}
+                      <strong className="text-foreground tabular">{eur(calc.nettoPreis, 2)} € netto{istAbo ? " pro Monat" : ""}</strong>
+                    </div>
+                  </div>
+                </li>
+                <li className="flex items-start gap-3">
+                  {schritt(2)}
+                  <div className="min-w-0 flex-1">
+                    <div className="font-semibold">Store-Provision: −{Math.round(calc.cut * 100)} %</div>
+                    <div className="mt-0.5 text-muted-foreground">
+                      {smallBusiness
+                        ? "Small Business Program (Apple, aktiv beantragen!) bzw. 15 %-Stufe auf die erste 1 Mio. $ (Google, automatisch)"
+                        : "Standard-Provision 30 %. Unter 1 Mio. $ pro Jahr verschenkst du Geld: Small Business Program beantragen!"}
+                      :{" "}
+                      <strong className="text-foreground tabular">{eur(calc.erloesProZahlerMonat, 2)} € Erlös pro Zahler{istAbo ? " und Monat" : ""}</strong>
+                    </div>
+                  </div>
+                </li>
+                <li className="flex items-start gap-3">
+                  {schritt(3)}
+                  <div className="min-w-0 flex-1">
+                    <div className="font-semibold tabular">Zahler: {eur(downloadsMonat)} Downloads × {conversion} % Conversion</div>
+                    <div className="mt-0.5 text-muted-foreground">
+                      = <strong className="text-foreground tabular">{eur(calc.neueZahlerMonat, 1)} neue Zahler pro Monat</strong>
+                      {istAbo && (
+                        <> · mit {churnMonat} % Churn pendelt sich der Bestand bei etwa {eur(calc.steadyAbonnenten)} Abonnenten ein (Zugänge = Abgänge)</>
+                      )}
+                    </div>
+                  </div>
+                </li>
+                <li className="flex items-start gap-3">
+                  {schritt(4)}
+                  <div className="min-w-0 flex-1">
+                    <div className="font-semibold">Break-even: kumulierter Gewinn gegen {eur(devKosten)} € Entwicklung</div>
+                    <div className="mt-0.5 text-muted-foreground">
+                      Monatlicher Gewinn = Umsatz − {eur(calc.fixkostenMonat, 2)} € Fixkosten; Startsaldo −{eur(devKosten)} €:{" "}
+                      <strong className="text-foreground">
+                        {calc.breakEvenMonat === null ? "kein Break-even in 36 Monaten" : `Break-even in Monat ${calc.breakEvenMonat}`}
+                      </strong>
+                    </div>
+                  </div>
+                </li>
+              </ol>
+            </ToolSection>
+          </>
+        }
+      />
+
+      <ToolSection title="Umsatz-Verlauf (Simulation)" icon={TrendingUp} className="mb-6">
+        <KitTable caption="Simulierter Umsatz-Verlauf je Monat" className="max-h-[420px] overflow-y-auto">
+          <thead className="sticky top-0">
+            <tr>
+              <th>Monat</th>
+              <th className="!text-right">Umsatz</th>
+              <th className="!text-right">Gewinn pro Monat</th>
+              <th className="!text-right">Kumuliert (inkl. Dev-Kosten)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {calc.verlauf.map((v) => (
+              <tr key={v.monat}>
+                <td>{v.monat}</td>
+                <td className="text-right">{eur(v.umsatz)} €</td>
+                <td className={`text-right ${v.gewinn >= 0 ? "text-success" : "text-danger"}`}>{eur(v.gewinn)} €</td>
+                <td className={`text-right ${v.kum >= 0 ? "text-success" : "font-semibold text-danger"}`}>{eur(v.kum)} €</td>
               </tr>
-            </thead>
-            <tbody>
-              {calc.verlauf.map((v) => (
-                <tr key={v.monat} className="border-b border-border/50">
-                  <td className="py-1.5 pr-3 font-mono">{v.monat}</td>
-                  <td className="py-1.5 pr-3 font-mono">{eur(v.umsatz)} €</td>
-                  <td className={`py-1.5 pr-3 font-mono ${v.gewinn >= 0 ? "text-emerald-700" : "text-red-700"}`}>
-                    {eur(v.gewinn)} €
-                  </td>
-                  <td className={`py-1.5 font-mono ${v.kum >= 0 ? "text-emerald-700" : "text-red-700"}`}>
-                    {eur(v.kum)} €
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+            ))}
+          </tbody>
+        </KitTable>
+      </ToolSection>
 
-      {/* === Steuer-Hinweis + Guide-Link === */}
-      <div className="rounded-2xl border border-amber-500/30 bg-amber-500/5 p-5 mb-6 text-xs leading-relaxed">
-        <h3 className="font-bold text-sm mb-2 flex items-center gap-2">
-          <Landmark className="h-4 w-4 text-amber-600" /> Steuer-Falle: Auszahlung ≠ Umsatz mit 19 % USt
-        </h3>
-        <p className="mb-2">
-          Die monatliche Store-Auszahlung ist eine <strong>B2B-Leistung an Apple/Google Irland</strong> (Reverse
-          Charge): keine USt in deiner Rechnung, aber Meldung in USt-VA (§18b) + Zusammenfassender Meldung — dafür
-          brauchst du eine <strong>eigene USt-IdNr., auch als Kleinunternehmer</strong>. Wer die Auszahlung als
-          "Umsatz 19 %" bucht, zahlt USt doppelt.
-        </p>
+      <Callout tone="warning" title="Steuer-Falle: Auszahlung ist kein Umsatz mit 19 % USt" icon={Landmark} className="mb-6">
         <p>
-          Der komplette Ablauf von Idee bis Launch — Developer-Accounts, Googles 12-Tester-Pflicht, Review bestehen,
-          Rechtstexte, Steuern — steht im{" "}
-          <Link to="/guides/eigene-app-launchen" className="text-accent-blue font-semibold underline">
-            Guide „Eigene App entwickeln &amp; launchen"
-          </Link>.
+          Die monatliche Store-Auszahlung ist eine <strong>B2B-Leistung an Apple/Google Irland</strong> (Reverse Charge): keine USt in
+          deiner Rechnung, aber Meldung in der USt-VA (§ 18b) und in der Zusammenfassenden Meldung. Dafür brauchst du eine{" "}
+          <strong>eigene USt-IdNr., auch als Kleinunternehmer</strong>. Wer die Auszahlung als „Umsatz 19 %“ bucht, zahlt die USt
+          doppelt.
         </p>
-      </div>
+        <p className="mt-2">
+          Der komplette Ablauf von der Idee bis zum Launch (Developer-Accounts, Googles 12-Tester-Pflicht, Review bestehen,
+          Rechtstexte, Steuern) steht im{" "}
+          <Link to="/guides/eigene-app-launchen" className="font-semibold text-accent-blue underline underline-offset-2">
+            Guide „Eigene App entwickeln &amp; launchen“
+          </Link>
+          .
+        </p>
+      </Callout>
 
-      {/* === Glossar === */}
-      <details className="rounded-2xl border border-border bg-card p-5 mb-6">
-        <summary className="cursor-pointer font-bold text-sm flex items-center gap-2">
-          <HelpCircle className="h-4 w-4 text-accent-blue" /> Glossar — Begriffe einfach erklärt
+      <ToolSection title="Benchmarks zum Einordnen (Consumer-Apps 2026)" icon={Lightbulb} className="mb-6">
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+          {[
+            { t: "Conversion Download zu zahlend", b: "Etwa 3 bis 7 % je nach Kategorie. Mit hartem Paywall-Onboarding (Trial vor Nutzung) auch 10 %+, dafür weniger Downloads." },
+            { t: "Monatlicher Churn", b: "Monats-Abos 8 bis 15 %, Jahres-Abos effektiv 3 bis 6 %. Deshalb: Jahres-Abo als Standard anbieten." },
+            { t: "Trial zu Paid", b: "30 bis 50 % der Trial-Starter konvertieren (RevenueCat-Daten). Trial-Länge 3 bis 7 Tage testen." },
+          ].map((k) => (
+            <div key={k.t} className="rounded-xl border border-border bg-secondary/40 p-4 text-sm">
+              <p className="font-semibold">{k.t}</p>
+              <p className="mt-1 leading-relaxed text-muted-foreground">{k.b}</p>
+            </div>
+          ))}
+        </div>
+      </ToolSection>
+
+      <details className="group mb-6 rounded-2xl border border-border bg-card shadow-card [&_summary::-webkit-details-marker]:hidden">
+        <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-5 py-4 text-base font-semibold md:px-6">
+          <span className="flex items-center gap-3">
+            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-accent-blue">
+              <HelpCircle className="h-4 w-4" aria-hidden="true" />
+            </span>
+            Glossar: Begriffe einfach erklärt
+          </span>
+          <ChevronDown className="h-4 w-4 text-muted-foreground transition-transform group-open:rotate-180" aria-hidden="true" />
         </summary>
-        <div className="mt-3 space-y-3 text-xs leading-relaxed">
+        <dl className="divide-y divide-border/70 border-t border-border/70 px-5 md:px-6">
           {[
             { begriff: "Store-Provision (15 % / 30 %)", erklaerung: "Apple und Google behalten 30 % Standard. Real zahlen kleine Entwickler 15 %: Apple über das Small Business Program (unter 1 Mio. $ Umsatz/Jahr, muss AKTIV in App Store Connect beantragt werden), Google automatisch auf die erste 1 Mio. $/Jahr. Apple-Abos kosten ab dem 13. Abonnenten-Monat ebenfalls nur 15 %." },
             { begriff: "Churn", erklaerung: "Anteil der Abonnenten, die pro Monat kündigen. 8 % Churn heißt: Von 100 Abonnenten sind nach einem Monat noch 92 da. Der Abonnenten-Bestand wächst nur, solange neue Zahler > Kündiger — deshalb gibt es ein Plateau bei (neue Zahler ÷ Churn)." },
@@ -400,34 +376,14 @@ const AppUmsatzRechner = () => {
             { begriff: "Kommissionärs-Modell", erklaerung: "Bei In-App-Käufen verkauft nicht du an den Endkunden, sondern Apple/Google (irische Gesellschaften) — sie berechnen und führen die USt im Land des Käufers ab. Deine Leistung ist B2B an Irland (Reverse Charge, ZM-Pflicht). Details in Schritt 17 des App-Guides." },
             { begriff: "Break-even", erklaerung: "Der Monat, in dem der kumulierte Gewinn die einmaligen Entwicklungskosten eingeholt hat. Unter 18 Monaten gilt als gesund für Indie-Apps; über 36 Monaten heißt: Annahmen ändern oder Konzept überarbeiten." },
           ].map((g) => (
-            <div key={g.begriff} className="rounded-lg bg-secondary/30 p-3">
-              <div className="font-semibold text-foreground mb-1">{g.begriff}</div>
-              <div className="text-muted-foreground">{g.erklaerung}</div>
+            <div key={g.begriff} className="py-3.5 text-sm">
+              <dt className="font-semibold text-foreground">{g.begriff}</dt>
+              <dd className="mt-1 leading-relaxed text-muted-foreground">{g.erklaerung}</dd>
             </div>
           ))}
-        </div>
+        </dl>
       </details>
 
-      {/* === Benchmark-Box === */}
-      <div className="rounded-2xl border border-border bg-card p-5 mb-6">
-        <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
-          <Lightbulb className="h-4 w-4 text-accent-blue" /> Benchmarks zum Einordnen (Consumer-Apps 2026)
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-xs">
-          <div className="rounded-lg bg-secondary/30 p-3">
-            <strong className="block mb-1">Conversion Download → zahlend</strong>
-            <div className="text-muted-foreground">~3–7 % je nach Kategorie. Mit hartem Paywall-Onboarding (Trial vor Nutzung) auch 10 %+, dafür weniger Downloads.</div>
-          </div>
-          <div className="rounded-lg bg-secondary/30 p-3">
-            <strong className="block mb-1">Monatlicher Churn</strong>
-            <div className="text-muted-foreground">Monats-Abos 8–15 %, Jahres-Abos effektiv 3–6 %. Deshalb: Jahres-Abo als Default anbieten.</div>
-          </div>
-          <div className="rounded-lg bg-secondary/30 p-3">
-            <strong className="block mb-1">Trial → Paid</strong>
-            <div className="text-muted-foreground">30–50 % der Trial-Starter konvertieren (RevenueCat-Daten). Trial-Länge 3–7 Tage testen.</div>
-          </div>
-        </div>
-      </div>
 
       <Stand2026Footer
         sources={[
