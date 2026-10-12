@@ -1,23 +1,23 @@
 {
- "stand": "2026-10-11T10:53:53.000Z",
+ "stand": "2026-10-12T12:06:29.941Z",
  "quellen": {
   "foerderung-bund": {
    "ok": true,
    "roh": 20,
    "uebernommen": 20,
    "verworfen": {},
-   "letzterErfolg": "2026-10-11T10:52:37.019Z"
+   "letzterErfolg": "2026-10-12T12:05:06.430Z"
   },
   "eu-calls": {
    "ok": true,
-   "roh": 1197,
+   "roh": 1198,
    "uebernommen": 28,
    "verworfen": {
-    "Frist vorbei (Status noch offen)": 555,
-    "kein KMU-/Startup-Bezug": 420,
+    "Frist vorbei (Status noch offen)": 564,
+    "kein KMU-/Startup-Bezug": 374,
     "abgesagt": 1
    },
-   "letzterErfolg": "2026-10-11T10:52:56.203Z"
+   "letzterErfolg": "2026-10-12T12:05:28.006Z"
   },
   "wettbewerbe": {
    "ok": true,
@@ -27,16 +27,16 @@
     "keine offene Frist": 156,
     "SPRIND: nicht offen": 20
    },
-   "letzterErfolg": "2026-10-11T10:52:58.593Z"
+   "letzterErfolg": "2026-10-12T12:05:31.898Z"
   },
   "ausschreibungen": {
    "ok": true,
    "roh": 300,
-   "uebernommen": 276,
+   "uebernommen": 281,
    "verworfen": {
-    "keine offene Angebotsfrist": 24
+    "keine offene Angebotsfrist": 19
    },
-   "letzterErfolg": "2026-10-11T10:53:01.547Z"
+   "letzterErfolg": "2026-10-12T12:05:36.380Z"
   },
   "recht": {
    "ok": false,
@@ -53,10 +53,10 @@
     "Karriere-/Bildungsmesse": 194,
     "kein Gründer-/Business-Bezug": 16
    },
-   "letzterErfolg": "2026-10-11T10:53:52.990Z"
+   "letzterErfolg": "2026-10-12T12:06:29.926Z"
   }
  },
- "anzahl": 359,
+ "anzahl": 363,
  "eintraege": [
   {
    "id": "recht-3batb8",
@@ -427,22 +427,6 @@
    "entdeckt": "2026-10-10"
   },
   {
-   "id": "foerderung-bund-1h1fqih",
-   "kategorie": "foerderung",
-   "quelle": "foerderinfo.bund.de",
-   "titel": "1. Förderaufruf: Digital-Tech-to-Product – Entwicklung souveräner und marktorientierter Innovationen in digitalen Technologien",
-   "geber": "Bundesregierung (Förderberatung des Bundes)",
-   "url": "https://bmds.bund.de/themen/digitalpolitik/foerderprogramm-digital-tech-to-product/erster-foerderaufruf-digital-tech-to-product",
-   "frist": "2026-10-11",
-   "region": "bund",
-   "tags": [
-    "KMU"
-   ],
-   "kurz": "Erster Förderaufruf zur Einreichung von Skizzen zur Förderung von Entwicklungsprojekten in der Förderrichtlinie des Bundesministeriums für Digitales und Staatsmodernisierung (BMDS) zum Thema \"Digital-Tech-to-Product – Entwicklung souveräner",
-   "_q": "foerderung-bund",
-   "entdeckt": "2026-10-08"
-  },
-  {
    "id": "eu-calls-rocogw",
    "kategorie": "eu",
    "quelle": "EU Funding & Tenders",
@@ -457,22 +441,6 @@
    "entdeckt": "2026-10-08"
   },
   {
-   "id": "ausschreibungen-1w1qx2r",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Projektoren",
-   "geber": "Universität Rostock Angebotsfrist: 12.10.2026 12:00 Veröffentlichungsende: 12.10",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/dtvp/2026/09/345050.html#track=feed-callforbids",
-   "frist": "2026-10-12",
-   "region": "bund",
-   "tags": [
-    "IT"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-08"
-  },
-  {
    "id": "ausschreibungen-fp1776",
    "kategorie": "ausschreibung",
    "quelle": "service.bund.de",
@@ -483,22 +451,6 @@
    "region": "bund",
    "tags": [
     "IT"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-08"
-  },
-  {
-   "id": "ausschreibungen-ma7ol5",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "hyperspectral imaging system",
-   "geber": "Helmholtz-Zentrum hereon GmbH Angebotsfrist: 12.10.2026 12:00 Veröffentlichungse",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/vmp-bb/2026/09/260740.html#track=feed-callforbids",
-   "frist": "2026-10-12",
-   "region": "bund",
-   "tags": [
-    "F&E"
    ],
    "kurz": "",
    "_q": "ausschreibungen",
@@ -789,20 +741,20 @@
    "entdeckt": "2026-10-08"
   },
   {
-   "id": "ausschreibungen-xsdrf",
+   "id": "ausschreibungen-bhh84h",
    "kategorie": "ausschreibung",
    "quelle": "service.bund.de",
-   "titel": "Rahmenvertrag Holzernte und Rückung",
-   "geber": "Staatsbetrieb Sachsenforst - Forstbezirk Adorf Angebotsfrist: 15.10.2026 14:00 V",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/ai-sachsen/2026/09/54321-Tender-1a08f96f8ea-78177fe2256456f4.html#track=feed-callforbids",
+   "titel": "Beschaffung NetApp AFF C30 für das Schulumfeld",
+   "geber": "Vergabe und Beschaffungszentrum Dortmund Angebotsfrist: 15.10.2026 20:00 Veröffe",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/vmp-gkd/2026/09/114088.html#track=feed-callforbids",
    "frist": "2026-10-15",
    "region": "bund",
    "tags": [
-    "Dienstleistung"
+    "IT"
    ],
    "kurz": "",
    "_q": "ausschreibungen",
-   "entdeckt": "2026-10-10"
+   "entdeckt": "2026-10-12"
   },
   {
    "id": "ausschreibungen-13jbclj",
@@ -1606,54 +1558,6 @@
    "entdeckt": "2026-10-08"
   },
   {
-   "id": "ausschreibungen-uslvyo",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Rahmenvereinbarung zur Abholung, Versandvorbereitung und Zustellung von Wahlbenachrichtigungen",
-   "geber": "Stadt Leipzig Angebotsfrist: 20.10.2026 11:00 Veröffentlichungsende: 20.10.2026",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/evergabede/2026/10/7066738.html#track=feed-callforbids",
-   "frist": "2026-10-20",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-10"
-  },
-  {
-   "id": "ausschreibungen-12zs80c",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Betrieb, Wartung und Unterhaltung - Forstfräse 2026-28 SM Wittmund",
-   "geber": "Niedersächsische Landesbehörde für Straßenbau und Verkehr - Geschäftsbereich Aur",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/vmp-nds/2026/10/136246.html#track=feed-callforbids",
-   "frist": "2026-10-20",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-10"
-  },
-  {
-   "id": "ausschreibungen-1xigufe",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Betrieb, Wartung und Unterhaltung - Forstfräse 2026-28 SM Leer",
-   "geber": "Niedersächsische Landesbehörde für Straßenbau und Verkehr - Geschäftsbereich Aur",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/vmp-nds/2026/10/136244.html#track=feed-callforbids",
-   "frist": "2026-10-20",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-10"
-  },
-  {
    "id": "ausschreibungen-kay43y",
    "kategorie": "ausschreibung",
    "quelle": "service.bund.de",
@@ -1844,44 +1748,12 @@
    "entdeckt": "2026-10-08"
   },
   {
-   "id": "ausschreibungen-828oz6",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Erneuerung von zwei Brückenbauwerken: Objekt- und Tragwerksplanung",
-   "geber": "Gemeinde Stuhr Angebotsfrist: 21.10.2026 09:15 Veröffentlichungsende: 21.10.2026",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/vmp-nds/2026/10/136339.html#track=feed-callforbids",
-   "frist": "2026-10-21",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-10"
-  },
-  {
    "id": "ausschreibungen-15ride6",
    "kategorie": "ausschreibung",
    "quelle": "service.bund.de",
    "titel": "Magnetgelagerte Turbomolekularpumpen",
    "geber": "Forschungsverbund Berlin e.V. Angebotsfrist: 21.10.2026 09:00 Veröffentlichungse",
    "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/ai-ag-prod/2026/10/54321-Tender-1a10f95a7ec-7161a83979f2fb79.html#track=feed-callforbids",
-   "frist": "2026-10-21",
-   "region": "bund",
-   "tags": [
-    "F&E"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-08"
-  },
-  {
-   "id": "ausschreibungen-1uqr1hr",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Rahmenvertrag über die Belieferung mit Technischen Gasen",
-   "geber": "Leibniz-Institut für Analytische Wissenschaften - ISAS - e.V. Angebotsfrist: 21.",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/vmp-nrw/2026/09/228406.html#track=feed-callforbids",
    "frist": "2026-10-21",
    "region": "bund",
    "tags": [
@@ -2068,12 +1940,12 @@
    "entdeckt": "2026-10-10"
   },
   {
-   "id": "ausschreibungen-1ty05vx",
+   "id": "ausschreibungen-5idkb",
    "kategorie": "ausschreibung",
    "quelle": "service.bund.de",
-   "titel": "Justizvollzugsanstalt Zwickau-Marienthal, Neubau",
-   "geber": "Staatsbetrieb Sächsisches Immobilien- und Baumanagement",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/sib/2026/08/54321-Tender-1a0378b5b38-fb8dcf83673b6b9.html#track=feed-callforbids",
+   "titel": "DLR Standort Oberpfaffenhofen - Rahmenvertrag Blitzschutzprüfung",
+   "geber": "Deutsches Zentrum für Luft-und Raumfahrt e. V. | TI-ZVM Angebotsfrist: 22.10.202",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/subreport/2026/09/E77845644.html#track=feed-callforbids",
    "frist": "2026-10-22",
    "region": "bund",
    "tags": [
@@ -2081,15 +1953,15 @@
    ],
    "kurz": "",
    "_q": "ausschreibungen",
-   "entdeckt": "2026-10-10"
+   "entdeckt": "2026-10-12"
   },
   {
-   "id": "ausschreibungen-1pd9sez",
+   "id": "ausschreibungen-yyskuv",
    "kategorie": "ausschreibung",
    "quelle": "service.bund.de",
-   "titel": "Software für Fahrradmanagement",
-   "geber": "Fraunhofer-Gesellschaft - Einkauf B12 Angebotsfrist: 22.10.2026 10:00 Veröffentl",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/ai-ag-prod/2026/10/54321-Tender-1a11f428fd7-2d18cacaf207a36.html#track=feed-callforbids",
+   "titel": "Schülerbeförderung - Sport- und Schwimmfahrten, Los 1",
+   "geber": "Landkreis Gifhorn Angebotsfrist: 22.10.2026 10:59 Veröffentlichungsende: 13.12.2",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/subreport/2026/10/E73812165.html#track=feed-callforbids",
    "frist": "2026-10-22",
    "region": "bund",
    "tags": [
@@ -2097,7 +1969,23 @@
    ],
    "kurz": "",
    "_q": "ausschreibungen",
-   "entdeckt": "2026-10-10"
+   "entdeckt": "2026-10-12"
+  },
+  {
+   "id": "ausschreibungen-1oo6iu5",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Schülerbeförderung - Sport- und Schwimmfahrten, Los 2",
+   "geber": "Landkreis Gifhorn Angebotsfrist: 22.10.2026 11:14 Veröffentlichungsende: 14.12.2",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/subreport/2026/10/E53699573.html#track=feed-callforbids",
+   "frist": "2026-10-22",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-10-12"
   },
   {
    "id": "ausschreibungen-163wo1g",
@@ -2212,12 +2100,12 @@
    "entdeckt": "2026-10-08"
   },
   {
-   "id": "ausschreibungen-1tj7fec",
+   "id": "ausschreibungen-1dtnvgi",
    "kategorie": "ausschreibung",
    "quelle": "service.bund.de",
-   "titel": "Orientierende Untersuchung einer Altlastverdachtsfläche",
-   "geber": "Stadt Halle (Saale)",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/stadt-halle/2026/10/54321-Tender-1a11fff2cd9-75e993d1dfb199fe.html#track=feed-callforbids",
+   "titel": "Digitalisierung von Mikrofilmen für das Staatsarchiv",
+   "geber": "BVC Behörde für Finanzen und Bezirke Angebotsfrist: 23.10.2026 10:00 Veröffentli",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/healyhudson/2026/09/35499d05-a040-41af-926c-ebc94afb5782.html#track=feed-callforbids",
    "frist": "2026-10-23",
    "region": "bund",
    "tags": [
@@ -2225,23 +2113,7 @@
    ],
    "kurz": "",
    "_q": "ausschreibungen",
-   "entdeckt": "2026-10-10"
-  },
-  {
-   "id": "ausschreibungen-1locf0t",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Serviceleistungen für Redoxmessungen, Fabr. Knick",
-   "geber": "Berliner Wasserbetriebe Angebotsfrist: 23.10.2026 10:00 Veröffentlichungsende: 2",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/ai-bwb/2026/10/54321-Tender-1a0f653e80e-790702e2892c452b.html#track=feed-callforbids",
-   "frist": "2026-10-23",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-10"
+   "entdeckt": "2026-10-12"
   },
   {
    "id": "ausschreibungen-1gi3rtn",
@@ -2484,70 +2356,6 @@
    "entdeckt": "2026-10-10"
   },
   {
-   "id": "ausschreibungen-ih71sd",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Übernahme und Beseitigung von asbesthaltigen Baustoffen und künstlichen Mineralfasern im Stadtgebiet Gelsenkirchen",
-   "geber": "GELSENDIENSTE Angebotsfrist: 26.10.2026 10:00 Veröffentlichungsende: 26.10.2026",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/vmp-gkd/2026/10/115223.html#track=feed-callforbids",
-   "frist": "2026-10-26",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-10"
-  },
-  {
-   "id": "ausschreibungen-ocl51o",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Betreuungsleistungen für die Robert-Mayer-Schule",
-   "geber": "Landeshauptstadt Stuttgart",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/ai-ag-prod/2026/09/54321-Tender-19ecf63ab9f-316775e543ea9a89.html#track=feed-callforbids",
-   "frist": "2026-10-26",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-10"
-  },
-  {
-   "id": "ausschreibungen-9u5c5v",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Erweiterung des Telekommunikationssystems der Stadtverwaltung Weißwasser",
-   "geber": "Stadtverwaltung Weißwasser Angebotsfrist: 26.10.2026 10:00 Veröffentlichungsende",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/evergabede/2026/10/7065723.html#track=feed-callforbids",
-   "frist": "2026-10-26",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-10"
-  },
-  {
-   "id": "ausschreibungen-1bkb2d3",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "23-0985-26 Ausschreibungen des Marktwesens - Durchführung eines Wunschbrunnenwalds: Standflächenkonzession für die Weihnachtsmärkte 2026 bis 2028",
-   "geber": "Landeshauptstadt Hannover Fachbereich Wirtschaft Angebotsfrist: 26.10.2026 10:30",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/editor/Landeshauptstadt-Hannover/2026/10/6664164.html#track=feed-callforbids",
-   "frist": "2026-10-26",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-09"
-  },
-  {
    "id": "ausschreibungen-cgeplq",
    "kategorie": "ausschreibung",
    "quelle": "service.bund.de",
@@ -2618,22 +2426,6 @@
    "titel": "Samtgemeinde Lüchow (Wendland) - Grundschule Lüchow - Neubau Mensa_Los 18 Baureinigung",
    "geber": "Samtgemeinde Lüchow (Wendland) Angebotsfrist: 27.10.2026 09:00 Veröffentlichungs",
    "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/vmp-nds/2026/10/136367.html#track=feed-callforbids",
-   "frist": "2026-10-27",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-10"
-  },
-  {
-   "id": "ausschreibungen-jlykk1",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "RahmV Strahlenschutzwäsche",
-   "geber": "Helmholtz-Zentrum Dresden-Rossendorf e.V. Angebotsfrist: 27.10.2026 12:00 Veröff",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/ai-ag-prod/2026/10/54321-Tender-1a11fb0cff6-e45ff9b6ace893a.html#track=feed-callforbids",
    "frist": "2026-10-27",
    "region": "bund",
    "tags": [
@@ -2724,36 +2516,36 @@
    "entdeckt": "2026-10-08"
   },
   {
-   "id": "eu-calls-1xagho8",
+   "id": "eu-calls-13kll4p",
    "kategorie": "eu",
    "quelle": "EU Funding & Tenders",
-   "titel": "Biotechnology for Healthy Ageing",
+   "titel": "DeepRAP: Deep Reasoning, Abstraction & Planning towards trustworthy Cognitive AI Systems",
    "geber": "EIC Pathfinder Challenges 2026",
-   "url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-EIC-2026-PATHFINDERCHALLENGES-01-02",
+   "url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-EIC-2026-PATHFINDERCHALLENGES-01-03",
    "frist": "2026-10-28",
    "region": "EU",
    "tags": [
     "EIC"
    ],
-   "kurz": "HORIZON-EIC-2026-PATHFINDERCHALLENGES-01-02",
+   "kurz": "HORIZON-EIC-2026-PATHFINDERCHALLENGES-01-03",
    "_q": "eu-calls",
-   "entdeckt": "2026-10-11"
+   "entdeckt": "2026-10-12"
   },
   {
-   "id": "eu-calls-rz7c8n",
+   "id": "eu-calls-ki9856",
    "kategorie": "eu",
    "quelle": "EU Funding & Tenders",
-   "titel": "Advanced Materials for Miniaturised Energy Harvesting Systems",
-   "geber": "EIC Pathfinder Challenges 2026",
-   "url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-EIC-2026-PATHFINDERCHALLENGES-01-01",
+   "titel": "EIC defence call",
+   "geber": "EIC STEP Scale Up Defence",
+   "url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-EIC-2026-DEFENCE-01",
    "frist": "2026-10-28",
    "region": "EU",
    "tags": [
     "EIC"
    ],
-   "kurz": "HORIZON-EIC-2026-PATHFINDERCHALLENGES-01-01",
+   "kurz": "HORIZON-EIC-2026-DEFENCE-01",
    "_q": "eu-calls",
-   "entdeckt": "2026-10-08"
+   "entdeckt": "2026-10-12"
   },
   {
    "id": "ausschreibungen-g5l4cs",
@@ -2852,54 +2644,6 @@
    "entdeckt": "2026-10-08"
   },
   {
-   "id": "ausschreibungen-z26cmo",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Entsorgung von gefährlichen Abfällen von den Abfall-Annahmestellen",
-   "geber": "Stadt Delmenhorst Angebotsfrist: 28.10.2026 09:30 Veröffentlichungsende: 28.10.2",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/dtvp/2026/10/346318.html#track=feed-callforbids",
-   "frist": "2026-10-28",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-10"
-  },
-  {
-   "id": "ausschreibungen-97vvzc",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Rahmenvertrag zu mobilen Massagen für die Beschäftigten der Berliner Wasserbetrieben an diversen Standorten.",
-   "geber": "Berliner Wasserbetriebe Angebotsfrist: 28.10.2026 12:00 Veröffentlichungsende: 2",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/ai-bwb/2026/10/54321-Tender-19d1b322119-28eeda3ab2c02596.html#track=feed-callforbids",
-   "frist": "2026-10-28",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-10"
-  },
-  {
-   "id": "ausschreibungen-147fogh",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "10038801X-Expert Pool: Demand-driven Identification, Analysis and Uptake of Good Practices for Accelerating the Energy Transition in Africa",
-   "geber": "Deutsche Gesellschaft für Internationale Zusammenarbeit (GIZ) GmbH Angebotsfrist",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/vmp-giz/2026/10/53109.html#track=feed-callforbids",
-   "frist": "2026-10-28",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-10"
-  },
-  {
    "id": "ausschreibungen-onubct",
    "kategorie": "ausschreibung",
    "quelle": "service.bund.de",
@@ -2996,12 +2740,12 @@
    "entdeckt": "2026-10-10"
   },
   {
-   "id": "ausschreibungen-dr0986",
+   "id": "ausschreibungen-o5iw00",
    "kategorie": "ausschreibung",
    "quelle": "service.bund.de",
-   "titel": "26D102010 - Inst. f. Fische u. Fischerei Cux.(LAVES)_Bautechn. u. energet. Ertücht. (Gebäude)_ (Teilnahmephase)",
-   "geber": "Land Niedersachsen vertreten durch das Staatliche Baumanagement Niedersachsen An",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/vmp-nds/2026/10/136115.html#track=feed-callforbids",
+   "titel": "Planungsleistungen LPH Marienthal",
+   "geber": "Zweckverband Schienenpersonennahverkehr Rheinland-Pfalz Nord Angebotsfrist: 29.1",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/subreport/2026/10/E62725883.html#track=feed-callforbids",
    "frist": "2026-10-29",
    "region": "bund",
    "tags": [
@@ -3009,7 +2753,7 @@
    ],
    "kurz": "",
    "_q": "ausschreibungen",
-   "entdeckt": "2026-10-10"
+   "entdeckt": "2026-10-12"
   },
   {
    "id": "ausschreibungen-5k4p3o",
@@ -3140,6 +2884,38 @@
    "entdeckt": "2026-10-10"
   },
   {
+   "id": "ausschreibungen-1b063kx",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Stadt Heiligenhaus - kanalbezogene unterirdische und anlassbezogene oberirdische Rattenbekämpfung",
+   "geber": "Stadt Heiligenhaus Angebotsfrist: 30.10.2026 13:00 Veröffentlichungsende: 31.01.",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/subreport/2026/10/E78484373.html#track=feed-callforbids",
+   "frist": "2026-10-30",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-10-12"
+  },
+  {
+   "id": "ausschreibungen-w0h359",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Turnusmäßiger Wechsel der Strom-, Gas- und Wasserzähler für das Jahr 2027",
+   "geber": "Stadtwerke Emden GmbH Angebotsfrist: 30.10.2026 10:00 Veröffentlichungsende: 31.",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/subreport/2026/10/E41272969.html#track=feed-callforbids",
+   "frist": "2026-10-30",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-10-12"
+  },
+  {
    "id": "ausschreibungen-1hhifmq",
    "kategorie": "ausschreibung",
    "quelle": "service.bund.de",
@@ -3162,38 +2938,6 @@
    "titel": "Retreat des Sonderforschungsbereichs [1477 / LiMatI]",
    "geber": "Universität Rostock Angebotsfrist: 30.10.2026 12:00 Veröffentlichungsende: 30.10",
    "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/dtvp/2026/10/346832.html#track=feed-callforbids",
-   "frist": "2026-10-30",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-10"
-  },
-  {
-   "id": "ausschreibungen-1gugzwl",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Beschaffung von IT-Hardware - 169 PC Bildschirmen, 94 Desktop PCs, 58 Laptops, 8 Multitouchdisplays, 8 Drucker, 1 Videokonferenzsystem und Zubehör, Lieferung und teilw. inkl. Montage",
-   "geber": "BZE Bildungszentrum Elektotechnik gGmbH Angebotsfrist: 30.10.2026 12:00 Veröffen",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/dtvp/2026/10/346811.html#track=feed-callforbids",
-   "frist": "2026-10-30",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-10"
-  },
-  {
-   "id": "ausschreibungen-m4fyvf",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "2026-0619 Reparatur von Haushaltsgroßgeräten - Weiße Ware - im Einheitspreisabkommen EPA 101",
-   "geber": "DEG Duisburger Einkaufsgesellschaft mbH Angebotsfrist: 30.10.2026 10:00 Veröffen",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/vmp-gkd/2026/10/115239.html#track=feed-callforbids",
    "frist": "2026-10-30",
    "region": "bund",
    "tags": [
@@ -3394,54 +3138,6 @@
    "entdeckt": "2026-10-08"
   },
   {
-   "id": "ausschreibungen-1gbz2wg",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Stoffliche Verwertung von Sedimenten 2027-2028",
-   "geber": "Stadt Münster - Zentrale Rechtsdienstleistungen und Vergabemanagement Angebotsfr",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/vmp-westfalen/2026/10/56891949.html#track=feed-callforbids",
-   "frist": "2026-11-02",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-10"
-  },
-  {
-   "id": "ausschreibungen-1vs3afn",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Wach- und Sicherheitsdienstleistungen Auskunfts- und Beratungsstelle Paderborn",
-   "geber": "Deutsche Rentenversicherung Westfalen - Einkauf - Angebotsfrist: 02.11.2026 12:0",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/ai-ag-prod/2026/10/54321-Tender-1a0d34e6e4c-23dccbab7d470118.html#track=feed-callforbids",
-   "frist": "2026-11-02",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-10"
-  },
-  {
-   "id": "ausschreibungen-1eclenm",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Entsorgung Klärschlamm, Fäkalien und häusliches Gesamtabwasser aus KKA und Gruben",
-   "geber": "Gemeinde Klipphausen Angebotsfrist: 02.11.2026 10:00 Veröffentlichungsende: 02.1",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/evergabede/2026/10/7065725.html#track=feed-callforbids",
-   "frist": "2026-11-02",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-10"
-  },
-  {
    "id": "ausschreibungen-1yuqsj6",
    "kategorie": "ausschreibung",
    "quelle": "service.bund.de",
@@ -3506,44 +3202,92 @@
    "entdeckt": "2026-10-08"
   },
   {
+   "id": "ausschreibungen-1qjr2ms",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "46-1017-26 46.1 Gärten und Betriebseinrichtungen; Entsorgung von Parkabfällen in den Herrenhäuser Gärten",
+   "geber": "Landeshauptstadt Hannover Fachbereich Herrenhäuser Gärten Angebotsfrist: 03.11.2",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/editor/Landeshauptstadt-Hannover/2026/10/6665571.html#track=feed-callforbids",
+   "frist": "2026-11-03",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-10-12"
+  },
+  {
+   "id": "ausschreibungen-bxkcqq",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Abfallbeseitigung, Abfalleimerentleerung und Auffüllung von Hundekotbeutel",
+   "geber": "Stadt Peine Angebotsfrist: 03.11.2026 10:45 Veröffentlichungsende: 10.12.2026 00",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/subreport15/2026/10/E48417196.html#track=feed-callforbids",
+   "frist": "2026-11-03",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-10-12"
+  },
+  {
+   "id": "ausschreibungen-1as6ibq",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Kauf oder Miete von bereits fertig erstellten E-Learning-Inhalten",
+   "geber": "Deutsches Zentrum für Luft- und Raumfahrt e.V. (DLR) Angebotsfrist: 03.11.2026 0",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/subreport15/2026/10/E64329426.html#track=feed-callforbids",
+   "frist": "2026-11-03",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-10-12"
+  },
+  {
+   "id": "ausschreibungen-1g5wnj6",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Kauf oder Miete von bereits fertig erstellten E-Learning-Inhalten",
+   "geber": "Deutsches Zentrum für Luft- und Raumfahrt e.V. (DLR) Angebotsfrist: 03.11.2026 0",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/subreport/2026/10/E64329426.html#track=feed-callforbids",
+   "frist": "2026-11-03",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-10-12"
+  },
+  {
+   "id": "ausschreibungen-hbahy6",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Abfallbeseitigung, Abfalleimerentleerung und Auffüllung von Hundekotbeutel",
+   "geber": "Stadt Peine Angebotsfrist: 03.11.2026 10:45 Veröffentlichungsende: 10.12.2026 00",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/subreport/2026/10/E48417196.html#track=feed-callforbids",
+   "frist": "2026-11-03",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-10-12"
+  },
+  {
    "id": "ausschreibungen-plzpip",
    "kategorie": "ausschreibung",
    "quelle": "service.bund.de",
    "titel": "Schadstoffanalysen in Plattfischen und Miesmuscheln aus 2024 und 2025",
    "geber": "Logistik Zentrum Niedersachsen Landesbetrieb - Außenstelle Hannover Angebotsfris",
    "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/vmp-nds/2026/10/136401.html#track=feed-callforbids",
-   "frist": "2026-11-03",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-10"
-  },
-  {
-   "id": "ausschreibungen-13epuds",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Reinigung Polizeistandort Löbau",
-   "geber": "Staatsbetrieb Sächsisches Immobilien- und Baumanagement",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/sib/2026/10/54321-Tender-1a11f3d9e4d-2d6bcd85bfd76452.html#track=feed-callforbids",
-   "frist": "2026-11-03",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-10"
-  },
-  {
-   "id": "ausschreibungen-1yephlx",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "A93_Tunnel Pruefening_Videoanlage_Ing.-Leistung",
-   "geber": "Die Autobahn GmbH des Bundes - NL Südbayern Angebotsfrist: 03.11.2026 10:00 Verö",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/ai-ag-prod/2026/09/54321-Tender-1a07c03aa13-76d3960909891ed.html#track=feed-callforbids",
    "frist": "2026-11-03",
    "region": "bund",
    "tags": [
@@ -3634,6 +3378,22 @@
    "entdeckt": "2026-10-08"
   },
   {
+   "id": "ausschreibungen-1clhurx",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Abholung und Entsorgung von Betonabfällen von der Bauschuttdeponie Jesenwang",
+   "geber": "Landkreis Fürstenfeldbruck - Abfallwirtschaftsbetrieb des Landkreises Fürstenfel",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/editor/Abfallwirtschaftsbetrieb-des-Landkreises-Fuerstenfeldbruck/2026/10/6665739.html#track=feed-callforbids",
+   "frist": "2026-11-04",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-10-12"
+  },
+  {
    "id": "ausschreibungen-11v2bhh",
    "kategorie": "ausschreibung",
    "quelle": "service.bund.de",
@@ -3648,6 +3408,22 @@
    "kurz": "",
    "_q": "ausschreibungen",
    "entdeckt": "2026-10-10"
+  },
+  {
+   "id": "ausschreibungen-178sgox",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Prädationsmanagement im Wiesenvogelschutz 2027-2028",
+   "geber": "Landkreis Lüchow-Dannenberg Angebotsfrist: 04.11.2026 09:00 Veröffentlichungsend",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/subreport/2026/10/E21731671.html#track=feed-callforbids",
+   "frist": "2026-11-04",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-10-12"
   },
   {
    "id": "ausschreibungen-owgp0y",
@@ -3760,6 +3536,38 @@
    "entdeckt": "2026-10-08"
   },
   {
+   "id": "ausschreibungen-1t509py",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "IM - Interne/r Qualitätsauditor/-in-Hybrid",
+   "geber": "Bundeswehrverwaltung Angebotsfrist: 05.11.2026 13:00 Veröffentlichungsende: 05.1",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/eVergabe/898305.html#track=feed-callforbids",
+   "frist": "2026-11-05",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-10-12"
+  },
+  {
+   "id": "ausschreibungen-jczc3d",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "IM - Wirtschaftsenglisch - Karlsruhe",
+   "geber": "Bundeswehrverwaltung Angebotsfrist: 05.11.2026 13:00 Veröffentlichungsende: 05.1",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/eVergabe/898308.html#track=feed-callforbids",
+   "frist": "2026-11-05",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-10-12"
+  },
+  {
    "id": "ausschreibungen-1w5rez2",
    "kategorie": "ausschreibung",
    "quelle": "service.bund.de",
@@ -3774,6 +3582,22 @@
    "kurz": "",
    "_q": "ausschreibungen",
    "entdeckt": "2026-10-10"
+  },
+  {
+   "id": "ausschreibungen-2idi7e",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Mäharbeiten in der Verbandsgemeinde Bad Ems - Nassau",
+   "geber": "Verbandsgemeindeverwaltung Bad Ems - Nassau Angebotsfrist: 05.11.2026 14:00 Verö",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/subreport/2026/10/E33793377.html#track=feed-callforbids",
+   "frist": "2026-11-05",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-10-12"
   },
   {
    "id": "ausschreibungen-mqnx0r",
@@ -3920,86 +3744,6 @@
    "entdeckt": "2026-10-10"
   },
   {
-   "id": "ausschreibungen-1ppuwdq",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Norduferreinigung Mardorf 2027",
-   "geber": "Stadt Neustadt am Rübenberge Angebotsfrist: 06.11.2026 08:45 Veröffentlichungsen",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/evergabede/2026/10/7066773.html#track=feed-callforbids",
-   "frist": "2026-11-06",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-10"
-  },
-  {
-   "id": "ausschreibungen-asodda",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Pflanzleistung Herbst 2026 - Frühjahr 2027 bis Q4 2027",
-   "geber": "Staatsbetrieb Sachsenforst - Forstbezirk Baerenfels Angebotsfrist: 06.11.2026 08",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/ai-sachsen/2026/10/54321-Tender-1a10be36e8b-2383c8467eb21bec.html#track=feed-callforbids",
-   "frist": "2026-11-06",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-10"
-  },
-  {
-   "id": "ausschreibungen-1fohhjh",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Landkreis Göttingen, Erstellung eines Altstandort-Verzeichnisses für den ehem. Landkreis Osterode am Harz",
-   "geber": "Landkreis Göttingen Angebotsfrist: 06.11.2026 09:00 Veröffentlichungsende: 06.11",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/vmp-nds/2026/10/136350.html#track=feed-callforbids",
-   "frist": "2026-11-06",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-10"
-  },
-  {
-   "id": "ausschreibungen-jaj4fk",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Landrevision Fähre Sandau",
-   "geber": "Stadt Sandau (Elbe) Angebotsfrist: 06.11.2026 09:30 Veröffentlichungsende: 06.11",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/evergabede/2026/10/7063046.html#track=feed-callforbids",
-   "frist": "2026-11-06",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-10"
-  },
-  {
-   "id": "ausschreibungen-15ks7tl",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Coburg - Amt 65 - Staatliche Realschule Coburg 1 - Sanierung Gebäude A - Objektplanung Gebäude u. Freianlagen (LPH 5-8 HOAI)",
-   "geber": "Stadt Coburg - Hochbauamt Angebotsfrist: 06.11.2026 09:00 Veröffentlichungsende:",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/ai-ag-prod/2026/10/54321-Tender-1a10fec3df6-1892f490debc71f7.html#track=feed-callforbids",
-   "frist": "2026-11-06",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-10"
-  },
-  {
    "id": "eu-calls-ua9h5",
    "kategorie": "eu",
    "quelle": "EU Funding & Tenders",
@@ -4094,6 +3838,70 @@
    "entdeckt": "2026-10-08"
   },
   {
+   "id": "ausschreibungen-1e9a0ih",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Lieferung, Installation und Inbetriebnahme eines Compute-Knotens im HPC-RAMSES-Cluster für das NCT West, Campus Köln",
+   "geber": "Deutsches Krebsforschungszentrum Angebotsfrist: 09.11.2026 12:00 Veröffentlichun",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/abc/2026/10/446777G359841.html#track=feed-callforbids",
+   "frist": "2026-11-09",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-10-12"
+  },
+  {
+   "id": "ausschreibungen-1q8xxzb",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Integrierter Planungsansatz",
+   "geber": "Klinikum Fulda gAG Angebotsfrist: 09.11.2026 12:00 Veröffentlichungsende: 09.11.",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/healyhudson/2026/10/3f69c387-631c-4806-b199-8e63238deef2.html#track=feed-callforbids",
+   "frist": "2026-11-09",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-10-12"
+  },
+  {
+   "id": "ausschreibungen-1q0t0mn",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "BIM_Brenzbahn - Baugrundgutachter (inkl. fachliche Bauüberwachung)",
+   "geber": "DB InfraGO AG ? Geschäftsbereich Fahrweg (Bukr 16) Angebotsfrist: 09.11.2026 11:",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/healyhudson/2026/10/621f52fc-0408-4fde-b344-1f0bc057b7c3.html#track=feed-callforbids",
+   "frist": "2026-11-09",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-10-12"
+  },
+  {
+   "id": "ausschreibungen-1snzykw",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Medientechnikausstattung für das KiTZ Heidelberg - Lieferung und Installation von audiovisueller Medientechnik",
+   "geber": "Universitätsklinikum Heidelberg Angebotsfrist: 09.11.2026 10:00 Veröffentlichung",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/vmp-vpbw/2026/10/12322.html#track=feed-callforbids",
+   "frist": "2026-11-09",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-10-12"
+  },
+  {
    "id": "ausschreibungen-eucer9",
    "kategorie": "ausschreibung",
    "quelle": "service.bund.de",
@@ -4116,22 +3924,6 @@
    "titel": "Fachplanung Kampfmittelräumung EVS Projekt 514 2.940",
    "geber": "Zentraler kommunaler Entsorgungsbetrieb Stadt Saarbrücken Angebotsfrist: 09.11.2",
    "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/abc/2026/10/446558G359684.html#track=feed-callforbids",
-   "frist": "2026-11-09",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-10"
-  },
-  {
-   "id": "ausschreibungen-1stgigu",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Reinigung der Bundespolizeiakademie in Lübeck - Los 3 (Büro´s, Hörsäle und Sportanlage LS2)",
-   "geber": "Beschaffungsamt des BMI Angebotsfrist: 09.11.2026 11:30 Veröffentlichungsende: 0",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/eVergabe/897638.html#track=feed-callforbids",
    "frist": "2026-11-09",
    "region": "bund",
    "tags": [
@@ -4174,12 +3966,12 @@
    "entdeckt": "2026-10-10"
   },
   {
-   "id": "ausschreibungen-91orp9",
+   "id": "ausschreibungen-ob12ws",
    "kategorie": "ausschreibung",
    "quelle": "service.bund.de",
-   "titel": "Reinigung der Bundespolizeiakademie in Lübeck - Los 2 (Büro´s, Hörsäle und Sportanlagen LS1)",
+   "titel": "Reinigung der Bundespolizeiakademie in Lübeck - Los 1 (Unterkünfte LS1 und LS2)",
    "geber": "Beschaffungsamt des BMI Angebotsfrist: 09.11.2026 11:30 Veröffentlichungsende: 0",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/eVergabe/897637.html#track=feed-callforbids",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/eVergabe/897636.html#track=feed-callforbids",
    "frist": "2026-11-09",
    "region": "bund",
    "tags": [
@@ -4206,12 +3998,12 @@
    "entdeckt": "2026-10-10"
   },
   {
-   "id": "ausschreibungen-ob12ws",
+   "id": "ausschreibungen-1stgigu",
    "kategorie": "ausschreibung",
    "quelle": "service.bund.de",
-   "titel": "Reinigung der Bundespolizeiakademie in Lübeck - Los 1 (Unterkünfte LS1 und LS2)",
+   "titel": "Reinigung der Bundespolizeiakademie in Lübeck - Los 3 (Büro´s, Hörsäle und Sportanlage LS2)",
    "geber": "Beschaffungsamt des BMI Angebotsfrist: 09.11.2026 11:30 Veröffentlichungsende: 0",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/eVergabe/897636.html#track=feed-callforbids",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/eVergabe/897638.html#track=feed-callforbids",
    "frist": "2026-11-09",
    "region": "bund",
    "tags": [
@@ -4222,12 +4014,12 @@
    "entdeckt": "2026-10-10"
   },
   {
-   "id": "ausschreibungen-18kwol9",
+   "id": "ausschreibungen-91orp9",
    "kategorie": "ausschreibung",
    "quelle": "service.bund.de",
-   "titel": "Sanierung Faulbehälter 1 auf der Kläranlage Hildesheim; Ingenieurbauwerke + Technische Ausrüstung Ingenieurleistungen",
-   "geber": "Stadtentwässerung Hildesheim AöR Angebotsfrist: 09.11.2026 10:00 Veröffentlichun",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/ai-dabl/2026/10/54321-Tender-1a11a2fe360-17b4ceaaf6bc37e5.html#track=feed-callforbids",
+   "titel": "Reinigung der Bundespolizeiakademie in Lübeck - Los 2 (Büro´s, Hörsäle und Sportanlagen LS1)",
+   "geber": "Beschaffungsamt des BMI Angebotsfrist: 09.11.2026 11:30 Veröffentlichungsende: 0",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/eVergabe/897637.html#track=feed-callforbids",
    "frist": "2026-11-09",
    "region": "bund",
    "tags": [
@@ -4238,12 +4030,12 @@
    "entdeckt": "2026-10-10"
   },
   {
-   "id": "ausschreibungen-pa7eb7",
+   "id": "ausschreibungen-17j72oa",
    "kategorie": "ausschreibung",
    "quelle": "service.bund.de",
-   "titel": "Externe Bauüberwachung und Fertigungsüberwachung",
-   "geber": "Die Autobahn GmbH des Bundes | NL Westfalen | AS Bochum Angebotsfrist: 09.11.202",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/ai-ag-prod/2026/10/54321-Tender-1a116195c96-5536c048ef945c3a.html#track=feed-callforbids",
+   "titel": "Arbeitsmedizinischer Arbeitsschutz am Bay. Landesamt für Asyl und Rückführungen",
+   "geber": "Bayerisches Landesamt für Asyl und Rückführungen Angebotsfrist: 09.11.2026 10:00",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/healyhudson/2026/10/9baae30a-f41d-4e7a-8137-1fa46fc1610a.html#track=feed-callforbids",
    "frist": "2026-11-09",
    "region": "bund",
    "tags": [
@@ -4251,55 +4043,7 @@
    ],
    "kurz": "",
    "_q": "ausschreibungen",
-   "entdeckt": "2026-10-10"
-  },
-  {
-   "id": "ausschreibungen-111r7bo",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Rahmenvereinbarung über die Unterhaltsreinigung sowie die Glasreinigung des Gebäudes Abrecht-Thaer-Straße 34, 48147 Münster",
-   "geber": "Wald und Holz NRW Angebotsfrist: 09.11.2026 11:00 Veröffentlichungsende: 09.11.2",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/vmp-nrw/2026/10/229074.html#track=feed-callforbids",
-   "frist": "2026-11-09",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-10"
-  },
-  {
-   "id": "ausschreibungen-1eh6b2d",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Objektplanung brandschutztechnische Ertüchtigung von sieben U-Bahnhöfen im Bestand",
-   "geber": "Landeshauptstadt Düsseldorf",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/ai-lhd/2026/10/54321-Tender-1a1118fadf9-129aa7a87b8ae06a.html#track=feed-callforbids",
-   "frist": "2026-11-09",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-10"
-  },
-  {
-   "id": "ausschreibungen-16ue20f",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Rahmenvereinbarung fuer Waeschereidienstleistungen",
-   "geber": "Stadt Regensburg Angebotsfrist: 09.11.2026 23:59 Veröffentlichungsende: 09.11.20",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/obb/2026/10/198670.html#track=feed-callforbids",
-   "frist": "2026-11-09",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-09"
+   "entdeckt": "2026-10-12"
   },
   {
    "id": "ausschreibungen-1fszfu6",
@@ -4444,6 +4188,310 @@
    "entdeckt": "2026-10-08"
   },
   {
+   "id": "ausschreibungen-1wgli04",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Kleintraktor mit Anbaugeraeten",
+   "geber": "Wirtschaftsbetriebe der Stadt Osterode GmbH Angebotsfrist: 10.11.2026 10:00 Verö",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/asp/2026/10/198739.html#track=feed-callforbids",
+   "frist": "2026-11-10",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-10-12"
+  },
+  {
+   "id": "ausschreibungen-118lipt",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Veeam Rahmenvereinbarung",
+   "geber": "Brandenburgischer IT-Dienstleister Angebotsfrist: 10.11.2026 12:00 Veröffentlich",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/vmp-bb/2026/10/260664.html#track=feed-callforbids",
+   "frist": "2026-11-10",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-10-12"
+  },
+  {
+   "id": "ausschreibungen-9fmn0q",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Umstellung des Matrix42 Lizenzmodells von unbefristeten Kauflizenzen mit Wartungsvertrag auf Subscription-Lizenzen",
+   "geber": "Stadtwerke Bonn GmbH Angebotsfrist: 10.11.2026 12:00 Veröffentlichungsende: 10.1",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/vmp-mebit/2026/10/94968.html#track=feed-callforbids",
+   "frist": "2026-11-10",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-10-12"
+  },
+  {
+   "id": "ausschreibungen-13yb9fs",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Jahresvertrag TV-Untersuchung gem. SüwVO-Abw 2027",
+   "geber": "Stadtbetriebe Hennef Angebotsfrist: 10.11.2026 11:00 Veröffentlichungsende: 10.1",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/vmp-mebit/2026/10/94966.html#track=feed-callforbids",
+   "frist": "2026-11-10",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-10-12"
+  },
+  {
+   "id": "ausschreibungen-y860sq",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Rahmenvereinbarung Pflege von Kleinflächen",
+   "geber": "Stiftung Naturschutz Schleswig-Holstein Angebotsfrist: 10.11.2026 11:00 Veröffen",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/dtvp/2026/10/346628.html#track=feed-callforbids",
+   "frist": "2026-11-10",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-10-12"
+  },
+  {
+   "id": "ausschreibungen-1ygzvuu",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "SAP H4S4-Transformation und Einführung von SuccessFactors",
+   "geber": "Stadtwerke Bonn GmbH Angebotsfrist: 10.11.2026 12:00 Veröffentlichungsende: 10.1",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/vmp-mebit/2026/10/94964.html#track=feed-callforbids",
+   "frist": "2026-11-10",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-10-12"
+  },
+  {
+   "id": "ausschreibungen-13qoscy",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "VKE C231; A44, AS Sontra-West (o) - TB Riedmühle (o) - Planung Photovoltaikanlagen",
+   "geber": "DEGES Deutsche Einheit Fernstraßenplanungs- und -bau GmbH Angebotsfrist: 10.11.2",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/ai-deges/2026/10/54321-Tender-1a06cc335e0-1efbffdcefea4987.html#track=feed-callforbids",
+   "frist": "2026-11-10",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-10-12"
+  },
+  {
+   "id": "ausschreibungen-ijouew",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Versicherungsdienstleistung für Gebäude und Inventar sowie für die KFZ-Versicherung des Fuhrparks in 2 Losen",
+   "geber": "Märkischer Kreis - Der Landrat Angebotsfrist: 10.11.2026 10:00 Veröffentlichungs",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/vmp-westfalen/2026/10/56894590.html#track=feed-callforbids",
+   "frist": "2026-11-10",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-10-12"
+  },
+  {
+   "id": "ausschreibungen-1umjgke",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Rahmenvertrag für die Erstellung von kommunalen Klimaanpassungskonzepten für kreisangehörige Kommunen des Landkreises Breisgau-Hochschwarzwald.",
+   "geber": "Landkreis Breisgau-Hochschwarzwald Angebotsfrist: 10.11.2026 09:00 Veröffentlich",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/healyhudson/2026/10/22434bc4-e36e-401e-a69a-16df6f0fa4bc.html#track=feed-callforbids",
+   "frist": "2026-11-10",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-10-12"
+  },
+  {
+   "id": "ausschreibungen-xpw7cd",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Wasserbeweissicherung Zentraldeponie Piesberg für die Jahre 2027 - 2028, Los 1 - 4 Verlängerungsoption für die Jahre 2029 & 2030",
+   "geber": "Stadt Osnabrück - FD Öffentliche Aufträge Angebotsfrist: 10.11.2026 08:45 Veröff",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/vmp-nds/2026/10/136379.html#track=feed-callforbids",
+   "frist": "2026-11-10",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-10-12"
+  },
+  {
+   "id": "ausschreibungen-1bb5bh4",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Tunnelreinigung 2027-2029",
+   "geber": "LRA Karlsruhe-A22-ZVS Amt für Straßen Angebotsfrist: 10.11.2026 10:00 Veröffentl",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/abc/2026/10/446756G359829.html#track=feed-callforbids",
+   "frist": "2026-11-10",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-10-12"
+  },
+  {
+   "id": "ausschreibungen-12qma76",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Bereitstellung von Messergebnissen mobiler Mess- und Probenahmesysteme einschl. Laboranalytik gem. Leistungsbeschreibung",
+   "geber": "Landesamt für Bergbau",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/vmp-nds/2026/10/136071.html#track=feed-callforbids",
+   "frist": "2026-11-10",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-10-12"
+  },
+  {
+   "id": "ausschreibungen-sl757v",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Umgestaltung Neustädter Markt",
+   "geber": "Stadt Hildesheim Angebotsfrist: 10.11.2026 09:00 Veröffentlichungsende: 10.11.20",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/vmp-nds/2026/10/136333.html#track=feed-callforbids",
+   "frist": "2026-11-10",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-10-12"
+  },
+  {
+   "id": "ausschreibungen-1ys0blk",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Gewässervermessungen Elbe-Nordsee 2027 / 2028",
+   "geber": "Wasserstraßen- und Schifffahrtsamt Elbe-Nordsee Angebotsfrist: 10.11.2026 10:00",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/vmp-balm/2026/10/113.html#track=feed-callforbids",
+   "frist": "2026-11-10",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-10-12"
+  },
+  {
+   "id": "ausschreibungen-t5nhqe",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Rahmenvereinbarung über Dienstleistungen im Bereich Rechnungsreklamationsmanagement",
+   "geber": "Land Baden-Württemberg vertreten durch die IT Baden-Württemberg Angebotsfrist: 1",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/vmp-bw/2026/10/19422.html#track=feed-callforbids",
+   "frist": "2026-11-10",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-10-12"
+  },
+  {
+   "id": "ausschreibungen-1b1i0ha",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "B 220 Instandsetzung Rheinbrücke Emmerich",
+   "geber": "Landesbetrieb Straßenbau NRW - Regionalniederlassung Niederrhein Angebotsfrist:",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/vmp-nrw/2026/10/229078.html#track=feed-callforbids",
+   "frist": "2026-11-10",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-10-12"
+  },
+  {
+   "id": "ausschreibungen-11dyqdj",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Gebäude- und Inhaltsversicherung für Immobilien der Stadt Rösrath",
+   "geber": "Zentrale Vergabestelle der Stadt Rösrath Angebotsfrist: 10.11.2026 10:00 Veröffe",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/vmp-mebit/2026/10/94943.html#track=feed-callforbids",
+   "frist": "2026-11-10",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-10-12"
+  },
+  {
+   "id": "ausschreibungen-6n2ckl",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Verpflegungsdienste GU Augsburg-Inningen, AE Mering, AE Augsburg Kobelweg",
+   "geber": "Regierung von Schwaben Angebotsfrist: 10.11.2026 10:00 Veröffentlichungsende: 10",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/healyhudson/2026/10/06d0081a-c242-453d-8049-5882b6714f9f.html#track=feed-callforbids",
+   "frist": "2026-11-10",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-10-12"
+  },
+  {
+   "id": "ausschreibungen-d6v1z0",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Planungsleistungen für Komplexsanierung von 2 Mehrfamilienhäusern -Ricarda Huch Str. 10-16 in Schwerin- Technische Ausrüstung für die WGS",
+   "geber": "WGS - Wohnungsgesellschaft Schwerin mbH Angebotsfrist: 10.11.2026 10:00 Veröffen",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/dtvp/2026/10/346284.html#track=feed-callforbids",
+   "frist": "2026-11-10",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-10-12"
+  },
+  {
    "id": "ausschreibungen-dbhsob",
    "kategorie": "ausschreibung",
    "quelle": "service.bund.de",
@@ -4524,6 +4572,38 @@
    "entdeckt": "2026-10-11"
   },
   {
+   "id": "ausschreibungen-1a61h1a",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "BIM: VST Dahlbruch - Ersatz Bahnsteig Strecke 2870(km 5,65) - VA/50Hz;Lph 1-4, opt. 5-7",
+   "geber": "DB InfraGO AG ? Geschäftsbereich Personenbahnhöfe (Bukr 11) Angebotsfrist: 10.11",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/healyhudson/2026/10/84098618-c36e-4f10-918b-12f3122a7312.html#track=feed-callforbids",
+   "frist": "2026-11-10",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-10-12"
+  },
+  {
+   "id": "ausschreibungen-2oii7q",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "BIM-Planung VST Binolen (Ersatz Bstg.), VA/50Hz/LST/KIB; Lph 1-4, opt. 5-7, NRW",
+   "geber": "DB InfraGO AG ? Geschäftsbereich Personenbahnhöfe (Bukr 11) Angebotsfrist: 10.11",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/healyhudson/2026/10/fa4ad400-decd-43c6-8f16-2b2005ec0ab8.html#track=feed-callforbids",
+   "frist": "2026-11-10",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-10-12"
+  },
+  {
    "id": "ausschreibungen-1t5cphv",
    "kategorie": "ausschreibung",
    "quelle": "service.bund.de",
@@ -4588,68 +4668,36 @@
    "entdeckt": "2026-10-10"
   },
   {
-   "id": "ausschreibungen-19212y3",
+   "id": "ausschreibungen-35be6t",
    "kategorie": "ausschreibung",
    "quelle": "service.bund.de",
-   "titel": "Tunnelreinigung 2027-2029",
-   "geber": "Landratsamt Karlsruhe",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/ai-ag-prod/2026/10/54321-Tender-1a0e78c9c8b-1e2cf725e7c641f1.html#track=feed-callforbids",
+   "titel": "Generalplanung für den Neubau eines Laborgebäudes mit integrierter Tierhaltung",
+   "geber": "Leibniz-Institut für Analytische Wissenschaften - ISAS - e.V. Angebotsfrist: 10.",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/vmp-nrw/2026/10/229107.html#track=feed-callforbids",
    "frist": "2026-11-10",
    "region": "bund",
    "tags": [
-    "Dienstleistung"
+    "F&E"
    ],
    "kurz": "",
    "_q": "ausschreibungen",
-   "entdeckt": "2026-10-10"
+   "entdeckt": "2026-10-12"
   },
   {
-   "id": "ausschreibungen-1q4pt0k",
+   "id": "ausschreibungen-3abc7f",
    "kategorie": "ausschreibung",
    "quelle": "service.bund.de",
-   "titel": "Abfallentsorgung auf den Umladestationen des ZAOE",
-   "geber": "Zweckverband Abfallwirtschaft Oberes Elbtal (ZAOE) Angebotsfrist: 10.11.2026 13:",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/evergabede/2026/10/7066682.html#track=feed-callforbids",
+   "titel": "Dekarbonisierte Wertschöpfungsketten",
+   "geber": "Zukunft - Umwelt - Gesellschaft gGmbH Angebotsfrist: 10.11.2026 00:00 Veröffentl",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/dtvp/2026/10/346849.html#track=feed-callforbids",
    "frist": "2026-11-10",
    "region": "bund",
    "tags": [
-    "Dienstleistung"
+    "F&E"
    ],
    "kurz": "",
    "_q": "ausschreibungen",
-   "entdeckt": "2026-10-10"
-  },
-  {
-   "id": "ausschreibungen-ytgdyi",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Neuvergabe von Unterhalts- und Grundreinigungsarbeiten an städt. Kindertagesstätten, Schulen, Sport- und Lehrschwimmhallen Marl",
-   "geber": "Stadt Marl - Amt für Klimaschutz und Nachhaltigkeit - Zentrale Vergabestelle Ang",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/vmp-gkd/2026/10/115215.html#track=feed-callforbids",
-   "frist": "2026-11-10",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-10"
-  },
-  {
-   "id": "ausschreibungen-1k3ud3g",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Ölspurbeseitigung RW/ENG/EK 2027-2028",
-   "geber": "Die Autobahn GmbH des Bundes - NL Südwest Angebotsfrist: 10.11.2026 09:00 Veröff",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/ai-ag-prod/2026/10/54321-Tender-1a0f13b0d3e-7241a3b0ce7342df.html#track=feed-callforbids",
-   "frist": "2026-11-10",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-10"
+   "entdeckt": "2026-10-12"
   },
   {
    "id": "ausschreibungen-a1zagb",
@@ -4748,6 +4796,54 @@
    "entdeckt": "2026-10-08"
   },
   {
+   "id": "ausschreibungen-u64sxa",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "IM - Künstliche Intelligenz (KI) - Aufbaukurs - Online",
+   "geber": "Bundeswehrverwaltung Angebotsfrist: 11.11.2026 13:00 Veröffentlichungsende: 11.1",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/eVergabe/898258.html#track=feed-callforbids",
+   "frist": "2026-11-11",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-10-12"
+  },
+  {
+   "id": "ausschreibungen-mpxqx2",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Weichenpflegearbeiten Regionalbereich Mitte, Netz Frankfurt",
+   "geber": "DB InfraGO AG ? Geschäftsbereich Fahrweg (Bukr 16) Angebotsfrist: 11.11.2026 10:",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/healyhudson/2026/10/a8871c09-19a1-48e1-b456-971224525afb.html#track=feed-callforbids",
+   "frist": "2026-11-11",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-10-12"
+  },
+  {
+   "id": "ausschreibungen-o3vo6",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Rahmenvertrag Bereich: ?Sicherheits- und Gesundheitskoordination (SiGeKo)",
+   "geber": "EWN Entsorgungswerk für Nuklearanlagen GmbH BT Rheinsberg Angebotsfrist: 11.11.2",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/healyhudson/2026/10/6110ed93-87cb-4501-9144-20faeee7ef45.html#track=feed-callforbids",
+   "frist": "2026-11-11",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-10-12"
+  },
+  {
    "id": "ausschreibungen-fn2309",
    "kategorie": "ausschreibung",
    "quelle": "service.bund.de",
@@ -4786,54 +4882,6 @@
    "titel": "Projektträgerschaft „Gesundheitsforschung“",
    "geber": "Bundesministerium für Forschung",
    "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/eVergabe/897889.html#track=feed-callforbids",
-   "frist": "2026-11-11",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-10"
-  },
-  {
-   "id": "ausschreibungen-ona49w",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "BBS II - Werkstatteinrichtung Raum W105",
-   "geber": "Stadt Delmenhorst Angebotsfrist: 11.11.2026 09:00 Veröffentlichungsende: 11.11.2",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/dtvp/2026/10/346533.html#track=feed-callforbids",
-   "frist": "2026-11-11",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-10"
-  },
-  {
-   "id": "ausschreibungen-10c48o4",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Schulen in Mannheim Wartung bzw. Reinigung von wasserlosen Urinalanlagen / Firma A. Renschler",
-   "geber": "BBS Bau- und Betriebsservice GmbH Angebotsfrist: 11.11.2026 10:00 Veröffentlichu",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/ai-dabl/2026/10/54321-Tender-1a11f838b6b-7e9a8556be3f6577.html#track=feed-callforbids",
-   "frist": "2026-11-11",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-10"
-  },
-  {
-   "id": "ausschreibungen-1is4dyt",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Beladung, Transport und Verwertung von Rohschlamm - ASN 190805",
-   "geber": "Berliner Wasserbetriebe Angebotsfrist: 11.11.2026 12:00 Veröffentlichungsende: 1",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/ai-bwb/2026/10/54321-Tender-1a02343ed03-7bb4e9da15213f6c.html#track=feed-callforbids",
    "frist": "2026-11-11",
    "region": "bund",
    "tags": [
@@ -4908,6 +4956,38 @@
    "entdeckt": "2026-10-11"
   },
   {
+   "id": "ausschreibungen-197az0e",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Rahmenvereinbarung Brand-Agentur",
+   "geber": "Deutsches Rotes Kreuz e.V. Generalsekretariat Angebotsfrist: 13.11.2026 10:00 Ve",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/dtvp/2026/10/346184.html#track=feed-callforbids",
+   "frist": "2026-11-13",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-10-12"
+  },
+  {
+   "id": "ausschreibungen-1f874js",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Neuer gemeinschaftlicher Ort in Bürgewald - Technische Ausrüstung gem. Teil 4, Abschn. 2, §§53 ff HOAI (2021)",
+   "geber": "NRW.URBAN Angebotsfrist: 13.11.2026 10:00 Veröffentlichungsende: 13.11.2026 10:0",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/vmp-nrw/2026/10/229080.html#track=feed-callforbids",
+   "frist": "2026-11-13",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-10-12"
+  },
+  {
    "id": "foerderung-bund-eli5na",
    "kategorie": "foerderung",
    "quelle": "foerderinfo.bund.de",
@@ -4938,6 +5018,22 @@
    "entdeckt": "2026-10-08"
   },
   {
+   "id": "ausschreibungen-dtthwr",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "IT-Carve-out und Aufbau einer eigenständigen IT-Umgebung - Emilia Seniorenresidenz",
+   "geber": "Emilia Seniorenresidenz GmbH Angebotsfrist: 16.11.2026 12:00 Veröffentlichungsen",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/dtvp/2026/10/346711.html#track=feed-callforbids",
+   "frist": "2026-11-16",
+   "region": "bund",
+   "tags": [
+    "IT"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-10-12"
+  },
+  {
    "id": "ausschreibungen-1ohvdu8",
    "kategorie": "ausschreibung",
    "quelle": "service.bund.de",
@@ -4952,22 +5048,6 @@
    "kurz": "",
    "_q": "ausschreibungen",
    "entdeckt": "2026-10-11"
-  },
-  {
-   "id": "ausschreibungen-zi4037",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Reinigungsleistungen Schule zur Lernförderung - Am Leutewitzer Park -",
-   "geber": "Landeshauptstadt Dresden Angebotsfrist: 16.11.2026 15:00 Veröffentlichungsende:",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/evergabede/2026/10/7065635.html#track=feed-callforbids",
-   "frist": "2026-11-16",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-10"
   },
   {
    "id": "foerderung-bund-1wg6oi0",
@@ -5002,22 +5082,6 @@
    "entdeckt": "2026-10-10"
   },
   {
-   "id": "ausschreibungen-5jjel0",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Reinigung Förderzentrum Prof. Dr. Rainer Fetscher Dresden",
-   "geber": "Landeshauptstadt Dresden Angebotsfrist: 17.11.2026 15:00 Veröffentlichungsende:",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/evergabede/2026/10/7066735.html#track=feed-callforbids",
-   "frist": "2026-11-17",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-10"
-  },
-  {
    "id": "ausschreibungen-znrc49",
    "kategorie": "ausschreibung",
    "quelle": "service.bund.de",
@@ -5040,22 +5104,6 @@
    "titel": "Reinigungsdienstleistungen Prüfbüro Dortmund",
    "geber": "DRV Bund Einkaufsmanagement Angebotsfrist: 18.11.2026 10:00 Veröffentlichungsend",
    "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/drv/2026/10/54321-Tender-1a0668fa01c-5d73fef673c153d5.html#track=feed-callforbids",
-   "frist": "2026-11-18",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-10"
-  },
-  {
-   "id": "ausschreibungen-zqfiwy",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Laserscanbefliegung 2027",
-   "geber": "Landesamt für Vermessung und Geobasisinformation Rheinland-Pfalz Angebotsfrist:",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/vmp-rlp-landrlp/2026/10/23145.html#track=feed-callforbids",
    "frist": "2026-11-18",
    "region": "bund",
    "tags": [
@@ -5126,6 +5174,22 @@
    "kurz": "",
    "_q": "ausschreibungen",
    "entdeckt": "2026-10-08"
+  },
+  {
+   "id": "ausschreibungen-1m4gwb2",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "ZAW - Elektroniker/in für Betriebstechnik - Kramerhof",
+   "geber": "Bundeswehrverwaltung Angebotsfrist: 25.11.2026 13:00 Veröffentlichungsende: 25.1",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/eVergabe/898233.html#track=feed-callforbids",
+   "frist": "2026-11-25",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-10-12"
   },
   {
    "id": "foerderung-bund-1emch71",
@@ -5252,6 +5316,20 @@
    "kurz": "Die Nationale Agentur für Innovation im Vereinigten Königreich (Innovate UK) und das deutsche Bundesministerium für Wirtschaft und Energie (BMWE) fördern gemeinsame deutsch-britische Forschungs- und Entwicklungsprojekte zur Entwicklung inno",
    "_q": "foerderung-bund",
    "entdeckt": "2026-10-08"
+  },
+  {
+   "id": "eu-calls-1o42fjz",
+   "kategorie": "eu",
+   "quelle": "EU Funding & Tenders",
+   "titel": "European Partnership on Innovative SMEs",
+   "geber": "European Partnership on Innovative SMEs/Innowwide CALL 5",
+   "url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/competitive-calls-cs/44087099",
+   "frist": "2026-12-01",
+   "region": "EU",
+   "tags": [],
+   "kurz": "HORIZON-EIE-2021-INNOVSMES-01-01",
+   "_q": "eu-calls",
+   "entdeckt": "2026-10-12"
   },
   {
    "id": "eu-calls-q583pu",
@@ -5512,20 +5590,6 @@
    "kurz": "HORIZON-BRIDGING-2027-05-01",
    "_q": "eu-calls",
    "entdeckt": "2026-10-08"
-  },
-  {
-   "id": "eu-calls-3qti75",
-   "kategorie": "eu",
-   "quelle": "EU Funding & Tenders",
-   "titel": "European Partnership on Innovative SMEs",
-   "geber": "European Partnership on Innovative SMEs/Eurostars: joint transnational call for proposals (CALL 12 of Eurostars-3)",
-   "url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/competitive-calls-cs/44087099",
-   "frist": "2027-03-04",
-   "region": "EU",
-   "tags": [],
-   "kurz": "HORIZON-EIE-2021-INNOVSMES-01-01",
-   "_q": "eu-calls",
-   "entdeckt": "2026-10-10"
   },
   {
    "id": "eu-calls-gdkhr3",
