@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { ArrowRight, Store } from "lucide-react";
 import { TOOL_COUNT, GUIDE_COUNT, ANBIETER_ANZAHL } from "@/data/kennzahlen";
+import { HeroFahrplan } from "./HeroFahrplan";
 import { PLANS, FOUNDER_CODE, formatEurCents } from "@/config/pricing";
 
 /** Bewusst faktisch, keine erfundenen Kundenzahlen. Zahlen kommen aus den Datenquellen. */
@@ -18,7 +19,7 @@ export const Hero = () => {
       <div className="pointer-events-none absolute inset-0 bg-dots [mask-image:linear-gradient(to_bottom,black,transparent_70%)]" aria-hidden="true" />
 
       <div className="container relative max-w-6xl">
-        <div className="grid items-center gap-10 pb-14 lg:grid-cols-[1.15fr,0.85fr] lg:gap-14 lg:pb-20">
+        <div className="grid items-center gap-10 pb-14 lg:grid-cols-[1fr,1.05fr] lg:gap-14 lg:pb-20">
           {/* Text-Spalte */}
           <div>
             {/* Zielgruppe zuerst: Relevanz muss in 3 Sekunden sitzen. */}
@@ -27,9 +28,9 @@ export const Hero = () => {
               Für E-Commerce-Händler &amp; Creator in Deutschland
             </p>
 
-            <h1 className="text-[2.4rem] font-semibold leading-[1.05] tracking-[-0.04em] text-foreground sm:text-5xl lg:text-[3.35rem]">
+            <h1 className="text-[2.4rem] font-semibold leading-[1.05] tracking-[-0.04em] text-foreground sm:text-5xl lg:text-[3.1rem]">
               Gründung, Steuer &amp; Marketplace-Setup.{" "}
-              <span className="text-accent-blue">In der richtigen Reihenfolge.</span>
+              <span className="sm:block">In der richtigen Reihenfolge.</span>
             </h1>
 
             <p className="mt-6 max-w-[34rem] text-lg leading-relaxed text-muted-foreground md:text-xl md:leading-relaxed">
@@ -60,20 +61,9 @@ export const Hero = () => {
             </p>
           </div>
 
-          {/* Felix arbeitet, statt zu posieren */}
-          <div className="relative">
-            <div className="relative rounded-[1.75rem] border border-border/80 bg-card/70 p-2 shadow-soft backdrop-blur">
-              <img
-                src="/mascots/felix-hero-desk.webp"
-                srcSet="/mascots/felix-hero-desk.webp 1x, /mascots/felix-hero-desk@2x.webp 2x"
-                alt="Felix, dein KI-Gründungs-Copilot, arbeitet am Laptop eine Gründungs-Checkliste ab"
-                width={1376}
-                height={768}
-                fetchPriority="high"
-                decoding="async"
-                className="aspect-[1376/768] w-full rounded-[1.35rem] object-cover"
-              />
-            </div>
+          {/* Produktszene: ein Fahrplan mit echten gesetzlichen Fristen */}
+          <div className="min-w-0">
+            <HeroFahrplan />
           </div>
         </div>
       </div>

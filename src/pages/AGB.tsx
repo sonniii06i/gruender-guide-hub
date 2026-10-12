@@ -2,6 +2,7 @@ import { Navbar } from "@/components/landing/Navbar";
 import { Footer } from "@/components/landing/Footer";
 import { PageHeader } from "@/components/landing/PageHeader";
 import { Seo } from "@/components/Seo";
+import { ANBIETER_ANZAHL, ANBIETER_KATEGORIEN } from "@/data/kennzahlen";
 
 const AGB = () => (
   <div className="min-h-screen bg-background">
@@ -59,7 +60,7 @@ const AGB = () => (
         <li><strong>Felix-Chat</strong> (KI-Assistent auf Basis von Google Gemini via Lovable AI Gateway)</li>
         <li><strong>Steuer-Cockpit</strong> (Frist-Kalender, IAB-Rechner, Quartals-Schätzung, Brutto/Netto)</li>
         <li><strong>Rechtsform-Wizard</strong></li>
-        <li><strong>Anbieter-Vergleich</strong> mit Stärken/Schwächen-Analyse aus Reddit + DTC-Communities (90+ Anbieter, monatliches Audit)</li>
+        <li><strong>Anbieter-Vergleich</strong> mit Stärken/Schwächen-Analyse aus Reddit + DTC-Communities ({ANBIETER_ANZAHL} Anbieter in {ANBIETER_KATEGORIEN} Kategorien, monatliches Audit)</li>
         <li><strong>Notar-Finder</strong> (OpenStreetMap) inkl. Notar-Vorbereitungs-Fragebogen</li>
         <li><strong>Firmenname-Verfügbarkeitsprüfung</strong> (NorthData + GLEIF)</li>
       </ul>

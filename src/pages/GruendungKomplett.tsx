@@ -110,7 +110,7 @@ const GruendungKomplett = () => {
     <div className="relative min-h-screen bg-background">
       <Seo
         title="Vom Gewerbeschein bis zur Umsatzsteuer-Voranmeldung | GründerX"
-        description="78 Werkzeuge für die Unternehmensgründung: Rechtsform, Gewerbeanmeldung, Geschäftskonto, Buchhaltung, Umsatzsteuer-Voranmeldung und EÜR — in der Reihenfolge, in der sie gebraucht werden."
+        description={`${TOOL_COUNT} Werkzeuge für die Unternehmensgründung: Rechtsform, Gewerbeanmeldung, Geschäftskonto, Buchhaltung, Umsatzsteuer-Voranmeldung und EÜR — in der Reihenfolge, in der sie gebraucht werden.`}
         path="/gruendung-komplett"
         noindex
       />
@@ -136,7 +136,7 @@ const GruendungKomplett = () => {
           </span>
 
           <h1 className="mt-6 text-balance text-[2.25rem] font-semibold leading-[1.05] tracking-[-0.04em] md:text-[3.5rem]">
-            <span className="block">78 Werkzeuge zwischen</span>
+            <span className="block">{TOOL_COUNT} Werkzeuge zwischen</span>
             <span className="block text-accent-blue">Gewerbeschein und Steuererklärung.</span>
           </h1>
 

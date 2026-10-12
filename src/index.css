@@ -222,3 +222,70 @@
     line-height: 1.3;
   }
 }
+
+/* ── Hero-Szene „Fahrplan“ (components/landing/HeroFahrplan.tsx) ────── */
+.gx-plan { margin: 0; }
+.gx-plan-fenster { background: hsl(var(--card)); border: 1px solid hsl(var(--border)); border-radius: 18px; overflow: hidden;
+  box-shadow: 0 40px 80px -44px hsl(223 70% 23% / .5), 0 10px 24px -18px hsl(223 70% 23% / .3); }
+.gx-plan-kopf { display: flex; align-items: center; gap: 12px; padding: 16px 20px; border-bottom: 1px solid hsl(var(--border)); }
+.gx-plan-felix { width: 36px; height: 36px; border-radius: 999px; background: hsl(var(--brand-green-soft)); flex: none; object-fit: cover; }
+.gx-plan-titel { margin: 0; font-size: 15px; font-weight: 600; letter-spacing: -0.01em; color: hsl(var(--foreground)); }
+.gx-plan-fall { margin: 0; font-size: 13px; color: hsl(var(--muted-foreground)); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gx-plan-stand { margin: 0 0 0 auto; display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; color: hsl(var(--foreground)); flex: none; }
+.gx-plan-balken { display: block; width: 72px; height: 6px; border-radius: 99px; background: hsl(var(--muted)); overflow: hidden; }
+.gx-plan-balken > span { display: block; height: 100%; border-radius: inherit; background: hsl(var(--brand-green)); }
+
+.gx-plan-liste { list-style: none; margin: 0; padding: 10px 0 12px; position: relative; }
+.gx-plan-schritt { position: relative; padding: 0 20px 0 62px; }
+/* Schiene zwischen den Knoten */
+.gx-plan-schritt::before { content: ""; position: absolute; left: 33px; top: 0; bottom: 0; width: 2px; background: hsl(var(--border)); }
+.gx-plan-schritt:first-child::before { top: 24px; }
+.gx-plan-schritt:last-child::before { bottom: calc(100% - 24px); }
+.gx-plan-schritt[data-status="erledigt"]::before { background: hsl(var(--brand-green) / .55); }
+.gx-plan-knoten { position: absolute; left: 20px; top: 10px; z-index: 1; width: 28px; height: 28px; border-radius: 999px; display: grid; place-items: center;
+  font-size: 12.5px; font-weight: 600; font-variant-numeric: tabular-nums; background: hsl(var(--card)); border: 1.5px solid hsl(var(--border)); color: hsl(var(--muted-foreground)); }
+.gx-plan-knoten svg { width: 15px; height: 15px; }
+[data-status="erledigt"] > .gx-plan-knoten { background: hsl(var(--brand-green)); border-color: hsl(var(--brand-green)); color: #fff; }
+[data-status="jetzt"] > .gx-plan-knoten { background: hsl(var(--accent-blue)); border-color: hsl(var(--accent-blue)); color: #fff; box-shadow: 0 0 0 5px hsl(var(--accent-blue) / .15); }
+
+.gx-plan-zeile { width: 100%; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 4px 16px; min-height: 48px; padding: 6px 10px; margin: 0 -10px;
+  text-align: left; border-radius: 10px; transition: background-color .15s; width: calc(100% + 20px); }
+.gx-plan-zeile:hover { background: hsl(var(--muted) / .6); }
+.gx-plan-zeile:focus-visible { outline: 2px solid hsl(var(--ring)); outline-offset: 0; }
+.gx-plan-name { font-size: 15px; font-weight: 600; line-height: 1.3; color: hsl(var(--foreground)); }
+[data-status="erledigt"] .gx-plan-name { color: hsl(var(--muted-foreground)); font-weight: 500; }
+.gx-plan-jetzt { margin-left: 8px; display: inline-block; padding: 1px 8px; border-radius: 99px; font-size: 12px; font-weight: 600; vertical-align: 1px;
+  color: hsl(var(--accent-blue)); background: hsl(var(--accent-blue) / .1); }
+.gx-plan-frist { display: flex; flex-direction: column; align-items: flex-end; font-size: 13px; line-height: 1.3; color: hsl(var(--foreground)); white-space: nowrap; }
+.gx-plan-norm { font-size: 12px; color: hsl(var(--muted-foreground)); }
+.gx-plan-hinweis { padding: 2px 0 10px; }
+.gx-plan-hinweis p { margin: 0; padding: 10px 14px; border-radius: 10px; font-size: 14px; line-height: 1.5; color: hsl(var(--foreground) / .85);
+  background: hsl(var(--accent-blue) / .07); border: 1px solid hsl(var(--accent-blue) / .14); }
+.gx-plan-caption { margin-top: 12px; font-size: 12.5px; line-height: 1.5; color: hsl(var(--muted-foreground)); }
+
+/* Einziger Bewegungsmoment beim Laden: Fortschritt fuellt sich, der
+   aktuelle Schritt meldet sich einmal. */
+@media (prefers-reduced-motion: no-preference) {
+  .gx-plan-balken > span { animation: gx-fuellen 900ms 500ms cubic-bezier(.3,.7,.2,1) both; }
+  [data-status="jetzt"] > .gx-plan-knoten { animation: gx-puls 1200ms 1300ms ease-out 1 both; }
+  .gx-plan-hinweis:not([hidden]) p { animation: gx-auf 260ms ease-out both; }
+}
+@keyframes gx-fuellen { from { width: 0; } }
+@keyframes gx-puls { 0% { box-shadow: 0 0 0 0 hsl(var(--accent-blue) / .45); } 70% { box-shadow: 0 0 0 12px hsl(var(--accent-blue) / 0); } 100% { box-shadow: 0 0 0 5px hsl(var(--accent-blue) / .15); } }
+@keyframes gx-auf { from { opacity: 0; transform: translateY(-3px); } }
+
+@media (max-width: 639px) {
+  .gx-plan-kopf { padding: 14px 16px; }
+  .gx-plan-schritt { padding: 0 14px 0 54px; }
+  .gx-plan-schritt::before { left: 29px; }
+  .gx-plan-knoten { left: 16px; }
+  .gx-plan-zeile { grid-template-columns: 1fr; }
+  .gx-plan-frist { flex-direction: row; gap: 6px; align-items: baseline; font-size: 12.5px; color: hsl(var(--muted-foreground)); }
+  .gx-plan-name { font-size: 14.5px; }
+}
+.gx-plan, .gx-plan-name, .gx-plan-kopf > .min-w-0 { min-width: 0; }
+@media (max-width: 639px) {
+  .gx-plan-balken { width: 44px; }
+  .gx-plan-jetzt { margin-left: 0; margin-top: 4px; display: table; }
+}
+@media (max-width: 639px) { .gx-plan-fall { white-space: normal; } }

@@ -2,6 +2,7 @@ import { Navbar } from "@/components/landing/Navbar";
 import { Footer } from "@/components/landing/Footer";
 import { PageHeader } from "@/components/landing/PageHeader";
 import { Seo } from "@/components/Seo";
+import { ANBIETER_ANZAHL } from "@/data/kennzahlen";
 
 const Datenschutz = () => (
   <div className="min-h-screen bg-background">
@@ -62,7 +63,7 @@ const Datenschutz = () => (
         <li><strong>Felix-Chat</strong> – KI-Co-Founder (Google Gemini via Lovable AI Gateway) für Fragen zu Gründung, Steuern, Compliance.</li>
         <li><strong>Steuer-Cockpit</strong> – Frist-Kalender, IAB-Rechner, Quartals-Schätzung.</li>
         <li><strong>Rechtsform-Wizard</strong> – Empfehlung zu Einzel/UG/GmbH/PartG.</li>
-        <li><strong>Anbieter-Vergleich</strong> – 90+ Anbieter (Banking, Versand, Buchhaltung, Versicherungen etc.) mit Stärken/Schwächen.</li>
+        <li><strong>Anbieter-Vergleich</strong> – {ANBIETER_ANZAHL} Anbieter (Banking, Versand, Buchhaltung, Versicherungen etc.) mit Stärken/Schwächen.</li>
         <li><strong>Notar-Finder & Notar-Vorbereitung</strong> – PLZ-basierte Suche (OpenStreetMap) plus Datenerfassung für deinen Notartermin.</li>
         <li><strong>Firmenname-Check</strong> – Live-Verfügbarkeit über NorthData + GLEIF.</li>
       </ul>
