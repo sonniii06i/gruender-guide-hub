@@ -34,10 +34,10 @@ const ToolLanding = () => {
       <div className="min-h-screen bg-background">
         <Seo title="Tool nicht gefunden | GründerX" description="Dieses Tool existiert nicht." path={`/tools/${slug}`} noindex />
         <Navbar />
-        <main className="container max-w-2xl py-24 px-4 text-center">
-          <h1 className="text-2xl font-bold mb-4">Tool nicht gefunden</h1>
-          <p className="text-muted-foreground mb-6">Diese Seite existiert nicht (mehr).</p>
-          <Link to="/tools"><Button className="rounded-full">Alle Tools ansehen</Button></Link>
+        <main className="container max-w-xl px-4 pb-24 pt-36 text-center">
+          <h1 className="mb-3 text-3xl font-semibold tracking-tight">Tool nicht gefunden</h1>
+          <p className="mb-7 text-muted-foreground">Diese Seite existiert nicht (mehr).</p>
+          <Button asChild size="lg" className="h-11 rounded-xl bg-gradient-primary font-semibold"><Link to="/tools">Alle Tools ansehen</Link></Button>
         </main>
         <Footer />
       </div>
@@ -123,19 +123,24 @@ const ToolLanding = () => {
       faq={faq}
       topSlot={
         trial ? (
-          <section className="rounded-2xl border border-border bg-card p-6 md:p-7 shadow-card mb-8">
-            <p className="flex items-center gap-2 text-sm font-semibold text-accent-blue">
-              <Gift className="h-4 w-4" /> {TRIAL_CLAIM}
-            </p>
-            <p className="mt-2 text-sm text-muted-foreground">
-              Kein Konto, keine Zahlung: Du nutzt „{tool.title}" einmal kostenlos und bekommst das Ergebnis gegen
-              deine E-Mail-Adresse. Danach geht es mit dem GründerX-Abo unbegrenzt weiter.
-            </p>
-            <Link to={trial.trialPath} className="mt-4 inline-block">
-              <Button size="lg" className="rounded-full gap-2 bg-gradient-primary hover:opacity-95">
-                Kostenlos prüfen <ArrowRight className="h-4 w-4" />
-              </Button>
-            </Link>
+          <section className="flex flex-col gap-4 rounded-2xl border border-brand-green/25 bg-brand-green-soft p-5 sm:flex-row sm:items-center sm:justify-between md:p-6">
+            <div className="flex items-start gap-3.5">
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-card text-brand-green shadow-card">
+                <Gift className="h-4 w-4" aria-hidden="true" />
+              </span>
+              <div>
+                <p className="font-semibold">{TRIAL_CLAIM}</p>
+                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                  Kein Konto, keine Zahlung: Du nutzt „{tool.title}" einmal kostenlos und bekommst das Ergebnis gegen
+                  deine E-Mail-Adresse. Danach geht es mit dem GründerX-Abo unbegrenzt weiter.
+                </p>
+              </div>
+            </div>
+            <Button asChild size="lg" className="h-11 shrink-0 gap-2 rounded-xl bg-gradient-primary font-semibold hover:opacity-95">
+              <Link to={trial.trialPath}>
+                Kostenlos prüfen <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
+            </Button>
           </section>
         ) : undefined
       }
