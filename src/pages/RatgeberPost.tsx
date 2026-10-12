@@ -4,8 +4,8 @@ import ReactMarkdown from "react-markdown";
 import { supabase } from "@/integrations/supabase/client";
 import PublicShell from "@/layouts/PublicShell";
 import { Seo } from "@/components/Seo";
-import { Badge } from "@/components/ui/badge";
-import { Clock, ChevronLeft, BookOpen, Wrench, ListChecks, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Clock, ChevronLeft, BookOpen, Wrench, ListChecks, ArrowRight, Info } from "lucide-react";
 import { relatedToolsFor, relatedGuidesFor, BLOG_CATEGORY_TOPIC, type LinkItem } from "@/lib/internalLinks";
 import { findGuideLanding } from "@/data/guides";
 import { guideHref, guidesMergedInto } from "@/data/guideMerges";
@@ -71,15 +71,17 @@ const RatgeberPost = () => {
   if (notFound) {
     return (
       <PublicShell>
-        <div className="container max-w-3xl py-32 text-center">
-          <BookOpen className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-          <h1 className="text-3xl font-bold mb-3">Artikel nicht gefunden</h1>
-          <p className="text-muted-foreground mb-6">
+        <div className="container max-w-xl px-4 pb-24 pt-36 text-center">
+          <span className="mx-auto flex h-11 w-11 items-center justify-center rounded-xl bg-accent text-accent-blue">
+            <BookOpen className="h-5 w-5" aria-hidden="true" />
+          </span>
+          <h1 className="mt-5 text-3xl font-semibold tracking-tight">Artikel nicht gefunden</h1>
+          <p className="mt-3 text-muted-foreground">
             Vielleicht findest du dein Thema in unserer Übersicht.
           </p>
-          <Link to="/ratgeber" className="text-accent-blue hover:underline">
-            ← Zurück zum Ratgeber
-          </Link>
+          <Button asChild size="lg" className="mt-7 h-11 rounded-xl bg-gradient-primary font-semibold">
+            <Link to="/ratgeber">Zur Ratgeber-Übersicht</Link>
+          </Button>
         </div>
       </PublicShell>
     );
@@ -88,11 +90,14 @@ const RatgeberPost = () => {
   if (!post) {
     return (
       <PublicShell>
-        <div className="container max-w-3xl py-32">
-          <div className="animate-pulse space-y-4">
-            <div className="h-4 w-24 bg-secondary rounded" />
-            <div className="h-12 w-3/4 bg-secondary rounded" />
-            <div className="h-64 w-full bg-secondary rounded mt-6" />
+        <div className="container max-w-3xl px-4 pb-24 pt-32" role="status" aria-live="polite">
+          <span className="sr-only">Artikel wird geladen …</span>
+          <div className="animate-pulse space-y-4" aria-hidden="true">
+            <div className="h-4 w-40 rounded bg-secondary" />
+            <div className="h-11 w-full rounded-lg bg-secondary" />
+            <div className="h-11 w-2/3 rounded-lg bg-secondary" />
+            <div className="h-5 w-5/6 rounded bg-secondary" />
+            <div className="mt-8 aspect-[16/9] w-full rounded-2xl bg-secondary" />
           </div>
         </div>
       </PublicShell>
@@ -173,19 +178,25 @@ const RatgeberPost = () => {
       />
 
       <article>
-        <header className="pt-28 pb-10 bg-hero">
-          <div className="container max-w-3xl">
+        <header className={`relative overflow-hidden border-b border-border/70 bg-hero pt-28 md:pt-32 ${post.hero_image_url ? "pb-16" : "pb-12 md:pb-14"}`}>
+          <div
+            className="pointer-events-none absolute inset-0 bg-dots [mask-image:linear-gradient(to_bottom,black,transparent_80%)]"
+            aria-hidden="true"
+          />
+          <div className="container relative max-w-3xl px-4">
             <Link
               to="/ratgeber"
-              className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground mb-6"
+              className="mb-8 inline-flex items-center text-sm text-muted-foreground hover:text-foreground"
             >
-              <ChevronLeft className="h-4 w-4 mr-1" /> Alle Ratgeber-Artikel
+              <ChevronLeft className="mr-1 h-4 w-4" aria-hidden="true" /> Alle Ratgeber-Artikel
             </Link>
 
-            <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground mb-4">
-              <Badge variant="secondary" className="rounded-full">{post.category}</Badge>
-              <span className="flex items-center gap-1">
-                <Clock className="h-3 w-3" /> {post.reading_minutes} Min Lesezeit
+            <div className="mb-5 flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-muted-foreground">
+              <span className="inline-flex items-center rounded-full border border-accent-blue/20 bg-accent px-3 py-0.5 text-[13px] font-medium text-accent-blue">
+                {post.category}
+              </span>
+              <span className="flex items-center gap-1 tabular">
+                <Clock className="h-3.5 w-3.5" aria-hidden="true" /> {post.reading_minutes} Min Lesezeit
               </span>
               <time dateTime={post.published_at}>
                 {new Date(post.published_at).toLocaleDateString("de-DE", {
@@ -196,10 +207,10 @@ const RatgeberPost = () => {
               </time>
             </div>
 
-            <h1 className="text-3xl md:text-5xl font-bold tracking-tight leading-tight text-balance">
+            <h1 className="text-balance text-[2.1rem] font-semibold leading-[1.08] tracking-[-0.035em] md:text-[3rem]">
               {post.title}
             </h1>
-            <p className="mt-5 text-lg text-muted-foreground text-balance">{post.excerpt}</p>
+            <p className="mt-5 text-pretty text-lg leading-relaxed text-muted-foreground">{post.excerpt}</p>
             {kanonisch && (
               <a
                 href={kanonisch.url}
@@ -212,7 +223,7 @@ const RatgeberPost = () => {
         </header>
 
         {post.hero_image_url && (
-          <div className="container max-w-4xl -mt-4">
+          <div className="container relative -mt-8 max-w-4xl px-4">
             <img
               src={post.hero_image_url}
               alt={post.title}
@@ -221,10 +232,10 @@ const RatgeberPost = () => {
           </div>
         )}
 
-        <div className="container max-w-3xl py-14">
+        <div className="container max-w-3xl px-4 py-12 md:py-16">
           <div className="prose prose-lg dark:prose-invert max-w-none
-              prose-headings:font-bold prose-headings:tracking-tight prose-headings:scroll-mt-24
-              prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-4
+              prose-headings:font-semibold prose-headings:tracking-tight prose-headings:scroll-mt-24
+              prose-h2:text-[1.75rem] prose-h2:mt-12 prose-h2:mb-4
               prose-h3:text-xl prose-h3:mt-8
               prose-a:text-accent-blue prose-a:no-underline hover:prose-a:underline
               prose-strong:text-foreground
@@ -247,24 +258,32 @@ const RatgeberPost = () => {
           {post.tags.length > 0 && (
             <div className="mt-12 flex flex-wrap gap-2">
               {post.tags.map((t) => (
-                <Badge key={t} variant="outline" className="rounded-full">
+                <span key={t} className="rounded-full border border-border bg-card px-3 py-1 text-xs text-muted-foreground">
                   #{t}
-                </Badge>
+                </span>
               ))}
             </div>
           )}
 
           {zusammengelegt.map((g) => (
-            <section key={g.slug} className="mt-14 rounded-2xl border border-border bg-card p-6">
-              <h2 className="text-lg font-bold tracking-tight mb-1 flex items-center gap-2">
-                <ListChecks className="h-4 w-4 text-accent-blue" /> Schritt für Schritt: {g.title}
+            <section key={g.slug} className="mt-14 rounded-2xl border border-border bg-card p-6 shadow-card md:p-7">
+              <h2 className="flex items-start gap-3 text-lg font-semibold tracking-tight">
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-accent text-accent-blue">
+                  <ListChecks className="h-4 w-4" aria-hidden="true" />
+                </span>
+                <span className="pt-0.5">Schritt für Schritt: {g.title}</span>
               </h2>
-              <p className="text-sm text-muted-foreground mb-4">
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
                 {g.outcome} Aufwand realistisch {g.duration}.
               </p>
-              <ol className="list-decimal pl-5 space-y-1 text-sm">
+              <ol className="mt-4 space-y-2 text-sm">
                 {g.outline.map((schritt, i) => (
-                  <li key={i}>{schritt.title}</li>
+                  <li key={i} className="flex items-start gap-3">
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-secondary text-xs font-semibold tabular text-muted-foreground">
+                      {i + 1}
+                    </span>
+                    <span className="pt-0.5">{schritt.title}</span>
+                  </li>
                 ))}
               </ol>
               <p className="mt-4 text-sm text-muted-foreground">
@@ -281,7 +300,7 @@ const RatgeberPost = () => {
             <div className="mt-14 space-y-6">
               {guides.length > 0 && (
                 <div>
-                  <h2 className="text-lg font-bold tracking-tight mb-3 flex items-center gap-2">
+                  <h2 className="mb-4 flex items-center gap-2 text-lg font-semibold tracking-tight">
                     <ListChecks className="h-4 w-4 text-accent-blue" /> Guides, die dich Schritt für Schritt durchführen
                   </h2>
                   <div className="grid sm:grid-cols-2 gap-3">
@@ -289,9 +308,9 @@ const RatgeberPost = () => {
                       <Link
                         key={g.slug}
                         to={guideHref(g.slug)}
-                        className="group rounded-xl border border-border bg-card p-4 hover:border-accent-blue/50 transition-colors"
+                        className="press group rounded-xl border border-border bg-card p-4 transition-colors hover:border-accent-blue/40 hover:shadow-card"
                       >
-                        <p className="font-medium text-sm mb-1 flex items-center justify-between gap-2">
+                        <p className="mb-1 flex items-start justify-between gap-2 text-sm font-semibold leading-snug">
                           {g.title}
                           <ArrowRight className="h-3.5 w-3.5 text-muted-foreground group-hover:translate-x-0.5 transition-transform shrink-0" />
                         </p>
@@ -303,7 +322,7 @@ const RatgeberPost = () => {
               )}
               {tools.length > 0 && (
                 <div>
-                  <h2 className="text-lg font-bold tracking-tight mb-3 flex items-center gap-2">
+                  <h2 className="mb-4 flex items-center gap-2 text-lg font-semibold tracking-tight">
                     <Wrench className="h-4 w-4 text-accent-blue" /> Passende Tools im GründerX-Cockpit
                   </h2>
                   <div className="grid sm:grid-cols-2 gap-3">
@@ -311,9 +330,9 @@ const RatgeberPost = () => {
                       <Link
                         key={t.slug}
                         to={`/tools/${t.slug}`}
-                        className="group rounded-xl border border-border bg-card p-4 hover:border-accent-blue/50 transition-colors"
+                        className="press group rounded-xl border border-border bg-card p-4 transition-colors hover:border-accent-blue/40 hover:shadow-card"
                       >
-                        <p className="font-medium text-sm mb-1 flex items-center justify-between gap-2">
+                        <p className="mb-1 flex items-start justify-between gap-2 text-sm font-semibold leading-snug">
                           {t.title}
                           <ArrowRight className="h-3.5 w-3.5 text-muted-foreground group-hover:translate-x-0.5 transition-transform shrink-0" />
                         </p>
@@ -327,12 +346,12 @@ const RatgeberPost = () => {
           )}
 
           {weitere === null ? (
-            <p className="mt-14 text-xs text-muted-foreground" data-prerender-pending>
+            <p className="mt-14 text-sm text-muted-foreground" data-prerender-pending>
               Weitere Ratgeber werden geladen …
             </p>
           ) : weitere.length > 0 ? (
             <div className="mt-14">
-              <h2 className="text-lg font-bold tracking-tight mb-3 flex items-center gap-2">
+              <h2 className="mb-4 flex items-center gap-2 text-lg font-semibold tracking-tight">
                 <BookOpen className="h-4 w-4 text-accent-blue" /> Weitere Ratgeber
               </h2>
               <div className="grid sm:grid-cols-3 gap-3">
@@ -340,9 +359,9 @@ const RatgeberPost = () => {
                   <Link
                     key={a.slug}
                     to={`/ratgeber/${a.slug}`}
-                    className="group rounded-xl border border-border bg-card p-4 hover:border-accent-blue/50 transition-colors"
+                    className="press group rounded-xl border border-border bg-card p-4 transition-colors hover:border-accent-blue/40 hover:shadow-card"
                   >
-                    <p className="font-medium text-sm mb-1">{a.title}</p>
+                    <p className="mb-1 text-sm font-semibold leading-snug">{a.title}</p>
                     <p className="text-xs text-muted-foreground line-clamp-2">{a.excerpt}</p>
                   </Link>
                 ))}
@@ -350,10 +369,11 @@ const RatgeberPost = () => {
             </div>
           ) : null}
 
-          <div className="mt-14 rounded-2xl border border-border bg-secondary/30 p-6">
-            <p className="text-sm text-muted-foreground italic">
+          <div className="mt-14 flex items-start gap-3 rounded-2xl border border-border bg-secondary/40 p-5 md:p-6">
+            <Info className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" aria-hidden="true" />
+            <p className="text-sm leading-relaxed text-muted-foreground">
               Dieser Artikel ersetzt keine individuelle Steuer- oder Rechtsberatung. Stand 2026. Verfasst
-              von <strong className="text-foreground not-italic">{post.author}</strong>, KI-Redakteur auf
+              von <strong className="font-semibold text-foreground">{post.author}</strong>, KI-Redakteur auf
               GründerX, redaktionell freigegeben.
             </p>
           </div>
