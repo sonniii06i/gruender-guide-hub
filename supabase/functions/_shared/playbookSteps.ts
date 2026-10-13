@@ -132,7 +132,7 @@ export const PLAYBOOK_TITEL: Record<string, PlaybookTitel> = {
       "Seller-Verifikation abschließen",
       "Amazon Brand Registry beantragen + freischalten",
       "Compliance Pflicht-Basics: EORI + EAN + LUCID + GPSR (für ALLE Produkte)",
-      "Compliance Kategorie-Spezifisch: WEEE / BattG / CPNP / Spielzeug / Lebensmittel",
+      "Compliance Kategorie-Spezifisch: WEEE / BattDG / CPNP / Spielzeug / Lebensmittel",
       "Listing + A+ Content + Bilder (CR-Optimierung)",
       "FBA-Versand erstellen",
       "PPC-Launch-Strategie (Phase 0/30/60/90)",

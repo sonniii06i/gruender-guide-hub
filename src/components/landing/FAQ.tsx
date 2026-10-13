@@ -23,7 +23,7 @@ const faqs = [
   },
   {
     q: "Wie hilft ihr bei eigener Brand und Compliance?",
-    a: "Kategorie-Guides für Elektronik (WEEE/EAR, CE, RoHS), Health & Supplements (NEM-Anzeige BVL, NRV, HCV), Beauty (CPNP, MoCRA), Spielzeug (EN 71, REACH), Apparel (Textilkennzeichnung) und Lebensmittel (LMIV). Plus Anmelde-Wizards für LUCID-Verpackungen, BattG und GPSR.",
+    a: "Kategorie-Guides für Elektronik (WEEE/EAR, CE, RoHS), Health & Supplements (NEM-Anzeige BVL, NRV, HCV), Beauty (CPNP, MoCRA), Spielzeug (EN 71, REACH), Apparel (Textilkennzeichnung) und Lebensmittel (LMIV). Plus Anmelde-Wizards für LUCID-Verpackungen, BattDG und GPSR.",
   },
   {
     q: "Kann ich vor dem Launch Marken, Domain und Social-Handles prüfen?",

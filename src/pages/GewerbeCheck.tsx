@@ -174,7 +174,7 @@ function berechneRechtsformEmpfehlung(setup: Setup): RechtsformReco {
           {
             id: "ug",
             label: "UG (haftungsbeschränkt)",
-            pro: "Bei Risiko-intensiver Tätigkeit (Produkthaftung, hoher Lagerwert): Haftung auf Stammkapital begrenzt. Ab 1 € Stammkapital, aber 25 % vom Gewinn müssen als Rücklage aufgebaut werden bis 25k erreicht.",
+            pro: "Bei Risiko-intensiver Tätigkeit (Produkthaftung, hoher Lagerwert): Haftung auf Stammkapital begrenzt. Ab 1 € Stammkapital, aber 25 % vom Gewinn müssen in die Rücklage, bis das Stammkapital per Kapitalerhöhung auf 25.000 € angehoben ist.",
             contra: "Notar nötig (~500 €), Handelsregister-Eintrag, Bilanz-Pflicht, IHK-Pflicht, höhere Buchführungskosten (~2-3k €/J StB-Honorar).",
           },
           {
@@ -197,7 +197,7 @@ function berechneRechtsformEmpfehlung(setup: Setup): RechtsformReco {
         {
           id: "ug",
           label: "UG (haftungsbeschränkt)",
-          pro: "Haftungsbeschränkung + Thesaurierungs-Vorteil. Ab 1 € Stammkapital + Rücklagenbildung bis 25k. Notar ~500 €.",
+          pro: "Haftungsbeschränkung + Thesaurierungs-Vorteil. Ab 1 € Stammkapital + Rücklagenbildung, bis das Stammkapital auf 25.000 € erhöht ist. Notar ~500 €.",
           contra: "Bilanz-Pflicht + DAS Handelsregister + ~2-3k €/J Buchhaltungskosten. Geschäftsführer-Gehalt muss sozialversicherungspflichtig sein.",
         },
         {
@@ -249,7 +249,7 @@ const GewerbeCheck = () => {
             ? "Ohne Gewinnerzielungsabsicht = Liebhaberei. Das Finanzamt sieht das als Hobby — kein Gewerbe nötig, keine Steuer auf den Erlös."
             : `Bei einmaligen Aktivitäten unter ~410 € Gewinn greift die Bagatell-Grenze. Aber Achtung: bei mehrmaliger Wiederholung wertet das FA das als 'nachhaltige Gewinnerzielungsabsicht' und du bist plötzlich gewerbe-/anmeldepflichtig.`,
         nextSteps: [
-          { text: "Wichtige Schwellen: §22 EStG Sonstige Einkünfte unter 256 €/J steuerfrei · Ehrenamtspauschale 840 €/J · Übungsleiterpauschale 3.000 €/J" },
+          { text: "Wichtige Schwellen: §22 EStG Sonstige Einkünfte unter 256 €/J steuerfrei · Ehrenamtspauschale 960 €/J · Übungsleiterpauschale 3.300 €/J" },
           { text: "Bei wiederholtem Verkauf (Flohmarkt, eBay-Reseller): nach 3+ Wiederholungen pro Jahr droht 'Nachhaltigkeit' → Gewerbe-Pflicht. Im Zweifel beim FA anfragen." },
           {
             text: "Falls trotzdem ESt-Erklärung nötig: Anlage 'Sonstige Einkünfte' §22 EStG (Freigrenze 256 €/J)",

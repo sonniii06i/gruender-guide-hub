@@ -11,7 +11,7 @@ const MARKETPLACES = [
 ];
 
 const COMPLIANCE = [
-  "LUCID (VerpackG)",
+  "LUCID (VerpackDG)",
   "WEEE / EAR",
   "GPSR",
   "OSS & USt-Fristen",

@@ -1725,7 +1725,7 @@ export const SUB_CODES: AmazonCode[] = [
     code: "BatteryRecycling",
     category: "epr",
     label: "Battery Recycling Fee",
-    meaning: "Gebühr für Batterien-Entsorgung / -Recycling (BattG / EU-Batterieverordnung).",
+    meaning: "Gebühr für Batterien-Entsorgung / -Recycling (BattDG / EU-Batterieverordnung).",
     sign: "minus",
     skr03: "4380 Sonstige Abgaben (Schlüssel 9)",
     skr04: "6855 Sonstige Abgaben",

@@ -649,7 +649,7 @@ const HeroBlock = () => (
   >
     <ol className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
       {[
-        <>ELSTER-Konto erstellen, falls noch nicht vorhanden. Der Aktivierungs-Brief braucht 2–4 Wochen.</>,
+        <>ELSTER-Konto erstellen, falls noch nicht vorhanden. Die Registrierung dauert laut ELSTER bis zu 10 Werktage (Aktivierungs-Code per Brief).</>,
         <>In ELSTER den „Fragebogen zur steuerlichen Erfassung für Einzelunternehmen" öffnen.</>,
         <>Diese Seite <strong>parallel</strong> öffnen (zweiter Tab oder Monitor).</>,
         <>Teilseiten in der Reihenfolge unten durchgehen: hier nachlesen, dann in ELSTER eintragen.</>,

@@ -7,7 +7,7 @@ const PAINS = [
   },
   {
     title: "Der Fragebogen zur steuerlichen Erfassung",
-    body: "Sieben Seiten Behördendeutsch, bei denen ein falsches Kreuz die Kleinunternehmerregelung für zwei Jahre festnagelt.",
+    body: "Sieben Seiten Behördendeutsch, bei denen ein falsches Kreuz beim Verzicht auf die Kleinunternehmerregelung dich mindestens fünf Jahre bindet.",
   },
   {
     title: "LUCID, WEEE, GPSR, OSS",

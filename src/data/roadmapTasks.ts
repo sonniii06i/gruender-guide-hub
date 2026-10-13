@@ -229,7 +229,7 @@ export const ROADMAP_TASKS: RoadmapTask[] = [
     beschreibung: "Pflicht innerhalb 1 Monat ab Tätigkeitsaufnahme (§ 138 AO). ELSTER-Online-Formular — hier wird § 19 KU FINAL entschieden (5 Jahre Bindung!).",
     schritte: [
       "FsE-Wizard durchlaufen → erzeugt Spickzettel mit allen Entscheidungen",
-      "ELSTER-Konto bereithalten (Aktivierungs-Brief braucht 2–4 Wochen!)",
+      "ELSTER-Konto bereithalten (Registrierung inkl. Aktivierungs-Brief dauert bis zu 10 Werktage!)",
       "FsE in ELSTER vom Spickzettel abschreiben (~30 Felder)",
       "§ 19 KU + Soll/Ist + EÜR/Bilanz final festlegen",
       "USt-ID parallel beantragen wenn EU-Geschäft",

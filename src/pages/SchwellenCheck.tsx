@@ -587,7 +587,7 @@ const BeginnerHero = () => (
         <p className="flex items-center gap-2 text-sm font-semibold text-success">
           <CheckCircle2 className="h-4 w-4" aria-hidden="true" /> Freibetrag
         </p>
-        <p className="mt-1 text-sm text-foreground/75">Beträge bis Schwelle steuerfrei, NUR der Mehrbetrag wird besteuert. Beispiel: Übungsleiter 3.500 € → 500 € steuerpflichtig.</p>
+        <p className="mt-1 text-sm text-foreground/75">Beträge bis Schwelle steuerfrei, NUR der Mehrbetrag wird besteuert. Beispiel: Übungsleiter 3.500 € → 200 € steuerpflichtig (Freibetrag 3.300 € seit 2026).</p>
       </div>
       <div className="rounded-xl border border-warning/25 bg-warning-soft p-3.5">
         <p className="flex items-center gap-2 text-sm font-semibold text-warning">

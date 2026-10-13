@@ -171,7 +171,7 @@ export const gruendungskostenConfig: ToolConfig = {
       },
       {
         q: "Brauche ich für eine UG viel Kapital?",
-        a: "Rechtlich reicht 1 € Stammkapital, praktisch solltest du genug einplanen, um Gründungs- und Anlaufkosten zu decken. Die UG muss zudem 25 % des Jahresüberschusses als Rücklage ansparen, bis 25.000 € erreicht sind.",
+        a: "Rechtlich reicht 1 € Stammkapital, praktisch solltest du genug einplanen, um Gründungs- und Anlaufkosten zu decken. Die UG muss zudem 25 % des Jahresüberschusses als Rücklage ansparen, bis das Stammkapital per Kapitalerhöhung auf 25.000 € angehoben ist (§ 5a Abs. 5 GmbHG).",
       },
     ],
   },

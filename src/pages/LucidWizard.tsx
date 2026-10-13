@@ -172,7 +172,7 @@ const LucidWizard = () => {
     return { low: Math.max(75, low), mid: Math.max(75, mid), high: Math.max(75, high) };
   }, [materialMengen, totalKg]);
 
-  // VE-Pflicht-Schwellen (§11 VerpackG)
+  // VE-Pflicht-Schwellen (§ 10 Abs. 4 VerpackDG: 80 t Glas, 50 t PPK, 30 t übrige Materialarten)
   const veSchwellen = useMemo(() => {
     const m = materialMengen;
     const ueber = [
@@ -218,7 +218,7 @@ const LucidWizard = () => {
     <CockpitShell
       eyebrow="LUCID-Wizard · 5-Schritte-Rechner (kein Verzeichnis)"
       title="Verpackungslizenz-Rechner + Anbieter-Empfehlung"
-      subtitle="Schätzt deine jährlichen Lizenzkosten anhand der Materialmengen, vergleicht 9 zugelassene duale Systeme und gibt dir einen Action-Plan für die LUCID-Eintragung (die machst du selbst auf verpackungsregister.org). Tarife 2026 (+9-24 % ggü. 2025), inkl. PPWR (EU 2025/40, Hauptpflichten 12.8.2026), EWKFondsG-Doppelbelastung, Mehrweg-Pflicht §33 und §7c-Marketplace-Haftung. Stand Mai 2026."
+      subtitle="Schätzt deine jährlichen Lizenzkosten anhand der Materialmengen, vergleicht 9 zugelassene duale Systeme und gibt dir einen Action-Plan für die LUCID-Eintragung (die machst du selbst auf verpackungsregister.org). Tarife 2026 (+9-24 % ggü. 2025), inkl. PPWR (EU 2025/40, Hauptpflichten 12.8.2026), EWKFondsG-Doppelbelastung, Mehrweg-Angebotspflicht (§ 60 VerpackDG) und Prüfpflichten für Plattformen und Fulfilment-Dienstleister. Seit 12.8.2026 gilt das VerpackDG statt des VerpackG."
     >
       <div className="mx-auto max-w-4xl">
         {/* Fortschritt */}
@@ -346,9 +346,9 @@ const LucidWizard = () => {
               </Callout>
             )}
             {veSchwellen.length > 0 && (
-              <Callout tone="danger" title="Vollständigkeitserklärung (VE) nach §11 VerpackG ist Pflicht">
-                {veSchwellen.join(" · ")}. Die VE muss bis <strong>15.05.</strong> des Folgejahres von einem
-                IHK-Sachverständigen geprüft werden (typisch 800-3.000 € Prüfkosten).
+              <Callout tone="danger" title="Vollständigkeitserklärung (VE) nach § 10 VerpackDG ist Pflicht">
+                {veSchwellen.join(" · ")}. Die VE muss bis <strong>15.05.</strong> des Folgejahres hinterlegt und von einem registrierten
+                Sachverständigen (oder WP/StB) geprüft sein (typisch 800-3.000 € Prüfkosten).
               </Callout>
             )}
           </div>
@@ -398,9 +398,9 @@ const LucidWizard = () => {
               </ResultPanel>
 
               {veSchwellen.length > 0 && (
-                <Callout tone="danger" title="Vollständigkeitserklärung (VE) nach §11 VerpackG ist Pflicht">
-                  {veSchwellen.join(" · ")}. Prüfung durch IHK-Sachverständigen bis <strong>15.05.</strong> des
-                  Folgejahres. Prüfkosten typisch 800-3.000 €.
+                <Callout tone="danger" title="Vollständigkeitserklärung (VE) nach § 10 VerpackDG ist Pflicht">
+                  {veSchwellen.join(" · ")}. Hinterlegung bis <strong>15.05.</strong> des Folgejahres, geprüft durch registrierten
+                  Sachverständigen (oder WP/StB). Prüfkosten typisch 800-3.000 €.
                 </Callout>
               )}
 
@@ -494,14 +494,15 @@ const LucidWizard = () => {
               keine Schwellenwerte: ab 1 kg/Jahr meldepflichtig.
             </li>
             <li>
-              <strong className="text-foreground">Mehrweg-Pflicht §33 VerpackG</strong> seit 1.1.2023:
+              <strong className="text-foreground">Mehrweg-Angebotspflicht (§ 60 VerpackDG, vorher § 33 VerpackG)</strong> seit 1.1.2023:
               Letztvertreiber von Einweg-Plastik-Lebensmittelverpackungen + Einweg-Bechern. Ausnahme: ≤5 MA
               UND ≤80 m² Verkaufsfläche.
             </li>
             <li>
-              <strong className="text-foreground">§7c VerpackG Marketplace-Haftung</strong> seit 1.7.2022:
-              Amazon/eBay/Etsy müssen LUCID-Nr. + Systembeteiligung jedes Sellers prüfen, sonst
-              Mitstörer-Haftung. Ohne LUCID: Listing-Blockade binnen Tagen.
+              <strong className="text-foreground">Prüfpflicht für Marktplätze und Fulfilment</strong> (seit 1.7.2022, jetzt
+              § 13 Abs. 4 VerpackDG + PPWR/DSA): Fulfilment-Dienstleister dürfen ohne LUCID-Registrierung des
+              Herstellers nicht tätig werden, Amazon/eBay/Etsy prüfen die LUCID-Nr. ihrer Seller. Ohne LUCID:
+              Listing-Sperre.
             </li>
             <li>
               <strong className="text-foreground">Tarife 2026 stark erhöht:</strong> Kunststoff +9,4%,
@@ -515,11 +516,11 @@ const LucidWizard = () => {
         <Callout tone="warning" title="Wichtig">
           <ul className="list-disc space-y-1 pl-4">
             <li>
-              <strong>Bußgeld bis 200.000 €</strong> bei fehlender Registrierung + Vertriebsverbot
+              <strong>Bußgeld bis 100.000 €</strong> bei fehlender Registrierung, <strong>bis 200.000 €</strong> bei fehlender Systembeteiligung, dazu Vertriebsverbot (§§ 13, 66 VerpackDG)
             </li>
             <li>
-              <strong>VerpackG seit 2019</strong>: Nachfolger der alten Verpackungsverordnung. ZSVR (Zentrale
-              Stelle Verpackungsregister) als Behörde
+              <strong>VerpackDG seit 12.8.2026</strong>: löst das VerpackG (2019) ab und ergänzt die EU-Verpackungsverordnung
+              PPWR. ZSVR (Zentrale Stelle Verpackungsregister) führt weiter das Register LUCID
             </li>
             <li>
               <strong>Marketplace-Verkäufer</strong>: Seit 2022 sind Amazon, eBay, Kaufland verpflichtet, die
@@ -530,8 +531,8 @@ const LucidWizard = () => {
               €/Jahr
             </li>
             <li>
-              <strong>Vollständigkeitserklärung (§11 VerpackG)</strong> bei Über-Schwellen-Mengen (80.000 kg Glas, 50.000 kg
-              Papier/Karton, 30.000 kg LVP), geprüft durch IHK-Sachverständigen
+              <strong>Vollständigkeitserklärung (§ 10 VerpackDG)</strong> ab 80.000 kg Glas, 50.000 kg
+              Papier/Karton oder 30.000 kg übrige Materialien, geprüft durch registrierten Sachverständigen (oder WP/StB)
             </li>
           </ul>
         </Callout>

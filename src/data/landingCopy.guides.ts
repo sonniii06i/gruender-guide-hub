@@ -104,13 +104,13 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
     "seoTitle": "Amazon FBA starten 2026 – Anleitung & Kosten",
     "seoDescription": "Amazon FBA Brand launchen (DE/EU): von Produkt-Recherche über Sourcing & QC bis zum ersten Sale. End-to-End-Bauanleitung mit Listing, A+ & PPC.",
     "lead": "Dieser Guide führt dich Schritt für Schritt durch den kompletten Amazon-FBA-Launch – von Produkt-Recherche über Sourcing, Qualitätskontrolle und Versand bis zum ersten organischen Sale mit eigener Marke, A+ Content und PPC. Für Seller, die in DE/EU eine Brand aufbauen.",
-    "urgency": "Amazon FBA ist die schnellste Bühne für eine Produkt-Marke – aber auch die teuerste, wenn man Fehler macht. Eine 5.000–15.000 € Erstbestellung beim falschen Lieferanten, ein Listing ohne EAN-Strategie oder vergessene LUCID/WEEE/BattG-Registrierungen können dein Geld binden, das Listing sperren oder Bußgelder auslösen. Geh den Launch Schritt für Schritt mit GründerX – mit sauberem Sourcing, QC und Compliance, damit dein Kapital in Verkäufe fließt, nicht in vermeidbare Fehler.",
+    "urgency": "Amazon FBA ist die schnellste Bühne für eine Produkt-Marke – aber auch die teuerste, wenn man Fehler macht. Eine 5.000–15.000 € Erstbestellung beim falschen Lieferanten, ein Listing ohne EAN-Strategie oder vergessene LUCID/WEEE/BattDG-Registrierungen können dein Geld binden, das Listing sperren oder Bußgelder auslösen. Geh den Launch Schritt für Schritt mit GründerX – mit sauberem Sourcing, QC und Compliance, damit dein Kapital in Verkäufe fließt, nicht in vermeidbare Fehler.",
     "outcomes": [
       "Live geschaltetes Amazon-FBA-Listing mit eigener angemeldeter Marke",
       "Eingelagerte, qualitätsgeprüfte Ware im Amazon-Fulfillment-Center",
       "Optimiertes Listing inkl. A+ Content, Bildern und Keyword-Recherche",
       "Laufende PPC-Kampagnen und Account-Health-Monitoring",
-      "Alle Compliance-Registrierungen: LUCID/VerpackG, WEEE und BattG"
+      "Alle Compliance-Registrierungen: LUCID/VerpackDG, WEEE und BattDG"
     ],
     "disclaimer": "Dieser Guide bietet strukturierte Orientierung und ersetzt keine Rechts-, Steuer- oder Compliance-Beratung – Amazon-Richtlinien und gesetzliche Pflichten können sich ändern."
   },

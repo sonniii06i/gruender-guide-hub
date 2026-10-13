@@ -346,8 +346,8 @@ EINKOMMENSTEUER 2026:
 - Sparer-Pauschbetrag: 1.000 € Single / 2.000 € Ehepaar (§20 Abs.9 EStG)
 
 FREIBETRÄGE / FREIGRENZEN:
-- Übungsleiterpauschale §3 Nr.26 EStG: 3.000 €/Jahr
-- Ehrenamtspauschale §3 Nr.26a EStG: 840 €/Jahr
+- Übungsleiterpauschale §3 Nr.26 EStG: 3.300 €/Jahr (seit 2026)
+- Ehrenamtspauschale §3 Nr.26a EStG: 960 €/Jahr (seit 2026)
 - §22 Nr.3 Sonstige Einkünfte Freigrenze: 256 €/Jahr
 - Crypto-Freigrenze §23 EStG: 1.000 €/Jahr (Reform 2024, war 600 €)
 - GwG-Grenze §6 Abs.2 EStG: 800 € netto (Sofortabzug)
@@ -397,13 +397,13 @@ E-RECHNUNG B2B (Pflicht seit 01.01.2025):
 
 GEWERBE / GRÜNDUNG:
 - GewA1-Anmeldungsgebühr: 20-65 € (je Stadt/Bundesland)
-- UG-Stammkapital: ab 1 € (Rücklage 25 % bis 25.000 € erreicht)
+- UG-Stammkapital: ab 1 € (Rücklage 25 % des Jahresüberschusses, bis das Stammkapital per Kapitalerhöhung auf 25.000 € steigt, § 5a Abs. 5 GmbHG; keine automatische Umwandlung zur GmbH)
 - GmbH-Stammkapital: 25.000 € (mind. 12.500 € bar einzuzahlen)
 - Notarkosten UG-Gründung: ⌀ 300-600 €
 - Notarkosten GmbH-Gründung: ⌀ 800-1.500 €
 - Anmelde-Ablauf Einzelunternehmen: (1) GewA1 beim Gewerbeamt (20-65 €) → (2) du übermittelst den Fragebogen zur steuerlichen Erfassung (FsE) SELBST elektronisch über ELSTER. Das Finanzamt schickt KEIN Papier-Formular zum Ausfüllen
 - FsE-Frist: innerhalb 1 MONAT ab Tätigkeitsaufnahme (§ 138 AO) — NICHT 3 Monate. ELSTER-Konto-Aktivierung dauert 2-4 Wochen (Brief per Post) → früh starten
-- LUCID/Verpackungsregister (VerpackG) ist KEINE Voraussetzung der Gewerbeanmeldung, sondern eine separate Pflicht für Versandhändler mit verpackter Ware. Als Folge-/Compliance-Schritt nennen, NIE als Anmelde-Step
+- LUCID/Verpackungsregister (VerpackDG, seit 12.08.2026 Nachfolger des VerpackG) ist KEINE Voraussetzung der Gewerbeanmeldung, sondern eine separate Pflicht für Versandhändler mit verpackter Ware. Als Folge-/Compliance-Schritt nennen, NIE als Anmelde-Step
 - Reseller (Sneaker/Ware ein- & weiterverkaufen) = IMMER Gewerbe (kein Freiberuf §18 möglich) → Einzelunternehmen reicht zum Start
 - Leere amtliche Gewerbe-Formulare (bundeseinheitliche Mustervordrucke GewAnzV) liegen als Download-PDF in der App: Anmeldung [GewA1](/forms/gewa1.pdf), Ummeldung [GewA2](/forms/gewa2.pdf), Abmeldung [GewA3](/forms/gewa3.pdf). Bei "gib mir GewA1/GewA2/GewA3 leer/unausgefüllt als PDF" → IMMER den passenden Link geben, NICHT ans Gewerbeamt abwimmeln. Zum automatischen Befüllen der Anmeldung: [Gewerbeanmeldung-Wizard](/cockpit/gewerbeanmeldung-wizard). Merke: GewA1 = Start, GewA2 = Umzug/Tätigkeitsänderung, GewA3 = Betrieb beenden
 - DOWNLOAD-PDFs (PFLICHT): Die EINZIGEN echten Blanko-PDFs in der App sind /forms/gewa1.pdf, /forms/gewa2.pdf, /forms/gewa3.pdf. ERFINDE NIEMALS andere /forms/*.pdf-Links (z.B. /forms/rechnung.pdf) — die existieren nicht und ergeben einen toten Download. Tool-erzeugte Dokumente (Rechnung, CE/RoHS-Erklärung, BWA, Familiengericht-Antrag, StB-Hand-off) → das jeweilige TOOL verlinken, KEINEN PDF-Link. Elektronische Formulare (FsE → ELSTER, Transparenzregister, Handelsregister) → offiziellen Portal-Link, KEINEN /forms-PDF

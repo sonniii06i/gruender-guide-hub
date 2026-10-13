@@ -116,7 +116,7 @@ export const SOLO_CONTENTS = [
   "Steuer-Cockpit: USt-Voranmeldung, Anlage EÜR, BWA-Generator, DATEV-Mapper, Quartals-Steuerschätzung, IAB-Rechner, Abschreibungs-Erklärer, Fristen-Kalender",
   "Belege & Buchhaltung: Rechnungs-Generator (PDF), Settlement-Parser, Reisekosten-Logger, Kfz-Optimizer, Crypto-Steuer, Steuer-ABC-Glossar",
   "E-Commerce: Amazon-Erstattungen & Seller-Automation, Amazon-USt EU vs. US, Marge-Tracker, Shop-Profit-Rechner, ECom-Brand-Roadmap, Side-Hustle-Schwellen-Check, Sales-Tax-Nexus",
-  "Marke & Compliance: Brand-Check, Marken-Wizard, Marken-Monitor, LUCID-Wizard, WEEE/EAR-Check, CE/RoHS-Generator, GPSR, BattG, CPNP, Pre-Year-End-Check",
+  "Marke & Compliance: Brand-Check, Marken-Wizard, Marken-Monitor, LUCID-Wizard, WEEE/EAR-Check, CE/RoHS-Generator, GPSR, BattDG, CPNP, Pre-Year-End-Check",
   "International: US-LLC- und HK-Limited-Wizard (EIN, ITIN, BOI, Banking), US- und HK-Tax-Helper, DBA-CFC-Rechner, IP-Box-Vergleich, EU-Alternativen, Substance-Checker, Visa-Helper",
   "Geld & Absicherung: Auszahlung-Optimizer, Salary-vs-Dividende, Runway- & Burn-Rate-Rechner, KV- und Pension-Optimizer, Brutto-Netto Solo, Stundensatz-Rechner, Versicherungs-Basis-Check",
   "Banking & Karten: Intl. Banking, Geschäftskreditkarten- und US-Kreditkarten-Vergleich, Förderung-Datenbank",

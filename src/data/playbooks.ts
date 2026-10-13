@@ -702,7 +702,7 @@ export const PLAYBOOKS: Playbook[] = [
     duration: "10–18 Wochen (inkl. Sourcing + Versand-Container-Laufzeit)",
     difficulty: "Mittel",
     totalCost: "8.000–25.000 € Total: 290–850 € Marke + 5.000–15.000 € Erstbestellung + 500–2.000 € Bilder/Listing + 500–1.500 € Compliance",
-    runningCost: "monatlich: 39 € Pro Account + 30–60 % Marge nach Amazon-Fees + Werbe-Budget 500–5.000 €/Mon + LUCID/WEEE/BattG ~50–150 €/Mon",
+    runningCost: "monatlich: 39 € Pro Account + 30–60 % Marge nach Amazon-Fees + Werbe-Budget 500–5.000 €/Mon + LUCID/WEEE/BattDG ~50–150 €/Mon",
     steps: [
       {
         slug: "product-research",
@@ -779,10 +779,10 @@ export const PLAYBOOKS: Playbook[] = [
       },
       {
         slug: "compliance-kategorie-spezifisch",
-        title: "Compliance Kategorie-Spezifisch: WEEE / BattG / CPNP / Spielzeug / Lebensmittel",
+        title: "Compliance Kategorie-Spezifisch: WEEE / BattDG / CPNP / Spielzeug / Lebensmittel",
         kind: "checklist",
         estMinutes: 180,
-        estCost: "WEEE 30-500 €/Jahr · BattG 30-200 €/Jahr · CPNP 0 € (Sicherheitsbewertung 200-800 €/Produkt) · Spielzeug-Tests 500-3.000 € · Lebensmittel BVL 0-500 €",
+        estCost: "WEEE 30-500 €/Jahr · BattDG 30-200 €/Jahr · CPNP 0 € (Sicherheitsbewertung 200-800 €/Produkt) · Spielzeug-Tests 500-3.000 € · Lebensmittel BVL 0-500 €",
       },
       {
         slug: "produkt",
@@ -908,7 +908,7 @@ export const PLAYBOOKS: Playbook[] = [
         title: "Compliance-Anmeldungen",
         kind: "checklist",
         estMinutes: 60,
-        estCost: "Wie Amazon (LUCID, WEEE, BattG, CPNP)",
+        estCost: "Wie Amazon (LUCID, WEEE, BattDG, CPNP)",
       },
       {
         slug: "versand",
@@ -1671,7 +1671,7 @@ export const PLAYBOOKS: Playbook[] = [
         title: "Compliance + Listing-Pflichten pro Land",
         kind: "checklist",
         estMinutes: 180,
-        estCost: "Pro Land typisch 50–300 €/Jahr Verpackungs-Reg · separate WEEE/BattG-Pflichten in einigen Ländern",
+        estCost: "Pro Land typisch 50–300 €/Jahr Verpackungs-Reg · separate WEEE/BattDG-Pflichten in einigen Ländern",
       },
       {
         slug: "consolidated-vat",

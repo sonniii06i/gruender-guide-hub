@@ -836,15 +836,15 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
     "seoTitle": "LUCID & Verpackungslizenz: Lizenzero, Reclay vergleichen",
     "seoDescription": "Vergleiche Lizenzero, Reclay und BellandVision für deine Verpackungslizenz. Erfülle die LUCID-Pflicht und finde den passenden Anbieter.",
     "lead": "Vergleicht die Verpackungslizenzierer Lizenzero, Reclay und BellandVision, damit du deine Lizenzierungspflicht rund um das LUCID-Register erfüllst und den passenden Anbieter findest. Für alle, die verpackte Ware an Endkunden in Deutschland verschicken.",
-    "urgency": "Wer Verpackungen ohne Systembeteiligung in Verkehr bringt, verstößt gegen das Verpackungsgesetz und riskiert Bußgelder und Vertriebsverbote. Das Thema wird gern aufgeschoben, dabei gilt die Pflicht ab dem ersten Paket. Vergleich jetzt mit GründerX die Lizenzierer und werde sauber compliant.",
+    "urgency": "Wer Verpackungen ohne Systembeteiligung in Verkehr bringt, verstößt gegen das Verpackungsrecht (VerpackDG) und riskiert Bußgelder und Vertriebsverbote. Das Thema wird gern aufgeschoben, dabei gilt die Pflicht ab dem ersten Paket. Vergleich jetzt mit GründerX die Lizenzierer und werde sauber compliant.",
     "outcomes": [
       "Lizenzero, Reclay und BellandVision im direkten Vergleich",
       "Klarheit über die Kosten der Systembeteiligung je Anbieter",
       "Übersicht, wie die Lizenzierung im LUCID-Kontext abläuft",
       "Eine schnelle Wahl des Anbieters statt langer Recherche",
-      "Ein Schritt Richtung Verpackungsgesetz-Konformität"
+      "Ein Schritt Richtung Konformität mit dem Verpackungsrecht (VerpackDG)"
     ],
-    "disclaimer": "Die Übersicht dient der Orientierung und ersetzt keine Rechtsberatung; deine konkreten Pflichten nach dem Verpackungsgesetz prüfst du eigenverantwortlich oder mit einer Fachperson."
+    "disclaimer": "Die Übersicht dient der Orientierung und ersetzt keine Rechtsberatung; deine konkreten Pflichten nach dem Verpackungsrecht (VerpackDG, PPWR) prüfst du eigenverantwortlich oder mit einer Fachperson."
   },
   "vergleich-shop": {
     "seoTitle": "Shopsystem vergleichen: Shopify, Shopware, Woo, Headless",
@@ -978,12 +978,12 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
     "disclaimer": "Dieses Tool ersetzt keine Rechts-, Steuer- oder Migrationsberatung; verbindliche Schritte klärst du mit Fachleuten."
   },
   "foerderung-db": {
-    "seoTitle": "Förderprogramme-Datenbank: 40+ in 14 Ländern",
-    "seoDescription": "Förderung für dein Startup finden: 40+ Programme in 14 Ländern – KfW, EXIST, EIC, YC, SEIS/EIS – filterbar nach Land, Typ und Phase.",
-    "lead": "Die Förderung-Datenbank bündelt über 40 Programme in 14 Ländern – von KfW und EXIST über EIC bis YC und SEIS/EIS – filterbar nach Land, Typ und Gründungsphase.",
+    "seoTitle": "Förderprogramme-Datenbank: 40+ in 12 Ländern",
+    "seoDescription": "Förderung für dein Startup finden: 40+ Programme in 12 Ländern – KfW, EXIST, EIC, YC, SEIS/EIS – filterbar nach Land, Typ und Phase.",
+    "lead": "Die Förderung-Datenbank bündelt über 40 Programme in 12 Ländern – von KfW und EXIST über EIC bis YC und SEIS/EIS – filterbar nach Land, Typ und Gründungsphase.",
     "urgency": "Viele Förderungen musst du beantragen, bevor du startest – wer zu spät kommt, verliert oft den Anspruch komplett. Jeder Monat ohne passendes Programm ist verschenktes Kapital. Finde jetzt mit GründerX die Förderung, die zu deiner Phase passt, und sichere dir den Vorsprung.",
     "outcomes": [
-      "Über 40 Förderprogramme aus 14 Ländern im Überblick",
+      "Über 40 Förderprogramme aus 12 Ländern im Überblick",
       "Gefiltert nach Land, Typ und deiner Gründungsphase",
       "Wichtige Watchouts pro Programm, um Fehler zu vermeiden",
       "Eine Shortlist passender Programme statt endloser Suche"

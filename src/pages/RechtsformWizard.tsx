@@ -82,7 +82,7 @@ const recommend = (
     return {
       form: "UG (haftungsbeschränkt)",
       reason: "Solo + 60–100k € Gewinn + kein extremes Haftungsrisiko: UG ist guter Kompromiss zwischen Einzel und GmbH – ab 1 € Stammkapital, schnelle Gründung, Steuersatz wie GmbH (~30 %).",
-      next: "25 % der Gewinne als gesetzliche Rücklage bis 25.000 € → dann automatische Umwandlung zur GmbH möglich.",
+      next: "25 % der Gewinne in die gesetzliche Rücklage, bis das Stammkapital per notarieller Kapitalerhöhung auf 25.000 € steigt (§ 5a Abs. 5 GmbHG). Erst dann gelten die UG-Sonderregeln nicht mehr, automatisch passiert nichts.",
       warn: "Banken & große B2B-Kunden bevorzugen oft GmbH wegen Bonität.",
     };
   }
@@ -112,7 +112,7 @@ const recommend = (
   return {
     form: "UG (haftungsbeschränkt)",
     reason: "Schnell und günstig zu gründen (1 € Stammkapital), Haftungsbeschränkung – guter Allrounder.",
-    next: "25 % Pflichtrücklage bis 25k € → automatische Umwandlung zur GmbH.",
+    next: "25 % Pflichtrücklage, bis du das Stammkapital per Kapitalerhöhung auf 25.000 € anhebst (§ 5a Abs. 5 GmbHG). Zur GmbH wird die UG nicht automatisch.",
   };
 };
 

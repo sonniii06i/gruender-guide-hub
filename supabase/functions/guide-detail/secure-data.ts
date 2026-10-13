@@ -491,10 +491,10 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     "ruecklage": {
       "extendedNotes": [
         "Beispiel: 12.000 € Gewinn Jahr 1 → 3.000 € müssen in Rücklage. Dürfen NICHT ausgeschüttet werden, NICHT an Gesellschafter zurückgezahlt werden.",
-        "Solange Rücklage < 25.000 €: Dividenden-Auszahlungen sind nur nach Bildung der Rücklage zulässig.",
-        "Sobald Rücklage 25.000 € erreicht: Du kannst Stammkapital auf 25.000 € erhöhen + zur GmbH umwandeln. Notarkosten ~600 €. Dann fällt die 25 %-Pflicht weg."
+        "Solange das Stammkapital unter 25.000 € liegt: Ausschüttungen nur aus dem Gewinnteil, der nach Bildung der Rücklage übrig bleibt.",
+        "Die Rücklagenpflicht endet erst, wenn du das Stammkapital per notarieller Kapitalerhöhung (z. B. aus der Rücklage, § 57c GmbHG) auf mindestens 25.000 € erhöhst (§ 5a Abs. 5 GmbHG). Danach darfst du als GmbH firmieren. Notarkosten ~600 €."
       ],
-      "description": "UG-Spezifikum (§5a Abs 3 GmbHG): jährlich 25 % des Jahresgewinns als gesetzliche Rücklage bilden — bis das gesammelte Eigenkapital 25.000 € erreicht. Dann automatische Umwandlung zur GmbH möglich."
+      "description": "UG-Spezifikum (§5a Abs 3 GmbHG): jährlich 25 % des Jahresgewinns als gesetzliche Rücklage bilden — so lange, bis das Stammkapital per Kapitalerhöhung auf 25.000 € angehoben ist (§ 5a Abs. 5 GmbHG). Automatisch wird die UG nicht zur GmbH."
     }
   },
   "einzelunternehmen-gruendung": {
@@ -2077,7 +2077,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "checklist": [
         "**Elektronik** (Stecker/Akku): WEEE/EAR-Registrierung bei stiftung-ear.de — Marke-pro-Marke separat",
         "**Elektronik**: CE-Zeichen + EMV/Niederspannungs-Konformität + DoC",
-        "**Batterien** (Produkt oder mitgeliefert): BattG-Registrierung beim UBA",
+        "**Batterien** (Produkt oder mitgeliefert): BattDG-Registrierung bei der stiftung ear",
         "**Kosmetik**: CPNP-Notifikation (EU-Verordnung 1223/2009)",
         "**Kosmetik**: Sicherheitsbewertung durch zertifizierten Toxikologen (200-800 €/Produkt)",
         "**Kosmetik**: PIF (Product Information File) erstellen + bereithalten",
@@ -2095,7 +2095,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
           "url": "https://www.stiftung-ear.de"
         },
         {
-          "label": "BattG (UBA)",
+          "label": "BattDG (Infos UBA)",
           "url": "https://www.umweltbundesamt.de/themen/abfall-ressourcen/produktverantwortung-in-der-abfallwirtschaft/batterien"
         },
         {
@@ -2115,7 +2115,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
           "url": "https://www.bvl.bund.de"
         }
       ],
-      "warning": "WEEE / BattG / CPNP Verstöße = Bußgeld bis 100k € + Listing-Sperre. Bei Non-EU-Seller: lokaler Bevollmächtigter Pflicht zusätzlich.",
+      "warning": "WEEE / BattDG / CPNP Verstöße = Bußgeld bis 100k € + Listing-Sperre. Bei Non-EU-Seller: lokaler Bevollmächtigter Pflicht zusätzlich.",
       "extendedNotes": [
         "**WEEE-Trick**: bei Wiederverkauf (Rebranding existierender Produkte) kann man als 'Bevollmächtigter' für Hersteller-WEEE auftreten statt eigene Marke-Registrierung.",
         "**CPNP-Realität**: Sicherheitsbewertung dauert 2-4 Wochen pro Produkt. Bei 10 SKUs = 2-3 Monate Vorlauf + 2-8k € Kosten. JETZT starten, nicht erst nach Listing-Sperre.",
@@ -2856,7 +2856,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "LUCID Verpackungsregister (Pflicht ALLE Verkäufer)",
         "Systembeteiligung beim dualen System",
         "WEEE/EAR-Registrierung (Elektronik)",
-        "BattG-Registrierung (Batterien)",
+        "BattDG-Registrierung (Batterien)",
         "CPNP-Notifikation (Kosmetik EU)",
         "Hersteller-Adresse + Kontakt korrekt im Listing"
       ],
@@ -2870,7 +2870,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
           "url": "https://www.stiftung-ear.de"
         }
       ],
-      "description": "Wie Amazon: LUCID, WEEE, BattG, CPNP — Kaufland prüft bei Onboarding und kann Account sperren."
+      "description": "Wie Amazon: LUCID, WEEE, BattDG, CPNP — Kaufland prüft bei Onboarding und kann Account sperren."
     },
     "versand": {
       "checklist": [
@@ -4848,7 +4848,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "PL: Reglementacja Wypakowań",
         "NL: Afvalfonds Verpakkingen",
         "WEEE-Pflicht pro Land separat (jeder hat eigenes Register)",
-        "BattG-Pflicht pro Land separat",
+        "BattDG-Pflicht pro Land separat",
         "Bedienungsanleitung in JEDER Verkaufs-Sprache pflicht (sonst Verkaufsverbot)",
         "Konformitätserklärung (DoC) verfügbar in EN + lokale Sprache",
         "Local Responsible Person: viele Länder fordern lokalen RP zusätzlich zu EU-RP"
@@ -5038,7 +5038,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "**Live-Shopping-Setup-Stack**: OBS Studio (kostenlos, Profi-Setup), Streamlabs (User-friendly mit Multi-Stream), Restream (Multi-Plattform: TikTok + Instagram + YouTube parallel)",
         "**Multi-Streaming-Strategie**: Live-Stream parallel auf TikTok + Instagram Live + YouTube Live = 3x Reach. Restream-Setup einmal, dann reine Operational",
         "**Equipment-Upgrade**: Phone + Ringlight reicht für Start. Skalierungs-Stack: Sony A7C + 24mm + Studio-Beleuchtung (Aputure 120D) + RØDE-Mikrofon (3-5k € Setup, sieht 10x professioneller aus)",
-        "**Compliance Pflicht** (auch TikTok Shop, oft vergessen): LUCID Verpackungsregister, GPSR Responsible Person ab 13.12.2024, WEEE für Elektronik, BattG für Batterien, CPNP für Kosmetik. Identische Anforderungen wie Amazon",
+        "**Compliance Pflicht** (auch TikTok Shop, oft vergessen): LUCID Verpackungsregister, GPSR Responsible Person ab 13.12.2024, WEEE für Elektronik, BattDG für Batterien, CPNP für Kosmetik. Identische Anforderungen wie Amazon",
         "**EU Responsible Person für non-EU-Seller**: Service-Provider (eurp.eu, ars-eu.com) ab 30-80 €/Mon — Pflicht ab GPSR",
         "**Creator-Marketplace-Tools jenseits TikTok**: Insense (UGC + Paid Posts, 200-1k €/Mon), Aspire (Influencer-Discovery), Tribe (UGC-Network), Modash (TikTok-Influencer-Search-Engine)",
         "**Customer-Service-Stack**: TikTok Seller Center hat eingebaute Messages, aber bei > 50 Tickets/Tag → eDesk (Multi-Channel inkl. TikTok), Gorgias (E-Commerce-Standard). SLA < 24h Pflicht",
@@ -8495,7 +8495,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "elster.de → 'Benutzerkonto erstellen'",
         "Persönliche Daten + Email + Telefonnummer",
         "Steuer-ID parat (11-stellig, vom FA per Brief erhalten)",
-        "Aktivierungs-Code per Brief abwarten (3-10 Werktage)",
+        "Aktivierungs-Code per Brief abwarten (Registrierung laut ELSTER bis zu 10 Werktage)",
         "Login + Software-Zertifikat herunterladen + speichern (Pflicht für jede Anmeldung!)",
         "Zertifikat-Backup (Cloud + USB-Stick) — Verlust = neuer Antrags-Prozess",
         "2-Faktor-Authentifizierung optional aktivieren"
@@ -13240,7 +13240,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Fulfillment wählen: FBA (Amazon versendet) oder FBM (du versendest)",
         "GPSR: Verantwortliche Person + Sicherheits-/Warnhinweise hinterlegen (EU-Pflicht)",
         "Bei Elektrogeräten: WEEE-Reg.-Nr. hinterlegen (siehe WEEE-Guide)",
-        "Verpackungsgesetz: LUCID-Registriernr. hinterlegen",
+        "Verpackungsrecht (VerpackDG): LUCID-Registriernr. hinterlegen",
         "Veröffentlichen → nach Freischaltung Listing live prüfen (Bilder, Variationen, Buy-Box)"
       ],
       "extendedNotes": [

@@ -36,7 +36,7 @@ const SCHRITTE: Schritt[] = [
   {
     titel: "Verpackungsregister LUCID",
     frist: "vor dem ersten Verkauf",
-    norm: "§ 9 VerpackG",
+    norm: "§ 6 VerpackDG",
     status: "offen",
     hinweis: "Gilt auch für Versandkartons. Dazu kommt ein Vertrag mit einem dualen System.",
   },

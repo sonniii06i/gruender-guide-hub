@@ -3,7 +3,7 @@
  *
  * Tool 10 der Anfänger-Wave (Starter-Kategorie, Wave 3).
  *
- * 7-Step-Wizard durch die Eingabe-Felder des amtlichen GewA1-Formulars:
+ * 8-Step-Wizard durch die Eingabe-Felder des amtlichen GewA1-Formulars:
  *  1. Persönliche Daten
  *  2. Anschrift (Privat + Betriebsstätte)
  *  3. Rechtsform + Anmeldegrund
