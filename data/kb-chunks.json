@@ -42,14 +42,14 @@
     "source": "playbook",
     "source_id": "holding",
     "title": "Holding-Struktur aufbauen",
-    "content": "# Holding-Struktur aufbauen\n**Tagline:** Holding-GmbH + operative GmbH = ~1,5 % Steuer auf Ausschüttungen\n**Outcome:** Steuerlich optimierte 2-Stufen-Struktur mit Vermögensaufbau in der Holding.\n**Dauer:** 6–10 Wochen · **Schwierigkeit:** Komplex\n**Setup-Kosten:** 1.000–2.500 € + 25k Holding-Stammkapital\n**Laufende Kosten:** jährlich: 1.000–3.000 € StB für Konzern-Buchhaltung\n## Steps\n### 1. Ausgangslage prüfen\nExistiert schon eine GmbH? → Sachgründung/Anteilseinbringung. Sonst beide neu gründen.\n*Zeit:* ~30 Min\n\n### 2. Holding-Namen festlegen\nTipp: Nachname + \"Holding GmbH\" oder neutraler Name (kein operativer Bezug).\n*Zeit:* ~15 Min\n\n### 3. Holding GmbH gründen\nKlassische GmbH-Gründung (siehe GmbH-Playbook). Persönliche Beteiligung der Gründer.\n*Zeit:* ~30 Min\n\n### 4. Anteile operative GmbH einbringen\n*Zeit:* ~45 Min\n\n### 5. Ausschüttungspolitik festlegen\n*Zeit:* ~30 Min\n\n### 6. Vermögensaufbau in Holding\n*Zeit:* ~30 Min\n\n### 7. Exit-Vorbereitung\n*Zeit:* ~20 Min",
+    "content": "# Holding-Struktur aufbauen\n**Tagline:** Holding-GmbH + operative GmbH = ~1,5 % Steuer auf Ausschüttungen (§ 8b KStG, ab 15 % Beteiligung)\n**Outcome:** Steuerlich optimierte 2-Stufen-Struktur mit Vermögensaufbau in der Holding.\n**Dauer:** 6–10 Wochen · **Schwierigkeit:** Komplex\n**Setup-Kosten:** 1.000–2.500 € + 25k Holding-Stammkapital\n**Laufende Kosten:** jährlich: 1.000–3.000 € StB für Konzern-Buchhaltung\n## Steps\n### 1. Ausgangslage prüfen\nExistiert schon eine GmbH? → Sachgründung/Anteilseinbringung. Sonst beide neu gründen.\n*Zeit:* ~30 Min\n\n### 2. Holding-Namen festlegen\nTipp: Nachname + \"Holding GmbH\" oder neutraler Name (kein operativer Bezug).\n*Zeit:* ~15 Min\n\n### 3. Holding GmbH gründen\nKlassische GmbH-Gründung (siehe GmbH-Playbook). Persönliche Beteiligung der Gründer.\n*Zeit:* ~30 Min\n\n### 4. Anteile operative GmbH einbringen\n*Zeit:* ~45 Min\n\n### 5. Ausschüttungspolitik festlegen\n*Zeit:* ~30 Min\n\n### 6. Vermögensaufbau in Holding\n*Zeit:* ~30 Min\n\n### 7. Exit-Vorbereitung\n*Zeit:* ~20 Min",
     "metadata": {
       "route": "/playbook/holding",
       "difficulty": "Komplex",
       "duration": "6–10 Wochen",
       "step_count": 7
     },
-    "content_hash": "a936e96b1b332931d7820d039ea87a977cb9c408f2883fec48884a5b45bd95dc"
+    "content_hash": "cd4425bb7304359e169b24cfa4ef6e5c63bb481ae2183b30b5ec99c1858866d5"
   },
   {
     "source": "playbook",
@@ -94,53 +94,53 @@
     "source": "playbook",
     "source_id": "amazon-fba-launch",
     "title": "Amazon FBA Brand launchen (DE/EU)",
-    "content": "# Amazon FBA Brand launchen (DE/EU)\n**Tagline:** Von Produkt-Recherche über Sourcing & QC bis zum ersten organischen Sale — End-to-End-Bauanleitung\n**Outcome:** Live Amazon-FBA-Listing mit Marke, eingelagerter Ware, A+ Content, PPC-Kampagnen und Account-Health-Monitoring.\n**Dauer:** 10–18 Wochen (inkl. Sourcing + Versand-Container-Laufzeit) · **Schwierigkeit:** Mittel\n**Setup-Kosten:** 8.000–25.000 € Total: 290–850 € Marke + 5.000–15.000 € Erstbestellung + 500–2.000 € Bilder/Listing + 500–1.500 € Compliance\n**Laufende Kosten:** monatlich: 39 € Pro Account + 30–60 % Marge nach Amazon-Fees + Werbe-Budget 500–5.000 €/Mon + LUCID/WEEE/BattG ~50–150 €/Mon\n## Steps\n### 1. Produkt-Recherche (vor allem anderen!)\nBevor Marke + Sourcing: validiere die Produkt-Idee mit Daten. Helium10 X-Ray, Jungle Scout Opportunity Score, Datendaten aus dem BSR-Rang. Suche: Demand > 3.000 Suchen/Mon, Competition mittel, Margen-Potenzial > 30 %.\n*Zeit:* ~480 Min · *Kosten:* Helium10 ab 39 $/Mon (Starter) · Jungle Scout ab 49 $/Mon · DataHawk ab 79 $/Mon · Free-Alternative: Helium10 Chrome-Extension Free + Sellerboard 19 €/Mon\n\n### 2. Brand & Markenanmeldung\nEingetragene Marke ist Voraussetzung für Amazon Brand Registry. EU-Marke (EUIPO, 850 €) oder DE-Marke (DPMA, 290 €). Anmelden DAUERT 4–8 Wochen — JETZT starten, nicht später.\n*Zeit:* ~30 Min · *Kosten:* Siehe Marken-Playbook (290–850 €)\n\n### 3. Rechtsform & Konto\nUG/GmbH empfohlen wegen Haftung (Produkthaftung). Einzelunternehmen geht auch — aber bei Kategorien wie Kosmetik/Lebensmittel/Elektronik: GmbH wegen Risiko + besserer Wahrnehmung bei Suppliern.\n*Zeit:* ~30 Min · *Kosten:* Siehe GmbH-/UG-Playbook\n\n### 4. Lieferanten-Sourcing (Alibaba / 1688 / Made-in-China)\n*Zeit:* ~600 Min · *Kosten:* 0 € Plattform-Nutzung · Sourcing-Agent 5–8 % Provision optional · Trade Assurance kostenlos\n\n### 5. MOQ + Erstbestellung kalkulieren\n*Zeit:* ~90 Min · *Kosten:* Erstbestellung typisch 5.000–15.000 € (Produkt + Verpackung + Versand + Zoll)\n\n### 6. Pre-Shipment Inspection (QC)\n*Zeit:* ~60 Min · *Kosten:* 200-400 $/Inspection (SGS, QIMA, Asia Inspection) · Pre-Production-Sample vorab gratis\n\n### 7. Amazon Seller Central registrieren\n*Zeit:* ~60 Min · *Kosten:* 39 €/Mon (Pro Account · Pflicht für Brand Registry) · Einzelartikel-Plan 0 €/Mon + 0,99 € pro Verkauf (kein A+ Content)\n\n### 8. Seller-Verifikation abschließen\n*Zeit:* ~60 Min · *Kosten:* 0 €\n\n### 9. Amazon Brand Registry beantragen + freischalten\n*Zeit:* ~60 Min · *Kosten:* 0 € (Marke + Brand Registry kostenlos)\n\n### 10. Compliance Pflicht-Basics: EORI + EAN + LUCID + GPSR (für ALLE Produkte)\n*Zeit:* ~120 Min · *Kosten:* EORI 0 € · EAN/GS1 250 €/Jahr · LUCID 0 € + Systembeteiligung 30-500 €/Jahr · GPSR-Responsible-Person für Non-EU 30-80 €/Mon\n\n### 11. Compliance Kategorie-Spezifisch: WEEE / BattG / CPNP / Spielzeug / Lebensmittel\n*Zeit:* ~180 Min · *Kosten:* WEEE 30-500 €/Jahr · BattG 30-200 €/Jahr · CPNP 0 € (Sicherheitsbewertung 200-800 €/Produkt) · Spielzeug-Tests 500-3.000 € · Lebensmittel BVL 0-500 €\n\n### 12. Listing + A+ Content + Bilder (CR-Optimierung)\n*Zeit:* ~360 Min · *Kosten:* Bilder 500–2.000 € (3D-Render zusätzlich +500 €) · Listing-Texter 200–500 € · A+ Content Designer 300–800 €\n\n### 13. FBA-Versand erstellen\n*Zeit:* ~90 Min · *Kosten:* DHL Inbound 5–25 €/Karton · Amazon Partnered Carrier oft günstiger\n\n### 14. PPC-Launch-Strategie (Phase 0/30/60/90)\n*Zeit:* ~120 Min · *Kosten:* Phase 1 (Tag 0-30): 50-150 €/Tag (Marge brennen für Reviews + BSR) · Phase 2: 30-100 €/Tag (Optimierung) · Phase 3: skaliert nach Profit\n\n### 15. Launch-Strategie: Honeymoon + Promotions + Subscribe & Save\n*Zeit:* ~240 Min · *Kosten:* Coupon-Discounts 5-20 % vom AOV · Lightning Deal 150-500 $ Fee · Vine 200 €/Produkt (siehe vine-Step)\n\n### 16. Erste Reviews via Vine + Email-Flow\n*Zeit:* ~60 Min · *Kosten:* 200 €/Produkt (für 30 Vine-Reviews) · Email-Tools wie FeedbackWhiz/Aura ab 20 €/Mon\n\n### 17. Power-Tooling: Reimbursement, Inventory, Tax, Brand Analytics, DSP\n*Zeit:* ~240 Min · *Kosten:* Keepa 19 €/Mon · GETIDA 25 % von Recovery · SoStocked 99-499 $/Mon · hellotax 79-279 €/Mon · Brand Analytics 0 € · Amazon DSP min 5k €/Mon · Pickfu 50 $/Test\n\n### 18. Multi-Channel + External-Traffic + Returns-Reduction\n*Zeit:* ~240 Min · *Kosten:* Channable 39-1.000 €/Mon · Lengow ab 600 €/Mon · Sellercloud 500-2k €/Mon · Amazon Attribution 0 € · ManyChat 15-145 $/Mon\n\n### 19. Account Health + Suspension-Recovery-Plan\n*Zeit:* ~60 Min · *Kosten:* 0 € (Monitoring) · Plan-of-Action-Service bei Suspension 500-3.000 €",
+    "content": "# Amazon FBA Brand launchen (DE/EU)\n**Tagline:** Von Produkt-Recherche über Sourcing & QC bis zum ersten organischen Sale — End-to-End-Bauanleitung\n**Outcome:** Live Amazon-FBA-Listing mit Marke, eingelagerter Ware, A+ Content, PPC-Kampagnen und Account-Health-Monitoring.\n**Dauer:** 10–18 Wochen (inkl. Sourcing + Versand-Container-Laufzeit) · **Schwierigkeit:** Mittel\n**Setup-Kosten:** 8.000–25.000 € Total: 290–850 € Marke + 5.000–15.000 € Erstbestellung + 500–2.000 € Bilder/Listing + 500–1.500 € Compliance\n**Laufende Kosten:** monatlich: 39 € Pro Account + 30–60 % Marge nach Amazon-Fees + Werbe-Budget 500–5.000 €/Mon + LUCID/WEEE/BattDG ~50–150 €/Mon\n## Steps\n### 1. Produkt-Recherche (vor allem anderen!)\nBevor Marke + Sourcing: validiere die Produkt-Idee mit Daten. Helium10 X-Ray, Jungle Scout Opportunity Score, Datendaten aus dem BSR-Rang. Suche: Demand > 3.000 Suchen/Mon, Competition mittel, Margen-Potenzial > 30 %.\n*Zeit:* ~480 Min · *Kosten:* Helium10 ab 39 $/Mon (Starter) · Jungle Scout ab 49 $/Mon · DataHawk ab 79 $/Mon · Free-Alternative: Helium10 Chrome-Extension Free + Sellerboard 19 €/Mon\n\n### 2. Brand & Markenanmeldung\nEingetragene Marke ist Voraussetzung für Amazon Brand Registry. EU-Marke (EUIPO, 850 €) oder DE-Marke (DPMA, 290 €). Anmelden DAUERT 4–8 Wochen — JETZT starten, nicht später.\n*Zeit:* ~30 Min · *Kosten:* Siehe Marken-Playbook (290–850 €)\n\n### 3. Rechtsform & Konto\nUG/GmbH empfohlen wegen Haftung (Produkthaftung). Einzelunternehmen geht auch — aber bei Kategorien wie Kosmetik/Lebensmittel/Elektronik: GmbH wegen Risiko + besserer Wahrnehmung bei Suppliern.\n*Zeit:* ~30 Min · *Kosten:* Siehe GmbH-/UG-Playbook\n\n### 4. Lieferanten-Sourcing (Alibaba / 1688 / Made-in-China)\n*Zeit:* ~600 Min · *Kosten:* 0 € Plattform-Nutzung · Sourcing-Agent 5–8 % Provision optional · Trade Assurance kostenlos\n\n### 5. MOQ + Erstbestellung kalkulieren\n*Zeit:* ~90 Min · *Kosten:* Erstbestellung typisch 5.000–15.000 € (Produkt + Verpackung + Versand + Zoll)\n\n### 6. Pre-Shipment Inspection (QC)\n*Zeit:* ~60 Min · *Kosten:* 200-400 $/Inspection (SGS, QIMA, Asia Inspection) · Pre-Production-Sample vorab gratis\n\n### 7. Amazon Seller Central registrieren\n*Zeit:* ~60 Min · *Kosten:* 39 €/Mon (Pro Account · Pflicht für Brand Registry) · Einzelartikel-Plan 0 €/Mon + 0,99 € pro Verkauf (kein A+ Content)\n\n### 8. Seller-Verifikation abschließen\n*Zeit:* ~60 Min · *Kosten:* 0 €\n\n### 9. Amazon Brand Registry beantragen + freischalten\n*Zeit:* ~60 Min · *Kosten:* 0 € (Marke + Brand Registry kostenlos)\n\n### 10. Compliance Pflicht-Basics: EORI + EAN + LUCID + GPSR (für ALLE Produkte)\n*Zeit:* ~120 Min · *Kosten:* EORI 0 € · EAN/GS1 250 €/Jahr · LUCID 0 € + Systembeteiligung 30-500 €/Jahr · GPSR-Responsible-Person für Non-EU 30-80 €/Mon\n\n### 11. Compliance Kategorie-Spezifisch: WEEE / BattDG / CPNP / Spielzeug / Lebensmittel\n*Zeit:* ~180 Min · *Kosten:* WEEE 30-500 €/Jahr · BattDG 30-200 €/Jahr · CPNP 0 € (Sicherheitsbewertung 200-800 €/Produkt) · Spielzeug-Tests 500-3.000 € · Lebensmittel BVL 0-500 €\n\n### 12. Listing + A+ Content + Bilder (CR-Optimierung)\n*Zeit:* ~360 Min · *Kosten:* Bilder 500–2.000 € (3D-Render zusätzlich +500 €) · Listing-Texter 200–500 € · A+ Content Designer 300–800 €\n\n### 13. FBA-Versand erstellen\n*Zeit:* ~90 Min · *Kosten:* DHL Inbound 5–25 €/Karton · Amazon Partnered Carrier oft günstiger\n\n### 14. PPC-Launch-Strategie (Phase 0/30/60/90)\n*Zeit:* ~120 Min · *Kosten:* Phase 1 (Tag 0-30): 50-150 €/Tag (Marge brennen für Reviews + BSR) · Phase 2: 30-100 €/Tag (Optimierung) · Phase 3: skaliert nach Profit\n\n### 15. Launch-Strategie: Honeymoon + Promotions + Subscribe & Save\n*Zeit:* ~240 Min · *Kosten:* Coupon-Discounts 5-23 % vom AOV · Lightning Deal 150-500 $ Fee · Vine 200 €/Produkt (siehe vine-Step)\n\n### 16. Erste Reviews via Vine + Email-Flow\n*Zeit:* ~60 Min · *Kosten:* 200 €/Produkt (für 30 Vine-Reviews) · Email-Tools wie FeedbackWhiz/Aura ab 20 €/Mon\n\n### 17. Power-Tooling: Reimbursement, Inventory, Tax, Brand Analytics, DSP\n*Zeit:* ~240 Min · *Kosten:* Keepa 19 €/Mon · GETIDA 25 % von Recovery · SoStocked 99-499 $/Mon · hellotax 79-279 €/Mon · Brand Analytics 0 € · Amazon DSP min 5k €/Mon · Pickfu 50 $/Test\n\n### 18. Multi-Channel + External-Traffic + Returns-Reduction\n*Zeit:* ~240 Min · *Kosten:* Channable 39-1.000 €/Mon · Lengow ab 600 €/Mon · Sellercloud 500-2k €/Mon · Amazon Attribution 0 € · ManyChat 15-145 $/Mon\n\n### 19. Account Health + Suspension-Recovery-Plan\n*Zeit:* ~60 Min · *Kosten:* 0 € (Monitoring) · Plan-of-Action-Service bei Suspension 500-3.000 €",
     "metadata": {
       "route": "/playbook/amazon-fba-launch",
       "difficulty": "Mittel",
       "duration": "10–18 Wochen (inkl. Sourcing + Versand-Container-Laufzeit)",
       "step_count": 19
     },
-    "content_hash": "5e3f70bc43cf68d9cd986b8ef14a6266ec86cc47aacfab2d945574b594b2e9b6"
+    "content_hash": "87f71683dc4591512e5693e58e689ab196a6b75676b1a460167cab4a328fea0c"
   },
   {
     "source": "playbook",
     "source_id": "kaufland-launch",
     "title": "Kaufland Global Marketplace launchen (DE/AT/CZ/SK/PL)",
-    "content": "# Kaufland Global Marketplace launchen (DE/AT/CZ/SK/PL)\n**Tagline:** Drittgrößter DE-Marketplace + DACH+CEE-Expansion über eine Plattform · Mirakl-basiert · schneller als FBA\n**Outcome:** Live Kaufland-Seller-Account mit eingetragenem Sortiment, Mirakl-Connector-Integration, Buy-Box-Optimierung, OSS für EU-Verkäufe + Performance-Score-Monitoring.\n**Dauer:** 3–6 Wochen · **Schwierigkeit:** Einfach\n**Setup-Kosten:** 500–1.500 € Setup (EAN + Bilder + Easybill + Mirakl-Connector)\n**Laufende Kosten:** monatlich: 39,95 € Pro + 6–14 % Provision · Mirakl-Connector 0–50 €/Mon (Plentymarkets/Shopware) · Sendcloud 0–25 €/Mon\n## Steps\n### 1. Voraussetzungen prüfen\nKaufland.de akzeptiert NUR juristische Personen (UG/GmbH/AG) ODER eingetragene Einzelunternehmer (e.K.). Solo-Selbstständige ohne HR-Eintrag werden ABGELEHNT.\n*Zeit:* ~15 Min · *Kosten:* ggf. e.K.-Eintrag im HR ~250 € Notar (falls noch Einzelunternehmer)\n\n### 2. Konditionen + Provisions-Tabelle 2026\nPro-Account 39,95 €/Mon. Provision: 6–14 % je Kategorie. Zahlung an Verkäufer: 14 Tage nach Lieferung. Auszahlung wöchentlich. Stornogebühr: 3 € bei vom Verkäufer verschuldeter Nicht-Lieferung.\n*Zeit:* ~30 Min · *Kosten:* 39,95 €/Mon (mtl. kündbar nach 30 Tagen) · Provision 6–14 % je Kategorie · 0,30 € Transaktionsgebühr pro Bestellung\n\n### 3. Verkäuferkonto registrieren\nOnline-Antrag bei Kaufland Seller Center. Bearbeitung 5–10 Werktage. Pflicht-Dokumente direkt parat haben.\n*Zeit:* ~60 Min · *Kosten:* 0 €\n\n### 4. Produktdaten + Listing-Felder (Mirakl-CSV)\n*Zeit:* ~180 Min · *Kosten:* EAN/GS1 250 €/Jahr · Bilder 500–1.500 € · Listing-Texter 200–400 €\n\n### 5. Mirakl-Connector / Plentymarkets / Shopware-Anbindung\n*Zeit:* ~240 Min · *Kosten:* Plentymarkets Plus-Plan ab 39 €/Mon (Mirakl-Plugin inklusive) · Shopware 6 mit Mirakl-Plugin ab 50 €/Mon · JTL-eazyAuction-Channel ab 19 €/Mon · Tradebyte Channel ab 79 €/Mon · Channable ab 39 €/Mon\n\n### 6. Buy-Box-Logik + Repricing-Strategie\n*Zeit:* ~60 Min · *Kosten:* Repricing-Tools: Repricer.com ab 79 €/Mon · BqoolEU ab 25 €/Mon · Plentymarkets-Repricer ab 19 €/Mon\n\n### 7. Compliance-Anmeldungen\n*Zeit:* ~60 Min · *Kosten:* Wie Amazon (LUCID, WEEE, BattG, CPNP)\n\n### 8. Versand-Setup\n*Zeit:* ~60 Min · *Kosten:* DHL/Hermes/DPD ähnlich Shopify · Sendcloud 0–25 €/Mon · Kaufland Fulfillment (KFS) auf Anfrage\n\n### 9. Rechnungsstellung & Buchhaltung\n*Zeit:* ~30 Min · *Kosten:* Easybill ab 9 €/Mon · Lexoffice ab 11 €/Mon · sevDesk ab 9 €/Mon\n\n### 10. Kaufland Sponsored Products + SEO\n*Zeit:* ~90 Min · *Kosten:* Sponsored Products: CPC 0,15-0,50 € · Tagesbudget 10-50 € im Launch · Tools: Kaufland Marketing Cloud (kostenlos)\n\n### 11. Tool-Stack: Reviews + Customer-Service + Multi-Marketplace-Sync\n*Zeit:* ~180 Min · *Kosten:* Reviews-Email-Tools 20-100 €/Mon · Customer-Support-Tools 30-300 €/Mon · Multi-Channel-Tools (Channable/Lengow) 39-1000 €/Mon\n\n### 12. Kaufland Global Marketplace: AT/CZ/SK/PL Expansion\n*Zeit:* ~240 Min · *Kosten:* Übersetzungen 100-300 €/Sprache (Deepl Pro 9 €/Mon + Editor) · Lokale Versand-Tarife 1-3 €/Paket Aufschlag · OSS-Anmeldung 0 €\n\n### 13. Performance-Score + Account-Suspension verhindern\n*Zeit:* ~60 Min · *Kosten:* 0 € (Monitoring im Seller-Portal kostenlos)",
+    "content": "# Kaufland Global Marketplace launchen (DE/AT/CZ/SK/PL)\n**Tagline:** Drittgrößter DE-Marketplace + DACH+CEE-Expansion über eine Plattform · Mirakl-basiert · schneller als FBA\n**Outcome:** Live Kaufland-Seller-Account mit eingetragenem Sortiment, Mirakl-Connector-Integration, Buy-Box-Optimierung, OSS für EU-Verkäufe + Performance-Score-Monitoring.\n**Dauer:** 3–6 Wochen · **Schwierigkeit:** Einfach\n**Setup-Kosten:** 500–1.500 € Setup (EAN + Bilder + Easybill + Mirakl-Connector)\n**Laufende Kosten:** monatlich: 39,95 € Pro + 6–14 % Provision · Mirakl-Connector 0–50 €/Mon (Plentymarkets/Shopware) · Sendcloud 0–25 €/Mon\n## Steps\n### 1. Voraussetzungen prüfen\nKaufland.de akzeptiert NUR juristische Personen (UG/GmbH/AG) ODER eingetragene Einzelunternehmer (e.K.). Solo-Selbstständige ohne HR-Eintrag werden ABGELEHNT.\n*Zeit:* ~15 Min · *Kosten:* ggf. e.K.-Eintrag im HR ~250 € Notar (falls noch Einzelunternehmer)\n\n### 2. Konditionen + Provisions-Tabelle 2026\nPro-Account 39,95 €/Mon. Provision: 6–14 % je Kategorie. Zahlung an Verkäufer: 14 Tage nach Lieferung. Auszahlung wöchentlich. Stornogebühr: 3 € bei vom Verkäufer verschuldeter Nicht-Lieferung.\n*Zeit:* ~30 Min · *Kosten:* 39,95 €/Mon (mtl. kündbar nach 30 Tagen) · Provision 6–14 % je Kategorie · 0,30 € Transaktionsgebühr pro Bestellung\n\n### 3. Verkäuferkonto registrieren\nOnline-Antrag bei Kaufland Seller Center. Bearbeitung 5–10 Werktage. Pflicht-Dokumente direkt parat haben.\n*Zeit:* ~60 Min · *Kosten:* 0 €\n\n### 4. Produktdaten + Listing-Felder (Mirakl-CSV)\n*Zeit:* ~180 Min · *Kosten:* EAN/GS1 250 €/Jahr · Bilder 500–1.500 € · Listing-Texter 200–400 €\n\n### 5. Mirakl-Connector / Plentymarkets / Shopware-Anbindung\n*Zeit:* ~240 Min · *Kosten:* Plentymarkets Plus-Plan ab 39 €/Mon (Mirakl-Plugin inklusive) · Shopware 6 mit Mirakl-Plugin ab 50 €/Mon · JTL-eazyAuction-Channel ab 19 €/Mon · Tradebyte Channel ab 79 €/Mon · Channable ab 39 €/Mon\n\n### 6. Buy-Box-Logik + Repricing-Strategie\n*Zeit:* ~60 Min · *Kosten:* Repricing-Tools: Repricer.com ab 79 €/Mon · BqoolEU ab 25 €/Mon · Plentymarkets-Repricer ab 19 €/Mon\n\n### 7. Compliance-Anmeldungen\n*Zeit:* ~60 Min · *Kosten:* Wie Amazon (LUCID, WEEE, BattDG, CPNP)\n\n### 8. Versand-Setup\n*Zeit:* ~60 Min · *Kosten:* DHL/Hermes/DPD ähnlich Shopify · Sendcloud 0–25 €/Mon · Kaufland Fulfillment (KFS) auf Anfrage\n\n### 9. Rechnungsstellung & Buchhaltung\n*Zeit:* ~30 Min · *Kosten:* Easybill ab 9 €/Mon · Lexoffice ab 11 €/Mon · sevDesk ab 9 €/Mon\n\n### 10. Kaufland Sponsored Products + SEO\n*Zeit:* ~90 Min · *Kosten:* Sponsored Products: CPC 0,15-0,50 € · Tagesbudget 10-50 € im Launch · Tools: Kaufland Marketing Cloud (kostenlos)\n\n### 11. Tool-Stack: Reviews + Customer-Service + Multi-Marketplace-Sync\n*Zeit:* ~180 Min · *Kosten:* Reviews-Email-Tools 20-100 €/Mon · Customer-Support-Tools 30-300 €/Mon · Multi-Channel-Tools (Channable/Lengow) 39-1000 €/Mon\n\n### 12. Kaufland Global Marketplace: AT/CZ/SK/PL Expansion\n*Zeit:* ~240 Min · *Kosten:* Übersetzungen 100-300 €/Sprache (Deepl Pro 9 €/Mon + Editor) · Lokale Versand-Tarife 1-3 €/Paket Aufschlag · OSS-Anmeldung 0 €\n\n### 13. Performance-Score + Account-Suspension verhindern\n*Zeit:* ~60 Min · *Kosten:* 0 € (Monitoring im Seller-Portal kostenlos)",
     "metadata": {
       "route": "/playbook/kaufland-launch",
       "difficulty": "Einfach",
       "duration": "3–6 Wochen",
       "step_count": 13
     },
-    "content_hash": "e37003d293d12e6343cb17d2ee8be7a11ff3fa222f4b0e9794d08a78ea3d5c91"
+    "content_hash": "5540c95c7f5ee117391b940c038b7d275e92cb6e27746088d2e7356e312708da"
   },
   {
     "source": "playbook",
     "source_id": "creator-setup",
     "title": "Creator / Influencer Setup (Monetization + Compliance)",
-    "content": "# Creator / Influencer Setup (Monetization + Compliance)\n**Tagline:** Vom Gewerbe-Setup über Plattform-Monetization (TikTok Shop / YT / Meta) bis Brand-Deals + Pricing-Bauanleitung\n**Outcome:** Komplettes Creator-Setup: angemeldete Tätigkeit, Mediakit, Pricing-Tabelle pro Follower-Range, Plattform-Affiliate aktiv, Brand-Deal-Verträge, korrekte Werbekennzeichnung, Steuern unter Kontrolle.\n**Dauer:** 2–4 Wochen · **Schwierigkeit:** Einfach\n**Setup-Kosten:** 0–800 € (Anmeldung + Vertragsvorlage + Mediakit-Design)\n**Laufende Kosten:** jährlich: 0 € (Kleinunternehmer) bis 2.000 €+ (StB + Buchhaltungs-Tool)\n## Steps\n### 1. Freiberufler oder Gewerbe?\nKünstlerisch / journalistisch (Fotografie, Schreiben, Musik): Freiberufler-Status möglich. Werblich / Produkte / Affiliate: Gewerbe-Anmeldung. In der Praxis: Hybrid → meist Gewerbe.\n*Zeit:* ~30 Min · *Kosten:* 0 €\n\n### 2. Gewerbe-/Steuer-Anmeldung\nBei Gewerbe: Gewerbeamt + ELSTER-FsE. Bei Freiberuf: nur ELSTER-FsE für natürliche Person.\n*Zeit:* ~60 Min · *Kosten:* Gewerbe 20–60 € · Freiberuf 0 €\n\n### 3. Kleinunternehmer-Regel prüfen\nBis 25k €/Jahr Umsatz: §19 UStG → keine USt auf Rechnungen. ABER: B2B-Brand-Deals = oft besser Regelbesteuerung wegen Vorsteuer.\n*Zeit:* ~20 Min · *Kosten:* 0 €\n\n### 4. Separates Geschäftskonto\n*Zeit:* ~30 Min · *Kosten:* Holvi/Finom/Qonto 0–15 €/Mon\n\n### 5. Plattform-Monetization aktivieren (TikTok / YT / Meta)\n*Zeit:* ~90 Min · *Kosten:* 0 € Anmeldung · Steuerformular W-8BEN für non-US-Plattformen Pflicht\n\n### 6. TikTok Shop einrichten (Affiliate + Brand)\n*Zeit:* ~120 Min · *Kosten:* 0 € Anmeldung · 5-30 % Provision pro Verkauf je Brand · TikTok-Service-Fee 4 % auf Brutto-Sales\n\n### 7. Affiliate-Programme aktivieren (Amazon / Awin / TradeTracker / impact)\n*Zeit:* ~90 Min · *Kosten:* 0 € Anmeldung · Provisionen 1-30 % je nach Brand/Kategorie\n\n### 8. Influencer-Plattformen anmelden (Brand-Deal-Marketplace)\n*Zeit:* ~60 Min · *Kosten:* 0 € Anmeldung · Plattform-Provision 10-20 % vom Brand-Deal (oft transparent kommuniziert)\n\n### 9. Mediakit + Pricing-Tabelle (nach Follower-Range)\n*Zeit:* ~180 Min · *Kosten:* Mediakit-Design DIY (Canva 0 €) oder Designer 50-300 € · Statistik-Tools 0-30 €/Mon (Insights kostenlos, 3rd-Party wie HypeAuditor 30+ €/Mon)\n\n### 10. Brand-Deal-Vertragsvorlage\n*Zeit:* ~60 Min · *Kosten:* Vertragsvorlage Anwalt 200–500 € einmalig · oder Templates 0 €\n\n### 11. Werbekennzeichnung lernen\n*Zeit:* ~30 Min · *Kosten:* 0 € (aber Abmahnung 1.000–3.000 € möglich)\n\n### 12. KSK prüfen (optional, sehr lukrativ!)\n*Zeit:* ~60 Min · *Kosten:* 0 € Antrag · ~5 % vom Gewinn als KSK-Beitrag (statt ~14 % freiwillige KV)\n\n### 13. Steuer-Rücklage einrichten\n*Zeit:* ~15 Min · *Kosten:* 0 €",
+    "content": "# Creator / Influencer Setup (Monetization + Compliance)\n**Tagline:** Vom Gewerbe-Setup über Plattform-Monetization (TikTok Shop / YT / Meta) bis Brand-Deals + Pricing-Bauanleitung\n**Outcome:** Komplettes Creator-Setup: angemeldete Tätigkeit, Mediakit, Pricing-Tabelle pro Follower-Range, Plattform-Affiliate aktiv, Brand-Deal-Verträge, korrekte Werbekennzeichnung, Steuern unter Kontrolle.\n**Dauer:** 2–4 Wochen · **Schwierigkeit:** Einfach\n**Setup-Kosten:** 0–800 € (Anmeldung + Vertragsvorlage + Mediakit-Design)\n**Laufende Kosten:** jährlich: 0 € (Kleinunternehmer) bis 2.000 €+ (StB + Buchhaltungs-Tool)\n## Steps\n### 1. Freiberufler oder Gewerbe?\nKünstlerisch / journalistisch (Fotografie, Schreiben, Musik): Freiberufler-Status möglich. Werblich / Produkte / Affiliate: Gewerbe-Anmeldung. In der Praxis: Hybrid → meist Gewerbe.\n*Zeit:* ~30 Min · *Kosten:* 0 €\n\n### 2. Gewerbe-/Steuer-Anmeldung\nBei Gewerbe: Gewerbeamt + ELSTER-FsE. Bei Freiberuf: nur ELSTER-FsE für natürliche Person.\n*Zeit:* ~60 Min · *Kosten:* Gewerbe 20–60 € · Freiberuf 0 €\n\n### 3. Kleinunternehmer-Regel prüfen\nBis 25k €/Jahr Umsatz: §19 UStG → keine USt auf Rechnungen. ABER: B2B-Brand-Deals = oft besser Regelbesteuerung wegen Vorsteuer.\n*Zeit:* ~20 Min · *Kosten:* 0 €\n\n### 4. Separates Geschäftskonto\n*Zeit:* ~30 Min · *Kosten:* Holvi/Finom/Qonto 0–15 €/Mon\n\n### 5. Plattform-Monetization aktivieren (TikTok / YT / Meta)\n*Zeit:* ~90 Min · *Kosten:* 0 € Anmeldung · Steuerformular W-8BEN für non-US-Plattformen Pflicht\n\n### 6. TikTok Shop einrichten (Affiliate + Brand)\n*Zeit:* ~120 Min · *Kosten:* 0 € Anmeldung · 5-30 % Provision pro Verkauf je Brand · TikTok-Service-Fee 4 % auf Brutto-Sales\n\n### 7. Affiliate-Programme aktivieren (Amazon / Awin / TradeTracker / impact)\n*Zeit:* ~90 Min · *Kosten:* 0 € Anmeldung · Provisionen 1-30 % je nach Brand/Kategorie\n\n### 8. Influencer-Plattformen anmelden (Brand-Deal-Marketplace)\n*Zeit:* ~60 Min · *Kosten:* 0 € Anmeldung · Plattform-Provision 10-23 % vom Brand-Deal (oft transparent kommuniziert)\n\n### 9. Mediakit + Pricing-Tabelle (nach Follower-Range)\n*Zeit:* ~180 Min · *Kosten:* Mediakit-Design DIY (Canva 0 €) oder Designer 50-300 € · Statistik-Tools 0-30 €/Mon (Insights kostenlos, 3rd-Party wie HypeAuditor 30+ €/Mon)\n\n### 10. Brand-Deal-Vertragsvorlage\n*Zeit:* ~60 Min · *Kosten:* Vertragsvorlage Anwalt 200–500 € einmalig · oder Templates 0 €\n\n### 11. Werbekennzeichnung lernen\n*Zeit:* ~30 Min · *Kosten:* 0 € (aber Abmahnung 1.000–3.000 € möglich)\n\n### 12. KSK prüfen (optional, sehr lukrativ!)\n*Zeit:* ~60 Min · *Kosten:* 0 € Antrag · ~5 % vom Gewinn als KSK-Beitrag (statt ~14 % freiwillige KV)\n\n### 13. Steuer-Rücklage einrichten\n*Zeit:* ~15 Min · *Kosten:* 0 €",
     "metadata": {
       "route": "/playbook/creator-setup",
       "difficulty": "Einfach",
       "duration": "2–4 Wochen",
       "step_count": 13
     },
-    "content_hash": "ab7df659e6548f3618ad1d38cecf40bbe8e09f99b2b4ac019b28c70fe96d2a48"
+    "content_hash": "efa686d88604ba46abff77cb54165f68b5bd280010fa33b300dee46e0094d68d"
   },
   {
     "source": "playbook",
     "source_id": "us-llc",
     "title": "US-LLC gründen (Wyoming / Delaware / New Mexico)",
-    "content": "# US-LLC gründen (Wyoming / Delaware / New Mexico)\n**Tagline:** LLC für non-US Founder — mit allen Postadressen für SS-4, BOI, 5472, W-7\n**Outcome:** Voll funktionsfähige US-LLC mit EIN, US-Bankkonto und korrekter US/DE-Steuer-Setup.\n**Dauer:** 4–8 Wochen · **Schwierigkeit:** Mittel\n**Setup-Kosten:** 0 € Setup\n**Laufende Kosten:** 0 € (laufend) · Wechsel später ggf. 200–500 € StB\n## Steps\n### 1. Bundesstaat wählen\nWyoming (anonym, $100 Filing, $60/Jahr), Delaware (Investor-freundlich, $90 Filing, $300/Jahr Franchise Tax), New Mexico ($50 Filing, KEIN Annual Report — günstigster Staat lifecycle).\n*Zeit:* ~30 Min · *Kosten:* 0 €\n\n### 2. LLC-Name prüfen & reservieren\nVerfügbarkeit im Secretary of State des gewählten Staats prüfen. Endung \"LLC\", \"L.L.C.\" oder \"Limited Liability Company\" Pflicht.\n*Zeit:* ~30 Min · *Kosten:* 0–25 $ optionale Reservation\n\n### 3. Registered Agent + US-Mailing-Adresse buchen (Pflicht!)\nJEDER Staat verlangt einen Registered Agent mit physischer Adresse im Staat. Wyoming Registered Agent (wyomingregisteredagent.com) = günstig + zugewiesene US-Mailing-/Business-Adresse für SS-4/BOI/Bank, Northwest = Branchen-Standard, Harbor Compliance = günstigste seriöse Alternative, Cloud Peak Law = mit Treuhand-Service.\n*Zeit:* ~30 Min · *Kosten:* Wyoming Registered Agent 25 $/Jahr (+Mail-Forwarding optional) · Northwest 125 $/Jahr · Harbor 89 $/Jahr · Cloud Peak Law ab 350 $/Jahr\n\n### 4. Articles of Organization einreichen (Secretary of State Initial Filing)\nInitial Filing direkt beim Secretary of State — Wyoming online über das WyoBiz-Portal des Wyoming SOS (sos.wyo.gov → Online Business Services). Du erhältst das Stamped Certificate of Organization als Beweis-Dokument für Bank & IRS.\n*Zeit:* ~60 Min · *Kosten:* Wyoming 100 $ · Delaware 110 $ · New Mexico 50 $ (einmalig) · +39–125 $ falls Service-Anbieter Filing macht\n\n### 5. EIN beim IRS beantragen\n*Zeit:* ~90 Min · *Kosten:* 0 $ (IRS kostenlos) · oder CPA-Service 150–300 $ für 1–2 Werktage statt 4–8 Wochen\n\n### 6. Operating Agreement aufsetzen\n*Zeit:* ~60 Min · *Kosten:* 0 $ (DIY mit Template) · Anwalt 300–800 $\n\n### 7. BOI-Report bei FinCEN (Pflicht!)\n*Zeit:* ~60 Min · *Kosten:* 0 $ (FinCEN kostenlos) · Service-Anbieter 50–150 $\n\n### 8. US-Bankkonto eröffnen\n*Zeit:* ~90 Min · *Kosten:* Mercury 0 $/Mon · Wise Business ab 31 $ einmalig · Relay 0 $/Mon\n\n### 9. Bookkeeping-Setup (QuickBooks / Xero / Wave)\n*Zeit:* ~120 Min · *Kosten:* QuickBooks Online ab 35 $/Mon (Simple Start) bis 200 $/Mon (Advanced) · Xero ab 15 $/Mon (Early) bis 78 $/Mon (Established) · Wave kostenlos · CPA-Bookkeeper Service ab 200-500 $/Mon optional\n\n### 10. Sales-Tax Nexus prüfen (US-Verkäufe)\n*Zeit:* ~90 Min · *Kosten:* Sales-Tax-Registrierung pro Bundesstaat 0-150 $ einmalig · Filing-Service 30-100 $/Bundesstaat/Mon (Avalara/TaxJar/Anrok) · DIY möglich aber zeitaufwendig\n\n### 11. Estimated Tax (1040-ES) bei US-Source-Einkommen\n*Zeit:* ~60 Min · *Kosten:* 0 $ Form-Filing · CPA-Kalkulation 200-500 $/Jahr\n\n### 12. ITIN beantragen (optional)\n*Zeit:* ~120 Min · *Kosten:* 0 $ (W-7 kostenlos) · Acceptance Agent 100–300 $\n\n### 13. Form 5472 + Pro-Forma 1120 (Pflicht!)\n*Zeit:* ~90 Min · *Kosten:* 0 $ DIY · CPA 300–800 $/Jahr (empfohlen wegen 25.000 $ Strafe-Risiko)\n\n### 14. Annual Report (jährlich)\n*Zeit:* ~30 Min · *Kosten:* Wyoming 60 $/Jahr · Delaware 300 $/Jahr Franchise Tax · New Mexico 0 $\n\n### 15. DE-steuerliche Behandlung klären\n*Zeit:* ~90 Min · *Kosten:* Deutscher StB für US-Erfahrung: 200–500 €/Stunde (1–3h jährlich)\n\n### 16. LLC auflösen (Dissolution)\n*Zeit:* ~240 Min · *Kosten:* Wyoming Dissolution-Filing 60 $ · Delaware 200 $ · New Mexico 25 $ · Final Tax Return CPA 300-800 $ · Service-Anbieter (Northwest/Harbor) für Komplett-Closure 200-500 $",
+    "content": "# US-LLC gründen (Wyoming / Delaware / New Mexico)\n**Tagline:** LLC für non-US Founder — mit allen Postadressen für SS-4, BOI, 5472, W-7\n**Outcome:** Voll funktionsfähige US-LLC mit EIN, US-Bankkonto und korrekter US/DE-Steuer-Setup.\n**Dauer:** 4–8 Wochen · **Schwierigkeit:** Mittel\n**Setup-Kosten:** Staatsgebühr ab ~50 $ (New Mexico) bzw. ~100 $ (Wyoming) + Registered Agent ~25–150 $/Jahr · EIN kostenlos\n**Laufende Kosten:** 0 € (laufend) · Wechsel später ggf. 200–500 € StB\n## Steps\n### 1. Bundesstaat wählen\nWyoming (anonym, $100 Filing, $60/Jahr), Delaware (Investor-freundlich, $90 Filing, $300/Jahr Franchise Tax), New Mexico ($50 Filing, KEIN Annual Report — günstigster Staat lifecycle).\n*Zeit:* ~30 Min · *Kosten:* 0 €\n\n### 2. LLC-Name prüfen & reservieren\nVerfügbarkeit im Secretary of State des gewählten Staats prüfen. Endung \"LLC\", \"L.L.C.\" oder \"Limited Liability Company\" Pflicht.\n*Zeit:* ~30 Min · *Kosten:* 0–25 $ optionale Reservation\n\n### 3. Registered Agent + US-Mailing-Adresse buchen (Pflicht!)\nJEDER Staat verlangt einen Registered Agent mit physischer Adresse im Staat. Wyoming Registered Agent (wyomingregisteredagent.com) = günstig + zugewiesene US-Mailing-/Business-Adresse für SS-4/BOI/Bank, Northwest = Branchen-Standard, Harbor Compliance = günstigste seriöse Alternative, Cloud Peak Law = mit Treuhand-Service.\n*Zeit:* ~30 Min · *Kosten:* Wyoming Registered Agent 25 $/Jahr (+Mail-Forwarding optional) · Northwest 125 $/Jahr · Harbor 89 $/Jahr · Cloud Peak Law ab 350 $/Jahr\n\n### 4. Articles of Organization einreichen (Secretary of State Initial Filing)\nInitial Filing direkt beim Secretary of State — Wyoming online über das WyoBiz-Portal des Wyoming SOS (sos.wyo.gov → Online Business Services). Du erhältst das Stamped Certificate of Organization als Beweis-Dokument für Bank & IRS.\n*Zeit:* ~60 Min · *Kosten:* Wyoming 100 $ · Delaware 110 $ · New Mexico 50 $ (einmalig) · +39–125 $ falls Service-Anbieter Filing macht\n\n### 5. EIN beim IRS beantragen\n*Zeit:* ~90 Min · *Kosten:* 0 $ (IRS kostenlos) · oder CPA-Service 150–300 $ für 1–2 Werktage statt 4–8 Wochen\n\n### 6. Operating Agreement aufsetzen\n*Zeit:* ~60 Min · *Kosten:* 0 $ (DIY mit Template) · Anwalt 300–800 $\n\n### 7. BOI-Report bei FinCEN (Pflicht!)\n*Zeit:* ~60 Min · *Kosten:* 0 $ (FinCEN kostenlos) · Service-Anbieter 50–150 $\n\n### 8. US-Bankkonto eröffnen\n*Zeit:* ~90 Min · *Kosten:* Mercury 0 $/Mon · Wise Business ab 31 $ einmalig · Relay 0 $/Mon\n\n### 9. Bookkeeping-Setup (QuickBooks / Xero / Wave)\n*Zeit:* ~120 Min · *Kosten:* QuickBooks Online ab 35 $/Mon (Simple Start) bis 200 $/Mon (Advanced) · Xero ab 15 $/Mon (Early) bis 78 $/Mon (Established) · Wave kostenlos · CPA-Bookkeeper Service ab 200-500 $/Mon optional\n\n### 10. Sales-Tax Nexus prüfen (US-Verkäufe)\n*Zeit:* ~90 Min · *Kosten:* Sales-Tax-Registrierung pro Bundesstaat 0-150 $ einmalig · Filing-Service 30-100 $/Bundesstaat/Mon (Avalara/TaxJar/Anrok) · DIY möglich aber zeitaufwendig\n\n### 11. Estimated Tax (1040-ES) bei US-Source-Einkommen\n*Zeit:* ~60 Min · *Kosten:* 0 $ Form-Filing · CPA-Kalkulation 200-500 $/Jahr\n\n### 12. ITIN beantragen (optional)\n*Zeit:* ~120 Min · *Kosten:* 0 $ (W-7 kostenlos) · Acceptance Agent 100–300 $\n\n### 13. Form 5472 + Pro-Forma 1120 (Pflicht!)\n*Zeit:* ~90 Min · *Kosten:* 0 $ DIY · CPA 300–800 $/Jahr (empfohlen wegen 25.000 $ Strafe-Risiko)\n\n### 14. Annual Report (jährlich)\n*Zeit:* ~30 Min · *Kosten:* Wyoming 60 $/Jahr · Delaware 300 $/Jahr Franchise Tax · New Mexico 0 $\n\n### 15. DE-steuerliche Behandlung klären\n*Zeit:* ~90 Min · *Kosten:* Deutscher StB für US-Erfahrung: 200–500 €/Stunde (1–3h jährlich)\n\n### 16. LLC auflösen (Dissolution)\n*Zeit:* ~240 Min · *Kosten:* Wyoming Dissolution-Filing 60 $ · Delaware 200 $ · New Mexico 25 $ · Final Tax Return CPA 300-800 $ · Service-Anbieter (Northwest/Harbor) für Komplett-Closure 200-500 $",
     "metadata": {
       "route": "/playbook/us-llc",
       "difficulty": "Mittel",
       "duration": "4–8 Wochen",
       "step_count": 16
     },
-    "content_hash": "bb34ad896b89517044bbb4173e5dc022b68c775d90b9661c8d2208c3e00df6cc"
+    "content_hash": "21f0b9bcbb6896cca08c558e5596228488b97c92c73e12f70ead97a85a8feabd"
   },
   {
     "source": "playbook",
@@ -198,27 +198,27 @@
     "source": "playbook",
     "source_id": "oss-anmeldung",
     "title": "OSS-Anmeldung (One-Stop-Shop) für EU-grenzüberschreitende Verkäufe",
-    "content": "# OSS-Anmeldung (One-Stop-Shop) für EU-grenzüberschreitende Verkäufe\n**Tagline:** Eine USt-Meldung in DE statt 27 USt-IDs in jedem EU-Land — Pflicht ab 10.000 € EU-Verkäufen/Jahr\n**Outcome:** Aktive OSS-Registrierung beim BZSt mit korrekter quartalsweiser Meldung aller EU-grenzüberschreitenden B2C-Verkäufe + Marketplace-Ausnahme-Behandlung.\n**Dauer:** 2–4 Wochen · **Schwierigkeit:** Mittel\n**Setup-Kosten:** 0 € (BZSt-Antrag kostenlos) · 0–500 € StB-Erst-Setup\n**Laufende Kosten:** Quartalsmeldung kostenlos · Buchhaltungstool 9–25 €/Mon · StB Quartals-Review 50–200 €\n## Steps\n### 1. Schwelle prüfen + Anwendbarkeit\nOSS-Pflicht ab 10.000 € EU-grenzüberschreitende B2C-Verkäufe (kumuliert über alle EU-Länder, ein Schwellenwert für ALLE Lieferungen + digitale Dienstleistungen).\n*Zeit:* ~30 Min · *Kosten:* 0 €\n\n### 2. OSS-Antrag beim BZSt einreichen\nOnline-Antrag im BZSt-Portal mit USt-ID + Steuernummer. Bearbeitung 1–4 Wochen, dann OSS-Status aktiv ab Folgequartal.\n*Zeit:* ~90 Min · *Kosten:* 0 €\n\n### 3. EU-USt-Sätze + korrekte Berechnung pro Land\nPro Lieferland gilt der lokale USt-Satz des Käufer-Lands (nicht DE 19 %!). Ab 10k € EU-Schwelle: Käufer-Land-USt anwenden + via OSS abrechnen.\n*Zeit:* ~60 Min · *Kosten:* 0 € (in Shopify/Amazon-Settings konfigurierbar)\n\n### 4. Marketplace-Facilitator-Rule (kritisch!)\n*Zeit:* ~30 Min · *Kosten:* 0 €\n\n### 5. Quartals-OSS-Meldung einreichen\n*Zeit:* ~60 Min · *Kosten:* 0 € (kostenfreies Filing)\n\n### 6. Retouren + Korrekturen via OSS\n*Zeit:* ~30 Min · *Kosten:* 0 €\n\n### 7. Häufige Probleme + Lösungen\n*Zeit:* ~30 Min · *Kosten:* 0 €",
+    "content": "# OSS-Anmeldung (One-Stop-Shop) für EU-grenzüberschreitende Verkäufe\n**Tagline:** Eine USt-Meldung in DE statt 27 USt-IDs in jedem EU-Land — freiwillig, relevant ab 10.000 € EU-Fernverkäufen/Jahr\n**Outcome:** Aktive OSS-Registrierung beim BZSt mit korrekter quartalsweiser Meldung aller EU-grenzüberschreitenden B2C-Verkäufe + Marketplace-Ausnahme-Behandlung.\n**Dauer:** 2–4 Wochen · **Schwierigkeit:** Mittel\n**Setup-Kosten:** 0 € (BZSt-Antrag kostenlos) · 0–500 € StB-Erst-Setup\n**Laufende Kosten:** Quartalsmeldung kostenlos · Buchhaltungstool 9–25 €/Mon · StB Quartals-Review 50–200 €\n## Steps\n### 1. Schwelle prüfen + Anwendbarkeit\nAb 10.000 € EU-grenzüberschreitenden B2C-Verkäufen (kumuliert über alle EU-Länder, ein Schwellenwert für ALLE Lieferungen + digitale Dienstleistungen) wird die Umsatzsteuer im Land des Kunden fällig. OSS ist freiwillig: statt dich in jedem Land zu registrieren, meldest du alles gesammelt über das BZSt.\n*Zeit:* ~30 Min · *Kosten:* 0 €\n\n### 2. OSS-Antrag beim BZSt einreichen\nOnline-Antrag im BZSt-Portal mit USt-ID + Steuernummer. Bearbeitung 1–4 Wochen, dann OSS-Status aktiv ab Folgequartal.\n*Zeit:* ~90 Min · *Kosten:* 0 €\n\n### 3. EU-USt-Sätze + korrekte Berechnung pro Land\nPro Lieferland gilt der lokale USt-Satz des Käufer-Lands (nicht DE 19 %!). Ab 10k € EU-Schwelle: Käufer-Land-USt anwenden + via OSS abrechnen.\n*Zeit:* ~60 Min · *Kosten:* 0 € (in Shopify/Amazon-Settings konfigurierbar)\n\n### 4. Marketplace-Facilitator-Rule (kritisch!)\n*Zeit:* ~30 Min · *Kosten:* 0 €\n\n### 5. Quartals-OSS-Meldung einreichen\n*Zeit:* ~60 Min · *Kosten:* 0 € (kostenfreies Filing)\n\n### 6. Retouren + Korrekturen via OSS\n*Zeit:* ~30 Min · *Kosten:* 0 €\n\n### 7. Häufige Probleme + Lösungen\n*Zeit:* ~30 Min · *Kosten:* 0 €",
     "metadata": {
       "route": "/playbook/oss-anmeldung",
       "difficulty": "Mittel",
       "duration": "2–4 Wochen",
       "step_count": 7
     },
-    "content_hash": "c09349c6918988673d2d29b6b6388108d8b9ab005234f262aa502f006f6c932c"
+    "content_hash": "c7feaa524115d911f3593426d3dafe4d9b10cd1e199cbd2f9ab013769982a103"
   },
   {
     "source": "playbook",
     "source_id": "pan-eu-fba",
     "title": "Pan-EU FBA Setup (Amazon DE → 7-Länder-Skalierung)",
-    "content": "# Pan-EU FBA Setup (Amazon DE → 7-Länder-Skalierung)\n**Tagline:** Amazon EU-Skalierung in DE/UK/FR/IT/ES/NL/PL — Pan-EU vs. EFN vs. CEE: was lohnt wann?\n**Outcome:** Aktive Pan-EU-FBA-Konfiguration mit USt-IDs in allen Ziel-Ländern, OSS, IOSS-falls-relevant, Übersetzungen, lokale Pricing + Compliance.\n**Dauer:** 8–16 Wochen (USt-Reg-Bearbeitung in EU-Ländern) · **Schwierigkeit:** Komplex\n**Setup-Kosten:** USt-Reg pro Land 0–500 € (Selbst) bzw. 800-2.000 € via Avalara/AVASK · Übersetzungen 200-500 €/Sprache · Avalara/Hellotax ab 50-200 €/Mon\n**Laufende Kosten:** Avalara/Hellotax/AVASK 100–500 €/Mon je nach Länder-Anzahl · Local-VAT-Filings via Service\n## Steps\n### 1. Pan-EU vs. EFN vs. CEE — Welcher Modus?\nAmazon bietet 3 Versand-Modi: EFN (European Fulfillment Network — DE-Lager an EU-Kunden), Pan-EU (Lagerung in 7 EU-Ländern, lokal), CEE (Central+Eastern Europe — DE+PL+CZ-Lager).\n*Zeit:* ~60 Min · *Kosten:* 0 € (Modus-Wahl im Seller Central)\n\n### 2. USt-Registrierungen in EU-Ländern (Pan-EU-Pflicht)\nPan-EU-Pflicht: USt-ID in jedem Land mit Amazon-Lager (DE/UK/FR/IT/ES/NL/PL). Lokale USt-Rep-Pflicht in einigen (FR/IT/PL).\n*Zeit:* ~480 Min · *Kosten:* Avalara/AVASK Komplett-Setup 1.500-3.000 € einmalig + 50-200 €/Land/Mon · Hellotax ab 49 €/Land/Mon · DIY möglich aber 6-12 Monate Aufwand\n\n### 3. Lager-Aktivierung + Inventory-Verteilung\nNach USt-Reg: Pan-EU-Modus in Seller Central aktivieren. Amazon verteilt Inventory automatisch — du kontrollierst nur die Erst-Sendung.\n*Zeit:* ~60 Min · *Kosten:* 0 € (Pan-EU-Aktivierung kostenlos) · ggf. Re-Distribution-Cost wenn Amazon Inventory verteilt\n\n### 4. Listing-Übersetzungen für 6 Sprachen\n*Zeit:* ~240 Min · *Kosten:* DeepL Pro 9 €/Mon + Editor pro Sprache 100-300 €/Listing · Profi-Übersetzer 200-500 €/Sprache/Listing · Helium10 Magnet 39+ €/Mon (Keyword-Recherche pro Land)\n\n### 5. Compliance + Listing-Pflichten pro Land\n*Zeit:* ~180 Min · *Kosten:* Pro Land typisch 50–300 €/Jahr Verpackungs-Reg · separate WEEE/BattG-Pflichten in einigen Ländern\n\n### 6. USt-Filings konsolidieren (vermeide Country-by-Country)\n*Zeit:* ~90 Min · *Kosten:* Avalara/Hellotax/TaxDoo decken alle Filings ab — Pricing siehe USt-Step",
+    "content": "# Pan-EU FBA Setup (Amazon DE → 7-Länder-Skalierung)\n**Tagline:** Amazon EU-Skalierung in DE/UK/FR/IT/ES/NL/PL — Pan-EU vs. EFN vs. CEE: was lohnt wann?\n**Outcome:** Aktive Pan-EU-FBA-Konfiguration mit USt-IDs in allen Ziel-Ländern, OSS, IOSS-falls-relevant, Übersetzungen, lokale Pricing + Compliance.\n**Dauer:** 8–16 Wochen (USt-Reg-Bearbeitung in EU-Ländern) · **Schwierigkeit:** Komplex\n**Setup-Kosten:** USt-Reg pro Land 0–500 € (Selbst) bzw. 800-2.000 € via Avalara/AVASK · Übersetzungen 200-500 €/Sprache · Avalara/Hellotax ab 50-200 €/Mon\n**Laufende Kosten:** Avalara/Hellotax/AVASK 100–500 €/Mon je nach Länder-Anzahl · Local-VAT-Filings via Service\n## Steps\n### 1. Pan-EU vs. EFN vs. CEE — Welcher Modus?\nAmazon bietet 3 Versand-Modi: EFN (European Fulfillment Network — DE-Lager an EU-Kunden), Pan-EU (Lagerung in 7 EU-Ländern, lokal), CEE (Central+Eastern Europe — DE+PL+CZ-Lager).\n*Zeit:* ~60 Min · *Kosten:* 0 € (Modus-Wahl im Seller Central)\n\n### 2. USt-Registrierungen in EU-Ländern (Pan-EU-Pflicht)\nPan-EU-Pflicht: USt-ID in jedem Land mit Amazon-Lager (DE/UK/FR/IT/ES/NL/PL). Lokale USt-Rep-Pflicht in einigen (FR/IT/PL).\n*Zeit:* ~480 Min · *Kosten:* Avalara/AVASK Komplett-Setup 1.500-3.000 € einmalig + 50-200 €/Land/Mon · Hellotax ab 49 €/Land/Mon · DIY möglich aber 6-12 Monate Aufwand\n\n### 3. Lager-Aktivierung + Inventory-Verteilung\nNach USt-Reg: Pan-EU-Modus in Seller Central aktivieren. Amazon verteilt Inventory automatisch — du kontrollierst nur die Erst-Sendung.\n*Zeit:* ~60 Min · *Kosten:* 0 € (Pan-EU-Aktivierung kostenlos) · ggf. Re-Distribution-Cost wenn Amazon Inventory verteilt\n\n### 4. Listing-Übersetzungen für 6 Sprachen\n*Zeit:* ~240 Min · *Kosten:* DeepL Pro 9 €/Mon + Editor pro Sprache 100-300 €/Listing · Profi-Übersetzer 200-500 €/Sprache/Listing · Helium10 Magnet 39+ €/Mon (Keyword-Recherche pro Land)\n\n### 5. Compliance + Listing-Pflichten pro Land\n*Zeit:* ~180 Min · *Kosten:* Pro Land typisch 50–300 €/Jahr Verpackungs-Reg · separate WEEE/BattDG-Pflichten in einigen Ländern\n\n### 6. USt-Filings konsolidieren (vermeide Country-by-Country)\n*Zeit:* ~90 Min · *Kosten:* Avalara/Hellotax/TaxDoo decken alle Filings ab — Pricing siehe USt-Step",
     "metadata": {
       "route": "/playbook/pan-eu-fba",
       "difficulty": "Komplex",
       "duration": "8–16 Wochen (USt-Reg-Bearbeitung in EU-Ländern)",
       "step_count": 6
     },
-    "content_hash": "04b9cbc3718a54fd2fff537ca7b9bd1eaf5508b7596d0842e4cbb6e6b2d2bbf3"
+    "content_hash": "17b9d7853b3346d7023fff0912315cd3a541d0991b8fdde53218e117a91d9e3f"
   },
   {
     "source": "playbook",
@@ -1014,212 +1014,368 @@
     "content_hash": "d4039271c5103c05991b654fee5e0afcad25d28548f6173826ac22f0d5d034d6"
   },
   {
+    "source": "playbook",
+    "source_id": "eigene-app-launchen",
+    "title": "Eigene App entwickeln & in App Store + Play Store launchen",
+    "content": "# Eigene App entwickeln & in App Store + Play Store launchen\n**Tagline:** Von der Idee über Entwicklung, Developer-Accounts und Review bis zum Launch in beiden Stores\n**Outcome:** Deine App live im Apple App Store und Google Play Store – mit Developer-Accounts, bestandenem Review, sauberer Monetarisierung, DSGVO-konformen Rechtstexten und ASO-Setup für organische Downloads.\n**Dauer:** 6–12 Wochen (MVP) · Review selbst: 1–7 Tage pro Store · **Schwierigkeit:** Komplex\n**Setup-Kosten:** ~124 € Accounts (99 $/Jahr Apple + 25 $ einmalig Google) + Entwicklung 0 € (selbst/KI) bis 15.000 €+ (Agentur)\n**Laufende Kosten:** 99 $/Jahr Apple · Server/Backend 0–25 €/Mon · Stores behalten 15–30 % vom Umsatz\n## Steps\n### 1. App-Idee validieren & Store-Recherche\nBevor du eine Zeile Code schreibst: Prüf, ob deine App-Idee im Store überhaupt eine Chance hat. Such deine Keywords direkt im App Store und Play Store – wie viele Konkurrenten gibt es, wie sind deren Bewertungen, was steht in den 1-Stern-Reviews (= deine Chance)? Apps mit 4,5+ Sternen und 100k+ Downloads in deiner Nische sind ein gutes Zeichen für Nachfrage, aber du brauchst einen klaren Winkel, warum jemand DEINE App lädt.\n*Zeit:* ~90 Min · *Kosten:* 0 € (Recherche kostenlos)\n\n### 2. Tech-Stack entscheiden: Nativ, Cross-Platform oder No-Code\nDie wichtigste technische Entscheidung. Nativ (Swift/Kotlin) = beste Performance, aber 2 Codebasen. Cross-Platform (Flutter, React Native/Expo, Capacitor) = 1 Codebase für beide Stores, heute Standard für 90 % der Gründer-Apps. No-Code (FlutterFlow, Adalo) = schnell, aber limitiert und laufende Kosten. Mit KI-Tools (Claude, Cursor, Lovable + Capacitor) baust du heute als Nicht-Programmierer ein echtes MVP – der Guide zeigt dir, welcher Weg zu deinem Budget und deiner App-Art passt.\n*Zeit:* ~60 Min · *Kosten:* 0 €\n\n### 3. MVP definieren & App-Design\nKill 80 % deiner Feature-Liste. Ein MVP hat EINEN Kern-Flow, der das Problem löst – alles andere kommt nach dem Launch. Definiere die 3–5 Screens des Kern-Flows und designe sie (Figma ist kostenlos, Mobbin liefert dir tausende echte App-Designs als Referenz). Halte dich an Apples Human Interface Guidelines und Googles Material Design – Apps, die sich 'falsch' anfühlen, bekommen schlechte Reviews.\n*Zeit:* ~240 Min · *Kosten:* 0 € (Figma Free) · Design-Freelancer optional 300–1.500 €\n\n### 4. App entwickeln: selbst, mit KI oder Agentur\n*Zeit:* ~2400 Min · *Kosten:* 0 € (selbst mit KI-Tools) · Freelancer 3.000–10.000 € · Agentur 15.000 €+\n\n### 5. Backend, Accounts & DSGVO-Grundlagen\n*Zeit:* ~180 Min · *Kosten:* 0–25 €/Mon (Supabase/Firebase Free-Tier reicht für den Start)\n\n### 6. Apple Developer Account anlegen (99 $/Jahr)\n*Zeit:* ~45 Min · *Kosten:* 99 $/Jahr · D-U-N-S-Nummer für Firmen kostenlos\n\n### 7. Google Play Console Account (25 $ einmalig)\n*Zeit:* ~45 Min · *Kosten:* 25 $ einmalig\n\n### 8. Monetarisierung: Abo, In-App-Kauf, Ads oder Paid\n*Zeit:* ~90 Min · *Kosten:* 0 € · RevenueCat Free bis 2.500 $/Mon Umsatz\n\n### 9. Rechtstexte: Datenschutzerklärung, Impressum, AGB/EULA\n*Zeit:* ~120 Min · *Kosten:* 0–300 € (Generator vs. Anwalt)\n\n### 10. App Store Connect: Listing, Screenshots & Privacy-Labels\n*Zeit:* ~180 Min · *Kosten:* 0 €\n\n### 11. Play Console: Store-Eintrag, Data Safety & Content-Rating\n*Zeit:* ~150 Min · *Kosten:* 0 €\n\n### 12. Beta-Test: TestFlight + Play-Testing (Pflicht bei Google!)\n*Zeit:* ~120 Min · *Kosten:* 0 €\n\n### 13. Apple App Review bestehen (häufigste Ablehnungsgründe)\n*Zeit:* ~60 Min · *Kosten:* 0 € (Review kostenlos, beliebig viele Anläufe)\n\n### 14. Google Play Review + gestaffelter Rollout\n*Zeit:* ~45 Min · *Kosten:* 0 €\n\n### 15. Launch & ASO: organisch gefunden werden\n*Zeit:* ~180 Min · *Kosten:* 0 € · ASO-Tools optional ab 25 €/Mon\n\n### 16. Post-Launch: Analytics, Crash-Monitoring & Update-Rhythmus\n*Zeit:* ~120 Min · *Kosten:* 0 € (Firebase/TelemetryDeck Free-Tier)\n\n### 17. Steuern & Buchhaltung: Apple/Google-Auszahlungen richtig buchen\n*Zeit:* ~90 Min · *Kosten:* 0 € (mit StB besprechen)",
+    "metadata": {
+      "route": "/playbook/eigene-app-launchen",
+      "difficulty": "Komplex",
+      "duration": "6–12 Wochen (MVP) · Review selbst: 1–7 Tage pro Store",
+      "step_count": 17
+    },
+    "content_hash": "f924e54f28e6279fc57e8bd3ce5e81bef80c3b97938701528e15b97eb2dfb971"
+  },
+  {
     "source": "tool",
     "source_id": "gewerbe-check",
     "title": "Brauche ich ein Gewerbe?",
-    "content": "# Brauche ich ein Gewerbe?\n**Kategorie:** 🌱 Erste Schritte\n**Status:** beta\n**Route:** /cockpit/gewerbe-check\nDecision-Tree für komplette Anfänger: Hobby vs. Freiberufler vs. Gewerbe. Mit Schwellen-Check (Gewinnerzielungsabsicht, §22 EStG, Liebhaberei) und klarer Empfehlung was du JETZT machen musst.",
+    "content": "# Brauche ich ein Gewerbe?\n**Kategorie:** Erste Schritte\n**Status:** beta\n**Route:** /cockpit/gewerbe-check\nDecision-Tree für komplette Anfänger: Hobby vs. Freiberufler vs. Gewerbe. Mit Schwellen-Check (Gewinnerzielungsabsicht, §22 EStG, Liebhaberei) und klarer Empfehlung was du JETZT machen musst.",
     "metadata": {
       "route": "/cockpit/gewerbe-check",
       "status": "beta",
       "category_slug": "starter",
-      "category_title": "🌱 Erste Schritte"
+      "category_title": "Erste Schritte"
     },
-    "content_hash": "32adc1948b9f92434ae2d842f774678bc835c46010ad4e7a7cebe1d17995edea"
+    "content_hash": "9269bfdb24106ce0225c93783638a5ae4ab56ae513431c3b0492385afac1133f"
   },
   {
     "source": "tool",
     "source_id": "schwellen-check",
     "title": "Side-Hustle-Schwellen-Check",
-    "content": "# Side-Hustle-Schwellen-Check\n**Kategorie:** 🌱 Erste Schritte\n**Status:** beta\n**Route:** /cockpit/schwellen-check\nAlle Freibeträge + Freigrenzen 2026 (§22 Sonstige 256€, Übungsleiter 3.000€, Ehrenamt 840€, §23 Crypto 1.000€, KU 25k/100k, Sparerpauschbetrag 1.000€) plus DAC7-Plattform-Meldung ab 30 Verkäufen/2.000€.",
+    "content": "# Side-Hustle-Schwellen-Check\n**Kategorie:** Erste Schritte\n**Status:** beta\n**Route:** /cockpit/schwellen-check\nAlle Freibeträge + Freigrenzen 2026 (§22 Sonstige 256€, Übungsleiter 3.300€, Ehrenamt 960€, §23 Crypto 1.000€, KU 25k/100k, Sparerpauschbetrag 1.000€) plus DAC7-Plattform-Meldung ab 30 Verkäufen/2.000€.",
     "metadata": {
       "route": "/cockpit/schwellen-check",
       "status": "beta",
       "category_slug": "starter",
-      "category_title": "🌱 Erste Schritte"
+      "category_title": "Erste Schritte"
     },
-    "content_hash": "4622a50bc5f43b03a7d31028393e65672e17bd63b177d7361d97e5f9a5a7f7f1"
+    "content_hash": "7be99ca698a6823a721eb669344728158c3ce20d79a7ad7c18eac8668397bb90"
+  },
+  {
+    "source": "tool",
+    "source_id": "gruendungszuschuss",
+    "title": "Gründungszuschuss-Check & Antrag",
+    "content": "# Gründungszuschuss-Check & Antrag\n**Kategorie:** Erste Schritte\n**Status:** beta\n**Route:** /cockpit/gruendungszuschuss\nBekomme ich den Gründungszuschuss? Ampel-Check aller Voraussetzungen nach §§ 93, 94 SGB III (150 Resttage, 15 Std., Antrag vor Start, 24-Monats-Sperre), Rechner für Phase 1 + 2, Antrags-Reihenfolge mit Online-Antrag, Unterlagen-Checkliste und IHK-Gebühren für die Tragfähigkeitsbescheinigung.",
+    "metadata": {
+      "route": "/cockpit/gruendungszuschuss",
+      "status": "beta",
+      "category_slug": "starter",
+      "category_title": "Erste Schritte"
+    },
+    "content_hash": "7de7bc3ef7a1bb985a0afff229e97aafa64125cc8528638b5545342cc782e78d"
+  },
+  {
+    "source": "tool",
+    "source_id": "gruendungsunterlagen",
+    "title": "Finanzplan-Generator (Gründungszuschuss, Einstiegsgeld, Bank)",
+    "content": "# Finanzplan-Generator (Gründungszuschuss, Einstiegsgeld, Bank)\n**Kategorie:** Erste Schritte\n**Status:** beta\n**Route:** /cockpit/gruendungsunterlagen\nKapitalbedarf, Finanzierung, Rentabilitätsvorschau über 3 Jahre, Liquiditätsplan über 12 Monate und Lebenshaltungskosten – genau die Zahlen für IHK-Stellungnahme, Arbeitsagentur, Jobcenter und Bank. Tragfähigkeits-Ampel, Mindestumsatz, KfW-Darlehen mit tilgungsfreier Zeit, PDF-Export.",
+    "metadata": {
+      "route": "/cockpit/gruendungsunterlagen",
+      "status": "beta",
+      "category_slug": "starter",
+      "category_title": "Erste Schritte"
+    },
+    "content_hash": "4fe98ff585f07c81f9b0fa28a5a8d47561a378bc7db8f3fa0d100f971ed26b42"
+  },
+  {
+    "source": "tool",
+    "source_id": "einstiegsgeld",
+    "title": "Einstiegsgeld-Rechner (Grundsicherungsgeld)",
+    "content": "# Einstiegsgeld-Rechner (Grundsicherungsgeld)\n**Kategorie:** Erste Schritte\n**Status:** beta\n**Route:** /cockpit/einstiegsgeld\nGründen aus dem Grundsicherungsgeld (früher Bürgergeld): Höchstbetrag nach Einstiegsgeld-Verordnung mit Regelbedarfen 2026 – Grundbetrag, Langzeit- und Familienzuschlag, Deckel, bis 24 Monate – plus § 16c-Zuschuss bis 5.000 € für Ausstattung.",
+    "metadata": {
+      "route": "/cockpit/einstiegsgeld",
+      "status": "beta",
+      "category_slug": "starter",
+      "category_title": "Erste Schritte"
+    },
+    "content_hash": "179fc0646c58e8547d26cd56d378a937d7cc27c0a0e3754782aee926ddebba42"
+  },
+  {
+    "source": "tool",
+    "source_id": "bafa-beratung",
+    "title": "BAFA-Beratungsförderung: Check & Rechner",
+    "content": "# BAFA-Beratungsförderung: Check & Rechner\n**Kategorie:** Erste Schritte\n**Status:** beta\n**Route:** /cockpit/bafa-beratung\nBis 80 % Zuschuss zur Unternehmensberatung (max. 2.800 €) – nur noch für Anträge bis 31.12.2026. Förderfähigkeits-Ampel nach aktueller Richtlinie, Zuschuss-Rechner nach Region (Ost/West, Leipzig, Lüneburg, Trier) und brutto/netto, Ablauf mit Leitstelle und Informationsgespräch.",
+    "metadata": {
+      "route": "/cockpit/bafa-beratung",
+      "status": "beta",
+      "category_slug": "starter",
+      "category_title": "Erste Schritte"
+    },
+    "content_hash": "a57fc665872a2c8faf1db3b33bfe01dd2254d49ccc3d86afbbf0bb615df91679"
+  },
+  {
+    "source": "tool",
+    "source_id": "pitch-deck",
+    "title": "Pitch-Deck-Generator",
+    "content": "# Pitch-Deck-Generator\n**Kategorie:** Erste Schritte\n**Status:** beta\n**Route:** /cockpit/pitch-deck\n10 Folien im Aufbau, den Jurys und Investoren erwarten (Problem, Lösung, Markt, Produkt, Geschäftsmodell, Traction, Wettbewerb, Team, Ask). Live-Jury-Check gegen Textwüsten, Markt ohne Quelle, Traction ohne Zahl – 16:9-PDF und 60-Sekunden-Elevator-Pitch.",
+    "metadata": {
+      "route": "/cockpit/pitch-deck",
+      "status": "beta",
+      "category_slug": "starter",
+      "category_title": "Erste Schritte"
+    },
+    "content_hash": "6f38c728a6ce25969df64619f802699ba8125d26fea809c9b25a62c9fc17fc2d"
+  },
+  {
+    "source": "tool",
+    "source_id": "steuerkalender",
+    "title": "Steuer- & Fristenkalender",
+    "content": "# Steuer- & Fristenkalender\n**Kategorie:** Erste Schritte\n**Status:** beta\n**Route:** /cockpit/steuerkalender\nAlle Abgabe- und Zahlungstermine der nächsten 12 Monate für deine Situation: USt-Voranmeldung (inkl. Neugründer-Regel 2027, Dauerfristverlängerung), ESt-/KSt-/GewSt-Vorauszahlungen, Lohnsteuer, SV-Beiträge, ZM, Jahreserklärungen nach § 149 AO, Offenlegung – verschoben nach § 108 AO, als Kalender mit Erinnerung.",
+    "metadata": {
+      "route": "/cockpit/steuerkalender",
+      "status": "beta",
+      "category_slug": "starter",
+      "category_title": "Erste Schritte"
+    },
+    "content_hash": "eefde85ddd3f5ae51bbfdb3c75037fa12eb811fe337dd95ab96c37d9b6093e1e"
+  },
+  {
+    "source": "tool",
+    "source_id": "scheinselbststaendigkeit",
+    "title": "Scheinselbstständigkeits-Check",
+    "content": "# Scheinselbstständigkeits-Check\n**Kategorie:** Erste Schritte\n**Status:** beta\n**Route:** /cockpit/scheinselbststaendigkeit\nFür Freelancer mit Hauptkunden: Risiko-Ampel nach den DRV-Kriterien (Weisung, Eingliederung, Unternehmerrisiko …) plus Rentenversicherungspflicht nach § 2 Nr. 9 SGB VI mit 5/6-Regel, Minijobber-Grenze 603 €, Beiträgen 2026 und 3-Jahres-Befreiung für Gründer.",
+    "metadata": {
+      "route": "/cockpit/scheinselbststaendigkeit",
+      "status": "beta",
+      "category_slug": "starter",
+      "category_title": "Erste Schritte"
+    },
+    "content_hash": "37b112e0f56e63f519fcfee0a2f4560f9d3d70faa397973019ee0be214f4a683"
+  },
+  {
+    "source": "tool",
+    "source_id": "gz-phase2",
+    "title": "Gründungszuschuss Phase 2: Bericht",
+    "content": "# Gründungszuschuss Phase 2: Bericht\n**Kategorie:** Erste Schritte\n**Status:** beta\n**Route:** /cockpit/gz-phase2\nDer Bericht über deine Geschäftstätigkeit, den die Arbeitsagentur für weitere 9 × 300 € sehen will: Aktivitäten, Einnahmen/Ausgaben je Monat, Auftragslage, Ausblick – mit Prüfung (15 Std., Eigenleistungsfähigkeit) und PDF.",
+    "metadata": {
+      "route": "/cockpit/gz-phase2",
+      "status": "beta",
+      "category_slug": "starter",
+      "category_title": "Erste Schritte"
+    },
+    "content_hash": "e8802f4829418f872065e4a8c57dc8a5c71c5d59b98def2393c732394d1e862e"
+  },
+  {
+    "source": "tool",
+    "source_id": "bankgespraech",
+    "title": "Bankgespräch & KfW-StartGeld",
+    "content": "# Bankgespräch & KfW-StartGeld\n**Kategorie:** Erste Schritte\n**Status:** beta\n**Route:** /cockpit/bankgespraech\nKreditrechner ERP-Gründerkredit StartGeld (bis 200.000 €, aktuelle KfW-Maximalzinsen, tilgungsfreie Jahre), Unterlagen-Checkliste der KfW, die 14 typischen Bankfragen zum Vorbereiten und Gesprächsmappe als PDF.",
+    "metadata": {
+      "route": "/cockpit/bankgespraech",
+      "status": "beta",
+      "category_slug": "starter",
+      "category_title": "Erste Schritte"
+    },
+    "content_hash": "a0024df1e8056d55ad4aa61a53a17e12206d865577b060a160e9cb23da599a3d"
+  },
+  {
+    "source": "tool",
+    "source_id": "mahnung",
+    "title": "Mahnungs-Generator",
+    "content": "# Mahnungs-Generator\n**Kategorie:** Erste Schritte\n**Status:** beta\n**Route:** /cockpit/mahnung\nZahlungserinnerung, 1./2. und letzte Mahnung als PDF: Verzugsbeginn nach § 286 BGB (30-Tage-Regel, Verbraucher-Hinweis), Verzugszinsen je Basiszins-Halbjahr (B2B +9, Verbraucher +5 Prozentpunkte), 40-€-Pauschale, Verjährung, Weg zum Mahnbescheid.",
+    "metadata": {
+      "route": "/cockpit/mahnung",
+      "status": "beta",
+      "category_slug": "starter",
+      "category_title": "Erste Schritte"
+    },
+    "content_hash": "cb5c5b7ced74e214f74c98356cc77b1b873ddb4692e02f4992701de616b16f4e"
+  },
+  {
+    "source": "tool",
+    "source_id": "kleinunternehmer-waechter",
+    "title": "Kleinunternehmer-Wächter",
+    "content": "# Kleinunternehmer-Wächter\n**Kategorie:** Erste Schritte\n**Status:** beta\n**Route:** /cockpit/kleinunternehmer-waechter\nMonatsumsätze eintragen und sehen, wie nah du an 25.000 € (Gründungsjahr/Vorjahr) bzw. 100.000 € bist, wann du die Grenze bei gleichem Tempo reißt und ob du nächstes Jahr noch Kleinunternehmer bist – nach § 19 UStG ab 2025.",
+    "metadata": {
+      "route": "/cockpit/kleinunternehmer-waechter",
+      "status": "beta",
+      "category_slug": "starter",
+      "category_title": "Erste Schritte"
+    },
+    "content_hash": "4e4b3412d4a852d8f56044c9f8f4264a9c4b04d5e616fde8be13795f108ed50f"
   },
   {
     "source": "tool",
     "source_id": "gewerbeanmeldung-wizard",
     "title": "Gewerbeanmeldung-Wizard",
-    "content": "# Gewerbeanmeldung-Wizard\n**Kategorie:** 🌱 Erste Schritte\n**Status:** beta\n**Route:** /cockpit/gewerbeanmeldung-wizard\n8-Step-Wizard, der das amtliche GewA1 (Mustervordruck Anlage 1 GewAnzV) mit deinen Daten füllt: Person · Anschrift · Rechtsform · Tätigkeit (Live-Qualitäts-Check) · WZ-2008-Branchenschlüssel · Beginn+§19 · Behörden-Status.",
+    "content": "# Gewerbeanmeldung-Wizard\n**Kategorie:** Erste Schritte\n**Status:** beta\n**Route:** /cockpit/gewerbeanmeldung-wizard\n8-Step-Wizard, der das amtliche GewA1 (Mustervordruck Anlage 1 GewAnzV) mit deinen Daten füllt: Person · Anschrift · Rechtsform · Tätigkeit (Live-Qualitäts-Check) · WZ-2008-Branchenschlüssel · Beginn+§19 · Behörden-Status.",
     "metadata": {
       "route": "/cockpit/gewerbeanmeldung-wizard",
       "status": "beta",
       "category_slug": "starter",
-      "category_title": "🌱 Erste Schritte"
+      "category_title": "Erste Schritte"
     },
-    "content_hash": "c2cc3df3f5f35875b8a53b84746e2a09ffa8e51402c6cb8b5b47f7e9cbf1d863"
+    "content_hash": "67312edb949c0cab897edb30d2cc443fcb057fda418437969f6ce7ea3a5d1a8d"
   },
   {
     "source": "tool",
     "source_id": "erste-schritte-roadmap",
     "title": "Erste-Schritte-Roadmap (90 Tage)",
-    "content": "# Erste-Schritte-Roadmap (90 Tage)\n**Kategorie:** 🌱 Erste Schritte\n**Status:** beta\n**Route:** /cockpit/erste-schritte-roadmap\nPersonalisierte 30/60/90-Tage-Timeline mit 15-25 Pflicht-/Soll-Aufgaben (FA-Anmeldung, KV-Wahl, Geschäftskonto, USt-ID, IHK, BU, USt-VA, RV-Pflicht-Check, etc). Status-Tracking lokal, MUSS/SOLL/KANN-Filter.",
+    "content": "# Erste-Schritte-Roadmap (90 Tage)\n**Kategorie:** Erste Schritte\n**Status:** beta\n**Route:** /cockpit/erste-schritte-roadmap\nPersonalisierte 30/60/90-Tage-Timeline mit 15-25 Pflicht-/Soll-Aufgaben (FA-Anmeldung, KV-Wahl, Geschäftskonto, USt-ID, IHK, BU, USt-VA, RV-Pflicht-Check, etc). Status-Tracking lokal, MUSS/SOLL/KANN-Filter.",
     "metadata": {
       "route": "/cockpit/erste-schritte-roadmap",
       "status": "beta",
       "category_slug": "starter",
-      "category_title": "🌱 Erste Schritte"
+      "category_title": "Erste Schritte"
     },
-    "content_hash": "8ac4353fa33fe415e7e090f09b54cdf0f99d21df059aca9b485234193fba4c01"
+    "content_hash": "264e6531f5902710f7ce54e5b339d1300e13beda31f00c0a543aa7e74ac3a351"
   },
   {
     "source": "tool",
     "source_id": "fse-wizard",
     "title": "FsE Erklär-Begleiter (Fragebogen steuerliche Erfassung)",
-    "content": "# FsE Erklär-Begleiter (Fragebogen steuerliche Erfassung)\n**Kategorie:** 🌱 Erste Schritte\n**Status:** beta\n**Route:** /cockpit/fse-wizard\n1:1 Walkthrough aller 22 Teilseiten + ~300 Felder des ELSTER-FsE (Stand 2026), nummeriert in ELSTER-Reihenfolge mit Erklärung was zu beantworten ist. Für die 4 binding-critical Entscheidungen (KU §19, EÜR/Bilanz, Soll/Ist, USt-IdNr) interaktive Empfehlungs-Widgets. Du füllst direkt in ELSTER aus, diese Seite liest parallel.",
+    "content": "# FsE Erklär-Begleiter (Fragebogen steuerliche Erfassung)\n**Kategorie:** Erste Schritte\n**Status:** beta\n**Route:** /cockpit/fse-wizard\n1:1 Walkthrough aller 22 Teilseiten + ~300 Felder des ELSTER-FsE (Stand 2026), nummeriert in ELSTER-Reihenfolge mit Erklärung was zu beantworten ist. Für die 4 binding-critical Entscheidungen (KU §19, EÜR/Bilanz, Soll/Ist, USt-IdNr) interaktive Empfehlungs-Widgets. Du füllst direkt in ELSTER aus, diese Seite liest parallel.",
     "metadata": {
       "route": "/cockpit/fse-wizard",
       "status": "beta",
       "category_slug": "starter",
-      "category_title": "🌱 Erste Schritte"
+      "category_title": "Erste Schritte"
     },
-    "content_hash": "de0eb3a91da80195cff705d113ef8943f1c849bd90f52a6c97df381a4988df1e"
+    "content_hash": "3eace55c26d8b7ca17241e0bfb8d28d993861447a14699413dd495f1e455930c"
   },
   {
     "source": "tool",
     "source_id": "fse-kapitalgesellschaft",
     "title": "FsE Kapitalgesellschaft (GmbH/UG/AG/eG)",
-    "content": "# FsE Kapitalgesellschaft (GmbH/UG/AG/eG)\n**Kategorie:** 🌱 Erste Schritte\n**Status:** beta\n**Route:** /cockpit/fse-kapitalgesellschaft\nWalkthrough aller 23 Teilseiten des echten ELSTER-FsE für Kapitalgesellschaften (Stand 2026), in ELSTER-Reihenfolge mit Zeilennummern: Stammkapital, Anteilseigner, Sach-/Bargründung, Organschaft, Soll-/Istversteuerung, USt-IdNr, OSS. Du füllst in ELSTER aus, diese Seite erklärt parallel.",
+    "content": "# FsE Kapitalgesellschaft (GmbH/UG/AG/eG)\n**Kategorie:** Erste Schritte\n**Status:** beta\n**Route:** /cockpit/fse-kapitalgesellschaft\nWalkthrough aller 23 Teilseiten des echten ELSTER-FsE für Kapitalgesellschaften (Stand 2026), in ELSTER-Reihenfolge mit Zeilennummern: Stammkapital, Anteilseigner, Sach-/Bargründung, Organschaft, Soll-/Istversteuerung, USt-IdNr, OSS. Du füllst in ELSTER aus, diese Seite erklärt parallel.",
     "metadata": {
       "route": "/cockpit/fse-kapitalgesellschaft",
       "status": "beta",
       "category_slug": "starter",
-      "category_title": "🌱 Erste Schritte"
+      "category_title": "Erste Schritte"
     },
-    "content_hash": "6d1f345d918c8282a49d1df0393db3616250e6957b7533b4fb36a27ba53e9d12"
+    "content_hash": "4e93eb3b055b75f380501d3b77f4911806616c755309c7f6e5c941fc621b390f"
   },
   {
     "source": "tool",
     "source_id": "fse-personengesellschaft",
     "title": "FsE Personengesellschaft (GbR/OHG/KG)",
-    "content": "# FsE Personengesellschaft (GbR/OHG/KG)\n**Kategorie:** 🌱 Erste Schritte\n**Status:** beta\n**Route:** /cockpit/fse-personengesellschaft\nWalkthrough aller 22 Teilseiten des echten ELSTER-FsE für Personengesellschaften (Stand 2026), in ELSTER-Reihenfolge mit Zeilennummern: Vertretung, Beteiligte + Gewinnanteile (gesonderte+einheitliche Feststellung), Gewinnermittlung, USt/KU §19, USt-IdNr, OSS. Du füllst in ELSTER aus, diese Seite erklärt parallel.",
+    "content": "# FsE Personengesellschaft (GbR/OHG/KG)\n**Kategorie:** Erste Schritte\n**Status:** beta\n**Route:** /cockpit/fse-personengesellschaft\nWalkthrough aller 22 Teilseiten des echten ELSTER-FsE für Personengesellschaften (Stand 2026), in ELSTER-Reihenfolge mit Zeilennummern: Vertretung, Beteiligte + Gewinnanteile (gesonderte+einheitliche Feststellung), Gewinnermittlung, USt/KU §19, USt-IdNr, OSS. Du füllst in ELSTER aus, diese Seite erklärt parallel.",
     "metadata": {
       "route": "/cockpit/fse-personengesellschaft",
       "status": "beta",
       "category_slug": "starter",
-      "category_title": "🌱 Erste Schritte"
+      "category_title": "Erste Schritte"
     },
-    "content_hash": "3a7bb7d66ad6dafbe04db6f78e1c1c1763eb2a62332319ecfe814858ff6eaa1d"
+    "content_hash": "9abe993027a81d57792036577c9a6a85156d3c1668dfcfbca65065bacdccb601"
   },
   {
     "source": "tool",
     "source_id": "stb-cost-benefit",
     "title": "Steuerberater Cost-Benefit-Check",
-    "content": "# Steuerberater Cost-Benefit-Check\n**Kategorie:** 🌱 Erste Schritte\n**Status:** beta\n**Route:** /cockpit/stb-cost-benefit\nBrauche ich überhaupt einen StB? 3-Szenarien-Vergleich (Voll-StB / DIY-lexoffice / Hybrid) mit StBVV-Mittelgebühren + Opportunitätskosten Eigenzeit. Empfehlung welche Option für deinen Umsatz/Gewinn am günstigsten ist.",
+    "content": "# Steuerberater Cost-Benefit-Check\n**Kategorie:** Erste Schritte\n**Status:** beta\n**Route:** /cockpit/stb-cost-benefit\nBrauche ich überhaupt einen StB? 3-Szenarien-Vergleich (Voll-StB / DIY-lexoffice / Hybrid) mit StBVV-Mittelgebühren + Opportunitätskosten Eigenzeit. Empfehlung welche Option für deinen Umsatz/Gewinn am günstigsten ist.",
     "metadata": {
       "route": "/cockpit/stb-cost-benefit",
       "status": "beta",
       "category_slug": "starter",
-      "category_title": "🌱 Erste Schritte"
+      "category_title": "Erste Schritte"
     },
-    "content_hash": "334b7cc30ee89063930f0a9fd9a7593dbb02ba4e426a4bc69af3987c720ab2db"
+    "content_hash": "a3de45905c41bdd4b1f9b3cebc00b20b58b363bd63d84b883046f90467628928"
   },
   {
     "source": "tool",
     "source_id": "buchhaltungssoftware-guide",
     "title": "Buchhaltungssoftware-Guide",
-    "content": "# Buchhaltungssoftware-Guide\n**Kategorie:** 🌱 Erste Schritte\n**Status:** beta\n**Route:** /cockpit/buchhaltungssoftware-guide\nLexware Office vs sevDesk vs ELSTER-direkt: Funktions-Vergleich, Kosten-Richtwerte 2026 und welches Tool zu dir passt (Solo / E-Commerce / Kleinunternehmer) — plus Schritt-für-Schritt wie du buchst und per ELSTER abgibst.",
+    "content": "# Buchhaltungssoftware-Guide\n**Kategorie:** Erste Schritte\n**Status:** beta\n**Route:** /cockpit/buchhaltungssoftware-guide\nLexware Office vs sevDesk vs ELSTER-direkt: Funktions-Vergleich, Kosten-Richtwerte 2026 und welches Tool zu dir passt (Solo / E-Commerce / Kleinunternehmer) — plus Schritt-für-Schritt wie du buchst und per ELSTER abgibst.",
     "metadata": {
       "route": "/cockpit/buchhaltungssoftware-guide",
       "status": "beta",
       "category_slug": "starter",
-      "category_title": "🌱 Erste Schritte"
+      "category_title": "Erste Schritte"
     },
-    "content_hash": "d0cb78466eb8fef5a577175eb6d76d19046897f1f21f1dcc6794ccb29b8069e9"
+    "content_hash": "cc857ac504670230ba7e08668d8a97170f4b62ed12b4b48e3f5f0ce36bf06e97"
   },
   {
     "source": "tool",
     "source_id": "ust-voranmeldung",
     "title": "USt-Voranmeldung-Walkthrough",
-    "content": "# USt-Voranmeldung-Walkthrough\n**Kategorie:** 🌱 Erste Schritte\n**Status:** beta\n**Route:** /cockpit/ust-voranmeldung\nSchritt für Schritt durch den echten ELSTER-Vordruck USt 1 A (Stand 2026): alle relevanten Kennzahlen erklärt, Abgabe-Fristen, plus Dauerfristverlängerung + Sondervorauszahlung 1/11 (USt 1 H) mit Rechner.",
+    "content": "# USt-Voranmeldung-Walkthrough\n**Kategorie:** Erste Schritte\n**Status:** beta\n**Route:** /cockpit/ust-voranmeldung\nSchritt für Schritt durch den echten ELSTER-Vordruck USt 1 A (Stand 2026): alle relevanten Kennzahlen erklärt, Abgabe-Fristen, plus Dauerfristverlängerung + Sondervorauszahlung 1/11 (USt 1 H) mit Rechner.",
     "metadata": {
       "route": "/cockpit/ust-voranmeldung",
       "status": "beta",
       "category_slug": "starter",
-      "category_title": "🌱 Erste Schritte"
+      "category_title": "Erste Schritte"
     },
-    "content_hash": "aa90371617d53641b481c1e8184c1935c1e3a22b4d4c9737653bd5d670fb0454"
+    "content_hash": "37f412e1f9b21d896f6d51fc49b64a679a5341558c0762ef8dbfe65e2e6a73bc"
   },
   {
     "source": "tool",
     "source_id": "anlage-euer",
     "title": "Anlage EÜR Walkthrough",
-    "content": "# Anlage EÜR Walkthrough\n**Kategorie:** 🌱 Erste Schritte\n**Status:** beta\n**Route:** /cockpit/anlage-euer\nJahres-Gewinnermittlung Zeile für Zeile: echter ELSTER-Vordruck Anlage EÜR (§ 4 Abs. 3 EStG, Vordruckmuster 2025) mit den Zeilen für Solo & E-Commerce, Brutto-Methode erklärt + Mini-Gewinnrechner.",
+    "content": "# Anlage EÜR Walkthrough\n**Kategorie:** Erste Schritte\n**Status:** beta\n**Route:** /cockpit/anlage-euer\nJahres-Gewinnermittlung Zeile für Zeile: echter ELSTER-Vordruck Anlage EÜR (§ 4 Abs. 3 EStG, Vordruckmuster 2025) mit den Zeilen für Solo & E-Commerce, Brutto-Methode erklärt + Mini-Gewinnrechner.",
     "metadata": {
       "route": "/cockpit/anlage-euer",
       "status": "beta",
       "category_slug": "starter",
-      "category_title": "🌱 Erste Schritte"
+      "category_title": "Erste Schritte"
     },
-    "content_hash": "d6c37cc1b1ede5288054cc1eea8b318d772972b00b09562edadd4ea9badaf1b2"
+    "content_hash": "9a3f64b91994d8658c1349e46f7e61c7f63c64021db16ab5a0c9a9821dc1455c"
   },
   {
     "source": "tool",
     "source_id": "stundensatz-rechner",
     "title": "Stundensatz-Rechner Anfänger",
-    "content": "# Stundensatz-Rechner Anfänger\n**Kategorie:** 🌱 Erste Schritte\n**Status:** beta\n**Route:** /cockpit/stundensatz-rechner\nRückwärts-Rechnung: Wunsch-Netto + Lebenshaltung + KV + Rücklage → nötiger Brutto → ÷ Billable-Stunden (70 %) = realistischer Stundensatz. Fixt den Anfänger-Fehler 'ich nehme 30 €/h wie meine Vollzeitstelle'.",
+    "content": "# Stundensatz-Rechner Anfänger\n**Kategorie:** Erste Schritte\n**Status:** beta\n**Route:** /cockpit/stundensatz-rechner\nRückwärts-Rechnung: Wunsch-Netto + Lebenshaltung + KV + Rücklage → nötiger Brutto → ÷ Billable-Stunden (70 %) = realistischer Stundensatz. Fixt den Anfänger-Fehler 'ich nehme 30 €/h wie meine Vollzeitstelle'.",
     "metadata": {
       "route": "/cockpit/stundensatz-rechner",
       "status": "beta",
       "category_slug": "starter",
-      "category_title": "🌱 Erste Schritte"
+      "category_title": "Erste Schritte"
     },
-    "content_hash": "9c90cca6b48de7be02f534f1f7a8179367f603df57d3492165abcaa01f4e3739"
+    "content_hash": "07cd26d8d13e04809ed038926a6067ff88d7c5ec560e5162fc9b02ee597328ec"
   },
   {
     "source": "tool",
     "source_id": "rechnungs-generator",
     "title": "Rechnungs-Generator (PDF)",
-    "content": "# Rechnungs-Generator (PDF)\n**Kategorie:** 🌱 Erste Schritte\n**Status:** beta\n**Route:** /cockpit/rechnungs-generator\nErste richtige Rechnung schreiben: §14 UStG-konform mit 4 USt-Modi (Standard 19/7 % · §19 KU · §13b RC · §6a IGL). Live-Pflichtangaben-Check (10 Felder) + PDF-Download. Firmen-Profil + Logo werden gespeichert.",
+    "content": "# Rechnungs-Generator (PDF)\n**Kategorie:** Erste Schritte\n**Status:** beta\n**Route:** /cockpit/rechnungs-generator\nErste richtige Rechnung schreiben: §14 UStG-konform mit 4 USt-Modi (Standard 19/7 % · §19 KU · §13b RC · §6a IGL). Live-Pflichtangaben-Check (10 Felder) + PDF-Download. Firmen-Profil + Logo werden gespeichert.",
     "metadata": {
       "route": "/cockpit/rechnungs-generator",
       "status": "beta",
       "category_slug": "starter",
-      "category_title": "🌱 Erste Schritte"
+      "category_title": "Erste Schritte"
     },
-    "content_hash": "c83def12e2a78dd3683f56d8d552ac0d4ca1569976b86608bf784842ec8037c1"
+    "content_hash": "238f2e61fcc4289781b57085a849c7900f7c14bd0de758341468ca625a45e230"
   },
   {
     "source": "tool",
     "source_id": "brutto-netto-solo",
     "title": "Brutto-Netto Solo-Selbstständig",
-    "content": "# Brutto-Netto Solo-Selbstständig\n**Kategorie:** 🌱 Erste Schritte\n**Status:** beta\n**Route:** /cockpit/brutto-netto-solo\nWas bleibt am Ende übrig? Umsatz → BA → Gewinn → ESt-Progression + SolZ + ggf. GewSt + KV/PV freiwillig (Mindest 260€) → Netto. Mit Step-by-Step-Erklärung + Fair-Vergleich gegen 'gleiches AG-Total als Angestellter'.",
+    "content": "# Brutto-Netto Solo-Selbstständig\n**Kategorie:** Erste Schritte\n**Status:** beta\n**Route:** /cockpit/brutto-netto-solo\nWas bleibt am Ende übrig? Umsatz → BA → Gewinn → ESt-Progression + SolZ + ggf. GewSt + KV/PV freiwillig (Mindest 260€) → Netto. Mit Step-by-Step-Erklärung + Fair-Vergleich gegen 'gleiches AG-Total als Angestellter'.",
     "metadata": {
       "route": "/cockpit/brutto-netto-solo",
       "status": "beta",
       "category_slug": "starter",
-      "category_title": "🌱 Erste Schritte"
+      "category_title": "Erste Schritte"
     },
-    "content_hash": "8b3cac0b4aa73cfdf13666bb8b02c944f6d286085c9df3148fe379320c58c798"
+    "content_hash": "f1ec665994856c56b4a22ae8a3eea3ddc4ffd5cdfaa783320b4a8e5cfb62014b"
   },
   {
     "source": "tool",
     "source_id": "versicherungs-basis-check",
     "title": "Versicherungs-Basis-Check Solo",
-    "content": "# Versicherungs-Basis-Check Solo\n**Kategorie:** 🌱 Erste Schritte\n**Status:** beta\n**Route:** /cockpit/versicherungs-basis-check\nWelche Versicherungen brauchst du WIRKLICH? 7-Frage-Setup → 11 Versicherungs-Typen sortiert nach PFLICHT/DRINGEND/SINNVOLL/OPTIONAL. Mit Schadenbeispielen, Beitrags-Schätzung und Worauf-Achten-Liste. Neutral, kein Verkauf.",
+    "content": "# Versicherungs-Basis-Check Solo\n**Kategorie:** Erste Schritte\n**Status:** beta\n**Route:** /cockpit/versicherungs-basis-check\nWelche Versicherungen brauchst du WIRKLICH? 7-Frage-Setup → 11 Versicherungs-Typen sortiert nach PFLICHT/DRINGEND/SINNVOLL/OPTIONAL. Mit Schadenbeispielen, Beitrags-Schätzung und Worauf-Achten-Liste. Neutral, kein Verkauf.",
     "metadata": {
       "route": "/cockpit/versicherungs-basis-check",
       "status": "beta",
       "category_slug": "starter",
-      "category_title": "🌱 Erste Schritte"
+      "category_title": "Erste Schritte"
     },
-    "content_hash": "12972027ebd02588ad72d5d062edac3e75d1fb8183c89ac90d7eb65b71c01389"
+    "content_hash": "f02d59b8643828f45e3aa1cb24a8684e6c06ebf2a6741ee806879b696bed106c"
   },
   {
     "source": "tool",
     "source_id": "steuer-abc",
     "title": "Steuer-ABC Glossar",
-    "content": "# Steuer-ABC Glossar\n**Kategorie:** 🌱 Erste Schritte\n**Status:** beta\n**Route:** /cockpit/steuer-abc\n60+ deutsche Steuer-Begriffe einfach erklärt — von ESt, EÜR, Anlage S bis Reverse Charge §13b, Holding, KSK. Suchbar, 10 Kategorien, mit §-Verweisen + Cross-Links zum passenden Tool. Nachschlagewerk fürs ganze Jahr.",
+    "content": "# Steuer-ABC Glossar\n**Kategorie:** Erste Schritte\n**Status:** beta\n**Route:** /cockpit/steuer-abc\n60+ deutsche Steuer-Begriffe einfach erklärt — von ESt, EÜR, Anlage S bis Reverse Charge §13b, Holding, KSK. Suchbar, 10 Kategorien, mit §-Verweisen + Cross-Links zum passenden Tool. Nachschlagewerk fürs ganze Jahr.",
     "metadata": {
       "route": "/cockpit/steuer-abc",
       "status": "beta",
       "category_slug": "starter",
-      "category_title": "🌱 Erste Schritte"
+      "category_title": "Erste Schritte"
     },
-    "content_hash": "c746d6121f97494e86561aea53a17154b5b2ff23229efe5ceab4e854d275726f"
+    "content_hash": "7dd271ab777911de6e30e5935c6db48dfa7e41ef39d3409823e710c5b6cd7fce"
   },
   {
     "source": "tool",
@@ -1456,6 +1612,19 @@
   },
   {
     "source": "tool",
+    "source_id": "amazon-erstattungen",
+    "title": "Amazon Erstattungen & Seller-Automation",
+    "content": "# Amazon Erstattungen & Seller-Automation\n**Kategorie:** Buchhaltung & Reporting\n**Status:** live\n**Route:** /cockpit/amazon-erstattungen\nHol dir verlorene FBA-Ware, Wareneingangs-Differenzen & unterbezahlte Erstattungen automatisch als fertige Amazon-Cases mit KI-Antworten zurück. Gewinn & Bestand wie in Sellerboard.",
+    "metadata": {
+      "route": "/cockpit/amazon-erstattungen",
+      "status": "live",
+      "category_slug": "buchhaltung",
+      "category_title": "Buchhaltung & Reporting"
+    },
+    "content_hash": "ec259c231b551070de2fe18c702ae279da0112be9a798c605f9ae5680fa61960"
+  },
+  {
+    "source": "tool",
     "source_id": "amazon-parser",
     "title": "Amazon-Settlement-Parser",
     "content": "# Amazon-Settlement-Parser\n**Kategorie:** Buchhaltung & Reporting\n**Status:** beta\n**Route:** /cockpit/settlement-parser?mode=amazon\nAmazon-Settlement-CSV → automatisch aufgesplittet pro Fee-Typ + SKR03/04-Mapping über die 130+ Amazon-Buchungs-Codes. CSV-Export für StB.",
@@ -1521,6 +1690,19 @@
   },
   {
     "source": "tool",
+    "source_id": "shop-profit-rechner",
+    "title": "Shop-Profit-Rechner (eigener Shop)",
+    "content": "# Shop-Profit-Rechner (eigener Shop)\n**Kategorie:** Buchhaltung & Reporting\n**Status:** beta\n**Route:** /cockpit/shop-profit-rechner\nEK brutto rein, VK brutto rein — Vorsteuer und USt werden herausgerechnet, dann Versand, PayPal-Gebühren (2,49 % + 0,35 €, ohne Vorsteuer) und Klickkosten je Bestellung gegengerechnet. Mit Break-even: wie viele Klicks eine Bestellung trägt und welche Conversion-Rate sie braucht.",
+    "metadata": {
+      "route": "/cockpit/shop-profit-rechner",
+      "status": "beta",
+      "category_slug": "buchhaltung",
+      "category_title": "Buchhaltung & Reporting"
+    },
+    "content_hash": "cc04a49706a855d2a43861a15ac476292fe261c611e3a48e7521c45b7dccf306"
+  },
+  {
+    "source": "tool",
     "source_id": "bwa",
     "title": "BWA-Generator (Bank-tauglich)",
     "content": "# BWA-Generator (Bank-tauglich)\n**Kategorie:** Buchhaltung & Reporting\n**Status:** beta\n**Route:** /cockpit/bwa-generator\nBank-feste BWA 2026: Net Debt/EBITDA, DSCR, FCF, ROCE — branchen-adjustierte Benchmarks (Basel IV / KfW). Score nur bei plausibler Datenlage, mit YoY + Bilanz + Cashflow.",
@@ -1531,6 +1713,19 @@
       "category_title": "Buchhaltung & Reporting"
     },
     "content_hash": "60f0f994e8045ec0ca9aa487f76ec3f65bdf853647689c7771c794f0d35cf9f9"
+  },
+  {
+    "source": "tool",
+    "source_id": "runway-rechner",
+    "title": "Runway- & Burn-Rate-Rechner",
+    "content": "# Runway- & Burn-Rate-Rechner\n**Kategorie:** Buchhaltung & Reporting\n**Status:** beta\n**Route:** /cockpit/runway-rechner\nWie lange reicht dein Geld? Cash + Kosten + Umsatz-Wachstum → simulierter Runway, Cash-Tiefpunkt und Paul Grahams \"Default Alive or Default Dead?\" — mit Handlungs-Stufen je Runway-Länge.",
+    "metadata": {
+      "route": "/cockpit/runway-rechner",
+      "status": "beta",
+      "category_slug": "buchhaltung",
+      "category_title": "Buchhaltung & Reporting"
+    },
+    "content_hash": "e1b8ed7f0aed344db0bc7632bac1b3a73a10e7d7dcaa216b8b3e7dcb60ee5a44"
   },
   {
     "source": "tool",
@@ -1822,14 +2017,27 @@
     "source": "tool",
     "source_id": "foerderung-db",
     "title": "Förderung-Datenbank international",
-    "content": "# Förderung-Datenbank international\n**Kategorie:** Launch-Phase Compliance\n**Status:** beta\n**Route:** /cockpit/foerderung\n40+ Programme in 14 Ländern: KfW/EXIST, EIC, BPI, WBSO, YC/Techstars, SEIS/EIS, Innosuisse, Antler. Filter nach Land/Typ/Phase + Watchouts.",
+    "content": "# Förderung-Datenbank international\n**Kategorie:** Launch-Phase Compliance\n**Status:** beta\n**Route:** /cockpit/foerderung\n40+ Programme in 12 Ländern: KfW/EXIST, EIC, BPI, WBSO, YC/Techstars, SEIS/EIS, Innosuisse, Antler. Filter nach Land/Typ/Phase + Watchouts.",
     "metadata": {
       "route": "/cockpit/foerderung",
       "status": "beta",
       "category_slug": "launch",
       "category_title": "Launch-Phase Compliance"
     },
-    "content_hash": "d275918e67e5fb62c9b887231a648227ffdeca9c5c20aa9ddbf1ed03ac4d9832"
+    "content_hash": "f855bfb9b433f0a3c5b617d4552e1add8d1ccc8b297eca0c1eace6cb01d7cb0a"
+  },
+  {
+    "source": "tool",
+    "source_id": "app-umsatz-rechner",
+    "title": "App-Store-Umsatz-Rechner",
+    "content": "# App-Store-Umsatz-Rechner\n**Kategorie:** Launch-Phase Compliance\n**Status:** beta\n**Route:** /cockpit/app-umsatz-rechner\nVon 9,99 € Store-Preis zu ~7,14 € Erlös: USt + Store-Cut (15/30 %) raus, dann MRR, Abo-LTV mit Churn und Break-even gegen deine Entwicklungskosten. Companion zum App-Launch-Guide.",
+    "metadata": {
+      "route": "/cockpit/app-umsatz-rechner",
+      "status": "beta",
+      "category_slug": "launch",
+      "category_title": "Launch-Phase Compliance"
+    },
+    "content_hash": "cc1bd88c72261817066e83ca95853d0474612f0457ef1b6f43e85228e0e59b48"
   },
   {
     "source": "tool",
@@ -6591,7 +6799,7 @@
     "source": "roadmap_task",
     "source_id": "t30-4-fse-warten",
     "title": "T30: Fragebogen zur steuerlichen Erfassung (FsE) ausfüllen",
-    "content": "# T30: Fragebogen zur steuerlichen Erfassung (FsE) ausfüllen\n**Pflicht:** muss · **Zeitaufwand:** 1-2 Std\n**Kosten:** kostenlos\nPflicht innerhalb 1 Monat ab Tätigkeitsaufnahme (§ 138 AO). ELSTER-Online-Formular — hier wird § 19 KU FINAL entschieden (5 Jahre Bindung!).\n**Schritte:**\n- FsE-Wizard durchlaufen → erzeugt Spickzettel mit allen Entscheidungen\n- ELSTER-Konto bereithalten (Aktivierungs-Brief braucht 2–4 Wochen!)\n- FsE in ELSTER vom Spickzettel abschreiben (~30 Felder)\n- § 19 KU + Soll/Ist + EÜR/Bilanz final festlegen\n- USt-ID parallel beantragen wenn EU-Geschäft\n**Tool:** [FsE-Wizard starten](/cockpit/fse-wizard)",
+    "content": "# T30: Fragebogen zur steuerlichen Erfassung (FsE) ausfüllen\n**Pflicht:** muss · **Zeitaufwand:** 1-2 Std\n**Kosten:** kostenlos\nPflicht innerhalb 1 Monat ab Tätigkeitsaufnahme (§ 138 AO). ELSTER-Online-Formular — hier wird § 19 KU FINAL entschieden (5 Jahre Bindung!).\n**Schritte:**\n- FsE-Wizard durchlaufen → erzeugt Spickzettel mit allen Entscheidungen\n- ELSTER-Konto bereithalten (Registrierung inkl. Aktivierungs-Brief dauert bis zu 10 Werktage!)\n- FsE in ELSTER vom Spickzettel abschreiben (~30 Felder)\n- § 19 KU + Soll/Ist + EÜR/Bilanz final festlegen\n- USt-ID parallel beantragen wenn EU-Geschäft\n**Tool:** [FsE-Wizard starten](/cockpit/fse-wizard)",
     "metadata": {
       "phase": "T30",
       "pflicht": "muss",
@@ -6600,7 +6808,7 @@
         "label": "FsE-Wizard starten"
       }
     },
-    "content_hash": "51d8709b1a80243e0c64c40d8a03ed2a63f3fb67cce2a880e835966eb3e7cfa9"
+    "content_hash": "f8891959b350829451f892913cbe5eab416b832ed9301619c09693972a823d2e"
   },
   {
     "source": "roadmap_task",
@@ -6665,7 +6873,7 @@
     "source": "roadmap_task",
     "source_id": "t60-3-stundensatz-marktcheck",
     "title": "T60: Stundensatz-Marktcheck nach ersten Kunden",
-    "content": "# T60: Stundensatz-Marktcheck nach ersten Kunden\n**Pflicht:** kann · **Zeitaufwand:** 30 Min\nNach 1-2 Aufträgen: war Preis zu niedrig? Bei mehr als 80% Auftragszusage = Preis erhöhen.\n**Schritte:**\n- Erste Auftrags-Bilanz ziehen\n- Tool 6 erneut durchrechnen mit echten Daten\n- Bei neuen Kunden: 10-20 % höher anbieten\n**Tool:** [Stundensatz-Rechner](/cockpit/stundensatz-rechner)",
+    "content": "# T60: Stundensatz-Marktcheck nach ersten Kunden\n**Pflicht:** kann · **Zeitaufwand:** 30 Min\nNach 1-2 Aufträgen: war Preis zu niedrig? Bei mehr als 80% Auftragszusage = Preis erhöhen.\n**Schritte:**\n- Erste Auftrags-Bilanz ziehen\n- Tool 6 erneut durchrechnen mit echten Daten\n- Bei neuen Kunden: 10-23 % höher anbieten\n**Tool:** [Stundensatz-Rechner](/cockpit/stundensatz-rechner)",
     "metadata": {
       "phase": "T60",
       "pflicht": "kann",
@@ -6674,7 +6882,7 @@
         "label": "Stundensatz-Rechner"
       }
     },
-    "content_hash": "d7c0f83b5b6045ffda86975febc331e2031defa74181e3c5bda1831f91ca76ae"
+    "content_hash": "f07a4f18b9227b2a838f6170a13309e5bcbfc88e3c8c244a8f9283e9d19e0475"
   },
   {
     "source": "roadmap_task",
@@ -6984,7 +7192,7 @@
     "source": "steuer_begriff",
     "source_id": "ug-haftungsbeschrankt",
     "title": "UG (haftungsbeschränkt)",
-    "content": "# UG (haftungsbeschränkt)\n**Aliase:** UG, Unternehmergesellschaft, Mini-GmbH\n**Kategorie:** rechtsformen\n**§-Verweis:** §5a GmbHG\n**Kurzdefinition:** Mini-Variante der GmbH — ab 1 € Stammkapital, Pflicht-Rücklage 25 % bis 25.000 € erreicht.\nNotarvertrag erforderlich (~500-800 € Gründungskosten), aber kein Mindestkapital. Erst nach Erreichen von 25.000 € Stammkapital Umfirmierung zu GmbH möglich. Beschränkte Haftung auf Gesellschaftsvermögen. KSt + GewSt + SolZ. Pflicht zur doppelten Buchführung + Bilanz.",
+    "content": "# UG (haftungsbeschränkt)\n**Aliase:** UG, Unternehmergesellschaft, Mini-GmbH\n**Kategorie:** rechtsformen\n**§-Verweis:** §5a GmbHG\n**Kurzdefinition:** Mini-Variante der GmbH — ab 1 € Stammkapital, Pflicht-Rücklage 25 %, bis das Stammkapital auf 25.000 € erhöht ist.\nNotarvertrag erforderlich (~500-800 € Gründungskosten), aber kein Mindestkapital. Erst nach Erreichen von 25.000 € Stammkapital Umfirmierung zu GmbH möglich. Beschränkte Haftung auf Gesellschaftsvermögen. KSt + GewSt + SolZ. Pflicht zur doppelten Buchführung + Bilanz.",
     "metadata": {
       "paragraph": "§5a GmbHG",
       "kategorie": "rechtsformen",
@@ -6994,7 +7202,7 @@
         "Mini-GmbH"
       ]
     },
-    "content_hash": "6eeb1a79ed5b687762a0a7b9ba9811094d02c210ab0e876561708efbfa493e32"
+    "content_hash": "96df60b7f91c3b67c6cf5c6781eb4ed90df48d581414b214b1c81033a67f32a4"
   },
   {
     "source": "steuer_begriff",
@@ -7502,7 +7710,7 @@
     "source": "steuer_begriff",
     "source_id": "ubungsleiter-pauschale",
     "title": "Übungsleiter-Pauschale",
-    "content": "# Übungsleiter-Pauschale\n**Aliase:** Übungsleiter, §3 Nr. 26\n**Kategorie:** freibetraege\n**§-Verweis:** §3 Nr. 26 EStG\n**Kurzdefinition:** 3.000 €/Jahr steuerfrei für nebenberufliche pädagogische/künstlerische/pflegerische Tätigkeit bei gemeinnützigen Auftraggebern.\nTypisch: Trainer im Sportverein, Volkshochschul-Kursleiter, Nachhilfe in der Schule, freie Lehrkräfte an gemeinnützigen Einrichtungen. Kombinierbar mit Ehrenamtspauschale bei unterschiedlichen Tätigkeiten.\n**Tools:** [Schwellen-Check](/cockpit/schwellen-check)",
+    "content": "# Übungsleiter-Pauschale\n**Aliase:** Übungsleiter, §3 Nr. 26\n**Kategorie:** freibetraege\n**§-Verweis:** §3 Nr. 26 EStG\n**Kurzdefinition:** 3.300 €/Jahr (seit 2026) steuerfrei für nebenberufliche pädagogische/künstlerische/pflegerische Tätigkeit bei gemeinnützigen Auftraggebern.\nTypisch: Trainer im Sportverein, Volkshochschul-Kursleiter, Nachhilfe in der Schule, freie Lehrkräfte an gemeinnützigen Einrichtungen. Kombinierbar mit Ehrenamtspauschale bei unterschiedlichen Tätigkeiten.\n**Tools:** [Schwellen-Check](/cockpit/schwellen-check)",
     "metadata": {
       "paragraph": "§3 Nr. 26 EStG",
       "kategorie": "freibetraege",
@@ -7517,13 +7725,13 @@
         }
       ]
     },
-    "content_hash": "496b549076d512c58c7c9bc85e31291248e630b534b73e61ef3901ba314308d5"
+    "content_hash": "a0f6ab72f7bf05ba0c2b65cc7a3738e9c74924d3c3d1cdf898f434ee0f09a95d"
   },
   {
     "source": "steuer_begriff",
     "source_id": "ehrenamtspauschale",
     "title": "Ehrenamtspauschale",
-    "content": "# Ehrenamtspauschale\n**Aliase:** Ehrenamt, §3 Nr. 26a\n**Kategorie:** freibetraege\n**§-Verweis:** §3 Nr. 26a EStG\n**Kurzdefinition:** 840 €/Jahr steuerfrei für ehrenamtliche Tätigkeit bei gemeinnützigen Organisationen.\nTypisch: Vereinsvorstand, Schöffe, ehrenamtliche Helfer. Kumulierbar mit Übungsleiter (3.840 € möglich) bei unterschiedlichen Tätigkeiten.",
+    "content": "# Ehrenamtspauschale\n**Aliase:** Ehrenamt, §3 Nr. 26a\n**Kategorie:** freibetraege\n**§-Verweis:** §3 Nr. 26a EStG\n**Kurzdefinition:** 960 €/Jahr (seit 2026) steuerfrei für ehrenamtliche Tätigkeit bei gemeinnützigen Organisationen.\nTypisch: Vereinsvorstand, Schöffe, ehrenamtliche Helfer. Kumulierbar mit Übungsleiter (4.260 € möglich) bei unterschiedlichen Tätigkeiten.",
     "metadata": {
       "paragraph": "§3 Nr. 26a EStG",
       "kategorie": "freibetraege",
@@ -7532,7 +7740,7 @@
         "§3 Nr. 26a"
       ]
     },
-    "content_hash": "a8402b653cf77a80ddf374cf38d1212d35ae9c7be5dfad13114cc0bfbc3fb25f"
+    "content_hash": "a81a5b418cee53c9d708d28e6e62f3e2de056956b96bac27d5ce65cae6fc001f"
   },
   {
     "source": "steuer_begriff",
@@ -7552,7 +7760,7 @@
     "source": "steuer_begriff",
     "source_id": "elster",
     "title": "ELSTER",
-    "content": "# ELSTER\n**Aliase:** ELSTER, Elektronische Steuererklärung\n**Kategorie:** fa-verfahren\n**Kurzdefinition:** Online-Portal des FA für Steuererklärungen, USt-VA, Fragebögen — kostenlos.\nPflicht-Tool für: USt-Voranmeldungen, Lohnsteuer-Anmeldungen, Anlage EÜR. Account braucht Aktivierungs-Code per Post (5-10 Tage). Alternative kommerzielle Tools: Lexoffice, sevdesk, Taxfix etc.",
+    "content": "# ELSTER\n**Aliase:** ELSTER, Elektronische Steuererklärung\n**Kategorie:** fa-verfahren\n**Kurzdefinition:** Online-Portal des FA für Steuererklärungen, USt-VA, Fragebögen — kostenlos.\nPflicht-Tool für: USt-Voranmeldungen, Lohnsteuer-Anmeldungen, Anlage EÜR. Account braucht Aktivierungs-Code per Post (Registrierung laut ELSTER bis zu 10 Werktage). Alternative kommerzielle Tools: Lexoffice, sevdesk, Taxfix etc.",
     "metadata": {
       "kategorie": "fa-verfahren",
       "aliases": [
@@ -7560,7 +7768,7 @@
         "Elektronische Steuererklärung"
       ]
     },
-    "content_hash": "615f19bd83fbfd6d9d3c7a51b41cf8a1808119ec16a7f5b60b315f01e7f27445"
+    "content_hash": "c52baa96d4f974640a20450a55a095aad1ffeebae8af4c60726fc9d37445f1ac"
   },
   {
     "source": "steuer_begriff",
@@ -10279,14 +10487,14 @@
     "source": "anbieter",
     "source_id": "paypal",
     "title": "PayPal",
-    "content": "# PayPal\n**Kategorie:** Payment · **Region:** global\n**Tagline:** Zahlungs-Trust-Layer\n**Pricing:** 2,49 - 3,49 % + 0,35 €\n**Rating:** 4.3/5\n**Signup-Zeit:** Sofort\n**Stärken:**\n- 95 % DACH-User haben PayPal-Account\n- Buyer-Protection als Trust-Signal\n- Express-Checkout sehr schnell\n- Conversion-Lift +10-20 % bei Mid-Market-Brands\n**Schwächen:**\n- Hohe Fees\n- Account-Hold-Risiken bei Hold-Backs\n- Buyer-Protection-Disputes oft pro-Buyer\n**Forum-Erfahrung:** Online-Shop-Communities 2026: 'PayPal Pflicht-Layer in DACH. Aber Hold-Backs bei volatilen Brands sind echtes Risiko.'\n**URL:** https://www.paypal.com",
+    "content": "# PayPal\n**Kategorie:** Payment · **Region:** global\n**Tagline:** Zahlungs-Trust-Layer\n**Pricing:** 2,49 - 3,49 % + 0,35 €\n**Rating:** 4.3/5\n**Signup-Zeit:** Sofort\n**Stärken:**\n- 95 % DACH-User haben PayPal-Account\n- Buyer-Protection als Trust-Signal\n- Express-Checkout sehr schnell\n- Conversion-Lift +10-23 % bei Mid-Market-Brands\n**Schwächen:**\n- Hohe Fees\n- Account-Hold-Risiken bei Hold-Backs\n- Buyer-Protection-Disputes oft pro-Buyer\n**Forum-Erfahrung:** Online-Shop-Communities 2026: 'PayPal Pflicht-Layer in DACH. Aber Hold-Backs bei volatilen Brands sind echtes Risiko.'\n**URL:** https://www.paypal.com",
     "metadata": {
       "url": "https://www.paypal.com",
       "category": "Payment",
       "region": "global",
       "rating": 4.3
     },
-    "content_hash": "8ab8e78877ecd1f9553b64a56b0ac11d5fb52e1d4a8f66484cb4d5f4c0f00fa3"
+    "content_hash": "14a4dc58c9be1ea7c4833f0a3bef3add25531a21ad1dcc339acfcf61795bedc1"
   },
   {
     "source": "anbieter",
