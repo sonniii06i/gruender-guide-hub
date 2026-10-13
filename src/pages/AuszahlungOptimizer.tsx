@@ -32,14 +32,19 @@ type WayResult = {
   description: string;
   steuerGmbh: number;
   steuerPrivat: number;
+  /** Steuer auf Ebene der Holding (§8b KStG, 5 % Schein-Dividende), nur bei Holding-Varianten */
+  steuerHolding: number;
   totalSteuer: number;
+  /** "voll": gesamter Gewinn fließt jetzt privat zu (vergleichbar) · "teil": Teil bleibt thesauriert/aufgeschoben */
+  zufluss: "voll" | "teil";
   privatNetto: number;
   effektivPct: number;
   pros: string[];
   cons: string[];
 };
 
-function calculate(
+// eslint-disable-next-line react-refresh/only-export-components
+export function calculate(
   opGewinn: number,
   persoenlicherEStSatz: number,
   hatHolding: boolean,
@@ -76,14 +81,16 @@ function calculate(
   const totalTEV = steuerDiv_GmbH + steuerTEV_Privat;
 
   // 4) Holding-Ausschüttung (Op-GmbH → Holding-GmbH → später Privat)
-  const steuerHolding = opGewinn * KSt_PLUS_GEWST + (opGewinn - opGewinn * KSt_PLUS_GEWST) * HOLDING_RATE;
+  const steuerHoldingEbene = (opGewinn - opGewinn * KSt_PLUS_GEWST) * HOLDING_RATE;
+  const steuerHolding = opGewinn * KSt_PLUS_GEWST + steuerHoldingEbene;
   // Wenn alles in Holding bleibt: das ist die Steuer (Privat = 0 entnommen)
   const totalHolding = steuerHolding;
 
   // 5) Mix: 50 % thesauriert in Holding, 50 % privat entnommen via AbgSt
   const halfTo_Privat = restNachKSt * 0.5;
   const steuerMix_Privat = halfTo_Privat * ABG_ST;
-  const totalMix = steuerDiv_GmbH + (restNachKSt * 0.5) * HOLDING_RATE + steuerMix_Privat;
+  const steuerMix_Holding = (restNachKSt * 0.5) * HOLDING_RATE;
+  const totalMix = steuerDiv_GmbH + steuerMix_Holding + steuerMix_Privat;
 
   // 6) Pensionszusage (vereinfacht — komplex in Realität)
   // Vorteilhaft weil Rückstellungen Op-GmbH-Gewinn mindern, später als Rente versteuert
@@ -107,7 +114,9 @@ function calculate(
       description: `${Math.round(gehaltsAnteil * 100)} % als GF-Gehalt (mindert Op-GmbH-Gewinn) + ${Math.round((1 - gehaltsAnteil) * 100)} % verbleibender Gewinn → KSt+GewSt+SolZ + AbgSt auf Dividende.`,
       steuerGmbh: steuerGfGehalt_GmbH,
       steuerPrivat: steuerGfGehalt_Privat + steuerGfGehalt_Div,
+      steuerHolding: 0,
       totalSteuer: totalGfGehalt,
+      zufluss: "voll",
       privatNetto: opGewinn - totalGfGehalt,
       effektivPct: (totalGfGehalt / opGewinn) * 100,
       pros: [
@@ -126,7 +135,9 @@ function calculate(
       description: "Op-GmbH zahlt KSt+GewSt, Rest als Dividende mit Abgeltungssteuer 26,375 %.",
       steuerGmbh: steuerDiv_GmbH,
       steuerPrivat: steuerDiv_Privat,
+      steuerHolding: 0,
       totalSteuer: totalDiv,
+      zufluss: "voll",
       privatNetto: opGewinn - totalDiv,
       effektivPct: (totalDiv / opGewinn) * 100,
       pros: [
@@ -145,7 +156,9 @@ function calculate(
       description: "Bei ≥ 25 % Beteiligung wählbar: 60 % der Dividende mit ESt-Satz statt 100 % AbgSt.",
       steuerGmbh: steuerDiv_GmbH,
       steuerPrivat: steuerTEV_Privat,
+      steuerHolding: 0,
       totalSteuer: totalTEV,
+      zufluss: "voll",
       privatNetto: opGewinn - totalTEV,
       effektivPct: (totalTEV / opGewinn) * 100,
       pros: [
@@ -164,7 +177,9 @@ function calculate(
       description: "Op-GmbH → Holding-GmbH (1,5 % effektiv via §8b). Holding kann reinvestieren ohne weitere Privat-Steuer.",
       steuerGmbh: steuerDiv_GmbH,
       steuerPrivat: 0,
+      steuerHolding: steuerHoldingEbene,
       totalSteuer: steuerHolding,
+      zufluss: "teil",
       privatNetto: 0,
       effektivPct: (steuerHolding / opGewinn) * 100,
       pros: [
@@ -183,7 +198,9 @@ function calculate(
       description: "Halb in Holding thesauriert (Reinvest), halb privat via AbgSt entnommen.",
       steuerGmbh: steuerDiv_GmbH,
       steuerPrivat: steuerMix_Privat,
+      steuerHolding: steuerMix_Holding,
       totalSteuer: totalMix,
+      zufluss: "teil",
       privatNetto: halfTo_Privat - steuerMix_Privat,
       effektivPct: (totalMix / opGewinn) * 100,
       pros: [
@@ -201,13 +218,15 @@ function calculate(
       description: "30 % als Pension zurückgestellt — mindert Op-GmbH-Gewinn, später als Rente versteuert.",
       steuerGmbh: steuerPension_GmbH,
       steuerPrivat: steuerPension_Privat + steuerPension_Spaeter,
+      steuerHolding: 0,
       totalSteuer: totalPension,
+      zufluss: "teil",
       privatNetto: opGewinn - totalPension,
       effektivPct: (totalPension / opGewinn) * 100,
       pros: [
         "Rückstellung mindert aktuell Op-GmbH-Gewinn",
         "Später Rentner-ESt typisch 20–28 % statt aktuell 42 %",
-        "Insolvenzgeschützt (Pensionssicherungsverein)",
+        "Insolvenzschutz nur über eine verpfändete Rückdeckungsversicherung (beherrschende Gesellschafter-GF fallen nicht unter das BetrAVG, kein PSV-Schutz)",
       ],
       cons: [
         "Hochkomplex — Versicherungsmathematiker + StB Pflicht",
@@ -222,7 +241,9 @@ function calculate(
       description: "Wie GF-Gehalt aber gewinnabhängig — flexibel bei guten/schlechten Jahren. Steuer-Effekt analog zu Variante 1.",
       steuerGmbh: steuerGfGehalt_GmbH,
       steuerPrivat: steuerGfGehalt_Privat + steuerGfGehalt_Div,
+      steuerHolding: 0,
       totalSteuer: totalTantieme,
+      zufluss: "voll",
       privatNetto: opGewinn - totalTantieme,
       effektivPct: (totalTantieme / opGewinn) * 100,
       pros: [
@@ -231,7 +252,7 @@ function calculate(
         "Wie GF-Gehalt sozialversicherungsfrei wenn >50 % Anteile",
       ],
       cons: [
-        "Strenge Angemessenheits-Prüfung (max 25 % vom Vorjahres-Gewinn)",
+        "Strenge Angemessenheits-Prüfung (BMF 01.02.2002: max. 50 % des Jahresüberschusses, Gesamtbezüge i. d. R. 75 % fix / 25 % variabel)",
         "Bei Spitzen-ESt: schlechter als AbgSt",
         "Tantiemenvereinbarung schriftlich VOR Wirtschaftsjahr",
       ],
@@ -255,8 +276,12 @@ const AuszahlungOptimizer = () => {
     () => (hatHolding ? allResults : allResults.filter((r) => !r.name.includes("Holding") && !r.name.includes("Mix"))),
     [allResults, hatHolding],
   );
-  const sorted = [...results].sort((a, b) => a.totalSteuer - b.totalSteuer);
-  const best = sorted[0];
+  // Nur Wege mit vollem privaten Zufluss sind direkt vergleichbar. Thesaurierende/aufgeschobene Wege
+  // (Holding, Mix, Pension) haben niedrigere Steuer nur, weil weniger privat ankommt → separat zeigen.
+  const vergleichbar = [...results].filter((r) => r.zufluss === "voll").sort((a, b) => a.totalSteuer - b.totalSteuer);
+  const teilzufluss = [...results].filter((r) => r.zufluss === "teil").sort((a, b) => a.totalSteuer - b.totalSteuer);
+  const sorted = [...vergleichbar, ...teilzufluss];
+  const best = vergleichbar[0];
 
   const eur = (n: number) => `${Math.round(n).toLocaleString("de-DE")} €`;
   const pctTxt = (n: number) => `${n.toFixed(1).replace(".", ",")} %`;
@@ -295,7 +320,7 @@ const AuszahlungOptimizer = () => {
                   <option value={0.14}>14 % (geringes Einkommen)</option>
                   <option value={0.24}>24 % (mittel)</option>
                   <option value={0.32}>32 % (gut verdienend)</option>
-                  <option value={0.42}>42 % (Spitzensatz ab ~62k)</option>
+                  <option value={0.42}>42 % (Spitzensatz ab 69.879 €)</option>
                   <option value={0.45}>45 % (Reichensteuer ab ~278k)</option>
                 </select>
               </Field>
@@ -335,7 +360,7 @@ const AuszahlungOptimizer = () => {
           best ? (
             <ResultPanel
               variant="ink"
-              kicker="Steuerlich beste Variante für dich"
+              kicker="Steuerlich beste Variante bei voller Privatentnahme"
               title={best.name}
               value={pctTxt(best.effektivPct)}
               valueHint="effektive Gesamtsteuer auf den Gewinn"
@@ -367,7 +392,7 @@ const AuszahlungOptimizer = () => {
         <>
           <ToolSection
             title={`Alle ${sorted.length} Auszahlungswege im Vergleich`}
-            description={hatHolding ? undefined : "Ohne Holding sind die Holding- und Mix-Varianten ausgeblendet."}
+            description={`Rang nur für Wege, bei denen der ganze Gewinn jetzt privat ankommt. Holding, Mix und Pension behalten einen Teil in der Firma (Steuer nur aufgeschoben) und sind darum ohne Rang.${hatHolding ? "" : " Ohne Holding sind die Holding- und Mix-Varianten ausgeblendet."}`}
             icon={Scale}
             className="mb-6"
             bodyClassName="p-0 md:p-0"
@@ -378,42 +403,49 @@ const AuszahlungOptimizer = () => {
                   <th>Weg</th>
                   <th className="!text-right">GmbH-Steuer</th>
                   <th className="!text-right">Privat-Steuer</th>
+                  <th className="!text-right">Holding-Steuer</th>
                   <th className="!text-right">Privat netto</th>
                   <th className="!text-right">Effektiv</th>
                 </tr>
               </thead>
               <tbody>
-                {sorted.map((r, i) => (
-                  <tr key={r.name} className={i === 0 ? "bg-success-soft/50" : undefined}>
+                {sorted.map((r, i) => {
+                  const rang = r.zufluss === "voll" ? i + 1 : null;
+                  return (
+                  <tr key={r.name} className={i === 0 && rang ? "bg-success-soft/50" : undefined}>
                     <td className="min-w-[13rem]">
                       <div className="flex items-center gap-2">
                         <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-secondary text-[11px] font-semibold">
-                          {i + 1}
+                          {rang ?? "–"}
                         </span>
                         <span className="font-medium">{r.name}</span>
+                        {!rang && <ToneBadge tone="neutral">Teil thesauriert</ToneBadge>}
                       </div>
                     </td>
                     <td className="whitespace-nowrap text-right">{eur(r.steuerGmbh)}</td>
                     <td className="whitespace-nowrap text-right">{eur(r.steuerPrivat)}</td>
+                    <td className="whitespace-nowrap text-right">{eur(r.steuerHolding)}</td>
                     <td className="whitespace-nowrap text-right">{eur(r.privatNetto)}</td>
                     <td
                       className={cn(
                         "whitespace-nowrap text-right font-semibold",
-                        i === 0 ? "text-success" : i === sorted.length - 1 && sorted.length > 1 ? "text-danger" : "",
+                        rang === 1 ? "text-success" : rang && rang === vergleichbar.length && vergleichbar.length > 1 ? "text-danger" : "",
                       )}
                     >
                       {pctTxt(r.effektivPct)}
                     </td>
                   </tr>
-                ))}
+                  );
+                })}
               </tbody>
             </KitTable>
           </ToolSection>
 
           <div className="mb-6 grid grid-cols-1 gap-4 lg:grid-cols-2">
             {sorted.map((r, i) => {
-              const beste = i === 0;
-              const schlechteste = i === sorted.length - 1 && sorted.length > 1;
+              const rang = r.zufluss === "voll" ? i + 1 : null;
+              const beste = rang === 1;
+              const schlechteste = rang !== null && rang === vergleichbar.length && vergleichbar.length > 1;
               return (
                 <article
                   key={r.name}
@@ -425,7 +457,7 @@ const AuszahlungOptimizer = () => {
                   <div className="flex items-start justify-between gap-3">
                     <div className="min-w-0">
                       <div className="flex flex-wrap items-center gap-1.5">
-                        <ToneBadge tone="neutral" className="tabular">Platz {i + 1}</ToneBadge>
+                        {rang ? <ToneBadge tone="neutral" className="tabular">Platz {rang}</ToneBadge> : <ToneBadge tone="neutral">Teil thesauriert / aufgeschoben</ToneBadge>}
                         {beste && <ToneBadge tone="success">Beste</ToneBadge>}
                         {schlechteste && <ToneBadge tone="danger">Schlechteste</ToneBadge>}
                       </div>

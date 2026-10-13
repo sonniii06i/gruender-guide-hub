@@ -410,13 +410,21 @@ const StbMatch = () => {
     }
     const subject = `Honorar-Anfrage Gründer-Mandat — ${briefing.rechtsform} (${briefing.umsatzRange})`;
     const body = buildEmailBody();
-    const note = `\n\n---\nHinweis: Diese Anfrage geht parallel an ${selectedStbList.length} Kanzleien (BCC). Die Kanzleien sehen sich gegenseitig nicht.`;
+    const note = `\n\n---\nHinweis: Diese Anfrage geht parallel an mehrere Kanzleien (BCC). Die Kanzleien sehen sich gegenseitig nicht.`;
     // Mailto-URLs sind URL-länge-limitiert (~2000 chars) — Body ist hier safe.
-    // BCC nutzen damit StBs sich nicht gegenseitig sehen.
-    const bccList = selectedStbList.map((s) => `info@${new URL(s.url).hostname.replace(/^www\./, "")}`).join(",");
-    const url = `mailto:?bcc=${encodeURIComponent(bccList)}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body + note)}`;
+    // Keine geratenen info@-Adressen mehr: Nur verifizierte Kontaktadressen aus dem Pool (Feld email) kommen in BCC,
+    // Verzeichnisse/Kammern nie. Alle übrigen Adressen trägt der Nutzer selbst aus dem Impressum der Kanzlei ein.
+    const bccList = selectedStbList
+      .filter((s) => !istVerzeichnis(s))
+      .map((s) => (s as { email?: string }).email)
+      .filter((e): e is string => typeof e === "string" && /^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i.test(e))
+      .join(",");
+    const url = `mailto:?${bccList ? `bcc=${encodeURIComponent(bccList)}&` : ""}subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body + note)}`;
     window.location.href = url;
   };
+
+  const istVerzeichnis = (s: { id: string; name: string }) =>
+    /verzeichnis|suche|kammer/i.test(s.name) || s.id === "datev-smartexperts" || s.id === "stbk-suche";
 
   const copyEmailBody = async () => {
     try {
@@ -1079,8 +1087,9 @@ const StbMatch = () => {
               actions={<ToneBadge tone="accent" className="tabular">{selectedStbList.length} Empfänger</ToneBadge>}
             >
               <p className="text-sm leading-relaxed text-muted-foreground">
-                Lade das anonymisierte Briefing als PDF herunter und öffne die vorbereitete E-Mail. Alle Kanzleien stehen in
-                BCC und sehen sich gegenseitig nicht.
+                Lade das anonymisierte Briefing als PDF herunter und öffne die vorbereitete E-Mail. Die Kontaktadresse jeder Kanzlei
+                findest du im Impressum ihrer Website (Link rechts); trage sie selbst in BCC ein, damit sich die Kanzleien nicht gegenseitig sehen.
+                Wir raten keine Adressen. Verzeichnisse und Kammern sind keine Kanzleien: dort suchst du direkt auf der Website.
               </p>
               <ul className="mt-4 divide-y divide-border/70 rounded-xl border border-border">
                 {selectedStbList.map((s) => (
@@ -1126,7 +1135,7 @@ const StbMatch = () => {
               <ol className="space-y-3">
                 {[
                   { t: "PDF herunterladen", d: "Das anonymisierte Briefing wird gespeichert." },
-                  { t: "E-Mail öffnen", d: "Dein Mail-Programm öffnet sich mit allen Kanzleien in BCC und vorausgefülltem Text." },
+                  { t: "E-Mail öffnen", d: "Dein Mail-Programm öffnet sich mit vorausgefülltem Text. Kontaktadressen aus dem Impressum der Kanzleien in BCC eintragen." },
                   { t: "PDF anhängen", d: "Die Datei manuell als Anhang hinzufügen." },
                   { t: "Versenden", d: "Die Mail geht direkt an die Kanzleien, ohne Umweg über GründerX." },
                   { t: "Antworten abwarten", d: "Kanzleien antworten meist binnen 48 Stunden bis einer Woche mit einem Erstangebot." },

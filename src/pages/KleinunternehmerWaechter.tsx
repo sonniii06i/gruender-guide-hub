@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Input } from "@/components/ui/input";
-import { Field, ToolLayout, ToolSection, ResultPanel, StatGrid, StatTile, Callout, type Tone } from "@/components/cockpit/kit";
+import { Field, ToolLayout, ToolSection, ResultPanel, StatGrid, StatTile, Callout, selectCls, type Tone } from "@/components/cockpit/kit";
 import { CalendarCheck, Scale, Wallet } from "lucide-react";
 import { KU_LAUFEND, KU_VORJAHR, pruefeKleinunternehmer, type KuEingabe } from "@/lib/kleinunternehmer";
 
@@ -58,6 +58,20 @@ const KleinunternehmerWaechter = () => {
                     <span className="mt-0.5 block text-xs text-muted-foreground">Dann gilt 25.000 € statt 100.000 €.</span>
                   </span>
                 </label>
+                {e.gruendungsjahr && (
+                  <Field label="Gründungsmonat" htmlFor="ku-gruendung" hint="Für das Folgejahr wird dein Rumpfjahr auf 12 Monate hochgerechnet.">
+                    <select
+                      id="ku-gruendung"
+                      className={selectCls}
+                      value={e.gruendungsMonat ?? 1}
+                      onChange={(ev) => setE((x) => ({ ...x, gruendungsMonat: Number(ev.target.value) }))}
+                    >
+                      {["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"].map((m, i) => (
+                        <option key={m} value={i + 1}>{m}</option>
+                      ))}
+                    </select>
+                  </Field>
+                )}
                 {!e.gruendungsjahr && (
                   <Field label="Umsatz im Vorjahr (netto, €)" htmlFor="ku-vorjahr">
                     <Input

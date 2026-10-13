@@ -219,7 +219,8 @@ const IpBoxVergleich = () => {
         <ul className="grid grid-cols-1 gap-x-8 gap-y-2.5 text-sm text-muted-foreground md:grid-cols-2">
           {[
             "BEPS-Nexus-Ansatz: Steuervorteil nur im Verhältnis zur F&E-Tätigkeit im IP-Box-Land",
-            "Software-Urheberrechte ohne Patent qualifizieren in MT, NL, LU, BE und PL, nicht in CY, IE und HU",
+            "Urheberrechtlich geschützte Software qualifiziert nach dem OECD-Nexus-Ansatz in allen EU-IP-Boxen (auch CY, IE und HU); Marken und andere Marketing-IP qualifizieren nirgends",
+            "Nexus-Quotient: begünstigt ist nur der Anteil (eigene F&E-Kosten × 130 %) / gesamte F&E-Kosten des IP-Assets — zugekaufte F&E und Konzern-Auftragsforschung senken ihn",
             "Die Buchhaltung muss IP-Einkünfte getrennt von den übrigen Einkünften erfassen",
             "F&E-Tagebuch und Ausgaben-Tracking je IP-Asset sind Pflicht",
             "Geprüfte Abschlüsse sind für IP-Box-Anträge in den meisten Ländern Pflicht",

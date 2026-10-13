@@ -62,38 +62,42 @@ const ShopProfitRechner = () => {
     const nettoErloes = bruttoUmsatz / (1 + vkUst / 100);
     const ustVerkauf = bruttoUmsatz - nettoErloes;
 
-    const ekNetto = ekBrutto / (1 + ekUst / 100);
-    const versandNetto = versandVorsteuer ? versandKosten / 1.19 : versandKosten;
-    const sonstNetto = sonstVorsteuer ? sonstBrutto / 1.19 : sonstBrutto;
+    // Kleinunternehmer (USt im Verkauf 0 %): kein Vorsteuerabzug (§ 19 Abs. 1 UStG) → Kosten zählen brutto
+    const istKu = vkUst === 0;
+    const ekNetto = istKu ? ekBrutto : ekBrutto / (1 + ekUst / 100);
+    const versandNetto = !istKu && versandVorsteuer ? versandKosten / 1.19 : versandKosten;
+    const sonstNetto = !istKu && sonstVorsteuer ? sonstBrutto / 1.19 : sonstBrutto;
 
     const paypal = (bruttoUmsatz * (ppProzent / 100) + ppFix) * (ppQuote / 100);
 
     // Klicks je Verkauf: aus Conversion-Rate abgeleitet oder direkt gesetzt.
     const klicks = modus === "cr" ? (conversionRate > 0 ? 100 / conversionRate : 0) : klicksJeVerkauf;
     const bezahlterAnteil = 1 - organischProzent / 100;
-    const werbung = cpc * klicks * bezahlterAnteil;
+    // Google/Meta rechnen aus Irland per Reverse Charge ab: keine USt auf der Rechnung, Regelbesteuerer saldieren
+    // USt und Vorsteuer zu null. Kleinunternehmer schulden die 19 % selbst ohne Vorsteuerabzug (§ 13b Abs. 8 UStG).
+    const werbeFaktor = istKu ? 1.19 : 1;
+    const werbung = cpc * klicks * bezahlterAnteil * werbeFaktor;
 
     const db1 = nettoErloes - ekNetto - versandNetto - paypal - sonstNetto;
     const gewinn = db1 - werbung;
 
-    // Vorsteuer aus allen Kostenbelegen (Werbung: Google/Meta rechnen mit 19 %).
-    const vorsteuer =
-      (ekBrutto - ekNetto) +
-      (versandKosten - versandNetto) +
-      (sonstBrutto - sonstNetto) +
-      werbung * 0.19;
+    // Vorsteuer aus den Kostenbelegen (Werbung per Reverse Charge: saldoneutral, daher nicht enthalten)
+    const vorsteuer = istKu
+      ? 0
+      : (ekBrutto - ekNetto) + (versandKosten - versandNetto) + (sonstBrutto - sonstNetto);
 
     // Break-even: was die Werbung maximal kosten darf, bevor die Null steht.
-    const wirksam = cpc * bezahlterAnteil;
+    const wirksam = cpc * bezahlterAnteil * werbeFaktor;
     const maxKlicks = wirksam > 0 ? db1 / wirksam : 0;
     const minCr = maxKlicks > 0 ? 100 / maxKlicks : 0;
-    const maxCpc = klicks > 0 && bezahlterAnteil > 0 ? db1 / (klicks * bezahlterAnteil) : 0;
+    const maxCpc = klicks > 0 && bezahlterAnteil > 0 ? db1 / (klicks * bezahlterAnteil * werbeFaktor) : 0;
     const minRoas = db1 > 0 ? bruttoUmsatz / db1 : 0;
 
     return {
       bruttoUmsatz, nettoErloes, ustVerkauf, ekNetto, versandNetto, sonstNetto,
       paypal, klicks, werbung, db1, gewinn,
-      zahllast: ustVerkauf - vorsteuer,
+      zahllast: ustVerkauf - vorsteuer + (istKu ? werbung - werbung / werbeFaktor : 0),
+      istKu,
       marge: nettoErloes > 0 ? (gewinn / nettoErloes) * 100 : 0,
       aufschlag: ekNetto > 0 ? nettoErloes / ekNetto : 0,
       roas: werbung > 0 ? bruttoUmsatz / werbung : null,
@@ -213,7 +217,7 @@ const ShopProfitRechner = () => {
 
             <ToolSection title="4. Klickkosten" icon={MousePointerClick}>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <Field label="Klickpreis netto (€)" hint="Google und Meta rechnen mit USt ab, hier netto eintragen.">
+                <Field label="Klickpreis netto (€)" hint="Google und Meta rechnen aus Irland per Reverse Charge ab (ohne USt). Als Kleinunternehmer kommen 19 % USt obendrauf, die du selbst abführst (§ 13b Abs. 8 UStG).">
                   <NumberField step="0.01" value={cpc} onChange={setCpc} min={0} aria-label="Klickpreis netto in Euro" />
                 </Field>
                 <Field
@@ -292,7 +296,7 @@ const ShopProfitRechner = () => {
                 <ResultRow label="./. PayPal-Gebühr (ohne Vorsteuer)" value={`− ${eur(calc.paypal)}`} />
                 <ResultRow label="./. Verpackung und Sonstiges netto" value={`− ${eur(calc.sonstNetto)}`} />
                 <ResultRow label="Deckungsbeitrag vor Werbung" value={eur(calc.db1)} strong />
-                <ResultRow label="./. Werbekosten netto" value={`− ${eur(calc.werbung)}`} />
+                <ResultRow label={calc.istKu ? "./. Werbekosten inkl. 19 % Reverse-Charge-USt" : "./. Werbekosten netto"} value={`− ${eur(calc.werbung)}`} />
                 <ResultRow
                   label="Gewinn je Bestellung"
                   value={eur(calc.gewinn)}

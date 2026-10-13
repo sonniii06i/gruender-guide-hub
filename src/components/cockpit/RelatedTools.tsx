@@ -68,7 +68,7 @@ const RELATED: Record<string, ToolRef[]> = {
   ],
   "/cockpit/eu-alternativen": [
     { route: "/cockpit/holding-designer", label: "Holding-Designer", desc: "EU-Alternative als Holding-Spitze einbauen" },
-    { route: "/cockpit/substance-checker", label: "Substance-Checker", desc: "Mailbox-Risiko in Wunsch-Land checken (ATAD III)" },
+    { route: "/cockpit/substance-checker", label: "Substance-Checker", desc: "Mailbox-Risiko in Wunsch-Land checken (§ 50d Abs. 3 EStG)" },
     { route: "/cockpit/dba-cfc", label: "DBA-CFC-Rechner", desc: "Hinzurechnung + DBA-Quellensteuer rechnen" },
   ],
   "/cockpit/auszahlung-optimizer": [
@@ -112,10 +112,10 @@ const RELATED: Record<string, ToolRef[]> = {
   ],
   "/cockpit/hk-limited-wizard": [
     { route: "/cockpit/intl-banking", label: "HK Banking", desc: "Statrys / Airwallex / HSBC für non-Resident" },
-    { route: "/cockpit/substance-checker", label: "Substance-Checker", desc: "Offshore-Status + ATAD III aus DE-Sicht" },
+    { route: "/cockpit/substance-checker", label: "Substance-Checker", desc: "Offshore-Status + Substanz-Anforderungen aus DE-Sicht" },
   ],
   "/cockpit/intl-banking": [
-    { route: "/cockpit/us-llc-wizard", label: "US-LLC-Wizard", desc: "EIN + BOI vor Konto-Eröffnung erledigen" },
+    { route: "/cockpit/us-llc-wizard", label: "US-LLC-Wizard", desc: "EIN vor Konto-Eröffnung erledigen, BOI-Status klären" },
     { route: "/cockpit/hk-limited-wizard", label: "HK-Limited-Wizard", desc: "NNC1 + Comp Sec vor Konto-Eröffnung" },
   ],
   "/cockpit/sales-tax-nexus": [

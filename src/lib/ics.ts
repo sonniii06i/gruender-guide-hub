@@ -50,7 +50,9 @@ export function baueIcs(termine: IcsTermin[], kalenderName: string, jetzt = new 
   for (const t of termine) {
     zeilen.push(
       "BEGIN:VEVENT",
-      `UID:${t.uid}@gruenderx.de`,
+      // Startdatum gehört in die UID: Event-Slugs sind über eine Serie stabil (Merkliste/„neu“),
+      // gleiche UID würde in Kalender-Apps den früheren Serientermin überschreiben (RFC 5545 3.8.4.7).
+      `UID:${t.uid}-${tag(t.start)}@gruenderx.de`,
       `DTSTAMP:${stamp}`,
       `DTSTART;VALUE=DATE:${tag(t.start)}`,
       `DTEND;VALUE=DATE:${tag(naechsterTag(t.ende && t.ende >= t.start ? t.ende : t.start))}`,

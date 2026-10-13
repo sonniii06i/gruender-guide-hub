@@ -39,7 +39,7 @@ import {
 //   (FinCEN Interim Final Rule) — nur noch Foreign-Entities registriert in USA
 // - Form 5472 + Pro-Forma 1120 weiterhin JÄHRLICHE Pflicht für Foreign-Owned
 //   Single-Member-LLCs ($25.000 Strafe bei Versäumnis!)
-// - W-8BEN-E für Vendor-Beziehungen
+// - W-8BEN des Eigentümers (nicht W-8BEN-E: Single-Member-LLC ist disregarded) für Vendor-Beziehungen
 // - Sales-Tax-Nexus-Check (Cross-Link zum eigenen Tool)
 // ============================================================
 
@@ -190,7 +190,7 @@ const STEP_LABELS = [
   "Operating Agreement",
   "EIN beim IRS",
   "BOI-Status (Mai 2026)",
-  "W-8BEN-E für Vendoren",
+  "W-8BEN (Eigentümer) für Vendoren",
   "US-Bankkonto + Compliance",
 ];
 
@@ -696,7 +696,7 @@ const UsLlcWizard = () => {
                         <strong className="text-foreground">Zeile 9a:</strong> "LLC" ankreuzen · <strong className="text-foreground">Zeile 10:</strong> "Banking purposes"
                       </li>
                       <li>
-                        <strong className="text-foreground">Schneller via CPA + Form 8821:</strong> EIN in 1-2 Werktagen (Service ~$150-300)
+                        <strong className="text-foreground">Schneller über einen Dienstleister als Third Party Designee</strong> (eigener Abschnitt auf dem SS-4, darf die EIN für dich beantragen und empfangen). Form 8821 berechtigt nur zur Einsicht, nicht zur Beantragung.
                       </li>
                     </ul>
                   </div>
@@ -773,12 +773,15 @@ const UsLlcWizard = () => {
               </div>
             )}
 
-            {/* STEP 9: W-8BEN-E */}
+            {/* STEP 9: W-8BEN (Eigentümer) */}
             {step === 9 && (
               <div className="space-y-5">
                 <p className="text-sm text-muted-foreground">
                   Kein Filing beim IRS, sondern ein Formular, das US-Vendoren von dir verlangen werden (Stripe, Amazon
-                  Affiliate, Upwork, SaaS-Tools). Bestätigt deinen Foreign-Owner-Status.
+                  Affiliate, Upwork, SaaS-Tools). Deine Single-Member-LLC ist steuerlich „disregarded“ und gibt KEIN eigenes
+                  W-8BEN-E ab (laut IRS-Instructions zum W-8BEN-E nicht für Disregarded Entities). Du als ausländischer Eigentümer
+                  gibst ein <strong className="text-foreground">W-8BEN (Individual)</strong> auf deinen Namen ab. Ein W-8BEN-E mit
+                  Gründungsland USA ist widersprüchlich und wird abgelehnt; US-Rechtsträger nutzen sonst das W-9.
                 </p>
                 <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
                   <InfoList
@@ -794,27 +797,28 @@ const UsLlcWizard = () => {
                   <InfoList
                     title="Was rein muss"
                     items={[
-                      "Part I, Zeile 1: LLC-Name",
-                      "Part I, Zeile 2: Country of Incorporation = United States (deine LLC ist US!)",
-                      'Part I, Zeile 4: Chapter 3 Status = "Disregarded entity" (Single-Member)',
-                      'Part I, Zeile 5: Chapter 4 (FATCA) Status = "Active NFFE" üblich für Solo',
-                      "Part I, Zeile 6: Permanent Address (DE-Wohnsitz!)",
-                      "Part I, Zeile 8: EIN (aus Step 7)",
-                      "Part III: DBA-Vorteile-Beanspruchung (DE-USA-DBA, Article-Hinweis)",
-                      "Part XXIX: Signature",
+                      "Zeile 1: dein Name (natürliche Person, nicht die LLC)",
+                      "Zeile 2: Staatsangehörigkeit, z. B. Germany",
+                      "Zeile 3: Permanent Residence Address (DE-Wohnsitz, keine US- oder c/o-Adresse)",
+                      "Zeile 5: US-TIN nur falls vorhanden (SSN/ITIN) — die EIN der LLC gehört nicht hierher",
+                      "Zeile 6a: Foreign TIN = deine deutsche Steuer-ID",
+                      "Zeile 7: Referenz, z. B. Name und EIN der LLC (Step 7)",
+                      "Part II: Ansässigkeit Germany + DBA-Artikel, falls ein ermäßigter Satz beansprucht wird",
+                      "Part III: Signature",
                     ]}
                   />
                 </div>
 
                 <Callout tone="info" title="Tipp: drei Jahre gültig">
-                  W-8BEN-E gilt 3 Jahre. Speicher das ausgefüllte PDF zentral — du wirst es immer wieder hochladen müssen.
+                  Das W-8BEN gilt bis Ende des dritten Kalenderjahres nach Unterschrift. Speicher das ausgefüllte PDF zentral — du wirst es immer wieder hochladen müssen.
+                  W-8BEN-E brauchst du nur, wenn eine ausländische Kapitalgesellschaft (z. B. deine GmbH) Eigentümerin der LLC ist.
                 </Callout>
 
                 <div className="flex flex-wrap gap-2">
-                  <a href="https://www.irs.gov/pub/irs-pdf/fw8bene.pdf" target="_blank" rel="noopener noreferrer" className={buttonVariants()}>
-                    <ExternalLink aria-hidden="true" /> W-8BEN-E PDF
+                  <a href="https://www.irs.gov/pub/irs-pdf/fw8ben.pdf" target="_blank" rel="noopener noreferrer" className={buttonVariants()}>
+                    <ExternalLink aria-hidden="true" /> W-8BEN PDF
                   </a>
-                  <a href="https://www.irs.gov/pub/irs-pdf/iw8bene.pdf" target="_blank" rel="noopener noreferrer" className={buttonVariants({ variant: "outline" })}>
+                  <a href="https://www.irs.gov/pub/irs-pdf/iw8ben.pdf" target="_blank" rel="noopener noreferrer" className={buttonVariants({ variant: "outline" })}>
                     Instructions PDF
                   </a>
                 </div>
@@ -915,13 +919,16 @@ const UsLlcWizard = () => {
                       {" "}— wenn FBA-Inventar in US-Staat → sofortiger Nexus ab $0!
                     </li>
                     <li>
-                      <strong className="text-foreground">DE-Steuer:</strong> LLC-Gewinne bei DE-Wohnsitz gemäß
-                      DBA als Einkünfte aus Gewerbebetrieb in DE versteuern (LLC = transparent bei Single-Member).{" "}
+                      <strong className="text-foreground">DE-Steuer:</strong> Ob die LLC in DE transparent oder als Kapitalgesellschaft
+                      behandelt wird, entscheidet der Typenvergleich (BMF-Schreiben vom 19.03.2004), nicht die US-Einstufung „disregarded“.
+                      Wird die LLC von DE aus geführt, liegt der Ort der Geschäftsleitung in DE (§10 AO) — bei Einstufung als
+                      Kapitalgesellschaft drohen unbeschränkte KSt- und GewSt-Pflicht in DE, sonst Einkünfte aus Gewerbebetrieb. Steuerberatung zwingend.{" "}
                       Siehe <Link to="/cockpit/dba-cfc" className="font-medium text-accent-blue underline-offset-2 hover:underline">DBA-CFC-Rechner</Link>.
                     </li>
                     <li>
                       <strong className="text-foreground">State Tax Registration:</strong> nur wenn aktive
-                      Tätigkeit im State (Income Sourcing). Bei Wyoming/NM/SD: keine State Income Tax.
+                      Tätigkeit im State (Income Sourcing). Wyoming und South Dakota: keine State Income Tax. New Mexico erhebt
+                      Einkommensteuer, aber nur auf Einkünfte aus Quellen in NM.
                     </li>
                   </ul>
                 </div>
@@ -985,7 +992,7 @@ const UsLlcWizard = () => {
                 "BOI (CTA) für US-LLCs NICHT MEHR PFLICHT seit FinCEN Interim Final Rule 26.3.2025",
                 "Form 5472 + 1120 BLEIBT jährliche Pflicht (Foreign-Owned Single-Member-LLC, $25k Strafe)",
                 "BMF-Sofortabschreibung Computer/Software für deutsche Steuer relevant",
-                "Bei Sales-Tax-Nexus durch FBA-Inventar: $0-Schwelle in CA seit 2025-Ruling",
+                "Sales-Tax: Lagerbestand in einem US-Staat (z. B. FBA-Lager) begründet dort in der Regel physischen Nexus — unabhängig von Umsatzschwellen",
               ].map((t) => (
                 <li key={t} className="flex gap-2">
                   <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent-blue" aria-hidden="true" />
@@ -1011,7 +1018,7 @@ const STEP_TITLES = [
   "Operating Agreement erstellen",
   "EIN beim IRS beantragen",
   "BOI-Status (Stand Mai 2026)",
-  "W-8BEN-E für Vendor-Beziehungen",
+  "W-8BEN des Eigentümers für Vendor-Beziehungen",
   "US-Bankkonto und jährliche Compliance",
 ];
 

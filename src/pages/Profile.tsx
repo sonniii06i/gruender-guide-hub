@@ -30,6 +30,7 @@ import { TwoFactorPanel } from "@/components/profile/TwoFactorPanel";
 import { CodeEinloesenPanel } from "@/components/profile/CodeEinloesenPanel";
 import { toast } from "sonner";
 import { writeProfileCache } from "@/lib/profileCache";
+import { interpretDeleteAccountResult } from "@/lib/deleteAccount";
 
 interface ProfileData {
   salutation?: string | null; first_name?: string | null; last_name?: string | null;
@@ -60,6 +61,7 @@ const Profile = () => {
 
   const [checkingSub, setCheckingSub] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const [deleteBlock, setDeleteBlock] = useState<string | null>(null);
   const handleStatusCheck = async () => {
     setCheckingSub(true);
     try {
@@ -306,10 +308,14 @@ const Profile = () => {
                     if (!window.confirm("Wirklich dein Konto und ALLE Daten unwiderruflich löschen?")) return;
                     if (!window.confirm("Letzte Warnung: Das kann nicht rückgängig gemacht werden. Fortfahren?")) return;
                     setDeleting(true);
-                    const { data, error } = await supabase.functions.invoke("delete-account");
-                    if (error || (data as any)?.error) {
+                    setDeleteBlock(null);
+                    const outcome = await interpretDeleteAccountResult(
+                      await supabase.functions.invoke("delete-account"),
+                    );
+                    if (outcome.kind !== "deleted") {
                       setDeleting(false);
-                      toast.error("Löschen fehlgeschlagen. Bitte Support kontaktieren.");
+                      if (outcome.kind === "active_subscription") setDeleteBlock(outcome.message);
+                      else toast.error(outcome.message);
                       return;
                     }
                     toast.success("Konto gelöscht. Auf Wiedersehen.");
@@ -320,6 +326,17 @@ const Profile = () => {
                   {deleting ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : null}
                   Konto endgültig löschen
                 </Button>
+                {deleteBlock && (
+                  <div role="alert" className="mt-4 rounded-xl border border-danger/30 bg-card p-4 text-sm">
+                    <p className="font-medium text-foreground">Konto nicht gelöscht</p>
+                    <p className="mt-1 leading-relaxed text-foreground/80">{deleteBlock}</p>
+                    {/* Eigener Knopf statt "Abo verwalten": der ist bei past_due gesperrt. */}
+                    <Button onClick={portal} disabled={busy === "portal"} variant="outline" className="mt-3">
+                      {busy === "portal" ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : <Settings2 className="h-4 w-4" aria-hidden="true" />}
+                      Zum Kundenportal
+                    </Button>
+                  </div>
+                )}
               </div>
             </div>
           </section>

@@ -11,7 +11,7 @@ const faqs = [
   },
   {
     q: "Hilft GründerX bei US-LLC oder HK-Limited?",
-    a: "Ja. Bundesstaaten-Vergleich (Wyoming, Delaware, New Mexico, Nevada), Registered-Agent-Auswahl, EIN- und ITIN-Antrag, BOI-Reporting (FinCEN), Form 5472/1120-Reminder sowie Banking (Mercury, Wise, Relay, Brex). Für Hong Kong: Setup, Profits-Tax, Offshore-Status, Audited Accounts und Banking (Statrys, Airwallex, Currenxie) – inkl. deutscher CFC-Regelungen.",
+    a: "Ja. Bundesstaaten-Vergleich (Wyoming, Delaware, New Mexico, Nevada), Registered-Agent-Auswahl, EIN- und ITIN-Antrag, BOI-Status (seit 26.03.2025 für US-LLCs entfallen), Form 5472/1120-Reminder sowie Banking (Mercury, Wise, Relay, Brex). Für Hong Kong: Setup, Profits-Tax, Offshore-Status, Audited Accounts und Banking (Statrys, Airwallex, Currenxie) – inkl. deutscher CFC-Regelungen.",
   },
   {
     q: "Welche Marketplaces deckt GründerX ab?",
@@ -35,7 +35,7 @@ const faqs = [
   },
   {
     q: "Welche Anbieter werden verglichen?",
-    a: `${ANBIETER_ANZAHL} Anbieter in ${ANBIETER_KATEGORIEN} Kategorien, jeweils mit Stärken und Schwächen aus Reddit, DTC-Slack und E-Commerce-Foren. Darunter: Banking DE (Qonto, Holvi, Finom, Kontist, Deutsche Bank, Commerzbank, Sparkasse, Volksbank, Postbank, HVB, Targobank, DKB, Fyrst, N26, Revolut, Vivid, Bunq), Banking US (Mercury, Wise, Relay, Brex, Novo, Bluevine, Found), Versand DACH (DHL, DPD, GLS, Hermes, UPS, Sendcloud), Buchhaltung (lexoffice, sevDesk, Candis, BuchhaltungsButler, Accountable, smartsteuer), 3PL/Fulfillment (byrd, ShipBob, FromSpace, Warehousing1, Logward, BEZAHLT), LUCID (Lizenzero, Reclay), Email-Marketing (Klaviyo, Brevo, Mailchimp, MailerLite, Omnisend, Postmark, ActiveCampaign), Tracking (Triple Whale, Hyros, Northbeam, Polar Analytics, RockerBox), Shop-Systeme (Shopify, Shopware, WooCommerce, BigCommerce, Lightspeed), Domains (Cloudflare Registrar, Namecheap, IONOS, ALL-INKL, INWX, Porkbun), Workspace/Email (Google Workspace, Microsoft 365, mailbox.org, Proton, Fastmail), Geschäftsfahrzeug (Sixt Leasing, ALD/Ayvens, VW/Mercedes/BMW Financial Services, Vehiculum, LeasePlan, FINN), Haftpflichtversicherung (Hiscox, exali, mailo, Andsafe, Adam Riese, Allianz, AXA, HDI, thinksurance, VOV) und Rechtsschutz (Roland, ARAG, DAS, Advocard, DEURAG, HDI). Die Liste wird automatisiert geprüft: neue Anbieter werden vorgeschlagen, tote Links gemeldet, Preise nachgezogen.`,
+    a: `${ANBIETER_ANZAHL} Anbieter in ${ANBIETER_KATEGORIEN} Kategorien, jeweils mit Stärken und Schwächen aus Reddit, DTC-Slack und E-Commerce-Foren. Darunter: Banking DE (Qonto, Holvi, Finom, Kontist, Deutsche Bank, Commerzbank, Sparkasse, Volksbank, Postbank, HVB, Targobank, DKB, Fyrst, N26, Revolut, Vivid, Bunq), Banking US (Mercury, Wise, Relay, Brex, Novo, Bluevine, Found), Versand DACH (DHL, DPD, GLS, Hermes, UPS, Sendcloud), Buchhaltung (lexoffice, sevDesk, Candis, BuchhaltungsButler, Accountable, smartsteuer), 3PL/Fulfillment (byrd, ShipBob, Warehousing1, Logward), LUCID (Lizenzero, Reclay), Email-Marketing (Klaviyo, Brevo, Mailchimp, MailerLite, Omnisend, Postmark, ActiveCampaign), Tracking (Triple Whale, Hyros, Northbeam, Polar Analytics, RockerBox), Shop-Systeme (Shopify, Shopware, WooCommerce, BigCommerce, Lightspeed), Domains (Cloudflare Registrar, Namecheap, IONOS, ALL-INKL, INWX, Porkbun), Workspace/Email (Google Workspace, Microsoft 365, mailbox.org, Proton, Fastmail), Geschäftsfahrzeug (Sixt Leasing, ALD/Ayvens, VW/Mercedes/BMW Financial Services, Vehiculum, LeasePlan, FINN), Haftpflichtversicherung (Hiscox, exali, mailo, Andsafe, Adam Riese, Allianz, AXA, HDI, thinksurance, VOV) und Rechtsschutz (Roland, ARAG, DAS, Advocard, DEURAG, HDI). Die Liste wird automatisiert geprüft: neue Anbieter werden vorgeschlagen, tote Links gemeldet, Preise nachgezogen.`,
   },
   {
     q: "Was kostet GründerX?",
@@ -59,7 +59,7 @@ const faqs = [
   },
   {
     q: "Sind meine Daten sicher?",
-    a: "Ja. GründerX ist DSGVO-konform, alle Daten liegen verschlüsselt auf Servern in der EU. Deine Daten werden nicht zum Training fremder Modelle verwendet.",
+    a: "Deine Konto- und Projektdaten liegen verschlüsselt in einer Datenbank in der EU (Supabase, Frankfurt). Fragen an den KI-Assistenten Felix und KI-Textfunktionen werden zur Beantwortung an KI-Anbieter übermittelt, teils in den USA (abgesichert über das EU-US Data Privacy Framework bzw. EU-Standardvertragsklauseln) – Details in der Datenschutzerklärung. Deine Daten werden nicht zum Training fremder Modelle verwendet.",
   },
 ];
 

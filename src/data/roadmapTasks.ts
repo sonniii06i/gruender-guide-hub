@@ -178,7 +178,7 @@ export const ROADMAP_TASKS: RoadmapTask[] = [
     titel: "Geschäftskonto eröffnen",
     beschreibung: "Bei Einzel/Freiberuf rechtlich nicht zwingend, aber DRINGEND empfohlen (saubere Trennung, Buchhaltung). Bei UG/GmbH Pflicht.",
     schritte: [
-      "Anbieter vergleichen: Holvi, Kontist, Qonto, Penta, oder Hausbank",
+      "Anbieter vergleichen: Holvi, Kontist, Qonto, Finom oder Hausbank",
       "Vorab: Gewerbeschein + Personalausweis bereithalten",
       "VideoIdent oder PostIdent für Verifizierung",
     ],
@@ -241,6 +241,25 @@ export const ROADMAP_TASKS: RoadmapTask[] = [
     triggers: { rechtsform: ["einzel-gewerbe", "freiberuf"] },
   },
   {
+    // § 138 Abs. 1, 1b AO gilt auch für Personen- und Kapitalgesellschaften – eigene ELSTER-Fragebögen.
+    id: "t30-4b-fse-gesellschaft",
+    phase: "T30",
+    pflicht: "muss",
+    titel: "Fragebogen zur steuerlichen Erfassung für die Gesellschaft",
+    beschreibung: "Auch GbR, UG und GmbH müssen binnen eines Monats nach Aufnahme der Tätigkeit den Fragebogen zur steuerlichen Erfassung über ELSTER abgeben (§ 138 AO) – mit eigenen Formularen für Personen- bzw. Kapitalgesellschaften. Die GbR bekommt eine eigene Steuernummer (gesonderte und einheitliche Feststellung der Gewinne).",
+    schritte: [
+      "ELSTER-Organisationszertifikat bzw. Zugang eines Gesellschafters/Geschäftsführers bereithalten",
+      "GbR: „Fragebogen zur steuerlichen Erfassung – Gründung einer Personengesellschaft/-gemeinschaft“",
+      "UG/GmbH: „Fragebogen zur steuerlichen Erfassung – Gründung einer Kapitalgesellschaft/Genossenschaft“ (Gesellschaftsvertrag + HR-Auszug beifügen)",
+      "§ 19 KU, Soll/Ist und Gewinnermittlung festlegen",
+      "USt-ID parallel beantragen wenn EU-Geschäft",
+    ],
+    zeitaufwand: "1-3 Std",
+    kostenHint: "kostenlos",
+    externalLink: { url: "https://www.elster.de", label: "ELSTER öffnen" },
+    triggers: { rechtsform: ["gbr", "ug-gmbh"] },
+  },
+  {
     id: "t30-5-ust-id-eu",
     phase: "T30",
     pflicht: "muss",
@@ -298,11 +317,13 @@ export const ROADMAP_TASKS: RoadmapTask[] = [
     phase: "T60",
     pflicht: "muss",
     titel: "IHK / HwK-Mitgliedschaft prüfen",
-    beschreibung: "Automatisch bei Gewerbeanmeldung. Beitrag ab Gewinn >5.200 €. Befreiung für Neugründer 2 Jahre möglich.",
+    // § 3 Abs. 3 S. 3, 4 IHKG: Beitragsfreiheit bis 5.200 € Gewinn bzw. Existenzgründer-Befreiung kraft Gesetzes,
+    // nur für natürliche Personen / Personengesellschaften ohne Handelsregistereintrag.
+    beschreibung: "Mitgliedschaft automatisch mit Gewerbeanmeldung. Nicht im Handelsregister eingetragene Einzelunternehmer und Personengesellschaften zahlen bis 5.200 € Gewinn keinen Beitrag. Existenzgründer (natürliche Personen ohne HR-Eintrag) sind bis 25.000 € Gewinn im Gründungs- und Folgejahr vom Grundbeitrag und der Umlage befreit, im 3. und 4. Jahr von der Umlage – automatisch, ohne Antrag. UG/GmbH zahlen ab dem ersten Jahr.",
     schritte: [
       "Schreiben von IHK/HwK abwarten (kommt nach Gewerbeanmeldung)",
-      "Bei Neugründung Befreiungs-Antrag stellen (2 Jahre)",
-      "Bei niedrigem Gewinn: Grundbeitrag-Reduktion beantragen",
+      "Beitragsbescheid prüfen: Befreiung als Existenzgründer bzw. bis 5.200 € Gewinn berücksichtigt?",
+      "Bei Abweichung: IHK kontaktieren und Gewinn nachweisen",
     ],
     zeitaufwand: "30 Min",
     kostenHint: "40-300 €/J ab Gewinn 5.200 €",
@@ -477,7 +498,7 @@ export const ROADMAP_TASKS: RoadmapTask[] = [
     titel: "Mitarbeiter / Minijob vorbereiten (wenn geplant)",
     beschreibung: "Vor erster Einstellung: Betriebsnummer beantragen, Lohnbüro klären, Pflichten verstehen.",
     schritte: [
-      "Betriebsnummer bei BfA beantragen (kostenlos, 5 Min)",
+      "Betriebsnummer beim Betriebsnummern-Service der Bundesagentur für Arbeit beantragen (kostenlos, 5 Min)",
       "Lohn-Software / Lohnbüro / DATEV-Lohn auswählen",
       "Sozialversicherung: AG-Anteile, U1/U2-Umlagen",
       "Bei Minijob: Pauschalabgaben 30 % Mini-Job-Zentrale",

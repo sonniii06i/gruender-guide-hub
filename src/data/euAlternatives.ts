@@ -1,6 +1,7 @@
 // EU- und Schweiz-Rechtsform-Alternativen für deutsche Gründer.
 // Stand: Mai 2026. Steuersätze + Mindestkapital können sich ändern, immer mit StB final klären.
 
+// AStG-Niedrigsteuergrenze 15 %: § 8 Abs. 5 AStG i. d. F. MinBestRL-UmsG (ab 2024). ATAD III (COM(2021) 565) im Juni 2025 von der Kommission zurückgezogen.
 export type EUAlternative = {
   slug: string;
   country: string;
@@ -148,7 +149,7 @@ export const EU_ALTERNATIVES: EUAlternative[] = [
     ],
     cons: [
       "**Innovation Box**: hohe Substanz-Anforderungen (BEPS) — pure IP-Holding ohne F&E reicht nicht mehr",
-      "**Substance-Test seit 2024 verschärft** (ATAD III): Mailbox-BV ohne lokale Mitarbeiter wird durchschaut",
+      "**Substanz wird geprüft**: Mailbox-BV ohne lokale Mitarbeiter wird über § 50d Abs. 3 EStG und den Principal-Purpose-Test der DBA durchschaut (ATAD III wurde nie verabschiedet und 2025 zurückgezogen)",
       "Doppel-Buchhaltung DE + NL nötig wenn DE-Wohnsitz",
       "GF muss tatsächlich Geschäftsleitung in NL ausführen (nicht nur Briefkasten)",
     ],
@@ -167,7 +168,7 @@ export const EU_ALTERNATIVES: EUAlternative[] = [
       "6. BTW-Nummer (NL-USt-ID) bei Belastingdienst beantragen",
       "7. Substance-Setup: Adresse, ggf. lokaler Director / Co-Director",
     ],
-    deTaxImpact: "Wenn DE-Wohnsitz: §AStG Hinzurechnung wenn Beherrschung > 50 % + niedrigere Besteuerung (< 25 %) bei passiven Einkünften. Aktive NL-BV mit Substanz: Mutter-Tochter-Richtlinie greift, 0 % Quellensteuer auf Dividenden zu DE-Holding.",
+    deTaxImpact: "Wenn DE-Wohnsitz: §AStG Hinzurechnung wenn Beherrschung > 50 % + niedrige Besteuerung (< 15 %, § 8 Abs. 5 AStG seit 2024) bei passiven Einkünften. Aktive NL-BV mit Substanz: Mutter-Tochter-Richtlinie greift, 0 % Quellensteuer auf Dividenden zu DE-Holding.",
     officialLinks: [
       { label: "KVK (Handelsregister)", url: "https://www.kvk.nl/english/" },
       { label: "Belastingdienst (Finanzamt)", url: "https://www.belastingdienst.nl/wps/wcm/connect/en/" },
@@ -212,7 +213,7 @@ export const EU_ALTERNATIVES: EUAlternative[] = [
     cons: [
       "**Hohes Mindeststammkapital 20k CHF** (DE-GmbH 25k EUR vergleichbar)",
       "**Substanz-Pflicht streng**: lokaler GF, eigene Räume, echte Geschäftstätigkeit — sonst Sitz-Verlegung nach DE durch BMF",
-      "DE-AStG Hinzurechnung bei niedriger Besteuerung (<25 %) und passiven Einkünften",
+      "DE-AStG Hinzurechnung bei niedriger Besteuerung (< 15 %, § 8 Abs. 5 AStG seit 2024) und passiven Einkünften",
       "Quellensteuer 35 % auf Dividenden (auch wenn DBA-Reduktion)",
       "Bürokratie höher als EU (CH-Recht eigenständig, andere Buchhaltungs-Standards)",
       "Wechselkurs-Risiko EUR/CHF",
@@ -232,7 +233,7 @@ export const EU_ALTERNATIVES: EUAlternative[] = [
       "6. UID-Nummer (CH-USt-Pendant) beantragen",
       "7. Substance-Setup: lokaler GF, Adresse, ggf. Mitarbeiter",
     ],
-    deTaxImpact: "DBA Deutschland-Schweiz: bei ≥ 25 % Beteiligung + 1 Jahr Haltedauer → 0 % Quellensteuer. AStG-Hinzurechnung wenn GF in DE wohnt + CH-Steuersatz <25 % + passive Einkünfte. Aktive CH-Substanz mit echtem Geschäft: typisch unkritisch.",
+    deTaxImpact: "DBA Deutschland-Schweiz: bei ≥ 25 % Beteiligung + 1 Jahr Haltedauer → 0 % Quellensteuer. AStG-Hinzurechnung wenn GF in DE wohnt + CH-Belastung < 15 % (§ 8 Abs. 5 AStG seit 2024) + passive Einkünfte. Aktive CH-Substanz mit echtem Geschäft: typisch unkritisch.",
     officialLinks: [
       { label: "ZEFIX (CH-Handelsregister)", url: "https://www.zefix.ch/de/search/entity/welcome" },
       { label: "Steuerdaten Kantone (KPMG)", url: "https://kpmg.com/ch/en/insights/tax/swiss-tax-report.html" },
@@ -382,11 +383,11 @@ export const EU_ALTERNATIVES: EUAlternative[] = [
     effectiveTotal: "15 % · 0 % auf Dividenden-Erträge mit Schachtelprivileg",
     withholdingDividends: "0 % auf Dividenden ans Ausland (auch Drittstaaten)",
     motherDaughterApplies: true,
-    substance: "Mind. 1 lokaler Director + Adresse. Substance Test ATAD III ab 2024 strenger.",
+    substance: "Mind. 1 lokaler Director + Adresse. Substanz wird über § 50d Abs. 3 EStG und den DBA-Principal-Purpose-Test geprüft (ATAD III nie in Kraft getreten).",
     setupTime: "1–2 Wochen",
     setupCost: "1.500–3.500 € (Anwalt + Notar + Service)",
     runningCost: "2.500–5.000 €/Jahr",
-    fitForGermans: "Mittel (ATAD-Risiko)",
+    fitForGermans: "Mittel (Substanz-Risiko)",
     bestFor: [
       "Holding für internationale Beteiligungen (kein WHT auf Out-Dividenden)",
       "Trading-Companies (Crypto, Forex)",
@@ -402,7 +403,7 @@ export const EU_ALTERNATIVES: EUAlternative[] = [
     ],
     cons: [
       "**Reputations-Risiko**: 'Briefkasten-Zypern' hat schlechten Ruf seit Cyprus-Files etc.",
-      "**ATAD III seit 2024**: Mailbox-Companies werden durchschaut, Substance-Test verschärft",
+      "**Substanz-Prüfung**: Mailbox-Companies werden über § 50d Abs. 3 EStG und den DBA-Principal-Purpose-Test durchschaut (ATAD III wurde 2025 zurückgezogen)",
       "**§AStG explizit**: bei DE-Wohnsitz greift Hinzurechnung schneller (CY auf BMF-Watch-List)",
       "Banking schwierig (CY-Banken nehmen seit 2018 nicht mehr easy non-resident KMUs)",
       "Viele DE-StBs raten ab wegen Compliance-Aufwand",
@@ -420,7 +421,7 @@ export const EU_ALTERNATIVES: EUAlternative[] = [
       "4. Eintragung im Registrar of Companies",
       "5. Tax-Identification-Number beim CY-Tax-Department",
       "6. Bank-Account (sehr schwierig für Non-Residents — Hellenic Bank, Bank of Cyprus selektiv)",
-      "7. ATAD-konforme Substance einrichten (echte Office-Räume, lokale Mitarbeiter)",
+      "7. Echte Substanz einrichten (Office-Räume, lokale Mitarbeiter, Entscheidungen vor Ort)",
     ],
     deTaxImpact: "AStG-Hinzurechnung wahrscheinlich bei DE-Wohnsitz wegen niedrigem CY-Steuersatz + oft passive Einkünfte. Substance-Test verschärft seit 2024 — pure Holding ohne aktive Tätigkeit + lokale GF wird durchschaut.",
     officialLinks: [
@@ -628,7 +629,7 @@ export const EU_ALTERNATIVES: EUAlternative[] = [
     effectiveTotal: "0 % auf qualifizierte Beteiligungs-Erträge (100 % Befreiung) · 23,87 % auf Op-Gewinn",
     withholdingDividends: "0 % via EU-Mutter-Tochter-RL · 15 % regulär (DBA reduzierbar)",
     motherDaughterApplies: true,
-    substance: "1 Geschäftsführer (kann ausländisch) + LU-Adresse + lokaler Compliance-Provider. ATAD-konforme Substanz seit 2024 strenger.",
+    substance: "1 Geschäftsführer (kann ausländisch) + LU-Adresse + lokaler Compliance-Provider. Substanz wird über § 50d Abs. 3 EStG und den DBA-Principal-Purpose-Test geprüft.",
     setupTime: "2–3 Wochen",
     setupCost: "5.000–10.000 €",
     runningCost: "10.000–25.000 €/Jahr (Standard-Holding) bis 50.000 €+ (komplex)",
@@ -651,7 +652,7 @@ export const EU_ALTERNATIVES: EUAlternative[] = [
     cons: [
       "Hohe laufende Kosten — Standard-Soparfi ab 10 k €/Jahr Compliance, komplexe ab 25 k €+",
       "**Gewerbesteuer 6,75 % auf operatives Geschäft** (anders als reine Holding)",
-      "**ATAD III ab 2024**: Substance-Test verschärft, Mailbox-Soparfis durchschaut",
+      "**Substanz-Prüfung**: Mailbox-Soparfis werden über § 50d Abs. 3 EStG und den DBA-Principal-Purpose-Test durchschaut (ATAD III wurde 2025 zurückgezogen)",
       "**§AStG-Hinzurechnung** bei DE-Wohnsitz + passiven Einkünften möglich",
       "Bei DE-Töchtern: Mutter-Tochter-RL macht 0 % Quellensteuer ohnehin verfügbar — LU-Vorteil eher bei Multi-Country-Setups",
     ],
@@ -673,7 +674,7 @@ export const EU_ALTERNATIVES: EUAlternative[] = [
       "7. Bank-Account (BGL BNP Paribas, Banque de Luxembourg, BIL für Standard-Strukturen)",
       "8. Steuer-Anmeldung beim Administration des Contributions Directes",
     ],
-    deTaxImpact: "Mutter-Tochter-RL: 0 % Quellensteuer auf Dividenden zwischen LU-Soparfi + DE-GmbH (≥ 10 % Beteiligung). Bei DE-Wohnsitz: §AStG-Hinzurechnung bei niedriger Besteuerung (<25 %) UND passiven Einkünften — Soparfi mit aktivem Beteiligungs-Management typisch unkritisch. Beratung essentiell wegen ATAD III.",
+    deTaxImpact: "Mutter-Tochter-RL: 0 % Quellensteuer auf Dividenden zwischen LU-Soparfi + DE-GmbH (≥ 10 % Beteiligung). Bei DE-Wohnsitz: §AStG-Hinzurechnung bei niedriger Besteuerung (< 15 %, § 8 Abs. 5 AStG seit 2024) UND passiven Einkünften — Soparfi mit aktivem Beteiligungs-Management typisch unkritisch. Beratung essentiell (Substanz nach § 50d Abs. 3 EStG / DBA-PPT).",
     officialLinks: [
       { label: "RCS Luxembourg", url: "https://www.rcsl.lu" },
       { label: "Big-4 LU Tax (PwC)", url: "https://www.pwc.lu/en.html" },
@@ -785,8 +786,8 @@ export const EU_ALTERNATIVES: EUAlternative[] = [
     cons: [
       "**Refund dauert 6+ Monate** — du zahlst erst 35 %, bekommst 30 % später zurück (Cashflow-Problem)",
       "**Reputations-Risiko**: Malta hatte EU-Sanktion-Drohungen + Caruana Galizia-Skandal",
-      "**Substance-Test seit 2024 verschärft** (ATAD III)",
-      "**§AStG** bei DE-Wohnsitz wahrscheinlich (CIT < 25 % nominell? Nein 35%, aber effektiv 5% — Frage strittig)",
+      "**Substanz wird geprüft** (§ 50d Abs. 3 EStG, DBA-Principal-Purpose-Test; ATAD III nie in Kraft)",
+      "**§AStG** bei DE-Wohnsitz wahrscheinlich (nominell 35 %, effektiv aber ~5 % nach Erstattung — unter der 15-%-Schwelle des § 8 Abs. 5 AStG)",
       "Hohe Compliance-Kosten relativ zur Größe",
       "Banking für Non-Residents schwierig (Bank of Valletta vorsichtig)",
     ],
@@ -805,7 +806,7 @@ export const EU_ALTERNATIVES: EUAlternative[] = [
       "6. Bank-Account (Bank of Valletta, HSBC Malta — schwierig für Non-Resident-Solos)",
       "7. Refund-Mechanismus mit Steuerberater einrichten",
     ],
-    deTaxImpact: "AStG-Risiko bei DE-Wohnsitz: effektive 5 % CIT < 25 % Schwelle. Aktive Geschäftstätigkeit + echte Substanz nötig. Mutter-Tochter-RL für Dividenden 0 % Quellensteuer zu DE.",
+    deTaxImpact: "AStG-Risiko bei DE-Wohnsitz: effektive ~5 % CIT < 15-%-Schwelle (§ 8 Abs. 5 AStG seit 2024). Aktive Geschäftstätigkeit + echte Substanz nötig. Mutter-Tochter-RL für Dividenden 0 % Quellensteuer zu DE.",
     officialLinks: [
       { label: "Malta Business Registry", url: "https://mbr.mt" },
       { label: "Malta Gaming Authority", url: "https://www.mga.org.mt" },

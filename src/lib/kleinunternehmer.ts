@@ -12,6 +12,9 @@ export type KuEingabe = {
   vorjahr: number;
   monate: number[]; // 12 Monatswerte, vereinnahmt, netto, ohne Anlagenverkäufe
   bisMonat: number; // 1–12: wie viele Monate sind schon gelaufen
+  /** Nur Gründungsjahr: Monat der Gründung (1–12). Für die Folgejahr-Prüfung wird das Rumpfjahr auf
+   *  einen Jahresumsatz hochgerechnet (§19 Abs. 4 Satz 2 UStG, Abschn. 19.1 Abs. 4 UStAE). */
+  gruendungsMonat?: number;
 };
 
 export type KuErgebnis = {
@@ -22,6 +25,8 @@ export type KuErgebnis = {
   monatUeberschritten: number | null; // tatsächlich
   prognoseMonat: number | null; // bei gleichem Tempo
   prognoseJahr: number;
+  /** Für die Folgejahr-Prüfung maßgeblicher Jahresumsatz (im Gründungsjahr hochgerechnet) */
+  jahresumsatzFolgejahr: number;
   folgejahrKu: boolean;
   texte: string[];
 };
@@ -40,8 +45,14 @@ export function pruefeKleinunternehmer(e: KuEingabe): KuErgebnis {
     kum += w;
     if (monatUeberschritten === null && kum > grenze) monatUeberschritten = i + 1;
   });
-  const schnitt = bisher / gelaufen;
+  // Im Gründungsjahr zählen nur die Monate ab Gründung für das Tempo (Monate davor sind keine Umsatzmonate)
+  const startMonat = e.gruendungsjahr ? Math.min(12, Math.max(1, e.gruendungsMonat ?? 1)) : 1;
+  const aktivGelaufen = Math.max(1, gelaufen - startMonat + 1);
+  const schnitt = bisher / aktivGelaufen;
   const prognoseJahr = Math.round(bisher + schnitt * (12 - gelaufen));
+  // Folgejahr: Umsatz des Rumpf-Gründungsjahres auf 12 Monate umrechnen
+  const aktiveMonate = 13 - startMonat;
+  const jahresumsatzFolgejahr = e.gruendungsjahr ? Math.round((prognoseJahr / aktiveMonate) * 12) : prognoseJahr;
   let prognoseMonat: number | null = null;
   if (monatUeberschritten === null && schnitt > 0) {
     const m = gelaufen + Math.ceil((grenze - bisher) / schnitt);
@@ -50,7 +61,7 @@ export function pruefeKleinunternehmer(e: KuEingabe): KuErgebnis {
   const texte: string[] = [];
   if (!e.gruendungsjahr && e.vorjahr > KU_VORJAHR) {
     texte.push(`Dein Vorjahresumsatz von ${eur(e.vorjahr)} liegt über 25.000 € – in diesem Jahr gilt die Kleinunternehmerregelung nicht, auch wenn du jetzt weniger umsetzt.`);
-    return { status: "kein-ku", grenze, bisher, anteil: 0, monatUeberschritten, prognoseMonat: null, prognoseJahr, folgejahrKu: prognoseJahr <= KU_VORJAHR, texte };
+    return { status: "kein-ku", grenze, bisher, anteil: 0, monatUeberschritten, prognoseMonat: null, prognoseJahr, jahresumsatzFolgejahr, folgejahrKu: jahresumsatzFolgejahr <= KU_VORJAHR, texte };
   }
   const anteil = Math.min(1.5, bisher / grenze);
   let status: KuErgebnis["status"] = "ku";
@@ -63,18 +74,23 @@ export function pruefeKleinunternehmer(e: KuEingabe): KuErgebnis {
     status = "warnung";
     texte.push(
       prognoseMonat
-        ? `Bei gleichem Tempo überschreitest du die Grenze von ${eur(grenze)} voraussichtlich im ${MONATE[prognoseMonat - 1]}. Bereite Rechnungsvorlagen mit Umsatzsteuer vor und kläre, ob ein freiwilliger Wechsel (5 Jahre Bindung) sinnvoller ist.`
+        ? `Bei gleichem Tempo überschreitest du die Grenze von ${eur(grenze)} voraussichtlich im ${MONATE[prognoseMonat - 1]}. Bereite Rechnungsvorlagen mit Umsatzsteuer vor und kläre, ob ein freiwilliger Verzicht auf die KU (bindet 5 Jahre) sinnvoller ist.`
         : `Du hast ${Math.round(anteil * 100)} % der Grenze von ${eur(grenze)} erreicht.`,
     );
   } else {
     texte.push(`Noch ${eur(grenze - bisher)} bis zur Grenze von ${eur(grenze)}.`);
   }
   if (e.gruendungsjahr) texte.push("Im Gründungsjahr gilt die 25.000-€-Grenze – nicht 100.000 €.");
-  const folgejahrKu = prognoseJahr <= KU_VORJAHR;
+  const folgejahrKu = jahresumsatzFolgejahr <= KU_VORJAHR;
+  const hochgerechnet = e.gruendungsjahr && aktiveMonate < 12;
   texte.push(
     folgejahrKu
-      ? "Bleibt dein Jahresumsatz unter 25.000 €, kannst du nächstes Jahr wieder Kleinunternehmer sein."
-      : `Mit voraussichtlich ${eur(prognoseJahr)} in diesem Jahr bist du nächstes Jahr kein Kleinunternehmer mehr.`,
+      ? hochgerechnet
+        ? `Auf ein volles Jahr hochgerechnet (${eur(jahresumsatzFolgejahr)}) bleibst du unter 25.000 € – nächstes Jahr ist die Kleinunternehmerregelung weiter möglich.`
+        : "Bleibt dein Jahresumsatz unter 25.000 €, kannst du nächstes Jahr wieder Kleinunternehmer sein."
+      : hochgerechnet
+        ? `Für das Folgejahr wird dein Rumpfjahr auf 12 Monate hochgerechnet: ${eur(jahresumsatzFolgejahr)} – damit bist du nächstes Jahr kein Kleinunternehmer mehr (§19 Abs. 4 Satz 2 UStG).`
+        : `Mit voraussichtlich ${eur(prognoseJahr)} in diesem Jahr bist du nächstes Jahr kein Kleinunternehmer mehr.`,
   );
-  return { status, grenze, bisher, anteil, monatUeberschritten, prognoseMonat, prognoseJahr, folgejahrKu, texte };
+  return { status, grenze, bisher, anteil, monatUeberschritten, prognoseMonat, prognoseJahr, jahresumsatzFolgejahr, folgejahrKu, texte };
 }

@@ -133,8 +133,9 @@ export const GRUPPEN: Gruppe[] = [
       {
         key: "ust-monatlich",
         label: "USt-VA monatlich oder quartalsweise?",
-        hint: "Erste 2 Jahre Neu-Gründung = monatlich Pflicht; danach >7.500€/Q = monatlich",
-        field: { type: "select", options: ["Monatlich (Pflicht)", "Quartalsweise", "Jährlich (<1.000€)", "Unklar"] },
+        // § 18 Abs. 2 UStG seit 2025: monatlich bei > 9.000 € Vorjahressteuer, Befreiung bis 2.000 €; Neugründer-Monatspflicht 2021–2026 ausgesetzt.
+        hint: "Monatlich bei mehr als 9.000 € USt im Vorjahr, sonst vierteljährlich; bis 2.000 € Befreiung möglich. Neugründer: Monatspflicht 2021–2026 ausgesetzt",
+        field: { type: "select", options: ["Monatlich (Pflicht)", "Quartalsweise", "Jährlich (≤2.000€)", "Unklar"] },
       },
     ],
     beispielPainPoints: [

@@ -54,11 +54,21 @@ const EUAlternativen = () => {
   const [selected, setSelected] = useState<EUAlternative | null>(null);
   const [sortBy, setSortBy] = useState<"tax" | "capital" | "fit">("fit");
 
+  // Erster Prozentwert im Freitext ("Nur 0,25 % Abonnementsteuer", "19 % bis 200k") — sonst ans Ende
+  const satzZahl = (t: string) => {
+    const m = t.match(/(\d+(?:[.,]\d+)?)\s*%/);
+    return m ? parseFloat(m[1].replace(",", ".")) : Number.POSITIVE_INFINITY;
+  };
+  // Eignung über den Wortanfang ("Mittel (Substanz-Hürde)", "Sehr gut (DE-Grenznähe …)")
+  const fitRang = (t: string) =>
+    t.startsWith("Sehr gut") ? 0 : t.startsWith("Gut") ? 1 : t.startsWith("Mittel") ? 2 : t.startsWith("Schwierig") ? 3 : 4;
   const sorted = [...EU_ALTERNATIVES].sort((a, b) => {
-    if (sortBy === "tax") return parseFloat(a.effectiveTotal) - parseFloat(b.effectiveTotal);
+    if (sortBy === "tax") {
+      const d = satzZahl(a.effectiveTotal) - satzZahl(b.effectiveTotal);
+      return Number.isNaN(d) ? 0 : d;
+    }
     if (sortBy === "capital") return a.minCapital - b.minCapital;
-    const fitOrder = { "Sehr gut": 0, Gut: 1, Mittel: 2, Schwierig: 3 } as const;
-    return fitOrder[a.fitForGermans] - fitOrder[b.fitForGermans];
+    return fitRang(a.fitForGermans) - fitRang(b.fitForGermans);
   });
 
   if (selected) {
@@ -84,12 +94,14 @@ const EUAlternativen = () => {
         <ul className="list-disc space-y-1 pl-4">
           <li>
             <strong className="font-semibold text-foreground">§AStG-Hinzurechnungsbesteuerung:</strong> Bei DE-Wohnsitz,
-            Beherrschung über 50 %, niedrigerer Steuer (unter 25 %) und passiven Einkünften rechnet das BMF die Gewinne in DE
-            hinzu. Aktive Geschäftstätigkeit und echte Substanz vor Ort sind zwingend.
+            Beherrschung über 50 %, niedriger Besteuerung (unter 15 % seit 2024, §8 Abs. 5 AStG) und passiven Einkünften werden die
+            Gewinne in DE hinzugerechnet. Aktive Geschäftstätigkeit und echte Substanz vor Ort sind zwingend.
           </li>
           <li>
-            <strong className="font-semibold text-foreground">ATAD III seit 2024:</strong> Briefkastenfirmen werden EU-weit
-            durchschaut. Ohne lokale Substanz (Adresse, Mitarbeiter, echte Geschäftsleitung) wird der Sitz nach DE verlegt.
+            <strong className="font-semibold text-foreground">Substanz und Ort der Geschäftsleitung:</strong> ATAD III wurde nie
+            verabschiedet und 2025 zurückgezogen. Briefkastenfirmen scheitern aber an §50d Abs. 3 EStG, der Missbrauchsklausel (PPT)
+            in den DBA und vor allem am Ort der Geschäftsleitung (§10 AO): Wird die Gesellschaft von DE aus geführt, ist sie in DE
+            unbeschränkt steuerpflichtig (§1 KStG).
           </li>
           <li>
             <strong className="font-semibold text-foreground">Pillar 2 OECD ab 2024:</strong> 15 % Mindeststeuer für Konzerne

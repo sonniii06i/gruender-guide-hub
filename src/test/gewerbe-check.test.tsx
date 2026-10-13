@@ -30,9 +30,9 @@ describe("GewerbeCheck — Render + Anfänger-Layout", () => {
     expect(html).toMatch(/🏪\s*Gewerbe/);
   });
 
-  it("zeigt Progress-Bar bei Frage 1/4", () => {
+  it("zeigt Progress-Bar bei Frage 1/5", () => {
     renderWithRouter(<GewerbeCheck />);
-    expect(screen.getByText(/Frage 1 von 4/i)).toBeInTheDocument();
+    expect(screen.getByText(/Frage 1 von 5/i)).toBeInTheDocument();
   });
 
   it("Glossar einklappbar mit Kern-Begriffen", () => {
@@ -58,7 +58,7 @@ describe("GewerbeCheck — Step 1 Tätigkeits-Auswahl", () => {
   it("zeigt Badge 'Freiberuf' für Katalogberufe", () => {
     renderWithRouter(<GewerbeCheck />);
     const badges = screen.getAllByText(/^Freiberuf$/i);
-    expect(badges.length).toBeGreaterThanOrEqual(4); // Heilberufe, Software, Kunst, Lehre, Recht
+    expect(badges.length).toBeGreaterThanOrEqual(4); // Heilberufe, Kunst, Lehre, Recht
   });
 
   it("zeigt Badge 'Gewerbe' für Handel/Produktverkauf", () => {
@@ -89,6 +89,7 @@ describe("GewerbeCheck — Decision-Tree (verschiedene Pfade)", () => {
     regelmaessigkeitsText: RegExp,
     gewinnabsichtsText: RegExp,
     gewinnstufenText: RegExp,
+    umsatzText: RegExp = /Bis 25\.000 € pro Jahr/,
   ) => {
     renderWithRouter(<GewerbeCheck />);
     fireEvent.click(screen.getByText(taetigkeitsText));
@@ -99,6 +100,8 @@ describe("GewerbeCheck — Decision-Tree (verschiedene Pfade)", () => {
     fireEvent.click(screen.getByRole("button", { name: /Weiter/i }));
     fireEvent.click(screen.getByText(gewinnstufenText));
     fireEvent.click(screen.getByRole("button", { name: /Weiter/i }));
+    fireEvent.click(screen.getByText(umsatzText));
+    fireEvent.click(screen.getByRole("button", { name: /Weiter/i }));
   };
 
   it("Pfad: Hobby (keine Gewinnabsicht) → 'Du brauchst (noch) kein Gewerbe'", () => {
@@ -107,11 +110,22 @@ describe("GewerbeCheck — Decision-Tree (verschiedene Pfade)", () => {
     expect(document.body.innerHTML).toMatch(/Liebhaberei/i);
   });
 
-  it("Pfad: Software-Dev mit Gewinnabsicht → 'Du bist Freiberufler:in'", () => {
+  it("Pfad: Software-Dev ist Einzelfall (kein Katalogberuf) → 'Status nicht eindeutig'", () => {
     completeFlow(/Software \/ IT \/ Engineering/i, /Hauptberuflich/i, /Ja, das soll Geld bringen/i, /Über 25\.000/i);
+    expect(screen.getByText(/Status nicht eindeutig/i)).toBeInTheDocument();
+  });
+
+  it("Pfad: Unterricht mit Gewinnabsicht → 'Du bist Freiberufler:in'", () => {
+    completeFlow(/Lehre \/ Unterricht/i, /Hauptberuflich/i, /Ja, das soll Geld bringen/i, /Über 25\.000/i);
     expect(screen.getByText(/Du bist Freiberufler:in/i)).toBeInTheDocument();
     expect(document.body.innerHTML).toMatch(/§18.*EStG/i);
     expect(document.body.innerHTML).toMatch(/KEINE Gewerbeanmeldung/i);
+  });
+
+  it("Handel mit kleinem Gewinn, aber Umsatz über 25.000 € → keine KU-Empfehlung", () => {
+    completeFlow(/Produktverkauf/i, /Hauptberuflich/i, /Ja, das soll Geld bringen/i, /410 € – 3\.000 €/, /Über 100\.000 € pro Jahr/);
+    expect(screen.getByText(/Du brauchst ein Gewerbe/i)).toBeInTheDocument();
+    expect(document.body.innerHTML).not.toMatch(/§19 KU empfohlen/);
   });
 
   it("Pfad: Produktverkauf mit Gewinnabsicht → 'Du brauchst ein Gewerbe'", () => {
@@ -136,7 +150,7 @@ describe("GewerbeCheck — Decision-Tree (verschiedene Pfade)", () => {
   });
 
   it("Ergebnis enthält 'Was du jetzt tun musst'-Sektion mit nummerierten Steps", () => {
-    completeFlow(/Software \/ IT \/ Engineering/i, /Hauptberuflich/i, /Ja, das soll Geld bringen/i, /Über 25\.000/i);
+    completeFlow(/Lehre \/ Unterricht/i, /Hauptberuflich/i, /Ja, das soll Geld bringen/i, /Über 25\.000/i);
     expect(screen.getByText(/Was du jetzt tun musst/i)).toBeInTheDocument();
     expect(document.body.innerHTML).toMatch(/ELSTER/i);
   });
@@ -145,7 +159,7 @@ describe("GewerbeCheck — Decision-Tree (verschiedene Pfade)", () => {
     completeFlow(/Software \/ IT \/ Engineering/i, /Hauptberuflich/i, /Ja, das soll Geld bringen/i, /Über 25\.000/i);
     const reset = screen.getByRole("button", { name: /Nochmal starten/i });
     fireEvent.click(reset);
-    expect(screen.getByText(/Frage 1 von 4/i)).toBeInTheDocument();
+    expect(screen.getByText(/Frage 1 von 5/i)).toBeInTheDocument();
   });
 });
 
@@ -158,12 +172,12 @@ describe("GewerbeCheck — Navigation", () => {
 
   it("Navigation Frage 1 → 2 → zurück → 1 funktioniert", () => {
     renderWithRouter(<GewerbeCheck />);
-    expect(screen.getByText(/Frage 1 von 4/i)).toBeInTheDocument();
+    expect(screen.getByText(/Frage 1 von 5/i)).toBeInTheDocument();
     fireEvent.click(screen.getByText(/Kunst \/ Schreiben \/ Musik/i));
     fireEvent.click(screen.getByRole("button", { name: /Weiter/i }));
-    expect(screen.getByText(/Frage 2 von 4/i)).toBeInTheDocument();
+    expect(screen.getByText(/Frage 2 von 5/i)).toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: /Zurück/i }));
-    expect(screen.getByText(/Frage 1 von 4/i)).toBeInTheDocument();
+    expect(screen.getByText(/Frage 1 von 5/i)).toBeInTheDocument();
   });
 });
 
@@ -175,7 +189,7 @@ describe("GewerbeCheck — Rechtsform-Empfehlung", () => {
    * Helper: füllt alle 4 Fragen aus.
    * Reihenfolge: Tätigkeit → Regelmäßigkeit → Gewinnabsicht → Gewinnstufe → Weiter.
    */
-  const fillForm = (taetigkeitLabel: RegExp, regelmLabel: RegExp, gewinnAbsLabel: RegExp, gewinnStufeLabel: RegExp) => {
+  const fillForm = (taetigkeitLabel: RegExp, regelmLabel: RegExp, gewinnAbsLabel: RegExp, gewinnStufeLabel: RegExp, umsatzLabel: RegExp = /Bis 25\.000 € pro Jahr/) => {
     fireEvent.click(screen.getByText(taetigkeitLabel));
     fireEvent.click(screen.getByRole("button", { name: /Weiter/i }));
     fireEvent.click(screen.getByText(regelmLabel));
@@ -184,18 +198,20 @@ describe("GewerbeCheck — Rechtsform-Empfehlung", () => {
     fireEvent.click(screen.getByRole("button", { name: /Weiter/i }));
     fireEvent.click(screen.getByText(gewinnStufeLabel));
     fireEvent.click(screen.getByRole("button", { name: /Weiter/i }));
+    fireEvent.click(screen.getByText(umsatzLabel));
+    fireEvent.click(screen.getByRole("button", { name: /Weiter/i }));
   };
 
   it("zeigt Rechtsform-Empfehlungs-Box bei Freiberuf-Verdict", () => {
     renderWithRouter(<GewerbeCheck />);
-    fillForm(/Software \/ IT \/ Engineering/, /Hauptberuflich/, /Ja, das soll Geld bringen/, /3\.000 € – 25\.000 €/);
+    fillForm(/Lehre \/ Unterricht/, /Hauptberuflich/, /Ja, das soll Geld bringen/, /3\.000 € – 25\.000 €/);
     expect(document.body.innerHTML).toMatch(/Empfohlene Rechtsform.*USt-Modus/);
     expect(document.body.innerHTML).toMatch(/Einzelunternehmen als Freiberufler/);
   });
 
-  it("bei Freiberuf + niedrigem Gewinn empfiehlt §19 KU", () => {
+  it("bei Freiberuf + Umsatz bis 25.000 € empfiehlt §19 KU", () => {
     renderWithRouter(<GewerbeCheck />);
-    fillForm(/Software \/ IT \/ Engineering/, /Regelmäßig nebenbei/, /Ja, das soll Geld bringen/, /410 € – 3\.000 €/);
+    fillForm(/Lehre \/ Unterricht/, /Regelmäßig nebenbei/, /Ja, das soll Geld bringen/, /410 € – 3\.000 €/);
     expect(document.body.innerHTML).toMatch(/§19 KU empfohlen/);
   });
 
@@ -209,7 +225,7 @@ describe("GewerbeCheck — Rechtsform-Empfehlung", () => {
 
   it("bei Gewerbe + hohem Gewinn empfiehlt Regelbesteuerung + UG/GmbH erwägen", () => {
     renderWithRouter(<GewerbeCheck />);
-    fillForm(/Dienstleistung \/ Handel/, /Hauptberuflich/, /Ja, das soll Geld bringen/, /Über 25\.000 €/);
+    fillForm(/Dienstleistung \/ Handel/, /Hauptberuflich/, /Ja, das soll Geld bringen/, /Über 25\.000 €/, /Über 100\.000 € pro Jahr/);
     const html = document.body.innerHTML;
     expect(html).toMatch(/UG\/GmbH erwägen/);
     expect(html).toMatch(/Regelbesteuerung/);

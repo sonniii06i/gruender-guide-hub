@@ -13,10 +13,16 @@ export type ParsedTrade = {
   datum: string; // ISO YYYY-MM-DD
 };
 
+export type SkippedRow = { zeile: number; grund: string };
+
 export type ParseResult = {
   trades: ParsedTrade[];
   errors: string[];
   format: ExchangeFormat;
+  /** Zeilen, die bewusst nicht übernommen wurden (z. B. Nicht-EUR-Kurse) — nie stillschweigend verwerfen. */
+  skipped?: SkippedRow[];
+  /** Zeilen, die übernommen wurden, bei denen aber ein Teil fehlt (z. B. Gebühr in Fremdwährung). */
+  hinweise?: SkippedRow[];
 };
 
 export type ExchangeFormat = "binance" | "kraken" | "coinbase" | "bison" | "generic";
@@ -25,7 +31,10 @@ export type ExchangeFormat = "binance" | "kraken" | "coinbase" | "bison" | "gene
  * Auto-Detect Exchange-Format basierend auf Header-Zeile.
  */
 export function detectFormat(csvText: string): ExchangeFormat {
-  const firstLine = csvText.split("\n")[0]?.toLowerCase() ?? "";
+  const lines = csvText.split(/\r?\n/).slice(0, 15).map((l) => l.toLowerCase());
+  // Coinbase-Exporte beginnen mit Hinweiszeilen → Kopfzeile in den ersten Zeilen suchen
+  if (lines.some((l) => l.includes("transaction type") && l.includes("quantity transacted"))) return "coinbase";
+  const firstLine = lines[0] ?? "";
   // Kraken trades.csv: txid, ordertxid, pair, time, type, ordertype, price, cost, fee, vol
   if (firstLine.includes("ordertxid") && firstLine.includes("ordertype")) return "kraken";
   // Coinbase: Timestamp, Transaction Type, Asset, Quantity Transacted...
@@ -93,12 +102,25 @@ function parseDate(s: string): string {
   return trimmed.slice(0, 10);
 }
 
-function parseNum(s: string): number {
+export function parseNum(s: string): number {
   if (!s) return 0;
   // Akzeptiert "1.234,56" (DE) und "1,234.56" (US)
-  const trimmed = s.trim().replace(/[^\d,.\-]/g, "");
-  const hasDeCommaDecimal = trimmed.match(/,\d{1,8}$/);
-  const hasUsDotDecimal = trimmed.match(/\.\d{1,8}$/);
+  const trimmed = s.trim().replace(/[^\d,.-]/g, "");
+  const dots = (trimmed.match(/\./g) ?? []).length;
+  const commas = (trimmed.match(/,/g) ?? []).length;
+  // Mehrere gleiche Trenner ohne den anderen = Tausendertrenner ("1.234.567" / "1,234,567")
+  if (dots > 1 && commas === 0) return Number(trimmed.replace(/\./g, "")) || 0;
+  if (commas > 1 && dots === 0) return Number(trimmed.replace(/,/g, "")) || 0;
+  // Beide vorhanden: der letzte ist der Dezimaltrenner
+  if (dots > 0 && commas > 0) {
+    const n = trimmed.lastIndexOf(",") > trimmed.lastIndexOf(".")
+      ? parseFloat(trimmed.replace(/\./g, "").replace(",", "."))
+      : parseFloat(trimmed.replace(/,/g, ""));
+    return isNaN(n) ? 0 : n;
+  }
+  // Ein einzelner Trenner gilt als Dezimaltrenner (auch mit mehr als 8 Nachkommastellen)
+  const hasDeCommaDecimal = trimmed.match(/,\d+$/);
+  const hasUsDotDecimal = trimmed.match(/\.\d+$/);
   let normalized = trimmed;
   if (hasDeCommaDecimal && !hasUsDotDecimal) {
     // DE-Format: 1.234,56 → 1234.56
@@ -129,6 +151,41 @@ function assetFromPair(pair: string): string {
   return cleaned;
 }
 
+const KRAKEN_QUOTES = ["ZEUR", "ZUSD", "ZGBP", "ZCHF", "ZCAD", "ZJPY", "USDT", "USDC", "EUR", "USD", "GBP", "CHF", "XXBT", "XBT", "XETH", "ETH"];
+const KRAKEN_ALIAS: Record<string, string> = { XBT: "BTC", XDG: "DOGE" };
+
+/** Kraken-Paar in Basis- und Quote-Asset zerlegen ("XXBTZEUR" → BTC/EUR, "XETHZEUR" → ETH/EUR, "SOLEUR" → SOL/EUR). */
+export function krakenPair(pairRaw: string): { base: string; quote: string } {
+  const pair = (pairRaw || "").toUpperCase().replace(/[^A-Z0-9/]/g, "");
+  let base = pair;
+  let quote = "";
+  if (pair.includes("/")) [base, quote] = pair.split("/");
+  else {
+    for (const q of KRAKEN_QUOTES) {
+      if (pair.endsWith(q) && pair.length > q.length) {
+        base = pair.slice(0, -q.length);
+        quote = q;
+        break;
+      }
+    }
+  }
+  const norm = (c: string) => {
+    // Legacy-Codes mit X-/Z-Präfix (XXBT, XETH, ZEUR) auf 3 Zeichen kürzen
+    const kurz = c.length === 4 && /^[XZ]/.test(c) ? c.slice(1) : c;
+    return KRAKEN_ALIAS[kurz] ?? kurz;
+  };
+  return { base: norm(base), quote: norm(quote) };
+}
+
+/** Quote-Währung eines Binance-Paars (Suffix). */
+function binanceQuote(pair: string): string {
+  const cleaned = (pair || "").toUpperCase().replace(/[^A-Z0-9/-]/g, "");
+  if (/[/-]/.test(cleaned)) return cleaned.split(/[/-]/)[1] ?? "";
+  const quotes = ["EUR", "USDT", "USDC", "BUSD", "FDUSD", "USD", "BTC", "ETH", "BNB", "GBP", "CHF", "TRY"];
+  for (const q of quotes) if (cleaned.endsWith(q) && cleaned.length > q.length) return q;
+  return "";
+}
+
 // ============================================================
 // Binance Spot Trade History
 // ============================================================
@@ -156,6 +213,8 @@ function parseBinance(csv: string): ParseResult {
     return { trades, errors, format: "binance" };
   }
 
+  const skipped: SkippedRow[] = [];
+  const hinweise: SkippedRow[] = [];
   for (let i = 1; i < lines.length; i++) {
     const cols = splitCsvLine(lines[i]);
     if (cols.length < 5) continue;
@@ -163,14 +222,30 @@ function parseBinance(csv: string): ParseResult {
     if (!["BUY", "SELL"].includes(sideRaw)) continue;
     const pair = cols[idxPair] ?? "";
     const asset = assetFromPair(pair);
+    const quote = binanceQuote(pair);
+    if (quote !== "EUR") {
+      // Preis in USDT/BTC/… ist kein Euro-Wert → nie stillschweigend als EUR übernehmen (§23 EStG rechnet in EUR)
+      skipped.push({ zeile: i + 1, grund: `${pair}: Kurs in ${quote || "unbekannter Währung"}, nicht EUR — bitte mit EUR-Tageskurs manuell erfassen` });
+      continue;
+    }
     // "Executed" enthält oft "0.00120000BTC" — Asset-Suffix entfernen
     const executedRaw = cols[idxExecuted] ?? "";
     const amountStr = executedRaw.replace(/[A-Z]+$/i, "");
-    const amount = parseNum(amountStr);
+    const amount = Math.abs(parseNum(amountStr));
     const price = idxPrice !== -1 ? parseNum(cols[idxPrice]?.replace(/[A-Z]+$/i, "")) : 0;
-    const feeRaw = idxFee !== -1 ? cols[idxFee] : "0";
-    const fee = parseNum(feeRaw.replace(/[A-Z]+$/i, ""));
-    if (amount === 0 || price === 0 || !asset) continue;
+    const feeRaw = (idxFee !== -1 ? cols[idxFee] : "0") ?? "0";
+    const feeCur = (feeRaw.match(/[A-Z]+$/i)?.[0] ?? "EUR").toUpperCase();
+    let fee = Math.abs(parseNum(feeRaw.replace(/[A-Z]+$/i, "")));
+    if (amount === 0 || price === 0 || !asset) {
+      skipped.push({ zeile: i + 1, grund: "Menge, Preis oder Asset fehlt" });
+      continue;
+    }
+    if (feeCur === asset) fee = fee * price; // Gebühr in Coin-Einheiten → in EUR
+    else if (feeCur !== "EUR" && fee > 0) {
+      // Trade wird übernommen, nur die Gebühr fehlt → Hinweis, keine verworfene Zeile
+      hinweise.push({ zeile: i + 1, grund: `Gebühr in ${feeCur} nicht übernommen (kein EUR-Kurs) — bitte manuell ergänzen` });
+      fee = 0;
+    }
     trades.push({
       type: sideRaw === "BUY" ? "buy" : "sell",
       asset,
@@ -180,7 +255,7 @@ function parseBinance(csv: string): ParseResult {
       datum: parseDate(cols[idxDate]),
     });
   }
-  return { trades, errors, format: "binance" };
+  return { trades, errors, format: "binance", skipped, hinweise };
 }
 
 // ============================================================
@@ -208,19 +283,25 @@ function parseKraken(csv: string): ParseResult {
     return { trades, errors, format: "kraken" };
   }
 
+  const skipped: SkippedRow[] = [];
   for (let i = 1; i < lines.length; i++) {
     const cols = splitCsvLine(lines[i]);
     if (cols.length < 6) continue;
     const typeRaw = cols[iType]?.toLowerCase().replace(/"/g, "") ?? "";
     if (!["buy", "sell"].includes(typeRaw)) continue;
-    let asset = assetFromPair(cols[iPair]?.replace(/"/g, "") ?? "");
-    // Kraken-Spezifika: XBT = BTC, XXBT = BTC, XETH = ETH, ZEUR = EUR
-    if (asset === "XBT" || asset === "XXBT") asset = "BTC";
-    if (asset.startsWith("X") && asset.length === 4) asset = asset.slice(1);
-    const amount = parseNum(cols[iVol]?.replace(/"/g, "") ?? "0");
-    const price = parseNum(cols[iPrice]?.replace(/"/g, "") ?? "0");
-    const fee = iFee !== -1 ? parseNum(cols[iFee]?.replace(/"/g, "") ?? "0") : 0;
-    if (amount === 0 || price === 0 || !asset) continue;
+    // Kraken-Spezifika: XXBTZEUR → BTC/EUR, XETHZEUR → ETH/EUR, XDG → DOGE
+    const { base: asset, quote } = krakenPair(cols[iPair]?.replace(/"/g, "") ?? "");
+    if (quote !== "EUR") {
+      skipped.push({ zeile: i + 1, grund: `${cols[iPair]}: Kurs in ${quote || "unbekannter Währung"}, nicht EUR — bitte mit EUR-Tageskurs manuell erfassen` });
+      continue;
+    }
+    const amount = Math.abs(parseNum(cols[iVol]?.replace(/"/g, "") ?? "0"));
+    const price = Math.abs(parseNum(cols[iPrice]?.replace(/"/g, "") ?? "0"));
+    const fee = iFee !== -1 ? Math.abs(parseNum(cols[iFee]?.replace(/"/g, "") ?? "0")) : 0;
+    if (amount === 0 || price === 0 || !asset) {
+      skipped.push({ zeile: i + 1, grund: "Menge, Preis oder Asset fehlt" });
+      continue;
+    }
     trades.push({
       type: typeRaw as "buy" | "sell",
       asset,
@@ -230,7 +311,7 @@ function parseKraken(csv: string): ParseResult {
       datum: parseDate(cols[iTime]?.replace(/"/g, "") ?? ""),
     });
   }
-  return { trades, errors, format: "kraken" };
+  return { trades, errors, format: "kraken", skipped };
 }
 
 // ============================================================
@@ -247,7 +328,7 @@ function parseCoinbase(csv: string): ParseResult {
   if (lines.length < 2) return { trades, errors: ["CSV hat keine Daten-Zeilen"], format: "coinbase" };
 
   // Coinbase-CSV hat oft Disclaimer in den ersten Zeilen — Header-Zeile suchen
-  let headerIdx = lines.findIndex((l) => l.toLowerCase().includes("transaction type"));
+  const headerIdx = lines.findIndex((l) => l.toLowerCase().includes("transaction type"));
   if (headerIdx === -1) {
     errors.push("Coinbase-Header 'Transaction Type' nicht gefunden.");
     return { trades, errors, format: "coinbase" };
@@ -257,39 +338,63 @@ function parseCoinbase(csv: string): ParseResult {
   const idxType = header.findIndex((h) => h.includes("transaction type"));
   const idxAsset = header.findIndex((h) => h === "asset");
   const idxQty = header.findIndex((h) => h.includes("quantity transacted"));
-  const idxPrice = header.findIndex((h) => h.includes("spot price at transaction"));
-  const idxFee = header.findIndex((h) => h.includes("fees"));
+  // Ältere Exporte: "Spot Price at Transaction", neuere: "Price at Transaction"
+  const idxPrice = header.findIndex((h) => h.includes("price at transaction"));
+  const idxCur = header.findIndex((h) => h.includes("price currency"));
+  const idxSubtotal = header.findIndex((h) => h === "subtotal");
+  const idxNotes = header.findIndex((h) => h === "notes");
+  // Genau die Gebührenspalte ("Fees and/or Spread"), nie "Total (inclusive of fees and/or spread)"
+  const idxFee = header.findIndex((h) => h.startsWith("fees") || h === "fee");
 
   if (idxType === -1 || idxAsset === -1 || idxQty === -1) {
     errors.push("Coinbase-Header nicht vollständig.");
     return { trades, errors, format: "coinbase" };
   }
 
+  const skipped: SkippedRow[] = [];
+  const hinweise: SkippedRow[] = [];
   for (let i = headerIdx + 1; i < lines.length; i++) {
     const cols = splitCsvLine(lines[i]);
     if (cols.length < 5) continue;
     const typeRaw = cols[idxType]?.replace(/"/g, "").toLowerCase() ?? "";
     let mappedType: "buy" | "sell" | null = null;
-    if (typeRaw === "buy" || typeRaw === "purchase") mappedType = "buy";
-    else if (typeRaw === "sell") mappedType = "sell";
-    else if (typeRaw === "convert") mappedType = "sell"; // Convert = sell + buy; vereinfacht als sell
+    if (typeRaw === "buy" || typeRaw === "purchase" || typeRaw === "advanced trade buy") mappedType = "buy";
+    else if (typeRaw === "sell" || typeRaw === "advanced trade sell") mappedType = "sell";
+    else if (typeRaw === "convert") mappedType = "sell"; // Convert = Verkauf + Kauf (Kauf-Zweig unten)
     // Receive/Send/Reward/Stake/Earn ignorieren — keine Käufe
     if (!mappedType) continue;
-    const asset = cols[idxAsset]?.replace(/"/g, "").toUpperCase() ?? "";
-    const amount = parseNum(cols[idxQty]?.replace(/"/g, "") ?? "0");
-    const price = idxPrice !== -1 ? parseNum(cols[idxPrice]?.replace(/"/g, "") ?? "0") : 0;
-    const fee = idxFee !== -1 ? parseNum(cols[idxFee]?.replace(/"/g, "") ?? "0") : 0;
-    if (amount === 0 || price === 0 || !asset) continue;
-    trades.push({
-      type: mappedType,
-      asset,
-      amount,
-      preisProEinheit: price,
-      fee,
-      datum: parseDate(cols[idxTime]?.replace(/"/g, "") ?? ""),
-    });
+    const zelle = (idx: number) => (idx !== -1 ? cols[idx]?.replace(/"/g, "") ?? "" : "");
+    const cur = zelle(idxCur).trim().toUpperCase();
+    if (cur && cur !== "EUR") {
+      skipped.push({ zeile: i + 1, grund: `Kurs in ${cur}, nicht EUR — bitte mit EUR-Tageskurs manuell erfassen` });
+      continue;
+    }
+    const asset = zelle(idxAsset).toUpperCase();
+    // Neuere Exporte führen Sell/Convert mit negativem Vorzeichen ("-0.1", "-€4000");
+    // die Richtung steckt im Transaktionstyp, die Beträge zählen absolut.
+    const amount = Math.abs(parseNum(zelle(idxQty) || "0"));
+    const price = Math.abs(parseNum(zelle(idxPrice) || "0"));
+    const fee = Math.abs(parseNum(zelle(idxFee) || "0"));
+    const datum = parseDate(zelle(idxTime));
+    if (amount === 0 || price === 0 || !asset) {
+      skipped.push({ zeile: i + 1, grund: "Menge, Preis oder Asset fehlt" });
+      continue;
+    }
+    trades.push({ type: mappedType, asset, amount, preisProEinheit: price, fee, datum });
+    if (typeRaw === "convert") {
+      // Notes: "Converted 0.01 BTC to 0.15 ETH" → empfangener Coin bekommt den Wert als Anschaffungskosten
+      const m = zelle(idxNotes).match(/converted\s+([\d.,]+)\s+([A-Za-z0-9]+)\s+to\s+([\d.,]+)\s+([A-Za-z0-9]+)/i);
+      const wert = idxSubtotal !== -1 ? Math.abs(parseNum(zelle(idxSubtotal))) : amount * price;
+      if (m && parseNum(m[3]) > 0 && wert > 0) {
+        const zielMenge = parseNum(m[3]);
+        trades.push({ type: "buy", asset: m[4].toUpperCase(), amount: zielMenge, preisProEinheit: wert / zielMenge, fee: 0, datum });
+      } else {
+        // Verkaufsseite ist übernommen, nur der Kauf des Ziel-Coins fehlt → Hinweis
+        hinweise.push({ zeile: i + 1, grund: "Convert ohne lesbare Notiz: Kauf des Ziel-Coins bitte manuell erfassen" });
+      }
+    }
   }
-  return { trades, errors, format: "coinbase" };
+  return { trades, errors, format: "coinbase", skipped, hinweise };
 }
 
 // ============================================================
@@ -321,19 +426,25 @@ function parseBison(csv: string): ParseResult {
     return { trades, errors, format: "bison" };
   }
 
+  const skipped: SkippedRow[] = [];
   for (let i = 1; i < lines.length; i++) {
     const cols = splitFn(lines[i]);
     if (cols.length < 4) continue;
     const typeRaw = cols[iType]?.toLowerCase() ?? "";
     let mappedType: "buy" | "sell" | null = null;
-    if (typeRaw.includes("kauf") || typeRaw === "buy") mappedType = "buy";
-    else if (typeRaw.includes("verkauf") || typeRaw === "sell") mappedType = "sell";
+    // "verkauf" enthält "kauf" → Verkauf zuerst prüfen
+    if (typeRaw.includes("verkauf") || typeRaw.includes("sell")) mappedType = "sell";
+    else if (typeRaw.includes("kauf") || typeRaw.includes("buy")) mappedType = "buy";
     if (!mappedType) continue;
     const asset = cols[iAsset]?.toUpperCase() ?? "";
-    const amount = parseNum(cols[iAmount] ?? "0");
-    const price = iPrice !== -1 ? parseNum(cols[iPrice] ?? "0") : 0;
-    const fee = iFee !== -1 ? parseNum(cols[iFee] ?? "0") : 0;
-    if (amount === 0 || price === 0 || !asset) continue;
+    // Richtung steckt im Typ; Vorzeichen in Menge/Preis/Gebühr nicht übernehmen
+    const amount = Math.abs(parseNum(cols[iAmount] ?? "0"));
+    const price = iPrice !== -1 ? Math.abs(parseNum(cols[iPrice] ?? "0")) : 0;
+    const fee = iFee !== -1 ? Math.abs(parseNum(cols[iFee] ?? "0")) : 0;
+    if (amount === 0 || price === 0 || !asset) {
+      skipped.push({ zeile: i + 1, grund: "Menge, Preis oder Asset fehlt" });
+      continue;
+    }
     trades.push({
       type: mappedType,
       asset,
@@ -343,5 +454,5 @@ function parseBison(csv: string): ParseResult {
       datum: parseDate(cols[iDate] ?? ""),
     });
   }
-  return { trades, errors, format: "bison" };
+  return { trades, errors, format: "bison", skipped };
 }

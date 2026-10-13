@@ -20,7 +20,8 @@ import {
   HeartHandshake,
   type LucideIcon,
 } from "lucide-react";
-import { progressionESt, ABG_ST, kstGewstRate, holdingRate, SOLZ_RATE } from "@/lib/germanTax";
+import { progressionESt, ABG_ST, kstGewstRate, holdingRate, SOLZ_RATE, IAB_GEWINN_GRENZE } from "@/lib/germanTax";
+import { abzugVorgezogeneInvestition, type InvestArt } from "@/lib/jahresendHebel";
 
 type LegalForm = "einzel" | "ug" | "gmbh" | "holding";
 
@@ -56,6 +57,9 @@ const PreYearEndCheck = () => {
   const [aktivitaeten, setAktivitaeten] = useState<Record<string, boolean>>({});
   const [iabBasis, setIabBasis] = useState(40000);
   const [investitionVorziehen, setInvestitionVorziehen] = useState(15000);
+  const [investArt, setInvestArt] = useState<InvestArt>("anlage");
+  const [investNd, setInvestNd] = useState(3);
+  const [investSonderAfa, setInvestSonderAfa] = useState(true);
   const [boniGesamt, setBoniGesamt] = useState(20000);
 
   const KSt_GEWST = kstGewstRate(hebesatz);
@@ -69,7 +73,8 @@ const PreYearEndCheck = () => {
     const list: { id: string; title: string; emoji: string; deadline: string; description: string; ersparnis: number; details: string[]; aktiv: boolean }[] = [];
 
     // 1) IAB §7g EStG — mit Voraussetzungs-Check
-    const iabBerechtigt = form === "einzel" ? gewinn <= 200000 : gewinn <= 200000;
+    // §7g Abs. 1 Satz 2 Nr. 1 EStG (seit JStG 2020): einheitlich Gewinn ≤ 200.000 € für alle Rechtsformen
+    const iabBerechtigt = gewinn <= IAB_GEWINN_GRENZE;
     if (gewinn > 0) {
       const iabAbzug = iabBerechtigt ? Math.min(iabBasis * 0.5, 200000) : 0;
       // Einzel: echte Progression — Steuer mit IAB vs ohne IAB
@@ -83,21 +88,21 @@ const PreYearEndCheck = () => {
         deadline: "31.12.",
         description: iabBerechtigt
           ? "50 % geplanter Investitionen (max 200k €) als Vorab-Abzug — sofort steuerwirksam."
-          : "Bei Gewinn > 200.000 €/Jahr (Einzel) bzw. Bilanzsumme > 235.000 € (GmbH) ist §7g EStG gesperrt.",
+          : "Bei Gewinn vor IAB > 200.000 €/Jahr ist §7g EStG gesperrt (einheitlich für alle Rechtsformen seit JStG 2020).",
         ersparnis,
         details: iabBerechtigt
           ? [
               `Geplante Investition in 3 Jahren: ${iabBasis.toLocaleString("de-DE")} €`,
               `IAB-Abzug 50 %: ${iabAbzug.toLocaleString("de-DE")} €`,
               `Steuer-Ersparnis ${form === "einzel" ? "ESt" : "KSt+GewSt"}: ${Math.round(ersparnis).toLocaleString("de-DE")} €`,
-              "Voraussetzung: Investition muss binnen 3 Wirtschaftsjahren erfolgen, sonst rückwirkend + 6 % p.a. Verzinsung (§233a AO)",
-              "Einzel/Freiberuf: Gewinn vor IAB ≤ 200.000 €/Jahr · GmbH/UG: Bilanzsumme ≤ 235.000 €",
+              "Voraussetzung: Investition muss binnen 3 Wirtschaftsjahren erfolgen, sonst rückwirkende Auflösung + Nachzahlungszinsen 0,15 % pro Monat = 1,8 % p.a. (§233a i. V. m. §238 Abs. 1 AO)",
+              "Gewinngrenze: Gewinn vor IAB ≤ 200.000 €/Jahr, für Einzelunternehmen, UG und GmbH gleich (§7g Abs. 1 Satz 2 Nr. 1 EStG)",
               "Detail-Tool: → /cockpit/iab-rechner",
             ]
           : [
               `Aktueller Gewinn ${gewinn.toLocaleString("de-DE")} € überschreitet die §7g-Schwelle 200.000 €`,
-              "Bei GmbH: Maßstab ist die Bilanzsumme zum Wirtschaftsjahres-Ende (≤ 235.000 €)",
-              "Alternative: Sonderabschreibung §7g(5) — 20 % im Anschaffungsjahr ohne Schwellen-Beschränkung",
+              "Die Grenze gilt für alle Rechtsformen; die frühere Bilanzsummen-Grenze (235.000 €) ist seit dem JStG 2020 abgeschafft",
+              "Auch die Sonder-AfA §7g Abs. 5 (bis 40 % seit 2024) setzt dieselbe Gewinngrenze von 200.000 € voraus",
               "Alternative: Investitionen vorziehen + GWG-Sofortabschreibung",
             ],
         aktiv: !!aktivitaeten.iab,
@@ -106,8 +111,12 @@ const PreYearEndCheck = () => {
 
     // 2) Investitionen vorziehen (Sofortabschreibung GWG bis 800€, 1000€ ab 2024)
     if (investitionVorziehen > 0) {
-      const gwgGrenze = 800; // Pool-Grenze, ab 2024 könnte 1.000 € gelten je nach Wahlrecht
-      const sofortAbschreibung = investitionVorziehen;
+      // Sofort abziehbar sind nur GWG bis 800 € netto (§6 Abs. 2 EStG). Größere Wirtschaftsgüter:
+      // lineare AfA zeitanteilig (Dezember = 1/12, §7 Abs. 1 Satz 4 EStG), Nutzungsdauer 1 Jahr voll (BMF 22.02.2022), optional Sonder-AfA §7g Abs. 5 (40 %).
+      const inv = abzugVorgezogeneInvestition({
+        betrag: investitionVorziehen, art: investArt, nutzungsdauer: investNd, monate: 1, gewinn, sonderAfa: investSonderAfa,
+      });
+      const sofortAbschreibung = inv.abzug;
       const ersparnis = form === "einzel"
         ? (progressionESt(gewinn) - progressionESt(Math.max(0, gewinn - sofortAbschreibung))) * (1 + SOLZ_RATE)
         : sofortAbschreibung * KSt_GEWST;
@@ -116,14 +125,19 @@ const PreYearEndCheck = () => {
         title: "Investitionen vorziehen (vor 31.12.)",
         emoji: "🛒",
         deadline: "31.12.",
-        description: "GWG bis 800 € sofort abschreiben · größere Investitionen Halbjahres-AfA nutzen.",
+        description: "GWG bis 800 € netto sofort abschreiben · größere Investitionen nur mit zeitanteiliger AfA (Dezember = 1/12), Computer/Software mit 1 Jahr Nutzungsdauer voll (BMF 22.02.2022), plus ggf. Sonder-AfA §7g.",
         ersparnis,
         details: [
-          `Geplante Investition vorziehen: ${investitionVorziehen.toLocaleString("de-DE")} €`,
+          `Geplante Investition vorziehen: ${investitionVorziehen.toLocaleString("de-DE")} € (${investArt === "gwg" ? "GWG je Stück ≤ 800 €" : `Nutzungsdauer ${investNd} J., Anschaffung im Dezember`})`,
+          investArt === "gwg"
+            ? "GWG: 100 % Sofortabschreibung"
+            : `AfA Dezember (1/12): ${Math.round(inv.afa).toLocaleString("de-DE")} €${inv.sonderAfa > 0 ? ` + Sonder-AfA §7g Abs. 5 (40 %): ${Math.round(inv.sonderAfa).toLocaleString("de-DE")} €` : ""}`,
+          `Gewinnminderung im laufenden Jahr: ${Math.round(inv.abzug).toLocaleString("de-DE")} €`,
           `Steuer-Ersparnis im laufenden Jahr: ${Math.round(ersparnis).toLocaleString("de-DE")} €`,
-          "GWG (Geringwertige Wirtschaftsgüter) < 800 €: 100 % Sofortabschreibung",
+          investArt === "anlage" && investSonderAfa && !inv.sonderAfaMoeglich
+            ? "Sonder-AfA §7g nicht möglich: Gewinn über 200.000 €"
+            : "Sonder-AfA §7g: bis 40 %, Gewinngrenze 200.000 €, ≥ 90 % betriebliche Nutzung bis Ende des Folgejahres",
           "Pool-Wahlrecht: 250–1.000 €/Stück → Pool über 5 Jahre abschreiben",
-          "Bei größerer Anschaffung im Dezember: nur 1/12 AfA — meist trotzdem mehr als 0",
           "Achtung: tatsächliche Lieferung + Inbetriebnahme vor 31.12.",
         ],
         aktiv: !!aktivitaeten.invest,
@@ -150,7 +164,7 @@ const PreYearEndCheck = () => {
           `ESt-Last privat: ${Math.round(steuerPrivat).toLocaleString("de-DE")} €`,
           `Netto-Ersparnis: ${Math.round(netErsparnis).toLocaleString("de-DE")} €${netErsparnis < 0 ? " (lohnt nicht bei deinem ESt-Satz!)" : ""}`,
           "Tipp: Tantieme-Vereinbarung schriftlich VOR Wirtschaftsjahres-Ende",
-          "Angemessenheits-Prüfung Finanzamt: max ~25 % vom Vorjahres-Gewinn",
+          "Angemessenheits-Prüfung Finanzamt (BMF 01.02.2002): max. 50 % des Jahresüberschusses, Gesamtbezüge i. d. R. 75 % fix / 25 % variabel",
         ],
         aktiv: !!aktivitaeten.boni,
       });
@@ -172,7 +186,7 @@ const PreYearEndCheck = () => {
           `KSt+GewSt-Ersparnis aktuell: ${Math.round(ersparnis).toLocaleString("de-DE")} €/Jahr`,
           "Zusage muss schriftlich vor Wirtschaftsjahres-Ende vereinbart sein",
           "Versicherungsmathematische Bewertung Pflicht — Kosten 500–1.500 €/Jahr",
-          "Insolvenzschutz via Pensions-Sicherungsverein",
+          "Insolvenzschutz bei beherrschenden Gesellschafter-GF nur über verpfändete Rückdeckungsversicherung (kein PSV, BetrAVG gilt nicht)",
           "Achtung: Erdienenszeitraum + Angemessenheit (max 75 % letztes Aktivgehalt)",
         ],
         aktiv: !!aktivitaeten.pension,
@@ -232,7 +246,7 @@ const PreYearEndCheck = () => {
     });
 
     return list;
-  }, [form, gewinn, estSatz, iabBasis, investitionVorziehen, boniGesamt, aktivitaeten, hebesatz, KSt_GEWST, HOLDING_RATE]);
+  }, [form, gewinn, estSatz, iabBasis, investitionVorziehen, investArt, investNd, investSonderAfa, boniGesamt, aktivitaeten, hebesatz, KSt_GEWST, HOLDING_RATE]);
 
   const aktiverHebel = hebel.filter((h) => h.aktiv);
   const totalErsparnis = aktiverHebel.reduce((sum, h) => sum + h.ersparnis, 0);
@@ -305,6 +319,29 @@ const PreYearEndCheck = () => {
                   className="tabular"
                 />
               </Field>
+              <Field label="Art der Investition" htmlFor="pye-invest-art">
+                <select id="pye-invest-art" value={investArt} onChange={(e) => setInvestArt(e.target.value as InvestArt)} className={selectCls}>
+                  <option value="gwg">GWG (je Stück bis 800 € netto, sofort absetzbar)</option>
+                  <option value="anlage">Anlagegut über 800 € (AfA)</option>
+                </select>
+              </Field>
+              {investArt === "anlage" && (
+                <>
+                  <Field label="Nutzungsdauer (Jahre)" htmlFor="pye-invest-nd" hint="Laut AfA-Tabelle, z. B. Computer 1 Jahr, Pkw 6, Büromöbel 13">
+                    <Input
+                      id="pye-invest-nd"
+                      type="number"
+                      value={investNd}
+                      onChange={(e) => setInvestNd(Math.max(1, Number(e.target.value) || 1))}
+                      className="tabular"
+                    />
+                  </Field>
+                  <label className="flex items-center gap-2 text-sm">
+                    <input type="checkbox" checked={investSonderAfa} onChange={(e) => setInvestSonderAfa(e.target.checked)} />
+                    Sonder-AfA §7g Abs. 5 (40 %) nutzen
+                  </label>
+                </>
+              )}
               <Field label="Geplante Boni oder Tantiemen (€)" htmlFor="pye-boni" className="sm:col-span-2">
                 <Input
                   id="pye-boni"

@@ -92,7 +92,7 @@ const CHECKLIST_GROUPS: { gruppe: string; items: { key: string; label: string; t
       { key: "sales-tax", label: "Sales-Tax-Nexus-Liste (US-Staaten)", tool: "Sales-Tax-Nexus", route: "/cockpit/sales-tax-nexus" },
       { key: "hk-ltd", label: "HK-Limited: Profits Tax Return + Audit", tool: "HK-Limited-Wizard", route: "/cockpit/hk-limited-wizard" },
       { key: "dba-cfc", label: "DBA-CFC: Hinzurechnungsbesteuerung-Berechnung", tool: "DBA-CFC-Rechner", route: "/cockpit/dba-cfc" },
-      { key: "substance", label: "Substance-Dokumentation (ATAD III)", tool: "Substance-Checker", route: "/cockpit/substance-checker" },
+      { key: "substance", label: "Substance-Dokumentation (§ 50d Abs. 3 EStG)", tool: "Substance-Checker", route: "/cockpit/substance-checker" },
       { key: "oss", label: "OSS-Meldungen EU-Verkäufe (B2C)" },
     ],
   },

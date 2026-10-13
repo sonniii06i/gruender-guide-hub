@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import Stand2026Footer from "@/components/cockpit/Stand2026Footer";
@@ -158,7 +158,14 @@ const AnlageEuer = () => {
   const [einnahmen, setEinnahmen] = useState(0);
   const [ausgaben, setAusgaben] = useState(0);
   const gewinn = useMemo(() => einnahmen - ausgaben, [einnahmen, ausgaben]);
-  const track = useTrackToolEvent("anlage-euer");
+  const trackRaw = useTrackToolEvent("anlage-euer");
+  // Nur einmal pro Seitenaufruf tracken, nicht bei jedem Tastendruck (jeder Aufruf = Edge-Function-Request)
+  const getrackt = useRef(false);
+  const track = (event: string) => {
+    if (getrackt.current) return;
+    getrackt.current = true;
+    trackRaw(event);
+  };
 
   return (
     <CockpitShell

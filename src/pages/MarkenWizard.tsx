@@ -64,6 +64,7 @@ const NIZZA_CLASSES: { id: number; label: string; useCases: string[]; popular?: 
   { id: 18, label: "Lederwaren, Taschen, Reisegepäck", useCases: ["Taschen-Brand", "Wallets", "Backpacks"] },
   { id: 25, label: "Bekleidung, Schuhe, Kopfbedeckungen", useCases: ["Streetwear", "Athleisure", "Sneaker"], popular: true },
   { id: 28, label: "Spielzeug, Sportartikel, Fitness-Geräte", useCases: ["Toys", "Sport-Equipment", "Fitness"] },
+  { id: 29, label: "Fleisch, Fisch, Milchprodukte, Öle, verarbeitetes Obst/Gemüse", useCases: ["Food-Brand", "Feinkost", "Plant-based"] },
   { id: 30, label: "Kaffee, Tee, Snacks, Süßwaren", useCases: ["Coffee-Brand", "Snacks", "Süßwaren"] },
   { id: 32, label: "Erfrischungsgetränke, Säfte, Energy Drinks", useCases: ["Energy Drink", "Soft Drinks"] },
   { id: 35, label: "Werbung, Geschäftsführung, Online-Marketplace", useCases: ["Marketing-Agentur", "Online-Shop-Betrieb", "Affiliate"], popular: true },
@@ -209,7 +210,7 @@ const MarkenWizard = () => {
               <ToolSection
                 title="Schutzbereich wählen"
                 icon={Globe}
-                description="Wo soll deine Marke geschützt sein? Faustregel: nur DACH → DPMA. EU-weiter Verkauf → EUIPO. US/Asia geplant → WIPO Madrid."
+                description="Wo soll deine Marke geschützt sein? Faustregel: nur Deutschland → DPMA (schützt nur DE; AT und CH brauchen eigene Anmeldungen oder WIPO). EU-weiter Verkauf → EUIPO. US/Asia geplant → WIPO Madrid."
               >
                 <div className="grid grid-cols-1 gap-3">
                   {(["dpma", "euipo", "wipo"] as Scope[]).map((s) => {
@@ -338,7 +339,7 @@ const MarkenWizard = () => {
                   <span className="font-semibold">
                     <span className="tabular">{selectedClasses.length}</span> Klassen ausgewählt
                   </span>
-                  <span className="truncate text-muted-foreground tabular">{selectedClasses.sort((a, b) => a - b).join(", ") || "keine"}</span>
+                  <span className="truncate text-muted-foreground tabular">{[...selectedClasses].sort((a, b) => a - b).join(", ") || "keine"}</span>
                 </div>
 
                 <StepNav>
@@ -362,7 +363,7 @@ const MarkenWizard = () => {
                 <div className="divide-y divide-border/70 rounded-xl border border-border px-4">
                   <ResultRow label="Marke" value={name || "—"} strong />
                   <ResultRow label="Schutzbereich" value={SCOPE_LABEL[scope]} />
-                  <ResultRow label="Klassen" value={selectedClasses.sort((a, b) => a - b).join(", ") || "—"} />
+                  <ResultRow label="Klassen" value={[...selectedClasses].sort((a, b) => a - b).join(", ") || "—"} />
                   <ResultRow label="Anzahl Klassen" value={String(selectedClasses.length)} />
                   <ResultRow label="Davon im Grundpreis" value={`${baseClasses} · ${extraClasses} extra`} />
                 </div>

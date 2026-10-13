@@ -37,7 +37,8 @@ async function holen(url, opt = {}) {
   for (let i = 0; ; i++) {
     let voruebergehend = true;
     try {
-      const r = await fetch(url, { ...opt, headers: { "User-Agent": UA, ...(opt.headers ?? {}) } });
+      // Timeout: ein Server, der die Verbindung annimmt und nie antwortet, darf nicht den ganzen Lauf blockieren.
+      const r = await fetch(url, { ...opt, signal: AbortSignal.timeout(30000), headers: { "User-Agent": UA, ...(opt.headers ?? {}) } });
       if (!r.ok) {
         voruebergehend = r.status >= 500 || r.status === 429;
         throw new Error(`HTTP ${r.status} ${url.slice(0, 90)}`);
@@ -243,8 +244,14 @@ async function recht(log) {
     const fundstelle = text(i.raw.match(/<[^>]*fundstelle[^>]*>([\s\S]*?)<\//)?.[1] ?? "");
     out.push({ kategorie: "recht", quelle: "Bundesgesetzblatt", titel: i.title, geber: fundstelle || "BGBl. I", url: i.link, datum, region: "bund", tags: ["Gesetz/Verordnung"], kurz: "" });
   }
-  const bmf = await holen("https://www.bundesfinanzministerium.de/SiteGlobals/Functions/RSSFeed/DE/Steuern/RSSSteuern.xml");
-  for (const i of items(bmf)) {
+  // BMF-Ausfall ist nur ein Teilfehler – die schon geholten BGBl-Einträge dürfen nicht verloren gehen.
+  let bmf = "";
+  try {
+    bmf = await holen("https://www.bundesfinanzministerium.de/SiteGlobals/Functions/RSSFeed/DE/Steuern/RSSSteuern.xml");
+  } catch (e) {
+    log.fehler.push(`BMF-RSS: ${e.message}`);
+  }
+  for (const i of bmf ? items(bmf) : []) {
     log.roh++;
     const d = new Date(i.pubDate);
     const datum = isNaN(+d) ? HEUTE : d.toISOString().slice(0, 10);
@@ -323,7 +330,14 @@ for (const [name, fn] of Object.entries(QUELLEN)) {
     alle.push(...roh.map((e) => ({ ...e, _q: name })));
     protokoll[name] = { ok: true, roh: log.roh, uebernommen: roh.length, verworfen: log.verworfen, ...(log.fehler.length ? { teilfehler: log.fehler } : {}), letzterErfolg: new Date().toISOString() };
   } catch (e) {
-    const behalten = (alt.eintraege ?? []).filter((x) => x._q === name);
+    // Behaltene Einträge erneut gegen die Zeitfenster prüfen: recht max. 45 Tage alt, Messen nicht vorbei.
+    const grenzeRecht = new Date(Date.now() - 45 * 864e5).toISOString().slice(0, 10);
+    const behalten = (alt.eintraege ?? []).filter(
+      (x) =>
+        x._q === name &&
+        !(x.kategorie === "recht" && x.datum && x.datum < grenzeRecht) &&
+        !(x.kategorie === "messe" && (x.datumBis ?? x.datum ?? "9999") < HEUTE),
+    );
     alle.push(...behalten);
     protokoll[name] = { ok: false, fehler: String(e.message ?? e), behaltenVomLetztenLauf: behalten.length, letzterErfolg: alt.quellen?.[name]?.letzterErfolg ?? null };
   }

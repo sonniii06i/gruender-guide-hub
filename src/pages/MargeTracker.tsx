@@ -159,11 +159,11 @@ const MargeTracker = () => {
   const addSku = () => {
     const ch = "amazon-fba" as Channel;
     const info = CHANNEL_INFO[ch];
-    setSkus([
-      ...skus,
+    setSkus((prev) => [
+      ...prev,
       {
         id: Date.now().toString(),
-        name: `SKU ${skus.length + 1}`,
+        name: `SKU ${prev.length + 1}`,
         channel: ch,
         vkNetto: 0,
         versandKundeNetto: 0,
@@ -184,8 +184,9 @@ const MargeTracker = () => {
     ]);
   };
 
-  const removeSku = (id: string) => setSkus(skus.filter((s) => s.id !== id));
-  const updateSku = (id: string, patch: Partial<SkuData>) => setSkus(skus.map((s) => (s.id === id ? { ...s, ...patch } : s)));
+  // Funktionale Updates: asynchrone Gebühren-Abrufe dürfen zwischenzeitliche Eingaben nicht überschreiben
+  const removeSku = (id: string) => setSkus((prev) => prev.filter((s) => s.id !== id));
+  const updateSku = (id: string, patch: Partial<SkuData>) => setSkus((prev) => prev.map((s) => (s.id === id ? { ...s, ...patch } : s)));
   const updateChannel = (id: string, channel: Channel) => {
     const info = CHANNEL_INFO[channel];
     updateSku(id, {
@@ -285,6 +286,9 @@ const MargeTracker = () => {
       updateSku(s.id, {
         provisionPct: Number(newProvisionPct.toFixed(2)),
         fulfilmentPerUnit: Number(newFulfilment.toFixed(2)),
+        // Zahlungs- und Abschlussgebühren stecken jetzt in Provision bzw. Fulfilment → Kanal-Standardwerte nicht doppelt zählen
+        paymentFeePct: 0,
+        paymentFeeFixed: 0,
         feesPulledAt: new Date().toISOString(),
         feesPullError: undefined,
       });

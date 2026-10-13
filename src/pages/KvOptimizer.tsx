@@ -109,11 +109,18 @@ const KvOptimizer = () => {
     void pkvAlter; void pkvSelbstbehalt;
 
     // Wechsel-Check: Lohnt sich PKV für AN mit Brutto X?
-    const wechselGkvMonatAn = (Math.min(bruttoJahr / 12, BBG_KV_MONAT_2026) * ((GKV_ALLG_SATZ + GKV_ZUSATZ_SCHNITT_2026) / 100)) / 2 + (Math.min(bruttoJahr / 12, BBG_KV_MONAT_2026) * (pvSatz / 100)) / 2;
+    // Angestellte: AG trägt die Hälfte (GKV) bzw. zahlt Zuschuss (PKV, §257 SGB V) → beide Seiten halbieren.
+    // Selbstständige und beherrschende Gesellschafter-GF (nicht SV-pflichtig) haben KEINEN Anspruch auf
+    // den Zuschuss nach §257 SGB V → GKV (freiwillig, inkl. Mindestbemessung) und PKV voll selbst tragen.
+    const anteil = istGmbHGF ? 1 : 0.5;
+    const gkvBemessung = istGmbHGF
+      ? Math.max(MINDEST_BEMESSUNG_MONAT_2026, Math.min(bruttoJahr / 12, BBG_KV_MONAT_2026))
+      : Math.min(bruttoJahr / 12, BBG_KV_MONAT_2026);
+    const wechselGkvMonatAn = gkvBemessung * ((GKV_ALLG_SATZ + GKV_ZUSATZ_SCHNITT_2026 + pvSatz) / 100) * anteil;
     const wechselGkvJahresKostenAn = wechselGkvMonatAn * 12;
-    // PKV: Junger Single ~450-550€/Mon, alt 30-40 J im Schnitt; mit AG-Zuschuss bei Angestellten halbieren
+    // PKV: Junger Single ~450-550€/Mon, alt 30-40 J im Schnitt
     const pkvSchaetzungJung = 480;
-    const pkvBeitragNetto = istGmbHGF ? pkvSchaetzungJung / 2 : pkvSchaetzungJung; // GmbH-GF kann sich AG-Zuschuss zahlen
+    const pkvBeitragNetto = pkvSchaetzungJung * anteil;
     const pkvAnKostenJahr = pkvBeitragNetto * 12;
     const wechselErlaubt = bruttoJahr > JAEG_2026 || istGmbHGF; // Selbstständige immer; AN nur über JAEG
     const wechselErsparnisJahr = wechselGkvJahresKostenAn - pkvAnKostenJahr;
@@ -450,7 +457,7 @@ const KvOptimizer = () => {
             />
             <span>
               <span className="block font-medium">Ich bin Gesellschafter-Geschäftsführer einer GmbH oder selbstständig</span>
-              <span className="mt-0.5 block text-muted-foreground">Dann entfällt die Prüfung der Jahresarbeitsentgeltgrenze.</span>
+              <span className="mt-0.5 block text-muted-foreground">Dann entfällt die Prüfung der Jahresarbeitsentgeltgrenze. Gerechnet wird ohne Arbeitgeberzuschuss: Selbstständige und beherrschende Gesellschafter-GF zahlen GKV und PKV voll selbst (kein Zuschuss nach § 257 SGB V).</span>
             </span>
           </label>
         </div>
@@ -459,14 +466,14 @@ const KvOptimizer = () => {
           <ResultPanel kicker="Ergebnis" title="Du darfst in die PKV wechseln">
             <StatGrid cols={3}>
               <StatTile
-                label="GKV, Arbeitnehmer-Anteil"
+                label={istGmbHGF ? "GKV freiwillig, voller Beitrag" : "GKV, Arbeitnehmer-Anteil"}
                 value={`${eur(calc.wechselGkvJahresKostenAn)} / Jahr`}
                 hint={`${eur(calc.wechselGkvJahresKostenAn / 12)} pro Monat`}
               />
               <StatTile
                 label="PKV, Schätzung junger Single"
                 value={`${eur(calc.pkvAnKostenJahr)} / Jahr`}
-                hint={`${eur(calc.pkvAnKostenJahr / 12)} pro Monat${istGmbHGF ? ", mit 50 % Arbeitgeber-Zuschuss" : ""}`}
+                hint={`${eur(calc.pkvAnKostenJahr / 12)} pro Monat${istGmbHGF ? ", voller Beitrag ohne Zuschuss" : ", nach 50 % Arbeitgeber-Zuschuss"}`}
               />
               <StatTile
                 emphasis

@@ -74,23 +74,23 @@ type AssetType = {
 
 export const AFA_ASSETS: AssetType[] = [
   // BMF-Sofortabschreibung
-  { id: "laptop", icon: Laptop, name: "Laptop / Notebook", category: "IT / Computer", nutzungsdauer: 1, bmfSofort: true, hinweis: "BMF-Schreiben 22.2.2022 — Sofortabschreibung im Anschaffungsjahr", skr03: 490, skr04: 670 },
-  { id: "desktop-pc", icon: Laptop, name: "Desktop-PC / Workstation", category: "IT / Computer", nutzungsdauer: 1, bmfSofort: true, hinweis: "Wie Laptop", skr03: 490, skr04: 670 },
-  { id: "smartphone", icon: Smartphone, name: "Smartphone / iPhone", category: "IT / Computer", nutzungsdauer: 1, bmfSofort: true, hinweis: "Seit BMF 26.2.2021 als Computer-Hardware", skr03: 490, skr04: 670 },
-  { id: "tablet", icon: Smartphone, name: "Tablet / iPad", category: "IT / Computer", nutzungsdauer: 1, bmfSofort: true, hinweis: "Wie Smartphone", skr03: 490, skr04: 670 },
-  { id: "monitor", icon: Laptop, name: "Monitor / Bildschirm", category: "IT / Computer", nutzungsdauer: 1, bmfSofort: true, hinweis: "Peripheriegerät — Sofortabschreibung", skr03: 490, skr04: 670 },
-  { id: "drucker", icon: Laptop, name: "Drucker / Multifunktionsgerät", category: "IT / Computer", nutzungsdauer: 1, bmfSofort: true, hinweis: "Peripheriegerät", skr03: 490, skr04: 670 },
-  { id: "software", icon: Laptop, name: "Software / Lizenzen (kein Abo)", category: "IT / Computer", nutzungsdauer: 1, bmfSofort: true, hinweis: "ALLE Software Sofortabschreibung seit BMF 2022", skr03: 490, skr04: 670 },
+  { id: "laptop", icon: Laptop, name: "Laptop / Notebook", category: "IT / Computer", nutzungsdauer: 1, bmfSofort: true, hinweis: "BMF-Schreiben 22.2.2022 — Sofortabschreibung im Anschaffungsjahr", skr03: 490, skr04: 690 },
+  { id: "desktop-pc", icon: Laptop, name: "Desktop-PC / Workstation", category: "IT / Computer", nutzungsdauer: 1, bmfSofort: true, hinweis: "Wie Laptop", skr03: 490, skr04: 690 },
+  { id: "smartphone", icon: Smartphone, name: "Smartphone / iPhone", category: "IT / Computer", nutzungsdauer: 1, bmfSofort: true, hinweis: "Seit BMF 26.2.2021 als Computer-Hardware", skr03: 490, skr04: 690 },
+  { id: "tablet", icon: Smartphone, name: "Tablet / iPad", category: "IT / Computer", nutzungsdauer: 1, bmfSofort: true, hinweis: "Wie Smartphone", skr03: 490, skr04: 690 },
+  { id: "monitor", icon: Laptop, name: "Monitor / Bildschirm", category: "IT / Computer", nutzungsdauer: 1, bmfSofort: true, hinweis: "Peripheriegerät — Sofortabschreibung", skr03: 490, skr04: 690 },
+  { id: "drucker", icon: Laptop, name: "Drucker / Multifunktionsgerät", category: "IT / Computer", nutzungsdauer: 1, bmfSofort: true, hinweis: "Peripheriegerät", skr03: 490, skr04: 690 },
+  { id: "software", icon: Laptop, name: "Software / Lizenzen (kein Abo)", category: "IT / Computer", nutzungsdauer: 1, bmfSofort: true, hinweis: "ALLE Software Sofortabschreibung seit BMF 2022", skr03: 490, skr04: 690 },
   // Büromöbel
   { id: "schreibtisch", icon: Armchair, name: "Schreibtisch", category: "Büromöbel", nutzungsdauer: 13, hinweis: "AfA-Tabelle ~7,7%/Jahr", skr03: 420, skr04: 650 },
   { id: "buerostuhl", icon: Armchair, name: "Bürostuhl", category: "Büromöbel", nutzungsdauer: 13, hinweis: "Wie Schreibtisch", skr03: 420, skr04: 650 },
   { id: "regal", icon: Armchair, name: "Regal / Aktenschrank", category: "Büromöbel", nutzungsdauer: 13, hinweis: "Wie Büromöbel allgemein", skr03: 420, skr04: 650 },
   { id: "konferenztisch", icon: Armchair, name: "Konferenztisch", category: "Büromöbel", nutzungsdauer: 13, hinweis: "Wie Büromöbel", skr03: 420, skr04: 650 },
-  { id: "ladeneinrichtung", icon: Armchair, name: "Ladeneinrichtung", category: "Büromöbel", nutzungsdauer: 8, hinweis: "Schnellere AfA wegen höherer Abnutzung", skr03: 420, skr04: 650 },
+  { id: "ladeneinrichtung", icon: Armchair, name: "Ladeneinrichtung", category: "Büromöbel", nutzungsdauer: 8, hinweis: "Schnellere AfA wegen höherer Abnutzung", skr03: 430, skr04: 640 },
   // Fahrzeuge
-  { id: "pkw-elektro", icon: Car, name: "PKW Elektro (Firmenwagen)", category: "Fahrzeuge", nutzungsdauer: 6, hinweis: "Reguläre AfA. E-Dienstwagen 0,25/0,5%-Versteuerung separat", skr03: 320, skr04: 540 },
-  { id: "pkw-verbrenner", icon: Car, name: "PKW Verbrenner (Firmenwagen)", category: "Fahrzeuge", nutzungsdauer: 6, hinweis: "1%-Regel bei privater Nutzung", skr03: 320, skr04: 540 },
-  { id: "e-bike", icon: Car, name: "E-Bike / Pedelec", category: "Fahrzeuge", nutzungsdauer: 7, hinweis: "Überlassung an AN steuerfrei §3 Nr. 37 EStG", skr03: 320, skr04: 540 },
+  { id: "pkw-elektro", icon: Car, name: "PKW Elektro (Firmenwagen)", category: "Fahrzeuge", nutzungsdauer: 6, hinweis: "Reguläre AfA. E-Dienstwagen 0,25/0,5%-Versteuerung separat", skr03: 320, skr04: 520 },
+  { id: "pkw-verbrenner", icon: Car, name: "PKW Verbrenner (Firmenwagen)", category: "Fahrzeuge", nutzungsdauer: 6, hinweis: "1%-Regel bei privater Nutzung", skr03: 320, skr04: 520 },
+  { id: "e-bike", icon: Car, name: "E-Bike / Pedelec", category: "Fahrzeuge", nutzungsdauer: 7, hinweis: "Überlassung an AN steuerfrei §3 Nr. 37 EStG", skr03: 320, skr04: 520 },
   // Ausstattung
   { id: "kaffeemaschine", icon: Package, name: "Kaffeemaschine (Vollautomat)", category: "Ausstattung", nutzungsdauer: 8, hinweis: "Wenn >800€ netto. Unter 800€ = GWG", skr03: 420, skr04: 650 },
   { id: "kuechenausstattung", icon: Package, name: "Küchenausstattung", category: "Ausstattung", nutzungsdauer: 10, hinweis: "Je nach Einzelteil 8-15 Jahre", skr03: 420, skr04: 650 },
@@ -121,7 +121,8 @@ type CartItem = {
 };
 
 // ===== ABSCHREIBUNGS-LOGIK =====
-const calcAbschreibung = (
+// eslint-disable-next-line react-refresh/only-export-components
+export const calcAbschreibung = (
   asset: AssetType,
   nettoPreis: number,
   istKu: boolean,
@@ -131,6 +132,9 @@ const calcAbschreibung = (
 ): AbschreibungResult => {
   const beruflicherAnteil = (100 - privatAnteilPct) / 100;
   const basis = nettoPreis * beruflicherAnteil;
+  // GWG-/Pool-Grenzen gelten für die VOLLEN Anschaffungskosten ohne Vorsteuer (§6 Abs. 2 und 2a EStG),
+  // auch beim Kleinunternehmer (Vorsteuer herausrechnen) und unabhängig vom Privatanteil.
+  const grenzWert = istKu ? nettoPreis / 1.19 : nettoPreis;
 
   // 1) BMF-Sofortabschreibung
   if (asset.bmfSofort) {
@@ -146,25 +150,8 @@ const calcAbschreibung = (
     };
   }
 
-  // KU: Brutto ist Basis (kein VSt-Abzug). Bei Regelbesteuerer: Netto
-  const ku_schwelle = istKu ? GWG_NETTO_SCHWELLE * 1.19 : GWG_NETTO_SCHWELLE;
-
-  // 2) GWG ≤800€
-  if (basis <= ku_schwelle) {
-    return {
-      modus: `GWG §6 Abs. 2 EStG (≤${istKu ? "952€ brutto" : "800€ netto"})`,
-      modusKey: "gwg",
-      jahresAfa: basis,
-      erstjahrAfa: basis,
-      anzahlJahre: 1,
-      details: [{ jahr: 1, betrag: basis, label: "Anschaffungsjahr (Sofortabschreibung)" }],
-      hinweis:
-        "Geringwertiges Wirtschaftsgut: bis 800€ netto Sofortabschreibung im Anschaffungsjahr. Bei KU brutto-Schwelle ~952€.",
-    };
-  }
-
-  // 3) Pool 250-1000€ (alternativ zu GWG, hier explizit gewählt)
-  if (poolGenutzt && basis >= POOL_UNTERGRENZE && basis <= POOL_OBERGRENZE) {
+  // 2) Sammelposten: Wer ihn wählt, MUSS alle WG über 250 € bis 1.000 € in den Pool nehmen (§6 Abs. 2a Satz 5 EStG)
+  if (poolGenutzt && grenzWert > POOL_UNTERGRENZE && grenzWert <= POOL_OBERGRENZE) {
     const jahresAfa = basis / POOL_DAUER_JAHRE;
     return {
       modus: "Sammelposten §6 Abs. 2a (5 Jahre)",
@@ -178,7 +165,21 @@ const calcAbschreibung = (
         label: `Jahr ${i + 1}`,
       })),
       hinweis:
-        "Sammelposten: alle WG 250-1000€ in einen Pool, 5-Jahres-AfA mit 20%/Jahr. Achtung: pro Wirtschaftsjahr einmal entscheiden — entweder alles GWG oder alles Pool.",
+        "Sammelposten: alle WG über 250 € bis 1.000 € netto in einen Pool, 5-Jahres-AfA mit 20 %/Jahr. Pro Wirtschaftsjahr einheitlich entscheiden — entweder GWG-Sofortabschreibung bis 800 € oder Pool für alle WG über 250 €.",
+    };
+  }
+
+  // 3) GWG ≤ 800 € netto
+  if (grenzWert <= GWG_NETTO_SCHWELLE) {
+    return {
+      modus: `GWG §6 Abs. 2 EStG (≤${istKu ? "952€ brutto" : "800€ netto"})`,
+      modusKey: "gwg",
+      jahresAfa: basis,
+      erstjahrAfa: basis,
+      anzahlJahre: 1,
+      details: [{ jahr: 1, betrag: basis, label: "Anschaffungsjahr (Sofortabschreibung)" }],
+      hinweis:
+        "Geringwertiges Wirtschaftsgut: bis 800€ netto Sofortabschreibung im Anschaffungsjahr. Bei KU brutto-Schwelle ~952€.",
     };
   }
 
@@ -315,7 +316,7 @@ const EinzelRechner = () => {
                 <div className="space-y-1.5">
                   <div className="flex items-baseline justify-between gap-2">
                     <label htmlFor="afa-betrag" className="block text-sm font-medium text-foreground">
-                      {istBrutto && !istKu ? "Brutto-Preis (€)" : "Netto-Preis (€)"}
+                      {istKu ? "Preis inkl. USt (€)" : istBrutto ? "Brutto-Preis (€)" : "Netto-Preis (€)"}
                     </label>
                     {!istKu && (
                       <button
@@ -512,49 +513,45 @@ const EinzelRechner = () => {
               </tr>
             </thead>
             <tbody>
-              {result.modusKey === "bmf-sofort" || result.modusKey === "gwg" ? (
-                <>
-                  <tr>
-                    <td className="whitespace-nowrap">SKR03 {asset.skr03} / SKR04 {asset.skr04}</td>
-                    <td className="text-muted-foreground">
-                      {result.modusKey === "bmf-sofort" ? "Sofortabschr. Hardware" : "GWG-Aufwand"}
-                    </td>
-                    <td className="whitespace-nowrap text-right">{formatEur(nettoPreis)}</td>
-                    <td className="whitespace-nowrap text-muted-foreground">1200 / 1800 Bank</td>
-                  </tr>
-                  {ustAbzug > 0 && (
+              {(() => {
+                // Kontenrahmen: Anlagekonto aus dem Asset (SKR03 0420/0430/0490/0320, SKR04 0650/0640/0690/0520),
+                // GWG 0480/0670, Sammelposten 0485/0675; Aufwand: AfA SKR03 4830 / SKR04 6220, GWG-Sofortabschreibung 4855/6260,
+                // Auflösung Sammelposten (§ 6 Abs. 2a EStG, 1/5 je Jahr) auf eigene Konten SKR03 4862 / SKR04 6264 (DATEV-Kontenrahmen).
+                const k = (n: number | undefined) => String(n ?? 0).padStart(4, "0");
+                const istGwg = result.modusKey === "gwg";
+                const istPool = result.modusKey === "pool";
+                const anlage03 = istGwg ? "0480" : istPool ? "0485" : k(asset.skr03);
+                const anlage04 = istGwg ? "0670" : istPool ? "0675" : k(asset.skr04);
+                const aufwand03 = istGwg ? "4855" : istPool ? "4862" : "4830";
+                const aufwand04 = istGwg ? "6260" : istPool ? "6264" : "6220";
+                const sofort = istGwg || result.modusKey === "bmf-sofort";
+                return (
+                  <>
                     <tr>
-                      <td className="whitespace-nowrap">SKR03 1576 / SKR04 1406</td>
-                      <td className="text-muted-foreground">Vorsteuer 19%</td>
-                      <td className="whitespace-nowrap text-right">{formatEur(ustAbzug)}</td>
+                      <td className="whitespace-nowrap">SKR03 {anlage03} / SKR04 {anlage04}</td>
+                      <td className="text-muted-foreground">{istGwg ? "GWG (Anschaffung)" : istPool ? "Sammelposten (Anschaffung)" : "Anlagegut (Anschaffung)"}</td>
+                      <td className="whitespace-nowrap text-right">{formatEur(nettoPreis)}</td>
                       <td className="whitespace-nowrap text-muted-foreground">1200 / 1800 Bank</td>
                     </tr>
-                  )}
-                </>
-              ) : (
-                <>
-                  <tr>
-                    <td className="whitespace-nowrap">SKR03 0410 / SKR04 0650</td>
-                    <td className="text-muted-foreground">Anlage (AfA-pflichtig)</td>
-                    <td className="whitespace-nowrap text-right">{formatEur(nettoPreis)}</td>
-                    <td className="whitespace-nowrap text-muted-foreground">1200 / 1800 Bank</td>
-                  </tr>
-                  {ustAbzug > 0 && (
+                    {ustAbzug > 0 && (
+                      <tr>
+                        <td className="whitespace-nowrap">SKR03 1576 / SKR04 1406</td>
+                        <td className="text-muted-foreground">Vorsteuer 19%</td>
+                        <td className="whitespace-nowrap text-right">{formatEur(ustAbzug)}</td>
+                        <td className="whitespace-nowrap text-muted-foreground">1200 / 1800 Bank</td>
+                      </tr>
+                    )}
                     <tr>
-                      <td className="whitespace-nowrap">SKR03 1576 / SKR04 1406</td>
-                      <td className="text-muted-foreground">Vorsteuer 19%</td>
-                      <td className="whitespace-nowrap text-right">{formatEur(ustAbzug)}</td>
-                      <td className="whitespace-nowrap text-muted-foreground">1200 / 1800 Bank</td>
+                      <td className="whitespace-nowrap font-medium text-accent-blue">SKR03 {aufwand03} / SKR04 {aufwand04}</td>
+                      <td className="text-muted-foreground">{istGwg ? "Sofortabschreibung GWG" : sofort ? "AfA (komplett im Anschaffungsjahr)" : "AfA-Aufwand (jährlich)"}</td>
+                      <td className="whitespace-nowrap text-right font-medium text-accent-blue">
+                        {formatEur(sofort ? result.erstjahrAfa : result.jahresAfa)}{sofort ? "" : "/Jahr"}
+                      </td>
+                      <td className="whitespace-nowrap text-muted-foreground">{anlage03} / {anlage04}</td>
                     </tr>
-                  )}
-                  <tr>
-                    <td className="whitespace-nowrap font-medium text-accent-blue">SKR03 {asset.skr03} / SKR04 {asset.skr04}</td>
-                    <td className="text-muted-foreground">AfA-Aufwand (jährlich)</td>
-                    <td className="whitespace-nowrap text-right font-medium text-accent-blue">{formatEur(result.jahresAfa)}/Jahr</td>
-                    <td className="whitespace-nowrap text-muted-foreground">0410 / 0650 (Wertberichtigung)</td>
-                  </tr>
-                </>
-              )}
+                  </>
+                );
+              })()}
             </tbody>
           </KitTable>
           <p className="mt-3 text-xs text-muted-foreground">
@@ -580,11 +577,7 @@ const AssetCart = () => {
   const [empfaengerTyp, setEmpfaengerTyp] = useState<"gmbh" | "privat">("gmbh");
   const [steuersatzCustom, setSteuersatzCustom] = useState(STEUERSATZ_PRIVAT_DEFAULT);
 
-  // KU-Flag in alle Items propagieren
-  useMemo(() => {
-    setItems((p) => p.map((it) => ({ ...it, istKu: cartIstKu })));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cartIstKu]);
+  // KU-Flag gilt für den ganzen Warenkorb und wird direkt an die Berechnung übergeben (kein setState im Render)
 
   const addItem = () => {
     setItems((p) => [
@@ -607,14 +600,14 @@ const AssetCart = () => {
       const result = calcAbschreibung(
         asset,
         it.nettoPreis,
-        it.istKu,
+        cartIstKu,
         it.monat,
         it.poolGenutzt,
         it.privatAnteilPct,
       );
       return { item: it, asset, result };
     });
-  }, [items]);
+  }, [items, cartIstKu]);
 
   const totalNetto = items.reduce((sum, it) => sum + it.nettoPreis, 0);
   const totalErstjahrAfa = results.reduce((sum, r) => sum + r.result.erstjahrAfa, 0);
@@ -730,7 +723,7 @@ const AssetCart = () => {
                             ))}
                           </select>
                         </Field>
-                        <Field label="Netto (€)" htmlFor={`cart-n-${item.id}`} className="col-span-2 sm:col-span-1">
+                        <Field label={cartIstKu ? "Preis inkl. USt (€)" : "Netto (€)"} htmlFor={`cart-n-${item.id}`} className="col-span-2 sm:col-span-1">
                           <Input
                             id={`cart-n-${item.id}`}
                             type="number"

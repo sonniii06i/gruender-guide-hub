@@ -6,6 +6,7 @@ import { Callout, Field, ResultPanel, ToneBadge, ToolLayout, ToolSection, select
 import { Calculator, AlertTriangle, TrendingUp, SlidersHorizontal, ChevronDown, Plus, Minus } from "lucide-react";
 import {
   annuityFV as annuity_fv,
+  barwertAnnuitaet,
   RUERUP_MAX_SINGLE,
   BAV_STEUERFREI_QUOTE,
   BAV_SV_FREI_QUOTE,
@@ -94,7 +95,11 @@ const PensionOptimizer = () => {
     // Beherrschende GmbH-GF sind i.d.R. freiwillig/privat versichert → kein Freibetrag, gesamte bAV beitragspflichtig.
     const bav_kv_freibetrag = istBeherrschenderGF ? 0 : BAV_KV_FREIBETRAG_JAHR_2026;
     const bav_kv_basis_jaehrlich = Math.max(0, bav_renteJaehrlich - bav_kv_freibetrag);
-    const bav_kvImRentenalter = bav_kv_basis_jaehrlich * 0.146 * 20;
+    // KV auf Versorgungsbezüge: allgemeiner Satz 14,6 % + Ø-Zusatzbeitrag 2026 2,9 % (§248 SGB V, voller Satz);
+    // PV 3,6 % (ohne Kinderlosenzuschlag) auf den vollen Betrag — der Freibetrag des §226 Abs. 2 SGB V gilt nur für die KV.
+    const BAV_KV_SATZ_RENTE = 0.146 + 0.029;
+    const BAV_PV_SATZ_RENTE = 0.036;
+    const bav_kvImRentenalter = (bav_kv_basis_jaehrlich * BAV_KV_SATZ_RENTE + bav_renteJaehrlich * BAV_PV_SATZ_RENTE) * 20;
     const bav_netto = bav_end - bav_steuerImRentenalter - bav_kvImRentenalter;
     const bav_steuerErsparnisGesamt = bav_steuerErsparnisProJahr * yearsToRetirement;
     const bav_reinvestGewinn = reinvestErsparnis(bav_steuerErsparnisProJahr);
@@ -121,19 +126,24 @@ const PensionOptimizer = () => {
     const riester_steuerErsparnisGesamt = riester_steuerErsparnisProJahr * yearsToRetirement;
     const riester_renteJaehrlich = riester_end / 20;
     const riester_steuerImRentenalter = riester_renteJaehrlich * 0.25 * 20;
-    const riester_netto = riester_end - riester_steuerImRentenalter;
+    // Sparrate über dem Riester-Höchstbetrag wird nicht verworfen, sondern läuft im ETF-Vergleichspfad weiter
+    const riester_rest = Math.max(0, jaehrlichSparen - riester_sparen);
+    const riester_rest_etfNetto = jaehrlichSparen > 0 ? etfNetEnd * (riester_rest / jaehrlichSparen) : 0;
+    const riester_netto = riester_end - riester_steuerImRentenalter + riester_rest_etfNetto;
     const riester_reinvestGewinn = reinvestErsparnis(riester_steuerErsparnisProJahr);
     const riester_finalEffekt = riester_netto + riester_steuerErsparnisGesamt + riester_reinvestGewinn;
 
     // === NPV: Auszahlungswerte (in Y Jahren) auf Heute diskontieren ===
     // discountFactor = 1 / (1 + r)^Y
     const discountFactor = 1 / Math.pow(1 + diskontierungssatz, yearsToRetirement);
-    const npv = (futureNetto: number, sparphasenSteuerCash: number) =>
-      futureNetto * discountFactor + sparphasenSteuerCash;
+    // Jährliche Steuerersparnisse fallen über die Sparphase verteilt an → als Rentenbarwert abzinsen
+    // (vorher undiskontiert aufsummiert, was die geförderten Produkte bevorzugte).
+    const npv = (futureNetto: number, ersparnisProJahr: number) =>
+      futureNetto * discountFactor + barwertAnnuitaet(ersparnisProJahr, diskontierungssatz, yearsToRetirement);
     const etf_npv = npv(etfNetEnd, 0);
-    const ruerup_npv = npv(ruerup_netto, ruerup_steuerErsparnisGesamt);
-    const bav_npv = npv(bav_netto, bav_steuerErsparnisGesamt);
-    const riester_npv = npv(riester_netto, riester_steuerErsparnisGesamt);
+    const ruerup_npv = npv(ruerup_netto, ruerup_steuerErsparnisProJahr);
+    const bav_npv = npv(bav_netto, bav_steuerErsparnisProJahr);
+    const riester_npv = npv(riester_netto, riester_steuerErsparnisProJahr);
     // riester quote für Anzeige
     const riester_warnung_quote = riester_zulagen_quote < 1
       ? `⚠ Eigenbeitrag ${riester_sparen.toFixed(0)} € < Mindest ${riester_mindest_eigenbeitrag.toFixed(0)} € → Zulagen nur zu ${(riester_zulagen_quote * 100).toFixed(0)} %`
@@ -211,7 +221,7 @@ const PensionOptimizer = () => {
         description: "Betriebliche Altersvorsorge über GmbH — 4–8 % BBG steuer-+SV-frei",
         ...calc.bav,
         pros: [
-          "Steuer- + SV-frei in der Sparphase (bis 8 % BBG / ~7.200 €)",
+          "Steuerfrei bis 8 % der BBG-RV (2026: 8.112 €), SV-frei bis 4 % (4.056 €) in der Sparphase",
           "Arbeitgeber-Anteil von bisheriger SV-Ersparnis",
           "Flexible Auszahlung (Rente oder Einmalbetrag)",
         ],

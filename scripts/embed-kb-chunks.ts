@@ -88,8 +88,50 @@ for (const c of chunks) {
 }
 console.log(`To embed: ${toEmbed.length} (skipped ${skipped} unchanged)`);
 
+// ---- veraltete Chunks: in der DB, aber nicht mehr im aktuellen Build ----
+// Ohne Aufräumen bleiben entfernte Inhalte und alte IDs (z. B. "slug" ↔ "slug__p1") im RAG und werden Felix weiter
+// mit überholten Werten eingespielt.
+const aktuelleIds = new Set(chunks.map((c) => `${c.source}|${c.source_id}`));
+const veraltet = [...existing.keys()].filter((k) => !aktuelleIds.has(k));
+const PRUNE_FORCE = process.argv.includes("--force-prune");
+console.log(`Veraltet in DB: ${veraltet.length}`);
+
+async function loescheVeraltete(): Promise<void> {
+  if (veraltet.length === 0) return;
+  // Schutz gegen einen kaputten/leeren Build: nie mehr als die Hälfte des Bestands auf einmal löschen.
+  if (chunks.length === 0 || (veraltet.length > existing.size / 2 && !PRUNE_FORCE)) {
+    console.warn(`  ⚠️ ${veraltet.length} von ${existing.size} Chunks wären zu löschen – abgebrochen. Mit --force-prune bestätigen.`);
+    return;
+  }
+  const proQuelle = new Map<string, string[]>();
+  for (const k of veraltet) {
+    const i = k.indexOf("|");
+    const src = k.slice(0, i);
+    proQuelle.set(src, [...(proQuelle.get(src) ?? []), k.slice(i + 1)]);
+  }
+  let geloescht = 0;
+  for (const [src, ids] of proQuelle) {
+    for (let i = 0; i < ids.length; i += 100) {
+      const teil = ids.slice(i, i + 100);
+      const { error } = await sb.from("kb_chunks").delete().eq("source", src).in("source_id", teil);
+      if (error) {
+        console.error(`  ✗ Löschen ${src} (${teil.length}) fehlgeschlagen: ${error.message}`);
+        continue;
+      }
+      geloescht += teil.length;
+    }
+  }
+  console.log(`Veraltete Chunks gelöscht: ${geloescht}/${veraltet.length}`);
+}
+
+if (DRY_RUN) {
+  console.log(`--- DRY RUN — würde ${veraltet.length} veraltete Chunks löschen ---`);
+  if (veraltet.length) console.log(veraltet.slice(0, 50).join("\n"));
+}
+
 if (toEmbed.length === 0) {
-  console.log("Nothing to do.");
+  console.log("Nothing to embed.");
+  if (!DRY_RUN) await loescheVeraltete();
   process.exit(0);
 }
 
@@ -190,6 +232,10 @@ for (let i = 0; i < toEmbed.length; i += BATCH_EMBED) {
   process.stdout.write(`\r  ${pct}% (${total}/${toEmbed.length}) · ok ${processedOk} fail ${processedFail} · ${elapsed}s`);
 }
 console.log("");
+
+// Erst aufräumen, wenn alle neuen Chunks oben sind – sonst fehlt Felix bei einem Teilausfall Wissen.
+if (processedFail === 0) await loescheVeraltete();
+else console.warn(`Aufräumen übersprungen: ${processedFail} Chunks fehlgeschlagen – erst erneut laufen lassen.`);
 
 // ---- summary ----
 const totalChars = toEmbed.reduce((s, c) => s + c.content.length, 0);

@@ -13,6 +13,9 @@ export type BwaPos = {
   positions: { name: string; key: string; skr03?: string }[];
 };
 
+// SKR03 (DATEV-Kontenrahmen): 2700 Sonstige Erträge, 4130 Gesetzliche soziale Aufwendungen, 4138 Beiträge zur Berufsgenossenschaft,
+// 4710 Verpackungsmaterial, 4950 Rechts- und Beratungskosten, 4955 Buchführungskosten, 4964 Aufwendungen für die zeitlich befristete
+// Überlassung von Rechten (Lizenzen/Software-Abos). 4910 ist Porto, 8400 Erlöse 19 % – beides nicht für die Positionen oben.
 export const BWA_STRUCTURE: BwaPos[] = [
   {
     category: "Erlöse",
@@ -23,7 +26,7 @@ export const BWA_STRUCTURE: BwaPos[] = [
       { name: "Umsatzerlöse 7% USt", key: "erloese_7", skr03: "8300" },
       { name: "Erlöse innergemeinschaftliche Lieferung", key: "erloese_ig", skr03: "8125" },
       { name: "Erlöse Drittland (Export)", key: "erloese_drittland", skr03: "8120" },
-      { name: "Sonstige betriebliche Erträge", key: "erloese_sonstige", skr03: "8400" },
+      { name: "Sonstige betriebliche Erträge", key: "erloese_sonstige", skr03: "2700" },
     ],
   },
   {
@@ -35,7 +38,7 @@ export const BWA_STRUCTURE: BwaPos[] = [
       { name: "Wareneinkauf 19% VSt", key: "wareneinkauf_19", skr03: "3400" },
       { name: "Wareneinkauf 7% VSt", key: "wareneinkauf_7", skr03: "3300" },
       { name: "Roh- / Hilfsstoffe", key: "rohhilfsstoffe", skr03: "3000" },
-      { name: "Verpackungsmaterial", key: "verpackung", skr03: "4775" },
+      { name: "Verpackungsmaterial", key: "verpackung", skr03: "4710" },
       { name: "Bestandsveränderung", key: "bestandsveraendernung", skr03: "8990" },
     ],
   },
@@ -47,7 +50,7 @@ export const BWA_STRUCTURE: BwaPos[] = [
     positions: [
       { name: "Löhne und Gehälter", key: "loehne", skr03: "4120" },
       { name: "GF-Gehalt", key: "gf_gehalt", skr03: "4124" },
-      { name: "Sozialversicherung", key: "sv", skr03: "4138" },
+      { name: "Sozialversicherung", key: "sv", skr03: "4130" },
       { name: "Berufsgenossenschaft", key: "bg", skr03: "4138" },
     ],
   },
@@ -58,7 +61,7 @@ export const BWA_STRUCTURE: BwaPos[] = [
     positions: [
       { name: "Werbekosten / Ads (Meta, Google)", key: "ads", skr03: "4600" },
       { name: "Influencer / PR", key: "influencer", skr03: "4600" },
-      { name: "Marketing-Tools (CRM, Email, Tracking)", key: "marketing_tools", skr03: "4910" },
+      { name: "Marketing-Tools (CRM, Email, Tracking)", key: "marketing_tools", skr03: "4964" },
       { name: "Provisionen", key: "provisionen", skr03: "4760" },
     ],
   },
@@ -98,9 +101,9 @@ export const BWA_STRUCTURE: BwaPos[] = [
     type: "aufwand",
     positions: [
       { name: "Beratungs- / StB-Kosten", key: "stb", skr03: "4955" },
-      { name: "Anwaltskosten", key: "anwalt", skr03: "4955" },
+      { name: "Anwaltskosten", key: "anwalt", skr03: "4950" },
       { name: "Versicherungen (D&O, Haftpflicht)", key: "versicherung", skr03: "4360" },
-      { name: "IT / Software-Abos", key: "it_software", skr03: "4910" },
+      { name: "IT / Software-Abos", key: "it_software", skr03: "4964" },
       { name: "Bürobedarf", key: "buero", skr03: "4930" },
       { name: "Telefon / Internet", key: "telefon", skr03: "4920" },
       { name: "Fortbildung / Coaching", key: "fortbildung", skr03: "4945" },

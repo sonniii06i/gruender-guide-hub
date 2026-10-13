@@ -448,25 +448,6 @@ export const STB_POOL: StbProfile[] = [
     reddit_mention: "in Founder-Twitter/LinkedIn als Low-Cost-Holding-Option diskutiert",
   },
   {
-    id: "kanzlei-mehmedovic",
-    name: "Mehmedović & Partner",
-    city: "München",
-    specs: ["holding", "international", "ecom", "ip-box"],
-    tagline: "München-Boutique. Holding-Konstrukte + EU-Alternativen + IP-Box-Setups.",
-    url: "https://www.mehmedovic-partner.de",
-    honorarHinweis: "Mid-Tier · Holdings ab 12k €/Jahr · Stundensatz ~200 €",
-    besonders: [
-      "§22 UmwStG Sperrfristen",
-      "Estonian OÜ aus DE-Sicht",
-      "IP-Verlagerung NL/IE/HU",
-      "FlexCo Österreich",
-    ],
-    toolStack: ["datev"],
-    sprachen: ["de", "en"],
-    groesse: "boutique",
-    online_first: false,
-  },
-  {
     id: "kkp",
     name: "KKP Steuerberatung",
     city: "Berlin",
@@ -602,8 +583,8 @@ export const STB_POOL: StbProfile[] = [
     besonders: [
       "§AStG Hinzurechnungsbesteuerung-Berechnung",
       "DBA-Anrechnung US-Quellensteuer",
-      "EIN + BOI + 5472-Filing-Begleitung",
-      "ATAD III-Substance-Aufbau",
+      "EIN + 5472-Filing-Begleitung",
+      "Substanz-Aufbau (§ 50d Abs. 3 EStG)",
     ],
     toolStack: ["datev"],
     sprachen: ["de", "en"],
@@ -616,12 +597,12 @@ export const STB_POOL: StbProfile[] = [
     name: "Kanzlei Mount Bonnell (nullsteuer.llc)",
     city: "Austin TX + virtuelles EU-Team",
     specs: ["us-llc", "international"],
-    tagline: "US-CPA-Kanzlei aus Austin für deutsche Nomaden. 5472/1120/BOI-Compliance.",
+    tagline: "US-CPA-Kanzlei aus Austin für deutsche Nomaden. 5472/1120-Compliance.",
     url: "https://uskanzlei.com",
     honorarHinweis: "Pakete + Honorarvereinbarung · öffentlich nicht spezifiziert",
     besonders: [
       "US-CPA-Kanzlei (Austin)",
-      "Form 5472 / 1120 / BOI komplett",
+      "Form 5472 / 1120 komplett",
       "Nomad/PT-Setup",
       "EU-Team für DE-Klientel",
     ],
@@ -1169,10 +1150,11 @@ export const STB_POOL: StbProfile[] = [
   {
     id: "stbk-suche",
     name: "Steuerberaterkammer-Suche",
-    city: "DE-weit (16 Kammern)",
+    city: "DE-weit (21 Kammern)",
     specs: ["standard", "kleinunternehmer", "lohn"],
     tagline: "Offizieller Verzeichnis-Service. Kostenlos. Kein Marketing-Layer.",
-    url: "https://steuerberaterkammer-berlin.de/steuerberatersuche",
+    // Amtliches Steuerberaterverzeichnis der Bundessteuerberaterkammer (§ 86b StBerG).
+    url: "https://steuerberaterverzeichnis.berufs-org.de/",
     honorarHinweis: "StBVV-Standard · Honorar je Kanzlei",
     besonders: [
       "Volle Liste regionaler StBs",
@@ -1186,32 +1168,33 @@ export const STB_POOL: StbProfile[] = [
   },
 ];
 
-// AVOID-Liste — Kanzleien wo Community/Reviews überwiegend warnen.
-// Wird im UI als Hinweis-Section angezeigt, NICHT als matchbare Empfehlung.
+// Worauf bei der Kanzleiwahl achten — Hinweis-Section im UI, NICHT als matchbare Empfehlung.
+// Keine namentliche Warnliste: herabsetzende Aussagen über einzelne Kanzleien auf Basis einzelner Reviews sind
+// nicht belegbar und abmahnfähig (§ 4 Nr. 1, 2 UWG, § 824 BGB). Stattdessen neutrale Auswahlkriterien.
 export const STB_AVOID_LIST: { name: string; reason: string; source: string }[] = [
   {
-    name: "Felix1.de (ETL-Tochter)",
+    name: "Unklare Erreichbarkeit",
     reason:
-      "Dokumentierte Beschwerden: Mahnungen ohne vorherige Schlussrechnung, kommunikationsschwache Hotline, falsche Buchungen, Mandatskündigungen mit Drohung.",
-    source: "trustpilot.com/review/felix1.de + service-report-it.de Artikel",
+      "Vor Mandatsbeginn Reaktionszeit und festen Ansprechpartner schriftlich vereinbaren. Für Gründer ist schnelle Rückmeldung oft wichtiger als der niedrigste Preis.",
+    source: "Auswahlkriterium (keine Bewertung einzelner Kanzleien)",
   },
   {
-    name: "ETL-Franchise-Kanzleien generell",
+    name: "Unklare Honorare",
     reason:
-      "Franchise-System → Qualität extrem standortabhängig. Erfahrungsberichte stark schwankend, kein einheitliches Qualitätsniveau.",
-    source: "Trustpilot-Aggregat + Reddit-Threads",
+      "Honorar nach StBVV oder als Pauschale vorab schriftlich festhalten, inklusive Jahresabschluss, Lohn und Sonderleistungen. Rechnungen sollten nachvollziehbar und vor Mahnungen gestellt werden.",
+    source: "Auswahlkriterium (keine Bewertung einzelner Kanzleien)",
   },
   {
-    name: "Ecovis (Hamburg + andere Standorte)",
+    name: "Netzwerk- und Franchise-Strukturen",
     reason:
-      "Netzwerk-/Lizenz-Modell ähnlich ETL-Franchise. 90+ Länder mit lizenzierten Standorten → Qualität pro Standort stark schwankend. Bei Gründer-Mandaten zu inkonsistent.",
-    source: "Recherche Hamburg-Pool (Mai 2026)",
+      "Bei Kanzleinetzwerken kann die Qualität je Standort unterschiedlich sein. Frag nach dem konkreten Bearbeiter vor Ort und seiner Erfahrung mit deiner Rechtsform.",
+    source: "Auswahlkriterium (keine Bewertung einzelner Kanzleien)",
   },
   {
-    name: "Dr. Lüders & Partner (Hamburg)",
+    name: "Fehlende Erfahrung mit deinem Geschäftsmodell",
     reason:
-      "Dokumentierte Trustlocal-Reviews zu schlechter Erreichbarkeit (Mandant: '30+ Anrufe nötig' bis StE-Lieferung). Für Solos/Gründer wo Reaktionsgeschwindigkeit kritisch ist nicht empfehlenswert.",
-    source: "Trustlocal-Reviews Mai 2026",
+      "E-Commerce, Holding, Auslandsbezug oder Krypto brauchen Spezialwissen. Lass dir Referenzmandate oder Fachberater-Titel nennen.",
+    source: "Auswahlkriterium (keine Bewertung einzelner Kanzleien)",
   },
 ];
 

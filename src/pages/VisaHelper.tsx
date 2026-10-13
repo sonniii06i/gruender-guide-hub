@@ -110,7 +110,7 @@ const PFADE: Pfad[] = [
     rechtsgrundlage: "§21 Abs 5 AufenthG",
     zielgruppe: "Freiberufler (IT, Design, Beratung, Heilberufe, Künstler)",
     voraussetzungen: [
-      "Freier Beruf gemäß §18 EStG (Catalog: IT, Design, Beratung, Heilberufe, Künstler, Wissenschaftler etc.)",
+      "Freier Beruf gemäß §18 EStG (Katalog: Heilberufe, Ingenieure, Künstler, Wissenschaftler, Lehrer u. a.; IT, Design und Beratung nur bei Ähnlichkeit zu einem Katalogberuf, Einzelfall)",
       "Berufsspezifische Berechtigung (z.B. Approbation bei Heilberufen, IT-Skills)",
       "Auftragslage + Einkommens-Prognose (mind. 2 Auftraggeber empfohlen)",
       "Krankenversicherung",
@@ -174,7 +174,7 @@ const PFADE: Pfad[] = [
       "§18a: berufliche Ausbildung (mind. 2 Jahre) — bisher 'kein Akademiker'-Pfad",
       "§18b: akademischer Abschluss (Bachelor/Master/PhD)",
       "Anerkennung der Qualifikation ODER Anerkennungs-Partnerschaft (neu seit 2024)",
-      "Job-Offer in DE (kein konkretes Mindestgehalt seit Reform 2024!)",
+      "Job-Offer in DE (kein allgemeines Mindestgehalt; ab 45 Jahren bei Ersterteilung aber Gehalt von mind. 55 % der BBG-RV oder Nachweis angemessener Altersversorgung, §18 Abs. 2 Nr. 5 AufenthG)",
     ],
     prozess: [
       "Anerkennung Abschluss + Job-Offer",
@@ -184,7 +184,7 @@ const PFADE: Pfad[] = [
     dauer: "1-3 Monate · Initial 4 Jahre",
     kostenAmt: "100 €",
     kostenAnwalt: "0-2k €",
-    niederlassungsAfter: "Niederlassung nach 4 Jahren (Standard) oder 33 Monaten (gehobene Voraussetzungen)",
+    niederlassungsAfter: "Niederlassung für Fachkräfte nach 3 Jahren (§18c Abs. 1 AufenthG seit 2023); mit Blauer Karte nach 27 bzw. 21 Monaten (B1)",
     fitScore: (i) =>
       (i.zweck === "tech-fachkraft" ? 40 : 0) +
       (i.jobOffer ? 30 : 0) +
@@ -527,8 +527,8 @@ const AusDeutschland = () => {
             ist eng).
           </li>
           <li>
-            <strong className="font-semibold text-foreground">§6 AStG verschärft 2025:</strong> zinslose EU-Stundung weg,
-            jetzt 7-Jahres-Ratenzahlung mit Sicherheit.
+            <strong className="font-semibold text-foreground">§6 AStG verschärft zum 1.1.2022 (ATAD-UmsG):</strong> zinslose
+            EU-Stundung weg, jetzt 7-Jahres-Ratenzahlung, in der Regel mit Sicherheitsleistung.
           </li>
           <li>
             <strong className="font-semibold text-foreground">Paraguay-$5k-Mythos überholt</strong> seit Gesetz 6984/2022.

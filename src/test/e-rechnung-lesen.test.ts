@@ -46,3 +46,29 @@ describe("E-Rechnung lesen – eigener Export", () => {
     expect(ibanGueltig("DE02120300000000202052")).toBe(false);
   });
 });
+
+describe("E-Rechnung lesen: Runde 2", () => {
+  it("ungültiger Währungscode stürzt nicht ab und wird gemeldet", async () => {
+    const { leseERechnung, pruefeERechnung } = await import("@/lib/eRechnungLesen");
+    const xml = `<?xml version="1.0"?><Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2"><cbc:ID>1</cbc:ID><cbc:IssueDate>2026-01-01</cbc:IssueDate><cbc:DocumentCurrencyCode>EURO</cbc:DocumentCurrencyCode><cac:LegalMonetaryTotal><cbc:LineExtensionAmount>100</cbc:LineExtensionAmount><cbc:TaxExclusiveAmount>100</cbc:TaxExclusiveAmount><cbc:TaxInclusiveAmount>119</cbc:TaxInclusiveAmount><cbc:PayableAmount>119</cbc:PayableAmount></cac:LegalMonetaryTotal></Invoice>`;
+    const r = leseERechnung(xml);
+    expect(r.waehrung).toBe("EUR");
+    expect(r.waehrungUngueltig).toBe("EURO");
+    expect(pruefeERechnung(r).some((x) => !x.ok && /Währungscode/.test(x.text))).toBe(true);
+  });
+});
+
+describe("E-Rechnung lesen: Runde 3 (BR-CO-16 mit Rundungsbetrag BT-114)", () => {
+  const ubl = (rundung: string, zahlbar: string) =>
+    `<?xml version="1.0"?><Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2"><cbc:ID>1</cbc:ID><cbc:IssueDate>2026-01-01</cbc:IssueDate><cbc:DocumentCurrencyCode>EUR</cbc:DocumentCurrencyCode><cac:LegalMonetaryTotal><cbc:LineExtensionAmount>99.97</cbc:LineExtensionAmount><cbc:TaxExclusiveAmount>99.97</cbc:TaxExclusiveAmount><cbc:TaxInclusiveAmount>118.96</cbc:TaxInclusiveAmount>${rundung}<cbc:PayableAmount>${zahlbar}</cbc:PayableAmount></cac:LegalMonetaryTotal></Invoice>`;
+  it("UBL: 118,96 + Rundung 0,04 = 119,00 ist gültig", () => {
+    const r = leseERechnung(ubl("<cbc:PayableRoundingAmount>0.04</cbc:PayableRoundingAmount>", "119.00"));
+    expect(r.summen.rundung).toBe(0.04);
+    const p = pruefeERechnung(r).find((x) => x.text.includes("BR-CO-16"));
+    expect(p?.ok).toBe(true);
+  });
+  it("UBL: ohne Rundungsfeld wird die Abweichung weiter gemeldet", () => {
+    const p = pruefeERechnung(leseERechnung(ubl("", "119.00"))).find((x) => x.text.includes("BR-CO-16"));
+    expect(p?.ok).toBe(false);
+  });
+});

@@ -197,7 +197,7 @@ const StbCostBenefit = () => {
                 </Field>
                 <Field label="USt-Voranmeldung" htmlFor="stb-ustva">
                   <select id="stb-ustva" value={ustVa} onChange={(e) => setUstVa(e.target.value as UstVaFrequenz)} className={selectCls}>
-                    <option value="monatlich">Monatlich (12×/J, &gt;7.500 € USt/J)</option>
+                    <option value="monatlich">Monatlich (12×/J, &gt;9.000 € USt/J)</option>
                     <option value="quartal">Quartalsweise (4×/J)</option>
                     <option value="keine">Keine (Kleinunternehmer §19 UStG)</option>
                   </select>

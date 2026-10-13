@@ -15,7 +15,6 @@ import {
   Minus,
   ShieldAlert,
   Star,
-  MessageCircle,
   AlertTriangle,
   Info,
 } from "lucide-react";
@@ -74,8 +73,6 @@ type Bank = {
   trustpilotUrl?: string;
   /** G2 (für Business-Banking). */
   g2Rating?: number;
-  /** Reddit / OffshoreCorpTalk Quote (anonymisiert). */
-  redditQuote?: string;
   /** Hidden Fees / Gotchas. */
   hiddenFees: string[];
 };
@@ -120,7 +117,6 @@ const BANKS: Bank[] = [
     trustpilotRating: 4.3,
     trustpilotCount: "~289.000",
     trustpilotUrl: "https://www.trustpilot.com/review/wise.com",
-    redditQuote: "'Wise Personal seit 5 Jahren — keine Probleme, nur €20 Initial-Top-up gezahlt'",
     hiddenFees: [
       "Card-Withdrawal-Limit 250€/Monat free, danach 2,69%",
       "Conversion in 'minor' Currencies bis 1,5%",
@@ -142,7 +138,7 @@ const BANKS: Bank[] = [
       "**$0 Setup + Monthly Standard-Plan** — wirklich kostenlos",
       "Akzeptiert non-Resident Founder von 200+ Ländern (DACH-Solos inkl.)",
       "Sehr saubere App + Web-UI, API + Stripe-Integration",
-      "Mercury Treasury: **bis 4,97% net** Yield (Stand 8.5.2026, bei $500k+)",
+      "Mercury Treasury: **bis 4,97% net** Yield (laut mercury.com/treasury, Stand 8.5.2026, ab $500k Guthaben; variabel, folgt dem US-Leitzins)",
       "Wires + ACH inkl., FDIC bis $5M via Sweep zu Partner-Banks",
       "Mercury Bank N.A. eigene OCC-Charter approved April 2026 (weg von Partner-Banking)",
     ],
@@ -169,7 +165,6 @@ const BANKS: Bank[] = [
     trustpilotCount: "~2.500",
     trustpilotUrl: "https://www.trustpilot.com/review/mercury.com",
     g2Rating: 4.5,
-    redditQuote: "'Account closed 30 days after single $80k inbound wire from Indonesian client. No appeal worked.' (r/Entrepreneur)",
     hiddenFees: [
       "Mass-API-Payments + FX brauchen $35/mo Plus-Plan",
       "1% Conversion-Fee bei non-USD Card-Transactions",
@@ -210,7 +205,6 @@ const BANKS: Bank[] = [
     trustpilotCount: "~289.000",
     trustpilotUrl: "https://www.trustpilot.com/review/wise.com",
     g2Rating: 4.4,
-    redditQuote: "'Wise schloss mein Business-Account nach 3 Jahren — kein Grund, 6.000€ für 47 Tage gesperrt' (OffshoreCorpTalk)",
     hiddenFees: [
       "Address-Proof muss aktuell sein — nach NBB-Mandate regelmäßig neu verlangt!",
       "Multi-Entity-Setups (mehrere LLCs/GmbHs unter selbem Director) deutlich höheres Closure-Risk",
@@ -250,7 +244,6 @@ const BANKS: Bank[] = [
     trustpilotRating: 4.4,
     trustpilotCount: "~3.000+",
     trustpilotUrl: "https://www.trustpilot.com/review/relayfi.com",
-    redditQuote: "'Thread Bank put a 21-day hold on incoming $40k wire — RFI took 4 weeks to resolve'",
     hiddenFees: [
       "International Wire $10 trotz Premium",
       "ACH-Limits niedriger als Mercury (Standard $25k/Tag)",
@@ -290,7 +283,6 @@ const BANKS: Bank[] = [
     trustpilotCount: "~700",
     trustpilotUrl: "https://www.trustpilot.com/review/brex.com",
     g2Rating: 4.6,
-    redditQuote: "'Brex closed our account after 18 months. No reason given. Had to migrate $200k in 14 days' (Hacker News)",
     hiddenFees: [
       "Premium-Plan $12 PRO USER/Monat — 10 MA = $120/mo",
       "Bei <$10k monthly Spend: aggressive Account-Reviews",
@@ -334,7 +326,6 @@ const BANKS: Bank[] = [
     trustpilotCount: "~380",
     trustpilotUrl: "https://www.trustpilot.com/review/statrys.com",
     g2Rating: 4.5,
-    redditQuote: "'Account in 3 Tagen, Support Slack-mäßig schnell. HKD 88 Inactivity-Fee ist die einzige negative Überraschung'",
     hiddenFees: [
       "HKD 88/Mo Inactivity wenn <5 Outflows (~10 EUR/mo)",
       "HKD 250-450 Closure-Statements",
@@ -375,7 +366,6 @@ const BANKS: Bank[] = [
     trustpilotCount: "~2.390",
     trustpilotUrl: "https://www.trustpilot.com/review/airwallex.com",
     g2Rating: 4.4,
-    redditQuote: "'Airwallex froze €120k for 67 days — only resolved via LinkedIn-Post öffentlich' (Nov 2025 viral)",
     hiddenFees: [
       "€10k Saldo-Bedingung um Monthly zu sparen — sonst läuft Fee",
       "Yield-Product Annual-Fee → effektiver Yield gering",
@@ -415,7 +405,6 @@ const BANKS: Bank[] = [
     trustpilotRating: 3.7,
     trustpilotCount: "~150-200",
     trustpilotUrl: "https://www.trustpilot.com/review/currenxie.com",
-    redditQuote: "'FX bei USD/HKD ist unschlagbar, aber Refund nach Closure dauerte 5 Wochen'",
     hiddenFees: [
       "Visa Card NUR HK-incorporated — DE-Person mit BVI scheidet aus",
       "Offshore-Tier USD 50 Setup für BVI etc.",
@@ -465,7 +454,6 @@ const BANKS: Bank[] = [
     trustpilotRating: 2.0,
     trustpilotCount: "Retail-skewed — Business-Kunden meistens nicht aktiv auf Trustpilot",
     trustpilotUrl: "https://www.trustpilot.com/review/hsbc.com.hk",
-    redditQuote: "'HSBC Business Banking mit Relationship Manager ist Gold wert — aber 4 Wochen Bearbeitung + persönlicher HK-Termin'",
     hiddenFees: [
       "Fall-Below-Fee HKD 200-300/Mo wenn <HKD 50k Saldo",
       "Persönlicher HK-Besuch zwingend (Flug + Hotel ~2-3k EUR)",
@@ -720,14 +708,6 @@ const IntlBanking = () => {
                     )}
                   </Callout>
 
-                  {/* User-Quote */}
-                  {b.redditQuote && (
-                    <blockquote className="flex gap-2.5 rounded-xl border border-border bg-secondary/40 p-4 text-sm italic text-muted-foreground">
-                      <MessageCircle className="mt-0.5 h-4 w-4 shrink-0 not-italic text-accent-blue" aria-hidden="true" />
-                      <span>{b.redditQuote}</span>
-                    </blockquote>
-                  )}
-
                   {/* Features */}
                   <div>
                     <p className="mb-2 text-sm font-medium">Funktionen</p>
@@ -820,10 +800,10 @@ const IntlBanking = () => {
               Wise Personal (kostenlos!) für Multi-Currency-Wallets + DE-Geschäftsbank (Qonto/Sparkasse) für EUR-Ops
             </ProfilKarte>
             <ProfilKarte titel="DE-Founder mit US-LLC">
-              Mercury (Operating + Stripe + Treasury 4,97 %) + Wise Business (FX-Bridge USD↔EUR) parallel. Niemals nur eine
+              Mercury (Operating + Stripe + Treasury, Rendite variabel) + Wise Business (FX-Bridge USD↔EUR) parallel. Niemals nur eine
             </ProfilKarte>
             <ProfilKarte titel="DE-Founder mit HK-LTD">
-              Statrys (Trustpilot 4,6/5, 3-Tage-Onboarding) als Primary. HSBC nur bei HKD 500k+/Mo und persönlichem Besuch
+              Statrys (Trustpilot 4,6/5, 3-Tage-Onboarding) als Primary. HSBC erst bei höheren Volumina und mit persönlichem Termin in HK (Kontogebühr entfällt ab HKD 50k Saldo)
             </ProfilKarte>
             <ProfilKarte titel="Lieber nicht" tone="danger">
               Brex (Solo systematisch abgelehnt) · Airwallex als einzige Bank (Closure-Trend 2026) · HSBC ohne HK-Besuch ·

@@ -392,7 +392,7 @@ export const PLAYBOOKS: Playbook[] = [
       {
         slug: "disclaimer",
         title: "Wichtiger Disclaimer vorweg",
-        description: "Kleinunternehmer-Regelung (§19 UStG) ist KEIN \"cooler Trick\" — es ist eine gesetzliche Vereinfachung für KLEINE Umsätze. Ab 25k Vorjahr / 100k laufendes Jahr fällst du raus (Reform 2025 durch Wachstumschancengesetz). Bei B2B-Geschäft oder Investitionen ist sie oft NACHTEILIG (kein Vorsteuerabzug).",
+        description: "Kleinunternehmer-Regelung (§19 UStG) ist KEIN \"cooler Trick\" — es ist eine gesetzliche Vereinfachung für KLEINE Umsätze. Seit 2025 (Neufassung durch Jahressteuergesetz 2024): Vorjahr max. 25.000 € und laufendes Jahr max. 100.000 € – wer die 100.000 € überschreitet, ist ab genau diesem Umsatz regelbesteuert. Im Gründungsjahr gilt eine Grenze von 25.000 €. Bei B2B-Geschäft oder Investitionen ist sie oft NACHTEILIG (kein Vorsteuerabzug).",
         kind: "info",
         estMinutes: 10,
         estCost: "0 €",
@@ -400,7 +400,8 @@ export const PLAYBOOKS: Playbook[] = [
       {
         slug: "check",
         title: "Bin ich überhaupt geeignet?",
-        description: "Hart-Kriterien: Vorjahresumsatz < 25.000 € + laufendes Jahr voraussichtlich < 100.000 €. Plus: Macht es wirtschaftlich Sinn?",
+        // § 19 Abs. 1 und 2 UStG i. d. F. des JStG 2024 (gültig ab 01.01.2025): harte Grenzen ohne Prognose.
+        description: "Hart-Kriterien (§ 19 UStG seit 2025): Vorjahresumsatz ≤ 25.000 € UND laufendes Jahr ≤ 100.000 € – beim Überschreiten der 100.000 € entfällt die Regelung sofort ab diesem Umsatz. Im Gründungsjahr: max. 25.000 € Umsatz, sonst ab Überschreitung Regelbesteuerung. Plus: Macht es wirtschaftlich Sinn?",
         kind: "decision",
         estMinutes: 30,
         estCost: "0 €",
@@ -989,7 +990,7 @@ export const PLAYBOOKS: Playbook[] = [
       {
         slug: "kleinunternehmer",
         title: "Kleinunternehmer-Regel prüfen",
-        description: "Bis 25k €/Jahr Umsatz: §19 UStG → keine USt auf Rechnungen. ABER: B2B-Brand-Deals = oft besser Regelbesteuerung wegen Vorsteuer.",
+        description: "Kleinunternehmer (§19 UStG): Vorjahr ≤ 25.000 € und laufendes Jahr ≤ 100.000 € Umsatz, im Gründungsjahr max. 25.000 € → keine USt auf Rechnungen. ABER: B2B-Brand-Deals = oft besser Regelbesteuerung wegen Vorsteuer.",
         kind: "decision",
         estMinutes: 20,
         estCost: "0 €",
@@ -1052,10 +1053,12 @@ export const PLAYBOOKS: Playbook[] = [
       },
       {
         slug: "ksk",
-        title: "KSK prüfen (optional, sehr lukrativ!)",
+        // KSK-Versicherte tragen die Hälfte der Beiträge (§§ 15, 16 KSVG): RV 18,6 %/2, KV 14,6 %/2 + ½ Zusatzbeitrag,
+        // PV 3,6 %/2 (2026) → rund 20 % des Arbeitseinkommens. Werbliche Tätigkeit ist i. d. R. nicht künstlerisch/publizistisch (§ 2 KSVG).
+        title: "KSK prüfen (nur bei künstlerisch/publizistischer Tätigkeit)",
         kind: "info",
         estMinutes: 60,
-        estCost: "0 € Antrag · ~5 % vom Gewinn als KSK-Beitrag (statt ~14 % freiwillige KV)",
+        estCost: "0 € Antrag · KSK-Beitrag ca. 20 % des Arbeitseinkommens (halbe RV/KV/PV, die andere Hälfte tragen KSK/Bund) · reine Werbe-Kooperationen zählen meist nicht",
       },
       {
         slug: "steuer-ruecklage",
@@ -1075,17 +1078,17 @@ export const PLAYBOOKS: Playbook[] = [
     title: "US-LLC gründen (Wyoming / Delaware / New Mexico)",
     emoji: "🇺🇸",
     icon: Globe2,
-    tagline: "LLC für non-US Founder — mit allen Postadressen für SS-4, BOI, 5472, W-7",
+    tagline: "LLC für non-US Founder — mit allen Postadressen für SS-4, 5472, W-7",
     outcome: "Voll funktionsfähige US-LLC mit EIN, US-Bankkonto und korrekter US/DE-Steuer-Setup.",
     duration: "4–8 Wochen",
     difficulty: "Mittel",
     totalCost: "Staatsgebühr ab ~50 $ (New Mexico) bzw. ~100 $ (Wyoming) + Registered Agent ~25–150 $/Jahr · EIN kostenlos",
-    runningCost: "0 € (laufend) · Wechsel später ggf. 200–500 € StB",
+    runningCost: "ca. 400–1.500 $/Jahr (Registered Agent, Annual Report bzw. Franchise Tax, CPA für Form 5472/1120)",
     steps: [
       {
         slug: "state",
         title: "Bundesstaat wählen",
-        description: "Wyoming (anonym, $100 Filing, $60/Jahr), Delaware (Investor-freundlich, $90 Filing, $300/Jahr Franchise Tax), New Mexico ($50 Filing, KEIN Annual Report — günstigster Staat lifecycle).",
+        description: "Wyoming (anonym, $100 Filing, $60/Jahr), Delaware (Investor-freundlich, $110 Filing, $300/Jahr Franchise Tax), New Mexico ($50 Filing, KEIN Annual Report — günstigster Staat lifecycle).",
         kind: "decision",
         estMinutes: 30,
         estCost: "0 €",
@@ -1101,7 +1104,7 @@ export const PLAYBOOKS: Playbook[] = [
       {
         slug: "registered-agent",
         title: "Registered Agent + US-Mailing-Adresse buchen (Pflicht!)",
-        description: "JEDER Staat verlangt einen Registered Agent mit physischer Adresse im Staat. Wyoming Registered Agent (wyomingregisteredagent.com) = günstig + zugewiesene US-Mailing-/Business-Adresse für SS-4/BOI/Bank, Northwest = Branchen-Standard, Harbor Compliance = günstigste seriöse Alternative, Cloud Peak Law = mit Treuhand-Service.",
+        description: "JEDER Staat verlangt einen Registered Agent mit physischer Adresse im Staat. Wyoming Registered Agent (wyomingregisteredagent.com) = günstig + zugewiesene US-Mailing-/Business-Adresse für SS-4/Bank, Northwest = Branchen-Standard, Harbor Compliance = günstigste seriöse Alternative, Cloud Peak Law = mit Treuhand-Service.",
         kind: "external",
         estMinutes: 30,
         estCost: "Wyoming Registered Agent 25 $/Jahr (+Mail-Forwarding optional) · Northwest 125 $/Jahr · Harbor 89 $/Jahr · Cloud Peak Law ab 350 $/Jahr",
@@ -1130,10 +1133,12 @@ export const PLAYBOOKS: Playbook[] = [
       },
       {
         slug: "boi",
-        title: "BOI-Report bei FinCEN (Pflicht!)",
+        // FinCEN Interim Final Rule vom 26.03.2025 (90 FR 13688): inländische US-Gesellschaften
+        // (auch LLCs von Nicht-US-Gründern) sind von der BOI-Meldung befreit.
+        title: "BOI-Status prüfen – seit 26.03.2025 für US-LLCs entfallen",
         kind: "external",
-        estMinutes: 60,
-        estCost: "0 $ (FinCEN kostenlos) · Service-Anbieter 50–150 $",
+        estMinutes: 10,
+        estCost: "0 $ – keine Meldung nötig, keinen Dienstleister dafür bezahlen",
       },
       {
         slug: "bank",
@@ -1435,7 +1440,7 @@ export const PLAYBOOKS: Playbook[] = [
       {
         slug: "scope-check",
         title: "Pflicht-Check: Was du brauchst",
-        description: "Online-Shop in DE/EU braucht IMMER: Impressum (§5 TMG), Datenschutzerklärung (Art. 13 DSGVO), AGB (optional aber empfohlen), Widerrufsbelehrung (§312g BGB), Cookie-Consent (TTDSG/ePrivacy).",
+        description: "Online-Shop in DE/EU braucht IMMER: Impressum (§5 DDG, seit 14.05.2024 statt §5 TMG), Datenschutzerklärung (Art. 13 DSGVO), AGB (optional aber empfohlen), Widerrufsbelehrung (§312g BGB), Cookie-Consent (TTDSG/ePrivacy).",
         kind: "checklist",
         estMinutes: 30,
         estCost: "0 €",
@@ -1443,7 +1448,7 @@ export const PLAYBOOKS: Playbook[] = [
       {
         slug: "impressum",
         title: "Impressum erstellen",
-        description: "§5 TMG + §55 RStV — Pflichtangaben für jede gewerbliche Webseite. Generator nutzen ODER manuell.",
+        description: "§5 DDG + §18 MStV (ersetzen §5 TMG / §55 RStV) — Pflichtangaben für jede gewerbliche Webseite. Generator nutzen ODER manuell.",
         kind: "external",
         estMinutes: 30,
         estCost: "0 € (DIY mit Generator) · 100-300 € (Anwalt-geprüft)",
@@ -1451,7 +1456,7 @@ export const PLAYBOOKS: Playbook[] = [
       {
         slug: "datenschutz",
         title: "Datenschutzerklärung + Cookie-Banner",
-        description: "Art. 13 DSGVO Pflicht-Information bei Datenerhebung. Plus TTDSG §25 = Opt-In für nicht-essenzielle Cookies seit 2021.",
+        description: "Art. 13 DSGVO Pflicht-Information bei Datenerhebung. Plus §25 TDDDG (vormals TTDSG) = Opt-In für nicht-essenzielle Cookies seit 2021.",
         kind: "external",
         estMinutes: 120,
         estCost: "Generator 0 € · Cookie-Tool: Borlabs (DE) 39 €/Jahr · Cookiebot 8-50 €/Mon · Usercentrics ab 9 €/Mon · Iubenda 27 €/Jahr · DIY möglich aber rechtlich riskant",
@@ -1628,7 +1633,7 @@ export const PLAYBOOKS: Playbook[] = [
     title: "Pan-EU FBA Setup (Amazon DE → 7-Länder-Skalierung)",
     emoji: "🌍",
     icon: Globe2,
-    tagline: "Amazon EU-Skalierung in DE/UK/FR/IT/ES/NL/PL — Pan-EU vs. EFN vs. CEE: was lohnt wann?",
+    tagline: "Amazon EU-Skalierung (Pan-EU: DE/FR/IT/ES/PL/CZ/NL/SE/BE, UK separat) — Pan-EU vs. EFN vs. CEE: was lohnt wann?",
     outcome: "Aktive Pan-EU-FBA-Konfiguration mit USt-IDs in allen Ziel-Ländern, OSS, IOSS-falls-relevant, Übersetzungen, lokale Pricing + Compliance.",
     duration: "8–16 Wochen (USt-Reg-Bearbeitung in EU-Ländern)",
     difficulty: "Komplex",
@@ -1646,7 +1651,7 @@ export const PLAYBOOKS: Playbook[] = [
       {
         slug: "ust-registrierungen",
         title: "USt-Registrierungen in EU-Ländern (Pan-EU-Pflicht)",
-        description: "Pan-EU-Pflicht: USt-ID in jedem Land mit Amazon-Lager (DE/UK/FR/IT/ES/NL/PL). Lokale USt-Rep-Pflicht in einigen (FR/IT/PL).",
+        description: "Pan-EU-Pflicht: USt-ID in jedem Pan-EU-Lagerland (DE/FR/IT/ES/PL/CZ/NL/SE/BE). UK ist seit dem Brexit (01.01.2021) kein Pan-EU-Land mehr und braucht ein eigenes Setup (UK-VAT, getrennter Bestand/Remote Fulfilment). Lokale USt-Rep-Pflicht in einigen (FR/IT/PL).",
         kind: "external",
         estMinutes: 480,
         estCost: "Avalara/AVASK Komplett-Setup 1.500-3.000 € einmalig + 50-200 €/Land/Mon · Hellotax ab 49 €/Land/Mon · DIY möglich aber 6-12 Monate Aufwand",
@@ -1899,7 +1904,7 @@ export const PLAYBOOKS: Playbook[] = [
       {
         slug: "rechnungs-workflow",
         title: "Rechnungs-Workflow + e-Rechnungs-Pflicht ab 2025",
-        description: "Pflicht-Inhalt nach §14 UStG + GoBD-konforme Speicherung 10 Jahre. Ab 2025: e-Rechnung-Empfangs-Pflicht (XRechnung/ZUGFeRD), ab 2027 Versand-Pflicht für B2B.",
+        description: "Pflicht-Inhalt nach §14 UStG + GoBD-konforme Speicherung 8 Jahre (§ 14b UStG, § 147 AO seit BEG IV 2025). Ab 2025: e-Rechnung-Empfangs-Pflicht (XRechnung/ZUGFeRD), ab 2027 Versand-Pflicht für B2B.",
         kind: "checklist",
         estMinutes: 90,
         estCost: "0 € (in allen Tools enthalten)",
@@ -1941,7 +1946,8 @@ export const PLAYBOOKS: Playbook[] = [
     duration: "12–24 Monate Vorlauf",
     difficulty: "Komplex",
     totalCost: "StB DE + Zielland 5.000–25.000 € · Holding-Restrukturierung 3.000–15.000 € · Substanz-Setup 5.000–50.000 €",
-    runningCost: "Stundungs-Verzinsung 0 % (EU/EWR) bzw. 6 % (Drittländer) · jährliche StB-Reviews",
+    // § 6 Abs. 4 AStG i. d. F. ATAD-UmsG (Wegzüge ab 01.01.2022): zinslose Ratenzahlung über 7 Jahre für alle Zielstaaten.
+    runningCost: "Wegzugsteuer auf Antrag in 7 zinslosen Jahresraten (EU/EWR und Drittland), i. d. R. gegen Sicherheitsleistung · jährliche StB-Reviews",
     steps: [
       {
         slug: "scope-check",
@@ -2171,15 +2177,17 @@ export const PLAYBOOKS: Playbook[] = [
       },
       {
         slug: "kfw-startgeld",
-        title: "KfW-StartGeld (Wachstums-Kredit bis 125k €)",
-        description: "Klassischer Gründer-Kredit: bis 125k € (100k davon ohne Eigenkapital), 80 % Haftungsfreistellung gegenüber Hausbank, niedrige Zinsen.",
+        // Quelle: kfw.de/067 (ERP-Gründerkredit – StartGeld), Stand 10/2026.
+        title: "KfW-StartGeld (Gründer-Kredit bis 200.000 €)",
+        description: "Klassischer Gründer-Kredit: bis 200.000 € (davon max. 80.000 € für Betriebsmittel), 80 % Haftungsfreistellung gegenüber Hausbank, niedrige Zinsen.",
         kind: "external",
         estMinutes: 180,
         estCost: "0 € Antrag · Zinsen: aktuell ~4-6 % p.a. (variiert mit EZB-Leitzins)",
       },
       {
         slug: "invest-bafa",
-        title: "INVEST (BAFA): Business-Angel-Zuschuss 20-25 %",
+        // Quelle: bafa.de/invest, INVEST-Richtlinie vom 06.03.2024.
+        title: "INVEST (BAFA): Erwerbszuschuss 15 % + Exitzuschuss 25 % auf den Veräußerungsgewinn",
         kind: "external",
         estMinutes: 90,
         estCost: "0 € Antrag",
@@ -3021,7 +3029,7 @@ export const PLAYBOOKS: Playbook[] = [
     title: "Alternative Financing: Crowdfunding + Token-Launch (DACH/EU)",
     emoji: "🪙",
     icon: Coins,
-    tagline: "Cash sammeln ohne klassische VCs — Companisto/Seedmatch (Equity-CF), Kickstarter (Reward-CF), Token-Launch unter MiCAR ab 2024",
+    tagline: "Cash sammeln ohne klassische VCs — Companisto/Seedmatch (Equity-CF), Kickstarter (Reward-CF), Token-Launch unter MiCAR (seit 30.06./30.12.2024)",
     outcome: "Aktive Crowdfunding-Kampagne (Equity oder Reward) ODER MiCAR-konformer Token-Launch mit White-Paper, Smart-Contract-Audit, Community.",
     duration: "3–9 Monate je Modell",
     difficulty: "Komplex",
@@ -3031,7 +3039,7 @@ export const PLAYBOOKS: Playbook[] = [
       {
         slug: "modell-wahl",
         title: "Modell-Wahl: Equity-CF vs. Reward-CF vs. Token",
-        description: "Equity-Crowdfunding (Anteile, Companisto/Seedmatch), Reward-Crowdfunding (Vorbestellung, Kickstarter), Token-Launch (Crypto, MiCAR-Lizenz Pflicht).",
+        description: "Equity-Crowdfunding (Anteile, Companisto/Seedmatch), Reward-Crowdfunding (Vorbestellung, Kickstarter), Token-Launch (Crypto, MiCAR: White-Paper-Notifizierung; Zulassung nur für ART/EMT-Emittenten und Krypto-Dienstleister).",
         kind: "decision",
         estMinutes: 120,
         estCost: "0 €",
@@ -3039,10 +3047,11 @@ export const PLAYBOOKS: Playbook[] = [
       {
         slug: "equity-cf-setup",
         title: "Equity-Crowdfunding (Companisto / Seedmatch)",
-        description: "Equity-CF in DE läuft als Genussrechte oder partiarische Darlehen (kein direkter Anteils-Transfer). VermAnlG + WIB-Pflicht.",
+        // ECSP-VO (EU) 2020/1503, anwendbar seit 10.11.2021 (Übergang bis 10.11.2023): Plattform-Lizenz, KIIS je Projekt, max. 5 Mio € je 12 Monate (Art. 1 Abs. 2 lit. c).
+        description: "Equity-CF in DE läuft über Plattformen mit Lizenz nach der EU-Schwarmfinanzierungs-VO (ECSP-VO 2020/1503) – je Projekt ein Anlagebasisinformationsblatt (KIIS), max. 5 Mio € pro 12 Monate. Häufige Instrumente: Wertpapiere (z. B. Genussscheine, Anleihen) oder Darlehen statt direkter GmbH-Anteile.",
         kind: "external",
         estMinutes: 480,
-        estCost: "Companisto-Fee 8-12 % von Funding-Volumen · Seedmatch ähnlich · WIB-Pflicht ab 100k Volume · Anwalt für Doku 5.000-15.000 €",
+        estCost: "Companisto-Fee 8-12 % von Funding-Volumen · Seedmatch ähnlich · KIIS-Pflicht je Projekt · Anwalt für Doku 5.000-15.000 €",
       },
       {
         slug: "reward-cf-kickstarter",
@@ -3054,14 +3063,16 @@ export const PLAYBOOKS: Playbook[] = [
       },
       {
         slug: "token-launch",
-        title: "Token-Launch unter MiCAR (EU-Lizenz Pflicht)",
+        // MiCAR (EU) 2023/1114: Titel III/IV ab 30.06.2024, Rest ab 30.12.2024. Sonstige Kryptowerte (Utility-Token): White-Paper +
+        // Notifizierung (Art. 6, 8); Zulassung nur für ART-Emittenten (Art. 16), EMT (Art. 48) und Krypto-Dienstleister (Art. 59).
+        title: "Token-Launch unter MiCAR (White-Paper-Pflicht, Lizenz je nach Token-Klasse)",
         kind: "info",
         estMinutes: 600,
         estCost: "Anwalt MiCAR-Compliance 50.000-150.000 € · BaFin-Lizenz 50.000-200.000 € · Smart-Contract-Audit 30.000-150.000 € · White-Paper 10.000-50.000 €",
       },
       {
         slug: "compliance-fundraising",
-        title: "Compliance: VermAnlG + WpHG + MiCAR",
+        title: "Compliance: ECSP-VO / WpPG + WpHG + MiCAR",
         kind: "info",
         estMinutes: 240,
         estCost: "Anwalt für Compliance-Setup 5.000-50.000 € je nach Komplexität",
@@ -3570,18 +3581,23 @@ export const PLAYBOOKS: Playbook[] = [
       {
         slug: "fit-check",
         title: "Hobby vs. Gewerbe vs. Freiberuf-Klassifikation",
-        description: "Ab welcher Schwelle wird Content-Creation steuerpflichtig? Hobby = max 410 €/Jahr, alles drüber = Gewerbe (oder Freiberuf bei künstlerischer Tätigkeit).",
+        // Keine Betragsgrenze: Gewerbe = selbstständige, nachhaltige Tätigkeit mit Gewinnerzielungsabsicht (§ 15 Abs. 2 EStG).
+        // Die 410 € aus § 46 Abs. 2 Nr. 1 EStG gelten nur für Nebeneinkünfte von Arbeitnehmern bei der Veranlagung.
+        description: "Es gibt keine Hobby-Betragsgrenze: Entscheidend ist die Gewinnerzielungsabsicht (§ 15 Abs. 2 EStG). Wer regelmäßig Einnahmen erzielen will (Kooperationen, Affiliate, AdSense), ist gewerblich tätig – bzw. freiberuflich bei künstlerischer/publizistischer Tätigkeit. Liebhaberei liegt nur vor, wenn auf Dauer kein Gewinn angestrebt wird. Die oft genannten 410 € (§ 46 Abs. 2 Nr. 1 EStG) betreffen nur Nebeneinkünfte von Arbeitnehmern bei der Steuerveranlagung – sie machen die Tätigkeit nicht zum Hobby.",
         kind: "decision",
         estMinutes: 60,
         estCost: "0 €",
       },
       {
         slug: "rechtsform-steuer",
-        title: "Rechtsform: NICHT voreilig anmelden",
-        description: "Häufigster Anfänger-Fehler: Gewerbe sofort anmelden, dann Quartals-USt-VA + ESt-Erklärung + jährliche IHK-Beiträge zahlen — ohne Umsätze. Stattdessen: erst dokumentieren + warten bis konstante Einnahmen.",
+        // Anzeigepflicht mit Beginn (§ 14 GewO, Bußgeld § 146 GewO); Fragebogen zur steuerlichen
+        // Erfassung binnen eines Monats (§ 138 Abs. 1, 1b AO); Kleinunternehmer ohne USt-VA (§ 19 Abs. 1 UStG).
+        // IHK-Beitragsfreiheit bis 5.200 € Gewinn für nicht eingetragene natürliche Personen: § 3 Abs. 3 S. 3 IHKG.
+        title: "Rechtsform & Anmeldung mit Beginn der Tätigkeit",
+        description: "Sobald du mit Gewinnerzielungsabsicht startest (erste Kooperation, Affiliate-Links, Monetarisierung), ist das Gewerbe anzumelden (§ 14 GewO, Verstoß = Bußgeld nach § 146 GewO) und binnen eines Monats der Fragebogen zur steuerlichen Erfassung über ELSTER abzugeben (§ 138 AO). Bei rein künstlerisch/publizistischer Tätigkeit entfällt die Gewerbeanmeldung, der Fragebogen nicht. Die Kosten sind gering: Mit Kleinunternehmerregelung fällt keine USt-Voranmeldung an, IHK-Beiträge sind für nicht im Handelsregister eingetragene Gewerbetreibende bis 5.200 € Gewinn beitragsfrei.",
         kind: "decision",
         estMinutes: 60,
-        estCost: "0 € (Warten kostet nichts)",
+        estCost: "Gewerbeanmeldung 15–65 € je nach Gemeinde",
       },
       {
         slug: "werbekennzeichnung",
@@ -3684,7 +3700,9 @@ export const PLAYBOOKS: Playbook[] = [
       {
         slug: "fernusg-falle",
         title: "FernUSG-Falle: Online-Kurse mit Lehrziel = ZFU-Pflicht",
-        description: "KRITISCH: Online-Kurse mit definiertem Lehrziel + asynchroner Lehrer-Schüler-Kommunikation = Fernunterricht im Sinne des FernUSG. ZFU-Zulassung Pflicht — sonst Vertrag NICHTIG + Rückzahlungs-Pflicht.",
+        // BGH, Urt. v. 12.06.2025 – III ZR 109/24: FernUSG gilt auch zwischen Unternehmern; auch live-online (synchron) gilt als räumlich getrennt,
+        // Lernerfolgskontrolle liegt schon vor, wenn Teilnehmer Fragen zum Stoff stellen können.
+        description: "KRITISCH: Online-Kurse mit definiertem Lehrziel + Lernerfolgskontrolle (schon die Möglichkeit, Fragen zum Stoff zu stellen) = Fernunterricht im Sinne des FernUSG – laut BGH (III ZR 109/24, 2025) auch bei Live-Online-Formaten und auch gegenüber Unternehmern. ZFU-Zulassung Pflicht — sonst Vertrag NICHTIG + Rückzahlungs-Pflicht.",
         kind: "info",
         estMinutes: 90,
         estCost: "ZFU-Zulassung 250-1.500 € pro Kurs · Anwalt-Check 500-1.500 €",
@@ -3781,7 +3799,7 @@ export const PLAYBOOKS: Playbook[] = [
       {
         slug: "kleinunternehmer",
         title: "Kleinunternehmer-Regelung: ja oder nein?",
-        description: "Ab 2025: Vorjahresumsatz ≤ 25.000 € UND laufendes Jahr ≤ 100.000 €. Spart Bürokratie, kostet Vorsteuer-Abzug. Bindung 5 Jahre wenn weggewählt.",
+        description: "Ab 2025: Vorjahresumsatz ≤ 25.000 € UND laufendes Jahr ≤ 100.000 € (im Gründungsjahr max. 25.000 €). Spart Bürokratie, kostet Vorsteuer-Abzug. Bindung 5 Jahre wenn weggewählt.",
         kind: "decision",
         estMinutes: 20,
         estCost: "0 €",
@@ -3938,7 +3956,8 @@ export const PLAYBOOKS: Playbook[] = [
         title: "GEMA & Künstlersozialabgabe anmelden",
         kind: "external",
         estMinutes: 30,
-        estCost: "200–800 €/Jahr GEMA · KSA 4,2 % auf Künstler-Honorare",
+        // Künstlersozialabgabe-Verordnung 2026: Abgabesatz 4,9 %.
+        estCost: "200–800 €/Jahr GEMA · KSA 4,9 % (2026) auf Künstler-Honorare",
       },
       {
         slug: "personal",
@@ -4896,7 +4915,7 @@ export const PLAYBOOKS: Playbook[] = [
     title: "Coach-Track: 1:1-Coaching (Hour-based, Premium)",
     emoji: "👤",
     icon: GraduationCap,
-    tagline: "Solo-Coaching mit Hour-Cap — Premium-Pricing, niedrige Skalierung, KEIN FernUSG-Risiko (bei rein synchron)",
+    tagline: "Solo-Coaching mit Hour-Cap — Premium-Pricing, niedrige Skalierung, geringeres FernUSG-Risiko (individuelles 1:1 ohne Lehrgangscharakter)",
     outcome: "Live 1:1-Coaching-Setup mit 8-15 aktiven Klienten/Mon, 250-500 €/h Pricing, klare Verträge, sauberer Booking-Flow.",
     duration: "1-2 Wochen Setup",
     difficulty: "Einfach",
@@ -4921,8 +4940,9 @@ export const PLAYBOOKS: Playbook[] = [
       },
       {
         slug: "fernusg-safe",
-        title: "FernUSG-Falle: bei 1:1 meistens NICHT relevant",
-        description: "FernUSG greift nur bei standardisiertem Lehrgang mit asynchroner Lehrer-Schüler-Trennung. Reines 1:1-Coaching ist meistens SAFE.",
+        // BGH, Urt. v. 12.06.2025 – III ZR 109/24 (FernUSG auch B2B und bei synchronem Online-Unterricht).
+        title: "FernUSG-Falle: bei 1:1 prüfen",
+        description: "Entscheidend ist der Lehrgangscharakter: vermittelst du nach festem Programm Wissen mit Lernerfolgskontrolle, kann das FernUSG greifen – laut BGH (III ZR 109/24, 2025) auch live per Video und auch gegenüber Unternehmern. Individuelles, nicht standardisiertes 1:1-Coaching ohne Lehrplan ist meist nicht erfasst. Im Zweifel bei der ZFU nachfragen.",
         kind: "info",
         estMinutes: 30,
         estCost: "0 €",
@@ -5090,7 +5110,7 @@ export const PLAYBOOKS: Playbook[] = [
       {
         slug: "fernusg-membership",
         title: "FernUSG: bei Membership weniger streng (meist)",
-        description: "Pure Community + ad-hoc Live-Calls = meistens KEIN FernUSG. Strukturierter Kurs IM Membership = greift FernUSG.",
+        description: "Pure Community + ad-hoc Live-Calls ohne Lehrplan = meist kein FernUSG (Live-Format allein schützt laut BGH III ZR 109/24 aber nicht). Strukturierter Kurs IM Membership = greift FernUSG.",
         kind: "info",
         estMinutes: 30,
         estCost: "Anwalt-Check 500-1.500 € bei Unsicherheit",
@@ -5120,8 +5140,8 @@ export const PLAYBOOKS: Playbook[] = [
     title: "Crowdfunding-Track: Equity (Companisto / Seedmatch)",
     emoji: "💰",
     icon: Coins,
-    tagline: "Anteile gegen Geld — bis 6M € ECSP-Lizenz-Befreiung, Plattform-Fee 8-12 %, Investor-Reporting Pflicht",
-    outcome: "Live Equity-Crowdfunding-Kampagne mit 500k-3M € Funding-Goal, VIB/WIB-Dokumentation, Investor-Reporting-Process, Pooling-Vehicle eingerichtet (für spätere VC-Compatibility).",
+    tagline: "Anteile gegen Geld — bis 5 Mio € je 12 Monate über ECSP-Plattformen, Plattform-Fee 8-12 %, Investor-Reporting Pflicht",
+    outcome: "Live Equity-Crowdfunding-Kampagne mit 500k-3M € Funding-Goal, KIIS-Dokumentation, Investor-Reporting-Process, Pooling-Vehicle eingerichtet (für spätere VC-Compatibility).",
     duration: "4-8 Wochen Pre-Kampagne · 60-90 Tage Kampagne",
     difficulty: "Komplex",
     totalCost: "Plattform-Fee 8-12 % vom Funding · Anwalt 5-15k € · Marketing-Investment 20-30 % vom Funding-Goal",
@@ -5137,8 +5157,8 @@ export const PLAYBOOKS: Playbook[] = [
       },
       {
         slug: "vib-wib-doku",
-        title: "VIB/WIB-Pflicht-Dokumente",
-        description: "Vermögensanlagen-Informationsblatt (VIB) oder Wertpapier-Informationsblatt (WIB) je Anteils-Form.",
+        title: "KIIS (Anlagebasisinformationsblatt) und ggf. WIB",
+        description: "Über ECSP-Plattformen: Anlagebasisinformationsblatt (KIIS, Art. 23 ECSP-VO) je Projekt. Außerhalb von ECSP-Plattformen gelten WpPG (Wertpapier-Informationsblatt) bzw. VermAnlG (VIB).",
         kind: "checklist",
         estMinutes: 240,
         estCost: "Anwalt 3.000-8.000 €",
@@ -5232,7 +5252,7 @@ export const PLAYBOOKS: Playbook[] = [
     title: "Crowdfunding-Track: Token-Launch (MiCA-konform EU)",
     emoji: "🪙",
     icon: Coins,
-    tagline: "Crypto-Token gegen Geld — MiCAR-Lizenz-Pflicht ab 2024, komplexer Setup, globale Reichweite, hohe Compliance-Kosten",
+    tagline: "Crypto-Token gegen Geld — MiCAR seit 30.06./30.12.2024 (White-Paper-Pflicht, Lizenz je nach Token-Klasse), komplexer Setup, globale Reichweite, hohe Compliance-Kosten",
     outcome: "Live Token-Launch MiCAR-konform mit White-Paper, BaFin-Notification, Smart-Contract-Audit, KYC/AML-Setup. Realistic nur ab 5M+ €-Funding-Ziel.",
     duration: "6-12 Monate Setup",
     difficulty: "Komplex",
@@ -5242,7 +5262,7 @@ export const PLAYBOOKS: Playbook[] = [
       {
         slug: "micar-applicability",
         title: "MiCAR-Applicability: Welche Token-Klasse?",
-        description: "MiCAR ab 1.1.2024 EU-weit. 3 Token-Klassen mit unterschiedlichen Lizenz-Anforderungen.",
+        description: "MiCAR EU-weit: Regeln für ART/EMT seit 30.06.2024, alles Übrige seit 30.12.2024. 3 Token-Klassen: Utility/sonstige Kryptowerte (White-Paper + Notifizierung, keine Lizenz), ART (Zulassung) und EMT (nur Kredit-/E-Geld-Institute).",
         kind: "decision",
         estMinutes: 120,
         estCost: "Anwalt-Erstberatung 1-3k €",

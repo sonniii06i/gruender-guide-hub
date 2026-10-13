@@ -161,7 +161,8 @@ export const US_CARDS: Card[] = [
     id: "capone-spark-cash-plus",
     name: "Capital One Spark Cash Plus",
     issuer: "Capital One",
-    useCase: "business-ein",
+    // verlangt SSN + Personal Guarantee → nicht in "nur EIN"
+    useCase: "rewards",
     annualFee: 150,
     annualFeeFirstYearWaived: false,
     signupBonus: "$2.000 Cash + $2.000 pro $500k bis $8.000 max",
@@ -183,7 +184,8 @@ export const US_CARDS: Card[] = [
     id: "amex-business-platinum",
     name: "Amex Business Platinum",
     issuer: "American Express",
-    useCase: "business-ein",
+    // verlangt SSN + Personal Guarantee → nicht in "nur EIN"
+    useCase: "rewards",
     annualFee: 895,
     annualFeeFirstYearWaived: false,
     signupBonus: "as-high-as 250.000-300.000 MR (Mai-2026-Promo)",
@@ -691,6 +693,7 @@ export type SweetSpot = {
   deadline?: string;
 };
 
+// centProPunkt = realerWertEur / punkte × 100, kaufmännisch auf 0,1 gerundet (Test: src/test/sweet-spots.test.ts).
 export const SWEET_SPOTS: SweetSpot[] = [
   {
     id: "aeroplan-jfk-fra-biz",
@@ -698,12 +701,12 @@ export const SWEET_SPOTS: SweetSpot[] = [
     fromProgram: "US-Amex MR / Chase UR / Capital One",
     toProgram: "Air Canada Aeroplan",
     ratio: "1:1",
-    punkte: 60000,
+    // Werte nach der Aeroplan-Abwertung vom 1.6.2026 (vorher 60k).
+    punkte: 75000,
     realerWertEur: 3500,
-    centProPunkt: 5.8,
+    centProPunkt: 4.7,
     bestFor: "Transatlantik Business one-way",
-    watchouts: ["Steigt am 1.6.2026 auf 75k", "Lufthansa-First nur 14 Tage vor Abflug für Partner buchbar"],
-    deadline: "1.6.2026",
+    watchouts: ["Seit 1.6.2026 75k statt 60k", "Lufthansa-First nur 14 Tage vor Abflug für Partner buchbar"],
   },
   {
     id: "aeroplan-jfk-fra-first",
@@ -711,12 +714,11 @@ export const SWEET_SPOTS: SweetSpot[] = [
     fromProgram: "US-Amex MR / Chase UR / Capital One",
     toProgram: "Air Canada Aeroplan",
     ratio: "1:1",
-    punkte: 100000,
+    punkte: 120000,
     realerWertEur: 9000,
-    centProPunkt: 9.0,
+    centProPunkt: 7.5,
     bestFor: "Lufthansa First Class transatlantik",
-    watchouts: ["Steigt 1.6.2026 auf 120k (+20%)", "Saver-Space rar"],
-    deadline: "1.6.2026",
+    watchouts: ["Seit 1.6.2026 120k statt 100k (+20%)", "Saver-Space rar"],
   },
   {
     id: "aeroplan-ord-nrt-ana-biz",
@@ -724,12 +726,11 @@ export const SWEET_SPOTS: SweetSpot[] = [
     fromProgram: "US-Amex MR / Chase UR / Capital One",
     toProgram: "Air Canada Aeroplan",
     ratio: "1:1",
-    punkte: 75000,
+    punkte: 102500,
     realerWertEur: 4500,
-    centProPunkt: 6.0,
+    centProPunkt: 4.4,
     bestFor: "US-Asien Business one-way",
-    watchouts: ["Steigt 1.6.2026 auf 102.5k (+37%!)", "Roame oder Seats.aero für Suche nutzen"],
-    deadline: "1.6.2026",
+    watchouts: ["Seit 1.6.2026 102.5k statt 75k (+37%)", "Roame oder Seats.aero für Suche nutzen"],
   },
   {
     id: "aeroplan-miami-gru-avianca",
@@ -739,7 +740,7 @@ export const SWEET_SPOTS: SweetSpot[] = [
     ratio: "1:1",
     punkte: 60000,
     realerWertEur: 2800,
-    centProPunkt: 4.6,
+    centProPunkt: 4.7,
     bestFor: "US-Südamerika Business",
     watchouts: [],
   },
@@ -785,12 +786,12 @@ export const SWEET_SPOTS: SweetSpot[] = [
     fromProgram: "Chase UR / Bilt",
     toProgram: "World of Hyatt",
     ratio: "1:1",
-    punkte: 35000,
+    // Werte nach der Hyatt-Award-Chart-Änderung vom 20.5.2026 (vorher 35k).
+    punkte: 75000,
     realerWertEur: 1000,
-    centProPunkt: 2.9,
-    bestFor: "Luxus-Tokyo unter €1.000/Nacht-Real-Wert",
-    watchouts: ["Vor 20.5.2026 buchen! Top-tier dann 75k (+114%)", "Newly remodeled, viel Availability gedropped"],
-    deadline: "20.5.2026",
+    centProPunkt: 1.3,
+    bestFor: "Luxus-Tokyo – nach der Abwertung kaum noch Sweet Spot",
+    watchouts: ["Seit 20.5.2026 Top-Tier bis 75k statt 35k (+114%)", "Newly remodeled, viel Availability gedropped"],
   },
   {
     id: "hyatt-maldives",
@@ -798,12 +799,11 @@ export const SWEET_SPOTS: SweetSpot[] = [
     fromProgram: "Chase UR / Bilt",
     toProgram: "World of Hyatt",
     ratio: "1:1",
-    punkte: 30000,
+    punkte: 75000,
     realerWertEur: 1300,
-    centProPunkt: 4.4,
-    bestFor: "Overwater-Villa zum Bruchteil",
-    watchouts: ["20.5.2026 Devaluation auf bis 75k Peak", "Resort-Fees fallen weg, Transfer-Speedboat cash"],
-    deadline: "20.5.2026",
+    centProPunkt: 1.7,
+    bestFor: "Overwater-Villa – nach der Abwertung deutlich teurer",
+    watchouts: ["Seit 20.5.2026 bis 75k (Peak) statt 30k – Off-Peak-Preis vor Buchung prüfen", "Resort-Fees fallen weg, Transfer-Speedboat cash"],
   },
   {
     id: "ba-avios-shorthaul",
@@ -880,42 +880,52 @@ export const SWEET_SPOTS: SweetSpot[] = [
 ];
 
 // ===== KRITISCHE 2026-DEADLINES =====
+/** Status aus dem Datum (TT.MM.JJJJ) statt hart kodiert – sonst bleiben vergangene Termine "upcoming". */
+export function deadlineStatus(date: string, heute: Date = new Date()): "passed" | "upcoming" {
+  const m = date.match(/(\d{1,2})\.(\d{1,2})\.(\d{4})/);
+  if (!m) return "upcoming";
+  const d = new Date(Number(m[3]), Number(m[2]) - 1, Number(m[1]));
+  const tag = new Date(heute);
+  tag.setHours(0, 0, 0, 0);
+  return d < tag ? "passed" : "upcoming";
+}
+
 export const DEADLINES_2026 = [
   {
     date: "23.02.2026",
     event: "Amex globale Devaluation",
     detail: "8 Airlines: Conversion-Ratios um 22-25% erhöht (Emirates 44-50%)",
-    status: "passed",
+    status: deadlineStatus("23.02.2026"),
   },
   {
     date: "12.03.2026",
     event: "Marriott Top-off-Erhöhung",
     detail: "FNA Top-off von 15k auf 25k Points erhöht (mehr Wert für Brilliant-Holder)",
-    status: "passed",
+    status: deadlineStatus("12.03.2026"),
   },
   {
     date: "20.05.2026",
     event: "Hyatt Award-Chart-Änderung",
     detail: "Top-Tier Properties bis +114% (Park Hyatt Tokyo 35k → 75k, Maldives 30k → bis 75k)",
-    status: "upcoming",
+    status: deadlineStatus("20.05.2026"),
   },
   {
     date: "01.06.2026",
     event: "Aeroplan Award-Chart-Devaluation",
     detail: "JFK→FRA Biz 60k→75k, LH First 100k→120k, ORD→NRT 75k→102.5k (+37%)",
-    status: "upcoming",
+    status: deadlineStatus("01.06.2026"),
   },
   {
     date: "30.06.2026",
     event: "Etihad Guest endet als Amex-Partner",
     detail: "Weltweit — Punkte VERLOREN ab dann wenn nicht transferiert",
-    status: "upcoming",
+    status: deadlineStatus("30.06.2026"),
   },
   {
     date: "01.10.2026",
     event: "Amex Platinum verliert Lufthansa-Lounge-Zugang",
     detail: "Wenn du die Karte deshalb hältst — neu rechnen",
-    status: "upcoming",
+    status: deadlineStatus("01.10.2026"),
   },
 ];
 
@@ -940,8 +950,8 @@ export const VELOCITY_TOTAL_VALUE = {
 export const MILES_AVOID = [
   { item: "Manufactured Spending (Gift-Cards, Plastiq, BlueBird)", reason: "Amex-Shutdown-Welle seit März 2026 explizit gegen international spend + resale" },
   { item: "Buying Groups", reason: "Multi-Party-Risiko (Merchant-Shutdowns, Theft, Bank-FR)" },
-  { item: "Etihad Guest als Amex-Transferziel", reason: "ENDET 30.6.2026 weltweit — Punkte VERLOREN ab dann" },
-  { item: "Lufthansa-Lounge via Amex Platinum als Hauptgrund", reason: "ENDET 1.10.2026 — wenn das dein einziger Reason ist neu rechnen" },
+  { item: "Etihad Guest als Amex-Transferziel", reason: "Seit 30.6.2026 weltweit beendet — kein Transfer mehr möglich" },
+  { item: "Lufthansa-Lounge via Amex Platinum als Hauptgrund", reason: "Seit 1.10.2026 entfallen — wenn das dein einziger Grund war, neu rechnen" },
   { item: "Aeroplan-Premium-Buchungen nach 1.6.2026", reason: "Massive Devaluation 7.5k-11k-mile-Band (US-Asien-Biz +37%)" },
   { item: "Hyatt Top-Tier nach 20.5.2026", reason: "+114% auf Park Hyatt Tokyo/Kyoto/Maui/Maldives" },
   { item: "Emirates Skywards via Amex", reason: "44-50% Devaluation seit 23.02.2026 — fast nie noch Sweet Spot" },

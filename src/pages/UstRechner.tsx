@@ -231,19 +231,20 @@ const Kleinunternehmer = () => {
   const [gruendungsMonat, setGruendungsMonat] = useState(7); // Juli
 
   const result = useMemo(() => {
-    // Existenzgründer (kein Vorjahr): Vorjahres-Umsatz spielt keine Rolle, nur die 25k-Anteils-Schwelle
-    // im Gründungsjahr wird relevant (zeitanteilig auf 12 Monate hochgerechnet).
+    // Gründungsjahr (§19 Abs. 1 Satz 2 UStG n. F., BMF 18.03.2025 / Abschn. 19.1 Abs. 4 UStAE):
+    // volle Grenze 25.000 € OHNE Hochrechnung; wer sie überschreitet, verliert die KU sofort.
+    // Erst für das FOLGEJAHR wird der Umsatz des Rumpfjahres auf 12 Monate hochgerechnet (§19 Abs. 4 Satz 2 UStG).
     if (istExistenzgruender) {
-      const verbleibendeMonate = 12 - Math.max(0, Math.min(11, gruendungsMonat - 1));
-      const anteiligeSchwelle = (KU_VORJAHR_NEU / 12) * verbleibendeMonate; // §19 (3) UStG
-      const aktuellOkAnteilig = umsatzAktuell <= anteiligeSchwelle;
-      const verlustImLaufendenJahr = umsatzAktuell > KU_AKTUELL_NEU;
+      const aktiveMonate = 12 - Math.max(0, Math.min(11, gruendungsMonat - 1));
+      const aktuellOk = umsatzAktuell <= KU_VORJAHR_NEU;
+      const folgejahrHochgerechnet = (umsatzAktuell / aktiveMonate) * 12;
       return {
         vorjahrOk: true,
-        aktuellOk: aktuellOkAnteilig,
-        istKu: aktuellOkAnteilig && !verlustImLaufendenJahr,
-        verlustImLaufendenJahr,
-        anteiligeSchwelle,
+        aktuellOk,
+        istKu: aktuellOk,
+        verlustImLaufendenJahr: !aktuellOk,
+        anteiligeSchwelle: KU_VORJAHR_NEU,
+        folgejahrHochgerechnet,
         istExistenzgruender: true,
       };
     }
@@ -251,7 +252,7 @@ const Kleinunternehmer = () => {
     const aktuellOk = umsatzAktuell <= KU_AKTUELL_NEU;
     const istKu = vorjahrOk && aktuellOk;
     const verlustImLaufendenJahr = umsatzAktuell > KU_AKTUELL_NEU;
-    return { vorjahrOk, aktuellOk, istKu, verlustImLaufendenJahr, anteiligeSchwelle: 0, istExistenzgruender: false };
+    return { vorjahrOk, aktuellOk, istKu, verlustImLaufendenJahr, anteiligeSchwelle: 0, folgejahrHochgerechnet: umsatzAktuell, istExistenzgruender: false };
   }, [umsatzVorjahr, umsatzAktuell, istExistenzgruender, gruendungsMonat]);
 
   return (
@@ -275,7 +276,7 @@ const Kleinunternehmer = () => {
                 />
                 <span className="text-sm">
                   <span className="block font-medium">Existenzgründer im Gründungsjahr</span>
-                  <span className="mt-0.5 block text-muted-foreground">Kein Vorjahres-Umsatz, anteilige 25k-Schwelle</span>
+                  <span className="mt-0.5 block text-muted-foreground">Kein Vorjahres-Umsatz, Grenze 25.000 € im Gründungsjahr (ohne Hochrechnung)</span>
                 </span>
               </label>
               {istExistenzgruender && (
@@ -284,9 +285,9 @@ const Kleinunternehmer = () => {
                   htmlFor="ku-monat"
                   hint={
                     <>
-                      Anteilige Schwelle:{" "}
-                      <strong className="text-foreground tabular">{Math.round(result.anteiligeSchwelle).toLocaleString("de-DE")} €</strong>{" "}
-                      (= 25.000 × {12 - (gruendungsMonat - 1)}/12)
+                      Für das Folgejahr hochgerechnet:{" "}
+                      <strong className="text-foreground tabular">{Math.round(result.folgejahrHochgerechnet).toLocaleString("de-DE")} €</strong>{" "}
+                      (= Umsatz / {12 - (gruendungsMonat - 1)} × 12). Liegt das über 25.000 €, ist im Folgejahr keine KU möglich.
                     </>
                   }
                 >
@@ -376,7 +377,7 @@ const Kleinunternehmer = () => {
             />
             <FactRow
               ok={result.aktuellOk}
-              label={`Aktuell ≤ ${KU_AKTUELL_NEU.toLocaleString("de-DE")} €`}
+              label={`Aktuell ≤ ${(istExistenzgruender ? KU_VORJAHR_NEU : KU_AKTUELL_NEU).toLocaleString("de-DE")} €`}
               value={`${umsatzAktuell.toLocaleString("de-DE")} €`}
             />
           </div>

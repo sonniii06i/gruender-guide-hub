@@ -42,24 +42,17 @@ import {
   Check,
 } from "lucide-react";
 import {
-  progressionESt,
-  solZ as solZAuf,
-  GEWST_MESSZAHL,
-  GEWST_FREIBETRAG_NATUERLICH,
-  GEWST_ANRECHNUNG_FAKTOR,
-} from "@/lib/germanTax";
-
-const MINDEST_BEMESSUNG_GKV_MONAT_2026 = 1318.33; // freiwillig versicherte Selbstständige
-const BBG_KV_MONAT_2026 = 5812.5; // Höchst-Bemessung (69.750 €/Jahr; 2025: 5.512,50)
-const KV_ALLG_SATZ = 14.6;
-const KV_ZUSATZ_DEFAULT = 2.9;
-const PV_SATZ_KINDERLOS = 4.2; // 3.6 + 0.6 Kinderlos-Zuschlag
-const PV_SATZ_KIND = 3.6;
-const RV_SATZ = 18.6; // freiwillige RV: AN+AG-Anteil selbst, gleicher Satz wie Pflicht
-const BBG_RV_MONAT_2026 = 8450;
-
-type Rechtsform = "freiberuf" | "gewerbe";
-type KvVariante = "gkv-freiwillig" | "pkv" | "ksk";
+  berechneBruttoNettoSolo,
+  MINDEST_BEMESSUNG_GKV_MONAT_2026,
+  KV_ALLG_SATZ,
+  KV_ZUSATZ_DEFAULT,
+  PV_SATZ_KINDERLOS,
+  PV_SATZ_KIND,
+  RV_SATZ,
+  BBG_RV_MONAT_2026,
+  type Rechtsform,
+  type KvVariante,
+} from "@/lib/bruttoNettoSolo";
 
 const BruttoNettoSolo = () => {
   const [umsatz, setUmsatz] = useState(60000);
@@ -70,90 +63,19 @@ const BruttoNettoSolo = () => {
   const [zusatzBeitrag, setZusatzBeitrag] = useState(KV_ZUSATZ_DEFAULT);
   const [kinderlos, setKinderlos] = useState(true);
   const [pkvBeitragMonat, setPkvBeitragMonat] = useState(450);
+  const [pkvBasisAnteil, setPkvBasisAnteil] = useState(80);
   const [rvFreiwillig, setRvFreiwillig] = useState(false);
   const [kistSatz, setKistSatz] = useState(0); // 0/8/9
   const [verheiratet, setVerheiratet] = useState(false);
 
-  const calc = useMemo(() => {
-    const gewinn = Math.max(0, umsatz - betriebsausgaben);
-
-    // === ESt ===
-    // Vereinfacht ohne andere Einkünfte. Verheiratet: Splitting-Tarif (vereinfacht: 2× progressionESt(zvE/2))
-    const eSt = verheiratet ? 2 * progressionESt(gewinn / 2) : progressionESt(gewinn);
-    const solz = solZAuf(eSt);
-    const kist = eSt * (kistSatz / 100);
-
-    // === GewSt (nur bei Gewerbe) ===
-    let gewSt = 0;
-    let gewStAnrechnung = 0;
-    if (rechtsform === "gewerbe") {
-      const gewstBasis = Math.max(0, gewinn - GEWST_FREIBETRAG_NATUERLICH);
-      const gewstMessbetrag = gewstBasis * GEWST_MESSZAHL;
-      const gewstBrutto = gewstMessbetrag * (hebesatz / 100);
-      // §35 EStG: Anrechnung Faktor 4,0 × Messbetrag, max bis tatsächliche ESt
-      gewStAnrechnung = Math.min(gewstMessbetrag * GEWST_ANRECHNUNG_FAKTOR, eSt);
-      gewSt = Math.max(0, gewstBrutto - gewStAnrechnung);
-    }
-
-    // === KV/PV ===
-    const monatBemessung = Math.max(
-      MINDEST_BEMESSUNG_GKV_MONAT_2026,
-      Math.min(BBG_KV_MONAT_2026, gewinn / 12),
-    );
-    const pvSatz = kinderlos ? PV_SATZ_KINDERLOS : PV_SATZ_KIND;
-    let kvJahr = 0;
-    if (kvVariante === "gkv-freiwillig") {
-      kvJahr = monatBemessung * 12 * ((KV_ALLG_SATZ + zusatzBeitrag + pvSatz) / 100);
-    } else if (kvVariante === "pkv") {
-      kvJahr = pkvBeitragMonat * 12;
-    } else if (kvVariante === "ksk") {
-      // KSK: Bund zahlt ~50% — vereinfacht: Hälfte des freiwilligen GKV-Beitrags
-      kvJahr = (monatBemessung * 12 * ((KV_ALLG_SATZ + zusatzBeitrag + pvSatz) / 100)) / 2;
-    }
-
-    // === Rentenversicherung (optional freiwillig) ===
-    let rvJahr = 0;
-    if (rvFreiwillig) {
-      const rvBemessung = Math.min(BBG_RV_MONAT_2026, gewinn / 12);
-      rvJahr = rvBemessung * 12 * (RV_SATZ / 100);
-    }
-
-    const steuerGesamt = eSt + solz + kist + gewSt;
-    const sozialGesamt = kvJahr + rvJahr;
-    const nettoJahr = Math.max(0, gewinn - steuerGesamt - sozialGesamt);
-    const nettoMonat = nettoJahr / 12;
-    const steuerquote = gewinn > 0 ? (steuerGesamt / gewinn) * 100 : 0;
-    const gesamtbelastung = gewinn > 0 ? ((steuerGesamt + sozialGesamt) / gewinn) * 100 : 0;
-
-    // === Vergleichs-Szenario: Angestellter bei gleichem AG-Total ===
-    // FAIRER VERGLEICH: dein Solo-Gewinn ist das, was du selbst komplett
-    // schulterst (Steuer + KV + RV alles aus dem Gewinn). Beim Angestellten
-    // zahlt der AG aber zusätzlich seinen ~20,5 % SV-Anteil OBEN DRAUF.
-    // → Bei gleichem AG-Gesamt-Total: AN-Brutto = Gewinn / (1 + AG-SV-Quote).
-    // (Vorheriger "gleicher Brutto"-Vergleich hat den AG-Anteil unterschlagen
-    //  und Solo-Selbstständige systematisch schlechter aussehen lassen.)
-    const AG_SV_QUOTE = 0.205;
-    const an_brutto = gewinn / (1 + AG_SV_QUOTE);
-    // 2026 zwei getrennte Beitragsbemessungsgrenzen: KV/PV bis 69.750 €, RV/AV bis 101.400 €.
-    // AN-Anteile getrennt deckeln (KV+PV ~10,25 %, RV+AV ~10,6 %), sonst wird der KV-Teil zu hoch gekappt.
-    const an_kvpv = Math.min(an_brutto, BBG_KV_MONAT_2026 * 12) * 0.1025;
-    const an_rvav = Math.min(an_brutto, BBG_RV_MONAT_2026 * 12) * 0.106;
-    const an_sv = an_kvpv + an_rvav;
-    const an_zvE = an_brutto - an_sv;
-    const an_eSt = verheiratet ? 2 * progressionESt(an_zvE / 2) : progressionESt(an_zvE);
-    const an_solz = solZAuf(an_eSt);
-    const an_kist = an_eSt * (kistSatz / 100);
-    const an_netto = Math.max(0, an_brutto - an_sv - an_eSt - an_solz - an_kist);
-
-    return {
-      gewinn,
-      eSt, solz, kist, gewSt, gewStAnrechnung,
-      kvJahr, rvJahr, sozialGesamt, steuerGesamt,
-      nettoJahr, nettoMonat,
-      steuerquote, gesamtbelastung,
-      anNetto: an_netto, anSv: an_sv, anESt: an_eSt, anBrutto: an_brutto,
-    };
-  }, [umsatz, betriebsausgaben, rechtsform, hebesatz, kvVariante, zusatzBeitrag, kinderlos, pkvBeitragMonat, rvFreiwillig, kistSatz, verheiratet]);
+  const calc = useMemo(
+    () =>
+      berechneBruttoNettoSolo({
+        umsatz, betriebsausgaben, rechtsform, hebesatz, kvVariante, zusatzBeitrag,
+        kinderlos, pkvBeitragMonat, pkvBasisAnteil, rvFreiwillig, kistSatz, verheiratet,
+      }),
+    [umsatz, betriebsausgaben, rechtsform, hebesatz, kvVariante, zusatzBeitrag, kinderlos, pkvBeitragMonat, pkvBasisAnteil, rvFreiwillig, kistSatz, verheiratet],
+  );
 
   const vorteil = calc.nettoMonat > calc.anNetto / 12;
 
@@ -210,7 +132,7 @@ const BruttoNettoSolo = () => {
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <Field label="Krankenversicherung" htmlFor="bns-kv" className="sm:col-span-2">
                   <select id="bns-kv" value={kvVariante} onChange={(e) => setKvVariante(e.target.value as KvVariante)} className={selectCls}>
-                    <option value="gkv-freiwillig">GKV freiwillig (Mindestbeitrag 260-280€)</option>
+                    <option value="gkv-freiwillig">GKV freiwillig (Mindestbeitrag ca. 278–286 €)</option>
                     <option value="pkv">PKV (eigener Beitrag)</option>
                     <option value="ksk">KSK (Bund zahlt 50%, nur Künstler/Publizisten)</option>
                   </select>
@@ -220,12 +142,21 @@ const BruttoNettoSolo = () => {
                     <NumberField step="0.01" value={zusatzBeitrag} onChange={setZusatzBeitrag} min={0} aria-label="Zusatzbeitrag in Prozent" />
                   </Field>
                 ) : (
-                  <Field className="sm:col-span-2" label="PKV-Beitrag pro Monat (€)">
-                    <NumberField value={pkvBeitragMonat} onChange={setPkvBeitragMonat} min={0} aria-label="PKV-Beitrag pro Monat in Euro" />
-                  </Field>
+                  <>
+                    <Field label="PKV-Beitrag pro Monat (€)">
+                      <NumberField value={pkvBeitragMonat} onChange={setPkvBeitragMonat} min={0} aria-label="PKV-Beitrag pro Monat in Euro" />
+                    </Field>
+                    <Field label="davon Basisabsicherung (%)" hint="Steht in der Beitragsbescheinigung deines Versicherers; nur dieser Teil ist voll absetzbar.">
+                      <NumberField value={pkvBasisAnteil} onChange={setPkvBasisAnteil} min={0} max={100} aria-label="Basisabsicherungs-Anteil in Prozent" />
+                    </Field>
+                  </>
                 )}
                 <CheckOption checked={kinderlos} onChange={setKinderlos} label="Kinderlos" hint="+0,6 % Pflegeversicherung" />
-                <CheckOption checked={rvFreiwillig} onChange={setRvFreiwillig} label="Freiwillige Rentenversicherung" hint={`${RV_SATZ} % auf den Gewinn`} />
+                {kvVariante === "ksk" ? (
+                  <p className="text-xs text-muted-foreground">KSK: Rentenversicherung ist Pflicht, du zahlst die Hälfte ({RV_SATZ / 2} %), den Rest tragen Bund und Verwerter.</p>
+                ) : (
+                  <CheckOption checked={rvFreiwillig} onChange={setRvFreiwillig} label="Freiwillige Rentenversicherung" hint={`${RV_SATZ} % auf den Gewinn`} />
+                )}
               </div>
             </ToolSection>
           </>
@@ -262,8 +193,8 @@ const BruttoNettoSolo = () => {
                 <Row label="= Gewinn (Bemessungsgrundlage)" val={calc.gewinn} bold />
                 <div className="my-2 border-t border-border/70" />
                 <Row label="./. Einkommensteuer §32a EStG (Progression)" val={-calc.eSt}
-                     note={verheiratet ? "Splitting-Tarif (verheiratet)" : "Grundtarif (Single)"} />
-                {calc.solz > 0 && <Row label="./. Solidaritätszuschlag 5,5 % auf ESt" val={-calc.solz} note="Freigrenze 20.350 € ESt" />}
+                     note={`${verheiratet ? "Splitting-Tarif (verheiratet)" : "Grundtarif (Single)"} · auf zvE ${Math.round(calc.zvE).toLocaleString("de-DE")} € (Gewinn ./. ${Math.round(calc.vorsorgeAbzug).toLocaleString("de-DE")} € Vorsorge §10 EStG)`} />
+                {calc.solz > 0 && <Row label="./. Solidaritätszuschlag 5,5 % auf ESt" val={-calc.solz} note={`Freigrenze ${calc.solzFreigrenze.toLocaleString("de-DE")} € ESt (nach §35)`} />}
                 {calc.kist > 0 && <Row label={`./. Kirchensteuer ${kistSatz} %`} val={-calc.kist} />}
                 {calc.gewSt > 0 && (
                   <Row label="./. Gewerbesteuer (nach §35-Anrechnung)" val={-calc.gewSt}
@@ -284,8 +215,8 @@ const BruttoNettoSolo = () => {
                   } />
                 )}
                 {calc.rvJahr > 0 && (
-                  <Row label="./. Renten-Versicherung freiwillig" val={-calc.rvJahr}
-                       note={`${RV_SATZ}% × min(Gewinn, BBG-RV ${BBG_RV_MONAT_2026.toLocaleString("de-DE")} €/Mon)`} />
+                  <Row label={calc.rvPflichtKsk ? "./. Renten-Versicherung (KSK-Pflicht, halber Beitrag)" : "./. Renten-Versicherung freiwillig"} val={-calc.rvJahr}
+                       note={`${calc.rvPflichtKsk ? RV_SATZ / 2 : RV_SATZ}% × min(Gewinn, BBG-RV ${BBG_RV_MONAT_2026.toLocaleString("de-DE")} €/Mon)`} />
                 )}
                 <div className="mt-2 space-y-1">
                   <Row label="= Netto pro Jahr" val={calc.nettoJahr} bold highlight />
@@ -362,7 +293,7 @@ const BruttoNettoSolo = () => {
           { label: "Mindestbemessung GKV freiwillig 2026", url: "https://covago.de/mindestbemessungsgrundlage-2026/" },
           { label: "KSK Künstlersozialkasse", url: "https://www.kuenstlersozialkasse.de" },
         ]}
-        note="Rechnung ist vereinfacht (ohne Sonderausgaben außer SV, ohne außergewöhnliche Belastungen, ohne weitere Einkunftsarten). Konkrete ESt-Veranlagung bitte mit StB oder ELSTER. Splitting-Vorteil bei Verheirateten ist Approximation."
+        note="Rechnung ist vereinfacht (Sonderausgaben nur KV/PV-Basis und RV nach §10 Abs. 1 Nr. 2 und 3 EStG, ohne außergewöhnliche Belastungen, ohne weitere Einkunftsarten). Konkrete ESt-Veranlagung bitte mit StB oder ELSTER. Splitting-Vorteil bei Verheirateten ist Approximation."
       />
     </CockpitShell>
   );
@@ -377,7 +308,7 @@ const GLOSSAR = [
   { begriff: "Solidaritätszuschlag (SolZ)", erklaerung: "5,5 % auf die ESt. Aber: Freigrenze 20.350 € ESt (Single) — darunter zahlst du keinen SolZ. Bei verheirateten Paaren liegt die Grenze bei 40.700 € ESt." },
   { begriff: "Gewerbesteuer (GewSt)", erklaerung: "Nur bei Gewerbe (nicht Freiberuf). Freibetrag 24.500 € Gewinn. Rest mit Messzahl 3,5 % × Hebesatz der Gemeinde. Wichtig: GewSt wird via §35 EStG mit Faktor 4,0 auf die ESt angerechnet — bei Hebesatz ≤400% effektiv neutral!" },
   { begriff: "Kirchensteuer (KiSt)", erklaerung: "8 % der ESt in Bayern und Baden-Württemberg, 9 % im Rest. Nur wenn du Mitglied einer steuererhebenden Religionsgemeinschaft bist. Austritt = sofortige Befreiung." },
-  { begriff: "KV/PV freiwillig (Mindestbemessung)", erklaerung: "Als Selbstständiger zahlst du GKV freiwillig: mindestens auf 1.318,33 €/Monat fingiertes Einkommen (Mindestbemessung 2026 ≈ 260-280 €/Mon Beitrag), max. auf BBG 5.812,50 €/Mon (höchster Beitrag ~1.210 €/Mon)." },
+  { begriff: "KV/PV freiwillig (Mindestbemessung)", erklaerung: "Als Selbstständiger zahlst du GKV freiwillig: mindestens auf 1.318,33 €/Monat fingiertes Einkommen (Mindestbemessung 2026 ≈ 278–286 €/Mon Beitrag inkl. PV), max. auf BBG 5.812,50 €/Mon (höchster Beitrag ~1.210 €/Mon)." },
   { begriff: "Künstlersozialkasse (KSK)", erklaerung: "Bund übernimmt 50 % der GKV+RV-Beiträge für selbstständige Künstler/Publizisten — wie bei Angestellten. Pflicht-Mitgliedschaft für: Maler, Musiker, Autor, Journalist, Designer, Fotograf etc. Mindesteinkommen 3.900 €/J (sonst Befreiung)." },
   { begriff: "Vergleich Selbstständig vs. Angestellt (fair)", erklaerung: "Der faire Vergleich rechnet auf gleichem AG-Total, NICHT auf gleichem Brutto-Gehalt. Grund: dein Solo-Gewinn entspricht konzeptionell dem, was ein AG insgesamt für seinen Mitarbeiter aufbringen müsste (AN-Brutto + AG-SV-Anteil ~20,5 %). Würdest du Solo-Gewinn = AN-Brutto setzen, ignoriert das den AG-Anteil und macht Selbstständige systematisch ärmer aussehen als sie sind. Faustregel: Selbstständig rentabel ab ~20-30 % Mehr-Netto — der Aufschlag deckt Sicherheits-Lücke (Lohnfortzahlung, Urlaub, BU, Rente)." },
 ];

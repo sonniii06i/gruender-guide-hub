@@ -50,7 +50,7 @@ const SOLZ_KST = 5.5; // SolZ-Aufschlag auf KSt
 const GEWST_SATZ_TYPISCH = 14; // Hebesatz 400% × Messzahl 3,5%
 const KST_GEWST_KOMBI = 30; // KSt+SolZ+GewSt ≈ 30%
 const TEILEINKUENFTE_ANTEIL = 60; // §3 Nr. 40 EStG: 60% stpfl., 40% frei
-const ABGELT_ST_INKL_SOLZ = 26.375; // 25% KapErtrSt + SolZ
+const DBA_SATZ_PRIVAT = 15; // Art. 10 Abs. 2 b OECD-MA / DE-DBA: Quellensteuer-Höchstsatz für natürliche Personen
 
 // ===== LÄNDER-DATEN — Stand Mai 2026 =====
 type CountryData = {
@@ -78,6 +78,12 @@ type CountryData = {
   qualifiedNote?: string;
   /** Mutter-Tochter-RL anwendbar (= EU-Mitglied)? */
   motherDaughter: boolean;
+  /** Effektive Belastung nach Erstattung an die Gesellschafter (Malta 6/7-Refund). §8 Abs. 5 Satz 2 AStG bezieht
+   *  solche Erstattungen in die Niedrigsteuer-Prüfung ein. */
+  effektivNachRefund?: number;
+  effektivNachRefundPassiv?: number;
+  /** Abweichender CIT für passive Einkünfte (Irland: 25 % auf nicht-trading income). */
+  passiveCit?: number;
   /** Ist das Land per BMF auf Niedrigsteuer-Liste (cit < 15%)? */
   isLowTaxCountry: boolean;
   notes: string[];
@@ -95,9 +101,9 @@ const COUNTRIES: Record<string, CountryData> = {
     dividendWHTwithDBA: 0,
     minStakeForDBA: MTR_BETEILIGUNG_MIN,
     motherDaughter: true,
-    isLowTaxCountry: false, // 24% > 15% → §AStG-Schwelle nicht unterschritten
+    isLowTaxCountry: false, // 22% > 15% → §AStG-Schwelle nicht unterschritten
     notes: [
-      "0% auf thesaurierte Gewinne — nur bei Ausschüttung 24% DPT (Distributed Profits Tax, ab 1.1.2026)",
+      "0% auf thesaurierte Gewinne — nur bei Ausschüttung 22% DPT (22/78 auf den Nettobetrag; die geplante Erhöhung auf 24% ab 2026 wurde gestrichen)",
       "Ermäßigter 14%-Satz für regelmäßige Ausschüttungen seit 2025 abgeschafft",
       "Pillar 2 nicht umgesetzt (6-Jahres-Aufschub gewählt)",
     ],
@@ -124,7 +130,7 @@ const COUNTRIES: Record<string, CountryData> = {
   luxembourg: {
     flag: "🇱🇺",
     name: "Luxemburg",
-    cit: 24.94,
+    cit: 23.87, // Luxemburg-Stadt 2025/2026: CIT 16 % + 7 % Solidaritätszuschlag + Gewerbesteuer 6,75 % (Loi du 20.12.2024)
     dividendWHT: 15,
     dividendWHTwithDBA: 5,
     minStakeForDBA: 10,
@@ -141,6 +147,7 @@ const COUNTRIES: Record<string, CountryData> = {
     flag: "🇮🇪",
     name: "Irland",
     cit: 12.5,
+    passiveCit: 25, // Irland: 25 % auf passive (non-trading) Einkünfte — Revenue, TCA 1997 s. 21A
     dividendWHT: 0, // National 0% (kein WHT auf ausgehende Dividenden)
     dividendWHTwithDBA: 0,
     minStakeForDBA: 0,
@@ -175,7 +182,9 @@ const COUNTRIES: Record<string, CountryData> = {
   malta: {
     flag: "🇲🇹",
     name: "Malta",
-    cit: 35, // Nominell — Refund-Mechanik separat!
+    cit: 35, // Nominell — Refund-Mechanik: effektivNachRefund
+    effektivNachRefund: 5, // 6/7-Refund bei Trading-Income
+    effektivNachRefundPassiv: 10, // 5/7-Refund bei passiven Zinsen/Lizenzen
     dividendWHT: 0,
     dividendWHTwithDBA: 0,
     minStakeForDBA: 0,
@@ -366,6 +375,15 @@ const DbaCfcRechner = () => {
     let effCit = country.cit;
     let citNote = "";
 
+    if (einkuenfteArt === "passive" && country.passiveCit !== undefined) {
+      effCit = country.passiveCit;
+      citNote = `Passive Einkünfte: ${country.passiveCit}%`;
+    } else if (country.effektivNachRefund !== undefined) {
+      const eff = einkuenfteArt === "passive" ? country.effektivNachRefundPassiv ?? country.effektivNachRefund : country.effektivNachRefund;
+      effCit = eff;
+      citNote = `${country.cit}% nominal, nach Erstattung an die Gesellschafter effektiv ${eff}% (zählt nach §8 Abs. 5 AStG mit)`;
+    }
+
     if (country.distributedProfitsTax && estlandThesauriert) {
       effCit = 0;
       citNote = "Thesauriert — keine Estland-DPT bis zur Ausschüttung";
@@ -394,7 +412,9 @@ const DbaCfcRechner = () => {
     let whtNote = `Regulär ${country.dividendWHT}%`;
 
     // Qualified-Rate (z.B. USA ≥80% mit LoB)
+    // Schachtel-/Qualified-Sätze der DBA gelten nur für Kapitalgesellschaften als Empfänger (OECD-MA Art. 10 Abs. 2 a).
     const qualifiedApplies =
+      hatHoldingDe &&
       country.dividendWHTQualified !== undefined &&
       country.qualifiedThreshold !== undefined &&
       beteiligung >= country.qualifiedThreshold &&
@@ -406,12 +426,17 @@ const DbaCfcRechner = () => {
     } else {
       // Standard DBA-Reduktion
       const dbaApplies =
+        hatHoldingDe &&
         beteiligung >= country.minStakeForDBA &&
         haltedauer >= MTR_HALTEDAUER_MONATE &&
         country.dividendWHTwithDBA < country.dividendWHT;
       if (dbaApplies) {
         wht = country.dividendWHTwithDBA;
         whtNote = `DBA-Reduktion (≥${country.minStakeForDBA}% + ${MTR_HALTEDAUER_MONATE}M): ${country.dividendWHT}% → ${wht}%`;
+      } else if (!hatHoldingDe && country.dividendWHT > DBA_SATZ_PRIVAT) {
+        // Natürliche Personen: DBA-Regelsatz (Art. 10 Abs. 2 b OECD-MA, i. d. R. 15 %) nach Erstattung
+        wht = DBA_SATZ_PRIVAT;
+        whtNote = `DBA-Satz für Privatpersonen: ${country.dividendWHT}% → ${wht}% (Rest per Erstattungsantrag)`;
       }
     }
 
@@ -462,9 +487,11 @@ const DbaCfcRechner = () => {
         deBezeichnung = `Voll-Schachtel ≥${SCHACHTEL_GEWST_SCHWELLE}% (§8b KStG + §9 Nr. 2a GewStG): 95% frei → 1,5% effektiv`;
       }
     } else {
-      // DE-Privatperson: 26,375% AbgSt (Abgeltungssteuer + SolZ)
-      deSteuer = (inDeAusgeschuettet * ABGELT_ST_INKL_SOLZ) / 100;
-      deBezeichnung = `DE-Privatperson: ${ABGELT_ST_INKL_SOLZ}% Abgeltungssteuer (25% KapErtrSt + SolZ). Keine MTR-Befreiung — Privatperson schließt EU-Mutter-Tochter-RL aus.`;
+      // DE-Privatperson: 25 % Abgeltungsteuer auf die Bruttodividende, ausländische Quellensteuer wird
+      // nach §32d Abs. 5 EStG angerechnet (höchstens der DBA-Satz, max. 25 %); SolZ 5,5 % auf die Rest-Steuer.
+      const anrechenbar = Math.min(whtAbsolute, (auslandsNetto * Math.min(wht, 25)) / 100);
+      deSteuer = Math.max(0, auslandsNetto * 0.25 - anrechenbar) * (1 + SOLZ_KST / 100);
+      deBezeichnung = `DE-Privatperson: 25% Abgeltungssteuer + SolZ auf die Bruttodividende, minus ${formatEur(anrechenbar)} anrechenbare Quellensteuer (§32d Abs. 5 EStG). Keine MTR-Befreiung — Privatperson schließt EU-Mutter-Tochter-RL aus.`;
     }
 
     // 4) §AStG-Hinzurechnung-Check
@@ -680,7 +707,7 @@ const DbaCfcRechner = () => {
                     className="grid grid-cols-1 sm:grid-cols-2"
                     options={[
                       { value: true, label: "DE-Holding-GmbH", hint: "§ 8b KStG, Mutter-Tochter-RL möglich" },
-                      { value: false, label: "DE-Privatperson", hint: "Abgeltungsteuer 26,375 %" },
+                      { value: false, label: "DE-Privatperson", hint: "Abgeltungsteuer 26,375 %, Quellensteuer anrechenbar" },
                     ]}
                   />
                 </div>

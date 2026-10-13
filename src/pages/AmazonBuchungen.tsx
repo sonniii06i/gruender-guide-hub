@@ -149,8 +149,10 @@ const AmazonBuchungen = () => {
             SKR03 bzw. <strong>9 oder 401</strong> lt. PayJoe-Doku). KEIN Reverse Charge mehr für DE!
           </li>
           <li>
-            Für Marketplaces außerhalb DE (IT/FR/ES/NL/UK/COM): Amazon AEU rechnet mit lokaler EU-USt →
-            Reverse Charge §13b UStG für DE-Händler. Für UK/US: Drittland (Schlüssel 94).
+            Für Marketplaces außerhalb DE (IT/FR/ES/NL): Rechnung prüfen. Weist Amazon deutsche USt aus, gilt
+            Vorsteuer 19 % (Schlüssel 9). Rechnet eine ausländische Amazon-Einheit <em>ohne</em> Steuerausweis ab,
+            gilt Reverse Charge §13b UStG (SKR03 3123 / SKR04 5923). Beides zugleich gibt es nicht. UK/US-Gebühren
+            ohne Steuerausweis: §13b für Leistungen ausländischer Unternehmer (Schlüssel 94).
           </li>
           <li>
             <strong>AUSZ-DE</strong> ist KEIN Aufwand und KEIN Erlös, nur Geldtransit (1360 bzw. 1460).
@@ -160,7 +162,7 @@ const AmazonBuchungen = () => {
             meist nicht steuerbar (echter Schadensersatz).
           </li>
           <li>
-            <strong>Refunds (A-to-z, Customer-Returns)</strong> = Erlösschmälerung (8730/4730), nicht als
+            <strong>Refunds (A-to-z, Customer-Returns)</strong> = Erlösschmälerung 19 % (8720/4720; 8730/4730 sind gewährte Skonti), nicht als
             Aufwand buchen.
           </li>
           <li>Disclaimer: Orientierungshilfe, konkrete Buchung immer mit StB klären.</li>
@@ -317,7 +319,7 @@ const AmazonBuchungen = () => {
               icon: ArrowUpCircle,
               cls: "text-success",
               t: "Plus aus FBA-Reimbursement (verlorene/beschädigte Ware)",
-              d: "= sonstiger Ertrag (8400/4830), 0% USt (Schadensersatz).",
+              d: "= Schadenersatz (SKR03 2742 / SKR04 4970), 0 % USt, nicht steuerbar. Nicht auf 8400 buchen: das ist das Automatikkonto Erlöse 19 %.",
             },
             {
               icon: RefreshCcw,
@@ -329,7 +331,7 @@ const AmazonBuchungen = () => {
               icon: ArrowDownCircle,
               cls: "text-warning",
               t: "A-to-z, Chargeback, Customer-Return",
-              d: "= Erlösschmälerung (8730/4730), KEIN Aufwand! Mindert deinen Umsatz.",
+              d: "= Erlösschmälerung 19 % (8720/4720), KEIN Aufwand! Mindert deinen Umsatz.",
             },
           ].map((r) => (
             <li key={r.t} className="flex items-start gap-3 rounded-xl bg-secondary/60 px-4 py-3">

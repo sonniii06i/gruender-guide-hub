@@ -11,7 +11,7 @@ const SAMPLE_GUIDES = [
   { slug: "ug-gruendung", title: "UG gründen", meta: "Einfach · ab 1 € Stammkapital" },
   { slug: "holding", title: "Holding-Struktur", meta: "Komplex · ~1,5 % auf Ausschüttungen (§ 8b KStG)" },
   { slug: "amazon-fba-launch", title: "Amazon FBA Launch", meta: "Mittel · Sourcing bis erster Sale" },
-  { slug: "us-llc", title: "US-LLC gründen", meta: "Komplex · EIN, ITIN, BOI" },
+  { slug: "us-llc", title: "US-LLC gründen", meta: "Komplex · EIN, ITIN, Form 5472" },
   { slug: "oss-anmeldung", title: "OSS-Anmeldung", meta: "Einfach · EU-weit verkaufen" },
 ];
 

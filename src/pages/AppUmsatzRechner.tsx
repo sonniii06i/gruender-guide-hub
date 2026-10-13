@@ -266,7 +266,9 @@ const AppUmsatzRechner = () => {
                     <div className="mt-0.5 text-muted-foreground">
                       {smallBusiness
                         ? "Small Business Program (Apple, aktiv beantragen!) bzw. 15 %-Stufe auf die erste 1 Mio. $ (Google, automatisch)"
-                        : "Standard-Provision 30 %. Unter 1 Mio. $ pro Jahr verschenkst du Geld: Small Business Program beantragen!"}
+                        : istAbo
+                          ? "Standard-Provision 30 % (Apple im ersten Abo-Jahr). Achtung: Google nimmt auf Abos immer 15 %, Apple ab dem zweiten Abo-Jahr ebenfalls 15 % — die echte Provision liegt also meist darunter."
+                          : "Standard-Provision 30 %. Unter 1 Mio. $ pro Jahr verschenkst du Geld: Small Business Program beantragen!"}
                       :{" "}
                       <strong className="text-foreground tabular">{eur(calc.erloesProZahlerMonat, 2)} € Erlös pro Zahler{istAbo ? " und Monat" : ""}</strong>
                     </div>
@@ -327,10 +329,11 @@ const AppUmsatzRechner = () => {
 
       <Callout tone="warning" title="Steuer-Falle: Auszahlung ist kein Umsatz mit 19 % USt" icon={Landmark} className="mb-6">
         <p>
-          Die monatliche Store-Auszahlung ist eine <strong>B2B-Leistung an Apple/Google Irland</strong> (Reverse Charge): keine USt in
-          deiner Rechnung, aber Meldung in der USt-VA (§ 18b) und in der Zusammenfassenden Meldung. Dafür brauchst du eine{" "}
-          <strong>eigene USt-IdNr., auch als Kleinunternehmer</strong>. Wer die Auszahlung als „Umsatz 19 %“ bucht, zahlt die USt
-          doppelt.
+          Die monatliche Store-Auszahlung ist eine <strong>B2B-Leistung an Apple/Google Irland</strong>, in DE nicht steuerbar
+          (§ 3a Abs. 2 UStG, Reverse Charge in Irland): keine USt in deiner Rechnung. <strong>Regelbesteuerer</strong> melden sie in der
+          USt-VA (Kz. 21) und in der Zusammenfassenden Meldung (§ 18a UStG) und brauchen dafür eine USt-IdNr.{" "}
+          <strong>Kleinunternehmer</strong> geben keine Voranmeldung ab und sind von der ZM-Pflicht ausgenommen (§ 18a Abs. 4 UStG).
+          Wer die Auszahlung als „Umsatz 19 %“ bucht, zahlt USt, die gar nicht anfällt.
         </p>
         <p className="mt-2">
           Der komplette Ablauf von der Idee bis zum Launch (Developer-Accounts, Googles 12-Tester-Pflicht, Review bestehen,

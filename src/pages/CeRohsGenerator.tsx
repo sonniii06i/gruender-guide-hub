@@ -41,6 +41,13 @@ type ProductCategory =
   | "bauprodukt"
   | "wireless";
 
+/** RoHS (2011/65/EU) betrifft Elektro- und Elektronikgeräte → nur dort standardmäßig ankreuzen. */
+const ROHS_STANDARD: ProductCategory[] = ["elektrogeraet", "wireless", "maschine", "messgeraet"];
+/** Kosmetik (VO 1223/2009): kein CE, keine EU-Konformitätserklärung, sondern Sicherheitsbericht + CPNP-Notifizierung. */
+const KEINE_DOC: ProductCategory[] = ["kosmetik"];
+/** Bauprodukte (VO 305/2011 bzw. 2024/3110): Leistungserklärung (DoP) statt Konformitätserklärung. */
+const DOP_STATT_DOC: ProductCategory[] = ["bauprodukt"];
+
 const DIRECTIVES: Record<ProductCategory, { name: string; emoji: string; directives: { code: string; name: string; relevant: boolean }[]; standardNotes: string[] }> = {
   elektrogeraet: {
     name: "Elektrogerät / Elektronik",
@@ -176,7 +183,7 @@ const CeRohsGenerator = () => {
   const [signerCity, setSignerCity] = useState("");
   const [issueDate, setIssueDate] = useState(new Date().toISOString().slice(0, 10));
   const [appliedNorms, setAppliedNorms] = useState("");
-  const [includeRohs, setIncludeRohs] = useState(true);
+  const [includeRohs, setIncludeRohs] = useState(ROHS_STANDARD.includes("elektrogeraet"));
   const [selectedDirectives, setSelectedDirectives] = useState<string[]>([]);
 
   // GPSR (VO 2023/988, gilt seit 13.12.2024): Responsible Person in der EU für non-EU Hersteller (Art. 16)
@@ -209,6 +216,8 @@ const CeRohsGenerator = () => {
   };
 
   const downloadPDF = async () => {
+    // Keine falsche Rechtserklärung erzeugen: Kosmetik hat keine DoC, Bauprodukte eine DoP
+    if (KEINE_DOC.includes(category) || DOP_STATT_DOC.includes(category)) return;
     const { default: jsPDF } = await import("jspdf");
     const doc = new jsPDF({ unit: "mm", format: "a4" });
     const left = 20;
@@ -409,6 +418,7 @@ const CeRohsGenerator = () => {
                     onClick={() => {
                       setCategory(k);
                       setSelectedDirectives([]);
+                      setIncludeRohs(ROHS_STANDARD.includes(k));
                     }}
                     className={`rounded-xl border px-3 py-2.5 text-left text-sm font-medium leading-snug transition-colors ${
                       category === k
@@ -675,9 +685,21 @@ const CeRohsGenerator = () => {
                   </span>
                 )}
               </div>
+              {KEINE_DOC.includes(category) && (
+                <p className="mt-4 rounded-xl bg-white/[0.06] p-3 text-sm text-primary-foreground/85">
+                  Kosmetik trägt kein CE-Zeichen und hat keine EU-Konformitätserklärung (VO (EG) 1223/2009). Pflicht sind
+                  Sicherheitsbericht, Produktinformationsdatei und die CPNP-Notifizierung vor dem Verkauf. Darum gibt es hier kein PDF.
+                </p>
+              )}
+              {DOP_STATT_DOC.includes(category) && (
+                <p className="mt-4 rounded-xl bg-white/[0.06] p-3 text-sm text-primary-foreground/85">
+                  Bauprodukte mit harmonisierter Norm brauchen eine Leistungserklärung (DoP) nach der Bauproduktenverordnung,
+                  keine EU-Konformitätserklärung. Dieses Tool erzeugt keine DoP — darum gibt es hier kein PDF.
+                </p>
+              )}
               <Button
                 onClick={downloadPDF}
-                disabled={!productName || selectedDirectives.length === 0 || !manufacturer}
+                disabled={!productName || selectedDirectives.length === 0 || !manufacturer || KEINE_DOC.includes(category) || DOP_STATT_DOC.includes(category)}
                 className="press mt-4 h-11 w-full rounded-xl bg-card text-foreground hover:bg-card/90"
               >
                 <Download className="mr-2 h-4 w-4" /> Konformitätserklärung als PDF

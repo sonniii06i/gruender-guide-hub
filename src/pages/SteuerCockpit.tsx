@@ -6,7 +6,7 @@ import { HebesatzPicker } from "@/components/ui/hebesatz-picker";
 import { Button } from "@/components/ui/button";
 import { Calendar, Calculator, PiggyBank, ShoppingCart, Settings2, Sparkles, ArrowRight } from "lucide-react";
 import { Callout, ChoiceGroup, EmptyState, Field, ToneBadge, ToolSection, type Tone } from "@/components/cockpit/kit";
-import { progressionESt, kstGewstRate, grenzSteuerSatz, SOLZ_RATE } from "@/lib/germanTax";
+import { progressionESt, kstGewstRate, grenzSteuerSatz, SOLZ_RATE, IAB_GEWINN_GRENZE } from "@/lib/germanTax";
 
 type LegalForm = "ein" | "ug" | "gmbh";
 type UstMode = "monatlich" | "quartal" | "keine";
@@ -18,6 +18,16 @@ interface Setup {
   oss: boolean;
   zm: boolean;
   mitarbeiter: boolean;
+  /** Lohnsteuer des Vorjahres (bei Neugründung: aufs Jahr hochgerechnete erste Monate) */
+  lstVorjahr: number;
+}
+
+/** §41a Abs. 2 EStG: Anmeldungszeitraum der Lohnsteuer nach der Vorjahres-Lohnsteuer. */
+// eslint-disable-next-line react-refresh/only-export-components
+export function lohnsteuerRhythmus(lstVorjahr: number): "monatlich" | "quartal" | "jaehrlich" {
+  if (lstVorjahr > 5000) return "monatlich";
+  if (lstVorjahr > 1080) return "quartal";
+  return "jaehrlich";
 }
 
 interface Frist {
@@ -105,20 +115,23 @@ function buildFristen(s: Setup): Frist[] {
   // ============ Lohnsteuer-Anmeldung ============
   // Nur wenn Mitarbeiter beschäftigt (egal welche Rechtsform). Keine Dauerfrist.
   if (s.mitarbeiter) {
-    if (s.ustMode === "monatlich" || s.ustMode === "keine") {
-      // Lohnsteuer kann monatlich/quartal/jährlich sein – wir gehen vereinfacht von monatlich aus
+    // Rhythmus hängt an der Lohnsteuer des Vorjahres (§41a Abs. 2 EStG), nicht an der Umsatzsteuer
+    const rhythmus = lohnsteuerRhythmus(s.lstVorjahr);
+    if (rhythmus === "jaehrlich") {
+      fristen.push({ date: "10.01.", title: "Lohnsteuer-Jahresanmeldung (Folgejahr)", detail: "Vorjahres-Lohnsteuer bis 1.080 € – keine Dauerfrist", category: "lohn" });
+    } else if (rhythmus === "monatlich") {
       for (let m = 0; m < 12; m++) {
         const due = (m + 1) % 12;
         fristen.push({
           date: `10.${pad(due + 1)}.`,
           title: `Lohnsteuer-Anmeldung ${MONAT[m]}`,
-          detail: "Nur wenn Mitarbeiter – keine Dauerfrist",
+          detail: "Vorjahres-Lohnsteuer über 5.000 € – keine Dauerfrist",
           category: "lohn",
         });
       }
     } else {
       // Quartalsweise
-      fristen.push({ date: "10.04.", title: "Lohnsteuer Q1", detail: "Nur wenn Mitarbeiter – keine Dauerfrist", category: "lohn" });
+      fristen.push({ date: "10.04.", title: "Lohnsteuer Q1", detail: "Vorjahres-Lohnsteuer 1.080–5.000 € – keine Dauerfrist", category: "lohn" });
       fristen.push({ date: "10.07.", title: "Lohnsteuer Q2", category: "lohn" });
       fristen.push({ date: "10.10.", title: "Lohnsteuer Q3", category: "lohn" });
       fristen.push({ date: "10.01.", title: "Lohnsteuer Q4 (Folgejahr)", category: "lohn" });
@@ -198,20 +211,21 @@ const SteuerCockpit = () => {
   const [oss, setOss] = useState(false);
   const [zm, setZm] = useState(false);
   const [mitarbeiter, setMitarbeiter] = useState(false);
+  const [lstVorjahr, setLstVorjahr] = useState(6000);
 
   const fristen = useMemo(
-    () => buildFristen({ legalForm, ustMode, dauerfrist, oss, zm, mitarbeiter }),
-    [legalForm, ustMode, dauerfrist, oss, zm, mitarbeiter],
+    () => buildFristen({ legalForm, ustMode, dauerfrist, oss, zm, mitarbeiter, lstVorjahr }),
+    [legalForm, ustMode, dauerfrist, oss, zm, mitarbeiter, lstVorjahr],
   );
 
   // IAB §7g — mit Voraussetzungs-Check
   const [iabBasis, setIabBasis] = useState(80000);
   const [iabGewinnVor, setIabGewinnVor] = useState(150000);
-  const [iabBilanzsumme, setIabBilanzsumme] = useState(180000);
   const [hebesatz, setHebesatz] = useState(400);
   const iabBasisClamped = Math.max(0, iabBasis);
   const iabKapGes = legalForm === "gmbh" || legalForm === "ug";
-  const iabEligible = iabKapGes ? iabBilanzsumme <= 235000 : iabGewinnVor <= 200000;
+  // §7g Abs. 1 Satz 2 Nr. 1 EStG (seit JStG 2020): einheitlich Gewinn ≤ 200.000 € für alle Rechtsformen
+  const iabEligible = iabGewinnVor <= IAB_GEWINN_GRENZE;
   const iab = iabEligible ? Math.min(iabBasisClamped * 0.5, 200000) : 0;
   const iabKstGewSt = kstGewstRate(hebesatz);
   const iabSteuer = iab * (iabKapGes ? iabKstGewSt : (grenzSteuerSatz(iabGewinnVor - iab / 2) * (1 + SOLZ_RATE)));
@@ -301,6 +315,11 @@ const SteuerCockpit = () => {
             label="Mitarbeiter beschäftigt"
             help="Aktiviert die Lohnsteuer-Anmeldung. Auch bei Einzelunternehmen relevant; ohne Mitarbeiter keine Lohnsteuer."
           />
+          {mitarbeiter && (
+            <Field label="Lohnsteuer im Vorjahr (€)" hint="Bei Neugründung: Lohnsteuer des ersten Monats × 12. Über 5.000 € monatlich, über 1.080 € vierteljährlich, sonst jährlich (§41a Abs. 2 EStG).">
+              <NumberField value={lstVorjahr} onChange={setLstVorjahr} min={0} aria-label="Lohnsteuer im Vorjahr in Euro" />
+            </Field>
+          )}
         </div>
       </ToolSection>
 
@@ -347,15 +366,9 @@ const SteuerCockpit = () => {
               <NumberField value={iabBasis} onChange={setIabBasis} min={0} aria-label="Geplante Investition in Euro" />
             </Field>
             <div className="grid gap-4 sm:grid-cols-2">
-              {iabKapGes ? (
-                <Field label="Bilanzsumme (€)">
-                  <NumberField value={iabBilanzsumme} onChange={setIabBilanzsumme} min={0} aria-label="Bilanzsumme in Euro" />
-                </Field>
-              ) : (
-                <Field label="Gewinn vor IAB (€/Jahr)">
-                  <NumberField value={iabGewinnVor} onChange={setIabGewinnVor} min={0} aria-label="Gewinn vor IAB in Euro pro Jahr" />
-                </Field>
-              )}
+              <Field label="Gewinn vor IAB (€/Jahr)">
+                <NumberField value={iabGewinnVor} onChange={setIabGewinnVor} min={0} aria-label="Gewinn vor IAB in Euro pro Jahr" />
+              </Field>
               <Field label="GewSt-Hebesatz (%)">
                 <HebesatzPicker value={hebesatz} onChange={setHebesatz} />
               </Field>
@@ -364,9 +377,7 @@ const SteuerCockpit = () => {
 
           {!iabEligible && (
             <Callout tone="warning" title="IAB nicht möglich" className="mt-4">
-              {iabKapGes
-                ? `Bilanzsumme ${iabBilanzsumme.toLocaleString("de-DE")} € > 235.000 €`
-                : `Gewinn ${iabGewinnVor.toLocaleString("de-DE")} € > 200.000 €`}
+              {`Gewinn ${iabGewinnVor.toLocaleString("de-DE")} € > 200.000 €`}
             </Callout>
           )}
 
@@ -375,7 +386,7 @@ const SteuerCockpit = () => {
             <Row label="Steuer-Ersparnis heute" value={`${Math.round(iabSteuer).toLocaleString("de-DE")} €`} highlight />
           </div>
           <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
-            Max. 200.000 € pro Betrieb. Voraussetzungen 2026: Gewinn &lt; 200k €/Jahr (Einzel/PersGes) oder Bilanzsumme &lt; 235k € (KapGes). Bei Nicht-Investition binnen 3 Jahren: rückwirkende Auflösung + 6 % Verzinsung.
+            Max. 200.000 € pro Betrieb. Voraussetzung 2026: Gewinn vor IAB ≤ 200.000 €/Jahr, für alle Rechtsformen gleich (die Bilanzsummen-Grenze ist seit dem JStG 2020 abgeschafft). Bei Nicht-Investition binnen 3 Jahren: rückwirkende Auflösung + Nachzahlungszinsen 0,15 % pro Monat (1,8 % p.a., §233a i. V. m. §238 Abs. 1 AO).
           </p>
         </ToolSection>
 

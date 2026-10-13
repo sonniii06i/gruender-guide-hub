@@ -64,17 +64,19 @@ const HkLimitedWizard = () => {
   const [serviceProvider, setServiceProvider] = useState<"statrys" | "sleek" | "osome" | "hawksford" | "diy">("sleek");
   const [annualRevenue, setAnnualRevenue] = useState(500000);
   const [profitMargin, setProfitMargin] = useState(20); // % vom Umsatz
+  // EUR/HKD (nicht 7,85 — das ist die USD/HKD-Kopplung). Startwert grob, Nutzer trägt Tageskurs ein.
+  const [eurHkd, setEurHkd] = useState(9.0);
   const [offshoreClaim, setOffshoreClaim] = useState(false);
   const [bankPreference, setBankPreference] = useState<"statrys" | "airwallex" | "currenxie" | "hsbc">("statrys");
 
   const profitsTax = useMemo(() => {
     const margin = Math.max(0, Math.min(100, profitMargin)) / 100;
-    const profitHkd = annualRevenue * margin * 7.85;
+    const profitHkd = annualRevenue * margin * eurHkd;
     const tier1Limit = 2_000_000;
     if (offshoreClaim) return 0;
     if (profitHkd <= tier1Limit) return profitHkd * 0.0825;
     return tier1Limit * 0.0825 + (profitHkd - tier1Limit) * 0.165;
-  }, [annualRevenue, profitMargin, offshoreClaim]);
+  }, [annualRevenue, profitMargin, offshoreClaim, eurHkd]);
 
   const totalSetupCost = useMemo(() => {
     const filing = 1720; // Papier-Satz NNC1 (elektronisch HKD 1.545); Quelle cr.gov.hk
@@ -225,7 +227,7 @@ const HkLimitedWizard = () => {
                     <><strong className="text-foreground">Mind. 1 Director</strong>: natürliche Person, mind. 18 Jahre alt, jede Nationalität</>,
                     <><strong className="text-foreground">Mind. 1 Shareholder</strong>: natürliche Person ODER Body Corporate, max. 50 für Private Ltd</>,
                     <>Director und Shareholder können IDENTISCH sein (Solo-Setup)</>,
-                    <><strong className="text-foreground">HK-Resident-Director NICHT Pflicht</strong> (Unterschied zu SG/UK/EU!)</>,
+                    <><strong className="text-foreground">HK-Resident-Director NICHT Pflicht</strong> (anders als z. B. in Singapur)</>,
                     <>Pass-Kopie und Address-Proof aller Directors/Shareholders zwingend für SCR (Schritt 8)</>,
                   ]}
                 />
@@ -408,7 +410,7 @@ const HkLimitedWizard = () => {
                 <p className="text-sm text-muted-foreground">
                   Kein gesetzliches Mindestkapital. Standard sind 10.000 HKD (1.000 Shares à 10 HKD).
                 </p>
-                <Field label="Share Capital (HKD)" htmlFor="hk-capital" hint="10.000 HKD sind ca. 1.250 EUR. Kein Capital-Stamp-Tax in HK.">
+                <Field label="Share Capital (HKD)" htmlFor="hk-capital" hint="10.000 HKD sind je nach Kurs ca. 1.100 EUR. Kein Capital-Stamp-Tax in HK.">
                   <Input
                     id="hk-capital"
                     type="number"
@@ -567,6 +569,20 @@ const HkLimitedWizard = () => {
                       className="tabular"
                     />
                   </Field>
+                  <Field
+                    label="Wechselkurs EUR/HKD"
+                    htmlFor="hk-kurs"
+                    hint="1 EUR = x HKD. Bitte Tageskurs eintragen (z. B. EZB-Referenzkurs). 7,85 ist der USD/HKD-Kurs, nicht EUR."
+                  >
+                    <Input
+                      id="hk-kurs"
+                      type="number"
+                      step="0.01"
+                      value={eurHkd}
+                      onChange={(e) => setEurHkd(Math.max(0.01, Number(e.target.value) || 0.01))}
+                      className="tabular"
+                    />
+                  </Field>
                 </div>
 
                 <div>
@@ -600,7 +616,7 @@ const HkLimitedWizard = () => {
                   kicker="Schätzung"
                   title="Profits Tax pro Jahr"
                   value={`${Math.round(profitsTax).toLocaleString("en-US")} HKD`}
-                  valueHint={`ca. ${Math.round(profitsTax / 7.85).toLocaleString("de-DE")} EUR, Annahme: ${profitMargin} % Marge auf ${annualRevenue.toLocaleString("de-DE")} EUR Umsatz`}
+                  valueHint={`ca. ${Math.round(profitsTax / eurHkd).toLocaleString("de-DE")} EUR (Kurs ${eurHkd.toLocaleString("de-DE")}), Annahme: ${profitMargin} % Marge auf ${annualRevenue.toLocaleString("de-DE")} EUR Umsatz`}
                 />
 
                 <div className="rounded-xl border border-border bg-card p-4">

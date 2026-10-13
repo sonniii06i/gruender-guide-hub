@@ -53,7 +53,7 @@ export const FOERDERPROGRAMME: Foerderung[] = [
       "Eigenmittel/Eigenleistung wünschenswert",
       "Tilgungsfreijahre möglich",
     ],
-    antragUrl: "https://www.kfw.de/inlandsfoerderung/Unternehmen/Gründen-Erweitern/Förderprodukte/ERP-Gründerkredit-StartGeld-(067)/",
+    antragUrl: "https://www.kfw.de/067",
     notes: [
       "Effektivzins ab ~5,5 % (Stand 2026)",
       "Laufzeit 5/10 Jahre, mit/ohne tilgungsfreie Anlaufjahre",
@@ -78,7 +78,7 @@ export const FOERDERPROGRAMME: Foerderung[] = [
       "Über Hausbank",
       "Höhere Zinsen als StartGeld aber höhere Summen",
     ],
-    antragUrl: "https://www.kfw.de/inlandsfoerderung/Unternehmen/Gründen-Erweitern/Förderprodukte/ERP-Gründerkredit-Universell-(073)/",
+    antragUrl: "https://www.kfw.de/073",
   },
   {
     slug: "erp-foerderkredit-kmu",
@@ -92,7 +92,7 @@ export const FOERDERPROGRAMME: Foerderung[] = [
     branche: ["alle"],
     description: "Standard-KMU-Investitionskredit für Maschinen, Gebäude, Übernahmen.",
     conditions: ["Hausbank-Antrag", "5–20 Jahre Laufzeit", "Ohne KMU-Schwelle nicht möglich"],
-    antragUrl: "https://www.kfw.de/inlandsfoerderung/Unternehmen/erweitern-festigen/",
+    antragUrl: "https://www.kfw.de/inlandsfoerderung/Unternehmen/Investitionen-und-Wachstum/",
   },
   {
     slug: "exist-gruendungsstipendium",
@@ -147,7 +147,7 @@ export const FOERDERPROGRAMME: Foerderung[] = [
       "Anteile mind. 3 Jahre halten",
       "Min. 10k € pro Investor; Erwerbszuschuss 15 %, max. 100k €/Jahr je Investor; bis 3 Mio € förderfähiges Investment je Unternehmen/Jahr",
     ],
-    antragUrl: "https://www.bafa.de/DE/Wirtschafts_Mittelstandsfoerderung/Beratung_Finanzierung/INVEST/invest_node.html",
+    antragUrl: "https://www.bafa.de/invest",
   },
   {
     slug: "high-tech-gruenderfonds",
@@ -273,20 +273,6 @@ export const FOERDERPROGRAMME: Foerderung[] = [
     description: "WIBank Hessen für Existenzgründungen. Zinsgünstig + Tilgungsfreijahre.",
     conditions: ["Sitz Hessen", "Hausbank"],
     antragUrl: "https://www.wibank.de",
-  },
-  {
-    slug: "saarland-startup",
-    name: "Startup-Saar",
-    emoji: "🥨",
-    type: "zuschuss",
-    scope: "SL",
-    maxFunding: "Bis 50.000 €",
-    zielgruppe: ["Gründer Saarland"],
-    phase: ["gruendung"],
-    branche: ["innovativ"],
-    description: "Saar-Innovationszuschuss für junge Tech-Companies.",
-    conditions: ["Sitz Saarland", "Innovation"],
-    antragUrl: "https://www.saarland-innovation.de",
   },
 
   // ============ EU-PROGRAMME ============
@@ -598,7 +584,7 @@ export const FOERDERPROGRAMME: Foerderung[] = [
     branche: ["alle"],
     description: "Killer-Investor-Anreiz für UK. EIS-Cap auf £10M jährlich erhöht (von £5M), Lifetime auf £24M (KI: £40M) ab April 2026. CGT-Befreiung nach 3 Jahren Hold.",
     conditions: ["UK-Ltd", "Independent (<25% Corporate Ownership)", "Strict Trade-Restrictions"],
-    antragUrl: "https://www.gov.uk/guidance/venture-capital-schemes-apply-for-the-seed-enterprise-investment-scheme",
+    antragUrl: "https://www.gov.uk/guidance/venture-capital-schemes-apply-to-use-the-seed-enterprise-investment-scheme",
     forDeFounder: "★ Sehr starkes Argument für UK-Ltd, lockt Angels",
   },
   {

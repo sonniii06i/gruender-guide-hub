@@ -252,7 +252,7 @@ const FoerderungDb = () => {
             ["Die Hausbank ist der Schlüssel", "KfW-Kredite werden über die Hausbank beantragt. Wähle eine gründerfreundliche Bank (Volksbanken, Sparkassen mit Gründer-Beauftragten)."],
             ["Bürgschaftsbank zuerst", "Bei wenig Eigenkapital erleichtert eine Bürgschaft der Bürgschaftsbank jeden Bankkredit deutlich."],
             ["EIC Accelerator", "Für Deep-Tech und VC-fähige Startups: bis 17,5 Mio. € als Mix aus Zuschuss und Beteiligung, sehr kompetitiv (8 bis 12 % Quote)."],
-            ["Beratungsförderung nutzen", "BAFA-Förderung für Unternehmensberatung (50 % bis 3.500 €) finanziert Steuerberater, Anwalt oder Coach."],
+            ["Beratungsförderung nutzen", "BAFA-Förderung des unternehmerischen Know-hows bezuschusst Unternehmensberatung zu wirtschaftlichen, finanziellen, personellen und organisatorischen Fragen. Bemessungsgrundlage höchstens 3.500 € Beratungskosten, Zuschuss je nach Region 50 % (alte Bundesländer inkl. Berlin), 60 % (Region Lüneburg) oder 80 % (neue Bundesländer). Überwiegende Rechts- und Steuerberatung ist ausdrücklich nicht förderfähig."],
             ["Antrag vor der Investition", "Bei Zuschüssen und Stipendien gilt: Antrag vor der Geldausgabe. Rückwirkende Förderung gibt es nicht."],
             ["Regionale Programme", "Regionale IHK-Programme und Innovationsgutscheine der Länder für Innovationsberatung sind hier nicht aufgeführt; ein Anruf bei der IHK lohnt sich."],
           ].map(([t, d]) => (
@@ -269,7 +269,7 @@ const FoerderungDb = () => {
         <a href="https://www.foerderdatenbank.de" target="_blank" rel="noreferrer noopener" className="inline-flex items-center gap-0.5 text-accent-blue hover:underline">
           foerderdatenbank.de <ExternalLink className="h-3 w-3" aria-hidden="true" />
         </a>{" "}
-        (BMWK-Datenbank, 2.500+ Programme).
+        (Datenbank des BMWE, 2.500+ Programme).
       </Callout>
     </CockpitShell>
   );

@@ -12,6 +12,7 @@ import {
   IAB_QUOTE,
   IAB_MAX,
   SOLZ_RATE as SOLZ,
+  solZ,
 } from "@/lib/germanTax";
 
 type Rechtsform = "einzel" | "freiberuf" | "ug" | "gmbh";
@@ -72,14 +73,16 @@ const IabRechner = () => {
 
     if (rechtsform === "einzel" || rechtsform === "freiberuf") {
       const istGewerblich = rechtsform === "einzel" && !istFreiberuflerOhneGewSt;
-      const zvE = Math.max(0, gewinnVorIab - estVorIab);
+      // Andere Einkünfte (Lohn, V+V) ERHÖHEN das zvE und damit den Grenzsteuersatz
+      const zvE = Math.max(0, gewinnVorIab + estVorIab);
       const zvENachIab = Math.max(0, zvE - iabHoehe);
 
       // ESt + SolZ über Progression
       const estOhne = progressionESt(zvE);
       const estMit = progressionESt(zvENachIab);
-      const solzOhne = estOhne * SOLZ; // vereinfacht ohne SolZ-Freigrenze (ESt > 19.950 Single)
-      const solzMit = estMit * SOLZ;
+      // SolZ mit Freigrenze und Milderungszone (§3 Abs. 3, §4 SolzG)
+      const solzOhne = solZ(estOhne);
+      const solzMit = solZ(estMit);
 
       // GewSt bei Einzelunternehmer (Gewerbe): GewSt-Anrechnung §35 EStG bis 400 % Hebesatz
       let gewStOhne = 0;
@@ -157,11 +160,11 @@ const IabRechner = () => {
           <li>Maximum: 200.000 € IAB pro Betrieb (kumuliert über alle Jahre).</li>
           <li>
             Bei tatsächlicher Investition wird der IAB <strong>aufgelöst</strong> (= dem Gewinn
-            hinzugerechnet), die Sonder-AfA mindert dann die AK/HK auf 50 % der Anschaffung.
+            hinzugerechnet); im Gegenzug dürfen die Anschaffungskosten um bis zu 50 % gemindert werden (§7g Abs. 2 EStG). Zusätzlich ist die Sonder-AfA §7g Abs. 5 (bis 40 %) möglich.
           </li>
           <li>
             Wenn nicht in 3 Wirtschaftsjahren investiert: rückwirkende Auflösung im Jahr der
-            Bildung + 6 % p.a. Verzinsung.
+            Bildung + Nachzahlungszinsen 0,15 % pro Monat (1,8 % p.a., §233a i. V. m. §238 Abs. 1 AO).
           </li>
         </ul>
       </Callout>
@@ -199,7 +202,7 @@ const IabRechner = () => {
                   <Field
                     className="sm:col-span-2"
                     label="Andere Einkünfte (€), zusätzlich zum Gewinn"
-                    hint="z. B. Lohn, V+V. Mindert das ZvE und ist relevant für deine Grenzsteuersatz-Position."
+                    hint="z. B. Lohn, V+V. Erhöht das ZvE und damit deinen Grenzsteuersatz."
                     htmlFor="iab-andere"
                   >
                     <Input
@@ -367,7 +370,7 @@ const IabRechner = () => {
         <ul className="mt-1 list-disc space-y-1.5 pl-4">
           <li>
             <strong>Frist 3 Wirtschaftsjahre:</strong> wenn Investition NICHT erfolgt → IAB wird
-            rückwirkend im Jahr der Bildung aufgelöst + Steuer + Verzinsung 6 % p.a. (§233a AO).
+            rückwirkend im Jahr der Bildung aufgelöst + Steuer + Nachzahlungszinsen 0,15 % pro Monat = 1,8 % p.a. (§233a i. V. m. §238 Abs. 1 AO, seit 2019).
           </li>
           <li>
             <strong>Nur bewegliche, abnutzbare WG:</strong> kein Grundstück, keine Software die nicht

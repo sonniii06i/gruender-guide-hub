@@ -30,7 +30,7 @@ type Reise = {
   tagesreiseUeber8h?: boolean;
 };
 
-type Bewirtung = {
+export type Bewirtung = {
   id: string;
   datum: string;
   ort: string;
@@ -39,6 +39,22 @@ type Bewirtung = {
   bewirtetGeschaeftlich: boolean;
   bruttoBetrag: number;
   trinkgeld: number;
+  /** USt-Satz der Rechnung: Speisen in der Gastronomie seit 01.01.2026 7 % (§12 Abs. 2 Nr. 15 UStG), Getränke 19 % */
+  ustSatz?: 7 | 19;
+};
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const calcBewirtung = (b: Bewirtung) => {
+  // Geschäftsbewirtung: 70 % als BA absetzbar (§4 Abs 5 Nr 2 EStG)
+  // Privat-Bewirtung: 0 %
+  // Abziehbar sind 70 % des NETTO-Betrags (+ Trinkgeld, das keine USt enthält); die Vorsteuer ist
+  // zu 100 % abziehbar (§15 Abs. 1a UStG) und darf deshalb nicht zusätzlich im Betriebsausgaben-Betrag stecken.
+  const satz = (b.ustSatz ?? 19) / 100;
+  const total = b.bruttoBetrag + b.trinkgeld;
+  const netto = b.bruttoBetrag / (1 + satz);
+  const absetzbar = b.bewirtetGeschaeftlich ? (netto + b.trinkgeld) * 0.7 : 0;
+  const vorsteuer = b.bewirtetGeschaeftlich ? b.bruttoBetrag - netto : 0;
+  return { total, absetzbar, vorsteuer, anteil: b.bewirtetGeschaeftlich ? 70 : 0 };
 };
 
 // Verpflegungs-Pauschalen DE 2026 (§9 Abs 4a EStG)
@@ -145,6 +161,7 @@ const ReisekostenLogger = () => {
         bewirtetGeschaeftlich: true,
         bruttoBetrag: 0,
         trinkgeld: 0,
+        ustSatz: 7,
       },
     ]);
   };
@@ -195,14 +212,6 @@ const ReisekostenLogger = () => {
     return { tage, verpflegung, fahrt, total };
   };
 
-  const calcBewirtung = (b: Bewirtung) => {
-    // Geschäftsbewirtung: 70 % als BA absetzbar (§4 Abs 5 Nr 2 EStG)
-    // Privat-Bewirtung: 0 %
-    const total = b.bruttoBetrag + b.trinkgeld;
-    const absetzbar = b.bewirtetGeschaeftlich ? total * 0.7 : 0;
-    const vorsteuer = b.bewirtetGeschaeftlich ? (b.bruttoBetrag / 1.19) * 0.19 : 0; // 19 % Vorsteuer voll abziehbar
-    return { total, absetzbar, vorsteuer, anteil: b.bewirtetGeschaeftlich ? 70 : 0 };
-  };
 
   const totals = useMemo(() => {
     const reisenTotal = reisen.reduce((sum, r) => sum + calcReise(r).total, 0);
@@ -517,6 +526,17 @@ const ReisekostenLogger = () => {
                         className="tabular"
                       />
                     </Field>
+                    <Field label="USt-Satz der Rechnung" htmlFor={`${b.id}-ust`} hint="Speisen im Restaurant seit 2026: 7 %, Getränke 19 %. Gemischte Rechnungen als zwei Belege erfassen.">
+                      <select
+                        id={`${b.id}-ust`}
+                        value={b.ustSatz ?? 19}
+                        onChange={(e) => updateBewirtung(b.id, { ustSatz: Number(e.target.value) === 7 ? 7 : 19 })}
+                        className={selectCls}
+                      >
+                        <option value={7}>7 % (Speisen)</option>
+                        <option value={19}>19 % (Getränke)</option>
+                      </select>
+                    </Field>
                     <Field label="Trinkgeld €" htmlFor={`${b.id}-tip`}>
                       <Input
                         id={`${b.id}-tip`}
@@ -544,7 +564,7 @@ const ReisekostenLogger = () => {
 
                   <dl className="grid grid-cols-3 gap-px overflow-hidden rounded-b-xl border-t border-border/70 bg-border/70 text-sm">
                     <Kennzahl label="Brutto gesamt" value={`${c.total.toFixed(2)} €`} />
-                    <Kennzahl label={`Absetzbar (${c.anteil}%)`} value={`${c.absetzbar.toFixed(2)} €`} strong />
+                    <Kennzahl label={`Absetzbar (${c.anteil}% vom Netto)`} value={`${c.absetzbar.toFixed(2)} €`} strong />
                     <Kennzahl label="Vorsteuer (100%)" value={`${c.vorsteuer.toFixed(2)} €`} />
                   </dl>
                 </article>
@@ -589,7 +609,7 @@ const ReisekostenLogger = () => {
           <Regel titel="Privat-Bewirtung">
             0 % absetzbar. Geburtstage, Hochzeiten — nicht versuchen hineinzuschmuggeln.
           </Regel>
-          <Regel titel="Reisekosten-Belege 10 Jahre aufbewahren">(§147 AO).</Regel>
+          <Regel titel="Reisekosten-Belege 8 Jahre aufbewahren">(§147 Abs. 3 AO, Buchungsbelege seit BEG IV 2025; Bücher und Abschlüsse weiter 10 Jahre).</Regel>
         </ul>
         <Callout tone="info" className="mt-5" icon={Receipt}>
           OCR-Belege via Apps (Lexoffice, sevDesk) reduzieren manuelles Erfassen.

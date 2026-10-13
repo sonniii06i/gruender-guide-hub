@@ -114,7 +114,7 @@ const BANKS: Bank[] = [
   {
     name: "Sparkasse (regional)",
     type: "hausbank",
-    url: "https://www.sparkasse.de/firmenkunden",
+    url: "https://www.sparkasse.de/unternehmen.html",
     monthlyFee: "Beispiel HASPA: 10 €/Mon. (Standard, kann auf 19,50 € steigen)",
     txnCost: "0,30 € pro Buchung, 0,40 € pro Dauerauftrag (HASPA)",
     freeTxns: "regional, Buchungspaket variiert",
@@ -169,7 +169,7 @@ const BANKS: Bank[] = [
   {
     name: "Postbank Business",
     type: "hausbank",
-    url: "https://www.postbank.de/firmenkunden/produkte/konten/business-giro.html",
+    url: "https://www.postbank.de/geschaeftskunden.html",
     monthlyFee: "12,90 €/Mon. (Promo bis 31.12.2026: 0 € Grundpreis)",
     txnCost: "0,20–0,28 € pro Buchung",
     freeTxns: "Promo-Aktion läuft",
@@ -196,7 +196,7 @@ const BANKS: Bank[] = [
   {
     name: "HypoVereinsbank (UniCredit)",
     type: "hausbank",
-    url: "https://www.hypovereinsbank.de/hvb/firmenkunden",
+    url: "https://www.hypovereinsbank.de/hvb/unternehmen",
     monthlyFee: "Modular: 50/250/750 freie Buchungen pro Modul",
     txnCost: "0,40 € (50er) · 0,30 € (250er) · 0,20 € (750er) ab Limit",
     freeTxns: "modular wählbar",
@@ -251,7 +251,7 @@ const BANKS: Bank[] = [
     name: "DKB Business",
     trustpilotUrl: "https://www.trustpilot.com/review/dkb.de",
     type: "online",
-    url: "https://www.dkb.de/business/",
+    url: "https://www.dkb.de/geschaeftskunden/konto-anlage/geschaeftskonto",
     monthlyFee: "15 €/Mon. (Pauschale)",
     txnCost: "alle beleglosen unbegrenzt inkl., beleghaft 2,95 €",
     freeTxns: "unbegrenzt beleglos",
@@ -436,7 +436,7 @@ const BANKS: Bank[] = [
     name: "N26 Business",
     trustpilotUrl: "https://www.trustpilot.com/review/n26.com",
     type: "neobank",
-    url: "https://n26.com/de-de/business",
+    url: "https://n26.com/de-de/geschaeftskonto",
     monthlyFee: "0 € (Standard) / 4,90 € (Smart) / 9,90 € (Go) / 16,90 € (Metal)",
     txnCost: "SEPA-Out unbegrenzt frei",
     freeTxns: "alle Tarife: unbegrenzt SEPA-Echtzeit",
@@ -586,7 +586,7 @@ const BANKS: Bank[] = [
   {
     name: "Triodos Bank",
     type: "sustainable",
-    url: "https://www.triodos.de/business",
+    url: "https://www.triodos.de/geschaeftskunden",
     monthlyFee: "ab 9 €/Mon.",
     txnCost: "0,15 € pro Buchung",
     freeTxns: "begrenzt",
@@ -598,22 +598,6 @@ const BANKS: Bank[] = [
     pros: ["Strikte ESG-Filter", "Transparente Mittelverwendung"],
     cons: ["Feature-Set kleiner", "Onboarding gründlich (langsam)"],
     bestFor: "Impact-/Sustainability-Brands",
-  },
-  {
-    name: "Tomorrow Business",
-    type: "sustainable",
-    url: "https://www.tomorrow.one/de-de/business/",
-    monthlyFee: "ab 9 €/Mon.",
-    txnCost: "0,20 € ab Limit",
-    freeTxns: "Pakete",
-    card: "Visa Business Debit",
-    stammkapital: "ja",
-    gmbhIG: "limited",
-    setupTime: "1–3 Tage",
-    rating: 4,
-    pros: ["Klimapositiv-Marketing nutzbar", "Modernes UI", "Schnelles Onboarding"],
-    cons: ["Junger Anbieter mit Solaris-Backend", "Limitierte Buchungspakete"],
-    bestFor: "Junge nachhaltige D2C-Brands",
   },
 ];
 
@@ -644,7 +628,7 @@ const IG_BADGE: Record<Bank["gmbhIG"], { label: string; cls: string }> = {
 };
 
 const FILTERS: { key: "all" | BankType; label: string }[] = [
-  { key: "all", label: "Alle (20)" },
+  { key: "all", label: `Alle (${BANKS.length})` },
   { key: "hausbank", label: "Hausbanken" },
   { key: "neobank", label: "Neobanks" },
   { key: "online", label: "Online" },

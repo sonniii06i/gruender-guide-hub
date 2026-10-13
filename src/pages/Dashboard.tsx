@@ -59,7 +59,9 @@ const Dashboard = () => {
     const cached = readProfileCache(user.id);
     if (cached) {
       setProfile(cached as Profile);
-      return;
+      // Onboarding schreibt den Cache nicht neu → bei "nicht abgeschlossen" im Hintergrund frisch laden,
+      // sonst bleibt der Hinweis "Profil vervollständigen" bis zum Logout stehen.
+      if (cached.onboarding_completed !== false) return;
     }
     supabase.from("profiles").select("first_name, onboarding_completed").eq("id", user.id).maybeSingle()
       .then(({ data }) => {
@@ -434,7 +436,7 @@ const StarterHighlight = ({ isActive }: { isActive: boolean }) => {
         {quickStart.map((f, i) => (
           <li key={f.slug}>
             <Link
-              to={isActive && f.route ? f.route : "#"}
+              to={f.route ? f.route : isActive ? "/dashboard?view=themen&cat=starter" : "/preise"}
               className="press group flex h-full flex-col rounded-xl border border-border bg-background p-3.5 hover:border-accent-blue/40 hover:bg-card hover:shadow-card"
             >
               <span className="mb-2 flex h-6 w-6 items-center justify-center rounded-full border border-border bg-card text-xs font-semibold tabular">{i + 1}</span>

@@ -42,7 +42,7 @@ const MARKETPLACES: Marketplace[] = [
     facilitatorTax: "NEIN — du bist USt-Schuldner",
     stolperfallen: [
       "FBA-Lager nur in DE → einfacher Fall",
-      "FBA-Lager auch in PL/CZ/IT/FR/ES → diese Verkäufe sind innergemeinschaftliche Lieferungen oder Drittland-Verkäufe — separate Behandlung",
+      "FBA-Lager auch in PL/CZ/IT/FR/ES → die Einlagerung ist ein innergemeinschaftliches Verbringen (DE steuerfrei, im Lagerland Erwerb); Verkäufe aus dem Auslandslager an Kunden in anderen EU-Ländern sind Fernverkäufe (OSS), an Kunden im Lagerland lokale Inlandsumsätze — separate Behandlung",
     ],
   },
   {
@@ -71,11 +71,11 @@ const MARKETPLACES: Marketplace[] = [
     flag: "🇪🇺",
     ustVerantwortlich: "du",
     ustMechanismus:
-      "Reverse-Charge §13b UStG. Du als Leistungsempfänger schuldest die USt + ziehst sie sofort wieder als Vorsteuer ab → saldoneutral.",
+      "Rechnung prüfen: Weist Amazon deutsche USt aus (Abrechnung über die Niederlassung Deutschland, siehe Zeile oben), buchst du 19 % Vorsteuer. Nur wenn eine ausländische Amazon-Einheit OHNE Steuerausweis abrechnet, gilt Reverse-Charge §13b Abs. 1 UStG: du schuldest die USt und ziehst sie als Vorsteuer ab → saldoneutral. Beides gleichzeitig gibt es nicht.",
     buchungDe: {
-      konto: "3100 Fremdleistungen",
-      steuerschluessel: "19 (RC §13b — Brutto = Netto, USt + VSt selbst gerechnet)",
-      hinweis: "AMA-SG-IT, AMA-SG-FR, AMA-SG-ES, AMA-SG-NL → Schlüssel 19. USt-Position automatisch via DATEV-BU-Logik",
+      konto: "Mit DE-USt: 3100 (SKR03) / 5900 (SKR04) · Ohne Steuerausweis (§13b): 3123 (SKR03) / 5923 (SKR04)",
+      steuerschluessel: "Mit DE-USt: 9 (VSt 19 %) · §13b: kein BU-Schlüssel nötig (Automatikkonto 3123/5923)",
+      hinweis: "BU 19 ist innergemeinschaftlicher Erwerb von Waren (Kz 89/61) und für Dienstleistungen falsch; §13b-Leistungen von EU-Unternehmern gehören in Kz 46/47 und 67 der USt-VA.",
     },
     registrierungen: ["DE-USt-ID Pflicht (zur Verwendung im Reverse-Charge-Verfahren)"],
     facilitatorTax: "NEIN für Provisionen — JA für eigene Verkäufe (siehe nächste Zeile)",
@@ -102,7 +102,7 @@ const MARKETPLACES: Marketplace[] = [
       "Bei FBA in PL/CZ: gleichzeitig DE-USt-ID + OSS",
       "Bei Pan-EU FBA: 6+ lokale USt-IDs ggf. parallel",
     ],
-    facilitatorTax: "Marketplace-Facilitator-Tax in IT/FR/UK greift seit 2021 — Amazon zieht USt direkt ein, du bist nicht USt-Schuldner für diese Verkäufe (außer in DE-DE-Konstellation)",
+    facilitatorTax: "NEIN für DE-ansässige Verkäufer: Die Marktplatz-Fiktion (Art. 14a MwStSystRL, §3 Abs. 3a UStG) gilt nur für Verkäufer mit Sitz AUSSERHALB der EU. Du bleibst USt-Schuldner und meldest Fernverkäufe über OSS bzw. Inlandsverkäufe im Lagerland lokal.",
     stolperfallen: [
       "Auf Amazon Pan-EU klicken ohne lokale Registrierung → 4-stelliger Bußgeld-Bereich",
       "Marketplace-Facilitator-Tax NICHT als eigene USt verbuchen (durchlaufender Posten 1701/1801)",
@@ -118,16 +118,16 @@ const MARKETPLACES: Marketplace[] = [
     ustMechanismus:
       "Marketplace-Facilitator-Tax: Amazon zieht für 45 US-Bundesstaaten + DC die Sales-Tax direkt vom Kunden ein und führt sie ab. Du als Verkäufer hast nur Nexus-Anmeldung beim Auftreten (manche Staaten Pflicht).",
     buchungDe: {
-      konto: "8125 Erlöse stfr §4 Nr 1a (SKR03) / 4125 (SKR04)",
-      steuerschluessel: "94 (Drittland) oder direkt steuerfrei",
-      hinweis: "DE-Sicht: Drittland-Lieferung. Sales-Tax ist US-interne Angelegenheit, kein Bezug zur DE-USt",
+      konto: "Versand aus DE an US-Kunden: 8120 steuerfreie Ausfuhr §4 Nr. 1a UStG (SKR03) / 4120 (SKR04) · Verkauf aus US-FBA-Lager: in DE nicht steuerbar (Ort der Lieferung USA, §3 Abs. 6 UStG), Konto für nicht steuerbare Umsätze (z. B. 8338/4338, mit StB abstimmen)",
+      steuerschluessel: "kein BU-Schlüssel (94 ist ein §13b-Eingangsschlüssel und passt nicht zu Erlösen)",
+      hinweis: "Ausfuhr braucht einen Ausfuhrnachweis (§6 UStG, §§ 8 ff. UStDV). Die Überführung der Ware ins US-Lager ist selbst die Ausfuhr. Sales-Tax ist US-interne Angelegenheit, kein Bezug zur DE-USt",
     },
     registrierungen: [
       "EIN bei IRS",
       "BOI-Filing bei FinCEN: für US-Domestic-LLCs seit März 2025 AUSGESETZT (Interim Final Rule). Pflicht gilt nur noch für 'Foreign Reporting Companies' (außerhalb USA gegründet, in USA registriert)",
       "Sales-Tax-Nexus-Check pro Staat — siehe Tool",
       "Foreign-Owned Single-Member LLC (disregarded): Form 5472 + pro-forma 1120 PFLICHT (auch ohne US-Income, Strafe 25.000 $)",
-      "Multi-Member LLC oder LLC mit C-Corp-Election: vollwertige Form 1120-Filing",
+      "Multi-Member LLC (Standard: Partnership): Form 1065 + Schedule K-1 (bei ausländischen Partnern zusätzlich Form 8804/8805); nur mit C-Corp-Election: Form 1120",
     ],
     facilitatorTax:
       "JA — Amazon zieht Sales-Tax direkt vom Kunden ein. Du musst sie nicht selbst abführen — aber Nexus-Anmeldung im Staat kann Pflicht sein für nicht-Marketplace-Verkäufe (Shopify-Direktverkauf).",
@@ -144,19 +144,19 @@ const MARKETPLACES: Marketplace[] = [
     flag: "🇬🇧",
     ustVerantwortlich: "mix",
     ustMechanismus:
-      "Drittland für DE. Amazon zieht UK-VAT direkt ein bei B2C-Verkäufen unter £135 (Marketplace-Facilitator-Logik). Über £135 oder B2B → eigene UK-VAT-Pflicht.",
+      "Drittland für DE. Amazon schuldet die UK-VAT bei B2C-Verkäufen über den Marktplatz für Ware, die bereits im UK-Lager liegt (jeder Warenwert), sowie bei Importsendungen bis £135. Ohne UK-Sitz gibt es keine Registrierungsschwelle (NETP): eigene UK-Umsätze (B2B, Importe über £135, Direktverkauf) lösen die Registrierungspflicht ab dem ersten Pfund aus.",
     buchungDe: {
-      konto: "8125 Erlöse stfr Drittland",
-      steuerschluessel: "94 (Drittland)",
+      konto: "Versand aus DE an UK-Kunden: 8120 steuerfreie Ausfuhr (SKR03) / 4120 (SKR04) · Verkauf aus UK-Lager: in DE nicht steuerbar (z. B. 8338/4338, mit StB abstimmen)",
+      steuerschluessel: "kein BU-Schlüssel bei Erlösen",
       hinweis: "Verkäufer ist für UK-Buchhaltung selbst verantwortlich, wenn man eine UK-Limited hat",
     },
     registrierungen: [
-      "UK-VAT-Registrierung: Schwelle £90.000 / Jahr (seit 01.04.2024, vorher £85.000) ODER bei eigenem UK-Lager",
+      "UK-VAT-Registrierung: für nicht im UK ansässige Händler (NETP) KEINE Schwelle — Pflicht ab dem ersten steuerbaren UK-Umsatz, praktisch immer bei Ware im UK-Lager. Die £90.000-Schwelle gilt nur für im UK ansässige Unternehmen",
       "UK-EORI-Nummer für Zoll (GB-EORI)",
       "Drittland-Logistik (EUR.1, Zollanmeldung)",
     ],
     facilitatorTax:
-      "Bei B2C-Verkäufen unter £135: JA (Amazon zieht UK-VAT ein, 20 %). Über £135 oder B2B: NEIN — du bist VAT-Schuldner",
+      "JA bei B2C über Amazon für Ware im UK-Lager (jeder Wert) und bei Importen bis £135 — Amazon schuldet die UK-VAT (20 %). B2B, Importe über £135 und Direktverkäufe: NEIN — du bist VAT-Schuldner",
     stolperfallen: [
       "Brexit: keine OSS-Möglichkeit für UK-Verkäufe — separate UK-VAT",
       "Amazon-Provisionen für .co.uk = Drittland-Leistung, Schlüssel 94",
@@ -285,7 +285,8 @@ const AmazonUstEuUs = () => {
             <ul className="mt-1 space-y-2 leading-relaxed">
               <li>
                 <strong className="font-semibold text-foreground">Marketplace-Facilitator-Tax:</strong> Amazon ist als Marktplatz verpflichtet, die USt
-                direkt vom Kunden einzuziehen. Greift in: USA (45 Staaten und DC), UK (unter £135), AU/NZ, IT/FR/UK B2C-EU.
+                direkt vom Kunden einzuziehen. Greift in: USA (45 Staaten und DC), UK (Ware im UK-Lager; Importe bis £135), AU/NZ. In der EU nur für Verkäufer
+                mit Sitz außerhalb der EU (Art. 14a MwStSystRL), nicht für DE-ansässige Händler.
               </li>
               <li>
                 <strong className="font-semibold text-foreground">Reverse-Charge §13b UStG:</strong> Bei B2B-Leistung aus dem EU-Ausland an dich (DE) bist du
@@ -293,7 +294,8 @@ const AmazonUstEuUs = () => {
               </li>
               <li>
                 <strong className="font-semibold text-foreground">OSS (One-Stop-Shop):</strong> EU-weit zentralisiert beim BZSt für deine eigenen B2C-Verkäufe
-                ins EU-Ausland. Greift nicht bei Verkäufen aus ausländischem Lager.
+                ins EU-Ausland, auch für Fernverkäufe aus einem ausländischen EU-Lager (z. B. PL-Lager an Kunden in FR). Nicht abgedeckt sind
+                Inlandsverkäufe im Lagerland (PL-Lager an PL-Kunden): die meldest du über die lokale USt-ID.
               </li>
               <li>
                 <strong className="font-semibold text-foreground">Pan-EU-FBA:</strong> Amazon verteilt deine Ware automatisch in 6+ EU-Lager. Du brauchst

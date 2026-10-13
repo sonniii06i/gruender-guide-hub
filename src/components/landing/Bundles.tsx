@@ -7,7 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { getStoredAffiliateRef } from "@/utils/affiliate";
 import { PLANS, PLAN_ORDER, SOLO_CONTENTS, BUNDLE_CONTENTS, NOT_INCLUDED, CANCEL_NOTE, FOUNDER_CODE, formatEurCents } from "@/config/pricing";
 import { rememberCartVariant } from "@/lib/cart";
-import { ANBIETER_ANZAHL, ANBIETER_KATEGORIEN } from "@/data/kennzahlen";
+import { ANBIETER_ANZAHL, ANBIETER_KATEGORIEN, TOOL_COUNT } from "@/data/kennzahlen";
 import { toast } from "sonner";
 import { ProductGallery, type GalleryImage } from "@/components/product/ProductGallery";
 import { ProductBuyBox, eur, type Variant } from "@/components/product/ProductBuyBox";
@@ -95,7 +95,7 @@ const PRODUCTS: Record<string, { title: string; subtitle: string; contents: stri
   "gruenderx": {
     title: "GründerX",
     subtitle:
-      "Dein KI-Co-Pilot Felix für Gründung, Steuern, Marketplaces und Brand-Launch — 66 Wizards und Rechner plus Guides in einem Zugang.",
+      `Dein KI-Co-Pilot Felix für Gründung, Steuern, Marketplaces und Brand-Launch — ${TOOL_COUNT} Tools, Wizards und Rechner plus Guides in einem Zugang.`,
     contents: SOLO_CONTENTS,
     specs: [
       { label: "Artikelnummer", value: "GX-PRO-M" },

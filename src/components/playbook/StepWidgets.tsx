@@ -98,7 +98,7 @@ export function CompanyNameCheck({ initial, onPick }: { initial?: string; onPick
                   <span className="ml-2 text-accent-blue">· aus Cache ({Math.round((result._cacheAgeSec ?? 0) / 60)} min alt)</span>
                 )}
               </div>
-              {result.debug && (
+              {import.meta.env.DEV && result.debug && (
                 <div className="font-mono">
                   layout={result.debug.finalLayout} · http={result.debug.httpStatus} · size={result.debug.htmlSize} · jsonld={result.debug.jsonLdScripts} · hits[jsonld/cards/text]={result.debug.afterJsonLd}/{result.debug.afterHtmlCards}/{result.debug.afterVisibleText}
                 </div>
@@ -120,6 +120,7 @@ export function CompanyNameCheck({ initial, onPick }: { initial?: string; onPick
 }
 
 /* ============ NOTAR FINDER + ANSCHREIBEN ============ */
+const NOTAR_SUCHE_URL = "https://www.notar.de/notarsuche/notarsuche";
 export function NotarFinder({ companyName }: { companyName?: string }) {
   const [plz, setPlz] = useState("");
   const [loading, setLoading] = useState(false);
@@ -127,15 +128,18 @@ export function NotarFinder({ companyName }: { companyName?: string }) {
   const [src, setSrc] = useState<string | null>(null);
   const [picked, setPicked] = useState<any | null>(null);
   const [reviewsAvailable, setReviewsAvailable] = useState(true);
+  const [failed, setFailed] = useState(false);
   const anschreibenRef = useRef<HTMLDivElement | null>(null);
 
   const run = async () => {
-    if (!/^\d{4,5}$/.test(plz)) { toast.error("Bitte gültige PLZ"); return; }
-    setLoading(true); setNotare([]);
+    // Deutsche Postleitzahlen haben immer 5 Ziffern.
+    if (!/^\d{5}$/.test(plz)) { toast.error("Bitte gültige 5-stellige PLZ"); return; }
+    setLoading(true); setNotare([]); setFailed(false);
     const { data, error } = await supabase.functions.invoke("find-notare", { body: { plz } });
-    if (error) toast.error("Suche fehlgeschlagen");
+    if (error) { toast.error("Suche fehlgeschlagen"); setFailed(true); }
     setNotare(data?.notare ?? []);
-    setSrc(data?.fallbackUrl ?? data?.sourceUrl ?? null);
+    // Fallback auf die offizielle Notarsuche der Bundesnotarkammer, auch wenn die Function scheitert.
+    setSrc(data?.fallbackUrl ?? data?.sourceUrl ?? NOTAR_SUCHE_URL);
     setReviewsAvailable(data?.reviewsAvailable !== false);
     setLoading(false);
   };
@@ -235,7 +239,7 @@ export function NotarFinder({ companyName }: { companyName?: string }) {
         )}
         {!loading && notare.length === 0 && src && (
           <div className="rounded-lg border border-border bg-card p-3 text-xs text-muted-foreground">
-            Keine Notare im 25-km-Radius gefunden.{" "}
+            {failed ? "Die automatische Suche ist gerade nicht erreichbar." : "Keine Notare im 25-km-Radius gefunden."}{" "}
             <a href={src} target="_blank" rel="noreferrer" className="underline inline-flex items-center gap-1">
               <ExternalLink className="h-3 w-3" /> Auf notar.de manuell suchen
             </a>
@@ -257,6 +261,8 @@ export function NotarFinder({ companyName }: { companyName?: string }) {
 
 /* ============ ANSCHREIBEN GENERATOR (Template, no AI) ============ */
 function NotarAnschreiben({ notar, companyName }: { notar: any | null; companyName?: string }) {
+  // Firmenname folgt dem geteilten Namen aus Schritt 1, solange der Nutzer ihn hier nicht selbst geändert hat.
+  const companyTouched = useRef(false);
   const [form, setForm] = useState({
     senderName: "",
     senderPhone: "",
@@ -268,7 +274,13 @@ function NotarAnschreiben({ notar, companyName }: { notar: any | null; companyNa
     geschaeftsfuehrer: "",
     musterprotokoll: "ja",
   });
-  const update = (k: string, v: string) => setForm((p) => ({ ...p, [k]: v }));
+  const update = (k: string, v: string) => {
+    if (k === "company") companyTouched.current = true;
+    setForm((p) => ({ ...p, [k]: v }));
+  };
+  useEffect(() => {
+    if (!companyTouched.current) setForm((p) => (p.company === (companyName ?? "") ? p : { ...p, company: companyName ?? "" }));
+  }, [companyName]);
 
   // Adressblock für den Brief
   const addrLines: string[] = [];

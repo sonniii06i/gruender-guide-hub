@@ -3,7 +3,9 @@
  * Felix-Batch-Test über den ECHTEN /chat-felix Endpoint mit User-JWT.
  *
  * Flow:
- *  1. Lege einen Test-User per signUp an (anonym, mit Random-Email)
+ *  1. Login als BESTEHENDER Test-Account mit Zugang (comp_access/Abo) – es wird KEIN User mehr angelegt:
+ *     Neue Signups landen als Müll-User in der Produktions-Auth, bekommen wegen der Abo-Sperre in
+ *     chat-felix ohnehin HTTP 403 und ihre Bestätigungsmails an .test-Domains bouncen.
  *  2. Hole sein access_token (JWT)
  *  3. Stelle 200 Fragen mit Authorization: Bearer <JWT>
  *  4. Antworten landen automatisch in chat_messages + chat_conversations
@@ -67,23 +69,12 @@ async function getTestUser() {
     console.log("Re-Login fehlgeschlagen, lege neuen User an...");
   }
 
-  // Neuen User anlegen
-  const email = `felix-test-${Date.now()}@gruenderx-internal.test`;
-  const password = `Test${Date.now()}!ABCabc`;
-  console.log(`Lege Test-User ${email} an...`);
-  const r = await fetch(`${SUPABASE_URL}/auth/v1/signup`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json", apikey: ANON_KEY },
-    body: JSON.stringify({ email, password }),
-  });
-  const j = await r.json();
-  if (!r.ok) return { ok: false, error: `Signup ${r.status}: ${JSON.stringify(j)}` };
-  if (!j.access_token) {
-    return { ok: false, error: `Signup ohne access_token (Email-Confirmation aktiv?): ${JSON.stringify(j).slice(0, 200)}` };
-  }
-  fs.writeFileSync(TEST_USER_FILE, JSON.stringify({ email, password, user_id: j.user?.id }, null, 2));
-  console.log(`✅ Test-User angelegt: user_id=${j.user?.id}`);
-  return { ok: true, access_token: j.access_token, user_id: j.user?.id, email };
+  // Kein automatischer Signup mehr (siehe Kopfkommentar).
+  return {
+    ok: false,
+    error:
+      "Kein Test-Zugang: FELIX_USER_JWT oder FELIX_USER_EMAIL/FELIX_USER_PASSWORD (bzw. --email/--password) eines bestehenden Accounts mit Felix-Zugang (comp_access) setzen.",
+  };
 }
 
 async function signIn(email, password) {

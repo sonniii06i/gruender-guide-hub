@@ -70,20 +70,25 @@ const KfzOptimizer = () => {
 
   // Fahrtenbuch
   const ergebnis2 = useMemo(() => {
-    const privatAnteil = kmGesamtProJahr > 0 ? kmPrivatProJahr / kmGesamtProJahr : 0;
-    // Geldwerter Vorteil = privater Anteil der gesamt Kfz-Kosten (inkl. AfA)
-    // Vereinfacht: AfA 6 Jahre linear
-    const afaProJahr = kaufpreis / 6;
-    const totalKostenInklAfa = kfzKostenGesamt + afaProJahr;
-    const privatKostenAnteil = totalKostenInklAfa * privatAnteil;
-    // Bei E-Auto: 25 % der Privat-Kosten als geldwerter Vorteil; Hybrid: 50 %
+    // E-Auto/Hybrid: nur AfA bzw. Leasing wird gekürzt (§6 Abs. 1 Nr. 4 Satz 3 Nr. 3 EStG), nicht die übrigen Kosten
     const adjustment = autoTyp === "elektro" && bruttolistenpreis <= 100000
       ? 0.25
       : autoTyp === "elektro" || autoTyp === "hybrid"
       ? 0.5
       : 1;
-    const geldwerterVorteil = privatKostenAnteil * adjustment;
+    // Vereinfacht: AfA 6 Jahre linear
+    const afaProJahr = kaufpreis / 6;
+    const totalKostenInklAfa = kfzKostenGesamt + afaProJahr * adjustment;
+    // Fahrten Wohnung–Arbeit werden wie bei der 1 %-Regel mit erfasst (mit tatsächlichen km-Kosten)
+    const arbeitswegKm = entfernungArbeit * 2 * arbeitstageProJahr;
+    const privatAnteil = kmGesamtProJahr > 0 ? Math.min(1, (kmPrivatProJahr + arbeitswegKm) / kmGesamtProJahr) : 0;
+    const privatKostenAnteil = totalKostenInklAfa * privatAnteil;
+    const geldwerterVorteil = privatKostenAnteil;
     const steuerESt = geldwerterVorteil * estSatz;
+    // Entfernungspauschale in beiden Methoden gleich abziehen
+    const pendlerPauschale = entfernungArbeit * 0.38 * arbeitstageProJahr;
+    const ersparnisPendler = pendlerPauschale * estSatz;
+    const nettoSteuerLast = Math.max(0, steuerESt - ersparnisPendler);
     return {
       privatAnteil,
       afaProJahr,
@@ -91,11 +96,13 @@ const KfzOptimizer = () => {
       privatKostenAnteil,
       geldwerterVorteil,
       steuerESt,
+      ersparnisPendler,
+      nettoSteuerLast,
     };
-  }, [kmGesamtProJahr, kmPrivatProJahr, kaufpreis, kfzKostenGesamt, autoTyp, bruttolistenpreis, estSatz]);
+  }, [kmGesamtProJahr, kmPrivatProJahr, kaufpreis, kfzKostenGesamt, autoTyp, bruttolistenpreis, estSatz, entfernungArbeit, arbeitstageProJahr]);
 
-  const gewinner = ergebnis1.nettoSteuerLast < ergebnis2.steuerESt ? "1prozent" : "fahrtenbuch";
-  const ersparnisGewinner = Math.abs(ergebnis1.nettoSteuerLast - ergebnis2.steuerESt);
+  const gewinner = ergebnis1.nettoSteuerLast < ergebnis2.nettoSteuerLast ? "1prozent" : "fahrtenbuch";
+  const ersparnisGewinner = Math.abs(ergebnis1.nettoSteuerLast - ergebnis2.nettoSteuerLast);
 
   const eur = (n: number) => `${Math.round(n).toLocaleString("de-DE")} €`;
 
@@ -183,9 +190,9 @@ const KfzOptimizer = () => {
                   />
                 </Field>
                 <Field
-                  label="Davon privat (km pro Jahr)"
+                  label="Davon privat (km pro Jahr, ohne Weg zur Arbeit)"
                   htmlFor="kfz-privat"
-                  hint={`Privat-Anteil: ${((kmPrivatProJahr / Math.max(1, kmGesamtProJahr)) * 100).toFixed(1)} %`}
+                  hint={`Privat-Anteil inkl. Arbeitsweg: ${(ergebnis2.privatAnteil * 100).toFixed(1)} %`}
                 >
                   <Input
                     id="kfz-privat"
@@ -225,7 +232,7 @@ const KfzOptimizer = () => {
               <div className="grid grid-cols-2 gap-px overflow-hidden rounded-xl bg-white/10">
                 {[
                   { l: "Netto-Last 1 %-Regel", v: eur(ergebnis1.nettoSteuerLast) },
-                  { l: "ESt-Last Fahrtenbuch", v: eur(ergebnis2.steuerESt) },
+                  { l: "Netto-Last Fahrtenbuch", v: eur(ergebnis2.nettoSteuerLast) },
                 ].map((k) => (
                   <div key={k.l} className="bg-white/[0.04] p-3">
                     <div className="text-xs text-primary-foreground/65">{k.l}</div>
@@ -280,12 +287,13 @@ const KfzOptimizer = () => {
           actions={gewinner === "fahrtenbuch" ? <ToneBadge tone="success">Beste Wahl</ToneBadge> : undefined}
         >
           <div className="divide-y divide-border/70">
-            <ResultRow label="AfA (6 Jahre)" value={eur(ergebnis2.afaProJahr)} />
+            <ResultRow label={autoTyp === "verbrenner" ? "AfA (6 Jahre)" : "AfA (6 Jahre, E/Hybrid-gekürzt)"} value={eur(ergebnis2.totalKostenInklAfa - kfzKostenGesamt)} />
             <ResultRow label="+ Kfz-Kosten" value={`${kfzKostenGesamt.toLocaleString("de-DE")} €`} />
             <ResultRow label="Gesamt inkl. AfA" value={eur(ergebnis2.totalKostenInklAfa)} strong />
-            <ResultRow label={`Privat-Anteil (${(ergebnis2.privatAnteil * 100).toFixed(1)} %)`} value={eur(ergebnis2.privatKostenAnteil)} />
-            <ResultRow label="Geldwerter Vorteil (E/Hybrid-angepasst)" value={eur(ergebnis2.geldwerterVorteil)} />
-            <ResultRow label="ESt-Last" value={eur(ergebnis2.steuerESt)} strong />
+            <ResultRow label={`Privat-Anteil inkl. Arbeitsweg (${(ergebnis2.privatAnteil * 100).toFixed(1)} %)`} value={eur(ergebnis2.privatKostenAnteil)} />
+            <ResultRow label="ESt auf Privatanteil" value={eur(ergebnis2.steuerESt)} />
+            <ResultRow label="– Pendlerpauschale-Ersparnis" value={`−${eur(ergebnis2.ersparnisPendler)}`} />
+            <ResultRow label="Netto-Last" value={eur(ergebnis2.nettoSteuerLast)} strong />
           </div>
         </ToolSection>
       </div>

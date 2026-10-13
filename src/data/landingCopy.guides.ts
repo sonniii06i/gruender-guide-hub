@@ -145,13 +145,13 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
   "us-llc": {
     "seoTitle": "US-LLC gründen 2026 – Anleitung für Deutsche",
     "seoDescription": "US-LLC gründen (Wyoming/Delaware/New Mexico) als Nicht-US-Founder: Schritt für Schritt zu EIN, US-Bankkonto und korrekter US/DE-Steuer in 4–8 Wochen.",
-    "lead": "Dieser Guide führt dich Schritt für Schritt durch die Gründung einer US-LLC als Nicht-US-Gründer – mit allen Postadressen für SS-4, BOI, Form 5472 und W-7, EIN-Beantragung, US-Bankkonto und sauberer US/DE-Steuer-Einordnung. Für Founder, die in den US-Markt wollen.",
-    "urgency": "Eine US-LLC öffnet dir Stripe, US-Banking und den US-Markt – aber die Pflichten dahinter unterschätzen viele. Ein vergessenes Form 5472 kann 25.000 $ Strafe kosten, eine fehlerhafte BOI-Meldung weitere Bußgelder, und eine falsche steuerliche Einordnung führt zu Doppelbesteuerung in DE und USA. Geh die Gründung Schritt für Schritt mit GründerX – mit allen richtigen Adressen und Formularen, damit deine LLC funktioniert, statt teure US-Strafen zu produzieren.",
+    "lead": "Dieser Guide führt dich Schritt für Schritt durch die Gründung einer US-LLC als Nicht-US-Gründer – mit allen Postadressen für SS-4, Form 5472 und W-7, EIN-Beantragung, US-Bankkonto und sauberer US/DE-Steuer-Einordnung. Für Founder, die in den US-Markt wollen.",
+    "urgency": "Eine US-LLC öffnet dir Stripe, US-Banking und den US-Markt – aber die Pflichten dahinter unterschätzen viele. Ein vergessenes Form 5472 kann 25.000 $ Strafe kosten, und eine falsche steuerliche Einordnung führt zu Doppelbesteuerung in DE und USA. Geh die Gründung Schritt für Schritt mit GründerX – mit allen richtigen Adressen und Formularen, damit deine LLC funktioniert, statt teure US-Strafen zu produzieren.",
     "outcomes": [
       "Registrierte US-LLC im gewählten State (Wyoming/Delaware/New Mexico)",
       "EIN (Steuernummer) vom IRS über Form SS-4",
       "Eröffnetes US-Geschäftskonto und Zahlungs-Anbindung (z. B. Stripe)",
-      "Erledigte Pflichtmeldungen: BOI, Form 5472 und ggf. W-7",
+      "Erledigte Pflichtmeldungen: Form 5472/1120 und ggf. W-7 (BOI entfällt seit 26.03.2025)",
       "Klare US/DE-Steuer-Einordnung zur Vermeidung von Doppelbesteuerung"
     ],
     "disclaimer": "Dieser Guide ist strukturierte Orientierung, keine Rechts- oder Steuerberatung – US- und deutsche Steuer- sowie Meldepflichten sind komplex und können sich ändern."
@@ -176,7 +176,7 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
     "lead": "Dieser Guide bringt dich Schritt für Schritt zu allen Pflicht-Rechtstexten für deinen Online-Shop – Impressum, Datenschutzerklärung, AGB, Widerrufsbelehrung, Cookie-Consent-Banner und AVVs mit allen Daten-Verarbeitern. Für Shop-Betreiber, die abmahnsicher starten wollen.",
     "urgency": "Im deutschen E-Commerce wird abgemahnt, bevor du den ersten Umsatz siehst – ein fehlendes Impressum, eine lückenhafte Datenschutzerklärung oder ein nicht DSGVO-konformer Cookie-Banner reichen. Eine einzige Abmahnung kostet schnell mehrere hundert bis tausend Euro plus Unterlassungserklärung, und ohne AVVs verstößt du bei jedem Tool gegen die DSGVO. Setz die Pflicht-Texte Schritt für Schritt mit GründerX auf – vollständig und abmahnsicher, bevor der erste Kunde kauft.",
     "outcomes": [
-      "Vollständiges, korrektes Impressum nach §5 DDG/TMG",
+      "Vollständiges, korrektes Impressum nach §5 DDG (vormals §5 TMG)",
       "Auf deine Tools zugeschnittene Datenschutzerklärung",
       "AGB und rechtssichere Widerrufsbelehrung mit Muster-Formular",
       "DSGVO-konformer Cookie-Consent-Banner mit Opt-in",

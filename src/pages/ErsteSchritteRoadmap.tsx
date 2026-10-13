@@ -73,11 +73,13 @@ const defaultSetup: UserSetup = {
 const ErsteSchritteRoadmap = () => {
   const [setup, setSetup] = useState<UserSetup>(() => {
     if (typeof window === "undefined") return defaultSetup;
-    const saved = localStorage.getItem(LS_KEY_SETUP);
-    if (saved) {
-      try { return { ...defaultSetup, ...JSON.parse(saved) }; } catch { return defaultSetup; }
+    // localStorage kann werfen (Safari privat, Policy) → nie die Seite weiß machen
+    try {
+      const saved = localStorage.getItem(LS_KEY_SETUP);
+      return saved ? { ...defaultSetup, ...JSON.parse(saved) } : defaultSetup;
+    } catch {
+      return defaultSetup;
     }
-    return defaultSetup;
   });
 
   const [status, setStatus] = useState<Record<string, TaskStatus>>(() => {
@@ -98,13 +100,13 @@ const ErsteSchritteRoadmap = () => {
   const updateSetup = <K extends keyof UserSetup>(field: K, val: UserSetup[K]) => {
     const next = { ...setup, [field]: val };
     setSetup(next);
-    localStorage.setItem(LS_KEY_SETUP, JSON.stringify(next));
+    try { localStorage.setItem(LS_KEY_SETUP, JSON.stringify(next)); } catch { /* Speicher gesperrt */ }
   };
 
   const updateStatus = (taskId: string, s: TaskStatus) => {
     const next = { ...status, [taskId]: s };
     setStatus(next);
-    localStorage.setItem(LS_KEY_STATUS, JSON.stringify(next));
+    try { localStorage.setItem(LS_KEY_STATUS, JSON.stringify(next)); } catch { /* Speicher gesperrt */ }
   };
 
   const cycleStatus = (taskId: string) => {
@@ -116,7 +118,7 @@ const ErsteSchritteRoadmap = () => {
   const resetStatus = () => {
     if (confirm("Alle Status-Häkchen zurücksetzen?")) {
       setStatus({});
-      localStorage.removeItem(LS_KEY_STATUS);
+      try { localStorage.removeItem(LS_KEY_STATUS); } catch { /* Speicher gesperrt */ }
     }
   };
 
@@ -538,8 +540,8 @@ const Glossar = () => (
         { b: "T0 / T30 / T60 / T90", e: "Zeit-Phasen relativ zum Start: T0 = vor/bei der Anmeldung, T30 = innerhalb der ersten 30 Tage danach, T60 = Tag 31-60, T90 = Tag 61-90. Nach T90 = laufender Betrieb." },
         { b: "MUSS vs SOLL vs KANN", e: "MUSS = rechtliche oder vertragliche Pflicht (z.B. GewA1, KV, USt-VA). SOLL = dringend empfohlen (z.B. Geschäftskonto, Buchhaltungs-Software, Berufshaftpflicht). KANN = optional je nach Geschäftsmodell (z.B. Marken-Anmeldung, BU)." },
         { b: "Pflichtversicherung Rentenversicherung", e: "BEACHTEN: Manche Solo-Selbstständige sind RV-PFLICHT: Künstler in KSK, Erzieher, Pflegekräfte, Lehrer, arbeitnehmerähnliche Selbstständige (>5/6-Regel, ein Auftraggeber). Folge: 18,6 % vom Gewinn rückwirkend. DRV-Statusfeststellung (V0023) kostenlos vor Tag 1 prüfen!" },
-        { b: "Fragebogen zur steuerlichen Erfassung (FsE)", e: "Kommt 2-4 Wochen nach Gewerbeanmeldung automatisch vom Finanzamt. ELSTER-Pflicht. Hier wird § 19 KU final entschieden (5 Jahre Bindung!), voraussichtliche Einkünfte angegeben (Basis für ESt-Vorauszahlungen), Anlage S oder G gewählt." },
-        { b: "USt-Voranmeldung (USt-VA)", e: "Bei Regelbesteuerung Pflicht. Frequenz hängt vom USt-Aufkommen ab: <1.000 €/J = jährlich, 1k-7.500 € = quartalsweise, >7.500 € = monatlich. Frist: 10. des Folgemonats. Dauerfristverlängerung (+1 Monat) ist Standard." },
+        { b: "Fragebogen zur steuerlichen Erfassung (FsE)", e: "Kommt NICHT automatisch: Du musst ihn innerhalb eines Monats nach Start selbst über ELSTER einreichen (§ 138 Abs. 1b, Abs. 4 AO). Hier wird § 19 KU entschieden (5 Jahre Bindung nur beim Verzicht auf die KU), voraussichtliche Einkünfte angegeben (Basis für ESt-Vorauszahlungen), Anlage S oder G gewählt." },
+        { b: "USt-Voranmeldung (USt-VA)", e: "Bei Regelbesteuerung Pflicht. Frequenz hängt von der Vorjahres-Zahllast ab (§ 18 Abs. 2 UStG, seit 2025): bis 2.000 €/J = jährlich, bis 9.000 € = quartalsweise, über 9.000 € = monatlich. Frist: 10. des Folgemonats. Dauerfristverlängerung (+1 Monat) ist Standard." },
         { b: "Dauerfristverlängerung", e: "Verlängerung der USt-VA-Frist um 1 Monat. Antrag online via ELSTER. Bei monatlicher USt-VA: 1/11 als Sondervorauszahlung (wird im Dez. zurückgerechnet). Lohnt sich fast immer." },
         { b: "Notgroschen + Steuer-Rücklage", e: "Solo-Selbstständige sollten 3-6 Monatsausgaben Notgroschen + 30-40 % vom Gewinn Steuer-Rücklage haben. Sub-Konto bei Geschäftskonto einrichten und automatisch monatlich transferieren. Sonst böses Erwachen beim ESt-Bescheid." },
       ].map((g) => (

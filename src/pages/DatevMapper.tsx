@@ -32,15 +32,19 @@ type Rule = {
   einnahme?: { konto: string; steuerschluessel: string; buchungstext: string };
 };
 
-// SKR03 Konten-Cheat-Sheet:
-// 1200 Bank | 1360 Geldtransit | 1576 Vorsteuer 19% | 1771 USt 19%
-// 1500 sonst Vermögen | 8400 sonst Erträge
-// 3100 Fremdleistungen | 4600 Werbekosten | 4380 sonst Abgaben
-// 4900 sonst Aufwand | 4910 Buchführung | 4920 Rechtsberatung | 4925 Telefon
-// 4930 Strom | 4210 Miete | 4380 Versicherung | 6750 Reisekosten
-// 8400 sonst Erträge | 8200 Erlöse 19% | 8338 Erlöse EU OSS | 8125 Erlöse stfr §4 EU
+// SKR03 Konten-Cheat-Sheet (DATEV-Kontenrahmen SKR03):
+// 1200 Bank | 1360 Geldtransit | 1576 Vorsteuer 19% | 1776 USt 19%
+// 2700 Sonstige Erträge (ohne USt-Automatik) | 8400 Erlöse 19 % USt (Automatikkonto!)
+// 3100 Fremdleistungen | 3123 Sonstige Leistungen EU-Unternehmer 19 % VSt/USt (§13b Abs. 1, Automatik)
+// 4600 Werbekosten | 4380 Beiträge | 4360 Versicherungen
+// 4900 sonst Aufwand | 4950 Rechts- und Beratungskosten | 4955 Buchführungskosten
+// 4920 Telefon | 4925 Internet | 4240 Gas, Strom, Wasser | 4210 Miete
+// 4670 Reisekosten Unternehmer | 4676 Reisekosten Unternehmer Übernachtung
+// 8338 Erlöse EU OSS | 8125 Steuerfreie ig. Lieferungen §4 Nr. 1b | 8120 Steuerfreie Ausfuhr §4 Nr. 1a
 //
-// BU-Schlüssel SKR03: 9 = VSt 19% | 8 = VSt 7% | 19 = §13b RC | 94 = Drittland
+// BU-Schlüssel: 9 = VSt 19% | 8 = VSt 7% | 19 = ig. ERWERB (Waren!) 19% — NICHT für Dienstleistungen
+// | 94 = §13b 19 % (Leistungen ausländischer Unternehmer). Sonstige Leistungen von EU-Unternehmern
+// (§13b Abs. 1 UStG, USt-VA Kz 46/47 + 67) laufen über das Automatikkonto 3123 ohne BU-Schlüssel.
 
 const RULES: Rule[] = [
   // === Marketplaces ===
@@ -54,28 +58,28 @@ const RULES: Rule[] = [
     pattern: /stripe payments|stripe technology/i,
     match: "Stripe Auszahlung / Fees (IE → RC §13b)",
     einnahme: { konto: "1360", steuerschluessel: "", buchungstext: "Stripe Auszahlung" },
-    ausgabe: { konto: "3100", steuerschluessel: "19", buchungstext: "Stripe Fees (RC §13b — Stripe IE)" },
+    ausgabe: { konto: "3123", steuerschluessel: "", buchungstext: "Stripe Fees (RC §13b — Stripe IE)" },
   },
   {
     pattern: /paypal.*europe|paypal\s+pte/i,
     match: "PayPal Auszahlung / Fees (LU → RC §13b)",
     einnahme: { konto: "1360", steuerschluessel: "", buchungstext: "PayPal Auszahlung" },
-    ausgabe: { konto: "3100", steuerschluessel: "19", buchungstext: "PayPal Fees (RC §13b — PayPal LU)" },
+    ausgabe: { konto: "3123", steuerschluessel: "", buchungstext: "PayPal Fees (RC §13b — PayPal LU)" },
   },
   {
     pattern: /klarna|sofort gmbh|sofort\s+ag/i,
     match: "Klarna / Sofort (SE → RC §13b)",
     einnahme: { konto: "1360", steuerschluessel: "", buchungstext: "Klarna/Sofort Auszahlung" },
-    ausgabe: { konto: "3100", steuerschluessel: "19", buchungstext: "Klarna/Sofort Fees (RC §13b — Klarna SE)" },
+    ausgabe: { konto: "3123", steuerschluessel: "", buchungstext: "Klarna/Sofort Fees (RC §13b — Klarna SE)" },
   },
   {
     pattern: /shopify/i,
     match: "Shopify",
     einnahme: { konto: "1360", steuerschluessel: "", buchungstext: "Shopify Payments Auszahlung" },
-    ausgabe: { konto: "4980", steuerschluessel: "19", buchungstext: "Shopify Subscription (RC §13b)" },
+    ausgabe: { konto: "3123", steuerschluessel: "", buchungstext: "Shopify Subscription (RC §13b)" },
   },
   {
-    pattern: /ebay|kaufland|otto|etsy|zalando/i,
+    pattern: /\bebay\b|kaufland|\botto\s+(gmbh|market|payments)|\botto\.de\b|\betsy\b|zalando/i,
     match: "Marketplace (eBay/Kaufland/Otto/Etsy/Zalando)",
     einnahme: { konto: "1360", steuerschluessel: "", buchungstext: "Marketplace Auszahlung" },
     ausgabe: { konto: "3100", steuerschluessel: "9", buchungstext: "Marketplace Fees" },
@@ -85,17 +89,17 @@ const RULES: Rule[] = [
   {
     pattern: /aws emea|amazon web services|amazon\s+cloud/i,
     match: "AWS Cloud (RC §13b)",
-    ausgabe: { konto: "4980", steuerschluessel: "19", buchungstext: "AWS (RC §13b)" },
+    ausgabe: { konto: "3123", steuerschluessel: "", buchungstext: "AWS (RC §13b)" },
   },
   {
     pattern: /google\s+cloud|google.*workspace|google\s+ireland/i,
     match: "Google Cloud / Workspace (RC §13b)",
-    ausgabe: { konto: "4980", steuerschluessel: "19", buchungstext: "Google Cloud (RC §13b)" },
+    ausgabe: { konto: "3123", steuerschluessel: "", buchungstext: "Google Cloud (RC §13b)" },
   },
   {
     pattern: /microsoft\s+ireland|azure|office\s+365|microsoft\s+365/i,
     match: "Microsoft Azure / 365 (RC §13b)",
-    ausgabe: { konto: "4980", steuerschluessel: "19", buchungstext: "MS Azure/365 (RC §13b)" },
+    ausgabe: { konto: "3123", steuerschluessel: "", buchungstext: "MS Azure/365 (RC §13b)" },
   },
   {
     pattern: /anthropic|claude\.ai/i,
@@ -105,7 +109,7 @@ const RULES: Rule[] = [
   {
     pattern: /openai|chatgpt/i,
     match: "OpenAI (IE-Sub seit 2024 → RC §13b)",
-    ausgabe: { konto: "4980", steuerschluessel: "19", buchungstext: "OpenAI API (RC §13b — IE-Sub)" },
+    ausgabe: { konto: "3123", steuerschluessel: "", buchungstext: "OpenAI API (RC §13b — IE-Sub)" },
   },
   {
     pattern: /hetzner online|strato|ionos|all-inkl|mittwald/i,
@@ -113,41 +117,41 @@ const RULES: Rule[] = [
     ausgabe: { konto: "4980", steuerschluessel: "9", buchungstext: "Hosting (DE-USt 19%)" },
   },
   {
-    pattern: /github|cloudflare|vercel|netlify|digitalocean|ovh|linode|fly\.io|render\.com|supabase|firebase|render/i,
+    pattern: /github|cloudflare|vercel|netlify|digitalocean|\bovh\b|linode|fly\.io|render\.com|supabase|firebase/i,
     match: "Hosting/Dev-Tools (i.d.R. EU-Sub → RC §13b)",
-    ausgabe: { konto: "4980", steuerschluessel: "19", buchungstext: "Hosting/Dev-Tools (RC §13b prüfen)" },
+    ausgabe: { konto: "3123", steuerschluessel: "", buchungstext: "Hosting/Dev-Tools (RC §13b prüfen)" },
   },
   {
     pattern: /lovable|figma|notion|slack|miro|linear|atlassian|airtable|monday\.com|asana|clickup|loom|zoom/i,
     match: "SaaS-Tools (i.d.R. IE/US-EU-Sub → RC §13b)",
-    ausgabe: { konto: "4980", steuerschluessel: "19", buchungstext: "SaaS-Subscription (RC §13b)" },
+    ausgabe: { konto: "3123", steuerschluessel: "", buchungstext: "SaaS-Subscription (RC §13b)" },
   },
 
   // === Marketing / Ads ===
   {
     pattern: /meta platforms|facebook.*ireland|instagram\s+ads/i,
     match: "Meta Ads (RC §13b)",
-    ausgabe: { konto: "4600", steuerschluessel: "19", buchungstext: "Meta Ads (RC §13b)" },
+    ausgabe: { konto: "3123", steuerschluessel: "", buchungstext: "Meta Ads (RC §13b)" },
   },
   {
     pattern: /tiktok\s+ads|bytedance/i,
     match: "TikTok Ads (RC §13b)",
-    ausgabe: { konto: "4600", steuerschluessel: "19", buchungstext: "TikTok Ads (RC §13b)" },
+    ausgabe: { konto: "3123", steuerschluessel: "", buchungstext: "TikTok Ads (RC §13b)" },
   },
   {
     pattern: /google\s+ads|google adwords/i,
     match: "Google Ads (RC §13b)",
-    ausgabe: { konto: "4600", steuerschluessel: "19", buchungstext: "Google Ads (RC §13b)" },
+    ausgabe: { konto: "3123", steuerschluessel: "", buchungstext: "Google Ads (RC §13b)" },
   },
   {
     pattern: /klaviyo|mailchimp|active\s+campaign|hubspot|salesforce|pipedrive/i,
     match: "Email/CRM (US → meist RC §13b über EU-Sub)",
-    ausgabe: { konto: "4600", steuerschluessel: "19", buchungstext: "Email-Marketing/CRM (RC §13b prüfen)" },
+    ausgabe: { konto: "3123", steuerschluessel: "", buchungstext: "Email-Marketing/CRM (RC §13b prüfen)" },
   },
   {
     pattern: /brevo|sendinblue/i,
     match: "Brevo / Sendinblue (FR → RC §13b)",
-    ausgabe: { konto: "4600", steuerschluessel: "19", buchungstext: "Brevo Email-Marketing (RC §13b — FR)" },
+    ausgabe: { konto: "3123", steuerschluessel: "", buchungstext: "Brevo Email-Marketing (RC §13b — FR)" },
   },
 
   // === Versand / Fulfillment ===
@@ -173,12 +177,12 @@ const RULES: Rule[] = [
   {
     pattern: /steuerberater|datev|lexoffice|sevdesk|candis|debitoor/i,
     match: "Buchhaltung / Steuerberater",
-    ausgabe: { konto: "4910", steuerschluessel: "9", buchungstext: "Buchführung / Steuerberatung" },
+    ausgabe: { konto: "4955", steuerschluessel: "9", buchungstext: "Buchführung / Steuerberatung" },
   },
   {
     pattern: /\brechtsanwalt\b|kanzlei|notariat|notar/i,
     match: "Rechtsberatung / Notar",
-    ausgabe: { konto: "4920", steuerschluessel: "9", buchungstext: "Rechts-/Notarkosten" },
+    ausgabe: { konto: "4950", steuerschluessel: "9", buchungstext: "Rechts-/Notarkosten" },
   },
   {
     pattern: /allianz|axa|huk|gothaer|signal iduna|barmenia|haftpflicht|versicherung/i,
@@ -202,12 +206,12 @@ const RULES: Rule[] = [
   {
     pattern: /booking\.com|airbnb|expedia|trivago|hotel|motel\s+one/i,
     match: "Übernachtung",
-    ausgabe: { konto: "6750", steuerschluessel: "9", buchungstext: "Reisekosten Übernachtung" },
+    ausgabe: { konto: "4676", steuerschluessel: "8", buchungstext: "Reisekosten Übernachtung (7 % Beherbergung, §12 Abs. 2 Nr. 11 UStG; Frühstück 19 % prüfen)" },
   },
   {
     pattern: /\blufthansa\b|easyjet|ryanair|eurowings|condor|swiss air|klm|british airways|deutsche bahn|sixt|europcar|hertz/i,
     match: "Verkehr (Flug/Bahn/Mietwagen)",
-    ausgabe: { konto: "6750", steuerschluessel: "9", buchungstext: "Reisekosten Verkehr" },
+    ausgabe: { konto: "4670", steuerschluessel: "9", buchungstext: "Reisekosten Verkehr (Steuersatz prüfen)" },
   },
 
   // === Personal ===
@@ -217,14 +221,14 @@ const RULES: Rule[] = [
     ausgabe: { konto: "4120", steuerschluessel: "", buchungstext: "Lohn/Gehalt" },
   },
   {
-    pattern: /sozialversicherung|aok|tk\s+|techniker krankenkasse|barmer|dak|knappschaft|minijob/i,
+    pattern: /sozialversicherung|\baok\b|\btk\s+|techniker krankenkasse|barmer|\bdak\b|knappschaft|minijob/i,
     match: "Sozialversicherung",
     ausgabe: { konto: "4130", steuerschluessel: "", buchungstext: "Sozialabgaben" },
   },
 
   // === Dauer-Verträge ===
   {
-    pattern: /miete|rent\b/i,
+    pattern: /\bmiete\b|\brent\b/i,
     match: "Miete",
     ausgabe: { konto: "4210", steuerschluessel: "9", buchungstext: "Miete (USt-pflichtig)" },
   },
@@ -236,7 +240,7 @@ const RULES: Rule[] = [
   {
     pattern: /e\.on|eon\b|rwe|enbw|stadtwerke|lichtblick|eprimo|stromio|vattenfall/i,
     match: "Strom / Energie",
-    ausgabe: { konto: "4930", steuerschluessel: "9", buchungstext: "Strom / Energie" },
+    ausgabe: { konto: "4240", steuerschluessel: "9", buchungstext: "Strom / Energie" },
   },
 ];
 
@@ -271,11 +275,59 @@ const DATUM_RE = /^(\d{1,2})[./-](\d{1,2})[./-](\d{2,4})$|^(\d{4})-(\d{2})-(\d{2
  * Datumszellen werden nie als Betrag gelesen (früher wurde 01.05.2026 als
  * 1.052.026 € erkannt, weil das Datum vor dem Betrag steht).
  */
-export const csvZeileLesen = (row: string, heute = new Date().toISOString().slice(0, 10)) => {
-  const sep = row.includes(";") ? ";" : row.includes("\t") ? "\t" : ",";
-  const cols = row.split(sep).map((c) => c.replace(/^["']|["']$/g, "").trim());
+export const csvTrenner = (row: string) => (row.includes(";") ? ";" : row.includes("\t") ? "\t" : ",");
+
+/** CSV-Zeile mit Anführungszeichen-Behandlung splitten ("Amazon, Inc" bleibt eine Zelle). */
+export const csvSpalten = (row: string, sep = csvTrenner(row)): string[] => {
+  const out: string[] = [];
+  let cur = "";
+  let inQuote = false;
+  for (let i = 0; i < row.length; i++) {
+    const ch = row[i];
+    if (ch === '"') {
+      if (inQuote && row[i + 1] === '"') { cur += '"'; i++; }
+      else inQuote = !inQuote;
+    } else if (ch === sep && !inQuote) {
+      out.push(cur);
+      cur = "";
+    } else cur += ch;
+  }
+  out.push(cur);
+  return out.map((c) => c.replace(/^'|'$/g, "").trim());
+};
+
+/**
+ * Index der Betragsspalte aus einer Kopfzeile (nie Saldo, Kontonummer, BLZ).
+ * Vorrang: Betrag/Amount. "Umsatz" nur als Ausweichlösung und nur als ganze
+ * Spalte ("Umsatz", "Umsatz in EUR", "Umsatz (€)") – nie Umsatzart/-typ/-kategorie
+ * (Commerzbank: "Umsatzart" steht vor "Betrag", DKB: "Umsatztyp" vor "Betrag (€)").
+ */
+export const betragsSpalteAusHeader = (header: string): number | null => {
+  const cols = csvSpalten(header).map((c) => c.toLowerCase().replace(/^"|"$/g, "").trim());
+  const keinSaldo = (c: string) => !/saldo|balance|kontostand/.test(c);
+  let idx = cols.findIndex((c) => /betrag|amount/.test(c) && keinSaldo(c));
+  if (idx < 0) idx = cols.findIndex((c) => /^umsatz($| in| \()/.test(c) && keinSaldo(c));
+  return idx >= 0 ? idx : null;
+};
+
+export const csvZeileLesen = (
+  row: string,
+  heute = new Date().toISOString().slice(0, 10),
+  betragIdx: number | null = null,
+) => {
+  const cols = csvSpalten(row);
   let datum: string | null = null;
   let betrag = 0;
+  // Betragsspalte aus der Kopfzeile nur nutzen, wenn sie in dieser Zeile eine Zahl
+  // enthält; sonst auf den Scan über alle Zellen zurückfallen.
+  let spalteGelesen = false;
+  if (betragIdx !== null && cols[betragIdx] !== undefined) {
+    const parsed = parseMoney(cols[betragIdx]);
+    if (parsed !== null) {
+      betrag = parsed;
+      spalteGelesen = true;
+    }
+  }
   for (const c of cols) {
     const d = c.match(DATUM_RE);
     if (d) {
@@ -288,7 +340,7 @@ export const csvZeileLesen = (row: string, heute = new Date().toISOString().slic
       }
       continue;
     }
-    if (betrag === 0) {
+    if (betrag === 0 && !spalteGelesen) {
       const parsed = parseMoney(c);
       if (parsed !== null && Math.abs(parsed) > 0) betrag = parsed;
     }
@@ -314,7 +366,8 @@ const guessMapping = (zweck: string, betrag: number): Partial<Line> => {
     }
   }
   return {
-    konto: betrag < 0 ? "4900" : "8400",
+    // Unbekannte Einnahme: 2700 Sonstige Erträge (kein Automatikkonto; 8400 würde 19 % USt herausrechnen)
+    konto: betrag < 0 ? "4900" : "2700",
     gegenkonto: "1200",
     steuerschluessel: "",
     buchungstext: zweck.slice(0, 60),
@@ -360,12 +413,14 @@ const DatevMapper = () => {
     // Sehr toleranter Parser: trennt Zeilen, splittet bei ; , oder Tab
     const rows = csvPaste.trim().split(/\r?\n/);
     const newLines: Line[] = [];
+    // Kopfzeile erkennen: Betragsspalte gezielt lesen (sonst würde z. B. Kontonummer oder Saldo als Betrag gebucht)
+    const hatHeader = rows.length > 0 && /datum|betrag|verwendung|umsatz|amount/i.test(rows[0]) && !/^\d/.test(rows[0]);
+    const betragIdx = hatHeader ? betragsSpalteAusHeader(rows[0]) : null;
     rows.forEach((row, idx) => {
       if (!row.trim()) return;
-      // Skip Header-Zeile
-      if (idx === 0 && /datum|betrag|verwendung/i.test(row) && !/^\d/.test(row)) return;
+      if (idx === 0 && hatHeader) return;
 
-      const { datum, betrag, zweck } = csvZeileLesen(row);
+      const { datum, betrag, zweck } = csvZeileLesen(row, undefined, betragIdx);
 
       const guess = guessMapping(zweck, betrag);
       newLines.push({
@@ -401,12 +456,13 @@ const DatevMapper = () => {
       ].join(";");
     });
     const csv = [header, ...rows].join("\n");
-    const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+    const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
     a.download = `lexoffice-export-${new Date().toISOString().slice(0, 10)}.csv`;
     a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 0);
   };
 
   const exportDatev = () => {
@@ -440,6 +496,7 @@ const DatevMapper = () => {
     a.href = url;
     a.download = `datev-stapel-${new Date().toISOString().slice(0, 10)}.csv`;
     a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 0);
   };
 
   const stats = useMemo(() => {
@@ -617,12 +674,12 @@ const DatevMapper = () => {
         <dl className="grid grid-cols-1 gap-x-8 gap-y-4 text-sm md:grid-cols-2">
           {[
             {
-              t: "Reverse-Charge nach § 13b UStG (BU 19)",
-              d: "Anbieter mit irischer Tochter wie Meta, Google, AWS, Microsoft, TikTok und Stripe: Du buchst die Umsatzsteuer selbst und ziehst sie sofort als Vorsteuer wieder ab, im Saldo null.",
+              t: "Reverse-Charge nach § 13b Abs. 1 UStG (Konto 3123)",
+              d: "Anbieter mit EU-Sitz (z. B. irische Töchter von Meta, Google, AWS, Microsoft, TikTok, Stripe): Buchung auf das Automatikkonto 3123 ohne BU-Schlüssel, damit die USt-VA Kz 46/47 und 67 befüllt. Du buchst die Umsatzsteuer selbst und ziehst sie als Vorsteuer wieder ab, im Saldo null. BU 19 wäre innergemeinschaftlicher Erwerb von Waren und füllt die falschen Kennzahlen. Kostenart ggf. per Umbuchung zuordnen und mit der Steuerberatung abstimmen.",
             },
             {
               t: "Vorsteuer 19 % (BU 9)",
-              d: "Deutsche Rechnungen mit ausgewiesenen 19 %: Versand per DHL, Steuerberatung, Hotels, Strom.",
+              d: "Deutsche Rechnungen mit ausgewiesenen 19 %: Versand per DHL, Steuerberatung, Strom. Hotelübernachtungen laufen mit 7 % (BU 8).",
             },
             {
               t: "Ohne Steuerschlüssel",
@@ -630,11 +687,11 @@ const DatevMapper = () => {
             },
             {
               t: "Kontenübersicht SKR03",
-              d: "1200 Bank · 1360 Geldtransit · 3100 Fremdleistungen (Marktplatz-Gebühren) · 4600 Werbung · 4730 Versand · 4900 Sonstiger Aufwand · 4910 Buchführung · 4925 Telefon · 4930 Strom · 4970 Bankgebühr · 4980 Sonstige Leistungen · 6750 Reisekosten · 8400 Sonstige Erträge.",
+              d: "1200 Bank · 1360 Geldtransit · 3100 Fremdleistungen (Marktplatz-Gebühren) · 4600 Werbung · 4730 Versand · 4900 Sonstiger Aufwand · 4950 Rechts- und Beratungskosten · 4955 Buchführung · 4920 Telefon · 4925 Internet · 4240 Strom · 4970 Bankgebühr · 4980 Sonstiger Betriebsbedarf · 4670/4676 Reisekosten Unternehmer · 3123 §13b EU-Leistungen · 2700 Sonstige Erträge. 8400 ist das Automatikkonto „Erlöse 19 %“ und nicht für sonstige Erträge.",
             },
             {
               t: "Zeilen ohne Regel",
-              d: "Landen auf 4900 (Aufwand) bzw. 8400 (Ertrag). Vor dem Export auf das richtige Konto umstellen.",
+              d: "Landen auf 4900 (Aufwand) bzw. 2700 (sonstiger Ertrag, ohne USt-Automatik). Vor dem Export auf das richtige Konto umstellen, echte Umsatzerlöse z. B. auf 8400.",
             },
             {
               t: "DATEV-Stapel",

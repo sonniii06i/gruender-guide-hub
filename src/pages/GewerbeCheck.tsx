@@ -57,12 +57,15 @@ type Taetigkeit =
 type Regelmaessigkeit = "einmalig" | "selten" | "nebenbei-regelmaessig" | "hauptberuflich";
 type Gewinnabsicht = "ja" | "nein-hobby" | "unsicher";
 type Gewinnstufe = "unter-410" | "unter-3000" | "unter-25000" | "ueber-25000";
+/** Umsatz (nicht Gewinn!) entscheidet über §19 UStG: Vorjahr ≤ 25.000 €, laufendes Jahr ≤ 100.000 €. */
+type Umsatzstufe = "bis-25000" | "bis-100000" | "ueber-100000";
 
 interface Setup {
   taetigkeit?: Taetigkeit;
   regelmaessigkeit?: Regelmaessigkeit;
   gewinnabsicht?: Gewinnabsicht;
   gewinnstufe?: Gewinnstufe;
+  umsatzstufe?: Umsatzstufe;
 }
 
 type Verdict =
@@ -76,9 +79,9 @@ const TAETIGKEITEN: { v: Taetigkeit; label: string; emoji: string; freiberuf: "j
   { v: "dienstleistung-handel", label: "Dienstleistung / Handel", emoji: "🛍️", freiberuf: "nein", beispiele: "Online-Shop, Verkauf, Vermittlung, Marketing-Agentur, SEO/SEA, Social-Media-Agentur" },
   { v: "produktverkauf", label: "Produktverkauf", emoji: "📦", freiberuf: "nein", beispiele: "Amazon-FBA, eigene Marke, Dropshipping, Handarbeit verkaufen, eBay-Reseller" },
   { v: "beratung-coaching", label: "Coaching / Beratung", emoji: "💼", freiberuf: "vielleicht", beispiele: "Business-Coach, Lifecoach, Mentaltrainer (oft gewerblich), Unternehmensberater (oft freiberuflich)" },
-  { v: "kunst-schreiben-musik", label: "Kunst / Schreiben / Musik", emoji: "🎨", freiberuf: "ja", beispiele: "Autor:in, Musiker:in, Maler:in, Fotograf:in, Designer:in, YouTuber (i.d.R. freiberuflich)" },
-  { v: "software-entwicklung", label: "Software / IT / Engineering", emoji: "💻", freiberuf: "ja", beispiele: "Programmierer:in, IT-Beratung, Ingenieur:in, Web-Developer (Katalogberuf §18 EStG)" },
-  { v: "lehre-unterricht", label: "Lehre / Unterricht", emoji: "🎓", freiberuf: "ja", beispiele: "Nachhilfe, Sprachlehrer:in, Yoga-/Sport-Trainer:in, Online-Kurs-Anbieter" },
+  { v: "kunst-schreiben-musik", label: "Kunst / Schreiben / Musik", emoji: "🎨", freiberuf: "ja", beispiele: "Autor:in, Musiker:in, Maler:in, Journalist:in (künstlerisch/schriftstellerisch, §18 EStG). Designer:innen und YouTuber:innen mit Werbe-/Affiliate-Einnahmen sind oft gewerblich → „unsicher“ wählen" },
+  { v: "software-entwicklung", label: "Software / IT / Engineering", emoji: "💻", freiberuf: "vielleicht", beispiele: "Ingenieur:in (Katalogberuf). Programmierer:in, IT-Beratung, Web-Developer: nur freiberuflich, wenn ingenieurähnlich (Ausbildung/Kenntnisse wie Informatik-Studium, kein Handel mit Hard-/Software) — Einzelfall" },
+  { v: "lehre-unterricht", label: "Lehre / Unterricht", emoji: "🎓", freiberuf: "ja", beispiele: "Nachhilfe, Sprachlehrer:in, Yoga-/Sport-Trainer:in (unterrichtende Tätigkeit). Verkauf aufgezeichneter Online-Kurse ist meist gewerblich" },
   { v: "heilberuf-medizin", label: "Heilberufe / Medizin", emoji: "⚕️", freiberuf: "ja", beispiele: "Arzt/Ärztin, Heilpraktiker:in, Physio, Logopäde:in, Hebamme — alle Katalog §18 EStG" },
   { v: "rechts-steuer-beratung", label: "Recht / Steuer / Wirtschaftsprüfung", emoji: "⚖️", freiberuf: "ja", beispiele: "Anwalt/Anwältin, Steuerberater:in, Wirtschaftsprüfer:in" },
   { v: "unsicher", label: "Bin mir unsicher / etwas anderes", emoji: "🤔", freiberuf: "vielleicht", beispiele: "Wenn deine Tätigkeit nicht klar in eine Kategorie passt — wir geben dir eine Empfehlung zur Klärung" },
@@ -115,9 +118,12 @@ function berechneRechtsformEmpfehlung(setup: Setup): RechtsformReco {
   const t = TAETIGKEITEN.find((x) => x.v === setup.taetigkeit)!;
   const istFreiberuf = t.freiberuf === "ja";
   const istGewerbe = t.freiberuf === "nein";
+  // §19 UStG richtet sich nach dem UMSATZ, nicht nach dem Gewinn
+  const kuMoeglich = setup.umsatzstufe === "bis-25000";
   const niedrigerGewinn = setup.gewinnstufe === "unter-410" || setup.gewinnstufe === "unter-3000";
   const mittlererGewinn = setup.gewinnstufe === "unter-25000";
   const hoherGewinn = setup.gewinnstufe === "ueber-25000";
+  void hoherGewinn;
   const istHobby = setup.gewinnabsicht === "nein-hobby";
 
   // Hobby → keine Rechtsform-Empfehlung relevant
@@ -134,15 +140,15 @@ function berechneRechtsformEmpfehlung(setup: Setup): RechtsformReco {
 
   // === FREIBERUF ===
   if (istFreiberuf) {
-    const ustModus = niedrigerGewinn || mittlererGewinn ? "ku-19" : "regel";
+    const ustModus = kuMoeglich ? "ku-19" : "regel";
     return {
       empfohlen: "einzel-frei",
       empfohlenLabel: "Einzelunternehmen als Freiberufler:in",
       begruendung: "Für die allermeisten Solo-Freiberufler:innen die richtige Wahl: keine Gewerbeanmeldung, keine GewSt, keine IHK-Pflicht, keine Buchführungspflicht (EÜR reicht bis 800k Umsatz). Du brauchst KEINE Rechtsform-Anmeldung — nur die steuerliche Erfassung beim Finanzamt.",
       ustModus,
       ustHinweis: ustModus === "ku-19"
-        ? "Bei deinem Gewinn lohnt §19 UStG (Kleinunternehmer): keine USt auf Rechnungen, keine USt-Voranmeldungen. Grenze: 25k Vorjahres-Umsatz / 100k Prognose. ABER: kein Vorsteuer-Abzug — bei viel B2B-Geschäft mit teuren Anschaffungen kann Regelbesteuerung besser sein."
-        : "Bei deinem erwarteten Umsatz wahrscheinlich Regelbesteuerung sinnvoll — mit Vorsteuer-Abzug. KU §19 nur falls Umsatz unter 25k bleibt.",
+        ? "Bei deinem Umsatz ist §19 UStG (Kleinunternehmer) möglich: keine USt auf Rechnungen, keine USt-Voranmeldungen. Grenze: Vorjahres-Umsatz ≤ 25.000 € und laufendes Jahr ≤ 100.000 € (im Gründungsjahr ≤ 25.000 €). ABER: kein Vorsteuer-Abzug — bei viel B2B-Geschäft mit teuren Anschaffungen kann Regelbesteuerung besser sein."
+        : "Bei deinem erwarteten Umsatz über 25.000 € ist §19 UStG nicht (mehr) möglich: Regelbesteuerung mit Vorsteuer-Abzug.",
       alternativen: [
         {
           id: "gbr",
@@ -162,14 +168,16 @@ function berechneRechtsformEmpfehlung(setup: Setup): RechtsformReco {
 
   // === GEWERBE ===
   if (istGewerbe) {
-    // Niedrig + Mittel: Einzel-Gewerbe + KU
+    // Niedrig + Mittel: Einzel-Gewerbe (+ KU nur bei Umsatz ≤ 25.000 €)
     if (niedrigerGewinn || mittlererGewinn) {
       return {
         empfohlen: "einzel-gewerbe",
-        empfohlenLabel: "Einzelunternehmen (Gewerbe) + §19 KU",
+        empfohlenLabel: kuMoeglich ? "Einzelunternehmen (Gewerbe) + §19 KU" : "Einzelunternehmen (Gewerbe)",
         begruendung: "Für Solo-Gewerbe bei niedrigem bis mittlerem Gewinn klar die einfachste Option: GewA1-Anmeldung (15-65 €), keine Stammkapital, EÜR statt Bilanz, GewSt-Freibetrag 24.500 €. Volle persönliche Haftung — bei deinem Risiko-Profil aber meist okay.",
-        ustModus: "ku-19",
-        ustHinweis: "Kleinunternehmer §19 UStG empfohlen (Vorjahres-Umsatz < 25k / Prognose < 100k): keine USt-Ausweisung, keine USt-VA. Bindung 5 Jahre. Wechsel zu Regelbesteuerung nur wenn du viele teure Anschaffungen mit Vorsteuer-Abzug hast oder dein Hauptkundenkreis B2B ist.",
+        ustModus: kuMoeglich ? "ku-19" : "regel",
+        ustHinweis: kuMoeglich
+          ? "Kleinunternehmer §19 UStG möglich (Vorjahres-Umsatz ≤ 25.000 €, laufendes Jahr ≤ 100.000 €; im Gründungsjahr ≤ 25.000 €): keine USt-Ausweisung, keine USt-VA. An 5 Jahre gebunden bist du nur, wenn du auf die KU verzichtest. Regelbesteuerung lohnt bei vielen teuren Anschaffungen mit Vorsteuer-Abzug oder überwiegend B2B-Kunden."
+          : "Dein Umsatz liegt über 25.000 € (z. B. Handel mit geringer Marge): §19 UStG ist nicht möglich, auch wenn der Gewinn klein ist. Regelbesteuerung mit USt-Voranmeldung und Vorsteuer-Abzug.",
         alternativen: [
           {
             id: "ug",
@@ -191,14 +199,16 @@ function berechneRechtsformEmpfehlung(setup: Setup): RechtsformReco {
       empfohlen: "einzel-gewerbe",
       empfohlenLabel: "Einzelunternehmen (Gewerbe) — UG/GmbH erwägen",
       begruendung: "Bei Solo-Gewerbe und Gewinn > 25k €/Jahr ist Einzelunternehmen weiterhin möglich, aber UG/GmbH lohnen sich zu prüfen. Vorteile: Haftungsbeschränkung + Thesaurierungs-Vorteil bei nicht entnommenen Gewinnen (KSt 15 % + GewSt vs. ESt-Spitze 42 %).",
-      ustModus: "regel",
-      ustHinweis: "Bei diesem Gewinn klar Regelbesteuerung — KU §19 wäre wegen Umsatz > 25k ohnehin nicht mehr möglich. Du brauchst USt-ID (bei EU-Geschäft Pflicht) und musst USt-VA monatlich/quartalsweise abgeben.",
+      ustModus: kuMoeglich ? "ku-19" : "regel",
+      ustHinweis: kuMoeglich
+        ? "Dein Umsatz liegt unter 25.000 €: §19 UStG ist trotz hohem Gewinn möglich. Prüfe, ob Regelbesteuerung wegen Vorsteuer-Abzug oder B2B-Kunden besser passt."
+        : "Bei deinem Umsatz Regelbesteuerung — KU §19 ist bei Umsatz über 25.000 € nicht möglich. Du brauchst USt-ID (bei EU-Geschäft Pflicht) und musst USt-VA monatlich/quartalsweise abgeben.",
       alternativen: [
         {
           id: "ug",
           label: "UG (haftungsbeschränkt)",
           pro: "Haftungsbeschränkung + Thesaurierungs-Vorteil. Ab 1 € Stammkapital + Rücklagenbildung, bis das Stammkapital auf 25.000 € erhöht ist. Notar ~500 €.",
-          contra: "Bilanz-Pflicht + DAS Handelsregister + ~2-3k €/J Buchhaltungskosten. Geschäftsführer-Gehalt muss sozialversicherungspflichtig sein.",
+          contra: "Bilanz-Pflicht + Handelsregister + ~2-3k €/J Buchhaltungskosten. Sozialversicherung: Fremd- und Minderheits-GF sind in der Regel SV-pflichtig, beherrschende Gesellschafter-GF (ab 50 % oder mit Sperrminorität) in der Regel nicht — Statusfeststellung nach §7a SGB IV empfohlen.",
         },
         {
           id: "gmbh",
@@ -215,10 +225,10 @@ function berechneRechtsformEmpfehlung(setup: Setup): RechtsformReco {
     empfohlen: "einzel-gewerbe",
     empfohlenLabel: "Erst Status klären, dann Rechtsform",
     begruendung: "Da deine Tätigkeit zwischen Freiberuf und Gewerbe liegt: erst den Status mit dem Finanzamt klären (kostenlose schriftliche Anfrage). Dann je nach Ergebnis: bei Freiberuf → Einzelunternehmen ohne GewA1; bei Gewerbe → Einzelunternehmen mit GewA1.",
-    ustModus: niedrigerGewinn || mittlererGewinn ? "ku-19" : "regel",
-    ustHinweis: niedrigerGewinn || mittlererGewinn
-      ? "Bei deinem Gewinn KU §19 UStG sinnvoll. Im FsE-Fragebogen ankreuzen."
-      : "Regelbesteuerung — KU-Grenzen werden überschritten.",
+    ustModus: kuMoeglich ? "ku-19" : "regel",
+    ustHinweis: kuMoeglich
+      ? "Bei deinem Umsatz ist KU §19 UStG möglich. Im FsE-Fragebogen ankreuzen."
+      : "Regelbesteuerung — dein Umsatz liegt über der KU-Grenze von 25.000 €.",
     alternativen: [],
   };
 }
@@ -228,12 +238,12 @@ const GewerbeCheck = () => {
   const [setup, setSetup] = useState<Setup>({});
 
   const rechtsformEmpfehlung = useMemo<RechtsformReco | null>(() => {
-    if (!setup.taetigkeit || !setup.gewinnabsicht || !setup.gewinnstufe) return null;
+    if (!setup.taetigkeit || !setup.gewinnabsicht || !setup.gewinnstufe || !setup.umsatzstufe) return null;
     return berechneRechtsformEmpfehlung(setup);
   }, [setup]);
 
   const verdict: { type: Verdict; titel: string; farbe: "gruen" | "blau" | "amber" | "rot"; begruendung: string; nextSteps: { text: string; route?: string; extern?: string }[] } | null = useMemo(() => {
-    if (!setup.taetigkeit || !setup.regelmaessigkeit || !setup.gewinnabsicht || !setup.gewinnstufe) return null;
+    if (!setup.taetigkeit || !setup.regelmaessigkeit || !setup.gewinnabsicht || !setup.gewinnstufe || !setup.umsatzstufe) return null;
 
     const t = TAETIGKEITEN.find((x) => x.v === setup.taetigkeit)!;
     const istHobby = setup.gewinnabsicht === "nein-hobby" || (setup.regelmaessigkeit === "einmalig" && setup.gewinnstufe === "unter-410");
@@ -261,13 +271,13 @@ const GewerbeCheck = () => {
 
     // Verdict 2: Eindeutig Freiberuf (Katalogberuf §18 EStG)
     if (t.freiberuf === "ja") {
-      const ku = setup.gewinnstufe === "unter-410" || setup.gewinnstufe === "unter-3000";
+      const ku = setup.umsatzstufe === "bis-25000";
       return {
         type: ku ? "kleinunternehmer-tauglich" : "freiberuf",
         titel: "Du bist Freiberufler:in (§18 EStG)",
         farbe: "blau",
         begruendung: `${t.label} fällt unter die Katalogberufe nach §18 Abs. 1 Nr. 1 EStG — KEINE Gewerbeanmeldung nötig. Du brauchst nur die steuerliche Erfassung beim Finanzamt (Fragebogen via ELSTER).${
-          ku ? " Bei deinem erwarteten Gewinn lohnt sich i.d.R. die Kleinunternehmer-Regelung §19 UStG (kein Umsatzsteuer-Ausweis, kein VSt-Abzug)." : ""
+          ku ? " Bei deinem erwarteten Umsatz bis 25.000 € kommt die Kleinunternehmer-Regelung §19 UStG in Frage (kein Umsatzsteuer-Ausweis, kein VSt-Abzug)." : ""
         }`,
         nextSteps: [
           {
@@ -291,13 +301,13 @@ const GewerbeCheck = () => {
 
     // Verdict 3: Eindeutig Gewerbe (Handel, Produktverkauf etc.)
     if (t.freiberuf === "nein") {
-      const ku = setup.gewinnstufe === "unter-410" || setup.gewinnstufe === "unter-3000";
+      const ku = setup.umsatzstufe === "bis-25000";
       return {
         type: ku ? "kleinunternehmer-tauglich" : "gewerbe",
         titel: "Du brauchst ein Gewerbe",
         farbe: "amber",
         begruendung: `${t.label} ist eindeutig gewerblich (nicht §18 EStG). Du musst beim Gewerbeamt anmelden (15-65 € je Stadt). Das Gewerbeamt leitet automatisch ans Finanzamt + IHK weiter. GewSt erst bei Gewinn > 24.500 €/Jahr — die meisten Anfänger:innen zahlen also vorerst keine GewSt.${
-          ku ? " Bei deinem erwarteten Gewinn lohnt sich i.d.R. die Kleinunternehmer-Regelung §19 UStG." : ""
+          ku ? " Bei deinem erwarteten Umsatz bis 25.000 € kommt die Kleinunternehmer-Regelung §19 UStG in Frage." : ""
         }`,
         nextSteps: [
           { text: "Gewerbe-Anmeldung beim örtlichen Gewerbeamt (15-65 € je nach Stadt)" },
@@ -344,17 +354,17 @@ const GewerbeCheck = () => {
     setSetup({});
     setStep(0);
   };
-  const next = () => setStep((s) => Math.min(4, s + 1));
+  const next = () => setStep((s) => Math.min(5, s + 1));
   const prev = () => setStep((s) => Math.max(0, s - 1));
 
-  const stepCount = 4;
+  const stepCount = 5;
   const progressPct = Math.min(100, ((step) / stepCount) * 100);
 
   return (
     <CockpitShell
       eyebrow="Erste Schritte · für komplette Anfänger:innen"
       title="Brauche ich überhaupt ein Gewerbe?"
-      subtitle="Vier Fragen bis zur Einordnung: Hobby, Freiberuf oder Gewerbe? Du bekommst eine Klartext-Empfehlung mit konkreten nächsten Schritten, ganz ohne Steuer-Vorkenntnisse."
+      subtitle="Fünf Fragen bis zur Einordnung: Hobby, Freiberuf oder Gewerbe? Du bekommst eine Klartext-Empfehlung mit konkreten nächsten Schritten, ganz ohne Steuer-Vorkenntnisse."
     >
       <div className="mx-auto max-w-4xl space-y-6">
         {/* === BeginnerHero: "Was ist das hier?" === */}
@@ -466,7 +476,7 @@ const GewerbeCheck = () => {
           <StepFrame
             n={4}
             title="Wie viel Gewinn erwartest du pro Jahr?"
-            erklaerung="Wichtig für: Kleinunternehmer-Regelung §19 UStG (bis 25.000 € Vorjahres-Umsatz / 100.000 € aktuelles Jahr 2026), GewSt-Freibetrag (24.500 €), IHK-Befreiung. Schätze ehrlich; bei deutlicher Abweichung stellst du später einen Anpassungs-Antrag."
+            erklaerung="Wichtig für: GewSt-Freibetrag (24.500 €), IHK-Befreiung, Vorauszahlungen. Für die Kleinunternehmer-Regelung zählt dagegen der Umsatz (nächste Frage). Schätze ehrlich; bei deutlicher Abweichung stellst du später einen Anpassungs-Antrag."
             onNext={setup.gewinnstufe ? next : undefined}
             onPrev={prev}
           >
@@ -486,8 +496,31 @@ const GewerbeCheck = () => {
           </StepFrame>
         )}
 
+        {step === 4 && (
+          <StepFrame
+            n={5}
+            title="Wie viel Umsatz erwartest du pro Jahr?"
+            erklaerung="Umsatz = alle Einnahmen (netto), nicht der Gewinn. Er entscheidet über die Kleinunternehmer-Regelung §19 UStG: Vorjahres-Umsatz bis 25.000 € und im laufenden Jahr bis 100.000 €; im Gründungsjahr bis 25.000 €. Gerade im Handel liegt der Umsatz oft weit über dem Gewinn."
+            onNext={setup.umsatzstufe ? next : undefined}
+            onPrev={prev}
+          >
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+              {([
+                { v: "bis-25000", l: "Bis 25.000 € pro Jahr", d: "Kleinunternehmer-Regelung möglich" },
+                { v: "bis-100000", l: "25.000 € – 100.000 € pro Jahr", d: "Im Gründungsjahr und danach i. d. R. Regelbesteuerung" },
+                { v: "ueber-100000", l: "Über 100.000 € pro Jahr", d: "Regelbesteuerung" },
+              ] as { v: Umsatzstufe; l: string; d: string }[]).map((o) => (
+                <OptionCard key={o.v} active={setup.umsatzstufe === o.v} onClick={() => setSetup({ ...setup, umsatzstufe: o.v })}>
+                  <span className="block text-sm font-semibold tabular">{o.l}</span>
+                  <span className="mt-0.5 block text-xs text-muted-foreground">{o.d}</span>
+                </OptionCard>
+              ))}
+            </div>
+          </StepFrame>
+        )}
+
         {/* === Ergebnis === */}
-        {step === 4 && verdict && (
+        {step === 5 && verdict && (
           <>
             <section aria-live="polite" className={cn("rounded-2xl border p-5 shadow-card md:p-6", toneSoft(FARBE_TONE[verdict.farbe]))}>
               <div className="flex items-start gap-4">
@@ -739,11 +772,11 @@ const Glossar = () => (
         { begriff: "Freiberufler:in", erklaerung: "Selbstständig in einem 'Katalogberuf' nach §18 Abs. 1 Nr. 1 EStG (Ärzt:innen, Rechtsanwält:innen, Ingenieur:innen, Künstler:innen, Journalist:innen u.a.) oder in einem 'ähnlichen Beruf'. KEINE Gewerbeanmeldung, KEINE Gewerbesteuer, KEINE IHK-Pflichtmitgliedschaft. Nur Fragebogen beim Finanzamt." },
         { begriff: "Gewerbe", erklaerung: "Selbstständige, nachhaltige Tätigkeit mit Gewinnerzielungsabsicht, die nicht freiberuflich, land-/forstwirtschaftlich oder Vermögensverwaltung ist. Pflicht: Anmeldung beim Gewerbeamt (15-65 €), IHK-Mitgliedschaft, ggf. Gewerbesteuer ab 24.500 €/J Gewinn." },
         { begriff: "Kleingewerbe", erklaerung: "Umgangssprachlich für 'Gewerbe in kleinem Umfang' (Nicht-Kaufmann i.S.d. HGB). Hat nichts mit der USt-Kleinunternehmer-Regelung zu tun! Vereinfachte Buchhaltung (EÜR statt Bilanz)." },
-        { begriff: "Kleinunternehmer-Regelung (§19 UStG)", erklaerung: "Du musst keine Umsatzsteuer ausweisen, kannst aber auch keine Vorsteuer ziehen. 2026: Vorjahres-Umsatz unter 25.000 €, aktuelles Jahr unter 100.000 €. Vorteil: einfacher. Nachteil: keine VSt zurück (lohnt sich nicht wenn du viel investierst)." },
+        { begriff: "Kleinunternehmer-Regelung (§19 UStG)", erklaerung: "Du musst keine Umsatzsteuer ausweisen, kannst aber auch keine Vorsteuer ziehen. 2026: Vorjahres-Umsatz bis 25.000 €, laufendes Jahr bis 100.000 € (bei Überschreiten sofortiger Wegfall); im Gründungsjahr bis 25.000 €. Maßgeblich ist der Umsatz, nicht der Gewinn. Vorteil: einfacher. Nachteil: keine VSt zurück (lohnt sich nicht wenn du viel investierst)." },
         { begriff: "Gewinnerzielungsabsicht", erklaerung: "Du willst auf Dauer einen Gewinn machen (auch wenn die ersten Jahre Verluste sind). Wichtig für die Abgrenzung zur 'Liebhaberei' (= Hobby, das nicht profitabel sein muss)." },
         { begriff: "Liebhaberei", erklaerung: "Das Finanzamt nimmt an, dass du KEINEN Gewinn erzielen willst (typisch: Pferdezucht, Künstler:in im Verlust seit 7+ Jahren). Folge: Verluste sind nicht steuerlich abzugsfähig, Gewinne sind auch nicht steuerbar." },
         { begriff: "Fragebogen zur steuerlichen Erfassung", erklaerung: "Pflichtformular nach jeder Gründung — du gibst dem Finanzamt deine voraussichtlichen Umsätze + Gewinne + Familienstand an. Daraus berechnet das FA deine Vorauszahlungen. Pflicht binnen 1 Monat via ELSTER." },
-        { begriff: "EÜR (Einnahmen-Überschuss-Rechnung)", erklaerung: "Vereinfachte Gewinnermittlung: Einnahmen minus Ausgaben = Gewinn. Erlaubt bis 600.000 € Jahresumsatz oder 60.000 € Gewinn (sonst Bilanz-Pflicht). Pflicht-Anlage zur Steuererklärung — elektronisch via ELSTER." },
+        { begriff: "EÜR (Einnahmen-Überschuss-Rechnung)", erklaerung: "Vereinfachte Gewinnermittlung: Einnahmen minus Ausgaben = Gewinn. Für Gewerbetreibende erlaubt bis 800.000 € Jahresumsatz und 80.000 € Gewinn (§141 AO seit WJ 2024, sonst Bilanz-Pflicht); Freiberufler:innen dürfen immer die EÜR nutzen. Pflicht-Anlage zur Steuererklärung — elektronisch via ELSTER." },
         { begriff: "Anlage S vs Anlage G", erklaerung: "Anlage S: für Einkünfte aus selbstständiger Arbeit (Freiberufler). Anlage G: für Einkünfte aus Gewerbebetrieb. Beide brauchen zusätzlich die Anlage EÜR (Gewinn-Detail)." },
         { begriff: "Katalogberufe (§18 EStG)", erklaerung: "Eindeutig als freiberuflich anerkannte Berufe: Heilberufe, Rechts-/Steuerberatung, Ingenieur:innen, Architekt:innen, Künstler:innen, Journalist:innen, Lehrer:innen. 'Ähnliche Berufe' nur durch Einzelfall-Prüfung anerkannt." },
         { begriff: "IHK-Pflichtmitgliedschaft", erklaerung: "Alle Gewerbetreibenden in DE sind Pflichtmitglied der IHK (oder HWK bei Handwerk). Kosten: Grundbeitrag 30-300 €/J + Umlage 0,1-0,3 % vom Gewerbeertrag. Befreiung bei Existenzgründer:innen mit Gewinn < 25.000 €/J (§3 IHKG)." },

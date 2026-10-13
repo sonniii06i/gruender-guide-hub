@@ -16,7 +16,14 @@ import { ErFehler, leseERechnung, pruefeERechnung, typName, type ErPartei, type 
 import { baueXRechnung } from "@/lib/xrechnung";
 
 const SITE = "https://gruenderx.de";
-const geld = (n: number, w = "EUR") => n.toLocaleString("de-DE", { style: "currency", currency: w || "EUR" });
+const geld = (n: number, w = "EUR") => {
+  // Ungültige Währungscodes dürfen die Seite nicht abstürzen lassen (RangeError: Invalid currency code)
+  try {
+    return n.toLocaleString("de-DE", { style: "currency", currency: w || "EUR" });
+  } catch {
+    return `${n.toFixed(2).replace(".", ",")} ${w}`;
+  }
+};
 const tag = (iso: string) => (iso ? iso.split("-").reverse().join(".") : "–");
 
 const faqs = [
@@ -68,21 +75,27 @@ export function rechnungAlsPdf(r: ErRechnung): jsPDF {
   r.steuern.forEach((s) => zeile(`USt ${s.satz} % (${s.kategorie})`, geld(s.betrag, w)));
   zeile("Brutto", geld(r.summen.brutto, w), true);
   if (r.summen.vorausbezahlt) zeile("bereits gezahlt", geld(r.summen.vorausbezahlt, w));
+  if (r.summen.rundung) zeile("Rundung", geld(r.summen.rundung, w));
   zeile("Zu zahlen", geld(r.summen.zahlbar, w), true);
   doc.setFont("helvetica", "normal");
   y += 4;
   const zahlung = [r.zahlung.iban && `IBAN ${r.zahlung.iban}${r.zahlung.bic ? ` · BIC ${r.zahlung.bic}` : ""}`, r.zahlung.verwendungszweck && `Verwendungszweck: ${r.zahlung.verwendungszweck}`, r.zahlung.bedingungen].filter(Boolean) as string[];
-  if (zahlung.length) doc.text(doc.splitTextToSize(zahlung.join("\n"), 182), 14, y);
-  y += zahlung.length * 5 + 4;
-  for (const s of r.steuern.filter((x) => x.grund)) {
-    doc.text(doc.splitTextToSize(s.grund!, 182), 14, y);
-    y += 6;
-  }
-  for (const n of r.notizen) {
-    const z = doc.splitTextToSize(n, 182);
-    doc.text(z, 14, y);
-    y += z.length * 4.5 + 2;
-  }
+  // Lange Texte umbrechen und bei Bedarf neue Seite beginnen (unten liegt die Fußzeile bei 288 mm)
+  const textBlock = (text: string, zeilenHoehe: number, abstand: number) => {
+    const zeilen = doc.splitTextToSize(text, 182) as string[];
+    for (const z of zeilen) {
+      if (y > 280) {
+        doc.addPage();
+        y = 20;
+      }
+      doc.text(z, 14, y);
+      y += zeilenHoehe;
+    }
+    y += abstand;
+  };
+  if (zahlung.length) textBlock(zahlung.join("\n"), 5, 4);
+  for (const s of r.steuern.filter((x) => x.grund)) textBlock(s.grund!, 5, 1);
+  for (const n of r.notizen) textBlock(n, 4.5, 2);
   doc.setFontSize(7);
   doc.text("Lesefassung einer E-Rechnung, erstellt mit GründerX. Rechtlich maßgeblich ist die XML-Datei (aufbewahren!).", 14, 288);
   return doc;

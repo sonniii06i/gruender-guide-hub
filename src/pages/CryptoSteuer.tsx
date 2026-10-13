@@ -17,6 +17,7 @@ import {
   selectCls,
 } from "@/components/cockpit/kit";
 import { parseCsv, type ExchangeFormat } from "@/lib/cryptoCsvParsers";
+import { freigrenzeParagraph23, haltefristAbgelaufen } from "@/lib/cryptoSteuer";
 
 type Trade = {
   id: string;
@@ -38,6 +39,8 @@ type FIFOResult = {
   veraeuserungsgewinn: number;
   steuerpflichtig: number;
   steuerfrei: number;
+  /** Verkaufte Menge ohne passenden Kauf (Kaufhistorie unvollständig) */
+  ungedeckt?: number;
 };
 
 const CryptoSteuer = () => {
@@ -69,9 +72,18 @@ const CryptoSteuer = () => {
         id: `csv-${Date.now()}-${i}`,
       }));
       setTrades([...trades, ...newTrades]);
+      const skipped = result.skipped ?? [];
+      const skippedTxt = skipped.length > 0
+        ? ` ${skipped.length} Zeile(n) nicht übernommen: ${skipped.slice(0, 5).map((s) => `Z. ${s.zeile}: ${s.grund}`).join(" · ")}${skipped.length > 5 ? " · …" : ""}`
+        : "";
+      // Übernommene Zeilen mit fehlendem Teil (z. B. Gebühr in Fremdwährung) getrennt melden
+      const hinweise = result.hinweise ?? [];
+      const hinweisTxt = hinweise.length > 0
+        ? ` ${hinweise.length} Zeile(n) übernommen, aber unvollständig: ${hinweise.slice(0, 5).map((s) => `Z. ${s.zeile}: ${s.grund}`).join(" · ")}${hinweise.length > 5 ? " · …" : ""}`
+        : "";
       setImportStatus({
         ok: true,
-        msg: `${result.trades.length} Trades aus ${result.format.toUpperCase()}-CSV importiert.`,
+        msg: `${result.trades.length} Trades aus ${result.format.toUpperCase()}-CSV importiert.${skippedTxt}${hinweisTxt}`,
         count: result.trades.length,
       });
     } catch (e) {
@@ -130,7 +142,8 @@ const CryptoSteuer = () => {
             const gehaltenTage = Math.floor(
               (new Date(t.datum).getTime() - new Date(oldest.buyDate).getTime()) / (1000 * 60 * 60 * 24),
             );
-            const steuerfrei = gehaltenTage > 365;
+            // Kalendergenau nach §23 EStG i. V. m. §§ 187/188 BGB (nicht "> 365 Tage": Schaltjahr-Falle)
+            const steuerfrei = haltefristAbgelaufen(oldest.buyDate, t.datum);
             matched.push({
               buyId: oldest.buyId,
               buyDate: oldest.buyDate,
@@ -144,6 +157,9 @@ const CryptoSteuer = () => {
             restToMatch -= matchAmount;
             if (oldest.restAmount === 0) pool.shift();
           }
+
+          // Nicht gedeckte Menge (Kaufhistorie unvollständig) → Kostenbasis 0 wäre falsch, deshalb ausweisen
+          const ungedeckt = restToMatch > 1e-12 ? restToMatch : 0;
 
           // Effektiver Verkaufspreis pro Einheit (minus Fee)
           const effErloes = (t.preisProEinheit * t.amount - t.fee);
@@ -169,6 +185,7 @@ const CryptoSteuer = () => {
             veraeuserungsgewinn,
             steuerpflichtig,
             steuerfrei,
+            ungedeckt,
           });
         }
       }
@@ -185,7 +202,8 @@ const CryptoSteuer = () => {
   // Freigrenze §23 (3) EStG: seit 2024 1.000 € (vorher 600 €).
   // Wortlaut "weniger als" → 999,99 € steuerfrei, ab 1.000 € voll steuerpflichtig.
   // Bei NEGATIVEM Saldo (Verluste > Gewinne): kein Steuerlast aktuell, ABER Verlustvortrag möglich (§23 (3) S. 7 EStG) — nur mit gleichartigen Gewinnen verrechenbar.
-  const freigrenze = 1000;
+  const freigrenze = freigrenzeParagraph23(steuerJahr);
+  const ungedeckteVerkaeufe = yearResults.filter((r) => (r.ungedeckt ?? 0) > 0);
   const istVerlust = totalSteuerpflichtig < 0;
   const steuerpflichtigNachFreigrenze = istVerlust
     ? 0
@@ -218,7 +236,7 @@ const CryptoSteuer = () => {
     <CockpitShell
       eyebrow="Steuern · Crypto-Steuer-Modul"
       title="FIFO-Berechnung für Crypto-Veräußerungsgewinne"
-      subtitle="Trade für Trade nach FIFO gemäß §23 EStG: Veräußerungsgewinn je Verkauf, automatische Erkennung der 1-Jahres-Haltefrist, Freigrenze 1.000 € seit 2024. CSV-Export für die Steuerberatung."
+      subtitle="Trade für Trade nach FIFO gemäß §23 EStG: Veräußerungsgewinn je Verkauf, automatische Erkennung der 1-Jahres-Haltefrist, Freigrenze 1.000 € seit 2024 (bis 2023: 600 €). CSV-Export für die Steuerberatung."
     >
       <ToolLayout
         className="mb-8"
@@ -328,9 +346,15 @@ const CryptoSteuer = () => {
               </Button>
             </ResultPanel>
 
-            {totalSteuerpflichtig > 0 && totalSteuerpflichtig <= freigrenze && (
+            {totalSteuerpflichtig > 0 && totalSteuerpflichtig < freigrenze && (
               <Callout tone="success" title="Freigrenze nach §23 EStG greift">
-                Die steuerpflichtigen Gewinne von {eur(totalSteuerpflichtig)} liegen unter 1.000 €, damit komplett steuerfrei.
+                Die steuerpflichtigen Gewinne von {eur(totalSteuerpflichtig)} liegen unter {eur(freigrenze)}, damit komplett steuerfrei.
+              </Callout>
+            )}
+            {ungedeckteVerkaeufe.length > 0 && (
+              <Callout tone="warning" title="Kaufhistorie unvollständig">
+                {ungedeckteVerkaeufe.length} Verkauf/Verkäufe ({ungedeckteVerkaeufe.map((r) => `${r.ungedeckt} ${r.asset}`).join(", ")}) haben keinen passenden Kauf.
+                Für diese Mengen ist die Kostenbasis 0 angesetzt, der Gewinn ist damit zu hoch. Bitte fehlende Käufe ergänzen.
               </Callout>
             )}
             {verlustvortrag > 0 && (

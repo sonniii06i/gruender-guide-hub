@@ -256,8 +256,9 @@ const SalaryDividendOptimizer = () => {
             <Link to="/cockpit/auszahlung-optimizer" className="font-medium text-accent-blue underline underline-offset-2">Auszahlung-Optimizer</Link>.
           </li>
           <li>
-            <strong className="text-foreground">TEV (Teileinkünfteverfahren):</strong> nur Vorteil bei pers. Grenzsteuersatz unter
-            ~32-35 %. Bei 42 % oder 45 % schlechter als Abgeltungssteuer.
+            <strong className="text-foreground">TEV (Teileinkünfteverfahren):</strong> günstiger als die Abgeltungsteuer bis zu einem
+            persönlichen Grenzsteuersatz von rund 41,7 % (25 % ÷ 60 %), erst recht mit Werbungskosten wie Finanzierungszinsen
+            (60 % abziehbar). Bei 42 % oder 45 % ohne Werbungskosten ist die Abgeltungsteuer günstiger.
           </li>
           <li>
             <strong className="text-foreground">GewSt-Hebesatz prüfen:</strong> München 490 %, Frankfurt 460 %, Berlin 410 %, Köln 475 %.

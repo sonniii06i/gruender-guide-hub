@@ -1,10 +1,12 @@
 import { useState } from "react";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Input } from "@/components/ui/input";
+import { NumberField } from "@/components/ui/number-field";
 import {
   Callout,
   ChoiceGroup,
   EmptyState,
+  Field,
   KitTable,
   ResultPanel,
   ResultRow,
@@ -100,6 +102,14 @@ const SalesTaxNexus = () => {
   const [umsatzPerState, setUmsatzPerState] = useState<Record<string, number>>({});
   const [transaktionenPerState, setTransaktionenPerState] = useState<Record<string, number>>({});
   const [marketplaceMix, setMarketplaceMix] = useState<"shopify" | "amazon" | "mixed">("shopify");
+  // Anteil der Umsätze über Marktplätze (bei "Beides parallel")
+  const [marketplaceAnteilMixed, setMarketplaceAnteilMixed] = useState(50);
+  // Staaten mit eigenem Lagerbestand (z. B. FBA-Fulfillment-Center) → physischer Nexus unabhängig von Schwellen
+  const [lagerStaatenRaw, setLagerStaatenRaw] = useState("");
+  const lagerStaaten = new Set(
+    lagerStaatenRaw.toUpperCase().split(/[^A-Z]+/).filter((c) => c.length === 2),
+  );
+  const marketplaceAnteil = marketplaceMix === "amazon" ? 1 : marketplaceMix === "mixed" ? Math.min(100, Math.max(0, marketplaceAnteilMixed)) / 100 : 0;
 
   const updateUmsatz = (code: string, val: number) =>
     setUmsatzPerState({ ...umsatzPerState, [code]: val });
@@ -111,6 +121,8 @@ const SalesTaxNexus = () => {
     const sales = umsatzPerState[state.code] ?? 0;
     const txns = transaktionenPerState[state.code] ?? 0;
 
+    // Physischer Nexus: Lagerbestand im Staat (auch FBA-Inventar) → Registrierungspflicht ohne Schwelle
+    if (lagerStaaten.has(state.code)) return true;
     if (state.logic === "salesOnly") {
       return sales >= state.salesThreshold;
     }
@@ -128,10 +140,11 @@ const SalesTaxNexus = () => {
   const totalNexusUmsatz = triggeredStates.reduce((sum, s) => sum + (umsatzPerState[s.code] ?? 0), 0);
   const totalAllUmsatz = US_STATES.reduce((sum, s) => sum + (umsatzPerState[s.code] ?? 0), 0);
 
-  // Geschätzte Sales-Tax-Pflicht (vereinfacht)
+  // Geschätzte selbst abzuführende Sales Tax (vereinfacht): Marketplace-Umsätze zählen zwar meist zur
+  // Nexus-Schwelle, die Steuer darauf erhebt und führt aber der Marktplatz ab (Marketplace Facilitator Laws).
   const estimatedTax = triggeredStates.reduce((sum, s) => {
     const sales = umsatzPerState[s.code] ?? 0;
-    return sum + sales * (s.combinedAvg / 100);
+    return sum + sales * (1 - marketplaceAnteil) * (s.combinedAvg / 100);
   }, 0);
 
   // Wenn Marketplace (Amazon) → Marketplace-Facilitator-Law: Amazon kassiert Sales Tax → User selbst nur Direct-Sales betroffen
@@ -161,11 +174,32 @@ const SalesTaxNexus = () => {
               />
               {showMarketplaceHint && (
                 <Callout tone="success" title="Marketplace-Facilitator-Law" className="mt-4">
-                  Amazon kassiert Sales Tax automatisch in allen 45 Staaten plus DC (Alaska nur lokal). Du musst dich nur
-                  für Direct Sales (eigener Shop) registrieren, wenn die Schwelle dort erreicht ist. Reine Amazon-Seller
-                  haben oft keine Nexus-Pflicht.
+                  Amazon erhebt und führt die Sales Tax auf Marketplace-Verkäufe in allen Staaten mit Sales Tax ab (Alaska nur lokal).
+                  Für die Nexus-Schwelle zählen Marketplace-Umsätze aber in den meisten Staaten mit: Wer sie überschreitet oder
+                  Lagerbestand (FBA-Inventar) im Staat hat, muss sich je nach Staat trotzdem registrieren und ggf. Null-Erklärungen abgeben.
+                  Die eigene Sales Tax fällt dann nur auf Direktverkäufe (eigener Shop) an.
                 </Callout>
               )}
+              {marketplaceMix === "mixed" && (
+                <Field label="Anteil Marketplace-Umsatz (%)" htmlFor="stn-mp-anteil" className="mt-4">
+                  <NumberField
+                    id="stn-mp-anteil"
+                    value={marketplaceAnteilMixed}
+                    onChange={setMarketplaceAnteilMixed}
+                    min={0}
+                    max={100}
+                    aria-label="Anteil Marketplace-Umsatz in Prozent"
+                  />
+                </Field>
+              )}
+              <Field
+                label="Staaten mit Lagerbestand (Kürzel, z. B. CA, TX, AZ)"
+                htmlFor="stn-lager"
+                hint="FBA-Fulfillment-Center oder eigenes Lager begründen physischen Nexus ohne Umsatzschwelle. Die Lagerorte stehen im Seller Central (Inventory Event Detail)."
+                className="mt-4"
+              >
+                <Input id="stn-lager" value={lagerStaatenRaw} onChange={(e) => setLagerStaatenRaw(e.target.value)} placeholder="z. B. CA, TX" />
+              </Field>
             </ToolSection>
 
             <Callout tone="success" title="Staaten ohne Sales Tax (kein Nexus möglich)">
@@ -200,8 +234,8 @@ const SalesTaxNexus = () => {
                 <ResultRow label="Gesamt-US-Umsatz" value={`$${totalAllUmsatz.toLocaleString("en-US")}`} />
                 <ResultRow label="Davon in Nexus-Staaten" value={`$${totalNexusUmsatz.toLocaleString("en-US")}`} />
                 <ResultRow
-                  label="Geschätzte Sales-Tax-Last"
-                  hint="Combined-Durchschnitt je Staat"
+                  label="Geschätzte selbst abzuführende Sales Tax"
+                  hint="Combined-Durchschnitt je Staat, ohne Marketplace-Umsätze (die führt der Marktplatz ab)"
                   value={`$${Math.round(estimatedTax).toLocaleString("en-US")}`}
                   strong
                 />

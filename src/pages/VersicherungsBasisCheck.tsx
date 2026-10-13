@@ -50,17 +50,19 @@ const defaultSetup: VersicherungsSetup = {
 const VersicherungsBasisCheck = () => {
   const [setup, setSetup] = useState<VersicherungsSetup>(() => {
     if (typeof window === "undefined") return defaultSetup;
-    const saved = localStorage.getItem(LS_KEY);
-    if (saved) {
-      try { return { ...defaultSetup, ...JSON.parse(saved) }; } catch { return defaultSetup; }
+    // localStorage kann werfen (Safari privat, blockierter Speicher)
+    try {
+      const saved = localStorage.getItem(LS_KEY);
+      return saved ? { ...defaultSetup, ...JSON.parse(saved) } : defaultSetup;
+    } catch {
+      return defaultSetup;
     }
-    return defaultSetup;
   });
 
   const updateSetup = <K extends keyof VersicherungsSetup>(field: K, val: VersicherungsSetup[K]) => {
     const next = { ...setup, [field]: val };
     setSetup(next);
-    localStorage.setItem(LS_KEY, JSON.stringify(next));
+    try { localStorage.setItem(LS_KEY, JSON.stringify(next)); } catch { /* Speicher gesperrt */ }
   };
 
   // Empfehlungen berechnen

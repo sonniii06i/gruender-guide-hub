@@ -40,6 +40,7 @@ import {
   BWA_STRUCTURE,
   BRANCHEN_BENCHMARKS,
 } from "@/data/bwaStruktur";
+import { annualisierungsFaktor, hexToRgb, periodeMonateAus } from "@/lib/bwaKennzahlen";
 
 type Bilanz = {
   ek: number;
@@ -106,6 +107,10 @@ const BwaGenerator = () => {
   const [rechtsform, setRechtsform] = useState("GmbH");
   const [zeitraum, setZeitraum] = useState("Q1 2026");
   const [zeitraumVor, setZeitraumVor] = useState("Q1 2025");
+  // Periodenlänge: automatisch aus der Zeitraum-Bezeichnung, manuell überschreibbar
+  const [periodeManuell, setPeriodeManuell] = useState<number | null>(null);
+  const periodeMonate = periodeManuell ?? periodeMonateAus(zeitraum);
+  const faktorJahr = annualisierungsFaktor(periodeMonate);
 
   const [bilanz, setBilanz] = useState<Bilanz>({
     ek: 0,
@@ -212,29 +217,33 @@ const BwaGenerator = () => {
     const verschuldungsgrad = bilanz.ek > 0 ? ((bilanz.fk_langfr + bilanz.fk_kurzfr) / bilanz.ek) * 100 : 0;
     const zinsdeckung = totals.zinsen > 0 ? totals.ebit / totals.zinsen : 0;
     const kapitaldienstGesamt = kapitaldienst.tilgung_pa + kapitaldienst.zinsen_pa;
-    const dscr = kapitaldienstGesamt > 0 ? totals.ebitda / kapitaldienstGesamt : 0;
+    // Jahreswerte: Kapitaldienst, Steuern und CapEx sind p.a. erfasst, die BWA-Werte gelten für die Periode.
+    // Darum EBITDA/EBIT/Umsatz auf 12 Monate hochrechnen, bevor sie gegen Jahresgrößen gestellt werden.
+    const ebitdaAnnualisiert = totals.ebitda * faktorJahr;
+    const ebitAnnualisiert = totals.ebit * faktorJahr;
+    const erloeseAnnualisiert = e * faktorJahr;
+    const dscr = kapitaldienstGesamt > 0 ? ebitdaAnnualisiert / kapitaldienstGesamt : 0;
     const currentRatio = bilanz.fk_kurzfr > 0
       ? (bilanz.cash + bilanz.forderungen + bilanz.vorraete) / bilanz.fk_kurzfr
       : 0;
-    const liquiditaetsreserve = totals.aufwand > 0 ? (bilanz.cash / (totals.aufwand / 12)) : 0;
+    const liquiditaetsreserve = totals.aufwand > 0 ? (bilanz.cash / (totals.aufwand / periodeMonate)) : 0;
 
     // 2026 Banker-Kernkennzahlen
     // Net Debt / EBITDA — Leverage Ratio (Basel IV-relevant)
-    // Annualisierung: wenn Zeitraum quartalsweise → EBITDA * 4 schätzen
-    const ebitdaAnnualisiert = totals.ebitda;
+    // Annualisierung: Perioden-EBITDA × 12/Periodenmonate (oben berechnet)
     const leverage = ebitdaAnnualisiert > 0 ? netDebt / ebitdaAnnualisiert : null;
 
     // Free Cash Flow: EBITDA - Steuern - CapEx (vereinfacht, ohne ΔWC)
-    const fcf = totals.ebitda - erweitert.steuern_pa - erweitert.capex_pa;
-    const fcfMarge = e > 0 ? (fcf / e) * 100 : 0;
+    const fcf = ebitdaAnnualisiert - erweitert.steuern_pa - erweitert.capex_pa;
+    const fcfMarge = erloeseAnnualisiert > 0 ? (fcf / erloeseAnnualisiert) * 100 : 0;
     const fcfDscr = kapitaldienstGesamt > 0 ? fcf / kapitaldienstGesamt : 0;
 
     // ROCE = EBIT / (EK + langfr. FK)
     const capitalEmployed = bilanz.ek + bilanz.fk_langfr;
-    const roce = capitalEmployed > 0 ? (totals.ebit / capitalEmployed) * 100 : 0;
+    const roce = capitalEmployed > 0 ? (ebitAnnualisiert / capitalEmployed) * 100 : 0;
 
     // Personal-Produktivität
-    const umsatzProMa = erweitert.mitarbeiter > 0 ? totals.erloese / erweitert.mitarbeiter : 0;
+    const umsatzProMa = erweitert.mitarbeiter > 0 ? erloeseAnnualisiert / erweitert.mitarbeiter : 0;
 
     // YoY-Wachstum
     const umsatzwachstum = totalsVor && totalsVor.erloese > 0
@@ -250,8 +259,9 @@ const BwaGenerator = () => {
       zinsdeckung, dscr, currentRatio, liquiditaetsreserve,
       umsatzwachstum, ebitdaWachstum, kapitaldienstGesamt,
       leverage, fcf, fcfMarge, fcfDscr, roce, umsatzProMa,
+      ebitdaAnnualisiert,
     };
-  }, [totals, totalsVor, bilanz, bilanzsumme, kapitaldienst, erweitert, netDebt]);
+  }, [totals, totalsVor, bilanz, bilanzsumme, kapitaldienst, erweitert, netDebt, faktorJahr, periodeMonate]);
 
   // === BANK-AMPELN (branchenadjustiert) ===
   const ampel = useMemo(() => {
@@ -762,6 +772,7 @@ const BwaGenerator = () => {
         { label: "./. Cash + Bank", val: `${formatEur(bilanz.cash)} €` },
         { label: "= Net Debt", val: `${formatEur(netDebt)} €`, bold: true },
         { label: "EBITDA (Periode)", val: `${formatEur(totals.ebitda)} €` },
+        ...(periodeMonate !== 12 ? [{ label: `EBITDA hochgerechnet (× 12/${periodeMonate})`, val: `${formatEur(kpis.ebitdaAnnualisiert)} €` }] : []),
         { label: "Net Debt / EBITDA", val: kpis.leverage !== null ? `${kpis.leverage.toFixed(2)}x` : "—", bold: true },
         { label: "Banker-Schwelle", val: "<3,0x stark · 3-4,5x ok · >4,5x kritisch" },
       ];
@@ -777,7 +788,7 @@ const BwaGenerator = () => {
 
       h2("Free Cash Flow (FCF) — vereinfacht");
       const fcfRows = [
-        { label: "EBITDA", val: `${formatEur(totals.ebitda)} €` },
+        { label: periodeMonate !== 12 ? `EBITDA p.a. (hochgerechnet × 12/${periodeMonate})` : "EBITDA", val: `${formatEur(kpis.ebitdaAnnualisiert)} €` },
         { label: "./. Steuern p.a.", val: `${formatEur(erweitert.steuern_pa)} €` },
         { label: "./. CapEx (Investitionen p.a.)", val: `${formatEur(erweitert.capex_pa)} €` },
         { label: "= Free Cash Flow", val: `${formatEur(kpis.fcf)} €`, bold: true },
@@ -796,7 +807,7 @@ const BwaGenerator = () => {
 
       h2("Kapitaldienst-Fähigkeit (DSCR-Analyse)");
       const dscrRows = [
-        { label: "EBITDA (operativ)", val: `${formatEur(totals.ebitda)} €` },
+        { label: periodeMonate !== 12 ? `EBITDA p.a. (hochgerechnet × 12/${periodeMonate})` : "EBITDA (operativ)", val: `${formatEur(kpis.ebitdaAnnualisiert)} €` },
         { label: "+ Tilgung p.a.", val: `${formatEur(kapitaldienst.tilgung_pa)} €` },
         { label: "+ Zinsen p.a.", val: `${formatEur(kapitaldienst.zinsen_pa)} €` },
         { label: "= Kapitaldienst gesamt", val: `${formatEur(kpis.kapitaldienstGesamt)} €` },
@@ -890,6 +901,20 @@ const BwaGenerator = () => {
                 </Field>
                 <Field label="Zeitraum" htmlFor="bwa-zeitraum">
                   <Input id="bwa-zeitraum" value={zeitraum} onChange={(e) => setZeitraum(e.target.value)} placeholder="z. B. Q1 2026" />
+                </Field>
+                <Field label="Periodenlänge" hint="DSCR, Net Debt/EBITDA, FCF und ROCE werden auf 12 Monate hochgerechnet." htmlFor="bwa-periode">
+                  <select
+                    id="bwa-periode"
+                    value={periodeManuell ?? "auto"}
+                    onChange={(e) => setPeriodeManuell(e.target.value === "auto" ? null : Number(e.target.value))}
+                    className={selectCls}
+                  >
+                    <option value="auto">Automatisch ({periodeMonateAus(zeitraum)} Monat{periodeMonateAus(zeitraum) === 1 ? "" : "e"})</option>
+                    <option value="1">1 Monat</option>
+                    <option value="3">3 Monate (Quartal)</option>
+                    <option value="6">6 Monate (Halbjahr)</option>
+                    <option value="12">12 Monate (Jahr)</option>
+                  </select>
                 </Field>
               </div>
             </ToolSection>
@@ -1233,15 +1258,5 @@ const KpiCard = ({ label, val, status, hint }: { label: string; val: string; sta
     emphasis={status !== "neutral"}
   />
 );
-
-// === Helpers ===
-function hexToRgb(hex: string, alpha = 1): [number, number, number] {
-  const h = hex.replace("#", "");
-  const r = parseInt(h.slice(0, 2), 16);
-  const g = parseInt(h.slice(2, 4), 16);
-  const b = parseInt(h.slice(4, 6), 16);
-  void alpha;
-  return [r, g, b];
-}
 
 export default BwaGenerator;

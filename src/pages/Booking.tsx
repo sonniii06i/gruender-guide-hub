@@ -16,6 +16,8 @@ import {
   selectCls,
 } from "@/components/cockpit/kit";
 import { supabase } from "@/integrations/supabase/client";
+
+const SUPPORT_MAIL = "service@gruenderx.de";
 import { useAuth } from "@/hooks/useAuth";
 import {
   Calendar,
@@ -41,23 +43,27 @@ const buildIcsContent = (slotIso: string, topic: string, attendeeName: string, a
   const end = new Date(start.getTime() + 30 * 60 * 1000);
   const fmt = (d: Date) =>
     d.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
-  const uid = `${start.getTime()}-${attendeeEmail}@gruender-guide-hub`;
+  // RFC 5545: Textwerte escapen; CN in Anführungszeichen (sonst brechen ; oder , im Namen die Datei)
+  const esc = (s: string) => s.replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\r?\n/g, "\\n");
+  const cn = (s: string) => `"${s.replace(/["\r\n]/g, "")}"`;
+  const uid = `${start.getTime()}-${attendeeEmail.replace(/[^a-zA-Z0-9.@_-]/g, "")}@gruenderx.de`;
   const lines = [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
-    "PRODID:-//Gruender-Guide-Hub//1on1//DE",
+    "PRODID:-//GruenderX//1on1//DE",
     "CALSCALE:GREGORIAN",
-    "METHOD:REQUEST",
+    // PUBLISH statt REQUEST: Kalender-Programme schicken sonst Zu-/Absagen an den Organizer
+    "METHOD:PUBLISH",
     "BEGIN:VEVENT",
     `UID:${uid}`,
     `DTSTAMP:${fmt(new Date())}`,
     `DTSTART:${fmt(start)}`,
     `DTEND:${fmt(end)}`,
-    `SUMMARY:1:1 Strategie-Call — ${topic}`,
-    `DESCRIPTION:30 Min Strategie-Call zum Thema "${topic}". Google-Meet-Link kommt per Email am Termin-Tag.`,
-    "LOCATION:Google Meet (Link per Email)",
-    `ORGANIZER;CN=Gruender Guide Hub:mailto:hi@gruender-guide-hub.de`,
-    `ATTENDEE;CN=${attendeeName};RSVP=TRUE:mailto:${attendeeEmail}`,
+    `SUMMARY:${esc(`1:1 Strategie-Call — ${topic}`)}`,
+    `DESCRIPTION:${esc(`30 Min Strategie-Call zum Thema "${topic}". Google-Meet-Link kommt per E-Mail am Termin-Tag. Stornierung bis 24 h vorher an ${SUPPORT_MAIL}.`)}`,
+    "LOCATION:Google Meet (Link per E-Mail)",
+    `ORGANIZER;CN=GründerX:mailto:${SUPPORT_MAIL}`,
+    `ATTENDEE;CN=${cn(attendeeName)}:mailto:${attendeeEmail}`,
     "STATUS:CONFIRMED",
     "SEQUENCE:0",
     "BEGIN:VALARM",
@@ -725,7 +731,7 @@ const Booking = () => {
           },
           {
             q: "Stornierung möglich?",
-            a: "Bis 24 h vorher kostenlos per E-Mail. Danach wenn möglich verschieben statt stornieren.",
+            a: `Bis 24 h vorher kostenlos per E-Mail an ${SUPPORT_MAIL}. Danach wenn möglich verschieben statt stornieren.`,
           },
         ].map((f) => (
           <div key={f.q} className="rounded-2xl border border-border bg-card p-5 shadow-card">

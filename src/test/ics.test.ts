@@ -16,6 +16,17 @@ describe("iCalendar", () => {
     expect(ics.includes("\r\n")).toBe(true);
     for (const z of ics.split("\r\n")) expect(new TextEncoder().encode(z).length).toBeLessThanOrEqual(75);
   });
+  it("Serientermine mit gleichem Slug bekommen verschiedene UIDs", () => {
+    const x = baueIcs(
+      [
+        { uid: "meetup-abc", titel: "t", start: "2026-11-04" },
+        { uid: "meetup-abc", titel: "t", start: "2026-12-02" },
+      ],
+      "T",
+    );
+    expect(x).toContain("UID:meetup-abc-20261104@gruenderx.de");
+    expect(x).toContain("UID:meetup-abc-20261202@gruenderx.de");
+  });
   it("Ende vor Start wird ignoriert", () => {
     const x = baueIcs([{ uid: "b", titel: "t", start: "2026-11-18", ende: "2026-11-16" }], "T");
     expect(x).toContain("DTEND;VALUE=DATE:20261119");

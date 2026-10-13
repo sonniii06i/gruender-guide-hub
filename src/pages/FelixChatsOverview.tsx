@@ -27,7 +27,9 @@ export default function FelixChatsOverview() {
       setMatchingIds(null);
       return;
     }
-    const q = search.trim();
+    // % und _ sind ILIKE-Platzhalter → escapen, damit nach dem Zeichen selbst gesucht wird
+    const q = search.trim().replace(/[\\%_]/g, (c) => `\\${c}`);
+    let abgebrochen = false;
     const handle = setTimeout(async () => {
       const { data } = await supabase
         .from("chat_messages")
@@ -36,9 +38,14 @@ export default function FelixChatsOverview() {
         .ilike("content", `%${q}%`)
         .not("conversation_id", "is", null)
         .limit(500);
+      // Ältere Antworten dürfen eine neuere Suche nicht überschreiben
+      if (abgebrochen) return;
       setMatchingIds(new Set<string>((data ?? []).map((r: any) => r.conversation_id).filter(Boolean)));
     }, 200);
-    return () => clearTimeout(handle);
+    return () => {
+      abgebrochen = true;
+      clearTimeout(handle);
+    };
   }, [search, user]);
 
   const filtered = useMemo(() => {
@@ -63,16 +70,29 @@ export default function FelixChatsOverview() {
   const renameConv = async (id: string, currentTitle: string) => {
     const next = window.prompt("Chat umbenennen", currentTitle);
     if (!next || !next.trim()) return;
-    await supabase.from("chat_conversations").update({ title: next.trim() }).eq("id", id);
+    const { error } = await supabase.from("chat_conversations").update({ title: next.trim() }).eq("id", id);
+    if (error) {
+      toast.error("Umbenennen fehlgeschlagen. Bitte erneut versuchen.");
+      return;
+    }
     notifyConversationsChanged();
   };
 
   const deleteConv = async (id: string) => {
     if (!user) return;
     if (!window.confirm("Diesen Chat wirklich löschen?")) return;
-    await supabase.from("chat_messages").delete().eq("user_id", user.id).eq("conversation_id", id);
-    await supabase.from("chat_conversations").delete().eq("id", id);
+    // Erst die Konversation löschen: scheitert das (RLS, Netz), ist noch nichts verloren.
+    const { error: convError } = await supabase.from("chat_conversations").delete().eq("id", id);
+    if (convError) {
+      toast.error("Chat konnte nicht gelöscht werden. Bitte erneut versuchen.");
+      return;
+    }
+    const { error: msgError } = await supabase.from("chat_messages").delete().eq("user_id", user.id).eq("conversation_id", id);
     notifyConversationsChanged();
+    if (msgError) {
+      toast.error("Chat entfernt, aber die Nachrichten konnten nicht vollständig gelöscht werden. Bitte später erneut versuchen.");
+      return;
+    }
     toast.success("Chat gelöscht");
   };
 

@@ -1,4 +1,5 @@
 import { useMemo, useState, type ReactNode } from "react";
+import { solZ, gewStNatuerlich, gewStAnrechnung } from "@/lib/germanTax";
 import { Link } from "react-router-dom";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Input } from "@/components/ui/input";
@@ -110,7 +111,8 @@ function estSatzEffektiv(zvE: number): number {
   return estProgression(zvE) / zvE;
 }
 
-function calculateAll(s: Setup): StructureCalc[] {
+// eslint-disable-next-line react-refresh/only-export-components
+export function calculateAll(s: Setup): StructureCalc[] {
   const profit = s.jahresGewinn ?? 0;
   // Reinvest-Quote leitet sich aus Liquiditätsbedarf ab (Schritt 2 im Wizard).
   // Fallback: 50% wenn liquiditaetsbedarfPrivat nicht gesetzt.
@@ -124,7 +126,11 @@ function calculateAll(s: Setup): StructureCalc[] {
   // 1) Einzelunternehmen
   // ==========================================================
   {
-    const steuer = estProgression(profit);
+    // ESt + SolZ (auf ESt nach §35) + GewSt nach §35-Anrechnung (Hebesatz 400 % angenommen)
+    const est = estProgression(profit);
+    const gewst = gewStNatuerlich(profit, 400);
+    const anrechnung = Math.min(gewStAnrechnung(profit, est), gewst);
+    const steuer = est + solZ(Math.max(0, est - anrechnung)) + (gewst - anrechnung);
     const netto = profit - steuer;
     const fit = profit < 30000 ? 90 : profit < 60000 ? 60 : profit < 100000 ? 35 : 10;
     calcs.push({
@@ -445,17 +451,18 @@ function calculateAll(s: Setup): StructureCalc[] {
     // Bei DE-Wohnsitz: zusätzlich AbgSt 26,375% auf Dividende; EE-Distribution-Tax wird in DE NICHT
     // als KSt anrechenbar gesehen (Praxis: DBA DE-EE behandelt die EE-Distribution-Tax als Profits-Tax
     // der Gesellschaft, nicht der Anteilseigner — keine Anrechnung). Konservative Rechnung.
-    const inOu = profit * (1 - reinvest);
-    const eeDistTax = inOu * 0.22;
-    const ausgeschuettetBruttoNachEE = inOu - eeDistTax;
-    const abgStTeil = Math.min(liquid, ausgeschuettetBruttoNachEE);
+    // Bei DE-Wohnsitz OHNE Wegzug wird die OÜ von DE aus geführt → Ort der Geschäftsleitung in DE (§10 AO),
+    // unbeschränkte KSt- und GewSt-Pflicht in DE (§1 KStG). Die 0 % auf thesaurierte Gewinne gibt es dann nicht.
+    // Deshalb wie eine DE-Kapitalgesellschaft rechnen und die Variante nur nach Wegzug empfehlen.
+    const steuerGesellschaft = profit * KSt_PLUS_GEWST;
+    const abgStTeil = Math.min(liquid, profit - steuerGesellschaft);
     const deAbgSt = abgStTeil * ABG_ST;
-    const totalSteuer = eeDistTax + deAbgSt;
+    const totalSteuer = steuerGesellschaft + deAbgSt;
     const privatNetto = abgStTeil - deAbgSt;
-    const fit = profit < 200000 && reinvest > 0.5 && !s.vcPlanned ? 75 : 30;
+    const fit = 15;
     calcs.push({
       slug: "estland-ou",
-      name: "Estland OÜ (e-Residency)",
+      name: "Estland OÜ (nur nach Wegzug sinnvoll)",
       emoji: "🇪🇪",
       fitScore: fit,
       steuerProJahr: totalSteuer,
@@ -463,11 +470,11 @@ function calculateAll(s: Setup): StructureCalc[] {
       effektivPct: profit > 0 ? (totalSteuer / profit) * 100 : 0,
       steuer5Jahre: totalSteuer * 5,
       why: [
-        "**0 % Steuer auf reinvestierte Gewinne** (einzigartig in EU)",
-        "22 % EE-Distribution-Tax nur bei Ausschüttung",
+        "Nach Wegzug bzw. mit echter Geschäftsleitung in EE: 0 % auf reinvestierte Gewinne, 22 % nur bei Ausschüttung",
         "Setup in 5 Tagen via e-Residency, ~600 € all-in",
       ],
       caveats: [
+        "**Gerechnet mit DE-Wohnsitz:** Führst du die OÜ von DE aus, liegt der Ort der Geschäftsleitung in DE (§10 AO) → KSt + GewSt in DE wie bei einer GmbH (§1 KStG), die 0 % gelten nicht",
         "**§AStG-Hinzurechnung wahrscheinlich** bei DE-Wohnsitz + passiven Einkünften",
         "Bei DE-Wohnsitz: zusätzlich 26,375 % AbgSt auf Privat-Auszahlung (EE-Distribution-Tax wird NICHT angerechnet → effektiv ~42 % auf ausgeschütteten Anteil)",
         "Funktioniert sauber meist erst nach Wegzug aus DE",
@@ -482,8 +489,9 @@ function calculateAll(s: Setup): StructureCalc[] {
   // 10) Niederlande BV
   // ==========================================================
   if ((s.international === "eu" || s.international === "global") && profit >= 200000) {
-    const taxRate = profit <= 200000 ? 0.19 : 0.258;
-    const steuer = profit * taxRate;
+    // NL-Tarif stufig: 19 % bis 200.000 €, 25,8 % auf den übersteigenden Teil (Belastingdienst)
+    const steuer = 0.19 * Math.min(profit, 200000) + 0.258 * Math.max(0, profit - 200000);
+    const taxRate = profit > 0 ? steuer / profit : 0;
     const verfuegbar = profit - steuer;
     const ausgeschuettetPrivat = Math.min(liquid, verfuegbar);
     const steuerAbgSt = ausgeschuettetPrivat * ABG_ST;
@@ -500,13 +508,13 @@ function calculateAll(s: Setup): StructureCalc[] {
       effektivPct: profit > 0 ? (totalSteuer / profit) * 100 : 0,
       steuer5Jahre: totalSteuer * 5,
       why: [
-        `19 % bis 200k Gewinn, 25,8 % darüber (du: ${(taxRate * 100).toFixed(1)} %)`,
+        `19 % bis 200k Gewinn, 25,8 % darüber (du: ${(taxRate * 100).toFixed(1)} % Durchschnitt)`,
         s.hasIP ? "**Innovation Box: 9 % auf qualifizierten IP**" : "",
         "100 % Participation Exemption (besser als DE 95 %)",
         "EU-Mutter-Tochter-RL + Mutter-Tochter-Privileg",
       ].filter(Boolean),
       caveats: [
-        "Substance-Test seit 2024 verschärft (ATAD III)",
+        "Nur mit echter Geschäftsleitung in NL: Wird die BV von DE aus geführt, ist sie in DE unbeschränkt KSt- und GewSt-pflichtig (§10 AO, §1 KStG)",
         "Setup 1,5–3k € + Doppel-Buchhaltung mit DE",
       ],
       setupCost: 3000,
@@ -823,7 +831,7 @@ const EntscheidungsEngine = () => {
                     <option value={0.14}>14 % (geringes Einkommen)</option>
                     <option value={0.24}>24 % (mittel)</option>
                     <option value={0.32}>32 %</option>
-                    <option value={0.42}>42 % (Spitzensatz ab 62k)</option>
+                    <option value={0.42}>42 % (Spitzensatz ab 69.879 €)</option>
                     <option value={0.45}>45 % (Reichensteuer ab 278k)</option>
                   </select>
                 </Field>
@@ -952,15 +960,29 @@ const Results = ({
               </KitTable>
             </ToolSection>
 
-            {top3.length >= 2 && top3[1].steuer5Jahre > top3[0].steuer5Jahre && (
-              <StatTile
-                emphasis
-                tone="success"
-                label="Ersparnis über 5 Jahre, wenn du Platz 1 statt Platz 2 wählst"
-                value={eur0(top3[1].steuer5Jahre - top3[0].steuer5Jahre)}
-                hint="Differenz der kumulierten Steuern bei gleichbleibendem Gewinn"
-              />
-            )}
+            {top3.length >= 2 && top3[1].steuer5Jahre > top3[0].steuer5Jahre && (() => {
+              // Nur bei gleicher Privatentnahme vergleichbar: thesaurierende Strukturen schieben Steuer nur auf
+              const pn0 = top3[0].privatNettoProJahr;
+              const pn1 = top3[1].privatNettoProJahr;
+              const gleich = Math.abs(pn0 - pn1) <= 0.01 * Math.max(1, Math.abs(pn0), Math.abs(pn1));
+              const proEuro = (c: StructureCalc) => (c.privatNettoProJahr > 0 ? c.steuerProJahr / c.privatNettoProJahr : null);
+              const fmt = (v: number | null) => (v === null ? "—" : `${v.toFixed(2).replace(".", ",")} €`);
+              return gleich ? (
+                <StatTile
+                  emphasis
+                  tone="success"
+                  label="Ersparnis über 5 Jahre, wenn du Platz 1 statt Platz 2 wählst"
+                  value={eur0(top3[1].steuer5Jahre - top3[0].steuer5Jahre)}
+                  hint="Differenz der kumulierten Steuern bei gleichem Gewinn und gleicher Privatentnahme"
+                />
+              ) : (
+                <StatTile
+                  label="Steuer je € privat verfügbar (Platz 1 / Platz 2)"
+                  value={`${fmt(proEuro(top3[0]))} / ${fmt(proEuro(top3[1]))}`}
+                  hint="Platz 1 und 2 entnehmen unterschiedlich viel privat. Eine niedrigere Steuer bei Thesaurierung ist nur aufgeschoben, deshalb keine direkte Ersparnis."
+                />
+              );
+            })()}
           </div>
         </div>
 

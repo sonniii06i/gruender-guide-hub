@@ -15,12 +15,14 @@ export type ErRechnung = {
   faellig: string;
   leistungsdatum: string;
   waehrung: string;
+  /** Gesetzt, wenn der Währungscode in der XML kein gültiger ISO-4217-Code war (dann wird EUR angezeigt). */
+  waehrungUngueltig?: string;
   kaeuferReferenz: string;
   verkaeufer: ErPartei;
   kaeufer: ErPartei;
   positionen: ErPosition[];
   steuern: ErSteuer[];
-  summen: { positionen: number; rabatte: number; zuschlaege: number; netto: number; steuer: number; brutto: number; zahlbar: number; vorausbezahlt: number };
+  summen: { positionen: number; rabatte: number; zuschlaege: number; netto: number; steuer: number; brutto: number; zahlbar: number; vorausbezahlt: number; rundung: number };
   /** Rabatte (−) und Zuschläge (+) auf Belegebene. */
   zuAbschlaege: { grund: string; betrag: number }[];
   zahlung: { iban: string; bic: string; kontoinhaber: string; verwendungszweck: string; bedingungen: string };
@@ -123,10 +125,16 @@ function parseCii(doc: Element): ErRechnung {
       rabatte: zahl(txt(sum, "AllowanceTotalAmount")),
       zuschlaege: zahl(txt(sum, "ChargeTotalAmount")),
       netto: zahl(txt(sum, "TaxBasisTotalAmount")),
-      steuer: zahl(kinder(sum, "TaxTotalAmount")[0]?.textContent ?? "0"),
+      // TaxTotalAmount kann zweimal vorkommen (Rechnungs- und Buchwährung) → das in Rechnungswährung nehmen
+      steuer: zahl(
+        (kinder(sum, "TaxTotalAmount").find((e) => (e.getAttribute("currencyID") ?? txt(st, "InvoiceCurrencyCode")) === txt(st, "InvoiceCurrencyCode"))
+          ?? kinder(sum, "TaxTotalAmount")[0])?.textContent ?? "0",
+      ),
       brutto: zahl(txt(sum, "GrandTotalAmount")),
       zahlbar: zahl(txt(sum, "DuePayableAmount")),
       vorausbezahlt: zahl(txt(sum, "TotalPrepaidAmount")),
+      // BT-114 Rundungsbetrag (CII)
+      rundung: zahl(txt(sum, "RoundingAmount")),
     },
     zahlung: {
       iban: txt(pm, "PayeePartyCreditorFinancialAccount", "IBANID"),
@@ -210,6 +218,8 @@ function parseUbl(doc: Element): ErRechnung {
       brutto: zahl(txt(sum, "TaxInclusiveAmount")),
       zahlbar: zahl(txt(sum, "PayableAmount")),
       vorausbezahlt: zahl(txt(sum, "PrepaidAmount")),
+      // BT-114 Rundungsbetrag (UBL)
+      rundung: zahl(txt(sum, "PayableRoundingAmount")),
     },
     zahlung: {
       iban: txt(pm, "PayeeFinancialAccount", "ID"),
@@ -224,12 +234,22 @@ function parseUbl(doc: Element): ErRechnung {
 
 export class ErFehler extends Error {}
 
+/** ISO-4217-Code prüfen: ungültige Codes ("EURO", " EUR") würden toLocaleString mit RangeError abstürzen lassen. */
+function mitWaehrung(r: ErRechnung): ErRechnung {
+  const roh = (r.waehrung || "").trim().toUpperCase();
+  let gueltig = /^[A-Z]{3}$/.test(roh);
+  if (gueltig) {
+    try { (0).toLocaleString("de-DE", { style: "currency", currency: roh }); } catch { gueltig = false; }
+  }
+  return gueltig ? { ...r, waehrung: roh } : { ...r, waehrung: "EUR", waehrungUngueltig: r.waehrung };
+}
+
 export function leseERechnung(xml: string): ErRechnung {
   const doc = new DOMParser().parseFromString(xml, "application/xml");
   if (doc.getElementsByTagName("parsererror").length) throw new ErFehler("Die Datei ist kein gültiges XML.");
   const wurzel = doc.documentElement;
-  if (wurzel.localName === "CrossIndustryInvoice") return parseCii(wurzel);
-  if (wurzel.localName === "Invoice" || wurzel.localName === "CreditNote") return parseUbl(wurzel);
+  if (wurzel.localName === "CrossIndustryInvoice") return mitWaehrung(parseCii(wurzel));
+  if (wurzel.localName === "Invoice" || wurzel.localName === "CreditNote") return mitWaehrung(parseUbl(wurzel));
   throw new ErFehler(`Unbekanntes Format („${wurzel.localName}“). Unterstützt: XRechnung/ZUGFeRD in CII- oder UBL-Syntax.`);
 }
 
@@ -246,15 +266,19 @@ export function ibanGueltig(iban: string): boolean {
 const r2 = (n: number) => Math.round(n * 100) / 100;
 const gleich = (a: number, b: number) => Math.abs(a - b) <= 0.011;
 
-/** Rechnerische Prüfung nach den EN-16931-Regeln (BR-CO-10/15/16/17) plus IBAN. */
+/** Rechnerische Prüfung nach den EN-16931-Regeln (BR-CO-10/13/15/16/17) plus IBAN. */
 export function pruefeERechnung(r: ErRechnung): ErPruefung[] {
   const p: ErPruefung[] = [];
+  if (r.waehrungUngueltig !== undefined) {
+    p.push({ ok: false, text: `Ungültiger Währungscode „${r.waehrungUngueltig}“ in der Datei – Beträge werden in EUR angezeigt, bitte beim Absender prüfen` });
+  }
   const summePos = r2(r.positionen.reduce((n, x) => n + x.netto, 0));
   const zwischen = r.summen.positionen || summePos;
   p.push({ ok: gleich(summePos, zwischen), text: `Summe der Positionen ${summePos.toFixed(2)} = Positionssumme ${zwischen.toFixed(2)} (BR-CO-10)` });
   const netto = r2(zwischen - r.summen.rabatte + r.summen.zuschlaege);
   p.push({
-    ok: gleich(netto, r.summen.netto) || r.summen.netto === 0,
+    // Netto 0 trotz Positionen ist ein Fehler (vorher bestand die Prüfung dann immer)
+    ok: gleich(netto, r.summen.netto) && !(r.summen.netto === 0 && r.positionen.some((x) => x.netto !== 0)),
     text: r.summen.rabatte || r.summen.zuschlaege
       ? `Positionen ${zwischen.toFixed(2)} − Rabatte ${r.summen.rabatte.toFixed(2)} + Zuschläge ${r.summen.zuschlaege.toFixed(2)} = Netto ${r.summen.netto.toFixed(2)} (BR-CO-13)`
       : `Nettobetrag ${r.summen.netto.toFixed(2)} stimmt mit den Positionen überein (BR-CO-13)`,
@@ -264,6 +288,15 @@ export function pruefeERechnung(r: ErRechnung): ErPruefung[] {
     p.push({ ok: gleich(soll, s.betrag), text: `Steuer ${s.satz} % auf ${s.basis.toFixed(2)} = ${soll.toFixed(2)} (ausgewiesen ${s.betrag.toFixed(2)})` });
   }
   p.push({ ok: gleich(r2(r.summen.netto + r.summen.steuer), r.summen.brutto), text: `Netto + Steuer = Brutto (${r.summen.brutto.toFixed(2)})` });
+  // BR-CO-16 (EN 16931-1): BT-115 Zahlbetrag = BT-112 Brutto − BT-113 Vorauszahlung + BT-114 Rundungsbetrag
+  if (r.summen.zahlbar || r.summen.vorausbezahlt || r.summen.rundung) {
+    const sollZahlbar = r2(r.summen.brutto - r.summen.vorausbezahlt + r.summen.rundung);
+    const rundTxt = r.summen.rundung ? ` ${r.summen.rundung < 0 ? "−" : "+"} Rundung ${Math.abs(r.summen.rundung).toFixed(2)}` : "";
+    p.push({
+      ok: gleich(sollZahlbar, r.summen.zahlbar),
+      text: `Brutto ${r.summen.brutto.toFixed(2)} − Vorauszahlung ${r.summen.vorausbezahlt.toFixed(2)}${rundTxt} = Zahlbetrag ${r.summen.zahlbar.toFixed(2)} (BR-CO-16)`,
+    });
+  }
   if (r.zahlung.iban) p.push({ ok: ibanGueltig(r.zahlung.iban), text: `IBAN-Prüfziffer ${ibanGueltig(r.zahlung.iban) ? "gültig" : "UNGÜLTIG – nicht überweisen, beim Absender nachfragen"}` });
   p.push({ ok: !!(r.verkaeufer.ustId || r.verkaeufer.steuernummer), text: r.verkaeufer.ustId || r.verkaeufer.steuernummer ? "USt-IdNr. oder Steuernummer des Absenders vorhanden" : "Weder USt-IdNr. noch Steuernummer des Absenders – Pflichtangabe fehlt" });
   return p;

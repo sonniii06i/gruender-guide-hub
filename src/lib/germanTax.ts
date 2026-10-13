@@ -15,6 +15,8 @@ export const SOLZ_RATE = 0.055;
 /** Solidaritätszuschlag-Freigrenze 2026 für Single (bis zu dieser festgesetzten ESt fällt kein SolZ an).
  *  2026: Single 20.350 € / Zusammenveranlagung 40.700 € (2025: 19.950 € / 39.900 €). */
 export const SOLZ_FREIGRENZE_SINGLE = 20350;
+/** SolZ-Freigrenze 2026 bei Zusammenveranlagung (§3 Abs. 3 Satz 1 Nr. 1 SolzG 1995 i. d. F. des Steuerfortentwicklungsgesetzes). */
+export const SOLZ_FREIGRENZE_VERHEIRATET = 40700;
 
 /** Körperschaftsteuer-Satz seit 2008. */
 export const KST_RATE = 0.15;
@@ -70,8 +72,9 @@ export const BBG_RV_WEST_JAHR = 101400; // 8.450 €/Monat × 12
  *  Quelle: Sozialversicherungsrechengrößen-Verordnung 2026. Vorjahr 2025: 66.150 €. */
 export const BBG_KV_JAHR = 69750;
 
-/** Sozialversicherung KV+PV gesamt-Quote (kinderlos, Stand 2026). */
-export const SV_QUOTE_KV_PV = 0.205;
+/** Sozialversicherung KV+PV gesamt-Quote (kinderlos, Stand 2026):
+ *  KV 14,6 % (§241 SGB V) + Ø-Zusatzbeitrag 2026 2,9 % (BMG-Bekanntmachung) + PV 3,6 % + 0,6 % Kinderlosenzuschlag (§55 SGB XI) = 21,7 %. */
+export const SV_QUOTE_KV_PV = 0.217;
 
 /** Sozialversicherung RV+AV gesamt-Quote (Stand 2026). */
 export const SV_QUOTE_RV_AV = 0.212;
@@ -143,11 +146,12 @@ export function grenzSteuerSatz(zvE: number): number {
  * @param steuer Berechnete ESt oder KSt
  * @returns SolZ in €
  */
-export function solZ(steuer: number): number {
-  if (steuer <= SOLZ_FREIGRENZE_SINGLE) return 0;
+export function solZ(steuer: number, freigrenze: number = SOLZ_FREIGRENZE_SINGLE): number {
+  if (steuer <= freigrenze) return 0;
   // Milderungszone (§4 SolzG): SolZ = min(5,5 % der Steuer; 11,9 % des Betrags über der Freigrenze).
   // Voller Satz greift damit 2026 ab ESt ≈ 37.838 € (Single), nicht ab einem festen 32.000-€-Wert.
-  return Math.min(steuer * SOLZ_RATE, 0.119 * (steuer - SOLZ_FREIGRENZE_SINGLE));
+  // Zusammenveranlagung: Freigrenze 40.700 € (SOLZ_FREIGRENZE_VERHEIRATET) übergeben.
+  return Math.min(steuer * SOLZ_RATE, 0.119 * (steuer - freigrenze));
 }
 
 /**
@@ -270,4 +274,16 @@ export function calcTevSteuer(
 export function annuityFV(annualPayment: number, rate: number, years: number): number {
   if (rate === 0) return annualPayment * years;
   return (annualPayment * (Math.pow(1 + rate, years) - 1)) / rate;
+}
+
+/**
+ * Barwert einer nachschüssigen Zahlungsreihe (gleiche Zahlung am Ende jedes Jahres).
+ * @param zahlungProJahr jährliche Zahlung
+ * @param zins Abzinsungssatz (z. B. 0.025)
+ * @param jahre Anzahl Jahre
+ */
+export function barwertAnnuitaet(zahlungProJahr: number, zins: number, jahre: number): number {
+  if (jahre <= 0) return 0;
+  if (zins === 0) return zahlungProJahr * jahre;
+  return zahlungProJahr * (1 - Math.pow(1 + zins, -jahre)) / zins;
 }

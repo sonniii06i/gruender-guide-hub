@@ -101,6 +101,10 @@ interface QuelleInfo {
   ueberSchwelle: string;
   /** Spezielle Stolperfalle. */
   warnung?: string;
+  /** Worauf sich die Schwelle bezieht: Gewinn/Einkünfte (§23, §22 Nr. 3) oder Einnahmen/Umsatz */
+  betragsArt?: "gewinn" | "einnahmen";
+  /** Freigrenze mit Wortlaut "weniger als" → genau die Grenze ist schon steuerpflichtig */
+  wenigerAls?: boolean;
 }
 
 const QUELLEN: QuelleInfo[] = [
@@ -111,7 +115,9 @@ const QUELLEN: QuelleInfo[] = [
     schwelle: SCHWELLEN_2026.PRIV_VERAEUSSERUNG_23,
     schwellenName: "§23 EStG Freigrenze + Spekulationsfrist 1 Jahr",
     paragraph: "§23 EStG",
-    unterSchwelle: "Steuerfrei wenn (a) Spekulationsfrist 1 Jahr eingehalten ODER (b) Gesamtgewinn aller §23-Geschäfte < 1.000 € pro Jahr (Freigrenze, KEIN Freibetrag — bei 1.001 € voller Betrag steuerpflichtig).",
+    betragsArt: "gewinn",
+    wenigerAls: true,
+    unterSchwelle: "Gegenstände des täglichen Gebrauchs (Kleidung, Möbel, Handy, Auto) sind gar kein §23-Fall (§23 Abs. 1 Satz 1 Nr. 2 Satz 2 EStG) — ihr Verkauf ist steuerfrei. Für andere Wirtschaftsgüter (z. B. Sammlerstücke, Gold): steuerfrei wenn (a) Spekulationsfrist 1 Jahr eingehalten ODER (b) Gesamtgewinn aller §23-Geschäfte weniger als 1.000 € pro Jahr (Freigrenze, KEIN Freibetrag — ab 1.000 € Gewinn ist der volle Betrag steuerpflichtig).",
     ueberSchwelle: "Voller Gewinn steuerpflichtig mit deinem persönlichen ESt-Satz. Verluste aus §23-Geschäften können nur mit anderen §23-Gewinnen verrechnet werden (Vortrag möglich).",
     warnung: "DAC7-Meldung: Plattformen wie eBay, Vinted, Kleinanzeigen sind seit 2023 verpflichtet, das Finanzamt zu informieren wenn du ≥ 30 Verkäufe ODER ≥ 2.000 € Umsatz pro Jahr hast. Auch wenn steuerfrei — die Meldung kommt.",
   },
@@ -166,6 +172,8 @@ const QUELLEN: QuelleInfo[] = [
     schwelle: SCHWELLEN_2026.PRIV_VERAEUSSERUNG_23,
     schwellenName: "§23 EStG Freigrenze + Spekulationsfrist 1 Jahr",
     paragraph: "§23 EStG",
+    betragsArt: "gewinn",
+    wenigerAls: true,
     unterSchwelle: "Steuerfrei wenn (a) > 1 Jahr gehalten ODER (b) Gesamtgewinn < 1.000 €/Jahr (Freigrenze). FIFO-Methode für Kauf/Verkauf-Zuordnung.",
     ueberSchwelle: "Voller Gewinn steuerpflichtig mit persönlichem ESt-Satz (i.d.R. höher als die 25 % Abgeltungsteuer für Kapitalerträge). Verluste vortragbar.",
     warnung: "Staking/Lending = KEINE 10-Jahres-Frist — es bleibt bei 1 Jahr (§23 EStG; BMF 06.03.2025, BFH IX R 3/22). Plus: ab 2026 Pflicht zur Plattform-Meldung (CARF — Crypto-Asset Reporting Framework, OECD-Standard).",
@@ -185,10 +193,11 @@ const QUELLEN: QuelleInfo[] = [
     v: "vermietung",
     label: "Vermietung (Zimmer, Airbnb, Garage)",
     emoji: "🏠",
-    schwelle: 256,
-    schwellenName: "Gelegentliche Vermietung Freigrenze § 22 Nr. 3 EStG (256 €/J)",
-    paragraph: "§21 EStG + ggf. §22",
-    unterSchwelle: "Bei GELEGENTLICHER Vermietung (z.B. einmal im Jahr Airbnb-Wochenende) bis 256 €/Jahr steuerfrei nach §22 EStG. Bei laufender Vermietung: immer Anlage V, kein Freibetrag.",
+    schwelle: 520,
+    schwellenName: "Untervermietung: Vereinfachungsgrenze 520 €/J (R 21.2 Abs. 1 EStR)",
+    paragraph: "§21 EStG",
+    betragsArt: "einnahmen",
+    unterSchwelle: "Zimmer, Wohnung, Airbnb und Garage sind Vermietung und Verpachtung (§21 EStG), nicht §22 Nr. 3. Bei vorübergehender Untervermietung von Teilen der selbst genutzten Wohnung kann das Finanzamt aus Vereinfachungsgründen von einer Besteuerung absehen, wenn die Einnahmen 520 €/Jahr nicht übersteigen (R 21.2 Abs. 1 EStR). Die 256-€-Freigrenze des §22 Nr. 3 gilt nur für die Vermietung beweglicher Gegenstände (z. B. Auto, Werkzeug).",
     ueberSchwelle: "Anlage V (Vermietung) in Steuererklärung. Einnahmen minus Werbungskosten (AfA, Zinsen, Reparaturen, Maklergebühren) = zu versteuerndes Einkommen.",
     warnung: "Bei Airbnb / dauerhafter Touristenvermietung: zusätzlich USt-Pflicht ab 25k Umsatz UND eventuell Beherbergungssteuer der Stadt. DAC7-Meldung greift auch hier.",
   },
@@ -199,7 +208,9 @@ const QUELLEN: QuelleInfo[] = [
     schwelle: SCHWELLEN_2026.SONSTIGE_EINKUENFTE_22_NR_3,
     schwellenName: "§22 Nr. 3 EStG Sonstige-Einkünfte-Freigrenze",
     paragraph: "§22 Nr. 3 EStG",
-    unterSchwelle: "Bis 256 €/Jahr (Freigrenze, kein Freibetrag) STEUER-FREI. Bei 256,01 € sind ALLE sonstigen Einkünfte voll steuerpflichtig.",
+    betragsArt: "gewinn",
+    wenigerAls: true,
+    unterSchwelle: "Einkünfte (Einnahmen minus Werbungskosten) von weniger als 256 €/Jahr (Freigrenze, kein Freibetrag) sind STEUER-FREI. Ab 256 € sind ALLE sonstigen Einkünfte voll steuerpflichtig.",
     ueberSchwelle: "Anlage SO (Sonstige) zur ESt-Erklärung. Voller Betrag mit persönlichem Steuersatz.",
     warnung: "Beispiele: Casino-Gewinne (umstritten), Belohnungen, kleinere Vermittlungs-Tipps. Achtung: regelmäßige Einnahmen sind keine §22 Nr. 3 mehr, sondern Gewerbe/Freiberuf.",
   },
@@ -234,7 +245,8 @@ const SchwellenCheck = () => {
 
   const verdict = useMemo(() => {
     if (!quelle) return null;
-    const ueber = quelle.schwelle > 0 && eingenommen > quelle.schwelle;
+    // Freigrenzen mit Wortlaut "weniger als" (§23 Abs. 3 Satz 5, §22 Nr. 3 Satz 2 EStG): genau die Grenze ist steuerpflichtig
+    const ueber = quelle.schwelle > 0 && (quelle.wenigerAls ? eingenommen >= quelle.schwelle : eingenommen > quelle.schwelle);
     const grenze = quelle.schwellenName.includes("Freigrenze");
     return {
       ueber,
@@ -361,7 +373,7 @@ const SchwellenCheck = () => {
                 <div className="space-y-4 p-5 md:p-6">
                   {quelle.schwelle > 0 && (
                     <div>
-                      <Field label="Wie viel hast du dieses Jahr eingenommen?" htmlFor="sc-betrag">
+                      <Field label={quelle.betragsArt === "gewinn" ? "Wie viel Gewinn hast du dieses Jahr gemacht? (Verkaufspreis minus Anschaffungskosten)" : "Wie viel hast du dieses Jahr eingenommen?"} htmlFor="sc-betrag">
                         <div className="relative">
                           <Input
                             id="sc-betrag"
@@ -378,7 +390,7 @@ const SchwellenCheck = () => {
                       <div className="mt-4">
                         <div className="relative h-2.5 overflow-hidden rounded-full bg-secondary">
                           <div
-                            className={cn("absolute inset-y-0 left-0 rounded-full transition-all", eingenommen > quelle.schwelle ? "bg-warning" : "bg-success")}
+                            className={cn("absolute inset-y-0 left-0 rounded-full transition-all", verdict?.ueber ? "bg-warning" : "bg-success")}
                             style={{ width: `${Math.min(100, (eingenommen / skalaMax) * 100)}%` }}
                           />
                           {/* Schwelle-Marker */}
@@ -500,7 +512,7 @@ const SchwellenCheck = () => {
             <strong className="text-foreground">§22 Nr. 3 Sonstige (256 €) + Gewerbe</strong> nicht kumulierbar — sobald nachhaltig → Gewerbe
           </KombiZeile>
           <KombiZeile tone="warning">
-            <strong className="text-foreground">Kleinunternehmer + Freiberuf</strong> = ja, aber bei Nebeneinkünften aus Gewerbe greift Abfärbetheorie §15 Abs. 3 → ALLES Gewerbe (siehe Freiberuf-Check)
+            <strong className="text-foreground">Kleinunternehmer + Freiberuf</strong> = ja. Abfärbetheorie (§15 Abs. 3 Nr. 1 EStG) gilt nur für Personengesellschaften (GbR, PartG): dort macht gewerbliche Nebentätigkeit ALLES gewerblich. Als Einzelunternehmer:in kannst du Freiberuf und Gewerbe getrennt führen (getrennte Aufzeichnungen)
           </KombiZeile>
           <KombiZeile tone="warning">
             <strong className="text-foreground">Sparerpauschbetrag (1.000 €) + Crypto-Freigrenze (1.000 €)</strong> sind separat — du kannst beide voll nutzen

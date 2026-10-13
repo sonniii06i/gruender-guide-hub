@@ -29,12 +29,13 @@ import {
 
 type Rechtsform = "einzel" | "freiberuf" | "ug" | "gmbh";
 
-// Quartals-Termine (10.3, 10.6, 10.9, 10.12)
+// ESt/KSt-Vorauszahlungen: 10.3., 10.6., 10.9., 10.12. (§37 Abs. 1 EStG, §31 KStG)
+// GewSt-Vorauszahlungen: 15.2., 15.5., 15.8., 15.11. (§19 Abs. 1 GewStG)
 const TERMINE = [
-  { quartal: "Q1", datum: "10. März", monthIdx: 2 },
-  { quartal: "Q2", datum: "10. Juni", monthIdx: 5 },
-  { quartal: "Q3", datum: "10. September", monthIdx: 8 },
-  { quartal: "Q4", datum: "10. Dezember", monthIdx: 11 },
+  { quartal: "Q1", datum: "10. März", gewstDatum: "15. Februar", monthIdx: 2 },
+  { quartal: "Q2", datum: "10. Juni", gewstDatum: "15. Mai", monthIdx: 5 },
+  { quartal: "Q3", datum: "10. September", gewstDatum: "15. August", monthIdx: 8 },
+  { quartal: "Q4", datum: "10. Dezember", gewstDatum: "15. November", monthIdx: 11 },
 ];
 
 const QuartalsSteuer = () => {
@@ -103,7 +104,7 @@ const QuartalsSteuer = () => {
     <CockpitShell
       eyebrow="Quartals-Steuerschätzung"
       title="Vorauszahlungs-Plan ESt + KSt + GewSt + SolZ"
-      subtitle="Was musst du am 10.3., 10.6., 10.9. und 10.12. zurücklegen? Mit Soll-Ist-Abgleich gegen bisherige Vorauszahlungen und Empfehlung für einen Anpassungsantrag, wenn deine Schätzung stark abweicht."
+      subtitle="Was musst du zu den Vorauszahlungsterminen zurücklegen (ESt/KSt 10.3., 10.6., 10.9., 10.12.; GewSt 15.2., 15.5., 15.8., 15.11.)? Mit Soll-Ist-Abgleich gegen bisherige Vorauszahlungen und Empfehlung für einen Anpassungsantrag, wenn deine Schätzung stark abweicht."
     >
       <ToolLayout
         className="mb-8"
@@ -271,8 +272,10 @@ const QuartalsSteuer = () => {
           <thead>
             <tr>
               <th>Quartal</th>
-              <th>Termin</th>
+              <th>Termin ESt/KSt</th>
+              <th>Termin GewSt</th>
               <th className="!text-right">Quartals-VZ</th>
+              <th className="!text-right">davon GewSt</th>
               <th className="!text-right">Kumuliert</th>
               <th className="!text-right">Status</th>
             </tr>
@@ -286,7 +289,9 @@ const QuartalsSteuer = () => {
                 <tr key={i} className={istAktuell ? "bg-accent/60" : undefined}>
                   <td className="font-semibold">{t.quartal}</td>
                   <td className="whitespace-nowrap text-muted-foreground">{t.datum}</td>
+                  <td className="whitespace-nowrap text-muted-foreground">{t.gewstDatum}</td>
                   <td className="text-right">{eur(proQuartal)}</td>
+                  <td className="text-right">{eur(jahresSteuer.gewSt / 4)}</td>
                   <td className="text-right">{eur(sollKumuliert)}</td>
                   <td className="text-right">
                     {istVergangen && <ToneBadge tone="success">vergangen</ToneBadge>}
@@ -307,7 +312,7 @@ const QuartalsSteuer = () => {
             der letzten ESt-/KSt-Festsetzung fest. Ohne Anpassung läuft das automatisch.
           </li>
           <li>
-            <strong className="text-foreground">Frist:</strong> immer der 10. des Monats (10.3, 10.6, 10.9, 10.12). Bei Fristversäumnis
+            <strong className="text-foreground">Fristen:</strong> ESt/KSt am 10.3., 10.6., 10.9. und 10.12.; die Gewerbesteuer an die Gemeinde am 15.2., 15.5., 15.8. und 15.11. (§19 Abs. 1 GewStG). Bei Fristversäumnis
             1 % Säumniszuschlag pro angefangenem Monat (§240 AO).
           </li>
           <li>
@@ -337,8 +342,8 @@ const QuartalsSteuer = () => {
           </li>
           <li>
             <strong className="text-foreground">Ist-Steuer vs. Schätzung:</strong> Bei großen Abweichungen (&gt; 50 % vom Soll)
-            droht Steuer-Strafe wegen "leichtfertiger Steuerverkürzung" (§378 AO). Daher Anpassungsantrag
-            stellen, nicht ignorieren.
+            drohen nach der Veranlagung eine hohe Nachzahlung auf einen Schlag und Nachzahlungszinsen (§233a AO, 0,15 % pro Monat
+            ab dem 15. Monat nach Jahresende). Ein Anpassungsantrag verteilt die Last und schont die Liquidität.
           </li>
         </ul>
       </ToolSection>

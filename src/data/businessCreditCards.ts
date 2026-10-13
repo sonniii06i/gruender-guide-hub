@@ -300,7 +300,7 @@ export const BIZ_CARDS: BizCard[] = [
     bestFor: "★ Premium-Vielreiser: max. Versicherung + 58 Tage Liquidität",
     watchouts: [
       "850 €/Jahr ist hoch",
-      "Lufthansa-Lounge-Kooperation endet 30.09.2026",
+      "Lufthansa-Lounge-Kooperation ist am 30.09.2026 ausgelaufen",
       "Amex-Akzeptanz in DE schlechter als Visa/Mastercard",
     ],
     url: AMEX_REFERRAL.platinum,
@@ -447,7 +447,7 @@ export const DECISION_GUIDE: { profile: string; pick: string; why: string }[] = 
   {
     profile: "Premium-Vielreiser / Liquiditäts-Puffer / Versicherungen",
     pick: "Amex Business Gold (175 €) — Allrounder; Platinum (850 €) — Maximum",
-    why: "Zahlungsziel finanziert Ad-Spend/Wareneinkauf bis zur Abrechnung, beste Reise-/Mietwagen-Versicherungen + MR-Punkte. Lounge-Kooperation läuft Sep 2026 aus.",
+    why: "Zahlungsziel finanziert Ad-Spend/Wareneinkauf bis zur Abrechnung, beste Reise-/Mietwagen-Versicherungen + MR-Punkte. Die Lufthansa-Lounge-Kooperation ist Ende Sep 2026 ausgelaufen.",
   },
   {
     profile: "Performance-Marketer mit hohem Ad-Spend (Meta/TikTok/Google)",

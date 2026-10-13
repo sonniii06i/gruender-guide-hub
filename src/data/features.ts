@@ -191,7 +191,7 @@ const _CATEGORIES_RAW: FeatureCategory[] = [
       { slug: "vergleich-buchhaltung", title: "Buchhaltung", desc: "Lexoffice, sevDesk, DATEV, Candis.", status: "beta", route: "/anbieter?cat=Buchhaltung" },
       { slug: "vergleich-banking-de", title: "Banking DE", desc: "Holvi, Qonto, Finom, Vivid.", status: "beta", route: "/anbieter?cat=Banking+DE" },
       { slug: "vergleich-banking-us", title: "Banking US", desc: "Mercury, Wise, Relay, Brex.", status: "beta", route: "/anbieter?cat=Banking+US" },
-      { slug: "vergleich-3pl", title: "3PL / Fulfillment", desc: "Byrd, ShipBob, FromSpace.", status: "beta", route: "/anbieter?cat=3PL" },
+      { slug: "vergleich-3pl", title: "3PL / Fulfillment", desc: "Byrd, ShipBob, Warehousing1.", status: "beta", route: "/anbieter?cat=3PL" },
       { slug: "vergleich-lucid", title: "LUCID / Verpackung", desc: "Lizenzero, Reclay, BellandVision.", status: "beta", route: "/anbieter?cat=LUCID" },
       { slug: "vergleich-shop", title: "Shop-Systeme", desc: "Shopify, Shopware, Woo, Headless.", status: "beta", route: "/anbieter?cat=Shop-System" },
       { slug: "vergleich-email", title: "Pixel / Email", desc: "Klaviyo, Brevo, ActiveCampaign.", status: "beta", route: "/anbieter?cat=Email" },
@@ -221,9 +221,10 @@ export const CATEGORIES: FeatureCategory[] = ORDER
   .map((slug) => _CATEGORIES_RAW.find((c) => c.slug === slug)!)
   .filter(Boolean);
 
-// Live-Tool-Anzahl einer Kategorie — damit Texte wie "X Tools" nie veralten.
+// Nutzbare Tools einer Kategorie (gleiche Zählweise wie TOOL_COUNT: nur live/beta, interne Route) —
+// "Bald"/"Geplant" und externe Links zählen nicht als Tool.
 export const categoryToolCount = (slug: string): number =>
-  CATEGORIES.find((c) => c.slug === slug)?.features.length ?? 0;
+  LANDING_TOOLS.filter((t) => t.categorySlug === slug).length;
 
 export const STATUS_LABEL: Record<FeatureStatus, string> = {
   live: "Live",

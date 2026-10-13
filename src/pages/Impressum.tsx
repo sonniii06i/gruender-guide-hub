@@ -33,7 +33,7 @@ const Impressum = () => (
       <div className="container max-w-3xl px-4 py-10 md:py-14">
       <div className="prose prose-slate max-w-none rounded-2xl border border-border bg-card p-5 shadow-card prose-headings:scroll-mt-24 prose-headings:tracking-tight prose-a:text-accent-blue sm:p-8 md:p-10">
 
-      <h2 className="mt-8 mb-3 text-xl font-semibold md:text-2xl">Angaben gemäß § 5 TMG</h2>
+      <h2 className="mt-8 mb-3 text-xl font-semibold md:text-2xl">Angaben gemäß § 5 DDG</h2>
       <h3 className="font-semibold mt-4">Verantwortlich für den Inhalt:</h3>
       <p>Sonni Buttke<br />Einzelunternehmen<br />(Aktuell Ummeldung auf GründerX GmbH im Gange)</p>
 
@@ -60,9 +60,11 @@ const Impressum = () => (
       <h2 className="mt-8 mb-3 text-xl font-semibold md:text-2xl">Haftungsausschluss</h2>
       <h3 className="font-semibold mt-4">Haftung für Inhalte</h3>
       <p>
-        Als Diensteanbieter sind wir gemäß § 7 Abs. 1 TMG für eigene Inhalte auf diesen Seiten nach
-        den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter
-        jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen
+        {/* TMG seit 14.05.2024 durch das Digitale-Dienste-Gesetz (DDG) ersetzt; Haftungsprivilegien
+            für fremde Informationen jetzt in Art. 4–8 Verordnung (EU) 2022/2065 (DSA). */}
+        Als Diensteanbieter sind wir für eigene Inhalte auf diesen Seiten nach den allgemeinen
+        Gesetzen verantwortlich. Nach Art. 4 bis 8 der Verordnung (EU) 2022/2065 (Digital Services Act)
+        sind wir als Vermittlungsdienst jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen
         oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.
       </p>
       <h3 className="font-semibold mt-4">Haftung für Links</h3>
@@ -79,7 +81,7 @@ const Impressum = () => (
         des jeweiligen Autors bzw. Erstellers.
       </p>
 
-      <h2 className="mt-8 mb-3 text-xl font-semibold md:text-2xl">Affiliate- und Werbe-Hinweis (§ 6 TMG)</h2>
+      <h2 className="mt-8 mb-3 text-xl font-semibold md:text-2xl">Affiliate- und Werbe-Hinweis (§ 6 DDG)</h2>
       <p>
         Auf GründerX werden externe Anbieter (z. B. für Banking, Buchhaltung, Versand, Domains,
         Shop-Systeme) verlinkt. Ein Teil dieser Links sind <strong>Partner-Links / Affiliate-Links</strong>{" "}

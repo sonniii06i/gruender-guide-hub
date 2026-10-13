@@ -126,13 +126,14 @@ const RechnungsGenerator = () => {
   const [data, setData] = useState<RechnungsData>(() => {
     const base: RechnungsData = { sender: emptySender, ...emptyInvoice() };
     if (typeof window === "undefined") return base;
-    const savedCompany = localStorage.getItem(LS_COMPANY_KEY);
-    if (savedCompany) {
-      try {
+    // localStorage kann werfen (Safari privat, blockierter Speicher)
+    try {
+      const savedCompany = localStorage.getItem(LS_COMPANY_KEY);
+      if (savedCompany) {
         const sender = JSON.parse(savedCompany) as Partial<SenderData>;
         return { ...base, sender: { ...emptySender, ...sender } };
-      } catch { /* fall through */ }
-    }
+      }
+    } catch { /* fall through */ }
     return base;
   });
 
@@ -816,7 +817,7 @@ const RechnungsGenerator = () => {
           { label: "§6a UStG (Innergemeinschaftliche Lieferung)", url: "https://www.gesetze-im-internet.de/ustg_1980/__6a.html" },
           { label: "BMF-Schreiben E-Rechnung 2025/2026", url: "https://www.bundesfinanzministerium.de" },
         ]}
-        note="Hinweis E-Rechnung ab 2025: B2B-Rechnungen >250€ müssen ab 01.01.2025 als strukturierte E-Rechnung (XRechnung/ZUGFeRD) empfangbar sein. Versand-Pflicht stufenweise bis 2028. Dieses Tool erzeugt PDF/A — für vollwertige E-Rechnung (XML+PDF) lexoffice/sevdesk nötig. Rechnungsnummer muss fortlaufend + eindeutig sein (eine Lücke = Erklärung gegenüber FA)."
+        note="Hinweis E-Rechnung ab 2025: B2B-Rechnungen >250€ müssen ab 01.01.2025 als strukturierte E-Rechnung (XRechnung/ZUGFeRD) empfangbar sein. Versand-Pflicht stufenweise bis 2028. Dieses Tool erzeugt das PDF und zusätzlich eine XRechnung (XML nach EN 16931) zum Download — damit erfüllst du die Versandpflicht ohne Zusatzsoftware. Rechnungsnummer muss fortlaufend + eindeutig sein (eine Lücke = Erklärung gegenüber FA)."
       />
     </CockpitShell>
   );
@@ -898,8 +899,8 @@ const Glossar = () => (
         { b: "Reverse Charge §13b UStG", e: "Bei B2B-Dienstleistung an EU-Ausland (mit USt-ID): du stellst Rechnung OHNE USt aus, Kunde schuldet USt in seinem Land. Pflicht-Hinweis 'Steuerschuldnerschaft des Leistungsempfängers'. USt-ID beider Parteien zwingend. Auch bei Bauleistungen in DE (B2B)." },
         { b: "Innergemeinschaftliche Lieferung §6a", e: "WAREN-Lieferung B2B EU-Ausland: steuerfrei wenn Käufer mit gültiger USt-ID UND Beleg-/Buchnachweis (z.B. Gelangensbestätigung). Pflicht-Hinweis 'Steuerfreie innergemeinschaftliche Lieferung'. Meldung in ZM (Zusammenfassende Meldung) Pflicht. Achtung: ab 01.07.2021 IOSS für B2C." },
         { b: "USt-ID vs Steuernummer", e: "Steuernummer (Format: 12/345/67890): vom Wohnsitz-FA für ESt. USt-ID (DE+9 Ziffern): vom Bundeszentralamt für Steuern (BZSt), gratis online beantragen. Pflicht für EU-Geschäft. Auf Rechnung reicht EINE der beiden (Steuernummer ODER USt-ID), bei EU-Geschäft IMMER USt-ID." },
-        { b: "E-Rechnung 2025/2026", e: "Ab 01.01.2025: B2B-Rechnungen >250€ müssen als strukturierte E-Rechnung (XRechnung XML oder ZUGFeRD-PDF) EMPFANGBAR sein (= Email-Postfach reicht). Versand-Pflicht stufenweise bis 2028. PDF allein reicht ÜBERGANGS-weise bis 31.12.2026 (mit Empfänger-Zustimmung). Für vollwertige E-Rechnung brauchst du lexoffice/sevdesk/StB." },
-        { b: "Zahlungsziel", e: "Standard 14 Tage. Rechtlich keine Vorgabe — du kannst auch 7, 30, 60 Tage. Bei Verzug (nach Mahnung): 9 Prozentpunkte über Basiszinssatz bei Verbrauchern, 8 PP bei B2B (§288 BGB). Skonto-Option möglich (z.B. 2 % bei Zahlung innerhalb 7 Tage)." },
+        { b: "E-Rechnung 2025/2026", e: "Ab 01.01.2025: B2B-Rechnungen >250€ müssen als strukturierte E-Rechnung (XRechnung XML oder ZUGFeRD-PDF) EMPFANGBAR sein (= Email-Postfach reicht). Versand-Pflicht stufenweise bis 2028. PDF allein reicht ÜBERGANGS-weise bis 31.12.2026 (mit Empfänger-Zustimmung). Die XRechnung (XML) kannst du direkt hier im Tool erzeugen." },
+        { b: "Zahlungsziel", e: "Standard 14 Tage. Rechtlich keine Vorgabe — du kannst auch 7, 30, 60 Tage. Bei Verzug: 5 Prozentpunkte über Basiszinssatz bei Verbrauchern, 9 Prozentpunkte plus 40 € Verzugspauschale im B2B-Geschäft (§288 Abs. 1, 2 und 5 BGB). Skonto-Option möglich (z.B. 2 % bei Zahlung innerhalb 7 Tage)." },
       ].map((g) => (
         <div key={g.b} className="py-4">
           <dt className="text-sm font-semibold">{g.b}</dt>

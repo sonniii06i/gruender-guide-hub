@@ -70,6 +70,8 @@ export function NotarPreparation({
   const persons: Person[] = a.persons ?? [{}];
   const gfs: Geschaeftsfuehrer[] = a.gfs ?? [{}];
   const stammkapital = a.stammkapital ?? "25000";
+  // Default wie im Eingabefeld angezeigt – sonst druckt PDF/Zusammenfassung "—", obwohl das Formular 12.500 € zeigt.
+  const einzahlung = a.einzahlung ?? "12500";
 
   const totalAnteile = persons.reduce(
     (sum, p) => sum + (parseInt(p.anteilEur ?? "0", 10) || 0),
@@ -109,7 +111,13 @@ export function NotarPreparation({
     persons.length <= 3 &&
     gfs.length === 1 &&
     persons.every((p) => p.einlageArt !== "sache") &&
-    a.holding !== "ja";
+    a.holding !== "ja" &&
+    // § 2 Abs. 1a GmbHG: Musterprotokoll erlaubt keine abweichenden oder ergänzenden Bestimmungen.
+    a.vorkauf !== "ja" &&
+    a.wettbewerb !== "ja" &&
+    a.beirat !== "ja" &&
+    a.schieds !== "ja" &&
+    a.gjahr !== "abweichend";
 
   const updatePerson = (i: number, patch: Partial<Person>) => {
     const next = [...persons];
@@ -127,10 +135,11 @@ export function NotarPreparation({
   const addGf = () => set("gfs", [...gfs, {}]);
   const removeGf = (i: number) => set("gfs", gfs.filter((_, idx) => idx !== i));
 
-  const summary = useMemo(() => buildSummary({ ...a, firmenname, stammkapital, persons, gfs }), [
+  const summary = useMemo(() => buildSummary({ ...a, firmenname, stammkapital, einzahlung, persons, gfs }), [
     a,
     firmenname,
     stammkapital,
+    einzahlung,
     persons,
     gfs,
   ]);
@@ -171,7 +180,7 @@ export function NotarPreparation({
 
     // Sektion 1: Firma
     writeLine("FIRMA", { size: 13, bold: true, gap: 8 });
-    writeLine(`Firmenname:           ${a.firmenname || firmenname || "(noch offen)"}`);
+    writeLine(`Firmenname:           ${firmenname || "(noch offen)"}`);
     writeLine(`Sitz:                 ${a.firmensitzStadt || "—"}`);
     writeLine(`Geschäftsadresse:     ${a.firmensitzAdresse || "—"}`);
     writeLine(`Geschäftsjahr:        ${a.gjahr === "abweichend" ? `abweichend (Start ${a.gjahrStart || "?"})` : a.gjahr === "kalender" ? "Kalenderjahr" : "—"}`, { gap: 8 });
@@ -180,8 +189,8 @@ export function NotarPreparation({
 
     // Sektion 2: Stammkapital
     writeLine("STAMMKAPITAL", { size: 13, bold: true, gap: 8 });
-    writeLine(`Gesamt:               ${formatEur(a.stammkapital) || "—"}`);
-    writeLine(`Bei Gründung einzahlbar: ${formatEur(a.einzahlung) || "—"}`, { gap: 14 });
+    writeLine(`Gesamt:               ${formatEur(stammkapital) || "—"}`);
+    writeLine(`Bei Gründung einzahlbar: ${formatEur(einzahlung) || "—"}`, { gap: 14 });
 
     // Sektion 3: Gesellschafter
     writeLine(`GESELLSCHAFTER (${persons.length})`, { size: 13, bold: true, gap: 8 });
@@ -230,7 +239,8 @@ export function NotarPreparation({
     }
 
     // Footer
-    writeLine("─".repeat(60), { gap: 8 });
+    // jsPDF-Standardfonts kennen nur WinAnsi – U+2500 würde als Zeichensalat erscheinen.
+    writeLine("-".repeat(60), { gap: 8 });
     writeLine("Bitte um Rückmeldung zu offenen Punkten und Terminvorschlag.", { size: 10 });
     writeLine("Erstellt mit GründerX – Notartermin-Vorbereitungs-Modul", { size: 8, gap: 0 });
 
@@ -348,7 +358,7 @@ export function NotarPreparation({
 
       writeLine(`Datum: ${new Date().toLocaleDateString("de-DE")}`, { gap: 14 });
 
-      writeLine("─".repeat(70), { gap: 6 });
+      writeLine("-".repeat(70), { gap: 6 });
       writeLine("Hinweis: Diese Information wurde maschinell mit den im GründerX-Notar-Modul erfassten Daten erzeugt. Bitte vor Weitergabe auf Vollständigkeit und Korrektheit prüfen.", { size: 8 });
     });
 
@@ -470,7 +480,7 @@ export function NotarPreparation({
               </Popover>
             }
           >
-            <Input type="number" value={a.einzahlung ?? "12500"} onChange={(e) => set("einzahlung", e.target.value)} />
+            <Input type="number" value={einzahlung} onChange={(e) => set("einzahlung", e.target.value)} />
           </FieldWithAction>
         </Grid>
       </Section>
@@ -622,7 +632,7 @@ export function NotarPreparation({
       {/* Block 5: Holding */}
       <Section title="5. Holding-Struktur">
         <Grid>
-          <Field label="Werden Anteile von einer Holding gehalten?" full help="Wenn ja: §21 UmwStG-Sperrfrist 7 Jahre beachten – Verkauf/Umstrukturierung in dieser Zeit löst rückwirkend Steuer aus.">
+          <Field label="Werden Anteile von einer Holding gehalten?" full help="Nur relevant, wenn bestehende Anteile in die Holding eingebracht wurden: 7-jährige Sperrfrist nach § 22 UmwStG – Verkauf/Umstrukturierung in dieser Zeit löst rückwirkend Steuer aus.">
             <Radio
               name="holding"
               value={a.holding ?? ""}
@@ -696,8 +706,8 @@ export function NotarPreparation({
             <strong>{eligibleMusterprotokoll ? "Musterprotokoll möglich" : "Eigene Satzung erforderlich"}</strong>
             <div className="text-muted-foreground mt-1">
               {eligibleMusterprotokoll
-                ? "Bis 3 Gesellschafter, 1 Geschäftsführer, nur Bareinlage, keine Holding → Musterprotokoll spart 200–400 € Notarkosten."
-                : "Mehr als 3 Gesellschafter / mehrere GF / Sacheinlage / Holding → eigene Satzung mit Notar erforderlich."}
+                ? "Bis 3 Gesellschafter, 1 Geschäftsführer, nur Bareinlage, keine Holding, keine Zusatzklauseln, Kalenderjahr als Geschäftsjahr → Musterprotokoll spart 200–400 € Notarkosten."
+                : "Mehr als 3 Gesellschafter / mehrere GF / Sacheinlage / Holding / Zusatzklauseln (Vorkaufsrecht, Wettbewerbsverbot, Beirat, Schiedsklausel) / abweichendes Geschäftsjahr → eigene Satzung mit Notar erforderlich."}
             </div>
           </div>
         </div>

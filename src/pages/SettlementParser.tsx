@@ -80,7 +80,8 @@ const SettlementParser = () => {
     if (lines.length < 2) throw new Error("CSV leer oder ungültig");
 
     // Header auch mit splitCsvLine parsen (handhabt Quotes korrekt, falls Header zitiert ist)
-    const header = splitCsvLine(lines[0]).map((h) => h.toLowerCase().trim().replace(/^"|"$/g, ""));
+    const sep = trennzeichen(lines[0]);
+    const header = splitCsvLine(lines[0], sep).map((h) => h.toLowerCase().trim().replace(/^"|"$/g, ""));
 
     const idxType = findIdx(header, ["transaction-type", "amount-type", "type"]);
     const idxDesc = findIdx(header, ["amount-description", "description"]);
@@ -90,7 +91,7 @@ const SettlementParser = () => {
 
     const result: ParsedRow[] = [];
     for (let i = 1; i < lines.length; i++) {
-      const row = splitCsvLine(lines[i]);
+      const row = splitCsvLine(lines[i], sep);
       if (row.length < 3) continue;
 
       const type = (row[idxType] || "").replace(/^"|"$/g, "");
@@ -134,10 +135,10 @@ const SettlementParser = () => {
 
     // Refund/Chargeback ZUERST prüfen — überschreibt sonst 'Principal' → Erlöse
     if (isRefundContext && (d === "principal" || d === "")) {
-      return { category: "Refund (Erlösschmälerung)", skr03: "8730 Erlösschmälerungen", skr04: "4730 Erlösschmälerungen" };
+      return { category: "Refund (Erlösschmälerung)", skr03: "8720 Erlösschmälerungen 19 % USt", skr04: "4720 Erlösschmälerungen 19 % USt" };
     }
     if (isRefundContext && (d === "shipping" || d === "giftwrap")) {
-      return { category: "Refund Versand/GiftWrap (Erlösschmälerung)", skr03: "8730 Erlösschmälerungen", skr04: "4730 Erlösschmälerungen" };
+      return { category: "Refund Versand/GiftWrap (Erlösschmälerung)", skr03: "8720 Erlösschmälerungen 19 % USt", skr04: "4720 Erlösschmälerungen 19 % USt" };
     }
 
     // Verkauf-Erlöse
@@ -182,10 +183,10 @@ const SettlementParser = () => {
 
     // Refunds / Erlösschmälerungen
     if (t === "refund" && (d === "" || d === "principal")) {
-      return { category: "Refund (Erlösschmälerung)", skr03: "8730 Erlösschmälerungen", skr04: "4730 Erlösschmälerungen" };
+      return { category: "Refund (Erlösschmälerung)", skr03: "8720 Erlösschmälerungen 19 % USt", skr04: "4720 Erlösschmälerungen 19 % USt" };
     }
     if (t === "chargeback" || d.includes("chargeback")) {
-      return { category: "Chargeback / A-to-Z", skr03: "8730 Erlösschmälerungen", skr04: "4730 Erlösschmälerungen" };
+      return { category: "Chargeback / A-to-Z", skr03: "8720 Erlösschmälerungen 19 % USt", skr04: "4720 Erlösschmälerungen 19 % USt" };
     }
 
     // Auszahlungen / Reserve
@@ -198,22 +199,23 @@ const SettlementParser = () => {
 
     // Adjustments / Gutschrift / Lending
     if (t === "adjustment" || d.includes("adjustment")) {
-      return { category: amount > 0 ? "Sonstige Erträge (Anpassung)" : "Sonstige Aufwendungen (Anpassung)", skr03: amount > 0 ? "8400 Sonstige Erträge" : "4900 Sonstige Aufwendungen", skr04: amount > 0 ? "4400 Sonstige Erträge" : "6300 Sonstige Aufwendungen" };
+      return { category: amount > 0 ? "Sonstige Erträge (Anpassung)" : "Sonstige Aufwendungen (Anpassung)", skr03: amount > 0 ? "2700 Sonstige Erträge" : "4900 Sonstige Aufwendungen", skr04: amount > 0 ? "4830 Sonstige betriebliche Erträge" : "6300 Sonstige Aufwendungen" };
     }
 
     // Coupons / Promotional Rebates (mindern Erlöse — Erlösschmälerung)
     if (d.includes("coupon") || d.includes("promorebate") || d.includes("promotional rebate") || d.includes("promotionmetafee") || d === "promotionrebates") {
-      return { category: "Coupon / Promotional Rebate (Erlösschmälerung)", skr03: "8730 Erlösschmälerungen", skr04: "4730 Erlösschmälerungen" };
+      return { category: "Coupon / Promotional Rebate (Erlösschmälerung)", skr03: "8720 Erlösschmälerungen 19 % USt", skr04: "4720 Erlösschmälerungen 19 % USt" };
     }
 
     // Goodwill / Concessions (Kulanz-Erstattung)
     if (d.includes("goodwill") || d.includes("concession")) {
-      return { category: "Goodwill/Kulanz-Erstattung (Erlösschmälerung)", skr03: "8730 Erlösschmälerungen", skr04: "4730 Erlösschmälerungen" };
+      return { category: "Goodwill/Kulanz-Erstattung (Erlösschmälerung)", skr03: "8720 Erlösschmälerungen 19 % USt", skr04: "4720 Erlösschmälerungen 19 % USt" };
     }
 
     // SAFE-T Reimbursement (Erstattung bei verlorenen/beschädigten FBA-Items)
     if (d.includes("safe-t") || d.includes("safet") || d.includes("warehouse damage") || d.includes("lost inventory reimbursement") || d.includes("lost_inventory_reimbursement")) {
-      return { category: "SAFE-T / FBA-Reimbursement", skr03: "8400 Sonstige betriebliche Erträge", skr04: "4830 Sonstige betriebliche Erträge" };
+      // Echter Schadenersatz, nicht steuerbar → kein Erlöskonto mit USt-Automatik (8400 = Erlöse 19 %)
+      return { category: "SAFE-T / FBA-Reimbursement (Schadenersatz, ohne USt)", skr03: "2742 Versicherungsentschädigungen und Schadenersatz", skr04: "4970 Versicherungsentschädigungen und Schadenersatz" };
     }
 
     // FBA Return Per Order Fee
@@ -228,7 +230,7 @@ const SettlementParser = () => {
 
     // Compensated Clawback (Amazon zieht eine vorherige Erstattung zurück)
     if (d.includes("compensatedclawback") || d.includes("compensated clawback") || d.includes("a-to-z guarantee claim")) {
-      return { category: "A-to-Z / Compensated Clawback", skr03: "8730 Erlösschmälerungen", skr04: "4730 Erlösschmälerungen" };
+      return { category: "A-to-Z / Compensated Clawback", skr03: "8720 Erlösschmälerungen 19 % USt", skr04: "4720 Erlösschmälerungen 19 % USt" };
     }
 
     // Service Fee (z.B. EFN-, MCI-, Multichannel-Service)
@@ -287,7 +289,8 @@ const SettlementParser = () => {
       .filter(Boolean);
     if (lines.length < 2) throw new Error("CSV leer oder ungültig");
 
-    const header = splitCsvLine(lines[0]).map((h) => h.toLowerCase().trim().replace(/^"|"$/g, ""));
+    const sep = trennzeichen(lines[0]);
+    const header = splitCsvLine(lines[0], sep).map((h) => h.toLowerCase().trim().replace(/^"|"$/g, ""));
 
     const idxType = findIdx(header, ["reporting_category", "type"]);
     const idxAmount = findIdx(header, ["amount", "gross"]);
@@ -301,7 +304,7 @@ const SettlementParser = () => {
     type Raw = { type: string; amount: number; fee: number; date: string; desc: string; currency: string };
     const raws: Raw[] = [];
     for (let i = 1; i < lines.length; i++) {
-      const row = splitCsvLine(lines[i]);
+      const row = splitCsvLine(lines[i], sep);
       if (row.length < 3) continue;
       const type = (row[idxType] || "").replace(/^"|"$/g, "");
       const amount = parseMoney(row[idxAmount] || "0");
@@ -387,12 +390,13 @@ const SettlementParser = () => {
     if (d.includes("tip") || d.includes("trinkgeld") || d.includes("gratuity")) return "8400 Erlöse Trinkgeld 19% USt";
     if (type === "charge" || type === "payment" || type.includes("charge") || type.includes("payment")) return "8400 Erlöse 19% USt";
     if (type === "tax") return "1776 USt 19% (durchlaufend)";
-    if (type === "refund" || type === "partial_capture_reversal" || type.includes("refund")) return "8730 Erlösschmälerungen";
-    if (type === "dispute" || type.includes("dispute") || type.includes("chargeback")) return "8730 Erlösschmälerungen";
-    if (type === "fee" || type === "stripe_fee" || type === "application_fee" || type.includes("fee")) return "3100 Fremdleistungen (Schlüssel 9 — RC §13b)";
+    if (type === "refund" || type === "partial_capture_reversal" || type.includes("refund")) return "8720 Erlösschmälerungen 19 % USt";
+    if (type === "dispute" || type.includes("dispute") || type.includes("chargeback")) return "8720 Erlösschmälerungen 19 % USt";
+    // Zahlungsabwicklung ist Finanzdienstleistung (§ 4 Nr. 8 UStG, steuerfrei) → kein BU 9, Nebenkosten des Geldverkehrs
+    if (type === "fee" || type === "stripe_fee" || type === "application_fee" || type.includes("fee")) return "4970 Nebenkosten des Geldverkehrs (ohne Vorsteuer)";
     if (type === "payout" || type === "transfer" || type === "topup" || type.includes("payout") || type.includes("transfer")) return "1360 Geldtransit";
     if (type === "advance") return "1700 Sonst. Verbindlichkeiten (Capital-Loan)";
-    return amount > 0 ? "8400 Sonstige Erträge" : "4900 Sonstige Aufwendungen";
+    return amount > 0 ? "2700 Sonstige Erträge" : "4900 Sonstige Aufwendungen";
   }
 
   function mapStripeSkr04(type: string, amount: number, desc = ""): string {
@@ -400,9 +404,9 @@ const SettlementParser = () => {
     if (d.includes("tip") || d.includes("trinkgeld") || d.includes("gratuity")) return "4400 Erlöse Trinkgeld 19% USt";
     if (type === "charge" || type === "payment" || type.includes("charge") || type.includes("payment")) return "4400 Erlöse 19% USt";
     if (type === "tax") return "3806 USt 19% (durchlaufend)";
-    if (type === "refund" || type === "partial_capture_reversal" || type.includes("refund")) return "4730 Erlösschmälerungen";
-    if (type === "dispute" || type.includes("dispute") || type.includes("chargeback")) return "4730 Erlösschmälerungen";
-    if (type === "fee" || type === "stripe_fee" || type === "application_fee" || type.includes("fee")) return "5900 Fremdleistungen (RC §13b)";
+    if (type === "refund" || type === "partial_capture_reversal" || type.includes("refund")) return "4720 Erlösschmälerungen 19 % USt";
+    if (type === "dispute" || type.includes("dispute") || type.includes("chargeback")) return "4720 Erlösschmälerungen 19 % USt";
+    if (type === "fee" || type === "stripe_fee" || type === "application_fee" || type.includes("fee")) return "6855 Nebenkosten des Geldverkehrs (ohne Vorsteuer)";
     if (type === "payout" || type === "transfer" || type === "topup" || type.includes("payout") || type.includes("transfer")) return "1460 Geldtransit";
     if (type === "advance") return "3500 Sonst. Verbindlichkeiten (Capital-Loan)";
     return amount > 0 ? "4830 Sonstige betriebliche Erträge" : "6300 Sonstige Aufwendungen";
@@ -419,7 +423,18 @@ const SettlementParser = () => {
     return -1;
   }
 
-  function splitCsvLine(line: string): string[] {
+  /** Trennzeichen je Datei aus der Kopfzeile bestimmen (sonst zerbrechen deutsche Dezimalzahlen in TSV/CSV mit ;). */
+  function trennzeichen(headerLine: string): string {
+    const zaehle = (c: string) => headerLine.split(c).length - 1;
+    const tabs = zaehle("\t");
+    const semis = zaehle(";");
+    const kommas = zaehle(",");
+    if (tabs >= semis && tabs >= kommas && tabs > 0) return "\t";
+    if (semis >= kommas && semis > 0) return ";";
+    return ",";
+  }
+
+  function splitCsvLine(line: string, sep = ","): string[] {
     // Simpler CSV-Parser mit Quote-Support
     const result: string[] = [];
     let cur = "";
@@ -433,7 +448,7 @@ const SettlementParser = () => {
         } else {
           inQuote = !inQuote;
         }
-      } else if ((c === "," || c === ";" || c === "\t") && !inQuote) {
+      } else if (c === sep && !inQuote) {
         result.push(cur);
         cur = "";
       } else {

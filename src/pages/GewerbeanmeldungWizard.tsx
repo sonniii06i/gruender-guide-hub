@@ -79,6 +79,8 @@ type WizardData = {
   rechtsform: Rechtsform;
   anmeldegrund: Anmeldegrund;
   firmierung: string;
+  /** Zahl der Geschäftsführer/gesetzlichen Vertreter (nur Kap.-Ges.) */
+  gfAnzahl: number;
   // Step 4: Tätigkeit (Klartext)
   taetigkeit: string;
   // Step 5: WZ 2008
@@ -134,6 +136,7 @@ const defaultData: WizardData = {
   rechtsform: "einzel",
   anmeldegrund: "neugruendung",
   firmierung: "",
+  gfAnzahl: 1,
   taetigkeit: "",
   wzCode: "",
   beginnDatum: heute,
@@ -173,15 +176,16 @@ const GewerbeanmeldungWizard = () => {
     if (typeof window === "undefined") return defaultData;
     let base = { ...defaultData };
     // Personal-Profil hat höchste Priorität (wird über Sessions hinweg geteilt)
-    const savedPerson = localStorage.getItem(LS_PERSON_KEY);
-    if (savedPerson) {
-      try { base = { ...base, ...JSON.parse(savedPerson) }; } catch { /* ignore */ }
-    }
+    // localStorage kann werfen (Safari privat, blockierter Speicher) → nie die Seite abstürzen lassen
+    try {
+      const savedPerson = localStorage.getItem(LS_PERSON_KEY);
+      if (savedPerson) base = { ...base, ...JSON.parse(savedPerson) };
+    } catch { /* ignore */ }
     // Dann ggf. komplette gespeicherte Anmeldung drüberlegen
-    const saved = localStorage.getItem(LS_KEY);
-    if (saved) {
-      try { base = { ...base, ...JSON.parse(saved) }; } catch { /* ignore */ }
-    }
+    try {
+      const saved = localStorage.getItem(LS_KEY);
+      if (saved) base = { ...base, ...JSON.parse(saved) };
+    } catch { /* ignore */ }
     return base;
   });
 
@@ -213,7 +217,7 @@ const GewerbeanmeldungWizard = () => {
       && (!data.betriebsstaetteAndere || (data.betriebStrasse && data.betriebPlz && data.betriebOrt)));
     checks[2] = !!(data.rechtsform && data.anmeldegrund);
     checks[3] = data.taetigkeit.trim().length >= 30; // Mindest-Qualität
-    checks[4] = !!data.wzCode;
+    checks[4] = true; // WZ-Code ist Hilfsinfo: das GewA1 hat kein WZ-Feld, das Amt vergibt den Schlüssel selbst
     checks[5] = !!(data.beginnDatum && data.kuStatus);
     checks[6] = true; // Behörden-Status: alle Felder optional
     checks[7] = true;
@@ -223,12 +227,13 @@ const GewerbeanmeldungWizard = () => {
   const allValid = stepValid.every(Boolean);
 
   const saveLocal = () => {
-    localStorage.setItem(LS_KEY, JSON.stringify(data));
+    try { localStorage.setItem(LS_KEY, JSON.stringify(data)); }
+    catch (e) { console.warn("Anmeldung konnte nicht lokal gespeichert werden:", e); }
   };
 
   const reset = () => {
     if (!confirm("Aktuelle Anmeldung löschen? Dein Personal-Profil (Vorname/Nachname/Adresse) bleibt gespeichert.")) return;
-    localStorage.removeItem(LS_KEY);
+    try { localStorage.removeItem(LS_KEY); } catch { /* ignore */ }
     // Behalte personal subset, setze Rest auf default zurück
     setData((d) => {
       const fresh: WizardData = { ...defaultData };
@@ -321,14 +326,16 @@ const GewerbeanmeldungWizard = () => {
       }
 
       // === Anmeldegrund ===
-      tryCheck("ja - Neugründung", data.anmeldegrund === "neugruendung");
+      // Wiederaufnahme nach Abmeldung ist auf dem GewA1 eine Neuerrichtung
+      tryCheck("ja - Neugründung", data.anmeldegrund === "neugruendung" || data.anmeldegrund === "wiederaufnahme");
       tryCheck("ja - Verlegung", data.anmeldegrund === "umzug");
-      tryCheck("ja - Hauptniederlassung",
-        data.anmeldegrund !== "filiale" && !data.betriebsstaetteAndere);
+      tryCheck("ja - Erbfolge, Kauf, Pacht", data.anmeldegrund === "uebernahme");
+      // Haupt-/Zweigniederlassung hängt nicht davon ab, ob die Betriebsstätte an einer anderen Adresse liegt
+      tryCheck("ja - Hauptniederlassung", data.anmeldegrund !== "filiale");
       tryCheck("ja - Zweigniederlassung", data.anmeldegrund === "filiale");
 
       // === Kap.-Ges. → Geschäftsführerzahl (wenn UG/GmbH/AG, min. 1) ===
-      if (istKapGes) tryText("Zahl - Geschäftsführer bzw. gesetzliche Vertreter", "1");
+      if (istKapGes) tryText("Zahl - Geschäftsführer bzw. gesetzliche Vertreter", String(Math.max(1, data.gfAnzahl || 1)));
 
       // === Felder 28-31: Erlaubnis / Handwerk / Aufenthalt / Auflagen ===
       tryCheck("ja - Erlaubnis liegt vor", data.erlaubnisStatus === "ja");
@@ -560,7 +567,7 @@ const GewerbeanmeldungWizard = () => {
           { label: "Online-Gewerbeanmeldung Service.Bund.de", url: "https://verwaltung.bund.de" },
           { label: "Bürgerservice / GewA1-Formular", url: "https://www.einheitlicher-ansprechpartner.eu" },
         ]}
-        note="GewA1 ist bundeseinheitlich, aber Gebühr (20-65 €) variiert pro Stadt. Bearbeitung in Bürgeramt oder online (verwaltung.bund.de). Nach Anmeldung kommt automatisch Fragebogen zur steuerlichen Erfassung (FsE) vom Finanzamt — dort wird § 19 KU finalisiert. Bei erlaubnispflichtigen Gewerben (Gastronomie, Makler, Sicherheit, Spielhalle, etc.) brauchst du ZUSÄTZLICH Erlaubnis vor Anmeldung."
+        note="GewA1 ist bundeseinheitlich, aber Gebühr (20-65 €) variiert pro Stadt. Bearbeitung in Bürgeramt oder online (verwaltung.bund.de). Nach Aufnahme der Tätigkeit musst du den Fragebogen zur steuerlichen Erfassung (FsE) innerhalb eines Monats selbst und unaufgefordert über ELSTER einreichen (§138 Abs. 1b, Abs. 4 AO) — dort wird § 19 KU festgelegt. Bei erlaubnispflichtigen Gewerben (Gastronomie, Makler, Sicherheit, Spielhalle, etc.) brauchst du ZUSÄTZLICH Erlaubnis vor Anmeldung."
       />
     </CockpitShell>
   );
@@ -740,6 +747,17 @@ const StepRechtsform = ({ data, update }: StepProps) => (
       >
         <Input id="gw-firma" value={data.firmierung} onChange={(e) => update("firmierung", e.target.value)} placeholder="z.B. 'Max Mustermann Beratung'" />
       </Field>
+      {["ug", "gmbh", "ag"].includes(data.rechtsform) && (
+        <Field label="Zahl der Geschäftsführer bzw. gesetzlichen Vertreter" htmlFor="gw-gf">
+          <Input
+            id="gw-gf"
+            type="number"
+            min={1}
+            value={data.gfAnzahl}
+            onChange={(e) => update("gfAnzahl", Math.max(1, Number(e.target.value) || 1))}
+          />
+        </Field>
+      )}
     </div>
   </div>
 );
@@ -823,8 +841,8 @@ const StepBranche = ({ data, update }: StepProps) => {
   return (
     <div>
       <StepHead title="5. Branchenschlüssel WZ 2008">
-        Die 5-stellige WZ-2008-Klassifikation. Eine gute Schätzung reicht, das Finanzamt kann später korrigieren. Hier steht eine
-        Auswahl der häufigsten Schlüssel für Solo-Selbstständige.
+        Die 5-stellige WZ-2008-Klassifikation (optional). Das GewA1 hat kein eigenes Feld dafür, das Gewerbeamt ordnet den Schlüssel
+        selbst zu; der Code hilft dir aber bei der Tätigkeitsbeschreibung und im FsE. Hier steht eine Auswahl der häufigsten Schlüssel.
       </StepHead>
 
       <div className="grid grid-cols-1 gap-3 md:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
@@ -896,7 +914,7 @@ const StepBranche = ({ data, update }: StepProps) => {
 const KU_OPTIONEN: { v: KuStatus; titel: string; text: string }[] = [
   { v: "ja", titel: "Ja, § 19 KU nutzen", text: "Empfohlen bei B2C (Endverbraucher), niedrigem Anschaffungs-Aufwand und Umsatz unter Grenze." },
   { v: "nein", titel: "Nein, Regelbesteuerung", text: "Empfohlen bei B2B-Geschäft (Kunden brauchen USt-Beleg) oder hohem Vorsteuer-Volumen." },
-  { v: "unsicher", titel: "Noch unsicher", text: "Im FsE (Fragebogen zur steuerlichen Erfassung) entscheiden, der kommt etwa 4 Wochen nach der Anmeldung." },
+  { v: "unsicher", titel: "Noch unsicher", text: "Im FsE (Fragebogen zur steuerlichen Erfassung) entscheiden. Den reichst du innerhalb eines Monats nach Start selbst über ELSTER ein (§138 Abs. 1b AO)." },
 ];
 
 const StepBeginn = ({ data, update }: StepProps) => (
@@ -916,9 +934,10 @@ const StepBeginn = ({ data, update }: StepProps) => (
     <div className="mt-6 rounded-xl border border-accent-blue/20 bg-accent/60 p-4 md:p-5">
       <h3 className="text-base font-semibold">§ 19 UStG Kleinunternehmer: deine Entscheidung</h3>
       <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-        Bleibt dein Umsatz im ersten Jahr <strong className="font-medium text-foreground">unter 25.000 €</strong> (und voraussichtlich unter
-        100.000 € im Folgejahr), kannst du die Kleinunternehmerregelung nutzen. Vorteil: keine USt auf Rechnungen, keine
-        USt-Voranmeldung. Nachteil: kein Vorsteuerabzug. Bindung: 5 Jahre.
+        Bleibt dein Umsatz im Gründungsjahr <strong className="font-medium text-foreground">bis 25.000 €</strong> (in Folgejahren: Vorjahr bis
+        25.000 € und laufendes Jahr bis 100.000 €, bei Überschreiten sofortiger Wegfall), kannst du die Kleinunternehmerregelung nutzen
+        (§ 19 UStG n. F.). Vorteil: keine USt auf Rechnungen, keine USt-Voranmeldung. Nachteil: kein Vorsteuerabzug. An 5 Jahre gebunden
+        bist du nur, wenn du auf die Regelung <em>verzichtest</em> (§ 19 Abs. 3 UStG).
       </p>
       <fieldset className="mt-4">
         <legend className="mb-2 text-sm font-medium">Möchtest du § 19 UStG nutzen?<Pflicht /></legend>
@@ -1152,8 +1171,8 @@ const StepZusammenfassung = ({ data, stepValid, allValid, onGeneratePdf }: { dat
       <Callout tone="info" title="Was kommt nach der Anmeldung?">
         <ol className="mt-1 list-inside list-decimal space-y-1">
           <li>Ausgefülltes GewA1 unterschreiben, persönlich im Bürgeramt einreichen oder online über verwaltung.bund.de (Gebühr 20-65 €).</li>
-          <li>Nach 2-4 Wochen kommt automatisch der Fragebogen zur steuerlichen Erfassung (FsE) vom Finanzamt.</li>
-          <li>Im FsE: finale Entscheidung § 19 KU oder Regelbesteuerung (5 Jahre Bindung).</li>
+          <li>Innerhalb eines Monats nach Start den Fragebogen zur steuerlichen Erfassung (FsE) selbst über ELSTER einreichen (§138 Abs. 1b AO), er wird nicht zugeschickt.</li>
+          <li>Im FsE: Entscheidung § 19 KU oder Regelbesteuerung (5 Jahre Bindung nur beim Verzicht auf die KU).</li>
           <li>Steuernummer und ggf. USt-ID werden zugeteilt.</li>
           <li>IHK-/HwK-Mitgliedschaft automatisch (Beitrag erst ab Gewinn über 5.200 €).</li>
           <li>Geschäftskonto eröffnen, Berufshaftpflicht prüfen, erste Rechnung mit dem Rechnungs-Tool schreiben.</li>
@@ -1212,10 +1231,10 @@ const Glossar = () => (
         { b: "WZ 2008 Branchenschlüssel", e: "5-stellige Klassifikation der Wirtschaftszweige (Ausgabe 2008) vom Statistischen Bundesamt. Beispiele: 47.91.1 = Versandhandel Textilien, 62.01.0 = Programmierungstätigkeiten, 70.22.0 = Unternehmensberatung. Im GewA1 zu wählen. Wenn falsch: FA korrigiert später, kein Drama." },
         { b: "Tätigkeitsbeschreibung", e: "Pflicht-Klartext-Feld im GewA1. So GENAU wie möglich. Schlecht: 'Onlinehandel'. Gut: 'Onlinehandel mit Sportbekleidung, Sportzubehör und Nahrungsergänzungsmitteln über eigenen Shop und Amazon Marketplace'. Faustregel: Antwort auf 'WAS verkaufst du WIE und an WEN'. Auch Nebentätigkeiten mit erfassen (Definition wird sonst zu eng)." },
         { b: "Einzelunternehmen vs UG/GmbH", e: "Einzel = einfachste Form, kein Stammkapital, Anmeldung nur GewA1. UG = ab 1 € Stammkapital, Notar nötig (300-800 €), Eintrag Handelsregister. GmbH = 25k Stammkapital, Notar (~1.500 €). Für >90 % der Solo-Selbstständigen reicht Einzel — UG/GmbH sinnvoll bei: Haftungs-Risiko, Investor-Eintritt, Erbschaftsplanung." },
-        { b: "FsE: Fragebogen zur steuerlichen Erfassung", e: "Kommt 2-4 Wochen NACH Gewerbeanmeldung automatisch vom Finanzamt. Dort: § 19 KU finalisieren, Anlage S/G, voraussichtliche Einkünfte, USt-Vorauszahlungen. Muss via ELSTER abgegeben werden. Empfehlung: nicht raten — beim FA nachfragen oder Tool 5 (Brutto-Netto) + Tool 7 (StB) konsultieren." },
+        { b: "FsE: Fragebogen zur steuerlichen Erfassung", e: "Musst du innerhalb eines Monats nach Aufnahme der Tätigkeit selbst und unaufgefordert über ELSTER einreichen (§138 Abs. 1b, Abs. 4 AO), er kommt nicht per Post. Dort: § 19 KU festlegen, Anlage S/G, voraussichtliche Einkünfte, USt-Vorauszahlungen. Empfehlung: nicht raten — beim FA nachfragen oder Tool 5 (Brutto-Netto) + Tool 7 (StB) konsultieren." },
         { b: "IHK / HwK-Mitgliedschaft", e: "Automatisch bei Gewerbeanmeldung. IHK = Industrie- und Handelskammer (Handel, Service). HwK = Handwerkskammer (handwerkliche Tätigkeit, ggf. Meister-Pflicht). Beitrag: Grundbeitrag ~40-150 €/Jahr ab Gewinn > 5.200 €, plus Umlage 0,2-0,5 % vom Gewinn. Befreiung für Neugründer 2 Jahre möglich." },
         { b: "Erlaubnispflichtige Gewerbe", e: "Manche Gewerbe brauchen ZUSÄTZLICHE Erlaubnis VOR Anmeldung: Gastronomie (§ 4 GastG), Makler (§ 34c GewO), Sicherheit (§ 34a), Spielhalle, Bewachung, Pfandleiher. Ohne Erlaubnis = Ordnungswidrigkeit. Bei IT/Beratung/Handel meist keine Erlaubnis nötig." },
-        { b: "§ 19 UStG Kleinunternehmer-Optierung", e: "Im FsE wählst du: KU (keine USt) oder Regelbesteuerung. Voraussetzung KU: Vorjahres-Umsatz < 25.000 € + prognostiziert < 100.000 € (Reform 2025). Bindung 5 Jahre (Verzicht nur einmal). Vorteil KU: keine USt-VA, simple Rechnung. Nachteil: kein Vorsteuer-Abzug. Tool 3 hat Detail-Schwellen, Tool 9 die Rechnungs-Logik." },
+        { b: "§ 19 UStG Kleinunternehmer-Optierung", e: "Im FsE wählst du: KU (keine USt) oder Regelbesteuerung. Voraussetzung KU (Reform 2025): Vorjahres-Umsatz ≤ 25.000 € und Umsatz im laufenden Jahr ≤ 100.000 € (bei Überschreiten sofortiger Wegfall); im Gründungsjahr ≤ 25.000 €. 5 Jahre Bindung nur beim Verzicht auf die KU (§ 19 Abs. 3 UStG). Vorteil KU: keine USt-VA, simple Rechnung. Nachteil: kein Vorsteuer-Abzug. Tool 3 hat Detail-Schwellen, Tool 9 die Rechnungs-Logik." },
       ].map((g) => (
         <div key={g.b} className="py-3.5 text-sm">
           <dt className="font-semibold text-foreground">{g.b}</dt>

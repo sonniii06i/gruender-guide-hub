@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Button } from "@/components/ui/button";
@@ -29,40 +28,16 @@ const getDomain = (url: string): string => {
   try { return new URL(url).hostname.replace(/^www\./, ""); } catch { return url; }
 };
 
-const ProviderLogo = ({ url, name, size = "md" }: { url: string; name: string; size?: "sm" | "md" | "lg" }) => {
-  const domain = getDomain(url);
-  const sources = [
-    `https://www.google.com/s2/favicons?domain=${domain}&sz=256`,
-    `https://logo.clearbit.com/${domain}?size=256`,
-  ];
-  const [idx, setIdx] = useState(0);
-  const [failed, setFailed] = useState(false);
-
+// Keine Logos mehr von google.com/s2/favicons oder logo.clearbit.com laden: das übertrug IP-Adresse und Referrer
+// ohne Einwilligung an Dritte (DSGVO), die Clearbit-Logo-API ist zudem abgeschaltet. Bis selbst gehostete Logos
+// vorliegen, zeigen wir ein Monogramm.
+const ProviderLogo = ({ name, size = "md" }: { url: string; name: string; size?: "sm" | "md" | "lg" }) => {
   const dim = size === "lg" ? "h-24 w-24" : size === "sm" ? "h-10 w-10" : "h-16 w-16";
   const text = size === "lg" ? "text-5xl" : size === "sm" ? "text-base" : "text-2xl";
-
-  if (failed) {
-    return (
-      <div className={`${dim} flex shrink-0 items-center justify-center rounded-2xl bg-gradient-primary ${text} font-semibold text-primary-foreground shadow-card`} aria-hidden="true">
-        {name.charAt(0).toUpperCase()}
-      </div>
-    );
-  }
-
   return (
-    <img
-      src={sources[idx]}
-      alt={`${name} Logo`}
-      loading="eager"
-      decoding="async"
-      // @ts-expect-error fetchpriority is valid HTML
-      fetchpriority="high"
-      className={`${dim} shrink-0 rounded-2xl border border-border bg-white object-contain p-1.5 shadow-card`}
-      onError={() => {
-        if (idx + 1 < sources.length) setIdx(idx + 1);
-        else setFailed(true);
-      }}
-    />
+    <div className={`${dim} flex shrink-0 items-center justify-center rounded-2xl bg-gradient-primary ${text} font-semibold text-primary-foreground shadow-card`} aria-hidden="true">
+      {name.charAt(0).toUpperCase()}
+    </div>
   );
 };
 
@@ -123,7 +98,7 @@ const AnbieterDetail = () => {
       subtitle={p.tagline}
     >
       <Seo
-        title={`${p.name} Erfahrungen 2026 – ${p.category} im Test | GründerX`}
+        title={`${p.name} 2026 – ${p.category} im Vergleich | GründerX`}
         description={(description ?? p.tagline).slice(0, 155)}
         path={`/anbieter/${p.slug}`}
         type="product"
@@ -136,9 +111,6 @@ const AnbieterDetail = () => {
             category: p.category,
             url: `https://gruenderx.de/anbieter/${p.slug}`,
             brand: { "@type": "Brand", name: p.name },
-            aggregateRating: p.rating
-              ? { "@type": "AggregateRating", ratingValue: p.rating, bestRating: 5, ratingCount: 1 }
-              : undefined,
           },
           {
             "@context": "https://schema.org",

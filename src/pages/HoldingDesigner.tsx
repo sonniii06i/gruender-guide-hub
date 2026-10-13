@@ -538,7 +538,7 @@ const StructureDetail = ({ s, onBack }: { s: HoldingStructure; onBack: () => voi
           ))}
         </ul>
       </ListeKarte>
-      <ListeKarte title="Wer das in der Praxis nutzt" icon={Building2} tone="accent">
+      <ListeKarte title="Typische Konstellationen" icon={Building2} tone="accent">
         <ul className="list-disc space-y-1.5 pl-4 text-sm leading-relaxed text-muted-foreground marker:text-accent-blue">
           {s.realWorldExamples.map((e, i) => (
             <li key={i}>{e}</li>

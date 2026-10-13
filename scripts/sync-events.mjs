@@ -56,7 +56,8 @@ async function holen(url, { json = false, versuche = 2, minLaenge = 500 } = {}) 
   let letzter;
   for (let i = 0; i < versuche; i++) {
     try {
-      const r = await fetch(url, { headers: { "User-Agent": UA, Accept: json ? "application/json" : "*/*" } });
+      // Timeout: eine hängende Quelle darf nicht den ganzen Lauf bis zum Job-Timeout blockieren.
+      const r = await fetch(url, { signal: AbortSignal.timeout(30000), headers: { "User-Agent": UA, Accept: json ? "application/json" : "*/*" } });
       if (!r.ok) throw new Error(`HTTP ${r.status} ${url}`);
       const body = json ? await r.json() : await r.text();
       if (!json && body.length < minLaenge) throw new Error(`Leere Antwort (${body.length} B) ${url}`);
@@ -758,11 +759,30 @@ for (const [name, fn] of Object.entries(QUELLEN)) {
   if (protokoll[name].ok) protokoll[name].letzterErfolg = new Date().toISOString();
 }
 
+// Regionscodes vereinheitlichen: Luma liefert z. B. „NRW“/„NDS“, intern gelten die 16 Codes (NW, NI, …).
+// Unbekannte Codes werden auf „bund“ gesetzt und im nächsten Schritt über die Stadt korrigiert.
+const REGIONEN = new Set(["BW", "BY", "BE", "BB", "HB", "HH", "HE", "MV", "NI", "NW", "RP", "SL", "SN", "ST", "SH", "TH"]);
+const REGION_ALIAS = { NRW: "NW", NDS: "NI", BAY: "BY", RLP: "RP", MVP: "MV", BRB: "BB", SAA: "SL", SAC: "SN", SAN: "ST", THU: "TH", HES: "HE" };
+const regionKorrektur = { umbenannt: 0, unbekannt: 0, ueberStadt: 0, blieb_bund: 0 };
+for (const e of alle) {
+  if (e.format === "online" || e.region === "online" || e.region === "bund") continue;
+  const r = String(e.region ?? "").toUpperCase().trim();
+  const n = REGIONEN.has(r) ? r : REGION_ALIAS[r];
+  if (n) {
+    if (n !== e.region) regionKorrektur.umbenannt++;
+    e.region = n;
+  } else {
+    regionKorrektur.unbekannt++;
+    e.region = "bund";
+  }
+}
 // Bundesland aus der Stadt nachtragen, wo eine Quelle keins liefert.
 for (const e of alle) {
   if (e.region !== "bund" || e.format === "online") continue;
   const k = e.ort.toLowerCase().trim();
   e.region = STADT_REGION[k] ?? STADT_REGION[k.replace(/\s*\(.*\)$/, "")] ?? STADT_REGION[k.split(/[ ,/]/)[0]] ?? "bund";
+  if (e.region === "bund") regionKorrektur.blieb_bund++;
+  else regionKorrektur.ueberStadt++;
 }
 
 // Zeitfenster, Serien zusammenfassen, Dubletten über Quellen hinweg entfernen.
@@ -809,10 +829,13 @@ for (const e of serien.values()) {
   }
   gesehen.add(k);
   const { prio, _laufend, ...rest } = e;
-  const slug = `${e.quelle}-${hash(e.url + e.datum)}`;
+  // Stabiler Slug ohne Datum: Serien behalten Merkliste, „neu“-Status und ICS-UID, wenn der nächste Termin nachrückt.
+  // Der Serien-Schlüssel (Name|Veranstalter|Ort) ist pro Lauf eindeutig, weil `serien` genau danach zusammenfasst.
+  const slug = `${e.quelle}-${hash(`${norm(e.name)}|${norm(e.veranstalter)}|${norm(e.ort)}`)}`;
+  const altSlug = `${e.quelle}-${hash(e.url + e.datum)}`; // Schema bis 10/2026 – für die Übergangszeit
   // Wann der Monitor das Event zuerst gesehen hat – Grundlage für „neu“ im Event-Radar.
   // Altbestand ohne Feld bekommt den Stand des letzten Laufs, damit nicht alles auf einmal „neu“ ist.
-  const entdeckt = altEntdeckt.get(slug) ?? (altEntdeckt.size ? HEUTE : (alt.stand ?? new Date().toISOString()).slice(0, 10));
+  const entdeckt = altEntdeckt.get(slug) ?? altEntdeckt.get(altSlug) ?? (altEntdeckt.size ? HEUTE : (alt.stand ?? new Date().toISOString()).slice(0, 10));
   events.push(_laufend ? { slug, ...rest, datum: undefined, datumBis: undefined, entdeckt } : { slug, ...rest, entdeckt });
 }
 
@@ -820,6 +843,7 @@ const ergebnis = {
   stand: new Date().toISOString(),
   quellen: protokoll,
   verworfen: gesamtVerworfen,
+  regionKorrektur,
   anzahl: events.length,
   events,
 };
@@ -827,7 +851,7 @@ const ergebnis = {
 const zusammenfassung = Object.entries(protokoll)
   .map(([n, p]) => (p.ok ? `${n}: ok (${p.roh} roh)${p.teilfehler ? ` – Teilfehler: ${p.teilfehler.join("; ")}` : ""}` : `${n}: FEHLER ${p.fehler} – ${p.behaltenVomLetztenLauf} behalten`))
   .join("\n");
-console.log(`${events.length} Events (${HEUTE} bis ${HORIZONT})\n${zusammenfassung}\nVerworfen: ${JSON.stringify(gesamtVerworfen)}`);
+console.log(`${events.length} Events (${HEUTE} bis ${HORIZONT})\n${zusammenfassung}\nVerworfen: ${JSON.stringify(gesamtVerworfen)}\nRegion: ${JSON.stringify(regionKorrektur)}`);
 for (const [n, p] of Object.entries(protokoll)) if (p.verworfen) console.log(`  ${n} verworfen: ${JSON.stringify(p.verworfen)}`);
 
 // Unveränderte Events → Datei nicht anfassen, sonst gäbe es jeden Tag einen

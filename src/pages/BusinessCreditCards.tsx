@@ -134,11 +134,14 @@ const BusinessCreditCards = () => {
             <p className="mb-3 text-sm text-muted-foreground">Für Vielreiser und maximale Liquidität.</p>
             <ul className="mb-4 flex-1 space-y-1.5 text-sm text-muted-foreground">
               {[
-                "bis 58 Tage zinsfreies Zahlungsziel",
-                "bis 200.000 MR-Punkte Willkommensbonus (Aktion)",
-                "umfangreichstes Versicherungspaket am Markt",
-                "Lounge-Zugang (Kooperation bis 30.09.2026)",
-              ].map((t) => (
+                { t: "bis 58 Tage zinsfreies Zahlungsziel" },
+                { t: "bis 200.000 MR-Punkte Willkommensbonus (Aktion)" },
+                { t: "umfangreichstes Versicherungspaket am Markt" },
+                // Datierte Vorteile laufen automatisch aus, damit keine abgelaufenen Angebote beworben werden
+                { t: "Lounge-Zugang (Kooperation bis 30.09.2026)", bis: "2026-09-30" },
+              ]
+                .filter((v) => !v.bis || new Date().toISOString().slice(0, 10) <= v.bis)
+                .map(({ t }) => (
                 <li key={t} className="flex gap-2">
                   <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-success" aria-hidden="true" /> {t}
                 </li>

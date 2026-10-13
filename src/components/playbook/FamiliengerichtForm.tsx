@@ -84,7 +84,8 @@ export const FamiliengerichtForm = ({ answers, setAnswers }: Props) => {
       { bold: true, size: 11, spaceAfter: 4 },
     );
     writeBlock(
-      `(§§ 1643 Abs. 1, 112 BGB i.V.m. §§ 1822 Nr. 3, 5, 8, 11 BGB a.F. bzw. § 1852 BGB n.F.)`,
+      // Vormundschaftsrechtsreform 01.01.2023: §§ 1821 ff. BGB a.F. aufgehoben, Genehmigungen jetzt §§ 1643, 1848 ff. BGB.
+      `(§ 112 Abs. 1 BGB)`,
       { size: 9, spaceAfter: 6 },
     );
 
@@ -125,8 +126,10 @@ export const FamiliengerichtForm = ({ answers, setAnswers }: Props) => {
     // Begründung
     writeBlock("4. Begründung", { bold: true, size: 11, spaceAfter: 3 });
     writeBlock(
-      answers.fg_begruendung ||
-        "Das Kind hat bereits in den vergangenen Monaten erfolgreiche praktische Erfahrungen in der geplanten Tätigkeit gesammelt (siehe Anlage). Die geplante Tätigkeit ist altersgerecht durchführbar, mit dem Schulbesuch vereinbar und dient dem Aufbau wirtschaftlicher Selbstständigkeit. Die Eltern unterstützen das Vorhaben aktiv und übernehmen Mitbürgschaft für eventuelle Verbindlichkeiten. Eine Gefährdung des Kindeswohls ist nicht erkennbar.",
+      // Keine vorgefertigten Tatsachenbehauptungen oder Bürgschaftserklärungen gegenüber dem Gericht –
+      // ohne Eingabe nur Platzhalter, die der Antragsteller selbst ausfüllt.
+      answers.fg_begruendung?.trim() ||
+        "[Begründung ergänzen: bisherige Erfahrungen des Kindes in der Tätigkeit (ggf. mit Anlage), Vereinbarkeit mit dem Schulbesuch, Reife des Kindes, wie die Eltern das Vorhaben unterstützen und Risiken begrenzen]",
       { spaceAfter: 4 },
     );
 
@@ -201,11 +204,11 @@ export const FamiliengerichtForm = ({ answers, setAnswers }: Props) => {
             <ul className="list-disc pl-4 space-y-1 text-muted-foreground">
               <li>
                 <strong>§ 112 BGB:</strong> Familiengericht kann Minderjährigen für selbständigen Betrieb eines
-                Erwerbsgeschäfts ermächtigen → Kind ist im Geschäftsbereich beschränkt geschäftsfähig.
+                Erwerbsgeschäfts ermächtigen → Kind ist für die Geschäfte dieses Erwerbsgeschäfts unbeschränkt geschäftsfähig.
               </li>
               <li>
-                <strong>§§ 1643, 1822 Nr. 3 BGB</strong> (alt) bzw. <strong>§ 1852 BGB</strong> (nF):
-                gerichtliche Genehmigung der Eltern-Entscheidung erforderlich.
+                <strong>§ 112 Abs. 1 BGB</strong>: Die Ermächtigung durch die Eltern braucht die Genehmigung des
+                Familiengerichts. Bei Gesellschaftsverträgen zusätzlich §§ 1643, 1852 Nr. 1 BGB (seit 01.01.2023; §§ 1821 f. BGB a. F. aufgehoben).
               </li>
               <li>
                 <strong>Pflicht-Vorlage beim Gewerbeamt:</strong> ohne diese Genehmigung verweigert das
@@ -216,7 +219,7 @@ export const FamiliengerichtForm = ({ answers, setAnswers }: Props) => {
                 Eltern, falls abweichend).
               </li>
               <li>
-                Kosten: <strong>0 € (kostenlos)</strong> · Bearbeitungszeit 4–12 Wochen für Termin + Beschluss zur Vollgeschäftsfähigkeit (§112 BGB).
+                Kosten: <strong>0 € (kostenlos)</strong> · Bearbeitungszeit 4–12 Wochen für Termin + Beschluss (Geschäftsfähigkeit beschränkt auf das Erwerbsgeschäft, §112 BGB).
               </li>
             </ul>
           </div>
@@ -263,12 +266,12 @@ export const FamiliengerichtForm = ({ answers, setAnswers }: Props) => {
           <div className="text-[10px] text-muted-foreground mt-1">
             Suche unter{" "}
             <a
-              href="https://www.justiz.de/gerichte_und_behoerden/index.php"
+              href="https://www.justizadressen.nrw.de/de/justiz/suche"
               target="_blank"
               rel="noreferrer noopener"
               className="text-accent-blue inline-flex items-center gap-0.5 hover:underline"
             >
-              justiz.de Gerichts-Verzeichnis <ExternalLink className="h-3 w-3" />
+              Orts- und Gerichtsverzeichnis der Justiz <ExternalLink className="h-3 w-3" />
             </a>
           </div>
         </div>
@@ -389,14 +392,14 @@ export const FamiliengerichtForm = ({ answers, setAnswers }: Props) => {
           </div>
         </div>
         <div className="sm:col-span-2">
-          <Label htmlFor="fg-begruendung" className="text-sm font-medium text-foreground">Begründung (optional, Standard-Text reicht)</Label>
+          <Label htmlFor="fg-begruendung" className="text-sm font-medium text-foreground">Begründung (bitte selbst ausfüllen)</Label>
           <Textarea
             id="fg-begruendung"
             name="reasoning"
             autoComplete="off"
             value={answers.fg_begruendung ?? ""}
             onChange={(e) => update("fg_begruendung", e.target.value)}
-            placeholder="Leer lassen für Standard-Begründung mit Schulvereinbarkeit + Eltern-Mitbürgschaft."
+            placeholder="z. B. bisherige Erfahrungen des Kindes, Vereinbarkeit mit dem Schulbesuch, wie ihr als Eltern unterstützt. Leer gelassen druckt das PDF nur einen Platzhalter."
             className="mt-1 min-h-[70px]"
           />
         </div>
@@ -404,7 +407,7 @@ export const FamiliengerichtForm = ({ answers, setAnswers }: Props) => {
 
       <div className="flex items-center justify-end gap-2">
         <a
-          href="https://www.justiz.de/gerichte_und_behoerden/index.php"
+          href="https://www.justizadressen.nrw.de/de/justiz/suche"
           target="_blank"
           rel="noreferrer noopener"
           className="inline-flex items-center gap-1 rounded-lg border border-border px-3 py-2 text-xs hover:bg-secondary"

@@ -23,7 +23,7 @@ const BRANCHE_LABEL: Record<Branche, string> = {
 };
 
 const BRANCHE_HELP: Record<Branche, string> = {
-  "freier-beruf": "Berater, Designer, IT-Freelancer, Anwalt, Arzt, Journalist, Architekt, Lehrer, ...",
+  "freier-beruf": "Anwalt, Arzt, Steuerberater, Ingenieur, Architekt, Journalist, Lehrer, Künstler, ... (Designer, IT-Freelancer, Berater nur im Einzelfall)",
   "dienstleistung": "Agentur, SaaS, Coaching, B2B-Service – kein eigenes Lager",
   "ecommerce": "D2C-Shop, Amazon, Shopify – Lager + Inventory-Risiko",
   "produktion": "Werkstatt, Maschinen, eigenes Sortiment – höheres Sach- + Personenrisiko",
@@ -241,7 +241,7 @@ const RechtsformWizard = () => {
 
           {branche === "freier-beruf" && (
             <Callout tone="success" title="Freier Beruf = Sonderstatus">
-              Freie Berufe (Katalog § 18 EStG: Ärzte, Anwälte, StB, Architekten, Designer, Journalisten, IT-Freelancer, ...) sind <strong>kein Gewerbe</strong>: keine Gewerbeanmeldung, keine Gewerbesteuer, keine IHK-Pflicht. Anmeldung direkt beim Finanzamt mit ELSTER-FsE.
+              Freie Berufe (Katalog § 18 EStG: Ärzte, Anwälte, StB, Ingenieure, Architekten, Journalisten, Künstler, ...) sind <strong>kein Gewerbe</strong>. Designer, IT-Freelancer und Berater sind keine Katalogberufe: freiberuflich nur, wenn die Tätigkeit einem Katalogberuf ähnlich ist (Einzelfall, ggf. beim Finanzamt klären): keine Gewerbeanmeldung, keine Gewerbesteuer, keine IHK-Pflicht. Anmeldung direkt beim Finanzamt mit ELSTER-FsE.
               Bei Teams: <strong>PartG</strong> (Partnerschaftsgesellschaft) statt GbR, mit Eintrag im Partnerschaftsregister.
             </Callout>
           )}

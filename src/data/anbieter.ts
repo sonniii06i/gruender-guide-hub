@@ -56,7 +56,6 @@ export const LEGAL_URLS: Record<string, { impressum?: string; terms?: string; pr
   // ============ 3PL / FULFILLMENT ============
   "byrd": { impressum: "https://www.getbyrd.com/en/imprint", terms: "https://www.getbyrd.com/en/tac", privacy: "https://getbyrd.com/privacy" },
   "shipbob": { terms: "https://shipbob.com/terms-of-service/", privacy: "https://shipbob.com/privacy-policy/" },
-  "fromspace": { impressum: "https://fromspace.io/impressum", privacy: "https://fromspace.io/datenschutz" },
 
   // ============ LUCID ============
   "lizenzero": { impressum: "https://www.lizenzero.de/impressum/", terms: "https://www.lizenzero.de/agb/", privacy: "https://www.lizenzero.de/datenschutz/" },
@@ -101,7 +100,6 @@ export const LEGAL_URLS: Record<string, { impressum?: string; terms?: string; pr
   "fastmail": { terms: "https://www.fastmail.com/policies/terms-of-service/", privacy: "https://www.fastmail.com/policies/privacy/" },
 
   // ============ FULFILLMENT ============
-  "bezahlt-fulfillment": { impressum: "https://www.bezahlt-fulfillment.de/impressum/", privacy: "https://www.bezahlt-fulfillment.de/datenschutz/" },
   "warehousing1": { impressum: "https://www.warehousing1.com/impressum", terms: "https://www.warehousing1.com/agb", privacy: "https://www.warehousing1.com/datenschutz" },
   "logward": { impressum: "https://logward.com/imprint/", privacy: "https://logward.com/privacy-policy/" },
 };
@@ -151,7 +149,7 @@ export const FULL_DESCRIPTIONS: Record<string, string> = {
   "postbank-business": "Die Postbank ist seit 2010 Tochter der Deutschen Bank und über das DHL/Post-Filialnetz präsent. Das Business-Konto ist für GmbHs mit hohem Bargeldgeschäft attraktiv – Cash-Einzahlung und Geldabholung in über 13.000 Postfilialen DE-weit. Online-Banking funktional, App weniger modern.",
   "hvb-business": "Die HypoVereinsbank gehört zur italienischen UniCredit-Gruppe und ist eine der vier deutschen Großbanken. Stärke ist das EU-Netzwerk – besonders Italien, Österreich und Südosteuropa. Filialdichte außerhalb Bayern/NRW geringer als bei Deutsche Bank/Commerzbank.",
   "targobank": "Die Targobank gehört zum französischen Crédit-Mutuel-Konzern und betreibt rund 350 Filialen in Deutschland. Die Stärke liegt in einfachen Konditionen und persönlicher Beratung. Online-Banking funktional, aber UI-mäßig nicht auf Neobank-Niveau.",
-  "dkb-business": "Die DKB ist eine der größten Direktbanken Deutschlands (Tochter der BayernLB) und seit 2022 mit DKB Business im Geschäftskunden-Markt aktiv. Beleglose Buchungen sind im Tarif kostenlos, das Online-Banking gilt als das beste der etablierten Banken. Keine Filialen – Onboarding läuft komplett digital, manchmal mit Postident-Hürden.",
+  "dkb-business": "Die DKB ist eine der größten Direktbanken Deutschlands (Tochter der BayernLB). Das Geschäftskonto DKB-Business kostet pauschal 15 €/Monat mit unbegrenzten Online-Buchungen und richtet sich laut DKB an Selbstständige, Freiberufler, Heilberufe und Immobilienverwaltungen – nicht an GmbH/UG. Keine Filialen, Onboarding komplett digital.",
   "fyrst": "Fyrst ist eine 2020 gestartete Tochter von Postbank und Deutscher Bank, speziell für Solo-Selbstständige und Klein-GmbHs. Free-Tier (Base) und 10-€-Tarif (Complete) decken die meisten Anwendungsfälle ab. Mit DE-IBAN und Cash-Service über Postbank-Filialen. Eine pragmatische Alternative zwischen Hausbank und Neobank.",
   "n26-business": "N26 ist eine deutsche Direktbank mit Sitz in Berlin und einer der bekanntesten europäischen Neobanks. Das Business-Konto richtet sich primär an Solo-Selbstständige – der Standard-Tarif ist gratis, der Smart-Tarif kostet 4,90 €/Mon. Für GmbH-Gründungen historisch eingeschränkt akzeptiert; Trustpilot-Reviews wegen Account-Sperren gemischt.",
   "revolut-business": "Revolut wurde 2015 in London gegründet und ist heute mit eigener Banklizenz (Revolut Bank UAB, Litauen) in der EU aktiv. Seit 2024 mit deutschen IBANs für Geschäftskunden. Die Stärke liegt in Multi-Currency – über 25 Währungen mit interbank-nahen FX-Raten, ideal für GmbHs mit US-/UK-Bezug oder Meta/TikTok-Ad-Spend.",
@@ -179,7 +177,7 @@ export const FULL_DESCRIPTIONS: Record<string, string> = {
   "dhl-geschaeftskunden": "DHL Paket Deutschland ist Teil der Deutsche Post DHL Group und größter Paketdienst in Deutschland mit über 1,8 Mrd Paketen pro Jahr. Geschäftskundenverträge erfordern in der Regel einen Mindestumsatz (regional unterschiedlich, meist ab ~250 €/Mon). Spürbare Rabatte gibt es ab ~500 Paketen/Monat. Stärken: dichtestes Netz, Express- und Auslandsversand, stabile API.",
   "dpd": "DPD Deutschland ist Teil der internationalen Geopost-Gruppe (La Poste) und mit über 800 Mio Sendungen jährlich der zweitgrößte DACH-Carrier. Bei mittlerem Volumen (100+ Pakete/Mon) oft günstiger als DHL. Schwächere B2C-Zustellung als DHL – Foren-Berichte über Verluste/Verzögerungen sind häufiger.",
   "gls": "GLS (General Logistics Systems) gehört zum britischen Royal-Mail-Konzern und ist EU-weit besonders stark. In Deutschland zweitwichtigster B2B-Carrier nach DHL. Die B2C-Zustellung an Privathaushalte erfordert oft mehrere Versuche.",
-  "hermes": "Hermes Germany (international Evri) ist mit 405 Mio Paketen/Jahr der drittgrößte deutsche Carrier. Günstigster Anbieter bei kleinem Volumen, mit dichtem ParcelShop-Netz. Trustpilot-Bewertungen seit 2023 deutlich negativer – viele Berichte über Verluste und schwierigen Reklamations-Prozess.",
+  "hermes": "Hermes Germany (Otto Group) gehört zu den großen deutschen Paketdienstleistern. Günstigster Anbieter bei kleinem Volumen, mit dichtem ParcelShop-Netz. Trustpilot-Bewertungen seit 2023 deutlich negativer – viele Berichte über Verluste und schwierigen Reklamations-Prozess.",
   "ups-deutschland": "UPS ist der weltgrößte Paketdienst und in DACH besonders stark im Express- und International-Geschäft. Premium-Preise, dafür beste Tracking-Updates, robuste API und globale Reichweite (220+ Länder). Für Standard-DACH-Sendungen oft teurer als DHL/DPD.",
 
   // ============ BUCHHALTUNG ============
@@ -193,11 +191,10 @@ export const FULL_DESCRIPTIONS: Record<string, string> = {
   // ============ 3PL / FULFILLMENT ============
   "byrd": "byrd ist ein 2016 in Wien gegründetes 3PL-Unternehmen mit Lagerstandorten in DE, AT, NL, FR, ES und IT. Vollintegration mit Shopify, Shopware, WooCommerce und Klaviyo. Self-Service-Dashboard für Bestände und Sendungen. Pricing-Estimate aus Foren: ~1,80–2,50 €/Pick + Storage. Wirtschaftlich ab ~200 Bestellungen/Monat.",
   "shipbob": "ShipBob ist ein US-3PL mit globalem Lager-Netzwerk (USA, Kanada, UK, EU, Australien). Top-Wahl für DE-Brands, die in den US-Markt expandieren. Ab 500+ Orders/Monat US wirtschaftlich. Setup-Zeit für SKU-Onboarding 3–6 Wochen.",
-  "fromspace": "FromSpace ist ein deutsches 3PL mit Fokus auf D2C-Brands im Mid-Volume-Bereich. Persönlicher Account-Manager, kein internationales Lager-Netzwerk. Setup-Zeit 2–4 Wochen.",
 
   // ============ LUCID ============
-  "lizenzero": "Lizenzero ist eine Tochter der Reclay Group und das günstigste DE-Lizenzierungs-Tool für die Verpackungsregistrierung (LUCID). Ideal für kleine bis mittlere Mengen ab 39 €/Jahr. Auch für Marktplatz-Verkäufer (Amazon, eBay) geeignet.",
-  "reclay": "Die Reclay Group ist einer der etablierten dualen Systeme in Deutschland (seit 1990). Lizenzierung erfolgt direkt über Reclay – sinnvoller bei größeren Verpackungs-Mengen, wo individuelle Tarife besser werden als bei Lizenzero.",
+  "lizenzero": "Lizenzero ist ein Online-Lizenzierungsservice von Interzero und ein günstiges DE-Lizenzierungs-Tool für die Verpackungsregistrierung (LUCID). Ideal für kleine bis mittlere Mengen ab 39 €/Jahr. Auch für Marktplatz-Verkäufer (Amazon, eBay) geeignet.",
+  "reclay": "Reclay betreibt eines der dualen Systeme in Deutschland. Lizenzierung erfolgt direkt über Reclay – sinnvoller bei größeren Verpackungs-Mengen, wo individuelle Tarife besser werden als bei Lizenzero.",
 
   // ============ EMAIL / MARKETING ============
   "klaviyo": "Klaviyo ist die führende E-Commerce-E-Mail-Marketing-Plattform (Boston, 2012 gegründet, 2023 IPO). Beste Shopify-Integration am Markt, mit Flow-Builder, Segmentierung und Predictive-Analytics. DSGVO-konform mit EU-Pricing-Center, aber Server in den USA. Wird ab ~20.000 Subscribern teuer – darunter Standard für DTC.",
@@ -247,7 +244,7 @@ export const FULL_DESCRIPTIONS: Record<string, string> = {
   "axa-business": "Die AXA Konzern AG ist die deutsche Tochter des französischen AXA-Konzerns (1817 gegründet). Bietet alle Sparten gewerblicher Versicherung inkl. Cyber-Versicherung, mit Maklernetz und Direkt-Vertrieb.",
   "hdi-business": "Die HDI Versicherung AG ist die Industrieversicherer-Tochter der Talanx-Gruppe (Hannover, gegründet 1903). Spezialisiert auf KMU und Industriekunden mit branchenspezifischen Tarifen. Stark im klassischen Mittelstand und für freie Berufe.",
   "thinksurance": "thinksurance ist eine 2014 in Frankfurt gegründete digitale Vergleichsplattform für gewerbliche Versicherungen und kostenlose Maklerdienste. Vergleicht in einer einzigen Anfrage Angebote aller großen DE-Versicherer. Stark bei komplexeren Risiken wie Cyber, D&O und Vermögensschaden, wo direkter Vergleich schwierig ist.",
-  "vov": "Die VOV Versicherung ist ein Spezialversicherer für Vermögensschadenhaftpflicht, gegründet 1942 als Versicherungsverein des Verbands Beratender Architekten. Pflicht-Police für Steuerberater, Anwälte, Architekten, Ingenieure und ähnliche freiberufliche Tätigkeiten. Tiefe Branchen-Expertise, faire Konditionen für Solo-Berater.",
+  "vov": "Die VOV ist ein Spezialversicherer für D&O- und Vermögensschadenhaftpflicht. Pflicht-Police für Steuerberater, Anwälte, Architekten, Ingenieure und ähnliche freiberufliche Tätigkeiten. Tiefe Branchen-Expertise, faire Konditionen für Solo-Berater.",
 
   // ============ RECHTSSCHUTZ ============
   "roland-rechtsschutz": "Die Roland Rechtsschutz-Versicherungs-AG ist ein 1962 gegründeter Spezialversicherer und einer der größten Anbieter für Geschäftskunden in Deutschland. Bietet sehr breite Tarifauswahl mit gewerblichem Rechtsschutz, Online-Rechtsberatung und Forderungsmanagement.",
@@ -268,7 +265,6 @@ export const FULL_DESCRIPTIONS: Record<string, string> = {
   "finn": "FINN wurde 2019 in München gegründet und ist Marktführer für Auto-Abos in Deutschland. Modell: 1–24 Monate Laufzeit, alles inklusive (Versicherung, Steuer, Wartung). Effektiv teurer als klassisches Leasing bei langfristiger Nutzung, dafür maximale Flexibilität ohne Restwert-Risiko.",
 
   // ============ FULFILLMENT ============
-  "bezahlt-fulfillment": "BEZAHLT FULFILLMENT ist ein DE-3PL mit klarem Fokus auf D2C/E-Commerce-Brands. Persönlicher Account-Manager, mittelgroße SKU-Volumina. Pricing-Estimate aus Foren: ~1,80–2,80 €/Pick + Storage. Onboarding 3–4 Wochen für SKU-Setup.",
   "warehousing1": "Warehousing1 ist ein 2019 in Berlin gegründeter Marketplace, der mehrere 3PL-Lager in DE/EU vergleicht und passende Anbieter zu Brands matched. Schnelle Match-Time, aber Brand wählt das konkrete Lager nicht selbst – Trade-off zwischen Bequemlichkeit und Kontrolle.",
   "logward": "Logward ist ein EU-3PL mit flexiblen Verträgen und Multi-Lager-Setup. Eher gehobenes Volumen, weniger Self-Service als byrd. Setup 2–3 Wochen.",
 };
@@ -318,12 +314,11 @@ export const PROVIDERS: Provider[] = [
       "Bis 58 Tage zinsfreies Zahlungsziel",
       "Bis 200.000 MR-Punkte Willkommensbonus (Aktion)",
       "Umfangreichstes Versicherungspaket am Markt",
-      "Lounge-Zugang (Kooperation bis 30.09.2026)",
     ],
     cons: [
       "850 €/Jahr ist hoch",
       "Bonität/SCHUFA nötig (Charge-Card)",
-      "Lufthansa-Lounge-Kooperation endet 30.09.2026",
+      "Lufthansa-Lounge-Kooperation ist am 30.09.2026 ausgelaufen",
     ],
     forumNotes:
       "Willkommensbonus = Aktionswert (Stand Mai 2026), vor Antrag verifizieren. Detail-Vergleich im Cockpit-Tool /cockpit/geschaeftskreditkarten.",
@@ -448,7 +443,7 @@ export const PROVIDERS: Provider[] = [
     rating: 4.5,
     tagline: "Beste App, Multi-User, DATEV-Export",
     pros: ["Schnelles Onboarding (1–3 Tage)", "Top Lexoffice/DATEV-Anbindung", "Klar führend bei DE-GmbH-Gründungen", "DE-IBAN, GmbH i.G. akzeptiert"],
-    cons: ["Limit auf SEPA-Buchungen (30/Mon Basic, danach 0,30 €)", "Kein Bargeld-Service"],
+    cons: ["Inklusiv-Buchungen je Tarif begrenzt, danach 0,20 € pro Transaktion (qonto.com/de/pricing, 10/2026)", "Kein Bargeld-Service"],
     forumNotes: "r/Selbststaendig + r/Finanzen: meistgenannte Empfehlung für GmbH-Solo-Gründer. Onboarding wird durchweg gelobt.",
     signupTime: "1–3 Tage komplett digital",
     url: "https://qonto.com/de",
@@ -535,7 +530,7 @@ export const PROVIDERS: Provider[] = [
     cons: ["Konditionen variieren stark je Sparkasse", "Online-Banking je nach Region veraltet"],
     forumNotes: "r/Selbststaendig: 'Hängt extrem von der lokalen Sparkasse ab — Berliner und Hamburger Sparkasse top, andere Regionen schlechter.'",
     signupTime: "1–3 Wochen (Filialtermin)",
-    url: "https://www.sparkasse.de/firmenkunden",
+    url: "https://www.sparkasse.de/unternehmen.html",
   },
   {
     slug: "volksbank",
@@ -577,21 +572,22 @@ export const PROVIDERS: Provider[] = [
     cons: ["Weniger Filialen außerhalb Bayern/NRW"],
     forumNotes: "Vergleichsportale 2026: 'Das HVB BusinessKonto gilt als solides Filialbank-Angebot mit flexiblen Modulen, wird aber wegen hoher Gebühren (7–40 €/Mon) nur für Unternehmen mit höherem Transaktionsaufkommen empfohlen; spezifische Gründer-Diskussionen fehlen in DE-Foren.'",
     signupTime: "2–3 Wochen",
-    url: "https://www.hypovereinsbank.de/hvb/firmenkunden",
+    url: "https://www.hypovereinsbank.de/hvb/unternehmen",
   },
   {
     slug: "dkb-business",
     name: "DKB Business",
     category: "Banking DE",
     region: "DE",
-    starting: "0–9,75 €/Mon",
+    // dkb.de/geschaeftskunden (10/2026): 15 €/Monat, nur Selbstständige, Freiberufler, Heilberufe, Immobilienverwaltungen.
+    starting: "15 €/Mon",
     rating: 4.0,
-    tagline: "Günstige Direktbank, beleglos kostenlos",
-    pros: ["Sehr günstig", "Sauberes Online-Banking", "Beleglose Buchungen kostenlos im Tarif"],
-    cons: ["Keine Filiale", "Onboarding manchmal hakelig (Postident)"],
-    forumNotes: "r/Finanzen: 'Geheimtipp für digitale GmbHs ohne Cash-Geschäft. Antrag-Prozess kann nerven.'",
+    tagline: "Pauschalkonto für Selbstständige & Freiberufler – nicht für GmbH/UG",
+    pros: ["Unbegrenzte beleglose Buchungen in der Pauschale", "Sauberes Online-Banking", "Visa Business Debit inklusive"],
+    cons: ["Nicht für GmbH/UG (nur Selbstständige, Freiberufler, Immobilienverwaltungen)", "Keine Filiale"],
+    forumNotes: "Laut DKB richtet sich das Konto an Selbstständige, Freiberufler, Heilberufe und Immobilienverwaltungen – für eine GmbH-Gründung nicht nutzbar.",
     signupTime: "1–2 Wochen",
-    url: "https://www.dkb.de/business/",
+    url: "https://www.dkb.de/geschaeftskunden/konto-anlage/geschaeftskonto",
   },
   {
     slug: "fyrst",
@@ -619,7 +615,7 @@ export const PROVIDERS: Provider[] = [
     cons: ["GmbH-Konto-Eröffnung historisch oft eingeschränkt", "Account-Sperren-Stories in Reviews"],
     forumNotes: "r/Finanzen: 'Für Freelancer top, für GmbH lieber Qonto/Finom — N26 schließt manchmal grundlos.'",
     signupTime: "1–3 Tage",
-    url: "https://n26.com/de-de/business",
+    url: "https://n26.com/de-de/geschaeftskonto",
   },
   {
     slug: "revolut-business",
@@ -782,7 +778,7 @@ export const PROVIDERS: Provider[] = [
   },
   {
     slug: "hermes",
-    name: "Hermes (Evri)",
+    name: "Hermes",
     category: "Versand DACH",
     region: "DE",
     starting: "auf Anfrage",
@@ -1094,20 +1090,6 @@ export const PROVIDERS: Provider[] = [
     signupTime: "3–6 Wochen Setup",
     url: "https://shipbob.com",
   },
-  {
-    slug: "fromspace",
-    name: "FromSpace",
-    category: "3PL",
-    region: "DE",
-    starting: "auf Anfrage",
-    rating: 4.2,
-    tagline: "DE-3PL für Mid-Volume D2C",
-    pros: ["DE-fokussiert", "Persönlicher Account-Manager"],
-    cons: ["Kein globales Netzwerk"],
-    forumNotes: "Stand 2026: kaum öffentliche Reviews findbar (Trustpilot, ProvenExpert, Capterra, G2, Reddit, deutsche-startups.de durchsucht). Anbieter zu nischig oder noch zu jung für Foren-Sichtbarkeit – direkt anfragen + Referenzen vom Account-Manager geben lassen.",
-    signupTime: "2–4 Wochen",
-    url: "https://fromspace.io",
-  },
 
   // ============ LUCID / VERPACKUNG ============
   {
@@ -1403,7 +1385,7 @@ export const PROVIDERS: Provider[] = [
     ],
     forumNotes: "r/Entrepreneur 2026: 'Capital One ist Mid-Tier mit guter Online-UX. Spark Cash Plus Card oft genannt für Marketing-Spend.'",
     signupTime: "1–7 Tage online",
-    url: "https://www.capitalone.com/small-business-bank/checking/",
+    url: "https://www.capitalone.com/small-business/bank/",
   },
   {
     slug: "axos-business",
@@ -1846,7 +1828,7 @@ export const PROVIDERS: Provider[] = [
     cons: ["Pricing nur auf Anfrage", "Service-Erfahrungen gemischt"],
     forumNotes: "erfahrungen.com 2026 (334 Bewertungen, 3,7/5) + Finanzchef24-Aggregat: 'Modulares Profi-Schutz-Portfolio für Selbstständige. Mehrheit zufrieden mit Beratung, aber Schadenregulierung wird je Sparte uneinheitlich erlebt – BU stark, Sachversicherung gemischt.'",
     signupTime: "1–3 Wochen",
-    url: "https://www.axa.de/unternehmen",
+    url: "https://www.axa.de/geschaeftskunden",
   },
   {
     slug: "hdi-business",
@@ -1886,7 +1868,7 @@ export const PROVIDERS: Provider[] = [
     tagline: "Spezialist für Vermögensschadenhaftpflicht (StB, Anwälte, Architekten)",
     pros: ["VSH-Spezialist mit tiefer Branchenexpertise", "Pflichtpolice für StB/RAe/Architekten/Ingenieure", "Faire Konditionen für Solo-Berater"],
     cons: ["Nur VSH (nicht Betriebshaftpflicht)", "Nicht für nicht-regulierte Branchen"],
-    forumNotes: "transparent-beraten.de D&O-Test 2026 + VEMA-Maklerportal: 'Seit 1996 Spezialist für D&O und Vermögensschaden. Im Maklersegment als technisch führend in Bedingungstiefe geschätzt. Endkunden-Reviews praktisch nicht vorhanden, da Vertrieb fast ausschließlich über Makler/VEMA-Genossenschaft läuft.'",
+    forumNotes: "transparent-beraten.de D&O-Test 2026 + VEMA-Maklerportal: 'Spezialist für D&O und Vermögensschaden. Im Maklersegment als technisch führend in Bedingungstiefe geschätzt. Endkunden-Reviews praktisch nicht vorhanden, da Vertrieb fast ausschließlich über Makler/VEMA-Genossenschaft läuft.'",
     signupTime: "1–2 Wochen",
     url: "https://www.vov.de",
   },
@@ -1918,7 +1900,7 @@ export const PROVIDERS: Provider[] = [
     cons: ["Premium-Pricing", "Wartezeit bei Vertragsbeginn üblich"],
     forumNotes: "r/Versicherungen: 'ARAG hat den besten Service, ist aber 10–20 % teurer als Roland/Advocard.'",
     signupTime: "1 Woche + 3 Monate Wartezeit",
-    url: "https://www.arag.de/gewerbe-rechtsschutz/",
+    url: "https://www.arag.de/gewerbeversicherung/firmenrechtsschutz/",
   },
   {
     slug: "das-rechtsschutz",
@@ -1932,7 +1914,7 @@ export const PROVIDERS: Provider[] = [
     cons: ["Online-Abschluss eingeschränkt", "Service-Erfahrungen gemischt"],
     forumNotes: "Trustpilot D.A.S. + dein-ruf.de Ratgeber 2026: 'Mehrheitsmeinung deutlich kritisch – Klagen über Deckungsablehnungen, Schlupflochsuche und Druck auf eigene Vertragsanwälte. Im B2B-Gewerberechtsschutz wird ARAG/Roland häufig als Alternative empfohlen.'",
     signupTime: "1–2 Wochen",
-    url: "https://www.das.de/de/gewerbekunden/",
+    url: "https://www.ergo.de/de/Geschaeftskunden-Produkte/Gewerbliche-Rechtsschutzversicherung",
   },
   {
     slug: "advocard",
@@ -1974,7 +1956,7 @@ export const PROVIDERS: Provider[] = [
     cons: ["Pricing-Verhandlung erforderlich", "Online-Abschluss limitiert"],
     forumNotes: "transparent-beraten.de 2026: 'HDI vertreibt Roland-Tarife für Rechtsschutz; Roland wurde 2026 von Focus Money zum siebten Mal als Fairster Schadenregulierer ausgezeichnet – Bundle-Discount mit anderen HDI-Sparten prüfen.'",
     signupTime: "1–2 Wochen",
-    url: "https://www.hdi.de/privat/produkte/rechtsschutz",
+    url: "https://www.hdi.de/versicherungen/ihr-business/",
   },
 
   // ============ GESCHÄFTSFAHRZEUG (Leasing / Auto-Abo) ============
@@ -2092,20 +2074,6 @@ export const PROVIDERS: Provider[] = [
   },
 
   // ============ FULFILLMENT-CENTER (NEU – D2C-Spezialisten, on top zu generischen 3PL) ============
-  {
-    slug: "bezahlt-fulfillment",
-    name: "BEZAHLT FULFILLMENT",
-    category: "Fulfillment",
-    region: "DE",
-    starting: "auf Anfrage",
-    rating: 4.3,
-    tagline: "DE-3PL spezialisiert auf D2C / E-Com",
-    pros: ["DE-Lager", "D2C-Verständnis", "Persönlicher Account-Manager"],
-    cons: ["Min-Volume", "Pricing-Verhandlung"],
-    forumNotes: "Estimate Foren: ~1,80–2,80 €/Pick + Storage. Onboarding 3–4 Wochen.",
-    signupTime: "2–4 Wochen Setup",
-    url: "https://www.bezahlt-fulfillment.de",
-  },
   {
     slug: "warehousing1",
     name: "Warehousing1",
@@ -2502,7 +2470,7 @@ export const PROVIDERS: Provider[] = [
     starting: "0 € (Free, ≤100 Pages) · ab 12 €/Mon",
     rating: 4.5,
     tagline: "Cookie-Consent-Standard, Cyberbot-Powered Scan",
-    pros: ["DSGVO-/TTDSG-konform", "Auto-Scan deiner Website (alle Cookies + Trackers identifiziert)", "Google Consent Mode v2 unterstützt", "Free-Tier für kleine Sites"],
+    pros: ["DSGVO-/TDDDG-konform", "Auto-Scan deiner Website (alle Cookies + Trackers identifiziert)", "Google Consent Mode v2 unterstützt", "Free-Tier für kleine Sites"],
     cons: ["Free-Tier nur ≤100 Pages", "Pricing skaliert pro Pageviews", "USA-Mutter Usercentrics seit 2019"],
     forumNotes: "G2.com + Capterra: meist-genutzte CMP für DTC-Shops 2025/26. EU-DSGVO-konform.",
     signupTime: "Sofort",
@@ -2638,11 +2606,10 @@ export const PROVIDERS: Provider[] = [
   { slug: "awin", name: "Awin", category: "Affiliate", region: "EU", starting: "ab 250 €/Mon + 30 % Network-Fee", rating: 4.4, tagline: "DACH-Affiliate-Standard", pros: ["Größtes DACH-Affiliate-Network", "1.700+ Publisher", "Shopify + WooCommerce + Magento-Integration", "DE-Support + Account-Manager"], cons: ["Setup-Fee + monatlicher Floor", "Network-Fee 30 % obendrauf"], forumNotes: "DACH-DTC 2026: 'Awin ist Standard für DACH-Affiliate. ROI typisch 4-8x ab gutem Publisher-Mix.'", signupTime: "2-4 Wochen", url: "https://www.awin.com" },
   { slug: "tradedoubler", name: "Tradedoubler", category: "Affiliate", region: "EU", starting: "ab 200 €/Mon", rating: 4.2, tagline: "EU-Affiliate-Network", pros: ["EU-weit aktiv", "Mid-Market-Standard", "Performance-Marketing-Mix-Support"], cons: ["Kleiner Publisher-Pool als Awin", "UI veraltet"], forumNotes: "EU-Brands 2026: 'Tradedoubler ist Awin-Alternative. Etwas kleinerer Pool, manchmal günstigeres Pricing.'", signupTime: "2-4 Wochen", url: "https://www.tradedoubler.com" },
   { slug: "impact", name: "Impact (Impact.com)", category: "Affiliate", region: "global", starting: "ab 500 $/Mon", rating: 4.6, tagline: "Premium-Affiliate + Partnership", pros: ["Beste Self-Service-Plattform", "Affiliate + Influencer + B2B-Partnership in einem", "Top für US/UK-Expansion", "Advanced-Reporting"], cons: ["US-Pricing höher als Awin", "Setup-Lernkurve"], forumNotes: "Global-DTC 2026: 'Impact für Multi-Country-Expansion. Awin für DACH-pur.'", signupTime: "2-3 Wochen", url: "https://impact.com" },
-  { slug: "shareasale", name: "ShareASale", category: "Affiliate", region: "US", starting: "Setup 550 $ + 20 % Network-Fee", rating: 4.3, tagline: "US-Affiliate-Klassiker", pros: ["Größtes US-Network", "Setup-Fee einmalig, dann nur Network-Fee", "Long-Tail-Publisher-Pool"], cons: ["Hauptsächlich US-fokussiert", "UI veraltet"], forumNotes: "US-Expansion 2026: 'ShareASale für US-Markt-Eintritt. Awin/Impact wenn EU-primary.'", signupTime: "1-2 Wochen", url: "https://www.shareasale.com" },
   { slug: "adcell", name: "AdCell", category: "Affiliate", region: "DE", starting: "ab 150 €/Mon", rating: 4.2, tagline: "DACH-Affiliate günstig", pros: ["Günstiger DACH-Anbieter", "Niedrigere Network-Fees als Awin", "DE-Support"], cons: ["Kleinerer Publisher-Pool als Awin", "Wenig international"], forumNotes: "Bootstrap-DACH 2026: 'AdCell ist Awin-Alternative für Cost-sensitive Brands. Kleinere Reach.'", signupTime: "1-2 Wochen", url: "https://www.adcell.de" },
 
   // ============ CROWDFUNDING (Cross-cutting) ============
-  { slug: "companisto", name: "Companisto", category: "Crowdfunding", region: "DE", starting: "8-12 % Funding-Fee", rating: 4.5, tagline: "Equity-Crowdfunding DACH-Standard", pros: ["DACH-Marktführer für Brand-Equity-Crowdfunding", "Bis 3M € Rounds typisch", "ECSP-Lizenz (EU-Prospekt-Befreiung bis 6M €)", "Active Community"], cons: ["8-12 % Funding-Fee", "Setup + Marketing-Investment 5-25k €", "60-90 Tage Kampagne"], forumNotes: "Founder-Communities 2026: 'Companisto für B2C-Brands mit Story. ROI nur bei starker Pre-Launch-Audience.'", signupTime: "4-8 Wochen Setup", url: "https://www.companisto.com" },
+  { slug: "companisto", name: "Companisto", category: "Crowdfunding", region: "DE", starting: "8-12 % Funding-Fee", rating: 4.5, tagline: "Equity-Crowdfunding DACH-Standard", pros: ["DACH-Marktführer für Brand-Equity-Crowdfunding", "Bis 3M € Rounds typisch", "ECSP-Lizenz (Angebote bis 5 Mio € je 12 Monate ohne Prospekt)", "Active Community"], cons: ["8-12 % Funding-Fee", "Setup + Marketing-Investment 5-25k €", "60-90 Tage Kampagne"], forumNotes: "Founder-Communities 2026: 'Companisto für B2C-Brands mit Story. ROI nur bei starker Pre-Launch-Audience.'", signupTime: "4-8 Wochen Setup", url: "https://www.companisto.com" },
   { slug: "seedmatch", name: "Seedmatch", category: "Crowdfunding", region: "DE", starting: "8-12 % Funding-Fee", rating: 4.3, tagline: "Equity-Crowdfunding Tech-Startups", pros: ["Tech-Startup-Fokus", "Mid-Market Rounds (500k-3M €)", "Etablierter DACH-Anbieter seit 2011"], cons: ["Tech-Fokus (B2C-Brand weniger ideal)", "Funding-Fee + Marketing-Aufwand"], forumNotes: "Tech-Founder 2026: 'Seedmatch für SaaS/Tech-Startups. Companisto für B2C-Brands.'", signupTime: "4-8 Wochen", url: "https://www.seedmatch.de" },
   { slug: "kickstarter", name: "Kickstarter", category: "Crowdfunding", region: "global", starting: "5 % Funding-Fee + 3 % Payment", rating: 4.5, tagline: "Reward-Crowdfunding global", pros: ["Größte Plattform für Hardware/Innovation-Products", "All-or-Nothing-Model schützt vor Under-Funding", "Eigene Community + Discovery"], cons: ["NUR Reward-Crowdfunding (kein Equity)", "Fulfillment-Risiko nach Kampagne", "Marketing-Investment 20-40 % vom Goal"], forumNotes: "Hardware-Founder 2026: 'Kickstarter ist Standard für Hardware/Innovation. Pre-Launch-Marketing macht 70 % vom Erfolg.'", signupTime: "4-12 Wochen Setup", url: "https://www.kickstarter.com" },
   { slug: "indiegogo", name: "Indiegogo", category: "Crowdfunding", region: "global", starting: "5 % + 3-5 % Payment", rating: 4.3, tagline: "Reward-CF flexibler als Kickstarter", pros: ["Flex-Funding (kein All-or-Nothing-Zwang)", "InDemand-Phase nach Kampagne", "Etwas weniger streng als Kickstarter"], cons: ["Kleinere Community als Kickstarter", "Niedrigere durchschnittliche Pledge-Größen"], forumNotes: "Hardware-Communities 2026: 'Indiegogo wenn Kickstarter ablehnt oder Flex-Funding nötig. Default Kickstarter.'", signupTime: "4-8 Wochen", url: "https://www.indiegogo.com" },

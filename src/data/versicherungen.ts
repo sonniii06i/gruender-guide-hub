@@ -139,12 +139,13 @@ export const VERSICHERUNGEN: Versicherung[] = [
     id: "cyber",
     name: "Cyber-Versicherung",
     kuerzel: "Cyber",
-    beschreibung: "Deckt Schäden durch Cyber-Angriffe, Datenverlust, DSGVO-Bußgelder ab. Wichtig bei jeder Online-Tätigkeit oder Kundendaten-Verarbeitung.",
-    schadenbeispiel: "Online-Shop wird gehackt, 5.000 Kunden-Daten geleakt, DSGVO-Bußgeld 50.000 € + Forensik 30.000 € + Anwalts-Kosten.",
-    deckungssumme: "1-3 Mio € je nach Datenvolumen. Inkl. Bußgeld-Modul wenn rechtlich erlaubt.",
+    beschreibung: "Deckt Schäden durch Cyber-Angriffe und Datenverlust ab (Forensik, Wiederherstellung, Betriebsunterbrechung, Schadenersatz Dritter, Abwehrkosten). Behördliche Bußgelder selbst sind in DE i. d. R. nicht versicherbar. Wichtig bei jeder Online-Tätigkeit oder Kundendaten-Verarbeitung.",
+    schadenbeispiel: "Online-Shop wird gehackt, 5.000 Kunden-Daten geleakt: Forensik 30.000 € + Anwalts- und Verfahrenskosten + Schadenersatzforderungen der Kunden sind versichert – ein DSGVO-Bußgeld (z. B. 50.000 €) trägst du in der Regel selbst.",
+    deckungssumme: "1-3 Mio € je nach Datenvolumen.",
     beitragRange: { min: 200, mittel: 400, max: 900 },
     worauf_achten: [
-      "Bußgeld-Modul (DSGVO-Verstöße sind grundsätzlich VERSICHERBAR, anders als in den USA)",
+      // Versicherbarkeit von Geldbußen ist in DE nach h. M. unzulässig bzw. stark umstritten (Sanktionszweck, §§ 134, 138 BGB).
+      "Bußgelder selbst sind in DE i. d. R. nicht versicherbar – gedeckt werden meist Abwehr-/Verfahrenskosten, Forensik und Schadenersatz. Bedingungen prüfen",
       "Erpressungs-Modul (Lösegeld bei Ransomware)",
       "Krisen-Hotline 24/7",
       "Forensik-Kosten ab Tag 1 gedeckt",

@@ -89,13 +89,19 @@ const UsCreditCards = () => {
     return counts;
   }, []);
 
-  const offeneDeadlines = DEADLINES_2026.filter((d) => !isDeadlinePast(d.date)).length;
+  const offeneDeadlineListe = DEADLINES_2026.filter((d) => !isDeadlinePast(d.date));
+  const offeneDeadlines = offeneDeadlineListe.length;
+  // Untertitel aus den noch offenen Terminen bauen statt fest verdrahteter (inzwischen abgelaufener) Daten
+  const offeneDeadlineText = offeneDeadlineListe
+    .slice(0, 4)
+    .map((d) => `${d.event} (${d.date.slice(0, 6)})`)
+    .join(", ");
 
   return (
     <CockpitShell
       eyebrow="International · US-Kreditkarten, Stand Mai 2026"
       title="US-Kreditkarten für Gründer aus Deutschland"
-      subtitle="23 geprüfte Karten, 15 Miles-Sweet-Spots, der DE-zu-US-MR-Transfer (rund 17 % FX-Bonus), eine Velocity-Strategie (8 bis 12 Tsd. € Signup-Bonus pro Jahr), die Auswanderer-Timeline und BOI-/Steuer-Compliance. Quellen: Issuer-Seiten, The Points Guy, LoyaltyLobby."
+      subtitle={`${US_CARDS.length} geprüfte Karten, ${SWEET_SPOTS.length} Miles-Sweet-Spots, der DE-zu-US-MR-Transfer (rund 17 % FX-Bonus), eine Velocity-Strategie (8 bis 12 Tsd. € Signup-Bonus pro Jahr), die Auswanderer-Timeline und BOI-/Steuer-Compliance. Quellen: Issuer-Seiten, The Points Guy, LoyaltyLobby.`}
     >
       {/* ===== USE-CASE-SWITCHER ===== */}
       <div role="group" aria-label="Einsatzzweck" className="mb-4 grid grid-cols-2 gap-3 md:grid-cols-4">
@@ -276,10 +282,10 @@ const UsCreditCards = () => {
           </span>
           <span className="min-w-0 flex-1">
             <span className="block text-base font-semibold text-danger tabular">
-              {offeneDeadlines} kritische Miles-Deadlines 2026
+              {offeneDeadlines} offene Miles-Deadlines 2026
             </span>
             <span className="mt-0.5 block text-sm text-foreground/75">
-              Hyatt (20.5.), Aeroplan (1.6.), Etihad-Ende (30.6.), Amex-LH-Lounge-Ende (1.10.): jetzt buchen statt später bereuen.
+              {offeneDeadlineText}: jetzt buchen statt später bereuen.
             </span>
           </span>
           <ChevronDown className="mt-2 h-4 w-4 shrink-0 text-danger" aria-hidden="true" />
@@ -406,8 +412,8 @@ const UsCreditCards = () => {
         onToggle={() => setShowDeadlines((v) => !v)}
         icon={Calendar}
         tone="danger"
-        title={`${DEADLINES_2026.length} kritische Miles- und Hotel-Deadlines 2026`}
-        subtitle="Hyatt (20.5.), Aeroplan (1.6.), Etihad-Ende (30.6.), Amex-LH-Lounge (1.10.)"
+        title={offeneDeadlines > 0 ? `${offeneDeadlines} offene Miles- und Hotel-Deadlines 2026` : "Miles- und Hotel-Deadlines 2026 (alle abgelaufen)"}
+        subtitle={offeneDeadlines > 0 ? offeneDeadlineText : "Alle Termine dieses Jahres sind vorbei, die Liste dient nur noch als Rückblick."}
       >
         <ul className="space-y-2">
           {DEADLINES_2026.map((d, i) => {

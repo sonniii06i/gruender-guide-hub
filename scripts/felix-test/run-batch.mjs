@@ -42,6 +42,12 @@ const OUT_FILE = path.join(SCRIPT_DIR, "results.md");
 const PROGRESS_FILE = path.join(SCRIPT_DIR, "progress.json");
 
 const { categories } = JSON.parse(fs.readFileSync(QUESTIONS_FILE, "utf8"));
+// system-prompt.txt ist gitignored und wird nicht generiert – ohne aktuelle Kopie des Prompts aus
+// supabase/functions/chat-felix/index.ts wäre der Test wertlos. Klar abbrechen statt mit ENOENT abzustürzen.
+if (!fs.existsSync(PROMPT_FILE)) {
+  console.error(`FEHLT: ${PROMPT_FILE}. Aktuellen System-Prompt aus supabase/functions/chat-felix/index.ts dort ablegen (nicht im Repo).`);
+  process.exit(1);
+}
 const SYSTEM_PROMPT = fs.readFileSync(PROMPT_FILE, "utf8");
 
 // Flatten

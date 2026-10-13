@@ -819,12 +819,12 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
     "disclaimer": "Die Angaben dienen der Orientierung und ersetzen keine Finanz- oder Rechtsberatung; Voraussetzungen für US-Konten klärst du mit dem Anbieter und ggf. einem Berater."
   },
   "vergleich-3pl": {
-    "seoTitle": "3PL & Fulfillment vergleichen: Byrd, ShipBob, FromSpace",
-    "seoDescription": "Vergleiche Byrd, ShipBob und FromSpace als Fulfillment-Partner. Finde den 3PL, der zu deinem Lager- und Versandvolumen passt.",
-    "lead": "Vergleicht die Fulfillment-Dienstleister Byrd, ShipBob und FromSpace, damit du den passenden 3PL-Partner für Lager und Versand findest. Für E-Commerce-Gründer, die Lagerung und Versand auslagern wollen, um zu skalieren.",
+    "seoTitle": "3PL & Fulfillment vergleichen: Byrd, ShipBob, Warehousing1",
+    "seoDescription": "Vergleiche Byrd, ShipBob und Warehousing1 als Fulfillment-Partner. Finde den 3PL, der zu deinem Lager- und Versandvolumen passt.",
+    "lead": "Vergleicht die Fulfillment-Dienstleister Byrd, ShipBob und Warehousing1, damit du den passenden 3PL-Partner für Lager und Versand findest. Für E-Commerce-Gründer, die Lagerung und Versand auslagern wollen, um zu skalieren.",
     "urgency": "Solange du selbst packst und versendest, ist dein Wachstum durch deine Zeit gedeckelt. Der falsche 3PL bremst dich mit Fehlern, langen Lieferzeiten oder versteckten Lagerkosten. Vergleich jetzt mit GründerX die Fulfillment-Partner und such dir den, mit dem du wirklich skalierst.",
     "outcomes": [
-      "Byrd, ShipBob und FromSpace im direkten Vergleich",
+      "Byrd, ShipBob und Warehousing1 im direkten Vergleich",
       "Übersicht über Standorte, Leistungen und Integrationen",
       "Klarheit, welcher 3PL zu deinem Volumen und deinen Märkten passt",
       "Eine Entscheidungsgrundlage, um Fulfillment sicher auszulagern",

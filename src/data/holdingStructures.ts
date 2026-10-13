@@ -86,11 +86,11 @@ export const HOLDING_STRUCTURES: HoldingStructure[] = [
       "Geplanter Exit in 3–7 Jahren",
       "Wer Gewinne lieber thesauriert als ausschüttet",
     ],
+    // Anonymisierte typische Konstellationen statt unbelegter Firmenbeispiele (Werbung muss belegbar sein, § 824 BGB).
     realWorldExamples: [
-      "Liqui Moly (Würth-Familie) — Holding-Konstrukt mit operativen Gesellschaften",
-      "Maritim Hotels — Familien-Pool über Holding",
-      "viele Internet-Brands wie Bavarian Industry Capital, Razor Group (Mid-Market-D2C)",
-      "Standard-Setup bei vermögensverwaltenden Family Offices",
+      "Solo-Gründer im E-Commerce oder SaaS, der Gewinne der operativen GmbH in eine eigene Holding ausschüttet und dort reinvestiert",
+      "Gründer mit geplantem Exit, der die Op-GmbH-Anteile über die Holding hält",
+      "Unternehmer mit mehreren Beteiligungen, die über eine Zwischengesellschaft gebündelt werden",
     ],
     pros: [
       "**Schachtelprivileg §8b KStG**: 95 % Steuerbefreiung auf Dividenden von Tochter-GmbHs (5 % gelten als nicht-abzugsfähige BA) → effektive Steuer ~1,5 %",
@@ -104,7 +104,7 @@ export const HOLDING_STRUCTURES: HoldingStructure[] = [
       "Doppel-Buchhaltung (2 separate Jahresabschlüsse)",
       "Notar-Kosten + StB-Kosten sind ~doppelt",
       "Bei kleinen Gewinnen (< 50 k €/Jahr) zahlt sich Setup-Kosten nicht aus",
-      "Holding kann nicht im Musterprotokoll gegründet werden (Individualsatzung Pflicht für komplexe Strukturen)",
+      "Musterprotokoll nur bei max. 3 Gesellschaftern, 1 GF und ohne Zusatzklauseln (§ 2 Abs. 1a GmbHG) — für komplexere Holding-Satzungen ist eine Individualsatzung nötig",
     ],
     setupCost: "1.500–2.500 € Notar + 25.000 € Holding-Stammkapital (selbst nutzbar)",
     runningCost: "1.500–3.000 €/Jahr StB für Konzern-Buchhaltung + 250 € HR-Gebühr",
@@ -122,7 +122,7 @@ export const HOLDING_STRUCTURES: HoldingStructure[] = [
     setupSteps: [
       "1. Holding GmbH neu gründen (oder bestehende GmbH umbenennen + Anteile an neue Holding einbringen)",
       "2. Op-GmbH gründen (oder bestehende einbringen)",
-      "3. Bei Anteilseinbringung: §21 UmwStG steuerneutral — aber 7-Jahres-Sperrfrist beachten",
+      "3. Bei Anteilseinbringung: §21 UmwStG (Anteilstausch) auf Antrag steuerneutral — aber 7-Jahres-Sperrfrist nach §22 UmwStG beachten",
       "4. Erste Ausschüttung von Op-GmbH an Holding (Schachtelprivileg greift)",
       "5. Investitions-Strategie für Holding-Vermögen (ETFs, Immobilien, weitere Beteiligungen)",
     ],
@@ -131,13 +131,13 @@ export const HOLDING_STRUCTURES: HoldingStructure[] = [
       {
         label: "100 k Gewinn · alles thesauriert in Holding",
         opGewinn: 100000,
-        totalSteuer: 31125,
-        privatNetto: 68875,
+        totalSteuer: 31050,
+        privatNetto: 68950,
         effektivPct: 31.1,
         breakdown: [
           "Op-GmbH: 100.000 € × 30 % KSt+GewSt = 30.000 € Steuer · 70.000 € verbleibender Gewinn",
-          "Ausschüttung an Holding: 70.000 € · 5 % steuerpflichtig = 3.500 € · davon ~30 % = 1.125 € Steuer",
-          "Holding-Netto: 68.875 € (für Re-Invest, ETF, Immobilien)",
+          "Ausschüttung an Holding: 70.000 € · 5 % steuerpflichtig = 3.500 € · davon ~30 % = 1.050 € Steuer",
+          "Holding-Netto: 68.950 € (für Re-Invest, ETF, Immobilien)",
           "Bei späterer Privat-Entnahme weitere ~26,375 % AbgSt fällig",
         ],
         vsEinzel: "Einzelunternehmen 100 k Gewinn: ~32 k € ESt+SoliZ+GewSt = 68 k Netto. Praktisch identisch — Holding bringt hier nur Vorteile bei Reinvest oder Exit.",
@@ -145,18 +145,18 @@ export const HOLDING_STRUCTURES: HoldingStructure[] = [
       {
         label: "500 k Gewinn · halbiertes Verhältnis (250 k privat, 250 k Reinvest)",
         opGewinn: 500000,
-        totalSteuer: 215938,
-        privatNetto: 284062,
-        effektivPct: 43.2,
+        totalSteuer: 221188,
+        privatNetto: 278812,
+        effektivPct: 44.2,
         breakdown: [
           "Op-GmbH: 500.000 € × 30 % = 150.000 € KSt+GewSt · 350.000 € verbleibend",
           "Ausschüttung an Holding: 350.000 € · 5 % steuerpflichtig = 17.500 € × 30 % = 5.250 € Steuer",
           "Holding-Netto: 344.750 € — davon 250 k privat entnehmen via AbgSt",
           "AbgSt auf 250.000 €: ~26,375 % SoliZ inkl = 65.938 € Steuer · 184.062 € privat netto",
-          "Holding behält 94.750 € für Reinvest (z.B. ETF, Immobilien — fortan 1,5 % effektiv besteuert)",
+          "Holding behält 94.750 € für Reinvest (z.B. Immobilien, Beteiligungen ≥ 10 % — Achtung: Streubesitz-Dividenden und ETF-Erträge sind in der Holding nicht nach § 8b KStG begünstigt)",
           "Total: 150 k + 5,25 k + 65,94 k = 221,2 k Steuer · privat netto 184 k + Holding 94,75 k = 278,8 k",
         ],
-        vsEinzel: "Einzelunternehmen 500 k Gewinn: ~210 k € ESt-Spitze (42 % auf > 277 k). Nicht thesaurierbar — alles wird privat besteuert. Holding ermöglicht Reinvest mit 1,5 % statt 26 %.",
+        vsEinzel: "Einzelunternehmen 500 k Gewinn: ~210 k € ESt+SoliZ (Reichensteuersatz 45 % ab ~278 k zvE, § 32a EStG). Nicht thesaurierbar — alles wird privat besteuert. Holding ermöglicht Reinvest ohne private Abgeltungsteuer (26,375 %).",
       },
       {
         label: "2 Mio Exit-Erlös aus Op-GmbH-Verkauf",
@@ -210,10 +210,9 @@ export const HOLDING_STRUCTURES: HoldingStructure[] = [
       "Eltern wollen Anteile schrittweise auf Kinder übertragen ohne sofortige Schenkungsteuer",
     ],
     realWorldExamples: [
-      "Maritim Hotels (Familie Eckert)",
-      "Würth-Gruppe (Reinhold Würth + Familie über Holding)",
-      "Henkel (Familien-Aktionärspool seit 1985)",
-      "viele Mittelstands-Familien-Unternehmen",
+      "Familienunternehmen, in dem die Eltern Anteile an der Holding schrittweise auf die Kinder übertragen",
+      "Mittelständler mit mehreren Erben, die ihre Stimmrechte über einen Pool-Vertrag bündeln",
+      "Familien, die Anteile zusammenhalten und Zersplitterung im Erbfall verhindern wollen",
     ],
     pros: [
       "**§13a ErbStG** Verschonungsabschlag: bis zu 100 % Steuerfreiheit bei Übertragung von Betriebsvermögen (Vollverschonung) bei 7-jähriger Behaltensfrist",
@@ -302,11 +301,9 @@ export const HOLDING_STRUCTURES: HoldingStructure[] = [
       "Streit-Vermeidung bei mehreren Erbberechtigten",
     ],
     realWorldExamples: [
-      "Aldi Süd / Nord (Karl-Albrecht-Stiftung + Theo-Albrecht-Stiftung)",
-      "Robert Bosch Stiftung",
-      "Würth-Stiftung",
-      "Lidl/Schwarz-Gruppe (Dieter Schwarz-Stiftung)",
-      "Trigema (Wolfgang Grupp — Stiftung in Vorbereitung)",
+      "Unternehmerfamilien mit großem Betriebsvermögen, die das Unternehmen über Generationen zusammenhalten wollen",
+      "Gründer ohne Nachfolger in der Familie, die das Unternehmen dauerhaft sichern wollen",
+      "Große deutsche Familienunternehmen werden häufig von Stiftungen gehalten (Unternehmensstiftung bzw. Doppelstiftung)",
     ],
     pros: [
       "**Vermögen ist 'eingefroren' in der Stiftung** — keine Privat-Pfändung, kein Pflichtteil, kein Scheidungs-Zugewinn",
@@ -371,11 +368,9 @@ export const HOLDING_STRUCTURES: HoldingStructure[] = [
       "Investoren-Aufnahme nur in Sub-Bereich (z.B. nur 1 Brand verkaufen)",
     ],
     realWorldExamples: [
-      "ProSiebenSat.1 Media (Holding → diverse Tochtergesellschaften)",
-      "Bertelsmann (RTL Group, Penguin Random House etc. unter Bertelsmann-Holding)",
-      "Burda (Hubert Burda Media → diverse Verlags-Töchter)",
-      "Kaufland/Lidl-Gruppe (Schwarz-Gruppe → mehrere Vertriebslinien)",
-      "Razor Group / Stryze (D2C-Aggregatoren, mehrere Brands)",
+      "Gründer mit mehreren D2C-Marken, die je Marke eine eigene GmbH führen",
+      "Unternehmer mit verschiedenen Geschäftsfeldern (z. B. Handel und Immobilien) und getrenntem Risiko",
+      "D2C-Aggregatoren und Medien- bzw. Handelskonzerne mit vielen Tochtergesellschaften",
     ],
     pros: [
       "Risiko-Trennung pro Geschäftsfeld (Op-GmbH A insolvent → andere unbetroffen)",
@@ -388,7 +383,7 @@ export const HOLDING_STRUCTURES: HoldingStructure[] = [
       "Sehr aufwändig: 4–7 separate GmbHs zu führen + Buchhaltungen",
       "StB-Kosten skalieren linear mit Anzahl Gesellschaften (5 GmbHs = ~10 k €/Jahr StB)",
       "Komplexität in Konzernabschluss (HGB §290 ff bei Konzern-Pflicht)",
-      "Ab Konzernpflicht (40 Mio € Bilanzsumme / 80 Mio € Umsatz / 250 Mitarbeiter): jährlicher Konzernabschluss + Wirtschaftsprüfer",
+      "Ab Konzernpflicht (§ 293 HGB, Werte seit 2024: an zwei aufeinanderfolgenden Stichtagen zwei von drei Grenzen überschritten — konsolidiert 25 Mio € Bilanzsumme / 50 Mio € Umsatz / 250 Mitarbeiter bzw. ohne Konsolidierung 30 Mio € / 60 Mio €): jährlicher Konzernabschluss + Wirtschaftsprüfer",
     ],
     setupCost: "5.000–15.000 € pro zusätzlicher Sub-Holding (Notar + Eintrag)",
     runningCost: "10.000–25.000 €/Jahr StB + ggf. Wirtschaftsprüfung bei Konzernpflicht",
@@ -433,13 +428,13 @@ export const HOLDING_STRUCTURES: HoldingStructure[] = [
       "Co-Founder mit unterschiedlichen Anteilen wollen Gleichbehandlung beim Steuerprofil",
     ],
     realWorldExamples: [
-      "Standard bei deutschen VC-Deals (HV Capital, Project A, Earlybird)",
-      "Razor Group (D2C-Aggregator) — Founder-Holdings + Investor-Holdings",
-      "Forto, sennder, Personio — alle haben Founder-Holdings für Steuer-Effizienz",
+      "VC-finanzierte Startups, bei denen Gründer ihre Anteile über eine persönliche Holding halten",
+      "Business Angels und Investoren, die über eigene Beteiligungsgesellschaften investieren",
+      "Gründerteams mit mehreren Foundern, bei denen jeder eine eigene Holding nutzt",
     ],
     pros: [
       "Founder + Investor profitieren jeweils vom Schachtelprivileg bei Exit",
-      "Bei 1 Mio Founder-Exit-Erlös: ~50 k € Steuer (in Holding) statt ~250 k € (privat) — pro Founder",
+      "Bei 1 Mio Founder-Exit-Gewinn: ~15 k € Steuer in der Holding (5 % × ~30 %, § 8b Abs. 2, 3 KStG) statt ~250 k € privat (Teileinkünfteverfahren) — pro Founder",
       "Cap Table sauber: Op-GmbH hat nur 2 Gesellschafter (Founder-Holding + Investor-Holding)",
       "Founder kann Holding privat 'parken' und investieren ohne neue Privat-Steuer-Hits",
       "Vesting / Reverse Vesting auf Founder-Holding-Ebene möglich (nicht auf Op-GmbH-Ebene)",
@@ -466,7 +461,7 @@ export const HOLDING_STRUCTURES: HoldingStructure[] = [
     ],
     setupSteps: [
       "1. **VOR** Investoren-Term-Sheet: Founder-Holding gründen",
-      "2. Op-GmbH-Anteile in Founder-Holding einbringen (steuerneutral §21 UmwStG)",
+      "2. Op-GmbH-Anteile in Founder-Holding einbringen (Anteilstausch §21 UmwStG, auf Antrag steuerneutral)",
       "3. 7-Jahres-Sperrfrist startet ab Einbringung — bei vorherigem Exit Steuer-Hit",
       "4. Investor gründet eigene Investor-Holding und investiert von dort in Op-GmbH",
       "5. Beteiligungsvertrag inkl. Vesting / Drag-Along zwischen den Holdings",
@@ -500,10 +495,9 @@ export const HOLDING_STRUCTURES: HoldingStructure[] = [
       "Wenn Investoren-Eintritt noch nicht geplant ist",
     ],
     realWorldExamples: [
-      "Bosch (Robert Bosch GmbH selbst — historisch GmbH & Co. KG)",
-      "Stihl Holding GmbH & Co. KG",
-      "Aldi Einkauf GmbH & Co. oHG (variant)",
-      "viele Mittelständler in Maschinenbau, Lebensmittel, Handel",
+      "Mittelständische Familienunternehmen in Maschinenbau, Lebensmittel und Handel",
+      "Unternehmen, die Haftungsbeschränkung mit Besteuerung als Personengesellschaft verbinden wollen",
+      "Immobilien- und Vermögensgesellschaften mit Komplementär-GmbH",
     ],
     pros: [
       "Steuerlich transparent: Gewinn fließt direkt zu Kommanditisten → individueller ESt-Satz (kann günstiger sein als KSt+GewSt)",
@@ -522,7 +516,8 @@ export const HOLDING_STRUCTURES: HoldingStructure[] = [
     setupCost: "1.500–3.000 € (Komplementär-GmbH + KG-Eintrag im HR Abt B)",
     runningCost: "1.500–3.000 €/Jahr StB für GmbH + KG getrennt",
     worthwhileFrom: "Eher etabliertes Geschäft mit stabilen Gewinnen, weniger für Tech-Startups",
-    taxImpact: "Steuer-Höhe stark abhängig vom individuellen ESt-Satz: bei 42 % ESt + ~14 % GewSt-effektiv = ~56 %, bei 25 % ESt nur ~39 %. KapGes hätte ~30 %. Lohnt sich also bei niedriger persönlicher Progression.",
+    // § 35 Abs. 1 EStG: Anrechnung 4,0 × Messbetrag, max. tatsächliche GewSt; § 11 Abs. 2 GewStG: Messzahl 3,5 %; § 4 SolZG: 5,5 %.
+    taxImpact: "Steuer-Höhe stark abhängig vom individuellen ESt-Satz: bei 42 % ESt (+ SoliZ) und GewSt mit Anrechnung nach § 35 EStG (Faktor 4,0) realistisch ~43,5–47 % je nach Hebesatz (bei Hebesatz 400: GewSt 14 %, ESt 42 % − 14 % Anrechnung = 28 %, SoliZ 1,54 % → ≈ 43,5 %; bei Hebesatz 490 ≈ 46,7 %), bei niedrigerer Progression entsprechend weniger. KapGes hätte ~30 %. Lohnt sich also bei niedriger persönlicher Progression.",
     legalBasis: [
       "§§ 161 ff HGB (Kommanditgesellschaft)",
       "§35 EStG (GewSt-Anrechnung)",
@@ -563,10 +558,9 @@ export const HOLDING_STRUCTURES: HoldingStructure[] = [
       "Geplante Internationalisierung (IP via Holding lizenziert an alle Töchter)",
     ],
     realWorldExamples: [
-      "SAP (SAP Holding besitzt Software-IP, lizenziert an SAP SE)",
-      "Adidas (Marken-Lizenzierung über Spezialgesellschaften)",
-      "BMW (BMW IP GmbH — Marken + Patente separat)",
-      "viele Software-Startups mit Mutter-Tochter-Struktur",
+      "Software-Startups, deren Quellcode und Marken in einer eigenen Gesellschaft liegen",
+      "D2C-Marken, die Markenrechte getrennt vom operativen Geschäft halten",
+      "Konzerne mit internationalen Töchtern, die Marken und Patente konzernintern lizenzieren",
     ],
     pros: [
       "Lizenzgebühren reduzieren Op-GmbH-Gewinn (Steuer-Aufwand) und fließen in IP-Holding (kann thesaurieren oder ausschütten)",
@@ -577,7 +571,7 @@ export const HOLDING_STRUCTURES: HoldingStructure[] = [
     ],
     cons: [
       "**Verrechnungspreise §1 AStG**: Lizenzgebühren müssen 'fremdüblich' sein (5–10 % Umsatz typisch). Zu hoch = BMF rechnet Differenz hinzu",
-      "Seit 2008 **Lizenzschranke §4j EStG**: Lizenzzahlungen ins Ausland mit 'schädlichem Steuerregime' (< 25 %) nicht abziehbar",
+      "Seit 2018 **Lizenzschranke §4j EStG**: Lizenzzahlungen an nahestehende Empfänger mit nicht nexus-konformer Präferenzregelung (< 25 % Belastung) nur eingeschränkt abziehbar",
       "In DE keine echte Patent-/Innovation-Box (anders als NL/IE/HU/UK)",
       "Aufwändige Dokumentation (Verrechnungspreis-Studien)",
       "Bei Steuer-Outside Schaden: Doppel-Besteuerung möglich",
@@ -595,7 +589,7 @@ export const HOLDING_STRUCTURES: HoldingStructure[] = [
     setupSteps: [
       "1. IP-Holding GmbH gründen",
       "2. IP-Inventur: alle Marken / Patente / Software / Domains / Know-how erfassen",
-      "3. IP-Übertragung an Holding (steuerlich neutral via §21 UmwStG bei Einbringung)",
+      "3. IP-Übertragung an Holding: steuerpflichtige Gewinnrealisierung zum fremdüblichen Preis (§21 UmwStG gilt nur für Anteile, nicht für einzelne Wirtschaftsgüter; Unterpreis = vGA) — Verrechnungspreis-Gutachten nötig, alternativ IP direkt in der Holding entwickeln",
       "4. Lizenz-Vertrag mit Op-GmbH aufsetzen (Verrechnungspreis-Studie!)",
       "5. Quartalsweise / jährliche Lizenz-Abrechnung + Buchung",
     ],
@@ -627,15 +621,14 @@ export const HOLDING_STRUCTURES: HoldingStructure[] = [
       "Wer von 30 % KSt+GewSt auf Beteiligungs-Erträge profitieren möchte",
     ],
     realWorldExamples: [
-      "viele erfolgreiche Founder nach Exit (van Bibra, Mertin, Maschmeyer)",
-      "Family Offices à la Quandt-Holding, Burda Vermögen",
-      "Hedge-Fund-Manager-Holdings",
-      "Standard-Setup nach D2C-Exit (Razor, Berlin Brands Group etc.)",
+      "Gründer nach einem Exit, die den Verkaufserlös langfristig anlegen",
+      "Unternehmer, die Ausschüttungen der Op-GmbH in Immobilien und Beteiligungen investieren",
+      "Family Offices zur Verwaltung von Familienvermögen",
     ],
     pros: [
-      "**Schachtelprivileg auch hier** auf Beteiligungs-Erträge (Tochter-GmbHs, Aktien-Pakete > 10 %)",
+      "**Schachtelprivileg auch hier** auf Dividenden aus Beteiligungen ≥ 10 % (KSt, § 8b Abs. 4 KStG) bzw. ≥ 15 % (GewSt, § 9 Nr. 2a GewStG); Veräußerungsgewinne aus Aktien zu 95 % steuerfrei",
       "Immobilien-Erträge: nicht wie Op-GmbH gewerbesteuerlich gefangen (erweiterte Kürzung §9 Nr 1 GewStG bei reiner Vermögensverwaltung)",
-      "ETFs / Aktien direkt halten: Dividenden + Kursgewinne gehen in Holding (1,5 % Effektiv-Steuer wenn ausgeschüttet)",
+      "Aktien direkt halten: Kursgewinne zu 95 % steuerfrei (§ 8b Abs. 2 KStG). Achtung: Streubesitz-Dividenden (< 10 %) sind voll steuerpflichtig (~30 %), ETF-Erträge fallen unter das InvStG (Aktienfonds: 80 % KSt- und 40 % GewSt-Teilfreistellung für Körperschaften, § 20 InvStG)",
       "**Keine Holding-spezifische Sperrfristen** (nur §22 UmwStG bei Anteilseinbringung)",
       "Erbschaftssteuer-Optimierung wenn als Familienvermögen geplant",
     ],
@@ -649,7 +642,8 @@ export const HOLDING_STRUCTURES: HoldingStructure[] = [
     setupCost: "1.500–2.500 € Notar + 25.000 € Stammkapital (selbst nutzbar als Investment-Kapital)",
     runningCost: "1.500–2.500 €/Jahr StB",
     worthwhileFrom: "Vermögen > 500 k € + langfristige Anlage-Strategie",
-    taxImpact: "Aktien-Dividenden in Holding: 5 % effektiv besteuert (95 % via §8b KStG befreit) statt 26,375 % AbgSt privat. Bei 100 k € Dividenden/Jahr: 1,5 k € statt 26,4 k € Steuer = 25 k € gespart/Jahr.",
+    // § 8b Abs. 4 KStG (Streubesitz < 10 % voll steuerpflichtig), § 9 Nr. 2a GewStG (15 %), § 20 Abs. 1, 5 InvStG (Aktienfonds: 80 % KSt / 40 % GewSt Teilfreistellung bei Körperschaften).
+    taxImpact: "Dividenden aus Beteiligungen ≥ 15 %: ~1,5 % effektiv (95 % via §8b KStG befreit) statt 26,375 % AbgSt privat — bei 100 k €: ~1,5 k € statt 26,4 k € Steuer. Streubesitz-Dividenden (< 10 %) dagegen voll mit ~30 % KSt+GewSt besteuert — schlechter als privat. ETF-Ausschüttungen (Aktienfonds): 80 % KSt-frei, aber nur 40 % GewSt-frei → ~12–14 % effektiv. Kursgewinne aus Einzelaktien: ~1,5 %.",
     legalBasis: [
       "§8b KStG (Schachtelprivileg auf Tochter-GmbH-Beteiligungen)",
       "§9 Nr 1 GewStG (erweiterte Kürzung bei reiner Vermögensverwaltung)",
@@ -657,7 +651,7 @@ export const HOLDING_STRUCTURES: HoldingStructure[] = [
     ],
     setupSteps: [
       "1. VV-Holding GmbH gründen (Standard-2-Stufen-Setup)",
-      "2. Ausschüttung von Op-GmbH in Holding leiten (1,5 % Effektiv-Steuer)",
+      "2. Ausschüttung von Op-GmbH in Holding leiten (~1,5 % Effektiv-Steuer bei Beteiligung ≥ 15 %)",
       "3. Investitionsstrategie definieren (z.B. 60 % ETF, 30 % Immobilien, 10 % Beteiligungen)",
       "4. Bei Immobilien: Tochter-GmbH gründen oder direkt in Holding (steuerlich abwägen)",
       "5. Bei Aktien-Portfolio: Trading-Frequenz-Grenze beachten (Vermögensverwaltung vs. gewerblich)",
