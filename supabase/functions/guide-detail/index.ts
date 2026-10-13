@@ -6,6 +6,8 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
 import { GUIDE_SECURE } from "./secure-data.ts";
+import { type AboZeile, hatAktivenZugang, ZUGANG_SPALTEN } from "../_shared/access.ts";
+import { zweiterFaktorOffen, zweiFaktorAntwort } from "../_shared/zweiFaktor.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -35,15 +37,15 @@ serve(async (req) => {
     const { data: userData, error: authErr } = await supabase.auth.getUser(token);
     if (authErr || !userData.user) return json({ error: "unauthorized" }, 401);
     const user = userData.user;
+    if (zweiterFaktorOffen(user, token)) return zweiFaktorAntwort(corsHeaders);
 
     // 2) Entitlement: aktives/trialing Abo oder comp_access oder Admin-Rolle
     const [subRes, roleRes] = await Promise.all([
-      supabase.from("subscriptions").select("status, comp_access").eq("user_id", user.id).maybeSingle(),
+      supabase.from("subscriptions").select(ZUGANG_SPALTEN).eq("user_id", user.id).maybeSingle(),
       supabase.from("user_roles").select("role").eq("user_id", user.id).eq("role", "admin").maybeSingle(),
     ]);
-    const sub = subRes.data as { status?: string; comp_access?: boolean } | null;
-    const entitled =
-      sub?.status === "active" || sub?.status === "trialing" || !!sub?.comp_access || !!roleRes.data;
+    // Gemeinsame Regel inkl. Laufzeitende (siehe _shared/access.ts).
+    const entitled = hatAktivenZugang(subRes.data as AboZeile) || !!roleRes.data;
     if (!entitled) return json({ error: "no_active_subscription" }, 403);
 
     // 3) Detail für den angefragten Guide zurückgeben

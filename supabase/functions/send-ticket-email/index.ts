@@ -40,6 +40,10 @@ const json = (b: unknown, status = 200) =>
 
 /** Hoechstens so viele Tickets je Absenderadresse pro Stunde loesen Mails aus. */
 const MAX_TICKETS_PRO_STUNDE = 3;
+/** Ueber alle Adressen: mehr Tickets pro Stunde = Missbrauchsmuster → keine
+ *  Kunden-Bestaetigungen mehr (die interne Meldung geht weiter raus). Die
+ *  Grenze je Zieladresse allein liess beliebig viele FREMDE Adressen zu. */
+const MAX_BESTAETIGUNGEN_GESAMT_PRO_STUNDE = 30;
 /** Nur frisch angelegte Tickets — alte IDs lassen sich nicht erneut "abfeuern". */
 const MAX_ALTER_MIN = 15;
 
@@ -108,7 +112,8 @@ Deno.serve(async (req) => {
       return json({ ok: true, skipped: "rate_limit" });
     }
 
-    const name = einzeilig(t.name, 100).replace(/[<>"]/g, "") || "Kunde";
+    // Kommas/Semikolons trennen im to-/replyTo-Header Empfaenger — raus damit.
+    const name = einzeilig(t.name, 100).replace(/[<>",;]/g, "") || "Kunde";
     const subject = einzeilig(t.subject, 150);
     const message = String(t.message ?? "").slice(0, 5000);
 
@@ -148,20 +153,34 @@ Deno.serve(async (req) => {
     // (_shared/transaktional.ts). Die interne Meldung oben bleibt
     // schlichtes HTML: Sie geht an uns selbst, da waeren Markenrahmen und
     // Fusszeile nur im Weg.
-    const kunde = buildTicketEingang({
-      betreff: subject,
-      name,
-      ticketId,
-      antwortInnerhalb: "24 Stunden",
-    });
+    //
+    // KEIN Betreff, kein frei gewaehlter Name in der Kunden-Bestaetigung:
+    // Adresse, Name und Betreff stammen aus einem anonymen Formular. Mit
+    // wiedergegebenem Text war das ein Relay fuer beliebige Inhalte unter
+    // unserer Domain an fremde Adressen. Empfaenger als nackte Adresse.
+    const seitGesamt = new Date(Date.now() - 3600_000).toISOString();
+    const { count: gesamt, error: gErr } = await supa
+      .from("contact_tickets")
+      .select("id", { count: "exact", head: true })
+      .gte("created_at", seitGesamt);
+    if (gErr || (gesamt ?? 0) > MAX_BESTAETIGUNGEN_GESAMT_PRO_STUNDE) {
+      console.warn("send-ticket-email: Kunden-Bestaetigung ausgesetzt (Gesamtgrenze/Zaehlfehler)", ticketId);
+    } else {
+      const vorname = /^[\p{L}' -]{1,40}$/u.test(name) ? name : null;
+      const kunde = buildTicketEingang({
+        name: vorname,
+        ticketId,
+        antwortInnerhalb: "24 Stunden",
+      });
 
-    await client.send({
-      from: `GründerX <${ABSENDER}>`,
-      to: `${name} <${email}>`,
-      subject: kunde.subject,
-      content: kunde.text,
-      html: kunde.html,
-    });
+      await client.send({
+        from: `GründerX <${ABSENDER}>`,
+        to: email,
+        subject: kunde.subject,
+        content: kunde.text,
+        html: kunde.html,
+      });
+    }
 
     await client.close();
 

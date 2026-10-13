@@ -19,7 +19,9 @@
 //    Stoerung mit Verspaetung, sind unter Umstaenden alle drei Stufen
 //    "faellig". Drei Mails auf einmal sind eine Beschwerde, keine
 //    Kampagne — es geht die hoechste faellige Stufe raus, der Rest
-//    verfaellt.
+//    verfaellt: Uebersprungene niedrigere Stufen werden mitgestempelt,
+//    und nach einer hoeheren Stufe kommt nie wieder eine niedrigere
+//    (frueher gingen sie nach einem verspaeteten Lauf rueckwaerts raus).
 //
 // 3. DER MERKER WIRD ERST NACH BESTAETIGTEM VERSAND GESETZT. Am
 //    10.09.2026 bekamen fuenf ArbitrageX-Kunden den Merker ohne Mail,
@@ -37,6 +39,7 @@ import { buildCartHelp, buildCartObjections, buildCartLast } from "../_shared/ca
 import { sendCampaign, abTestStrecke } from "../_shared/mailSend.ts";
 import { BRANDING } from "../_shared/mailBrand.ts";
 import { unsubscribeUrl } from "../_shared/unsubscribe.ts";
+import { hatBereitsGekauft, waehleStufe } from "../_shared/cartKauf.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -80,6 +83,8 @@ Deno.serve(async (req) => {
     .from("cart_abandons")
     .select("*")
     .is("gekauft_at", null)
+    // Fertige Vorgaenge (letzte Stufe raus) belegen sonst Plaetze im limit.
+    .is("stufe3_at", null)
     .gte("created_at", new Date(Date.now() - MAX_STUNDEN * 3600_000).toISOString())
     .order("created_at", { ascending: true })
     .limit(200);
@@ -97,12 +102,28 @@ Deno.serve(async (req) => {
   for (const z of zeilen) {
     const alterStunden = (Date.now() - new Date(z.created_at).getTime()) / 3600_000;
 
-    // Hoechste faellige Stufe, die noch nicht raus ist. Rueckwaerts, damit
-    // ein verspaeteter Lauf nicht drei Mails nachholt (Regel 2).
-    const faellig = [...STUFEN].reverse().find((s) =>
-      alterStunden >= s.ab && !z[s.spalte as keyof Zeile]
-    );
-    if (!faellig) { uebersprungen++; continue; }
+    // Hoechste faellige Stufe NACH der zuletzt gesendeten (Regel 2).
+    const wahl = waehleStufe(STUFEN, z as unknown as Record<string, unknown>, alterStunden);
+    if (!wahl) { uebersprungen++; continue; }
+    const faellig = wahl.stufe;
+    const stempel = (zeit: string) => Object.fromEntries(wahl.stempel.map((sp) => [sp, zeit]));
+
+    // Regel 1, zweite Pruefung: Kauf ueber eine andere Session, eine
+    // Reseller-Plattform oder ein Konto mit aktivem Zugang. Das 48-h-Fenster
+    // deckt Zeilen aus dem expired-Event ab, die erst ~24 h nach dem Abbruch
+    // entstehen. Ist der Stand unbekannt (Fehler), wird NICHT gesendet.
+    try {
+      const seit = new Date(new Date(z.created_at).getTime() - 48 * 3600_000).toISOString();
+      if (await hatBereitsGekauft(db, z.email, seit)) {
+        await db.from("cart_abandons").update({ gekauft_at: new Date().toISOString() }).eq("id", z.id);
+        uebersprungen++;
+        continue;
+      }
+    } catch (e) {
+      console.error(`[cart-series] Kaufpruefung fehlgeschlagen fuer ${z.id}: ${(e as Error).message}`);
+      fehler++;
+      continue;
+    }
 
     // Die Variante steht in der Zeile; fehlt sie (Altbestand), wird sie
     // hier einmal deterministisch gezogen.
@@ -138,7 +159,7 @@ Deno.serve(async (req) => {
     if (res.ok) {
       // Merker ERST JETZT (Regel 3).
       const { error: upErr } = await db.from("cart_abandons")
-        .update({ [faellig.spalte]: new Date().toISOString(), variant })
+        .update({ ...stempel(new Date().toISOString()), variant })
         .eq("id", z.id);
       if (upErr) {
         // Die Mail ist raus, der Merker fehlt — beim naechsten Lauf
@@ -150,7 +171,7 @@ Deno.serve(async (req) => {
       // Abgemeldet: Stufe als erledigt markieren, damit der Vorgang
       // nicht bei jedem Lauf erneut geprueft wird.
       await db.from("cart_abandons")
-        .update({ [faellig.spalte]: new Date().toISOString() }).eq("id", z.id);
+        .update(stempel(new Date().toISOString())).eq("id", z.id);
       uebersprungen++;
     } else {
       console.error(`[cart-series] ${z.email} Stufe ${faellig.nr}: ${res.reason} ${res.detail ?? ""}`);

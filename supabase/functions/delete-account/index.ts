@@ -4,6 +4,7 @@
 
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
+import { zweiterFaktorOffen, zweiFaktorAntwort } from "../_shared/zweiFaktor.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -44,6 +45,8 @@ serve(async (req) => {
     if (!token) return json({ error: "unauthorized" }, 401);
     const { data: userData, error: authErr } = await supabase.auth.getUser(token);
     if (authErr || !userData.user) return json({ error: "unauthorized" }, 401);
+    // Kontolöschung nur mit bestätigtem zweitem Faktor (_shared/zweiFaktor.ts).
+    if (zweiterFaktorOffen(userData.user, token)) return zweiFaktorAntwort(corsHeaders);
     const userId = userData.user.id;
 
     const cleared: string[] = [];

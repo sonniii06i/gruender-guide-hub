@@ -42,6 +42,11 @@ export interface IpnEvent {
   amountCents: number | null;
   currency: string;
   event: string;
+  /** true nur bei einem echten Zahlungseingang. Ankündigungen künftiger
+   *  Abbuchungen und Testphasen geben (bzw. verlängern) Zugang ggf. nicht,
+   *  sind aber nie ein "Verkauf" — sonst stünden Meldungen ohne Geldfluss
+   *  im Discord und Umsätze würden doppelt gezählt. */
+  paid: boolean;
   raw: unknown;
 }
 
@@ -134,10 +139,13 @@ function first(o: Record<string, unknown>, ...keys: string[]): string | null {
 }
 
 // --- CopeCart ---------------------------------------------------------------
+// "payment.recurring.upcoming" kündigt eine KÜNFTIGE Abbuchung nur an — kein
+// Geldfluss. Früher stand es hier als Grant: Es verlängerte den Zugang vor der
+// Zahlung und löste eine "Neuer Verkauf"-Meldung aus. Jetzt: ignore (es fällt
+// in den else-Zweig unten); die Verlängerung kommt mit "payment.made".
 const COPECART_GRANT = new Set([
   "payment.made",
   "payment.trial",
-  "payment.recurring.upcoming",
 ]);
 const COPECART_REVOKE = new Set([
   "payment.refunded",
@@ -189,6 +197,7 @@ export async function parseCopecart(
     amountCents: toCents(d.transaction_amount ?? d.first_payment),
     currency: String(d.transaction_currency ?? "EUR").toUpperCase(),
     event: event + (isTest ? " (Testkauf)" : ""),
+    paid: action === "grant" && event === "payment.made",
     raw: d,
   };
 }
@@ -239,6 +248,7 @@ export async function parseDigistore(
       amountCents: null,
       currency: "EUR",
       event,
+      paid: false,
       raw: params,
     };
   }
@@ -269,6 +279,7 @@ export async function parseDigistore(
     amountCents: toCents(params.amount ?? params.amount_brutto ?? params.order_amount),
     currency: String(params.currency ?? "EUR").toUpperCase(),
     event,
+    paid: action === "grant" && !/trial/.test(event),
     raw: params,
   };
 }
@@ -332,6 +343,9 @@ export async function parseElopage(
     ),
     currency: String(first(payload, "currency", "currency_code") ?? "EUR").toUpperCase(),
     event,
+    // Nur Ereignisse, die eine Zahlung melden — "order.created"/"activate"
+    // geben ggf. Zugang, sind aber kein bestätigter Geldeingang.
+    paid: action === "grant" && /payment|paid|success/.test(event) && !/trial|pending|upcoming/.test(event),
     raw: d,
   };
 }

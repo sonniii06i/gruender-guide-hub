@@ -1,6 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
-import { inputGuard, outputGuard, rejectStream } from "../_shared/chat-guardrails.ts";
+import { bereinigeVerlauf, entschaerfeVerlauf, inputGuard, outputGuard, rejectStream } from "../_shared/chat-guardrails.ts";
 import {
   loadMemories,
   markMemoriesUsed,
@@ -11,6 +11,8 @@ import {
 } from "../_shared/chat-memory.ts";
 import { retrieveKb, retrieveKbText, buildKbBlock } from "../_shared/kb-retrieval.ts";
 import { BUNDESLAND_NAME, datumDe, eventsFuer, fristenFuer, ladeEvents, plzZuLand, regionAusText } from "../_shared/gruenderEvents.ts";
+import { type AboZeile, hatAktivenZugang, ZUGANG_SPALTEN } from "../_shared/access.ts";
+import { zweiterFaktorOffen } from "../_shared/zweiFaktor.ts";
 
 // Fragen nach Terminen, Hackathons, Wettbewerben → aktuelle Liste in den Prompt.
 const RE_EVENTFRAGE =
@@ -61,6 +63,9 @@ async function getUserIdFromRequest(req: Request): Promise<string | null> {
     });
     const { data, error } = await supa.auth.getUser();
     if (error || !data?.user) return null;
+    // Schuldet die Session den zweiten Faktor, gilt sie hier als nicht angemeldet
+    // (vorher setzte nur das Frontend 2FA durch — siehe _shared/zweiFaktor.ts).
+    if (zweiterFaktorOffen(data.user, token)) return null;
     return data.user.id;
   } catch (e) {
     console.error("getUserIdFromRequest error", e);
@@ -183,6 +188,8 @@ function estimateChatTokens(text: string): number {
 }
 
 async function logChat(entry: {
+  // Ohne user_id lief das Token-Kontingent (token_budget_soft_cap) ins Leere.
+  user_id?: string | null;
   user_message: string;
   assistant_message?: string | null;
   provider: "gemini" | "anthropic-claude" | "openai-gpt" | "rejected-input" | "rejected-output";
@@ -944,12 +951,24 @@ serve(async (req) => {
   const startTime = Date.now();
 
   try {
-    const { messages } = await req.json();
-    const lastUser = [...messages].reverse().find((m: any) => m.role === "user")?.content ?? "";
+    const body = await req.json().catch(() => ({}));
+    // Nur user/assistant mit String-Inhalt, gekürzt (siehe bereinigeVerlauf).
+    const messages = entschaerfeVerlauf(bereinigeVerlauf((body as { messages?: unknown })?.messages));
+    if (!messages.length) {
+      return new Response(JSON.stringify({ error: "Keine Nachricht übergeben." }), {
+        status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+    const lastUser = [...messages].reverse().find((m) => m.role === "user")?.content ?? "";
     // Einmal erkennen: Begrüßung/Smalltalk? → schlanker Prompt + kein KB-Retrieval (schneller).
     const smallTalk = isSmallTalk(lastUser);
 
     // === INPUT-GUARD ===
+    // Streng nur auf die LETZTE User-Nachricht. Ältere Treffer im Verlauf
+    // (der Client speichert auch abgelehnte Nachrichten und schickt sie erneut)
+    // sperren das Gespräch nicht dauerhaft, sondern werden vor dem Modell durch
+    // einen Platzhalter ersetzt (entschaerfeVerlauf) — so geht trotzdem kein
+    // Injection-Text aus älteren Turns ans Modell.
     const guard = inputGuard(lastUser);
     if (!guard.ok) {
       logChat({
@@ -989,13 +1008,11 @@ serve(async (req) => {
         );
       }
       const [subRes, roleRes] = await Promise.all([
-        supaService.from("subscriptions").select("status, comp_access").eq("user_id", userId).maybeSingle(),
+        supaService.from("subscriptions").select(ZUGANG_SPALTEN).eq("user_id", userId).maybeSingle(),
         supaService.from("user_roles").select("role").eq("user_id", userId).eq("role", "admin").maybeSingle(),
       ]);
-      const activeSub =
-        subRes.data?.status === "active" ||
-        subRes.data?.status === "trialing" ||
-        !!(subRes.data as any)?.comp_access;
+      // Gemeinsame Regel inkl. Laufzeitende (siehe _shared/access.ts).
+      const activeSub = hatAktivenZugang(subRes.data as AboZeile);
       if (!activeSub && !roleRes.data) {
         return new Response(
           JSON.stringify({ error: "Für den Felix-Chat brauchst du ein aktives Abo." }),
@@ -1093,14 +1110,18 @@ serve(async (req) => {
       const teed = teeForLogging(upstream, (fullText) => {
         const outGuard = outputGuard(fullText);
         logChat({
+          user_id: userId,
           user_message: lastUser.slice(0, 2000),
           assistant_message: fullText.slice(0, 4000),
           provider,
           model,
           // Nur hier zählen, nicht in den Guard-Reject-Pfaden: bei einem
           // abgelehnten Ein-/Ausgabetext ist kein Modell gelaufen, es gibt
-          // also auch keine Kosten zu verbuchen.
-          input_tokens: estimateChatTokens(lastUser),
+          // also auch keine Kosten zu verbuchen. Eingabe = System-Prompt plus
+          // der GESAMTE gesendete Verlauf, nicht nur die letzte Nachricht.
+          input_tokens: estimateChatTokens(
+            systemPromptWithMemory + messages.map((m) => m.content).join("\n"),
+          ),
           output_tokens: estimateChatTokens(fullText),
           output_guard_triggered: outGuard.ok ? null : outGuard.trigger,
           latency_ms: Date.now() - startTime,
@@ -1128,12 +1149,22 @@ serve(async (req) => {
     };
 
     // Fallback-Helper: versucht Anthropic, dann OpenAI (in dieser Reihenfolge)
+    // callAnthropic WIRFT bei !resp.ok. Früher lief das ungefangen in den
+    // äußeren catch — OpenAI wurde nie versucht, sobald ein Anthropic-Key
+    // gesetzt war, und der Nutzer sah den rohen Anbieter-Fehlertext.
     const tryFallbacks = async (): Promise<Response | null> => {
       if (ANTHROPIC_KEY) {
         console.log("→ Fallback auf Anthropic Claude");
-        const anthResp = await callAnthropic(messages, ANTHROPIC_KEY, systemPromptWithMemory);
-        if (anthResp.body) return wrapStream(anthResp.body, "anthropic-claude", "claude-sonnet-4-6");
-        return anthResp;
+        try {
+          const anthResp = await callAnthropic(messages, ANTHROPIC_KEY, systemPromptWithMemory);
+          if (anthResp.body) return wrapStream(anthResp.body, "anthropic-claude", "claude-sonnet-4-6");
+        } catch (e) {
+          const msg = (e as Error)?.message ?? String(e);
+          const status = Number(msg.match(/\((\d{3})\)/)?.[1] ?? 0);
+          const anth = fehlerKurz(status, msg);
+          console.error("Anthropic-Fallback fehlgeschlagen", anth);
+          vorherigerFehler = vorherigerFehler ? `${vorherigerFehler} | anthropic ${anth}` : `anthropic ${anth}`;
+        }
       }
       if (OPENAI_KEY) {
         console.log("→ Fallback auf OpenAI gpt-4o");
@@ -1146,9 +1177,22 @@ serve(async (req) => {
         logChat({
           user_message: lastUser.slice(0, 2000),
           provider: "openai-gpt",
-          error: `openai ${fehlerKurz(openaiResp.status, errText)}${vorherigerFehler ? ` | gemini ${vorherigerFehler}` : ""}`.slice(0, 500),
+          error: `openai ${fehlerKurz(openaiResp.status, errText)}${vorherigerFehler ? ` | vorher ${vorherigerFehler}` : ""}`.slice(0, 500),
         });
         // Nutzer sehen keinen Anbieter-Statuscode, sondern was los ist.
+        return new Response(JSON.stringify({ error: "Felix ist gerade nicht erreichbar. Bitte versuch es in ein paar Minuten nochmal." }), {
+          status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+      if (ANTHROPIC_KEY) {
+        // Anthropic gescheitert, kein OpenAI-Key: protokollieren und generisch melden.
+        logChat({
+          user_id: userId,
+          user_message: lastUser.slice(0, 2000),
+          provider: "anthropic-claude",
+          error: `alle Anbieter gescheitert: ${vorherigerFehler}`.slice(0, 500),
+          latency_ms: Date.now() - startTime,
+        });
         return new Response(JSON.stringify({ error: "Felix ist gerade nicht erreichbar. Bitte versuch es in ein paar Minuten nochmal." }), {
           status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
@@ -1165,7 +1209,7 @@ serve(async (req) => {
       }
 
       if (geminiResp.status === 429) {
-        vorherigerFehler = fehlerKurz(429, await geminiResp.text().catch(() => ""));
+        vorherigerFehler = `gemini ${fehlerKurz(429, await geminiResp.text().catch(() => ""))}`;
         // Quota/Rate-Limit bei Gemini → erst Fallbacks versuchen, sonst 429 melden
         const fb = await tryFallbacks();
         if (fb) return fb;
@@ -1182,7 +1226,7 @@ serve(async (req) => {
 
       const t = await geminiResp.text();
       console.error("Gemini error", geminiResp.status, t);
-      vorherigerFehler = fehlerKurz(geminiResp.status, t);
+      vorherigerFehler = `gemini ${fehlerKurz(geminiResp.status, t)}`;
       // Bei jedem anderen Fehler: Anthropic ODER OpenAI versuchen
       const fb = await tryFallbacks();
       if (fb) return fb;
@@ -1204,7 +1248,14 @@ serve(async (req) => {
     });
   } catch (e) {
     console.error("chat-felix error", e);
-    return new Response(JSON.stringify({ error: e instanceof Error ? e.message : "Unknown" }), {
+    // Rohe Fehlertexte (Anbieter, Konfiguration) nur ins Log, nie an den Nutzer.
+    logChat({
+      user_message: "(Fehler vor/beim Anbieteraufruf)",
+      provider: "gemini",
+      error: String(e instanceof Error ? e.message : e).replace(/(sk-|AIza)[\w-]+/g, "[key]").slice(0, 500),
+      latency_ms: Date.now() - startTime,
+    });
+    return new Response(JSON.stringify({ error: "Felix ist gerade nicht erreichbar. Bitte versuch es in ein paar Minuten nochmal." }), {
       status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }

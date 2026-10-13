@@ -379,7 +379,10 @@ Deno.serve(async (req) => {
     }
     const q = name.trim();
     const qStripped = stripLegalForm(q);
-    const cacheKey = norm(q);
+    // Präfix trennt den Namensraum von find-notare ("notar-<PLZ>"): Der Name
+    // "notar-12345" landete sonst unter demselben Schlüssel wie die PLZ-Suche.
+    // Alte Einträge ohne Präfix verfallen per TTL.
+    const cacheKey = `firma:${norm(q)}`;
 
     // 1) Cache-Lookup (24h für ok, 5min für fail).
     const supabase = getSupabase();
@@ -391,7 +394,7 @@ Deno.serve(async (req) => {
         .maybeSingle();
       if (cached?.data && cached.fetched_at) {
         const ageMs = Date.now() - new Date(cached.fetched_at).getTime();
-        const wasFail = !!cached.data.searchFailed;
+        const wasFail = !!cached.data.searchFailed || !!cached.data.incomplete;
         const ttl = wasFail ? CACHE_TTL_FAIL_MS : CACHE_TTL_MS;
         if (ageMs < ttl) {
           return new Response(
@@ -414,6 +417,10 @@ Deno.serve(async (req) => {
     // searchFailed nur wenn BEIDE Quellen tot/blockiert sind. Ein "noHits" von
     // GLEIF allein reicht nicht (kleine GmbHs sind dort selten gelistet).
     const searchFailed = ndBlocked && gleifFailed;
+    // NorthData blockiert, GLEIF erreichbar: GLEIF kennt kaum kleine GmbHs/UGs.
+    // Ein "keine Treffer" daraus wäre falsch — das Ergebnis ist unvollständig,
+    // wird nur kurz gecacht, und das UI verweist auf die Handelsregister-Suche.
+    const incomplete = ndBlocked && !gleifFailed;
 
     const sources = {
       northdata: ndResult === null ? "error" : ndBlocked ? "blocked" : "ok",
@@ -441,7 +448,8 @@ Deno.serve(async (req) => {
       })
       .sort((a, b) => Number(b.exact) - Number(a.exact) || (b.score ?? 0) - (a.score ?? 0));
 
-    const noHits = !searchFailed && scored.length === 0;
+    // "Keine Treffer" nur, wenn NorthData (der große Pool) wirklich geantwortet hat.
+    const noHits = !searchFailed && sources.northdata === "ok" && scored.length === 0;
 
     const payload = {
       query: q,
@@ -450,6 +458,7 @@ Deno.serve(async (req) => {
       similarConflict,
       noHits,
       searchFailed,
+      incomplete,
       sources,
       debug: ndResult?.debug,
       handelsregisterUrl: `https://www.handelsregister.de/rp_web/search.xhtml`,

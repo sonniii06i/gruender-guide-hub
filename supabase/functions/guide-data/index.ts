@@ -10,6 +10,7 @@
 
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
+import { zweiterFaktorOffen, zweiFaktorAntwort } from "../_shared/zweiFaktor.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -74,6 +75,7 @@ serve(async (req) => {
     if (!token) return json({ error: "unauthorized" }, 401);
     const { data: userData, error: authErr } = await supabase.auth.getUser(token);
     if (authErr || !userData.user) return json({ error: "unauthorized" }, 401);
+    if (zweiterFaktorOffen(userData.user, token)) return zweiFaktorAntwort(corsHeaders);
     const userId = userData.user.id;
 
     const body = await req.json().catch(() => ({}));
@@ -92,7 +94,13 @@ serve(async (req) => {
     const key = await getKey();
 
     if (action === "load") {
-      const { data: rows } = await supabase.from("playbook_step_progress").select("*").eq("run_id", runId);
+      const { data: rows, error: loadErr } = await supabase.from("playbook_step_progress").select("*").eq("run_id", runId);
+      // Lesefehler nie als "keine Daten" melden — der Client würde leere
+      // Felder anzeigen und beim nächsten Speichern echte Eingaben überschreiben.
+      if (loadErr) {
+        console.error("guide-data load:", loadErr.message);
+        return json({ error: "load_failed" }, 500);
+      }
       const out = [];
       for (const r of rows ?? []) {
         let data = r.data;
@@ -110,7 +118,10 @@ serve(async (req) => {
     }
 
     if (action === "save") {
-      const stepIndex = body.step_index;
+      const stepIndex = Number(body.step_index);
+      if (!Number.isInteger(stepIndex) || stepIndex < 0 || stepIndex > 10_000) {
+        return json({ error: "invalid step_index" }, 400);
+      }
       const plaintextData = body.data ?? {};
       const plaintextNotes = body.notes ?? null;
 
@@ -132,16 +143,16 @@ serve(async (req) => {
         completed_at: body.completed_at ?? null,
       };
 
-      const { data: existing } = await supabase
+      // Atomar per Upsert auf UNIQUE(run_id, step_index). Vorher: erst lesen,
+      // dann update/insert — beide Ergebnisse unausgewertet, Antwort immer
+      // ok:true. Parallele Saves verletzten die Unique-Bedingung still, und
+      // Eingaben (Steuer-ID, Gesellschafterdaten) gingen unbemerkt verloren.
+      const { error: saveErr } = await supabase
         .from("playbook_step_progress")
-        .select("id")
-        .eq("run_id", runId)
-        .eq("step_index", stepIndex)
-        .maybeSingle();
-      if (existing) {
-        await supabase.from("playbook_step_progress").update(record).eq("run_id", runId).eq("step_index", stepIndex);
-      } else {
-        await supabase.from("playbook_step_progress").insert(record);
+        .upsert(record, { onConflict: "run_id,step_index" });
+      if (saveErr) {
+        console.error("guide-data save:", saveErr.message);
+        return json({ error: "save_failed" }, 500);
       }
       return json({ ok: true, encrypted: !!key });
     }

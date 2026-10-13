@@ -37,9 +37,24 @@
 import {
   aufmacher, BRAND, BRAND_DARK, betonung, bullets, button, divider, eur,
   heading, hero, kernzahl, paragraph, plain, priceRows, renderMail,
-  secondary, steps, track,
+  esc, secondary, steps, track,
   type Built,
 } from "./mailLayout.ts";
+
+/**
+ * Externe Links aus gescrapten Quellen (Events, Fristen): nur https://, sonst
+ * kein Link. Rückgabe ist bereits für ein href-Attribut escaped.
+ */
+function sichereUrl(u: unknown): string | null {
+  const s = String(u ?? "").trim();
+  if (!/^https:\/\/[^\s"'<>]+$/i.test(s)) return null;
+  try {
+    new URL(s);
+  } catch {
+    return null;
+  }
+  return esc(s);
+}
 
 /** Bruttopreise — die Betraege, die Stripe tatsaechlich einzieht. */
 const PREIS = {
@@ -501,23 +516,33 @@ export function buildWeekly(o: {
   if (s.events?.length) {
     blocks.push(divider());
     blocks.push(heading(s.regionName ? `Gründer-Events in ${s.regionName}` : "Gründer-Events in deiner Nähe"));
-    blocks.push(bullets(s.events.map((e) =>
-      `<b>${e.wann}</b> · <a href="${e.url}" style="color:${BRAND}">${e.name}</a> <span style="color:#6b7280">(${e.ort})</span>`)));
+    // Event-Daten stammen aus gescrapten Fremdquellen (Luma, Meetup, …):
+    // Text immer escapen, Links nur https.
+    blocks.push(bullets(s.events.map((e) => {
+      const href = sichereUrl(e.url);
+      const name = esc(e.name);
+      return `<b>${esc(e.wann)}</b> · ${href ? `<a href="${href}" style="color:${BRAND}">${name}</a>` : name}` +
+        ` <span style="color:#6b7280">(${esc(e.ort)})</span>`;
+    })));
     blocks.push(paragraph(`<a href="${track(`${url}/gruender-events`, "weekly", v)}" style="color:${BRAND}">Alle Termine ansehen</a>`));
   }
 
   if (s.fristen?.length) {
     blocks.push(divider());
     blocks.push(heading("Bewerbungsfristen, die bald ablaufen"));
-    blocks.push(bullets(s.fristen.map((f) =>
-      `<b>bis ${f.wann}</b> · <a href="${f.url}" style="color:${BRAND}">${f.name}</a>`)));
+    blocks.push(bullets(s.fristen.map((f) => {
+      const href = sichereUrl(f.url);
+      const name = esc(f.name);
+      return `<b>bis ${esc(f.wann)}</b> · ${href ? `<a href="${href}" style="color:${BRAND}">${name}</a>` : name}`;
+    })));
   }
 
   if (s.neueArtikel?.length) {
     blocks.push(divider());
     blocks.push(heading("Neu im Ratgeber"));
+    // Titel stammen aus KI-generierten blog_posts → escapen.
     blocks.push(bullets(s.neueArtikel.map(([t, p]) =>
-      `<a href="${track(`${url}${p}`, "weekly", v)}" style="color:${BRAND}">${t}</a>`)));
+      `<a href="${esc(track(`${url}${p}`, "weekly", v))}" style="color:${BRAND}">${esc(t)}</a>`)));
   }
 
   return {

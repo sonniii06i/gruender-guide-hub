@@ -91,8 +91,13 @@ serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
   if (req.method !== "POST") return json({ error: "Method not allowed" }, 405);
 
-  const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
-    req.headers.get("cf-connecting-ip") || "unknown";
+  // Erst die vom Proxy gesetzten Header: Den ERSTEN Eintrag von
+  // X-Forwarded-For bestimmt der Client selbst — damit war das Limit durch
+  // wechselnde Fantasie-IPs beliebig umgehbar.
+  const ip = req.headers.get("cf-connecting-ip")?.trim() ||
+    req.headers.get("x-real-ip")?.trim() ||
+    req.headers.get("x-forwarded-for")?.split(",").map((s) => s.trim()).filter(Boolean).pop() ||
+    "unknown";
   if (!allowRequest(ip)) return json({ error: "Zu viele Anfragen.", code: "rate_limited" }, 429);
 
   try {
@@ -159,6 +164,16 @@ serve(async (req) => {
 
       provider = ent.provider;   // maßgeblich ist die Zeile, nicht die URL
       email = String(ent.email ?? "").toLowerCase().trim();
+
+      // Zweiter Schlüssel: Die Plattformen hängen customer_email an die
+      // Danke-URL. Schickt der Client sie mit, muss sie zur Bestellung passen —
+      // eine erratene order_id allein liefert dann weder Adresse noch Konto.
+      const kundenMail = typeof body.customerEmail === "string"
+        ? body.customerEmail.toLowerCase().trim()
+        : "";
+      if (kundenMail && kundenMail !== email) {
+        return json({ error: "Dieser Link passt nicht zur Bestellung.", code: "invalid_order" }, 403);
+      }
       amount = (ent.amount_cents ?? 0) / 100;
       currency = String(ent.currency ?? "EUR").toUpperCase();
       plan = PRODUCT_TO_PLAN[ent.plan as string] ?? (ent.plan as string) ?? "GründerX";

@@ -29,8 +29,8 @@
 // -------------------------------------------------------------------
 // WER SIE BEKOMMT
 // -------------------------------------------------------------------
-// Nutzer mit aktivem Zugang (`subscriptions.status = 'active'` oder
-// `comp_access`) — und nur, wenn es etwas zu berichten gibt (hatInhalt).
+// Nutzer mit aktivem Zugang (_shared/access.ts: Status UND Laufzeitende,
+// oder `comp_access`) — und nur, wenn es etwas zu berichten gibt (hatInhalt).
 // Eine Wochenmail, die "diese Woche nichts" meldet, trainiert den
 // Empfaenger darauf, sie nicht mehr zu oeffnen; genau daran sterben
 // Newsletter. Neue Ratgeber-Artikel allein reichen als Inhalt: sie sind
@@ -44,6 +44,8 @@ import { BRANDING } from "../_shared/mailBrand.ts";
 import { unsubscribeUrl } from "../_shared/unsubscribe.ts";
 import { PLAYBOOK_TITEL } from "../_shared/playbookSteps.ts";
 import { BUNDESLAND_NAME, datumDe, eventsFuer, fristenFuer, ladeEvents, plzZuLand } from "../_shared/gruenderEvents.ts";
+import { type AboZeile, hatAktivenZugang, ZUGANG_SPALTEN } from "../_shared/access.ts";
+import { alleSeiten } from "../_shared/alleSeiten.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -156,35 +158,102 @@ Deno.serve(async (req) => {
   // 3. Empfaenger: aktiver Zugang. Wer keinen offenen Lauf hat, kommt
   //    ueber die Artikel trotzdem in die Liste — sofern es welche gibt.
   // ---------------------------------------------------------------
-  const { data: abos } = await db
-    .from("subscriptions")
-    .select("user_id, status, comp_access");
+  // Seitenweise: ohne range kappte PostgREST still bei 1000 Abonnenten.
+  const { data: abos, error: aboErr } = await alleSeiten<AboZeile & { user_id: string }>(
+    () => db.from("subscriptions").select(`user_id, ${ZUGANG_SPALTEN}`).order("user_id", { ascending: true }),
+  );
+  if (aboErr) {
+    console.error("[weekly] subscriptions:", aboErr.message);
+    return new Response(JSON.stringify({ error: aboErr.message }), {
+      status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
 
-  const berechtigt = selbstTestUser
-    ? [{ user_id: selbstTestUser, status: "selbsttest", comp_access: true }]
-    : (abos ?? []).filter((a) => a.status === "active" || a.comp_access === true);
+  const berechtigt: Array<{ user_id: string }> = selbstTestUser
+    ? [{ user_id: selbstTestUser }]
+    : abos.filter((a) => hatAktivenZugang(a));
 
-  let versendet = 0, nichtsZuSagen = 0, uebersprungen = 0, fehler = 0, mitEvents = 0;
+  // Gebündelt statt je Empfänger drei Einzelabfragen (N+1).
+  const ids = berechtigt.map((a) => a.user_id);
+  type Profil = { id: string; email: string | null; first_name: string | null; postal_code: string | null; city: string | null };
+  const profile = new Map<string, Profil>();
+  const provisionJeNutzer = new Map<string, number>();
+  // Affiliate-Ledger liegt im Hub (wie stripe-affiliate-webhook/manage-affiliate),
+  // Fallback lokal. Vorher lokal gelesen → die Provision erschien nie.
+  const hub = createClient(
+    Deno.env.get("HUB_SUPABASE_URL") || Deno.env.get("SUPABASE_URL") || "",
+    Deno.env.get("HUB_SERVICE_ROLE_KEY") || Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || "",
+  );
+  for (let i = 0; i < ids.length; i += 200) {
+    const teil = ids.slice(i, i + 200);
+    const [pRes, aRes] = await Promise.all([
+      db.from("profiles").select("id, email, first_name, postal_code, city").in("id", teil),
+      hub.from("affiliates").select("id, user_id").in("user_id", teil),
+    ]);
+    if (pRes.error) {
+      console.error("[weekly] profiles:", pRes.error.message);
+      return new Response(JSON.stringify({ error: pRes.error.message }), {
+        status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+    for (const p of (pRes.data ?? []) as Profil[]) profile.set(p.id, p);
+    if (aRes.error) {
+      // Provision ist Zusatz — ohne sie geht die Mail trotzdem raus.
+      console.error("[weekly] affiliates:", aRes.error.message);
+      continue;
+    }
+    const affZuNutzer = new Map<string, string>(
+      ((aRes.data ?? []) as Array<{ id: string; user_id: string }>).map((a) => [a.id, a.user_id]),
+    );
+    if (affZuNutzer.size) {
+      const { data: prov, error: provErr } = await alleSeiten<{ affiliate_id: string; commission_cents: number | null }>(
+        () => hub.from("affiliate_commissions")
+          .select("affiliate_id, commission_cents")
+          .in("affiliate_id", [...affZuNutzer.keys()])
+          .in("status", ["pending", "approved", "paid"])
+          .order("id", { ascending: true }),
+      );
+      if (provErr) console.error("[weekly] affiliate_commissions:", provErr.message);
+      else for (const p of prov) {
+        const uid = affZuNutzer.get(p.affiliate_id);
+        if (uid) provisionJeNutzer.set(uid, (provisionJeNutzer.get(uid) ?? 0) + (p.commission_cents ?? 0));
+      }
+    }
+  }
+
+  // Doppelversand-Schutz: Wer diese ISO-Woche die Wochenmail schon bekommen
+  // hat, bekommt sie nicht noch einmal (Wiederholung nach Abbruch durch die
+  // Wall-Time-Grenze). Testläufe sind ausgenommen.
+  const bereitsErhalten = new Set<string>();
+  if (!selbstTestUser && !nurAn) {
+    const jetzt = new Date();
+    const wochenStart = new Date(Date.UTC(jetzt.getUTCFullYear(), jetzt.getUTCMonth(), jetzt.getUTCDate()));
+    wochenStart.setUTCDate(wochenStart.getUTCDate() - ((wochenStart.getUTCDay() + 6) % 7));
+    const { data: gesendet, error: gErr } = await alleSeiten<{ recipient: string }>(
+      () => db.from("mail_events").select("recipient")
+        .eq("campaign", "weekly").eq("event", "sent")
+        .gte("occurred_at", wochenStart.toISOString())
+        .order("recipient", { ascending: true }),
+    );
+    if (gErr) {
+      // Unbekannt, wer schon hat → lieber abbrechen als doppelt senden.
+      console.error("[weekly] mail_events:", gErr.message);
+      return new Response(JSON.stringify({ error: `mail_events: ${gErr.message}` }), {
+        status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+    for (const g of gesendet) bereitsErhalten.add(String(g.recipient ?? "").trim().toLowerCase());
+  }
+
+  let versendet = 0, nichtsZuSagen = 0, uebersprungen = 0, fehler = 0, mitEvents = 0, schonErhalten = 0;
 
   for (const abo of berechtigt) {
     const stand: WochenStand = { ...(proNutzer.get(abo.user_id) ?? { neueArtikel }) };
 
-    // Provision nur nachschlagen, wenn der Nutzer ueberhaupt Affiliate
-    // ist — sonst eine Abfrage je Empfaenger fuer nichts.
-    const { data: aff } = await db
-      .from("affiliates").select("id").eq("user_id", abo.user_id).maybeSingle();
-    if (aff?.id) {
-      const { data: prov } = await db
-        .from("affiliate_commissions")
-        .select("commission_cents")
-        .eq("affiliate_id", aff.id)
-        .in("status", ["pending", "approved", "paid"]);
-      const summe = (prov ?? []).reduce((n, p) => n + (p.commission_cents ?? 0), 0);
-      if (summe > 0) stand.provisionCents = summe;
-    }
+    const summe = provisionJeNutzer.get(abo.user_id) ?? 0;
+    if (summe > 0) stand.provisionCents = summe;
 
-    const { data: profil } = await db
-      .from("profiles").select("email, first_name, postal_code, city").eq("id", abo.user_id).maybeSingle();
+    const profil = profile.get(abo.user_id) ?? null;
 
     // Events nur mit bekannter Region – ohne PLZ/Stadt waere „in deiner Naehe“ geraten.
     if (eventDaten) {
@@ -208,6 +277,7 @@ Deno.serve(async (req) => {
     const adresse = (profil?.email ?? "").trim().toLowerCase();
     if (!adresse) { uebersprungen++; continue; }
     if (nurAn && adresse !== nurAn) { uebersprungen++; continue; }
+    if (bereitsErhalten.has(adresse)) { schonErhalten++; continue; }
 
     const variant = abTest(adresse, "weekly");
 
@@ -234,7 +304,7 @@ Deno.serve(async (req) => {
 
   const bericht = {
     berechtigt: berechtigt.length, mitOffenemSchritt: proNutzer.size,
-    neueArtikel: neueArtikel.length, versendet, nichtsZuSagen, uebersprungen, fehler,
+    neueArtikel: neueArtikel.length, versendet, nichtsZuSagen, uebersprungen, schonErhalten, fehler,
     eventsGeladen: eventDaten ? eventDaten.events.length : "FEHLER: gruender-events.json nicht ladbar", mitEvents,
   };
   console.log("[weekly]", JSON.stringify(bericht));

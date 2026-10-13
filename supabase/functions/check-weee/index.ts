@@ -116,6 +116,17 @@ serve(async (req) => {
     const envMatch = text.match(/<(?:\w+:)?Envelope[\s\S]*?<\/(?:\w+:)?Envelope>/);
     const xml = envMatch ? envMatch[0] : text;
 
+    // HTTP-Fehler, Wartungsseite (HTML) oder Antwort ohne getMarkenResponse:
+    // Das ist KEIN "0 Registrierungen", sondern ein Ausfall. Früher kamen hier
+    // 200, total 0 und entries [] zurück — gelesen als "nicht registriert".
+    if (!resp.ok || !envMatch || !/getMarkenResponse/.test(xml)) {
+      console.error(`EAR-Register: unerwartete Antwort (HTTP ${resp.status}, envelope=${!!envMatch})`);
+      return new Response(
+        JSON.stringify({ error: "EAR-Register nicht erreichbar. Bitte später erneut versuchen." }),
+        { status: 502, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      );
+    }
+
     // Container-Metadaten (stehen vor den Items, kollidieren namentlich nicht mit Item-Feldern).
     const total = parseInt(field(xml, "total") || "0", 10);
     const moreFound = field(xml, "moreFound") === "true";

@@ -121,29 +121,87 @@ export function lockRemainingSeconds(row: TwoFactorRow): number {
   return diff > 0 ? Math.ceil(diff / 1000) : 0;
 }
 
-/** Fehlversuch zaehlen und ab MAX_ATTEMPTS sperren. */
+// NEBENLÄUFIGKEIT. Früher wurde der Zähler nach dem Muster Lesen-Rechnen-
+// Schreiben auf einer vorher geladenen Zeile geführt: 200 parallele Requests
+// lasen alle failed_attempts=0, jeder Code wurde geprüft, und die Sperre nach
+// 5 Versuchen griff nie. Ebenso waren Backup-Codes parallel mehrfach nutzbar
+// und ein TOTP-Zeitschritt doppelt verwendbar.
+//
+// Jetzt ohne neue RPC über bedingte Updates (compare-and-swap): Ein Update
+// greift nur, wenn die Zeile noch den gelesenen Stand hat; `select()` liefert
+// die tatsächlich geänderten Zeilen. Kommt keine zurück, war ein anderer
+// Request schneller — dann wird neu gelesen bzw. abgelehnt.
+
+const CAS_VERSUCHE = 8;
+
+/**
+ * Reserviert VOR der Code-Prüfung einen Versuch. So können parallel nie mehr
+ * als MAX_ATTEMPTS Codes je Sperrfenster geprüft werden.
+ * @returns locked > 0 → gesperrt (Sekunden); sonst left = verbleibende Versuche.
+ */
+export async function reserveAttempt(
+  admin: SupabaseClient,
+  userId: string,
+): Promise<{ locked: number; left: number }> {
+  for (let i = 0; i < CAS_VERSUCHE; i++) {
+    const { data: cur, error } = await admin
+      .from("user_two_factor")
+      .select("failed_attempts, locked_until")
+      .eq("user_id", userId)
+      .maybeSingle<{ failed_attempts: number; locked_until: string | null }>();
+    if (error || !cur) throw new Error(`2FA-Zeile nicht lesbar: ${error?.message ?? "fehlt"}`);
+    const lock = lockRemainingSeconds({ locked_until: cur.locked_until } as TwoFactorRow);
+    if (lock > 0) return { locked: lock, left: 0 };
+
+    const n = cur.failed_attempts ?? 0;
+    const attempts = n + 1;
+    const sperren = attempts >= MAX_ATTEMPTS;
+    let q = admin
+      .from("user_two_factor")
+      .update({
+        failed_attempts: sperren ? 0 : attempts,
+        locked_until: sperren
+          ? new Date(Date.now() + LOCK_MINUTES * 60_000).toISOString()
+          : cur.locked_until,
+      })
+      .eq("user_id", userId)
+      .eq("failed_attempts", n);
+    q = cur.locked_until === null ? q.is("locked_until", null) : q.eq("locked_until", cur.locked_until);
+    const { data: hit, error: upErr } = await q.select("user_id");
+    if (upErr) throw new Error(`2FA-Zähler: ${upErr.message}`);
+    if (hit && hit.length) return { locked: 0, left: sperren ? 0 : MAX_ATTEMPTS - attempts };
+    // anderer Request war schneller → neu lesen
+  }
+  // Dauerhafter Wettlauf = Angriffsmuster → wie gesperrt behandeln.
+  return { locked: 60, left: 0 };
+}
+
+/** Zähler nach erfolgreicher Prüfung zurücksetzen. */
+async function resetAttempts(admin: SupabaseClient, userId: string) {
+  await admin
+    .from("user_two_factor")
+    .update({ failed_attempts: 0, locked_until: null })
+    .eq("user_id", userId);
+}
+
+/**
+ * Fehlversuch zaehlen und ab MAX_ATTEMPTS sperren — atomar über reserveAttempt.
+ * Nur für Aufrufer, die vorher KEINEN Versuch reserviert haben.
+ */
 export async function registerFailure(
   admin: SupabaseClient,
   row: TwoFactorRow,
 ): Promise<number> {
-  const attempts = row.failed_attempts + 1;
-  const locked = attempts >= MAX_ATTEMPTS;
-  await admin
-    .from("user_two_factor")
-    .update({
-      failed_attempts: locked ? 0 : attempts,
-      locked_until: locked
-        ? new Date(Date.now() + LOCK_MINUTES * 60_000).toISOString()
-        : row.locked_until,
-    })
-    .eq("user_id", row.user_id);
-  return locked ? 0 : MAX_ATTEMPTS - attempts;
+  const r = await reserveAttempt(admin, row.user_id);
+  return r.left;
 }
 
 /**
  * Prueft einen TOTP-Code inklusive Replay-Schutz.
  * Ein bereits benutzter Zeitschritt wird abgelehnt, damit ein abgefangener
  * Code innerhalb seines 30-Sekunden-Fensters nicht erneut funktioniert.
+ * Der Zeitschritt wird per bedingtem Update verbraucht — zwei parallele
+ * Requests mit demselben Code können nicht beide gewinnen.
  */
 export async function verifyTotp(
   admin: SupabaseClient,
@@ -157,29 +215,46 @@ export async function verifyTotp(
   const counter = currentCounter();
   if (row.last_counter !== null && counter <= row.last_counter) return false;
 
-  await admin
+  const { data: hit, error } = await admin
     .from("user_two_factor")
     .update({ last_counter: counter, failed_attempts: 0, locked_until: null })
-    .eq("user_id", row.user_id);
-  return true;
+    .eq("user_id", row.user_id)
+    .or(`last_counter.is.null,last_counter.lt.${counter}`)
+    .select("user_id");
+  if (error) throw new Error(`2FA-Zeitschritt: ${error.message}`);
+  return !!hit?.length;
 }
 
-/** Prueft einen Backup-Code und verbraucht ihn bei Erfolg. */
+/** Prueft einen Backup-Code und verbraucht ihn bei Erfolg (compare-and-swap). */
 export async function consumeBackupCode(
   admin: SupabaseClient,
   row: TwoFactorRow,
   code: string,
 ): Promise<boolean> {
   const hash = await hashCode(code);
-  if (!row.backup_codes.includes(hash)) return false;
-
-  await admin
-    .from("user_two_factor")
-    .update({
-      backup_codes: row.backup_codes.filter((c) => c !== hash),
-      failed_attempts: 0,
-      locked_until: null,
-    })
-    .eq("user_id", row.user_id);
-  return true;
+  let codes = row.backup_codes ?? [];
+  for (let i = 0; i < CAS_VERSUCHE; i++) {
+    if (!codes.includes(hash)) return false;
+    const rest = codes.filter((c) => c !== hash);
+    // Nur schreiben, wenn die Liste noch exakt so aussieht wie gelesen
+    // (Hashes sind Hex, das Array-Literal braucht kein Escaping).
+    const { data: hit, error } = await admin
+      .from("user_two_factor")
+      .update({ backup_codes: rest, failed_attempts: 0, locked_until: null })
+      .eq("user_id", row.user_id)
+      .filter("backup_codes", "eq", `{${codes.join(",")}}`)
+      .select("user_id");
+    if (error) throw new Error(`Backup-Code: ${error.message}`);
+    if (hit?.length) return true;
+    const { data: cur, error: rErr } = await admin
+      .from("user_two_factor")
+      .select("backup_codes")
+      .eq("user_id", row.user_id)
+      .maybeSingle<{ backup_codes: string[] }>();
+    if (rErr || !cur) return false;
+    codes = cur.backup_codes ?? [];
+  }
+  return false;
 }
+
+export { resetAttempts };

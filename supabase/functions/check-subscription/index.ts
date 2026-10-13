@@ -2,6 +2,7 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import Stripe from "https://esm.sh/stripe@18.5.0";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
 import { ilikeExakt } from "../_shared/emailMatch.ts";
+import { findActiveStripeSubscription, findStripeCustomerIds } from "../_shared/stripeCustomer.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -48,7 +49,7 @@ serve(async (req) => {
     // wird hier nur gelesen, nie überschrieben → bleibt dauerhaft bestehen.
     const { data: existingSub } = await supabaseService
       .from("subscriptions")
-      .select("comp_access")
+      .select("comp_access, stripe_customer_id")
       .eq("user_id", user.id)
       .maybeSingle();
     if (existingSub?.comp_access) {
@@ -90,8 +91,15 @@ serve(async (req) => {
       );
     }
 
-    const customers = await stripe.customers.list({ email: user.email, limit: 1 });
-    if (customers.data.length === 0) {
+    // Kunde zuerst über die gespeicherte ID, dann case-insensitiv über die E-Mail
+    // (customers.list filtert case-sensitiv — siehe _shared/stripeCustomer.ts).
+    // Stripe-Fehler werfen und enden im catch (500) — nie als "inactive" verbuchen.
+    const customerIds = await findStripeCustomerIds(
+      stripe,
+      user.email,
+      existingSub?.stripe_customer_id ?? null,
+    );
+    if (customerIds.length === 0) {
       await supabaseService.from("subscriptions").upsert({
         user_id: user.id,
         plan: "none",
@@ -103,9 +111,7 @@ serve(async (req) => {
       });
     }
 
-    const customerId = customers.data[0].id;
-    const subs = await stripe.subscriptions.list({ customer: customerId, status: "active", limit: 1 });
-    const active = subs.data[0];
+    const { customerId, subscription: active } = await findActiveStripeSubscription<Stripe.Subscription>(stripe, customerIds);
 
     if (!active) {
       await supabaseService.from("subscriptions").upsert({

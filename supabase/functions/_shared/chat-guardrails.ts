@@ -139,3 +139,56 @@ Falls du eine echte Gründer-/Steuer-/Compliance-Frage hast, formuliere sie bitt
     },
   });
 };
+
+// ── Verlauf aus dem Client bereinigen ───────────────────────────────────────
+// `messages` kam ungeprüft aus dem Request und ging nach dem System-Prompt an
+// das LLM — inklusive eigener {role:"system"}-Nachrichten, gefälschter
+// Assistant-Turns mit Nicht-String-Inhalt und beliebig langer Verläufe (die
+// Token pro Anfrage wuchsen mit der Gesprächslänge). Jetzt: nur user/assistant
+// mit String-Inhalt, höchstens MAX_VERLAUF_NACHRICHTEN und MAX_VERLAUF_ZEICHEN
+// (älteste fallen zuerst weg), und der Verlauf beginnt mit einer user-Nachricht.
+export const MAX_VERLAUF_NACHRICHTEN = 20;
+export const MAX_VERLAUF_ZEICHEN = 30_000;
+
+export type ChatNachricht = { role: "user" | "assistant"; content: string };
+
+export function bereinigeVerlauf(raw: unknown): ChatNachricht[] {
+  if (!Array.isArray(raw)) return [];
+  const sauber: ChatNachricht[] = [];
+  for (const m of raw) {
+    const role = (m as { role?: unknown })?.role;
+    const content = (m as { content?: unknown })?.content;
+    if ((role !== "user" && role !== "assistant") || typeof content !== "string") continue;
+    if (!content.trim()) continue;
+    sauber.push({ role, content });
+  }
+  let out = sauber.slice(-MAX_VERLAUF_NACHRICHTEN);
+  let summe = out.reduce((n, m) => n + m.content.length, 0);
+  while (out.length > 1 && summe > MAX_VERLAUF_ZEICHEN) {
+    summe -= out[0].content.length;
+    out = out.slice(1);
+  }
+  while (out.length && out[0].role !== "user") out = out.slice(1);
+  return out;
+}
+
+// ── Ältere User-Nachrichten im Verlauf entschärfen ──────────────────────────
+// Der Client speichert JEDE User-Nachricht (auch abgelehnte) und schickt den
+// ganzen Verlauf bei jeder Anfrage mit. Würde der Input-Guard auf alle
+// User-Nachrichten hart ablehnen, bliebe ein Gespräch nach einer einzigen
+// Ablehnung (auch einem Fehlalarm wie 100 gleichen Zeichen) für immer
+// gesperrt. Deshalb: Nur die LETZTE User-Nachricht wird streng geprüft (siehe
+// chat-felix); ältere Treffer gehen nicht ans Modell, sondern werden durch
+// einen Platzhalter ersetzt — die Rollenfolge bleibt dabei erhalten.
+export const ENTFERNT_PLATZHALTER = "[Ältere Nachricht entfernt – vom Eingabefilter abgelehnt.]";
+
+export function entschaerfeVerlauf(messages: ChatNachricht[]): ChatNachricht[] {
+  let letzterUser = -1;
+  for (let i = messages.length - 1; i >= 0; i--) {
+    if (messages[i].role === "user") { letzterUser = i; break; }
+  }
+  return messages.map((m, i) => {
+    if (m.role !== "user" || i === letzterUser) return m;
+    return inputGuard(m.content).ok ? m : { role: "user", content: ENTFERNT_PLATZHALTER };
+  });
+}

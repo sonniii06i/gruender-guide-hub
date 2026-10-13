@@ -11,8 +11,7 @@ import {
   consumeBackupCode,
   corsHeaders,
   json,
-  lockRemainingSeconds,
-  registerFailure,
+  reserveAttempt,
   requireUser,
   type TwoFactorRow,
   verifyTotp,
@@ -40,10 +39,12 @@ Deno.serve(async (req) => {
 
     if (!row?.enabled) return json({ error: "2FA ist nicht aktiv" }, 400);
 
-    const lock = lockRemainingSeconds(row);
-    if (lock > 0) {
+    // Versuch VOR der Code-Pruefung atomar reservieren — parallele Requests
+    // koennen die Sperre so nicht mehr umgehen (siehe _shared/two-factor.ts).
+    const versuch = await reserveAttempt(admin, row.user_id);
+    if (versuch.locked > 0) {
       return json(
-        { error: "Zu viele Fehlversuche", retry_after_seconds: lock },
+        { error: "Zu viele Fehlversuche", retry_after_seconds: versuch.locked },
         429,
       );
     }
@@ -53,7 +54,7 @@ Deno.serve(async (req) => {
       : await verifyTotp(admin, row, token);
 
     if (!ok) {
-      const left = await registerFailure(admin, row);
+      const left = versuch.left;
       return json({ error: "Code ungueltig", attempts_left: left }, 400);
     }
 

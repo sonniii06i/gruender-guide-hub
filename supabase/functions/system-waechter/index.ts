@@ -125,14 +125,31 @@ Deno.serve(async (req) => {
 
   // ---- 4. Felix-Fehler 24 h ----
   const seit = new Date(Date.now() - 864e5).toISOString();
-  const { data: fehler } = await db.from("chat_logs").select("error").not("error", "is", null).gte("created_at", seit).limit(50);
-  const { count: gesamt } = await db.from("chat_logs").select("id", { count: "exact", head: true }).gte("created_at", seit);
-  const nF = fehler?.length ?? 0;
-  pruefungen.push({
-    name: "Felix-Anfragen 24 h",
-    ok: nF === 0 || nF < (gesamt ?? 0) / 2,
-    detail: `${gesamt ?? 0} Anfragen, ${nF} mit Fehler${nF ? ` (zuletzt: ${String(fehler![0].error).slice(0, 120)})` : ""}`,
-  });
+  // Fehler EXAKT zählen — früher limit(50): Bei 1000 Anfragen und 900
+  // Fehlern ergab das 50 < 500 und "ok". Letzten Fehler nach Zeit holen.
+  const [fehlerZahl, gesamtZahl, letzter] = await Promise.all([
+    db.from("chat_logs").select("id", { count: "exact", head: true }).not("error", "is", null).gte("created_at", seit),
+    db.from("chat_logs").select("id", { count: "exact", head: true }).gte("created_at", seit),
+    db.from("chat_logs").select("error").not("error", "is", null).gte("created_at", seit)
+      .order("created_at", { ascending: false }).limit(1),
+  ]);
+  if (fehlerZahl.error || gesamtZahl.error) {
+    // Unbekannt ist kein "ok".
+    pruefungen.push({
+      name: "Felix-Anfragen 24 h",
+      ok: false,
+      detail: `chat_logs nicht lesbar: ${fehlerZahl.error?.message ?? gesamtZahl.error?.message}`,
+    });
+  } else {
+    const nF = fehlerZahl.count ?? 0;
+    const gesamt = gesamtZahl.count ?? 0;
+    const zuletzt = letzter.data?.[0]?.error;
+    pruefungen.push({
+      name: "Felix-Anfragen 24 h",
+      ok: nF === 0 || nF < gesamt / 2,
+      detail: `${gesamt} Anfragen, ${nF} mit Fehler${nF && zuletzt ? ` (zuletzt: ${String(zuletzt).slice(0, 120)})` : ""}`,
+    });
+  }
 
   const probleme = pruefungen.filter((p) => !p.ok).map((p) => `${p.name}: ${p.detail}`);
   const ergebnis = { ok: probleme.length === 0, zeit: new Date().toISOString(), probleme, details: pruefungen };

@@ -43,6 +43,10 @@ export async function ladeEvents(basis = "https://gruenderx.de"): Promise<GxDate
     if (!r.ok) throw new Error(`HTTP ${r.status}`);
     const daten = (await r.json()) as GxDaten;
     if (!Array.isArray(daten?.events)) throw new Error("kein events-Array");
+    // Regionen vereinheitlichen: Der Sync übernimmt Lumas region_short roh
+    // ("NRW", "NDS", "Berlin"), verglichen wird aber mit den Kürzeln NW/NI/BE.
+    for (const e of daten.events) e.region = normRegion(e.region);
+    for (const f of daten.fristen ?? []) f.region = normRegion(f.region);
     cache = { zeit: Date.now(), daten };
     return daten;
   } catch (e) {
@@ -56,6 +60,25 @@ export const BUNDESLAND_NAME: Record<string, string> = {
   HE: "Hessen", MV: "Mecklenburg-Vorpommern", NI: "Niedersachsen", NW: "Nordrhein-Westfalen",
   RP: "Rheinland-Pfalz", SL: "Saarland", SN: "Sachsen", ST: "Sachsen-Anhalt", SH: "Schleswig-Holstein", TH: "Thüringen",
 };
+
+// Abweichende Schreibweisen aus Fremdquellen → Kürzel. Unbekanntes bleibt
+// unverändert (z. B. "bund"), damit nichts stillschweigend umgedeutet wird.
+const REGION_ALIAS: Record<string, string> = {
+  nrw: "NW", "nordrhein-westfalen": "NW", nds: "NI", niedersachsen: "NI",
+  bawü: "BW", bw: "BW", "baden-württemberg": "BW", bayern: "BY", berlin: "BE",
+  brandenburg: "BB", bremen: "HB", hamburg: "HH", hessen: "HE", mvp: "MV",
+  "mecklenburg-vorpommern": "MV", "rheinland-pfalz": "RP", rlp: "RP", saarland: "SL",
+  sachsen: "SN", "sachsen-anhalt": "ST", lsa: "ST", "schleswig-holstein": "SH",
+  thüringen: "TH", thueringen: "TH",
+};
+
+export function normRegion(r: string | null | undefined): string {
+  const roh = String(r ?? "").trim();
+  if (!roh) return roh;
+  const gross = roh.toUpperCase();
+  if (BUNDESLAND_NAME[gross]) return gross;
+  return REGION_ALIAS[roh.toLowerCase()] ?? roh;
+}
 
 // Postleitregion (erste zwei Ziffern) → überwiegendes Bundesland. An Landesgrenzen
 // ungenau (z. B. 89 Ulm/Neu-Ulm), für „Events in deiner Nähe“ reicht das.
@@ -108,7 +131,7 @@ export function eventsFuer(
     if (o.arten?.length && !o.arten.includes(e.art)) return false;
     if (e.format === "online") return !!o.online;
     if (stadt && e.ort.toLowerCase().includes(stadt)) return true;
-    return !!o.land && e.region === o.land;
+    return !!o.land && normRegion(e.region) === o.land;
   });
   const rang = (e: GxEvent) => (stadt && e.ort.toLowerCase().includes(stadt) ? 0 : e.format === "online" ? 2 : 1);
   return passend.sort((a, b) => rang(a) - rang(b) || a.datum!.localeCompare(b.datum!)).slice(0, o.max ?? 5);
@@ -119,7 +142,7 @@ export function fristenFuer(daten: GxDaten, o: { land?: string | null; tage?: nu
   const heute = new Date().toISOString().slice(0, 10);
   const bis = tagePlus(heute, o.tage ?? 30);
   return daten.fristen
-    .filter((f) => f.frist && f.frist >= heute && f.frist <= bis && (f.region === "bund" || f.region === o.land))
+    .filter((f) => f.frist && f.frist >= heute && f.frist <= bis && (f.region === "bund" || normRegion(f.region) === o.land))
     .sort((a, b) => a.frist!.localeCompare(b.frist!))
     .slice(0, o.max ?? 3);
 }

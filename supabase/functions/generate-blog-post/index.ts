@@ -62,6 +62,42 @@ async function callLLM(messages: unknown[], tools?: unknown[], toolChoice?: unkn
   return await r.json();
 }
 
+/**
+ * Hero-Bild in den Storage (Bucket "blog-images", öffentlich) statt als
+ * data:-URL in blog_posts.hero_image_url. Die Base64-PNGs (mehrere MB je
+ * Zeile) blähten jede Abfrage, Backups und den PostgREST-Traffic auf. Gibt es
+ * den Bucket noch nicht, bleibt es beim bisherigen Verhalten (data:-URL).
+ */
+type StorageClient = {
+  storage: {
+    from(b: string): {
+      upload(p: string, d: Uint8Array, o: { contentType: string; upsert: boolean }): Promise<{ error: unknown }>;
+      getPublicUrl(p: string): { data: { publicUrl: string } | null };
+    };
+  };
+};
+async function heroSpeichern(supabase: StorageClient, dataUrl: string | null, slug: string): Promise<string | null> {
+  if (!dataUrl?.startsWith("data:")) return dataUrl;
+  const m = dataUrl.match(/^data:([^;]+);base64,(.+)$/);
+  if (!m) return dataUrl;
+  const mime = m[1];
+  const ext = mime.split("/")[1]?.replace(/[^a-z0-9]/gi, "") || "png";
+  try {
+    const bytes = Uint8Array.from(atob(m[2]), (c) => c.charCodeAt(0));
+    const pfad = `hero/${slug}-${Date.now().toString(36)}.${ext}`;
+    const { error } = await supabase.storage.from("blog-images").upload(pfad, bytes, {
+      contentType: mime,
+      upsert: false,
+    });
+    if (error) throw error;
+    const { data } = supabase.storage.from("blog-images").getPublicUrl(pfad);
+    return data?.publicUrl ?? dataUrl;
+  } catch (e) {
+    console.warn("hero upload failed, data:-URL bleibt:", (e as Error)?.message ?? e);
+    return dataUrl;
+  }
+}
+
 async function generateHeroImage(topic: string): Promise<string | null> {
   try {
     const prompt = `Hochwertiges, modernes Editorial-Header-Bild für einen deutschen Business-/Finanzartikel zum Thema: "${topic}". Stil: clean, professionell, sanftes Blau/Indigo, abstrakte geometrische Formen, viel Weißraum, keine Texte, keine Logos, keine Personen-Gesichter. 16:9.`;
@@ -208,6 +244,8 @@ Deno.serve(async (req) => {
   }
 
   const supabase = createClient(SUPABASE_URL, SERVICE_KEY);
+  // Außerhalb des try, damit der catch den Fehlschlag am Thema vermerken kann.
+  let topicRow: Record<string, any> | null = null; // eslint-disable-line @typescript-eslint/no-explicit-any
 
   try {
     // Optional: specific topic_id from request body (manual trigger from admin)
@@ -219,7 +257,6 @@ Deno.serve(async (req) => {
       } catch { /* ignore */ }
     }
 
-    let topicRow;
     if (topicId) {
       const { data, error } = await supabase
         .from("blog_topic_queue")
@@ -266,7 +303,7 @@ Deno.serve(async (req) => {
     const issues = qualityGate(article);
     const status = issues.length === 0 ? "published" : "draft";
 
-    const heroUrl = await generateHeroImage(topicRow.topic);
+    const heroUrl = await heroSpeichern(supabase, await generateHeroImage(topicRow.topic), finalSlug);
 
     const { data: post, error: insertErr } = await supabase
       .from("blog_posts")
@@ -303,6 +340,25 @@ Deno.serve(async (req) => {
     );
   } catch (e) {
     console.error("generate-blog-post error", e);
+    // Fehlschlag am Thema vermerken und es nach hinten schieben. Vorher nahm
+    // der nächste Lauf wieder dasselbe älteste Thema — ein dauerhaft
+    // scheiterndes Thema blockierte die ganze Warteschlange ("Blog stand
+    // wochenlang still"). Versuchszähler steckt in last_error ("[Versuch n]"),
+    // daher keine Migration nötig. Ab 3 Versuchen wird es 30 Tage geparkt.
+    if (topicRow?.id) {
+      try {
+        const vorher = Number(String(topicRow.last_error ?? "").match(/^\[Versuch (\d+)\]/)?.[1] ?? 0);
+        const versuch = vorher + 1;
+        const tage = versuch >= 3 ? 30 : versuch;
+        const msg = (e instanceof Error ? e.message : String(e)).slice(0, 400);
+        await supabase.from("blog_topic_queue").update({
+          last_error: `[Versuch ${versuch}] ${msg}`,
+          scheduled_for: new Date(Date.now() + tage * 864e5).toISOString(),
+        }).eq("id", topicRow.id).is("consumed_at", null);
+      } catch (e2) {
+        console.error("Fehlvermerk am Thema fehlgeschlagen", e2);
+      }
+    }
     return new Response(
       JSON.stringify({ ok: false, error: e instanceof Error ? e.message : String(e) }),
       { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } },

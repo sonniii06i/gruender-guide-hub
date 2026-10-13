@@ -118,7 +118,16 @@ Deno.serve(async (req) => {
     if (action === "request_payout") {
       if (!aff.payout_iban) return json({ error: "Bitte zuerst IBAN hinterlegen." }, 400);
       if (requestable < 2000) return json({ error: "Mindestauszahlung 20 €." }, 400);
-      await hub.from("affiliate_payouts").insert({ affiliate_id: aff.id, amount_cents: requestable });
+      const { error: insErr } = await hub.from("affiliate_payouts").insert({ affiliate_id: aff.id, amount_cents: requestable });
+      if (insErr) {
+        // 23505: eine offene Anforderung existiert bereits (sobald der Unique-Index
+        // auf offene Anforderungen eingespielt ist) — z. B. Doppelklick.
+        if ((insErr as { code?: string }).code === "23505") {
+          return json({ error: "Es läuft bereits eine Auszahlungsanforderung." }, 409);
+        }
+        console.error("affiliate_payouts insert:", insErr.message);
+        return json({ error: "Auszahlung konnte nicht angefordert werden." }, 500);
+      }
       return json({ ok: true, requested_cents: requestable });
     }
 

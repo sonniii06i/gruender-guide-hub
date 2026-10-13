@@ -1,4 +1,5 @@
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
+import { alleSeiten } from "../_shared/alleSeiten.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -37,14 +38,19 @@ Deno.serve(async (req) => {
     const notifBody = body || "Frisch dazugekommen – jetzt ansehen und Schritt für Schritt durchgehen.";
     const notifLink = link || `/playbook/preview/${slug}`;
 
-    // Alle User holen.
-    const { data: users, error: usersErr } = await supa.from("profiles").select("id");
+    // Alle User holen — seitenweise, sonst kappt PostgREST still bei 1000.
+    const { data: users, error: usersErr } = await alleSeiten<{ id: string }>(
+      () => supa.from("profiles").select("id").order("id", { ascending: true }),
+    );
     if (usersErr) return json({ error: usersErr.message }, 500);
     const allIds = (users ?? []).map((u: { id: string }) => u.id);
 
     // Schon-Empfänger (gleicher Titel) zum Deduplizieren ausschließen.
-    const { data: existing } = await supa
-      .from("notifications").select("user_id").eq("title", notifTitle);
+    const { data: existing, error: exErr } = await alleSeiten<{ user_id: string }>(
+      () => supa.from("notifications").select("user_id").eq("title", notifTitle).order("user_id", { ascending: true }),
+    );
+    // Ohne Dedup-Liste würde ein erneuter Klick doppelt pingen → abbrechen.
+    if (exErr) return json({ error: exErr.message }, 500);
     const already = new Set((existing ?? []).map((n: { user_id: string }) => n.user_id));
 
     const rows = allIds

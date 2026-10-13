@@ -39,12 +39,20 @@ interface FeesRequest {
 
 let cachedAccessToken: { token: string; expiresAt: number } | null = null;
 
+/** Landeswährung je Marketplace — Standard, wenn der Client keine schickt
+ *  (vorher pauschal EUR, auch für UK/PL/SE/US/CA). */
+const MARKETPLACE_CURRENCY: Record<string, string> = {
+  DE: "EUR", AT: "EUR", FR: "EUR", IT: "EUR", ES: "EUR", NL: "EUR", BE: "EUR",
+  PL: "PLN", SE: "SEK", UK: "GBP", US: "USD", CA: "CAD",
+};
+
+// Diagnose OHNE Inhaltsfragmente: Früher landeten die ersten 6 und letzten 4
+// Zeichen von Client-Secret und Refresh-Token im Log und in der Fehlermeldung
+// an den Client. Jetzt nur noch gesetzt/Länge/Leerzeichen.
 function describeSecret(name: string, value: string | undefined): {
   name: string;
   set: boolean;
   length: number;
-  startsWith?: string;
-  endsWith?: string;
   hasLeadingWs?: boolean;
   hasTrailingWs?: boolean;
 } {
@@ -53,8 +61,6 @@ function describeSecret(name: string, value: string | undefined): {
     name,
     set: true,
     length: value.length,
-    startsWith: value.slice(0, 6),
-    endsWith: value.slice(-4),
     hasLeadingWs: value !== value.trimStart(),
     hasTrailingWs: value !== value.trimEnd(),
   };
@@ -96,9 +102,9 @@ async function getLwaAccessToken(): Promise<string> {
       describeSecret("CLIENT_SECRET", Deno.env.get("AMAZON_SP_LWA_CLIENT_SECRET")),
       describeSecret("REFRESH_TOKEN", Deno.env.get("AMAZON_SP_REFRESH_TOKEN")),
     ];
-    throw new Error(
-      `LWA-Token-Exchange fehlgeschlagen (${res.status}): ${errText} | Secret-Diagnostik: ${JSON.stringify(diag)}`,
-    );
+    // Diagnose nur ins Function-Log, nicht in die Antwort an den Client.
+    console.error(`LWA-Token-Exchange fehlgeschlagen (${res.status}): ${errText.slice(0, 300)}`, JSON.stringify(diag));
+    throw new Error(`LWA-Token-Exchange fehlgeschlagen (${res.status}).`);
   }
 
   const data = await res.json();
@@ -226,7 +232,7 @@ async function fetchFeesEstimate(req: FeesRequest, asin: string): Promise<unknow
       IsAmazonFulfilled: req.isAmazonFulfilled !== false, // default true (FBA)
       PriceToEstimateFees: {
         ListingPrice: {
-          CurrencyCode: req.currency || "EUR",
+          CurrencyCode: req.currency || MARKETPLACE_CURRENCY[marketplace] || "EUR",
           Amount: priceBrutto,
         },
       },

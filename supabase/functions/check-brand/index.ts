@@ -367,6 +367,10 @@ async function tryDpmaScrape(query: string): Promise<{ totalHits: number; hits: 
     // Step 2: smartsearch → JSON mit Trefferzahlen + Deeplinks
     let marLink = "";
     let totalHits = 0;
+    // Nur ein gelesenes smartsearch-JSON mit marHits zählt als Antwort. Vorher
+    // blieb totalHits bei HTTP-Fehler/Timeout/Sperre einfach 0 und wurde als
+    // "0 Marken" gemeldet — ein DPMA-Ausfall sah aus wie ein freier Name.
+    let smartsearchOk = false;
     try {
       const ssCtrl = new AbortController();
       const ssT = setTimeout(() => ssCtrl.abort(), 10000);
@@ -385,7 +389,13 @@ async function tryDpmaScrape(query: string): Promise<{ totalHits: number; hits: 
       clearTimeout(ssT);
       if (ssResp.ok) {
         const data = await ssResp.json();
-        totalHits = parseInt(String(data?.marHits ?? "0"), 10) || 0;
+        if (data && data.marHits !== undefined && data.marHits !== null) {
+          const n = parseInt(String(data.marHits), 10);
+          if (Number.isFinite(n)) {
+            totalHits = n;
+            smartsearchOk = true;
+          }
+        }
         marLink = String(data?.marLink ?? "");
         console.log(`DPMA smartsearch: marHits=${totalHits}, marLink=${marLink}`);
       } else {
@@ -395,7 +405,12 @@ async function tryDpmaScrape(query: string): Promise<{ totalHits: number; hits: 
       console.warn("DPMA smartsearch fehlgeschlagen:", e);
     }
 
-    // Wenn keine Treffer: leeres Result (gilt als Success, nicht null)
+    if (!smartsearchOk) {
+      console.warn("DPMA smartsearch ohne verwertbare Antwort → Quelle gilt als ausgefallen");
+      return null;
+    }
+
+    // Echte 0 Treffer (Antwort gelesen): leeres Result
     if (totalHits === 0) {
       return { totalHits: 0, hits: [] };
     }
@@ -730,6 +745,15 @@ async function checkTrademark(query: string): Promise<TrademarkResult> {
 
   // Hat IRGENDEINE Quelle geantwortet?
   const anyOk = tmviewData || dpmaData || wipoData || euipoData;
+  // Deutsche Marken stehen sicher nur im DPMA-Register bzw. in TMView. Sind
+  // beide ausgefallen und die übrigen Quellen melden 0, ist das KEIN
+  // "nichts gefunden", sondern unbekannt → totalHits bleibt null.
+  const deutschGeprueft = !!(tmviewData || dpmaData);
+  (result as TrademarkResult & { sourceStatus?: unknown }).sourceStatus = sourceStatus;
+  if (anyOk && !deutschGeprueft && maxTotal === 0) {
+    console.warn("Marken: DPMA und TMView ausgefallen, andere Quellen 0 → Ergebnis unbekannt");
+    return result;
+  }
   if (anyOk) {
     result.totalHits = maxTotal;
     result.hits = allHits.slice(0, 20);
@@ -855,7 +879,8 @@ async function checkInstagram(handle: string): Promise<SocialResult> {
 
 /**
  * TikTok via oembed-Endpoint — offizielle API, designed für Iframe-Embeds.
- * 200 = User existiert · 404 = User existiert NICHT.
+ * 200 = User existiert (embed_type "profile") · 400/404 = User existiert NICHT.
+ * Andere Statuscodes (429, 5xx) bleiben "unknown" — nie als frei werten.
  * Viel zuverlässiger als HTML-Scrape (kein Cloudflare-Block).
  */
 async function checkTiktok(handle: string): Promise<SocialResult> {
@@ -887,8 +912,11 @@ async function checkTiktok(handle: string): Promise<SocialResult> {
 }
 
 /**
- * YouTube via oembed — offizielle JSON-API.
- * 200 = Channel existiert · 401/404 = nicht.
+ * YouTube: Der oEmbed-Endpunkt kennt nur Video-/Playlist-URLs, KEINE
+ * Kanal-URLs — für @handle liefert er bei bestehenden wie freien Handles
+ * gleichermaßen 404 (gemessen mit @mkbhd). Früher wurde daraus "available".
+ * Jetzt entscheidet die Kanalseite selbst: 200 = vergeben, 404 = frei, alles
+ * andere (Consent-Redirect, 429, 5xx) = unbekannt.
  */
 async function checkYoutube(handle: string): Promise<SocialResult> {
   const url = `https://www.youtube.com/@${handle}`;
@@ -896,39 +924,15 @@ async function checkYoutube(handle: string): Promise<SocialResult> {
   try {
     const ctrl = new AbortController();
     const t = setTimeout(() => ctrl.abort(), 6000);
-    const resp = await fetch(`https://www.youtube.com/oembed?url=${encodeURIComponent(url)}&format=json`, {
-      headers: { Accept: "application/json", "User-Agent": BROWSER_UA },
+    const pageResp = await fetch(url, {
+      headers: { "User-Agent": BROWSER_UA, Accept: "text/html", "Accept-Language": "de-DE,de;q=0.9" },
       signal: ctrl.signal,
+      redirect: "manual",
     });
     clearTimeout(t);
-    if (resp.status === 200) {
-      result.status = "taken";
-    } else if (resp.status === 401 || resp.status === 404) {
-      // YouTube oembed liefert 401 wenn der Channel keinen public Content hat oder nicht existiert.
-      // Wir behandeln das als "available" — aber: ein leerer Channel mit Handle existiert dann u.U. trotzdem.
-      // Heuristik: bei 401 zusätzlich Page-HTML kurz checken.
-      if (resp.status === 404) {
-        result.status = "available";
-      } else {
-        // 401 — extra check über Page selbst
-        const ctrl2 = new AbortController();
-        const t2 = setTimeout(() => ctrl2.abort(), 5000);
-        const pageResp = await fetch(url, {
-          headers: { "User-Agent": BROWSER_UA, Accept: "text/html" },
-          signal: ctrl2.signal,
-          redirect: "manual",
-        });
-        clearTimeout(t2);
-        if (pageResp.status === 404) {
-          result.status = "available";
-        } else if (pageResp.status === 200) {
-          // Wenn Page 200, aber oembed 401 → Channel existiert ohne Public Videos
-          result.status = "taken";
-        } else if (pageResp.status >= 300 && pageResp.status < 400) {
-          result.status = "available"; // Redirect zu Suche
-        }
-      }
-    }
+    if (pageResp.status === 200) result.status = "taken";
+    else if (pageResp.status === 404) result.status = "available";
+    await pageResp.body?.cancel().catch(() => {});
   } catch {}
   return result;
 }

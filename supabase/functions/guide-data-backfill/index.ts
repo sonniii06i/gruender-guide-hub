@@ -68,23 +68,43 @@ serve(async (req) => {
 
     const key = await loadKey();
 
-    const { data: rows } = await supabase.from("playbook_step_progress").select("id, data, notes");
+    // Seitenweise bis zum Ende: Ohne range lieferte PostgREST höchstens 1000
+    // Zeilen (max-rows), der Rest blieb Klartext — und die Antwort meldete ok.
+    const SEITE = 500;
     let encrypted = 0;
     let skipped = 0;
-    for (const r of rows ?? []) {
-      const isDataEnc = r.data && typeof r.data === "object" && typeof (r.data as any).__enc === "string";
-      const isNotesEnc = typeof r.notes === "string" && r.notes.startsWith(ENC_PREFIX);
-      if (isDataEnc && (r.notes == null || isNotesEnc)) {
-        skipped++;
-        continue;
+    let failed = 0;
+    let total = 0;
+    for (let von = 0; ; von += SEITE) {
+      const { data: rows, error: readErr } = await supabase
+        .from("playbook_step_progress")
+        .select("id, data, notes")
+        .order("id", { ascending: true })
+        .range(von, von + SEITE - 1);
+      if (readErr) return json({ error: `lesen ab ${von}: ${readErr.message}`, encrypted, skipped, failed, total }, 500);
+      const seite = rows ?? [];
+      total += seite.length;
+      for (const r of seite) {
+        const isDataEnc = r.data && typeof r.data === "object" && typeof (r.data as any).__enc === "string";
+        const isNotesEnc = typeof r.notes === "string" && r.notes.startsWith(ENC_PREFIX);
+        if (isDataEnc && (r.notes == null || isNotesEnc)) {
+          skipped++;
+          continue;
+        }
+        const newData = isDataEnc ? r.data : { __enc: await encryptStr(key, JSON.stringify(r.data ?? {})) };
+        const newNotes =
+          r.notes == null ? null : isNotesEnc ? r.notes : ENC_PREFIX + (await encryptStr(key, String(r.notes)));
+        const { error: upErr } = await supabase.from("playbook_step_progress").update({ data: newData, notes: newNotes }).eq("id", r.id);
+        if (upErr) {
+          failed++;
+          console.error("backfill update", r.id, upErr.message);
+        } else {
+          encrypted++;
+        }
       }
-      const newData = isDataEnc ? r.data : { __enc: await encryptStr(key, JSON.stringify(r.data ?? {})) };
-      const newNotes =
-        r.notes == null ? null : isNotesEnc ? r.notes : ENC_PREFIX + (await encryptStr(key, String(r.notes)));
-      await supabase.from("playbook_step_progress").update({ data: newData, notes: newNotes }).eq("id", r.id);
-      encrypted++;
+      if (seite.length < SEITE) break;
     }
-    return json({ ok: true, encrypted, skipped, total: rows?.length ?? 0 });
+    return json({ ok: failed === 0, encrypted, skipped, failed, total }, failed ? 500 : 200);
   } catch (e) {
     return json({ error: String(e instanceof Error ? e.message : e) }, 500);
   }

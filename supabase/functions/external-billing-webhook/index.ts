@@ -163,7 +163,9 @@ async function applyEvent(supabase: any, ev: IpnEvent): Promise<string> {
 
     // Reseller-Verkauf in denselben Discord-Kanal melden wie die Stripe-Kaeufe.
     // Wirft nie — eine Meldung darf einen IPN-Empfang nicht kippen.
-    await meldeVerkauf({
+    // Nur echte Zahlungseingaenge (ev.paid) — Testphasen und Ankuendigungen
+    // sind kein Verkauf.
+    if (ev.paid) await meldeVerkauf({
       marke: "gruenderx",
       betragCent: ev.amountCents,
       waehrung: ev.currency,
@@ -190,15 +192,53 @@ async function applyEvent(supabase: any, ev: IpnEvent): Promise<string> {
   if (error) throw new Error(error.message);
 
   if (!ev.periodEnd) {
-    await mirrorToSubscription(supabase, ev.email, {
-      plan: "none",
-      status: "canceled",
-      source: ev.provider,
-      current_period_end: null,
-    });
+    // Nur spiegeln, wenn der Zugang in `subscriptions` von GENAU diesem
+    // Anbieter stammt und kein anderes aktives Entitlement besteht. Vorher
+    // setzte jede Reseller-Erstattung pauschal plan "none"/"canceled" — auch
+    // bei einem parallel laufenden Stripe-Abo oder Aktivierungscode.
+    await revokeMirror(supabase, ev);
     return `${ev.event}: Zugang entzogen`;
   }
   return `${ev.event}: läuft aus am ${ev.periodEnd}`;
+}
+
+// deno-lint-ignore no-explicit-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+async function revokeMirror(supabase: any, ev: IpnEvent) {
+  const userId = await findUserId(supabase, ev.email);
+  if (!userId) return;
+  const { data: sub, error } = await supabase
+    .from("subscriptions").select("source, comp_access").eq("user_id", userId).maybeSingle();
+  if (error) throw new Error(error.message);
+  if (!sub || sub.comp_access || sub.source !== ev.provider) return;
+  const nowIso = new Date().toISOString();
+  const { data: andere, error: aErr } = await supabase
+    .from("external_entitlements")
+    .select("provider, order_id, plan, period_end")
+    .ilike("email", ilikeExakt(ev.email))
+    .eq("status", "active")
+    .or(`period_end.is.null,period_end.gt.${nowIso}`)
+    .limit(5);
+  if (aErr) throw new Error(aErr.message);
+  const weiter = (andere ?? []).find((a: { provider: string; order_id: string }) =>
+    !(a.provider === ev.provider && a.order_id === ev.orderId)
+  );
+  if (weiter) {
+    // Anderer Kauf trägt den Zugang weiter → auf ihn umspiegeln statt entziehen.
+    await mirrorToSubscription(supabase, ev.email, {
+      plan: weiter.plan,
+      status: "active",
+      source: weiter.provider,
+      current_period_end: weiter.period_end,
+    });
+    return;
+  }
+  await mirrorToSubscription(supabase, ev.email, {
+    plan: "none",
+    status: "canceled",
+    source: ev.provider,
+    current_period_end: null,
+  });
 }
 
 /**

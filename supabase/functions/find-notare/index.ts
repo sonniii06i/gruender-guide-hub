@@ -3,7 +3,56 @@
 // Frei, kein API-Key, strukturiertes JSON, sortiert nach Distanz.
 import { corsHeaders } from "https://esm.sh/@supabase/supabase-js@2.95.0/cors";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.95.0";
-import { nutzerAusJwt } from "../_shared/authGuard.ts";
+import { hatCronSecret, istServiceRole, nutzerAusJwt } from "../_shared/authGuard.ts";
+
+// Nominatim-Nutzungsregeln: höchstens 1 Anfrage pro Sekunde, User-Agent mit
+// Kontakt. Früher liefen bis zu 24 Anfragen parallel (Promise.all über 12
+// Notare) — bei einer IP-Sperre fiele auch geocodePlz aus und der Notarfinder
+// für alle Nutzer. Diese Drossel gilt je Isolate für ALLE Nominatim-Aufrufe.
+const NOMINATIM_UA = "GruenderX-NotarFinder/1.1 (+https://gruenderx.de; service@gruenderx.de)";
+const NOMINATIM_ABSTAND_MS = 1100;
+let nominatimKette: Promise<unknown> = Promise.resolve();
+let nominatimLetzter = 0;
+// Zeitbudget je Anfrage: Die Warteschlange ist isolate-weit geteilt. Ohne
+// Budget addierten sich bei mehreren gleichzeitigen Nutzern die Wartezeiten
+// (5 parallele Anfragen → über 50 s) und das Frontend lief in den Timeout.
+// `deadline` (epoch ms) gilt für Warten UND Abruf: Wer bis dahin nicht dran
+// ist, bekommt sofort einen Fehler, ohne Nominatim zu belasten.
+class NominatimBudgetAbgelaufen extends Error {}
+function nominatimFetch(url: string, init: RequestInit, timeoutMs: number, deadline?: number): Promise<Response> {
+  const lauf = nominatimKette.then(async () => {
+    const warten = Math.max(0, nominatimLetzter + NOMINATIM_ABSTAND_MS - Date.now());
+    // Mindestens 500 ms Abrufzeit muessen ins Budget passen, sonst gar nicht erst anfragen.
+    if (deadline !== undefined && Date.now() + warten + 500 > deadline) {
+      throw new NominatimBudgetAbgelaufen("Nominatim-Zeitbudget erschöpft");
+    }
+    if (warten > 0) await new Promise((r) => setTimeout(r, warten));
+    nominatimLetzter = Date.now();
+    // Timeout erst ab dem tatsächlichen Abruf, nicht ab dem Einreihen —
+    // aber nie über das Budget hinaus.
+    const rest = deadline !== undefined ? Math.max(500, deadline - Date.now()) : timeoutMs;
+    return fetch(url, { ...init, signal: AbortSignal.timeout(Math.min(timeoutMs, rest)) });
+  });
+  nominatimKette = lauf.catch(() => {});
+  if (deadline === undefined) return lauf;
+  // Nicht erst warten, bis die Schlange abgearbeitet ist: Spätestens an der
+  // Deadline kehrt der Aufrufer zurück. Kommt der Eintrag danach an die Reihe,
+  // springt er oben ohne Abruf sofort raus.
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const ablauf = new Promise<never>((_, reject) => {
+    timer = setTimeout(
+      () => reject(new NominatimBudgetAbgelaufen("Nominatim-Zeitbudget erschöpft")),
+      Math.max(0, deadline - Date.now()),
+    );
+  });
+  return Promise.race([lauf, ablauf]).finally(() => clearTimeout(timer));
+}
+
+// Budgets (ab Beginn der jeweiligen Phase): PLZ-Geocoding ist Pflicht und
+// bekommt mehr Zeit; die Adress-Anreicherung ist Kür und endet nach 4 s —
+// übrige Notare gehen dann ohne Straße raus.
+const GEOCODE_BUDGET_MS = 10_000;
+const ANREICHERUNG_BUDGET_MS = 4_000;
 
 const NOTAR_CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 Tage
 
@@ -48,7 +97,7 @@ const haversineKm = (lat1: number, lon1: number, lat2: number, lon2: number) => 
   return R * 2 * Math.asin(Math.sqrt(a));
 };
 
-async function searchByName(name: string, fallbackCity?: string): Promise<{
+async function searchByName(name: string, fallbackCity?: string, deadline?: number): Promise<{
   street?: string;
   postalCode?: string;
   city?: string;
@@ -58,12 +107,13 @@ async function searchByName(name: string, fallbackCity?: string): Promise<{
   // Reverse-Geocoding der Coords (die oft 50-200m daneben liegen).
   const q = fallbackCity ? `${name} ${fallbackCity}` : name;
   try {
-    const res = await fetch(
+    const res = await nominatimFetch(
       `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&addressdetails=1&limit=1&countrycodes=de`,
       {
-        headers: { "User-Agent": "GruenderX-NotarFinder/1.0", "Accept-Language": "de" },
-        signal: AbortSignal.timeout(5000),
+        headers: { "User-Agent": NOMINATIM_UA, "Accept-Language": "de" },
       },
+      5000,
+      deadline,
     );
     if (!res.ok) return null;
     const data = await res.json().catch(() => null);
@@ -81,18 +131,19 @@ async function searchByName(name: string, fallbackCity?: string): Promise<{
   }
 }
 
-async function reverseGeocode(lat: number, lon: number): Promise<{
+async function reverseGeocode(lat: number, lon: number, deadline?: number): Promise<{
   street?: string;
   postalCode?: string;
   city?: string;
 } | null> {
   try {
-    const res = await fetch(
+    const res = await nominatimFetch(
       `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&addressdetails=1&zoom=18`,
       {
-        headers: { "User-Agent": "GruenderX-NotarFinder/1.0", "Accept-Language": "de" },
-        signal: AbortSignal.timeout(5000),
+        headers: { "User-Agent": NOMINATIM_UA, "Accept-Language": "de" },
       },
+      5000,
+      deadline,
     );
     if (!res.ok) return null;
     const data = await res.json().catch(() => null);
@@ -109,12 +160,13 @@ async function reverseGeocode(lat: number, lon: number): Promise<{
 
 async function geocodePlz(plz: string): Promise<{ lat: number; lon: number; city?: string } | null> {
   try {
-    const res = await fetch(
+    const res = await nominatimFetch(
       `https://nominatim.openstreetmap.org/search?postalcode=${encodeURIComponent(plz)}&country=de&format=json&limit=1`,
       {
-        headers: { "User-Agent": "GruenderX-NotarFinder/1.0", "Accept-Language": "de" },
-        signal: AbortSignal.timeout(8000),
+        headers: { "User-Agent": NOMINATIM_UA, "Accept-Language": "de" },
       },
+      8000,
+      Date.now() + GEOCODE_BUDGET_MS,
     );
     if (!res.ok) return null;
     const data = await res.json();
@@ -377,8 +429,10 @@ async function scrapeGoogleMaps(
           "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36",
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9",
         "Accept-Language": "de-DE,de;q=0.9,en;q=0.8",
-        // Consent-Cookie umgeht das EU-Consent-Modal
-        "Cookie": "CONSENT=YES+cb.20210720-07-p0.de+FX+410; SOCS=CAESHAgBEhJnd3NfMjAyMzAyMjEtMF9SQzIaAmRlIAEaBgiAjpqfBg",
+        // Kein gefälschter CONSENT-Cookie mehr: Consent-Dialoge und Bot-Schutz
+        // werden nicht umgangen. Ohne Zustimmung liefert Google die Consent-
+        // Seite, der Parser findet nichts → null → Ergebnis nur aus OSM
+        // (bzw. SerpAPI/Apify, wenn konfiguriert).
       },
       signal: AbortSignal.timeout(4000),
       redirect: "follow",
@@ -489,6 +543,13 @@ Deno.serve(async (req) => {
   // Health-Check-Endpoint für tägliche Monitor-Routine.
   const url = new URL(req.url);
   if (url.searchParams.get("health") === "1") {
+    // Löst einen Google-Abruf aus → nicht öffentlich (vorher ohne Login).
+    if (!hatCronSecret(req) && !istServiceRole(req)) {
+      return new Response(JSON.stringify({ error: "unauthorized" }), {
+        status: 401,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
     const ok = await isScraperHealthy();
     return new Response(
       JSON.stringify({
@@ -577,22 +638,26 @@ Deno.serve(async (req) => {
     // 1) Nominatim-Search nach Name (+ Center-Stadt) → exakte POI-Adresse.
     // 2) Fallback: Reverse-Geocoding der Coords → ungefähre Adresse.
     if (notare && notare.length > 0) {
+      // Nacheinander und nur die nächsten 5 (Nominatim: max. 1 Anfrage/s,
+      // die Drossel in nominatimFetch hält den Abstand ein).
       const needsEnrich = notare
         .filter((n) => !n.street)
-        .slice(0, 12);
-      await Promise.all(
-        needsEnrich.map(async (n) => {
-          let addr = await searchByName(n.name, center.city);
-          if (!addr?.street && n.lat !== undefined && n.lon !== undefined) {
-            addr = await reverseGeocode(n.lat, n.lon);
-          }
-          if (addr) {
-            n.street = n.street ?? addr.street;
-            n.postalCode = n.postalCode ?? addr.postalCode;
-            n.city = n.city ?? addr.city;
-          }
-        }),
-      );
+        .slice(0, 5);
+      // Gesamtbudget ANREICHERUNG_BUDGET_MS: danach keine weiteren Abrufe,
+      // die restlichen Notare gehen ohne Adresse (Name + Distanz) raus.
+      const deadline = Date.now() + ANREICHERUNG_BUDGET_MS;
+      for (const n of needsEnrich) {
+        if (Date.now() + 500 > deadline) break;
+        let addr = await searchByName(n.name, center.city, deadline);
+        if (!addr?.street && n.lat !== undefined && n.lon !== undefined && Date.now() + 500 <= deadline) {
+          addr = await reverseGeocode(n.lat, n.lon, deadline);
+        }
+        if (addr) {
+          n.street = n.street ?? addr.street;
+          n.postalCode = n.postalCode ?? addr.postalCode;
+          n.city = n.city ?? addr.city;
+        }
+      }
     }
 
     const payload = {

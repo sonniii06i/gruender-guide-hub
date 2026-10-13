@@ -152,6 +152,27 @@ Deno.test("CopeCart: Einmalkauf laeuft unbefristet", async () => {
   assertEquals(ev.periodEnd, null);
 });
 
+Deno.test("CopeCart: Ankuendigung einer kuenftigen Abbuchung gibt keinen Zugang und ist kein Verkauf", async () => {
+  // Fehlerklasse 13.10.: payment.recurring.upcoming war ein Grant — Zugang
+  // vor der Zahlung verlaengert und "Neuer Verkauf" ohne Geldfluss gemeldet.
+  const ev = await copecart({
+    event_type: "payment.recurring.upcoming",
+    buyer_email: "kunde@example.de",
+    order_id: "UP1",
+    next_payment_at: "2026-11-01",
+  });
+  assertEquals(ev.action, "ignore");
+  assertEquals(ev.paid, false);
+});
+
+Deno.test("CopeCart: nur payment.made ist ein Verkauf, Testphase gibt Zugang ohne Verkauf", async () => {
+  const kauf = await copecart({ event_type: "payment.made", buyer_email: "a@example.de", order_id: "P1" });
+  assertEquals(kauf.paid, true);
+  const trial = await copecart({ event_type: "payment.trial", buyer_email: "a@example.de", order_id: "T1" });
+  assertEquals(trial.action, "grant");
+  assertEquals(trial.paid, false);
+});
+
 // --- Digistore24 ------------------------------------------------------------
 Deno.test("Digistore24: sha_sign wird in beiden Schreibweisen akzeptiert", async () => {
   const base = {

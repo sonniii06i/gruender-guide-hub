@@ -4,6 +4,7 @@
 // Nur mit gemeinsamem Secret (x-abo-secret = DISCORD_ABO_SECRET), liefert nur
 // true/false je Adresse – keine weiteren Daten. verify_jwt = false (config.toml).
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { type AboZeile, hatAktivenZugang, ZUGANG_SPALTEN } from "../_shared/access.ts";
 
 const json = (body: unknown, status = 200) =>
   new Response(JSON.stringify(body), { status, headers: { "Content-Type": "application/json" } });
@@ -48,11 +49,12 @@ Deno.serve(async (req) => {
   const ids = [...idZuMail.keys()];
   if (ids.length) {
     const [subs, admins] = await Promise.all([
-      db.from("subscriptions").select("user_id, status, comp_access").in("user_id", ids),
+      db.from("subscriptions").select(`user_id, ${ZUGANG_SPALTEN}`).in("user_id", ids),
       db.from("user_roles").select("user_id").eq("role", "admin").in("user_id", ids),
     ]);
     if (subs.error || admins.error) return json({ error: subs.error?.message ?? admins.error?.message }, 500);
-    for (const s of subs.data ?? []) if (s.status === "active" || s.status === "trialing" || s.comp_access) aktiv[idZuMail.get(s.user_id)!] = true;
+    // Gemeinsame Regel inkl. Laufzeitende (siehe _shared/access.ts).
+    for (const s of (subs.data ?? []) as Array<AboZeile & { user_id: string }>) if (hatAktivenZugang(s)) aktiv[idZuMail.get(s.user_id)!] = true;
     for (const a of admins.data ?? []) aktiv[idZuMail.get(a.user_id)!] = true;
   }
   return json({ aktiv });

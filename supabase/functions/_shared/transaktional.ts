@@ -148,8 +148,12 @@ export function buildTerminErinnerung(o: {
 // -------------------------------------------------------------------
 // 3) Support-Anfrage eingegangen
 // -------------------------------------------------------------------
+// betreff ist optional: Die Kunden-Bestätigung des öffentlichen Kontaktformulars
+// gibt ihn NICHT wieder — Adresse und Betreff wählt dort der Absender frei, und
+// mit wiedergegebenem Betreff war das Formular ein Relay für beliebigen Text
+// unter @gruenderx.de an fremde Adressen.
 export function buildTicketEingang(o: {
-  betreff: string; name?: string | null; ticketId?: string | null;
+  betreff?: string | null; name?: string | null; ticketId?: string | null;
   antwortInnerhalb?: string; baseUrl?: string;
 }): Built {
   const url = (o.baseUrl ?? BASIS).replace(/\/+$/, "");
@@ -159,7 +163,7 @@ export function buildTicketEingang(o: {
   const blocks = [
     aufmacher("Deine Anfrage ist da.",
       `Wir antworten innerhalb von ${frist} — auf diese Adresse.`),
-    paragraph(`<b>Dein Anliegen:</b> ${esc(o.betreff)}`),
+    ...(o.betreff ? [paragraph(`<b>Dein Anliegen:</b> ${esc(o.betreff)}`)] : []),
     ...(o.ticketId ? [kennung(o.ticketId,
       "Deine Ticketnummer. Wenn du nachfragst, nenn sie — dann finden wir " +
       "den Vorgang sofort.")] : []),
@@ -171,13 +175,13 @@ export function buildTicketEingang(o: {
   ];
 
   return {
-    subject: `Anfrage erhalten: ${o.betreff}`.slice(0, 68),
+    subject: o.betreff ? `Anfrage erhalten: ${o.betreff}`.slice(0, 68) : "Anfrage erhalten",
     text: plain({
       greeting: vorname ? `Hallo ${vorname},` : "Hallo,",
       lines: [
         "deine Anfrage ist bei uns angekommen.",
         `Wir antworten innerhalb von ${frist} auf diese Adresse.`,
-        "", `Dein Anliegen: ${o.betreff}`,
+        ...(o.betreff ? ["", `Dein Anliegen: ${o.betreff}`] : []),
         ...(o.ticketId ? ["", `Ticketnummer: ${o.ticketId}`] : []),
       ],
     }),

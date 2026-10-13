@@ -10,6 +10,7 @@ import {
   encodeMimeSubject,
   type BookingRow,
 } from "../_shared/booking-emails.ts";
+import { hatCronSecret, istServiceRole } from "../_shared/authGuard.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -45,6 +46,17 @@ interface ReminderResult {
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
+
+  // verify_jwt = false: Ohne eigene Pruefung konnte jeder den Versand
+  // ausloesen und bekam die Adressen aller faelligen Buchungen zurueck.
+  // Erlaubt: der Service-Role-Key, den der pg_cron-Job aus dem Vault
+  // mitschickt, oder x-cron-secret (wie send-referral-mails).
+  if (!hatCronSecret(req) && !istServiceRole(req)) {
+    return new Response(JSON.stringify({ error: "unauthorized" }), {
+      status: 401,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
 
   try {
     const supa = createClient(
@@ -158,7 +170,8 @@ Deno.serve(async (req) => {
         ok: true,
         sent: results.filter((r) => r.status === "sent").length,
         errors: results.filter((r) => r.status === "error").length,
-        results,
+        // Nur Zaehler und IDs — keine Kundenadressen in der Antwort.
+        results: results.map(({ kind, bookingId, status }) => ({ kind, bookingId, status })),
       }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
