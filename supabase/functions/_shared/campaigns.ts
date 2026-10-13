@@ -41,21 +41,6 @@ import {
   type Built,
 } from "./mailLayout.ts";
 
-/**
- * Externe Links aus gescrapten Quellen (Events, Fristen): nur https://, sonst
- * kein Link. Rückgabe ist bereits für ein href-Attribut escaped.
- */
-function sichereUrl(u: unknown): string | null {
-  const s = String(u ?? "").trim();
-  if (!/^https:\/\/[^\s"'<>]+$/i.test(s)) return null;
-  try {
-    new URL(s);
-  } catch {
-    return null;
-  }
-  return esc(s);
-}
-
 /** Bruttopreise — die Betraege, die Stripe tatsaechlich einzieht. */
 const PREIS = {
   gruenderx: { month: 6499, year: 64990 },
@@ -66,6 +51,24 @@ export type Produkt = keyof typeof PREIS;
 export type Intervall = "month" | "year";
 
 const BASIS = "https://gruenderx.de";
+
+/**
+ * Externe Links aus gescrapten Quellen (Event-Scraper, Fristen) in Mails: nur
+ * gültige https://-Adressen ohne Leerzeichen, Anführungszeichen oder spitze
+ * Klammern; alles andere (http:, javascript:, data:, kaputt) → Ersatzziel.
+ * Rückgabe ist roh — im HTML mit esc() in das href-Attribut setzen.
+ */
+export function sichereUrl(u: unknown, ersatz: string): string {
+  if (typeof u !== "string") return ersatz;
+  const s = u.trim();
+  if (!/^https:\/\/[^\s"'<>]+$/i.test(s)) return ersatz;
+  try {
+    new URL(s);
+  } catch {
+    return ersatz;
+  }
+  return s;
+}
 
 /** 20 % vom Netto — dieselbe Rechnung wie im Affiliate-Webhook. */
 const provision = (bruttoCents: number) =>
@@ -494,8 +497,8 @@ export function buildWeekly(o: {
   if (offen) {
     blocks.push(paragraph(
       s.playbook && s.schrittNr && s.schritteGesamt
-        ? `dein Playbook <b>${s.playbook}</b> steht bei Schritt ` +
-          `${s.schrittNr} von ${s.schritteGesamt}. Der nächste offene Punkt:`
+        ? `dein Playbook <b>${esc(s.playbook)}</b> steht bei Schritt ` +
+          `${esc(String(s.schrittNr))} von ${esc(String(s.schritteGesamt))}. Der nächste offene Punkt:`
         : "ein Punkt in deinem Playbook ist noch offen:",
     ));
     blocks.push(betonung(offen,
@@ -513,28 +516,23 @@ export function buildWeekly(o: {
 
   blocks.push(button(ziel, offen ? "Weitermachen" : "Zum Dashboard"));
 
+  // Event-/Fristen-Daten stammen aus fremden Quellen (Luma, Meetup, JSON-LD …):
+  // jedes Feld escapen, Links nur als https (sichereUrl).
+  const eventsSeite = `${url}/gruender-events`;
   if (s.events?.length) {
     blocks.push(divider());
     blocks.push(heading(s.regionName ? `Gründer-Events in ${s.regionName}` : "Gründer-Events in deiner Nähe"));
-    // Event-Daten stammen aus gescrapten Fremdquellen (Luma, Meetup, …):
-    // Text immer escapen, Links nur https.
-    blocks.push(bullets(s.events.map((e) => {
-      const href = sichereUrl(e.url);
-      const name = esc(e.name);
-      return `<b>${esc(e.wann)}</b> · ${href ? `<a href="${href}" style="color:${BRAND}">${name}</a>` : name}` +
-        ` <span style="color:#6b7280">(${esc(e.ort)})</span>`;
-    })));
+    // Kein sicherer Link → Link auf die Eventseite.
+    blocks.push(bullets(s.events.map((e) =>
+      `<b>${esc(e.wann)}</b> · <a href="${esc(sichereUrl(e.url, eventsSeite))}" style="color:${BRAND}">${esc(e.name)}</a> <span style="color:#6b7280">(${esc(e.ort)})</span>`)));
     blocks.push(paragraph(`<a href="${track(`${url}/gruender-events`, "weekly", v)}" style="color:${BRAND}">Alle Termine ansehen</a>`));
   }
 
   if (s.fristen?.length) {
     blocks.push(divider());
     blocks.push(heading("Bewerbungsfristen, die bald ablaufen"));
-    blocks.push(bullets(s.fristen.map((f) => {
-      const href = sichereUrl(f.url);
-      const name = esc(f.name);
-      return `<b>bis ${esc(f.wann)}</b> · ${href ? `<a href="${href}" style="color:${BRAND}">${name}</a>` : name}`;
-    })));
+    blocks.push(bullets(s.fristen.map((f) =>
+      `<b>bis ${esc(f.wann)}</b> · <a href="${esc(sichereUrl(f.url, eventsSeite))}" style="color:${BRAND}">${esc(f.name)}</a>`)));
   }
 
   if (s.neueArtikel?.length) {
@@ -556,8 +554,8 @@ export function buildWeekly(o: {
         offen ? `Naechster offener Punkt: ${offen}` : "",
         s.provisionCents ? `Provision: ${eur(s.provisionCents).replace(" €", " EUR")}` : "",
         "",
-        ...(s.events ?? []).map((e) => `- ${e.wann}: ${e.name} (${e.ort}) ${e.url}`),
-        ...(s.fristen ?? []).map((f) => `- Frist ${f.wann}: ${f.name} ${f.url}`),
+        ...(s.events ?? []).map((e) => `- ${e.wann}: ${e.name} (${e.ort}) ${sichereUrl(e.url, eventsSeite)}`),
+        ...(s.fristen ?? []).map((f) => `- Frist ${f.wann}: ${f.name} ${sichereUrl(f.url, eventsSeite)}`),
         ...(s.neueArtikel ?? []).map(([t, p]) => `- ${t}: ${url}${p}`),
       ].filter(Boolean),
       cta: [offen ? "Weitermachen" : "Zum Dashboard", ziel],

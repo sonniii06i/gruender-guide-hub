@@ -147,8 +147,13 @@ Falls du eine echte Gründer-/Steuer-/Compliance-Frage hast, formuliere sie bitt
 // Token pro Anfrage wuchsen mit der Gesprächslänge). Jetzt: nur user/assistant
 // mit String-Inhalt, höchstens MAX_VERLAUF_NACHRICHTEN und MAX_VERLAUF_ZEICHEN
 // (älteste fallen zuerst weg), und der Verlauf beginnt mit einer user-Nachricht.
+// Zusätzlich (Prüfrunde 2): Jeder ältere Eintrag wird auf
+// MAX_VERLAUF_ZEICHEN_JE_NACHRICHT gekürzt. Die LETZTE user-Nachricht bleibt
+// ungekürzt, damit der Input-Guard (max. 8000 Zeichen) sie weiterhin als zu
+// lang ablehnen kann.
 export const MAX_VERLAUF_NACHRICHTEN = 20;
 export const MAX_VERLAUF_ZEICHEN = 30_000;
+export const MAX_VERLAUF_ZEICHEN_JE_NACHRICHT = 8_000;
 
 export type ChatNachricht = { role: "user" | "assistant"; content: string };
 
@@ -169,7 +174,15 @@ export function bereinigeVerlauf(raw: unknown): ChatNachricht[] {
     out = out.slice(1);
   }
   while (out.length && out[0].role !== "user") out = out.slice(1);
-  return out;
+  let letzterUser = -1;
+  for (let i = out.length - 1; i >= 0; i--) {
+    if (out[i].role === "user") { letzterUser = i; break; }
+  }
+  return out.map((m, i) =>
+    i === letzterUser || m.content.length <= MAX_VERLAUF_ZEICHEN_JE_NACHRICHT
+      ? m
+      : { role: m.role, content: m.content.slice(0, MAX_VERLAUF_ZEICHEN_JE_NACHRICHT) }
+  );
 }
 
 // ── Ältere User-Nachrichten im Verlauf entschärfen ──────────────────────────

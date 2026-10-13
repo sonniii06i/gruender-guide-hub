@@ -1,4 +1,4 @@
-import { buildTerminBestaetigt, buildTerminErinnerung } from "./transaktional.ts";
+import { buildTerminBestaetigt, buildTerminErinnerung, buildTerminGleich } from "./transaktional.ts";
 // Shared utilities für Booking-Emails (Confirmation, 24h-Reminder, 15min-Reminder)
 // Wird von send-booking-confirmation + send-booking-reminders importiert
 
@@ -29,12 +29,62 @@ export const encodeMimeSubject = (s: string): string => {
 };
 
 // === ICS-Builder ===
+// RFC 5545 §3.3.11: In TEXT-Werten müssen \ ; , und Zeilenumbrüche escaped
+// werden — sonst kann ein Thema/Name mit "\r\nATTENDEE:…" eigene Properties
+// in die METHOD:REQUEST-Einladung schreiben, und schon ein Komma macht die
+// Einladung in Outlook/Google kaputt. Steuerzeichen fliegen ganz raus.
+export const icsText = (s: string): string =>
+  String(s ?? "")
+    .replace(/\r\n|\r|\n/g, "\n")
+    // deno-lint-ignore no-control-regex
+    .replace(/[\x00-\x08\x0B-\x1F\x7F]/g, "")
+    .replace(/\\/g, "\\\\")
+    .replace(/;/g, "\\;")
+    .replace(/,/g, "\\,")
+    .replace(/\n/g, "\\n");
+
+// RFC 5545 §3.2: Parameterwerte mit : ; , in DQUOTE; DQUOTE und Steuerzeichen
+// sind darin nicht erlaubt.
+const icsParam = (s: string): string =>
+  `"${String(s ?? "").replace(/["\x00-\x1F\x7F]/g, "").trim()}"`;
+
+// RFC 5545 §3.1: Zeilen länger als 75 Oktette falten (CRLF + Leerzeichen),
+// ohne ein UTF-8-Zeichen zu zerteilen.
+export const icsFold = (line: string): string => {
+  const enc = new TextEncoder();
+  const out: string[] = [];
+  let cur = "";
+  let curBytes = 0;
+  for (const ch of line) {
+    const n = enc.encode(ch).length;
+    const limit = out.length === 0 ? 75 : 74; // Folgezeilen beginnen mit 1 Leerzeichen
+    if (curBytes + n > limit) {
+      out.push(cur);
+      cur = "";
+      curBytes = 0;
+    }
+    cur += ch;
+    curBytes += n;
+  }
+  out.push(cur);
+  return out.join("\r\n ");
+};
+
+const httpsLink = (u: string | null | undefined): string => {
+  const t = (u ?? "").trim();
+  return /^https:\/\/[^\s"'<>]+$/i.test(t) ? t : "";
+};
+
 export const buildIcs = (b: BookingRow): string => {
   const start = new Date(b.slot_iso);
   const end = new Date(start.getTime() + 30 * 60 * 1000);
   const fmt = (d: Date) => d.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
   const uid = `${b.id}@gruenderx.de`;
-  const location = b.meet_link || "Google Meet (Link wird separat geschickt)";
+  const meet = httpsLink(b.meet_link);
+  const location = meet || "Google Meet (Link wird separat geschickt)";
+  // E-Mail ist durch die Buchung (= Login-Mail) vorgegeben; trotzdem keine
+  // Zeilenumbrüche/Leerzeichen durchlassen.
+  const mail = String(b.email ?? "").replace(/[\s"<>;:,]/g, "");
   return [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
@@ -46,11 +96,11 @@ export const buildIcs = (b: BookingRow): string => {
     `DTSTAMP:${fmt(new Date())}`,
     `DTSTART:${fmt(start)}`,
     `DTEND:${fmt(end)}`,
-    `SUMMARY:1:1 Strategie-Call — ${b.topic}`,
-    `DESCRIPTION:30-Min-Strategie-Call zum Thema "${b.topic}".\\n\\nGoogle-Meet-Link: ${b.meet_link || "kommt 15 Min vorher per Email"}`,
-    `LOCATION:${location}`,
+    `SUMMARY:${icsText(`1:1 Strategie-Call — ${b.topic}`)}`,
+    `DESCRIPTION:${icsText(`30-Min-Strategie-Call zum Thema "${b.topic}".\n\nGoogle-Meet-Link: ${meet || "kommt 15 Min vorher per Email"}`)}`,
+    `LOCATION:${icsText(location)}`,
     "ORGANIZER;CN=GründerX:mailto:impressum@gruenderx.de",
-    `ATTENDEE;CN=${b.name};RSVP=TRUE:mailto:${b.email}`,
+    `ATTENDEE;CN=${icsParam(b.name)};RSVP=TRUE:mailto:${mail}`,
     "STATUS:CONFIRMED",
     "SEQUENCE:0",
     "BEGIN:VALARM",
@@ -60,7 +110,7 @@ export const buildIcs = (b: BookingRow): string => {
     "END:VALARM",
     "END:VEVENT",
     "END:VCALENDAR",
-  ].join("\r\n");
+  ].map(icsFold).join("\r\n");
 };
 
 const formatDateDe = (iso: string): string =>
@@ -113,62 +163,18 @@ export const reminder24hEmail = (b: BookingRow) =>
   });
 
 
-export const reminder15minEmail = (b: BookingRow) => {
-  const link = b.meet_link?.trim();
-  const linkBlock = link
-    ? `<a href="${escapeHtml(link)}" style="display:inline-block;background:#10b981;color:#fff;padding:14px 28px;border-radius:10px;text-decoration:none;font-weight:700;font-size:16px">📹 Jetzt in den Call gehen</a>
-       <div style="margin-top:8px;font-size:11px;color:#9ca3af;word-break:break-all">${escapeHtml(link)}</div>`
-    : `<div style="background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;padding:14px;border-radius:10px;font-size:14px">
-         Der Meet-Link kommt gleich per separater Email — wir senden ihn 1-2 Min vor Call-Start.
-       </div>`;
-  return {
-    subject: link
-      ? `📹 In 15 Min: dein GründerX 1:1-Call — hier ist der Link`
-      : `📹 In 15 Min: dein GründerX 1:1-Call`,
-    text: `Hallo ${b.name},
-
-in 15 Minuten geht's los — dein 1:1-Call startet um ${new Date(b.slot_iso).toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit", timeZone: "Europe/Berlin" })} Uhr.
-
-🎯 Thema: ${b.topic}
-
-CALL-LINK:
-${link || "Folgt in 1-2 Min per separater Email."}
-
-CHECKLISTE VOR DEM CALL:
-• Mikro + Kamera testen (Google Meet → Geräte)
-• Ruhigen Spot suchen
-• Notizen + Fragen bereit
-• Glas Wasser ✓
-
-Bis gleich!
-GründerX-Team
-
-Booking-ID: ${b.id.slice(0, 8)}`,
-    html: `<div style="font-family:-apple-system,Segoe UI,Arial,sans-serif;max-width:600px;margin:auto;padding:24px;background:#fff;color:#111">
-  <div style="background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;padding:24px;border-radius:16px 16px 0 0">
-    <div style="font-size:12px;letter-spacing:1px;text-transform:uppercase;opacity:0.9;margin-bottom:8px">🚨 In 15 Min</div>
-    <h1 style="margin:0;font-size:24px">Es geht gleich los</h1>
-  </div>
-  <div style="background:#fef5f5;padding:24px;border:1px solid #e5e7eb;border-top:0;border-radius:0 0 16px 16px">
-    <p style="margin:0 0 16px;font-size:16px">Hallo ${escapeHtml(b.name)},</p>
-    <p style="margin:0 0 20px">in 15 Minuten startet dein 1:1-Strategie-Call zum Thema <strong>${escapeHtml(b.topic)}</strong>.</p>
-    <div style="text-align:center;margin:24px 0">
-      ${linkBlock}
-    </div>
-    <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:16px;margin:16px 0">
-      <div style="font-size:11px;color:#dc2626;letter-spacing:1px;text-transform:uppercase;font-weight:700;margin-bottom:8px">2-Min-Checkliste</div>
-      <ul style="margin:0;padding-left:20px;color:#374151;line-height:1.7">
-        <li>Mikro + Kamera testen (Google Meet → Geräte)</li>
-        <li>Ruhigen Spot suchen</li>
-        <li>Notizen + Fragen bereit</li>
-        <li>Glas Wasser ✓</li>
-      </ul>
-    </div>
-    <p style="margin:8px 0 0;color:#9ca3af;font-size:11px">Booking-ID: ${b.id.slice(0, 8)}</p>
-  </div>
-</div>`,
-  };
-};
+// 15-Min-Erinnerung: ebenfalls aus dem Kit (vorher eigenes HTML mit
+// rot/gruenem Verlauf, ohne Impressums-Fuss, und mit der falschen Zusage
+// "wir senden ihn 1-2 Min vor Call-Start" — fehlt der Link, geht nur eine
+// Admin-Warnung raus, der Link wird von Hand nachgeschickt).
+export const reminder15minEmail = (b: BookingRow) =>
+  buildTerminGleich({
+    name: b.name,
+    uhrzeit: nurUhrzeit(b.slot_iso),
+    thema: b.topic,
+    meetLink: b.meet_link,
+    bookingId: b.id.slice(0, 8),
+  });
 
 export const adminNotifyEmail = (b: BookingRow) => ({
   subject: `[Booking] ${formatDateDe(b.slot_iso)} — ${b.name} (${b.topic})`,

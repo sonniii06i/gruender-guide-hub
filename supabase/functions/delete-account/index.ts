@@ -1,68 +1,33 @@
 // delete-account: DSGVO Art. 17 — löscht ALLE Daten des eingeloggten Nutzers
 // und seinen Auth-Account. Server-seitiger Auth-Check; löscht nur die EIGENEN
-// Zeilen (user_id === auth.user.id).
+// Zeilen (user_id === auth.user.id bzw. die bestätigte eigene E-Mail).
+//
+// Gesperrt, solange ein Stripe-Abo läuft (active/trialing/past_due) —
+// Betreiber-Entscheidung 13.10.2026. Logik und Begründung in handler.ts.
 
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
+import Stripe from "https://esm.sh/stripe@18.5.0";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
-import { zweiterFaktorOffen, zweiFaktorAntwort } from "../_shared/zweiFaktor.ts";
+import { handleDeleteAccount } from "./handler.ts";
+import type { StripeLike } from "../_shared/stripeCustomer.ts";
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-};
-const json = (b: unknown, status = 200) =>
-  new Response(JSON.stringify(b), { status, headers: { ...corsHeaders, "Content-Type": "application/json" } });
-
-// Tabellen mit Nutzerdaten + Spalte, über die der Nutzer referenziert wird.
-// Best-effort: existiert eine Tabelle nicht, wird sie übersprungen.
-const USER_TABLES: { table: string; col: string }[] = [
-  { table: "playbook_step_progress", col: "user_id" },
-  { table: "playbook_runs", col: "user_id" },
-  { table: "notifications", col: "user_id" },
-  { table: "chat_messages", col: "user_id" },
-  { table: "chat_conversations", col: "user_id" },
-  { table: "chat_memories", col: "user_id" },
-  { table: "contact_tickets", col: "user_id" },
-  { table: "bookings", col: "user_id" },
-  { table: "tool_events", col: "user_id" },
-  { table: "page_views", col: "user_id" },
-  { table: "subscriptions", col: "user_id" },
-  { table: "user_roles", col: "user_id" },
-  { table: "profiles", col: "id" },
-];
-
-serve(async (req) => {
-  if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
-
+serve((req) => {
   const supabase = createClient(
     Deno.env.get("SUPABASE_URL") ?? "",
     Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "",
     { auth: { persistSession: false } },
   );
+  // Affiliate-Ledger wie in manage-affiliate / stripe-affiliate-webhook.
+  const hub = createClient(
+    Deno.env.get("HUB_SUPABASE_URL") || Deno.env.get("SUPABASE_URL") || "",
+    Deno.env.get("HUB_SERVICE_ROLE_KEY") || Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || "",
+    { auth: { persistSession: false } },
+  );
+  const key = Deno.env.get("STRIPE_SECRET_KEY") || "";
+  const stripe = key
+    ? (new Stripe(key, { apiVersion: "2025-08-27.basil" }) as unknown as StripeLike)
+    : null;
 
-  try {
-    const token = (req.headers.get("Authorization") || "").replace("Bearer ", "").trim();
-    if (!token) return json({ error: "unauthorized" }, 401);
-    const { data: userData, error: authErr } = await supabase.auth.getUser(token);
-    if (authErr || !userData.user) return json({ error: "unauthorized" }, 401);
-    // Kontolöschung nur mit bestätigtem zweitem Faktor (_shared/zweiFaktor.ts).
-    if (zweiterFaktorOffen(userData.user, token)) return zweiFaktorAntwort(corsHeaders);
-    const userId = userData.user.id;
-
-    const cleared: string[] = [];
-    const failed: { table: string; error: string }[] = [];
-    for (const { table, col } of USER_TABLES) {
-      const { error } = await supabase.from(table).delete().eq(col, userId);
-      if (error) failed.push({ table, error: error.message });
-      else cleared.push(table);
-    }
-
-    // Auth-Account zuletzt löschen (entfernt Login + auth.users-Eintrag).
-    const { error: delErr } = await supabase.auth.admin.deleteUser(userId);
-    if (delErr) return json({ error: `auth delete failed: ${delErr.message}`, cleared, failed }, 500);
-
-    return json({ ok: true, cleared, failed });
-  } catch (e) {
-    return json({ error: String(e instanceof Error ? e.message : e) }, 500);
-  }
+  // Auth, 2FA-Sperre (Runde 1), Abo-Sperre und Löschliste: handler.ts.
+  return handleDeleteAccount(req, { supabase: supabase as never, hub, stripe });
 });

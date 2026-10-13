@@ -314,7 +314,7 @@ HEUTE ist ${heuteFormatiert} (${isoDate}).
 ANTWORT-PFLICHT: KEINE VERWEIGERUNG
 ============================================================
 - NIEMALS "Ich habe keine aktuellen Daten" oder "kann ich nicht beantworten" schreiben.
-- Wenn du eine Zahl nicht 100% sicher weißt: gib eine REALISTISCHE Spanne (z.B. "GKV-Zusatzbeitrag 2026: ⌀ 1,7-2,5 % bei den großen Kassen") + verweise auf offizielle Primärquelle (z.B. GKV-Spitzenverband, BMF, gesetze-im-internet.de).
+- Wenn du eine Zahl nicht 100% sicher weißt: gib eine REALISTISCHE Spanne (z.B. "GKV-Zusatzbeitrag 2026: amtlicher Durchschnitt 2,9 %, je Kasse unterschiedlich — exakter Wert bei deiner Kasse") + verweise auf offizielle Primärquelle (z.B. GKV-Spitzenverband, BMF, gesetze-im-internet.de).
 - Bei Spezialwerten (Kassen-Zusatzbeiträge, Hebesätze, Notar-Honorare): nenne typischen Bereich + Quelle wo der User exakten Wert bekommt.
 - Bei klar zeitkritischen Fragen ("ab wann gilt...", "Frist", "wann muss ich..."): IMMER konkretes Datum nennen, ausgehend von HEUTE (${heuteFormatiert}).
   Beispiel: "USt-VA Q2-Frist ist 10. Juli ${heute.getUTCFullYear()} (in X Tagen ab heute)."
@@ -373,7 +373,7 @@ KRANKENVERSICHERUNG / SOZIALES 2026:
 - BBG GKV/PV (bundeseinheitlich): 5.812,50 €/Monat = 69.750 €/Jahr
 - BBG RV/AV (bundeseinheitlich seit 2025): 8.450 €/Monat = 101.400 €/Jahr
 - JAEG (für PKV-Wechselrecht): 77.400 €/Jahr
-- GKV allgemeiner Beitragssatz: 14,6 % (+Zusatzbeitrag ⌀ 1,7-2,5 % je Kasse)
+- GKV allgemeiner Beitragssatz: 14,6 % (+ Zusatzbeitrag je Kasse; durchschnittlicher Zusatzbeitrag 2026 laut BMG-Bekanntmachung nach § 242a SGB V: 2,9 %, viele Kassen erheben mehr)
 - PV-Beitrag mit Kind: 3,6 % · ohne Kind: 4,2 %
 - RV-Beitragssatz: 18,6 %
 - AV-Beitragssatz: 2,6 %
@@ -387,18 +387,18 @@ ALTERSVORSORGE 2026:
 - Riester-Kinderzulage ab 2008 geboren: 300 €/Jahr/Kind
 
 KFZ:
-- Pendlerpauschale: 0,30 €/km erste 20 km, 0,38 €/km ab 21. km
+- Pendlerpauschale (Entfernungspauschale) seit 01.01.2026: 0,38 €/km ab dem ERSTEN Kilometer (einfache Strecke; § 9 Abs. 1 Satz 3 Nr. 4 EStG i.d.F. Steueränderungsgesetz 2025). Die alte Staffel 0,30 €/0,38 € gilt NICHT mehr
 - Reisekostenpauschale Kfz: 0,30 €/km (auch über 20 km)
 - Verpflegungspauschale DE: 14 € (8-24h), 28 € (über 24h)
 - 1 %-Regel: 1 % vom Brutto-Listenpreis/Monat als geldwerter Vorteil
-- E-Auto-Bonus: 0,25 % bei Brutto-Listenpreis bis 70.000 €, 0,5 % darüber
+- E-Auto-Bonus: 0,25 % bei Brutto-Listenpreis bis 100.000 € (Anschaffung ab 01.07.2025; § 6 Abs. 1 Nr. 4 Satz 2 Nr. 3 EStG i.d.F. Investitionssofortprogramm 2025), bei Anschaffung 2024 bis 30.06.2025: bis 70.000 €; darüber 0,5 %. Plug-in-Hybrid 0,5 % (Reichweite/CO2-Kriterien)
 
 E-RECHNUNG B2B (Pflicht seit 01.01.2025):
 - Empfangs-Pflicht für ALLE B2B-Unternehmen ab 01.01.2025 (auch KU!)
-- Versand-Pflicht stufenweise:
-  * Bis 31.12.2026: nur große Unternehmen müssen versenden (>800k Umsatz)
-  * Ab 01.01.2027: ALLE Unternehmen mit >800k Umsatz
-  * Ab 01.01.2028: ALLE B2B-Unternehmen
+- Versand-Pflicht stufenweise (Übergangsregeln § 27 Abs. 38 Nr. 1–3 UStG):
+  * Bis 31.12.2026: Übergangsfrist für ALLE — niemand MUSS schon E-Rechnungen versenden; Papierrechnung weiter zulässig, PDF und andere elektronische Formate (z.B. EDI) nur mit Zustimmung des Empfängers
+  * Ab 01.01.2027: Versandpflicht bei Vorjahresumsatz > 800.000 €; darunter Papier (bzw. PDF mit Zustimmung) noch bis 31.12.2027, EDI mit Zustimmung bis 31.12.2027 für alle
+  * Ab 01.01.2028: Versandpflicht für ALLE B2B-Umsätze
 - Formate: XRechnung (XML), ZUGFeRD (PDF mit XML)
 - Reine PDF-Rechnung ≠ E-Rechnung mehr
 
@@ -431,14 +431,14 @@ KU-WECHSEL bei ÜBERSCHREITUNG 100k (Reform 2025):
 - Die 100.000-Euro-Grenze ist eine HARTE Grenze, kein Prognose-Korridor wie früher 50k
 - Faustregel: knapp unter 100k bleiben oder Wechsel zur Regelbesteuerung vorher planen
 
-PFLEGEVERSICHERUNG mit Kindern (§55 SGB XI seit 01.07.2023):
-- Grund: 3,4 % AN-Anteil mit Kind / 4,2 % kinderlos
-- Staffelung pro Kind <25 Jahre (kumulativ, dauerhaft bis Kind 25):
-  * 1 Kind:  3,40 % (Basis)
-  * 2 Kinder: 3,15 % (–0,25 Pp)
-  * 3 Kinder: 2,90 % (–0,50 Pp)
-  * 4 Kinder: 2,65 % (–0,75 Pp)
-  * 5+ Kinder: 2,40 % (–1,00 Pp)
+PFLEGEVERSICHERUNG mit Kindern (§ 55 SGB XI, Beitragssatz seit 01.01.2025):
+- GESAMTbeitragssatz: 3,6 % mit Kind / 4,2 % kinderlos (Selbständige zahlen den vollen Satz; bei Angestellten trägt der AG die Hälfte des Grundsatzes, Kinderlosenzuschlag und Kinderabschläge betreffen nur den AN-Anteil)
+- Abschlag je Kind unter 25 Jahren ab dem 2. Kind (max. 5 Kinder), solange das jeweilige Kind unter 25 ist:
+  * 1 Kind:  3,60 % (Basis)
+  * 2 Kinder: 3,35 % (–0,25 Pp)
+  * 3 Kinder: 3,10 % (–0,50 Pp)
+  * 4 Kinder: 2,85 % (–0,75 Pp)
+  * 5+ Kinder: 2,60 % (–1,00 Pp)
 
 MINIJOB-GRENZE 2026:
 - 603 €/Monat = 7.236 €/Jahr (war 538 € in 2024, 556 € in 2025 — diese sind NICHT mehr aktuell)
@@ -459,15 +459,15 @@ AUFBEWAHRUNGSFRISTEN (Wachstumschancengesetz, gilt ab 01.01.2025):
 STOCK OPTIONS / MITARBEITER-BETEILIGUNG (§19a EStG, Zukunftsfinanzierungsgesetz 2024):
 - Klassisch (ohne §19a): Besteuerung beim AUSÜBEN (Exercise) als geldwerter Vorteil — voller Tarif
 - §19a Aufschub für Start-Ups: Besteuerung erst bei
-  (a) Verkauf der Anteile, ODER (b) Job-Ende, ODER (c) Ablauf 15 Jahre
-- Start-Up-Definition: <250 MA, <50 M € Umsatz/43 M Bilanzsumme, Gründung <20 Jahre
-- Stark verbessert seit 2024 (vorher: 12 Jahre, 100 MA-Grenze)
+  (a) Verkauf der Anteile, ODER (b) Job-Ende (entfällt, wenn der AG unwiderruflich die Haftung für die Lohnsteuer übernimmt, § 19a Abs. 4a EStG), ODER (c) Ablauf 15 Jahre
+- Start-Up-Definition (§ 19a Abs. 3 EStG i.d.F. Zukunftsfinanzierungsgesetz): <1.000 MA, ≤100 Mio. € Umsatz ODER ≤86 Mio. € Bilanzsumme, Gründung ≤20 Jahre zurück
+- Stark verbessert seit 2024 (vorher: Gründung ≤12 Jahre, KMU-Grenze 250 MA / 50 Mio. € Umsatz / 43 Mio. € Bilanzsumme, Aufschub max. 12 Jahre)
 
 GF-TANTIEME / vGA-Vermeidung (eigene GmbH):
 - Drei kumulative Tests:
   1. Externer Fremdvergleich (Markt-GF-Gehalt)
-  2. 75:25-Regel: Festgehalt:Tantieme ≥ 75:25 (Tantieme ≤ 1/3 vom Fix)
-  3. Gewinn-Test: Tantieme max ~25 % des Jahresüberschusses VOR Tantieme
+  2. 75:25-Regel: Festgehalt:Tantieme ≥ 75:25 (Tantieme ≤ 1/3 vom Fix) — Richtwert der Finanzverwaltung (BMF 01.02.2002, IV A 2 - S 2742 - 4/02), im Einzelfall Abweichung möglich
+  3. Gewinn-Test: ALLE GF-Tantiemen zusammen max. 50 % des Jahresüberschusses VOR Abzug der Tantieme und der Ertragsteuern (BFH-Rspr., z.B. BFH I R 50/94; BMF 01.02.2002) — darüber wird eine vGA vermutet
 - Zusätzlich: Vereinbarung VOR Wirtschaftsjahres-Beginn + schriftlich + durchgeführt
 - Verstoß = vGA: Besteuerung wie Dividende + Risiko Sozialversicherungs-Nachforderung
 
@@ -1117,10 +1117,11 @@ serve(async (req) => {
           model,
           // Nur hier zählen, nicht in den Guard-Reject-Pfaden: bei einem
           // abgelehnten Ein-/Ausgabetext ist kein Modell gelaufen, es gibt
-          // also auch keine Kosten zu verbuchen. Eingabe = System-Prompt plus
-          // der GESAMTE gesendete Verlauf, nicht nur die letzte Nachricht.
+          // also auch keine Kosten zu verbuchen.
+          // Eingabe = System-Prompt (inkl. Memory/KB/Events) + kompletter Verlauf,
+          // nicht nur die letzte Nachricht — sonst ist cost_usd um Größenordnungen zu niedrig.
           input_tokens: estimateChatTokens(
-            systemPromptWithMemory + messages.map((m) => m.content).join("\n"),
+            systemPromptWithMemory + "\n" + messages.map((m) => m.content).join("\n"),
           ),
           output_tokens: estimateChatTokens(fullText),
           output_guard_triggered: outGuard.ok ? null : outGuard.trigger,
@@ -1155,15 +1156,19 @@ serve(async (req) => {
     const tryFallbacks = async (): Promise<Response | null> => {
       if (ANTHROPIC_KEY) {
         console.log("→ Fallback auf Anthropic Claude");
+        // callAnthropic wirft bei Nicht-2xx → abfangen und in der Kette zu OpenAI weiter,
+        // statt den rohen Anbieter-Fehler an den Nutzer durchzureichen.
         try {
           const anthResp = await callAnthropic(messages, ANTHROPIC_KEY, systemPromptWithMemory);
           if (anthResp.body) return wrapStream(anthResp.body, "anthropic-claude", "claude-sonnet-4-6");
+          vorherigerFehler += `${vorherigerFehler ? " | " : ""}anthropic: leerer Body`;
         } catch (e) {
-          const msg = (e as Error)?.message ?? String(e);
+          const msg = e instanceof Error ? e.message : String(e);
           const status = Number(msg.match(/\((\d{3})\)/)?.[1] ?? 0);
+          // Kurzform (Schlüssel maskiert) ins Log, nie der rohe Text.
           const anth = fehlerKurz(status, msg);
           console.error("Anthropic-Fallback fehlgeschlagen", anth);
-          vorherigerFehler = vorherigerFehler ? `${vorherigerFehler} | anthropic ${anth}` : `anthropic ${anth}`;
+          vorherigerFehler += `${vorherigerFehler ? " | " : ""}anthropic ${anth}`;
         }
       }
       if (OPENAI_KEY) {

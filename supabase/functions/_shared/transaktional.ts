@@ -15,7 +15,7 @@
 // ===================================================================
 
 import {
-  aufmacher, bullets, button, divider, esc, hero, kennung, paragraph, plain,
+  aufmacher, betonung, bullets, button, divider, esc, hero, kennung, paragraph, plain,
   priceRows, renderMail, steps, type Built,
 } from "./mailLayout.ts";
 
@@ -58,7 +58,9 @@ export function buildTerminBestaetigt(o: {
   ];
 
   return {
-    subject: `Termin bestätigt: ${o.datumKurz} Uhr`,
+    // datumKurz hat keine Uhrzeit (nurDatum) — die Uhrzeit kommt aus o.uhrzeit
+    // ("14:00 Uhr"); vorher stand hier "Dienstag, 14. Oktober Uhr".
+    subject: `Termin bestätigt: ${o.datumKurz}, ${o.uhrzeit}`,
     text: plain({
       greeting: vorname ? `Hallo ${vorname},` : "Hallo,",
       lines: [
@@ -140,6 +142,68 @@ export function buildTerminErinnerung(o: {
       greeting: vorname ? `Hallo ${vorname},` : "Hallo,",
       blocks,
       baseUrl: url,
+      footerReason: "Du bekommst diese Mail, weil du einen Termin gebucht hast.",
+    }),
+  };
+}
+
+// -------------------------------------------------------------------
+// 2b) Erinnerung, 15 Minuten vorher
+//
+// Gleiches Kit wie Bestaetigung und 24h-Erinnerung (vorher eigenes HTML mit
+// rot/gruenem Verlauf, ohne Impressums-Fuss). Ohne Meet-Link keine
+// Zeitzusage: der Link wird dann von Hand nachgeschickt (Admin-Warnung in
+// send-booking-reminders), also nur "in Kuerze".
+// -------------------------------------------------------------------
+export function buildTerminGleich(o: {
+  name: string; uhrzeit: string; thema: string; meetLink?: string | null;
+  bookingId: string; baseUrl?: string;
+}): Built {
+  const url = (o.baseUrl ?? BASIS).replace(/\/+$/, "");
+  const vorname = (o.name ?? "").trim().split(" ")[0];
+  const roh = (o.meetLink ?? "").trim();
+  const link = /^https:\/\/[^\s"'<>]+$/i.test(roh) ? roh : "";
+
+  const blocks = [
+    aufmacher("Es geht gleich los.",
+      `Dein 1:1-Call zum Thema „${o.thema}“ startet um ${o.uhrzeit} Uhr.`),
+    link
+      ? button(esc(link), "Jetzt in den Call")
+      : betonung("Der Link kommt in Kürze",
+        "Wir schicken dir den Meet-Link in Kürze per separater Mail. " +
+        "Falls er nicht ankommt, antworte einfach auf diese Mail."),
+    divider(),
+    steps([
+      ["Mikro und Kamera testen", "Google Meet → Einstellungen → Audio/Video."],
+      ["Ruhigen Platz suchen", "Damit wir die 30 Minuten voll nutzen."],
+      ["Fragen bereitlegen", "Notizen helfen, nichts zu vergessen."],
+    ]),
+  ];
+
+  return {
+    subject: link
+      ? `In 15 Min: dein GründerX 1:1-Call — hier ist der Link`
+      : `In 15 Min: dein GründerX 1:1-Call`,
+    text: plain({
+      greeting: vorname ? `Hallo ${vorname},` : "Hallo,",
+      lines: [
+        `in 15 Minuten geht's los — dein 1:1-Call startet um ${o.uhrzeit} Uhr.`,
+        `Thema: ${o.thema}`,
+        "",
+        link ? `Call-Link: ${link}` : "Der Meet-Link kommt in Kürze per separater Mail.",
+        "",
+        "Vor dem Call: Mikro und Kamera testen, ruhigen Platz suchen, Fragen bereitlegen.",
+        "",
+        `Buchungsnummer: ${o.bookingId}`,
+      ],
+    }),
+    html: renderMail({
+      preheader: link ? `Start ${o.uhrzeit} Uhr — der Link ist in dieser Mail.` : `Start ${o.uhrzeit} Uhr.`,
+      heroBlock: hero({ klein: "In 15 Minuten", gross: `${o.uhrzeit} Uhr`, unten: o.thema }),
+      greeting: vorname ? `Hallo ${vorname},` : "Hallo,",
+      blocks,
+      baseUrl: url,
+      footerNote: `Buchungsnummer ${esc(o.bookingId)}`,
       footerReason: "Du bekommst diese Mail, weil du einen Termin gebucht hast.",
     }),
   };
