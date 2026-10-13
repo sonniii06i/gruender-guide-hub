@@ -4,10 +4,13 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { MessageSquare, Plus, Inbox, Clock, CheckCircle2 } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
+import { MessageSquare, Plus, Inbox, Clock, CheckCircle2, Archive, Loader2, Send } from "lucide-react";
+import { toast } from "sonner";
 import { EmptyState, ToneBadge, type Tone } from "@/components/cockpit/kit";
 import { formatDistanceToNow } from "date-fns";
 import { de } from "date-fns/locale";
+import { ticketNimmtAntwortenAn } from "@/lib/tickets";
 
 interface Ticket {
   id: string; subject: string; status: string; created_at: string; message: string;
@@ -18,6 +21,8 @@ const STATUS_BADGE: Record<string, { label: string; tone: Tone; icon: any }> = {
   open: { label: "Offen", tone: "info", icon: Inbox },
   in_progress: { label: "In Bearbeitung", tone: "warning", icon: Clock },
   resolved: { label: "Gelöst", tone: "success", icon: CheckCircle2 },
+  // Admin.tsx setzt auch "closed" -- fiel vorher auf "Offen" zurueck.
+  closed: { label: "Geschlossen", tone: "neutral", icon: Archive },
 };
 
 const Support = () => {
@@ -26,6 +31,33 @@ const Support = () => {
   const [loading, setLoading] = useState(true);
   const [active, setActive] = useState<Ticket | null>(null);
   const [msgs, setMsgs] = useState<Msg[]>([]);
+  const [reply, setReply] = useState("");
+  const [sending, setSending] = useState(false);
+
+  const loadMsgs = async (ticketId: string) => {
+    const { data } = await supabase.from("ticket_messages").select("*").eq("ticket_id", ticketId).order("created_at", { ascending: true });
+    setMsgs((data ?? []) as Msg[]);
+  };
+
+  // Rueckfrage zum bestehenden Ticket statt eines neuen. author_role und
+  // author_id setzt der Trigger tg_ticket_messages_rolle serverseitig.
+  // Es geht keine Mail und keine Benachrichtigung raus: Die Nachricht steht im
+  // Ticket, das Team sieht sie beim Bearbeiten -- so sagt es auch der Hinweis.
+  const sendReply = async () => {
+    if (!active || !reply.trim() || !ticketNimmtAntwortenAn(active.status)) return;
+    setSending(true);
+    const { error } = await supabase.from("ticket_messages").insert({ ticket_id: active.id, body: reply.trim() });
+    setSending(false);
+    if (error) {
+      toast.error("Antwort konnte nicht gesendet werden. Bitte versuch es erneut.");
+      return;
+    }
+    setReply("");
+    toast.success("Nachricht im Ticket gespeichert", {
+      description: "Unser Team sieht sie, sobald es dein Ticket bearbeitet.",
+    });
+    await loadMsgs(active.id);
+  };
 
   useEffect(() => {
     if (!user) return;
@@ -35,8 +67,8 @@ const Support = () => {
 
   useEffect(() => {
     if (!active) return;
-    supabase.from("ticket_messages").select("*").eq("ticket_id", active.id).order("created_at", { ascending: true })
-      .then(({ data }) => setMsgs((data ?? []) as Msg[]));
+    setReply("");
+    void loadMsgs(active.id);
   }, [active]);
 
   return (
@@ -117,6 +149,35 @@ const Support = () => {
                       <p className="text-sm whitespace-pre-wrap">{m.body}</p>
                     </div>
                   ))
+                )}
+                {ticketNimmtAntwortenAn(active.status) ? (
+                <div className="border-t border-border pt-4">
+                  <label htmlFor="ticket-reply" className="mb-1.5 block text-sm font-medium">Antworten</label>
+                  <Textarea
+                    id="ticket-reply"
+                    value={reply}
+                    onChange={(e) => setReply(e.target.value)}
+                    placeholder="Rückfrage oder Ergänzung zu diesem Ticket …"
+                    rows={4}
+                    maxLength={20000}
+                  />
+                  <Button onClick={sendReply} disabled={sending || !reply.trim()} className="mt-3">
+                    {sending ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : <Send className="h-4 w-4" aria-hidden="true" />}
+                    Nachricht speichern
+                  </Button>
+                  <p className="mt-2 text-xs text-muted-foreground">
+                    Deine Nachricht wird diesem Ticket hinzugefügt. Unser Team sieht sie, sobald es das Ticket bearbeitet. Es geht keine separate E-Mail raus.
+                  </p>
+                </div>
+                ) : (
+                <div className="border-t border-border pt-4 text-sm text-muted-foreground">
+                  <p>Dieses Ticket ist abgeschlossen. Hast du noch eine Frage oder ein neues Anliegen, öffne bitte ein neues Ticket.</p>
+                  <Button asChild variant="outline" className="mt-3">
+                    <Link to="/kontakt">
+                      <Plus className="h-4 w-4" aria-hidden="true" /> Neues Ticket
+                    </Link>
+                  </Button>
+                </div>
                 )}
               </div>
             </>

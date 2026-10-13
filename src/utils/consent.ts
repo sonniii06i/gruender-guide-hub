@@ -78,3 +78,49 @@ export function onMarketingConsent(fn: Listener): () => void {
   }
   return () => listeners.delete(fn);
 }
+
+// ---------------------------------------------------------------------------
+// Widerruf (Art. 7 Abs. 3 DSGVO): so einfach wie die Zustimmung.
+// ---------------------------------------------------------------------------
+
+/** Event, mit dem Footer/Datenschutz das Banner erneut oeffnen. */
+export const OPEN_CONSENT_EVENT = "gx:open-consent";
+
+/** Cookie-Einstellungen (Banner) erneut oeffnen. */
+export function openConsentSettings(): void {
+  if (typeof window === "undefined") return;
+  window.dispatchEvent(new Event(OPEN_CONSENT_EVENT));
+}
+
+// Cookies, die Meta-Pixel und Google-Tag setzen.
+const MARKETING_COOKIE = /^(_fbp|_fbc|_ga(_.*)?|_gid|_gcl_.*|_gac_.*)$/;
+
+/** Marketing-Cookies auf dieser Domain und der Hauptdomain loeschen. */
+export function deleteMarketingCookies(): void {
+  if (typeof document === "undefined") return;
+  const host = window.location.hostname;
+  const teile = host.split(".");
+  const domains = ["", host, `.${host}`];
+  if (teile.length > 2) domains.push(`.${teile.slice(-2).join(".")}`);
+  for (const c of document.cookie.split(";")) {
+    const name = c.split("=")[0]?.trim();
+    if (!name || !MARKETING_COOKIE.test(name)) continue;
+    for (const d of domains) {
+      document.cookie = `${name}=; Max-Age=0; path=/${d ? `; domain=${d}` : ""}`;
+    }
+  }
+}
+
+/**
+ * Entscheidung aendern. Wird eine erteilte Einwilligung widerrufen, sind die
+ * Pixel schon geladen und lassen sich nicht entladen: Cookies loeschen und die
+ * Seite neu laden, danach laeuft nichts mehr.
+ */
+export function changeMarketingConsent(granted: boolean): void {
+  const vorher = hasMarketingConsent();
+  setMarketingConsent(granted);
+  if (vorher && !granted) {
+    deleteMarketingCookies();
+    window.location.reload();
+  }
+}

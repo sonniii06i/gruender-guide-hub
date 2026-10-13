@@ -25,7 +25,7 @@ const GGH_TOUR: TourStep[] = [
 
 export default function AppLayout() {
   const { user, loading } = useAuth();
-  const { loading: accessLoading, onboardingCompleted } = useAccess();
+  const { loading: accessLoading, onboardingCompleted, known: accessKnown } = useAccess();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -36,10 +36,12 @@ export default function AppLayout() {
     }
     // Neue, noch nicht eingerichtete User zuverlässig auf die Daten-/Account-Seite
     // führen — unabhängig davon, wohin der E-Mail-Bestätigungslink landet.
-    if (!accessLoading && !onboardingCompleted) {
+    // Bei einem Abfragefehler ohne bekannten Stand NICHT umleiten: Ein
+    // Netzfehler ist kein "Onboarding offen".
+    if (!accessLoading && accessKnown && !onboardingCompleted) {
       navigate("/onboarding", { replace: true });
     }
-  }, [user, loading, accessLoading, onboardingCompleted, navigate]);
+  }, [user, loading, accessLoading, accessKnown, onboardingCompleted, navigate]);
 
   if (loading || !user) {
     return (

@@ -48,3 +48,6 @@ public/gruender-events.json
 public/startup-guthaben.json
 public/kalender/
 xr-beispiele/
+
+# Klartext-Aktivierungscodes (scripts/generate-codes.mjs) -- nie committen
+codes-*.csv

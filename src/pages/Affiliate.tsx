@@ -1,3 +1,4 @@
+import { ibanGueltig } from "@/lib/eRechnungLesen";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -27,6 +28,7 @@ export default function Affiliate() {
   const [name, setName] = useState("");
   const [iban, setIban] = useState("");
   const [busy, setBusy] = useState(false);
+  const [ladeFehler, setLadeFehler] = useState(false);
 
   const call = async (body: Record<string, unknown>) => {
     const { data: res, error } = await supabase.functions.invoke("manage-affiliate", { body });
@@ -37,18 +39,29 @@ export default function Affiliate() {
     return res as AffiliateData;
   };
 
+  const laden = async () => {
+    setLoading(true);
+    setLadeFehler(false);
+    const res = await call({ action: "me" });
+    if (res) { setData(res); setName(res.payout_name || ""); setIban(res.payout_iban || ""); }
+    else setLadeFehler(true);
+    setLoading(false);
+  };
+
   useEffect(() => {
-    (async () => {
-      const res = await call({ action: "me" });
-      if (res) { setData(res); setName(res.payout_name || ""); setIban(res.payout_iban || ""); }
-      setLoading(false);
-    })();
+    void laden();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const copy = async () => { if (data) { await navigator.clipboard.writeText(data.ref_link); toast({ title: "Kopiert!", description: "Dein Reflink ist in der Zwischenablage." }); } };
 
   const savePayout = async () => {
+    // Pruefziffer (mod 97) vor dem Speichern -- ein Tippfehler fiel sonst erst
+    // bei der manuellen Ueberweisung auf.
+    if (iban.trim() && !ibanGueltig(iban)) {
+      toast({ title: "IBAN ungültig", description: "Bitte prüfe die IBAN – die Prüfziffer stimmt nicht.", variant: "destructive" });
+      return;
+    }
     setBusy(true);
     const res = await call({ action: "save_payout", payout_name: name, payout_iban: iban });
     if (res) { setData(res); toast({ title: "Gespeichert", description: "Auszahlungsdaten aktualisiert." }); }
@@ -79,7 +92,20 @@ export default function Affiliate() {
         </div>
       </div>
     );
-  if (!data) return null;
+  if (!data)
+    return (
+      <div className="container max-w-2xl px-4 py-16" role="alert">
+        <div className="rounded-2xl border border-border bg-card p-8 text-center shadow-card">
+          <h1 className="text-xl font-semibold">Partnerdaten nicht geladen</h1>
+          <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">
+            {ladeFehler
+              ? "Wir konnten dein Partnerkonto gerade nicht laden. Bitte versuch es erneut."
+              : "Keine Partnerdaten gefunden."}
+          </p>
+          <Button className="mt-5" onClick={() => void laden()}>Erneut laden</Button>
+        </div>
+      </div>
+    );
   const s = data.stats;
 
   return (

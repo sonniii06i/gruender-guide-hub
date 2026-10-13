@@ -6,7 +6,7 @@
 // PaywallGate und zeigen Crawlern nur die Upsell-Wand (Thin/Duplicate Content),
 // daher in robots.txt blockiert und bewusst aus der Sitemap raus.
 
-import { writeFileSync } from "fs";
+import { existsSync, readFileSync, writeFileSync } from "fs";
 import { resolve } from "path";
 import { LANDING_TOOLS } from "../src/data/features";
 import { GUIDE_LANDINGS } from "../src/data/guides";
@@ -80,7 +80,11 @@ const guideEntries: SitemapEntry[] = GUIDE_LANDINGS.filter((g) => !isMergedGuide
 }));
 
 // Fetch published blog posts via Supabase REST (no schema knowledge needed at build time)
-async function fetchBlogEntries(): Promise<SitemapEntry[]> {
+// Gibt null zurueck, wenn der Abruf scheitert -- NICHT [] ("es gibt keine
+// Ratgeber"). Vorher entstand bei einem Fehler still eine Sitemap ohne alle
+// Ratgeber, prerender.mjs prerenderte dann keinen einzigen, und live lieferten
+// alle /ratgeber/* den SPA-Fallback mit dem Head der Startseite.
+async function fetchBlogEntries(): Promise<SitemapEntry[] | null> {
   try {
     const r = await fetch(
       `${SUPABASE_URL}/rest/v1/blog_posts?select=slug,published_at,updated_at&status=eq.published&order=published_at.desc&limit=1000`,
@@ -93,7 +97,7 @@ async function fetchBlogEntries(): Promise<SitemapEntry[]> {
     );
     if (!r.ok) {
       console.warn(`sitemap: blog fetch failed ${r.status}`);
-      return [];
+      return null;
     }
     const rows = (await r.json()) as Array<{ slug: string; published_at: string; updated_at: string }>;
     // Ratgeber mit Canonical auf eine andere Domain (ratgeberKanonisch.ts) fehlen;
@@ -106,8 +110,28 @@ async function fetchBlogEntries(): Promise<SitemapEntry[]> {
     }));
   } catch (e) {
     console.warn("sitemap: blog fetch exception", e);
-    return [];
+    return null;
   }
+}
+
+/** Ratgeber-Eintraege aus der bisherigen public/sitemap.xml (Rueckfall bei Abruffehler). */
+function previousBlogEntries(): SitemapEntry[] {
+  const file = resolve("public/sitemap.xml");
+  if (!existsSync(file)) return [];
+  const xml = readFileSync(file, "utf8");
+  const out: SitemapEntry[] = [];
+  for (const block of xml.split("<url>").slice(1)) {
+    const loc = block.match(/<loc>([^<]+)<\/loc>/)?.[1] ?? "";
+    const path = loc.replace(BASE_URL, "");
+    if (!path.startsWith("/ratgeber/")) continue;
+    out.push({
+      path,
+      lastmod: block.match(/<lastmod>([^<]+)<\/lastmod>/)?.[1],
+      changefreq: "weekly",
+      priority: "0.7",
+    });
+  }
+  return out;
 }
 
 function generateSitemap(items: SitemapEntry[]) {
@@ -133,7 +157,28 @@ function generateSitemap(items: SitemapEntry[]) {
 }
 
 (async () => {
-  const blogEntries = await fetchBlogEntries();
+  const fetched = await fetchBlogEntries();
+  let blogEntries: SitemapEntry[];
+  if (fetched && fetched.length > 0) {
+    blogEntries = fetched;
+  } else {
+    // Abruf gescheitert oder 0 veroeffentlichte Posts (ebenfalls verdaechtig):
+    // Ratgeber aus der bisherigen Sitemap uebernehmen statt sie zu verlieren.
+    const previous = previousBlogEntries();
+    const grund = fetched ? "0 veröffentlichte Ratgeber geliefert" : "Ratgeber-Abruf fehlgeschlagen";
+    if (previous.length > 0) {
+      console.warn(`sitemap: ${grund} – übernehme ${previous.length} Ratgeber aus der bisherigen sitemap.xml`);
+      blogEntries = previous;
+    } else if (process.env.CI || process.env.VERCEL) {
+      // Im Build lieber abbrechen (Vercel deployt dann nicht) als still alle
+      // Ratgeber aus Sitemap und Prerender zu verlieren.
+      console.error(`sitemap: ${grund} und keine bisherige Ratgeber-Liste – Build abgebrochen.`);
+      process.exit(1);
+    } else {
+      console.warn(`sitemap: ${grund} – lokal ohne Ratgeber weiter.`);
+      blogEntries = [];
+    }
+  }
   const entries = [...staticEntries, ...toolEntries, ...guideEntries, ...blogEntries];
   writeFileSync(resolve("public/sitemap.xml"), generateSitemap(entries));
   console.log(

@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo, useRef } from "react";
+import { BERLIN_TZ, berlinSlotIso, berlinToday, berlinWallToUtcMs, nextBerlinWorkdays, ymdKey, type Ymd } from "@/lib/berlinTime";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -112,32 +113,32 @@ const TOPICS = [
 // Slot-Definition: Mo-Fr — 10:00, 11:00, 14:00, 15:00, 16:00 (Europe/Berlin)
 const SLOT_HOURS = [10, 11, 14, 15, 16];
 
-const formatDayLabel = (d: Date) => {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const target = new Date(d);
-  target.setHours(0, 0, 0, 0);
-  const diffDays = Math.round((target.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+// Alle Tage und Uhrzeiten gelten in Europe/Berlin (siehe lib/berlinTime).
+const dayNoon = (d: Ymd) => new Date(berlinWallToUtcMs(d, 12));
+
+const formatDayLabel = (d: Ymd) => {
+  const t = berlinToday();
+  const diffDays = Math.round((Date.UTC(d.y, d.m - 1, d.d) - Date.UTC(t.y, t.m - 1, t.d)) / (1000 * 60 * 60 * 24));
   if (diffDays === 0) return "Heute";
   if (diffDays === 1) return "Morgen";
-  return d.toLocaleDateString("de-DE", { weekday: "short", day: "2-digit", month: "2-digit" });
+  return dayNoon(d).toLocaleDateString("de-DE", { timeZone: BERLIN_TZ, weekday: "short", day: "2-digit", month: "2-digit" });
 };
 
-const formatDayLabelSub = (d: Date) =>
-  d.toLocaleDateString("de-DE", { weekday: "long", day: "numeric", month: "long" });
+const formatDayLabelSub = (d: Ymd) =>
+  dayNoon(d).toLocaleDateString("de-DE", { timeZone: BERLIN_TZ, weekday: "long", day: "numeric", month: "long" });
+
+/** Termin in Berliner Zeit; weicht die Zeitzone des Besuchers ab, zusaetzlich lokal. */
+const formatSlotLong = (iso: string) => {
+  const d = new Date(iso);
+  const opts: Intl.DateTimeFormatOptions = { weekday: "long", day: "numeric", month: "long", hour: "2-digit", minute: "2-digit" };
+  const berlin = d.toLocaleString("de-DE", { ...opts, timeZone: BERLIN_TZ });
+  const lokal = d.toLocaleString("de-DE", opts);
+  return berlin === lokal ? berlin : `${berlin} (Berliner Zeit) – bei dir ${d.toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" })}`;
+};
 
 const formatHour = (h: number) => `${String(h).padStart(2, "0")}:00`;
 
-const formatSlotIso = (date: Date, hour: number) => {
-  const d = new Date(date);
-  d.setHours(hour, 0, 0, 0);
-  return d.toISOString();
-};
-
-const isWeekend = (d: Date) => {
-  const day = d.getDay();
-  return day === 0 || day === 6;
-};
+const formatSlotIso = (day: Ymd, hour: number) => berlinSlotIso(day, hour);
 
 // min 1h Puffer — vergangene + zu nahe Slots gesperrt
 const isPastSlot = (iso: string) => new Date(iso).getTime() < Date.now() + 60 * 60 * 1000;
@@ -168,7 +169,9 @@ const Booking = () => {
           console.error("get_booked_slots", error);
           setError("Konnte belegte Slots nicht laden — versuch Refresh.");
         } else if (data) {
-          setBookedSlots(new Set(data.map((r: { slot_iso: string }) => r.slot_iso)));
+          // timestamptz kommt als "…+00:00" zurueck, die Slots als toISOString()
+          // ("….000Z") -- ohne Normalisierung passte kein belegter Slot.
+          setBookedSlots(new Set(data.map((r: { slot_iso: string }) => new Date(r.slot_iso).toISOString())));
         }
       } finally {
         if (!cancelled) setLoadingSlots(false);
@@ -203,21 +206,12 @@ const Booking = () => {
   }, [user]);
 
   // Liste der nächsten 14 Werktage
-  const days = useMemo(() => {
-    const arr: Date[] = [];
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    let d = new Date(today);
-    while (arr.length < 14) {
-      if (!isWeekend(d)) arr.push(new Date(d));
-      d = new Date(d.getTime() + 24 * 60 * 60 * 1000);
-    }
-    return arr;
-  }, []);
+  // Berliner Werktage, ohne bundesweite Feiertage.
+  const days = useMemo(() => nextBerlinWorkdays(14), []);
 
   // Alle verfügbaren Slots flach (für Quick-Pick + Stats)
   const availableFlat = useMemo(() => {
-    const arr: { iso: string; date: Date; hour: number }[] = [];
+    const arr: { iso: string; date: Ymd; hour: number }[] = [];
     days.forEach((d) => {
       SLOT_HOURS.forEach((h) => {
         const iso = formatSlotIso(d, h);
@@ -290,8 +284,7 @@ const Booking = () => {
   };
 
   if (success) {
-    const slotDate = new Date(success.slot);
-    const endDate = new Date(slotDate.getTime() + 30 * 60 * 1000);
+    const endDate = new Date(new Date(success.slot).getTime() + 30 * 60 * 1000);
     return (
       <CockpitShell
         eyebrow="1:1-Berater-Termin"
@@ -308,14 +301,8 @@ const Booking = () => {
               </span>
               <h2 className="text-xl font-semibold tracking-tight">Dein Termin steht</h2>
               <p className="mt-2 text-base font-medium tabular">
-                {slotDate.toLocaleString("de-DE", {
-                  weekday: "long",
-                  day: "numeric",
-                  month: "long",
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}{" "}
-                bis {endDate.toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" })} Uhr
+                {formatSlotLong(success.slot)}{" "}
+                bis {endDate.toLocaleTimeString("de-DE", { timeZone: BERLIN_TZ, hour: "2-digit", minute: "2-digit" })} Uhr (Berlin)
               </p>
               <p className="mt-1 text-sm text-muted-foreground">
                 30 Min · Google Meet · Thema: <span className="font-medium text-foreground">{topic}</span>
@@ -502,7 +489,7 @@ const Booking = () => {
 
                     return (
                       <div
-                        key={day.toISOString()}
+                        key={ymdKey(day)}
                         className={cn(
                           "rounded-xl border p-3",
                           isToday ? "border-accent-blue/25 bg-accent" : "border-border bg-card",
@@ -546,7 +533,7 @@ const Booking = () => {
                                     ? "cursor-not-allowed bg-secondary/60 text-muted-foreground/60 line-through"
                                     : "border border-border bg-card hover:border-accent-blue hover:bg-accent active:translate-y-px",
                                 )}
-                                title={isBooked ? "Belegt" : isPast ? "Vergangenheit" : `${formatHour(h)} Uhr`}
+                                title={isBooked ? "Belegt" : isPast ? "Vergangenheit" : `${formatHour(h)} Uhr (Berliner Zeit)`}
                               >
                                 {formatHour(h)}
                               </button>
@@ -600,14 +587,7 @@ const Booking = () => {
                   description={
                     <>
                       <span className="font-medium text-foreground">
-                        {new Date(selectedSlot).toLocaleString("de-DE", {
-                          weekday: "long",
-                          day: "numeric",
-                          month: "long",
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        })}{" "}
-                        Uhr
+                        {formatSlotLong(selectedSlot)}
                       </span>{" "}
                       · 30 Min · Google Meet
                     </>

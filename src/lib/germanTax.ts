@@ -236,7 +236,11 @@ export function calcAbgeltungSteuer(
   brutto: number,
   kistSatzProz: number = 0,
 ): { kapErtrag: number; solz: number; kist: number; total: number } {
-  const kapErtrag = brutto * 0.25;
+  // § 32d Abs. 1 Satz 3 EStG: Mit Kirchensteuer ermaessigt sich die
+  // Abgeltungsteuer auf e / (4 + k), k = KiSt-Satz als Dezimalzahl.
+  // Bei 9 % KiSt: 24,45 % statt 25 % (KiSt dann 2,2 % statt 2,25 %).
+  const k = kistSatzProz / 100;
+  const kapErtrag = (brutto * 0.25) / (1 + 0.25 * k);
   const solzVal = kapErtrag * SOLZ_RATE;
   const kist = kapErtrag * (kistSatzProz / 100);
   return { kapErtrag, solz: solzVal, kist, total: kapErtrag + solzVal + kist };

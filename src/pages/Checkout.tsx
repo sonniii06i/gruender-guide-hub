@@ -1,3 +1,4 @@
+import { TOOL_COUNT } from "@/data/features";
 import { useEffect, useState } from "react";
 import { ANBIETER_ANZAHL } from "@/data/kennzahlen";
 import { Link, useNavigate } from "react-router-dom";
@@ -66,7 +67,8 @@ type Item = {
 
 const SOLO_CONTENTS = [
   "Felix — KI-Co-Pilot, unbegrenzt im Chat",
-  "66 Wizards, Rechner und Cockpits",
+  // Zahl aus data/features (eine Quelle), nicht hart eingetragen.
+  `${TOOL_COUNT} Wizards, Rechner und Cockpits`,
   "Gründung: Rechtsform, Gewerbeanmeldung, Finanzamt-Fragebogen",
   "Steuer-Cockpit: USt, EÜR, BWA, DATEV, IAB, Fristen",
   "E-Commerce: Amazon-Erstattungen, Marge, Schwellen, Nexus",
@@ -176,7 +178,7 @@ const Steps = ({ current }: { current: number }) => {
 const Checkout = () => {
   const navigate = useNavigate();
   const { user, loading: authLoading, signOut } = useAuth();
-  const { loading: accLoading, hasActiveSub, isAdmin, onboardingCompleted, refresh } = useAccess();
+  const { loading: accLoading, hasActiveSub, isAdmin, onboardingCompleted, known: accKnown, refresh } = useAccess();
   const [busy, setBusy] = useState(false);
   const [checking, setChecking] = useState(false);
   // Vorauswahl aus dem Produktblock. Ohne gemerkte Wahl liegt der Einzelzugang
@@ -205,10 +207,12 @@ const Checkout = () => {
       await refresh();
       const { data } = await supabase
         .from("subscriptions")
-        .select("status")
+        .select("status, comp_access")
         .eq("user_id", user!.id)
         .maybeSingle();
-      const active = data?.status === "active" || data?.status === "trialing";
+      // Gleiche Regel wie useAccess/PaywallGate: auch comp_access zaehlt.
+      const active =
+        data?.status === "active" || data?.status === "trialing" || !!(data as { comp_access?: boolean } | null)?.comp_access;
       if (active || isAdmin) {
         toast.success("Abo aktiv – du wirst weitergeleitet …");
       } else {
@@ -231,10 +235,12 @@ const Checkout = () => {
       navigate("/dashboard", { replace: true });
       return;
     }
-    if (!onboardingCompleted) {
+    // Nur aus einem erfolgreich gelesenen Stand umleiten -- ein Netzfehler
+    // ist kein "Onboarding offen".
+    if (accKnown && !onboardingCompleted) {
       navigate("/onboarding", { replace: true });
     }
-  }, [accLoading, hasActiveSub, isAdmin, onboardingCompleted, navigate]);
+  }, [accLoading, accKnown, hasActiveSub, isAdmin, onboardingCompleted, navigate]);
 
   const checkout = async () => {
     setBusy(true);
@@ -438,7 +444,13 @@ const Checkout = () => {
               <ul className="mt-4 space-y-1.5 border-t border-border pt-4 text-[11px] text-muted-foreground">
                 <li className="flex items-center gap-2"><Lock className="h-3.5 w-3.5 shrink-0 text-accent-blue" /> SSL-verschlüsselt, Zahlung über Stripe</li>
                 <li className="flex items-center gap-2"><CreditCard className="h-3.5 w-3.5 shrink-0 text-accent-blue" /> Kreditkarte · Klarna · Apple&nbsp;Pay · Link · USt-ID erfassbar</li>
-                <li className="flex items-center gap-2"><RefreshCw className="h-3.5 w-3.5 shrink-0 text-accent-blue" /> Monatlich kündbar, keine Mindestlaufzeit</li>
+                <li className="flex items-center gap-2"><RefreshCw className="h-3.5 w-3.5 shrink-0 text-accent-blue" />{" "}
+                  {/* Gleiche Regel wie CANCEL_NOTE: kuendbar zum Ende der gebuchten Periode.
+                      Beim Jahresplan stand hier vorher "monatlich kuendbar" neben "Laufzeit 12 Monate". */}
+                  {item.interval === "year"
+                    ? "Kündbar zum Ende der 12-Monats-Laufzeit, keine Mindestlaufzeit darüber hinaus"
+                    : "Monatlich kündbar, keine Mindestlaufzeit"}
+                </li>
                 <li className="flex items-center gap-2"><ShieldCheck className="h-3.5 w-3.5 shrink-0 text-accent-blue" /> DSGVO-konform, Server in der EU</li>
               </ul>
 

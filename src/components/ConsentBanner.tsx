@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Cookie } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { hasDecidedConsent, setMarketingConsent } from "@/utils/consent";
+import { changeMarketingConsent, hasDecidedConsent, OPEN_CONSENT_EVENT } from "@/utils/consent";
 
 /**
  * Einwilligungsdialog für Marketing-Cookies (Meta Pixel, Google Ads).
@@ -31,13 +31,18 @@ export const ConsentBanner = () => {
   // vorgerenderten HTML, sähe es jeder Crawler als Seiteninhalt.
   useEffect(() => {
     if (!hasDecidedConsent()) setVisible(true);
+    // "Cookie-Einstellungen" in Footer und Datenschutz oeffnen das Banner
+    // erneut -- der Widerruf muss so leicht sein wie die Zustimmung.
+    const open = () => setVisible(true);
+    window.addEventListener(OPEN_CONSENT_EVENT, open);
+    return () => window.removeEventListener(OPEN_CONSENT_EVENT, open);
   }, []);
 
   if (!visible) return null;
 
   const decide = (granted: boolean) => {
-    setMarketingConsent(granted);
     setVisible(false);
+    changeMarketingConsent(granted);
   };
 
   return (

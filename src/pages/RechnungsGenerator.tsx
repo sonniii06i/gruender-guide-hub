@@ -44,7 +44,7 @@ import {
   X,
 } from "lucide-react";
 import jsPDF from "jspdf";
-import { baueXRechnung, xrFehlend, type XrDaten } from "@/lib/xrechnung";
+import { baueXRechnung, xrFehlend, xrWarnungen, type XrDaten } from "@/lib/xrechnung";
 import autoTable from "jspdf-autotable";
 
 type UstModus = "standard" | "kleinunternehmer" | "reverse-charge" | "innergemeinschaftlich";
@@ -70,6 +70,8 @@ type SenderData = {
   telefon: string;
   /** Ansprechpartner – Pflicht in der XRechnung (BR-DE-5). */
   kontaktName: string;
+  /** Sitzland (fuer die XRechnung; vorher fest DE). */
+  land?: string;
   logoDataUrl: string | null;
 };
 
@@ -104,6 +106,7 @@ const emptySender: SenderData = {
   steuernummer: "", ustId: "",
   iban: "", bic: "", bank: "",
   email: "", telefon: "", kontaktName: "",
+  land: "Deutschland",
   logoDataUrl: null,
 };
 
@@ -275,6 +278,7 @@ const RechnungsGenerator = () => {
     freitext: data.freitext,
   });
   const xrFehlt = xrFehlend(xrDaten());
+  const xrHinweise = xrWarnungen(xrDaten());
   const xrechnungHerunterladen = () => {
     const blob = new Blob([baueXRechnung(xrDaten())], { type: "application/xml;charset=utf-8" });
     const url = URL.createObjectURL(blob);
@@ -563,6 +567,7 @@ const RechnungsGenerator = () => {
                 <TextFeld id="s-name" label="Name / Firmierung" value={data.sender.name} onChange={(v) => updateSender("name", v)} />
                 <TextFeld id="s-strasse" label="Straße + Nr." value={data.sender.strasse} onChange={(v) => updateSender("strasse", v)} />
                 <TextFeld id="s-plz" label="PLZ + Ort" value={data.sender.plzOrt} onChange={(v) => updateSender("plzOrt", v)} />
+                <TextFeld id="s-land" label="Land" value={data.sender.land ?? "Deutschland"} onChange={(v) => updateSender("land", v)} hint="Sitzland, z. B. Deutschland, Österreich, US" />
                 <TextFeld id="s-email" label="E-Mail" value={data.sender.email} onChange={(v) => updateSender("email", v)} />
                 <TextFeld id="s-tel" label="Telefon" value={data.sender.telefon} onChange={(v) => updateSender("telefon", v)} />
                 <TextFeld id="s-kontakt" label="Ansprechpartner" value={data.sender.kontaktName} onChange={(v) => updateSender("kontaktName", v)} hint="Für die E-Rechnung" />
@@ -772,6 +777,9 @@ const RechnungsGenerator = () => {
               offiziellen KoSIT-Validator (XRechnung 3.0.2).
               {xrFehlt.length > 0 && (
                 <span className="mt-2 block font-medium text-warning">Für die E-Rechnung fehlt noch: {xrFehlt.join(" · ")}</span>
+              )}
+              {xrHinweise.length > 0 && (
+                <span className="mt-2 block font-medium text-warning">Bitte prüfen: {xrHinweise.join(" · ")}</span>
               )}
             </Callout>
           </>

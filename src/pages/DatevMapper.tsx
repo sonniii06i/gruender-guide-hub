@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { csvCell } from "@/lib/csvSafe";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -391,7 +392,7 @@ const DatevMapper = () => {
       return [
         l.datum.split("-").reverse().join("."),
         l.id.slice(-6),
-        `"${l.buchungstext.replace(/"/g, '""')}"`,
+        csvCell(l.buchungstext), // Verwendungszweck ist Fremdtext: Formeln entschaerfen
         l.konto,
         l.gegenkonto,
         Math.abs(l.betrag).toFixed(2).replace(".", ","),
@@ -429,7 +430,7 @@ const DatevMapper = () => {
         dd,
         l.id.slice(-6),
         "",
-        `"${l.buchungstext.replace(/"/g, '""')}"`,
+        csvCell(l.buchungstext), // Verwendungszweck ist Fremdtext: Formeln entschaerfen
       ].join(";");
     });
     const csv = [header, ...rows].join("\n");

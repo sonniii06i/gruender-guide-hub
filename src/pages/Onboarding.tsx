@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
-import { useAccess } from "@/hooks/useAccess";
+import { useAccess, invalidateAccess } from "@/hooks/useAccess";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -133,6 +133,9 @@ const Onboarding = () => {
     if (error) { toast.error(error.message); return; }
     // Direkt ins Dashboard (frei nutzbar) – kein Paywall-Zwang. Das Abo ist als
     // Upsell in Sidebar/Bannern erreichbar (passt zu "Kostenlos starten").
+    // Gemeinsamen Zugangszustand sofort nachziehen, sonst leitet AppLayout
+    // mit dem alten Stand zurueck auf /onboarding.
+    void invalidateAccess({ onboardingCompleted: true });
     toast.success("Profil gespeichert. Los geht's.");
     navigate("/dashboard");
   };

@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { Session, User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
+import { clearUserDataOnLogout } from "@/lib/logoutCleanup";
 
 interface AuthContextValue {
   user: User | null;
@@ -44,12 +45,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const signOut = async () => {
-    // Profil-Cache des aktuellen Users löschen, damit nach Logout
-    // kein "Hi <alter Name>" beim nächsten Visit kurz aufpoppt.
-    if (user?.id) {
-      try { localStorage.removeItem(`gx-profile-${user.id}`); } catch {}
-    }
     await supabase.auth.signOut();
+    // Alle Tool-Daten (u. a. IBAN/Steuernummer im Rechnungs-Generator) und den
+    // Profil-Cache entfernen -- auf geteilten Rechnern sah sie sonst der
+    // naechste Nutzer. Siehe lib/logoutCleanup.
+    clearUserDataOnLogout();
   };
 
   return (

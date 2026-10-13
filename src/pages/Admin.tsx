@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
+import { csvCell } from "@/lib/csvSafe";
 import { Navigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { useRole } from "@/hooks/useRole";
+import { fetchAllRows } from "@/lib/fetchAllRows";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -62,24 +64,32 @@ const Admin = () => {
   const [visits, setVisits] = useState<{ visitor_hash: string; created_at: string; path: string; referrer: string | null; utm_source: string | null }[]>([]);
   const [stripeStats, setStripeStats] = useState<{ activeCount: number; trialingCount: number; mrrCents: number; arrCents: number; byPlan: { name: string; count: number; mrrCents: number }[] } | null>(null);
   const [stripeError, setStripeError] = useState<string | null>(null);
+  const [dataWarning, setDataWarning] = useState<string | null>(null);
 
   const loadAll = async () => {
     const since30 = new Date(Date.now() - 30 * 24 * 3600 * 1000).toISOString();
+    // Alle Listen seitenweise vollstaendig lesen: PostgREST kappt jede Antwort
+    // bei 1000 Zeilen, die KPIs kamen sonst aus einer Teilmenge.
     const [tk, pr, sb, ch, ru, pv, ss] = await Promise.all([
-      supabase.from("contact_tickets").select("*").order("created_at", { ascending: false }),
-      supabase.from("profiles").select("*").order("created_at", { ascending: false }).limit(1000),
-      supabase.from("subscriptions").select("*").order("updated_at", { ascending: false }).limit(1000),
+      fetchAllRows<Ticket>((a, b) => supabase.from("contact_tickets").select("*").order("created_at", { ascending: false }).order("id").range(a, b)),
+      fetchAllRows<ProfileRow>((a, b) => supabase.from("profiles").select("*").order("created_at", { ascending: false }).order("id").range(a, b)),
+      fetchAllRows<SubRow>((a, b) => supabase.from("subscriptions").select("*").order("updated_at", { ascending: false }).order("user_id").range(a, b)),
       supabase.from("chat_messages").select("*", { count: "exact", head: true }),
       supabase.from("playbook_runs").select("*", { count: "exact", head: true }),
-      supabase.from("page_views" as any).select("visitor_hash, created_at, path, referrer, utm_source").gte("created_at", since30).limit(10000),
+      fetchAllRows<{ visitor_hash: string; created_at: string; path: string; referrer: string | null; utm_source: string | null }>((a, b) => supabase.from("page_views" as any).select("visitor_hash, created_at, path, referrer, utm_source").gte("created_at", since30).order("created_at", { ascending: false }).range(a, b) as unknown as PromiseLike<{ data: unknown[] | null; error: { message: string } | null }>, { max: 200_000 }),
       supabase.functions.invoke("admin-stripe-stats"),
     ]);
-    setTickets((tk.data ?? []) as Ticket[]);
-    setProfiles((pr.data ?? []) as ProfileRow[]);
-    setSubs((sb.data ?? []) as SubRow[]);
+    setTickets(tk.rows);
+    setProfiles(pr.rows);
+    setSubs(sb.rows);
     setChatCount(ch.count ?? 0);
     setRunsCount(ru.count ?? 0);
-    setVisits((pv.data ?? []) as any);
+    setVisits(pv.rows);
+    const luecken = [
+      [tk, "Tickets"], [pr, "Profile"], [sb, "Abos"], [pv, "Seitenaufrufe"],
+    ].filter(([r]) => (r as { error: unknown; truncated: boolean }).error || (r as { truncated: boolean }).truncated)
+      .map(([, name]) => name as string);
+    setDataWarning(luecken.length ? `Unvollständige Daten (${luecken.join(", ")}) – Kennzahlen mit Vorsicht lesen.` : null);
     if (ss.error) setStripeError(ss.error.message);
     else setStripeStats(ss.data);
   };
@@ -212,16 +222,35 @@ const Admin = () => {
   const send = async () => {
     if (!selected || !reply.trim()) return;
     setSending(true);
-    const { error } = await supabase.from("ticket_messages").insert({
+    const { data: neu, error } = await supabase.from("ticket_messages").insert({
       ticket_id: selected.id, author_id: user!.id, author_role: "admin", body: reply.trim(),
-    });
+    }).select("id").single();
     if (error) { toast.error(error.message); setSending(false); return; }
     await supabase.from("contact_tickets").update({ status: "in_progress" }).eq("id", selected.id);
+    // Antwort per Mail an den Kunden. Frueher landete sie nur in der Tabelle --
+    // Gaeste ohne Konto haben sie nie gesehen. send-ticket-reply prueft die
+    // Admin-Rolle serverseitig. Ist die Funktion (noch) nicht ausgerollt oder
+    // scheitert sie, sagen wir das offen, statt "gesendet" zu melden.
+    let mailOk = false;
+    try {
+      const { data: mail, error: mailErr } = await supabase.functions.invoke("send-ticket-reply", {
+        body: { ticketId: selected.id, messageId: neu?.id },
+      });
+      mailOk = !mailErr && !(mail as { error?: string } | null)?.error;
+    } catch { mailOk = false; }
     setReply("");
     await openTicket(selected);
     await loadAll();
     setSending(false);
-    toast.success("Antwort gespeichert");
+    if (mailOk) {
+      toast.success(`Antwort gespeichert und an ${selected.email} gemailt`);
+    } else {
+      toast.warning(
+        `Antwort gespeichert, aber NICHT gemailt. Bitte ${selected.email} direkt anschreiben` +
+          (selected.user_id ? " (Kunde sieht sie unter /support)." : " – Gast ohne Konto sieht sie sonst nie."),
+        { duration: 12000 },
+      );
+    }
   };
 
   const setStatus = async (status: string) => {
@@ -240,6 +269,11 @@ const Admin = () => {
       {stripeError && (
         <Callout tone="danger" title="Stripe-Daten nicht ladbar" className="mb-6">
           {stripeError}
+        </Callout>
+      )}
+      {dataWarning && (
+        <Callout tone="warning" title="Daten unvollständig" className="mb-6">
+          {dataWarning}
         </Callout>
       )}
       <div className="mb-8 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
@@ -554,9 +588,10 @@ const StatusBadge = ({ status }: { status: string }) => <ToneBadge tone={STATUS_
 const exportCsv = (rows: any[], filename: string) => {
   if (!rows.length) return;
   const keys = Object.keys(rows[0]);
-  const esc = (v: any) => `"${String(v ?? "").replace(/"/g, '""')}"`;
-  const csv = [keys.join(","), ...rows.map((r) => keys.map((k) => esc(r[k])).join(","))].join("\n");
-  const blob = new Blob([csv], { type: "text/csv" });
+  // csvCell entschaerft Formel-Anfaenge (=, +, -, @) aus Nutzerfeldern.
+  const csv = [keys.join(","), ...rows.map((r) => keys.map((k) => csvCell(r[k])).join(","))].join("\n");
+  // BOM: Excel liest UTF-8 sonst als Latin-1 (Umlaute).
+  const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a"); a.href = url; a.download = filename; a.click();
   URL.revokeObjectURL(url);

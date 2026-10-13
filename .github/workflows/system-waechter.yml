@@ -13,6 +13,10 @@ on:
         type: boolean
         default: false
 
+permissions:
+  actions: read
+  contents: read
+
 jobs:
   pruefen:
     runs-on: ubuntu-latest
@@ -27,6 +31,18 @@ jobs:
             -H "x-waechter-secret: $WAECHTER_SECRET")
           echo "HTTP $code"; cat erg.json; echo
           [ "$code" = "200" ] || { echo "Wächter selbst nicht erreichbar"; exit 1; }
+      # sync-events/sync-chancen schreiben die Datei (und damit "stand") nur bei
+      # inhaltlicher Aenderung -- sonst gaebe es taeglich einen Commit samt
+      # Deploy nur fuer den Zeitstempel. In ruhigen Phasen ist "stand" deshalb
+      # aelter als 36 h, obwohl der Monitor taeglich erfolgreich lief. Massgeblich
+      # ist daher der letzte ERFOLGREICHE Lauf des Monitor-Workflows.
+      - name: Letzten erfolgreichen Monitor-Lauf ermitteln
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          t=$(gh run list -R "$GITHUB_REPOSITORY" --workflow sync-events.yml --status success --limit 1 --json updatedAt --jq '.[0].updatedAt' 2>/dev/null || true)
+          echo "Letzter erfolgreicher Monitor-Lauf: ${t:-unbekannt}"
+          echo "SYNC_OK_AT=$t" >> "$GITHUB_ENV"
       - name: Probleme nach Discord melden
         env:
           WEBHOOK: ${{ secrets.GX_SYSTEM_WEBHOOK }}
@@ -34,6 +50,19 @@ jobs:
         run: |
           node -e '
             const e = require("./erg.json");
+            // Nur "zu alt" wird entschaerft, und nur wenn der Monitor-Workflow
+            // in den letzten 30 h erfolgreich lief. Kaputte Quellen, Abruffehler
+            // und der Perk-Waechter (laeuft mit continue-on-error) bleiben Alarm.
+            const ok = Date.parse(process.env.SYNC_OK_AT || "");
+            const syncStd = Number.isFinite(ok) ? (Date.now() - ok) / 3600e3 : Infinity;
+            if (!e.ok && syncStd <= 30) {
+              const vorher = e.probleme.length;
+              e.probleme = e.probleme.filter((p) => !(
+                /^(Event-Daten|Chancen-Monitor): .*Stand vor \d+ h/.test(p) && !/fehlerhaft/.test(p)
+              ));
+              if (e.probleme.length < vorher) console.log(`${vorher - e.probleme.length} Stand-Meldung(en) entfallen: Monitor lief vor ${syncStd.toFixed(1)} h erfolgreich, Daten unveraendert.`);
+              e.ok = e.probleme.length === 0;
+            }
             if (e.ok) { console.log("Alles grün."); process.exit(0); }
             const body = {
               username: "GründerX-Wächter",

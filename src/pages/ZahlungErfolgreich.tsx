@@ -17,6 +17,9 @@ import { Seo } from "@/components/Seo";
 import { trackMonetization } from "@/utils/analytics";
 import { trackAdConversion } from "@/utils/adConversions";
 import { supabase } from "@/integrations/supabase/client";
+import { invalidateAccess } from "@/hooks/useAccess";
+import { readCartVariant } from "@/lib/cart";
+import { PLANS } from "@/config/pricing";
 
 const SUPPORT = "service@gruenderx.de";
 
@@ -37,18 +40,33 @@ const ZahlungErfolgreich = () => {
   // Nur EINMAL je Checkout melden: vorher zaehlte jedes Neuladen einen weiteren Kauf.
   // Die event_id stripe_<session_id> ist dieselbe wie im Stripe-Webhook (CAPI) und in
   // Willkommen.tsx, Meta fasst die Meldungen damit zu einem Kauf zusammen.
+  //
+  // Gemeldet wird erst, wenn check-subscription das Abo bestaetigt hat UND
+  // eine session_id vorliegt. Vorher zaehlte jeder Aufruf der nackten URL als
+  // Kauf, und der Wert war immer 64,99 -- auch beim Founder-Set und bei
+  // Jahresplaenen. Der Wert kommt jetzt aus dem gewaehlten Warenkorb-Artikel
+  // (Listenpreis); den exakten Betrag inkl. Gutschein liefert der Webhook.
   useEffect(() => {
-    const schluessel = `gx_kauf_gemeldet_${sessionId || "ohne"}`;
+    if (!sessionId || zustand !== "bestaetigt") return;
+    const schluessel = `gx_kauf_gemeldet_${sessionId}`;
     try {
       if (localStorage.getItem(schluessel)) return;
       localStorage.setItem(schluessel, "1");
     } catch { /* ohne Speicher trotzdem melden */ }
-    trackMonetization.subscriptionStarted("gruenderx", 6499);
+    const istBundle = /bundle|founder/i.test(plan ?? "");
+    const gemerkt = readCartVariant();
+    const variante =
+      gemerkt && gemerkt.startsWith("bundle") === istBundle
+        ? gemerkt
+        : istBundle ? "bundle" : "gruenderx";
+    const p = PLANS[variante];
+    trackMonetization.subscriptionStarted(variante, p.grossCents);
     trackAdConversion("purchase", {
-      label: "subscription_monthly", value: 64.99,
-      ...(sessionId ? { eventId: `stripe_${sessionId}` } : {}),
+      label: variante.endsWith("-year") ? "subscription_yearly" : "subscription_monthly",
+      value: p.grossCents / 100,
+      eventId: `stripe_${sessionId}`,
     });
-  }, [sessionId]);
+  }, [sessionId, zustand, plan]);
 
   useEffect(() => {
     let abgebrochen = false;
@@ -64,6 +82,8 @@ const ZahlungErfolgreich = () => {
             setPlan(data.plan ?? null);
             setBisWann(data.current_period_end ?? null);
             setZustand("bestaetigt");
+            // Paywall im selben Tab sofort aufheben (gemeinsamer Zugangszustand).
+            void invalidateAccess();
             return;
           }
         } catch (err) {

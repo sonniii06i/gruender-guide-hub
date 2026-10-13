@@ -133,7 +133,8 @@ const Preise = () => {
 
   // Derselbe Weg wie der Produktblock der Startseite: Auswahl merken, dann
   // ausgeloggt über /auth in den Gast-Checkout (pay-first), eingeloggt in
-  // den Warenkorb.
+  // den Warenkorb. /auth zeigt den AGB-/Datenschutz-Hinweis vor dem Kauf und
+  // "Schon Kunde? Anmelden" -- ein Direktsprung braucht die Betreiber-Freigabe.
   const buy = (id: PlanId) => {
     rememberCartVariant(id);
     navigate(user ? `/checkout?variant=${id}` : "/auth?mode=signup");

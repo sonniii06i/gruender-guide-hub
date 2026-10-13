@@ -76,6 +76,10 @@ export const TwoFactorPanel = () => {
       return;
     }
     toast.success("Zwei-Faktor-Authentifizierung ist aktiv.");
+    // Holt two_factor_enabled sofort in den Client. Der Riegel (TwoFactorGate)
+    // erkennt diese Session ueber confirmed_at als die aktivierende und fragt
+    // nicht erneut nach dem Code.
+    try { await supabase.auth.refreshSession(); } catch { /* naechster Refresh reicht */ }
     setSetup(null);
     setCode("");
     void loadStatus();

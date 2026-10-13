@@ -15,8 +15,17 @@
 //        --praefix GRDX --charge amazon-karte-2026-10
 //
 // Ohne --schreiben wird nichts in die Datenbank geschrieben (Trockenlauf).
+//
+// Ausgabe: --out <ordner> (Standard ~/gx-codes). Ein Ordner INNERHALB des
+// Repos wird abgelehnt -- die Klartext-Codes sind bezahlte Zugaenge und
+// landeten sonst per "git add ." oder Lovable-Autocommit im Repo. Die Datei
+// wird nur fuer den eigenen Nutzer lesbar angelegt (0600) und nie
+// ueberschrieben.
 import { createHash, randomInt } from "node:crypto";
-import { writeFileSync } from "node:fs";
+import { mkdirSync, writeFileSync } from "node:fs";
+import { homedir } from "node:os";
+import { dirname, join, relative, resolve, isAbsolute } from "node:path";
+import { fileURLToPath } from "node:url";
 
 // Alphabet ohne I, L, O, U, 0, 1: Die Karte wird von Hand abgetippt, und
 // genau diese Zeichen werden verwechselt. Bleiben 30 Zeichen; bei 12 zufaelligen
@@ -74,8 +83,29 @@ const zeilen = codes.map((code) => ({
 
 const csv = "code;plan;tage;charge\n"
   + zeilen.map((z) => `${z.code};${z.plan};${z.days};${z.batch}`).join("\n") + "\n";
-const datei = `codes-${charge}.csv`;
-writeFileSync(datei, csv);
+
+const REPO = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+const ausgabeOrdner = resolve(arg("out", join(homedir(), "gx-codes")));
+const imRepo = (p) => {
+  const rel = relative(REPO, p);
+  return rel === "" || (!rel.startsWith("..") && !isAbsolute(rel));
+};
+if (imRepo(ausgabeOrdner)) {
+  console.error(`--out ${ausgabeOrdner} liegt im Repo. Klartext-Codes gehoeren nicht ins Repo – Ordner ausserhalb waehlen.`);
+  process.exit(1);
+}
+mkdirSync(ausgabeOrdner, { recursive: true, mode: 0o700 });
+const datei = join(ausgabeOrdner, `codes-${charge.replace(/[^A-Za-z0-9._-]/g, "_")}.csv`);
+try {
+  // wx: eine bestehende Charge-Datei nie ueberschreiben -- sie waere die einzige Kopie.
+  writeFileSync(datei, csv, { mode: 0o600, flag: "wx" });
+} catch (e) {
+  if (e?.code === "EEXIST") {
+    console.error(`${datei} existiert bereits – andere --charge waehlen oder die alte Datei erst sichern.`);
+    process.exit(1);
+  }
+  throw e;
+}
 console.log(`${anzahl} Codes -> ${datei}   (Klartext, nur fuer den Druck)`);
 console.log(`Beispiel: ${codes[0]}`);
 

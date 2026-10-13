@@ -14,15 +14,21 @@ export function useGuideStart() {
     const pb = getPlaybook(slug);
     if (!pb) return;
     if (!user) { navigate("/auth"); return; }
+    if (starting) return; // Doppelklick legt sonst zwei Runs an
     setStarting(slug);
     try {
-      const { data: existing } = await supabase
+      // Juengsten offenen Run nehmen. maybeSingle() ohne limit(1) warf bei
+      // zwei offenen Runs einen Fehler -> existing war null -> noch ein Run.
+      const { data: existing, error: findErr } = await supabase
         .from("playbook_runs")
         .select("id")
         .eq("user_id", user.id)
         .eq("playbook_slug", slug)
         .neq("status", "completed")
+        .order("created_at", { ascending: false })
+        .limit(1)
         .maybeSingle();
+      if (findErr) { toast.error("Konnte Guide nicht starten. Bitte erneut versuchen."); return; }
       if (existing) { navigate(`/playbook/${existing.id}`); return; }
 
       const { data, error } = await supabase.from("playbook_runs").insert({

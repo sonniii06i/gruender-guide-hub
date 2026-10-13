@@ -3,7 +3,7 @@ import { useAccess } from "@/hooks/useAccess";
 import { Button } from "@/components/ui/button";
 import { stripEmoji } from "@/components/cockpit/kit";
 import { CANCEL_NOTE, PLANS, formatEurCents } from "@/config/pricing";
-import { ArrowRight, Check, Lock, MessageSquare, Scale, Calculator, Receipt, ShoppingCart, Globe2, BookOpen } from "lucide-react";
+import { ArrowRight, Check, Lock, WifiOff, MessageSquare, Scale, Calculator, Receipt, ShoppingCart, Globe2, BookOpen } from "lucide-react";
 
 // Nutzen aus dem echten Leistungsumfang (pricing.ts / SOLO_CONTENTS), hier nur kurz gefasst.
 const NUTZEN = [
@@ -18,7 +18,7 @@ const NUTZEN = [
 const KUENDIGUNG = CANCEL_NOTE.split(",")[0];
 
 export const PaywallGate = ({ children, title = "Premium-Feature" }: { children: React.ReactNode; title?: string }) => {
-  const { loading, hasActiveSub, isAdmin } = useAccess();
+  const { loading, hasActiveSub, isAdmin, error, known, refresh } = useAccess();
   if (loading) {
     return (
       <div className="container max-w-4xl px-4 py-12" aria-busy="true" aria-label="Zugang wird geprüft …">
@@ -36,6 +36,8 @@ export const PaywallGate = ({ children, title = "Premium-Feature" }: { children:
     );
   }
   if (hasActiveSub || isAdmin) return <>{children}</>;
+  // Abfrage gescheitert und kein bekannter Stand: Das ist KEIN "kein Abo".
+  if (error && !known) return <AccessErrorState onRetry={refresh} />;
 
   const monat = PLANS.gruenderx;
   const jahr = PLANS["gruenderx-year"];
@@ -116,3 +118,20 @@ export const PaywallGate = ({ children, title = "Premium-Feature" }: { children:
     </div>
   );
 };
+
+/** Zugang konnte nicht geprueft werden (Netz-/Serverfehler). */
+export const AccessErrorState = ({ onRetry }: { onRetry: () => Promise<void> | void }) => (
+  <div className="container max-w-2xl px-4 py-16" role="alert">
+    <div className="rounded-2xl border border-border bg-card p-8 text-center shadow-card">
+      <span className="mx-auto mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-secondary text-muted-foreground">
+        <WifiOff className="h-5 w-5" aria-hidden="true" />
+      </span>
+      <h1 className="text-xl font-semibold">Verbindung prüfen</h1>
+      <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">
+        Wir konnten deinen Zugang gerade nicht prüfen. Das liegt meist an der Verbindung –
+        dein Abo ist davon nicht betroffen.
+      </p>
+      <Button className="mt-5" onClick={() => void onRetry()}>Erneut versuchen</Button>
+    </div>
+  </div>
+);

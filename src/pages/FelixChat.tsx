@@ -100,6 +100,22 @@ const FelixChat = () => {
   // Load-Effekt die Nachrichten überschreibt, wenn wir die Conversation gerade
   // selbst per send() erstellt haben (sonst „verschluckt" er die erste Nachricht).
   const loadedConvRef = useRef<string | null>(null);
+  // Welche Conversation ist gerade SICHTBAR? Ein laufender Stream schreibt nur
+  // dann in `messages`, wenn seine Conversation noch angezeigt wird. Vorher
+  // haengte sich die Antwort beim Chatwechsel an den anderen Verlauf an.
+  const liveConvRef = useRef<string | null>(convId);
+  // Kennung des laufenden Sendevorgangs; nur der aktuelle darf `streaming` beenden.
+  const sendTokenRef = useRef(0);
+
+  useEffect(() => {
+    if (liveConvRef.current !== convId) {
+      liveConvRef.current = convId;
+      // Der alte Stream laeuft im Hintergrund zu Ende und wird in SEINER
+      // Conversation gespeichert; die neue Ansicht ist sofort bedienbar.
+      sendTokenRef.current++;
+      setStreaming(false);
+    }
+  }, [convId]);
 
   // Vorname für die Begrüßung (Cache zuerst, sonst aus profiles nachladen)
   useEffect(() => {
@@ -164,6 +180,8 @@ const FelixChat = () => {
     if (!input.trim() || !user || streaming) return;
     const text = input.trim();
     const userMsg: Msg = { role: "user", content: text };
+    const token = ++sendTokenRef.current;
+    const restoreInput = () => setInput((cur) => (cur ? cur : text));
     setInput("");
     setStreaming(true);
 
@@ -177,6 +195,7 @@ const FelixChat = () => {
         .single();
       if (error || !data) {
         toast.error("Konnte Chat nicht erstellen");
+        restoreInput();
         setStreaming(false);
         return;
       }
@@ -184,6 +203,7 @@ const FelixChat = () => {
       // VOR setParams als „lokal bespielt" markieren → der durch den convId-Wechsel
       // ausgelöste Load-Effekt überspringt dann den Reload (kein Verschlucken).
       loadedConvRef.current = activeConvId;
+      liveConvRef.current = activeConvId;
       setParams({ c: activeConvId }, { replace: true });
       notifyConversationsChanged();
     }
@@ -197,8 +217,10 @@ const FelixChat = () => {
     });
 
     let assistantSoFar = "";
+    const sichtbar = () => liveConvRef.current === activeConvId;
     const upsert = (chunk: string) => {
       assistantSoFar += chunk;
+      if (!sichtbar()) return; // andere Conversation offen: nur sammeln, nicht anzeigen
       setMessages((prev) => {
         const last = prev[prev.length - 1];
         if (last?.role === "assistant") {
@@ -223,10 +245,11 @@ const FelixChat = () => {
 
       if (!resp.ok) {
         const err = await resp.json().catch(() => ({}));
+        // Interne Texte (Credits, Provider-Fehler) nur in die Konsole, nicht an Nutzer.
+        console.error("chat-felix:", resp.status, err);
         if (resp.status === 429) toast.error("Felix ist gerade überlastet. Gleich nochmal.");
-        else if (resp.status === 402) toast.error("AI-Kontingent leer – Workspace-Credits aufladen.");
-        else toast.error(err.error || "Fehler beim Chat");
-        setStreaming(false);
+        else toast.error("Felix ist gerade nicht erreichbar. Bitte versuch es gleich noch einmal.");
+        if (sichtbar()) restoreInput();
         return;
       }
 
@@ -277,8 +300,9 @@ const FelixChat = () => {
     } catch (e) {
       console.error(e);
       toast.error("Verbindung zu Felix fehlgeschlagen");
+      if (sichtbar() && !assistantSoFar) restoreInput();
     } finally {
-      setStreaming(false);
+      if (sendTokenRef.current === token) setStreaming(false);
     }
   };
 

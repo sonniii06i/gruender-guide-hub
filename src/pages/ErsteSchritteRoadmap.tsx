@@ -82,8 +82,14 @@ const ErsteSchritteRoadmap = () => {
 
   const [status, setStatus] = useState<Record<string, TaskStatus>>(() => {
     if (typeof window === "undefined") return {};
-    const saved = localStorage.getItem(LS_KEY_STATUS);
-    return saved ? JSON.parse(saved) : {};
+    try {
+      const saved = localStorage.getItem(LS_KEY_STATUS);
+      const parsed = saved ? JSON.parse(saved) : {};
+      return parsed && typeof parsed === "object" ? parsed : {};
+    } catch {
+      // Kaputter Speicherwert darf die Seite nicht weiss machen.
+      return {};
+    }
   });
 
   const [filterPflicht, setFilterPflicht] = useState<Pflicht | "alle">("alle");

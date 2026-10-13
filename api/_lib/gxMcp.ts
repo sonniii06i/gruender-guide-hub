@@ -328,7 +328,13 @@ type Rpc = { jsonrpc?: string; id?: string | number | null; method?: string; par
 const ok = (id: unknown, result: unknown) => ({ jsonrpc: "2.0", id, result });
 const err = (id: unknown, code: number, message: string) => ({ jsonrpc: "2.0", id: id ?? null, error: { code, message } });
 
+// HANDLER ist ein normales Objekt: "toString", "constructor" usw. kommen aus
+// Object.prototype und bestanden frueher die Pruefung !HANDLER[name].
+export const istWerkzeug = (name: unknown): name is string =>
+  typeof name === "string" && Object.prototype.hasOwnProperty.call(HANDLER, name);
+
 export async function werkzeug(name: string, args: Record<string, unknown>, origin: string): Promise<{ text: string; data?: Record<string, unknown>; fehler?: boolean }> {
+  if (!istWerkzeug(name)) return { text: `Unbekanntes Werkzeug: ${String(name)}`, fehler: true };
   const fn = HANDLER[name];
   try {
     const [text, data] = await fn(args, origin);
@@ -365,7 +371,7 @@ async function eine(msg: Rpc, origin: string): Promise<unknown | null> {
     case "tools/call": {
       const name = params.name as string;
       const args = (params.arguments ?? {}) as Record<string, unknown>;
-      if (!HANDLER[name]) return err(id, -32602, `Unbekanntes Werkzeug: ${name}`);
+      if (!istWerkzeug(name)) return err(id, -32602, `Unbekanntes Werkzeug: ${name}`);
       if (typeof args !== "object" || Array.isArray(args)) return err(id, -32602, "arguments muss ein Objekt sein");
       await zaehlen(name, "mcp");
       const r = await werkzeug(name, args, origin);
@@ -424,7 +430,7 @@ export async function gptAntwort(req: Request): Promise<Response> {
   if (name === "openapi.json") return json(openapi());
   if (req.method !== "POST") return json({ error: "POST erwartet" }, 405, { Allow: "POST, OPTIONS" });
   if (gedrosselt(req)) return json({ error: "Zu viele Anfragen, bitte kurz warten" }, 429);
-  if (!HANDLER[name]) return json({ error: "Unbekanntes Werkzeug" }, 404);
+  if (!istWerkzeug(name)) return json({ error: "Unbekanntes Werkzeug" }, 404);
   let args: unknown = {};
   try {
     args = await req.json();

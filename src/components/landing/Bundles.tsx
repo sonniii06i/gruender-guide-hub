@@ -156,6 +156,10 @@ export const Bundles = () => {
     // Auswahl merken, bevor der Weg über /auth sie verschluckt.
     rememberCartVariant(variantId);
     if (!user) {
+      // Bewusst ueber /auth: Dort stehen der AGB-/Datenschutz-Hinweis vor
+      // Vertragsschluss und "Schon Kunde? Anmelden" (verhindert Doppel-Abos
+      // ausgeloggter Bestandskunden). Ein Direktsprung in den Gast-Checkout
+      // aendert den Kaufweg und braucht die Freigabe des Betreibers.
       navigate(`/auth?mode=signup&price=${priceId}`);
       return;
     }

@@ -1,4 +1,5 @@
 import { Navbar } from "@/components/landing/Navbar";
+import { openConsentSettings } from "@/utils/consent";
 import { Footer } from "@/components/landing/Footer";
 import { PageHeader } from "@/components/landing/PageHeader";
 import { Seo } from "@/components/Seo";
@@ -140,8 +141,8 @@ const Datenschutz = () => (
       <h3 className="font-semibold mt-6">3.6 Page-View-Tracking (intern)</h3>
       <p>
         Wir loggen anonymisierte Seitenaufrufe (Pfad, Zeitstempel, gehashte User-ID), um die meistgenutzten
-        Funktionen zu erkennen und das Produkt zu verbessern. Keine IP-Adresse, kein Cross-Site-Tracking, keine externen Analytics-Anbieter
-        wie Google Analytics oder Meta Pixel.
+        Funktionen zu erkennen und das Produkt zu verbessern. Keine IP-Adresse, kein Cross-Site-Tracking; dieses interne
+        Tracking nutzt keine externen Analytics-Anbieter. Werbe-Pixel (Meta, Google) laufen nur mit deiner Einwilligung, siehe Abschnitt 6.
       </p>
       <p><strong>Rechtsgrundlage:</strong> Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse: Produktverbesserung).</p>
       <p><strong>Speicherdauer:</strong> 90 Tage.</p>
@@ -347,7 +348,7 @@ const Datenschutz = () => (
 
       <h2 id="cookies" className="mt-10 mb-3 text-xl font-semibold md:text-2xl">6. Cookies & lokaler Speicher</h2>
       <p>
-        Wir verwenden ausschließlich <strong>technisch unbedingt erforderliche Cookies</strong> i. S. d. § 25 Abs. 2 Nr. 2 TDDDG
+        Wir verwenden <strong>technisch unbedingt erforderliche Cookies</strong> i. S. d. § 25 Abs. 2 Nr. 2 TDDDG
         (Telekommunikation-Digitale-Dienste-Datenschutz-Gesetz, vormals TTDSG). Diese sind erforderlich, damit der
         von dir aktiv angeforderte Dienst (Login, Zahlungs-Session, Theme-Auswahl) funktioniert:
       </p>
@@ -360,9 +361,27 @@ const Datenschutz = () => (
         <li><strong>gx-event-radar-v1, gx-chancen-radar-besuch, gx-steuerkalender-v1, gx-ku-waechter-v1, gx-gruendungsunterlagen-v1, gx-pitchdeck-v1, gx-gz-phase2-v1, gx-bankgespraech-v1, gx-startup-guthaben-v1, gx-sidebar-zu-v1</strong> (LocalStorage) – deine Eingaben in den Tools aus Abschnitt 3.12, damit sie beim nächsten Besuch erhalten bleiben; sie verlassen deinen Browser nicht</li>
       </ul>
       <p>
-        Eine Einwilligung nach § 25 Abs. 1 TDDDG ist daher nicht erforderlich – ein Cookie-Banner wäre
-        rechtlich überflüssig. Sobald wir Marketing-, Analyse- oder Drittanbieter-Cookies einsetzen sollten,
-        holen wir vorab deine Einwilligung über ein TDDDG-konformes Consent-Layer ein.
+        Für diese Cookies ist keine Einwilligung erforderlich.
+      </p>
+      <p>
+        <strong>Marketing-Cookies (nur mit Einwilligung):</strong> Nur wenn du im Cookie-Banner „Alle akzeptieren“
+        wählst, laden wir das Meta-Pixel (Meta Platforms Ireland Ltd.) und – sofern aktiv – den Google-Tag für
+        Google Ads (Google Ireland Ltd.). Sie messen, welche Anzeigen zu einer Registrierung oder einem Kauf führen,
+        und setzen dafür Cookies wie <strong>_fbp</strong>, <strong>_fbc</strong> bzw. <strong>_gcl_*</strong>.
+        Dabei können Daten in die USA übermittelt werden. Rechtsgrundlage ist deine Einwilligung
+        (§ 25 Abs. 1 TDDDG, Art. 6 Abs. 1 lit. a DSGVO). Ohne Einwilligung wird keines dieser Skripte geladen.
+      </p>
+      <p>
+        <strong>Widerruf:</strong> Du kannst deine Einwilligung jederzeit mit Wirkung für die Zukunft widerrufen –
+        über „Cookie-Einstellungen“ im Seitenfuß oder hier:{" "}
+        <button
+          type="button"
+          onClick={openConsentSettings}
+          className="font-medium text-foreground underline underline-offset-2 hover:text-accent-blue"
+        >
+          Cookie-Einstellungen öffnen
+        </button>
+        . Beim Widerruf löschen wir die Marketing-Cookies und laden die Seite neu.
       </p>
 
       <h2 id="ki-hinweis" className="mt-10 mb-3 text-xl font-semibold md:text-2xl">7. Keine automatisierte Entscheidungsfindung mit Rechtswirkung</h2>

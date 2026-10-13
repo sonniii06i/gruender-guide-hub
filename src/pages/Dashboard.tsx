@@ -2,8 +2,7 @@ import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
-import { trackMonetization } from "@/utils/analytics";
-import { trackAdConversion } from "@/utils/adConversions";
+import { useAccess } from "@/hooks/useAccess";
 import { readProfileCache, writeProfileCache, PROFILE_UPDATE_EVENT, type CachedProfile } from "@/lib/profileCache";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -29,7 +28,6 @@ import { EmptyState, ToneBadge, stripEmoji, type Tone } from "@/components/cockp
 import { cn } from "@/lib/utils";
 
 interface Profile { first_name: string | null; onboarding_completed: boolean | null }
-interface Subscription { status: string }
 
 const VIEWS = ["start", "tools", "meine", "themen"] as const;
 type View = typeof VIEWS[number];
@@ -41,41 +39,22 @@ const Dashboard = () => {
   // Lazy-Init aus localStorage-Cache → keine Flacker-Flicker beim Render.
   // Aktualisierung nur via Event von /profile beim expliziten Speichern.
   const [profile, setProfile] = useState<Profile | null>(() => readProfileCache(user?.id) as Profile | null);
-  const [sub, setSub] = useState<Subscription | null>(null);
+  // Zugang aus dem gemeinsamen useAccess-Zustand: kennt auch comp_access und
+  // Admins (wie PaywallGate). Vorher galten beide hier als "gesperrt".
+  const { hasActiveSub, isAdmin } = useAccess();
   const [params, setParams] = useSearchParams();
   const view = (params.get("view") as View) || "start";
   const activeCatSlug = params.get("cat");
   const [query, setQuery] = useState("");
 
-  // L5 der Event-Leiter. Stripe leitet nach erfolgreicher Zahlung mit
-  // ?checkout=success hierher zurueck -- der einzige Moment im Client, an dem
-  // ein Abo sicher zustande gekommen ist.
-  //
-  // Der Wert ist der Listenpreis. Das Bundle (99,99) laesst sich hier nicht
-  // unterscheiden; den exakten Betrag liefert spaeter der Stripe-Webhook per
-  // CAPI nach, dedupliziert ueber dieselbe event_id.
-  const checkoutSuccess = params.get("checkout") === "success";
-  useEffect(() => {
-    if (!checkoutSuccess) return;
-    // Nur einmal je Tag und Browser: ?checkout=success bleibt beim Neuladen in der URL
-    // stehen, und jedes Neuladen meldete vorher einen weiteren Kauf.
-    const schluessel = `gx_kauf_dashboard_${new Date().toISOString().slice(0, 10)}`;
-    try {
-      if (localStorage.getItem(schluessel)) return;
-      localStorage.setItem(schluessel, "1");
-    } catch { /* ohne Speicher trotzdem melden */ }
-    trackMonetization.subscriptionStarted("gruenderx", 6499);
-    trackAdConversion("purchase", { label: "subscription_monthly", value: 64.99 });
-  }, [checkoutSuccess]);
+  // Frueher meldete hier ?checkout=success einen Kauf. success_url zeigt
+  // seit dem Umbau auf /zahlung-erfolgreich; der Zweig war tot und zaehlte nur
+  // noch nackte URL-Aufrufe als Kauf. Die Messung lebt in ZahlungErfolgreich.
 
   useEffect(() => {
     if (!user) return;
 
-    // 1) Subscription-Status immer frisch laden (kann sich serverseitig ändern: Stripe-Webhook).
-    supabase.from("subscriptions").select("status").eq("user_id", user.id).maybeSingle()
-      .then(({ data }) => setSub(data as Subscription | null));
-
-    // 2) Profil nur fetchen, wenn Cache leer ist (erstes Mal nach Login).
+    // Profil nur fetchen, wenn Cache leer ist (erstes Mal nach Login).
     //    Spätere Änderungen kommen über das PROFILE_UPDATE_EVENT von /profile.
     const cached = readProfileCache(user.id);
     if (cached) {
@@ -111,7 +90,7 @@ const Dashboard = () => {
     };
   }, [user]);
 
-  const isActive = sub?.status === "active" || sub?.status === "trialing";
+  const isActive = hasActiveSub || isAdmin;
 
   const featuredGuides = useMemo(() => PLAYBOOKS.slice(0, 6), []);
 

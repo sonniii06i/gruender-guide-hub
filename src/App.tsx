@@ -4,6 +4,9 @@ import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/sonner";
 import { AuthProvider } from "@/hooks/useAuth";
+import { AppErrorBoundary } from "@/components/AppErrorBoundary";
+import { installChunkReloadHandler } from "@/lib/chunkReload";
+import { TwoFactorGate } from "@/components/auth/TwoFactorGate";
 import AppLayout from "./layouts/AppLayout.tsx";
 import { PaywallGate } from "./components/PaywallGate.tsx";
 import { AdminGate } from "./components/AdminGate.tsx";
@@ -185,6 +188,8 @@ const PageFallback = () => (
 // aus einem frueheren Besuch sofort, sonst in dem Moment der Zustimmung.
 // Auf Modulebene, damit es genau einmal laeuft.
 initAdPixels();
+// Alte Chunks nach einem Deploy: einmal neu laden statt weisser Seite.
+installChunkReloadHandler();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -196,6 +201,8 @@ const App = () => (
           <RouteTracker />
           <AnalyticsCapture />
           <ConsentBanner />
+          <AppErrorBoundary>
+          <TwoFactorGate>
           <Suspense fallback={<PageFallback />}>
             <Routes>
               <Route path="/" element={<Index />} />
@@ -353,6 +360,8 @@ const App = () => (
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
+          </TwoFactorGate>
+          </AppErrorBoundary>
         </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>

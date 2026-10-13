@@ -35,10 +35,19 @@ const PHASEN: Record<string, string> = { idee: "Idee", prototyp: "Prototyp", "er
 const ZEIT: Record<string, string> = { vollzeit: "Vollzeit", teilzeit: "Teilzeit", nebenbei: "Nebenbei" };
 const LEER: Profil = { user_id: "", anzeigename: "", ich_bin: "business", ich_suche: ["tech"], region: null, branche: "", phase: "idee", zeit: "teilzeit", pitch: "", skills: [], sichtbar: false };
 
+/** PostgREST/Postgres: Tabelle existiert (noch) nicht. */
+const istTabelleFehlt = (e: { code?: string; message?: string }) =>
+  e.code === "PGRST205" || e.code === "42P01" || /does not exist|could not find the table/i.test(e.message ?? "");
+
 const MitgruenderBoerse = () => {
   const { user } = useAuth();
   const [tab, setTab] = useState<"entdecken" | "profil" | "anfragen">("entdecken");
   const [verfuegbar, setVerfuegbar] = useState<boolean | null>(null);
+  // Netz-/RLS-Fehler sind KEIN "bald verfuegbar" -- eigener Zustand mit Retry.
+  const [ladeFehler, setLadeFehler] = useState<string | null>(null);
+  // Eigenes Profil erst speichern lassen, wenn es sicher geladen ist -- sonst
+  // wuerde ein Fehlschlag das bestehende Profil mit LEER ueberschreiben.
+  const [meinsGeladen, setMeinsGeladen] = useState(false);
   const [profile, setProfile] = useState<Profil[]>([]);
   const [meins, setMeins] = useState<Profil>(LEER);
   const [anfragen, setAnfragen] = useState<Anfrage[]>([]);
@@ -48,16 +57,28 @@ const MitgruenderBoerse = () => {
 
   const laden = useCallback(async () => {
     if (!user) return;
-    const p = await db.from("mitgruender_profile").select("*").order("updated_at", { ascending: false }).limit(200);
-    if (p.error) {
-      // Tabelle fehlt (Migration noch nicht ausgeführt) → „bald verfügbar“.
-      setVerfuegbar(false);
+    const [p, mein] = await Promise.all([
+      db.from("mitgruender_profile").select("*").order("updated_at", { ascending: false }).limit(200),
+      // Eigenes Profil separat: in der Top-200-Liste kann es herausfallen.
+      db.from("mitgruender_profile").select("*").eq("user_id", user.id).maybeSingle(),
+    ]);
+    const fehler = p.error ?? mein.error;
+    if (fehler) {
+      // Nur eine fehlende Tabelle (Migration noch nicht ausgefuehrt) heisst
+      // „bald verfügbar“. Alles andere ist ein echter Fehler.
+      if (istTabelleFehlt(fehler)) {
+        setVerfuegbar(false);
+      } else {
+        setLadeFehler("Die Mitgründer-Börse konnte gerade nicht geladen werden.");
+      }
       return;
     }
+    setLadeFehler(null);
     setVerfuegbar(true);
     const alle = (p.data ?? []) as Profil[];
     setProfile(alle.filter((x) => x.user_id !== user.id && x.sichtbar));
-    setMeins(alle.find((x) => x.user_id === user.id) ?? { ...LEER, user_id: user.id });
+    setMeins((mein.data as Profil | null) ?? { ...LEER, user_id: user.id });
+    setMeinsGeladen(true);
     const a = await db.from("mitgruender_anfragen").select("*").order("created_at", { ascending: false }).limit(100);
     setAnfragen((a.data ?? []) as Anfrage[]);
   }, [user]);
@@ -78,6 +99,10 @@ const MitgruenderBoerse = () => {
   const name = (uid: string) => profile.find((p) => p.user_id === uid)?.anzeigename ?? (uid === user?.id ? "Du" : "Mitglied");
 
   const speichern = async () => {
+    if (!meinsGeladen) {
+      setMeldung("Dein Profil ist noch nicht geladen. Bitte lade die Seite neu.");
+      return;
+    }
     const { user_id: _u, updated_at: _t, ...rest } = meins;
     const r = await db.from("mitgruender_profile").upsert({ user_id: user!.id, ...rest, skills: rest.skills.filter(Boolean) });
     setMeldung(r.error ? `Speichern fehlgeschlagen: ${r.error.message}` : meins.sichtbar ? "Profil gespeichert und veröffentlicht." : "Profil gespeichert (noch nicht sichtbar).");
@@ -98,6 +123,18 @@ const MitgruenderBoerse = () => {
     await db.from("mitgruender_anfragen").update({ status, antwort: antwort.trim() || null }).eq("id", id);
     laden();
   };
+
+  if (ladeFehler)
+    return (
+      <CockpitShell eyebrow="Community" title="Mitgründer-Börse" subtitle="Finde Mitgründer mit den Fähigkeiten, die dir fehlen.">
+        <EmptyState
+          icon={Clock}
+          title="Verbindung prüfen"
+          description={ladeFehler}
+          action={<Button onClick={() => { setLadeFehler(null); void laden(); }}>Erneut versuchen</Button>}
+        />
+      </CockpitShell>
+    );
 
   if (verfuegbar === false)
     return (

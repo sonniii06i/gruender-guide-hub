@@ -22,6 +22,8 @@ export type XrDaten = {
     email: string;
     telefon: string;
     kontaktName: string;
+    /** Sitzland des Verkaeufers (Name oder ISO-Code); fehlt es, gilt DE. */
+    land?: string;
   };
   kunde: { name: string; strasse: string; plzOrt: string; land: string; ustId: string; email: string };
   kaeuferReferenz: string;
@@ -82,6 +84,32 @@ export function xrFehlend(d: XrDaten): string[] {
   if (!d.rechnungsnummer.trim()) f.push("Rechnungsnummer");
   if (!d.positionen.some((p) => p.beschreibung.trim() && p.menge > 0)) f.push("mindestens eine Position");
   return f;
+}
+
+/** Laenderpraefix einer USt-IdNr. als ISO-Code (Griechenland: EL -> GR). */
+const ustIdLand = (ustId: string): string | null => {
+  const m = (ustId || "").replace(/\s/g, "").toUpperCase().match(/^([A-Z]{2})/);
+  if (!m) return null;
+  return m[1] === "EL" ? "GR" : m[1];
+};
+
+/**
+ * Hinweise, die die XRechnung nicht ungueltig machen, aber auf einen
+ * Eingabefehler deuten -- z. B. USt-IdNr.-Praefix passt nicht zum Land.
+ * Vorher war das Verkaeuferland fest DE; eine US-LLC oder HK-Ltd stellte
+ * damit E-Rechnungen mit falschem Sitzland aus.
+ */
+export function xrWarnungen(d: XrDaten): string[] {
+  const w: string[] = [];
+  const vLand = landCode(d.verkaeufer.land ?? "DE");
+  const vPraefix = ustIdLand(d.verkaeufer.ustId);
+  if (vPraefix && vPraefix !== vLand)
+    w.push(`USt-IdNr. des Verkäufers beginnt mit ${vPraefix}, als Land ist aber ${vLand} angegeben.`);
+  const kLand = landCode(d.kunde.land);
+  const kPraefix = ustIdLand(d.kunde.ustId);
+  if (kPraefix && kPraefix !== kLand)
+    w.push(`USt-IdNr. des Kunden beginnt mit ${kPraefix}, als Land ist aber ${kLand} angegeben.`);
+  return w;
 }
 
 export function baueXRechnung(d: XrDaten): string {
@@ -159,7 +187,7 @@ ${zeilen
           <ram:TelephoneUniversalCommunication><ram:CompleteNumber>${x(v.telefon)}</ram:CompleteNumber></ram:TelephoneUniversalCommunication>
           <ram:EmailURIUniversalCommunication><ram:URIID>${x(v.email)}</ram:URIID></ram:EmailURIUniversalCommunication>
         </ram:DefinedTradeContact>
-        <ram:PostalTradeAddress><ram:PostcodeCode>${x(vAdr.plz)}</ram:PostcodeCode><ram:LineOne>${x(v.strasse)}</ram:LineOne><ram:CityName>${x(vAdr.ort)}</ram:CityName><ram:CountryID>DE</ram:CountryID></ram:PostalTradeAddress>
+        <ram:PostalTradeAddress><ram:PostcodeCode>${x(vAdr.plz)}</ram:PostcodeCode><ram:LineOne>${x(v.strasse)}</ram:LineOne><ram:CityName>${x(vAdr.ort)}</ram:CityName><ram:CountryID>${landCode(v.land ?? "DE")}</ram:CountryID></ram:PostalTradeAddress>
         <ram:URIUniversalCommunication><ram:URIID schemeID="EM">${x(v.email)}</ram:URIID></ram:URIUniversalCommunication>
         ${steuerReg}
       </ram:SellerTradeParty>

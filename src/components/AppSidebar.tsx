@@ -1,3 +1,4 @@
+import { DISCORD_INVITE_URL } from "@/config/links";
 import Logo from "@/components/Logo";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
@@ -178,7 +179,7 @@ export function AppSidebar() {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton asChild tooltip="Discord-Community">
-              <a href="https://discord.gg/Ys9ZmBY8" target="_blank" rel="noopener noreferrer" onClick={closeOnMobile}>
+              <a href={DISCORD_INVITE_URL} target="_blank" rel="noopener noreferrer" onClick={closeOnMobile}>
                 <Users className="h-4 w-4" />
                 <span>Discord-Community</span>
               </a>

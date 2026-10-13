@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
 import { useAccess } from "@/hooks/useAccess";
+import { AccessErrorState } from "@/components/PaywallGate";
 import { Button } from "@/components/ui/button";
 import { ShieldAlert, Loader2 } from "lucide-react";
 
 export const AdminGate = ({ children }: { children: React.ReactNode }) => {
-  const { loading, isAdmin } = useAccess();
+  const { loading, isAdmin, error, known, refresh } = useAccess();
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
@@ -13,6 +14,7 @@ export const AdminGate = ({ children }: { children: React.ReactNode }) => {
     );
   }
   if (isAdmin) return <>{children}</>;
+  if (error && !known) return <AccessErrorState onRetry={refresh} />;
   return (
     <div className="container max-w-2xl py-16 px-4">
       <div className="rounded-3xl border border-border bg-card p-8 md:p-10 text-center shadow-card">

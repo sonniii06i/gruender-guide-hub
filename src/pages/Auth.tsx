@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { TwoFactorPrompt } from "@/components/auth/TwoFactorPrompt";
 import { trackSignup } from "@/utils/analytics";
 import { startGuestCheckout } from "@/utils/guestCheckout";
 import { readCartVariant } from "@/lib/cart";
@@ -31,8 +30,6 @@ const Auth = () => {
   const [signupEmail, setSignupEmail] = useState<string | null>(null);
   // Sichtbare Inline-Fehlermeldung im Formular (zusätzlich zum Toast).
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  // true, solange nach dem Passwort noch der zweite Faktor aussteht
-  const [pending2FA, setPending2FA] = useState(false);
 
   const pwChecks = {
     length: password.length >= 8,
@@ -42,10 +39,10 @@ const Auth = () => {
   const pwValid = pwChecks.length && pwChecks.digit && pwChecks.special;
 
   useEffect(() => {
-    // Solange der zweite Faktor aussteht, hier nicht weiterleiten -- sonst
-    // waere der Nutzer trotz aktivem 2FA schon in der App.
-    if (!authLoading && user && !pending2FA) navigate("/onboarding", { replace: true });
-  }, [user, authLoading, navigate, pending2FA]);
+    // Den zweiten Faktor fragt der globale TwoFactorGate ab, bevor diese
+    // Seite (oder irgendeine andere) ueberhaupt rendert.
+    if (!authLoading && user) navigate("/onboarding", { replace: true });
+  }, [user, authLoading, navigate]);
 
   // signup_started ab der ersten Eingabe, nicht ab Seitenaufruf -- sonst waere
   // jeder Besucher ein Signup-Versuch und time_to_signup wertlos.
@@ -84,14 +81,12 @@ const Auth = () => {
       if (error) throw error;
 
       // two_factor_enabled steht in app_metadata: vom Client lesbar,
-      // aber nicht setzbar -- taugt daher als vertrauenswuerdiger Marker.
-      if (signIn.user?.app_metadata?.two_factor_enabled) {
-        setPending2FA(true);
-        setLoading(false);
-        return;
+      // aber nicht setzbar. Die Code-Abfrage zeigt der globale
+      // TwoFactorGate (App.tsx) -- er haengt an der Session und haelt deshalb
+      // auch nach Reload oder Direktaufruf von /dashboard stand.
+      if (!signIn.user?.app_metadata?.two_factor_enabled) {
+        toast.success("Willkommen zurück!");
       }
-
-      toast.success("Willkommen zurück!");
       navigate("/dashboard");
     } catch (err: any) {
       const raw = err?.message ?? "";
@@ -155,22 +150,6 @@ const Auth = () => {
     );
   }
 
-  if (pending2FA) {
-    return (
-      <TwoFactorPrompt
-        onVerified={() => {
-          setPending2FA(false);
-          toast.success("Willkommen zurück!");
-          navigate("/dashboard");
-        }}
-        onCancel={async () => {
-          // Ohne zweiten Faktor darf die Session nicht bestehen bleiben.
-          setPending2FA(false);
-          await supabase.auth.signOut();
-        }}
-      />
-    );
-  }
 
   return (
     <KontoRahmen

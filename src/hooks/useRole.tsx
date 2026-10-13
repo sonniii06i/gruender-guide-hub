@@ -1,17 +1,8 @@
-import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
-import { useAuth } from "./useAuth";
+import { useAccess } from "./useAccess";
 
+// Liest die Admin-Rolle aus dem gemeinsamen useAccess-Zustand, statt eine
+// eigene user_roles-Abfrage je Komponente abzusetzen.
 export const useRole = () => {
-  const { user } = useAuth();
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    if (!user) { setIsAdmin(false); setLoading(false); return; }
-    supabase.from("user_roles").select("role").eq("user_id", user.id).eq("role", "admin").maybeSingle()
-      .then(({ data }) => { setIsAdmin(!!data); setLoading(false); });
-  }, [user]);
-
+  const { isAdmin, loading } = useAccess();
   return { isAdmin, loading };
 };

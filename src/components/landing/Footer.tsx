@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import Logo from "@/components/Logo";
+import { openConsentSettings } from "@/utils/consent";
 
 /* Alle Links bleiben erhalten (interne Verlinkung): /faq und /partner waren
    früher von keiner Seite aus verlinkt und standen nur in der Sitemap. Die
@@ -77,6 +78,13 @@ export const Footer = () => (
                   )}
                 </li>
               ))}
+              {col.title === "Rechtliches" && (
+                <li>
+                  <button type="button" onClick={openConsentSettings} className={linkCls}>
+                    Cookie-Einstellungen
+                  </button>
+                </li>
+              )}
             </ul>
           </nav>
         ))}

@@ -1,4 +1,5 @@
 import { useMemo, useState, useRef } from "react";
+import { csvCell } from "@/lib/csvSafe";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import Stand2026Footer from "@/components/cockpit/Stand2026Footer";
 import { Input } from "@/components/ui/input";
@@ -199,7 +200,7 @@ const CryptoSteuer = () => {
     const rows = fifoResults
       .map(
         (r) =>
-          `${r.saleDate},Verkauf,${r.asset},${r.amount},${r.salePreis},,${r.veraeuserungsgewinn.toFixed(2)},${r.steuerpflichtig.toFixed(2)},${r.steuerfrei.toFixed(2)},FIFO-matched`,
+          `${r.saleDate},Verkauf,${csvCell(r.asset)},${r.amount},${r.salePreis},,${r.veraeuserungsgewinn.toFixed(2)},${r.steuerpflichtig.toFixed(2)},${r.steuerfrei.toFixed(2)},FIFO-matched`,
       )
       .join("\n");
     const blob = new Blob([header + rows], { type: "text/csv;charset=utf-8" });

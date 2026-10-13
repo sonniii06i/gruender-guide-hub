@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 import {
   CheckCircle2, Circle, ChevronLeft, ExternalLink,
   AlertTriangle, Clock, Trophy, Loader2,
@@ -24,7 +25,7 @@ import { GewA1Form } from "@/components/playbook/GewA1Form";
 import { FamiliengerichtForm } from "@/components/playbook/FamiliengerichtForm";
 
 interface RunRow { id: string; current_step: number; status: string; total_steps: number; context: any }
-interface StepRow { step_index: number; status: string; data: any; notes: string | null }
+interface StepRow { step_index: number; status: string; data: any; notes: string | null; completed_at?: string | null }
 
 const PlaybookRun = () => {
   const { runId } = useParams();
@@ -186,58 +187,103 @@ const PlaybookRun = () => {
   // Meilensteine: 25/50/75/100 %
   const milestones = [25, 50, 75, 100];
 
-  const saveStep = async (status: "pending" | "done") => {
-    if (!user) return;
-    if (status === "done" && missingRequired.length > 0) return;
+  // Ungespeicherte Eingaben im aktiven Schritt?
+  const savedStep = steps[activeIndex];
+  const isDirty =
+    JSON.stringify(formData ?? {}) !== JSON.stringify(savedStep?.data ?? {}) ||
+    (notes ?? "") !== (savedStep?.notes ?? "");
+
+  /**
+   * Speichert den aktiven Schritt. true nur, wenn guide-data den Speicherstand
+   * bestaetigt hat. Vorher wurde das Ergebnis ignoriert: Bei Netz-/Serverfehler
+   * zeigte die UI "erledigt", die Eingaben waren beim Reload aber weg.
+   * autosave: beim Schrittwechsel -- kein Weiterspringen, Status bleibt.
+   */
+  const saveStep = async (status: "pending" | "done", autosave = false): Promise<boolean> => {
+    if (!user) return false;
+    if (status === "done" && missingRequired.length > 0) return false;
     setSaving(true);
-    const payload = {
-      run_id: run.id,
-      user_id: user.id,
-      step_index: activeIndex,
-      step_slug: step.slug,
-      status,
-      data: formData,
-      notes,
-      completed_at: status === "done" ? new Date().toISOString() : null,
-    };
-    // Sensible Step-Daten (data + notes) gehen verschlüsselt über die
-    // guide-data-Edge-Function (Server-Key), nicht direkt in die DB.
-    await supabase.functions.invoke("guide-data", {
-      body: {
-        action: "save",
+    try {
+      const payload = {
         run_id: run.id,
+        user_id: user.id,
         step_index: activeIndex,
         step_slug: step.slug,
         status,
         data: formData,
         notes,
-        completed_at: payload.completed_at,
-      },
-    });
-    const newSteps = { ...steps, [activeIndex]: { ...payload } as any };
-    setSteps(newSteps);
-
-    const newCompleted = Object.values(newSteps).filter((s: any) => s.status === "done").length;
-    const isComplete = newCompleted === pb.steps.length;
-    const newCurrent = status === "done" ? Math.min(activeIndex + 1, pb.steps.length - 1) : run.current_step;
-
-    await supabase.from("playbook_runs").update({
-      current_step: newCurrent,
-      last_activity_at: new Date().toISOString(),
-      status: isComplete ? "completed" : "in_progress",
-      completed_at: isComplete ? new Date().toISOString() : null,
-    }).eq("id", run.id);
-
-    if (isComplete) {
-      await supabase.from("notifications").insert({
-        user_id: user.id, kind: "success",
-        title: `🎉 ${pb.title} abgeschlossen!`,
-        body: pb.outcome, link: "/dashboard",
+        completed_at: status === "done" ? ((autosave && savedStep?.completed_at) || new Date().toISOString()) : null,
+      };
+      // Sensible Step-Daten (data + notes) gehen verschlüsselt über die
+      // guide-data-Edge-Function (Server-Key), nicht direkt in die DB.
+      const { data: saveRes, error: saveErr } = await supabase.functions.invoke("guide-data", {
+        body: {
+          action: "save",
+          run_id: run.id,
+          step_index: activeIndex,
+          step_slug: step.slug,
+          status,
+          data: formData,
+          notes,
+          completed_at: payload.completed_at,
+        },
       });
-    } else if (status === "done") {
-      setActiveIndex(newCurrent);
+      if (saveErr || (saveRes as { error?: string } | null)?.error) {
+        toast.error("Speichern fehlgeschlagen – deine Eingaben sind noch da. Bitte erneut versuchen.");
+        return false;
+      }
+      const newSteps = { ...steps, [activeIndex]: { ...payload } as any };
+      setSteps(newSteps);
+
+      const newCompleted = Object.values(newSteps).filter((s: any) => s.status === "done").length;
+      const isComplete = newCompleted === pb.steps.length;
+      const newCurrent = status === "done" && !autosave ? Math.min(activeIndex + 1, pb.steps.length - 1) : run.current_step;
+
+      // Schon abgeschlossen (z. B. Nachbearbeitung eines erledigten Schritts):
+      // completed_at bleibt, und es gibt keine zweite "abgeschlossen"-Meldung.
+      // Vorher setzte jeder Autosave beim Schrittwechsel den Zeitpunkt neu und
+      // schickte die Benachrichtigung erneut.
+      const neuAbgeschlossen = isComplete && run.status !== "completed";
+      const nextStatus = isComplete ? "completed" : "in_progress";
+
+      await supabase.from("playbook_runs").update({
+        current_step: newCurrent,
+        last_activity_at: new Date().toISOString(),
+        status: nextStatus,
+        ...(isComplete && !neuAbgeschlossen ? {} : { completed_at: isComplete ? new Date().toISOString() : null }),
+      }).eq("id", run.id);
+      setRun((r) => (r ? { ...r, status: nextStatus, current_step: newCurrent } : r));
+
+      if (neuAbgeschlossen) {
+        await supabase.from("notifications").insert({
+          user_id: user.id, kind: "success",
+          title: `🎉 ${pb.title} abgeschlossen!`,
+          body: pb.outcome, link: "/dashboard",
+        });
+      } else if (status === "done" && !autosave) {
+        setActiveIndex(newCurrent);
+      }
+      return true;
+    } catch (e) {
+      console.error("saveStep:", e);
+      toast.error("Speichern fehlgeschlagen – deine Eingaben sind noch da. Bitte erneut versuchen.");
+      return false;
+    } finally {
+      setSaving(false);
     }
-    setSaving(false);
+  };
+
+  /** Schrittwechsel: ungespeicherte Eingaben erst sichern, nie still verwerfen. */
+  const goToStep = async (i: number) => {
+    if (i === activeIndex) return;
+    if (isDirty) {
+      const keepDone = savedStep?.status === "done" && missingRequired.length === 0;
+      const ok = await saveStep(keepDone ? "done" : "pending", true);
+      if (!ok && !window.confirm("Deine Eingaben in diesem Schritt konnten nicht gespeichert werden. Trotzdem wechseln und sie verwerfen?")) {
+        return;
+      }
+    }
+    setActiveIndex(i);
   };
 
 
@@ -357,7 +403,7 @@ const PlaybookRun = () => {
                 <li key={s.slug}>
                   <button
                     type="button"
-                    onClick={() => setActiveIndex(i)}
+                    onClick={() => void goToStep(i)}
                     aria-current={active ? "step" : undefined}
                     className={cn(
                       "flex w-full items-start gap-3 rounded-lg px-3 py-2.5 text-left text-sm transition-colors",
@@ -481,7 +527,7 @@ const PlaybookRun = () => {
               </Callout>
             )}
             <div className="flex flex-wrap justify-between gap-3">
-              <Button variant="outline" onClick={() => setActiveIndex(Math.max(0, activeIndex - 1))} disabled={activeIndex === 0}>
+              <Button variant="outline" onClick={() => void goToStep(Math.max(0, activeIndex - 1))} disabled={activeIndex === 0}>
                 <ChevronLeft aria-hidden="true" /> Zurück
               </Button>
               <div className="flex flex-wrap gap-2">

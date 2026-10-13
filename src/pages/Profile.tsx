@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
+import { useAccess, invalidateAccess } from "@/hooks/useAccess";
+import { PLANS, formatEurCents } from "@/config/pricing";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
-import { getStoredAffiliateRef } from "@/utils/affiliate";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -28,7 +29,6 @@ import { FelixMemoryPanel } from "@/components/profile/FelixMemoryPanel";
 import { TwoFactorPanel } from "@/components/profile/TwoFactorPanel";
 import { CodeEinloesenPanel } from "@/components/profile/CodeEinloesenPanel";
 import { toast } from "sonner";
-import { STRIPE_PRICES } from "@/lib/stripe";
 import { writeProfileCache } from "@/lib/profileCache";
 
 interface ProfileData {
@@ -39,7 +39,8 @@ interface ProfileData {
 }
 
 const Profile = () => {
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
+  const { isAdmin: accessAdmin, hasActiveSub: accessSub } = useAccess();
   const [params, setParams] = useSearchParams();
   const tab = params.get("tab") ?? "stamm";
   const [profile, setProfile] = useState<ProfileData>({});
@@ -65,7 +66,8 @@ const Profile = () => {
       await supabase.functions.invoke("check-subscription");
       const { data } = await supabase.from("subscriptions").select("*").eq("user_id", user!.id).maybeSingle();
       setSub(data);
-      const active = data?.status === "active" || data?.status === "trialing";
+      void invalidateAccess();
+      const active = data?.status === "active" || data?.status === "trialing" || !!data?.comp_access;
       toast[active ? "success" : "info"](
         active ? "Abo ist aktiv." : "Kein aktives Abo gefunden.",
       );
@@ -83,22 +85,16 @@ const Profile = () => {
     refreshSub();
   }, [user]);
 
-  const checkout = async (priceId: string) => {
-    setBusy(priceId);
-    try {
-      const { data, error } = await supabase.functions.invoke("create-checkout", { body: { priceId, affiliateRef: getStoredAffiliateRef() } });
-      if (error) throw error;
-      if (data?.url) window.open(data.url, "_blank");
-    } catch (e: any) { toast.error(e.message); } finally { setBusy(null); }
-  };
-
   const portal = async () => {
     setBusy("portal");
     try {
       const { data, error } = await supabase.functions.invoke("customer-portal");
       if (error) throw error;
-      if (data?.url) window.open(data.url, "_blank");
-    } catch (e: any) { toast.error(e.message); } finally { setBusy(null); }
+      // Gleicher Tab: window.open nach einem await blocken Safari und
+      // mobile Popup-Blocker ("es passiert nichts").
+      if (data?.url) { window.location.href = data.url; return; }
+      throw new Error("Kundenportal gerade nicht erreichbar.");
+    } catch (e: any) { toast.error(e.message); setBusy(null); }
   };
 
 
@@ -121,7 +117,10 @@ const Profile = () => {
   };
 
   const update = (k: keyof ProfileData, v: string) => setProfile({ ...profile, [k]: v });
-  const isActive = sub?.status === "active" || sub?.status === "trialing";
+  // Stripe-Abo (Kundenportal moeglich) vs. Zugang insgesamt -- gleiche Regel
+  // wie useAccess/PaywallGate: comp_access und Admins zaehlen als aktiv.
+  const stripeActive = sub?.status === "active" || sub?.status === "trialing";
+  const isActive = stripeActive || !!sub?.comp_access || accessAdmin || accessSub;
 
   return (
     <CockpitShell
@@ -187,7 +186,7 @@ const Profile = () => {
                 icon={CreditCard}
                 actions={<ToneBadge tone={isActive ? "success" : "neutral"}>{isActive ? "Aktiv" : "Inaktiv"}</ToneBadge>}
               >
-                <p className="text-2xl font-semibold tracking-tight">{isActive ? sub.plan : "Kein aktives Abo"}</p>
+                <p className="text-2xl font-semibold tracking-tight">{isActive ? (sub?.plan ?? "Zugang freigeschaltet") : "Kein aktives Abo"}</p>
                 <div className="mt-3 divide-y divide-border/70">
                   <ResultRow label="Status" value={sub?.status ?? "inactive"} />
                   {sub?.current_period_end && (
@@ -195,7 +194,7 @@ const Profile = () => {
                   )}
                 </div>
                 <div className="mt-4 flex flex-wrap gap-2">
-                  <Button onClick={portal} disabled={busy === "portal" || !isActive} variant="outline">
+                  <Button onClick={portal} disabled={busy === "portal" || !stripeActive} variant="outline">
                     {busy === "portal" ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : <Settings2 className="h-4 w-4" aria-hidden="true" />}
                     Abo verwalten
                   </Button>
@@ -216,37 +215,54 @@ const Profile = () => {
                 <p className="flex items-center gap-1.5 text-sm font-medium text-brand-green-glow">
                   <Crown className="h-4 w-4" aria-hidden="true" /> {isActive ? "Plan ändern" : "Plan wählen"}
                 </p>
-                <h2 className="mt-1 text-lg font-semibold tracking-tight">Wähle deinen Plan</h2>
-                <div className="mt-5 grid gap-4 sm:grid-cols-2">
-                  <div className="flex flex-col rounded-xl border border-white/10 bg-white/[0.06] p-5">
-                    <p className="text-base font-semibold">GründerX</p>
-                    <p className="mt-2 text-3xl font-semibold tracking-tight tabular">
-                      64,99 €<span className="ml-0.5 text-sm font-normal text-primary-foreground/65">/Mon</span>
+                {isActive ? (
+                  <>
+                    <h2 className="mt-1 text-lg font-semibold tracking-tight">Plan wechseln oder kündigen</h2>
+                    <p className="mt-2 text-sm leading-relaxed text-primary-foreground/80">
+                      {stripeActive
+                        ? "Du hast bereits ein aktives Abo. Planwechsel, Zahlungsart und Kündigung laufen über das Kundenportal – so entsteht kein zweites Abo."
+                        : "Dein Zugang ist freigeschaltet. Für Fragen zu deinem Zugang schreib uns über den Support."}
                     </p>
-                    <p className="mt-3 flex-1 text-sm leading-relaxed text-primary-foreground/80">Felix KI, alle Wizards, Anbieter-Vergleich, Coop-Deals.</p>
-                    <Button
-                      onClick={() => checkout(STRIPE_PRICES.gruenderx)}
-                      disabled={busy === STRIPE_PRICES.gruenderx}
-                      className="mt-5 h-11 rounded-xl bg-white text-primary hover:bg-white/90"
-                    >
-                      {busy === STRIPE_PRICES.gruenderx ? <Loader2 className="h-4 w-4 animate-spin" /> : "Abonnieren"}
-                    </Button>
-                  </div>
-                  <div className="flex flex-col rounded-xl border border-brand-green/40 bg-white/[0.06] p-5 ring-1 ring-brand-green/20">
-                    <p className="text-base font-semibold">Founder Bundle</p>
-                    <p className="mt-2 text-3xl font-semibold tracking-tight tabular">
-                      99,99 €<span className="ml-0.5 text-sm font-normal text-primary-foreground/65">/Mon</span>
+                    {stripeActive && (
+                      <Button
+                        onClick={portal}
+                        disabled={busy === "portal"}
+                        className="mt-5 h-11 rounded-xl bg-white text-primary hover:bg-white/90"
+                      >
+                        {busy === "portal" ? <Loader2 className="h-4 w-4 animate-spin" /> : "Zum Kundenportal"}
+                      </Button>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <h2 className="mt-1 text-lg font-semibold tracking-tight">Wähle deinen Plan</h2>
+                    <div className="mt-5 grid gap-4 sm:grid-cols-2">
+                      <div className="flex flex-col rounded-xl border border-white/10 bg-white/[0.06] p-5">
+                        <p className="text-base font-semibold">GründerX</p>
+                        <p className="mt-2 text-3xl font-semibold tracking-tight tabular">
+                          {formatEurCents(PLANS.gruenderx.grossCents)}<span className="ml-0.5 text-sm font-normal text-primary-foreground/65">/Mon</span>
+                        </p>
+                        <p className="mt-3 flex-1 text-sm leading-relaxed text-primary-foreground/80">Felix KI, alle Wizards, Anbieter-Vergleich, Coop-Deals.</p>
+                        <Button asChild className="mt-5 h-11 rounded-xl bg-white text-primary hover:bg-white/90">
+                          <Link to="/checkout?variant=gruenderx">Abonnieren</Link>
+                        </Button>
+                      </div>
+                      <div className="flex flex-col rounded-xl border border-brand-green/40 bg-white/[0.06] p-5 ring-1 ring-brand-green/20">
+                        <p className="text-base font-semibold">Founder Bundle</p>
+                        <p className="mt-2 text-3xl font-semibold tracking-tight tabular">
+                          {formatEurCents(PLANS.bundle.grossCents)}<span className="ml-0.5 text-sm font-normal text-primary-foreground/65">/Mon</span>
+                        </p>
+                        <p className="mt-3 flex-1 text-sm leading-relaxed text-primary-foreground/80">GründerX + AnwaltX (Vertrags-Templates, Compliance-Audit).</p>
+                        <Button asChild className="mt-5 h-11 rounded-xl bg-white text-primary hover:bg-white/90">
+                          <Link to="/checkout?variant=bundle">Bundle sichern</Link>
+                        </Button>
+                      </div>
+                    </div>
+                    <p className="mt-3 text-xs text-primary-foreground/65">
+                      Jahrespläne und alle Varianten findest du im Warenkorb.
                     </p>
-                    <p className="mt-3 flex-1 text-sm leading-relaxed text-primary-foreground/80">GründerX + AnwaltX (Vertrags-Templates, Compliance-Audit).</p>
-                    <Button
-                      onClick={() => checkout(STRIPE_PRICES.bundle)}
-                      disabled={busy === STRIPE_PRICES.bundle}
-                      className="mt-5 h-11 rounded-xl bg-white text-primary hover:bg-white/90"
-                    >
-                      {busy === STRIPE_PRICES.bundle ? <Loader2 className="h-4 w-4 animate-spin" /> : "Bundle sichern"}
-                    </Button>
-                  </div>
-                </div>
+                  </>
+                )}
               </div>
             </section>
           </div>
@@ -262,7 +278,8 @@ const Profile = () => {
           <ToolSection title="Passwort ändern" description="Wir schicken dir einen Link zum Zurücksetzen." icon={KeyRound}>
             <Button variant="outline" onClick={async () => {
               if (!user?.email) return;
-              const { error } = await supabase.auth.resetPasswordForEmail(user.email, { redirectTo: window.location.origin });
+              // Nur /reset-password verarbeitet PASSWORD_RECOVERY; die Startseite zeigte kein Formular.
+              const { error } = await supabase.auth.resetPasswordForEmail(user.email, { redirectTo: `${window.location.origin}/reset-password` });
               if (error) toast.error(error.message); else toast.success("Mail verschickt – bitte Postfach prüfen.");
             }}>
               <Mail className="h-4 w-4" aria-hidden="true" /> Reset-Mail senden
@@ -296,7 +313,7 @@ const Profile = () => {
                       return;
                     }
                     toast.success("Konto gelöscht. Auf Wiedersehen.");
-                    await supabase.auth.signOut();
+                    await signOut(); // raeumt auch die lokalen Tool-Daten ab
                     window.location.href = "/";
                   }}
                 >

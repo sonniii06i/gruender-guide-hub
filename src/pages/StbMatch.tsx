@@ -186,7 +186,7 @@ const StbMatch = () => {
   const getGruppeFeld = (gruppenId: string, fieldKey: string): string | string[] | number | boolean | undefined =>
     briefing.gruppenFelder[`${gruppenId}.${fieldKey}`];
 
-  const usePainPointSuggestion = (idx: number, text: string) => {
+  const applyPainPointSuggestion = (idx: number, text: string) => {
     setBriefing((b) => ({ ...b, painPoints: b.painPoints.map((p, i) => (i === idx ? text : p)) }));
   };
   const [selectedStbs, setSelectedStbs] = useState<Set<string>>(new Set());
@@ -740,7 +740,7 @@ const StbMatch = () => {
                           onClick={() => {
                             const nextFreeIdx = briefing.painPoints.findIndex((p) => p.trim().length === 0);
                             const idx = nextFreeIdx === -1 ? 2 : nextFreeIdx;
-                            usePainPointSuggestion(idx, text);
+                            applyPainPointSuggestion(idx, text);
                           }}
                           className="flex w-full items-start gap-3 rounded-lg border border-border bg-card px-3 py-2.5 text-left transition-colors hover:border-accent-blue/40"
                         >

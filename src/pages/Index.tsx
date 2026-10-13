@@ -1,3 +1,4 @@
+import { DISCORD_INVITE_URL } from "@/config/links";
 import { Navbar } from "@/components/landing/Navbar";
 import { Hero } from "@/components/landing/Hero";
 import { ProblemBand } from "@/components/landing/ProblemBand";
@@ -35,7 +36,7 @@ const Index = () => (
           name: "GründerX",
           url: "https://gruenderx.de",
           logo: "https://gruenderx.de/favicon.png",
-          sameAs: ["https://discord.gg/vh84QBxAHq"],
+          sameAs: [DISCORD_INVITE_URL],
           contactPoint: {
             "@type": "ContactPoint",
             contactType: "customer support",
