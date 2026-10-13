@@ -9,7 +9,7 @@ import {
   type ChatMemory,
   type SubLlmCaller,
 } from "../_shared/chat-memory.ts";
-import { retrieveKb, buildKbBlock } from "../_shared/kb-retrieval.ts";
+import { retrieveKb, retrieveKbText, buildKbBlock } from "../_shared/kb-retrieval.ts";
 import { BUNDESLAND_NAME, datumDe, eventsFuer, fristenFuer, ladeEvents, plzZuLand, regionAusText } from "../_shared/gruenderEvents.ts";
 
 // Fragen nach Terminen, Hackathons, Wettbewerben → aktuelle Liste in den Prompt.
@@ -1032,25 +1032,43 @@ serve(async (req) => {
     if (skipKb) {
       console.log(`[kb] skipped (small-talk): "${lastUser.trim().slice(0, 30)}"`);
     }
-    if (!skipKb && OPENAI_KEY && SUPABASE_URL_KB && SERVICE_KEY_KB && lastUser.trim().length >= 3) {
-      try {
-        kbHits = await retrieveKb(lastUser, {
-          openaiKey: OPENAI_KEY,
-          supabaseUrl: SUPABASE_URL_KB,
-          supabaseServiceKey: SERVICE_KEY_KB,
-          topK: 5,
-        });
-        const kbBlock = buildKbBlock(kbHits);
-        if (kbBlock) {
-          systemPromptWithMemory = systemPromptWithMemory + kbBlock;
-          console.log(`[kb] injected ${kbHits.filter((h) => h.similarity >= 0.35).length} hits (top sim ${kbHits[0]?.similarity?.toFixed(2)})`);
-        } else {
-          console.log(`[kb] no relevant hits (top sim ${kbHits[0]?.similarity?.toFixed(2) ?? "n/a"})`);
+    if (!skipKb && SUPABASE_URL_KB && SERVICE_KEY_KB && lastUser.trim().length >= 3) {
+      let kbBlock: string | null = null;
+      // 1) Embedding-Suche (braucht OpenAI-Guthaben)
+      if (OPENAI_KEY) {
+        try {
+          kbHits = await retrieveKb(lastUser, {
+            openaiKey: OPENAI_KEY,
+            supabaseUrl: SUPABASE_URL_KB,
+            supabaseServiceKey: SERVICE_KEY_KB,
+            topK: 5,
+          });
+          kbBlock = buildKbBlock(kbHits);
+          if (kbBlock) {
+            console.log(`[kb] injected ${kbHits.filter((h) => h.similarity >= 0.35).length} hits (top sim ${kbHits[0]?.similarity?.toFixed(2)})`);
+          } else {
+            console.log(`[kb] no relevant hits (top sim ${kbHits[0]?.similarity?.toFixed(2) ?? "n/a"}) → Textsuche`);
+          }
+        } catch (e) {
+          console.error("[kb] embedding retrieve failed → Textsuche:", (e as Error).message.slice(0, 200));
         }
-      } catch (e) {
-        // KB-Retrieval ist optional — bei Fehler weiter ohne KB
-        console.error("[kb] retrieve failed, continuing without:", (e as Error).message);
       }
+      // 2) Rückfall: Volltextsuche (ohne OpenAI), wenn Embedding fehlt/scheitert/nichts fand
+      if (!kbBlock) {
+        try {
+          kbHits = await retrieveKbText(lastUser, {
+            supabaseUrl: SUPABASE_URL_KB,
+            supabaseServiceKey: SERVICE_KEY_KB,
+            topK: 6,
+          });
+          kbBlock = buildKbBlock(kbHits, 0.34);
+          console.log(`[kb] text-fallback ${kbBlock ? `injected ${kbHits.length} hits` : `no hits (${kbHits.length})`}`);
+        } catch (e) {
+          // KB ist optional — bei Fehler weiter ohne KB
+          console.error("[kb] text-fallback failed, continuing without:", (e as Error).message);
+        }
+      }
+      if (kbBlock) systemPromptWithMemory = systemPromptWithMemory + kbBlock;
     }
 
     // === GRÜNDER-EVENTS (nur bei Event-/Fristen-Fragen; Fehler → ohne Events weiter) ===
