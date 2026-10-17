@@ -65,6 +65,13 @@ const EXTRA_ROUTES = [
   "/amazon-transparency-seriennummer-widerspruch-generator",
   // Ratgeber mit Canonical auf anwaltx.de (src/data/ratgeberKanonisch.ts).
   "/ratgeber/gpsr-verordnung-haendler",
+  // Gratis-Proben (ToolTrialPage, noindex, Canonical auf /tools/<slug>).
+  // Startseite, /gratis-tools und die Tool-Seiten verlinken sie; ohne Prerender
+  // lieferten sie Titel und Canonical der Startseite (SEO-Wächter 17.10.2026).
+  // Neue Probe in trialTools.ts => hier eintragen (Test prerenderRoutes.test.ts).
+  "/tools/weee-check/gratis",
+  "/tools/brand-check/gratis",
+  "/tools/lucid-wizard/gratis",
 ];
 
 function routesFromSitemap(xml) {
