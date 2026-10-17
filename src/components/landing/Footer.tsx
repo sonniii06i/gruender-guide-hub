@@ -21,6 +21,9 @@ const COLUMNS: { title: string; links: { to: string; label: string; native?: boo
     title: "Ressourcen",
     links: [
       { to: "/ratgeber", label: "Ratgeber" },
+      // Ratgeber mit den meisten Impressionen bei guten Positionen (GSC 30 T:
+      // 430 Impr., Ø Platz 11,4), war aber nur vom /ratgeber-Hub verlinkt.
+      { to: "/ratgeber/bestes-geschaeftskonto-gruender-vergleich-2026", label: "Geschäftskonto-Vergleich" },
       { to: "/gruender-events", label: "Gründer-Events" },
       { to: "/hackathon-starter-kit", label: "Hackathon-Starter-Kit" },
       { to: "/startup-guthaben", label: "Startup-Guthaben & Credits" },

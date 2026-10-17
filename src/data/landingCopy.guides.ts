@@ -760,7 +760,7 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
   },
   "creator-youtube-longform": {
     "seoTitle": "YouTube Channel aufbauen: Long-Form & Monetarisierung",
-    "seoDescription": "YouTube Long-Form starten: 1.000 Abos und 4.000 Watch-Hours fuer AdSense, Mid-Rolls, Sponsoring und Newsletter-Funnel. Schritt fuer Schritt.",
+    "seoDescription": "YouTube Long-Form starten: 1.000 Abos und 4.000 Watch-Hours für AdSense, Mid-Rolls, Sponsoring und Newsletter-Funnel. Schritt für Schritt.",
     "lead": "Dieser Guide fuehrt dich durch den Aufbau eines monetarisierbaren YouTube-Channels mit Long-Form-Content: von der AdSense-Eligibility ueber Sponsoring bis zu eigenen Produkten. Fuer Creator und Gruender, die auf tiefe Audience-Bindung und hohe CPMs setzen.",
     "urgency": "Long-Form auf YouTube ist das Format mit den hoechsten CPMs und der tiefsten Audience-Bindung, aber bis zur AdSense-Schwelle aus 1.000 Abos und 4.000 Watch-Hours vergehen oft Monate. Jedes Video ohne klare Thumbnail-, Titel- und Retention-Strategie kostet dich Reichweite, die sich kaum zurueckholen laesst. Wer frueh strukturiert startet, baut einen Asset auf, der jahrelang Views und Umsatz traegt. Mit GründerX planst du Channel, Funnel und Monetarisierung von Anfang an sauber.",
     "outcomes": [
@@ -774,7 +774,7 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
   },
   "creator-twitter-reddit": {
     "seoTitle": "Twitter (X) & Reddit aufbauen: Text-First Creator-Guide",
-    "seoDescription": "Audience auf X und Reddit aufbauen: Threads, Insights, Niche-Authority und Karma. Funnel zu Newsletter und Coaching Schritt fuer Schritt.",
+    "seoDescription": "Audience auf X und Reddit aufbauen: Threads, Insights, Niche-Authority und Karma. Funnel zu Newsletter und Coaching Schritt für Schritt.",
     "lead": "Dieser Guide zeigt dir, wie du auf Twitter (X) ueber Insights und Threads sowie auf Reddit ueber Niche-Authority eine Audience aufbaust und sie in Newsletter und Coaching ueberfuehrst. Fuer text-affine Gruender, Experten und Solo-Selbststaendige.",
     "urgency": "Text-First-Plattformen belohnen Konstanz und echte Substanz, aber genau hier scheitern die meisten, weil sie sporadisch posten oder auf Reddit als Werbung wahrgenommen werden und ihr Karma verbrennen. Ohne klaren Funnel sammelst du Follower, die nie zu Einnahmen werden. Wer Audience und Monetarisierung von Anfang an zusammen denkt, baut eine Liste auf, die unabhaengig vom Algorithmus traegt. Mit GründerX hast du Posting-Logik und Funnel-Aufbau strukturiert vor dir.",
     "outcomes": [
@@ -787,7 +787,7 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
     "disclaimer": "Dieser Guide bietet praktische Orientierung, ersetzt keine Steuer- oder Rechtsberatung, und die Plattform- und Subreddit-Regeln koennen sich jederzeit aendern."
   },
   "creator-pinterest": {
-    "seoTitle": "Pinterest Marketing: Traffic-Maschine fuer Gruender",
+    "seoTitle": "Pinterest Marketing: Traffic-Maschine für Gründer",
     "seoDescription": "Pinterest als Search-Engine nutzen: Business-Account, Boards, Idea-Pins und Long-Lifetime-Traffic zu Shop und Newsletter. In 3-9 Monaten.",
     "lead": "Dieser Guide nutzt Pinterest als Such-Maschine mit langlebigem Traffic statt als Social-Feed: Business-Account, Boards, Idea-Pins und automatischer Traffic-Flow zu Shop und Newsletter. Fuer Brand-Owner und Affiliate-Creator, die einen ruhigen Top-Funnel-Kanal wollen.",
     "urgency": "Ein Pinterest-Pin lebt im Schnitt 3-6 Monate, ein TikTok-Video oft nur 24-72 Stunden, doch viele unterschaetzen Pinterest komplett und lassen diesen passiven Traffic-Strom links liegen. Wer jetzt eine saubere Board- und Pin-Struktur aufbaut, sammelt Traffic, der noch in einem Jahr Besucher in deinen Funnel spuelt. Jeder Monat ohne Pinterest-Praesenz ist verschenkte Sichtbarkeit in einer Suchmaschine mit klarer Kaufabsicht. Mit GründerX baust du den Kanal Schritt fuer Schritt strategisch auf.",
@@ -830,7 +830,7 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
   },
   "coach-online-course": {
     "seoTitle": "Online-Kurs erstellen: FernUSG & ZFU richtig meistern",
-    "seoDescription": "Self-Paced-Kurs aufbauen: FernUSG-Compliance, ZFU-Zulassung, Plattform-Wahl und Launch-Funnel. Schritt fuer Schritt, rechtlich sauber.",
+    "seoDescription": "Self-Paced-Kurs aufbauen: FernUSG-Compliance, ZFU-Zulassung, Plattform-Wahl und Launch-Funnel. Schritt für Schritt, rechtlich sauber.",
     "lead": "Dieser Guide fuehrt dich durch den Aufbau eines asynchronen Online-Kurses inklusive der kritischen FernUSG-Falle: ZFU-Zulassung, Plattform-Wahl, Launch-Funnel und Customer-Success-Process. Fuer Coaches und Experten, die ihr Wissen maximal skalierbar verkaufen wollen.",
     "urgency": "Self-Paced-Kurse skalieren am staerksten, aber genau hier liegt die teuerste Falle im Coaching-Markt: Wer einen asynchronen Lehrgang ohne ZFU-Zulassung verkauft, riskiert nach FernUSG nichtige Vertraege und Abmahnungen. Viele Anbieter erfahren davon erst, wenn Rueckforderungen oder ein Wettbewerber-Anwalt vor der Tuer stehen. Wer Compliance, Plattform und Funnel von Anfang an zusammen aufsetzt, baut ein sicheres und skalierbares Produkt. Mit GründerX gehst du den Setup-Pfad inklusive ZFU-Schritten strukturiert durch.",
     "outcomes": [
@@ -858,7 +858,7 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
   },
   "crowdfunding-equity": {
     "seoTitle": "Equity-Crowdfunding: Companisto & Seedmatch starten",
-    "seoDescription": "Equity-Crowdfunding aufsetzen: bis 6 Mio Euro ECSP-frei, VIB/WIB-Doku, Investor-Reporting und Pooling-Vehicle fuer spaetere VCs.",
+    "seoDescription": "Equity-Crowdfunding aufsetzen: bis 6 Mio Euro ECSP-frei, VIB/WIB-Doku, Investor-Reporting und Pooling-Vehicle für spätere VCs.",
     "lead": "Dieser Guide fuehrt dich durch eine Equity-Crowdfunding-Kampagne auf Plattformen wie Companisto oder Seedmatch: Funding-Goal, VIB/WIB-Dokumentation, Investor-Reporting und ein Pooling-Vehicle fuer spaetere VC-Kompatibilitaet. Fuer Gruender mit Kapitalbedarf von 500k bis 3 Mio Euro.",
     "urgency": "Equity-Crowdfunding bringt nicht nur Kapital, sondern auch hunderte Marken-Botschafter, doch ein schlecht strukturiertes Cap-Table oder fehlendes Pooling-Vehicle kann dich spaeter in VC-Runden ausbremsen oder unmoeglich machen. Fehler bei VIB/WIB-Dokumentation oder Investor-Reporting sind teuer und rechtlich heikel. Wer die Struktur vor dem Launch sauber aufsetzt, haelt sich alle Finanzierungs-Optionen offen. Mit GründerX gehst du Pre-Kampagne, Doku und Reporting strukturiert durch.",
     "outcomes": [
@@ -942,7 +942,7 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
   },
   "amazon-brand-registry": {
     "seoTitle": "Amazon Brand Registry freischalten: Anleitung 2026",
-    "seoDescription": "Eingetragene Marke im Amazon Brand Registry freischalten: A+ Content, Brand Store, Markenschutz. Schritt fuer Schritt in 1-3 Wochen.",
+    "seoDescription": "Eingetragene Marke im Amazon Brand Registry freischalten: A+ Content, Brand Store, Markenschutz. Schritt für Schritt in 1-3 Wochen.",
     "lead": "Dieser Guide zeigt dir, wie du deine eingetragene Marke im Amazon Brand Registry freischaltest und damit Zugriff auf A+ Content, Brand Store, Sponsored Brands und Markenschutz-Tools bekommst.",
     "urgency": "Ohne Brand Registry stehst du Produktpiraten und Listing-Hijackern praktisch schutzlos gegenueber - jeder kann sich an dein Listing haengen und deine Marge kaputtmachen. Gleichzeitig laesst du ohne A+ Content und Brand Store taeglich Conversion liegen. Je laenger du wartest, desto mehr Umsatz und Markenkontrolle verschenkst du. Mit GruenderX gehst du den Freischalt-Prozess sauber durch und nutzt von Anfang an alle Marken-Tools.",
     "outcomes": [
@@ -955,8 +955,8 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
     "disclaimer": "Dieser Guide bietet Orientierung und ersetzt keine Rechts- oder Markenberatung; Amazon-Anforderungen und Markenrecht koennen sich aendern."
   },
   "amazon-transparency": {
-    "seoTitle": "Amazon Transparency einrichten: Schutz vor Faelschungen",
-    "seoDescription": "Amazon Transparency einrichten: Echtheitscodes pro Einheit gegen Counterfeits und Hijacker. Anleitung Schritt fuer Schritt in 1-2 Wochen.",
+    "seoTitle": "Amazon Transparency einrichten: Schutz vor Fälschungen",
+    "seoDescription": "Amazon Transparency einrichten: Echtheitscodes pro Einheit gegen Counterfeits und Hijacker. Anleitung Schritt für Schritt in 1-2 Wochen.",
     "lead": "Dieser Guide erklaert dir, wie du deine Produkte im Amazon-Transparency-Programm anmeldest und mit eindeutigen Echtheitscodes pro Einheit gegen Faelschungen und Hijacker absicherst.",
     "urgency": "Schon eine einzige Counterfeit-Charge unter deinem Listing kann Bewertungen ruinieren, Retouren ausloesen und deine Marke nachhaltig beschaedigen. Transparency vergibt fuer jede Einheit einen eindeutigen Echtheitscode - faelscht jemand dein Produkt, fliegt es beim Scan sofort auf. Wartest du, bis der erste Hijacker da ist, ist der Schaden meist schon entstanden. Mit GruenderX richtest du Transparency strukturiert ein und schliesst die Luecke, bevor sie ausgenutzt wird.",
     "outcomes": [
@@ -969,7 +969,7 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
     "disclaimer": "Dieser Guide dient der Orientierung und ersetzt keine Rechtsberatung; Amazon-Programmbedingungen und Code-Gebuehren koennen sich aendern."
   },
   "weee-registrierung": {
-    "seoTitle": "WEEE-Registrierung: Elektrogeraete bei stiftung ear melden",
+    "seoTitle": "WEEE-Registrierung: Elektrogeräte bei stiftung ear melden",
     "seoDescription": "WEEE-Registrierung nach ElektroG: Reg.-Nr. bei stiftung ear, Garantie, Mengenmeldung. Marktplatz-konform werden in 2-6 Wochen.",
     "lead": "Dieser Guide fuehrt dich durch die WEEE-Registrierung nach ElektroG bei der stiftung ear - von der Reg.-Nr. ueber die insolvenzsichere Garantie bis zur laufenden Mengenmeldung.",
     "urgency": "Wer Elektrogeraete ohne gueltige WEEE-Reg.-Nr. verkauft, riskiert Bussgelder bis zu 100.000 EUR, Vertriebsverbote und sofortige Sperrung durch Marktplaetze wie Amazon. Plattformen pruefen die Registrierung inzwischen automatisch ab - fehlt sie, sind deine Listings raus. Da die ear-Registrierung Wochen dauern kann, solltest du jetzt starten, statt vor dem Launch festzustecken. Mit GruenderX gehst du jeden Schritt der Registrierung sauber durch.",
@@ -1011,8 +1011,8 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
     "disclaimer": "Dieser Guide bietet Orientierung und ersetzt keine Rechtsberatung; Freischaltungskriterien der Marktplaetze koennen sich jederzeit aendern."
   },
   "dac7": {
-    "seoTitle": "DAC7: Plattform-Meldepflicht meistern fuer Verkaeufer",
-    "seoDescription": "DAC7 verstehen: Was Marktplaetze ans Finanzamt melden und welche Daten du liefern musst. Keine Konto- oder Auszahlungssperre. In 1-2 Tagen.",
+    "seoTitle": "DAC7: Plattform-Meldepflicht meistern für Verkäufer",
+    "seoDescription": "DAC7 verstehen: Was Marktplätze ans Finanzamt melden und welche Daten du liefern musst. Keine Konto- oder Auszahlungssperre. In 1-2 Tagen.",
     "lead": "Dieser Guide erklaert dir die DAC7-Meldepflicht: was Plattformen wie Amazon, eBay und Etsy ans Finanzamt melden und welche Steuerdaten du hinterlegen musst.",
     "urgency": "Fehlen deine DAC7-Daten oder passen sie nicht, friert die Plattform schnell deine Auszahlungen ein oder sperrt das Konto - mitten im laufenden Geschaeft. Gleichzeitig gleicht das Finanzamt die gemeldeten Umsaetze direkt mit deiner Steuererklaerung ab, und Abweichungen fallen sofort auf. Bring deine Daten in Ordnung, bevor eine Sperre dich blockiert. Mit GruenderX hinterlegst du alles korrekt und konsistent ueber alle Plattformen.",
     "outcomes": [
@@ -1025,8 +1025,8 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
     "disclaimer": "Dieser Guide dient der Orientierung und ersetzt keine Steuerberatung; DAC7-Meldepflichten und Schwellen koennen sich aendern."
   },
   "amazon-verkaeuferkonto-setup": {
-    "seoTitle": "Amazon-Verkaeuferkonto einrichten: komplette Anleitung",
-    "seoDescription": "Amazon-Verkaeuferkonto komplett einrichten: Steuer, USt, Rechnungen, Versand, Rechtstexte, Sicherheit. Startklar fuer dein erstes Produkt in 1-2 Wochen.",
+    "seoTitle": "Amazon-Verkäuferkonto einrichten: komplette Anleitung",
+    "seoDescription": "Amazon-Verkäuferkonto komplett einrichten: Steuer, USt, Rechnungen, Versand, Rechtstexte, Sicherheit. Startklar für dein erstes Produkt in 1-2 Wochen.",
     "lead": "Dieser Guide fuehrt dich Schritt fuer Schritt durch die komplette Einrichtung deines Amazon-Verkaeuferkontos - von Steuer- und USt-Einstellungen ueber Versand und Rechtstexte bis zur Absicherung.",
     "urgency": "Ein lueckenhaft eingerichtetes Konto raecht sich frueh: fehlende USt-Einstellungen, falsche Rechnungen oder unvollstaendige Rechtstexte fuehren zu Abmahnungen, Steuerproblemen und im schlimmsten Fall zur Konto-Sperrung samt eingefrorenen Guthaben. Die Verifizierung dauert ohnehin oft Wochen - jeder Fehler verlaengert das. Richte das Konto einmal vollstaendig und sauber ein, bevor das erste Produkt live geht. Mit GruenderX arbeitest du jeden der Einrichtungsschritte strukturiert ab.",
     "outcomes": [
@@ -1054,7 +1054,7 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
   },
   "otto-produkt-anlegen": {
     "seoTitle": "Produkt auf OTTO Market anlegen: Bewerbung & Connect",
-    "seoDescription": "Auf OTTO Market verkaufen: Partner-Bewerbung, Partner-Connect-Anbindung und datenstarke Listings. Schritt fuer Schritt durchs Onboarding.",
+    "seoDescription": "Auf OTTO Market verkaufen: Partner-Bewerbung, Partner-Connect-Anbindung und datenstarke Listings. Schritt für Schritt durchs Onboarding.",
     "lead": "Dieser Guide begleitet dich durch den Verkaufsstart auf OTTO Market - von der Partner-Bewerbung ueber die technische Partner-Connect-Anbindung bis zu konformen, datenvollstaendigen Listings.",
     "urgency": "OTTO kuratiert hart: Bewerbungen mit duennem Sortiment oder unvollstaendigen Produktdaten werden abgelehnt, und das Onboarding zieht sich oft mehrere Wochen. Wer die Partner-Connect-Anbindung und die Datenqualitaet unterschaetzt, verliert Wochen, bevor der erste Verkauf laeuft. Bereite Bewerbung und Datenfeed sauber vor, statt in der Warteschleife zu haengen. Mit GruenderX gehst du jeden Schritt des OTTO-Onboardings strukturiert an.",
     "outcomes": [

@@ -1030,8 +1030,8 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
     "disclaimer": "Das Tool ersetzt keine Steuerberatung; deine konkreten US-Pflichten bestätigst du mit einem qualifizierten Steuerexperten."
   },
   "hk-tax-helper": {
-    "seoTitle": "HK-Tax-Helper: IRD-Filings & Fristen fuer Limited",
-    "seoDescription": "Welche Abgaben fuer deine HK-Limited? Profits Tax Return, Employer's Return, BR-Renewal & NAR1 mit Fristen und Checkliste. Jetzt pruefen.",
+    "seoTitle": "HK-Tax-Helper: IRD-Filings & Fristen für Limited",
+    "seoDescription": "Welche Abgaben für deine HK-Limited? Profits Tax Return, Employer's Return, BR-Renewal & NAR1 mit Fristen und Checkliste. Jetzt prüfen.",
     "lead": "Der HK-Tax-Helper zeigt dir je nach Setup (Limited, Sole Proprietor, Partnership) alle Pflicht-Filings beim IRD und Companies Registry. Fuer Gruender mit Hongkong-Struktur, die nichts uebersehen wollen.",
     "urgency": "Ein verpasstes IRD-Filing in Hongkong wird teuer: Strafen, Vorladungen und im schlimmsten Fall die Streichung deiner Company. Die Fristen laufen nach festen Codes, nicht nach deinem Bauchgefuehl. Verschaff dir mit GründerX jetzt den vollstaendigen Ueberblick ueber deine HK-Pflichten.",
     "outcomes": [
@@ -1045,7 +1045,7 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
   },
   "us-hk-banking": {
     "seoTitle": "US & HK Banking: 9 Anbieter im Closure-Risk-Check",
-    "seoDescription": "Wise, Mercury, Relay, Brex, Statrys & Co. im Vergleich: Closure-Risk-Score, Trustpilot und 12 Survival-Tipps fuer dein US/HK-Konto.",
+    "seoDescription": "Wise, Mercury, Relay, Brex, Statrys & Co. im Vergleich: Closure-Risk-Score, Trustpilot und 12 Survival-Tipps für dein US/HK-Konto.",
     "lead": "Dieser Vergleich stellt 9 US- und HK-Banking-Anbieter gegenueber und bewertet, wie wahrscheinlich eine Konto-Schliessung ist. Fuer Gruender mit US-LLC oder HK-Limited, die ein stabiles Geschaeftskonto brauchen.",
     "urgency": "Ein gesperrtes Geschaeftskonto kann dein ganzes Business lahmlegen, oft ohne Vorwarnung und mit eingefrorenem Guthaben. Genau deshalb zaehlt die Wahl des richtigen Anbieters von Anfang an. Vergleiche jetzt mit GründerX Closure-Risk und Erfahrungen, bevor du dich bindest.",
     "outcomes": [
@@ -1059,7 +1059,7 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
   },
   "sales-tax-nexus": {
     "seoTitle": "Sales-Tax-Nexus-Check: 46 US-Staaten & Wayfair 2026",
-    "seoDescription": "Wo entsteht US Sales-Tax-Nexus? 46 Staaten + DC mit Wayfair-Schwellen 2026, FBA-Logik und Foreign-Seller-Block. Jetzt pruefen.",
+    "seoDescription": "Wo entsteht US Sales-Tax-Nexus? 46 Staaten + DC mit Wayfair-Schwellen 2026, FBA-Logik und Foreign-Seller-Block. Jetzt prüfen.",
     "lead": "Der Sales-Tax-Nexus-Check zeigt dir fuer 46 US-Staaten plus DC, ab wann du Sales Tax abfuehren musst. Fuer E-Commerce-Gruender, die in die USA verkaufen, besonders ueber Amazon FBA.",
     "urgency": "Unbemerkter Sales-Tax-Nexus haeuft schnell vierstellige Nachforderungen an, plus Zinsen und Strafen, die rueckwirkend kommen. Wer in die USA verkauft, kann sich auf Unwissenheit nicht berufen. Pruefe jetzt mit GründerX, in welchen Staaten du wirklich registrierungspflichtig bist.",
     "outcomes": [
@@ -1072,8 +1072,8 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
     "disclaimer": "Sales-Tax-Regeln aendern sich laufend; dieses Tool ersetzt keine steuerliche Beratung durch einen US-Tax-Professional."
   },
   "substance-checker": {
-    "seoTitle": "Substance-Checker: Briefkasten-Risiko fuer Auslands-GmbH",
-    "seoDescription": "Wie hoch ist dein Mailbox-Risiko? Score 0-100 zu Paragraf 50d EStG, AStG & AO fuer 12 EU/CH-Laender. Jetzt Substanz pruefen.",
+    "seoTitle": "Substance-Checker: Briefkasten-Risiko für Auslands-GmbH",
+    "seoDescription": "Wie hoch ist dein Mailbox-Risiko? Score 0-100 zu Paragraf 50d EStG, AStG & AO für 12 EU/CH-Länder. Jetzt Substanz prüfen.",
     "lead": "Der Substance-Requirements-Checker bewertet mit einem Score von 0 bis 100, wie sehr deine Auslandsstruktur als Briefkastenfirma gilt. Fuer Gruender mit Holding oder Gesellschaft in EU oder der Schweiz.",
     "urgency": "Fehlende wirtschaftliche Substanz fuehrt schnell zur Aberkennung von Steuervorteilen und zu Hinzurechnung in Deutschland. Das Finanzamt schaut genau auf Geschaeftsfuehrer-Wohnsitz, Buero und echte Aktivitaet. Pruefe jetzt mit GründerX, wo deine Struktur angreifbar ist, bevor es eine Pruefung tut.",
     "outcomes": [
@@ -1087,7 +1087,7 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
   },
   "dba-cfc": {
     "seoTitle": "DBA-CFC-Rechner: Hinzurechnung & Quellensteuer",
-    "seoDescription": "Berechne AStG-Hinzurechnungsbesteuerung, DBA-Quellensteuer und Mutter-Tochter-RL fuer 14 Laender. Step-by-Step Ausland zu DE.",
+    "seoDescription": "Berechne AStG-Hinzurechnungsbesteuerung, DBA-Quellensteuer und Mutter-Tochter-RL für 14 Länder. Step-by-Step Ausland zu DE.",
     "lead": "Der DBA-CFC-Rechner fuehrt dich Schritt fuer Schritt durch Hinzurechnungsbesteuerung, DBA-Quellensteuer und die Mutter-Tochter-Richtlinie. Fuer Gruender mit Auslandsgesellschaft und deutscher Steuerpflicht.",
     "urgency": "Hinzurechnungsbesteuerung kann Gewinne deiner Auslandsgesellschaft in Deutschland nachversteuern, oft hoeher als gedacht. Wer DBA und Quellensteuer nicht durchrechnet, zahlt doppelt oder verschenkt Reduktionen. Rechne jetzt mit GründerX durch, was am Ende in Deutschland wirklich ankommt.",
     "outcomes": [
@@ -1101,7 +1101,7 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
   },
   "us-kreditkarten": {
     "seoTitle": "US-Kreditkarten & Miles: 22 Karten + MR-Transfer-Hack",
-    "seoDescription": "22 US-Karten, 15 Miles-Sweet-Spots und der DE-US Amex-MR-Transfer-Hack mit FX-Bonus. Velocity-Strategie fuer hohe Sign-up-Bonusse.",
+    "seoDescription": "22 US-Karten, 15 Miles-Sweet-Spots und der DE-US Amex-MR-Transfer-Hack mit FX-Bonus. Velocity-Strategie für hohe Sign-up-Bonusse.",
     "lead": "Dieses Tool bündelt 22 US-Kreditkarten, 15 Miles-Sweet-Spots und konkrete Punkte-Strategien fuer Gruender mit US-Setup. Fuer alle, die ihre Geschaefts- und Reiseausgaben hebeln wollen.",
     "urgency": "Wer eine US-Struktur hat, aber keine Karten-Strategie faehrt, laesst jedes Jahr tausende Euro an Sign-up-Bonussen und Miles liegen. Die Sweet-Spots aendern sich, der MR-Transfer-Vorteil nicht ewig. Hol dir jetzt mit GründerX den Ueberblick, bevor sich die besten Angebote schliessen.",
     "outcomes": [
@@ -1115,7 +1115,7 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
   },
   "ust-rechner": {
     "seoTitle": "USt-Rechner DE: Brutto-Netto, Paragraf 19, 13b & OSS",
-    "seoDescription": "Umsatzsteuer fuer alle Faelle: Brutto-Netto, Kleinunternehmer Paragraf 19, Reverse-Charge, OSS und IGL mit USt-IdNr-Check. Jetzt rechnen.",
+    "seoDescription": "Umsatzsteuer für alle Fälle: Brutto-Netto, Kleinunternehmer Paragraf 19, Reverse-Charge, OSS und IGL mit USt-IdNr-Check. Jetzt rechnen.",
     "lead": "Der USt-Rechner deckt in fünf Tabs die haeufigsten Umsatzsteuer-Faelle ab, von Brutto-Netto bis OSS und innergemeinschaftlicher Lieferung. Fuer Selbststaendige und E-Commerce-Gruender in Deutschland.",
     "urgency": "Ein falscher Umsatzsteuer-Satz oder ein vergessener Reverse-Charge-Hinweis fuehrt schnell zu Rechnungs-Korrekturen und Aerger mit dem Finanzamt. Mit der Kleinunternehmer-Reform 2025 haben sich Grenzen verschoben. Rechne deine Faelle jetzt mit GründerX sauber durch, statt zu schaetzen.",
     "outcomes": [
@@ -1129,7 +1129,7 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
   },
   "abschreibung": {
     "seoTitle": "Abschreibungs-Rechner: AfA, GWG & Steuer-Ersparnis",
-    "seoDescription": "Berechne Abschreibung fuer 18 Asset-Typen: Sofortabschreibung, GWG, Sammelposten, lineare AfA. Steuer-Ersparnis GmbH vs ESt im Blick.",
+    "seoDescription": "Berechne Abschreibung für 18 Asset-Typen: Sofortabschreibung, GWG, Sammelposten, lineare AfA. Steuer-Ersparnis GmbH vs ESt im Blick.",
     "lead": "Der Abschreibungs-Rechner ermittelt fuer 18 Asset-Typen die passende AfA-Methode und zeigt deine Steuer-Ersparnis. Fuer Gruender und Selbststaendige, die Investitionen steuerlich optimal absetzen wollen.",
     "urgency": "Wer Anschaffungen falsch abschreibt, verschenkt Liquiditaet und zahlt frueher Steuern als noetig. Sofortabschreibung, GWG und Sammelposten haben jeweils eigene Regeln, die ueber deinen Cashflow entscheiden. Rechne jetzt mit GründerX durch, wie viel du wirklich sparst.",
     "outcomes": [
@@ -1143,7 +1143,7 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
   },
   "stb-handoff": {
     "seoTitle": "Steuerberater-Hand-off: 3 Angebote per Briefing-PDF",
-    "seoDescription": "Erstelle ein praezises Steuerberater-Briefing fuer 10 Gruender-Gruppen und hol dir 3 Angebote von Top-Kanzleien. Wizard + PDF + Email.",
+    "seoDescription": "Erstelle ein präzises Steuerberater-Briefing für 10 Gründer-Gruppen und hol dir 3 Angebote von Top-Kanzleien. Wizard + PDF + Email.",
     "lead": "Der Steuerberater-Hand-off fuehrt dich durch einen Wizard fuer deine Gruender-Gruppe und erzeugt ein vollstaendiges Briefing fuer drei Kanzleien. Fuer alle, die schnell den passenden Steuerberater finden wollen.",
     "urgency": "Ein schwammiges Briefing bringt schwammige Angebote und kostet dich Wochen im Hin und Her. Wer mit Pflichtfeldern und den richtigen Fragen startet, bekommt vergleichbare Angebote auf einmal. Erstell dein Briefing jetzt mit GründerX und geh direkt mit drei Kanzleien ins Gespraech.",
     "outcomes": [
