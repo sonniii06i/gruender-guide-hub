@@ -28,25 +28,33 @@ interface SitemapEntry {
 
 const today = new Date().toISOString().slice(0, 10);
 
+// lastmod nur, wo es stimmt (SEO-Runde 17.10.2026): Bisher trugen 173 von 199
+// URLs das Build-Datum, obwohl sich Tool-, Guide- und statische Seiten nicht
+// bei jedem Build aendern. Google ignoriert lastmod einer Sitemap, deren Werte
+// erkennbar nicht stimmen — dann zaehlt auch das echte Datum der Ratgeber
+// (updated_at aus blog_posts) nicht mehr. Deshalb: Ratgeber mit updated_at,
+// /ratgeber mit dem neuesten Ratgeber-Datum, /gruender-events mit dem
+// Build-Datum (taeglicher Sync-Commit aendert die Seite wirklich), sonst keins.
+
 const staticEntries: SitemapEntry[] = [
-  { path: "/", changefreq: "weekly", priority: "1.0", lastmod: today },
+  { path: "/", changefreq: "weekly", priority: "1.0" },
   // Preisseite: steht hier, damit prerender.mjs sie rendert (Inhalt ohne JS im HTML).
-  { path: "/preise", changefreq: "monthly", priority: "0.9", lastmod: today },
-  { path: "/tools", changefreq: "weekly", priority: "0.9", lastmod: today },
-  { path: "/guides", changefreq: "weekly", priority: "0.9", lastmod: today },
-  { path: "/gratis-tools", changefreq: "weekly", priority: "0.9", lastmod: today },
-  { path: "/businessplan-erstellen", changefreq: "weekly", priority: "0.8", lastmod: today },
-  { path: "/gruendungskosten-rechner", changefreq: "weekly", priority: "0.8", lastmod: today },
-  { path: "/rechtsform-finden", changefreq: "weekly", priority: "0.8", lastmod: today },
+  { path: "/preise", changefreq: "monthly", priority: "0.9" },
+  { path: "/tools", changefreq: "weekly", priority: "0.9" },
+  { path: "/guides", changefreq: "weekly", priority: "0.9" },
+  { path: "/gratis-tools", changefreq: "weekly", priority: "0.9" },
+  { path: "/businessplan-erstellen", changefreq: "weekly", priority: "0.8" },
+  { path: "/gruendungskosten-rechner", changefreq: "weekly", priority: "0.8" },
+  { path: "/rechtsform-finden", changefreq: "weekly", priority: "0.8" },
   // Die zwei Amazon-Widerspruchsgeneratoren stehen NICHT mehr hier: Canonical
   // zeigt auf anwaltx.de (Themenbesitz). Prerender ueber EXTRA_ROUTES in prerender.mjs.
-  { path: "/ratgeber", changefreq: "daily", priority: "0.9", lastmod: today },
+  { path: "/ratgeber", changefreq: "daily", priority: "0.9" },
   { path: "/gruender-events", changefreq: "daily", priority: "0.8", lastmod: today },
-  { path: "/hackathon-starter-kit", changefreq: "monthly", priority: "0.7", lastmod: today },
-  { path: "/startup-guthaben", changefreq: "weekly", priority: "0.8", lastmod: today },
-  { path: "/ki-assistent", changefreq: "monthly", priority: "0.8", lastmod: today },
-  { path: "/gruendungsberatung", changefreq: "daily", priority: "0.8", lastmod: today },
-  { path: "/e-rechnung-lesen", changefreq: "monthly", priority: "0.8", lastmod: today },
+  { path: "/hackathon-starter-kit", changefreq: "monthly", priority: "0.7" },
+  { path: "/startup-guthaben", changefreq: "weekly", priority: "0.8" },
+  { path: "/ki-assistent", changefreq: "monthly", priority: "0.8" },
+  { path: "/gruendungsberatung", changefreq: "daily", priority: "0.8" },
+  { path: "/e-rechnung-lesen", changefreq: "monthly", priority: "0.8" },
   { path: "/faq", changefreq: "monthly", priority: "0.6" },
   { path: "/kontakt", changefreq: "yearly", priority: "0.4" },
   { path: "/partner", changefreq: "monthly", priority: "0.6" },
@@ -66,7 +74,6 @@ const toolEntries: SitemapEntry[] = LANDING_TOOLS.map((t) => ({
   path: `/tools/${t.slug}`,
   changefreq: "monthly",
   priority: "0.7",
-  lastmod: today,
 }));
 
 // Guide-Landings (/guides/:slug) — öffentliche Pitch-Seiten; der Guide-Inhalt
@@ -76,7 +83,6 @@ const guideEntries: SitemapEntry[] = GUIDE_LANDINGS.filter((g) => !isMergedGuide
   path: `/guides/${g.slug}`,
   changefreq: "monthly",
   priority: "0.7",
-  lastmod: today,
 }));
 
 // Fetch published blog posts via Supabase REST (no schema knowledge needed at build time)
@@ -179,6 +185,9 @@ function generateSitemap(items: SitemapEntry[]) {
       blogEntries = [];
     }
   }
+  const neuesterRatgeber = blogEntries.map((e) => e.lastmod ?? "").sort().pop();
+  const hub = staticEntries.find((e) => e.path === "/ratgeber");
+  if (hub && neuesterRatgeber) hub.lastmod = neuesterRatgeber;
   const entries = [...staticEntries, ...toolEntries, ...guideEntries, ...blogEntries];
   writeFileSync(resolve("public/sitemap.xml"), generateSitemap(entries));
   console.log(
