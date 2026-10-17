@@ -10,6 +10,7 @@ import { relatedToolsFor, relatedGuidesFor, BLOG_CATEGORY_TOPIC, type LinkItem }
 import { findGuideLanding } from "@/data/guides";
 import { guideHref, guidesMergedInto } from "@/data/guideMerges";
 import { fremdKanonisch } from "@/data/ratgeberKanonisch";
+import { titelbildAbsolut, titelbildUrl } from "@/data/ratgeberBilder";
 
 interface BlogPost {
   id: string;
@@ -43,12 +44,24 @@ const RatgeberPost = () => {
     if (!slug) return;
     setWeitere(null);
     (async () => {
-      const [{ data }, { data: andere }] = await Promise.all([
+      // hero_image_url NICHT mitladen, solange es base64 sein kann: bei 15 von
+      // 20 Artikeln waren das bis zu 1,4 MB JSON je Seitenaufruf. Echte URLs
+      // holt die zweite Abfrage, base64-Bilder kommen aus ratgeberBilder.ts.
+      const [{ data }, { data: bild }, { data: andere }] = await Promise.all([
         supabase
           .from("blog_posts")
-          .select("*")
+          .select(
+            "id,slug,title,excerpt,body_md,category,tags,meta_title,meta_description,keywords,related_playbooks,related_providers,author,reading_minutes,published_at,updated_at",
+          )
           .eq("slug", slug)
           .eq("status", "published")
+          .maybeSingle(),
+        supabase
+          .from("blog_posts")
+          .select("hero_image_url")
+          .eq("slug", slug)
+          .eq("status", "published")
+          .like("hero_image_url", "http%")
           .maybeSingle(),
         supabase
           .from("blog_posts")
@@ -59,7 +72,7 @@ const RatgeberPost = () => {
           .limit(30),
       ]);
       if (!data) setNotFound(true);
-      else setPost(data as BlogPost);
+      else setPost({ ...(data as Omit<BlogPost, "hero_image_url">), hero_image_url: bild?.hero_image_url ?? null });
       const liste = (andere ?? []) as Pick<BlogPost, "slug" | "title" | "excerpt" | "category">[];
       const kat = (data as BlogPost | null)?.category;
       const gleich = liste.filter((a) => a.category === kat);
@@ -140,11 +153,10 @@ const RatgeberPost = () => {
     .slice(0, 3);
   const tools = relatedToolsFor(matchCtx, 3);
 
-  // Ein base64-Bild (data:) taugt weder als og:image noch fuer Article.image —
-  // Crawler und Vorschauen laden keine data-URIs — und stand bisher dreimal
-  // zusaetzlich im HTML (og, twitter, JSON-LD): bis zu 4 MB je Seite.
-  const teilbaresBild =
-    post.hero_image_url && /^https?:\/\//.test(post.hero_image_url) ? post.hero_image_url : undefined;
+  // Nie eine data:-URI ausliefern (weder im <img> noch in og/JSON-LD):
+  // base64-Titelbilder liegen als WebP unter /ratgeber-bilder/ (ratgeberBilder.ts).
+  const titelbild = titelbildUrl(post.slug, post.hero_image_url);
+  const teilbaresBild = titelbildAbsolut(post.slug, post.hero_image_url);
 
   return (
     <PublicShell>
@@ -178,7 +190,7 @@ const RatgeberPost = () => {
       />
 
       <article>
-        <header className={`relative overflow-hidden border-b border-border/70 bg-hero pt-28 md:pt-32 ${post.hero_image_url ? "pb-16" : "pb-12 md:pb-14"}`}>
+        <header className={`relative overflow-hidden border-b border-border/70 bg-hero pt-28 md:pt-32 ${titelbild ? "pb-16" : "pb-12 md:pb-14"}`}>
           <div
             className="pointer-events-none absolute inset-0 bg-dots [mask-image:linear-gradient(to_bottom,black,transparent_80%)]"
             aria-hidden="true"
@@ -222,11 +234,15 @@ const RatgeberPost = () => {
           </div>
         </header>
 
-        {post.hero_image_url && (
+        {titelbild && (
           <div className="container relative -mt-8 max-w-4xl px-4">
             <img
-              src={post.hero_image_url}
+              src={titelbild}
               alt={post.title}
+              width={1024}
+              height={576}
+              fetchPriority="high"
+              decoding="async"
               className="w-full aspect-[16/9] object-cover rounded-2xl shadow-soft"
             />
           </div>

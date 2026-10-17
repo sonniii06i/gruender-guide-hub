@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Clock, BookOpen, Search } from "lucide-react";
 import { HubNav } from "@/components/landing/HubNav";
 import { PageHeader } from "@/components/landing/PageHeader";
+import { titelbildUrl } from "@/data/ratgeberBilder";
 
 interface BlogPostSummary {
   id: string;
@@ -63,7 +64,8 @@ const Ratgeber = () => {
       setPosts(
         ((data || []) as Omit<BlogPostSummary, "hero_image_url">[]).map((p) => ({
           ...p,
-          hero_image_url: bildVon.get(p.id) ?? null,
+          // base64-Bilder als WebP aus /ratgeber-bilder/ (ratgeberBilder.ts)
+          hero_image_url: titelbildUrl(p.slug, bildVon.get(p.id)) ?? null,
         })) as BlogPostSummary[],
       );
       setLoading(false);
