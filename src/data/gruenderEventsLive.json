@@ -1,58 +1,58 @@
 {
- "stand": "2026-10-17T08:39:03.398Z",
+ "stand": "2026-10-18T08:54:35.675Z",
  "quellen": {
   "gruendungswoche": {
    "ok": true,
-   "roh": 615,
+   "roh": 614,
    "verworfen": {
     "kommerzielle Online-Serie": 189
    },
-   "letzterErfolg": "2026-10-17T08:36:33.957Z"
+   "letzterErfolg": "2026-10-18T08:53:17.344Z"
   },
   "luma": {
    "ok": true,
-   "roh": 1095,
+   "roh": 1096,
    "verworfen": {
-    "nicht in Deutschland": 194,
-    "kein Gründer-/Tech-Bezug": 646
+    "nicht in Deutschland": 192,
+    "kein Gründer-/Tech-Bezug": 643
    },
-   "letzterErfolg": "2026-10-17T08:36:48.828Z"
+   "letzterErfolg": "2026-10-18T08:53:31.614Z"
   },
   "meetup": {
    "ok": true,
    "roh": 48,
    "verworfen": {},
-   "letzterErfolg": "2026-10-17T08:36:57.038Z"
+   "letzterErfolg": "2026-10-18T08:53:39.971Z"
   },
   "hackathonhub": {
    "ok": true,
    "roh": 99,
    "verworfen": {},
-   "letzterErfolg": "2026-10-17T08:36:57.551Z"
+   "letzterErfolg": "2026-10-18T08:53:40.375Z"
   },
   "gdg": {
    "ok": true,
    "roh": 1000,
    "verworfen": {},
-   "letzterErfolg": "2026-10-17T08:37:06.628Z"
+   "letzterErfolg": "2026-10-18T08:53:50.174Z"
   },
   "munich-startup": {
    "ok": true,
    "roh": 52,
    "verworfen": {},
-   "letzterErfolg": "2026-10-17T08:37:09.868Z"
+   "letzterErfolg": "2026-10-18T08:53:53.477Z"
   },
   "startplatz": {
    "ok": true,
    "roh": 74,
    "verworfen": {},
-   "letzterErfolg": "2026-10-17T08:37:11.218Z"
+   "letzterErfolg": "2026-10-18T08:53:55.036Z"
   },
   "startupcity-hamburg": {
    "ok": true,
-   "roh": 55,
+   "roh": 54,
    "verworfen": {},
-   "letzterErfolg": "2026-10-17T08:37:12.044Z"
+   "letzterErfolg": "2026-10-18T08:53:55.868Z"
   },
   "startup-bw": {
    "ok": true,
@@ -60,41 +60,41 @@
    "verworfen": {
     "unlesbar": 1
    },
-   "letzterErfolg": "2026-10-17T08:37:12.996Z"
+   "letzterErfolg": "2026-10-18T08:53:56.725Z"
   },
   "starthub-hessen": {
    "ok": true,
    "roh": 45,
    "verworfen": {},
-   "letzterErfolg": "2026-10-17T08:37:18.571Z"
+   "letzterErfolg": "2026-10-18T08:54:02.738Z"
   },
   "startupverband": {
    "ok": true,
    "roh": 66,
    "verworfen": {},
-   "letzterErfolg": "2026-10-17T08:37:20.415Z"
+   "letzterErfolg": "2026-10-18T08:54:04.380Z"
   },
   "dev-events": {
    "ok": true,
-   "roh": 93,
+   "roh": 94,
    "verworfen": {
-    "kein Gründer-/Tech-Bezug": 81
+    "kein Gründer-/Tech-Bezug": 82
    },
-   "letzterErfolg": "2026-10-17T08:37:23.427Z"
+   "letzterErfolg": "2026-10-18T08:54:07.286Z"
   },
   "ki-communities": {
    "ok": true,
    "roh": 50,
    "verworfen": {},
-   "letzterErfolg": "2026-10-17T08:39:03.378Z"
+   "letzterErfolg": "2026-10-18T08:54:35.653Z"
   }
  },
  "verworfen": {
-  "vorbei": 46,
+  "vorbei": 48,
   "mehr als 9 Monate voraus": 1,
   "Dauerangebot (ohne Termin geführt)": 10,
-  "Serientermin zusammengefasst": 237,
-  "Dublette über Quellen": 27
+  "Serientermin zusammengefasst": 236,
+  "Dublette über Quellen": 26
  },
  "regionKorrektur": {
   "umbenannt": 15,
@@ -236,22 +236,6 @@
    "entdeckt": "2026-10-07"
   },
   {
-   "slug": "hackathonhub-5u53x5",
-   "quelle": "hackathonhub",
-   "name": "DO-DATA-HACKATHON",
-   "veranstalter": "TU Dortmund University",
-   "art": "hackathon",
-   "format": "vor-ort",
-   "ort": "Dortmund",
-   "region": "NW",
-   "datum": "2026-10-16",
-   "datumBis": "2026-10-17",
-   "kostenlos": true,
-   "url": "https://hackathonhub.eu/events/do-data-hackathon-dortmund-2026",
-   "kurz": "The DO-DATA-HACKATHON is a two-day hackathon at TU Dortmund where participants can transform unused city and company data into real-world solutions. The event offers prize money totaling €3,000, free catering, and the op",
-   "entdeckt": "2026-10-07"
-  },
-  {
    "slug": "hackathonhub-1pckduj",
    "quelle": "hackathonhub",
    "name": "2026 international Actuarial competition",
@@ -346,66 +330,6 @@
    "entdeckt": "2026-10-07"
   },
   {
-   "slug": "luma-12cyk9y",
-   "quelle": "luma",
-   "name": "Berlin | Claude Code Impact Lab",
-   "veranstalter": "Claude Community Events",
-   "art": "build",
-   "format": "vor-ort",
-   "ort": "Berlin",
-   "region": "BE",
-   "datum": "2026-10-17",
-   "kostenlos": true,
-   "url": "https://luma.com/claude-oofc",
-   "kurz": "Event in Berlin, gelistet auf Luma (Claude Community Events).",
-   "entdeckt": "2026-10-07"
-  },
-  {
-   "slug": "luma-1f7feyn",
-   "quelle": "luma",
-   "name": "SPECIAL: Founders Court x Founders Running Club | Run + Networking",
-   "veranstalter": "Founders Running Club",
-   "art": "netzwerk",
-   "format": "vor-ort",
-   "ort": "Hamburg",
-   "region": "HH",
-   "datum": "2026-10-17",
-   "kostenlos": true,
-   "url": "https://luma.com/wg3kdkae",
-   "kurz": "Event in Hamburg, gelistet auf Luma (Founders Running Club).",
-   "entdeckt": "2026-10-10"
-  },
-  {
-   "slug": "luma-wo77hw",
-   "quelle": "luma",
-   "name": "Founders Running Club :: Munich",
-   "veranstalter": "Founders Running Club",
-   "art": "netzwerk",
-   "format": "vor-ort",
-   "ort": "München",
-   "region": "BY",
-   "datum": "2026-10-17",
-   "kostenlos": true,
-   "url": "https://luma.com/r2ncxi15",
-   "kurz": "Event in München, gelistet auf Luma (Founders Running Club).",
-   "entdeckt": "2026-10-10"
-  },
-  {
-   "slug": "luma-1uhfnw0",
-   "quelle": "luma",
-   "name": "Founders Running Club :: Berlin | Special Collab x Longevity Cities Berlin 🏃‍♀️🏃‍♂️",
-   "veranstalter": "Founders Running Club",
-   "art": "netzwerk",
-   "format": "vor-ort",
-   "ort": "Berlin",
-   "region": "BE",
-   "datum": "2026-10-17",
-   "kostenlos": true,
-   "url": "https://luma.com/ad9osgf1",
-   "kurz": "Event in Berlin, gelistet auf Luma (Founders Running Club).",
-   "entdeckt": "2026-10-15"
-  },
-  {
    "slug": "hackathonhub-1n6149l",
    "quelle": "hackathonhub",
    "name": "GameJam Europe 2026",
@@ -420,36 +344,6 @@
    "url": "https://hackathonhub.eu/events/gamejam-europe-2026-2026",
    "kurz": "GameJam Europe 2026 is an intense 24-hour sprint for game developers from across Europe and Turkey. Participants have the opportunity to test their skills, build a game from scratch, and showcase it to an international j",
    "entdeckt": "2026-10-07"
-  },
-  {
-   "slug": "startupcity-hamburg-tz84qf",
-   "quelle": "startupcity-hamburg",
-   "name": "Founders Running Club Hamburg",
-   "veranstalter": "Startup City Hamburg",
-   "art": "netzwerk",
-   "format": "vor-ort",
-   "ort": "Hamburg",
-   "region": "HH",
-   "datum": "2026-10-17",
-   "url": "https://startupcity.hamburg/news-events/events/founders-running-club-hamburg-17-10-26",
-   "kurz": "Event in Hamburg – gelistet bei Startup City Hamburg.",
-   "weitereTermine": 6,
-   "entdeckt": "2026-10-11"
-  },
-  {
-   "slug": "gruendungswoche-1e6c3kp",
-   "quelle": "gruendungswoche",
-   "name": "Bewerbungsstart für das Gründungsstipendium MGZstart 2027",
-   "veranstalter": "Mediengründerzentrum NRW",
-   "art": "webinar",
-   "format": "online",
-   "ort": "online",
-   "region": "online",
-   "datum": "2026-10-18",
-   "weitereTermine": 86,
-   "url": "https://www.gruendungswoche.de/veranstaltungen/veranstaltungskalender/detail/event/bewerbungsstart-fuer-das-gruendungsstipendium-mgzstart-2027/",
-   "kurz": "Gründungsangebot von Mediengründerzentrum NRW – online.",
-   "entdeckt": "2026-10-14"
   },
   {
    "slug": "luma-gcvr5x",
@@ -495,6 +389,21 @@
    "url": "https://luma.com/apcq3do7",
    "kurz": "Event in Berlin, gelistet auf Luma (START Berlin).",
    "entdeckt": "2026-10-07"
+  },
+  {
+   "slug": "gruendungswoche-1e6c3kp",
+   "quelle": "gruendungswoche",
+   "name": "Bewerbungsstart für das Gründungsstipendium MGZstart 2027",
+   "veranstalter": "Mediengründerzentrum NRW",
+   "art": "webinar",
+   "format": "online",
+   "ort": "online",
+   "region": "online",
+   "datum": "2026-10-19",
+   "weitereTermine": 84,
+   "url": "https://www.gruendungswoche.de/veranstaltungen/veranstaltungskalender/detail/event/bewerbungsstart-fuer-das-gruendungsstipendium-mgzstart-2027/",
+   "kurz": "Gründungsangebot von Mediengründerzentrum NRW – online.",
+   "entdeckt": "2026-10-14"
   },
   {
    "slug": "gruendungswoche-13l1001",
@@ -2012,6 +1921,21 @@
    "entdeckt": "2026-10-10"
   },
   {
+   "slug": "luma-wc7prz",
+   "quelle": "luma",
+   "name": "Warning Shot: Making Sense of 2026 AI Incidents",
+   "veranstalter": "Rationality Munich",
+   "art": "netzwerk",
+   "format": "vor-ort",
+   "ort": "München",
+   "region": "BY",
+   "datum": "2026-10-23",
+   "kostenlos": true,
+   "url": "https://luma.com/8c18gr7w",
+   "kurz": "Event in München, gelistet auf Luma (Rationality Munich).",
+   "entdeckt": "2026-10-18"
+  },
+  {
    "slug": "meetup-1ev0ghy",
    "quelle": "meetup",
    "name": "build fridays - work on your startup alongside other founders (bring laptop)",
@@ -2266,6 +2190,51 @@
    "entdeckt": "2026-10-15"
   },
   {
+   "slug": "luma-1f7feyn",
+   "quelle": "luma",
+   "name": "SPECIAL: Founders Court x Founders Running Club | Run + Networking",
+   "veranstalter": "Founders Running Club",
+   "art": "netzwerk",
+   "format": "vor-ort",
+   "ort": "Hamburg",
+   "region": "HH",
+   "datum": "2026-10-24",
+   "kostenlos": true,
+   "url": "https://luma.com/wg3kdkae",
+   "kurz": "Event in Hamburg, gelistet auf Luma (Founders Running Club).",
+   "entdeckt": "2026-10-10"
+  },
+  {
+   "slug": "luma-wo77hw",
+   "quelle": "luma",
+   "name": "Founders Running Club :: Munich",
+   "veranstalter": "Founders Running Club",
+   "art": "netzwerk",
+   "format": "vor-ort",
+   "ort": "München",
+   "region": "BY",
+   "datum": "2026-10-24",
+   "kostenlos": true,
+   "url": "https://luma.com/r2ncxi15",
+   "kurz": "Event in München, gelistet auf Luma (Founders Running Club).",
+   "entdeckt": "2026-10-10"
+  },
+  {
+   "slug": "luma-1uhfnw0",
+   "quelle": "luma",
+   "name": "Founders Running Club :: Berlin | Special Collab x Longevity Cities Berlin 🏃‍♀️🏃‍♂️",
+   "veranstalter": "Founders Running Club",
+   "art": "netzwerk",
+   "format": "vor-ort",
+   "ort": "Berlin",
+   "region": "BE",
+   "datum": "2026-10-24",
+   "kostenlos": true,
+   "url": "https://luma.com/ad9osgf1",
+   "kurz": "Event in Berlin, gelistet auf Luma (Founders Running Club).",
+   "entdeckt": "2026-10-15"
+  },
+  {
    "slug": "luma-19cqql9",
    "quelle": "luma",
    "name": "Agentic AI Hack by Jamie",
@@ -2388,6 +2357,21 @@
    "entdeckt": "2026-10-07"
   },
   {
+   "slug": "startupcity-hamburg-tz84qf",
+   "quelle": "startupcity-hamburg",
+   "name": "Founders Running Club Hamburg",
+   "veranstalter": "Startup City Hamburg",
+   "art": "netzwerk",
+   "format": "vor-ort",
+   "ort": "Hamburg",
+   "region": "HH",
+   "datum": "2026-10-24",
+   "url": "https://startupcity.hamburg/news-events/events/founders-running-club-hamburg-24-10-26",
+   "kurz": "Event in Hamburg – gelistet bei Startup City Hamburg.",
+   "weitereTermine": 5,
+   "entdeckt": "2026-10-11"
+  },
+  {
    "slug": "starthub-hessen-gmxc0g",
    "quelle": "starthub-hessen",
    "name": "KI-Café: Was wir schon immer über Künstliche Intelligenz wissen wollten – aber bisher nie zu fragen wagten",
@@ -2400,6 +2384,21 @@
    "url": "https://www.starthub-hessen.de/de/events/ki-caf%C3%A9-was-wir-schon-immer-%C3%BCber-k%C3%BCnstliche-intelligenz-wissen-wollten-aber-bisher-nie-zu-fragen-wagten/",
    "kurz": "Event in Hessen – gelistet bei StartHub Hessen.",
    "entdeckt": "2026-10-16"
+  },
+  {
+   "slug": "luma-1fqnuxm",
+   "quelle": "luma",
+   "name": "Wie viele Leben kostet ein Karat? Lesung mit Unternehmerin & Autorin Guya Merkle über Gold, Macht, Kapital und globale Ungerechtigkeit🏅📚",
+   "veranstalter": "Munich Climate Week",
+   "art": "netzwerk",
+   "format": "vor-ort",
+   "ort": "München",
+   "region": "BY",
+   "datum": "2026-10-25",
+   "kostenlos": true,
+   "url": "https://luma.com/mcw2026-1zfe",
+   "kurz": "Event in München, gelistet auf Luma (Munich Climate Week).",
+   "entdeckt": "2026-10-18"
   },
   {
    "slug": "luma-dsgw11",
@@ -3252,9 +3251,9 @@
    "entdeckt": "2026-10-07"
   },
   {
-   "slug": "luma-nkiqgv",
+   "slug": "luma-1t4xrx7",
    "quelle": "luma",
-   "name": "Von 0 auf 5 Mio. € ARR in 24 Monaten & 250+ Kunden: Arne Unkrig über Arvana",
+   "name": "Bootstrapped auf 5 Mio. € ARR & 200+ Kunden: Arne Unkrig über Arvana",
    "veranstalter": "YFN Berlin",
    "art": "netzwerk",
    "format": "vor-ort",
@@ -3264,7 +3263,7 @@
    "kostenlos": true,
    "url": "https://luma.com/pw1zkqmm",
    "kurz": "Event in Berlin, gelistet auf Luma (YFN Berlin).",
-   "entdeckt": "2026-10-17"
+   "entdeckt": "2026-10-18"
   },
   {
    "slug": "luma-zigskc",
@@ -3629,9 +3628,9 @@
    "entdeckt": "2026-10-07"
   },
   {
-   "slug": "hackathonhub-x7gj9x",
-   "quelle": "hackathonhub",
-   "name": "Halloween Hackathon (supported by Lovable)",
+   "slug": "luma-x7gj9x",
+   "quelle": "luma",
+   "name": "Halloween Hackathon 🎃(supported by Lovable)",
    "veranstalter": "Kiez & Kin",
    "art": "hackathon",
    "format": "vor-ort",
@@ -3639,9 +3638,10 @@
    "region": "BE",
    "datum": "2026-10-31",
    "kostenlos": true,
-   "url": "https://hackathonhub.eu/events/halloween-hackathon-supported-by-lovable-berlin-2026",
-   "kurz": "This Halloween Hackathon in Berlin, hosted by Kiez & Kin and supported by Lovable, invites participants to revive old projects or build new, spooky ideas. The event includes a building phase, demos, a costume parade, and",
-   "entdeckt": "2026-10-07"
+   "url": "https://luma.com/55d7qwvn",
+   "kurz": "Event in Berlin, gelistet auf Luma (Kiez & Kin).",
+   "weitereTermine": 1,
+   "entdeckt": "2026-10-18"
   },
   {
    "slug": "starthub-hessen-1sbedei",
