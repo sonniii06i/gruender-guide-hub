@@ -15,6 +15,7 @@ import { type Produkt } from "../_shared/campaigns.ts";
 import { abTestStrecke } from "../_shared/mailSend.ts";
 import { meldeVerkauf } from "../_shared/discordSales.ts";
 import { kuendigungBestaetigen } from "../_shared/kuendigungMail.ts";
+import { abbruchPruefen } from "../_shared/abbruchNachtrag.ts";
 
 const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY")!, { apiVersion: "2025-08-27.basil" });
 const webhookSecret = Deno.env.get("STRIPE_WEBHOOK_SECRET")!;
@@ -188,9 +189,25 @@ Deno.serve(async (req) => {
       // Mailadresse liegt in der Session.
       case "checkout.session.expired": {
         const s = event.data.object as any;
-        const email = (s.customer_details?.email || s.customer_email || "")
-          .trim().toLowerCase();
-        if (!email || !email.includes("@")) break;
+        // Pruefung 18.10.2026 (_shared/abbruchNachtrag.ts): nur gruenderx.de-
+        // Sessions, nie an Kunden, nie eine zweite Strecke fuer dieselbe
+        // Adresse, Uhr ab echtem Abbruch statt ab Ablauf (~24 h spaeter).
+        const n = await abbruchPruefen(s, localDb, stripe, {
+          domain: "gruenderx.de",
+          istKunde: async (mail) => {
+            const { data: p } = await localDb.from("profiles").select("id").eq("email", mail).limit(5);
+            const ids = (p ?? []).map((r: any) => r.id);
+            if (!ids.length) return false;
+            const { data } = await localDb.from("subscriptions").select("id")
+              .in("user_id", ids).or("status.eq.active,comp_access.eq.true").limit(1);
+            return !!(data && data.length);
+          },
+        });
+        if (!n.ok) {
+          console.log(`[abbruch] ${s.id} nicht vorgemerkt: ${n.grund}`);
+          break;
+        }
+        const email = n.email;
 
         // KEIN EINWILLIGUNGS-HAEKCHEN. Bewusste Entscheidung des Betreibers
         // am 10.09.2026, nachdem die Rechtslage benannt war: § 7 Abs. 3 UWG
@@ -223,6 +240,7 @@ Deno.serve(async (req) => {
           produkt,
           intervall: s.metadata?.interval === "year" ? "year" : "month",
           variant: abTestStrecke(email, "cart"),
+          created_at: n.createdAt,
         }, { onConflict: "session_id", ignoreDuplicates: true });
         console.log(caErr
           ? `[abbruch] cart_abandons FEHLER ${email}: ${caErr.message}`
