@@ -1,7 +1,9 @@
 // ===================================================================
 // stripe-affiliate-webhook (GruenderX): 20 % Affiliate-Provision je Zahlung.
 // Events: checkout.session.completed, checkout.session.expired,
-//         invoice.payment_succeeded, customer.subscription.deleted,
+//         invoice.payment_succeeded, customer.subscription.updated
+//         (nur Kuendigungsbestaetigung, Schalter KUENDIGUNG_MAIL_AKTIV),
+//         customer.subscription.deleted,
 //         charge.refunded.
 // verify_jwt = false; Signaturpruefung mit STRIPE_WEBHOOK_SECRET.
 // Produkt aus session.metadata.product ('gruenderx' | 'bundle', Fallback gruenderx).
@@ -12,6 +14,7 @@ import { sendMetaCapiEvent } from "../_shared/metaCapi.ts";
 import { type Produkt } from "../_shared/campaigns.ts";
 import { abTestStrecke } from "../_shared/mailSend.ts";
 import { meldeVerkauf } from "../_shared/discordSales.ts";
+import { kuendigungBestaetigen } from "../_shared/kuendigungMail.ts";
 
 const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY")!, { apiVersion: "2025-08-27.basil" });
 const webhookSecret = Deno.env.get("STRIPE_WEBHOOK_SECRET")!;
@@ -227,9 +230,17 @@ Deno.serve(async (req) => {
         break;
       }
 
+      case "customer.subscription.updated": {
+        // Kuendigungsbestaetigung (Schalter KUENDIGUNG_MAIL_AKTIV, Standard
+        // aus), siehe _shared/kuendigungMail.ts. Eigene DB, wirft nie.
+        await kuendigungBestaetigen(stripe, localDb, event);
+        break;
+      }
+
       case "customer.subscription.deleted": {
         const sub = event.data.object as any;
         await supabase.from("affiliate_referrals").update({ status: "canceled" }).eq("stripe_subscription_id", sub.id);
+        await kuendigungBestaetigen(stripe, localDb, event);
         break;
       }
 

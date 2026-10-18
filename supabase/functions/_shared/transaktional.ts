@@ -192,3 +192,47 @@ export function buildTicketEingang(o: {
     }),
   };
 }
+
+// -------------------------------------------------------------------
+// Kuendigungsbestaetigung (Please Don't Go) — Dienstmail, keine Werbung.
+//
+// Ausloeser: Stripe customer.subscription.updated (Kuendigung zum
+// Periodenende vorgemerkt) bzw. customer.subscription.deleted (sofort
+// beendet, cancellation_details.reason = cancellation_requested).
+// Verdrahtet in stripe-affiliate-webhook, hinter dem Schalter
+// KUENDIGUNG_MAIL_AKTIV (Standard aus).
+//
+// Belegt: "Kündbar zum Ende der Abrechnungsperiode" (campaigns.ts).
+// Kein Angebot, kein Rabatt, kein Knopf, kein Abmeldelink.
+// -------------------------------------------------------------------
+export function buildKuendigung(o: {
+  /** Ende des bezahlten Zeitraums als "TT.MM.JJJJ"; null = sofort beendet. */
+  ende: string | null;
+  baseUrl?: string;
+}): Built {
+  const url = (o.baseUrl ?? BASIS).replace(/\/+$/, "");
+  const zeile1 = o.ende
+    ? `deine Kündigung ist eingegangen. Du kannst GründerX bis zum ${o.ende} weiter nutzen, das ist das Ende des bezahlten Zeitraums.`
+    : "deine Kündigung ist eingegangen. Dein Zugang zu GründerX ist damit beendet.";
+  const zeile2 = "Wenn du uns sagen magst, woran es lag, antworte auf diese Mail. Eine Zeile reicht.";
+  const gruss = "Sonni von GründerX";
+  const preheader = o.ende
+    ? `Dein Zugang bleibt bis ${o.ende} bestehen.`
+    : "Dein Zugang ist beendet.";
+
+  return {
+    subject: "Deine Kündigung bei GründerX ist eingegangen",
+    text: plain({
+      greeting: "Hallo,",
+      // Gruss und "Fragen? Antworte einfach …" haengt plain() selbst an.
+      lines: [zeile1, "", zeile2],
+    }),
+    html: renderMail({
+      preheader,
+      greeting: "Hallo,",
+      blocks: [paragraph(zeile1), paragraph(zeile2), paragraph(gruss)],
+      baseUrl: url,
+      footerReason: "Du bekommst diese Mail, weil du dein GründerX-Abo gekündigt hast.",
+    }),
+  };
+}
