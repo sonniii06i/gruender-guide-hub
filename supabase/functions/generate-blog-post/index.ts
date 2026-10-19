@@ -3,8 +3,8 @@
 //
 // Flow:
 //   1. Pick the next due topic from blog_topic_queue.
-//   2. Ask Google Gemini (gemini-2.5-pro) for a 1.200-1.800 word German article
-//      in structured-JSON via tool calling.
+//   2. Ask the KI chain (_shared/llm.ts: Claude Opus 5.5 → Gemini 2.5 Pro → GPT-4o)
+//      for a 1.200-1.800 word German article in structured-JSON via tool calling.
 //   3. Generate a hero image via Gemini image model (native generateContent).
 //   4. Quality-gate (min words, internal links, schema completeness).
 //   5. Insert blog_posts row with status published or draft (on gate fail).
@@ -12,6 +12,7 @@
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.4";
 import { hatCronSecret, istAdmin, istServiceRole, nutzerAusJwt } from "../_shared/authGuard.ts";
+import { anbieterAus, CLAUDE_MODELL, llmChat, versucheAus, versucheText } from "../_shared/llm.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -19,8 +20,7 @@ const corsHeaders = {
   "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
 
-const AI_URL = "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions";
-const TEXT_MODEL = "gemini-2.5-pro";
+const TEXT_MODEL_GEMINI = "gemini-2.5-pro";
 const IMAGE_MODEL = "gemini-2.5-flash-image";
 // Bild-Generierung läuft NICHT über den OpenAI-kompatiblen Endpoint (kein Image-Out),
 // sondern über Googles natives generateContent.
@@ -43,22 +43,26 @@ function countWords(s: string): number {
   return s.trim().split(/\s+/).length;
 }
 
+// Artikeltext: Kette Claude → Gemini → OpenAI. Claude streamt intern
+// (SDK .stream().finalMessage()), damit 16k Ausgabe-Tokens nicht ins
+// HTTP-Timeout laufen; erzwungene tool_choice wird für Claude in eine
+// Anweisung übersetzt (Opus 5.5 lehnt erzwungene Tools ab).
 async function callLLM(messages: unknown[], tools?: unknown[], toolChoice?: unknown) {
-  const body: Record<string, unknown> = { model: TEXT_MODEL, messages };
+  // max_tokens nur für Claude (Option unten) – Gemini/OpenAI wie bisher ohne Limit.
+  const body: Record<string, unknown> = { messages };
   if (tools) body.tools = tools;
   if (toolChoice) body.tool_choice = toolChoice;
-  const r = await fetch(AI_URL, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${GEMINI_API_KEY}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(body),
+  const r = await llmChat(body, {
+    tag: "generate-blog-post",
+    claude: { modell: CLAUDE_MODELL, effort: "medium", maxTokens: 16000, timeoutMs: 300_000 },
+    gemini: { modell: TEXT_MODEL_GEMINI },
+    openai: { modell: "gpt-4o" },
   });
   if (!r.ok) {
-    const t = await r.text();
-    throw new Error(`Gemini ${r.status}: ${t.slice(0, 400)}`);
+    throw new Error(`KI-Anbieter alle gescheitert: ${versucheText(versucheAus(r)) || r.status}`);
   }
+  const { anbieter, modell } = anbieterAus(r);
+  console.log(`Artikeltext von ${anbieter}:${modell}`);
   return await r.json();
 }
 

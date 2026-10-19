@@ -11,8 +11,9 @@
 // Discord #system und prüft die Zustellung am HTTP-Status.
 //
 // Prüfungen:
-//   1. KI-Anbieter: je eine Mini-Anfrage (1 Token) an Gemini, OpenAI,
-//      Anthropic (falls Schlüssel gesetzt). Felix ist tot, wenn alle scheitern.
+//   1. KI-Anbieter: je eine Mini-Anfrage an Gemini, OpenAI, Anthropic
+//      (claude-haiku-5-5; falls Schlüssel gesetzt). Felix ist tot, wenn alle scheitern.
+//      Reihenfolge im Betrieb (_shared/llm.ts): Claude → Gemini → OpenAI.
 //   2. Blog: jüngster veröffentlichter Artikel älter als 7 Tage.
 //   3. Events: gruender-events.json älter als 36 h oder Monitor-Quelle mit Fehler.
 //   4. Felix-Fehler: Fehlerzeilen in chat_logs der letzten 24 h.
@@ -73,7 +74,9 @@ Deno.serve(async (req) => {
       fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
         headers: { "content-type": "application/json", "x-api-key": ANTHROPIC, "anthropic-version": "2023-06-01" },
-        body: JSON.stringify({ model: "claude-haiku-4-5-20251001", max_tokens: 1, messages: [{ role: "user", content: "ok" }] }),
+        // Haiku 5.5 denkt immer mit (Denk-Tokens zählen in max_tokens) → etwas Luft,
+        // sonst endet die Probe ohne Text; keine Sampling-Parameter (400).
+        body: JSON.stringify({ model: "claude-haiku-5-5", max_tokens: 256, output_config: { effort: "low" }, messages: [{ role: "user", content: "Antworte nur mit ok." }] }),
       })));
   pruefungen.push(...ki.map((p) => ({ ...p, name: `KI ${p.name}` })));
   pruefungen.push({

@@ -10,6 +10,7 @@ import {
   type SubLlmCaller,
 } from "../_shared/chat-memory.ts";
 import { retrieveKb, retrieveKbText, buildKbBlock } from "../_shared/kb-retrieval.ts";
+import { anbieterAus, CLAUDE_MODELL, CLAUDE_MODELL_KLEIN, type LlmAnbieter, llmChat, llmVerfuegbar, versucheAus, versucheText } from "../_shared/llm.ts";
 import { BUNDESLAND_NAME, datumDe, eventsFuer, fristenFuer, ladeEvents, plzZuLand, regionAusText } from "../_shared/gruenderEvents.ts";
 
 // Fragen nach Terminen, Hackathons, Wettbewerben → aktuelle Liste in den Prompt.
@@ -75,96 +76,31 @@ function serviceClient() {
   return createClient(url, serviceKey, { auth: { persistSession: false } });
 }
 
-// Provider-agnostischer Sub-LLM-Caller für Memory-Extraktion.
-// Versucht der Reihe nach Gemini → Anthropic → OpenAI und fällt bei Fehler
-// auf den nächsten verfügbaren Provider.
-// So bleibt der Memory-Extract auch dann funktionsfähig wenn der primäre
-// Chat-Provider gerade nicht verfügbar ist.
-function makeSubLlmCaller(
-  geminiKey: string | undefined,
-  anthropicKey: string | undefined,
-  openaiKey?: string | undefined,
-): SubLlmCaller | null {
-  const callers: Array<{ name: string; fn: SubLlmCaller }> = [];
-
-  if (geminiKey) {
-    callers.push({
-      name: "gemini",
-      fn: async (prompt) => {
-        const r = await fetch("https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", {
-          method: "POST",
-          headers: { Authorization: `Bearer ${geminiKey}`, "Content-Type": "application/json" },
-          body: JSON.stringify({
-            model: "gemini-2.5-flash",
-            messages: [{ role: "user", content: prompt }],
-            temperature: 0,
-            max_tokens: 600,
-          }),
-        });
-        if (!r.ok) throw new Error(`Sub-LLM Gemini ${r.status}`);
-        const j = await r.json();
-        return j.choices?.[0]?.message?.content ?? "";
-      },
-    });
-  }
-  if (anthropicKey) {
-    callers.push({
-      name: "anthropic",
-      fn: async (prompt) => {
-        const r = await fetch("https://api.anthropic.com/v1/messages", {
-          method: "POST",
-          headers: {
-            "x-api-key": anthropicKey,
-            "anthropic-version": "2023-06-01",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            model: "claude-haiku-4-5-20251001",
-            max_tokens: 600,
-            messages: [{ role: "user", content: prompt }],
-          }),
-        });
-        if (!r.ok) throw new Error(`Sub-LLM Anthropic ${r.status}`);
-        const j = await r.json();
-        return j.content?.[0]?.text ?? "";
-      },
-    });
-  }
-  if (openaiKey) {
-    callers.push({
-      name: "openai",
-      fn: async (prompt) => {
-        const r = await fetch("https://api.openai.com/v1/chat/completions", {
-          method: "POST",
-          headers: { Authorization: `Bearer ${openaiKey}`, "Content-Type": "application/json" },
-          body: JSON.stringify({
-            model: "gpt-4o-mini",
-            messages: [{ role: "user", content: prompt }],
-            temperature: 0,
-            max_tokens: 600,
-          }),
-        });
-        if (!r.ok) throw new Error(`Sub-LLM OpenAI ${r.status}`);
-        const j = await r.json();
-        return j.choices?.[0]?.message?.content ?? "";
-      },
-    });
-  }
-
-  if (callers.length === 0) return null;
-
-  // Wrapped caller: probiert alle Provider durch, gibt erste Success zurück.
+// Sub-LLM-Caller für die Memory-Extraktion (günstiges Modell).
+// Gemeinsame Kette Claude (Haiku 5.5) → Gemini → OpenAI (_shared/llm.ts):
+// jeder Fehler eines Anbieters führt zum nächsten, ohne Schlüssel wird er
+// übersprungen. So bleibt der Memory-Extract funktionsfähig, auch wenn einer
+// der Anbieter kein Guthaben/Kontingent hat.
+function makeSubLlmCaller(): SubLlmCaller | null {
+  if (!llmVerfuegbar()) return null;
   return async (prompt: string): Promise<string> => {
-    let lastErr: unknown = null;
-    for (const c of callers) {
-      try {
-        return await c.fn(prompt);
-      } catch (e) {
-        console.warn(`Sub-LLM ${c.name} failed, trying next: ${e instanceof Error ? e.message : e}`);
-        lastErr = e;
-      }
-    }
-    throw lastErr ?? new Error("Alle Sub-LLM-Provider failed");
+    const r = await llmChat(
+      {
+        messages: [{ role: "user", content: prompt }],
+        temperature: 0, // geht nur an Gemini/OpenAI – Claude 5.5 lehnt Sampling-Parameter ab
+        max_tokens: 600,
+      },
+      {
+        tag: "chat-felix/sub-llm",
+        // Denk-Tokens zählen bei Claude in max_tokens → etwas Luft lassen
+        claude: { modell: CLAUDE_MODELL_KLEIN, effort: "low", maxTokens: 2000 },
+        gemini: { modell: "gemini-2.5-flash" },
+        openai: { modell: "gpt-4o-mini" },
+      },
+    );
+    if (!r.ok) throw new Error(`Sub-LLM: alle Anbieter gescheitert (${versucheText(versucheAus(r))})`);
+    const j = await r.json();
+    return j.choices?.[0]?.message?.content ?? "";
   };
 }
 
@@ -816,116 +752,24 @@ Der User hat dich nur kurz begrüßt oder eine kurze Meta-/Smalltalk-Frage geste
 
 const SYSTEM = buildSystemPrompt();
 
-// Gemini-Primary: Googles OpenAI-kompatibler Endpoint streamt im selben
-// chat.completion.chunk-SSE-Format wie zuvor Lovable → Client-Code (FelixChat.tsx)
-// bleibt unverändert.
-async function callGemini(messages: any[], key: string, systemOverride?: string): Promise<Response> {
-  return await fetch("https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", {
-    method: "POST",
-    headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-    body: JSON.stringify({
-      // gemini-2.5-flash (GA) statt gemini-3-flash-preview: das Preview-Modell
-      // liefert bei stream:true + großem System-Prompt zuverlässig 503 (overloaded).
-      model: "gemini-2.5-flash",
-      messages: [{ role: "system", content: systemOverride ?? SYSTEM }, ...messages],
-      stream: true,
-    }),
-  });
-}
+// Anbieter-Kette des Hauptchats (Betreiber 19.10.2026): Claude → Gemini → OpenAI
+// über _shared/llm.ts. Alle drei liefern dasselbe OpenAI-kompatible
+// SSE-Format (chat.completion.chunk, data: [DONE]) → FelixChat.tsx bleibt unverändert.
+const FELIX_MODELLE = {
+  claude: { modell: CLAUDE_MODELL, effort: "low" as const, maxTokens: 8192 },
+  // gemini-2.5-flash (GA) statt gemini-3-flash-preview: das Preview-Modell
+  // liefert bei stream:true + großem System-Prompt zuverlässig 503 (overloaded).
+  gemini: { modell: "gemini-2.5-flash" },
+  openai: { modell: "gpt-4o" },
+};
 
-/**
- * OpenAI-Provider: nativ OpenAI-kompatibles SSE-Format (chat.completion.chunk).
- * Wird als 3. Fallback verwendet (Gemini → Anthropic → OpenAI) oder als Primary
- * wenn weder Gemini noch Anthropic verfügbar sind. Modell: gpt-4o.
- */
-async function callOpenAI(messages: any[], key: string, systemOverride?: string): Promise<Response> {
-  return await fetch("https://api.openai.com/v1/chat/completions", {
-    method: "POST",
-    headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-    body: JSON.stringify({
-      model: "gpt-4o",
-      messages: [{ role: "system", content: systemOverride ?? SYSTEM }, ...messages],
-      temperature: 0.3,
-      stream: true,
-    }),
-  });
-}
-
-/**
- * Anthropic-Fallback: direkter Claude-Stream als OpenAI-kompatibles SSE.
- * Wandelt Anthropic's content_block_delta events in OpenAI's chat.completion.chunk-Format um,
- * damit der bestehende Client-Code (FelixChat.tsx) ohne Änderung weiter funktioniert.
- */
-async function callAnthropic(messages: any[], key: string, systemOverride?: string): Promise<Response> {
-  // Anthropic: system separat, messages ohne system-role
-  const userAssistantMessages = messages.filter((m: any) => m.role !== "system");
-
-  const resp = await fetch("https://api.anthropic.com/v1/messages", {
-    method: "POST",
-    headers: {
-      "x-api-key": key,
-      "anthropic-version": "2023-06-01",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      model: "claude-sonnet-4-6",
-      max_tokens: 2048,
-      system: systemOverride ?? SYSTEM,
-      messages: userAssistantMessages,
-      stream: true,
-    }),
-  });
-
-  if (!resp.ok) {
-    const errText = await resp.text();
-    throw new Error(`Anthropic-Fallback fehlgeschlagen (${resp.status}): ${errText}`);
-  }
-
-  // Stream-Transformation: Anthropic-SSE → OpenAI-kompatibles SSE
-  const reader = resp.body!.getReader();
-  const decoder = new TextDecoder();
-  const encoder = new TextEncoder();
-
-  const stream = new ReadableStream({
-    async start(controller) {
-      let buffer = "";
-      try {
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-          buffer += decoder.decode(value, { stream: true });
-          const lines = buffer.split("\n");
-          buffer = lines.pop() ?? "";
-
-          for (const line of lines) {
-            if (!line.startsWith("data: ")) continue;
-            const payload = line.slice(6).trim();
-            if (!payload) continue;
-            try {
-              const evt = JSON.parse(payload);
-              if (evt.type === "content_block_delta" && evt.delta?.type === "text_delta") {
-                const chunk = {
-                  choices: [{ delta: { content: evt.delta.text } }],
-                };
-                controller.enqueue(encoder.encode(`data: ${JSON.stringify(chunk)}\n\n`));
-              } else if (evt.type === "message_stop") {
-                controller.enqueue(encoder.encode("data: [DONE]\n\n"));
-              }
-            } catch {
-              // skip malformed events
-            }
-          }
-        }
-      } finally {
-        controller.close();
-      }
-    },
-  });
-
-  return new Response(stream, {
-    headers: { ...corsHeaders, "Content-Type": "text/event-stream" },
-  });
-}
+// Wert der chat_logs.provider-Spalte (CHECK-Constraint: gemini, lovable-gemini,
+// anthropic-claude, openai-gpt, rejected-input, rejected-output).
+const LOG_PROVIDER: Record<LlmAnbieter, "gemini" | "anthropic-claude" | "openai-gpt"> = {
+  claude: "anthropic-claude",
+  gemini: "gemini",
+  openai: "openai-gpt",
+};
 
 // Begrüßungen / Smalltalk / kurze Quittungen brauchen KEINE KB-Retrieval.
 // Spart pro solcher Nachricht einen OpenAI-Embedding-Call + pgvector-Suche
@@ -960,11 +804,11 @@ serve(async (req) => {
       return rejectStream(guard.reason ?? "Anfrage konnte nicht verarbeitet werden.");
     }
 
-    const GEMINI_KEY = Deno.env.get("GEMINI_API_KEY");
-    const ANTHROPIC_KEY = Deno.env.get("ANTHROPIC_API_KEY");
+    // OPENAI_KEY nur noch für die Wissensbasis-Embeddings; der Chat selbst
+    // läuft über die gemeinsame Kette (_shared/llm.ts).
     const OPENAI_KEY = Deno.env.get("OPENAI_API_KEY");
 
-    if (!GEMINI_KEY && !ANTHROPIC_KEY && !OPENAI_KEY) {
+    if (!llmVerfuegbar()) {
       throw new Error("Keiner der Provider-Keys gesetzt (GEMINI_API_KEY / ANTHROPIC_API_KEY / OPENAI_API_KEY)");
     }
     // System-Prompt PRO REQUEST neu bauen → Datum bleibt aktuell auch bei
@@ -1082,7 +926,7 @@ serve(async (req) => {
     }
 
     // Sub-LLM-Caller für Memory-Extract (günstigeres Modell)
-    const subLlm = makeSubLlmCaller(GEMINI_KEY, ANTHROPIC_KEY, OPENAI_KEY);
+    const subLlm = makeSubLlmCaller();
 
     // Helper: wraps stream mit Tee → Output-Guard + Log + Memory-Extract nach Stream-Ende
     const wrapStream = (
@@ -1117,91 +961,40 @@ serve(async (req) => {
       });
     };
 
-    // Fehlertext eines vorherigen Anbieters (z. B. Gemini), damit im Log steht,
-    // WARUM die Kette bis zum letzten Fallback durchgefallen ist.
-    let vorherigerFehler = "";
-    // Kurzform eines Anbieter-Fehlers fürs Log: Status + Fehlertyp, nie Schlüssel.
-    const fehlerKurz = (status: number, text: string) => {
-      const typ = text.match(/"(?:type|code|status)"\s*:\s*"([^"]+)"/)?.[1] ?? "";
-      const msg = text.match(/"message"\s*:\s*"([^"]{0,140})/)?.[1] ?? "";
-      return `${status}${typ ? ` ${typ}` : ""}${msg ? `: ${msg}` : ""}`.replace(/(sk-|AIza)[\w-]+/g, "[key]");
-    };
-
-    // Fallback-Helper: versucht Anthropic, dann OpenAI (in dieser Reihenfolge)
-    const tryFallbacks = async (): Promise<Response | null> => {
-      if (ANTHROPIC_KEY) {
-        console.log("→ Fallback auf Anthropic Claude");
-        const anthResp = await callAnthropic(messages, ANTHROPIC_KEY, systemPromptWithMemory);
-        if (anthResp.body) return wrapStream(anthResp.body, "anthropic-claude", "claude-sonnet-4-6");
-        return anthResp;
-      }
-      if (OPENAI_KEY) {
-        console.log("→ Fallback auf OpenAI gpt-4o");
-        const openaiResp = await callOpenAI(messages, OPENAI_KEY, systemPromptWithMemory);
-        if (openaiResp.ok && openaiResp.body) {
-          return wrapStream(openaiResp.body, "openai-gpt", "gpt-4o");
-        }
-        const errText = await openaiResp.text();
-        console.error("OpenAI-Fallback fehlgeschlagen", openaiResp.status, errText);
-        logChat({
-          user_message: lastUser.slice(0, 2000),
-          provider: "openai-gpt",
-          error: `openai ${fehlerKurz(openaiResp.status, errText)}${vorherigerFehler ? ` | gemini ${vorherigerFehler}` : ""}`.slice(0, 500),
-        });
-        // Nutzer sehen keinen Anbieter-Statuscode, sondern was los ist.
-        return new Response(JSON.stringify({ error: "Felix ist gerade nicht erreichbar. Bitte versuch es in ein paar Minuten nochmal." }), {
-          status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
-        });
-      }
-      return null;
-    };
-
-    // 1) Google Gemini (eigener Key) versuchen
-    if (GEMINI_KEY) {
-      const geminiResp = await callGemini(messages, GEMINI_KEY, systemPromptWithMemory);
-
-      if (geminiResp.ok && geminiResp.body) {
-        return wrapStream(geminiResp.body, "gemini", "gemini-2.5-flash");
-      }
-
-      if (geminiResp.status === 429) {
-        vorherigerFehler = fehlerKurz(429, await geminiResp.text().catch(() => ""));
-        // Quota/Rate-Limit bei Gemini → erst Fallbacks versuchen, sonst 429 melden
-        const fb = await tryFallbacks();
-        if (fb) return fb;
-        logChat({
-          user_message: lastUser.slice(0, 2000),
-          provider: "gemini",
-          error: "rate-limit-429",
-          latency_ms: Date.now() - startTime,
-        });
-        return new Response(JSON.stringify({ error: "Rate-Limit erreicht. Bitte gleich nochmal versuchen." }), {
-          status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" },
-        });
-      }
-
-      const t = await geminiResp.text();
-      console.error("Gemini error", geminiResp.status, t);
-      vorherigerFehler = fehlerKurz(geminiResp.status, t);
-      // Bei jedem anderen Fehler: Anthropic ODER OpenAI versuchen
-      const fb = await tryFallbacks();
-      if (fb) return fb;
-      logChat({
-        user_message: lastUser.slice(0, 2000),
-        provider: "gemini",
-        error: `status-${geminiResp.status}`,
-      });
-      return new Response(JSON.stringify({ error: "AI-Fehler" }), {
-        status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+    // Claude → Gemini → OpenAI. Jeder Fehler eines Anbieters (Guthaben,
+    // Kontingent, Statusfehler, Netzwerk, Refusal) führt zum nächsten; die
+    // Kette wartet beim Stream auf den ersten Text, bevor sie antwortet.
+    const llmRes = await llmChat(
+      { messages: [{ role: "system", content: systemPromptWithMemory }, ...messages], stream: true },
+      { tag: "chat-felix", ...FELIX_MODELLE },
+    );
+    const { anbieter, modell } = anbieterAus(llmRes);
+    if (llmRes.ok && llmRes.body && anbieter) {
+      // Ausfälle davor stehen in den Function-Logs (llmChat), nicht in
+      // chat_logs.error – sonst zählt der System-Wächter jede beantwortete
+      // Anfrage als Felix-Fehler, solange ein Anbieter leer ist.
+      return wrapStream(llmRes.body, LOG_PROVIDER[anbieter], modell ?? "unbekannt");
     }
 
-    // Kein Gemini-Key → direkt auf Fallback-Chain
-    const fb = await tryFallbacks();
-    if (fb) return fb;
-    return new Response(JSON.stringify({ error: "Kein Provider verfügbar" }), {
-      status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
+    // Alle Anbieter gescheitert: Grund ins Log (Status + Fehlertyp je Anbieter,
+    // nie Schlüssel), Nutzer bekommt eine deutsche Meldung ohne Statuscodes.
+    const versuche = versucheAus(llmRes);
+    const letzter = (versuche[versuche.length - 1]?.name ?? "").split(":")[0] as LlmAnbieter;
+    logChat({
+      user_message: lastUser.slice(0, 2000),
+      provider: LOG_PROVIDER[letzter] ?? "gemini",
+      error: (versucheText(versuche) || `status-${llmRes.status}`).slice(0, 500),
+      latency_ms: Date.now() - startTime,
     });
+    const ueberlastet = llmRes.status === 429;
+    return new Response(
+      JSON.stringify({
+        error: ueberlastet
+          ? "Felix ist gerade stark ausgelastet. Bitte versuch es gleich nochmal."
+          : "Felix ist gerade nicht erreichbar. Bitte versuch es in ein paar Minuten nochmal.",
+      }),
+      { status: ueberlastet ? 429 : 503, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+    );
   } catch (e) {
     console.error("chat-felix error", e);
     return new Response(JSON.stringify({ error: e instanceof Error ? e.message : "Unknown" }), {

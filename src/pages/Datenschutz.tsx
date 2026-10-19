@@ -61,7 +61,7 @@ const Datenschutz = () => (
       </p>
       <ul>
         <li><strong>Playbooks</strong> – Schritt-für-Schritt-Guides für GmbH, UG, Holding, Einzelunternehmen, Kleinunternehmer-Regelung, US-LLC etc.</li>
-        <li><strong>Felix-Chat</strong> – KI-Co-Founder (Google Gemini via Lovable AI Gateway) für Fragen zu Gründung, Steuern, Compliance.</li>
+        <li><strong>Felix-Chat</strong> – KI-Co-Founder (Anthropic Claude, ersatzweise Google Gemini bzw. OpenAI) für Fragen zu Gründung, Steuern, Compliance.</li>
         <li><strong>Steuer-Cockpit</strong> – Frist-Kalender, IAB-Rechner, Quartals-Schätzung.</li>
         <li><strong>Rechtsform-Wizard</strong> – Empfehlung zu Einzel/UG/GmbH/PartG.</li>
         <li><strong>Anbieter-Vergleich</strong> – {ANBIETER_ANZAHL} Anbieter (Banking, Versand, Buchhaltung, Versicherungen etc.) mit Stärken/Schwächen.</li>
@@ -97,7 +97,7 @@ const Datenschutz = () => (
 
       <h3 className="font-semibold mt-6">3.3 Felix-Chat (KI-Beratung)</h3>
       <p><strong>Daten:</strong> Chat-Verlauf (deine Nachrichten + Felix-Antworten), Zeitstempel, Konversations-ID.</p>
-      <p><strong>Verarbeitung:</strong> Deine Nachrichten werden zur Beantwortung an einen KI-Sprachmodell-Anbieter übermittelt. Primär nutzen wir <strong>Google Gemini</strong> (über das Lovable AI Gateway); bei dessen Nichtverfügbarkeit greifen wir automatisch als Fallback auf <strong>Anthropic (Claude)</strong> bzw. <strong>OpenAI (GPT)</strong> zurück, damit der Chat funktionsfähig bleibt. Die Antwort wird zurück an deine Session gesendet und im Chat-Verlauf gespeichert.</p>
+      <p><strong>Verarbeitung:</strong> Deine Nachrichten werden zur Beantwortung an einen KI-Sprachmodell-Anbieter übermittelt. Primär nutzen wir <strong>Anthropic (Claude-API)</strong>; bei dessen Nichtverfügbarkeit greifen wir automatisch der Reihe nach auf <strong>Google Gemini</strong> bzw. <strong>OpenAI (GPT)</strong> zurück, damit der Chat funktionsfähig bleibt. Die Antwort wird zurück an deine Session gesendet und im Chat-Verlauf gespeichert.</p>
       <p>
         <strong>Drittlandtransfer USA – Rechtsgrundlage:</strong> Google LLC ist unter dem
         EU-US Data Privacy Framework (DPF) zertifiziert (Angemessenheitsbeschluss der EU-Kommission
@@ -109,9 +109,9 @@ const Datenschutz = () => (
         (<a href="mailto:datenschutz@gründerx.de">datenschutz@gründerx.de</a>).
       </p>
       <p>
-        <strong>Fallback-Anbieter (Anthropic, OpenAI):</strong> Ist Gemini nicht verfügbar, verarbeiten
-        ersatzweise Anthropic PBC (Claude) oder OpenAI, L.L.C. (GPT) deine Chat-Nachricht. Beide sitzen in
-        den USA; die Übermittlung sichern wir über die EU-Standardvertragsklauseln (Art. 46 DSGVO) ab. Es
+        <strong>Anthropic und Fallback-Anbieter OpenAI:</strong> Anthropic PBC (Claude-API) verarbeitet deine
+        Chat-Nachricht primär; ist weder Anthropic noch Gemini verfügbar, verarbeitet ersatzweise OpenAI, L.L.C. (GPT)
+        deine Chat-Nachricht. Beide sitzen in den USA; die Übermittlung sichern wir über die EU-Standardvertragsklauseln (Art. 46 DSGVO) ab. Es
         werden ausschließlich der Nachrichteninhalt und der nötige Kontext übermittelt, keine Konto-Stammdaten.
       </p>
       <p>Nutze Felix nicht für sensible personenbezogene Daten Dritter ohne ausdrückliche Einwilligung.</p>
@@ -284,14 +284,14 @@ const Datenschutz = () => (
           <tr className="border-t border-border">
             <td className="px-3 py-2"><strong>Google LLC (Gemini)</strong></td>
             <td className="px-3 py-2">Unter-Auftragsverarbeiter</td>
-            <td className="px-3 py-2">KI-Modell für Felix-Chat (primär)</td>
+            <td className="px-3 py-2">KI-Modell für Felix-Chat (Fallback)</td>
             <td className="px-3 py-2">USA</td>
             <td className="px-3 py-2"><strong>DPF-zertifiziert</strong> (Art. 45 DSGVO)</td>
           </tr>
           <tr className="border-t border-border">
             <td className="px-3 py-2"><strong>Anthropic PBC (Claude)</strong></td>
             <td className="px-3 py-2">Unter-Auftragsverarbeiter</td>
-            <td className="px-3 py-2">KI-Modell für Felix-Chat (Fallback)</td>
+            <td className="px-3 py-2">KI-Modell für Felix-Chat (primär, Claude-API)</td>
             <td className="px-3 py-2">USA</td>
             <td className="px-3 py-2">SCC (Art. 46 DSGVO)</td>
           </tr>
@@ -340,7 +340,7 @@ const Datenschutz = () => (
 
       <h2 id="drittland" className="mt-10 mb-3 text-xl font-semibold md:text-2xl">5. Drittlandtransfer (USA / Nicht-EU)</h2>
       <p>
-        Bei der Nutzung von Felix-Chat (Google Gemini-Backend) findet eine Übermittlung in die USA statt.
+        Bei der Nutzung von Felix-Chat (Anthropic Claude, ersatzweise Google Gemini bzw. OpenAI) findet eine Übermittlung in die USA statt.
         Wir stellen den Schutz über die EU-Standardvertragsklauseln (SCC) sicher und nutzen Anbieter,
         die unter dem EU-US Data Privacy Framework zertifiziert sind. Du kannst den Felix-Chat jederzeit
         nicht nutzen – die anderen Funktionen der Plattform funktionieren ohne KI-Drittland-Transfer.

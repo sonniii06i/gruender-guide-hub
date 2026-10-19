@@ -1,7 +1,8 @@
 // Verbessert die Formulierung eines kurzen Texts (z.B. Unternehmensgegenstand)
-// ohne den Sinn zu ändern. Nutzt Google Gemini direkt (eigener GEMINI_API_KEY).
+// ohne den Sinn zu ändern. KI-Kette Claude → Gemini → OpenAI (_shared/llm.ts).
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { nutzerAusJwt } from "../_shared/authGuard.ts";
+import { CLAUDE_MODELL, llmChat, llmVerfuegbar, versucheAus, versucheText } from "../_shared/llm.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -81,27 +82,30 @@ serve(async (req) => {
       });
     }
 
-    const KEY = Deno.env.get("GEMINI_API_KEY");
-    if (!KEY) throw new Error("GEMINI_API_KEY missing");
+    if (!llmVerfuegbar()) throw new Error("kein KI-Schlüssel gesetzt");
 
     const system = SYSTEM_PROMPTS[String(kind ?? "generic")] ?? SYSTEM_PROMPTS.generic;
 
-    const response = await fetch("https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", {
-      method: "POST",
-      headers: { Authorization: `Bearer ${KEY}`, "Content-Type": "application/json" },
-      body: JSON.stringify({
-        model: "gemini-2.5-flash",
+    const response = await llmChat(
+      {
         messages: [
           { role: "system", content: system },
           { role: "user", content: text.trim() },
         ],
-        temperature: 0.3,
-      }),
-    });
+        temperature: 0.3, // nur Gemini/OpenAI – Claude 5.5 lehnt Sampling-Parameter ab
+      },
+      {
+        tag: "enhance-text",
+        claude: { modell: CLAUDE_MODELL, effort: "low", maxTokens: 4000 },
+        gemini: { modell: "gemini-2.5-flash" },
+        openai: { modell: "gpt-4o-mini" },
+      },
+    );
 
     if (!response.ok) {
-      const errText = await response.text().catch(() => "");
-      return new Response(JSON.stringify({ error: `LLM ${response.status}: ${errText.slice(0, 200)}` }), {
+      // Anbieter-Gründe nur ins Function-Log, nicht an den Browser
+      console.error("enhance-text: alle KI-Anbieter gescheitert", versucheText(versucheAus(response)));
+      return new Response(JSON.stringify({ error: "Die Textverbesserung ist gerade nicht erreichbar. Bitte versuch es gleich noch einmal." }), {
         status: 502,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
