@@ -2,9 +2,9 @@
 -- vorlagen_leads — bestätigte E-Mail-Adressen der Vorlagen-Bibliothek
 -- (/vorlagen, Double-Opt-in über vorlage-anfordern / vorlage-bestaetigen).
 --
--- NOCH NICHT EINGESPIELT (Stand 22.10.2026). Der Betreiber spielt sie im
--- SQL-Editor des Dashboards ein (supabase db push ist für dieses Projekt
--- unbrauchbar, siehe Gedächtnis gruenderx-edge-functions-deployen).
+-- Eingespielt am 22.10.2026 über die Management-API (database/query) per
+-- ~/gruenderx-skripte/vorlagen-deployen.sh; supabase db push ist für dieses
+-- Projekt unbrauchbar (siehe Gedächtnis gruenderx-edge-functions-deployen).
 --
 -- Unterschied zu tool_leads: Dort steht, was jemand eingetippt hat. Hier
 -- steht zusätzlich, ob der Inhaber der Adresse den Link geklickt hat
