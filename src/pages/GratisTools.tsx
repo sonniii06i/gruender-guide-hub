@@ -111,6 +111,23 @@ export default function GratisTools() {
         </div>
       </section>
 
+      {/* Vorlagen-Bibliothek: eigener Bereich, Download gegen bestätigte E-Mail */}
+      <section className="pb-16">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6">
+          <Link to="/vorlagen" className="press group flex flex-col gap-3 rounded-2xl border border-accent-blue/25 bg-accent/40 p-6 hover:border-accent-blue/50 hover:shadow-card sm:flex-row sm:items-center">
+            <div className="flex-1">
+              <h2 className="text-xl font-semibold text-foreground">Vertragsvorlagen: GbR-Vertrag, Kaufverträge, NDA, AGB &amp; mehr</h2>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Fertige Muster nach deutschem Recht als Word, PDF und Text. Einmal die E-Mail-Adresse bestätigen, dann alle Vorlagen kostenlos laden.
+              </p>
+            </div>
+            <span className="inline-flex items-center gap-1 text-sm font-semibold text-accent-blue">
+              Zur Vorlagen-Bibliothek <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+            </span>
+          </Link>
+        </div>
+      </section>
+
       {/* Checks aus dem Cockpit: je eine kostenlose Prüfung */}
       <section className="pb-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">

@@ -12,6 +12,7 @@ const COLUMNS: { title: string; links: { to: string; label: string; native?: boo
       { to: "/#leistungen", label: "Leistungen" },
       { to: "/tools", label: "Tools" },
       { to: "/gratis-tools", label: "Gratis-Tools" },
+      { to: "/vorlagen", label: "Vertragsvorlagen" },
       { to: "/ki-assistent", label: "In ChatGPT & Claude (MCP)" },
       { to: "/preise", label: "Preise" },
       { to: "/partner", label: "Partnerprogramm" },

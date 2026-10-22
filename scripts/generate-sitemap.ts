@@ -12,6 +12,7 @@ import { LANDING_TOOLS } from "../src/data/features";
 import { GUIDE_LANDINGS } from "../src/data/guides";
 import { isMergedGuide } from "../src/data/guideMerges";
 import { fremdKanonisch } from "../src/data/ratgeberKanonisch";
+import { VORLAGEN } from "../src/data/vorlagen";
 
 const BASE_URL = "https://gruenderx.de";
 const SUPABASE_URL = process.env.VITE_SUPABASE_URL || "https://rwrjuzemkfghlziretdj.supabase.co";
@@ -43,6 +44,7 @@ const staticEntries: SitemapEntry[] = [
   { path: "/tools", changefreq: "weekly", priority: "0.9" },
   { path: "/guides", changefreq: "weekly", priority: "0.9" },
   { path: "/gratis-tools", changefreq: "weekly", priority: "0.9" },
+  { path: "/vorlagen", changefreq: "weekly", priority: "0.9" },
   { path: "/businessplan-erstellen", changefreq: "weekly", priority: "0.8" },
   { path: "/gruendungskosten-rechner", changefreq: "weekly", priority: "0.8" },
   { path: "/rechtsform-finden", changefreq: "weekly", priority: "0.8" },
@@ -70,6 +72,15 @@ const staticEntries: SitemapEntry[] = [
 // Tool-Landing-Slugs direkt aus der Single-Source-of-Truth (features.ts →
 // LANDING_TOOLS wendet exakt dieselben live/beta+interne-Route-Filter an wie
 // die /tools/:slug-Seiten), damit Sitemap und Seiten nie auseinanderlaufen.
+// Vorlagen-Bibliothek (/vorlagen/:slug): öffentliche Seiten mit Vorschau,
+// Download gegen bestätigte E-Mail. Quelle ist src/data/vorlagen/ (ein Eintrag
+// je Vorlage), damit Sitemap und Seiten nie auseinanderlaufen.
+const vorlagenEntries: SitemapEntry[] = VORLAGEN.map((v) => ({
+  path: `/vorlagen/${v.slug}`,
+  changefreq: "monthly",
+  priority: "0.7",
+}));
+
 const toolEntries: SitemapEntry[] = LANDING_TOOLS.map((t) => ({
   path: `/tools/${t.slug}`,
   changefreq: "monthly",
@@ -188,9 +199,9 @@ function generateSitemap(items: SitemapEntry[]) {
   const neuesterRatgeber = blogEntries.map((e) => e.lastmod ?? "").sort().pop();
   const hub = staticEntries.find((e) => e.path === "/ratgeber");
   if (hub && neuesterRatgeber) hub.lastmod = neuesterRatgeber;
-  const entries = [...staticEntries, ...toolEntries, ...guideEntries, ...blogEntries];
+  const entries = [...staticEntries, ...vorlagenEntries, ...toolEntries, ...guideEntries, ...blogEntries];
   writeFileSync(resolve("public/sitemap.xml"), generateSitemap(entries));
   console.log(
-    `sitemap.xml written: ${entries.length} entries (${staticEntries.length} static + ${toolEntries.length} tools + ${guideEntries.length} guides + ${blogEntries.length} ratgeber)`,
+    `sitemap.xml written: ${entries.length} entries (${staticEntries.length} static + ${vorlagenEntries.length} vorlagen + ${toolEntries.length} tools + ${guideEntries.length} guides + ${blogEntries.length} ratgeber)`,
   );
 })();

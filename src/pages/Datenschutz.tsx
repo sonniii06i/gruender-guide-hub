@@ -189,6 +189,29 @@ const Datenschutz = () => (
         <strong>Auftragsverarbeiter:</strong> Supabase (Datenbank, Serverstandort Frankfurt am Main).
       </p>
 
+      <h3 id="vorlagen" className="font-semibold mt-6">3.9a Vorlagen-Bibliothek (Download gegen bestätigte E-Mail-Adresse)</h3>
+      <p>
+        Die Vertragsvorlagen unter „Vorlagen" (z. B. GbR-Vertrag, Kaufverträge, Arbeitsverträge) kannst du ohne Konto
+        herunterladen. Dafür gibst du deine E-Mail-Adresse an; wir schicken dir eine Mail mit einem Bestätigungslink
+        (Double-Opt-in). Erst der Klick auf diesen Link schaltet den Download in deinem Browser frei – für alle
+        Vorlagen zugleich.
+      </p>
+      <p>
+        <strong>Daten:</strong> E-Mail-Adresse, die angeforderte Vorlage, die Zeitpunkte von Anforderung, Mailversand und
+        Bestätigung sowie die Anzahl der gesendeten Mails (Versandbremse: höchstens eine Mail alle zwei Minuten und fünf
+        am Tag je Adresse). Die Bestätigungsmail selbst protokollieren wir wie alle Mails (Abschnitt zu E-Mails). Der
+        Bestätigungslink enthält deine Adresse und eine Signatur, mit der wir prüfen, dass der Link von uns stammt.
+      </p>
+      <p>
+        <strong>Zweck und Rechtsgrundlage:</strong> Bereitstellung des angeforderten Downloads und Schutz vor Missbrauch
+        fremder Adressen (Art. 6 Abs. 1 lit. b und f DSGVO). Die Bestätigung ist <strong>keine</strong> Einwilligung in
+        Werbung; einen Newsletter bekommst du dadurch nicht.
+      </p>
+      <p>
+        <strong>Speicherdauer:</strong> Unbestätigte Adressen löschen wir nach 30 Tagen, bestätigte 24 Monate nach der
+        letzten Anforderung. Du kannst jederzeit früher die Löschung verlangen (Kontakt unten).
+      </p>
+
       <h3 id="mitgruender" className="font-semibold mt-6">3.10 Mitgründer-Börse</h3>
       <p>
         In der Mitgründer-Börse kannst du freiwillig ein Profil anlegen. <strong>Daten:</strong> Anzeigename, deine Rolle und
@@ -357,6 +380,8 @@ const Datenschutz = () => (
         <li><strong>theme-preference</strong> (LocalStorage) – Hell/Dunkel-Modus</li>
         <li><strong>gx-profile-{`{userId}`}</strong> (LocalStorage) – Profil-Cache zur Vermeidung erneuter DB-Roundtrips</li>
         <li><strong>stripe-session</strong> – nur während aktiver Zahlung gesetzt</li>
+        <li><strong>gruenderx:vorlagen-freigabe</strong> (LocalStorage) – merkt nach dem Klick auf den Bestätigungslink, dass die Vorlagen in diesem Browser frei sind (Abschnitt 3.9a); enthält deine E-Mail-Adresse und die Signatur des Links</li>
+        <li><strong>gruenderx:vorlagen-angefordert</strong> (LocalStorage) – merkt die zuletzt für eine Vorlage eingegebene E-Mail-Adresse, damit du sie beim erneuten Senden nicht noch einmal tippen musst</li>
         <li><strong>gruenderx:tool-unlocked:{`{tool}`}</strong> (LocalStorage) – merkt, dass du ein kostenloses Tool bereits freigeschaltet hast (Abschnitt 3.9); enthält nur den Zeitpunkt, keine E-Mail-Adresse</li>
         <li><strong>gx-event-radar-v1, gx-chancen-radar-besuch, gx-steuerkalender-v1, gx-ku-waechter-v1, gx-gruendungsunterlagen-v1, gx-pitchdeck-v1, gx-gz-phase2-v1, gx-bankgespraech-v1, gx-startup-guthaben-v1, gx-sidebar-zu-v1</strong> (LocalStorage) – deine Eingaben in den Tools aus Abschnitt 3.12, damit sie beim nächsten Besuch erhalten bleiben; sie verlassen deinen Browser nicht</li>
       </ul>

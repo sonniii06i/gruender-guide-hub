@@ -152,6 +152,8 @@ const StartupGuthaben = lazy(() => import("./pages/StartupGuthaben.tsx"));
 const KiAssistent = lazy(() => import("./pages/KiAssistent.tsx"));
 const GruenderEvents = lazy(() => import("./pages/GruenderEvents.tsx"));
 const FreeToolPage = lazy(() => import("./pages/FreeToolPage.tsx"));
+const Vorlagen = lazy(() => import("./pages/Vorlagen.tsx"));
+const VorlageDetail = lazy(() => import("./pages/VorlageDetail.tsx"));
 
 const queryClient = new QueryClient();
 
@@ -345,6 +347,9 @@ const App = () => (
               <Route path="/guides/:slug" element={<GuideLanding />} />
               {/* Kostenlose Lead-Magnet-Tools (Ergebnis gegen E-Mail, kein Konto) */}
               <Route path="/gratis-tools" element={<GratisTools />} />
+              {/* Vorlagen-Bibliothek: Download gegen bestätigte E-Mail (Double-Opt-in), kein Konto */}
+              <Route path="/vorlagen" element={<Vorlagen />} />
+              <Route path="/vorlagen/:slug" element={<VorlageDetail />} />
               <Route path="/gruender-events" element={<GruenderEvents />} />
               <Route path="/hackathon-starter-kit" element={<HackathonStarterKit />} />
               <Route path="/startup-guthaben" element={<StartupGuthaben />} />

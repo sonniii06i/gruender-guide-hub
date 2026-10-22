@@ -129,3 +129,12 @@ verify_jwt = false
 
 [functions.discord-abo-pruefen]
 verify_jwt = false
+
+# --- Vorlagen-Bibliothek (/vorlagen), Double-Opt-in ---
+# Beide ohne Konto: vorlage-anfordern ruft der Browser ohne Session auf,
+# vorlage-bestaetigen ist der Link aus der Mail (GET, Weiterleitung).
+[functions.vorlage-anfordern]
+verify_jwt = false
+
+[functions.vorlage-bestaetigen]
+verify_jwt = false
