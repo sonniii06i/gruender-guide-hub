@@ -22,6 +22,8 @@ await build({
   bundle: true,
   format: "esm",
   platform: "node",
+  // Die nachgeladenen Inhalte (Text + Ratgeber) braucht der Katalog nicht.
+  external: ["./inhalte/*", "../inhalte/*"],
   outfile: out,
   logLevel: "silent",
 });

@@ -74,12 +74,13 @@ describe("Vorlagen-Bibliothek", () => {
         expect(v.seo.description.length, v.seo.description).toBeLessThanOrEqual(170);
       });
 
-      it("Ratgeber-Teil trägt die Seite", () => {
-        expect(v.ratgeber.length, "Abschnitte").toBeGreaterThanOrEqual(4);
-        expect(v.ratgeber.length, "Abschnitte").toBeLessThanOrEqual(8);
+      it("Ratgeber-Teil trägt die Seite", async () => {
+        const { ratgeber } = (await v.inhalt()).default;
+        expect(ratgeber.length, "Abschnitte").toBeGreaterThanOrEqual(4);
+        expect(ratgeber.length, "Abschnitte").toBeLessThanOrEqual(8);
         let woerter = 0;
         const titel = new Set<string>();
-        for (const a of v.ratgeber) {
+        for (const a of ratgeber) {
           expect(a.titel.length, a.titel).toBeGreaterThanOrEqual(15);
           expect(a.titel.length, a.titel).toBeLessThanOrEqual(90);
           expect(titel.has(a.titel), `doppelte Überschrift ${a.titel}`).toBe(false);
@@ -92,14 +93,20 @@ describe("Vorlagen-Bibliothek", () => {
         expect(woerter, "Ratgeber-Wörter gesamt").toBeGreaterThanOrEqual(450);
       });
 
-      it("Text ist eine echte Vorlage", () => {
-        expect(v.text.length).toBeGreaterThanOrEqual(1500);
-        expect(v.text.trim().split("\n")[0].trim().length).toBeGreaterThan(5);
-        expect(v.text.trimEnd().endsWith(VORLAGEN_HINWEIS)).toBe(true);
-        const platzhalter = v.text.match(/\[[^\]\n]{2,}\]/g) ?? [];
+      it("Text ist eine echte Vorlage", async () => {
+        // Text und Ratgeber liegen in inhalte/<slug>.ts (nachgeladen, s. scripts/split-vorlagen-inhalte.mjs).
+        const { text } = (await v.inhalt()).default;
+        expect(text.length).toBeGreaterThanOrEqual(1500);
+        expect(text.trim().split("\n")[0].trim().length).toBeGreaterThan(5);
+        expect(text.trimEnd().endsWith(VORLAGEN_HINWEIS)).toBe(true);
+        const platzhalter = text.match(/\[[^\]\n]{2,}\]/g) ?? [];
         expect(platzhalter.length, "Platzhalter in eckigen Klammern").toBeGreaterThanOrEqual(3);
         // Kein Markdown, keine HTML-Reste: Der Text wird 1:1 in PDF und Word gesetzt.
-        expect(v.text).not.toMatch(/<[a-z]+>|\*\*|^#{1,3} /m);
+        expect(text).not.toMatch(/<[a-z]+>|\*\*|^#{1,3} /m);
+      });
+
+      it("Inhaltsmodul liegt unter inhalte/<slug>.ts", () => {
+        expect(existsSync(resolve(__dirname, `inhalte/${v.slug}.ts`)), `inhalte/${v.slug}.ts fehlt`).toBe(true);
       });
     });
   }

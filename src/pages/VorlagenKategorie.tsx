@@ -83,7 +83,7 @@ export default function VorlagenKategorie() {
 
         <section className="py-12">
           <div className="container max-w-5xl px-4">
-            <h2 className="mb-5 text-2xl font-semibold text-foreground">Alle Vorlagen in {kategorie.titel}</h2>
+            <h2 className="mb-5 text-2xl font-semibold text-foreground">Alle Vorlagen der Kategorie „{kategorie.titel}“</h2>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {liste.map((v) => (
                 <VorlagenKarte key={v.slug} vorlage={v} />
@@ -110,7 +110,7 @@ export default function VorlagenKategorie() {
 
         <section className="py-12">
           <div className="container max-w-3xl px-4">
-            <h2 className="mb-6 text-2xl font-semibold text-foreground">Häufige Fragen zu {kategorie.titel}</h2>
+            <h2 className="mb-6 text-2xl font-semibold text-foreground">Häufige Fragen zur Kategorie „{kategorie.titel}“</h2>
             <FaqList items={kategorie.faqs} />
           </div>
         </section>

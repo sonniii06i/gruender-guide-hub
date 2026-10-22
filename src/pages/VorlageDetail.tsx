@@ -18,6 +18,7 @@ import { faqSchema, breadcrumbSchema } from "@/lib/freetools/schema";
 import { useAuth } from "@/hooks/useAuth";
 import { useAccess } from "@/hooks/useAccess";
 import { KATEGORIE_BY_KEY, VORLAGEN_JE_KATEGORIE, VORLAGE_BY_SLUG } from "@/data/vorlagen";
+import type { VorlagenInhalt } from "@/data/vorlagen/types";
 import {
   freigabeAusUrl, freigabeLesen, freigabeMerken, freigabeParameterEntfernen, trackVorlagenFreigabe,
 } from "@/lib/vorlagen/freigabe";
@@ -42,10 +43,33 @@ function VorlageSeite({ vorlage }: { vorlage: (typeof VORLAGE_BY_SLUG)[string] }
   const { hasActiveSub, isAdmin } = useAccess();
   const abonnent = Boolean(user) && (hasActiveSub || isAdmin);
 
-  const [frei, setFrei] = useState(() => Boolean(freigabeLesen()));
+  // Freigabe erst im Effekt aus dem LocalStorage lesen: Das prerenderte HTML
+  // kennt keinen Browser-Zustand, ein abweichender Erst-Render bricht die Hydration.
+  const [frei, setFrei] = useState(false);
   const [gateOffen, setGateOffen] = useState(false);
   const [wordLaedt, setWordLaedt] = useState(false);
   const [gerade, setGerade] = useState(false);
+  // Text und Ratgeber kommen aus einem eigenen Modul (inhalte/<slug>.ts), damit
+  // der Hub nicht die ganze Bibliothek lädt. Die Seo-Tags warten darauf, so
+  // nimmt der Prerender (wartet auf meta[data-rh]) den vollen Inhalt mit.
+  const [inhalt, setInhalt] = useState<VorlagenInhalt | null>(null);
+  useEffect(() => {
+    let aktiv = true;
+    setFrei(Boolean(freigabeLesen()));
+    vorlage
+      .inhalt()
+      .then((m) => {
+        if (aktiv) setInhalt(m.default);
+      })
+      .catch((err) => {
+        console.error("Vorlagen-Inhalt:", err);
+        if (aktiv) toast.error("Die Vorlage konnte nicht geladen werden. Bitte Seite neu laden.");
+      });
+    return () => {
+      aktiv = false;
+    };
+  }, [vorlage]);
+  const text = inhalt?.text ?? "";
 
   // Rückkehr aus der Bestätigungsmail: Freigabe merken, URL säubern.
   useEffect(() => {
@@ -69,11 +93,11 @@ function VorlageSeite({ vorlage }: { vorlage: (typeof VORLAGE_BY_SLUG)[string] }
   );
 
   const vorschau = useMemo(() => {
-    if (offen) return vorlage.text;
-    const schnitt = vorlage.text.slice(0, VORSCHAU_ZEICHEN);
+    if (offen) return text;
+    const schnitt = text.slice(0, VORSCHAU_ZEICHEN);
     const letzteZeile = schnitt.lastIndexOf("\n");
     return letzteZeile > 400 ? schnitt.slice(0, letzteZeile) : schnitt;
-  }, [offen, vorlage.text]);
+  }, [offen, text]);
 
   const standLesbar = useMemo(() => {
     const [j, m] = vorlage.stand.split("-");
@@ -86,6 +110,10 @@ function VorlageSeite({ vorlage }: { vorlage: (typeof VORLAGE_BY_SLUG)[string] }
       setGateOffen(true);
       return;
     }
+    if (!inhalt) {
+      toast.info("Die Vorlage lädt noch – bitte gleich noch einmal klicken.");
+      return;
+    }
     await aktion();
   };
 
@@ -93,7 +121,7 @@ function VorlageSeite({ vorlage }: { vorlage: (typeof VORLAGE_BY_SLUG)[string] }
     if (wordLaedt) return;
     setWordLaedt(true);
     try {
-      await vorlageAlsWord(vorlage.text, vorlage.dateiname);
+      await vorlageAlsWord(text, vorlage.dateiname);
     } catch (err) {
       console.error("Word-Export:", err);
       toast.error("Die Word-Datei konnte nicht erstellt werden. Nimm bitte PDF oder Text.");
@@ -101,10 +129,10 @@ function VorlageSeite({ vorlage }: { vorlage: (typeof VORLAGE_BY_SLUG)[string] }
       setWordLaedt(false);
     }
   });
-  const pdf = mitFreigabe(() => vorlageAlsPdf(vorlage.text, vorlage.dateiname));
-  const txt = mitFreigabe(() => vorlageAlsText(vorlage.text, vorlage.dateiname));
+  const pdf = mitFreigabe(() => vorlageAlsPdf(text, vorlage.dateiname));
+  const txt = mitFreigabe(() => vorlageAlsText(text, vorlage.dateiname));
   const kopieren = mitFreigabe(async () => {
-    const ok = await vorlageKopieren(vorlage.text);
+    const ok = await vorlageKopieren(text);
     if (ok) toast.success("Text in die Zwischenablage kopiert.");
     else toast.error("Kopieren hat nicht geklappt – lade stattdessen die Textdatei.");
   });
@@ -155,13 +183,15 @@ function VorlageSeite({ vorlage }: { vorlage: (typeof VORLAGE_BY_SLUG)[string] }
 
   return (
     <div className="min-h-screen bg-background">
-      <Seo
-        title={vorlage.seo.title}
-        description={vorlage.seo.description}
-        path={`/vorlagen/${vorlage.slug}`}
-        type="article"
-        jsonLd={jsonLd}
-      />
+      {inhalt && (
+        <Seo
+          title={vorlage.seo.title}
+          description={vorlage.seo.description}
+          path={`/vorlagen/${vorlage.slug}`}
+          type="article"
+          jsonLd={jsonLd}
+        />
+      )}
       <Navbar />
       <main id="inhalt">
         <PageHeader
@@ -202,7 +232,7 @@ function VorlageSeite({ vorlage }: { vorlage: (typeof VORLAGE_BY_SLUG)[string] }
               <h2 className="mb-4 text-xl font-semibold text-foreground">Vorschau: {vorlage.titel} als Muster</h2>
               <div className="relative overflow-hidden rounded-2xl border border-border bg-card shadow-soft">
                 <pre className="max-h-[70vh] overflow-auto whitespace-pre-wrap break-words p-6 font-sans text-[14px] leading-relaxed text-foreground/90 sm:p-8">
-                  {vorschau}
+                  {inhalt ? vorschau : "Vorlage wird geladen …"}
                 </pre>
                 {!offen && (
                   <div className="absolute inset-x-0 bottom-0 flex flex-col items-center justify-end gap-3 bg-gradient-to-t from-card via-card/95 to-card/0 px-6 pb-8 pt-24 text-center">
@@ -262,7 +292,7 @@ function VorlageSeite({ vorlage }: { vorlage: (typeof VORLAGE_BY_SLUG)[string] }
 
               {/* Ratgeber-Teil: trägt die Seite bei Google (Suchbegriffe in H2, Fließtext ≥ 450 Wörter). */}
               <div className="mt-12 border-t border-border/70 pt-10">
-                <RatgeberText abschnitte={vorlage.ratgeber} id="ratgeber" />
+                <RatgeberText abschnitte={inhalt?.ratgeber ?? []} id="ratgeber" />
               </div>
 
               <div className="mt-12">

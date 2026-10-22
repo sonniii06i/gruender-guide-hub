@@ -118,6 +118,51 @@
     <priority>0.2</priority>
   </url>
   <url>
+    <loc>https://gruenderx.de/vorlagen/kategorie/gesellschaft</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://gruenderx.de/vorlagen/kategorie/kauf</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://gruenderx.de/vorlagen/kategorie/arbeit</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://gruenderx.de/vorlagen/kategorie/dienstleistung</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://gruenderx.de/vorlagen/kategorie/geheimhaltung</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://gruenderx.de/vorlagen/kategorie/miete</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://gruenderx.de/vorlagen/kategorie/finanzen</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://gruenderx.de/vorlagen/kategorie/ecommerce</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://gruenderx.de/vorlagen/kategorie/verwaltung</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://gruenderx.de/vorlagen/gbr-gesellschaftsvertrag</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>

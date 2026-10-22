@@ -339,13 +339,12 @@ export interface Vorlage {
   /** 3 bis 5 Fragen samt Antwort (SEO + Nutzen). */
   faqs: VorlagenFaq[];
   /**
-   * Ratgeber-Teil unter der Vorschau: 4 bis 7 Abschnitte, zusammen mindestens
-   * 450 Wörter. Erklärt, wann man die Vorlage braucht, was hinein muss, wie
-   * man sie ausfüllt, typische Fehler, Rechtsgrundlagen und wann sie nicht
-   * reicht. Das ist der Teil, mit dem die Seite bei Google gegen die langen
-   * Ratgeber-Seiten der Konkurrenz besteht.
+   * Lädt Vertragstext und Ratgeber nach (src/data/vorlagen/inhalte/<slug>.ts).
+   * Die schweren Felder liegen nicht hier, damit der Hub nur Metadaten lädt;
+   * die Detailseite wartet auf dieses Modul, bevor sie Seo-Tags setzt (so
+   * nimmt der Prerender den vollen Text mit).
    */
-  ratgeber: RatgeberAbschnitt[];
+  inhalt: () => Promise<{ default: VorlagenInhalt }>;
   seo: {
     /** ≤ 60 Zeichen inklusive „| GründerX“, Hauptsuchbegriff vorn („GbR-Vertrag Vorlage …“). */
     title: string;
@@ -354,12 +353,6 @@ export interface Vorlage {
   };
   /** Stand der Vorlage, z. B. „2026-10“. */
   stand: string;
-  /**
-   * Die Vorlage selbst. Erste Zeile = Titel. Abschnitte als „§ 1 Name“ oder
-   * nummeriert („1. …“); Platzhalter in eckigen Klammern. Mindestens 1.500
-   * Zeichen; endet mit Unterschriftsblock und dem HINWEIS-Absatz.
-   */
-  text: string;
 }
 
 /**
@@ -368,9 +361,19 @@ export interface Vorlage {
  * Der Hub lädt nur die Metadaten.
  */
 export interface VorlagenInhalt {
-  /** Siehe Vorlage.text. */
+  /**
+   * Die Vorlage selbst. Erste Zeile = Titel. Abschnitte als „§ 1 Name“ oder
+   * nummeriert („1. …“); Platzhalter in eckigen Klammern. Mindestens 1.500
+   * Zeichen; endet mit Unterschriftsblock und dem HINWEIS-Absatz.
+   */
   text: string;
-  /** Siehe Vorlage.ratgeber. */
+  /**
+   * Ratgeber-Teil unter der Vorschau: 4 bis 8 Abschnitte, zusammen mindestens
+   * 450 Wörter. Erklärt, wann man die Vorlage braucht, was hinein muss, wie
+   * man sie ausfüllt, typische Fehler, Rechtsgrundlagen und wann sie nicht
+   * reicht. Das ist der Teil, mit dem die Seite bei Google gegen die langen
+   * Ratgeber-Seiten der Konkurrenz besteht.
+   */
   ratgeber: RatgeberAbschnitt[];
 }
 

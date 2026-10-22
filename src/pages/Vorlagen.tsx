@@ -46,7 +46,9 @@ const schritte = [
 export default function Vorlagen() {
   const location = useLocation();
   const [suche, setSuche] = useState("");
-  const [frei, setFrei] = useState(() => Boolean(freigabeLesen()));
+  // LocalStorage erst im Effekt lesen (Hydration des prerenderten HTML).
+  const [frei, setFrei] = useState(false);
+  useEffect(() => setFrei(Boolean(freigabeLesen())), []);
 
   // Weiterleitung von vorlage-bestaetigen ohne gültigen Slug landet hier.
   useEffect(() => {
