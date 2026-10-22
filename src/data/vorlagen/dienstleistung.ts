@@ -54,8 +54,59 @@ export const VORLAGEN_DIENSTLEISTUNG: Vorlage[] = [
         a: "Dieser Vertrag reicht für den Einzelfall. Wenn du dieselben Bedingungen vielen Kunden stellst, sind sie rechtlich AGB und unterliegen der Inhaltskontrolle nach §§ 305 ff. BGB, auch zwischen Unternehmen. Besonders Haftungs- und Zahlungsklauseln müssen dann angemessen bleiben.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du einen Dienstleistungsvertrag brauchst",
+        text: `Ein Dienstleistungsvertrag passt, wenn du für einen Firmenkunden laufend tätig bist, ohne ein fertiges Ergebnis zu versprechen: Betreuung eines Onlineshops, technischer Support, Pflege von Produktdaten, vorbereitende Buchhaltung oder Beratung nach Stunden. Typische Fälle sind die Agentur, die monatlich die Website eines Kunden pflegt, der IT-Dienstleister, der die Systeme eines Mittelständlers betreut, oder der Freelancer, der seine Stunden gegenüber einem Startup abrechnet.
+
+Auch als Auftraggeber brauchst du das Muster, sobald du selbst einen Dienstleister beauftragst und Vergütung, Abrechnung und Kündigung festhalten willst, bevor die erste Rechnung kommt. Die Vorlage ist auf das Verhältnis zwischen Unternehmen zugeschnitten; für Verbraucher als Kunden gelten zusätzliche Schutzvorschriften, die dieser Mustervertrag nicht abbildet.`,
+      },
+      {
+        titel: "Was muss in einen Dienstleistungsvertrag?",
+        text: `Ein brauchbarer Dienstvertrag beantwortet fünf Fragen: Was wird getan, wo und wann, was kostet es, wer haftet wofür, und wie kommt man wieder auseinander. Die Vorlage setzt das in zehn Paragrafen um:
+
+- § 1 Vertragsgegenstand: die Leistung so konkret, dass ein Dritter versteht, was dazugehört; Einzelheiten in Anlage 1
+- § 2 Keine Erfolgsschuld und Weisungsfreiheit des Auftragnehmers
+- § 3 Leistungsort, Stundenumfang, Erreichbarkeit, Ansprechpartner
+- § 4 Mitwirkungspflichten des Auftraggebers mit Fristen für Zugänge und Freigaben
+- § 5 Vergütung als Stundensatz oder Monatspauschale, Reisekosten, Preisanpassung
+- § 6 Abrechnung mit Tätigkeitsnachweis, Zahlungsziel, Verzugszinsen
+- § 7 Haftung mit Begrenzung auf den vertragstypischen Schaden
+- § 8 Geheimhaltung und Auftragsverarbeitung nach Art. 28 DSGVO
+- § 9 Laufzeit, Kündigung, Rückgabe von Unterlagen
+- § 10 Schlussbestimmungen mit Textform, salvatorischer Klausel und Gerichtsstand
+
+Nutzungsrechte fehlen bewusst, weil ein reiner Dienstvertrag meist keine Werke hervorbringt. Entstehen doch Texte, Grafiken oder Code, ergänze die Rechteklausel aus dem Werkvertrag oder dem Freelancer-Vertrag.`,
+      },
+      {
+        titel: "Dienstleistungsvertrag Muster ausfüllen: Schritt für Schritt",
+        text: `Lade die Vorlage als Word-Datei, PDF oder Text herunter und arbeite die Platzhalter in eckigen Klammern von oben nach unten ab. Im Kopf trägst du beide Parteien mit Rechtsform, Anschrift und vertretungsberechtigter Person ein. In § 1 ersetzt du das Beispiel durch deine Leistung und legst die Leistungsbeschreibung als Anlage 1 bei; entscheide, ob Subunternehmer zustimmungspflichtig sein sollen, und streiche die optionale Klammer sonst.
+
+In § 3 trägst du Leistungsort, ungefähren Stundenumfang und Erreichbarkeit ein. Feste Reaktionszeiten gehören nur hinein, wenn du sie wirklich einhalten kannst. In § 5 wählst du Variante A (Stundensatz mit Abrechnungstakt) oder Variante B (Pauschale mit Stundenkontingent und Mehrstundensatz) und löschst die andere; Kleinunternehmer übernehmen den Satz zu § 19 UStG. In § 6 legst du Abrechnungsrhythmus, Beanstandungsfrist und Zahlungsziel fest, in § 7 die Haftungsobergrenze, in § 9 Beginn, Kündigungsfrist und ersten Kündigungstermin. Zum Schluss Gerichtsstand, Anlagenliste, Ort, Datum und zwei Unterschriften.`,
+      },
+      {
+        titel: "Typische Fehler im Dienstvertrag und wie du sie vermeidest",
+        text: `Der häufigste Fehler ist die falsche Vertragsart: Wer eine fertige Website, ein Gutachten oder eine Software liefern soll, schuldet ein Werk mit Abnahme und Gewährleistung. Gerichte entscheiden nach dem tatsächlichen Inhalt, nicht nach der Überschrift. Prüfe deshalb ehrlich, ob der Kunde ein Ergebnis erwartet.
+
+Zweiter Klassiker ist die Leistungsbeschreibung aus zwei Sätzen. Dann streitet ihr später, ob der Newsletter-Versand zum Shop-Support gehört. Schreib in Anlage 1 auf, was enthalten ist, und nenne Beispiele für Zusatzleistungen.
+
+Dritter Punkt ist die Scheinselbstständigkeit: Arbeitet eine einzelne Person dauerhaft, fast ausschließlich und zu festen Zeiten für dich, hilft § 2 der Vorlage nicht, weil die Deutsche Rentenversicherung die gelebte Praxis prüft. Weitere Fehler: Stunden ohne Tätigkeitsnachweis abrechnen, Haftung pauschal ausschließen und damit die ganze Klausel verlieren, den gesetzlichen Verzugszins streichen oder die Kündigungsfrist vergessen, sodass die kurzen Fristen des § 621 BGB gelten.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen: Dienstvertrag nach § 611 BGB",
+        text: `Der Dienstvertrag ist in den §§ 611 ff. BGB geregelt. Geschuldet ist die Dienstleistung selbst, nicht ihr Erfolg; die Vergütung wird nach § 614 BGB nach der Leistung fällig, bei Abrechnung nach Zeitabschnitten jeweils am Ende des Abschnitts. Fehlt eine vertragliche Kündigungsregel, gelten die Fristen des § 621 BGB, die sich nach dem Vergütungszeitraum richten. Bei Diensten höherer Art, die auf besonderem Vertrauen beruhen, erlaubt § 627 BGB zusätzlich eine jederzeitige Kündigung.
+
+Für den Zahlungsverzug zwischen Unternehmern gilt § 288 BGB: Verzugszinsen von neun Prozentpunkten über dem Basiszinssatz und die Pauschale von 40 Euro nach Absatz 5. Verwendest du den Vertrag mehrfach mit gleichem Wortlaut, sind seine Klauseln Allgemeine Geschäftsbedingungen und unterliegen auch im B2B-Verkehr der Inhaltskontrolle der §§ 305 ff. BGB; § 309 Nr. 7 BGB verbietet den Haftungsausschluss für Personenschäden und grobe Fahrlässigkeit. Ob jemand selbstständig oder beschäftigt ist, bestimmt § 7 Abs. 1 SGB IV nach Weisungsgebundenheit und Eingliederung. Verarbeitet der Auftragnehmer personenbezogene Daten für dich, verlangt Art. 28 DSGVO einen Auftragsverarbeitungsvertrag.`,
+      },
+      {
+        titel: "Wann die kostenlose Vorlage nicht reicht",
+        text: `Die Vorlage deckt die laufende Zusammenarbeit zwischen zwei Unternehmen ab. Hol dir anwaltlichen Rat, wenn der Kunde ein Verbraucher ist, wenn Service-Level mit Gutschriften oder Vertragsstrafen vereinbart werden sollen, wenn der Vertrag Auslandsbezug hat oder wenn es um Summen geht, bei denen eine unwirksame Haftungsklausel existenzbedrohend wäre. Dasselbe gilt, wenn du den Vertrag als Standard für viele Kunden einsetzt: Dann lohnt eine AGB-Prüfung, weil eine unwirksame Klausel ersatzlos entfällt.
+
+Arbeitet eine Einzelperson in einem Umfang, der einer Vollzeitstelle nahekommt, beantragt ihr vor Beginn gemeinsam die Statusfeststellung nach § 7a SGB IV bei der Deutschen Rentenversicherung Bund. Für Projekte mit festem Ergebnis nimm den Werkvertrag, für wiederkehrende Einzelaufträge den Rahmenvertrag mit Einzelabrufen. GründerX stellt dir das Muster als Software bereit und ersetzt keine Rechtsberatung; die Verantwortung für den Einzelfall bleibt bei dir.`,
+      },
+    ],
     seo: {
-      title: "Dienstleistungsvertrag Vorlage 2026 (B2B, Word & PDF) | GründerX",
+      title: "Dienstleistungsvertrag Vorlage kostenlos (Word) | GründerX",
       description:
         "Dienstleistungsvertrag nach § 611 BGB als kostenlose Vorlage: Leistungsbeschreibung, Stundensatz oder Pauschale, Abrechnung, Haftung, Kündigung.",
     },
@@ -195,8 +246,58 @@ ${VORLAGEN_HINWEIS}`,
         a: "Ja, wenn der Änderungswunsch über die vereinbarte Leistungsbeschreibung hinausgeht. Die Vorlage sieht ein Change-Request-Verfahren vor: Du schätzt Mehraufwand und Terminverschiebung, der Kunde gibt in Textform frei. Ohne Freigabe bleibt es beim alten Umfang.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du einen Werkvertrag brauchst",
+        text: `Ein Werkvertrag ist die richtige Wahl, wenn am Ende etwas Fertiges steht, das dein Kunde prüfen und abnehmen kann: eine Website, ein Software-Modul, ein Logo, ein Video, eine Übersetzung, ein Gutachten oder ein handwerkliches Werk wie die Beschichtung eines Hallenbodens. Du versprichst nicht nur Bemühen, sondern ein Ergebnis mit vereinbarten Eigenschaften.
+
+Typische Situationen: Eine Webagentur baut für ein Startup den Online-Auftritt zum Festpreis. Ein Grafiker liefert ein Corporate Design in drei Meilensteinen. Ein Entwickler erstellt eine Schnittstelle nach Pflichtenheft. Als Auftraggeber brauchst du das Muster, wenn du ein festes Ergebnis einkaufst und sicherstellen willst, dass du bei Mängeln Nachbesserung verlangen und die Nutzungsrechte bekommst. Die Vorlage ist für Werke zwischen Unternehmen gedacht; Bauverträge mit Verbrauchern folgen eigenen Regeln.`,
+      },
+      {
+        titel: "Was muss in einen Werkvertrag?",
+        text: `Beim Werkvertrag entscheidet die Qualität der Leistungsbeschreibung darüber, ob ihr später über Mängel streitet oder nicht. Die Vorlage gliedert alles Nötige in zwölf Paragrafen:
+
+- § 1 und § 2 Vertragsgegenstand und Leistungsbeschreibung: das Werk so genau, dass Abweichungen messbar sind, mit Pflichtenheft oder Angebot als Anlage 1 und einer Rangfolge der Dokumente
+- § 3 Termine und Meilensteine, optional mit gedeckelter Vertragsstrafe
+- § 4 Mitwirkung des Bestellers: Inhalte, Zugänge, Freigabefristen, Rechte an beigestelltem Material
+- § 5 Änderungswünsche als Change-Request-Verfahren mit Prüfung, Angebot und Freigabe in Textform
+- § 6 Abnahme mit Prüffrist, Protokoll, fiktiver Abnahme nach § 640 Abs. 2 BGB und Teilabnahmen
+- § 7 Vergütung als Festpreis oder Aufwand mit Obergrenze, Zahlungsplan nach Meilensteinen, Eigentumsvorbehalt
+- § 8 Mängelrechte, Nacherfüllung und Verjährung
+- § 9 Nutzungsrechte am Werk, Referenznutzung, Open-Source-Komponenten, Quellcode
+- § 10 Haftung, § 11 Kündigung nach § 648 und § 648a BGB, § 12 Schlussbestimmungen
+
+Ohne Abnahmeregelung fehlt dem Vertrag das Herzstück: Erst die Abnahme macht die Vergütung fällig und startet die Gewährleistungsfrist.`,
+      },
+      {
+        titel: "Werkvertrag Muster richtig ausfüllen",
+        text: `Beginne mit den Parteien und der Bezeichnung des Werks in § 1; das Muster nennt Beispiele für Website, Logo und Bodenbeschichtung, die du durch dein Projekt ersetzt. Lege das Angebot oder Pflichtenheft als Anlage 1 bei und trage Nummer und Datum ein. In § 3 setzt du Beginn, Meilensteine und den Termin der Bereitstellung zur Abnahme; entscheide, ob die Termine verbindlich sind und ob du die optionale Vertragsstrafe behalten willst.
+
+In § 4 listest du, was der Besteller liefern muss, und legst die Freigabefrist fest. In § 5 trägst du den Stundensatz für Unterbrechungen und die Vergütung für die Prüfung von Änderungswünschen ein. In § 6 bestimmst du die Prüffrist für die Abnahme. In § 7 wählst du Festpreis oder Aufwand, regelst Material und Fremdkosten und verteilst die Raten auf Vertragsschluss, Meilenstein und Abnahme. In § 8 legst du die Verjährungsfrist fest, in § 9 ausschließliches oder einfaches Nutzungsrecht und ob der Besteller den Quellcode erhält. Zum Schluss Haftungsobergrenze in § 10, Gerichtsstand, Anlagen und Unterschriften. Die Word-Version lässt sich dafür direkt bearbeiten.`,
+      },
+      {
+        titel: "Typische Fehler beim Werkvertrag",
+        text: `Fehler Nummer eins ist die vergessene Abnahme. Viele Freelancer liefern, der Kunde nutzt das Werk, und niemand erklärt die Abnahme. Dann ist unklar, ab wann die Vergütung fällig ist und wann die Gewährleistung endet. Die Vorlage löst das über die Abnahmeanzeige mit Frist und die fiktive Abnahme, wenn der Kunde schweigt oder das Werk produktiv nutzt.
+
+Fehler Nummer zwei: Änderungen werden auf Zuruf umgesetzt. Ohne Change-Request-Verfahren wächst der Umfang, der Festpreis bleibt. Nutze § 5 konsequent und setze nichts um, was nicht in Textform freigegeben ist.
+
+Fehler Nummer drei: Nutzungsrechte werden nicht geregelt. Nach § 31 UrhG und der Zweckübertragungslehre bleibt alles beim Urheber, was nicht ausdrücklich eingeräumt ist. Weitere Stolperfallen sind Meilensteine ohne Zwischenzahlungen, ein Verbot von Subunternehmern ohne Ausnahme für Standardtools und die Erwartung, dass der Kunde den Vertrag nicht kündigen kann, obwohl § 648 BGB ihm das jederzeit erlaubt.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen: Werkvertrag nach § 631 BGB",
+        text: `Der Werkvertrag ist in den §§ 631 ff. BGB geregelt. Der Unternehmer schuldet die Herstellung des versprochenen Werks, der Besteller die Vergütung, die nach § 641 BGB mit der Abnahme fällig wird. § 640 BGB regelt die Abnahme: Wegen unwesentlicher Mängel darf sie nicht verweigert werden, und nach Absatz 2 gilt das Werk als abgenommen, wenn der Besteller trotz Fristsetzung und Hinweis keinen Mangel benennt.
+
+Die Mängelrechte stehen in § 634 BGB: Nacherfüllung, Selbstvornahme, Minderung, Rücktritt und Schadensersatz. Sie verjähren nach § 634a BGB bei den meisten Werken in zwei Jahren ab Abnahme, bei Bauwerken in fünf Jahren; zwischen Unternehmen ist eine Verkürzung möglich, nicht aber für Arglist und Personenschäden. § 648 BGB erlaubt dem Besteller die freie Kündigung gegen Zahlung der Vergütung abzüglich ersparter Aufwendungen, § 648a BGB die Kündigung aus wichtigem Grund. Für Bauleistungen gelten zusätzlich die §§ 650a ff. BGB. Nutzungsrechte an urheberrechtlich geschützten Werken richten sich nach § 31 UrhG und gehen nur über, soweit sie ausdrücklich eingeräumt werden.`,
+      },
+      {
+        titel: "Wann die Werkvertrag-Vorlage nicht reicht",
+        text: `Die Vorlage ist für überschaubare Projekte zwischen Unternehmen gedacht. Bei Bauleistungen, Verbraucherbauverträgen oder wenn die VOB/B einbezogen werden soll, lass den Vertrag von einem Anwalt anpassen; dort gelten eigene Fristen, Sicherheiten und Abnahmeregeln. Dasselbe gilt für Softwareprojekte mit agiler Entwicklung ohne festes Pflichtenheft, bei denen Werk- und Dienstelemente gemischt sind, und für Projekte, deren Volumen eine unwirksame Haftungsklausel zum Existenzrisiko macht.
+
+Setzt du den Vertrag unverändert bei vielen Kunden ein, wird er zu AGB und sollte auf die Inhaltskontrolle geprüft werden. Bei laufender Betreuung nach dem Projekt ergänze einen Dienstleistungs- oder Wartungsvertrag. GründerX liefert die Vorlage als Software; die rechtliche Prüfung deines konkreten Projekts bleibt bei dir oder deinem Anwalt.`,
+      },
+    ],
     seo: {
-      title: "Werkvertrag Vorlage 2026 kostenlos (Word & PDF) | GründerX",
+      title: "Werkvertrag Vorlage kostenlos (Word & PDF) | GründerX",
       description:
         "Werkvertrag nach § 631 BGB als kostenlose Vorlage: Leistungsbeschreibung, Abnahme, Festpreis, Nacherfüllung, Change Requests, Nutzungsrechte. Word, PDF, Text.",
     },
@@ -344,8 +445,62 @@ ${VORLAGEN_HINWEIS}`,
         a: "Das Verfahren bei der Deutschen Rentenversicherung Bund ist kostenfrei. Es dauert erfahrungsgemäß einige Wochen bis mehrere Monate. Wer den Antrag innerhalb eines Monats nach Beginn der Tätigkeit stellt, kann unter bestimmten Voraussetzungen verhindern, dass die Versicherungspflicht rückwirkend ab Beginn eintritt.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du einen Freelancer-Vertrag für IT brauchst",
+        text: `Diesen Freelancer-Vertrag brauchst du, sobald ein externer Entwickler, DevOps-Spezialist, Data Engineer oder UX-Designer für dein Startup arbeitet, ohne angestellt zu sein. Typische Fälle: Du holst dir für sechs Monate einen Backend-Entwickler in die Sprint-Reihe, du lässt eine Schnittstelle zur Warenwirtschaft bauen, oder du brauchst für den Launch zusätzliche Kapazität im Frontend.
+
+Umgekehrt nutzen IT-Freelancer das Muster als eigenen Standardvertrag, wenn der Kunde keinen hat oder nur unausgewogene Einkaufsbedingungen anbietet. Der Vertrag ist als Dienstvertrag angelegt, weil die meisten Freelancer-Einsätze nach Tagen abgerechnet werden und kein abnahmefähiges Werk zum Festpreis geschuldet ist. Für einzelne Festpreis-Arbeitspakete lässt sich die Werkvertragsregel in § 1 Abs. 3 zuschalten.`,
+      },
+      {
+        titel: "Was muss in einen Freelancer-Vertrag?",
+        text: `Ein Freelancer-Vertrag für IT muss drei Dinge besonders gut können: die Selbstständigkeit absichern, die Rechte am Code übertragen und die Zusammenarbeit remote organisieren. Die Vorlage regelt in neun Paragrafen:
+
+- § 1 Projekt und Leistungsgegenstand mit Projektbeschreibung in Anlage 1 und Einordnung als Dienstvertrag
+- § 2 Status des Freelancers: keine Weisungen zu Zeit, Ort und Art, keine Anwesenheitspflicht, Recht auf weitere Auftraggeber, eigenes unternehmerisches Risiko, optional die gemeinsame Statusfeststellung
+- § 3 Remote-Arbeit, eigene Hardware, Zugänge zu Repository und Ticketsystem, Sprint-Termine nur soweit nötig
+- § 4 Tagessatz mit Definition des Personentags, Budget mit Warnschwelle, monatlicher Tätigkeitsnachweis, Reisekosten
+- § 5 Rechte am Code: ausschließliche, übertragbare Nutzungsrechte, Vorbestehendes Material, Open-Source-Regeln, Freistellung
+- § 6 Geheimhaltung, Auftragsverarbeitung nach Art. 28 DSGVO, IT-Sicherheit, optionale Vertragsstrafe
+- § 7 Haftung und IT-Haftpflichtversicherung
+- § 8 Laufzeit, Kündigung und Übergabe mit Mitwirkung zum Tagessatz
+- § 9 Schlussbestimmungen
+
+Fehlt § 5, bleibt der Code beim Freelancer. Fehlt § 2, hast du bei einer Prüfung durch die Rentenversicherung kein Argument.`,
+      },
+      {
+        titel: "Freelancer-Vertrag Muster ausfüllen",
+        text: `Trage im Kopf den Auftraggeber mit Rechtsform und den Freelancer mit Anschrift und Umsatzsteuer-Identifikationsnummer oder Steuernummer ein. In § 1 beschreibst du das Projekt konkret, etwa Sprache, Framework und Ziel der Entwicklung, und legst die Projektbeschreibung als Anlage 1 bei. Wenn einzelne Arbeitspakete zum Festpreis geliefert werden, behalte die Alternative zur Werkleistung, sonst streiche sie.
+
+In § 2 Abs. 6 entscheidest du, ob ihr die Statusfeststellung beantragen wollt. In § 3 trägst du den Ort und die Anzahl der Präsenztage ein, den geplanten Umfang in Personentagen und den Vorlauf für die Verfügbarkeit; wenn der Auftraggeber aus Sicherheitsgründen ein verwaltetes Notebook stellt, behalte die optionale Klammer. In § 4 setzt du Tagessatz, Abrechnungstakt, Gesamtbudget, Warnschwelle, Beanstandungsfrist, Zahlungsziel und die Reisekostensätze.
+
+In § 6 legst du die Dauer der Geheimhaltung und die Vertragsstrafe fest oder streichst sie. In § 7 trägst du Haftungsobergrenze und Deckungssumme der Versicherung ein, in § 8 Beginn, Ende, Verlängerung und Kündigungsfrist. Danach Gerichtsstand, Anlagen, Datum und Unterschriften. Als Word-Datei ist das in einer halben Stunde erledigt.`,
+      },
+      {
+        titel: "Scheinselbstständigkeit und andere typische Fehler",
+        text: `Der teuerste Fehler ist die gelebte Scheinselbstständigkeit. Der Vertrag sagt Weisungsfreiheit, die Praxis zeigt Firmenlaptop, Firmen-E-Mail, feste Kernzeiten, Teilnahme an jedem internen Meeting und einen einzigen Auftraggeber über Jahre. Bei einer Prüfung zählt die Gesamtschau, und die Nachzahlung der Sozialversicherungsbeiträge trifft vor allem den Auftraggeber. Halte Vertrag und Alltag deckungsgleich: eigene Geräte, eigene Zeiteinteilung, Ergebnisabstimmung statt Tagesanweisung.
+
+Zweiter Fehler: Rechte am Code nur mündlich oder gar nicht geregelt. Der Freelancer ist Urheber, § 69b UrhG gilt nur für Arbeitnehmer. Ohne § 5 kannst du den Code zwar nutzen, aber nicht sicher weiterverkaufen oder lizenzieren.
+
+Dritter Fehler: Copyleft-Lizenzen ohne Freigabe. Eine GPL-Bibliothek im Kern deines Produkts kann dich zur Offenlegung zwingen; die Komponentenliste aus § 5 Abs. 4 verhindert das. Weitere Stolperfallen sind fehlende Budgetwarnung, Tätigkeitsnachweise ohne Beanstandungsfrist und Produktivdaten in der Entwicklungsumgebung ohne Auftragsverarbeitungsvertrag.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen: Dienstvertrag, SGB IV und Urheberrecht",
+        text: `Der Freelancer-Vertrag ist ein Dienstvertrag nach den §§ 611 ff. BGB; geschuldet ist die fachgerechte Entwicklungsleistung, nicht ein abnahmefähiges Werk. Für Festpreis-Pakete gelten ergänzend die §§ 631 ff. BGB mit Abnahme und Mängelhaftung.
+
+Ob eine Beschäftigung im sozialversicherungsrechtlichen Sinn vorliegt, bestimmt § 7 Abs. 1 SGB IV nach Weisungsgebundenheit und Eingliederung in die Arbeitsorganisation. Das Statusfeststellungsverfahren nach § 7a SGB IV bei der Deutschen Rentenversicherung Bund liefert eine verbindliche Entscheidung, seit 2022 auch als Prognose vor Beginn. Freelancer ohne eigene Angestellte, die im Wesentlichen für einen Auftraggeber arbeiten, können nach § 2 Satz 1 Nr. 9 SGB VI selbst rentenversicherungspflichtig sein.
+
+Software ist nach § 69a UrhG urheberrechtlich geschützt. Nutzungsrechte werden nach § 31 UrhG eingeräumt und reichen nur so weit, wie der Vertrag es ausdrücklich sagt. Für personenbezogene Daten gilt Art. 28 DSGVO, für Geschäftsgeheimnisse das Geschäftsgeheimnisgesetz, das angemessene Schutzmaßnahmen wie eine Geheimhaltungsklausel voraussetzt.`,
+      },
+      {
+        titel: "Wann die Vorlage nicht reicht: Statusfeststellung und Anwalt",
+        text: `Dauert der Einsatz länger als ein paar Monate, läuft er in Vollzeit oder ist der Freelancer die einzige Person für eine Kernfunktion deines Produkts, solltest du die Statusfeststellung nach § 7a SGB IV beantragen, statt dich auf den Vertragstext zu verlassen. Bei Festpreisprojekten mit großem Volumen, bei Entwicklung für regulierte Branchen wie Medizin oder Finanzen und bei Freelancern aus dem Ausland gehört der Vertrag zum Anwalt, weil Haftung, Steuer und Datenschutz dann anders liegen.
+
+Vermittelt eine Agentur den Freelancer, prüfe deren Vertragskette; manche Konstruktionen sind verdeckte Arbeitnehmerüberlassung, die ohne Erlaubnis nach dem AÜG unzulässig ist. Nutzt du den Vertrag für viele Freelancer, lass ihn als AGB prüfen. GründerX ist Software und keine Rechtsberatung; die Vorlage spart dir den ersten Entwurf, nicht die Prüfung im Einzelfall.`,
+      },
+    ],
     seo: {
-      title: "Freelancer-Vertrag IT Vorlage 2026 (Word & PDF) | GründerX",
+      title: "Freelancer-Vertrag IT Vorlage kostenlos (Word) | GründerX",
       description:
         "Freelancer-Vertrag für IT und Software als kostenlose Vorlage: Tagessatz, Remote, Rechte am Code, Weisungsfreiheit, Statusfeststellung nach § 7a SGB IV.",
     },
@@ -485,8 +640,60 @@ ${VORLAGEN_HINWEIS}`,
         a: "Mit einer Absagefrist (z. B. 48 Stunden) und einer gestaffelten Ausfallpauschale, die der Kunde bei Absage nach Fristablauf zahlt. Bei Krankheit oder Verhinderung des Beraters wird der Termin kostenfrei nachgeholt. Beides steht in der Vorlage.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du einen Beratervertrag brauchst",
+        text: `Ein Beratervertrag gehört an den Anfang jeder bezahlten Beratung, jedes Coachings und jedes Trainings, das über ein einzelnes Gespräch hinausgeht. Typische Fälle: Du begleitest als Unternehmensberater ein Startup beim Aufbau des Vertriebs, du coachst eine Geschäftsführerin über sechs Monate, du gibst als Marketing-Berater Workshops oder du bietest ein Paket aus Analyse, Terminen und Abschlussbericht an.
+
+Auch als Auftraggeber brauchst du das Muster, wenn du einen Berater für Strategie, Personal oder Finanzen engagierst und vorher klären willst, was genau geliefert wird, was ein Termin kostet und was bei Absagen passiert. Die Vorlage ist für Beratung und Coaching zwischen Unternehmen gebaut; für Privatpersonen als Kunden kommen Verbraucherschutzregeln dazu, die hier nicht enthalten sind.`,
+      },
+      {
+        titel: "Was muss in einen Beratervertrag?",
+        text: `Beratungsverträge scheitern selten an der Beratung, meist an unklaren Erwartungen. Die Vorlage hält deshalb in elf Paragrafen fest:
+
+- § 1 Gegenstand der Beratung mit Aufzählung der Termine, Berichte und Erreichbarkeit zwischen den Terminen
+- § 2 Dienstvertrag ohne Erfolgsgarantie: keine Umsatz-, Gewinn- oder Einsparziele, Umsetzung bleibt beim Kunden
+- § 3 Termine, Absagefrist und gestaffelte Ausfallpauschale, kostenlose Nachholung bei Verhinderung des Beraters
+- § 4 Mitwirkung des Auftraggebers und Ansprechpartner mit Entscheidungsbefugnis
+- § 5 Honorar als Stundensatz, Tagessatz oder Paketpreis mit Einzelwerten, Auslagen, Abrechnung und Verzug
+- § 6 Abgrenzung: keine Rechts-, Steuer-, Heil- oder Anlageberatung
+- § 7 Vertraulichkeit, Datenschutz, Löschfrist für Gesprächsnotizen, keine Aufzeichnung ohne Zustimmung
+- § 8 Haftung mit Begrenzung und verkürzter Verjährung
+- § 9 Nutzungsrechte an Berichten und Präsentationen, Methoden bleiben beim Berater
+- § 10 Laufzeit, Kündigung nach § 627 BGB, anteilige Abrechnung von Paketen
+- § 11 Schlussbestimmungen
+
+Die Einzelwerte im Paketpreis sind kein Detail: Sie entscheiden, was bei einer vorzeitigen Kündigung abgerechnet wird.`,
+      },
+      {
+        titel: "Beratervertrag Muster ausfüllen",
+        text: `Ersetze in § 1 das Beispiel durch dein Thema und fülle die Liste in Absatz 2 mit dem, was tatsächlich enthalten ist: Dauer des Auftaktgesprächs, Anzahl und Länge der Termine, ob persönlich oder per Video, ob ein schriftlicher Bericht dazugehört und wie viele Stunden E-Mail-Rückfragen pro Monat abgedeckt sind. In § 2 Abs. 3 legst du fest, ob du persönlich leistest oder benannte Mitarbeiter einsetzen darfst.
+
+In § 3 trägst du Absagefrist und die beiden Stufen der Ausfallpauschale ein, dazu Ort der Termine und die Regel für Reisezeiten. In § 4 nennst du den Ansprechpartner des Kunden. In § 5 wählst du Variante A, B oder C und löschst die anderen; bei Paketpreisen trägst du die Einzelwerte je Termin und für den Bericht ein. Kleinunternehmer behalten den Satz zu § 19 UStG. In § 7 setzt du die Löschfrist für Gesprächsnotizen, in § 8 Haftungsobergrenze und Verjährungsfrist, in § 10 Beginn, Ende oder Kündigungsfrist. Dann Gerichtsstand, Datum und Unterschriften. Die Vorlage gibt es als Word, PDF und Text.`,
+      },
+      {
+        titel: "Typische Fehler im Beratungsvertrag",
+        text: `Der häufigste Fehler ist das Erfolgsversprechen in der Werbung, das der Vertrag dann nicht mehr einfängt: Umsatzverdopplung auf der Website, Dienstvertrag im Vertrag. Gerichte lesen beides zusammen. Halte Marketing und Vertrag konsistent und bleibe bei dem, was du beeinflussen kannst.
+
+Zweiter Fehler: Rechts- oder Steuerfragen nebenbei beantworten. Die konkrete Prüfung eines Vertrags oder einer steuerlichen Gestaltung ist Anwälten und Steuerberatern vorbehalten; wer das trotzdem tut, riskiert Abmahnung und haftet ohne Versicherungsschutz. § 6 der Vorlage zieht die Grenze, du musst sie im Alltag einhalten.
+
+Dritter Fehler: Paketpreise ohne Einzelwerte. Kündigt der Kunde nach § 627 BGB nach der Hälfte, musst du nachweisen, was die erbrachten Termine wert waren. Weitere Stolperfallen sind Absagepauschalen von 100 Prozent, die vor Gericht selten halten, Coaching mit Gesundheitsversprechen, das unter das Heilpraktikergesetz fällt, und fehlende Regeln für Gesprächsnotizen und Aufzeichnungen.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen: § 611 und § 627 BGB",
+        text: `Beratung und Coaching sind Dienstverträge nach den §§ 611 ff. BGB. Geschuldet ist die sorgfältige Beratung, nicht der wirtschaftliche Erfolg. Besonders wichtig ist § 627 BGB: Dienste höherer Art, die aufgrund besonderen Vertrauens übertragen werden, kann der Kunde jederzeit kündigen, wenn der Berater nicht in einem dauernden Dienstverhältnis mit festen Bezügen steht. Der Berater darf ebenfalls kündigen, aber nicht zur Unzeit. Bereits erbrachte Leistungen sind nach § 628 BGB zu vergüten.
+
+Rechtsdienstleistungen regelt das Rechtsdienstleistungsgesetz; § 5 RDG erlaubt sie nur als Nebenleistung zum eigentlichen Berufsbild. Hilfeleistung in Steuersachen ist nach dem Steuerberatungsgesetz den dort genannten Berufen vorbehalten. Für Zahlungsverzug gilt § 288 BGB, für die Haftungsbegrenzung gelten die Grenzen der §§ 305 ff. BGB, sobald der Vertrag mehrfach verwendet wird. Berichte und Präsentationen des Beraters sind nach § 2 UrhG geschützt, sodass der Kunde nur die in § 9 eingeräumten Nutzungsrechte erhält.`,
+      },
+      {
+        titel: "Wann der Beratervertrag nicht reicht",
+        text: `Für Coaching mit Privatpersonen, Online-Kurse oder Mitgliedschaftsprogramme brauchst du zusätzlich Widerrufsbelehrung und verbraucherkonforme Laufzeitregeln; dafür ist diese B2B-Vorlage nicht gemacht. Geht es um Interimsmanagement, bei dem du tatsächlich Entscheidungen im Unternehmen triffst, um Beratung mit Erfolgshonorar oder um Mandate mit sehr hohen Honoraren, lass den Vertrag anwaltlich anpassen.
+
+Berührst du in deiner Beratung regelmäßig Rechts- oder Steuerfragen, kläre mit einem Anwalt, wo bei deinem Berufsbild die Grenze der zulässigen Nebenleistung liegt. Bei gesundheitsnahem Coaching entscheidet im Zweifel das Gesundheitsamt, ob eine Heilpraktikererlaubnis nötig ist. GründerX stellt die Vorlage als Software bereit und ersetzt keine Rechtsberatung; die Anpassung an deinen Einzelfall bleibt deine Aufgabe.`,
+      },
+    ],
     seo: {
-      title: "Beratervertrag Vorlage 2026 kostenlos (Coaching) | GründerX",
+      title: "Beratervertrag Vorlage kostenlos (Word & PDF) | GründerX",
       description:
         "Beratervertrag und Coaching-Vertrag als kostenlose Vorlage: Leistungsumfang, Honorar, Absagefristen, Haftungsbegrenzung, keine Rechts- oder Steuerberatung.",
     },
@@ -631,8 +838,60 @@ ${VORLAGEN_HINWEIS}`,
         a: "Nach außen immer das werbende Unternehmen, also der Kunde. Im Innenverhältnis haftet die Agentur, wenn der Fehler auf ihrer Arbeit beruht und sie nicht auf das Risiko hingewiesen hat. Freigaben des Kunden und Vorgaben zu Claims verschieben die Verantwortung zum Kunden.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du einen Agenturvertrag brauchst",
+        text: `Ein Agenturvertrag gehört vor den ersten Post und vor die erste Kampagne. Typische Fälle: Du führst eine Social-Media-Agentur und betreust Kunden im monatlichen Retainer. Du steuerst als Performance-Agentur Meta- und Google-Ads mit fremdem Budget. Du bist Gründer und beauftragst eine Agentur für Content, SEO oder E-Mail-Marketing und willst wissen, was im Paket steckt, wem die Werbekonten gehören und wie du wieder herauskommst.
+
+Die Vorlage ist für laufende Betreuung mit festem Leistungspaket gebaut. Einzelne Produktionen wie ein Imagefilm oder eine Landingpage sind als Werkleistungen eingebettet, aber der Kern bleibt ein Dienstvertrag. Für reine Einmalprojekte nimm den Werkvertrag, für Creator-Buchungen den Influencer-Kooperationsvertrag.`,
+      },
+      {
+        titel: "Was muss in einen Agenturvertrag?",
+        text: `Agenturverträge streiten sich an drei Stellen: Umfang, Budget und Zugänge. Die Vorlage regelt in zwölf Paragrafen:
+
+- § 1 Leistungspaket mit Stückzahlen pro Monat für Beiträge, Anzeigen, Grafiken und Reporting, Ausschlüsse und Stundensatz für Zusatzleistungen
+- § 2 Dienstvertrag ohne Garantie für Reichweite, Leads oder Rankings; einzelne Werkleistungen mit Abnahme
+- § 3 Werbebudget getrennt vom Honorar, als Direktzahlung des Kunden oder als durchlaufender Posten mit Vorauszahlung
+- § 4 Werbekonten, Business-Manager, Pixel und Zielgruppen gehören dem Kunden; die Agentur erhält nur Zugriffsrechte
+- § 5 Freigabeprozess mit Frist, Verfall nicht genutzter Kontingente, monatliches Reporting
+- § 6 Retainer im Voraus, optionale Setup-Gebühr und erfolgsabhängiger Anteil, Preisanpassung
+- § 7 Nutzungsrechte an Content, Fremdlizenzen, Referenznutzung
+- § 8 Verteilung der rechtlichen Verantwortung für Werbeaussagen und Kennzeichnung
+- § 9 Vertraulichkeit und Auftragsverarbeitung, § 10 Haftung ohne Plattformrisiken
+- § 11 Mindestlaufzeit, Verlängerung, Kündigung, Übergabe in bearbeitbaren Formaten
+- § 12 Schlussbestimmungen
+
+Die Kontoinhaberschaft in § 4 ist der Punkt, den Kunden beim Agenturwechsel am häufigsten bereuen.`,
+      },
+      {
+        titel: "Agenturvertrag Muster ausfüllen",
+        text: `Trage Kunde und Agentur mit Rechtsform ein und gib dem Leistungspaket in § 1 einen Namen. Fülle die Stückzahlen ehrlich: Kanäle, Beiträge, Stories, Anzeigenplattformen, Grafiken, Videos, Texte, Umfang des Strategiegesprächs. Setze den Stundensatz für Zusatzleistungen. In § 3 trägst du das anfängliche Werbebudget ein, wählst Variante A oder B und legst die zulässige Überschreitung und den Handling-Aufschlag für Fremdkosten fest.
+
+In § 4 setzt du die Frist, in der der Kunde Zugänge gewährt. In § 5 legst du Freigabefrist, Verfall oder Übertrag von Kontingenten, Reporting-Termin und Abstimmungsrhythmus fest; wenn Community-Management ohne Einzelfreigabe laufen soll, behalte Absatz 2. In § 6 trägst du Retainer, Fälligkeit, Zahlungsziel, optionale Setup-Gebühr und Erfolgsanteil ein. In § 9 setzt du die Dauer der Vertraulichkeit, in § 10 den Haftungszeitraum, in § 11 Beginn, Mindestlaufzeit, Verlängerung, Kündigungsfrist und Übergabefrist. Danach Gerichtsstand, Anlagen und Unterschriften. Die Word-Datei lässt sich dafür direkt bearbeiten.`,
+      },
+      {
+        titel: "Typische Fehler im Agenturvertrag",
+        text: `Der folgenreichste Fehler: Werbekonten laufen auf die Agentur. Beim Wechsel sind Kampagnenhistorie, Pixel-Daten und Zielgruppen weg, und die Rechnungen der Plattform standen auf fremdem Namen. § 4 der Vorlage verhindert das, aber nur, wenn ihr es auch so einrichtet.
+
+Zweiter Fehler: Werbebudget und Honorar in einer Summe. Dann weiß der Kunde nicht, was die Agentur verdient, und die Agentur trägt das Zahlungsausfallrisiko für Mediakosten. Trennt beides in Vertrag und Rechnung.
+
+Dritter Fehler: Zusagen zu Reichweite oder Leads. Werden sie zum Vertragsinhalt, schuldet die Agentur ein Werk, das sie nicht kontrollieren kann. Weitere Stolperfallen sind Freigaben per Chat ohne Nachweis, fehlende Lizenzen für Stockmaterial und Musik, Werbekennzeichnung, die niemand prüft, zwölf Monate Mindestlaufzeit mit stiller Verlängerung bei kleinen Kunden und fehlende Übergaberegeln, sodass bezahlte Inhalte nur als flache Exporte ankommen.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen für Marketing- und Social-Media-Agenturen",
+        text: `Die laufende Betreuung ist ein Dienstvertrag nach den §§ 611 ff. BGB, einzelne Produktionen sind Werkverträge nach den §§ 631 ff. BGB mit Abnahme nach § 640 BGB. Nutzungsrechte an Texten, Grafiken und Videos entstehen nach dem Urheberrechtsgesetz beim Urheber und gehen nur im Umfang des § 7 der Vorlage über; für Fremdmaterial gelten die Lizenzbedingungen der Anbieter.
+
+Werbung muss als solche erkennbar sein. § 5a Abs. 4 UWG verbietet verdeckte kommerzielle Kommunikation, § 22 Abs. 1 MStV verlangt die Kennzeichnung in Telemedien; Verstöße treffen nach außen den werbenden Unternehmer, also den Kunden. Für Lead-Formulare, Custom Audiences und Community-Nachrichten ist die Agentur meist Auftragsverarbeiter, sodass Art. 28 DSGVO einen Vertrag verlangt; für Cookie-Einwilligungen bleibt der Kunde als Verantwortlicher zuständig. Für Zahlungsverzug gilt § 288 BGB, für Haftungsklauseln bei mehrfacher Verwendung die Inhaltskontrolle nach den §§ 305 ff. BGB.`,
+      },
+      {
+        titel: "Wann die Agenturvertrag-Vorlage nicht reicht",
+        text: `Übernimmt die Agentur Shop- oder Website-Entwicklung, Influencer-Buchungen im Namen des Kunden oder die gesamte Marketingabteilung als Outsourcing, braucht es Zusatzverträge: Werkvertrag, Influencer-Kooperationsvertrag, Rahmenvertrag. Wird mit Gesundheits-, Finanz- oder Umweltaussagen geworben, muss ein Anwalt die Claims prüfen; die Vorlage verteilt nur die Verantwortung, sie macht Aussagen nicht zulässig.
+
+Bei erfolgsabhängiger Vergütung in größerem Umfang, bei Kunden außerhalb Deutschlands oder wenn die Agentur Verträge mit Plattformen und Dienstleistern im eigenen Namen für den Kunden schließt, gehört der Vertrag in anwaltliche Hände. Setzt du ihn für alle Kunden ein, lass ihn als AGB prüfen. GründerX liefert das Muster als Software, nicht als Rechtsberatung; die Verantwortung für Werbeinhalte und Verträge bleibt bei Agentur und Kunde.`,
+      },
+    ],
     seo: {
-      title: "Agenturvertrag Marketing Vorlage 2026 (Word & PDF) | GründerX",
+      title: "Agenturvertrag Vorlage kostenlos (Word & PDF) | GründerX",
       description:
         "Agenturvertrag für Marketing, Social Media und Ads als kostenlose Vorlage: Leistungspakete, Retainer, Werbebudget, Zugänge, Reporting, Nutzungsrechte.",
     },
@@ -784,8 +1043,61 @@ ${VORLAGEN_HINWEIS}`,
         a: "Nein, der Rahmenvertrag ersetzt deine AGB gegenüber diesem Kunden. Die Vorlage schließt entgegenstehende AGB beider Seiten ausdrücklich aus, damit nicht bei jeder Bestellung die Einkaufsbedingungen des Kunden hineinrutschen.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du einen Rahmenvertrag brauchst",
+        text: `Ein Rahmenvertrag lohnt sich, sobald du mit demselben Partner öfter als zweimal arbeitest und nicht jedes Mal Haftung, Geheimhaltung und Preise neu verhandeln willst. Typische Fälle: Eine IT-Beratung liefert für einen Kunden laufend Projekte unterschiedlicher Größe. Eine Designagentur produziert wiederkehrend Content für mehrere Marken eines Konzerns. Ein Logistikdienstleister übernimmt saisonal Lager- und Versandaufträge.
+
+Als Auftraggeber nutzt du das Muster, um einen Lieferantenpool mit einheitlichen Bedingungen aufzubauen; als Dienstleister, um deinem Stammkunden Einzelaufträge per E-Mail oder Ticket anbieten zu können. Der Rahmenvertrag selbst verpflichtet zu nichts; erst der Einzelauftrag (Statement of Work) löst Leistung und Zahlung aus. Genau das macht ihn flexibel.`,
+      },
+      {
+        titel: "Was muss in einen Rahmenvertrag für Dienstleistungen?",
+        text: `Ein Rahmenvertrag ist ein Regelwerk für künftige Aufträge. Die Vorlage legt in dreizehn Paragrafen fest:
+
+- § 1 Gegenstand und Struktur: was jeder Einzelauftrag mindestens enthalten muss, optional eine Mindestabnahme
+- § 2 Rangfolge der Dokumente und Ausschluss fremder AGB und Einkaufsbedingungen
+- § 3 Zustandekommen von Einzelaufträgen: Anfrage, Angebot, Annahme in Textform, vereinfachter Abruf bis zu einem Schwellenwert, Änderungsverfahren
+- § 4 Leistungserbringung, Schlüsselpersonen, Subunternehmer, Mitwirkung
+- § 5 Basis-Service-Level mit Servicezeiten, Reaktionszeiten nach Priorität, optional Gutschriften
+- § 6 Preisliste mit Tages- und Stundensätzen, jährliche Preisanpassung
+- § 7 Abrechnung, Tätigkeitsnachweis, Zahlungsziel, Zurückbehaltung
+- § 8 Abnahme bei Werkleistungen, § 9 Nutzungsrechte
+- § 10 Geheimhaltung und Auftragsverarbeitung für alle Einzelaufträge
+- § 11 Haftung je Einzelauftrag und je Vertragsjahr, Versicherung
+- § 12 Laufzeit, Kündigung und Fortgeltung für laufende Einzelaufträge
+- § 13 Schlussbestimmungen plus Muster eines Einzelauftrags als Anlage 2
+
+Die Rangfolge in § 2 ist der Teil, den du am sorgfältigsten lesen solltest: Sie bestimmt, was gilt, wenn Einzelauftrag und Rahmenvertrag sich widersprechen.`,
+      },
+      {
+        titel: "Rahmenvertrag Muster ausfüllen",
+        text: `Trage beide Unternehmen ein und beschreibe in § 1 den Leistungsbereich, etwa Softwareentwicklung, Design oder Logistik. Entscheide, ob eine Mindestabnahme pro Jahr vereinbart wird; als Dienstleister ist das deine wichtigste Verhandlungsposition. In § 3 nennst du die Personen, die Einzelaufträge erteilen und annehmen dürfen, setzt die Angebotsfrist und den Schwellenwert für vereinfachte Abrufe.
+
+In § 5 legst du Servicezeiten, Reaktionszeiten je Priorität und den Meldeweg fest. Behalte die Gutschriftenregel nur, wenn du Reaktionszeiten tatsächlich messen kannst. In § 6 verweist du auf die Preisliste in Anlage 1 und trägst Anpassungstermin, Frist und Obergrenze ein. In § 7 setzt du Zahlungsplan für Festpreise, Beanstandungsfrist und Zahlungsziel, in § 8 Prüffrist und Verjährung, in § 9 ausschließliche oder einfache Rechte. In § 11 trägst du die Haftungsgrenzen und die Deckungssumme ein, in § 12 Beginn, Laufzeit und Kündigungsfristen. Fülle das Muster des Einzelauftrags in Anlage 2 einmal beispielhaft aus, damit beide Seiten wissen, wie Abrufe aussehen sollen.`,
+      },
+      {
+        titel: "Typische Fehler bei Rahmenverträgen",
+        text: `Der häufigste Fehler: Der Einzelauftrag weicht vom Rahmenvertrag ab, ohne das zu sagen. Dann gilt nach § 2 der Rahmenvertrag, und der im Einzelauftrag vereinbarte Sonderpreis ist angreifbar. Kennzeichne Abweichungen ausdrücklich, wie Anlage 2 es vorsieht.
+
+Zweiter Fehler: Einkaufsbedingungen des Kunden auf jeder Bestellung. Ohne den Ausschluss in § 2 Abs. 2 rutschen sie mit jedem Abruf hinein. Dritter Fehler: Der Rahmenvertrag wird gekündigt und niemand weiß, ob laufende Projekte noch nach seinen Regeln abgerechnet werden; § 12 Abs. 3 klärt das.
+
+Weitere Stolperfallen sind Service-Level ohne Messverfahren, Mindestabnahmen, die der Dienstleister erwartet, aber nie hineingeschrieben hat, Schlüsselpersonen, die ohne Regel ausgetauscht werden, und Einzelaufträge aus einem Satz per Chat, bei denen später Leistung, Termin und Preis fehlen. Nutze das Muster in Anlage 2 für jeden Abruf.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen für Rahmenvertrag und Einzelauftrag",
+        text: `Der Rahmenvertrag ist gesetzlich nicht eigens geregelt; er ist ein Vertrag nach den allgemeinen Regeln der §§ 145 ff. BGB über Angebot und Annahme, der die Bedingungen künftiger Verträge festlegt. Jeder Einzelauftrag ist je nach Inhalt ein Dienstvertrag nach § 611 BGB oder ein Werkvertrag nach § 631 BGB mit Abnahme nach § 640 BGB und Mängelrechten nach § 634 BGB.
+
+Weil der Rahmenvertrag für viele Aufträge vorformuliert ist, gelten seine Klauseln regelmäßig als Allgemeine Geschäftsbedingungen nach § 305 BGB; die Inhaltskontrolle der §§ 307 ff. BGB greift auch zwischen Unternehmen, besonders bei Haftung, Vertragsstrafen und Gutschriften. Widersprechende AGB beider Seiten heben sich nach der Rechtsprechung gegenseitig auf, deshalb der ausdrückliche Ausschluss in § 2. Für Zahlungsverzug gilt § 288 BGB, für die freie Kündigung von Werkleistungen § 648 BGB. Für Datenverarbeitung im Auftrag verlangt Art. 28 DSGVO einen Vertrag, den die Vorlage als Anlage 3 für alle Einzelaufträge mitgelten lässt.`,
+      },
+      {
+        titel: "Wann der Rahmenvertrag nicht reicht",
+        text: `Bei Rahmenverträgen mit großen Konzernen, öffentlichen Auftraggebern oder im regulierten Umfeld wie Banken und Gesundheitswesen kommen Compliance-Anhänge, Auditrechte und besondere Service-Level dazu; dort solltest du mit Anwalt verhandeln. Dasselbe gilt für Rahmenverträge mit hohen Mindestabnahmen, für Exklusivität oder Wettbewerbsverbote und für Verträge mit Partnern außerhalb Deutschlands.
+
+Soll der Rahmenvertrag Arbeitnehmerüberlassung oder Personalgestellung abdecken, ist er das falsche Instrument; dafür gilt das AÜG mit Erlaubnispflicht. Für reine Betriebs- und Wartungsleistungen mit harten Wiederherstellungszeiten brauchst du einen ausgearbeiteten SLA-Vertrag statt des Basis-Service-Levels in § 5. GründerX stellt das Muster als Software bereit und ersetzt keine Rechtsberatung.`,
+      },
+    ],
     seo: {
-      title: "Rahmenvertrag Dienstleistung Vorlage 2026 (Word, PDF) | GründerX",
+      title: "Rahmenvertrag Dienstleistungen Vorlage kostenlos | GründerX",
       description:
         "Rahmenvertrag für Dienstleistungen mit Einzelaufträgen als kostenlose Vorlage: Rangfolge, Preisliste, Abruf, Service-Level, Haftung, Laufzeit. Word, PDF.",
     },
@@ -952,8 +1264,59 @@ ${VORLAGEN_HINWEIS}`,
         a: "Dann ist die Vergütung nicht fällig, bereits gezahlte Vorschüsse sind zurückzuzahlen und gelieferte Produkte zurückzugeben oder zu bezahlen. Die Vorlage sieht eine Nachfrist und danach ein Rücktrittsrecht vor. Bei Absagen aus Gründen beim Unternehmen gibt es eine gestaffelte Stornogebühr.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du einen Influencer-Vertrag brauchst",
+        text: `Ein Influencer-Kooperationsvertrag gehört vor jede bezahlte Zusammenarbeit mit Creatorn, auch wenn die Vergütung nur aus Produkten besteht. Typische Fälle: Ein D2C-Shop bucht drei Reels und eine Story-Sequenz für einen Produktlaunch. Eine App lässt ein YouTube-Video mit Produktintegration produzieren. Ein Lokal lädt Creator gegen Gratisessen ein und erwartet Beiträge.
+
+Umgekehrt brauchen Creator das Muster, um Umfang, Korrekturschleifen, Nutzungsrechte und Stornobedingungen festzuhalten, bevor sie Zeit in Produktion stecken. Die Vorlage deckt Instagram, TikTok, YouTube und Blogs ab und regelt beide Vergütungsformen, Geld und Ware, sowie optional eine Affiliate-Provision. Für Agenturen, die Creator vermitteln, dient sie als Grundlage des Vertrags zwischen Marke und Creator.`,
+      },
+      {
+        titel: "Was muss in einen Influencer-Kooperationsvertrag?",
+        text: `Im Influencer-Marketing streiten sich die Beteiligten über Kennzeichnung, Freigaben, Reichweite und darüber, wer den Content später nutzen darf. Die Vorlage regelt in zwölf Paragrafen:
+
+- § 1 Kampagne, Produkt, Zeitraum, Selbstständigkeit des Creators
+- § 2 Deliverables mit Anzahl, Format, Länge, Veröffentlichungsfenster, Pflichtinhalten und Mindestdauer online
+- § 3 Briefing, Entwurfsvorlage, Freigabefrist mit Freigabefiktion, Korrekturschleifen, Linkübermittlung
+- § 4 Werbekennzeichnung nach § 5a Abs. 4 UWG und § 22 Abs. 1 MStV, Plattformregeln, Verantwortung des Unternehmens für Produktaussagen
+- § 5 Honorar in Raten, Warenwert der Produkte, optionale Affiliate-Provision, Verzug
+- § 6 Nutzungsrechte: Grundnutzung auf eigenen Kanälen, optional erweiterte Nutzung in Ads und Shop gegen Zuschlag
+- § 7 Exklusivität mit Dauer und Vergütung
+- § 8 Insights als Leistungsnachweis, Versicherung organischer Reichweite, Rückzahlung bei vorzeitiger Löschung
+- § 9 Storno-Staffel, Nachfrist, Rücktritt, Kündigung aus wichtigem Grund
+- § 10 Freistellungen und Verhaltenskodex, § 11 Vertraulichkeit und Embargo, § 12 Laufzeit
+
+Die Freigabefiktion in § 3 schützt den Creator vor Marken, die Entwürfe wochenlang liegen lassen.`,
+      },
+      {
+        titel: "Influencer-Vertrag Muster ausfüllen",
+        text: `Trage das Unternehmen und den Creator mit Plattform, Nutzername und Profil-URL ein. In § 1 gibst du der Kampagne einen Namen und setzt den Zeitraum. In § 2 listest du die Deliverables mit Stückzahl, Format, Länge und Veröffentlichungsfenster und trägst Pflichtinhalte wie Rabattcode, Link und Hashtags ein; lege fest, wie lange die Beiträge online bleiben müssen.
+
+In § 3 setzt du Vorlagefrist für Entwürfe, Freigabefrist und den Preis weiterer Korrekturschleifen. In § 5 trägst du Honorar, Ratenaufteilung, Zahlungsziel, die Produkte mit Warenwert und die Entscheidung ein, ob sie beim Creator bleiben; aktiviere die Affiliate-Klausel nur, wenn du Bestellungen dem Code zuordnen kannst. In § 6 entscheidest du, ob die erweiterte Nutzung in bezahlter Werbung dazugehört, und trägst Dauer und Zuschlag ein. In § 7 setzt du Dauer, Wettbewerber und Vergütung der Exklusivität, in § 8 Fristen für Insights und die aktuellen Kanalzahlen, in § 9 die Storno-Staffel und Nachfrist. Lege das Briefing als Anlage 1 bei. Die Vorlage gibt es kostenlos als Word, PDF und Text.`,
+      },
+      {
+        titel: "Typische Fehler bei Influencer-Kooperationen",
+        text: `Der teuerste Fehler ist die fehlende oder versteckte Werbekennzeichnung. Das Wort Werbung im zwanzigsten Hashtag reicht nicht; Abmahnungen treffen Creator und Marke. Die Vorlage verlangt die Kennzeichnung am Anfang des Beitrags und in jedem Story-Element.
+
+Zweiter Fehler: Nutzungsrechte nur stillschweigend vorausgesetzt. Eine Marke schaltet das Reel als Anzeige, der Creator hat dafür nie zugestimmt und nie ein Honorar bekommen. § 6 trennt Grundnutzung und erweiterte Nutzung. Dritter Fehler: Reichweitengarantien. Creator schulden Veröffentlichung, nicht den Algorithmus; wer Reichweite verspricht, haftet dafür.
+
+Weitere Stolperfallen sind Freigaben, die in kreative Entscheidungen eingreifen und damit Authentizität und Selbstständigkeit gefährden, Gratisprodukte ohne Warenwert und ohne Hinweis auf die Steuerpflicht, Exklusivität über Monate ohne Vergütung und Gewinnspiele ohne Teilnahmebedingungen. Prüfe außerdem mit deinem Steuerberater, ob für Honorare an Creator die Künstlersozialabgabe anfällt.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen: UWG, MStV und Urheberrecht",
+        text: `Der Kooperationsvertrag ist ein gemischter Vertrag: Die Produktion der Beiträge ist werkvertraglich geprägt, die Veröffentlichung und Rechtseinräumung folgen dem Urheber- und Dienstvertragsrecht. Nach § 5a Abs. 4 UWG handelt unlauter, wer den kommerziellen Zweck einer geschäftlichen Handlung nicht kenntlich macht; § 22 Abs. 1 MStV verlangt, dass Werbung in Telemedien als solche erkennbar ist. Beides gilt auch bei Vergütung in Produkten.
+
+Der Creator ist Urheber seiner Beiträge nach dem Urheberrechtsgesetz; Nutzungsrechte gehen nach § 31 UrhG nur in dem Umfang über, der vereinbart ist. Persönlichkeitsrechte abgebildeter Personen und Musiklizenzen muss der Creator selbst klären. Für Gewinnspiele gelten die Transparenzpflichten des UWG und die Plattformregeln. Honorare an selbstständige Creator können nach dem Künstlersozialversicherungsgesetz abgabepflichtig sein. Überlassene Produkte sind beim Creator Betriebseinnahmen; die Vorlage weist darauf hin. Für Zahlungsverzug gilt § 288 BGB.`,
+      },
+      {
+        titel: "Wann die Vorlage nicht reicht",
+        text: `Bei Kampagnen mit mehreren Creatorn, Agenturen als Zwischenpartei oder internationalen Creatorn solltest du den Vertrag anwaltlich anpassen lassen, weil Rechtekette, Steuer und Kennzeichnungspflichten dann komplexer werden. Dasselbe gilt für regulierte Produkte wie Nahrungsergänzungsmittel, Kosmetik mit Wirkversprechen, Finanzprodukte, Alkohol oder Glücksspiel, bei denen Werbebeschränkungen bis zum Werbeverbot reichen.
+
+Langfristige Markenbotschafter-Verträge mit monatlicher Vergütung, Exklusivität über Jahre und festen Terminen rücken den Creator in Richtung Arbeitnehmer; hier lohnt die Prüfung auf Scheinselbstständigkeit. Bei Gewinnspielen und Nutzung von Kundendaten brauchst du zusätzlich Teilnahmebedingungen und Datenschutzregelungen. GründerX liefert das Muster als Software und ersetzt keine Rechtsberatung.`,
+      },
+    ],
     seo: {
-      title: "Influencer-Vertrag Vorlage 2026 kostenlos (Word, PDF) | GründerX",
+      title: "Influencer-Vertrag Vorlage kostenlos (Word) | GründerX",
       description:
         "Influencer-Kooperationsvertrag als kostenlose Vorlage: Deliverables, Werbekennzeichnung, Freigabe, Nutzungsrechte, Exklusivität, Vergütung, Insights.",
     },
@@ -1113,8 +1476,61 @@ ${VORLAGEN_HINWEIS}`,
         a: "Mit einer Delkredere-Abrede haftet der Handelsvertreter dafür, dass der Kunde zahlt. Das ist nur für bestimmte Geschäfte oder Kunden möglich, muss schriftlich erfolgen und löst eine zusätzliche Delkredereprovision aus (§ 86b HGB). Für kleine Unternehmen ist es meist unnötig; eine Bonitätsprüfung vor Auftragsannahme ist einfacher.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du einen Handelsvertretervertrag brauchst",
+        text: `Einen Handelsvertretervertrag brauchst du, wenn ein selbstständiger Vertriebspartner dauerhaft für dich Kunden gewinnt und dafür Provision erhält. Typische Fälle: Ein Hersteller von Lebensmitteln lässt den Einzelhandel in zwei Bundesländern durch einen Vertreter bearbeiten. Ein SaaS-Startup gibt den Vertrieb in eine Branche an einen erfahrenen Außendienstler ab. Ein Großhändler setzt regionale Bezirksvertreter ein.
+
+Als Handelsvertreter nutzt du das Muster, um Provision, Buchauszug, Kündigungsfristen und Ausgleichsanspruch von Anfang an abzusichern. Die Vorlage setzt die zwingenden Regeln der §§ 84 ff. HGB um, die du vertraglich nicht umgehen kannst, und bietet Varianten für Vermittlungs- und Abschlussvertreter, Alleinvertretung und Delkredere. Für einmalige Empfehlungen ohne Dauerbeziehung passt die Tippgeber-Vereinbarung besser.`,
+      },
+      {
+        titel: "Was muss in einen Handelsvertretervertrag?",
+        text: `Das HGB gibt den Rahmen vor, der Vertrag füllt ihn aus. Die Vorlage gliedert in zwölf Paragrafen:
+
+- § 1 Produkte, Vertragsgebiet oder Kundenkreis, Alleinvertretung ja oder nein, Abschlussvollmacht
+- § 2 Rechtsstellung als selbstständiger Gewerbetreibender nach § 84 HGB, Anzeige weiterer Vertretungen, Untervertreter
+- § 3 Pflichten des Handelsvertreters: Bemühen, Berichte, Einhaltung der Preise, Bonitätshinweise
+- § 4 Pflichten des Unternehmers: Unterlagen, Information über Annahme und Ausführung nach § 86a HGB
+- § 5 Provisionssätze, Bemessungsgrundlage, Nachvertragsprovision nach § 87 Abs. 3 HGB, optional Garantieprovision
+- § 6 Entstehung nach § 87a HGB, monatliche Abrechnung, Buchauszug nach § 87c HGB, Einwendungsfrist
+- § 7 Delkredere nach § 86b HGB als Variante
+- § 8 Wettbewerbsverbot während der Laufzeit, optional nachvertraglich nach § 90a HGB mit Karenzentschädigung
+- § 9 Geheimhaltung nach § 90 HGB, Rückgabe der Unterlagen, Datenschutz
+- § 10 Kündigungsfristen nach § 89 HGB, fristlose Kündigung nach § 89a HGB
+- § 11 Ausgleichsanspruch nach § 89b HGB mit Kundenliste zum Vertragsbeginn
+- § 12 Schlussbestimmungen mit Hinweis auf § 5 Abs. 3 ArbGG
+
+Die Altkundenliste in Anlage 1 ist später die Grundlage für die Ausgleichsberechnung. Lege sie am ersten Tag an.`,
+      },
+      {
+        titel: "Handelsvertretervertrag Muster ausfüllen",
+        text: `Trage den Unternehmer und den Handelsvertreter mit Gewerbeanmeldung ein. In § 1 beschreibst du Produkte und Gebiet oder Kundenkreis und wählst zwischen Variante A (Alleinvertretung mit Bezirksprovision) und Variante B (keine Exklusivität). Entscheide, ob der Vertreter Verträge in deinem Namen abschließen darf; die meisten Unternehmer belassen es bei der Vermittlung mit Annahmevorbehalt.
+
+In § 3 legst du den Berichtsrhythmus fest. In § 5 trägst du den Provisionssatz, abweichende Sätze für Produktgruppen oder Großkunden, die Frist für Nachvertragsgeschäfte und optional Kostenzuschuss oder Garantieprovision ein. In § 6 setzt du Abrechnungsrhythmus, Zahlungsziel und Einwendungsfrist. In § 7 wählst du Variante A ohne Delkredere oder Variante B mit Delkredereprovision und Haftungsgrenze. In § 8 entscheidest du über das nachvertragliche Wettbewerbsverbot mit Dauer und Karenzentschädigung und trägst die Vertragsstrafe ein. In § 10 setzt du Beginn, Probezeit und gegebenenfalls längere Fristen für beide Seiten. Fülle Anlage 1 mit den Altkunden zum Vertragsbeginn. Die Word-Vorlage lässt sich dafür direkt bearbeiten.`,
+      },
+      {
+        titel: "Typische Fehler im Handelsvertretervertrag",
+        text: `Der klassische Fehler ist der Versuch, den Ausgleichsanspruch auszuschließen oder zu verkürzen. § 89b Abs. 4 HGB verbietet das im Voraus; solche Klauseln sind nichtig und wecken Misstrauen. Kalkuliere den Ausgleich stattdessen ein und führe die Kundenliste sauber.
+
+Zweiter Fehler: zu kurze Kündigungsfristen. Die Fristen des § 89 HGB sind Mindestfristen; wer einen Monat für das dritte Vertragsjahr vereinbart, hat trotzdem drei. Dritter Fehler: Buchauszug verweigern oder die Abrechnung so führen, dass er nicht lieferbar ist. Der Anspruch aus § 87c HGB ist unabdingbar.
+
+Weitere Stolperfallen sind ein nachvertragliches Wettbewerbsverbot ohne Schriftform, Karenzentschädigung oder Begrenzung, das nach § 90a HGB unwirksam ist, Vertreter mit nur einem Unternehmer und festen Vorgaben, die als Einfirmenvertreter oder Arbeitnehmer gelten können, und die Vermischung von Provision und Fixgehalt, die die Selbstständigkeit in Frage stellt.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen: §§ 84 bis 92c HGB",
+        text: `Das Handelsvertreterrecht steht in den §§ 84 bis 92c HGB. § 84 HGB definiert den Handelsvertreter als selbstständigen Gewerbetreibenden, der ständig damit betraut ist, Geschäfte zu vermitteln oder abzuschließen. § 86 HGB regelt seine Pflichten, § 86a HGB die des Unternehmers. Die Provision folgt aus § 87 HGB, ihre Entstehung und Fälligkeit aus § 87a HGB, Abrechnung und Buchauszug aus § 87c HGB. Delkredere ist in § 86b HGB geregelt, das Wettbewerbsverbot nach Vertragsende in § 90a HGB.
+
+Die Kündigungsfristen des § 89 HGB sind zwingende Mindestfristen, die fristlose Kündigung regelt § 89a HGB. Der Ausgleichsanspruch nach § 89b HGB ist auf eine durchschnittliche Jahresprovision begrenzt, im Voraus unabdingbar und binnen eines Jahres geltend zu machen. § 92a HGB erlaubt Mindestbedingungen für Einfirmenvertreter; nach § 5 Abs. 3 ArbGG gelten Einfirmenvertreter mit geringem Verdienst arbeitsgerichtlich als Arbeitnehmer. Für Kundendaten gilt die DSGVO; ob der Vertreter Auftragsverarbeiter oder eigener Verantwortlicher ist, hängt von seiner Entscheidungsfreiheit ab.`,
+      },
+      {
+        titel: "Wann der Handelsvertretervertrag nicht reicht",
+        text: `Bei Vertretern im Ausland, bei Vertrieb von Versicherungen, Finanzprodukten oder Immobilien mit Erlaubnispflichten nach der Gewerbeordnung und bei Vertragshändler- oder Franchise-Modellen, in denen der Partner im eigenen Namen kauft und verkauft, brauchst du einen anderen oder angepassten Vertrag und anwaltliche Begleitung. Dasselbe gilt, wenn du einem Vertreter ein Fixum, ein Fahrzeug und feste Arbeitszeiten gibst; dann ist er wahrscheinlich Arbeitnehmer, und der Vertrag sollte ein Arbeitsvertrag sein.
+
+Streit über den Ausgleichsanspruch am Vertragsende ist fast immer ein Fall für den Anwalt, weil die Berechnung von Kundenstamm, Abwanderungsquote und Billigkeit abhängt. Bei Vertreternetzen mit Untervertretern und bei Mehrfirmenvertretern mit Wettbewerbsprodukten lohnt eine Prüfung von Wettbewerbs- und Kartellrecht. GründerX stellt das Muster als Software bereit und ersetzt keine Rechtsberatung.`,
+      },
+    ],
     seo: {
-      title: "Handelsvertretervertrag Vorlage 2026 (Word & PDF) | GründerX",
+      title: "Handelsvertretervertrag Vorlage kostenlos (Word) | GründerX",
       description:
         "Handelsvertretervertrag nach §§ 84 ff. HGB als kostenlose Vorlage: Gebiet, Provision, Buchauszug, Delkredere, Wettbewerbsverbot, Kündigung, Ausgleich.",
     },
@@ -1267,8 +1683,58 @@ ${VORLAGEN_HINWEIS}`,
         a: "Vorsicht: Zahlungen an Angestellte eines Unternehmens dafür, dass sie ihren Arbeitgeber zu dir lenken, können Bestechung im geschäftlichen Verkehr sein (§ 299 StGB). Tippgeber sollten frei und offen handeln; die Vorlage verlangt, dass der Tippgeber keine Pflichten gegenüber dem Interessenten verletzt.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du eine Tippgeber-Vereinbarung brauchst",
+        text: `Eine Tippgeber-Vereinbarung brauchst du, sobald du jemandem Geld dafür versprichst, dass er dir einen Kunden nennt. Typische Fälle: Ein Steuerberater empfiehlt deiner Webagentur Mandanten, ein zufriedener Kunde bringt zwei weitere, ein Netzwerkpartner nennt dir Firmen mit Bedarf an deiner Software. Auch Kunden-werben-Kunden-Programme und Partnerprogramme mit Einmalprämie laufen über diese Logik.
+
+Als Tippgeber nutzt du das Muster, um Provision, Schutzfrist und Abrechnung verbindlich zu machen, bevor du Kontakte weitergibst. Entscheidend ist die Abgrenzung: Der Tippgeber nennt nur den Kontakt, er berät, verhandelt und schließt nicht ab. Wer mehr tut, ist Vermittler oder Handelsvertreter mit anderen Pflichten; dafür gibt es den Handelsvertretervertrag.`,
+      },
+      {
+        titel: "Was muss in eine Provisionsvereinbarung für Tippgeber?",
+        text: `Die Vereinbarung muss vor allem klären, wann ein Tipp zählt und wann Geld fließt. Die Vorlage regelt in neun Paragrafen:
+
+- § 1 Gegenstand: Benennung von Interessenten für bestimmte Produkte, keine Pflicht zur Benennung oder zum Abschluss, keine Handelsvertretung
+- § 2 Abgrenzung: keine Erläuterung, keine Preise, keine Verhandlung, keine Vertretung, strikte Beschränkung bei erlaubnispflichtigen Produkten
+- § 3 Form des Tipps in Textform mit Einwilligung des Interessenten, Bestätigung oder Ablehnung binnen Frist, Schutzfrist
+- § 4 Provision als Festbetrag oder Prozentsatz mit Deckel, Entstehung nach Zahlung der ersten Rechnung, Rückforderung bei Storno, keine Kettenprovision
+- § 5 Mitteilung von Abschlüssen, Abrechnung per Rechnung oder Gutschrift, jährliche Statusübersicht, Prüfrecht
+- § 6 Pflichten des Tippgebers: Einwilligung dokumentieren, keine Werbeanrufe ohne Erlaubnis, keine falschen Versprechen, Information nach Art. 14 DSGVO
+- § 7 Keine Exklusivität, kein Wettbewerbsverbot
+- § 8 Laufzeit, Kündigung, Nachwirkung für angenommene Tipps
+- § 9 Schlussbestimmungen
+
+Die Ablehnungsfrist in § 3 Abs. 2 ist der Schutz des Unternehmens vor Provisionen für Kunden, die es längst kannte.`,
+      },
+      {
+        titel: "Tippgeber-Vereinbarung Muster ausfüllen",
+        text: `Trage das Unternehmen und den Tippgeber ein; bei Privatpersonen reichen Name und Anschrift. In § 1 beschreibst du die Produkte oder Leistungen, für die Tipps vergütet werden. In § 3 setzt du den Übermittlungsweg (E-Mail-Adresse oder Formular), die Frist zur Bestätigung oder Ablehnung und die Schutzfrist; entscheide, ob Abschlüsse nach Fristablauf noch provisionspflichtig sind, wenn die Verhandlungen vorher begannen.
+
+In § 4 wählst du Variante A mit festem Betrag oder Variante B mit Prozentsatz, Bemessungszeitraum und Höchstbetrag je Kunde. Trage die Rückforderungsfrist bei Storno und die Frist ein, nach der Folgeaufträge nicht mehr zählen. Bei Tippgebern, die Umsatzsteuer ausweisen, behalte den Zusatz. In § 5 setzt du Mitteilungsfrist, Abrechnungsrhythmus, Zahlungsziel und die Abweichung, ab der das Unternehmen Prüfkosten trägt. In § 8 trägst du Beginn und Kündigungsfrist ein. Dann Gerichtsstand, Datum und Unterschriften. Lade die Vorlage als Word-Datei und passe die Beträge an.`,
+      },
+      {
+        titel: "Typische Fehler bei Tippgeber-Provisionen",
+        text: `Der gefährlichste Fehler ist der Tippgeber, der zu viel tut. Erklärt er Produkte, nennt Preise oder legt Unterlagen vor, ist er Vermittler. Bei Versicherungen, Finanzanlagen, Darlehen und Immobilien braucht er dann eine Erlaubnis nach § 34c, § 34d oder § 34f GewO, und das Unternehmen arbeitet mit einem unerlaubt tätigen Vermittler. § 2 der Vorlage zieht die Grenze; sprich sie mit jedem Tippgeber durch.
+
+Zweiter Fehler: Kontaktdaten ohne Einwilligung weitergeben. Der Interessent hat sein Einverständnis nie erklärt, das Unternehmen ruft an, und der erste Kontakt ist bereits ein Datenschutz- und UWG-Verstoß. Dritter Fehler: Provision bei Vertragsschluss statt bei Zahlung. Dann zahlst du für Kunden, die nie eine Rechnung begleichen.
+
+Weitere Stolperfallen sind Zahlungen an Angestellte des Kunden, die als Bestechung nach § 299 StGB strafbar sein können, fehlende Schutzfristen, Kettenprovisionen und Tippgeber, die mit deinem Logo als Partner auftreten.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen: Tippgeber, Makler, § 7 UWG und DSGVO",
+        text: `Die Tippgeber-Vereinbarung ist gesetzlich nicht eigens geregelt. Sie ist ein Vertrag eigener Art, der dem Maklervertrag nach den §§ 652 ff. BGB ähnelt, aber auf die bloße Namhaftmachung beschränkt ist. Der Maklerlohn nach § 652 BGB entsteht beim Nachweis oder bei der Vermittlung eines Vertrags; die Vorlage knüpft strenger an die erste Zahlung an. Von der Handelsvertretung nach § 84 HGB unterscheidet sich der Tippgeber dadurch, dass er nicht ständig betraut ist und nicht vermittelt.
+
+Erlaubnispflichten für Vermittler stehen in § 34c GewO (Immobilien, Darlehen), § 34d GewO (Versicherungen) und § 34f GewO (Finanzanlagen). Bei Versicherungen gilt die bloße Namhaftmachung eines Interessenten als erlaubnisfrei; bei Immobilien und Darlehen ist dagegen schon der Nachweis einer Vertragsgelegenheit erlaubnispflichtig, die Grenze ist dort noch enger. Für die Ansprache gilt § 7 UWG: Werbeanrufe und Werbe-E-Mails brauchen eine Einwilligung. Für die Datenweitergabe braucht das Unternehmen eine Rechtsgrundlage nach Art. 6 DSGVO und muss den Interessenten nach Art. 14 DSGVO über die Herkunft seiner Daten informieren. Provisionen sind beim Tippgeber steuerpflichtige Einnahmen.`,
+      },
+      {
+        titel: "Wann die Tippgeber-Vorlage nicht reicht",
+        text: `Sobald Tippgeber regelmäßig für dich tätig werden, Kunden besuchen oder Verkaufsgespräche führen, ist die Vereinbarung das falsche Instrument; dann brauchst du einen Handelsvertretervertrag mit allen Folgen des HGB. Bei Tipps für Versicherungen, Darlehen, Immobilien oder Finanzanlagen lass die Abgrenzung von einem Anwalt prüfen, weil die Erlaubnispflicht schon bei kleinen Übergriffen greift.
+
+Für Kunden-werben-Kunden-Aktionen gegenüber Verbrauchern brauchst du zusätzlich Teilnahmebedingungen und eine datenschutzkonforme Gestaltung des Empfehlungsformulars. Zahlst du Provisionen an Personen, die beim empfohlenen Kunden angestellt sind, hol dir vorher Rat; der Grat zur Bestechlichkeit ist schmal. Für Partnerprogramme mit Tracking und vielen Partnern nimm den Affiliate-Vertrag. GründerX stellt die Vorlage als Software bereit und ersetzt keine Rechtsberatung.`,
+      },
+    ],
     seo: {
-      title: "Tippgeber-Vereinbarung Vorlage 2026 (Provision) | GründerX",
+      title: "Tippgeber-Vereinbarung Vorlage kostenlos (Word) | GründerX",
       description:
         "Tippgeber- und Empfehlungsvereinbarung als kostenlose Vorlage: Provision bei Abschluss, Nachweis des Tipps, Schutzfrist, Abrechnung, keine Vermittlung.",
     },
@@ -1398,8 +1864,58 @@ ${VORLAGEN_HINWEIS}`,
         a: "Dann richtet sich der Kunde an seinen Vertragspartner, also an den, mit dem er den Vertrag geschlossen hat. Im Innenverhältnis stellt der Partner, der die Leistung schuldet, den anderen frei. Die Vorlage regelt beides und verlangt, dass auf allen Kundenseiten der jeweils verantwortliche Partner genannt wird.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du eine Kooperationsvereinbarung brauchst",
+        text: `Eine Kooperationsvereinbarung brauchst du, sobald zwei Unternehmen gemeinsam auftreten, ohne gemeinsam zu werden. Typische Fälle: Ein Shop für Fitnessgeräte und ein Ernährungscoach bieten ein Bundle an. Zwei SaaS-Anbieter empfehlen sich gegenseitig in Newslettern. Eine Agentur und ein Fotograf veranstalten gemeinsame Workshops. Zwei Marken produzieren eine Co-Branding-Edition.
+
+Das Muster klärt, wer was beiträgt, wer welche Kosten trägt, wie Erlöse fließen, wer mit dem Kunden den Vertrag schließt und wie lange die Partner die Logos des anderen nutzen dürfen. Vor allem verhindert es, dass aus der Zusammenarbeit ungewollt eine GbR mit gesamtschuldnerischer Haftung wird. Für gemeinsame Gesellschaften mit gemeinsamer Kasse ist dagegen der Gesellschaftsvertrag das richtige Dokument.`,
+      },
+      {
+        titel: "Was muss in eine Kooperationsvereinbarung?",
+        text: `Eine gute Kooperationsvereinbarung ist eine Sammlung gegenseitiger Leistungsversprechen, keine Gesellschaft. Die Vorlage regelt in elf Paragrafen:
+
+- Präambel und § 1 Gegenstand: die konkreten Maßnahmen wie Verlinkung, Bundle, Webinare, Pressemitteilung, mit Maßnahmenplan als Anlage 1
+- § 2 Beiträge jedes Partners im eigenen Namen, auf eigene Kosten, mit Ansprechpartnern
+- § 3 Kosten und Erlöse: eigene Kosten selbst, gemeinsame Kosten nur nach Freigabe, Erlöse über Provision oder festen Betrag je Bundle, keine gemeinsame Kasse
+- § 4 Marken und Logos: einfaches Nutzungsrecht nur für die Kooperation, Freigabe jeder Verwendung, Umgang mit gemeinsam erstellten Inhalten nach Vertragsende
+- § 5 Verantwortung gegenüber Kunden: jeder ist Vertragspartner seiner Kunden, Kennzeichnung auf allen Kundenseiten, Freistellung
+- § 6 Ausdrücklicher Ausschluss einer Gesellschaft und jeder Vertretung
+- § 7 Vertraulichkeit, Kundendaten und gemeinsame Verantwortlichkeit nach Art. 26 DSGVO
+- § 8 Wettbewerb und Kartellrecht: keine Preis-, Kunden- oder Gebietsabsprachen
+- § 9 Haftung, § 10 Laufzeit und Abwicklung, § 11 Schlussbestimmungen
+
+§ 6 Abs. 3 ist die Rückfallklausel: Sollte ein Gericht doch eine GbR sehen, bleibt im Innenverhältnis jeder für seinen Bereich allein verantwortlich.`,
+      },
+      {
+        titel: "Kooperationsvereinbarung Muster ausfüllen",
+        text: `Beschreibe in der Präambel beide Partner in einem Satz und in § 1 die Kooperation mit den konkreten Maßnahmen: Anzahl der Newsletter, Höhe des Gutscheins, Zahl der Webinare, Starttermin. Halte Details im Maßnahmenplan fest und lege ihn als Anlage 1 bei. In § 2 trägst du die Beiträge beider Seiten ein, etwa Landingpage und Versand bei Partner A, Coaching und Bewerbung bei Partner B, dazu die Ansprechpartner und den Abstimmungsrhythmus.
+
+In § 3 legst du den Verteilungsschlüssel für gemeinsame Kosten fest und wählst für Erlöse Variante A (Provision je vermitteltem Abschluss) oder Variante B (fester Betrag je Bundle); trage Abrechnungsrhythmus und Zahlungsziel ein. In § 4 legst du die Freigabefrist für Markenverwendungen fest und entscheidest, wem die Aktionsbezeichnung zusteht. In § 5 Abs. 2 nennst du, wer beim Bundle Vertragspartner des Kunden ist. In § 7 setzt du die Vertraulichkeitsdauer, in § 8 optional die Wettbewerber, mit denen keine gleichartige Kooperation laufen soll, in § 9 die Haftungsgrenze und in § 10 Laufzeit, Kündigungsfrist und Abwicklungsfrist. Die Word-Vorlage ist dafür direkt bearbeitbar.`,
+      },
+      {
+        titel: "Typische Fehler bei Kooperationen zwischen Unternehmen",
+        text: `Der größte Fehler ist die unbemerkte GbR. Gemeinsamer Name, gemeinsames Konto, geteilter Gewinn: Dann haften beide Partner für alles, was der andere im Rahmen der Kooperation tut. Die Vorlage vermeidet das, aber nur, wenn ihr im Alltag keine gemeinsame Kasse führt und jeder seine Rechnungen selbst stellt.
+
+Zweiter Fehler: Der Kunde weiß nicht, mit wem er einen Vertrag hat. Bei Bundles muss auf der Bestellseite stehen, wer liefert, wer die Gewährleistung trägt und an wen der Widerruf geht. Dritter Fehler: Kundendaten werden ausgetauscht, weil es praktisch ist. Ohne Einwilligung oder Vereinbarung nach Art. 26 DSGVO ist das ein Datenschutzverstoß.
+
+Weitere Stolperfallen sind Logos, die nach dem Ende der Kooperation weiterlaufen, Preisabsprachen mit einem Wettbewerber, die gegen § 1 GWB verstoßen, mündlich vereinbarte Erlösanteile und Gutscheine, die nach der Trennung niemand mehr einlösen will. § 10 Abs. 3 regelt den letzten Punkt ausdrücklich.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen: GbR-Risiko, DSGVO und Kartellrecht",
+        text: `Nach § 705 BGB entsteht eine Gesellschaft bürgerlichen Rechts, sobald sich mehrere Personen verpflichten, einen gemeinsamen Zweck in der durch den Vertrag bestimmten Weise zu fördern. Ein schriftlicher Vertrag ist dafür nicht nötig; es reicht gemeinsames Handeln. Seit der Reform des Personengesellschaftsrechts 2024 haften die Gesellschafter einer GbR nach § 721 BGB persönlich und gesamtschuldnerisch. Deshalb stellt die Vorlage in § 2, § 3 und § 6 klar, dass jeder Partner im eigenen Namen handelt und kein gemeinsames Vermögen entsteht.
+
+Die gegenseitige Nutzung von Marken ist eine Lizenz; § 30 MarkenG erlaubt sie, der Umfang richtet sich nach dem Vertrag. Entscheiden beide Partner gemeinsam über Zweck und Mittel einer Datenverarbeitung, sind sie gemeinsam Verantwortliche nach Art. 26 DSGVO und müssen das in einer Vereinbarung festlegen. § 1 GWB verbietet Vereinbarungen zwischen Unternehmen, die den Wettbewerb beschränken, insbesondere Preis-, Gebiets- und Kundenabsprachen; Kooperationen zwischen Wettbewerbern sind deshalb eng auf die konkrete Maßnahme zu begrenzen. Werbung für die Kooperation unterliegt dem UWG, Preisangaben der Preisangabenverordnung.`,
+      },
+      {
+        titel: "Wann die Kooperationsvereinbarung nicht reicht",
+        text: `Wollt ihr ein gemeinsames Produkt unter gemeinsamem Namen verkaufen, Gewinne teilen oder ein gemeinsames Konto führen, ist das eine Gesellschaft; dann brauchst du einen GbR- oder GmbH-Gesellschaftsvertrag und nicht diese Vorlage. Kooperierst du mit einem direkten Wettbewerber, lass die Vereinbarung kartellrechtlich prüfen, besonders bei Absprachen über Preise, Sortimente oder Kunden.
+
+Bei Kooperationen mit Partnern im Ausland, bei gemeinsamen Marken, die angemeldet werden sollen, bei Lizenzierung von Software oder Inhalten über die Kooperation hinaus und bei Kooperationen mit Umsätzen, die für einen Partner existenziell sind, gehört der Vertrag zum Anwalt. Gewinnspiele und gemeinsame Anmeldeseiten brauchen zusätzlich Teilnahmebedingungen und eine Vereinbarung nach Art. 26 DSGVO. GründerX liefert das Muster als Software, nicht als Rechtsberatung.`,
+      },
+    ],
     seo: {
-      title: "Kooperationsvereinbarung Vorlage 2026 (Word & PDF) | GründerX",
+      title: "Kooperationsvereinbarung Vorlage kostenlos (Word) | GründerX",
       description:
         "Kooperationsvereinbarung zwischen zwei Unternehmen als kostenlose Vorlage: Beiträge, Kosten, Erlöse, Marken, Kundenverantwortung, keine GbR, Laufzeit.",
     },
@@ -1550,8 +2066,61 @@ ${VORLAGEN_HINWEIS}`,
         a: "Du als Hauptunternehmer nimmst die Leistung deines Subunternehmers ab, unabhängig von der Abnahme durch den Kunden. Die Vorlage sieht eine eigene Abnahme mit Protokoll vor und lässt zu, dass Mängelrügen des Kunden an den Subunternehmer weitergereicht werden, soweit sie seine Leistung betreffen.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du einen Subunternehmervertrag brauchst",
+        text: `Einen Subunternehmervertrag brauchst du, sobald du einen Auftrag angenommen hast und einen Teil davon an ein anderes Unternehmen weitergibst. Typische Fälle: Eine Agentur hat eine Website verkauft und lässt die Programmierung von einem Entwicklerstudio machen. Ein Handwerksbetrieb übernimmt eine Sanierung und vergibt die Elektroinstallation. Ein IT-Haus führt eine Software ein und holt einen Spezialisten für die Schnittstelle. Ein Logistiker gibt Teilstrecken an einen Frachtführer.
+
+Als Subunternehmer nutzt du das Muster, um Termine, Abnahme, Zahlung unabhängig vom Kunden und Haftungsgrenzen abzusichern. Die Vorlage ist als Werkvertrag angelegt, weil der Nachunternehmer in der Regel ein abgrenzbares Gewerk oder Teilprojekt schuldet, und reicht die Pflichten aus dem Hauptauftrag an ihn weiter.`,
+      },
+      {
+        titel: "Was muss in einen Subunternehmervertrag?",
+        text: `Der Subunternehmervertrag muss zwei Verträge zusammenhalten: den mit deinem Kunden und den mit deinem Nachunternehmer. Die Vorlage regelt in zwölf Paragrafen:
+
+- § 1 Bezug zum Hauptauftrag, Beschreibung des Teilgewerks, maßgebliche Teile des Kundenvertrags als Anlage 1, keine Vertragsbeziehung zwischen Subunternehmer und Kunde
+- § 2 Fachgerechte Ausführung, Weitergabe der Kundenpflichten, Eigenverantwortung ohne Eingliederung, Bedenkenanzeige, keine Direktverhandlung mit dem Kunden
+- § 3 Verbindliche Termine, Behinderungsanzeige, gedeckelte Vertragsstrafe, Anpassung bei Verzögerung des Hauptauftrags
+- § 4 Vergütung als Pauschale, Einheitspreise oder Aufwand, Abschlagszahlungen, Sicherheitseinbehalt, Fälligkeit unabhängig von der Kundenzahlung, Bauabzugsteuer und § 13b UStG bei Bauleistungen
+- § 5 Eigene Abnahme durch den Hauptunternehmer, fiktive Abnahme, Teilabnahmen
+- § 6 Mängelhaftung mit Weiterleitung von Kundenrügen und Verjährung, die an den Hauptauftrag gekoppelt ist
+- § 7 Freistellung, Haftungsgrenze, Betriebshaftpflicht
+- § 8 Personal, Mindestlohn, Sozialabgaben, Nachweise, Arbeitsschutz
+- § 9 Geheimhaltung, Auftragsverarbeitung, Kundenschutz mit Vertragsstrafe
+- § 10 Nutzungsrechte mindestens im Umfang des Hauptauftrags
+- § 11 Kündigung nach § 648 und § 648a BGB sowie bei Wegfall des Hauptauftrags
+- § 12 Schlussbestimmungen, optional VOB/B
+
+Anlage 1 ist das Herzstück: Was der Subunternehmer nicht kennt, kann er nicht einhalten.`,
+      },
+      {
+        titel: "Subunternehmervertrag Muster ausfüllen",
+        text: `Trage Hauptunternehmer und Subunternehmer ein und beschreibe in § 1 den Hauptauftrag und das weitergegebene Gewerk so genau wie möglich, bei Bauleistungen mit Positionen des Leistungsverzeichnisses. Stelle aus dem Kundenvertrag die relevanten Teile (Leistungsbeschreibung, Termine, Qualität, Sicherheit, Gewährleistungsfrist, Nutzungsrechte) als Anlage 1 zusammen, ohne deine Kalkulation offenzulegen. Lege das Angebot des Subunternehmers als Anlage 2 bei.
+
+In § 3 setzt du Beginn, Meilensteine, Fertigstellung, Vertragsstrafe und die Schwelle, ab der über Mehrkosten verhandelt wird. In § 4 wählst du Variante A, B oder C, legst Abschlagsrhythmus, Sicherheitseinbehalt und Zahlungsziel fest und behältst bei Bauleistungen die Sätze zu § 13b UStG und § 48b EStG. In § 5 setzt du die Abnahmefrist, in § 6 die Verjährungsfrist mit Kopplung an den Hauptauftrag, in § 7 Haftungsgrenze und Deckungssummen. In § 8 trägst du den Rhythmus für Nachweise und die Leitung vor Ort ein, in § 9 Dauer des Kundenschutzes und Vertragsstrafe. Entscheide in § 12, ob die VOB/B vereinbart wird. Die Vorlage gibt es kostenlos als Word und PDF.`,
+      },
+      {
+        titel: "Typische Fehler beim Einsatz von Subunternehmern",
+        text: `Der häufigste Fehler ist die Lücke zwischen Hauptauftrag und Subunternehmervertrag: Dem Kunden schuldest du fünf Jahre Gewährleistung, vom Subunternehmer bekommst du zwei. Oder der Kunde hat eine Vertragsstrafe, der Subunternehmer nicht. § 6 Abs. 4 und § 7 Abs. 1 der Vorlage koppeln beides, aber nur mit einer vollständigen Anlage 1.
+
+Zweiter Fehler: Zahlung erst, wenn der Kunde zahlt. Solche Pay-when-paid-Klauseln sind in AGB unwirksam und individuell riskant; die Vorlage koppelt die Fälligkeit an die eigene Abnahme. Dritter Fehler: Der Subunternehmer arbeitet allein, nach deinen Weisungen, in deinem Team. Das ist Scheinselbstständigkeit oder verdeckte Arbeitnehmerüberlassung, und beides trifft dich als Auftraggeber.
+
+Weitere Stolperfallen sind fehlende Nachweise zu Mindestlohn und Sozialabgaben, für die du nach § 13 MiLoG wie ein Bürge haftest, die vergessene Freistellungsbescheinigung bei Bauleistungen, ein Kundenschutz ohne zeitliche Grenze, der unwirksam ist, und der Subunternehmer, der Änderungen direkt mit dem Kunden verhandelt.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen: § 278 BGB, MiLoG, Bauabzugsteuer",
+        text: `Gegenüber deinem Kunden haftest du für den Subunternehmer wie für dich selbst, weil er dein Erfüllungsgehilfe nach § 278 BGB ist. Der Subunternehmervertrag ist ein Werkvertrag nach den §§ 631 ff. BGB mit Abnahme nach § 640 BGB, Mängelrechten nach § 634 BGB und Verjährung nach § 634a BGB; bei Bauleistungen gelten zusätzlich die §§ 650a ff. BGB und, wenn vereinbart, die VOB/B. § 648 BGB erlaubt dir die freie Kündigung gegen Vergütung abzüglich ersparter Aufwendungen.
+
+Nach § 13 MiLoG haftet der Auftraggeber für den Mindestlohn der Beschäftigten seines Subunternehmers wie ein Bürge, der auf die Einrede der Vorausklage verzichtet hat; § 14 AEntG regelt dasselbe für Branchenmindestlöhne, § 28e SGB IV für Sozialversicherungsbeiträge bei Bauleistungen. Bei Bauleistungen muss der Leistungsempfänger nach § 48 EStG 15 Prozent der Rechnung einbehalten, wenn keine Freistellungsbescheinigung nach § 48b EStG vorliegt, und nach § 13b UStG geht die Umsatzsteuerschuld auf ihn über. Für Datenverarbeitung gilt Art. 28 DSGVO. Kundenschutzklauseln müssen nach der Rechtsprechung zeitlich, räumlich und sachlich begrenzt sein.`,
+      },
+      {
+        titel: "Wann der Subunternehmervertrag nicht reicht",
+        text: `Bei Bauvorhaben mit öffentlichem Auftraggeber, bei Vergaben nach VOB/A, bei Nachunternehmerketten über mehrere Stufen oder bei Aufträgen, deren Vertragsstrafen und Gewährleistungsfristen aus dem Hauptauftrag deine Existenz berühren, lass den Vertrag anwaltlich prüfen. Dasselbe gilt für Subunternehmer aus dem Ausland, weil dann Entsenderecht, Sozialversicherung und Steuer anders laufen.
+
+Soll der Subunternehmer Personal in dein Team stellen, das nach deinen Weisungen arbeitet, ist das Arbeitnehmerüberlassung und braucht eine Erlaubnis nach dem AÜG; der Werkvertrag wäre dann nur Fassade. Für wiederkehrende Beauftragung desselben Nachunternehmers nimm den Rahmenvertrag mit Einzelaufträgen. Bei Streit über Mängel, die der Kunde rügt und der Subunternehmer bestreitet, hilft ein selbstständiges Beweisverfahren, das ein Anwalt einleitet. GründerX stellt das Muster als Software bereit und ersetzt keine Rechtsberatung.`,
+      },
+    ],
     seo: {
-      title: "Subunternehmervertrag Vorlage 2026 (Word & PDF) | GründerX",
+      title: "Subunternehmervertrag Vorlage kostenlos (Word) | GründerX",
       description:
         "Subunternehmervertrag als kostenlose Vorlage: Leistung, Termine, Vergütung, Abnahme, Haftung, Mindestlohn, Kundenpflichten, Geheimhaltung, Kundenschutz.",
     },
@@ -1704,8 +2273,59 @@ ${VORLAGEN_HINWEIS}`,
         a: "Durch echte Selbstständigkeit in der Praxis: Die VA bestimmt, wann und wo sie arbeitet, nutzt eigene Geräte, hat mehrere Kunden und tritt nach außen als Unternehmerin auf. Du gibst Aufgaben und Ergebnisse vor, keine Tagesabläufe. Bei Zweifeln hilft das Statusfeststellungsverfahren nach § 7a SGB IV.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du einen Vertrag für virtuelle Assistenz brauchst",
+        text: `Einen VA-Vertrag brauchst du, sobald eine virtuelle Assistenz Zugriff auf dein Postfach, deinen Kalender, dein CRM oder deine Buchhaltung bekommt. Typische Fälle: Ein Solo-Gründer gibt E-Mail-Vorsortierung und Terminplanung ab. Ein Onlineshop lässt Kundenanfragen zum Lieferstatus beantworten. Eine Beraterin lässt Rechnungen vorbereiten und Belege hochladen. Ein Coach übergibt die Social-Media-Pflege nach Redaktionsplan.
+
+Als virtuelle Assistenz nutzt du das Muster als eigenen Standardvertrag, um Stundenpakete, Erreichbarkeit, Zugänge und Haftung sauber zu regeln. Die Vorlage ist ein Dienstvertrag mit monatlichem Kontingent und enthält die Verweise auf den Auftragsverarbeitungsvertrag, den du fast immer brauchst, weil VAs mit personenbezogenen Daten arbeiten.`,
+      },
+      {
+        titel: "Was muss in einen VA-Vertrag?",
+        text: `Ein VA-Vertrag muss die Aufgaben eingrenzen, die Selbstständigkeit sichern und Daten schützen. Die Vorlage regelt in zehn Paragrafen:
+
+- § 1 Aufgabenkatalog mit Beispielen von Postfach bis Kundenservice, Ausschluss zulassungspflichtiger Tätigkeiten und Entscheidungen über einer Betragsgrenze, Arbeitsanweisungen als Anlage 1
+- § 2 Selbstständigkeit: eigene Zeit, Ort und Geräte, weitere Auftraggeber, keine Urlaubsabstimmung, Weitergabe an Dritte nur mit Zustimmung
+- § 3 Monatliches Stundenkontingent mit Verfall oder Übertrag, Mehrstunden nach Freigabe, Bearbeitungszeiten statt fester Erreichbarkeit, Zeiterfassung mit Beanstandungsfrist
+- § 4 Zugänge als eigene Nutzerkonten mit minimalen Rechten, Passwortmanager, Zwei-Faktor-Authentifizierung, Meldung von Vorfällen, Rückgabe bei Vertragsende
+- § 5 Auftragsverarbeitung nach Art. 28 DSGVO als Anlage 2, Verarbeitung nur in EU und EWR
+- § 6 Stundensatz oder Pauschale, Auslagen, Abrechnung, Verzug, Preisanpassung
+- § 7 Vertraulichkeit und Auftreten gegenüber Dritten
+- § 8 Haftung mit Begrenzung und Haftungsausschluss für geprüfte Ergebnisse
+- § 9 Laufzeit, Testphase, Kündigung, Übergabe an eine Nachfolge
+- § 10 Schlussbestimmungen
+
+Die Betragsgrenze für Entscheidungen in § 1 Abs. 2 verhindert, dass die VA versehentlich Verträge für dich schließt.`,
+      },
+      {
+        titel: "Virtuelle Assistenz Vertrag ausfüllen",
+        text: `Trage Auftraggeber und Assistenz mit Umsatzsteuer-Identifikationsnummer oder Steuernummer ein. In § 1 streichst du die Aufgaben, die nicht gebraucht werden, und ergänzt deine eigenen; setze die Betragsgrenze für finanzielle Entscheidungen und lege Arbeitsanweisungen als Anlage 1 bei. In § 2 Abs. 3 trägst du ein, ab welcher Abwesenheitsdauer und mit welchem Vorlauf die VA informiert.
+
+In § 3 setzt du das Stundenkontingent und wählst Verfall oder Übertrag nicht genutzter Stunden, dazu die Warnschwelle, die üblichen Bearbeitungs- und Antwortzeiten, den Erfassungstakt und das Tool. In § 4 listest du die Systeme auf, zu denen die VA Zugang bekommt. In § 6 wählst du Stundensatz oder Pauschale, trägst Zahlungsziel und Preisanpassung ein; Kleinunternehmer behalten den Satz zu § 19 UStG. In § 7 setzt du die Dauer der Vertraulichkeit, in § 8 Haftungsgrenze und optional die Versicherung, in § 9 Beginn, Testphase, Kündigungsfrist und Übergabeumfang. Füge den Auftragsverarbeitungsvertrag als Anlage 2 bei, bevor die VA das erste Postfach öffnet. Die Vorlage gibt es als Word, PDF und Text.`,
+      },
+      {
+        titel: "Typische Fehler bei VA-Verträgen",
+        text: `Der häufigste Fehler ist der fehlende Auftragsverarbeitungsvertrag. Die VA beantwortet Kundenmails, pflegt Adressen und schreibt Rechnungen, aber der AVV sollte später geschlossen werden. Bis dahin ist jede Weitergabe ein Datenschutzverstoß, für den du als Verantwortlicher haftest.
+
+Zweiter Fehler: Zugangsdaten per Messenger. Das Hauptpasswort des Shops wandert in einen Chat, bleibt dort nach Vertragsende, und niemand weiß, wer es noch kennt. § 4 verlangt eigene Konten, Passwortmanager und Zwei-Faktor-Authentifizierung. Dritter Fehler: Die VA arbeitet wie eine Angestellte, mit täglichen Kernzeiten, Pflicht zur Anwesenheit im Team-Chat und nur einem Kunden. Dann droht Scheinselbstständigkeit mit Nachzahlung der Sozialversicherungsbeiträge.
+
+Weitere Stolperfallen sind Stundenpakete ohne Regel für nicht genutzte Stunden, Mehrstunden ohne Freigabe, die VA im Drittland ohne Standardvertragsklauseln, Buchführung mit Kontierung und Abschlüssen, die dem Steuerberatungsgesetz unterliegt, und Kündigung ohne Übergabe, sodass offene Vorgänge liegen bleiben.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen: Dienstvertrag, Art. 28 DSGVO, § 7 SGB IV",
+        text: `Der VA-Vertrag ist ein Dienstvertrag nach den §§ 611 ff. BGB: Geschuldet ist sorgfältige Tätigkeit, kein Erfolg. Ob die Assistenz sozialversicherungsrechtlich beschäftigt ist, bestimmt § 7 Abs. 1 SGB IV nach Weisungsgebundenheit und Eingliederung; das Statusfeststellungsverfahren nach § 7a SGB IV schafft Klarheit.
+
+Verarbeitet die VA personenbezogene Daten im Auftrag, ist sie Auftragsverarbeiter nach Art. 4 Nr. 8 DSGVO, und Art. 28 DSGVO verlangt einen Vertrag mit festgelegtem Inhalt: Gegenstand, Dauer, Art und Zweck, Datenkategorien, Weisungen, technische und organisatorische Maßnahmen, Unterauftragsverarbeiter, Löschung. Verarbeitung außerhalb des EWR ist nur mit Garantien nach Art. 44 ff. DSGVO zulässig, etwa Standardvertragsklauseln. Buchführung mit Kontierung und Jahresabschlüsse sind nach dem Steuerberatungsgesetz nur unter engen Voraussetzungen erlaubt; das Sammeln und Hochladen von Belegen ist unproblematisch. Geschäftsgeheimnisse sind nach dem Geschäftsgeheimnisgesetz nur geschützt, wenn angemessene Maßnahmen wie eine Vertraulichkeitsklausel bestehen. Für Zahlungsverzug gilt § 288 BGB.`,
+      },
+      {
+        titel: "Wann der VA-Vertrag nicht reicht",
+        text: `Arbeitet die VA außerhalb der EU, brauchst du zusätzlich zum AVV Standardvertragsklauseln und eine Prüfung des Datentransfers; hier lohnt der Blick eines Datenschutzberaters. Soll die VA Buchführung mit Kontierung übernehmen, kläre vorher, ob sie die Voraussetzungen des Steuerberatungsgesetzes erfüllt, sonst machen sich beide angreifbar.
+
+Läuft die Zusammenarbeit in Vollzeit, mit festen Zeiten und ohne weitere Kunden, ist ein Arbeitsvertrag ehrlicher als ein Dienstvertrag; die Statusfeststellung nach § 7a SGB IV gibt Sicherheit. Übernimmt die VA Zahlungsverkehr, Vertragsabschlüsse oder Behördenkommunikation in deinem Namen, brauchst du eine Vollmacht mit klaren Grenzen. Bei VA-Agenturen mit mehreren Assistenzen passt der Rahmenvertrag besser. GründerX stellt die Vorlage als Software bereit und ersetzt keine Rechtsberatung.`,
+      },
+    ],
     seo: {
-      title: "Virtuelle Assistenz Vertrag Vorlage 2026 (Word, PDF) | GründerX",
+      title: "Virtuelle Assistenz Vertrag Vorlage kostenlos | GründerX",
       description:
         "Vertrag für virtuelle Assistenz (VA) als kostenlose Vorlage: Aufgabenkatalog, Stundenkontingent, Tools und Zugänge, Datenschutz mit AVV, Vergütung, Kündigung.",
     },

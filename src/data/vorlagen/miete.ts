@@ -54,8 +54,48 @@ export const VORLAGEN_MIETE: Vorlage[] = [
         a: "Konkurrenzschutz verpflichtet den Vermieter, im selben Objekt keine Flächen an direkte Wettbewerber zu vermieten. Nach der Rechtsprechung besteht ein gewisser Schutz auch ohne Vereinbarung, aber sein Umfang ist unklar. Die Vorlage regelt ihn ausdrücklich – als Mieter solltest du den Schutz, als Vermieter den Ausschluss wählen.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du einen Gewerbemietvertrag brauchst",
+        text: `Sobald du Räume für dein Unternehmen mietest, die kein Wohnraum sind, brauchst du einen Gewerbemietvertrag: das erste Büro nach der Gründung, ein Atelier oder Studio, eine Praxis, ein Ladenlokal in der Fußgängerzone oder eine Fläche im Gewerbegebiet. Dasselbe gilt umgekehrt, wenn du selbst Eigentümer bist und eine Gewerbefläche an ein anderes Unternehmen vermietest. Dieses Muster ist für beide Seiten gebaut: Es enthält Varianten, bei denen du dich als Mieter oder als Vermieter für die jeweils passende Fassung entscheidest, etwa beim Konkurrenzschutz in § 2 oder bei der Mietanpassung in § 4. Für eine Aktion von wenigen Wochen passt eher der Pop-up-Store-Mietvertrag, für einen einzelnen Schreibtisch in fremden Räumen der Untermietvertrag. Für alles mit fester Laufzeit, Nebenkostenabrechnung und Kaution ist diese Vorlage die richtige Grundlage.`,
+      },
+      {
+        titel: "Was muss in einen Gewerbemietvertrag?",
+        text: `Ein Gewerbemietvertrag ist nur so gut, wie seine Lücken klein sind, weil das Gesetz für Geschäftsräume kaum Schutzregeln liefert. Diese Punkte gehören in jeden Mietvertrag für Büro oder Laden, und so findest du sie in der Vorlage:
+
+- Mietsache mit Adresse, Geschoss, Fläche, Grundriss als Anlage und Stellplätzen (§ 1)
+- Nutzungszweck und Konkurrenzschutz, wahlweise mit Schutz oder mit Ausschluss (§ 2)
+- Feste Laufzeit, Verlängerungsoption und Ausschluss der stillschweigenden Verlängerung (§ 3)
+- Nettokaltmiete, Umsatzsteuer-Option, Zahlungstermin und Mietanpassung als Staffel oder Index (§ 4)
+- Nebenkosten nach Betriebskostenverordnung, Umlageschlüssel und Abrechnungsfrist (§ 5)
+- Kaution mit Höhe, Form und Abrechnungsfrist (§ 6)
+- Instandhaltung, Kleinreparaturen und Schönheitsreparaturen mit flexiblen Fristen (§ 7)
+- Umbauten, Werbeanlagen und Untervermietung (§ 8)
+- Haftung, Versicherungen, Zutrittsrecht und Winterdienst (§ 9)
+- Rückgabe, Nutzungsentschädigung und zurückgelassene Gegenstände (§ 10)
+- Schriftformklausel, Anlagenverzeichnis und Gerichtsstand (§ 11)
+
+Fehlt einer dieser Punkte, gilt die gesetzliche Regelung, und die ist für Gewerberäume oft überraschend: ohne vereinbarte Laufzeit etwa die Kündigung mit rund sechs Monaten Frist zum Quartalsende.`,
+      },
+      {
+        titel: "Gewerbemietvertrag Muster ausfüllen: Schritt für Schritt",
+        text: `Arbeite die Platzhalter in eckigen Klammern von oben nach unten ab. Zuerst die Parteien: Beim Mieter gehören Rechtsform, Vertreter und Handelsregisternummer hinein, damit klar ist, wer haftet. In § 1 beschreibst du die Räume so genau wie im Grundriss, mit Quadratmeterzahl und Stellplatznummern. In § 2 trägst du den konkreten Betrieb ein und streichst die nicht gewählte Konkurrenzschutz-Variante. In § 3 setzt du Beginn, Ende und die Optionsfrist; zwölf Monate vor Ablauf sind üblich, damit beide Seiten planen können. In § 4 trägst du Nettokaltmiete, Vorauszahlung und IBAN ein und entscheidest dich für Staffel oder Index, den Index nur bei mindestens zehn Jahren Laufzeit. In § 5 rechnest du den Umlageschlüssel aus den Flächen aus, in § 6 legst du Höhe und Form der Kaution fest, in § 7 die Grenzen für Kleinreparaturen. Zum Schluss alle Anlagen nummerieren und fest mit dem Vertrag verbinden. Die Vorlage lädst du kostenlos als Word-Datei, PDF oder Text herunter; in Word streichst du nicht gewählte Varianten einfach heraus.`,
+      },
+      {
+        titel: "Typische Fehler im Gewerbemietvertrag und wie du sie vermeidest",
+        text: `Der teuerste Fehler ist die verletzte Schriftform: Ein Vertrag über mehr als ein Jahr, bei dem eine Anlage fehlt, ein Nachtrag nur per E-Mail vereinbart wurde oder nicht erkennbar ist, wer für wen unterschrieben hat, gilt als unbefristet und kann nach einem Jahr ordentlich gekündigt werden. Zweiter Klassiker sind Nebenkosten ohne Grenze: Eine Formulierung wie „alle Betriebskosten“ ohne Verweis auf die Betriebskostenverordnung lässt Streit über Verwaltungskosten und Wartung zu; die Vorlage zählt die Posten auf. Dritter Fehler sind starre Fristen bei Schönheitsreparaturen, die in Formularverträgen unwirksam sind; die Vorlage arbeitet mit „in der Regel“ und dem Abnutzungsgrad. Vierter Punkt ist die Umsatzsteuer-Option bei Mietern mit steuerfreien Umsätzen, etwa Ärzten oder Kleinunternehmern; dann ist die Option unzulässig und der Vermieter verliert Vorsteuer. Und schließlich die Übergabe ohne Protokoll: Ohne Fotos und Zählerstände streitet ihr am Ende über jeden Kratzer.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen: Gewerbemiete ohne Wohnraum-Mieterschutz",
+        text: `Für Geschäftsräume gelten die allgemeinen Mietvorschriften der §§ 535 ff. BGB. Über § 578 BGB werden einzelne Regeln des Wohnraummietrechts auf Gewerberäume übertragen, vor allem die Schriftform des § 550 BGB für Verträge mit einer Laufzeit über ein Jahr. Nicht übertragen werden Kündigungsschutz, Mietpreisbremse, Kappungsgrenze und die Begrenzung der Kaution auf drei Monatsmieten. Die Kündigungsfrist für unbefristete Gewerbemietverhältnisse steht in § 580a Abs. 2 BGB, die fristlose Kündigung aus wichtigem Grund in § 543 BGB, die stillschweigende Verlängerung in § 545 BGB, die Untervermietung in § 540 BGB und die Nutzungsentschädigung bei verspäteter Rückgabe in § 546a BGB. Die Umsatzsteuer-Option richtet sich nach § 9 UStG, die Steuerfreiheit der Vermietung nach § 4 Nr. 12 UStG. Weil fast alles verhandelbar ist, entscheidet der Vertragstext. GründerX stellt dir dafür den Mustervertrag bereit, ersetzt aber keine Rechtsberatung im Einzelfall.`,
+      },
+      {
+        titel: "Wann die Gewerbemietvertrag-Vorlage nicht reicht",
+        text: `Bei Laufzeiten von zehn Jahren und mehr, bei sehr hohen Mieten oder wenn der Vermieter umfangreiche Umbauten für dich ausführt (Mieterausbau, Baukostenzuschuss), solltest du den Vertrag anwaltlich prüfen lassen; dort geht es um Beträge, bei denen eine einzige Klausel mehr kostet als die Beratung. Dasselbe gilt für Indexmieten, weil das Preisklauselgesetz Vorgaben macht, für Verträge in Einkaufszentren mit Betriebspflicht und Umsatzmiete, für Mischobjekte mit Wohnanteil und für Fälle, in denen der Mieter eine Bankbürgschaft statt einer Barkaution stellt und die Bank eigene Texte verlangt. Auch wenn du als Vermieter viele Flächen mit demselben Formular vermietest, lohnt die Prüfung, weil dann die AGB-Kontrolle greift und eine unwirksame Klausel in allen Verträgen gleichzeitig fehlt.`,
+      },
+    ],
     seo: {
-      title: "Gewerbemietvertrag Vorlage 2026 kostenlos (Word & PDF) | GründerX",
+      title: "Gewerbemietvertrag Vorlage kostenlos (Word) | GründerX",
       description:
         "Gewerbemietvertrag für Büro oder Laden als kostenlose Vorlage: Laufzeit, Verlängerungsoption, Nebenkosten, Kaution, USt-Option, Index oder Staffel, § 550 BGB.",
     },
@@ -181,8 +221,45 @@ ${VORLAGEN_HINWEIS}`,
         a: "Der Untermieter muss ausziehen, auch wenn sein Untermietvertrag noch läuft, weil du ihm die Räume dann nicht mehr überlassen kannst. Er kann von dir Schadensersatz verlangen, wenn du die Beendigung zu vertreten hast. Die Vorlage regelt, dass die Untermiete automatisch mit dem Hauptmietverhältnis endet und der Untermieter dies kennt.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du einen Untermietvertrag fürs Büro brauchst",
+        text: `Du hast mehr Büro gemietet, als du brauchst, ein Raum steht leer, und ein Freelancer oder ein befreundetes Startup will einziehen. Oder umgekehrt: Du bist frisch gegründet und ziehst in das Büro eines anderen Unternehmens, weil ein eigener Gewerbemietvertrag mit fünf Jahren Laufzeit noch zu groß ist. In beiden Fällen bist du nicht Vertragspartner des Eigentümers, sondern Hauptmieter oder Untermieter, und genau dafür ist diese Vorlage gebaut: ein Raum oder ein einzelner Arbeitsplatz, Mitnutzung von Teeküche, WC und Besprechungsraum, eine Pauschalmiete ohne Nebenkostenabrechnung und kurze Kündigungsfristen. Für viele Nutzer mit Zugangskarten und Tarifen passt eher der Coworking-Nutzungsvertrag, für eine ganze Etage mit eigenem Eingang ein vollständiger Gewerbemietvertrag mit Zustimmung des Eigentümers.`,
+      },
+      {
+        titel: "Was muss in einen Untermietvertrag?",
+        text: `Ein Untermietvertrag für Büroräume hängt am Hauptmietvertrag, deshalb beginnt die Vorlage genau dort. Diese Punkte gehören hinein:
+
+- Hauptmietverhältnis mit Datum, Hauptvermieter, Laufzeit und dessen schriftliche Zustimmung als Anlage (§ 1)
+- Mietgegenstand: Raumnummer oder Arbeitsplatz, Grundriss, mitbenutzte Flächen und Geräte, mitvermietete Möbel, Briefkasten und Geschäftsanschrift (§ 2)
+- Nutzungszweck mit Verbot von Lager, Werkstatt, Publikumsverkehr und weiterer Untervermietung (§ 3)
+- Mietzeit, Kündigungsfrist und automatisches Ende mit dem Hauptmietverhältnis (§ 4)
+- Pauschalmiete, Umsatzsteuer, Fälligkeit und Kaution (§ 5)
+- Schlüssel, Zugangszeiten, Hausordnung und Vertraulichkeit im geteilten Büro (§ 6)
+- Haftung und Versicherung (§ 7), Rückgabe (§ 8), Schriftform und Anlagen (§ 9)
+- Zustimmungserklärung des Hauptvermieters als Anlage 1
+
+Das Herzstück ist die Kopplung an das Hauptmietverhältnis in § 4 Abs. 2: Endet dein Vertrag mit dem Eigentümer, endet auch die Untermiete, und der Untermieter weiß das von Anfang an. Ohne diese Klausel kann er von dir Schadensersatz verlangen, wenn er ausziehen muss.`,
+      },
+      {
+        titel: "Untermietvertrag Muster ausfüllen: so gehst du vor",
+        text: `Beginne mit § 1 und hol dir die Daten aus deinem eigenen Mietvertrag: Datum, Name des Hauptvermieters, Laufzeit oder Kündigungsfrist. Lass die Zustimmungserklärung am Ende der Vorlage vom Hauptvermieter unterschreiben, bevor du selbst unterschreibst. In § 2 wählst du Variante A für einen Raum oder Variante B für einen Arbeitsplatz und streichst die andere; trage mitbenutzte Flächen und das Stundenkontingent für den Besprechungsraum ein. Entscheide in § 2 Abs. 4, ob der Untermieter deine Adresse als Geschäftsanschrift nutzen darf; für eine UG oder GmbH ist das wegen des Handelsregisters wichtig. In § 4 setzt du die Kündigungsfrist, meist ein bis drei Monate zum Monatsende. In § 5 rechnest du die Pauschale aus anteiliger Miete plus Strom, Internet, Reinigung und Heizung und legst Umsatzsteuer-Variante und Kaution fest. In § 6 trägst du Schlüsselzahl und Zugangszeiten ein. Das Muster gibt es kostenlos als Word, PDF und Text.`,
+      },
+      {
+        titel: "Typische Fehler bei der Untervermietung von Büroräumen",
+        text: `Der schwerste Fehler ist die Untervermietung ohne Erlaubnis: Der Hauptvermieter kann dich abmahnen und im Wiederholungsfall den Hauptmietvertrag fristlos kündigen, und mit ihm fällt auch die Untermiete. Zweiter Fehler ist eine zu knapp gerechnete Pauschale, denn eine Erhöhung geht nach § 5 Abs. 3 nur einvernehmlich; rechne Strom, Internet, Reinigung und Heizung vorher ehrlich durch. Dritter Fehler ist die vergessene Kündigungsfrist: Ohne Regelung gilt für Geschäftsräume die gesetzliche Frist von rund sechs Monaten zum Quartalsende, für eine Untermiete viel zu lang. Vierter Punkt ist die Umsatzsteuer: Hast du im Hauptmietvertrag zur Umsatzsteuer optiert und vermietest ohne Umsatzsteuer unter, verlierst du anteilig den Vorsteuerabzug. Und zuletzt die Übergabe ohne Liste der mitvermieteten Möbel und ohne Fotos, die am Ende jede Diskussion über Schäden entscheiden würde.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen: § 540 BGB und die Stellung des Untermieters",
+        text: `Nach § 540 Abs. 1 BGB darf der Mieter den Gebrauch der Mietsache ohne Erlaubnis des Vermieters keinem Dritten überlassen. Nach § 540 Abs. 2 BGB haftet der Hauptmieter für ein Verschulden des Untermieters wie für eigenes; die Vorlage gibt diese Haftung in § 7 an den Untermieter weiter. Der Untermieter hat kein Vertragsverhältnis zum Hauptvermieter; endet das Hauptmietverhältnis, kann der Hauptvermieter die Räume nach § 546 Abs. 2 BGB direkt vom Untermieter herausverlangen. Für Geschäftsräume gelten im Übrigen die §§ 535 ff. BGB und über § 578 BGB einzelne Wohnraumregeln, darunter die Schriftform des § 550 BGB, sobald eine feste Laufzeit über ein Jahr vereinbart wird. Die gesetzliche Kündigungsfrist steht in § 580a Abs. 2 BGB. Umsatzsteuerlich ist die Vermietung nach § 4 Nr. 12 UStG steuerfrei, mit Option nach § 9 UStG, wenn der Untermieter vorsteuerabzugsberechtigt ist. GründerX ist Software und keine Rechtsberatung; im Zweifel lässt du den Vertrag prüfen.`,
+      },
+      {
+        titel: "Wann die Untermietvertrag-Vorlage nicht reicht",
+        text: `Die Vorlage ist für einen Raum oder einen Arbeitsplatz mit kurzer Kündigungsfrist gedacht. Vermietest du eine ganze Etage mit eigenem Eingang und fester Laufzeit über ein Jahr unter, brauchst du einen vollständigen Gewerbemietvertrag mit Schriftform und Nebenkostenabrechnung. Ist der Untermieter eine Privatperson, die nicht gewerblich arbeitet, greifen Verbraucherregeln, die hier nicht abgebildet sind. Verbietet dein Hauptmietvertrag die Untervermietung ausdrücklich oder knüpft er sie an Bedingungen, musst du erst dort nachverhandeln. Untervermietest du Räume in deiner Wohnung, gilt Wohnraummietrecht mit eigenen Regeln. Und wenn der Untermieter eigene Einbauten plant oder mehrere Mitarbeiter mitbringt, lohnt sich eine anwaltliche Prüfung, weil dann Arbeitsstättenregeln, Haftung und Rückbau komplizierter werden.`,
+      },
+    ],
     seo: {
-      title: "Untermietvertrag Büro Vorlage 2026 kostenlos (Word) | GründerX",
+      title: "Untermietvertrag Büro Vorlage kostenlos (Word) | GründerX",
       description:
         "Untermietvertrag für Büro oder Arbeitsplatz als kostenlose Vorlage: Zustimmung des Hauptvermieters, Pauschalmiete inkl. Nebenkosten, kurze Kündigung.",
     },
@@ -312,8 +389,44 @@ ${VORLAGEN_HINWEIS}`,
         a: "Zwischen Unternehmern ist eine monatliche Kündigung zum Monatsende üblich und zulässig. Bei einem abgeschlossenen Büro mit Mietcharakter gilt ohne Vereinbarung die lange Frist des § 580a Abs. 2 BGB – deshalb sollte die Frist immer ausdrücklich im Vertrag stehen.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du einen Coworking-Vertrag brauchst",
+        text: `Du betreibst einen Coworking-Space oder hast in deinem Büro mehrere freie Schreibtische, die du an wechselnde Nutzer vergeben willst: Freelancer, Remote-Mitarbeiter anderer Firmen, Gründer vor dem ersten eigenen Büro. Dann reicht ein einfacher Untermietvertrag nicht, weil du keine bestimmten Räume überlässt, sondern ein Paket aus Arbeitsplatz, Internet, Drucken, Meetingräumen und Empfang. Genau dieses Paket bildet die Vorlage ab, mit zwei Tarifen in § 1: Flex Desk für einen jeweils freien Platz nach Verfügbarkeit und Fix Desk für einen fest zugewiesenen Schreibtisch. Auch als Nutzer kannst du das Muster nehmen, um das Angebot eines Space zu prüfen: Steht drin, was im Preis enthalten ist, wie schnell du kündigen kannst und wer haftet, wenn dein Laptop verschwindet?`,
+      },
+      {
+        titel: "Was gehört in einen Coworking-Nutzungsvertrag?",
+        text: `Ein Coworking-Vertrag regelt mehr als Miete. Diese Abschnitte brauchst du, und so sind sie in der Vorlage aufgebaut:
+
+- Vertragsgegenstand und gewählter Tarif, persönliche Nutzung, Gästeregelung, Klarstellung, dass kein Mietverhältnis über bestimmte Räume entsteht (§ 1)
+- Leistungen im Entgelt: Arbeitsplatz, WLAN, Küche, Druckkontingent, Meetingraum-Stunden, Reinigung, optional Postannahme und Geschäftsadresse; Zusatzleistungen nach Preisliste; Einschränkungen bei Wartung mit Minderung (§ 2)
+- Zugang, Öffnungszeiten, Zugangskarte und Ersatzkosten (§ 3)
+- Nutzungsentgelt, Zahlung per Lastschrift oder Überweisung, Preisanpassung mit Sonderkündigungsrecht, Zugangssperre bei Verzug, Kaution (§ 4)
+- Laufzeit, optionale Mindestlaufzeit, Kündigung in Textform, fristlose Kündigung, Tarifwechsel (§ 5)
+- Hausordnung, erlaubte Nutzung, Geräte, Internetregeln und Freistellung (§ 6)
+- Haftung des Betreibers, eingebrachte Sachen, Versicherung des Nutzers (§ 7)
+- Datenschutz, Zutrittsprotokolle, optionale Videoüberwachung, Vertraulichkeit, Referenznennung (§ 8)
+- Beendigung mit Rückgabe von Karte und Schließfach, Postnachlauf (§ 9) und Schlussbestimmungen (§ 10)`,
+      },
+      {
+        titel: "Coworking-Vertrag Muster ausfüllen: Flex Desk oder Fix Desk",
+        text: `Trage in § 1 den Namen des Space ein und kreuze den Tarif an; beim Fix Desk gehört die Platznummer hinein, beim Flex Desk die Nummer des Schließfachs. In § 2 nennst du ehrlich, was enthalten ist: Bandbreite in Mbit/s, Druckseiten und Meetingraum-Stunden pro Monat und das Buchungssystem. Alles andere kommt in die Preisliste als Anlage 2. In § 3 legst du Zugangszeiten und Empfangszeiten fest und bezifferst den Preis für eine Ersatzkarte. In § 4 setzt du Entgelt, Zahlungsweg, Ankündigungsfrist für Preisänderungen, Sperrfrist bei Verzug und Kaution. In § 5 entscheidest du über eine Mindestlaufzeit und die Kündigungsfrist, üblich ist ein Monat zum Monatsende. In § 8 streichst du den Satz zur Videoüberwachung, wenn du keine Kameras hast, und legst die Datenschutzinformation als Anlage 3 bei. Die Vorlage gibt es kostenlos als Word, PDF und Text.`,
+      },
+      {
+        titel: "Typische Fehler in Coworking-Verträgen",
+        text: `Erster Fehler: Leistungen versprechen, die du nicht garantieren kannst, etwa eine feste Internetgeschwindigkeit oder Verfügbarkeit; die Vorlage nennt Richtwerte ohne Zusicherung und regelt Ausfälle über die Minderung in § 2 Abs. 3. Zweiter Fehler: ein pauschaler Haftungsausschluss für alles. Ein Ausschluss für grobe Fahrlässigkeit oder Personenschäden ist in Formularverträgen unwirksam und reißt im Streit die ganze Klausel mit; die Vorlage grenzt deshalb in § 7 sauber ab. Dritter Fehler: Preisänderungen ohne Sonderkündigungsrecht des Nutzers. Vierter Fehler: Kameras, Zutrittsprotokolle und WLAN-Logs ohne Datenschutzinformation und Hinweisschilder. Fünfter Fehler: Verbraucher mit demselben Vertrag aufnehmen wie Unternehmer; Studierende oder privat Arbeitende haben bei Online-Abschluss ein Widerrufsrecht und strengere AGB-Kontrolle. Und schließlich die vergessene Kündigungsfrist, die bei einem Fix Desk mit Mietcharakter sonst sehr lang werden kann.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen: Mischvertrag aus Miete und Dienstleistung",
+        text: `Ein Coworking-Vertrag ist ein typengemischter Vertrag: Die Überlassung des Arbeitsplatzes folgt dem Mietrecht der §§ 535 ff. BGB, Internet, Empfang, Reinigung und Druck sind Dienstleistungen nach § 611 BGB. Die Rechtsprechung wendet auf solche Verträge das Recht des prägenden Teils an; beim Flex Desk prägt meist die Dienstleistung, beim abgeschlossenen Büro die Miete. Dann kann ohne Vereinbarung die Kündigungsfrist des § 580a Abs. 2 BGB gelten, weshalb § 5 der Vorlage die Frist ausdrücklich festlegt. Weil der Vertrag für viele Nutzer gleich verwendet wird, unterliegt er der AGB-Kontrolle der §§ 305 ff. BGB, auch gegenüber Unternehmern. Verzugszinsen zwischen Unternehmern richten sich nach § 288 Abs. 2 BGB. Für Zutrittsdaten, Buchungen und Zahlungsdaten gilt die DSGVO; die Vorlage stützt sich auf Art. 6 Abs. 1 lit. b und f DSGVO und verlangt eine Datenschutzinformation nach Art. 13 DSGVO. GründerX liefert den Mustervertrag, keine Rechtsberatung.`,
+      },
+      {
+        titel: "Wann die Coworking-Vorlage nicht reicht",
+        text: `Die Vorlage ist für Unternehmer und Freiberufler gebaut. Nimmst du Verbraucher auf oder schließt du Verträge online über ein Buchungsportal, brauchst du zusätzlich eine Widerrufsbelehrung und verbraucherfeste AGB. Vermietest du abgeschlossene Teambüros mit fester Laufzeit über ein Jahr, gilt Gewerbemietrecht mit Schriftform, dann ist der Gewerbemietvertrag die richtige Vorlage. Bietest du Geschäftsadressen für Handelsregister und Impressum an, solltest du Postannahme, Haftung für Fristversäumnisse und Kündigungsfolgen gesondert regeln. Bei Videoüberwachung, Zutrittssystemen mit biometrischen Daten oder einem Space in mehreren Städten mit zentraler Datenverarbeitung lohnt sich eine Datenschutzberatung. Und wenn du Franchise- oder Partnermodelle mit anderen Betreibern planst, gehört ein Anwalt an den Tisch.`,
+      },
+    ],
     seo: {
-      title: "Coworking-Vertrag Vorlage 2026 kostenlos (Word & PDF) | GründerX",
+      title: "Coworking-Vertrag Vorlage kostenlos (Word) | GründerX",
       description:
         "Coworking-Nutzungsvertrag als kostenlose Vorlage: Flex Desk oder Fix Desk, Leistungen, Zugang, Hausordnung, monatliche Kündigung, Haftung und Datenschutz.",
     },
@@ -439,8 +552,43 @@ ${VORLAGEN_HINWEIS}`,
         a: "Nach § 562 BGB hat der Vermieter für seine Forderungen ein Pfandrecht an den eingebrachten Sachen des Mieters. Bei Mietrückstand kann er die Ware zurückhalten und verwerten. Kommissionsware oder unter Eigentumsvorbehalt gelieferte Ware gehört nicht dir und unterliegt dem Pfandrecht nicht – die Vorlage verlangt, dass du dem Vermieter solche Ware auf Nachfrage benennst.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du einen Mietvertrag für eine Lagerfläche brauchst",
+        text: `Der Keller ist voll, die Garage auch, und die Pakete für den Online-Shop stapeln sich im Flur: Spätestens dann mietest du ein Lager. Die Vorlage passt für einen abgeschlossenen Lagerraum, eine abgegrenzte Teilfläche in einer Halle, eine Garage oder einen Kellerraum, in dem du Warenbestand, Verpackungsmaterial und Retouren unterbringst. Sie passt auch für die andere Seite: Du hast eine Halle oder einen leeren Raum und vermietest ihn an ein Unternehmen als Lager. Nicht gedacht ist das Muster für Büro, Werkstatt oder Verkauf vor Ort; dafür gibt es den Gewerbemietvertrag. Auch die entgeltliche Einlagerung fremder Waren mit Obhutspflicht ist ein anderer Vertrag, nämlich ein Lagervertrag, bei dem der Lagerhalter die Ware verwahrt.`,
+      },
+      {
+        titel: "Was muss in einen Lagermietvertrag?",
+        text: `Bei der Lagermiete entscheiden die Eigenschaften der Fläche und die Frage, wer die Ware versichert. Diese Punkte stehen in der Vorlage:
+
+- Lagerraum oder Teilfläche mit Lageplan, Zufahrt, Torbreite, lichte Höhe, zulässige Bodenbelastung, Heizung und Strom (§ 1)
+- Nutzungszweck mit Art der Waren, erlaubte Nebentätigkeiten wie Kommissionieren und Verpacken, Liste der ausgeschlossenen Güter von Gefahrstoffen bis Lebensmitteln, Brandschutz- und Hallenordnung (§ 2)
+- Mietzeit als unbefristeter Vertrag mit Kündigungsfrist oder als befristeter Vertrag mit automatischer Verlängerung (§ 3)
+- Miete netto je Quadratmeter, enthaltene Nebenkosten, Stromabrechnung, Umsatzsteuer-Variante und Kaution (§ 4)
+- Zugangszeiten, Anlieferungen, Schlüssel, Alarmanlage und Ausschluss von Bewachung und Obhut (§ 5)
+- Versicherung der Waren durch den Mieter mit Regressverzicht, Haftung beider Seiten (§ 6)
+- Instandhaltung, standsichere Regale, Traglast und Lagerung außerhalb der Fläche (§ 7)
+- Vermieterpfandrecht und Untervermietung (§ 8), Rückgabe (§ 9), Schriftform und Anlagen (§ 10)`,
+      },
+      {
+        titel: "Lagerraum Mietvertrag Muster ausfüllen",
+        text: `Starte in § 1 mit den technischen Daten, die du dir vom Vermieter geben lässt: Torbreite in Metern, lichte Höhe, Bodenbelastung in Kilogramm je Quadratmeter, Tragkraft des Lastenaufzugs. Diese Zahlen sind später die Grenze für deine Regale und Paletten. In § 2 beschreibst du die Waren konkret, etwa „Textilien, Verpackungsmaterial und Elektronikzubehör“, und streichst aus der Verbotsliste nichts heraus, ohne es mit dem Vermieter zu klären. In § 3 wählst du Variante A für einen unbefristeten Vertrag mit Kündigungsfrist oder Variante B für eine feste Laufzeit mit Verlängerung. In § 4 trägst du die Miete netto und je Quadratmeter ein, entscheidest, ob Strom über Zähler oder Pauschale läuft, und wählst die Umsatzsteuer-Variante. In § 5 regelst du Zugang rund um die Uhr oder zu festen Zeiten und die Zahl der Schlüssel. In § 6 setzt du die Deckungssumme der Betriebshaftpflicht ein. Die Vorlage lädst du kostenlos als Word, PDF oder Text.`,
+      },
+      {
+        titel: "Typische Fehler bei der Lagermiete",
+        text: `Der häufigste Fehler: Die Ware ist nicht versichert. Die Gebäudeversicherung des Vermieters deckt das Gebäude, nicht deinen Bestand; bei Rohrbruch, Einbruch oder Brand ohne Verschulden des Vermieters trägst du den Verlust selbst. Zweiter Fehler ist die Traglast: Paletten mit Getränken, Fliesen oder Papier überschreiten schnell die zulässige Bodenbelastung, und Hochregale brauchen einen standsicheren Aufbau. Dritter Fehler sind Gefahrstoffe und große Mengen Lithium-Akkus, die eigene Lagerregeln und Brandschutzauflagen haben; sie gehören nur mit ausdrücklicher Vereinbarung ins Lager. Vierter Fehler ist die stille Umwandlung in einen Arbeitsplatz: Wer dauerhaft im Lager packt, braucht Heizung, Tageslicht und Sanitärräume nach der Arbeitsstättenverordnung. Fünfter Fehler ist die vergessene Schriftform bei Laufzeiten über ein Jahr. Und sechstens: Kommissionsware und Ware unter Eigentumsvorbehalt nicht benennen, obwohl das Vermieterpfandrecht sie nicht erfasst.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen: Gewerbemiete, § 550 BGB und Vermieterpfandrecht",
+        text: `Eine Lagerfläche ist ein Geschäftsraum, also gelten die allgemeinen Mietregeln der §§ 535 ff. BGB und über § 578 BGB einzelne Wohnraumvorschriften, vor allem die Schriftform des § 550 BGB für Verträge mit Laufzeit über ein Jahr. Kündigungsschutz und Mietpreisbremse gibt es nicht. Das gesetzliche Vermieterpfandrecht aus § 562 BGB gibt dem Vermieter für seine Forderungen ein Pfandrecht an den eingebrachten Sachen des Mieters; Ware, die dir nicht gehört, fällt nicht darunter, weshalb § 8 der Vorlage die Benennung solcher Waren verlangt. Die Nutzungsentschädigung bei verspäteter Rückgabe steht in § 546a BGB. Die Garantiehaftung des Vermieters für anfängliche Mängel aus § 536a Abs. 1 BGB schließt die Vorlage aus, was zwischen Unternehmern zulässig ist. Umsatzsteuerlich ist die Vermietung nach § 4 Nr. 12 UStG steuerfrei, mit Option nach § 9 UStG. GründerX stellt das Muster bereit; eine Rechtsberatung ersetzt es nicht.`,
+      },
+      {
+        titel: "Wann die Lagerflächen-Vorlage nicht reicht",
+        text: `Sobald das Lager mehr als Lager ist, brauchst du einen anderen Vertrag: Bei Büro, Werkstatt oder Verkauf vor Ort den Gewerbemietvertrag, bei der Verwahrung fremder Ware gegen Entgelt einen Lagervertrag mit Obhutspflicht. Bei Gefahrstoffen, Druckgasflaschen, Lebensmitteln, Kühlware oder großen Mengen Lithium-Batterien müssen Lagerklassen, Brandschutz und Behördenauflagen vorher mit dem Vermieter und gegebenenfalls der Feuerwehr geklärt und als Anlage festgehalten werden. Bei Hallen mit Umbauten, Hochregallagern über mehrere Ebenen, Flächen in Logistikparks mit Rampenbetrieb rund um die Uhr oder Laufzeiten ab fünf Jahren lohnt sich die anwaltliche Prüfung. Dasselbe gilt, wenn der Vermieter Index- oder Staffelmieten verlangt oder du selbst in die Halle investierst und wissen willst, was bei Vertragsende mit Einbauten passiert.`,
+      },
+    ],
     seo: {
-      title: "Mietvertrag Lagerfläche Vorlage 2026 kostenlos (Word) | GründerX",
+      title: "Mietvertrag Lagerfläche Vorlage kostenlos (Word) | GründerX",
       description:
         "Mietvertrag für Lagerfläche oder Lagerraum als kostenlose Vorlage: Fläche, Zugang, Sicherheit, Versicherung der Ware durch den Mieter, keine Gefahrstoffe.",
     },
@@ -563,8 +711,43 @@ ${VORLAGEN_HINWEIS}`,
         a: "Die gewöhnlichen Erhaltungskosten trägt der Entleiher (§ 601 Abs. 1 BGB), also Verbrauchsmaterial, Reinigung, kleine Wartung. Außergewöhnliche Reparaturen, etwa ein Motorschaden ohne Verschulden des Entleihers, muss der Verleiher nach den Regeln der Geschäftsführung ohne Auftrag ersetzen, wenn der Entleiher sie veranlasst (§ 601 Abs. 2 BGB). Die Vorlage regelt die Abgrenzung mit einer Betragsgrenze.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du einen Leihvertrag brauchst",
+        text: `Ein Leihvertrag regelt die kostenlose Überlassung einer Sache: Du stellst deiner frisch gegründeten UG oder GmbH als Gesellschafter deinen Laptop, dein Auto oder dein Werkzeug zur Verfügung, ohne dass die Gesellschaft dafür Miete zahlt. Oder ein befreundetes Unternehmen leiht dir für ein Projekt eine Maschine, einen Anhänger oder das Messe-Equipment. In beiden Fällen bleibt der Gegenstand Eigentum des Verleihers, der Entleiher nutzt ihn für einen bestimmten Zweck und gibt ihn unverändert zurück. Die Vorlage hält genau das fest: Gegenstand mit Seriennummer, Zustand bei Übergabe, Dauer, Pflichten des Entleihers, Haftung und Rückgabe. Fließt irgendeine Gegenleistung, ist es keine Leihe mehr, sondern Miete; dann passt der Mietvertrag für Geräte und Equipment besser.`,
+      },
+      {
+        titel: "Was muss in einen Leihvertrag?",
+        text: `Leihverträge werden oft per Handschlag geschlossen, und genau da entstehen die Streitfälle. Diese Punkte gehören in das Muster und finden sich in der Vorlage:
+
+- Leihgegenstand mit genauer Bezeichnung, Seriennummer oder Fahrgestellnummer, Zubehör, Eigentumsverhältnisse und Zustand bei Übergabe mit Fotoprotokoll (§ 1)
+- Ausdrückliche Unentgeltlichkeit, Zweck der Leihe und bei Gesellschaftern die Klarstellung, dass keine Einlage vorliegt (§ 2)
+- Dauer als festes Ende, Zweckerreichung oder unbestimmte Zeit mit Kündigungsfrist, Rückforderungsrechte des Verleihers (§ 3)
+- Sorgfaltspflichten, Fahrerliste bei Fahrzeugen, Verbot von Veränderungen, gewöhnliche Erhaltungskosten bis zu einer Betragsgrenze, Abstimmung größerer Reparaturen, Meldepflichten (§ 4)
+- Verbot der Überlassung an Dritte mit Ausnahme eigener Mitarbeiter (§ 5)
+- Haftung des Verleihers nur für Vorsatz und grobe Fahrlässigkeit, Haftung des Entleihers mit vereinbartem Zeitwert, Versicherung und Selbstbeteiligung, Verjährung (§ 6)
+- Rückgabe mit Zubehör, Datenlöschung, Entschädigung bei verspäteter Rückgabe (§ 7)
+- Textform, salvatorische Klausel, Gerichtsstand und Anlagen (§ 8)`,
+      },
+      {
+        titel: "Leihvertrag Muster ausfüllen: Schritt für Schritt",
+        text: `Trage in § 1 den Gegenstand so genau ein, dass eine Verwechslung ausgeschlossen ist: bei Geräten Modell und Seriennummer, bei Fahrzeugen Kennzeichen, Fahrgestellnummer und Kilometerstand. Notiere bekannte Mängel und fotografiere den Zustand für das Übergabeprotokoll. In § 2 nennst du den Zweck, etwa die Nutzung im Geschäftsbetrieb oder ein bestimmtes Projekt; bei der Leihe an die eigene Gesellschaft lässt du den Absatz zum Gesellschafter stehen, sonst streichst du ihn. In § 3 wählst du eine der drei Varianten für die Dauer und setzt die Rückgabefrist bei vorzeitiger Rückforderung. In § 4 legst du die Betragsgrenze fest, bis zu der der Entleiher Reparaturen selbst trägt. In § 6 vereinbarst du den Zeitwert für den Fall des Totalverlusts und trägst die bestehende Versicherung mit Selbstbeteiligung ein. In § 7 nennst du den Rückgabeort und die Tagespauschale bei Verspätung. Die Vorlage gibt es kostenlos als Word, PDF und Text.`,
+      },
+      {
+        titel: "Typische Fehler beim Leihvertrag",
+        text: `Erster Fehler: eine versteckte Gegenleistung. Eine Kostenpauschale über die reinen Erhaltungskosten hinaus, eine Dienstleistung im Gegenzug oder ein kleines Entgelt machen aus der Leihe eine Miete mit Gewährleistung und Umsatzsteuer. Zweiter Fehler: kein Übergabeprotokoll. Ohne Fotos und Mängelliste streitet ihr bei der Rückgabe über jede Delle. Dritter Fehler bei Fahrzeugen: Der Verleiher bleibt Halter und zahlt Steuer, Versicherung und Bußgelder; wer nicht vorher mit der Kfz-Versicherung klärt, ob fremde Fahrer mitversichert sind, riskiert den Regress. Vierter Fehler bei Gesellschaftern: Die GmbH kann für geliehene Gegenstände weder Miete noch Abschreibung absetzen; wer Kosten in der Gesellschaft geltend machen will, braucht einen fremdüblichen Mietvertrag. Fünfter Fehler: keine Rückgabefrist bei vorzeitiger Rückforderung, sodass aus einem Gefallen plötzlich ein Stillstand im Projekt wird.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen: Leihe nach §§ 598 ff. BGB",
+        text: `Die Leihe ist in den §§ 598 bis 606 BGB geregelt. Nach § 598 BGB verpflichtet sich der Verleiher, dem Entleiher den Gebrauch der Sache unentgeltlich zu gestatten. Der Verleiher haftet nach § 599 BGB nur für Vorsatz und grobe Fahrlässigkeit, muss nach § 600 BGB aber Schäden aus arglistig verschwiegenen Mängeln ersetzen. Die gewöhnlichen Erhaltungskosten trägt nach § 601 Abs. 1 BGB der Entleiher; außergewöhnliche Aufwendungen ersetzt der Verleiher nach § 601 Abs. 2 BGB. Nach § 603 BGB darf der Entleiher die Sache nur vertragsgemäß gebrauchen und ohne Erlaubnis keinem Dritten überlassen. Die Rückgabepflicht steht in § 604 BGB, das Kündigungsrecht des Verleihers bei Eigenbedarf, vertragswidrigem Gebrauch oder Tod des Entleihers in § 605 BGB, die kurze Verjährung von sechs Monaten für Ersatzansprüche in § 606 BGB. Steuerlich ist die unentgeltliche Nutzungsüberlassung an die eigene GmbH keine Einlage. GründerX ist Software und keine Rechts- oder Steuerberatung.`,
+      },
+      {
+        titel: "Wann die Leihvertrag-Vorlage nicht reicht",
+        text: `Die Vorlage deckt die unentgeltliche Überlassung beweglicher Sachen zwischen Unternehmen oder zwischen Gesellschafter und Gesellschaft ab. Für Grundstücke und Räume, etwa die kostenlose Überlassung eines Büros, gelten andere Regeln, und bei Gesellschaftern kommt schnell die Frage nach einer Betriebsaufspaltung auf; dafür gibt es den Mietvertrag für das Arbeitszimmer an die eigene GmbH. Willst du Kosten des Gegenstands in der Gesellschaft absetzen, brauchst du statt der Leihe einen entgeltlichen Mietvertrag zu fremdüblichen Konditionen. Bei wertvollen Maschinen, Fahrzeugen mit Leasingvertrag oder sicherungsübereigneten Sachen musst du vorher prüfen, ob die Überlassung überhaupt erlaubt ist. Und bei Leihen an Verbraucher oder grenzüberschreitend gehört der Vertrag in anwaltliche Hände.`,
+      },
+    ],
     seo: {
-      title: "Leihvertrag Vorlage 2026 kostenlos (Word & PDF) | GründerX",
+      title: "Leihvertrag Vorlage kostenlos (Word & PDF) | GründerX",
       description:
         "Leihvertrag nach § 598 BGB als kostenlose Vorlage: unentgeltliche Überlassung von Geräten an Unternehmen oder die eigene GmbH, Dauer, Haftung, Rückgabe.",
     },
@@ -679,8 +862,44 @@ ${VORLAGEN_HINWEIS}`,
         a: "Ja, bei einem Mangel, der die Tauglichkeit erheblich mindert, ist die Miete kraft Gesetzes gemindert (§ 536 BGB). Du musst den Mangel aber sofort anzeigen (§ 536c BGB), sonst verlierst du deine Rechte. Die Vorlage gibt dem Vermieter zuerst die Möglichkeit, ein Ersatzgerät zu stellen.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du einen Mietvertrag für Geräte und Equipment brauchst",
+        text: `Du vermietest Kamera- und Tontechnik, Werkzeuge, Maschinen, Veranstaltungstechnik oder einen Transporter an andere Unternehmen. Oder du mietest selbst für ein Projekt eine Maschine, ein Messe-Set oder einen Lieferwagen und willst vorher wissen, wer zahlt, wenn das Gerät kaputtgeht, gestohlen wird oder einen Tag zu spät zurückkommt. Für beide Seiten ist dieser Mietvertrag gebaut: feste Mietzeit nach Tagen, Wochen oder Monaten, Mietzins mit Umsatzsteuer, Kaution, Übergabeprotokoll mit Seriennummern, klare Haftungsverteilung und Verzugsregeln. Er gilt zwischen Unternehmern; Verbraucherrecht spielt keine Rolle. Soll ein Gegenstand kostenlos überlassen werden, nimmst du stattdessen den Leihvertrag. Für Räume und Flächen gibt es den Gewerbemietvertrag und den Mietvertrag für Lagerflächen.`,
+      },
+      {
+        titel: "Was muss in einen Geräte-Mietvertrag?",
+        text: `Bei beweglichen Sachen geht es vor allem um Zustand, Haftung und Rückgabe. Diese Punkte stehen in der Vorlage:
+
+- Mietgegenstand als Liste mit Hersteller, Modell, Seriennummer und Zubehör, Übergabeprotokoll mit Fotos, Eigentumsvorbehalt des Vermieters (§ 1)
+- Mietzeit mit Datum und Uhrzeit, Ort von Abholung und Rückgabe, Verlängerung nur in Textform, Ausschluss der stillschweigenden Verlängerung, Variante für Dauermiete, fristlose Kündigung (§ 2)
+- Mietzins netto je Tag, Woche oder Monat, Umsatzsteuer oder Kleinunternehmerregelung, enthaltene und nicht enthaltene Leistungen, Fälligkeit, Verzugszinsen und Stornostaffel (§ 3)
+- Kaution mit Form und Rückzahlungsfrist (§ 4)
+- Übergabe in geprüftem Zustand, Einweisung, Mängelanzeige, Ersatzgerät oder Reparatur, Minderung und Kündigung bei Ausfall, Ausschluss der Garantiehaftung (§ 5)
+- Bestimmungsgemäßer Gebrauch, Fahrerliste, Einsatzort, Verwahrung, Pflege und Freistellung (§ 6)
+- Haftung des Mieters mit Wiederbeschaffungswert, Versicherung beim Vermieter oder Mieter, Haftungsgrenze des Vermieters, Polizeianzeige bei Diebstahl (§ 7)
+- Rückgabe, Nachrügefrist für verdeckte Schäden, Nutzungsentschädigung und Folgeschaden bei Verspätung, Verjährung (§ 8)
+- Eigentum, Pfändung und Insolvenz (§ 9), Schlussbestimmungen mit Ausschluss fremder AGB (§ 10)`,
+      },
+      {
+        titel: "Mietvertrag Equipment ausfüllen: so gehst du vor",
+        text: `Fülle § 1 wie eine Packliste aus: jedes Gerät mit Modell und Seriennummer, dazu Akkus, Ladegeräte, Koffer. Was nicht auf der Liste steht, kann am Ende nicht als fehlend berechnet werden. In § 2 trägst du Übergabe und Rückgabe mit Uhrzeit ein und legst fest, ob abgeholt oder geliefert wird. In § 3 setzt du den Mietzins je Tag, Woche oder Monat und die Gesamtsumme, entscheidest zwischen Umsatzsteuer und Kleinunternehmerregelung, listest enthaltene Leistungen wie Verschleiß und Transportkoffer und nicht enthaltene wie Kraftstoff und Bedienpersonal und legst die Stornostaffel fest. In § 4 bestimmst du Kaution und Rückzahlungsfrist. In § 5 setzt du die Frist, innerhalb derer der Vermieter Ersatz stellt. In § 7 vereinbarst du den Wiederbeschaffungswert und wählst Variante A mit Versicherung beim Vermieter und Selbstbeteiligung oder Variante B mit Versicherung durch den Mieter. In § 8 setzt du Nachrügefrist und Mindestbetrag der Nutzungsentschädigung. Kostenlos als Word, PDF und Text.`,
+      },
+      {
+        titel: "Typische Fehler bei der Vermietung von Geräten",
+        text: `Der wichtigste Fehler: kein Übergabeprotokoll mit Fotos. Ohne Protokoll kann der Vermieter Schäden nicht beweisen und der Mieter nicht belegen, dass die Kratzer schon da waren. Zweiter Fehler: die Garantiehaftung für anfängliche Mängel nicht ausschließen; dann haftet der Vermieter ohne Verschulden für Produktionsausfälle, wenn das Gerät wegen eines verborgenen Fehlers stehen bleibt. Dritter Fehler: keine Regel für die stillschweigende Verlängerung, sodass aus einer Wochenmiete ein unbefristetes Mietverhältnis wird, wenn der Mieter einfach weiternutzt. Vierter Fehler: der Wiederbeschaffungswert fehlt, und bei Diebstahl streitet ihr über den Zeitwert. Fünfter Fehler: Verzugszinsen und Mahnpauschale selbst erfinden statt auf das Gesetz zu verweisen. Sechster Fehler: als Kleinunternehmer Umsatzsteuer ausweisen oder umgekehrt als Regelunternehmer vergessen, dass die Vermietung beweglicher Sachen immer umsatzsteuerpflichtig ist.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen: Mietrecht für bewegliche Sachen",
+        text: `Auch für Geräte gilt das allgemeine Mietrecht der §§ 535 ff. BGB. Der Vermieter schuldet den vertragsgemäßen Zustand während der Mietzeit; bei Mängeln ist die Miete nach § 536 BGB gemindert, und der Mieter muss Mängel nach § 536c BGB unverzüglich anzeigen. Die verschuldensunabhängige Haftung für anfängliche Mängel aus § 536a Abs. 1 BGB ist zwischen Unternehmern abdingbar. Abnutzung durch vertragsgemäßen Gebrauch hat der Mieter nach § 538 BGB nicht zu vertreten. Die stillschweigende Verlängerung regelt § 545 BGB, die Nutzungsentschädigung bei verspäteter Rückgabe § 546a BGB, die sechsmonatige Verjährung von Ersatzansprüchen § 548 BGB. Verzugszinsen und die Pauschale von 40 Euro zwischen Unternehmern stehen in § 288 Abs. 2 und 5 BGB. Die Schriftform des § 550 BGB gilt nur für Räume und Grundstücke, nicht für bewegliche Sachen; deshalb reicht in der Vorlage Textform. Umsatzsteuerlich ist die Vermietung beweglicher Sachen steuerpflichtig, Kleinunternehmer nach § 19 UStG weisen keine Steuer aus. GründerX ist keine Rechtsberatung.`,
+      },
+      {
+        titel: "Wann die Geräte-Mietvertrag-Vorlage nicht reicht",
+        text: `Die Vorlage ist für einzelne Mietvorgänge zwischen Unternehmern gedacht. Vermietest du regelmäßig an viele Kunden, brauchst du Mietbedingungen als AGB, die zu deinem Buchungs- und Zahlungsprozess passen und auch gegenüber Verbrauchern halten, inklusive Widerrufsbelehrung bei Online-Abschluss. Bei Fahrzeugen kommen Halterpflichten, Kfz-Versicherung, Schadensabwicklung und Fahrerprüfung hinzu, die ein Autovermietvertrag detaillierter regelt. Bei Baumaschinen, Hebebühnen oder Geräten mit Bedienpersonal spielen Unfallverhütungsvorschriften und die Abgrenzung zum Werkvertrag eine Rolle. Bei hochwertigen Anlagen über lange Laufzeiten mit Kaufoption bist du beim Leasing, das eigene steuerliche und bilanzielle Regeln hat. In all diesen Fällen lohnt sich die anwaltliche Prüfung, bevor das erste Gerät das Lager verlässt.`,
+      },
+    ],
     seo: {
-      title: "Mietvertrag Geräte Vorlage 2026 kostenlos (Word & PDF) | GründerX",
+      title: "Mietvertrag Geräte Vorlage kostenlos (Word) | GründerX",
       description:
         "Mietvertrag für Geräte, Kamera, Maschine oder Fahrzeug (B2B) als kostenlose Vorlage: Mietzeit, Mietzins, Kaution, Übergabeprotokoll, Haftung, Rückgabe.",
     },
@@ -812,8 +1031,44 @@ ${VORLAGEN_HINWEIS}`,
         a: "Der Betreiber des Ladens trägt die Verkehrssicherungspflicht für die gemietete Fläche während der Öffnungszeiten, der Vermieter für Gebäude und Gemeinschaftsflächen. Eine Betriebshaftpflichtversicherung ist für den Pop-up-Betreiber Pflicht; die Vorlage verlangt den Nachweis vor Übergabe.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du einen Pop-up-Store-Mietvertrag brauchst",
+        text: `Du willst dein Produkt für zwei Wochen in der Innenstadt testen, im Weihnachtsgeschäft eine leere Ladenfläche nutzen, einen Showroom für einen Produktlaunch eröffnen oder eine Verkaufsaktion im Einkaufszentrum fahren. Für solche Zeiträume von wenigen Tagen bis einigen Monaten ist ein normaler Gewerbemietvertrag mit Nebenkostenabrechnung und fünf Jahren Laufzeit zu schwer. Der Pop-up-Store-Mietvertrag ist die passende Kurzzeitmiete: fester Aktionszeitraum, Pauschalmiete mit allen Nebenkosten, Auf- und Abbautage, Regeln für Einrichtung und Rückbau, Öffnungszeiten und Werbung. Er passt auch für Eigentümer und Center-Betreiber, die eine Fläche zwischen zwei Hauptmietern nicht leer stehen lassen wollen und flexibel bleiben müssen, deshalb ausdrücklich ohne Konkurrenzschutz.`,
+      },
+      {
+        titel: "Was muss in einen Pop-up-Mietvertrag?",
+        text: `Kurzzeitmiete heißt nicht kurzer Vertrag. Weil alles in wenigen Tagen passiert, müssen Übergabe, Betrieb und Rückbau besonders genau geregelt sein. Das steht in der Vorlage:
+
+- Ladenfläche mit Verkaufs- und Nebenfläche, Lageplan, überlassene Ausstattung, Übergabeprotokoll mit Fotos, keine Zusicherung einer Besucherfrequenz (§ 1)
+- Fester Aktionszeitraum ohne Kündigung, Ausschluss der stillschweigenden Verlängerung, Auf- und Abbautage mit oder ohne Miete (§ 2)
+- Nutzungszweck und Sortiment, verbotene Nutzungen, Genehmigungen und Ladenöffnungszeiten, ausdrücklicher Ausschluss des Konkurrenzschutzes (§ 3)
+- Pauschalmiete inklusive Nebenkosten, Umsatzsteuer-Variante, Zahlung vor Übergabe, Kaution, optionale Umsatzmiete (§ 4)
+- Erlaubte und verbotene Einrichtung, Anschlussleistung, vollständiger Rückbau, Ersatzvornahme und Nutzungsentschädigung (§ 5)
+- Mindestöffnungszeiten mit Vertragsstrafe, Personal, Reinigung, Anlieferung, Hausordnung, Zutritt des Vermieters (§ 6)
+- Werbung im Schaufenster und außen, gegenseitige Namensnennung, Fotos (§ 7)
+- Verkehrssicherungspflicht, Betriebshaftpflicht mit Nachweis, eigene Versicherung von Ware und Technik, Haftungsgrenzen des Vermieters (§ 8)
+- Beendigung, optionale Rücktrittsklausel gegen Abstand, fristlose Kündigung, Unbenutzbarkeit der Fläche (§ 9), Schlussbestimmungen (§ 10)`,
+      },
+      {
+        titel: "Pop-up-Store Mietvertrag Muster ausfüllen",
+        text: `In § 1 trägst du Ladeneinheit, Verkaufsfläche und Nebenfläche ein und listest, was vorhanden ist (Schaufensteranlage, Theke, Regale, Kassenplatz) und was fehlt (Kassensystem, Umkleiden). In § 2 setzt du den Aktionszeitraum und die Auf- und Abbautage mit Uhrzeit und entscheidest, ob diese Tage Miete kosten. In § 3 beschreibst du Sortiment und Marke und trägst das Bundesland für die Ladenöffnungszeiten ein. In § 4 legst du die Pauschalmiete netto fest, wählst die Umsatzsteuer-Variante, setzt Zahlungsstaffel und Kaution und streichst die Umsatzmiete, wenn ihr keine wollt. In § 5 nennst du die zulässige Anschlussleistung in Kilowatt und schreibst auf, was ausnahmsweise gebohrt werden darf. In § 6 trägst du die Mindestöffnungszeiten, die Vertragsstrafe je geschlossenem Tag und die Lieferzone ein. In § 8 setzt du die Deckungssumme der Betriebshaftpflicht. Das Muster gibt es kostenlos als Word, PDF und Text.`,
+      },
+      {
+        titel: "Typische Fehler bei der Kurzzeitmiete einer Ladenfläche",
+        text: `Erster Fehler: die stillschweigende Verlängerung nicht ausschließen. Bleibt der Betreiber nach Ablauf einfach drin, kann aus der Pop-up-Woche ein unbefristetes Mietverhältnis werden; § 2 Abs. 1 der Vorlage schließt das aus. Zweiter Fehler: Einrichtung ohne schriftliche Erlaubnis. Gebohrte Wände, geklebte Folien und gestrichene Flächen sind die häufigste Streitquelle bei der Rückgabe. Dritter Fehler: fehlende Gewerbeanmeldung und übersehene Ladenöffnungszeiten, denn auch ein Pop-up-Store ist ein Gewerbe am Ort der Fläche. Vierter Fehler: Konkurrenzschutz voraussetzen und dann neben einem Wettbewerber stehen; die Vorlage schließt ihn ausdrücklich aus, das musst du als Mieter vorher wissen. Fünfter Fehler: keine Betriebshaftpflicht, obwohl der Betreiber während der Öffnungszeiten die Verkehrssicherungspflicht trägt. Und sechstens: Umsatzsteuer nicht klären, wenn der Vermieter Zusatzleistungen wie Personal oder Technik mitliefert.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen: befristete Gewerbemiete ohne § 550 BGB",
+        text: `Der Pop-up-Store-Mietvertrag ist ein befristeter Gewerbemietvertrag nach den §§ 535 ff. BGB. Ein auf bestimmte Zeit geschlossenes Mietverhältnis endet nach § 542 Abs. 2 BGB mit Ablauf dieser Zeit, ohne Kündigung; eine ordentliche Kündigung während der Laufzeit gibt es nicht. Setzt der Mieter den Gebrauch fort, verlängert sich das Mietverhältnis nach § 545 BGB auf unbestimmte Zeit, wenn das nicht ausgeschlossen ist. Bei verspäteter Rückgabe schuldet der Mieter nach § 546a BGB mindestens die vereinbarte Miete als Nutzungsentschädigung. Die Schriftform des § 550 BGB greift erst bei Laufzeiten über ein Jahr, deshalb genügt hier Textform für Änderungen. Die Garantiehaftung für anfängliche Mängel aus § 536a Abs. 1 BGB wird ausgeschlossen. Die Gewerbeanmeldung folgt aus § 14 GewO, die Ladenöffnungszeiten aus den Ladenöffnungsgesetzen der Länder. Umsatzsteuerlich ist die Vermietung nach § 4 Nr. 12 UStG steuerfrei, mit Option nach § 9 UStG. GründerX ist Software, keine Rechts- oder Steuerberatung.`,
+      },
+      {
+        titel: "Wann die Pop-up-Vorlage nicht reicht",
+        text: `Soll der Store länger als ein Jahr laufen, bist du im Bereich der Schriftform und brauchst den vollständigen Gewerbemietvertrag. Bei Flächen in großen Einkaufszentren liefert der Betreiber oft eigene Verträge mit Betriebspflicht, Werbegemeinschaft und Umsatzmiete; dann prüfst du dessen Text, statt deinen durchzusetzen. Bei Gastronomie, Lebensmittelverkauf oder Alkoholausschank kommen Lebensmittelüberwachung und Gaststättenrecht hinzu, bei Veranstaltungen mit Publikum Versammlungsstätten- und Brandschutzauflagen. Wenn der Vermieter Personal, Kasse, Marketing oder Technik mitliefert, kann aus der Miete eine andere Vertragsart werden, auch umsatzsteuerlich. Und wenn du als Marke mehrere Städte gleichzeitig bespielst oder ein Franchisepartner den Store betreibt, gehört der Vertrag in anwaltliche Hände.`,
+      },
+    ],
     seo: {
-      title: "Pop-up-Store Mietvertrag Vorlage 2026 kostenlos | GründerX",
+      title: "Pop-up-Store Mietvertrag Vorlage kostenlos | GründerX",
       description:
         "Pop-up-Store-Mietvertrag als kostenlose Vorlage: Zeitraum, Pauschalmiete, Einrichtung und Rückbau, Öffnungszeiten, Werbung, Haftung, kein Konkurrenzschutz.",
     },
@@ -946,8 +1201,45 @@ ${VORLAGEN_HINWEIS}`,
         a: "Ja, bei fremdüblicher Gestaltung und tatsächlicher Durchführung ist die Miete eine Betriebsausgabe der GmbH. Die Abzugsbeschränkung für häusliche Arbeitszimmer trifft nur den Abzug beim Nutzer selbst, nicht die GmbH als Mieterin. Entscheidend sind ein schriftlicher Vertrag vor Nutzungsbeginn, regelmäßige Zahlungen und eine klare Abgrenzung der Räume.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du ein Arbeitszimmer an deine GmbH vermieten solltest",
+        text: `Deine UG oder GmbH hat ihren Sitz bei dir zu Hause, du arbeitest im Arbeitszimmer, lagerst Ware im Abstellraum oder empfängst Kunden im Wohnzimmer. Die Raumkosten trägst du privat, obwohl die Gesellschaft die Räume nutzt. Mit einem Mietvertrag zwischen dir als Vermieter und deiner Gesellschaft als Mieterin wird die Miete zur Betriebsausgabe der GmbH, und du versteuerst die Einnahmen privat als Vermietung und Verpachtung. Das funktioniert nur, wenn der Vertrag dem Fremdvergleich standhält: schriftlich vor Nutzungsbeginn, ortsübliche Miete, tatsächliche Zahlung vom Geschäftskonto, jährliche Nebenkostenabrechnung. Genau dafür ist die Vorlage gebaut. Sie enthält außerdem die Hinweise auf die beiden Fallen, die du vorher mit dem Steuerberater klären musst: verdeckte Gewinnausschüttung und Betriebsaufspaltung.`,
+      },
+      {
+        titel: "Was muss in den Mietvertrag zwischen Gesellschafter und GmbH?",
+        text: `Der Vertrag muss so aussehen, als hätten ihn fremde Dritte geschlossen. Diese Punkte stehen in der Vorlage:
+
+- Vorbemerkung mit Beteiligung, Geschäftsführung und Eigentum oder Miete der Wohnung
+- Vertretung der Gesellschaft mit Befreiung von § 181 BGB oder Gesellschafterbeschluss als Anlage
+- Räume mit Grundriss, Gesamtwohnfläche, Flächenanteil in Prozent, Abtrennung von den Privaträumen, Mitbenutzung von Flur und WC (§ 1)
+- Nutzungszweck, Geschäftsanschrift für Handelsregister und Impressum, Kundenverkehr, Mitarbeiter, Zustimmung des Wohnungsvermieters (§ 2)
+- Mietzeit als unbefristeter oder befristeter Vertrag, außerordentliche Kündigung bei Ausscheiden, Verkauf oder Insolvenz (§ 3)
+- Ortsübliche Miete mit Quelle, Nebenkostenvorauszahlung nach Flächenanteil, jährliche Abrechnung, Umsatzsteuer-Variante, regelmäßige Überprüfung (§ 4)
+- Zahlung vom Geschäftskonto, Verbot von Barzahlung und Verrechnung, Belege für die Buchführung (§ 5)
+- Instandhaltung, Kleinreparaturen, Schönheitsreparaturen, Eigentum an Einbauten (§ 6)
+- Haftung, Betriebshaftpflicht, Information der Hausrat- oder Gebäudeversicherung (§ 7)
+- Rückgabe und Ummeldung der Geschäftsanschrift (§ 8), Fremdvergleich und steuerliche Hinweise mit Anpassungsklausel (§ 9), Schriftform (§ 10)`,
+      },
+      {
+        titel: "Mietvertrag Arbeitszimmer GmbH ausfüllen: Schritt für Schritt",
+        text: `Prüfe zuerst, ob du als Geschäftsführer von § 181 BGB befreit bist; das steht in Satzung und Handelsregister. Wenn nicht, fasst die Gesellschafterversammlung einen Beschluss, und ein anderer Vertreter unterschreibt für die GmbH. In § 1 misst du die Räume aus, trägst Gesamtwohnfläche und Mietfläche ein und rechnest den Flächenanteil aus; er ist der Schlüssel für alle Nebenkosten. In § 2 entscheidest du über Kundenverkehr und Mitarbeiter und holst bei einer Mietwohnung die Zustimmung deines Vermieters als Anlage 4. In § 4 ermittelst du die ortsübliche Miete anhand des Gewerbemietspiegels der IHK oder zweier Vergleichsangebote für kleine Büroflächen und legst die Quelle als Anlage 5 bei; dann setzt du die Nebenkostenvorauszahlung und wählst die Umsatzsteuer-Variante. In § 5 trägst du dein Privatkonto ein, auf das die GmbH monatlich überweist. In § 9 notierst du Name des Steuerberaters und Datum der Besprechung. Die Vorlage gibt es kostenlos als Word, PDF und Text.`,
+      },
+      {
+        titel: "Typische Fehler beim Fremdvergleich",
+        text: `Erster Fehler: Der Vertrag wird rückwirkend geschlossen. Das Finanzamt erkennt zwischen beherrschendem Gesellschafter und GmbH nur an, was vorher klar und schriftlich vereinbart war. Zweiter Fehler: zu hohe Miete. Alles über dem ortsüblichen Satz ist eine verdeckte Gewinnausschüttung, die bei der GmbH nicht abziehbar ist und bei dir als Kapitalertrag versteuert wird. Dritter Fehler: Die Miete wird nicht gezahlt, bar gezahlt oder mit Gehalt oder Verrechnungskonto verrechnet; § 5 der Vorlage schließt das aus. Vierter Fehler: keine Nebenkostenabrechnung, obwohl Vorauszahlungen vereinbart sind. Fünfter Fehler: Die Räume sind nicht abgegrenzt, das Arbeitszimmer ist zugleich Gästezimmer. Sechster Fehler: Die Betriebsaufspaltung wird nicht geprüft, obwohl die GmbH ihren gesamten Betrieb aus deinen Räumen führt. Und siebter Fehler: Als Mieter der Wohnung die gewerbliche Nutzung nicht mit dem Vermieter klären und die eigene Wohnung riskieren.`,
+      },
+      {
+        titel: "Rechtliche und steuerliche Grundlagen",
+        text: `Zivilrechtlich ist der Vertrag ein Gewerbemietvertrag nach den §§ 535 ff. BGB; bei fester Laufzeit über ein Jahr gilt über § 578 BGB die Schriftform des § 550 BGB. Weil du auf beiden Seiten handelst, brauchst du die Befreiung vom Verbot des Insichgeschäfts nach § 181 BGB. Steuerlich entscheidet der Fremdvergleich: Eine Miete über dem ortsüblichen Niveau ist eine verdeckte Gewinnausschüttung nach § 8 Abs. 3 Satz 2 KStG. Deine Einnahmen sind in der Regel Einkünfte aus Vermietung und Verpachtung nach § 21 EStG, bei einer Betriebsaufspaltung dagegen gewerbliche Einkünfte nach § 15 EStG mit der Folge, dass Räume und GmbH-Anteile Betriebsvermögen werden. Die Abzugsbeschränkung für das häusliche Arbeitszimmer in § 4 Abs. 5 Satz 1 Nr. 6b EStG betrifft den Abzug beim Nutzer selbst, nicht die GmbH als Mieterin. Umsatzsteuerlich ist die Vermietung nach § 4 Nr. 12 UStG steuerfrei, mit Option nach § 9 UStG. GründerX ist Software und ersetzt weder Steuerberater noch Anwalt.`,
+      },
+      {
+        titel: "Wann die Vorlage nicht reicht",
+        text: `Diese Vorlage ist der Ausgangspunkt für das Gespräch mit dem Steuerberater, nicht sein Ersatz. Vor der Unterschrift muss er prüfen, ob eine Betriebsaufspaltung droht, denn die Folgen beim Verkauf der Wohnung, beim Umzug oder beim Verkauf der GmbH-Anteile können hoch sein. Bist du Eigentümer und vermietest einen größeren Teil des Hauses oder eine ganze Etage, kommen Fragen zur Aufteilung von Kaufpreis und Abschreibung hinzu. Bei mehreren Gesellschaftern, die alle Räume stellen, bei einer GmbH mit Mitarbeitern in deiner Wohnung oder bei einer Wohnung, die dir und deinem Partner gemeinsam gehört, braucht es individuelle Regelungen. Und sobald die Gesellschaft Umbauten bezahlt oder du selbst zur Umsatzsteuer optierst, lohnt sich eine Beratung, bevor der erste Euro fließt.`,
+      },
+    ],
     seo: {
-      title: "Arbeitszimmer an eigene GmbH vermieten: Vorlage 2026 | GründerX",
+      title: "Mietvertrag Arbeitszimmer GmbH Vorlage kostenlos | GründerX",
       description:
         "Mietvertrag Arbeitszimmer an die eigene GmbH als kostenlose Vorlage: ortsübliche Miete, Flächenanteil, Nebenkosten, Fremdvergleich, Betriebsaufspaltung.",
     },

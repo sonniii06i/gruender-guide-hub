@@ -4,7 +4,6 @@ import { ArrowRight, FileText, MailCheck, Search, ShieldCheck, Sparkles } from "
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent } from "@/components/ui/card";
 import { Seo } from "@/components/Seo";
 import { Navbar } from "@/components/landing/Navbar";
 import { Footer } from "@/components/landing/Footer";
@@ -15,6 +14,7 @@ import { faqSchema, breadcrumbSchema, serviceSchema } from "@/lib/freetools/sche
 import { VORLAGEN, VORLAGEN_JE_KATEGORIE, VORLAGEN_KATEGORIEN } from "@/data/vorlagen";
 import { freigabeAusUrl, freigabeLesen, freigabeMerken, freigabeParameterEntfernen } from "@/lib/vorlagen/freigabe";
 import { KATEGORIE_AKZENT, kategorieIcon } from "@/components/vorlagen/vorlagenIcons";
+import { VorlagenKarte } from "@/components/vorlagen/VorlagenKarte";
 
 const SITE = "https://gruenderx.de";
 
@@ -90,33 +90,12 @@ export default function Vorlagen() {
     },
   ];
 
-  const karte = (v: (typeof VORLAGEN)[number]) => {
-    const Icon = kategorieIcon(VORLAGEN_KATEGORIEN.find((k) => k.key === v.kategorie)?.icon ?? "");
-    return (
-      <Link key={v.slug} to={`/vorlagen/${v.slug}`} className="group block">
-        <Card className="h-full transition-[border-color,box-shadow] group-hover:border-accent-blue/35 group-hover:shadow-soft">
-          <CardContent className="flex h-full gap-4 p-5">
-            <div className={`flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${KATEGORIE_AKZENT[v.kategorie]}`}>
-              <Icon className="h-5 w-5 text-white" aria-hidden="true" />
-            </div>
-            <div className="flex-1">
-              <h3 className="font-semibold leading-snug text-foreground transition-colors group-hover:text-accent-blue">{v.titel}</h3>
-              <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">{v.kurz}</p>
-              <span className="mt-2 inline-flex items-center gap-1 text-sm font-semibold text-accent-blue">
-                Word · PDF · Text
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-              </span>
-            </div>
-          </CardContent>
-        </Card>
-      </Link>
-    );
-  };
+  const karte = (v: (typeof VORLAGEN)[number]) => <VorlagenKarte key={v.slug} vorlage={v} />;
 
   return (
     <div className="min-h-screen bg-background">
       <Seo
-        title={`${VORLAGEN.length} kostenlose Vertragsvorlagen für Gründer (Word & PDF) | GründerX`}
+        title={`${VORLAGEN.length} Vertragsvorlagen kostenlos (Word & PDF) | GründerX`}
         description={`GbR-Vertrag, Kaufvertrag, Arbeitsvertrag, NDA, AGB, Vollmacht: ${VORLAGEN.length} Vorlagen nach deutschem Recht, kostenlos als Word, PDF und Text. Nur E-Mail bestätigen, kein Konto.`}
         path="/vorlagen"
         type="website"
@@ -133,7 +112,7 @@ export default function Vorlagen() {
               {frei ? "Deine E-Mail ist bestätigt – alles frei" : `${VORLAGEN.length} Vorlagen, kostenlos gegen bestätigte E-Mail`}
             </span>
           }
-          title="Vertragsvorlagen für Gründer"
+          title="Kostenlose Vertragsvorlagen für Gründer"
           lead={
             <p>
               GbR-Vertrag, Kaufverträge, Arbeitsverträge, NDA, AGB, Vollmachten und Schreiben ans Finanzamt – nach
@@ -197,14 +176,22 @@ export default function Vorlagen() {
               return (
                 <section key={k.key} id={k.key} className="scroll-mt-24 py-12 odd:bg-background even:bg-secondary/40">
                   <div className="container max-w-5xl px-4">
-                    <div className="mb-6 flex items-center gap-3">
+                    <div className="mb-6 flex flex-wrap items-center gap-3">
                       <div className={`flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br ${KATEGORIE_AKZENT[k.key]}`}>
                         <Icon className="h-5 w-5 text-white" aria-hidden="true" />
                       </div>
-                      <div>
-                        <h2 className="text-2xl font-semibold text-foreground">{k.titel}</h2>
+                      <div className="flex-1">
+                        <h2 className="text-2xl font-semibold text-foreground">
+                          <Link to={`/vorlagen/kategorie/${k.key}`} className="hover:text-accent-blue">{k.titel}</Link>
+                        </h2>
                         <p className="text-sm text-muted-foreground">{k.kurz}</p>
                       </div>
+                      <Link
+                        to={`/vorlagen/kategorie/${k.key}`}
+                        className="inline-flex items-center gap-1 text-sm font-semibold text-accent-blue hover:underline"
+                      >
+                        Kategorie &amp; Ratgeber <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                      </Link>
                     </div>
                     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{liste.map(karte)}</div>
                   </div>

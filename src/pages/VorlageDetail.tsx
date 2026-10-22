@@ -12,6 +12,7 @@ import { Footer } from "@/components/landing/Footer";
 import { PageHeader } from "@/components/landing/PageHeader";
 import { FaqList } from "@/components/public/PublicBlocks";
 import { VorlagenGateDialog } from "@/components/vorlagen/VorlagenGateDialog";
+import { RatgeberText } from "@/components/vorlagen/RatgeberText";
 import { KATEGORIE_AKZENT, kategorieIcon } from "@/components/vorlagen/vorlagenIcons";
 import { faqSchema, breadcrumbSchema } from "@/lib/freetools/schema";
 import { useAuth } from "@/hooks/useAuth";
@@ -168,7 +169,7 @@ function VorlageSeite({ vorlage }: { vorlage: (typeof VORLAGE_BY_SLUG)[string] }
           crumbs={[
             { label: "Start", to: "/" },
             { label: "Vorlagen", to: "/vorlagen" },
-            { label: kategorie?.titel ?? "Kategorie", to: `/vorlagen#${vorlage.kategorie}` },
+            { label: kategorie?.titel ?? "Kategorie", to: `/vorlagen/kategorie/${vorlage.kategorie}` },
             { label: vorlage.titel },
           ]}
           kicker={
@@ -177,7 +178,7 @@ function VorlageSeite({ vorlage }: { vorlage: (typeof VORLAGE_BY_SLUG)[string] }
               {offen ? "Für dich freigeschaltet" : "Kostenlos gegen bestätigte E-Mail"}
             </span>
           }
-          title={vorlage.titel}
+          title={`${vorlage.titel}: Vorlage kostenlos (Word & PDF)`}
           lead={<p>{vorlage.kurz}</p>}
         >
           <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
@@ -198,7 +199,7 @@ function VorlageSeite({ vorlage }: { vorlage: (typeof VORLAGE_BY_SLUG)[string] }
         <section className="py-12">
           <div className="container grid max-w-6xl gap-10 px-4 lg:grid-cols-[1fr,320px]">
             <div className="min-w-0">
-              <h2 className="mb-4 text-xl font-semibold text-foreground">Vorschau</h2>
+              <h2 className="mb-4 text-xl font-semibold text-foreground">Vorschau: {vorlage.titel} als Muster</h2>
               <div className="relative overflow-hidden rounded-2xl border border-border bg-card shadow-soft">
                 <pre className="max-h-[70vh] overflow-auto whitespace-pre-wrap break-words p-6 font-sans text-[14px] leading-relaxed text-foreground/90 sm:p-8">
                   {vorschau}
@@ -259,6 +260,11 @@ function VorlageSeite({ vorlage }: { vorlage: (typeof VORLAGE_BY_SLUG)[string] }
                 </p>
               </div>
 
+              {/* Ratgeber-Teil: trägt die Seite bei Google (Suchbegriffe in H2, Fließtext ≥ 450 Wörter). */}
+              <div className="mt-12 border-t border-border/70 pt-10">
+                <RatgeberText abschnitte={vorlage.ratgeber} id="ratgeber" />
+              </div>
+
               <div className="mt-12">
                 <h2 className="mb-5 text-xl font-semibold text-foreground">Häufige Fragen zu dieser Vorlage</h2>
                 <FaqList items={vorlage.faqs} />
@@ -300,8 +306,8 @@ function VorlageSeite({ vorlage }: { vorlage: (typeof VORLAGE_BY_SLUG)[string] }
                       </li>
                     ))}
                   </ul>
-                  <Link to="/vorlagen" className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-accent-blue hover:underline">
-                    Alle Vorlagen <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                  <Link to={`/vorlagen/kategorie/${vorlage.kategorie}`} className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-accent-blue hover:underline">
+                    Alle Vorlagen in {kategorie?.titel} <ArrowRight className="h-4 w-4" aria-hidden="true" />
                   </Link>
                 </div>
               )}

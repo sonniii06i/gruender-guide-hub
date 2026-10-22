@@ -31,6 +31,18 @@ describe("Vorlagen-Bibliothek", () => {
     }
   });
 
+  it("jede Kategorie hat eine vollständige Kategorieseite", () => {
+    for (const k of VORLAGEN_KATEGORIEN) {
+      expect(k.seo.title, k.key).toContain("GründerX");
+      expect(k.seo.title.length, k.seo.title).toBeLessThanOrEqual(60);
+      expect(k.seo.description.length, k.key).toBeGreaterThanOrEqual(120);
+      expect(k.seo.description.length, k.key).toBeLessThanOrEqual(170);
+      expect(k.intro.length, k.key).toBeGreaterThanOrEqual(2);
+      for (const p of k.intro) expect(p.split(/\s+/).length, k.key).toBeGreaterThanOrEqual(40);
+      expect(k.faqs.length, k.key).toBeGreaterThanOrEqual(3);
+    }
+  });
+
   for (const v of VORLAGEN) {
     describe(v.slug, () => {
       it("Metadaten vollständig", () => {
@@ -55,9 +67,29 @@ describe("Vorlagen-Bibliothek", () => {
 
       it("SEO-Felder in Länge", () => {
         expect(v.seo.title).toContain("GründerX");
-        expect(v.seo.title.length, v.seo.title).toBeLessThanOrEqual(70);
+        // Google schneidet Titel bei ~60 Zeichen ab; die Seo-Komponente kürzt
+        // nicht mehr, also müssen die Daten selbst kurz sein.
+        expect(v.seo.title.length, v.seo.title).toBeLessThanOrEqual(60);
         expect(v.seo.description.length, v.seo.description).toBeGreaterThanOrEqual(100);
         expect(v.seo.description.length, v.seo.description).toBeLessThanOrEqual(170);
+      });
+
+      it("Ratgeber-Teil trägt die Seite", () => {
+        expect(v.ratgeber.length, "Abschnitte").toBeGreaterThanOrEqual(4);
+        expect(v.ratgeber.length, "Abschnitte").toBeLessThanOrEqual(8);
+        let woerter = 0;
+        const titel = new Set<string>();
+        for (const a of v.ratgeber) {
+          expect(a.titel.length, a.titel).toBeGreaterThanOrEqual(15);
+          expect(a.titel.length, a.titel).toBeLessThanOrEqual(90);
+          expect(titel.has(a.titel), `doppelte Überschrift ${a.titel}`).toBe(false);
+          titel.add(a.titel);
+          const w = a.text.trim().split(/\s+/).length;
+          expect(w, `zu kurz: ${a.titel}`).toBeGreaterThanOrEqual(50);
+          woerter += w;
+          expect(a.text, a.titel).not.toMatch(/<[a-z]+>|\*\*|^#{1,3} |\[[^\]]+\]\(/m);
+        }
+        expect(woerter, "Ratgeber-Wörter gesamt").toBeGreaterThanOrEqual(450);
       });
 
       it("Text ist eine echte Vorlage", () => {

@@ -53,8 +53,55 @@ export const VORLAGEN_FINANZEN: Vorlage[] = [
         a: "Bei festen Zahlterminen tritt Verzug automatisch ein, und es fallen Verzugszinsen an. Nach erfolgloser Nachfrist kannst du das Darlehen kündigen und den gesamten Rest einfordern, notfalls per Mahnbescheid. Ohne Sicherheiten trägst du das volle Ausfallrisiko.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du einen privaten Darlehensvertrag brauchst",
+        text: `Ein Privatdarlehen ist der häufigste Weg, mit dem Gründer an ihr erstes Kapital kommen: Eltern strecken die Notarkosten vor, ein Freund finanziert den ersten Warenbestand, die Partnerin leiht Geld für Laptop und Website. Solange alles gut läuft, fragt niemand nach einem Vertrag. Streit entsteht erst, wenn die Rückzahlung stockt, wenn der Darlehensgeber das Geld plötzlich zurückbraucht oder wenn das Finanzamt wissen will, woher das Eigenkapital in der Bilanz stammt.
+
+Genau für diese Fälle brauchst du einen schriftlichen Darlehensvertrag. Die Vorlage passt für Darlehen zwischen Privatpersonen und für Darlehen einer Privatperson an dein Einzelunternehmen, deine GbR oder deine GmbH. Sie dient außerdem als Nachweis gegenüber Bank und Förderstelle, dass das Geld geliehen und nicht geschenkt wurde.`,
+      },
+      {
+        titel: "Was muss in einen Darlehensvertrag? Die Pflichtpunkte",
+        text: `Ein Darlehensvertrag muss nicht lang sein, aber er muss die Punkte regeln, über die später gestritten wird. Die Vorlage deckt sie in acht Paragraphen ab:
+
+- Darlehensbetrag in Zahlen und Worten, Auszahlungstermin und Konto (§ 1), damit der Geldfluss nachvollziehbar ist
+- Verwendungszweck, falls das Geld nur für die Gründung oder eine Anschaffung gedacht ist (§ 1 Abs. 4)
+- Zinssatz, Zinsperiode und Berechnungsbasis oder die ausdrückliche Vereinbarung, dass das Darlehen zinslos ist (§ 2)
+- Laufzeit, Ratenhöhe, erste Fälligkeit und das Recht auf vorzeitige Rückzahlung ohne Vorfälligkeitsentschädigung (§ 3)
+- Kündigung: ordentlich ausgeschlossen oder mit drei Monaten Frist, fristlos bei Zahlungsrückstand oder Insolvenzantrag (§ 4)
+- Sicherheiten wie Bürgschaft oder Sicherungsübereignung und deren Freigabe (§ 5)
+- Verzugsfolgen mit Verzugszinsen von fünf Prozentpunkten über dem Basiszinssatz (§ 6)
+- Schriftformklausel, salvatorische Klausel und Gerichtsstand (§ 8)
+
+Fehlt einer dieser Punkte, greift die gesetzliche Regelung, und die ist für private Darlehen oft unpassend: Ohne vereinbarte Laufzeit kann jede Seite jederzeit mit drei Monaten Frist kündigen.`,
+      },
+      {
+        titel: "Darlehensvertrag Muster ausfüllen: Schritt für Schritt",
+        text: `Lade die Vorlage als Word-Datei oder PDF herunter und arbeite die Platzhalter in eckigen Klammern von oben nach unten ab. Trage zuerst beide Parteien mit vollem Namen, Geburtsdatum und Anschrift ein; leiht jemand an deine Firma, steht dort die Firma mit Rechtsform. In § 1 setzt du den Betrag in Zahlen und Worten ein und das Datum, bis zu dem überwiesen wird.
+
+In § 2 entscheidest du dich für einen Zinssatz oder streichst den Absatz und übernimmst die Alternative für das zinslose Darlehen. In § 3 rechnest du den Ratenplan durch: Anzahl der Raten mal Ratenhöhe muss den Darlehensbetrag ergeben, bei Verzinsung kommen die Zinsen dazu. In § 4 wählst du zwischen fester Laufzeit ohne ordentliche Kündigung und unbestimmter Laufzeit mit drei Monaten Frist. In § 5 trägst du Sicherheiten ein oder wählst Variante B. Streiche alle nicht gewählten Alternativen, bevor beide unterschreiben, und überweise das Geld erst nach der Unterschrift.`,
+      },
+      {
+        titel: "Zinsloses Darlehen, Schenkungsteuer und Fremdvergleich",
+        text: `Der häufigste Fehler bei Darlehen in der Familie ist das zinslose Darlehen ohne Blick auf die Schenkungsteuer. Verzichtet der Darlehensgeber auf Zinsen, schenkt er steuerlich den Nutzungsvorteil (§ 7 Abs. 1 Nr. 1 ErbStG). Das Finanzamt bewertet diesen Vorteil mit 5,5 % pro Jahr auf den Darlehensbetrag, solange kein niedrigerer marktüblicher Zins nachgewiesen wird. Bei 50.000 EUR sind das als Faustformel 2.750 EUR pro Jahr; die genaue Bewertung läuft über den Kapitalwert nach dem Bewertungsgesetz. Innerhalb der Freibeträge (400.000 EUR bei Kindern, 20.000 EUR bei Geschwistern, Freunden und Partnern ohne Trauschein, jeweils in zehn Jahren) bleibt das folgenlos.
+
+Der zweite Fehler ist der fehlende Fremdvergleich: Das Finanzamt erkennt Zinsen als Betriebsausgaben nur an, wenn der Vertrag so aussieht, wie ihn Fremde geschlossen hätten, und tatsächlich so gelebt wird. Also: Zinsen pünktlich überweisen, Raten einhalten, Änderungen schriftlich nachtragen. Der dritte Fehler ist Bargeld. Ohne Kontoauszug kannst du weder den Geldfluss noch die Rückzahlung beweisen.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen: § 488 BGB, Kündigung und Verzug",
+        text: `Das Darlehen regelt § 488 BGB: Der Darlehensgeber muss den Betrag auszahlen, der Darlehensnehmer schuldet Zinsen und Rückzahlung bei Fälligkeit. Ist keine Laufzeit vereinbart, gilt nach § 488 Abs. 3 BGB für beide Seiten eine Kündigungsfrist von drei Monaten; ein zinsloses Darlehen darf der Darlehensnehmer sogar ohne Kündigung zurückzahlen. Die Vorlage schließt die ordentliche Kündigung für die Laufzeit aus und behält dem Darlehensgeber die fristlose Kündigung bei Verschlechterung der Vermögensverhältnisse vor (§ 490 Abs. 1 BGB).
+
+Verzug tritt bei kalendermäßig bestimmten Raten automatisch ein (§ 286 Abs. 2 Nr. 1 BGB), die Verzugszinsen betragen fünf Prozentpunkte über dem Basiszinssatz (§ 288 Abs. 1 BGB). Steuerlich sind die Zinsen beim Darlehensnehmer Betriebsausgaben, beim privaten Darlehensgeber Einkünfte aus Kapitalvermögen. Ein einzelnes privates Darlehen ist kein erlaubnispflichtiges Kreditgeschäft; erst wer wiederholt und gewerbsmäßig Geld verleiht, braucht eine BaFin-Erlaubnis nach dem KWG.`,
+      },
+      {
+        titel: "Wann die kostenlose Vorlage nicht reicht",
+        text: `Die Vorlage ist für überschaubare Beträge zwischen Privatpersonen und Gründern gemacht. Sie reicht nicht, wenn ein Unternehmer als Darlehensgeber einem Verbraucher Geld leiht: Dann liegt ein Verbraucherdarlehen vor (§ 491 BGB) mit Pflichtangaben, Widerrufsrecht und Formvorgaben, die die Vorlage nicht enthält. Bei Beträgen, die für eine Seite existenziell sind, bei Grundschulden als Sicherheit oder bei Darlehen von mehreren Geldgebern mit unterschiedlichen Rängen gehört ein Anwalt an den Tisch.
+
+Für die Schenkungsteuer oberhalb der Freibeträge und für die Frage, ob der Zins einem Fremdvergleich standhält, ist der Steuerberater zuständig. GründerX stellt dir die Vorlage als Software-Werkzeug bereit und ersetzt keine Rechts- oder Steuerberatung.`,
+      },
+    ],
     seo: {
-      title: "Darlehensvertrag privat: Vorlage kostenlos (Word, PDF) | GründerX",
+      title: "Darlehensvertrag privat Vorlage kostenlos (Word) | GründerX",
       description:
         "Privatdarlehen-Vertrag als kostenlose Vorlage: Betrag, Zinsen oder zinslos, Tilgung, Kündigung nach § 488 BGB, Sicherheiten, Verzug. Mit Steuerhinweis.",
     },
@@ -176,8 +223,56 @@ ${VORLAGEN_HINWEIS}`,
         a: "Bei Entgeltforderungen zwischen Unternehmen gelten neun Prozentpunkte über dem Basiszinssatz (§ 288 Abs. 2 BGB). Ob die Darlehensrückzahlung selbst eine Entgeltforderung ist, ist umstritten; die Vorlage vereinbart den Verzugszins deshalb ausdrücklich. Dazu kommt die Pauschale von 40 EUR je Verzugsfall (§ 288 Abs. 5 BGB).",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann ein Darlehensvertrag zwischen Unternehmen nötig ist",
+        text: `Zwischen Unternehmen fließt Geld oft schneller als die Papiere hinterherkommen: Der Lieferant finanziert eine Maschine vor, die Schwestergesellschaft überbrückt einen Liquiditätsengpass, ein Geschäftspartner schießt Geld für einen Großauftrag zu, oder du selbst gibst deiner GmbH ein Gesellschafterdarlehen, weil die Bank noch nicht mitspielt. In all diesen Fällen entsteht ein Darlehen nach § 488 BGB, und zwar auch ohne Vertrag.
+
+Der Vertrag entscheidet aber darüber, welche Zinsen gelten, wann das Geld zurück muss, welche Sicherheiten der Darlehensgeber hat und wann er kündigen darf. Für Gesellschafterdarlehen kommt dazu, dass Finanzamt und Insolvenzverwalter den Vertrag lesen. Die Vorlage ist auf den Darlehensvertrag zwischen zwei Unternehmen zugeschnitten, mit Tilgungsplan, Sicherheitenpaket und optionalem Rangrücktritt.`,
+      },
+      {
+        titel: "Was gehört in den B2B-Darlehensvertrag?",
+        text: `Ein Darlehensvertrag zwischen Unternehmen regelt mehr als Betrag und Zins. Die Vorlage enthält:
+
+- Vorbemerkung mit der Klarstellung, dass das Darlehen einmalig und nicht als gewerbsmäßiges Kreditgeschäft vergeben wird, bei Beteiligung mit Hinweis auf §§ 39, 135 InsO
+- Darlehensbetrag, Auszahlung in einer Summe oder in Tranchen, Verwendungszweck und Auszahlungsvoraussetzungen (§ 1)
+- Zinssatz fest oder variabel über dem Basiszinssatz, Zinsperiode und der Hinweis, dass Kreditzinsen umsatzsteuerfrei sind (§ 2)
+- Tilgungsplan mit einzelnen Raten, Annuität oder Endfälligkeit sowie Regeln für vorzeitige Rückzahlung (§ 3)
+- Sicherheiten: Sicherungsübereignung von Maschinen oder Warenlager, Abtretung von Kundenforderungen, Bürgschaft des Geschäftsführers (§ 4)
+- Informationspflichten wie Jahresabschluss, BWA und Debitorenlisten (§ 5)
+- Kündigungsgründe vom Zahlungsrückstand über Zweckverfehlung bis zum Kontrollwechsel (§ 6)
+- Verzugszinsen von neun Prozentpunkten über dem Basiszinssatz plus 40 EUR Pauschale (§ 7)
+- Abtretung, Aufrechnungsverbot und optionaler Rangrücktritt (§ 8)
+
+Jeder dieser Punkte hat einen Grund: Ohne Informationspflichten erfährst du von der Schieflage des Darlehensnehmers erst, wenn die Rate ausbleibt.`,
+      },
+      {
+        titel: "Vorlage Darlehensvertrag Unternehmen ausfüllen",
+        text: `Fülle zuerst beide Firmen mit Rechtsform, Handelsregister und vertretungsberechtigter Person aus; bei einer GbR die Gesellschafter namentlich. In der Vorbemerkung aktivierst du den optionalen Satz zur Beteiligung, wenn der Darlehensgeber Gesellschafter des Darlehensnehmers ist. In § 1 trägst du Betrag, Auszahlungsdatum und den konkreten Zweck ein, etwa das Angebot für die Maschine. In § 2 wählst du zwischen festem Zinssatz und variablem Zins über dem Basiszinssatz.
+
+In § 3 schreibst du den Tilgungsplan Rate für Rate oder übernimmst die Alternative mit gleichbleibenden Annuitäten; prüfe, dass die Summe der Raten den Darlehensbetrag ergibt. In § 4 beschreibst du die Sicherheiten so genau, dass ein Dritter sie erkennen kann: Seriennummer, Lagerort, Kundennamen, und legst die Listen als Anlage 1 und 2 bei. In § 8 Abs. 3 aktivierst du den Rangrücktritt nur bei Gesellschafterdarlehen. Lass bei GmbH und UG einen Gesellschafterbeschluss über die Darlehensaufnahme fassen und nimm ihn als Anlage 3 auf.`,
+      },
+      {
+        titel: "Gesellschafterdarlehen: Rangrücktritt, § 19 InsO und Fremdvergleich",
+        text: `Beim Gesellschafterdarlehen passieren die teuersten Fehler. Erstens der fehlende Fremdvergleich: Zahlt die GmbH dem Gesellschafter einen Zins, den sie einem fremden Geldgeber nie zahlen würde, behandelt das Finanzamt den überhöhten Teil als verdeckte Gewinnausschüttung (§ 8 Abs. 3 Satz 2 KStG). Ein zu niedriger oder fehlender Zins kann umgekehrt als verdeckte Einlage gewertet werden. Orientiere dich an dem Zins, den eine Bank für ein vergleichbar besichertes Darlehen verlangen würde, und dokumentiere das.
+
+Zweitens die Rückzahlung kurz vor der Insolvenz: Zahlt die Gesellschaft das Gesellschafterdarlehen im letzten Jahr vor dem Insolvenzantrag zurück, holt sich der Insolvenzverwalter das Geld nach § 135 InsO zurück. Drittens der fehlende Rangrücktritt in der Krise: Ist die Gesellschaft rechnerisch überschuldet, zählt ein Gesellschafterdarlehen ohne qualifizierten Rangrücktritt als Verbindlichkeit (§ 19 Abs. 2 InsO) und kann die Insolvenzantragspflicht auslösen. Mit Rangrücktritt bleibt es in der Überschuldungsprüfung außen vor. Der Rangrücktritt muss ausdrücklich erklärt werden; § 8 Abs. 3 der Vorlage enthält die Formulierung.`,
+      },
+      {
+        titel: "Rechtsgrundlagen: KWG, § 488 BGB, § 288 BGB, Insolvenzordnung",
+        text: `Grundlage ist § 488 BGB: Auszahlungspflicht des Darlehensgebers, Zins- und Rückzahlungspflicht des Darlehensnehmers. Verzug tritt bei kalendermäßig bestimmten Raten ohne Mahnung ein (§ 286 Abs. 2 Nr. 1 BGB). Zwischen Unternehmern betragen die Verzugszinsen bei Entgeltforderungen neun Prozentpunkte über dem Basiszinssatz (§ 288 Abs. 2 BGB) plus 40 EUR Pauschale je Verzugsfall (§ 288 Abs. 5 BGB); weil umstritten ist, ob die Darlehensrückzahlung eine Entgeltforderung ist, vereinbart die Vorlage den Zinssatz ausdrücklich. Die außerordentliche Kündigung bei Vermögensverschlechterung stützt sich auf § 490 Abs. 1 BGB.
+
+Kreditzinsen sind umsatzsteuerfrei (§ 4 Nr. 8 Buchstabe a UStG). Gesellschafterdarlehen sind in der Insolvenz nachrangig (§ 39 Abs. 1 Nr. 5 InsO), Rückzahlungen im letzten Jahr anfechtbar (§ 135 InsO). Wer gewerbsmäßig Darlehen vergibt, betreibt Kreditgeschäft nach dem KWG und braucht eine Erlaubnis der BaFin; ein einzelnes Darlehen an einen Geschäftspartner ist davon nicht erfasst.`,
+      },
+      {
+        titel: "Wann du Anwalt, Steuerberater oder Bank brauchst",
+        text: `Die Vorlage deckt das einmalige Darlehen zwischen zwei Unternehmen ab. Sie reicht nicht, wenn du als Unternehmen einem Verbraucher Geld leihst, denn dann gelten die Pflichtangaben und das Widerrufsrecht des Verbraucherdarlehens. Sie ersetzt auch keinen Bankkredit mit Grundschuld, keine Konsortialfinanzierung mit mehreren Geldgebern und keinen Darlehensvertrag mit Wandlungsrecht für Investoren.
+
+Sobald Beträge im Spiel sind, die bei Ausfall das Unternehmen gefährden, oder sobald Beteiligungen, Konzernverhältnisse oder Auslandsgesellschaften betroffen sind, lass den Vertrag anwaltlich prüfen; die Fremdüblichkeit des Zinses und die Bilanzierung des Rangrücktritts klärt der Steuerberater. GründerX ist eine Software für Gründer und keine Rechts- oder Steuerberatung.`,
+      },
+    ],
     seo: {
-      title: "Darlehensvertrag Unternehmen (B2B): Vorlage kostenlos | GründerX",
+      title: "Darlehensvertrag Unternehmen Vorlage kostenlos | GründerX",
       description:
         "Darlehensvertrag zwischen Unternehmen als kostenlose Vorlage: Tilgungsplan, Zins, Sicherungsübereignung, Abtretung, Kündigungsgründe, KWG-Hinweis.",
     },
@@ -316,8 +411,55 @@ ${VORLAGEN_HINWEIS}`,
         a: "Ja, eine doppelte. Die Verjährung beginnt neu zu laufen, und der Schuldner kann die Forderung später nicht mehr mit Einwendungen bestreiten, die er bei Abschluss kannte oder kennen musste. Deshalb sollte der Schuldner die Forderung vor der Unterschrift genau prüfen.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du eine Ratenzahlungsvereinbarung brauchst",
+        text: `Ein Kunde kann die Rechnung nicht auf einmal bezahlen, will aber zahlen. Du selbst hast eine Lieferantenrechnung offen und brauchst Luft bis zum nächsten Auftrag. Oder ein Mahnbescheid läuft schon, und beide Seiten wollen eine Einigung ohne Gerichtstermin. In allen drei Fällen ist die Ratenzahlungsvereinbarung das richtige Dokument.
+
+Sie hat für den Gläubiger zwei Vorteile gegenüber einer mündlichen Zusage: Der Schuldner erkennt die Forderung an und kann sie später nicht mehr bestreiten, und die Verjährung beginnt neu. Für den Schuldner bringt sie Planbarkeit und den Schutz vor Vollstreckung, solange er die Raten pünktlich zahlt. Die Vorlage passt für Forderungen aus Rechnungen, Darlehen oder Schadensersatz zwischen Unternehmen genauso wie gegenüber Privatkunden, mit einer wichtigen Einschränkung bei Zinsen, die weiter unten erklärt wird.`,
+      },
+      {
+        titel: "Was muss in eine Ratenzahlungsvereinbarung?",
+        text: `Eine Ratenzahlungsvereinbarung, die vor Gericht hält, enthält mindestens diese Punkte, die alle in der Vorlage stehen:
+
+- Die Forderung mit Rechtsgrund, Rechnungsnummer und Datum, aufgeteilt in Hauptforderung, bisherige Verzugszinsen und Mahnkosten (§ 1 Abs. 1 und 2)
+- Das Anerkenntnis des Schuldners dem Grunde und der Höhe nach mit Ausschluss bekannter Einwendungen (§ 1 Abs. 3)
+- Den Ratenplan mit Betrag und Fälligkeit jeder Rate oder gleichbleibende Monatsraten mit Schlussrate (§ 2)
+- Bankverbindung, Verwendungszweck und die Regel, dass der Eingang beim Gläubiger zählt (§ 2 Abs. 2)
+- Stundungszinsen oder ausdrücklich zinslose Stundung (§ 3)
+- Die Verfallklausel: Rückstand von zwei Raten, Mahnung, zwei Wochen Nachfrist, dann wird der Rest sofort fällig (§ 4)
+- Verzugszinsen nach § 288 BGB und bei Unternehmern die 40-EUR-Pauschale (§ 4 Abs. 2)
+- Kostenverteilung, Neubeginn der Verjährung und der Hinweis, dass die alte Forderung samt Sicherheiten bestehen bleibt (§§ 5, 6)
+
+Ohne Verfallklausel müsstest du bei jeder ausgefallenen Rate einzeln mahnen und klagen.`,
+      },
+      {
+        titel: "Ratenzahlung Muster ausfüllen: so gehst du vor",
+        text: `Trage Gläubiger und Schuldner mit Anschrift ein; bei Firmen den vollständigen Namen mit Rechtsform. In § 1 übernimmst du die Forderung aus der Rechnung und rechnest die bis heute aufgelaufenen Verzugszinsen und Mahnkosten dazu; die Summe ist die Gesamtforderung, auf die sich der Ratenplan bezieht. In § 2 legst du die Raten fest. Faustregel: lieber wenige, realistische Raten als ein langer Plan, der nach drei Monaten platzt. Prüfe, dass alle Raten zusammen die Gesamtforderung ergeben.
+
+In § 3 wählst du Variante A mit Zins oder Variante B zinslos und streichst die andere. In § 4 kannst du den Zinssatz für den Verzugsfall anpassen: fünf Prozentpunkte über Basiszins bei Verbrauchern, neun zwischen Unternehmern. Ist bereits ein Mahn- oder Vollstreckungsbescheid ergangen, trage in § 6 Abs. 2 das Aktenzeichen ein, damit der Titel bestehen bleibt. Beide Parteien unterschreiben, jede bekommt ein Exemplar.`,
+      },
+      {
+        titel: "Typische Fehler bei Ratenzahlung und Stundung",
+        text: `Der erste Fehler ist, Raten zu vereinbaren, ohne die Forderung vorher anerkennen zu lassen. Dann kann der Schuldner nach der dritten Rate Mängel einwenden, und du stehst wieder am Anfang. Der zweite Fehler ist eine Verfallklausel, die schon bei einem Tag Verspätung den Gesamtbetrag fällig stellt; solche Klauseln gelten schnell als unangemessen. Die Vorlage knüpft den Verfall an zwei rückständige Raten, eine schriftliche Mahnung und eine Nachfrist von zwei Wochen.
+
+Der dritte Fehler betrifft Privatkunden: Wer einem Verbraucher gegen Zinsen länger als drei Monate stundet, kann damit ein Verbraucherdarlehen schließen (§ 506 BGB) mit Widerrufsrecht und Pflichtangaben, die in der Vorlage fehlen. Stunde Verbrauchern deshalb zinslos oder halte die Laufzeit kurz. Der vierte Fehler ist die Annahme, die Vereinbarung sei ein Vollstreckungstitel. Sie ist es nicht; bleibt der Schuldner säumig, brauchst du weiterhin Mahnbescheid oder Urteil, nur eben ohne Streit über die Forderung selbst.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen: Anerkenntnis, Verjährung, Verzug, Stundungszinsen",
+        text: `Das Anerkenntnis in § 1 lässt die Verjährung neu beginnen (§ 212 Abs. 1 Nr. 1 BGB); für Rechnungen bedeutet das wieder drei volle Jahre ab Jahresende (§§ 195, 199 BGB). Die Stundung schiebt die Fälligkeit hinaus, ändert aber nichts an der Forderung; das stellt § 6 Abs. 3 klar, damit keine Schuldersetzung angenommen wird und Sicherheiten erhalten bleiben. Gerät der Schuldner mit einer kalendermäßig bestimmten Rate in Rückstand, tritt Verzug ohne Mahnung ein (§ 286 Abs. 2 Nr. 1 BGB).
+
+Die Verzugszinsen betragen fünf Prozentpunkte über dem Basiszinssatz, bei Entgeltforderungen zwischen Unternehmern neun Prozentpunkte (§ 288 Abs. 1 und 2 BGB), dazu kommt zwischen Unternehmern die Pauschale von 40 EUR (§ 288 Abs. 5 BGB). Für die Höhe der Stundungszinsen gibt es keine gesetzliche Vorgabe; als Anhaltspunkt: Das Finanzamt verlangt bei einer Steuerstundung 0,5 % pro Monat (§§ 234, 238 AO). Wer deutlich mehr nimmt, riskiert die Einordnung als Wucher.`,
+      },
+      {
+        titel: "Wann die Vorlage nicht reicht: Verbraucher, Titel, Insolvenz",
+        text: `Die Vorlage ist für den außergerichtlichen Ratenplan zwischen zwei Parteien gedacht. Sie reicht nicht, wenn du als Unternehmer Verbrauchern entgeltliche Zahlungsaufschübe über drei Monate hinaus anbietest; dafür braucht es die Pflichtangaben des Verbraucherdarlehensrechts, die ein Anwalt formulieren sollte. Sie ersetzt auch keinen vollstreckbaren Titel: Wenn der Schuldner schon einmal nicht gezahlt hat und der Betrag hoch ist, lass das Anerkenntnis notariell beurkunden und mit einer Unterwerfungsklausel versehen oder nimm den Vergleich vor Gericht.
+
+Ist der Schuldner bereits zahlungsunfähig oder läuft ein Insolvenzverfahren, gelten andere Regeln, und Ratenzahlungen können angefochten werden. GründerX stellt die Vorlage als Werkzeug bereit; eine Rechtsberatung im Einzelfall ist sie nicht.`,
+      },
+    ],
     seo: {
-      title: "Ratenzahlungsvereinbarung Vorlage kostenlos (Word/PDF) | GründerX",
+      title: "Ratenzahlungsvereinbarung Vorlage kostenlos | GründerX",
       description:
         "Ratenzahlungsvereinbarung als kostenlose Vorlage: Anerkenntnis der Forderung, Ratenplan, Zinsen, Verfallklausel bei Verzug, Kosten. Word und PDF.",
     },
@@ -434,8 +576,55 @@ ${VORLAGEN_HINWEIS}`,
         a: "Als abstraktes Anerkenntnis nicht, weil § 781 BGB die Schriftform verlangt. Eine E-Mail kann aber als deklaratorisches Anerkenntnis oder zumindest als Beweismittel und als Verjährungsneubeginn wirken. Für die volle Wirkung lass das Dokument unterschreiben.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du ein Schuldanerkenntnis brauchst",
+        text: `Ein Schuldanerkenntnis brauchst du immer dann, wenn eine Forderung feststehen soll, bevor Zeit vergeht oder Erinnerungen verblassen. Typische Fälle für Gründer: Ein Kunde gibt am Telefon zu, dass er die Rechnung schuldet, zahlt aber nicht. Ein Geschäftspartner hat einen Schaden verursacht und will den Betrag anerkennen, um Streit zu vermeiden. Ein gescheitertes Projekt endet mit einer Rückzahlungspflicht, über die beide einig sind. Oder eine alte Forderung verjährt zum Jahresende, und du brauchst einen Neubeginn der Frist.
+
+Das schriftliche Anerkenntnis macht aus einer bestreitbaren Behauptung eine Urkunde, die vor Gericht und im Mahnverfahren den Beweis erleichtert. Die Vorlage bietet beide Varianten, abstrakt und deklaratorisch, mit Fälligkeit, Ratenoption und Verzugsregel.`,
+      },
+      {
+        titel: "Abstrakt oder deklaratorisch: Was muss ins Schuldanerkenntnis?",
+        text: `Die wichtigste Entscheidung triffst du in § 2 der Vorlage. Beim abstrakten Schuldanerkenntnis (Variante A) entsteht eine neue, vom ursprünglichen Grund losgelöste Verpflichtung nach § 781 BGB; der Gläubiger muss den Grund später nicht mehr beweisen. Beim deklaratorischen Anerkenntnis (Variante B) bestätigt der Schuldner die bestehende Schuld und schneidet sich die Einwendungen ab, die er kannte. Daneben braucht jedes Schuldanerkenntnis:
+
+- Schuldner und Gläubiger mit Anschrift, bei Firmen Handelsregister und vertretungsberechtigte Person
+- Betrag in Zahlen und Worten sowie den Schuldgrund mit Rechnungsnummer, Vertragsdatum oder Schadensereignis (§ 1)
+- Bisherige Zahlungen und den offenen Restbetrag (§ 1 Abs. 3)
+- Fälligkeit, Konto und optional einen Ratenplan mit Verfallklausel (§ 3)
+- Verzicht auf bekannte Einwendungen und Aufrechnungsverbot (§ 4)
+- Verzug ohne Mahnung und Verzugszinsen nach § 288 BGB (§ 5)
+- Hinweis auf Beweiswirkung, Verjährungsneubeginn und darauf, dass es kein Vollstreckungstitel ist (§ 6)
+- Datum, Ort und die eigenhändige Unterschrift des Schuldners
+
+Die Schriftform ist beim abstrakten Anerkenntnis gesetzlich vorgeschrieben; eine E-Mail reicht nicht.`,
+      },
+      {
+        titel: "Schuldanerkenntnis Muster ausfüllen",
+        text: `Trage in § 1 den Betrag und den genauen Grund ein; je präziser der Grund, desto weniger Angriffsfläche. Zieh bereits geleistete Zahlungen ab und schreib den Restbetrag hin, denn auf diesen bezieht sich das Anerkenntnis. In § 2 wählst du Variante A oder B und streichst die andere; im Zweifel ist Variante B für den Schuldner leichter zu akzeptieren und für den Gläubiger ausreichend. In § 3 setzt du die Fälligkeit ein, sofort oder zu einem Datum, und ergänzt bei Bedarf den Ratenplan.
+
+In § 4 Abs. 2 lässt du den Schuldner erklären, ob er Gegenforderungen hat. In § 5 wählst du den Verzugszinssatz: fünf Prozentpunkte über Basiszins bei Verbrauchern, neun zwischen Unternehmern, dann auch mit der 40-EUR-Pauschale. Der Schuldner unterschreibt eigenhändig auf Papier; du bewahrst das Original auf und gibst ihm eine Abschrift, wie § 6 Abs. 5 vorsieht.`,
+      },
+      {
+        titel: "Typische Fehler beim Schuldanerkenntnis",
+        text: `Der häufigste Fehler ist das Anerkenntnis per E-Mail oder Messenger. Als abstraktes Anerkenntnis ist es formnichtig, als Beweismittel nur begrenzt brauchbar. Lass auf Papier unterschreiben, Scan nur als Kopie. Zweiter Fehler: Der Grund fehlt oder ist schwammig („aus Geschäftsbeziehung“). Beim deklaratorischen Anerkenntnis muss klar sein, welche Forderung bestätigt wird, sonst streitet ihr später darüber, was gemeint war.
+
+Dritter Fehler: Der Gläubiger glaubt, er könne aus dem Anerkenntnis sofort vollstrecken. Das geht nur mit notarieller Unterwerfungsklausel; sonst brauchst du weiterhin Mahnbescheid oder Urteil. Vierter Fehler auf Schuldnerseite: Unterschreiben, ohne Rechnung und Vertrag vorher geprüft zu haben. Mit dem Anerkenntnis sind alle bekannten Einwendungen abgeschnitten, auch berechtigte Mängelrügen. Fünfter Fehler: zu lange warten. Verjährt die Forderung zum 31. Dezember, muss das Anerkenntnis vorher vorliegen.`,
+      },
+      {
+        titel: "Rechtsgrundlagen: § 781 BGB, Verjährung und Vollstreckung",
+        text: `Das abstrakte Schuldanerkenntnis regelt § 781 BGB und verlangt die schriftliche Erteilung; nur Kaufleute dürfen nach § 350 HGB formfrei anerkennen. Das deklaratorische Anerkenntnis ist gesetzlich nicht eigens geregelt, sondern ein Feststellungsvertrag, den die Rechtsprechung anerkennt. Beide Varianten lassen die Verjährung neu beginnen (§ 212 Abs. 1 Nr. 1 BGB), was bei der dreijährigen Regelverjährung (§ 195 BGB) oft der eigentliche Grund für das Dokument ist.
+
+Beim abstrakten Anerkenntnis kann der Schuldner das Anerkenntnis nur über die ungerechtfertigte Bereicherung zurückfordern, wenn die Schuld nie bestand (§ 812 Abs. 2 BGB); die Beweislast trägt er. Verzug tritt bei einem Kalenderdatum ohne Mahnung ein (§ 286 Abs. 2 Nr. 1 BGB), Verzugszinsen regelt § 288 BGB. Ein Vollstreckungstitel wird das Anerkenntnis erst durch notarielle Beurkundung mit Unterwerfung unter die sofortige Zwangsvollstreckung (§ 794 Abs. 1 Nr. 5 ZPO).`,
+      },
+      {
+        titel: "Wann das Schuldanerkenntnis nicht reicht",
+        text: `Die Vorlage reicht für klare Forderungen zwischen Unternehmern und gegenüber Kunden, die ihre Schuld nicht bestreiten. Sie reicht nicht, wenn du sofort vollstrecken können willst; dann gehört der Text zum Notar. Sie reicht auch nicht, wenn die Forderung dem Grunde nach umstritten ist; dafür gibt es die Vergleichsvereinbarung.
+
+Verbraucher, die ein Anerkenntnis mit Ratenplan und Zinsen unterschreiben sollen, können in den Anwendungsbereich des Verbraucherdarlehensrechts geraten; hier solltest du anwaltlichen Rat einholen. Steuerlich ist zu klären, ob und wann eine anerkannte Forderung wertberichtigt oder als Einnahme gebucht wird. GründerX liefert die Vorlage als Werkzeug, keine Rechts- oder Steuerberatung.`,
+      },
+    ],
     seo: {
-      title: "Schuldanerkenntnis Vorlage § 781 BGB kostenlos | GründerX",
+      title: "Schuldanerkenntnis Vorlage kostenlos (Word) | GründerX",
       description:
         "Schuldanerkenntnis als kostenlose Vorlage nach § 781 BGB: abstrakt oder deklaratorisch, Fälligkeit, Verzicht auf Einwendungen, Beweiswirkung.",
     },
@@ -543,8 +732,54 @@ ${VORLAGEN_HINWEIS}`,
         a: "Die Abtretung der Forderung selbst ist umsatzsteuerfrei (§ 4 Nr. 8 Buchstabe c UStG). Die ursprüngliche Lieferung oder Leistung bleibt davon unberührt; die Umsatzsteuer darauf schuldet weiterhin der ursprüngliche Leistende. Beim echten Factoring kann die Dienstleistung des Factors steuerpflichtig sein; das solltest du mit dem Steuerberater klären.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du eine Abtretungserklärung brauchst",
+        text: `Eine Forderung ist Vermögen, und Vermögen kann man übertragen. Genau das macht die Abtretung: Der bisherige Gläubiger (Zedent) überträgt seine Forderung gegen einen Schuldner auf einen neuen Gläubiger (Zessionar). Gründer brauchen das in vier typischen Situationen. Du verkaufst eine offene Kundenforderung, weil du das Geld jetzt brauchst und nicht in 60 Tagen. Ein Darlehensgeber verlangt Forderungen als Sicherheit für sein Darlehen. Ein Projekt oder Kundenstamm wechselt den Inhaber, und die Zahlungsansprüche sollen mitgehen.
+
+Oder ein Erstattungsanspruch gegen Versicherung oder Plattform soll an die Person gehen, die den Schaden tatsächlich getragen hat. Die Vorlage deckt Forderungskauf, Sicherungsabtretung und Abtretung an Erfüllungs statt ab und bringt die Anzeige an den Schuldner gleich mit.`,
+      },
+      {
+        titel: "Was muss in eine Abtretungserklärung nach § 398 BGB?",
+        text: `Die Abtretung selbst ist formfrei, aber ohne Schriftstück kannst du weder dem Schuldner noch einem Gericht beweisen, wem die Forderung gehört. Die Vorlage regelt:
+
+- Die abgetretene Forderung mit Schuldner, Betrag, Rechtsgrund und Fälligkeit; bei künftigen Forderungen den Zeitraum und einen Höchstbetrag (§ 1)
+- Die Abtretungserklärung und die Annahme sowie den Übergang von Zinsen, Sicherheiten und Eigentumsvorbehalt (§ 2)
+- Die Versicherung, dass die Forderung nicht schon anderweitig abgetreten oder gepfändet ist und kein Abtretungsverbot besteht (§ 2 Abs. 3)
+- Die Gegenleistung: Kaufpreis, Sicherungszweck mit Rückabtretung oder Tilgung einer eigenen Schuld (§ 3)
+- Die Gewährleistung für den Bestand der Forderung und den Ausschluss der Haftung für die Zahlungsfähigkeit des Schuldners (§ 4)
+- Anzeige an den Schuldner, Übergabe der Unterlagen, Weiterleitung von Zahlungen und Datenschutz (§ 5)
+- Das Muster der Abtretungsanzeige, das der Zedent unterschreibt (Anlage)
+
+Die Anzeige ist kein Formalismus: Bis der Schuldner von der Abtretung weiß, darf er weiter an den alten Gläubiger zahlen.`,
+      },
+      {
+        titel: "Abtretung Muster ausfüllen: Zedent, Zessionar, Schuldner",
+        text: `Setze in den Kopf Zedent und Zessionar mit Anschrift ein. In § 1 beschreibst du die Forderung so, dass sie eindeutig ist: Schuldner, Rechnungsnummer, Datum, Betrag, Fälligkeit. Willst du künftige Forderungen abtreten, nutzt du die Alternative in § 1 Abs. 3 und grenzt sie nach Vertrag, Zeitraum und Höchstbetrag ein. In § 2 Abs. 3 prüfst du den Vertrag mit dem Schuldner auf ein Abtretungsverbot; liegt eines vor, brauchst du dessen Zustimmung und trägst das Datum ein.
+
+In § 3 wählst du Variante A, B oder C und streichst die anderen beiden. In § 4 Abs. 2 entscheidest du, ob der Zedent das Ausfallrisiko ganz oder bis zu einem Betrag übernimmt; ohne diese Alternative trägt es der Zessionar. In § 5 wählst du zwischen sofortiger und stiller Abtretung. Fülle zuletzt die Anlage aus, lass sie vom Zedenten unterschreiben und schick sie nachweisbar an den Schuldner.`,
+      },
+      {
+        titel: "Typische Fehler bei der Forderungsabtretung",
+        text: `Fehler Nummer eins: Die Anzeige unterbleibt oder kommt zu spät. Zahlt der Schuldner in der Zwischenzeit an den alten Gläubiger, ist er frei (§ 407 BGB), und der Zessionar muss sich das Geld beim Zedenten holen. Fehler zwei: Das Abtretungsverbot im Kundenvertrag wird übersehen. Zwischen Kaufleuten ist die Abtretung einer Geldforderung trotz Verbots wirksam (§ 354a HGB), der Schuldner darf aber weiter an den Zedenten zahlen; gegenüber Verbrauchern oder Nichtkaufleuten ist die Abtretung bei einem Verbot unwirksam.
+
+Fehler drei: Der Käufer prüft die Forderung nicht. Alle Einwendungen, die der Schuldner gegen den Zedenten hatte, behält er auch gegen den Zessionar (§ 404 BGB), etwa Mängel, Skonto oder Aufrechnung. Fehler vier: unbestimmte Beschreibung bei Globalabtretungen („alle Forderungen“ ohne Kundenliste oder Zeitraum); dann ist die Abtretung unwirksam, weil niemand weiß, welche Forderung gemeint ist.`,
+      },
+      {
+        titel: "Rechtsgrundlagen: §§ 398 bis 409 BGB, § 354a HGB, Umsatzsteuer",
+        text: `Die Abtretung regelt § 398 BGB als Vertrag zwischen altem und neuem Gläubiger; der Schuldner muss weder zustimmen noch informiert werden, damit sie wirksam wird. Nebenrechte wie Zinsen, Bürgschaften und Hypotheken gehen nach § 401 BGB mit über. Der Zedent muss Auskunft erteilen und Urkunden herausgeben (§§ 402, 403 BGB). Der Schuldner behält seine Einwendungen (§ 404 BGB) und kann unter den Voraussetzungen des § 406 BGB aufrechnen.
+
+Solange er von der Abtretung nichts weiß, zahlt er befreiend an den Zedenten (§ 407 BGB); hat der Zedent die Abtretung angezeigt, muss er sie gegen sich gelten lassen (§ 409 BGB). Ein vertragliches Abtretungsverbot (§ 399 BGB) wird zwischen Kaufleuten durch § 354a HGB entschärft. Umsatzsteuerlich ist die Abtretung der Forderung selbst steuerfrei (§ 4 Nr. 8 Buchstabe c UStG); die ursprüngliche Leistung bleibt steuerpflichtig wie gehabt.`,
+      },
+      {
+        titel: "Wann die Vorlage nicht reicht: Factoring, Inkasso, Globalzession",
+        text: `Die Vorlage reicht für die einzelne Abtretung zwischen zwei Unternehmen oder Personen. Sie reicht nicht für Factoring-Verträge mit laufendem Forderungsankauf, für Globalzessionen an Banken, die mit dem verlängerten Eigentumsvorbehalt von Lieferanten kollidieren können, oder für die Abtretung von Lohn- und Gehaltsansprüchen mit Pfändungsgrenzen.
+
+Wer regelmäßig fremde Forderungen einzieht oder ankauft, braucht unter Umständen eine Registrierung nach dem Rechtsdienstleistungsgesetz oder eine Erlaubnis nach dem KWG; das solltest du vorher anwaltlich klären. Beim Verkauf mit Abschlag stellt sich steuerlich die Frage nach Forderungsverlust und Umsatzsteuerberichtigung beim Zedenten, die der Steuerberater beantwortet. GründerX bietet die Vorlage als Werkzeug an, nicht als Rechts- oder Steuerberatung.`,
+      },
+    ],
     seo: {
-      title: "Abtretungserklärung Forderung: Vorlage § 398 BGB | GründerX",
+      title: "Abtretungserklärung Vorlage kostenlos (Word) | GründerX",
       description:
         "Forderungsabtretung als kostenlose Vorlage nach § 398 BGB: Zedent, Zessionar, Gegenleistung, Gewähr für Bestand, Muster-Anzeige an den Schuldner.",
     },
@@ -675,8 +910,55 @@ ${VORLAGEN_HINWEIS}`,
         a: "Jede Bareinnahme wird einzeln und zeitnah aufgezeichnet, bei einer Registrierkasse über das zertifizierte System, sonst im Kassenbuch. Die Quittung ist der Beleg dazu. Ab 10.000 EUR greift das Geldwäschegesetz mit Identifizierungspflicht, und viele Branchen sollten Barzahlungen in dieser Höhe grundsätzlich meiden.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du eine Quittung ausstellen oder verlangen solltest",
+        text: `Eine Quittung bestätigt, dass Geld oder eine Sache angekommen ist. Mehr nicht, aber genau das ist im Streitfall entscheidend. Als Gründer brauchst du sie in beide Richtungen: Ein Kunde zahlt am Stand, im Laden oder bei der Lieferung bar und will einen Beleg. Du kaufst gebraucht von einer Privatperson, zahlst bar und brauchst den Nachweis für die Buchhaltung, weil es sonst keinen Beleg gibt. Ein Mitarbeiter legt Geld aus und du erstattest es.
+
+Eine Teilzahlung auf eine größere Rechnung soll festgehalten werden, damit der Restbetrag klar ist. Oder du übergibst Schlüssel, Geräte oder Unterlagen und willst später beweisen können, was in welchem Zustand übergeben wurde. Die Vorlage enthält beide Varianten: Quittung über Zahlungseingang und Übergabequittung.`,
+      },
+      {
+        titel: "Was muss auf eine Quittung? Pflichtangaben nach § 368 BGB und § 33 UStDV",
+        text: `Das BGB stellt keine Formanforderungen an eine Quittung; sie muss nur den Empfang bestätigen und vom Empfänger unterschrieben sein. Damit sie zugleich für die Buchhaltung taugt, enthält die Vorlage:
+
+- Fortlaufende Quittungsnummer, damit das Kassenbuch lückenlos bleibt
+- Name und Anschrift des Empfängers mit Steuernummer oder USt-IdNr.
+- Name und Anschrift des Zahlers
+- Betrag in Zahlen und Worten sowie Zahlungsart (bar, Karte, Überweisung)
+- Grund der Zahlung mit Rechnungsnummer, Kaufgegenstand oder Auftrag
+- Umsatzsteuervermerk: enthaltener Steuerbetrag und Satz, Hinweis auf § 19 UStG oder Privatverkauf
+- Bei Teilzahlungen Gesamtforderung, Restbetrag und dessen Fälligkeit
+- Ort, Datum und Unterschrift des Empfängers
+
+Mit Steuersatz, Datum, Leistungsbeschreibung und Bruttobetrag erfüllt die Quittung bis 250 EUR brutto zugleich die Anforderungen an eine Kleinbetragsrechnung (§ 33 UStDV), sodass der Zahler daraus die Vorsteuer ziehen kann. Die Übergabequittung (Variante B) ersetzt die Geldangaben durch eine Liste der Gegenstände mit Anzahl, Seriennummer und Zustand.`,
+      },
+      {
+        titel: "Quittung Vorlage ausfüllen: Zahlung oder Übergabe",
+        text: `Wähle zuerst die Variante: A für Geld, B für Sachen. Bei Variante A trägst du dich als Empfänger mit Steuernummer ein, dann den Zahler. Schreib den Betrag in Zahlen und in Worten, damit niemand eine Null ergänzen kann. Beim Grund nennst du die Rechnungsnummer oder den Gegenstand. Beim Umsatzsteuervermerk streichst du die zwei nicht passenden Alternativen; als Kleinunternehmer bleibt der Hinweis auf § 19 UStG stehen.
+
+Bei einer Teilzahlung füllst du Gesamtforderung, Restbetrag und Fälligkeit aus, bei Vollzahlung den Satz zur vollständigen Begleichung. Bei Variante B listest du jeden Gegenstand einzeln mit Seriennummer und Zustand und nennst den Grund der Übergabe, etwa Kaufvertrag oder Leihe. Der Empfänger unterschreibt, bei der Übergabe beide. Nummeriere die Quittungen fortlaufend und behalte einen Durchschlag oder Scan.`,
+      },
+      {
+        titel: "Typische Fehler bei Quittungen und Barzahlungen",
+        text: `Der erste Fehler ist, die Quittung als Rechnung zu behandeln. Über 250 EUR brutto braucht der Zahler für den Vorsteuerabzug eine vollständige Rechnung nach § 14 UStG mit Rechnungsnummer, Nettobetrag, Steuerbetrag und Anschrift des Empfängers; die Quittung ersetzt sie dann nicht. Der zweite Fehler ist das fehlende Kassenbuch. Wer Bargeld annimmt, muss jede Einnahme täglich und einzeln aufzeichnen; eine lose Sammlung von Quittungen ohne Kassenbuch führt bei der Betriebsprüfung zu Hinzuschätzungen.
+
+Der dritte Fehler ist die Teilzahlung ohne Restbetrag: Steht auf der Quittung nur „500 EUR erhalten“, behauptet der Zahler später, damit sei alles bezahlt. Der vierte Fehler sind Barzahlungen ab 10.000 EUR ohne Identifizierung des Zahlers; Güterhändler müssen hier nach dem Geldwäschegesetz Ausweisdaten erfassen. Und schließlich: Quittungen gehören zu den Buchungsbelegen und müssen acht Jahre aufbewahrt werden, auch als Scan unveränderbar.`,
+      },
+      {
+        titel: "Rechtliche und steuerliche Grundlagen: BGB, UStG, AO, GwG",
+        text: `Nach § 368 BGB kann der Schuldner gegen Empfang der Leistung ein schriftliches Empfangsbekenntnis verlangen; die Kosten trägt nach § 369 BGB grundsätzlich der Schuldner. Die Quittung beweist den Empfang, nicht die Höhe der ursprünglichen Schuld. Für die Umsatzsteuer gilt: Eine Rechnung braucht die Angaben des § 14 Abs. 4 UStG, eine Kleinbetragsrechnung bis 250 EUR brutto die reduzierten Angaben des § 33 UStDV.
+
+Kasseneinnahmen und -ausgaben sind täglich festzuhalten (§ 146 Abs. 1 AO); elektronische Kassensysteme brauchen eine zertifizierte technische Sicherheitseinrichtung (§ 146a AO). Belege sind acht Jahre aufzubewahren (§ 147 Abs. 3 AO). Händler, die Bargeld ab 10.000 EUR annehmen, müssen den Zahler nach dem Geldwäschegesetz identifizieren und die Daten aufbewahren.`,
+      },
+      {
+        titel: "Wann die Quittungsvorlage nicht reicht",
+        text: `Die Vorlage reicht für den Alltag: Barverkäufe, Auslagen, Teilzahlungen, Übergaben. Sie reicht nicht als Ersatz für eine Rechnung über 250 EUR, nicht als Kassensystem für ein Ladengeschäft mit vielen Barumsätzen und nicht als alleiniger Nachweis bei Bargeld ab 10.000 EUR, weil dort zusätzlich die Identifizierungspflicht greift.
+
+Bei Übergaben von hohem Wert, etwa Fahrzeugen oder Maschinen, ergänzt du die Quittung um ein ausführliches Übergabeprotokoll mit Fotos. Wie du Bareinnahmen in deiner Buchführung erfasst und ob du eine Registrierkasse brauchst, klärst du mit dem Steuerberater. GründerX liefert die Quittungsvorlage als Werkzeug, keine Steuerberatung.`,
+      },
+    ],
     seo: {
-      title: "Quittung Vorlage kostenlos: Barzahlung & Übergabe | GründerX",
+      title: "Quittung Vorlage kostenlos (Word & PDF) | GründerX",
       description:
         "Quittung als kostenlose Vorlage nach § 368 BGB: Zahlungseingang, Teilzahlung oder Übergabe einer Sache. Mit Hinweisen zu Kassenbuch und Bargeldgrenze.",
     },
@@ -805,8 +1087,56 @@ ${VORLAGEN_HINWEIS}`,
         a: "Ja, soweit beim Hauptschuldner etwas zu holen ist. Zahlt der Bürge, geht die Forderung des Gläubigers samt Sicherheiten kraft Gesetzes auf ihn über (§ 774 BGB). Er kann außerdem aus dem Innenverhältnis zum Hauptschuldner Erstattung verlangen; das sollte in einem gesonderten Auftrag oder Vertrag festgehalten sein.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann eine Bürgschaftserklärung verlangt wird",
+        text: `Bürgschaften begegnen Gründern meist von der unangenehmen Seite: Der Vermieter der ersten Büroräume will die persönliche Bürgschaft des Geschäftsführers, weil die GmbH noch keine Bilanz hat. Der Lieferant gewährt Zahlungsziel nur, wenn jemand bürgt. Die Bank oder ein privater Darlehensgeber verlangt einen Bürgen für den Gründungskredit. Umgekehrt kannst du als Gläubiger eine Bürgschaft verlangen, wenn du einem Kunden Lieferantenkredit einräumst oder einer jungen Firma Geld leihst.
+
+In allen Fällen verspricht der Bürge, für die Schuld eines anderen einzustehen, wenn dieser nicht zahlt. Die Vorlage bildet die im Geschäftsverkehr übliche Form ab: selbstschuldnerisch, mit Höchstbetrag, mit klarer Beschreibung der Hauptschuld und mit Kündigungs- und Ausstiegsregeln für den Bürgen.`,
+      },
+      {
+        titel: "Was muss in eine selbstschuldnerische Bürgschaft?",
+        text: `Eine Bürgschaft ohne klare Grenzen ist ein Blankoscheck. Die Vorlage setzt deshalb an jeder Stelle Grenzen:
+
+- Die Hauptschuld mit Vertrag, Datum und den gesicherten Ansprüchen; andere Ansprüche sind ausdrücklich nicht gesichert (§ 1)
+- Den Höchstbetrag in Zahlen und Worten, in dem Zinsen und Kosten enthalten sind (§ 2 Abs. 2)
+- Keine Haftung für Erweiterungen des Hauptvertrags ohne Zustimmung des Bürgen (§ 2 Abs. 3)
+- Selbstschuldnerische Haftung mit Verzicht auf die Einrede der Vorausklage, aber keine Bürgschaft auf erstes Anfordern (§ 3)
+- Die Einreden des Hauptschuldners, die dem Bürgen erhalten bleiben, und Informationspflichten des Gläubigers bei Verzug (§ 4)
+- Schriftliche Inanspruchnahme, Zahlungsfrist und den gesetzlichen Forderungsübergang auf den Bürgen (§ 5)
+- Befristung oder Kündigungsrecht sowie das Ende der Bürgschaft beim Ausscheiden aus der Gesellschaft (§ 6)
+- Einen Risikohinweis, den der Bürge bestätigt (§ 7)
+- Schriftform und eigenhändige Unterschrift (§ 8)
+
+Als Gläubiger brauchst du vor allem § 1 bis § 3, als Bürge solltest du auf § 2 Abs. 2, § 4 und § 6 bestehen.`,
+      },
+      {
+        titel: "Bürgschaft Muster ausfüllen: Hauptschuld, Höchstbetrag, Laufzeit",
+        text: `Trage Bürge, Gläubiger und Hauptschuldner mit Anschrift ein. In § 1 beschreibst du den Hauptvertrag und streichst die nicht passenden Alternativen, etwa Mietvertrag oder Lieferantenvertrag. In § 2 Abs. 2 setzt du den Höchstbetrag ein; als Bürge rechne durch, ob du diesen Betrag im Ernstfall aufbringen kannst. In § 4 Abs. 2 legst du fest, ab wie vielen Tagen Verzug der Gläubiger den Bürgen informieren muss. In § 5 Abs. 2 steht die Zahlungsfrist nach Inanspruchnahme.
+
+In § 6 Abs. 1 wählst du zwischen Befristung mit Datum und unbefristeter Bürgschaft mit Kündigungsfrist; bei einer Gesellschafter-Bürgschaft aktivierst du Abs. 3, damit die Bürgschaft mit dem Ausscheiden endet. In § 7 ergänzt du das wirtschaftliche Eigeninteresse des Bürgen, zum Beispiel die Beteiligungsquote. Der Bürge unterschreibt eigenhändig auf Papier, der Gläubiger nimmt an.`,
+      },
+      {
+        titel: "Typische Fehler bei Bürgschaften und wie du sie vermeidest",
+        text: `Fehler eins: Die Bürgschaft wird per E-Mail, Scan oder in einem Vertragsanhang ohne eigene Unterschrift erklärt. Für Privatpersonen ist das nichtig; nur Kaufleute können formfrei bürgen. Fehler zwei: kein Höchstbetrag oder ein Höchstbetrag, zu dem Zinsen und Kosten noch obendrauf kommen. Dann haftet der Bürge für alles, was sich aus der Hauptschuld entwickelt. Fehler drei: die Bürgschaft des Ehepartners oder der Eltern ohne eigenes Einkommen. Solche Bürgschaften sind nach der Rechtsprechung sittenwidrig, wenn der Bürge die Verpflichtung erkennbar nie erfüllen könnte und nur aus emotionaler Verbundenheit unterschreibt; der Gläubiger steht dann ohne Sicherheit da.
+
+Fehler vier: Der Geschäftsführer bürgt unbefristet, scheidet Jahre später aus der GmbH aus und bürgt weiter für neue Verbindlichkeiten. Die Vorlage sieht deshalb das Ende beim Ausscheiden vor. Fehler fünf: Der Gläubiger erweitert den Kredit, ohne den Bürgen zu fragen, und wundert sich, dass die Bürgschaft die Erhöhung nicht deckt.`,
+      },
+      {
+        titel: "Rechtsgrundlagen: §§ 765 bis 777 BGB, Schriftform, Sittenwidrigkeit",
+        text: `Die Bürgschaft ist in §§ 765 ff. BGB geregelt. § 766 BGB verlangt die schriftliche Erteilung der Bürgschaftserklärung und schließt die elektronische Form aus; § 350 HGB befreit Kaufleute davon. Der Umfang der Bürgschaft folgt dem jeweiligen Stand der Hauptschuld (§ 767 BGB), Erweiterungen durch Rechtsgeschäft des Hauptschuldners nach Übernahme binden den Bürgen nicht. Der Bürge kann die Einreden des Hauptschuldners geltend machen (§ 768 BGB) und die Zahlung verweigern, solange Anfechtung oder Aufrechnung möglich sind (§ 770 BGB).
+
+Die Einrede der Vorausklage (§ 771 BGB) entfällt bei der selbstschuldnerischen Bürgschaft (§ 773 Abs. 1 Nr. 1 BGB). Zahlt der Bürge, geht die Forderung auf ihn über (§ 774 BGB). Eine Zeitbürgschaft erlischt mit Fristablauf, wenn der Gläubiger nicht rechtzeitig in Anspruch nimmt (§ 777 BGB). Bürgschaften finanziell krass überforderter Angehöriger sind nach § 138 BGB nichtig.`,
+      },
+      {
+        titel: "Wann die Bürgschaftsvorlage nicht reicht",
+        text: `Die Vorlage reicht für Bürgschaften im normalen Geschäftsverkehr: Miete, Lieferantenkredit, privates Darlehen, Gesellschafter-Bürgschaft gegenüber einem Geschäftspartner. Sie reicht nicht gegenüber Banken, die eigene Formulare verwenden, nicht für Bürgschaften auf erstes Anfordern, die im Bauvertrag üblich sind, und nicht für Avale und Bankbürgschaften.
+
+Bürgschaften in sechsstelliger Höhe oder von Personen ohne eigenes Einkommen solltest du vor der Unterschrift anwaltlich prüfen lassen, auf beiden Seiten. Ob die Inanspruchnahme aus einer Bürgschaft steuerlich abziehbar ist, klärt der Steuerberater. GründerX stellt die Vorlage als Werkzeug bereit, keine Rechtsberatung.`,
+      },
+    ],
     seo: {
-      title: "Bürgschaft Vorlage selbstschuldnerisch § 765 BGB | GründerX",
+      title: "Bürgschaftserklärung Vorlage kostenlos (Word) | GründerX",
       description:
         "Selbstschuldnerische Bürgschaft als kostenlose Vorlage: Höchstbetrag, Verzicht auf Einrede der Vorausklage, Schriftform nach § 766 BGB, Risikohinweis.",
     },
@@ -919,8 +1249,56 @@ ${VORLAGEN_HINWEIS}`,
         a: "Rechtlich keine, sobald der Kunde in Verzug ist. Üblich und sinnvoll sind zwei Schreiben: eine freundliche Erinnerung und eine letzte Mahnung mit Frist und Ankündigung des gerichtlichen Mahnverfahrens. Mehr als zwei Mahnungen verzögern nur und kosten Zinsen.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du eine Zahlungserinnerung schreibst",
+        text: `Die Zahlungserinnerung ist das erste Schreiben, wenn eine Rechnung über das Zahlungsziel hinaus offen bleibt. Sie ist freundlich formuliert, weil der häufigste Grund für eine unbezahlte Rechnung nicht böser Wille ist, sondern eine verlegte E-Mail, ein Urlaub oder ein interner Freigabestau. Trotzdem ist sie rechtlich eine Mahnung und setzt den Kunden in Verzug, falls er es noch nicht war.
+
+Du brauchst sie etwa fünf bis zehn Tage nach Fälligkeit, als erste Stufe eines Mahnlaufs, bevor die letzte Mahnung mit Zinsen und Pauschale folgt, und als Textbaustein für Buchhaltungssoftware oder E-Mail. Die Vorlage enthält Rechnungsdaten, neue Frist, Bankverbindung, einen Verzugshinweis und ein Gesprächsangebot, falls der Kunde ein Problem mit der Leistung hat.`,
+      },
+      {
+        titel: "Was muss in eine Zahlungserinnerung?",
+        text: `Eine Zahlungserinnerung braucht keine Paragraphen, aber alle Daten, die der Kunde zum Zahlen braucht. Die Vorlage enthält:
+
+- Absender mit Telefon, E-Mail und Steuernummer sowie Empfänger mit Ansprechpartner
+- Betreff mit Rechnungsnummer und Rechnungsdatum, dazu die Kundennummer
+- Eine Übersicht mit Rechnungsnummer, Datum, Betrag, Fälligkeit, bereits gezahltem Betrag und offenem Rest
+- Eine neue, konkrete Frist mit Kalenderdatum statt „innerhalb von 10 Tagen“
+- Bankverbindung mit IBAN, BIC und Verwendungszweck
+- Den Satz, dass sich das Schreiben erledigt hat, falls inzwischen gezahlt wurde
+- Ein Gesprächsangebot bei Problemen mit der Leistung
+- Den Hinweis auf den Verzug nach § 286 BGB und dass du für dieses Schreiben auf Verzugszinsen verzichtest
+- Die Rechnungskopie als Anlage
+
+Die konkrete Frist ist wichtig: Verstreicht sie, ist der Kunde spätestens jetzt in Verzug, und du kannst in der nächsten Stufe Zinsen berechnen.`,
+      },
+      {
+        titel: "Zahlungserinnerung Vorlage ausfüllen und versenden",
+        text: `Übernimm Rechnungsnummer, Datum und Betrag exakt aus der Rechnung; ein Zahlendreher gibt dem Kunden einen Grund, nicht zu zahlen. Trage unter „Bereits gezahlt“ Teilzahlungen ein oder 0,00 EUR. Setze die neue Frist als Datum, sieben bis zehn Tage nach dem Schreiben, bei Versand per Post zwei Tage mehr. Prüfe den Absatz zum Verzug: Hatte die Rechnung ein festes Zahlungsdatum, bleibt der erste Satz stehen; hatte sie keins, nimmst du die Alternative, die das Schreiben ausdrücklich zur Mahnung erklärt.
+
+Nenne einen Ansprechpartner mit Durchwahl, damit Rückfragen nicht im Postfach landen. Versende per E-Mail mit Lesebestätigung und bei größeren Beträgen zusätzlich per Post, leg die Rechnungskopie bei und notiere Versanddatum und Weg in deiner Buchhaltung. So kannst du den Zugang später belegen, wenn es zum Mahnbescheid kommt.`,
+      },
+      {
+        titel: "Typische Fehler beim ersten Mahnschreiben",
+        text: `Der erste Fehler ist Warten. Je länger eine Rechnung offen ist, desto geringer wird die Zahlungsmoral; nach zwei Monaten ist die Forderung beim Kunden in der Prioritätenliste längst nach unten gerutscht. Der zweite Fehler sind Mahngebühren im ersten Schreiben. Die Erinnerung, die den Verzug erst auslöst, darf nichts kosten, und gegenüber Verbrauchern sind ohnehin nur die tatsächlichen Kosten wie Porto erstattungsfähig. Der dritte Fehler ist ein drohender Ton. Wer im ersten Schreiben mit Inkasso und Schufa droht, verliert den Kunden und gewinnt nichts, denn rechtlich zählt die Fristsetzung, nicht die Drohung.
+
+Der vierte Fehler ist das Vertrauen auf die 30-Tage-Regel bei Verbrauchern: Die greift nur, wenn die Rechnung ausdrücklich darauf hingewiesen hat. Fehlt der Hinweis, löst erst die Mahnung den Verzug aus. Der fünfte Fehler ist der fehlende Zugangsnachweis; ohne ihn kannst du im Streit nicht beweisen, dass du gemahnt hast.`,
+      },
+      {
+        titel: "Rechtsgrundlagen: Verzug nach § 286 BGB und Verzugszinsen",
+        text: `Verzug ist in § 286 BGB geregelt. Nach Absatz 1 kommt der Schuldner durch Mahnung nach Fälligkeit in Verzug; die Zahlungserinnerung ist eine solche Mahnung, auch wenn sie freundlich klingt. Nach Absatz 2 Nr. 1 ist keine Mahnung nötig, wenn ein Kalendertag als Zahlungstermin vereinbart war; dann beginnt der Verzug am Tag danach. Nach Absatz 3 tritt Verzug spätestens 30 Tage nach Fälligkeit und Zugang der Rechnung ein, gegenüber Verbrauchern nur mit entsprechendem Hinweis in der Rechnung.
+
+Ab Verzug schuldet der Kunde Verzugszinsen: fünf Prozentpunkte über dem Basiszinssatz, bei Entgeltforderungen ohne Verbraucherbeteiligung neun Prozentpunkte (§ 288 Abs. 1 und 2 BGB). Zwischen Unternehmern kommt die Pauschale von 40 EUR hinzu (§ 288 Abs. 5 BGB). Weitere Verzugsschäden wie Anwalts- oder Inkassokosten sind nach §§ 280, 286 BGB ersatzfähig. Forderungen aus Rechnungen verjähren in drei Jahren zum Jahresende (§§ 195, 199 BGB); die Mahnung hemmt diese Frist nicht.`,
+      },
+      {
+        titel: "Wann die Zahlungserinnerung nicht mehr reicht",
+        text: `Bleibt die Zahlungserinnerung ohne Reaktion, folgt die letzte Mahnung mit bezifferten Verzugszinsen, letzter Frist und Ankündigung des Mahnbescheids; dafür gibt es eine eigene Vorlage. Bestreitet der Kunde die Forderung oder rügt Mängel, hilft kein Mahnschreiben mehr, sondern ein Gespräch, eine Vergleichsvereinbarung oder die Klage.
+
+Droht die Verjährung zum Jahresende, beantragst du den gerichtlichen Mahnbescheid, denn nur der hemmt die Verjährung. Bei hohen Beträgen, Auslandskunden oder einem Schuldner in der Krise lohnt sich frühzeitig anwaltlicher Rat. GründerX liefert die Vorlage als Werkzeug und ersetzt keine Rechtsberatung.`,
+      },
+    ],
     seo: {
-      title: "Zahlungserinnerung Vorlage: freundlich & rechtssicher | GründerX",
+      title: "Zahlungserinnerung Vorlage kostenlos (Word) | GründerX",
       description:
         "Zahlungserinnerung als kostenlose Vorlage: erstes Schreiben nach Fälligkeit mit Rechnungsdaten, neuer Frist, Bankverbindung und Verzugshinweis § 286 BGB.",
     },
@@ -1025,8 +1403,57 @@ ${VORLAGEN_HINWEIS}`,
         a: "Die Ankündigung eines Inkassoverfahrens oder Mahnbescheids ist zulässig. Ein Schufa-Eintrag darf nur unter engen Voraussetzungen angekündigt werden (§ 31 Abs. 2 BDSG): unter anderem mindestens zwei schriftliche Mahnungen, erste Mahnung vier Wochen vor Meldung, Hinweis auf die bevorstehende Meldung und keine Bestreitung der Forderung. Ohne diese Voraussetzungen ist die Drohung selbst rechtswidrig.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du die letzte Mahnung schickst",
+        text: `Die letzte Mahnung ist das Schreiben, mit dem du den außergerichtlichen Teil beendest. Sie kommt, wenn die Zahlungserinnerung und gegebenenfalls eine zweite Mahnung ohne Reaktion geblieben sind, wenn du Verzugszinsen und die Verzugspauschale erstmals konkret beziffern willst, bevor du ein Inkassounternehmen beauftragst oder den Online-Mahnantrag stellst, und wenn die Verjährung zum Jahresende droht. Mehr als zwei bis drei Mahnschreiben bringen nichts; jedes weitere kostet Zeit und Zinsen.
+
+Die Vorlage enthält eine Aufstellung von Hauptforderung, Zinsen, Pauschale und Mahnkosten, die Zinsformel mit Basiszinssatz, eine letzte Frist mit Datum und die Ankündigung von Mahnbescheid, Kostenfolge und Vollstreckung. Sie bleibt sachlich, weil Drohungen ohne Rechtsgrundlage nach hinten losgehen.`,
+      },
+      {
+        titel: "Was muss in eine letzte Mahnung? Verzugszinsen, Pauschale, Frist",
+        text: `Eine letzte Mahnung, die vor dem Mahngericht Bestand hat, enthält:
+
+- Absender, Empfänger, Versandweg und Betreff mit Rechnungsnummer
+- Den Verweis auf Rechnung und vorangegangene Erinnerung mit Daten sowie den Tag des Verzugsbeginns
+- Die Aufstellung: Hauptforderung, Verzugszinsen mit Zeitraum, Tagen und Zinssatz, bei Unternehmern die 40-EUR-Pauschale, Mahnkosten, Gesamtbetrag
+- Den Hinweis, dass die Zinsen täglich weiterlaufen, mit dem Tagesbetrag
+- Die Rechtsgrundlage für den Zinssatz: § 288 Abs. 2 BGB (neun Prozentpunkte) oder Abs. 1 (fünf Prozentpunkte)
+- Eine letzte Frist mit Kalenderdatum und dem Zusatz, dass der Eingang auf dem Konto zählt
+- Bankverbindung mit Verwendungszweck
+- Die Ankündigung von Mahnbescheid oder Inkasso, Kostenerstattung und Zwangsvollstreckung
+- Ein Angebot, die Forderung innerhalb der Frist zu bestreiten oder Ratenzahlung zu vereinbaren
+- Anlagen: Rechnungskopie und Kopie der Zahlungserinnerung
+
+Die Aufstellung muss stimmen, denn die Beträge übernimmst du später in den Mahnantrag.`,
+      },
+      {
+        titel: "Mahnung Muster ausfüllen: Zinsen richtig berechnen",
+        text: `Trage zuerst den Verzugsbeginn ein: der Tag nach dem Zahlungsziel der Rechnung oder der Tag nach Zugang der Zahlungserinnerung. Ermittle dann den aktuellen Basiszinssatz; die Bundesbank veröffentlicht ihn zum 1. Januar und 1. Juli. Rechne die Verzugszinsen nach der Formel: offener Betrag mal Zinssatz mal Verzugstage geteilt durch 365. Bei einer B2B-Forderung ist der Zinssatz Basiszins plus neun Prozentpunkte, gegenüber Verbrauchern plus fünf. Ändert sich der Basiszins im Verzugszeitraum, rechnest du zwei Abschnitte. Trage den Tagesbetrag ein, damit der Schuldner sieht, dass Warten teurer wird.
+
+Die 40-EUR-Pauschale setzt du nur ein, wenn der Schuldner kein Verbraucher ist; streiche sonst die Zeile. Bei Mahnkosten gegenüber Verbrauchern trägst du nur Porto und Material ein. Setze die letzte Frist auf sieben bis zehn Tage nach dem Schreiben. Wähle in der Ankündigung zwischen Mahnbescheid und Inkasso und versende so, dass du den Zugang belegen kannst, etwa per Einwurf-Einschreiben plus E-Mail.`,
+      },
+      {
+        titel: "Typische Fehler bei der letzten Mahnung",
+        text: `Der erste Fehler ist der falsche Zinssatz: neun Prozentpunkte gegenüber einem Verbraucher oder ein Basiszins aus einer alten Vorlage. Beides fällt beim Mahngericht oder spätestens im Prozess auf. Der zweite Fehler ist die Pauschale von 40 EUR gegenüber Privatkunden; sie steht nur gegenüber Unternehmern zu. Der dritte Fehler sind erfundene Mahngebühren von 10 oder 15 EUR pro Schreiben; erstattungsfähig sind nur tatsächliche Kosten.
+
+Der vierte Fehler ist eine Schufa-Drohung ohne die Voraussetzungen des § 31 Abs. 2 BDSG; die Drohung selbst kann dann rechtswidrig sein. Der fünfte Fehler ist die Vorstellung, die Mahnung hemme die Verjährung. Das tut sie nicht; nur Mahnbescheid, Klage oder ein Anerkenntnis helfen. Der sechste Fehler ist, bei einer bestrittenen Forderung weiter zu mahnen, statt die Einwände zu prüfen; ein Mahnbescheid landet dann nach Widerspruch ohnehin vor Gericht.`,
+      },
+      {
+        titel: "Rechtsgrundlagen: § 286 BGB, § 288 BGB, Mahnbescheid und Verjährung",
+        text: `Verzug tritt nach § 286 BGB durch Mahnung, mit Ablauf eines Kalendertermins oder 30 Tage nach Fälligkeit und Rechnungszugang ein. Die Verzugszinsen regelt § 288 BGB: fünf Prozentpunkte über dem Basiszinssatz (Abs. 1), neun Prozentpunkte bei Entgeltforderungen, an denen kein Verbraucher beteiligt ist (Abs. 2), und die Pauschale von 40 EUR für Unternehmer als Schuldner (Abs. 5), die auf spätere Rechtsverfolgungskosten angerechnet wird. Der Basiszinssatz ergibt sich aus § 247 BGB.
+
+Weitere Verzugsschäden wie Anwalts- und Inkassokosten sind nach §§ 280, 286 BGB zu ersetzen, Inkassokosten aber nur bis zur Höhe der Anwaltsgebühren nach dem RVG (§ 13e RDG). Das gerichtliche Mahnverfahren regeln §§ 688 ff. ZPO; der Mahnbescheid hemmt die Verjährung (§ 204 Abs. 1 Nr. 3 BGB). Forderungen verjähren regelmäßig in drei Jahren ab Ende des Jahres, in dem sie entstanden sind (§§ 195, 199 BGB).`,
+      },
+      {
+        titel: "Wann die Mahnung nicht reicht: Mahnbescheid, Inkasso, Anwalt",
+        text: `Zahlt der Schuldner auch nach der letzten Frist nicht, beantragst du online den Mahnbescheid; das geht ohne Anwalt, die Gerichtskosten trägt am Ende der Schuldner. Widerspricht er, geht es ins streitige Verfahren, und bei Streitwerten über 5.000 EUR vor dem Landgericht brauchst du einen Anwalt.
+
+Bei Schuldnern im Ausland, bei bestrittenen Forderungen, bei drohender Insolvenz des Schuldners oder bei Beträgen, die dein eigenes Unternehmen gefährden, solltest du schon vor der letzten Mahnung anwaltlichen Rat einholen. Ein Inkassounternehmen lohnt sich meist nur bei vielen kleinen Forderungen. GründerX stellt die Vorlage als Werkzeug bereit; sie ersetzt keine Rechtsberatung.`,
+      },
+    ],
     seo: {
-      title: "Letzte Mahnung Vorlage mit Verzugszinsen & Pauschale | GründerX",
+      title: "Letzte Mahnung Vorlage kostenlos (Word & PDF) | GründerX",
       description:
         "Letzte Mahnung vor Mahnbescheid als kostenlose Vorlage: Verzugszinsen 9 bzw. 5 Punkte über Basiszins, 40-EUR-Pauschale, letzte Frist, Inkasso-Ankündigung.",
     },
@@ -1138,8 +1565,57 @@ ${VORLAGEN_HINWEIS}`,
         a: "Die Vorlage regelt, dass der Gläubiger den Antrag zurücknimmt oder das Verfahren nicht weiterbetreibt, sobald der Vergleichsbetrag gezahlt ist. Bis dahin bleibt das Verfahren als Druckmittel bestehen. Die bis dahin entstandenen Kosten werden im Vergleich verteilt.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du eine Vergleichsvereinbarung brauchst",
+        text: `Ein Vergleich ist die Einigung, bei der beide Seiten nachgeben, um einen Streit zu beenden. Für Gründer ist das oft der wirtschaftlich beste Ausgang: Ein Kunde bestreitet die Hälfte der Rechnung wegen angeblicher Mängel, und ein Prozess würde länger dauern als das Projekt selbst. Ein Lieferant fordert Mehrkosten, die du nicht beauftragt hast, und ihr einigt euch auf einen Teilbetrag. Ein Projekt wurde abgebrochen, und beide Seiten wollen einen Schlussstrich.
+
+Oder ein Mahnverfahren läuft bereits, und der Schuldner bietet einen Betrag an, den du akzeptieren kannst. Die Vorlage regelt den Vergleichsbetrag, die Zahlung, die Erledigung aller Ansprüche, die Umsatzsteuerkorrektur, einen optionalen Widerrufsvorbehalt und das Schicksal laufender Verfahren.`,
+      },
+      {
+        titel: "Was muss in einen außergerichtlichen Vergleich?",
+        text: `Der Vergleich steht und fällt mit der Beschreibung des Streits und der Reichweite der Erledigung. Die Vorlage enthält:
+
+- Vorbemerkung mit Forderung, Rechtsgrund, Einwänden des Schuldners, Gegenansprüchen und laufendem Verfahren
+- Die Formel „ohne Anerkennung einer Rechtspflicht, im Wege gegenseitigen Nachgebens“, die den Vergleich von einem Anerkenntnis abgrenzt
+- Vergleichsbetrag in Zahlen und Worten mit Angabe, ob Umsatzsteuer enthalten ist (§ 1)
+- Zahlungstermin oder Ratenplan und eine Verfallklausel, bei der die ursprüngliche Forderung wieder auflebt (§ 2)
+- Abgeltungsklausel für alle bekannten und unbekannten Ansprüche aus dem Vorgang mit ausdrücklichen Ausnahmen (§ 3)
+- Klarstellung, dass kein Anerkenntnis vorliegt (§ 3 Abs. 4)
+- Rechnungskorrektur nach § 17 UStG bei Minderung des Entgelts (§ 4)
+- Optionaler Widerrufsvorbehalt mit Frist (§ 5)
+- Kostenverteilung und Rücknahme von Mahnbescheid oder Klage (§ 6)
+- Vertraulichkeit, Schriftform, Gerichtsstand (§ 7)
+
+Besonders wichtig ist die Verfallklausel: Ohne sie bleibt nach Nichtzahlung nur der reduzierte Betrag als Forderung übrig.`,
+      },
+      {
+        titel: "Vergleich Muster ausfüllen: Vorbemerkung, Betrag, Abgeltung",
+        text: `Beschreibe in der Vorbemerkung ehrlich und vollständig, worum gestritten wird: Forderung, Rechnungsnummer, die Einwände der Gegenseite und etwaige Gegenansprüche. Diese Beschreibung ist später die Grundlage dafür, was der Vergleich erledigt. In § 1 trägst du den Vergleichsbetrag ein und entscheidest, ob er die Umsatzsteuer enthält oder nicht; bei Rechnungen ist „einschließlich“ üblich. In § 2 wählst du Einmalzahlung oder Raten und trägst in Abs. 2 die ursprüngliche Forderung ein, die bei Verzug wieder auflebt.
+
+In § 3 Abs. 2 listest du, was nicht erledigt sein soll, etwa künftige Gewährleistung oder Nutzungsrechte, die erst mit Zahlung übergehen; sonst schreib „keine“. In § 5 wählst du Variante A mit Widerrufsfrist, wenn eine Seite noch Anwalt oder Mitgesellschafter fragen will, sonst Variante B. In § 6 regelst du, wer die bisherigen Kosten trägt und wann ein laufender Mahnbescheid zurückgenommen wird. Beide unterschreiben; als Gläubiger stellst du anschließend die korrigierte Rechnung aus.`,
+      },
+      {
+        titel: "Typische Fehler beim Vergleich über eine Forderung",
+        text: `Der erste Fehler ist eine pauschale Abgeltungsklausel ohne Ausnahmen. Damit sind auch Ansprüche erledigt, an die du gerade nicht denkst: Vertraulichkeit, Rückgabe von Unterlagen, Gewährleistung für Mängel, die erst nächsten Monat auftauchen. Nimm ausdrücklich aus, was bleiben soll. Der zweite Fehler ist die fehlende Verfallklausel: Zahlt der Schuldner nicht, hast du den Rabatt verschenkt und nur noch den Vergleichsbetrag als Forderung.
+
+Der dritte Fehler ist eine falsche Vorbemerkung. Beruht der Vergleich auf einem Sachverhalt, den beide Seiten für sicher hielten und der nicht stimmt, ist er unwirksam (§ 779 Abs. 1 BGB). Der vierte Fehler ist die vergessene Umsatzsteuer: Wer den Rechnungsbetrag reduziert, muss die Umsatzsteuer berichtigen und eine Korrekturrechnung stellen, sonst schuldet er dem Finanzamt die zu hoch ausgewiesene Steuer. Der fünfte Fehler ist die Annahme, aus dem Vergleich vollstrecken zu können.`,
+      },
+      {
+        titel: "Rechtsgrundlagen: § 779 BGB, Vollstreckbarkeit und § 17 UStG",
+        text: `Der Vergleich ist in § 779 BGB geregelt: ein Vertrag, durch den der Streit oder die Ungewissheit über ein Rechtsverhältnis im Wege gegenseitigen Nachgebens beseitigt wird. Er ist unwirksam, wenn der nach dem Vertrag als feststehend zugrunde gelegte Sachverhalt nicht der Wirklichkeit entspricht und der Streit bei Kenntnis der Sachlage nicht entstanden wäre. Ein privatschriftlicher Vergleich ist kein Vollstreckungstitel; vollstreckbar sind der gerichtliche Vergleich, der Anwaltsvergleich nach § 796a ZPO und der notarielle Vergleich mit Unterwerfungsklausel (§ 794 Abs. 1 Nr. 5 ZPO).
+
+Verzug mit dem Vergleichsbetrag richtet sich nach §§ 286, 288 BGB. Umsatzsteuerlich mindert ein reduzierter Rechnungsbetrag das Entgelt; der Leistende berichtigt die Umsatzsteuer und der Empfänger die Vorsteuer (§ 17 UStG). Ein außergerichtlicher Vergleich hemmt die Verjährung nicht; solange verhandelt wird, ist die Verjährung aber nach § 203 BGB gehemmt.`,
+      },
+      {
+        titel: "Wann die Vergleichsvorlage nicht reicht",
+        text: `Die Vorlage reicht für Streitigkeiten über Rechnungen, Projektabbrüche und Mängelrügen zwischen Unternehmen und mit Kunden, bei denen beide Seiten zahlungsfähig und einigungsbereit sind. Sie reicht nicht, wenn du einen vollstreckbaren Titel brauchst; dann schließt du den Vergleich über Anwälte nach § 796a ZPO, beim Notar oder vor Gericht.
+
+Sie reicht auch nicht bei Streit mit Verbrauchern über Widerruf oder Gewährleistung, bei Ansprüchen aus Arbeitsverhältnissen oder bei Beträgen, deren Verlust das Unternehmen gefährdet. Wie Vergleichsbetrag, Forderungsausfall und Steuerkorrektur gebucht werden, klärst du mit dem Steuerberater. GründerX stellt die Vorlage als Werkzeug bereit und ersetzt keine Rechts- oder Steuerberatung.`,
+      },
+    ],
     seo: {
-      title: "Vergleichsvereinbarung Forderung: Vorlage kostenlos | GründerX",
+      title: "Vergleichsvereinbarung Vorlage kostenlos (Word) | GründerX",
       description:
         "Außergerichtlicher Vergleich über eine streitige Forderung als Vorlage nach § 779 BGB: Vergleichsbetrag, Abgeltungsklausel, Widerrufsvorbehalt, Kosten.",
     },
@@ -1253,8 +1729,56 @@ ${VORLAGEN_HINWEIS}`,
         a: "Liegt dein Gesamtumsatz im Jahr 2026 über 25.000 EUR, bist du ab 2027 Regelbesteuerer und musst Umsatzsteuer ausweisen und abführen. Das laufende Jahr bleibt bis 100.000 EUR steuerfrei. Prüfe deinen Umsatz im Herbst, damit du Preise und Rechnungsvorlage rechtzeitig umstellen kannst.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du die Kleinunternehmer-Rechnung brauchst",
+        text: `Wer die Kleinunternehmerregelung nutzt, schreibt Rechnungen ohne Umsatzsteuer. Das klingt einfach, hat aber eigene Regeln: Die Rechnung muss den Grund für den fehlenden Steuerausweis nennen, darf keine Steuer ausweisen und braucht trotzdem die Pflichtangaben, damit dein Kunde sie als Betriebsausgabe buchen kann. Die Vorlage brauchst du als nebenberuflicher Freelancer, als Shop-Betreiber unter 25.000 EUR Vorjahresumsatz, als Gründer im ersten Jahr, der sich für die Kleinunternehmerregelung entschieden hat, und als Dienstleister für Plattformen oder Agenturen, die statt deiner Rechnung eine Gutschrift ausstellen.
+
+Sie enthält eine vollständige Rechnung mit Positionen, Zahlungsziel und Verzugshinweis sowie eine Gutschrift-Variante und Hinweise zu E-Rechnung, Umsatzgrenzen und Aufbewahrung.`,
+      },
+      {
+        titel: "Pflichtangaben: Was muss auf eine Rechnung nach § 19 UStG?",
+        text: `Für Kleinunternehmer gelten seit 2025 reduzierte Pflichtangaben nach § 34a UStDV. Die Vorlage enthält sie alle und ergänzt die Angaben, die Kunden und Buchhaltung erwarten:
+
+- Vollständiger Name und Anschrift von dir und deinem Kunden
+- Deine Steuernummer oder Umsatzsteuer-Identifikationsnummer
+- Ausstellungsdatum der Rechnung
+- Menge und Art der Lieferung oder Umfang und Art der Leistung
+- Entgelt in einer Summe, ohne Aufteilung in Netto und Steuer
+- Den Hinweis, dass nach § 19 UStG keine Umsatzsteuer berechnet wird
+- Fortlaufende Rechnungsnummer und Leistungszeitraum, die gesetzlich nicht vorgeschrieben, aber dringend zu empfehlen sind
+- Zahlungsziel, Bankverbindung und optional den Verzugshinweis nach § 286 BGB
+- Bei Gutschriften das Wort „Gutschrift“ und den Hinweis auf die Vereinbarung zum Gutschriftsverfahren
+
+Was nicht auf die Rechnung gehört: ein Steuersatz, ein Steuerbetrag oder die Formulierung „inkl. MwSt.“. Jede dieser Angaben kann als Steuerausweis gelten und dich zur Zahlung der Steuer verpflichten.`,
+      },
+      {
+        titel: "Rechnungsvorlage ausfüllen: Schritt für Schritt",
+        text: `Trage im Kopf deine Daten mit Steuernummer ein; die USt-IdNr. brauchst du nur, wenn du eine hast, etwa für Geschäfte mit EU-Kunden. Beim Empfänger nennst du Firma, Ansprechpartner und Anschrift. Vergib die Rechnungsnummer fortlaufend und lückenlos, zum Beispiel nach dem Schema Jahr-Zähler. Setze Rechnungsdatum und Leistungszeitraum ein; bei Dauerleistungen den Monat, bei Einzelaufträgen den Tag der Fertigstellung. Fülle die Positionen mit Bezeichnung, Menge, Einzelpreis und Gesamtbetrag; nicht genutzte Zeilen löschst du.
+
+Rechne den Rechnungsbetrag zusammen und lass den Satz zur Steuerbefreiung nach § 19 UStG unverändert stehen. Trage Zahlungsziel und Bankverbindung ein. Den optionalen Verzugshinweis übernimmst du, wenn du ohne Mahnung Verzugszinsen berechnen können willst; der Satz zu Verbrauchern ist Voraussetzung für die 30-Tage-Regel. Für Plattformen oder Agenturen nutzt du die Gutschrift-Variante, in der der Kunde als Aussteller steht und deine Daten als leistender Unternehmer.`,
+      },
+      {
+        titel: "Typische Fehler bei Kleinunternehmer-Rechnungen",
+        text: `Der teuerste Fehler ist der versehentliche Steuerausweis. Steht auf der Rechnung „19 % MwSt.“ oder ein Steuerbetrag, schuldest du diese Steuer dem Finanzamt (§ 14c UStG), obwohl dein Kunde sie nicht als Vorsteuer abziehen darf. Prüfe deshalb Rechnungsprogramme und Shop-Systeme, die standardmäßig Steuer ausweisen. Der zweite Fehler ist der fehlende Hinweis auf § 19 UStG; ohne ihn fehlt eine Pflichtangabe, und Geschäftskunden reklamieren die Rechnung. Der dritte Fehler sind Lücken in der Rechnungsnummer; die Betriebsprüfung sucht zuerst danach.
+
+Der vierte Fehler ist, die Umsatzgrenze aus den Augen zu verlieren: Über 25.000 EUR Vorjahresumsatz bist du im Folgejahr Regelbesteuerer, über 100.000 EUR im laufenden Jahr sofort ab dem Umsatz, der die Grenze überschreitet. Der fünfte Fehler ist das Postfach, das keine E-Rechnungen empfangen kann; seit 2025 musst du XRechnung und ZUGFeRD von anderen Unternehmen annehmen und unverändert archivieren.`,
+      },
+      {
+        titel: "Rechtsgrundlagen: § 19 UStG, § 34a UStDV, § 14c UStG, E-Rechnung",
+        text: `Die Kleinunternehmerregelung steht in § 19 UStG: Umsätze sind steuerfrei, wenn der Gesamtumsatz im Vorjahr 25.000 EUR und im laufenden Jahr 100.000 EUR nicht überschreitet. Der Verzicht auf die Regelung bindet fünf Kalenderjahre (§ 19 Abs. 3 UStG). Die Pflichtangaben der Rechnung regelt für Kleinunternehmer § 34a UStDV; Kleinunternehmer dürfen weiterhin Papier- und PDF-Rechnungen ausstellen (§ 34a Satz 4 UStDV), müssen aber E-Rechnungen anderer Unternehmer empfangen können.
+
+Ein unberechtigter Steuerausweis führt zur Steuerschuld nach § 14c UStG. Die Gutschrift als Rechnung des Leistungsempfängers setzt eine vorherige Vereinbarung voraus (§ 14 Abs. 2 UStG). Rechnungen sind acht Jahre aufzubewahren (§ 14b UStG). Für Umsätze an Kunden in anderen EU-Staaten gibt es seit 2025 die EU-Kleinunternehmerregelung (§ 19a UStG) mit Registrierung beim Bundeszentralamt für Steuern. Einkommensteuer und Gewerbesteuer bleiben von der Kleinunternehmerregelung unberührt.`,
+      },
+      {
+        titel: "Wann die Rechnungsvorlage nicht reicht",
+        text: `Die Vorlage reicht für Rechnungen und Gutschriften eines Kleinunternehmers an Kunden in Deutschland. Sie reicht nicht, wenn du die Regelung verlassen hast oder die Grenzen überschreitest; dann brauchst du eine Rechnung mit Steuersatz, Steuerbetrag und allen Angaben des § 14 Abs. 4 UStG. Sie reicht auch nicht für Leistungen an Unternehmen im EU-Ausland mit Reverse-Charge-Hinweis, für Rechnungen an Behörden, die eine XRechnung verlangen, und für Dauerrechnungen mit Mietcharakter.
+
+Ob die Kleinunternehmerregelung für dich überhaupt sinnvoll ist, hängt von Kundenstruktur und Vorsteuern ab; das rechnest du mit dem Steuerberater durch. GründerX stellt die Vorlage als Werkzeug bereit, nicht als Steuerberatung.`,
+      },
+    ],
     seo: {
-      title: "Rechnung Kleinunternehmer Vorlage § 19 UStG kostenlos | GründerX",
+      title: "Rechnung Kleinunternehmer Vorlage kostenlos | GründerX",
       description:
         "Rechnungsvorlage für Kleinunternehmer nach § 19 UStG mit Pflichtangaben, Steuerbefreiungshinweis und Gutschrift. Mit E-Rechnung-Hinweis und Grenzen seit 2025.",
     },

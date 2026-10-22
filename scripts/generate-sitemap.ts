@@ -12,7 +12,7 @@ import { LANDING_TOOLS } from "../src/data/features";
 import { GUIDE_LANDINGS } from "../src/data/guides";
 import { isMergedGuide } from "../src/data/guideMerges";
 import { fremdKanonisch } from "../src/data/ratgeberKanonisch";
-import { VORLAGEN } from "../src/data/vorlagen";
+import { VORLAGEN, VORLAGEN_KATEGORIEN } from "../src/data/vorlagen";
 
 const BASE_URL = "https://gruenderx.de";
 const SUPABASE_URL = process.env.VITE_SUPABASE_URL || "https://rwrjuzemkfghlziretdj.supabase.co";
@@ -75,11 +75,19 @@ const staticEntries: SitemapEntry[] = [
 // Vorlagen-Bibliothek (/vorlagen/:slug): öffentliche Seiten mit Vorschau,
 // Download gegen bestätigte E-Mail. Quelle ist src/data/vorlagen/ (ein Eintrag
 // je Vorlage), damit Sitemap und Seiten nie auseinanderlaufen.
-const vorlagenEntries: SitemapEntry[] = VORLAGEN.map((v) => ({
-  path: `/vorlagen/${v.slug}`,
-  changefreq: "monthly",
-  priority: "0.7",
-}));
+const vorlagenEntries: SitemapEntry[] = [
+  // Kategorieseiten (/vorlagen/kategorie/<key>): eigene Landingpages je Themenfeld.
+  ...VORLAGEN_KATEGORIEN.map((k) => ({
+    path: `/vorlagen/kategorie/${k.key}`,
+    changefreq: "weekly" as const,
+    priority: "0.8",
+  })),
+  ...VORLAGEN.map((v) => ({
+    path: `/vorlagen/${v.slug}`,
+    changefreq: "monthly" as const,
+    priority: "0.7",
+  })),
+];
 
 const toolEntries: SitemapEntry[] = LANDING_TOOLS.map((t) => ({
   path: `/tools/${t.slug}`,

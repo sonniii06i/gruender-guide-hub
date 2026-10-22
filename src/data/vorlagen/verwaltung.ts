@@ -51,8 +51,55 @@ export const VORLAGEN_VERWALTUNG: Vorlage[] = [
         a: "Ja, solange nichts anderes vereinbart ist, kannst du die Vollmacht jederzeit und ohne Grund widerrufen (§ 168 Satz 2 BGB). Der Widerruf wird wirksam, sobald er dem Bevollmächtigten zugeht. Hol dir die Urkunde zurück und informiere Bank, Steuerberater und wichtige Geschäftspartner.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du eine geschäftliche Vollmacht brauchst",
+        text: `Als Gründer bist du am Anfang Geschäftsführung, Einkauf, Buchhaltung und Postannahme in einer Person. Sobald du zwei Wochen im Urlaub bist, krank wirst oder länger beim Kunden sitzt, bleibt alles liegen: Das Einschreiben vom Finanzamt wird nicht abgeholt, die Lieferantenrechnung nicht freigegeben, der Vertrag mit dem neuen Kunden nicht unterschrieben. Eine schriftliche Vollmacht löst das Problem, ohne dass du gleich Prokura erteilen oder einen zweiten Geschäftsführer bestellen musst.
+
+Typische Fälle: Ein Mitgründer soll dich gegenüber Bank, Gewerbeamt und IHK vertreten, eine Bürokraft soll Post und Zustellungen entgegennehmen, ein Angehöriger soll im Krankheitsfall den Betrieb am Laufen halten. Die Vorlage deckt all diese Situationen ab, weil du den Umfang selbst festlegst, von einer eng begrenzten Einzelvollmacht bis zur Generalvollmacht für das ganze Unternehmen.`,
+      },
+      {
+        titel: "Was muss in eine Vollmacht? Pflichtangaben und Umfang",
+        text: `Eine Vollmacht ist nur so gut, wie sie den Dritten erkennen lässt, wer wen wozu vertreten darf. Deshalb gehören in jede Vollmacht Vorlage, ob kostenlos oder vom Anwalt, mindestens diese Punkte:
+
+- Vollmachtgeber mit vollständigem Namen oder Firma und Anschrift; bei einer GmbH oder UG auch der Geschäftsführer, der unterschreibt
+- Bevollmächtigter mit Name, Geburtsdatum und Anschrift, damit er sich ausweisen kann
+- Umfang der Vollmacht als Positivliste (Ziffer 2 Absatz 1) oder als Generalvollmacht, ergänzt um die Ausnahmen in Absatz 2
+- Regelung zur Untervollmacht (Ziffer 3) und zur Befreiung von § 181 BGB (Ziffer 4)
+- Beginn, Ende, Widerruf und die Frage, ob die Vollmacht über den Tod hinaus gilt (Ziffer 5)
+- Ort, Datum und eigenhändige Unterschrift des Vollmachtgebers
+
+Die Annahmeerklärung des Bevollmächtigten ist rechtlich nicht nötig, aber sinnvoll: Sie belegt, dass er die Grenzen kennt und die Urkunde erhalten hat. Betragsgrenzen gehören in den Text der Urkunde selbst, nicht in eine mündliche Nebenabrede, weil nur das Geschriebene nach außen wirkt.`,
+      },
+      {
+        titel: "Vollmacht Vorlage ausfüllen: Schritt für Schritt",
+        text: `Lade die Vorlage als Word- oder PDF-Datei herunter und arbeite die Platzhalter in eckigen Klammern von oben nach unten ab. Trage zuerst Vollmachtgeber und Bevollmächtigten ein. Entscheide dann in Ziffer 2, ob du die Positivliste a) bis e) nutzt oder die Alternative Generalvollmacht; lösche die Variante, die nicht gilt. Setze konkrete Beträge ein, etwa „Verträge bis 5.000 EUR im Einzelfall“, und ergänze die Ausnahmen, die dir wichtig sind.
+
+In Ziffer 3 streichst du „berechtigt“ oder „nicht berechtigt“. In Ziffer 4 bleibt nur eine der beiden Varianten stehen; im Zweifel Variante B ohne Befreiung. In Ziffer 5 trägst du Beginn und gegebenenfalls Ende ein und entscheidest, ob die Vollmacht mit deinem Tod erlischt. Zum Schluss drucken, unterschreiben, Annahme unterschreiben lassen und beide Ausfertigungen datieren. Eine Kopie legst du in die Firmenakte.`,
+      },
+      {
+        titel: "Typische Fehler bei Vollmachten und wie du sie vermeidest",
+        text: `Der häufigste Fehler ist die zu weite Vollmacht: Wer „alle Angelegenheiten“ ankreuzt und keine Ausnahmen formuliert, erlaubt dem Bevollmächtigten auch Darlehensaufnahmen und die Kündigung von Mitarbeitern. Nutze deshalb die Ausnahmeliste in Ziffer 2 Absatz 2.
+
+Zweiter Fehler: Die Vollmacht wird nur als Scan per E-Mail weitergegeben. Bei Kündigungen und anderen einseitigen Erklärungen darf der Empfänger die Erklärung zurückweisen, wenn kein Original vorliegt; gib die Originalurkunde deshalb mit. Dritter Fehler: fehlendes Datum oder fehlende Unterschrift, womit die Urkunde als Nachweis wertlos ist.
+
+Vierter Fehler: Nach dem Widerruf bleibt die Urkunde beim Bevollmächtigten. Solange er sie vorzeigen kann, verpflichtet er dich gegenüber Gutgläubigen weiter. Fordere das Original zurück und informiere Bank, Steuerberater und wichtige Lieferanten schriftlich.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen: §§ 164 ff. BGB",
+        text: `Die Stellvertretung ist in den §§ 164 bis 181 BGB geregelt. Nach § 164 BGB wirkt eine Erklärung, die der Bevollmächtigte in deinem Namen und im Rahmen seiner Vertretungsmacht abgibt, unmittelbar für und gegen dich. Die Vollmacht selbst erteilst du nach § 167 BGB durch Erklärung gegenüber dem Bevollmächtigten oder gegenüber dem Dritten; eine bestimmte Form ist nicht vorgeschrieben.
+
+Nach § 168 BGB erlischt sie mit dem Grundverhältnis, etwa dem Arbeitsvertrag, und kann in der Regel jederzeit widerrufen werden. § 174 BGB erlaubt dem Empfänger, einseitige Rechtsgeschäfte ohne Originalurkunde zurückzuweisen; § 175 BGB verpflichtet den Bevollmächtigten zur Rückgabe der Urkunde nach dem Erlöschen. § 181 BGB verbietet Insichgeschäfte, soweit du sie nicht ausdrücklich gestattest. Die §§ 170 bis 173 BGB regeln den Rechtsschein einer weiter vorgezeigten Urkunde. Für Kaufleute gelten zusätzlich Handlungsvollmacht und Prokura nach dem HGB, die eigene Vorlagen haben.`,
+      },
+      {
+        titel: "Wann die einfache Vollmacht nicht reicht",
+        text: `Für Grundstückskäufe, Handelsregisteranmeldungen, die Gründung einer GmbH oder die Übertragung von Geschäftsanteilen verlangen Notar und Register eine notariell beglaubigte oder beurkundete Vollmacht; die hier erstellte Urkunde wird dort abgewiesen. Banken erkennen fremde Vollmachten meist nicht an und bestehen auf ihrem eigenen Kontovollmacht-Formular, das du direkt in der Filiale oder im Online-Banking einrichtest.
+
+Soll ein Mitarbeiter dauerhaft und erkennbar für dein Handelsgewerbe auftreten, passt die Handlungsvollmacht nach § 54 HGB besser, soll er fast alles dürfen, die Prokura mit Registereintrag. Für die Vertretung gegenüber dem Finanzamt nutzt der Steuerberater das amtliche Vollmachtsformular der Finanzverwaltung, das in die Vollmachtsdatenbank eingetragen wird. GründerX ist Software und keine Rechtsberatung: Geht es um hohe Beträge oder eine Vorsorgevollmacht für den Fall deiner Geschäftsunfähigkeit, lass den Text von einem Anwalt oder Notar prüfen.`,
+      },
+    ],
     seo: {
-      title: "Vollmacht Vorlage geschäftlich 2026 kostenlos | GründerX",
+      title: "Vollmacht Vorlage geschäftlich kostenlos (Word) | GründerX",
       description:
         "Allgemeine Vollmacht nach § 167 BGB als kostenlose Vorlage: Umfang, Untervollmacht, § 181 BGB, Dauer und Widerruf. Für Gründer und Unternehmer. Word & PDF.",
     },
@@ -169,8 +216,56 @@ ${VORLAGEN_HINWEIS}`,
         a: "Nein. Stimmverbote nach § 47 Abs. 4 GmbHG, etwa bei deiner eigenen Entlastung oder bei einem Rechtsgeschäft zwischen dir und der Gesellschaft, treffen deine Geschäftsanteile und damit auch den Vertreter. Die Vorlage weist den Bevollmächtigten darauf hin, damit der Beschluss nicht anfechtbar wird.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du eine Stimmrechtsvollmacht für die Gesellschafterversammlung brauchst",
+        text: `Gesellschafterversammlungen fallen selten in ruhige Zeiten: Der Jahresabschluss muss festgestellt werden, während du auf einer Messe bist; ein Mitgesellschafter will einen Geschäftsführer abberufen, während du im Ausland sitzt; die Satzung soll geändert werden, aber du liegst im Krankenhaus. Ohne Vertreter fehlt deine Stimme, und je nach Beteiligung fehlt damit auch die Mehrheit oder das Quorum.
+
+Die Stimmrechtsvollmacht löst das: Ein Mitgesellschafter, dein Steuerberater oder ein Anwalt nimmt teil, spricht, stellt Anträge und stimmt in deinem Namen ab. Sie passt für GmbH und UG ebenso wie für die GbR, sofern deren Gesellschaftsvertrag die Vertretung zulässt. Auch wer bewusst nicht erscheinen, aber mit festen Weisungen abstimmen lassen will, etwa um bei einem Streit unter Gesellschaftern Abstand zu halten, nutzt diese Vorlage.`,
+      },
+      {
+        titel: "Was in die Vollmacht für die Gesellschafterversammlung gehört",
+        text: `Damit der Versammlungsleiter die Vollmacht akzeptiert und der Beschluss später nicht angefochten wird, müssen diese Angaben enthalten sein:
+
+- Gesellschaft mit Firma, Rechtsform, Sitz und Registernummer
+- Vollmachtgeber mit Anschrift und Beteiligung (Anzahl und Nennbetrag der Geschäftsanteile oder Prozentanteil bei der GbR)
+- Bevollmächtigter mit Anschrift und gegebenenfalls Funktion
+- die konkrete Versammlung mit Datum, Uhrzeit, Ort und Einladungsdatum sowie der Hinweis auf Vertagung und Fortsetzung (Ziffer 1)
+- der Umfang: Teilnahme-, Rede-, Auskunfts-, Antrags- und Stimmrecht, alle oder nur bestimmte Tagesordnungspunkte, Umlaufbeschlüsse (Ziffer 2)
+- optional Weisungen je TOP mit Ja, Nein oder Enthaltung (Ziffer 3)
+- Untervollmacht, Form, Dauer, Widerruf und Unterschrift (Ziffern 4 und 5)
+
+Die Vorlage ist bewusst auf eine Versammlung begrenzt. Wer eine Dauervollmacht will, streicht in Ziffer 5 die Befristung, sollte dann aber bei jeder Einladung prüfen, ob die Vertretung noch gewollt ist.`,
+      },
+      {
+        titel: "Stimmrechtsvollmacht Muster ausfüllen: so gehst du vor",
+        text: `Hol dir zuerst die Einladung und den Gesellschaftsvertrag. Aus der Einladung übernimmst du Datum, Uhrzeit, Ort und die Tagesordnung in Ziffer 1 und 3 der Vorlage; aus der Satzung prüfst du, wen du überhaupt bevollmächtigen darfst und welche Form verlangt ist. Trage dann Gesellschaft, deine Beteiligung und den Bevollmächtigten ein.
+
+In Ziffer 2 Absatz 2 entscheidest du, ob die Vollmacht für alle oder nur für bestimmte TOPs gilt. In Ziffer 3 wählst du Variante A (freies Ermessen) oder Variante B und trägst je TOP deine Weisung ein; lege auch fest, wie bei Anträgen abgestimmt wird, die nicht auf der Tagesordnung standen. Streiche in Ziffer 4 und 5 die nicht zutreffenden Alternativen, setze das Enddatum und unterschreibe. Schicke die Vollmacht als PDF an den Bevollmächtigten und in Kopie an die Geschäftsführung, damit sie vor der Versammlung vorliegt.`,
+      },
+      {
+        titel: "Typische Fehler bei der Stimmrechtsvollmacht",
+        text: `Der teuerste Fehler ist die falsche Form: Wer nur telefonisch bevollmächtigt, hat bei GmbH und UG keine wirksame Vollmacht, der Vertreter wird ausgeschlossen und die Stimmen zählen nicht. Mindestens Textform, also E-Mail oder PDF, ist Pflicht; verlangt die Satzung Schriftform, braucht es die eigenhändige Unterschrift auf Papier.
+
+Zweiter Fehler: Die Satzung wird nicht gelesen. Viele Gesellschaftsverträge beschränken den Kreis der Vertreter auf Mitgesellschafter oder Berufsgeheimnisträger; ein Familienmitglied wird dann abgewiesen. Dritter Fehler: Weisungen werden mündlich erteilt und der Vertreter stimmt anders ab. Der Beschluss bleibt wirksam, du hast nur einen Schadensersatzanspruch gegen den Vertreter.
+
+Vierter Fehler: Die Vollmacht wird nicht vor Beginn vorgelegt; die Vorlage verpflichtet den Bevollmächtigten in Ziffer 6 ausdrücklich dazu. Und: Prüfe vorher, ob du bei einem TOP einem Stimmverbot unterliegst, etwa bei deiner eigenen Entlastung. Dann darf auch dein Vertreter nicht mitstimmen.`,
+      },
+      {
+        titel: "Rechtsgrundlagen: § 47 GmbHG, § 714 BGB und die Satzung",
+        text: `Für GmbH und UG regelt § 47 GmbHG die Abstimmung: Nach Absatz 3 bedürfen Vollmachten zu ihrer Gültigkeit der Textform, nach Absatz 4 ist ein Gesellschafter bei seiner eigenen Entlastung, seiner Befreiung von einer Verbindlichkeit und bei Rechtsgeschäften zwischen ihm und der Gesellschaft vom Stimmrecht ausgeschlossen. § 48 Abs. 2 GmbHG erlaubt Beschlüsse außerhalb der Versammlung in Textform, wenn alle Gesellschafter zustimmen; die Vorlage erstreckt die Vollmacht darauf.
+
+Die allgemeine Vertretungsregel liefert § 164 BGB, die Erteilung der Vollmacht § 167 BGB. Bei der GbR ist die Beschlussfassung seit dem MoPeG in § 714 BGB geregelt; eine Vertretung bei der Stimmabgabe setzt voraus, dass der Gesellschaftsvertrag sie zulässt oder die Mitgesellschafter zustimmen. In allen Rechtsformen geht die Satzung vor, soweit das Gesetz das erlaubt: Sie kann Vertreter einschränken, strengere Formen verlangen oder die Vertretung ganz ausschließen.`,
+      },
+      {
+        titel: "Wann die Vorlage nicht ausreicht",
+        text: `Für Beschlüsse, die notariell beurkundet werden müssen, insbesondere Satzungsänderungen, Kapitalerhöhungen und Umwandlungen, verlangt der Notar in der Regel eine notariell beglaubigte Vollmacht; die Textform-Vollmacht aus dieser Vorlage genügt dort nicht. Gleiches gilt, wenn der Vertreter im Anschluss Handelsregisteranmeldungen unterschreiben soll. Bei Aktiengesellschaften gelten eigene Regeln für die Hauptversammlung, die diese Vorlage nicht abbildet.
+
+Steht ein Gesellschafterstreit im Raum, etwa eine Abberufung oder Einziehung gegen deinen Willen, solltest du nicht nur eine Vollmacht schicken, sondern vorher mit einem Anwalt die Anfechtungsfristen und die Protokollierung des Widerspruchs klären. GründerX stellt dir das Muster als Software zur Verfügung, ersetzt aber keine Rechtsberatung im Einzelfall.`,
+      },
+    ],
     seo: {
-      title: "Stimmrechtsvollmacht Gesellschafterversammlung Vorlage | GründerX",
+      title: "Stimmrechtsvollmacht Vorlage kostenlos (Word) | GründerX",
       description:
         "Vollmacht für die Gesellschafterversammlung (GmbH, UG, GbR) als kostenlose Vorlage: Tagesordnung, Weisungen, Untervollmacht, Textform nach § 47 Abs. 3 GmbHG.",
     },
@@ -282,8 +377,59 @@ ${VORLAGEN_HINWEIS}`,
         a: "Ja, mit dem Ende des Arbeitsverhältnisses erlischt auch die Vollmacht (§ 168 Satz 1 BGB). Trotzdem solltest du sie ausdrücklich widerrufen, die Urkunde einziehen und Geschäftspartner informieren. Wer weiter mit der alten Urkunde auftritt, kann dich sonst gegenüber Gutgläubigen verpflichten.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du einem Mitarbeiter Handlungsvollmacht erteilst",
+        text: `Spätestens wenn dein Unternehmen den dritten oder vierten Mitarbeiter hat, kannst du nicht mehr jede Bestellung und jeden Kundenvertrag selbst unterschreiben. Der Einkäufer soll Ware ordern, die Vertriebsmitarbeiterin soll Angebote verbindlich annehmen, der Filialleiter soll Reklamationen abschließend regeln. Ohne Vollmacht handeln diese Personen als Vertreter ohne Vertretungsmacht, und jeder Vertrag hängt davon ab, ob du ihn nachträglich genehmigst.
+
+Die Handlungsvollmacht nach § 54 HGB ist die Lösung für diese Ebene unterhalb der Geschäftsführung: Sie ist formfrei, wird nicht ins Handelsregister eingetragen und lässt sich auf das Tagesgeschäft, eine Geschäftsart oder ein einzelnes Geschäft zuschneiden. Typisch sind Generalhandlungsvollmachten für Betriebsleiter, Arthandlungsvollmachten für Einkauf oder Vertrieb und Spezialhandlungsvollmachten für eine konkrete Vertragsverhandlung, etwa mit einem neuen Lieferanten.`,
+      },
+      {
+        titel: "Handlungsvollmacht: Das muss im Muster stehen",
+        text: `Die Vorlage folgt dem Aufbau, den Geschäftspartner und Gerichte erwarten:
+
+- Unternehmen als Vollmachtgeber mit Rechtsform, Handelsregister und vertretungsberechtigter Person
+- Bevollmächtigter mit Name, Geburtsdatum, Anschrift, Position und Eintrittsdatum
+- Art der Vollmacht: General-, Art- oder Spezialhandlungsvollmacht (Ziffer 1 Absatz 2), nur eine Variante bleibt stehen
+- Umfang und Grenzen (Ziffer 2): die gesetzlichen Ausnahmen für Grundstücke, Wechsel, Darlehen und Prozesse, besondere Befugnisse, interne Betragsgrenzen, § 181 BGB und die Übertragbarkeit
+- Zeichnungsregel mit „i. V.“ (Ziffer 3)
+- Pflichten des Bevollmächtigten und Verweis auf den Arbeitsvertrag (Ziffer 4)
+- Beginn, Ende, Widerruf, Rückgabe der Urkunde (Ziffer 5) und der Hinweis, dass keine Registereintragung erfolgt (Ziffer 6)
+- Unterschrift des Inhabers oder Geschäftsführers und Annahme des Mitarbeiters
+
+Interne Grenzen wie „maximal 10.000 EUR je Vertrag“ gehören in Ziffer 2 Absatz 4. Sie binden Dritte nur, wenn diese sie kannten; deshalb sieht Ziffer 6 die Mitteilung an wichtige Geschäftspartner vor.`,
+      },
+      {
+        titel: "Handlungsvollmacht Vorlage ausfüllen",
+        text: `Beginne mit den Stammdaten des Unternehmens und des Mitarbeiters; die Position und das Eintrittsdatum stammen aus dem Arbeitsvertrag. Wähle in Ziffer 1 Absatz 2 genau eine Variante und lösche die anderen beiden: Variante A für einen Betriebs- oder Niederlassungsleiter, Variante B mit einer konkreten Beschreibung der Geschäftsart für Einkauf, Vertrieb oder Kundenservice, Variante C mit dem einzelnen Geschäft samt Vertragspartner.
+
+In Ziffer 2 Absatz 3 entscheidest du, ob eine der gesetzlich ausgeschlossenen Befugnisse ausnahmsweise eingeräumt wird, sonst bleibt „Besondere Befugnisse werden nicht eingeräumt“ stehen. Trage in Absatz 4 Betragsgrenzen, Laufzeitgrenzen und Rabattgrenzen ein, die zu deinem Freigabeprozess passen. In Absatz 5 streichst du „nicht“, wenn der Mitarbeiter Insichgeschäfte abschließen darf, was selten gewollt ist.
+
+Setze in Ziffer 5 Beginn und gegebenenfalls Ende ein, drucke zwei Exemplare, unterschreibe und lass den Mitarbeiter die Annahme unterzeichnen. Eine Kopie kommt in die Personalakte, eine Mitteilung an die in Ziffer 6 genannten Geschäftspartner.`,
+      },
+      {
+        titel: "Typische Fehler bei der Handlungsvollmacht",
+        text: `Erster Fehler: Die Vollmacht wird einem Kleingewerbetreibenden ohne Handelsregistereintrag nachgebaut. Die Handlungsvollmacht gibt es nur für Kaufleute; alle anderen erteilen eine gewöhnliche Vollmacht nach BGB, für die es eine eigene Vorlage gibt.
+
+Zweiter Fehler: Betragslimits stehen nur in der Urkunde, aber kein Lieferant kennt sie. Überschreitet der Mitarbeiter das Limit, ist der Vertrag gegenüber dem gutgläubigen Partner wirksam, und du bleibst gebunden. Teile Limits deshalb schriftlich mit und hinterlege sie in Bestellsystemen. Dritter Fehler: Der Mitarbeiter unterschreibt mit „ppa.“ oder „i. A.“. „ppa.“ ist dem Prokuristen vorbehalten, „i. A.“ wird oft als bloße Botenerklärung gelesen; richtig ist „i. V.“.
+
+Vierter Fehler: Beim Ausscheiden wird die Urkunde nicht eingezogen und niemand informiert. Da nichts im Register steht, können Geschäftspartner den Wegfall nicht erkennen, und der Rechtsschein wirkt weiter. Zieh die Urkunde ein und schreib die Partner an, denen du die Vollmacht angezeigt hattest.`,
+      },
+      {
+        titel: "Rechtsgrundlagen: § 54 HGB, § 57 HGB und die Abgrenzung zur Prokura",
+        text: `§ 54 Abs. 1 HGB beschreibt die drei Stufen der Handlungsvollmacht und legt fest, dass sie sich auf alle Geschäfte erstreckt, die der Betrieb eines solchen Handelsgewerbes oder die Vornahme solcher Geschäfte gewöhnlich mit sich bringt. § 54 Abs. 2 HGB nimmt Grundstücksveräußerungen und -belastungen, Wechselverbindlichkeiten, Darlehensaufnahme und Prozessführung aus, sofern die Befugnis nicht besonders erteilt wurde. § 54 Abs. 3 HGB bestimmt, dass sonstige Beschränkungen Dritten nur entgegengehalten werden können, wenn sie diese kannten oder kennen mussten.
+
+§ 57 HGB regelt die Zeichnung mit einem Zusatz, der das Vollmachtsverhältnis ausdrückt, in der Praxis „i. V.“; § 58 HGB verbietet die Übertragung ohne Zustimmung des Inhabers. Die Prokura steht in den §§ 48 bis 53 HGB: Sie muss ausdrücklich erteilt werden, umfasst nach § 49 HGB nahezu alle Geschäfte, ist nach außen nicht beschränkbar und wird nach § 53 HGB ins Handelsregister eingetragen. Für Erlöschen und Rückgabe der Urkunde gelten ergänzend die §§ 168 und 175 BGB.`,
+      },
+      {
+        titel: "Wann Handlungsvollmacht nicht ausreicht",
+        text: `Soll der Mitarbeiter Darlehen aufnehmen, Grundstücke belasten, Prozesse führen oder nach außen unbeschränkt auftreten, ist die Prokura das richtige Instrument; sie erfordert die Anmeldung zum Handelsregister durch den Inhaber oder alle Geschäftsführer in notariell beglaubigter Form. Für die Vertretung in Gerichtsverfahren braucht der Mitarbeiter außerdem eine Prozessvollmacht, und vor Land- und Oberlandesgerichten besteht Anwaltszwang.
+
+Bankgeschäfte laufen über die Kontovollmacht der Bank, nicht über diese Urkunde. Steuerliche Vertretung gegenüber dem Finanzamt erfolgt über das amtliche Vollmachtsformular, meist durch den Steuerberater. Bei Filialstrukturen mit vielen Bevollmächtigten lohnt eine Vollmachtsordnung, die Stufen und Freigabeprozesse festlegt; dabei hilft ein Anwalt. GründerX liefert die Vorlage als Software und ersetzt keine Rechtsberatung.`,
+      },
+    ],
     seo: {
-      title: "Handlungsvollmacht Vorlage § 54 HGB kostenlos 2026 | GründerX",
+      title: "Handlungsvollmacht Vorlage § 54 HGB kostenlos | GründerX",
       description:
         "Handlungsvollmacht für Mitarbeiter als kostenlose Vorlage: General-, Art- oder Spezialvollmacht, Grenzen nach § 54 Abs. 2 HGB, Zeichnung i. V., Widerruf.",
     },
@@ -403,8 +549,52 @@ ${VORLAGEN_HINWEIS}`,
         a: "Dann ist der Bescheid bestandskräftig und der Einspruch wird als unzulässig verworfen. Eine Wiedereinsetzung in den vorigen Stand (§ 110 AO) gibt es nur, wenn du ohne Verschulden verhindert warst, etwa durch Krankenhausaufenthalt, und den Einspruch innerhalb eines Monats nach Wegfall des Hindernisses nachholst. Prüfe sonst, ob der Bescheid unter dem Vorbehalt der Nachprüfung steht oder eine Änderungsvorschrift greift.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du Einspruch gegen den Steuerbescheid einlegen solltest",
+        text: `Der Steuerbescheid kommt, die Nachzahlung ist höher als erwartet, und beim Vergleich mit deiner Erklärung fällt auf: Das Finanzamt hat das Homeoffice gestrichen, die Vorauszahlungen nicht angerechnet oder gleich den ganzen Gewinn geschätzt, weil eine Anlage fehlte. Innerhalb eines Monats nach Bekanntgabe musst du Einspruch einlegen, sonst wird der Bescheid bestandskräftig, und selbst offensichtliche Fehler lassen sich dann nur noch über enge Änderungsvorschriften korrigieren.
+
+Die Vorlage passt für Einkommensteuer-, Umsatzsteuer-, Körperschaftsteuer- und Gewerbesteuermessbescheide, also für Einzelunternehmer und GbR-Gesellschafter ebenso wie für GmbH und UG. Sie ist auch dann richtig, wenn du die Begründung noch nicht fertig hast: Der fristwahrende Einspruch mit angekündigter Nachbegründung ist in der Praxis der Normalfall. Und wenn du die Nachzahlung nicht sofort leisten willst, stellst du mit demselben Schreiben den Antrag auf Aussetzung der Vollziehung.`,
+      },
+      {
+        titel: "Was in einen Einspruch gegen den Steuerbescheid gehört",
+        text: `Das Gesetz verlangt wenig, die Praxis mehr. Ein wirksamer Einspruch braucht:
+
+- deine Steuernummer und bei der Einkommensteuer die Identifikationsnummer
+- die genaue Bezeichnung des Bescheids: Steuerart, Jahr und Datum des Bescheids
+- die Erklärung, dass du Einspruch einlegst; das Wort „Einspruch“ muss nicht fallen, hilft aber
+- das Datum, an dem dir der Bescheid zugegangen ist, damit das Finanzamt die Frist nachvollziehen kann
+- deinen Absender, damit erkennbar ist, wer den Einspruch einlegt
+
+Die Begründung ist keine Wirksamkeitsvoraussetzung, aber ohne sie kann das Finanzamt nichts ändern. Die Vorlage bietet fünf Beispielgründe an: nicht anerkannte Betriebsausgaben, unerläuterte Abweichung von der Erklärung, überhöhte Schätzung, Rechen- oder Übernahmefehler sowie ein anhängiges Musterverfahren mit Antrag auf Ruhen des Verfahrens. Dazu kommen der konkrete Änderungsantrag mit dem Betrag, den du für richtig hältst, der Antrag auf Aussetzung der Vollziehung für den streitigen Teil, die Anlagenliste und die Bitte um Eingangsbestätigung.`,
+      },
+      {
+        titel: "Einspruch Steuerbescheid Muster ausfüllen: Schritt für Schritt",
+        text: `Nimm den Bescheid zur Hand und übertrage Steuerart, Jahr, Bescheiddatum und Steuernummer in Betreff und Kopf der Vorlage. Trage das Zugangsdatum ein; bei Postzustellung gilt seit 2025 der vierte Tag nach der Aufgabe zur Post (vorher der dritte), wenn du den Bescheid nicht nachweislich später erhalten hast.
+
+Wähle dann aus den fünf Begründungsbausteinen die passenden aus und lösche den Rest; bei Grund 1 nennst du Position, Betrag und den betrieblichen Zusammenhang, bei Grund 2 die Zeile mit erklärtem und festgesetztem Wert, bei Grund 4 den konkreten Fehler. Formuliere den Änderungsantrag mit einem Zielbetrag, auch wenn du ihn nur überschlägst, und ergänze bei Bedarf das Datum, bis zu dem du nachbegründest. Beim Aussetzungsantrag setzt du nur den streitigen Betrag ein und sagst zu, den unstreitigen Teil zu zahlen. Liste die Belege auf, unterschreibe und sende das Schreiben per ELSTER, Fax oder Brief. Bewahre den Sendenachweis auf.`,
+      },
+      {
+        titel: "Typische Fehler beim Einspruch und wie du sie vermeidest",
+        text: `Fehler Nummer eins ist die versäumte Frist. Viele rechnen vom Datum des Bescheids statt vom Tag der Bekanntgabe, andere warten auf die fertige Begründung und verpassen darüber den Monat. Lege den Einspruch sofort ein, die Begründung kann folgen. Fehler zwei: Es wird nur angerufen oder eine Nachricht im Online-Portal hinterlassen, die kein Einspruch ist. Einspruch geht schriftlich oder elektronisch, am sichersten über die Einspruchsfunktion in Mein ELSTER.
+
+Fehler drei: Der Bescheid wird ungenau bezeichnet, etwa „mein Steuerbescheid“, obwohl mehrere Jahre offen sind. Fehler vier: Die Nachzahlung wird nicht gezahlt, obwohl keine Aussetzung bewilligt wurde; dann laufen Säumniszuschläge von einem Prozent pro angefangenen Monat. Fehler fünf: Du legst Einspruch gegen den ganzen Bescheid ein, obwohl ein einzelner klarer Fehler auch über einen Antrag auf schlichte Änderung zu beheben wäre; der Einspruch öffnet den Bescheid auch zu deinen Ungunsten.`,
+      },
+      {
+        titel: "Rechtsgrundlagen: § 347, § 355 und § 122 AO",
+        text: `Der Einspruch ist in den §§ 347 bis 367 der Abgabenordnung geregelt. § 347 AO eröffnet ihn gegen Steuerbescheide und andere Verwaltungsakte des Finanzamts. § 355 Abs. 1 AO setzt die Frist auf einen Monat nach Bekanntgabe. Wann ein Bescheid bekannt gegeben ist, bestimmt § 122 AO: Nach Absatz 2 Nummer 1 gilt ein per Post übermittelter Bescheid am vierten Tag nach der Aufgabe zur Post als bekannt gegeben, außer er ist nicht oder später zugegangen; dieselbe Frist gilt nach Absatz 2a für elektronisch übermittelte Bescheide. Fällt das Fristende auf Samstag, Sonntag oder Feiertag, endet die Frist nach § 108 Abs. 3 AO am nächsten Werktag.
+
+Die Form regelt § 357 AO, die Aussetzung der Vollziehung § 361 AO, die Verböserung mit vorherigem Hinweis § 367 Abs. 2 AO. Säumniszuschläge folgen aus § 240 AO, Aussetzungszinsen aus § 237 AO, die Wiedereinsetzung bei unverschuldeter Fristversäumnis aus § 110 AO. Gegen die Einspruchsentscheidung bleibt die Klage zum Finanzgericht, ebenfalls binnen eines Monats.`,
+      },
+      {
+        titel: "Wann du den Einspruch nicht allein schreiben solltest",
+        text: `Bei einem einzelnen Rechenfehler oder einer vergessenen Anlage reicht die Vorlage völlig. Anders sieht es aus, wenn das Finanzamt nach einer Betriebsprüfung Hinzuschätzungen vornimmt, verdeckte Gewinnausschüttungen bei deiner GmbH annimmt, die Kleinunternehmerregelung versagt oder Steuerhinterziehung im Raum steht. Dann geht es um Rechtsfragen und Beweislast, und der Einspruch ist bereits der erste Schritt in ein mögliches Klageverfahren. Hol dir einen Steuerberater oder Fachanwalt für Steuerrecht, bevor du Argumente festlegst, die dich später binden.
+
+Gleiches gilt, wenn die Monatsfrist bereits abgelaufen ist und nur noch Wiedereinsetzung oder eine Änderungsvorschrift helfen kann. Hat dein Steuerberater eine Vollmacht beim Finanzamt hinterlegt, sprich den Einspruch mit ihm ab, damit nicht zwei Schreiben mit widersprüchlichen Begründungen eingehen. GründerX ist Software und keine Steuerberatung; die Vorlage gibt dir den formalen Rahmen, die steuerliche Bewertung bleibt Fachsache.`,
+      },
+    ],
     seo: {
-      title: "Einspruch Steuerbescheid Vorlage kostenlos (§ 347 AO) | GründerX",
+      title: "Einspruch Steuerbescheid Muster kostenlos (Word) | GründerX",
       description:
         "Einspruch gegen den Steuerbescheid als kostenlose Vorlage: Monatsfrist, Begründung mit Beispielgründen, Antrag auf Aussetzung der Vollziehung nach § 361 AO.",
     },
@@ -514,8 +704,56 @@ ${VORLAGEN_HINWEIS}`,
         a: "Je nach Finanzamt einige Tage bis mehrere Wochen. Bis zur Entscheidung solltest du die vorgeschlagene erste Rate bereits zahlen; das zeigt Zahlungswillen und verringert Zinsen und Zuschläge. Kommt bis zur Fälligkeit keine Antwort, ruf die Vollstreckungsstelle an und verweise auf den Antrag.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann ein Stundungsantrag beim Finanzamt sinnvoll ist",
+        text: `Die Einkommensteuer für ein gutes Vorjahr wird fällig, aber dieses Jahr ist der Großkunde abgesprungen; die Umsatzsteuer-Nachzahlung nach der Betriebsprüfung trifft dich mitten in der Investitionsphase; eine Forderung über fünfstellige Beträge hängt seit Wochen bei einem zahlungsunfähigen Kunden. In solchen Lagen ist die Steuer nicht strittig, du kannst sie nur gerade nicht in einer Summe zahlen.
+
+Genau dafür gibt es die Stundung nach § 222 AO: Das Finanzamt schiebt die Fälligkeit hinaus oder akzeptiert Raten, und du vermeidest Säumniszuschläge, Mahnungen und Vollstreckung. Der Antrag lohnt sich, sobald absehbar ist, dass dein Konto am Fälligkeitstag nicht reicht, und solange die Ursache des Engpasses vorübergehend ist. Er ist dagegen der falsche Weg, wenn du die Steuer für falsch hältst; dann brauchst du den Einspruch mit Antrag auf Aussetzung der Vollziehung, der eine eigene Vorlage hat.`,
+      },
+      {
+        titel: "Stundungsantrag: Das muss drinstehen",
+        text: `Finanzämter entscheiden nach Aktenlage. Ein Antrag ohne Zahlen wird abgelehnt oder mit Rückfragen verzögert, während die Säumniszuschläge schon laufen. Die Vorlage enthält deshalb alles, was die Stundungsstelle sehen will:
+
+- Steuernummer, Steuerart, Bescheiddatum, Betrag und Fälligkeitstag
+- den Antrag selbst: Stundung bis zu einem Datum oder Ratenzahlung mit Anzahl und Höhe der Raten
+- die Begründung der erheblichen Härte mit der konkreten Ursache
+- den Nachweis, dass die Härte vorübergehend ist und der Steueranspruch nicht gefährdet wird
+- Angaben zur wirtschaftlichen Lage: Kontostand, offene Forderungen, Fixkosten, Umsatzprognose, Kreditlinie
+- den Ratenplan mit erster Zahlung und Lastschrift oder Überweisung
+- Sicherheiten oder die Bitte, darauf zu verzichten
+- den Hinweis auf die Stundungszinsen und optional den Antrag auf Zinserlass
+- den Hilfsantrag auf Vollstreckungsaufschub und die Anlagen
+
+Je konkreter die Zahlen, desto schneller die Entscheidung.`,
+      },
+      {
+        titel: "Antrag auf Stundung ausfüllen: Schritt für Schritt",
+        text: `Übernimm zuerst Steuerart, Bescheiddatum, Betrag und Fälligkeit aus dem Bescheid in Betreff und ersten Absatz. Entscheide dich zwischen Variante A (Stundung bis zu einem Datum, wenn ein konkreter Zahlungseingang ansteht) und Variante B (Ratenzahlung) und lösche die andere. In der Begründung ersetzt du die Beispiele durch deine Situation: Nenne den Kunden, der ausgefallen ist, die Forderung, die offen ist, oder die Investition, die das Geld gebunden hat. Im Absatz zur vorübergehenden Härte trägst du ein, ab wann und woher wieder Mittel fließen.
+
+Fülle die fünf Zahlen zur wirtschaftlichen Lage mit Werten vom Stichtag; sie müssen zu den beigefügten Kontoauszügen passen. Berechne den Ratenplan so, dass er bei realistischer Liquidität auch eingehalten werden kann, und leiste die erste Rate möglichst sofort. Wähle bei den Sicherheiten Variante A oder B, prüfe, ob du einen Zinserlass beantragen willst, hänge Bescheid, Kontoauszug, Forderungsliste und BWA an und unterschreibe. Sende den Antrag vor dem Fälligkeitstag, am besten über Mein ELSTER oder per Fax mit Sendebericht.`,
+      },
+      {
+        titel: "Typische Fehler beim Stundungsantrag und wie du sie vermeidest",
+        text: `Der häufigste Fehler ist der zu späte Antrag. Säumniszuschläge entstehen ab dem Tag nach der Fälligkeit, auch wenn die Stundung später bewilligt wird; stell den Antrag deshalb Wochen, nicht Tage vorher. Zweiter Fehler: Lohnsteuer oder einbehaltene Kapitalertragsteuer werden mit beantragt. Diese Abzugsbeträge sind von der Stundung ausgeschlossen, weil du sie nur treuhänderisch für andere einbehältst; der Antrag wird insoweit abgelehnt und kostet Glaubwürdigkeit.
+
+Dritter Fehler: Die Begründung besteht aus allgemeinen Formulierungen wie „schwierige Marktlage“ ohne Zahlen. Vierter Fehler: Der Ratenplan ist zu ehrgeizig, die zweite Rate platzt, und die Stundung wird widerrufen; dann ist der gesamte Restbetrag sofort fällig. Fünfter Fehler: Du verschweigst weitere Rückstände oder eine ungenutzte Kreditlinie. Das Finanzamt kennt deine Steuerkonten ohnehin und fragt nach Kreditmöglichkeiten; wer unvollständig antwortet, verspielt den Ermessensspielraum.`,
+      },
+      {
+        titel: "Rechtsgrundlagen: § 222, § 234, § 238 und § 258 AO",
+        text: `Die Stundung steht in § 222 AO: Die Finanzbehörde kann Ansprüche ganz oder teilweise stunden, wenn die Einziehung bei Fälligkeit eine erhebliche Härte bedeuten würde und der Anspruch durch die Stundung nicht gefährdet erscheint; die Stundung soll in der Regel nur auf Antrag und gegen Sicherheitsleistung gewährt werden. Steuerabzugsbeträge wie die Lohnsteuer sind nach § 222 Satz 3 und 4 AO ausgenommen.
+
+Für die Dauer der Stundung fallen nach § 234 Abs. 1 AO Stundungszinsen an, die nach § 238 Abs. 1 AO 0,5 Prozent für jeden vollen Monat betragen; § 234 Abs. 2 AO erlaubt einen Zinsverzicht aus Billigkeitsgründen. Ohne Stundung entstehen nach § 240 AO Säumniszuschläge von einem Prozent des rückständigen Betrags für jeden angefangenen Monat. Der Vollstreckungsaufschub nach § 258 AO ist die mildere Alternative, wenn die Vollstreckung unbillig wäre; er lässt die Fälligkeit bestehen. Ist die Steuer dauerhaft nicht zahlbar, kommt nur ein Erlass nach § 227 AO in Betracht, der an deutlich strengere Voraussetzungen geknüpft ist.`,
+      },
+      {
+        titel: "Wann der Stundungsantrag nicht mehr reicht",
+        text: `Die Vorlage hilft bei einem vorübergehenden Engpass mit klarer Ursache und absehbarem Ende. Sie hilft nicht, wenn die Zahlungsunfähigkeit dauerhaft ist: Dann prüft das Finanzamt, ob der Anspruch gefährdet ist, und lehnt ab. Bei einer GmbH oder UG musst du in dieser Lage die Insolvenzantragspflicht im Blick behalten; Zahlungsunfähigkeit verpflichtet die Geschäftsführung, ohne schuldhaftes Zögern, spätestens aber innerhalb von drei Wochen Insolvenzantrag zu stellen, und das Finanzamt ist dabei ein Gläubiger wie jeder andere.
+
+Ebenso wenig passt die Vorlage, wenn bereits Vollstreckungsmaßnahmen laufen und eine Kontopfändung droht; dann brauchst du neben dem Antrag ein Gespräch mit der Vollstreckungsstelle und meist einen Steuerberater, der die Gesamtlage mit allen Steuerarten und Rückständen darlegt. GründerX ist Software und keine Steuerberatung; für die Verhandlung über Sicherheiten und Zinserlass ist ein Berater der richtige Ansprechpartner.`,
+      },
+    ],
     seo: {
-      title: "Stundungsantrag Finanzamt Vorlage (§ 222 AO) kostenlos | GründerX",
+      title: "Stundungsantrag Finanzamt Vorlage kostenlos | GründerX",
       description:
         "Antrag auf Stundung von Steuern als kostenlose Vorlage: erhebliche Härte begründen, Ratenzahlung vorschlagen, Sicherheiten, Stundungszinsen nach § 238 AO.",
     },
@@ -629,8 +867,57 @@ ${VORLAGEN_HINWEIS}`,
         a: "Ja, Einkommensteuer-Vorauszahlungen werden nur festgesetzt, wenn sie mindestens 400 EUR im Kalenderjahr und mindestens 100 EUR für einen Zahlungstermin betragen (§ 37 Abs. 5 EStG). Liegt deine Prognose darunter, kannst du beantragen, die Vorauszahlungen auf null zu setzen.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du die Vorauszahlungen beim Finanzamt herabsetzen lässt",
+        text: `Vorauszahlungen bemisst das Finanzamt nach der letzten Veranlagung. War das Vorjahr stark, zahlst du vierteljährlich auf einen Gewinn, den du dieses Jahr vielleicht gar nicht erreichst: Der Hauptkunde ist weg, du hast in Maschinen oder Software investiert, du arbeitest wegen Elternzeit nur noch halbtags, oder das zweite Geschäftsjahr nach der Gründung läuft einfach langsamer an als das erste.
+
+Jeder Euro Vorauszahlung, der über der tatsächlichen Steuer liegt, ist ein zinsloses Darlehen an den Staat, das du erst mit dem Jahresbescheid zurückbekommst, oft erst eineinhalb Jahre später. Der Antrag auf Herabsetzung holt dir diese Liquidität sofort zurück. Er gilt für Einkommensteuer-Vorauszahlungen von Einzelunternehmern und Gesellschaftern, für Körperschaftsteuer-Vorauszahlungen von GmbH und UG und über den Messbetrag auch für die Gewerbesteuer-Vorauszahlungen an die Gemeinde.`,
+      },
+      {
+        titel: "Antrag auf Herabsetzung der Vorauszahlungen: Inhalt und Pflichtangaben",
+        text: `Das Finanzamt passt die Vorauszahlungen nur an, wenn es die neue Prognose nachvollziehen kann. Deshalb gehören in den Antrag:
+
+- Steuernummer, Steuerart und das Datum des Vorauszahlungsbescheids
+- die bisherige Festsetzung je Quartal und der Gewinn, auf dem sie beruht
+- der Antrag mit dem Termin, ab dem die Herabsetzung gelten soll, und der neuen Quartalshöhe
+- gegebenenfalls der Antrag auf Erstattung oder Verrechnung bereits gezahlter Beträge
+- die Begründung mit der konkreten Ursache des Gewinnrückgangs
+- eine Gewinnprognose als Rechnung: Umsatz minus Wareneinsatz, Personal, Raumkosten, Abschreibungen und sonstige Kosten, mit Vorjahresvergleich
+- bei Einkommensteuer die weiteren Einkünfte und Abzugsbeträge, etwa Einkünfte des Ehegatten und Vorsorgeaufwendungen
+- die daraus abgeleitete voraussichtliche Jahressteuer und neue Vorauszahlung
+- der Antrag zum Gewerbesteuermessbetrag für Vorauszahlungszwecke
+- Anlagen: BWA, Vorjahresgewinnermittlung, Nachweise
+
+Die Zusage, wesentliche Abweichungen mitzuteilen, steht in der Vorlage, weil das Finanzamt die Vorauszahlungen sonst später wieder hochsetzt und du den Vertrauensvorschuss verlierst.`,
+      },
+      {
+        titel: "Vorlage ausfüllen: Gewinnprognose Schritt für Schritt",
+        text: `Hol dir den Vorauszahlungsbescheid und die aktuelle BWA aus deiner Buchhaltung. Übertrage zuerst die festgesetzten Beträge und den zugrunde liegenden Vorjahresgewinn in den ersten Absatz. Lege dann fest, ab welchem Termin die Herabsetzung gelten soll; realistisch ist der nächste Fälligkeitstag, der mindestens vier Wochen entfernt liegt. Beschreibe in der Begründung mit einem der Beispielsätze, was sich geändert hat, und belege es mit Zahlen oder Dokumenten.
+
+Für die Gewinnprognose rechnest du die bisherigen Monate der BWA auf das Jahr hoch und korrigierst um bekannte Effekte wie den weggefallenen Kunden oder neue Abschreibungen. Bei der Einkommensteuer ergänzt du die übrigen Einkünfte und Abzugsbeträge, weil das Finanzamt die Steuer auf das Gesamteinkommen schätzt. Nenne die daraus folgende Jahressteuer und teile durch vier für die neue Quartalsrate. Trage bei Gewerbebetrieb den voraussichtlichen Gewerbeertrag für den Messbetrag ein, hänge BWA, Vorjahresvergleich und Nachweise an und sende den Antrag über Mein ELSTER oder per Brief.`,
+      },
+      {
+        titel: "Typische Fehler beim Herabsetzungsantrag",
+        text: `Erstens: zu optimistisch schätzen. Wer die Vorauszahlungen auf null drückt und im Dezember doch einen guten Auftrag abrechnet, bekommt mit dem Jahresbescheid die gesamte Nachzahlung in einer Summe und zusätzlich eine nachträglich erhöhte Vorauszahlung für das Folgejahr. Zweitens: zu spät beantragen. Der Antrag wirkt erst, wenn das Finanzamt den neuen Bescheid erlässt; Anträge wenige Tage vor dem 10. März, 10. Juni, 10. September oder 10. Dezember greifen erst für das übernächste Quartal.
+
+Drittens: Zahlen ohne Beleg. Eine Prognose ohne BWA oder Vorjahresvergleich wird als Behauptung behandelt. Viertens: die Gewerbesteuer vergessen. Das Finanzamt ändert die Einkommensteuer, die Gemeinde zieht die alte Gewerbesteuer-Vorauszahlung weiter ein, weil niemand den Messbetrag angepasst hat. Fünftens: Erstattung nicht beantragen. Ohne ausdrücklichen Antrag bleibt ein Guthaben aus bereits gezahlten Raten oft bis zum Jahresbescheid liegen.`,
+      },
+      {
+        titel: "Rechtsgrundlagen: § 37 EStG, § 31 KStG und § 19 GewStG",
+        text: `Die Vorauszahlungen zur Einkommensteuer sind in § 37 EStG geregelt. Nach Absatz 1 sind sie am 10. März, 10. Juni, 10. September und 10. Dezember zu entrichten. Absatz 3 bestimmt, dass das Finanzamt die Vorauszahlungen nach der voraussichtlichen Einkommensteuer festsetzt und sie an die Steuer anpassen kann, die sich für den Veranlagungszeitraum voraussichtlich ergeben wird; diese Anpassung ist bis zum Ablauf des 15. Monats nach dem Veranlagungszeitraum möglich. Absatz 5 legt fest, dass Vorauszahlungen nur festgesetzt werden, wenn sie mindestens 400 Euro im Kalenderjahr und mindestens 100 Euro je Termin betragen.
+
+Für Kapitalgesellschaften verweist § 31 Abs. 1 KStG auf diese Vorschriften. Die Gewerbesteuer-Vorauszahlungen sind nach § 19 Abs. 1 GewStG am 15. Februar, 15. Mai, 15. August und 15. November an die Gemeinde fällig; nach § 19 Abs. 3 GewStG kann die Gemeinde sie anpassen, und das Finanzamt setzt dafür den Steuermessbetrag für Vorauszahlungszwecke fest. Der Antrag beim Finanzamt ist formfrei; dass du ihn mit Zahlen belegen musst, folgt aus der allgemeinen Mitwirkungspflicht nach § 90 AO.`,
+      },
+      {
+        titel: "Wann der Antrag allein nicht reicht",
+        text: `Bei einem klaren Umsatzrückgang mit sauberer BWA kannst du den Antrag selbst stellen. Schwieriger wird es, wenn die Prognose von Bewertungsfragen abhängt: Sonderabschreibungen, Investitionsabzugsbeträge, Verlustvorträge, eine Thesaurierung in der GmbH oder Einkünfte aus mehreren Quellen mit Progressionsvorbehalt. Hier rechnet ein Steuerberater die voraussichtliche Steuer genauer und verhindert, dass du zu tief oder zu hoch ansetzt. Hast du bereits einen Berater mit Empfangsvollmacht, sollte der Antrag über ihn laufen, damit das Finanzamt nicht zwei Ansprechpartner hat.
+
+Ist die Lage so angespannt, dass selbst die herabgesetzten Raten nicht leistbar sind, hilft nicht die Herabsetzung, sondern ein Stundungsantrag für die bereits fälligen Beträge, für den es eine eigene Vorlage gibt. GründerX ist Software und keine Steuerberatung; die Vorlage strukturiert deinen Antrag, die steuerliche Berechnung bleibt deine oder die deines Beraters.`,
+      },
+    ],
     seo: {
-      title: "Vorauszahlungen herabsetzen: Antrag Finanzamt Vorlage | GründerX",
+      title: "Herabsetzung Vorauszahlungen: Antrag Vorlage | GründerX",
       description:
         "Antrag auf Herabsetzung der Einkommensteuer-, Körperschaftsteuer- und Gewerbesteuer-Vorauszahlungen (§ 37 Abs. 3 EStG) als Vorlage mit Gewinnprognose.",
     },
@@ -739,8 +1026,56 @@ ${VORLAGEN_HINWEIS}`,
         a: "Dann gilt die ursprüngliche Frist oder die im Ablehnungsschreiben gesetzte Nachfrist. Gib die Erklärung so vollständig wie möglich ab und reiche fehlende Angaben per Berichtigung nach (§ 153 AO). Eine vorläufig geschätzte Position ist besser als gar keine Erklärung, weil sonst das Finanzamt schätzt und der Verspätungszuschlag sicher kommt.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du eine Fristverlängerung beim Finanzamt beantragen solltest",
+        text: `Der 31. Juli rückt näher, aber die Jahresbescheinigung der Bank fehlt, der Lieferant hat drei Rechnungen noch nicht nachgereicht, und die Umstellung auf die neue Buchhaltungssoftware hat die Belegablage durcheinandergebracht. Oder das Finanzamt hat dich bereits an die Abgabe erinnert und eine Frist gesetzt. In beiden Fällen ist der Antrag auf Fristverlängerung der richtige Schritt, bevor die Frist abläuft.
+
+Er betrifft die Jahreserklärungen zur Einkommensteuer, Körperschaftsteuer, Gewerbesteuer und Umsatzsteuer samt Gewinnermittlung und Feststellungserklärung. Typische Anlässe sind fehlende Unterlagen Dritter, Krankheit oder Pflege, das erste Geschäftsjahr nach der Gründung und ein Beraterwechsel. Der Antrag ist auch dann sinnvoll, wenn du nur wenige Wochen brauchst: Eine bewilligte Verlängerung verhindert den Verspätungszuschlag und die Schätzung, die sonst beide kommen können.`,
+      },
+      {
+        titel: "Antrag auf Fristverlängerung: Das muss drinstehen",
+        text: `Das Finanzamt entscheidet nach Ermessen, und ein Antrag ohne Substanz wird oft abgelehnt. Die Vorlage enthält deshalb:
+
+- Steuernummer und bei Einkommensteuer die Identifikationsnummer
+- die genaue Bezeichnung der Erklärungen und des Jahres, auf die sich der Antrag bezieht
+- die laufende Frist oder die Aufforderung des Finanzamts mit Datum
+- das konkrete neue Abgabedatum, nicht nur „um einige Wochen“
+- eine Begründung, die nachvollziehbar ist und sich belegen lässt
+- die Zusicherung, dass die Erklärung innerhalb der neuen Frist kommt, und den Stand der Vorbereitung
+- einen Hinweis zur erwarteten Nachzahlung, idealerweise mit freiwilliger Vorauszahlung
+- die Bitte um Bestätigung und um einen Ersatztermin bei Ablehnung
+- Anlagen wie Attest, Schreiben an den Lieferanten oder Mandatsniederlegung
+
+Eine freiwillige Vorauszahlung auf die erwartete Nachzahlung ist kein Pflichtbestandteil, verbessert aber die Chancen spürbar, weil das Finanzamt dann kein Zinsrisiko sieht.`,
+      },
+      {
+        titel: "Fristverlängerung Vorlage ausfüllen: Schritt für Schritt",
+        text: `Trage Steuernummer, Identifikationsnummer und die betroffenen Erklärungen in den Kopf ein und wähle im Betreff die Steuerarten, die du tatsächlich noch schuldest. Setze im ersten Absatz die laufende Frist ein, in der Regel den 31. Juli des Folgejahres, oder die vom Finanzamt gesetzte Nachfrist aus dem Erinnerungsschreiben. Lege ein realistisches Zieldatum fest: lieber acht Wochen mit Puffer als vier Wochen, die du wieder verlängern musst.
+
+Wähle aus den vier Begründungsbausteinen den passenden, ersetze die Platzhalter durch Namen, Daten und Dokumente und lösche die übrigen Bausteine. Gib den Vorbereitungsstand in Prozent an und entscheide, ob du eine Nachzahlung erwartest; wenn ja, überweise einen Abschlag unter Angabe der Steuernummer und nenne Datum und Betrag im Antrag. Hänge die Nachweise an, unterschreibe und sende den Antrag über Mein ELSTER unter „Anträge, Einspruch und Mitteilungen“ oder per Brief. Notiere dir das neue Datum sofort im Kalender.`,
+      },
+      {
+        titel: "Typische Fehler beim Fristverlängerungsantrag",
+        text: `Der gravierendste Fehler: Der Antrag geht nach Ablauf der Frist ein. Eine rückwirkende Verlängerung ist möglich, aber die Ausnahme; in der Regel läuft dann bereits der Verspätungszuschlag. Zweiter Fehler: kein konkretes Datum. „Ich bitte um Fristverlängerung“ ohne Zieltermin zwingt das Finanzamt, selbst eines zu setzen. Dritter Fehler: Schweigen des Finanzamts als Zustimmung werten. Ohne Bestätigung gilt die alte Frist; frag nach, wenn zwei Wochen vor dem Stichtag keine Antwort da ist.
+
+Vierter Fehler: die Dauerfristverlängerung für Umsatzsteuer-Voranmeldungen mit diesem Antrag verwechseln; die läuft gesondert über ELSTER und gilt für die monatlichen oder vierteljährlichen Voranmeldungen, nicht für die Jahreserklärung. Fünfter Fehler: nach der Bewilligung die neue Frist erneut reißen. Beim zweiten Antrag ist das Finanzamt deutlich strenger, und bei beratenen Steuerpflichtigen gibt es über das gesetzliche Ende hinaus nur noch bei unverschuldeter Verhinderung eine Verlängerung.`,
+      },
+      {
+        titel: "Rechtsgrundlagen: § 109, § 149 und § 152 AO",
+        text: `Die Abgabefristen stehen in § 149 AO: Nach Absatz 2 sind Steuererklärungen, die sich auf ein Kalenderjahr beziehen, spätestens sieben Monate nach dessen Ablauf abzugeben, also bis zum 31. Juli des Folgejahres. Lässt du dich von einem Steuerberater oder einer anderen zur Hilfeleistung in Steuersachen befugten Person vertreten, verlängert Absatz 3 die Frist bis zum letzten Tag des Februars des zweiten auf das Kalenderjahr folgenden Jahres.
+
+Die Verlängerung regelt § 109 AO: Fristen können nach Absatz 1 verlängert werden, auch rückwirkend, wenn sie bereits abgelaufen sind; Absatz 2 begrenzt das bei beratenen Steuerpflichtigen auf Fälle, in denen die Frist ohne Verschulden nicht eingehalten werden konnte. Endet eine Frist an einem Samstag, Sonntag oder Feiertag, verschiebt § 108 Abs. 3 AO das Ende auf den nächsten Werktag. Der Verspätungszuschlag folgt aus § 152 AO; nach Absatz 2 ist er zwingend festzusetzen, wenn die Erklärung nicht binnen 14 Monaten nach Ablauf des Kalenderjahres abgegeben wurde, und beträgt nach Absatz 5 für jeden angefangenen Monat 0,25 Prozent der festgesetzten Steuer, mindestens 25 Euro. Gibt niemand ab, darf das Finanzamt nach § 162 AO schätzen.`,
+      },
+      {
+        titel: "Wann der Antrag nicht genügt",
+        text: `Die Vorlage deckt den Normalfall ab: Ein nicht beratener Unternehmer braucht einige Wochen oder Monate mehr. Sie hilft nicht, wenn du einen Steuerberater hast und die verlängerte Frist Ende Februar bereits überschritten ist; dann geht nur noch der Nachweis, dass du ohne eigenes Verschulden gehindert warst, und das sollte der Berater formulieren. Sie hilft auch nicht gegen eine bereits ergangene Schätzung; dagegen musst du innerhalb eines Monats Einspruch einlegen und die Erklärung nachreichen, wofür es eine eigene Vorlage gibt.
+
+Für Umsatzsteuer-Voranmeldungen und Lohnsteuer-Anmeldungen gibt es keine individuelle Fristverlängerung in dieser Form; dort nutzt du die Dauerfristverlängerung beziehungsweise musst pünktlich anmelden. Bei mehreren Jahren Rückstand oder laufendem Vollstreckungsverfahren lohnt ein Gespräch mit einem Steuerberater. GründerX ist Software und keine Steuerberatung; die Vorlage gibt dir den formalen Rahmen für einen sauberen Antrag.`,
+      },
+    ],
     seo: {
-      title: "Fristverlängerung Steuererklärung: Antrag Vorlage | GründerX",
+      title: "Fristverlängerung Finanzamt Vorlage kostenlos | GründerX",
       description:
         "Antrag auf Fristverlängerung beim Finanzamt (§ 109 AO) als kostenlose Vorlage mit Begründungen, gesetzlichen Abgabefristen und Hinweis zum Verspätungszuschlag.",
     },
@@ -840,8 +1175,56 @@ ${VORLAGEN_HINWEIS}`,
         a: "Nein. Eine ordentliche Kündigung braucht keinen Grund, und eine Begründung gibt dem Anbieter nur Ansatzpunkte für Rückgewinnungsversuche. Anders ist es bei der außerordentlichen Kündigung aus wichtigem Grund: Dort musst du den Grund nennen und ihn auf Nachfrage belegen können.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du dieses Kündigungsschreiben brauchst",
+        text: `Jedes Unternehmen sammelt Dauerverträge: das CRM-Abo, das seit dem Pilotprojekt niemand nutzt, der Mobilfunkvertrag für die alte Nummer, die Mitgliedschaft im Netzwerk, der Wartungsvertrag für den Drucker, den es nicht mehr gibt. Jeder davon verlängert sich stillschweigend, wenn du nicht rechtzeitig und in der richtigen Form kündigst.
+
+Diese Kündigung Vorlage ist für genau diese ordentlichen Kündigungen gedacht: Du willst den Vertrag zum nächsten regulären Termin beenden, brauchst keinen Grund und willst sicherstellen, dass der Anbieter den Eingang bestätigt und danach nichts mehr abbucht. Sie passt für Software und Cloud, Telefon und Internet, Mitgliedschaften und Vereine, Dienstleister mit Laufzeitvertrag und Versicherungen mit normaler Kündigungsfrist. Nicht gedacht ist sie für Arbeitsverhältnisse und Mietverträge, die eigene Vorlagen und strengere Formvorschriften haben.`,
+      },
+      {
+        titel: "Was in ein Kündigungsschreiben gehört",
+        text: `Eine Kündigung ist wirksam, sobald sie eindeutig ist und zugeht. Damit sie auch im Streitfall hält, enthält die Vorlage:
+
+- Absender mit Anschrift und die Adresse des Anbieters, möglichst mit Abteilung
+- Vertragsbezeichnung, Vertrags- und Kundennummer, bei Telefonverträgen die Rufnummer, bei Software die E-Mail des Nutzerkontos
+- die Kündigungserklärung zum konkreten Datum und hilfsweise zum nächstmöglichen Zeitpunkt
+- die Bitte um Bestätigung mit Frist und Angabe des Vertragsendes
+- den Widerspruch gegen stillschweigende Verlängerung, Rückgewinnungsangebote und Weiterbelastung
+- den Widerruf des SEPA-Mandats zum Vertragsende
+- je nach Vertragstyp den Baustein zu Rufnummernmitnahme, Datenexport und Löschung oder Guthabenauszahlung
+- den Hinweis auf die Textform und gegebenenfalls auf die bereits über den Kündigungsbutton erklärte Kündigung
+- Datum und Unterschrift
+
+Eine Begründung gehört bewusst nicht hinein; sie ist bei der ordentlichen Kündigung nicht erforderlich und liefert dem Anbieter nur Ansatzpunkte für Rückrufe.`,
+      },
+      {
+        titel: "Kündigung Vorlage ausfüllen: Schritt für Schritt",
+        text: `Suche zuerst Vertrag oder AGB heraus und notiere Laufzeit, Kündigungsfrist und die vorgeschriebene Form. Trage Anbieter, Vertragsbezeichnung und alle Nummern ein, die der Anbieter zur Zuordnung braucht. Setze im Kündigungssatz das von dir berechnete Datum ein oder nutze nur „zum nächstmöglichen Zeitpunkt“, wenn du unsicher bist; der folgende Satz fängt Rechenfehler ohnehin auf. Trage die Bestätigungsfrist und deine E-Mail-Adresse ein. Ergänze beim Widerspruch gegen die Weiterbelastung die letzten vier Stellen der IBAN.
+
+Behalte nur den Zusatzbaustein, der zu deinem Vertrag passt: Rufnummer bei Telefon und Internet, Datenexport bei Software und Cloud, Guthaben bei Mitgliedschaften. Lösche den Hinweis zum Kündigungsbutton, wenn du als Unternehmer kündigst oder den Button nicht genutzt hast. Unterschreibe, wenn du per Brief oder Fax sendest; per E-Mail genügt der Name. Verschicke die Kündigung so, dass du den Zugang beweisen kannst, und lege Sendebeleg und Bestätigung zum Vertrag.`,
+      },
+      {
+        titel: "Typische Fehler bei der Vertragskündigung",
+        text: `Erstens: die Frist verrechnet. Viele Verträge verlangen, dass die Kündigung drei Monate vor Laufzeitende zugeht, nicht abgeschickt wird. Rechne vom Zugang zurück und kündige lieber früh; eine zu frühe Kündigung schadet nicht. Zweitens: falscher Kanal. Eine Kündigung im Chat mit dem Support oder als Antwort auf einen Newsletter geht leicht verloren; nutze die im Vertrag genannte Adresse oder den Kündigungsbutton und sichere dir die Bestätigung.
+
+Drittens: kein Zugangsnachweis. Ohne Einschreiben, Faxbericht oder Bestätigungs-Screenshot steht Aussage gegen Aussage, und der Anbieter rechnet ein weiteres Jahr ab. Viertens: Lastschrift einfach widerrufen, ohne zu kündigen. Das beendet nicht den Vertrag, sondern erzeugt Mahngebühren. Fünftens: außerordentlich kündigen wollen, aber ordentlich formulieren. Wenn der Anbieter die Leistung dauerhaft nicht erbringt, musst du das ausdrücklich als Kündigung aus wichtigem Grund erklären und vorher in der Regel abmahnen; dafür ist diese Vorlage nicht gedacht.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen: § 312k, § 309 und § 314 BGB",
+        text: `Die ordentliche Kündigung von Dauerschuldverhältnissen richtet sich nach dem Vertrag und den AGB; das Gesetz setzt für Verbraucher Grenzen. Für seit dem 1. März 2022 geschlossene Verträge dürfen AGB gegenüber Verbrauchern nach § 309 Nr. 9 BGB eine Erstlaufzeit von höchstens zwei Jahren und danach nur eine Verlängerung auf unbestimmte Zeit mit einer Kündigungsfrist von höchstens einem Monat vorsehen. § 309 Nr. 13 BGB verbietet AGB-Klauseln, die von Verbrauchern für Kündigungen eine strengere Form als die Textform verlangen; Textform nach § 126b BGB ist zum Beispiel eine E-Mail.
+
+Seit dem 1. Juli 2022 müssen Unternehmer, die Verbrauchern über eine Website entgeltliche Dauerverträge anbieten, nach § 312k BGB eine Kündigungsschaltfläche bereithalten, die zu einer Bestätigungsseite führt; die Kündigung über diesen Weg ist sofort elektronisch zu bestätigen. Die Kündigung wird nach § 130 BGB mit Zugang wirksam. Die außerordentliche Kündigung aus wichtigem Grund regelt § 314 BGB, in der Regel nach erfolgloser Abmahnung. Für Unternehmer als Kunden gelten diese Verbraucherschutzregeln nicht automatisch; dort zählt der Vertrag.`,
+      },
+      {
+        titel: "Wann diese Vorlage nicht passt",
+        text: `Arbeitsverträge kündigst du nur schriftlich mit eigenhändiger Unterschrift auf Papier, mit gesetzlichen oder tariflichen Fristen und ab einer bestimmten Betriebsgröße mit Kündigungsgrund; dafür gibt es eine eigene Vorlage in der Kategorie Arbeit und Personal. Gewerbemietverträge haben feste Laufzeiten, Schriftformerfordernisse und oft Verlängerungsoptionen, die du nicht mit einem Abo-Kündigungsschreiben beendest. Versicherungen mit Sonderkündigungsrecht nach Beitragserhöhung oder Schadenfall brauchen die Nennung des Anlasses und die Einhaltung der Monatsfrist.
+
+Bei Kreditverträgen, Leasing und Finanzierungen kommen Vorfälligkeitsentschädigungen und gesetzliche Sonderregeln hinzu. Willst du aus wichtigem Grund fristlos kündigen, etwa weil der Anbieter trotz Abmahnung nicht liefert, oder streitet der Anbieter die Wirksamkeit deiner Kündigung ab, hilft ein Anwalt oder die Verbraucherzentrale weiter. GründerX ist Software und keine Rechtsberatung; die Vorlage sichert dir die Form, nicht die Bewertung deines Einzelfalls.`,
+      },
+    ],
     seo: {
-      title: "Kündigung Vertrag Vorlage: Abo, Telefon, Verein | GründerX",
+      title: "Kündigung Vertrag Vorlage kostenlos (Word & PDF) | GründerX",
       description:
         "Kündigungsschreiben für Dauerverträge als kostenlose Vorlage: zum nächstmöglichen Termin, mit Bestätigungsbitte, Widerspruch gegen Weiterbelastung, Textform.",
     },
@@ -934,8 +1317,56 @@ ${VORLAGEN_HINWEIS}`,
         a: "Ja. Die Annahme der Ware ist keine Anerkennung der Rechnung. Bei Mängeln musst du als Kaufmann aber unverzüglich nach Lieferung rügen (§ 377 HGB), sonst gilt die Ware als genehmigt. Preis- und Mengenfehler in der Rechnung kannst du dagegen auch später noch beanstanden; je früher, desto besser.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du einer Rechnung widersprechen solltest",
+        text: `Rechnungen prüfen ist lästig, aber jede unbeanstandete Rechnung wird irgendwann gebucht, bezahlt und als Vorsteuer geltend gemacht. Typische Anlässe für einen Widerspruch: Der Lieferant berechnet 120 statt der gelieferten 100 Stück, die Agentur setzt den Listenpreis statt des vereinbarten Projektpreises an, die Hosting-Firma stellt die Migration doppelt in Rechnung, der Handwerker berechnet Material, das nie verbaut wurde, oder es fehlen auf der Rechnung Steuernummer und Leistungsdatum, sodass dein Vorsteuerabzug wackelt.
+
+Auch wenn du als Unternehmer eine Leistung nur mangelhaft erhalten hast, ist die Rechnungsreklamation der erste Schritt, um den Betrag teilweise zurückzuhalten. Die Vorlage ist für Rechnungen von Lieferanten und Dienstleistern an dein Unternehmen gedacht und funktioniert für Papier-, PDF- und E-Rechnungen gleichermaßen.`,
+      },
+      {
+        titel: "Was in den Widerspruch gegen eine Rechnung gehört",
+        text: `Ein guter Widerspruch ist positionsgenau und hält den Rest der Geschäftsbeziehung sauber. Die Vorlage enthält:
+
+- Rechnungsnummer, Rechnungsdatum, Kunden- und Bestellnummer, damit die Buchhaltung des Lieferanten die Rechnung sofort findet
+- das Eingangsdatum der Rechnung, weil ab dort Zahlungs- und Rügefristen laufen
+- je beanstandeter Position Nummer, Bezeichnung, berechneten Betrag und den konkreten Grund
+- fünf Begründungsbausteine: nicht bestellt, falsche Menge, Preisabweichung, doppelt berechnet, Leistung nicht oder mangelhaft erbracht
+- die Rüge fehlender Pflichtangaben für den Vorsteuerabzug
+- die Zahlung des unbestrittenen Teils mit Datum und Konto sowie die Zurückbehaltung des streitigen Betrags
+- die Zurückweisung von Mahnkosten, Verzugszinsen und Inkassokosten auf den streitigen Teil
+- die Frist für eine berichtigte Rechnung, Stornorechnung oder Gutschrift, bei Bedarf als E-Rechnung
+- Anlagen mit Bestellung, Lieferschein und Zahlungsbelegen
+
+Die Trennung in unbestrittenen und streitigen Betrag ist der Kern des Schreibens: Sie zeigt Zahlungswillen und nimmt dem Lieferanten das Argument, du wolltest nur Zeit gewinnen.`,
+      },
+      {
+        titel: "Rechnung reklamieren: Vorlage Schritt für Schritt ausfüllen",
+        text: `Lege Rechnung, Bestellung oder Auftragsbestätigung und Lieferschein nebeneinander. Trage Rechnungsnummer, Datum, Gesamtbetrag und Eingangsdatum in Betreff und ersten Absatz ein. Für jede beanstandete Position kopierst du den Positionsblock, setzt Nummer, Bezeichnung und Betrag ein und wählst genau einen Grund A bis E; die übrigen Bausteine löschst du. Bei Grund B nennst du die Lieferscheinnummer, bei Grund C das Dokument mit dem vereinbarten Preis, bei Grund D die frühere Rechnungsnummer und das Zahlungsdatum.
+
+Prüfe die Rechnung dann auf die Pflichtangaben und liste die fehlenden auf, oder lösche den Absatz, wenn alles vollständig ist. Rechne den unbestrittenen Betrag aus, überweise ihn fristgerecht mit der Rechnungsnummer im Verwendungszweck und trage Datum und Betrag ein. Setze eine Frist von etwa zwei Wochen für die berichtigte Rechnung, hänge die Belege an und sende den Widerspruch per E-Mail an die Buchhaltung des Lieferanten, bei größeren Beträgen zusätzlich per Brief.`,
+      },
+      {
+        titel: "Typische Fehler bei der Rechnungsreklamation",
+        text: `Erster Fehler: zu lange warten. Wer eine Rechnung wochenlang liegen lässt, gerät mit dem unstreitigen Teil in Verzug und hat es bei Mengen- und Mangelrügen schwer, weil Kaufleute unverzüglich rügen müssen. Zweiter Fehler: die ganze Rechnung zurückhalten. Dann schuldest du auf den unstreitigen Teil Verzugszinsen und die Pauschale von 40 Euro, selbst wenn du mit dem Rest recht hattest. Dritter Fehler: nur anrufen. Eine mündliche Beanstandung lässt sich nicht beweisen; schreib, und zwar mit Zugangsnachweis.
+
+Vierter Fehler: unklare Forderung. „Bitte prüfen Sie die Rechnung“ ist kein Widerspruch; nenne Position, Betrag und Grund und fordere eine konkrete Korrektur. Fünfter Fehler: fehlende Pflichtangaben per E-Mail nachbessern lassen. Für den Vorsteuerabzug brauchst du ein berichtigtes Rechnungsdokument mit Bezug auf die ursprüngliche Rechnung, bei E-Rechnungen wieder im strukturierten Format. Sechster Fehler: Skonto trotz Streit voll abziehen; Skonto gibt es nur, wenn du innerhalb der Skontofrist zahlst, und nur auf den tatsächlich gezahlten Betrag.`,
+      },
+      {
+        titel: "Rechtsgrundlagen: § 14 UStG, § 320 BGB, § 286 BGB und § 377 HGB",
+        text: `Die Pflichtangaben einer Rechnung stehen in § 14 Abs. 4 UStG: vollständiger Name und Anschrift beider Seiten, Steuernummer oder Umsatzsteuer-Identifikationsnummer des Leistenden, Ausstellungsdatum, fortlaufende Rechnungsnummer, Menge und Art der Leistung, Zeitpunkt der Leistung, Entgelt nach Steuersätzen aufgeschlüsselt, Steuersatz und Steuerbetrag. Ohne diese Angaben scheitert der Vorsteuerabzug nach § 15 UStG; eine Berichtigung erlaubt § 14 Abs. 6 UStG in Verbindung mit § 31 Abs. 5 UStDV. Seit dem 1. Januar 2025 müssen inländische Unternehmer E-Rechnungen anderer Unternehmer empfangen können; die Pflicht, selbst E-Rechnungen auszustellen, kommt gestaffelt.
+
+Das Zurückbehaltungsrecht bei nicht oder mangelhaft erbrachter Gegenleistung folgt aus § 320 BGB. Verzug tritt nach § 286 Abs. 3 BGB spätestens 30 Tage nach Fälligkeit und Zugang der Rechnung ein; der Verzugszins zwischen Unternehmern beträgt nach § 288 Abs. 2 BGB neun Prozentpunkte über dem Basiszinssatz, dazu kommt die Pauschale von 40 Euro nach § 288 Abs. 5 BGB. Für Kaufleute gilt die Rügepflicht des § 377 HGB: Mängel der gelieferten Ware sind unverzüglich anzuzeigen, sonst gilt die Ware als genehmigt.`,
+      },
+      {
+        titel: "Wann der Widerspruch nicht reicht",
+        text: `Bei Mengen-, Preis- und Doppelberechnungsfehlern erledigt sich die Sache meist mit einer korrigierten Rechnung. Komplizierter wird es, wenn der Lieferant die Nachbesserung verweigert und mahnt oder ein Inkassobüro einschaltet; dann solltest du die Forderung weiterhin schriftlich bestreiten und bei einem gerichtlichen Mahnbescheid innerhalb von zwei Wochen Widerspruch beim Gericht einlegen, sonst folgt ein Vollstreckungsbescheid.
+
+Geht es um Mängel einer Werkleistung, etwa einer Website oder eines Umbaus, sind Fristsetzung zur Nacherfüllung, Minderung und Schadensersatz eigene Schritte, die mit einem Anwalt abgestimmt sein sollten. Streitest du mit einem Lieferanten im Ausland, kommen Reverse-Charge-Fragen und fremdes Recht hinzu. GründerX ist Software und keine Rechts- oder Steuerberatung; ob eine Rechnung umsatzsteuerlich korrekt ist, prüft im Zweifel dein Steuerberater.`,
+      },
+    ],
     seo: {
-      title: "Rechnung widersprechen: Vorlage Rechnungsreklamation | GründerX",
+      title: "Widerspruch Rechnung Vorlage kostenlos (Word) | GründerX",
       description:
         "Widerspruch gegen eine fehlerhafte Rechnung als kostenlose Vorlage: Positionen beanstanden, unbestrittenen Teil zahlen, Frist für berichtigte Rechnung setzen.",
     },
@@ -1039,8 +1470,58 @@ ${VORLAGEN_HINWEIS}`,
         a: "Übliche Bearbeitungen wie Zuschnitt, Farbkorrektur, Texteinblendungen und Musik sind durch die Vorlage abgedeckt. Nicht erlaubt ist, die Person in einen entstellenden, herabsetzenden oder sinnverfälschenden Zusammenhang zu bringen, etwa als Beispiel für ein Negativszenario. Das würde das Persönlichkeitsrecht verletzen, unabhängig von der Einwilligung.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du eine Einwilligung für Fotos und Videos brauchst",
+        text: `Teamfoto auf der Website, Mitarbeiterporträts in der Stellenanzeige, das Recruiting-Video auf LinkedIn, Kundenstimmen als Clip auf Instagram, Messefotos im Newsletter: Sobald eine Person erkennbar ist und du das Material veröffentlichst, brauchst du eine Rechtsgrundlage. Bei Mitarbeitern, Kunden und Veranstaltungsteilnehmern ist das in der Praxis fast immer die Einwilligung, und zwar bevor die Kamera läuft.
+
+Die Vorlage deckt die typischen Konstellationen ab: Mitarbeiter in der laufenden Unternehmenskommunikation, Kunden und Teilnehmer bei Workshops, Shootings oder Events, Testimonials, bezahlte Anzeigen mit Gesichtern und minderjährige Abgebildete mit Unterschrift der Eltern. Sie ist auch dann richtig, wenn du Fotos von einem externen Fotografen aufnehmen lässt; der Fotograf bringt die Urheberrechte am Bild mit, die Rechte der abgebildeten Person holst du selbst ein.`,
+      },
+      {
+        titel: "Was in die Einwilligungserklärung gehört",
+        text: `Eine Einwilligung ist nur wirksam, wenn die Person weiß, worin sie einwilligt. Deshalb muss die Fotoeinwilligung konkret sein:
+
+- Verantwortlicher mit Anschrift, Vertreter und gegebenenfalls Datenschutzbeauftragtem
+- abgebildete Person mit Kontaktdaten und Status als Mitarbeiter, Kunde oder Teilnehmer
+- Anlass und Art der Aufnahmen, einschließlich Ton (Ziffer 1)
+- Zwecke und Kanäle einzeln zum Ankreuzen: Website, jede Social-Media-Plattform, Print, Presse, intern, bezahlte Werbung, Stellenanzeigen; dazu die Entscheidung über Namensnennung (Ziffer 2)
+- Rechtsgrundlagen und bei Beschäftigten der Hinweis auf Freiwilligkeit ohne Nachteile (Ziffer 3)
+- Freiwilligkeit und Vergütung (Ziffer 4)
+- Dauer, auch nach Ende des Arbeitsverhältnisses (Ziffer 5)
+- Widerruf, seine Wirkung und seine Grenzen (Ziffer 6)
+- Datenschutzhinweise mit Betroffenenrechten und Hinweis auf weltweite Abrufbarkeit (Ziffer 7)
+- Regelung für Minderjährige mit Unterschrift der Sorgeberechtigten (Ziffer 8)
+- Ort, Datum, Unterschrift und die Aushändigung einer Kopie
+
+Jeder Kanal, den du später nutzen willst, muss heute schon angekreuzt sein.`,
+      },
+      {
+        titel: "Einwilligung Vorlage ausfüllen: Schritt für Schritt",
+        text: `Trage dein Unternehmen als Verantwortlichen ein und ergänze den Datenschutzbeauftragten, falls du einen benannt hast. Fülle die Daten der abgebildeten Person aus und wähle den Status. Beschreibe in Ziffer 1 den Anlass so konkret wie möglich, etwa „Teamshooting am 12. Mai in den Büroräumen“, und lösche „einschließlich Tonaufnahmen“, wenn nur fotografiert wird. Lass die Person in Ziffer 2 selbst ankreuzen, welche Kanäle sie freigibt, und entscheide gemeinsam über die Namensnennung.
+
+Behalte in Ziffer 3 und 5 die Sätze für Beschäftigte nur bei Mitarbeitern. Lege in Ziffer 5 die Dauer fest; unbefristet ist zulässig, eine Befristung auf einige Jahre erhöht aber die Akzeptanz. Trage in Ziffer 6 die E-Mail-Adresse für den Widerruf und in Ziffer 7 den Link zu deinen Datenschutzhinweisen ein. Bei Minderjährigen unterschreiben die Sorgeberechtigten und ab 14 Jahren zusätzlich der Jugendliche. Drucke zwei Exemplare, lass unterschreiben, gib eines mit und archiviere das andere, solange du die Aufnahmen nutzt.`,
+      },
+      {
+        titel: "Typische Fehler bei Foto- und Videoeinwilligungen",
+        text: `Erstens: Die Einwilligung steht im Arbeitsvertrag. Dort ist sie nicht freiwillig und damit angreifbar; nutze ein eigenes Formular, das der Mitarbeiter auch ablehnen kann. Zweitens: Kanäle fehlen. Wer nur „Website“ angekreuzt hat, darf das Foto nicht in eine Instagram-Anzeige stecken; bezahlte Werbung ist ein eigener Zweck und steht deshalb als eigenes Kästchen in der Vorlage. Drittens: keine Dokumentation. Du musst die Einwilligung nachweisen können; ein Nicken vor der Kamera reicht nicht, und bei Beschäftigten ist ohnehin Schriftform oder elektronische Form vorgesehen.
+
+Viertens: Widerruf ignorieren. Nach dem Widerruf müssen die Aufnahmen aus deinen Kanälen verschwinden; wer das verschleppt, riskiert Unterlassungsansprüche und Bußgelder. Fünftens: Dauer nach dem Ausscheiden ungeregelt. Ohne Klausel gehen Gerichte häufig davon aus, dass die Einwilligung mit dem Arbeitsverhältnis endet. Sechstens: Gruppenfotos als Freibrief. Die Ausnahme für Versammlungen greift nur, solange niemand herausgestellt wird; sobald du ein Gesicht in den Vordergrund stellst, brauchst du die Einwilligung dieser Person.`,
+      },
+      {
+        titel: "Rechtsgrundlagen: Art. 6 und 7 DSGVO, §§ 22, 23 KUG, § 26 BDSG",
+        text: `Fotos und Videos erkennbarer Personen sind personenbezogene Daten. Ihre Verarbeitung braucht eine Rechtsgrundlage nach Art. 6 Abs. 1 DSGVO; für Marketingzwecke ist das in der Regel die Einwilligung nach Buchstabe a. Art. 7 DSGVO legt die Bedingungen fest: Der Verantwortliche muss die Einwilligung nachweisen können (Absatz 1), die Erklärung muss verständlich und von anderen Sachverhalten getrennt sein (Absatz 2), und die Person kann sie jederzeit mit Wirkung für die Zukunft widerrufen, worüber sie vorher zu informieren ist (Absatz 3).
+
+Für die Veröffentlichung gilt daneben das Kunsturhebergesetz: Nach § 22 KUG dürfen Bildnisse nur mit Einwilligung des Abgebildeten verbreitet werden, § 23 KUG nennt Ausnahmen, etwa Bilder von Versammlungen, auf denen Personen nur als Teil der Menge erscheinen. Für Beschäftigte sieht § 26 Abs. 2 BDSG vor, dass die Einwilligung schriftlich oder elektronisch erfolgen soll, die Freiwilligkeit besonders zu prüfen ist und der Arbeitgeber über Zweck und Widerrufsrecht aufklärt. Die Informationspflichten nach Art. 13 DSGVO erfüllt Ziffer 7 der Vorlage zusammen mit deinen Datenschutzhinweisen.`,
+      },
+      {
+        titel: "Wann die Einwilligung nicht ausreicht",
+        text: `Für Models, Schauspieler und Sprecher in Werbeproduktionen ist die Einwilligung zu schwach: Dort brauchst du einen Model- oder Mitwirkendenvertrag mit Vergütung, Nutzungsrechten, Buy-out und einem vertraglich eingeschränkten Widerruf, sonst kann ein Widerruf die ganze Kampagne stoppen. Für die Rechte am Bild selbst, also die Urheberrechte des Fotografen oder Videografen, brauchst du einen Lizenz- oder Werkvertrag; die Einwilligung der abgebildeten Person ersetzt ihn nicht.
+
+Bei Aufnahmen an Schulen, in Kitas, in Arztpraxen oder bei sensiblen Themen wie Gesundheit und Religion gelten strengere Maßstäbe, und die Datenschutzaufsicht schaut genauer hin. Betreibst du internationale Kampagnen oder lässt du Daten außerhalb der EU verarbeiten, sollte ein Datenschutzberater oder Anwalt die Konstellation prüfen. GründerX stellt die Vorlage als Software bereit und ersetzt keine Rechtsberatung.`,
+      },
+    ],
     seo: {
-      title: "Einwilligung Fotos & Videos Vorlage (DSGVO, KUG) | GründerX",
+      title: "Einwilligung Foto/Video Vorlage DSGVO kostenlos | GründerX",
       description:
         "Einwilligung für Foto- und Videoaufnahmen von Mitarbeitern, Kunden und Teilnehmern als kostenlose Vorlage: Zwecke, Kanäle, Dauer, Widerruf, Minderjährige.",
     },
@@ -1153,6 +1634,54 @@ ${VORLAGEN_HINWEIS}`,
       {
         q: "Wie lange sollte ich alte Adresse und alten Namen parallel führen?",
         a: "Für die Post reicht meist ein Nachsendeauftrag von sechs bis zwölf Monaten. Auf Rechnungen und im Impressum muss ab dem Stichtag sofort die neue Firma stehen. Ein Hinweis „vormals [alter Name]“ auf Website und Briefpapier für ein Jahr ist zulässig und hilft Kunden und Lieferanten bei der Zuordnung.",
+      },
+    ],
+    ratgeber: [
+      {
+        titel: "Wann du Geschäftspartner über Umzug, Umfirmierung oder Rechtsformwechsel informierst",
+        text: `Das Unternehmen zieht aus dem Coworking in eigene Räume, aus dem Projektnamen wird eine eingetragene Firma, oder das Einzelunternehmen wird in eine GmbH überführt. Jede dieser Änderungen betrifft Dutzende Stellen gleichzeitig: Kunden, die Rechnungen an die alte Adresse schicken, Lieferanten, deren Stammdaten noch die alte Firma führen, Banken, die den Kontoinhaber ändern müssen, Versicherungen, Marktplätze, Finanzamt und IHK. Wer das nicht strukturiert mitteilt, bekommt Rechnungen auf den falschen Namen, verliert Post und riskiert den Vorsteuerabzug.
+
+Die Vorlage ist ein Serienbrief für genau diese Mitteilung: einmal ausgefüllt, an alle Partner verschickt, mit Gegenüberstellung alt und neu und einem festen Stichtag. Sie deckt drei Fälle ab: reine Adressänderung, Umfirmierung ohne Rechtsträgerwechsel und den Wechsel der Rechtsform, bei dem Verträge auf die neue Gesellschaft übergehen müssen.`,
+      },
+      {
+        titel: "Was in die Mitteilung über Adressänderung und Umfirmierung gehört",
+        text: `Geschäftspartner brauchen alles, was ihre Buchhaltung für die Stammdatenänderung verlangt, in einem Dokument:
+
+- Betreff mit Art der Änderung und dem Datum, ab dem sie gilt
+- deine Kunden- oder Lieferantennummer beim Empfänger
+- Gegenüberstellung bisher und neu: Firma, Rechtsform, Anschrift, Handelsregister, Steuernummer, USt-IdNr., Telefon, E-Mail, Website
+- Variante A für Adress- oder Namensänderung mit der Klarstellung, dass der Rechtsträger und alle Verträge unverändert bleiben
+- Variante B für den Rechtsformwechsel mit Vertragseintritt, Bitte um Zustimmung, neuer Steuernummer und Bankverbindung sowie der Abgrenzung, welche Leistungen auf welche Firma zu fakturieren sind
+- konkrete Bitten: Stammdaten aktualisieren, Rechnungen ab Stichtag auf die neue Firma, Schriftverkehr nur noch an die neue Anschrift
+- Zusatzbausteine für Banken und Finanzamt
+- Nachsendefrist, Ansprechpartner und Anlagen wie Handelsregisterauszug und Gewerbeummeldung
+- Unterschrift und bei Rechtsformwechsel ein Gegenzeichnungsfeld für die Vertragsübernahme
+
+Die Gegenzeichnung ist bei Variante B der wichtigste Baustein, weil ein Vertrag nicht einseitig auf eine neue Gesellschaft übertragen werden kann.`,
+      },
+      {
+        titel: "Vorlage ausfüllen: Schritt für Schritt zur Mitteilung",
+        text: `Warte, bis die Änderung wirksam ist: Bei GmbH, UG, OHG, KG und e. K. ist das die Eintragung im Handelsregister, beim Einzelunternehmen ohne Eintrag die Gewerbeummeldung. Trage dann im Kopf die neuen Firmendaten ein und wähle im Betreff die Art der Änderung. Fülle die Gegenüberstellung vollständig aus; schreibe bei unveränderten Werten ausdrücklich „unverändert“, damit der Empfänger nichts versehentlich überschreibt.
+
+Entscheide dich zwischen Variante A und B und lösche die andere; bei Variante B trägst du den Stichtag ein, ab dem Leistungen auf die neue Gesellschaft zu berechnen sind. Passe die Bitten an und behalte bei Rechtsformwechsel die Zeile zur Gegenzeichnung. Verwende die Zusatzbausteine nur in den Exemplaren an Bank und Finanzamt. Nenne die Nachsendefrist und einen Ansprechpartner. Erstelle aus der Vorlage einen Serienbrief oder eine E-Mail mit PDF-Anhang, verschicke sie an alle Partner und führe eine Liste, wer bestätigt und bei Variante B gegengezeichnet hat.`,
+      },
+      {
+        titel: "Typische Fehler bei Umfirmierung und Adressänderung",
+        text: `Erstens: zu früh verschicken. Wer die neue GmbH ankündigt, bevor sie im Handelsregister steht, erzeugt Rechnungen auf eine Gesellschaft, die noch nicht existiert. Zweitens: Lieferanten nicht ausdrücklich zur Umstellung auffordern. Rechnungen auf die alte Firma nach dem Stichtag enthalten einen falschen Leistungsempfänger und gefährden den Vorsteuerabzug; du musst dann jede Rechnung korrigieren lassen. Drittens: beim Rechtsformwechsel annehmen, Verträge gingen automatisch über. Einzelunternehmen und GbR haben keinen gesetzlichen Gesamtübergang; ohne Zustimmung des Partners bleibt der alte Vertragspartner verpflichtet.
+
+Viertens: nur die Geschäftspartner informieren und Behörden vergessen. Gewerbeamt, Finanzamt, IHK oder HWK, Berufsgenossenschaft, Impressum, Datenschutzerklärung, Marktplätze, Google-Unternehmensprofil, Domain-Registrar und Versicherungen müssen ebenfalls aktualisiert werden. Fünftens: keinen Nachsendeauftrag einrichten und Einschreiben vom Finanzamt verpassen. Sechstens: SEPA-Mandate und Lastschriften vergessen, die auf das alte Konto laufen, sodass Zahlungen platzen.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen: § 31 HGB, § 137 AO, § 14 GewO und § 14 UStG",
+        text: `Änderungen der Firma, ihres Sitzes und ihrer Inhaber sind nach § 31 HGB zur Eintragung in das Handelsregister anzumelden; bei der GmbH wird eine Satzungsänderung wie ein neuer Name oder Sitz nach § 54 GmbHG erst mit der Eintragung wirksam. Die Gewerbeummeldung bei Verlegung des Betriebs innerhalb der Gemeinde und die An- und Abmeldung bei Verlegung in eine andere Gemeinde folgen aus § 14 GewO. Dem Finanzamt sind nach § 137 AO Änderungen der für die Besteuerung erheblichen Verhältnisse anzuzeigen; bei Gründung einer neuen Gesellschaft ist nach § 138 Abs. 1b AO der Fragebogen zur steuerlichen Erfassung innerhalb eines Monats elektronisch zu übermitteln.
+
+Rechnungen müssen nach § 14 Abs. 4 Nr. 1 UStG den vollständigen Namen und die Anschrift des Leistungsempfängers enthalten, sonst ist der Vorsteuerabzug nach § 15 UStG gefährdet. Die Übernahme eines Vertrags durch eine neue Gesellschaft ist eine Vertragsübernahme, die der Zustimmung aller Beteiligten bedarf; für die Schuldübernahme gelten §§ 414, 415 BGB. Impressumsangaben sind nach § 5 DDG aktuell zu halten.`,
+      },
+      {
+        titel: "Wann die Mitteilung allein nicht reicht",
+        text: `Die Vorlage informiert deine Partner; die Änderung selbst musst du vorher an den richtigen Stellen bewirken. Umfirmierung und Sitzverlegung einer GmbH oder UG erfordern einen notariell beurkundeten Gesellschafterbeschluss und die Anmeldung zum Handelsregister durch den Notar. Der Wechsel vom Einzelunternehmen oder der GbR in eine GmbH ist entweder eine Neugründung mit Einbringung des Betriebs oder eine Umwandlung nach dem Umwandlungsgesetz; beides betrifft Steuern (Aufdeckung stiller Reserven, Buchwertfortführung), Haftung und Arbeitsverhältnisse und gehört in die Hände von Steuerberater und Notar.
+
+Bei vielen laufenden Verträgen kann eine Ausgliederung nach dem Umwandlungsgesetz den Gesamtübergang ermöglichen, kostet aber Notar und Register. Banken verlangen für die Umstellung des Kontos eigene Formulare, Handelsregisterauszug und Gesellschafterliste, oft mit persönlicher Legitimation. GründerX ist Software und keine Rechts- oder Steuerberatung; die Vorlage spart dir den Schreibaufwand, nicht die Beratung zum Rechtsformwechsel.`,
       },
     ],
     seo: {

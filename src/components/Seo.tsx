@@ -33,7 +33,10 @@ export const Seo = ({
   jsonLd,
 }: SeoProps) => {
   const url = canonicalUrl || `${SITE}${path}`;
-  const fullTitle = title.length > 60 ? title.slice(0, 57) + "…" : title;
+  // Nicht mehr hart bei 60 Zeichen mit „…“ abschneiden: Das kappte „| GründerX“
+  // und ließ Titel im Tab und bei Google mit Auslassungspunkten enden. Google
+  // kürzt selbst nach Pixelbreite; die Daten halten die Länge (Tests prüfen ≤ 60).
+  const fullTitle = title;
   const desc = description.length > 160 ? description.slice(0, 157) + "…" : description;
   const blocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
 

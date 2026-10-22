@@ -70,6 +70,7 @@ export const StartHere = () => (
             <Link to="/tools" className="text-accent-blue hover:underline">Alle Tools</Link>
             <Link to="/guides" className="text-accent-blue hover:underline">Alle Guides</Link>
             <Link to="/gratis-tools" className="text-accent-blue hover:underline">Gratis-Tools</Link>
+            <Link to="/vorlagen" className="text-accent-blue hover:underline">Vertragsvorlagen</Link>
             <Link to="/preise" className="text-accent-blue hover:underline">Preise</Link>
           </div>
         </div>

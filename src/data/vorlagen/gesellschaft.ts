@@ -54,10 +54,86 @@ export const VORLAGEN_GESELLSCHAFT: Vorlage[] = [
         a: "Nach neuem Recht scheidet der Kündigende aus und die GbR wird von den übrigen fortgesetzt – die Gesellschaft löst sich nicht mehr automatisch auf. Die Vorlage regelt die Frist, die Abfindung und das Ausscheiden ausdrücklich.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann brauchst du einen GbR-Gesellschaftsvertrag?",
+        text: `Sobald zwei oder mehr Personen gemeinsam ein Geschäft betreiben, entsteht automatisch eine Gesellschaft bürgerlichen Rechts, auch ohne Papier. Typische Fälle: Zwei Freunde starten einen Online-Shop, drei Berater teilen sich Kunden und Büro, ein Entwickler und ein Vertriebler bauen nebenberuflich ein Produkt. Ab dem ersten gemeinsamen Euro gelten dann die gesetzlichen Regeln, und die passen selten zum eigenen Vorhaben.
+
+Ein schriftlicher GbR-Vertrag lohnt sich deshalb vom ersten Tag an, nicht erst beim Streit. Er klärt, wer wie viel Geld und Arbeitszeit einbringt, wer welche Verträge allein unterschreiben darf, wie Gewinn und Entnahmen laufen und was passiert, wenn jemand aussteigt, krank wird oder stirbt. Auch Banken, Gewerbeamt und Finanzamt fragen nach dem Vertrag, und für die Eintragung als eGbR ins Gesellschaftsregister ist er die Grundlage.`,
+      },
+      {
+        titel: "Was muss in einen GbR-Vertrag? Pflichtinhalte und wichtige Klauseln",
+        text: `Das Gesetz schreibt keinen Mindestinhalt vor. Damit der Vertrag im Alltag und im Streit trägt, sollten aber diese Punkte drinstehen, so wie sie die Vorlage in den §§ 1 bis 12 abbildet:
+
+- Name, Sitz und Gegenstand der Gesellschaft (§ 1), optional mit dem Zusatz eGbR
+- Beiträge jedes Gesellschafters in Geld, Sachen und Arbeitszeit sowie die Beteiligungsquote (§ 2)
+- Geschäftsführung und Vertretung mit einer Wertgrenze für Alleinentscheidungen und einem Katalog zustimmungspflichtiger Geschäfte (§ 3)
+- Beschlüsse, Stimmrechte und die Fälle, in denen Einstimmigkeit nötig ist (§ 4)
+- Gewinn- und Verlustverteilung, monatliche Entnahmen und Steuerrücklage (§ 5)
+- Geschäftsjahr, Buchführung, Kapital- und Privatkonten, Geschäftskonto (§ 6)
+- Wettbewerbsverbot und erlaubte Nebentätigkeiten (§ 7)
+- Kündigung, Ausscheiden und Fortsetzung der Gesellschaft (§ 8)
+- Abfindung mit Bewertungsmethode, Ratenzahlung und Schiedsgutachter (§ 9)
+- Tod eines Gesellschafters (§ 10), Auflösung und Liquidation (§ 11)
+- Schriftform, salvatorische Klausel, Mediation und Gerichtsstand (§ 12)
+
+Fehlt eine dieser Regeln, greift die gesetzliche Grundregel. Die ist seit 2024 zwar moderner als früher, aber zum Beispiel bei Abfindung und Wettbewerb kaum brauchbar.`,
+      },
+      {
+        titel: "GbR-Vertrag Muster richtig ausfüllen: Schritt für Schritt",
+        text: `Die Vorlage arbeitet mit Platzhaltern in eckigen Klammern. Gehe sie der Reihe nach durch:
+
+- Kopf: Vorname, Nachname, Geburtsdatum und Anschrift jedes Gesellschafters; den Block für Gesellschafter 3 löschen oder ergänzen.
+- § 1: Name der GbR, Sitz, eine konkrete Beschreibung der Tätigkeit und das Startdatum. Der Zusatz eGbR nur, wenn ihr die Eintragung wirklich plant.
+- § 2: Bareinlage in Euro mit Zahlungsdatum, Wochenstunden je Gesellschafter, bei Sacheinlagen Gegenstand und vereinbarter Wert. Die Beteiligungsquoten müssen zusammen 100 Prozent ergeben.
+- § 3: Wertgrenze, bis zu der jeder allein unterschreiben darf (im Muster 1.000 EUR), und die Schwelle für zustimmungspflichtige Anschaffungen.
+- § 5 und § 6: monatliche Entnahmegrenze, Frist für die Rückzahlung von Überentnahmen, Ende des ersten Rumpfgeschäftsjahres, Bank und Verfügungsberechtigung.
+- § 7: bestehende Jobs oder Nebentätigkeiten, die ausdrücklich erlaubt bleiben.
+- § 8 und § 9: Kündigungsfrist, erster Kündigungstermin, Bewertungsmethode und Ratenzahl für die Abfindung, Abschlag bei Ausscheiden aus wichtigem Grund.
+- § 10: Entscheidet euch für eine der beiden Varianten (Fortsetzung ohne oder mit Erben) und löscht die andere.
+- § 11: Wer Name, Domain und Social-Media-Konten bei Auflösung behält.
+
+Am Ende Ort, Datum und eigenhändige Unterschriften aller Gesellschafter; jeder bekommt eine Ausfertigung. Lade die Vorlage als Word-Datei, wenn du Klauseln umformulieren willst, oder als PDF zum Ausdrucken.`,
+      },
+      {
+        titel: "Typische Fehler beim GbR-Gesellschaftsvertrag",
+        text: `Der häufigste Fehler ist die Vorlage ohne Anpassung zu unterschreiben und Platzhalter oder beide Alternativen stehen zu lassen. Prüfe am Ende mit der Suchfunktion, ob noch eckige Klammern im Text sind.
+
+Zweiter Klassiker: Arbeitszeit wird nicht geregelt. Wenn einer Vollzeit arbeitet und der andere fünf Stunden pro Woche, aber beide 50 Prozent halten, ist Streit programmiert. Entweder die Quoten anpassen oder eine Tätigkeitsvergütung vorab vereinbaren, die § 5 Abs. 1 als Option vorsieht.
+
+Dritter Fehler: keine Steuerrücklage. Die GbR selbst zahlt keine Einkommensteuer, jeder Gesellschafter versteuert seinen Gewinnanteil privat, auch den Teil, der im Unternehmen bleibt. Wer alles entnimmt, steht bei der Steuernachzahlung ohne Geld da.
+
+Außerdem oft vergessen: die Abfindungsklausel. Ohne Methode und Ratenzahlung kann ein Ausscheidender den vollen Verkehrswert sofort verlangen und die Gesellschaft in die Zahlungsunfähigkeit treiben. Und schließlich die Haftung: Alle Gesellschafter haften persönlich und unbeschränkt, auch für Fehler des anderen. Wer das nicht tragen will, braucht eine UG oder GmbH statt einer GbR.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen: GbR nach dem MoPeG seit 2024",
+        text: `Die GbR ist in den §§ 705 ff. BGB geregelt. Mit dem Gesetz zur Modernisierung des Personengesellschaftsrechts (MoPeG) wurden diese Vorschriften zum 1. Januar 2024 grundlegend neu gefasst. Die wichtigsten Punkte für Gründer:
+
+- Die GbR ist rechtsfähig, kann also selbst Verträge schließen, klagen und Eigentum halten.
+- Ohne Vertrag richtet sich die Gewinnverteilung nach den Beteiligungsverhältnissen, im Zweifel nach dem Wert der vereinbarten Beiträge, nicht mehr nach Köpfen.
+- Kündigt ein Gesellschafter, scheidet er aus und die Gesellschaft wird fortgesetzt; die automatische Auflösung ist abgeschafft.
+- Ein ausgeschiedener Gesellschafter haftet für Altverbindlichkeiten noch fünf Jahre nach (§ 728b BGB).
+- Neu ist das Gesellschaftsregister: Die Eintragung als eGbR ist freiwillig, aber Voraussetzung, wenn die GbR Grundstücke, GmbH-Anteile oder Marken erwerben will. Eingetragene GbRs müssen auch ins Transparenzregister.
+
+Der Vertrag selbst ist formfrei und braucht keinen Notar. Nur wenn ein Gesellschafter ein Grundstück einbringt, ist notarielle Beurkundung nötig. Gewerbliche GbRs melden jeden Gesellschafter beim Gewerbeamt an; freiberufliche GbRs melden sich nur beim Finanzamt. In beiden Fällen gibt die Gesellschaft jährlich eine Feststellungserklärung ab.`,
+      },
+      {
+        titel: "Wann die GbR-Vorlage nicht ausreicht",
+        text: `Die Vorlage deckt den Normalfall ab: zwei bis vier natürliche Personen, Bareinlagen und Arbeitskraft, ein überschaubares Geschäft. Hol dir Unterstützung, wenn einer dieser Punkte zutrifft:
+
+- Ein Gesellschafter bringt ein Grundstück, ein bestehendes Unternehmen oder wertvolle Schutzrechte ein; dann sind Notar und Steuerberater Pflicht.
+- Eine Gesellschaft (GmbH, UG) soll Gesellschafterin werden oder es geht um Beteiligungen von Investoren.
+- Das Geschäft erreicht Umsätze, bei denen die Haftung mit dem Privatvermögen untragbar wird; dann ist die Rechtsform selbst die Frage, nicht der Vertrag.
+- Ihr wollt steuerlich gestalten, etwa mit Sonderbetriebsvermögen, Pensionszusagen oder einer späteren Umwandlung in eine GmbH.
+- Es gibt schon Streit, oder einer der Beteiligten ist mit einem anderen verheiratet oder verwandt, was Erb- und Familienrecht ins Spiel bringt.
+
+GründerX stellt diese Vorlage als Software-Muster bereit und ersetzt keine Rechtsberatung. Für den Standardfall reicht das Muster als Word oder PDF; für alles darüber hinaus lohnt eine Stunde beim Anwalt für Gesellschaftsrecht, die deutlich günstiger ist als der spätere Streit.`,
+      },
+    ],
     seo: {
-      title: "GbR-Vertrag Vorlage 2026 kostenlos (Word & PDF) | GründerX",
+      title: "GbR-Vertrag Vorlage kostenlos (Word & PDF) | GründerX",
       description:
-        "GbR-Gesellschaftsvertrag als kostenlose Vorlage nach neuem Recht (MoPeG): Gewinnverteilung, Geschäftsführung, Kündigung, Abfindung. Download als Word, PDF oder Text.",
+        "GbR-Gesellschaftsvertrag als kostenlose Vorlage nach neuem Recht (MoPeG): Gewinnverteilung, Geschäftsführung, Kündigung, Abfindung. Als Word, PDF und Text.",
     },
     stand: "2026-10",
     text: `Gesellschaftsvertrag einer Gesellschaft bürgerlichen Rechts (GbR)
@@ -222,8 +298,81 @@ ${VORLAGEN_HINWEIS}`,
         a: "Vinkulierung heißt: Ein Gesellschafter darf seinen Anteil nur mit Zustimmung der Gesellschafterversammlung verkaufen oder abtreten. So verhindern die Gründer, dass plötzlich ein Fremder mit am Tisch sitzt. Ergänzt wird die Klausel durch ein Vorkaufsrecht und die Einziehung in § 8.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann brauchst du einen eigenen UG-Gesellschaftsvertrag?",
+        text: `Für die Gründung einer UG (haftungsbeschränkt) gibt es zwei Wege: das gesetzliche Musterprotokoll oder eine individuelle Satzung. Das Musterprotokoll ist günstig, taugt aber nur für maximal drei Gesellschafter und einen Geschäftsführer und enthält keine Regeln zu Vinkulierung, Einziehung, Abfindung oder Wettbewerbsverbot.
+
+Ein eigener UG-Gesellschaftsvertrag ist der richtige Weg, wenn du mit Mitgründern startest, die nicht nur Kapital, sondern Arbeit einbringen, wenn ihr in ein bis zwei Jahren Investoren aufnehmen wollt oder wenn mehrere Geschäftsführer geplant sind. Auch wer heute allein gründet und später Partner aufnehmen will, spart sich mit einer vollständigen Satzung die zweite Beurkundung. Diese Vorlage ist dafür der Entwurf, den du zum Notartermin mitbringst: Die Beurkundung bleibt Pflicht, aber der Notar muss nur noch prüfen statt entwerfen.`,
+      },
+      {
+        titel: "Was gehört in die UG-Satzung? Pflichtangaben und sinnvolle Klauseln",
+        text: `Zwingend sind nach § 3 GmbHG nur Firma, Sitz, Unternehmensgegenstand, Stammkapital sowie Zahl und Nennbeträge der Geschäftsanteile jedes Gesellschafters. Alles Weitere ist freiwillig, entscheidet aber im Ernstfall. Die Vorlage regelt in zwölf Paragraphen:
+
+- Firma mit dem Pflichtzusatz UG (haftungsbeschränkt), Sitz, Gegenstand und Geschäftsjahr (§ 1)
+- Stammkapital, Stückelung in 1-Euro-Anteile und Volleinzahlung vor Anmeldung (§ 2)
+- die gesetzliche Rücklage von 25 Prozent des Jahresüberschusses nach § 5a GmbHG (§ 3)
+- Geschäftsführung, Vertretung, Befreiung von § 181 BGB und zustimmungspflichtige Geschäfte (§ 4)
+- Gesellschafterversammlung, Einberufung in Textform, Videokonferenz, Mehrheiten (§ 5)
+- Jahresabschluss und Ergebnisverwendung nach Dotierung der Rücklage (§ 6)
+- Vinkulierung und Vorerwerbsrecht der Mitgesellschafter (§ 7)
+- Einziehung von Anteilen bei Insolvenz, Pfändung, wichtigem Grund, Tod und Vesting (§ 8)
+- Abfindung nach dem vereinfachten Ertragswertverfahren mit Abschlag und Raten (§ 9)
+- Wettbewerbsverbot mit Vertragsstrafe (§ 10), Kündigung und Bekanntmachungen (§ 11)
+- Gründungsaufwand, salvatorische Klausel, Gerichtsstand (§ 12)
+
+Gerade die §§ 7 bis 9 fehlen im Musterprotokoll komplett. Ohne sie kann ein Mitgründer seinen Anteil an jeden verkaufen und eine Trennung endet vor Gericht.`,
+      },
+      {
+        titel: "UG-Gesellschaftsvertrag Muster ausfüllen: die Platzhalter",
+        text: `Arbeite die eckigen Klammern von oben nach unten ab:
+
+- Gesellschafter mit Name, Geburtsdatum und Anschrift; den dritten Block löschen oder ergänzen.
+- § 1: Firma ohne Sonderzeichen, Sitz (die politische Gemeinde, nicht die Straße), einen Gegenstand, der die geplante Tätigkeit konkret beschreibt, und das Ende des ersten Rumpfgeschäftsjahres.
+- § 2: Stammkapital in Euro und die Anzahl der Anteile; dann je Gesellschafter die Anteilsnummern von bis und den Gesamtnennbetrag. Die Summe muss exakt dem Stammkapital entsprechen.
+- § 4 Abs. 4: Schwellenwerte für Darlehen, Investitionen, Dauerschuldverträge und Gehälter, die zur Größe des Unternehmens passen.
+- § 5: Frist für die ordentliche Versammlung und das Quorum für die Beschlussfähigkeit.
+- § 7 Abs. 2: Annahmefrist für das Vorerwerbsrecht, meist vier Wochen.
+- § 9: Prozentsatz für die reduzierte Abfindung bei Einziehung aus wichtigem Grund und die Zahl der Jahresraten.
+- § 10 Abs. 2 und 3: bestehende Tätigkeiten, die erlaubt bleiben, und die Höhe der Vertragsstrafe.
+- § 11: Kündigungsfrist und erster möglicher Kündigungstermin.
+- § 12: Gründungsaufwand in Euro, den die Gesellschaft tragen darf.
+
+Der ausgefüllte Entwurf geht als Word-Datei an den Notar. Unterschrieben wird erst im Termin, nicht vorher.`,
+      },
+      {
+        titel: "Häufige Fehler bei der UG-Gründung mit eigener Satzung",
+        text: `Fehler Nummer eins: ein Gründungsaufwand, der das Stammkapital übersteigt. Wer mit 500 EUR gründet und 800 EUR Notar- und Registerkosten in die Satzung schreibt, ist am ersten Tag bilanziell überschuldet. Setze das Stammkapital so, dass es die Gründungskosten und die ersten Rechnungen deckt.
+
+Fehler zwei: Sacheinlagen. Bei der UG sind sie verboten; Laptop, Software oder Domain können nur nach der Gründung verkauft oder überlassen werden. Fehler drei: der Firmenzusatz. UG (haftungsbeschränkt) muss auf jeder Rechnung, E-Mail-Signatur und Website stehen. Wer nur UG schreibt, riskiert die persönliche Haftung.
+
+Fehler vier: die Thesaurierung vergessen. Die UG darf nicht den vollen Gewinn ausschütten, ein Viertel muss in die Rücklage. Ein Ausschüttungsbeschluss ohne diesen Posten ist nichtig. Fehler fünf: ein zu weiter oder zu enger Unternehmensgegenstand. Zu eng heißt Satzungsänderung beim Notar, sobald ihr ein neues Produkt anbietet; zu weit und unbestimmt lehnt das Registergericht ab. Und schließlich: Nach der Gründung Transparenzregister und Gesellschafterliste nicht pflegen. Beides muss nach jedem Anteilswechsel aktualisiert werden, sonst drohen Bußgelder.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen der UG (haftungsbeschränkt)",
+        text: `Die UG ist keine eigene Rechtsform, sondern eine GmbH mit kleinem Stammkapital nach § 5a GmbHG. Es gelten deshalb alle Vorschriften des GmbH-Gesetzes mit wenigen Besonderheiten:
+
+- Stammkapital ab 1 EUR, Volleinzahlung vor der Anmeldung, keine Sacheinlagen (§ 5a Abs. 1 und 2 GmbHG)
+- jährliche Rücklage von 25 Prozent des um einen Verlustvortrag geminderten Jahresüberschusses, bis das Stammkapital auf 25.000 EUR erhöht ist (§ 5a Abs. 3 und 5 GmbHG)
+- Pflicht zur sofortigen Einberufung der Gesellschafterversammlung bei drohender Zahlungsunfähigkeit (§ 5a Abs. 4 GmbHG)
+
+Der Gesellschaftsvertrag muss notariell beurkundet werden (§ 2 GmbHG), seit 2022 auch online per Videokonferenz mit dem Notar bei Bargründungen. Die Gesellschaft entsteht erst mit Eintragung ins Handelsregister; wer vorher im Namen der UG handelt, haftet persönlich (§ 11 GmbHG). Satzungsänderungen brauchen eine Dreiviertelmehrheit und erneut den Notar (§ 53 GmbHG). Anteilsübertragungen sind ebenfalls beurkundungspflichtig (§ 15 GmbHG). Nach der Eintragung folgen Gewerbeanmeldung, steuerliche Erfassung, Transparenzregister und, bei Mitarbeitern, die Betriebsnummer.`,
+      },
+      {
+        titel: "Wann du statt der UG-Vorlage Notar, Anwalt oder Steuerberater brauchst",
+        text: `Den Notar brauchst du in jedem Fall, denn ohne Beurkundung gibt es keine UG. Die Vorlage spart dir dort Zeit und Besprechungsaufwand, nicht den Termin. Zusätzlich solltest du vor dem Termin Rat holen, wenn
+
+- eine GmbH, ein Verein oder eine ausländische Person Gesellschafter wird,
+- ihr direkt bei Gründung eine Vesting-Vereinbarung, einen Beteiligungspool oder Investorenrechte verankern wollt,
+- ein Gründer ein bestehendes Einzelunternehmen einbringen will; das geht bei der UG nur über einen Verkauf nach der Gründung und hat steuerliche Folgen,
+- die Gesellschafter in verschiedenen Ländern wohnen oder Ehepartner beteiligt sind,
+- das Geschäft eine Erlaubnis braucht, etwa Finanzdienstleistungen, Gesundheit oder Handwerk mit Meisterpflicht.
+
+Ein Steuerberater lohnt sich schon bei der Frage, ob die UG überhaupt die richtige Rechtsform ist: Bei geringen Gewinnen und hohem Privatentnahmebedarf kann ein Einzelunternehmen günstiger sein als Körperschaftsteuer plus Kapitalertragsteuer. GründerX liefert mit dieser Vorlage das Muster als Software-Dokument und keine individuelle Rechtsberatung.`,
+      },
+    ],
     seo: {
-      title: "UG-Gesellschaftsvertrag Vorlage 2026 kostenlos | GründerX",
+      title: "UG-Gesellschaftsvertrag Vorlage kostenlos | GründerX",
       description:
         "UG-Gesellschaftsvertrag als kostenlose Vorlage: Stammkapital, Thesaurierung nach § 5a GmbHG, Vinkulierung, Einziehung, Abfindung. Entwurf für den Notar.",
     },
@@ -384,8 +533,77 @@ ${VORLAGEN_HINWEIS}`,
         a: "Nach § 3 GmbHG mindestens Firma, Sitz, Unternehmensgegenstand, Höhe des Stammkapitals sowie Zahl und Nennbeträge der von jedem Gesellschafter übernommenen Geschäftsanteile. Alles andere (Vinkulierung, Einziehung, Abfindung, Wettbewerbsverbot) ist freiwillig, aber genau das, was bei Streit entscheidet.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann brauchst du diese GmbH-Satzung als Vorlage?",
+        text: `Eine GmbH-Gründung läuft immer über den Notar, und der arbeitet gern mit seinem Standardtext. Der passt für eine Einpersonen-GmbH, aber nicht für ein Team, das Anteile schützen, Investoren vorbereiten oder eine Trennung geordnet regeln will. Diese Vorlage ist für genau diese Fälle gedacht: zwei oder mehr Gesellschafter, individuelle Beteiligungsquoten, Vinkulierung, Vorkaufsrecht, Einziehung und Abfindung.
+
+Auch bei der Umwandlung einer UG in eine GmbH brauchst du eine neue Satzung, weil Firma, Stammkapital und die Rücklagenregel wegfallen. Und wenn ein Gründer sein Einzelunternehmen einbringen will, braucht die Satzung die Sacheinlage-Variante, die das Muster in § 3 vorsieht. Nimm die Vorlage als Entwurf mit zum Notar: Er beurkundet, du sparst die Besprechungszeit, in der sonst jede Klausel von Grund auf diskutiert wird.`,
+      },
+      {
+        titel: "Was muss in einen GmbH-Gesellschaftsvertrag?",
+        text: `Das Gesetz verlangt in § 3 GmbHG nur fünf Angaben: Firma, Sitz, Unternehmensgegenstand, Stammkapital sowie Zahl und Nennbeträge der Geschäftsanteile jedes Gesellschafters. Jede gute Satzung geht deutlich darüber hinaus. Die Vorlage enthält:
+
+- Firma, Sitz, Dauer und Geschäftsjahr (§ 1) sowie den Unternehmensgegenstand (§ 2)
+- Stammkapital von 25.000 EUR, Stückelung in 25.000 Anteile, Einzahlungsregel und optional die Sacheinlage (§ 3)
+- Geschäftsführung, Vertretung, Befreiung von § 181 BGB (§ 4) und den Katalog zustimmungspflichtiger Geschäfte (§ 5)
+- Gesellschafterversammlung mit Einberufung in Textform, Quorum, Vertretung und Vorsitz (§ 6)
+- Beschlüsse, Stimmrecht je Euro, Dreiviertelmehrheiten und Umlaufverfahren (§ 7)
+- Jahresabschluss, Gewinnverwendung und Vorabausschüttungen (§ 8)
+- Vinkulierung, Vorkaufsrecht und Pflicht zur aktuellen Gesellschafterliste (§ 9)
+- Einziehung und Zwangsabtretung mit den sechs Einziehungsgründen (§ 10)
+- Abfindung zum Verkehrswert mit Abschlag, Ratenzahlung und Schiedsgutachter (§ 11)
+- Wettbewerbsverbot, Bekanntmachungen, Gründungskosten, Gerichtsstand (§ 12)
+
+Die §§ 9 bis 11 sind das Herzstück für Gründerteams: Sie entscheiden, wer Mitgesellschafter werden kann und was eine Trennung kostet.`,
+      },
+      {
+        titel: "GmbH-Satzung Muster ausfüllen: so gehst du vor",
+        text: `Die Platzhalter in eckigen Klammern führen dich durch den Text:
+
+- Gesellschafter mit vollständigen Daten; bei einer Gesellschaft als Gesellschafterin Firma und Handelsregisternummer.
+- § 1: Firma mit dem Zusatz GmbH, Sitz und das Ende des ersten Rumpfgeschäftsjahres.
+- § 2: Gegenstand so konkret, dass das Registergericht ihn akzeptiert, und so weit, dass ihr nicht bei jedem neuen Produkt zum Notar müsst.
+- § 3: Anteilsnummern und Gesamtnennbetrag je Gesellschafter; die Summe muss 25.000 EUR ergeben. Wähle, ob die Hälfte oder der volle Nennbetrag vor der Anmeldung eingezahlt wird. Die Sacheinlage-Variante nur verwenden, wenn wirklich etwas eingebracht wird, sonst löschen.
+- § 5: Schwellenwerte für Investitionen, Kredite, Vertragslaufzeiten und Gehälter.
+- § 6: Frist für die ordentliche Versammlung und das Quorum.
+- § 9 Abs. 2: Ausübungsfrist für das Vorkaufsrecht.
+- § 11: Abschlag bei Einziehung aus wichtigem Grund und Anzahl der Halbjahresraten.
+- § 12: bestehende erlaubte Tätigkeiten und den Gründungsaufwand, den die Gesellschaft trägt.
+
+Lade das Muster als Word-Datei, fülle es aus und schicke es dem Notar vorab. Unterschrieben wird im Beurkundungstermin, die Vorlage selbst trägt deshalb bewusst den Hinweis auf § 2 GmbHG.`,
+      },
+      {
+        titel: "Typische Fehler bei der GmbH-Gründung und wie du sie vermeidest",
+        text: `Der teuerste Fehler ist eine Abfindungsklausel, die später kippt: Ein starrer Buchwert oder ein Ausschluss der Abfindung ist nach ständiger Rechtsprechung unwirksam, wenn er grob vom Verkehrswert abweicht. Die Vorlage knüpft deshalb an den Ertragswert an und erlaubt nur einen Abschlag.
+
+Zweiter Fehler: die zweite Hälfte des Stammkapitals vergessen. Wer nur 12.500 EUR einzahlt, schuldet den Rest weiter, und der Insolvenzverwalter fordert ihn Jahre später ein. Dritter Fehler: Gründungskosten über den in der Satzung bezifferten Betrag hinaus von der Gesellschaft zahlen lassen; das ist eine verbotene Rückzahlung von Stammkapital.
+
+Weitere Klassiker: Der Gesellschafter-Geschäftsführer wird nicht von § 181 BGB befreit und kann seinen eigenen Anstellungsvertrag nicht unterschreiben. Die Gesellschafterliste wird nach einem Anteilsverkauf nicht aktualisiert, sodass der neue Gesellschafter seine Rechte nicht ausüben kann (§ 16 GmbHG). Und die Transparenzregister-Meldung bleibt liegen, obwohl sie seit 2021 für jede GmbH Pflicht ist. Lege nach der Eintragung eine Checkliste an: Gesellschafterliste, Transparenzregister, Gewerbeanmeldung, steuerlicher Erfassungsbogen, Geschäftsführervertrag per Gesellschafterbeschluss.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen: GmbHG, Notar und Handelsregister",
+        text: `Die GmbH entsteht in drei Schritten: Beurkundung des Gesellschaftsvertrags beim Notar (§ 2 GmbHG), Einzahlung der Einlagen auf ein Konto der Vorgesellschaft und Eintragung ins Handelsregister (§ 11 GmbHG). Erst mit der Eintragung ist die Haftung auf das Gesellschaftsvermögen beschränkt; wer vorher handelt, haftet persönlich.
+
+Das Mindeststammkapital beträgt 25.000 EUR, vor der Anmeldung müssen auf jeden Anteil ein Viertel und insgesamt mindestens 12.500 EUR eingezahlt sein (§ 7 Abs. 2 GmbHG). Sacheinlagen brauchen einen Sachgründungsbericht und müssen vor der Anmeldung vollständig geleistet sein. Satzungsänderungen erfordern eine Dreiviertelmehrheit und notarielle Beurkundung (§ 53 GmbHG), Anteilsübertragungen ebenfalls den Notar (§ 15 GmbHG).
+
+Die Vinkulierung stützt sich auf § 15 Abs. 5 GmbHG, die Einziehung auf § 34 GmbHG, und die Abfindung darf nie aus dem zur Erhaltung des Stammkapitals nötigen Vermögen gezahlt werden (§ 30 GmbHG). Seit 2022 ist die Online-Gründung per Videokonferenz mit dem Notar möglich, für Bargründungen und seit 2023 auch für bestimmte Sachgründungen. Nach der Eintragung folgen die Meldung an das Transparenzregister, die Gewerbeanmeldung und der Fragebogen zur steuerlichen Erfassung.`,
+      },
+      {
+        titel: "Wann die GmbH-Vorlage allein nicht reicht",
+        text: `Notar und Handelsregister sind bei der GmbH ohnehin gesetzt. Zusätzliche Beratung solltest du einplanen, wenn
+
+- ein Einzelunternehmen oder eine GbR eingebracht werden soll; das ist steuerlich eine Einbringung nach dem Umwandlungssteuergesetz und braucht Steuerberater und Einbringungsbilanz,
+- Investoren beteiligt werden und Liquidationspräferenzen, Mitverkaufsrechte oder Verwässerungsschutz vereinbart werden sollen; das gehört in eine Gesellschaftervereinbarung, nicht in die öffentliche Satzung,
+- Mitarbeiter über ein Beteiligungsprogramm Anteile oder virtuelle Anteile erhalten sollen,
+- Ehepartner oder Erben eine Rolle spielen und die Nachfolge gesichert werden muss,
+- eine Holding-Struktur mit mehreren Gesellschaften geplant ist.
+
+Diese Vorlage bildet eine solide Standardsatzung ab und ist vom Notar prüfbar. GründerX ist Software und bietet keine Rechtsberatung; die Satzung entfaltet ihre Wirkung erst mit der Beurkundung, und die Feinabstimmung mit Gesellschaftervereinbarung und Geschäftsführervertrag gehört in die Hände eines Anwalts für Gesellschaftsrecht.`,
+      },
+    ],
     seo: {
-      title: "GmbH-Gesellschaftsvertrag Vorlage 2026 (Satzung) | GründerX",
+      title: "GmbH-Gesellschaftsvertrag Muster kostenlos | GründerX",
       description:
         "GmbH-Satzung als kostenlose Vorlage: Stammkapital 25.000 EUR, Gesellschafterversammlung, Vinkulierung, Einziehung, Abfindung. Entwurf für den Notartermin.",
     },
@@ -548,8 +766,78 @@ ${VORLAGEN_HINWEIS}`,
         a: "Gleiche Anteile sind einfach, aber nur fair, wenn Einsatz und Risiko gleich sind. Wer Vollzeit arbeitet, Kapital einbringt oder die Kerntechnologie liefert, sollte mehr erhalten. Wichtiger als die exakte Zahl ist das Vesting: Es sorgt dafür, dass Anteile nur bleiben, wenn der Gründer auch bleibt.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann brauchst du eine Gründervereinbarung?",
+        text: `Zwischen der ersten Idee und dem Notartermin vergehen meist Monate. In dieser Zeit entsteht Code, ein Markenname, eine Domain, erste Kundenkontakte, und oft steckt schon privates Geld im Projekt. Rechtlich seid ihr in dieser Phase bereits eine GbR und haftet persönlich, aber wem die Ergebnisse gehören und wer wie viel bekommt, ist ungeklärt.
+
+Eine Gründervereinbarung (Founders' Agreement) brauchst du, sobald zwei oder mehr Personen ernsthaft an einem gemeinsamen Vorhaben arbeiten und eine UG oder GmbH planen. Sie ist besonders wichtig, wenn einer in Vollzeit und der andere nebenbei arbeitet, wenn ein Gründer die Kerntechnologie mitbringt oder wenn ihr früh mit Investoren oder Förderprogrammen sprecht, die nach der Teamstruktur fragen. Und sie schützt den Fall, der am häufigsten vorkommt: Ein Mitgründer springt vor der Gründung ab.`,
+      },
+      {
+        titel: "Was muss in ein Founders' Agreement?",
+        text: `Die Vereinbarung regelt das Innenverhältnis bis zur Eintragung der Gesellschaft. Die Vorlage deckt in elf Paragraphen alle Punkte ab, über die Gründerteams erfahrungsgemäß streiten:
+
+- Vorhaben, Zieltermin der Gründung und der ausdrückliche Hinweis, dass keine einklagbare Gründungspflicht entsteht (§ 1)
+- Rollen und Verantwortungsbereiche, geplante Geschäftsführer, Rhythmus der Gründertreffen (§ 2)
+- Zeiteinsatz in Wochenstunden, Vergütung vor der Gründung, bestehende Nebentätigkeiten (§ 3)
+- geplante Beteiligungsquoten, Stammkapital, Mindestinhalt der späteren Satzung, Mitarbeiterpool und Umgang mit Investoren (§ 4)
+- Vesting mit Cliff und Laufzeit als Verweis auf die spätere Vesting-Vereinbarung (§ 5)
+- geistiges Eigentum: Einräumung aller Nutzungsrechte, Übertragung auf die Gesellschaft, vorbestehende Rechte in Anlage 1, Open-Source-Regel (§ 6)
+- Kosten, Auslagen, Zustimmungsgrenze und Auslagenliste (§ 7)
+- Entscheidungen bis zur Gründung und Schlichtung bei Patt (§ 8)
+- Vertraulichkeit und Wettbewerbsverbot (§ 9)
+- Ausscheiden eines Gründers und Scheitern der Gründung (§ 10)
+- Laufzeit bis zur Handelsregistereintragung, Fortgeltung von IP und Vertraulichkeit (§ 11)
+
+Besonders § 6 und § 10 sind das, was ein späterer Gesellschaftsvertrag nicht mehr rückwirkend heilen kann.`,
+      },
+      {
+        titel: "Gründervereinbarung Muster ausfüllen: Schritt für Schritt",
+        text: `Nimm dir für das Ausfüllen einen gemeinsamen Termin, denn jeder Platzhalter ist eine Entscheidung des Teams:
+
+- Präambel: Beschreibung des Vorhabens, geplante Rechtsform und Firma.
+- § 1: realistisches Datum für die Gründung.
+- § 2: je Gründer den Verantwortungsbereich in ein bis zwei Zeilen, den oder die geplanten Geschäftsführer, den Rhythmus der Treffen.
+- § 3: Wochenstunden je Gründer; entscheidet euch zwischen keiner Vergütung und der Vorschuss-Variante und löscht die andere. Bestehende Jobs mit Enddatum eintragen.
+- § 4: Beteiligungsquoten, die zusammen 100 Prozent ergeben, das Stammkapital und die Größe eines Mitarbeiterpools.
+- § 5: Vesting-Dauer, Cliff und Startdatum; üblich sind 48 Monate, 12 Monate Cliff und der Beginn der Zusammenarbeit.
+- § 6 Abs. 3: alle Domains, Repositories, Marken und Entwürfe, die ein Gründer schon vorher hatte, in Anlage 1 aufführen.
+- § 7: Zustimmungsgrenze für Auslagen und die bisher verauslagten Beträge mit Belegen in Anlage 2.
+- § 8 und § 10: Schwellenwert für zustimmungspflichtige Verträge, Schlichtungsmechanismus, Kündigungsfrist, Frist für die Auslagenerstattung und optional eine Abfindung für geleistete Arbeit.
+
+Danach Ort, Datum und Unterschrift aller Gründer. Die Vorlage gibt es als Word zum Bearbeiten und als PDF zum Unterschreiben.`,
+      },
+      {
+        titel: "Typische Fehler in Gründervereinbarungen",
+        text: `Der größte Fehler ist, die Anteile gleich zu verteilen, obwohl Einsatz und Risiko ungleich sind. 50/50 fühlt sich fair an, führt aber bei Patt zur Blockade und bei ungleichem Einsatz zu Frust. Besser: Quoten nach Beitrag und ein Vesting, das Anteile an das Bleiben koppelt.
+
+Zweiter Fehler: Die IP-Klausel bleibt abstrakt. Nur wenn Code, Designs, Domain und Konten konkret benannt sind und ein Gründer seine vorbestehenden Rechte in Anlage 1 offenlegt, lässt sich später beweisen, was der Gesellschaft gehört. Ebenso wichtig: Hat ein Gründer noch einen Arbeitsvertrag, können Arbeitsergebnisse dem Arbeitgeber zustehen; das muss vorab geklärt werden.
+
+Dritter Fehler: Auslagen ohne Beleg. Geld, das ohne Auslagenliste ins Projekt fließt, ist im Streit verloren und bei der Gründung nicht als Darlehen oder Einlage anrechenbar. Vierter Fehler: eine Formulierung, die eine Pflicht zur GmbH-Gründung oder zur Übertragung von Anteilen enthält. Das wäre beurkundungspflichtig und macht die ganze Vereinbarung angreifbar. Die Vorlage spricht deshalb von Absicht und regelt stattdessen präzise, was beim Scheitern passiert.`,
+      },
+      {
+        titel: "Rechtliche Einordnung: Vorgründungsgesellschaft und Formfragen",
+        text: `Sobald mehrere Personen ein gemeinsames Ziel verfolgen, entsteht eine Gesellschaft bürgerlichen Rechts, die sogenannte Vorgründungsgesellschaft. Für sie gelten die §§ 705 ff. BGB in der Fassung des MoPeG seit 2024: Alle Beteiligten haften persönlich und unbeschränkt für Verbindlichkeiten, die in dieser Phase entstehen. Die Gründervereinbarung ist damit rechtlich ein GbR-Vertrag mit Zweck Gründungsvorbereitung.
+
+Formfrei ist sie nur, solange sie keine Verpflichtung enthält, eine GmbH zu gründen oder Geschäftsanteile zu übertragen; solche Vorverträge wären nach § 2 beziehungsweise § 15 Abs. 4 GmbHG beurkundungspflichtig. Die Übertragung von Urheberrechten ist nach deutschem Recht nicht möglich (§ 29 UrhG); möglich und in § 6 der Vorlage umgesetzt ist die Einräumung ausschließlicher Nutzungsrechte. Marken und Domains werden dagegen tatsächlich übertragen, Patente und Gebrauchsmuster ebenfalls.
+
+Mit der Eintragung der Gesellschaft ins Handelsregister endet die Vereinbarung; ihre Inhalte wandern in Satzung, Vesting-Vereinbarung und Geschäftsführerverträge. IP- und Vertraulichkeitsregeln gelten nach § 11 der Vorlage fort, damit keine Lücke entsteht.`,
+      },
+      {
+        titel: "Wann die Vorlage nicht reicht und wer dann hilft",
+        text: `Die Gründervereinbarung ist ein Schriftform-Dokument für den Normalfall: zwei bis vier natürliche Personen, Software, Dienstleistung oder Handel, noch kein Fremdkapital. Hol dir Unterstützung, wenn
+
+- ein Gründer noch angestellt ist und sein Arbeitsvertrag Erfindungen oder Nebentätigkeiten regelt; hier braucht es eine Freigabe des Arbeitgebers,
+- Patente, Forschungsergebnisse einer Hochschule oder Lizenzen Dritter im Spiel sind,
+- schon vor der Gründung ein Investor oder Accelerator Anteile zugesagt bekommen soll,
+- ein Gründer im Ausland wohnt oder eine ausländische Gesellschaft beteiligt werden soll,
+- Förderprogramme wie EXIST oder Gründungsstipendien Bedingungen an die Teamstruktur knüpfen.
+
+In diesen Fällen sollte ein Anwalt für Gesellschaftsrecht die Vereinbarung prüfen und direkt mit Satzung und Vesting abstimmen; ein Steuerberater klärt, wie Auslagen und eingebrachte Werte bei der Gründung behandelt werden. Diese Vorlage von GründerX ist ein Software-Muster und keine Rechtsberatung, aber eine Grundlage, mit der das Beratungsgespräch kürzer und günstiger wird.`,
+      },
+    ],
     seo: {
-      title: "Gründervereinbarung Vorlage: Founders' Agreement 2026 | GründerX",
+      title: "Gründervereinbarung Vorlage kostenlos (Word) | GründerX",
       description:
         "Kostenlose Gründervereinbarung für Start-up-Teams vor der Gründung: Rollen, Anteile, Vesting, IP-Übertragung, Kosten und Ausstieg. Als Word, PDF oder Text.",
     },
@@ -696,8 +984,77 @@ ${VORLAGEN_HINWEIS}`,
         a: "Oft ja. Investoren lassen häufig einen Teil der bereits gevesteten Anteile erneut vesten (Re-Vesting), damit die Gründer nach der Runde gebunden bleiben. Mit einer bestehenden, marktüblichen Vereinbarung habt ihr eine bessere Verhandlungsposition als ohne.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann brauchst du eine Vesting-Vereinbarung?",
+        text: `Vesting beantwortet eine Frage, die jedes Gründerteam irgendwann trifft: Was passiert mit den Anteilen, wenn ein Gründer nach acht Monaten geht? Ohne Vereinbarung behält er seine 33 Prozent für immer, während die anderen jahrelang weiterarbeiten. Mit Vesting verdient sich jeder Gründer seine Anteile über die Zeit.
+
+Du brauchst die Vereinbarung spätestens bei der Gründung der UG oder GmbH, am besten im selben Notartermin. Sie ist Pflicht, wenn ihr eine Finanzierungsrunde plant, weil Business Angels und VCs Vesting regelmäßig voraussetzen und sonst ein Re-Vesting zu ihren Bedingungen verlangen. Sinnvoll ist sie auch, wenn ein Mitgründer in Teilzeit einsteigt, später dazukommt oder wenn ein Gründer deutlich mehr Anteile hält, als sein laufender Beitrag rechtfertigt. Diese Vorlage ergänzt die Satzung mit Einziehungs- und Abtretungsklausel und regelt das Innenverhältnis der Gesellschafter.`,
+      },
+      {
+        titel: "Was muss in eine Vesting-Vereinbarung für Gründer?",
+        text: `Eine Vesting-Klausel ist nur so gut wie ihre Definitionen. Die Vorlage regelt in zehn Paragraphen alle Bausteine, die in der Praxis streitentscheidend sind:
+
+- welche Anteile dem Vesting unterliegen, alle oder nur ein Teil (§ 1)
+- Vesting-Zeitraum von 48 Monaten, Cliff von 12 Monaten, monatliche Tranchen danach und Unterbrechungsregeln für Krankheit und Elternzeit (§ 2)
+- Leaver-Ereignisse: Kündigung, Abberufung, Tod, Insolvenz, schwere Pflichtverletzung (§ 3)
+- Unterscheidung Good Leaver und Bad Leaver (§ 4)
+- Call-Option mit Ausübungsfrist, notarieller Ausübung und Einziehung als Alternative (§ 5)
+- Abfindung je Fall: Verkehrswert für gevestete Anteile des Good Leavers, Nennwert für ungevestete, reduzierter Wert beim Bad Leaver, Ratenzahlung (§ 6)
+- Beschleunigung beim Exit als Single oder Double Trigger (§ 7)
+- Verfügungsbeschränkungen und Beitritt von Erwerbern (§ 8)
+- Durchführungsvollmacht, Gesellschafterliste, Stimmbindung (§ 9)
+- Vorrang vor der Satzung im Innenverhältnis, Laufzeit, Kosten der Beurkundung (§ 10)
+
+Fehlt einer dieser Punkte, etwa die Definition des Verkehrswerts oder die Frist für die Call-Option, bleibt die Klausel im Ernstfall wirkungslos.`,
+      },
+      {
+        titel: "Vesting-Vereinbarung Muster ausfüllen",
+        text: `So füllst du die Platzhalter aus:
+
+- Kopf: Name und Anschrift der Gründer, Firma, Sitz, Handelsregisternummer und Vertreter der Gesellschaft.
+- § 1: Stammkapital, Anzahl und Nummern der Anteile je Gründer. Entscheidet, ob alle Anteile vesten oder nur ein Prozentsatz, und löscht die nicht gewählte Variante.
+- § 2: Vesting-Beginn. Üblich ist der Start der Zusammenarbeit, nicht der Notartermin, damit bereits geleistete Monate zählen. Fristen für Krankheit und Elternzeit eintragen.
+- § 3: Monate, ab denen dauerhafte Arbeitsunfähigkeit ein Leaver-Ereignis ist.
+- § 5: Ausübungsfrist der Call-Option, meist sechs Monate, und die Paragraphennummer der Einziehungsklausel eurer Satzung.
+- § 6: Prozentsatz der Bad-Leaver-Abfindung, Zahl der Jahresraten, Bagatellgrenze für sofortige Zahlung, IHK-Bezirk für den Schiedsgutachter.
+- § 7: Single Trigger mit vollständiger oder hälftiger Beschleunigung oder Double Trigger; eine Variante wählen.
+
+Prüfe am Ende, dass alle Zahlen zur Satzung passen: Die Einziehungsgründe in der Satzung müssen auf diese Vereinbarung verweisen, sonst läuft § 5 Abs. 3 ins Leere. Die Word-Fassung eignet sich zur Abstimmung mit dem Notar, die PDF-Fassung zur Unterschrift im Termin.`,
+      },
+      {
+        titel: "Typische Fehler beim Vesting und wie du sie vermeidest",
+        text: `Fehler eins: Vesting nur per Handschlag oder in einer E-Mail. Die Abtretungspflicht an GmbH-Anteilen ist ohne notarielle Beurkundung unwirksam, und dann hilft nur noch die Einziehung über die Satzung, falls sie überhaupt vorgesehen ist.
+
+Fehler zwei: zu harte Bad-Leaver-Regeln. Wer einem Gründer nach drei Jahren Arbeit alle Anteile zum Nennwert nehmen will, riskiert, dass ein Gericht die Klausel als sittenwidrig verwirft. Die Vorlage begrenzt den Abschlag deshalb und sieht für gevestete Anteile mindestens einen Teil des Verkehrswerts vor.
+
+Fehler drei: kein Cliff oder ein zu langer. Zwölf Monate sind Standard; ohne Cliff vestet ein Gründer schon nach einem Monat erste Anteile, mit 24 Monaten fühlt sich niemand als Mitgesellschafter.
+
+Fehler vier: Exit nicht bedacht. Ohne Beschleunigungsklausel kann ein Käufer die Gründer nach dem Verkauf entlassen und ungevestete Anteile billig einziehen. Fehler fünf: steuerliche Folgen ignorieren. Erhält ein Gründer Anteile deutlich unter Wert, kann das als geldwerter Vorteil gelten; § 19a EStG bietet seit 2021 einen Aufschub, aber nur bei richtiger Gestaltung. Vor der Unterschrift mit dem Steuerberater sprechen.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen: Vesting im deutschen GmbH-Recht",
+        text: `Vesting ist im Gesetz nicht geregelt, sondern eine Kombination aus bekannten Instrumenten des GmbH-Rechts. Die Pflicht, Geschäftsanteile abzutreten, ist nach § 15 Abs. 4 GmbHG beurkundungspflichtig; deshalb gehört die Vereinbarung zum Notar. Die Abtretung selbst braucht ebenfalls die notarielle Form (§ 15 Abs. 3 GmbHG), was die Vorlage über die Vollmacht in § 9 und die notarielle Ausübung in § 5 absichert.
+
+Die Alternative zur Abtretung ist die Einziehung nach § 34 GmbHG, die nur zulässig ist, wenn die Satzung sie vorsieht und die Abfindung aus freiem Vermögen gezahlt werden kann (§ 30 GmbHG). Die Vorlage verweist deshalb auf die Einziehungsklausel der Satzung und verpflichtet im Zweifel die Erwerber zur Zahlung. Die Abfindungshöhe unterliegt den Grenzen, die die Rechtsprechung für Abfindungsklauseln entwickelt hat: Ein grobes Missverhältnis zum Verkehrswert macht die Klausel unwirksam.
+
+Nach jeder Abtretung oder Einziehung muss die Geschäftsführung eine neue Gesellschafterliste zum Handelsregister einreichen (§ 40 GmbHG); erst dann gilt der Erwerber gegenüber der Gesellschaft als Gesellschafter (§ 16 GmbHG). Auch das Transparenzregister ist zu aktualisieren.`,
+      },
+      {
+        titel: "Wann die Vesting-Vorlage nicht ausreicht",
+        text: `Die Vorlage bildet das marktübliche Gründer-Vesting ab. Sie reicht nicht, wenn
+
+- die Gesellschaft schon einen Investor hat; dann gehört Vesting in die Gesellschaftervereinbarung der Finanzierungsrunde mit abgestimmten Leaver-Definitionen,
+- Anteile an Mitarbeiter ausgegeben werden sollen; dafür sind virtuelle Beteiligungen (VSOP) oder ein Beteiligungsprogramm mit eigenen steuerlichen Regeln das passende Instrument,
+- ein Gründer seine Anteile über eine Holding-GmbH hält, weil dann die Leaver-Ereignisse auf die natürliche Person durchgreifen müssen,
+- die Gesellschaft bereits einen erheblichen Wert hat und die Zuteilung oder der Rückerwerb steuerlich relevant wird,
+- Gründer im Ausland sitzen und Steuer- oder Sozialversicherungsrecht anderer Länder betroffen ist.
+
+In diesen Fällen ist ein Anwalt für Venture-Capital-Recht die richtige Adresse, der Steuerberater sollte parallel die Bewertung prüfen. Der Notar muss die Vereinbarung ohnehin beurkunden und weist auf Formfehler hin, berät aber nicht wirtschaftlich. GründerX stellt dieses Muster als Software bereit und ersetzt keine Rechtsberatung.`,
+      },
+    ],
     seo: {
-      title: "Vesting-Vereinbarung Vorlage für Gründer 2026 | GründerX",
+      title: "Vesting-Vereinbarung Vorlage kostenlos (Word) | GründerX",
       description:
         "Vesting-Vereinbarung für Gründeranteile als kostenlose Vorlage: 12 Monate Cliff, 48 Monate linear, Good/Bad Leaver, Call-Option, Abfindung, Exit-Beschleunigung.",
     },
@@ -849,8 +1206,68 @@ ${VORLAGEN_HINWEIS}`,
         a: "Für die vier Standardbeschlüsse nicht. Beurkundungspflichtig sind nur Satzungsänderungen, Kapitalmaßnahmen, Umwandlungen und Auflösung. Die Geschäftsführerbestellung selbst ist formfrei, nur die Anmeldung zum Handelsregister braucht die notarielle Beglaubigung der Unterschrift.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann brauchst du einen Gesellschafterbeschluss im Umlaufverfahren?",
+        text: `Jede GmbH und UG muss einmal im Jahr den Jahresabschluss feststellen, über den Gewinn entscheiden und die Geschäftsführung entlasten. Bei zwei oder drei Gesellschaftern, die sich ohnehin täglich sehen, wäre eine förmliche Versammlung mit Einladung per Einschreiben reiner Aufwand. Der Umlaufbeschluss erledigt das schriftlich, per Post oder als Scan per E-Mail.
+
+Du brauchst die Vorlage außerdem für Beschlüsse, die ein Dritter sehen will: Das Handelsregister verlangt bei der Bestellung eines Geschäftsführers den Beschluss, die Bank will für eine Kreditlinie den Gesellschafterbeschluss, das Finanzamt fragt beim Geschäftsführergehalt nach der vorherigen Genehmigung, und Investoren prüfen in der Due Diligence das Beschlussbuch. Wer seine Beschlüsse nur mündlich fasst, hat im Streit und in der Betriebsprüfung nichts in der Hand. Diese Vorlage bündelt die vier jährlichen Standardbeschlüsse plus einen freien Beschlussgegenstand in einem Dokument.`,
+      },
+      {
+        titel: "Was muss in einen Umlaufbeschluss der GmbH?",
+        text: `Ein Umlaufbeschluss braucht mehr als die bloße Entscheidung. Die Vorlage ist in drei Teile gegliedert:
+
+- Teil I: Bezeichnung der Gesellschaft mit Handelsregisternummer, alle Gesellschafter mit Anteilen und Prozenten, die ausdrückliche Zustimmung zum schriftlichen Verfahren nach § 48 Abs. 2 GmbHG, der Verzicht auf Form und Frist und eine Abstimmungsfrist.
+- Teil II: je Beschlussgegenstand der vollständige Beschlusstext, die Stimmabgabe jedes Gesellschafters mit Ja, Nein oder Enthaltung und das Ergebnis in Prozent. Die Vorlage enthält Feststellung des Jahresabschlusses (Beschluss 1), Ergebnisverwendung mit UG-Rücklage, Ausschüttung, Gewinnrücklage und Vortrag (Beschluss 2), Entlastung mit Hinweis auf das Stimmverbot des Gesellschafter-Geschäftsführers (Beschluss 3), Bestellung oder Abberufung eines Geschäftsführers mit Vertretungsregelung und § 181 BGB (Beschluss 4) und einen freien Beschluss (Beschluss 5).
+- Teil III: Feststellung des Ergebnisses durch die Geschäftsführung, Wirksamkeitszeitpunkt, Ablage im Beschlussbuch, Unterschriften aller Gesellschafter mit Ort und Datum.
+
+Wichtig ist die Trennung von Verfahrenszustimmung und Abstimmung: Mit dem Verfahren müssen alle einverstanden sein, dem Inhalt nur die nötige Mehrheit.`,
+      },
+      {
+        titel: "Gesellschafterbeschluss Muster ausfüllen: so gehst du vor",
+        text: `Die Platzhalter sind schnell erledigt, wenn Jahresabschluss und Gesellschafterliste vorliegen:
+
+- Kopf: Firma, Rechtsform, Sitz, Amtsgericht und HRB-Nummer; je Gesellschafter Anzahl der Anteile, Nennbetrag und Prozentsatz laut aktueller Gesellschafterliste.
+- Teil I: Paragraph der Satzung, falls sie das Umlaufverfahren regelt, und die Abstimmungsfrist.
+- Beschluss 1: Bilanzstichtag, Datum der Übermittlung des Abschlusses, Bilanzsumme und Jahresüberschuss oder Fehlbetrag.
+- Beschluss 2: Bilanzgewinn und die Aufteilung auf Rücklage (nur UG, 25 Prozent), Ausschüttung mit Zahltag, Gewinnrücklagen und Vortrag; die Beträge müssen den Bilanzgewinn genau ergeben. Bei Verlust die Alternative verwenden.
+- Beschluss 3: Namen der Geschäftsführer; bei Gesellschafter-Geschäftsführern in der Abstimmungszeile kein Stimmrecht eintragen.
+- Beschluss 4: Name, Geburtsdatum, Anschrift, Beginn, Vertretungsbefugnis und § 181 BGB des neuen Geschäftsführers, oder die Abberufungs-Alternative. Die Eckpunkte des Anstellungsvertrags in Anlage 1.
+- Beschluss 5: nur ausfüllen, wenn es einen weiteren Gegenstand gibt, sonst streichen.
+
+Jeder Gesellschafter trägt in jeder Abstimmungszeile seine Stimme ein und unterschreibt mit Ort und Datum. Die Geschäftsführung sammelt alle Exemplare, trägt die Ergebnisse ein, unterschreibt die Feststellung und schickt jedem eine vollständige Kopie. Die Vorlage gibt es als Word zur Bearbeitung und als PDF zum Rundsenden.`,
+      },
+      {
+        titel: "Typische Fehler bei Umlaufbeschlüssen",
+        text: `Fehler eins: ein Gesellschafter unterschreibt nicht und widerspricht später. Dann fehlt die Zustimmung zum Verfahren und der Beschluss ist anfechtbar. Setze eine Frist, dokumentiere den Versand und hole bei Funkstille lieber zur Versammlung ein.
+
+Fehler zwei: Der Gesellschafter-Geschäftsführer stimmt bei seiner eigenen Entlastung mit. Nach § 47 Abs. 4 GmbHG ist er ausgeschlossen; bei einer Zweipersonen-GmbH mit zwei Geschäftsführern entlastet also jeder den anderen. Fehler drei: Die UG beschließt die Vollausschüttung und vergisst die gesetzliche Rücklage; ein solcher Beschluss ist nichtig.
+
+Fehler vier: Die Ausschüttung wird beschlossen, ohne die Kapitalertragsteuer einzuplanen. Die Gesellschaft muss 25 Prozent plus Solidaritätszuschlag einbehalten und bis zum zehnten des Folgemonats anmelden und abführen. Fehler fünf: Die Geschäftsführerbestellung wird beschlossen, aber nicht zum Handelsregister angemeldet. Der neue Geschäftsführer muss die Anmeldung notariell beglaubigen lassen und versichern, dass keine Bestellungshindernisse vorliegen. Und schließlich: die Fristen. Der Jahresabschluss kleiner Gesellschaften muss binnen elf Monaten festgestellt und binnen zwölf Monaten offengelegt werden; wer den Beschluss im Dezember nachholt, riskiert Ordnungsgeld.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen: § 48 GmbHG und die Jahresbeschlüsse",
+        text: `Gesellschafterbeschlüsse werden grundsätzlich in Versammlungen gefasst (§ 48 Abs. 1 GmbHG). Die schriftliche Abstimmung ist nach § 48 Abs. 2 GmbHG zulässig, wenn alle Gesellschafter in Textform mit der Beschlussfassung einverstanden sind oder dem schriftlichen Verfahren zustimmen. Seit der Reform 2023 reicht Textform, also auch eine E-Mail mit eingescannter Unterschrift, sofern die Satzung nichts Strengeres verlangt.
+
+Die Jahresbeschlüsse folgen aus § 46 Nr. 1 GmbHG (Feststellung des Jahresabschlusses, Ergebnisverwendung) und § 46 Nr. 5 GmbHG (Bestellung, Abberufung und Entlastung der Geschäftsführer). Die Frist für die Feststellung ergibt sich aus § 42a Abs. 2 GmbHG: acht Monate, bei kleinen Gesellschaften elf Monate nach Bilanzstichtag. Die Rücklagenpflicht der UG steht in § 5a Abs. 3 GmbHG, das Stimmverbot bei Entlastung in § 47 Abs. 4 GmbHG.
+
+Nicht im Umlaufverfahren möglich sind Beschlüsse, die der notariellen Beurkundung bedürfen: Satzungsänderungen, Kapitalerhöhungen, Umwandlungen und die Auflösung. Bei der Einpersonen-GmbH gilt § 48 Abs. 3 GmbHG: Der Alleingesellschafter muss jeden Beschluss unverzüglich schriftlich niederlegen und unterschreiben. Das Beschlussbuch sollte zehn Jahre aufbewahrt werden, weil es handelsrechtlich zu den Geschäftsunterlagen zählt.`,
+      },
+      {
+        titel: "Wann der Umlaufbeschluss nicht ausreicht",
+        text: `Das Umlaufverfahren setzt Einigkeit über das Verfahren voraus. Sobald ein Gesellschafter nicht mitzieht, gegen die Geschäftsführung opponiert oder ein Beschluss angefochten werden könnte, solltest du förmlich zur Versammlung einladen und ein Protokoll führen; beide Vorlagen findest du in dieser Kategorie. Außerdem reicht der Beschluss nicht, wenn
+
+- die Satzung geändert, das Kapital erhöht oder die Gesellschaft aufgelöst werden soll; dann ist der Notar zwingend,
+- eine Ausschüttung beschlossen wird, obwohl die Gesellschaft Verluste erwartet oder Gesellschafterdarlehen offen sind; hier sollte der Steuerberater die Kapitalerhaltung und die Liquidität prüfen,
+- ein Geschäftsführer aus wichtigem Grund abberufen werden soll und Streit über die Berechtigung droht,
+- die Gesellschaft einen Aufsichtsrat oder Beirat hat, dessen Zustimmung die Satzung vorschreibt,
+- Investoren Sonderrechte haben, die bestimmte Beschlüsse von ihrer Zustimmung abhängig machen.
+
+In solchen Fällen prüft ein Anwalt für Gesellschaftsrecht den Beschlusstext vorab. Diese Vorlage von GründerX ist ein Software-Muster und keine Rechtsberatung; für die jährlichen Standardbeschlüsse einer unstreitigen GmbH oder UG reicht sie als Word oder PDF vollständig aus.`,
+      },
+    ],
     seo: {
-      title: "Gesellschafterbeschluss Vorlage (Umlaufbeschluss) | GründerX",
+      title: "Gesellschafterbeschluss Vorlage kostenlos (Word) | GründerX",
       description:
         "Kostenlose Vorlage für den schriftlichen Gesellschafterbeschluss einer GmbH oder UG: Jahresabschluss, Ergebnisverwendung, Entlastung, Geschäftsführerbestellung.",
     },
@@ -987,8 +1404,74 @@ ${VORLAGEN_HINWEIS}`,
         a: "Ja, seit 2023 ausdrücklich: Versammlungen können per Video- oder Telefonkonferenz abgehalten werden, wenn alle Gesellschafter in Textform einverstanden sind oder die Satzung das erlaubt (§ 48 Abs. 1 Satz 2 GmbHG). Die Vorlage fragt die Zustimmung in der Einladung ab.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann brauchst du eine förmliche Einladung zur Gesellschafterversammlung?",
+        text: `Solange sich alle Gesellschafter einig sind, kommen GmbH und UG mit Umlaufbeschlüssen aus. Die förmliche Einladung wird nötig, sobald das nicht mehr der Fall ist: Ein Gesellschafter blockiert, ein Geschäftsführer soll abberufen werden, eine Kapitalerhöhung oder ein Investoreneinstieg steht an, oder die Gesellschaft steckt in der Krise und § 49 Abs. 3 GmbHG verlangt die Einberufung, weil die Hälfte des Stammkapitals verloren ist.
+
+Auch die jährliche ordentliche Versammlung zu Jahresabschluss und Entlastung sollte förmlich einberufen werden, wenn mehr als drei Gesellschafter beteiligt sind oder nicht alle am selben Ort sitzen. Und wenn eine Minderheit von mindestens zehn Prozent nach § 50 GmbHG die Einberufung verlangt, muss die Geschäftsführung mit genau dieser Form reagieren. Die Vorlage liefert das Einladungsschreiben mit Tagesordnung, Beschlussvorschlägen, Fristhinweisen, Vertretungsregel und der Abfrage zur Videoteilnahme.`,
+      },
+      {
+        titel: "Was muss in die Einladung zur Gesellschafterversammlung?",
+        text: `Die Einladung ist das Fundament jedes späteren Beschlusses. Fehlt etwas, sind die Beschlüsse anfechtbar oder nichtig. Die Vorlage enthält alle Pflicht- und Praxisbestandteile:
+
+- Briefkopf der Gesellschaft mit Handelsregisternummer, Zustellweg per Einschreiben, Anschrift des Gesellschafters
+- Bezeichnung als ordentliche oder außerordentliche Versammlung und die Rechtsgrundlage (§ 49, § 51 GmbHG, Satzung)
+- Datum, Uhrzeit, Ort oder Videokonferenz-Plattform
+- vollständige Tagesordnung mit Beschlussvorschlag zu jedem Punkt: Eröffnung und Beschlussfähigkeit, Jahresabschluss, Ergebnisverwendung, Entlastung, Geschäftsführerbestellung, Zustimmungen zu Geschäften, Verschiedenes
+- Hinweis auf beigefügte oder ausliegende Unterlagen
+- Angabe von Frist und Form und die Ankündigung der Tagesordnung nach § 51 Abs. 2 und 4 GmbHG
+- Vertretungsmöglichkeit mit Vollmachtsformular
+- Abfrage der Zustimmung zur Video- oder Telefonteilnahme nach § 48 Abs. 1 Satz 2 GmbHG
+- Hinweis auf Beschlussfähigkeit und zweite Versammlung
+- Angebot der Verzichtserklärung auf Form und Frist
+- Unterschrift der Geschäftsführung, Anlagenliste, Verteiler
+
+Die Beschlussvorschläge sind nicht Pflicht, machen die Ankündigung aber präzise und verhindern den Einwand, ein Gegenstand sei nicht ausreichend bezeichnet gewesen.`,
+      },
+      {
+        titel: "Einladung Gesellschafterversammlung Muster ausfüllen",
+        text: `Die Platzhalter sind in wenigen Minuten gefüllt, die Fristen brauchen Sorgfalt:
+
+- Kopf: Firma, Rechtsform, Anschrift, Amtsgericht und HRB; Empfänger laut aktueller Gesellschafterliste, für jeden Gesellschafter ein eigenes Schreiben.
+- Versammlungsart, Datum mit Wochentag, Uhrzeit, Ort mit Raum oder die Videokonferenz-Variante.
+- Tagesordnung: Bilanzstichtag und Ergebnis, Vorschlag zur Ergebnisverwendung, Namen der zu entlastenden Geschäftsführer, bei Bestellung Name, Beginn, Vertretungsbefugnis und § 181 BGB; nicht benötigte Punkte löschen, Nummerierung anpassen.
+- Hinweise: welche Unterlagen beiliegen, die Frist laut Satzung oder Gesetz, der Stichtag für Ergänzungsanträge (mindestens drei Tage vor der Versammlung), die Rückmeldefrist und E-Mail-Adresse für die Videoteilnahme, das Quorum aus der Satzung.
+- Anlagen: Jahresabschluss, Ergebnisverwendungsvorschlag, Vertragsentwürfe, Vollmachtsformular und Verzichtserklärung beilegen.
+
+Rechne die Frist vom Zugang rückwärts: Tag des Zugangs und Tag der Versammlung zählen nicht, dazu zwei bis drei Tage Postlauf. Versende per Einschreiben und bewahre den Einlieferungsbeleg auf. Die Vorlage gibt es als Word zum Anpassen und als PDF zum Ausdrucken.`,
+      },
+      {
+        titel: "Häufige Fehler bei der Einberufung und ihre Folgen",
+        text: `Der häufigste Fehler ist die zu knappe Frist. Wer am Montag einlädt und am Freitag tagen will, verletzt die Wochenfrist des § 51 GmbHG, erst recht die oft längere Satzungsfrist. Folge: Jeder Beschluss ist anfechtbar.
+
+Fehler zwei: Einladung nur per E-Mail, obwohl die Satzung schweigt. Dann gilt das gesetzliche Einschreiben, und ein Gesellschafter, der nicht erscheint, kann die Beschlüsse kippen. Fehler drei: Ein Gesellschafter wird gar nicht geladen, etwa weil die Gesellschafterliste veraltet ist. Dann sind die Beschlüsse nichtig, nicht nur anfechtbar.
+
+Fehler vier: Beschlussgegenstände, die nicht angekündigt waren. Über sie darf nur beschlossen werden, wenn alle Gesellschafter anwesend sind und niemand widerspricht. Fehler fünf: die Einladung unterschreibt ein Prokurist oder ein einzelner Geschäftsführer, obwohl Gesamtvertretung besteht. Einberufungsberechtigt ist die Geschäftsführung in vertretungsberechtigter Zahl, bei Minderheitsverlangen nach § 50 Abs. 3 GmbHG die Gesellschafter selbst. Sichere dich doppelt ab: E-Mail vorab für die Terminabstimmung, Einschreiben für die Form, und bitte alle um die Verzichtserklärung, dann ist jeder Formfehler geheilt.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen: §§ 49 bis 51 GmbHG",
+        text: `Die Gesellschafterversammlung wird von den Geschäftsführern einberufen (§ 49 Abs. 1 GmbHG), und zwar immer dann, wenn das Interesse der Gesellschaft es erfordert, insbesondere bei Verlust der Hälfte des Stammkapitals (§ 49 Abs. 3 GmbHG). Gesellschafter mit zusammen mindestens zehn Prozent des Stammkapitals können die Einberufung unter Angabe von Zweck und Gründen verlangen und bei Untätigkeit selbst einberufen (§ 50 GmbHG).
+
+Form und Frist regelt § 51 GmbHG: eingeschriebener Brief, Frist mindestens eine Woche, Ankündigung der Beschlussgegenstände mindestens drei Tage vor der Versammlung. Die Satzung darf die Form erleichtern, etwa auf E-Mail, und die Frist verlängern; sie geht dann vor. Nicht ordnungsgemäß einberufene Versammlungen können nur beschließen, wenn alle Gesellschafter anwesend sind (§ 51 Abs. 3 GmbHG).
+
+Seit 2023 erlaubt § 48 Abs. 1 Satz 2 GmbHG die Versammlung per Video- oder Telefonkonferenz, wenn alle Gesellschafter in Textform zustimmen oder die Satzung es vorsieht. Vertretung ist nach allgemeinen Regeln mit schriftlicher Vollmacht möglich (§ 47 Abs. 3 GmbHG). Die Anfechtungsfrist für Beschlüsse ist im GmbHG nicht geregelt; die Rechtsprechung orientiert sich an der Monatsfrist des Aktienrechts, viele Satzungen legen sie ausdrücklich fest.`,
+      },
+      {
+        titel: "Wann die Vorlage nicht reicht",
+        text: `Das Einladungsschreiben passt für die normale GmbH oder UG ohne Aufsichtsrat. Zieh einen Anwalt hinzu, wenn
+
+- die Versammlung einen Streit vorbereitet, etwa die Abberufung eines Gesellschafter-Geschäftsführers, die Einziehung eines Anteils oder den Ausschluss eines Gesellschafters; dort entscheidet jede Formalie,
+- Beschlüsse mit Beurkundungspflicht anstehen (Satzungsänderung, Kapitalmaßnahmen, Umwandlung); dann muss der Notar den Termin wahrnehmen und die Einladung darauf abgestimmt sein,
+- ein Gesellschafter verstorben ist und Erben oder ein Testamentsvollstrecker zu laden sind,
+- ein Gesellschafter im Ausland wohnt und die Zustellung per Einschreiben unsicher ist,
+- die Satzung besondere Einberufungsrechte für Investoren, Beiräte oder einen Aufsichtsrat vorsieht.
+
+Bei einer Zweipersonen-GmbH mit Dauerstreit ist die Einladung oft nur der erste Schritt; die Beschlussfassung selbst sollte dann ein Anwalt begleiten. GründerX bietet mit dieser Vorlage ein Software-Muster und keine Rechtsberatung. Für die reguläre Jahresversammlung und unstreitige Beschlüsse reicht das Muster als Word oder PDF, zusammen mit dem Protokoll aus dieser Kategorie.`,
+      },
+    ],
     seo: {
-      title: "Einladung Gesellschafterversammlung Vorlage GmbH | GründerX",
+      title: "Einladung Gesellschafterversammlung Vorlage | GründerX",
       description:
         "Vorlage für die Einladung zur Gesellschafterversammlung (GmbH, UG): Tagesordnung, Frist, Form, Vertretung, Videoteilnahme und Hinweise nach § 51 GmbHG.",
     },
@@ -1125,8 +1608,71 @@ ${VORLAGEN_HINWEIS}`,
         a: "Ja. Die Vorlage hat ein Feld für die Form der Versammlung und die Zustimmung der Gesellschafter zur Videokonferenz nach § 48 Abs. 1 Satz 2 GmbHG. Halte fest, wer digital teilgenommen hat und wie die Identität geprüft wurde.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann brauchst du ein Protokoll der Gesellschafterversammlung?",
+        text: `Nach jeder Gesellschafterversammlung einer GmbH oder UG. Das Gesetz schreibt die Niederschrift für die normale Versammlung zwar nicht vor, aber ohne Protokoll gibt es keinen Beweis, dass ein Beschluss gefasst wurde, mit welcher Mehrheit und ob jemand widersprochen hat. Genau danach fragen später Handelsregister, Bank, Finanzamt, Investoren und im Streitfall das Gericht.
+
+Besonders wichtig ist das Protokoll, wenn Beschlüsse angefochten werden könnten, wenn ein Geschäftsführer bestellt oder abberufen wird, wenn Ausschüttungen beschlossen werden und wenn die Versammlung per Video stattfand. Viele Satzungen knüpfen außerdem die Anfechtungsfrist an den Zugang des Protokolls, sodass ohne Niederschrift die Frist nie zu laufen beginnt. Die Vorlage deckt alle Bestandteile ab: Teilnehmer, vertretenes Kapital, Einberufung, Beschlussfähigkeit, Beschlüsse mit Abstimmungsergebnis, Widersprüche, Schluss, Unterschriften und Verteiler.`,
+      },
+      {
+        titel: "Was gehört in das Protokoll einer GmbH-Gesellschafterversammlung?",
+        text: `Ein brauchbares Protokoll ist ein Ergebnisprotokoll mit den Feststellungen, die Beschlüsse tragen. Die Vorlage gliedert sich in sechs Abschnitte:
+
+- Kopf: Gesellschaft mit HRB-Nummer, Ort oder Plattform, Datum, Beginn und Ende
+- 1. Teilnehmer: jeder Gesellschafter mit Anteilen und Prozent, ob persönlich, per Video oder durch Bevollmächtigten vertreten, Geschäftsführer und Gäste, Abwesende und das vertretene Stammkapital in Euro und Prozent
+- 2. Wahl von Versammlungsleiter und Protokollführer
+- 3. Feststellung der ordnungsgemäßen Einberufung mit Datum und Zustellform, alternativ die Vollversammlung mit Verzicht nach § 51 Abs. 3 GmbHG, bei Videokonferenz die Zustimmungen nach § 48 Abs. 1 Satz 2 GmbHG und die Identitätsprüfung, sowie die Beschlussfähigkeit
+- 4. Beschlüsse je Tagesordnungspunkt mit Wortlaut, Ja- und Nein-Stimmen, Enthaltungen und Feststellung des Ergebnisses; bei der Entlastung der Hinweis auf das Stimmverbot nach § 47 Abs. 4 GmbHG
+- 5. Widersprüche und Erklärungen einzelner Gesellschafter zu Protokoll
+- 6. Schluss, Versandfrist, Einwendungsfrist, Ablage im Beschlussbuch
+
+Dazu Unterschriften von Versammlungsleiter und Protokollführer, optional aller Gesellschafter, und die Anlagen mit Teilnehmerliste, Vollmachten und Jahresabschluss.`,
+      },
+      {
+        titel: "Protokoll Gesellschafterversammlung Muster ausfüllen",
+        text: `Fülle das Protokoll am besten noch während der Versammlung aus, dann sind die Zahlen frisch:
+
+- Kopf: Versammlungsart, Firma, Sitz, Amtsgericht, HRB, Ort oder Plattform, Datum und Uhrzeiten.
+- Abschnitt 1: für jeden Gesellschafter Name, Anzahl der Anteile, Nennbetrag, Prozent und die Art der Teilnahme; bei Vertretung Name des Bevollmächtigten und Datum der Vollmacht. Abwesende eintragen oder das Wort niemand setzen. Das vertretene Kapital addieren.
+- Abschnitt 2: Uhrzeit der Eröffnung, Namen von Versammlungsleiter und Protokollführer.
+- Abschnitt 3: Datum und Form der Einladung und die Frist, oder die Vollversammlungs-Alternative; nicht zutreffende Varianten löschen. Den Prozentsatz für die Beschlussfähigkeit und die Satzungsnorm eintragen.
+- Abschnitt 4: Bei TOP 1 Bilanzsumme und Ergebnis, bei TOP 2 die Aufteilung des Bilanzgewinns, bei TOP 3 den Namen des Geschäftsführers und die Abstimmung ohne seine Stimmen, bei TOP 4 die Daten des neuen Geschäftsführers. Bei jedem TOP Ja, Nein, Enthaltungen in Zahlen und Prozent.
+- Abschnitt 5 und 6: Widersprüche mit Begründung oder den Satz, dass keine erhoben wurden; Uhrzeit des Schlusses, Versand- und Einwendungsfrist.
+
+Unterschreiben lassen, innerhalb von zwei Wochen an alle Gesellschafter senden, auch an die abwesenden, und im Beschlussbuch ablegen. Die Word-Fassung lässt sich als Vorlage für jede weitere Versammlung speichern.`,
+      },
+      {
+        titel: "Typische Fehler im Versammlungsprotokoll",
+        text: `Fehler eins: Das Protokoll hält nur fest, dass beschlossen wurde, nicht wie. Ohne Stimmenzahlen lässt sich die Mehrheit nicht nachweisen, und bei Dreiviertelmehrheiten ist das entscheidend. Fehler zwei: Widersprüche werden weggelassen, um Harmonie zu zeigen. Ein Gesellschafter, dessen Widerspruch nicht protokolliert ist, kann später behaupten, er sei übergangen worden; ein Gesellschafter, der nicht widersprochen hat, verliert oft die Anfechtungsmöglichkeit. Beides gehört ins Protokoll.
+
+Fehler drei: Der Gesellschafter-Geschäftsführer wird bei der eigenen Entlastung mitgezählt. Die Vorlage sieht dafür eine getrennte Abstimmungszeile vor. Fehler vier: Bei Videokonferenzen fehlt der Nachweis, dass alle Gesellschafter in Textform zugestimmt haben und wie die Identität geprüft wurde; das macht die Beschlüsse angreifbar.
+
+Fehler fünf: Das Protokoll wird nie verschickt. Dann beginnt nach vielen Satzungen die Anfechtungsfrist nicht, und Beschlüsse bleiben jahrelang angreifbar. Fehler sechs: Beschlüsse, die der Beurkundung bedürfen, werden nur privat protokolliert. Satzungsänderungen, Kapitalerhöhungen, Umwandlung und Auflösung sind ohne notarielles Protokoll nichtig. Nutze die private Niederschrift für alles andere, aber nicht als Ersatz für den Notar.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen der Niederschrift",
+        text: `Das GmbH-Gesetz regelt das Protokoll nur an einer Stelle ausdrücklich: Bei der Einpersonen-GmbH muss der Alleingesellschafter jeden Beschluss unverzüglich nach der Beschlussfassung schriftlich niederlegen und unterschreiben (§ 48 Abs. 3 GmbHG). Für alle anderen Gesellschaften folgt die Protokollpflicht aus der Satzung oder aus dem praktischen Beweisbedürfnis, nicht aus dem Gesetz.
+
+Beurkundungspflichtige Beschlüsse werden vom Notar in einer notariellen Niederschrift festgehalten (§ 53 Abs. 2 GmbHG für Satzungsänderungen); das private Protokoll ersetzt diese nicht. Für die Beschlussfähigkeit gilt, was die Satzung sagt; das Gesetz kennt kein Quorum. Stimmverbote ergeben sich aus § 47 Abs. 4 GmbHG, etwa bei Entlastung, Befreiung von einer Verbindlichkeit oder Rechtsgeschäften mit dem Gesellschafter.
+
+Die Anfechtung fehlerhafter Beschlüsse erfolgt durch Klage gegen die Gesellschaft; die Frist wird in Anlehnung an § 246 AktG mit einem Monat angesetzt, kann aber durch die Satzung geregelt sein. Das Protokoll gehört zu den Geschäftsunterlagen, für die handelsrechtlich eine Aufbewahrung von zehn Jahren üblich ist. Bei einer Videokonferenz sichert § 48 Abs. 1 Satz 2 GmbHG die Zulässigkeit, sofern alle Gesellschafter in Textform zugestimmt haben oder die Satzung es erlaubt.`,
+      },
+      {
+        titel: "Wann das Protokoll-Muster nicht ausreicht",
+        text: `Die Vorlage reicht für die normale Versammlung einer GmbH oder UG mit unstreitigen Beschlüssen. Sie reicht nicht, wenn
+
+- Satzungsänderungen, Kapitalerhöhungen, Verschmelzungen oder die Auflösung beschlossen werden; dann protokolliert der Notar,
+- die Versammlung Streit erwartet, etwa die Abberufung eines Gesellschafter-Geschäftsführers aus wichtigem Grund, den Ausschluss eines Gesellschafters oder die Einziehung von Anteilen; hier sollte ein Anwalt die Versammlung leiten oder zumindest den Beschlusstext vorab prüfen,
+- Gesellschafter durch Erben, Testamentsvollstrecker, Insolvenzverwalter oder Pfandgläubiger vertreten werden,
+- die Satzung ein Protokoll mit Unterschrift aller Gesellschafter oder eine besondere Form verlangt und ein Gesellschafter die Unterschrift verweigert,
+- die Gesellschaft einen Aufsichtsrat hat, dessen Mitwirkung dokumentiert werden muss.
+
+In diesen Fällen ist das Protokoll Teil einer Auseinandersetzung, und jede Formulierung kann vor Gericht landen. Für den Alltag ist das Muster als Word oder PDF ausreichend, am besten zusammen mit der Einladung und dem Umlaufbeschluss aus dieser Kategorie. GründerX liefert die Vorlage als Software-Dokument; eine Rechtsberatung ist damit nicht verbunden.`,
+      },
+    ],
     seo: {
-      title: "Protokoll Gesellschafterversammlung Vorlage GmbH & UG | GründerX",
+      title: "Protokoll Gesellschafterversammlung Vorlage | GründerX",
       description:
         "Vorlage für das Protokoll einer Gesellschafterversammlung (GmbH, UG): Anwesende, Beschlussfähigkeit, Beschlüsse mit Abstimmungsergebnis, Unterschriften.",
     },
@@ -1264,8 +1810,80 @@ ${VORLAGEN_HINWEIS}`,
         a: "Ja, die Organstellung kann jederzeit durch Gesellschafterbeschluss widerrufen werden, sofern die Satzung das nicht auf wichtige Gründe beschränkt. Der Anstellungsvertrag läuft dann weiter, bis er ordentlich oder außerordentlich gekündigt ist. Die Vorlage koppelt beides: Mit der Abberufung gilt der Vertrag als zum nächstmöglichen Termin gekündigt.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann brauchst du einen Geschäftsführer-Anstellungsvertrag?",
+        text: `Die Bestellung zum Geschäftsführer per Gesellschafterbeschluss macht dich zum Organ der GmbH, regelt aber weder Gehalt noch Urlaub noch Kündigungsfrist. Dafür braucht es den Anstellungsvertrag. Als Gründer, der sich aus seiner eigenen UG oder GmbH ein Gehalt zahlt, brauchst du ihn aus einem handfesten Grund: Ohne vorherigen, schriftlichen und fremdüblichen Vertrag behandelt das Finanzamt dein Gehalt als verdeckte Gewinnausschüttung, und die Gesellschaft darf es nicht als Betriebsausgabe abziehen.
+
+Ebenso nötig ist der Vertrag, wenn ihr einen Fremdgeschäftsführer ohne Beteiligung einstellt, wenn Tantieme, Dienstwagen oder ein nachvertragliches Wettbewerbsverbot vereinbart werden sollen oder wenn die Deutsche Rentenversicherung im Statusfeststellungsverfahren prüft, ob Sozialversicherungspflicht besteht. Die Vorlage deckt beide Fälle ab, Gesellschafter-Geschäftsführer und Fremdgeschäftsführer, und enthält die Klauseln, nach denen Betriebsprüfer zuerst suchen.`,
+      },
+      {
+        titel: "Was muss in einen Geschäftsführervertrag für GmbH und UG?",
+        text: `Der Anstellungsvertrag ist ein Dienstvertrag, auf den Arbeitnehmerschutzgesetze nicht direkt anwendbar sind. Deshalb muss er mehr regeln als ein Arbeitsvertrag. Die zwölf Paragraphen der Vorlage:
+
+- Bestellung, Vertretungsbefugnis, Befreiung von § 181 BGB und Verantwortungsbereich (§ 1)
+- Zustimmungsvorbehalte, Berichtspflichten und Organisationspflichten wie Buchführung, Steuern, Datenschutz, Compliance (§ 2)
+- Arbeitszeit, Dienstsitz, Nebentätigkeiten und Beteiligungen (§ 3)
+- Festgehalt, Tantieme mit Bemessungsgrundlage, Deckelung und Fälligkeit, Überprüfungsrhythmus, optional Zuschüsse zur Kranken- und Altersversorgung (§ 4)
+- Dienstwagen mit Versteuerung, Auslagen, D&O-Versicherung, Unfallversicherung, Geräte (§ 5)
+- Entgeltfortzahlung bei Krankheit und Hinterbliebenenbezüge (§ 6)
+- Urlaub und Abgeltung (§ 7)
+- Vertraulichkeit, Herausgabe, Erfindungen und Nutzungsrechte (§ 8)
+- Wettbewerbsverbot während und nach der Tätigkeit mit Karenzentschädigung und Vertragsstrafe (§ 9)
+- Haftung nach § 43 GmbHG, Business Judgement Rule, Freistellung (§ 10)
+- Laufzeit, Kündigungsfristen, Kopplung an die Abberufung, Freistellung, Altersgrenze (§ 11)
+- Statusfeststellung, Schriftform, Gesellschafterbeschluss (§ 12)
+
+Für den Gesellschafter-Geschäftsführer ist der Beschluss der Gesellschafterversammlung nach § 46 Nr. 5 GmbHG Teil des Vertrags; ohne ihn ist der Vertrag schwebend unwirksam.`,
+      },
+      {
+        titel: "Geschäftsführervertrag Muster ausfüllen: die Platzhalter",
+        text: `Gehe die Vorlage mit Satzung und Gesellschafterbeschluss neben dir durch:
+
+- Kopf: Firma, Sitz, HRB, Name des Gesellschafters, der die Versammlung vertritt, Datum des Beschlusses; Daten des Geschäftsführers.
+- § 1: Datum von Beschluss und Amtsbeginn, Vertretungsbefugnis und § 181 BGB genau wie im Handelsregister, Verantwortungsbereich.
+- § 2: Schwellenwerte für zustimmungspflichtige Geschäfte und Berichtsrhythmus.
+- § 3: Vollzeit oder die Teilzeit-Variante mit Wochenstunden, Dienstsitz, bestehende Nebentätigkeiten.
+- § 4: Jahresfestgehalt, optional 13. Gehalt, Tantiemesatz und Deckelung, Überprüfungsrhythmus, optionale Zuschüsse. Orientiere dich am Gehalt eines fremden Geschäftsführers in Branche und Größe.
+- § 5: Fahrzeugklasse oder Listenpreisgrenze, Versteuerungsmethode, D&O-Deckungssumme, Unfallversicherungssummen.
+- § 6 und § 7: Monate der Gehaltsfortzahlung, Hinterbliebenenbezüge, Urlaubstage.
+- § 9: Dauer und Gebiet des nachvertraglichen Wettbewerbsverbots, Höhe der Karenzentschädigung, Verzichtsfrist.
+- § 11: Vertragsbeginn, unbefristet oder befristete Variante, Kündigungsfrist.
+- § 12: Datum des genehmigenden Gesellschafterbeschlusses.
+
+Unterschrieben wird für die Gesellschaft durch den von der Gesellschafterversammlung Bevollmächtigten, nie durch den Geschäftsführer selbst. Die Word-Fassung erlaubt es, die optionalen Klauseln sauber zu löschen; das PDF geht zur Ablage und an den Steuerberater.`,
+      },
+      {
+        titel: "Typische Fehler und wie du sie vermeidest",
+        text: `Fehler eins: Der Vertrag wird rückwirkend geschlossen oder das Gehalt rückwirkend erhöht. Beim Gesellschafter-Geschäftsführer ist das eine verdeckte Gewinnausschüttung, egal wie fremdüblich der Betrag ist. Alles muss vorher vereinbart und dann auch so gelebt werden: pünktliche Zahlung, keine stillen Abweichungen.
+
+Fehler zwei: Der Alleingesellschafter-Geschäftsführer unterschreibt beide Seiten, ohne von § 181 BGB befreit zu sein, oder ohne den Beschluss nach § 48 Abs. 3 GmbHG zu protokollieren. Fehler drei: eine Tantieme ohne Deckel oder mit Umsatz als Bemessungsgrundlage. Die Finanzverwaltung erkennt Umsatztantiemen nur in Ausnahmefällen an und sieht Gesamttantiemen über 50 Prozent des Jahresüberschusses kritisch.
+
+Fehler vier: Das nachvertragliche Wettbewerbsverbot ohne Karenzentschädigung. Für Geschäftsführer gilt § 74 HGB nicht direkt, aber ein entschädigungsloses Verbot über längere Zeit ist nach der Rechtsprechung häufig unwirksam. Fehler fünf: Der Sozialversicherungsstatus bleibt ungeklärt. Minderheitsgesellschafter und Fremdgeschäftsführer sind in der Regel versicherungspflichtig; wer das übersieht, zahlt Beiträge für vier Jahre nach. Die Vorlage verpflichtet deshalb beide Seiten zum Statusfeststellungsverfahren.`,
+      },
+      {
+        titel: "Rechtliche und steuerliche Grundlagen",
+        text: `Organstellung und Anstellung sind zwei getrennte Rechtsverhältnisse. Die Bestellung und Abberufung erfolgt durch Gesellschafterbeschluss (§ 46 Nr. 5, § 38 GmbHG) und ist jederzeit widerruflich; der Anstellungsvertrag ist ein Dienstvertrag nach §§ 611 ff. BGB, den nur eine Kündigung beendet. Zuständig für Abschluss, Änderung und Kündigung ist die Gesellschafterversammlung, nicht ein Mitgeschäftsführer.
+
+Die Haftung richtet sich nach § 43 GmbHG: Sorgfalt eines ordentlichen Geschäftsmannes, bei Verstoß persönliche Haftung gegenüber der Gesellschaft. Nach außen haftet der Geschäftsführer für nicht abgeführte Steuern (§ 69 AO) und Sozialversicherungsbeiträge sowie bei verspätetem Insolvenzantrag (§ 15a InsO). Die Business Judgement Rule, die § 10 der Vorlage abbildet, schützt unternehmerische Entscheidungen auf angemessener Informationsgrundlage.
+
+Steuerlich gilt für Gesellschafter-Geschäftsführer der Fremdvergleich nach § 8 Abs. 3 Satz 2 KStG: Nur was vorher klar vereinbart, angemessen und tatsächlich durchgeführt ist, bleibt Betriebsausgabe. Beim beherrschenden Gesellschafter kommt das Rückwirkungsverbot hinzu. Sozialversicherungsrechtlich entscheidet die Rechtsmacht: Wer mindestens 50 Prozent hält oder eine umfassende Sperrminorität hat, ist in der Regel nicht abhängig beschäftigt; das Statusfeststellungsverfahren nach § 7a SGB IV schafft Sicherheit. Das Kündigungsschutzgesetz gilt für Geschäftsführer nicht (§ 14 Abs. 1 KSchG).`,
+      },
+      {
+        titel: "Wann du den Vertrag nicht ohne Berater abschließen solltest",
+        text: `Beim Geschäftsführervertrag ist der Steuerberater fast immer gefragt, weil er die Angemessenheit von Gehalt und Tantieme einschätzen und die Gesamtausstattung gegen die Richtwerte der Finanzverwaltung prüfen kann. Darüber hinaus brauchst du anwaltliche Hilfe, wenn
+
+- eine Pensionszusage oder betriebliche Altersversorgung über eine Direktversicherung hinaus vereinbart werden soll; hier drohen Rückstellungs- und Erdienbarkeitsfragen,
+- der Geschäftsführer zugleich bei einer anderen Konzerngesellschaft angestellt ist oder im Ausland tätig wird,
+- Investoren Vorgaben zu Vergütung, Vesting oder Leaver-Regeln machen, die mit dem Anstellungsvertrag verzahnt werden müssen,
+- eine Abfindung, ein Aufhebungsvertrag oder die Trennung von einem Fremdgeschäftsführer ansteht,
+- der Geschäftsführer Erfinder ist und Patente außerhalb des Arbeitnehmererfindungsgesetzes geregelt werden sollen.
+
+Für den Gründer, der sich ein marktübliches Gehalt zahlt, einen Dienstwagen nutzt und die Standardklauseln braucht, ist die Vorlage als Word oder PDF eine solide Grundlage. GründerX ist Software und ersetzt keine Rechts- oder Steuerberatung; lass den fertigen Vertrag vor dem ersten Gehaltslauf vom Steuerberater gegenlesen.`,
+      },
+    ],
     seo: {
-      title: "Geschäftsführervertrag Vorlage GmbH & UG (Anstellung) | GründerX",
+      title: "Geschäftsführervertrag Vorlage kostenlos (Word) | GründerX",
       description:
         "Kostenloser Geschäftsführer-Anstellungsvertrag für GmbH und UG: Vergütung, Tantieme, Dienstwagen, Urlaub, Wettbewerbsverbot, D&O, Kündigung und Fremdvergleich.",
     },
@@ -1411,8 +2029,78 @@ ${VORLAGEN_HINWEIS}`,
         a: "Nur, wenn es so vereinbart ist und die Gesellschaft nicht in der Krise steckt. Die Vorlage sieht eine feste Laufzeit mit ordentlichem Kündigungsrecht vor. Rückzahlungen im Jahr vor einem Insolvenzantrag muss der Gesellschafter an den Insolvenzverwalter zurückgeben, selbst wenn der Vertrag sie erlaubte.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann brauchst du einen Vertrag über ein Gesellschafterdarlehen?",
+        text: `Die typische Situation: Die UG hat 1.000 EUR Stammkapital, aber die erste Warenbestellung kostet 8.000 EUR. Oder die GmbH wartet auf eine große Kundenzahlung und muss trotzdem Gehälter zahlen. Statt einer Kapitalerhöhung beim Notar überweist der Gründer das Geld privat auf das Geschäftskonto. Das ist ein Gesellschafterdarlehen, und ohne Vertrag ist es steuerlich und rechtlich ein Problem.
+
+Du brauchst den Vertrag also immer, wenn Geld vom Gesellschafter in die Gesellschaft fließt, das zurückgezahlt werden soll. Das gilt auch für Gründungskosten und Auslagen, die ein Gesellschafter vorgestreckt hat, für die Überbrückung bis zur nächsten Finanzierungsrunde und für Fälle, in denen eine Bank oder ein Investor einen Rangrücktritt verlangt. Die Vorlage regelt Betrag, fremdüblichen Zins, Laufzeit, Kündigung, Sicherheiten und den Rangrücktritt als ankreuzbare Option.`,
+      },
+      {
+        titel: "Was muss in einen Gesellschafterdarlehensvertrag?",
+        text: `Ein Darlehensvertrag zwischen Gesellschafter und GmbH muss so aussehen, als hätten ihn Fremde geschlossen. Die Vorlage enthält dafür in zehn Paragraphen:
+
+- Darlehensbetrag in Ziffern und Worten, Auszahlungsweg und Datum, alternativ die Feststellung bereits geleisteter Zahlungen oder verauslagter Kosten (§ 1)
+- Verwendungszweck (§ 2)
+- Zinssatz mit dokumentiertem Fremdvergleich, Zinsmethode, Fälligkeit und Umgang mit Kapitalertragsteuer (§ 3)
+- Laufzeit, Tilgung in einer Summe oder in Raten, vorzeitige Rückzahlung unter Vorbehalt der Kapitalerhaltung (§ 4)
+- ordentliche und außerordentliche Kündigung mit Schriftform (§ 5)
+- Sicherheiten und der Hinweis auf deren Anfechtbarkeit (§ 6)
+- Rangrücktritt als Option zum Ankreuzen mit dem vollständigen Text eines qualifizierten Rangrücktritts (§ 7)
+- insolvenzrechtlicher Hinweis auf § 39 und § 135 InsO (§ 8)
+- Steuern, Buchung als Verbindlichkeit gegenüber Gesellschaftern, Gesellschafterbeschluss (§ 9)
+- Schriftform, salvatorische Klausel, Gerichtsstand (§ 10)
+
+Die drei Anlagen sind kein Beiwerk: Aufstellung verauslagter Kosten, Herleitung des Zinssatzes und der Gesellschafterbeschluss sind genau die Unterlagen, die ein Betriebsprüfer anfordert.`,
+      },
+      {
+        titel: "Gesellschafterdarlehen Muster ausfüllen: Schritt für Schritt",
+        text: `So gehst du vor:
+
+- Kopf: Name und Beteiligungsquote des Gesellschafters, Firma, Sitz, HRB. Achte auf die Vertretung: Ist der Darlehensgeber alleiniger Geschäftsführer ohne Befreiung von § 181 BGB, muss die Gesellschafterversammlung die Gesellschaft vertreten.
+- § 1: Betrag in Ziffern und Worten, Bank und IBAN des Geschäftskontos, Auszahlung in einer Summe oder in Tranchen. Für bereits geflossenes Geld die Alternative mit Datum oder der Kostenaufstellung in Anlage 1.
+- § 2: konkreter Zweck, etwa Warenbestellung, Liquidität bis zu einem Datum oder eine Anschaffung.
+- § 3: Zinssatz. Hole ein Vergleichsangebot deiner Bank für einen unbesicherten Kredit ein oder notiere die Konditionen eines Kontokorrents und lege sie als Anlage 2 bei. Wähle die Zinsfälligkeit.
+- § 4: Rückzahlungsdatum oder die Raten-Alternative mit Anzahl, Höhe und erstem Termin.
+- § 5: Kündigungsfrist und das Datum, ab dem der Gesellschafter frühestens kündigen darf.
+- § 6: ohne Sicherheiten oder die konkrete Sicherheit benennen.
+- § 7: genau ein Kästchen ankreuzen. Ohne Krise und ohne Bankforderung ist in der Regel kein Rangrücktritt nötig.
+- § 9: Datum des Gesellschafterbeschlusses, der den Vertrag genehmigt (Anlage 3).
+
+Erst unterschreiben, dann überweisen, nie umgekehrt. Die Vorlage gibt es als Word zum Anpassen und als PDF für die Ablage beim Steuerberater.`,
+      },
+      {
+        titel: "Typische Fehler beim Gesellschafterdarlehen",
+        text: `Fehler eins: Geld überweisen und den Vertrag Monate später nachreichen. Ohne vorherige Vereinbarung ist die Rückzahlung angreifbar und die Zinsen sind steuerlich nicht anerkannt. Fehler zwei: zinslos oder zu billig. Dann liegt eine verdeckte Einlage nahe, und der Vorteil kann bei der Gesellschaft hinterfragt werden. Zu teuer ist ebenso schädlich, weil der überhöhte Teil als verdeckte Gewinnausschüttung gilt.
+
+Fehler drei: Rangrücktritt unterschreiben, ohne die Folgen zu kennen. Mit qualifiziertem Rangrücktritt darfst du dein Geld nur zurückholen, wenn die Gesellschaft es aus freiem Vermögen zahlen kann; in der Krise ist es faktisch gebunden. Fehler vier: Rückzahlung kurz vor der Insolvenz. Der Insolvenzverwalter fordert nach § 135 InsO jede Rückzahlung des letzten Jahres zurück, auch wenn der Vertrag sie erlaubt hat.
+
+Fehler fünf: Kapitalertragsteuer vergessen. Die Gesellschaft muss auf die Zinsen Kapitalertragsteuer einbehalten und anmelden; beim Gesellschafter mit mindestens zehn Prozent Beteiligung gilt dann der persönliche Steuersatz statt der Abgeltungsteuer. Fehler sechs: Darlehen statt Kapitalerhöhung bei der UG. Ein Darlehen stärkt das Eigenkapital nicht und ersetzt nicht die Erhöhung auf 25.000 EUR, mit der die Rücklagenpflicht endet.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen: InsO, GmbHG und Steuerrecht",
+        text: `Gesellschafterdarlehen sind seit der GmbH-Reform 2008 in der Insolvenzordnung geregelt. Nach § 39 Abs. 1 Nr. 5 InsO sind sie in der Insolvenz der Gesellschaft kraft Gesetzes nachrangig; Rückzahlungen im letzten Jahr vor dem Insolvenzantrag und Sicherheiten der letzten zehn Jahre sind nach § 135 InsO anfechtbar. Ausgenommen sind nach § 39 Abs. 4 und 5 InsO Kleinbeteiligte mit höchstens zehn Prozent ohne Geschäftsführung sowie Darlehen zur Sanierung.
+
+Der qualifizierte Rangrücktritt stützt sich auf § 19 Abs. 2 Satz 2 InsO: Forderungen mit Rangrücktritt bleiben bei der Überschuldungsprüfung außer Ansatz. Welche Formulierung dafür ausreicht, hat der Bundesgerichtshof präzisiert; die Vorlage verwendet die anerkannte Form mit Rücktritt hinter alle Gläubiger und Zahlung nur aus freiem Vermögen. Gesellschaftsrechtlich gilt daneben die Kapitalerhaltung nach § 30 GmbHG: Rückzahlungen dürfen das Stammkapital nicht angreifen.
+
+Steuerlich prüft das Finanzamt den Fremdvergleich. Zinsen beim Gesellschafter mit mindestens zehn Prozent Beteiligung fallen nach § 32d Abs. 2 Nr. 1 Buchst. b EStG unter den persönlichen Steuersatz. Die Gesellschaft hat Kapitalertragsteuer einzubehalten. Bei Verzicht auf das Darlehen in der Krise ist der werthaltige Teil eine Einlage, der nicht werthaltige Teil ein steuerpflichtiger Ertrag der Gesellschaft, was häufig übersehen wird.`,
+      },
+      {
+        titel: "Wann die Vorlage nicht ausreicht",
+        text: `Für den Normalfall, also ein Gründer leiht seiner UG oder GmbH einen fünfstelligen Betrag zu marktüblichen Konditionen, reicht das Muster. Hol dir Beratung, wenn
+
+- die Gesellschaft bereits in der Krise ist oder die Hälfte des Stammkapitals verloren hat; dann geht es um Insolvenzantragspflicht, und der Rangrücktritt muss mit Steuerberater oder Anwalt abgestimmt werden,
+- der Betrag im Verhältnis zum Stammkapital sehr hoch ist und das Finanzamt verdecktes Stammkapital vermuten könnte,
+- mehrere Gesellschafter in unterschiedlicher Höhe Darlehen geben und die Gleichbehandlung geregelt werden muss,
+- das Darlehen aus dem Ausland kommt oder in Fremdwährung läuft,
+- eine spätere Umwandlung in Eigenkapital geplant ist; dann ist ein Wandeldarlehen das richtige Instrument,
+- der Darlehensgeber eine Holding-GmbH ist und Konzernfinanzierung mit Zinsschranke und Verrechnungspreisen ins Spiel kommt.
+
+Diese Vorlage ist ein Software-Muster von GründerX und keine Steuer- oder Rechtsberatung. Gerade beim Gesellschafterdarlehen sollte der Steuerberater vor der Auszahlung Zinssatz und Vertragsgestaltung freigeben, weil Fehler hier erst Jahre später in der Betriebsprüfung auffallen.`,
+      },
+    ],
     seo: {
-      title: "Gesellschafterdarlehen Vorlage GmbH & UG 2026 | GründerX",
+      title: "Gesellschafterdarlehen Vertrag Vorlage kostenlos | GründerX",
       description:
         "Vertrag für ein Gesellschafterdarlehen an GmbH oder UG: Betrag, fremdüblicher Zins, Laufzeit, Kündigung, Rangrücktritt als Option, Hinweise zu § 39 InsO.",
     },
@@ -1537,8 +2225,79 @@ ${VORLAGEN_HINWEIS}`,
         a: "Ja, das ist dringend zu empfehlen. Die Wandlung erfordert eine Kapitalerhöhung mit Dreiviertelmehrheit und den Verzicht der Altgesellschafter auf ihr Bezugsrecht. Mit ihrer Unterschrift verpflichten sich alle Gesellschafter, bei der Wandlung mitzuwirken; sonst kann der Investor sein Recht nicht durchsetzen.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann brauchst du einen Wandeldarlehensvertrag?",
+        text: `Ein Business Angel will 50.000 EUR in dein Start-up stecken, aber niemand kann heute seriös sagen, was die Gesellschaft wert ist. Eine Kapitalerhöhung beim Notar würde Wochen dauern und eine Bewertung erzwingen. Das Wandeldarlehen (Convertible Loan) löst beides: Das Geld fließt sofort als Darlehen, und die Bewertung wird auf die nächste Finanzierungsrunde verschoben, bei der das Darlehen in Anteile gewandelt wird.
+
+Die Vorlage passt für Frühphasen-Investments von Angels, Family und Friends oder Förderinvestoren, für Brückenfinanzierungen bis zur Seed-Runde und für Gründer, die ihre Anteilsstruktur bis zur ersten institutionellen Runde einfach halten wollen. Sie regelt Betrag, Zins, Laufzeit, die Pflichtwandlung bei einer qualifizierten Runde, das Wahlrecht bei Fälligkeit und Exit, Discount, Cap, die Durchführung der Wandlung und den Rangrücktritt. Die Gesellschafter treten bei, damit die Wandlung später nicht an einer fehlenden Stimme scheitert.`,
+      },
+      {
+        titel: "Was muss in einen Convertible Loan? Die wichtigsten Klauseln",
+        text: `Ein Wandeldarlehen ist nur so gut wie seine Wandlungsmechanik. Die Vorlage regelt in elf Paragraphen:
+
+- Darlehensbetrag, Auszahlungsfrist, Verwendungszweck und Verbot von Ausschüttungen aus dem Darlehen (§ 1)
+- Zinssatz, Ansammlung der Zinsen und Wahl zwischen Mitwandlung und Barzahlung (§ 2)
+- Laufzeit, Ausschluss der ordentlichen Kündigung, Kündigung aus wichtigem Grund (§ 3)
+- Definition der qualifizierten Finanzierungsrunde mit Mindestbetrag und die Pflichtwandlung samt Informationsfrist (§ 4)
+- Wandlungsrecht bei Fälligkeit zu einer Fallback-Bewertung, beim Exit mit Prämie als Alternative und bei kleineren Kapitalerhöhungen (§ 5)
+- Wandlungspreis als niedrigerer Wert aus Discount und Cap, Berechnung der Anteile, Zuzahlung in die Kapitalrücklage (§ 6)
+- Durchführung: Kapitalerhöhung, Bezugsrechtsverzicht, Übernahmeerklärung, Beitritt zur Gesellschaftervereinbarung, Kosten (§ 7)
+- qualifizierter Rangrücktritt, der die Wandlung unberührt lässt (§ 8)
+- Informationsrechte, Zusicherungen zur Anteilsstruktur, Vertraulichkeit (§ 9)
+- Übertragbarkeit und Mitwirkungspflichten der Gesellschafter mit Gesellschafterbeschluss (§ 10)
+- Formklausel, Schriftform, Gerichtsstand (§ 11)
+
+Die Anlagen Gesellschafterliste, bestehende Optionsrechte und Gesellschafterbeschluss gehören dazu, weil der Investor nur so die Verwässerung berechnen kann.`,
+      },
+      {
+        titel: "Wandeldarlehen Muster ausfüllen und Szenarien durchrechnen",
+        text: `Vor dem Ausfüllen solltet ihr die Wandlung in drei Szenarien durchrechnen: Runde über dem Cap, Runde unter dem Cap, keine Runde. Dann die Platzhalter:
+
+- Parteien: Investor, Gesellschaft mit HRB und alle Gesellschafter mit Anteilszahl; Präambel mit Stammkapital und Anteilszahl.
+- § 1: Betrag, Auszahlungsfrist, Bank und IBAN, Verwendungszweck.
+- § 2: Zinssatz, üblich sind Werte zwischen 4 und 8 Prozent, und die Entscheidung, ob Zinsen mitgewandelt oder bar gezahlt werden.
+- § 3: Fälligkeitstag, meist 24 bis 36 Monate nach Auszahlung.
+- § 4: Mindestbetrag der qualifizierten Runde und Informationsfrist vor der Beurkundung.
+- § 5: Fallback-Bewertung bei Fälligkeit und die Exit-Prämie in Prozent.
+- § 6: Discount in Prozent und die Cap-Bewertung pre-money, vollverwässert. Prüfe, ob eure Beteiligungsprogramme in der Definition enthalten sein sollen.
+- § 9: Berichtsfristen. § 10: Datum des Gesellschafterbeschlusses.
+- § 11: Schriftform oder notarielle Beurkundung; nicht gewählte Variante löschen.
+
+Alle Gesellschafter unterschreiben, nicht nur der Geschäftsführer. Die Word-Fassung ist für die Verhandlung mit dem Investor gedacht, das PDF für die Unterschriftenrunde. Ein Beispiel: 100.000 EUR Darlehen, Runde zu 4 Mio. EUR pre-money, Cap 3 Mio. EUR, Discount 20 Prozent. Der Discount ergibt einen Preis auf Basis 3,2 Mio., der Cap auf Basis 3 Mio.; der Investor wandelt zum Cap-Preis, weil er niedriger ist.`,
+      },
+      {
+        titel: "Typische Fehler bei Wandeldarlehen",
+        text: `Fehler eins: Cap und Discount festlegen, ohne die Verwässerung zu rechnen. Ein niedriger Cap kann bei einer guten Runde dazu führen, dass der Angel für 50.000 EUR mehr Anteile bekommt als der Seed-Investor für 500.000 EUR. Rechne jedes Szenario vor Unterschrift durch.
+
+Fehler zwei: Die Gesellschafter unterschreiben nicht mit. Die Wandlung braucht einen Kapitalerhöhungsbeschluss mit Dreiviertelmehrheit und den Bezugsrechtsverzicht aller Altgesellschafter. Fehlt ihre Verpflichtung, kann der Investor sein Recht nicht durchsetzen, und das macht das Darlehen zum einfachen Kredit mit Rückzahlungsrisiko.
+
+Fehler drei: Rangrücktritt vergessen. Ohne ihn zählt das Darlehen bei der Überschuldungsprüfung als Verbindlichkeit, und bei einem Start-up ohne Umsatz kann das vom ersten Tag an die Insolvenzantragspflicht auslösen. Fehler vier: keine Regelung für den Fall, dass keine Runde kommt. Dann ist das Darlehen bei Fälligkeit zurückzuzahlen, was das Start-up meist nicht kann. Die Vorlage gibt dem Investor deshalb ein Wandlungsrecht zur Fallback-Bewertung. Fehler fünf: Die Zinsen werden gewandelt, aber die Kapitalertragsteuer darauf nicht bedacht; bei Mitwandlung muss die Gesellschaft die Steuer trotzdem abführen oder der Investor sie erklären.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen: GmbHG, Formfrage und INVEST",
+        text: `Die Wandlung ist eine Kapitalerhöhung gegen Einlage nach §§ 55 ff. GmbHG mit Satzungsänderung nach § 53 GmbHG. Sie muss notariell beurkundet und ins Handelsregister eingetragen werden; der Investor gibt eine notariell beglaubigte Übernahmeerklärung ab. Die Einlage wird durch Verrechnung mit der Darlehensforderung erbracht, was als Sacheinlage gelten kann; deshalb sieht § 6 Abs. 3 der Vorlage die Zuzahlung in die Kapitalrücklage nach § 272 Abs. 2 Nr. 4 HGB und hilfsweise die Bareinlage mit Rückzahlung Zug um Zug vor.
+
+Ob der Wandeldarlehensvertrag selbst beurkundet werden muss, ist nicht abschließend geklärt. Da er Gesellschafter zur Mitwirkung an einer Kapitalerhöhung und den Investor zur Übernahme von Anteilen verpflichtet, wird teilweise eine Beurkundungspflicht in Anlehnung an § 15 Abs. 4 und § 53 GmbHG angenommen. In der Praxis werden viele Wandeldarlehen in Schriftform geschlossen; die sichere Variante ist die Beurkundung, die § 11 Abs. 1 der Vorlage als Alternative bietet.
+
+Der Rangrücktritt folgt § 19 Abs. 2 Satz 2 InsO. Der INVEST-Zuschuss für Wagniskapital des BAFA ist auch für Wandeldarlehen möglich, wenn die Förderbedingungen zu Laufzeit, Wandlung und Beteiligungsquote eingehalten werden. Die Bedingungen ändern sich; prüfe sie vor Vertragsschluss auf der Seite des BAFA, nicht danach.`,
+      },
+      {
+        titel: "Wann du einen Anwalt für das Wandeldarlehen brauchst",
+        text: `Ein Wandeldarlehen ist ein Finanzierungsvertrag mit Fernwirkung auf die nächste Runde. Beratung ist angezeigt, wenn
+
+- der Investor ein professioneller VC oder ein Fonds ist, der eigene Vertragsstandards mitbringt und Sonderrechte wie Liquidationspräferenzen oder Mitverkaufsrechte verlangt,
+- mehrere Wandeldarlehen mit unterschiedlichen Caps und Discounts parallel laufen und die Reihenfolge der Wandlung geregelt werden muss,
+- bereits Investoren beteiligt sind, deren Gesellschaftervereinbarung Zustimmungs- oder Bezugsrechte enthält,
+- der Investor aus dem Ausland kommt oder in Fremdwährung finanziert,
+- die Gesellschaft Fördermittel bezieht, deren Bedingungen eine Wandlung einschränken,
+- die Gesellschaft bereits in der Krise ist und das Darlehen als Sanierungsbeitrag dienen soll.
+
+Der Notar ist bei der Wandlung ohnehin beteiligt und sollte vor Abschluss gefragt werden, ob er den Vertrag beurkundet sehen will. Der Steuerberater klärt die Behandlung der Zinsen und einer möglichen Sacheinlage. Die Vorlage von GründerX ist ein Software-Muster für den Standardfall und keine Rechtsberatung; sie gibt dir aber die Begriffe und die Mechanik an die Hand, um mit Investor und Anwalt auf Augenhöhe zu verhandeln.`,
+      },
+    ],
     seo: {
-      title: "Wandeldarlehen Vorlage: Convertible Loan Start-up 2026 | GründerX",
+      title: "Wandeldarlehen Vorlage kostenlos (Convertible) | GründerX",
       description:
         "Wandeldarlehensvertrag für Business Angels: Betrag, Zins, Wandlung bei qualifizierter Finanzierungsrunde, Discount, Cap, Fälligkeit und Rangrücktritt.",
     },
@@ -1692,8 +2451,81 @@ ${VORLAGEN_HINWEIS}`,
         a: "Nein, sie erscheint weder im Handelsregister noch in der Gesellschafterliste. Bei einer GmbH oder AG kann die Beteiligung aber als Unternehmensvertrag zustimmungs- und eintragungspflichtig sein, wenn der Stille erheblich am Gewinn beteiligt wird. Steuerlich meldet das Unternehmen die Kapitalerträge über die Kapitalertragsteuer-Anmeldung.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann brauchst du einen Vertrag über eine stille Beteiligung?",
+        text: `Die stille Beteiligung ist die Finanzierung aus dem eigenen Umfeld: Eltern, ein Freund oder ein langjähriger Mitarbeiter wollen Geld geben und am Erfolg teilhaben, aber weder im Handelsregister stehen noch mitentscheiden. Anders als beim Darlehen bekommt der Geldgeber keinen festen Zins, sondern einen Anteil am Gewinn, und trägt, wenn vereinbart, auch Verluste bis zur Höhe seiner Einlage.
+
+Du brauchst den Vertrag, wenn ein Einzelunternehmen, eine GbR, eine UG oder GmbH Kapital aufnehmen will, ohne Anteile abzugeben und ohne zum Notar zu gehen, wenn der Geldgeber nach außen nicht in Erscheinung treten soll oder wenn ein Darlehen mit festem Zins für ein junges Unternehmen zu starr wäre. Die Vorlage bildet die typische stille Gesellschaft nach §§ 230 ff. HGB ab, also die Variante ohne Beteiligung an stillen Reserven und Firmenwert, mit Kontrollrechten, Zustimmungskatalog, Kündigung und Auseinandersetzung.`,
+      },
+      {
+        titel: "Was muss in einen Vertrag über eine stille Gesellschaft?",
+        text: `Weil der stille Gesellschafter nur die Rechte hat, die der Vertrag ihm gibt, muss der Vertrag vollständig sein. Die Vorlage regelt in zwölf Paragraphen:
+
+- Gegenstand, Beginn, Charakter als Innengesellschaft, Ausschluss von stillen Reserven und Geschäftsführung (§ 1)
+- Höhe und Fälligkeit der Einlage, alternativ Umwandlung eines Darlehens, Einlagekonto und Verrechnungskonto, keine Nachschusspflicht (§ 2)
+- alleinige Geschäftsführung des Inhabers, keine Außenhaftung des Stillen, Grenze für weitere stille Gesellschafter (§ 3)
+- Gewinnbeteiligung in Prozent, Bemessungsgrundlage, Unternehmerlohn, Deckelung, optionale Mindestverzinsung und Verlustbeteiligung zum Ankreuzen (§ 4)
+- Gutschrift, Auszahlung, Kapitalertragsteuer und Aufschub bei Liquiditätsgefahr (§ 5)
+- Jahresabschluss, Kontrollrechte nach § 233 HGB, Einwendungsfrist, laufende Berichte (§ 6)
+- zustimmungspflichtige Geschäfte mit Zustimmungsfiktion (§ 7)
+- Laufzeit, ordentliche und außerordentliche Kündigung (§ 8)
+- Auseinandersetzungsguthaben, Ratenzahlung, Schiedsgutachter (§ 9)
+- Tod, Insolvenz und Übertragung (§ 10)
+- Wettbewerb und Vertraulichkeit (§ 11)
+- Gesellschafterbeschluss bei GmbH oder UG als Inhaber, Schriftform, Gerichtsstand (§ 12)
+
+Entscheidend für die steuerliche Einordnung sind § 1 Abs. 3 und § 4: Keine Beteiligung an stillen Reserven und keine unternehmerische Mitsprache halten den Stillen typisch.`,
+      },
+      {
+        titel: "Stille Beteiligung Muster ausfüllen",
+        text: `Die Platzhalter im Einzelnen:
+
+- Parteien: Inhaber mit Firma, Anschrift und bei GmbH oder UG die HRB-Nummer und der Geschäftsführer; stiller Gesellschafter mit Geburtsdatum und Anschrift.
+- § 1: Beschreibung des Unternehmens und Beginn der stillen Gesellschaft.
+- § 2: Einlage in Ziffern und Worten, Zahlungsdatum, Bank und IBAN, oder die Alternative mit Umwandlung eines bestehenden Darlehens samt Datum und Betrag.
+- § 3 Abs. 3: Obergrenze für die Summe aller stillen Gewinnbeteiligungen.
+- § 4: Gewinnbeteiligung in Prozent, Entscheidung vor oder nach Unternehmerlohn und dessen Höhe, Deckelung in Prozent der Einlage, optionale Mindestverzinsung. Genau ein Kästchen bei der Verlustbeteiligung ankreuzen.
+- § 5: Fristen für Feststellung und Auszahlung, Zins und Höchstdauer bei Aufschub.
+- § 6: Frist für den Jahresabschluss, Einwendungsfrist, Berichtsrhythmus.
+- § 7: Schwellenwerte für Kredite und Investitionen.
+- § 8: Kündigungsfrist und erster Kündigungstermin. § 9: Anzahl der Jahresraten und IHK-Bezirk.
+- § 11: eine der beiden Wettbewerbsvarianten löschen. § 12: Datum des Gesellschafterbeschlusses bei GmbH oder UG.
+
+Nach der Unterschrift bucht der Inhaber die Einlage auf dem Einlagekonto und meldet die Kapitalertragsteuer bei der ersten Gewinngutschrift an. Die Vorlage gibt es als Word und als PDF.`,
+      },
+      {
+        titel: "Typische Fehler bei stillen Beteiligungen",
+        text: `Fehler eins: Aus der typischen wird unbemerkt eine atypische stille Gesellschaft. Sobald der Stille an stillen Reserven und Firmenwert beteiligt wird oder über den Zustimmungskatalog hinaus mitentscheidet, ist er steuerlich Mitunternehmer mit gewerblichen Einkünften, eigener Feststellungserklärung und Gewerbesteuerfolgen. Ändere § 1 Abs. 3 und § 4 nicht ohne Steuerberater.
+
+Fehler zwei: Gewinnbeteiligung ohne Deckel und ohne Unternehmerlohn. Bei gutem Ergebnis zahlt der Inhaber dann mehr als jeden Bankzins, und das Finanzamt kann bei nahestehenden Personen eine unangemessene Gewinnverteilung beanstanden. Fehler drei: Die Verlustbeteiligung bleibt ungeregelt. Gesetzlich nimmt der Stille am Verlust teil; wer das nicht will, muss es nach § 231 Abs. 2 HGB ausdrücklich ausschließen.
+
+Fehler vier: Bei einer GmbH oder UG als Inhaber fehlt der Gesellschafterbeschluss. Eine stille Beteiligung an einer Kapitalgesellschaft kann als Teilgewinnabführungsvertrag gelten, der Zustimmung und unter Umständen Eintragung braucht. Fehler fünf: Kapitalertragsteuer vergessen. Der Inhaber muss sie einbehalten, auch wenn der Stille ein Familienmitglied ist. Fehler sechs: öffentlich um viele Stille werben. Ab einer bestimmten Zahl und Summe greift das Vermögensanlagengesetz mit Prospektpflicht; die Vorlage ist für den Einzelfall gedacht.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen: §§ 230 ff. HGB und Steuerrecht",
+        text: `Die stille Gesellschaft ist in den §§ 230 bis 236 HGB geregelt. Der Stille leistet eine Einlage, die in das Vermögen des Inhabers übergeht (§ 230 HGB); er ist am Gewinn beteiligt, am Verlust nur, soweit nicht ausgeschlossen, und höchstens bis zur Höhe seiner Einlage (§§ 231, 232 HGB). Seine Kontrollrechte entsprechen denen eines Kommanditisten: Abschrift des Jahresabschlusses und Einsicht in Bücher und Papiere (§ 233 HGB). Bei Beendigung erhält er ein Auseinandersetzungsguthaben (§ 235 HGB), in der Insolvenz des Inhabers ist er mit der nicht durch Verluste verbrauchten Einlage einfacher Insolvenzgläubiger (§ 236 HGB).
+
+Der Vertrag ist formfrei, Schriftform ist aber aus Beweisgründen unverzichtbar. Eine Eintragung im Handels- oder Gesellschaftsregister erfolgt nicht. Bei einer GmbH oder AG als Inhaber kann eine erhebliche Gewinnbeteiligung einen Teilgewinnabführungsvertrag darstellen, für den die Grundsätze der §§ 291 ff. AktG entsprechend herangezogen werden; bei der GmbH ist jedenfalls ein Gesellschafterbeschluss ratsam.
+
+Steuerlich erzielt der typisch Stille Einkünfte aus Kapitalvermögen nach § 20 Abs. 1 Nr. 4 EStG mit Kapitalertragsteuerabzug; Verluste sind über den Verweis auf § 15a EStG nur eingeschränkt nutzbar. Beim Inhaber ist der Gewinnanteil Betriebsausgabe. Der atypisch Stille ist dagegen Mitunternehmer nach § 15 Abs. 1 Nr. 2 EStG.`,
+      },
+      {
+        titel: "Wann die Vorlage nicht reicht und wer dann hilft",
+        text: `Die Vorlage passt für eine stille Beteiligung einer einzelnen natürlichen Person am Unternehmen eines Gründers, mit überschaubarem Betrag und klarer Abgrenzung zur Mitunternehmerschaft. Zieh Steuerberater oder Anwalt hinzu, wenn
+
+- eine atypische stille Beteiligung mit Teilhabe an stillen Reserven gewollt ist, etwa um Verluste beim Stillen steuerlich voll nutzbar zu machen,
+- der Inhaber eine GmbH oder UG ist und die Gewinnbeteiligung hoch ist; dann ist die Einordnung als Unternehmensvertrag zu prüfen,
+- mehrere stille Gesellschafter aufgenommen werden sollen oder die Beteiligung öffentlich angeboten wird,
+- der stille Gesellschafter ein Unternehmen, ein Investor oder eine Person im Ausland ist,
+- die Einlage in Sachwerten oder durch Arbeitsleistung erbracht werden soll,
+- das Unternehmen Fördermittel bezieht, deren Bedingungen Beteiligungen Dritter einschränken.
+
+Der Steuerberater sollte außerdem die Bemessungsgrundlage in § 4 und den Unternehmerlohn absegnen, weil beides über die Angemessenheit entscheidet. GründerX bietet die Vorlage als Software-Muster an; eine Rechts- oder Steuerberatung ist damit nicht verbunden. Für das Standardgeschäft im Familien- und Freundeskreis ist das Muster als Word oder PDF eine tragfähige Grundlage.`,
+      },
+    ],
     seo: {
-      title: "Stille Beteiligung Vertrag Vorlage (§§ 230 ff. HGB) | GründerX",
+      title: "Stille Beteiligung Vertrag Vorlage kostenlos | GründerX",
       description:
         "Kostenloser Vertrag über eine typische stille Gesellschaft: Einlage, Gewinn- und Verlustbeteiligung, Kontrollrechte, Kündigung und Auseinandersetzung nach HGB.",
     },
@@ -1841,8 +2673,77 @@ ${VORLAGEN_HINWEIS}`,
         a: "Nein, dann reichen Zustimmungsvorbehalte in Satzung oder Anstellungsvertrag. Die Geschäftsordnung entfaltet ihren Wert bei mehreren Geschäftsführern, weil sie Ressorts, Sitzungen und Beschlussfassung regelt. Für den Fall eines späteren zweiten Geschäftsführers kann sie aber schon vorbereitet werden.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann brauchst du eine Geschäftsordnung für die Geschäftsführung?",
+        text: `Sobald eine GmbH oder UG zwei oder mehr Geschäftsführer hat, stellt sich jeden Tag die Frage, wer was entscheiden darf. Ohne Geschäftsordnung gilt Gesamtgeschäftsführung: Jeder muss bei allem mitentscheiden, und jeder haftet für alles. Eine schriftliche Ressortverteilung ist der einzige Weg, die Arbeit aufzuteilen und die Haftung des einzelnen Geschäftsführers auf sein Ressort und die Überwachung der Kollegen zu begrenzen.
+
+Du brauchst die Vorlage außerdem, wenn die Gesellschafter der Geschäftsführung Grenzen setzen wollen, etwa über einen Katalog zustimmungspflichtiger Geschäfte und feste Berichtspflichten, oder wenn nach einer Finanzierungsrunde Investoren genau solche Kataloge verlangen. Auch Gründerteams mit einem CEO, CFO und CTO nutzen sie, um Sitzungsrhythmus, Beschlussfassung und Vertretung bei Abwesenheit zu klären. Die Vorlage ist als Beschluss der Gesellschafterversammlung aufgebaut, den die Geschäftsführer gegenzeichnen.`,
+      },
+      {
+        titel: "Was muss in eine Geschäftsordnung der GmbH-Geschäftsführung?",
+        text: `Die Geschäftsordnung regelt das Innenverhältnis zwischen Geschäftsführern und zur Gesellschafterversammlung. Die zehn Paragraphen der Vorlage:
+
+- Geltungsbereich, Bindung an Gesetz, Satzung und Weisungen, Abgrenzung zur Vertretung nach außen (§ 1)
+- Gesamtverantwortung, Überwachungspflicht und die Liste nicht delegierbarer Pflichten wie Insolvenzantrag, Kapitalerhaltung, Steuern, Sozialabgaben, Gesellschafterliste, Transparenzregister (§ 2)
+- konkrete Ressorts für CEO, CFO/COO und CTO, Eigenverantwortung im Budget, Vertretung bei Verhinderung (§ 3)
+- Vorsitz ohne Weisungsrecht und interne Grenzen der Einzelvertretung (§ 4)
+- Sitzungsrhythmus, Einberufung, Tagesordnung, Protokoll und Aufbewahrung (§ 5)
+- Vorlagepflicht an die Gesamtgeschäftsführung, Beschlussfähigkeit, Mehrheit, Stimmengleichheit, Umlaufverfahren, Eskalation an die Gesellschafter (§ 6)
+- Katalog zustimmungspflichtiger Geschäfte mit elf Positionen und Eilregelung (§ 7)
+- monatliche, vierteljährliche und jährliche Berichte sowie Ad-hoc-Meldungen (§ 8)
+- Interessenkonflikte und Vertraulichkeit (§ 9)
+- Inkrafttreten, Änderung nur durch Gesellschafterbeschluss, Vorrang der Satzung (§ 10)
+
+Der Katalog in § 7 ist das Stück, das Gesellschafter und Investoren am genauesten lesen; die Ressortverteilung in § 3 ist das Stück, das im Haftungsfall zählt.`,
+      },
+      {
+        titel: "Geschäftsordnung Muster ausfüllen: Ressorts und Schwellen festlegen",
+        text: `Die Vorlage ist schnell ausgefüllt, braucht aber vorher eine ehrliche Aufgabenverteilung:
+
+- Kopf: Firma, Sitz, HRB, Datum des Gesellschafterbeschlusses und die Satzungsnorm, falls die Satzung eine Geschäftsordnung vorsieht.
+- § 3 Abs. 1: Namen und Ressorts. Bei zwei Geschäftsführern die drei Blöcke auf zwei zusammenführen; jede Aufgabe darf nur in einem Ressort stehen. Prüfe, ob jeder für sein Ressort fachlich geeignet ist, das ist Voraussetzung für die Haftungsentlastung.
+- § 3 Abs. 3: Dauer der Verhinderung, ab der vertreten wird, und wer vertritt.
+- § 4: Name des Vorsitzenden und die interne Wertgrenze für die Einzelvertretung.
+- § 5: Sitzungsrhythmus, Ladungsfrist, Frist für die Tagesordnung, Protokollversand und Aufbewahrungsdauer.
+- § 6: Quorum, Einstimmigkeit oder Mehrheit, Regel bei Stimmengleichheit; nicht gewählte Varianten löschen.
+- § 7: Schwellenwerte für Investitionen, Kredite, Vertragslaufzeiten, Gehälter und Streitwerte sowie der Stichtag für das Jahresbudget. Setze die Grenzen so, dass das Tagesgeschäft ohne Gesellschafterbeschluss läuft.
+- § 8: Stichtag für das Monatsreporting und Horizont der Mittelfristplanung.
+- § 10: Datum des Inkrafttretens.
+
+Unterschrieben wird vom Versammlungsleiter für die Gesellschafter und von jedem Geschäftsführer zur Kenntnisnahme. Jeder neue Geschäftsführer bestätigt die Geschäftsordnung bei Amtsantritt. Word für die Anpassung, PDF zur Ablage im Beschlussbuch.`,
+      },
+      {
+        titel: "Typische Fehler bei Geschäftsordnung und Ressortverteilung",
+        text: `Fehler eins: Die Ressortverteilung existiert nur mündlich oder in einer E-Mail. Der Bundesgerichtshof verlangt eine klare, schriftliche und von allen Geschäftsführern gebilligte Aufteilung; sonst haftet jeder für alles. Fehler zwei: Die Geschäftsführer geben sich die Ordnung selbst, obwohl die Gesellschafter Zustimmungsvorbehalte wollen. Weisungen an die Geschäftsführung kann nur die Gesellschafterversammlung erteilen (§ 37 Abs. 1 GmbHG); deshalb sieht die Vorlage den Gesellschafterbeschluss vor.
+
+Fehler drei: Die Überwachungspflicht wird als erledigt betrachtet. Auch mit Ressortverteilung muss sich jeder Geschäftsführer regelmäßig über die anderen Ressorts informieren und bei Warnzeichen eingreifen; in der Krise gilt wieder volle Gesamtverantwortung. Fehler vier: zu niedrige Schwellenwerte im Zustimmungskatalog. Wenn jede Bestellung über 500 EUR einen Gesellschafterbeschluss braucht, hält sich niemand daran, und die Geschäftsordnung verliert ihre Wirkung.
+
+Fehler fünf: Die Geschäftsordnung widerspricht der Satzung oder dem Anstellungsvertrag. Satzung geht vor, und ein Zustimmungskatalog im Anstellungsvertrag sollte auf die Geschäftsordnung verweisen statt sie zu wiederholen. Fehler sechs: Kein Protokoll der Geschäftsführersitzungen. Gerade das Protokoll mit abweichenden Voten ist im Haftungsfall der Beweis, dass ein Geschäftsführer seiner Überwachungspflicht nachgekommen ist.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen: § 37 GmbHG und die Haftung nach § 43 GmbHG",
+        text: `Die Geschäftsführer sind der Gesellschaft gegenüber verpflichtet, die Beschränkungen einzuhalten, die Satzung oder Gesellschafterbeschlüsse ihnen setzen (§ 37 Abs. 1 GmbHG). Nach außen ist die Vertretungsmacht unbeschränkbar (§ 37 Abs. 2 GmbHG): Ein Vertrag, den ein Geschäftsführer entgegen der Geschäftsordnung schließt, bindet die Gesellschaft, löst aber seine Haftung aus. Die Gesellschafterversammlung ist das oberste Organ der GmbH und kann der Geschäftsführung Weisungen erteilen, deshalb ist sie der richtige Erlasser der Geschäftsordnung.
+
+Die Haftung richtet sich nach § 43 GmbHG: Sorgfalt eines ordentlichen Geschäftsmannes, gesamtschuldnerische Haftung mehrerer Geschäftsführer. Eine Ressortaufteilung begrenzt diese Haftung nur unter den Voraussetzungen, die der BGH in seinem Urteil von 2018 aufgestellt hat: eindeutige, schriftliche Aufgabenzuweisung, fachlich geeignete Personen, Gesamtverantwortung für zentrale Pflichten und laufende Überwachung. Nicht delegierbar sind insbesondere die Insolvenzantragspflicht nach § 15a InsO, die Kapitalerhaltung nach §§ 30, 31 GmbHG, die Pflicht zur Einberufung bei Verlust der Hälfte des Stammkapitals nach § 49 Abs. 3 GmbHG sowie die steuerlichen Pflichten nach § 34 AO mit der Haftung nach § 69 AO und die Abführung von Sozialversicherungsbeiträgen.
+
+Die Geschäftsordnung ist formfrei; ein Beschluss in Textform mit Unterschrift genügt. Sie ist nicht eintragungsfähig und wird nicht veröffentlicht.`,
+      },
+      {
+        titel: "Wann die Vorlage nicht reicht",
+        text: `Die Geschäftsordnung aus der Vorlage passt für eine GmbH oder UG mit zwei bis vier Geschäftsführern und einer überschaubaren Gesellschafterstruktur. Anwaltliche Abstimmung brauchst du, wenn
+
+- die Gesellschaft einen Aufsichtsrat oder Beirat hat, dessen Zustimmungsrechte mit dem Katalog in § 7 verzahnt werden müssen,
+- Investoren eine Gesellschaftervereinbarung mit eigenen Zustimmungskatalogen und Vetorechten haben; dann müssen Satzung, Gesellschaftervereinbarung und Geschäftsordnung widerspruchsfrei sein,
+- die Gesellschaft Teil eines Konzerns ist und Weisungen der Muttergesellschaft berücksichtigt werden müssen,
+- Geschäftsführer im Ausland sitzen oder die Gesellschaft regulierten Tätigkeiten nachgeht, etwa im Finanz- oder Gesundheitsbereich mit eigenen Organisationspflichten,
+- bereits ein Haftungsfall oder eine Krise im Raum steht und die Geschäftsordnung als Beleg für die Pflichterfüllung dienen soll.
+
+Bei einer Gesellschaft mit nur einem Geschäftsführer reicht ein Zustimmungskatalog in Satzung oder Anstellungsvertrag. GründerX stellt diese Vorlage als Software-Muster bereit, eine Rechtsberatung ist damit nicht verbunden; die Abstimmung mit Satzung und Anstellungsverträgen gehört zum Anwalt, der die Gesellschaft ohnehin betreut.`,
+      },
+    ],
     seo: {
-      title: "Geschäftsordnung Geschäftsführung GmbH Vorlage | GründerX",
+      title: "Geschäftsordnung Geschäftsführung Vorlage GmbH | GründerX",
       description:
         "Geschäftsordnung für mehrere GmbH- oder UG-Geschäftsführer: Ressortverteilung, Gesamtverantwortung, zustimmungspflichtige Geschäfte, Berichte, Sitzungen.",
     },
@@ -1996,8 +2897,80 @@ ${VORLAGEN_HINWEIS}`,
         a: "Nur, wenn Grundstücke zum Gesellschaftsvermögen gehören oder die eGbR-Anmeldung zum Gesellschaftsregister ansteht; dann ist die Unterschrift unter der Registeranmeldung zu beglaubigen, nicht die Vereinbarung selbst. Sonst reicht Schriftform. Jeder Beteiligte sollte eine unterschriebene Ausfertigung erhalten.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann brauchst du eine Vereinbarung über das Ausscheiden aus der GbR?",
+        text: `Ein Gesellschafter will raus: wegen eines neuen Jobs, aus persönlichen Gründen oder weil die Zusammenarbeit nicht mehr funktioniert. Die anderen wollen das Geschäft weiterführen. Das Gesetz kennt für diesen Fall die Kündigung mit Abfindung, aber es regelt weder, wer die Domain behält, noch wer den Mietvertrag übernimmt, noch wie der Ausscheidende aus dem Bankkredit kommt.
+
+Die Ausscheidensvereinbarung brauchst du, wenn ihr euch einvernehmlich trennen wollt, statt eine Kündigung mit Fristen und Streit über die Bewertung auszufechten. Sie passt für die Drei-Personen-GbR, die zu zweit weitermacht, ebenso wie für die Zwei-Personen-GbR, bei der einer das Geschäft als Einzelunternehmen übernimmt. Und sie ist der Ort, an dem Freistellung von Schulden, Übergabe von Zugängen, Kundeninformation, Wettbewerb und eine Erledigungsklausel gebündelt werden, damit nach der Unterschrift nichts mehr offen ist.`,
+      },
+      {
+        titel: "Was muss in die Ausscheidensvereinbarung eines GbR-Gesellschafters?",
+        text: `Die Vorlage folgt der Logik einer sauberen Trennung in elf Paragraphen:
+
+- Stichtag des Ausscheidens, Ersatz einer etwaigen Kündigung, Freistellung bis dahin (§ 1)
+- Fortführung mit Anwachsung und neue Beteiligungsquoten, alternativ Erlöschen der Zwei-Personen-GbR mit Gesamtrechtsnachfolge auf den Verbleibenden, Registeranmeldung bei eGbR (§ 2)
+- Abfindung als Festbetrag oder nach Bewertungsmethode, Abgeltung aller Ansprüche, Privatkonto, Zahlungsplan mit Verzinsung und Verfallklausel, Haftung der verbleibenden Gesellschafter, Teilhabe am laufenden Ergebnis (§ 3)
+- Auseinandersetzungsbilanz, schwebende Geschäfte, Fehlbetrag (§ 4)
+- Freistellung im Innenverhältnis, Hinweis auf die fünfjährige Nachhaftung, Pflicht zur Haftentlassung bei Bank, Vermieter und Lieferanten, Sicherheit (§ 5)
+- Übergabe von Unterlagen, Geräten, Zugängen, Erlöschen der Vollmachten, Kontoverfügung, Einsichtsrecht, Tätigkeitsbescheinigung (§ 6)
+- Name, Domain, Marke, Social-Media-Konten, Kunden, Meldungen an Gewerbeamt, Finanzamt, Register und Berufsgenossenschaft (§ 7)
+- Kunden- und Mitarbeiterschutz mit Vertragsstrafe, Vertraulichkeit (§ 8)
+- Steuern und Feststellungserklärung (§ 9)
+- Erledigungsklausel mit Ausnahmen (§ 10)
+- Fortgeltung des Gesellschaftsvertrags, Schriftform, Gerichtsstand (§ 11)
+
+Die vier Anlagen mit schwebenden Geschäften, Verbindlichkeiten, Übergabeprotokoll und Kundenliste machen die Vereinbarung erst vollständig.`,
+      },
+      {
+        titel: "Austrittsvereinbarung GbR Muster ausfüllen",
+        text: `Nimm den Gesellschaftsvertrag, die letzte Bilanz oder EÜR und die Kontoauszüge zur Hand:
+
+- Parteien: Ausscheidender, verbleibende Gesellschafter, Gesellschaft mit Anschrift und bei eGbR die Registernummer. Präambel mit Datum des Gesellschaftsvertrags und der Beteiligungsquote des Ausscheidenden.
+- § 1: Stichtag und Beginn der Freistellung mit Höhe der weitergezahlten Entnahmen.
+- § 2: Standardvariante mit neuen Quoten oder die Zwei-Personen-Variante; eine löschen. Bei eGbR den Registersatz behalten.
+- § 3: Festbetrag oder Bewertungsmethode mit Gutachter; dann Privatkontostand, Zahlungsplan, Zinssatz, Verzugsfrist und Entscheidung zum laufenden Jahresergebnis.
+- § 4: Zweck der Auseinandersetzungsbilanz, Prüffrist, Behandlung schwebender Geschäfte und eines Fehlbetrags.
+- § 5: die Gläubiger, bei denen die Haftentlassung erwirkt werden soll, Frist und Höhe der Sicherheit.
+- § 6: Bank und IBAN des Geschäftskontos, Ende des Einsichtsrechts.
+- § 7: Name, Domain, Marke; bei Namensbestandteil des Ausscheidenden Einwilligung oder Änderungsfrist.
+- § 8: Dauer, Gebiet und Geschäftsbereich des Kundenschutzes, Vertragsstrafe, oder die Variante ohne Wettbewerbsverbot.
+- § 9: Name des Steuerberaters oder die Variante ohne Prüfung.
+
+Anlagen befüllen, Übergabeprotokoll am Stichtag gemeinsam unterschreiben. Die Vorlage gibt es als Word und als PDF.`,
+      },
+      {
+        titel: "Typische Fehler beim Ausscheiden aus der GbR",
+        text: `Fehler eins: Die Freistellung im Vertrag wird für eine Entlassung aus der Haftung gehalten. Gegenüber Bank, Vermieter und Lieferanten haftet der Ausscheidende fünf Jahre weiter; nur deren schriftliche Zustimmung befreit ihn. Die Vorlage verpflichtet die Verbleibenden deshalb, diese Zustimmung einzuholen, und sieht hilfsweise eine Sicherheit vor.
+
+Fehler zwei: Abfindung ohne Abgeltungsklausel. Dann streitet man ein Jahr später über Gewinnanteile, Auslagen und Privatkontoguthaben. Fehler drei: Die Steuern werden nicht bedacht. Die Abfindung kann beim Ausscheidenden einen Veräußerungsgewinn auslösen, besonders wenn stille Reserven oder ein Firmenwert vergütet werden; bei den Verbleibenden entstehen Anschaffungskosten. Einmal Steuerberater vor Unterschrift ist günstiger als eine Nachzahlung.
+
+Fehler vier: Zugänge und Domains vergessen. Wenn der Online-Shop auf dem privaten Account des Ausscheidenden läuft, steht das Geschäft still. Das Übergabeprotokoll in Anlage 3 gehört deshalb vor den Stichtag. Fehler fünf: Die Meldungen bleiben liegen. Gewerbeamt, Finanzamt, Transparenzregister und bei eGbR das Gesellschaftsregister müssen informiert werden; der Ausscheidende meldet sein Gewerbe ab. Fehler sechs: Bei der Zwei-Personen-GbR wird die falsche Variante gewählt. Mit nur einem Verbleibenden erlischt die GbR, und das Vermögen geht auf ihn als Einzelunternehmer über.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen nach dem MoPeG: §§ 712 bis 728b BGB",
+        text: `Seit dem 1. Januar 2024 gilt das neue Personengesellschaftsrecht. Das Ausscheiden eines Gesellschafters führt nicht mehr zur Auflösung der GbR; die Gesellschaft besteht mit den übrigen fort und der Anteil des Ausscheidenden wächst ihnen an (§ 712 Abs. 1 BGB). Die Ausscheidensgründe sind in § 723 BGB geregelt, darunter die einvernehmliche Vereinbarung, auf die § 1 der Vorlage verweist. Bleibt nur ein Gesellschafter übrig, erlischt die Gesellschaft ohne Liquidation und ihr Vermögen geht im Wege der Gesamtrechtsnachfolge auf ihn über (§ 712a BGB).
+
+Der Ausscheidende hat Anspruch auf eine Abfindung, die ohne vertragliche Regelung dem Wert seines Anteils entspricht, und er haftet für einen Fehlbetrag anteilig (§§ 728, 728a BGB). An schwebenden Geschäften nimmt er nach § 728 Abs. 2 BGB teil, was die Vorlage in § 4 abbedingt oder auf eine Liste beschränkt. Die Nachhaftung für Altverbindlichkeiten endet fünf Jahre nach dem Ausscheiden (§ 728b BGB), gerechnet ab Kenntnis des Gläubigers oder bei eGbR ab Eintragung.
+
+Die Vereinbarung ist formfrei; Schriftform dient dem Beweis. Nur wenn Grundstücke zum Gesellschaftsvermögen gehören oder die eGbR-Anmeldung ansteht, ist der Notar für die Beurkundung beziehungsweise die Beglaubigung der Registeranmeldung nötig. Steuerlich erstellt die Gesellschaft für das Jahr des Ausscheidens die Feststellungserklärung mit dem anteiligen Ergebnis.`,
+      },
+      {
+        titel: "Wann die Vorlage nicht reicht",
+        text: `Die Vereinbarung ist für die einvernehmliche Trennung gedacht. Sie reicht nicht, wenn
+
+- die Trennung streitig ist, etwa bei Ausschluss aus wichtigem Grund, Vorwürfen von Pflichtverletzungen oder einem laufenden Gerichtsverfahren; dann braucht jede Seite einen eigenen Anwalt,
+- Grundstücke, Fahrzeuge mit Finanzierung, Leasingverträge oder Fördermittel im Gesellschaftsvermögen sind, deren Übergang Zustimmungen Dritter braucht,
+- Mitarbeiter beschäftigt sind, deren Arbeitsverhältnisse beim Übergang auf den Verbleibenden nach § 613a BGB zu behandeln sind,
+- die Abfindung erheblich ist und stille Reserven, Firmenwert oder ein Veräußerungsgewinn mit Freibeträgen steuerlich gestaltet werden sollen,
+- der Ausscheidende Ehepartner oder naher Angehöriger eines Verbleibenden ist, weil dann Schenkungsfragen entstehen können,
+- die GbR Marken, Patente oder Lizenzverträge hält, deren Übertragung formgebunden ist.
+
+In diesen Fällen sollten Anwalt und Steuerberater die Vereinbarung gemeinsam prüfen, bevor sie unterschrieben wird. Die Vorlage von GründerX ist ein Software-Muster und keine Rechtsberatung; für die typische Trennung einer kleinen Dienstleistungs- oder Handels-GbR mit klaren Zahlen ist sie als Word oder PDF jedoch eine vollständige Grundlage.`,
+      },
+    ],
     seo: {
-      title: "Ausscheiden aus GbR: Austrittsvereinbarung Vorlage | GründerX",
+      title: "Austritt aus GbR: Vereinbarung Vorlage kostenlos | GründerX",
       description:
         "Kostenlose Vereinbarung zum Ausscheiden eines GbR-Gesellschafters nach MoPeG: Stichtag, Abfindung, Freistellung, Nachhaftung, Übergabe, Wettbewerb, Erledigung.",
     },

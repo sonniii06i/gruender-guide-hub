@@ -58,8 +58,60 @@ export const VORLAGEN_ECOMMERCE: Vorlage[] = [
         a: "Die Verordnung (EU) Nr. 524/2013 wurde aufgehoben und die Plattform zur Online-Streitbeilegung am 20.07.2025 abgeschaltet. Der Link ist damit nicht nur überflüssig, sondern irreführend. Entferne ihn aus AGB, Impressum und Fußzeile. Der Hinweis nach § 36 VSBG, ob du an einem Schlichtungsverfahren teilnimmst, bleibt Pflicht.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du eine AGB Vorlage für deinen Online-Shop brauchst",
+        text: `Sobald du Waren über einen eigenen Shop an Verbraucher verkaufst, musst du eine Reihe von Informationen geben: wer Vertragspartner ist, wie der Vertrag zustande kommt, was Lieferung und Zahlung kosten und welche Rechte der Kunde bei Mängeln hat. AGB sind nicht vorgeschrieben, aber sie sind der übliche Ort, an dem Shops diese Pflichtangaben bündeln und gleichzeitig eigene Regeln setzen, etwa den Eigentumsvorbehalt oder die Reihenfolge von Angebot und Annahme.
+
+Diese AGB Vorlage passt für den Start mit Shopify, WooCommerce, Shopware oder einem anderen Shopsystem, wenn du physische Waren an Verbraucher in Deutschland verkaufst. Für Marktplätze wie Amazon oder eBay gelten deren eigene Regeln zum Vertragsschluss; dort nutzt du die Vorlage höchstens als Grundlage für die Pflichtangaben, nicht eins zu eins. Für Geschäftskunden brauchst du andere Klauseln, weil viele Verbraucherschutzregeln dort nicht gelten.`,
+      },
+      {
+        titel: "Was muss in die AGB eines Online-Shops?",
+        text: `Die Vorlage folgt dem Ablauf einer Bestellung und deckt die Punkte ab, die bei Abmahnungen am häufigsten geprüft werden:
+
+- Vertragspartner mit ladungsfähiger Anschrift, E-Mail und Registerdaten (§ 1)
+- Bestellablauf, Korrekturmöglichkeit und die Beschriftung des Bestellbuttons (§ 2)
+- Preise als Endpreise inklusive Umsatzsteuer und Versandkosten (§ 3)
+- Zahlungsarten, Fälligkeit und Verzugszinsen (§ 4)
+- Lieferzeit, Liefergebiet und Gefahrübergang beim Verbrauchsgüterkauf (§ 5)
+- Eigentumsvorbehalt bis zur vollständigen Zahlung (§ 6)
+- Verweis auf das Widerrufsrecht und die Ausnahmen (§ 7)
+- Gewährleistung ohne Verkürzung bei Neuware (§ 8)
+- Haftungsregel, die nur leichte Fahrlässigkeit begrenzt (§ 9)
+- Hinweis zur Verbraucherschlichtung nach § 36 VSBG (§ 10)
+- Vertragssprache und Speicherung des Vertragstextes (§ 11)
+
+Was nicht in die AGB gehört: die Widerrufsbelehrung selbst, das Muster-Widerrufsformular und die Datenschutzerklärung. Das sind eigene Dokumente, auf die die AGB nur verweisen. Wer alles in einen Text packt, macht ihn unübersichtlich und riskiert, dass einzelne Pflichtangaben übersehen werden.`,
+      },
+      {
+        titel: "AGB Muster ausfüllen: Schritt für Schritt entlang der Platzhalter",
+        text: `Beginne mit dem Kopf: Shopname, Domain und der komplette Anbieterblock in § 1 müssen mit deinem Impressum übereinstimmen, inklusive Rechtsformzusatz und Registernummer. In § 2 trägst du die Frist ein, innerhalb der du Bestellungen annimmst; fünf Werktage sind üblich. Streiche bei den Zahlungsarten alles, was du nicht anbietest, und prüfe, ob bei Sofortzahlung der Vertrag schon mit der Zahlung zustande kommt.
+
+In § 3 entscheidest du dich für die Regelbesteuerung oder die Kleinunternehmer-Variante und nennst die Versandkostenseite. Bei § 4 setzt du Fälligkeiten für Vorkasse und Rechnungskauf ein und nennst den Zahlungsdienstleister, falls du Forderungen abtrittst. In § 5 gehören Liefergebiet, Packstation ja oder nein und die realistische Lieferzeit hinein, die mit den Angaben auf deinen Produktseiten übereinstimmen muss.
+
+In § 7 trägst du die URL deiner Widerrufsseite ein, in § 8 die Erreichbarkeit deines Kundendienstes. Bei § 10 wählst du, ob du an Schlichtungsverfahren teilnimmst. Zum Schluss Datum, Firma und Ort eintragen, alle eckigen Klammern entfernen und die AGB als Word oder PDF speichern, bevor sie in den Shop kommen.`,
+      },
+      {
+        titel: "Typische Abmahnfallen bei Shop-AGB und wie du sie vermeidest",
+        text: `Der häufigste Fehler liegt nicht in den AGB, sondern im Checkout: Der Bestellbutton muss nach § 312j Abs. 3 BGB mit „zahlungspflichtig bestellen“ oder einer gleich eindeutigen Formulierung beschriftet sein. „Bestellen“, „Weiter“ oder „Kaufen“ reichen nicht, und ohne korrekten Button kommt kein Vertrag zustande. Der zweite Klassiker ist der veraltete OS-Link: Die EU-Plattform zur Online-Streitbeilegung wurde 2025 eingestellt, ein Verweis darauf ist heute irreführend.
+
+Weitere Fallen: eine Gewährleistungsverkürzung für Neuware, pauschale Haftungsausschlüsse, Lieferzeiten wie „in der Regel“ ohne konkrete Angabe, Versandkosten, die erst im letzten Schritt auftauchen, und AGB, die nur über einen Link im Footer erreichbar sind. AGB werden nach § 305 Abs. 2 BGB nur Vertragsbestandteil, wenn der Kunde sie vor der Bestellung zur Kenntnis nehmen und speichern kann. Bei Rabattaktionen prüft die Konkurrenz zudem, ob du den niedrigsten Preis der letzten 30 Tage nennst. Das steht nicht in den AGB, wird aber gleichzeitig abgemahnt.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen: Fernabsatz, AGB-Kontrolle, Informationspflichten",
+        text: `Die Regeln für Online-Shops stehen an mehreren Stellen. Die §§ 312c ff. BGB regeln Fernabsatzverträge, darunter die Pflichten im elektronischen Geschäftsverkehr nach § 312i und § 312j BGB. Welche Informationen du vor der Bestellung geben musst, listet Art. 246a EGBGB auf, vom Preis über die Lieferbedingungen bis zum Widerrufsrecht. Das Widerrufsrecht selbst steht in den §§ 355 ff. BGB, die Ausnahmen in § 312g Abs. 2 BGB.
+
+Ob eine einzelne Klausel wirksam ist, entscheidet die AGB-Kontrolle der §§ 305 ff. BGB. Gegenüber Verbrauchern gelten die Klauselverbote der §§ 308 und 309 BGB, deshalb sind Haftungsausschlüsse und Gewährleistungsverkürzungen so eng gefasst. Für Mängelrechte gelten die §§ 434 ff. BGB und für den Verbrauchsgüterkauf die §§ 474 ff. BGB, etwa der Gefahrübergang erst bei Übergabe an den Kunden. Dazu kommen die Preisangabenverordnung und das UWG, über das Mitbewerber und Verbände Verstöße abmahnen können.`,
+      },
+      {
+        titel: "Wann die AGB Vorlage nicht reicht",
+        text: `Die Vorlage deckt den Standardfall ab: Warenverkauf an Verbraucher in Deutschland. Sie reicht nicht, wenn du digitale Inhalte oder Dienstleistungen verkaufst, Abos mit automatischer Verlängerung anbietest, ins EU-Ausland lieferst oder Geschäftskunden mit eigenen Konditionen bedienst. Dann brauchst du zusätzliche Klauseln, etwa zum Kündigungsbutton, zum vorzeitigen Erlöschen des Widerrufsrechts bei Downloads oder zu den Verbraucherschutzregeln des Ziellandes.
+
+Auch bei großen Sortimenten, bei regulierten Waren wie Lebensmitteln, Kosmetik oder Elektronik und bei hohem Umsatz lohnt sich eine anwaltliche Prüfung oder ein Abmahnschutz-Dienst, der die Texte bei Gesetzesänderungen nachzieht. GründerX ist Software und keine Rechtsberatung; die Vorlage gibt dir eine geprüfte Struktur, die Verantwortung für den Einsatz im eigenen Shop bleibt bei dir. Lies die Texte deshalb vor jeder Veröffentlichung einmal komplett durch und gleiche sie mit deinem tatsächlichen Bestellablauf ab.`,
+      },
+    ],
     seo: {
-      title: "AGB Online-Shop Vorlage 2026 kostenlos (B2C) | GründerX",
+      title: "AGB Vorlage Online-Shop kostenlos (Word) | GründerX",
       description:
         "AGB für deinen Online-Shop als kostenlose Vorlage: Vertragsschluss, Bestellbutton, Versand, Zahlung, Widerruf, Gewährleistung, Haftung. Stand 2026 ohne OS-Link.",
     },
@@ -192,8 +244,58 @@ ${VORLAGEN_HINWEIS}`,
         a: "Prüfen wie im Laden darf der Kunde, also auspacken, ansehen, anprobieren. Für darüber hinausgehende Nutzung kannst du Wertersatz verlangen, aber nur, wenn du über diese Folge belehrt hast. Den Widerruf selbst darfst du deshalb nicht verweigern.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du ein Widerrufsbelehrung Muster brauchst",
+        text: `Jeder Vertrag, den du mit einem Verbraucher ausschließlich über Fernkommunikationsmittel schließt, also über Shop, E-Mail, Telefon oder Marktplatz, löst ein Widerrufsrecht aus. Du musst den Kunden darüber belehren, bevor er bestellt, und ihm die Belehrung danach in Textform zukommen lassen. Ohne Belehrung läuft die Frist nicht an, der Kunde kann über ein Jahr lang widerrufen und Rücksendekosten bleiben bei dir.
+
+Diese Vorlage ist für Warenlieferungen gedacht: Einzelbestellungen, mehrere Artikel in getrennten Paketen, Teilsendungen und regelmäßige Lieferungen wie Abo-Boxen. Auch auf Marktplätzen, die eine eigene Belehrung des Händlers verlangen, kannst du sie hinterlegen. Für Dienstleistungen, digitale Inhalte oder Verträge außerhalb von Geschäftsräumen gelten andere Gestaltungshinweise, die hier nicht ausgefüllt sind.`,
+      },
+      {
+        titel: "Das gehört in eine Widerrufsbelehrung für Online-Shops",
+        text: `Das Gesetz stellt in Anlage 1 zu Art. 246a EGBGB ein Muster bereit, das aus festen Textbausteinen und Gestaltungshinweisen besteht. Die Vorlage füllt diese Hinweise für den Warenversand aus und enthält:
+
+- den Hinweis auf das 14-tägige Widerrufsrecht ohne Angabe von Gründen
+- den Fristbeginn in vier Varianten (eine Ware, letzte Ware, letzte Teilsendung, erste Ware bei Abos)
+- deine Kontaktdaten für die Widerrufserklärung mit Anschrift, Telefon und E-Mail
+- den Hinweis auf das Muster-Widerrufsformular und optional auf ein Online-Formular
+- die Folgen des Widerrufs: Rückzahlung inklusive Standard-Lieferkosten binnen 14 Tagen
+- dein Zurückbehaltungsrecht bis zum Rückerhalt der Ware oder dem Versandnachweis
+- die Rücksendefrist und vier Varianten für die Rücksendekosten
+- den Wertersatz bei Nutzung über die Prüfung hinaus
+- die Ausschlüsse und das vorzeitige Erlöschen nach § 312g Abs. 2 BGB
+
+Am Ende steht ein kurzer Einbindungshinweis, der nicht Teil der Belehrung ist und vor der Veröffentlichung entfernt wird.`,
+      },
+      {
+        titel: "Widerrufsbelehrung Muster richtig ausfüllen",
+        text: `Zuerst entscheidest du dich beim Fristbeginn für genau eine der Varianten A bis D. Wer immer alles in einem Paket verschickt, nimmt Variante A. Wer Artikel aus verschiedenen Lagern getrennt versendet, Variante B. Wer eine große Bestellung in Teilen liefert, Variante C, und wer Abos oder regelmäßige Lieferungen verkauft, Variante D. Die übrigen Varianten und die Kennzeichnung in eckigen Klammern löschst du.
+
+Dann trägst du Firma, Anschrift, Telefon und E-Mail ein. Die Anschrift muss die sein, an die ein Brief mit dem Widerruf gehen kann. Bietest du ein Webformular an, lässt du den optionalen Satz stehen und musst den Eingang danach tatsächlich bestätigen. Bei der Rücksendeadresse trägst du dein Lager oder den Fulfillment-Dienstleister ein, falls die Ware nicht an deine Firmenanschrift zurückgehen soll.
+
+Bei den Rücksendekosten wählst du Variante 1, wenn der Kunde zahlt, Variante 2, wenn du zahlst, und Variante 3 oder 4 für Speditionsware. Zum Schluss streichst du alle Ausschlüsse, die in deinem Sortiment nicht vorkommen, und ergänzt Datum, Firma und Ort.`,
+      },
+      {
+        titel: "Typische Fehler in der Widerrufsbelehrung und ihre Folgen",
+        text: `Der teuerste Fehler ist die veraltete Belehrung. Das gesetzliche Muster wurde mehrfach geändert; wer noch eine Fassung mit alten Fristen, dem Begriff „Widerrufsfrist beträgt zwei Wochen“ oder einem Verweis auf die Rücksendekostenregel von vor 2014 nutzt, belehrt falsch. Die Folge nach § 356 Abs. 3 BGB: Die Frist verlängert sich auf zwölf Monate und 14 Tage nach dem eigentlichen Fristende.
+
+Ebenso häufig: mehrere Fristvarianten nebeneinander, weil der Shop „für alle Fälle“ alles stehen lässt. Das macht die Belehrung unklar. Dazu kommen pauschale Ausschlüsse wie „aus hygienischen Gründen keine Rücknahme“ ohne Versiegelung, die Forderung nach Originalverpackung als Bedingung, das Verrechnen von Rücksendekosten ohne Belehrung und ein fehlender Versand der Belehrung in Textform. Ein Link im Shop reicht nicht; die Belehrung muss per E-Mail, PDF oder auf Papier beim Kunden ankommen, spätestens mit der Ware.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen des Widerrufsrechts im Fernabsatz",
+        text: `Das Widerrufsrecht bei Fernabsatzverträgen folgt aus § 312g BGB in Verbindung mit den §§ 355 ff. BGB. § 355 BGB regelt Frist, Form und Wirkung des Widerrufs, § 356 BGB den Fristbeginn und die Verlängerung bei fehlender Belehrung, die §§ 357 ff. BGB die Rückabwicklung, also Rückzahlung, Rücksendung, Rücksendekosten und Wertersatz. Die Ausnahmen vom Widerrufsrecht stehen in § 312g Abs. 2 BGB.
+
+Was du vor Vertragsschluss mitteilen musst, regelt Art. 246a EGBGB. Dort steht auch, dass du die Informationspflicht zum Widerrufsrecht erfüllst, wenn du das Muster in Anlage 1 richtig ausgefüllt in Textform übermittelst. Diese Vorlage orientiert sich an dem Muster; prüfe trotzdem vor dem Einsatz den aktuellen amtlichen Wortlaut der Anlage 1 zu Art. 246a EGBGB, weil Änderungen des Gesetzgebers unmittelbar in die Belehrung übernommen werden müssen. Die Pflicht zur Übermittlung in Textform ergibt sich aus Art. 246a § 4 EGBGB.`,
+      },
+      {
+        titel: "Wann das Muster allein nicht reicht",
+        text: `Die Vorlage behandelt nur den Warenversand. Verkaufst du zusätzlich Dienstleistungen oder digitale Inhalte wie Downloads, Streaming oder Online-Kurse, brauchst du eine zweite Belehrung mit den passenden Gestaltungshinweisen und die Regel zum vorzeitigen Erlöschen bei Beginn der Ausführung. Bei Verträgen mit Kunden im EU-Ausland gelten die Regeln des jeweiligen Landes zusätzlich, oft mit eigenen Sprach- und Formvorgaben.
+
+Auch bei Mischbestellungen aus Waren und Dienstleistungen, bei Finanzierungskauf, bei Ratenzahlung über einen Zahlungsdienstleister und bei außerhalb von Geschäftsräumen geschlossenen Verträgen (Messen, Haustür) solltest du eine Fachperson einbeziehen. GründerX stellt Software und Vorlagen bereit, keine Rechtsberatung. Wenn du unsicher bist, ob deine Belehrung zu deinem konkreten Versandablauf passt, lohnt sich die einmalige Prüfung durch einen Anwalt oder einen Abmahnschutz-Dienst; die Kosten sind geringer als eine einzige Abmahnung.`,
+      },
+    ],
     seo: {
-      title: "Widerrufsbelehrung Muster 2026 für Online-Shops | GründerX",
+      title: "Widerrufsbelehrung Muster kostenlos (Word) | GründerX",
       description:
         "Widerrufsbelehrung nach dem gesetzlichen Muster (Anlage 1 EGBGB) für Warenlieferungen: Varianten ausgefüllt, Rücksendekosten, Ausschlüsse. Gratis als Word, PDF.",
     },
@@ -296,8 +398,56 @@ ${VORLAGEN_HINWEIS}`,
         a: "Er ist genauso wirksam. Entscheidend ist, dass der Kunde innerhalb der Frist eindeutig erklärt, den Vertrag zu widerrufen. Bestätige den Eingang, nenne die Rücksendeadresse und erstatte innerhalb von 14 Tagen nach Eingang des Widerrufs, sobald die Ware zurück ist oder der Versandnachweis vorliegt.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du das Muster-Widerrufsformular brauchst",
+        text: `Das Muster-Widerrufsformular ist der kleine Bruder der Widerrufsbelehrung und wird genauso oft vergessen. Sobald du als Händler oder Dienstleister Verträge mit Verbrauchern im Fernabsatz schließt, musst du dem Kunden ein Formular an die Hand geben, mit dem er den Widerruf erklären kann. Das gilt für den eigenen Online-Shop, für den Verkauf per E-Mail oder Telefon und für Anbieter digitaler Inhalte oder Dienstleistungen gleichermaßen.
+
+Du brauchst dieses Formular also parallel zur Widerrufsbelehrung, nie als Ersatz. In der Belehrung heißt es, der Kunde könne „das beigefügte Muster-Widerrufsformular“ verwenden; dieser Satz ist nur richtig, wenn das Formular tatsächlich beiliegt. Die Vorlage liefert dir den Wortlaut als eigenes Dokument, das du als PDF an die Bestellbestätigung anhängst, auf der Widerrufsseite zum Download anbietest oder der Ware beilegst.`,
+      },
+      {
+        titel: "Was im Muster-Widerrufsformular stehen muss",
+        text: `Der Inhalt ist gesetzlich vorgegeben und kurz. Das Formular enthält:
+
+- den einleitenden Satz, dass der Kunde es bei Widerruf ausfüllen und zurücksenden soll
+- deinen Adressblock mit Firma oder Name, Anschrift und E-Mail-Adresse, optional Fax
+- die Erklärung „Hiermit widerrufe(n) ich/wir den abgeschlossenen Vertrag über den Kauf der folgenden Waren / die Erbringung der folgenden Dienstleistung“
+- Felder für das Bestelldatum und das Erhaltdatum
+- Felder für Name und Anschrift des Verbrauchers
+- ein Unterschriftsfeld, das nur bei Mitteilung auf Papier ausgefüllt wird
+- das Datum und den Hinweis „Unzutreffendes streichen“
+
+Mehr darf als Pflicht nicht hinein. Die Vorlage ergänzt am Ende Hinweise zur Einbindung, zur Bearbeitung im Betrieb und zu freiwilligen Zusatzfeldern. Diese Hinweise sind für dich gedacht und werden vor der Veröffentlichung gelöscht, damit der Kunde nur das eigentliche Formular bekommt.`,
+      },
+      {
+        titel: "Widerrufsformular ausfüllen und im Shop einbinden",
+        text: `Das Ausfüllen beschränkt sich auf deinen Adressblock: Firma oder Vor- und Nachname, Straße, Postleitzahl, Ort und die E-Mail-Adresse, an die Widerrufe gehen sollen. Die Anschrift sollte mit der in Widerrufsbelehrung und Impressum übereinstimmen, damit der Kunde nicht an drei verschiedene Adressen schreibt. Die Faxnummer trägst du nur ein, wenn du tatsächlich ein Fax empfängst; sonst löschst du die Zeile.
+
+Danach entfernst du den Abschnitt „Hinweise zur Einbindung“ und speicherst das Dokument als PDF. Dieses PDF hängst du an die Bestellbestätigung an, die dein Shopsystem automatisch verschickt, und verlinkst es zusätzlich auf deiner Widerrufsseite neben der Belehrung. Bietest du ein Online-Formular zum Widerruf an, muss dein System den Eingang unverzüglich bestätigen, zum Beispiel per automatischer E-Mail; die Widerrufsbelehrung braucht dann den entsprechenden Zusatz.
+
+Die Felder für Ware, Datum, Name und Anschrift bleiben leer; sie füllt der Kunde aus. Gestalterisch darfst du Logo, Schrift und Layout anpassen, am Text änderst du nichts.`,
+      },
+      {
+        titel: "Typische Fehler beim Widerrufsformular",
+        text: `Der häufigste Fehler ist, das Formular gar nicht zu übermitteln. Viele Shops verlinken es nur im Footer und glauben, damit sei die Pflicht erfüllt. Das Gesetz verlangt aber die Zurverfügungstellung auf einem dauerhaften Datenträger, also per E-Mail, PDF oder Papier. Der zweite Fehler ist das Umschreiben: Wer eigene Formulierungen wählt, verliert die Vermutung, dass er korrekt informiert hat, und trägt das volle Abmahnrisiko.
+
+Ebenfalls problematisch sind Pflichtfelder, die das Gesetz nicht kennt. Bestellnummer, Kundennummer oder Rückgabegrund darfst du abfragen, aber nur erkennbar freiwillig. Der Widerruf darf nicht davon abhängen, dass der Kunde das Formular benutzt, die Originalverpackung verwendet oder einen Grund nennt. Ein Widerruf per formloser E-Mail oder Anruf ist genauso wirksam. Prüfe außerdem, ob die E-Mail-Adresse im Formular wirklich betreut wird: Ein Widerruf, der in einem ungelesenen Postfach landet, läuft trotzdem gegen dich.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen des Muster-Widerrufsformulars",
+        text: `Die Pflicht, ein Widerrufsformular bereitzustellen, steht in Art. 246a EGBGB, der die Informationspflichten bei Fernabsatzverträgen regelt. Das Formular selbst ist als Anlage 2 zu Art. 246a EGBGB veröffentlicht. Der Verbraucher kann den Widerruf nach § 355 Abs. 1 BGB durch jede eindeutige Erklärung ausüben; das Formular ist eine Hilfe, keine Voraussetzung. Die Übermittlung in Textform ergibt sich aus Art. 246a § 4 EGBGB.
+
+Die Folgen des Widerrufs, also die Rückzahlung innerhalb von 14 Tagen, das Zurückbehaltungsrecht bis zum Rückerhalt der Ware und die Rücksendung durch den Kunden, stehen in den §§ 355 und 357 BGB. Prüfe vor dem Einsatz den aktuellen amtlichen Wortlaut der Anlage 2 zu Art. 246a EGBGB; die Vorlage gibt den Text nach bestem Wissen wieder, aber verbindlich ist allein der Gesetzestext in seiner jeweils geltenden Fassung.`,
+      },
+      {
+        titel: "Wann du mehr brauchst als das Formular",
+        text: `Das Formular ist ein Baustein von mehreren. Es nützt nichts ohne korrekte Widerrufsbelehrung, ohne die Pflichtinformationen vor der Bestellung und ohne einen Bestellbutton, der auf die Zahlungspflicht hinweist. Wer das Widerrufsrecht für bestimmte Produkte ausschließen will, etwa bei personalisierter Ware oder geöffneten Hygieneartikeln, regelt das in der Belehrung, nicht im Formular.
+
+Bei Verträgen mit Kunden im EU-Ausland brauchst du das Formular in der jeweiligen Vertragssprache, und bei Abos, digitalen Inhalten oder Finanzdienstleistungen gelten zusätzliche Informationspflichten. In diesen Fällen oder bei hohem Bestellvolumen lohnt sich die Prüfung durch einen Anwalt oder ein Abmahnschutz-Paket, das die Texte bei Gesetzesänderungen aktuell hält. GründerX liefert die Vorlage als Software-Hilfe, keine Rechtsberatung; die Entscheidung, ob das Formular in deinen Bestellablauf passt, triffst du.`,
+      },
+    ],
     seo: {
-      title: "Muster-Widerrufsformular 2026 kostenlos (EGBGB) | GründerX",
+      title: "Muster-Widerrufsformular kostenlos (Word) | GründerX",
       description:
         "Das gesetzliche Muster-Widerrufsformular für Online-Shops als eigenes Dokument, mit Anleitung zur Einbindung in Bestellbestätigung und Widerrufsseite. Gratis.",
     },
@@ -418,8 +568,58 @@ ${VORLAGEN_HINWEIS}`,
         a: "Nein. Die EU hat die Plattform zur Online-Streitbeilegung am 20.07.2025 abgeschaltet und die zugrunde liegende Verordnung aufgehoben. Der Link führt ins Leere und sollte entfernt werden. Der Hinweis nach § 36 VSBG, ob du an Schlichtungsverfahren teilnimmst, bleibt für Unternehmen mit mehr als zehn Mitarbeitern Pflicht und ist für alle anderen empfehlenswert.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du eine Impressum Vorlage brauchst",
+        text: `Ein Impressum ist Pflicht, sobald du einen digitalen Dienst geschäftsmäßig anbietest. Das ist jede Website, jeder Online-Shop, jeder Blog mit Werbung und jedes Social-Media-Profil, das du für dein Unternehmen nutzt. Entscheidend ist nicht, ob du Geld verdienst, sondern ob der Dienst dauerhaft und nicht rein privat betrieben wird. Auch ein Kleinunternehmer, ein Freiberufler oder eine frisch gegründete UG braucht es vom ersten Tag an.
+
+Diese Impressum Vorlage deckt die typischen Rechtsformen ab: Einzelunternehmen und Freiberufler, GbR und eGbR, UG (haftungsbeschränkt) und GmbH. Dazu kommen Blöcke für Aufsichtsbehörde, reglementierte Berufe, Berufshaftpflicht und den Verantwortlichen für redaktionelle Inhalte. Sie eignet sich auch zum Nachziehen eines alten Impressums, das noch auf das TMG verweist.`,
+      },
+      {
+        titel: "Pflichtangaben im Impressum nach § 5 DDG",
+        text: `Die Vorlage enthält die Angaben, die § 5 DDG für geschäftsmäßige digitale Dienste verlangt, ergänzt um die Blöcke aus Nebengesetzen:
+
+- Name und ladungsfähige Anschrift, bei Gesellschaften Firma, Rechtsform und Vertretungsberechtigte
+- Kontakt mit E-Mail und einem zweiten schnellen Weg wie Telefon oder Kontaktformular
+- Handelsregister, Registergericht und Registernummer, bei eGbR das Gesellschaftsregister
+- Umsatzsteuer-Identifikationsnummer oder Wirtschafts-Identifikationsnummer, falls vorhanden
+- Aufsichtsbehörde bei erlaubnispflichtigen Tätigkeiten
+- Kammer, Berufsbezeichnung und berufsrechtliche Regelungen bei reglementierten Berufen
+- Berufshaftpflichtversicherung nach der DL-InfoV, wenn eine besteht
+- Verantwortlicher für journalistisch-redaktionelle Inhalte nach § 18 Abs. 2 MStV
+- Hinweis zur Verbraucherstreitbeilegung nach § 36 VSBG
+
+Nicht hinein gehören die Steuernummer des Finanzamts, private Daten ohne Bezug zum Unternehmen und der Link zur eingestellten OS-Plattform der EU.`,
+      },
+      {
+        titel: "Impressum Muster ausfüllen: Block wählen, Rest löschen",
+        text: `Die Vorlage arbeitet mit Blöcken in eckigen Klammern. Zuerst wählst du den passenden Anbieterblock: A für Einzelunternehmen und Freiberufler, B für die GbR, C für UG und GmbH. Die beiden anderen Blöcke löschst du komplett. Bei Block C trägst du Firma mit vollständigem Rechtsformzusatz, Geschäftsführer, Registergericht und HRB-Nummer ein; das Stammkapital ist optional.
+
+Im Kontaktblock gehören Telefon und E-Mail hinein, Fax und Kontaktformular nur, wenn vorhanden. Beim Umsatzsteuerblock trägst du deine USt-IdNr. ein oder löschst den Block, wenn du keine hast; die Steuernummer bleibt draußen. Die Blöcke für Aufsichtsbehörde, reglementierte Berufe und Berufshaftpflicht brauchst du nur, wenn sie auf dich zutreffen; Händler und Agenturen streichen sie meist.
+
+Den MStV-Block füllst du aus, wenn du Blog, Ratgeber oder Newsletter mit redaktionellen Inhalten betreibst. Bei der Streitbeilegung bleibt eine der beiden Varianten stehen. Zum Schluss arbeitest du die Checkliste am Ende ab, entfernst alle Klammerhinweise und das Datum ist eingetragen.`,
+      },
+      {
+        titel: "Typische Fehler im Impressum und Abmahnrisiken",
+        text: `Der Klassiker ist die fehlende ladungsfähige Anschrift. Ein Postfach, eine Packstation oder eine reine Briefkastenadresse reichen nicht; es muss eine Adresse sein, unter der dir Post zugestellt werden kann. Wer von zu Hause arbeitet, nennt die Privatadresse oder mietet eine echte Geschäftsadresse mit Postempfang. Der zweite häufige Fehler ist der gekürzte Rechtsformzusatz: „UG“ allein ist unzulässig, es muss „UG (haftungsbeschränkt)“ heißen, sonst droht persönliche Haftung.
+
+Weitere Fallen: ein Impressum, das nur über mehrere Klicks oder gar nicht vom Shop aus erreichbar ist, ein fehlendes Impressum auf Instagram, TikTok oder LinkedIn, ein alter Geschäftsführer nach einem Wechsel, der noch immer verlinkte OS-Link und die Steuernummer, die nicht ins Impressum gehört. Die Bezeichnung „Impressum“ muss klar erkennbar sein; „Kontakt“ oder „Info“ allein genügt nicht. Änderungen bei Anschrift, Vertretung oder USt-IdNr. musst du sofort nachziehen, nicht erst beim nächsten Relaunch.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen der Impressumspflicht",
+        text: `Die allgemeine Impressumspflicht steht seit dem 14. Mai 2024 in § 5 des Digitale-Dienste-Gesetzes (DDG), das das Telemediengesetz abgelöst hat. Die Pflichtangaben wurden inhaltlich fast unverändert übernommen, nur die Rechtsgrundlage ist neu. Für Anbieter mit journalistisch-redaktionellen Inhalten kommt § 18 Abs. 2 des Medienstaatsvertrags hinzu, der die Benennung eines Verantwortlichen verlangt.
+
+Dienstleister müssen nach der Dienstleistungs-Informationspflichten-Verordnung (DL-InfoV) weitere Angaben machen, etwa zur Berufshaftpflichtversicherung. Der Hinweis zur Verbraucherschlichtung folgt aus § 36 VSBG und ist für Unternehmen mit mehr als zehn Beschäftigten Pflicht. Die Angabe der USt-IdNr. ergibt sich aus § 5 DDG in Verbindung mit § 27a UStG. Wer die Pflichtangaben nicht, unvollständig oder nicht leicht erkennbar bereithält, riskiert eine Abmahnung durch Mitbewerber nach dem UWG und ein Bußgeld nach dem DDG.`,
+      },
+      {
+        titel: "Wann die Impressum Vorlage nicht ausreicht",
+        text: `Die Vorlage deckt Unternehmen mit Sitz in Deutschland und die üblichen Rechtsformen ab. Sie reicht nicht für Anbieter mit Sitz im Ausland, für Aktiengesellschaften, Genossenschaften oder Vereine, für Anbieter von Telemedien mit besonderen Zulassungen wie Rundfunk oder für Plattformen, die unter den Digital Services Act fallen und dort zusätzliche Angaben machen müssen.
+
+Ein Impressum ist außerdem nur ein Teil der Rechtstexte. Wer an Verbraucher verkauft, braucht zusätzlich AGB, Widerrufsbelehrung, Muster-Widerrufsformular und eine Datenschutzerklärung nach DSGVO; die Vorlagen dafür findest du ebenfalls in der Bibliothek. Bei reglementierten Berufen, Finanz- und Versicherungsvermittlung oder Heilberufen solltest du die berufsrechtlichen Angaben mit deiner Kammer oder einem Anwalt abstimmen. GründerX ist Software und ersetzt keine Rechtsberatung; die Vorlage spart dir die Recherche, die Prüfung auf deinen Einzelfall bleibt bei dir.`,
+      },
+    ],
     seo: {
-      title: "Impressum Vorlage 2026 nach § 5 DDG (nicht TMG) | GründerX",
+      title: "Impressum Vorlage nach § 5 DDG kostenlos | GründerX",
       description:
         "Impressum-Muster nach § 5 DDG für Einzelunternehmen, GbR, UG und GmbH: alle Pflichtangaben, Handelsregister, USt-IdNr., MStV, VSBG. Kostenlos als Word und PDF.",
     },
@@ -564,8 +764,60 @@ ${VORLAGEN_HINWEIS}`,
         a: "Nach außen gegenüber Betroffenen haften Verantwortlicher und Auftragsverarbeiter nach Art. 82 DSGVO gemeinsam; der Auftragsverarbeiter aber nur, wenn er seine spezifischen Pflichten verletzt oder gegen Weisungen verstoßen hat. Im Innenverhältnis regelt § 11 der Vorlage den Ausgleich nach Verursachungsanteilen.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du einen Auftragsverarbeitungsvertrag brauchst",
+        text: `Ein AVV ist Pflicht, sobald ein Dienstleister personenbezogene Daten in deinem Auftrag und nach deinen Weisungen verarbeitet. Im Online-Handel ist das fast immer der Fall: Das Fulfillment-Lager kennt die Adressen deiner Kunden, das Newsletter-Tool die E-Mail-Adressen, der Hoster speichert die Datenbank des Shops, die Agentur greift auf das Kundenkonto zu. Ohne AVV ist jede dieser Weitergaben ein Datenschutzverstoß, der dich als Verantwortlichen trifft.
+
+Die Vorlage funktioniert in beide Richtungen. Als Shop-Betreiber legst du sie Dienstleistern vor, die keinen eigenen Vertrag stellen. Als Dienstleister, Freelancer oder Agentur nutzt du sie, um Kunden einen fertigen AVV anzubieten. Keinen AVV brauchst du bei Stellen, die eigenverantwortlich handeln, etwa Steuerberater, Anwälte, Paketdienste oder Zahlungsdienstleister; dort erfolgt die Übermittlung auf eigener Rechtsgrundlage.`,
+      },
+      {
+        titel: "Was in einen AVV nach Art. 28 DSGVO gehört",
+        text: `Art. 28 Abs. 3 DSGVO schreibt den Mindestinhalt vor. Die Vorlage bildet ihn in elf Paragrafen und drei Anlagen ab:
+
+- Gegenstand, Dauer und Ort der Verarbeitung (§ 1)
+- Art, Zweck, Datenkategorien und betroffene Personen mit Verweis auf Anlage 1 (§ 2)
+- Verarbeitung nur auf dokumentierte Weisung und Benennung der weisungsberechtigten Personen (§ 3)
+- Vertraulichkeitspflicht der Mitarbeiter, Datenschutzbeauftragter, Verarbeitungsverzeichnis (§ 4)
+- technische und organisatorische Maßnahmen nach Art. 32 DSGVO in Anlage 2 (§ 5)
+- Genehmigung von Unterauftragnehmern mit Informations- und Widerspruchsrecht (§ 6)
+- Drittlandtransfer nur mit Angemessenheitsbeschluss, Standardvertragsklauseln oder BCR (§ 7)
+- Unterstützung bei Betroffenenrechten und Meldung von Datenpannen mit Frist (§ 8)
+- Kontroll- und Nachweisrechte, auch über Zertifizierungen (§ 9)
+- Löschung oder Rückgabe der Daten nach Vertragsende (§ 10)
+- Haftung nach Art. 82 DSGVO und Schlussbestimmungen (§ 11)
+
+Die Anlagen sind der eigentliche Kern: Ein AVV mit leerer TOM-Anlage und ohne konkrete Datenkategorien erfüllt die gesetzlichen Vorgaben nicht.`,
+      },
+      {
+        titel: "AVV Muster ausfüllen: Vertrag und Anlagen Schritt für Schritt",
+        text: `Trage zuerst beide Parteien mit Firma, Anschrift und Vertreter ein und nenne in der Präambel den Hauptvertrag mit Datum und Leistung, etwa „Lagerung und Versand von Kundenbestellungen“. In § 1 Abs. 3 legst du fest, ob die Verarbeitung nur in Deutschland oder im EU/EWR-Raum stattfindet. In § 3 Abs. 2 benennst du auf beiden Seiten die Personen, die Weisungen erteilen und empfangen dürfen.
+
+In § 4 Abs. 2 wählst du, ob der Auftragsverarbeiter einen Datenschutzbeauftragten hat. In § 6 setzt du die Ankündigungs- und Widerspruchsfristen für neue Unterauftragnehmer, in § 8 die Meldefrist bei Datenpannen, üblich sind 24 bis 48 Stunden. § 9 braucht die Ankündigungsfrist für Inspektionen, § 10 die Löschfrist nach Vertragsende.
+
+Dann die Anlagen: In Anlage 1 beschreibst du konkret, was mit welchen Daten passiert, welche Personengruppen betroffen sind, wo die Daten liegen und wann sie gelöscht werden. In Anlage 2 ersetzt du die Beispiele durch die tatsächlichen Maßnahmen des Dienstleisters; frage sie dort an, statt sie zu erfinden. Anlage 3 listet jeden Unterauftragnehmer mit Leistung, Land und Rechtsgrundlage bei Drittlandtransfer.`,
+      },
+      {
+        titel: "Typische Fehler bei Auftragsverarbeitungsverträgen",
+        text: `Der häufigste Fehler ist der AVV als Formalie: unterschrieben, abgeheftet, Anlagen leer. Aufsichtsbehörden prüfen genau die Anlagen, und ein Vertrag mit Platzhaltern wie „geeignete Maßnahmen“ ist wertlos. Ebenfalls häufig: Der AVV wird erst Monate nach Beginn der Zusammenarbeit geschlossen. Er muss vor der ersten Verarbeitung stehen.
+
+Bei US-Anbietern reicht der AVV allein nicht. Zusätzlich brauchst du eine Zertifizierung unter dem EU-US Data Privacy Framework oder abgeschlossene Standardvertragsklauseln samt Transfer Impact Assessment. Wer Unterauftragnehmer pauschal genehmigt, aber keine Liste führt und Änderungen nicht mitteilt, verletzt Art. 28 Abs. 2 DSGVO. Und wer einen AVV mit dem Steuerberater oder dem Paketdienst schließt, hat das Verhältnis falsch eingeordnet; das sind eigenständig Verantwortliche. Prüfe bei jedem Dienstleister, ob er wirklich weisungsgebunden arbeitet oder eigene Zwecke verfolgt, bevor du die Vorlage einsetzt.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen der Auftragsverarbeitung",
+        text: `Die Auftragsverarbeitung ist in Art. 28 DSGVO geregelt. Absatz 1 verlangt, dass du nur Dienstleister mit hinreichenden Garantien einsetzt, Absatz 2 regelt die Genehmigung von Unterauftragnehmern, Absatz 3 den Pflichtinhalt des Vertrags und Absatz 9 die Form, bei der ein elektronisches Format genügt. Art. 29 DSGVO verbietet dem Auftragsverarbeiter jede Verarbeitung ohne Weisung, Art. 30 Abs. 2 DSGVO verpflichtet ihn zu einem eigenen Verarbeitungsverzeichnis.
+
+Die Sicherheitsmaßnahmen folgen aus Art. 32 DSGVO, die Meldepflicht bei Datenpannen aus Art. 33 DSGVO, die Haftung aus Art. 82 DSGVO. Drittlandtransfers richten sich nach den Art. 44 ff. DSGVO. Als Alternative zur eigenen Vorlage hat die EU-Kommission mit Durchführungsbeschluss (EU) 2021/915 Standardvertragsklauseln für das Verhältnis zwischen Verantwortlichem und Auftragsverarbeiter veröffentlicht; beide Wege erfüllen Art. 28 Abs. 3, wenn die Anlagen sauber ausgefüllt sind. In Deutschland ergänzt das BDSG die DSGVO, etwa bei der Pflicht zur Bestellung eines Datenschutzbeauftragten nach § 38 BDSG.`,
+      },
+      {
+        titel: "Wann die AVV Vorlage nicht reicht",
+        text: `Die Vorlage ist für den Standardfall gedacht: ein Verantwortlicher, ein Auftragsverarbeiter, Verarbeitung in der EU. Sie reicht nicht bei gemeinsamer Verantwortlichkeit nach Art. 26 DSGVO, etwa wenn zwei Unternehmen eine Kundendatenbank gemeinsam nutzen, bei Verarbeitung besonderer Kategorien wie Gesundheitsdaten in großem Umfang, bei Konzernstrukturen mit vielen Unterauftragnehmern oder bei Dienstleistern außerhalb der EU ohne Angemessenheitsbeschluss.
+
+Große Anbieter wie Cloud-Plattformen und Newsletter-Dienste stellen eigene AVV, die du in der Regel nicht verhandeln kannst; dort prüfst du nur, ob die Anlagen deine Verarbeitung abdecken. Bei Zweifeln, ob ein Partner Auftragsverarbeiter oder selbst Verantwortlicher ist, und bei jeder Datenschutz-Folgenabschätzung solltest du einen Datenschutzbeauftragten oder Anwalt einbeziehen. GründerX ist Software und keine Rechtsberatung; die Vorlage gibt dir einen vollständigen Rahmen, die Einordnung deiner konkreten Dienstleister bleibt deine Aufgabe.`,
+      },
+    ],
     seo: {
-      title: "AVV Vorlage 2026: Auftragsverarbeitungsvertrag DSGVO | GründerX",
+      title: "AVV Vorlage: Auftragsverarbeitungsvertrag | GründerX",
       description:
         "Auftragsverarbeitungsvertrag nach Art. 28 DSGVO als kostenlose Vorlage mit Anlagen für Datenkategorien, TOM, Unterauftragnehmer und Drittlandtransfer. Gratis.",
     },
@@ -738,8 +990,60 @@ ${VORLAGEN_HINWEIS}`,
         a: "Der Lieferant erhält Name und Adresse deiner Kunden. Ob er Auftragsverarbeiter oder eigenständig Verantwortlicher ist, hängt davon ab, wie weisungsgebunden er handelt. Die Vorlage sieht vorsorglich einen AVV als Anlage vor und verpflichtet den Lieferanten, die Daten nur für die Lieferung zu nutzen. In der Datenschutzerklärung deines Shops musst du die Weitergabe nennen.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du einen Dropshipping Vertrag brauchst",
+        text: `Beim Dropshipping verkaufst du Ware, die du nie selbst in der Hand hast: Der Kunde bestellt bei dir, du gibst die Bestellung an den Lieferanten weiter, und der versendet direkt an den Kunden. Rechtlich bist du trotzdem der Verkäufer mit allen Pflichten aus Widerruf, Gewährleistung und Lieferzeit. Was du davon beim Lieferanten zurückholen kannst, regelt allein der Vertrag zwischen euch.
+
+Du brauchst diese Vorlage, sobald du mit einem Hersteller oder Großhändler im Streckengeschäft zusammenarbeitest und bisher nur dessen AGB oder eine E-Mail-Absprache gelten. Sie passt auch, wenn du selbst Lieferant bist und Händlern ein klares Dropshipping-Angebot machen willst. Die Vorlage setzt einen Lieferanten mit Sitz in der EU voraus; bei Lieferanten aus Drittländern wie China kommen Zoll, Einfuhrumsatzsteuer und Importeurspflichten dazu, die hier nicht geregelt sind.`,
+      },
+      {
+        titel: "Das muss in einem Dropshipping Vertrag stehen",
+        text: `Die Vorlage folgt dem Ablauf einer Bestellung vom Shop bis zur Retoure und regelt in zwölf Paragrafen:
+
+- die Rollen: du als alleiniger Verkäufer gegenüber dem Endkunden, der Lieferant als Versender (§ 1)
+- Produktliste, Produktdaten mit EAN, Bildern, Herstellerangaben und Nutzungsrechte daran (§ 2)
+- Einkaufspreise, Versandpauschalen, Rechnungsstellung und deine freie Preisgestaltung (§ 3)
+- Bestellübermittlung, Bestätigungsfrist, Bestandsdaten und Cut-off-Zeit für den Versand (§ 4)
+- neutraler Versand in deinem Namen ohne Werbung des Lieferanten (§ 5)
+- Lieferzeiten, Meldepflicht bei Verzug und Kündigungsrecht bei wiederholter Überschreitung (§ 6)
+- Retouren, Widerruf des Endkunden, Gewährleistung und Rückgriff nach §§ 445a, 445b BGB (§ 7)
+- Produktsicherheit, GPSR-Angaben, Konformitätsunterlagen, Verpackungsregistrierung, Freistellung (§ 8)
+- Datenschutz, Nutzungsbeschränkung der Kundendaten und AVV als Anlage (§ 9)
+- Marken, Geheimhaltung, Kundenschutz und optional Exklusivität (§ 10)
+- Laufzeit, Kündigung und Abwicklung nach Vertragsende (§ 11)
+
+Jede dieser Klauseln schließt eine Lücke, in der sonst du allein das Risiko trägst.`,
+      },
+      {
+        titel: "Dropshipping Vertrag Muster ausfüllen",
+        text: `Beginne mit den Parteien und deinen Verkaufskanälen in § 1; nenne Shop, Domain und Marktplätze, auf denen der Lieferant deine Bestellungen erwarten darf. Entscheide, ob du eine Mindestabnahme akzeptierst oder die Variante ohne Verpflichtung nimmst. In § 2 trägst du die Ankündigungsfristen für Sortimentsänderungen ein und legst fest, wie Produktdaten geliefert werden, etwa als CSV-Feed oder über eine Schnittstelle.
+
+In § 3 kommen Versandpauschale, Rechnungsrhythmus und Zahlungsziel hinein. § 4 braucht den Übermittlungsweg der Bestellungen, die Bestätigungsfrist in Stunden, den Takt der Bestandsdaten und die Uhrzeit, bis zu der Bestellungen noch am selben Tag versendet werden. In § 5 trägst du deine Absenderadresse, die Retourenadresse und die Paketdienste ein, in § 6 die Lieferzeit, die du dann auch im Shop versprechen darfst.
+
+Bei § 7 legst du fest, ob Retouren eine Bearbeitungspauschale kosten und ob Hinsendekosten erstattet werden. In § 8 forderst du die Deckungssumme der Produkthaftpflicht und klärst, wer die Verpackungsregistrierung trägt. § 9 nennt die Löschfrist für Kundendaten, § 11 Beginn, Kündigungsfrist und die Frist zum Entfernen der Produkte aus deinen Kanälen.`,
+      },
+      {
+        titel: "Typische Fehler beim Dropshipping und wie der Vertrag sie abfängt",
+        text: `Der häufigste Fehler ist der Glaube, der Lieferant sei für Lieferzeit und Mängel zuständig. Gegenüber dem Kunden bist das immer du. Versprichst du im Shop drei Werktage und der Lieferant braucht zehn, haftest du für den Verzug; deshalb müssen die Lieferzeit in § 6 und die Bestandsdaten in § 4 vertraglich abgesichert sein. Wer ohne Echtzeitbestand arbeitet, verkauft Ware, die es nicht gibt.
+
+Zweiter Fehler: Pakete, in denen Rechnung und Werbung des Lieferanten liegen. Der Kunde bestellt beim nächsten Mal direkt dort. § 5 schließt das aus. Dritter Fehler: fehlende Herstellerangaben und Sicherheitshinweise. Seit der GPSR darfst du ein Produkt ohne diese Daten nicht anbieten, und der Lieferant muss sie dir liefern können. Dazu kommen die Umsatzsteuer beim Reihengeschäft, die bei Auslandslieferungen eine Registrierung im OSS-Verfahren auslösen kann, und die Weitergabe von Kundendaten ohne AVV und ohne Hinweis in der Datenschutzerklärung. Jeder dieser Punkte hat in der Vorlage eine eigene Klausel.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen für Dropshipping-Verträge",
+        text: `Der Vertrag zwischen dir und dem Lieferanten ist ein Kaufvertrag unter Kaufleuten mit Elementen eines Rahmenvertrags. Es gelten die §§ 433 ff. BGB zum Kauf und die §§ 434 ff. BGB zur Gewährleistung; der Rückgriff des Händlers beim Lieferanten für Kosten aus Verbraucherreklamationen folgt aus den §§ 445a und 445b BGB. Unter Kaufleuten gilt die Untersuchungs- und Rügepflicht des § 377 HGB, die die Vorlage an die Besonderheit anpasst, dass du die Ware nie siehst.
+
+Gegenüber deinem Endkunden gelten die Fernabsatzregeln der §§ 312c ff. BGB, das Widerrufsrecht der §§ 355 ff. BGB und der Gefahrübergang beim Verbrauchsgüterkauf nach § 475 Abs. 2 BGB. Für die Produktsicherheit sind die Verordnung (EU) 2023/988 (GPSR) und das Produkthaftungsgesetz maßgeblich; bei Drittlandware wirst du oft selbst Importeur. Die Weitergabe von Kundendaten richtet sich nach Art. 28 DSGVO. Verpackungsgesetz und Elektrogesetz regeln, wer registriert sein muss.`,
+      },
+      {
+        titel: "Wann die Dropshipping Vorlage nicht reicht",
+        text: `Die Vorlage ist auf EU-Lieferanten und Standardware ausgelegt. Sie reicht nicht, wenn der Lieferant in China oder einem anderen Drittland sitzt: Dann musst du Zollabwicklung, Einfuhrumsatzsteuer, die Rolle als Importeur, die verantwortliche Person in der EU nach GPSR und oft die CE-Konformität selbst verantworten. Auch Plattformen wie Shopify-Apps oder Marktplätze mit eigenen Dropshipping-Regeln setzen zusätzliche Bedingungen, die der Vertrag nicht ersetzt.
+
+Bei regulierten Waren wie Lebensmitteln, Kosmetik, Elektronik mit Funk oder Spielzeug, bei Exklusivvereinbarungen über mehrere Länder und bei hohem Volumen lohnt sich die anwaltliche Prüfung, und die Umsatzsteuer im Reihengeschäft klärst du mit dem Steuerberater, bevor du ins EU-Ausland verkaufst. GründerX ist Software und keine Rechtsberatung. Die Vorlage gibt dir einen vollständigen Rahmen, den du Punkt für Punkt mit deinem Lieferanten abstimmst; unterschreibe nichts, was der Lieferant operativ nicht leisten kann.`,
+      },
+    ],
     seo: {
-      title: "Dropshipping-Vertrag Vorlage 2026 kostenlos | GründerX",
+      title: "Dropshipping Vertrag Vorlage kostenlos | GründerX",
       description:
         "Dropshipping-Vertrag zwischen Shop und Lieferant als kostenlose Vorlage: Bestellübermittlung, neutraler Versand, Lieferzeiten, Retouren, GPSR, Haftung, Daten.",
     },
@@ -888,8 +1192,58 @@ ${VORLAGEN_HINWEIS}`,
         a: "Nach 7 bis 10 Werktagen einmal freundlich per E-Mail mit Bezug auf die Erstanfrage, danach ein Anruf beim Vertrieb. Frage nach dem richtigen Ansprechpartner für Neukunden im Online-Handel. Bleibt auch das ohne Reaktion, sind Distributoren oder Großhändler der Marke der nächste Weg.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du eine Lieferantenanfrage Vorlage brauchst",
+        text: `Wer als Online-Händler Markenware verkaufen will, muss zuerst an die Ware kommen. Hersteller und Großhändler eröffnen Händlerkonten nicht auf Zuruf, sondern prüfen, ob hinter der Anfrage ein echtes Unternehmen mit Konzept, Nachweisen und realistischen Mengen steht. Eine formlose Mail mit „Ich hätte gern Ihre Preisliste“ landet im Papierkorb; ein strukturiertes Anschreiben mit Firmenprofil, Nachweisen und konkreten Fragen bekommt eine Antwort.
+
+Diese Vorlage nutzt du für die erste Kontaktaufnahme mit einem Hersteller, Importeur oder Großhändler, zur Eröffnung eines B2B-Kontos bei einer Marke, für die Anfrage nach Staffelpreisen, Dropshipping oder Gebietsschutz und als Nachfassschreiben, wenn eine erste Anfrage unbeantwortet blieb. Sie ist kein Vertrag, sondern ein Geschäftsbrief; der eigentliche Liefervertrag oder die Händlerbedingungen kommen danach.`,
+      },
+      {
+        titel: "Was in eine Anfrage an Hersteller und Großhändler gehört",
+        text: `Die Vorlage ist so aufgebaut, wie Vertriebsabteilungen Anfragen lesen: erst wer du bist, dann was du willst, dann welche Fragen offen sind.
+
+- Briefkopf mit allen Kontaktdaten und der Domain deines Shops
+- Betreff, der Marke oder Produktgruppe und das Ziel „Händlerkonto“ nennt
+- kurze Vorstellung von Shop, Sortiment, Zielgruppe und Verkaufskanälen mit ehrlichen Kennzahlen
+- Begründung, warum die Produkte zu deinem Sortiment passen
+- Firmenblock mit Rechtsform, Inhaber, Anschrift, Gewerbeanmeldung, Handelsregister und USt-IdNr.
+- geplante Erstbestellung und Jahresvolumen als Größenordnung
+- Fragenkatalog zu Händlerkonto, Preisliste, MOQ, Lieferzeiten, Fracht, Zahlungsziel, Rückgabe, Produktdaten, Konformität, Gebietsschutz, Dropshipping und Marketing
+- Bitte um Ansprechpartner und Gesprächsangebot
+- Anlagenverzeichnis mit Gewerbeanmeldung, Registerauszug, USt-IdNr.-Bestätigung und Shop-Profil
+
+Der Fragenkatalog ist bewusst vollständig: Wer die Konformitätsunterlagen und Produktdaten erst nach der ersten Bestellung anfragt, kann die Ware oft wochenlang nicht listen.`,
+      },
+      {
+        titel: "Lieferantenanfrage ausfüllen: so wirkt sie professionell",
+        text: `Fülle den Briefkopf vollständig aus und adressiere die Anfrage an die B2B- oder Vertriebsabteilung, bei bekanntem Namen direkt an die Person. Im ersten Absatz trägst du das Startdatum deines Shops, den Sortimentsschwerpunkt, die Zielgruppe, die Verkaufskanäle und die Bestellzahl pro Monat ein. Bist du noch nicht gestartet, nimmst du die Alternative mit dem Starttermin; erfinde keine Zahlen, die ein Besuch im Shop widerlegt.
+
+Im Absatz zur Passung nennst du einen konkreten Grund, etwa Kundenanfragen nach genau dieser Marke oder eine Lücke in deinem Sortiment. Der Firmenblock muss mit Impressum und Gewerbeanmeldung übereinstimmen. Bei der geplanten Abnahme nennst du eine Erstbestellung, die du wirklich bezahlen kannst, und ein Jahresvolumen als vorsichtige Schätzung.
+
+Aus dem Fragenkatalog streichst du, was nicht relevant ist; wer kein Ladengeschäft hat, lässt die Zeile weg, wer kein Dropshipping will, die Frage dazu. Unterschrift mit Funktion, Anlagen beifügen, als PDF versenden. Nach sieben bis zehn Werktagen ohne Antwort schickst du dieselbe Vorlage gekürzt als Nachfassmail und rufst danach im Vertrieb an.`,
+      },
+      {
+        titel: "Typische Fehler bei der Lieferantenanfrage",
+        text: `Der häufigste Fehler ist die Anfrage ohne Nachweise. Ohne Gewerbeanmeldung, USt-IdNr. und besuchbaren Shop antworten die meisten Hersteller nicht, weil sie Privatkäufer aussortieren müssen. Der zweite Fehler sind unrealistische Mengen: Wer 10.000 Stück ankündigt und 20 bestellt, bekommt beim nächsten Mal keine Antwort mehr. Ehrliche Startmengen mit Ausblick wirken glaubwürdiger.
+
+Ebenfalls häufig: Anfragen an die allgemeine Info-Adresse statt an den Vertrieb, ein Shop, der beim Besuch noch leer oder fehlerhaft ist, fehlende Fragen nach Produktdaten und Konformitätsunterlagen, die du für die Listung zwingend brauchst, und das Weglassen der Frage nach selektivem Vertrieb. Marken mit selektivem Vertriebssystem dürfen Online-Händler ablehnen oder Anforderungen an Präsentation und Service stellen; wer diese Kriterien kennt, kann sie erfüllen, statt pauschal abgelehnt zu werden. Und: Frage nach Exklusivität nur kurz und ohne Druck, ein Ja gibt es ohne Umsatzgeschichte praktisch nie.`,
+      },
+      {
+        titel: "Rechtlicher Rahmen für Händlerkonto und Einkauf beim Hersteller",
+        text: `Die Anfrage selbst ist unverbindlich; sie ist eine Einladung an den Lieferanten, ein Angebot zu machen. Verbindlich wird es erst mit der Annahme eines Angebots oder der Unterzeichnung von Händlerbedingungen. Sobald du bestellst, gilt zwischen Unternehmern Kaufrecht nach den §§ 433 ff. BGB, bei beiderseitigen Kaufleuten mit der Untersuchungs- und Rügepflicht des § 377 HGB, die Mängel unverzüglich nach Eingang anzeigen lässt.
+
+Für die Produkte, die du anbietest, trägst du als Händler eigene Pflichten: Herstellerangaben, Sicherheitshinweise und Produktkennung nach der Verordnung (EU) 2023/988 (GPSR), Kennzeichnungen nach Produktsicherheitsgesetz, Textil-, Elektro- oder Kosmetikrecht je nach Sortiment. Deshalb fragt die Vorlage diese Unterlagen schon im Anschreiben ab. Beim Vertrieb gilt das Kartellrecht: Hersteller dürfen Händler in einem selektiven System nach sachlichen Kriterien auswählen, dürfen dir aber keine Verkaufspreise vorschreiben; unverbindliche Preisempfehlungen sind zulässig, Mindestpreise nicht.`,
+      },
+      {
+        titel: "Wann das Anschreiben allein nicht reicht",
+        text: `Die Anfrage öffnet die Tür, regelt aber nichts. Sobald der Lieferant Konditionen nennt, brauchst du einen Rahmen: bei Dropshipping den Dropshipping-Vertrag, bei einem Händlerstatus mit Gebiet und Mindestabnahme den Vertriebspartnervertrag, bei laufenden Bestellungen zumindest eine Auftragsbestätigung mit klaren Lieferzeiten. Diese Vorlagen findest du in derselben Kategorie.
+
+Bei Lieferanten außerhalb der EU kommen Zoll, Einfuhrumsatzsteuer, Importeurspflichten und die verantwortliche Person in der EU hinzu; dort solltest du vor der ersten Bestellung Zollagent und Steuerberater einbeziehen. Bei regulierten Produkten wie Nahrungsergänzung, Kosmetik oder Elektronik mit Funk sind zusätzliche Zulassungen und Registrierungen nötig, die kein Anschreiben ersetzt. GründerX ist Software und keine Rechtsberatung; die Vorlage spart dir das Formulieren, die Prüfung der Lieferantenbedingungen vor der Unterschrift bleibt bei dir.`,
+      },
+    ],
     seo: {
-      title: "Lieferantenanfrage Vorlage für Händlerkonto 2026 | GründerX",
+      title: "Lieferantenanfrage Vorlage (Händlerkonto) | GründerX",
       description:
         "Anschreiben an Hersteller und Großhändler für Händlerkonto und Konditionen: Firmenvorstellung, Nachweise, Fragen zu Preisliste, MOQ, Lieferzeit, Exklusivität.",
     },
@@ -1018,8 +1372,60 @@ ${VORLAGEN_HINWEIS}`,
         a: "Werbekennzeichnung, Impressum, Datenschutzerklärung mit Nennung des Affiliate-Trackings und eine Einwilligung für Tracking-Cookies. Außerdem darf er keine unerlaubten Werbemails versenden (§ 7 UWG) und keine irreführenden Aussagen über dein Produkt machen. Verstöße berechtigen dich zur Sperrung.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du einen Affiliate Vertrag brauchst",
+        text: `Sobald du Dritten eine Provision für vermittelte Kunden zahlst, entsteht ein Vertrag, ob du ihn aufschreibst oder nicht. Ohne schriftliche Regelung streitet ihr später über Cookie-Laufzeiten, Stornos, nicht zugeordnete Bestellungen und darüber, ob der Partner mit Google-Anzeigen auf deinen Markennamen bieten darf. Die Affiliate-Vereinbarung legt das vorher fest und schützt beide Seiten.
+
+Du brauchst sie, wenn du ein eigenes Partnerprogramm für deinen Shop oder dein digitales Produkt startest, mit Bloggern, YouTubern, Influencern oder Vergleichsportalen auf Provisionsbasis arbeitest oder ein Affiliate-Tool einsetzt und dafür Programmbedingungen brauchst. Für Netzwerke wie Awin oder Tradedoubler gelten deren Rahmenverträge; dort dient die Vorlage nur als Vorlage für deine Programmbeschreibung. Für reine Pauschalkooperationen ohne Provision passt eher ein Influencer-Vertrag.`,
+      },
+      {
+        titel: "Das gehört in eine Affiliate-Vereinbarung",
+        text: `Die Vorlage regelt in elf Paragrafen den gesamten Ablauf vom Klick bis zur Auszahlung:
+
+- Teilnahme, Partnerkanäle und die Klarstellung, dass der Partner kein Handelsvertreter ist (§ 1)
+- Partnerlinks, Tracking, Cookie-Laufzeit, Last-Click oder First-Click und Vorrang eigener Kanäle (§ 2)
+- Provisionssatz, Bemessungsgrundlage und Definition der provisionspflichtigen Transaktion (§ 3)
+- Stornofrist, Rückbelastung ausgezahlter Provisionen und Ausweis der Stornos (§ 4)
+- monatliche Abrechnung im Gutschriftverfahren, Mindestauszahlung und Einwendungsfrist (§ 5)
+- erlaubte Werbemittel, Markennutzung und optional Gutscheinregeln (§ 6)
+- verbotene Werbung: Spam, Markenbidding, Cookie-Dropping, irreführende Angaben, mit Vertragsstrafe (§ 7)
+- Werbekennzeichnung und Datenschutzpflichten auf der Partnerseite (§ 8)
+- deine Pflichten: funktionierendes Tracking, Statistik, aktuelle Werbemittel (§ 9)
+- Laufzeit, Kündigung, Sperrung bei Verdacht und Abwicklung offener Provisionen (§ 10)
+- Haftung, Freistellung, Gerichtsstand (§ 11)
+
+Die wichtigste Klausel ist die Definition in § 3 Abs. 2: Provision gibt es nur für zugeordnete, bezahlte und nicht rückabgewickelte Bestellungen.`,
+      },
+      {
+        titel: "Affiliate Vertrag Muster ausfüllen",
+        text: `Trage in § 1 beide Parteien ein; beim Partner gehört die USt-IdNr. oder der Kleinunternehmerstatus dazu, weil davon die Abrechnung abhängt. Nenne Shop und Produkt und setze die Frist, innerhalb der du neuen Partnerkanälen widersprechen kannst. In § 2 trägst du das Partnerportal oder Tool, die Linkkennung, die Cookie-Laufzeit und das Zuordnungsprinzip ein; 30 Tage und Last-Click sind der häufigste Standard.
+
+§ 3 braucht den Provisionssatz auf den Netto-Warenwert oder eine Festprovision, optional eine Staffel und die Ankündigungsfrist für Änderungen. In § 4 setzt du die Stornofrist, mindestens 30 Tage, damit Widerruf und übliche Retouren abgedeckt sind. In § 5 legst du Abrechnungstag, Mindestauszahlung und Auszahlungsweg fest. Bei § 6 und § 7 entscheidest du, ob Gutscheincodes eingeschränkt werden, ob generische Keywords vom Markenbidding-Verbot ausgenommen sind und wie hoch die Vertragsstrafe ist.
+
+§ 10 braucht Kündigungsfrist, maximale Sperrdauer und die Frist zum Entfernen der Links. In Anlage 1 listest du jeden Partnerkanal mit URL oder Kanalname. Alle Klammern entfernen, Datum und Unterschriften ergänzen.`,
+      },
+      {
+        titel: "Typische Fehler in Partnerprogrammen",
+        text: `Der teuerste Fehler ist die Provision auf die Bestellung statt auf die bezahlte, nicht widerrufene Bestellung. Ohne Stornofrist zahlst du Provision für Käufe, die der Kunde zwei Wochen später zurückschickt. Der zweite Fehler ist fehlendes Markenbidding-Verbot: Partner schalten Google Ads auf deinen Markennamen, kassieren Provision für Kunden, die dich ohnehin gesucht hätten, und treiben deine eigenen Klickpreise hoch.
+
+Rechtlich riskant sind Partner ohne Werbekennzeichnung und ohne Consent-Banner. Affiliate-Links müssen als Werbung erkennbar sein, und Tracking-Cookies auf der Partnerseite brauchen eine Einwilligung; Verstöße können auch dich als Auftraggeber treffen. Die Vorlage verpflichtet den Partner in § 8 ausdrücklich dazu. Weitere Fallen: Eigenbestellungen über den eigenen Link, Cashback-Modelle ohne deine Zustimmung, unverlangte Werbemails und die Abrechnung ohne Gutschriftverfahren, bei der die Umsatzsteuer falsch läuft. Prüfe außerdem, ob ein besonders aktiver, exklusiver Partner noch Affiliate oder schon Handelsvertreter ist.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen für Affiliate-Marketing",
+        text: `Die Affiliate-Vereinbarung ist ein Vertrag eigener Art mit Elementen von Werbe- und Vermittlungsvertrag. Die Abgrenzung zum Handelsvertreter nach § 84 HGB ist wichtig, weil Handelsvertreter zwingende Rechte haben, etwa den Ausgleichsanspruch nach § 89b HGB bei Vertragsende. Ein Affiliate, der nur Links bereitstellt und nicht ständig als Beauftragter vermittelt, fällt in der Regel nicht darunter; die Vorlage stellt das in § 1 klar.
+
+Für die Werbung des Partners gelten das UWG, insbesondere die Kennzeichnungspflicht kommerzieller Kommunikation nach § 5a Abs. 4 UWG und das Verbot unverlangter Werbung nach § 7 UWG, sowie die Kennzeichnungspflicht nach § 6 DDG und § 22 MStV. Tracking-Cookies auf der Partnerseite unterliegen § 25 TDDDG und der DSGVO. Steuerlich ist die Provision Umsatz des Partners; die Abrechnung per Gutschrift richtet sich nach § 14 Abs. 2 UStG, bei Partnern im EU-Ausland gilt das Reverse-Charge-Verfahren. Die Klauseln unterliegen als AGB der Kontrolle nach den §§ 305 ff. BGB, auch gegenüber Unternehmern.`,
+      },
+      {
+        titel: "Wann die Affiliate Vorlage nicht reicht",
+        text: `Die Vorlage ist für ein eigenes Programm mit Partnern aus Deutschland und der EU gedacht. Sie reicht nicht, wenn du über ein Affiliate-Netzwerk arbeitest, das eigene Rahmenbedingungen vorgibt, wenn Partner außerhalb der EU sitzen und andere Steuer- und Datenschutzregeln gelten, oder wenn der Partner so eng eingebunden ist, dass er wie ein Handelsvertreter arbeitet; dann brauchst du einen Handelsvertretervertrag nach den §§ 84 ff. HGB.
+
+Auch bei Influencern mit Pauschalhonorar, Produktplatzierungen oder Content-Produktion ist eine Kooperationsvereinbarung mit Nutzungsrechten die bessere Wahl. Bei hohen Provisionsvolumen, Lead-Programmen für Finanzprodukte oder Programmen mit Sub-Affiliates lohnt sich die anwaltliche Prüfung. GründerX ist Software und keine Rechtsberatung; die Vorlage gibt dir einen vollständigen Rahmen, den du an dein Tracking-Tool und deine tatsächlichen Abrechnungsprozesse anpasst, bevor der erste Partner unterschreibt.`,
+      },
+    ],
     seo: {
-      title: "Affiliate-Vertrag Vorlage 2026 kostenlos | GründerX",
+      title: "Affiliate Vertrag Vorlage kostenlos (Word) | GründerX",
       description:
         "Affiliate-Vereinbarung für dein Partnerprogramm als kostenlose Vorlage: Tracking, Cookie-Laufzeit, Provision, Stornos, Auszahlung, Markenbidding-Verbot.",
     },
@@ -1170,8 +1576,60 @@ ${VORLAGEN_HINWEIS}`,
         a: "Ohne Regelung darf der Händler ihn abverkaufen, auch unter der Marke. Die Vorlage sieht ein Rückkaufrecht des Herstellers zum Einkaufspreis abzüglich eines Abschlags und eine Abverkaufsfrist vor. So verhinderst du, dass die Ware nach Vertragsende verramscht wird.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du einen Vertriebspartnervertrag brauchst",
+        text: `Sobald ein Händler deine Produkte regelmäßig einkauft und unter deiner Marke weiterverkauft, reicht die einzelne Bestellung als Grundlage nicht mehr. Ohne Rahmenvertrag sind Rabatte, Gebiete, Markennutzung, Mindestabnahme und das Ende der Zusammenarbeit ungeregelt, und beide Seiten verlassen sich auf E-Mails, die niemand mehr findet. Der Vertriebspartnervertrag, auch Händler- oder Reseller-Vertrag genannt, fasst diese Punkte in einem Dokument zusammen.
+
+Du brauchst ihn als Hersteller oder Importeur, der ein Händlernetz aufbaut, und als Händler, der eine Marke als autorisierter Reseller führen will und dafür verlässliche Konditionen braucht. Die Vorlage ist ein Wiederverkäufervertrag: Der Partner kauft auf eigene Rechnung und trägt das Absatzrisiko. Für Partner, die nur Geschäfte vermitteln und Provision erhalten, ist der Handelsvertretervertrag nach den §§ 84 ff. HGB die richtige Vorlage, nicht diese.`,
+      },
+      {
+        titel: "Das muss in einen Reseller Vertrag",
+        text: `Die Vorlage regelt in elf Paragrafen und drei Anlagen alles, was zwischen Hersteller und Händler strittig werden kann:
+
+- Stellung des Partners als selbständiger Kaufmann ohne Vertretungsmacht und ohne Ausgleichsanspruch (§ 1)
+- Vertragsprodukte, Gebiet und die Wahl zwischen nicht exklusivem Vertrieb und Alleinvertrieb (§ 2)
+- Händlerrabatt, Jahresbonus, Preisänderungen, Zahlungsziel, Skonto, Kreditlimit (§ 3)
+- Bestellweg, Lieferzeit, Gefahrübergang und verlängerter Eigentumsvorbehalt (§ 4)
+- Mindestabnahme mit Folgen bei Unterschreitung und Berichtspflichten ohne Kundendaten (§ 5)
+- unverbindliche Preisempfehlung mit ausdrücklichem Verzicht auf Preisbindung (§ 6)
+- Markenlizenz, Markenrichtlinien, Produktdaten und optional Werbekostenzuschuss (§ 7)
+- Rügepflicht, Nacherfüllung, Verjährung, Produktsicherheit, Freistellung, Rückruf, Versicherung (§ 8)
+- Geheimhaltung und Verbleib der Kundendaten beim Händler (§ 9)
+- Mindestlaufzeit, Verlängerung, außerordentliche Kündigung, Abverkauf und Rückkaufrecht (§ 10)
+- Vorrang des Vertrags vor AGB, Übertragungsverbot, Gerichtsstand (§ 11)
+
+Anlage 1 listet Produkte und Marken, Anlage 2 die Händlerpreisliste, Anlage 3 Markenrichtlinien und gegebenenfalls Qualitätskriterien für den selektiven Vertrieb.`,
+      },
+      {
+        titel: "Vertriebspartnervertrag Muster ausfüllen",
+        text: `Trage beide Parteien ein und lege in § 1 Abs. 3 fest, welche Bezeichnung der Partner führen darf. In § 2 wählst du zwischen Variante A ohne Exklusivität und Variante B mit Alleinvertrieb; die andere Variante löschst du. Entscheide, ob du Qualitätskriterien für Marktplätze aufnimmst; das ist nur zulässig, wenn sie sachlich begründet sind und für alle Händler gleich gelten.
+
+In § 3 setzt du Händlerrabatt, optional Jahresbonus, Ankündigungsfrist für Preisänderungen, Lieferkondition ab Werk oder frei Haus, Zahlungsziel, Skonto und Kreditlimit ein. § 4 braucht Bestellweg, Bestätigungsfrist, Mindestbestellmenge und Lieferzeit. In § 5 legst du die Mindestabnahme je Vertragsjahr fest und wählst, was bei Unterschreitung passiert: Wegfall der Exklusivität, Rabattkürzung oder Kündigungsrecht.
+
+§ 6 bleibt wie er ist; dort steht nur die UVP, keine Preisvorgabe. In § 7 und § 8 trägst du Werbekostenzuschuss, Rügefrist, Verjährungsfrist und Deckungssumme der Produkthaftpflicht ein. § 10 braucht Beginn, Mindestlaufzeit, Kündigungsfrist, Abverkaufsfrist und den Abschlag beim Rückkauf. Dann die drei Anlagen befüllen und unterschreiben.`,
+      },
+      {
+        titel: "Typische Fehler in Händlerverträgen: Preisbindung und Verkaufsverbote",
+        text: `Der gefährlichste Fehler ist die Preisbindung. Hersteller dürfen Händlern keine Mindest- oder Festpreise vorgeben, auch nicht indirekt über Rabattkürzungen, Lieferstopps oder Drohungen bei Unterschreitung der UVP. Das ist ein Kartellverstoß, der Bußgelder auslöst und die Klausel nichtig macht. Zulässig sind nur unverbindliche Preisempfehlungen und Höchstpreise; genau so ist § 6 der Vorlage gebaut.
+
+Zweiter Fehler: pauschale Verbote des Online-Verkaufs oder des Verkaufs über Marktplätze. Solche Verbote sind nur in engen Grenzen und nur im selektiven Vertrieb mit sachlichen Qualitätskriterien möglich. Dritter Fehler: das Verbot passiver Verkäufe. Kunden, die von sich aus aus einem anderen Gebiet bestellen, darf der Händler immer beliefern; nur aktive Verkaufsbemühungen in fremde Exklusivgebiete dürfen eingeschränkt werden. Weitere Fallen sind die Pflicht zur Überlassung des Kundenstamms, die einen Ausgleichsanspruch analog § 89b HGB begründen kann, fehlende Rügefristen und ein Vertragsende ohne Regelung für den Restbestand, der dann unter deiner Marke verramscht wird.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen für Vertriebspartnerverträge",
+        text: `Der Vertriebspartnervertrag ist gesetzlich nicht eigens geregelt; er kombiniert Kaufrecht nach den §§ 433 ff. BGB mit einem Rahmenvertrag und Elementen der Markenlizenz. Unter Kaufleuten gilt die Rügepflicht des § 377 HGB, für den Rückgriff bei Verbraucherverkäufen die §§ 445a, 445b und 478 BGB. Der Verzugszins zwischen Unternehmern beträgt nach § 288 Abs. 2 BGB neun Prozentpunkte über dem Basiszinssatz, dazu die Pauschale nach § 288 Abs. 5 BGB.
+
+Die Grenzen setzt das Kartellrecht: § 1 GWB und Art. 101 AEUV verbieten Preisbindung und Gebietsabschottung; die Vertikal-Gruppenfreistellungsverordnung (EU) 2022/720 regelt, welche Beschränkungen in Alleinvertriebs- und selektiven Systemen zulässig sind. Der Ausgleichsanspruch des § 89b HGB kann auf Vertragshändler entsprechend angewendet werden, wenn sie wie Handelsvertreter eingegliedert sind und ihren Kundenstamm überlassen müssen; die Vorlage vermeidet beides. Die Klauseln unterliegen als vorformulierte Bedingungen der AGB-Kontrolle nach den §§ 305 ff. BGB, auch zwischen Unternehmern.`,
+      },
+      {
+        titel: "Wann der Reseller Vertrag allein nicht reicht",
+        text: `Die Vorlage ist für den Vertrieb in Deutschland und angrenzenden Ländern mit einem Partner je Vertrag ausgelegt. Sie reicht nicht für Vertriebssysteme über viele EU-Länder mit unterschiedlichen Exklusivgebieten, für Franchise-Modelle mit Betriebskonzept und laufenden Gebühren, für Partner außerhalb der EU mit anderem Kartell- und Vertriebsrecht oder für Produkte, bei denen der Händler eigene Zulassungen braucht, etwa Medizinprodukte oder Arzneimittel.
+
+Ein selektives Vertriebssystem mit Qualitätskriterien muss kartellrechtlich sauber aufgesetzt sein; dort lohnt sich die anwaltliche Prüfung, bevor der erste Händler unterschreibt. Dasselbe gilt für Mindestabnahmen, die den Partner wirtschaftlich stark binden, und für Rückkaufklauseln bei großen Lagerbeständen. GründerX ist Software und keine Rechtsberatung. Die Vorlage gibt dir eine kartellrechtlich vorsichtige Grundlage; was du daraus streichst oder verschärfst, solltest du gegen die Vertikal-GVO prüfen lassen.`,
+      },
+    ],
     seo: {
-      title: "Vertriebspartnervertrag Vorlage 2026 (Reseller) | GründerX",
+      title: "Vertriebspartnervertrag Vorlage kostenlos | GründerX",
       description:
         "Vertriebspartner- und Reseller-Vertrag als kostenlose Vorlage: Produkte, Gebiet, Rabatte, Mindestabnahme, Marken, UVP ohne Preisbindung, Laufzeit, Kündigung.",
     },
@@ -1316,8 +1774,59 @@ ${VORLAGEN_HINWEIS}`,
         a: "Gegenüber Unternehmern sind Nettopreise mit gesondert ausgewiesener Umsatzsteuer üblich und zulässig. Gegenüber Verbrauchern musst du nach der Preisangabenverordnung Gesamtpreise inklusive Umsatzsteuer nennen. Die Vorlage weist beides aus, damit die Summe eindeutig ist.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du eine Angebot Vorlage für Geschäftskunden brauchst",
+        text: `Ein Angebot ist mehr als eine Preisauskunft: Sobald der Kunde es annimmt, ist der Vertrag geschlossen. Wer Preise per Chat oder kurzer Mail nennt, streitet später über Umfang, Lieferzeit, Gültigkeit und darüber, ob die eigenen AGB gelten. Eine saubere Angebotsvorlage legt all das fest, bevor der Kunde Ja sagt, und ist gleichzeitig die Grundlage für Auftragsbestätigung und Rechnung mit denselben Positionen.
+
+Diese Vorlage ist für Angebote an Unternehmen gedacht: Händler, die Waren an Geschäftskunden liefern, Agenturen und Freelancer mit Projektangeboten, Handwerker und Dienstleister. Sie passt für einmalige Lieferungen genauso wie für Projekte mit Leistungszeitraum. Für Verbraucher gelten zusätzliche Informationspflichten und die Preisangabenverordnung; dafür ist die Vorlage nicht gebaut.`,
+      },
+      {
+        titel: "Das muss in ein Angebot nach § 145 BGB",
+        text: `Damit ein Angebot verbindlich und eindeutig ist, enthält die Vorlage:
+
+- Briefkopf mit allen Pflichtangaben, Angebotsnummer, Datum und Ansprechpartner
+- Bezug auf die Anfrage des Kunden mit Datum und Zeichen
+- Leistungsbeschreibung mit Qualität, Vorgaben und ausdrücklichem Ausschluss dessen, was nicht enthalten ist (Abschnitt 1)
+- Positionsliste mit Bezeichnung, Menge, Einheit, Einzel- und Gesamtpreis netto, optional Eventualpositionen (Abschnitt 2)
+- Preisblock mit Nettosumme, Rabatt, Umsatzsteuer und Bruttobetrag sowie Lieferkondition (Abschnitt 3)
+- Lieferzeit oder Leistungszeitraum mit Vorbehalt der Mitwirkung des Kunden (Abschnitt 4)
+- Zahlungsbedingungen, Skonto, Anzahlung und Verzugsfolgen (Abschnitt 5)
+- Bindefrist mit festem Datum oder alternativ die freibleibende Variante (Abschnitt 6)
+- Annahmeregel, Hinweis auf § 150 Abs. 2 BGB, AGB-Einbeziehung, Abwehrklausel, Eigentumsvorbehalt (Abschnitt 7)
+- Unterschrift, Anlagenverzeichnis und Annahmevermerk für den Kunden
+
+Die Leistungsbeschreibung ist der Teil, an dem die meisten Angebote scheitern. Was dort nicht steht, ist später nicht geschuldet, und was nicht ausgeschlossen ist, erwartet der Kunde kostenlos dazu.`,
+      },
+      {
+        titel: "Angebot schreiben: die Vorlage Schritt für Schritt ausfüllen",
+        text: `Vergib eine fortlaufende Angebotsnummer und fülle den Briefkopf mit Registerdaten und USt-IdNr. aus. Trage den Kunden mit Ansprechpartner und Abteilung ein und nimm Bezug auf seine Anfrage. Formuliere die Leistungsbeschreibung in zwei bis fünf Sätzen und nenne ausdrücklich, was nicht enthalten ist, etwa Montage, Schulung oder Hosting.
+
+Lege die Positionen an: Artikel oder Leistung, Menge, Einheit, Einzelpreis, Gesamtpreis netto. Versand, Anfahrt oder Einrichtung bekommen eine eigene Position. Eventualpositionen, die nur auf Abruf gelten, kennzeichnest du als solche und lässt sie aus der Summe heraus. Im Preisblock rechnest du Netto, Rabatt, Umsatzsteuer und Brutto durch; Kleinunternehmer nehmen den Hinweis nach § 19 UStG.
+
+Bei der Lieferzeit wählst du Werktage nach Auftragseingang, ein festes Datum oder den Leistungsbeginn mit voraussichtlicher Fertigstellung. Bei der Zahlung entscheidest du dich für Zahlungsziel, Skonto oder Anzahlung. Setze die Bindefrist als Datum, bei Handelsware kurz, bei Projekten länger, oder nimm die freibleibende Variante. Trage die AGB-Fassung und den Link ein, unterschreibe mit Funktion und füge die Anlagen bei.`,
+      },
+      {
+        titel: "Typische Fehler bei Angeboten und ihre Folgen",
+        text: `Der häufigste Fehler ist die fehlende Bindefrist. Ohne sie bist du nach § 147 Abs. 2 BGB so lange gebunden, wie du eine Antwort unter regelmäßigen Umständen erwarten darfst; im Streit ist das unklar, und bei steigenden Einkaufspreisen zahlst du drauf. Der zweite Fehler ist die unklare Leistungsbeschreibung: Fehlt der Ausschluss von Nebenleistungen, liefert der Kunde Argumente, warum Korrekturschleifen, Anfahrt oder Support im Preis enthalten seien.
+
+Weitere Fallen: Angebote, die „freibleibend“ und zugleich mit Bindefrist versehen sind und sich damit widersprechen; AGB, auf die nur in der Rechnung hingewiesen wird, obwohl sie schon im Angebot eingebunden sein müssen; Annahmen des Kunden mit Änderungen, die du als Zustimmung verbuchst, obwohl sie nach § 150 Abs. 2 BGB ein neues Angebot sind; und Bruttopreise gegenüber Unternehmern ohne Ausweis der Umsatzsteuer, die später Diskussionen über die Höhe auslösen. Prüfe außerdem, ob die Positionen mit dem Kostenvoranschlag übereinstimmen, falls du vorher einen geschickt hast.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen für Angebot und Vertragsschluss",
+        text: `Ein Angebot ist nach § 145 BGB ein Antrag, an den du gebunden bist, bis die Annahmefrist abläuft. Die Frist bestimmst du selbst nach § 148 BGB; fehlt sie, gilt § 147 BGB. Eine verspätete oder abgeänderte Annahme ist nach § 150 BGB Ablehnung und neuer Antrag. Mit „freibleibend“ schließt du die Bindung aus; dann ist dein Schreiben nur eine Einladung, und der Vertrag kommt erst mit deiner Bestätigung zustande.
+
+Deine AGB werden unter Unternehmern einbezogen, wenn du vor Vertragsschluss auf sie hinweist und der Kunde sie einsehen kann; die strengen Anforderungen des § 305 Abs. 2 BGB gelten nach § 310 Abs. 1 BGB zwischen Unternehmern nicht, die Inhaltskontrolle nach § 307 BGB aber schon. Beim Verzug gelten § 286 BGB und der Zinssatz nach § 288 Abs. 2 BGB samt der Pauschale nach § 288 Abs. 5 BGB. Ein Kostenvoranschlag ist nach § 632 Abs. 3 BGB im Zweifel nicht zu vergüten und löst nach § 650 BGB bei wesentlicher Überschreitung eine Anzeigepflicht aus; deshalb nennt die Vorlage feste Preise.`,
+      },
+      {
+        titel: "Wann die Angebotsvorlage nicht reicht",
+        text: `Die Vorlage deckt Standardangebote an Unternehmen in Deutschland ab. Sie reicht nicht für Verbraucher, bei denen Gesamtpreise, Widerrufsbelehrung und weitere Pflichtinformationen dazukommen, für öffentliche Auftraggeber mit Vergaberecht und Formblättern, für Auslandsgeschäfte mit Fragen zu Incoterms, Währung und anwendbarem Recht oder für Bauleistungen, bei denen die VOB/B und das Bauvertragsrecht der §§ 650a ff. BGB gelten.
+
+Bei komplexen Projekten gehört zum Angebot ein Pflichtenheft oder eine Leistungsbeschreibung als Anlage, die genauer ist als die zwei bis fünf Sätze der Vorlage. Bei hohen Auftragswerten, Garantiezusagen oder Vertragsstrafen solltest du die Formulierungen anwaltlich prüfen lassen. GründerX ist Software und keine Rechtsberatung; die Vorlage gibt dir die Struktur, die Kalkulation und die Grenze zwischen enthaltener und nicht enthaltener Leistung legst du selbst fest.`,
+      },
+    ],
     seo: {
-      title: "Angebot Vorlage B2B 2026 kostenlos (Word & PDF) | GründerX",
+      title: "Angebot Vorlage B2B kostenlos (Word & PDF) | GründerX",
       description:
         "Angebotsvorlage für Geschäftskunden: Positionen, Netto- und Bruttopreise, Lieferzeit, Zahlungsbedingungen, Bindefrist, Annahme und AGB-Hinweis. Kostenlos.",
     },
@@ -1472,8 +1981,57 @@ ${VORLAGEN_HINWEIS}`,
         a: "Nein, Textform per E-Mail reicht. Wichtig ist, dass sie dem Kunden zugeht und du den Zugang nachweisen kannst. Bei größeren Aufträgen lohnt sich die Bitte um Gegenzeichnung, die die Vorlage als Option vorsieht.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du eine Auftragsbestätigung Vorlage brauchst",
+        text: `Die Auftragsbestätigung ist das Dokument, das den Vertrag festhält, bevor Ware oder Leistung unterwegs sind. Du brauchst sie, wenn ein Geschäftskunde bestellt und du den Auftrag annimmst, wenn ein Auftrag mündlich oder telefonisch erteilt wurde und schriftlich festgehalten werden soll, wenn dein Angebot freibleibend war und der Vertrag erst durch deine Bestätigung zustande kommt oder wenn die Bestellung vom Angebot abweicht und du die Abweichung klären musst.
+
+Ohne Bestätigung liefert ihr beide nach unterschiedlichem Verständnis: der Kunde erwartet den Termin aus dem Telefonat, du planst mit dem aus deinem Kalender. Die Vorlage ist für Geschäftskunden gedacht; im Verbraucher-Shop übernimmt die automatische Bestellbestätigung mit den Pflichtinformationen diese Funktion.`,
+      },
+      {
+        titel: "Das gehört in eine Auftragsbestätigung",
+        text: `Die Vorlage spiegelt die Angebotsvorlage, damit Positionen und Nummern durchgängig bleiben, und enthält:
+
+- Briefkopf mit Pflichtangaben, Bestätigungsnummer und Bezug auf Bestellung, Bestellnummer und Angebot
+- bestätigte Positionen mit Menge, Einzel- und Gesamtpreis netto sowie Umsatzsteuer und Bruttobetrag (Abschnitt 1)
+- Liefertermin, Lieferadresse, Versandart, bei Dienstleistungen Leistungsbeginn und Fertigstellung mit Mitwirkungsvorbehalt (Abschnitt 2)
+- Zahlungsbedingungen und Hinweis auf die gesonderte Rechnung (Abschnitt 3)
+- Abweichungen von der Bestellung in einer eigenen, hervorgehobenen Liste mit Frist zur Rückmeldung (Abschnitt 4)
+- AGB-Einbeziehung mit Abwehrklausel und Eigentumsvorbehalt (Abschnitt 5)
+- Hinweis auf die Wirkung als kaufmännisches Bestätigungsschreiben mit Widerspruchsfrist (Abschnitt 6)
+- optional Bitte um Gegenzeichnung, Unterschrift, Anlagen
+
+Abschnitt 4 ist der Kern: Nur wenn Abweichungen klar benannt sind, kann der Kunde reagieren, und nur dann wirkt sein Schweigen als Zustimmung.`,
+      },
+      {
+        titel: "Auftragsbestätigung ausfüllen: so gehst du vor",
+        text: `Vergib eine Nummer und fülle den Briefkopf aus. Im Bezug trägst du das Datum der Bestellung, die Bestellnummer des Kunden und, falls vorhanden, deine Angebotsnummer ein; bei Telefonaufträgen nennst du Datum und Gesprächspartner. Übernimm die Positionen aus deinem Angebot oder der Bestellung mit identischen Bezeichnungen und Artikelnummern und rechne Netto, Umsatzsteuer und Brutto durch.
+
+In Abschnitt 2 setzt du einen konkreten Liefertermin als Datum, Kalenderwoche oder Werktage nach Zugang, dazu Lieferadresse und Versandart. Bei Dienstleistungen gehört die Frist hinein, bis zu der der Kunde Unterlagen und Freigaben liefern muss. In Abschnitt 3 wählst du die Zahlungsbedingung, die zum Angebot passt.
+
+Abschnitt 4 entscheidet: Entspricht die Bestätigung der Bestellung, bleibt Variante A stehen. Weicht sie ab, nimmst du Variante B, listest jede Abweichung mit Position und Grund und setzt eine Frist für den Widerspruch. In Abschnitt 5 trägst du die AGB-Fassung und den Link ein, in Abschnitt 6 die Widerspruchsfrist. Entscheide, ob du eine Gegenzeichnung willst, und entferne alle eckigen Klammern.`,
+      },
+      {
+        titel: "Typische Fehler bei Auftragsbestätigungen",
+        text: `Der größte Fehler ist die versteckte Abweichung: Ein anderer Preis oder ein späterer Termin, der irgendwo in den Positionen steht, ohne dass der Kunde darauf hingewiesen wird. Solche Änderungen binden den Kunden nicht, und bei bewussten Abweichungen, die er erkennbar nicht akzeptieren würde, entfällt die Wirkung des Bestätigungsschreibens ganz. Deshalb hat die Vorlage den eigenen Abschnitt 4.
+
+Zweiter Fehler: Die Bestätigung sieht aus wie eine Rechnung. Wer „zahlbar sofort“ schreibt oder Rechnungsmerkmale nachbildet, verwirrt den Kunden und riskiert umsatzsteuerliche Probleme; die Rechnung kommt gesondert. Dritter Fehler: AGB, die erst in der Bestätigung auftauchen. Das funktioniert nur unter Unternehmern und nur, wenn der Kunde nicht widerspricht; sicherer ist der Hinweis im Angebot. Dazu kommt die eigene Nachlässigkeit beim Lesen: Bestätigungen deiner Lieferanten wirken genauso gegen dich, wenn du nicht unverzüglich widersprichst. Prüfe sie am Tag des Eingangs.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen: Annahme und kaufmännisches Bestätigungsschreiben",
+        text: `Ob die Auftragsbestätigung den Vertrag schließt oder nur dokumentiert, hängt vom Vorlauf ab. War dein Angebot verbindlich, kam der Vertrag nach den §§ 145 ff. BGB schon mit der Bestellung zustande. War es freibleibend oder gab es keins, ist die Bestellung der Antrag und deine Bestätigung die Annahme. Bestätigst du mit Abweichungen, ist das nach § 150 Abs. 2 BGB ein neuer Antrag, den der Kunde annehmen muss, etwa durch Abnahme der Lieferung.
+
+Die Grundsätze des kaufmännischen Bestätigungsschreibens sind Gewohnheitsrecht und gelten zwischen Kaufleuten und Personen, die wie Kaufleute am Geschäftsverkehr teilnehmen: Wer auf ein Schreiben, das eine vorherige mündliche Vereinbarung bestätigt, nicht unverzüglich widerspricht, akzeptiert dessen Inhalt. Die Grenze liegt bei Abweichungen, die so weit vom Besprochenen entfernt sind, dass der Absender nicht mit Zustimmung rechnen durfte. Die AGB-Einbeziehung unter Unternehmern folgt aus § 305 BGB in Verbindung mit § 310 Abs. 1 BGB; kollidierende Einkaufsbedingungen gelten nur, soweit sie übereinstimmen.`,
+      },
+      {
+        titel: "Wann die Auftragsbestätigung allein nicht reicht",
+        text: `Die Vorlage setzt einen Geschäftskunden und einen überschaubaren Auftrag voraus. Sie reicht nicht gegenüber Verbrauchern, bei denen die Wirkung als Bestätigungsschreiben nicht greift und zusätzliche Informationspflichten gelten, bei Aufträgen mit umfangreicher Leistungsbeschreibung, die als Anlage beiliegen muss, bei Rahmenverträgen mit Abrufen, bei denen jede Abrufbestätigung auf den Rahmenvertrag verweisen sollte, und bei Auslandsgeschäften mit Fragen zu Lieferklauseln, Währung und Rechtswahl.
+
+Wenn Lieferant und Kunde beide AGB schicken und diese sich widersprechen, löst die Abwehrklausel das nicht; dann hilft nur eine ausdrückliche Einigung über die Bedingungen. Bei hohen Auftragswerten, Vertragsstrafen oder Garantien solltest du die Bestätigung anwaltlich prüfen lassen. GründerX ist Software und keine Rechtsberatung; die Vorlage gibt dir ein Dokument, das Bestellung und Angebot sauber zusammenführt, die inhaltliche Prüfung jeder Abweichung bleibt deine Aufgabe.`,
+      },
+    ],
     seo: {
-      title: "Auftragsbestätigung Vorlage 2026 kostenlos | GründerX",
+      title: "Auftragsbestätigung Vorlage kostenlos (Word) | GründerX",
       description:
         "Auftragsbestätigung für Geschäftskunden als kostenlose Vorlage: Positionen, Termine, Zahlungsbedingungen, AGB-Einbeziehung und Bestätigungsschreiben.",
     },
@@ -1632,8 +2190,61 @@ ${VORLAGEN_HINWEIS}`,
         a: "Bis zur vollständigen Bezahlung, wenn das vereinbart ist. Die Vorlage überträgt die Nutzungsrechte aufschiebend bedingt durch die Zahlung der Vergütung. Nutzt der Kunde das Werk vorher, verletzt er dein Urheberrecht, was dir neben der Vergütung auch Unterlassungs- und Schadensersatzansprüche gibt.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du AGB für Dienstleistungen im B2B-Bereich brauchst",
+        text: `Agenturen, Berater, Entwickler und Freelancer verhandeln oft jeden Auftrag neu: Wem gehören die Ergebnisse, was passiert, wenn der Kunde nicht liefert, wie lange darf er Mängel rügen, wie hoch ist die Haftung. Mit eigenen AGB regelst du das einmal und verweist in jedem Angebot darauf. Ohne AGB gilt das Gesetz, das keine Haftungsbegrenzung, keine Abnahmefiktion und keine klare Regelung zu Nutzungsrechten kennt.
+
+Diese AGB Vorlage ist für Dienstleister mit Geschäftskunden gedacht: Marketing-, Design-, Web- und Social-Media-Agenturen, Software- und App-Entwicklung, Content-Produktion, Fotografie und Beratung. Sie deckt Dienst- und Werkleistungen ab und ordnet Abnahme und Gewährleistung nur den Werkleistungen zu. Gegenüber Verbrauchern sind viele Klauseln unwirksam; dafür ist die Vorlage nicht gebaut.`,
+      },
+      {
+        titel: "Das muss in AGB für Agenturen und Freelancer",
+        text: `Die Vorlage folgt dem Projektablauf und regelt in zwölf Paragrafen:
+
+- Geltungsbereich nur gegenüber Unternehmern und Abwehr fremder Einkaufsbedingungen (§ 1)
+- freibleibende Angebote, Vertragsschluss, Change Requests und Kostenvoranschläge (§ 2)
+- Leistungsumfang, keine Erfolgsgarantie für Reichweiten oder Umsätze, Subunternehmer, Referenznennung (§ 3)
+- Mitwirkungspflichten, Freigabefristen, Rechtegarantie für gelieferte Inhalte, Mehraufwand (§ 4)
+- Vergütung, Stundensatz, Abrechnungseinheiten, Fremdkosten, Anzahlung, Verzug, Zurückbehaltung (§ 5)
+- Abnahme bei Werkleistungen mit Prüffrist und Abnahmefiktion nach § 640 Abs. 2 BGB (§ 6)
+- Nutzungsrechte mit Zweckbindung, Vorbehalt bis zur Zahlung, Entwürfe, Fremdsoftware, Urhebernennung (§ 7)
+- Gewährleistung mit Nacherfüllung, zwölf Monaten Verjährung und Ausschlüssen bei Fremdeinflüssen (§ 8)
+- Haftung begrenzt auf den vorhersehbaren Schaden bei Kardinalpflichten, Datenverlust (§ 9)
+- Geheimhaltung und Auftragsverarbeitung nach Art. 28 DSGVO (§ 10)
+- Laufzeit, Kündigung nach § 648 BGB mit Pauschale, Retainer mit Mindestlaufzeit (§ 11)
+- Textform, salvatorische Klausel, Rechtswahl, Gerichtsstand (§ 12)
+
+Die Nutzungsrechte in § 7 und die Haftung in § 9 sind die Klauseln, die am meisten Geld wert sind.`,
+      },
+      {
+        titel: "AGB Vorlage für Dienstleister ausfüllen",
+        text: `Trage im Kopf Firma und Anschrift ein und beschreibe in § 1 Abs. 1 deine Leistungen so, dass alle Aufträge erfasst sind, etwa „Beratungs-, Konzeptions-, Gestaltungs-, Entwicklungs- und Marketingleistungen“. In § 2 Abs. 4 setzt du den Prozentsatz, ab dem du Überschreitungen eines Kostenvoranschlags anzeigst. In § 4 Abs. 2 legst du die Freigabefrist für Entwürfe fest; fünf Werktage sind üblich.
+
+In § 5 gehören Stundensatz, Abrechnungseinheit, die Schwelle für Anzahlungen und das Zahlungsziel hinein. § 6 braucht die Prüffrist für die Abnahme. In § 7 Abs. 1 entscheidest du, ob du einfache oder ausschließliche Nutzungsrechte einräumst und für welche Medien und Gebiete; bei Software ergänzt du die Regel zum Quellcode. In § 9 Abs. 2 setzt du die Haftungsobergrenze, etwa die Auftragssumme oder einen festen Betrag.
+
+§ 10 braucht die Dauer der Geheimhaltung nach Vertragsende, § 11 die Pauschale bei Kündigung nach § 648 BGB sowie Mindestlaufzeit, Verlängerung und Kündigungsfrist für Retainer. In § 12 trägst du den Gerichtsstand ein. Datum und Ort ergänzen, Klammern löschen, und die AGB in jedem Angebot verlinken oder beilegen.`,
+      },
+      {
+        titel: "Typische Fehler in Dienstleistungs-AGB und wie du sie vermeidest",
+        text: `Der häufigste Fehler ist der Einsatz gegenüber Verbrauchern. Haftungsbegrenzung, Abnahmefiktion, verkürzte Verjährung und Gerichtsstandsklausel sind dort unwirksam, und die AGB-Kontrolle ist strenger. Prüfe bei jedem Auftrag, ob dein Kunde Unternehmer ist. Der zweite Fehler ist die unwirksame Einbeziehung: AGB, die nur auf der Website stehen, gelten nicht; du musst im Angebot oder in der Auftragsbestätigung auf sie hinweisen und sie zugänglich machen.
+
+Dritter Fehler: der vollständige Haftungsausschluss. Haftung für Vorsatz, grobe Fahrlässigkeit, Personenschäden und die Verletzung wesentlicher Vertragspflichten darf auch unter Unternehmern nicht ausgeschlossen werden; eine zu weit gehende Klausel fällt komplett weg, und dann gilt die unbegrenzte gesetzliche Haftung. Weitere Fallen: Nutzungsrechte ohne Zahlungsvorbehalt, sodass der Kunde das Werk nutzt und die Rechnung streitig stellt, fehlende Mitwirkungsregeln, die Terminverschiebungen zu deinem Verzug machen, und Retainer ohne Mindestlaufzeit oder mit überlanger Bindung ohne Kündigungsmöglichkeit.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen für B2B-AGB",
+        text: `AGB unterliegen der Kontrolle nach den §§ 305 ff. BGB. Zwischen Unternehmern gelten nach § 310 Abs. 1 BGB die Einbeziehungsregeln des § 305 Abs. 2 BGB und die Klauselverbote der §§ 308 und 309 BGB nicht unmittelbar, die Inhaltskontrolle nach § 307 BGB aber schon; die Rechtsprechung zieht die Wertungen der §§ 308 und 309 BGB dabei als Maßstab heran. Deshalb ist die Haftungsklausel in § 9 so gebaut, wie sie ist.
+
+Ob Dienst- oder Werkvertrag vorliegt, entscheidet sich nach den §§ 611 und 631 BGB; die Abnahme und ihre Fiktion folgen aus § 640 BGB, die Gewährleistung beim Werk aus den §§ 633 ff. BGB, die Kündigung durch den Besteller aus § 648 BGB. Nutzungsrechte entstehen nur in dem Umfang, den der Vertragszweck erfordert, § 31 Abs. 5 UrhG; alles darüber hinaus muss ausdrücklich eingeräumt werden. Verzugszinsen unter Unternehmern richten sich nach § 288 Abs. 2 BGB, die Pauschale nach § 288 Abs. 5 BGB. Die Auftragsverarbeitung folgt aus Art. 28 DSGVO.`,
+      },
+      {
+        titel: "Wann die AGB Vorlage für Dienstleistungen nicht reicht",
+        text: `Die Vorlage deckt die üblichen Agentur- und Freelancer-Leistungen gegenüber Unternehmen in Deutschland ab. Sie reicht nicht für Verbraucherkunden, für Softwareprodukte mit Lizenz- oder SaaS-Modell, die eigene Nutzungs- und Verfügbarkeitsregeln brauchen, für Leistungen mit Erfolgsvergütung, für Auslandskunden mit anderem Vertragsrecht oder für Projekte, bei denen der Kunde eigene Rahmenverträge und Einkaufsbedingungen durchsetzt.
+
+Bei großen Projekten gehören ein individueller Vertrag mit Leistungsbeschreibung, Meilensteinen und Abnahmeverfahren dazu; die AGB bilden dann nur den Rahmen. Wer Zugang zu Kundendaten hat, braucht zusätzlich den Auftragsverarbeitungsvertrag aus dieser Bibliothek. Bei hohen Haftungsrisiken, etwa in der Softwareentwicklung für kritische Systeme, solltest du Haftungsklausel und Versicherung mit einem Anwalt abstimmen. GründerX ist Software und keine Rechtsberatung; die Vorlage spart dir das Grundgerüst, die Anpassung an dein Geschäftsmodell bleibt bei dir.`,
+      },
+    ],
     seo: {
-      title: "AGB Dienstleistungen B2B Vorlage 2026 für Agenturen | GründerX",
+      title: "AGB Vorlage Dienstleistungen B2B kostenlos | GründerX",
       description:
         "AGB für Agenturen, Berater und Freelancer gegenüber Unternehmern als kostenlose Vorlage: Leistungen, Mitwirkung, Vergütung, Nutzungsrechte, Abnahme, Haftung.",
     },

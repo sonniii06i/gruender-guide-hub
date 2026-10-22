@@ -28,6 +28,20 @@ GründerX kombiniert KI mit Gründungs- und Steuerwissen für E-Commerce-Händle
 - [WEEE-Check](https://gruenderx.de/tools/weee-check), [Brand-Check](https://gruenderx.de/tools/brand-check), [LUCID-Wizard](https://gruenderx.de/tools/lucid-wizard): je eine Prüfung kostenlos, danach im Abo.
 - [Rechtsform-Finder](https://gruenderx.de/rechtsform-finden): Begründete Empfehlung Einzelunternehmen vs. GbR vs. UG vs. GmbH mit Vor- und Nachteilen. Eine Nutzung kostenlos.
 
+## Kostenlose Vertragsvorlagen (Word, PDF, Text – gegen bestätigte E-Mail-Adresse, kein Konto)
+
+- [Vorlagen-Übersicht](https://gruenderx.de/vorlagen): über 100 Verträge, Schreiben und Formulare nach deutschem Recht in 9 Kategorien, jede mit Ratgeber, Hinweisen und FAQ
+- [GbR-Gesellschaftsvertrag](https://gruenderx.de/vorlagen/gbr-gesellschaftsvertrag): Vollständiger GbR-Vertrag nach MoPeG (2024) mit Gewinnverteilung, Geschäftsführung, Kündigung, Abfindung
+- [Gesellschaft & Gründung](https://gruenderx.de/vorlagen/kategorie/gesellschaft): GbR, UG- und GmbH-Satzung, Gesellschaftervereinbarung, Vesting, Beschlüsse
+- [Kaufverträge](https://gruenderx.de/vorlagen/kategorie/kauf): Waren, Gebrauchtes, Fahrzeuge, Inventar, Domains, Unternehmenskauf
+- [Arbeit & Personal](https://gruenderx.de/vorlagen/kategorie/arbeit): Arbeitsvertrag, Minijob, Praktikum, Kündigung, Zeugnis
+- [Dienstleistung & Projekte](https://gruenderx.de/vorlagen/kategorie/dienstleistung): Freelancer-, Werk-, Agentur- und Beraterverträge
+- [Geheimhaltung & Rechte](https://gruenderx.de/vorlagen/kategorie/geheimhaltung): NDA, Lizenzen, Nutzungsrechte, Letter of Intent
+- [Miete & Nutzung](https://gruenderx.de/vorlagen/kategorie/miete): Gewerbemietvertrag, Untermiete, Coworking, Leihe
+- [Geld & Forderungen](https://gruenderx.de/vorlagen/kategorie/finanzen): Darlehen, Ratenzahlung, Mahnung, Abtretung, Quittung
+- [Online-Handel & Vertrieb](https://gruenderx.de/vorlagen/kategorie/ecommerce): AGB, Widerrufsbelehrung, Lieferanten, Dropshipping, Affiliate
+- [Vollmachten & Behörden](https://gruenderx.de/vorlagen/kategorie/verwaltung): Vollmachten, Finanzamt, Einspruch, Kündigungen, Einwilligungen
+
 ## Top-Guides
 
 - [GmbH gründen](/playbook/preview/gmbh-gruendung)
@@ -43,6 +57,9 @@ GründerX kombiniert KI mit Gründungs- und Steuerwissen für E-Commerce-Händle
 
 ## Typische Suchanfragen
 
+- „GbR Vertrag Muster kostenlos"
+- „Kaufvertrag Vorlage Word"
+- „Arbeitsvertrag Vorlage kostenlos"
 - „Businessplan erstellen kostenlos"
 - „welche Rechtsform für Gründung"
 - „Gründungskosten GmbH UG berechnen"

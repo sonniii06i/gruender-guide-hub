@@ -53,8 +53,64 @@ export const VORLAGEN_GEHEIMHALTUNG: Vorlage[] = [
         a: "Nur, wenn die Vereinbarung das regelt. Die Vorlage erlaubt die Weitergabe an Mitarbeiter und Berufsgeheimnisträger, verlangt aber eine entsprechende Verpflichtung und lässt die empfangende Partei für deren Verstöße wie für eigene haften.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du eine einseitige Geheimhaltungsvereinbarung brauchst",
+        text: `Eine einseitige NDA (Non-Disclosure Agreement, auf Deutsch Geheimhaltungs- oder Vertraulichkeitsvereinbarung) passt immer dann, wenn der Informationsfluss nur in eine Richtung läuft: Du zeigst etwas, die andere Seite schaut. Typische Fälle sind das Gespräch mit einem Freelancer oder einer Agentur, die deine App bauen soll, das Angebot eines Herstellers, der dafür deine Zeichnungen oder Rezepturen braucht, ein Bewerbungsgespräch für eine Schlüsselposition oder ein Berater, der deine Kalkulation sehen will.
+
+Auch gegenüber Investoren ist die einseitige Variante der Normalfall, denn der Investor legt selbst keine Geheimnisse offen. Viele Business Angels und Fonds unterschreiben allerdings vor einem ersten Pitch keine NDA. Dann gilt: Erzähle im Erstgespräch nur, was du auch auf einer Konferenz sagen würdest, und verlange die Unterschrift, bevor der Datenraum aufgeht.`,
+      },
+      {
+        titel: "Was muss in eine NDA? Die Pflichtbausteine der Vorlage",
+        text: `Ein NDA Muster ist nur so gut wie seine Definitionen. Die Vorlage deckt die Punkte ab, an denen Geheimhaltungsvereinbarungen in der Praxis scheitern:
+
+- § 1 Vertrauliche Informationen: eine weite Definition mit Beispielen (Geschäftspläne, Quellcode, Kalkulationen, Prototypen) plus der Regel, dass auch nicht gekennzeichnete Informationen geschützt sind, wenn sich die Vertraulichkeit aus den Umständen ergibt.
+- § 1 Abs. 3 Ausnahmen: öffentlich bekannt, vorher bekannt, von Dritten rechtmäßig erhalten, selbst entwickelt. Die Beweislast liegt bei der empfangenden Partei.
+- § 2 Pflichten: Nutzung nur für den Zweck, angemessene Schutzmaßnahmen, Weitergabe nur an verpflichtete Mitarbeiter und Berater, Verbot von Reverse Engineering, Meldepflicht bei Vorfällen.
+- § 3 gesetzliche Offenlegungspflichten mit Vorab-Information.
+- § 4 keine Rechteeinräumung und kein Zwang zum Vertragsschluss.
+- § 5 Rückgabe und Löschung mit Frist und Bestätigung in Textform.
+- § 6 Laufzeit und Nachwirkung, in der Vorlage drei Jahre, für echte Geschäftsgeheimnisse unbegrenzt.
+- § 7 Vertragsstrafe in zwei Varianten und Schadensersatz nach GeschGehG.
+- § 8 Schriftform, Rechtswahl, Gerichtsstand.`,
+      },
+      {
+        titel: "NDA Vorlage ausfüllen: Schritt für Schritt entlang der Platzhalter",
+        text: `Alle Platzhalter stehen in eckigen Klammern. Lade die Vorlage kostenlos als Word, PDF oder Text herunter und arbeite sie von oben nach unten durch.
+
+Zuerst die Parteien: Firma, Rechtsform, Anschrift und die vertretungsberechtigte Person. Danach der Zweck in der Präambel: Formuliere ihn konkret, etwa „Prüfung einer Zusammenarbeit bei der Entwicklung der App X“.
+
+In § 1 Abs. 2 entscheidest du, ob mündliche Informationen nur mit schriftlicher Bestätigung binnen 14 Tagen geschützt sind. Die strengere Variante ohne Bestätigungspflicht ist für dich als offenlegende Partei besser. In § 5 trägst du die Rückgabefrist ein, in § 6 die Laufzeit (zum Beispiel zwei Jahre), die Kündigungsfrist und die Nachwirkung (drei Jahre). In § 7 wählst du Variante A mit festem Betrag oder Variante B nach billigem Ermessen und streichst die andere. Zum Schluss Ort, Datum und Gerichtsstand, dann unterschreiben beide Seiten jeweils eine Ausfertigung.`,
+      },
+      {
+        titel: "Typische Fehler bei Vertraulichkeitsvereinbarungen",
+        text: `Der häufigste Fehler ist die nachträgliche NDA: Die Unterlagen sind schon per E-Mail raus, die Unterschrift kommt Wochen später. Die Vorlage bietet dafür in § 6 Abs. 1 eine Rückwirkungsklausel, besser ist aber, die Vereinbarung vor dem ersten Dokument zu schließen.
+
+Zweiter Fehler: kein Nachweis, was übergeben wurde. Wenn die Gegenseite behauptet, die Information sei ihr schon vorher bekannt gewesen, musst du zeigen können, was du wann geschickt hast. Führe ein einfaches Übergabeprotokoll mit Datum und Dateinamen.
+
+Dritter Fehler: überzogene Vertragsstrafen. Ein pauschaler Betrag, der in keinem Verhältnis zum Wert der Information steht, wird vom Gericht herabgesetzt oder in vorformulierten Verträgen ganz gestrichen. Wähle einen Betrag, den du begründen kannst, oder nutze Variante B.
+
+Vierter Fehler: die Erwartung, eine NDA sei ein Wettbewerbsverbot. Sie verbietet nur die Nutzung und Weitergabe deiner Informationen, nicht die Tätigkeit im selben Markt.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen: Geschäftsgeheimnisgesetz und Vertragsstrafe",
+        text: `Seit April 2019 regelt das Geschäftsgeheimnisgesetz (GeschGehG) den Schutz vertraulicher Unternehmensinformationen. Nach § 2 Nr. 1 GeschGehG ist eine Information nur dann ein Geschäftsgeheimnis, wenn sie nicht allgemein bekannt ist, deshalb wirtschaftlichen Wert hat und Gegenstand angemessener Geheimhaltungsmaßnahmen ist. Dieser dritte Punkt ist neu gegenüber dem alten Recht: Wer keine Maßnahmen nachweisen kann, hat kein geschütztes Geheimnis. Die unterschriebene NDA ist die einfachste und wichtigste dieser Maßnahmen, ergänzt durch Zugriffsbeschränkungen und Kennzeichnung.
+
+§ 3 GeschGehG erlaubt grundsätzlich das Reverse Engineering öffentlich verfügbarer Produkte, lässt aber vertragliche Verbote zu. Genau das nutzt § 2 Abs. 4 der Vorlage. Die §§ 6 ff. GeschGehG geben dir bei Verletzungen Ansprüche auf Unterlassung, Auskunft, Vernichtung und Schadensersatz.
+
+Die Vertragsstrafe ist in den §§ 339 ff. BGB geregelt. Variante B stützt sich auf § 315 BGB: Du setzt die Höhe nach billigem Ermessen fest, das Gericht kann sie überprüfen. Diese Form hält auch in AGB-ähnlichen Situationen besser als starre Pauschalen.`,
+      },
+      {
+        titel: "Wann das NDA Muster nicht reicht und ein Anwalt helfen sollte",
+        text: `Die Vorlage ist für deutsche Vertragspartner und deutsches Recht geschrieben. Sitzt die Gegenseite im Ausland, prüfe Rechtswahl und Gerichtsstand genau; ein deutsches Urteil gegen einen Partner in den USA oder China ist schwer zu vollstrecken, und dort gelten andere Regeln für Vertragsstrafen. Bei größeren Auslandsdeals gehört die NDA in anwaltliche Hände.
+
+Auch wenn es um patentfähige Erfindungen geht, ist Vorsicht geboten: Eine NDA verhindert die neuheitsschädliche Offenbarung, ersetzt aber keine Patentanmeldung. Sprich vor der Offenlegung mit einem Patentanwalt, wenn eine Anmeldung in Frage kommt.
+
+GründerX stellt dir diese Vorlage als Software-Werkzeug zur Verfügung und ersetzt keine Rechtsberatung. Bei hohem Streitwert, mehreren Parteien oder einer Vertragsstrafe im sechsstelligen Bereich lohnt sich die Prüfung durch eine Kanzlei, bevor du unterschreibst.`,
+      },
+    ],
     seo: {
-      title: "NDA Vorlage einseitig 2026 kostenlos (Word & PDF) | GründerX",
+      title: "NDA Vorlage einseitig kostenlos (Word & PDF) | GründerX",
       description:
         "Einseitige Geheimhaltungsvereinbarung nach GeschGehG als kostenlose Vorlage: vertrauliche Informationen, Ausnahmen, Laufzeit, Rückgabe, Vertragsstrafe.",
     },
@@ -183,8 +239,66 @@ ${VORLAGEN_HINWEIS}`,
         a: "Dann greift die Rückgabe- und Löschpflicht, und die Geheimhaltungspflichten laufen für die vereinbarte Nachfrist weiter, in der Vorlage drei Jahre. Verwende Gelerntes nur, wenn es unter die Ausnahmen fällt oder die Residual-Klausel vereinbart wurde.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du eine gegenseitige NDA brauchst",
+        text: `Die gegenseitige Geheimhaltungsvereinbarung (Mutual NDA) ist die richtige Wahl, wenn beide Seiten etwas zu verlieren haben. Zwei Unternehmen prüfen eine Kooperation und tauschen Umsatzzahlen, Roadmaps und Kundenlisten aus. Ein Start-up verhandelt mit einem strategischen Investor, der im Gegenzug seine Pläne für den Markt offenlegt. Zwei Gründerteams überlegen, ihre Produkte zu verbinden, und zeigen sich gegenseitig den Quellcode.
+
+Auch taktisch ist die gegenseitige Variante oft klüger: Große Partner lehnen einseitige Vertraulichkeitsvereinbarungen gern mit dem Hinweis ab, sie seien unausgewogen. Ein symmetrisches NDA Muster nimmt dieses Argument weg und beschleunigt die Unterschrift.
+
+Wenn tatsächlich nur du Informationen preisgibst, etwa gegenüber einem Dienstleister oder Bewerber, nimm die einseitige NDA. Sie ist kürzer und verpflichtet dich zu nichts.`,
+      },
+      {
+        titel: "Diese Punkte muss eine Vertraulichkeitsvereinbarung regeln",
+        text: `Die Vorlage folgt dem Aufbau, den auch Konzern-Rechtsabteilungen erwarten, und bleibt trotzdem auf drei Seiten lesbar:
+
+- § 1 Vertrauliche Informationen mit Beispielkatalog und Schutz auch ohne Kennzeichnung; Abs. 3 nennt die vier Ausnahmen, die die empfangende Partei beweisen muss.
+- § 2 Pflichten beider Parteien: Zweckbindung, Schutzmaßnahmen nach § 2 Nr. 1 Buchst. b GeschGehG, Weitergabe nur an verpflichtete Personen, Verbot von Rückbau und Dekompilierung, Meldepflicht bei Vorfällen.
+- § 3 Offenlegung aufgrund Gesetz oder Behörde, mit Vorab-Information.
+- § 4 Residual-Wissen als optionale Klausel, die du im Zweifel streichst.
+- § 5 keine Rechteeinräumung, keine Exklusivität und ein optionales Abwerbeverbot für Mitarbeiter.
+- § 6 Rückgabe und Löschung mit Frist und Ausnahme für Pflichtaufbewahrung.
+- § 7 Laufzeit, Kündigung und Nachwirkung von drei Jahren, für echte Geschäftsgeheimnisse unbegrenzt.
+- § 8 Vertragsstrafe (fest oder nach billigem Ermessen) und Schadensersatz nach §§ 6 ff. GeschGehG.
+- § 9 Schriftform, Rechtswahl, Gerichtsstand, Ausfertigungen.`,
+      },
+      {
+        titel: "Gegenseitige NDA Vorlage ausfüllen: so gehst du vor",
+        text: `Lade das Muster kostenlos als Word-Datei herunter und ersetze die Platzhalter in eckigen Klammern. Beginne mit Partei A und Partei B: Firma, Rechtsform, Anschrift, vertretungsberechtigte Person. Beschreibe in der Präambel den Zweck so konkret wie möglich, zum Beispiel „eine Beteiligung der Partei A an der Partei B zu verhandeln“.
+
+Entscheide dann über § 4: Die Residual-Klausel erlaubt der Gegenseite, aus dem Gedächtnis Gelerntes weiterzuverwenden. Große Unternehmen bestehen oft darauf; wenn dein Kern-Know-how leicht zu merken ist, streiche die Klausel oder beschränke sie, wie die Vorlage es tut, auf nicht gekennzeichnete Informationen ohne Schutzrechte.
+
+In § 5 Abs. 3 wählst du, ob ein Abwerbeverbot gelten soll, und trägst die Dauer ein. In § 6 die Rückgabefrist (14 Tage), in § 7 Laufzeit, Kündigungsfrist und Nachwirkung. In § 8 legst du fest, ob überhaupt eine Vertragsstrafe gilt und in welcher Form. Abschließend Ort, Datum, Gerichtsstand und Unterschriften beider Seiten auf je einer Ausfertigung.`,
+      },
+      {
+        titel: "Fehler, die bei gegenseitigen Geheimhaltungsvereinbarungen teuer werden",
+        text: `Erstens: unausgewogene Praxis trotz symmetrischem Text. Wer als Start-up zehnmal mehr offenlegt als der Konzern, sollte Laufzeit, Nachwirkung und Vertragsstrafe nicht großzügiger fassen, als er sie selbst tragen kann, denn alle Pflichten gelten spiegelbildlich.
+
+Zweitens: die Residual-Klausel ungelesen akzeptieren. Sie ist für die Seite mit dem besseren Gedächtnis und den größeren Entwicklungsabteilungen ein Freifahrtschein. Streiche oder beschränke sie, wenn du der kleinere Partner bist.
+
+Drittens: Vertraulichkeit nur per E-Mail-Vermerk. Ein Hinweis in der Signatur begründet keine Pflicht, wenn die Gegenseite nie zugestimmt hat. Erst die unterschriebene Vereinbarung ist eine angemessene Geheimhaltungsmaßnahme im Sinne des Gesetzes.
+
+Viertens: fehlende interne Umsetzung. Wenn die vertraulichen Dateien bei dir in einem offenen Team-Laufwerk liegen, verletzt du § 2 Abs. 2 selbst und verlierst womöglich den gesetzlichen Geheimnisschutz. Lege einen Ordner mit beschränktem Zugriff an und benenne die Personen, die hinein dürfen.`,
+      },
+      {
+        titel: "Rechtsgrundlagen: GeschGehG, Vertragsstrafe und Formfragen",
+        text: `Das Geschäftsgeheimnisgesetz von 2019 setzt die EU-Richtlinie 2016/943 um. Nach § 2 Nr. 1 GeschGehG ist ein Geschäftsgeheimnis nur geschützt, wenn der Inhaber angemessene Geheimhaltungsmaßnahmen getroffen hat. Für beide Parteien einer gegenseitigen NDA gilt deshalb: Die Vereinbarung schützt nicht nur gegen den Partner, sie ist auch der Nachweis gegenüber Dritten, dass du dein Know-how ernsthaft sicherst.
+
+§ 3 Abs. 1 Nr. 2 GeschGehG erlaubt das Reverse Engineering, soweit es nicht vertraglich ausgeschlossen ist; die Vorlage schließt es in § 2 Abs. 4 aus. § 5 GeschGehG enthält Ausnahmen für Hinweisgeber und Presse, die kein Vertrag aushebeln kann; § 3 der Vorlage lässt sie ausdrücklich unberührt. Die Ansprüche bei Verletzung stehen in den §§ 6 bis 8 GeschGehG: Unterlassung, Vernichtung, Rückruf, Auskunft und Schadensersatz.
+
+Die Vertragsstrafe richtet sich nach §§ 339 ff. BGB; die Ermessensvariante nach § 315 BGB ist gerichtlich überprüfbar und daher weniger angreifbar.`,
+      },
+      {
+        titel: "Wann das Muster nicht reicht",
+        text: `Ein Mutual NDA von zwei Seiten ist für Gespräche zwischen deutschen Unternehmen gemacht. Bei Partnern im Ausland solltest du Rechtswahl, Gerichtsstand und Vollstreckbarkeit mit einer Kanzlei klären, denn ausländische Gerichte behandeln Vertragsstrafen und Geheimnisschutz teils völlig anders.
+
+Bei einer echten Due Diligence vor Unternehmenskauf oder Finanzierungsrunde ist die NDA nur der erste Schritt. Dort folgen Letter of Intent oder Term Sheet, die du ebenfalls in dieser Bibliothek findest, und am Ende ein notarieller Vertrag.
+
+Geht es um Erfindungen, die patentiert werden sollen, verhindert die NDA zwar die neuheitsschädliche Offenbarung, ersetzt aber keine Anmeldung. Bei mehr als zwei Parteien, bei Konsortien oder bei Forschungskooperationen mit Hochschulen brauchst du eine mehrseitige Vereinbarung mit Regeln für gemeinsame Ergebnisse. GründerX ist eine Software für Gründer und keine Rechtsberatung; die Vorlage ist ein Muster, das du an deinen Fall anpassen und bei hohem Einsatz prüfen lassen solltest.`,
+      },
+    ],
     seo: {
-      title: "NDA Vorlage gegenseitig 2026 kostenlos (Word & PDF) | GründerX",
+      title: "NDA Vorlage gegenseitig kostenlos (Word & PDF) | GründerX",
       description:
         "Gegenseitige NDA für Kooperation und Investment als kostenlose Vorlage nach GeschGehG: Pflichten beider Seiten, Residual-Klausel, Laufzeit, Vertragsstrafe.",
     },
@@ -313,8 +427,65 @@ ${VORLAGEN_HINWEIS}`,
         a: "Nicht zwingend, die Vorlage enthält eine Vertraulichkeitsregelung. Wenn ihr vorher bereits eine NDA geschlossen habt, verweist der LOI darauf. Liegt der Datenraum schon offen, bevor der LOI unterschrieben ist, solltest du eine eigenständige NDA vorschalten.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du einen Letter of Intent brauchst",
+        text: `Ein Letter of Intent (LOI, auf Deutsch Absichtserklärung) hält fest, dass zwei Seiten ernsthaft über eine Transaktion verhandeln und zu welchen Eckpunkten. Typische Situationen: Du willst ein Unternehmen oder einen Geschäftsbetrieb kaufen und vor der teuren Due Diligence wissen, ob der Preisrahmen überhaupt passt. Ein Investor will sich an deiner GmbH beteiligen, und ihr wollt Struktur, Bewertung und Zeitplan fixieren, bevor Anwälte den Beteiligungsvertrag schreiben. Oder du verkaufst dein Unternehmen und gewährst einem Interessenten nur gegen einen klaren Fahrplan Exklusivität.
+
+Der LOI ersetzt weder NDA noch Kaufvertrag, sondern schlägt die Brücke zwischen beiden. Für Finanzierungsrunden mit mehreren Angels ist das Term Sheet aus dieser Bibliothek das passendere Muster, für den Kauf von Anteilen oder Betrieben der LOI.`,
+      },
+      {
+        titel: "Was in eine Absichtserklärung gehört",
+        text: `Die Vorlage trennt sauber zwischen Absicht und Verpflichtung. Diese Abschnitte brauchst du:
+
+- Präambel mit Beschreibung der Zielgesellschaft und der Beteiligungsquote des Inhabers.
+- § 1 Gegenstand: Share Deal, Asset Deal oder Kapitalerhöhung, wirtschaftlicher Stichtag und geplantes Closing.
+- § 2 Wirtschaftliche Eckpunkte: indikativer Kaufpreis, Cash-and-debt-free-Basis, Earn-out, Einbehalt für Garantien, Wettbewerbsverbot des Verkäufers, Finanzierungsvorbehalt.
+- § 3 Due Diligence mit Datenraum, Frist, Frageprozess und Grenzen für Kontakte zu Mitarbeitern und Kunden.
+- § 4 Exklusivität mit festem Enddatum und optionaler Kostenerstattung bei Verstoß.
+- § 5 Vertraulichkeit und abgestimmte Kommunikation, Verweis auf eine bestehende NDA.
+- § 6 Kostentragung inklusive Notarkosten.
+- § 7 Zeitplan von Due Diligence bis Closing.
+- § 8 Unverbindlichkeit: Nur §§ 4, 5, 6, 8 und 9 binden, alles andere ist Absicht.
+- § 9 Schlussbestimmungen und Geltungsdauer des LOI.`,
+      },
+      {
+        titel: "LOI Vorlage ausfüllen: Platzhalter und Varianten",
+        text: `Lade die Vorlage kostenlos als Word oder PDF herunter. Trage zuerst Interessent und Inhaber mit Rechtsform und Vertreter ein; die Zielgesellschaft nimmst du nur als dritte Partei auf, wenn sie selbst Pflichten übernimmt, etwa den Datenraum zu öffnen. In der Präambel beschreibst du das Geschäft in einem Satz und wählst, ob Anteile, Vermögensgegenstände oder neue Anteile aus einer Kapitalerhöhung erworben werden sollen.
+
+In § 1 streichst du die beiden nicht passenden Varianten und ergänzt Stichtag und Closing-Datum. In § 2 setzt du den indikativen Kaufpreis und die Unterlagen ein, auf denen er beruht (Jahresabschlüsse, BWA, Planung), und entscheidest zwischen Locked Box und Kaufpreisanpassung.
+
+In § 3 trägst du Beginn und Dauer der Due Diligence ein, in § 4 das Enddatum der Exklusivität. Es sollte mit dem Zeitplan in § 7 zusammenpassen: Endet die Prüfung ohne Vertragsentwurf, endet auch die Exklusivität. In § 6 regelst du, wer den Notar bezahlt. Datum, Ort, Unterschriften, fertig.`,
+      },
+      {
+        titel: "Typische Fehler beim Letter of Intent",
+        text: `Der größte Fehler ist zu viel Verbindlichkeit. Wer im LOI bereits Kaufpreis, Zahlungsplan und Übergabe abschließend formuliert, läuft Gefahr, dass ein Gericht einen Vorvertrag annimmt. Bei GmbH-Anteilen wäre der ohne Notar nichtig, bei einem Asset Deal dagegen möglicherweise bindend. Halte die wirtschaftlichen Eckpunkte als Absicht und lass § 8 unangetastet.
+
+Zweiter Fehler: Exklusivität ohne Enddatum oder ohne Fahrplan. Der Verkäufer blockiert dann monatelang alle anderen Interessenten, während der Käufer in Ruhe nachdenkt. Koppele die Frist an konkrete Schritte und sieh vor, dass sie nur schriftlich verlängert wird.
+
+Dritter Fehler: unklare Kaufpreisbasis. „1,5 Millionen Euro“ ohne Angabe, ob Schulden abgezogen und Working Capital normalisiert werden, führt in der Due Diligence zwangsläufig zum Streit. Die Vorlage nennt die Basis ausdrücklich.
+
+Vierter Fehler: Abbruch der Verhandlungen ohne Grund, nachdem man den Abschluss als sicher dargestellt hat. § 311 Abs. 2 BGB kann dann zu Ersatz nutzloser Aufwendungen führen. § 8 Abs. 3 der Vorlage stellt klar, dass jede Seite jederzeit aussteigen darf.`,
+      },
+      {
+        titel: "Rechtliche Einordnung: Vorvertrag, Notarpflicht, Haftung",
+        text: `Das deutsche Recht kennt den Letter of Intent nicht als eigenen Vertragstyp. Was er bedeutet, ergibt sich aus seinem Inhalt. Die Rechtsprechung unterscheidet die unverbindliche Absichtserklärung vom Vorvertrag, der bereits zum Abschluss des Hauptvertrags verpflichtet. Je konkreter und vollständiger die Regelungen, desto näher rückt der LOI an den Vorvertrag.
+
+Für den Verkauf von GmbH-Anteilen schreibt § 15 Abs. 4 GmbHG die notarielle Beurkundung vor, und zwar auch für die Verpflichtung zur Abtretung. Ein LOI, der eine solche Pflicht enthält, wäre ohne Notar nichtig. Deshalb begründet die Vorlage ausdrücklich keine Übertragungspflicht und verweist auf den notariellen Vertrag.
+
+Die verbindlichen Teile, also Exklusivität, Vertraulichkeit und Kosten, sind normale schuldrechtliche Vereinbarungen nach BGB, die ohne Form gelten. Wer sie verletzt, haftet auf Schadensersatz, bei der Exklusivität nach der optionalen Klausel in § 4 Abs. 3 auf Erstattung der Due-Diligence-Kosten.`,
+      },
+      {
+        titel: "Wann die LOI Vorlage nicht ausreicht",
+        text: `Der Mustertext ist auf kleine und mittlere Transaktionen zwischen deutschen Parteien zugeschnitten. Bei Käufern oder Zielgesellschaften im Ausland, bei Konzernen mit eigenen Formularen oder bei einem Verkaufsprozess mit mehreren Bietern gehört der LOI in anwaltliche Hände, schon weil dort Bieterverfahren, Break-up Fees und Rechtswahl verhandelt werden.
+
+Beteiligungen über Wandeldarlehen, Mitarbeiterprogramme oder Beteiligungsgesellschaften mit eigenen Bedingungen lassen sich mit diesem LOI nicht abbilden. Auch wenn Grundstücke zum Kaufgegenstand gehören, gilt für den Hauptvertrag § 311b BGB, und die Absichtserklärung sollte darauf abgestimmt werden.
+
+Sobald die Due Diligence läuft, brauchst du den Kauf- oder Beteiligungsvertrag selbst; der ist bei GmbH-Anteilen Sache des Notars und bei größeren Deals der Kanzlei. GründerX ist eine Software für Gründer und keine Rechtsberatung. Die Vorlage spart dir Zeit und Beratungskosten in der Vorbereitung, ersetzt aber nicht die Prüfung des konkreten Deals, wenn es um dein Unternehmen oder nennenswertes Geld geht.`,
+      },
+    ],
     seo: {
-      title: "Letter of Intent Vorlage 2026 kostenlos (Word & PDF) | GründerX",
+      title: "Letter of Intent Vorlage kostenlos (Word & PDF) | GründerX",
       description:
         "Absichtserklärung (LOI) für Unternehmenskauf und Beteiligung als kostenlose Vorlage: Eckpunkte, Exklusivität, Due Diligence, Zeitplan, klare Unverbindlichkeit.",
     },
@@ -456,8 +627,68 @@ ${VORLAGEN_HINWEIS}`,
         a: "Ein Wandeldarlehen ist schneller und billiger, weil zunächst kein Notar und keine Bewertung nötig sind; die Bewertung wird auf die nächste Runde verschoben. Die direkte Beteiligung über eine Kapitalerhöhung schafft sofort klare Verhältnisse und passt, wenn Bewertung und Investor feststehen. Das Term Sheet ist für die direkte Beteiligung gedacht.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du ein Term Sheet für die Beteiligung brauchst",
+        text: `Ein Term Sheet ist das Eckpunktepapier einer Finanzierungsrunde. Es kommt ins Spiel, sobald ein Business Angel oder Seed-Investor ernsthaft investieren will und ihr die Bedingungen festlegen müsst, bevor Anwalt und Notar Beteiligungsvertrag, Gesellschaftervereinbarung und Satzungsänderung entwerfen. Ohne Term Sheet verhandelt ihr diese Punkte erst in den Vertragsentwürfen, und das ist langsam und teuer.
+
+Die Vorlage eignet sich für Angel- und Seed-Runden in UG und GmbH mit direkter Beteiligung über eine Kapitalerhöhung. Sie ist auch das richtige Muster, wenn mehrere Angels in einer Runde zu gleichen Bedingungen einsteigen sollen oder wenn du den Entwurf eines Investors verstehen und mit marktüblichen Konditionen vergleichen willst. Für Wandeldarlehen, bei denen die Bewertung auf die nächste Runde verschoben wird, brauchst du eine andere Vorlage. Für Unternehmenskäufe ist der Letter of Intent aus dieser Bibliothek gedacht.`,
+      },
+      {
+        titel: "Was muss in ein Term Sheet? Die Bausteine im Überblick",
+        text: `Das Muster bildet die Punkte ab, die in deutschen Seed-Runden üblicherweise verhandelt werden:
+
+- § 1 Stammkapital, bisherige Gesellschafter und Geschäftsführung.
+- § 2 Pre-money- und Post-money-Bewertung, Investment, Beteiligungsquote, Kapitalerhöhung mit Zuzahlung in die Kapitalrücklage nach § 272 Abs. 2 Nr. 4 HGB, Cap Table nach Vollzug.
+- § 3 Zahlung in einer Summe oder Tranchen nach Meilensteinen, Mittelverwendung nach Budget.
+- § 4 Liquidationspräferenz, in der Vorlage einfach und nicht beteiligt (1x non-participating).
+- § 5 Verwässerungsschutz nach der Weighted-Average-Methode, broad-based.
+- § 6 Vesting der Gründeranteile mit Cliff, Good- und Bad-Leaver-Regeln und Accelerated Vesting beim Exit.
+- § 7 Reporting und Zustimmungskatalog des Investors, optional Beirat.
+- § 8 Drag-along, Tag-along, Vorerwerbs- und Bezugsrecht.
+- § 9 Mitarbeiterbeteiligungspool (VSOP), Garantien mit Haftungsdeckel, Wettbewerbsverbot der Gründer.
+- § 10 Exklusivität, Vertraulichkeit, Kosten.
+- § 11 Unverbindlichkeit und nächste Schritte bis zur Beurkundung.
+
+Jeder dieser Punkte wird im Beteiligungsvertrag später ausformuliert. Was im Term Sheet steht, wird dort aber kaum noch verändert; verhandle deshalb hier und nicht erst beim Notar.`,
+      },
+      {
+        titel: "Term Sheet Vorlage ausfüllen und die Zahlen nachrechnen",
+        text: `Lade das Muster kostenlos als Word herunter und fülle zuerst § 1 mit den Daten aus dem Handelsregister und der aktuellen Gesellschafterliste. In § 2 trägst du die Pre-money-Bewertung und das Investment ein und rechnest die Quote selbst nach: Post-money ist Pre-money plus Investment, die Quote des Investors ist Investment geteilt durch Post-money. Bei 200.000 EUR auf 1,8 Mio. EUR pre-money sind das 10 Prozent. Leite daraus die Zahl der neuen Anteile ab und prüfe, ob der Mitarbeiterpool nach § 9 vor oder nach der Runde eingerechnet wird, denn das verschiebt deine Quote.
+
+In § 3 wählst du zwischen Einmalzahlung und Tranchen; Meilensteine müssen messbar sein. In § 4 bleibt die einfache Präferenz, in § 5 die Weighted-Average-Methode, sofern der Investor nichts anderes fordert. In § 6 trägst du Vesting-Dauer, Cliff und die Leaver-Bedingungen ein; prüfe, ob bereits gehaltene Anteile teilweise als gevestet gelten sollen. In § 7 legst du Berichtsrhythmus und Zustimmungsschwellen fest, in § 8 die Schwelle für den Drag-along. Zum Schluss Exklusivitätsfrist, Zeitplan, Ort, Datum und Unterschriften aller Beteiligten.`,
+      },
+      {
+        titel: "Typische Fehler von Gründern beim Term Sheet",
+        text: `Erstens: die Quote falsch berechnen. Wer das Investment durch die Pre-money-Bewertung teilt, gibt zu viele Anteile ab. Rechne mit Post-money und mit allen Anteilen inklusive Pool (fully diluted).
+
+Zweitens: mehrfache oder beteiligte Liquidationspräferenzen akzeptieren. Eine 2x-Präferenz oder eine participating preference kann dazu führen, dass Gründer bei einem mittleren Exit fast leer ausgehen. Marktstandard in Seed-Runden ist 1x non-participating, wie in § 4 der Vorlage.
+
+Drittens: Full Ratchet als Verwässerungsschutz. Dabei wird der Investor so gestellt, als hätte er zum niedrigeren Preis der nächsten Runde investiert, und das geht voll zu Lasten der Gründer. Die Weighted-Average-Methode ist fairer.
+
+Viertens: Vesting ohne Good-Leaver-Regel. Wer bei einer Kündigung durch die Gesellschaft alle Anteile zum Nennwert verliert, trägt ein Risiko, das ein Investor nicht tragen muss. Achte auf die Unterscheidung in § 6 Abs. 2.
+
+Fünftens: einen zu weiten Zustimmungskatalog. Wenn jede Ausgabe über 5.000 EUR die Zustimmung des Investors braucht, ist das operative Geschäft gelähmt. Setze die Schwellen in § 7 Abs. 2 realistisch.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen: Kapitalerhöhung, Notar, Verbindlichkeit",
+        text: `Die direkte Beteiligung läuft über eine Kapitalerhöhung gegen Bareinlage. Dafür braucht die GmbH einen Gesellschafterbeschluss zur Satzungsänderung mit Dreiviertelmehrheit, der notariell beurkundet wird (§ 53 GmbHG), und die Anmeldung zum Handelsregister (§§ 55, 57 GmbHG). Erst mit Eintragung ist der Investor Gesellschafter. Der Betrag über dem Nennwert fließt als Zuzahlung in die Kapitalrücklage nach § 272 Abs. 2 Nr. 4 HGB; die Vorlage greift das in § 2 Abs. 4 auf.
+
+Vesting, Leaver-Regeln, Liquidationspräferenz, Drag- und Tag-along stehen nicht im Gesetz, sondern in der Gesellschaftervereinbarung und werden teils in der Satzung abgesichert, etwa über Einziehungs- und Abtretungsklauseln. Die Wirksamkeit von Bad-Leaver-Klauseln zum Nennwert wird von Gerichten anhand der Angemessenheit geprüft; eine zeitliche Staffelung wie in der Vorlage senkt das Risiko.
+
+Das Term Sheet selbst ist nach § 11 unverbindlich, mit Ausnahme von Exklusivität, Vertraulichkeit und Kosten. Da Anteilsübertragungen und Kapitalerhöhungen ohnehin notariell beurkundet werden müssen, kann aus dem Term Sheet keine Pflicht zur Beteiligung entstehen. Verhandlungen abzubrechen bleibt zulässig, solange die verbindlichen Regeln eingehalten werden.`,
+      },
+      {
+        titel: "Wann das Term Sheet Muster nicht reicht",
+        text: `Die Vorlage deckt Angel- und Seed-Runden mit Bewertungen und Beträgen ab, wie sie in frühen Phasen üblich sind. Sobald ein institutioneller VC mit eigenem Standard-Term-Sheet einsteigt, eine Series A verhandelt wird oder ausländische Investoren beteiligt sind, verhandelst du Punkte wie Anti-Dilution in mehreren Klassen, Pay-to-play, Redemption Rights oder Vorzugsanteile. Das gehört zu einem spezialisierten Anwalt für Venture Capital.
+
+Auch Wandeldarlehen, stille Beteiligungen, Mitarbeiterbeteiligungen mit steuerlicher Gestaltung nach § 19a EStG und Beteiligungen von Fördergebern wie dem High-Tech Gründerfonds folgen eigenen Mustern. Hinzu kommen steuerliche Fragen, etwa bei Tranchen, Earn-outs oder Anteilen an ausländischen Holdings, die ein Steuerberater vorab klären sollte.
+
+Das Term Sheet ist der Fahrplan; Beteiligungsvertrag, Gesellschaftervereinbarung und Satzung schreibt dann die Kanzlei, beurkundet der Notar. GründerX ist eine Software für Gründer und keine Rechtsberatung. Nutze die Vorlage, um vorbereitet in die Verhandlung zu gehen und die Beratungsstunden auf die wirklich strittigen Punkte zu konzentrieren.`,
+      },
+    ],
     seo: {
-      title: "Term Sheet Vorlage Beteiligung 2026 kostenlos | GründerX",
+      title: "Term Sheet Vorlage kostenlos (Word & PDF) | GründerX",
       description:
         "Term Sheet für Business-Angel- und Seed-Beteiligung als kostenlose Vorlage: Bewertung, Anteile, Liquidationspräferenz, Verwässerungsschutz, Vesting, Drag-along.",
     },
@@ -609,8 +840,70 @@ ${VORLAGEN_HINWEIS}`,
         a: "Nein. Der Lizenzvertrag räumt nur Rechte am Objektcode ein; der Quellcode bleibt dein Geschäftsgeheimnis. Verlangt ein großer Kunde Sicherheit für den Fall deiner Insolvenz, ist ein Escrow-Vertrag mit Hinterlegung bei einem Treuhänder der übliche Weg, nicht die Herausgabe.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du einen Software-Lizenzvertrag brauchst",
+        text: `Sobald du Software nicht als Cloud-Dienst betreibst, sondern Unternehmen zur Installation überlässt, brauchst du einen Lizenzvertrag. Das gilt für Desktop-Programme, Server-Software, On-Premise-Installationen, Plugins und Erweiterungen genauso wie für eine Bibliothek, die ein Kunde in sein eigenes System einbaut. Ohne Vertrag gilt die Zweckübertragungsregel des Urheberrechts, und der Kunde weiß nicht, wie viele Nutzer er anlegen, ob er die Software weiterverkaufen und was er bei Fehlern verlangen darf.
+
+Die Vorlage ist für den B2B-Fall gedacht: Lizenzgeber und Lizenznehmer sind Unternehmen, die Lizenz ist nicht-exklusiv, und du kannst dieselbe Software an beliebig viele Kunden lizenzieren. Sie funktioniert als Einzelvertrag oder als Anlage zu Angebot und AGB. Für Software, die du im Kundenauftrag entwickelst und mit allen Rechten übergibst, nimm den Software-Entwicklungsvertrag; für Endverbraucher brauchst du andere Regeln, insbesondere ohne die Haftungs- und Gewährleistungsverkürzungen dieser Vorlage.`,
+      },
+      {
+        titel: "Was muss in einen Lizenzvertrag für Software?",
+        text: `Das Muster regelt die Punkte, über die Anbieter und Kunden später am häufigsten streiten:
+
+- § 1 Vertragsgegenstand: Produktname, Version, Leistungsbeschreibung in Anlage 1, Lieferweg, Systemvoraussetzungen, Quellcode ausdrücklich ausgenommen.
+- § 2 Lizenzumfang: nicht ausschließlich, nicht übertragbar, Zahl der benannten Nutzer und Installationen, Standorte, Gebiet, verbundene Unternehmen, Verbot der Nutzung für Dritte als Service.
+- § 3 Beschränkungen und die gesetzlichen Mindestrechte nach §§ 69d, 69e UrhG, die du nicht ausschließen kannst, mit Varianten zur Weiterveräußerung.
+- § 4 Laufzeit als Dauerlizenz (Variante A) oder Laufzeitlizenz mit Verlängerung (Variante B), Folgen des Vertragsendes, Datenexport.
+- § 5 Vergütung: Einmalgebühr oder Monatsgebühr, Wartungsgebühr, Preisanpassung, Verzug und Sperrrecht.
+- § 6 Updates, Upgrades und Support mit Reaktionszeiten.
+- § 7 Gewährleistung mit Untersuchungs- und Rügepflicht nach § 377 HGB und Nacherfüllung.
+- § 8 Haftung mit den üblichen Begrenzungen bei leichter Fahrlässigkeit.
+- § 9 Audit und Lizenznachweis mit Schutz des Lizenznehmers.
+- § 10 Geheimhaltung, Auftragsverarbeitung, Freistellung bei Schutzrechten Dritter, Open-Source-Liste.
+- § 11 Schriftform, Rechtswahl, Gerichtsstand, Anlagen.
+
+Die Anlagen sind kein Beiwerk: Ohne Leistungsbeschreibung gibt es keinen Maßstab für Mängel, ohne Preisliste keinen Anspruch auf Gebühren für zusätzliche Nutzer.`,
+      },
+      {
+        titel: "Lizenzvertrag Muster ausfüllen: Varianten und Platzhalter",
+        text: `Lade die Vorlage kostenlos als Word oder PDF herunter. Die wichtigste Entscheidung triffst du in § 4: Dauerlizenz gegen Einmalzahlung oder Laufzeitlizenz gegen laufende Gebühr. Streiche die jeweils andere Variante konsequent in § 3 Abs. 1, § 4, § 5 Abs. 1 und § 7 Abs. 4, denn die Varianten verweisen aufeinander.
+
+In § 1 trägst du Produktname, Version, Lieferweg und Liefertermin ein und legst die Leistungsbeschreibung als Anlage 1 bei; bei Installationsleistungen den Stundensatz. In § 2 bestimmst du die Zahl der benannten Nutzer, die Installationen, Standorte und das Gebiet und legst fest, wie oft ein benannter Nutzer gewechselt werden darf. In § 5 setzt du Gebühren, Zahlungsrhythmus, Preisanpassung und Sperrfrist ein, in § 6 Supportzeiten und Reaktionszeiten, die du auch wirklich halten kannst.
+
+In § 8 legst du die Haftungsobergrenze fest, üblicherweise die Vergütung der letzten zwölf Monate. In § 9 Ankündigungsfrist und Toleranzschwelle für das Audit. In § 10 trägst du die Open-Source-Komponenten in Anlage 4 ein; die Liste solltest du aus deiner Abhängigkeitsverwaltung generieren. Zum Schluss Gerichtsstand, Ort, Datum und Unterschriften.`,
+      },
+      {
+        titel: "Typische Fehler bei Software-Lizenzen",
+        text: `Erstens: ein Weiterverkaufsverbot bei der Dauerlizenz. Wird Software gegen Einmalzahlung unbefristet überlassen, ist das Verbreitungsrecht an dieser Kopie erschöpft, und der Kunde darf sie weiterverkaufen. Ein Verbot ist unwirksam und macht einen schlechten Eindruck. Die Vorlage lässt die Weiterveräußerung bei Variante A unter Bedingungen zu und schließt sie nur bei der Laufzeitlizenz aus.
+
+Zweitens: gesetzliche Mindestrechte ausschließen. Sicherungskopie, Beobachten des Programmablaufs und Dekompilierung zur Interoperabilität stehen dem Nutzer zu, egal was im Vertrag steht. Klauseln, die das verbieten, sind nichtig.
+
+Drittens: Support ohne Grenzen. Wer „Support“ zusagt, ohne Zeiten, Kanäle und Reaktionszeiten zu nennen, schuldet im Zweifel mehr, als er leisten kann. § 6 der Vorlage grenzt ein und schließt Fehlbedienung und Fremdsoftware aus.
+
+Viertens: Audit-Klauseln, die jederzeit und unbegrenzt gelten. Solche Klauseln kippen in AGB; die Vorlage begrenzt auf begründeten Verdacht, Ankündigung, Geschäftszeiten und einen verschwiegenen Dritten.
+
+Fünftens: Datenschutz vergessen. Hast du beim Support Zugriff auf personenbezogene Daten des Kunden, ist ein Auftragsverarbeitungsvertrag nach Art. 28 DSGVO Pflicht.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen: Urheberrecht, Kauf oder Miete, Gewährleistung",
+        text: `Software ist nach § 69a UrhG als Sprachwerk geschützt. Die Rechte des Urhebers (Vervielfältigung, Bearbeitung, Verbreitung, öffentliche Zugänglichmachung) stehen in § 69c UrhG; die Erschöpfung des Verbreitungsrechts bei verkauften Kopien in § 69c Nr. 3 UrhG. Die §§ 69d und 69e UrhG enthalten die Mindestrechte des Nutzers, und § 69g Abs. 2 UrhG erklärt Vertragsklauseln für nichtig, die Sicherungskopie, Programmbeobachtung und Interoperabilitäts-Dekompilierung ausschließen.
+
+Für die Vertragsart gilt: Die Dauerlizenz gegen Einmalzahlung wird wie ein Kauf behandelt, Mängelrechte richten sich nach §§ 434 ff. BGB mit zweijähriger Verjährung, die im B2B-Verhältnis auf ein Jahr verkürzt werden darf. Die Laufzeitlizenz gegen laufende Gebühr ist Miete nach §§ 535 ff. BGB; die verschuldensunabhängige Haftung für anfängliche Mängel nach § 536a Abs. 1 BGB darf unter Unternehmern ausgeschlossen werden, was die Vorlage tut.
+
+Zwischen Kaufleuten gilt die Rügepflicht des § 377 HGB: Wer Mängel nicht unverzüglich anzeigt, verliert seine Rechte. Die Haftungsklausel in § 8 folgt der Rechtsprechung zu wesentlichen Vertragspflichten (Kardinalpflichten), weil ein vollständiger Haftungsausschluss auch unter Unternehmern unwirksam wäre.`,
+      },
+      {
+        titel: "Wann das Lizenzvertrag Muster nicht reicht",
+        text: `Die Vorlage ist für Standardsoftware zwischen deutschen Unternehmen gemacht. Für SaaS-Angebote, bei denen du die Software selbst hostest, brauchst du einen Vertrag mit Verfügbarkeitszusagen, Datenhoheit und Auftragsverarbeitung im Mittelpunkt; die White-Label-Vereinbarung in dieser Bibliothek enthält in Variante B einen solchen Teil. Für Verkäufe an Verbraucher gelten die §§ 327 ff. BGB über digitale Produkte mit zwingenden Update- und Gewährleistungspflichten, die dieses Muster nicht abbildet.
+
+Lizenzen an Kunden im Ausland, exklusive Vertriebsrechte für ein Gebiet, Escrow-Vereinbarungen zur Quellcode-Hinterlegung, OEM-Lizenzen mit Weitervertrieb und Verträge mit Konzernen, die eigene Einkaufsbedingungen durchsetzen, solltest du von einer auf IT-Recht spezialisierten Kanzlei prüfen lassen. Gleiches gilt, wenn deine Software Copyleft-Komponenten unter GPL oder AGPL enthält, denn dann kann die Lizenz an deinen Kunden mit den Open-Source-Bedingungen kollidieren.
+
+GründerX ist eine Software für Gründer und keine Rechtsberatung. Die Vorlage gibt dir einen marktüblichen Rahmen; bei hohen Lizenzsummen oder Haftungsrisiken lohnt die anwaltliche Durchsicht vor der ersten Unterschrift.`,
+      },
+    ],
     seo: {
-      title: "Software-Lizenzvertrag Vorlage B2B 2026 kostenlos | GründerX",
+      title: "Software-Lizenzvertrag Vorlage kostenlos (Word) | GründerX",
       description:
         "Software-Lizenzvertrag (B2B, nicht-exklusiv) als kostenlose Vorlage: Lizenzumfang, Nutzer, Laufzeit, Vergütung, Updates, Support, Gewährleistung, Audit.",
     },
@@ -759,8 +1052,68 @@ ${VORLAGEN_HINWEIS}`,
         a: "Nur, wenn es vereinbart ist. Viele Designer liefern standardmäßig nur Export-Dateien. Die Vorlage verpflichtet zur Übergabe der offenen Quelldateien samt verwendeter Schriften, soweit deren Lizenz das erlaubt, damit du das Werk später ohne den Urheber bearbeiten lassen kannst.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du einen Vertrag über Nutzungsrechte brauchst",
+        text: `Jedes Logo, jedes Website-Design, jedes Foto und jeder Text, den ein Freelancer oder eine Agentur für dich erstellt, ist urheberrechtlich geschützt, und der Urheber bleibt Urheber. Du bekommst nur das, was ausdrücklich eingeräumt wird. Deshalb brauchst du diesen Vertrag immer dann, wenn ein Werk dauerhaft zu deinem Unternehmen gehören soll: beim Logo und Corporate Design, bei Verpackungsgestaltung, bei Produktfotos für Shop und Marktplätze, bei Illustrationen für die App oder bei Texten, die du später kürzen und übersetzen willst.
+
+Besonders wichtig wird die Rechteeinräumung, wenn du das Logo als Marke anmelden willst, wenn ein Investor in der Due Diligence nach den Rechten an der Marke fragt oder wenn du das Unternehmen später verkaufen möchtest. Für Social-Media-Content mit befristeter Nutzung reicht die Content-Lizenz aus dieser Bibliothek; für Software der Entwicklungsvertrag. Dieser Vertrag ist das Muster für den dauerhaften Erwerb aller Rechte.`,
+      },
+      {
+        titel: "Was in eine Rechteeinräumung nach Urheberrecht gehört",
+        text: `Die Vorlage ist auf die Zweckübertragungsregel des § 31 Abs. 5 UrhG zugeschnitten: Alles, was nicht ausdrücklich eingeräumt wird, bleibt beim Urheber. Deshalb benennt sie jeden Punkt einzeln:
+
+- § 1 Werk mit genauer Beschreibung, Übergabeformate einschließlich offener Quelldateien, Schriften und Liste des Fremdmaterials.
+- § 2 Nutzungsrecht ausschließlich oder einfach, räumlich, zeitlich und inhaltlich unbeschränkt, Aufzählung der Nutzungsarten und Medien, Zweckbestimmung als Marke und Design mit Anmelderecht.
+- § 3 Bearbeitung und Weiterentwicklung (§§ 23, 39 UrhG), Weiterübertragung an Dritte (§§ 34, 35 UrhG), unbekannte Nutzungsarten (§ 31a UrhG).
+- § 4 Namensnennung: Verzicht oder Nennung in festgelegter Form.
+- § 5 Vergütung pauschal oder mit Umsatzbeteiligung, Angemessenheit nach § 32 UrhG, Hinweis auf die Künstlersozialabgabe.
+- § 6 Zusicherungen des Urhebers, Freistellung, Einwilligungen abgebildeter Personen.
+- § 7 Eigenwerbung des Urhebers im Portfolio.
+- § 8 keine ordentliche Kündigung, Rückrufsrecht nach § 41 UrhG, Rücktritt bei Nichtzahlung.
+- § 9 Schriftform, Rechtswahl, Gerichtsstand, Anlagen.
+
+Für Logos ist § 2 Abs. 3 der Kern: Ohne die Zweckbestimmung als Marke kann der Urheber nach § 40a UrhG bei Pauschalvergütung nach zehn Jahren das Werk anderweitig verwerten.`,
+      },
+      {
+        titel: "Nutzungsrechte Vertrag ausfüllen: Schritt für Schritt",
+        text: `Lade das Muster kostenlos als Word, PDF oder Text herunter. Trage Urheber und Auftraggeber ein; bei einer Agentur als Vertragspartner muss diese ihrerseits die Rechte ihrer Designer haben, was § 6 Abs. 1 abdeckt. In § 1 beschreibst du das Werk so genau wie möglich, etwa „Wort-Bild-Marke in den Varianten Farbe, Schwarz-Weiß und Negativ“, und listest die Übergabeformate auf. Bestehe auf den offenen Dateien, sonst kannst du das Werk später ohne den Urheber nicht bearbeiten.
+
+In § 2 Abs. 1 entscheidest du: ausschließlich und unbeschränkt für Logos, Marken und Corporate Design, einfach und beschränkt nur bei Werken, die der Urheber auch anderen anbieten darf. Für Logos lässt du § 2 Abs. 3 stehen, für Fotos und Texte streichst du ihn. In § 4 wählst du Verzicht auf Namensnennung (Logo, Design) oder Nennung (redaktionelle Fotos, Texte).
+
+In § 5 trägst du die Pauschale ein und entscheidest über eine Umsatzbeteiligung; prüfe, ob der Urheber Kleinunternehmer ist. In § 7 legst du fest, ob der Urheber das Werk als Referenz zeigen darf. In § 8 setzt du Fristen für Rückruf und Nachfrist ein. Zum Schluss Anlagen beifügen, Ort, Datum, Unterschriften.`,
+      },
+      {
+        titel: "Typische Fehler beim Erwerb von Nutzungsrechten",
+        text: `Der klassische Fehler ist die Annahme, mit der Rechnung seien alle Rechte bezahlt. Ohne schriftliche Regelung bekommst du nach § 31 Abs. 5 UrhG nur die Rechte, die der Vertragszweck zwingend erfordert. Wer ein Logo „für die Website“ bestellt hat, darf es nicht ohne Weiteres auf Verpackungen drucken oder als Marke anmelden.
+
+Zweiter Fehler: nur Export-Dateien erhalten. Ohne offene Quelldateien und Schriften musst du für jede Änderung zurück zum Urheber. Die Vorlage verpflichtet in § 1 Abs. 2 zur Übergabe.
+
+Dritter Fehler: Fremdmaterial übersehen. Stockfotos, lizenzierte Fonts und KI-generierte Elemente kann der Designer nur so weit weitergeben, wie seine eigene Lizenz reicht. Verlange die Liste nach Anlage 2.
+
+Vierter Fehler: zu niedrige Pauschale für ein Werk, das groß wird. § 32a UrhG gibt dem Urheber bei auffälligem Missverhältnis einen Anspruch auf weitere Beteiligung. Eine faire Vergütung heute spart Nachforderungen morgen.
+
+Fünfter Fehler: keine Markenrecherche. Der Urheber garantiert nur, dass das Werk von ihm stammt, nicht, dass keine ältere Marke kollidiert. Diese Prüfung liegt bei dir, bevor du das Logo anmeldest.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen im Urheberrechtsgesetz",
+        text: `Nach § 29 Abs. 1 UrhG ist das Urheberrecht nicht übertragbar; verkehrsfähig sind nur Nutzungsrechte nach § 31 UrhG. Das einfache Nutzungsrecht erlaubt die Nutzung neben anderen, das ausschließliche Nutzungsrecht schließt alle anderen einschließlich des Urhebers aus (§ 31 Abs. 3 UrhG). Die Zweckübertragungsregel in § 31 Abs. 5 UrhG legt im Zweifel die engste Auslegung zugrunde, weshalb die Vorlage jede Nutzungsart einzeln aufzählt.
+
+Rechte an unbekannten Nutzungsarten können nach § 31a UrhG nur schriftlich eingeräumt werden, mit Widerrufsrecht des Urhebers bis zur Nutzungsaufnahme. Bearbeitungen regeln §§ 23 und 39 UrhG; die Grenze zieht das Entstellungsverbot in § 14 UrhG. Weiterübertragung und Unterlizenzen brauchen nach §§ 34, 35 UrhG die Zustimmung des Urhebers, die die Vorlage vorab erteilt.
+
+Vergütungsfragen regeln § 32 UrhG (angemessene Vergütung) und § 32a UrhG (weitere Beteiligung bei auffälligem Missverhältnis); § 40a UrhG gibt dem Urheber nach zehn Jahren ein Recht zur anderweitigen Verwertung, es sei denn, das Werk ist als Marke oder Design bestimmt. Das Rückrufsrecht wegen Nichtausübung steht in § 41 UrhG. Für abgebildete Personen gilt zusätzlich § 22 KUG.`,
+      },
+      {
+        titel: "Wann das Muster nicht reicht",
+        text: `Diese Vorlage regelt die Rechte an einem fertigen oder beauftragten Werk. Sie ersetzt nicht den Werkvertrag über die Erstellung selbst mit Briefing, Korrekturschleifen, Abnahme und Terminen; dafür gibt es den Werk- und Agenturvertrag in der Kategorie Dienstleistung. Sie ersetzt auch nicht die Markenanmeldung: Erst die Eintragung beim DPMA oder EUIPO gibt dir ein Schutzrecht gegen Nachahmer, und vorher ist eine Recherche nach älteren Marken Pflicht.
+
+Bei Werken von Arbeitnehmern gilt § 43 UrhG, bei Software § 69b UrhG; dort gehören die Rechte in den Arbeitsvertrag. Bei Werken aus dem Ausland, bei Fotografen mit eigenen Verbandsbedingungen oder bei Musik mit GEMA-Bezug reicht das Muster nicht ohne Anpassung. Großprojekte wie eine komplette Markenentwicklung mit mehreren Beteiligten oder Werke, die in Lizenzgeschäfte mit Dritten fließen sollen, sollte eine Kanzlei für Urheber- und Markenrecht begleiten.
+
+GründerX ist eine Software für Gründer und keine Rechtsberatung. Die Vorlage sichert dir im Normalfall die Rechte, die du brauchst; bei hohem Wert des Werks oder unklarer Rechtekette lass sie vor Unterschrift prüfen.`,
+      },
+    ],
     seo: {
-      title: "Nutzungsrechte Vertrag Vorlage 2026 (Design, Logo) | GründerX",
+      title: "Nutzungsrechte Vertrag Vorlage kostenlos (Word) | GründerX",
       description:
         "Vertrag über Nutzungsrechte nach § 31 UrhG als kostenlose Vorlage: Logo, Design, Foto, Text; ausschließlich, unbefristet, Bearbeitung, Vergütung, Namensnennung.",
     },
@@ -893,8 +1246,71 @@ ${VORLAGEN_HINWEIS}`,
         a: "Nur, soweit der Vertrag es erlaubt. Jede Abweichung von der eingetragenen Form kann die rechtserhaltende Benutzung gefährden und ist nach § 30 Abs. 2 MarkenG ein Vertragsverstoß. Die Vorlage erlaubt die Nutzung nur in der eingetragenen Form gemäß Markenrichtlinien.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du einen Markenlizenzvertrag brauchst",
+        text: `Eine eingetragene Marke ist ein Vermögenswert, den du nicht nur selbst nutzen, sondern auch vermieten kannst. Der Markenlizenzvertrag ist das Muster dafür: Ein Partner stellt Merchandise unter deinem Namen her, ein Händler nutzt deine Marke für ein bestimmtes Land, ein Fitnessstudio-Konzept wird an einen zweiten Standort lizenziert, oder die Markeninhaber-Gesellschaft deiner Gründergruppe lizenziert an die operative GmbH, damit die Marke bei einer Insolvenz des Betriebs geschützt bleibt.
+
+Auch die Gegenrichtung ist ein Anwendungsfall: Du nutzt eine fremde Marke und willst Gebiet, Produkte und Gebühren schriftlich festhalten, bevor du investierst. Ohne Vertrag riskierst du, dass der Inhaber die Nutzung jederzeit untersagt.
+
+Soll der Partner nicht deine Marke tragen, sondern dein Produkt unter seiner eigenen Marke verkaufen, ist die White-Label-Vereinbarung aus dieser Bibliothek das passende Dokument. Geht es um Logos und Designs ohne Markeneintragung, nimm den Vertrag über Nutzungsrechte.`,
+      },
+      {
+        titel: "Was muss in einen Lizenzvertrag für Marken?",
+        text: `Nach § 30 Abs. 2 MarkenG kann der Inhaber gegen den Lizenznehmer aus der Marke vorgehen, wenn dieser Dauer, Form, Waren, Gebiet oder Qualität des Vertrags verletzt. Diese fünf Punkte müssen deshalb präzise stehen. Die Vorlage regelt:
+
+- § 1 Marke mit Registernummer, Amt, Klassen und Anlage mit Verzeichnis; genaue Liste der Lizenzprodukte; mitlizenzierte Gestaltungselemente.
+- § 2 ausschließliche oder nicht ausschließliche Lizenz, Gebiet, Vertriebskanäle, Unterlizenzen, Nutzung nur in eingetragener Form, optionale Registereintragung.
+- § 3 Qualitätsanforderungen, Markenrichtlinien, Rufschutz, Markenhinweis mit ®.
+- § 4 Freigabe von Mustern, Besichtigungsrecht, Folgen bei Qualitätsmängeln.
+- § 5 Umsatzlizenz mit Definition des Nettoumsatzes, Mindestlizenz, Abrechnung, Buchprüfung mit Kostenfolge.
+- § 6 rechtserhaltende Benutzung nach § 26 MarkenG, Aufrechterhaltung, Nichtangriffsklausel, Goodwill beim Inhaber.
+- § 7 Vorgehen gegen Verletzer nach § 30 Abs. 3 und 4 MarkenG, Beitritt, Erlösverteilung.
+- § 8 Produktverantwortung des Lizenznehmers, Versicherung, Folgen einer Löschung der Marke.
+- § 9 Laufzeit, Kündigung aus wichtigem Grund, Abverkaufsfrist, Entfernung der Marke.
+- § 10 Vertraulichkeit, Schriftform, Gerichtsstand, Anlagen.
+
+Qualitätskontrolle ist kein Formalismus: Ohne sie verwässert die Marke, und der Verkehr verbindet mit deinem Namen Produkte, die du nie gesehen hast.`,
+      },
+      {
+        titel: "Markenlizenzvertrag Vorlage ausfüllen",
+        text: `Lade die Vorlage kostenlos als Word oder PDF herunter und hole dir die Markenurkunde oder den Registerauszug vom DPMA bzw. EUIPO. In § 1 trägst du Markenform, Registernummer, Anmeldetag und Klassen genau so ein, wie sie im Register stehen, und beschreibst die Lizenzprodukte eng, zum Beispiel „Textilien, nämlich T-Shirts, Hoodies und Caps“. Alles, was dort nicht steht, bleibt dir vorbehalten.
+
+In § 2 entscheidest du über Ausschließlichkeit, Gebiet und Vertriebskanäle und streichst Marktplätze oder Discounter aus, die zum Markenbild nicht passen. In § 3 und § 4 legst du Qualitätsanforderungen (Anlage 3), Markenrichtlinien (Anlage 2), Freigabefrist und Besichtigungsrecht fest.
+
+In § 5 setzt du den Prozentsatz der Umsatzlizenz, die Mindestlizenz je Vertragsjahr und die Abrechnungsfrist ein; prüfe die Definition des Nettoumsatzes, denn Marketingkosten und Marktplatzgebühren sollen nicht abgezogen werden. In § 7 trägst du die Frist ein, nach der ein exklusiver Lizenznehmer selbst gegen Verletzer vorgehen darf. In § 8 die Deckungssumme der Produkthaftpflicht, in § 9 Laufzeit, Verlängerung, Abmahnfrist und Abverkaufsfrist. Dann Anlagen beifügen, unterschreiben, und optional die Lizenz im Register eintragen lassen.`,
+      },
+      {
+        titel: "Typische Fehler in Markenlizenzen",
+        text: `Erstens: Lizenz für eine Marke, die für die Produkte gar nicht eingetragen ist. Umfasst dein Warenverzeichnis nur Bekleidung, kannst du für Getränke keine Markenlizenz erteilen; der Lizenznehmer zahlt dann für nichts. Prüfe die Klassen vorher und melde die Marke notfalls nach.
+
+Zweitens: keine Mindestlizenz. Ein exklusiver Lizenznehmer ohne Mindestgebühr kann die Marke in seinem Gebiet jahrelang blockieren, ohne zu verkaufen. Die Vorlage kombiniert Umsatz- und Mindestlizenz.
+
+Drittens: Qualitätskontrolle auf dem Papier. Wer Muster nie anfordert und Beanstandungen nie ausspricht, verliert faktisch die Kontrolle und riskiert Haftungsfragen, wenn mangelhafte Produkte deinen Namen tragen.
+
+Viertens: Nutzung in veränderter Form zulassen. Jede Abweichung von der eingetragenen Form kann die rechtserhaltende Benutzung gefährden. § 2 Abs. 5 der Vorlage erlaubt nur die eingetragene Form nach Markenrichtlinien.
+
+Fünftens: Verletzungen ungeregelt lassen. Der Lizenznehmer darf nur mit deiner Zustimmung klagen, du willst vielleicht nicht zahlen, und am Ende bleibt die Verletzung liegen. § 7 regelt Zuständigkeit, Kosten und Erlös im Voraus.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen im Markengesetz",
+        text: `Die Lizenz an einer Marke ist in § 30 MarkenG geregelt. Nach Abs. 1 kann sie ausschließlich oder nicht ausschließlich, räumlich, zeitlich und sachlich beschränkt erteilt werden. Abs. 2 nennt die Vertragsverstöße, bei denen der Inhaber mit markenrechtlichen Ansprüchen vorgehen kann. Abs. 3 verlangt für Verletzungsklagen des Lizenznehmers die Zustimmung des Inhabers, Abs. 4 erlaubt den Beitritt zur Klage des Inhabers, und Abs. 5 stellt klar, dass ein Rechtsübergang der Marke bestehende Lizenzen nicht berührt.
+
+Die Benutzung durch den Lizenznehmer mit Zustimmung des Inhabers gilt nach § 26 Abs. 2 MarkenG als Benutzung durch den Inhaber. Das ist wichtig, weil die Marke nach § 49 MarkenG verfällt, wenn sie fünf Jahre lang nicht ernsthaft benutzt wird. § 6 Abs. 1 der Vorlage verpflichtet den Lizenznehmer deshalb zu Benutzungsnachweisen.
+
+Für die Eintragung der Lizenz ins Register gibt es beim DPMA und beim EUIPO ein Antragsverfahren; sie ist freiwillig und wirkt vor allem als Nachweis gegenüber Dritten. Kartellrechtlich sind Exklusivlizenzen mit Gebiets- oder Kundenbeschränkungen grundsätzlich zulässig, Preisbindungen für den Weiterverkauf dagegen nicht; an dieser Grenze endet das, was die Vorlage ohne Prüfung abdeckt.`,
+      },
+      {
+        titel: "Wann das Muster nicht reicht",
+        text: `Die Vorlage ist für Lizenzen zwischen deutschen oder europäischen Partnern an einer eingetragenen deutschen oder Unionsmarke gedacht. Bei Lizenzgebieten außerhalb der EU brauchst du für jedes Land eine eigene Markeneintragung und eine Prüfung des dortigen Lizenzrechts; in manchen Ländern ist die Registrierung der Lizenz Pflicht.
+
+Franchise-Systeme mit Schulung, Betriebshandbuch und Gebietsschutz, Lizenzen an Marken mit hoher Bekanntheit, Vereinbarungen mit Preisvorgaben an den Lizenznehmer und Lizenzen, die zusammen mit Patenten, Designs oder Know-how vergeben werden, überschreiten das Muster; dort kommen Kartellrecht und Vertriebsrecht hinzu, die eine Kanzlei prüfen sollte. Auch steuerlich lohnt ein Blick: Lizenzgebühren zwischen verbundenen Gesellschaften müssen einem Fremdvergleich standhalten, und Zahlungen ins Ausland können Quellensteuer auslösen.
+
+Ist die Marke noch nicht angemeldet, ist die Anmeldung der erste Schritt, nicht der Lizenzvertrag. GründerX ist eine Software für Gründer und keine Rechtsberatung; die Vorlage liefert dir den marktüblichen Rahmen, den du bei größeren Lizenzdeals anwaltlich prüfen lassen solltest.`,
+      },
+    ],
     seo: {
-      title: "Markenlizenzvertrag Vorlage 2026 kostenlos (Word, PDF) | GründerX",
+      title: "Markenlizenzvertrag Vorlage kostenlos (Word) | GründerX",
       description:
         "Markenlizenzvertrag nach § 30 MarkenG als kostenlose Vorlage: Marke, Waren, Gebiet, Qualitätsvorgaben, Umsatzlizenz, Kontrolle, Rechtsverletzungen, Laufzeit.",
     },
@@ -1030,8 +1446,70 @@ ${VORLAGEN_HINWEIS}`,
         a: "Das Recht auf Namensnennung steht dem Urheber zu, er kann aber auf die Ausübung verzichten. Bei Social-Media-Content ist eine Nennung im Caption-Text oder Tag üblich und für den Creator wertvoll. In Paid Ads und auf Verpackungen ist sie meist nicht praktikabel; die Vorlage regelt beides getrennt.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du einen Content-Lizenzvertrag brauchst",
+        text: `Content ist heute die Währung im Marketing, und fast jeder Clip, jedes Produktfoto und jeder Track stammt von jemand anderem. Der Content-Lizenzvertrag regelt, was du mit fremden Inhalten tun darfst. Du brauchst ihn, wenn ein Creator UGC-Videos für deine Ads dreht, wenn ein Fotograf Produktbilder für Shop und Marktplätze liefert, wenn ein Komponist Musik für deinen Podcast freigibt oder wenn du einen Blogtext einkaufst.
+
+Die Vorlage funktioniert in beide Richtungen: Als Unternehmen sicherst du dir genau die Kanäle, Dauer und Bearbeitungsrechte, die du brauchst. Als Creator lizenzierst du befristet und nicht ausschließlich, behältst alle übrigen Rechte und kannst denselben Content weiter anbieten.
+
+Willst du dagegen alle Rechte dauerhaft erwerben, etwa an einem Logo, Key-Visual oder Markenclaim, ist der Vertrag über Nutzungsrechte (Buy-out) das richtige Muster. Für die Zusammenarbeit mit Influencern auf deren eigenen Kanälen brauchst du zusätzlich eine Kooperationsvereinbarung mit Kennzeichnungspflichten; diese Vorlage regelt nur die Lizenz.`,
+      },
+      {
+        titel: "Was in eine Content-Lizenz gehört",
+        text: `Die Vorlage folgt dem, was Creator und Marken in der Praxis verhandeln, und macht die Nutzungsarten ankreuzbar:
+
+- § 1 Content mit Dateiliste oder Briefing, Lieferformat, Korrekturrunde und Zusicherung zu Fremdmaterial.
+- § 2 einfaches Nutzungsrecht; Kanäle zum Ankreuzen (organisch, Paid Ads inklusive Spark Ads und Whitelisting, Website und Marktplätze, Newsletter, Print mit Auflage, Messen); Gebiet; Lizenzdauer; optionale Wettbewerbersperre und Veröffentlichungsreihenfolge.
+- § 3 technische Bearbeitung erlaubt, Entstellung verboten (§ 14 UrhG); keine Weitergabe an Händler oder Partner, keine Unterlizenz; Verbot der Nutzung als Marke und für KI-Training.
+- § 4 Credits: Verlinkung bei organischen Posts, keine Nennung in Ads und Print, alternativ Verzicht; Portfolio-Recht des Creators.
+- § 5 Pauschale mit Aufschlüsselung nach Erstellung, organischer Nutzung und Paid Ads, Verlängerungsoption, Hinweis auf Künstlersozialkasse.
+- § 6 Einwilligungen abgebildeter Personen nach § 22 KUG und DSGVO, Musikrechte und GEMA, Marken Dritter.
+- § 7 Gewährleistung, Freistellung, Verantwortung für Werbekennzeichnung.
+- § 8 Laufzeit, Ende der Ads, Schicksal bereits veröffentlichter Posts zum Ankreuzen.
+- § 9 Textform, Rechtswahl, Anlagen.
+
+Paid Ads sind eine eigene Nutzungsart. Wer sie nicht ankreuzt, hat kein Recht darauf, auch wenn der Preis großzügig war.`,
+      },
+      {
+        titel: "Content-Lizenzvertrag Muster ausfüllen",
+        text: `Lade die Vorlage kostenlos als Word, PDF oder Text herunter. Beschreibe in § 1 den Content konkret mit Anzahl, Format und Produkt, zum Beispiel „sechs Kurzvideos im Hochformat, je 15 bis 30 Sekunden“, und lege Lieferdatum, Formate und die Zahl der Korrekturrunden fest. Fremdmaterial kommt in Anlage 2.
+
+In § 2 Abs. 2 kreuzt du die Kanäle an, die du wirklich brauchst; jeder zusätzliche Kanal erhöht den fairen Preis. Trage Gebiet und Lizenzdauer ein, üblich sind zwölf Monate für Ads. Entscheide über die Wettbewerbersperre und ob der Creator erst nach dir posten darf.
+
+In § 4 legst du fest, wie der Creator bei organischen Posts genannt wird, in der Regel per Tag oder Handle. In § 5 trägst du die Pauschale ein, am besten aufgeschlüsselt nach Erstellung, organischer Nutzung und Paid Ads, dazu den Preis einer Verlängerung. Prüfe, ob der Creator Kleinunternehmer ist. In § 6 lässt du dir Einwilligungen abgebildeter Personen in Anlage 3 geben und klärst die GEMA-Frage bei Musik. In § 8 kreuzt du an, ob organische Posts nach Ablauf stehen bleiben dürfen. Datum, Unterschriften, fertig; E-Mail-Austausch reicht nach § 9 für spätere Änderungen.`,
+      },
+      {
+        titel: "Typische Fehler bei Lizenzen für Fotos, Videos und Musik",
+        text: `Erstens: Model Release vergessen. Die Lizenz des Fotografen oder Videografen deckt nur sein Urheberrecht ab. Die abgebildete Person muss nach § 22 KUG und bei Werbung zusätzlich nach DSGVO eingewilligt haben, sonst kann sie die Verbreitung stoppen. Die Vorlage verlangt die Einwilligungen als Anlage.
+
+Zweitens: Musik aus der App-Bibliothek in Ads nutzen. Die Musiklizenzen der Plattformen gelten in der Regel nur für organische Nutzung, nicht für bezahlte Werbung. Für Ads brauchst du lizenzierte Musik oder einen Track mit geklärten Rechten an Komposition und Aufnahme.
+
+Drittens: Weitergabe an Händler. Wenn deine Vertriebspartner den Content auf ihren Kanälen posten sollen, ist das eine Unterlizenz, die § 3 Abs. 2 verbietet. Nimm sie ausdrücklich auf und zahle dafür.
+
+Viertens: unbefristete Nutzung erwarten. Eine Content-Lizenz läuft ab. Wer nach Ablauf weiter Anzeigen schaltet, verletzt das Urheberrecht und riskiert Abmahnung und Nachlizenzierung zu deutlich höheren Sätzen.
+
+Fünftens: Werbekennzeichnung dem Creator überlassen. Sobald der Content auf deinen Kanälen läuft, bist du für die Kennzeichnung und die Plattformregeln verantwortlich, wie § 7 Abs. 3 klarstellt.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen: Urheberrecht, KUG und GEMA",
+        text: `Fotos, Videos, Texte und Musik sind nach § 2 UrhG geschützte Werke; einfache Fotos genießen zumindest Lichtbildschutz nach § 72 UrhG. Der Urheber räumt Nutzungsrechte nach § 31 UrhG ein, und nach der Zweckübertragungsregel des § 31 Abs. 5 UrhG bekommst du nur, was ausdrücklich vereinbart ist. Deshalb zählt die Vorlage die Nutzungsarten einzeln auf. Das einfache Nutzungsrecht nach § 31 Abs. 2 UrhG lässt den Urheber frei, den Content auch anderen zu lizenzieren.
+
+Die Grenze für Bearbeitungen zieht § 14 UrhG: Entstellungen, die die berechtigten Interessen des Urhebers gefährden, bleiben verboten. Das Recht auf Namensnennung steht in § 13 UrhG; auf seine Ausübung kann der Urheber verzichten, was § 4 der Vorlage alternativ vorsieht.
+
+Für abgebildete Personen gilt das Recht am eigenen Bild nach § 22 KUG, bei werblicher Nutzung zusätzlich die Einwilligung nach Art. 6 Abs. 1 Buchst. a DSGVO. Bei Musik sind Komposition und Tonaufnahme getrennt geschützt (§§ 2 und 85 UrhG); Mitglieder der GEMA haben ihre Rechte an die Verwertungsgesellschaft übertragen und können sie nicht selbst lizenzieren. Wer Content im Auftrag erstellen lässt, muss zudem die Künstlersozialabgabe prüfen.`,
+      },
+      {
+        titel: "Wann das Muster nicht ausreicht",
+        text: `Die Vorlage ist für einzelne Content-Pakete zwischen deutschen Vertragspartnern gedacht. Bei laufenden Creator-Partnerschaften mit monatlichen Lieferungen, Exklusivität und Kennzeichnungspflichten brauchst du eine Influencer-Kooperationsvereinbarung, die du in der Kategorie Online-Handel findest. Für TV- und Kinowerbung, für Kampagnen mit Prominenten oder für Musik von GEMA-Mitgliedern gelten eigene Lizenz- und Tarifsysteme, die eine Medienrechtskanzlei oder die Verwertungsgesellschaft klären sollte.
+
+Internationale Kampagnen mit Creators im Ausland werfen Fragen nach Rechtswahl, Steuer und Persönlichkeitsrechten in anderen Ländern auf. Content mit Minderjährigen braucht die Einwilligung der Sorgeberechtigten und unterliegt zusätzlichen Schutzregeln. Und wenn du Content für KI-Training oder als Vorlage für synthetische Darsteller verwenden willst, ist das eine eigene, in der Vorlage ausgeschlossene Nutzung, die ausdrücklich verhandelt werden muss.
+
+GründerX ist eine Software für Gründer und keine Rechtsberatung. Die Vorlage gibt dir einen fairen, marktüblichen Rahmen für den Alltag; bei großen Budgets oder unklaren Rechteketten lass sie vor der ersten Schaltung prüfen.`,
+      },
+    ],
     seo: {
-      title: "Content-Lizenzvertrag Vorlage 2026 kostenlos (Social) | GründerX",
+      title: "Content-Lizenzvertrag Vorlage kostenlos (Word) | GründerX",
       description:
         "Content-Lizenz für Foto, Video, Musik und Text als kostenlose Vorlage: Social Media, Werbung, Website, Dauer, Credits, keine Weiterlizenzierung, Vergütung.",
     },
@@ -1165,8 +1643,68 @@ ${VORLAGEN_HINWEIS}`,
         a: "Meistens wollen das beide Seiten, weil der Markenwert des Partners sonst leidet. Die Vorlage verpflichtet beide zur Vertraulichkeit über die Herkunft des Produkts, lässt aber gesetzlich erforderliche Herstellerangaben (etwa auf Verpackungen oder im Impressum) ausdrücklich zu.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du eine White-Label-Vereinbarung brauchst",
+        text: `White Label heißt: Ein Hersteller liefert Produkt oder Software, ein Partner verkauft es unter seiner eigenen Marke, und der Endkunde sieht nur den Partner. Das Modell ist auf beiden Seiten verbreitet. Als Hersteller gewinnst du Reichweite ohne eigenes Marketing, etwa wenn ein Agenturnetzwerk dein Buchungstool als eigenes Produkt anbietet oder ein Händler deine Nahrungsergänzung unter seiner Eigenmarke führt. Als Partner bekommst du ein fertiges Produkt und baust deine Marke auf, ohne Entwicklung oder Produktion.
+
+Du brauchst die Vereinbarung, sobald regelmäßig geliefert oder bereitgestellt wird: als Rahmenvertrag für Warenbestellungen mit Mindestmengen oder als Dauervertrag für eine SaaS-Anwendung im Branding des Partners. Für den Fall, dass der Partner dein Produkt unter deiner Marke verkauft, ist das kein White Label, sondern ein Reseller- oder Vertriebspartnervertrag aus der Kategorie Online-Handel. Soll der Partner nur deine Marke nutzen, passt der Markenlizenzvertrag.`,
+      },
+      {
+        titel: "Was in einen White-Label-Vertrag gehört",
+        text: `Das Muster deckt Waren und Software mit Varianten ab und verteilt die Verantwortung zwischen Hersteller und Partner ausdrücklich:
+
+- § 1 Produkt, White-Label-Umfang (Verpackung und Etiketten bzw. Logo, Domain, Systemmails, Rechtstexte), eigener Name und eigene Rechnung des Partners, Rechte am Produkt beim Hersteller.
+- § 2 Variante A Waren: Bestellung, Mindestmenge, Lieferzeit, Lieferart, Gefahrübergang, Druckdaten. Variante B Software: Hosting unter Partnerdomain, Verfügbarkeit, Wartungsfenster, Backups, Ankündigungsfristen.
+- § 3 Preise, Mindestabnahme mit Ausgleich, Preisanpassung, Verzug und Lieferstopp mit Schutz bestehender Endkunden.
+- § 4 Nutzung der Partnermarke nur zur Vertragserfüllung, keine Referenznennung, gesetzliche Herstellerangaben bleiben zulässig.
+- § 5 Produktverantwortung nach § 4 Abs. 1 Satz 2 ProdHaftG, Unterlagen des Herstellers, Kennzeichnung durch den Partner, wechselseitige Freistellung, Versicherung, Rückrufe.
+- § 6 Support-Stufen: 1st Level beim Partner, 2nd und 3rd Level beim Hersteller mit Reaktionszeiten, Wissensdatenbank, Schulung.
+- § 7 Exklusivität in drei Varianten, gekoppelt an Mindestabnahme.
+- § 8 Geheimhaltung der Herkunft, Auftragsverarbeitung nach Art. 28 DSGVO, Herausgabe der Endkundendaten.
+- § 9 Gewährleistung für Waren und Software, Haftungsbegrenzung.
+- § 10 Laufzeit, Kündigung, Übergangsfrist für Endkunden, Abverkauf.
+- § 11 Schriftform, Gerichtsstand, Anlagen.`,
+      },
+      {
+        titel: "White-Label-Vereinbarung ausfüllen: Varianten und Platzhalter",
+        text: `Lade die Vorlage kostenlos als Word oder PDF herunter. Entscheide zuerst, ob es um Waren oder um Software geht, und streiche in § 2 und § 9 die andere Variante. Beschreibe in der Präambel und in § 1 das Produkt und den White-Label-Umfang konkret: Bei Waren Verpackung, Etiketten, Beipackzettel; bei Software Domain, Logo, Absenderadressen und Rechtstexte.
+
+In § 2 trägst du Mindestbestellmenge, Lieferzeit und Lieferart ein oder Verfügbarkeit, Wartungsfenster und Backup-Dauer. In § 3 die Preise nach Anlage 3, eine eventuelle Mindestabnahme mit Ausgleichsquote und die Regeln zur Preisanpassung. In § 5 legst du in Anlage 1 fest, wer welche Kennzeichnungen, Prüfungen und Rechtstexte erstellt, und setzt die Deckungssumme der Produkthaftpflicht ein. In § 6 Supportzeiten und Reaktionszeiten, die der Hersteller wirklich halten kann.
+
+In § 7 wählst du eine der drei Exklusivitätsvarianten; Variante B nur mit Mindestabnahme in § 3 Abs. 2. In § 8 bestimmst du, ob ein Auftragsverarbeitungsvertrag als Anlage 5 nötig ist, bei Software fast immer. In § 10 Laufzeit, Verlängerung, Kündigungsfrist, Übergangsfrist und Abverkaufsfrist. Anlagen beifügen, unterschreiben, je eine Ausfertigung.`,
+      },
+      {
+        titel: "Typische Fehler bei White-Label-Partnerschaften",
+        text: `Erstens: die Produkthaftung unterschätzen. Wer seinen Namen auf das Produkt setzt, gilt gegenüber Verbrauchern als Hersteller und haftet für Personen- und Sachschäden, auch wenn er nie eine Fabrik betreten hat. Ohne Versicherung und Rückgriff auf den echten Hersteller trägt der Partner dieses Risiko allein.
+
+Zweitens: Kennzeichnung ungeklärt lassen. CE-Zeichen, Lebensmittel- oder Kosmetikangaben, Textilkennzeichnung, Impressum und AGB bei Software: Jemand muss sie erstellen und verantworten. Fehlt die Zuordnung in Anlage 1, fällt sie im Streitfall auf den Anbieter zurück.
+
+Drittens: Exklusivität ohne Gegenleistung. Der Hersteller verzichtet auf alle anderen Vertriebswege in einem Gebiet, und der Partner verkauft kaum. Die Vorlage koppelt Exklusivität an Mindestabnahme und erlaubt die Kündigung der Exklusivität bei Unterschreitung.
+
+Viertens: Endkundendaten vermischen. Bei Software verarbeitet der Hersteller die Daten der Endkunden des Partners; ohne Auftragsverarbeitungsvertrag ist das ein Datenschutzverstoß, und ohne Herausgaberegel sind die Daten nach Vertragsende weg.
+
+Fünftens: kein Übergang nach Kündigung. Endet der Vertrag abrupt, stehen die Endkunden des Partners ohne Produkt da. § 10 Abs. 3 sichert eine Übergangsfrist.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen: Produkthaftung, Kaufrecht, Datenschutz",
+        text: `Die zentrale Norm ist § 4 Abs. 1 Satz 2 ProdHaftG: Als Hersteller gilt auch, wer sich durch Anbringen seines Namens, seiner Marke oder eines anderen Kennzeichens als Hersteller ausgibt. Der White-Label-Partner haftet damit verschuldensunabhängig für Schäden durch fehlerhafte Produkte; die Vorlage regelt dafür in § 5 den Rückgriff auf den Hersteller und die Versicherungspflicht beider Seiten.
+
+Für Warenlieferungen gelten die §§ 433 ff. BGB und zwischen Kaufleuten die Rügepflicht des § 377 HGB. Verkauft der Partner an Verbraucher, kann er nach §§ 445a, 445b BGB beim Hersteller Rückgriff nehmen, wenn er wegen eines Mangels nachbessern, zurücknehmen oder mindern musste; dieser Rückgriff bleibt in § 9 Abs. 1 ausdrücklich erhalten. Für gehostete Software ist das Vertragsverhältnis mietrechtlich geprägt, weshalb § 9 Abs. 2 die verschuldensunabhängige Haftung nach § 536a Abs. 1 BGB ausschließt, was unter Unternehmern zulässig ist.
+
+Datenschutzrechtlich ist der Partner Verantwortlicher für seine Endkunden und der Hersteller Auftragsverarbeiter, sobald er auf deren Daten zugreift; Art. 28 DSGVO verlangt dafür einen schriftlichen Vertrag. Die Haftungsklausel in § 9 Abs. 3 folgt der Rechtsprechung zu Kardinalpflichten, weil ein vollständiger Haftungsausschluss auch unter Unternehmern unwirksam wäre.`,
+      },
+      {
+        titel: "Wann das White-Label-Muster nicht reicht",
+        text: `Die Vorlage ist für Partnerschaften zwischen deutschen Unternehmen mit Vertrieb in Deutschland und der EU gemacht. Produkte mit Zulassungspflichten, etwa Medizinprodukte, Arzneimittel, Spielzeug mit besonderen Prüfpflichten oder Lebensmittel mit Health Claims, verlangen eine regulatorische Prüfung, die kein Vertragsmuster leisten kann. Dort entscheidet, wer als Inverkehrbringer registriert ist und welche Konformitätsnachweise vorliegen.
+
+Bei Lieferanten außerhalb der EU kommen Import, Zoll, Produktsicherheitsverordnung und die Pflicht zu einem in der EU ansässigen Wirtschaftsakteur hinzu. Bei Software mit Zahlungsabwicklung, Gesundheitsdaten oder KI-Funktionen gelten zusätzliche Regeln, bei großen Partnern mit eigenen Einkaufsbedingungen ohnehin deren Vertragswerk. Franchise-ähnliche Systeme mit Handbuch, Schulungspflichten und Gebietsschutz überschreiten das Muster ebenfalls.
+
+Steuerlich prüfe, ob der Partner bei Direktversand an Endkunden Lagerorte und Lieferschwellen im Ausland auslöst. GründerX ist eine Software für Gründer und keine Rechtsberatung. Die Vorlage bildet den Standardfall ab; bei Produkthaftungsrisiken im Verbrauchermarkt oder hohen Mindestabnahmen lohnt die anwaltliche Durchsicht vor der Unterschrift.`,
+      },
+    ],
     seo: {
-      title: "White-Label-Vertrag Vorlage 2026 kostenlos (Word, PDF) | GründerX",
+      title: "White-Label-Vertrag Vorlage kostenlos (Word) | GründerX",
       description:
         "White-Label-Vereinbarung als kostenlose Vorlage: Produkt oder Software unter Partnermarke, Lieferung, Preise, Produkthaftung, Support-Stufen, Exklusivität.",
     },
@@ -1318,8 +1856,71 @@ ${VORLAGEN_HINWEIS}`,
         a: "Nach der Abnahme beginnt die Gewährleistung; die Vorlage sieht zwölf Monate vor, gesetzlich wären es bei Werkleistungen in der Regel zwei Jahre. Der Entwickler muss Fehler zunächst nachbessern; erst wenn das fehlschlägt, kannst du mindern oder zurücktreten. Für laufende Anpassungen und Updates brauchst du zusätzlich einen Wartungsvertrag.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du einen Software-Entwicklungsvertrag brauchst",
+        text: `Sobald jemand außerhalb deines Unternehmens Software für dich baut, brauchst du diesen Vertrag: die Agentur, die deine App entwickelt, der Freelancer, der die Schnittstelle zum Warenwirtschaftssystem schreibt, das Entwicklerstudio, das den Prototyp für die Finanzierungsrunde liefert. Ohne Vertrag gilt das gesetzliche Werkvertragsrecht mit all seinen Lücken: kein Pflichtenheft, keine Abnahmeregel, keine klaren Rechte am Quellcode.
+
+Gerade der letzte Punkt entscheidet über den Wert deines Unternehmens. Investoren und Käufer prüfen in der Due Diligence, ob alle Rechte an der Software bei deiner Gesellschaft liegen. Ein Entwicklungsvertrag mit vollständiger Rechteklausel ist der Nachweis dafür.
+
+Die Vorlage ist auch für Entwickler gedacht, die Leistungsumfang, Mitwirkung des Kunden und Abnahme sauber regeln wollen, bevor sie anfangen. Für Standardsoftware, die du Kunden zur Nutzung überlässt, nimm den Software-Lizenzvertrag; für laufende Betreuung ohne neues Werk einen Wartungsvertrag, den § 10 der Vorlage optional vorsieht.`,
+      },
+      {
+        titel: "Was in einen Entwicklungsvertrag für Software gehört",
+        text: `Das Muster ist als Werkvertrag nach §§ 631 ff. BGB angelegt und regelt die Punkte, an denen IT-Projekte scheitern:
+
+- § 1 Vertragsgegenstand, Lastenheft des Auftraggebers, Pflichtenheft des Auftragnehmers als verbindlicher Maßstab, Rangfolge bei Widersprüchen, nicht geschuldete Leistungen.
+- § 2 Meilensteine mit Terminen und Teilbeträgen, Projekttermine, Testsystem und Repository-Zugang, Change-Request-Verfahren, optionale Vertragsstrafe bei Verzug.
+- § 3 Mitwirkung des Auftraggebers mit Fristen und Folgen bei Verzögerung.
+- § 4 Lieferung je Meilenstein, vollständige Übergabe mit Quellcode, Build-Skripten und Dokumentation, Abnahmetest, Abnahmefiktion nach § 640 Abs. 2 BGB, Teilabnahmen.
+- § 5 Festpreis nach Meilensteinen oder Aufwand mit Budgetdeckel und Warnschwelle.
+- § 6 ausschließliches, unbeschränktes, übertragbares Nutzungsrecht an Quellcode und allen Ergebnissen; einfaches Recht an vorbestehenden Bausteinen des Entwicklers nach Anlage 3; Rechtekette zu Mitarbeitern und Subunternehmern.
+- § 7 Open Source: Copyleft nur mit Freigabe, vollständige Komponentenliste, Sicherheitslücken.
+- § 8 Gewährleistung mit Nachbesserung, Selbstvornahme und Verjährung.
+- § 9 Haftung mit Obergrenze und IT-Haftpflicht.
+- § 10 optionale Pflege mit Pauschale und Reaktionszeiten.
+- § 11 Geheimhaltung, Auftragsverarbeitung, Kündigung nach §§ 648, 648a BGB, Herausgabe bei Beendigung.
+- § 12 Schriftform, Selbstständigkeit des Auftragnehmers, Gerichtsstand, Anlagen.`,
+      },
+      {
+        titel: "Software-Entwicklungsvertrag Vorlage ausfüllen",
+        text: `Lade das Muster kostenlos als Word oder PDF herunter. Beginne mit § 1: Beschreibe die Software in einem Satz und lege dein Lastenheft als Anlage 1 bei. Setze die Frist, bis zu der der Entwickler das Pflichtenheft liefert; erst mit deiner Freigabe wird es als Anlage 2 verbindlich. Prüfe die Liste der nicht geschuldeten Leistungen und ergänze, was du zusätzlich brauchst, etwa App-Store-Veröffentlichung oder Datenmigration.
+
+In § 2 trägst du die Meilensteine mit Terminen und Beträgen ein und bestimmst den Rhythmus der Projekttermine sowie die Ansprechpartner. Entscheide, ob die Vertragsstrafe in Abs. 4 gelten soll. In § 3 setzt du realistische Antwortfristen für dich selbst. In § 4 die Prüffrist für die Abnahme und die Frist, nach der produktive Nutzung als Abnahme gilt.
+
+In § 5 wählst du Festpreis oder Aufwand mit Budgetdeckel und streichst die andere Variante. In § 6 lässt du dir die vorbestehenden Bausteine des Entwicklers in Anlage 3 abschließend auflisten; alles, was dort fehlt, gehört dir. In § 7 bis § 9 Fristen, Verjährung, Haftungsgrenze und Deckungssumme. Entscheide, ob § 10 Pflege gelten soll. Dann Anlagen, Ort, Datum, Unterschriften.`,
+      },
+      {
+        titel: "Typische Fehler bei der Auftragsentwicklung",
+        text: `Erstens: ohne Pflichtenheft starten. Ohne verbindliche Spezifikation gibt es keinen Maßstab für Mängel und keinen Schutz vor Mehrkosten. Beim Festpreis trägt der Entwickler das Risiko, beim Aufwand du; in beiden Fällen braucht ihr das Dokument.
+
+Zweitens: die Abnahme verschlafen. Wer innerhalb der Prüffrist keine Mängel benennt, hat nach § 640 Abs. 2 BGB abgenommen; die Vergütung wird fällig, die Gewährleistung läuft, die Beweislast dreht sich. Plane die Testzeit ein und protokolliere Mängel in Textform.
+
+Drittens: Rechte nur am Objektcode. Ohne Quellcode, Bearbeitungsrecht und Weiterentwicklungsrecht bist du vom Entwickler abhängig und für Investoren uninteressant. § 6 der Vorlage räumt dir das ausschließliche Recht ein und verlangt die Herausgabe.
+
+Viertens: Copyleft im Produkt. Fest eingebundene GPL- oder AGPL-Komponenten können dich zwingen, deinen Quellcode offenzulegen. Die Vorlage verlangt eine Komponentenliste und deine Freigabe.
+
+Fünftens: Change Requests per Chat. Jede ungeregelte Änderung verschiebt Termine und Kosten. § 2 Abs. 3 legt ein Verfahren mit Angebot und Annahme in Textform fest; halte dich daran, auch wenn es lästig ist.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen: Werkvertrag, Abnahme, Urheberrecht",
+        text: `Der Software-Entwicklungsvertrag ist ein Werkvertrag nach §§ 631 ff. BGB; geschuldet ist der Erfolg, also die funktionsfähige Software, nicht nur die Tätigkeit. Die Abnahme nach § 640 BGB ist der Dreh- und Angelpunkt: Mit ihr wird die Vergütung fällig (§ 641 BGB), beginnt die Verjährung der Mängelansprüche und geht die Beweislast auf den Auftraggeber über. § 640 Abs. 2 BGB fingiert die Abnahme, wenn der Auftraggeber nach Fristsetzung keinen Mangel benennt. Die Mängelrechte stehen in §§ 634 ff. BGB, darunter die Selbstvornahme nach § 637 BGB.
+
+Der Auftraggeber darf den Werkvertrag nach § 648 BGB jederzeit kündigen, schuldet dann aber die Vergütung abzüglich ersparter Aufwendungen; der Unternehmer kann pauschal fünf Prozent der nicht erbrachten Leistung verlangen. § 648a BGB regelt die Kündigung aus wichtigem Grund für beide Seiten.
+
+Urheberrechtlich ist Software nach § 69a UrhG geschützt. Die Rechte des Entwicklers nach § 69c UrhG werden mit der Klausel in § 6 als ausschließliches Nutzungsrecht eingeräumt; ohne eine solche Klausel gilt die Zweckübertragungsregel des § 31 Abs. 5 UrhG. Für angestellte Entwickler des Auftragnehmers gilt § 69b UrhG, für Freelancer nicht, weshalb die Vorlage die Rechtekette in § 6 Abs. 3 absichert.`,
+      },
+      {
+        titel: "Wann das Muster nicht reicht",
+        text: `Die Vorlage bildet ein klassisches Projekt mit Meilensteinen ab. Bei agiler Entwicklung in Sprints ohne festen Endzustand passt ein Werkvertrag nur eingeschränkt; dort arbeiten viele Teams mit einem Rahmenvertrag und Sprint-Aufträgen, die eher dienstvertraglich ausgestaltet sind. Auch bei Entwicklung mit Offshore-Teams, bei Verträgen in englischer Sprache oder unter ausländischem Recht brauchst du anwaltliche Hilfe, schon wegen der Vollstreckbarkeit und der Rechteübertragung nach dortigem Recht.
+
+Software mit besonderen Anforderungen, etwa Medizinprodukte-Software, Zahlungsverkehr, KI-Systeme unter der KI-Verordnung oder Systeme mit hohem Datenschutzrisiko, verlangt regulatorische Vorgaben im Pflichtenheft, die das Muster nicht kennt. Große Projekte mit Festpreisen im sechsstelligen Bereich, Vertragsstrafen und Escrow-Regelungen gehören in die Hände einer IT-Rechtskanzlei.
+
+Hinzu kommt das Thema Scheinselbstständigkeit: Arbeitet ein einzelner Freelancer monatelang nur für dich in deinen Räumen mit deinen Werkzeugen, hilft auch § 12 Abs. 2 der Vorlage nicht; dann prüfe den Status bei der Deutschen Rentenversicherung. GründerX ist eine Software für Gründer und keine Rechtsberatung. Die Vorlage spart Zeit und Beratungskosten, ersetzt aber bei hohem Einsatz nicht die Prüfung durch eine Kanzlei.`,
+      },
+    ],
     seo: {
-      title: "Software-Entwicklungsvertrag Vorlage 2026 kostenlos | GründerX",
+      title: "Software-Entwicklungsvertrag Vorlage kostenlos | GründerX",
       description:
         "Software-Entwicklungsvertrag als kostenlose Vorlage: Pflichtenheft, Meilensteine, Abnahme, Festpreis oder Aufwand, Rechte am Quellcode, Gewährleistung.",
     },

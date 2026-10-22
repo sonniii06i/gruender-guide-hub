@@ -57,8 +57,58 @@ export const VORLAGEN_ARBEIT: Vorlage[] = [
         a: "Der Vertrag bleibt wirksam, aber du riskierst ein Bußgeld und bist im Streit in der schlechteren Position: Fehlt zum Beispiel der Hinweis auf die Probezeit oder die Ausschlussfrist, kann sich der Arbeitnehmer darauf berufen, dass sie nicht gilt. Nachholen ist jederzeit möglich, am besten mit Empfangsbestätigung.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du einen unbefristeten Arbeitsvertrag brauchst",
+        text: `Der Moment kommt schneller, als die meisten Gründer denken: Die erste Werkstudentin soll nach dem Abschluss bleiben, der Freelancer arbeitet längst 40 Stunden pro Woche nur für dich, oder du brauchst jemanden, der dauerhaft den Kundenservice übernimmt. In allen drei Fällen bist du Arbeitgeber und brauchst einen Arbeitsvertrag ohne Enddatum.
+
+Diese Vorlage passt für Vollzeit und Teilzeit, für Büro, Lager, Laden und Homeoffice-Mix. Sie ist für Unternehmen ohne Tarifbindung und ohne Betriebsrat gebaut, also für die typische UG, GmbH oder das Einzelunternehmen in den ersten Jahren. Wer eine zeitlich begrenzte Verstärkung sucht, nimmt stattdessen den befristeten Arbeitsvertrag; für Aushilfen bis zur Geringfügigkeitsgrenze gibt es den Minijob-Vertrag.`,
+      },
+      {
+        titel: "Was muss in einen Arbeitsvertrag? Pflichtangaben nach Nachweisgesetz",
+        text: `Das Nachweisgesetz schreibt seit August 2022 vor, welche Vertragsbedingungen du dem Arbeitnehmer schriftlich festhalten musst. Die Vorlage ordnet sie den Paragrafen zu:
+
+- Name und Anschrift beider Parteien (Vertragskopf)
+- Beginn, Tätigkeit und Arbeitsort (§ 1)
+- Dauer der Probezeit (§ 2)
+- Arbeitszeit, Pausen, Ruhezeiten und die Bedingungen für Überstunden (§ 3)
+- Zusammensetzung und Höhe der Vergütung, Fälligkeit und Zahlungsweg (§ 4)
+- Urlaubsanspruch (§ 5)
+- Fortbildungsanspruch und Versorgungsträger der betrieblichen Altersversorgung (§ 8)
+- Kündigungsfristen, Schriftform der Kündigung und der Hinweis auf die dreiwöchige Klagefrist (§ 9)
+- Hinweis auf anwendbare Tarifverträge oder Betriebsvereinbarungen (§ 1 Abs. 4)
+
+Dazu kommen Klauseln, die nicht Pflicht sind, aber im Streit Geld sparen: die Ausschlussfrist in § 10, die Rückgabepflicht für Arbeitsmittel in § 7 und die Freistellungsmöglichkeit nach einer Kündigung in § 9 Abs. 4.`,
+      },
+      {
+        titel: "Arbeitsvertrag Muster Schritt für Schritt ausfüllen",
+        text: `Arbeite dich von oben nach unten durch die eckigen Klammern. Im Kopf trägst du Firma mit Rechtsform, den Vertretungsberechtigten und die Adresse des Arbeitnehmers ein. In § 1 kommen Startdatum, Berufsbezeichnung und zwei bis drei Sätze zu den Aufgaben; formuliere sie so breit, dass du Aufgaben später verschieben kannst, ohne den Vertrag zu ändern.
+
+In § 2 setzt du die Probezeit, höchstens sechs Monate. § 3 braucht die Wochenstunden, die Verteilung auf die Tage und die Zahl der mit dem Gehalt abgegoltenen Überstunden; zehn pro Monat sind bei einem Gehalt deutlich über Mindestlohn üblich. In § 4 trägst du das Bruttogehalt ein und streichst die Optionen, die du nicht brauchst, etwa die Sonderzahlung. § 5 verlangt die Urlaubstage bei einer Fünf-Tage-Woche. In § 8 nennst du den Versorgungsträger oder wählst die Alternative, dass noch keine betriebliche Altersversorgung eingerichtet ist. In § 9 entscheidest du dich für die gesetzliche Grundfrist oder eine längere Frist, die dann für beide Seiten gilt. Zum Schluss alle verbliebenen Klammern löschen, zweimal ausdrucken, beide unterschreiben.`,
+      },
+      {
+        titel: "Typische Fehler im Arbeitsvertrag und wie du sie vermeidest",
+        text: `Der häufigste Fehler ist die pauschale Überstundenklausel. „Alle Überstunden sind mit dem Gehalt abgegolten“ ist unwirksam, und dann schuldest du jede einzelne Stunde nachträglich. Die Vorlage begrenzt die Zahl deshalb ausdrücklich.
+
+Zweiter Klassiker: eine Probezeit von sieben oder zwölf Monaten. Alles über sechs Monate ist unwirksam, und die kurze Kündigungsfrist gilt dann nur bis zum sechsten Monat. Dritter Fehler ist ein Festgehalt, das umgerechnet auf die tatsächlichen Stunden unter dem Mindestlohn liegt; rechne bei 40 Wochenstunden mit rund 174 Monatsstunden nach.
+
+Vermeide außerdem Ausschlussfristen unter drei Monaten oder ohne Ausnahme für Mindestlohn und Haftung, Urlaubsklauseln, die den gesetzlichen Mindesturlaub verfallen lassen, und eine doppelte Schriftformklausel, die mündliche Individualabreden ausschließen will. Wer die Vorlage unverändert lässt, ist in allen diesen Punkten auf der sicheren Seite.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen: Nachweisgesetz, Probezeit, Kündigungsfristen",
+        text: `Ein Arbeitsvertrag kommt formfrei zustande, auch mündlich. Das Nachweisgesetz verlangt aber, dass die wesentlichen Bedingungen dokumentiert und ausgehändigt werden; die Kernangaben spätestens am ersten Arbeitstag, der Rest innerhalb von sieben Tagen beziehungsweise einem Monat. Seit 2025 reicht dafür die Textform, wenn der Arbeitnehmer das Dokument speichern kann und den Empfang bestätigt. Für Befristungen und Kündigungen bleibt die Schriftform auf Papier Pflicht.
+
+Die Probezeit darf höchstens sechs Monate dauern, in dieser Zeit gilt die Kündigungsfrist von zwei Wochen nach § 622 Abs. 3 BGB. Danach beträgt die Grundfrist vier Wochen zum 15. oder zum Monatsende; für den Arbeitgeber verlängert sie sich mit der Betriebszugehörigkeit nach § 622 Abs. 2 BGB. Der gesetzliche Mindesturlaub liegt bei 24 Werktagen, also 20 Arbeitstagen bei einer Fünf-Tage-Woche. Der Mindestlohn beträgt seit Januar 2026 13,90 EUR brutto je Stunde; prüfe vor jeder Einstellung die aktuell gültige Grenze.`,
+      },
+      {
+        titel: "Wann die kostenlose Vorlage nicht reicht",
+        text: `Bist du tarifgebunden, etwa über eine Mitgliedschaft im Arbeitgeberverband oder einen allgemeinverbindlichen Tarifvertrag deiner Branche, gehen dessen Regeln vor; dann musst du § 1 Abs. 4 anpassen und Vergütung, Urlaub und Fristen gegen den Tarif prüfen. Mit Betriebsrat hat dieser bei Eingruppierung und Arbeitszeit mitzureden.
+
+Für Geschäftsführer, leitende Angestellte mit Prokura, Außendienstler mit Provision, Mitarbeiter mit Dienstwagen oder Auslandseinsatz sowie bei nachvertraglichen Wettbewerbsverboten mit Karenzentschädigung brauchst du Zusatzregelungen, die dieses Muster bewusst nicht enthält. Für Bonus, Homeoffice und Geheimhaltung findest du passende Zusatzvereinbarungen in dieser Bibliothek. GründerX ist Software und keine Rechtsberatung: Bei Zweifeln, insbesondere bei Mitarbeitern mit Sonderkündigungsschutz, lass den Vertrag vor der Unterschrift von einem Fachanwalt für Arbeitsrecht prüfen.`,
+      },
+    ],
     seo: {
-      title: "Arbeitsvertrag Vorlage 2026 unbefristet (Word & PDF) | GründerX",
+      title: "Arbeitsvertrag Vorlage kostenlos (Word & PDF) | GründerX",
       description:
         "Unbefristeter Arbeitsvertrag als kostenlose Vorlage mit allen Pflichtangaben nach Nachweisgesetz: Probezeit, Gehalt, Urlaub, Kündigung. Word, PDF oder Text.",
     },
@@ -201,8 +251,52 @@ ${VORLAGEN_HINWEIS}`,
         a: "Dann gilt das Arbeitsverhältnis als unbefristet (§ 16 TzBfG). Der Arbeitnehmer muss das aber innerhalb von drei Wochen nach dem vereinbarten Ende per Klage geltend machen (§ 17 TzBfG). Danach bleibt es bei der Befristung, auch wenn sie fehlerhaft war.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann ein befristeter Arbeitsvertrag die richtige Wahl ist",
+        text: `Du hast einen Großauftrag für neun Monate, die Weihnachtssaison im Lager steht an, oder du willst eine Stelle erst einmal testen, bevor du dich dauerhaft bindest. Für genau diese Fälle ist der befristete Arbeitsvertrag ohne Sachgrund gedacht: Er endet automatisch am vereinbarten Tag, ohne Kündigung und ohne Kündigungsschutzprozess.
+
+Als Existenzgründer hast du einen zusätzlichen Vorteil: In den ersten vier Jahren nach der Gründung darfst du nach § 14 Abs. 2a TzBfG bis zu vier Jahre lang sachgrundlos befristen und beliebig oft verlängern. Die Vorlage enthält dafür eine eigene Variante in § 1 Abs. 2. Für Projekte, bei denen du von Anfang an eine Dauerstelle planst, ist der unbefristete Vertrag mit sechs Monaten Probezeit meist die ehrlichere und einfachere Lösung.`,
+      },
+      {
+        titel: "Was muss in einen befristeten Arbeitsvertrag?",
+        text: `Zusätzlich zu den Pflichtangaben des Nachweisgesetzes, die auch für befristete Verträge gelten, braucht das Muster drei Dinge, die über Wirksamkeit oder Unwirksamkeit der Befristung entscheiden:
+
+- Das kalendermäßige Enddatum und die Rechtsgrundlage der Befristung (§ 1 Abs. 1 und 2)
+- Die Versicherung des Arbeitnehmers, dass er noch nie bei dir beschäftigt war (§ 1 Abs. 3)
+- Die eigenhändige Unterschrift beider Seiten vor dem ersten Arbeitstag (§ 1 Abs. 4 und Datumszeile)
+
+Dazu kommen die Punkte, die jeder Arbeitsvertrag enthält: Tätigkeit und Arbeitsort (§ 2), Probezeit und das ausdrücklich vereinbarte Recht zur ordentlichen Kündigung (§ 3), Arbeitszeit und Überstunden (§ 4), Vergütung mit Fälligkeit (§ 5), Urlaub und Entgeltfortzahlung (§ 6), Nebentätigkeit und Verschwiegenheit (§ 7), betriebliche Altersversorgung (§ 8) sowie der Hinweis auf Klagefrist und Meldepflicht bei der Agentur für Arbeit (§ 9). Die Ausschlussfrist in § 10 und die Schlussbestimmungen in § 11 schließen den Vertrag ab.`,
+      },
+      {
+        titel: "Befristeter Arbeitsvertrag Muster richtig ausfüllen",
+        text: `Beginne mit § 1 und entscheide dich für eine der drei Varianten in Absatz 2: normale sachgrundlose Befristung bis zwei Jahre, Gründerbefristung bis vier Jahre mit Gründungsdatum, oder Verlängerungsvertrag mit Nummer und Datum des Ursprungsvertrags. Streiche die beiden anderen vollständig. Trage Start- und Enddatum als konkrete Kalendertage ein, nicht als „bis Projektende“.
+
+In § 3 wählst du eine Probezeit, die zur Laufzeit passt: bei zwölf Monaten Laufzeit sind drei Monate angemessen, bei sechs Monaten eher vier bis sechs Wochen. § 4 bis § 8 füllst du wie beim unbefristeten Vertrag mit Stunden, Gehalt, Urlaubstagen und Versorgungsträger. Wichtig ist die Datumszeile am Ende: Das Datum muss vor dem ersten Arbeitstag liegen, und beide Unterschriften müssen im Original auf demselben Dokument stehen. Gib dem Arbeitnehmer seine Ausfertigung erst nach deiner Unterschrift mit und lass ihn den Erhalt in § 11 Abs. 3 bestätigen.`,
+      },
+      {
+        titel: "Typische Fehler bei der Befristung und ihre Folgen",
+        text: `Der teuerste Fehler ist die verspätete Unterschrift. Fängt der Arbeitnehmer am Montag an und unterschreibt den Vertrag am Dienstag, ist die Befristung unwirksam und der Vertrag unbefristet. Dasselbe passiert, wenn nur du unterschreibst, wenn per E-Mail oder PDF unterschrieben wird oder wenn im Vertrag eine eingescannte Unterschrift steht.
+
+Zweiter Fehler: Beim Verlängern werden gleichzeitig Gehalt oder Stunden geändert. Eine Verlängerung darf nur die Laufzeit verschieben; alle anderen Änderungen gehören in eine separate Vereinbarung, die du vor oder nach der Verlängerung abschließt. Dritter Fehler ist die Lücke zwischen zwei Verträgen: Die Verlängerung muss nahtlos anschließen und vor Ablauf des alten Vertrags unterschrieben sein.
+
+Und schließlich das stille Weiterarbeiten: Kommt der Mitarbeiter nach dem Enddatum weiter ins Büro und du lässt es zu, entsteht nach § 15 Abs. 6 TzBfG ein unbefristetes Arbeitsverhältnis. Lege dir das Enddatum in den Kalender und entscheide vorher, ob du verlängerst, entfristest oder beendest.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen: TzBfG, Schriftform, Vorbeschäftigung",
+        text: `Das Teilzeit- und Befristungsgesetz erlaubt in § 14 Abs. 2 TzBfG die kalendermäßige Befristung ohne Sachgrund bis zu einer Gesamtdauer von zwei Jahren mit höchstens drei Verlängerungen. § 14 Abs. 4 TzBfG verlangt für die Befristungsabrede die Schriftform; sie ist der einzige Teil des Arbeitsvertrags, für den die Textform des Nachweisgesetzes nicht ausreicht.
+
+Das Vorbeschäftigungsverbot in § 14 Abs. 2 Satz 2 TzBfG schließt die sachgrundlose Befristung aus, wenn die Person schon einmal bei demselben Arbeitgeber angestellt war. Das Bundesverfassungsgericht und das Bundesarbeitsgericht lassen Ausnahmen nur bei sehr langem Abstand oder ganz anders gearteter Tätigkeit zu; verlass dich darauf nicht. Nach § 15 Abs. 3 TzBfG muss eine Probezeit im Verhältnis zur Laufzeit angemessen sein, und nach § 15 Abs. 4 TzBfG ist die ordentliche Kündigung nur möglich, wenn sie vereinbart ist. Will der Arbeitnehmer die Befristung angreifen, muss er innerhalb von drei Wochen nach dem Enddatum klagen (§ 17 TzBfG). Mindestlohn, Urlaub, Entgeltfortzahlung und Kündigungsschutz gelten wie bei unbefristeten Verträgen.`,
+      },
+      {
+        titel: "Wann du statt der Vorlage einen Anwalt brauchst",
+        text: `Sobald du länger als zwei Jahre befristen willst oder die Person schon einmal bei dir war, brauchst du einen Sachgrund nach § 14 Abs. 1 TzBfG, etwa Vertretung in Elternzeit oder vorübergehenden Mehrbedarf. Sachgrundbefristungen sind fehleranfällig, weil der Grund bei Vertragsschluss wirklich vorliegen und dokumentiert sein muss; hier lohnt sich die Prüfung durch einen Fachanwalt für Arbeitsrecht.
+
+Dasselbe gilt für Kettenbefristungen über viele Jahre, für befristete Verträge mit Schwangeren oder Schwerbehinderten und für Betriebe mit Tarifbindung, in denen der Tarifvertrag andere Höchstdauern und Verlängerungszahlen vorsehen kann. Mit Betriebsrat ist jede Einstellung nach § 99 BetrVG zustimmungspflichtig. GründerX stellt Software und Muster bereit, keine Rechtsberatung; die Vorlage ersetzt in diesen Fällen die individuelle Prüfung nicht.`,
+      },
+    ],
     seo: {
-      title: "Befristeter Arbeitsvertrag Vorlage 2026 (Word & PDF) | GründerX",
+      title: "Befristeter Arbeitsvertrag Vorlage kostenlos | GründerX",
       description:
         "Befristeter Arbeitsvertrag ohne Sachgrund als kostenlose Vorlage: § 14 TzBfG, max. 2 Jahre, Schriftform, Probezeit, Kündigung. Word, PDF oder Text.",
     },
@@ -336,8 +430,59 @@ ${VORLAGEN_HINWEIS}`,
         a: "Nur, wenn alle Minijobs zusammen unter 603 EUR bleiben. Neben einer sozialversicherungspflichtigen Hauptbeschäftigung ist genau ein Minijob abgabenfrei möglich; jeder weitere wird mit der Hauptbeschäftigung zusammengerechnet. Deshalb fragt die Vorlage weitere Beschäftigungen ab, und der Minijobber muss Änderungen melden.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du einen Minijob-Vertrag brauchst",
+        text: `Die Pakete stapeln sich, der Laden braucht samstags eine zweite Kraft, oder jemand soll zweimal die Woche die Buchhaltung vorbereiten: Für Beschäftigungen mit wenigen Stunden, deren Verdienst unter der Geringfügigkeitsgrenze bleibt, ist der Minijob der günstigste legale Weg. Du zahlst Pauschalabgaben an die Minijob-Zentrale statt der vollen Sozialversicherung, und der Minijobber bekommt sein Geld meist brutto gleich netto.
+
+Diese Vorlage passt für Aushilfen im Versand, im Lager, im Verkauf, im Büro und in der Gastronomie, für Rentner, Studierende und Menschen mit Hauptjob. Sie passt nicht für Studierende mit mehr als der Verdienstgrenze; die nehmen den Werkstudentenvertrag. Für Praktika gibt es den Praktikumsvertrag, für befristete Saisonkräfte über der Grenze den befristeten Arbeitsvertrag.`,
+      },
+      {
+        titel: "Was muss in einen Minijob-Vertrag?",
+        text: `Minijobber sind Arbeitnehmer, deshalb gelten das Nachweisgesetz und seine Pflichtangaben uneingeschränkt. Dazu kommen Regelungen, die speziell die Geringfügigkeit sichern:
+
+- Tätigkeit, Beginn, Arbeitsort und Tarifhinweis (§ 1)
+- Die Einordnung als geringfügige Beschäftigung mit Verdienstgrenze und Anmeldung bei der Minijob-Zentrale (§ 2)
+- Feste Wochenstunden, damit kein Abrufverhältnis mit 20 Stunden unterstellt wird (§ 3)
+- Stundenlohn mindestens in Höhe des Mindestlohns, Fälligkeit und Aufzeichnungspflicht (§ 3 Abs. 4, § 4)
+- Urlaub nach Arbeitstagen pro Woche (§ 5)
+- Entgeltfortzahlung bei Krankheit und an Feiertagen (§ 6)
+- Die Rentenversicherungspflicht und die Erklärung zur Befreiung (§ 7)
+- Angaben zu weiteren Beschäftigungen, weil sie die Geringfügigkeit beeinflussen (§ 8)
+- Probezeit, Kündigungsfrist, Schriftform und Klagefrist (§ 9)
+- Ausschlussfristen und Schlussbestimmungen (§ 10)
+
+Besonders wichtig ist § 7 Abs. 3: Dort entscheidet der Minijobber, ob er sich von der Rentenversicherung befreien lässt. Ohne diese Erklärung musst du den Eigenanteil einbehalten.`,
+      },
+      {
+        titel: "Minijob-Vertrag Muster ausfüllen: Stunden und Grenze berechnen",
+        text: `Rechne zuerst, nicht erst beim Ausfüllen: Teile die Geringfügigkeitsgrenze durch den Stundenlohn und du hast die höchstmögliche Monatsstundenzahl. Beim Mindestlohn sind das 2026 rund 43 Stunden; zahlst du 15 EUR, bleiben etwa 40 Stunden. Trage in § 3 Abs. 1 die Wochenstunden und ihre Verteilung auf die Tage ein, in § 3 Abs. 2 die durchschnittliche Monatsstundenzahl.
+
+In § 4 wählst du zwischen Stundenlohn und festem Monatsentgelt. Bei Stundenlohn ist die Verdienstgrenze besser zu steuern, weil die Monatssumme mit den Stunden schwankt; ein festes Monatsentgelt ist für Minijobber mit gleichbleibendem Plan praktischer. Planst du eine Sonderzahlung, trage sie in § 4 Abs. 3 ein und rechne sie auf zwölf Monate verteilt in die Grenze ein. In § 5 berechnest du den Urlaub: gesetzliche 20 Tage geteilt durch 5, multipliziert mit den Arbeitstagen pro Woche. In § 8 lässt du den Minijobber seine weiteren Jobs eintragen, in § 7 Abs. 3 seine Entscheidung zur Rentenversicherung ankreuzen. Melde ihn vor dem ersten Arbeitstag bei der Minijob-Zentrale an und nimm das Merkblatt zur Rentenversicherung zu den Unterlagen.`,
+      },
+      {
+        titel: "Typische Fehler bei Minijobs und ihre Folgen",
+        text: `Der klassische Fehler ist der Minijob „nach Bedarf“ ohne feste Stundenzahl. Dann gilt nach § 12 TzBfG ein Abrufverhältnis mit 20 Wochenstunden als vereinbart, und beim Mindestlohn liegt der Verdienst damit weit über der Grenze; bei einer Betriebsprüfung werden die vollen Sozialabgaben nachgefordert.
+
+Zweiter Fehler: Urlaubs- oder Weihnachtsgeld, das die Jahresgrenze sprengt. Einmalzahlungen zählen anteilig mit. Dritter Fehler sind fehlende Stundenaufzeichnungen; nach § 17 MiLoG musst du Beginn, Ende und Dauer der Arbeitszeit dokumentieren und zwei Jahre aufbewahren, sonst droht ein Bußgeld und im Streit gilt die Darstellung des Minijobbers.
+
+Vermeide außerdem die vergessene Anmeldung vor Arbeitsbeginn, den fehlenden Nachweis über weitere Beschäftigungen und die Annahme, Minijobber hätten keinen Anspruch auf Urlaub, Entgeltfortzahlung oder Feiertagsbezahlung. Alle drei stehen ihnen genauso zu wie Vollzeitkräften.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen: Geringfügigkeitsgrenze, Mindestlohn, Pauschalabgaben",
+        text: `Die geringfügig entlohnte Beschäftigung ist in § 8 Abs. 1 Nr. 1 SGB IV geregelt. Seit Oktober 2022 ist die Verdienstgrenze dynamisch an den Mindestlohn gekoppelt und entspricht einer Wochenarbeitszeit von zehn Stunden zum Mindestlohn. Mit 13,90 EUR Mindestlohn liegt sie 2026 bei 603 EUR im Monat; mit der nächsten Mindestlohnstufe steigt sie. Prüfe vor jeder Vertragsänderung die aktuelle Grenze bei der Minijob-Zentrale.
+
+Du zahlst als Arbeitgeber Pauschalbeiträge zur Kranken- und Rentenversicherung, eine Pauschsteuer nach § 40a Abs. 2 EStG sowie Umlagen und Unfallversicherung, insgesamt rund 30 Prozent. Der Minijobber ist rentenversicherungspflichtig mit einem Eigenanteil und kann sich nach § 6 Abs. 1b SGB VI befreien lassen. Der Mindestlohn gilt nach dem MiLoG ohne Ausnahme; das Bundesurlaubsgesetz, das Entgeltfortzahlungsgesetz, das Kündigungsschutzgesetz und § 622 BGB gelten ebenfalls. Ein gelegentliches Überschreiten der Grenze ist in höchstens zwei Monaten im Jahr und bis zum Doppelten der Grenze erlaubt.`,
+      },
+      {
+        titel: "Wann die Minijob-Vorlage nicht reicht",
+        text: `Sobald der Minijobber dauerhaft mehr verdienen soll, endet die Geringfügigkeit; dann brauchst du einen Teilzeitvertrag im Übergangsbereich mit voller, aber reduzierter Sozialversicherung. Für kurzfristige Beschäftigungen von höchstens drei Monaten oder 70 Arbeitstagen im Jahr gilt ein anderes Modell mit eigenen Regeln, das dieses Muster nicht abdeckt.
+
+In Privathaushalten läuft der Minijob über das Haushaltsscheck-Verfahren; in Branchen mit Sofortmeldepflicht wie Gastronomie, Bau oder Logistik musst du die Anmeldung noch vor Arbeitsbeginn elektronisch abgeben. Bei Tarifbindung können Mindestentgelte über dem gesetzlichen Mindestlohn gelten. Wenn du unsicher bist, ob eine bestimmte Konstellation noch geringfügig ist, etwa bei mehreren Jobs oder Rentnern vor der Regelaltersgrenze, frag deinen Steuerberater oder die Minijob-Zentrale. GründerX liefert das Muster, nicht die Rechtsberatung.`,
+      },
+    ],
     seo: {
-      title: "Minijob-Vertrag Vorlage 2026: 603 € (Word & PDF) | GründerX",
+      title: "Minijob-Vertrag Vorlage kostenlos (Word & PDF) | GründerX",
       description:
         "Minijob-Vertrag als kostenlose Vorlage 2026: Verdienstgrenze 603 EUR, Mindestlohn 13,90 EUR, Urlaub, Rentenversicherung, Minijob-Zentrale. Word & PDF.",
     },
@@ -468,8 +613,56 @@ ${VORLAGEN_HINWEIS}`,
         a: "Mit der Exmatrikulation endet das Werkstudentenprivileg, nicht automatisch der Arbeitsvertrag. Ab diesem Zeitpunkt ist die Beschäftigung voll sozialversicherungspflichtig. Die Vorlage verpflichtet den Studenten, die Exmatrikulation sofort zu melden, und gibt dir ein ordentliches Kündigungsrecht.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du einen Werkstudentenvertrag brauchst",
+        text: `Eine Studentin soll dein Frontend weiterbauen, ein Student übernimmt Social Media und Support, und beide wollen mehr verdienen, als ein Minijob erlaubt. Dann ist der Werkstudentenvertrag das richtige Muster: Der Student ist regulärer Teilzeitarbeitnehmer, aber du zahlst nur den Arbeitgeberanteil zur Rentenversicherung und sparst Kranken-, Pflege- und Arbeitslosenversicherung.
+
+Die Vorlage ist für Beschäftigungen zwischen der Minijob-Grenze und 20 Wochenstunden in der Vorlesungszeit gebaut und regelt die Aufstockung in den Semesterferien gleich mit. Sie passt nicht für Pflichtpraktika, die in der Studienordnung stehen, und nicht für Studierende, die hauptsächlich arbeiten und nebenbei eingeschrieben sind; dann greift das Werkstudentenprivileg nicht, und du brauchst einen normalen Teilzeitarbeitsvertrag.`,
+      },
+      {
+        titel: "Was muss in einen Werkstudentenvertrag?",
+        text: `Weil der Werkstudent arbeitsrechtlich ein normaler Arbeitnehmer ist, gelten alle Pflichtangaben des Nachweisgesetzes. Dazu kommen die Punkte, die den sozialversicherungsrechtlichen Status absichern:
+
+- Immatrikulation, Hochschule, Studiengang und Matrikelnummer im Vertragskopf
+- Die Verpflichtung, jedes Semester die Immatrikulationsbescheinigung vorzulegen und Exmatrikulation, Urlaubssemester oder Studienabschluss sofort zu melden (§ 2)
+- Die 20-Stunden-Grenze in der Vorlesungszeit, die Aufstockung in der vorlesungsfreien Zeit und die 26-Wochen-Regel (§ 3)
+- Stundenlohn mindestens in Höhe des Mindestlohns, monatliche Abrechnung und der Hinweis auf die Rentenversicherungspflicht (§ 4)
+- Urlaub nach Arbeitstagen pro Woche und Freistellung für Prüfungen (§ 5)
+- Verschwiegenheit und die Rechte an Arbeitsergebnissen, bei Software nach § 69b UrhG (§ 7)
+- Probezeit, Kündigung, Klagefrist und was bei Studienende passiert (§ 8)
+
+Der Abschnitt zu Arbeitsergebnissen ist für Tech-Start-ups entscheidend: Ohne ihn kann ein Student später behaupten, der Code gehöre ihm, und § 7 Abs. 3 verhindert, dass Firmendaten ungefragt in einer Bachelorarbeit landen.`,
+      },
+      {
+        titel: "Werkstudentenvertrag Muster ausfüllen",
+        text: `Trage im Kopf die Hochschule, den Studiengang und die Matrikelnummer ein und lass dir vor der Unterschrift die aktuelle Immatrikulationsbescheinigung geben. In § 1 wählst du zwischen unbefristet und kalendermäßig befristet; die Zweckbefristung „bis zum Studienende“ ist bewusst nicht vorgesehen, weil sie rechtlich unsicher ist.
+
+In § 3 Abs. 1 setzt du die Wochenstunden in der Vorlesungszeit, höchstens 20, und in Abs. 2 die Obergrenze für die Semesterferien. In § 2 Abs. 2 legst du die Termine fest, bis zu denen die neue Bescheinigung vorliegen muss; der 15. April und der 15. Oktober passen zu den meisten Semestern. § 4 braucht den Stundenlohn oder ein Monatsgehalt für die feste Stundenzahl plus einen Satz für Zusatzstunden. In § 5 rechnest du den Urlaub nach Arbeitstagen pro Woche aus und entscheidest, ob du bezahlte Prüfungstage gewährst. In § 8 setzt du Probezeit und Kündigungsfrist. Melde den Werkstudenten mit dem Personengruppenschlüssel für Werkstudenten bei der Krankenkasse an, in der er versichert ist.`,
+      },
+      {
+        titel: "Typische Fehler beim Werkstudentenvertrag",
+        text: `Der teuerste Fehler ist die überschrittene 20-Stunden-Grenze in der Vorlesungszeit. Lässt du den Studenten in Projektphasen regelmäßig 25 Stunden arbeiten, fällt das Privileg weg und die Krankenkasse fordert für den gesamten Zeitraum die vollen Beiträge nach, oft erst Jahre später bei der Betriebsprüfung. Die Vorlage erlaubt Mehrarbeit nur abends, nachts und am Wochenende und begrenzt sie mit der 26-Wochen-Regel.
+
+Zweiter Fehler: Die Immatrikulationsbescheinigung wird einmal eingesammelt und nie wieder. Ohne lückenlosen Nachweis in den Lohnunterlagen gilt der Status als nicht belegt. Dritter Fehler ist das Urlaubssemester: Der Student bleibt eingeschrieben, ist aber kein ordentlich Studierender mehr; in dieser Zeit entfällt das Privileg.
+
+Vermeide außerdem den Stundenlohn unter Mindestlohn mit dem Argument „ist ja noch Student“, fehlende Regelungen zu Arbeitsergebnissen bei Entwicklern und Designern sowie die Annahme, ein Werkstudent könne jederzeit formlos gehen. Kündigung, Fristen und Schriftform gelten wie bei jedem anderen Arbeitnehmer.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen: Werkstudentenprivileg, 20-Stunden-Regel, Mindestlohn",
+        text: `Das Werkstudentenprivileg folgt aus § 6 Abs. 1 Nr. 3 SGB V und § 27 Abs. 4 SGB III: Ordentlich Studierende, deren Beschäftigung dem Studium nach Zeit und Umfang untergeordnet ist, sind in Kranken-, Pflege- und Arbeitslosenversicherung versicherungsfrei. Die Sozialversicherungsträger konkretisieren das mit der 20-Stunden-Grenze in der Vorlesungszeit und der 26-Wochen-Regel für Zeiten mit mehr Stunden. In der Rentenversicherung besteht Versicherungspflicht mit dem normalen Beitragssatz für beide Seiten.
+
+Arbeitsrechtlich gelten das Nachweisgesetz, das Mindestlohngesetz, das Bundesurlaubsgesetz, das Entgeltfortzahlungsgesetz und die Kündigungsfristen des § 622 BGB ohne Abstriche. Eine Befristung braucht nach § 14 Abs. 4 TzBfG die Schriftform vor Arbeitsbeginn; eine spätere sachgrundlose Befristung desselben Studenten als Vollzeitkraft ist wegen des Vorbeschäftigungsverbots in der Regel ausgeschlossen. Die Rechte an Software, die ein Arbeitnehmer in Erfüllung seiner Aufgaben schreibt, stehen nach § 69b UrhG dem Arbeitgeber zu; für andere Werke braucht es die ausdrückliche Rechteeinräumung in § 7.`,
+      },
+      {
+        titel: "Wann die Werkstudentenvertrag-Vorlage nicht reicht",
+        text: `Promotionsstudierende, Studierende an Berufsakademien in dualen Modellen, Teilnehmer an Fernstudiengängen mit geringem Umfang und Studierende ohne Immatrikulation an einer staatlich anerkannten Hochschule fallen nicht unter das Privileg; hier brauchst du einen Teilzeitarbeitsvertrag mit voller Sozialversicherung. Ausländische Studierende aus Drittstaaten dürfen nur eine begrenzte Zahl von Tagen im Jahr arbeiten; prüfe den Aufenthaltstitel vor der Einstellung.
+
+Soll der Student nach dem Abschluss bleiben, schließt du einen neuen Arbeitsvertrag; denk dabei an das Vorbeschäftigungsverbot für Befristungen. Für Tätigkeiten mit Zugang zu Quellcode und Kundendaten ergänzt die Verschwiegenheitserklärung für Mitarbeiter den Vertrag. Bei Tarifbindung oder Betriebsrat gelten zusätzliche Vorgaben. GründerX ist Software, keine Rechts- oder Sozialversicherungsberatung; bei Unsicherheit über den Status hilft eine Anfrage bei der Krankenkasse des Studenten.`,
+      },
+    ],
     seo: {
-      title: "Werkstudentenvertrag Vorlage 2026 (Word & PDF) | GründerX",
+      title: "Werkstudentenvertrag Vorlage kostenlos (Word) | GründerX",
       description:
         "Werkstudentenvertrag als kostenlose Vorlage: 20-Stunden-Regel, Semesterferien, Immatrikulationsnachweis, Vergütung, Urlaub. Word, PDF oder Text.",
     },
@@ -601,8 +794,59 @@ ${VORLAGEN_HINWEIS}`,
         a: "Ja, nach § 16 BBiG hat jeder Praktikant Anspruch auf ein schriftliches Zeugnis mit Art, Dauer und Ziel des Praktikums sowie den erworbenen Fähigkeiten. Auf Verlangen wird es um Leistung und Verhalten ergänzt (qualifiziertes Zeugnis). Für Pflichtpraktika verlangt die Hochschule zusätzlich meist eine Bescheinigung über die abgeleisteten Wochen.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du einen Praktikumsvertrag brauchst",
+        text: `Eine Studentin fragt nach einem Pflichtpraktikum für ihren Bachelor, ein Schüler will in den Sommerferien in dein Start-up hineinschnuppern, oder du willst einen Bewerber drei Monate lang kennenlernen, bevor du ihn einstellst. In allen Fällen brauchst du einen Praktikumsvertrag, der den Lernzweck festhält, die Dauer begrenzt und die Vergütung regelt.
+
+Die Vorlage deckt vier Praktikumsarten ab: das Pflichtpraktikum nach Studien- oder Schulordnung, das freiwillige Orientierungspraktikum bis drei Monate, das studienbegleitende freiwillige Praktikum bis drei Monate und das längere freiwillige Praktikum mit Mindestlohn. Welche Art zutrifft, entscheidet über Mindestlohn, Sozialversicherung und Kündigungsrecht, deshalb steht die Auswahl ganz oben in § 1. Für Studierende, die regelmäßig neben dem Studium arbeiten sollen, ist der Werkstudentenvertrag das bessere Muster.`,
+      },
+      {
+        titel: "Was muss in einen Praktikumsvertrag? Pflichtangaben für Praktikanten",
+        text: `Für Praktikanten nennt das Nachweisgesetz eigene Pflichtangaben, die im Muster so verteilt sind:
+
+- Art und Zweck des Praktikums mit Ankreuzfeld für die Praktikumsart (§ 1)
+- Beginn, Dauer, Probezeit und tägliche Praktikumszeit (§ 2)
+- Lern- und Ausbildungsziele sowie die Gliederung in Abschnitte (§ 3)
+- Vergütung, Fälligkeit und die Einordnung beim Mindestlohn (§ 4)
+- Betreuer, Feedbackgespräche, Arbeitsmittel, Unfallversicherung und Freistellung für die Hochschule (§ 5)
+- Pflichten des Praktikanten einschließlich Berichtsheft (§ 6)
+- Urlaub, Krankheit und Nachholen von Fehlzeiten (§ 7)
+- Verschwiegenheit und Nutzungsrechte an Arbeitsergebnissen (§ 8)
+- Beendigung und Kündigung nach den Regeln des Berufsbildungsgesetzes (§ 9)
+- Zeugnis, Praktikumsbescheinigung und Tarifhinweis (§ 10)
+
+Die Lernziele in § 3 sind der Kern. Sie belegen, dass das Praktikum der Ausbildung dient und kein verdecktes Arbeitsverhältnis ist. Formuliere sie konkret, mit Projekten und Abschnitten, nicht als Aufgabenliste einer Stellenanzeige.`,
+      },
+      {
+        titel: "Praktikumsvertrag Muster richtig ausfüllen",
+        text: `Beginne mit § 1 Abs. 2 und kreuze genau eine Praktikumsart an. Bei einem Pflichtpraktikum trägst du die Ordnung der Hochschule mit Paragraf und die vorgeschriebene Wochenzahl ein und lässt dir die Bescheinigung der Hochschule geben, die in § 4 Abs. 4 erwähnt ist. In § 2 setzt du Start- und Enddatum, eine kurze Probezeit und die Wochenstunden; bei Minderjährigen gelten die Grenzen des Jugendarbeitsschutzgesetzes, die der Vertrag nennt.
+
+In § 3 formulierst du drei bis vier Lernziele und einen Ablaufplan nach Wochen. In § 4 wählst du den passenden Absatz: Mindestlohn je Stunde beim längeren freiwilligen Praktikum, freiwillige Vergütung oder keine Vergütung bei Pflicht- und Kurzpraktika. Streiche den jeweils anderen Absatz. In § 5 trägst du den Betreuer und seine Vertretung ein, in § 7 die Urlaubstage je vollen Monat. Bei Minderjährigen unterschreiben die Eltern mit; die Unterschriftszeile dafür steht am Ende. Beide Seiten unterschreiben vor dem ersten Tag, der Praktikant erhält eine Ausfertigung.`,
+      },
+      {
+        titel: "Typische Fehler bei Praktika und ihre Folgen",
+        text: `Der häufigste und teuerste Fehler ist die Verlängerung eines freiwilligen Praktikums über drei Monate hinaus. Schon eine Woche mehr löst den Mindestlohn für die gesamte Dauer rückwirkend aus, nicht nur für die Zeit nach dem dritten Monat. Entscheide am Ende der drei Monate lieber, ob ein Werkstudenten- oder Arbeitsvertrag folgt.
+
+Zweiter Fehler: Der Praktikant füllt eine reguläre Stelle aus, hat feste Verantwortung und keinen Betreuer. Dann ist er Arbeitnehmer mit vollem Mindestlohn, ebenfalls rückwirkend, und bei einer Prüfung durch den Zoll oder die Rentenversicherung werden Lohn und Sozialabgaben nachgefordert. Die Lernziele und die Betreuung in § 3 und § 5 sind deshalb keine Formalie.
+
+Vermeide außerdem Praktikumsverträge nur per Handschlag, fehlende Unfallversicherung, Nachtarbeit oder Wochenendarbeit bei Minderjährigen und die Annahme, Praktikanten hätten keinen Urlaub. Für freiwillige Praktika gilt das Berufsbildungsgesetz mit Urlaubs-, Entgeltfortzahlungs- und Zeugnisanspruch.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen: Mindestlohn, Berufsbildungsgesetz, Nachweisgesetz",
+        text: `§ 22 Abs. 1 MiLoG nimmt Pflichtpraktika nach Schul-, Ausbildungs- oder Studienordnung, freiwillige Orientierungspraktika bis drei Monate und freiwillige studienbegleitende Praktika bis drei Monate vom Mindestlohn aus; ebenso Praktikanten unter 18 Jahren ohne Berufsabschluss. Alle anderen Praktikanten haben Anspruch auf den vollen Mindestlohn, der seit Januar 2026 bei 13,90 EUR je Stunde liegt. Prüfe bei Vertragsschluss die aktuelle Höhe.
+
+Freiwillige Praktikanten sind nach § 26 BBiG „andere Vertragsverhältnisse“, auf die wesentliche Vorschriften des Berufsbildungsgesetzes anzuwenden sind: schriftliche Niederlegung der Vertragsinhalte, Probezeit, eingeschränkte Kündigung nach § 22 BBiG, Urlaub, Zeugnis nach § 16 BBiG. Pflichtpraktikanten sind während des vorgeschriebenen Praktikums in der Sozialversicherung besonders behandelt und bei Vergütung meist beitragsfrei; freiwillige vergütete Praktika sind sozialversicherungspflichtig wie ein Arbeitsverhältnis, unterhalb der Geringfügigkeitsgrenze als Minijob. Das Nachweisgesetz verlangt für Praktikanten die Lernziele, Beginn, Dauer, tägliche Praktikumszeit, Vergütung und Urlaub schriftlich.`,
+      },
+      {
+        titel: "Wann die kostenlose Praktikumsvertrag-Vorlage nicht reicht",
+        text: `Für Praktika von Schülern unter 15 Jahren, Schülerbetriebspraktika, die von der Schule organisiert werden, und Praktika von Geflüchteten mit aufenthaltsrechtlichen Auflagen gelten Sonderregeln, die das Muster nicht abbildet. Dasselbe gilt für Praktika im Ausland, für Trainee-Programme nach Studienabschluss, die in Wahrheit befristete Arbeitsverhältnisse sind, und für Praktika mit Bezug von Arbeitslosengeld oder Bürgergeld, bei denen die Agentur für Arbeit vorher zustimmen muss.
+
+Bei Tarifbindung können Praktikantenvergütungen tariflich festgelegt sein; mit Betriebsrat ist die Einstellung mitbestimmungspflichtig. Für Pflichtpraktika liefern viele Hochschulen eigene Vertragsformulare, die du dann verwenden solltest. GründerX ist Software und keine Rechtsberatung: Wenn unklar ist, ob ein Praktikum noch Praktikum oder schon Arbeitsverhältnis ist, lass die Konstellation vor dem Start von einem Anwalt oder Steuerberater prüfen.`,
+      },
+    ],
     seo: {
-      title: "Praktikumsvertrag Vorlage 2026 (Word & PDF) | GründerX",
+      title: "Praktikumsvertrag Vorlage kostenlos (Word & PDF) | GründerX",
       description:
         "Praktikumsvertrag als kostenlose Vorlage für Pflicht- und freiwillige Praktika: Lernziele, Dauer, Mindestlohn, Betreuung, Zeugnis. Word, PDF oder Text.",
     },
@@ -751,8 +995,57 @@ ${VORLAGEN_HINWEIS}`,
         a: "Innerhalb von drei Wochen nach Zugang des Schreibens beim Arbeitsgericht (§ 4 KSchG). Das gilt auch in Kleinbetrieben, weil dort zumindest Formfehler, Diskriminierung oder Sittenwidrigkeit geprüft werden. Nach Ablauf der Frist ist die Kündigung wirksam, selbst wenn sie fehlerhaft war. Du musst auf die Frist nicht hinweisen, aber der Nachweis im Arbeitsvertrag muss sie nennen.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du dieses Kündigungsschreiben brauchst",
+        text: `Die Probezeit läuft in zwei Wochen ab und es passt nicht, ein Auftrag ist weggebrochen und du musst eine Stelle streichen, oder ein Mitarbeiter kommt trotz Abmahnung weiter zu spät. In allen Fällen beendest du das Arbeitsverhältnis mit einer ordentlichen Kündigung, und das Schreiben muss formal sitzen, weil jeder Fehler den Arbeitnehmer zurück in den Betrieb bringt.
+
+Die Vorlage enthält zwei Varianten: die Kündigung in der Probezeit mit zwei Wochen Frist und die Kündigung nach der Probezeit mit gesetzlicher oder vertraglicher Frist. Dazu kommen eine Empfangsbestätigung und ein Übergabeprotokoll, mit denen du den Zugang beweist. Für eine fristlose Kündigung aus wichtigem Grund oder eine einvernehmliche Trennung ist das Muster nicht gedacht; dafür gibt es den Aufhebungsvertrag.`,
+      },
+      {
+        titel: "Was muss in ein Kündigungsschreiben vom Arbeitgeber?",
+        text: `Ein Kündigungsschreiben ist kurz, aber jedes Element hat einen Zweck:
+
+- Absender mit Firma und Rechtsform, Empfänger mit vollständigem Namen und Anschrift
+- Die eindeutige Erklärung, dass das Arbeitsverhältnis gekündigt wird, mit Beendigungsdatum und dem Zusatz „hilfsweise zum nächstmöglichen Zeitpunkt“
+- Die Angabe der Kündigungsfrist mit Rechtsgrundlage (nur in Variante B)
+- Der Hinweis auf die Meldepflicht bei der Agentur für Arbeit nach § 38 SGB III, damit der Arbeitnehmer keine Sperrzeit riskiert
+- Regelung des Resturlaubs: Gewährung, Freistellung unter Anrechnung oder Abgeltung
+- Zeugnis, Arbeitspapiere und Rückgabe von Firmeneigentum
+- Die eigenhändige Unterschrift eines Vertretungsberechtigten
+- Empfangsbestätigung oder Übergabeprotokoll als Zugangsnachweis
+
+Was nicht hineingehört: der Kündigungsgrund. Bei einer ordentlichen Kündigung musst du ihn nicht nennen, und eine Begründung im Schreiben bindet dich im Prozess an genau diese Begründung. Die Vorlage verzichtet deshalb bewusst darauf.`,
+      },
+      {
+        titel: "Kündigung Arbeitgeber Muster ausfüllen und zustellen",
+        text: `Wähle Variante A, wenn die Kündigung innerhalb der Probezeit zugeht, sonst Variante B, und lösche die andere Variante vollständig. Berechne das Beendigungsdatum vom Tag des Zugangs aus, nicht vom Tag der Unterschrift: In der Probezeit sind das zwei Wochen, danach je nach Betriebszugehörigkeit vier Wochen zum 15. oder Monatsende bis hin zu mehreren Monaten zum Monatsende. Trage in Variante B die Rechtsgrundlage der Frist ein, entweder den Absatz von § 622 BGB oder den Paragrafen deines Arbeitsvertrags.
+
+Beim Resturlaub entscheidest du zwischen Urlaub im Zeitraum, unwiderruflicher Freistellung unter Anrechnung oder Abgeltung mit der Schlussabrechnung; die Vorlage bietet die Formulierungen als Alternativen. Nenne die Person, die Laptop, Schlüssel und Unterlagen entgegennimmt. Drucke das Schreiben aus und unterschreibe es eigenhändig als Geschäftsführer oder Inhaber. Übergib es persönlich und lass die Empfangsbestätigung unterschreiben; verweigert der Arbeitnehmer das, füllt ein Zeuge das Übergabeprotokoll aus. Alternativ wirft ein Bote, der das Schreiben gelesen hat, es in den Briefkasten und notiert Datum und Uhrzeit.`,
+      },
+      {
+        titel: "Typische Fehler bei der Arbeitgeberkündigung",
+        text: `Der schwerste Fehler ist die falsche Form: Kündigungen per E-Mail, WhatsApp, PDF mit eingescannter Unterschrift oder Fax sind nach § 623 BGB nichtig, und das Arbeitsverhältnis läuft weiter. Zweiter Fehler: Es unterschreibt jemand ohne Vertretungsmacht, etwa die Teamleiterin. Dann kann der Arbeitnehmer die Kündigung nach § 174 BGB zurückweisen, wenn keine Originalvollmacht beiliegt.
+
+Dritter Fehler ist der verpasste Zugang. Ein Einschreiben mit Rückschein, das niemand annimmt, geht nicht zu; ein Einwurf-Einschreiben gilt zwar als zugegangen, aber den Inhalt des Umschlags beweist es nicht. Die persönliche Übergabe mit Zeugen oder der Bote sind sicherer. Vierter Fehler ist die Kündigung am letzten Probezeittag per Post: Geht sie erst nach Ablauf der Probezeit zu, gilt schon die längere Frist.
+
+Vermeide außerdem Kündigungen ohne Anhörung des Betriebsrats, falls einer besteht, Kündigungen von Schwangeren, Eltern in Elternzeit oder Schwerbehinderten ohne behördliche Zustimmung, und die Freistellung ohne ausdrückliche Anrechnung des Urlaubs, weil der Urlaub sonst zusätzlich abgegolten werden muss.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen: § 622 BGB, Schriftform, Kündigungsschutz",
+        text: `§ 623 BGB verlangt für jede Kündigung die Schriftform, also Papier und eigenhändige Unterschrift. § 622 Abs. 1 BGB setzt die Grundfrist von vier Wochen zum 15. oder zum Ende eines Kalendermonats; § 622 Abs. 2 BGB verlängert sie für den Arbeitgeber mit der Betriebszugehörigkeit stufenweise von einem Monat nach zwei Jahren bis zu sieben Monaten nach zwanzig Jahren, jeweils zum Monatsende. § 622 Abs. 3 BGB erlaubt in einer vereinbarten Probezeit von höchstens sechs Monaten die Kündigung mit zwei Wochen Frist.
+
+Das Kündigungsschutzgesetz gilt nach § 23 KSchG erst in Betrieben mit mehr als zehn Vollzeitkräften und nach § 1 KSchG erst nach sechs Monaten Betriebszugehörigkeit. Dann brauchst du einen betriebs-, verhaltens- oder personenbedingten Grund, den du im Prozess beweisen musst. Auch im Kleinbetrieb darf die Kündigung nicht willkürlich, treuwidrig oder diskriminierend sein. Der Arbeitnehmer muss nach § 4 KSchG innerhalb von drei Wochen nach Zugang Kündigungsschutzklage erheben, sonst gilt die Kündigung nach § 7 KSchG als wirksam. Nicht genommener Urlaub ist nach § 7 Abs. 4 BUrlG abzugelten.`,
+      },
+      {
+        titel: "Wann du vor der Kündigung einen Anwalt brauchst",
+        text: `Sobald das Kündigungsschutzgesetz greift, ist das Schreiben der einfachste Teil; entscheidend ist, ob der Kündigungsgrund im Prozess hält. Bei betriebsbedingten Kündigungen musst du die Sozialauswahl dokumentieren, bei verhaltensbedingten brauchst du eine wirksame Abmahnung, bei personenbedingten ein betriebliches Eingliederungsmanagement. Hier lohnt sich die Beratung durch einen Fachanwalt für Arbeitsrecht, bevor das Schreiben rausgeht.
+
+Dasselbe gilt für jeden Fall von Sonderkündigungsschutz: Schwangerschaft, Elternzeit, Pflegezeit, Schwerbehinderung, Betriebsratsmitglieder, Datenschutzbeauftragte und Auszubildende nach der Probezeit. Bei Massenentlassungen ab einer bestimmten Betriebsgröße ist vorher eine Anzeige bei der Agentur für Arbeit nötig. Mit Betriebsrat muss die Anhörung nach § 102 BetrVG vollständig und vor der Unterschrift erfolgen. GründerX stellt Software und Muster bereit und ersetzt keine Rechtsberatung.`,
+      },
+    ],
     seo: {
-      title: "Kündigung Arbeitgeber Vorlage 2026 (Word & PDF) | GründerX",
+      title: "Kündigungsschreiben Arbeitgeber Vorlage kostenlos | GründerX",
       description:
         "Kündigungsschreiben für Arbeitgeber als kostenlose Vorlage: ordentliche Kündigung in und nach der Probezeit, Fristen, Schriftform, Resturlaub. Word & PDF.",
     },
@@ -906,8 +1199,60 @@ ${VORLAGEN_HINWEIS}`,
         a: "Sie regelt, dass mit Erfüllung des Vertrags alle gegenseitigen Ansprüche aus dem Arbeitsverhältnis erledigt sind, egal ob bekannt oder unbekannt. So verhinderst du, dass Monate später Überstunden, Bonus oder Spesen nachgefordert werden. Ausgenommen bleiben unverzichtbare Ansprüche wie gesetzlicher Mindesturlaub, Mindestlohn und die betriebliche Altersversorgung.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann ein Aufhebungsvertrag besser ist als eine Kündigung",
+        text: `Ihr habt beide gemerkt, dass es nicht passt, der Mitarbeiter hat ein neues Angebot und will früher gehen, oder du müsstest kündigen, hast aber keinen sicheren Kündigungsgrund. In solchen Situationen ist der Aufhebungsvertrag der sauberere Weg: Beide Seiten einigen sich auf ein Enddatum, auf Abfindung, Freistellung und Zeugnis, und niemand muss drei Wochen auf eine Kündigungsschutzklage warten.
+
+Besonders wertvoll ist das Muster, wenn Kündigungsschutz oder Sonderkündigungsschutz greift, wenn eine Kündigung bereits ausgesprochen wurde und ihr euch im Verfahren vergleichen wollt, oder wenn ein schneller, geräuschloser Abschied im Interesse beider liegt. Der Preis dafür ist meist eine Abfindung und die Pflicht, den Mitarbeiter fair zu behandeln und über die Folgen beim Arbeitslosengeld aufzuklären.`,
+      },
+      {
+        titel: "Was muss in einen Aufhebungsvertrag?",
+        text: `Das Muster regelt alles, was nach dem Ende noch Streit auslösen könnte:
+
+- Vorbemerkung mit Anlass der Beendigung, Hinweis auf Rechtsberatung und Bedenkzeit
+- Beendigungsdatum und sein Verhältnis zur ordentlichen Kündigungsfrist, optional ein vorzeitiges Ausstiegsrecht mit Turboklausel (§ 1)
+- Unwiderrufliche Freistellung unter Anrechnung des Urlaubs, Umgang mit Nebenverdienst (§ 2)
+- Abrechnung bis zum Ende einschließlich variabler Vergütung und Sachbezüge (§ 3)
+- Abfindung mit Berechnung, Fälligkeit und steuerlichem Hinweis (§ 4)
+- Zeugnisnote, Schlussformel und Entwurfsrecht des Mitarbeiters (§ 5)
+- Rückgabe von Firmeneigentum, Löschung dienstlicher Daten, Arbeitspapiere (§ 6)
+- Verschwiegenheit, Stillschweigen über den Vertrag, Sprachregelung (§ 7)
+- Hinweise zu Sperrzeit, Ruhen des Arbeitslosengeldes und Meldepflicht (§ 8)
+- Erledigungsklausel mit den gesetzlich unverzichtbaren Ausnahmen (§ 9)
+- Schriftform und salvatorische Klausel (§ 10)
+
+Die Hinweise in § 8 und die Dokumentation der Bedenkzeit in der Vorbemerkung sind kein Beiwerk. Sie schützen dich vor dem Vorwurf, den Mitarbeiter überrumpelt oder falsch beraten zu haben.`,
+      },
+      {
+        titel: "Aufhebungsvertrag Muster ausfüllen: Datum, Abfindung, Zeugnis",
+        text: `Lege zuerst das Beendigungsdatum fest. Es sollte mindestens so weit in der Zukunft liegen wie das Ende deiner ordentlichen Kündigungsfrist, sonst ruht das Arbeitslosengeld des Mitarbeiters zusätzlich. In der Vorbemerkung wählst du, ob die Beendigung auf deine Veranlassung zur Vermeidung einer betriebsbedingten Kündigung erfolgt oder auf Wunsch des Mitarbeiters, und trägst das Datum des Hinweises auf Rechtsberatung sowie das Ende der Bedenkzeit ein.
+
+In § 2 setzt du den Beginn der Freistellung und die offenen Urlaubstage, in § 3 das Bruttomonatsgehalt und die Regelung für Bonus oder Provision. Für § 4 berechnest du die Abfindung; ein halbes Bruttomonatsgehalt pro Beschäftigungsjahr ist der übliche Anker. In § 5 wählst du die Zeugnisnote, die du tatsächlich tragen kannst, denn sie ist bindend. In § 6 listest du Laptop, Handy, Schlüssel und Firmenwagen auf. Streiche in § 7 und § 9 die Optionen, die nicht passen. Drucke zwei Exemplare, beide unterschreiben im Original, jede Seite erhält eines.`,
+      },
+      {
+        titel: "Typische Fehler beim Aufhebungsvertrag und wie du sie vermeidest",
+        text: `Der gravierendste Fehler ist die Form: Ein Aufhebungsvertrag per E-Mail, als PDF mit elektronischer Signatur oder per Messenger ist nach § 623 BGB nichtig. Der Mitarbeiter kann Monate später weiterarbeiten und Gehalt für die Zwischenzeit verlangen. Nur Papier mit beiden Originalunterschriften zählt.
+
+Zweiter Fehler: Überrumpelung. Wer den Vertrag im Flur vorlegt, sofortige Unterschrift verlangt und mit einer fristlosen Kündigung droht, die kein vernünftiger Arbeitgeber ernsthaft erwägen würde, riskiert die Anfechtung oder die Unwirksamkeit wegen Verstoßes gegen das Gebot fairen Verhandelns. Gib Bedenkzeit und halte sie schriftlich fest.
+
+Dritter Fehler ist die Abfindung als Sammelposten: Werden offenes Gehalt, Bonus oder Urlaubsabgeltung in die Abfindung gepackt, verliert sie ihre Beitragsfreiheit, und der Mitarbeiter zahlt mehr Steuern. Rechne diese Posten normal ab. Vermeide außerdem die Erledigungsklausel ohne Ausnahmen, denn ein Verzicht auf Mindesturlaub, Mindestlohn oder Betriebsrente ist unwirksam und zieht die Klausel in Zweifel.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen: Schriftform, Sperrzeit, Fünftelregelung",
+        text: `§ 623 BGB verlangt für den Aufhebungsvertrag die Schriftform. Ein gesetzliches Widerrufsrecht gibt es nicht; das Bundesarbeitsgericht hat aber das Gebot fairen Verhandelns als Nebenpflicht aus § 241 Abs. 2 BGB entwickelt, aus dessen Verletzung ein Anspruch auf Rückgängigmachung folgen kann. Einen gesetzlichen Anspruch auf Abfindung gibt es nur in den Fällen des § 1a KSchG; außerhalb davon ist sie frei verhandelbar.
+
+Beim Arbeitslosengeld droht nach § 159 SGB III eine Sperrzeit von in der Regel zwölf Wochen, weil der Mitarbeiter an der Beendigung mitgewirkt hat. Die Agentur für Arbeit verzichtet darauf nach ihrer Weisungslage, wenn eine betriebsbedingte Kündigung zum selben Termin drohte, die Kündigungsfrist eingehalten wird und die Abfindung zwischen 0,25 und 0,5 Bruttomonatsgehältern je Beschäftigungsjahr liegt. Wird die Kündigungsfrist unterschritten, ruht der Anspruch zusätzlich nach § 158 SGB III. Die Abfindung ist sozialversicherungsfrei; steuerlich greift die Fünftelregelung des § 34 EStG, die seit 2025 nur noch in der Einkommensteuererklärung des Mitarbeiters beantragt wird, nicht mehr über die Lohnabrechnung.`,
+      },
+      {
+        titel: "Wann du den Aufhebungsvertrag anwaltlich prüfen lassen solltest",
+        text: `Bei hohen Abfindungen, Führungskräften mit Aktienoptionen oder virtuellen Beteiligungen, bei nachvertraglichen Wettbewerbsverboten mit Karenzentschädigung und bei laufenden Kündigungsschutzverfahren sollte ein Fachanwalt für Arbeitsrecht den Vertrag prüfen oder gleich als gerichtlichen Vergleich protokollieren lassen. Dasselbe gilt, wenn der Mitarbeiter Sonderkündigungsschutz genießt, weil Behörden und Gerichte hier besonders genau auf Freiwilligkeit achten.
+
+Mit Betriebsrat ist der Aufhebungsvertrag selbst nicht mitbestimmungspflichtig, Sozialplanansprüche bei Betriebsänderungen aber schon. Bei Tarifbindung können tarifliche Ausschlussfristen und Abfindungsregelungen vorgehen. Steuerliche Fragen zur Fünftelregelung und zu Auszahlungszeitpunkten klärt der Mitarbeiter am besten mit seinem Steuerberater. GründerX ist Software und keine Rechts- oder Steuerberatung; das Muster ist der Ausgangspunkt, nicht die Prüfung des Einzelfalls.`,
+      },
+    ],
     seo: {
-      title: "Aufhebungsvertrag Vorlage 2026 mit Abfindung | GründerX",
+      title: "Aufhebungsvertrag Vorlage kostenlos mit Abfindung | GründerX",
       description:
         "Aufhebungsvertrag als kostenlose Vorlage: Beendigungsdatum, Freistellung, Abfindung, Zeugnisnote, Erledigungsklausel, Hinweis Sperrzeit. Word & PDF.",
     },
@@ -1040,8 +1385,54 @@ ${VORLAGEN_HINWEIS}`,
         a: "Rechtlich ja, weil die Abmahnung formfrei ist. Praktisch nein: Du musst den Zugang und den Inhalt beweisen, und eine E-Mail kann der Mitarbeiter bestreiten. Nutze Papier mit Empfangsbestätigung oder Boten; die E-Mail höchstens als zusätzliche Ankündigung.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du eine Abmahnung schreiben musst",
+        text: `Ein Mitarbeiter kommt zum dritten Mal in zwei Wochen zu spät, meldet sich bei Krankheit erst mittags oder ignoriert eine klare Anweisung. Du willst nicht kündigen, aber du willst, dass es aufhört, und du willst für den Fall der Wiederholung gewappnet sein. Dafür ist die Abmahnung da: Sie ist die gelbe Karte des Arbeitsrechts und in fast allen Fällen Voraussetzung für eine spätere verhaltensbedingte Kündigung.
+
+Die Vorlage passt für die Klassiker Unpünktlichkeit, unentschuldigtes Fehlen, verspätete Krankmeldung und Arbeitsverweigerung und lässt sich auf Verstöße gegen Sicherheits-, Datenschutz- oder Nutzungsregeln übertragen. Für Fälle, die so schwer wiegen, dass du sofort fristlos kündigen willst, etwa Diebstahl oder Tätlichkeiten, ist eine Abmahnung nicht nötig und kann sogar schaden, weil sie den Vorfall als abgehakt gilt.`,
+      },
+      {
+        titel: "Was muss in eine Abmahnung? Hinweis, Rüge, Warnung",
+        text: `Eine wirksame Abmahnung hat drei Funktionen, die das Muster in nummerierte Abschnitte übersetzt:
+
+- Hinweisfunktion: der konkrete Sachverhalt mit Datum, Uhrzeit, Ort, Zeugen und Belegen (Abschnitt 1)
+- Rügefunktion: die Benennung der verletzten Pflicht aus Arbeitsvertrag, Gesetz oder Weisung und die Klarstellung, dass du das nicht hinnimmst (Abschnitt 2)
+- Aufforderung zu vertragsgemäßem Verhalten (Abschnitt 3)
+- Warnfunktion: die Androhung arbeitsrechtlicher Konsequenzen bis zur Kündigung im Wiederholungsfall (Abschnitt 4)
+- Aufnahme in die Personalakte und Hinweis auf das Recht zur Gegendarstellung (Abschnitt 5)
+
+Dazu kommen die Unterschrift einer vertretungsberechtigten oder personalverantwortlichen Person, die Empfangsbestätigung und das Übergabeprotokoll. Fehlt die Kündigungsandrohung, ist das Schreiben nur eine Ermahnung; fehlt der konkrete Sachverhalt, ist es zu unbestimmt und muss aus der Personalakte entfernt werden.`,
+      },
+      {
+        titel: "Abmahnung Muster ausfüllen: Sachverhalt konkret beschreiben",
+        text: `Der Sachverhalt in Abschnitt 1 entscheidet über alles. Die Vorlage bietet drei Textbausteine für Verspätung, Fehlen und Weisungsverstoß; wähle einen, lösche die anderen und fülle ihn mit Wochentag, Datum, Uhrzeit und Ort. Schreibe, was der Mitarbeiter getan oder unterlassen hat, nicht, was du vermutest. Nenne die Zeugen mit Funktion und die Belege, etwa den Auszug aus der Zeiterfassung oder die E-Mail mit der Weisung. Hast du den Mitarbeiter vorher angehört, fasse seine Erklärung kurz zusammen und sage, warum sie das Verhalten nicht rechtfertigt.
+
+In Abschnitt 2 wählst du die passende Pflicht: den Paragrafen des Arbeitsvertrags zur Arbeitszeit, die Anzeigepflicht bei Krankheit nach § 5 EFZG oder die Pflicht, Weisungen nach § 106 GewO zu befolgen. Abschnitt 3 nennt konkret, was du künftig erwartest. Abschnitte 4 und 5 lässt du unverändert. Datiere das Schreiben, unterschreibe es und übergib es persönlich im Beisein eines Zeugen. Die Gegendarstellungs-Vorlage in der Anlage gibst du dem Mitarbeiter mit; das zeigt Fairness und erschwert später den Vorwurf, er habe sich nicht äußern können.`,
+      },
+      {
+        titel: "Typische Fehler bei der Abmahnung und wie du sie vermeidest",
+        text: `Der häufigste Fehler ist die Sammelabmahnung: fünf Vorwürfe in einem Schreiben, von denen einer nicht stimmt. Dann ist die ganze Abmahnung unwirksam, auch wenn vier Vorwürfe zutreffen. Schreibe pro Vorfall eine Abmahnung, oder beschränke dich auf den Vorwurf, den du zweifelsfrei belegen kannst.
+
+Zweiter Fehler sind pauschale Formulierungen wie „wiederholt unpünktlich“ oder „mangelnde Leistung“. Gerichte verlangen Datum, Uhrzeit und konkretes Verhalten; was nicht beschrieben ist, gilt als nicht abgemahnt. Dritter Fehler ist das Warten: Wer einen Vorfall erst nach Monaten abmahnt, signalisiert, dass er ihn nicht ernst genommen hat. Handle innerhalb von zwei bis drei Wochen nach Kenntnis.
+
+Vermeide außerdem die Abmahnung wegen Schlechtleistung, wenn der Mitarbeiter schlicht nicht besser kann; abmahnbar ist nur steuerbares Verhalten. Verzichte auf Drohungen mit konkreten Terminen („beim nächsten Mal sind Sie am 31. raus“), auf Beleidigungen und auf die Abmahnung per E-Mail ohne Zugangsnachweis.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen der Abmahnung im Arbeitsrecht",
+        text: `Die Abmahnung ist gesetzlich nicht eigens geregelt; sie folgt aus dem Verhältnismäßigkeitsgrundsatz und ist in § 314 Abs. 2 BGB für Dauerschuldverhältnisse angelegt. Das Bundesarbeitsgericht verlangt sie vor jeder verhaltensbedingten Kündigung, wenn das Verhalten steuerbar ist und eine Verhaltensänderung erwartet werden kann. Eine Form ist nicht vorgeschrieben, aber ohne Schriftstück kannst du Inhalt und Zugang nicht beweisen.
+
+Das Recht auf Gegendarstellung und auf Einsicht in die Personalakte ergibt sich in Betrieben mit Betriebsrat aus § 83 BetrVG; ohne Betriebsrat folgt es aus der Fürsorgepflicht und dem Auskunftsrecht nach der DSGVO. Der Mitarbeiter kann auf Entfernung der Abmahnung aus der Personalakte klagen, wenn sie unrichtig, zu unbestimmt oder unverhältnismäßig ist oder ihre Warnfunktion nach langer beanstandungsfreier Zeit verloren hat. Eine feste Verfallsfrist gibt es nicht. Der Betriebsrat muss vor einer Abmahnung nicht angehört werden; vor der späteren Kündigung dagegen zwingend nach § 102 BetrVG.`,
+      },
+      {
+        titel: "Wann die Abmahnung-Vorlage nicht reicht",
+        text: `Bei Verdachtsfällen ohne klare Beweislage, bei Vorwürfen gegen Betriebsratsmitglieder, Schwerbehinderte oder Schwangere und bei Verhalten, das zugleich strafrechtlich relevant ist, solltest du vor der Abmahnung einen Fachanwalt für Arbeitsrecht hinzuziehen. Dasselbe gilt, wenn die Abmahnung der letzte Schritt vor einer Kündigung in einem Betrieb mit Kündigungsschutz sein soll, denn dann muss sie dasselbe Pflichtenfeld treffen wie der spätere Kündigungsgrund.
+
+Für Leistungsmängel ist statt der Abmahnung oft ein dokumentiertes Mitarbeitergespräch mit Zielen und Unterstützung der richtige Weg; für Konflikte im Team eine Mediation. Mit Tarifbindung können tarifliche Vorgaben zur Anhörung vor Abmahnungen bestehen. GründerX stellt das Muster und keine Rechtsberatung bereit; im Zweifel ist die Abmahnung, die du einmal zu oft prüfen lässt, günstiger als die Kündigung, die vor Gericht scheitert.`,
+      },
+    ],
     seo: {
-      title: "Abmahnung Arbeitnehmer Vorlage 2026 (Word & PDF) | GründerX",
+      title: "Abmahnung Arbeitnehmer Vorlage kostenlos (Word) | GründerX",
       description:
         "Abmahnung Arbeitnehmer als kostenlose Vorlage: konkreter Sachverhalt, Pflichtverletzung, Kündigungsandrohung, Personalakte, Gegendarstellung. Word & PDF.",
     },
@@ -1175,8 +1566,60 @@ ${VORLAGEN_HINWEIS}`,
         a: "Nur, wenn der Mitarbeiter es wünscht oder zumindest einverstanden ist. Üblich ist die neutrale Formulierung „auf eigenen Wunsch“ bei Eigenkündigung oder „im besten Einvernehmen“ bei Aufhebung. Eine Arbeitgeberkündigung wird meist nur mit „Das Arbeitsverhältnis endet am …“ umschrieben; Krankheit oder Abmahnungen gehören niemals ins Zeugnis.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du ein qualifiziertes Arbeitszeugnis schreiben musst",
+        text: `Deine erste Mitarbeiterin wechselt nach zwei Jahren zu einem größeren Unternehmen, ein Werkstudent schließt sein Studium ab, oder ein Mitarbeiter bittet vor der Elternzeit um ein Zwischenzeugnis. In allen Fällen hat die Person Anspruch auf ein Zeugnis, und wenn sie es verlangt, auf ein qualifiziertes mit Leistungs- und Verhaltensbeurteilung. Für die meisten Gründer ist das die erste Begegnung mit der Zeugnissprache, in der „zu unserer vollen Zufriedenheit“ nur befriedigend bedeutet.
+
+Die Vorlage ist durchgängig in der Note „gut“ formuliert und enthält alle Bausteine, die Personaler erwarten: Einleitung, Unternehmensbeschreibung, Aufgaben, Fachwissen, Arbeitsweise, Belastbarkeit, ein konkreter Erfolg, zusammenfassende Bewertung, Verhalten in der richtigen Reihenfolge, Beendigungsgrund und Schlussformel. Sie passt als Endzeugnis und als Zwischenzeugnis und für Zeugnisnoten, die in einem Aufhebungsvertrag vereinbart wurden.`,
+      },
+      {
+        titel: "Was muss in ein Arbeitszeugnis? Aufbau und Pflichtinhalte",
+        text: `Ein qualifiziertes Zeugnis folgt einer festen Reihenfolge, die das Muster vorgibt:
+
+- Firmenbriefkopf und Überschrift „Zeugnis“ oder „Zwischenzeugnis“
+- Einleitung mit Name, Geburtsdatum, Beschäftigungsdauer und Position
+- Kurze Unternehmensbeschreibung mit Branche, Größe und Markt
+- Werdegang im Unternehmen, Beförderungen, Führungsverantwortung
+- Aufgabenbeschreibung in Stichpunkten, die wichtigste Aufgabe zuerst
+- Leistungsbeurteilung: Fachwissen, Auffassungsgabe, Arbeitsweise, Belastbarkeit, Eigeninitiative, ein konkreter Erfolg
+- Zusammenfassende Leistungsbewertung mit der Notenformel
+- Verhaltensbeurteilung gegenüber Vorgesetzten, Kollegen und Kunden, in genau dieser Reihenfolge
+- Beendigungsgrund in neutraler Form
+- Schlussformel mit Dank, Bedauern und Zukunftswünschen
+- Ort, Datum, eigenhändige Unterschrift mit Funktion
+
+Was nicht hineingehört: Krankheitszeiten, Abmahnungen, Elternzeit, Gehalt, Gewerkschafts- oder Betriebsratstätigkeit und alles, was der Mitarbeiter nicht wünscht. Das Zeugnis muss wahr sein, aber wohlwollend, und es darf keine versteckten Codes enthalten.`,
+      },
+      {
+        titel: "Arbeitszeugnis Muster ausfüllen: Aufgaben, Erfolge, Note",
+        text: `Fülle die Einleitung mit den Daten aus dem Arbeitsvertrag und wähle die Anrede Frau oder Herr; die Vorlage bietet beide Formen in jedem Satz, streiche die unpassende. Beschreibe das Unternehmen in zwei Sätzen so, dass ein fremder Personaler die Verantwortung der Position einordnen kann: Gründungsjahr, Produkt, Mitarbeiterzahl, Märkte.
+
+Die Aufgabenliste ist der Teil, den du nicht aus der Stellenanzeige kopieren solltest. Schreibe auf, was die Person tatsächlich verantwortet hat, mit Budgets, Kanälen, Tools und Teamgröße, und beginne mit der wichtigsten Aufgabe. Ersetze die Beispielerfolge durch einen echten, messbaren Erfolg; eine Zahl macht aus einer Floskel einen Beleg. Wähle in der zusammenfassenden Bewertung die Formel, die du tragen willst. Die Vorlage steht auf „stets zu unserer vollen Zufriedenheit“; für sehr gut schreibst du „stets zu unserer vollsten Zufriedenheit“, und dann müssen auch die Einzelaussagen eine Stufe höher sein. Datiere auf den letzten Arbeitstag, unterschreibe eigenhändig und entferne vor dem Druck die Übersicht der Zeugnissprache am Ende.`,
+      },
+      {
+        titel: "Typische Fehler im Arbeitszeugnis und wie du sie vermeidest",
+        text: `Der häufigste Fehler ist die unbeabsichtigte Abwertung durch Auslassen. Fehlt beim Buchhalter die Ehrlichkeit, bei der Vertriebsmitarbeiterin das Verhalten gegenüber Kunden oder beim Teamleiter die Führungsleistung, liest jeder Personaler ein Problem heraus. Nimm die Vorlage als Checkliste und streiche nichts, ohne es durch eine gleichwertige Aussage zu ersetzen.
+
+Zweiter Fehler ist die falsche Reihenfolge im Verhalten. Werden Kollegen vor Vorgesetzten genannt, gilt das als Hinweis auf Konflikte mit der Führung. Dritter Fehler sind widersprüchliche Stufen: Einzelaussagen auf befriedigend, Gesamtnote auf sehr gut. Das wirkt unglaubwürdig und löst Nachfragen aus.
+
+Vermeide außerdem ein Datum Wochen nach dem Austritt, Knicke, Flecken, fehlenden Briefkopf, Rechtschreibfehler und ironische Formulierungen wie „bemühte sich stets“. Schreibe keine Krankheitszeiten, keinen Hinweis auf Abmahnungen und keinen Beendigungsgrund, den der Mitarbeiter nicht wünscht. Und verzichte nicht auf die Schlussformel, wenn das Zeugnis gut ist: Ihr Fehlen wird als Streit im Abgang gelesen.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen: § 109 GewO, Zeugnissprache, Beweislast",
+        text: `Der Anspruch auf ein Zeugnis folgt aus § 109 GewO: Jeder Arbeitnehmer hat bei Beendigung Anspruch auf ein schriftliches Zeugnis mit Art und Dauer der Tätigkeit; auf Verlangen erstreckt es sich auf Leistung und Verhalten. Nach § 109 Abs. 2 GewO muss es klar und verständlich formuliert sein und darf keine Merkmale oder Formulierungen enthalten, die eine andere als die aus dem Wortlaut ersichtliche Aussage treffen. Für Auszubildende und Praktikanten gilt § 16 BBiG.
+
+Das Zeugnis muss nach der Rechtsprechung des Bundesarbeitsgerichts wahr und wohlwollend sein. Bei der Note gilt die Beweislastverteilung: Beurteilst du schlechter als befriedigend, musst du das beweisen; verlangt der Mitarbeiter besser als befriedigend, muss er die überdurchschnittliche Leistung beweisen. Einen Anspruch auf eine Dankes- und Bedauernsformel gibt es nicht, aber ein Zeugnis ohne sie kann vom Mitarbeiter zurückgewiesen werden, wenn es im Übrigen gut ist. Die Regel bleibt das Zeugnis auf Firmenpapier mit eigenhändiger Unterschrift; seit 2025 ist mit Einverständnis des Mitarbeiters auch die elektronische Form mit qualifizierter elektronischer Signatur zulässig.`,
+      },
+      {
+        titel: "Wann die Zeugnis-Vorlage nicht reicht",
+        text: `Für Zeugnisse mit den Noten befriedigend oder schlechter solltest du die Formulierungen bewusst und konsistent eine Stufe nach unten setzen und dich auf Rückfragen einstellen; ein Fachanwalt oder eine erfahrene Personalerin kann helfen, nicht in die Falle der unbeabsichtigten Codes zu tappen. Dasselbe gilt für Zeugnisse nach einem Kündigungsschutzprozess, bei denen der Wortlaut Teil eines Vergleichs ist.
+
+Für Führungskräfte mit Budget- und Personalverantwortung, für Zeugnisse in englischer Sprache und für Branchen mit eigenen Konventionen wie Banken oder Kanzleien reicht das Grundmuster nur als Gerüst. Mit Betriebsrat ändert sich am Zeugnis nichts; tarifliche Ausschlussfristen können aber den Anspruch des Mitarbeiters begrenzen. GründerX stellt Software und Muster bereit, keine Rechtsberatung. Wenn der Mitarbeiter ein Zeugnis zurückweist, einigt euch auf einen Wortlaut, statt den Streit vor das Arbeitsgericht zu tragen.`,
+      },
+    ],
     seo: {
-      title: "Arbeitszeugnis Vorlage 2026: qualifiziert, Note gut | GründerX",
+      title: "Arbeitszeugnis Vorlage kostenlos: Note gut (Word) | GründerX",
       description:
         "Qualifiziertes Arbeitszeugnis als kostenlose Vorlage mit Note gut: Aufgaben, Leistung, Verhalten, Schlussformel und Zeugnissprache erklärt. Word & PDF.",
     },
@@ -1296,8 +1739,59 @@ ${VORLAGEN_HINWEIS}`,
         a: "Nur mit deiner Zustimmung, und du solltest sie restriktiv erteilen. Schon wenige Wochen im EU-Ausland können Sozialversicherungs- und Steuerpflichten im anderen Land auslösen; innerhalb der EU ist ab 25 % Arbeitszeit im Wohnsitzstaat die Sozialversicherung dort fällig. Die Vorlage beschränkt mobiles Arbeiten auf Deutschland und erlaubt Ausnahmen nur nach Einzelfreigabe.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du eine Homeoffice-Vereinbarung brauchst",
+        text: `Dein Team arbeitet seit Monaten zwei bis drei Tage pro Woche von zu Hause, aber im Arbeitsvertrag steht nur der Firmensitz als Arbeitsort. Oder ein neuer Mitarbeiter wohnt 200 Kilometer entfernt und soll nur zum Teamtag kommen. In beiden Fällen brauchst du eine schriftliche Regelung, die festlegt, wie viel mobiles Arbeiten erlaubt ist, wann der Mitarbeiter erreichbar sein muss, wer die Ausstattung stellt und wie du das Ganze beenden kannst.
+
+Die Vorlage ist als Zusatzvereinbarung zu einem bestehenden Arbeitsvertrag gebaut und als mobiles Arbeiten gefasst, nicht als Telearbeitsplatz. Das ist bewusst so, weil ein Telearbeitsplatz nach der Arbeitsstättenverordnung die komplette Einrichtung des Arbeitsplatzes durch dich verlangen würde. Für Mitarbeiter, die vollständig remote arbeiten, und für Arbeit aus dem Ausland reicht das Muster nicht aus.`,
+      },
+      {
+        titel: "Was muss in eine Homeoffice-Vereinbarung?",
+        text: `Das Muster regelt die Punkte, die im Alltag und im Streit zählen:
+
+- Gegenstand, Abgrenzung zur Telearbeit, Freiwilligkeit (§ 1)
+- Umfang in Tagen oder Prozent, Präsenztage, Anordnungsrecht für Anwesenheit, Beschränkung auf Deutschland (§ 2)
+- Arbeitszeit, Kernzeit, Erreichbarkeit, Recht auf Nichterreichbarkeit, tägliche Zeiterfassung (§ 3)
+- Leihweise gestellte Arbeitsmittel, private Nutzung, Kostenpauschale oder Verzicht, Rückgabe (§ 4)
+- Datenschutz und IT-Sicherheit mit konkreten Mindestregeln und Meldefrist bei Datenpannen (§ 5)
+- Arbeitsschutz, Gefährdungsbeurteilung, Unterweisung, Selbstauskunft, Unfallversicherung (§ 6)
+- Zutritt zur Wohnung nur mit Ankündigung und Zustimmung (§ 7)
+- Haftung für Arbeitsmittel und Schäden (§ 8)
+- Laufzeit, Widerruf mit Frist und Gründen, sofortige Aussetzung bei schweren Verstößen (§ 9)
+- Textform für Änderungen, Anlagen (§ 10)
+
+Die Widerrufsklausel in § 9 ist das Herzstück für dich als Arbeitgeber. Ohne sie wird aus jahrelanger Praxis eine betriebliche Übung, und du bekommst den Mitarbeiter nicht mehr ins Büro zurück.`,
+      },
+      {
+        titel: "Homeoffice-Vereinbarung Muster ausfüllen",
+        text: `Trage in § 1 das Datum des Arbeitsvertrags und den betrieblichen Arbeitsort ein. In § 2 entscheidest du, ob du feste Homeoffice-Tage, eine Höchstzahl pro Woche oder einen Prozentsatz vereinbarst, und legst den Teamtag fest.
+
+In § 3 setzt du die Kernarbeitszeit, den Rahmen für die freie Verteilung, das Kommunikationstool und das Zeiterfassungssystem. In § 4 listest du die gestellten Geräte mit Inventarnummer auf und wählst zwischen Monatspauschale, Verzicht auf Erstattung und einmaligem Zuschuss zu Stuhl oder Tisch. § 5 braucht das Datum deiner IT-Sicherheitsrichtlinie, den Zugangsweg und die Meldeadresse für Datenpannen; die Unterweisungen in § 5 Abs. 2 und § 6 Abs. 1 müssen vor dem Start tatsächlich stattgefunden haben. In § 9 trägst du die Widerrufsfrist ein, vier Wochen zum Monatsende sind angemessen. Hänge die Checkliste zum mobilen Arbeitsplatz, die IT-Richtlinie und das Übergabeprotokoll für die Geräte an; der Mitarbeiter füllt die Checkliste vor dem ersten Homeoffice-Tag aus.`,
+      },
+      {
+        titel: "Typische Fehler bei Homeoffice-Regelungen",
+        text: `Der häufigste Fehler ist das Fehlen jeder Regelung. Wer Homeoffice jahrelang duldet, schafft eine betriebliche Übung, auf die sich der Mitarbeiter berufen kann; ein späteres Zurückholen ins Büro wird dann zur Änderungskündigung. Zweiter Fehler ist das Gegenteil: eine Klausel „jederzeit ohne Grund widerrufbar“. Sie ist als unangemessene Benachteiligung unwirksam, und du stehst wieder ohne Widerrufsrecht da. Die Vorlage nennt deshalb Gründe und eine Frist.
+
+Dritter Fehler ist die vergessene Zeiterfassung. Das Arbeitszeitgesetz gilt zu Hause genauso, und seit der Entscheidung des Bundesarbeitsgerichts von 2022 musst du die Arbeitszeit aller Mitarbeiter erfassen, auch im Homeoffice.
+
+Vermeide außerdem stillschweigend erlaubte Arbeit aus dem Ausland, weil schon wenige Wochen Sozialversicherungs- und Steuerpflichten im anderen Land auslösen können, die Nutzung privater Geräte und privater Cloud-Konten für Firmendaten sowie Zutrittsklauseln, die ohne Zustimmung des Mitarbeiters auskommen wollen; sie sind wegen Art. 13 GG unwirksam.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen: Arbeitszeitgesetz, Arbeitsschutz, Unfallversicherung",
+        text: `Einen gesetzlichen Anspruch auf Homeoffice gibt es in Deutschland nicht; mobiles Arbeiten entsteht nur durch Vertrag, Betriebsvereinbarung oder betriebliche Übung. Das Arbeitszeitgesetz gilt ortsunabhängig mit Höchstarbeitszeit, Pausen, elf Stunden Ruhezeit und Sonntagsruhe; die Pflicht zur Zeiterfassung folgt aus § 3 Abs. 2 Nr. 1 ArbSchG in der Auslegung des Bundesarbeitsgerichts vom 13.09.2022.
+
+Das Arbeitsschutzgesetz verlangt auch für mobiles Arbeiten eine Gefährdungsbeurteilung und Unterweisung; die Arbeitsstättenverordnung mit ihren Anforderungen an Bildschirmarbeitsplätze gilt nach § 2 Abs. 7 ArbStättV nur für fest eingerichtete Telearbeitsplätze. Der gesetzliche Unfallversicherungsschutz ist nach § 8 Abs. 1 Satz 3 SGB VII im Homeoffice dem im Betrieb gleichgestellt. Datenschutzrechtlich bleibst du nach Art. 32 DSGVO für technische und organisatorische Maßnahmen verantwortlich, auch für Daten auf dem Küchentisch des Mitarbeiters; Datenpannen musst du nach Art. 33 DSGVO binnen 72 Stunden melden. Ein Widerruf des Homeoffice muss billigem Ermessen nach § 106 GewO und § 315 BGB entsprechen.`,
+      },
+      {
+        titel: "Wann die Homeoffice-Vorlage nicht reicht",
+        text: `Mit Betriebsrat ist die Ausgestaltung mobiler Arbeit nach § 87 Abs. 1 Nr. 14 BetrVG mitbestimmungspflichtig; dann gehört die Regelung in eine Betriebsvereinbarung, und das Muster dient nur als Entwurf dafür. Bei vollständiger Remote-Arbeit ohne Präsenztage, bei einem fest eingerichteten Telearbeitsplatz oder bei Arbeit aus dem Ausland brauchst du eine Vereinbarung, die Arbeitsort, Sozialversicherung, Steuer und gegebenenfalls Aufenthaltsrecht im Detail regelt, am besten mit Steuerberater und Fachanwalt.
+
+Für Mitarbeiter mit Zugang zu besonders sensiblen Daten, etwa Gesundheitsdaten oder Zahlungsinformationen, muss die IT-Sicherheitsrichtlinie deutlich strenger sein, als die Mindestregeln in § 5 es vorsehen. Bei Tarifbindung können tarifliche Regelungen zu mobiler Arbeit vorgehen. GründerX ist Software und keine Rechtsberatung; die Vorlage ist der Rahmen, die konkrete Gefährdungsbeurteilung und die IT-Richtlinie musst du selbst erstellen oder erstellen lassen.`,
+      },
+    ],
     seo: {
-      title: "Homeoffice-Vereinbarung Vorlage 2026 (Word & PDF) | GründerX",
+      title: "Homeoffice-Vereinbarung Vorlage kostenlos (Word) | GründerX",
       description:
         "Homeoffice-Vereinbarung als kostenlose Vorlage: mobiles Arbeiten, Erreichbarkeit, Zeiterfassung, Ausstattung, Datenschutz, Widerruf. Word, PDF oder Text.",
     },
@@ -1441,8 +1935,58 @@ ${VORLAGEN_HINWEIS}`,
         a: "Nein. Kundenlisten mit Konditionen und Ansprechpartnern sind klassische Geschäftsgeheimnisse, und das Kopieren ist nach § 4 GeschGehG verboten, strafbar nach § 23 GeschGehG. Was er im Kopf behalten hat, darf er aber nutzen, solange er es nicht systematisch notiert oder kopiert hat. Deshalb regelt die Vorlage Rückgabe und Löschung ausdrücklich.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du eine Verschwiegenheitserklärung für Mitarbeiter brauchst",
+        text: `Deine Entwicklerin sieht den kompletten Quellcode, der Vertriebsmitarbeiter kennt jede Kundenkondition, die Werkstudentin hat Zugriff auf die Werbekennzahlen und den Businessplan für die nächste Finanzierungsrunde. Sobald Mitarbeiter Informationen sehen, die deinen Wettbewerbsvorteil ausmachen, reicht der eine Satz zur Verschwiegenheit im Arbeitsvertrag nicht mehr. Du brauchst eine gesonderte Geheimhaltungsvereinbarung, die konkret sagt, was geheim ist, wie es zu schützen ist und was nach dem Ausscheiden gilt.
+
+Die Vorlage ist für alle Beschäftigten gedacht, auch für Werkstudenten, Praktikanten und Minijobber, und lässt sich zu einem bestehenden Arbeitsvertrag nachträglich abschließen. Für Geschäftspartner, Freelancer und Investoren gibt es die NDA-Vorlagen in der Kategorie Geheimhaltung.`,
+      },
+      {
+        titel: "Was muss in eine Verschwiegenheitserklärung nach dem GeschGehG?",
+        text: `Seit dem Geschäftsgeheimnisgesetz entscheidet die Dokumentation deiner Schutzmaßnahmen darüber, ob eine Information überhaupt als Geschäftsgeheimnis gilt. Das Muster ist darauf aufgebaut:
+
+- Zweck und Verhältnis zum Arbeitsvertrag mit ausdrücklicher Einordnung als Geheimhaltungsmaßnahme (§ 1)
+- Definition der Geschäftsgeheimnisse mit konkreter Aufzählung für dein Unternehmen, Abgrenzung zu sonstigen vertraulichen Informationen und Ausnahmen für Erfahrungswissen (§ 2)
+- Geheimhaltungspflichten einschließlich Kopier- und Weitergabeverbot, auch gegenüber Familie und sozialen Medien (§ 3)
+- Erlaubte Nutzung und die gesetzlich zwingenden Ausnahmen für Whistleblowing, Behörden, Betriebsrat und Anwalt (§ 4)
+- Schutzmaßnahmen, Kennzeichnung als vertraulich, nur freigegebene Systeme (§ 5)
+- Rückgabe und Löschung mit Bestätigung in Textform (§ 6)
+- Dauer der Pflichten nach dem Ausscheiden, unbegrenzt für echte Geheimnisse, befristet für sonstige Informationen (§ 7)
+- Rechtsfolgen, Hinweis auf Strafbarkeit und eine optionale, begrenzte Vertragsstrafe (§ 8)
+- Textform, salvatorische Klausel, Empfangsbestätigung (§ 9)
+
+Die Liste in § 2 Abs. 1 ist der Teil, den du nicht abstrakt lassen darfst. Je konkreter sie ist, desto leichter beweist du später, dass der Mitarbeiter wusste, was geheim war.`,
+      },
+      {
+        titel: "Verschwiegenheitserklärung Muster ausfüllen",
+        text: `Trage im Kopf Datum des Arbeitsvertrags und Funktion des Mitarbeiters ein. Gehe dann die Buchstaben a) bis g) in § 2 Abs. 1 durch und passe sie an dein Geschäft an: Ein Online-Shop streicht Rezepturen und ergänzt Lieferanten und Werbekennzahlen, ein Software-Start-up betont Quellcode, Architektur und Zugangsdaten, ein Beratungsunternehmen Kundenlisten und Angebotskalkulationen. Unter g) nennst du das eine Geheimnis, das dein Unternehmen ausmacht, mit Namen.
+
+In § 4 Abs. 2 trägst du die interne Meldestelle nach dem Hinweisgeberschutzgesetz ein, falls du eine hast; sonst streichst du den Zusatz und lässt den Verweis auf externe Meldestellen stehen. In § 5 Abs. 2 nennst du die Systeme, über die Geschäftsgeheimnisse laufen dürfen, in § 5 Abs. 4 das Datum der Datenschutzunterweisung. In § 7 Abs. 3 setzt du die Frist für sonstige vertrauliche Informationen; drei Jahre sind üblich. In § 8 entscheidest du dich für oder gegen die Vertragsstrafe und streichst den anderen Absatz. Lass die Erklärung vor dem ersten Zugriff auf die Systeme unterschreiben und lege sie zur Personalakte.`,
+      },
+      {
+        titel: "Typische Fehler bei Geheimhaltungsklauseln für Arbeitnehmer",
+        text: `Der häufigste Fehler ist die Catch-all-Klausel: „Alle Informationen über das Unternehmen sind geheim zu halten.“ Gerichte halten solche Klauseln für eine unangemessene Benachteiligung, weil sie den Mitarbeiter in seinem beruflichen Fortkommen lähmen; im Ergebnis gilt dann nur die gesetzliche Mindestpflicht. Die Vorlage definiert konkret und nimmt Erfahrungswissen ausdrücklich aus.
+
+Zweiter Fehler ist das versteckte Wettbewerbsverbot. Wer die Geheimhaltung so weit fasst, dass der Mitarbeiter nach dem Ausscheiden praktisch nicht mehr in der Branche arbeiten kann, hat ein nachvertragliches Wettbewerbsverbot geschaffen, das ohne Karenzentschädigung nach § 74 HGB unverbindlich ist. § 7 Abs. 4 stellt deshalb klar, dass kein Wettbewerbsverbot begründet wird.
+
+Dritter Fehler ist die überhöhte oder unbestimmte Vertragsstrafe. „Bei jedem Verstoß 50.000 EUR“ fällt als unangemessen und intransparent. Vermeide außerdem Klauseln, die Whistleblowing oder den Gang zu Behörden verbieten, und die Vereinbarung ohne tatsächliche Schutzmaßnahmen dahinter: Wer Kundenlisten offen auf dem Server für alle liegen lässt, kann sich nicht auf die Erklärung berufen.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen: Geschäftsgeheimnisgesetz, § 74 HGB, Hinweisgeberschutz",
+        text: `Nach § 2 Nr. 1 GeschGehG ist eine Information nur dann ein Geschäftsgeheimnis, wenn sie geheim und deshalb wirtschaftlich wertvoll ist, Gegenstand angemessener Geheimhaltungsmaßnahmen ist und ein berechtigtes Geheimhaltungsinteresse besteht. Die unterschriebene Verschwiegenheitserklärung ist zusammen mit Zugriffsbeschränkungen und Kennzeichnung die wichtigste dieser Maßnahmen. Bei Verstößen gewährt das Gesetz in den §§ 6 bis 10 GeschGehG Ansprüche auf Unterlassung, Beseitigung, Auskunft und Schadensersatz; nach § 23 GeschGehG ist die Verletzung strafbar. § 5 GeschGehG und das Hinweisgeberschutzgesetz schützen Meldungen von Rechtsverstößen.
+
+Während des Arbeitsverhältnisses folgt die Verschwiegenheit schon aus § 241 Abs. 2 BGB. Nach dem Ende darf der Mitarbeiter sein redlich erworbenes Wissen nutzen; nur echte Geschäftsgeheimnisse bleiben geschützt. Eine nachvertragliche Geheimhaltungspflicht ist ohne Entschädigung zulässig, ein nachvertragliches Wettbewerbsverbot dagegen nur mit Karenzentschädigung nach §§ 74 ff. HGB. Vertragsstrafen sind gegenüber Arbeitnehmern trotz § 309 Nr. 6 BGB zulässig, müssen aber transparent und angemessen sein.`,
+      },
+      {
+        titel: "Wann die Vorlage nicht reicht und du anwaltlichen Rat brauchst",
+        text: `Willst du einem Vertriebsleiter oder Entwickler nach dem Ausscheiden wirklich verbieten, zur Konkurrenz zu gehen, brauchst du ein nachvertragliches Wettbewerbsverbot mit Karenzentschädigung von mindestens der Hälfte der letzten Bezüge; das ist ein eigener Vertrag mit strengen Formvorschriften und gehört in anwaltliche Hände. Dasselbe gilt für Erfindungen, die dem Arbeitnehmererfindungsgesetz unterliegen, und für Mitarbeiter, die mit Patenten oder Rezepturen arbeiten, die noch nicht angemeldet sind.
+
+Bei Mitarbeitern mit Zugriff auf Gesundheitsdaten, Finanzdaten oder Daten von Kunden mit eigenen Vertraulichkeitsanforderungen müssen die Schutzmaßnahmen in § 5 deutlich über die Mindestregeln hinausgehen. Mit Betriebsrat können Regelungen zu Kontrollen und Löschungsnachweisen mitbestimmungspflichtig sein. GründerX ist Software und keine Rechtsberatung; wenn ein Mitarbeiter bereits Daten mitgenommen hat, zählt jede Stunde, und du solltest sofort einen Anwalt für einstweiligen Rechtsschutz einschalten.`,
+      },
+    ],
     seo: {
-      title: "Verschwiegenheitserklärung Mitarbeiter Vorlage 2026 | GründerX",
+      title: "Verschwiegenheitserklärung Mitarbeiter Vorlage | GründerX",
       description:
         "Verschwiegenheitserklärung für Mitarbeiter als kostenlose Vorlage nach GeschGehG: Geschäftsgeheimnis, Pflichten, Dauer, Rückgabe, Vertragsstrafe. Word & PDF.",
     },
@@ -1578,8 +2122,58 @@ ${VORLAGEN_HINWEIS}`,
         a: "Üblich sind 10 bis 20 % des Jahresgehalts bei Fachkräften, 20 bis 40 % im Vertrieb und bei Führungskräften. Wichtiger als die Höhe ist die Struktur: ein Teil Unternehmensziel, ein Teil Teamziel, ein Teil individuelle Ziele, jeweils mit einer Staffel von 80 bis 120 % Zielerreichung, damit auch knapp verfehlte und übertroffene Ziele abgebildet werden.",
       },
     ],
+    ratgeber: [
+      {
+        titel: "Wann du eine Zielvereinbarung mit Bonus brauchst",
+        text: `Du willst deiner Vertriebsmitarbeiterin mehr zahlen, wenn sie mehr Abschlüsse bringt, dein Marketing-Team soll die Akquisekosten senken, oder der erste Entwickler soll am Erfolg des Produkts beteiligt werden, ohne dass du Anteile abgibst. Dafür ist die Zielvereinbarung mit Bonusregelung da: Sie legt messbare Ziele fest, gewichtet sie und sagt, wie viel Geld bei welcher Zielerreichung fließt.
+
+Das Muster ist als jährliche Anlage zum Arbeitsvertrag gebaut und verbindet Unternehmensziel, Teamziel und individuelle Ziele in einem Dokument. Es ist bewusst ohne Freiwilligkeitsvorbehalt und ohne Stichtagsklausel formuliert, weil beides bei leistungsbezogener Vergütung vor Gericht nicht hält. Für Gewinnbeteiligungen, Aktienoptionen oder virtuelle Anteile brauchst du andere Verträge; für eine einfache Weihnachtsgratifikation ohne Ziele genügt ein Satz im Arbeitsvertrag.`,
+      },
+      {
+        titel: "Was muss in eine Zielvereinbarung?",
+        text: `Eine Zielvereinbarung muss zwei Fragen beantworten: Was ist zu erreichen, und was passiert bei Abweichung. Das Muster verteilt die Antworten so:
+
+- Zielperiode, Zielbonus bei 100 Prozent und die Klarstellung, dass der Bonus Arbeitsentgelt ist (§ 1)
+- Unternehmens-, Team- und Einzelziele mit Messgröße und Datenquelle sowie Schwellen-, Ziel- und Maximalwert je Ziel (§ 2)
+- Gewichtung, lineare Staffel zwischen Schwelle und Maximum, Deckelung und eine Beispielrechnung (§ 3)
+- Messung, Zwischenstände, Feststellung mit Frist und Widerspruchsrecht (§ 4)
+- Auszahlungstermin, optionale Abschläge, Hinweis, dass kein ungekündigtes Arbeitsverhältnis am Stichtag nötig ist (§ 5)
+- Zeitanteilige Berechnung bei Eintritt, Austritt, Elternzeit, Krankheit und Freistellung (§ 6)
+- Anpassung der Ziele bei veränderten Umständen und Regelung bei fehlender Einigung (§ 7)
+- Verfahren und Fristen für die nächste Zielperiode mit Auffangregel (§ 8)
+- Textform und Verhältnis zum Arbeitsvertrag (§ 9)
+
+Die Beispielrechnung in § 3 Abs. 4 ist mehr als Dekoration: Sie zeigt beiden Seiten, wie die Formel wirkt, und verhindert später Streit über die Mathematik.`,
+      },
+      {
+        titel: "Zielvereinbarung Muster ausfüllen: SMART-Ziele und Staffel",
+        text: `Beginne mit § 1 und lege den Zielbonus bei Planerfüllung als Betrag fest; der Prozentsatz vom Jahresfestgehalt dient nur der Einordnung. In § 2 formulierst du jedes Ziel nach der SMART-Regel: eine Messgröße, ein Zahlenwert, ein Datum und die Datenquelle, aus der der Wert abgelesen wird. „Umsatz laut BWA Dezember“ oder „Sitzungen im Analytics-Tool im Monat Dezember“ sind Datenquellen, „nach Einschätzung der Geschäftsführung“ ist keine.
+
+Verteile die Gewichte so, dass sie zusammen 100 Prozent ergeben, und setze für jedes messbare Ziel Schwelle, Zielwert und Maximum in § 2 Abs. 4. Projektziele wie eine Systemeinführung bekommen nur erreicht oder nicht erreicht plus eine Toleranz für Verzögerungen, die der Mitarbeiter nicht zu vertreten hat. In § 3 Abs. 2 legst du fest, wie viel Prozent Bonus an der Schwelle und am Maximum fließen; 50 und 150 Prozent sind gängig. In § 4 und § 5 trägst du Fristen für Feststellung und Auszahlung ein.`,
+      },
+      {
+        titel: "Typische Fehler bei Bonusregelungen und ihre Folgen",
+        text: `Der klassische Fehler ist der Freiwilligkeitsvorbehalt: „Der Bonus wird freiwillig gezahlt, ein Rechtsanspruch besteht nicht.“ Bei einem Bonus, der als Gegenleistung für Zielerreichung versprochen wird, ist das widersprüchlich und unwirksam; der Mitarbeiter bekommt den Bonus trotzdem, und du hast eine Klausel, auf die du dich nie verlassen konntest.
+
+Zweiter Fehler ist die Stichtagsklausel: Bonus nur, wenn das Arbeitsverhältnis am 31. März ungekündigt besteht. Für erarbeitete, leistungsbezogene Vergütung ist das unwirksam. Dritter Fehler sind vage Ziele wie „Kundenzufriedenheit verbessern“ oder „Marke stärken“. Im Streit legt das Gericht sie zugunsten des Mitarbeiters aus.
+
+Vierter und teuerster Fehler ist das vergessene Zielgespräch. Vereinbarst du schuldhaft keine Ziele, schuldest du den Bonus wie bei voller Zielerreichung als Schadensersatz. Vermeide außerdem Ziele, die der Mitarbeiter nicht beeinflussen kann, Formeln ohne Deckel nach oben und Boni, die den Mindestlohn ersetzen sollen; auf den Mindestlohn ist nur anrechenbar, was monatlich und vorbehaltlos gezahlt wird.`,
+      },
+      {
+        titel: "Rechtliche Grundlagen: Zielvereinbarung, billiges Ermessen, Nachweisgesetz",
+        text: `Eine eigene gesetzliche Regelung für Zielvereinbarungen gibt es nicht; sie sind Vertragsgestaltung im Rahmen der §§ 611a und 315 BGB. Legt der Arbeitgeber Ziele einseitig fest, muss das nach § 315 BGB billigem Ermessen entsprechen und ist gerichtlich überprüfbar. Weil die Zielvereinbarung vom Arbeitgeber vorformuliert wird, unterliegt sie der AGB-Kontrolle nach §§ 305 ff. BGB; intransparente oder unangemessen benachteiligende Klauseln sind unwirksam.
+
+Das Bundesarbeitsgericht hat in mehreren Entscheidungen die Leitplanken gesetzt: Ein Freiwilligkeitsvorbehalt bei zugesagter leistungsbezogener Vergütung ist unwirksam, eine Stichtagsklausel für bereits erarbeitete Boni ebenfalls, und unterlassene Zielvereinbarungen lösen Schadensersatz in Höhe des Bonus bei voller Zielerreichung aus. Der Zielbonus ist Arbeitsentgelt, also lohnsteuer- und sozialversicherungspflichtig, und als Vergütungsbestandteil nach dem Nachweisgesetz zu dokumentieren. Bei Elternzeit und Mutterschutz gelten Kürzungsverbote; Zeiten der Entgeltfortzahlung dürfen den Bonus nicht mindern. Ein Widerrufsvorbehalt ist nur wirksam, wenn er Gründe nennt und der widerrufliche Teil einen kleinen Anteil der Gesamtvergütung nicht übersteigt.`,
+      },
+      {
+        titel: "Wann die Zielvereinbarung-Vorlage nicht reicht",
+        text: `Für Provisionsmodelle im Vertrieb mit Abschlussprovisionen, Stornohaftung und Provisionsabrechnung nach § 87c HGB brauchst du eine eigene Provisionsvereinbarung; für Beteiligungen am Unternehmenswert ein Programm für virtuelle Anteile oder Optionen, das steuerlich geprüft ist. Dasselbe gilt für Boni an Geschäftsführer, die im Anstellungsvertrag und gegebenenfalls durch Gesellschafterbeschluss geregelt werden.
+
+Mit Betriebsrat sind Entlohnungsgrundsätze und leistungsbezogene Entgelte nach § 87 Abs. 1 Nr. 10 und 11 BetrVG mitbestimmungspflichtig; dann gehört das Bonussystem in eine Betriebsvereinbarung. Bei Tarifbindung können tarifliche Leistungsentgelte vorgehen. Bei Boni, die einen erheblichen Teil der Vergütung ausmachen, und bei Clawback-Klauseln, mit denen du Boni zurückfordern willst, solltest du einen Fachanwalt für Arbeitsrecht einbeziehen. GründerX stellt Software und Muster bereit, keine Rechts- oder Steuerberatung.`,
+      },
+    ],
     seo: {
-      title: "Zielvereinbarung Bonus Vorlage 2026 (Word & PDF) | GründerX",
+      title: "Zielvereinbarung Bonus Vorlage kostenlos (Word) | GründerX",
       description:
         "Zielvereinbarung und Bonusregelung als kostenlose Vorlage: SMART-Ziele, Gewichtung, Messung, Auszahlung, Eintritt und Austritt, ohne Freiwilligkeitsvorbehalt.",
     },

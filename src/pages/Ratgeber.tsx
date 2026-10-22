@@ -5,7 +5,7 @@ import PublicShell from "@/layouts/PublicShell";
 import { Seo } from "@/components/Seo";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Clock, BookOpen, Search } from "lucide-react";
+import { ArrowRight, Clock, BookOpen, Search } from "lucide-react";
 import { HubNav } from "@/components/landing/HubNav";
 import { PageHeader } from "@/components/landing/PageHeader";
 import { titelbildUrl } from "@/data/ratgeberBilder";
@@ -124,6 +124,23 @@ const Ratgeber = () => {
           />
         </div>
       </PageHeader>
+
+      <section className="border-b border-border/70 bg-card py-6">
+        <div className="container max-w-5xl">
+          <Link
+            to="/vorlagen"
+            className="press group flex flex-col gap-1 rounded-2xl border border-accent-blue/25 bg-accent/40 px-5 py-4 hover:border-accent-blue/50 sm:flex-row sm:items-center sm:justify-between"
+          >
+            <span className="text-sm text-muted-foreground">
+              <strong className="text-foreground">Kostenlose Vertragsvorlagen:</strong> GbR-Vertrag, Kaufvertrag, Arbeitsvertrag, NDA, AGB,
+              Vollmacht – als Word, PDF und Text, mit Ratgeber zum Ausfüllen.
+            </span>
+            <span className="inline-flex items-center gap-1 text-sm font-semibold text-accent-blue">
+              Zu den Vorlagen <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+            </span>
+          </Link>
+        </div>
+      </section>
 
       <section className="py-12 md:py-16">
         <div className="container max-w-5xl">
