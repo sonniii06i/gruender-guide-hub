@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, ReactNode } from "react";
+import { createContext, startTransition, useContext, useEffect, useState, ReactNode } from "react";
 import { Session, User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 import { clearUserDataOnLogout } from "@/lib/logoutCleanup";
@@ -28,17 +28,26 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       // damit nachgelagerte Hooks (useAccess etc.) nicht unnötig refetchen, wenn der User
       // einfach nur den Tab gewechselt hat und Supabase den Access-Token erneuert.
       if (event === "TOKEN_REFRESHED") {
-        setSession(sess);
+        startTransition(() => setSession(sess));
         return;
       }
-      setSession(sess);
-      setUser(sess?.user ?? null);
+      // INITIAL_SESSION feuert direkt nach dem Mount – gleiche Begründung wie unten.
+      startTransition(() => {
+        setSession(sess);
+        setUser(sess?.user ?? null);
+      });
     });
 
     supabase.auth.getSession().then(({ data: { session: sess } }) => {
-      setSession(sess);
-      setUser(sess?.user ?? null);
-      setLoading(false);
+      // Als Transition: Die erste Sitzungsauflösung landet oft, während eine
+      // lazy geladene Seite noch hydriert. Ein normales Update auf die noch
+      // nicht hydrierte Suspense-Grenze verwirft deren Server-HTML (#421);
+      // eine Transition wartet, bis die Grenze hydriert ist.
+      startTransition(() => {
+        setSession(sess);
+        setUser(sess?.user ?? null);
+        setLoading(false);
+      });
     });
 
     return () => subscription.unsubscribe();
