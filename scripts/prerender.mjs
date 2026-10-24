@@ -289,6 +289,22 @@ async function run() {
     process.exit(0); // Build nicht hart abbrechen
   }
 
+  // App-Hülle sichern, BEVOR "/" prerendert wird: Der Prerender der Startseite
+  // überschreibt dist/index.html. Vorher war das zugleich der SPA-Fallback, also
+  // bekam jede nicht prerenderte Route (/dashboard, /auth, unbekannte URLs) das
+  // Startseiten-HTML samt Canonical – Duplikat bei Google und Hydration gegen
+  // die falsche Route. vercel.json leitet den Catch-all deshalb auf diese Datei
+  // (leeres #root → main.tsx nimmt createRoot statt hydrateRoot).
+  const shellPfad = join(DIST, "app-shell.html");
+  if (!existsSync(shellPfad)) {
+    const roh = await readFile(join(DIST, "index.html"), "utf8");
+    if (/<div id="root">\s*<\/div>/.test(roh)) {
+      await writeFile(shellPfad, roh, "utf8");
+    } else {
+      console.warn("[prerender] ⚠ dist/index.html ist schon prerendert – app-shell.html nicht angelegt");
+    }
+  }
+
   const sitemapPath = existsSync(join(DIST, "sitemap.xml"))
     ? join(DIST, "sitemap.xml")
     : join(__dirname, "..", "public", "sitemap.xml");

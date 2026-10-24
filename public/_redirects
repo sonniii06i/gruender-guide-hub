@@ -1,4 +1,6 @@
 # Cloudflare Pages Routing.
 # Prerenderte Routen liegen als dist/<route>/index.html und werden von Pages
 # automatisch als Clean-URL ausgeliefert. Alles ohne statische Datei -> SPA.
-/*    /index.html   200
+# Ziel ist die unprerenderte App-Hülle (scripts/prerender.mjs legt sie an),
+# nicht index.html: die trägt nach dem Prerender Startseiten-HTML samt Canonical.
+/*    /app-shell.html   200
