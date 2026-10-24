@@ -196,6 +196,91 @@ async function launchBrowser(puppeteer) {
   });
 }
 
+/**
+ * Macht den Client-Render-Abgriff hydrierbar (läuft im Browser per page.evaluate).
+ *
+ * main.tsx hydriert das prerenderte HTML mit hydrateRoot. React 18 erwartet
+ * dabei exakt das Format von renderToString — der Prerender greift aber das
+ * DOM eines normalen Client-Renders ab (outerHTML). Zwei Unterschiede ließen
+ * die Hydration auf JEDER Seite scheitern (live: Minified React error #418 ×5
+ * und #423, React verwirft das HTML und baut die Seite neu; gemessen 10/2026):
+ *
+ * 1. Suspense-Grenzen: renderToString umschließt deren Inhalt mit <!--$--> …
+ *    <!--/$-->. Ohne diese Marker trifft die Suspense in App.tsx (um <Routes>)
+ *    beim Hydrieren auf ein <div> statt auf den Kommentar -> „Hydration failed".
+ *    Die Grenzen stehen im Fiber-Baum; wir setzen die Marker um deren DOM-Knoten.
+ * 2. Benachbarte Textknoten: JSX wie `<Icon/> {TEXT}` oder `Hallo {name}` ergibt
+ *    zwei Textknoten, outerHTML verschmilzt sie zu einem. renderToString trennt
+ *    sie mit <!-- -->; ohne Trenner meldet React „Text content did not match".
+ *
+ * 3. Radix-Select: das versteckte native <select aria-hidden tabindex=-1>
+ *    bekommt seine <option>s erst nach dem Mount (beim ersten Render ist es
+ *    leer) -> „Did not expect server HTML to contain a <option>". Wir leeren es
+ *    auf den Stand des ersten Renders; Radix füllt es danach selbst wieder.
+ *
+ * Andere Kommentare überspringt React beim Hydrieren, die Marker sind sonst
+ * wirkungslos. Rückgabe: Zähler fürs Log.
+ */
+function hydrationMarkers() {
+  const root = document.getElementById("root");
+  const stats = { suspense: 0, suspenseOhneDom: 0, textTrenner: 0, selectOptionen: 0 };
+  if (!root) return stats;
+
+  const SUSPENSE = 13, HOST_COMPONENT = 5, HOST_TEXT = 6, HOST_PORTAL = 4; // React-18-Fiber-Tags
+  const containerKey = Object.keys(root).find((k) => k.startsWith("__reactContainer$"));
+  const current = containerKey && root[containerKey]?.stateNode?.current;
+
+  const hostNodes = (fiber, out) => {
+    for (let f = fiber.child; f; f = f.sibling) {
+      if (f.tag === HOST_PORTAL) continue; // Portale hängen woanders im DOM
+      if (f.tag === HOST_COMPONENT || f.tag === HOST_TEXT) out.push(f.stateNode);
+      else hostNodes(f, out);
+    }
+    return out;
+  };
+  const boundaries = [];
+  const walk = (fiber) => {
+    for (let f = fiber.child; f; f = f.sibling) {
+      if (f.tag === SUSPENSE) boundaries.push(f);
+      if (f.tag !== HOST_PORTAL) walk(f);
+    }
+  };
+  if (current) walk(current);
+
+  for (const b of boundaries) {
+    const nodes = hostNodes(b, []).filter((n) => n && n.parentNode);
+    if (!nodes.length) {
+      stats.suspenseOhneDom++;
+      continue;
+    }
+    const first = nodes[0];
+    const last = nodes[nodes.length - 1];
+    first.parentNode.insertBefore(document.createComment("$"), first);
+    last.parentNode.insertBefore(document.createComment("/$"), last.nextSibling);
+    stats.suspense++;
+  }
+
+  for (const sel of root.querySelectorAll('select[aria-hidden="true"][tabindex="-1"]')) {
+    for (const opt of [...sel.querySelectorAll("option")]) {
+      // <option value=""> rendert Radix schon im ersten Durchlauf (value undefined).
+      if (opt.getAttribute("value") === "") continue;
+      opt.remove();
+      stats.selectOptionen++;
+    }
+  }
+
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  const texts = [];
+  for (let n = walker.nextNode(); n; n = walker.nextNode()) texts.push(n);
+  for (const t of texts) {
+    if (t.nextSibling && t.nextSibling.nodeType === Node.TEXT_NODE) {
+      t.parentNode.insertBefore(document.createComment(" "), t.nextSibling);
+      stats.textTrenner++;
+    }
+  }
+  return stats;
+}
+
 async function run() {
   if (!existsSync(join(DIST, "index.html"))) {
     console.error("[prerender] dist/index.html fehlt – erst `vite build` laufen lassen.");
@@ -223,6 +308,12 @@ async function run() {
     for (const route of routes) {
       const page = await browser.newPage();
       try {
+        // Signal an die App (src/lib/prerender.ts): Zustand aus dem Browser
+        // (Cookie-Banner, localStorage …) gehört nicht ins vorgerenderte HTML,
+        // sonst weicht der erste Client-Render davon ab und die Hydration bricht.
+        await page.evaluateOnNewDocument(() => {
+          window.__PRERENDER__ = true;
+        });
         // domcontentloaded statt networkidle0: die SPA hält über Supabase-Realtime/
         // Polling dauerhaft Verbindungen offen -> networkidle0 feuert nie und jede
         // Route lief in den Timeout (Minuten/Route, CI-Build-Timeout). Der
@@ -291,6 +382,10 @@ async function run() {
         // genau die statischen Duplikate, zu denen es ein Helmet-Pendant gibt.
         // Der Default in index.html bleibt unangetastet und trägt weiterhin den
         // SPA-Fallback für Routen ohne Prerender.
+        const marker = await page.evaluate(hydrationMarkers);
+        if (!marker.suspense) {
+          console.warn(`[prerender] ⚠ ${route} – keine Suspense-Grenze gefunden, Hydration wird scheitern`);
+        }
         const html = await page.evaluate(() => {
           const key = (el) =>
             el.getAttribute("name") || el.getAttribute("property") || null;

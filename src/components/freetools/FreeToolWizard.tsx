@@ -409,7 +409,16 @@ function FieldRenderer({ field, value, onChange }: FieldRendererProps) {
           {field.label}
           {field.required && <span className="text-danger"> *</span>}
         </Label>
-        <Select value={typeof value === "string" ? value : ""} onValueChange={(v) => onChange(v)}>
+        {/* form: Radix rendert das versteckte native <select> im ersten Render
+            immer, entfernt es nach dem Mount aber, wenn kein <form> drumherum
+            liegt. Der Prerender griff den Zustand danach ab -> Hydration-Mismatch
+            (React #418) auf jeder Gratis-Tool-Seite. Mit gesetztem `form` bleibt
+            es stehen; die ID gibt es nicht, also hängt es an keinem Formular. */}
+        <Select
+          value={typeof value === "string" ? value : ""}
+          onValueChange={(v) => onChange(v)}
+          form="freetool-wizard-ohne-formular"
+        >
           <SelectTrigger>
             <SelectValue placeholder="Bitte wählen …" />
           </SelectTrigger>

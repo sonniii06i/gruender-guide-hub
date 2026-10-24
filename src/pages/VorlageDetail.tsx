@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import {
   AlertTriangle, ArrowRight, CheckCircle2, ClipboardCopy, Download, FileText, FileType2, ListChecks, Lock, Sparkles, Unlock,
@@ -19,6 +19,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useAccess } from "@/hooks/useAccess";
 import { KATEGORIE_BY_KEY, VORLAGEN_JE_KATEGORIE, VORLAGE_BY_SLUG } from "@/data/vorlagen";
 import type { VorlagenInhalt } from "@/data/vorlagen/types";
+import { vorlagenInhaltLesen } from "@/lib/vorlagen/inhaltLaden";
 import {
   freigabeAusUrl, freigabeLesen, freigabeMerken, freigabeParameterEntfernen, trackVorlagenFreigabe,
 } from "@/lib/vorlagen/freigabe";
@@ -34,7 +35,24 @@ export default function VorlageDetail() {
   const { slug = "" } = useParams();
   const vorlage = VORLAGE_BY_SLUG[slug];
   if (!vorlage) return <NotFound />;
-  return <VorlageSeite key={slug} vorlage={vorlage} />;
+  // Eigene Suspense-Grenze: VorlageSeite wartet auf den Inhalt (s. inhaltLaden.ts);
+  // beim Hydrieren bleibt solange das prerenderte HTML stehen.
+  return (
+    <Suspense fallback={<Ladeseite />}>
+      <VorlageSeite key={slug} vorlage={vorlage} />
+    </Suspense>
+  );
+}
+
+function Ladeseite() {
+  return (
+    <div className="min-h-screen bg-background">
+      <Navbar />
+      <main id="inhalt" className="container max-w-4xl px-4 py-24 text-muted-foreground">
+        Vorlage wird geladen …
+      </main>
+    </div>
+  );
 }
 
 function VorlageSeite({ vorlage }: { vorlage: (typeof VORLAGE_BY_SLUG)[string] }) {
@@ -50,26 +68,12 @@ function VorlageSeite({ vorlage }: { vorlage: (typeof VORLAGE_BY_SLUG)[string] }
   const [wordLaedt, setWordLaedt] = useState(false);
   const [gerade, setGerade] = useState(false);
   // Text und Ratgeber kommen aus einem eigenen Modul (inhalte/<slug>.ts), damit
-  // der Hub nicht die ganze Bibliothek lädt. Die Seo-Tags warten darauf, so
-  // nimmt der Prerender (wartet auf meta[data-rh]) den vollen Inhalt mit.
-  const [inhalt, setInhalt] = useState<VorlagenInhalt | null>(null);
-  useEffect(() => {
-    let aktiv = true;
-    setFrei(Boolean(freigabeLesen()));
-    vorlage
-      .inhalt()
-      .then((m) => {
-        if (aktiv) setInhalt(m.default);
-      })
-      .catch((err) => {
-        console.error("Vorlagen-Inhalt:", err);
-        if (aktiv) toast.error("Die Vorlage konnte nicht geladen werden. Bitte Seite neu laden.");
-      });
-    return () => {
-      aktiv = false;
-    };
-  }, [vorlage]);
-  const text = inhalt?.text ?? "";
+  // der Hub nicht die ganze Bibliothek lädt. Der Render wartet per Suspense
+  // darauf; die Seo-Tags erscheinen also erst mit dem Inhalt, und der Prerender
+  // (wartet auf meta[data-rh]) nimmt den vollen Text mit.
+  const inhalt: VorlagenInhalt = vorlagenInhaltLesen(vorlage);
+  useEffect(() => setFrei(Boolean(freigabeLesen())), []);
+  const text = inhalt.text;
 
   // Rückkehr aus der Bestätigungsmail: Freigabe merken, URL säubern.
   useEffect(() => {
@@ -106,10 +110,6 @@ function VorlageSeite({ vorlage }: { vorlage: (typeof VORLAGE_BY_SLUG)[string] }
   const mitFreigabe = (aktion: () => void | Promise<void>) => async () => {
     if (!offen) {
       setGateOffen(true);
-      return;
-    }
-    if (!inhalt) {
-      toast.info("Die Vorlage lädt noch – bitte gleich noch einmal klicken.");
       return;
     }
     await aktion();
@@ -181,15 +181,13 @@ function VorlageSeite({ vorlage }: { vorlage: (typeof VORLAGE_BY_SLUG)[string] }
 
   return (
     <div className="min-h-screen bg-background">
-      {inhalt && (
-        <Seo
-          title={vorlage.seo.title}
-          description={vorlage.seo.description}
-          path={`/vorlagen/${vorlage.slug}`}
-          type="article"
-          jsonLd={jsonLd}
-        />
-      )}
+      <Seo
+        title={vorlage.seo.title}
+        description={vorlage.seo.description}
+        path={`/vorlagen/${vorlage.slug}`}
+        type="article"
+        jsonLd={jsonLd}
+      />
       <Navbar />
       <main id="inhalt">
         <PageHeader
@@ -235,7 +233,7 @@ function VorlageSeite({ vorlage }: { vorlage: (typeof VORLAGE_BY_SLUG)[string] }
                   }`}
                   aria-label={offen ? undefined : `Vorschau: ${vorlage.titel}`}
                 >
-                  {inhalt ? vorschau : "Vorlage wird geladen …"}
+                  {vorschau}
                 </pre>
                 {!offen && (
                   <div className="absolute inset-x-0 bottom-0 flex flex-col items-center justify-end gap-3 bg-gradient-to-t from-card via-card/95 to-card/0 px-6 pb-8 pt-24 text-center">
@@ -295,7 +293,7 @@ function VorlageSeite({ vorlage }: { vorlage: (typeof VORLAGE_BY_SLUG)[string] }
 
               {/* Ratgeber-Teil: trägt die Seite bei Google (Suchbegriffe in H2, Fließtext ≥ 450 Wörter). */}
               <div className="mt-12 border-t border-border/70 pt-10">
-                <RatgeberText abschnitte={inhalt?.ratgeber ?? []} id="ratgeber" />
+                <RatgeberText abschnitte={inhalt.ratgeber} id="ratgeber" />
               </div>
 
               <div className="mt-12">

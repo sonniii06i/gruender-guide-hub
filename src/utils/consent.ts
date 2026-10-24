@@ -11,6 +11,8 @@
 // Die reine Produktanalytik (`analytics_events`) ist davon nicht betroffen: sie
 // sendet nichts an Dritte und läuft ohne Einwilligung weiter.
 
+import { isPrerender } from "@/lib/prerender";
+
 const KEY = "marketing_consent";
 const DECIDED_KEY = "marketing_consent_decided";
 
@@ -45,7 +47,10 @@ export function hasMarketingConsent(): boolean {
  * unterscheidbar sein, sonst fragt das Banner bei jedem Besuch erneut.
  */
 export function hasDecidedConsent(): boolean {
-  if (typeof window === "undefined") return true; // Prerender: kein Banner ins HTML
+  // Prerender: kein Banner ins HTML. `typeof window` allein reicht nicht, der
+  // Prerender läuft in echtem Chromium -- das Banner stand deshalb in jeder
+  // vorgerenderten Seite und brach die Hydration (React #418, gemessen 10/2026).
+  if (typeof window === "undefined" || isPrerender()) return true;
   return read(DECIDED_KEY) === "true";
 }
 
