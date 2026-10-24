@@ -29,7 +29,7 @@ Die konkrete Frist ist wichtig: Verstreicht sie, ist der Kunde spätestens jetzt
       },
       {
         titel: "Zahlungserinnerung Vorlage ausfüllen und versenden",
-        text: `Übernimm Rechnungsnummer, Datum und Betrag exakt aus der Rechnung; ein Zahlendreher gibt dem Kunden einen Grund, nicht zu zahlen. Trage unter „Bereits gezahlt“ Teilzahlungen ein oder 0,00 EUR. Setze die neue Frist als Datum, sieben bis zehn Tage nach dem Schreiben, bei Versand per Post zwei Tage mehr. Prüfe den Absatz zum Verzug: Hatte die Rechnung ein festes Zahlungsdatum, bleibt der erste Satz stehen; hatte sie keins, nimmst du die Alternative, die das Schreiben ausdrücklich zur Mahnung erklärt.
+        text: `Übernimm Rechnungsnummer, Datum und Betrag exakt aus der Rechnung; ein Zahlendreher gibt dem Kunden einen Grund, nicht zu zahlen. Trage unter „Bereits gezahlt“ Teilzahlungen ein oder 0,00 EUR. Setze die neue Frist als Datum, sieben bis zehn Tage nach dem Schreiben, bei Versand per Post zwei Tage mehr. Prüfe den Absatz zum Verzug: War ein festes Zahlungsdatum vertraglich vereinbart, bleibt der erste Satz stehen; war keins vereinbart (ein Datum nur in der Rechnung reicht nicht), nimmst du die Alternative, die das Schreiben ausdrücklich zur Mahnung erklärt.
 
 Nenne einen Ansprechpartner mit Durchwahl, damit Rückfragen nicht im Postfach landen. Versende per E-Mail mit Lesebestätigung und bei größeren Beträgen zusätzlich per Post, leg die Rechnungskopie bei und notiere Versanddatum und Weg in deiner Buchhaltung. So kannst du den Zugang später belegen, wenn es zum Mahnbescheid kommt.`,
       },
@@ -93,7 +93,7 @@ Verwendungszweck: [Rechnungsnummer]
 
 Sollten Sie die Zahlung in den letzten Tagen bereits veranlasst haben, betrachten Sie dieses Schreiben bitte als gegenstandslos. Falls Sie Fragen zur Rechnung haben oder ein Problem mit der Leistung vorliegt, melden Sie sich bitte kurz bei [Ansprechpartner, Telefon, E-Mail]; wir finden dann gemeinsam eine Lösung.
 
-Zu Ihrer Information: Mit Ablauf des Zahlungsziels befinden Sie sich nach § 286 BGB in Verzug. [Alternative, wenn die Rechnung kein Zahlungsdatum enthielt: Dieses Schreiben ist eine Mahnung im Sinne des § 286 Abs. 1 BGB.] Ab diesem Zeitpunkt sind wir berechtigt, Verzugszinsen in gesetzlicher Höhe sowie die durch den Verzug entstehenden weiteren Kosten zu berechnen. Für dieses erste Schreiben verzichten wir darauf.
+Zu Ihrer Information: Mit Ablauf des vereinbarten Zahlungstermins befinden Sie sich nach § 286 BGB in Verzug. [Alternative, wenn kein Zahlungsdatum vertraglich vereinbart war: Dieses Schreiben ist eine Mahnung im Sinne des § 286 Abs. 1 BGB.] Ab diesem Zeitpunkt sind wir berechtigt, Verzugszinsen in gesetzlicher Höhe sowie die durch den Verzug entstehenden weiteren Kosten zu berechnen. Für dieses erste Schreiben verzichten wir darauf.
 
 Wir bedanken uns für Ihr Verständnis und freuen uns auf die weitere Zusammenarbeit.
 

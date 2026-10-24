@@ -39,7 +39,7 @@ In § 6 legst du die Dauer der Geheimhaltung und die Vertragsstrafe fest oder st
         titel: "Scheinselbstständigkeit und andere typische Fehler",
         text: `Der teuerste Fehler ist die gelebte Scheinselbstständigkeit. Der Vertrag sagt Weisungsfreiheit, die Praxis zeigt Firmenlaptop, Firmen-E-Mail, feste Kernzeiten, Teilnahme an jedem internen Meeting und einen einzigen Auftraggeber über Jahre. Bei einer Prüfung zählt die Gesamtschau, und die Nachzahlung der Sozialversicherungsbeiträge trifft vor allem den Auftraggeber. Halte Vertrag und Alltag deckungsgleich: eigene Geräte, eigene Zeiteinteilung, Ergebnisabstimmung statt Tagesanweisung.
 
-Zweiter Fehler: Rechte am Code nur mündlich oder gar nicht geregelt. Der Freelancer ist Urheber, § 69b UrhG gilt nur für Arbeitnehmer. Ohne § 5 kannst du den Code zwar nutzen, aber nicht sicher weiterverkaufen oder lizenzieren.
+Zweiter Fehler: Rechte am Code nur mündlich oder gar nicht geregelt. Der Freelancer ist Urheber, § 69b UrhG gilt nur für Arbeitnehmer und Beamte. Ohne § 5 kannst du den Code zwar nutzen, aber nicht sicher weiterverkaufen oder lizenzieren.
 
 Dritter Fehler: Copyleft-Lizenzen ohne Freigabe. Eine GPL-Bibliothek im Kern deines Produkts kann dich zur Offenlegung zwingen; die Komponentenliste aus § 5 Abs. 4 verhindert das. Weitere Stolperfallen sind fehlende Budgetwarnung, Tätigkeitsnachweise ohne Beanstandungsfrist und Produktivdaten in der Entwicklungsumgebung ohne Auftragsverarbeitungsvertrag.`,
       },

@@ -46,7 +46,7 @@ Vermeide außerdem Praktikumsverträge nur per Handschlag, fehlende Unfallversic
         titel: "Rechtliche Grundlagen: Mindestlohn, Berufsbildungsgesetz, Nachweisgesetz",
         text: `§ 22 Abs. 1 MiLoG nimmt Pflichtpraktika nach Schul-, Ausbildungs- oder Studienordnung, freiwillige Orientierungspraktika bis drei Monate und freiwillige studienbegleitende Praktika bis drei Monate vom Mindestlohn aus; ebenso Praktikanten unter 18 Jahren ohne Berufsabschluss. Alle anderen Praktikanten haben Anspruch auf den vollen Mindestlohn, der seit Januar 2026 bei 13,90 EUR je Stunde liegt. Prüfe bei Vertragsschluss die aktuelle Höhe.
 
-Freiwillige Praktikanten sind nach § 26 BBiG „andere Vertragsverhältnisse“, auf die wesentliche Vorschriften des Berufsbildungsgesetzes anzuwenden sind: schriftliche Niederlegung der Vertragsinhalte, Probezeit, eingeschränkte Kündigung nach § 22 BBiG, Urlaub, Zeugnis nach § 16 BBiG. Pflichtpraktikanten sind während des vorgeschriebenen Praktikums in der Sozialversicherung besonders behandelt und bei Vergütung meist beitragsfrei; freiwillige vergütete Praktika sind sozialversicherungspflichtig wie ein Arbeitsverhältnis, unterhalb der Geringfügigkeitsgrenze als Minijob. Das Nachweisgesetz verlangt für Praktikanten die Lernziele, Beginn, Dauer, tägliche Praktikumszeit, Vergütung und Urlaub schriftlich.`,
+Freiwillige Praktikanten sind nach § 26 BBiG „andere Vertragsverhältnisse“, auf die wesentliche Vorschriften des Berufsbildungsgesetzes anzuwenden sind, allerdings ohne Pflicht zur Vertragsniederschrift und mit abkürzbarer Probezeit: Probezeit, eingeschränkte Kündigung nach § 22 BBiG, Urlaub, Zeugnis nach § 16 BBiG. Pflichtpraktikanten sind während des vorgeschriebenen Praktikums in der Sozialversicherung besonders behandelt und bei Vergütung meist beitragsfrei; freiwillige vergütete Praktika sind sozialversicherungspflichtig wie ein Arbeitsverhältnis, unterhalb der Geringfügigkeitsgrenze als Minijob. Das Nachweisgesetz verlangt in § 2 Abs. 1a für Praktikanten die Lernziele, Beginn, Dauer, tägliche Praktikumszeit, Vergütung und Urlaub schriftlich, und zwar vor Aufnahme des Praktikums.`,
       },
       {
         titel: "Wann die kostenlose Praktikumsvertrag-Vorlage nicht reicht",
@@ -75,7 +75,7 @@ und
    [ ] Freiwilliges Praktikum zur Orientierung für eine Berufsausbildung oder ein Studium, Dauer höchstens drei Monate.
    [ ] Freiwilliges Praktikum begleitend zu einem Studium oder einer Ausbildung, Dauer höchstens drei Monate.
    [ ] Freiwilliges Praktikum mit einer Dauer von mehr als drei Monaten (Mindestlohn gilt ab dem ersten Tag).
-(3) Das Praktikum dient dem Erwerb praktischer Kenntnisse und Erfahrungen zur Vorbereitung auf eine berufliche Tätigkeit. Der Lernzweck steht im Vordergrund; der Praktikant wird nicht als Ersatz für eine reguläre Arbeitskraft eingesetzt. Es wird kein Arbeitsverhältnis begründet; auf freiwillige Praktika finden die §§ 10 bis 23 und 25 BBiG entsprechende Anwendung (§ 26 BBiG).
+(3) Das Praktikum dient dem Erwerb praktischer Kenntnisse und Erfahrungen zur Vorbereitung auf eine berufliche Tätigkeit. Der Lernzweck steht im Vordergrund; der Praktikant wird nicht als Ersatz für eine reguläre Arbeitskraft eingesetzt. Es wird kein Arbeitsverhältnis begründet; auf freiwillige Praktika finden die §§ 10 bis 16, § 17 Abs. 1, 6 und 7, §§ 18 bis 23 und 25 BBiG entsprechende Anwendung (§ 26 BBiG).
 
 § 2 Dauer, Probezeit und Arbeitszeit
 (1) Das Praktikum beginnt am [Datum] und endet am [Datum], ohne dass es einer Kündigung bedarf. Die Dauer beträgt [Wochen] Wochen.

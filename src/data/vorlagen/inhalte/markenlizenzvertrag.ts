@@ -48,11 +48,11 @@ Drittens: Qualitätskontrolle auf dem Papier. Wer Muster nie anfordert und Beans
 
 Viertens: Nutzung in veränderter Form zulassen. Jede Abweichung von der eingetragenen Form kann die rechtserhaltende Benutzung gefährden. § 2 Abs. 5 der Vorlage erlaubt nur die eingetragene Form nach Markenrichtlinien.
 
-Fünftens: Verletzungen ungeregelt lassen. Der Lizenznehmer darf nur mit deiner Zustimmung klagen, du willst vielleicht nicht zahlen, und am Ende bleibt die Verletzung liegen. § 7 regelt Zuständigkeit, Kosten und Erlös im Voraus.`,
+Fünftens: Verletzungen ungeregelt lassen. Der Lizenznehmer darf nur mit deiner Zustimmung klagen (ein ausschließlicher Lizenznehmer erst, wenn du nach förmlicher Aufforderung untätig bleibst), du willst vielleicht nicht zahlen, und am Ende bleibt die Verletzung liegen. § 7 regelt Zuständigkeit, Kosten und Erlös im Voraus.`,
       },
       {
         titel: "Rechtliche Grundlagen im Markengesetz",
-        text: `Die Lizenz an einer Marke ist in § 30 MarkenG geregelt. Nach Abs. 1 kann sie ausschließlich oder nicht ausschließlich, räumlich, zeitlich und sachlich beschränkt erteilt werden. Abs. 2 nennt die Vertragsverstöße, bei denen der Inhaber mit markenrechtlichen Ansprüchen vorgehen kann. Abs. 3 verlangt für Verletzungsklagen des Lizenznehmers die Zustimmung des Inhabers, Abs. 4 erlaubt den Beitritt zur Klage des Inhabers, und Abs. 5 stellt klar, dass ein Rechtsübergang der Marke bestehende Lizenzen nicht berührt.
+        text: `Die Lizenz an einer Marke ist in § 30 MarkenG geregelt. Nach Abs. 1 kann sie ausschließlich oder nicht ausschließlich, räumlich, zeitlich und sachlich beschränkt erteilt werden. Abs. 2 nennt die Vertragsverstöße, bei denen der Inhaber mit markenrechtlichen Ansprüchen vorgehen kann. Abs. 3 verlangt für Verletzungsklagen des Lizenznehmers die Zustimmung des Inhabers, erlaubt dem ausschließlichen Lizenznehmer aber die Klage, wenn der Inhaber nach förmlicher Aufforderung nicht in angemessener Frist selbst klagt; Abs. 4 erlaubt den Beitritt zur Klage des Inhabers, und Abs. 5 stellt klar, dass ein Rechtsübergang der Marke bestehende Lizenzen nicht berührt.
 
 Die Benutzung durch den Lizenznehmer mit Zustimmung des Inhabers gilt nach § 26 Abs. 2 MarkenG als Benutzung durch den Inhaber. Das ist wichtig, weil die Marke nach § 49 MarkenG verfällt, wenn sie fünf Jahre lang nicht ernsthaft benutzt wird. § 6 Abs. 1 der Vorlage verpflichtet den Lizenznehmer deshalb zu Benutzungsnachweisen.
 
@@ -118,7 +118,7 @@ und
 § 7 Rechtsverletzungen Dritter
 (1) Die Parteien unterrichten sich unverzüglich über Verletzungen der Marke durch Dritte im Lizenzgebiet und über Behauptungen Dritter, die Benutzung der Marke verletze deren Rechte.
 (2) Der Lizenzgeber entscheidet, ob und wie gegen Verletzer vorgegangen wird. Der Lizenznehmer darf Verletzungsklagen nur mit Zustimmung des Lizenzgebers erheben (§ 30 Abs. 3 MarkenG); er kann einer Klage des Lizenzgebers beitreten, um seinen eigenen Schaden geltend zu machen (§ 30 Abs. 4 MarkenG).
-(3) Geht der Lizenzgeber nicht innerhalb von [z. B. 8] Wochen nach Kenntnis gegen eine erhebliche Verletzung im Lizenzgebiet vor, kann der [ausschließliche] Lizenznehmer verlangen, dass ihm die Rechtsverfolgung auf eigene Kosten und Risiko gestattet wird. Erlöse aus der Rechtsverfolgung stehen nach Abzug der Kosten [der Partei zu, die die Verfolgung betrieben hat / den Parteien im Verhältnis [50/50] zu].
+(3) Geht der Lizenzgeber nicht innerhalb von [z. B. 8] Wochen nach förmlicher Aufforderung durch den Lizenznehmer gegen eine erhebliche Verletzung im Lizenzgebiet vor, darf der ausschließliche Lizenznehmer die Rechtsverfolgung auf eigene Kosten und eigenes Risiko selbst betreiben (§ 30 Abs. 3 Satz 2 MarkenG). Erlöse aus der Rechtsverfolgung stehen nach Abzug der Kosten [der Partei zu, die die Verfolgung betrieben hat / den Parteien im Verhältnis [50/50] zu].
 
 § 8 Haftung und Freistellung
 (1) Der Lizenznehmer ist für Herstellung, Verkehrsfähigkeit, Sicherheit und Vertrieb der Lizenzprodukte allein verantwortlich. Er stellt den Lizenzgeber von allen Ansprüchen Dritter frei, die aus der Herstellung, dem Vertrieb oder der Bewerbung der Lizenzprodukte resultieren, einschließlich Produkthaftungs- und Wettbewerbsansprüchen und der angemessenen Kosten der Rechtsverteidigung, und unterhält eine Produkthaftpflichtversicherung mit einer Deckungssumme von mindestens [Betrag] EUR.

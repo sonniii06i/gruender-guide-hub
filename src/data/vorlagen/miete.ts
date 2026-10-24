@@ -14,7 +14,7 @@ export const VORLAGEN_MIETE: Vorlage[] = [
     wofuer: [
       "Du mietest dein erstes Büro, Studio, Atelier oder Ladenlokal für dein Unternehmen",
       "Du vermietest selbst eine Gewerbefläche und willst Laufzeit, Nebenkosten und Instandhaltung sauber regeln",
-      "Laufzeit über ein Jahr, bei der die Schriftform nach § 550 BGB eingehalten werden muss",
+      "Laufzeit über ein Jahr, bei der die Form des § 550 BGB (für Gewerberäume seit 2025 Textform, § 578 BGB) eingehalten werden muss",
       "Beide Seiten sind Unternehmer und die Umsatzsteuer-Option (§ 9 UStG) soll genutzt werden",
     ],
     enthaelt: [
@@ -31,7 +31,7 @@ export const VORLAGEN_MIETE: Vorlage[] = [
       "§ 11 Schriftform und Schlussbestimmungen",
     ],
     hinweise: [
-      "Schriftformfalle: Ein Gewerbemietvertrag mit mehr als einem Jahr Laufzeit muss die Schriftform des § 550 BGB wahren (eine Urkunde, alle wesentlichen Punkte, Anlagen fest verbunden oder eindeutig in Bezug genommen). Sonst gilt er als unbefristet und ist nach einem Jahr von beiden Seiten ordentlich kündbar. Jeder Nachtrag muss dieselbe Form wahren; Schriftformheilungsklauseln helfen nach der Rechtsprechung des BGH nicht.",
+      "Formfalle: Ein Gewerbemietvertrag mit mehr als einem Jahr Laufzeit muss seit dem 1. Januar 2025 mindestens die Textform des § 550 i. V. m. § 578 Abs. 1 Satz 2 BGB wahren (alle wesentlichen Punkte lesbar auf einem dauerhaften Datenträger, Anlagen eindeutig in Bezug genommen; bis Ende 2024 galt Schriftform, für Altverträge bis zum 1. Januar 2026, Art. 229 § 70 EGBGB). Sonst gilt er als unbefristet und ist nach einem Jahr von beiden Seiten ordentlich kündbar. Jeder Nachtrag muss dieselbe Form wahren; Heilungsklauseln helfen nach der Rechtsprechung des BGH nicht.",
       "Die Umsatzsteuer-Option nach § 9 UStG ist nur zulässig, wenn der Mieter die Fläche ausschließlich für Umsätze nutzt, die den Vorsteuerabzug nicht ausschließen (§ 9 Abs. 2 UStG). Ärzte, Versicherungsvermittler oder Kleinunternehmer fallen raus – dann bleibt die Miete steuerfrei und der Vermieter verliert seinen Vorsteuerabzug.",
       "Indexmieten mit automatischer Anpassung unterliegen dem Preisklauselgesetz; sie sind in der Regel nur zulässig, wenn der Vermieter mindestens zehn Jahre auf die ordentliche Kündigung verzichtet oder der Mieter die Laufzeit auf mindestens zehn Jahre verlängern kann. Bei kürzeren Verträgen ist die Staffelmiete der sichere Weg.",
       "Schönheitsreparaturen dürfen nur mit flexiblen Fristen („in der Regel“, „bei Bedarf“) auf den Mieter übertragen werden; starre Fristenpläne sind in Formularverträgen unwirksam.",
@@ -39,7 +39,7 @@ export const VORLAGEN_MIETE: Vorlage[] = [
     faqs: [
       {
         q: "Gilt der Mieterschutz des Wohnraummietrechts auch für mein Büro?",
-        a: "Nein. Für Geschäftsräume gelten die allgemeinen Vorschriften der §§ 535 ff. BGB und über § 578 BGB einzelne Wohnraumregeln (z. B. § 550 Schriftform). Kündigungsschutz, Mietpreisbremse und die Kautionsgrenze von drei Monatsmieten gelten nicht. Fast alles ist frei verhandelbar – darum zählt der Vertragstext umso mehr.",
+        a: "Nein. Für Geschäftsräume gelten die allgemeinen Vorschriften der §§ 535 ff. BGB und über § 578 BGB einzelne Wohnraumregeln (z. B. die Formvorschrift des § 550, für Gewerberäume seit 2025 in Textform). Kündigungsschutz, Mietpreisbremse und die Kautionsgrenze von drei Monatsmieten gelten nicht. Fast alles ist frei verhandelbar – darum zählt der Vertragstext umso mehr.",
       },
       {
         q: "Welche Kündigungsfrist gilt, wenn nichts vereinbart ist?",
@@ -198,7 +198,7 @@ export const VORLAGEN_MIETE: Vorlage[] = [
       "Der Vermieter versichert in der Regel nur das Gebäude. Deine Ware ist nicht mitversichert – du brauchst eine eigene Inhalts- bzw. Warenversicherung (Feuer, Leitungswasser, Einbruch). Prüfe, ob der Versicherer die Lagerbedingungen (Zutritt Dritter, keine Alarmanlage) akzeptiert.",
       "Gefahrstoffe, Akkus in großen Mengen, Druckgasflaschen, Lebensmittel oder verderbliche Waren haben eigene Auflagen (Brandschutz, Lagerklassen, Kühlung). Die Vorlage schließt sie aus; brauchst du sie, muss das ausdrücklich mit dem Vermieter und ggf. der Feuerwehr geklärt werden.",
       "Beachte die Traglast: Hochregale und Paletten mit Getränken oder Fliesen überschreiten schnell die zulässige Bodenbelastung. Lass dir die Werte vom Vermieter geben und schreibe sie in den Vertrag.",
-      "Auch beim Lager gilt § 550 BGB: Läuft der Vertrag länger als ein Jahr, muss er schriftlich und vollständig in einer Urkunde festgehalten werden, sonst ist er nach einem Jahr ordentlich kündbar.",
+      "Auch beim Lager gilt § 550 BGB: Läuft der Vertrag länger als ein Jahr, muss er vollständig und mindestens in Textform (§ 578 Abs. 1 Satz 2 BGB, seit 2025) festgehalten werden, sonst ist er nach einem Jahr ordentlich kündbar.",
     ],
     faqs: [
       {
@@ -211,7 +211,7 @@ export const VORLAGEN_MIETE: Vorlage[] = [
       },
       {
         q: "Was ist das Vermieterpfandrecht und wie trifft es mich?",
-        a: "Nach § 562 BGB hat der Vermieter für seine Forderungen ein Pfandrecht an den eingebrachten Sachen des Mieters. Bei Mietrückstand kann er die Ware zurückhalten und verwerten. Kommissionsware oder unter Eigentumsvorbehalt gelieferte Ware gehört nicht dir und unterliegt dem Pfandrecht nicht – die Vorlage verlangt, dass du dem Vermieter solche Ware auf Nachfrage benennst.",
+        a: "Nach § 562 BGB hat der Vermieter für seine Forderungen ein Pfandrecht an den eingebrachten Sachen des Mieters. Bei Mietrückstand kann er die Ware zurückhalten und verwerten. Kommissionsware gehört nicht dir und unterliegt dem Pfandrecht nicht; bei Ware unter Eigentumsvorbehalt erfasst es allenfalls dein Anwartschaftsrecht – die Vorlage verlangt, dass du dem Vermieter solche Ware auf Nachfrage benennst.",
       },
     ],
     seo: {
@@ -313,7 +313,7 @@ export const VORLAGEN_MIETE: Vorlage[] = [
       },
       {
         q: "Darf ich die Miete mindern, wenn das Gerät nicht richtig funktioniert?",
-        a: "Ja, bei einem Mangel, der die Tauglichkeit erheblich mindert, ist die Miete kraft Gesetzes gemindert (§ 536 BGB). Du musst den Mangel aber sofort anzeigen (§ 536c BGB), sonst verlierst du deine Rechte. Die Vorlage gibt dem Vermieter zuerst die Möglichkeit, ein Ersatzgerät zu stellen.",
+        a: "Ja, bei einem Mangel, der die Tauglichkeit erheblich mindert, ist die Miete kraft Gesetzes gemindert (§ 536 BGB). Du musst den Mangel aber unverzüglich anzeigen (§ 536c BGB), sonst verlierst du deine Rechte, soweit der Vermieter deshalb nicht abhelfen konnte. Die Vorlage gibt dem Vermieter zuerst die Möglichkeit, ein Ersatzgerät zu stellen.",
       },
     ],
     seo: {
@@ -356,8 +356,8 @@ export const VORLAGEN_MIETE: Vorlage[] = [
     ],
     faqs: [
       {
-        q: "Brauche ich für einen Pop-up-Store einen Gewerbemietvertrag mit Schriftform nach § 550 BGB?",
-        a: "Nein, solange die Mietzeit nicht länger als ein Jahr ist. Die strenge Schriftform greift erst bei Verträgen über ein Jahr. Trotzdem solltest du den Vertrag schriftlich schließen, damit Fläche, Pauschalmiete, Rückbau und Haftung eindeutig geregelt sind.",
+        q: "Brauche ich für einen Pop-up-Store einen Gewerbemietvertrag in der Form des § 550 BGB?",
+        a: "Nein, solange die Mietzeit nicht länger als ein Jahr ist. Die Formvorschrift (für Gewerberäume seit 2025 Textform, § 578 Abs. 1 Satz 2 BGB) greift erst bei Verträgen über ein Jahr. Trotzdem solltest du den Vertrag schriftlich schließen, damit Fläche, Pauschalmiete, Rückbau und Haftung eindeutig geregelt sind.",
       },
       {
         q: "Kann ich den Pop-up-Vertrag vorzeitig kündigen, wenn das Geschäft schlecht läuft?",

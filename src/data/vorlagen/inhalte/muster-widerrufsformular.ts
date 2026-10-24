@@ -16,7 +16,7 @@ Du brauchst dieses Formular also parallel zur Widerrufsbelehrung, nie als Ersatz
         text: `Der Inhalt ist gesetzlich vorgegeben und kurz. Das Formular enthält:
 
 - den einleitenden Satz, dass der Kunde es bei Widerruf ausfüllen und zurücksenden soll
-- deinen Adressblock mit Firma oder Name, Anschrift und E-Mail-Adresse, optional Fax
+- deinen Adressblock mit Firma oder Name, Anschrift und E-Mail-Adresse
 - die Erklärung „Hiermit widerrufe(n) ich/wir den abgeschlossenen Vertrag über den Kauf der folgenden Waren / die Erbringung der folgenden Dienstleistung“
 - Felder für das Bestelldatum und das Erhaltdatum
 - Felder für Name und Anschrift des Verbrauchers
@@ -27,7 +27,7 @@ Mehr darf als Pflicht nicht hinein. Die Vorlage ergänzt am Ende Hinweise zur Ei
       },
       {
         titel: "Widerrufsformular ausfüllen und im Shop einbinden",
-        text: `Das Ausfüllen beschränkt sich auf deinen Adressblock: Firma oder Vor- und Nachname, Straße, Postleitzahl, Ort und die E-Mail-Adresse, an die Widerrufe gehen sollen. Die Anschrift sollte mit der in Widerrufsbelehrung und Impressum übereinstimmen, damit der Kunde nicht an drei verschiedene Adressen schreibt. Die Faxnummer trägst du nur ein, wenn du tatsächlich ein Fax empfängst; sonst löschst du die Zeile.
+        text: `Das Ausfüllen beschränkt sich auf deinen Adressblock: Firma oder Vor- und Nachname, Straße, Postleitzahl, Ort und die E-Mail-Adresse, an die Widerrufe gehen sollen. Die Anschrift sollte mit der in Widerrufsbelehrung und Impressum übereinstimmen, damit der Kunde nicht an drei verschiedene Adressen schreibt. Eine Faxnummer sieht das amtliche Muster nicht vor, deshalb enthält die Vorlage keine Faxzeile.
 
 Danach entfernst du den Abschnitt „Hinweise zur Einbindung“ und speicherst das Dokument als PDF. Dieses PDF hängst du an die Bestellbestätigung an, die dein Shopsystem automatisch verschickt, und verlinkst es zusätzlich auf deiner Widerrufsseite neben der Belehrung. Bietest du ein Online-Formular zum Widerruf an, muss dein System den Eingang unverzüglich bestätigen, zum Beispiel per automatischer E-Mail; die Widerrufsbelehrung braucht dann den entsprechenden Zusatz.
 
@@ -41,7 +41,7 @@ Ebenfalls problematisch sind Pflichtfelder, die das Gesetz nicht kennt. Bestelln
       },
       {
         titel: "Rechtliche Grundlagen des Muster-Widerrufsformulars",
-        text: `Die Pflicht, ein Widerrufsformular bereitzustellen, steht in Art. 246a EGBGB, der die Informationspflichten bei Fernabsatzverträgen regelt. Das Formular selbst ist als Anlage 2 zu Art. 246a EGBGB veröffentlicht. Der Verbraucher kann den Widerruf nach § 355 Abs. 1 BGB durch jede eindeutige Erklärung ausüben; das Formular ist eine Hilfe, keine Voraussetzung. Die Übermittlung in Textform ergibt sich aus Art. 246a § 4 EGBGB.
+        text: `Die Pflicht, ein Widerrufsformular bereitzustellen, steht in Art. 246a EGBGB, der die Informationspflichten bei Fernabsatzverträgen regelt. Das Formular selbst ist als Anlage 2 zu Art. 246a EGBGB veröffentlicht. Der Verbraucher kann den Widerruf nach § 355 Abs. 1 BGB durch jede eindeutige Erklärung ausüben; das Formular ist eine Hilfe, keine Voraussetzung. Die Übermittlung auf einem dauerhaften Datenträger spätestens bei Lieferung ergibt sich aus § 312f Abs. 2 BGB.
 
 Die Folgen des Widerrufs, also die Rückzahlung innerhalb von 14 Tagen, das Zurückbehaltungsrecht bis zum Rückerhalt der Ware und die Rücksendung durch den Kunden, stehen in den §§ 355 und 357 BGB. Prüfe vor dem Einsatz den aktuellen amtlichen Wortlaut der Anlage 2 zu Art. 246a EGBGB; die Vorlage gibt den Text nach bestem Wissen wieder, aber verbindlich ist allein der Gesetzestext in seiner jeweils geltenden Fassung.`,
       },
@@ -61,7 +61,6 @@ An
 [Straße Hausnummer]
 [PLZ Ort]
 E-Mail: [E-Mail-Adresse]
-[Optional: Telefax: [Faxnummer]]
 
 Hiermit widerrufe(n) ich/wir (*) den von mir/uns (*) abgeschlossenen Vertrag über den Kauf der folgenden Waren (*) / die Erbringung der folgenden Dienstleistung (*):
 
@@ -99,13 +98,13 @@ Ende des Muster-Widerrufsformulars
 Hinweise zur Einbindung (nicht Teil des Formulars, vor Veröffentlichung entfernen):
 
 1. Pflicht und Form
-Das Muster-Widerrufsformular entspricht Anlage 2 zu Art. 246a § 1 Abs. 2 Satz 1 Nr. 1 EGBGB. Der Händler muss es dem Verbraucher vor Vertragsschluss zur Verfügung stellen und spätestens mit der Ware bzw. der Bestellbestätigung in Textform übermitteln (Art. 246a § 4 EGBGB). Üblich ist ein PDF-Anhang in der Bestellbestätigungs-E-Mail und ein Download unter [www.domain.de/widerruf].
+Das Muster-Widerrufsformular entspricht Anlage 2 zu Art. 246a § 1 Abs. 2 Satz 1 Nr. 1 EGBGB. Der Händler muss es dem Verbraucher vor Vertragsschluss zur Verfügung stellen und spätestens mit der Ware bzw. der Bestellbestätigung auf einem dauerhaften Datenträger übermitteln (§ 312f Abs. 2 BGB). Üblich ist ein PDF-Anhang in der Bestellbestätigungs-E-Mail und ein Download unter [www.domain.de/widerruf].
 
 2. Verhältnis zur Widerrufsbelehrung
 Das Formular ergänzt die Widerrufsbelehrung, ersetzt sie aber nicht. In der Belehrung heißt es: „Sie können dafür das beigefügte Muster-Widerrufsformular verwenden, das jedoch nicht vorgeschrieben ist.“ Deshalb muss das Formular tatsächlich beigefügt sein.
 
 3. Online-Widerruf
-Bietet der Shop ein Webformular zum Widerruf an, muss der Eingang unverzüglich bestätigt werden, z. B. per automatischer E-Mail. Die Widerrufsbelehrung ist dann um den entsprechenden Satz aus dem gesetzlichen Muster zu ergänzen.
+Bietet der Shop ein Webformular zum Widerruf an, muss der Eingang unverzüglich bestätigt werden, z. B. per automatischer E-Mail. Die Widerrufsbelehrung ist dann um den entsprechenden Satz aus dem gesetzlichen Muster zu ergänzen. Wird der Vertrag über eine Online-Benutzeroberfläche geschlossen, ist zusätzlich die Widerrufsfunktion nach § 356a BGB Pflicht (Schaltflächen „Vertrag widerrufen“ und „Widerruf bestätigen“, Eingangsbestätigung mit Datum und Uhrzeit auf einem dauerhaften Datenträger).
 
 4. Bearbeitung im Betrieb
 Eingang des Widerrufs mit Datum dokumentieren. Rückzahlung spätestens 14 Tage nach Eingang des Widerrufs, wobei die Rückzahlung bis zum Rückerhalt der Ware oder bis zum Nachweis der Rücksendung verweigert werden darf. Dasselbe Zahlungsmittel verwenden, das der Kunde eingesetzt hat.

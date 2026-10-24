@@ -55,7 +55,7 @@ Fehler vier: Beschlussgegenstände, die nicht angekündigt waren. Über sie darf
 
 Form und Frist regelt § 51 GmbHG: eingeschriebener Brief, Frist mindestens eine Woche, Ankündigung der Beschlussgegenstände mindestens drei Tage vor der Versammlung. Die Satzung darf die Form erleichtern, etwa auf E-Mail, und die Frist verlängern; sie geht dann vor. Nicht ordnungsgemäß einberufene Versammlungen können nur beschließen, wenn alle Gesellschafter anwesend sind (§ 51 Abs. 3 GmbHG).
 
-Seit 2023 erlaubt § 48 Abs. 1 Satz 2 GmbHG die Versammlung per Video- oder Telefonkonferenz, wenn alle Gesellschafter in Textform zustimmen oder die Satzung es vorsieht. Vertretung ist nach allgemeinen Regeln mit schriftlicher Vollmacht möglich (§ 47 Abs. 3 GmbHG). Die Anfechtungsfrist für Beschlüsse ist im GmbHG nicht geregelt; die Rechtsprechung orientiert sich an der Monatsfrist des Aktienrechts, viele Satzungen legen sie ausdrücklich fest.`,
+Seit dem 1. August 2022 erlaubt § 48 Abs. 1 Satz 2 GmbHG die Versammlung per Video- oder Telefonkonferenz, wenn alle Gesellschafter in Textform zustimmen; daneben kann die Satzung es vorsehen. Vertretung ist mit einer Vollmacht in Textform möglich (§ 47 Abs. 3 GmbHG). Die Anfechtungsfrist für Beschlüsse ist im GmbHG nicht geregelt; die Rechtsprechung orientiert sich an der Monatsfrist des Aktienrechts, viele Satzungen legen sie ausdrücklich fest.`,
       },
       {
         titel: "Wann die Vorlage nicht reicht",
@@ -123,7 +123,7 @@ Unterlagen: Der Jahresabschluss zum 31.12.[Jahr] [mit Lagebericht], der Vorschla
 
 Frist und Form: Diese Einladung wird mit einer Frist von [mindestens einer Woche / zwei Wochen] gemäß [§ 51 Abs. 1 GmbHG / § [Nummer] des Gesellschaftsvertrags] durch eingeschriebenen Brief versandt. Die Gegenstände der Tagesordnung sind hiermit gemäß § 51 Abs. 2 und 4 GmbHG angekündigt. Ergänzungen zur Tagesordnung können bis zum [Datum, mindestens drei Tage vor der Versammlung] schriftlich bei der Geschäftsführung beantragt werden; sie werden allen Gesellschaftern unverzüglich mitgeteilt.
 
-Vertretung: Sie können sich durch einen anderen Gesellschafter oder durch einen zur Berufsverschwiegenheit verpflichteten Dritten (Rechtsanwalt, Steuerberater, Wirtschaftsprüfer) mit schriftlicher Vollmacht vertreten lassen. Ein Vollmachtsformular liegt bei. Die Vollmacht ist spätestens zu Beginn der Versammlung im Original vorzulegen.
+Vertretung: Sie können sich durch einen anderen Gesellschafter oder durch einen zur Berufsverschwiegenheit verpflichteten Dritten (Rechtsanwalt, Steuerberater, Wirtschaftsprüfer) mit Vollmacht in Textform (§ 47 Abs. 3 GmbHG) vertreten lassen. Ein Vollmachtsformular liegt bei. Die Vollmacht ist spätestens zu Beginn der Versammlung vorzulegen.
 
 Teilnahme per Video oder Telefon: Gemäß § 48 Abs. 1 Satz 2 GmbHG kann die Versammlung ganz oder teilweise per Video- oder Telefonkonferenz abgehalten werden, wenn alle Gesellschafter sich damit in Textform einverstanden erklären [oder die Satzung dies vorsieht]. Bitte teilen Sie uns bis zum [Datum] per E-Mail an [E-Mail-Adresse] mit, ob Sie dieser Form zustimmen und ob Sie persönlich oder digital teilnehmen.
 

@@ -43,7 +43,7 @@ Vermeide außerdem Ausschlussfristen unter drei Monaten oder ohne Ausnahme für 
       },
       {
         titel: "Rechtliche Grundlagen: Nachweisgesetz, Probezeit, Kündigungsfristen",
-        text: `Ein Arbeitsvertrag kommt formfrei zustande, auch mündlich. Das Nachweisgesetz verlangt aber, dass die wesentlichen Bedingungen dokumentiert und ausgehändigt werden; die Kernangaben spätestens am ersten Arbeitstag, der Rest innerhalb von sieben Tagen beziehungsweise einem Monat. Seit 2025 reicht dafür die Textform, wenn der Arbeitnehmer das Dokument speichern kann und den Empfang bestätigt. Für Befristungen und Kündigungen bleibt die Schriftform auf Papier Pflicht.
+        text: `Ein Arbeitsvertrag kommt formfrei zustande, auch mündlich. Das Nachweisgesetz verlangt aber, dass die wesentlichen Bedingungen dokumentiert und ausgehändigt werden; die Kernangaben spätestens am ersten Arbeitstag, der Rest innerhalb von sieben Tagen beziehungsweise einem Monat. Seit 2025 reicht dafür die Textform, wenn der Arbeitnehmer das Dokument abrufen, speichern und ausdrucken kann und du ihn zu einem Empfangsnachweis aufforderst; in Branchen nach § 2a SchwarzArbG bleibt es bei Papier. Für Befristungen und Kündigungen bleibt die Schriftform auf Papier Pflicht.
 
 Die Probezeit darf höchstens sechs Monate dauern, in dieser Zeit gilt die Kündigungsfrist von zwei Wochen nach § 622 Abs. 3 BGB. Danach beträgt die Grundfrist vier Wochen zum 15. oder zum Monatsende; für den Arbeitgeber verlängert sie sich mit der Betriebszugehörigkeit nach § 622 Abs. 2 BGB. Der gesetzliche Mindesturlaub liegt bei 24 Werktagen, also 20 Arbeitstagen bei einer Fünf-Tage-Woche. Der Mindestlohn beträgt seit Januar 2026 13,90 EUR brutto je Stunde; prüfe vor jeder Einstellung die aktuell gültige Grenze.`,
       },
@@ -116,7 +116,7 @@ und
 (3) Hinweis auf das Kündigungsverfahren: Will der Arbeitnehmer geltend machen, dass eine Kündigung sozial ungerechtfertigt oder aus anderen Gründen unwirksam ist, muss er innerhalb von drei Wochen nach Zugang der schriftlichen Kündigung Klage beim Arbeitsgericht erheben (§ 4 KSchG). Wird die Frist versäumt, gilt die Kündigung als von Anfang an wirksam (§ 7 KSchG).
 (4) Der Arbeitgeber kann den Arbeitnehmer nach Ausspruch einer Kündigung unter Fortzahlung der Vergütung und unter Anrechnung offener Urlaubs- und Freizeitausgleichsansprüche von der Arbeitsleistung freistellen.
 (5) Das Arbeitsverhältnis endet ohne Kündigung spätestens mit Ablauf des Monats, in dem der Arbeitnehmer die Regelaltersgrenze der gesetzlichen Rentenversicherung erreicht.
-(6) Der Arbeitnehmer ist verpflichtet, sich nach Zugang einer Kündigung unverzüglich, spätestens drei Monate vor Beendigung des Arbeitsverhältnisses, bei der Agentur für Arbeit arbeitsuchend zu melden (§ 38 Abs. 1 SGB III).
+(6) Der Arbeitnehmer ist verpflichtet, sich spätestens drei Monate vor Beendigung des Arbeitsverhältnisses, bei kürzerer Frist innerhalb von drei Tagen nach Kenntnis des Beendigungszeitpunkts, bei der Agentur für Arbeit arbeitsuchend zu melden (§ 38 Abs. 1 SGB III).
 
 § 10 Ausschlussfristen
 (1) Alle Ansprüche aus dem Arbeitsverhältnis und solche, die mit dem Arbeitsverhältnis in Verbindung stehen, verfallen, wenn sie nicht innerhalb von drei Monaten nach Fälligkeit gegenüber der anderen Vertragspartei in Textform geltend gemacht werden.

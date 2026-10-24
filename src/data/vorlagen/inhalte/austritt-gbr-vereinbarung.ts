@@ -56,9 +56,9 @@ Fehler vier: Zugänge und Domains vergessen. Wenn der Online-Shop auf dem privat
       },
       {
         titel: "Rechtliche Grundlagen nach dem MoPeG: §§ 712 bis 728b BGB",
-        text: `Seit dem 1. Januar 2024 gilt das neue Personengesellschaftsrecht. Das Ausscheiden eines Gesellschafters führt nicht mehr zur Auflösung der GbR; die Gesellschaft besteht mit den übrigen fort und der Anteil des Ausscheidenden wächst ihnen an (§ 712 Abs. 1 BGB). Die Ausscheidensgründe sind in § 723 BGB geregelt, darunter die einvernehmliche Vereinbarung, auf die § 1 der Vorlage verweist. Bleibt nur ein Gesellschafter übrig, erlischt die Gesellschaft ohne Liquidation und ihr Vermögen geht im Wege der Gesamtrechtsnachfolge auf ihn über (§ 712a BGB).
+        text: `Seit dem 1. Januar 2024 gilt das neue Personengesellschaftsrecht. Das Ausscheiden eines Gesellschafters führt nicht mehr zur Auflösung der GbR; die Gesellschaft besteht mit den übrigen fort und der Anteil des Ausscheidenden wächst ihnen an (§ 712 Abs. 1 BGB). Die gesetzlichen Ausscheidensgründe stehen in § 723 Abs. 1 BGB (Tod, Kündigung, Insolvenz, Kündigung durch einen Privatgläubiger, Ausschließung); das einvernehmliche Ausscheiden, auf das § 1 der Vorlage setzt, beruht dagegen auf einer Vereinbarung aller Gesellschafter. Bleibt nur ein Gesellschafter übrig, erlischt die Gesellschaft ohne Liquidation und ihr Vermögen geht im Wege der Gesamtrechtsnachfolge auf ihn über (§ 712a BGB).
 
-Der Ausscheidende hat Anspruch auf eine Abfindung, die ohne vertragliche Regelung dem Wert seines Anteils entspricht, und er haftet für einen Fehlbetrag anteilig (§§ 728, 728a BGB). An schwebenden Geschäften nimmt er nach § 728 Abs. 2 BGB teil, was die Vorlage in § 4 abbedingt oder auf eine Liste beschränkt. Die Nachhaftung für Altverbindlichkeiten endet fünf Jahre nach dem Ausscheiden (§ 728b BGB), gerechnet ab Kenntnis des Gläubigers oder bei eGbR ab Eintragung.
+Der Ausscheidende hat Anspruch auf eine Abfindung, die ohne vertragliche Regelung dem Wert seines Anteils entspricht, und er haftet für einen Fehlbetrag anteilig (§§ 728, 728a BGB). Eine gesonderte Teilnahme an schwebenden Geschäften sieht das Gesetz seit dem MoPeG nicht mehr vor (der frühere § 740 BGB ist entfallen); die Vorlage regelt das in § 4 ausdrücklich und erlaubt eine Beteiligung nur für die gelisteten Geschäfte. Die Nachhaftung für Altverbindlichkeiten endet fünf Jahre nach dem Ausscheiden (§ 728b BGB), gerechnet ab Kenntnis des Gläubigers oder bei eGbR ab Eintragung.
 
 Die Vereinbarung ist formfrei; Schriftform dient dem Beweis. Nur wenn Grundstücke zum Gesellschaftsvermögen gehören oder die eGbR-Anmeldung ansteht, ist der Notar für die Beurkundung beziehungsweise die Beglaubigung der Registeranmeldung nötig. Steuerlich erstellt die Gesellschaft für das Jahr des Ausscheidens die Feststellungserklärung mit dem anteiligen Ergebnis.`,
       },
@@ -96,7 +96,7 @@ Präambel
 Die Parteien sind Gesellschafter der Gesellschaft aufgrund des Gesellschaftsvertrags vom [Datum]. Der ausscheidende Gesellschafter ist am Vermögen, Gewinn und Verlust mit [Prozent] % beteiligt. Die Parteien haben sich darauf verständigt, dass der ausscheidende Gesellschafter einvernehmlich aus der Gesellschaft ausscheidet und die verbleibenden Gesellschafter die Gesellschaft fortführen. Dies regeln sie wie folgt:
 
 § 1 Ausscheiden und Stichtag
-(1) Der ausscheidende Gesellschafter scheidet mit Ablauf des [Datum], 24:00 Uhr („Stichtag“), einvernehmlich aus der Gesellschaft aus (§ 723 Abs. 1 Nr. 2 BGB). Einer Kündigung bedarf es nicht; eine etwa bereits erklärte Kündigung wird durch diese Vereinbarung ersetzt.
+(1) Der ausscheidende Gesellschafter scheidet mit Ablauf des [Datum], 24:00 Uhr („Stichtag“), aufgrund dieser Vereinbarung aller Gesellschafter einvernehmlich aus der Gesellschaft aus. Einer Kündigung bedarf es nicht; eine etwa bereits erklärte Kündigung wird durch diese Vereinbarung ersetzt.
 (2) Bis zum Stichtag bleibt der ausscheidende Gesellschafter mit allen Rechten und Pflichten Gesellschafter. Ab dem [Datum] ist er von der Geschäftsführung und Vertretung unter Fortzahlung seiner bisherigen Entnahmen von monatlich [Betrag] EUR freigestellt.
 
 § 2 Fortführung der Gesellschaft, Anwachsung
@@ -114,7 +114,7 @@ Die Parteien sind Gesellschafter der Gesellschaft aufgrund des Gesellschaftsvert
 
 § 4 Auseinandersetzungsbilanz und schwebende Geschäfte
 (1) Die Gesellschaft erstellt auf den Stichtag eine Auseinandersetzungsbilanz [, die der Abfindung nach § 3 Abs. 1 Alternative zugrunde liegt / zu Dokumentationszwecken]. Der ausscheidende Gesellschafter erhält eine Abschrift und kann sie innerhalb von [z. B. 4] Wochen prüfen.
-(2) An schwebenden Geschäften, die am Stichtag noch nicht abgewickelt sind, nimmt der ausscheidende Gesellschafter nicht mehr teil (abweichend von § 728 Abs. 2 BGB). [Alternative: Er nimmt am Ergebnis der in Anlage 1 aufgeführten schwebenden Geschäfte mit [Prozent] % teil; die Abrechnung erfolgt nach deren Abschluss.]
+(2) An schwebenden Geschäften, die am Stichtag noch nicht abgewickelt sind, nimmt der ausscheidende Gesellschafter nicht mehr gesondert teil; sie sind mit der Abfindung abgegolten. [Alternative: Er nimmt am Ergebnis der in Anlage 1 aufgeführten schwebenden Geschäfte mit [Prozent] % teil; die Abrechnung erfolgt nach deren Abschluss.]
 (3) Ergibt die Auseinandersetzungsbilanz einen Fehlbetrag, ist der ausscheidende Gesellschafter [zum Ausgleich im Verhältnis seiner Beteiligung verpflichtet (§ 728a BGB) / von der Ausgleichspflicht freigestellt; der Fehlbetrag ist in der Abfindung berücksichtigt].
 
 § 5 Freistellung und Nachhaftung

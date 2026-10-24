@@ -18,7 +18,7 @@ Diese Vorlage ist für Warenlieferungen gedacht: Einzelbestellungen, mehrere Art
 - den Hinweis auf das 14-tägige Widerrufsrecht ohne Angabe von Gründen
 - den Fristbeginn in vier Varianten (eine Ware, letzte Ware, letzte Teilsendung, erste Ware bei Abos)
 - deine Kontaktdaten für die Widerrufserklärung mit Anschrift, Telefon und E-Mail
-- den Hinweis auf das Muster-Widerrufsformular und optional auf ein Online-Formular
+- den Hinweis auf das Muster-Widerrufsformular, auf die Online-Widerrufsfunktion nach § 356a BGB und optional auf ein Online-Formular
 - die Folgen des Widerrufs: Rückzahlung inklusive Standard-Lieferkosten binnen 14 Tagen
 - dein Zurückbehaltungsrecht bis zum Rückerhalt der Ware oder dem Versandnachweis
 - die Rücksendefrist und vier Varianten für die Rücksendekosten
@@ -31,13 +31,13 @@ Am Ende steht ein kurzer Einbindungshinweis, der nicht Teil der Belehrung ist un
         titel: "Widerrufsbelehrung Muster richtig ausfüllen",
         text: `Zuerst entscheidest du dich beim Fristbeginn für genau eine der Varianten A bis D. Wer immer alles in einem Paket verschickt, nimmt Variante A. Wer Artikel aus verschiedenen Lagern getrennt versendet, Variante B. Wer eine große Bestellung in Teilen liefert, Variante C, und wer Abos oder regelmäßige Lieferungen verkauft, Variante D. Die übrigen Varianten und die Kennzeichnung in eckigen Klammern löschst du.
 
-Dann trägst du Firma, Anschrift, Telefon und E-Mail ein. Die Anschrift muss die sein, an die ein Brief mit dem Widerruf gehen kann. Bietest du ein Webformular an, lässt du den optionalen Satz stehen und musst den Eingang danach tatsächlich bestätigen. Bei der Rücksendeadresse trägst du dein Lager oder den Fulfillment-Dienstleister ein, falls die Ware nicht an deine Firmenanschrift zurückgehen soll.
+Dann trägst du Firma, Anschrift, Telefon und E-Mail ein. Die Anschrift muss die sein, an die ein Brief mit dem Widerruf gehen kann. Schließt du Verträge über Shop, App oder Marktplatz, ist seit dem 19.06.2026 die Widerrufsfunktion nach § 356a BGB Pflicht; dann bleibt der Satz zur Online-Funktion mit der richtigen Adresse stehen. Bietest du zusätzlich ein Webformular an, lässt du den optionalen Satz stehen und musst den Eingang danach tatsächlich bestätigen. Bei der Rücksendeadresse trägst du dein Lager oder den Fulfillment-Dienstleister ein, falls die Ware nicht an deine Firmenanschrift zurückgehen soll.
 
 Bei den Rücksendekosten wählst du Variante 1, wenn der Kunde zahlt, Variante 2, wenn du zahlst, und Variante 3 oder 4 für Speditionsware. Zum Schluss streichst du alle Ausschlüsse, die in deinem Sortiment nicht vorkommen, und ergänzt Datum, Firma und Ort.`,
       },
       {
         titel: "Typische Fehler in der Widerrufsbelehrung und ihre Folgen",
-        text: `Der teuerste Fehler ist die veraltete Belehrung. Das gesetzliche Muster wurde mehrfach geändert; wer noch eine Fassung mit alten Fristen, dem Begriff „Widerrufsfrist beträgt zwei Wochen“ oder einem Verweis auf die Rücksendekostenregel von vor 2014 nutzt, belehrt falsch. Die Folge nach § 356 Abs. 3 BGB: Die Frist verlängert sich auf zwölf Monate und 14 Tage nach dem eigentlichen Fristende.
+        text: `Der teuerste Fehler ist die veraltete Belehrung. Das gesetzliche Muster wurde mehrfach geändert; wer noch eine Fassung mit alten Fristen, dem Begriff „Widerrufsfrist beträgt zwei Wochen“ oder einem Verweis auf die Rücksendekostenregel von vor 2014 nutzt, belehrt falsch. Die Folge nach § 356 Abs. 3 und 4 BGB: Die Frist beginnt nicht zu laufen, und das Widerrufsrecht erlischt erst zwölf Monate und 14 Tage nach Erhalt der Ware.
 
 Ebenso häufig: mehrere Fristvarianten nebeneinander, weil der Shop „für alle Fälle“ alles stehen lässt. Das macht die Belehrung unklar. Dazu kommen pauschale Ausschlüsse wie „aus hygienischen Gründen keine Rücknahme“ ohne Versiegelung, die Forderung nach Originalverpackung als Bedingung, das Verrechnen von Rücksendekosten ohne Belehrung und ein fehlender Versand der Belehrung in Textform. Ein Link im Shop reicht nicht; die Belehrung muss per E-Mail, PDF oder auf Papier beim Kunden ankommen, spätestens mit der Ware.`,
       },
@@ -45,7 +45,7 @@ Ebenso häufig: mehrere Fristvarianten nebeneinander, weil der Shop „für alle
         titel: "Rechtliche Grundlagen des Widerrufsrechts im Fernabsatz",
         text: `Das Widerrufsrecht bei Fernabsatzverträgen folgt aus § 312g BGB in Verbindung mit den §§ 355 ff. BGB. § 355 BGB regelt Frist, Form und Wirkung des Widerrufs, § 356 BGB den Fristbeginn und die Verlängerung bei fehlender Belehrung, die §§ 357 ff. BGB die Rückabwicklung, also Rückzahlung, Rücksendung, Rücksendekosten und Wertersatz. Die Ausnahmen vom Widerrufsrecht stehen in § 312g Abs. 2 BGB.
 
-Was du vor Vertragsschluss mitteilen musst, regelt Art. 246a EGBGB. Dort steht auch, dass du die Informationspflicht zum Widerrufsrecht erfüllst, wenn du das Muster in Anlage 1 richtig ausgefüllt in Textform übermittelst. Diese Vorlage orientiert sich an dem Muster; prüfe trotzdem vor dem Einsatz den aktuellen amtlichen Wortlaut der Anlage 1 zu Art. 246a EGBGB, weil Änderungen des Gesetzgebers unmittelbar in die Belehrung übernommen werden müssen. Die Pflicht zur Übermittlung in Textform ergibt sich aus Art. 246a § 4 EGBGB.`,
+Was du vor Vertragsschluss mitteilen musst, regelt Art. 246a EGBGB. Dort steht auch, dass du die Informationspflicht zum Widerrufsrecht erfüllst, wenn du das Muster in Anlage 1 richtig ausgefüllt in Textform übermittelst. Diese Vorlage orientiert sich an dem Muster; prüfe trotzdem vor dem Einsatz den aktuellen amtlichen Wortlaut der Anlage 1 zu Art. 246a EGBGB, weil Änderungen des Gesetzgebers unmittelbar in die Belehrung übernommen werden müssen. Die Pflicht, die Belehrung spätestens mit der Ware auf einem dauerhaften Datenträger zu übermitteln, ergibt sich aus § 312f Abs. 2 BGB; die Online-Widerrufsfunktion regelt § 356a BGB.`,
       },
       {
         titel: "Wann das Muster allein nicht reicht",
@@ -67,7 +67,7 @@ Die Widerrufsfrist beträgt vierzehn Tage ab dem Tag,
 [Variante D – regelmäßige Lieferung über einen festgelegten Zeitraum (Abo):] an dem Sie oder ein von Ihnen benannter Dritter, der nicht der Beförderer ist, die erste Ware in Besitz genommen haben bzw. hat.
 [Nur die zutreffende Variante stehen lassen, Kennzeichnung „Variante …“ entfernen.]
 
-Um Ihr Widerrufsrecht auszuüben, müssen Sie uns ([Firma / Vorname Nachname], [Straße Hausnummer], [PLZ Ort], Telefon: [Telefonnummer], E-Mail: [E-Mail-Adresse]) mittels einer eindeutigen Erklärung (z. B. ein mit der Post versandter Brief oder E-Mail) über Ihren Entschluss, diesen Vertrag zu widerrufen, informieren. Sie können dafür das beigefügte Muster-Widerrufsformular verwenden, das jedoch nicht vorgeschrieben ist. [Optional: Sie können das Muster-Widerrufsformular oder eine andere eindeutige Erklärung auch auf unserer Webseite [www.domain.de/widerruf] elektronisch ausfüllen und übermitteln. Machen Sie von dieser Möglichkeit Gebrauch, so werden wir Ihnen unverzüglich (z. B. per E-Mail) eine Bestätigung über den Eingang eines solchen Widerrufs übermitteln.]
+Um Ihr Widerrufsrecht auszuüben, müssen Sie uns ([Firma / Vorname Nachname], [Straße Hausnummer], [PLZ Ort], Telefon: [Telefonnummer], E-Mail: [E-Mail-Adresse]) mittels einer eindeutigen Erklärung (z. B. ein mit der Post versandter Brief oder eine E-Mail) über Ihren Entschluss, diesen Vertrag zu widerrufen, informieren. Sie können dafür das beigefügte Muster-Widerrufsformular verwenden, das jedoch nicht vorgeschrieben ist. [Pflicht, wenn der Vertrag über eine Online-Benutzeroberfläche (Shop, App, Marktplatz) geschlossen wird, § 356a BGB:] Sie können Ihr Widerrufsrecht auch online unter [Internetadresse oder anderer geeigneter Hinweis, wo die Widerrufsfunktion verfügbar ist] ausüben. Wenn Sie diese Online-Funktion nutzen, übermitteln wir Ihnen auf einem dauerhaften Datenträger (z. B. durch eine E-Mail) unverzüglich eine Eingangsbestätigung mit Informationen zum Inhalt der Widerrufserklärung sowie dem Datum und der Uhrzeit ihres Eingangs. [Optional: Sie können das Muster-Widerrufsformular oder eine andere eindeutige Erklärung auch auf unserer Webseite [www.domain.de/widerruf] elektronisch ausfüllen und übermitteln. Machen Sie von dieser Möglichkeit Gebrauch, so werden wir Ihnen unverzüglich (z. B. per E-Mail) eine Bestätigung über den Eingang eines solchen Widerrufs übermitteln.]
 
 Zur Wahrung der Widerrufsfrist reicht es aus, dass Sie die Mitteilung über die Ausübung des Widerrufsrechts vor Ablauf der Widerrufsfrist absenden.
 
@@ -75,14 +75,14 @@ Folgen des Widerrufs
 
 Wenn Sie diesen Vertrag widerrufen, haben wir Ihnen alle Zahlungen, die wir von Ihnen erhalten haben, einschließlich der Lieferkosten (mit Ausnahme der zusätzlichen Kosten, die sich daraus ergeben, dass Sie eine andere Art der Lieferung als die von uns angebotene, günstigste Standardlieferung gewählt haben), unverzüglich und spätestens binnen vierzehn Tagen ab dem Tag zurückzuzahlen, an dem die Mitteilung über Ihren Widerruf dieses Vertrags bei uns eingegangen ist. Für diese Rückzahlung verwenden wir dasselbe Zahlungsmittel, das Sie bei der ursprünglichen Transaktion eingesetzt haben, es sei denn, mit Ihnen wurde ausdrücklich etwas anderes vereinbart; in keinem Fall werden Ihnen wegen dieser Rückzahlung Entgelte berechnet.
 
-Wir können die Rückzahlung verweigern, bis wir die Waren wieder zurückerhalten haben oder bis Sie den Nachweis erbracht haben, dass Sie die Waren zurückgesandt haben, je nachdem, welches der frühere Zeitpunkt ist.
+[Nur wenn Sie nicht anbieten, die Waren selbst abzuholen:] Wir können die Rückzahlung verweigern, bis wir die Waren wieder zurückerhalten haben oder bis Sie den Nachweis erbracht haben, dass Sie die Waren zurückgesandt haben, je nachdem, welches der frühere Zeitpunkt ist.
 
 Sie haben die Waren unverzüglich und in jedem Fall spätestens binnen vierzehn Tagen ab dem Tag, an dem Sie uns über den Widerruf dieses Vertrags unterrichten, an uns [oder an: [Name und Anschrift der Rücksendestelle / des Fulfillment-Dienstleisters]] zurückzusenden oder zu übergeben. Die Frist ist gewahrt, wenn Sie die Waren vor Ablauf der Frist von vierzehn Tagen absenden.
 
 [Variante 1 – Kunde trägt die Rücksendekosten:] Sie tragen die unmittelbaren Kosten der Rücksendung der Waren.
 [Variante 2 – Händler trägt die Rücksendekosten:] Wir tragen die Kosten der Rücksendung der Waren.
-[Variante 3 – Ware kann nicht per Paket zurückgesandt werden (Speditionsware):] Sie tragen die unmittelbaren Kosten der Rücksendung der Waren. Die Kosten werden auf höchstens etwa [Betrag] EUR geschätzt.
-[Variante 4 – Abholung durch den Händler bei Speditionsware:] Wir holen die Waren auf unsere Kosten ab.
+[Variante 3 – Ware kann nicht per Paket zurückgesandt werden (Speditionsware):] Sie tragen die unmittelbaren Kosten der Rücksendung der Waren. Die Kosten werden auf höchstens etwa [Betrag] EUR geschätzt. [Bei feststehenden Kosten stattdessen: Sie tragen die unmittelbaren Kosten der Rücksendung der Waren in Höhe von [Betrag] EUR.]
+[Variante 4 – der Händler holt die Waren ab (z. B. Speditionsware):] Wir holen die Waren ab. Wir tragen die Kosten der Rücksendung der Waren. [Bei Variante 4 den Absatz „Sie haben die Waren unverzüglich … zurückzusenden oder zu übergeben …“ und den Satz zur Verweigerung der Rückzahlung streichen.]
 [Nur die zutreffende Variante stehen lassen.]
 
 Sie müssen für einen etwaigen Wertverlust der Waren nur aufkommen, wenn dieser Wertverlust auf einen zur Prüfung der Beschaffenheit, Eigenschaften und Funktionsweise der Waren nicht notwendigen Umgang mit ihnen zurückzuführen ist.
@@ -104,9 +104,10 @@ Ende der Widerrufsbelehrung
 
 
 Hinweis zur Einbindung (nicht Teil der Belehrung):
-1. Die Belehrung im Bestellablauf vor dem Bestellbutton verlinken und zusätzlich in der Bestellbestätigung per E-Mail oder als PDF mitsenden (Textform, Art. 246a § 4 EGBGB).
+1. Die Belehrung im Bestellablauf vor dem Bestellbutton verlinken und zusätzlich in der Bestellbestätigung per E-Mail oder als PDF mitsenden (dauerhafter Datenträger, spätestens bei Lieferung, § 312f Abs. 2 BGB).
 2. Das Muster-Widerrufsformular (Anlage 2 zu Art. 246a EGBGB) als eigenes Dokument beifügen; eine Vorlage dafür ist in der GründerX-Bibliothek enthalten.
 3. Fristvariante, Rücksendekosten und Ausschlüsse auf das eigene Sortiment abstimmen; keine Varianten nebeneinander stehen lassen.
+4. Bei Bestellungen über Shop, App oder Marktplatz die Widerrufsfunktion nach § 356a BGB einrichten (Schaltflächen „Vertrag widerrufen“ und „Widerruf bestätigen“) und den Pflichtsatz zur Online-Funktion mit der richtigen Adresse stehen lassen.
 
 Stand: [Datum]
 [Firma], [Ort]

@@ -137,7 +137,7 @@ Werden in einer späteren Finanzierungsrunde neue Anteile zu einem niedrigeren P
 (3) Jede Partei trägt ihre eigenen Beraterkosten. Die Notar- und Registerkosten der Kapitalerhöhung trägt die Gesellschaft. [Optional: Die Gesellschaft erstattet dem Investor die Kosten seiner rechtlichen Beratung bis zu [Betrag] EUR nach Vollzug.]
 
 § 11 Unverbindlichkeit und nächste Schritte
-(1) Dieses Term Sheet ist, mit Ausnahme von § 10 und § 11, rechtlich unverbindlich. Es begründet keine Verpflichtung zur Beteiligung oder zur Durchführung der Kapitalerhöhung. Rechte und Pflichten entstehen erst durch den notariell beurkundeten Beteiligungsvertrag, die Gesellschaftervereinbarung und die Satzungsänderung (§§ 53, 55 GmbHG).
+(1) Dieses Term Sheet ist, mit Ausnahme von § 10 und § 11, rechtlich unverbindlich. Es begründet keine Verpflichtung zur Beteiligung oder zur Durchführung der Kapitalerhöhung. Rechte und Pflichten entstehen erst durch den notariell beurkundeten Beteiligungsvertrag, die Gesellschaftervereinbarung und die Satzungsänderung (§§ 53, 54, 55 und 57 GmbHG).
 (2) Die Parteien streben folgende Schritte an: Due Diligence des Investors bis [Datum]; Entwurf des Beteiligungsvertrags durch [den Investor / die Gesellschaft] bis [Datum]; Beurkundung bis [Datum]; Eintragung der Kapitalerhöhung und Auszahlung des Investments danach.
 (3) Es gilt das Recht der Bundesrepublik Deutschland. Gerichtsstand ist, soweit gesetzlich zulässig, [Ort]. Änderungen bedürfen der Schriftform. Sollte eine Bestimmung unwirksam sein, bleibt das Term Sheet im Übrigen wirksam.
 

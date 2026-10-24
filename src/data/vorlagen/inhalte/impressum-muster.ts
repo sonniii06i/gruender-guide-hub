@@ -18,7 +18,7 @@ Diese Impressum Vorlage deckt die typischen Rechtsformen ab: Einzelunternehmen u
 - Name und ladungsfähige Anschrift, bei Gesellschaften Firma, Rechtsform und Vertretungsberechtigte
 - Kontakt mit E-Mail und einem zweiten schnellen Weg wie Telefon oder Kontaktformular
 - Handelsregister, Registergericht und Registernummer, bei eGbR das Gesellschaftsregister
-- Umsatzsteuer-Identifikationsnummer oder Wirtschafts-Identifikationsnummer, falls vorhanden
+- Umsatzsteuer-Identifikationsnummer oder Wirtschafts-Identifikationsnummer, falls vorhanden (§ 5 Abs. 1 Nr. 6 DDG)
 - Aufsichtsbehörde bei erlaubnispflichtigen Tätigkeiten
 - Kammer, Berufsbezeichnung und berufsrechtliche Regelungen bei reglementierten Berufen
 - Berufshaftpflichtversicherung nach der DL-InfoV, wenn eine besteht
@@ -92,7 +92,7 @@ E-Mail: [E-Mail-Adresse]
 Umsatzsteuer
 Umsatzsteuer-Identifikationsnummer gemäß § 27a Umsatzsteuergesetz: DE[Nummer]
 [Alternative, wenn keine USt-IdNr. vorhanden: Wirtschafts-Identifikationsnummer gemäß § 139c Abgabenordnung: DE[Nummer]]
-[Hinweis: Die Steuernummer des Finanzamts gehört nicht ins Impressum. Kleinunternehmer ohne USt-IdNr. lassen den Block weg.]
+[Hinweis: Die Steuernummer des Finanzamts gehört nicht ins Impressum. Wer weder USt-IdNr. noch Wirtschafts-Identifikationsnummer hat, lässt den Block weg (§ 5 Abs. 1 Nr. 6 DDG).]
 
 [Block – nur bei zulassungspflichtiger Tätigkeit, z. B. Versicherungsvermittlung, Finanzanlagenvermittlung, Makler nach § 34c GewO, Bewachung, Gaststätte:]
 Zuständige Aufsichtsbehörde
@@ -120,7 +120,7 @@ Verantwortlich für den Inhalt nach § 18 Abs. 2 Medienstaatsvertrag (MStV)
 
 Verbraucherstreitbeilegung
 [Variante 1:] Wir sind nicht bereit und nicht verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen (§ 36 VSBG).
-[Variante 2:] Wir sind bereit, an Streitbeilegungsverfahren vor der folgenden Verbraucherschlichtungsstelle teilzunehmen: Allgemeine Verbraucherschlichtungsstelle des Zentrums für Schlichtung e. V., Straßburger Straße 8, 77694 Kehl, www.verbraucher-schlichter.de.
+[Variante 2:] Wir sind bereit, an Streitbeilegungsverfahren vor der folgenden Verbraucherschlichtungsstelle teilzunehmen: Universalschlichtungsstelle des Bundes, Straßburger Straße 8, 77694 Kehl am Rhein, www.universalschlichtungsstelle.de.
 [Nur eine Variante stehen lassen. Kein Link zur OS-Plattform der EU: Diese wurde am 20.07.2025 eingestellt.]
 
 [Optional – Bildnachweise:]

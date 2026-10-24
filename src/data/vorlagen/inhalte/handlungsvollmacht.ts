@@ -50,7 +50,7 @@ Vierter Fehler: Beim Ausscheiden wird die Urkunde nicht eingezogen und niemand i
       },
       {
         titel: "Wann Handlungsvollmacht nicht ausreicht",
-        text: `Soll der Mitarbeiter Darlehen aufnehmen, Grundstücke belasten, Prozesse führen oder nach außen unbeschränkt auftreten, ist die Prokura das richtige Instrument; sie erfordert die Anmeldung zum Handelsregister durch den Inhaber oder alle Geschäftsführer in notariell beglaubigter Form. Für die Vertretung in Gerichtsverfahren braucht der Mitarbeiter außerdem eine Prozessvollmacht, und vor Land- und Oberlandesgerichten besteht Anwaltszwang.
+        text: `Soll der Mitarbeiter Darlehen aufnehmen, Grundstücke belasten, Prozesse führen oder nach außen unbeschränkt auftreten, ist die Prokura das richtige Instrument; sie erfordert die Anmeldung zum Handelsregister durch den Inhaber bzw. die Geschäftsführer in vertretungsberechtigter Zahl in notariell beglaubigter Form (§ 53 HGB, § 78 GmbHG, § 12 HGB). Für die Vertretung in Gerichtsverfahren braucht der Mitarbeiter außerdem eine Prozessvollmacht, und vor Land- und Oberlandesgerichten besteht Anwaltszwang.
 
 Bankgeschäfte laufen über die Kontovollmacht der Bank, nicht über diese Urkunde. Steuerliche Vertretung gegenüber dem Finanzamt erfolgt über das amtliche Vollmachtsformular, meist durch den Steuerberater. Bei Filialstrukturen mit vielen Bevollmächtigten lohnt eine Vollmachtsordnung, die Stufen und Freigabeprozesse festlegt; dabei hilft ein Anwalt. GründerX liefert die Vorlage als Software und ersetzt keine Rechtsberatung.`,
       },

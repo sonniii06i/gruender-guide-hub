@@ -32,7 +32,7 @@ const inhalt: VorlagenInhalt = {
       },
       {
         titel: "Rechtliche Grundlagen: Leihe nach §§ 598 ff. BGB",
-        text: `Die Leihe ist in den §§ 598 bis 606 BGB geregelt. Nach § 598 BGB verpflichtet sich der Verleiher, dem Entleiher den Gebrauch der Sache unentgeltlich zu gestatten. Der Verleiher haftet nach § 599 BGB nur für Vorsatz und grobe Fahrlässigkeit, muss nach § 600 BGB aber Schäden aus arglistig verschwiegenen Mängeln ersetzen. Die gewöhnlichen Erhaltungskosten trägt nach § 601 Abs. 1 BGB der Entleiher; außergewöhnliche Aufwendungen ersetzt der Verleiher nach § 601 Abs. 2 BGB. Nach § 603 BGB darf der Entleiher die Sache nur vertragsgemäß gebrauchen und ohne Erlaubnis keinem Dritten überlassen. Die Rückgabepflicht steht in § 604 BGB, das Kündigungsrecht des Verleihers bei Eigenbedarf, vertragswidrigem Gebrauch oder Tod des Entleihers in § 605 BGB, die kurze Verjährung von sechs Monaten für Ersatzansprüche in § 606 BGB. Steuerlich ist die unentgeltliche Nutzungsüberlassung an die eigene GmbH keine Einlage. GründerX ist Software und keine Rechts- oder Steuerberatung.`,
+        text: `Die Leihe ist in den §§ 598 bis 606 BGB geregelt. Nach § 598 BGB verpflichtet sich der Verleiher, dem Entleiher den Gebrauch der Sache unentgeltlich zu gestatten. Der Verleiher haftet nach § 599 BGB nur für Vorsatz und grobe Fahrlässigkeit, muss nach § 600 BGB aber Schäden aus arglistig verschwiegenen Mängeln ersetzen. Die gewöhnlichen Erhaltungskosten trägt nach § 601 Abs. 1 BGB der Entleiher; den Ersatz anderer Verwendungen regelt § 601 Abs. 2 BGB nach den Vorschriften über die Geschäftsführung ohne Auftrag. Nach § 603 BGB darf der Entleiher die Sache nur vertragsgemäß gebrauchen und ohne Erlaubnis keinem Dritten überlassen. Die Rückgabepflicht steht in § 604 BGB, das Kündigungsrecht des Verleihers bei Eigenbedarf, vertragswidrigem Gebrauch oder Tod des Entleihers in § 605 BGB, die kurze Verjährung von sechs Monaten für Ersatzansprüche in § 606 BGB. Steuerlich ist die unentgeltliche Nutzungsüberlassung an die eigene GmbH keine Einlage. GründerX ist Software und keine Rechts- oder Steuerberatung.`,
       },
       {
         titel: "Wann die Leihvertrag-Vorlage nicht reicht",
@@ -63,7 +63,7 @@ und
 
 § 3 Dauer der Leihe und Rückforderung
 (1) Die Leihe beginnt am [Datum] und [endet am [Datum] / endet mit Erreichen des Zwecks nach § 2 Abs. 2, spätestens am [Datum] / wird auf unbestimmte Zeit geschlossen und kann von jeder Partei mit einer Frist von [z. B. 4] Wochen zum Monatsende in Textform beendet werden].
-(2) Der Verleiher kann den Leihgegenstand vorzeitig zurückfordern, wenn er ihn infolge eines nicht vorhergesehenen Umstands selbst benötigt, der Entleiher ihn vertragswidrig gebraucht, vernachlässigt oder unbefugt einem Dritten überlässt, oder der Entleiher stirbt bzw. aufgelöst wird (§ 605 BGB). Die Rückforderung erfolgt in Textform mit einer Rückgabefrist von mindestens [z. B. 7] Tagen, soweit nicht Gefahr im Verzug ist.
+(2) Der Verleiher kann den Leihgegenstand vorzeitig zurückfordern, wenn er ihn infolge eines nicht vorhergesehenen Umstands selbst benötigt, der Entleiher ihn vertragswidrig gebraucht, vernachlässigt oder unbefugt einem Dritten überlässt, oder der Entleiher stirbt (§ 605 BGB) bzw. aufgelöst wird. Die Rückforderung erfolgt in Textform mit einer Rückgabefrist von mindestens [z. B. 7] Tagen, soweit nicht Gefahr im Verzug ist.
 (3) Der Entleiher kann den Leihgegenstand jederzeit vorzeitig zurückgeben.
 
 § 4 Pflichten des Entleihers

@@ -31,9 +31,9 @@ export const VORLAGEN_GESELLSCHAFT: Vorlage[] = [
       "§ 12 Schlussbestimmungen",
     ],
     hinweise: [
-      "Seit dem MoPeG (01.01.2024) gilt: Ohne Regelung verteilt sich der Gewinn nach Beteiligungsverhältnis, nicht mehr nach Köpfen. Die Vorlage regelt das ausdrücklich.",
+      "Seit dem MoPeG (01.01.2024) gilt: Ohne Regelung verteilt sich der Gewinn nach den vereinbarten Beteiligungsverhältnissen, hilfsweise nach dem Wert der Beiträge; erst wenn beides fehlt, nach Köpfen (§ 709 Abs. 3 BGB). Die Vorlage regelt das ausdrücklich.",
       "Alle Gesellschafter haften persönlich und unbeschränkt – auch für Fehler des anderen. Wer das nicht will, braucht eine UG oder GmbH.",
-      "Eine Eintragung ins Gesellschaftsregister (eGbR) ist freiwillig, aber Pflicht, wenn die GbR Grundstücke, GmbH-Anteile oder Marken halten soll.",
+      "Eine Eintragung ins Gesellschaftsregister (eGbR) ist freiwillig, aber Voraussetzung, wenn die GbR Grundstücke erwerben oder in eine GmbH-Gesellschafterliste eingetragen werden soll.",
       "Gewerbliche GbRs melden jeden Gesellschafter beim Gewerbeamt an; die GbR selbst bekommt eine Steuernummer und gibt eine Feststellungserklärung ab.",
     ],
     faqs: [
@@ -43,7 +43,7 @@ export const VORLAGEN_GESELLSCHAFT: Vorlage[] = [
       },
       {
         q: "Was ist der Unterschied zwischen GbR und eGbR?",
-        a: "Die eGbR ist dieselbe Gesellschaft, nur im Gesellschaftsregister eingetragen. Vorteil: Sie kann als solche Grundstücke, Anteile und Marken halten und wirkt nach außen verlässlicher. Nachteil: Notar- und Registerkosten und Transparenzregister-Pflicht.",
+        a: "Die eGbR ist dieselbe Gesellschaft, nur im Gesellschaftsregister eingetragen. Vorteil: Sie kann Grundstücke erwerben und GmbH-Anteile halten und wirkt nach außen verlässlicher. Nachteil: Notar- und Registerkosten und Transparenzregister-Pflicht.",
       },
       {
         q: "Muss der GbR-Vertrag notariell beurkundet werden?",
@@ -315,10 +315,10 @@ export const VORLAGEN_GESELLSCHAFT: Vorlage[] = [
       "Unterschriften aller Gesellschafter",
     ],
     hinweise: [
-      "Ein Umlaufbeschluss ist nur wirksam, wenn alle Gesellschafter mit der schriftlichen Abstimmung einverstanden sind oder dem Beschluss selbst in Textform zustimmen (§ 48 Abs. 2 GmbHG). Fehlt eine Unterschrift und widerspricht der Gesellschafter, ist der Beschluss anfechtbar.",
+      "Ein Umlaufbeschluss ist nur wirksam, wenn alle Gesellschafter mit der Stimmabgabe in Textform einverstanden sind oder dem Beschluss selbst in Textform zustimmen (§ 48 Abs. 2 GmbHG). Fehlt eine Unterschrift und widerspricht der Gesellschafter, ist der Beschluss anfechtbar.",
       "Der Jahresabschluss muss innerhalb von acht Monaten nach Ende des Geschäftsjahres festgestellt werden, bei kleinen Gesellschaften innerhalb von elf Monaten (§ 42a Abs. 2 GmbHG). Die Offenlegung beim Unternehmensregister läuft unabhängig davon spätestens zwölf Monate nach Bilanzstichtag.",
       "Eine UG darf nur ausschütten, was nach Einstellung von 25 % des Jahresüberschusses in die gesetzliche Rücklage bleibt (§ 5a Abs. 3 GmbHG). Der Ausschüttungsbeschluss muss das ausweisen.",
-      "Die Bestellung eines Geschäftsführers muss vom neuen Geschäftsführer zum Handelsregister angemeldet werden; dafür braucht er eine notariell beglaubigte Anmeldung und muss versichern, dass keine Bestellungshindernisse nach § 6 Abs. 2 GmbHG vorliegen.",
+      "Die Bestellung eines Geschäftsführers muss vom neuen Geschäftsführer zum Handelsregister angemeldet werden; dafür braucht er eine notariell beglaubigte Anmeldung und muss versichern, dass keine Bestellungshindernisse nach § 6 Abs. 2 Satz 2 Nr. 2 und 3 sowie Satz 3 GmbHG vorliegen (§ 39 Abs. 3 GmbHG).",
       "Gesellschafter-Geschäftsführer dürfen bei der eigenen Entlastung nicht mitstimmen (§ 47 Abs. 4 GmbHG).",
     ],
     faqs: [
@@ -389,7 +389,7 @@ export const VORLAGEN_GESELLSCHAFT: Vorlage[] = [
       },
       {
         q: "Darf die Versammlung per Video stattfinden?",
-        a: "Ja, seit 2023 ausdrücklich: Versammlungen können per Video- oder Telefonkonferenz abgehalten werden, wenn alle Gesellschafter in Textform einverstanden sind oder die Satzung das erlaubt (§ 48 Abs. 1 Satz 2 GmbHG). Die Vorlage fragt die Zustimmung in der Einladung ab.",
+        a: "Ja, seit dem 1. August 2022 ausdrücklich: Versammlungen können per Video- oder Telefonkonferenz abgehalten werden, wenn alle Gesellschafter in Textform einverstanden sind oder die Satzung das erlaubt (§ 48 Abs. 1 Satz 2 GmbHG). Die Vorlage fragt die Zustimmung in der Einladung ab.",
       },
     ],
     seo: {
@@ -539,10 +539,10 @@ export const VORLAGEN_GESELLSCHAFT: Vorlage[] = [
     ],
     hinweise: [
       "In der Insolvenz der Gesellschaft sind Gesellschafterdarlehen kraft Gesetzes nachrangig (§ 39 Abs. 1 Nr. 5 InsO), unabhängig von Verträgen. Rückzahlungen im letzten Jahr vor dem Insolvenzantrag kann der Verwalter anfechten (§ 135 InsO). Ausnahmen gelten für Gesellschafter mit höchstens 10 % Beteiligung ohne Geschäftsführung und für Sanierungsfälle (§ 39 Abs. 4 und 5 InsO).",
-      "Der Zins muss fremdüblich sein, sonst droht eine verdeckte Gewinnausschüttung (zu hoch) oder eine verdeckte Einlage (zinslos oder zu niedrig). Orientiere dich an dem, was die Gesellschaft bei einer Bank zahlen würde, und dokumentiere die Herleitung.",
+      "Der Zins muss fremdüblich sein: Ein zu hoher Zins ist im übersteigenden Teil verdeckte Gewinnausschüttung. Ein zinsloses oder zu billiges Darlehen ist zwar keine verdeckte Einlage, weil Nutzungsvorteile nicht einlagefähig sind, sollte aber ebenso begründet sein. Orientiere dich an dem, was die Gesellschaft bei einer Bank zahlen würde, und dokumentiere die Herleitung.",
       "Ein qualifizierter Rangrücktritt verhindert, dass das Darlehen in der Überschuldungsprüfung als Verbindlichkeit zählt (§ 19 Abs. 2 Satz 2 InsO). Das kann die Insolvenzantragspflicht abwenden, macht aber die Rückzahlung nur außerhalb der Krise möglich. Nicht leichtfertig unterschreiben.",
-      "Die Zinsen sind beim Gesellschafter mit mindestens 10 % Beteiligung keine Kapitalerträge mit Abgeltungsteuer, sondern unterliegen dem persönlichen Steuersatz (§ 32d Abs. 2 Nr. 1 Buchst. b EStG). Die Gesellschaft behält trotzdem Kapitalertragsteuer ein, die dann angerechnet wird.",
-      "Ein Darlehen, das bei Gründung oder in der Krise zwingend gegeben werden musste, kann als verdecktes Stammkapital gewertet werden. Bei einer UG ist das Darlehen kein Ersatz für die Kapitalerhöhung auf 25.000 EUR.",
+      "Die Zinsen sind beim Gesellschafter mit mindestens 10 % Beteiligung keine Kapitalerträge mit Abgeltungsteuer, sondern unterliegen dem persönlichen Steuersatz (§ 32d Abs. 2 Nr. 1 Buchst. b EStG). Kapitalertragsteuer behält die Gesellschaft auf solche unverbrieften Darlehenszinsen nicht ein (§ 43 Abs. 1 Satz 1 Nr. 7 EStG); der Gesellschafter erklärt die Zinsen selbst.",
+      "Ein Darlehen bleibt Fremdkapital: Das frühere Eigenkapitalersatzrecht ist seit 2008 abgeschafft, an seine Stelle tritt der Nachrang in der Insolvenz. Bei einer UG ist das Darlehen kein Ersatz für die Kapitalerhöhung auf 25.000 EUR.",
     ],
     faqs: [
       {
@@ -600,7 +600,7 @@ export const VORLAGEN_GESELLSCHAFT: Vorlage[] = [
       "Discount und Cap wirken zusammen: Der Investor erhält den für ihn günstigeren Preis. Bei einem Cap deutlich unter der späteren Bewertung verwässern die Gründer stärker als gedacht; rechne vor Unterschrift die Beispielszenarien durch.",
       "Ohne Rangrücktritt zählt das Darlehen bei der Überschuldungsprüfung als Verbindlichkeit und kann eine Insolvenzantragspflicht auslösen. Investoren akzeptieren den qualifizierten Rangrücktritt in der Regel, weil die Wandlung ihr eigentliches Ziel ist.",
       "Der INVEST-Zuschuss des BAFA kann auch für Wandeldarlehen beantragt werden, wenn die Förderbedingungen eingehalten werden. Bedingungen vor Vertragsschluss prüfen, nicht danach.",
-      "Zinsen, die in Anteile gewandelt werden, sind beim Investor trotzdem Kapitalertrag; die Gesellschaft muss Kapitalertragsteuer einbehalten oder der Investor versteuert sie selbst. Die Vorlage sieht deshalb wahlweise Barzahlung der Zinsen vor.",
+      "Zinsen, die in Anteile gewandelt werden, sind beim Investor trotzdem Kapitalertrag. Ein Kapitalertragsteuerabzug ist beim unverbrieften Wandeldarlehen nach dem Gesetzeswortlaut in der Regel nicht vorgesehen (§ 43 Abs. 1 Satz 1 Nr. 2 EStG erfasst Wandelanleihen als Teilschuldverschreibungen); dann versteuert der Investor die Zinsen selbst. Mit dem Steuerberater klären. Die Vorlage sieht deshalb wahlweise Barzahlung der Zinsen vor.",
     ],
     faqs: [
       {
@@ -712,7 +712,7 @@ export const VORLAGEN_GESELLSCHAFT: Vorlage[] = [
       "§ 10 Inkrafttreten und Änderungen",
     ],
     hinweise: [
-      "Eine Ressortaufteilung entlastet nur, wenn sie schriftlich, klar und von allen Geschäftsführern vereinbart ist und die Beteiligten fachlich geeignet sind. Das hat der Bundesgerichtshof 2018 ausdrücklich verlangt. Mündliche Absprachen helfen im Haftungsfall nicht.",
+      "Eine Ressortaufteilung entlastet nur, wenn sie klar und eindeutig ist, von allen Geschäftsführern mitgetragen wird und die Beteiligten fachlich geeignet sind (BGH, Urteil vom 6.11.2018, II ZR 11/17). Schriftform verlangt der BGH nicht zwingend, aber ohne schriftliche Fassung ist die Aufteilung im Haftungsfall kaum zu beweisen.",
       "Auch bei Ressortverteilung bleibt jeder Geschäftsführer für die Gesamtgesellschaft verantwortlich: Er muss die Kollegen überwachen und bei Anzeichen für Probleme eingreifen. Pflichten wie Insolvenzantrag (§ 15a InsO), Steuern und Sozialabgaben lassen sich nicht delegieren.",
       "Die Geschäftsordnung bindet nur im Innenverhältnis. Nach außen bleibt die Vertretungsmacht so, wie sie im Handelsregister steht (§ 37 Abs. 2 GmbHG). Ein Verstoß macht das Geschäft nicht unwirksam, löst aber Haftung des Geschäftsführers aus.",
       "Die Geschäftsordnung sollte von der Gesellschafterversammlung beschlossen werden, nicht nur von den Geschäftsführern selbst. Nur dann kann sie Zustimmungsvorbehalte wirksam vorgeben (§ 37 Abs. 1 GmbHG), und Änderungen durch die Geschäftsführer sind ausgeschlossen.",

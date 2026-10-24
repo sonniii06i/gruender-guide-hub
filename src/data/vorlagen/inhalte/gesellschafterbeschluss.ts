@@ -45,7 +45,7 @@ Fehler vier: Die Ausschüttung wird beschlossen, ohne die Kapitalertragsteuer ei
       },
       {
         titel: "Rechtliche Grundlagen: § 48 GmbHG und die Jahresbeschlüsse",
-        text: `Gesellschafterbeschlüsse werden grundsätzlich in Versammlungen gefasst (§ 48 Abs. 1 GmbHG). Die schriftliche Abstimmung ist nach § 48 Abs. 2 GmbHG zulässig, wenn alle Gesellschafter in Textform mit der Beschlussfassung einverstanden sind oder dem schriftlichen Verfahren zustimmen. Seit der Reform 2023 reicht Textform, also auch eine E-Mail mit eingescannter Unterschrift, sofern die Satzung nichts Strengeres verlangt.
+        text: `Gesellschafterbeschlüsse werden grundsätzlich in Versammlungen gefasst (§ 48 Abs. 1 GmbHG). Die schriftliche Abstimmung ist nach § 48 Abs. 2 GmbHG zulässig, wenn alle Gesellschafter in Textform mit der Beschlussfassung einverstanden sind oder dem schriftlichen Verfahren zustimmen. Seit dem 1. Januar 2025 genügt auch für die Stimmabgabe die Textform, also auch eine E-Mail mit eingescannter Unterschrift, sofern die Satzung nichts Strengeres verlangt.
 
 Die Jahresbeschlüsse folgen aus § 46 Nr. 1 GmbHG (Feststellung des Jahresabschlusses, Ergebnisverwendung) und § 46 Nr. 5 GmbHG (Bestellung, Abberufung und Entlastung der Geschäftsführer). Die Frist für die Feststellung ergibt sich aus § 42a Abs. 2 GmbHG: acht Monate, bei kleinen Gesellschaften elf Monate nach Bilanzstichtag. Die Rücklagenpflicht der UG steht in § 5a Abs. 3 GmbHG, das Stimmverbot bei Entlastung in § 47 Abs. 4 GmbHG.
 

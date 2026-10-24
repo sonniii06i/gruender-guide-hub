@@ -123,7 +123,7 @@ und
 
 § 9 Geheimhaltung, Unterlagen, Datenschutz
 (1) Der Handelsvertreter hat Geschäfts- und Betriebsgeheimnisse des Unternehmers, insbesondere Kundenlisten, Konditionen, Kalkulationen und Produktentwicklungen, auch nach Vertragsende geheim zu halten (§ 90 HGB).
-(2) Nach Vertragsende gibt er alle Unterlagen, Muster, Zugänge und Daten des Unternehmers unverzüglich zurück bzw. löscht sie und bestätigt dies in Textform; ein Zurückbehaltungsrecht besteht nur wegen fälliger, unbestrittener Provisionsforderungen an den Unterlagen, die der Unternehmer ihm zur Verfügung gestellt hat (§ 88a HGB).
+(2) Nach Vertragsende gibt er alle Unterlagen, Muster, Zugänge und Daten des Unternehmers unverzüglich zurück bzw. löscht sie und bestätigt dies in Textform; ein Zurückbehaltungsrecht an den Unterlagen, die der Unternehmer ihm zur Verfügung gestellt hat, besteht nur wegen fälliger Ansprüche auf Provision und Aufwendungsersatz (§ 88a Abs. 2 HGB).
 (3) Kundendaten verarbeitet der Handelsvertreter nur im Rahmen dieses Vertrags und nach den Vorgaben der DSGVO. Die Parteien legen in Anlage 3 fest, ob der Handelsvertreter als eigener Verantwortlicher oder als Auftragsverarbeiter handelt, und schließen bei Bedarf einen Vertrag nach Art. 28 DSGVO.
 
 § 10 Laufzeit und Kündigung

@@ -47,7 +47,7 @@ Die allgemeine Vertretungsregel liefert § 164 BGB, die Erteilung der Vollmacht 
       },
       {
         titel: "Wann die Vorlage nicht ausreicht",
-        text: `Für Beschlüsse, die notariell beurkundet werden müssen, insbesondere Satzungsänderungen, Kapitalerhöhungen und Umwandlungen, verlangt der Notar in der Regel eine notariell beglaubigte Vollmacht; die Textform-Vollmacht aus dieser Vorlage genügt dort nicht. Gleiches gilt, wenn der Vertreter im Anschluss Handelsregisteranmeldungen unterschreiben soll. Bei Aktiengesellschaften gelten eigene Regeln für die Hauptversammlung, die diese Vorlage nicht abbildet.
+        text: `Für Beschlüsse, die notariell beurkundet werden müssen, insbesondere Satzungsänderungen, Kapitalerhöhungen und Umwandlungen, verlangen viele Notare eine notariell beglaubigte Vollmacht, etwa wegen der beglaubigten Übernahmeerklärung bei der Kapitalerhöhung (§ 55 Abs. 1 GmbHG); kläre deshalb vorab mit dem Notar, ob die Textform-Vollmacht aus dieser Vorlage genügt. Gleiches gilt, wenn der Vertreter im Anschluss Handelsregisteranmeldungen unterschreiben soll. Bei Aktiengesellschaften gelten eigene Regeln für die Hauptversammlung, die diese Vorlage nicht abbildet.
 
 Steht ein Gesellschafterstreit im Raum, etwa eine Abberufung oder Einziehung gegen deinen Willen, solltest du nicht nur eine Vollmacht schicken, sondern vorher mit einem Anwalt die Anfechtungsfristen und die Protokollierung des Widerspruchs klären. GründerX stellt dir das Muster als Software zur Verfügung, ersetzt aber keine Rechtsberatung im Einzelfall.`,
       },

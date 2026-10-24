@@ -49,7 +49,7 @@ Viertens: fehlende interne Umsetzung. Wenn die vertraulichen Dateien bei dir in 
         titel: "Rechtsgrundlagen: GeschGehG, Vertragsstrafe und Formfragen",
         text: `Das Geschäftsgeheimnisgesetz von 2019 setzt die EU-Richtlinie 2016/943 um. Nach § 2 Nr. 1 GeschGehG ist ein Geschäftsgeheimnis nur geschützt, wenn der Inhaber angemessene Geheimhaltungsmaßnahmen getroffen hat. Für beide Parteien einer gegenseitigen NDA gilt deshalb: Die Vereinbarung schützt nicht nur gegen den Partner, sie ist auch der Nachweis gegenüber Dritten, dass du dein Know-how ernsthaft sicherst.
 
-§ 3 Abs. 1 Nr. 2 GeschGehG erlaubt das Reverse Engineering, soweit es nicht vertraglich ausgeschlossen ist; die Vorlage schließt es in § 2 Abs. 4 aus. § 5 GeschGehG enthält Ausnahmen für Hinweisgeber und Presse, die kein Vertrag aushebeln kann; § 3 der Vorlage lässt sie ausdrücklich unberührt. Die Ansprüche bei Verletzung stehen in den §§ 6 bis 8 GeschGehG: Unterlassung, Vernichtung, Rückruf, Auskunft und Schadensersatz.
+§ 3 Abs. 1 Nr. 2 GeschGehG erlaubt das Reverse Engineering, soweit es nicht vertraglich ausgeschlossen ist; die Vorlage schließt es in § 2 Abs. 4 aus. § 5 GeschGehG enthält Ausnahmen für Hinweisgeber und Presse, die kein Vertrag aushebeln kann; § 3 der Vorlage lässt sie ausdrücklich unberührt. Die Ansprüche bei Verletzung stehen in den §§ 6 bis 10 GeschGehG: Unterlassung, Vernichtung, Rückruf, Auskunft und Schadensersatz.
 
 Die Vertragsstrafe richtet sich nach §§ 339 ff. BGB; die Ermessensvariante nach § 315 BGB ist gerichtlich überprüfbar und daher weniger angreifbar.`,
       },

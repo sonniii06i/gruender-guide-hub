@@ -40,7 +40,7 @@ Der dritte Fehler betrifft Privatkunden: Wer einem Verbraucher gegen Zinsen län
       },
       {
         titel: "Rechtliche Grundlagen: Anerkenntnis, Verjährung, Verzug, Stundungszinsen",
-        text: `Das Anerkenntnis in § 1 lässt die Verjährung neu beginnen (§ 212 Abs. 1 Nr. 1 BGB); für Rechnungen bedeutet das wieder drei volle Jahre ab Jahresende (§§ 195, 199 BGB). Die Stundung schiebt die Fälligkeit hinaus, ändert aber nichts an der Forderung; das stellt § 6 Abs. 3 klar, damit keine Schuldersetzung angenommen wird und Sicherheiten erhalten bleiben. Gerät der Schuldner mit einer kalendermäßig bestimmten Rate in Rückstand, tritt Verzug ohne Mahnung ein (§ 286 Abs. 2 Nr. 1 BGB).
+        text: `Das Anerkenntnis in § 1 lässt die Verjährung neu beginnen (§ 212 Abs. 1 Nr. 1 BGB); für Rechnungen bedeutet das wieder drei volle Jahre (§ 195 BGB), gerechnet ab dem Tag nach dem Anerkenntnis und nicht erst ab Jahresende. Die Stundung schiebt die Fälligkeit hinaus, ändert aber nichts an der Forderung; das stellt § 6 Abs. 3 klar, damit keine Schuldersetzung angenommen wird und Sicherheiten erhalten bleiben. Gerät der Schuldner mit einer kalendermäßig bestimmten Rate in Rückstand, tritt Verzug ohne Mahnung ein (§ 286 Abs. 2 Nr. 1 BGB).
 
 Die Verzugszinsen betragen fünf Prozentpunkte über dem Basiszinssatz, bei Entgeltforderungen zwischen Unternehmern neun Prozentpunkte (§ 288 Abs. 1 und 2 BGB), dazu kommt zwischen Unternehmern die Pauschale von 40 EUR (§ 288 Abs. 5 BGB). Für die Höhe der Stundungszinsen gibt es keine gesetzliche Vorgabe; als Anhaltspunkt: Das Finanzamt verlangt bei einer Steuerstundung 0,5 % pro Monat (§§ 234, 238 AO). Wer deutlich mehr nimmt, riskiert die Einordnung als Wucher.`,
       },

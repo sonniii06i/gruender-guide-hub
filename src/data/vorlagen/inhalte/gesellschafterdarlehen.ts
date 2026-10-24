@@ -46,11 +46,11 @@ Erst unterschreiben, dann überweisen, nie umgekehrt. Die Vorlage gibt es als Wo
       },
       {
         titel: "Typische Fehler beim Gesellschafterdarlehen",
-        text: `Fehler eins: Geld überweisen und den Vertrag Monate später nachreichen. Ohne vorherige Vereinbarung ist die Rückzahlung angreifbar und die Zinsen sind steuerlich nicht anerkannt. Fehler zwei: zinslos oder zu billig. Dann liegt eine verdeckte Einlage nahe, und der Vorteil kann bei der Gesellschaft hinterfragt werden. Zu teuer ist ebenso schädlich, weil der überhöhte Teil als verdeckte Gewinnausschüttung gilt.
+        text: `Fehler eins: Geld überweisen und den Vertrag Monate später nachreichen. Ohne vorherige Vereinbarung ist die Rückzahlung angreifbar und die Zinsen sind steuerlich nicht anerkannt. Fehler zwei: zinslos oder zu billig, ohne Begründung. Eine verdeckte Einlage ist das zwar nicht, weil Nutzungsvorteile nicht einlagefähig sind, aber der Fremdvergleich wird angreifbar. Zu teuer ist schädlich, weil der überhöhte Teil als verdeckte Gewinnausschüttung gilt.
 
 Fehler drei: Rangrücktritt unterschreiben, ohne die Folgen zu kennen. Mit qualifiziertem Rangrücktritt darfst du dein Geld nur zurückholen, wenn die Gesellschaft es aus freiem Vermögen zahlen kann; in der Krise ist es faktisch gebunden. Fehler vier: Rückzahlung kurz vor der Insolvenz. Der Insolvenzverwalter fordert nach § 135 InsO jede Rückzahlung des letzten Jahres zurück, auch wenn der Vertrag sie erlaubt hat.
 
-Fehler fünf: Kapitalertragsteuer vergessen. Die Gesellschaft muss auf die Zinsen Kapitalertragsteuer einbehalten und anmelden; beim Gesellschafter mit mindestens zehn Prozent Beteiligung gilt dann der persönliche Steuersatz statt der Abgeltungsteuer. Fehler sechs: Darlehen statt Kapitalerhöhung bei der UG. Ein Darlehen stärkt das Eigenkapital nicht und ersetzt nicht die Erhöhung auf 25.000 EUR, mit der die Rücklagenpflicht endet.`,
+Fehler fünf: die Zinsen nicht erklären. Auf Zinsen aus einem unverbrieften Gesellschafterdarlehen behält die Gesellschaft keine Kapitalertragsteuer ein (§ 43 Abs. 1 Satz 1 Nr. 7 EStG); der Gesellschafter muss sie selbst versteuern, ab zehn Prozent Beteiligung mit dem persönlichen Steuersatz statt der Abgeltungsteuer. Fehler sechs: Darlehen statt Kapitalerhöhung bei der UG. Ein Darlehen stärkt das Eigenkapital nicht und ersetzt nicht die Erhöhung auf 25.000 EUR, mit der die Rücklagenpflicht endet.`,
       },
       {
         titel: "Rechtliche Grundlagen: InsO, GmbHG und Steuerrecht",
@@ -58,14 +58,14 @@ Fehler fünf: Kapitalertragsteuer vergessen. Die Gesellschaft muss auf die Zinse
 
 Der qualifizierte Rangrücktritt stützt sich auf § 19 Abs. 2 Satz 2 InsO: Forderungen mit Rangrücktritt bleiben bei der Überschuldungsprüfung außer Ansatz. Welche Formulierung dafür ausreicht, hat der Bundesgerichtshof präzisiert; die Vorlage verwendet die anerkannte Form mit Rücktritt hinter alle Gläubiger und Zahlung nur aus freiem Vermögen. Gesellschaftsrechtlich gilt daneben die Kapitalerhaltung nach § 30 GmbHG: Rückzahlungen dürfen das Stammkapital nicht angreifen.
 
-Steuerlich prüft das Finanzamt den Fremdvergleich. Zinsen beim Gesellschafter mit mindestens zehn Prozent Beteiligung fallen nach § 32d Abs. 2 Nr. 1 Buchst. b EStG unter den persönlichen Steuersatz. Die Gesellschaft hat Kapitalertragsteuer einzubehalten. Bei Verzicht auf das Darlehen in der Krise ist der werthaltige Teil eine Einlage, der nicht werthaltige Teil ein steuerpflichtiger Ertrag der Gesellschaft, was häufig übersehen wird.`,
+Steuerlich prüft das Finanzamt den Fremdvergleich. Zinsen beim Gesellschafter mit mindestens zehn Prozent Beteiligung fallen nach § 32d Abs. 2 Nr. 1 Buchst. b EStG unter den persönlichen Steuersatz. Einen Kapitalertragsteuerabzug durch die Gesellschaft sieht § 43 Abs. 1 Satz 1 Nr. 7 EStG für solche Darlehen nicht vor. Bei Verzicht auf das Darlehen in der Krise ist der werthaltige Teil eine Einlage, der nicht werthaltige Teil ein steuerpflichtiger Ertrag der Gesellschaft, was häufig übersehen wird.`,
       },
       {
         titel: "Wann die Vorlage nicht ausreicht",
         text: `Für den Normalfall, also ein Gründer leiht seiner UG oder GmbH einen fünfstelligen Betrag zu marktüblichen Konditionen, reicht das Muster. Hol dir Beratung, wenn
 
 - die Gesellschaft bereits in der Krise ist oder die Hälfte des Stammkapitals verloren hat; dann geht es um Insolvenzantragspflicht, und der Rangrücktritt muss mit Steuerberater oder Anwalt abgestimmt werden,
-- der Betrag im Verhältnis zum Stammkapital sehr hoch ist und das Finanzamt verdecktes Stammkapital vermuten könnte,
+- der Betrag im Verhältnis zum Stammkapital sehr hoch ist und das Finanzamt Fremdüblichkeit und Ernsthaftigkeit besonders genau prüfen dürfte,
 - mehrere Gesellschafter in unterschiedlicher Höhe Darlehen geben und die Gleichbehandlung geregelt werden muss,
 - das Darlehen aus dem Ausland kommt oder in Fremdwährung läuft,
 - eine spätere Umwandlung in Eigenkapital geplant ist; dann ist ein Wandeldarlehen das richtige Instrument,
@@ -111,7 +111,7 @@ Das Darlehen dient [der Finanzierung des laufenden Geschäftsbetriebs / der Ansc
 (3) Kündigungen bedürfen der Schriftform.
 
 § 6 Sicherheiten
-Das Darlehen wird [ohne Sicherheiten gewährt / durch [Sicherungsübereignung von [Gegenstand] / Abtretung der Forderungen gegen [Kunde]] besichert; die Sicherheitenbestellung erfolgt in gesonderter Urkunde]. Dem Darlehensgeber ist bekannt, dass Sicherheiten für Gesellschafterdarlehen, die im letzten Jahr vor einem Insolvenzantrag bestellt wurden, anfechtbar sein können (§ 135 Abs. 1 Nr. 1 InsO: zehn Jahre).
+Das Darlehen wird [ohne Sicherheiten gewährt / durch [Sicherungsübereignung von [Gegenstand] / Abtretung der Forderungen gegen [Kunde]] besichert; die Sicherheitenbestellung erfolgt in gesonderter Urkunde]. Dem Darlehensgeber ist bekannt, dass Sicherheiten für Gesellschafterdarlehen, die in den letzten zehn Jahren vor einem Insolvenzantrag bestellt wurden, anfechtbar sein können (§ 135 Abs. 1 Nr. 1 InsO).
 
 § 7 Rangrücktritt (Option, Zutreffendes ankreuzen)
 [ ] Es wird kein Rangrücktritt vereinbart.

@@ -27,8 +27,8 @@ import NotFound from "./NotFound";
 
 const SITE = "https://gruenderx.de";
 
-/** Wie viel vom Text vor der Freigabe sichtbar ist (Zeichen). */
-const VORSCHAU_ZEICHEN = 1400;
+/** Sichtbare Höhe des Musters vor der Freigabe (Tailwind-Klasse). */
+const VORSCHAU_HOEHE = "max-h-[28rem]";
 
 export default function VorlageDetail() {
   const { slug = "" } = useParams();
@@ -92,12 +92,10 @@ function VorlageSeite({ vorlage }: { vorlage: (typeof VORLAGE_BY_SLUG)[string] }
     [vorlage],
   );
 
-  const vorschau = useMemo(() => {
-    if (offen) return text;
-    const schnitt = text.slice(0, VORSCHAU_ZEICHEN);
-    const letzteZeile = schnitt.lastIndexOf("\n");
-    return letzteZeile > 400 ? schnitt.slice(0, letzteZeile) : schnitt;
-  }, [offen, text]);
+  // Der volle Mustertext steht im DOM (Suchmaschinen sehen das ganze Muster,
+  // wie bei sevdesk/Lexware). Vor der Freigabe ist der Kasten auf VORSCHAU_HOEHE
+  // gekappt, nicht scrollbar und nicht markierbar – der Download bleibt das Tor.
+  const vorschau = text;
 
   const standLesbar = useMemo(() => {
     const [j, m] = vorlage.stand.split("-");
@@ -231,7 +229,12 @@ function VorlageSeite({ vorlage }: { vorlage: (typeof VORLAGE_BY_SLUG)[string] }
             <div className="min-w-0">
               <h2 className="mb-4 text-xl font-semibold text-foreground">Vorschau: {vorlage.titel} als Muster</h2>
               <div className="relative overflow-hidden rounded-2xl border border-border bg-card shadow-soft">
-                <pre className="max-h-[70vh] overflow-auto whitespace-pre-wrap break-words p-6 font-sans text-[14px] leading-relaxed text-foreground/90 sm:p-8">
+                <pre
+                  className={`whitespace-pre-wrap break-words p-6 font-sans text-[14px] leading-relaxed text-foreground/90 sm:p-8 ${
+                    offen ? "max-h-[70vh] overflow-auto" : `${VORSCHAU_HOEHE} select-none overflow-hidden`
+                  }`}
+                  aria-label={offen ? undefined : `Vorschau: ${vorlage.titel}`}
+                >
                   {inhalt ? vorschau : "Vorlage wird geladen …"}
                 </pre>
                 {!offen && (

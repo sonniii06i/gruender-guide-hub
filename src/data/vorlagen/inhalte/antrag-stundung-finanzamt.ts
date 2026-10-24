@@ -35,7 +35,7 @@ Fülle die fünf Zahlen zur wirtschaftlichen Lage mit Werten vom Stichtag; sie m
       },
       {
         titel: "Typische Fehler beim Stundungsantrag und wie du sie vermeidest",
-        text: `Der häufigste Fehler ist der zu späte Antrag. Säumniszuschläge entstehen ab dem Tag nach der Fälligkeit, auch wenn die Stundung später bewilligt wird; stell den Antrag deshalb Wochen, nicht Tage vorher. Zweiter Fehler: Lohnsteuer oder einbehaltene Kapitalertragsteuer werden mit beantragt. Diese Abzugsbeträge sind von der Stundung ausgeschlossen, weil du sie nur treuhänderisch für andere einbehältst; der Antrag wird insoweit abgelehnt und kostet Glaubwürdigkeit.
+        text: `Der häufigste Fehler ist der zu späte Antrag. Nur ein vor Fälligkeit gestellter und dann bewilligter Antrag wirkt nach der Verwaltungspraxis in der Regel auf den Fälligkeitstag zurück; bei verspätetem Antrag entstehen Säumniszuschläge ab dem Tag nach der Fälligkeit. Stell den Antrag deshalb Wochen, nicht Tage vorher. Zweiter Fehler: Lohnsteuer oder einbehaltene Kapitalertragsteuer werden mit beantragt. Diese Abzugsbeträge sind von der Stundung ausgeschlossen, weil du sie nur treuhänderisch für andere einbehältst; der Antrag wird insoweit abgelehnt und kostet Glaubwürdigkeit.
 
 Dritter Fehler: Die Begründung besteht aus allgemeinen Formulierungen wie „schwierige Marktlage“ ohne Zahlen. Vierter Fehler: Der Ratenplan ist zu ehrgeizig, die zweite Rate platzt, und die Stundung wird widerrufen; dann ist der gesamte Restbetrag sofort fällig. Fünfter Fehler: Du verschweigst weitere Rückstände oder eine ungenutzte Kreditlinie. Das Finanzamt kennt deine Steuerkonten ohnehin und fragt nach Kreditmöglichkeiten; wer unvollständig antwortet, verspielt den Ermessensspielraum.`,
       },

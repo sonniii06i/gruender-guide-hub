@@ -30,7 +30,7 @@ Die Aufstellung muss stimmen, denn die Beträge übernimmst du später in den Ma
       },
       {
         titel: "Mahnung Muster ausfüllen: Zinsen richtig berechnen",
-        text: `Trage zuerst den Verzugsbeginn ein: der Tag nach dem Zahlungsziel der Rechnung oder der Tag nach Zugang der Zahlungserinnerung. Ermittle dann den aktuellen Basiszinssatz; die Bundesbank veröffentlicht ihn zum 1. Januar und 1. Juli. Rechne die Verzugszinsen nach der Formel: offener Betrag mal Zinssatz mal Verzugstage geteilt durch 365. Bei einer B2B-Forderung ist der Zinssatz Basiszins plus neun Prozentpunkte, gegenüber Verbrauchern plus fünf. Ändert sich der Basiszins im Verzugszeitraum, rechnest du zwei Abschnitte. Trage den Tagesbetrag ein, damit der Schuldner sieht, dass Warten teurer wird.
+        text: `Trage zuerst den Verzugsbeginn ein: der Tag nach einem vertraglich vereinbarten Zahlungstermin oder der Tag nach Zugang der Zahlungserinnerung. Ermittle dann den aktuellen Basiszinssatz; die Bundesbank veröffentlicht ihn zum 1. Januar und 1. Juli. Rechne die Verzugszinsen nach der Formel: offener Betrag mal Zinssatz mal Verzugstage geteilt durch 365. Bei einer B2B-Forderung ist der Zinssatz Basiszins plus neun Prozentpunkte, gegenüber Verbrauchern plus fünf. Ändert sich der Basiszins im Verzugszeitraum, rechnest du zwei Abschnitte. Trage den Tagesbetrag ein, damit der Schuldner sieht, dass Warten teurer wird.
 
 Die 40-EUR-Pauschale setzt du nur ein, wenn der Schuldner kein Verbraucher ist; streiche sonst die Zeile. Bei Mahnkosten gegenüber Verbrauchern trägst du nur Porto und Material ein. Setze die letzte Frist auf sieben bis zehn Tage nach dem Schreiben. Wähle in der Ankündigung zwischen Mahnbescheid und Inkasso und versende so, dass du den Zugang belegen kannst, etwa per Einwurf-Einschreiben plus E-Mail.`,
       },
@@ -48,7 +48,7 @@ Weitere Verzugsschäden wie Anwalts- und Inkassokosten sind nach §§ 280, 286 B
       },
       {
         titel: "Wann die Mahnung nicht reicht: Mahnbescheid, Inkasso, Anwalt",
-        text: `Zahlt der Schuldner auch nach der letzten Frist nicht, beantragst du online den Mahnbescheid; das geht ohne Anwalt, die Gerichtskosten trägt am Ende der Schuldner. Widerspricht er, geht es ins streitige Verfahren, und bei Streitwerten über 5.000 EUR vor dem Landgericht brauchst du einen Anwalt.
+        text: `Zahlt der Schuldner auch nach der letzten Frist nicht, beantragst du online den Mahnbescheid; das geht ohne Anwalt, die Gerichtskosten trägt am Ende der Schuldner. Widerspricht er, geht es ins streitige Verfahren, und bei Streitwerten über 10.000 EUR (Grenze seit 1. Januar 2026) vor dem Landgericht brauchst du einen Anwalt.
 
 Bei Schuldnern im Ausland, bei bestrittenen Forderungen, bei drohender Insolvenz des Schuldners oder bei Beträgen, die dein eigenes Unternehmen gefährden, solltest du schon vor der letzten Mahnung anwaltlichen Rat einholen. Ein Inkassounternehmen lohnt sich meist nur bei vielen kleinen Forderungen. GründerX stellt die Vorlage als Werkzeug bereit; sie ersetzt keine Rechtsberatung.`,
       },

@@ -42,7 +42,7 @@ export const VORLAGEN_ARBEIT: Vorlage[] = [
     faqs: [
       {
         q: "Muss ein Arbeitsvertrag schriftlich sein?",
-        a: "Nein, ein Arbeitsvertrag kommt auch mündlich zustande. Aber die wesentlichen Bedingungen musst du nach dem Nachweisgesetz spätestens am ersten Arbeitstag (Name, Gehalt, Arbeitszeit) und innerhalb von sieben Tagen bzw. einem Monat für den Rest aushändigen. Seit 2025 reicht dafür die Textform, wenn das Dokument speicherbar ist und der Arbeitnehmer einen Empfang bestätigt; die Kündigung braucht dagegen immer Papier und Unterschrift.",
+        a: "Nein, ein Arbeitsvertrag kommt auch mündlich zustande. Aber die wesentlichen Bedingungen musst du nach dem Nachweisgesetz spätestens am ersten Arbeitstag (Name, Gehalt, Arbeitszeit) und innerhalb von sieben Tagen bzw. einem Monat für den Rest aushändigen. Seit 2025 reicht dafür die Textform, wenn das Dokument zugänglich, speicherbar und ausdruckbar ist und du den Arbeitnehmer zu einem Empfangsnachweis aufforderst (nicht in Branchen nach § 2a SchwarzArbG wie Bau oder Gastronomie); die Kündigung braucht dagegen immer Papier und Unterschrift.",
       },
       {
         q: "Wie lange darf die Probezeit sein?",
@@ -149,10 +149,10 @@ export const VORLAGEN_ARBEIT: Vorlage[] = [
     ],
     hinweise: [
       "Die Verdienstgrenze ist dynamisch: 2026 sind es 603 EUR im Monat (Mindestlohn 13,90 EUR × 130 ÷ 3, aufgerundet), 2027 mit 14,60 EUR Mindestlohn 633 EUR. Beim Mindestlohn sind das etwa 43 Stunden im Monat; Urlaubs- und Weihnachtsgeld zählen anteilig mit.",
-      "Du zahlst als Arbeitgeber Pauschalabgaben von rund 30 % (13 % Krankenversicherung, 15 % Rentenversicherung, 2 % Pauschsteuer, Umlagen) an die Minijob-Zentrale. Die Anmeldung muss vor dem ersten Arbeitstag erfolgen; in bestimmten Branchen (z. B. Gastronomie, Logistik) zusätzlich als Sofortmeldung.",
+      "Du zahlst als Arbeitgeber Pauschalabgaben von rund 30 % (13 % Krankenversicherung, 15 % Rentenversicherung, 2 % Pauschsteuer, Umlagen) an die Minijob-Zentrale. Die Anmeldung erfolgt mit der ersten Entgeltabrechnung, spätestens innerhalb von sechs Wochen nach Beschäftigungsbeginn (§ 6 DEÜV); in bestimmten Branchen (z. B. Gastronomie, Logistik) zusätzlich als Sofortmeldung spätestens bei Arbeitsaufnahme.",
       "Minijobber sind vollwertige Arbeitnehmer: Urlaub, Entgeltfortzahlung im Krankheitsfall, Feiertagsbezahlung, Kündigungsschutz und Mutterschutz gelten genauso wie bei Vollzeitkräften.",
       "Ohne feste Arbeitszeit gilt ein Abrufverhältnis mit 20 Stunden pro Woche als vereinbart (§ 12 Abs. 1 TzBfG), und die Verdienstgrenze wird gesprengt. Deshalb steht die wöchentliche Stundenzahl ausdrücklich im Vertrag.",
-      "Die Rentenversicherungspflicht gilt automatisch (3,6 % Eigenanteil des Minijobbers). Eine Befreiung ist nur auf schriftlichen Antrag des Minijobbers möglich, den du der Minijob-Zentrale meldest und zu den Lohnunterlagen nimmst.",
+      "Die Rentenversicherungspflicht gilt automatisch (3,6 % Eigenanteil des Minijobbers). Eine Befreiung ist nur auf schriftlichen oder elektronischen Antrag des Minijobbers möglich (§ 6 Abs. 1b SGB VI), den du der Minijob-Zentrale meldest und zu den Lohnunterlagen nimmst; aufheben lassen kann er sie nur einmal (§ 6 Abs. 6 SGB VI).",
     ],
     faqs: [
       {
@@ -161,7 +161,7 @@ export const VORLAGEN_ARBEIT: Vorlage[] = [
       },
       {
         q: "Was passiert, wenn die Verdienstgrenze überschritten wird?",
-        a: "Ein gelegentliches, nicht vorhersehbares Überschreiten (z. B. Krankheitsvertretung) ist bis zu zweimal im Jahr und bis zum doppelten Betrag erlaubt. Alles darüber macht die Beschäftigung ab dem Zeitpunkt sozialversicherungspflichtig, und zwar rückwirkend ab dem Monat, ab dem absehbar war, dass die Grenze gerissen wird. Dann drohen Nachzahlungen für beide Seiten.",
+        a: "Ein gelegentliches, nicht vorhersehbares Überschreiten (z. B. Krankheitsvertretung) ist bis zu zweimal im Jahr und bis zum doppelten Betrag erlaubt. Alles darüber macht die Beschäftigung sozialversicherungspflichtig, und zwar ab dem Zeitpunkt, ab dem absehbar war, dass die Grenze gerissen wird. Dann drohen Nachzahlungen für beide Seiten.",
       },
       {
         q: "Muss ich dem Minijobber Urlaub und Lohnfortzahlung geben?",
@@ -169,7 +169,7 @@ export const VORLAGEN_ARBEIT: Vorlage[] = [
       },
       {
         q: "Kann ein Minijobber mehrere Minijobs haben?",
-        a: "Nur, wenn alle Minijobs zusammen unter 603 EUR bleiben. Neben einer sozialversicherungspflichtigen Hauptbeschäftigung ist genau ein Minijob abgabenfrei möglich; jeder weitere wird mit der Hauptbeschäftigung zusammengerechnet. Deshalb fragt die Vorlage weitere Beschäftigungen ab, und der Minijobber muss Änderungen melden.",
+        a: "Nur, wenn alle Minijobs zusammen 603 EUR nicht übersteigen. Neben einer sozialversicherungspflichtigen Hauptbeschäftigung bleibt genau ein Minijob ohne Zusammenrechnung ein Minijob mit Pauschalabgaben; jeder weitere wird mit der Hauptbeschäftigung zusammengerechnet. Deshalb fragt die Vorlage weitere Beschäftigungen ab, und der Minijobber muss Änderungen melden.",
       },
     ],
     seo: {
@@ -221,7 +221,7 @@ export const VORLAGEN_ARBEIT: Vorlage[] = [
       },
       {
         q: "Darf ein Werkstudent mehr als 603 EUR verdienen?",
-        a: "Ja, es gibt keine Verdienstgrenze. Ab 603,01 EUR ist er kein Minijobber mehr, sondern Werkstudent mit Rentenversicherungspflicht. Beachte aber die Familienversicherung: Übersteigt das Einkommen ein Siebtel der monatlichen Bezugsgröße (2025 waren das 535 EUR, der Wert steigt jährlich), fällt der Student aus der Familienversicherung der Eltern und muss sich selbst studentisch versichern.",
+        a: "Ja, es gibt keine Verdienstgrenze. Ab 603,01 EUR ist er kein Minijobber mehr, sondern Werkstudent mit Rentenversicherungspflicht. Beachte aber die Familienversicherung: Übersteigt das Einkommen ein Siebtel der monatlichen Bezugsgröße (2026 sind das 565 EUR, der Wert steigt jährlich), fällt der Student aus der Familienversicherung der Eltern und muss sich selbst studentisch versichern.",
       },
       {
         q: "Was passiert, wenn der Student das Studium abbricht?",
@@ -262,7 +262,7 @@ export const VORLAGEN_ARBEIT: Vorlage[] = [
     ],
     hinweise: [
       "Mindestlohn (13,90 EUR seit 2026) gilt nicht für Pflichtpraktika nach Schul-, Ausbildungs- oder Studienordnung und nicht für freiwillige Praktika bis drei Monate zur Orientierung oder studienbegleitend (§ 22 Abs. 1 MiLoG). Dauert ein freiwilliges Praktikum von vornherein länger als drei Monate, gilt der Mindestlohn ab dem ersten Tag, nicht erst ab dem vierten Monat.",
-      "Freiwillige Praktikanten sind „zur Berufsbildung Beschäftigte“ nach § 26 BBiG: Der Vertrag muss schriftlich sein, es gibt Urlaub, Entgeltfortzahlung und einen Zeugnisanspruch. Eine Kündigung nach der Probezeit ist nur aus wichtigem Grund oder durch den Praktikanten mit vier Wochen Frist möglich (§ 22 BBiG).",
+      "Freiwillige Praktikanten fallen unter § 26 BBiG: Eine Vertragsniederschrift nach dem BBiG ist zwar nicht nötig, die Pflichtangaben nach § 2 Abs. 1a NachwG müssen aber vor Beginn schriftlich vorliegen; es gibt Urlaub, Entgeltfortzahlung und einen Zeugnisanspruch. Eine Kündigung nach der Probezeit ist nur aus wichtigem Grund oder durch den Praktikanten mit vier Wochen Frist möglich (§ 22 BBiG).",
       "Eine Verlängerung des freiwilligen Praktikums über drei Monate hinaus, auch nur um eine Woche, löst Mindestlohn für die gesamte Dauer aus. Lieber neu entscheiden, ob daraus ein Werkstudenten- oder Arbeitsverhältnis wird.",
       "Für Pflichtpraktikanten zahlst du keine Sozialabgaben, wenn das Praktikum in der Studienordnung vorgeschrieben ist. Freiwillige Praktika mit Vergütung sind sozialversicherungspflichtig wie ein normales Arbeitsverhältnis; unter 603 EUR gelten Minijob-Regeln.",
       "Ein Praktikum darf keine verdeckte Arbeitsstelle sein. Steht die Arbeitsleistung im Vordergrund statt des Lernens, ist der Praktikant Arbeitnehmer mit vollem Mindestlohn, rückwirkend.",
@@ -278,7 +278,7 @@ export const VORLAGEN_ARBEIT: Vorlage[] = [
       },
       {
         q: "Brauchen Praktikanten einen schriftlichen Vertrag?",
-        a: "Ja. Für freiwillige Praktika verlangt § 26 in Verbindung mit § 11 BBiG eine schriftliche Niederlegung der wesentlichen Inhalte, und das Nachweisgesetz nennt in § 2 Abs. 1a Pflichtangaben für Praktikanten: Lern- und Ausbildungsziele, Beginn, Dauer, tägliche Praktikumszeit, Vergütung, Urlaub und Tarifhinweise. Diese Vorlage enthält alle Punkte.",
+        a: "Ja. § 26 BBiG verzichtet zwar auf die Vertragsniederschrift nach § 11 BBiG, aber das Nachweisgesetz verlangt in § 2 Abs. 1a, dass du Praktikanten vor Beginn schriftlich und unterschrieben folgende Pflichtangaben aushändigst: Lern- und Ausbildungsziele, Beginn, Dauer, tägliche Praktikumszeit, Vergütung, Urlaub und Tarifhinweise. Diese Vorlage enthält alle Punkte.",
       },
       {
         q: "Hat ein Praktikant Anspruch auf ein Zeugnis?",
@@ -432,7 +432,7 @@ export const VORLAGEN_ARBEIT: Vorlage[] = [
       "Immer nur ein Vorwurf pro Abmahnung, exakt beschrieben mit Datum, Uhrzeit und Ort. Pauschale Vorwürfe („wiederholt unpünktlich“) sind unwirksam. Ist ein Punkt einer Sammelabmahnung falsch, fällt die ganze Abmahnung.",
       "Eine Abmahnung ist formfrei, aber nur schriftlich beweisbar. Übergib sie persönlich gegen Unterschrift oder per Boten; der Betriebsrat muss nicht beteiligt werden, und eine vorherige Anhörung des Mitarbeiters ist nicht Pflicht, aber sinnvoll.",
       "Zeitnah handeln: Nach mehreren Monaten gilt das Fehlverhalten als verziehen. Eine feste Frist gibt es nicht; zwei bis drei Wochen nach Kenntnis sind sicher.",
-      "Der Mitarbeiter darf eine Gegendarstellung zur Personalakte geben (§ 83 Abs. 2 BetrVG, in Betrieben ohne Betriebsrat aus der Fürsorgepflicht) und kann auf Entfernung klagen, wenn die Abmahnung falsch oder zu unbestimmt ist. Nach Jahren ohne weitere Vorfälle verliert die Abmahnung ihre Wirkung.",
+      "Der Mitarbeiter darf eine Gegendarstellung zur Personalakte geben (§ 83 Abs. 2 BetrVG, das gilt auch ohne Betriebsrat; in Kleinstbetrieben außerhalb des BetrVG aus der Fürsorgepflicht) und kann auf Entfernung klagen, wenn die Abmahnung falsch oder zu unbestimmt ist. Nach Jahren ohne weitere Vorfälle verliert die Abmahnung ihre Wirkung.",
     ],
     faqs: [
       {
@@ -484,7 +484,7 @@ export const VORLAGEN_ARBEIT: Vorlage[] = [
       "Ort, Datum, Unterschrift und Übersicht der Zeugnisnoten",
     ],
     hinweise: [
-      "Das Zeugnis muss wahr und wohlwollend sein (§ 109 Abs. 2 GewO). Geheimzeichen, Formulierungen mit versteckter Bedeutung und Auslassungen wichtiger Punkte sind verboten. Fehlt etwa die Ehrlichkeit bei einem Kassierer oder das Verhalten gegenüber Vorgesetzten, liest jeder Personaler eine Abwertung.",
+      "Das Zeugnis muss nach der Rechtsprechung wahr und wohlwollend sein; § 109 Abs. 2 GewO verlangt klare Formulierungen ohne versteckte Aussagen. Geheimzeichen, Formulierungen mit versteckter Bedeutung und Auslassungen wichtiger Punkte sind verboten. Fehlt etwa die Ehrlichkeit bei einem Kassierer oder das Verhalten gegenüber Vorgesetzten, liest jeder Personaler eine Abwertung.",
       "Note „gut“ heißt in der Zeugnissprache „stets zu unserer vollen Zufriedenheit“; „zu unserer vollen Zufriedenheit“ ist nur befriedigend, „stets zu unserer vollsten Zufriedenheit“ sehr gut. Die Vorlage ist durchgängig auf „gut“ formuliert.",
       "Reihenfolge im Verhalten beachten: Vorgesetzte, Kollegen, Kunden. Werden Kollegen vor Vorgesetzten genannt, gilt das als Hinweis auf Probleme mit der Führung.",
       "Das Zeugnis braucht Papier mit Firmenbriefkopf und eigenhändiger Unterschrift eines Vorgesetzten oder Vertretungsberechtigten; seit 2025 ist mit Einverständnis des Mitarbeiters auch die elektronische Form mit qualifizierter Signatur möglich. Keine Flecken, keine Knicke, kein Datum weit nach dem Austritt, keine Eselsohren: All das gilt als Signal.",
@@ -562,7 +562,7 @@ export const VORLAGEN_ARBEIT: Vorlage[] = [
       },
       {
         q: "Darf der Mitarbeiter aus dem Ausland arbeiten?",
-        a: "Nur mit deiner Zustimmung, und du solltest sie restriktiv erteilen. Schon wenige Wochen im EU-Ausland können Sozialversicherungs- und Steuerpflichten im anderen Land auslösen; innerhalb der EU ist ab 25 % Arbeitszeit im Wohnsitzstaat die Sozialversicherung dort fällig. Die Vorlage beschränkt mobiles Arbeiten auf Deutschland und erlaubt Ausnahmen nur nach Einzelfreigabe.",
+        a: "Nur mit deiner Zustimmung, und du solltest sie restriktiv erteilen. Schon wenige Wochen im EU-Ausland können Sozialversicherungs- und Steuerpflichten im anderen Land auslösen; innerhalb der EU ist nach Art. 13 VO (EG) 883/2004 schon ab 25 % Arbeitszeit im Wohnsitzstaat die Sozialversicherung dort fällig, sofern nicht auf Antrag die Ausnahme für grenzüberschreitende Telearbeit (unter 50 %) greift. Die Vorlage beschränkt mobiles Arbeiten auf Deutschland und erlaubt Ausnahmen nur nach Einzelfreigabe.",
       },
     ],
     seo: {

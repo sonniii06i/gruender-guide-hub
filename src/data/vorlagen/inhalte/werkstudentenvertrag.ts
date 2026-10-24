@@ -107,7 +107,7 @@ und
 (1) Die ersten [z. B. 3, höchstens 6] Monate gelten als Probezeit mit einer beiderseitigen Kündigungsfrist von zwei Wochen.
 (2) Danach kann das Arbeitsverhältnis von beiden Seiten mit einer Frist von [z. B. 4 Wochen zum 15. oder zum Ende eines Kalendermonats] gekündigt werden; verlängerte gesetzliche Fristen nach § 622 Abs. 2 BGB gelten für beide Seiten. [Bei Befristung: Das befristete Arbeitsverhältnis kann vor Ablauf der Befristung ordentlich gekündigt werden (§ 15 Abs. 4 TzBfG).]
 (3) Jede Kündigung bedarf der Schriftform (§ 623 BGB). Das Recht zur außerordentlichen Kündigung aus wichtigem Grund bleibt unberührt.
-(4) Hinweis auf das Kündigungsverfahren: Will der Werkstudent geltend machen, dass eine Kündigung unwirksam ist, muss er innerhalb von drei Wochen nach Zugang Klage beim Arbeitsgericht erheben (§ 4 KSchG). Nach Zugang einer Kündigung ist er verpflichtet, sich unverzüglich bei der Agentur für Arbeit arbeitsuchend zu melden (§ 38 SGB III).
+(4) Hinweis auf das Kündigungsverfahren: Will der Werkstudent geltend machen, dass eine Kündigung unwirksam ist, muss er innerhalb von drei Wochen nach Zugang Klage beim Arbeitsgericht erheben (§ 4 KSchG). Er ist verpflichtet, sich spätestens drei Monate vor Beendigung, bei kürzerer Frist innerhalb von drei Tagen nach Kenntnis, bei der Agentur für Arbeit arbeitsuchend zu melden (§ 38 Abs. 1 SGB III).
 (5) Endet das Studium durch Abschluss, Abbruch oder Exmatrikulation, teilen die Parteien einander unverzüglich mit, ob sie das Arbeitsverhältnis als reguläres Arbeitsverhältnis fortsetzen wollen. Kommt keine Einigung zustande, kann jede Seite ordentlich nach Absatz 2 kündigen.
 
 § 9 Ausschlussfristen und Schlussbestimmungen

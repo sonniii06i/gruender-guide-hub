@@ -30,7 +30,7 @@ export const VORLAGEN_FINANZEN: Vorlage[] = [
       "§ 8 Schlussbestimmungen",
     ],
     hinweise: [
-      "Ein zinsloses Darlehen ist steuerlich eine Schenkung des Zinsvorteils (§ 7 Abs. 1 Nr. 1 ErbStG). Das Finanzamt rechnet mit 5,5 % pro Jahr, wenn kein niedrigerer Marktzins nachgewiesen wird. Innerhalb der Freibeträge (Kinder 400.000 EUR, sonstige Personen 20.000 EUR in zehn Jahren) bleibt das folgenlos, darüber nicht.",
+      "Ein zinsloses Darlehen ist steuerlich eine Schenkung des Zinsvorteils (§ 7 Abs. 1 Nr. 1 ErbStG). Das Finanzamt rechnet mit 5,5 % pro Jahr, wenn kein niedrigerer Marktzins nachgewiesen wird. Innerhalb der Freibeträge (Ehegatten 500.000 EUR, Kinder 400.000 EUR, Geschwister, Freunde und Partner ohne Trauschein 20.000 EUR, jeweils in zehn Jahren) bleibt das folgenlos, darüber nicht.",
       "Ohne vereinbarte Laufzeit kann jede Seite mit drei Monaten Frist kündigen (§ 488 Abs. 3 BGB). Wer Planungssicherheit will, schreibt eine feste Laufzeit und schließt die ordentliche Kündigung aus.",
       "Zinsen, die du als Gründer zahlst, sind Betriebsausgaben; der private Darlehensgeber versteuert sie als Kapitalerträge. Das Finanzamt erkennt Verträge unter Angehörigen nur an, wenn sie wie unter Fremden vereinbart und tatsächlich durchgeführt werden.",
       "Überweise das Geld immer per Bank und nie bar. Ohne nachvollziehbaren Geldfluss gilt das Darlehen bei Bank, Finanzamt und im Streitfall schnell als nicht existent.",
@@ -87,7 +87,7 @@ export const VORLAGEN_FINANZEN: Vorlage[] = [
     hinweise: [
       "Wer gewerbsmäßig oder in kaufmännischem Umfang Darlehen vergibt, betreibt Kreditgeschäft und braucht eine BaFin-Erlaubnis (§ 1 Abs. 1 Satz 2 Nr. 2, § 32 KWG). Ein einzelnes Darlehen an einen Geschäftspartner ist das nicht; eine Reihe von Darlehen gegen Zins kann es werden. Im Zweifel vorher rechtlich prüfen lassen.",
       "Gesellschafterdarlehen sind in der Insolvenz der Gesellschaft nachrangig (§ 39 Abs. 1 Nr. 5 InsO). Rückzahlungen im letzten Jahr vor dem Insolvenzantrag kann der Insolvenzverwalter zurückfordern (§ 135 InsO). Auch Sicherheiten dafür sind anfechtbar.",
-      "Zwischen verbundenen Unternehmen oder zwischen Gesellschafter und GmbH muss der Zins fremdüblich sein. Ein zu hoher Zins an den Gesellschafter ist eine verdeckte Gewinnausschüttung, ein zu niedriger kann als verdeckte Einlage gewertet werden.",
+      "Zwischen verbundenen Unternehmen oder zwischen Gesellschafter und GmbH muss der Zins fremdüblich sein. Ein zu hoher Zins an den Gesellschafter ist eine verdeckte Gewinnausschüttung; ein zu niedriger oder fehlender Zins ist nach der BFH-Rechtsprechung keine verdeckte Einlage, weil bloße Nutzungsvorteile nicht einlagefähig sind.",
       "Sicherungsübereignung und Abtretung wirken nur, wenn die Gegenstände und Forderungen bestimmt genug bezeichnet sind. Nutze Anlagen mit Inventarliste oder Debitorenliste, sonst läuft die Sicherheit ins Leere.",
     ],
     faqs: [
@@ -359,7 +359,7 @@ export const VORLAGEN_FINANZEN: Vorlage[] = [
       },
       {
         q: "Was kann der Bürge dem Gläubiger entgegenhalten?",
-        a: "Alle Einreden, die auch dem Hauptschuldner zustehen, etwa Verjährung, Stundung oder Mängel der Leistung (§ 768 BGB). Außerdem kann er die Zahlung verweigern, solange der Hauptschuldner den Vertrag anfechten oder gegen die Forderung aufrechnen könnte (§ 770 BGB). Auf diese Einreden kann in der Bürgschaftsurkunde nicht wirksam pauschal verzichtet werden.",
+        a: "Alle Einreden, die auch dem Hauptschuldner zustehen, etwa Verjährung, Stundung oder Mängel der Leistung (§ 768 BGB). Außerdem kann er die Zahlung verweigern, solange der Hauptschuldner den Vertrag anfechten oder gegen die Forderung aufrechnen könnte (§ 770 BGB). In vorformulierten Bürgschaftsurkunden (AGB) ist ein pauschaler Verzicht auf diese Einreden nach der BGH-Rechtsprechung in der Regel unwirksam.",
       },
       {
         q: "Bekommt der Bürge das Geld vom Hauptschuldner zurück?",
@@ -396,7 +396,7 @@ export const VORLAGEN_FINANZEN: Vorlage[] = [
     ],
     hinweise: [
       "Auch eine freundliche Erinnerung ist rechtlich eine Mahnung, wenn sie eindeutig zur Zahlung auffordert (§ 286 Abs. 1 BGB). Das ist gewollt: Ab Zugang ist der Kunde in Verzug, falls er es nicht schon war.",
-      "Ohne Mahnung tritt Verzug automatisch 30 Tage nach Fälligkeit und Zugang der Rechnung ein (§ 286 Abs. 3 BGB), bei Verbrauchern aber nur, wenn die Rechnung ausdrücklich darauf hingewiesen hat. Stand in der Rechnung ein konkretes Zahlungsdatum, ist der Kunde ab dem Folgetag in Verzug (§ 286 Abs. 2 Nr. 1 BGB).",
+      "Ohne Mahnung tritt Verzug automatisch 30 Tage nach Fälligkeit und Zugang der Rechnung ein (§ 286 Abs. 3 BGB), bei Verbrauchern aber nur, wenn die Rechnung ausdrücklich darauf hingewiesen hat. War ein konkretes Zahlungsdatum vertraglich vereinbart, ist der Kunde ab dem Folgetag in Verzug (§ 286 Abs. 2 Nr. 1 BGB); ein nur einseitig in der Rechnung gesetztes Datum genügt dafür nicht.",
       "Mahngebühren für das erste Schreiben sind nur zulässig, wenn der Kunde bereits in Verzug war; die Erinnerung, die den Verzug erst auslöst, darf nichts kosten. Die 40-EUR-Pauschale (§ 288 Abs. 5 BGB) gibt es nur gegenüber Unternehmern und erst ab Verzug.",
       "Sende die Erinnerung so, dass du den Zugang belegen kannst: E-Mail mit Lesebestätigung plus Brief oder Kundenportal. Im Streit musst du beweisen, dass die Mahnung angekommen ist.",
     ],
@@ -407,7 +407,7 @@ export const VORLAGEN_FINANZEN: Vorlage[] = [
       },
       {
         q: "Muss ich überhaupt mahnen, bevor ich Verzugszinsen verlange?",
-        a: "Nicht immer. Hatte die Rechnung ein festes Zahlungsdatum, ist der Kunde ab dem Tag danach automatisch in Verzug. Ohne Datum gilt die 30-Tage-Regel des § 286 Abs. 3 BGB, gegenüber Verbrauchern nur mit entsprechendem Hinweis in der Rechnung. Die Mahnung ist der sichere Weg, weil sie in jedem Fall den Verzug auslöst.",
+        a: "Nicht immer. War ein festes Zahlungsdatum vertraglich vereinbart, ist der Kunde ab dem Tag danach automatisch in Verzug; ein Datum, das nur in der Rechnung steht, reicht dafür nicht. Ohne Datum gilt die 30-Tage-Regel des § 286 Abs. 3 BGB, gegenüber Verbrauchern nur mit entsprechendem Hinweis in der Rechnung. Die Mahnung ist der sichere Weg, weil sie in jedem Fall den Verzug auslöst.",
       },
       {
         q: "Wie viele Mahnungen brauche ich vor dem Mahnbescheid?",
@@ -451,11 +451,11 @@ export const VORLAGEN_FINANZEN: Vorlage[] = [
     faqs: [
       {
         q: "Wie berechne ich die Verzugszinsen konkret?",
-        a: "Offener Betrag mal Zinssatz mal Verzugstage geteilt durch 365. Der Zinssatz ist der aktuelle Basiszinssatz plus 9 Prozentpunkte (B2B) oder plus 5 Prozentpunkte (Verbraucher). Beispiel: 2.000 EUR, Basiszins 1,27 %, B2B, 60 Tage: 2.000 x 10,27 % x 60 / 365 = 33,76 EUR. Ändert sich der Basiszins während des Verzugs, rechnest du abschnittsweise.",
+        a: "Offener Betrag mal Zinssatz mal Verzugstage geteilt durch 365. Der Zinssatz ist der aktuelle Basiszinssatz plus 9 Prozentpunkte (B2B) oder plus 5 Prozentpunkte (Verbraucher). Beispiel: 2.000 EUR, Basiszins 1,52 % (Stand 2. Halbjahr 2026), B2B, 60 Tage: 2.000 x 10,52 % x 60 / 365 = 34,59 EUR. Ändert sich der Basiszins während des Verzugs, rechnest du abschnittsweise.",
       },
       {
         q: "Muss ich wirklich einen Anwalt einschalten?",
-        a: "Nein. Den Mahnbescheid kannst du selbst online beantragen; die Gerichtskosten (mindestens 36 EUR, abhängig vom Streitwert) muss am Ende der Schuldner tragen. Widerspricht der Schuldner, geht es ins streitige Verfahren, und ab 5.000 EUR Streitwert brauchst du vor dem Landgericht einen Anwalt.",
+        a: "Nein. Den Mahnbescheid kannst du selbst online beantragen; die Gerichtskosten (mindestens 38 EUR, abhängig vom Streitwert) muss am Ende der Schuldner tragen. Widerspricht der Schuldner, geht es ins streitige Verfahren, und bei Streitwerten über 10.000 EUR (seit 1. Januar 2026, § 23 Nr. 1 GVG) brauchst du vor dem Landgericht einen Anwalt.",
       },
       {
         q: "Was ist, wenn der Kunde die Forderung bestreitet?",
@@ -463,7 +463,7 @@ export const VORLAGEN_FINANZEN: Vorlage[] = [
       },
       {
         q: "Darf ich mit Schufa-Eintrag oder Inkasso drohen?",
-        a: "Die Ankündigung eines Inkassoverfahrens oder Mahnbescheids ist zulässig. Ein Schufa-Eintrag darf nur unter engen Voraussetzungen angekündigt werden (§ 31 Abs. 2 BDSG): unter anderem mindestens zwei schriftliche Mahnungen, erste Mahnung vier Wochen vor Meldung, Hinweis auf die bevorstehende Meldung und keine Bestreitung der Forderung. Ohne diese Voraussetzungen ist die Drohung selbst rechtswidrig.",
+        a: "Die Ankündigung eines Inkassoverfahrens oder Mahnbescheids ist zulässig. Ein Schufa-Eintrag darf nur unter engen Voraussetzungen angekündigt werden (§ 31 Abs. 2 BDSG): unter anderem mindestens zwei schriftliche Mahnungen, erste Mahnung vier Wochen vor Meldung, Hinweis auf die bevorstehende Meldung und keine Bestreitung der Forderung. Ohne diese Voraussetzungen kann die Drohung selbst rechtswidrig sein.",
       },
     ],
     seo: {

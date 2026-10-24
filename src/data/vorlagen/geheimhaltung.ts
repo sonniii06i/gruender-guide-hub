@@ -46,7 +46,7 @@ export const VORLAGEN_GEHEIMHALTUNG: Vorlage[] = [
       },
       {
         q: "Brauche ich eine Vertragsstrafe?",
-        a: "Nicht zwingend, aber ohne sie musst du im Streitfall deinen konkreten Schaden beweisen, was bei Geheimnisverrat fast nie gelingt. Eine Vertragsstrafe von 5.000 bis 25.000 EUR je Verstoß ist bei Gründern üblich. Sie muss im Verhältnis zum Wert der Information stehen, sonst wird sie herabgesetzt.",
+        a: "Nicht zwingend, aber ohne sie musst du im Streitfall deinen konkreten Schaden beweisen, was bei Geheimnisverrat fast nie gelingt. Eine Vertragsstrafe von 5.000 bis 25.000 EUR je Verstoß ist bei Gründern üblich. Sie muss im Verhältnis zum Wert der Information stehen, sonst kann ein Gericht sie herabsetzen (§ 343 BGB, unter Kaufleuten nach § 348 HGB ausgeschlossen) oder sie ist in AGB unwirksam.",
       },
       {
         q: "Gilt die NDA auch für Mitarbeiter und Berater der anderen Seite?",
@@ -202,7 +202,7 @@ export const VORLAGEN_GEHEIMHALTUNG: Vorlage[] = [
       "Die Beteiligungsquote ergibt sich aus Investment geteilt durch Post-money-Bewertung, nicht durch Pre-money. 200.000 EUR auf 1,8 Mio. EUR pre-money sind 10 %, nicht 11,1 %. Rechne die Kapitalerhöhung vor dem Notartermin nach.",
       "Eine einfache, nicht beteiligte Liquidationspräferenz (1x non-participating) ist marktüblich. Mehrfache oder beteiligte Präferenzen (2x, participating) können dazu führen, dass Gründer bei einem mittleren Exit fast nichts bekommen.",
       "Vesting trifft dich als Gründer: Wer vor Ablauf der Frist geht, verliert einen Teil seiner Anteile zum Nennwert. Achte auf eine faire Good-Leaver-Regel und darauf, dass bereits gehaltene Anteile nicht zu 100 % neu vesten.",
-      "Das Term Sheet ersetzt nicht Beteiligungsvertrag, Gesellschaftervereinbarung und Satzungsänderung; die Kapitalerhöhung muss notariell beurkundet und ins Handelsregister eingetragen werden (§§ 53, 55 GmbHG).",
+      "Das Term Sheet ersetzt nicht Beteiligungsvertrag, Gesellschaftervereinbarung und Satzungsänderung; die Kapitalerhöhung muss notariell beurkundet und ins Handelsregister eingetragen werden (§§ 53, 54, 55 und 57 GmbHG).",
     ],
     faqs: [
       {
@@ -314,7 +314,7 @@ export const VORLAGEN_GEHEIMHALTUNG: Vorlage[] = [
     hinweise: [
       "Das Urheberrecht selbst ist nicht übertragbar (§ 29 Abs. 1 UrhG). Du erwirbst nie das Urheberrecht am Logo, sondern Nutzungsrechte. Entscheidend ist, dass diese ausschließlich, zeitlich und räumlich unbeschränkt und für alle Nutzungsarten eingeräumt werden.",
       "Ohne ausdrückliche Regelung gilt die Zweckübertragungsregel (§ 31 Abs. 5 UrhG): Du bekommst nur die Rechte, die der Vertragszweck zwingend erfordert. Wer ein Logo für die Website bestellt, hat damit nicht automatisch das Recht, es auf Verpackungen zu drucken oder als Marke anzumelden.",
-      "Der Urheber hat Anspruch auf angemessene Vergütung (§ 32 UrhG) und bei auffälligem Missverhältnis später auf weitere Beteiligung (§ 32a UrhG). Eine sehr niedrige Pauschale für ein Logo, das zur Weltmarke wird, kann nachträglich angepasst werden.",
+      "Der Urheber hat Anspruch auf angemessene Vergütung (§ 32 UrhG) und bei unverhältnismäßig niedriger Vergütung später auf weitere Beteiligung (§ 32a UrhG). Eine sehr niedrige Pauschale für ein Logo, das zur Weltmarke wird, kann nachträglich angepasst werden.",
       "Bei pauschaler Vergütung und ausschließlicher Rechteeinräumung darf der Urheber das Werk nach zehn Jahren grundsätzlich anderweitig verwerten (§ 40a UrhG). Für Werke, die als Marke oder Design bestimmt sind, gilt das nicht; die Vorlage hält diese Zweckbestimmung deshalb ausdrücklich fest.",
       "Stockfotos, Schriften und KI-generierte Bestandteile im Werk kann dir der Designer nur so weit lizenzieren, wie er selbst Rechte hat. Lass dir Fonts und Fremdmaterial auflisten.",
     ],
@@ -372,7 +372,7 @@ export const VORLAGEN_GEHEIMHALTUNG: Vorlage[] = [
       "Nach § 30 Abs. 2 MarkenG kann der Markeninhaber gegen den Lizenznehmer aus der Marke vorgehen, wenn dieser Dauer, Form, Waren, Gebiet oder Qualitätsvorgaben des Vertrags verletzt. Diese fünf Punkte müssen deshalb präzise im Vertrag stehen.",
       "Die Marke verfällt, wenn sie fünf Jahre lang nicht ernsthaft benutzt wird (§ 49 MarkenG). Die Benutzung durch den Lizenznehmer mit deiner Zustimmung zählt als deine Benutzung (§ 26 Abs. 2 MarkenG); halte deshalb Belege der Lizenznutzung vor.",
       "Ohne Qualitätskontrolle verwässert die Marke und du haftest unter Umständen für schlechte Produkte, die deinen Namen tragen. Die Vorlage sieht Freigabe von Mustern, Markenrichtlinien und ein Prüfrecht vor.",
-      "Der Lizenznehmer darf gegen Verletzer nur mit deiner Zustimmung klagen (§ 30 Abs. 3 MarkenG). Regle, wer verfolgt, wer zahlt und wer den Erlös bekommt, sonst bleibt die Verletzung liegen.",
+      "Der Lizenznehmer darf gegen Verletzer nur mit deiner Zustimmung klagen; ein ausschließlicher Lizenznehmer darf es auch ohne Zustimmung, wenn du nach förmlicher Aufforderung nicht in angemessener Frist selbst klagst (§ 30 Abs. 3 MarkenG). Regle, wer verfolgt, wer zahlt und wer den Erlös bekommt, sonst bleibt die Verletzung liegen.",
       "Exklusivlizenzen mit Gebiets- und Kundenbeschränkungen können kartellrechtliche Grenzen berühren. Bei Lizenzen an große Partner oder mit Preisbindung lass den Vertrag prüfen.",
     ],
     faqs: [
@@ -428,7 +428,7 @@ export const VORLAGEN_GEHEIMHALTUNG: Vorlage[] = [
       "Das Foto darfst du nur nutzen, wenn auch die abgebildete Person eingewilligt hat (§ 22 KUG, bei Werbung zusätzlich DSGVO). Die Lizenz des Fotografen ersetzt kein Model Release. Lass dir die Einwilligung ausdrücklich zusichern.",
       "Paid Ads (Meta, TikTok, Google) sind eine eigene Nutzungsart und kosten in der Praxis mehr als organische Posts. Fehlt sie im Vertrag, hast du dafür kein Recht (§ 31 Abs. 5 UrhG).",
       "Musik ist doppelt geschützt: Komposition und Aufnahme. Bei GEMA-Mitgliedern kann der Komponist die Nutzungsrechte nicht selbst einräumen; frage ausdrücklich nach der GEMA-Mitgliedschaft.",
-      "Creator müssen Werbung kennzeichnen; wenn du Content auf dem Kanal des Creators bezahlst, ist das Werbung im Sinne des UWG und der Medienstaatsverträge. Diese Vorlage regelt nur die Lizenz, nicht die Kennzeichnungspflicht.",
+      "Creator müssen Werbung kennzeichnen; wenn du Content auf dem Kanal des Creators bezahlst, ist das Werbung im Sinne des UWG und des Medienstaatsvertrags. Diese Vorlage regelt nur die Lizenz, nicht die Kennzeichnungspflicht.",
       "Nach Ablauf der Lizenz müssen Anzeigen enden; bereits veröffentlichte organische Posts dürfen nach der Vorlage online bleiben, wenn ihr das ankreuzt. Ohne diese Regelung müsstest du löschen.",
     ],
     faqs: [
@@ -562,7 +562,7 @@ export const VORLAGEN_GEHEIMHALTUNG: Vorlage[] = [
       },
       {
         q: "Wie lange haftet der Entwickler für Fehler?",
-        a: "Nach der Abnahme beginnt die Gewährleistung; die Vorlage sieht zwölf Monate vor, gesetzlich wären es bei Werkleistungen in der Regel zwei Jahre. Der Entwickler muss Fehler zunächst nachbessern; erst wenn das fehlschlägt, kannst du mindern oder zurücktreten. Für laufende Anpassungen und Updates brauchst du zusätzlich einen Wartungsvertrag.",
+        a: "Nach der Abnahme beginnt die Gewährleistung; die Vorlage sieht zwölf Monate vor, gesetzlich wären es je nach Einordnung der Software zwei Jahre ab Abnahme (§ 634a Abs. 1 Nr. 1 BGB) oder die regelmäßige Verjährung von drei Jahren (§ 634a Abs. 1 Nr. 3, § 195 BGB). Der Entwickler muss Fehler zunächst nachbessern; erst wenn das fehlschlägt, kannst du mindern oder zurücktreten. Für laufende Anpassungen und Updates brauchst du zusätzlich einen Wartungsvertrag.",
       },
     ],
     seo: {

@@ -39,15 +39,15 @@ In § 1 Abs. 2 entscheidest du, ob mündliche Informationen nur mit schriftliche
 
 Zweiter Fehler: kein Nachweis, was übergeben wurde. Wenn die Gegenseite behauptet, die Information sei ihr schon vorher bekannt gewesen, musst du zeigen können, was du wann geschickt hast. Führe ein einfaches Übergabeprotokoll mit Datum und Dateinamen.
 
-Dritter Fehler: überzogene Vertragsstrafen. Ein pauschaler Betrag, der in keinem Verhältnis zum Wert der Information steht, wird vom Gericht herabgesetzt oder in vorformulierten Verträgen ganz gestrichen. Wähle einen Betrag, den du begründen kannst, oder nutze Variante B.
+Dritter Fehler: überzogene Vertragsstrafen. Ein pauschaler Betrag, der in keinem Verhältnis zum Wert der Information steht, kann vom Gericht herabgesetzt werden (§ 343 BGB, nicht unter Kaufleuten, § 348 HGB) oder ist in vorformulierten Verträgen ganz unwirksam. Wähle einen Betrag, den du begründen kannst, oder nutze Variante B.
 
 Vierter Fehler: die Erwartung, eine NDA sei ein Wettbewerbsverbot. Sie verbietet nur die Nutzung und Weitergabe deiner Informationen, nicht die Tätigkeit im selben Markt.`,
       },
       {
         titel: "Rechtliche Grundlagen: Geschäftsgeheimnisgesetz und Vertragsstrafe",
-        text: `Seit April 2019 regelt das Geschäftsgeheimnisgesetz (GeschGehG) den Schutz vertraulicher Unternehmensinformationen. Nach § 2 Nr. 1 GeschGehG ist eine Information nur dann ein Geschäftsgeheimnis, wenn sie nicht allgemein bekannt ist, deshalb wirtschaftlichen Wert hat und Gegenstand angemessener Geheimhaltungsmaßnahmen ist. Dieser dritte Punkt ist neu gegenüber dem alten Recht: Wer keine Maßnahmen nachweisen kann, hat kein geschütztes Geheimnis. Die unterschriebene NDA ist die einfachste und wichtigste dieser Maßnahmen, ergänzt durch Zugriffsbeschränkungen und Kennzeichnung.
+        text: `Seit April 2019 regelt das Geschäftsgeheimnisgesetz (GeschGehG) den Schutz vertraulicher Unternehmensinformationen. Nach § 2 Nr. 1 GeschGehG ist eine Information nur dann ein Geschäftsgeheimnis, wenn sie nicht allgemein bekannt ist, deshalb wirtschaftlichen Wert hat, Gegenstand angemessener Geheimhaltungsmaßnahmen ist und ein berechtigtes Interesse an der Geheimhaltung besteht. Der Punkt der Geheimhaltungsmaßnahmen ist neu gegenüber dem alten Recht: Wer keine Maßnahmen nachweisen kann, hat kein geschütztes Geheimnis. Die unterschriebene NDA ist die einfachste und wichtigste dieser Maßnahmen, ergänzt durch Zugriffsbeschränkungen und Kennzeichnung.
 
-§ 3 GeschGehG erlaubt grundsätzlich das Reverse Engineering öffentlich verfügbarer Produkte, lässt aber vertragliche Verbote zu. Genau das nutzt § 2 Abs. 4 der Vorlage. Die §§ 6 ff. GeschGehG geben dir bei Verletzungen Ansprüche auf Unterlassung, Auskunft, Vernichtung und Schadensersatz.
+§ 3 Abs. 1 Nr. 2 GeschGehG erlaubt grundsätzlich das Reverse Engineering öffentlich verfügbarer oder rechtmäßig besessener Produkte; bei überlassenen Gegenständen entfällt die Erlaubnis, wenn eine vertragliche Pflicht zur Beschränkung besteht. Genau das nutzt § 2 Abs. 4 der Vorlage. Die §§ 6 ff. GeschGehG geben dir bei Verletzungen Ansprüche auf Unterlassung, Auskunft, Vernichtung und Schadensersatz.
 
 Die Vertragsstrafe ist in den §§ 339 ff. BGB geregelt. Variante B stützt sich auf § 315 BGB: Du setzt die Höhe nach billigem Ermessen fest, das Gericht kann sie überprüfen. Diese Form hält auch in AGB-ähnlichen Situationen besser als starre Pauschalen.`,
       },

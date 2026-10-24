@@ -33,7 +33,7 @@ export const VORLAGEN_DIENSTLEISTUNG: Vorlage[] = [
     hinweise: [
       "Der Dienstvertrag schuldet Tätigkeit, kein Ergebnis. Wenn dein Kunde ein fertiges Werk erwartet (Website, Gutachten, Software), passt der Werkvertrag mit Abnahme und Gewährleistung besser.",
       "Bei B2B-Verträgen gilt der gesetzliche Verzugszins von 9 Prozentpunkten über dem Basiszinssatz und eine Pauschale von 40 EUR (§ 288 BGB). Die Vorlage nutzt das, verzichte nicht leichtfertig darauf.",
-      "Eine Haftungsbegrenzung darf nie Vorsatz, grobe Fahrlässigkeit oder Schäden an Leben, Körper und Gesundheit ausschließen (§ 309 Nr. 7 BGB) – sonst ist die ganze Klausel unwirksam.",
+      "Eine Haftungsbegrenzung darf nie Vorsatz, grobe Fahrlässigkeit oder Schäden an Leben, Körper und Gesundheit ausschließen (§ 276 Abs. 3, § 309 Nr. 7 BGB, zwischen Unternehmen über § 307 BGB) – sonst ist die ganze Klausel unwirksam.",
       "Wenn eine einzelne Person dauerhaft, allein und weisungsgebunden für dich arbeitet, droht Scheinselbstständigkeit. Dann hilft kein Vertragstext, sondern nur eine andere Arbeitsweise oder ein Arbeitsvertrag.",
     ],
     faqs: [
@@ -105,7 +105,7 @@ export const VORLAGEN_DIENSTLEISTUNG: Vorlage[] = [
       },
       {
         q: "Wie lange hafte ich für Mängel?",
-        a: "Die gesetzliche Verjährung beträgt bei Werken zwei Jahre ab Abnahme, bei Bauwerken fünf Jahre (§ 634a BGB). Zwischen Unternehmen kann die Frist vertraglich auf ein Jahr verkürzt werden, nicht aber für Vorsatz, Arglist und Personenschäden.",
+        a: "Die gesetzliche Verjährung beträgt bei Werken an Sachen (Herstellung, Wartung, Veränderung) zwei Jahre ab Abnahme, bei Bauwerken fünf Jahre, bei sonstigen Werken wie Gutachten die regelmäßige Frist von drei Jahren (§ 634a BGB). Zwischen Unternehmen kann die Frist vertraglich auf ein Jahr verkürzt werden, nicht aber für Vorsatz, Arglist, Garantien und Personenschäden und in AGB nicht bei Bauwerken (§ 639, § 309 Nr. 8 Buchst. b Doppelbuchst. ff BGB).",
       },
       {
         q: "Darf ich bei Änderungswünschen mehr Geld verlangen?",
@@ -144,9 +144,9 @@ export const VORLAGEN_DIENSTLEISTUNG: Vorlage[] = [
       "§ 9 Schlussbestimmungen",
     ],
     hinweise: [
-      "Scheinselbstständigkeit wird nicht am Vertragstext, sondern an der gelebten Praxis gemessen: feste Arbeitszeiten, Einbindung in Teams wie ein Angestellter, Firmenlaptop, Urlaubsabstimmung, nur ein Auftraggeber. Nachzahlungen von Sozialbeiträgen treffen vor allem den Auftraggeber, rückwirkend bis zu vier Jahre.",
+      "Scheinselbstständigkeit wird nicht am Vertragstext, sondern an der gelebten Praxis gemessen: feste Arbeitszeiten, Einbindung in Teams wie ein Angestellter, Firmenlaptop, Urlaubsabstimmung, nur ein Auftraggeber. Nachzahlungen von Sozialbeiträgen treffen vor allem den Auftraggeber, rückwirkend für vier Jahre ab Ende des Fälligkeitsjahres, bei Vorsatz 30 Jahre (§ 25 SGB IV).",
       "Mit dem Statusfeststellungsverfahren nach § 7a SGB IV bei der Deutschen Rentenversicherung bekommt ihr vor Beginn eine verbindliche Entscheidung. Seit 2022 ist auch eine Prognoseentscheidung auf Basis des Vertrags möglich.",
-      "Code ist urheberrechtlich geschützt und die Rechte bleiben beim Freelancer, solange sie nicht ausdrücklich eingeräumt werden. § 69b UrhG (Rechte des Arbeitgebers) gilt nur für Angestellte, nicht für Freelancer. Die Vorlage räumt die Rechte ausdrücklich ein.",
+      "Code ist urheberrechtlich geschützt und die Rechte bleiben beim Freelancer, solange sie nicht ausdrücklich eingeräumt werden. § 69b UrhG (Rechte des Arbeitgebers) gilt nur für Arbeitnehmer und Beamte, nicht für Freelancer. Die Vorlage räumt die Rechte ausdrücklich ein.",
       "Freelancer mit nur einem Auftraggeber und ohne eigene Angestellte können als arbeitnehmerähnliche Selbstständige rentenversicherungspflichtig sein (§ 2 Satz 1 Nr. 9 SGB VI) – ein Thema für den Freelancer selbst, nicht für den Auftraggeber.",
     ],
     faqs: [
@@ -436,7 +436,7 @@ export const VORLAGEN_DIENSTLEISTUNG: Vorlage[] = [
     ],
     hinweise: [
       "Der Ausgleichsanspruch nach § 89b HGB kann im Voraus nicht ausgeschlossen werden. Bei Vertragsende zahlt der Unternehmer dem Handelsvertreter bis zu einer Jahresdurchschnittsprovision, wenn er aus dem geworbenen Kundenstamm weiter Vorteile zieht. Kalkuliere das von Anfang an ein.",
-      "Die Kündigungsfristen des § 89 HGB sind Mindestfristen: 1 Monat im ersten Jahr, 2 Monate im zweiten, 3 Monate im dritten bis fünften, danach 6 Monate, jeweils zum Monatsende. Kürzere Fristen sind unwirksam; längere müssen für beide Seiten gleich sein.",
+      "Die Kündigungsfristen des § 89 HGB sind Mindestfristen: 1 Monat im ersten Jahr, 2 Monate im zweiten, 3 Monate im dritten bis fünften, danach 6 Monate, jeweils zum Monatsende. Kürzere Fristen sind unwirksam; bei längeren Fristen darf die Frist für den Unternehmer nicht kürzer sein als die für den Handelsvertreter (§ 89 Abs. 2 HGB).",
       "Der Handelsvertreter hat einen gesetzlichen Anspruch auf Buchauszug (§ 87c HGB) über alle provisionspflichtigen Geschäfte. Das lässt sich nicht abbedingen; richte die Abrechnung von Anfang an so ein, dass du ihn liefern kannst.",
       "Ein nachvertragliches Wettbewerbsverbot ist nur mit Schriftform, maximal zwei Jahren, Beschränkung auf Gebiet/Kundenkreis und Produkte sowie gegen Karenzentschädigung wirksam (§ 90a HGB).",
       "Arbeitet der Vertreter nur für dich, nach deinen Zeitvorgaben und ohne eigene Organisation, kann er Arbeitnehmer oder Einfirmenvertreter mit Arbeitsgerichtszuständigkeit sein (§ 92a HGB, § 5 Abs. 3 ArbGG). Prüfe die tatsächliche Ausgestaltung.",
@@ -448,7 +448,7 @@ export const VORLAGEN_DIENSTLEISTUNG: Vorlage[] = [
       },
       {
         q: "Wann entsteht der Provisionsanspruch?",
-        a: "Nach § 87a HGB, sobald und soweit du das Geschäft ausgeführt hast, spätestens wenn der Kunde geleistet hat. Führt der Kunde nicht aus, entfällt die Provision nur, wenn das nicht auf deinem Verhalten beruht. Die Abrechnung muss monatlich erfolgen, spätestens bis Ende des Folgemonats (§ 87c HGB); ein Quartalsrhythmus ist vereinbar.",
+        a: "Nach § 87a HGB, sobald und soweit du das Geschäft ausgeführt hast, spätestens wenn der Kunde geleistet hat. Leistet der Kunde nicht, entfällt die Provision (§ 87a Abs. 2 HGB); führst du selbst das Geschäft nicht aus, bleibt sie bestehen, es sei denn, du hast das nicht zu vertreten (§ 87a Abs. 3 HGB). Die Abrechnung muss monatlich erfolgen, spätestens bis Ende des Folgemonats (§ 87c HGB); ein Quartalsrhythmus ist vereinbar.",
       },
       {
         q: "Wie hoch ist der Ausgleichsanspruch bei Vertragsende?",

@@ -202,7 +202,7 @@ export const VORLAGEN_VERWALTUNG: Vorlage[] = [
       },
       {
         q: "Was ist der Unterschied zwischen Einspruch und schlichtem Änderungsantrag?",
-        a: "Der Einspruch hält den ganzen Bescheid offen und zwingt das Finanzamt zu einer förmlichen Entscheidung, gegen die du klagen kannst. Ein Antrag auf schlichte Änderung (§ 172 Abs. 1 Nr. 2a AO) betrifft nur den konkret genannten Punkt und kann nicht zur Verböserung führen. Bei klaren Einzelfehlern reicht die schlichte Änderung, bei strittigen Fragen ist der Einspruch der stärkere Weg.",
+        a: "Der Einspruch hält den ganzen Bescheid offen und zwingt das Finanzamt zu einer förmlichen Entscheidung, gegen die du klagen kannst. Ein Antrag auf schlichte Änderung (§ 172 Abs. 1 Satz 1 Nr. 2 Buchst. a AO) betrifft nur den konkret genannten Punkt und kann nicht zur Verböserung führen. Bei klaren Einzelfehlern reicht die schlichte Änderung, bei strittigen Fragen ist der Einspruch der stärkere Weg.",
       },
       {
         q: "Wann bekomme ich die Aussetzung der Vollziehung?",
@@ -247,7 +247,7 @@ export const VORLAGEN_VERWALTUNG: Vorlage[] = [
       "Stundung gibt es nur bei erheblicher Härte und wenn der Steueranspruch dadurch nicht gefährdet ist (§ 222 AO). Wer nur das Geld lieber anders einsetzt, bekommt keine. Belege die Härte mit Zahlen, nicht mit Prosa.",
       "Für die Stundung fallen Stundungszinsen von 0,5 % pro vollen Monat an (§ 234 Abs. 1, § 238 Abs. 1 AO), also 6 % im Jahr. Das ist mehr als mancher Kontokorrentkredit. Rechne vorher, ob die Bank günstiger ist.",
       "Lohnsteuer und andere Steuerabzugsbeträge sind nicht stundbar (§ 222 Satz 3 und 4 AO), weil du sie nur für andere einbehältst. Bei Umsatzsteuer sind die Finanzämter sehr zurückhaltend, weil sie vom Kunden bereits vereinnahmt wurde.",
-      "Den Antrag vor dem Fälligkeitstag stellen. Ab Fälligkeit laufen Säumniszuschläge von 1 % pro angefangenen Monat (§ 240 AO), und zwar auch, wenn der Antrag noch bearbeitet wird und später bewilligt wird.",
+      "Den Antrag vor dem Fälligkeitstag stellen. Nur dann wirkt eine spätere Bewilligung nach der Verwaltungspraxis in der Regel auf den Fälligkeitstag zurück. Wer zu spät beantragt oder abgelehnt wird, zahlt ab Fälligkeit bzw. nach Ablauf einer kurzen Zahlungsfrist Säumniszuschläge von 1 % pro angefangenen Monat (§ 240 AO).",
     ],
     faqs: [
       {
@@ -353,7 +353,7 @@ export const VORLAGEN_VERWALTUNG: Vorlage[] = [
     hinweise: [
       "Gesetzliche Abgabefrist ohne Steuerberater: sieben Monate nach Ablauf des Kalenderjahres, also der 31.07. des Folgejahres (§ 149 Abs. 2 AO). Mit Steuerberater: Ende Februar des übernächsten Jahres (§ 149 Abs. 3 AO). Fällt das Fristende auf ein Wochenende oder einen Feiertag, gilt der nächste Werktag (§ 108 Abs. 3 AO). Für ältere Jahre galten verlängerte Corona-Fristen, prüfe das im Einzelfall.",
       "Eine Fristverlängerung ist Ermessenssache (§ 109 AO). Das Finanzamt muss nicht zustimmen; ein Antrag ohne Begründung wird oft abgelehnt. Schweigt das Finanzamt, gilt die Frist nicht automatisch als verlängert.",
-      "Der Verspätungszuschlag ist Pflicht, wenn die Erklärung nicht innerhalb von 14 Monaten nach Ablauf des Kalenderjahres eingeht (§ 152 Abs. 2 AO): 0,25 % der festgesetzten Steuer, mindestens 25 EUR je angefangenen Monat (§ 152 Abs. 5 AO). Eine bewilligte Fristverlängerung verhindert ihn.",
+      "Der Verspätungszuschlag ist Pflicht, wenn die Erklärung nicht innerhalb von 14 Monaten nach Ablauf des Kalenderjahres eingeht (§ 152 Abs. 2 AO): 0,25 % der festgesetzten Steuer abzüglich Vorauszahlungen und anzurechnender Steuerabzugsbeträge, mindestens 25 EUR je angefangenen Monat (§ 152 Abs. 5 AO). Eine bewilligte Fristverlängerung verhindert ihn.",
       "Die Dauerfristverlängerung für Umsatzsteuer-Voranmeldungen ist etwas anderes: Sie wird einmal elektronisch über ELSTER beantragt (§§ 46 bis 48 UStDV) und gilt dann für jede Voranmeldung. Dieses Schreiben betrifft nur die Jahreserklärungen.",
     ],
     faqs: [
@@ -416,11 +416,11 @@ export const VORLAGEN_VERWALTUNG: Vorlage[] = [
       },
       {
         q: "Was ist der Kündigungsbutton nach § 312k BGB?",
-        a: "Unternehmen, die Verbrauchern Dauerverträge über eine Website anbieten, müssen dort eine leicht zugängliche Kündigungsschaltfläche bereithalten, die zu einer Bestätigungsseite führt. Die Kündigung über diesen Button ist auch ohne Login wirksam und muss sofort elektronisch bestätigt werden. Für reine B2B-Verträge gilt die Pflicht nicht, viele Anbieter bieten den Button aber allen Kunden an.",
+        a: "Unternehmen, die Verbrauchern Dauerverträge über eine Website anbieten, müssen dort eine leicht zugängliche Kündigungsschaltfläche bereithalten, die zu einer Bestätigungsseite führt. Die Schaltfläche muss ständig verfügbar sowie unmittelbar und leicht zugänglich sein (§ 312k Abs. 2 BGB), und der Anbieter muss die Kündigung unverzüglich elektronisch in Textform bestätigen (§ 312k Abs. 4 BGB). Für reine B2B-Verträge gilt die Pflicht nicht, viele Anbieter bieten den Button aber allen Kunden an.",
       },
       {
         q: "Darf der Anbieter nach der Kündigung weiter abbuchen?",
-        a: "Nur bis zum Vertragsende und nur für vertraglich geschuldete Beträge. Danach fehlt die Grundlage, und du kannst Lastschriften innerhalb von acht Wochen zurückgeben lassen. Die Vorlage widerspricht der Weiterbelastung ausdrücklich und widerruft das SEPA-Mandat zum Vertragsende, damit du einen klaren Beleg hast.",
+        a: "Nur bis zum Vertragsende und nur für vertraglich geschuldete Beträge. Danach fehlt die Grundlage, und du kannst SEPA-Basislastschriften innerhalb von acht Wochen nach Belastung zurückgeben lassen (§ 675x Abs. 2 und 4 BGB); bei SEPA-Firmenlastschriften ist die Erstattung in der Regel ausgeschlossen. Die Vorlage widerspricht der Weiterbelastung ausdrücklich und widerruft das SEPA-Mandat zum Vertragsende, damit du einen klaren Beleg hast.",
       },
       {
         q: "Muss ich eine Begründung angeben?",
@@ -465,7 +465,7 @@ export const VORLAGEN_VERWALTUNG: Vorlage[] = [
     faqs: [
       {
         q: "Darf ich die ganze Rechnung zurückhalten, wenn ein Teil falsch ist?",
-        a: "Nein, nur den streitigen Teil. Für den Rest besteht die Zahlungspflicht, und ab Fälligkeit beziehungsweise 30 Tage nach Zugang der Rechnung tritt Verzug ein (§ 286 Abs. 3 BGB). Zahl also den unbestrittenen Betrag unter Angabe der Rechnungsnummer und halte nur die beanstandeten Positionen zurück.",
+        a: "Nein, nur den streitigen Teil. Für den Rest besteht die Zahlungspflicht: Verzug tritt nach Mahnung oder bei kalendermäßig bestimmtem Zahlungstermin ein, spätestens aber 30 Tage nach Fälligkeit und Zugang der Rechnung (§ 286 Abs. 1 bis 3 BGB). Zahl also den unbestrittenen Betrag unter Angabe der Rechnungsnummer und halte nur die beanstandeten Positionen zurück.",
       },
       {
         q: "Was tun, wenn der Lieferant trotzdem mahnt oder ein Inkassobüro einschaltet?",
@@ -568,15 +568,15 @@ export const VORLAGEN_VERWALTUNG: Vorlage[] = [
       "Unterschrift und Gegenzeichnungsfeld für die Vertragsübernahme",
     ],
     hinweise: [
-      "Eine Umfirmierung oder Sitzverlegung bei GmbH, UG, OHG, KG und e. K. wird erst mit der Eintragung im Handelsregister wirksam (§ 31 HGB, bei der GmbH §§ 53, 54 GmbHG). Verschicke das Schreiben erst, wenn die Eintragung vorliegt, und leg den Auszug bei.",
+      "Eine Umfirmierung oder Sitzverlegung bei GmbH und UG wird erst mit der Eintragung im Handelsregister wirksam (§§ 53, 54 Abs. 3 GmbHG); bei OHG, KG und e. K. ist die Änderung zur Eintragung anzumelden (§ 31 HGB). Verschicke das Schreiben erst, wenn die Eintragung vorliegt, und leg den Auszug bei.",
       "Beim Wechsel der Rechtsform entsteht ein neuer Rechtsträger mit neuer Steuernummer, neuer USt-IdNr. und meist neuem Konto. Bestehende Verträge gehen nicht automatisch über; Vertragspartner müssen der Übernahme zustimmen (§§ 414, 415 BGB analog für die Vertragsübernahme). Die Vorlage holt diese Zustimmung per Gegenzeichnung ein.",
       "Rechnungen müssen den vollständigen Namen und die Anschrift des Leistungsempfängers tragen (§ 14 Abs. 4 Nr. 1 UStG). Rechnungen auf die alte Firma nach dem Stichtag gefährden den Vorsteuerabzug; deshalb Lieferanten ausdrücklich zur Umstellung auffordern.",
-      "Neben den Geschäftspartnern sind zu aktualisieren: Gewerbeamt (Ummeldung, § 14 GewO), Finanzamt (§ 137 AO), IHK/HWK, Berufsgenossenschaft, Impressum und Datenschutzerklärung (§ 5 DDG), Marktplätze, Google Unternehmensprofil, Domain-Registrar und Versicherungen. Für die Post einen Nachsendeauftrag einrichten.",
+      "Neben den Geschäftspartnern sind zu aktualisieren: Gewerbeamt (Ummeldung, § 14 GewO), Finanzamt (bei Gesellschaften § 137 AO), IHK/HWK, Berufsgenossenschaft, Impressum (§ 5 DDG) und Datenschutzerklärung (Art. 13 DSGVO), Marktplätze, Google Unternehmensprofil, Domain-Registrar und Versicherungen. Für die Post einen Nachsendeauftrag einrichten.",
     ],
     faqs: [
       {
         q: "Muss ich das Finanzamt gesondert informieren?",
-        a: "Ja. Änderungen der Anschrift und des Unternehmensnamens teilst du dem Finanzamt formlos mit, am einfachsten über Mein ELSTER. Bei einem Rechtsformwechsel in eine Kapitalgesellschaft ist zusätzlich der Fragebogen zur steuerlichen Erfassung für die neue Gesellschaft Pflicht; er ist innerhalb eines Monats nach Gründung elektronisch zu übermitteln (§ 138 Abs. 1b AO).",
+        a: "Ja. Änderungen der Anschrift und des Unternehmensnamens teilst du dem Finanzamt formlos mit, am einfachsten über Mein ELSTER. Bei einem Rechtsformwechsel in eine Kapitalgesellschaft ist zusätzlich der Fragebogen zur steuerlichen Erfassung für die neue Gesellschaft Pflicht; er ist innerhalb eines Monats nach Gründung bzw. Betriebseröffnung elektronisch zu übermitteln (§ 138 Abs. 1b, Abs. 4 AO).",
       },
       {
         q: "Bleibt meine USt-IdNr. bei einer Adressänderung erhalten?",

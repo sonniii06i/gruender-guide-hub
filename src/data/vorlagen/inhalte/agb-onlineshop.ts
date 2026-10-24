@@ -121,7 +121,7 @@ Die gelieferte Ware bleibt bis zur vollständigen Bezahlung des Kaufpreises Eige
 (4) Soweit die Haftung des Verkäufers ausgeschlossen oder beschränkt ist, gilt dies auch für die persönliche Haftung seiner Mitarbeiter, Vertreter und Erfüllungsgehilfen.
 
 § 10 Streitbeilegung
-(1) Der Verkäufer ist [nicht bereit und nicht verpflichtet / bereit], an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen (§ 36 VSBG). [Bei Bereitschaft: Zuständig ist die Allgemeine Verbraucherschlichtungsstelle des Zentrums für Schlichtung e. V., Straßburger Straße 8, 77694 Kehl, www.verbraucher-schlichter.de.]
+(1) Der Verkäufer ist [nicht bereit und nicht verpflichtet / bereit], an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen (§ 36 VSBG). [Bei Bereitschaft: Zuständig ist die Universalschlichtungsstelle des Bundes, Straßburger Straße 8, 77694 Kehl am Rhein, www.universalschlichtungsstelle.de.]
 (2) Die Europäische Plattform zur Online-Streitbeilegung (OS-Plattform) wurde zum 20.07.2025 eingestellt; ein Verweis darauf erfolgt daher nicht mehr.
 
 § 11 Vertragssprache, Speicherung des Vertragstextes

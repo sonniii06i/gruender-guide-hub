@@ -60,10 +60,10 @@ Außerdem oft vergessen: die Abfindungsklausel. Ohne Methode und Ratenzahlung ka
         text: `Die GbR ist in den §§ 705 ff. BGB geregelt. Mit dem Gesetz zur Modernisierung des Personengesellschaftsrechts (MoPeG) wurden diese Vorschriften zum 1. Januar 2024 grundlegend neu gefasst. Die wichtigsten Punkte für Gründer:
 
 - Die GbR ist rechtsfähig, kann also selbst Verträge schließen, klagen und Eigentum halten.
-- Ohne Vertrag richtet sich die Gewinnverteilung nach den Beteiligungsverhältnissen, im Zweifel nach dem Wert der vereinbarten Beiträge, nicht mehr nach Köpfen.
+- Ohne Vertrag richtet sich die Gewinnverteilung nach den vereinbarten Beteiligungsverhältnissen, hilfsweise nach dem Wert der vereinbarten Beiträge; erst wenn beides fehlt, nach Köpfen (§ 709 Abs. 3 BGB).
 - Kündigt ein Gesellschafter, scheidet er aus und die Gesellschaft wird fortgesetzt; die automatische Auflösung ist abgeschafft.
 - Ein ausgeschiedener Gesellschafter haftet für Altverbindlichkeiten noch fünf Jahre nach (§ 728b BGB).
-- Neu ist das Gesellschaftsregister: Die Eintragung als eGbR ist freiwillig, aber Voraussetzung, wenn die GbR Grundstücke, GmbH-Anteile oder Marken erwerben will. Eingetragene GbRs müssen auch ins Transparenzregister.
+- Neu ist das Gesellschaftsregister: Die Eintragung als eGbR ist freiwillig, aber Voraussetzung, wenn die GbR Grundstücke oder GmbH-Anteile erwerben will (§ 47 Abs. 2 GBO, § 40 Abs. 1 GmbHG). Eingetragene GbRs müssen auch ins Transparenzregister.
 
 Der Vertrag selbst ist formfrei und braucht keinen Notar. Nur wenn ein Gesellschafter ein Grundstück einbringt, ist notarielle Beurkundung nötig. Gewerbliche GbRs melden jeden Gesellschafter beim Gewerbeamt an; freiberufliche GbRs melden sich nur beim Finanzamt. In beiden Fällen gibt die Gesellschaft jährlich eine Feststellungserklärung ab.`,
       },

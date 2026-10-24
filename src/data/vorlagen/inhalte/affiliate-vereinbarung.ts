@@ -97,7 +97,7 @@ und
 
 § 5 Abrechnung und Auszahlung
 (1) Der Betreiber erstellt monatlich bis zum [z. B. 10.] des Folgemonats eine Abrechnung über alle provisionspflichtigen Transaktionen, deren Stornofrist abgelaufen ist.
-(2) Die Auszahlung erfolgt im Gutschriftverfahren (§ 14 Abs. 2 Satz 2 UStG). Der Partner stimmt der Abrechnung per Gutschrift zu und teilt dem Betreiber seine USt-IdNr. oder seinen Status als Kleinunternehmer mit. Bei Partnern aus dem EU-Ausland geht die Steuerschuld auf den Leistungsempfänger über (Reverse-Charge-Verfahren); der Partner weist seine USt-IdNr. nach.
+(2) Die Auszahlung erfolgt im Gutschriftverfahren (§ 14 Abs. 2 Satz 5 UStG). Der Partner stimmt der Abrechnung per Gutschrift zu und teilt dem Betreiber seine USt-IdNr. oder seinen Status als Kleinunternehmer mit. Bei Partnern aus dem EU-Ausland geht die Steuerschuld auf den Leistungsempfänger über (Reverse-Charge-Verfahren); der Partner weist seine USt-IdNr. nach.
 (3) Die Auszahlung erfolgt per [Überweisung / PayPal] auf das vom Partner benannte Konto, sobald das Guthaben mindestens [z. B. 50] EUR beträgt. Guthaben unterhalb des Mindestbetrags werden vorgetragen. Nicht abgerufene Guthaben verfallen [nicht / nach Ablauf von drei Jahren ab Abrechnung].
 (4) Einwendungen gegen eine Abrechnung sind innerhalb von [z. B. 30] Tagen nach Zugang in Textform zu erheben; danach gilt die Abrechnung als anerkannt, worauf der Betreiber in der Abrechnung hinweist.
 

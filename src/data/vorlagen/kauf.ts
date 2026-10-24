@@ -46,7 +46,7 @@ export const VORLAGEN_KAUF: Vorlage[] = [
       },
       {
         q: "Was passiert, wenn der Käufer nicht zahlt?",
-        a: "Nach Fälligkeit und Ablauf der Zahlungsfrist gerät der Käufer in Verzug, bei Unternehmern spätestens 30 Tage nach Rechnung. Es fallen Verzugszinsen von 9 Prozentpunkten über dem Basiszinssatz an (§ 288 Abs. 2 BGB) und eine Pauschale von 40 EUR. Dank Eigentumsvorbehalt kannst du die Ware außerdem zurückverlangen.",
+        a: "Nach Fälligkeit und Ablauf der Zahlungsfrist gerät der Käufer in Verzug, spätestens 30 Tage nach Fälligkeit und Zugang der Rechnung (§ 286 Abs. 3 BGB). Es fallen Verzugszinsen von 9 Prozentpunkten über dem Basiszinssatz an (§ 288 Abs. 2 BGB) und eine Pauschale von 40 EUR. Dank Eigentumsvorbehalt kannst du die Ware außerdem zurückverlangen.",
       },
       {
         q: "Gilt die Vorlage auch für Verkäufe an Verbraucher?",
@@ -84,10 +84,10 @@ export const VORLAGEN_KAUF: Vorlage[] = [
       "Übergabebestätigung",
     ],
     hinweise: [
-      "Der Gewährleistungsausschluss wirkt nur zwischen Privatpersonen. Sobald eine Seite gewerblich handelt (auch Vielverkäufer auf Marktplätzen), ist der Ausschluss gegenüber einem Verbraucher unwirksam (§ 476 BGB).",
+      "Der Gewährleistungsausschluss wirkt nur zwischen Privatpersonen. Sobald der Verkäufer gewerblich handelt (auch Vielverkäufer auf Marktplätzen), ist der Ausschluss gegenüber einem Verbraucher als Käufer unwirksam (§ 476 BGB).",
       "Arglistig verschwiegene Mängel und ausdrückliche Zusicherungen bleiben trotz Ausschluss haftungsrelevant (§ 444 BGB). Schreibe alle bekannten Mängel ehrlich in § 1.",
       "Sei vorsichtig mit Formulierungen wie „funktioniert einwandfrei“: Das kann als Beschaffenheitsgarantie gelten und hebelt den Ausschluss aus.",
-      "Bei Barzahlung über 10.000 EUR gelten Pflichten nach dem Geldwäschegesetz für gewerbliche Händler; unter Privaten empfiehlt sich trotzdem Überweisung mit Verwendungszweck als Nachweis.",
+      "Bei Barzahlung ab 10.000 EUR gelten Pflichten nach dem Geldwäschegesetz für gewerbliche Händler; unter Privaten empfiehlt sich trotzdem Überweisung mit Verwendungszweck als Nachweis.",
     ],
     faqs: [
       {
@@ -96,7 +96,7 @@ export const VORLAGEN_KAUF: Vorlage[] = [
       },
       {
         q: "Was ist, wenn die Sache nach der Übergabe kaputtgeht?",
-        a: "Mit Übergabe geht die Gefahr auf den Käufer über (§ 446 BGB). Wird die Sache danach beschädigt oder fällt sie aus, trägt der Käufer das Risiko, es sei denn, der Mangel war schon bei Übergabe angelegt und wurde arglistig verschwiegen. Ohne Gewährleistungsausschluss würde für sechs Monate vermutet, dass der Mangel schon bei Übergabe vorlag.",
+        a: "Mit Übergabe geht die Gefahr auf den Käufer über (§ 446 BGB). Wird die Sache danach beschädigt oder fällt sie aus, trägt der Käufer das Risiko, es sei denn, der Mangel war schon bei Übergabe angelegt und wurde arglistig verschwiegen. Die gesetzliche Vermutung, dass der Mangel schon bei Übergabe vorlag (ein Jahr, § 477 BGB), gilt nur beim Kauf vom Unternehmer, nicht unter Privatpersonen.",
       },
       {
         q: "Brauche ich zusätzlich eine Quittung?",
@@ -141,7 +141,7 @@ export const VORLAGEN_KAUF: Vorlage[] = [
     hinweise: [
       "Bis zur Ummeldung haftet der Verkäufer gegenüber der Zulassungsstelle und Versicherung weiter. Melde den Verkauf sofort bei Zulassungsstelle und Versicherung (Veräußerungsanzeige), auch wenn der Käufer die Ummeldung zusagt.",
       "Die Zulassungsbescheinigung Teil II (früher Fahrzeugbrief) erst nach vollständiger Zahlung aushändigen. Wer sie hat, kann das Fahrzeug zulassen und weiterverkaufen.",
-      "Umsatzsteuer: Beim Verkauf aus dem Betriebsvermögen fällt Umsatzsteuer an, sofern der Verkäufer nicht Kleinunternehmer ist. Ist das Fahrzeug ohne Vorsteuerabzug erworben worden, kann die Differenzbesteuerung (§ 25a UStG) greifen – dann kein USt-Ausweis auf der Rechnung.",
+      "Umsatzsteuer: Beim Verkauf aus dem Betriebsvermögen fällt Umsatzsteuer an, sofern der Verkäufer nicht Kleinunternehmer ist. Die Differenzbesteuerung (§ 25a UStG) gilt nur für Wiederverkäufer, also den gewerblichen Fahrzeughandel, bei Fahrzeugen, die ohne Vorsteuerabzug erworben wurden – dann kein USt-Ausweis auf der Rechnung.",
       "Angaben zu Unfallfreiheit und Kilometerstand sind Beschaffenheitsvereinbarungen. Stimmen sie nicht, haftet der Verkäufer auch bei verkürzter Gewährleistung. Nur schreiben, was du belegen kannst.",
     ],
     faqs: [
@@ -159,7 +159,7 @@ export const VORLAGEN_KAUF: Vorlage[] = [
       },
       {
         q: "Muss der Kaufpreis Umsatzsteuer enthalten?",
-        a: "Verkauft ein regelbesteuerter Unternehmer aus dem Betriebsvermögen, ja: Netto plus 19 % USt, der Käufer kann die Vorsteuer ziehen. Kleinunternehmer weisen keine USt aus. Bei Fahrzeugen, die ohne Vorsteuerabzug angeschafft wurden (z. B. von privat), kann die Differenzbesteuerung angewendet werden; dann darf die USt nicht offen ausgewiesen werden.",
+        a: "Verkauft ein regelbesteuerter Unternehmer aus dem Betriebsvermögen, ja: Netto plus 19 % USt, der Käufer kann die Vorsteuer ziehen. Kleinunternehmer weisen keine USt aus. Ist der Verkäufer Wiederverkäufer (Kfz-Handel) und hat er das Fahrzeug ohne Vorsteuerabzug angeschafft (z. B. von privat), kann die Differenzbesteuerung nach § 25a UStG angewendet werden; dann darf die USt nicht offen ausgewiesen werden.",
       },
     ],
     seo: {
@@ -477,19 +477,19 @@ export const VORLAGEN_KAUF: Vorlage[] = [
     ],
     hinweise: [
       "Wer ein Handelsgeschäft unter der bisherigen Firma fortführt, haftet für alle Altverbindlichkeiten (§ 25 Abs. 1 HGB). Der Ausschluss wirkt gegenüber Dritten nur, wenn er ins Handelsregister eingetragen und bekanntgemacht oder dem Dritten mitgeteilt wird (§ 25 Abs. 2 HGB). Die Vorlage sieht beides vor – ohne Eintragung ist die Klausel nach außen wertlos.",
-      "Arbeitsverhältnisse gehen beim Betriebsübergang automatisch über (§ 613a BGB). Kündigungen wegen des Übergangs sind unwirksam. Jeder Mitarbeiter muss vorher schriftlich informiert werden und hat einen Monat Widerspruchsrecht; eine fehlerhafte Information lässt die Frist nicht laufen.",
+      "Arbeitsverhältnisse gehen beim Betriebsübergang automatisch über (§ 613a BGB). Kündigungen wegen des Übergangs sind unwirksam. Jeder Mitarbeiter muss vorher in Textform informiert werden (§ 613a Abs. 5 BGB) und kann innerhalb eines Monats schriftlich widersprechen (§ 613a Abs. 6 BGB); eine fehlerhafte Information lässt die Frist nicht laufen.",
       "Die Kaufpreisaufteilung auf Anlagegüter, Warenbestand und Firmenwert bestimmt die Abschreibung beim Käufer und die Besteuerung beim Verkäufer. Vorher mit dem Steuerberater abstimmen; das Finanzamt prüft unrealistische Aufteilungen.",
-      "Steuerschulden des Betriebs können den Erwerber treffen (§ 75 AO, Haftung für Betriebssteuern des letzten Jahres vor Übereignung). Unbedenklichkeitsbescheinigung des Finanzamts und Freistellung im Vertrag sind Pflicht.",
+      "Steuerschulden des Betriebs können den Erwerber treffen (§ 75 AO, Haftung für betriebliche Steuern und Steuerabzugsbeträge, die seit Beginn des letzten Kalenderjahres vor der Übereignung entstanden sind, beschränkt auf das übernommene Vermögen). Unbedenklichkeitsbescheinigung des Finanzamts und Freistellung im Vertrag sind Pflicht.",
       "Grundstücke und GmbH-Anteile brauchen den Notar. Diese Vorlage ist für Betriebe ohne eigenen Grundbesitz; Mietverträge werden mit Zustimmung des Vermieters übernommen.",
     ],
     faqs: [
       {
         q: "Was ist der Unterschied zwischen Asset Deal und Share Deal?",
-        a: "Beim Asset Deal kaufst du einzelne Vermögensgegenstände, Verträge und Rechte des Unternehmens; jeder Gegenstand muss einzeln übertragen werden, Verträge brauchen die Zustimmung des Vertragspartners. Beim Share Deal kaufst du die Anteile an der Gesellschaft (GmbH, UG); das Unternehmen bleibt mit allen Verträgen und Risiken unverändert. Für Einzelunternehmen und GbR gibt es nur den Asset Deal.",
+        a: "Beim Asset Deal kaufst du einzelne Vermögensgegenstände, Verträge und Rechte des Unternehmens; jeder Gegenstand muss einzeln übertragen werden, Verträge brauchen die Zustimmung des Vertragspartners. Beim Share Deal kaufst du die Anteile an der Gesellschaft (GmbH, UG); das Unternehmen bleibt mit allen Verträgen und Risiken unverändert. Für Einzelunternehmen gibt es nur den Asset Deal; bei einer GbR ist auch die Übertragung der Gesellschaftsanteile mit Zustimmung der Mitgesellschafter möglich.",
       },
       {
         q: "Gehen die Mitarbeiter automatisch mit?",
-        a: "Ja. Übernimmst du den Betrieb oder einen abgrenzbaren Betriebsteil, trittst du nach § 613a BGB in alle bestehenden Arbeitsverhältnisse ein, mit Betriebszugehörigkeit, Gehalt, Urlaubsansprüchen und Kündigungsschutz. Der Verkäufer oder du musst jeden Mitarbeiter vorher schriftlich über Zeitpunkt, Grund, Folgen und geplante Maßnahmen informieren. Mitarbeiter können innerhalb eines Monats widersprechen und bleiben dann beim Verkäufer.",
+        a: "Ja. Übernimmst du den Betrieb oder einen abgrenzbaren Betriebsteil, trittst du nach § 613a BGB in alle bestehenden Arbeitsverhältnisse ein, mit Betriebszugehörigkeit, Gehalt, Urlaubsansprüchen und Kündigungsschutz. Der Verkäufer oder du musst jeden Mitarbeiter vorher in Textform über Zeitpunkt, Grund, Folgen und geplante Maßnahmen informieren. Mitarbeiter können innerhalb eines Monats nach Zugang der Unterrichtung schriftlich widersprechen und bleiben dann beim Verkäufer (§ 613a Abs. 5 und 6 BGB).",
       },
       {
         q: "Wie schütze ich mich als Käufer vor versteckten Schulden?",
@@ -497,7 +497,7 @@ export const VORLAGEN_KAUF: Vorlage[] = [
       },
       {
         q: "Brauche ich für den Asset Deal einen Notar?",
-        a: "Nur wenn ein Grundstück oder GmbH-Anteile mitverkauft werden. Ein Unternehmen ohne Grundbesitz lässt sich privatschriftlich übertragen. Die Handelsregisteranmeldung des Haftungsausschlusses und einer Firmenfortführung muss aber notariell beglaubigt werden. Wegen der Komplexität solltest du den fertigen Vertrag vor Unterschrift anwaltlich prüfen lassen.",
+        a: "Nur wenn ein Grundstück oder GmbH-Anteile mitverkauft werden oder sich eine Seite verpflichtet, ihr gesamtes gegenwärtiges Vermögen zu übertragen, etwa eine Gesellschaft, die alles verkauft (§ 311b Abs. 3 BGB). Ein Unternehmen ohne Grundbesitz lässt sich privatschriftlich übertragen. Die Handelsregisteranmeldung des Haftungsausschlusses und einer Firmenfortführung muss aber notariell beglaubigt werden. Wegen der Komplexität solltest du den fertigen Vertrag vor Unterschrift anwaltlich prüfen lassen.",
       },
     ],
     seo: {
@@ -653,7 +653,7 @@ export const VORLAGEN_KAUF: Vorlage[] = [
     hinweise: [
       "Beim Kommissionsgeschäft verkauft der Kommissionär im eigenen Namen, aber für fremde Rechnung (§ 383 HGB). Gegenüber dem Endkunden ist er Verkäufer mit allen Gewährleistungspflichten; im Innenverhältnis trägt der Kommittent das Absatzrisiko. Die Vorlage regelt, wer Gewährleistungskosten am Ende trägt.",
       "Die Ware bleibt Eigentum des Kommittenten, bis sie an den Kunden verkauft ist. Das schützt in der Insolvenz des Händlers (Aussonderung) – aber nur, wenn die Ware eindeutig als Kommissionsware gekennzeichnet und in Listen geführt wird.",
-      "Umsatzsteuerlich gilt die Lieferung an den Kommissionär erst mit dem Verkauf an den Kunden als ausgeführt (Kommissionsgeschäft, § 3 Abs. 3 UStG). Der Kommissionär rechnet dem Kommittenten per Gutschrift ab; das Verfahren mit dem Steuerberater abstimmen.",
+      "Umsatzsteuerlich gilt die Lieferung an den Kommissionär erst mit dem Verkauf an den Kunden als ausgeführt (Kommissionsgeschäft, § 3 Abs. 3 UStG, Abschn. 3.1 Abs. 3 UStAE). Der Kommissionär rechnet dem Kommittenten per Gutschrift ab; das Verfahren mit dem Steuerberater abstimmen.",
       "Der Kommissionär hat gesetzlich ein Pfandrecht an der Kommissionsware für seine Provision und Aufwendungen (§ 397 HGB). Wer das als Kommittent nicht will, muss es ausdrücklich ausschließen – die Vorlage sieht das vor.",
     ],
     faqs: [
@@ -663,7 +663,7 @@ export const VORLAGEN_KAUF: Vorlage[] = [
       },
       {
         q: "Wer haftet, wenn Kommissionsware im Laden gestohlen oder beschädigt wird?",
-        a: "Gesetzlich haftet der Kommissionär für die Sorgfalt eines ordentlichen Kaufmanns (§ 384 HGB); zufälligen Untergang trägt grundsätzlich der Eigentümer, also der Kommittent. Die Vorlage überträgt die Gefahr für Verlust, Diebstahl und Beschädigung ab Übernahme auf den Kommissionär und verpflichtet ihn zur Versicherung, denn er hat die Ware unter Kontrolle.",
+        a: "Gesetzlich haftet der Kommissionär für Verlust und Beschädigung, wenn er die Sorgfalt eines ordentlichen Kaufmanns verletzt (§§ 384, 390 HGB); zufälligen Untergang trägt grundsätzlich der Eigentümer, also der Kommittent. Die Vorlage überträgt die Gefahr für Verlust, Diebstahl und Beschädigung ab Übernahme auf den Kommissionär und verpflichtet ihn zur Versicherung, denn er hat die Ware unter Kontrolle.",
       },
       {
         q: "Wie wird abgerechnet?",
@@ -671,7 +671,7 @@ export const VORLAGEN_KAUF: Vorlage[] = [
       },
       {
         q: "Darf der Kommissionär die Ware billiger verkaufen als vereinbart?",
-        a: "Nein, nicht ohne Zustimmung. Unterschreitet er den vorgegebenen Mindestpreis, muss er dem Kommittenten die Differenz ersetzen (§ 386 HGB). Die Vorlage sieht einen vom Kommittenten festgelegten Verkaufspreis bzw. Mindestpreis und eine Regelung für Rabattaktionen vor.",
+        a: "Nein, nicht ohne Zustimmung. Unterschreitet er den vorgegebenen Mindestpreis, kann der Kommittent das Geschäft unverzüglich zurückweisen, es sei denn, der Kommissionär bietet an, die Differenz zu ersetzen (§ 386 HGB). Die Vorlage sieht einen vom Kommittenten festgelegten Verkaufspreis bzw. Mindestpreis und eine Regelung für Rabattaktionen vor.",
       },
     ],
     seo: {

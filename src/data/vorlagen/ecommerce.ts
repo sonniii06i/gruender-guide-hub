@@ -35,7 +35,7 @@ export const VORLAGEN_ECOMMERCE: Vorlage[] = [
     ],
     hinweise: [
       "Der Bestellbutton muss nach § 312j Abs. 3 BGB eindeutig beschriftet sein („zahlungspflichtig bestellen“ oder gleichwertig). Fehlt das, kommt kein Vertrag zustande – die AGB retten das nicht.",
-      "Die OS-Plattform der EU wurde am 20.07.2025 eingestellt. Ein Link auf ec.europa.eu/consumers/odr gehört nicht mehr in AGB oder Impressum; nur der VSBG-Hinweis bleibt Pflicht.",
+      "Die OS-Plattform der EU wurde am 20.07.2025 eingestellt. Ein Link auf ec.europa.eu/consumers/odr gehört nicht mehr in AGB oder Impressum; Pflicht bleibt nur der Hinweis nach § 36 VSBG (ab mehr als zehn Beschäftigten).",
       "AGB gelten nur, wenn der Kunde sie vor dem Bestellabschluss zur Kenntnis nehmen kann (§ 305 Abs. 2 BGB): Link im Checkout und auf jeder Seite, dazu Speicher- und Druckmöglichkeit.",
       "Bei Preisermäßigungen musst du nach § 11 PAngV den niedrigsten Preis der letzten 30 Tage angeben. Das steht nicht in den AGB, wird aber bei jedem Rabatt geprüft.",
       "Widerrufsbelehrung und Muster-Widerrufsformular sind eigene Dokumente (siehe die Vorlagen dazu). Sie müssen in Textform (E-Mail, PDF) spätestens mit der Ware beim Kunden ankommen.",
@@ -55,7 +55,7 @@ export const VORLAGEN_ECOMMERCE: Vorlage[] = [
       },
       {
         q: "Was ist mit dem OS-Link, der früher Pflicht war?",
-        a: "Die Verordnung (EU) Nr. 524/2013 wurde aufgehoben und die Plattform zur Online-Streitbeilegung am 20.07.2025 abgeschaltet. Der Link ist damit nicht nur überflüssig, sondern irreführend. Entferne ihn aus AGB, Impressum und Fußzeile. Der Hinweis nach § 36 VSBG, ob du an einem Schlichtungsverfahren teilnimmst, bleibt Pflicht.",
+        a: "Die Verordnung (EU) Nr. 524/2013 wurde aufgehoben und die Plattform zur Online-Streitbeilegung am 20.07.2025 abgeschaltet. Der Link ist damit nicht nur überflüssig, sondern irreführend. Entferne ihn aus AGB, Impressum und Fußzeile. Der Hinweis nach § 36 VSBG, ob du an einem Schlichtungsverfahren teilnimmst, bleibt für Unternehmen mit mehr als zehn Beschäftigten Pflicht (§ 36 Abs. 3 VSBG).",
       },
     ],
     seo: {
@@ -89,10 +89,11 @@ export const VORLAGEN_ECOMMERCE: Vorlage[] = [
       "Hinweis zur Einbindung mit dem Muster-Widerrufsformular",
     ],
     hinweise: [
-      "Die Belehrung muss dem Kunden in Textform (E-Mail, PDF) spätestens mit der Ware zugehen (Art. 246a § 4 EGBGB). Fehlt sie oder ist sie falsch, läuft die Widerrufsfrist erst nach 12 Monaten und 14 Tagen ab (§ 356 Abs. 3 BGB).",
+      "Die Belehrung muss dem Kunden auf einem dauerhaften Datenträger (E-Mail, PDF) spätestens mit der Ware zugehen (§ 312f Abs. 2 BGB). Fehlt sie oder ist sie falsch, beginnt die Widerrufsfrist nicht (§ 356 Abs. 3 BGB); das Widerrufsrecht erlischt dann erst 12 Monate und 14 Tage nach Erhalt der Ware (§ 356 Abs. 4 BGB).",
       "Nur eine Fristvariante verwenden: Entscheide dich je nach Shop für „die Waren“, „die letzte Ware“, „die letzte Teilsendung“ oder „die erste Ware“ und streiche die anderen. Mehrere Varianten in einer Belehrung machen sie unklar und damit unwirksam.",
       "Wer die Rücksendekosten übernehmen will, ersetzt den Satz „Sie tragen die unmittelbaren Kosten der Rücksendung“ durch „Wir tragen die Kosten der Rücksendung der Waren“. Ein Rücksendeetikett ersetzt die Belehrung nicht.",
       "Die Ausschlüsse nach § 312g Abs. 2 BGB gelten nur, wenn sie tatsächlich zutreffen. Hygieneartikel sind nur ausgeschlossen, wenn sie versiegelt geliefert und die Versiegelung entfernt wurde; „aus hygienischen Gründen keine Rücknahme“ pauschal ist unwirksam.",
+      "Seit dem 19.06.2026 muss jeder Shop, der Verträge über eine Online-Benutzeroberfläche schließt, eine Widerrufsfunktion bereitstellen (§ 356a BGB: „Vertrag widerrufen“, dann „Widerruf bestätigen“, Eingangsbestätigung mit Datum und Uhrzeit). Die Belehrung muss auf diese Funktion hinweisen; die Vorlage enthält den Satz aus dem gesetzlichen Muster.",
     ],
     faqs: [
       {
@@ -142,7 +143,7 @@ export const VORLAGEN_ECOMMERCE: Vorlage[] = [
     hinweise: [
       "Das Formular ist Pflicht (Art. 246a § 1 Abs. 2 Satz 1 Nr. 1 EGBGB), aber der Kunde muss es nicht benutzen. Jede eindeutige Erklärung reicht, auch eine formlose E-Mail oder ein Anruf, wenn du Telefon als Weg angibst.",
       "Das Formular gehört in Textform zum Kunden: Verlinkung im Shop allein genügt nicht. Hänge es als PDF an die Bestellbestätigung oder lege es der Ware bei.",
-      "Wer einen Widerruf online über ein Webformular ermöglicht, muss den Eingang unverzüglich bestätigen (z. B. per E-Mail); das ist in der Widerrufsbelehrung entsprechend zu ergänzen.",
+      "Bei Verträgen über eine Online-Benutzeroberfläche ist seit dem 19.06.2026 eine Widerrufsfunktion Pflicht (§ 356a BGB). Wer zusätzlich ein Webformular anbietet, muss den Eingang unverzüglich auf einem dauerhaften Datenträger bestätigen (§ 356 Abs. 1 BGB); beides ist in der Widerrufsbelehrung mit den Sätzen aus dem gesetzlichen Muster zu ergänzen.",
       "Das Formular nicht umformulieren und nicht um Pflichtfelder wie Bestellnummer oder Rückgabegrund erweitern. Zusätzliche Angaben dürfen nur freiwillig und klar als freiwillig gekennzeichnet sein.",
     ],
     faqs: [
@@ -195,18 +196,18 @@ export const VORLAGEN_ECOMMERCE: Vorlage[] = [
     hinweise: [
       "Seit dem 14.05.2024 steht die Impressumspflicht in § 5 DDG, nicht mehr in § 5 TMG. Ein Verweis auf das TMG ist nicht automatisch abmahnbar, zeigt aber ein ungepflegtes Impressum; die Vorlage verwendet durchgehend das DDG.",
       "Eine ladungsfähige Anschrift ist Pflicht. Postfach, Packstation oder reine Briefkastenadressen reichen nicht. Wer von zu Hause arbeitet, muss die Privatadresse nennen oder eine echte Geschäftsadresse mit Postempfang nutzen.",
-      "Die USt-IdNr. ist nur anzugeben, wenn du eine hast. Die Steuernummer gehört nicht ins Impressum. Fehlt die USt-IdNr., kann die Wirtschafts-Identifikationsnummer (W-IdNr.) genannt werden.",
+      "Die USt-IdNr. ist nur anzugeben, wenn du eine hast. Die Steuernummer gehört nicht ins Impressum. Hast du statt einer USt-IdNr. eine Wirtschafts-Identifikationsnummer (W-IdNr.), ist diese anzugeben (§ 5 Abs. 1 Nr. 6 DDG).",
       "Eine UG muss immer als „UG (haftungsbeschränkt)“ oder „Unternehmergesellschaft (haftungsbeschränkt)“ auftreten; der Zusatz darf nicht abgekürzt werden. Fehlt er, droht persönliche Haftung.",
       "Das Impressum muss von jeder Seite mit höchstens zwei Klicks erreichbar und als „Impressum“ erkennbar sein. Das gilt auch für Instagram-, TikTok- und LinkedIn-Profile, die geschäftlich genutzt werden.",
     ],
     faqs: [
       {
         q: "Was hat sich mit dem Wechsel vom TMG zum DDG geändert?",
-        a: "Inhaltlich fast nichts: Die Pflichtangaben des § 5 TMG wurden nahezu wortgleich in § 5 DDG übernommen. Neu ist die Rechtsgrundlage, weil das TMG mit dem Digitale-Dienste-Gesetz vom 14.05.2024 aufgehoben wurde. Wer in seinem Impressum „§ 5 TMG“ schreibt, sollte das auf „§ 5 DDG“ ändern.",
+        a: "Inhaltlich fast nichts: Die Pflichtangaben des § 5 TMG wurden nahezu wortgleich in § 5 DDG übernommen. Neu ist die Rechtsgrundlage, weil das TMG mit dem Inkrafttreten des Digitale-Dienste-Gesetzes am 14.05.2024 aufgehoben wurde. Wer in seinem Impressum „§ 5 TMG“ schreibt, sollte das auf „§ 5 DDG“ ändern.",
       },
       {
         q: "Brauche ich als Kleinunternehmer ein Impressum?",
-        a: "Ja, sobald du geschäftsmäßig einen digitalen Dienst anbietest, also eine Website, einen Shop oder ein geschäftliches Social-Media-Profil betreibst. Die Kleinunternehmerregelung betrifft nur die Umsatzsteuer. Ohne USt-IdNr. lässt du das Feld einfach weg.",
+        a: "Ja, sobald du geschäftsmäßig einen digitalen Dienst anbietest, also eine Website, einen Shop oder ein geschäftliches Social-Media-Profil betreibst. Die Kleinunternehmerregelung betrifft nur die Umsatzsteuer. Ohne USt-IdNr. und ohne Wirtschafts-Identifikationsnummer lässt du das Feld einfach weg.",
       },
       {
         q: "Wann brauche ich einen Verantwortlichen nach § 18 Abs. 2 MStV?",
@@ -312,7 +313,7 @@ export const VORLAGEN_ECOMMERCE: Vorlage[] = [
     ],
     hinweise: [
       "Gegenüber dem Endkunden bist immer du der Verkäufer, nicht der Lieferant. Widerruf, Gewährleistung und Lieferverzug treffen dich; der Vertrag regelt nur, was du beim Lieferanten zurückholen kannst.",
-      "Seit der GPSR (Verordnung (EU) 2023/988, ab 13.12.2024) musst du im Online-Angebot Hersteller mit Anschrift und E-Mail, ggf. die verantwortliche Person in der EU und Sicherheitshinweise nennen. Kann der Lieferant diese Daten nicht liefern, darfst du das Produkt nicht anbieten.",
+      "Seit der GPSR (Verordnung (EU) 2023/988, ab 13.12.2024) musst du im Online-Angebot Hersteller mit Postanschrift und elektronischer Adresse, ggf. die verantwortliche Person in der EU, eine Produktkennung und Sicherheitshinweise nennen (Art. 19 GPSR). Kann der Lieferant diese Daten nicht liefern, darfst du das Produkt nicht anbieten.",
       "Liefert der Lieferant aus einem Drittland (z. B. China) direkt an deine Kunden, wirst du in der Regel selbst Importeur mit allen Pflichten (Produkthaftung nach § 4 Abs. 2 ProdHaftG, Konformität, Verpackungsregistrierung bei LUCID, ElektroG). Die Vorlage setzt einen EU-Lieferanten voraus.",
       "Umsatzsteuerlich ist Dropshipping ein Reihengeschäft. Wer bei Lieferungen ins EU-Ausland die bewegte Lieferung hat und wo du dich registrieren musst (OSS), klärst du mit dem Steuerberater, bevor du den ersten Auslandsauftrag annimmst.",
       "Jede Lieferzeit, die du im Shop versprichst, muss der Lieferant vertraglich einhalten. Vereinbare Bestandsdaten in Echtzeit oder tägliche Abgleiche, sonst verkaufst du Ware, die es nicht gibt.",
@@ -328,7 +329,7 @@ export const VORLAGEN_ECOMMERCE: Vorlage[] = [
       },
       {
         q: "Was muss ich wegen der GPSR im Shop angeben?",
-        a: "Für jedes Produkt den Namen, die Postanschrift und eine E-Mail-Adresse des Herstellers, bei Herstellern außerhalb der EU zusätzlich die verantwortliche Person in der EU, eine Produktkennung sowie Warn- und Sicherheitshinweise in deutscher Sprache. Der Vertrag verpflichtet den Lieferanten, diese Daten vollständig und aktuell bereitzustellen.",
+        a: "Für jedes Produkt den Namen, die Postanschrift und eine elektronische Adresse (z. B. E-Mail) des Herstellers, bei Herstellern außerhalb der EU zusätzlich die verantwortliche Person in der EU, eine Produktkennung sowie Warn- und Sicherheitshinweise in deutscher Sprache. Der Vertrag verpflichtet den Lieferanten, diese Daten vollständig und aktuell bereitzustellen.",
       },
       {
         q: "Brauche ich mit dem Dropshipping-Lieferanten einen Auftragsverarbeitungsvertrag?",
@@ -548,7 +549,7 @@ export const VORLAGEN_ECOMMERCE: Vorlage[] = [
       },
       {
         q: "Was ist der Unterschied zwischen Angebot und Kostenvoranschlag?",
-        a: "Ein Kostenvoranschlag ist eine unverbindliche Schätzung, die ohne Vereinbarung nicht vergütet wird (§ 632 Abs. 3 BGB) und bei wesentlicher Überschreitung eine Anzeigepflicht auslöst (§ 650 BGB). Ein Angebot nennt feste Preise und wird mit der Annahme zum Vertrag. Für Händler und Dienstleister mit kalkulierbaren Leistungen ist das Angebot die bessere Wahl.",
+        a: "Ein Kostenvoranschlag ist eine unverbindliche Schätzung, die ohne Vereinbarung nicht vergütet wird (§ 632 Abs. 3 BGB) und bei wesentlicher Überschreitung eine Anzeigepflicht auslöst (§ 649 Abs. 2 BGB). Ein Angebot nennt feste Preise und wird mit der Annahme zum Vertrag. Für Händler und Dienstleister mit kalkulierbaren Leistungen ist das Angebot die bessere Wahl.",
       },
       {
         q: "Muss der Kunde das Angebot unterschreiben?",

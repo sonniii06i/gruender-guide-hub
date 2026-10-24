@@ -37,7 +37,7 @@ Und schließlich das stille Weiterarbeiten: Kommt der Mitarbeiter nach dem Endda
       },
       {
         titel: "Rechtliche Grundlagen: TzBfG, Schriftform, Vorbeschäftigung",
-        text: `Das Teilzeit- und Befristungsgesetz erlaubt in § 14 Abs. 2 TzBfG die kalendermäßige Befristung ohne Sachgrund bis zu einer Gesamtdauer von zwei Jahren mit höchstens drei Verlängerungen. § 14 Abs. 4 TzBfG verlangt für die Befristungsabrede die Schriftform; sie ist der einzige Teil des Arbeitsvertrags, für den die Textform des Nachweisgesetzes nicht ausreicht.
+        text: `Das Teilzeit- und Befristungsgesetz erlaubt in § 14 Abs. 2 TzBfG die kalendermäßige Befristung ohne Sachgrund bis zu einer Gesamtdauer von zwei Jahren mit höchstens drei Verlängerungen. § 14 Abs. 4 TzBfG verlangt für die Befristungsabrede die Schriftform; für sie reicht die Textform des Nachweisgesetzes nicht aus.
 
 Das Vorbeschäftigungsverbot in § 14 Abs. 2 Satz 2 TzBfG schließt die sachgrundlose Befristung aus, wenn die Person schon einmal bei demselben Arbeitgeber angestellt war. Das Bundesverfassungsgericht und das Bundesarbeitsgericht lassen Ausnahmen nur bei sehr langem Abstand oder ganz anders gearteter Tätigkeit zu; verlass dich darauf nicht. Nach § 15 Abs. 3 TzBfG muss eine Probezeit im Verhältnis zur Laufzeit angemessen sein, und nach § 15 Abs. 4 TzBfG ist die ordentliche Kündigung nur möglich, wenn sie vereinbart ist. Will der Arbeitnehmer die Befristung angreifen, muss er innerhalb von drei Wochen nach dem Enddatum klagen (§ 17 TzBfG). Mindestlohn, Urlaub, Entgeltfortzahlung und Kündigungsschutz gelten wie bei unbefristeten Verträgen.`,
       },
@@ -45,7 +45,7 @@ Das Vorbeschäftigungsverbot in § 14 Abs. 2 Satz 2 TzBfG schließt die sachgrun
         titel: "Wann du statt der Vorlage einen Anwalt brauchst",
         text: `Sobald du länger als zwei Jahre befristen willst oder die Person schon einmal bei dir war, brauchst du einen Sachgrund nach § 14 Abs. 1 TzBfG, etwa Vertretung in Elternzeit oder vorübergehenden Mehrbedarf. Sachgrundbefristungen sind fehleranfällig, weil der Grund bei Vertragsschluss wirklich vorliegen und dokumentiert sein muss; hier lohnt sich die Prüfung durch einen Fachanwalt für Arbeitsrecht.
 
-Dasselbe gilt für Kettenbefristungen über viele Jahre, für befristete Verträge mit Schwangeren oder Schwerbehinderten und für Betriebe mit Tarifbindung, in denen der Tarifvertrag andere Höchstdauern und Verlängerungszahlen vorsehen kann. Mit Betriebsrat ist jede Einstellung nach § 99 BetrVG zustimmungspflichtig. GründerX stellt Software und Muster bereit, keine Rechtsberatung; die Vorlage ersetzt in diesen Fällen die individuelle Prüfung nicht.`,
+Dasselbe gilt für Kettenbefristungen über viele Jahre, für befristete Verträge mit Schwangeren oder Schwerbehinderten und für Betriebe mit Tarifbindung, in denen der Tarifvertrag andere Höchstdauern und Verlängerungszahlen vorsehen kann. Mit Betriebsrat ist in Unternehmen mit in der Regel mehr als 20 wahlberechtigten Arbeitnehmern jede Einstellung nach § 99 BetrVG zustimmungspflichtig. GründerX stellt Software und Muster bereit, keine Rechtsberatung; die Vorlage ersetzt in diesen Fällen die individuelle Prüfung nicht.`,
       },
     ],
   text: `Befristeter Arbeitsvertrag
@@ -103,7 +103,7 @@ und
 § 9 Kündigungsverfahren, Klagefrist, Meldepflicht
 (1) Jede Kündigung bedarf der Schriftform (§ 623 BGB).
 (2) Will der Arbeitnehmer geltend machen, dass eine Kündigung unwirksam ist, muss er innerhalb von drei Wochen nach Zugang der Kündigung Klage beim Arbeitsgericht erheben (§ 4 KSchG). Will er geltend machen, dass die Befristung unwirksam ist, muss er innerhalb von drei Wochen nach dem vereinbarten Ende des Arbeitsverhältnisses Klage erheben (§ 17 TzBfG).
-(3) Der Arbeitnehmer ist verpflichtet, sich spätestens drei Monate vor dem Ende des befristeten Arbeitsverhältnisses bei der Agentur für Arbeit arbeitsuchend zu melden (§ 38 Abs. 1 SGB III).
+(3) Der Arbeitnehmer ist verpflichtet, sich spätestens drei Monate vor dem Ende des befristeten Arbeitsverhältnisses, bei kürzerer Frist innerhalb von drei Tagen nach Kenntnis des Beendigungszeitpunkts, bei der Agentur für Arbeit arbeitsuchend zu melden (§ 38 Abs. 1 SGB III).
 
 § 10 Ausschlussfristen
 (1) Alle Ansprüche aus dem Arbeitsverhältnis verfallen, wenn sie nicht innerhalb von drei Monaten nach Fälligkeit gegenüber der anderen Partei in Textform geltend gemacht werden. Lehnt die andere Partei ab oder äußert sie sich nicht innerhalb eines Monats, verfällt der Anspruch, wenn er nicht innerhalb von drei weiteren Monaten gerichtlich geltend gemacht wird.

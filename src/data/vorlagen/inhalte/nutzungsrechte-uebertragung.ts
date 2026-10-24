@@ -33,7 +33,7 @@ Für Logos ist § 2 Abs. 3 der Kern: Ohne die Zweckbestimmung als Marke kann der
 
 In § 2 Abs. 1 entscheidest du: ausschließlich und unbeschränkt für Logos, Marken und Corporate Design, einfach und beschränkt nur bei Werken, die der Urheber auch anderen anbieten darf. Für Logos lässt du § 2 Abs. 3 stehen, für Fotos und Texte streichst du ihn. In § 4 wählst du Verzicht auf Namensnennung (Logo, Design) oder Nennung (redaktionelle Fotos, Texte).
 
-In § 5 trägst du die Pauschale ein und entscheidest über eine Umsatzbeteiligung; prüfe, ob der Urheber Kleinunternehmer ist. In § 7 legst du fest, ob der Urheber das Werk als Referenz zeigen darf. In § 8 setzt du Fristen für Rückruf und Nachfrist ein. Zum Schluss Anlagen beifügen, Ort, Datum, Unterschriften.`,
+In § 5 trägst du die Pauschale ein und entscheidest über eine Umsatzbeteiligung; prüfe, ob der Urheber Kleinunternehmer ist. In § 7 legst du fest, ob der Urheber das Werk als Referenz zeigen darf. In § 8 setzt du die Nachfrist ein; die Sperrfrist von zwei Jahren für den Rückruf gibt § 41 Abs. 2 UrhG vor. Zum Schluss Anlagen beifügen, Ort, Datum, Unterschriften.`,
       },
       {
         titel: "Typische Fehler beim Erwerb von Nutzungsrechten",
@@ -43,7 +43,7 @@ Zweiter Fehler: nur Export-Dateien erhalten. Ohne offene Quelldateien und Schrif
 
 Dritter Fehler: Fremdmaterial übersehen. Stockfotos, lizenzierte Fonts und KI-generierte Elemente kann der Designer nur so weit weitergeben, wie seine eigene Lizenz reicht. Verlange die Liste nach Anlage 2.
 
-Vierter Fehler: zu niedrige Pauschale für ein Werk, das groß wird. § 32a UrhG gibt dem Urheber bei auffälligem Missverhältnis einen Anspruch auf weitere Beteiligung. Eine faire Vergütung heute spart Nachforderungen morgen.
+Vierter Fehler: zu niedrige Pauschale für ein Werk, das groß wird. § 32a UrhG gibt dem Urheber bei unverhältnismäßig niedriger Vergütung einen Anspruch auf weitere Beteiligung. Eine faire Vergütung heute spart Nachforderungen morgen.
 
 Fünfter Fehler: keine Markenrecherche. Der Urheber garantiert nur, dass das Werk von ihm stammt, nicht, dass keine ältere Marke kollidiert. Diese Prüfung liegt bei dir, bevor du das Logo anmeldest.`,
       },
@@ -51,9 +51,9 @@ Fünfter Fehler: keine Markenrecherche. Der Urheber garantiert nur, dass das Wer
         titel: "Rechtliche Grundlagen im Urheberrechtsgesetz",
         text: `Nach § 29 Abs. 1 UrhG ist das Urheberrecht nicht übertragbar; verkehrsfähig sind nur Nutzungsrechte nach § 31 UrhG. Das einfache Nutzungsrecht erlaubt die Nutzung neben anderen, das ausschließliche Nutzungsrecht schließt alle anderen einschließlich des Urhebers aus (§ 31 Abs. 3 UrhG). Die Zweckübertragungsregel in § 31 Abs. 5 UrhG legt im Zweifel die engste Auslegung zugrunde, weshalb die Vorlage jede Nutzungsart einzeln aufzählt.
 
-Rechte an unbekannten Nutzungsarten können nach § 31a UrhG nur schriftlich eingeräumt werden, mit Widerrufsrecht des Urhebers bis zur Nutzungsaufnahme. Bearbeitungen regeln §§ 23 und 39 UrhG; die Grenze zieht das Entstellungsverbot in § 14 UrhG. Weiterübertragung und Unterlizenzen brauchen nach §§ 34, 35 UrhG die Zustimmung des Urhebers, die die Vorlage vorab erteilt.
+Rechte an unbekannten Nutzungsarten können nach § 31a UrhG nur schriftlich eingeräumt werden, mit Widerrufsrecht des Urhebers, das drei Monate nach Absendung der Mitteilung über die geplante Nutzungsaufnahme erlischt. Bearbeitungen regeln §§ 23 und 39 UrhG; die Grenze zieht das Entstellungsverbot in § 14 UrhG. Weiterübertragung und Unterlizenzen brauchen nach §§ 34, 35 UrhG die Zustimmung des Urhebers, die die Vorlage vorab erteilt.
 
-Vergütungsfragen regeln § 32 UrhG (angemessene Vergütung) und § 32a UrhG (weitere Beteiligung bei auffälligem Missverhältnis); § 40a UrhG gibt dem Urheber nach zehn Jahren ein Recht zur anderweitigen Verwertung, es sei denn, das Werk ist als Marke oder Design bestimmt. Das Rückrufsrecht wegen Nichtausübung steht in § 41 UrhG. Für abgebildete Personen gilt zusätzlich § 22 KUG.`,
+Vergütungsfragen regeln § 32 UrhG (angemessene Vergütung) und § 32a UrhG (weitere Beteiligung bei unverhältnismäßig niedriger Vergütung); § 40a UrhG gibt dem Urheber nach zehn Jahren ein Recht zur anderweitigen Verwertung, es sei denn, das Werk ist als Marke oder Design bestimmt. Das Rückrufsrecht wegen Nichtausübung steht in § 41 UrhG. Für abgebildete Personen gilt zusätzlich § 22 KUG.`,
       },
       {
         titel: "Wann das Muster nicht reicht",
@@ -99,7 +99,7 @@ Der Urheber hat für den Auftraggeber [auf Grundlage des Auftrags vom [Datum]] d
 § 3 Bearbeitung, Weiterübertragung, unbekannte Nutzungsarten
 (1) Der Auftraggeber darf das Werk bearbeiten, umgestalten, kürzen, übersetzen, in andere Formate und Farbräume übertragen, mit anderen Werken kombinieren und Weiterentwicklungen davon herstellen und in gleicher Weise nutzen (§§ 23, 39 UrhG). Entstellungen oder Beeinträchtigungen, die geeignet sind, berechtigte geistige oder persönliche Interessen des Urhebers zu gefährden (§ 14 UrhG), bleiben unzulässig.
 (2) Der Auftraggeber darf die Nutzungsrechte ganz oder teilweise auf Dritte übertragen und Dritten einfache oder ausschließliche Nutzungsrechte einräumen (§§ 34, 35 UrhG), insbesondere an verbundene Unternehmen, Rechtsnachfolger, Agenturen, Druckereien, Lizenznehmer und Erwerber des Unternehmens. Der Urheber erteilt hierzu bereits jetzt seine Zustimmung.
-(3) Die Rechteeinräumung erstreckt sich auch auf zum Zeitpunkt des Vertragsschlusses unbekannte Nutzungsarten (§ 31a UrhG). Der Urheber kann diese Einräumung widerrufen, solange der Auftraggeber nicht mit der Nutzung in der neuen Nutzungsart begonnen hat; der Anspruch auf gesonderte angemessene Vergütung (§ 32c UrhG) bleibt unberührt.
+(3) Die Rechteeinräumung erstreckt sich auch auf zum Zeitpunkt des Vertragsschlusses unbekannte Nutzungsarten (§ 31a UrhG). Der Urheber kann diese Einräumung nach § 31a Abs. 1 UrhG widerrufen; das Widerrufsrecht entfällt drei Monate, nachdem der Auftraggeber die Mitteilung über die beabsichtigte Aufnahme der neuen Nutzungsart an ihn abgesendet hat; der Anspruch auf gesonderte angemessene Vergütung (§ 32c UrhG) bleibt unberührt.
 
 § 4 Urheberpersönlichkeitsrechte und Namensnennung
 (1) [Variante A – Verzicht:] Der Urheber verzichtet auf die Ausübung seines Rechts auf Namensnennung (§ 13 UrhG) bei allen Nutzungen des Werks. Der Auftraggeber ist nicht verpflichtet, den Urheber zu nennen, darf ihn aber nennen.
@@ -109,7 +109,7 @@ Der Urheber hat für den Auftraggeber [auf Grundlage des Auftrags vom [Datum]] d
 § 5 Vergütung
 (1) Für die Schaffung des Werks und die Einräumung der Nutzungsrechte zahlt der Auftraggeber eine Pauschalvergütung von [Betrag] EUR [zuzüglich gesetzlicher Umsatzsteuer / Umsatzsteuer wird nicht berechnet, da der Urheber Kleinunternehmer im Sinne des § 19 UStG ist]. [Alternative: zusätzlich eine Beteiligung von [z. B. 3] % am Nettoumsatz mit Produkten, auf denen das Werk abgebildet ist, abgerechnet jährlich bis zum [31.03.] für das Vorjahr.]
 (2) Die Vergütung ist fällig innerhalb von 14 Tagen nach Übergabe des Werks und Rechnungsstellung. [Optional: Bei Auftragserteilung ist eine Anzahlung von [Betrag] EUR fällig.]
-(3) Die Parteien sind sich einig, dass die Vergütung unter Berücksichtigung des Umfangs der eingeräumten Rechte angemessen im Sinne des § 32 UrhG ist. Der gesetzliche Anspruch des Urhebers auf weitere Beteiligung bei einem auffälligen Missverhältnis (§ 32a UrhG) bleibt unberührt.
+(3) Die Parteien sind sich einig, dass die Vergütung unter Berücksichtigung des Umfangs der eingeräumten Rechte angemessen im Sinne des § 32 UrhG ist. Der gesetzliche Anspruch des Urhebers auf weitere Beteiligung bei einer unverhältnismäßig niedrigen Vergütung (§ 32a UrhG) bleibt unberührt.
 (4) Für die Nutzung von Werken gilt in Deutschland die Künstlersozialabgabe; der Auftraggeber prüft seine Abgabepflicht gegenüber der Künstlersozialkasse selbst.
 
 § 6 Rechte Dritter und Freistellung
@@ -122,7 +122,7 @@ Der Urheber darf das Werk nach seiner erstmaligen Veröffentlichung durch den Au
 
 § 8 Rückruf und Beendigung
 (1) Dieser Vertrag kann nicht ordentlich gekündigt werden. Die eingeräumten Nutzungsrechte sind nicht an den Fortbestand eines Dienst-, Werk- oder Agenturvertrags zwischen den Parteien gebunden.
-(2) Das gesetzliche Rückrufsrecht wegen Nichtausübung (§ 41 UrhG) kann der Urheber frühestens [zwei] Jahre nach Einräumung des Rechts ausüben; der Auftraggeber kann den Rückruf durch Aufnahme der Nutzung innerhalb einer Nachfrist von [sechs] Monaten abwenden.
+(2) Das gesetzliche Rückrufsrecht wegen Nichtausübung (§ 41 UrhG) kann der Urheber frühestens zwei Jahre nach Einräumung des Rechts (§ 41 Abs. 2 UrhG) ausüben; der Auftraggeber kann den Rückruf durch Aufnahme der Nutzung innerhalb einer Nachfrist von [sechs] Monaten abwenden.
 (3) Zahlt der Auftraggeber die Vergütung nach § 5 trotz Mahnung und Nachfrist von [14] Tagen nicht, kann der Urheber vom Vertrag zurücktreten; die Nutzungsrechte fallen dann an ihn zurück.
 
 § 9 Schlussbestimmungen

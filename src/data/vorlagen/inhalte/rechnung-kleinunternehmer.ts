@@ -31,7 +31,7 @@ Was nicht auf die Rechnung gehört: ein Steuersatz, ein Steuerbetrag oder die Fo
         titel: "Rechnungsvorlage ausfüllen: Schritt für Schritt",
         text: `Trage im Kopf deine Daten mit Steuernummer ein; die USt-IdNr. brauchst du nur, wenn du eine hast, etwa für Geschäfte mit EU-Kunden. Beim Empfänger nennst du Firma, Ansprechpartner und Anschrift. Vergib die Rechnungsnummer fortlaufend und lückenlos, zum Beispiel nach dem Schema Jahr-Zähler. Setze Rechnungsdatum und Leistungszeitraum ein; bei Dauerleistungen den Monat, bei Einzelaufträgen den Tag der Fertigstellung. Fülle die Positionen mit Bezeichnung, Menge, Einzelpreis und Gesamtbetrag; nicht genutzte Zeilen löschst du.
 
-Rechne den Rechnungsbetrag zusammen und lass den Satz zur Steuerbefreiung nach § 19 UStG unverändert stehen. Trage Zahlungsziel und Bankverbindung ein. Den optionalen Verzugshinweis übernimmst du, wenn du ohne Mahnung Verzugszinsen berechnen können willst; der Satz zu Verbrauchern ist Voraussetzung für die 30-Tage-Regel. Für Plattformen oder Agenturen nutzt du die Gutschrift-Variante, in der der Kunde als Aussteller steht und deine Daten als leistender Unternehmer.`,
+Rechne den Rechnungsbetrag zusammen und lass den Satz zur Steuerbefreiung nach § 19 UStG unverändert stehen. Trage Zahlungsziel und Bankverbindung ein. Den optionalen Verzugshinweis übernimmst du, wenn das Zahlungsdatum mit dem Kunden vereinbart ist und du ohne Mahnung Verzugszinsen berechnen können willst; der Satz zu Verbrauchern ist Voraussetzung für die 30-Tage-Regel. Für Plattformen oder Agenturen nutzt du die Gutschrift-Variante, in der der Kunde als Aussteller steht und deine Daten als leistender Unternehmer.`,
       },
       {
         titel: "Typische Fehler bei Kleinunternehmer-Rechnungen",
@@ -92,7 +92,7 @@ BIC: [BIC]
 Bank: [Bank]
 Verwendungszweck: [Rechnungsnummer]
 
-[Optional: Bei Zahlung nach dem [Datum] geraten Sie ohne weitere Mahnung in Verzug (§ 286 Abs. 2 Nr. 1 BGB). Verbraucher geraten spätestens 30 Tage nach Zugang dieser Rechnung in Verzug (§ 286 Abs. 3 BGB).]
+[Optional, nur wenn das Zahlungsdatum vertraglich vereinbart ist: Bei Zahlung nach dem [Datum] geraten Sie ohne weitere Mahnung in Verzug (§ 286 Abs. 2 Nr. 1 BGB). Verbraucher geraten spätestens 30 Tage nach Zugang dieser Rechnung in Verzug (§ 286 Abs. 3 BGB).]
 
 Vielen Dank für Ihren Auftrag.
 

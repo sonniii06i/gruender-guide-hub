@@ -76,7 +76,7 @@ hiermit kündigen wir das mit Ihnen bestehende Arbeitsverhältnis vom [Datum des
 
 Wir bitten Sie, folgende Hinweise zu beachten:
 
-1. Meldung bei der Agentur für Arbeit: Sie sind nach § 38 Abs. 1 SGB III verpflichtet, sich spätestens drei Tage nach Zugang dieser Kündigung persönlich bei der Agentur für Arbeit arbeitsuchend zu melden, da zwischen Zugang und Beendigung weniger als drei Monate liegen. Eine verspätete Meldung kann zu einer Sperrzeit beim Arbeitslosengeld führen. Bitte beachten Sie außerdem die Pflicht zur Eigenbemühung um eine neue Beschäftigung.
+1. Meldung bei der Agentur für Arbeit: Sie sind nach § 38 Abs. 1 SGB III verpflichtet, sich innerhalb von drei Tagen nach Zugang dieser Kündigung bei der Agentur für Arbeit arbeitsuchend zu melden, da zwischen Zugang und Beendigung weniger als drei Monate liegen. Eine verspätete Meldung kann zu einer Sperrzeit beim Arbeitslosengeld führen. Bitte beachten Sie außerdem die Pflicht zur Eigenbemühung um eine neue Beschäftigung.
 
 2. Resturlaub: Ihr noch offener Urlaubsanspruch beträgt nach unseren Unterlagen [Anzahl] Tage. [Wir gewähren Ihnen diesen Urlaub in der Zeit vom [Datum] bis [Datum]. / Wir stellen Sie ab dem [Datum] bis zum Ende des Arbeitsverhältnisses unwiderruflich unter Fortzahlung der Vergütung und unter Anrechnung Ihrer Urlaubsansprüche sowie etwaiger Freizeitausgleichsansprüche von der Arbeitsleistung frei.] Urlaub, der bis zum Beendigungstermin nicht genommen werden kann, wird mit der letzten Gehaltsabrechnung abgegolten.
 
@@ -109,7 +109,7 @@ Die Kündigungsfrist ergibt sich aus [§ 622 Abs. 1 BGB (vier Wochen zum 15. ode
 
 Wir bitten Sie, folgende Hinweise zu beachten:
 
-1. Meldung bei der Agentur für Arbeit: Sie sind nach § 38 Abs. 1 SGB III verpflichtet, sich spätestens drei Monate vor Beendigung des Arbeitsverhältnisses persönlich bei der Agentur für Arbeit arbeitsuchend zu melden. Liegen zwischen Zugang dieser Kündigung und dem Beendigungstermin weniger als drei Monate, haben Sie sich innerhalb von drei Tagen nach Zugang zu melden. Eine verspätete Meldung kann zu einer Sperrzeit beim Arbeitslosengeld führen. Sie sind außerdem verpflichtet, sich aktiv um eine neue Beschäftigung zu bemühen.
+1. Meldung bei der Agentur für Arbeit: Sie sind nach § 38 Abs. 1 SGB III verpflichtet, sich spätestens drei Monate vor Beendigung des Arbeitsverhältnisses bei der Agentur für Arbeit arbeitsuchend zu melden. Liegen zwischen Zugang dieser Kündigung und dem Beendigungstermin weniger als drei Monate, haben Sie sich innerhalb von drei Tagen nach Zugang zu melden. Eine verspätete Meldung kann zu einer Sperrzeit beim Arbeitslosengeld führen. Sie sind außerdem verpflichtet, sich aktiv um eine neue Beschäftigung zu bemühen.
 
 2. Resturlaub und Freistellung: Ihr noch offener Urlaubsanspruch beträgt nach unseren Unterlagen [Anzahl] Tage. [Wir gewähren Ihnen diesen Urlaub in der Zeit vom [Datum] bis [Datum]. / Wir stellen Sie ab dem [Datum] bis zum Ende des Arbeitsverhältnisses unwiderruflich unter Fortzahlung der Vergütung und unter Anrechnung Ihrer Urlaubsansprüche sowie etwaiger Freizeitausgleichsansprüche von der Arbeitsleistung frei. Während der Freistellung ist Ihnen die Aufnahme einer anderweitigen Tätigkeit gestattet; anderweitiger Verdienst wird nach § 615 Satz 2 BGB angerechnet.] Nicht nehmbarer Urlaub wird mit der Schlussabrechnung abgegolten (§ 7 Abs. 4 BUrlG).
 

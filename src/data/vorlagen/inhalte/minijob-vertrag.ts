@@ -32,7 +32,7 @@ Besonders wichtig ist § 7 Abs. 3: Dort entscheidet der Minijobber, ob er sich v
         titel: "Minijob-Vertrag Muster ausfüllen: Stunden und Grenze berechnen",
         text: `Rechne zuerst, nicht erst beim Ausfüllen: Teile die Geringfügigkeitsgrenze durch den Stundenlohn und du hast die höchstmögliche Monatsstundenzahl. Beim Mindestlohn sind das 2026 rund 43 Stunden; zahlst du 15 EUR, bleiben etwa 40 Stunden. Trage in § 3 Abs. 1 die Wochenstunden und ihre Verteilung auf die Tage ein, in § 3 Abs. 2 die durchschnittliche Monatsstundenzahl.
 
-In § 4 wählst du zwischen Stundenlohn und festem Monatsentgelt. Bei Stundenlohn ist die Verdienstgrenze besser zu steuern, weil die Monatssumme mit den Stunden schwankt; ein festes Monatsentgelt ist für Minijobber mit gleichbleibendem Plan praktischer. Planst du eine Sonderzahlung, trage sie in § 4 Abs. 3 ein und rechne sie auf zwölf Monate verteilt in die Grenze ein. In § 5 berechnest du den Urlaub: gesetzliche 20 Tage geteilt durch 5, multipliziert mit den Arbeitstagen pro Woche. In § 8 lässt du den Minijobber seine weiteren Jobs eintragen, in § 7 Abs. 3 seine Entscheidung zur Rentenversicherung ankreuzen. Melde ihn vor dem ersten Arbeitstag bei der Minijob-Zentrale an und nimm das Merkblatt zur Rentenversicherung zu den Unterlagen.`,
+In § 4 wählst du zwischen Stundenlohn und festem Monatsentgelt. Bei Stundenlohn ist die Verdienstgrenze besser zu steuern, weil die Monatssumme mit den Stunden schwankt; ein festes Monatsentgelt ist für Minijobber mit gleichbleibendem Plan praktischer. Planst du eine Sonderzahlung, trage sie in § 4 Abs. 3 ein und rechne sie auf zwölf Monate verteilt in die Grenze ein. In § 5 berechnest du den Urlaub: gesetzliche 20 Tage geteilt durch 5, multipliziert mit den Arbeitstagen pro Woche. In § 8 lässt du den Minijobber seine weiteren Jobs eintragen, in § 7 Abs. 3 seine Entscheidung zur Rentenversicherung ankreuzen. Melde ihn mit der ersten Entgeltabrechnung, spätestens sechs Wochen nach Beginn, bei der Minijob-Zentrale an (§ 6 DEÜV) und nimm das Merkblatt zur Rentenversicherung zu den Unterlagen.`,
       },
       {
         titel: "Typische Fehler bei Minijobs und ihre Folgen",
@@ -40,13 +40,13 @@ In § 4 wählst du zwischen Stundenlohn und festem Monatsentgelt. Bei Stundenloh
 
 Zweiter Fehler: Urlaubs- oder Weihnachtsgeld, das die Jahresgrenze sprengt. Einmalzahlungen zählen anteilig mit. Dritter Fehler sind fehlende Stundenaufzeichnungen; nach § 17 MiLoG musst du Beginn, Ende und Dauer der Arbeitszeit dokumentieren und zwei Jahre aufbewahren, sonst droht ein Bußgeld und im Streit gilt die Darstellung des Minijobbers.
 
-Vermeide außerdem die vergessene Anmeldung vor Arbeitsbeginn, den fehlenden Nachweis über weitere Beschäftigungen und die Annahme, Minijobber hätten keinen Anspruch auf Urlaub, Entgeltfortzahlung oder Feiertagsbezahlung. Alle drei stehen ihnen genauso zu wie Vollzeitkräften.`,
+Vermeide außerdem die vergessene Anmeldung bei der Minijob-Zentrale, den fehlenden Nachweis über weitere Beschäftigungen und die Annahme, Minijobber hätten keinen Anspruch auf Urlaub, Entgeltfortzahlung oder Feiertagsbezahlung. Alle drei stehen ihnen genauso zu wie Vollzeitkräften.`,
       },
       {
         titel: "Rechtliche Grundlagen: Geringfügigkeitsgrenze, Mindestlohn, Pauschalabgaben",
         text: `Die geringfügig entlohnte Beschäftigung ist in § 8 Abs. 1 Nr. 1 SGB IV geregelt. Seit Oktober 2022 ist die Verdienstgrenze dynamisch an den Mindestlohn gekoppelt und entspricht einer Wochenarbeitszeit von zehn Stunden zum Mindestlohn. Mit 13,90 EUR Mindestlohn liegt sie 2026 bei 603 EUR im Monat; mit der nächsten Mindestlohnstufe steigt sie. Prüfe vor jeder Vertragsänderung die aktuelle Grenze bei der Minijob-Zentrale.
 
-Du zahlst als Arbeitgeber Pauschalbeiträge zur Kranken- und Rentenversicherung, eine Pauschsteuer nach § 40a Abs. 2 EStG sowie Umlagen und Unfallversicherung, insgesamt rund 30 Prozent. Der Minijobber ist rentenversicherungspflichtig mit einem Eigenanteil und kann sich nach § 6 Abs. 1b SGB VI befreien lassen. Der Mindestlohn gilt nach dem MiLoG ohne Ausnahme; das Bundesurlaubsgesetz, das Entgeltfortzahlungsgesetz, das Kündigungsschutzgesetz und § 622 BGB gelten ebenfalls. Ein gelegentliches Überschreiten der Grenze ist in höchstens zwei Monaten im Jahr und bis zum Doppelten der Grenze erlaubt.`,
+Du zahlst als Arbeitgeber Pauschalbeiträge zur Kranken- und Rentenversicherung, eine Pauschsteuer nach § 40a Abs. 2 EStG sowie Umlagen und Unfallversicherung, insgesamt rund 30 Prozent. Der Minijobber ist rentenversicherungspflichtig mit einem Eigenanteil und kann sich nach § 6 Abs. 1b SGB VI befreien lassen. Der Mindestlohn gilt nach dem MiLoG auch für Minijobber (Ausnahmen nach § 22 MiLoG etwa für Minderjährige ohne Berufsabschluss); das Bundesurlaubsgesetz, das Entgeltfortzahlungsgesetz, das Kündigungsschutzgesetz und § 622 BGB gelten ebenfalls. Ein unvorhersehbares Überschreiten der Grenze ist in höchstens zwei Monaten im Jahr und bis zum Doppelten der Grenze erlaubt (§ 8 Abs. 1b SGB IV).`,
       },
       {
         titel: "Wann die Minijob-Vorlage nicht reicht",
@@ -74,8 +74,8 @@ und
 (4) Tarifverträge oder Betriebsvereinbarungen finden auf das Arbeitsverhältnis keine Anwendung.
 
 § 2 Geringfügige Beschäftigung und Verdienstgrenze
-(1) Die Beschäftigung ist eine geringfügig entlohnte Beschäftigung im Sinne des § 8 Abs. 1 Nr. 1 SGB IV. Das regelmäßige monatliche Arbeitsentgelt überschreitet die Geringfügigkeitsgrenze (im Jahr 2026: 603 EUR; die Grenze wird jährlich an den Mindestlohn angepasst) nicht.
-(2) Beide Parteien achten darauf, dass das Arbeitsentgelt einschließlich etwaiger Einmalzahlungen im Jahresdurchschnitt die Geringfügigkeitsgrenze nicht übersteigt. Der Arbeitgeber meldet die Beschäftigung vor Arbeitsbeginn bei der Minijob-Zentrale (Deutsche Rentenversicherung Knappschaft-Bahn-See) an und führt die Pauschalabgaben ab.
+(1) Die Beschäftigung ist eine geringfügig entlohnte Beschäftigung im Sinne des § 8 Abs. 1 Nr. 1 SGB IV. Das regelmäßige monatliche Arbeitsentgelt überschreitet die Geringfügigkeitsgrenze (im Jahr 2026: 603 EUR; die Grenze steigt mit jeder Erhöhung des Mindestlohns) nicht.
+(2) Beide Parteien achten darauf, dass das Arbeitsentgelt einschließlich etwaiger Einmalzahlungen im Jahresdurchschnitt die Geringfügigkeitsgrenze nicht übersteigt. Der Arbeitgeber meldet die Beschäftigung fristgerecht bei der Minijob-Zentrale (Deutsche Rentenversicherung Knappschaft-Bahn-See) an und führt die Pauschalabgaben ab.
 (3) Ein unvorhersehbares Überschreiten der Grenze (z. B. durch Krankheitsvertretung) ist nur in höchstens zwei Kalendermonaten im Jahr und bis zur doppelten Geringfügigkeitsgrenze zulässig; darüber hinaus bedarf es einer vorherigen Absprache.
 
 § 3 Arbeitszeit und Abruf
@@ -101,7 +101,7 @@ und
 
 § 7 Rentenversicherung und Befreiung
 (1) Die Beschäftigung ist rentenversicherungspflichtig. Der Arbeitnehmer trägt die Differenz zwischen dem Pauschalbeitrag des Arbeitgebers (15 %) und dem vollen Beitragssatz der gesetzlichen Rentenversicherung (derzeit 3,6 % des Entgelts); dieser Anteil wird vom Entgelt einbehalten.
-(2) Der Arbeitnehmer kann sich auf schriftlichen Antrag gegenüber dem Arbeitgeber von der Rentenversicherungspflicht befreien lassen (§ 6 Abs. 1b SGB VI). Die Befreiung wirkt ab dem Monat des Antrags, wenn der Arbeitgeber sie innerhalb von sechs Wochen der Minijob-Zentrale meldet, und gilt für die gesamte Dauer der Beschäftigung; sie kann nicht widerrufen werden. Der Arbeitgeber hat den Arbeitnehmer über die Folgen (keine vollen Pflichtbeitragszeiten, kein Anspruch auf Riester-Förderung) informiert.
+(2) Der Arbeitnehmer kann sich auf schriftlichen oder elektronischen Antrag gegenüber dem Arbeitgeber von der Rentenversicherungspflicht befreien lassen (§ 6 Abs. 1b SGB VI). Die Befreiung wirkt ab Beginn des Monats des Antragseingangs, wenn der Arbeitgeber sie mit der nächsten Entgeltabrechnung, spätestens innerhalb von sechs Wochen, der Minijob-Zentrale meldet (§ 6 Abs. 4 SGB VI), und gilt für die gesamte Dauer der Beschäftigung; der Arbeitnehmer kann sie nur einmalig mit Wirkung für die Zukunft aufheben lassen (§ 6 Abs. 6 SGB VI). Der Arbeitgeber hat den Arbeitnehmer über die Folgen (keine vollen Pflichtbeitragszeiten, kein Anspruch auf Riester-Förderung) informiert.
 (3) Der Arbeitnehmer erklärt hiermit: [Ich beantrage die Befreiung von der Rentenversicherungspflicht. / Ich beantrage keine Befreiung und zahle den Eigenanteil.]
 
 § 8 Weitere Beschäftigungen, Verschwiegenheit
@@ -112,7 +112,7 @@ und
 § 9 Probezeit, Kündigung, Klagefrist
 (1) Die ersten [z. B. 3] Monate gelten als Probezeit mit einer beiderseitigen Kündigungsfrist von zwei Wochen. Danach beträgt die Kündigungsfrist vier Wochen zum 15. oder zum Ende eines Kalendermonats; verlängerte gesetzliche Fristen nach § 622 Abs. 2 BGB gelten für beide Seiten.
 (2) Jede Kündigung bedarf der Schriftform (§ 623 BGB). Das Recht zur außerordentlichen Kündigung bleibt unberührt.
-(3) Hinweis: Will der Arbeitnehmer die Unwirksamkeit einer Kündigung geltend machen, muss er innerhalb von drei Wochen nach Zugang Klage beim Arbeitsgericht erheben (§ 4 KSchG). Nach Zugang einer Kündigung hat er sich unverzüglich bei der Agentur für Arbeit arbeitsuchend zu melden (§ 38 SGB III).
+(3) Hinweis: Will der Arbeitnehmer die Unwirksamkeit einer Kündigung geltend machen, muss er innerhalb von drei Wochen nach Zugang Klage beim Arbeitsgericht erheben (§ 4 KSchG). Er hat sich spätestens drei Monate vor Beendigung, bei kürzerer Frist innerhalb von drei Tagen nach Kenntnis, bei der Agentur für Arbeit arbeitsuchend zu melden (§ 38 Abs. 1 SGB III).
 
 § 10 Ausschlussfristen und Schlussbestimmungen
 (1) Ansprüche aus dem Arbeitsverhältnis verfallen, wenn sie nicht innerhalb von drei Monaten nach Fälligkeit in Textform gegenüber der anderen Partei geltend gemacht und, bei Ablehnung oder Schweigen über einen Monat, innerhalb von drei weiteren Monaten eingeklagt werden. Ausgenommen sind Ansprüche auf den gesetzlichen Mindestlohn, Ansprüche aus Haftung wegen Vorsatz oder wegen Verletzung von Leben, Körper oder Gesundheit sowie unverzichtbare Ansprüche.
