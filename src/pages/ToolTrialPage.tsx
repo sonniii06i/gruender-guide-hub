@@ -80,15 +80,15 @@ const ToolTrialPage = () => {
       />
       <Navbar />
       <main className="pt-20 md:pt-24">
-        {loading ? (
-          spinner
-        ) : (
-          <ToolTrialProvider tool={tool}>
-            <Suspense fallback={spinner}>
-              <ToolComponent />
-            </Suspense>
-          </ToolTrialProvider>
-        )}
+        {/* Kein Spinner, solange useAccess lädt: Der Prerender zeigt die Probe,
+            ein abweichender erster Render brach die Hydration (React #418).
+            Abonnenten sehen die Probe deshalb kurz, bis die Weiterleitung oben
+            greift (vom Betreiber freigegeben, 10/2026). */}
+        <ToolTrialProvider tool={tool}>
+          <Suspense fallback={spinner}>
+            <ToolComponent />
+          </Suspense>
+        </ToolTrialProvider>
       </main>
       <Footer />
     </div>

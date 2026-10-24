@@ -30,6 +30,7 @@ import { downloadDocumentPdf } from "@/lib/freetools/pdf";
 import { EmailGateDialog } from "./EmailGateDialog";
 import { TrialUpsell } from "./ToolTrial";
 import { isToolUnlockedLocally } from "@/lib/freetools/leads";
+import { useBrowserWert } from "@/lib/prerender";
 import { useAccess } from "@/hooks/useAccess";
 
 interface FreeToolWizardProps {
@@ -59,7 +60,8 @@ export function FreeToolWizard({ config }: FreeToolWizardProps) {
   // Ab dem zweiten Durchlauf kommt statt des Ergebnisses der Abo-Hinweis.
   // Bewusst ein weicher Schutz (localStorage), kein Zugriffsschutz.
   const [unlocked, setUnlocked] = useState(false);
-  const [spent, setSpent] = useState(() => isToolUnlockedLocally(config.slug));
+  // localStorage erst nach dem Mount: Im prerenderten HTML steht „nicht verbraucht".
+  const [spent, setSpent] = useBrowserWert(() => isToolUnlockedLocally(config.slug), false);
   // Das freigeschaltete erste Ergebnis — bleibt ansehbar, solange es im State liegt.
   const [freeDoc, setFreeDoc] = useState<string | null>(null);
 

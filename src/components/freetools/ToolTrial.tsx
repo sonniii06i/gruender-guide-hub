@@ -5,6 +5,7 @@ import { Gift, Lock, Sparkles, Unlock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { EmailGateDialog } from "./EmailGateDialog";
 import { isToolUnlockedLocally } from "@/lib/freetools/leads";
+import { useBrowserWert } from "@/lib/prerender";
 import type { TrialTool } from "@/lib/freetools/trialTools";
 import { PRO_MONTH_GROSS_CENTS, formatEurCents } from "@/config/pricing";
 
@@ -38,7 +39,8 @@ const ToolTrialContext = createContext<ToolTrialApi | null>(null);
 export const useToolTrial = () => useContext(ToolTrialContext);
 
 export function ToolTrialProvider({ tool, children }: { tool: TrialTool; children: ReactNode }) {
-  const [phase, setPhase] = useState<Phase>(() => (isToolUnlockedLocally(tool.slug) ? "spent" : "fresh"));
+  // localStorage erst nach dem Mount: Im prerenderten HTML steht immer „fresh".
+  const [phase, setPhase] = useBrowserWert<Phase>(() => (isToolUnlockedLocally(tool.slug) ? "spent" : "fresh"), "fresh");
   const [gateOpen, setGateOpen] = useState(false);
 
   const beforeRun = useCallback(() => {
@@ -49,7 +51,7 @@ export function ToolTrialProvider({ tool, children }: { tool: TrialTool; childre
     });
     window.scrollTo({ top: 0, behavior: "smooth" });
     return false;
-  }, [phase, tool.name]);
+  }, [phase, tool.name, setPhase]);
 
   const requestUnlock = useCallback(() => setGateOpen(true), []);
 

@@ -24,6 +24,8 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const DIST = join(__dirname, "..", "dist");
 const PORT = 4757;
 const PER_ROUTE_TIMEOUT = 25_000;
+// Muss zu PRERENDER_DATA_ID in src/lib/prerender.ts passen.
+const PRERENDER_DATA_ID = "__prerender_data";
 
 const MIME = {
   ".html": "text/html; charset=utf-8",
@@ -364,9 +366,13 @@ async function run() {
         // schnappt der Prerender den Ladezustand ein ("Lade Artikel …") und der
         // Crawler sieht keinen einzigen Artikel-Link. Nur warten, wenn der Marker
         // wirklich da ist — sonst kostet es jede andere Route unnötig Zeit.
+        //
+        // Auf das VERSCHWINDEN des Markers warten, nicht auf „unsichtbar":
+        // waitForSelector({hidden}) gilt schon bei einem leeren oder versteckten
+        // Element als erfüllt (z. B. RelatedArticles), dann käme der Ladezustand ins HTML.
         if (await page.$("[data-prerender-pending]")) {
           const ok = await page
-            .waitForSelector("[data-prerender-pending]", { hidden: true, timeout: 15_000 })
+            .waitForFunction(() => !document.querySelector("[data-prerender-pending]"), { timeout: 15_000 })
             .then(() => true)
             .catch(() => false);
           if (!ok) console.warn(`[prerender] ⚠ ${route} – Daten wurden nicht rechtzeitig geladen, Liste bleibt leer`);
@@ -386,6 +392,24 @@ async function run() {
         if (!marker.suspense) {
           console.warn(`[prerender] ⚠ ${route} – keine Suspense-Grenze gefunden, Hydration wird scheitern`);
         }
+        // Nachgeladene Daten (src/lib/prerender.ts: prerenderDatenMerken) als
+        // JSON ins HTML: Die Komponenten starten damit im ersten Render auf genau
+        // dem Stand dieses HTML, sonst zeigten sie einen Ladezustand und die
+        // Hydration scheiterte (/ratgeber, Ratgeber-Artikel, RelatedArticles).
+        // `<` wird escaped: kein </script>- oder <!---Ausbruch aus Datenbank-Text.
+        await page.evaluate((id) => {
+          document.getElementById(id)?.remove();
+          const daten = window.__PRERENDER_DATA__;
+          if (!daten || !Object.keys(daten).length) return;
+          const el = document.createElement("script");
+          el.type = "application/json";
+          el.id = id;
+          el.textContent = JSON.stringify(daten)
+            .replace(/</g, "\\u003c")
+            .replace(/\u2028/g, "\\u2028")
+            .replace(/\u2029/g, "\\u2029");
+          document.head.appendChild(el);
+        }, PRERENDER_DATA_ID);
         const html = await page.evaluate(() => {
           const key = (el) =>
             el.getAttribute("name") || el.getAttribute("property") || null;

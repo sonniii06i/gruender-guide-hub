@@ -24,7 +24,9 @@ export const Mascot = ({
     srcSet={`/mascots/${name}.webp 1x, /mascots/${name}@2x.webp 2x`}
     alt={alt}
     loading={priority ? "eager" : "lazy"}
-    fetchPriority={priority ? "high" : undefined}
+    // React 18 kennt fetchPriority nicht (Konsolenwarnung), das HTML-Attribut
+    // deshalb klein durchreichen.
+    {...(priority ? { fetchpriority: "high" } : {})}
     decoding="async"
     className={`object-contain drop-shadow-xl ${className}`}
   />

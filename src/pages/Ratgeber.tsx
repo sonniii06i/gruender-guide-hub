@@ -9,6 +9,7 @@ import { ArrowRight, Clock, BookOpen, Search } from "lucide-react";
 import { HubNav } from "@/components/landing/HubNav";
 import { PageHeader } from "@/components/landing/PageHeader";
 import { titelbildUrl } from "@/data/ratgeberBilder";
+import { prerenderDaten, prerenderDatenMerken } from "@/lib/prerender";
 
 interface BlogPostSummary {
   id: string;
@@ -34,11 +35,16 @@ const CATEGORY_LABELS: Record<string, string> = {
   versicherung: "Versicherung",
 };
 
+// Stand, mit dem /ratgeber prerendert wurde (siehe src/lib/prerender.ts).
+const PRERENDER_KEY = "ratgeber:liste";
+
 const Ratgeber = () => {
-  const [posts, setPosts] = useState<BlogPostSummary[]>([]);
+  // Erster Render = prerendertes HTML; ohne Snapshot wie bisher mit Ladezustand.
+  const [start] = useState(() => prerenderDaten<BlogPostSummary[]>(PRERENDER_KEY));
+  const [posts, setPosts] = useState<BlogPostSummary[]>(start ?? []);
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!start);
 
   useEffect(() => {
     (async () => {
@@ -61,13 +67,13 @@ const Ratgeber = () => {
           .limit(200),
       ]);
       const bildVon = new Map((bilder || []).map((b) => [b.id, b.hero_image_url as string | null]));
-      setPosts(
-        ((data || []) as Omit<BlogPostSummary, "hero_image_url">[]).map((p) => ({
-          ...p,
-          // base64-Bilder als WebP aus /ratgeber-bilder/ (ratgeberBilder.ts)
-          hero_image_url: titelbildUrl(p.slug, bildVon.get(p.id)) ?? null,
-        })) as BlogPostSummary[],
-      );
+      const liste = ((data || []) as Omit<BlogPostSummary, "hero_image_url">[]).map((p) => ({
+        ...p,
+        // base64-Bilder als WebP aus /ratgeber-bilder/ (ratgeberBilder.ts)
+        hero_image_url: titelbildUrl(p.slug, bildVon.get(p.id)) ?? null,
+      })) as BlogPostSummary[];
+      prerenderDatenMerken(PRERENDER_KEY, liste);
+      setPosts(liste);
       setLoading(false);
     })();
   }, []);
@@ -232,6 +238,9 @@ const Ratgeber = () => {
                       </span>
                       <time dateTime={p.published_at}>
                         {new Date(p.published_at).toLocaleDateString("de-DE", {
+                          // feste Zone: Prerender (Build-Server, UTC) und Besucher
+                          // müssen dasselbe Datum rendern, sonst bricht die Hydration
+                          timeZone: "Europe/Berlin",
                           day: "2-digit",
                           month: "short",
                           year: "numeric",

@@ -11,6 +11,7 @@ import { findGuideLanding } from "@/data/guides";
 import { guideHref, guidesMergedInto } from "@/data/guideMerges";
 import { fremdKanonisch } from "@/data/ratgeberKanonisch";
 import { titelbildAbsolut, titelbildUrl } from "@/data/ratgeberBilder";
+import { prerenderDaten, prerenderDatenMerken } from "@/lib/prerender";
 
 interface BlogPost {
   id: string;
@@ -32,17 +33,30 @@ interface BlogPost {
   updated_at: string;
 }
 
+type Weitere = Pick<BlogPost, "slug" | "title" | "excerpt" | "category">[];
+
+// Stand, mit dem der Artikel prerendert wurde (siehe src/lib/prerender.ts):
+// Der erste Render zeigt sonst das Lade-Skelett statt des HTML-Inhalts.
+interface Snapshot {
+  post: BlogPost | null;
+  notFound: boolean;
+  weitere: Weitere;
+}
+const snapshotKey = (slug: string) => `ratgeber:post:${slug}`;
+
 const RatgeberPost = () => {
   const { slug } = useParams<{ slug: string }>();
-  const [post, setPost] = useState<BlogPost | null>(null);
-  const [notFound, setNotFound] = useState(false);
+  const [start] = useState(() => (slug ? prerenderDaten<Snapshot>(snapshotKey(slug)) : undefined));
+  const [post, setPost] = useState<BlogPost | null>(start?.post ?? null);
+  const [notFound, setNotFound] = useState(start?.notFound ?? false);
   // Weitere Ratgeber: bisher verlinkte kein Artikel einen anderen — jeder hing
   // nur an /ratgeber. null = laedt noch (Signal an den Prerender).
-  const [weitere, setWeitere] = useState<Pick<BlogPost, "slug" | "title" | "excerpt" | "category">[] | null>(null);
+  const [weitere, setWeitere] = useState<Weitere | null>(start?.weitere ?? null);
 
   useEffect(() => {
     if (!slug) return;
-    setWeitere(null);
+    // Mit Snapshot steht die Liste schon -- nicht kurz auf „lädt" zurückspringen.
+    if (!prerenderDaten<Snapshot>(snapshotKey(slug))) setWeitere(null);
     (async () => {
       // hero_image_url NICHT mitladen, solange es base64 sein kann: bei 15 von
       // 20 Artikeln waren das bis zu 1,4 MB JSON je Seitenaufruf. Echte URLs
@@ -71,13 +85,18 @@ const RatgeberPost = () => {
           .order("published_at", { ascending: false })
           .limit(30),
       ]);
-      if (!data) setNotFound(true);
-      else setPost({ ...(data as Omit<BlogPost, "hero_image_url">), hero_image_url: bild?.hero_image_url ?? null });
-      const liste = (andere ?? []) as Pick<BlogPost, "slug" | "title" | "excerpt" | "category">[];
-      const kat = (data as BlogPost | null)?.category;
+      const geladen = data
+        ? { ...(data as Omit<BlogPost, "hero_image_url">), hero_image_url: bild?.hero_image_url ?? null }
+        : null;
+      const liste = (andere ?? []) as Weitere;
+      const kat = geladen?.category;
       const gleich = liste.filter((a) => a.category === kat);
       const rest = liste.filter((a) => a.category !== kat);
-      setWeitere([...gleich, ...rest].slice(0, 3));
+      const auswahl = [...gleich, ...rest].slice(0, 3);
+      prerenderDatenMerken(snapshotKey(slug), { post: geladen, notFound: !geladen, weitere: auswahl } satisfies Snapshot);
+      setNotFound(!geladen);
+      if (geladen) setPost(geladen);
+      setWeitere(auswahl);
     })();
   }, [slug]);
 
@@ -212,6 +231,8 @@ const RatgeberPost = () => {
               </span>
               <time dateTime={post.published_at}>
                 {new Date(post.published_at).toLocaleDateString("de-DE", {
+                  // feste Zone: Prerender (UTC) und Besucher rendern dasselbe Datum
+                  timeZone: "Europe/Berlin",
                   day: "2-digit",
                   month: "long",
                   year: "numeric",
@@ -241,7 +262,8 @@ const RatgeberPost = () => {
               alt={post.title}
               width={1024}
               height={576}
-              fetchPriority="high"
+              // React 18 kennt fetchPriority nicht (Warnung), das Attribut klein durchreichen
+              {...{ fetchpriority: "high" }}
               decoding="async"
               className="w-full aspect-[16/9] object-cover rounded-2xl shadow-soft"
             />
