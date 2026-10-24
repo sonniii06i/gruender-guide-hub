@@ -39,8 +39,13 @@ export const VORLAGEN_ECOMMERCE: Vorlage[] = [
       "AGB gelten nur, wenn der Kunde sie vor dem Bestellabschluss zur Kenntnis nehmen kann (§ 305 Abs. 2 BGB): Link im Checkout und auf jeder Seite, dazu Speicher- und Druckmöglichkeit.",
       "Bei Preisermäßigungen musst du nach § 11 PAngV den niedrigsten Preis der letzten 30 Tage angeben. Das steht nicht in den AGB, wird aber bei jedem Rabatt geprüft.",
       "Widerrufsbelehrung und Muster-Widerrufsformular sind eigene Dokumente (siehe die Vorlagen dazu). Sie müssen in Textform (E-Mail, PDF) spätestens mit der Ware beim Kunden ankommen.",
+      "Seit 27.09.2026 Pflicht: die harmonisierte EU-Mitteilung zum gesetzlichen Gewährleistungsrecht (Anhang I der DVO (EU) 2025/1960) hervorgehoben im Shop und in der Bestellbestätigung (Art. 246a § 1 Abs. 1 Satz 1 Nr. 11 EGBGB). Die Grafik ist vorgegeben und darf nicht verändert werden; die AGB verweisen nur darauf.",
     ],
     faqs: [
+      {
+        q: "Was ist die neue EU-Gewährleistungsmitteilung und wo muss sie hin?",
+        a: "Seit dem 27. September 2026 müssen Shops Verbraucher mit einer einheitlichen EU-Grafik auf das gesetzliche Gewährleistungsrecht von mindestens zwei Jahren hinweisen (Anhang I der Durchführungsverordnung (EU) 2025/1960). Sie gehört gut sichtbar in den Shop, zum Beispiel per Link in Kopf- oder Fußzeile und im Checkout, und in die Bestellbestätigung. Gewährt ein Hersteller eine kostenlose Haltbarkeitsgarantie über zwei Jahre, kommt die Kennzeichnung aus Anhang II an die Produktseite.",
+      },
       {
         q: "Brauche ich für einen Online-Shop überhaupt AGB?",
         a: "Eine gesetzliche Pflicht zu AGB gibt es nicht. Ohne AGB gilt aber das gesetzliche Kaufrecht komplett zu Lasten des Händlers, etwa bei Eigentumsvorbehalt, Zahlungsarten und Lieferzeiten. Außerdem musst du viele Informationen nach Art. 246a EGBGB ohnehin geben, und AGB sind der übliche Ort dafür.",

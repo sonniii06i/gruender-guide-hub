@@ -35,7 +35,7 @@ Was nicht in die AGB gehört: die Widerrufsbelehrung selbst, das Muster-Widerruf
 
 In § 3 entscheidest du dich für die Regelbesteuerung oder die Kleinunternehmer-Variante und nennst die Versandkostenseite. Bei § 4 setzt du Fälligkeiten für Vorkasse und Rechnungskauf ein und nennst den Zahlungsdienstleister, falls du Forderungen abtrittst. In § 5 gehören Liefergebiet, Packstation ja oder nein und die realistische Lieferzeit hinein, die mit den Angaben auf deinen Produktseiten übereinstimmen muss.
 
-In § 7 trägst du die URL deiner Widerrufsseite ein, in § 8 die Erreichbarkeit deines Kundendienstes. Bei § 10 wählst du, ob du an Schlichtungsverfahren teilnimmst. Zum Schluss Datum, Firma und Ort eintragen, alle eckigen Klammern entfernen und die AGB als Word oder PDF speichern, bevor sie in den Shop kommen.`,
+In § 7 trägst du die URL deiner Widerrufsseite ein, in § 8 die Erreichbarkeit deines Kundendienstes und die Seite, auf der die EU-Gewährleistungsmitteilung steht; den Satz zur Haltbarkeitsgarantie streichst du, wenn kein Hersteller eine solche Garantie gewährt. Bei § 10 wählst du, ob du an Schlichtungsverfahren teilnimmst. Zum Schluss Datum, Firma und Ort eintragen, alle eckigen Klammern entfernen und die AGB als Word oder PDF speichern, bevor sie in den Shop kommen.`,
       },
       {
         titel: "Typische Abmahnfallen bei Shop-AGB und wie du sie vermeidest",
@@ -47,7 +47,9 @@ Weitere Fallen: eine Gewährleistungsverkürzung für Neuware, pauschale Haftung
         titel: "Rechtliche Grundlagen: Fernabsatz, AGB-Kontrolle, Informationspflichten",
         text: `Die Regeln für Online-Shops stehen an mehreren Stellen. Die §§ 312c ff. BGB regeln Fernabsatzverträge, darunter die Pflichten im elektronischen Geschäftsverkehr nach § 312i und § 312j BGB. Welche Informationen du vor der Bestellung geben musst, listet Art. 246a EGBGB auf, vom Preis über die Lieferbedingungen bis zum Widerrufsrecht. Das Widerrufsrecht selbst steht in den §§ 355 ff. BGB, die Ausnahmen in § 312g Abs. 2 BGB.
 
-Ob eine einzelne Klausel wirksam ist, entscheidet die AGB-Kontrolle der §§ 305 ff. BGB. Gegenüber Verbrauchern gelten die Klauselverbote der §§ 308 und 309 BGB, deshalb sind Haftungsausschlüsse und Gewährleistungsverkürzungen so eng gefasst. Für Mängelrechte gelten die §§ 434 ff. BGB und für den Verbrauchsgüterkauf die §§ 474 ff. BGB, etwa der Gefahrübergang erst bei Übergabe an den Kunden. Dazu kommen die Preisangabenverordnung und das UWG, über das Mitbewerber und Verbände Verstöße abmahnen können.`,
+Ob eine einzelne Klausel wirksam ist, entscheidet die AGB-Kontrolle der §§ 305 ff. BGB. Gegenüber Verbrauchern gelten die Klauselverbote der §§ 308 und 309 BGB, deshalb sind Haftungsausschlüsse und Gewährleistungsverkürzungen so eng gefasst. Für Mängelrechte gelten die §§ 434 ff. BGB und für den Verbrauchsgüterkauf die §§ 474 ff. BGB, etwa der Gefahrübergang erst bei Übergabe an den Kunden. Dazu kommen die Preisangabenverordnung und das UWG, über das Mitbewerber und Verbände Verstöße abmahnen können.
+
+Neu seit dem 27. September 2026: Nach Art. 246a § 1 Abs. 1 Satz 1 Nr. 11 EGBGB musst du auf das gesetzliche Gewährleistungsrecht und seine Mindestdauer von zwei Jahren in hervorgehobener Weise hinweisen, und zwar mit der harmonisierten Mitteilung aus Anhang I der Durchführungsverordnung (EU) 2025/1960. Das ist eine fest vorgegebene Grafik der EU, die du weder umgestalten noch verkleinern darfst. Ein Satz in den AGB ersetzt sie nicht; § 8 Abs. 5 der Vorlage verweist nur darauf. Binde die Mitteilung als allgemeinen Hinweis im Shop ein, etwa über einen gut sichtbaren Link in Kopf- oder Fußzeile und im Checkout, und füge sie der Bestellbestätigung bei. Gewährt ein Hersteller eine kostenlose Haltbarkeitsgarantie von mehr als zwei Jahren und teilt dir das mit, gehört nach Nr. 11a zusätzlich die harmonisierte Kennzeichnung aus Anhang II an die Produktseite.`,
       },
       {
         titel: "Wann die AGB Vorlage nicht reicht",
@@ -113,6 +115,7 @@ Die gelieferte Ware bleibt bis zur vollständigen Bezahlung des Kaufpreises Eige
 (2) Bei gebrauchten Waren beträgt die Verjährungsfrist ebenfalls zwei Jahre, soweit nicht vor Vertragsschluss eine Verkürzung auf ein Jahr gesondert und ausdrücklich vereinbart wurde (§ 476 Abs. 2 BGB).
 (3) Zusätzlich zur gesetzlichen Gewährleistung bestehende Herstellergarantien werden in den jeweiligen Garantiebedingungen beschrieben; sie schränken die gesetzlichen Rechte des Kunden nicht ein.
 (4) Kundendienst: Bei Fragen, Reklamationen und Beanstandungen erreicht der Kunde den Verkäufer unter [Telefonnummer] ([Erreichbarkeit, z. B. „Mo–Fr 9–17 Uhr“]) und [E-Mail-Adresse].
+(5) Der Kunde hat ein gesetzliches Gewährleistungsrecht von mindestens zwei Jahren. Die harmonisierte Mitteilung der Europäischen Union über das gesetzliche Gewährleistungsrecht (Anhang I der Durchführungsverordnung (EU) 2025/1960) ist unter [www.domain.de/gewaehrleistung] abrufbar und in der Bestellbestätigung enthalten. [Nur wenn ein Hersteller eine kostenlose Haltbarkeitsgarantie von mehr als zwei Jahren gewährt: Für diese Waren wird auf der Produktseite zusätzlich die harmonisierte Kennzeichnung nach Anhang II angezeigt.]
 
 § 9 Haftung
 (1) Der Verkäufer haftet unbeschränkt für Schäden aus der Verletzung des Lebens, des Körpers oder der Gesundheit, für Vorsatz und grobe Fahrlässigkeit, bei arglistigem Verschweigen eines Mangels, bei Übernahme einer Garantie sowie nach dem Produkthaftungsgesetz.
