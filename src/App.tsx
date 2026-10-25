@@ -131,6 +131,7 @@ const Preise = lazy(() => import("./pages/Preise.tsx"));
 const GuidesIndex = lazy(() => import("./pages/GuidesIndex.tsx"));
 const GuideLanding = lazy(() => import("./pages/GuideLanding.tsx"));
 const ZielgruppeLanding = lazy(() => import("./pages/ZielgruppeLanding.tsx"));
+const TippsBestaetigt = lazy(() => import("./pages/TippsBestaetigt.tsx"));
 const GratisTools = lazy(() => import("./pages/GratisTools.tsx"));
 const GruendungszuschussCheck = lazy(() => import("./pages/GruendungszuschussCheck.tsx"));
 const GruendungsUnterlagen = lazy(() => import("./pages/GruendungsUnterlagen.tsx"));
@@ -350,6 +351,7 @@ const App = () => (
               {/* Zielgruppen-Landings (25.10.2026) */}
               <Route path="/influencer" element={<ZielgruppeLanding slug="influencer" />} />
               <Route path="/tiktok-shop" element={<ZielgruppeLanding slug="tiktok-shop" />} />
+              <Route path="/tipps-bestaetigt" element={<TippsBestaetigt />} />
               {/* Kostenlose Lead-Magnet-Tools (Ergebnis gegen E-Mail, kein Konto) */}
               <Route path="/gratis-tools" element={<GratisTools />} />
               {/* Vorlagen-Bibliothek: Download gegen bestätigte E-Mail (Double-Opt-in), kein Konto */}

@@ -133,6 +133,16 @@ verify_jwt = false
 # --- Vorlagen-Bibliothek (/vorlagen), Double-Opt-in ---
 # Beide ohne Konto: vorlage-anfordern ruft der Browser ohne Session auf,
 # vorlage-bestaetigen ist der Link aus der Mail (GET, Weiterleitung).
+[functions.tipps-anfordern]
+verify_jwt = false
+
+[functions.tipps-bestaetigen]
+verify_jwt = false
+
+[functions.send-tipps-strecke]
+# Aufruf aus pg_cron mit x-cron-secret (CART_CRON_SECRET), ohne JWT.
+verify_jwt = false
+
 [functions.vorlage-anfordern]
 verify_jwt = false
 

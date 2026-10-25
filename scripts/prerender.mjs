@@ -74,6 +74,8 @@ const EXTRA_ROUTES = [
   "/tools/weee-check/gratis",
   "/tools/brand-check/gratis",
   "/tools/lucid-wizard/gratis",
+  // Ziel des Double-Opt-in der Tipps-Strecke (noindex, nicht in der Sitemap).
+  "/tipps-bestaetigt",
 ];
 
 function routesFromSitemap(xml) {

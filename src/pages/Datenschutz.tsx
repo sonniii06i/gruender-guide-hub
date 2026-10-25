@@ -1,4 +1,5 @@
 import { Navbar } from "@/components/landing/Navbar";
+import { TIPPS_AKTIV } from "@/lib/freetools/tipps";
 import { openConsentSettings } from "@/utils/consent";
 import { Footer } from "@/components/landing/Footer";
 import { PageHeader } from "@/components/landing/PageHeader";
@@ -179,8 +180,9 @@ const Datenschutz = () => (
       <p>
         <strong>Zweck:</strong> Bereitstellung des angeforderten Ergebnisses und Nachhalten der kostenlosen
         Nutzung (eine Prüfung bzw. Nutzung je Tool), damit das Angebot nicht missbraucht wird. Ob du ein Tool schon genutzt
-        hast, merkt sich zusätzlich dein Browser im lokalen Speicher (siehe Abschnitt 6). Werbung senden wir an
-        diese Adresse nicht; einen Newsletter gibt es nur mit gesonderter, ausdrücklicher Einwilligung.
+        hast, merkt sich zusätzlich dein Browser im lokalen Speicher (siehe Abschnitt 6). {TIPPS_AKTIV
+          ? "Werbung senden wir an diese Adresse nur, wenn du zusätzlich in Tipps per E-Mail einwilligst und das bestätigst (Abschnitt 3.9b)."
+          : "Werbung senden wir an diese Adresse nicht; einen Newsletter gibt es nur mit gesonderter, ausdrücklicher Einwilligung."}
       </p>
       <p>
         <strong>Rechtsgrundlage:</strong> Art. 6 Abs. 1 lit. b DSGVO (Bereitstellung des angeforderten Ergebnisses)
@@ -188,6 +190,31 @@ const Datenschutz = () => (
         <strong>Speicherdauer:</strong> 12 Monate, danach automatische Löschung.<br />
         <strong>Auftragsverarbeiter:</strong> Supabase (Datenbank, Serverstandort Frankfurt am Main).
       </p>
+
+      {TIPPS_AKTIV && (<>
+      <h3 id="tipps" className="font-semibold mt-6">3.9b Tipps per E-Mail nach einem kostenlosen Tool (Double-Opt-in)</h3>
+      <p>
+        Im E-Mail-Fenster der kostenlosen Tools kannst du freiwillig ankreuzen, dass du in den folgenden 10 Tagen bis zu
+        vier E-Mails mit Tipps zum Thema des Tools und zu GründerX bekommen möchtest. Das Häkchen ist nicht vorausgewählt.
+        Wir schicken dir zuerst eine Bestätigungsmail; erst nach dem Klick auf den Link darin (Double-Opt-in) senden wir
+        die Tipps. Ohne Klick bekommst du nichts.
+      </p>
+      <p>
+        <strong>Daten:</strong> E-Mail-Adresse, das genutzte Tool, die Version des Einwilligungstexts, die Zeitpunkte von
+        Anforderung, Bestätigung und Versand der einzelnen Mails. Hast du ein GründerX-Abo, beenden wir die Reihe; dafür
+        gleichen wir die Adresse mit unseren Kundenkonten ab. Jede Tipps-Mail enthält ein Zählpixel und über unseren Server
+        umgeleitete Links, beide mit einer Kennung der Mail. Damit sehen wir, ob eine Mail geöffnet und welcher Link geklickt
+        wurde (Öffnungen sind nur eine Schätzung, weil manche Mailprogramme Bilder vorab laden). Auch das umfasst deine
+        Einwilligung.
+      </p>
+      <p>
+        <strong>Rechtsgrundlage:</strong> deine Einwilligung (Art. 6 Abs. 1 lit. a DSGVO, § 7 Abs. 2 UWG). Du kannst sie
+        jederzeit mit Wirkung für die Zukunft widerrufen – über den Abmeldelink in jeder Mail oder per Nachricht an uns.<br />
+        <strong>Speicherdauer:</strong> Unbestätigte Anfragen löschen wir nach 30 Tagen. Bestätigte Einwilligungen bewahren
+        wir als Nachweis 24 Monate nach der Anforderung auf, danach automatische Löschung.<br />
+        <strong>Auftragsverarbeiter:</strong> Supabase (Datenbank, Serverstandort Frankfurt am Main); Versand über unser Mailpostfach bei IONOS.
+      </p>
+      </>)}
 
       <h3 id="vorlagen" className="font-semibold mt-6">3.9a Vorlagen-Bibliothek (Download gegen bestätigte E-Mail-Adresse)</h3>
       <p>

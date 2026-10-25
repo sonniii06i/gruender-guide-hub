@@ -13,6 +13,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { EMAIL_PATTERN, rememberToolUnlocked, saveToolLead, trackToolLead } from "@/lib/freetools/leads";
+import { Checkbox } from "@/components/ui/checkbox";
+import { EINWILLIGUNG_TEXT, TIPPS_AKTIV, TIPPS_TOOLS, tippsAnfordern } from "@/lib/freetools/tipps";
 
 interface EmailGateDialogProps {
   open: boolean;
@@ -34,8 +36,9 @@ interface EmailGateDialogProps {
 // ein Registrierungsdialog (AccountGateDialog, supabase.auth.signUp): ein
 // zweiter Weg zu einem Konto ohne Zahlung, den /auth bewusst nicht mehr hat.
 //
-// Kein Newsletter-Häkchen: GründerX hat keinen Newsletter mit Double-Opt-in.
-// Die Adresse ist keine Werbeeinwilligung.
+// Die Adresse allein ist keine Werbeeinwilligung. Tipps per Mail gibt es nur
+// über das freiwillige, nicht vorangekreuzte Häkchen und danach per
+// Double-Opt-in (tipps-anfordern → Bestätigungsmail → tipps-bestaetigen).
 export function EmailGateDialog({
   open,
   onOpenChange,
@@ -46,6 +49,8 @@ export function EmailGateDialog({
 }: EmailGateDialogProps) {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
+  const [tipps, setTipps] = useState(false);
+  const tippsMoeglich = TIPPS_AKTIV && TIPPS_TOOLS.has(slug);
 
   const handleUnlock = async (e?: React.FormEvent) => {
     e?.preventDefault();
@@ -58,10 +63,13 @@ export function EmailGateDialog({
     setLoading(true);
     // Freigeschaltet wird in jedem Fall, auch wenn das Speichern scheitert.
     await saveToolLead({ email: clean, slug });
+    const tippsAngefordert = tippsMoeglich && tipps ? await tippsAnfordern(clean, slug) : false;
     setLoading(false);
     rememberToolUnlocked(slug);
     trackToolLead(slug);
-    toast.success(`Dein ${resultName} ist freigeschaltet.`);
+    toast.success(`Dein ${resultName} ist freigeschaltet.`, tippsAngefordert
+      ? { description: "Für die Tipps haben wir dir eine Bestätigungsmail geschickt." }
+      : undefined);
     onUnlocked();
   };
 
@@ -98,6 +106,20 @@ export function EmailGateDialog({
             </div>
           </div>
 
+          {tippsMoeglich && (
+            <div className="flex items-start gap-2.5">
+              <Checkbox
+                id="gate-tipps"
+                checked={tipps}
+                onCheckedChange={(v) => setTipps(v === true)}
+                className="mt-0.5"
+              />
+              <Label htmlFor="gate-tipps" className="text-sm font-normal leading-snug text-muted-foreground">
+                {EINWILLIGUNG_TEXT} <span className="text-xs">(freiwillig, Bestätigung per Mail)</span>
+              </Label>
+            </div>
+          )}
+
           <Button type="submit" className="w-full" size="lg" disabled={loading}>
             {loading ? (
               <Loader2 className="h-5 w-5 animate-spin" />
@@ -111,9 +133,9 @@ export function EmailGateDialog({
 
           <p className="text-xs leading-relaxed text-muted-foreground">
             Wir speichern deine Adresse zusammen mit dem genutzten Tool, um die kostenlose Nutzung
-            nachzuhalten, und löschen sie nach 12 Monaten. Werbung senden wir dir an diese Adresse
-            nicht. Mehr in der{" "}
-            <a href="/datenschutz#kostenlose-tools" target="_blank" className="text-primary hover:underline">
+            nachzuhalten, und löschen sie nach 12 Monaten. Werbung senden wir dir nur, wenn du das
+            Häkchen setzt und per Mail bestätigst. Mehr in der{" "}
+            <a href={tippsMoeglich ? "/datenschutz#tipps" : "/datenschutz#kostenlose-tools"} target="_blank" className="text-primary hover:underline">
               Datenschutzerklärung
             </a>
             .
