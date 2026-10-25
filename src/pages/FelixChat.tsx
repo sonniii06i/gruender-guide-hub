@@ -91,6 +91,8 @@ const FelixChat = () => {
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
   const [streaming, setStreaming] = useState(false);
+  // Bleibender Hinweis, wenn Felix nicht antworten konnte (Toast allein verschwindet, die Frage bliebe unbeantwortet stehen).
+  const [fehler, setFehler] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [firstName, setFirstName] = useState<string | null>(
     () => readProfileCache(user?.id)?.first_name ?? null,
@@ -184,6 +186,7 @@ const FelixChat = () => {
     const restoreInput = () => setInput((cur) => (cur ? cur : text));
     setInput("");
     setStreaming(true);
+    setFehler(null);
 
     let activeConvId = convId;
     if (!activeConvId) {
@@ -247,9 +250,15 @@ const FelixChat = () => {
         const err = await resp.json().catch(() => ({}));
         // Interne Texte (Credits, Provider-Fehler) nur in die Konsole, nicht an Nutzer.
         console.error("chat-felix:", resp.status, err);
-        if (resp.status === 429) toast.error("Felix ist gerade überlastet. Gleich nochmal.");
-        else toast.error("Felix ist gerade nicht erreichbar. Bitte versuch es gleich noch einmal.");
-        if (sichtbar()) restoreInput();
+        const text =
+          resp.status === 429
+            ? "Felix ist gerade überlastet. Deine Frage steht wieder im Eingabefeld – schick sie gleich noch einmal ab."
+            : "Felix ist gerade nicht erreichbar. Deine Frage steht wieder im Eingabefeld – versuch es in ein paar Minuten noch einmal. Tools, Guides und der Steuerkalender funktionieren weiter.";
+        toast.error(resp.status === 429 ? "Felix ist gerade überlastet." : "Felix ist gerade nicht erreichbar.");
+        if (sichtbar()) {
+          setFehler(text);
+          restoreInput();
+        }
         return;
       }
 
@@ -300,7 +309,10 @@ const FelixChat = () => {
     } catch (e) {
       console.error(e);
       toast.error("Verbindung zu Felix fehlgeschlagen");
-      if (sichtbar() && !assistantSoFar) restoreInput();
+      if (sichtbar() && !assistantSoFar) {
+        setFehler("Die Verbindung zu Felix ist abgebrochen. Deine Frage steht wieder im Eingabefeld – schick sie noch einmal ab.");
+        restoreInput();
+      }
     } finally {
       if (sendTokenRef.current === token) setStreaming(false);
     }
@@ -392,6 +404,11 @@ const FelixChat = () => {
                 <div className="inline-flex items-center gap-2 rounded-2xl rounded-tl-md border border-border bg-card px-4 py-3 text-sm text-muted-foreground shadow-card" role="status">
                   <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden="true" /> Felix denkt nach…
                 </div>
+              </div>
+            )}
+            {fehler && !streaming && (
+              <div role="alert" className="ml-10 rounded-2xl rounded-tl-md border border-amber-300/60 bg-amber-50 px-4 py-3 text-sm leading-relaxed text-amber-900 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-200">
+                {fehler}
               </div>
             )}
             {!streaming && messages.some((m) => m.role === "assistant") && (
