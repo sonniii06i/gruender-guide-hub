@@ -6,7 +6,7 @@ import type { ChancenArt } from "@/lib/gruenderChancen";
 // supabase/functions/_shared/chancenAlarm.ts übereinstimmen (Test chancen-alarm) – die Function
 // lehnt jede andere Version ab, geändert wird immer an beiden Stellen.
 /** Schalter: Formular erst zeigen, wenn Tabelle, Functions und Cron laufen (Freigabe des Betreibers). */
-export const CHANCEN_ALARM_AKTIV = false;
+export const CHANCEN_ALARM_AKTIV = true;
 
 export const ALARM_VERSION = "2026-10-25";
 export const ALARM_TEXT =
