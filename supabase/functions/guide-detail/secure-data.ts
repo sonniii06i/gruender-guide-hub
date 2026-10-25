@@ -3216,14 +3216,13 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         }
       ],
       "extendedNotes": [
-        "TikTok Shop DE seit März 2024 live. Stark wachsend — 30 % MoM Wachstum 2024-25, höhere Conversion als IG/FB Shopping.",
-        "Affiliate-Sweet-Spot: 50.000+ Follower in spezifischer Nische (Beauty, Fashion, Home) — 500-5.000 €/Mon Provision realistisch.",
-        "Provisions-Bandbreite: Beauty 10-25 %, Fashion 15-30 %, Electronics 5-12 %, Food 8-15 %.",
-        "Live-Shopping ist DER Conversion-Hack: 5-10x höhere CR als statische Videos. Plane 2-3x/Woche 1-2h Live.",
-        "TikTok Shop für eigene Produkte: zusätzlich zu Amazon/Kaufland/Shopify, deutlich höhere CR im Cold-Audience-Bereich (Discovery vs. Search).",
-        "Risiko: TikTok-Algorithmus kann Affiliate-Content als 'zu kommerziell' demotivieren — organischer Content + Affiliate-Mix wichtig."
+        "TikTok Shop ist in Deutschland seit März 2025 live. Laut TikTok (24.03.2026) über 25.000 Verkäufer:innen; im Schnitt kommen 60 % ihres Umsatzes über shoppable Videos und Live-Shopping.",
+        "Mindestalter für TikTok Shop: 18 Jahre.",
+        "Affiliate-Provisionen legt die jeweilige Brand fest – die Sätze siehst du im Affiliate Center beim Produkt.",
+        "Steuerlich: Affiliate-Provisionen sind Betriebseinnahmen; Samples, die du nach der Werbung behältst, zählen mit dem üblichen Endpreis abzüglich üblicher Rabatte (Finanzamt Hessen, Leitfaden Juni 2026).",
+        "Wer selbst verkaufen will: ohne Handelsregister Registrierung als gewerbliche:r Verkäufer:in mit Steuernummer; e.K. und GbR brauchen zusätzlich eine USt-IdNr (TikTok Seller University). Ablauf im Guide „TikTok Shop starten“."
       ],
-      "description": "TikTok Shop ist seit 2024 in DE/AT verfügbar. Zwei Rollen: Creator-Affiliate (Provision auf verkaufte Produkte aus deinen Videos) ODER Brand-Seller (eigene Produkte verkaufen). Provision: 5-30 % je Kategorie/Brand."
+      "description": "TikTok Shop gibt es in Deutschland seit März 2025. Zwei Rollen: Creator-Affiliate (Provision auf verkaufte Produkte aus deinen Videos oder LIVEs) oder Verkäufer:in (eigene Produkte). Die Provision legt die Brand je Produkt fest."
     },
     "affiliate-programs": {
       "checklist": [
@@ -4899,22 +4898,22 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
   "tiktok-shop-launch": {
     "voraussetzungen": {
       "checklist": [
-        "Eingetragene Firma (UG, GmbH, AG, e.K.) — Privatpersonen werden abgelehnt",
-        "USt-ID + Steuernummer aktiv",
+        "Gewerbe angemeldet – ohne Handelsregister als „gewerbliche:r Verkäufer:in“ (Steuernummer, Geschäftsadresse, Ausweis), als e.K. oder GbR zusätzlich USt-IdNr, als UG/GmbH Handelsregisternummer",
+        "Steuernummer aktiv (bei e.K./GbR plus USt-IdNr)",
         "EU-Geschäftskonto (kein Privatkonto)",
         "EU-Lager-Adresse (Versand aus EU bevorzugt)",
         "Eingetragene Marke (DPMA/EUIPO) für Brand Registry — STARK empfohlen",
         "Mind. 5 Produkte für Initial-Listing (TikTok bevorzugt aktive Sortimente)",
         "TikTok-Account mit > 1.000 Followern hilft bei Genehmigung (nicht Pflicht)"
       ],
-      "warning": "Bei Verkauf in DACH/EU: TikTok Shop ist seit März 2024 in DE/AT verfügbar. CH/Liechtenstein noch nicht."
+      "warning": "TikTok Shop ist in Deutschland seit März 2025 verfügbar; Mindestalter 18."
     },
     "anmeldung": {
       "checklist": [
         "Account erstellen mit Business-Email + Telefon",
-        "HR-Auszug (< 3 Monate) hochladen",
-        "USt-ID + Steuernummer eingeben",
-        "Personalausweis / Reisepass des Geschäftsführers (PDF + Selfie)",
+        "Bei e.K./UG/GmbH: Handelsregisternummer mit aktivem Status; ohne Handelsregister als gewerbliche:r Verkäufer:in keine Registerangaben",
+        "Steuernummer eingeben (e.K. und GbR zusätzlich USt-IdNr)",
+        "Reisepass, Personalausweis oder unbefristeter Aufenthaltstitel (Führerschein wird nicht akzeptiert)",
         "Bankkonto-IBAN für Auszahlungen",
         "Geschäftsadresse + EU-Lager-Adresse separat",
         "Produktkategorien wählen (mit Marke verifizieren bei sensiblen Kategorien)",
@@ -14441,6 +14440,120 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Apple zahlt in EUR aufs deutsche Konto (Währung in App Store Connect einstellbar); Google via Google Payments ebenfalls. Wechselkurs-Differenzen zwischen Report und Auszahlung sind normal → als Kursgewinn/-verlust buchen.",
         "Gewinn-Realität fürs Forecasting: Von 9,99 € Endkundenpreis in DE bleiben nach USt (÷1,19) und 15 % Small-Business-Cut rund 7,14 € vor deinen Kosten und Ertragsteuern. Diese Zahl — nicht der Store-Preis — gehört in deine LTV/CAC-Rechnung.",
         "Wenn die App in einer GmbH/UG liegt: gleiche USt-Logik, plus KSt/GewSt auf den Gewinn. Die App-IP in einer Holding/IP-Struktur zu parken lohnt erst bei relevanten Gewinnen — siehe Holding-Guide."
+      ]
+    }
+  },
+  "tiktok-shop-starten": {
+    "startklar": {
+      "checklist": [
+        "Rolle festlegen: Verkäufer, Affiliate-Creator oder beides",
+        "Alter prüfen: TikTok Shop erst ab 18",
+        "Produktliste: Elektro? Batterien/Akkus? Kosmetik? Lebensmittel?",
+        "Zielmärkte: nur Deutschland oder auch Privatkunden im EU-Ausland?"
+      ],
+      "externalLinks": [
+        { "label": "TikTok Newsroom: Ein Jahr TikTok Shop in Deutschland", "url": "https://newsroom.tiktok.com/tiktokshop-1-jahr?lang=de-DE" },
+        { "label": "Gratis: TikTok-Shop-Checkliste", "url": "https://gruenderx.de/tiktok-shop-checkliste" }
+      ]
+    },
+    "gewerbe": {
+      "checklist": [
+        "Personalausweis bereithalten",
+        "Tätigkeit z. B. „Online-Handel mit … sowie Erbringung von Werbe- und Affiliate-Leistungen über soziale Medien“",
+        "Beginn-Datum realistisch angeben – ab da läuft die Monatsfrist für den Fragebogen"
+      ],
+      "warning": "Eine zu enge Tätigkeitsbeschreibung (nur „Influencer“) deckt eigenen Warenverkauf nicht ab – dann ist eine Ummeldung nötig."
+    },
+    "fragebogen": {
+      "checklist": [
+        "ELSTER-Konto (Zertifikat kommt per Post, Vorlauf einplanen)",
+        "Fragebogen zur steuerlichen Erfassung für Einzelunternehmen ausfüllen",
+        "Umsatzschätzung für dieses und nächstes Jahr – sie entscheidet über Kleinunternehmer und Voranmeldungs-Rhythmus",
+        "Registrierungsweg wählen: ohne Handelsregister als gewerbliche:r Verkäufer:in (Steuernummer reicht), als e.K. oder GbR zusätzlich USt-IdNr beim BZSt beantragen"
+      ],
+      "externalLinks": [
+        { "label": "ELSTER", "url": "https://www.elster.de" },
+        { "label": "BZSt: USt-IdNr beantragen", "url": "https://www.bzst.de/DE/Unternehmen/Identifikationsnummern/Umsatzsteuer-Identifikationsnummer/umsatzsteuer-identifikationsnummer_node.html" },
+        { "label": "TikTok Seller University: Registrierung als Einzelunternehmer", "url": "https://seller-de.tiktok.com/university/essay?knowledge_id=6339509542340373&lang=de-DE" }
+      ],
+      "warning": "TikTok versteht unter „Einzelunternehmer“ nur im Handelsregister eingetragene Kaufleute (e.K.) – mit normalem Kleingewerbe wählst du „gewerbliche:r Verkäufer:in“."
+    },
+    "kleinunternehmer": {
+      "description": "Kleinunternehmer (§ 19 UStG) bist du, wenn dein Umsatz im Vorjahr höchstens 25.000 € betrug und im laufenden Jahr 100.000 € nicht übersteigt – im ersten Jahr zählt die 25.000-€-Grenze. Vorteil: keine Umsatzsteuer, keine Voranmeldungen. Nachteil: kein Vorsteuerabzug auf Wareneinkauf, Verpackung und Technik.",
+      "checklist": [
+        "Geplanten Jahresumsatz schätzen (inkl. viraler Spitzen)",
+        "Vorsteuer aus Wareneinkauf gegenrechnen",
+        "Entscheidung im Fragebogen eintragen"
+      ],
+      "externalLinks": [
+        { "label": "Ratgeber: Kleinunternehmer 2026", "url": "https://gruenderx.de/ratgeber/kleinunternehmer-2026" }
+      ]
+    },
+    "konto": {
+      "description": "Ein eigenes Konto für Auszahlungen, Wareneinkauf und Gebühren hält die Buchhaltung sauber und macht Prüfungen einfacher.",
+      "externalLinks": [
+        { "label": "Geschäftskonto-Vergleich", "url": "https://gruenderx.de/ratgeber/bestes-geschaeftskonto-gruender-vergleich-2026" }
+      ]
+    },
+    "produktpflichten": {
+      "description": "Für Produkte im TikTok Shop gelten dieselben Pflichten wie in jedem Online-Shop – und zwar vor dem ersten Verkauf.",
+      "checklist": [
+        "LUCID: registrieren und Verpackungen bei einem dualen System beteiligen, bevor die erste befüllte Verpackung an Privatkunden geht",
+        "Elektrogeräte: Registrierung bei der stiftung ear (WEEE-Nummer) vor dem ersten Angebot",
+        "Batterien/Akkus (auch eingebaut): Registrierung bei der stiftung ear",
+        "Kosmetik: CPNP-Meldung, Sicherheitsbewertung, verantwortliche Person",
+        "Lebensmittel/Nahrungsergänzung: Registrierung bei der Lebensmittelüberwachung",
+        "GPSR: Hersteller bzw. verantwortliche Person in der EU, Kontaktdaten und Sicherheitsinformationen im Angebot"
+      ],
+      "externalLinks": [
+        { "label": "LUCID Verpackungsregister", "url": "https://lucid.verpackungsregister.org" },
+        { "label": "stiftung ear", "url": "https://www.stiftung-ear.de" },
+        { "label": "Ratgeber: LUCID anmelden", "url": "https://gruenderx.de/ratgeber/lucid-verpackungsregister-anmelden" }
+      ],
+      "warning": "Ohne Registrierung dürfen betroffene Produkte nicht angeboten werden – das gilt unabhängig von der Plattform."
+    },
+    "seller-center": {
+      "description": "Registrierung im TikTok Shop Seller Center mit den Unternehmensdaten aus Gewerbeanmeldung und Fragebogen. Name, Anschrift und Steuernummern müssen exakt übereinstimmen.",
+      "checklist": [
+        "Gewerbeschein als PDF",
+        "Steuernummer (e.K./GbR: plus USt-IdNr; UG/GmbH: Handelsregisternummer)",
+        "Ausweis: Reisepass, Personalausweis oder unbefristeter Aufenthaltstitel – kein Führerschein",
+        "Adressnachweis: z. B. Strom-, Gas-, Wasser-, Handy- oder Internetrechnung",
+        "Geschäftskonto (IBAN auf deinen Namen)",
+        "Rücksende- und Lageradresse",
+        "Impressumsangaben"
+      ],
+      "externalLinks": [
+        { "label": "TikTok Shop Seller Center DE", "url": "https://seller-de.tiktok.com" }
+      ]
+    },
+    "affiliate": {
+      "description": "Creator bewerben deine Produkte gegen Provision – für dich Betriebsausgaben. Bist du selbst Creator, sind deine Provisionen Betriebseinnahmen; Gratis-Samples, die du behältst, zählen mit dem üblichen Endpreis abzüglich üblicher Rabatte.",
+      "checklist": [
+        "Provisionssatz je Produkt festlegen und mit der Marge abgleichen",
+        "Samples an Creator dokumentieren",
+        "Als Creator: jede Provision und jedes Sample aufzeichnen",
+        "Werbung im Video kennzeichnen"
+      ],
+      "externalLinks": [
+        { "label": "Gratis: PR-Paket-Rechner", "url": "https://gruenderx.de/pr-paket-rechner" },
+        { "label": "Finanzamt Hessen: Leitfaden Influencer (Juni 2026)", "url": "https://finanzamt.hessen.de/sites/finanzamt.hessen.de/files/2026-07/leitfaden_zur_besteuerung_von_influencerinnen_und_influencern.pdf" }
+      ]
+    },
+    "meldung-oss": {
+      "description": "Nach dem Plattformen-Steuertransparenzgesetz meldet TikTok Verkäufer an das Bundeszentralamt für Steuern – ausgenommen ist nur, wer im Jahr weniger als 30 Verkäufe und zusammen weniger als 2.000 € erzielt. Verkaufst du an Privatkunden im EU-Ausland und überschreitest EU-weit 10.000 € im Jahr, gilt die Umsatzsteuer des Ziellands – dann nutzt du das OSS-Verfahren.",
+      "externalLinks": [
+        { "label": "PStTG § 4", "url": "https://www.gesetze-im-internet.de/psttg/__4.html" },
+        { "label": "Ratgeber: OSS-Anmeldung", "url": "https://gruenderx.de/ratgeber/oss-anmeldung" }
+      ]
+    },
+    "buchhaltung": {
+      "description": "Plattform-Abrechnungen zeigen Umsatz, Gebühren und Provisionen zusammen. Für die Buchhaltung trennst du sie: Umsatz als Erlös, TikTok-Gebühren und Affiliate-Provisionen als Ausgaben.",
+      "checklist": [
+        "Abrechnungen monatlich herunterladen und ablegen",
+        "Erlöse, Gebühren und Provisionen getrennt buchen",
+        "Bei Regelbesteuerung: Voranmeldung fristgerecht",
+        "Jahresende: Anlage EÜR und Anlage G"
       ]
     }
   }

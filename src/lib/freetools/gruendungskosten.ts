@@ -1,13 +1,6 @@
 import { Calculator } from "lucide-react";
-import { type ToolConfig, type ToolData, s, b, DISCLAIMER } from "./types";
+import { type ToolConfig, type ToolData, s, b, DISCLAIMER, zahl } from "./types";
 
-function parseNum(v: string): number {
-  if (!v) return 0;
-  let t = v.replace(/[€\s]/g, "");
-  if (t.includes(",")) t = t.replace(/\./g, "").replace(",", ".");
-  const n = parseFloat(t);
-  return isFinite(n) ? n : 0;
-}
 function euro(n: number): string {
   return n.toLocaleString("de-DE", { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + " €";
 }
@@ -34,12 +27,12 @@ function generate(data: ToolData): string {
   const f = FORMALITIES[form] || FORMALITIES.einzel;
 
   const variable: Item[] = [
-    { label: "Steuer-/Gründungsberatung", amount: parseNum(s(data, "beratung")) },
-    { label: "Website / Online-Auftritt", amount: parseNum(s(data, "website")) },
-    { label: "Erstausstattung / Equipment", amount: parseNum(s(data, "equipment")) },
-    { label: "Waren- / Materiallager", amount: parseNum(s(data, "waren")) },
-    { label: "Marketing-Startbudget", amount: parseNum(s(data, "marketing")) },
-    { label: "Sonstiges / Puffer", amount: parseNum(s(data, "sonstiges")) },
+    { label: "Steuer-/Gründungsberatung", amount: zahl(s(data, "beratung")) },
+    { label: "Website / Online-Auftritt", amount: zahl(s(data, "website")) },
+    { label: "Erstausstattung / Equipment", amount: zahl(s(data, "equipment")) },
+    { label: "Waren- / Materiallager", amount: zahl(s(data, "waren")) },
+    { label: "Marketing-Startbudget", amount: zahl(s(data, "marketing")) },
+    { label: "Sonstiges / Puffer", amount: zahl(s(data, "sonstiges")) },
   ].filter((i) => i.amount > 0);
 
   const variableSum = variable.reduce((a, i) => a + i.amount, 0);

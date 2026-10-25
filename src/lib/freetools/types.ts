@@ -78,6 +78,16 @@ export function s(data: ToolData, name: string, fallback = ""): string {
   return typeof v === "string" && v.trim() ? v.trim() : fallback;
 }
 
+/** Betrag aus deutscher Eingabe: „1.500“, „1.500,50“, „1500“, „30.000 €“ (Tausenderpunkt ohne Komma). */
+export function zahl(v: string): number {
+  if (!v) return 0;
+  let t = v.replace(/[€\s]/g, "");
+  if (t.includes(",")) t = t.replace(/\./g, "").replace(",", ".");
+  else if (/^\d{1,3}(\.\d{3})+$/.test(t)) t = t.replace(/\./g, "");
+  const n = parseFloat(t);
+  return isFinite(n) && n > 0 ? n : 0;
+}
+
 export function b(data: ToolData, name: string): boolean {
   return data[name] === true;
 }

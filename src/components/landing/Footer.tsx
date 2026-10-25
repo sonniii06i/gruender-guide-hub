@@ -19,6 +19,16 @@ const COLUMNS: { title: string; links: { to: string; label: string; native?: boo
     ],
   },
   {
+    title: "Für Creator & TikTok Shop",
+    links: [
+      { to: "/influencer", label: "Influencer & Creator" },
+      { to: "/tiktok-shop", label: "TikTok Shop starten" },
+      { to: "/influencer-steuer-check", label: "Influencer-Steuer-Check" },
+      { to: "/tiktok-shop-checkliste", label: "TikTok-Shop-Checkliste" },
+      { to: "/pr-paket-rechner", label: "PR-Paket-Rechner" },
+    ],
+  },
+  {
     title: "Ressourcen",
     links: [
       { to: "/ratgeber", label: "Ratgeber" },
@@ -50,7 +60,7 @@ const linkCls = "text-muted-foreground transition-colors hover:text-foreground";
 export const Footer = () => (
   <footer id="kontakt" className="border-t border-border bg-card">
     <div className="container max-w-6xl pb-10 pt-16">
-      <div className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-[1.4fr,1fr,1fr,1fr] md:gap-8">
+      <div className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-[1.4fr,1fr,1fr,1fr,1fr] md:gap-8">
         <div className="col-span-2 md:col-span-1">
           <Link to="/" aria-label="Zur Startseite" className="mb-4 flex w-fit items-center gap-2">
             <Logo asImage className="h-8 w-8" />

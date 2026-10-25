@@ -226,6 +226,20 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
     ],
     "disclaimer": "Dieser Guide bietet Orientierung und ersetzt keine Steuer- oder Rechtsberatung — USt-Pflichten und Amazon-Vorgaben unterscheiden sich je Land und können sich ändern."
   },
+  "tiktok-shop-starten": {
+    "seoTitle": "TikTok Shop starten 2026 – Anmeldung & Pflichten",
+    "seoDescription": "TikTok Shop in Deutschland starten: Gewerbe, Steuernummer, Registrierungsweg, LUCID, WEEE, Plattform-Meldung und Affiliate-Provisionen – Schritt für Schritt.",
+    "lead": "Dieser Guide bringt dich in der richtigen Reihenfolge zum ersten Verkauf oder zur ersten Provision im TikTok Shop – Gewerbe, Fragebogen, der passende Registrierungsweg, Produktpflichten und eine saubere Buchhaltung inklusive. Für Verkäufer:innen, Creator-Affiliates und alle, die beides machen.",
+    "urgency": "TikTok Shop läuft in Deutschland seit März 2025, laut TikTok sind über 25.000 Verkäufer:innen aktiv. Wer ohne Steuernummer, ohne LUCID-Registrierung oder mit dem falschen Registrierungsweg startet, bleibt in der Verifizierung hängen oder darf betroffene Produkte gar nicht anbieten. Und ab 30 Verkäufen oder 2.000 € im Jahr meldet die Plattform deine Umsätze ans Bundeszentralamt für Steuern. Bau dein Setup mit GründerX Schritt für Schritt, bevor das erste Video viral geht.",
+    "outcomes": [
+      "Gewerbe und Steuernummer – und der richtige Registrierungsweg bei TikTok",
+      "Erledigte Produktpflichten: LUCID, bei Elektro WEEE, Produktsicherheit",
+      "Klare Kleinunternehmer-Entscheidung",
+      "Creator-Affiliates und eigene Provisionen sauber erfasst",
+      "Verkäufe, Gebühren und Provisionen getrennt gebucht"
+    ],
+    "disclaimer": "Dieser Guide ist strukturierte Orientierung, keine Steuer- oder Rechtsberatung – TikTok-Richtlinien und Registrierungsvoraussetzungen können sich ändern."
+  },
   "tiktok-shop-launch": {
     "seoTitle": "TikTok Shop Launch 2026 – Anleitung für Brands",
     "seoDescription": "TikTok Shop in DACH/EU starten: Shop-Tab, Produkt-Listings, Live-Shopping & Affiliate-Programm aufsetzen. In 3–6 Wochen zu den ersten Sales.",

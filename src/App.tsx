@@ -130,6 +130,7 @@ const ToolTrialPage = lazy(() => import("./pages/ToolTrialPage.tsx"));
 const Preise = lazy(() => import("./pages/Preise.tsx"));
 const GuidesIndex = lazy(() => import("./pages/GuidesIndex.tsx"));
 const GuideLanding = lazy(() => import("./pages/GuideLanding.tsx"));
+const ZielgruppeLanding = lazy(() => import("./pages/ZielgruppeLanding.tsx"));
 const GratisTools = lazy(() => import("./pages/GratisTools.tsx"));
 const GruendungszuschussCheck = lazy(() => import("./pages/GruendungszuschussCheck.tsx"));
 const GruendungsUnterlagen = lazy(() => import("./pages/GruendungsUnterlagen.tsx"));
@@ -346,6 +347,9 @@ const App = () => (
               <Route path="/preise" element={<Preise />} />
               <Route path="/guides" element={<GuidesIndex />} />
               <Route path="/guides/:slug" element={<GuideLanding />} />
+              {/* Zielgruppen-Landings (25.10.2026) */}
+              <Route path="/influencer" element={<ZielgruppeLanding slug="influencer" />} />
+              <Route path="/tiktok-shop" element={<ZielgruppeLanding slug="tiktok-shop" />} />
               {/* Kostenlose Lead-Magnet-Tools (Ergebnis gegen E-Mail, kein Konto) */}
               <Route path="/gratis-tools" element={<GratisTools />} />
               {/* Vorlagen-Bibliothek: Download gegen bestätigte E-Mail (Double-Opt-in), kein Konto */}
@@ -361,6 +365,9 @@ const App = () => (
               <Route path="/businessplan-erstellen" element={<FreeToolPage config={FREE_TOOL_BY_SLUG["businessplan-erstellen"]} />} />
               <Route path="/gruendungskosten-rechner" element={<FreeToolPage config={FREE_TOOL_BY_SLUG["gruendungskosten-rechner"]} />} />
               <Route path="/rechtsform-finden" element={<FreeToolPage config={FREE_TOOL_BY_SLUG["rechtsform-finden"]} />} />
+              <Route path="/influencer-steuer-check" element={<FreeToolPage config={FREE_TOOL_BY_SLUG["influencer-steuer-check"]} />} />
+              <Route path="/tiktok-shop-checkliste" element={<FreeToolPage config={FREE_TOOL_BY_SLUG["tiktok-shop-checkliste"]} />} />
+              <Route path="/pr-paket-rechner" element={<FreeToolPage config={FREE_TOOL_BY_SLUG["pr-paket-rechner"]} />} />
               <Route path="/amazon-marken-freischaltung-widerspruch-generator" element={<FreeToolPage config={FREE_TOOL_BY_SLUG["amazon-marken-freischaltung-widerspruch-generator"]} />} />
               <Route path="/amazon-transparency-seriennummer-widerspruch-generator" element={<FreeToolPage config={FREE_TOOL_BY_SLUG["amazon-transparency-seriennummer-widerspruch-generator"]} />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

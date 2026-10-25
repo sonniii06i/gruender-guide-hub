@@ -48,6 +48,11 @@ const staticEntries: SitemapEntry[] = [
   { path: "/businessplan-erstellen", changefreq: "weekly", priority: "0.8" },
   { path: "/gruendungskosten-rechner", changefreq: "weekly", priority: "0.8" },
   { path: "/rechtsform-finden", changefreq: "weekly", priority: "0.8" },
+  { path: "/influencer", changefreq: "weekly", priority: "0.9" },
+  { path: "/tiktok-shop", changefreq: "weekly", priority: "0.9" },
+  { path: "/influencer-steuer-check", changefreq: "weekly", priority: "0.8" },
+  { path: "/tiktok-shop-checkliste", changefreq: "weekly", priority: "0.8" },
+  { path: "/pr-paket-rechner", changefreq: "weekly", priority: "0.8" },
   // Die zwei Amazon-Widerspruchsgeneratoren stehen NICHT mehr hier: Canonical
   // zeigt auf anwaltx.de (Themenbesitz). Prerender ueber EXTRA_ROUTES in prerender.mjs.
   { path: "/ratgeber", changefreq: "daily", priority: "0.9" },
