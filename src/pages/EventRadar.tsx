@@ -8,7 +8,7 @@ import { EmptyState, Field, ToneBadge, ToolSection, selectCls } from "@/componen
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { BUNDESLAND_NAMES } from "@/data/foerderprogramme";
-import { ART_LABELS, FRIST_LABELS, GRUENDER_FRISTEN, aktuelleEvents, type EventArt, type GruenderEvent } from "@/data/gruenderEvents";
+import { ART_LABELS, FRIST_LABELS, GRUENDER_FRISTEN, UEBERREGIONAL, aktuelleEvents, type EventArt, type GruenderEvent } from "@/data/gruenderEvents";
 import { STANDARD_EINSTELLUNGEN, istNeu, ladeRadar, passt, speichereRadar, type RadarEinstellungen, type RadarZustand } from "@/lib/eventRadar";
 import { baueIcs, ladeIcsHerunter } from "@/lib/ics";
 import { plzZuLand } from "@/lib/plz";
@@ -101,7 +101,7 @@ const EventRadar = () => {
   const woche = treffer.filter((e) => e.datum! <= plusTage(heute, 7));
   const spaeter = treffer.filter((e) => e.datum! > plusTage(heute, 7) && e.datum! <= plusTage(heute, 45));
   const gemerkt = alle.filter((e) => z.gemerkt.includes(e.slug));
-  const fristen = GRUENDER_FRISTEN.filter((f) => f.frist && f.frist >= heute && f.frist <= plusTage(heute, 45) && (f.region === "bund" || !s.region || f.region === s.region)).sort((a, b) => a.frist!.localeCompare(b.frist!));
+  const fristen = GRUENDER_FRISTEN.filter((f) => f.frist && f.frist >= heute && f.frist <= plusTage(heute, 45) && (UEBERREGIONAL.includes(f.region) || !s.region || f.region === s.region)).sort((a, b) => a.frist!.localeCompare(b.frist!));
 
   const merken = (slug: string) => {
     const neuZ = { ...z, gemerkt: z.gemerkt.includes(slug) ? z.gemerkt.filter((x) => x !== slug) : [...z.gemerkt, slug] };

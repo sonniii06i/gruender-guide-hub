@@ -16,6 +16,7 @@ import {
   EVENT_KALENDER,
   FRIST_LABELS,
   GRUENDER_FRISTEN,
+  UEBERREGIONAL,
   LIVE_STAND,
   type GruenderFrist,
   aktuelleEvents,
@@ -224,7 +225,7 @@ export default function GruenderEvents() {
   const fristen = useMemo(() => {
     const q = suche.trim().toLowerCase();
     return GRUENDER_FRISTEN.filter((f) => {
-      if (region !== "all" && f.region !== region && f.region !== "bund") return false;
+      if (region !== "all" && f.region !== region && !UEBERREGIONAL.includes(f.region)) return false;
       if (q && ![f.name, f.veranstalter, f.kurz].some((s) => s.toLowerCase().includes(q))) return false;
       return true;
     });
