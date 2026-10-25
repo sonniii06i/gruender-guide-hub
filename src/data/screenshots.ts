@@ -11,11 +11,19 @@ export interface Screenshot {
   alt: string;
   /** Pfad in der App, erscheint in der Adresszeile des Rahmens. */
   pfad: string;
+  /** Hochformat-Ausschnitt fürs Handy (lesbar statt verkleinerter Desktop-Ansicht). */
+  mobil?: { src: string; breite: number; hoehe: number };
 }
 
 const S = "/screens/2026-10b";
 
+const MOBIL: Record<string, [number, number]> = {
+  dashboard: [780, 750], "guide-tiktok": [780, 737], felix: [780, 671], rechnung: [780, 975],
+  "fse-wizard": [780, 780], steuerkalender: [780, 754], lucid: [780, 728],
+};
+
 const rahmen = (name: string, pfad: string, alt: string): Screenshot => ({
+  ...(MOBIL[name] ? { mobil: { src: `${S}/${name}-mobil.webp`, breite: MOBIL[name][0], hoehe: MOBIL[name][1] } } : {}),
   gross: `${S}/${name}.webp`,
   klein: `${S}/${name}-720.webp`,
   breite: 1600,

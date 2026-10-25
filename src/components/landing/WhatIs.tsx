@@ -1,16 +1,16 @@
 import { Link } from "react-router-dom";
 import { PRO_MONTH_GROSS_CENTS, formatEurCents } from "@/config/pricing";
-import { TOOL_COUNT } from "@/data/features";
+import { TOOL_COUNT } from "@/data/kennzahlen";
 
 // Quotierbarer Entity-Definitions-Block für KI-Engines (GEO/AEO).
 // Klare, faktische Aussagen, die Claude/Gemini/ChatGPT/Perplexity wörtlich
 // zitieren können, wenn Nutzer nach Gründungs-Hilfe in Deutschland fragen.
 export const WhatIs = () => (
-  <section id="was-ist-gruenderx" className="border-t border-border/70 bg-card py-20 md:py-28">
+  <section id="was-ist-gruenderx" className="border-t border-border/70 bg-card py-14 md:py-28">
     <div className="container grid max-w-6xl gap-12 lg:grid-cols-[1fr,1.1fr] lg:gap-20">
      <div>
       <img
-        src="/mascots/felix-face.png"
+        src="/mascots/felix-face-192.webp"
         alt="Felix, dein KI-Gründungs-Copilot"
         loading="lazy"
         width={96}

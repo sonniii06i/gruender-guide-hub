@@ -17,7 +17,7 @@ const TOP_GUIDES = TOP_GUIDE_SLUGS.map((slug) => GUIDE_LANDINGS.find((g) => g.sl
 );
 
 export const StartHere = () => (
-  <section id="einstieg" className="border-t border-border/70 bg-card py-20 md:py-28">
+  <section id="einstieg" className="border-t border-border/70 bg-card py-14 md:py-28">
     <div className="container max-w-6xl">
       <h2 className="mb-4 text-3xl font-semibold leading-[1.1] md:text-[2.75rem]">Erst ausprobieren, dann entscheiden.</h2>
       <p className="mb-12 max-w-2xl text-lg leading-relaxed text-muted-foreground">

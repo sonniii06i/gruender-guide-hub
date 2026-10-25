@@ -40,7 +40,7 @@ export const HeroCentered = (p: {
   crumbs?: { label: string; to?: string }[];
   children?: ReactNode;
 }) => (
-  <section className="relative overflow-hidden bg-background pb-10 pt-28 md:pt-36">
+  <section className="relative overflow-hidden bg-background pb-8 pt-24 md:pb-10 md:pt-36">
     <GridBackground />
     <div className="container relative max-w-5xl px-4 text-center">
       {p.crumbs && p.crumbs.length > 0 && (
@@ -60,15 +60,15 @@ export const HeroCentered = (p: {
         {p.title}
         {p.accent && <> <span className="text-accent-blue md:block">{p.accent}</span></>}
       </h1>
-      <div className="mx-auto mt-6 max-w-2xl text-pretty text-lg leading-relaxed text-muted-foreground md:text-xl">{p.lead}</div>
-      <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-        <Button asChild size="lg" className="press h-12 gap-2 rounded-xl bg-accent-blue px-6 text-[15px] font-semibold text-accent-blue-foreground shadow-[0_10px_24px_-10px_hsl(var(--accent-blue)/0.6)] hover:bg-accent-blue/90">
+      <div className="mx-auto mt-5 max-w-2xl text-pretty text-[17px] leading-relaxed text-muted-foreground md:mt-6 md:text-xl">{p.lead}</div>
+      <div className="mt-8 flex flex-col items-stretch justify-center gap-3 sm:mt-9 sm:flex-row sm:items-center">
+        <Button asChild size="lg" className="press h-12 w-full gap-2 rounded-xl bg-accent-blue sm:w-auto px-6 text-[15px] font-semibold text-accent-blue-foreground shadow-[0_10px_24px_-10px_hsl(var(--accent-blue)/0.6)] hover:bg-accent-blue/90">
           <Link to={p.primary.to}>
             {p.primary.label} <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </Link>
         </Button>
         {p.secondary && (
-          <Button asChild size="lg" variant="outline" className="press h-12 rounded-xl bg-card px-6 text-[15px] font-semibold">
+          <Button asChild size="lg" variant="outline" className="press h-12 w-full rounded-xl bg-card px-6 text-[15px] font-semibold sm:w-auto">
             <Link to={p.secondary.to}>{p.secondary.label}</Link>
           </Button>
         )}
@@ -84,7 +84,7 @@ export const HeroCentered = (p: {
         </ul>
       )}
     </div>
-    {p.children && <div className="container relative mt-14 max-w-6xl px-4">{p.children}</div>}
+    {p.children && <div className="container relative mt-10 max-w-6xl px-4 md:mt-14">{p.children}</div>}
   </section>
 );
 
@@ -108,11 +108,15 @@ export const ScreenshotFrame = ({
         <span className="h-2.5 w-2.5 rounded-full bg-border" />
         <span className="h-2.5 w-2.5 rounded-full bg-border" />
         <span className="h-2.5 w-2.5 rounded-full bg-border" />
-        <span className="ml-3 hidden rounded-md bg-secondary px-3 py-0.5 text-[11px] text-muted-foreground sm:inline">gruenderx.de{shot.pfad}</span>
+        <span className="ml-3 hidden rounded-md bg-secondary px-3 py-0.5 text-xs text-muted-foreground sm:inline">gruenderx.de{shot.pfad}</span>
       </div>
-      <div className="relative overflow-hidden rounded-xl border border-border/70">
+      <div className={cn("relative overflow-hidden rounded-xl border border-border/70", fade && "max-sm:max-h-[380px]")}>
         <picture>
-          <source media="(max-width: 640px)" srcSet={shot.klein} />
+          {shot.mobil ? (
+            <source media="(max-width: 640px)" srcSet={shot.mobil.src} width={shot.mobil.breite} height={shot.mobil.hoehe} />
+          ) : (
+            <source media="(max-width: 640px)" srcSet={shot.klein} />
+          )}
           <img
             src={shot.gross}
             alt={shot.alt}
@@ -148,9 +152,9 @@ export const TextMarquee = ({ label, items }: { label: string; items: string[] }
 );
 
 export const SectionHead = ({ eyebrow, title, lead, align = "center" }: { eyebrow: string; title: ReactNode; lead?: ReactNode; align?: "center" | "left" }) => (
-  <header className={cn("mb-12 md:mb-16", align === "center" ? "mx-auto max-w-3xl text-center" : "max-w-2xl")}>
+  <header className={cn("mb-9 md:mb-16", align === "center" ? "mx-auto max-w-3xl text-center" : "max-w-2xl")}>
     <p className="mb-4 text-[13px] font-semibold uppercase tracking-[0.14em] text-accent-blue">{eyebrow}</p>
-    <h2 className="text-balance text-[2rem] font-semibold leading-[1.05] tracking-[-0.04em] text-primary md:text-[3rem]">{title}</h2>
+    <h2 className="text-balance text-[1.875rem] font-semibold leading-[1.08] tracking-[-0.04em] text-primary md:text-[3rem] md:leading-[1.05]">{title}</h2>
     {lead && <p className={cn("mt-5 text-pretty text-lg leading-relaxed text-muted-foreground", align === "center" && "mx-auto max-w-2xl")}>{lead}</p>}
   </header>
 );
@@ -170,7 +174,7 @@ export interface BentoItem {
 
 /** Bento-Raster: Karten unterschiedlicher Breite, oben UI-Ausschnitt, darunter Icon + Titel + Text. */
 export const BentoGrid = ({ items }: { items: BentoItem[] }) => (
-  <div className="grid gap-4 md:grid-cols-6">
+  <div className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-3 [scrollbar-width:none] md:mx-0 md:grid md:grid-cols-6 md:gap-4 md:overflow-visible md:px-0 md:pb-0 [&::-webkit-scrollbar]:hidden">
     {items.map((it, i) => {
       const breit = it.breit ?? (i % 5 === 0 || i % 5 === 3);
       return (
@@ -178,12 +182,12 @@ export const BentoGrid = ({ items }: { items: BentoItem[] }) => (
           key={it.to + it.title}
           to={it.to}
           className={cn(
-            "press group flex flex-col overflow-hidden rounded-[1.25rem] bg-secondary/60 ring-1 ring-border/70 transition-shadow hover:shadow-soft hover:ring-accent-blue/30",
+            "press group flex w-[84%] shrink-0 snap-start flex-col overflow-hidden rounded-[1.25rem] bg-secondary/60 ring-1 ring-border/70 transition-shadow hover:shadow-soft hover:ring-accent-blue/30 md:w-auto",
             breit ? "md:col-span-4" : "md:col-span-2",
           )}
         >
           {it.bild && (
-            <div className="relative h-52 overflow-hidden px-5 pt-5 md:h-60">
+            <div className="relative h-44 overflow-hidden px-4 pt-4 md:h-60 md:px-5 md:pt-5">
               <img
                 src={it.bild.klein}
                 srcSet={`${it.bild.klein} 520w, ${it.bild.gross} 1000w`}
@@ -196,13 +200,13 @@ export const BentoGrid = ({ items }: { items: BentoItem[] }) => (
                 className="w-full rounded-t-xl object-cover object-top shadow-[0_16px_40px_-18px_hsl(var(--primary)/0.4)] ring-1 ring-border transition-transform duration-500 group-hover:-translate-y-1"
               />
               {it.chip && (
-                <span className="absolute right-6 top-7 rounded-md bg-brand-green px-2 py-1 text-[11px] font-semibold text-brand-green-foreground shadow-card">
+                <span className="absolute right-5 top-6 rounded-md bg-brand-green px-2 py-1 text-xs font-semibold text-brand-green-foreground shadow-card">
                   {it.chip}
                 </span>
               )}
             </div>
           )}
-          <div className="flex flex-1 flex-col border-t border-border/70 bg-card p-5 md:p-6">
+          <div className="flex flex-1 flex-col border-t border-border/70 bg-card p-4 md:p-6">
             <span className="flex items-center gap-2.5">
               <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-accent-blue">
                 <it.icon className="h-4 w-4" aria-hidden="true" />
@@ -252,13 +256,13 @@ export const StepsPath = ({ steps, note }: { steps: PathStep[]; note?: ReactNode
 
 /** Schluss-CTA auf dunkler Fläche desselben Navy-Tons. */
 export const FinalCta = ({ title, text, primary, secondary }: { title: string; text: ReactNode; primary: HeroCta; secondary?: HeroCta }) => (
-  <section className="container max-w-6xl px-4 pb-24">
-    <div className="relative overflow-hidden rounded-[1.75rem] bg-ink px-6 py-14 text-center text-primary-foreground md:px-16 md:py-20">
+  <section className="container max-w-6xl px-4 pb-16 md:pb-24">
+    <div className="relative overflow-hidden rounded-[1.5rem] bg-ink px-5 py-12 text-center md:rounded-[1.75rem] text-primary-foreground md:px-16 md:py-20">
       <div className="pointer-events-none absolute inset-0 bg-dots-light" aria-hidden="true" />
       <h2 className="relative mx-auto max-w-3xl text-balance text-[2rem] font-semibold leading-[1.05] tracking-[-0.04em] md:text-[2.75rem]">{title}</h2>
       <p className="relative mx-auto mt-5 max-w-xl text-pretty text-lg leading-relaxed text-primary-foreground/75">{text}</p>
       <div className="relative mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-        <Button asChild size="lg" className="press h-12 gap-2 rounded-xl bg-card px-6 font-semibold text-primary hover:bg-card/90">
+        <Button asChild size="lg" className="press h-12 w-full gap-2 rounded-xl bg-card px-6 font-semibold text-primary hover:bg-card/90 sm:w-auto">
           <Link to={primary.to}>
             {primary.label} <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </Link>

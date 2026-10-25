@@ -15,7 +15,7 @@ import { Footer } from "@/components/landing/Footer";
 import { MobileCtaBar } from "@/components/landing/MobileCtaBar";
 import { Seo } from "@/components/Seo";
 import { PLANS, formatEurCents } from "@/config/pricing";
-import { LANDING_TOOLS } from "@/data/features";
+import { TOOL_COUNT } from "@/data/kennzahlen";
 
 const Index = () => (
   <div className="min-h-screen bg-background">
@@ -61,7 +61,7 @@ const Index = () => (
               name: "Was ist GründerX?",
               acceptedAnswer: {
                 "@type": "Answer",
-                text: `GründerX ist eine KI-gestützte Gründerplattform aus Deutschland für angehende Unternehmer, E-Commerce-Händler, Content-Creator und Founder. Sie führt Schritt für Schritt durch Unternehmensgründung, Rechtsform-Wahl, Steuern und Buchhaltung – mit ${LANDING_TOOLS.length} Tools, Gründungs-Guides (GmbH, UG, Einzelunternehmen, US-LLC, Holding), dem KI-Co-Founder Felix sowie kostenlosen Tools wie Businessplan-Generator, Gründungskosten-Rechner und Rechtsform-Finder.`,
+                text: `GründerX ist eine KI-gestützte Gründerplattform aus Deutschland für angehende Unternehmer, E-Commerce-Händler, Content-Creator und Founder. Sie führt Schritt für Schritt durch Unternehmensgründung, Rechtsform-Wahl, Steuern und Buchhaltung – mit ${TOOL_COUNT} Tools, Gründungs-Guides (GmbH, UG, Einzelunternehmen, US-LLC, Holding), dem KI-Co-Founder Felix sowie kostenlosen Tools wie Businessplan-Generator, Gründungskosten-Rechner und Rechtsform-Finder.`,
               },
             },
             {

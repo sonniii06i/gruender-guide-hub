@@ -66,7 +66,7 @@ export const HeroFahrplan = () => {
     <figure className="gx-plan">
       <div className="gx-plan-fenster">
         <div className="gx-plan-kopf">
-          <img src="/mascots/felix-face.png" alt="" width={36} height={36} className="gx-plan-felix" decoding="async" />
+          <img src="/mascots/felix-face-64.webp" alt="" width={36} height={36} className="gx-plan-felix" decoding="async" />
           <div className="min-w-0">
             <p className="gx-plan-titel">Dein Fahrplan</p>
             <p className="gx-plan-fall">UG, verkauft Elektronik auf Amazon</p>

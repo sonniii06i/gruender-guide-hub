@@ -22,7 +22,7 @@ const COMPLIANCE = [
  * E-Commerce-Operator und Amazon-Seller.
  */
 export const SellerBand = () => (
-  <section className="py-20 md:py-28">
+  <section className="py-14 md:py-28">
     <div className="container max-w-6xl">
       <div className="grid items-center gap-10 lg:grid-cols-[1.2fr,0.8fr] lg:gap-16">
         <div>

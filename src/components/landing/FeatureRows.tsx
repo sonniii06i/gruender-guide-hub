@@ -46,21 +46,21 @@ const ZEILEN: { eyebrow: string; titel: string; text: string; punkte: string[]; 
 ];
 
 export const FeatureRows = () => (
-  <section className="py-24 md:py-32">
+  <section className="py-16 md:py-32">
     <div className="container max-w-6xl px-4">
       <SectionHead
         eyebrow="Im Cockpit"
         title={<>Weniger Behördendeutsch.<br className="hidden md:block" /> Mehr erledigt.</>}
         lead="So sieht die Arbeit in GründerX aus – echte Ansichten, keine Mockups."
       />
-      <div className="space-y-24 md:space-y-32">
+      <div className="space-y-16 md:space-y-32">
         {ZEILEN.map((z, i) => (
           <article key={z.titel} className="grid items-center gap-10 lg:grid-cols-[0.9fr,1.1fr] lg:gap-16">
             <div className={cn(i % 2 === 1 && "lg:order-last")}>
               <p className="mb-4 text-[13px] font-semibold uppercase tracking-[0.14em] text-accent-blue">{z.eyebrow}</p>
               <h3 className="text-balance text-[1.75rem] font-semibold leading-[1.1] tracking-[-0.035em] text-primary md:text-[2.25rem]">{z.titel}</h3>
               <p className="mt-4 text-pretty text-lg leading-relaxed text-muted-foreground">{z.text}</p>
-              <ul className="mt-6 space-y-2.5">
+              <ul className="mt-6 hidden space-y-2.5 sm:block">
                 {z.punkte.map((p) => (
                   <li key={p} className="flex gap-3 text-[15px]">
                     <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent-blue" aria-hidden="true" />

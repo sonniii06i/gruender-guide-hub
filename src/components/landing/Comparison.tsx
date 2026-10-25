@@ -17,7 +17,7 @@ const ours = [
 ];
 
 export const Comparison = () => (
-  <section className="py-20 md:py-28">
+  <section className="py-14 md:py-28">
     <div className="container max-w-6xl">
       <div className="mb-12 max-w-3xl">
         <h2 className="text-balance text-[2rem] font-semibold leading-[1.05] tracking-[-0.04em] text-primary md:text-[3rem]">

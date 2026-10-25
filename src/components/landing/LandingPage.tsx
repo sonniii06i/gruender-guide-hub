@@ -111,7 +111,7 @@ export const LandingPage = (p: LandingPageProps) => {
 
         {p.topSlot && <div className="container max-w-4xl px-4 pt-6">{p.topSlot}</div>}
 
-        <section className="container max-w-6xl px-4 py-20 md:py-28">
+        <section className="container max-w-6xl px-4 py-14 md:py-28">
           <div className="grid gap-12 lg:grid-cols-[1fr,1fr] lg:gap-20">
             <div className="self-start lg:sticky lg:top-28">
               <SectionHead align="left" eyebrow="Warum jetzt" title="Einmal richtig machen statt teuer nachbessern." />
@@ -136,7 +136,7 @@ export const LandingPage = (p: LandingPageProps) => {
         </section>
 
         {p.outline && p.outline.steps.length > 0 && (
-          <section className="border-y border-border/70 bg-secondary/30 py-20 md:py-28">
+          <section className="border-y border-border/70 bg-secondary/30 py-14 md:py-28">
             <div className="container max-w-6xl px-4">
               <SectionHead eyebrow="Ablauf" title={p.outline.heading} />
               <StepsPath
@@ -152,7 +152,7 @@ export const LandingPage = (p: LandingPageProps) => {
           </section>
         )}
 
-        <section className="container max-w-6xl px-4 py-20 md:py-28">
+        <section className="container max-w-6xl px-4 py-14 md:py-28">
           <div className="grid gap-10 lg:grid-cols-[0.8fr,1.2fr] lg:gap-16">
             <div>
               <SectionHead align="left" eyebrow="FAQ" title="Häufige Fragen" />

@@ -46,7 +46,7 @@ const Shot = ({ file, alt, caption, eager = false }: { file: string; alt: string
  * (10/2026, Testkonto ohne Kundendaten) statt Illustrationen.
  */
 export const ProductPreview = () => (
-  <section className="mt-10 border-y border-border/70 bg-card py-20 md:py-28" aria-labelledby="einblick">
+  <section className="mt-10 border-y border-border/70 bg-card py-14 md:py-28" aria-labelledby="einblick">
     <div className="container max-w-6xl">
       <div className="mb-12 flex flex-wrap items-end justify-between gap-6">
         <div className="max-w-2xl">

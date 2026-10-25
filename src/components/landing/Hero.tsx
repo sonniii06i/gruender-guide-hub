@@ -28,7 +28,7 @@ export const Hero = () => (
     <HeroCentered
       eyebrow={
         <>
-          <img src="/mascots/felix-face.png" alt="" width={20} height={20} className="h-5 w-5 rounded-full bg-brand-green-soft object-cover" />
+          <img src="/mascots/felix-face-64.webp" alt="" width={20} height={20} className="h-5 w-5 rounded-full bg-brand-green-soft object-cover" />
           Gründungs-Cockpit mit KI-Co-Pilot Felix
         </>
       }
@@ -59,7 +59,7 @@ export const Hero = () => (
       </dl>
     </div>
 
-    <section className="container max-w-6xl px-4 py-24 md:py-32">
+    <section className="container max-w-6xl px-4 py-16 md:py-32">
       <SectionHead
         eyebrow="Für wen"
         title={<>Ein Cockpit. Fünf Wege<br className="hidden md:block" /> ins eigene Business.</>}
@@ -70,7 +70,7 @@ export const Hero = () => (
 
     <TextMarquee label="Für die Stellen, mit denen du zu tun hast" items={STELLEN} />
 
-    <section className="container max-w-6xl px-4 py-24 md:py-32">
+    <section className="container max-w-6xl px-4 py-16 md:py-32">
       <div className="grid items-start gap-12 lg:grid-cols-[0.9fr,1.1fr] lg:gap-16">
         <div className="self-start lg:sticky lg:top-28">
           <SectionHead

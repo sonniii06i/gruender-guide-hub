@@ -7,20 +7,19 @@ import { AuthProvider } from "@/hooks/useAuth";
 import { AppErrorBoundary } from "@/components/AppErrorBoundary";
 import { installChunkReloadHandler } from "@/lib/chunkReload";
 import { TwoFactorGate } from "@/components/auth/TwoFactorGate";
-import AppLayout from "./layouts/AppLayout.tsx";
+const AppLayout = lazy(() => import("./layouts/AppLayout.tsx"));
 import { PaywallGate } from "./components/PaywallGate.tsx";
 import { AdminGate } from "./components/AdminGate.tsx";
 import { useTrackPageview } from "./hooks/useTrackPageview";
-import { FREE_TOOL_BY_SLUG } from "@/lib/freetools";
 
 // Eager: Routen die jeder User durchläuft (Auth/Onboarding/Dashboard/Playbooks)
 import Index from "./pages/Index.tsx";
-import Auth from "./pages/Auth.tsx";
-import Willkommen from "./pages/Willkommen.tsx";
-import ZahlungErfolgreich from "./pages/ZahlungErfolgreich.tsx";
-import ZahlungAbgebrochen from "./pages/ZahlungAbgebrochen.tsx";
-import ResetPassword from "./pages/ResetPassword.tsx";
-import Checkout from "./pages/Checkout.tsx";
+const Auth = lazy(() => import("./pages/Auth.tsx"));
+const Willkommen = lazy(() => import("./pages/Willkommen.tsx"));
+const ZahlungErfolgreich = lazy(() => import("./pages/ZahlungErfolgreich.tsx"));
+const ZahlungAbgebrochen = lazy(() => import("./pages/ZahlungAbgebrochen.tsx"));
+const ResetPassword = lazy(() => import("./pages/ResetPassword.tsx"));
+const Checkout = lazy(() => import("./pages/Checkout.tsx"));
 // Hinter dem Login: per Code-Splitting nachgeladen, hält das Startseiten-Bundle schlank (10/2026).
 const Onboarding = lazy(() => import("./pages/Onboarding.tsx"));
 // Hinter dem Login: per Code-Splitting nachgeladen, hält das Startseiten-Bundle schlank (10/2026).
@@ -153,7 +152,7 @@ const HackathonStarterKit = lazy(() => import("./pages/HackathonStarterKit.tsx")
 const StartupGuthaben = lazy(() => import("./pages/StartupGuthaben.tsx"));
 const KiAssistent = lazy(() => import("./pages/KiAssistent.tsx"));
 const GruenderEvents = lazy(() => import("./pages/GruenderEvents.tsx"));
-const FreeToolPage = lazy(() => import("./pages/FreeToolPage.tsx"));
+const FreeToolRoute = lazy(() => import("./pages/FreeToolRoute.tsx"));
 const Vorlagen = lazy(() => import("./pages/Vorlagen.tsx"));
 const VorlageDetail = lazy(() => import("./pages/VorlageDetail.tsx"));
 const VorlagenKategorie = lazy(() => import("./pages/VorlagenKategorie.tsx"));
@@ -364,14 +363,14 @@ const App = () => (
               <Route path="/ki-assistent" element={<KiAssistent />} />
               <Route path="/gruendungsberatung" element={<GruendungsberatungFinden />} />
               <Route path="/e-rechnung-lesen" element={<ERechnungLesen />} />
-              <Route path="/businessplan-erstellen" element={<FreeToolPage config={FREE_TOOL_BY_SLUG["businessplan-erstellen"]} />} />
-              <Route path="/gruendungskosten-rechner" element={<FreeToolPage config={FREE_TOOL_BY_SLUG["gruendungskosten-rechner"]} />} />
-              <Route path="/rechtsform-finden" element={<FreeToolPage config={FREE_TOOL_BY_SLUG["rechtsform-finden"]} />} />
-              <Route path="/influencer-steuer-check" element={<FreeToolPage config={FREE_TOOL_BY_SLUG["influencer-steuer-check"]} />} />
-              <Route path="/tiktok-shop-checkliste" element={<FreeToolPage config={FREE_TOOL_BY_SLUG["tiktok-shop-checkliste"]} />} />
-              <Route path="/pr-paket-rechner" element={<FreeToolPage config={FREE_TOOL_BY_SLUG["pr-paket-rechner"]} />} />
-              <Route path="/amazon-marken-freischaltung-widerspruch-generator" element={<FreeToolPage config={FREE_TOOL_BY_SLUG["amazon-marken-freischaltung-widerspruch-generator"]} />} />
-              <Route path="/amazon-transparency-seriennummer-widerspruch-generator" element={<FreeToolPage config={FREE_TOOL_BY_SLUG["amazon-transparency-seriennummer-widerspruch-generator"]} />} />
+              <Route path="/businessplan-erstellen" element={<FreeToolRoute slug="businessplan-erstellen" />} />
+              <Route path="/gruendungskosten-rechner" element={<FreeToolRoute slug="gruendungskosten-rechner" />} />
+              <Route path="/rechtsform-finden" element={<FreeToolRoute slug="rechtsform-finden" />} />
+              <Route path="/influencer-steuer-check" element={<FreeToolRoute slug="influencer-steuer-check" />} />
+              <Route path="/tiktok-shop-checkliste" element={<FreeToolRoute slug="tiktok-shop-checkliste" />} />
+              <Route path="/pr-paket-rechner" element={<FreeToolRoute slug="pr-paket-rechner" />} />
+              <Route path="/amazon-marken-freischaltung-widerspruch-generator" element={<FreeToolRoute slug="amazon-marken-freischaltung-widerspruch-generator" />} />
+              <Route path="/amazon-transparency-seriennummer-widerspruch-generator" element={<FreeToolRoute slug="amazon-transparency-seriennummer-widerspruch-generator" />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

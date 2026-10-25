@@ -19,7 +19,7 @@ const points = [
 ];
 
 export const Testimonials = () => (
-  <section className="border-t border-border/70 bg-card py-20 md:py-28">
+  <section className="border-t border-border/70 bg-card py-14 md:py-28">
     <div className="container grid max-w-6xl items-start gap-12 lg:grid-cols-[0.9fr,1.1fr] lg:gap-20">
       <div className="lg:sticky lg:top-28">
         <img

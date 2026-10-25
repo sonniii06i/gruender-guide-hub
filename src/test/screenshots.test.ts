@@ -13,6 +13,7 @@ describe("App-Screenshots", () => {
     it(`${key}: Dateien vorhanden, Maße und Alt-Text gesetzt`, () => {
       expect(existsSync(pub(s.gross)), s.gross).toBe(true);
       expect(existsSync(pub(s.klein)), s.klein).toBe(true);
+      if (s.mobil) expect(existsSync(pub(s.mobil.src)), s.mobil.src).toBe(true);
       expect(s.breite).toBeGreaterThan(0);
       expect(s.hoehe).toBeGreaterThan(0);
       expect(s.alt.length).toBeGreaterThan(20);

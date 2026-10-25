@@ -17,7 +17,7 @@ const steps = [
 ];
 
 export const HowItWorks = () => (
-  <section className="py-20 md:py-28">
+  <section className="py-14 md:py-28">
     <div className="container max-w-6xl">
       <div className="mb-14 max-w-3xl">
         {/* Felix bewusst entfernt – siehe Features.tsx */}

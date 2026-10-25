@@ -321,7 +321,7 @@ const FelixChat = () => {
         ) : messages.length === 0 ? (
           <div className="flex min-h-full flex-col items-center justify-center px-4 py-10 text-center">
             <img
-              src="/mascots/felix-face.png"
+              src="/mascots/felix-face-192.webp"
               alt="Felix, dein KI-Gründungs-Copilot"
               width={72}
               height={72}
@@ -353,7 +353,7 @@ const FelixChat = () => {
               <div key={i} className={`flex items-start gap-2.5 ${m.role === "user" ? "justify-end" : "justify-start"}`}>
                 {m.role === "assistant" && (
                   <img
-                    src="/mascots/felix-face.png"
+                    src="/mascots/felix-face-192.webp"
                     alt="Felix"
                     width={32}
                     height={32}
@@ -383,7 +383,7 @@ const FelixChat = () => {
             {streaming && messages[messages.length - 1]?.role === "user" && (
               <div className="flex items-start gap-2.5 justify-start">
                 <img
-                  src="/mascots/felix-face.png"
+                  src="/mascots/felix-face-192.webp"
                   alt="Felix"
                   width={32}
                   height={32}

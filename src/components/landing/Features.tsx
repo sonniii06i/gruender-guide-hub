@@ -60,7 +60,7 @@ const ORDER = [
 const ordered = ORDER.map((t) => features.find((f) => f.title === t)!).filter(Boolean);
 
 export const Features = () => (
-  <section id="leistungen" className="border-y border-border/70 bg-secondary/50 py-20 md:py-28">
+  <section id="leistungen" className="border-y border-border/70 bg-secondary/50 py-14 md:py-28">
     <div className="container max-w-6xl">
       <div className="mb-12 max-w-3xl">
         <p className="mb-4 text-[13px] font-semibold uppercase tracking-[0.14em] text-accent-blue">Was GründerX kann</p>
@@ -71,13 +71,13 @@ export const Features = () => (
         </h2>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <div className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-3 [scrollbar-width:none] md:mx-0 md:grid md:grid-cols-2 md:gap-4 md:overflow-visible md:px-0 md:pb-0 lg:grid-cols-3 [&::-webkit-scrollbar]:hidden">
         {ordered.map((f) => {
           const dark = f.title.startsWith("Felix");
           return (
             <div
               key={f.title}
-              className={cn("relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card p-7", LAYOUT[f.title])}
+              className={cn("relative flex w-[84%] shrink-0 snap-start flex-col overflow-hidden rounded-2xl border border-border bg-card p-6 md:w-auto md:p-7", LAYOUT[f.title])}
             >
               <div
                 className={`mb-6 flex h-11 w-11 items-center justify-center rounded-xl ${

@@ -105,7 +105,7 @@ describe("Zielgruppen-Landings", () => {
 
   it("neue Gratis-Tools stehen in Route und Sitemap", () => {
     for (const slug of ["influencer-steuer-check", "tiktok-shop-checkliste", "pr-paket-rechner"]) {
-      expect(app).toContain(`FREE_TOOL_BY_SLUG["${slug}"]`);
+      expect(app).toContain(`<FreeToolRoute slug="${slug}" />`);
       expect(sitemap).toContain(`path: "/${slug}"`);
       expect(tool(slug).seo.title.length).toBeLessThanOrEqual(60);
       expect(tool(slug).seo.description.length).toBeLessThanOrEqual(160);

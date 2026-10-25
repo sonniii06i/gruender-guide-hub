@@ -9,7 +9,7 @@ const year = PLANS["gruenderx-year"].grossCents;
 const perDay = Math.round(month / 30);
 
 export const FinalCTA = () => (
-  <section className="py-20 md:py-28">
+  <section className="py-14 md:py-28">
     <div className="container max-w-6xl">
       <div className="relative overflow-hidden rounded-[2rem] bg-ink text-primary-foreground shadow-soft">
         <div className="pointer-events-none absolute inset-0 bg-dots-light" aria-hidden="true" />

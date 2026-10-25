@@ -8,7 +8,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useAccess } from "@/hooks/useAccess";
 import { Loader2, HelpCircle } from "lucide-react";
 import OnboardingTour, { TourStep } from "@/components/OnboardingTour";
-import { TOOL_COUNT } from "@/data/features";
+import { TOOL_COUNT } from "@/data/kennzahlen";
 
 const GGH_TOUR: TourStep[] = [
   { title: "Willkommen bei GründerX 👋", text: "Kurze Tour durch deinen Gründer-Copiloten – ca. 40 Sekunden. Du kannst sie jederzeit über das Fragezeichen oben rechts erneut starten." },

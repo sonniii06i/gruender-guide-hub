@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ScreenshotFrame } from "@/components/marketing/Marketing";
 import { SCREENS } from "@/data/screenshots";
 import { guideHref } from "@/data/guideMerges";
-import { GUIDE_COUNT } from "@/data/guides";
+import { GUIDE_COUNT } from "@/data/kennzahlen";
 
 /** Beispielhafte Guides – Slugs entsprechen /guides/:slug aus playbooks.ts */
 const SAMPLE_GUIDES = [
@@ -21,7 +21,7 @@ const SAMPLE_GUIDES = [
  * Felix zeigt auf den nächsten offenen Schritt – "du bist hier".
  */
 export const GuidesRoadmap = () => (
-  <section id="guides" className="border-y border-border/70 bg-card py-20 md:py-28">
+  <section id="guides" className="border-y border-border/70 bg-card py-14 md:py-28">
     <div className="container max-w-6xl">
       <div className="grid items-center gap-10 lg:grid-cols-[1.15fr,0.85fr] lg:gap-16">
         <div className="order-last min-w-0 lg:order-first">

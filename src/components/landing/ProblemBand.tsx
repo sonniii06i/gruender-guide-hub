@@ -20,7 +20,7 @@ const PAINS = [
  * Ersetzt das alte IntroBand, das nur eine Zeile Empathie hatte.
  */
 export const ProblemBand = () => (
-  <section className="py-20 md:py-28">
+  <section className="py-14 md:py-28">
     <div className="container max-w-6xl">
       <div className="grid items-center gap-10 lg:grid-cols-[0.8fr,1.2fr] lg:gap-16">
         <div className="relative flex justify-center">

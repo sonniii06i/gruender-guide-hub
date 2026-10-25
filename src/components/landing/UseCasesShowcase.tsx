@@ -5,7 +5,7 @@ import { CATEGORIES, categoryToolCount, LANDING_TOOLS } from "@/data/features";
 export const UseCasesShowcase = ({ compact = false }: { compact?: boolean }) => {
   const total = LANDING_TOOLS.length;
   return (
-    <section className={compact ? "py-2" : "py-20 md:py-28"}>
+    <section className={compact ? "py-2" : "py-14 md:py-28"}>
       <div className="container max-w-6xl px-4">
         <div className={compact ? "mb-6 text-center" : "mb-12 max-w-3xl"}>
           {/* Felix bewusst entfernt – siehe Features.tsx */}

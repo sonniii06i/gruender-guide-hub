@@ -64,7 +64,7 @@ const faqs = [
 ];
 
 export const FAQ = () => (
-  <section id="faq" className="border-y border-border/70 bg-secondary/50 py-20 md:py-28">
+  <section id="faq" className="border-y border-border/70 bg-secondary/50 py-14 md:py-28">
     <div className="container grid max-w-6xl gap-10 lg:grid-cols-[0.8fr,1.2fr] lg:gap-16">
       <div>
         <h2 className="text-balance text-[2rem] font-semibold leading-[1.05] tracking-[-0.04em] text-primary md:text-[3rem]">Häufige Fragen.</h2>

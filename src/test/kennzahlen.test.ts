@@ -1,7 +1,8 @@
 import { describe, it, expect } from "vitest";
 import { PROVIDERS } from "@/data/anbieter";
-import { ANBIETER_ANZAHL, ANBIETER_KATEGORIEN, TOOL_COUNT } from "@/data/kennzahlen";
+import { ANBIETER_ANZAHL, ANBIETER_KATEGORIEN, TOOL_COUNT, GUIDE_COUNT } from "@/data/kennzahlen";
 import { LANDING_TOOLS } from "@/data/features";
+import { GUIDE_LANDINGS } from "@/data/guides";
 
 describe("Werbe-Kennzahlen stimmen mit den Datenquellen überein", () => {
   it("Anbieter-Anzahl", () => {
@@ -12,5 +13,8 @@ describe("Werbe-Kennzahlen stimmen mit den Datenquellen überein", () => {
   });
   it("Tool-Anzahl", () => {
     expect(TOOL_COUNT).toBe(LANDING_TOOLS.length);
+  });
+  it("Guide-Anzahl", () => {
+    expect(GUIDE_COUNT).toBe(GUIDE_LANDINGS.length);
   });
 });

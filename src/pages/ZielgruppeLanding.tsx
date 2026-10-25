@@ -101,7 +101,7 @@ const ZielgruppeLanding = ({ slug }: { slug: string }) => {
 
         <TextMarquee label="Für die Stellen, mit denen du zu tun hast" items={STELLEN} />
 
-        <section className="container max-w-6xl px-4 py-24 md:py-32">
+        <section className="container max-w-6xl px-4 py-16 md:py-32">
           <div className="grid gap-12 lg:grid-cols-[1.1fr,0.9fr] lg:gap-20">
             <div className="self-start lg:sticky lg:top-28">
               <SectionHead align="left" eyebrow="Warum jetzt" title={z.warumTitel} />
@@ -120,7 +120,7 @@ const ZielgruppeLanding = ({ slug }: { slug: string }) => {
           </div>
         </section>
 
-        <section className="border-y border-border/70 bg-secondary/30 py-24 md:py-32">
+        <section className="border-y border-border/70 bg-secondary/30 py-16 md:py-32">
           <div className="container max-w-6xl px-4">
             <SectionHead
               eyebrow="Tools"
@@ -131,7 +131,7 @@ const ZielgruppeLanding = ({ slug }: { slug: string }) => {
           </div>
         </section>
 
-        <section className="container max-w-6xl px-4 py-24 md:py-32">
+        <section className="container max-w-6xl px-4 py-16 md:py-32">
           <SectionHead eyebrow="Ablauf" title={z.wegHeading} />
           <StepsPath
             steps={z.weg}
@@ -139,7 +139,7 @@ const ZielgruppeLanding = ({ slug }: { slug: string }) => {
           />
         </section>
 
-        <section className="border-t border-border/70 py-24 md:py-28">
+        <section className="border-t border-border/70 py-16 md:py-28">
           <div className="container grid max-w-6xl gap-12 px-4 lg:grid-cols-2">
             {[
               { titel: "Ratgeber", items: z.ratgeber },

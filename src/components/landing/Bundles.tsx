@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Check, Loader2, ShoppingCart, PackageCheck, ClipboardList, Plus } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { cn } from "@/lib/utils";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
@@ -188,9 +189,13 @@ export const Bundles = () => {
   };
 
   const busy = loading === selected;
+  const [detailsOffen, setDetailsOffen] = useState(true);
+  useEffect(() => {
+    if (window.matchMedia("(max-width: 767px)").matches) setDetailsOffen(false);
+  }, []);
 
   return (
-    <section id="bundles" className="border-y border-border/70 bg-secondary/50 py-20 md:py-28">
+    <section id="bundles" className="border-y border-border/70 bg-secondary/50 py-14 md:py-28">
       <div className="container max-w-6xl">
         <p className="mb-6 text-[13px] font-semibold uppercase tracking-[0.14em] text-accent-blue">Preise</p>
 
@@ -249,8 +254,19 @@ export const Bundles = () => {
           </ProductBuyBox>
         </div>
 
-        {/* Lieferumfang + Produktdetails */}
-        <div className="mt-16 grid gap-10 lg:grid-cols-2">
+        {/* Lieferumfang + Produktdetails. Mobil zuklappbar (25.10.2026): Im vorgerenderten HTML
+            offen (Prüfer der Zahlungsanbieter, Suchmaschinen), am Handy nach dem Laden zu,
+            damit der Block die Startseite nicht um ~2.000 px verlängert. */}
+        <button
+          type="button"
+          onClick={() => setDetailsOffen((o) => !o)}
+          aria-expanded={detailsOffen}
+          className="mt-12 flex w-full items-center justify-between rounded-xl border border-border bg-card px-4 py-3.5 text-left font-semibold md:hidden"
+        >
+          Lieferumfang & Produktdetails
+          <span aria-hidden="true" className="text-accent-blue">{detailsOffen ? "−" : "+"}</span>
+        </button>
+        <div className={cn("mt-16 grid gap-10 lg:grid-cols-2", !detailsOffen && "max-md:hidden", "max-md:mt-6")}>
           <div>
             <h3 className="mb-4 flex items-center gap-2 text-2xl font-semibold">
               <PackageCheck className="h-6 w-6 text-accent-blue" />
