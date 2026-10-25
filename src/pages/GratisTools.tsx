@@ -52,7 +52,7 @@ export default function GratisTools() {
   return (
     <div className="min-h-screen bg-background">
       <Seo
-        title="Kostenlose Gründer-Tools: Businessplan, Gründungskosten & Rechtsform | GründerX"
+        title="Kostenlose Gründer-Tools: Steuer, Businessplan | GründerX"
         description="Erstelle Businessplan, Gründungskosten-Übersicht und Rechtsform-Empfehlung Schritt für Schritt. 1 kostenlose Nutzung je Generator, nur E-Mail nötig – ohne Konto; unbegrenzt im Abo."
         path="/gratis-tools"
         type="website"

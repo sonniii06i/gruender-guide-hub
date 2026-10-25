@@ -220,6 +220,8 @@ const Ratgeber = () => {
                       <img
                         src={p.hero_image_url}
                         alt={p.title}
+                        width={1024}
+                        height={576}
                         loading="lazy"
                         className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                       />

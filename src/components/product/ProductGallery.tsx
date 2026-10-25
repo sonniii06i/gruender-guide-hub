@@ -81,7 +81,7 @@ export const ProductGallery = ({
                   : "border-border hover:border-accent-blue/50",
               )}
             >
-              <img src={small(img.src)} alt="" aria-hidden className={cn("h-full w-full", variant === "screenshot" ? "object-cover object-top" : "object-contain p-1.5")} loading="lazy" />
+              <img src={small(img.src)} alt="" aria-hidden width={720} height={450} className={cn("h-full w-full", variant === "screenshot" ? "object-cover object-top" : "object-contain p-1.5")} loading="lazy" />
             </button>
           ))}
         </div>

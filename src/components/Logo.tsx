@@ -14,6 +14,8 @@ export const Logo = ({ className, invert, asImage }: LogoProps) => {
     <img
       src={logoSrc}
       alt="GründerX – zur Startseite"
+      width={512}
+      height={512}
       className={cn("object-contain", invert && "invert brightness-0 contrast-100", className)}
       style={invert ? { filter: "brightness(0) invert(1)" } : undefined}
     />
