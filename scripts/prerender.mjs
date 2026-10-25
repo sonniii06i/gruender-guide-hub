@@ -19,6 +19,7 @@ import { readFile, writeFile, mkdir, readdir } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import { extname, join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import Beasties from "beasties";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DIST = join(__dirname, "..", "dist");
@@ -26,6 +27,26 @@ const PORT = 4757;
 const PER_ROUTE_TIMEOUT = 25_000;
 // Muss zu PRERENDER_DATA_ID in src/lib/prerender.ts passen.
 const PRERENDER_DATA_ID = "__prerender_data";
+
+// Kritisches CSS (25.10.2026): Je Seite nur die Regeln, deren Selektoren im
+// gerenderten HTML vorkommen, inline in den <head>; das ganze Stylesheet lädt
+// danach ohne Render-Blockade (media="print" → onload "all", <noscript>-Fallback).
+// PSI: 175 KB CSS (~28 KB gz) blockierten den ersten Text, ~89 % davon ungenutzt.
+// Klassen, die erst nach dem Hydrieren auftauchen (Menüs, Dialoge, Toasts), kommen
+// aus dem nachgeladenen Stylesheet – die sind beim ersten Aufbau nicht sichtbar.
+const beasties = new Beasties({
+  path: DIST,
+  publicPath: "/",
+  preload: "media",
+  noscriptFallback: true,
+  inlineFonts: false,
+  pruneSource: false,
+  // Tailwind-Varianten wie `[&_svg]:size-4` (shadcn-Button) erkennt der Selektor-Abgleich
+  // nicht – ohne sie wären Icons bis zum Nachladen 24 statt 16 px (Layoutsprung).
+  // Gleiches gilt für `:is(…)` der Typografie-Modifier (prose-h2:mb-4 …) in Ratgebern.
+  allowRules: [/\\&/, /:is\(/],
+  logLevel: "warn",
+});
 
 const MIME = {
   ".html": "text/html; charset=utf-8",
@@ -469,7 +490,14 @@ async function run() {
 
         const outDir = route === "/" ? DIST : join(DIST, route);
         await mkdir(outDir, { recursive: true });
-        await writeFile(join(outDir, "index.html"), html, "utf8");
+        let ausgabe = html;
+        try {
+          ausgabe = await beasties.process(html);
+        } catch (e) {
+          // Ohne kritisches CSS bleibt die Seite korrekt, nur das Stylesheet blockiert wie bisher.
+          console.warn(`[prerender] kritisches CSS ${route} übersprungen: ${e.message.split("\n")[0]}`);
+        }
+        await writeFile(join(outDir, "index.html"), ausgabe, "utf8");
         ok++;
         console.log(`[prerender] ✓ ${route}`);
       } catch (err) {
