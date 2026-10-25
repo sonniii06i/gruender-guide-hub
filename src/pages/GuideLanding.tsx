@@ -4,8 +4,7 @@ import { Footer } from "@/components/landing/Footer";
 import { Seo } from "@/components/Seo";
 import { Button } from "@/components/ui/button";
 import { LandingPage, type LandingFaq } from "@/components/landing/LandingPage";
-import { findGuideLanding, relatedGuides } from "@/data/guides";
-import { getGuideCopy } from "@/data/landingCopy";
+import { guideDaten } from "@/lib/landingDaten";
 import { relatedToolsFor } from "@/lib/internalLinks";
 import { RelatedArticles } from "@/components/landing/RelatedArticles";
 import { guideHref, isMergedGuide } from "@/data/guideMerges";
@@ -20,13 +19,15 @@ const SITE = "https://gruenderx.de";
  */
 const GuideLanding = () => {
   const { slug = "" } = useParams();
-  const guide = findGuideLanding(slug);
+  // Nur die Datei dieses Guides (Texte + Umriss + verwandte), nicht alle 80 Playbooks.
+  const daten = isMergedGuide(slug) ? null : guideDaten(slug);
+  const guide = daten?.guide;
 
   // Zusammengelegt: Server leitet per 301 (vercel.json), clientseitige
   // Navigation landet hier und springt ebenfalls zum Ratgeber.
   if (isMergedGuide(slug)) return <Navigate to={guideHref(slug)} replace />;
 
-  if (!guide) {
+  if (!daten || !guide) {
     return (
       <div className="min-h-screen bg-background">
         <Seo title="Guide nicht gefunden | GründerX" description="Dieser Guide existiert nicht." path={`/guides/${slug}`} noindex />
@@ -41,16 +42,7 @@ const GuideLanding = () => {
     );
   }
 
-  const copy = getGuideCopy(slug, {
-    slug,
-    title: guide.title,
-    tagline: guide.tagline,
-    outcome: guide.outcome,
-    duration: guide.duration,
-    difficulty: guide.difficulty,
-    steps: guide.steps,
-  });
-  const related = relatedGuides(slug);
+  const { copy, related } = daten;
   const matchCtx = { text: `${guide.title} ${guide.tagline} ${guide.outcome}` };
   const relatedTools = relatedToolsFor(matchCtx, 4);
 

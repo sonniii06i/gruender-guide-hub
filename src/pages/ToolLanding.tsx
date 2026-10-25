@@ -5,7 +5,7 @@ import { Seo } from "@/components/Seo";
 import { Button } from "@/components/ui/button";
 import { LandingPage, type LandingFaq } from "@/components/landing/LandingPage";
 import { findLandingTool, relatedLandingTools } from "@/data/features";
-import { getToolCopy } from "@/data/landingCopy";
+import { toolDaten } from "@/lib/landingDaten";
 import { relatedGuidesFor } from "@/lib/internalLinks";
 import { RelatedArticles } from "@/components/landing/RelatedArticles";
 import { Gift, ArrowRight } from "lucide-react";
@@ -29,8 +29,10 @@ const SITE = "https://gruenderx.de";
 const ToolLanding = () => {
   const { slug = "" } = useParams();
   const tool = findLandingTool(slug);
+  // Verkaufstext nur dieses Tools laden statt der Texte aller Tools und Guides.
+  const daten = tool ? toolDaten(slug) : null;
 
-  if (!tool) {
+  if (!tool || !daten) {
     return (
       <div className="min-h-screen bg-background">
         <Seo title="Tool nicht gefunden | GründerX" description="Dieses Tool existiert nicht." path={`/tools/${slug}`} noindex />
@@ -46,13 +48,7 @@ const ToolLanding = () => {
   }
 
   const cat = tool.categoryTitle.replace(/^[^\wÄÖÜäöü]+/, "").trim();
-  const copy = getToolCopy(slug, {
-    slug,
-    title: tool.title,
-    desc: tool.desc,
-    categoryTitle: tool.categoryTitle,
-    categoryTagline: tool.categoryTagline,
-  });
+  const { copy } = daten;
   const related = relatedLandingTools(slug);
   const topic = TOOL_CAT_TOPIC[tool.categorySlug];
   const matchCtx = { text: `${tool.title} ${tool.desc}`, topic };

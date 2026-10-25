@@ -1,5 +1,5 @@
 import { useEffect, useSyncExternalStore } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { ladeSupabase } from "@/integrations/supabase/lazy";
 import { useAuth } from "./useAuth";
 
 interface AccessState {
@@ -108,6 +108,7 @@ const setSnap = (patch: Partial<Snap>) => {
 class AccessQueryError extends Error {}
 
 const readDb = async (userId: string) => {
+  const supabase = await ladeSupabase();
   const [roleRes, subRes, profRes] = await Promise.all([
     supabase.from("user_roles").select("role").eq("user_id", userId).eq("role", "admin").maybeSingle(),
     supabase.from("subscriptions").select("status, comp_access").eq("user_id", userId).maybeSingle(),
@@ -139,8 +140,8 @@ const readDb = async (userId: string) => {
 /** check-subscription genau einmal gleichzeitig (Stripe-Sync). */
 const runCheckSub = (userId: string) => {
   if (!store.checkSubInflight) {
-    store.checkSubInflight = supabase.functions
-      .invoke("check-subscription")
+    store.checkSubInflight = ladeSupabase()
+      .then((supabase) => supabase.functions.invoke("check-subscription"))
       .then(() => markCheckSubRun(userId))
       .catch(() => null)
       .finally(() => { store.checkSubInflight = null; });

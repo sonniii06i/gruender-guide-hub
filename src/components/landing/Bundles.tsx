@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
-import { supabase } from "@/integrations/supabase/client";
+import { ladeSupabase } from "@/integrations/supabase/lazy";
 import { getStoredAffiliateRef } from "@/utils/affiliate";
 import { PLANS, PLAN_ORDER, SOLO_CONTENTS, BUNDLE_CONTENTS, NOT_INCLUDED, CANCEL_NOTE, FOUNDER_CODE, formatEurCents } from "@/config/pricing";
 import { rememberCartVariant } from "@/lib/cart";
@@ -166,6 +166,7 @@ export const Bundles = () => {
     }
     setLoading(variantId);
     try {
+      const supabase = await ladeSupabase();
       const { data, error } = await supabase.functions.invoke("create-checkout", {
         body: { priceId, interval, affiliateRef: getStoredAffiliateRef() },
       });

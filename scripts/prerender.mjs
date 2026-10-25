@@ -456,6 +456,14 @@ async function run() {
             }
           }
 
+          // Vite hängt beim Render für jeden dynamischen Import ein modulepreload an.
+          // Den Supabase-Client (src/integrations/supabase/lazy.ts) lädt die Seite bewusst
+          // erst nach dem ersten Aufbau – als Vorab-Hinweis im HTML konkurriert er mobil
+          // mit CSS, Schrift und Seiten-Chunk um die Leitung (PSI-LCP, 25.10.2026).
+          for (const el of document.head.querySelectorAll('link[rel="modulepreload"]')) {
+            if (/\/assets\/client-[\w-]+\.js$/.test(el.getAttribute("href") || "")) el.remove();
+          }
+
           return "<!doctype html>\n" + document.documentElement.outerHTML;
         });
 

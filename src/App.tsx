@@ -124,11 +124,16 @@ const AdminBlog = lazy(() => import("./pages/AdminBlog.tsx"));
 const Tools = lazy(() => import("./pages/Tools.tsx"));
 const UsLlcOffer = lazy(() => import("./pages/UsLlcOffer.tsx"));
 const GruendungKomplett = lazy(() => import("./pages/GruendungKomplett.tsx"));
-const ToolLanding = lazy(() => import("./pages/ToolLanding.tsx"));
+// Tool-/Guide-Landings: Seiten-Chunk und die Datendatei des Slugs parallel laden (kein Wasserfall).
+const mitLandingDaten = <T,>(seite: () => Promise<T>) => () => {
+  void import("./lib/landingDaten").then((m) => m.vorladenFuerPfad(window.location.pathname));
+  return seite();
+};
+const ToolLanding = lazy(mitLandingDaten(() => import("./pages/ToolLanding.tsx")));
 const ToolTrialPage = lazy(() => import("./pages/ToolTrialPage.tsx"));
 const Preise = lazy(() => import("./pages/Preise.tsx"));
 const GuidesIndex = lazy(() => import("./pages/GuidesIndex.tsx"));
-const GuideLanding = lazy(() => import("./pages/GuideLanding.tsx"));
+const GuideLanding = lazy(mitLandingDaten(() => import("./pages/GuideLanding.tsx")));
 const ZielgruppeLanding = lazy(() => import("./pages/ZielgruppeLanding.tsx"));
 const TippsBestaetigt = lazy(() => import("./pages/TippsBestaetigt.tsx"));
 const GratisTools = lazy(() => import("./pages/GratisTools.tsx"));

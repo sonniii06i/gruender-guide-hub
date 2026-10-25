@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
+import { ladeSupabase } from "@/integrations/supabase/lazy";
 import { useAuth } from "@/hooks/useAuth";
 import { needsSecondFactor, sessionLoginMs } from "@/lib/twoFactorGate";
 import { TwoFactorPrompt } from "./TwoFactorPrompt";
@@ -50,8 +50,8 @@ export const TwoFactorGate = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (!schuldetOhneAktivierung || !sessionKey || aktivierungGeladen) return;
     let abgebrochen = false;
-    supabase.functions
-      .invoke("check-2fa-status")
+    ladeSupabase()
+      .then((supabase) => supabase.functions.invoke("check-2fa-status"))
       .then(({ data, error }) => {
         if (abgebrochen) return;
         const am = !error && typeof data?.confirmed_at === "string" ? data.confirmed_at : null;
@@ -87,7 +87,7 @@ export const TwoFactorGate = ({ children }: { children: ReactNode }) => {
       onVerified={async () => {
         setBestaetigtFuer(sessionKey);
         // Holt die neuen app_metadata (two_factor_verified_at) in den Client.
-        try { await supabase.auth.refreshSession(); } catch { /* lokal bestaetigt */ }
+        try { await (await ladeSupabase()).auth.refreshSession(); } catch { /* lokal bestaetigt */ }
       }}
       onCancel={async () => {
         // Ohne zweiten Faktor darf die Session nicht bestehen bleiben.

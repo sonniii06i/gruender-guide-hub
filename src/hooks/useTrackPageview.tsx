@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
+import { ladeSupabase } from "@/integrations/supabase/lazy";
 
 export const useTrackPageview = () => {
   const loc = useLocation();
@@ -12,7 +12,7 @@ export const useTrackPageview = () => {
     if (navigator.webdriver || /HeadlessChrome|bot|crawl|spider|Lighthouse/i.test(ua)
         || ["localhost", "127.0.0.1"].includes(window.location.hostname)) return;
     const params = new URLSearchParams(loc.search);
-    supabase.functions.invoke("track-pageview", {
+    ladeSupabase().then((supabase) => supabase.functions.invoke("track-pageview", {
       body: {
         path: loc.pathname,
         referrer: typeof document !== "undefined" ? document.referrer || null : null,
@@ -20,6 +20,6 @@ export const useTrackPageview = () => {
         utm_medium: params.get("utm_medium"),
         utm_campaign: params.get("utm_campaign"),
       },
-    }).catch(() => {});
+    })).catch(() => {});
   }, [loc.pathname, loc.search]);
 };

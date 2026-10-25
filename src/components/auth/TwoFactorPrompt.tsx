@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { ladeSupabase } from "@/integrations/supabase/lazy";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -33,6 +33,7 @@ export const TwoFactorPrompt = ({ onVerified, onCancel }: Props) => {
     }
 
     setBusy(true);
+    const supabase = await ladeSupabase();
     const { data, error } = await supabase.functions.invoke("verify-2fa-login", {
       body: { token: clean, is_backup_code: useBackup },
     });

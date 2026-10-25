@@ -7,7 +7,7 @@ import { Seo } from "@/components/Seo";
 import { Button } from "@/components/ui/button";
 import { Clock, ChevronLeft, BookOpen, Wrench, ListChecks, ArrowRight, Info } from "lucide-react";
 import { relatedToolsFor, relatedGuidesFor, BLOG_CATEGORY_TOPIC, type LinkItem } from "@/lib/internalLinks";
-import { findGuideLanding } from "@/data/guides";
+import { findGuideIndex } from "@/data/guideIndex";
 import { guideHref, guidesMergedInto } from "@/data/guideMerges";
 import { fremdKanonisch } from "@/data/ratgeberKanonisch";
 import { titelbildAbsolut, titelbildUrl } from "@/data/ratgeberBilder";
@@ -157,15 +157,15 @@ const RatgeberPost = () => {
   };
   // Explizit gepflegte related_playbooks zuerst, dann per Matcher auffüllen.
   const explicitGuides: LinkItem[] = (post.related_playbooks ?? [])
-    .map((s) => findGuideLanding(s))
+    .map((s) => findGuideIndex(s))
     .filter((g): g is NonNullable<typeof g> => !!g)
     .map((g) => ({ slug: g.slug, title: g.title, desc: g.tagline }));
   const matchedGuides = relatedGuidesFor({ ...matchCtx, exclude: explicitGuides.map((g) => g.slug) }, 3);
   // Guides, die in DIESEN Ratgeber zusammengelegt wurden, zeigt der
   // Playbook-Kasten unten — als Link wuerden sie auf die Seite selbst zeigen.
   const zusammengelegt = guidesMergedInto(post.slug)
-    .map((s) => findGuideLanding(s))
-    .filter((g): g is NonNullable<typeof g> => !!g);
+    .map((s) => findGuideIndex(s))
+    .filter((g): g is NonNullable<typeof g> & { duration: string; schritte: string[] } => !!g?.schritte && !!g.duration);
   const selbst = `/ratgeber/${post.slug}`;
   const guides = [...explicitGuides, ...matchedGuides]
     .filter((g, i, alle) => guideHref(g.slug) !== selbst && alle.findIndex((x) => guideHref(x.slug) === guideHref(g.slug)) === i)
@@ -315,17 +315,17 @@ const RatgeberPost = () => {
                 {g.outcome} Aufwand realistisch {g.duration}.
               </p>
               <ol className="mt-4 space-y-2 text-sm">
-                {g.outline.map((schritt, i) => (
+                {g.schritte.map((schritt, i) => (
                   <li key={i} className="flex items-start gap-3">
                     <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-secondary text-xs font-semibold tabular text-muted-foreground">
                       {i + 1}
                     </span>
-                    <span className="pt-0.5">{schritt.title}</span>
+                    <span className="pt-0.5">{schritt}</span>
                   </li>
                 ))}
               </ol>
               <p className="mt-4 text-sm text-muted-foreground">
-                Die vollständige Anleitung zu allen {g.steps} Schritten – mit Checklisten, Formularen und Direkt-Links zu
+                Die vollständige Anleitung zu allen {g.schritte.length} Schritten – mit Checklisten, Formularen und Direkt-Links zu
                 Ämtern und Registern – ist Teil des GründerX-Abos.
               </p>
               <Link to="/preise" className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-accent-blue hover:underline">

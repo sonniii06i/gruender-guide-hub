@@ -10,7 +10,7 @@
 //
 // Grundregel: Tracking darf nie das Produkt kaputtmachen. Alles fire-and-forget.
 
-import { supabase } from "@/integrations/supabase/client";
+import { ladeSupabase } from "@/integrations/supabase/lazy";
 
 export type EventLayer =
   | "traffic"
@@ -172,6 +172,7 @@ export function track(
   void (async () => {
     try {
       const t = readFirstTouch();
+      const supabase = await ladeSupabase();
       const { data } = await supabase.auth.getSession();
 
       const row: Record<string, unknown> = {

@@ -1,10 +1,10 @@
 // Interne Verlinkung: matched Tools ↔ Guides ↔ Ratgeber über Token-Overlap +
 // leichten Kategorie-Boost. Reine Heuristik auf den vorhandenen statischen Daten
-// (features.ts / guides.ts) — kein DB-Zugriff. Stärkt die thematische
+// (features.ts / guideIndex.ts) — kein DB-Zugriff. Stärkt die thematische
 // Verlinkungsdichte (On-Page-SEO) ohne Pflegeaufwand.
 
 import { LANDING_TOOLS } from "@/data/features";
-import { GUIDE_LANDINGS } from "@/data/guides";
+import { GUIDE_INDEX_DATEN } from "@/data/guideIndex";
 
 export interface LinkItem {
   slug: string;
@@ -93,7 +93,7 @@ const TOOL_INDEX: Indexed[] = LANDING_TOOLS.map((t) => ({
   topic: TOOL_CAT_TOPIC[t.categorySlug],
 }));
 
-const GUIDE_INDEX: Indexed[] = GUIDE_LANDINGS.map((g) => ({
+const GUIDE_INDEX: Indexed[] = GUIDE_INDEX_DATEN.map((g) => ({
   slug: g.slug,
   title: g.title,
   desc: g.tagline,

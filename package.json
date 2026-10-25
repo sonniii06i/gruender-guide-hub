@@ -4,9 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "predev": "bunx tsx scripts/generate-sitemap.ts && bunx tsx scripts/export-events-json.ts",
+    "predev": "bunx tsx scripts/generate-sitemap.ts && bunx tsx scripts/export-events-json.ts && node scripts/generate-landing-data.mjs",
     "dev": "vite",
-    "prebuild": "bunx tsx scripts/generate-sitemap.ts && bunx tsx scripts/export-events-json.ts",
+    "prebuild": "bunx tsx scripts/generate-sitemap.ts && bunx tsx scripts/export-events-json.ts && node scripts/generate-landing-data.mjs",
     "build": "vite build",
     "postbuild": "node scripts/prerender.mjs",
     "build:dev": "vite build --mode development",
