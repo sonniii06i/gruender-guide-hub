@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { supabase } from "@/integrations/supabase/client";
 import PublicShell from "@/layouts/PublicShell";
 import { Seo } from "@/components/Seo";
@@ -137,6 +138,11 @@ const RatgeberPost = () => {
   }
 
   const url = `https://gruenderx.de/ratgeber/${post.slug}`;
+  // Sichtbares Änderungsdatum (Benchmark 25.10.2026: Gewinner zeigen „Stand/aktualisiert“) – nur bei echter Überarbeitung (> 1 Tag)
+  const datumDe = (d: string) =>
+    new Date(d).toLocaleDateString("de-DE", { timeZone: "Europe/Berlin", day: "2-digit", month: "long", year: "numeric" });
+  const aktualisiert =
+    !!post.updated_at && new Date(post.updated_at).getTime() - new Date(post.published_at).getTime() > 86_400_000;
   // Thema gehoert einer anderen Domain (z. B. GPSR -> anwaltx.de): Canonical
   // dorthin, kein Article-Schema (gehoert auf die kanonische Seite).
   const kanonisch = fremdKanonisch(post.slug);
@@ -195,7 +201,10 @@ const RatgeberPost = () => {
             image: teilbaresBild,
             datePublished: post.published_at,
             dateModified: post.updated_at,
-            author: { "@type": "Person", name: post.author },
+            // 25.10.2026: Texte entstehen in der KI-gestützten Redaktion – Autor ist die Organisation,
+            // verantwortlich die echte Person (keine erfundene Person als Autor im Markup).
+            author: { "@type": "Organization", name: "GründerX-Redaktion", url: "https://gruenderx.de/" },
+            accountablePerson: { "@type": "Person", name: "Sonni Buttke", jobTitle: "Gründer von GründerX", url: "https://gruenderx.de/impressum" },
             publisher: {
               "@type": "Organization",
               name: "GründerX",
@@ -238,6 +247,12 @@ const RatgeberPost = () => {
                   year: "numeric",
                 })}
               </time>
+              {aktualisiert && (
+                <span>
+                  · aktualisiert am{" "}
+                  <time dateTime={post.updated_at}>{datumDe(post.updated_at)}</time>
+                </span>
+              )}
             </div>
 
             <h1 className="text-balance text-[2.1rem] font-semibold leading-[1.08] tracking-[-0.035em] md:text-[3rem]">
@@ -282,11 +297,18 @@ const RatgeberPost = () => {
               prose-code:bg-secondary prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm
               prose-img:rounded-xl">
             <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
               components={{
                 // Die Seite traegt ihre H1 schon im Kopf; eine "# …"-Zeile im
                 // Artikeltext ergab bisher zwei H1 je Ratgeber.
                 h1: ({ node: _node, ...props }) => <h2 {...props} />,
                 img: ({ node: _node, ...props }) => <img loading="lazy" decoding="async" {...props} />,
+                // Tabellen (remark-gfm) auf dem Handy horizontal scrollbar statt die Seite zu sprengen
+                table: ({ node: _node, ...props }) => (
+                  <div className="not-prose my-6 overflow-x-auto rounded-xl border border-border">
+                    <table className="w-full border-collapse text-sm [&_td]:border-t [&_td]:border-border [&_td]:px-3 [&_td]:py-2 [&_th]:bg-secondary/60 [&_th]:px-3 [&_th]:py-2 [&_th]:text-left [&_th]:font-semibold" {...props} />
+                  </div>
+                ),
               }}
             >
               {post.body_md}
@@ -410,9 +432,10 @@ const RatgeberPost = () => {
           <div className="mt-14 flex items-start gap-3 rounded-2xl border border-border bg-secondary/40 p-5 md:p-6">
             <Info className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" aria-hidden="true" />
             <p className="text-sm leading-relaxed text-muted-foreground">
-              Dieser Artikel ersetzt keine individuelle Steuer- oder Rechtsberatung. Stand 2026. Verfasst
-              von <strong className="font-semibold text-foreground">{post.author}</strong>, KI-Redakteur auf
-              GründerX, redaktionell freigegeben.
+              Erstellt von der GründerX-Redaktion mit KI-Unterstützung ({post.author}), Stand{" "}
+              {datumDe(post.updated_at || post.published_at)}. Verantwortlich für den Inhalt:{" "}
+              <Link to="/impressum" className="font-semibold text-foreground hover:underline">Sonni Buttke</Link>, Gründer von
+              GründerX. Keine Steuer- oder Rechtsberatung – im Einzelfall Steuerberater fragen.
             </p>
           </div>
         </div>
