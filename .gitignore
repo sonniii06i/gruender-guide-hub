@@ -46,6 +46,7 @@ bun.lock
 bun.lockb
 public/gruender-events.json
 public/startup-guthaben.json
+public/gruender-chancen.json
 public/kalender/
 xr-beispiele/
 

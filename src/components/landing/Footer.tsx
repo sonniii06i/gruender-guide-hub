@@ -36,6 +36,7 @@ const COLUMNS: { title: string; links: { to: string; label: string; native?: boo
       // 430 Impr., Ø Platz 11,4), war aber nur vom /ratgeber-Hub verlinkt.
       { to: "/ratgeber/bestes-geschaeftskonto-gruender-vergleich-2026", label: "Geschäftskonto-Vergleich" },
       { to: "/gruender-events", label: "Gründer-Events" },
+      { to: "/gruender-chancen", label: "Gründer-Chancen: Wettbewerbe & Preisgeld" },
       { to: "/hackathon-starter-kit", label: "Hackathon-Starter-Kit" },
       { to: "/startup-guthaben", label: "Startup-Guthaben & Credits" },
       { to: "/gruendungsberatung", label: "Gründungsberatung finden" },

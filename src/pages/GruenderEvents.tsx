@@ -299,6 +299,7 @@ export default function GruenderEvents() {
           <p>
             IHK-Gründerabende und Sprechtage, Startup-Konferenzen und Meetups, dazu Hackathons und KI-Build-Sessions,
             bei denen du in ein paar Stunden dein erstes Tool baust. Jeder Termin mit Link zum Veranstalter.
+            {" "}Wettbewerbe mit Preisgeld, Pitch-Abende und Hackathons gesammelt: <Link to="/gruender-chancen" className="font-medium text-accent-blue hover:underline">Gründer-Chancen</Link>.
           </p>
         }
       >

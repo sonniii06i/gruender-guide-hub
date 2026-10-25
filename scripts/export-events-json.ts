@@ -10,6 +10,8 @@ import { baueIcs, type IcsTermin } from "../src/lib/ics";
 import chancen from "../src/data/chancenLive.json";
 import perks from "../src/data/perksLive.json";
 import { PERK_KATEGORIEN, STARTUP_PERKS } from "../src/data/startupPerks";
+import hackathons from "../src/data/hackathonsLive.json";
+import { CHANCEN_ARTEN, sammleChancen, type Hackathon } from "../src/lib/gruenderChancen";
 
 const heute = new Date().toISOString().slice(0, 10);
 const events = aktuelleEvents(heute).map((e) => ({
@@ -46,6 +48,14 @@ writeFileSync(
   }),
 );
 console.log(`gruender-events.json: ${events.length} Events, ${GRUENDER_FRISTEN.length} Fristen`);
+
+// Gründer-Chancen (/gruender-chancen): eine Liste für Seite, Chancen-Alarm (send-chancen-alarm) und TO-DOs-Tracker.
+const gruenderChancen = sammleChancen({ events: aktuelleEvents(heute), fristen: GRUENDER_FRISTEN, hackathons: hackathons.eintraege as Hackathon[], heute });
+writeFileSync(
+  resolve("public/gruender-chancen.json"),
+  JSON.stringify({ erzeugt: new Date().toISOString(), arten: CHANCEN_ARTEN, hackathonQuelle: hackathons.quelle, anzahl: gruenderChancen.length, chancen: gruenderChancen }),
+);
+console.log(`gruender-chancen.json: ${gruenderChancen.length} Chancen`);
 
 // Abonnierbare Kalender: alle Events, je Bundesland (inkl. Online-Events) und Fristen.
 const datiert = aktuelleEvents(heute).filter((e) => e.datum);

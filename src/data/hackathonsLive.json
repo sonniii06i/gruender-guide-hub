@@ -1,0 +1,338 @@
+{
+ "stand": "2026-10-25T16:38:25.743Z",
+ "quelle": {
+  "ok": true,
+  "roh": 181,
+  "uebernommen": 20,
+  "verworfen": {
+   "nur_einladung": 24,
+   "vor_ort_fern": 81,
+   "frist_vorbei": 7,
+   "preis_unter_5000_usd": 39,
+   "kein_usd_betrag": 10,
+   "ueber_max": 0
+  },
+  "letzterErfolg": "2026-10-25T16:38:25.742Z"
+ },
+ "anzahl": 20,
+ "eintraege": [
+  {
+   "id": "devpost-31503",
+   "titel": "Life After Code",
+   "url": "https://gitlab-transcend.devpost.com/",
+   "ende": "2026-10-27",
+   "preisUsd": 45000,
+   "geldpreise": 9,
+   "anmeldungen": 3151,
+   "ort": "Online",
+   "veranstalter": "GitLab",
+   "themen": [
+    "DevOps",
+    "Machine Learning/AI",
+    "Productivity"
+   ]
+  },
+  {
+   "id": "devpost-30984",
+   "titel": "OpenCV AI Competition 2026, powered by AWS",
+   "url": "https://opencv26.devpost.com/",
+   "ende": "2026-10-27",
+   "preisUsd": 20250,
+   "geldpreise": 6,
+   "anmeldungen": 6093,
+   "ort": "Online",
+   "veranstalter": "OpenCV",
+   "themen": [
+    "IoT",
+    "Machine Learning/AI",
+    "Serverless"
+   ]
+  },
+  {
+   "id": "devpost-31052",
+   "titel": "AWS Communication Developer Services (CDS) Agentic AI Partner Hackathon",
+   "url": "https://aws-cds-partner.devpost.com/",
+   "ende": "2026-10-28",
+   "preisUsd": 40000,
+   "geldpreise": 4,
+   "anmeldungen": 1028,
+   "ort": "Online",
+   "veranstalter": "AWS",
+   "themen": [
+    "Communication",
+    "Mobile",
+    "Machine Learning/AI"
+   ]
+  },
+  {
+   "id": "devpost-30790",
+   "titel": "Nebius x NVIDIA Global AI Hackathon",
+   "url": "https://nebiusglobalaihackathon.devpost.com/",
+   "ende": "2026-10-30",
+   "preisUsd": 50000,
+   "geldpreise": 1,
+   "anmeldungen": 27272,
+   "ort": "Online",
+   "veranstalter": "nebius",
+   "themen": [
+    "Machine Learning/AI",
+    "Beginner Friendly",
+    "Robotic Process Automation"
+   ]
+  },
+  {
+   "id": "devpost-31054",
+   "titel": "Qloo Agentic Hackathon",
+   "url": "https://qloo.devpost.com/",
+   "ende": "2026-10-30",
+   "preisUsd": 25000,
+   "geldpreise": 1,
+   "anmeldungen": 2396,
+   "ort": "Online",
+   "veranstalter": "Qloo",
+   "themen": [
+    "Machine Learning/AI"
+   ]
+  },
+  {
+   "id": "devpost-31742",
+   "titel": "Codex x TwitchCon Hackathon",
+   "url": "https://twitchcon-codex.devpost.com/",
+   "ende": "2026-11-02",
+   "preisUsd": 25000,
+   "geldpreise": 4,
+   "anmeldungen": 520,
+   "ort": "Online",
+   "veranstalter": "Twitch",
+   "themen": [
+    "Communication",
+    "Gaming",
+    "Machine Learning/AI"
+   ]
+  },
+  {
+   "id": "devpost-31400",
+   "titel": "YouCam API Skin AI & eCommerce VTO Hackathon",
+   "url": "https://youcam-api-skin-ai-ecommerce.devpost.com/",
+   "ende": "2026-11-02",
+   "preisUsd": 6000,
+   "geldpreise": 5,
+   "anmeldungen": 1253,
+   "ort": "Online",
+   "veranstalter": "Perfect Corp",
+   "themen": [
+    "AR/VR",
+    "E-commerce/Retail",
+    "Machine Learning/AI"
+   ]
+  },
+  {
+   "id": "devpost-31302",
+   "titel": "PayPal AI Hackathon",
+   "url": "https://paypalaihackathon.devpost.com/",
+   "ende": "2026-11-12",
+   "preisUsd": 67500,
+   "geldpreise": 1,
+   "anmeldungen": 21091,
+   "ort": "Online",
+   "veranstalter": "PayPal",
+   "themen": [
+    "Low/No Code",
+    "Machine Learning/AI",
+    "Web"
+   ]
+  },
+  {
+   "id": "devpost-31495",
+   "titel": "IceHacks",
+   "url": "https://icehacks.devpost.com/",
+   "ende": "2026-11-15",
+   "preisUsd": 17150,
+   "geldpreise": 8,
+   "anmeldungen": 134,
+   "ort": "Online",
+   "veranstalter": "CodeStarters",
+   "themen": [
+    "Beginner Friendly",
+    "Low/No Code",
+    "Open Ended"
+   ]
+  },
+  {
+   "id": "devpost-31552",
+   "titel": "UGREEN Hackathon 2026 on AI NAS",
+   "url": "https://ugreenhackathon.devpost.com/",
+   "ende": "2026-11-16",
+   "preisUsd": 46000,
+   "geldpreise": 4,
+   "anmeldungen": 350,
+   "ort": "Online",
+   "veranstalter": "UGREEN",
+   "themen": [
+    "Lifehacks",
+    "Machine Learning/AI",
+    "Productivity"
+   ]
+  },
+  {
+   "id": "devpost-31024",
+   "titel": "Meta VR Start Developer Competition 2026",
+   "url": "https://start-developer-competition-26.devpost.com/",
+   "ende": "2026-11-18",
+   "preisUsd": 1000000,
+   "geldpreise": 19,
+   "anmeldungen": 3950,
+   "ort": "Online",
+   "veranstalter": "Meta",
+   "themen": [
+    "AR/VR",
+    "Machine Learning/AI",
+    "Web"
+   ]
+  },
+  {
+   "id": "devpost-31667",
+   "titel": "Kiroween 2026",
+   "url": "https://kiroween.devpost.com/",
+   "ende": "2026-12-04",
+   "preisUsd": 100000,
+   "geldpreise": 1,
+   "anmeldungen": 1171,
+   "ort": "Online",
+   "veranstalter": "Kiro",
+   "themen": [
+    "Beginner Friendly",
+    "Machine Learning/AI",
+    "Open Ended"
+   ]
+  },
+  {
+   "id": "devpost-30455",
+   "titel": "Cosmo Hacks 2026",
+   "url": "https://cosmohacks.devpost.com/",
+   "ende": "2026-12-21",
+   "preisUsd": 196955,
+   "geldpreise": 19,
+   "anmeldungen": 469,
+   "ort": "Online",
+   "veranstalter": "Cosmo Hacks",
+   "themen": [
+    "Beginner Friendly",
+    "Open Ended",
+    "Education"
+   ]
+  },
+  {
+   "id": "devpost-30789",
+   "titel": "Arbiter Hacks V1",
+   "url": "https://arbiter-hacks-v1.devpost.com/",
+   "ende": "2026-12-21",
+   "preisUsd": 7800,
+   "geldpreise": 5,
+   "anmeldungen": 541,
+   "ort": "Online",
+   "veranstalter": "Arbiter ",
+   "themen": [
+    "Beginner Friendly",
+    "Machine Learning/AI",
+    "Open Ended"
+   ]
+  },
+  {
+   "id": "devpost-31820",
+   "titel": "HackTheFashion Global'26",
+   "url": "https://hackthefashion-global26.devpost.com/",
+   "ende": "2026-12-31",
+   "preisUsd": 45000,
+   "geldpreise": 1,
+   "anmeldungen": 4,
+   "ort": "Online",
+   "veranstalter": "FabricVTON",
+   "themen": [
+    "AR/VR",
+    "Beginner Friendly",
+    "Machine Learning/AI"
+   ]
+  },
+  {
+   "id": "devpost-30819",
+   "titel": "United Hacks V8",
+   "url": "https://unitedhacksv8.devpost.com/",
+   "ende": "2027-01-10",
+   "preisUsd": 13700,
+   "geldpreise": 5,
+   "anmeldungen": 288,
+   "ort": "Online",
+   "veranstalter": "Hack United",
+   "themen": [
+    "Beginner Friendly",
+    "Design",
+    "Education"
+   ]
+  },
+  {
+   "id": "devpost-31222",
+   "titel": "checkpoint 1 — games for good",
+   "url": "https://checkpoint-1.devpost.com/",
+   "ende": "2027-01-10",
+   "preisUsd": 11960,
+   "geldpreise": 7,
+   "anmeldungen": 56,
+   "ort": "Online",
+   "veranstalter": "Checkpoint",
+   "themen": [
+    "Gaming",
+    "Machine Learning/AI",
+    "Social Good"
+   ]
+  },
+  {
+   "id": "devpost-30340",
+   "titel": "HackTitan",
+   "url": "https://hacktitan.devpost.com/",
+   "ende": "2027-02-04",
+   "preisUsd": 10000,
+   "geldpreise": 1,
+   "anmeldungen": 191,
+   "ort": "Online",
+   "veranstalter": "IWU",
+   "themen": [
+    "Beginner Friendly",
+    "Databases",
+    "DevOps"
+   ]
+  },
+  {
+   "id": "devpost-31827",
+   "titel": "AI for Human Impact: A Global BASIS Hackathon",
+   "url": "https://basisglobalhackathon.devpost.com/",
+   "ende": "2027-02-13",
+   "preisUsd": 10200,
+   "geldpreise": 16,
+   "anmeldungen": 0,
+   "ort": "Online",
+   "veranstalter": "BASIS Independent Silicon Valley",
+   "themen": [
+    "Beginner Friendly",
+    "Machine Learning/AI",
+    "Social Good"
+   ]
+  },
+  {
+   "id": "devpost-31535",
+   "titel": "Build Beyond Hackathon",
+   "url": "https://build-beyond.devpost.com/",
+   "ende": "2027-03-15",
+   "preisUsd": 5000,
+   "geldpreise": 1,
+   "anmeldungen": 41,
+   "ort": "Online",
+   "veranstalter": "OSC",
+   "themen": [
+    "Beginner Friendly",
+    "Open Ended",
+    "Productivity"
+   ]
+  }
+ ]
+}

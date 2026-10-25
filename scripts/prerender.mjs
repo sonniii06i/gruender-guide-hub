@@ -97,6 +97,8 @@ const EXTRA_ROUTES = [
   "/tools/lucid-wizard/gratis",
   // Ziel des Double-Opt-in der Tipps-Strecke (noindex, nicht in der Sitemap).
   "/tipps-bestaetigt",
+  // Ziel des Double-Opt-in des Chancen-Alarms (noindex, nicht in der Sitemap).
+  "/chancen-bestaetigt",
 ];
 
 function routesFromSitemap(xml) {

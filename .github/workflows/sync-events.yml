@@ -28,12 +28,15 @@ jobs:
         run: node scripts/sync-events.mjs
       - name: Chancen abrufen (Förderaufrufe, EU-Calls, Wettbewerbe, Ausschreibungen, Recht, Messen)
         run: node scripts/sync-chancen.mjs
+      - name: Hackathons mit Preisgeld abrufen (Devpost)
+        run: node scripts/sync-hackathons.mjs
+        continue-on-error: true
       - name: Startup-Guthaben prüfen (offizielle Programmseiten)
         run: npx -y tsx@4 scripts/sync-perks.ts
         continue-on-error: true
       - name: Bei Änderungen committen
         run: |
-          if git diff --quiet -- src/data/gruenderEventsLive.json src/data/chancenLive.json src/data/perksLive.json; then
+          if git diff --quiet -- src/data/gruenderEventsLive.json src/data/chancenLive.json src/data/perksLive.json src/data/hackathonsLive.json; then
             echo "Keine Änderungen."
             exit 0
           fi
@@ -41,7 +44,7 @@ jobs:
           git config user.name "sonniii06i"
           git config user.email "buttkesonni11@gmail.com"
           CH=$(node -e "console.log(require('./src/data/chancenLive.json').anzahl)")
-          git add src/data/gruenderEventsLive.json src/data/chancenLive.json src/data/perksLive.json
+          git add src/data/gruenderEventsLive.json src/data/chancenLive.json src/data/perksLive.json src/data/hackathonsLive.json
           git commit -m "Monitore: $ANZ Gründer-Events, $CH Chancen"
           git pull --rebase origin main
           git push origin HEAD:main

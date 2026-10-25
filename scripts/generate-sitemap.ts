@@ -57,6 +57,7 @@ const staticEntries: SitemapEntry[] = [
   // zeigt auf anwaltx.de (Themenbesitz). Prerender ueber EXTRA_ROUTES in prerender.mjs.
   { path: "/ratgeber", changefreq: "daily", priority: "0.9" },
   { path: "/gruender-events", changefreq: "daily", priority: "0.8", lastmod: today },
+  { path: "/gruender-chancen", changefreq: "daily", priority: "0.9", lastmod: today },
   { path: "/hackathon-starter-kit", changefreq: "monthly", priority: "0.7" },
   { path: "/startup-guthaben", changefreq: "weekly", priority: "0.8" },
   { path: "/ki-assistent", changefreq: "monthly", priority: "0.8" },

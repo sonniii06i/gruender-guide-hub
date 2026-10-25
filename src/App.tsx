@@ -157,6 +157,8 @@ const HackathonStarterKit = lazy(() => import("./pages/HackathonStarterKit.tsx")
 const StartupGuthaben = lazy(() => import("./pages/StartupGuthaben.tsx"));
 const KiAssistent = lazy(() => import("./pages/KiAssistent.tsx"));
 const GruenderEvents = lazy(() => import("./pages/GruenderEvents.tsx"));
+const GruenderChancen = lazy(() => import("./pages/GruenderChancen.tsx"));
+const ChancenBestaetigt = lazy(() => import("./pages/ChancenBestaetigt.tsx"));
 const FreeToolRoute = lazy(() => import("./pages/FreeToolRoute.tsx"));
 const Vorlagen = lazy(() => import("./pages/Vorlagen.tsx"));
 const VorlageDetail = lazy(() => import("./pages/VorlageDetail.tsx"));
@@ -363,6 +365,8 @@ const App = () => (
               <Route path="/vorlagen/kategorie/:key" element={<VorlagenKategorie />} />
               <Route path="/vorlagen/:slug" element={<VorlageDetail />} />
               <Route path="/gruender-events" element={<GruenderEvents />} />
+              <Route path="/gruender-chancen" element={<GruenderChancen />} />
+              <Route path="/chancen-bestaetigt" element={<ChancenBestaetigt />} />
               <Route path="/hackathon-starter-kit" element={<HackathonStarterKit />} />
               <Route path="/startup-guthaben" element={<StartupGuthaben />} />
               <Route path="/ki-assistent" element={<KiAssistent />} />

@@ -163,6 +163,7 @@ export function AppSidebar() {
 
         <Gruppe id="geld" titel="Geld & Chancen" zu={zu} umschalten={umschalten} collapsed={collapsed} badge={neueChancen}>
           <Item to="/cockpit/chancen-radar" icon={Target} label="Chancen-Radar" active={isActive("/cockpit/chancen-radar")} badge={neueChancen} />
+          <Item to="/gruender-chancen" icon={Trophy} label="Gründer-Chancen" hint="Preisgeld & Pitch" active={isActive("/gruender-chancen")} />
           <Item to="/startup-guthaben" icon={Gift} label="Startup-Guthaben" hint="Credits & Perks" active={isActive("/startup-guthaben")} />
           <Item to="/cockpit/foerderung" icon={HandCoins} label="Förder-Datenbank" active={isActive("/cockpit/foerderung")} />
         </Gruppe>
