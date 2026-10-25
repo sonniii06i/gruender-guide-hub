@@ -20,7 +20,7 @@ export const Comparison = () => (
   <section className="py-20 md:py-28">
     <div className="container max-w-6xl">
       <div className="mb-12 max-w-3xl">
-        <h2 className="text-3xl font-semibold leading-[1.1] md:text-[2.75rem]">
+        <h2 className="text-balance text-[2rem] font-semibold leading-[1.05] tracking-[-0.04em] text-primary md:text-[3rem]">
           Andere Tools erklären nur. GründerX gründet mit dir.
         </h2>
       </div>

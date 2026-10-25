@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Mascot } from "./Mascot";
+import { ScreenshotFrame } from "@/components/marketing/Marketing";
+import { SCREENS } from "@/data/screenshots";
 import { guideHref } from "@/data/guideMerges";
 import { GUIDE_COUNT } from "@/data/guides";
 
@@ -22,18 +23,14 @@ const SAMPLE_GUIDES = [
 export const GuidesRoadmap = () => (
   <section id="guides" className="border-y border-border/70 bg-card py-20 md:py-28">
     <div className="container max-w-6xl">
-      <div className="grid items-center gap-10 lg:grid-cols-[0.8fr,1.2fr] lg:gap-16">
-        <div className="flex justify-center">
-          <Mascot
-            name="felix-roadmap"
-            alt="Felix zeigt auf den nächsten offenen Schritt einer Gründungs-Roadmap"
-            className="w-56 md:w-72"
-          />
+      <div className="grid items-center gap-10 lg:grid-cols-[1.15fr,0.85fr] lg:gap-16">
+        <div className="order-last min-w-0 lg:order-first">
+          <ScreenshotFrame shot={SCREENS.guideTiktok} fade={false} />
         </div>
 
         <div>
-          <p className="mb-4 text-sm font-medium text-brand-green">Guides &amp; Playbooks</p>
-          <h2 className="text-3xl font-semibold leading-[1.1] md:text-[2.75rem]">
+          <p className="mb-4 text-[13px] font-semibold uppercase tracking-[0.14em] text-accent-blue">Guides &amp; Playbooks</p>
+          <h2 className="text-balance text-[2rem] font-semibold leading-[1.05] tracking-[-0.04em] text-primary md:text-[3rem]">
             {GUIDE_COUNT} Wege, die schon jemand vor dir gegangen ist.
           </h2>
           <p className="mt-4 max-w-xl text-lg leading-relaxed text-muted-foreground">

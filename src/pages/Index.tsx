@@ -1,25 +1,19 @@
 import { DISCORD_INVITE_URL } from "@/config/links";
 import { Navbar } from "@/components/landing/Navbar";
 import { Hero } from "@/components/landing/Hero";
-import { ProblemBand } from "@/components/landing/ProblemBand";
-import { KiAssistentBand } from "@/components/landing/KiAssistentBand";
 import { GuidesRoadmap } from "@/components/landing/GuidesRoadmap";
-import { SellerBand } from "@/components/landing/SellerBand";
 import { WhatIs } from "@/components/landing/WhatIs";
 import { Comparison } from "@/components/landing/Comparison";
-import { Assistant } from "@/components/landing/Assistant";
 import { Features } from "@/components/landing/Features";
 import { HowItWorks } from "@/components/landing/HowItWorks";
 import { Bundles } from "@/components/landing/Bundles";
 import { Testimonials } from "@/components/landing/Testimonials";
 import { FAQ } from "@/components/landing/FAQ";
 import { FinalCTA } from "@/components/landing/FinalCTA";
-import { UseCasesShowcase } from "@/components/landing/UseCasesShowcase";
+import { FeatureRows } from "@/components/landing/FeatureRows";
 import { Footer } from "@/components/landing/Footer";
 import { MobileCtaBar } from "@/components/landing/MobileCtaBar";
 import { Seo } from "@/components/Seo";
-import { StartHere } from "@/components/landing/StartHere";
-import { ProductPreview } from "@/components/landing/ProductPreview";
 import { PLANS, formatEurCents } from "@/config/pricing";
 import { LANDING_TOOLS } from "@/data/features";
 
@@ -100,22 +94,20 @@ const Index = () => (
     />
     <Navbar />
     <main>
+      {/* Aufbau nach profitpath.com (25.10.2026): Hero → Für wen → Laufband → Fahrplan →
+          Leistungen → Cockpit-Zeilen → Ablauf → Guides → Vergleich → Preise → Gründer → FAQ → CTA.
+          ProblemBand, SellerBand, StartHere, UseCasesShowcase, KiAssistentBand, ProductPreview und
+          Assistant wiederholten Hero/„Für wen“ und sind hier bewusst nicht mehr eingebunden. */}
       <Hero />
       <Features />
-      <ProductPreview />
+      <FeatureRows />
       <HowItWorks />
-      <ProblemBand />
-      <Assistant />
       <GuidesRoadmap />
-      <SellerBand />
       <Comparison />
-      <StartHere />
       <Bundles />
-      <UseCasesShowcase />
       <Testimonials />
       <WhatIs />
       <FAQ />
-      <KiAssistentBand />
       <FinalCTA />
     </main>
     <Footer />

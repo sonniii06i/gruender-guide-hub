@@ -21,7 +21,7 @@ export const HowItWorks = () => (
     <div className="container max-w-6xl">
       <div className="mb-14 max-w-3xl">
         {/* Felix bewusst entfernt – siehe Features.tsx */}
-        <h2 className="text-3xl font-semibold leading-[1.1] md:text-[2.75rem]">
+        <h2 className="text-balance text-[2rem] font-semibold leading-[1.05] tracking-[-0.04em] text-primary md:text-[3rem]">
           In drei Schritten zum eigenen Unternehmen.
         </h2>
       </div>

@@ -30,8 +30,8 @@ export const Testimonials = () => (
           height={160}
           className="mb-6 w-28 drop-shadow-xl md:w-36"
         />
-        <p className="mb-4 text-sm font-medium text-accent-blue">Warum es GründerX gibt</p>
-        <h2 className="text-3xl font-semibold leading-[1.1] md:text-[2.75rem]">
+        <p className="mb-4 text-[13px] font-semibold uppercase tracking-[0.14em] text-accent-blue">Warum es GründerX gibt</p>
+        <h2 className="text-balance text-[2rem] font-semibold leading-[1.05] tracking-[-0.04em] text-primary md:text-[3rem]">
           Das Tool, das wir uns selbst gewünscht hätten.
         </h2>
         <p className="mt-5 max-w-md text-lg leading-relaxed text-muted-foreground">

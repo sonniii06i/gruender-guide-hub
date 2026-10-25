@@ -108,7 +108,7 @@ const Ratgeber = () => {
         }}
       />
 
-      <PageHeader
+      <PageHeader zentriert
         title="Gründer-Wissen, das wirklich weiterhilft."
         lead={
           <p>

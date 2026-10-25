@@ -129,7 +129,7 @@ export default function StartupGuthaben() {
       />
       <Navbar />
       <main>
-        <PageHeader
+        <PageHeader zentriert
           width="max-w-5xl"
           kicker={
             <span className="inline-flex items-center gap-1.5 rounded-full border border-brand-green/25 bg-brand-green-soft px-3 py-1 text-[13px] font-medium text-brand-green">

@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
+import { GridBackground } from "@/components/marketing/Marketing";
 
 interface PageHeaderProps {
   title: ReactNode;
@@ -12,22 +13,22 @@ interface PageHeaderProps {
   className?: string;
   /** Breite des Inhalts, Standard max-w-5xl. */
   width?: string;
+  /** Hub-Seiten (Tools, Guides, Ratgeber, Gratis-Tools …): zentriert und groß wie die Landingpages. */
+  zentriert?: boolean;
 }
 
 /**
- * Einheitlicher Seitenkopf der öffentlichen Hub-Seiten (Tools, Guides,
- * Ratgeber, Events, Gratis-Tools): heller Verlauf mit Punktraster, genau eine
- * H1, Lead-Absatz, optional Breadcrumb und Zusatzinhalt (Suche, Kennzahlen).
+ * Einheitlicher Seitenkopf der öffentlichen Seiten: Linienraster (wie die
+ * Landingpages, 25.10.2026), genau eine H1, Lead-Absatz, optional Breadcrumb und
+ * Zusatzinhalt (Suche, Kennzahlen). `zentriert` für Hub-Seiten, sonst linksbündig
+ * (Rechtstexte, Formulare).
  */
-export const PageHeader = ({ title, lead, kicker, crumbs, children, className, width = "max-w-5xl" }: PageHeaderProps) => (
-  <section className={cn("relative overflow-hidden border-b border-border/70 bg-hero pb-12 pt-28 md:pb-16 md:pt-32", className)}>
-    <div
-      className="pointer-events-none absolute inset-0 bg-dots [mask-image:linear-gradient(to_bottom,black,transparent_80%)]"
-      aria-hidden="true"
-    />
+export const PageHeader = ({ title, lead, kicker, crumbs, children, className, width = "max-w-5xl", zentriert = false }: PageHeaderProps) => (
+  <section className={cn("relative overflow-hidden border-b border-border/70 bg-background pb-12 pt-28 md:pb-16 md:pt-32", zentriert && "md:pb-20 md:pt-36", className)}>
+    <GridBackground />
     <div className={cn("container relative px-4", width)}>
       {crumbs && crumbs.length > 0 && (
-        <nav className="mb-8 flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground" aria-label="Breadcrumb">
+        <nav className={cn("mb-8 flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground", zentriert && "justify-center")} aria-label="Breadcrumb">
           {crumbs.map((c, i) => (
             <span key={i} className="flex items-center gap-1.5">
               {c.to ? (
@@ -42,12 +43,21 @@ export const PageHeader = ({ title, lead, kicker, crumbs, children, className, w
           ))}
         </nav>
       )}
-      <header className="max-w-3xl">
+      <header className={cn(zentriert ? "mx-auto max-w-4xl text-center" : "max-w-3xl")}>
         {kicker && <div className="mb-5">{kicker}</div>}
-        <h1 className="text-[2.25rem] font-semibold leading-[1.05] tracking-[-0.04em] md:text-[3.25rem]">{title}</h1>
-        {lead && <div className="mt-5 max-w-2xl text-lg leading-relaxed text-muted-foreground">{lead}</div>}
+        <h1
+          className={cn(
+            "text-balance font-semibold tracking-[-0.04em] text-primary",
+            zentriert ? "text-[2.5rem] leading-[1.02] md:text-[4rem]" : "text-[2.25rem] leading-[1.05] md:text-[3.25rem]",
+          )}
+        >
+          {title}
+        </h1>
+        {lead && (
+          <div className={cn("mt-5 max-w-2xl text-pretty text-lg leading-relaxed text-muted-foreground", zentriert && "mx-auto md:text-xl")}>{lead}</div>
+        )}
       </header>
-      {children && <div className="mt-8">{children}</div>}
+      {children && <div className={cn("mt-8", zentriert && "mt-10 flex flex-col items-center [&>*]:justify-center")}>{children}</div>}
     </div>
   </section>
 );

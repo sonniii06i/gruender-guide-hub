@@ -52,7 +52,7 @@ const Tools = () => {
       />
       <Navbar />
       <main>
-        <PageHeader
+        <PageHeader zentriert
           crumbs={[{ label: "Start", to: "/" }, { label: "Tools" }]}
           title="Tools für Gründer"
           lead={

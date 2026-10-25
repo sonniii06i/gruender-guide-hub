@@ -100,7 +100,7 @@ export default function KiAssistent() {
       />
       <Navbar />
       <main>
-        <PageHeader
+        <PageHeader zentriert
           width="max-w-5xl"
           kicker={
             <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1 text-[13px] font-medium text-muted-foreground shadow-card">

@@ -17,7 +17,7 @@ export const WhatIs = () => (
         height={96}
         className="mb-6 h-20 w-20 object-contain drop-shadow-lg"
       />
-      <h2 className="text-3xl font-semibold leading-[1.1] md:text-[2.75rem]">
+      <h2 className="text-balance text-[2rem] font-semibold leading-[1.05] tracking-[-0.04em] text-primary md:text-[3rem]">
         Was ist GründerX? Die KI-Gründerplattform für Deutschland.
       </h2>
 

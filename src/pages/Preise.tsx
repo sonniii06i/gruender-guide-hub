@@ -1,4 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
+import { PageHeader } from "@/components/landing/PageHeader";
 import { Check, Gift, ShoppingCart, Receipt, CalendarX, Info, Plus } from "lucide-react";
 import { Navbar } from "@/components/landing/Navbar";
 import { Footer } from "@/components/landing/Footer";
@@ -168,27 +169,20 @@ const Preise = () => {
       />
       <Navbar />
       <main>
-        <section className="relative overflow-hidden bg-hero pb-12 pt-28 md:pb-16 md:pt-32">
-          <div className="pointer-events-none absolute inset-0 bg-dots [mask-image:linear-gradient(to_bottom,black,transparent_75%)]" aria-hidden="true" />
-          <div className="container relative max-w-5xl px-4">
-            <nav className="mb-8 flex items-center gap-1.5 text-sm text-muted-foreground" aria-label="Breadcrumb">
-              <Link to="/" className="hover:text-foreground">Start</Link>
-              <span aria-hidden="true">/</span>
-              <span className="text-foreground">Preise</span>
-            </nav>
-
-            <header className="max-w-2xl">
-              <h1 className="mb-5 text-4xl font-semibold tracking-[-0.04em] md:text-6xl">Preise</h1>
-              <p className="text-lg leading-relaxed text-muted-foreground">
-                Ein Abo, alle {LANDING_TOOLS.length} Tools aus der{" "}
-                <Link to="/tools" className="font-medium text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground">Tool-Übersicht</Link>, alle{" "}
-                <Link to="/guides" className="font-medium text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground">Guides</Link> und der KI-Co-Pilot Felix,
-                ohne Abrechnung pro Tool oder pro Frage.{" "}
-                <strong className="font-semibold text-foreground">Alle Preise sind Endpreise inkl. {VAT_PERCENT}&nbsp;% USt.</strong>
-              </p>
-            </header>
-          </div>
-        </section>
+        <PageHeader
+          zentriert
+          crumbs={[{ label: "Start", to: "/" }, { label: "Preise" }]}
+          title={<>Ein Abo. <span className="text-accent-blue">Alle {LANDING_TOOLS.length} Tools.</span></>}
+          lead={
+            <p>
+              Alle Tools aus der{" "}
+              <Link to="/tools" className="font-medium text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground">Tool-Übersicht</Link>, alle{" "}
+              <Link to="/guides" className="font-medium text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground">Guides</Link> und der KI-Co-Pilot Felix,
+              ohne Abrechnung pro Tool oder pro Frage.{" "}
+              <strong className="font-semibold text-foreground">Alle Preise sind Endpreise inkl. {VAT_PERCENT}&nbsp;% USt.</strong>
+            </p>
+          }
+        />
 
         <div className="container max-w-5xl px-4 pb-20">
         {/* Preiskarten */}
@@ -289,14 +283,14 @@ const Preise = () => {
           </div>
           <figure>
             <img
-              src="/screens/2026-10/uebersicht.webp"
-              srcSet="/screens/2026-10/uebersicht-720.webp 720w, /screens/2026-10/uebersicht.webp 1440w"
+              src="/screens/2026-10b/dashboard.webp"
+              srcSet="/screens/2026-10b/dashboard-720.webp 720w, /screens/2026-10b/dashboard.webp 1600w"
               sizes="(min-width: 768px) 560px, 100vw"
-              width={1440}
-              height={900}
+              width={1600}
+              height={870}
               loading="lazy"
               decoding="async"
-              alt="GründerX-Cockpit nach der Anmeldung mit Fristen, Event-Radar und Einstieg für Anfänger"
+              alt="GründerX-Cockpit nach der Anmeldung mit laufenden Guides, Event-Radar und den Terminen der nächsten 14 Tage"
               className="aspect-[16/10] w-full rounded-xl border border-border object-cover object-left-top"
             />
             <figcaption className="mt-2 text-xs text-muted-foreground">Echte Ansicht der App, aufgenommen mit einem Testkonto.</figcaption>

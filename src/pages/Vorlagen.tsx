@@ -105,7 +105,7 @@ export default function Vorlagen() {
       />
       <Navbar />
       <main id="inhalt">
-        <PageHeader
+        <PageHeader zentriert
           width="max-w-5xl"
           crumbs={[{ label: "Start", to: "/" }, { label: "Vorlagen" }]}
           kicker={

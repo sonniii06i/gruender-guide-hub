@@ -52,7 +52,7 @@ export default function FreeToolPage({ config }: FreeToolPageProps) {
       />
       <Navbar />
       <main>
-        <PageHeader
+        <PageHeader zentriert
           width="max-w-3xl"
           crumbs={[{ label: "Start", to: "/" }, { label: "Gratis-Tools", to: "/gratis-tools" }, { label: config.shortTitle }]}
           kicker={

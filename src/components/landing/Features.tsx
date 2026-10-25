@@ -63,10 +63,10 @@ export const Features = () => (
   <section id="leistungen" className="border-y border-border/70 bg-secondary/50 py-20 md:py-28">
     <div className="container max-w-6xl">
       <div className="mb-12 max-w-3xl">
-        <p className="mb-4 text-sm font-medium text-accent-blue">Was GründerX kann</p>
+        <p className="mb-4 text-[13px] font-semibold uppercase tracking-[0.14em] text-accent-blue">Was GründerX kann</p>
         {/* Felix bewusst entfernt: er stand hier nur dekorativ. Er tritt jetzt
             dort auf, wo er etwas tut (Hero, Problem, Guides, Seller, CTA). */}
-        <h2 className="text-3xl font-semibold leading-[1.1] md:text-[2.75rem]">
+        <h2 className="text-balance text-[2rem] font-semibold leading-[1.05] tracking-[-0.04em] text-primary md:text-[3rem]">
           Alles, was du zum Gründen brauchst, an einem Ort.
         </h2>
       </div>

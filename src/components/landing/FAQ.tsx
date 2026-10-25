@@ -67,7 +67,7 @@ export const FAQ = () => (
   <section id="faq" className="border-y border-border/70 bg-secondary/50 py-20 md:py-28">
     <div className="container grid max-w-6xl gap-10 lg:grid-cols-[0.8fr,1.2fr] lg:gap-16">
       <div>
-        <h2 className="text-3xl font-semibold leading-[1.1] md:text-[2.75rem]">Häufige Fragen.</h2>
+        <h2 className="text-balance text-[2rem] font-semibold leading-[1.05] tracking-[-0.04em] text-primary md:text-[3rem]">Häufige Fragen.</h2>
         <p className="mt-4 max-w-sm text-lg leading-relaxed text-muted-foreground">
           Mehr Antworten auf der{" "}
           <Link to="/faq" className="font-medium text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground">

@@ -192,7 +192,7 @@ export const Bundles = () => {
   return (
     <section id="bundles" className="border-y border-border/70 bg-secondary/50 py-20 md:py-28">
       <div className="container max-w-6xl">
-        <p className="mb-6 text-sm font-medium text-accent-blue">Produkt</p>
+        <p className="mb-6 text-[13px] font-semibold uppercase tracking-[0.14em] text-accent-blue">Preise</p>
 
         {/* Galerie + Buy-Box */}
         {/* Die Galerie zeigt 16:9-Screenshots — sie bekommt die breite Spalte,

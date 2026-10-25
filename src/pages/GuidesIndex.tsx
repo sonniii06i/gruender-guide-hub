@@ -47,7 +47,7 @@ const GuidesIndex = () => {
       />
       <Navbar />
       <main>
-        <PageHeader
+        <PageHeader zentriert
           crumbs={[{ label: "Start", to: "/" }, { label: "Guides" }]}
           title="Guides für Gründer"
           lead={
