@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { CATEGORIES, STATUS_LABEL, categoryToolCount, type Feature, type FeatureCategory } from "@/data/features";
 import { PLAYBOOKS } from "@/data/playbooks";
+import { empfohleneGuides } from "@/lib/guideEmpfehlung";
 import { GuideCard } from "@/components/dashboard/GuideCard";
 import { ContinueLearning } from "@/components/dashboard/ContinueLearning";
 import { EventRadarKachel } from "@/components/dashboard/EventRadarKachel";
@@ -27,7 +28,7 @@ import {
 import { EmptyState, ToneBadge, stripEmoji, type Tone } from "@/components/cockpit/kit";
 import { cn } from "@/lib/utils";
 
-interface Profile { first_name: string | null; onboarding_completed: boolean | null }
+interface Profile { first_name: string | null; onboarding_completed: boolean | null; business_model?: string | null }
 
 const VIEWS = ["start", "tools", "meine", "themen"] as const;
 type View = typeof VIEWS[number];
@@ -61,9 +62,10 @@ const Dashboard = () => {
       setProfile(cached as Profile);
       // Onboarding schreibt den Cache nicht neu → bei "nicht abgeschlossen" im Hintergrund frisch laden,
       // sonst bleibt der Hinweis "Profil vervollständigen" bis zum Logout stehen.
-      if (cached.onboarding_completed !== false) return;
+      // Ältere Caches kennen business_model nicht → einmal frisch laden (Guide-Empfehlung).
+      if (cached.onboarding_completed !== false && "business_model" in cached) return;
     }
-    supabase.from("profiles").select("first_name, onboarding_completed").eq("id", user.id).maybeSingle()
+    supabase.from("profiles").select("first_name, onboarding_completed, business_model").eq("id", user.id).maybeSingle()
       .then(({ data }) => {
         if (data) {
           setProfile(data as Profile);
@@ -94,7 +96,7 @@ const Dashboard = () => {
 
   const isActive = hasActiveSub || isAdmin;
 
-  const featuredGuides = useMemo(() => PLAYBOOKS.slice(0, 6), []);
+  const featuredGuides = useMemo(() => empfohleneGuides(profile?.business_model), [profile?.business_model]);
 
   const filteredCats = useMemo(() => {
     const q = query.trim().toLowerCase();

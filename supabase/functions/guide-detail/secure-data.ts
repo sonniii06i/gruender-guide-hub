@@ -3278,8 +3278,8 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Awin/TradeTracker-Strategie: 'Set-and-Forget' — 50 Brands in einem Setup, dann nur Top-10 aktiv pflegen.",
         "Stylink-Hack für Insta-Mode-Creators: einfachstes Setup, automatische Story-Stickers, ~1-15 % Provision auf Mode-Käufe.",
         "Reachbird/HelloBody/Beauty-Brands haben oft direkte Affiliate-Programme (HelloBody, MyProtein, About You) mit 10-30 % Provision — direkter Kontakt ohne Netzwerk.",
-        "Pro-Tipp: Top-Performer-Brands identifizieren (>200 €/Mon Provision) → Direkt-Kontakt mit Brand → Custom-Higher-Rate verhandeln (oft +50-100 %).",
-        "Realistische Skalierung: 50.000 Follower + aktive Affiliate-Strategie = 500-3.000 €/Mon Provisionen."
+        "Pro-Tipp: Brands mit den meisten Verkäufen über deine Links identifizieren → direkt ansprechen und eine höhere Rate verhandeln.",
+        "Steuerlich: Affiliate-Provisionen sind Betriebseinnahmen (Finanzamt Hessen, Leitfaden Juni 2026) – ab dem ersten Euro aufzeichnen."
       ],
       "description": "Affiliate-Provisionen sind oft 50-80 % vom Einkommen großer Creators. Mehr Plattformen = mehr Brands = mehr Optionen. Standard-Setup: Amazon PartnerNet + Awin + TradeTracker + impact.com."
     },
@@ -5112,7 +5112,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "warning": "TikTok Shop hat ALLE EU-Compliance-Pflichten wie Amazon — LUCID + GPSR + WEEE sind nicht optional. Setup vor erstem Verkauf, sonst Listing-Sperre + Bußgeld.",
       "extendedNotes": [
         "**Multi-Streaming-ROI**: 3x Reach ohne 3x Aufwand = direkter Hebel. Restream-Cost 20-40 $/Mon vs. zusätzliche Insta+YouTube-Reach.",
-        "**Compliance-Verstoß TikTok Shop**: seit 2024 verschärft — Listings ohne LUCID + GPSR werden gesperrt, Bußgelder bis 10k €. Setup VOR Listing-Live, nicht nach Suspension.",
+        "**Compliance TikTok Shop**: Für Produkte gelten dieselben Pflichten wie in jedem Online-Shop (LUCID, bei Elektro WEEE, GPSR). Setup VOR dem ersten Listing – Ablauf im Guide „TikTok Shop starten“.",
         "**Creator-Provisions-Math**: durchschnittliche Affiliate-Conversion 2-5 %. Creator mit 50k Followern × 2 % Engagement × 3 % Conversion × 50 € AOV = 1.500 € Sales, davon 20 % = 300 € Provision pro Aktion.",
         "**Ads-vs-Organic-Mix**: TikTok bevorzugt Mix von 70 % organisch + 30 % ad-boosted (Spark Ads). Pure-Ad-Brands haben niedrigere organische Reach (Algorithmus-Penalty)."
       ],

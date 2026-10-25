@@ -98,6 +98,9 @@ export const ZIELGRUPPEN: Zielgruppe[] = [
     ],
     guides: [
       { to: "/guides/creator-setup", title: "Creator / Influencer Setup", desc: "Vom Gewerbe bis zu Brand-Deal-Verträgen." },
+      { to: "/guides/creator-influencer-setup", title: "Creator-Business komplett", desc: "Content und Affiliate mit Werbekennzeichnung und Steuer-Fallen." },
+      { to: "/guides/creator-tiktok-instagram", title: "TikTok & Instagram als Creator", desc: "Short-Form, Algorithmus und Monetarisierung." },
+      { to: "/guides/tiktok-shop-starten", title: "TikTok Shop starten", desc: "Wenn du selbst verkaufen willst." },
       { to: "/vorlagen/influencer-kooperationsvertrag", title: "Vorlage: Influencer-Kooperationsvertrag", desc: "Leistung, Vergütung, Nutzungsrechte, Kennzeichnung." },
     ],
     faq: [
@@ -171,6 +174,7 @@ export const ZIELGRUPPEN: Zielgruppe[] = [
     guides: [
       { to: "/guides/tiktok-shop-starten", title: "Guide: TikTok Shop starten", desc: "Alle Schritte bis zum ersten Verkauf." },
       { to: "/guides/creator-setup", title: "Creator / Influencer Setup", desc: "Für Affiliates und Live-Seller." },
+      { to: "/guides/tiktok-shop-launch", title: "TikTok Shop Brand-Launch", desc: "Listings, Live-Shopping und Affiliate-Programm." },
     ],
     faq: [
       {

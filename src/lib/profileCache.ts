@@ -7,6 +7,8 @@
 export interface CachedProfile {
   first_name: string | null;
   onboarding_completed: boolean | null;
+  /** Geschäftsmodell(e) aus dem Onboarding, kommagetrennt – steuert die Guide-Empfehlung. */
+  business_model?: string | null;
 }
 
 export const PROFILE_CACHE_KEY = (uid: string) => `gx-profile-${uid}`;

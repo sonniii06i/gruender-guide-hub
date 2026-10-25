@@ -673,7 +673,9 @@ RECHTSFORM-GRÜNDUNGEN:
 
 LAUNCH (D2C / Marketplace / Compliance):
 - /playbook/shopify-launch · /playbook/amazon-fba-launch · /playbook/kaufland-launch
-- /playbook/tiktok-shop-launch · /playbook/creator-setup
+- /playbook/tiktok-shop-starten (Anmeldung & Pflichten) · /playbook/tiktok-shop-launch (Marketing/Live) · /playbook/creator-setup
+- Gratis ohne Konto: /influencer-steuer-check · /tiktok-shop-checkliste · /pr-paket-rechner · Landings /influencer und /tiktok-shop
+- TIKTOK-SHOP-REGISTRIERUNG (TikTok Seller University, geprüft 25.10.2026): Ohne Handelsregister registriert man sich als „gewerbliche:r Verkäufer:in“ mit persönlicher Steuernummer, Geschäftsadresse und Ausweis (Reisepass, Personalausweis oder unbefristeter Aufenthaltstitel – KEIN Führerschein). „Einzelunternehmer:in“ heißt bei TikTok im Handelsregister eingetragen (e.K.) und braucht die USt-IdNr; GbR: USt-IdNr + Gewerbenachweis + Vertreter >25 %. Mindestalter 18. Plattform meldet Verkäufer ans BZSt ab 30 Verkäufen oder 2.000 €/Jahr (PStTG § 4 Abs. 5). Keine TikTok-Provisionssätze nennen.
 - /playbook/dsgvo-shop · /playbook/gpsr-compliance · /playbook/elster-fse-fillout
 - /playbook/marke-anmelden · /playbook/patente-schutzrechte
 - /playbook/kleinunternehmer · /playbook/oss-anmeldung · /playbook/pan-eu-fba
