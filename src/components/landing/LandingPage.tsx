@@ -2,10 +2,11 @@ import { Link } from "react-router-dom";
 import { Navbar } from "@/components/landing/Navbar";
 import { Footer } from "@/components/landing/Footer";
 import { Seo } from "@/components/Seo";
-import { Button } from "@/components/ui/button";
-import { PageHeader } from "@/components/landing/PageHeader";
-import { PublicSection, FaqList } from "@/components/public/PublicBlocks";
-import { ArrowRight, ArrowUpRight, Check, Lock, TrendingUp, Info, Clock } from "lucide-react";
+import { FaqList } from "@/components/public/PublicBlocks";
+import { ArrowUpRight, Lock } from "lucide-react";
+import { FinalCta, HeroCentered, ScreenshotFrame, SectionHead, StepsPath } from "@/components/marketing/Marketing";
+import type { Screenshot } from "@/data/screenshots";
+import { TOOL_COUNT } from "@/data/kennzahlen";
 
 export interface LandingFaq {
   q: string;
@@ -75,12 +76,15 @@ export interface LandingPageProps {
   bottomSlot?: React.ReactNode;
   /** Optionaler Block direkt unter dem Hero (z. B. kostenlose Probe eines Tools). */
   topSlot?: React.ReactNode;
+  /** Echter App-Screenshot unter dem Hero (src/data/screenshots.ts). */
+  screenshot?: Screenshot;
 }
 
 /**
- * Gemeinsame öffentliche Marketing-Landing (Tools + Guides). Zeigt KEINEN
- * Bezahl-Inhalt — nur Pitch, Ergebnis, Disclaimer, FAQ und CTA in die Paywall.
- * Crawlbar → SEO-Top-of-Funnel.
+ * Gemeinsame öffentliche Marketing-Landing (Tools + Guides) im Aufbau von
+ * profitpath.com (25.10.2026): zentrierter Hero, echter Screenshot, „Warum jetzt“
+ * mit Ergebnissen, nummerierter Ablauf, FAQ, verwandte Seiten, Schluss-CTA.
+ * Zeigt KEINEN Bezahl-Inhalt. Crawlbar → SEO-Top-of-Funnel.
  */
 export const LandingPage = (p: LandingPageProps) => {
   const groups = [
@@ -88,162 +92,109 @@ export const LandingPage = (p: LandingPageProps) => {
     ...(p.relatedGroups ?? []).filter((g) => g.items.length > 0),
   ];
 
-  const cta = (
-    <div className="rounded-2xl border border-border bg-card p-6 shadow-soft">
-      <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-primary text-primary-foreground">
-        <Lock className="h-[18px] w-[18px]" aria-hidden="true" />
-      </span>
-      <h2 className="mt-4 text-lg font-semibold leading-snug tracking-tight">{p.ctaTitle}</h2>
-      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{p.ctaText}</p>
-      <div className="mt-5 flex flex-col gap-2">
-        <Button asChild size="lg" className="h-11 w-full gap-2 rounded-xl bg-gradient-primary font-semibold hover:opacity-95">
-          <Link to={p.primaryHref}>
-            {p.primaryLabel} <ArrowRight className="h-4 w-4" aria-hidden="true" />
-          </Link>
-        </Button>
-        {p.secondaryHref && (
-          <Button asChild size="lg" variant="outline" className="h-11 w-full gap-1.5 rounded-xl">
-            <Link to={p.secondaryHref}>{p.secondaryLabel}</Link>
-          </Button>
-        )}
-      </div>
-      {p.disclaimer && (
-        <p className="mt-5 flex items-start gap-2 border-t border-border/70 pt-4 text-xs leading-relaxed text-muted-foreground">
-          <Info className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden="true" />
-          <span>{p.disclaimer}</span>
-        </p>
-      )}
-    </div>
-  );
-
   return (
     <div className="min-h-screen bg-background">
       <Seo title={p.seoTitle} description={p.seoDescription} path={p.path} type="website" jsonLd={p.jsonLd} />
       <Navbar />
-      <main>
-        <PageHeader
-          width="max-w-6xl"
+      <main id="inhalt">
+        <HeroCentered
           crumbs={p.crumbs}
-          kicker={
-            <span className="inline-flex items-center rounded-full border border-accent-blue/20 bg-accent px-3 py-1 text-[13px] font-medium text-accent-blue">
-              {p.eyebrow}
-            </span>
-          }
+          eyebrow={p.eyebrow}
           title={p.heading}
-          lead={<p>{p.lead}</p>}
-        />
+          lead={p.lead}
+          primary={{ to: p.primaryHref, label: p.primaryLabel }}
+          secondary={p.secondaryHref ? { to: p.secondaryHref, label: p.secondaryLabel ?? "Mehr erfahren" } : undefined}
+          trust={["Monatlich kündbar", "Server in Frankfurt am Main", `${TOOL_COUNT} Tools & Wizards`]}
+        >
+          {p.screenshot && <ScreenshotFrame shot={p.screenshot} priority caption="Echte Ansicht aus dem GründerX-Cockpit" />}
+        </HeroCentered>
 
-        <div className="container max-w-6xl px-4 py-12 md:py-16">
-          <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-x-12">
-            <div className="min-w-0 space-y-12 lg:col-start-1 lg:row-start-1">
-              {p.topSlot}
+        {p.topSlot && <div className="container max-w-4xl px-4 pt-6">{p.topSlot}</div>}
 
-              {/* Dringlichkeit / Warum jetzt */}
-              <section className="flex items-start gap-3.5 rounded-2xl border border-accent-blue/15 bg-accent/60 p-5 md:p-6">
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-card text-accent-blue shadow-card">
-                  <TrendingUp className="h-4 w-4" aria-hidden="true" />
-                </span>
-                <p className="pt-1 text-[15px] leading-relaxed text-foreground/90">{p.urgency}</p>
-              </section>
-
-              {/* Das hast du am Ende */}
+        <section className="container max-w-6xl px-4 py-20 md:py-28">
+          <div className="grid gap-12 lg:grid-cols-[1fr,1fr] lg:gap-20">
+            <div className="self-start lg:sticky lg:top-28">
+              <SectionHead align="left" eyebrow="Warum jetzt" title="Einmal richtig machen statt teuer nachbessern." />
+            </div>
+            <div>
+              <p className="text-pretty text-lg leading-relaxed text-foreground/85">{p.urgency}</p>
               {p.outcomes.length > 0 && (
-                <PublicSection title="Das hast du am Ende">
-                  <ul className="grid gap-3 sm:grid-cols-2">
+                <>
+                  <h2 className="mt-10 text-sm font-semibold uppercase tracking-[0.12em] text-muted-foreground">Das hast du am Ende</h2>
+                  <ul className="mt-3 divide-y divide-border border-y border-border">
                     {p.outcomes.map((o, i) => (
-                      <li key={i} className="flex items-start gap-3 rounded-xl border border-border bg-card p-4 text-[15px] leading-relaxed shadow-card">
-                        <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand-green-soft text-brand-green">
-                          <Check className="h-3.5 w-3.5" aria-hidden="true" />
-                        </span>
-                        <span>{o}</span>
+                      <li key={i} className="flex gap-3 py-3.5 text-[15px] leading-relaxed">
+                        <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent-blue" aria-hidden="true" />
+                        {o}
                       </li>
                     ))}
                   </ul>
-                </PublicSection>
+                </>
               )}
+            </div>
+          </div>
+        </section>
 
-              {/* Ablauf-Umriss (Guides): sichtbare Struktur, Detail hinter Paywall */}
-              {p.outline && p.outline.steps.length > 0 && (
-                <PublicSection title={p.outline.heading}>
-                  <ol className="overflow-hidden rounded-2xl border border-border bg-card shadow-card">
-                    {p.outline.steps.map((s, i) => (
-                      <li key={i} className="flex items-start gap-4 border-b border-border/70 px-5 py-4 last:border-b-0 md:px-6">
-                        <span
-                          className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-semibold tabular ${
-                            s.description ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground"
-                          }`}
-                        >
-                          {i + 1}
-                        </span>
-                        <div className="min-w-0 flex-1 pt-0.5">
-                          <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
-                            <p className={`text-[15px] font-medium ${s.description ? "" : "text-foreground/80"}`}>{s.title}</p>
-                            {s.meta && (
-                              <span className="flex shrink-0 items-center gap-1 text-xs text-muted-foreground tabular">
-                                <Clock className="h-3 w-3" aria-hidden="true" /> {s.meta}
-                              </span>
-                            )}
-                          </div>
-                          {s.description ? (
-                            <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{s.description}</p>
-                          ) : (
-                            <p className="mt-1 flex items-center gap-1 text-xs text-muted-foreground/80">
-                              <Lock className="h-3 w-3" aria-hidden="true" /> Im Cockpit
-                            </p>
-                          )}
-                        </div>
+        {p.outline && p.outline.steps.length > 0 && (
+          <section className="border-y border-border/70 bg-secondary/30 py-20 md:py-28">
+            <div className="container max-w-6xl px-4">
+              <SectionHead eyebrow="Ablauf" title={p.outline.heading} />
+              <StepsPath
+                steps={p.outline.steps}
+                note={
+                  <span className="inline-flex items-start gap-2">
+                    <Lock className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+                    {p.outline.gateNote}
+                  </span>
+                }
+              />
+            </div>
+          </section>
+        )}
+
+        <section className="container max-w-6xl px-4 py-20 md:py-28">
+          <div className="grid gap-10 lg:grid-cols-[0.8fr,1.2fr] lg:gap-16">
+            <div>
+              <SectionHead align="left" eyebrow="FAQ" title="Häufige Fragen" />
+              {p.disclaimer && <p className="-mt-6 text-sm leading-relaxed text-muted-foreground">{p.disclaimer}</p>}
+            </div>
+            {p.faq.length > 0 && <FaqList items={p.faq} />}
+          </div>
+        </section>
+
+        {groups.length > 0 && (
+          <section className="border-t border-border/70 py-20">
+            <div className="container grid max-w-6xl gap-12 px-4 lg:grid-cols-2">
+              {groups.map((group) => (
+                <div key={group.title}>
+                  <h2 className="mb-5 text-xl font-semibold tracking-tight">{group.title}</h2>
+                  <ul className="divide-y divide-border border-y border-border">
+                    {group.items.map((r) => (
+                      <li key={r.to}>
+                        <Link to={r.to} className="group flex items-start justify-between gap-4 py-4">
+                          <span className="min-w-0">
+                            <span className="block font-medium group-hover:text-accent-blue">{r.title}</span>
+                            <span className="mt-0.5 line-clamp-2 block text-sm text-muted-foreground">{r.desc}</span>
+                          </span>
+                          <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 text-muted-foreground group-hover:text-accent-blue" aria-hidden="true" />
+                        </Link>
                       </li>
                     ))}
-                  </ol>
-                  <p className="mt-4 flex items-start gap-2 text-sm leading-relaxed text-muted-foreground">
-                    <Lock className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
-                    <span>{p.outline.gateNote}</span>
-                  </p>
-                </PublicSection>
-              )}
-
-            </div>
-
-            {/* CTA: mobil zwischen Inhalt und FAQ, auf Desktop mitlaufend rechts */}
-            <aside className="lg:col-start-2 lg:row-span-2 lg:row-start-1">
-              <div className="lg:sticky lg:top-24">{cta}</div>
-            </aside>
-
-            {/* FAQ */}
-            {p.faq.length > 0 && (
-              <PublicSection title="Häufige Fragen" className="min-w-0 lg:col-start-1 lg:row-start-2">
-                <FaqList items={p.faq} />
-              </PublicSection>
-            )}
-          </div>
-
-          {/* Verwandte Landings (interne Verlinkung): Legacy-Einzelgruppe + Gruppen */}
-          {groups.length > 0 && (
-            <div className="mt-16 space-y-12 border-t border-border/70 pt-12">
-              {groups.map((group) => (
-                <PublicSection key={group.title} title={group.title}>
-                  <div className="grid gap-3 sm:grid-cols-2">
-                    {group.items.map((r) => (
-                      <Link
-                        key={r.to}
-                        to={r.to}
-                        className="press group flex flex-col rounded-xl border border-border bg-card p-4 transition-colors hover:border-accent-blue/40 hover:shadow-card"
-                      >
-                        <span className="flex items-start justify-between gap-2">
-                          <span className="text-sm font-semibold leading-snug">{r.title}</span>
-                          <ArrowUpRight className="h-4 w-4 shrink-0 text-muted-foreground transition-colors group-hover:text-accent-blue" aria-hidden="true" />
-                        </span>
-                        <span className="mt-1.5 line-clamp-2 text-[13px] leading-relaxed text-muted-foreground">{r.desc}</span>
-                      </Link>
-                    ))}
-                  </div>
-                </PublicSection>
+                  </ul>
+                </div>
               ))}
             </div>
-          )}
+          </section>
+        )}
 
-          {p.bottomSlot && <div className="mt-12">{p.bottomSlot}</div>}
-        </div>
+        {p.bottomSlot && <div className="container max-w-6xl px-4 pb-16">{p.bottomSlot}</div>}
+
+        <FinalCta
+          title={p.ctaTitle}
+          text={p.ctaText}
+          primary={{ to: p.primaryHref, label: p.primaryLabel }}
+          secondary={p.secondaryHref ? { to: p.secondaryHref, label: p.secondaryLabel ?? "Mehr erfahren" } : undefined}
+        />
       </main>
       <Footer />
     </div>

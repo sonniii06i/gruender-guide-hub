@@ -1,19 +1,42 @@
 import { Link, Navigate } from "react-router-dom";
-import { ArrowRight, Gift } from "lucide-react";
-import { LandingPage } from "@/components/landing/LandingPage";
-import { RelatedArticles } from "@/components/landing/RelatedArticles";
+import { ArrowUpRight, CalendarDays, Calculator, FileText, Gift, Package, Receipt, ShoppingBag, Sparkles, Store, type LucideIcon } from "lucide-react";
+import { Navbar } from "@/components/landing/Navbar";
+import { Footer } from "@/components/landing/Footer";
+import { Seo } from "@/components/Seo";
+import { FaqList } from "@/components/public/PublicBlocks";
+import { BentoGrid, FinalCta, HeroCentered, ScreenshotFrame, SectionHead, StepsPath, TextMarquee, type BentoItem } from "@/components/marketing/Marketing";
 import { findZielgruppe } from "@/data/zielgruppen";
+import { SCREENS, type ScreenKey } from "@/data/screenshots";
+import { TOOL_COUNT } from "@/data/kennzahlen";
 
 const SITE = "https://gruenderx.de";
 
+// Bild und Icon je verlinktem Tool: Gratis-Tools zeigen ihr echtes Ergebnis, Cockpit-Tools einen Ausschnitt.
+const KARTE: Record<string, { bild: ScreenKey; icon: LucideIcon }> = {
+  "/influencer-steuer-check": { bild: "ausInfluencer", icon: Sparkles },
+  "/pr-paket-rechner": { bild: "ausPr", icon: Gift },
+  "/tiktok-shop-checkliste": { bild: "ausTiktok", icon: ShoppingBag },
+  "gewerbeanmeldung-wizard": { bild: "ausGewerbe", icon: FileText },
+  "fse-wizard": { bild: "ausFse", icon: FileText },
+  steuerkalender: { bild: "ausKalender", icon: CalendarDays },
+  "rechnungs-generator": { bild: "ausRechnung", icon: Receipt },
+  "lucid-wizard": { bild: "ausLucid", icon: Package },
+  "schwellen-check": { bild: "schwellen", icon: Calculator },
+  "shop-profit-rechner": { bild: "shopProfit", icon: Store },
+};
+
+const STELLEN = ["Gewerbeamt", "ELSTER", "Finanzamt", "Bundeszentralamt für Steuern", "LUCID", "stiftung ear", "TikTok Shop", "Amazon"];
+
 /**
- * Zielgruppen-Landing (/influencer, /tiktok-shop): Pitch + kostenlose Tools als
- * Einstieg, Ablauf-Umriss, passende Cockpit-Tools, Ratgeber und Guides.
+ * Zielgruppen-Landing (/influencer, /tiktok-shop) im Aufbau von profitpath.com:
+ * zentrierter Hero, echter Screenshot, Laufband, Bento mit UI-Ausschnitten,
+ * nummerierter Weg, FAQ, Quellen, Schluss-CTA.
  */
 const ZielgruppeLanding = ({ slug }: { slug: string }) => {
   const z = findZielgruppe(slug);
   if (!z) return <Navigate to="/" replace />;
   const url = `${SITE}/${z.slug}`;
+  const kurz = z.eyebrow.replace(/^Für /, "").split(" · ")[0];
 
   const jsonLd = [
     {
@@ -35,88 +58,146 @@ const ZielgruppeLanding = ({ slug }: { slug: string }) => {
       "@type": "BreadcrumbList",
       itemListElement: [
         { "@type": "ListItem", position: 1, name: "Start", item: SITE },
-        { "@type": "ListItem", position: 2, name: z.heading, item: url },
+        { "@type": "ListItem", position: 2, name: kurz, item: url },
       ],
     },
   ];
 
-  const gratis = (
-    <section aria-labelledby="gratis-start">
-      <h2 id="gratis-start" className="mb-4 flex items-center gap-2 text-lg font-semibold tracking-tight">
-        <Gift className="h-5 w-5 text-accent-blue" aria-hidden="true" /> Kostenlos starten – ohne Konto
-      </h2>
-      <ul className="grid gap-3 sm:grid-cols-3">
-        {z.freeTools.map((t) => (
-          <li key={t.to}>
-            <Link
-              to={t.to}
-              className="group flex h-full flex-col rounded-xl border border-border bg-card p-4 shadow-card transition-colors hover:border-accent-blue/40"
-            >
-              <span className="text-sm font-semibold text-foreground">{t.title}</span>
-              <span className="mt-1 flex-1 text-xs leading-relaxed text-muted-foreground">{t.desc}</span>
-              <span className="mt-3 inline-flex items-center gap-1 text-xs font-medium text-accent-blue">
-                Gratis nutzen <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
-              </span>
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </section>
-  );
-
-  const quellen = (
-    <section className="mt-12">
-      <h2 className="mb-3 text-base font-semibold">Quellen</h2>
-      <ul className="space-y-1.5 text-sm text-muted-foreground">
-        {z.quellen.map((q) => (
-          <li key={q.url}>
-            <a href={q.url} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-foreground">
-              {q.label}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </section>
-  );
+  const bento: BentoItem[] = [
+    ...z.freeTools.map((t) => ({
+      to: t.to,
+      title: t.title,
+      text: t.desc,
+      icon: KARTE[t.to]?.icon ?? Gift,
+      bild: KARTE[t.to] ? SCREENS[KARTE[t.to].bild] : undefined,
+      chip: "Gratis, ohne Konto",
+    })),
+    ...z.tools.slice(0, 3).map((t) => ({
+      to: `/tools/${t.slug}`,
+      title: t.title,
+      text: t.desc,
+      icon: KARTE[t.slug]?.icon ?? FileText,
+      bild: KARTE[t.slug] ? SCREENS[KARTE[t.slug].bild] : undefined,
+    })),
+  ];
 
   return (
-    <LandingPage
-      seoTitle={z.seoTitle}
-      seoDescription={z.seoDescription}
-      path={`/${z.slug}`}
-      jsonLd={jsonLd}
-      crumbs={[{ label: "Start", to: "/" }, { label: z.eyebrow.replace(/^Für /, "").split(" · ")[0] }]}
-      eyebrow={z.eyebrow}
-      heading={z.heading}
-      lead={z.lead}
-      urgency={z.urgency}
-      outcomes={z.outcomes}
-      outline={{
-        heading: z.wegHeading,
-        steps: z.weg,
-        gateNote: "Die vollständigen Schritte mit Checklisten, ausfüllbaren Formularen und Direkt-Links zu Ämtern schaltest du im GründerX-Cockpit frei.",
-      }}
-      disclaimer="GründerX ist ein digitales Gründer-Tool und ersetzt keine individuelle Steuer- oder Rechtsberatung. Alle Angaben sind mit Quellen belegt (Stand Oktober 2026)."
-      faq={z.faq}
-      ctaTitle={z.ctaTitle}
-      ctaText={z.ctaText}
-      primaryHref="/checkout"
-      primaryLabel="Plan wählen & starten"
-      secondaryHref={z.freeTools[0].to}
-      secondaryLabel={`Gratis: ${z.freeTools[0].title}`}
-      relatedGroups={[
-        { title: "Passende Tools im Cockpit", items: z.tools.map((t) => ({ to: `/tools/${t.slug}`, title: t.title, desc: t.desc })) },
-        { title: "Ratgeber", items: z.ratgeber },
-        { title: "Guides & Vorlagen", items: z.guides },
-      ]}
-      topSlot={gratis}
-      bottomSlot={
-        <>
-          <RelatedArticles context={{ text: `${z.heading} ${z.lead}` }} />
-          {quellen}
-        </>
-      }
-    />
+    <div className="min-h-screen bg-background">
+      <Seo title={z.seoTitle} description={z.seoDescription} path={`/${z.slug}`} type="website" jsonLd={jsonLd} />
+      <Navbar />
+      <main id="inhalt">
+        <HeroCentered
+          crumbs={[{ label: "Start", to: "/" }, { label: kurz }]}
+          eyebrow={z.eyebrow}
+          title={z.heroTitle}
+          accent={z.heroAccent}
+          lead={z.lead}
+          primary={{ to: z.freeTools[0].to, label: `Gratis: ${z.freeTools[0].title}` }}
+          secondary={{ to: "/preise", label: "Preise ansehen" }}
+          trust={["Monatlich kündbar", "Server in Frankfurt am Main", `${TOOL_COUNT} Tools & Wizards`]}
+        >
+          <ScreenshotFrame shot={SCREENS[z.screen]} priority caption="Echte Ansicht aus dem GründerX-Cockpit" />
+        </HeroCentered>
+
+        <TextMarquee label="Für die Stellen, mit denen du zu tun hast" items={STELLEN} />
+
+        <section className="container max-w-6xl px-4 py-24 md:py-32">
+          <div className="grid gap-12 lg:grid-cols-[1.1fr,0.9fr] lg:gap-20">
+            <div className="self-start lg:sticky lg:top-28">
+              <SectionHead align="left" eyebrow="Warum jetzt" title={z.warumTitel} />
+            </div>
+            <div>
+              <p className="text-pretty text-lg leading-relaxed text-foreground/85">{z.urgency}</p>
+              <ul className="mt-8 divide-y divide-border border-y border-border">
+                {z.outcomes.map((o) => (
+                  <li key={o} className="flex gap-3 py-3.5 text-[15px] leading-relaxed">
+                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent-blue" aria-hidden="true" />
+                    {o}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section className="border-y border-border/70 bg-secondary/30 py-24 md:py-32">
+          <div className="container max-w-6xl px-4">
+            <SectionHead
+              eyebrow="Tools"
+              title={<>Drei Tools gratis.<br className="hidden md:block" /> Der Rest im Cockpit.</>}
+              lead="Starte ohne Konto mit einem der Gratis-Tools. Im Abo kommen die Wizards dazu, die dich durch die Formulare führen."
+            />
+            <BentoGrid items={bento} />
+          </div>
+        </section>
+
+        <section className="container max-w-6xl px-4 py-24 md:py-32">
+          <SectionHead eyebrow="Ablauf" title={z.wegHeading} />
+          <StepsPath
+            steps={z.weg}
+            note="Die vollständigen Schritte mit Checklisten, ausfüllbaren Formularen und Direkt-Links zu den Ämtern findest du im GründerX-Cockpit."
+          />
+        </section>
+
+        <section className="border-t border-border/70 py-24 md:py-28">
+          <div className="container grid max-w-6xl gap-12 px-4 lg:grid-cols-2">
+            {[
+              { titel: "Ratgeber", items: z.ratgeber },
+              { titel: "Guides & Vorlagen", items: z.guides },
+            ].map((g) => (
+              <div key={g.titel}>
+                <h2 className="mb-5 text-xl font-semibold tracking-tight">{g.titel}</h2>
+                <ul className="divide-y divide-border border-y border-border">
+                  {g.items.map((r) => (
+                    <li key={r.to}>
+                      <Link to={r.to} className="group flex items-start justify-between gap-4 py-4">
+                        <span>
+                          <span className="block font-medium group-hover:text-accent-blue">{r.title}</span>
+                          <span className="mt-0.5 block text-sm text-muted-foreground">{r.desc}</span>
+                        </span>
+                        <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 text-muted-foreground group-hover:text-accent-blue" aria-hidden="true" />
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="container max-w-6xl px-4 pb-24">
+          <div className="grid gap-10 lg:grid-cols-[0.8fr,1.2fr] lg:gap-16">
+            <div>
+              <SectionHead align="left" eyebrow="FAQ" title="Häufige Fragen" />
+              <p className="-mt-6 text-sm leading-relaxed text-muted-foreground">
+                GründerX ist ein digitales Gründer-Tool und ersetzt keine individuelle Steuer- oder Rechtsberatung. Stand: Oktober 2026.
+              </p>
+            </div>
+            <FaqList items={z.faq} />
+          </div>
+          <div className="mt-14 border-t border-border pt-6">
+            <h2 className="mb-3 text-sm font-semibold">Quellen</h2>
+            <ul className="space-y-1.5 text-sm text-muted-foreground">
+              {z.quellen.map((q) => (
+                <li key={q.url}>
+                  <a href={q.url} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-foreground">
+                    {q.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        <FinalCta
+          title={z.ctaTitle}
+          text={z.ctaText}
+          primary={{ to: "/checkout", label: "Plan wählen & starten" }}
+          secondary={{ to: z.freeTools[0].to, label: `Erst gratis testen: ${z.freeTools[0].title}` }}
+        />
+      </main>
+      <Footer />
+    </div>
   );
 };
 

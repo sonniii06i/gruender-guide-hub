@@ -9,6 +9,7 @@ import { getGuideCopy } from "@/data/landingCopy";
 import { relatedToolsFor } from "@/lib/internalLinks";
 import { RelatedArticles } from "@/components/landing/RelatedArticles";
 import { guideHref, isMergedGuide } from "@/data/guideMerges";
+import { SCREENS } from "@/data/screenshots";
 
 const SITE = "https://gruenderx.de";
 
@@ -126,6 +127,7 @@ const GuideLanding = () => {
       outline={outline}
       disclaimer={copy.disclaimer}
       faq={faq}
+      screenshot={slug === "tiktok-shop-starten" ? SCREENS.guideTiktok : SCREENS.dashboard}
       ctaTitle={`„${guide.title}" Schritt für Schritt im GründerX-Cockpit`}
       ctaText={`${guide.steps} Schritte in der richtigen Reihenfolge — plus alle weiteren Guides, Rechner und Wizards im Abo.`}
       primaryHref="/checkout"

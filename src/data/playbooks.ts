@@ -1082,7 +1082,7 @@ export const PLAYBOOKS: Playbook[] = [
     outcome: "Registrierter TikTok-Shop-Account mit Gewerbe und Steuernummer (bei e.K./GbR plus USt-IdNr), erledigten Produktpflichten, klarer Umsatzsteuer-Entscheidung und sauber erfassten Verkäufen und Provisionen.",
     duration: "2–4 Wochen",
     difficulty: "Einfach",
-    totalCost: "Gewerbeanmeldung ca. 20–60 € · Steuernummer/USt-IdNr 0 € · LUCID 0 € (Systembeteiligung je nach Menge) · WEEE-Registrierung bei Elektro gebührenpflichtig",
+    totalCost: "ca. 20–60 € (Gewerbeanmeldung) + Verpackungs-Systembeteiligung",
     runningCost: "TikTok-Provision je Kategorie · duales System für Verpackungen · Buchhaltungs-Tool bzw. Steuerberater",
     steps: [
       {

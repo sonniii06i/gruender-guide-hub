@@ -12,6 +12,7 @@ import { Gift, ArrowRight } from "lucide-react";
 import { TRIAL_TOOL_BY_SLUG, TRIAL_CLAIM } from "@/lib/freetools/trialTools";
 import { PRO_MONTH_GROSS_CENTS, formatEurCents, schemaPrice } from "@/config/pricing";
 import { guideHref } from "@/data/guideMerges";
+import { screenFuerTool } from "@/data/screenshots";
 
 const TOOL_CAT_TOPIC: Record<string, string> = {
   starter: "gruendung", rechtsform: "gruendung", steuer: "steuern", buchhaltung: "buchhaltung",
@@ -121,6 +122,7 @@ const ToolLanding = () => {
       outcomes={copy.outcomes}
       disclaimer={copy.disclaimer}
       faq={faq}
+      screenshot={screenFuerTool(tool.slug, tool.categorySlug)}
       topSlot={
         trial ? (
           <section className="flex flex-col gap-4 rounded-2xl border border-brand-green/25 bg-brand-green-soft p-5 sm:flex-row sm:items-center sm:justify-between md:p-6">
@@ -146,10 +148,10 @@ const ToolLanding = () => {
       }
       ctaTitle={`„${tool.title}" unbegrenzt im GründerX-Cockpit`}
       ctaText={`Mit dem Abo ab ${formatEurCents(PRO_MONTH_GROSS_CENTS)} im Monat (inkl. USt.) nutzt du dieses Tool und alle anderen Rechner, Wizards und Schritt-für-Schritt-Guides aus der Tool-Übersicht.`}
-      primaryHref="/preise"
-      primaryLabel="Preise & Leistungen"
-      secondaryHref={trial ? trial.trialPath : tool.route!}
-      secondaryLabel={trial ? TRIAL_CLAIM : "Tool öffnen"}
+      primaryHref={trial ? trial.trialPath : "/preise"}
+      primaryLabel={trial ? "Kostenlos prüfen" : "Preise & Leistungen"}
+      secondaryHref={trial ? "/preise" : tool.route!}
+      secondaryLabel={trial ? "Preise & Leistungen" : "Tool öffnen"}
       relatedTitle="Passende Tools"
       related={related.map((r) => ({ to: `/tools/${r.slug}`, title: r.title, desc: r.desc }))}
       relatedGroups={[

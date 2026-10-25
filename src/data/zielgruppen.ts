@@ -2,6 +2,8 @@
 // GründerX viel stärker auf Influencer und TikTok-Shop-Leute ausrichten.
 // Jede Zahl ist belegt (Quellen in `quellen`); Preise nur über /preise.
 
+import type { ScreenKey } from "./screenshots";
+
 export interface ZielgruppeFreeTool {
   to: string;
   title: string;
@@ -14,6 +16,13 @@ export interface Zielgruppe {
   seoDescription: string;
   eyebrow: string;
   heading: string;
+  /** Hero: Überschrift vor dem farbigen Teilsatz + Teilsatz (zusammen = heading). */
+  heroTitle: string;
+  heroAccent: string;
+  /** Großer Screenshot unter dem Hero. */
+  screen: ScreenKey;
+  /** Überschrift des Abschnitts „Warum jetzt“. */
+  warumTitel: string;
   lead: string;
   urgency: string;
   outcomes: string[];
@@ -61,6 +70,10 @@ export const ZIELGRUPPEN: Zielgruppe[] = [
       "Influencer, Creator & UGC: Gewerbe anmelden, Fragebogen, PR-Pakete, Affiliate, Kleinunternehmer – Schritt für Schritt mit Felix. Gratis-Check ohne Konto.",
     eyebrow: "Für Influencer · Creator · UGC-Creator",
     heading: "Du machst Content. Felix macht das Finanzamt.",
+    heroTitle: "Du machst Content.",
+    heroAccent: "Felix macht das Finanzamt.",
+    screen: "fse",
+    warumTitel: "Das Finanzamt schaut inzwischen auch auf Social Media.",
     lead:
       "Erste Kooperation, erstes PR-Paket, erste Auszahlung aus dem Creator-Programm? GründerX führt dich Schritt für Schritt durch Gewerbe, Fragebogen zur steuerlichen Erfassung, Kleinunternehmerregelung und Rechnungen – damit du dich wieder um deine Videos kümmern kannst.",
     urgency:
@@ -136,6 +149,10 @@ export const ZIELGRUPPEN: Zielgruppe[] = [
       "TikTok Shop starten: Gewerbe, Steuernummer, Registrierung, LUCID, WEEE und Plattform-Meldung in der richtigen Reihenfolge – mit Felix. Gratis-Checkliste.",
     eyebrow: "Für TikTok-Shop-Verkäufer · Affiliates · Live-Seller",
     heading: "TikTok Shop starten – ohne hängende Registrierung.",
+    heroTitle: "Dein TikTok Shop,",
+    heroAccent: "von Anfang an sauber angemeldet.",
+    screen: "guideTiktok",
+    warumTitel: "Ab 30 Verkäufen weiß es das Finanzamt.",
     lead:
       "Du willst im TikTok Shop verkaufen oder als Creator Provisionen verdienen? Felix bringt dich durch Gewerbe, Fragebogen, den passenden Registrierungsweg, Verpackungsregister und Elektro-Registrierung – bevor dein Konto oder dein erstes Listing hängen bleibt.",
     urgency:

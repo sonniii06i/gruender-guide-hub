@@ -51,3 +51,4 @@ xr-beispiele/
 
 # Klartext-Aktivierungscodes (scripts/generate-codes.mjs) -- nie committen
 codes-*.csv
+.screens-raw/
