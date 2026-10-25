@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 // supabase/functions/_shared/tippsStrecke.ts übereinstimmen (Test tipps-einwilligung).
 // Die Function lehnt jede andere Version ab – geändert wird immer an beiden Stellen.
 /** Schalter: Häkchen erst zeigen, wenn Tabelle, Functions und Cron laufen und der Betreiber die Texte freigegeben hat. */
-export const TIPPS_AKTIV = false;
+export const TIPPS_AKTIV = true;
 
 export const EINWILLIGUNG_VERSION = "2026-10-25";
 export const EINWILLIGUNG_TEXT =
