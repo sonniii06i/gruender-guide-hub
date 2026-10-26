@@ -54,3 +54,4 @@ xr-beispiele/
 codes-*.csv
 .screens-raw/
 scripts/gruendungspaket/out/
+.vercel
