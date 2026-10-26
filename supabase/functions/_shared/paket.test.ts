@@ -8,7 +8,7 @@ import { buildPaketBestaetigung, buildWiderrufEingang } from "./paketMail.ts";
 import { KENNTNIS_TEXT, PAKET_PREIS_CENT, ZUSTIMMUNG_TEXT } from "./gruendungspaketTexte.ts";
 import { PAKET_BASE64, PAKET_DATEIEN, PAKET_SHA256 } from "./gruendungspaketZip.ts";
 import {
-  LIMIT_ADRESSE_TAG, LIMIT_GLOBAL_STUNDE, LIMIT_IP_STUNDE, VERTRAGSARTEN, bestaetigungErlaubt, clientIp, ipSchluessel,
+  LIMIT_ADRESSE_TAG, LIMIT_GLOBAL_STUNDE, LIMIT_IP_STUNDE, VERTRAGSARTEN, bestaetigungErlaubt, clientIp, globalErlaubt, ipProbe, ipSchluessel,
   limitAdresse, pruefeWiderruf,
 } from "./widerruf.ts";
 import { paketModus, paketStripe, sessionPasstZumModus, testZugangOk } from "./paketStripe.ts";
@@ -80,21 +80,33 @@ Deno.test("Limit-Schlüssel: Plus-Adressen zusammengefasst, IP nur gehasht", asy
   assertEquals(a, await ipSchluessel("203.0.113.7"));
 });
 
-Deno.test("Widerruf: nur die Bestätigungsmail wird gedrosselt, Zähler inkl. eigener Anfrage", () => {
-  assert(bestaetigungErlaubt(1, 1, 1), "erste Anfrage");
-  assert(bestaetigungErlaubt(LIMIT_ADRESSE_TAG, LIMIT_IP_STUNDE, LIMIT_GLOBAL_STUNDE), "genau am Limit");
-  assert(!bestaetigungErlaubt(LIMIT_ADRESSE_TAG + 1, 1, 1), "Adresse drüber");
-  assert(!bestaetigungErlaubt(1, LIMIT_IP_STUNDE + 1, 1), "IP drüber");
-  assert(!bestaetigungErlaubt(1, 1, LIMIT_GLOBAL_STUNDE + 1), "global drüber");
-  assert(bestaetigungErlaubt(null, 1, 1), "Zähler unlesbar -> gesetzliche Pflicht geht vor");
+Deno.test("Widerruf: Kundenmail fail-closed, Adresse/IP vor global, global nur echte Slots", () => {
+  assert(bestaetigungErlaubt(1, 1), "erste Anfrage");
+  assert(bestaetigungErlaubt(LIMIT_ADRESSE_TAG, LIMIT_IP_STUNDE), "genau am Limit");
+  assert(!bestaetigungErlaubt(LIMIT_ADRESSE_TAG + 1, 1), "Adresse drüber");
+  assert(!bestaetigungErlaubt(1, LIMIT_IP_STUNDE + 1), "IP drüber");
+  assert(!bestaetigungErlaubt(null, 1), "Zähler unlesbar -> gedrosselt (fail-closed)");
+  assert(!bestaetigungErlaubt(1, null));
+  assert(globalErlaubt(1) && globalErlaubt(LIMIT_GLOBAL_STUNDE));
+  assert(!globalErlaubt(LIMIT_GLOBAL_STUNDE + 1));
+  assert(!globalErlaubt(null), "Slot-Zähler unlesbar -> gedrosselt");
 });
 
-Deno.test("Client-IP: Gateway-Header vor rechtestem XFF, linkes XFF nie", () => {
+Deno.test("Client-IP: ohne gemessenen Header gemeinsamer Bucket, Client-Werte ignoriert", () => {
   const h = (m: Record<string, string>) => ({ get: (n: string) => m[n] ?? null });
-  assertEquals(clientIp(h({ "cf-connecting-ip": "198.51.100.1", "x-forwarded-for": "6.6.6.6, 198.51.100.1" })).ip, "198.51.100.1");
-  assertEquals(clientIp(h({ "x-real-ip": "198.51.100.2", "x-forwarded-for": "6.6.6.6" })).ip, "198.51.100.2");
-  assertEquals(clientIp(h({ "x-forwarded-for": "6.6.6.6, 203.0.113.9" })), { ip: "203.0.113.9", quelle: "x-forwarded-for-rechts" });
-  assertEquals(clientIp(h({})).ip, "unbekannt");
+  const gefaelscht = h({ "cf-connecting-ip": "6.6.6.6", "x-real-ip": "6.6.6.6", "x-forwarded-for": "6.6.6.6" });
+  assertEquals(clientIp(gefaelscht), { ip: "unbekannt", quelle: "unbekannt" });
+  assertEquals(clientIp(gefaelscht, "x-evil-header"), { ip: "unbekannt", quelle: "unbekannt" });
+  assertEquals(clientIp(h({ "x-real-ip": "198.51.100.2" }), "X-Real-IP"), { ip: "198.51.100.2", quelle: "x-real-ip" });
+  assertEquals(clientIp(h({ "x-forwarded-for": "6.6.6.6, 203.0.113.9" }), "x-forwarded-for").ip, "203.0.113.9");
+  assertEquals(clientIp(h({}), "cf-connecting-ip").ip, "unbekannt");
+});
+
+Deno.test("IP-Messprobe meldet nur gefälscht/angehängt/anders/fehlt, keine IPs", () => {
+  const h = (m: Record<string, string>) => ({ get: (n: string) => m[n] ?? null });
+  const p = ipProbe(h({ "cf-connecting-ip": "198.51.100.77", "x-real-ip": "203.0.113.5", "x-forwarded-for": "198.51.100.77, 203.0.113.5" }), "198.51.100.77");
+  assertEquals(p, "cf-connecting-ip=gefaelscht x-real-ip=anders x-forwarded-for=gefaelscht+angehaengt");
+  assert(!p.includes("203.0.113.5"));
 });
 
 Deno.test("Verkaufsschalter: ohne PAKET_STRIPE_MODUS aus; Test nur mit Zugang; Session muss zum Modus passen", () => {

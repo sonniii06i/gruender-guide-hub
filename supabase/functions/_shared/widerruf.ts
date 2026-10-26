@@ -14,6 +14,8 @@
 //    (§ 356a BGB) – er wird immer gespeichert und an support@ geschickt.
 //    Gedrosselt wird nur die Bestätigungsmail an die eingegebene Adresse.
 //    Erst eintragen, dann zählen (eigene Zeile inklusive) -> kein TOCTOU.
+//  - Dritter Review: fail-closed nur für die Kundenmail; global zählen nur Sende-Slots;
+//    IP nur aus gemessen vertrauenswürdigem Header (WIDERRUF_IP_HEADER), sonst „unbekannt“.
 // ===================================================================
 
 export const VERTRAGSARTEN = {
@@ -58,30 +60,48 @@ export function pruefeWiderruf(b: Record<string, unknown>): { ok: true; daten: W
 }
 
 /**
- * Darf die Bestätigungsmail an den Kunden raus? Die Zähler enthalten die
- * eigene, VORHER eingetragene Anfrage (insert-then-count): Zwei gleichzeitige
- * Anfragen sehen sich gegenseitig, keine überholt die andere.
- * null = Zähler nicht lesbar -> senden (gesetzliche Pflicht geht vor; Fehler wird geloggt).
+ * Stufe 1 (Adresse + IP, insert-then-count, eigene Zeile inklusive). Fail-closed:
+ * Sind die Zähler nicht lesbar/schreibbar (null), wird die Kundenmail gedrosselt –
+ * der Widerruf selbst ist zu diesem Zeitpunkt schon gespeichert und an support@ (Review 3).
  */
-export function bestaetigungErlaubt(nAdresse: number | null, nIp: number | null, nGlobal: number | null): boolean {
-  if (nAdresse === null || nIp === null || nGlobal === null) return true;
-  return nAdresse <= LIMIT_ADRESSE_TAG && nIp <= LIMIT_IP_STUNDE && nGlobal <= LIMIT_GLOBAL_STUNDE;
+export function bestaetigungErlaubt(nAdresse: number | null, nIp: number | null): boolean {
+  if (nAdresse === null || nIp === null) return false;
+  return nAdresse <= LIMIT_ADRESSE_TAG && nIp <= LIMIT_IP_STUNDE;
 }
 
 /**
- * Client-IP hinter dem Supabase-Gateway. Linkes X-Forwarded-For ist frei
- * fälschbar; vertrauenswürdig sind cf-connecting-ip bzw. x-real-ip (vom
- * Gateway gesetzt), sonst der RECHTESTE XFF-Eintrag (vom letzten Proxy
- * angehängt). Welcher Header ankommt, zeigt das Log „[widerruf] ip-quelle“.
+ * Stufe 2 (global), erst NACH Adresse/IP: gezählt werden nur reservierte Sende-Slots
+ * (eigener inklusive). Gedrosselte Anfragen reservieren keinen Slot, und ein Slot wird
+ * wieder gelöscht, wenn die Mail nicht rausging – der Deckel füllt sich nur mit echten Sendungen.
  */
-export function clientIp(h: { get(name: string): string | null }): { ip: string; quelle: string } {
-  const cf = h.get("cf-connecting-ip")?.trim();
-  if (cf) return { ip: cf, quelle: "cf-connecting-ip" };
-  const real = h.get("x-real-ip")?.trim();
-  if (real) return { ip: real, quelle: "x-real-ip" };
-  const xff = (h.get("x-forwarded-for") ?? "").split(",").map((x) => x.trim()).filter(Boolean);
-  if (xff.length) return { ip: xff[xff.length - 1], quelle: "x-forwarded-for-rechts" };
-  return { ip: "unbekannt", quelle: "keine" };
+export function globalErlaubt(nSlots: number | null): boolean {
+  return nSlots !== null && nSlots <= LIMIT_GLOBAL_STUNDE;
+}
+
+export const IP_HEADER_KANDIDATEN = ["cf-connecting-ip", "x-real-ip", "x-forwarded-for"] as const;
+
+/**
+ * Client-IP fürs Limit. Gelesen wird NUR der Header, dessen Name in
+ * WIDERRUF_IP_HEADER steht – und erst, nachdem gemessen ist, dass das
+ * Supabase-Gateway ihn selbst setzt bzw. überschreibt (Probe mit gefälschten
+ * Werten im Redeploy-Skript, Log „[widerruf] ip-probe“). Ohne diese Einstellung
+ * teilen sich alle Anfragen den Bucket „unbekannt“ (Review 3: lieber zu streng
+ * als ein vom Client gewählter Wert). Bei x-forwarded-for zählt der rechteste Eintrag.
+ */
+export function clientIp(h: { get(name: string): string | null }, vertrauterHeader?: string): { ip: string; quelle: string } {
+  const name = (vertrauterHeader ?? "").trim().toLowerCase();
+  if (!(IP_HEADER_KANDIDATEN as readonly string[]).includes(name)) return { ip: "unbekannt", quelle: "unbekannt" };
+  const roh = h.get(name) ?? "";
+  const wert = name === "x-forwarded-for" ? roh.split(",").map((x) => x.trim()).filter(Boolean).pop() ?? "" : roh.trim();
+  return wert ? { ip: wert, quelle: name } : { ip: "unbekannt", quelle: "unbekannt" };
+}
+
+/** Für die Messprobe: Kam der gefälschte Wert unverändert an? Loggt keine IPs. */
+export function ipProbe(h: { get(name: string): string | null }, marker: string): string {
+  return IP_HEADER_KANDIDATEN.map((n) => {
+    const v = h.get(n);
+    return `${n}=${v === null ? "fehlt" : v.split(",").map((x) => x.trim()).includes(marker) ? (v.trim() === marker ? "gefaelscht" : "gefaelscht+angehaengt") : "anders"}`;
+  }).join(" ");
 }
 
 /** Schlüssel fürs Adress-Limit: klein, ohne Plus-Anhang (a+x@b.de == a@b.de). */

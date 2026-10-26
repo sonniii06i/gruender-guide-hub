@@ -7,17 +7,22 @@
 //   1. Widerruf IMMER annehmen: Beleg in mail_events (campaign
 //      "widerruf-beleg", event "widerruf") und interne Mail an support@ –
 //      ohne jedes Limit (Security-Review 2, 26.10.2026).
-//   2. Limit-Zeilen eintragen (Adresse ohne Plus-Anhang, IP-Hash), DANACH
-//      zählen (eigene Zeile inklusive) -> kein TOCTOU, keine Migration.
-//   3. Eingangsbestätigung an den Verbraucher (§ 356a Abs. 4 BGB) nur, wenn
-//      die Zähler im Limit sind; ohne Freitext, neutraler Betreff.
+//   2. Stufe 1: Limit-Zeilen (Adresse ohne Plus-Anhang, IP-Hash) eintragen,
+//      DANACH zählen (eigene inklusive) -> kein TOCTOU, keine Migration.
+//   3. Stufe 2: globalen Sende-Slot reservieren und zählen; Slot wird gelöscht,
+//      wenn gedrosselt oder Versand scheitert -> Deckel zählt nur echte Mails.
+//   4. Eingangsbestätigung (§ 356a Abs. 4 BGB) nur bei beiden Stufen grün;
+//      Zähler unlesbar = gedrosselt (fail-closed nur für diese Mail, Review 3).
+//   IP: nur aus WIDERRUF_IP_HEADER (gemessen vertrauenswürdig), sonst „unbekannt“.
 //   <- { ok: true, eingang, bestaetigung: "gesendet"|"gedrosselt"|"fehlgeschlagen" }
 // ===================================================================
 
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
 import { sendMail } from "../_shared/mailSend.ts";
 import { buildWiderrufEingang } from "../_shared/paketMail.ts";
-import { VERTRAGSARTEN, bestaetigungErlaubt, clientIp, ipSchluessel, limitAdresse, pruefeWiderruf } from "../_shared/widerruf.ts";
+import {
+  VERTRAGSARTEN, bestaetigungErlaubt, clientIp, globalErlaubt, ipProbe, ipSchluessel, limitAdresse, pruefeWiderruf,
+} from "../_shared/widerruf.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -39,8 +44,11 @@ Deno.serve(async (req) => {
   const jetzt = new Date();
   const vertragText = VERTRAGSARTEN[d.vertrag];
   const db = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, { auth: { persistSession: false } });
-  const { ip, quelle } = clientIp(req.headers);
+  const { ip, quelle } = clientIp(req.headers, Deno.env.get("WIDERRUF_IP_HEADER"));
   console.log(`[widerruf] ip-quelle ${quelle}`);
+  // Messprobe (Redeploy-Skript): Wert 198.51.100.77 in allen Kandidaten-Headern mitschicken und hier
+  // ablesen, welcher Header vom Gateway überschrieben wird („anders“). Loggt keine IPs.
+  if (req.headers.get("x-widerruf-ip-probe") === "1") console.log(`[widerruf] ip-probe ${ipProbe(req.headers, "198.51.100.77")}`);
   const ipKey = await ipSchluessel(ip);
   const adrKey = limitAdresse(d.email);
 
@@ -65,34 +73,42 @@ Deno.serve(async (req) => {
     return json({ ok: false, error: "nicht_gespeichert" }, 502);
   }
 
-  // 2) Limit-Zeilen eintragen, dann zählen (inkl. eigener Zeile).
-  const zeile = (recipient: string) => ({
-    brand: "gruenderx", campaign: "widerruf-anfrage", variant: "a", recipient, event: "anfrage", occurred_at: jetzt.toISOString(),
-  });
-  const { error: limErr } = await db.from("mail_events").insert([zeile(adrKey), zeile(ipKey)]);
+  // 2) Stufe 1: Limit-Zeilen (Adresse, IP) eintragen, DANN zählen (eigene inklusive).
+  //    Fail-closed: nicht schreib-/lesbar -> Kundenmail gedrosselt (Widerruf ist schon gespeichert).
+  const iso = jetzt.toISOString();
   const seit = (ms: number) => new Date(jetzt.getTime() - ms).toISOString();
-  const zaehle = async (recipient: string | null, ms: number) => {
+  const zeile = (campaign: string, recipient: string) => ({ brand: "gruenderx", campaign, variant: "a", recipient, event: "anfrage", occurred_at: iso });
+  const { error: limErr } = await db.from("mail_events").insert([zeile("widerruf-anfrage", adrKey), zeile("widerruf-anfrage", ipKey)]);
+  const zaehle = async (campaign: string, recipient: string, ms: number) => {
     if (limErr) return null;
-    let q = db.from("mail_events").select("id", { count: "exact", head: true })
-      .eq("campaign", "widerruf-anfrage").gte("occurred_at", seit(ms));
-    q = recipient ? q.eq("recipient", recipient) : q.like("recipient", "ip:%");   // global: eine IP-Zeile je Anfrage
-    const { count, error } = await q;
+    const { count, error } = await db.from("mail_events").select("id", { count: "exact", head: true })
+      .eq("campaign", campaign).eq("recipient", recipient).gte("occurred_at", seit(ms));
     return error ? null : (count ?? 0);
   };
-  const [nAdr, nIp, nGlobal] = await Promise.all([zaehle(adrKey, 86400_000), zaehle(ipKey, 3600_000), zaehle(null, 3600_000)]);
-  if (nAdr === null || nIp === null || nGlobal === null) console.error("❌ vertrag-widerrufen: Limit-Zähler nicht lesbar – Bestätigung wird trotzdem gesendet");
+  const [nAdr, nIp] = await Promise.all([zaehle("widerruf-anfrage", adrKey, 86400_000), zaehle("widerruf-anfrage", ipKey, 3600_000)]);
 
-  // 3) Bestätigung an den Verbraucher – die einzige gedrosselte Mail.
   let bestaetigung: "gesendet" | "gedrosselt" | "fehlgeschlagen" = "gedrosselt";
-  if (bestaetigungErlaubt(nAdr, nIp, nGlobal)) {
-    const kunde = await sendMail({
-      to: d.email, campaign: "widerruf-eingang", db,
-      built: buildWiderrufEingang({ vertrag: vertragText, bestellnummer: d.bestellnummer, kaufdatum: d.kaufdatum, eingang: jetzt }),
-    });
-    bestaetigung = kunde.ok ? "gesendet" : "fehlgeschlagen";
-    if (!kunde.ok) console.error(`❌ vertrag-widerrufen: Eingangsbestätigung fehlgeschlagen (${kunde.reason})`);
+  let grund = "";
+  if (!bestaetigungErlaubt(nAdr, nIp)) {
+    grund = nAdr === null || nIp === null ? "zaehler-fehler" : "adresse-oder-ip";
   } else {
-    console.warn(`[widerruf] Bestätigung gedrosselt (Adresse ${nAdr}, IP ${nIp}, global ${nGlobal}); Widerruf angenommen`);
+    // 3) Stufe 2 (global): Sende-Slot reservieren, zählen; über Deckel -> Slot wieder löschen.
+    const { data: slot, error: slotErr } = await db.from("mail_events")
+      .insert(zeile("widerruf-sendeslot", "global")).select("id").single();
+    const nSlots = slotErr ? null : await zaehle("widerruf-sendeslot", "global", 3600_000);
+    const slotFreigeben = async () => { if (slot?.id) await db.from("mail_events").delete().eq("id", slot.id); };
+    if (!globalErlaubt(nSlots)) {
+      grund = nSlots === null ? "zaehler-fehler" : "global";
+      await slotFreigeben();
+    } else {
+      const kunde = await sendMail({
+        to: d.email, campaign: "widerruf-eingang", db,
+        built: buildWiderrufEingang({ vertrag: vertragText, bestellnummer: d.bestellnummer, kaufdatum: d.kaufdatum, eingang: jetzt }),
+      });
+      bestaetigung = kunde.ok ? "gesendet" : "fehlgeschlagen";
+      if (!kunde.ok) { await slotFreigeben(); console.error(`❌ vertrag-widerrufen: Eingangsbestätigung fehlgeschlagen (${kunde.reason})`); }
+    }
   }
+  if (bestaetigung === "gedrosselt") console.warn(`[widerruf] Bestätigung gedrosselt (${grund}); Widerruf angenommen und an support@`);
   return json({ ok: true, eingang: jetzt.toISOString(), bestaetigung, intern: intern.ok });
 });
