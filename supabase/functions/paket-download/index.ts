@@ -18,7 +18,7 @@ import { createClient } from "npm:@supabase/supabase-js@2.57.2";
 import type Stripe from "https://esm.sh/stripe@18.5.0";
 import { sendMail } from "../_shared/mailSend.ts";
 import { buildPaketBestaetigung } from "../_shared/paketMail.ts";
-import { paketStripe } from "../_shared/paketStripe.ts";
+import { paketStripe, sessionPasstZumModus, type Modus } from "../_shared/paketStripe.ts";
 import { SESSION_RE, downloadLink, paketLinkGueltig, paketSecret, signierePaket } from "../_shared/paketToken.ts";
 import { PAKET_ABRUF_TAGE, PAKET_LINK_STUNDEN, PAKET_PRODUKT } from "../_shared/gruendungspaketTexte.ts";
 import { PAKET_BASE64, PAKET_DATEINAME } from "../_shared/gruendungspaketZip.ts";
@@ -32,13 +32,14 @@ const json = (body: unknown, status = 200) =>
 
 type Pruefung = { ok: true; session: Stripe.Checkout.Session; pi: Stripe.PaymentIntent } | { ok: false; grund: string };
 
-async function sessionPruefen(stripe: Stripe, sessionId: string): Promise<Pruefung> {
+async function sessionPruefen(stripe: Stripe, modus: Modus, sessionId: string): Promise<Pruefung> {
   let session: Stripe.Checkout.Session;
   try {
     session = await stripe.checkout.sessions.retrieve(sessionId, { expand: ["payment_intent.latest_charge"] });
   } catch {
     return { ok: false, grund: "unbekannt" };
   }
+  if (!sessionPasstZumModus(session.livemode, modus)) return { ok: false, grund: "unbekannt" };
   if (session.metadata?.produkt !== PAKET_PRODUKT) return { ok: false, grund: "produkt" };
   if (session.payment_status !== "paid") return { ok: false, grund: "nicht_bezahlt" };
   if (Date.now() - session.created * 1000 > PAKET_ABRUF_TAGE * 86400_000) return { ok: false, grund: "abgelaufen" };
@@ -76,10 +77,10 @@ Deno.serve(async (req) => {
   const secret = paketSecret();
   const zugang = paketStripe();
   if (!secret || !zugang) {
-    console.error("❌ paket-download: PAKET_SECRET/UNSUBSCRIBE_SECRET oder Stripe-Schlüssel fehlt");
+    console.error("❌ paket-download: Verkauf aus (PAKET_STRIPE_MODUS) oder Secret/Schlüssel fehlt");
     return req.method === "GET" ? fehlerSeite("Der Download ist gerade nicht verfügbar.", 503) : json({ error: "nicht_konfiguriert" }, 503);
   }
-  const { stripe } = zugang;
+  const { stripe, modus } = zugang;
   const url = new URL(req.url);
 
   // ---------------------------------------------------------- GET: signierter Link -> ZIP
@@ -88,7 +89,7 @@ Deno.serve(async (req) => {
     if (!(await paketLinkGueltig(s, x, sig, secret))) {
       return fehlerSeite("Dieser Download-Link ist ungültig oder abgelaufen. Öffne die Seite aus deiner Bestätigungsmail erneut – dort bekommst du einen neuen Link.", 403);
     }
-    const p = await sessionPruefen(stripe, s);
+    const p = await sessionPruefen(stripe, modus, s);
     if (!p.ok) return fehlerSeite(p.grund === "erstattet" ? "Dieser Kauf wurde erstattet; der Download ist deshalb gesperrt." : "Zu diesem Link gibt es keinen gültigen Kauf.", 403);
     console.log(`[paket] Download ${s}`);
     return zipAntwort();
@@ -99,7 +100,7 @@ Deno.serve(async (req) => {
   const body = await req.json().catch(() => ({} as Record<string, unknown>));
   const sessionId = String(body.session_id ?? "");
   if (!SESSION_RE.test(sessionId)) return json({ error: "session" }, 400);
-  const p = await sessionPruefen(stripe, sessionId);
+  const p = await sessionPruefen(stripe, modus, sessionId);
   if (!p.ok) return json({ error: p.grund }, p.grund === "unbekannt" ? 404 : 403);
 
   const ablauf = Math.floor(Date.now() / 1000) + PAKET_LINK_STUNDEN * 3600;

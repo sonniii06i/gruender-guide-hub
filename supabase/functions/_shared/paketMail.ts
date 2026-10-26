@@ -90,44 +90,48 @@ export function buildPaketBestaetigung(o: {
   };
 }
 
-export function buildWiderrufEingang(o: { name: string; email: string; vertrag: string; eingang: Date }): Built {
+/**
+ * Eingangsbestätigung der Widerrufsfunktion. An den Verbraucher geht KEIN
+ * Freitext (Security-Review 26.10.: unbestätigte Adresse) – nur Vertragsart
+ * aus fester Auswahl, geprüfte Bestellnummer/Datum und der Zeitpunkt. Name
+ * und Adresse stehen nur in der internen Fassung (intern gesetzt).
+ */
+export function buildWiderrufEingang(o: {
+  vertrag: string; bestellnummer?: string; kaufdatum?: string; eingang: Date;
+  intern?: { name: string; email: string };
+}): Built {
   const zeit = zeitBerlin(o.eingang);
-  const zeilen: Array<[string, string]> = [
-    ["Eingang", esc(zeit)],
-    ["Name", esc(o.name)],
-    ["E-Mail", esc(o.email)],
-    ["Vertrag", esc(o.vertrag)],
+  const felder: Array<[string, string]> = [
+    ["Eingang", zeit],
+    ["Vertrag", o.vertrag],
+    ...(o.bestellnummer ? [["Bestellnummer", o.bestellnummer] as [string, string]] : []),
+    ...(o.kaufdatum ? [["Kaufdatum", o.kaufdatum] as [string, string]] : []),
+    ...(o.intern ? [["Name", o.intern.name], ["E-Mail", o.intern.email]] as Array<[string, string]> : []),
   ];
+  const erklaerung = "Hiermit widerrufe ich den oben genannten Vertrag.";
+  const weiter = "Wir prüfen den Widerruf und melden uns. Ist ein Widerrufsrecht schon erloschen (z. B. nach Download eines " +
+    "digitalen Inhalts mit deiner Zustimmung), sagen wir dir das mit Begründung.";
+  const grund = o.intern
+    ? "Interne Kopie: Eingang über gruenderx.de/vertrag-widerrufen."
+    : "Du bekommst diese Mail, weil auf gruenderx.de/vertrag-widerrufen ein Widerruf mit deiner Adresse abgeschickt wurde. " +
+      "Warst du das nicht? Dann ignoriere sie einfach.";
   return {
-    subject: "Eingangsbestätigung deines Widerrufs",
+    subject: o.intern ? `Widerruf eingegangen (${o.vertrag})` : "Eingangsbestätigung deines Widerrufs",
     text: plain({
       greeting: "Hallo,",
-      lines: [
-        "wir haben deinen Widerruf erhalten. Das ist die Eingangsbestätigung.",
-        "",
-        `Eingang: ${zeit}`,
-        `Name: ${o.name}`,
-        `E-Mail: ${o.email}`,
-        `Vertrag: ${o.vertrag}`,
-        `Erklärung: „Hiermit widerrufe ich den oben genannten Vertrag.“`,
-        "",
-        "Wir prüfen den Widerruf und melden uns. Ist ein Widerrufsrecht schon erloschen (z. B. nach Download eines " +
-        "digitalen Inhalts mit deiner Zustimmung), sagen wir dir das mit Begründung.",
-      ],
-      reason: "Du bekommst diese Mail, weil auf gruenderx.de/vertrag-widerrufen ein Widerruf mit deiner Adresse abgeschickt wurde.",
+      lines: ["wir haben deinen Widerruf erhalten. Das ist die Eingangsbestätigung.", "",
+        ...felder.map(([k, v]) => `${k}: ${v}`), `Erklärung: „${erklaerung}“`, "", weiter],
+      reason: grund,
     }),
     html: renderMail({
       preheader: `Widerruf eingegangen am ${zeit}.`,
       blocks: [
         aufmacher("Dein Widerruf ist eingegangen", zeit),
-        priceRows(zeilen),
-        paragraph("Erklärung: „Hiermit widerrufe ich den oben genannten Vertrag.“"),
-        paragraph(
-          "Wir prüfen den Widerruf und melden uns. Ist ein Widerrufsrecht schon erloschen (z. B. nach Download eines " +
-          "digitalen Inhalts mit deiner Zustimmung), sagen wir dir das mit Begründung.",
-        ),
+        priceRows(felder.map(([k, v]) => [esc(k), esc(v)] as [string, string])),
+        paragraph(`Erklärung: „${esc(erklaerung)}“`),
+        paragraph(esc(weiter)),
       ],
-      footerReason: "Du bekommst diese Mail, weil auf gruenderx.de/vertrag-widerrufen ein Widerruf mit deiner Adresse abgeschickt wurde.",
+      footerReason: grund,
     }),
   };
 }

@@ -19,16 +19,23 @@ const VertragWiderrufen = () => {
   const [offen, setOffen] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [vertrag, setVertrag] = useState("");
+  const [vertrag, setVertrag] = useState("abo");
+  const [bestellnummer, setBestellnummer] = useState("");
+  const [kaufdatum, setKaufdatum] = useState("");
   const [website, setWebsite] = useState("");
-  const [status, setStatus] = useState<"" | "sendet" | "ok" | "fehler">("");
+  const [status, setStatus] = useState<"" | "sendet" | "ok" | "fehler" | "limit">("");
   const [eingang, setEingang] = useState("");
 
   const senden = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus("sendet");
-    const { data, error } = await supabase.functions.invoke("vertrag-widerrufen", { body: { name, email, vertrag, website } });
-    if (error || !data?.ok) { setStatus("fehler"); return; }
+    const { data, error } = await supabase.functions.invoke("vertrag-widerrufen", { body: { name, email, vertrag, bestellnummer, kaufdatum, website } });
+    if (error || !data?.ok) {
+      let code = "";
+      try { code = (await (error as { context?: Response })?.context?.json())?.error ?? ""; } catch { /* egal */ }
+      setStatus(code === "zu_viele" ? "limit" : "fehler");
+      return;
+    }
     setEingang(new Date(data.eingang).toLocaleString("de-DE", { dateStyle: "long", timeStyle: "short" }) + " Uhr");
     setStatus("ok");
   };
@@ -55,17 +62,32 @@ const VertragWiderrufen = () => {
             ) : (
               <form onSubmit={senden} className="space-y-4">
                 <label className="block text-sm font-medium">Dein Name
-                  <Input required maxLength={120} value={name} onChange={(e) => setName(e.target.value)} className="mt-1" autoComplete="name" />
+                  <Input required maxLength={80} value={name} onChange={(e) => setName(e.target.value)} className="mt-1" autoComplete="name" />
                 </label>
                 <label className="block text-sm font-medium">E-Mail-Adresse für die Eingangsbestätigung
                   <Input required type="email" maxLength={320} value={email} onChange={(e) => setEmail(e.target.value)} className="mt-1" autoComplete="email" />
                 </label>
-                <label className="block text-sm font-medium">Welcher Vertrag? (z. B. „GründerX-Abo“ oder „Gründungspaket, Bestellnummer pi_…“, Kaufdatum)
-                  <Input required maxLength={300} value={vertrag} onChange={(e) => setVertrag(e.target.value)} className="mt-1" />
+                <label className="block text-sm font-medium">Welcher Vertrag?
+                  <select value={vertrag} onChange={(e) => setVertrag(e.target.value)} className="mt-1 block h-10 w-full rounded-md border border-input bg-background px-3 text-sm">
+                    <option value="abo">GründerX-Abo</option>
+                    <option value="gruendungspaket">Gründungspaket 2026 (Download)</option>
+                    <option value="sonstiges">anderer Vertrag mit GründerX</option>
+                  </select>
+                </label>
+                <label className="block text-sm font-medium">Bestellnummer (optional, steht in deiner Bestätigungsmail, z. B. pi_… oder sub_…)
+                  <Input maxLength={90} pattern="(pi|cs_live|cs_test|sub|in|ch)_[A-Za-z0-9_]{6,80}" value={bestellnummer} onChange={(e) => setBestellnummer(e.target.value.trim())} className="mt-1" />
+                </label>
+                <label className="block text-sm font-medium">Kaufdatum (optional)
+                  <Input type="date" value={kaufdatum} onChange={(e) => setKaufdatum(e.target.value)} className="mt-1" />
                 </label>
                 <input type="text" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" value={website} onChange={(e) => setWebsite(e.target.value)} />
                 <p className="text-sm text-muted-foreground">Erklärung: „Hiermit widerrufe ich den oben genannten Vertrag.“</p>
                 <Button type="submit" size="lg" disabled={status === "sendet"}>{status === "sendet" ? "Wird gesendet …" : "Widerruf bestätigen"}</Button>
+                {status === "limit" && (
+                  <p role="alert" className="text-sm text-danger">
+                    Für diese Adresse sind heute schon mehrere Widerrufe eingegangen. Schreib uns bitte an support@gruenderx.de – rechtzeitig ist dein Widerruf, wenn du ihn vor Fristende absendest.
+                  </p>
+                )}
                 {status === "fehler" && (
                   <p role="alert" className="text-sm text-danger">
                     Das hat nicht geklappt. Bitte versuch es erneut oder schick deinen Widerruf an support@gruenderx.de – rechtzeitig ist er, wenn du ihn vor Fristende absendest.

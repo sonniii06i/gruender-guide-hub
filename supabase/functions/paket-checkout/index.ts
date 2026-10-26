@@ -10,10 +10,11 @@
 // Browser. Der Zeitpunkt der Erklärung landet in den Metadaten und von
 // dort in der Bestätigungsmail (lit. d).
 //
-// Stripe-Konto: GründerX, standardmäßig TESTMODUS (siehe paketStripe.ts).
+// Stripe-Konto: GründerX. Serverseitiger Schalter PAKET_STRIPE_MODUS (ungesetzt = aus,
+// "test" nur mit Test-Zugang, "live"), siehe paketStripe.ts.
 // ===================================================================
 
-import { paketPreis, paketStripe } from "../_shared/paketStripe.ts";
+import { paketPreis, paketStripe, testZugangOk } from "../_shared/paketStripe.ts";
 import { CHECKOUT_HINWEIS, PAKET_PRODUKT, PAKET_VERSION } from "../_shared/gruendungspaketTexte.ts";
 
 const corsHeaders = {
@@ -35,10 +36,10 @@ Deno.serve(async (req) => {
 
   const zugang = paketStripe();
   if (!zugang) {
-    console.error("❌ paket-checkout: kein Stripe-Schlüssel für den gewählten Modus (PAKET_STRIPE_MODUS / STRIPE_TEST_SECRET_KEY)");
-    return json({ error: "nicht_konfiguriert" }, 503);
+    return json({ error: "verkauf_aus" }, 503);   // Modus aus oder Schlüssel passt nicht zum Modus
   }
   const { stripe, modus } = zugang;
+  if (modus === "test" && !testZugangOk(body.testzugang)) return json({ error: "verkauf_aus" }, 503);
 
   try {
     const { price, taxRate } = await paketPreis(stripe);

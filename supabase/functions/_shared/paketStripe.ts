@@ -1,11 +1,15 @@
 // ===================================================================
 // paketStripe.ts — Stripe-Zugang und Preis des Gründungspakets.
 //
-// TESTMODUS ZUERST. Solange PAKET_STRIPE_MODUS nicht ausdrücklich "live"
-// ist, nutzt der Paketverkauf STRIPE_TEST_SECRET_KEY (Testschlüssel des
-// GründerX-Kontos). Fehlt der, antwortet der Checkout mit 503 statt
-// heimlich auf den Live-Schlüssel auszuweichen. Das Abo (create-checkout,
-// checkout-guest) bleibt davon unberührt auf STRIPE_SECRET_KEY.
+// SERVERSEITIGER VERKAUFSSCHALTER: PAKET_STRIPE_MODUS
+//   ungesetzt / alles andere  -> "aus": Checkout und Download antworten 503
+//   "test"  -> STRIPE_TEST_SECRET_KEY, Checkout NUR mit PAKET_TEST_ZUGANG
+//              (Betreiber-Testkäufe; ohne Zugang kann niemand eine Test-
+//              Session erzeugen und mit Testkarte gratis laden)
+//   "live"  -> STRIPE_SECRET_KEY
+// Download liefert nur Sessions, deren livemode zum Modus passt (Security-
+// Review 26.10.: Test-Sessions dürfen im Live-Betrieb nie etwas freischalten).
+// Das VITE-Flag im Frontend blendet nur den Knopf ein – es ist keine Sperre.
 //
 // Preis: wird über PAKET_LOOKUP_KEY gefunden; fehlt er, legt die Funktion
 // Produkt, Preis und den 19-%-Steuersatz (inklusive) einmalig an. So
@@ -14,21 +18,38 @@
 // ===================================================================
 
 import Stripe from "https://esm.sh/stripe@18.5.0";
+import { sameSig } from "./unsubscribe.ts";
 import {
   PAKET_LOOKUP_KEY, PAKET_NAME, PAKET_PREIS_CENT, PAKET_PRODUKT, PAKET_UST_SATZ, PAKET_VERSION,
 } from "./gruendungspaketTexte.ts";
 
-export type Modus = "test" | "live";
+export type Modus = "aus" | "test" | "live";
+type Env = (name: string) => string | undefined;
+const denoEnv: Env = (n) => Deno.env.get(n);
 
-export function paketModus(): Modus {
-  return Deno.env.get("PAKET_STRIPE_MODUS") === "live" ? "live" : "test";
+export function paketModus(env: Env = denoEnv): Modus {
+  const m = env("PAKET_STRIPE_MODUS");
+  return m === "live" ? "live" : m === "test" ? "test" : "aus";
 }
 
-export function paketStripe(): { stripe: Stripe; modus: Modus } | null {
-  const modus = paketModus();
-  const key = modus === "live" ? Deno.env.get("STRIPE_SECRET_KEY") : Deno.env.get("STRIPE_TEST_SECRET_KEY");
+/** Im Testmodus darf nur, wer den Test-Zugang kennt, eine Session erzeugen. */
+export function testZugangOk(wert: unknown, env: Env = denoEnv): boolean {
+  const soll = env("PAKET_TEST_ZUGANG") ?? "";
+  return soll.length >= 24 && typeof wert === "string" && sameSig(wert, soll);
+}
+
+/** Passt die Session (livemode) zum Modus? Im Modus "aus" passt nichts. */
+export function sessionPasstZumModus(livemode: boolean, modus: Modus): boolean {
+  return modus === "live" ? livemode === true : modus === "test" ? livemode === false : false;
+}
+
+export function paketStripe(env: Env = denoEnv): { stripe: Stripe; modus: Exclude<Modus, "aus"> } | null {
+  const modus = paketModus(env);
+  if (modus === "aus") return null;
+  const key = modus === "live" ? env("STRIPE_SECRET_KEY") : env("STRIPE_TEST_SECRET_KEY");
   if (!key) return null;
-  if (modus === "test" && !key.startsWith("sk_test_") && !key.startsWith("rk_test_")) return null;
+  const istTest = key.startsWith("sk_test_") || key.startsWith("rk_test_");
+  if (istTest !== (modus === "test")) return null;   // Schlüssel muss zum Modus passen
   return { stripe: new Stripe(key, { apiVersion: "2025-08-27.basil" }), modus };
 }
 
