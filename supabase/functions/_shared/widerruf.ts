@@ -10,6 +10,10 @@
 //    die interne Mail an support@, nie an die eingegebene Adresse.
 //  - Limits dauerhaft in mail_events (keine Migration nötig): je Adresse
 //    (Plus-Anhang entfernt), je IP (nur SHA-256-Präfix) und global.
+//  - Zweiter Review 26.10.: Der WIDERRUF selbst scheitert nie an einem Limit
+//    (§ 356a BGB) – er wird immer gespeichert und an support@ geschickt.
+//    Gedrosselt wird nur die Bestätigungsmail an die eingegebene Adresse.
+//    Erst eintragen, dann zählen (eigene Zeile inklusive) -> kein TOCTOU.
 // ===================================================================
 
 export const VERTRAGSARTEN = {
@@ -51,6 +55,33 @@ export function pruefeWiderruf(b: Record<string, unknown>): { ok: true; daten: W
     ok: true,
     daten: { name, email, vertrag: vertrag as Vertragsart, ...(bestellnummer ? { bestellnummer } : {}), ...(kaufdatum ? { kaufdatum } : {}) },
   };
+}
+
+/**
+ * Darf die Bestätigungsmail an den Kunden raus? Die Zähler enthalten die
+ * eigene, VORHER eingetragene Anfrage (insert-then-count): Zwei gleichzeitige
+ * Anfragen sehen sich gegenseitig, keine überholt die andere.
+ * null = Zähler nicht lesbar -> senden (gesetzliche Pflicht geht vor; Fehler wird geloggt).
+ */
+export function bestaetigungErlaubt(nAdresse: number | null, nIp: number | null, nGlobal: number | null): boolean {
+  if (nAdresse === null || nIp === null || nGlobal === null) return true;
+  return nAdresse <= LIMIT_ADRESSE_TAG && nIp <= LIMIT_IP_STUNDE && nGlobal <= LIMIT_GLOBAL_STUNDE;
+}
+
+/**
+ * Client-IP hinter dem Supabase-Gateway. Linkes X-Forwarded-For ist frei
+ * fälschbar; vertrauenswürdig sind cf-connecting-ip bzw. x-real-ip (vom
+ * Gateway gesetzt), sonst der RECHTESTE XFF-Eintrag (vom letzten Proxy
+ * angehängt). Welcher Header ankommt, zeigt das Log „[widerruf] ip-quelle“.
+ */
+export function clientIp(h: { get(name: string): string | null }): { ip: string; quelle: string } {
+  const cf = h.get("cf-connecting-ip")?.trim();
+  if (cf) return { ip: cf, quelle: "cf-connecting-ip" };
+  const real = h.get("x-real-ip")?.trim();
+  if (real) return { ip: real, quelle: "x-real-ip" };
+  const xff = (h.get("x-forwarded-for") ?? "").split(",").map((x) => x.trim()).filter(Boolean);
+  if (xff.length) return { ip: xff[xff.length - 1], quelle: "x-forwarded-for-rechts" };
+  return { ip: "unbekannt", quelle: "keine" };
 }
 
 /** Schlüssel fürs Adress-Limit: klein, ohne Plus-Anhang (a+x@b.de == a@b.de). */

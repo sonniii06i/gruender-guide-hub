@@ -7,7 +7,10 @@ import { downloadLink, paketLinkGueltig, signierePaket } from "./paketToken.ts";
 import { buildPaketBestaetigung, buildWiderrufEingang } from "./paketMail.ts";
 import { KENNTNIS_TEXT, PAKET_PREIS_CENT, ZUSTIMMUNG_TEXT } from "./gruendungspaketTexte.ts";
 import { PAKET_BASE64, PAKET_DATEIEN, PAKET_SHA256 } from "./gruendungspaketZip.ts";
-import { VERTRAGSARTEN, ipSchluessel, limitAdresse, pruefeWiderruf } from "./widerruf.ts";
+import {
+  LIMIT_ADRESSE_TAG, LIMIT_GLOBAL_STUNDE, LIMIT_IP_STUNDE, VERTRAGSARTEN, bestaetigungErlaubt, clientIp, ipSchluessel,
+  limitAdresse, pruefeWiderruf,
+} from "./widerruf.ts";
 import { paketModus, paketStripe, sessionPasstZumModus, testZugangOk } from "./paketStripe.ts";
 
 const SECRET = "test-secret-123";
@@ -75,6 +78,23 @@ Deno.test("Limit-Schlüssel: Plus-Adressen zusammengefasst, IP nur gehasht", asy
   const a = await ipSchluessel("203.0.113.7");
   assert(a.startsWith("ip:") && !a.includes("203.0.113.7"));
   assertEquals(a, await ipSchluessel("203.0.113.7"));
+});
+
+Deno.test("Widerruf: nur die Bestätigungsmail wird gedrosselt, Zähler inkl. eigener Anfrage", () => {
+  assert(bestaetigungErlaubt(1, 1, 1), "erste Anfrage");
+  assert(bestaetigungErlaubt(LIMIT_ADRESSE_TAG, LIMIT_IP_STUNDE, LIMIT_GLOBAL_STUNDE), "genau am Limit");
+  assert(!bestaetigungErlaubt(LIMIT_ADRESSE_TAG + 1, 1, 1), "Adresse drüber");
+  assert(!bestaetigungErlaubt(1, LIMIT_IP_STUNDE + 1, 1), "IP drüber");
+  assert(!bestaetigungErlaubt(1, 1, LIMIT_GLOBAL_STUNDE + 1), "global drüber");
+  assert(bestaetigungErlaubt(null, 1, 1), "Zähler unlesbar -> gesetzliche Pflicht geht vor");
+});
+
+Deno.test("Client-IP: Gateway-Header vor rechtestem XFF, linkes XFF nie", () => {
+  const h = (m: Record<string, string>) => ({ get: (n: string) => m[n] ?? null });
+  assertEquals(clientIp(h({ "cf-connecting-ip": "198.51.100.1", "x-forwarded-for": "6.6.6.6, 198.51.100.1" })).ip, "198.51.100.1");
+  assertEquals(clientIp(h({ "x-real-ip": "198.51.100.2", "x-forwarded-for": "6.6.6.6" })).ip, "198.51.100.2");
+  assertEquals(clientIp(h({ "x-forwarded-for": "6.6.6.6, 203.0.113.9" })), { ip: "203.0.113.9", quelle: "x-forwarded-for-rechts" });
+  assertEquals(clientIp(h({})).ip, "unbekannt");
 });
 
 Deno.test("Verkaufsschalter: ohne PAKET_STRIPE_MODUS aus; Test nur mit Zugang; Session muss zum Modus passen", () => {

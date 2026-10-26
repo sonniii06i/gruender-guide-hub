@@ -23,19 +23,16 @@ const VertragWiderrufen = () => {
   const [bestellnummer, setBestellnummer] = useState("");
   const [kaufdatum, setKaufdatum] = useState("");
   const [website, setWebsite] = useState("");
-  const [status, setStatus] = useState<"" | "sendet" | "ok" | "fehler" | "limit">("");
+  const [status, setStatus] = useState<"" | "sendet" | "ok" | "fehler">("");
+  const [bestaetigung, setBestaetigung] = useState("");
   const [eingang, setEingang] = useState("");
 
   const senden = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus("sendet");
     const { data, error } = await supabase.functions.invoke("vertrag-widerrufen", { body: { name, email, vertrag, bestellnummer, kaufdatum, website } });
-    if (error || !data?.ok) {
-      let code = "";
-      try { code = (await (error as { context?: Response })?.context?.json())?.error ?? ""; } catch { /* egal */ }
-      setStatus(code === "zu_viele" ? "limit" : "fehler");
-      return;
-    }
+    if (error || !data?.ok) { setStatus("fehler"); return; }
+    setBestaetigung(data.bestaetigung ?? "");
     setEingang(new Date(data.eingang).toLocaleString("de-DE", { dateStyle: "long", timeStyle: "short" }) + " Uhr");
     setStatus("ok");
   };
@@ -55,7 +52,11 @@ const VertragWiderrufen = () => {
             {status === "ok" ? (
               <div role="status" className="space-y-2">
                 <p className="font-medium">Dein Widerruf ist am {eingang} eingegangen.</p>
-                <p className="text-sm text-muted-foreground">Die Eingangsbestätigung mit allen Angaben ist per E-Mail an {email} unterwegs.</p>
+                <p className="text-sm text-muted-foreground">
+                  {bestaetigung === "gesendet"
+                    ? `Die Eingangsbestätigung ist per E-Mail an ${email} unterwegs.`
+                    : "Wir haben ihn gespeichert. Die Bestätigungsmail konnte gerade nicht verschickt werden – mach dir einen Screenshot dieser Seite als Beleg."}
+                </p>
               </div>
             ) : !offen ? (
               <Button size="lg" onClick={() => setOffen(true)}>Vertrag widerrufen</Button>
@@ -83,11 +84,6 @@ const VertragWiderrufen = () => {
                 <input type="text" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" value={website} onChange={(e) => setWebsite(e.target.value)} />
                 <p className="text-sm text-muted-foreground">Erklärung: „Hiermit widerrufe ich den oben genannten Vertrag.“</p>
                 <Button type="submit" size="lg" disabled={status === "sendet"}>{status === "sendet" ? "Wird gesendet …" : "Widerruf bestätigen"}</Button>
-                {status === "limit" && (
-                  <p role="alert" className="text-sm text-danger">
-                    Für diese Adresse sind heute schon mehrere Widerrufe eingegangen. Schreib uns bitte an support@gruenderx.de – rechtzeitig ist dein Widerruf, wenn du ihn vor Fristende absendest.
-                  </p>
-                )}
                 {status === "fehler" && (
                   <p role="alert" className="text-sm text-danger">
                     Das hat nicht geklappt. Bitte versuch es erneut oder schick deinen Widerruf an support@gruenderx.de – rechtzeitig ist er, wenn du ihn vor Fristende absendest.
