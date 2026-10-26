@@ -30,6 +30,7 @@ const Playbooks = lazy(() => import("./pages/Playbooks.tsx"));
 import NotFound from "./pages/NotFound.tsx";
 import { AnalyticsCapture } from "@/components/AnalyticsCapture";
 import { ConsentBanner } from "@/components/ConsentBanner";
+import AktionsBanner from "@/components/AktionsBanner"; // Aktions-Banner 26.10.2026 (HQ aktionen.py)
 import { initAdPixels } from "@/utils/adPixels";
 
 // Lazy: Cockpit-Tools (jedes Tool eigener Chunk, on-demand)
@@ -215,6 +216,7 @@ const App = () => (
           <RouteTracker />
           <AnalyticsCapture />
           <ConsentBanner />
+          <AktionsBanner />
           <AppErrorBoundary>
           <TwoFactorGate>
           <Suspense fallback={<PageFallback />}>
