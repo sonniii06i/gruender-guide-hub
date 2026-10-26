@@ -264,6 +264,27 @@ const Datenschutz = () => (
         letzten Anforderung. Du kannst jederzeit früher die Löschung verlangen (Kontakt unten).
       </p>
 
+      <h3 id="gruendungspaket" className="font-semibold mt-6">3.9d Kauf des Gründungspakets und Widerrufsformular</h3>
+      <p>
+        <strong>Kauf:</strong> Das Gründungspaket bezahlst du bei Stripe (siehe oben); deine Zahlungsdaten sehen wir nicht. Wir
+        erhalten von Stripe die Kauf-Kennung, deine E-Mail-Adresse, den Zahlungsstatus und die Rechnung. Damit erzeugen wir
+        einen zeitlich begrenzten Download-Link und schicken dir die Bestätigung des Vertrags per E-Mail (§ 312f BGB).
+        Rechtsgrundlage: Vertragserfüllung (Art. 6 Abs. 1 lit. b DSGVO) und gesetzliche Pflichten (Art. 6 Abs. 1 lit. c DSGVO).
+      </p>
+      <p>
+        <strong>Widerrufsformular</strong> (<a href="/vertrag-widerrufen">/vertrag-widerrufen</a>, § 356a BGB): Wir verarbeiten
+        deinen Namen, deine E-Mail-Adresse, den gewählten Vertrag und – falls angegeben – Bestellnummer und Kaufdatum, um deinen
+        Widerruf zu bearbeiten und dir den Eingang zu bestätigen. Zum Schutz vor Missbrauch zählen wir Anfragen je E-Mail-Adresse
+        und je Internet-Verbindung; die IP-Adresse speichern wir dafür nur als nicht rückrechenbaren Hash-Wert. Rechtsgrundlage:
+        gesetzliche Pflicht (Art. 6 Abs. 1 lit. c DSGVO) sowie unser berechtigtes Interesse an der Abwehr von Missbrauch
+        (Art. 6 Abs. 1 lit. f DSGVO).
+      </p>
+      <p>
+        <strong>Speicherdauer:</strong> Kauf- und Rechnungsdaten sowie Widerrufe bewahren wir so lange auf, wie es die
+        gesetzlichen Aufbewahrungspflichten verlangen (§ 147 AO, § 257 HGB – bis zu zehn Jahre), danach werden sie gelöscht.<br />
+        <strong>Verarbeitung:</strong> Supabase (Frankfurt am Main), Stripe (siehe oben), Versand über unser Mailpostfach bei IONOS.
+      </p>
+
       <h3 id="mitgruender" className="font-semibold mt-6">3.10 Mitgründer-Börse</h3>
       <p>
         In der Mitgründer-Börse kannst du freiwillig ein Profil anlegen. <strong>Daten:</strong> Anzeigename, deine Rolle und
