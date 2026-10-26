@@ -13,7 +13,7 @@
 //      wenn gedrosselt oder Versand scheitert -> Deckel zählt nur echte Mails.
 //   4. Eingangsbestätigung (§ 356a Abs. 4 BGB) nur bei beiden Stufen grün;
 //      Zähler unlesbar = gedrosselt (fail-closed nur für diese Mail, Review 3).
-//   IP: nur aus WIDERRUF_IP_HEADER (gemessen vertrauenswürdig), sonst „unbekannt“.
+//   IP: nur aus WIDERRUF_IP_HEADER (gemessen vertrauenswürdig); ohne ihn entfällt die IP-Stufe.
 //   <- { ok: true, eingang, bestaetigung: "gesendet"|"gedrosselt"|"fehlgeschlagen" }
 // ===================================================================
 
@@ -78,19 +78,24 @@ Deno.serve(async (req) => {
   const iso = jetzt.toISOString();
   const seit = (ms: number) => new Date(jetzt.getTime() - ms).toISOString();
   const zeile = (campaign: string, recipient: string) => ({ brand: "gruenderx", campaign, variant: "a", recipient, event: "anfrage", occurred_at: iso });
-  const { error: limErr } = await db.from("mail_events").insert([zeile("widerruf-anfrage", adrKey), zeile("widerruf-anfrage", ipKey)]);
+  const ipAktiv = quelle !== "unbekannt";   // ohne vertrauten Header keine IP-Stufe (Review 4)
+  const { error: limErr } = await db.from("mail_events")
+    .insert(ipAktiv ? [zeile("widerruf-anfrage", adrKey), zeile("widerruf-anfrage", ipKey)] : [zeile("widerruf-anfrage", adrKey)]);
   const zaehle = async (campaign: string, recipient: string, ms: number) => {
     if (limErr) return null;
     const { count, error } = await db.from("mail_events").select("id", { count: "exact", head: true })
       .eq("campaign", campaign).eq("recipient", recipient).gte("occurred_at", seit(ms));
     return error ? null : (count ?? 0);
   };
-  const [nAdr, nIp] = await Promise.all([zaehle("widerruf-anfrage", adrKey, 86400_000), zaehle("widerruf-anfrage", ipKey, 3600_000)]);
+  const [nAdr, nIp] = await Promise.all([
+    zaehle("widerruf-anfrage", adrKey, 86400_000),
+    ipAktiv ? zaehle("widerruf-anfrage", ipKey, 3600_000) : Promise.resolve(null),
+  ]);
 
   let bestaetigung: "gesendet" | "gedrosselt" | "fehlgeschlagen" = "gedrosselt";
   let grund = "";
-  if (!bestaetigungErlaubt(nAdr, nIp)) {
-    grund = nAdr === null || nIp === null ? "zaehler-fehler" : "adresse-oder-ip";
+  if (!bestaetigungErlaubt(nAdr, nIp, ipAktiv)) {
+    grund = nAdr === null || (ipAktiv && nIp === null) ? "zaehler-fehler" : "adresse-oder-ip";
   } else {
     // 3) Stufe 2 (global): Sende-Slot reservieren, zählen; über Deckel -> Slot wieder löschen.
     const { data: slot, error: slotErr } = await db.from("mail_events")

@@ -87,6 +87,11 @@ Deno.test("Widerruf: Kundenmail fail-closed, Adresse/IP vor global, global nur e
   assert(!bestaetigungErlaubt(1, LIMIT_IP_STUNDE + 1), "IP drüber");
   assert(!bestaetigungErlaubt(null, 1), "Zähler unlesbar -> gedrosselt (fail-closed)");
   assert(!bestaetigungErlaubt(1, null));
+  // Review 4: ohne vertrauten IP-Header keine IP-Stufe – der Bucket „unbekannt“ drosselt nicht alle
+  assert(bestaetigungErlaubt(1, null, false), "IP-Stufe übersprungen");
+  assert(bestaetigungErlaubt(1, 999, false), "IP-Zähler egal ohne vertrauten Header");
+  assert(!bestaetigungErlaubt(LIMIT_ADRESSE_TAG + 1, null, false), "Adress-Limit gilt weiter");
+  assert(!bestaetigungErlaubt(null, null, false), "Adress-Zähler unlesbar -> gedrosselt");
   assert(globalErlaubt(1) && globalErlaubt(LIMIT_GLOBAL_STUNDE));
   assert(!globalErlaubt(LIMIT_GLOBAL_STUNDE + 1));
   assert(!globalErlaubt(null), "Slot-Zähler unlesbar -> gedrosselt");

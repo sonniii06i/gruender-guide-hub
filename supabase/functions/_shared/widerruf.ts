@@ -64,9 +64,12 @@ export function pruefeWiderruf(b: Record<string, unknown>): { ok: true; daten: W
  * Sind die Zähler nicht lesbar/schreibbar (null), wird die Kundenmail gedrosselt –
  * der Widerruf selbst ist zu diesem Zeitpunkt schon gespeichert und an support@ (Review 3).
  */
-export function bestaetigungErlaubt(nAdresse: number | null, nIp: number | null): boolean {
-  if (nAdresse === null || nIp === null) return false;
-  return nAdresse <= LIMIT_ADRESSE_TAG && nIp <= LIMIT_IP_STUNDE;
+export function bestaetigungErlaubt(nAdresse: number | null, nIp: number | null, ipAktiv = true): boolean {
+  if (nAdresse === null || nAdresse > LIMIT_ADRESSE_TAG) return false;
+  // Ohne gemessen vertrauenswürdigen IP-Header gibt es keine IP-Stufe – sonst teilten sich
+  // alle den Bucket „unbekannt“ und 5/h würden JEDE Kundenbestätigung drosseln (Review 4).
+  if (!ipAktiv) return true;
+  return nIp !== null && nIp <= LIMIT_IP_STUNDE;
 }
 
 /**
@@ -85,8 +88,8 @@ export const IP_HEADER_KANDIDATEN = ["cf-connecting-ip", "x-real-ip", "x-forward
  * WIDERRUF_IP_HEADER steht – und erst, nachdem gemessen ist, dass das
  * Supabase-Gateway ihn selbst setzt bzw. überschreibt (Probe mit gefälschten
  * Werten im Redeploy-Skript, Log „[widerruf] ip-probe“). Ohne diese Einstellung
- * teilen sich alle Anfragen den Bucket „unbekannt“ (Review 3: lieber zu streng
- * als ein vom Client gewählter Wert). Bei x-forwarded-for zählt der rechteste Eintrag.
+ * kommt „unbekannt“ zurück, und die IP-Stufe entfällt (nur Adress-Limit + globaler
+ * Deckel, Review 4) – nie ein vom Client gewählter Wert. Bei x-forwarded-for zählt der rechteste Eintrag.
  */
 export function clientIp(h: { get(name: string): string | null }, vertrauterHeader?: string): { ip: string; quelle: string } {
   const name = (vertrauterHeader ?? "").trim().toLowerCase();
