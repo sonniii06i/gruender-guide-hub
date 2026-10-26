@@ -221,7 +221,8 @@ const Datenschutz = () => (
         Im Fuß jeder Seite und am Ende der Ratgeber kannst du dich für Mails mit Erinnerungen an Steuerfristen (z. B.
         USt-Voranmeldung) und Neuigkeiten für Gründer anmelden. Das Häkchen ist nicht vorausgewählt. Wir schicken dir zuerst
         eine Bestätigungsmail; erst nach dem Klick auf den Link darin (Double-Opt-in, gültig 7 Tage) gilt die Anmeldung. Ohne
-        Klick bekommst du nichts weiter. Werbliche Mails schicken wir höchstens zwei pro Woche.
+        Klick bekommst du nichts weiter. Bestätigst du die Anmeldung nicht, löschen wir deine Adresse nach spätestens 30 Tagen
+        automatisch. Werbliche Mails schicken wir höchstens zwei pro Woche.
       </p>
       <p>
         <strong>Daten:</strong> E-Mail-Adresse, Marke (GründerX), Herkunft der Anmeldung, Zeitpunkte von Anmeldung und
