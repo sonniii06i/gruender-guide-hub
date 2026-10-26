@@ -26,6 +26,15 @@ import {
 
 const SITE = "https://gruenderx.de";
 
+/** Startseite des Veranstalters aus dem Event-Link; ungültige Links fallen auf den Link selbst zurück. */
+function veranstalterUrl(url: string): string {
+  try {
+    return new URL(url).origin + "/";
+  } catch {
+    return url;
+  }
+}
+
 // Grobe Gruppen für die Schnellwahl oben; die feinen Arten stehen als Badge an jeder Karte.
 const GRUPPEN: { key: string; label: string; arten: EventArt[] }[] = [
   { key: "alle", label: "Alle", arten: [] },
@@ -271,7 +280,22 @@ export default function GruenderEvents() {
           e.format === "online"
             ? { "@type": "VirtualLocation", url: e.url }
             : { "@type": "Place", name: e.ort, address: { "@type": "PostalAddress", addressLocality: e.ort, addressCountry: "DE" } },
-        organizer: { "@type": "Organization", name: e.veranstalter },
+        // Search Console (26.10.): image, eventStatus, organizer.url, offers, performer fehlten.
+        // Preis nur bei belegtem "kostenlos"; ohne Angabe kein Offer, statt einen Preis zu raten.
+        image: `${SITE}/og-image.png`,
+        eventStatus: "https://schema.org/EventScheduled",
+        organizer: { "@type": "Organization", name: e.veranstalter, url: veranstalterUrl(e.url) },
+        performer: { "@type": "Organization", name: e.veranstalter },
+        ...(e.kostenlos === true && {
+          offers: {
+            "@type": "Offer",
+            price: 0,
+            priceCurrency: "EUR",
+            availability: "https://schema.org/InStock",
+            url: e.url,
+            validFrom: e.entdeckt ?? LIVE_STAND.stand,
+          },
+        }),
         url: e.url,
       })),
   ];
