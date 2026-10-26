@@ -1,18 +1,18 @@
 {
- "stand": "2026-10-25T16:38:25.743Z",
+ "stand": "2026-10-26T10:13:41.322Z",
  "quelle": {
   "ok": true,
-  "roh": 181,
+  "roh": 167,
   "uebernommen": 20,
   "verworfen": {
-   "nur_einladung": 24,
-   "vor_ort_fern": 81,
+   "nur_einladung": 20,
+   "vor_ort_fern": 72,
    "frist_vorbei": 7,
-   "preis_unter_5000_usd": 39,
+   "preis_unter_5000_usd": 38,
    "kein_usd_betrag": 10,
    "ueber_max": 0
   },
-  "letzterErfolg": "2026-10-25T16:38:25.742Z"
+  "letzterErfolg": "2026-10-26T10:13:41.321Z"
  },
  "anzahl": 20,
  "eintraege": [
@@ -23,7 +23,7 @@
    "ende": "2026-10-27",
    "preisUsd": 45000,
    "geldpreise": 9,
-   "anmeldungen": 3151,
+   "anmeldungen": 3235,
    "ort": "Online",
    "veranstalter": "GitLab",
    "themen": [
@@ -38,8 +38,8 @@
    "url": "https://opencv26.devpost.com/",
    "ende": "2026-10-27",
    "preisUsd": 20250,
-   "geldpreise": 6,
-   "anmeldungen": 6093,
+   "geldpreise": 1,
+   "anmeldungen": 6171,
    "ort": "Online",
    "veranstalter": "OpenCV",
    "themen": [
@@ -55,7 +55,7 @@
    "ende": "2026-10-28",
    "preisUsd": 40000,
    "geldpreise": 4,
-   "anmeldungen": 1028,
+   "anmeldungen": 1038,
    "ort": "Online",
    "veranstalter": "AWS",
    "themen": [
@@ -70,8 +70,8 @@
    "url": "https://nebiusglobalaihackathon.devpost.com/",
    "ende": "2026-10-30",
    "preisUsd": 50000,
-   "geldpreise": 1,
-   "anmeldungen": 27272,
+   "geldpreise": 6,
+   "anmeldungen": 27614,
    "ort": "Online",
    "veranstalter": "nebius",
    "themen": [
@@ -87,7 +87,7 @@
    "ende": "2026-10-30",
    "preisUsd": 25000,
    "geldpreise": 1,
-   "anmeldungen": 2396,
+   "anmeldungen": 2470,
    "ort": "Online",
    "veranstalter": "Qloo",
    "themen": [
@@ -101,7 +101,7 @@
    "ende": "2026-11-02",
    "preisUsd": 25000,
    "geldpreise": 4,
-   "anmeldungen": 520,
+   "anmeldungen": 807,
    "ort": "Online",
    "veranstalter": "Twitch",
    "themen": [
@@ -117,7 +117,7 @@
    "ende": "2026-11-02",
    "preisUsd": 6000,
    "geldpreise": 5,
-   "anmeldungen": 1253,
+   "anmeldungen": 1277,
    "ort": "Online",
    "veranstalter": "Perfect Corp",
    "themen": [
@@ -132,8 +132,8 @@
    "url": "https://paypalaihackathon.devpost.com/",
    "ende": "2026-11-12",
    "preisUsd": 67500,
-   "geldpreise": 1,
-   "anmeldungen": 21091,
+   "geldpreise": 14,
+   "anmeldungen": 21609,
    "ort": "Online",
    "veranstalter": "PayPal",
    "themen": [
@@ -149,7 +149,7 @@
    "ende": "2026-11-15",
    "preisUsd": 17150,
    "geldpreise": 8,
-   "anmeldungen": 134,
+   "anmeldungen": 140,
    "ort": "Online",
    "veranstalter": "CodeStarters",
    "themen": [
@@ -165,7 +165,7 @@
    "ende": "2026-11-16",
    "preisUsd": 46000,
    "geldpreise": 4,
-   "anmeldungen": 350,
+   "anmeldungen": 428,
    "ort": "Online",
    "veranstalter": "UGREEN",
    "themen": [
@@ -181,7 +181,7 @@
    "ende": "2026-11-18",
    "preisUsd": 1000000,
    "geldpreise": 19,
-   "anmeldungen": 3950,
+   "anmeldungen": 4026,
    "ort": "Online",
    "veranstalter": "Meta",
    "themen": [
@@ -197,7 +197,7 @@
    "ende": "2026-12-04",
    "preisUsd": 100000,
    "geldpreise": 1,
-   "anmeldungen": 1171,
+   "anmeldungen": 1382,
    "ort": "Online",
    "veranstalter": "Kiro",
    "themen": [
@@ -207,29 +207,13 @@
    ]
   },
   {
-   "id": "devpost-30455",
-   "titel": "Cosmo Hacks 2026",
-   "url": "https://cosmohacks.devpost.com/",
-   "ende": "2026-12-21",
-   "preisUsd": 196955,
-   "geldpreise": 19,
-   "anmeldungen": 469,
-   "ort": "Online",
-   "veranstalter": "Cosmo Hacks",
-   "themen": [
-    "Beginner Friendly",
-    "Open Ended",
-    "Education"
-   ]
-  },
-  {
    "id": "devpost-30789",
    "titel": "Arbiter Hacks V1",
    "url": "https://arbiter-hacks-v1.devpost.com/",
    "ende": "2026-12-21",
    "preisUsd": 7800,
    "geldpreise": 5,
-   "anmeldungen": 541,
+   "anmeldungen": 559,
    "ort": "Online",
    "veranstalter": "Arbiter ",
    "themen": [
@@ -245,7 +229,7 @@
    "ende": "2026-12-31",
    "preisUsd": 45000,
    "geldpreise": 1,
-   "anmeldungen": 4,
+   "anmeldungen": 10,
    "ort": "Online",
    "veranstalter": "FabricVTON",
    "themen": [
@@ -261,7 +245,7 @@
    "ende": "2027-01-10",
    "preisUsd": 13700,
    "geldpreise": 5,
-   "anmeldungen": 288,
+   "anmeldungen": 294,
    "ort": "Online",
    "veranstalter": "Hack United",
    "themen": [
@@ -277,7 +261,7 @@
    "ende": "2027-01-10",
    "preisUsd": 11960,
    "geldpreise": 7,
-   "anmeldungen": 56,
+   "anmeldungen": 60,
    "ort": "Online",
    "veranstalter": "Checkpoint",
    "themen": [
@@ -287,13 +271,29 @@
    ]
   },
   {
+   "id": "devpost-30455",
+   "titel": "Cosmo Hacks 2026",
+   "url": "https://cosmohacks.devpost.com/",
+   "ende": "2027-01-18",
+   "preisUsd": 196955,
+   "geldpreise": 19,
+   "anmeldungen": 493,
+   "ort": "Online",
+   "veranstalter": "Cosmo Hacks",
+   "themen": [
+    "Beginner Friendly",
+    "Open Ended",
+    "Education"
+   ]
+  },
+  {
    "id": "devpost-30340",
    "titel": "HackTitan",
    "url": "https://hacktitan.devpost.com/",
    "ende": "2027-02-04",
    "preisUsd": 10000,
    "geldpreise": 1,
-   "anmeldungen": 191,
+   "anmeldungen": 193,
    "ort": "Online",
    "veranstalter": "IWU",
    "themen": [
@@ -325,7 +325,7 @@
    "ende": "2027-03-15",
    "preisUsd": 5000,
    "geldpreise": 1,
-   "anmeldungen": 41,
+   "anmeldungen": 45,
    "ort": "Online",
    "veranstalter": "OSC",
    "themen": [
