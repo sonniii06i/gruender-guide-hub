@@ -118,6 +118,9 @@ const Angebot = lazy(() => import("./pages/Angebot.tsx"));
 const Datenschutz = lazy(() => import("./pages/Datenschutz.tsx"));
 const AGB = lazy(() => import("./pages/AGB.tsx"));
 const Widerruf = lazy(() => import("./pages/Widerruf.tsx"));
+const VertragWiderrufen = lazy(() => import("./pages/VertragWiderrufen.tsx"));
+const Gruendungspaket = lazy(() => import("./pages/Gruendungspaket.tsx"));
+const GruendungspaketDanke = lazy(() => import("./pages/GruendungspaketDanke.tsx"));
 const Ratgeber = lazy(() => import("./pages/Ratgeber.tsx"));
 const RatgeberPost = lazy(() => import("./pages/RatgeberPost.tsx"));
 const AdminBlog = lazy(() => import("./pages/AdminBlog.tsx"));
@@ -341,6 +344,11 @@ const App = () => (
               <Route path="/datenschutz" element={<Datenschutz />} />
               <Route path="/agb" element={<AGB />} />
               <Route path="/widerruf" element={<Widerruf />} />
+              {/* Widerrufsfunktion § 356a BGB (26.10.2026) */}
+              <Route path="/vertrag-widerrufen" element={<VertragWiderrufen />} />
+              {/* Gründungspaket 2026 (Freigabe #5): Einmalkauf, Kauf-Knopf hinter VITE_GRUENDUNGSPAKET_VERKAUF */}
+              <Route path="/gruendungspaket" element={<Gruendungspaket />} />
+              <Route path="/gruendungspaket/danke" element={<GruendungspaketDanke />} />
               <Route path="/ratgeber" element={<Ratgeber />} />
               <Route path="/ratgeber/:slug" element={<RatgeberPost />} />
               {/* Anzeigen-Landingpage der Meta-Kampagne. noindex, ohne globale

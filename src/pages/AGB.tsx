@@ -138,6 +138,8 @@ const AGB = () => (
         (*) Unzutreffendes streichen.
       </div>
       <p>Das Widerrufsrecht erlischt vorzeitig, wenn du ausdrücklich zugestimmt hast, dass wir mit der Leistungserbringung vor Ablauf der Widerrufsfrist beginnen, und du gleichzeitig deine Kenntnis davon bestätigt hast, dass du durch deine Zustimmung mit Beginn der Vertragsausführung dein Widerrufsrecht verlierst (§ 356 Abs. 4 BGB).</p>
+      {/* Digitale Inhalte + Widerrufsfunktion (26.10.2026, Gründungspaket) – gleich in Widerruf.tsx */}
+      <p>Für digitale Inhalte, die nicht auf einem körperlichen Datenträger geliefert werden (z. B. das Gründungspaket als Download), erlischt das Widerrufsrecht, sobald wir mit der Bereitstellung begonnen haben, wenn du vorher ausdrücklich zugestimmt hast, dass wir vor Ablauf der Widerrufsfrist beginnen, deine Kenntnis vom Verlust des Widerrufsrechts bestätigt hast und wir dir eine Bestätigung nach § 312f BGB per E-Mail geschickt haben (§ 356 Abs. 6 Nr. 2 BGB). Deinen Widerruf kannst du jederzeit online über die <a href="/vertrag-widerrufen" className="underline">Widerrufsfunktion „Vertrag widerrufen“</a> erklären (§ 356a BGB).</p>
 
       <h2 className="mt-10 mb-3 text-xl font-semibold md:text-2xl">§ 8 Pflichten & Verbote bei der Nutzung</h2>
       <p>(1) Du verpflichtest dich, GründerX nur für legale Zwecke zu nutzen. Insbesondere ist untersagt:</p>

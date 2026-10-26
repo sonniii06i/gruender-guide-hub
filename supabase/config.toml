@@ -148,3 +148,14 @@ verify_jwt = false
 
 [functions.vorlage-bestaetigen]
 verify_jwt = false
+
+# Gründungspaket (26.10.2026): Kauf ohne Konto, Download-Link aus Seite und Mail (GET),
+# Widerrufsfunktion nach § 356a BGB – alle drei öffentlich.
+[functions.paket-checkout]
+verify_jwt = false
+
+[functions.paket-download]
+verify_jwt = false
+
+[functions.vertrag-widerrufen]
+verify_jwt = false
