@@ -84,6 +84,15 @@ export function globalErlaubt(nSlots: number | null): boolean {
 export const IP_HEADER_KANDIDATEN = ["cf-connecting-ip", "x-real-ip", "x-forwarded-for"] as const;
 
 /**
+ * IP-Stufe an/aus NUR aus der Konfiguration (Review 5): Ist WIDERRUF_IP_HEADER gesetzt, gilt die
+ * IP-Stufe immer – fehlt der Header in einer Anfrage, zählt sie im gemeinsamen strengen Bucket
+ * „unbekannt“ (fail-closed). Ohne Einstellung entfällt die Stufe ganz (Review 4).
+ */
+export function ipStufeAktiv(vertrauterHeader?: string): boolean {
+  return (vertrauterHeader ?? "").trim() !== "";
+}
+
+/**
  * Client-IP fürs Limit. Gelesen wird NUR der Header, dessen Name in
  * WIDERRUF_IP_HEADER steht – und erst, nachdem gemessen ist, dass das
  * Supabase-Gateway ihn selbst setzt bzw. überschreibt (Probe mit gefälschten

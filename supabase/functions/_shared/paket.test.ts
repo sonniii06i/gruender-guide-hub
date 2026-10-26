@@ -9,7 +9,7 @@ import { KENNTNIS_TEXT, PAKET_PREIS_CENT, ZUSTIMMUNG_TEXT } from "./gruendungspa
 import { PAKET_BASE64, PAKET_DATEIEN, PAKET_SHA256 } from "./gruendungspaketZip.ts";
 import {
   LIMIT_ADRESSE_TAG, LIMIT_GLOBAL_STUNDE, LIMIT_IP_STUNDE, VERTRAGSARTEN, bestaetigungErlaubt, clientIp, globalErlaubt, ipProbe, ipSchluessel,
-  limitAdresse, pruefeWiderruf,
+  ipStufeAktiv, limitAdresse, pruefeWiderruf,
 } from "./widerruf.ts";
 import { paketModus, paketStripe, sessionPasstZumModus, testZugangOk } from "./paketStripe.ts";
 
@@ -140,4 +140,15 @@ Deno.test("Eingebettete ZIP passt zu SHA-256 und Dateiliste", async () => {
   assertEquals(bin[0], 0x50); assertEquals(bin[1], 0x4b); // "PK"
   assert(PAKET_DATEIEN.includes("00-Uebersicht-und-Quellen.pdf"));
   assert(PAKET_DATEIEN.includes("09-Gruender-Tracker.xlsx"));
+});
+
+Deno.test("IP-Stufe nur aus Konfiguration: gesetzt + Header fehlt -> strenger Bucket „unbekannt“ (Review 5)", () => {
+  assertEquals(ipStufeAktiv(undefined), false);
+  assertEquals(ipStufeAktiv("  "), false);
+  assertEquals(ipStufeAktiv("x-real-ip"), true);
+  const ohneHeader = { get: (_: string) => null };
+  assertEquals(clientIp(ohneHeader, "x-real-ip").ip, "unbekannt");
+  // IP-Stufe bleibt aktiv: der gemeinsame Bucket zählt, über dem Limit wird gedrosselt
+  assertEquals(bestaetigungErlaubt(1, 99, ipStufeAktiv("x-real-ip")), false);
+  assertEquals(bestaetigungErlaubt(1, 99, ipStufeAktiv(undefined)), true);
 });

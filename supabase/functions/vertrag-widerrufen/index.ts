@@ -21,7 +21,7 @@ import { createClient } from "npm:@supabase/supabase-js@2.57.2";
 import { sendMail } from "../_shared/mailSend.ts";
 import { buildWiderrufEingang } from "../_shared/paketMail.ts";
 import {
-  VERTRAGSARTEN, bestaetigungErlaubt, clientIp, globalErlaubt, ipProbe, ipSchluessel, limitAdresse, pruefeWiderruf,
+  VERTRAGSARTEN, bestaetigungErlaubt, clientIp, globalErlaubt, ipProbe, ipSchluessel, ipStufeAktiv, limitAdresse, pruefeWiderruf,
 } from "../_shared/widerruf.ts";
 
 const corsHeaders = {
@@ -78,7 +78,7 @@ Deno.serve(async (req) => {
   const iso = jetzt.toISOString();
   const seit = (ms: number) => new Date(jetzt.getTime() - ms).toISOString();
   const zeile = (campaign: string, recipient: string) => ({ brand: "gruenderx", campaign, variant: "a", recipient, event: "anfrage", occurred_at: iso });
-  const ipAktiv = quelle !== "unbekannt";   // ohne vertrauten Header keine IP-Stufe (Review 4)
+  const ipAktiv = ipStufeAktiv(Deno.env.get("WIDERRUF_IP_HEADER"));   // nur aus Konfiguration; fehlt der Header in der Anfrage: Bucket „unbekannt“ (Review 5)
   const { error: limErr } = await db.from("mail_events")
     .insert(ipAktiv ? [zeile("widerruf-anfrage", adrKey), zeile("widerruf-anfrage", ipKey)] : [zeile("widerruf-anfrage", adrKey)]);
   const zaehle = async (campaign: string, recipient: string, ms: number) => {
