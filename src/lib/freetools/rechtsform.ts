@@ -259,7 +259,7 @@ export const rechtsformConfig: ToolConfig = {
     },
   ],
   seo: {
-    title: "Rechtsform-Finder: Einzelunternehmen, UG oder GmbH? | GründerX",
+    title: "Rechtsform-Finder: Einzelunternehmen, UG oder GmbH?",
     description:
       "Welche Rechtsform passt zu dir? Kostenloser Rechtsform-Finder mit begründeter Empfehlung (Einzelunternehmen, GbR, UG, GmbH) inkl. Vor- und Nachteilen. 1 kostenlose Nutzung, nur E-Mail nötig; unbegrenzt im Abo.",
     keywords:

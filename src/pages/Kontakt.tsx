@@ -85,7 +85,8 @@ const Kontakt = () => {
           lead={
             <p>
               Schreib uns zu Gründung, Steuern, Tools, Abo oder Kooperationen. Wir antworten per E-Mail. Bei dringenden
-              Steuer- oder Rechtsfragen bitte Priorität im Betreff vermerken.
+              Steuer- oder Rechtsfragen bitte Priorität im Betreff vermerken. Du willst GründerX als Affiliate empfehlen?
+              Promolinks und Provision stehen im <Link to="/partner" className="font-medium text-accent-blue hover:underline">Partnerprogramm</Link>.
             </p>
           }
         />

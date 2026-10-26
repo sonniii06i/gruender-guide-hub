@@ -56,7 +56,7 @@ const BENEFITS = [
 const Partner = () => (
   <div className="min-h-screen bg-background">
     <Seo
-      title="Partnerprogramm für Affiliates — 30 % wiederkehrend | GründerX"
+      title="GründerX-Partnerprogramm: 30 % wiederkehrende Provision"
       description="Bewirb GründerX über Digistore24: 30 % Provision auf jede Rate, wiederkehrend für die gesamte Laufzeit des Abos. Konditionen, Promolinks und Werbemittel auf einen Blick."
       path="/partner"
       jsonLd={{

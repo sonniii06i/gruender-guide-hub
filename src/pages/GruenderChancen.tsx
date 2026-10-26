@@ -206,7 +206,7 @@ export default function GruenderChancen() {
   return (
     <div className="min-h-screen bg-background">
       <Seo
-        title={`Gründer-Chancen ${new Date().getFullYear()}: Wettbewerbe, Preisgeld, Pitch & Events | GründerX`}
+        title={`Gründer-Chancen ${new Date().getFullYear()}: Wettbewerbe, Preisgeld & Pitch-Events`}
         description={`${preisgeldTreffer} Wettbewerbe, Accelerator und Hackathons mit Preisgeld oder Investment plus Pitch-Abende, Marketing- und Netzwerk-Events – kostenlos, täglich aktualisiert, mit Chancen-Alarm per Mail.`}
         path="/gruender-chancen"
         jsonLd={jsonLd}

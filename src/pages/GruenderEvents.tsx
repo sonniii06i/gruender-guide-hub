@@ -303,7 +303,7 @@ export default function GruenderEvents() {
   return (
     <div className="min-h-screen bg-background">
       <Seo
-        title="Gründer-Events 2026: IHK-Gründerabende, Hackathons & Meetups | GründerX"
+        title="Gründer-Events 2026: IHK-Gründerabende, Hackathons & Meetups"
         description="Gründer-Events in ganz Deutschland: IHK-Gründerabende, Existenzgründertage, Startup-Konferenzen, Hackathons und KI-Build-Sessions – nach Bundesland filtern, Termine direkt beim Veranstalter."
         path="/gruender-events"
         jsonLd={jsonLd}
@@ -324,6 +324,7 @@ export default function GruenderEvents() {
             IHK-Gründerabende und Sprechtage, Startup-Konferenzen und Meetups, dazu Hackathons und KI-Build-Sessions,
             bei denen du in ein paar Stunden dein erstes Tool baust. Jeder Termin mit Link zum Veranstalter.
             {" "}Wettbewerbe mit Preisgeld, Pitch-Abende und Hackathons gesammelt: <Link to="/gruender-chancen" className="font-medium text-accent-blue hover:underline">Gründer-Chancen</Link>.
+            {" "}Termine und Fristen kannst du auch direkt im KI-Chat abfragen: <Link to="/ki-assistent" className="font-medium text-accent-blue hover:underline">GründerX in ChatGPT und Claude</Link>.
           </p>
         }
       >

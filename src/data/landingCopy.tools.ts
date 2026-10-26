@@ -913,12 +913,12 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
     "disclaimer": "Die Roadmap ersetzt keine Rechtsberatung; verbindliche Anforderungen klärst du mit einer Fachperson oder Behörde."
   },
   "lucid-wizard": {
-    "seoTitle": "Verpackungslizenz-Rechner LUCID 2026",
-    "seoDescription": "LUCID-Verpackungslizenz schnell berechnen: Material-Mengen eingeben, Kostenrange & Anbieter-Empfehlung aus 9 dualen Systemen erhalten. Tarife 2026.",
+    "seoTitle": "Verpackungslizenz-Rechner 2026: Kosten & duale Systeme",
+    "seoDescription": "LUCID-Verpackungslizenz schnell berechnen: Material-Mengen eingeben, Kostenspanne & Anbieter-Empfehlung aus 9 dualen Systemen erhalten. Tarife 2026.",
     "lead": "Der LUCID-Wizard berechnet in 5 Schritten deine Verpackungslizenz-Kosten und empfiehlt dir das passende duale System aus 9 Anbietern – mit Tarifen 2026.",
     "urgency": "Ohne LUCID-Registrierung und Lizenzierung drohen Verkaufsverbote und Bußgelder – und Marktplätze sperren nicht registrierte Händler. Je länger du Mengen ohne Lizenz verschickst, desto höher das Risiko. Berechne deine Verpackungslizenz jetzt mit GründerX und werde sauber compliant.",
     "outcomes": [
-      "Konkrete Kostenrange für deine Verpackungslizenz nach Material-Mengen",
+      "Konkrete Kostenspanne für deine Verpackungslizenz nach Material-Mengen",
       "Empfehlung des passenden dualen Systems aus 9 Anbietern",
       "Aktuelle Tarife 2026 als Kalkulationsgrundlage",
       "Klarheit über deine LUCID-Pflichten vor dem Verkaufsstart"

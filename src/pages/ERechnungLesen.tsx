@@ -139,7 +139,7 @@ export default function ERechnungLesen() {
   return (
     <div className="min-h-screen bg-background">
       <Seo
-        title="E-Rechnung lesen: XRechnung öffnen & als PDF speichern | GründerX"
+        title="E-Rechnung lesen: XRechnung öffnen & als PDF speichern"
         description="XRechnung oder ZUGFeRD-XML hochladen und sofort als lesbare Rechnung sehen – mit Rechenprüfung, IBAN-Check und PDF. Kostenlos, ohne Anmeldung, die Datei bleibt auf deinem Gerät."
         path="/e-rechnung-lesen"
         jsonLd={[breadcrumbSchema([{ name: "Start", url: `${SITE}/` }, { name: "E-Rechnung lesen", url: `${SITE}/e-rechnung-lesen` }]), faqSchema(faqs)]}

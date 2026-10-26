@@ -218,7 +218,7 @@ export const businessplanConfig: ToolConfig = {
     },
   ],
   seo: {
-    title: "Kostenloser Businessplan-Generator – in Minuten erstellen | GründerX",
+    title: "Businessplan erstellen: kostenloser Generator | GründerX",
     description:
       "Businessplan kostenlos erstellen: Schritt-für-Schritt-Generator mit allen Kapiteln für Bank, Gründungszuschuss & Förderung. In Minuten fertig: 1 kostenlose Nutzung, nur E-Mail nötig; unbegrenzt im Abo.",
     keywords:

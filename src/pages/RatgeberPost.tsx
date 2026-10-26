@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { ohneTitelzeile } from "@/lib/ratgeberMarkdown";
 import { supabase } from "@/integrations/supabase/client";
 import PublicShell from "@/layouts/PublicShell";
 import { Seo } from "@/components/Seo";
@@ -312,7 +313,7 @@ const RatgeberPost = () => {
                 ),
               }}
             >
-              {post.body_md}
+              {ohneTitelzeile(post.body_md)}
             </ReactMarkdown>
           </div>
 
