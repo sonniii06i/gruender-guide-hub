@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import Logo from "@/components/Logo";
 import { openConsentSettings } from "@/utils/consent";
+import { NewsletterOptin } from "@/components/NewsletterOptin";
 
 /* Alle Links bleiben erhalten (interne Verlinkung): /faq und /partner waren
    früher von keiner Seite aus verlinkt und standen nur in der Sitemap. Die
@@ -103,6 +104,10 @@ export const Footer = () => (
             </ul>
           </nav>
         ))}
+      </div>
+
+      <div className="mt-12 border-t border-border pt-8">
+        <NewsletterOptin kompakt />
       </div>
 
       <div className="mt-14 flex flex-col justify-between gap-2 border-t border-border pt-6 text-xs text-muted-foreground md:flex-row">

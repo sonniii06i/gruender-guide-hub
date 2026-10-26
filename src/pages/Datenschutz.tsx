@@ -216,6 +216,30 @@ const Datenschutz = () => (
       </p>
       </>)}
 
+      <h3 id="newsletter" className="font-semibold mt-6">3.9c Steuerfristen &amp; Neuigkeiten per E-Mail (Double-Opt-in)</h3>
+      <p>
+        Im Fuß jeder Seite und am Ende der Ratgeber kannst du dich für Mails mit Erinnerungen an Steuerfristen (z. B.
+        USt-Voranmeldung) und Neuigkeiten für Gründer anmelden. Das Häkchen ist nicht vorausgewählt. Wir schicken dir zuerst
+        eine Bestätigungsmail; erst nach dem Klick auf den Link darin (Double-Opt-in, gültig 7 Tage) gilt die Anmeldung. Ohne
+        Klick bekommst du nichts weiter. Werbliche Mails schicken wir höchstens zwei pro Woche.
+      </p>
+      <p>
+        <strong>Daten:</strong> E-Mail-Adresse, Marke (GründerX), Herkunft der Anmeldung, Zeitpunkte von Anmeldung und
+        Bestätigung sowie die Versandprotokolle der einzelnen Mails. Jede Mail enthält ein Zählpixel und über unseren Server
+        umgeleitete Links mit einer Kennung der Mail; damit sehen wir, ob eine Mail geöffnet und welcher Link geklickt wurde
+        (Öffnungen sind nur eine Schätzung). Auch das umfasst deine Einwilligung.
+      </p>
+      <p>
+        <strong>Rechtsgrundlage:</strong> deine Einwilligung (Art. 6 Abs. 1 lit. a DSGVO, § 7 Abs. 2 UWG). Du kannst sie
+        jederzeit mit Wirkung für die Zukunft widerrufen – über den Abmeldelink in jeder Mail oder per Nachricht an uns.<br />
+        <strong>Speicherdauer:</strong> bis zu deiner Abmeldung; danach bleibt die Adresse auf unserer Sperrliste, damit du
+        keine Mails mehr bekommst, und den Nachweis der Einwilligung bewahren wir so lange auf, wie Ansprüche daraus geltend
+        gemacht werden können.<br />
+        <strong>Verarbeitung:</strong> Die Anmeldeliste liegt auf unserem eigenen Server bei Hetzner in Deutschland
+        (Anmeldeadresse arbitragex.de, unser Schwesterprojekt); versendet wird über Supabase (Frankfurt am Main) und unser
+        Mailpostfach bei IONOS.
+      </p>
+
       <h3 id="vorlagen" className="font-semibold mt-6">3.9a Vorlagen-Bibliothek (Download gegen bestätigte E-Mail-Adresse)</h3>
       <p>
         Die Vertragsvorlagen unter „Vorlagen" (z. B. GbR-Vertrag, Kaufverträge, Arbeitsverträge) kannst du ohne Konto

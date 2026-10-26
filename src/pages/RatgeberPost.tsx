@@ -6,6 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import PublicShell from "@/layouts/PublicShell";
 import { Seo } from "@/components/Seo";
 import { Button } from "@/components/ui/button";
+import { NewsletterOptin } from "@/components/NewsletterOptin";
 import { Clock, ChevronLeft, BookOpen, Wrench, ListChecks, ArrowRight, Info } from "lucide-react";
 import { relatedToolsFor, relatedGuidesFor, BLOG_CATEGORY_TOPIC, type LinkItem } from "@/lib/internalLinks";
 import { findGuideIndex } from "@/data/guideIndex";
@@ -404,6 +405,8 @@ const RatgeberPost = () => {
               )}
             </div>
           )}
+
+          <NewsletterOptin />
 
           {weitere === null ? (
             <p className="mt-14 text-sm text-muted-foreground" data-prerender-pending>
