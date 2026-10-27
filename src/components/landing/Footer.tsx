@@ -53,6 +53,7 @@ const COLUMNS: { title: string; links: { to: string; label: string; native?: boo
       { to: "/datenschutz", label: "Datenschutz", native: true },
       { to: "/agb", label: "AGB", native: true },
       { to: "/widerruf", label: "Widerruf", native: true },
+      { to: "/kuendigen", label: "Verträge hier kündigen", native: true },
       { to: "/vertrag-widerrufen", label: "Vertrag widerrufen", native: true },
       { to: "/kontakt", label: "Kontakt" },
     ],

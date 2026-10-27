@@ -139,3 +139,55 @@ export function buildWiderrufEingang(o: {
     }),
   };
 }
+
+/**
+ * Eingangsbestätigung der Kündigungsschaltfläche (§ 312k Abs. 4 BGB): Inhalt der
+ * Kündigung, Datum und Uhrzeit des Eingangs sowie der Zeitpunkt, zu dem der Vertrag
+ * endet. Name und Grund nur in der internen Kopie (kein Freitext an die eingegebene Adresse).
+ */
+export function buildKuendigungEingang(o: {
+  vertrag: string; art: string; zeitpunkt: string; eingang: Date; endeText?: string;
+  intern?: { name: string; email: string; grund?: string; stripe?: string };
+}): Built {
+  const zeit = zeitBerlin(o.eingang);
+  const zp = o.zeitpunkt === "naechstmoeglich" ? "zum nächstmöglichen Zeitpunkt" : `zum ${o.zeitpunkt}`;
+  const felder: Array<[string, string]> = [
+    ["Eingang", zeit],
+    ["Vertrag", o.vertrag],
+    ["Art", o.art],
+    ["Gewünschter Zeitpunkt", zp],
+    ...(o.endeText ? [["Vertragsende", o.endeText] as [string, string]] : []),
+    ...(o.intern
+      ? ([["Name", o.intern.name], ["E-Mail", o.intern.email],
+          ...(o.intern.grund ? [["Grund", o.intern.grund]] : []),
+          ...(o.intern.stripe ? [["Stripe", o.intern.stripe]] : [])] as Array<[string, string]>)
+      : []),
+  ];
+  const erklaerung = `Hiermit kündige ich den oben genannten Vertrag ${zp}.`;
+  const weiter = o.endeText
+    ? "Bis zum Vertragsende kannst du alles weiter nutzen. Danach wird nichts mehr abgebucht."
+    : "Wir bearbeiten deine Kündigung und bestätigen dir das Vertragsende gesondert, falls wir es nicht automatisch zuordnen konnten.";
+  const grund = o.intern
+    ? "Interne Kopie: Eingang über gruenderx.de/kuendigen."
+    : "Du bekommst diese Mail, weil auf gruenderx.de/kuendigen eine Kündigung mit deiner Adresse abgeschickt wurde. " +
+      "Warst du das nicht? Antworte kurz auf diese Mail, dann nehmen wir sie zurück.";
+  return {
+    subject: o.intern ? `Kündigung eingegangen (${o.vertrag})` : "Eingangsbestätigung deiner Kündigung",
+    text: plain({
+      greeting: "Hallo,",
+      lines: ["wir haben deine Kündigung erhalten. Das ist die Eingangsbestätigung.", "",
+        ...felder.map(([k, v]) => `${k}: ${v}`), `Erklärung: „${erklaerung}“`, "", weiter],
+      reason: grund,
+    }),
+    html: renderMail({
+      preheader: `Kündigung eingegangen am ${zeit}.`,
+      blocks: [
+        aufmacher("Deine Kündigung ist eingegangen", zeit),
+        priceRows(felder.map(([k, v]) => [esc(k), esc(v)] as [string, string])),
+        paragraph(`Erklärung: „${esc(erklaerung)}“`),
+        paragraph(esc(weiter)),
+      ],
+      footerReason: grund,
+    }),
+  };
+}

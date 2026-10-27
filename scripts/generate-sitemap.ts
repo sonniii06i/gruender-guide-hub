@@ -74,6 +74,7 @@ const staticEntries: SitemapEntry[] = [
   // (CopeCart/Digistore24/elopage) eine leere Seite ohne JavaScript aus.
   { path: "/widerruf", changefreq: "yearly", priority: "0.2" },
   { path: "/vertrag-widerrufen", changefreq: "yearly", priority: "0.2" },
+  { path: "/kuendigen", changefreq: "yearly", priority: "0.2" },
   { path: "/gruendungspaket", changefreq: "monthly", priority: "0.8" },
 ];
 

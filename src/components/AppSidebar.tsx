@@ -40,6 +40,7 @@ import {
   Users,
   Wrench,
   Percent,
+  FileX,
 } from "lucide-react";
 import { useRole } from "@/hooks/useRole";
 import { useRadarZaehler } from "@/lib/eventRadar";
@@ -191,6 +192,14 @@ export function AppSidebar() {
               <NavLink to="/support" onClick={closeOnMobile}>
                 <LifeBuoy className="h-4 w-4" />
                 <span>Support</span>
+              </NavLink>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild isActive={pathname === "/kuendigen"} tooltip="Verträge hier kündigen">
+              <NavLink to="/kuendigen" onClick={closeOnMobile}>
+                <FileX className="h-4 w-4" />
+                <span>Verträge hier kündigen</span>
               </NavLink>
             </SidebarMenuButton>
           </SidebarMenuItem>

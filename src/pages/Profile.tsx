@@ -234,6 +234,9 @@ const Profile = () => {
                         {busy === "portal" ? <Loader2 className="h-4 w-4 animate-spin" /> : "Zum Kundenportal"}
                       </Button>
                     )}
+                    <p className="mt-3 text-xs text-primary-foreground/70">
+                      Oder ohne Kundenportal: <a href="/kuendigen" className="underline">Verträge hier kündigen</a>
+                    </p>
                   </>
                 ) : (
                   <>

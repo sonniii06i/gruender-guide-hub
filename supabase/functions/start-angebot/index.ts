@@ -55,6 +55,11 @@ serve(async (req) => {
 
     if (event.type === "customer.subscription.trial_will_end") {
       const sub = event.data.object as Stripe.Subscription;
+      // Betreiber 27.10.2026: Erinnerung vor Testphasen-Ende AUS (Schalter START_ERINNERUNG, Standard aus) – Event nur loggen.
+      if ((Deno.env.get("START_ERINNERUNG") || "aus").toLowerCase() !== "an") {
+        console.log(`[start-angebot] trial_will_end ${sub.id}: Erinnerung abgeschaltet (START_ERINNERUNG=aus)`);
+        return ok({ skip: true, grund: "erinnerung_aus" });
+      }
       if (sub.metadata?.angebot !== START_KENNUNG || !sub.trial_end || sub.cancel_at_period_end || sub.status !== "trialing") {
         return ok({ skip: true });
       }
