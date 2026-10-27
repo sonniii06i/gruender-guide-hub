@@ -2,6 +2,7 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import Stripe from "https://esm.sh/stripe@18.5.0";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
 import { ilikeExakt } from "../_shared/emailMatch.ts";
+import { mailVerifiziert, stripeKundeFuer } from "../_shared/mailBesitz.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -66,15 +67,23 @@ serve(async (req) => {
     // `period_end IS NULL` = unbefristeter Einmalkauf; sonst zählt das gemeldete
     // Ende inklusive Kulanz, das der Webhook gesetzt hat.
     const nowIso = new Date().toISOString();
-    const { data: ext } = await supabaseService
+    // 27.10.2026 (Security): per Adresse nur bei nachgewiesener Adresse; sonst nur
+    // der eine Kauf, aus dem das Konto per claim-account entstand (kauf_order).
+    const mailOk = mailVerifiziert(user);
+    const eigeneOrder = user.app_metadata?.kauf_order as { provider?: string; order_id?: string } | undefined;
+    let extQ = supabaseService
       .from("external_entitlements")
       .select("plan, provider, period_end")
-      .ilike("email", ilikeExakt(user.email))
       .eq("status", "active")
       .or(`period_end.is.null,period_end.gt.${nowIso}`)
       .order("period_end", { ascending: false, nullsFirst: true })
-      .limit(1)
-      .maybeSingle();
+      .limit(1);
+    if (mailOk) extQ = extQ.ilike("email", ilikeExakt(user.email));
+    else if (eigeneOrder?.order_id && eigeneOrder?.provider) {
+      extQ = extQ.eq("provider", eigeneOrder.provider).eq("order_id", eigeneOrder.order_id);
+    }
+    const { data: ext } = (mailOk || (eigeneOrder?.order_id && eigeneOrder?.provider))
+      ? await extQ.maybeSingle() : { data: null };
     if (ext) {
       await supabaseService.from("subscriptions").upsert({
         user_id: user.id,
@@ -90,7 +99,9 @@ serve(async (req) => {
       );
     }
 
-    const customers = await stripe.customers.list({ email: user.email, limit: 1 });
+    // 27.10.2026: Stripe-Kunde per Mail nur bei Nachweis, sonst metadata.userId (_shared/mailBesitz.ts).
+    const kundeId = await stripeKundeFuer(stripe, user);
+    const customers = { data: kundeId ? [{ id: kundeId }] : [] };
     if (customers.data.length === 0) {
       await supabaseService.from("subscriptions").upsert({
         user_id: user.id,

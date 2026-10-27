@@ -3,6 +3,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { auszahlbar, WIDERRUF_TAGE } from "../_shared/affiliateKonditionen.ts";
 import { auszahlungsAuswahl, reifCents } from "../_shared/affiliateSicherung.ts";
 import { ilikeExakt } from "../_shared/emailMatch.ts";
+import { mailVerifiziert } from "../_shared/mailBesitz.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -79,7 +80,7 @@ Deno.serve(async (req) => {
       .maybeSingle();
     // Abschlusspruefung 27.10.2026: Verknuepfen eines fremden Partnerkontos nur bei BESTAETIGTER Mail,
     // nur Konten ohne user_id und nur exakt gleiche Adresse (kein Pattern-Matching, s. emailMatch.ts).
-    if (!aff && user.email && user.email_confirmed_at) {
+    if (!aff && user.email && mailVerifiziert(user)) {   // 27.10.2026: Konten aus claim-account beweisen keinen Mail-Besitz (_shared/mailBesitz.ts)
       ({ data: aff } = await hub.from("affiliates")
         .select("*")
         .is("user_id", null)

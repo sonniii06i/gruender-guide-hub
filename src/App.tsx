@@ -32,6 +32,7 @@ import { AnalyticsCapture } from "@/components/AnalyticsCapture";
 import { ConsentBanner } from "@/components/ConsentBanner";
 import AktionsBanner from "@/components/AktionsBanner"; // Aktions-Banner 26.10.2026 (HQ aktionen.py)
 import { initAdPixels } from "@/utils/adPixels";
+import { MailBestaetigenHinweis } from "@/components/MailBestaetigenHinweis";
 
 // Lazy: Cockpit-Tools (jedes Tool eigener Chunk, on-demand)
 const SteuerCockpit = lazy(() => import("./pages/SteuerCockpit.tsx"));
@@ -122,6 +123,7 @@ const Widerruf = lazy(() => import("./pages/Widerruf.tsx"));
 const VertragWiderrufen = lazy(() => import("./pages/VertragWiderrufen.tsx"));
 const VertragKuendigen = lazy(() => import("./pages/VertragKuendigen.tsx"));
 const KuendigungBestaetigen = lazy(() => import("./pages/KuendigungBestaetigen.tsx"));
+const MailBestaetigen = lazy(() => import("./pages/MailBestaetigen.tsx"));
 const Gruendungspaket = lazy(() => import("./pages/Gruendungspaket.tsx"));
 const GruendungspaketDanke = lazy(() => import("./pages/GruendungspaketDanke.tsx"));
 const Ratgeber = lazy(() => import("./pages/Ratgeber.tsx"));
@@ -219,6 +221,7 @@ const App = () => (
           <AnalyticsCapture />
           <ConsentBanner />
           <AktionsBanner />
+          <MailBestaetigenHinweis />
           <AppErrorBoundary>
           <TwoFactorGate>
           <Suspense fallback={<PageFallback />}>
@@ -352,6 +355,7 @@ const App = () => (
               <Route path="/vertrag-widerrufen" element={<VertragWiderrufen />} />
               <Route path="/kuendigen" element={<VertragKuendigen />} />
               <Route path="/kuendigen/bestaetigen" element={<KuendigungBestaetigen />} />
+              <Route path="/mail-bestaetigen" element={<MailBestaetigen />} />
               {/* Gründungspaket 2026 (Freigabe #5): Einmalkauf, Kauf-Knopf hinter VITE_GRUENDUNGSPAKET_VERKAUF */}
               <Route path="/gruendungspaket" element={<Gruendungspaket />} />
               <Route path="/gruendungspaket/danke" element={<GruendungspaketDanke />} />

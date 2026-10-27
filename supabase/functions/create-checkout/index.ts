@@ -5,6 +5,7 @@ import { abTestStrecke } from "../_shared/mailSend.ts";
 import { mitWerbeHinweis } from "../_shared/werbeHinweis.ts";
 import { utmMeta } from "../_shared/utmMeta.ts";
 import { istStartAngebot, startErlaubt, startPosition, startText, warSchonKunde, START_TAGE, START_KENNUNG } from "../_shared/startAngebot.ts";
+import { stripeKundeFuer } from "../_shared/mailBesitz.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -142,7 +143,8 @@ serve(async (req) => {
         .select("first_name, last_name, company_name, street, postal_code, city, country, phone, vat_id, onboarding_completed")
         .eq("id", user.id)
         .maybeSingle(),
-      stripe.customers.list({ email: user.email, limit: 1 }),
+      // 27.10.2026: bestehenden Kunden per Mail nur bei Nachweis (_shared/mailBesitz.ts).
+      stripeKundeFuer(stripe, user).then((id) => ({ data: id ? [{ id }] : [] })),
     ]);
 
     if (!profile?.onboarding_completed) {

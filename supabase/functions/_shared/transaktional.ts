@@ -261,3 +261,32 @@ export function buildStartEndet(o: { ende: string; preis: string; marke?: string
     }),
   };
 }
+
+// -------------------------------------------------------------------
+// Adresse bestaetigen (27.10.2026) — Konten aus claim-account entstehen mit
+// der im Checkout eingetippten Mail. Erst nach dem Klick verknuepfen wir
+// sie mit bestehenden Daten zu dieser Adresse (Partnerkonto, Kaeufe).
+// Der Link oeffnet eine Seite mit Knopf (Link-Scanner loesen sonst aus).
+// -------------------------------------------------------------------
+export function buildMailVerifizieren(o: { link: string; baseUrl?: string }): Built {
+  const url = (o.baseUrl ?? BASIS).replace(/\/+$/, "");
+  const zeile1 = "bitte bestätige kurz, dass diese Adresse dir gehört. Dein Konto kannst du schon nutzen – die Bestätigung brauchen wir, bevor wir es mit bestehenden Käufen oder einem Partnerkonto zu dieser Adresse verbinden.";
+  const zeile2 = "Du hast bei GründerX nichts gekauft? Dann ignorier diese Mail. Ohne Bestätigung verbinden wir nichts mit deiner Adresse.";
+  return {
+    subject: "Bitte bestätige deine E-Mail-Adresse",
+    text: plain({ greeting: "Hallo,", lines: [zeile1, "", o.link, "", zeile2] }),
+    html: renderMail({
+      preheader: "Ein Klick – dann ist dein Konto vollständig.",
+      greeting: "Hallo,",
+      blocks: [
+        aufmacher("Adresse bestätigen", "Der Link gilt 7 Tage."),
+        paragraph(zeile1),
+        button(o.link, "Adresse bestätigen"),
+        divider(),
+        paragraph(`<b>Nicht du?</b> ${zeile2}`),
+      ],
+      baseUrl: url,
+      footerReason: "Du bekommst diese Mail, weil mit dieser Adresse ein GründerX-Konto angelegt wurde.",
+    }),
+  };
+}

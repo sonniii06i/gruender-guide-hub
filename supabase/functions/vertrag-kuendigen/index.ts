@@ -26,6 +26,7 @@ import Stripe from "https://esm.sh/stripe@18.5.0";
 import { sendMail } from "../_shared/mailSend.ts";
 import { buildKuendigungEingang } from "../_shared/paketMail.ts";
 import { bestaetigungErlaubt, clientIp, globalErlaubt, ipSchluessel, ipStufeAktiv, limitAdresse } from "../_shared/widerruf.ts";
+import { mailVerifiziert } from "../_shared/mailBesitz.ts";
 import {
   KUENDIGUNG_ARTEN, KUENDIGUNG_VERTRAEGE, LINK_GUELTIG_S, kuendbar, mailExakt, neueNonce, pruefeKuendigung,
   signiereKuendigung, tokenGueltig, zerlegeToken,
@@ -157,7 +158,7 @@ Deno.serve(async (req) => {
   if (auth.startsWith("Bearer ")) {
     const { data } = await db.auth.getUser(auth.slice(7)).catch(() => ({ data: null }));
     const mail = data?.user?.email;
-    if (mail && data?.user?.email_confirmed_at && mailExakt(mail) === mailExakt(d.email)) {
+    if (mail && mailVerifiziert(data?.user) && mailExakt(mail) === mailExakt(d.email)) {   // 27.10.2026: nur nachgewiesene Adresse
       eingeloggtPasst = true;
       sessionMail = mailExakt(mail);
     }

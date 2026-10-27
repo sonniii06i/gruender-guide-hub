@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import Stripe from "https://esm.sh/stripe@18.5.0";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
+import { stripeKundeFuer } from "../_shared/mailBesitz.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -25,7 +26,9 @@ serve(async (req) => {
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
       apiVersion: "2025-08-27.basil",
     });
-    const customers = await stripe.customers.list({ email: user.email, limit: 1 });
+    // 27.10.2026: per Mail nur bei Nachweis (_shared/mailBesitz.ts).
+    const kundeId = await stripeKundeFuer(stripe, user);
+    const customers = { data: kundeId ? [{ id: kundeId }] : [] };
     if (customers.data.length === 0) throw new Error("No Stripe customer");
     const origin = req.headers.get("origin") || "";
     const portal = await stripe.billingPortal.sessions.create({

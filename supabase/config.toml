@@ -166,3 +166,6 @@ verify_jwt = false
 
 [functions.start-angebot]
 verify_jwt = false
+
+[functions.mail-verifizieren]
+verify_jwt = false

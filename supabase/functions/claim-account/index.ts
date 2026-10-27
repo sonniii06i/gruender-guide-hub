@@ -26,6 +26,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import Stripe from "https://esm.sh/stripe@18.5.0";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
+import { verifizierungSenden } from "../_shared/mailVerifySend.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -237,6 +238,13 @@ serve(async (req) => {
         company_name: toSafe(company),
         signup_flow: "pay_first",
       },
+      // 27.10.2026 (Security): Die Kauf-Mail tippt der Kaeufer selbst ein — mit dem
+      // 1-€-Startangebot kein belastbarer Besitznachweis. Nur DIESER Kauf wird dem
+      // Konto zugeordnet; alles Weitere erst nach Klick in der Verifizierungsmail.
+      app_metadata: {
+        mail_verifiziert: false,
+        ...(isExternal ? { kauf_order: { provider, order_id: String(orderId ?? "").trim() } } : { kauf_session: sessionId }),
+      },
     });
 
     if (error || !data.user) {
@@ -249,6 +257,8 @@ serve(async (req) => {
     }
 
     const userId = data.user.id;
+    try { await verifizierungSenden(admin, data.user); }
+    catch (e) { console.error("⚠️ Verifizierungsmail:", (e as Error).message); }
 
     // Abo sofort schreiben, damit das Dashboard nicht erst nach dem naechsten
     // check-subscription-Lauf freischaltet. `source` trennt beide Kaufwege:
