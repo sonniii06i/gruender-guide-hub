@@ -1,6 +1,7 @@
 // manage-affiliate (GruenderX): Self-Service. actions: me | save_payout | request_payout.
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { auszahlbar, WIDERRUF_TAGE } from "../_shared/affiliateKonditionen.ts";
+import { auszahlungsAuswahl, reifCents } from "../_shared/affiliateSicherung.ts";
 import { ilikeExakt } from "../_shared/emailMatch.ts";
 
 const corsHeaders = {
@@ -30,11 +31,11 @@ async function handleAdmin(action: string, payoutId: string | undefined, json: (
     const { data: comms } = await hub.from("affiliate_commissions")
       .select("id, commission_cents").eq("affiliate_id", p.affiliate_id)
       .in("status", ["pending", "approved"])
-      // 27.10.2026: nur Provisionen nach Ablauf der Widerrufsfrist
-      .lte("created_at", new Date(Date.now() - WIDERRUF_TAGE * 86400_000).toISOString())
+      // 27.10.2026: nur Provisionen nach Ablauf der Widerrufsfrist; Gegenbuchungen (negativ, Erstattung/
+      // Chargeback nach Auszahlung) sofort -- Gegenbuchungen zuerst, dann aelteste (affiliateSicherung.ts)
+      .or(`created_at.lte.${new Date(Date.now() - WIDERRUF_TAGE * 86400_000).toISOString()},commission_cents.lt.0`)
       .order("created_at", { ascending: true });
-    let acc = 0; const ids: string[] = [];
-    for (const c of comms || []) { if (acc >= p.amount_cents) break; acc += c.commission_cents || 0; ids.push(c.id); }
+    const ids = auszahlungsAuswahl(comms || [], p.amount_cents);
     if (ids.length) await hub.from("affiliate_commissions").update({ status: "paid" }).in("id", ids);
     await hub.from("affiliate_payouts").update({ status: "paid", paid_at: new Date().toISOString() }).eq("id", payoutId);
     return json({ ok: true });
@@ -119,7 +120,7 @@ Deno.serve(async (req) => {
     const sum = (rows: any[], pred: (r: any) => boolean) => (rows || []).filter(pred).reduce((a, r) => a + (r.commission_cents || 0), 0);
     const available = sum(comms || [], (r) => r.status === "pending" || r.status === "approved");
     // 27.10.2026: auszahlbar erst nach 14 Tagen (Widerrufsfrist des geworbenen Kunden)
-    const reif = sum(comms || [], (r) => (r.status === "pending" || r.status === "approved") && auszahlbar(r.created_at));
+    const reif = reifCents(comms || [], (t) => auszahlbar(t));
     const paidOut = ((payouts || []).filter((p) => p.status === "paid").reduce((a, p) => a + (p.amount_cents || 0), 0));
     const requested = ((payouts || []).filter((p) => p.status === "requested" || p.status === "approved").reduce((a, p) => a + (p.amount_cents || 0), 0));
     const requestable = Math.max(0, reif - requested);

@@ -1,6 +1,6 @@
 // Abschlusspruefung 27.10.2026: Partner-Selbstkauf, Rueckbuchung nach Erstattung/Chargeback.
 import { assertEquals } from "https://deno.land/std@0.224.0/assert/mod.ts";
-import { normMail, partnerSelbstkauf, provisionWiederherstellen, provisionZurueck, rechnungZurZahlung } from "./affiliateSicherung.ts";
+import { auszahlungsAuswahl, normMail, partnerSelbstkauf, provisionWiederherstellen, provisionZurueck, rechnungZurZahlung, reifCents } from "./affiliateSicherung.ts";
 
 async function* liste<T>(xs: T[]) { for (const x of xs) yield x; }
 
@@ -74,4 +74,22 @@ Deno.test("rechnungZurZahlung: alte API und basil", async () => {
   const st = stripeMock({}, {});
   assertEquals(await rechnungZurZahlung(st, { invoice: "in_alt" }), "in_alt");
   assertEquals(await rechnungZurZahlung(st, { payment_intent: "pi_1" }), "in_basil");
+});
+
+Deno.test("reifCents: Gegenbuchung zaehlt sofort, unreife Provision nicht", () => {
+  const rows = [
+    { id: "a", commission_cents: 1000, status: "pending", created_at: "alt" },
+    { id: "b", commission_cents: 1000, status: "pending", created_at: "neu" },
+    { id: "c", commission_cents: -1000, status: "pending", created_at: "neu" },
+    { id: "d", commission_cents: 500, status: "paid", created_at: "alt" },
+  ];
+  assertEquals(reifCents(rows, (t) => t === "alt"), 0);
+});
+
+Deno.test("auszahlungsAuswahl: Gegenbuchungen zuerst, dann aelteste bis zum Betrag", () => {
+  const rows = [
+    { id: "p1", commission_cents: 1000 }, { id: "p2", commission_cents: 1000 },
+    { id: "n1", commission_cents: -500 }, { id: "p3", commission_cents: 1000 },
+  ];
+  assertEquals(auszahlungsAuswahl(rows, 1500), ["n1", "p1", "p2"]);
 });

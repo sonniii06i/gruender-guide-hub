@@ -137,3 +137,31 @@ export async function provisionWiederherstellen(
   if (e2) throw e2;
   return true;
 }
+
+type ProvZeile = { id?: string; commission_cents?: number | null; status?: string; created_at?: string };
+
+/**
+ * Auszahlungsreifer Betrag: offene Provisionen nach der Widerrufsfrist PLUS alle Gegenbuchungen (negativ)
+ * sofort, unabhängig vom Alter -- sonst bekäme ein Partner vor der Reife der Gegenbuchung die volle Summe.
+ */
+export function reifCents(rows: ProvZeile[], istReif: (erstellt: string) => boolean): number {
+  return rows
+    .filter((r) => r.status === "pending" || r.status === "approved")
+    .filter((r) => (r.commission_cents ?? 0) < 0 || istReif(String(r.created_at ?? "")))
+    .reduce((a, r) => a + (r.commission_cents ?? 0), 0);
+}
+
+/**
+ * Welche Zeilen eine Auszahlung von `betrag` abdeckt: alle Gegenbuchungen zuerst (sie stecken im
+ * angeforderten Nettobetrag), dann die ältesten reifen Provisionen, bis der Betrag erreicht ist.
+ * `rows` muss nach created_at aufsteigend sortiert und bereits auf "reif oder negativ" gefiltert sein.
+ */
+export function auszahlungsAuswahl(rows: ProvZeile[], betrag: number): string[] {
+  const neg = rows.filter((r) => (r.commission_cents ?? 0) < 0);
+  const pos = rows.filter((r) => (r.commission_cents ?? 0) >= 0);
+  let acc = 0;
+  const ids: string[] = [];
+  for (const r of neg) { acc += r.commission_cents ?? 0; ids.push(String(r.id)); }
+  for (const r of pos) { if (acc >= betrag) break; acc += r.commission_cents ?? 0; ids.push(String(r.id)); }
+  return ids;
+}
