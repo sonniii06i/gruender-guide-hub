@@ -2523,7 +2523,7 @@ export const PROVIDERS: Provider[] = [
     name: "IT-Recht Kanzlei",
     category: "DSGVO",
     region: "DE",
-    starting: "9,90 €/Mon Basis · 19,90 €/Mon Schutzpaket",
+    starting: "ab 7,02 €/Mon Datenschutz · 11,78 € Starter · 29,63 € Premium (brutto; netto 5,90 / 9,90 / 24,90 €)",
     rating: 4.6,
     tagline: "DE-Rechtstexte + Anwalts-Hotline",
     pros: ["Echte Anwalts-Texte (Kanzlei-Backed)", "Text-Anpassung pro Marketplace (Amazon, eBay, Etsy etc.)", "Anwalts-Hotline im Schutzpaket", "Abmahn-Schutz mit echtem Anwalt im Claim-Fall"],

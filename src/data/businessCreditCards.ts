@@ -290,11 +290,11 @@ export const BIZ_CARDS: BizCard[] = [
     rewards: "1 Membership-Rewards-Punkt / 1 € Umsatz",
     signupBonus: "bis 200.000 MR-Punkte bei 15.000 € Umsatz in 6 Mon. (Aktion, variiert)",
     datevNative: false,
-    fxFee: "2,5 %; Bargeld 4 %",
+    fxFee: "2 %; Bargeld 4 % (min. 5 €)",
     schufa: true,
     soloDayOne: false,
     who: "Alle Rechtsformen inkl. Einzelunternehmer/Freiberufler · Geschäft ≥ 3 Monate",
-    extraCards: "bis 99 inklusive (kostenfrei)",
+    extraCards: "1 Platinum-Zusatzkarte inkl. (weitere 250 €/J.) + bis 98 Gold-Zusatzkarten inkl.",
     insurance:
       "Umfangreichstes Paket: Reiserücktritt, Auslandsreisekranken, Mietwagen-Vollkasko, Flug-/Gepäckverspätung",
     bestFor: "★ Premium-Vielreiser: max. Versicherung + 58 Tage Liquidität",
@@ -304,7 +304,7 @@ export const BIZ_CARDS: BizCard[] = [
       "Amex-Akzeptanz in DE schlechter als Visa/Mastercard",
     ],
     url: AMEX_REFERRAL.platinum,
-    dataNote: "Willkommensbonus = Aktionswert (Mai 2026), vor Antrag auf amex.de verifizieren",
+    dataNote: "Willkommensbonus = Aktionswert (Okt. 2026), vor Antrag auf amex.de verifizieren",
   },
   {
     id: "amex-business-gold",
@@ -314,7 +314,7 @@ export const BIZ_CARDS: BizCard[] = [
     cardType: "Charge",
     network: "Amex",
     annualEur: 175,
-    priceLabel: "175 € pro Jahr (1. Jahr oft beitragsfrei)",
+    priceLabel: "175 € pro Jahr (1. Jahr beitragsfrei)",
     hasFreeTier: false,
     paymentTerm: "bis 50 Tage zinsfrei",
     rewards: "1 Membership-Rewards-Punkt / 1 € Umsatz",
@@ -326,7 +326,7 @@ export const BIZ_CARDS: BizCard[] = [
     who: "Alle Rechtsformen inkl. Einzelunternehmer · Geschäftstätigkeit mind. 3 Monate",
     extraCards: "bis 99 inklusive (kostenfrei)",
     insurance:
-      "Auslandsreisekranken, Mietwagen Haftpflicht + Vollkasko, Pannenhilfe, Reisekomfort",
+      "Auslandsreisekranken, Mietwagen-Vollkasko, Pannenhilfe, Reisekomfort",
     bestFor: "★ Bester Amex-Allrounder: gutes Versicherungspaket zu moderatem Preis",
     watchouts: [
       "Mind. 3 Monate Geschäftstätigkeit nötig",

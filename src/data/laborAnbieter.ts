@@ -1398,7 +1398,7 @@ export const USE_CASE_STACKS: UseCaseStack[] = [
     title: "PSA / Workwear (Kategorie I-III)",
     description: "Sicherheitsschuhe, Schutzbrillen, Schutzhandschuhe, Auffanggurte. PSA-VO EU 2016/425 verpflichtend.",
     stack: [
-      { laborId: "satra", rolle: "Footwear + PSA Welt-Referenz (UK NB 0321)" },
+      { laborId: "satra", rolle: "Footwear + PSA Welt-Referenz (EU-NB 2777 SATRA Technology Europe, IE; UKCA 0321)" },
       { laborId: "centexbel", rolle: "EU-NB 0493 für PSA-Notifizierung" },
       { laborId: "dguv_test", rolle: "DE-PSA-NB + GS-Zeichen für DE-Markt" },
       { laborId: "tuv_rheinland", rolle: "Generalist für PSA + Chemikalien-Tests" },

@@ -674,7 +674,7 @@ export const TRANSFER_PARTNERS: TransferPartner[] = [
   { name: "Cathay Pacific Asia Miles", usRatio: "5:4", deRatio: "seit 1.8.2025 noch schlechter", winner: "us", note: "Beide schwach" },
   { name: "Emirates Skywards", usRatio: "5:4 (44-50% Devaluation 23.02.2026!)", deRatio: "massiv devaluiert 1.8.2025", winner: "us", note: "Vermeiden" },
   { name: "Singapore KrisFlyer", usRatio: "1:1", deRatio: "1:1 (UNCLEAR ob nach Devaluation)", winner: "equal" },
-  { name: "Lufthansa Miles & More", usRatio: "n/a", deRatio: "nur via PAYBACK-Umweg (2:1 effektiv)", winner: "de-only", note: "Schlechte Ratio aber DE-only" },
+  { name: "Lufthansa Miles & More", usRatio: "n/a", deRatio: "nur via PAYBACK-Umweg (3:1 effektiv)", winner: "de-only", note: "Schlechte Ratio aber DE-only" },
   { name: "SAS EuroBonus", usRatio: "n/a", deRatio: "5:4", winner: "de-only" },
 ];
 
@@ -867,14 +867,14 @@ export const SWEET_SPOTS: SweetSpot[] = [
   },
   {
     id: "de-mr-payback-mm",
-    title: "DE-MR → PAYBACK 2:1 → M&M 1:1 = effektiv 2:1 zu Lufthansa Miles & More",
+    title: "DE-MR → PAYBACK 3:1 → M&M 1:1 = effektiv 3:1 zu Lufthansa Miles & More",
     fromProgram: "DE-Amex MR",
     toProgram: "Lufthansa Miles & More",
-    ratio: "2:1 (effektiv)",
-    punkte: 170000,
+    ratio: "3:1 (effektiv)",
+    punkte: 255000,
     realerWertEur: 1500,
-    centProPunkt: 0.9,
-    bestFor: "Wenn US-Transfer keine Option ist — M&M LH First 85k einseitig",
+    centProPunkt: 0.6,
+    bestFor: "Wenn US-Transfer keine Option ist — M&M LH-Premium-Prämie (dynamisch bepreist)",
     watchouts: ["Zweistufiger Transfer", "Nur für M&M-Status-Member empfehlenswert", "M&M dynamic pricing seit Juni 2025"],
   },
 ];
