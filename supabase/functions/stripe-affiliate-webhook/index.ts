@@ -4,7 +4,8 @@
 //         invoice.payment_succeeded, customer.subscription.updated
 //         (nur Kuendigungsbestaetigung, Schalter KUENDIGUNG_MAIL_AKTIV),
 //         customer.subscription.deleted,
-//         charge.refunded.
+//         charge.refunded, charge.dispute.created/closed (Abschlusspruefung 27.10.2026:
+//         Provision zurueck; schon ausgezahlt -> Gegenbuchung, verrechnet mit der naechsten Auszahlung).
 // verify_jwt = false; Signaturpruefung mit STRIPE_WEBHOOK_SECRET.
 // Produkt aus session.metadata.product ('gruenderx' | 'bundle', Fallback gruenderx).
 // ===================================================================
@@ -17,6 +18,7 @@ import { meldeVerkauf } from "../_shared/discordSales.ts";
 import { kuendigungBestaetigen } from "../_shared/kuendigungMail.ts";
 import { abbruchPruefen } from "../_shared/abbruchNachtrag.ts";
 import { leistungsBeginn, provisionsSatz } from "../_shared/affiliateKonditionen.ts";
+import { partnerSelbstkauf, provisionWiederherstellen, provisionZurueck, rechnungZurZahlung } from "../_shared/affiliateSicherung.ts";
 
 const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY")!, { apiVersion: "2025-08-27.basil" });
 const webhookSecret = Deno.env.get("STRIPE_WEBHOOK_SECRET")!;
@@ -141,7 +143,9 @@ Deno.serve(async (req) => {
         const aff = await affiliateByCode(code);
         if (!aff) break;
         const buyerEmail = (s.customer_details?.email || s.customer_email || "").toLowerCase();
-        if (buyerEmail && buyerEmail === (aff.email || "").toLowerCase()) break; // Selbst-Referral
+        // Selbst-Referral (Abschlusspruefung 27.10.2026): normalisierte Mail, gleicher Kunde, gleiche Karte.
+        const selbst = await partnerSelbstkauf(stripe, aff.email, buyerEmail, typeof s.customer === "string" ? s.customer : null);
+        if (selbst) { console.log(`Self-referral blocked (${selbst})`); break; }
         await supabase.from("affiliate_referrals").upsert({
           affiliate_id: aff.id,
           product: s.metadata?.product || "gruenderx",
@@ -298,10 +302,24 @@ Deno.serve(async (req) => {
       }
 
       case "charge.refunded": {
+        // API "basil" hat charge.invoice entfernt -> Rechnung ueber invoice_payments (vorher griff das nie).
         const ch = event.data.object as any;
-        if (ch.invoice) {
-          await supabase.from("affiliate_commissions").update({ status: "reversed" })
-            .eq("stripe_invoice_id", String(ch.invoice)).neq("status", "paid");
+        const inv = await rechnungZurZahlung(stripe, ch);
+        if (inv) console.log(`💶 Erstattung ${ch.id}: ${await provisionZurueck(supabase, inv, "refund")}`);
+        break;
+      }
+
+      case "charge.dispute.created":
+      case "charge.dispute.closed": {
+        const d = event.data.object as any;
+        const ch = await stripe.charges.retrieve(typeof d.charge === "string" ? d.charge : d.charge.id);
+        const inv = await rechnungZurZahlung(stripe, ch);
+        if (!inv) break;
+        if (event.type === "charge.dispute.closed" && d.status === "won") {
+          const ok = await provisionWiederherstellen(supabase, inv, ch.amount_refunded ?? 0);
+          console.log(`💶 Chargeback ${d.id} gewonnen -> ${ok ? `Provision ${inv} wieder offen` : "erstattet, bleibt storniert"}`);
+        } else if (event.type === "charge.dispute.created") {
+          console.log(`💶 Chargeback ${d.id}: ${await provisionZurueck(supabase, inv, "dispute")}`);
         }
         break;
       }

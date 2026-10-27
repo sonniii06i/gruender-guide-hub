@@ -8,7 +8,12 @@
 // speichern, was der Anbieter meldet), deshalb bleibt der Vergleich
 // case-insensitiv, aber mit maskierten Platzhaltern = exakter Treffer.
 
-/** Maskiert \, % und _ fuer ILIKE (Standard-Escape-Zeichen ist \). */
+/** Maskiert \, % und _ fuer ILIKE (Standard-Escape-Zeichen ist \).
+ *  Abschlusspruefung 27.10.2026: PostgREST macht aus `*` in like/ilike ein `%` -- ein `*` laesst sich
+ *  dort nicht maskieren. Adressen mit `*` bekommen deshalb ein Muster, das nie trifft (fail-closed). */
+export const NIE_TREFFER = "\u0000kein-treffer\u0000";
 export function ilikeExakt(email: string): string {
-  return String(email ?? "").trim().replace(/[\\%_]/g, (c) => `\\${c}`);
+  const e = String(email ?? "").trim();
+  if (e.includes("*")) return NIE_TREFFER;
+  return e.replace(/[\\%_]/g, (c) => `\\${c}`);
 }

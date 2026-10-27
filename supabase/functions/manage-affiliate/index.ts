@@ -76,9 +76,12 @@ Deno.serve(async (req) => {
       .select("*")
       .eq("user_id", user.id)
       .maybeSingle();
-    if (!aff && user.email) {
+    // Abschlusspruefung 27.10.2026: Verknuepfen eines fremden Partnerkontos nur bei BESTAETIGTER Mail,
+    // nur Konten ohne user_id und nur exakt gleiche Adresse (kein Pattern-Matching, s. emailMatch.ts).
+    if (!aff && user.email && user.email_confirmed_at) {
       ({ data: aff } = await hub.from("affiliates")
         .select("*")
+        .is("user_id", null)
         .ilike("email", ilikeExakt(user.email))
         .maybeSingle());
     }
@@ -91,7 +94,7 @@ Deno.serve(async (req) => {
         code = genCode();
       }
       const { data: created, error: cErr } = await hub.from("affiliates")
-        .insert({ email: user.email, user_id: user.id, code }).select("*").single();
+        .insert({ email: String(user.email ?? "").trim().toLowerCase(), user_id: user.id, code }).select("*").single();
       if (cErr) throw cErr;
       aff = created;
     } else if (!aff.user_id) {
