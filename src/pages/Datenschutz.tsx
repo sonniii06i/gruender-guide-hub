@@ -136,6 +136,7 @@ const Datenschutz = () => (
         abgewickelt. Stripe ist Auftragsverarbeiter und EU-DSGVO-konform.
       </p>
       <p><strong>Daten:</strong> Du gibst deine Zahlungsdaten direkt bei Stripe ein – <em>wir sehen sie nicht</em>. Wir erhalten von Stripe nur Customer-ID, Subscription-Status, Rechnungsdokumente.</p>
+      <p><strong>Kampagnen-Zuordnung:</strong> Bist du über einen Kampagnen- oder Partnerlink (utm-Parameter, z. B. von einer unserer Schwester-Marken) gekommen, geben wir diese Kennzeichnung und die Einstiegsseite beim Checkout an die Zahlungssitzung bei Stripe mit, damit wir den Kauf der Kampagne zuordnen können (Art. 6 Abs. 1 lit. f DSGVO, Erfolgsmessung der eigenen Werbung).</p>
       <p><strong>Rechtsgrundlage:</strong> Art. 6 Abs. 1 lit. b DSGVO.</p>
       <p><strong>Stripe-Datenschutz:</strong> <a href="https://stripe.com/de/privacy" target="_blank" rel="noreferrer">stripe.com/de/privacy</a></p>
 
