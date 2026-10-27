@@ -1,5 +1,5 @@
 // ===================================================================
-// stripe-affiliate-webhook (GruenderX): 20 % Affiliate-Provision je Zahlung.
+// stripe-affiliate-webhook (GruenderX): Affiliate-Provision je Zahlung (Satz: _shared/affiliateKonditionen.ts).
 // Events: checkout.session.completed, checkout.session.expired,
 //         invoice.payment_succeeded, customer.subscription.updated
 //         (nur Kuendigungsbestaetigung, Schalter KUENDIGUNG_MAIL_AKTIV),
@@ -16,6 +16,7 @@ import { abTestStrecke } from "../_shared/mailSend.ts";
 import { meldeVerkauf } from "../_shared/discordSales.ts";
 import { kuendigungBestaetigen } from "../_shared/kuendigungMail.ts";
 import { abbruchPruefen } from "../_shared/abbruchNachtrag.ts";
+import { provisionsSatz } from "../_shared/affiliateKonditionen.ts";
 
 const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY")!, { apiVersion: "2025-08-27.basil" });
 const webhookSecret = Deno.env.get("STRIPE_WEBHOOK_SECRET")!;
@@ -32,7 +33,6 @@ const localDb = createClient(
   Deno.env.get("SUPABASE_URL")!,
   Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
 );
-const RATE = 0.20;
 
 // Robuste Feld-Extraktion (API-Basil hat Felder verschoben)
 function subIdOf(inv: any): string | null {
@@ -159,10 +159,33 @@ Deno.serve(async (req) => {
         if (!subId) break;
         const { data: ref } = await supabase
           .from("affiliate_referrals")
-          .select("id, affiliate_id, product, status")
+          .select("id, affiliate_id, product, status, created_at, fenster_start")
           .eq("stripe_subscription_id", String(subId))
           .maybeSingle();
         if (!ref || ref.status !== "active") break;
+        // Satz je Partner-Konditionen (27.10.2026, _shared/affiliateKonditionen.ts): 25 % fuer Rechnungen,
+        // deren Leistungszeitraum vor Abo-Start + 12 Kalendermonaten beginnt; Bestandspartner 20 % dauerhaft.
+        // Fensterstart = Abo-Start, beim ersten Mal gespeichert. Kein lesbarer Start -> keine Provision.
+        const { data: aff } = await supabase.from("affiliates").select("konditionen").eq("id", ref.affiliate_id).maybeSingle();
+        let fensterStart: string | null = ref.fenster_start ?? null;
+        if (!fensterStart && aff?.konditionen !== "v1_20_dauerhaft") {
+          try {
+            const abo = await stripe.subscriptions.retrieve(String(subId));
+            if (abo.start_date) {
+              fensterStart = new Date(abo.start_date * 1000).toISOString();
+              await supabase.from("affiliate_referrals").update({ fenster_start: fensterStart }).eq("id", ref.id).is("fenster_start", null);
+            }
+          } catch (e) {
+            console.error(`💶 Abo-Start fuer ${subId} nicht lesbar:`, (e as Error).message);
+          }
+        }
+        const rechnungAm = typeof inv.period_start === "number" ? inv.period_start * 1000 : NaN;
+        const RATE = provisionsSatz(aff?.konditionen, fensterStart, rechnungAm);
+        if (RATE <= 0) {
+          console.error(`💶 keine Provision fuer ${inv.id} (sub ${subId}): ` +
+            (fensterStart && Number.isFinite(rechnungAm) ? "12-Monats-Fenster vorbei" : "ALARM: Abo-Start/Leistungsbeginn fehlt"));
+          break;
+        }
         const base = netCentsOf(inv);
         if (base <= 0) break;
         const commission = Math.round(base * RATE);

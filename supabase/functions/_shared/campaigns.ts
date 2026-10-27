@@ -7,12 +7,12 @@
 // -------------------------------------------------------------------
 // ZU DEN ZAHLEN
 // -------------------------------------------------------------------
-// Die 20 % lebenslange Umsatzbeteiligung sind exakt das, was /affiliate
-// oeffentlich zusagt ("20 % von jeder Zahlung deiner Geworbenen –
-// dauerhaft, nicht nur im ersten Monat"). Die Euro-Betraege werden aus
-// den echten Bruttopreisen GERECHNET, nicht geschaetzt: 20 % auf den
-// Nettoumsatz, so wie es auf /affiliate steht und wie der Webhook
-// (RATE = 0.20 auf total_excluding_tax) tatsaechlich abrechnet.
+// Die Umsatzbeteiligung ist exakt das, was /affiliate oeffentlich zusagt:
+// seit 27.10.2026 25 % von jeder Zahlung in den ersten 12 Monaten je
+// geworbenem Kunden (_shared/affiliateKonditionen.ts; Bestandspartner 20 %
+// dauerhaft). Die Euro-Betraege werden aus den echten Bruttopreisen
+// GERECHNET, nicht geschaetzt: 25 % auf den Nettoumsatz, so wie der Webhook
+// (provisionsSatz auf total_excluding_tax) tatsaechlich abrechnet.
 //
 // Nichts in dieser Datei darf eine Zahl behaupten, die nicht auf
 // gruenderx.de nachlesbar ist. Keine erfundenen Rabatte, keine
@@ -52,9 +52,9 @@ export type Intervall = "month" | "year";
 
 const BASIS = "https://gruenderx.de";
 
-/** 20 % vom Netto — dieselbe Rechnung wie im Affiliate-Webhook. */
+/** 25 % vom Netto — dieselbe Rechnung wie im Affiliate-Webhook (neue Partner ab 27.10.2026). */
 const provision = (bruttoCents: number) =>
-  eur(Math.round((bruttoCents / 1.19) * 0.20));
+  eur(Math.round((bruttoCents / 1.19) * 0.25));
 
 // "Founder-Set" ist der Name im Shop (18 Fundstellen gegen 2 mit
 // "Founder-Bundle"). Wer in der Mail einen anderen Namen liest als auf
@@ -347,7 +347,7 @@ export function buildReferral(o: {
   const proJahr = provision(PREIS[p].year);
 
   const subject = v === "b"
-    ? `${proMonat} pro geworbenem Kunden — dauerhaft`
+    ? `${proMonat} pro geworbenem Kunden — 12 Monate lang`
     : "Kennst du jemanden, dem GründerX hilft?";
 
   const blocks = [
@@ -360,10 +360,10 @@ export function buildReferral(o: {
     ),
     kernzahl(
       proMonat,
-      "pro Monat und geworbenem Kunden, dauerhaft",
-      `<b>20 % von jeder Zahlung</b>, nicht nur von der ersten. Wer zwölf ` +
-      `Monate bleibt, bringt dir zwölf Provisionen; ein Jahresabo bringt ` +
-      `${proJahr} auf einmal. Keine Deckelung, keine Mindestumsätze, ` +
+      "pro Monat und geworbenem Kunden, 12 Monate lang",
+      `<b>25 % von jeder Zahlung</b> in den ersten 12 Monaten, nicht nur von ` +
+      `der ersten. Wer zwölf Monate bleibt, bringt dir zwölf Provisionen; ein ` +
+      `Jahresabo bringt ${proJahr} auf einmal. Keine Mindestumsätze, ` +
       `kein Bewerbungsverfahren — Link holen und starten.`,
     ),
     button(link, "Empfehlungslink holen"),
@@ -376,7 +376,7 @@ export function buildReferral(o: {
     ),
     paragraph(
       `<span style="color:${BRAND_DARK}">Deine Auszahlung läuft ab 20 € ` +
-      `gesammelter Provision, per Überweisung. Die Übersicht steht jederzeit ` +
+      `gesammelter Provision nach Ablauf der 14-tägigen Widerrufsfrist, per Überweisung. Die Übersicht steht jederzeit ` +
       `unter <a href="${link}" style="color:${BRAND}">Partnerprogramm</a>.</span>`,
     ),
   ];
@@ -390,19 +390,19 @@ export function buildReferral(o: {
         "Umfeld gibt es sicher andere mit denselben Gruendungsfragen.",
         "",
         `${proMonat.replace(" €", " EUR")} pro Monat, fuer jeden geworbenen Kunden.`,
-        "20 % von jeder Zahlung — dauerhaft, nicht nur von der ersten.",
-        "Keine Deckelung, keine Mindestumsaetze, kein Bewerbungsverfahren.",
+        "25 % von jeder Zahlung in den ersten 12 Monaten, nicht nur von der ersten.",
+        "Keine Mindestumsaetze, kein Bewerbungsverfahren.",
         "",
-        "Auszahlung ab 20 EUR gesammelter Provision, per Ueberweisung.",
+        "Auszahlung ab 20 EUR gesammelter Provision nach Ablauf der 14-taegigen Widerrufsfrist, per Ueberweisung.",
       ],
       cta: ["Empfehlungslink holen", link],
       unsubscribeUrl: o.unsubscribeUrl,
     }),
     html: renderMail({
       preheader:
-        `20 % von jeder Zahlung, dauerhaft — rund ${proMonat} pro Monat und geworbenem Kunden.`,
-      heroBlock: hero({ klein: "Partnerprogramm", gross: "20 %",
-        unten: "von jeder Zahlung deiner Geworbenen — dauerhaft, nicht nur beim ersten Mal." }),
+        `25 % von jeder Zahlung, 12 Monate lang — rund ${proMonat} pro Monat und geworbenem Kunden.`,
+      heroBlock: hero({ klein: "Partnerprogramm", gross: "25 %",
+        unten: "von jeder Zahlung deiner Geworbenen — 12 Monate lang, nicht nur beim ersten Mal." }),
       greeting,
       blocks,
       baseUrl: url,

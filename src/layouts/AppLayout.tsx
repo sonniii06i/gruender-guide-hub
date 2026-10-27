@@ -19,7 +19,7 @@ const GGH_TOUR: TourStep[] = [
   { selector: '[data-tour="/cockpit/steuer"]', title: "Steuer-Cockpit", text: "Dein Steuer-Überblick: Fristen, Rechner und die wichtigsten To-dos für Gründer." },
   { selector: '[data-tour="/wizard/rechtsform"]', title: "Rechtsform-Wizard", text: "Beantworte ein paar Fragen und finde die passende Rechtsform (Einzelunternehmen, GmbH, UG …)." },
   { selector: '[data-tour="/anbieter"]', title: "Anbieter-Vergleich", text: "Vergleiche Banken, Tools & Dienstleister – kuratiert für Gründer, mit den relevanten Kriterien." },
-  { selector: '[data-tour="/affiliate"]', title: "Partnerprogramm", text: "Empfiehl GründerX weiter und verdiene mit – 20 % lebenslange Provision je geworbenem Kunden." },
+  { selector: '[data-tour="/affiliate"]', title: "Partnerprogramm", text: "Empfiehl GründerX weiter und verdiene mit – 25 % Provision auf jede Zahlung, 12 Monate je geworbenem Kunden." },
   { title: "Los geht's 🚀", text: "Das war's! Starte am besten mit einem Guide oder frag Felix direkt. Viel Erfolg beim Gründen." },
 ];
 

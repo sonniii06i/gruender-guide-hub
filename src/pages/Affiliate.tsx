@@ -12,9 +12,11 @@ import { useRole } from "@/hooks/useRole";
 interface AffiliateData {
   code: string;
   ref_link: string;
+  /** Konditionen 27.10.2026: v2_25_12m = 25 % in den ersten 12 Monaten je Kunde; v1_20_dauerhaft = Bestandspartner. */
+  konditionen?: "v1_20_dauerhaft" | "v2_25_12m";
   payout_name?: string | null;
   payout_iban?: string | null;
-  stats: { available_cents: number; requestable_cents: number; paid_out_cents: number; active_referrals: number; total_referrals: number };
+  stats: { available_cents: number; requestable_cents: number; in_wartezeit_cents?: number; paid_out_cents: number; active_referrals: number; total_referrals: number };
   commissions: { commission_cents: number; status: string; product: string; created_at: string }[];
   payouts: { amount_cents: number; status: string; requested_at: string; paid_at?: string | null }[];
 }
@@ -107,16 +109,17 @@ export default function Affiliate() {
       </div>
     );
   const s = data.stats;
+  const bestand = data.konditionen === "v1_20_dauerhaft";
 
   return (
     <div className="container max-w-4xl space-y-6 px-4 pb-16 pt-8 md:px-6 md:pt-10">
       <header className="border-b border-border/70 pb-7">
         <p className="inline-flex items-center gap-1.5 text-sm font-medium text-accent-blue">
-          <Percent className="h-4 w-4" aria-hidden="true" /> 20 % Umsatzbeteiligung, lebenslang
+          <Percent className="h-4 w-4" aria-hidden="true" /> {bestand ? "20 % Umsatzbeteiligung, dauerhaft" : "25 % Umsatzbeteiligung, 12 Monate je Kunde"}
         </p>
         <h1 className="mt-2 text-[1.75rem] font-semibold leading-[1.12] tracking-[-0.03em] md:text-[2.25rem]">Partnerprogramm</h1>
         <p className="mt-3 max-w-[68ch] text-[15px] leading-relaxed text-muted-foreground">
-          Empfiehl GründerX, AnwaltX oder das Founder-Set. Du bekommst <strong className="font-semibold text-foreground">20 % von jeder Zahlung</strong> deiner Geworbenen, dauerhaft und nicht nur im ersten Monat. Auszahlung in echtem Geld.
+          Empfiehl GründerX, AnwaltX oder das Founder-Set. Du bekommst <strong className="font-semibold text-foreground">{bestand ? "20 %" : "25 %"} von jeder Zahlung</strong> deiner Geworbenen, {bestand ? "dauerhaft und nicht nur im ersten Monat" : "12 Monate lang ab ihrem Abschluss"}. Der Link merkt sich deine Empfehlung 60 Tage; auszahlbar ist eine Provision nach Ablauf der 14-tägigen Widerrufsfrist, in echtem Geld.
         </p>
       </header>
 
@@ -151,7 +154,7 @@ export default function Affiliate() {
               {busy ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : `Auszahlung anfordern (${eur(s.requestable_cents)})`}
             </Button>
           </div>
-          <p className="text-xs leading-relaxed text-muted-foreground">Als Partner stellst du für die Auszahlung eine Rechnung oder Gutschrift; die 20 % sind Netto-Umsatzbeteiligung.</p>
+          <p className="text-xs leading-relaxed text-muted-foreground">Als Partner stellst du für die Auszahlung eine Rechnung oder Gutschrift; die {bestand ? "20" : "25"} % sind Netto-Umsatzbeteiligung.{(s.in_wartezeit_cents ?? 0) > 0 ? ` Noch in der Widerrufsfrist: ${eur(s.in_wartezeit_cents ?? 0)}.` : ""}</p>
         </div>
       </ToolSection>
 

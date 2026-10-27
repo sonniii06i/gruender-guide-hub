@@ -18,7 +18,7 @@ interface Props {
 
 /**
  * Referral-Prompt NACH dem Aha-Moment (nicht davor): erst hat der Nutzer etwas
- * bekommen, dann bitten wir ihn, GründerX weiterzuerzählen. 20 % lebenslang.
+ * bekommen, dann bitten wir ihn, GründerX weiterzuerzählen. 25 % für 12 Monate je Kunde (27.10.2026).
  * Erscheint einmal, ist wegklickbar und kommt danach nicht wieder.
  */
 export function ReferralNudge({ minEvents = 1, headline, className = "" }: Props) {
@@ -64,9 +64,9 @@ export function ReferralNudge({ minEvents = 1, headline, className = "" }: Props
       <h3 className="font-bold pr-8">{headline || "Hat dir das gerade geholfen?"}</h3>
       <p className="text-sm text-muted-foreground mt-1 mb-3">
         Dann erzähl deinen Freunden von GründerX. Für <strong>jede Zahlung</strong> von jemandem,
-        den du geworben hast, bekommst du dauerhaft{" "}
+        den du geworben hast, bekommst du in den ersten 12 Monaten{" "}
         <span className="inline-flex items-center gap-1 font-semibold text-foreground">
-          <Percent className="h-3.5 w-3.5 text-primary" />20 % — lebenslang
+          <Percent className="h-3.5 w-3.5 text-primary" />25 %
         </span>
         , in echtem Geld.
       </p>
