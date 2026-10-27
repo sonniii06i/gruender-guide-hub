@@ -36,3 +36,22 @@ Deno.test("Fallback über Kunde setzt die Abo-ID", async () => {
   assertEquals(log[1].stripe_subscription_id, "sub_2");
   assertEquals(log[1].status, "trialing");
 });
+
+Deno.test("Out-of-Order: aelteres active-Event schreibt den Live-Stand canceled", async () => {
+  const { db, log } = fakeDb(1, 0);
+  const { aboStatusAusStripe } = await import("./aboStatus.ts");
+  const stripe = { subscriptions: { retrieve: async (id: string) => ({ id, status: "canceled", customer: "cus_1" }) } };
+  await aboStatusAusStripe(db, stripe, { id: "sub_1", status: "active", customer: "cus_1" });
+  assertEquals(log[0].status, "inactive");
+  assertEquals(log[0].stripe_status, "canceled");
+});
+
+Deno.test("Live-Abruf scheitert -> wirft, schreibt nichts", async () => {
+  const { db, log } = fakeDb(1, 0);
+  const { aboStatusAusStripe } = await import("./aboStatus.ts");
+  const stripe = { subscriptions: { retrieve: async () => { throw new Error("netz"); } } };
+  let geworfen = false;
+  try { await aboStatusAusStripe(db, stripe, "sub_1"); } catch { geworfen = true; }
+  assertEquals(geworfen, true);
+  assertEquals(log.length, 0);
+});

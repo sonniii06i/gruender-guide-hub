@@ -14,6 +14,22 @@ export function appStatus(stripeStatus: string): "active" | "trialing" | "inacti
   return "inactive";
 }
 
+/**
+ * Security-Review 27.10.: Webhook-Events koennen in falscher Reihenfolge
+ * ankommen – ein aelteres "active" darf eine Kuendigung nie ueberschreiben.
+ * Deshalb wird IMMER der Live-Stand aus Stripe geschrieben (subscriptions.retrieve),
+ * nie der Event-Inhalt. Schlaegt der Abruf fehl, wirft die Funktion (Webhook 500,
+ * Stripe wiederholt) – es wird nichts aus dem Event geschrieben.
+ */
+// deno-lint-ignore no-explicit-any
+export async function aboStatusAusStripe(db: any, stripe: any, subOderId: any, jetzt = new Date()): Promise<string> {
+  const id = typeof subOderId === "string" ? subOderId : subOderId?.id;
+  if (!id) throw new Error("keine Abo-ID");
+  const live = await stripe.subscriptions.retrieve(id);
+  return await aboStatusSchreiben(db, live, jetzt);
+}
+
+/** Schreibt einen (Live-)Abo-Stand. Nur mit Daten aus subscriptions.retrieve aufrufen. */
 // deno-lint-ignore no-explicit-any
 export async function aboStatusSchreiben(db: any, sub: any, jetzt = new Date()): Promise<string> {
   const status = appStatus(String(sub?.status ?? ""));
