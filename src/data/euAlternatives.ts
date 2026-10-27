@@ -676,7 +676,7 @@ export const EU_ALTERNATIVES: EUAlternative[] = [
     ],
     deTaxImpact: "Mutter-Tochter-RL: 0 % Quellensteuer auf Dividenden zwischen LU-Soparfi + DE-GmbH (≥ 10 % Beteiligung). Bei DE-Wohnsitz: §AStG-Hinzurechnung bei niedriger Besteuerung (< 15 %, § 8 Abs. 5 AStG seit 2024) UND passiven Einkünften — Soparfi mit aktivem Beteiligungs-Management typisch unkritisch. Beratung essentiell (Substanz nach § 50d Abs. 3 EStG / DBA-PPT).",
     officialLinks: [
-      { label: "RCS Luxembourg", url: "https://www.rcsl.lu" },
+      { label: "Luxembourg Business Registers (RCS)", url: "https://www.lbr.lu" },
       { label: "Big-4 LU Tax (PwC)", url: "https://www.pwc.lu/en.html" },
       { label: "Loyens & Loeff LU", url: "https://www.loyensloeff.com/en/en/locations/luxembourg/" },
     ],

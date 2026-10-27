@@ -136,7 +136,7 @@ export const FOERDERPROGRAMME: Foerderung[] = [
     emoji: "🚀",
     type: "zuschuss",
     scope: "bund",
-    maxFunding: "15 % des Investments, max 100k € pro Jahr (Erwerbszuschuss) + 25 % Exit-Zuschuss",
+    maxFunding: "15 % des Investments, max. 100k € Erwerbszuschuss insgesamt je Investor + 25 % Exit-Zuschuss",
     zielgruppe: ["Business Angels", "Privatpersonen die in Startups investieren"],
     phase: ["gruendung", "aufbau"],
     branche: ["innovativ", "tech"],
@@ -145,7 +145,7 @@ export const FOERDERPROGRAMME: Foerderung[] = [
     conditions: [
       "Junges innovatives Unternehmen (< 7 Jahre, < 10 Mio Umsatz, < 50 Mitarbeiter)",
       "Anteile mind. 3 Jahre halten",
-      "Min. 10k € pro Investor; Erwerbszuschuss 15 %, max. 100k €/Jahr je Investor; bis 3 Mio € förderfähiges Investment je Unternehmen/Jahr",
+      "Min. 10k € pro Investor; Erwerbszuschuss 15 %, max. 100k € insgesamt je Investor (max. 50k € je Einzelinvestment); bis 3 Mio € förderfähiges Investment je Unternehmen/Jahr",
     ],
     antragUrl: "https://www.bafa.de/invest",
   },
