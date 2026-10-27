@@ -5,8 +5,8 @@
 //                              erst der Knopf schickt das ab): setzt
 //                              app_metadata.mail_verifiziert = true, wenn
 //                              Signatur, Ablauf und Adresse des Kontos passen.
-// POST { aktion: "senden" } -> mit Login: Mail erneut schicken (hoechstens
-//                              alle 10 Minuten, nur solange unbestaetigt).
+// POST { aktion: "senden" } -> mit Login: Mail erneut schicken (atomar begrenzt:
+//                              alle 10 Minuten, 5 pro Tag; nur solange unbestaetigt).
 // Hintergrund: siehe _shared/mailBesitz.ts.
 // ===================================================================
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
@@ -37,9 +37,9 @@ Deno.serve(async (req) => {
     const user = data?.user;
     if (!user) return json({ error: "login" }, 401);
     if (mailVerifiziert(user)) return json({ ok: true, schon: true });
-    const zuletzt = Date.parse(String(user.app_metadata?.mail_verify_gesendet_at ?? "")) || 0;
-    if (Date.now() - zuletzt < 10 * 60 * 1000) return json({ error: "zu_frueh" }, 429);
-    return json({ ok: await verifizierungSenden(admin, user) });
+    const e = await verifizierungSenden(admin, user);   // Limit atomar im RPC (10 Min, 5/Tag)
+    if (e === "gedrosselt") return json({ error: "zu_frueh" }, 429);
+    return json({ ok: e === "gesendet" }, e === "gesendet" ? 200 : 500);
   }
 
   const p = await pruefeVerifyToken(KEY, String(body?.token ?? ""));
