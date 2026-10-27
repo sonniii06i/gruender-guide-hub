@@ -1,53 +1,21 @@
 {
- "stand": "2026-10-26T10:13:41.322Z",
+ "stand": "2026-10-27T09:54:00.291Z",
  "quelle": {
   "ok": true,
-  "roh": 167,
-  "uebernommen": 20,
+  "roh": 174,
+  "uebernommen": 19,
   "verworfen": {
-   "nur_einladung": 20,
-   "vor_ort_fern": 72,
+   "nur_einladung": 23,
+   "vor_ort_fern": 75,
    "frist_vorbei": 7,
-   "preis_unter_5000_usd": 38,
+   "preis_unter_5000_usd": 40,
    "kein_usd_betrag": 10,
    "ueber_max": 0
   },
-  "letzterErfolg": "2026-10-26T10:13:41.321Z"
+  "letzterErfolg": "2026-10-27T09:54:00.290Z"
  },
- "anzahl": 20,
+ "anzahl": 19,
  "eintraege": [
-  {
-   "id": "devpost-31503",
-   "titel": "Life After Code",
-   "url": "https://gitlab-transcend.devpost.com/",
-   "ende": "2026-10-27",
-   "preisUsd": 45000,
-   "geldpreise": 9,
-   "anmeldungen": 3235,
-   "ort": "Online",
-   "veranstalter": "GitLab",
-   "themen": [
-    "DevOps",
-    "Machine Learning/AI",
-    "Productivity"
-   ]
-  },
-  {
-   "id": "devpost-30984",
-   "titel": "OpenCV AI Competition 2026, powered by AWS",
-   "url": "https://opencv26.devpost.com/",
-   "ende": "2026-10-27",
-   "preisUsd": 20250,
-   "geldpreise": 1,
-   "anmeldungen": 6171,
-   "ort": "Online",
-   "veranstalter": "OpenCV",
-   "themen": [
-    "IoT",
-    "Machine Learning/AI",
-    "Serverless"
-   ]
-  },
   {
    "id": "devpost-31052",
    "titel": "AWS Communication Developer Services (CDS) Agentic AI Partner Hackathon",
@@ -55,7 +23,7 @@
    "ende": "2026-10-28",
    "preisUsd": 40000,
    "geldpreise": 4,
-   "anmeldungen": 1038,
+   "anmeldungen": 1051,
    "ort": "Online",
    "veranstalter": "AWS",
    "themen": [
@@ -70,8 +38,8 @@
    "url": "https://nebiusglobalaihackathon.devpost.com/",
    "ende": "2026-10-30",
    "preisUsd": 50000,
-   "geldpreise": 6,
-   "anmeldungen": 27614,
+   "geldpreise": 1,
+   "anmeldungen": 28059,
    "ort": "Online",
    "veranstalter": "nebius",
    "themen": [
@@ -86,8 +54,8 @@
    "url": "https://qloo.devpost.com/",
    "ende": "2026-10-30",
    "preisUsd": 25000,
-   "geldpreise": 1,
-   "anmeldungen": 2470,
+   "geldpreise": 3,
+   "anmeldungen": 2565,
    "ort": "Online",
    "veranstalter": "Qloo",
    "themen": [
@@ -100,8 +68,8 @@
    "url": "https://twitchcon-codex.devpost.com/",
    "ende": "2026-11-02",
    "preisUsd": 25000,
-   "geldpreise": 4,
-   "anmeldungen": 807,
+   "geldpreise": 1,
+   "anmeldungen": 1184,
    "ort": "Online",
    "veranstalter": "Twitch",
    "themen": [
@@ -116,8 +84,8 @@
    "url": "https://youcam-api-skin-ai-ecommerce.devpost.com/",
    "ende": "2026-11-02",
    "preisUsd": 6000,
-   "geldpreise": 5,
-   "anmeldungen": 1277,
+   "geldpreise": 1,
+   "anmeldungen": 1331,
    "ort": "Online",
    "veranstalter": "Perfect Corp",
    "themen": [
@@ -133,7 +101,7 @@
    "ende": "2026-11-12",
    "preisUsd": 67500,
    "geldpreise": 14,
-   "anmeldungen": 21609,
+   "anmeldungen": 22387,
    "ort": "Online",
    "veranstalter": "PayPal",
    "themen": [
@@ -149,7 +117,7 @@
    "ende": "2026-11-15",
    "preisUsd": 17150,
    "geldpreise": 8,
-   "anmeldungen": 140,
+   "anmeldungen": 149,
    "ort": "Online",
    "veranstalter": "CodeStarters",
    "themen": [
@@ -165,7 +133,7 @@
    "ende": "2026-11-16",
    "preisUsd": 46000,
    "geldpreise": 4,
-   "anmeldungen": 428,
+   "anmeldungen": 539,
    "ort": "Online",
    "veranstalter": "UGREEN",
    "themen": [
@@ -181,7 +149,7 @@
    "ende": "2026-11-18",
    "preisUsd": 1000000,
    "geldpreise": 19,
-   "anmeldungen": 4026,
+   "anmeldungen": 4164,
    "ort": "Online",
    "veranstalter": "Meta",
    "themen": [
@@ -191,13 +159,43 @@
    ]
   },
   {
+   "id": "devpost-31820",
+   "titel": "HackTheFashion Global'26",
+   "url": "https://hackthefashion-global26.devpost.com/",
+   "ende": "2026-11-25",
+   "preisUsd": 45000,
+   "geldpreise": 1,
+   "anmeldungen": 15,
+   "ort": "Online",
+   "veranstalter": "FabricVTON",
+   "themen": [
+    "AR/VR",
+    "Beginner Friendly",
+    "Machine Learning/AI"
+   ]
+  },
+  {
+   "id": "devpost-31808",
+   "titel": "#BuildHybridAI 2026",
+   "url": "https://firebasehybridaihackathon.devpost.com/",
+   "ende": "2026-11-30",
+   "preisUsd": 5000,
+   "geldpreise": 1,
+   "anmeldungen": 53,
+   "ort": "Online",
+   "veranstalter": "Google",
+   "themen": [
+    "Machine Learning/AI"
+   ]
+  },
+  {
    "id": "devpost-31667",
    "titel": "Kiroween 2026",
    "url": "https://kiroween.devpost.com/",
    "ende": "2026-12-04",
    "preisUsd": 100000,
    "geldpreise": 1,
-   "anmeldungen": 1382,
+   "anmeldungen": 1621,
    "ort": "Online",
    "veranstalter": "Kiro",
    "themen": [
@@ -213,7 +211,7 @@
    "ende": "2026-12-21",
    "preisUsd": 7800,
    "geldpreise": 5,
-   "anmeldungen": 559,
+   "anmeldungen": 592,
    "ort": "Online",
    "veranstalter": "Arbiter ",
    "themen": [
@@ -223,29 +221,13 @@
    ]
   },
   {
-   "id": "devpost-31820",
-   "titel": "HackTheFashion Global'26",
-   "url": "https://hackthefashion-global26.devpost.com/",
-   "ende": "2026-12-31",
-   "preisUsd": 45000,
-   "geldpreise": 1,
-   "anmeldungen": 10,
-   "ort": "Online",
-   "veranstalter": "FabricVTON",
-   "themen": [
-    "AR/VR",
-    "Beginner Friendly",
-    "Machine Learning/AI"
-   ]
-  },
-  {
    "id": "devpost-30819",
    "titel": "United Hacks V8",
    "url": "https://unitedhacksv8.devpost.com/",
    "ende": "2027-01-10",
    "preisUsd": 13700,
    "geldpreise": 5,
-   "anmeldungen": 294,
+   "anmeldungen": 304,
    "ort": "Online",
    "veranstalter": "Hack United",
    "themen": [
@@ -261,7 +243,7 @@
    "ende": "2027-01-10",
    "preisUsd": 11960,
    "geldpreise": 7,
-   "anmeldungen": 60,
+   "anmeldungen": 63,
    "ort": "Online",
    "veranstalter": "Checkpoint",
    "themen": [
@@ -275,9 +257,9 @@
    "titel": "Cosmo Hacks 2026",
    "url": "https://cosmohacks.devpost.com/",
    "ende": "2027-01-18",
-   "preisUsd": 196955,
-   "geldpreise": 19,
-   "anmeldungen": 493,
+   "preisUsd": 146700,
+   "geldpreise": 11,
+   "anmeldungen": 517,
    "ort": "Online",
    "veranstalter": "Cosmo Hacks",
    "themen": [
@@ -293,7 +275,7 @@
    "ende": "2027-02-04",
    "preisUsd": 10000,
    "geldpreise": 1,
-   "anmeldungen": 193,
+   "anmeldungen": 196,
    "ort": "Online",
    "veranstalter": "IWU",
    "themen": [
@@ -309,7 +291,7 @@
    "ende": "2027-02-13",
    "preisUsd": 10200,
    "geldpreise": 16,
-   "anmeldungen": 0,
+   "anmeldungen": 1,
    "ort": "Online",
    "veranstalter": "BASIS Independent Silicon Valley",
    "themen": [
@@ -325,7 +307,7 @@
    "ende": "2027-03-15",
    "preisUsd": 5000,
    "geldpreise": 1,
-   "anmeldungen": 45,
+   "anmeldungen": 47,
    "ort": "Online",
    "veranstalter": "OSC",
    "themen": [
