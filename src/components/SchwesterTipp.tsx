@@ -32,6 +32,15 @@ const ZIEL_JE_GUIDE: Record<string, Ziel> = {
   "amazon-fba-launch": "arbitragex", "pan-eu-fba": "arbitragex", "reseller-marketplace-setup": "arbitragex",
 };
 
+// Freigabe #62 (27.10.2026): Founder-Set in der Gründungswoche hervorheben – regulärer Set-Preis, KEIN zusätzlicher Rabatt.
+// Stripe nimmt nur einen Code je Kauf an; Aktions- und FOUNDER-Code stapeln sich deshalb nie (Aktionsgrenzen bleiben gewahrt).
+export const GRUENDUNGSWOCHE = { von: "2026-11-16", bis: "2026-11-22" };
+
+export function inGruendungswoche(jetzt: Date = new Date()): boolean {
+  const tag = new Intl.DateTimeFormat("sv-SE", { timeZone: "Europe/Berlin" }).format(jetzt); // JJJJ-MM-TT
+  return tag >= GRUENDUNGSWOCHE.von && tag <= GRUENDUNGSWOCHE.bis;
+}
+
 export function schwesterZiel(slug: string): Ziel | null {
   return ZIEL_JE_GUIDE[slug] ?? null;
 }
@@ -65,9 +74,17 @@ export default function SchwesterTipp({ slug }: { slug: string }) {
       <h2 className="mb-2 text-lg font-bold leading-snug sm:text-xl">{t.titel}</h2>
       <p className="mb-3 text-sm leading-relaxed text-muted-foreground">{t.text}</p>
       {ziel === "anwaltx" ? (
-        <p className="mb-3 text-sm text-muted-foreground">
-          Beides zusammen: Founder-Set GründerX + AnwaltX für {formatEurCents(PLANS.bundle.grossCents)} im Monat (inkl. USt.).
-        </p>
+        inGruendungswoche() ? (
+          <p className="mb-3 rounded-lg bg-background px-3 py-2 text-sm font-medium">
+            Gründungswoche (16.–22.11.): Founder-Set GründerX + AnwaltX für {formatEurCents(PLANS.bundle.grossCents)} im
+            Monat statt einzeln {formatEurCents(PLANS.bundle.anchorCents ?? 0)} (inkl. USt.). Je Kauf gilt ein Code; Rabattcodes
+            lassen sich nicht kombinieren.
+          </p>
+        ) : (
+          <p className="mb-3 text-sm text-muted-foreground">
+            Beides zusammen: Founder-Set GründerX + AnwaltX für {formatEurCents(PLANS.bundle.grossCents)} im Monat (inkl. USt.).
+          </p>
+        )
       ) : null}
       {aktion?.text ? (
         <p className="mb-3 flex items-start gap-2 rounded-lg bg-background px-3 py-2 text-sm font-medium">

@@ -28,4 +28,12 @@ describe("SchwesterTipp", () => {
     await waitFor(() => expect(screen.getByText(/Gerade bei ArbitrageX: Black Week: 50 %/)).toBeTruthy());
     expect(screen.getByText("AXBLACK50")).toBeTruthy();
   });
+
+  it("hebt das Founder-Set nur in der Gründungswoche hervor (Freigabe #62)", async () => {
+    const { inGruendungswoche } = await import("@/components/SchwesterTipp");
+    expect(inGruendungswoche(new Date("2026-11-15T22:59:00Z"))).toBe(false); // 23:59 Berlin, 15.11.
+    expect(inGruendungswoche(new Date("2026-11-15T23:00:00Z"))).toBe(true);  // 00:00 Berlin, 16.11.
+    expect(inGruendungswoche(new Date("2026-11-22T22:59:00Z"))).toBe(true);
+    expect(inGruendungswoche(new Date("2026-11-22T23:00:00Z"))).toBe(false);
+  });
 });
