@@ -294,7 +294,7 @@ const SteuerCockpit = () => {
             checked={dauerfrist}
             onChange={setDauerfrist}
             label="Dauerfristverlängerung"
-            help="USt-VA-Frist verschiebt sich um 1 Monat. 1/11-Sondervorauszahlung Pflicht."
+            help="USt-VA-Frist verschiebt sich um 1 Monat. Bei monatlicher Abgabe 1/11-Sondervorauszahlung (fällig 10.02.); bei Quartalsabgabe keine."
             disabled={ustMode === "keine"}
           />
           <Toggle
@@ -331,8 +331,9 @@ const SteuerCockpit = () => {
       >
         {dauerfrist && ustMode !== "keine" && (
           <Callout tone="info" title="Dauerfristverlängerung aktiv" className="mb-4">
-            USt-VA-Termine sind um 1 Monat verschoben. Q4 wird also erst am <strong>10.02.</strong> (statt 10.01.) fällig.
-            Die Sondervorauszahlung 1/11 wird im Februar fällig.
+            USt-VA-Termine sind um 1 Monat verschoben.
+            {ustMode === "quartal" && <> Q4 wird also erst am <strong>10.02.</strong> (statt 10.01.) fällig.</>}
+            {ustMode === "monatlich" && <> Die Sondervorauszahlung 1/11 wird am <strong>10.02.</strong> fällig.</>}
           </Callout>
         )}
 
@@ -386,7 +387,7 @@ const SteuerCockpit = () => {
             <Row label="Steuer-Ersparnis heute" value={`${Math.round(iabSteuer).toLocaleString("de-DE")} €`} highlight />
           </div>
           <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
-            Max. 200.000 € pro Betrieb. Voraussetzung 2026: Gewinn vor IAB ≤ 200.000 €/Jahr, für alle Rechtsformen gleich (die Bilanzsummen-Grenze ist seit dem JStG 2020 abgeschafft). Bei Nicht-Investition binnen 3 Jahren: rückwirkende Auflösung + Nachzahlungszinsen 0,15 % pro Monat (1,8 % p.a., §233a i. V. m. §238 Abs. 1 AO).
+            Max. 200.000 € pro Betrieb. Voraussetzung 2026: Gewinn vor IAB ≤ 200.000 €/Jahr, für alle Rechtsformen gleich (die Bilanzsummen-Grenze ist seit dem JStG 2020 abgeschafft). Bei Nicht-Investition binnen 3 Jahren: rückwirkende Auflösung + Nachzahlungszinsen 0,15 % pro Monat (1,8 % p.a., §233a i. V. m. §238 Abs. 1a AO).
           </p>
         </ToolSection>
 
@@ -441,11 +442,11 @@ const SteuerCockpit = () => {
           <li>Korrekter Verbuchung von Amazon-Auszahlungen (PayJoe / Taxdoo / Amainvoice)</li>
           <li>OSS-Setup vs. lokale UStID in EU-Lagerländern (PL, CZ, IT, ES, FR)</li>
           <li>Stock-Movement-Verbuchung (Sachspende vs. Lagerumlagerung)</li>
-          <li>Integration mit lexoffice / sevDesk / DATEV (DATEV-Export aus PayJoe)</li>
+          <li>Integration mit Lexware Office / sevDesk / DATEV (DATEV-Export aus PayJoe)</li>
           <li>Empfehlungen für FBA-erfahrene StB in deinem Bundesland</li>
         </ul>
         <Callout tone="accent" icon={Sparkles} className="mb-4">
-          <span className="font-semibold text-foreground">Neu:</span> Komplette Liste aller PayJoe/Lexoffice
+          <span className="font-semibold text-foreground">Neu:</span> Komplette Liste aller PayJoe/Lexware-Office
           Amazon-Buchungstexte (AMA-SG-DE, AMA-BG-IT, AUSZ-DE, MZNFS, FBAFees etc.) mit SKR03/04-Konto,
           USt-Behandlung und Live-Lookup-Tool.
         </Callout>

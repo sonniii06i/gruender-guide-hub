@@ -291,7 +291,7 @@ const GewerbeCheck = () => {
             text: "Berufsgenossenschaft prüfen — manche Berufe Pflicht (z.B. Heilberufe)",
           },
           {
-            text: "Krankenversicherung: KSK prüfen (Künstler/Publizisten) — Bund übernimmt 50%!",
+            text: "Krankenversicherung: KSK prüfen (Künstler/Publizisten) — du zahlst nur etwa die Hälfte, den Rest tragen Bundeszuschuss und Künstlersozialabgabe",
             extern: "https://www.kuenstlersozialkasse.de",
           },
           { text: "USt-Rechner: prüfe Kleinunternehmer §19 (25k/100k 2026)", route: "/cockpit/ust-rechner" },

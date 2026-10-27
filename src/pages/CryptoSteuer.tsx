@@ -546,11 +546,12 @@ const CryptoSteuer = () => {
         <dl className="divide-y divide-border/70 text-sm">
           {[
             { t: "1-Jahres-Haltefrist", d: "Coins, die länger als 12 Monate gehalten wurden, sind beim Verkauf steuerfrei, auch bei Millionengewinnen." },
-            { t: "FIFO-Pflicht", d: "First-In-First-Out für die Zuordnung von Kauf und Verkauf. Andere Verfahren (LIFO, Durchschnitt) sind seit dem BMF-Schreiben 2022 nicht mehr zulässig." },
+            { t: "Verbrauchsfolge", d: "Vorrang hat die Einzelbetrachtung. Ist sie nicht möglich, gilt für die Haltefrist FIFO; für den Gewinn die Durchschnittsmethode oder vereinfachend FIFO. Die Methode wird je Wallet und Coin bis zum vollständigen Verkauf beibehalten (BMF 06.03.2025, Rz. 61 f.). Dieses Tool rechnet mit FIFO." },
             { t: "Freigrenze 1.000 €", d: "Seit 2024 (vorher 600 €). Darunter komplett steuerfrei, darüber voll steuerpflichtig, nicht nur der übersteigende Teil." },
             { t: "Staking und Lending", d: "Erträge gelten als Einkünfte aus sonstigen Leistungen (§22 Nr. 3 EStG), getrennt von Veräußerungsgewinnen, eigene Freigrenze 256 €." },
-            { t: "NFTs", d: "Gelten meist ebenfalls als Crypto-Coins, also §23-EStG-Logik." },
-            { t: "Mining", d: "Gewerbliche Einkünfte nach §15 EStG, dann KSt und GewSt oder ESt-Tarif." },
+            { t: "NFTs", d: "Vom BMF-Schreiben ausgenommen; Einzelfall, StB fragen." },
+            { t: "Mining", d: "Je nach Umfang privat (§22 Nr. 3 EStG) oder gewerblich (§15 EStG), dann KSt und GewSt oder ESt-Tarif." },
+            { t: "Meldepflicht ab 2026 (DAC8/KStTG)", d: "Börsen und Wallet-Anbieter melden seit 2026 Nutzer- und Transaktionsdaten ans BZSt, erstmals für 2026 bis 31.07.2027 (§§ 9, 10 KStTG)." },
             { t: "Verlustverrechnung nach §23 (3) EStG", d: "Verluste aus Crypto-Verkäufen sind nur mit Gewinnen aus privaten Veräußerungsgeschäften verrechenbar, nicht mit Gehalt, Dividenden oder Zinsen. Verbleibende Verluste werden unbegrenzt vorgetragen oder 1 Jahr zurückgetragen." },
             { t: "Loss-Harvesting", d: "Vor Jahresende Coins mit Buchverlust verkaufen und sofort zurückkaufen (in DE kein Wash-Sale-Verbot): Der Verlust ist steuerlich realisiert, die Position bleibt. Nur bei weniger als 1 Jahr Haltedauer relevant." },
             { t: "Steuersatz", d: "Veräußerungsgewinne werden mit deinem persönlichen Grenzsteuersatz besteuert, nicht mit der Abgeltungsteuer von 25 %. Bei hohem Einkommen 42 bis 45 %, bei niedrigem 14 bis 32 %." },
@@ -569,9 +570,9 @@ const CryptoSteuer = () => {
         sources={[
           { label: "§23 EStG (Privates Veräußerungsgeschäft)", url: "https://www.gesetze-im-internet.de/estg/__23.html" },
           { label: "§22 Nr. 3 EStG (Sonstige Einkünfte)", url: "https://www.gesetze-im-internet.de/estg/__22.html" },
-          { label: "BMF-Schreiben Crypto 10.05.2022", url: "https://www.bundesfinanzministerium.de/Content/DE/Downloads/BMF_Schreiben/Steuerarten/Einkommensteuer/2022-05-10-einzelfragen-zur-ertragsteuerrechtlichen-behandlung-von-virtuellen-waehrungen-und-von-sonstigen-token.html" },
+          { label: "BMF-Schreiben Kryptowerte 06.03.2025", url: "https://www.bundesfinanzministerium.de/Content/DE/Downloads/BMF_Schreiben/Steuerarten/Einkommensteuer/2025-03-06-einzelfragen-kryptowerte.html" },
         ]}
-        note="FIFO-Pflicht seit BMF 2022. Tool berechnet nur Veräußerungsgewinne — Mining/Staking/Lending separat (§22 Nr. 3 EStG, eigene Freigrenze 256 €)."
+        note="FIFO zulässig (BMF 06.03.2025). Tool berechnet nur Veräußerungsgewinne — Mining/Staking/Lending separat (§22 Nr. 3 EStG, eigene Freigrenze 256 €)."
       />
     </CockpitShell>
   );

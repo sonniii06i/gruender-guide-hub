@@ -39,11 +39,11 @@ interface Row {
 
 const ROWS: Row[] = [
   {
-    feature: "Buchhaltungs-Tarif (Richtwert, jährl. Zahlung)",
+    feature: "Buchhaltungs-Tarif (Richtwert, netto zzgl. MwSt.)",
     elster: "kostenlos",
-    lexware: "Paket L: 19,90 EUR/Mon (Aktion ~9,95)",
-    sevdesk: "Buchhaltung: ~9,95 EUR/Mon",
-    hint: "EÜR + USt-VA gibt es erst ab diesem Tarif. Reine Rechnungs-Tarife sind günstiger (Lexware M ~11,90, sevDesk Rechnung ~4,45), enthalten aber KEINE Buchhaltung/EÜR/USt-VA. Preise schwanken mit Aktionen.",
+    lexware: "Paket L: 21,90 EUR/Mon (Aktion 10,95 für 3 Monate)",
+    sevdesk: "Buchhaltung: 19,90–25,90 EUR/Mon (Aktion ~9,95)",
+    hint: "EÜR + USt-VA gibt es erst ab diesem Tarif. Reine Rechnungs-Tarife sind günstiger (Lexware M 12,90, sevDesk Rechnung ~4,45), enthalten aber KEINE Buchhaltung/EÜR/USt-VA. Preise schwanken mit Aktionen.",
   },
   { feature: "USt-Voranmeldung per ELSTER", elster: "manuell ausfüllen", lexware: "auf Knopfdruck", sevdesk: "auf Knopfdruck" },
   { feature: "Zusammenfassende Meldung (ZM) ans BZSt", elster: "manuell ausfüllen", lexware: true, sevdesk: true, hint: "Pflicht bei EU-B2B (innergemeinschaftliche Lieferungen/sonstige Leistungen mit USt-IdNr). Beide Tools erstellen + übermitteln sie elektronisch - die ZM geht ans Bundeszentralamt für Steuern (BZSt), nicht ans Finanzamt." },
@@ -124,8 +124,8 @@ const LEXWARE_STEPS = [
   "Beleg per App fotografieren oder hochladen. Die OCR liest Betrag, Datum und USt automatisch aus.",
   "Beleg einer Kategorie zuordnen (z. B. Wareneinkauf, Bürobedarf). Die Software schlägt sie vor.",
   "Bankkonto verbinden: Zahlungen werden automatisch den Belegen/Rechnungen zugeordnet.",
-  "USt-Voranmeldung: unter Menü Steuern & Auswertungen. Software berechnet die Zahllast und übermittelt sie mit einem Klick per ELSTER ans Finanzamt.",
-  "Zusammenfassende Meldung (ZM): ebenfalls unter Steuern & Auswertungen - bei EU-B2B-Umsätzen automatisch befüllt und ans BZSt gesendet.",
+  "USt-Voranmeldung: unter Menü Buchhaltung → Steuerliche Meldungen. Software berechnet die Zahllast und übermittelt sie mit einem Klick per ELSTER ans Finanzamt.",
+  "Zusammenfassende Meldung (ZM): ebenfalls unter Buchhaltung → Steuerliche Meldungen - bei EU-B2B-Umsätzen automatisch befüllt und ans BZSt gesendet.",
   "Jahresende: EÜR auf Knopfdruck erstellen und per ELSTER übermitteln. Für den StB: DATEV-Export.",
 ];
 
@@ -133,8 +133,8 @@ const SEVDESK_STEPS = [
   "Beleg hochladen/scannen. OCR erkennt die Daten, Massen-Upload für viele Belege möglich.",
   "Automatische Buchung über Regeln (wiederkehrende Belege werden selbst zugeordnet).",
   "Banking + Shop-Schnittstellen (Shopify/Amazon/Billbee) synchronisieren Umsätze und Zahlungen.",
-  "USt-Voranmeldung: unter Umsatzsteuer & Buchhaltung. Direkt aus sevDesk per ELSTER abgeben, Fristen werden angezeigt.",
-  "Zusammenfassende Meldung (ZM): ebenfalls im Bereich Umsatzsteuer & Buchhaltung erstellen und elektronisch ans BZSt übermitteln.",
+  "USt-Voranmeldung: im Bereich Steuern. Direkt aus sevDesk per ELSTER abgeben, Fristen werden angezeigt.",
+  "Zusammenfassende Meldung (ZM): ob und wo sevDesk sie direkt übermittelt, belegt die sevDesk-Hilfe derzeit nicht – im Zweifel über ELSTER (BZSt) abgeben.",
   "EÜR-Export + DATEV-Export für das Jahresende bzw. den Steuerberater.",
 ];
 
@@ -232,7 +232,7 @@ const BuchhaltungssoftwareGuide = () => {
             <div className="rounded-xl border border-border bg-secondary/50 p-4">
               <div className="mb-1 font-semibold text-foreground">Lexware Office</div>
               <p className="text-sm leading-relaxed text-muted-foreground">
-                Menü <strong className="text-foreground">Steuern &amp; Auswertungen</strong>. Dort findest du die
+                Menü <strong className="text-foreground">Buchhaltung → Steuerliche Meldungen</strong>. Dort findest du die
                 <strong className="text-foreground"> USt-Voranmeldung</strong> (berechnet und per ELSTER ans Finanzamt), die
                 <strong className="text-foreground"> Zusammenfassende Meldung (ZM)</strong> (bei EU-B2B, automatisch befüllt, ans BZSt) und
                 den <strong className="text-foreground">Antrag auf Dauerfristverlängerung</strong>.
@@ -241,9 +241,10 @@ const BuchhaltungssoftwareGuide = () => {
             <div className="rounded-xl border border-border bg-secondary/50 p-4">
               <div className="mb-1 font-semibold text-foreground">sevDesk</div>
               <p className="text-sm leading-relaxed text-muted-foreground">
-                Bereich <strong className="text-foreground">Umsatzsteuer &amp; Buchhaltung</strong>. Dort liegen die
-                <strong className="text-foreground"> USt-Voranmeldung</strong> (direkt per ELSTER), die <strong className="text-foreground">Zusammenfassende Meldung (ZM)</strong>{" "}
-                (ans BZSt) und der <strong className="text-foreground">Dauerfristverlängerungs-Antrag</strong>.
+                Bereich <strong className="text-foreground">Steuern</strong>. Dort liegt die
+                <strong className="text-foreground"> USt-Voranmeldung</strong> (direkt per ELSTER). Für die{" "}
+                <strong className="text-foreground">Zusammenfassende Meldung (ZM)</strong> und den{" "}
+                <strong className="text-foreground">Dauerfristverlängerungs-Antrag</strong> nennt die sevDesk-Hilfe derzeit keinen eigenen Weg – im Zweifel direkt in ELSTER.
               </p>
             </div>
           </div>
@@ -272,14 +273,14 @@ const BuchhaltungssoftwareGuide = () => {
 
       <Stand2026Footer
         sources={[
-          { label: "Lexware Office (Funktionen & Preise)", url: "https://www.lexware.de/office/preise/" },
-          { label: "Lexware Office: USt-Voranmeldung senden", url: "https://help.lexware.de/de-form/articles/548032-umsatzsteuervoranmeldung-anzeigen-prufen-und-an-das-finanzamt-senden" },
-          { label: "Lexware Office: Zusammenfassende Meldung (ZM)", url: "https://help.lexware.de/de-form/articles/553620-zusammenfassende-meldung-zm" },
-          { label: "sevDesk: Zusammenfassende Meldung erstellen", url: "https://hilfe.sevdesk.de/de/articles/9387997-zusammenfassende-meldung-erstellen" },
+          { label: "Lexware Office (Funktionen & Preise)", url: "https://www.lexware.de/preise/" },
+          { label: "Lexware Office: USt-Voranmeldung senden", url: "https://help.lexware.de/de-form/articles/548028-wie-mache-ich-meine-umsatzsteuer-voranmeldung-ust-va" },
+          { label: "Lexware Office: Zusammenfassende Meldung (ZM)", url: "https://help.lexware.de/de-form/articles/548021-wie-gebe-ich-meine-zusammenfassende-meldung-ab" },
+          { label: "sevDesk: Umsatzsteuervoranmeldung (UStVA)", url: "https://hilfe.sevdesk.de/de/articles/9310598-umsatzsteuervoranmeldung-ustva" },
           { label: "sevDesk Tarife & Funktionen", url: "https://sevdesk.de/preise/" },
           { label: "ELSTER (kostenloses Finanzamt-Portal)", url: "https://www.elster.de" },
         ]}
-        note="Funktionen gegen die offiziellen Anbieterseiten verifiziert (2026-05-30). Preise sind Richtwerte und aktionsabhängig, beim Anbieter prüfen. EÜR + USt-VA per ELSTER ab Lexware Paket L bzw. sevDesk Buchhaltung. Keine Steuerberatung."
+        note="Funktionen gegen die offiziellen Anbieterseiten verifiziert (2026-10-27). Preise sind Richtwerte und aktionsabhängig, beim Anbieter prüfen. EÜR + USt-VA per ELSTER ab Lexware Paket L bzw. sevDesk Buchhaltung. Keine Steuerberatung."
       />
     </CockpitShell>
   );

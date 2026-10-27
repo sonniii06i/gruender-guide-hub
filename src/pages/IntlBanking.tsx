@@ -133,19 +133,19 @@ const BANKS: Bank[] = [
     monthlyFee: "$0 (Plus $35 / Pro $350)",
     setupFee: "$0",
     nonResident: "ja",
-    bestFor: "US-LLC mit Stripe-Operations · Treasury-Yield bis 4,97% net · DE-Founder mit Wyoming/Delaware-LLC",
+    bestFor: "US-LLC mit Stripe-Operations · Treasury-Yield bis 4,09 % netto (erst ab 20 Mio. $ Einlagen) · DE-Founder mit Wyoming/Delaware-LLC",
     pros: [
       "**$0 Setup + Monthly Standard-Plan** — wirklich kostenlos",
       "Akzeptiert non-Resident Founder von 200+ Ländern (DACH-Solos inkl.)",
       "Sehr saubere App + Web-UI, API + Stripe-Integration",
-      "Mercury Treasury: **bis 4,97% net** Yield (laut mercury.com/treasury, Stand 8.5.2026, ab $500k Guthaben; variabel, folgt dem US-Leitzins)",
+      "Mercury Treasury: **bis 4,09 % netto** Yield (nur bei 20–50 Mio. $ Einlagen; 250k–2 Mio. $: ca. 3,3–3,6 %), Mindestguthaben 250.000 $ (laut mercury.com/treasury, Stand 27.10.2026; variabel, folgt dem US-Leitzins)",
       "Wires + ACH inkl., FDIC bis $5M via Sweep zu Partner-Banks",
-      "Mercury Bank N.A. eigene OCC-Charter approved April 2026 (weg von Partner-Banking)",
+      "Mercury Bank N.A.: vorläufige bedingte OCC-Zusage April 2026; bis zur finalen Zulassung weiter Partnerbanken",
     ],
     cons: [
       "**Closure-Wellen seit 2024**: 37+ Länder gesperrt (Ukraine, Nigeria, Venezuela etc.) — DE selbst safe",
       "**Registered-Agent-Adressen seit 2025 NICHT mehr akzeptiert** → echte US-Adresse Pflicht (Mailbox-Provider mit Lease OK)",
-      "1% FX-Markup auf non-USD Card-Transactions (auch in EU einkaufen kostet 1%)",
+      "3 % FX-Gebühr auf non-USD-Kartenzahlungen (auch in EU einkaufen kostet 3 %); 1 % bei non-USD-Wires",
       "Mercury IO Credit Card nur für VC-funded — Solo gibt's nicht",
     ],
     features: { multiCurrency: false, achWire: true, quickbooksXero: true, debitCard: true, apiAccess: true, crypto: false },
@@ -167,7 +167,7 @@ const BANKS: Bank[] = [
     g2Rating: 4.5,
     hiddenFees: [
       "Mass-API-Payments + FX brauchen $35/mo Plus-Plan",
-      "1% Conversion-Fee bei non-USD Card-Transactions",
+      "3 % FX-Gebühr auf non-USD-Kartenzahlungen (1 % bei non-USD-Wires)",
       "Treasury ist KEIN FDIC, nur SIPC ($500k Coverage)",
       "Hidden: bei Account-Closure 60-Tage-Hold ohne Vorwarnung möglich",
     ],
@@ -178,18 +178,18 @@ const BANKS: Bank[] = [
     region: "us",
     emoji: "💸",
     monthlyFee: "€0",
-    setupFee: "**Variiert nach Region**: DE €45 · US $31 · UK £45 · EEA €50 · SG SGD 99",
+    setupFee: "**Variiert nach Region**: DE 55 € · US $31 · UK £45 · EEA €50 · SG SGD 99",
     nonResident: "ja",
     bestFor: "Multi-Currency-Geschäft · DACH-Founder mit USD/GBP/EUR-Mix · FX-Optimierung",
     pros: [
-      "**Niedrigste FX-Kosten** der Liste (Mid-Market + 0,33-0,65%)",
+      "**Niedrigste FX-Kosten** der Liste (Mid-Market + ab 0,2 %, je nach Währung)",
       "Multi-Currency: USD, GBP, EUR, AUD + 50 weitere mit Local-Account-Details",
       "ACH-Routing + USD-IBAN — von Stripe/Amazon akzeptiert",
       "Batch-Payments, API, Invoicing-Tools (Business-Features)",
       "Wise Assets bis ~3,5% Yield (USD-Treasury-Fonds)",
     ],
     cons: [
-      "**Setup-Fee einmalig (NICHT €20!)** — DE €45, US $31, UK £45 je Region",
+      "**Setup-Fee einmalig (NICHT €20!)** — DE 55 €, US $31, UK £45 je Region",
       "**Closure-Risk medium-high** seit NBB-Mandate Q4 2024 + Wise US $4.2M-Settlement 2025",
       "Kein klassisches US-Bank-Konto (Geld liegt bei Wise, nicht bei US-Bank)",
       "Keine Kreditkarte (nur Debit)",
@@ -338,7 +338,7 @@ const BANKS: Bank[] = [
     name: "Airwallex",
     region: "hk",
     emoji: "✈️",
-    monthlyFee: "€0 Explore (€10k Saldo) sonst €19+ / €49 Grow / €999+ Accelerate",
+    monthlyFee: "€0 Explore (€10k Saldo) sonst €19+ / €49 Grow / Accelerate individuell",
     setupFee: "€0",
     nonResident: "ja",
     bestFor: "Wachstums-Startups mit Multi-Currency-Treasury · API-Integration · 20+ Local-Currency-IBANs",
@@ -818,7 +818,7 @@ const IntlBanking = () => {
           Onboarding-Erfolg ist nicht garantiert (Bank-eigenes Risk-Scoring). Bei US-LLC-Setup zwingend diese Reihenfolge:
           erst LLC-Filing, dann EIN, DANN Bank-Account-Antrag (BOI seit März 2025 NICHT mehr Pflicht).{" "}
           <strong className="font-semibold text-foreground">Preis-Variabilität:</strong> Wise Personal kostet €0 Setup
-          (typisch €20 Mindest-Einzahlung für KYC), Wise Business hat regionales Pricing (DE €45 / US $31 / UK £45 / SG SGD
+          (typisch €20 Mindest-Einzahlung für KYC), Wise Business hat regionales Pricing (DE 55 € / US $31 / UK £45 / SG SGD
           99 / EEA €50). Eigene Erfahrungen können abweichen; Referral-Links und Promotionen reduzieren das auf €0.
         </p>
       </div>
