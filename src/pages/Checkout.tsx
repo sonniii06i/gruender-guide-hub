@@ -6,6 +6,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useAccess } from "@/hooks/useAccess";
 import { supabase } from "@/integrations/supabase/client";
 import { getStoredAffiliateRef } from "@/utils/affiliate";
+import { checkoutAttribution } from "@/utils/checkoutAttribution";
 import { Button } from "@/components/ui/button";
 import {
   Loader2, Check, LogOut, Lock, RefreshCw, ShieldCheck, ShoppingCart,
@@ -245,7 +246,7 @@ const Checkout = () => {
   const checkout = async () => {
     setBusy(true);
     try {
-      const { data, error } = await supabase.functions.invoke("create-checkout", { body: { priceId: item.priceId, interval: item.interval, affiliateRef: getStoredAffiliateRef() } });
+      const { data, error } = await supabase.functions.invoke("create-checkout", { body: { priceId: item.priceId, interval: item.interval, affiliateRef: getStoredAffiliateRef(), ...checkoutAttribution() } });
       if (error) {
         // Den echten Backend-Fehler aus der Response ziehen (sonst nur "non-2xx status code").
         let msg = error.message;

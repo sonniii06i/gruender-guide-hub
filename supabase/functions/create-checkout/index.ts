@@ -3,6 +3,7 @@ import Stripe from "https://esm.sh/stripe@18.5.0";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
 import { abTestStrecke } from "../_shared/mailSend.ts";
 import { mitWerbeHinweis } from "../_shared/werbeHinweis.ts";
+import { utmMeta } from "../_shared/utmMeta.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -88,7 +89,10 @@ serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
-    const { priceId, affiliateRef, interval: rawInterval } = await req.json();
+    const body = await req.json();
+    const { priceId, affiliateRef, interval: rawInterval } = body;
+    // Freigabe #65: Quelle des Besuchs bis zur Zahlung nachvollziehbar (zuordnung.py im HQ)
+    const utm = utmMeta(body);
     if (!priceId) throw new Error("priceId required");
     if (typeof priceId !== "string" || !ANKER_PREISE[priceId]) {
       return new Response(JSON.stringify({ error: "Unbekannter Tarif." }), {
@@ -233,8 +237,9 @@ serve(async (req) => {
       allow_promotion_codes: true,
       // Affiliate-Attribution: Ref + Produkt an Session UND Abo haengen
       // (Webhook liest es bei checkout.session.completed + wiederkehrenden Rechnungen).
-      metadata: { supabase_user_id: user.id, product, interval, ...(affRef ? { affiliate_ref: affRef } : {}) },
-      subscription_data: { metadata: { product, interval, ...(affRef ? { affiliate_ref: affRef } : {}) } },
+      metadata: { supabase_user_id: user.id, product, interval, ...(affRef ? { affiliate_ref: affRef } : {}), ...utm },
+      subscription_data: { metadata: { product, interval, ...(affRef ? { affiliate_ref: affRef } : {}),
+        ...(utm.utm_source ? { utm_source: utm.utm_source } : {}), ...(utm.utm_campaign ? { utm_campaign: utm.utm_campaign } : {}) } },
       success_url: `${origin}/zahlung-erfolgreich?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/zahlung-abgebrochen`,
     });

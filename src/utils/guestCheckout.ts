@@ -13,6 +13,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { getStoredAffiliateRef } from "@/utils/affiliate";
 import { AD_CONVERSION_VALUES } from "@/config/tracking";
 import { hasMarketingConsent } from "@/utils/consent";
+import { attributionValue, checkoutAttribution } from "@/utils/checkoutAttribution";
 
 function cookie(name: string): string | undefined {
   if (typeof document === "undefined") return undefined;
@@ -21,21 +22,6 @@ function cookie(name: string): string | undefined {
     if (k === name) return rest.join("=");
   }
   return undefined;
-}
-
-/** Liest einen Wert aus der aktuellen URL oder dem gespeicherten First Touch. */
-function attributionValue(key: string): string | undefined {
-  if (typeof window === "undefined") return undefined;
-  const fromUrl = new URLSearchParams(window.location.search).get(key);
-  if (fromUrl) return fromUrl;
-  try {
-    const raw = localStorage.getItem("gx_first_touch");
-    if (!raw) return undefined;
-    const parsed = JSON.parse(raw) as Record<string, string>;
-    return parsed?.[key] || undefined;
-  } catch {
-    return undefined;
-  }
 }
 
 export type GuestProduct = "gruenderx" | "bundle";
@@ -67,11 +53,7 @@ export async function startGuestCheckout(
       product,
       interval,
       affiliateRef: getStoredAffiliateRef(),
-      utm_source: attributionValue("utm_source"),
-      utm_medium: attributionValue("utm_medium"),
-      utm_campaign: attributionValue("utm_campaign"),
-      utm_content: attributionValue("utm_content"),
-      utm_term: attributionValue("utm_term"),
+      ...checkoutAttribution(),
       gclid: attributionValue("gclid"),
       fbc: cookie("_fbc"),
       fbp: cookie("_fbp"),

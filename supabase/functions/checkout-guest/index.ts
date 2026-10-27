@@ -20,6 +20,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import Stripe from "https://esm.sh/stripe@18.5.0";
 import { mitWerbeHinweis } from "../_shared/werbeHinweis.ts";
+import { utmMeta } from "../_shared/utmMeta.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -111,6 +112,9 @@ serve(async (req) => {
       const value = str(body[key], 200);
       if (value) attribution[key] = value;
     }
+    // Freigabe #65: Einstiegsseite mitgeben (bereinigt, nur Pfad)
+    const _utm = utmMeta(body);
+    if (_utm.landing) attribution.landing = _utm.landing;
 
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
