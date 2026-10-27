@@ -8,15 +8,19 @@ const ENDPUNKT = "https://arbitragex.de/px/mail/anmelden";
 export const OPTIN_TEXT =
   "Ja, schickt mir Erinnerungen an Steuerfristen (z. B. USt-Voranmeldung) und Neuigkeiten für Gründer per E-Mail " +
   "(höchstens zwei pro Woche, mit Messung von Öffnungen und Klicks). Abmelden geht jederzeit mit einem Klick.";
+/** Freiwillig, nie vorausgewählt (Freigabe #64, 27.10.2026). Gleicher Verantwortlicher (Sonni Buttke, Einzelunternehmen). */
+export const SCHWESTER_TEXT =
+  "Optional: Schickt mir auch gelegentlich Tipps zu passenden Angeboten der Schwester-Marken AnwaltX, ArbitrageX " +
+  "und Delta Sourcing per E-Mail. Widerruf jederzeit über den Abmeldelink.";
 
 type Zustand = "bereit" | "sendet" | "ok" | "fehler";
 
 /** Anmeldung an die HQ-Liste (Double-Opt-in); `quelle` landet als Herkunft am Eintrag (Kennzahlen je Formular). */
-export async function newsletterAnmelden(email: string, quelle: string, website = ""): Promise<boolean> {
+export async function newsletterAnmelden(email: string, quelle: string, website = "", schwester = false): Promise<boolean> {
   try {
     const r = await fetch(ENDPUNKT, {
       method: "POST",
-      body: new URLSearchParams({ marke: "gruenderx", email: email.trim(), website, quelle }),
+      body: new URLSearchParams({ marke: "gruenderx", email: email.trim(), website, quelle, schwester: schwester ? "1" : "" }),
     });
     const d = (await r.json().catch(() => null)) as { ok?: boolean } | null;
     return r.ok && !!d?.ok;
@@ -44,7 +48,8 @@ export const NewsletterOptin = ({
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
     setZustand("sendet");
-    const ok = await newsletterAnmelden(String(fd.get("email") ?? ""), quelle, String(fd.get("website") ?? ""));
+    const ok = await newsletterAnmelden(String(fd.get("email") ?? ""), quelle, String(fd.get("website") ?? ""),
+      fd.get("schwester") === "on");
     setZustand(ok ? "ok" : "fehler");
   };
 
@@ -87,6 +92,10 @@ export const NewsletterOptin = ({
               {OPTIN_TEXT} Details in der{" "}
               <a href="/datenschutz#newsletter" className="underline hover:text-foreground">Datenschutzerklärung</a>.
             </span>
+          </label>
+          <label className="flex items-start gap-2 text-xs leading-snug text-muted-foreground">
+            <input type="checkbox" name="schwester" className="mt-0.5 h-4 w-4 shrink-0" />
+            <span>{SCHWESTER_TEXT}</span>
           </label>
           <p role="status" aria-live="polite" className="text-sm text-destructive">
             {zustand === "fehler" ? "Das hat nicht geklappt. Bitte prüfe die Adresse und versuche es noch einmal." : ""}

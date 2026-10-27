@@ -228,6 +228,13 @@ const Datenschutz = () => (
         automatisch. Werbliche Mails schicken wir höchstens zwei pro Woche.
       </p>
       <p>
+        <strong>Tipps der Schwester-Marken (freiwillig):</strong> Mit einem zweiten, nicht vorausgewählten Häkchen kannst du
+        zusätzlich gelegentliche Hinweise auf passende Angebote unserer Schwester-Marken AnwaltX, ArbitrageX und Delta
+        Sourcing per E-Mail erhalten. Alle Marken betreibt derselbe Verantwortliche (siehe Impressum); deine Daten werden
+        dafür nicht an Dritte weitergegeben. Auch diese Einwilligung gilt erst nach der Bestätigung (Double-Opt-in) und
+        lässt sich jederzeit über den Abmeldelink oder per Nachricht an uns widerrufen; meldest du dich ab, endet sie mit.
+      </p>
+      <p>
         <strong>Daten:</strong> E-Mail-Adresse, Marke (GründerX), Herkunft der Anmeldung, Zeitpunkte von Anmeldung und
         Bestätigung sowie die Versandprotokolle der einzelnen Mails. Jede Mail enthält ein Zählpixel und über unseren Server
         umgeleitete Links mit einer Kennung der Mail; damit sehen wir, ob eine Mail geöffnet und welcher Link geklickt wurde
