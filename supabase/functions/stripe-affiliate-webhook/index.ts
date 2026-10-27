@@ -180,7 +180,18 @@ Deno.serve(async (req) => {
           }
         }
         // Leistungsbeginn aus der Abo-Position, nicht inv.period_start (Viertes Security-Review).
-        const rechnungAm = leistungsBeginn(inv);
+        // Alle Positionen, bevor gewaehlt wird (Fuenftes Review): bei has_more nachladen; Fehler -> keine Provision.
+        let positionen = inv.lines?.data ?? [];
+        if (inv.lines?.has_more) {
+          try {
+            positionen = [];
+            for await (const l of stripe.invoices.listLineItems(inv.id, { limit: 100 })) positionen.push(l);
+          } catch (e) {
+            console.error(`💶 Positionen von ${inv.id} nicht lesbar -> keine Provision:`, (e as Error).message);
+            positionen = [];
+          }
+        }
+        const rechnungAm = positionen.length ? leistungsBeginn(inv, positionen) : NaN;
         const RATE = provisionsSatz(aff?.konditionen, fensterStart, rechnungAm);
         if (RATE <= 0) {
           console.error(`💶 keine Provision fuer ${inv.id} (sub ${subId}): ` +

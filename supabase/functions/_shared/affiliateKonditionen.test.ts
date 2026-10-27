@@ -49,8 +49,17 @@ Deno.test("Leistungsbeginn: erste Rechnung, Verlaengerung, Proration, beide API-
       { type: "subscription", proration: false, period: { start: 1792395000 } },
     ] } };
   assertEquals(leistungsBeginn(proration), 1792395000000);
-  const nurProration = { created: 1792400000, lines: { data: [{ type: "subscription", proration: true, period: { start: 1792390000 } }] } };
-  assertEquals(leistungsBeginn(nurProration), 1792390000000);
+  const nurProration = { created: 1792400000, status_transitions: { paid_at: 1792385000 },
+    lines: { data: [
+      { type: "subscription", proration: true, period: { start: 1792380000 } },
+      { type: "subscription", proration: true, period: { start: 1792390000 } },
+    ] } };
+  assertEquals(leistungsBeginn(nurProration), 1792390000000);                        // spaetester Start
+  const bezahltSpaeter = { status_transitions: { paid_at: 1792399000 }, lines: { data: [{ type: "subscription", proration: true, period: { start: 1792390000 } }] } };
+  assertEquals(leistungsBeginn(bezahltSpaeter), 1792399000000);                      // max(start, bezahlt)
+  // has_more: Aufrufer reicht alle Positionen herein; die regulaere Position steht erst auf Seite 2
+  const seite1 = { lines: { has_more: true, data: [{ type: "invoiceitem", period: { start: 1 } }] } };
+  assertEquals(leistungsBeginn(seite1, [{ type: "invoiceitem" }, { type: "subscription", proration: false, period: { start: 1792395000 } }]), 1792395000000);
 });
 
 Deno.test("Leistungsbeginn: Fallback bezahlt-am, nichts lesbar -> NaN", () => {
