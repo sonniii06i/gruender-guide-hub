@@ -121,6 +121,7 @@ const AGB = lazy(() => import("./pages/AGB.tsx"));
 const Widerruf = lazy(() => import("./pages/Widerruf.tsx"));
 const VertragWiderrufen = lazy(() => import("./pages/VertragWiderrufen.tsx"));
 const VertragKuendigen = lazy(() => import("./pages/VertragKuendigen.tsx"));
+const KuendigungBestaetigen = lazy(() => import("./pages/KuendigungBestaetigen.tsx"));
 const Gruendungspaket = lazy(() => import("./pages/Gruendungspaket.tsx"));
 const GruendungspaketDanke = lazy(() => import("./pages/GruendungspaketDanke.tsx"));
 const Ratgeber = lazy(() => import("./pages/Ratgeber.tsx"));
@@ -350,6 +351,7 @@ const App = () => (
               {/* Widerrufsfunktion § 356a BGB (26.10.2026) */}
               <Route path="/vertrag-widerrufen" element={<VertragWiderrufen />} />
               <Route path="/kuendigen" element={<VertragKuendigen />} />
+              <Route path="/kuendigen/bestaetigen" element={<KuendigungBestaetigen />} />
               {/* Gründungspaket 2026 (Freigabe #5): Einmalkauf, Kauf-Knopf hinter VITE_GRUENDUNGSPAKET_VERKAUF */}
               <Route path="/gruendungspaket" element={<Gruendungspaket />} />
               <Route path="/gruendungspaket/danke" element={<GruendungspaketDanke />} />

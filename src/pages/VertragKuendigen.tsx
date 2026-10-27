@@ -59,7 +59,7 @@ const VertragKuendigen = () => {
                 <p className="font-medium">Deine Kündigung ist am {eingang} eingegangen.</p>
                 <p className="text-sm text-muted-foreground">
                   {bestaetigung === "gesendet"
-                    ? `Die Eingangsbestätigung mit dem Vertragsende ist per E-Mail an ${email} unterwegs.`
+                    ? `Die Eingangsbestätigung ist per E-Mail an ${email} unterwegs. Klicke darin auf „Kündigung bestätigen“, dann setzen wir sie sofort um (bist du eingeloggt, ist das schon passiert).`
                     : "Wir haben sie gespeichert und bearbeiten sie. Die Bestätigungsmail konnte gerade nicht verschickt werden – mach dir einen Screenshot dieser Seite als Beleg."}
                 </p>
               </div>

@@ -33,3 +33,17 @@ Deno.test("Mail-Normalisierung und kündbare Stati", () => {
   assertEquals(kuendbar("canceled"), false);
   assertEquals(kuendbar("incomplete_expired"), false);
 });
+
+import { signiereKuendigung, tokenGueltig, zerlegeToken } from "./kuendigen.ts";
+
+Deno.test("Bestätigungslink: gültig nur mit passender Adresse, Signatur und vor Ablauf", async () => {
+  const s = "geheim";
+  const ab = Math.floor(Date.now() / 1000) + 3600;
+  const t = await signiereKuendigung("a".repeat(32), ab, "Max+x@Example.com", s);
+  assertEquals(await tokenGueltig(t, "max@example.com", s), true);
+  assertEquals(await tokenGueltig(t, "anders@example.com", s), false);
+  assertEquals(await tokenGueltig(t, "max@example.com", "falsch"), false);
+  const alt = await signiereKuendigung("b".repeat(32), Math.floor(Date.now() / 1000) - 10, "max@example.com", s);
+  assertEquals(await tokenGueltig(alt, "max@example.com", s), false);
+  assertEquals(zerlegeToken("kaputt"), null);
+});

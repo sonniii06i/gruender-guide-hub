@@ -147,6 +147,8 @@ export function buildWiderrufEingang(o: {
  */
 export function buildKuendigungEingang(o: {
   vertrag: string; art: string; zeitpunkt: string; eingang: Date; endeText?: string;
+  /** Signierter Bestätigungslink (nur Kundenmail, wenn noch nicht automatisch zugeordnet). */
+  bestaetigenUrl?: string;
   intern?: { name: string; email: string; grund?: string; stripe?: string };
 }): Built {
   const zeit = zeitBerlin(o.eingang);
@@ -166,7 +168,10 @@ export function buildKuendigungEingang(o: {
   const erklaerung = `Hiermit kündige ich den oben genannten Vertrag ${zp}.`;
   const weiter = o.endeText
     ? "Bis zum Vertragsende kannst du alles weiter nutzen. Danach wird nichts mehr abgebucht."
-    : "Wir bearbeiten deine Kündigung und bestätigen dir das Vertragsende gesondert, falls wir es nicht automatisch zuordnen konnten.";
+    : o.bestaetigenUrl
+    ? "Deine Kündigung ist wirksam eingegangen. Damit wir sie sofort automatisch umsetzen, bestätige bitte mit einem Klick, " +
+      "dass sie von dir kommt. Ohne Klick bearbeitet unser Support sie von Hand und bestätigt dir das Vertragsende."
+    : "Wir bearbeiten deine Kündigung und bestätigen dir das Vertragsende gesondert.";
   const grund = o.intern
     ? "Interne Kopie: Eingang über gruenderx.de/kuendigen."
     : "Du bekommst diese Mail, weil auf gruenderx.de/kuendigen eine Kündigung mit deiner Adresse abgeschickt wurde. " +
@@ -176,7 +181,8 @@ export function buildKuendigungEingang(o: {
     text: plain({
       greeting: "Hallo,",
       lines: ["wir haben deine Kündigung erhalten. Das ist die Eingangsbestätigung.", "",
-        ...felder.map(([k, v]) => `${k}: ${v}`), `Erklärung: „${erklaerung}“`, "", weiter],
+        ...felder.map(([k, v]) => `${k}: ${v}`), `Erklärung: „${erklaerung}“`, "", weiter,
+        ...(o.bestaetigenUrl ? ["", `Kündigung bestätigen: ${o.bestaetigenUrl}`] : [])],
       reason: grund,
     }),
     html: renderMail({
@@ -186,6 +192,7 @@ export function buildKuendigungEingang(o: {
         priceRows(felder.map(([k, v]) => [esc(k), esc(v)] as [string, string])),
         paragraph(`Erklärung: „${esc(erklaerung)}“`),
         paragraph(esc(weiter)),
+        ...(o.bestaetigenUrl ? [button(o.bestaetigenUrl, "Kündigung bestätigen")] : []),
       ],
       footerReason: grund,
     }),

@@ -68,3 +68,41 @@ export function mailNorm(email: string): string {
 export function kuendbar(status: string): boolean {
   return status === "active" || status === "trialing" || status === "past_due";
 }
+
+// --- Bestätigungslink (Security-Review 27.10.2026) --------------------------
+// Ohne Identitätsprüfung könnte jeder mit einer fremden Adresse ein fremdes Abo
+// beenden. Darum: Erklärung sofort annehmen + bestätigen, die Stripe-Vormerkung
+// aber erst nach Klick auf einen signierten, einmaligen, ablaufenden Link in der
+// Mail an genau diese Adresse (oder sofort bei passender eingeloggter Sitzung).
+export const LINK_GUELTIG_S = 7 * 86400;
+
+async function hmacHex(secret: string, text: string): Promise<string> {
+  const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(secret), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
+  const sig = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(text));
+  return Array.from(new Uint8Array(sig)).map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+
+export function neueNonce(): string {
+  const b = crypto.getRandomValues(new Uint8Array(16));
+  return Array.from(b).map((x) => x.toString(16).padStart(2, "0")).join("");
+}
+
+export async function signiereKuendigung(nonce: string, ablauf: number, email: string, secret: string): Promise<string> {
+  return `${nonce}.${ablauf}.${await hmacHex(secret, `kuendigung|${nonce}|${ablauf}|${mailNorm(email)}`)}`;
+}
+
+/** Zerlegt ein Token ohne Prüfung der Signatur (dafür braucht es die gespeicherte Adresse). */
+export function zerlegeToken(token: string): { nonce: string; ablauf: number; sig: string } | null {
+  const m = /^([0-9a-f]{32})\.(\d{9,11})\.([0-9a-f]{64})$/.exec(String(token ?? ""));
+  return m ? { nonce: m[1], ablauf: Number(m[2]), sig: m[3] } : null;
+}
+
+export async function tokenGueltig(token: string, email: string, secret: string, jetzt = Date.now()): Promise<boolean> {
+  const t = zerlegeToken(token);
+  if (!t || !secret || t.ablauf * 1000 < jetzt) return false;
+  const soll = (await signiereKuendigung(t.nonce, t.ablauf, email, secret)).split(".")[2];
+  if (soll.length !== t.sig.length) return false;
+  let diff = 0;
+  for (let i = 0; i < soll.length; i++) diff |= soll.charCodeAt(i) ^ t.sig.charCodeAt(i);
+  return diff === 0;
+}
