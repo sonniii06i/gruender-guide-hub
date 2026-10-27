@@ -50,6 +50,8 @@ export function checkoutReturnPath(): string | undefined {
 export async function startGuestCheckout(
   product: GuestProduct = "gruenderx",
   interval: "month" | "year" = "month",
+  /** "start1" = Startangebot 7 Tage für 1 € (nur GründerX monatlich, nur Neukunden). */
+  angebot?: "start1",
 ): Promise<void> {
   // InitiateCheckout VOR dem Netzwerkaufruf: Wer hier abbricht, hat die
   // Kaufabsicht trotzdem gezeigt. Nach der Weiterleitung liefe kein Code mehr.
@@ -69,6 +71,7 @@ export async function startGuestCheckout(
     body: {
       product,
       interval,
+      ...(angebot ? { angebot } : {}),
       affiliateRef: getStoredAffiliateRef(),
       ...checkoutAttribution(),
       gclid: attributionValue("gclid"),

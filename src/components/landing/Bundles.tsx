@@ -162,7 +162,7 @@ export const Bundles = () => {
       // Vertragsschluss und "Schon Kunde? Anmelden" (verhindert Doppel-Abos
       // ausgeloggter Bestandskunden). Ein Direktsprung in den Gast-Checkout
       // aendert den Kaufweg und braucht die Freigabe des Betreibers.
-      navigate(`/auth?mode=signup&price=${priceId}`);
+      navigate(`/auth?mode=kauf&price=${priceId}`);
       return;
     }
     setLoading(variantId);

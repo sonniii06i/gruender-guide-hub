@@ -35,7 +35,7 @@ export const Hero = () => (
       title="Gründung, Steuer & Marketplace-Setup."
       accent="In der richtigen Reihenfolge."
       lead={<>Für E-Commerce-Händler und Creator in Deutschland: Felix baut dir deinen Fahrplan, und {TOOL_COUNT} Tools erledigen den Papierkram dazu.</>}
-      primary={{ to: "/auth", label: "Zugang freischalten" }}
+      primary={{ to: "/auth", label: "Kostenlos starten" }}
       secondary={{ to: "/gratis-tools", label: "Gratis-Tools testen" }}
       trust={[
         `${formatEurCents(PLANS.gruenderx.grossCents)} im Monat inkl. USt.`,

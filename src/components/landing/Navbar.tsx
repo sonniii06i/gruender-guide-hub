@@ -74,7 +74,7 @@ export const Navbar = () => {
           </Link>
           <Button asChild className="h-10 rounded-xl px-4 font-semibold">
             <Link to="/auth?mode=signup">
-              Zugang freischalten
+              Kostenlos starten
             </Link>
           </Button>
         </div>
@@ -114,7 +114,7 @@ export const Navbar = () => {
             <div className="mt-auto flex flex-col gap-2 pb-2">
               <Button asChild size="lg" className="w-full rounded-xl font-semibold">
                 <Link to="/auth?mode=signup" onClick={() => setOpen(false)}>
-                  Zugang freischalten
+                  Kostenlos starten
                 </Link>
               </Button>
               <Button asChild size="lg" variant="outline" className="w-full rounded-xl">

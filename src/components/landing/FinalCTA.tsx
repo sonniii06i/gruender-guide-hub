@@ -30,7 +30,7 @@ export const FinalCTA = () => (
               className="mt-9 h-12 rounded-xl bg-card px-6 font-semibold text-primary shadow-none hover:bg-card/90"
             >
               <Link to="/auth?mode=signup">
-                Zugang freischalten <ArrowRight />
+                Kostenlos starten <ArrowRight />
               </Link>
             </Button>
             <p className="mt-6 max-w-xl text-sm leading-relaxed text-primary-foreground/65 tabular">

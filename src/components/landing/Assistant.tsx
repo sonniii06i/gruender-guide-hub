@@ -48,7 +48,7 @@ export const Assistant = () => (
               className="mt-9 h-12 rounded-xl bg-card px-6 font-semibold text-primary shadow-none hover:bg-card/90"
             >
               <Link to="/auth?mode=signup">
-                Zugang freischalten <ArrowRight />
+                Kostenlos starten <ArrowRight />
               </Link>
             </Button>
           </div>

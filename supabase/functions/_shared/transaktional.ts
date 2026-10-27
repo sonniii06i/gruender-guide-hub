@@ -236,3 +236,28 @@ export function buildKuendigung(o: {
     }),
   };
 }
+
+// -------------------------------------------------------------------
+// 5) Startangebot: Testphase endet bald (27.10.2026)
+//
+// Ausloeser: Stripe customer.subscription.trial_will_end (3 Tage vor Ende).
+// Pflichtinformation, keine Werbung: Datum, Folgepreis, Kuendigungsweg.
+// -------------------------------------------------------------------
+export function buildStartEndet(o: { ende: string; preis: string; marke?: string; baseUrl?: string; kontoPfad?: string }): Built {
+  const url = (o.baseUrl ?? BASIS).replace(/\/+$/, "");
+  const marke = o.marke ?? "GründerX";
+  const konto = `${url}${o.kontoPfad ?? "/profile"}`;
+  const zeile1 = `deine Startwoche bei ${marke} endet am ${o.ende}. Danach läuft dein Abo automatisch für ${o.preis} pro Monat weiter.`;
+  const zeile2 = `Willst du nicht weitermachen, kündige bis dahin mit einem Klick in deinem Konto – dann zahlst du nichts weiter.`;
+  return {
+    subject: `Deine ${marke}-Startwoche endet am ${o.ende}`,
+    text: plain({ greeting: "Hallo,", lines: [zeile1, "", zeile2, "", `Zum Konto: ${konto}`] }),
+    html: renderMail({
+      preheader: `Ab ${o.ende}: ${o.preis} pro Monat – kündbar mit einem Klick.`,
+      greeting: "Hallo,",
+      blocks: [paragraph(esc(zeile1)), paragraph(esc(zeile2)), button(konto, "Zum Konto")],
+      baseUrl: url,
+      footerReason: `Du bekommst diese Mail, weil du das ${marke}-Startangebot gebucht hast.`,
+    }),
+  };
+}

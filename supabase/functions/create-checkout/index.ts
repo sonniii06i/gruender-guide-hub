@@ -4,6 +4,7 @@ import { createClient } from "npm:@supabase/supabase-js@2.57.2";
 import { abTestStrecke } from "../_shared/mailSend.ts";
 import { mitWerbeHinweis } from "../_shared/werbeHinweis.ts";
 import { utmMeta } from "../_shared/utmMeta.ts";
+import { istStartAngebot, startPosition, startText, warSchonKunde, START_TAGE, START_KENNUNG } from "../_shared/startAngebot.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -208,9 +209,19 @@ serve(async (req) => {
     const origin = ALLOWED_ORIGINS.includes(rawOrigin) ? rawOrigin : "https://gruenderx.de";
     // Ziel-Preis dynamisch auflösen (64,99 € GründerX / 99,99 € Bundle) — self-healing, kein Dashboard nötig.
     const resolvedPriceId = await resolvePriceId(stripe, product, interval, priceId);
+    // Startangebot „7 Tage für 1 €“ (27.10.2026): nur GründerX monatlich, nur Neukunden.
+    const start = istStartAngebot(body) && product === "gruenderx" && interval === "month";
+    if (start && await warSchonKunde(stripe, user.email)) {
+      return new Response(
+        JSON.stringify({ error: "Das Startangebot gilt nur für Neukunden.", code: "kein_neukunde" }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 409 },
+      );
+    }
     const session = await stripe.checkout.sessions.create({
       customer: customerId,
-      line_items: [{ price: resolvedPriceId, quantity: 1 }],
+      line_items: start
+        ? [{ price: resolvedPriceId, quantity: 1 }, startPosition("GründerX")]
+        : [{ price: resolvedPriceId, quantity: 1 }],
       mode: "subscription",
       // Ohne `locale` raet Stripe die Sprache aus dem Browser -- ausgerechnet
       // auf der letzten Seite vor dem Kauf.
@@ -220,7 +231,7 @@ serve(async (req) => {
       // auf einem Jahres-Checkout fuers Founder-Set gleich zweimal falsch war.
       custom_text: {
         submit: {
-          message: mitWerbeHinweis(
+          message: start ? mitWerbeHinweis(startText("GründerX", "64,99 €")) : mitWerbeHinweis(
             (product === "bundle"
               ? "Founder-Set: GruenderX + AnwaltX"
               : "GruenderX Zugang") +
@@ -234,12 +245,15 @@ serve(async (req) => {
       tax_id_collection: { enabled: true },
       // Erlaubt Eingabe von Gutschein-Codes (SONNI / FOUNDER) im Stripe-Checkout.
       // Stripe akzeptiert nur einen Promo-Code pro Session -> Codes sind nicht kombinierbar.
-      allow_promotion_codes: true,
+      allow_promotion_codes: !start,
+      ...(start ? { payment_method_collection: "always" as const } : {}),
       // Affiliate-Attribution: Ref + Produkt an Session UND Abo haengen
       // (Webhook liest es bei checkout.session.completed + wiederkehrenden Rechnungen).
-      metadata: { supabase_user_id: user.id, product, interval, ...(affRef ? { affiliate_ref: affRef } : {}), ...utm },
+      metadata: { supabase_user_id: user.id, product, interval, ...(start ? { angebot: START_KENNUNG } : {}), ...(affRef ? { affiliate_ref: affRef } : {}), ...utm },
       subscription_data: { metadata: { product, interval, ...(affRef ? { affiliate_ref: affRef } : {}),
-        ...(utm.utm_source ? { utm_source: utm.utm_source } : {}), ...(utm.utm_campaign ? { utm_campaign: utm.utm_campaign } : {}) } },
+        ...(start ? { angebot: START_KENNUNG } : {}),
+        ...(utm.utm_source ? { utm_source: utm.utm_source } : {}), ...(utm.utm_campaign ? { utm_campaign: utm.utm_campaign } : {}) },
+        ...(start ? { trial_period_days: START_TAGE, trial_settings: { end_behavior: { missing_payment_method: "cancel" as const } } } : {}) },
       success_url: `${origin}/zahlung-erfolgreich?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/zahlung-abgebrochen`,
     });

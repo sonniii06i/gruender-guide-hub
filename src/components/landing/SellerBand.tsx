@@ -58,7 +58,7 @@ export const SellerBand = () => (
 
           <Button asChild size="lg" className="mt-9 h-12 rounded-xl bg-gradient-primary px-6 font-semibold shadow-glow">
             <Link to="/auth">
-              Zugang freischalten
+              Kostenlos starten
               <ArrowRight />
             </Link>
           </Button>

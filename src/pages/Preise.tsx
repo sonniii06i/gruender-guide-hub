@@ -138,7 +138,7 @@ const Preise = () => {
   // "Schon Kunde? Anmelden" -- ein Direktsprung braucht die Betreiber-Freigabe.
   const buy = (id: PlanId) => {
     rememberCartVariant(id);
-    navigate(user ? `/checkout?variant=${id}` : "/auth?mode=signup");
+    navigate(user ? `/checkout?variant=${id}` : "/auth?mode=kauf");
   };
 
   const jsonLd = [

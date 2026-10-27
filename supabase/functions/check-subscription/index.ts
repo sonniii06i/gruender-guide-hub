@@ -104,8 +104,11 @@ serve(async (req) => {
     }
 
     const customerId = customers.data[0].id;
-    const subs = await stripe.subscriptions.list({ customer: customerId, status: "active", limit: 1 });
-    const active = subs.data[0];
+    // 27.10.2026: Startangebot "7 Tage fuer 1 €" -> Abo steht in der Testphase
+    // auf "trialing" und muss vollen Zugang geben. Vorher wurde nur "active"
+    // gesucht; ein Probekunde waere beim taeglichen Sync ausgesperrt worden.
+    const subs = await stripe.subscriptions.list({ customer: customerId, status: "all", limit: 10 });
+    const active = subs.data.find((s: { status: string }) => s.status === "active" || s.status === "trialing");
 
     if (!active) {
       await supabaseService.from("subscriptions").upsert({
@@ -141,7 +144,7 @@ serve(async (req) => {
     await supabaseService.from("subscriptions").upsert({
       user_id: user.id,
       plan,
-      status: "active",
+      status: active.status === "trialing" ? "trialing" : "active",
       stripe_customer_id: customerId,
       stripe_subscription_id: active.id,
       current_period_end: periodEnd,

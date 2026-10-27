@@ -21,6 +21,7 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import Stripe from "https://esm.sh/stripe@18.5.0";
 import { mitWerbeHinweis } from "../_shared/werbeHinweis.ts";
 import { utmMeta } from "../_shared/utmMeta.ts";
+import { istStartAngebot, startPosition, startText, START_TAGE, START_KENNUNG } from "../_shared/startAngebot.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -95,6 +96,8 @@ serve(async (req) => {
     // einem Checkout ohne Preis enden.
     const interval: Interval = body.interval === "year" ? "year" : "month";
     const affRef = str(body.affiliateRef, 32);
+    // Startangebot „7 Tage für 1 €“ nur fürs GründerX-Monatsabo (Betreiber 27.10.2026).
+    const start = istStartAngebot(body) && product === "gruenderx" && interval === "month";
 
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
       apiVersion: "2025-08-27.basil",
@@ -129,7 +132,7 @@ serve(async (req) => {
       // auf einem Jahres-Checkout fuers Founder-Set gleich zweimal falsch war.
       custom_text: {
         submit: {
-          message: mitWerbeHinweis(
+          message: start ? mitWerbeHinweis(startText("GründerX", "64,99 €")) : mitWerbeHinweis(
             (product === "bundle"
               ? "Founder-Set: GruenderX + AnwaltX"
               : "GruenderX Zugang") +
@@ -138,26 +141,35 @@ serve(async (req) => {
               : " – monatlich kündbar, Kündigung mit einem Klick im Konto.")),
         },
       },
-      line_items: [{ price: resolvedPriceId, quantity: 1 }],
+      line_items: start
+        ? [{ price: resolvedPriceId, quantity: 1 }, startPosition("GründerX")]
+        : [{ price: resolvedPriceId, quantity: 1 }],
       // Kein `customer`: Stripe legt ihn an und erhebt dabei die E-Mail.
       billing_address_collection: "required",
       tax_id_collection: { enabled: true },
-      allow_promotion_codes: true,
+      // Startangebot: keine weiteren Codes (kein Stapeln).
+      allow_promotion_codes: !start,
       // Karte nur abfragen, wenn tatsaechlich etwas abgebucht wird.
       //
       // Im Normalfall aendert das nichts: Bei 64,99 € faellig verlangt Stripe
       // weiterhin eine Zahlungsmethode. Es greift nur, wenn ein Gutschein den
       // Betrag dauerhaft auf 0 setzt.
-      payment_method_collection: "if_required",
+      payment_method_collection: start ? "always" : "if_required",
       metadata: {
         flow: "pay_first",
+        ...(start ? { angebot: START_KENNUNG } : {}),
         product,
         interval,
         ...(affRef ? { affiliate_ref: affRef } : {}),
         ...attribution,
       },
       subscription_data: {
-        metadata: { flow: "pay_first", product, interval, ...(affRef ? { affiliate_ref: affRef } : {}) },
+        metadata: { flow: "pay_first", product, interval, ...(affRef ? { affiliate_ref: affRef } : {}),
+          ...(start ? { angebot: START_KENNUNG } : {}) },
+        ...(start ? {
+          trial_period_days: START_TAGE,
+          trial_settings: { end_behavior: { missing_payment_method: "cancel" } },
+        } : {}),
       },
       success_url: `${origin}/willkommen?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}${rueck}?abgebrochen=1`,

@@ -3,6 +3,7 @@ import { useAccess } from "@/hooks/useAccess";
 import { Button } from "@/components/ui/button";
 import { stripEmoji } from "@/components/cockpit/kit";
 import { CANCEL_NOTE, PLANS, formatEurCents } from "@/config/pricing";
+import { StartAngebotButton } from "@/components/StartAngebotButton";
 import { ArrowRight, Check, Lock, WifiOff, MessageSquare, Scale, Calculator, Receipt, ShoppingCart, Globe2, BookOpen } from "lucide-react";
 
 // Nutzen aus dem echten Leistungsumfang (pricing.ts / SOLO_CONTENTS), hier nur kurz gefasst.
@@ -103,9 +104,10 @@ export const PaywallGate = ({ children, title = "Premium-Feature" }: { children:
             </ul>
 
             <div className="mt-6 grid gap-2 md:mt-auto md:pt-6">
-              <Button asChild size="lg" className="press h-11 w-full gap-2 rounded-xl bg-gradient-primary font-semibold text-primary-foreground shadow-glow hover:opacity-95">
+              <StartAngebotButton />
+              <Button asChild size="lg" variant="outline" className="press h-11 w-full gap-2 rounded-xl font-semibold">
                 <Link to="/checkout">
-                  Plan wählen <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                  Direkt Plan wählen <ArrowRight className="h-4 w-4" aria-hidden="true" />
                 </Link>
               </Button>
               <Button asChild size="lg" variant="ghost" className="h-11 w-full rounded-xl">

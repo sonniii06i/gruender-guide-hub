@@ -163,3 +163,6 @@ verify_jwt = false
 # Angebots-Engine HQ (27.10.2026): Auth über Bearer AKTION_CODE_SECRET in der Function, nicht über Supabase-JWT.
 [functions.aktion-code]
 verify_jwt = false
+
+[functions.start-angebot]
+verify_jwt = false
