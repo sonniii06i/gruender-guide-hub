@@ -41,3 +41,27 @@ export function auszahlbar(erstelltAm: string, jetzt = Date.now()): boolean {
   const t = Date.parse(erstelltAm);
   return Number.isFinite(t) && jetzt - t >= WIDERRUF_TAGE * 86400_000;
 }
+
+/**
+ * Leistungsbeginn einer Abo-Rechnung in ms (Viertes Security-Review 27.10.2026).
+ * NICHT inv.period_start: das ist bei Verlaengerungen der VORHERIGE Zeitraum. Massgeblich ist
+ * die Abo-Position: API 2023-10-16 `line.type === "subscription"`, ab basil
+ * `line.parent.type === "subscription_item_details"`; regulaere Position vor Proration.
+ * Fallback konservativ (spaeter = eher ausserhalb des Fensters): bezahlt am, sonst erstellt.
+ * Nichts lesbar -> NaN (Aufrufer: keine Provision + Alarm).
+ */
+// deno-lint-ignore no-explicit-any
+export function leistungsBeginn(inv: any): number {
+  // deno-lint-ignore no-explicit-any
+  const zeilen: any[] = inv?.lines?.data ?? [];
+  // deno-lint-ignore no-explicit-any
+  const istAbo = (l: any) => l?.type === "subscription" || l?.parent?.type === "subscription_item_details";
+  // deno-lint-ignore no-explicit-any
+  const istProration = (l: any) => l?.proration === true || l?.parent?.subscription_item_details?.proration === true;
+  const abo = zeilen.filter(istAbo);
+  const zeile = abo.find((l) => !istProration(l)) ?? abo[0];
+  const start = zeile?.period?.start;
+  if (typeof start === "number" && start > 0) return start * 1000;
+  const fallback = inv?.status_transitions?.paid_at ?? inv?.created;
+  return typeof fallback === "number" && fallback > 0 ? fallback * 1000 : NaN;
+}

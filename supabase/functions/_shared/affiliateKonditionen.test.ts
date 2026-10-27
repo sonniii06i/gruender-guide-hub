@@ -31,3 +31,30 @@ Deno.test("Auszahlbar erst nach 14 Tagen", () => {
   assertEquals(auszahlbar("2026-11-15T10:00:00Z", start + 14 * TAG), true);
   assertEquals(auszahlbar("kaputt", start), false);
 });
+
+// Echte Rechnungsformen (gemessen 27.10.2026 im AnwaltX/ArbitrageX-Konto, beide API-Versionen)
+import { leistungsBeginn } from "./affiliateKonditionen.ts";
+
+Deno.test("Leistungsbeginn: erste Rechnung, Verlaengerung, Proration, beide API-Versionen", () => {
+  const erste = { billing_reason: "subscription_create", period_start: 1792345418, created: 1792345418,
+    lines: { data: [{ type: "subscription", proration: false, period: { start: 1792345418 } }] } };
+  assertEquals(leistungsBeginn(erste), 1792345418000);
+  // Verlaengerung: inv.period_start = VORHERIGER Zeitraum (1789743319), Position = neuer Zeitraum
+  const verlaengerung = { billing_reason: "subscription_cycle", period_start: 1789743319, created: 1792335350,
+    lines: { data: [{ parent: { type: "subscription_item_details", subscription_item_details: { proration: false } }, period: { start: 1792335319 } }] } };
+  assertEquals(leistungsBeginn(verlaengerung), 1792335319000);
+  const proration = { created: 1792400000,
+    lines: { data: [
+      { type: "subscription", proration: true, period: { start: 1792390000 } },
+      { type: "subscription", proration: false, period: { start: 1792395000 } },
+    ] } };
+  assertEquals(leistungsBeginn(proration), 1792395000000);
+  const nurProration = { created: 1792400000, lines: { data: [{ type: "subscription", proration: true, period: { start: 1792390000 } }] } };
+  assertEquals(leistungsBeginn(nurProration), 1792390000000);
+});
+
+Deno.test("Leistungsbeginn: Fallback bezahlt-am, nichts lesbar -> NaN", () => {
+  assertEquals(leistungsBeginn({ lines: { data: [] }, status_transitions: { paid_at: 1792000000 }, created: 1791000000 }), 1792000000000);
+  assertEquals(Number.isNaN(leistungsBeginn({ lines: { data: [{ type: "invoiceitem" }] } })), true);
+  assertEquals(Number.isNaN(leistungsBeginn(null)), true);
+});

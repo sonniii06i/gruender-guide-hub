@@ -16,7 +16,7 @@ import { abTestStrecke } from "../_shared/mailSend.ts";
 import { meldeVerkauf } from "../_shared/discordSales.ts";
 import { kuendigungBestaetigen } from "../_shared/kuendigungMail.ts";
 import { abbruchPruefen } from "../_shared/abbruchNachtrag.ts";
-import { provisionsSatz } from "../_shared/affiliateKonditionen.ts";
+import { leistungsBeginn, provisionsSatz } from "../_shared/affiliateKonditionen.ts";
 
 const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY")!, { apiVersion: "2025-08-27.basil" });
 const webhookSecret = Deno.env.get("STRIPE_WEBHOOK_SECRET")!;
@@ -179,7 +179,8 @@ Deno.serve(async (req) => {
             console.error(`💶 Abo-Start fuer ${subId} nicht lesbar:`, (e as Error).message);
           }
         }
-        const rechnungAm = typeof inv.period_start === "number" ? inv.period_start * 1000 : NaN;
+        // Leistungsbeginn aus der Abo-Position, nicht inv.period_start (Viertes Security-Review).
+        const rechnungAm = leistungsBeginn(inv);
         const RATE = provisionsSatz(aff?.konditionen, fensterStart, rechnungAm);
         if (RATE <= 0) {
           console.error(`💶 keine Provision fuer ${inv.id} (sub ${subId}): ` +
