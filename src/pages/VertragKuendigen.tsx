@@ -109,7 +109,7 @@ const VertragKuendigen = () => {
                 <Button type="submit" size="lg" disabled={status === "sendet"}>{status === "sendet" ? "Wird gesendet …" : "jetzt kündigen"}</Button>
                 {status === "fehler" && (
                   <p role="alert" className="text-sm text-danger">
-                    Das hat nicht geklappt. Bitte versuch es erneut oder schick deine Kündigung an support@gruenderx.de.
+                    Das hat nicht geklappt. Bitte versuch es erneut oder schick deine Kündigung an service@gruenderx.de.
                   </p>
                 )}
               </form>

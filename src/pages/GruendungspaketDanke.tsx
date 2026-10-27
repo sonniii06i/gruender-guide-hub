@@ -23,7 +23,7 @@ type Zustand =
 const FEHLER: Record<string, string> = {
   nicht_bezahlt: "Die Zahlung ist noch nicht bestätigt. Lade die Seite in einer Minute neu.",
   erstattet: "Dieser Kauf wurde erstattet; der Download ist deshalb gesperrt.",
-  abgelaufen: "Der Abrufzeitraum von 90 Tagen ist vorbei. Schreib uns an support@gruenderx.de.",
+  abgelaufen: "Der Abrufzeitraum von 90 Tagen ist vorbei. Schreib uns an service@gruenderx.de.",
   session: "In diesem Link fehlt die Kaufkennung. Öffne den Link aus deiner Bestätigungsmail.",
 };
 
@@ -40,7 +40,7 @@ const GruendungspaketDanke = () => {
       if (error || !data?.link) {
         let code = "";
         try { code = (await (error as { context?: Response })?.context?.json())?.error ?? ""; } catch { /* egal */ }
-        setZ({ art: "fehler", text: FEHLER[code] ?? "Zu diesem Link finden wir keinen gültigen Kauf. Schreib uns an support@gruenderx.de." });
+        setZ({ art: "fehler", text: FEHLER[code] ?? "Zu diesem Link finden wir keinen gültigen Kauf. Schreib uns an service@gruenderx.de." });
         return;
       }
       setZ({ art: "bereit", link: data.link, gueltigBis: data.gueltigBis, mail: data.mail });

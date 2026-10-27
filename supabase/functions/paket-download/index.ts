@@ -68,7 +68,7 @@ const fehlerSeite = (text: string, status: number) =>
   new Response(
     `<!doctype html><meta charset=utf-8><meta name=viewport content="width=device-width"><title>Gründungspaket</title>` +
     `<p style="font:16px/1.5 system-ui,sans-serif;margin:40px;max-width:560px">${text}<br><br>` +
-    `<a href="https://gruenderx.de/gruendungspaket">Zum Gründungspaket</a> · Fragen: support@gruenderx.de</p>`,
+    `<a href="https://gruenderx.de/gruendungspaket">Zum Gründungspaket</a> · Fragen: service@gruenderx.de</p>`,
     { status, headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store" } },
   );
 

@@ -38,7 +38,7 @@ const corsHeaders = {
 };
 const json = (body: unknown, status = 200) =>
   new Response(JSON.stringify(body), { status, headers: { ...corsHeaders, "Content-Type": "application/json" } });
-const SUPPORT = "support@gruenderx.de";
+const SUPPORT = "service@gruenderx.de";
 const SEITE = "https://gruenderx.de";
 const datumBerlin = (unix: number) =>
   new Date(unix * 1000).toLocaleDateString("de-DE", { timeZone: "Europe/Berlin", dateStyle: "long" });

@@ -86,7 +86,7 @@ const VertragWiderrufen = () => {
                 <Button type="submit" size="lg" disabled={status === "sendet"}>{status === "sendet" ? "Wird gesendet …" : "Widerruf bestätigen"}</Button>
                 {status === "fehler" && (
                   <p role="alert" className="text-sm text-danger">
-                    Das hat nicht geklappt. Bitte versuch es erneut oder schick deinen Widerruf an support@gruenderx.de – rechtzeitig ist er, wenn du ihn vor Fristende absendest.
+                    Das hat nicht geklappt. Bitte versuch es erneut oder schick deinen Widerruf an service@gruenderx.de – rechtzeitig ist er, wenn du ihn vor Fristende absendest.
                   </p>
                 )}
               </form>

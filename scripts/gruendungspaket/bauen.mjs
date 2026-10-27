@@ -333,7 +333,7 @@ async function main() {
       dateien.push({ name, bytes: buf.length });
     }
   }
-  paket.file("LIESMICH.txt", `${PRODUKT}\nStand ${STAND}\n\nStarte mit 00-Uebersicht-und-Quellen.pdf.\n\n${HINWEIS}\n\nFragen: support@gruenderx.de\n`, { date: ZEIT });
+  paket.file("LIESMICH.txt", `${PRODUKT}\nStand ${STAND}\n\nStarte mit 00-Uebersicht-und-Quellen.pdf.\n\n${HINWEIS}\n\nFragen: service@gruenderx.de\n`, { date: ZEIT });
   const zip = await paket.generateAsync({ type: "nodebuffer", compression: "DEFLATE", compressionOptions: { level: 9 } });
   const sha = crypto.createHash("sha256").update(zip).digest("hex");
   fs.mkdirSync(OUT, { recursive: true });

@@ -46,7 +46,7 @@ const KuendigungBestaetigen = () => {
                 </Button>
                 {status === "fehler" && (
                   <p role="alert" className="text-sm text-danger">
-                    Der Link ist ungültig oder abgelaufen. Deine Kündigung ist trotzdem eingegangen – unser Support bearbeitet sie. Fragen an support@gruenderx.de.
+                    Der Link ist ungültig oder abgelaufen. Deine Kündigung ist trotzdem eingegangen – unser Support bearbeitet sie. Fragen an service@gruenderx.de.
                   </p>
                 )}
               </div>

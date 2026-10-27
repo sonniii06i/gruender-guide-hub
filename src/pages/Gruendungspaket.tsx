@@ -54,7 +54,7 @@ const Gruendungspaket = () => {
     const { data, error } = await supabase.functions.invoke("paket-checkout", { body: { zustimmung, kenntnis, ...utm } });
     if (error || !data?.url) {
       setLaeuft(false);
-      setFehler("Der Checkout konnte gerade nicht starten. Bitte versuch es gleich noch einmal oder schreib an support@gruenderx.de.");
+      setFehler("Der Checkout konnte gerade nicht starten. Bitte versuch es gleich noch einmal oder schreib an service@gruenderx.de.");
       return;
     }
     window.location.href = data.url as string;
