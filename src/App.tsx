@@ -33,6 +33,7 @@ import { ConsentBanner } from "@/components/ConsentBanner";
 import AktionsBanner from "@/components/AktionsBanner"; // Aktions-Banner 26.10.2026 (HQ aktionen.py)
 import { initAdPixels } from "@/utils/adPixels";
 import { MailBestaetigenHinweis } from "@/components/MailBestaetigenHinweis";
+import { AuthLinkFehler } from "@/components/AuthLinkFehler";
 
 // Lazy: Cockpit-Tools (jedes Tool eigener Chunk, on-demand)
 const SteuerCockpit = lazy(() => import("./pages/SteuerCockpit.tsx"));
@@ -222,6 +223,7 @@ const App = () => (
           <ConsentBanner />
           <AktionsBanner />
           <MailBestaetigenHinweis />
+          <AuthLinkFehler />
           <AppErrorBoundary>
           <TwoFactorGate>
           <Suspense fallback={<PageFallback />}>
