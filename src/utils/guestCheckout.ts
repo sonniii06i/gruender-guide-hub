@@ -27,6 +27,23 @@ function cookie(name: string): string | undefined {
 export type GuestProduct = "gruenderx" | "bundle";
 
 /**
+ * Rückweg für „Zurück“ im Stripe-Checkout: die Seite, von der der Kauf kam
+ * (gleiche Domain, nur Pfad). Vorher landete jeder Abbruch fest auf der
+ * US-LLC-Seite – egal woher der Käufer kam (Funnel-Prüfung 27.10.).
+ */
+export function checkoutReturnPath(): string | undefined {
+  if (typeof window === "undefined") return undefined;
+  try {
+    const ref = document.referrer ? new URL(document.referrer) : null;
+    const pfad = ref && ref.origin === window.location.origin ? ref.pathname : window.location.pathname;
+    if (!pfad || pfad.startsWith("/auth") || !/^\/[A-Za-z0-9/_-]{0,120}$/.test(pfad)) return undefined;
+    return pfad;
+  } catch {
+    return undefined;
+  }
+}
+
+/**
  * Startet den Gast-Checkout und leitet zu Stripe weiter.
  * Wirft bei Fehlern, damit die Aufrufstelle einen Hinweis anzeigen kann.
  */
@@ -57,6 +74,7 @@ export async function startGuestCheckout(
       gclid: attributionValue("gclid"),
       fbc: cookie("_fbc"),
       fbp: cookie("_fbp"),
+      returnPath: checkoutReturnPath(),
     },
   });
 

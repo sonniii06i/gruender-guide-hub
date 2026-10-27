@@ -104,6 +104,9 @@ serve(async (req) => {
 
     const rawOrigin = req.headers.get("origin") || "";
     const origin = ALLOWED_ORIGINS.includes(rawOrigin) ? rawOrigin : "https://gruenderx.de";
+    // Rückweg beim Abbruch: nur ein eigener, einfacher Pfad (kein Open Redirect).
+    const rueck = typeof body?.returnPath === "string" && /^\/[A-Za-z0-9/_-]{0,120}$/.test(body.returnPath) &&
+      !body.returnPath.startsWith("//") ? body.returnPath : "/preise";
 
     // Attribution mitschreiben — der Stripe-Webhook sieht später weder Cookies
     // noch UTM-Parameter.
@@ -131,8 +134,8 @@ serve(async (req) => {
               ? "Founder-Set: GruenderX + AnwaltX"
               : "GruenderX Zugang") +
             (interval === "year"
-              ? " - Jahresabo, zwei Monate geschenkt. Verlaengert sich jaehrlich, Kuendigung mit einem Klick im Konto."
-              : " - monatlich kuendbar, Kuendigung mit einem Klick im Konto.")),
+              ? " – Jahresabo, zwei Monate geschenkt. Verlängert sich jährlich, Kündigung mit einem Klick im Konto."
+              : " – monatlich kündbar, Kündigung mit einem Klick im Konto.")),
         },
       },
       line_items: [{ price: resolvedPriceId, quantity: 1 }],
@@ -157,7 +160,7 @@ serve(async (req) => {
         metadata: { flow: "pay_first", product, interval, ...(affRef ? { affiliate_ref: affRef } : {}) },
       },
       success_url: `${origin}/willkommen?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${origin}/us-llc-30-tage?abgebrochen=1`,
+      cancel_url: `${origin}${rueck}?abgebrochen=1`,
     });
 
     return new Response(JSON.stringify({ url: session.url, sessionId: session.id }), {
