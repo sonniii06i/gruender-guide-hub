@@ -27,7 +27,7 @@ import { sendMail } from "../_shared/mailSend.ts";
 import { buildKuendigungEingang } from "../_shared/paketMail.ts";
 import { bestaetigungErlaubt, clientIp, globalErlaubt, ipSchluessel, ipStufeAktiv, limitAdresse } from "../_shared/widerruf.ts";
 import {
-  KUENDIGUNG_ARTEN, KUENDIGUNG_VERTRAEGE, LINK_GUELTIG_S, kuendbar, mailNorm, neueNonce, pruefeKuendigung,
+  KUENDIGUNG_ARTEN, KUENDIGUNG_VERTRAEGE, LINK_GUELTIG_S, kuendbar, mailExakt, neueNonce, pruefeKuendigung,
   signiereKuendigung, tokenGueltig, zerlegeToken,
 } from "../_shared/kuendigen.ts";
 
@@ -50,7 +50,8 @@ async function stripeKuendigen(email: string): Promise<{ ende?: number; ids: str
   try {
     const kunden = await stripe.customers.list({ email, limit: 20 });
     // deno-lint-ignore no-explicit-any
-    const passend = kunden.data.filter((k: any) => k.email && mailNorm(k.email) === mailNorm(email));
+    // Autorisierung nur über die EXAKTE Adresse (Review 27.10.): a+x@ darf nie das Abo von a@ beenden.
+    const passend = kunden.data.filter((k: any) => k.email && mailExakt(k.email) === mailExakt(email));
     for (const k of passend) {
       const subs = await stripe.subscriptions.list({ customer: k.id, status: "all", limit: 20 });
       for (const s of subs.data) {
@@ -151,11 +152,15 @@ Deno.serve(async (req) => {
 
   // 2) Eingeloggte Sitzung mit derselben Adresse -> sofort.
   let eingeloggtPasst = false;
+  let sessionMail = "";
   const auth = req.headers.get("authorization") ?? "";
   if (auth.startsWith("Bearer ")) {
     const { data } = await db.auth.getUser(auth.slice(7)).catch(() => ({ data: null }));
     const mail = data?.user?.email;
-    eingeloggtPasst = !!mail && !!data?.user?.email_confirmed_at && mailNorm(mail) === mailNorm(d.email);
+    if (mail && data?.user?.email_confirmed_at && mailExakt(mail) === mailExakt(d.email)) {
+      eingeloggtPasst = true;
+      sessionMail = mailExakt(mail);
+    }
   }
 
   // 3) Limits (Adresse/IP, global) wie vertrag-widerrufen.
@@ -180,7 +185,7 @@ Deno.serve(async (req) => {
   let stripeInfo = "wartet auf Bestätigungslink";
   let endeText: string | undefined;
   if (eingeloggtPasst && d.vertrag === "abo") {
-    const r = await stripeKuendigen(d.email);
+    const r = await stripeKuendigen(sessionMail);   // E-Mail der Sitzung, nie die eingegebene
     stripeInfo = `eingeloggt: ${stripeText(r)}`;
     if (r.ende) endeText = datumBerlin(r.ende);
     await db.from("mail_events").insert({ brand: "gruenderx", campaign: "kuendigung-bestaetigt", variant: "a",

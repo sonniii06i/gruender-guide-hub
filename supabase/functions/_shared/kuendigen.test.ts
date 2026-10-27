@@ -40,10 +40,19 @@ Deno.test("Bestätigungslink: gültig nur mit passender Adresse, Signatur und vo
   const s = "geheim";
   const ab = Math.floor(Date.now() / 1000) + 3600;
   const t = await signiereKuendigung("a".repeat(32), ab, "Max+x@Example.com", s);
-  assertEquals(await tokenGueltig(t, "max@example.com", s), true);
+  assertEquals(await tokenGueltig(t, "max+x@example.com", s), true);
+  assertEquals(await tokenGueltig(t, "max@example.com", s), false);   // Plus-Anhang ist eine andere Adresse
   assertEquals(await tokenGueltig(t, "anders@example.com", s), false);
   assertEquals(await tokenGueltig(t, "max@example.com", "falsch"), false);
   const alt = await signiereKuendigung("b".repeat(32), Math.floor(Date.now() / 1000) - 10, "max@example.com", s);
   assertEquals(await tokenGueltig(alt, "max@example.com", s), false);
   assertEquals(zerlegeToken("kaputt"), null);
+});
+
+import { mailExakt } from "./kuendigen.ts";
+
+Deno.test("Autorisierung exakt: Plus-Anhang/Punkte sind andere Adressen", () => {
+  assertEquals(mailExakt(" A+x@Gmail.com "), "a+x@gmail.com");
+  assertEquals(mailExakt("a+x@gmail.com") === mailExakt("a@gmail.com"), false);
+  assertEquals(mailExakt("a.b@gmail.com") === mailExakt("ab@gmail.com"), false);
 });

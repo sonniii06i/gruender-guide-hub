@@ -64,6 +64,11 @@ export function mailNorm(email: string): string {
   return `${(lokal ?? "").split("+")[0]}@${domain ?? ""}`;
 }
 
+/** Exakter Vergleichswert für die Autorisierung (nur klein + getrimmt, KEINE Plus-/Punkt-Normalisierung). */
+export function mailExakt(email: string): string {
+  return String(email ?? "").trim().toLowerCase();
+}
+
 /** Nur laufende Abos werden zum Periodenende gekündigt (Trial: Ende der Testphase -> keine Folgezahlung). */
 export function kuendbar(status: string): boolean {
   return status === "active" || status === "trialing" || status === "past_due";
@@ -88,7 +93,7 @@ export function neueNonce(): string {
 }
 
 export async function signiereKuendigung(nonce: string, ablauf: number, email: string, secret: string): Promise<string> {
-  return `${nonce}.${ablauf}.${await hmacHex(secret, `kuendigung|${nonce}|${ablauf}|${mailNorm(email)}`)}`;
+  return `${nonce}.${ablauf}.${await hmacHex(secret, `kuendigung|${nonce}|${ablauf}|${mailExakt(email)}`)}`;
 }
 
 /** Zerlegt ein Token ohne Prüfung der Signatur (dafür braucht es die gespeicherte Adresse). */
