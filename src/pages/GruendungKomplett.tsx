@@ -6,6 +6,7 @@ import Logo from "@/components/Logo";
 import { startGuestCheckout } from "@/utils/guestCheckout";
 import { ArrowRight, Check, CalendarClock, FileSpreadsheet, Landmark, Wallet } from "lucide-react";
 import { TOOL_COUNT } from "@/data/features";
+import { WERBE_HINWEIS } from "@/lib/werbeHinweis";
 
 /**
  * Anzeigen-Landingpage für die Meta-Kampagne "Gründungsstack"
@@ -246,6 +247,7 @@ const GruendungKomplett = () => {
             Bearbeitungszeiten von Ämtern, Banken und Finanzämtern sind davon
             unabhängig.
           </p>
+          <p>{WERBE_HINWEIS}</p>
           <p className="flex flex-wrap justify-center gap-x-4 gap-y-1">
             <Link to="/impressum" className="underline underline-offset-2 hover:text-foreground">Impressum</Link>
             <Link to="/datenschutz" className="underline underline-offset-2 hover:text-foreground">Datenschutz</Link>

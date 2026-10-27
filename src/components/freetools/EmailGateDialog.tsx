@@ -15,6 +15,7 @@ import { Label } from "@/components/ui/label";
 import { EMAIL_PATTERN, rememberToolUnlocked, saveToolLead, trackToolLead } from "@/lib/freetools/leads";
 import { Checkbox } from "@/components/ui/checkbox";
 import { EINWILLIGUNG_TEXT, TIPPS_AKTIV, TIPPS_TOOLS, tippsAnfordern } from "@/lib/freetools/tipps";
+import { OPTIN_TEXT, newsletterAnmelden } from "@/components/NewsletterOptin";
 
 interface EmailGateDialogProps {
   open: boolean;
@@ -50,6 +51,8 @@ export function EmailGateDialog({
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [tipps, setTipps] = useState(false);
+  // Zweites, eigenes Häkchen (27.10.2026): Steuerfristen & Neuigkeiten (HQ-Liste, Double-Opt-in), nicht vorausgewählt.
+  const [newsletter, setNewsletter] = useState(false);
   const tippsMoeglich = TIPPS_AKTIV && TIPPS_TOOLS.has(slug);
 
   const handleUnlock = async (e?: React.FormEvent) => {
@@ -64,11 +67,12 @@ export function EmailGateDialog({
     // Freigeschaltet wird in jedem Fall, auch wenn das Speichern scheitert.
     await saveToolLead({ email: clean, slug });
     const tippsAngefordert = tippsMoeglich && tipps ? await tippsAnfordern(clean, slug) : false;
+    const newsletterAngefordert = newsletter ? await newsletterAnmelden(clean, `tool-ergebnis:${slug}`) : false;
     setLoading(false);
     rememberToolUnlocked(slug);
     trackToolLead(slug);
-    toast.success(`Dein ${resultName} ist freigeschaltet.`, tippsAngefordert
-      ? { description: "Für die Tipps haben wir dir eine Bestätigungsmail geschickt." }
+    toast.success(`Dein ${resultName} ist freigeschaltet.`, tippsAngefordert || newsletterAngefordert
+      ? { description: "Bitte bestätige die Anmeldung über den Link in der Mail, die wir dir gerade geschickt haben." }
       : undefined);
     onUnlocked();
   };
@@ -120,6 +124,18 @@ export function EmailGateDialog({
             </div>
           )}
 
+          <div className="flex items-start gap-2.5">
+            <Checkbox
+              id="gate-newsletter"
+              checked={newsletter}
+              onCheckedChange={(v) => setNewsletter(v === true)}
+              className="mt-0.5"
+            />
+            <Label htmlFor="gate-newsletter" className="text-sm font-normal leading-snug text-muted-foreground">
+              {OPTIN_TEXT} <span className="text-xs">(freiwillig, Bestätigung per Mail)</span>
+            </Label>
+          </div>
+
           <Button type="submit" className="w-full" size="lg" disabled={loading}>
             {loading ? (
               <Loader2 className="h-5 w-5 animate-spin" />
@@ -133,9 +149,9 @@ export function EmailGateDialog({
 
           <p className="text-xs leading-relaxed text-muted-foreground">
             Wir speichern deine Adresse zusammen mit dem genutzten Tool, um die kostenlose Nutzung
-            nachzuhalten, und löschen sie nach 12 Monaten. Werbung senden wir dir nur, wenn du das
+            nachzuhalten, und löschen sie nach 12 Monaten. Werbung senden wir dir nur, wenn du ein
             Häkchen setzt und per Mail bestätigst. Mehr in der{" "}
-            <a href={tippsMoeglich ? "/datenschutz#tipps" : "/datenschutz#kostenlose-tools"} target="_blank" className="text-primary hover:underline">
+            <a href={tippsMoeglich ? "/datenschutz#tipps" : newsletter ? "/datenschutz#newsletter" : "/datenschutz#kostenlose-tools"} target="_blank" className="text-primary hover:underline">
               Datenschutzerklärung
             </a>
             .

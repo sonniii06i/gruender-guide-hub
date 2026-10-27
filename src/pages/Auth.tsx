@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import { Loader2, Eye, EyeOff, Mail, Check } from "lucide-react";
 import { KontoRahmen, FormFehler, kontoCta } from "@/components/KontoRahmen";
 import { PLANS, formatEurCents } from "@/config/pricing";
+import { WERBE_HINWEIS } from "@/lib/werbeHinweis";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -165,7 +166,8 @@ const Auth = () => {
         <>
           Mit dem Kauf akzeptierst du unsere{" "}
           <Link to="/agb" className="underline underline-offset-4 hover:text-foreground">AGB</Link> und{" "}
-          <Link to="/datenschutz" className="underline underline-offset-4 hover:text-foreground">Datenschutzerklärung</Link>.
+          <Link to="/datenschutz" className="underline underline-offset-4 hover:text-foreground">Datenschutzerklärung</Link>.{" "}
+          {WERBE_HINWEIS}
         </>
         )
       }

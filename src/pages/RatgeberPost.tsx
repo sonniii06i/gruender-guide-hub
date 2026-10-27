@@ -407,7 +407,7 @@ const RatgeberPost = () => {
             </div>
           )}
 
-          <NewsletterOptin />
+          <NewsletterOptin quelle="ratgeber" />
 
           {weitere === null ? (
             <p className="mt-14 text-sm text-muted-foreground" data-prerender-pending>

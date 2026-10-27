@@ -19,6 +19,7 @@
 
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import Stripe from "https://esm.sh/stripe@18.5.0";
+import { mitWerbeHinweis } from "../_shared/werbeHinweis.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -121,13 +122,13 @@ serve(async (req) => {
       // auf einem Jahres-Checkout fuers Founder-Set gleich zweimal falsch war.
       custom_text: {
         submit: {
-          message:
+          message: mitWerbeHinweis(
             (product === "bundle"
               ? "Founder-Set: GruenderX + AnwaltX"
               : "GruenderX Zugang") +
             (interval === "year"
               ? " - Jahresabo, zwei Monate geschenkt. Verlaengert sich jaehrlich, Kuendigung mit einem Klick im Konto."
-              : " - monatlich kuendbar, Kuendigung mit einem Klick im Konto."),
+              : " - monatlich kuendbar, Kuendigung mit einem Klick im Konto.")),
         },
       },
       line_items: [{ price: resolvedPriceId, quantity: 1 }],

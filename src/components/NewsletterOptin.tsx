@@ -11,7 +11,32 @@ export const OPTIN_TEXT =
 
 type Zustand = "bereit" | "sendet" | "ok" | "fehler";
 
-export const NewsletterOptin = ({ kompakt = false }: { kompakt?: boolean }) => {
+/** Anmeldung an die HQ-Liste (Double-Opt-in); `quelle` landet als Herkunft am Eintrag (Kennzahlen je Formular). */
+export async function newsletterAnmelden(email: string, quelle: string, website = ""): Promise<boolean> {
+  try {
+    const r = await fetch(ENDPUNKT, {
+      method: "POST",
+      body: new URLSearchParams({ marke: "gruenderx", email: email.trim(), website, quelle }),
+    });
+    const d = (await r.json().catch(() => null)) as { ok?: boolean } | null;
+    return r.ok && !!d?.ok;
+  } catch {
+    return false;
+  }
+}
+
+export const NewsletterOptin = ({
+  kompakt = false,
+  quelle = "formular",
+  titel = "Steuerfristen & Neuigkeiten für Gründer",
+  text = "Kurze Mail, bevor eine Frist abläuft oder sich für Gründer etwas ändert – höchstens zwei pro Woche, meist seltener.",
+}: {
+  kompakt?: boolean;
+  /** Herkunft, z. B. „footer“, „ratgeber“, „tool:weee-check“. */
+  quelle?: string;
+  titel?: string;
+  text?: string;
+}) => {
   const id = useId();
   const [zustand, setZustand] = useState<Zustand>("bereit");
 
@@ -19,20 +44,8 @@ export const NewsletterOptin = ({ kompakt = false }: { kompakt?: boolean }) => {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
     setZustand("sendet");
-    try {
-      const r = await fetch(ENDPUNKT, {
-        method: "POST",
-        body: new URLSearchParams({
-          marke: "gruenderx",
-          email: String(fd.get("email") ?? "").trim(),
-          website: String(fd.get("website") ?? ""),
-        }),
-      });
-      const d = (await r.json().catch(() => null)) as { ok?: boolean } | null;
-      setZustand(r.ok && d?.ok ? "ok" : "fehler");
-    } catch {
-      setZustand("fehler");
-    }
+    const ok = await newsletterAnmelden(String(fd.get("email") ?? ""), quelle, String(fd.get("website") ?? ""));
+    setZustand(ok ? "ok" : "fehler");
   };
 
   return (
@@ -41,10 +54,10 @@ export const NewsletterOptin = ({ kompakt = false }: { kompakt?: boolean }) => {
       className={kompakt ? "" : "mt-14 rounded-2xl border border-border bg-card p-6 shadow-card md:p-7"}
     >
       <h2 id={`${id}-t`} className={kompakt ? "mb-2 text-sm font-semibold text-foreground" : "text-lg font-semibold tracking-tight"}>
-        Steuerfristen &amp; Neuigkeiten für Gründer
+        {titel}
       </h2>
       <p className={`text-sm leading-relaxed text-muted-foreground ${kompakt ? "mb-3 max-w-md" : "mb-4 mt-1"}`}>
-        Kurze Mail, bevor eine Frist abläuft oder sich für Gründer etwas ändert – höchstens zwei pro Woche, meist seltener.
+        {text}
       </p>
       {zustand === "ok" ? (
         <p role="status" className="text-sm font-medium text-foreground">

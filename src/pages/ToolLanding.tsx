@@ -13,6 +13,7 @@ import { TRIAL_TOOL_BY_SLUG, TRIAL_CLAIM } from "@/lib/freetools/trialTools";
 import { PRO_MONTH_GROSS_CENTS, formatEurCents, schemaPrice } from "@/config/pricing";
 import { guideHref } from "@/data/guideMerges";
 import { screenFuerTool } from "@/data/screenshots";
+import { NewsletterOptin } from "@/components/NewsletterOptin";
 
 const TOOL_CAT_TOPIC: Record<string, string> = {
   starter: "gruendung", rechtsform: "gruendung", steuer: "steuern", buchhaltung: "buchhaltung",
@@ -156,7 +157,16 @@ const ToolLanding = () => {
           items: relatedGuides.map((r) => ({ to: guideHref(r.slug), title: r.title, desc: r.desc })),
         },
       ]}
-      bottomSlot={<RelatedArticles context={matchCtx} />}
+      bottomSlot={
+        <>
+          <NewsletterOptin
+            quelle={`tool:${tool.slug}`}
+            titel="Fristen & Änderungen, die dich betreffen"
+            text="Wir melden uns kurz, bevor eine Steuerfrist abläuft oder sich für Gründer etwas ändert (z. B. neue Pflichten, Förderungen, Gebühren) – höchstens zwei Mails pro Woche, meist seltener."
+          />
+          <RelatedArticles context={matchCtx} />
+        </>
+      }
     />
   );
 };

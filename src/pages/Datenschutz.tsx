@@ -218,8 +218,10 @@ const Datenschutz = () => (
 
       <h3 id="newsletter" className="font-semibold mt-6">3.9c Steuerfristen &amp; Neuigkeiten per E-Mail (Double-Opt-in)</h3>
       <p>
-        Im Fuß jeder Seite und am Ende der Ratgeber kannst du dich für Mails mit Erinnerungen an Steuerfristen (z. B.
-        USt-Voranmeldung) und Neuigkeiten für Gründer anmelden. Das Häkchen ist nicht vorausgewählt. Wir schicken dir zuerst
+        Im Fuß jeder Seite, am Ende der Ratgeber, auf den Tool-Seiten und beim Freischalten eines Tool-Ergebnisses (eigenes
+        Häkchen, unabhängig von den Tipps) kannst du dich für Mails mit Erinnerungen an Steuerfristen (z. B.
+        USt-Voranmeldung) und Neuigkeiten für Gründer anmelden. Das Häkchen ist nicht vorausgewählt. Nach der Bestätigung
+        schicken wir dir eine Willkommensmail mit deinen nächsten Steuerterminen. Wir schicken dir zuerst
         eine Bestätigungsmail; erst nach dem Klick auf den Link darin (Double-Opt-in, gültig 7 Tage) gilt die Anmeldung. Ohne
         Klick bekommst du nichts weiter. Bestätigst du die Anmeldung nicht, löschen wir deine Adresse nach spätestens 30 Tagen
         automatisch. Werbliche Mails schicken wir höchstens zwei pro Woche.
@@ -239,6 +241,21 @@ const Datenschutz = () => (
         <strong>Verarbeitung:</strong> Die Anmeldeliste liegt auf unserem eigenen Server bei Hetzner in Deutschland
         (Anmeldeadresse arbitragex.de, unser Schwesterprojekt); versendet wird über Supabase (Frankfurt am Main) und unser
         Mailpostfach bei IONOS.
+      </p>
+
+      <h3 id="bestandskunden" className="font-semibold mt-6">3.9e Infos an Kunden zu ähnlichen Produkten (§ 7 Abs. 3 UWG)</h3>
+      <p>
+        Wenn du bei uns etwas kaufst (Abo oder Gründungspaket), nutzen wir die E-Mail-Adresse, die du im Checkout angibst, auch
+        für Infos zu ähnlichen Produkten von GründerX – etwa Aktionen, neue Funktionen oder wichtige Änderungen, höchstens zwei
+        Mails pro Woche. Darauf weisen wir dich im Checkout und in der Kaufbestätigung hin; Kunden, die vor dem 27.10.2026 gekauft
+        haben, bekommen den Hinweis einmal per Mail, bevor wir ihnen solche Infos schicken. Du kannst dem jederzeit widersprechen –
+        über den Abmeldelink in jeder Mail oder per Nachricht an uns –, ohne dass andere als die Übermittlungskosten nach den
+        Basistarifen entstehen. Nach einem Widerspruch steht deine Adresse auf unserer Sperrliste.
+      </p>
+      <p>
+        <strong>Rechtsgrundlage:</strong> unser berechtigtes Interesse an Direktwerbung gegenüber Kunden (Art. 6 Abs. 1 lit. f
+        DSGVO i. V. m. § 7 Abs. 3 UWG). <strong>Speicherdauer:</strong> solange du Kunde bist und nicht widersprichst; die
+        Sperrliste bewahren wir auf, damit dein Widerspruch dauerhaft wirkt.
       </p>
 
       <h3 id="vorlagen" className="font-semibold mt-6">3.9a Vorlagen-Bibliothek (Download gegen bestätigte E-Mail-Adresse)</h3>

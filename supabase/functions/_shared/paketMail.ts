@@ -15,6 +15,7 @@ import { aufmacher, button, esc, paragraph, plain, priceRows, renderMail, type B
 import {
   KENNTNIS_TEXT, PAKET_INHALT_KURZ, PAKET_NAME, PAKET_UST_SATZ, ZUSTIMMUNG_TEXT, preisText,
 } from "./gruendungspaketTexte.ts";
+import { WERBE_HINWEIS } from "./werbeHinweis.ts";
 
 const zeitBerlin = (d: Date) =>
   d.toLocaleString("de-DE", { timeZone: "Europe/Berlin", dateStyle: "long", timeStyle: "short" }) + " Uhr";
@@ -54,6 +55,7 @@ export function buildPaketBestaetigung(o: {
       "Das Paket ist eine Arbeitshilfe und keine Steuer- oder Rechtsberatung. Fragen oder Probleme beim Download? " +
       "Antworte einfach auf diese Mail.",
     ),
+    paragraph(esc(WERBE_HINWEIS)),
   ];
   return {
     subject: `Dein ${PAKET_NAME} – Download und Bestätigung`,
@@ -79,6 +81,8 @@ export function buildPaketBestaetigung(o: {
         "Die Rechnung schickt dir Stripe in einer eigenen Mail.",
         "",
         "Arbeitshilfe, keine Steuer- oder Rechtsberatung.",
+        "",
+        WERBE_HINWEIS,
       ],
       reason: "Du bekommst diese Mail, weil du auf gruenderx.de das Gründungspaket gekauft hast.",
     }),

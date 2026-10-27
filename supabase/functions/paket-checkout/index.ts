@@ -16,6 +16,7 @@
 
 import { paketPreis, paketStripe, testZugangOk } from "../_shared/paketStripe.ts";
 import { CHECKOUT_HINWEIS, PAKET_PRODUKT, PAKET_VERSION } from "../_shared/gruendungspaketTexte.ts";
+import { mitWerbeHinweis } from "../_shared/werbeHinweis.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -73,7 +74,7 @@ Deno.serve(async (req) => {
           metadata,
         },
       },
-      custom_text: { submit: { message: CHECKOUT_HINWEIS } },
+      custom_text: { submit: { message: mitWerbeHinweis(CHECKOUT_HINWEIS) } },
       allow_promotion_codes: true,
       metadata,
       payment_intent_data: { metadata, description: "GründerX Gründungspaket 2026" },

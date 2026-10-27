@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { NewsletterOptin } from "@/components/NewsletterOptin";
 import { supabase } from "@/integrations/supabase/client";
 import { PAKET_DOKUMENTE, PAKET_FAQ, PAKET_QUELLEN, PAKET_STAND, PAKET_VERKAUF_AKTIV } from "@/data/gruendungspaket";
+import { WERBE_HINWEIS } from "@/lib/werbeHinweis";
 import {
   KENNTNIS_TEXT, PAKET_NAME, PAKET_PREIS_CENT, ZUSTIMMUNG_TEXT, preisText,
 } from "../../supabase/functions/_shared/gruendungspaketTexte";
@@ -159,7 +160,7 @@ const Gruendungspaket = () => {
                 {fehler && <p role="alert" className="text-sm text-danger">{fehler}</p>}
                 <p className="text-xs text-muted-foreground">
                   Mit dem Kauf gelten unsere <Link to="/agb" className="underline">AGB</Link>. Informationen zum Widerrufsrecht:{" "}
-                  <Link to="/widerruf" className="underline">Widerrufsbelehrung</Link>. Bezahlung über Stripe.
+                  <Link to="/widerruf" className="underline">Widerrufsbelehrung</Link>. Bezahlung über Stripe. {WERBE_HINWEIS}
                 </p>
               </div>
             ) : (
@@ -168,7 +169,7 @@ const Gruendungspaket = () => {
                   Der Verkauf startet in Kürze. Trag dich ein – wir sagen dir Bescheid, sobald das Paket da ist, und schicken dir
                   vorher die wichtigsten Steuerfristen.
                 </p>
-                <NewsletterOptin />
+                <NewsletterOptin quelle="gruendungspaket" />
               </div>
             )}
             <p className="mt-5 flex items-start gap-2 text-xs text-muted-foreground">

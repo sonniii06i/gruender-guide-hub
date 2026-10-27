@@ -6,6 +6,7 @@ import Logo from "@/components/Logo";
 import { GUIDE_COUNT, TOOL_COUNT } from "@/data/kennzahlen";
 import { startGuestCheckout } from "@/utils/guestCheckout";
 import { ArrowRight, Building2, Check, Megaphone, PackageSearch } from "lucide-react";
+import { WERBE_HINWEIS } from "@/lib/werbeHinweis";
 
 /**
  * Anzeigen-Landingpage für die Meta-Kampagne "US-LLC in 30 Tagen"
@@ -216,6 +217,7 @@ const UsLlcOffer = () => {
             Bearbeitungszeiten von Behörden, Banken und Marktplätzen sind davon
             unabhängig. GründerX leistet keine Steuer- oder Rechtsberatung.
           </p>
+          <p>{WERBE_HINWEIS}</p>
           <p className="flex flex-wrap justify-center gap-x-4 gap-y-1">
             <Link to="/impressum" className="underline underline-offset-2 hover:text-foreground">Impressum</Link>
             <Link to="/datenschutz" className="underline underline-offset-2 hover:text-foreground">Datenschutz</Link>

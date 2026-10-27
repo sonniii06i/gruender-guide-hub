@@ -109,7 +109,7 @@ export const Footer = () => (
       </div>
 
       <div className="mt-12 border-t border-border pt-8">
-        <NewsletterOptin kompakt />
+        <NewsletterOptin kompakt quelle="footer" />
       </div>
 
       <div className="mt-14 flex flex-col justify-between gap-2 border-t border-border pt-6 text-xs text-muted-foreground md:flex-row">
