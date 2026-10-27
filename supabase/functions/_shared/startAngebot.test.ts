@@ -1,5 +1,5 @@
 import { assert, assertEquals } from "https://deno.land/std@0.224.0/assert/mod.ts";
-import { istStartAngebot, startPosition, startText, warSchonKunde, START_CENT } from "./startAngebot.ts";
+import { startErlaubt, istStartAngebot, startPosition, startText, warSchonKunde, START_CENT } from "./startAngebot.ts";
 
 Deno.test("istStartAngebot nur bei exakter Kennung", () => {
   assert(istStartAngebot({ angebot: "start1" }));
@@ -30,4 +30,10 @@ Deno.test("warSchonKunde: frueheres Abo zaehlt, das neue eigene nicht", async ()
   assert(await warSchonKunde(fakeStripe({ cus_1: ["sub_alt", "sub_neu"] }), "alt@x.de", "sub_neu"));
   assert(!(await warSchonKunde(fakeStripe({ cus_1: ["sub_neu"] }), "alt@x.de", "sub_neu")));
   assert(!(await warSchonKunde(fakeStripe({}), "neu@x.de")));
+});
+
+Deno.test("startErlaubt: nur GründerX monatlich", () => {
+  assert(startErlaubt("gruenderx", "month"));
+  assert(!startErlaubt("gruenderx", "year"));
+  assert(!startErlaubt("bundle", "month"));
 });

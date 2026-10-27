@@ -4,7 +4,7 @@ import { createClient } from "npm:@supabase/supabase-js@2.57.2";
 import { abTestStrecke } from "../_shared/mailSend.ts";
 import { mitWerbeHinweis } from "../_shared/werbeHinweis.ts";
 import { utmMeta } from "../_shared/utmMeta.ts";
-import { istStartAngebot, startPosition, startText, warSchonKunde, START_TAGE, START_KENNUNG } from "../_shared/startAngebot.ts";
+import { istStartAngebot, startErlaubt, startPosition, startText, warSchonKunde, START_TAGE, START_KENNUNG } from "../_shared/startAngebot.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -210,7 +210,7 @@ serve(async (req) => {
     // Ziel-Preis dynamisch auflösen (64,99 € GründerX / 99,99 € Bundle) — self-healing, kein Dashboard nötig.
     const resolvedPriceId = await resolvePriceId(stripe, product, interval, priceId);
     // Startangebot „7 Tage für 1 €“ (27.10.2026): nur GründerX monatlich, nur Neukunden.
-    const start = istStartAngebot(body) && product === "gruenderx" && interval === "month";
+    const start = istStartAngebot(body) && startErlaubt(product, interval);
     if (start && await warSchonKunde(stripe, user.email)) {
       return new Response(
         JSON.stringify({ error: "Das Startangebot gilt nur für Neukunden.", code: "kein_neukunde" }),

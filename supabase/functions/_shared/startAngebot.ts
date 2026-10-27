@@ -19,6 +19,11 @@ export const START_TAGE = 7;
 export const START_CENT = 100;
 export const START_KENNUNG = "start1";
 
+/** Security-Review 27.10.: Startangebot NUR fürs GründerX-Monatsabo (serverseitig, nie Bundle/Jahr). */
+export function startErlaubt(produkt: string, interval: string): boolean {
+  return produkt === "gruenderx" && interval === "month";
+}
+
 export function istStartAngebot(body: Record<string, unknown> | null | undefined): boolean {
   return !!body && body.angebot === START_KENNUNG;
 }

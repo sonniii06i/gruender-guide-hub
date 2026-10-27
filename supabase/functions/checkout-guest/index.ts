@@ -21,7 +21,7 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import Stripe from "https://esm.sh/stripe@18.5.0";
 import { mitWerbeHinweis } from "../_shared/werbeHinweis.ts";
 import { utmMeta } from "../_shared/utmMeta.ts";
-import { istStartAngebot, startPosition, startText, START_TAGE, START_KENNUNG } from "../_shared/startAngebot.ts";
+import { istStartAngebot, startErlaubt, startPosition, startText, START_TAGE, START_KENNUNG } from "../_shared/startAngebot.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -97,7 +97,7 @@ serve(async (req) => {
     const interval: Interval = body.interval === "year" ? "year" : "month";
     const affRef = str(body.affiliateRef, 32);
     // Startangebot „7 Tage für 1 €“ nur fürs GründerX-Monatsabo (Betreiber 27.10.2026).
-    const start = istStartAngebot(body) && product === "gruenderx" && interval === "month";
+    const start = istStartAngebot(body) && startErlaubt(product, interval);
 
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
       apiVersion: "2025-08-27.basil",
