@@ -9,6 +9,7 @@ import { relatedToolsFor } from "@/lib/internalLinks";
 import { RelatedArticles } from "@/components/landing/RelatedArticles";
 import { guideHref, isMergedGuide } from "@/data/guideMerges";
 import { SCREENS } from "@/data/screenshots";
+import SchwesterTipp from "@/components/SchwesterTipp";
 
 const SITE = "https://gruenderx.de";
 
@@ -134,7 +135,12 @@ const GuideLanding = () => {
           items: relatedTools.map((r) => ({ to: `/tools/${r.slug}`, title: r.title, desc: r.desc })),
         },
       ]}
-      bottomSlot={<RelatedArticles context={matchCtx} />}
+      bottomSlot={
+        <>
+          <SchwesterTipp slug={guide.slug} />
+          <RelatedArticles context={matchCtx} />
+        </>
+      }
     />
   );
 };
