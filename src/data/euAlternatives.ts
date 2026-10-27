@@ -67,7 +67,7 @@ export const EU_ALTERNATIVES: EUAlternative[] = [
     motherDaughterApplies: true,
     substance: "Mind. 1 lokaler Geschäftsführer ODER Service-Anbieter (Xolo, Companio etc.). Echte Substanz nicht erforderlich für legitime Geschäfte.",
     setupTime: "2–5 Werktage online via e-Residency",
-    setupCost: "100 € e-Residency-Karte + 265 € Notar + 200 € Service-Provider Setup",
+    setupCost: "150 € e-Residency-Karte + 265 € Notar + 200 € Service-Provider Setup",
     runningCost: "1.500–2.500 €/Jahr (Buchhaltung + Adresse + Service)",
     fitForGermans: "Sehr gut",
     bestFor: [
@@ -97,7 +97,7 @@ export const EU_ALTERNATIVES: EUAlternative[] = [
       "TransferWise (heute Wise) — startete als estnische Firma",
     ],
     setupSteps: [
-      "1. e-Residency beantragen (https://www.e-resident.gov.ee, 100 €, 6–12 Wochen Bearbeitung)",
+      "1. e-Residency beantragen (https://www.e-resident.gov.ee, 150 €, 6–12 Wochen Bearbeitung)",
       "2. e-Residency-Karte abholen in DE (Berliner Botschaft o.ä.)",
       "3. Service-Provider wählen (Xolo Go für Solos, Companio für mehr Customization)",
       "4. OÜ online via e-Business-Register gründen (~265 € Notargebühr, 1 Tag)",

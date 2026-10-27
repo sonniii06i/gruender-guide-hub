@@ -10,17 +10,17 @@ import { Callout, Field, ResultPanel, ToneBadge, ToolLayout, ToolSection, select
 import { Textarea } from "@/components/ui/textarea";
 import { darlehensplan } from "@/lib/finanzplan";
 
-// KfW ERP-Gründerkredit StartGeld (067), Merkblatt Stand 18.06.2026; Konditionen ab 06.10.2026.
+// KfW ERP-Gründerkredit StartGeld (067), Merkblatt Stand 18.06.2026; Konditionen ab 22.10.2026.
 // Unterlagen: KfW-Checkliste Risikoprüfung, IHK Darmstadt; Fragen: IHK Limburg.
 export const STARTGELD = {
   max: 200000,
   maxBetriebsmittel: 80000,
   haftungsfreistellung: 80,
   varianten: [
-    { laufzeit: 5, tilgungsfrei: 1, sollzins: 5.28, effektiv: 5.41 },
+    { laufzeit: 5, tilgungsfrei: 1, sollzins: 5.3, effektiv: 5.44 },
     { laufzeit: 10, tilgungsfrei: 2, sollzins: 5.45, effektiv: 5.59 },
   ],
-  konditionenStand: "06.10.2026",
+  konditionenStand: "22.10.2026",
 } as const;
 
 const UNTERLAGEN = [

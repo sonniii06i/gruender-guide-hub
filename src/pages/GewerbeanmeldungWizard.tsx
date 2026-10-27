@@ -563,9 +563,9 @@ const GewerbeanmeldungWizard = () => {
       <Stand2026Footer
         sources={[
           { label: "§14 GewO (Gewerbeanzeige)", url: "https://www.gesetze-im-internet.de/gewo/__14.html" },
-          { label: "WZ 2008 — Statistisches Bundesamt", url: "https://www.destatis.de/DE/Methoden/Klassifikationen/Gueter-Wirtschaftsklassifikationen/Downloads/klassifikation-wz-2008.pdf" },
+          { label: "WZ 2008 — Statistisches Bundesamt", url: "https://www.destatis.de/DE/Methoden/Klassifikationen/Gueter-Wirtschaftsklassifikationen/klassifikation-wz-2008.html" },
           { label: "Online-Gewerbeanmeldung Service.Bund.de", url: "https://verwaltung.bund.de" },
-          { label: "Bürgerservice / GewA1-Formular", url: "https://www.einheitlicher-ansprechpartner.eu" },
+          { label: "GewA1-Mustervordruck (Anlage 1 GewAnzV)", url: "https://www.gesetze-im-internet.de/gewanzv_2014/anlage_1.html" },
         ]}
         note="GewA1 ist bundeseinheitlich, aber Gebühr (15-65 €) variiert pro Stadt. Bearbeitung in Bürgeramt oder online (verwaltung.bund.de). Nach Aufnahme der Tätigkeit musst du den Fragebogen zur steuerlichen Erfassung (FsE) innerhalb eines Monats selbst und unaufgefordert über ELSTER einreichen (§138 Abs. 1b, Abs. 4 AO) — dort wird § 19 KU festgelegt. Bei erlaubnispflichtigen Gewerben (Gastronomie, Makler, Sicherheit, Spielhalle, etc.) brauchst du ZUSÄTZLICH Erlaubnis vor Anmeldung."
       />
