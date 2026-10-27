@@ -22,7 +22,9 @@ const PRODUKT_NAMEN = ["GründerX", "Founder Bundle"];   // Testkonto: gleiche P
 async function produkte(stripe: Stripe, test: boolean): Promise<string[]> {
   if (!test) return [...GX_PRODUKTE];
   const l = await stripe.products.list({ active: true, limit: 100 });
-  return l.data.filter((p: { name: string }) => PRODUKT_NAMEN.includes(p.name)).map((p: { id: string }) => p.id);
+  const abo = l.data.filter((p: { name: string }) => PRODUKT_NAMEN.includes(p.name)).map((p: { id: string }) => p.id);
+  // Die Sandbox hat (Stand 27.10.2026) keine Abo-Produkte – dort steht das Gründungspaket als Probeprodukt ein. Nur im Testmodus.
+  return abo.length ? abo : l.data.filter((p: { name: string }) => p.name.startsWith("GründerX Gründungspaket")).map((p: { id: string }) => p.id);
 }
 
 Deno.serve(async (req) => {
