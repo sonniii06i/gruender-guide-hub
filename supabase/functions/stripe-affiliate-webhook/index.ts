@@ -11,6 +11,7 @@
 // ===================================================================
 import Stripe from "https://esm.sh/stripe@18.5.0";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
+import { aboStatusSchreiben } from "../_shared/aboStatus.ts";
 import { sendMetaCapiEvent } from "../_shared/metaCapi.ts";
 import { type Produkt } from "../_shared/campaigns.ts";
 import { abTestStrecke } from "../_shared/mailSend.ts";
@@ -287,7 +288,14 @@ Deno.serve(async (req) => {
         break;
       }
 
+      case "customer.subscription.created": {
+        // 27.10.2026: Status sofort in die eigene DB (inkl. trialing).
+        console.log(`[abo-status] ${await aboStatusSchreiben(localDb, event.data.object)}`);
+        break;
+      }
+
       case "customer.subscription.updated": {
+        console.log(`[abo-status] ${await aboStatusSchreiben(localDb, event.data.object)}`);
         // Kuendigungsbestaetigung (Schalter KUENDIGUNG_MAIL_AKTIV, Standard
         // aus), siehe _shared/kuendigungMail.ts. Eigene DB, wirft nie.
         await kuendigungBestaetigen(stripe, localDb, event);
@@ -297,6 +305,7 @@ Deno.serve(async (req) => {
       case "customer.subscription.deleted": {
         const sub = event.data.object as any;
         await supabase.from("affiliate_referrals").update({ status: "canceled" }).eq("stripe_subscription_id", sub.id);
+        console.log(`[abo-status] ${await aboStatusSchreiben(localDb, sub)}`);
         await kuendigungBestaetigen(stripe, localDb, event);
         break;
       }
