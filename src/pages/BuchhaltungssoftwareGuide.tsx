@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import Stand2026Footer from "@/components/cockpit/Stand2026Footer";
 import { ToolSection, Callout, KitTable } from "@/components/cockpit/kit";
+import { partnerUrl, PARTNER_REL, PARTNER_HINWEIS } from "@/config/partnerLinks";
 import {
   BookOpen,
   Check,
@@ -64,6 +65,7 @@ interface Pfad {
   pick: string;
   why: string;
   icon: ReactNode;
+  partner?: string; // Anbieter-Slug mit Partnerlink (src/config/partnerLinks.ts)
 }
 
 const PFADE: Pfad[] = [
@@ -77,12 +79,14 @@ const PFADE: Pfad[] = [
     icon: <Receipt className="h-5 w-5 text-accent-blue" />,
     when: "Dienstleister / Solo-Selbstständig, regelmäßige Belege",
     pick: "Lexware Office (Paket L)",
+    partner: "lexoffice",
     why: "Einfachste Bedienung, deutscher Marktführer, enge Steuerberater-/DATEV-Verzahnung. EÜR + USt-VA per ELSTER gibt es ab Paket L. Ideal wenn du wenig Zeit für Buchhaltung hast und es einfach laufen soll.",
   },
   {
     icon: <ShoppingCart className="h-5 w-5 text-accent-blue" />,
     when: "E-Commerce / D2C mit vielen Belegen und Artikeln",
     pick: "sevDesk (Buchhaltung / Pro)",
+    partner: "sevdesk",
     why: "Stärker bei Massen-Belegen, Warenwirtschaft (Add-on) und Shop-Schnittstellen (Shopify, WooCommerce, Billbee). Gutes Preis-Leistungs-Verhältnis beim Einstieg.",
   },
 ];
@@ -175,9 +179,21 @@ const BuchhaltungssoftwareGuide = () => {
                 <p className="mt-4 text-sm text-muted-foreground">{p.when}</p>
                 <p className="mt-1 text-base font-semibold text-foreground">{p.pick}</p>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{p.why}</p>
+                {p.partner && partnerUrl(p.partner, "bh-guide") && (
+                  <a
+                    href={partnerUrl(p.partner, "bh-guide")!}
+                    target="_blank"
+                    rel={PARTNER_REL}
+                    title={PARTNER_HINWEIS}
+                    className="mt-3 inline-flex text-sm font-medium text-accent-blue underline underline-offset-2"
+                  >
+                    {p.pick.split(" (")[0]} ansehen*
+                  </a>
+                )}
               </div>
             ))}
           </div>
+          <p className="mt-3 text-xs text-muted-foreground">* Enthält Partnerlinks. {PARTNER_HINWEIS}</p>
         </section>
 
         {/* Vergleichstabelle */}
