@@ -33,6 +33,12 @@ export function mailVerifiziert(user: Any): boolean {
   const aktuell = String(user.email).trim().toLowerCase();
   if (am.mail_verifiziert === true) return String(am.mail_verifiziert_email ?? "") === aktuell;
   if (am.mail_verifiziert === false) return false;
+  // 28.10.2026: echte Supabase-Bestaetigung (Bestaetigungsmail verschickt, danach bestaetigt) ist ein
+  // Besitznachweis, auch wenn GoTrue das Flag beim Bestaetigen wieder aus app_metadata geschrieben hat
+  // (Sofort-Konten ohne Bestaetigungsmail haben kein confirmation_sent_at).
+  const gesendet = Date.parse(String(user.confirmation_sent_at ?? ""));
+  const bestaetigt = Date.parse(String(user.email_confirmed_at ?? ""));
+  if (gesendet && bestaetigt && bestaetigt >= gesendet) return true;
   // Ohne Flag: nur wenn eine verknuepfte OAuth-Identitaet (Google o. ae.) GENAU
   // diese Adresse bestaetigt hat (Review 27.10.: nicht provider allein — nach
   // einer Adressaenderung waere sonst die neue, fremde Adresse "verifiziert").

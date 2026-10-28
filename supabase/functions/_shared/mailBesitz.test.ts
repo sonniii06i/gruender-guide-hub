@@ -30,3 +30,10 @@ Deno.test("Token: gueltig, falsche Signatur, abgelaufen, fremder Schluessel", as
   assertEquals((await pruefeVerifyToken("geheim", p + ".xxx", 1001)).ok, false);
   assertEquals((await pruefeVerifyToken("geheim", "kaputt", 1001)).ok, false);
 });
+
+Deno.test("mailVerifiziert: echte Supabase-Bestaetigung ohne Flag zaehlt, Sofort-Konto nicht (28.10.)", () => {
+  const basis = { email: "a@b.de", app_metadata: { provider: "email" }, identities: [] };
+  assertEquals(mailVerifiziert({ ...basis, email_confirmed_at: "2026-10-28T09:51:02Z", confirmation_sent_at: "2026-10-27T21:59:28Z" }), true);
+  assertEquals(mailVerifiziert({ ...basis, email_confirmed_at: "2026-10-28T09:51:02Z", confirmation_sent_at: null }), false);
+  assertEquals(mailVerifiziert({ ...basis, app_metadata: { mail_verifiziert: false }, email_confirmed_at: "2026-10-28T09:51:02Z", confirmation_sent_at: "2026-10-27T21:59:28Z" }), false);
+});
