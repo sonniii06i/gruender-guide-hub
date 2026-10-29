@@ -142,7 +142,7 @@ export const BIZ_CARDS: BizCard[] = [
     hasFreeTier: true,
     paymentTerm: null,
     rewards:
-      "0,1 % / 0,2 % / 0,5 % Cashback (Start/Basic/Pro) + Marketing-Cashback bis ~10 % auf Meta/Google/Amazon Ads",
+      "0,1 % / 0,2 % / 0,35 % Cashback (Free Start/Basic/Pro) + Marketing-Cashback bis ~10 % auf Meta/Google/Amazon Ads",
     signupBonus: "4 % Zinsen für Neukunden in den ersten 4 Monaten (Guthaben)",
     datevNative: true,
     fxFee: "1 % (Free-Start-Plan 2 %)",

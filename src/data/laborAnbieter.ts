@@ -578,8 +578,8 @@ export const LABORE: Labor[] = [
       "Hautsensorik-Studien (Wear-Trials)",
     ],
     preise: "OEKO-TEX 100 Single-Artikelklasse 800-2.500€ + 200€/Jahresgebühr · USA $6.500 Ø · PFAS-Single 350-700€",
-    lieferzeit: "3-6 Wochen für Standard 100 · Vorabprüfung 2 Wochen",
-    onlinePortal: "Hohenstein Customer Center",
+    lieferzeit: "üblicherweise bis zu 4 Wochen für Standard 100 (je nach Komplexität)",
+    onlinePortal: "myOEKO-TEX® Kundenportal",
     bekanntheit: "OEKO-TEX-Erfinder, DAS Textil-Label",
     bestFor: ["Apparel-Brand mit Schadstoff-Claim", "Premium-Bettwäsche/Textil-D2C"],
     watchouts: [

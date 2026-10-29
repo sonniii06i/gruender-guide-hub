@@ -178,7 +178,7 @@ const BANKS: Bank[] = [
     region: "us",
     emoji: "💸",
     monthlyFee: "€0",
-    setupFee: "**Variiert nach Region**: DE 55 € · US $31 · UK £45 · EEA €50 · SG SGD 99",
+    setupFee: "**Variiert nach Region**: DE 55 € · US $31 · UK £50 · übriger EWR 60 € · SG SGD 99",
     nonResident: "ja",
     bestFor: "Multi-Currency-Geschäft · DACH-Founder mit USD/GBP/EUR-Mix · FX-Optimierung",
     pros: [
@@ -189,7 +189,7 @@ const BANKS: Bank[] = [
       "Wise Assets bis ~3,5% Yield (USD-Treasury-Fonds)",
     ],
     cons: [
-      "**Setup-Fee einmalig (NICHT €20!)** — DE 55 €, US $31, UK £45 je Region",
+      "**Setup-Fee einmalig (NICHT €20!)** — DE 55 €, US $31, UK £50 je Region",
       "**Closure-Risk medium-high** seit NBB-Mandate Q4 2024 + Wise US $4.2M-Settlement 2025",
       "Kein klassisches US-Bank-Konto (Geld liegt bei Wise, nicht bei US-Bank)",
       "Keine Kreditkarte (nur Debit)",
@@ -818,8 +818,8 @@ const IntlBanking = () => {
           Onboarding-Erfolg ist nicht garantiert (Bank-eigenes Risk-Scoring). Bei US-LLC-Setup zwingend diese Reihenfolge:
           erst LLC-Filing, dann EIN, DANN Bank-Account-Antrag (BOI seit März 2025 NICHT mehr Pflicht).{" "}
           <strong className="font-semibold text-foreground">Preis-Variabilität:</strong> Wise Personal kostet €0 Setup
-          (typisch €20 Mindest-Einzahlung für KYC), Wise Business hat regionales Pricing (DE 55 € / US $31 / UK £45 / SG SGD
-          99 / EEA €50). Eigene Erfahrungen können abweichen; Referral-Links und Promotionen reduzieren das auf €0.
+          (typisch €20 Mindest-Einzahlung für KYC), Wise Business hat regionales Pricing (DE 55 € / US $31 / UK £50 / SG SGD
+          99 / übriger EWR 60 €). Eigene Erfahrungen können abweichen; Referral-Links und Promotionen reduzieren das auf €0.
         </p>
       </div>
     </CockpitShell>
