@@ -104,6 +104,51 @@ export default function FreeToolPage({ config }: FreeToolPageProps) {
             </article>
           )}
 
+          {config.links && config.links.length > 0 && (
+            <PublicSection title="Passende Ratgeber & Tools">
+              <ul className="grid gap-2 sm:grid-cols-2">
+                {config.links.map((l) => (
+                  <li key={l.to}>
+                    <Link to={l.to} className="inline-flex items-center gap-1.5 text-sm font-medium text-accent-blue hover:underline">
+                      <ArrowRight className="h-4 w-4 shrink-0" aria-hidden="true" /> {l.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </PublicSection>
+          )}
+
+          {config.quellen && config.quellen.length > 0 && (
+            <PublicSection title={config.stand ? `Quellen (Stand ${config.stand})` : "Quellen"}>
+              <ul className="space-y-1.5 text-sm text-muted-foreground">
+                {config.quellen.map((q) => (
+                  <li key={q.url}>
+                    <a href={q.url} target="_blank" rel="noopener noreferrer" className="hover:text-accent-blue hover:underline">
+                      {q.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-3 text-xs text-muted-foreground">
+                Keine Rechts- oder Steuerberatung – im Einzelfall Steuerberater oder Anwalt fragen.
+              </p>
+            </PublicSection>
+          )}
+
+          {/* Funnel */}
+          <section className="rounded-2xl border border-border bg-card p-6 shadow-card">
+            <h2 className="text-lg font-semibold tracking-tight">Alle Gründer-Schritte an einem Ort</h2>
+            <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">
+              Mit GründerX bekommst du deinen Fahrplan von Gewerbe bis Steuer, alle Tools unbegrenzt und Felix, deinen Gründungs-Assistenten.
+            </p>
+            <Link
+              to={`/preise?utm_source=tool&utm_medium=${config.format || "generator"}&utm_campaign=${config.slug}`}
+              className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-accent-blue hover:underline"
+            >
+              GründerX ansehen <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
+          </section>
+
           {/* FAQ */}
           <PublicSection title="Häufige Fragen">
             <FaqList items={config.seo.faqs} />

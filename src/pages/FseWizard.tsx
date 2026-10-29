@@ -529,11 +529,12 @@ const FseWizard = () => {
             ]}
             decide={(ans) => {
               if (ans.eu === "ja") return "JA — Häkchen setzen. PFLICHT für EU-B2B (Reverse Charge §13b) und EU-B2C-Plattformen (OSS) sowie Handel über elektronische Schnittstellen (§ 25e UStG).";
-              if (ans.eu === "vielleicht") return "JA — kostet nichts extra, ist sofort da. Empfehlung: immer mitbeantragen.";
+              if (ans.eu === "vielleicht") return "JA — kostet nichts extra und kommt nach der Erfassung per Post vom BZSt. Empfehlung: immer mitbeantragen.";
               return "OPTIONAL — bei reinem DE-Geschäft nicht zwingend. Tipp: trotzdem ankreuzen für Flexibilität.";
             }}
           />
           Falls schon eine USt-IdNr aus früherer Tätigkeit vorhanden: in Z.159 eintragen (Nummer + Vergabedatum).
+          Schon erfasst und das Häkchen vergessen? <Link to="/ust-id-beantragen" className="underline text-accent-blue">USt-ID nachträglich beim BZSt beantragen →</Link>
         </Field>
         <Field nr={160} label="Steuerschuldnerschaft des Leistungsempfängers bei Bau-/Gebäudereinigungsleistungen (§ 13b UStG)" optional>
           Nur Bau-/Gebäudereinigungs-Unternehmer: Nachweis beantragen (Z.160) + Umfang {">"} 10 % des Weltumsatzes (Z.161/162).

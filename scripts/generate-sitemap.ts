@@ -53,6 +53,7 @@ const staticEntries: SitemapEntry[] = [
   { path: "/influencer-steuer-check", changefreq: "weekly", priority: "0.8" },
   { path: "/tiktok-shop-checkliste", changefreq: "weekly", priority: "0.8" },
   { path: "/pr-paket-rechner", changefreq: "weekly", priority: "0.8" },
+  { path: "/ust-id-beantragen", changefreq: "weekly", priority: "0.8" },
   // Die zwei Amazon-Widerspruchsgeneratoren stehen NICHT mehr hier: Canonical
   // zeigt auf anwaltx.de (Themenbesitz). Prerender ueber EXTRA_ROUTES in prerender.mjs.
   { path: "/ratgeber", changefreq: "daily", priority: "0.9" },

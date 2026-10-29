@@ -59,6 +59,13 @@ export interface ToolConfig {
   generate: (data: ToolData) => string;
   /** Lange, keyword-reiche Inhaltsblöcke unter dem Wizard (SEO). */
   seoSections?: { heading: string; body: string[] }[];
+  /** Passende Ratgeber und Tools (interne Links unter dem Erklärtext). */
+  links?: { to: string; label: string }[];
+  /** Primärquellen (Gesetz, Behörde) für den Quellenblock; `stand` = Abrufdatum. */
+  quellen?: { label: string; url: string }[];
+  stand?: string;
+  /** utm_medium des Funnel-Links (rechner, generator, anleitung …). Default „generator“. */
+  format?: string;
   seo: {
     title: string;
     description: string;

@@ -398,6 +398,7 @@ const App = () => (
               <Route path="/influencer-steuer-check" element={<FreeToolRoute slug="influencer-steuer-check" />} />
               <Route path="/tiktok-shop-checkliste" element={<FreeToolRoute slug="tiktok-shop-checkliste" />} />
               <Route path="/pr-paket-rechner" element={<FreeToolRoute slug="pr-paket-rechner" />} />
+              <Route path="/ust-id-beantragen" element={<FreeToolRoute slug="ust-id-beantragen" />} />
               <Route path="/amazon-marken-freischaltung-widerspruch-generator" element={<FreeToolRoute slug="amazon-marken-freischaltung-widerspruch-generator" />} />
               <Route path="/amazon-transparency-seriennummer-widerspruch-generator" element={<FreeToolRoute slug="amazon-transparency-seriennummer-widerspruch-generator" />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

@@ -7,6 +7,7 @@ import { transparencySeriennummerConfig } from "./transparency-seriennummer";
 import { influencerSteuerCheckConfig } from "./influencer-steuer-check";
 import { prPaketRechnerConfig } from "./pr-paket-rechner";
 import { tiktokShopChecklisteConfig } from "./tiktok-shop-checkliste";
+import { ustIdNrConfig } from "./ust-idnr";
 
 // Reihenfolge = Anzeige-Reihenfolge auf der Hub-Seite.
 export const FREE_TOOLS: ToolConfig[] = [
@@ -16,6 +17,7 @@ export const FREE_TOOLS: ToolConfig[] = [
   influencerSteuerCheckConfig,
   tiktokShopChecklisteConfig,
   prPaketRechnerConfig,
+  ustIdNrConfig,
   markenFreischaltungConfig,
   transparencySeriennummerConfig,
 ];
