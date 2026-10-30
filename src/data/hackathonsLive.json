@@ -1,51 +1,21 @@
 {
- "stand": "2026-10-29T10:58:49.048Z",
+ "stand": "2026-10-30T10:56:23.344Z",
  "quelle": {
   "ok": true,
-  "roh": 173,
-  "uebernommen": 19,
+  "roh": 177,
+  "uebernommen": 17,
   "verworfen": {
-   "nur_einladung": 25,
-   "vor_ort_fern": 73,
-   "frist_vorbei": 3,
+   "nur_einladung": 27,
+   "vor_ort_fern": 75,
+   "frist_vorbei": 6,
    "preis_unter_5000_usd": 43,
-   "kein_usd_betrag": 10,
+   "kein_usd_betrag": 9,
    "ueber_max": 0
   },
-  "letzterErfolg": "2026-10-29T10:58:49.047Z"
+  "letzterErfolg": "2026-10-30T10:56:23.344Z"
  },
- "anzahl": 19,
+ "anzahl": 17,
  "eintraege": [
-  {
-   "id": "devpost-30790",
-   "titel": "Nebius x NVIDIA Global AI Hackathon",
-   "url": "https://nebiusglobalaihackathon.devpost.com/",
-   "ende": "2026-10-30",
-   "preisUsd": 50000,
-   "geldpreise": 6,
-   "anmeldungen": 29020,
-   "ort": "Online",
-   "veranstalter": "nebius",
-   "themen": [
-    "Machine Learning/AI",
-    "Beginner Friendly",
-    "Robotic Process Automation"
-   ]
-  },
-  {
-   "id": "devpost-31054",
-   "titel": "Qloo Agentic Hackathon",
-   "url": "https://qloo.devpost.com/",
-   "ende": "2026-10-30",
-   "preisUsd": 25000,
-   "geldpreise": 3,
-   "anmeldungen": 2782,
-   "ort": "Online",
-   "veranstalter": "Qloo",
-   "themen": [
-    "Machine Learning/AI"
-   ]
-  },
   {
    "id": "devpost-31742",
    "titel": "Codex x TwitchCon Hackathon",
@@ -53,7 +23,7 @@
    "ende": "2026-11-02",
    "preisUsd": 25000,
    "geldpreise": 4,
-   "anmeldungen": 1549,
+   "anmeldungen": 1700,
    "ort": "Online",
    "veranstalter": "Twitch",
    "themen": [
@@ -69,7 +39,7 @@
    "ende": "2026-11-02",
    "preisUsd": 6000,
    "geldpreise": 1,
-   "anmeldungen": 1428,
+   "anmeldungen": 1484,
    "ort": "Online",
    "veranstalter": "Perfect Corp",
    "themen": [
@@ -85,7 +55,7 @@
    "ende": "2026-11-12",
    "preisUsd": 67500,
    "geldpreise": 14,
-   "anmeldungen": 23720,
+   "anmeldungen": 24428,
    "ort": "Online",
    "veranstalter": "PayPal",
    "themen": [
@@ -101,7 +71,7 @@
    "ende": "2026-11-15",
    "preisUsd": 17150,
    "geldpreise": 8,
-   "anmeldungen": 184,
+   "anmeldungen": 192,
    "ort": "Online",
    "veranstalter": "CodeStarters",
    "themen": [
@@ -117,7 +87,7 @@
    "ende": "2026-11-16",
    "preisUsd": 46000,
    "geldpreise": 4,
-   "anmeldungen": 686,
+   "anmeldungen": 829,
    "ort": "Online",
    "veranstalter": "UGREEN",
    "themen": [
@@ -133,7 +103,7 @@
    "ende": "2026-11-18",
    "preisUsd": 1000000,
    "geldpreise": 19,
-   "anmeldungen": 4435,
+   "anmeldungen": 4555,
    "ort": "Online",
    "veranstalter": "Meta",
    "themen": [
@@ -149,7 +119,7 @@
    "ende": "2026-11-25",
    "preisUsd": 45000,
    "geldpreise": 1,
-   "anmeldungen": 41,
+   "anmeldungen": 44,
    "ort": "Online",
    "veranstalter": "FabricVTON",
    "themen": [
@@ -165,7 +135,7 @@
    "ende": "2026-11-30",
    "preisUsd": 10000,
    "geldpreise": 1,
-   "anmeldungen": 130,
+   "anmeldungen": 166,
    "ort": "Online",
    "veranstalter": "Google",
    "themen": [
@@ -179,7 +149,7 @@
    "ende": "2026-12-04",
    "preisUsd": 100000,
    "geldpreise": 1,
-   "anmeldungen": 2013,
+   "anmeldungen": 2320,
    "ort": "Online",
    "veranstalter": "Kiro",
    "themen": [
@@ -195,7 +165,7 @@
    "ende": "2026-12-21",
    "preisUsd": 7800,
    "geldpreise": 5,
-   "anmeldungen": 687,
+   "anmeldungen": 715,
    "ort": "Online",
    "veranstalter": "Arbiter ",
    "themen": [
@@ -211,7 +181,7 @@
    "ende": "2026-12-22",
    "preisUsd": 120000,
    "geldpreise": 7,
-   "anmeldungen": 389,
+   "anmeldungen": 715,
    "ort": "Online",
    "veranstalter": "Atlassian",
    "themen": [
@@ -227,7 +197,7 @@
    "ende": "2027-01-10",
    "preisUsd": 13700,
    "geldpreise": 5,
-   "anmeldungen": 319,
+   "anmeldungen": 325,
    "ort": "Online",
    "veranstalter": "Hack United",
    "themen": [
@@ -243,7 +213,7 @@
    "ende": "2027-01-10",
    "preisUsd": 11960,
    "geldpreise": 7,
-   "anmeldungen": 67,
+   "anmeldungen": 69,
    "ort": "Online",
    "veranstalter": "Checkpoint",
    "themen": [
@@ -259,7 +229,7 @@
    "ende": "2027-01-18",
    "preisUsd": 146700,
    "geldpreise": 11,
-   "anmeldungen": 565,
+   "anmeldungen": 594,
    "ort": "Online",
    "veranstalter": "Cosmo Hacks",
    "themen": [
@@ -307,7 +277,7 @@
    "ende": "2027-03-15",
    "preisUsd": 5000,
    "geldpreise": 1,
-   "anmeldungen": 55,
+   "anmeldungen": 56,
    "ort": "Online",
    "veranstalter": "OSC",
    "themen": [
