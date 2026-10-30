@@ -289,7 +289,7 @@ const RatgeberPost = () => {
         )}
 
         <div className="container max-w-3xl px-4 py-12 md:py-16">
-          {/* Ratgeber sind der größte Einstieg, hatten aber keinen Weg zum Konto (Funnel 30.10.2026). */}
+          {/* Ratgeber hatten keinen Weg zum Konto, nur Navigation und /preise (Funnel 30.10.2026). */}
           <p className="mb-10 rounded-xl border border-border bg-secondary/40 px-4 py-3 text-sm leading-relaxed text-muted-foreground">
             Gründest du gerade? Gratis-Tools und Rechner bekommst du mit dem kostenlosen Konto.{" "}
             <Link to="/auth" data-cta="ratgeber-oben" className="whitespace-nowrap font-semibold text-accent-blue hover:underline">
