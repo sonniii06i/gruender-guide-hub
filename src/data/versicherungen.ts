@@ -224,7 +224,7 @@ export const VERSICHERUNGEN: Versicherung[] = [
     name: "Krankentagegeld-Versicherung",
     kuerzel: "KTG",
     beschreibung: "Zahlt Tagegeld bei Arbeitsunfähigkeit (typisch ab Tag 22 oder 43). PFLICHT bei freiwilliger GKV ohne Krankengeld-Wahltarif!",
-    schadenbeispiel: "Du hast 6 Wochen Bandscheibenvorfall. Ohne KTG: 0 € Einkommen (kein AG-Anteil-Lohnfortzahlung). Mit KTG: 100 €/Tag = 6.000 €.",
+    schadenbeispiel: "Du hast 6 Wochen Bandscheibenvorfall. Ohne KTG: 0 € Einkommen (kein AG-Anteil-Lohnfortzahlung). Mit KTG: 100 €/Tag = bis zu 4.200 € (42 Tage, abzüglich Karenzzeit).",
     deckungssumme: "60-100 % vom Netto, max. Höhe = GKV-Bemessungsgrenze.",
     beitragRange: { min: 200, mittel: 600, max: 1500 },
     worauf_achten: [

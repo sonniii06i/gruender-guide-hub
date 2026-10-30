@@ -251,7 +251,7 @@ const FoerderungDb = () => {
             ["EXIST, dann Seed-Runde", "Erst EXIST-Stipendium (12 Monate finanzielle Sicherheit), dann mit HTGF oder VC-Seed-Runde skalieren."],
             ["Die Hausbank ist der Schlüssel", "KfW-Kredite werden über die Hausbank beantragt. Wähle eine gründerfreundliche Bank (Volksbanken, Sparkassen mit Gründer-Beauftragten)."],
             ["Bürgschaftsbank zuerst", "Bei wenig Eigenkapital erleichtert eine Bürgschaft der Bürgschaftsbank jeden Bankkredit deutlich."],
-            ["EIC Accelerator", "Für Deep-Tech und VC-fähige Startups: Zuschuss unter 2,5 Mio. € plus 1 bis 10 Mio. € Beteiligung, sehr kompetitiv (8 bis 12 % Quote)."],
+            ["EIC Accelerator", "Für Deep-Tech und VC-fähige Startups: Zuschuss unter 2,5 Mio. € plus 1 bis 10 Mio. € Beteiligung, sehr kompetitiv (Ende 2024: 71 von 1.211 Vollanträgen, rund 6 %)."],
             ["Beratungsförderung nutzen", "BAFA-Förderung des unternehmerischen Know-hows bezuschusst Unternehmensberatung zu wirtschaftlichen, finanziellen, personellen und organisatorischen Fragen. Bemessungsgrundlage höchstens 3.500 € Beratungskosten, Zuschuss je nach Region 50 % (alte Bundesländer, Berlin und Region Leipzig) oder 80 % (neue Bundesländer ohne Region Leipzig sowie Regionen Lüneburg und Trier). Die Richtlinie läuft bis 31.12.2026. Überwiegende Rechts- und Steuerberatung ist ausdrücklich nicht förderfähig."],
             ["Antrag vor der Investition", "Bei Zuschüssen und Stipendien gilt: Antrag vor der Geldausgabe. Rückwirkende Förderung gibt es nicht."],
             ["Regionale Programme", "Regionale IHK-Programme und Innovationsgutscheine der Länder für Innovationsberatung sind hier nicht aufgeführt; ein Anruf bei der IHK lohnt sich."],

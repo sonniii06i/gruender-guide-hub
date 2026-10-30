@@ -44,7 +44,7 @@ const ROWS: Row[] = [
     elster: "kostenlos",
     lexware: "Paket L: 21,90 EUR/Mon (Aktion 10,95 für 3 Monate)",
     sevdesk: "Buchhaltung: 19,90–25,90 EUR/Mon (Aktion ~9,95)",
-    hint: "EÜR + USt-VA gibt es erst ab diesem Tarif. Reine Rechnungs-Tarife sind günstiger (Lexware M 12,90, sevDesk Rechnung ~4,45), enthalten aber KEINE Buchhaltung/EÜR/USt-VA. Preise schwanken mit Aktionen.",
+    hint: "EÜR + USt-VA gibt es erst ab diesem Tarif. Reine Rechnungs-Tarife sind günstiger (Lexware M 12,90, sevDesk Rechnung 8,90–11,90, Aktion 4,45), enthalten aber KEINE Buchhaltung/EÜR/USt-VA. Preise schwanken mit Aktionen.",
   },
   { feature: "USt-Voranmeldung per ELSTER", elster: "manuell ausfüllen", lexware: "auf Knopfdruck", sevdesk: "auf Knopfdruck" },
   { feature: "Zusammenfassende Meldung (ZM) ans BZSt", elster: "manuell ausfüllen", lexware: true, sevdesk: true, hint: "Pflicht bei EU-B2B (innergemeinschaftliche Lieferungen/sonstige Leistungen mit USt-IdNr). Beide Tools erstellen + übermitteln sie elektronisch - die ZM geht ans Bundeszentralamt für Steuern (BZSt), nicht ans Finanzamt." },

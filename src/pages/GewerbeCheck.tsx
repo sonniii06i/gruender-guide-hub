@@ -82,7 +82,7 @@ const TAETIGKEITEN: { v: Taetigkeit; label: string; emoji: string; freiberuf: "j
   { v: "kunst-schreiben-musik", label: "Kunst / Schreiben / Musik", emoji: "🎨", freiberuf: "ja", beispiele: "Autor:in, Musiker:in, Maler:in, Journalist:in (künstlerisch/schriftstellerisch, §18 EStG). Designer:innen und YouTuber:innen mit Werbe-/Affiliate-Einnahmen sind oft gewerblich → „unsicher“ wählen" },
   { v: "software-entwicklung", label: "Software / IT / Engineering", emoji: "💻", freiberuf: "vielleicht", beispiele: "Ingenieur:in (Katalogberuf). Programmierer:in, IT-Beratung, Web-Developer: nur freiberuflich, wenn ingenieurähnlich (Ausbildung/Kenntnisse wie Informatik-Studium, kein Handel mit Hard-/Software) — Einzelfall" },
   { v: "lehre-unterricht", label: "Lehre / Unterricht", emoji: "🎓", freiberuf: "ja", beispiele: "Nachhilfe, Sprachlehrer:in, Yoga-/Sport-Trainer:in (unterrichtende Tätigkeit). Verkauf aufgezeichneter Online-Kurse ist meist gewerblich" },
-  { v: "heilberuf-medizin", label: "Heilberufe / Medizin", emoji: "⚕️", freiberuf: "ja", beispiele: "Arzt/Ärztin, Heilpraktiker:in, Physio, Logopäde:in, Hebamme — alle Katalog §18 EStG" },
+  { v: "heilberuf-medizin", label: "Heilberufe / Medizin", emoji: "⚕️", freiberuf: "ja", beispiele: "Arzt/Ärztin, Heilpraktiker:in, Physio (Krankengymnast:in) — Katalogberufe §18 EStG; Logopädie und Hebamme als ähnliche Berufe (Einzelfall)" },
   { v: "rechts-steuer-beratung", label: "Recht / Steuer / Wirtschaftsprüfung", emoji: "⚖️", freiberuf: "ja", beispiele: "Anwalt/Anwältin, Steuerberater:in, Wirtschaftsprüfer:in" },
   { v: "unsicher", label: "Bin mir unsicher / etwas anderes", emoji: "🤔", freiberuf: "vielleicht", beispiele: "Wenn deine Tätigkeit nicht klar in eine Kategorie passt — wir geben dir eine Empfehlung zur Klärung" },
 ];
@@ -144,7 +144,7 @@ function berechneRechtsformEmpfehlung(setup: Setup): RechtsformReco {
     return {
       empfohlen: "einzel-frei",
       empfohlenLabel: "Einzelunternehmen als Freiberufler:in",
-      begruendung: "Für die allermeisten Solo-Freiberufler:innen die richtige Wahl: keine Gewerbeanmeldung, keine GewSt, keine IHK-Pflicht, keine Buchführungspflicht (EÜR reicht bis 800k Umsatz). Du brauchst KEINE Rechtsform-Anmeldung — nur die steuerliche Erfassung beim Finanzamt.",
+      begruendung: "Für die allermeisten Solo-Freiberufler:innen die richtige Wahl: keine Gewerbeanmeldung, keine GewSt, keine IHK-Pflicht, keine Buchführungspflicht nach § 141 AO (EÜR reicht unabhängig vom Umsatz). Du brauchst KEINE Rechtsform-Anmeldung — nur die steuerliche Erfassung beim Finanzamt.",
       ustModus,
       ustHinweis: ustModus === "ku-19"
         ? "Bei deinem Umsatz ist §19 UStG (Kleinunternehmer) möglich: keine USt auf Rechnungen, keine USt-Voranmeldungen. Grenze: Vorjahres-Umsatz ≤ 25.000 € und laufendes Jahr ≤ 100.000 € (im Gründungsjahr ≤ 25.000 €). ABER: kein Vorsteuer-Abzug — bei viel B2B-Geschäft mit teuren Anschaffungen kann Regelbesteuerung besser sein."

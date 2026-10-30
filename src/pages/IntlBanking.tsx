@@ -100,7 +100,7 @@ const BANKS: Bank[] = [
       "€20 typische Erst-Einzahlung für KYC ist die einzige Ausgabe",
       "Multi-Currency-Wallets in 40+ Währungen",
       "USD-Routing + Account-Number → von Stripe/Amazon US akzeptiert",
-      "Mid-Market-FX-Rate + 0,3-0,5% Fee (deutlich besser als jede DE-Bank)",
+      "Mid-Market-FX-Rate + ab 0,2 % Gebühr je nach Währung (deutlich besser als jede DE-Bank)",
       "Schnelles Onboarding (Stunden statt Tagen)",
     ],
     cons: [
@@ -183,10 +183,10 @@ const BANKS: Bank[] = [
     bestFor: "Multi-Currency-Geschäft · DACH-Founder mit USD/GBP/EUR-Mix · FX-Optimierung",
     pros: [
       "**Niedrigste FX-Kosten** der Liste (Mid-Market + ab 0,2 %, je nach Währung)",
-      "Multi-Currency: USD, GBP, EUR, AUD + 50 weitere mit Local-Account-Details",
+      "Multi-Currency: eigene Kontodaten in 22 Währungen (u. a. USD, GBP, EUR, AUD)",
       "ACH-Routing + USD-IBAN — von Stripe/Amazon akzeptiert",
       "Batch-Payments, API, Invoicing-Tools (Business-Features)",
-      "Wise Assets bis ~3,5% Yield (USD-Treasury-Fonds)",
+      "Wise-Zinsanlage: USD derzeit 3,61 %, EUR 2,25 % (variabel, Fondsgebühr ab 0,26 % p. a.)",
     ],
     cons: [
       "**Setup-Fee einmalig (NICHT €20!)** — DE 55 €, US $31, UK £50 je Region",
@@ -226,7 +226,7 @@ const BANKS: Bank[] = [
       "**20 Sub-Accounts** pro Business (Profit-First-Buchhaltung)",
       "FDIC-versichert bis $3M via Insured Cash Sweep (Thread Bank)",
       "Wires + ACH inkl.",
-      "Treasury-Yield bis 3% (Scale-Plan)",
+      "Savings-Rendite bis 3,21 % APY (Scale-Plan, variabel)",
       "Account Protection Team launched April 2026",
     ],
     cons: [
@@ -247,7 +247,7 @@ const BANKS: Bank[] = [
     hiddenFees: [
       "International Wire $10 trotz Premium",
       "ACH-Limits niedriger als Mercury (Standard $25k/Tag)",
-      "Same-Day ACH nur 10 free im Scale-Plan",
+      "Same-Day ACH nur im Scale-Plan gebührenfrei",
     ],
   },
   {
@@ -338,7 +338,7 @@ const BANKS: Bank[] = [
     name: "Airwallex",
     region: "hk",
     emoji: "✈️",
-    monthlyFee: "€0 Explore (€10k Saldo) sonst €19+ / €49 Grow / Accelerate individuell",
+    monthlyFee: "€0 Explore (ab 10.000 € Einzahlung/Monat oder Mindestguthaben) sonst 19 € / 49 € Grow / Accelerate individuell (zzgl. MwSt.)",
     setupFee: "€0",
     nonResident: "ja",
     bestFor: "Wachstums-Startups mit Multi-Currency-Treasury · API-Integration · 20+ Local-Currency-IBANs",
@@ -378,12 +378,12 @@ const BANKS: Bank[] = [
     name: "Currenxie",
     region: "hk",
     emoji: "💱",
-    monthlyFee: "$0 (USD 8/Mo extra Virtual Account)",
+    monthlyFee: "$0 (USD 8 einmalig je zusätzlichem Virtual Account)",
     setupFee: "$0 (USD 50 für offshore/risky entities)",
     nonResident: "ja",
     bestFor: "International Trade · FX-fokussiert · Asien-Geschäft · USD/HKD-Heavy",
     pros: [
-      "**FX 0,10% USD/HKD** (günstigster der Liste für Major-Currencies)",
+      "**FX 0,10% USD/HKD** (übrige Major-Currencies 0,35 %)",
       "Multi-Currency Wallets (USD, HKD, CNY, etc.)",
       "**USD 8 SWIFT** (sehr günstig)",
       "Visa Business Card mit 1% Cashback",
@@ -416,7 +416,7 @@ const BANKS: Bank[] = [
     name: "HSBC Hong Kong",
     region: "hk",
     emoji: "🏦",
-    monthlyFee: "HKD 200/Mo (waived bei HKD 50k Saldo)",
+    monthlyFee: "HKD 200/Mo (Sprint: 12 Monate frei, danach erlassen ab HKD 50k Ø-Saldo)",
     setupFee: "HKD 10.000 Initial-Deposit",
     nonResident: "vor-ort-pflicht",
     bestFor: "Etablierte Companies mit HKD 50k+ Saldo + Chinageschäft + möglichem persönlichem HK-Besuch",
@@ -432,7 +432,7 @@ const BANKS: Bank[] = [
       "**★ Persönliche HK-Vorstellung Pflicht** (Flug + Hotel ~2-3k EUR)",
       "**40-60% Ablehnungs-Quote** für Foreign Founders (laut Hongda Service Reports)",
       "Strenge KYC seit 2018 (Cyprus-Files-Era)",
-      "HKD 200-300/Mo Fall-Below-Fee wenn <HKD 50k Saldo",
+      "HKD 200/Mo Fall-Below-Fee wenn <HKD 50k Ø-Saldo (Sprint, ab Monat 13)",
       "Account-Reviews alle 12-24 Monate — komplette neue KYC-Runde",
       "Bearbeitungs-Zeit 14-56 Tage",
       "HKMA Stablecoin-Lizenz April 2026 verschärft KYC weiter",
@@ -455,9 +455,9 @@ const BANKS: Bank[] = [
     trustpilotCount: "Retail-skewed — Business-Kunden meistens nicht aktiv auf Trustpilot",
     trustpilotUrl: "https://www.trustpilot.com/review/hsbc.com.hk",
     hiddenFees: [
-      "Fall-Below-Fee HKD 200-300/Mo wenn <HKD 50k Saldo",
+      "Fall-Below-Fee HKD 200/Mo wenn <HKD 50k Ø-Saldo (Sprint; Business Direct ab HKD 100k)",
       "Persönlicher HK-Besuch zwingend (Flug + Hotel ~2-3k EUR)",
-      "Intermediary-Bank-Fees on top of HKD 220 SWIFT",
+      "Intermediary-Bank-Fees on top of HKD 125 SWIFT (online)",
       "Account-Reviews alle 1-2 Jahre verlangen erneut alle Docs",
       "Stablecoin-Lizenz April 2026 → noch strikteres KYC",
     ],
@@ -843,7 +843,7 @@ const SURVIVAL_TIPPS: [string, string][] = [
 
 const COMPLIANCE_UPDATES: [string, string][] = [
   ["BOI-Filing US (FinCEN)", "21.3.2025: alle US-Companies und US-Persons von BOI-Reporting BEFREIT. Foreign Reporting Companies bleiben pflichtig"],
-  ["Mercury OCC-Charter", "April 2026 conditional Approval, Übergang weg vom Partner-Banking. Aktuelle Partner: Choice Financial Group, Column N.A., Patriot Bank"],
+  ["Mercury OCC-Charter", "April 2026 conditional Approval, Übergang weg vom Partner-Banking. Aktuelle Partner: Choice Financial Group und Column N.A."],
   ["Capital One übernimmt Brex", "Closed 7.4.2026 ($5.15B). Eligibility und Pricing können 2026/2027 kippen"],
   ["HKMA Stablecoin-Lizenz", "10.4.2026: HSBC und Anchorpoint erste Lizenzen. Travel-Rule ab HK$8.000 verschärft KYC für alle HK-Banken"],
   ["Wise US $4.2M Settlement (2025)", "SAR-Lookbacks und strengere AML, Closure-Welle Q4 2025/Q1 2026"],
