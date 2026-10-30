@@ -123,7 +123,7 @@ const GuideLanding = () => {
       screenshot={slug === "tiktok-shop-starten" ? SCREENS.guideTiktok : SCREENS.dashboard}
       ctaTitle={`„${guide.title}" Schritt für Schritt im GründerX-Cockpit`}
       ctaText={`${guide.steps} Schritte in der richtigen Reihenfolge — plus alle weiteren Guides, Rechner und Wizards im Abo.`}
-      primaryHref="/checkout"
+      primaryHref="/preise"
       primaryLabel="Plan wählen & starten"
       secondaryHref="/playbooks"
       secondaryLabel="Alle Guides"

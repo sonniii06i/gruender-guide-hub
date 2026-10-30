@@ -192,7 +192,7 @@ const ZielgruppeLanding = ({ slug }: { slug: string }) => {
         <FinalCta
           title={z.ctaTitle}
           text={z.ctaText}
-          primary={{ to: "/checkout", label: "Plan wählen & starten" }}
+          primary={{ to: "/preise", label: "Plan wählen & starten" }}
           secondary={{ to: z.freeTools[0].to, label: `Erst gratis testen: ${z.freeTools[0].title}` }}
         />
       </main>

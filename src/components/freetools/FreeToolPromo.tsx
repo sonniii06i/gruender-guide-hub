@@ -29,7 +29,7 @@ export function FreeToolPromo() {
             {copied && <Check className="h-3 w-3" />}
           </button>
           <Link
-            to="/checkout"
+            to="/preise"
             className="inline-flex items-center gap-1 font-medium text-brand-green hover:underline"
           >
             einlösen
