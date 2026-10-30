@@ -223,6 +223,7 @@ export const Bundles = () => {
             <div className="space-y-2">
               <Button
                 size="lg"
+                data-cta={`kauf-${selected}`}
                 onClick={() => handleCheckout(selected)}
                 disabled={busy}
                 className="h-14 w-full rounded-xl bg-gradient-primary text-base font-semibold text-primary-foreground shadow-glow hover:opacity-95"

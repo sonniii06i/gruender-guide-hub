@@ -238,6 +238,7 @@ const Preise = () => {
                           </p>
                         )}
                         <Button
+                          data-cta={`kauf-${v.id}`}
                           onClick={() => buy(v.id)}
                           variant={v.period === "year" ? "outline" : "default"}
                           className={`mt-4 h-11 w-full rounded-xl font-semibold ${v.period === "year" ? "" : "bg-gradient-primary shadow-glow hover:opacity-95"}`}

@@ -5,6 +5,7 @@ import {
   getSessionId,
   trackTraffic,
   trackRetention,
+  trackMonetization,
 } from "@/utils/analytics";
 
 // Feuert die Ebenen, die sich aus reiner Anwesenheit ergeben: First-Touch,
@@ -56,6 +57,21 @@ export const AnalyticsCapture = () => {
   useEffect(() => {
     captureFirstTouch();
   }, [location.pathname, location.search]);
+
+  // Kauf-/Anmelde-Knöpfe an einer Stelle statt an jedem einzelnen Link.
+  // Mehr als Ziel und Knopftext wird nicht gespeichert.
+  useEffect(() => {
+    const beiKlick = (e: MouseEvent) => {
+      const el = (e.target as Element | null)?.closest?.(
+        'a[href^="/auth"]:not([href*="mode=signin"]), a[href^="/preise"], a[href^="/checkout"], a[href^="/gratis-tools"], [data-cta]',
+      );
+      if (!el) return;
+      const ziel = el.getAttribute("data-cta") || el.getAttribute("href") || "";
+      trackMonetization.ctaKlick(ziel, (el.textContent || "").trim());
+    };
+    document.addEventListener("click", beiKlick);
+    return () => document.removeEventListener("click", beiKlick);
+  }, []);
 
   useEffect(() => {
     if (done.current) return;

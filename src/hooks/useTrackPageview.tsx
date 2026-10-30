@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { ladeSupabase } from "@/integrations/supabase/lazy";
+import { istAutomatisierterAufruf } from "@/utils/botFilter";
 
 export const useTrackPageview = () => {
   const loc = useLocation();
@@ -8,9 +9,7 @@ export const useTrackPageview = () => {
     if (loc.pathname.startsWith("/admin")) return;
     // Der Prerender im Build (Puppeteer auf localhost) lud jede Sitemap-Route einmal und
     // wurde so zum groessten "Besucher" (Befund 24.09.2026): automatisierte Aufrufe auslassen.
-    const ua = navigator.userAgent || "";
-    if (navigator.webdriver || /HeadlessChrome|bot|crawl|spider|Lighthouse/i.test(ua)
-        || ["localhost", "127.0.0.1"].includes(window.location.hostname)) return;
+    if (istAutomatisierterAufruf()) return;
     const params = new URLSearchParams(loc.search);
     ladeSupabase().then((supabase) => supabase.functions.invoke("track-pageview", {
       body: {

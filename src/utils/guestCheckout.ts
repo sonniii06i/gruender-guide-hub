@@ -14,6 +14,7 @@ import { getStoredAffiliateRef } from "@/utils/affiliate";
 import { AD_CONVERSION_VALUES } from "@/config/tracking";
 import { hasMarketingConsent } from "@/utils/consent";
 import { attributionValue, checkoutAttribution } from "@/utils/checkoutAttribution";
+import { trackMonetization } from "@/utils/analytics";
 
 function cookie(name: string): string | undefined {
   if (typeof document === "undefined") return undefined;
@@ -66,6 +67,9 @@ export async function startGuestCheckout(
       /* Tracking darf den Kauf nie blockieren */
     }
   }
+
+  // Erstanbieter-Gegenstück zur Stripe-Session: Menschen hier, Proben nur dort.
+  trackMonetization.checkoutStarted(angebot ?? `${product}-${interval}`);
 
   const { data, error } = await supabase.functions.invoke<{ url?: string }>("checkout-guest", {
     body: {

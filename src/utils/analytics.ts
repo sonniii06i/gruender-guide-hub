@@ -11,6 +11,7 @@
 // Grundregel: Tracking darf nie das Produkt kaputtmachen. Alles fire-and-forget.
 
 import { ladeSupabase } from "@/integrations/supabase/lazy";
+import { istAutomatisierterAufruf } from "@/utils/botFilter";
 
 export type EventLayer =
   | "traffic"
@@ -168,6 +169,7 @@ export function track(
   options: { experimentId?: string; variantId?: string } = {},
 ): void {
   if (typeof window === "undefined") return;
+  if (istAutomatisierterAufruf()) return; // PageSpeed, Prerender, eigene Proben
 
   void (async () => {
     try {
@@ -255,6 +257,10 @@ export const trackMonetization = {
   planViewed: (plan: string) => track("monetization", "plan_viewed", { plan }),
   checkoutStarted: (plan: string, priceCents?: number) =>
     track("monetization", "checkout_started", { plan, price_cents: priceCents }),
+  // Klick auf einen Kauf-/Anmelde-Knopf: zeigt je Seite, wer Interesse hat, auch
+  // wenn der Stripe-Checkout danach keine Zuordnung zum Besucher mehr erlaubt.
+  ctaKlick: (ziel: string, text: string) =>
+    track("monetization", "cta_click", { ziel: ziel.slice(0, 120), text: text.slice(0, 60) }),
   subscriptionStarted: (plan: string, priceCents?: number) =>
     track("monetization", "subscription_started", { plan, price_cents: priceCents }),
   cancelRequested: (plan: string) => track("monetization", "cancel_requested", { plan }),
