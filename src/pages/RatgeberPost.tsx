@@ -7,6 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import PublicShell from "@/layouts/PublicShell";
 import { Seo } from "@/components/Seo";
 import { Button } from "@/components/ui/button";
+import { PLANS, formatEurCents } from "@/config/pricing";
 import { NewsletterOptin } from "@/components/NewsletterOptin";
 import { Clock, ChevronLeft, BookOpen, Wrench, ListChecks, ArrowRight, Info } from "lucide-react";
 import { relatedToolsFor, relatedGuidesFor, BLOG_CATEGORY_TOPIC, type LinkItem } from "@/lib/internalLinks";
@@ -288,6 +289,13 @@ const RatgeberPost = () => {
         )}
 
         <div className="container max-w-3xl px-4 py-12 md:py-16">
+          {/* Ratgeber sind der größte Einstieg, hatten aber keinen Weg zum Konto (Funnel 30.10.2026). */}
+          <p className="mb-10 rounded-xl border border-border bg-secondary/40 px-4 py-3 text-sm leading-relaxed text-muted-foreground">
+            Gründest du gerade? Gratis-Tools und Rechner bekommst du mit dem kostenlosen Konto.{" "}
+            <Link to="/auth" data-cta="ratgeber-oben" className="whitespace-nowrap font-semibold text-accent-blue hover:underline">
+              Kostenlos starten
+            </Link>
+          </p>
           <div className="prose prose-lg dark:prose-invert max-w-none
               prose-headings:font-semibold prose-headings:tracking-tight prose-headings:scroll-mt-24
               prose-h2:text-[1.75rem] prose-h2:mt-12 prose-h2:mb-4
@@ -406,6 +414,23 @@ const RatgeberPost = () => {
               )}
             </div>
           )}
+
+          <section className="mt-14 rounded-2xl border border-border bg-card p-5 md:p-7">
+            <h2 className="text-xl font-semibold tracking-tight">Wie geht es bei dir weiter?</h2>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+              Mit dem kostenlosen Konto hast du Gratis-Tools und Rechner an einem Ort, ohne Kreditkarte. Den vollen
+              Zugang mit allen Guides und Felix kannst du danach 7 Tage für 1 € testen, dann{" "}
+              {formatEurCents(PLANS.gruenderx.grossCents)} im Monat, monatlich kündbar.
+            </p>
+            <div className="mt-5 flex flex-col gap-2 sm:flex-row">
+              <Button asChild size="lg" className="h-11 rounded-xl bg-gradient-primary font-semibold">
+                <Link to="/auth" data-cta="ratgeber-ende">Kostenlos starten</Link>
+              </Button>
+              <Button asChild size="lg" variant="outline" className="h-11 rounded-xl font-semibold">
+                <Link to="/gratis-tools" data-cta="ratgeber-ende-tools">Gratis-Tools testen</Link>
+              </Button>
+            </div>
+          </section>
 
           <NewsletterOptin quelle="ratgeber" />
 
