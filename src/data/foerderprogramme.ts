@@ -558,7 +558,7 @@ export const FOERDERPROGRAMME: Foerderung[] = [
     scope: "bund",
     country: "US",
     countryEmoji: "🇺🇸",
-    maxFunding: "Phase I ~$300k / Phase II $1,5-2M+",
+    maxFunding: "Phase I bis $335.937 / Phase II bis $2,24M (ohne SBA-Waiver)",
     zielgruppe: ["US-Inc 51%+ US-Ownership"],
     phase: ["idee", "gruendung"],
     branche: ["Deep-Tech"],

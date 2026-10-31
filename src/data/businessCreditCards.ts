@@ -375,7 +375,7 @@ export const BIZ_CARDS: BizCard[] = [
     cardType: "Debit",
     network: "Mastercard",
     annualEur: 0,
-    priceLabel: "kein Abo · 45 € Einrichtungsgebühr einmalig",
+    priceLabel: "kein Abo · 55 € Einrichtungsgebühr einmalig",
     hasFreeTier: true,
     paymentTerm: null,
     rewards: "kein Cashback",
