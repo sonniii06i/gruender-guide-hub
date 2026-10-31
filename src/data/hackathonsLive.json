@@ -1,18 +1,18 @@
 {
- "stand": "2026-10-30T10:56:23.344Z",
+ "stand": "2026-10-31T10:31:04.359Z",
  "quelle": {
   "ok": true,
-  "roh": 177,
+  "roh": 172,
   "uebernommen": 17,
   "verworfen": {
-   "nur_einladung": 27,
+   "nur_einladung": 23,
    "vor_ort_fern": 75,
-   "frist_vorbei": 6,
+   "frist_vorbei": 5,
    "preis_unter_5000_usd": 43,
    "kein_usd_betrag": 9,
    "ueber_max": 0
   },
-  "letzterErfolg": "2026-10-30T10:56:23.344Z"
+  "letzterErfolg": "2026-10-31T10:31:04.358Z"
  },
  "anzahl": 17,
  "eintraege": [
@@ -23,7 +23,7 @@
    "ende": "2026-11-02",
    "preisUsd": 25000,
    "geldpreise": 4,
-   "anmeldungen": 1700,
+   "anmeldungen": 1836,
    "ort": "Online",
    "veranstalter": "Twitch",
    "themen": [
@@ -39,7 +39,7 @@
    "ende": "2026-11-02",
    "preisUsd": 6000,
    "geldpreise": 1,
-   "anmeldungen": 1484,
+   "anmeldungen": 1550,
    "ort": "Online",
    "veranstalter": "Perfect Corp",
    "themen": [
@@ -55,7 +55,7 @@
    "ende": "2026-11-12",
    "preisUsd": 67500,
    "geldpreise": 14,
-   "anmeldungen": 24428,
+   "anmeldungen": 25219,
    "ort": "Online",
    "veranstalter": "PayPal",
    "themen": [
@@ -71,7 +71,7 @@
    "ende": "2026-11-15",
    "preisUsd": 17150,
    "geldpreise": 8,
-   "anmeldungen": 192,
+   "anmeldungen": 207,
    "ort": "Online",
    "veranstalter": "CodeStarters",
    "themen": [
@@ -87,7 +87,7 @@
    "ende": "2026-11-16",
    "preisUsd": 46000,
    "geldpreise": 4,
-   "anmeldungen": 829,
+   "anmeldungen": 916,
    "ort": "Online",
    "veranstalter": "UGREEN",
    "themen": [
@@ -103,7 +103,7 @@
    "ende": "2026-11-18",
    "preisUsd": 1000000,
    "geldpreise": 19,
-   "anmeldungen": 4555,
+   "anmeldungen": 4646,
    "ort": "Online",
    "veranstalter": "Meta",
    "themen": [
@@ -119,7 +119,7 @@
    "ende": "2026-11-25",
    "preisUsd": 45000,
    "geldpreise": 1,
-   "anmeldungen": 44,
+   "anmeldungen": 50,
    "ort": "Online",
    "veranstalter": "FabricVTON",
    "themen": [
@@ -135,7 +135,7 @@
    "ende": "2026-11-30",
    "preisUsd": 10000,
    "geldpreise": 1,
-   "anmeldungen": 166,
+   "anmeldungen": 213,
    "ort": "Online",
    "veranstalter": "Google",
    "themen": [
@@ -148,8 +148,8 @@
    "url": "https://kiroween.devpost.com/",
    "ende": "2026-12-04",
    "preisUsd": 100000,
-   "geldpreise": 1,
-   "anmeldungen": 2320,
+   "geldpreise": 15,
+   "anmeldungen": 3863,
    "ort": "Online",
    "veranstalter": "Kiro",
    "themen": [
@@ -165,7 +165,7 @@
    "ende": "2026-12-21",
    "preisUsd": 7800,
    "geldpreise": 5,
-   "anmeldungen": 715,
+   "anmeldungen": 739,
    "ort": "Online",
    "veranstalter": "Arbiter ",
    "themen": [
@@ -181,7 +181,7 @@
    "ende": "2026-12-22",
    "preisUsd": 120000,
    "geldpreise": 7,
-   "anmeldungen": 715,
+   "anmeldungen": 911,
    "ort": "Online",
    "veranstalter": "Atlassian",
    "themen": [
@@ -197,7 +197,7 @@
    "ende": "2027-01-10",
    "preisUsd": 13700,
    "geldpreise": 5,
-   "anmeldungen": 325,
+   "anmeldungen": 330,
    "ort": "Online",
    "veranstalter": "Hack United",
    "themen": [
@@ -213,7 +213,7 @@
    "ende": "2027-01-10",
    "preisUsd": 11960,
    "geldpreise": 7,
-   "anmeldungen": 69,
+   "anmeldungen": 72,
    "ort": "Online",
    "veranstalter": "Checkpoint",
    "themen": [
@@ -229,7 +229,7 @@
    "ende": "2027-01-18",
    "preisUsd": 146700,
    "geldpreise": 11,
-   "anmeldungen": 594,
+   "anmeldungen": 611,
    "ort": "Online",
    "veranstalter": "Cosmo Hacks",
    "themen": [
@@ -245,7 +245,7 @@
    "ende": "2027-02-04",
    "preisUsd": 10000,
    "geldpreise": 1,
-   "anmeldungen": 203,
+   "anmeldungen": 207,
    "ort": "Online",
    "veranstalter": "IWU",
    "themen": [
@@ -261,7 +261,7 @@
    "ende": "2027-02-13",
    "preisUsd": 10200,
    "geldpreise": 16,
-   "anmeldungen": 2,
+   "anmeldungen": 3,
    "ort": "Online",
    "veranstalter": "BASIS Independent Silicon Valley",
    "themen": [
@@ -277,7 +277,7 @@
    "ende": "2027-03-15",
    "preisUsd": 5000,
    "geldpreise": 1,
-   "anmeldungen": 56,
+   "anmeldungen": 58,
    "ort": "Online",
    "veranstalter": "OSC",
    "themen": [
