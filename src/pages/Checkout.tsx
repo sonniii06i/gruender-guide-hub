@@ -227,7 +227,7 @@ const Checkout = () => {
   };
 
   useEffect(() => {
-    if (!authLoading && !user) navigate("/auth", { replace: true });
+    if (!authLoading && !user) navigate("/auth?mode=kauf", { replace: true });
   }, [user, authLoading, navigate]);
 
   useEffect(() => {
