@@ -12,9 +12,8 @@
  *  6. Beginn + KU-Optierung §19 UStG
  *  7. Zusammenfassung + PDF-Download
  *
- * Tool generiert KEIN amtliches GewA1-PDF (das müsste das Original-Behörden-
- * Formular sein), sondern eine **Vorbereitungs-Übersicht** zum Abschreiben
- * ins Online-Formular oder zum Mitbringen ins Bürgeramt.
+ * Tool füllt den amtlichen Vordruck GewA1 (public/forms/gewa1.pdf) mit den
+ * eingegebenen Daten. Unterschrift und Einreichung bleiben beim Nutzer.
  *
  * Quellen:
  *  - § 14 GewO (Anzeigepflicht)
@@ -61,7 +60,7 @@ type WizardData = {
   vorname: string;
   nachname: string;
   geburtsname: string;
-  geschlecht: "" | "maennlich" | "weiblich";
+  geschlecht: "" | "maennlich" | "weiblich" | "divers" | "ohne_angabe";
   geburtsdatum: string;
   geburtsort: string;
   staatsangehoerigkeit: string;
@@ -146,7 +145,7 @@ const defaultData: WizardData = {
   // Sensible Defaults für Felder 28-31:
   // - 28 Erlaubnis nein → ~90 % der Tätigkeiten erlaubnisfrei
   // - 29 Handwerkskarte nein → ~95 % der Gründungen kein zulassungspfl. Handwerk
-  // - 30 Aufenthaltsgenehmigung leer → User soll bewusst entscheiden (default
+  // - 30 Aufenthaltstitel leer → User soll bewusst entscheiden (default
   //   wird auf "nein" gesetzt sobald Staatsangehörigkeit deutsch ist, siehe UI)
   // - 31 Auflagen leer → nur relevant wenn 30 = ja
   erlaubnisStatus: "nein",
@@ -243,9 +242,9 @@ const GewerbeanmeldungWizard = () => {
     setStep(0);
   };
 
-  // Füllt das offizielle Mustervordruck GewA1 (Anlage 1 zur GewAnzV) mit
-  // den eingegebenen Daten via pdf-lib. PDF liegt in public/forms/gewa1.pdf
-  // (Form-Solutions / Schwerin-Hosting der Bundes-Vorlage, ~65 benannte AcroForm-Felder).
+  // Füllt den amtlichen Vordruck GewA1 (Anlage 1 GewAnzV, Fassung BGBl. 2024 I Nr. 411)
+  // via pdf-lib. public/forms/gewa1.pdf entsteht mit scripts/build-gewa1-pdf.mjs:
+  // Grafik unverändert, Formularfelder fNN_* nach den Feldnummern des Vordrucks.
   const generatePdf = async () => {
     try {
       const resp = await fetch("/forms/gewa1.pdf");
@@ -259,15 +258,15 @@ const GewerbeanmeldungWizard = () => {
         [str, [plz, ort].filter(Boolean).join(" ")].filter(Boolean).join(", ");
 
       // Robuste Helper — fehlende oder typ-falsche Felder werfen sonst.
-      // setFontSize(10) verhindert dass updateFieldAppearances() die Werte mit
-      // Default-Riesengröße rendert (Original-PDF hatte Auto-Size = 0 was
-      // pdf-lib nicht zuverlässig auflöst).
+      // setFontSize(9) verhindert dass updateFieldAppearances() die Werte mit
+      // Default-Riesengröße rendert (Auto-Size = 0 löst pdf-lib nicht
+      // zuverlässig auf).
       const tryText = (name: string, value: string) => {
         if (!value) return;
         try {
           const tf = form.getTextField(name);
           tf.setText(value);
-          tf.setFontSize(10);
+          tf.setFontSize(9);
         } catch { /* missing or wrong type */ }
       };
       const tryCheck = (name: string, checked: boolean) => {
@@ -287,83 +286,85 @@ const GewerbeanmeldungWizard = () => {
       // Registereintrag — Feld bleibt leer, damit nicht der Privatname versehentlich
       // als "Firmenname" landet.
       if (istEingetragen && data.firmierung) {
-        tryText("Name mit Rechtsform", data.firmierung);
+        tryText("f01_name_rechtsform", data.firmierung);
       }
 
-      // === Felder Person ===
-      tryText("Name", data.nachname);
-      tryText("Vorname(n)", data.vorname);
-      tryText("Geburtsname", data.geburtsname);
-      tryText("Geburtsdatum", fmtDate(data.geburtsdatum));
-      tryText("Geburtsort und -land", data.geburtsort);
-      tryText("Staatsangehörigkeit(en)", data.staatsangehoerigkeit);
-      tryCheck("männlich", data.geschlecht === "maennlich");
-      tryCheck("weiblich", data.geschlecht === "weiblich");
-      tryCheck("deutsch", istDeutsch);
-      tryCheck("andere", !istDeutsch && data.staatsangehoerigkeit !== "");
+      // === Felder 4–11: Person ===
+      tryText("f04_name", data.nachname);
+      tryText("f05_vornamen", data.vorname);
+      tryCheck("f06_maennlich", data.geschlecht === "maennlich");
+      tryCheck("f06_weiblich", data.geschlecht === "weiblich");
+      tryCheck("f06_divers", data.geschlecht === "divers");
+      tryCheck("f06_ohne_angabe", data.geschlecht === "ohne_angabe");
+      tryText("f07_geburtsname", data.geburtsname);
+      tryText("f08_geburtsdatum", fmtDate(data.geburtsdatum));
+      tryText("f09_geburtsort", data.geburtsort);
+      tryCheck("f10_deutsch", istDeutsch);
+      if (!istDeutsch) tryText("f10_andere", data.staatsangehoerigkeit);
+      tryText("f11_anschrift", anschrift(data.privatStrasse, data.privatPlz, data.privatOrt));
+      tryText("f11_telefon", data.telefon);
+      tryText("f11_email", data.email);
 
-      // === Anschrift privat ===
-      tryText("Anschrift", anschrift(data.privatStrasse, data.privatPlz, data.privatOrt));
-      tryText("Telefon", data.telefon);
-      tryText("E-Mail", data.email);
+      // === Feld 12: Kap.-Ges. → Geschäftsführerzahl (wenn UG/GmbH/AG, min. 1) ===
+      if (istKapGes) tryText("f12_zahl", String(Math.max(1, data.gfAnzahl || 1)));
 
-      // === Anschrift Betriebsstätte ===
+      // === Feld 13: Beim Einzelunternehmen kann die öffentliche Hand nicht beteiligt sein ===
+      if (data.rechtsform === "einzel") tryCheck("f13_nein", true);
+
+      // === Feld 15: Betriebsstätte ===
       const betriebAdr = data.betriebsstaetteAndere
         ? anschrift(data.betriebStrasse, data.betriebPlz, data.betriebOrt)
         : anschrift(data.privatStrasse, data.privatPlz, data.privatOrt);
-      tryText("Anschrift Betriebsstätte", betriebAdr);
-      tryText("Telefon - geschäftlich", data.telefon);
-      tryText("E-Mail - geschäftlich", data.email);
+      tryText("f15_anschrift", betriebAdr);
+      tryText("f15_telefon", data.telefon);
+      tryText("f15_email", data.email);
 
-      // === Tätigkeit ===
-      tryText("Angemeldete Tätigkeit", data.taetigkeit);
-      tryText("Beginn der Tätigkeit", fmtDate(data.beginnDatum));
+      // === Felder 18, 20: Tätigkeit ===
+      tryText("f18_taetigkeit", data.taetigkeit);
+      tryText("f20_beginn", fmtDate(data.beginnDatum));
 
-      // === Mitarbeiter ===
-      tryCheck("keine Personen", data.mitarbeiterZahl === 0);
+      // === Feld 22: Personen ===
+      tryCheck("f22_keine", data.mitarbeiterZahl === 0);
       if (data.mitarbeiterZahl > 0) {
-        tryText("Personenzahl Vollzeit", String(data.mitarbeiterZahl));
+        tryText("f22_vollzeit", String(data.mitarbeiterZahl));
       }
 
-      // === Anmeldegrund ===
-      // Wiederaufnahme nach Abmeldung ist auf dem GewA1 eine Neuerrichtung
-      tryCheck("ja - Neugründung", data.anmeldegrund === "neugruendung" || data.anmeldegrund === "wiederaufnahme");
-      tryCheck("ja - Verlegung", data.anmeldegrund === "umzug");
-      tryCheck("ja - Erbfolge, Kauf, Pacht", data.anmeldegrund === "uebernahme");
+      // === Felder 23, 25: Anmeldegrund ===
       // Haupt-/Zweigniederlassung hängt nicht davon ab, ob die Betriebsstätte an einer anderen Adresse liegt
-      tryCheck("ja - Hauptniederlassung", data.anmeldegrund !== "filiale");
-      tryCheck("ja - Zweigniederlassung", data.anmeldegrund === "filiale");
-
-      // === Kap.-Ges. → Geschäftsführerzahl (wenn UG/GmbH/AG, min. 1) ===
-      if (istKapGes) tryText("Zahl - Geschäftsführer bzw. gesetzliche Vertreter", String(Math.max(1, data.gfAnzahl || 1)));
+      tryCheck("f23_haupt", data.anmeldegrund !== "filiale");
+      tryCheck("f23_zweig", data.anmeldegrund === "filiale");
+      // Wiederaufnahme nach Abmeldung ist auf dem GewA1 eine Neuerrichtung
+      tryCheck("f25_neugruendung", data.anmeldegrund === "neugruendung" || data.anmeldegrund === "wiederaufnahme");
+      tryCheck("f25_verlegung", data.anmeldegrund === "umzug");
+      tryCheck("f25_uebernahme", data.anmeldegrund === "uebernahme");
 
       // === Felder 28-31: Erlaubnis / Handwerk / Aufenthalt / Auflagen ===
-      tryCheck("ja - Erlaubnis liegt vor", data.erlaubnisStatus === "ja");
-      tryCheck("nein - Erlaubnis liegt nicht vor", data.erlaubnisStatus === "nein");
-      if (data.erlaubnisStatus === "ja") tryText("Erlaubnis - Ausstellungsdatum und Behörde", data.erlaubnisDetails);
+      tryCheck("f28_ja", data.erlaubnisStatus === "ja");
+      tryCheck("f28_nein", data.erlaubnisStatus === "nein");
+      if (data.erlaubnisStatus === "ja") tryText("f28_details", data.erlaubnisDetails);
 
-      tryCheck("ja - Handwerkskarte liegt vor", data.handwerkskarteStatus === "ja");
-      tryCheck("nein - keine Handwerkskarte", data.handwerkskarteStatus === "nein");
-      if (data.handwerkskarteStatus === "ja") tryText("Ausstellungsdatum und Handwerkskammer", data.handwerkskarteDetails);
+      tryCheck("f29_ja", data.handwerkskarteStatus === "ja");
+      tryCheck("f29_nein", data.handwerkskarteStatus === "nein");
+      if (data.handwerkskarteStatus === "ja") tryText("f29_details", data.handwerkskarteDetails);
 
       // Bei Deutschen ist Feld 30 automatisch "nein" — sie brauchen
-      // keine Aufenthaltsgenehmigung. Sonst nimm den User-Wert.
+      // keinen Aufenthaltstitel. Sonst nimm den User-Wert.
       const aufenthaltEffectiv = istDeutsch ? "nein" : data.aufenthaltStatus;
-      tryCheck("ja - Aufenthaltsgenehmigung liegt vor", aufenthaltEffectiv === "ja");
-      tryCheck("nein - keine Aufenthaltsgenehmigung", aufenthaltEffectiv === "nein");
-      if (aufenthaltEffectiv === "ja") tryText("Ausstellungsdatum und Behörde", data.aufenthaltDetails);
+      tryCheck("f30_ja", aufenthaltEffectiv === "ja");
+      tryCheck("f30_nein", aufenthaltEffectiv === "nein");
+      if (aufenthaltEffectiv === "ja") tryText("f30_details", data.aufenthaltDetails);
 
       // Feld 31 nur relevant wenn 30 = ja. Bei "nein" (egal ob explizit oder
       // auto-deutsch) auch Feld 31 auf "nein" setzen damit Reader nicht leer.
       const auflagenEffectiv = aufenthaltEffectiv === "ja" ? data.aufenthaltAuflagenStatus : "nein";
-      tryCheck("ja - enthält Auflagen oder Beschränkungen", auflagenEffectiv === "ja");
-      tryCheck("nein - keine Auflagen oder Beschränkungen", auflagenEffectiv === "nein");
-      if (auflagenEffectiv === "ja") tryText("Auflagen oder Beschränkungen", data.aufenthaltAuflagenDetails);
+      tryCheck("f31_ja", auflagenEffectiv === "ja");
+      tryCheck("f31_nein", auflagenEffectiv === "nein");
+      if (auflagenEffectiv === "ja") tryText("f31_details", data.aufenthaltAuflagenDetails);
 
-      // === Datum ===
+      // === Feld 32: Datum ===
       const today = new Date();
       const todayDe = `${String(today.getDate()).padStart(2, "0")}.${String(today.getMonth() + 1).padStart(2, "0")}.${today.getFullYear()}`;
-      tryText("heutiges Datum", todayDe);
+      tryText("f32_datum", todayDe);
 
       // Appearance-Streams für gefüllte Felder erzeugen — sonst zeigen
       // manche Reader (Preview/Firefox) leere Felder trotz korrekt
@@ -564,6 +565,7 @@ const GewerbeanmeldungWizard = () => {
         sources={[
           { label: "§14 GewO (Gewerbeanzeige)", url: "https://www.gesetze-im-internet.de/gewo/__14.html" },
           { label: "WZ 2008 — Statistisches Bundesamt", url: "https://www.destatis.de/DE/Methoden/Klassifikationen/Gueter-Wirtschaftsklassifikationen/klassifikation-wz-2008.html" },
+          { label: "WZ 2025 — Statistisches Bundesamt", url: "https://www.destatis.de/DE/Methoden/Klassifikationen/Gueter-Wirtschaftsklassifikationen/klassifikation-wz-2025.html" },
           { label: "Online-Gewerbeanmeldung (Bundesportal)", url: "https://verwaltung.bund.de/leistungsverzeichnis/de/leistung/99050012104000" },
           { label: "GewA1-Mustervordruck (Anlage 1 GewAnzV)", url: "https://www.gesetze-im-internet.de/gewanzv_2014/anlage_1.html" },
         ]}
@@ -633,6 +635,8 @@ const StepPerson = ({ data, update }: StepProps) => (
           <option value="">nicht angegeben</option>
           <option value="maennlich">männlich</option>
           <option value="weiblich">weiblich</option>
+          <option value="divers">divers</option>
+          <option value="ohne_angabe">ohne Angabe</option>
         </select>
       </Field>
       <Field label={<>Geburtsdatum<Pflicht /></>} htmlFor="gw-geburtsdatum">
@@ -920,7 +924,7 @@ const KU_OPTIONEN: { v: KuStatus; titel: string; text: string }[] = [
 const StepBeginn = ({ data, update }: StepProps) => (
   <div>
     <StepHead title="6. Beginn der Tätigkeit und § 19 UStG">
-      Das Datum darf in der Vergangenheit liegen (rückwirkende Anmeldung ist möglich, das Finanzamt prüft).
+      Trag den tatsächlichen Beginn ein, auch wenn er in der Vergangenheit liegt. Die Anzeige ist gleichzeitig mit dem Beginn fällig (§ 14 Abs. 1 GewO); wer zu spät anzeigt, handelt ordnungswidrig (§ 146 GewO, Geldbuße bis 1.000 €).
     </StepHead>
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
       <Field label={<>Beginn der Tätigkeit<Pflicht /></>} htmlFor="gw-beginn">
@@ -1008,12 +1012,12 @@ const StepBehoerden = ({ data, update }: StepProps) => {
           detailsPlaceholder="Wenn ja: Ausstellungsdatum und Name der Handwerkskammer"
         />
 
-        {/* Feld 30: Aufenthaltsgenehmigung, nur für Nicht-Deutsche */}
+        {/* Feld 30: Aufenthaltstitel, nur für Nicht-Deutsche */}
         {!istDeutsch && data.staatsangehoerigkeit !== "" && (
           <>
             <ErlaubnisBlock
               nr={30}
-              title="Liegt eine Aufenthaltsgenehmigung vor?"
+              title="Liegt ein Aufenthaltstitel vor?"
               hint="Pflichtfeld für Nicht-EU-Bürger. EU/EWR-Bürger: nicht erforderlich."
               status={data.aufenthaltStatus}
               onStatus={(s) => update("aufenthaltStatus", s)}
@@ -1026,7 +1030,7 @@ const StepBehoerden = ({ data, update }: StepProps) => {
             {data.aufenthaltStatus === "ja" && (
               <ErlaubnisBlock
                 nr={31}
-                title="Enthält die Aufenthaltsgenehmigung Auflagen oder Beschränkungen?"
+                title="Enthält der Aufenthaltstitel Auflagen oder Beschränkungen?"
                 hint="z.B. eingeschränkte Erwerbserlaubnis, Sperrfristen, regionale Beschränkungen."
                 status={data.aufenthaltAuflagenStatus}
                 onStatus={(s) => update("aufenthaltAuflagenStatus", s)}
@@ -1041,7 +1045,7 @@ const StepBehoerden = ({ data, update }: StepProps) => {
 
       {istDeutsch && (
         <p className="mt-4 text-sm text-muted-foreground">
-          Die Felder 30 und 31 (Aufenthaltsgenehmigung) entfallen, für deutsche Staatsangehörige sind sie nicht erforderlich.
+          Die Felder 30 und 31 (Aufenthaltstitel) entfallen, für deutsche Staatsangehörige sind sie nicht erforderlich.
         </p>
       )}
     </div>
@@ -1154,7 +1158,7 @@ const StepZusammenfassung = ({ data, stepValid, allValid, onGeneratePdf }: { dat
 
       <Callout tone="warning" title="Wichtig: Das machst du nach dem Download">
         <ol className="mt-1 list-inside list-decimal space-y-1">
-          <li>PDF im Reader öffnen, alle Werte gegenprüfen (Felder bleiben editierbar).</li>
+          <li>PDF im Reader öffnen, alle Werte gegenprüfen (Felder bleiben editierbar). Nicht vorausgefüllt sind u. a. die Felder 19 (Nebenerwerb), 21 (Art des Betriebes) und 27 (bei Übernahmen: Unfallversicherungsträger); Feld 13 (öffentliche Hand) nur beim Einzelunternehmen.</li>
           <li><strong className="font-medium text-foreground">Ausdrucken</strong> auf Papier.</li>
           <li><strong className="font-medium text-foreground">Eigenhändig unterschreiben</strong> (Feld „Unterschrift" am Ende der Seite 2). Ohne Unterschrift ungültig.</li>
           <li><strong className="font-medium text-foreground">Beim Gewerbeamt einreichen</strong>, persönlich im Bürgeramt/Ordnungsamt deiner Stadt oder per Post.
@@ -1227,12 +1231,12 @@ const Glossar = () => (
     </summary>
     <dl className="divide-y divide-border/70 border-t border-border/70 px-5 md:px-6">
       {[
-        { b: "GewA1-Formular", e: "Bundeseinheitliches Formular zur Anzeige eines Gewerbes nach § 14 GewO. Online (verwaltung.bund.de bzw. Portal deines Landes) oder im Bürgeramt/Gewerbeamt. Gebühr 15-65 € (stadt-abhängig). Anmeldung MUSS bei oder kurz nach Aufnahme der Tätigkeit erfolgen — rückwirkend bis ~6 Monate ok, dann Bußgeld möglich." },
-        { b: "WZ 2008 Branchenschlüssel", e: "5-stellige Klassifikation der Wirtschaftszweige (Ausgabe 2008) vom Statistischen Bundesamt. Beispiele: 47.91.1 = Versandhandel Textilien, 62.01.0 = Programmierungstätigkeiten, 70.22.0 = Unternehmensberatung. Im GewA1 zu wählen. Wenn falsch: FA korrigiert später, kein Drama." },
+        { b: "GewA1-Formular", e: "Bundeseinheitliches Formular zur Anzeige eines Gewerbes nach § 14 GewO. Online (verwaltung.bund.de bzw. Portal deines Landes) oder im Bürgeramt/Gewerbeamt. Gebühr 15-65 € (stadt-abhängig). Die Anzeige ist gleichzeitig mit dem Beginn fällig (§ 14 Abs. 1 GewO). Eine verspätete Anzeige ist eine Ordnungswidrigkeit (§ 146 GewO, Geldbuße bis 1.000 €)." },
+        { b: "WZ 2008 Branchenschlüssel", e: "5-stellige Klassifikation der Wirtschaftszweige (Ausgabe 2008) vom Statistischen Bundesamt. Beispiele: 47.91.1 = Versandhandel Textilien, 62.01.0 = Programmierungstätigkeiten, 70.22.0 = Unternehmensberatung. Das GewA1 hat kein Feld dafür, das Gewerbeamt ordnet den Schlüssel zu. Das Statistische Bundesamt hat inzwischen die WZ 2025 veröffentlicht; übergangsweise gelten beide Ausgaben parallel." },
         { b: "Tätigkeitsbeschreibung", e: "Pflicht-Klartext-Feld im GewA1. So GENAU wie möglich. Schlecht: 'Onlinehandel'. Gut: 'Onlinehandel mit Sportbekleidung, Sportzubehör und Nahrungsergänzungsmitteln über eigenen Shop und Amazon Marketplace'. Faustregel: Antwort auf 'WAS verkaufst du WIE und an WEN'. Auch Nebentätigkeiten mit erfassen (Definition wird sonst zu eng)." },
         { b: "Einzelunternehmen vs UG/GmbH", e: "Einzel = einfachste Form, kein Stammkapital, Anmeldung nur GewA1. UG = ab 1 € Stammkapital, Notar nötig (300-800 €), Eintrag Handelsregister. GmbH = 25k Stammkapital, Notar (~1.500 €). Für >90 % der Solo-Selbstständigen reicht Einzel — UG/GmbH sinnvoll bei: Haftungs-Risiko, Investor-Eintritt, Erbschaftsplanung." },
         { b: "FsE: Fragebogen zur steuerlichen Erfassung", e: "Musst du innerhalb eines Monats nach Aufnahme der Tätigkeit selbst und unaufgefordert über ELSTER einreichen (§138 Abs. 1b, Abs. 4 AO), er kommt nicht per Post. Dort: § 19 KU festlegen, Anlage S/G, voraussichtliche Einkünfte, USt-Vorauszahlungen. Empfehlung: nicht raten — beim FA nachfragen oder Tool 5 (Brutto-Netto) + Tool 7 (StB) konsultieren." },
-        { b: "IHK / HwK-Mitgliedschaft", e: "Automatisch bei Gewerbeanmeldung. IHK = Industrie- und Handelskammer (Handel, Service). HwK = Handwerkskammer (handwerkliche Tätigkeit, ggf. Meister-Pflicht). Beitrag: Grundbeitrag ~40-150 €/Jahr ab Gewinn > 5.200 €, plus Umlage 0,2-0,5 % vom Gewinn. Befreiung für Neugründer 2 Jahre möglich." },
+        { b: "IHK / HwK-Mitgliedschaft", e: "Automatisch bei Gewerbeanmeldung. IHK = Industrie- und Handelskammer (Handel, Service). HwK = Handwerkskammer (handwerkliche Tätigkeit, ggf. Meister-Pflicht). IHK-Beitrag: Grundbeitrag plus Umlage, die Höhe steht in der Wirtschaftssatzung deiner IHK. Nicht im Handelsregister eingetragene Einzelunternehmer zahlen erst ab einem Gewerbeertrag bzw. Gewinn über 5.200 €. Existenzgründer ohne Handelsregistereintrag sind bei Gewinn bis 25.000 € unter Bedingungen (u. a. keine solchen Einkünfte in den letzten 5 Wirtschaftsjahren) im Eröffnungsjahr und Folgejahr ganz und im 3. und 4. Jahr von der Umlage befreit (§ 3 Abs. 3 IHKG)." },
         { b: "Erlaubnispflichtige Gewerbe", e: "Manche Gewerbe brauchen ZUSÄTZLICHE Erlaubnis VOR Anmeldung: Gastronomie (§ 2 GastG bzw. Landes-Gaststättengesetz), Makler (§ 34c GewO), Sicherheit (§ 34a), Spielhalle, Bewachung, Pfandleiher. Ohne Erlaubnis = Ordnungswidrigkeit. Bei IT/Beratung/Handel meist keine Erlaubnis nötig." },
         { b: "§ 19 UStG Kleinunternehmer-Optierung", e: "Im FsE wählst du: KU (keine USt) oder Regelbesteuerung. Voraussetzung KU (Reform 2025): Vorjahres-Umsatz ≤ 25.000 € und Umsatz im laufenden Jahr ≤ 100.000 € (bei Überschreiten sofortiger Wegfall); im Gründungsjahr ≤ 25.000 €. 5 Jahre Bindung nur beim Verzicht auf die KU (§ 19 Abs. 3 UStG). Vorteil KU: keine USt-VA, simple Rechnung. Nachteil: kein Vorsteuer-Abzug. Tool 3 hat Detail-Schwellen, Tool 9 die Rechnungs-Logik." },
       ].map((g) => (
