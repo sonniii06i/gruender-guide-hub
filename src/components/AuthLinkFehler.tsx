@@ -19,7 +19,8 @@ export function AuthLinkFehler() {
     const p = new URLSearchParams(roh);
     const code = p.get("error_code") || (p.get("error") ? "access_denied" : "");
     if (!code) return;
-    setFehler(TEXTE[code] ?? TEXTE.access_denied);
+    // Der Code kommt aus der URL: nur eigene Schlüssel, sonst träfe „constructor“ das Objekt-Erbe.
+    setFehler(Object.prototype.hasOwnProperty.call(TEXTE, code) ? TEXTE[code] : TEXTE.access_denied);
     window.history.replaceState(null, "", window.location.pathname);
   }, []);
 

@@ -21,6 +21,7 @@ vi.mock("@/integrations/supabase/client", () => {
 vi.mock("@/hooks/useAuth", () => ({ useAuth: () => ({ user: { id: "u1" }, loading: false }) }));
 
 import { useAccess, __resetAccessStore } from "@/hooks/useAccess";
+import { supabase } from "@/integrations/supabase/client";
 
 const ok = (data: unknown) => ({ data, error: null });
 const kaputt = { data: null, error: { message: "network" } };
@@ -82,5 +83,24 @@ describe("useAccess", () => {
     await waitFor(() => expect(b.result.current.loading).toBe(false));
     expect(a.result.current.isAdmin).toBe(true);
     expect(b.result.current.isAdmin).toBe(true);
+  });
+
+  it("merkt einen gescheiterten Stripe-Abgleich nicht als erledigt", async () => {
+    antworten = { user_roles: ok(null), subscriptions: ok({ status: "active" }), profiles: ok({ onboarding_completed: true }) };
+    localStorage.removeItem("gx-check-sub-last-run-u1");
+    const invoke = vi.mocked(supabase.functions.invoke);
+    invoke.mockClear();
+    invoke.mockResolvedValueOnce({ data: null, error: { message: "500" } } as never);
+    renderHook(() => useAccess());
+    await waitFor(() => expect(invoke).toHaveBeenCalledWith("check-subscription"));
+    await new Promise((r) => setTimeout(r, 0));
+    expect(localStorage.getItem("gx-check-sub-last-run-u1")).toBeNull();
+  });
+
+  it("merkt einen gelungenen Stripe-Abgleich fuer 24 Stunden", async () => {
+    antworten = { user_roles: ok(null), subscriptions: ok({ status: "active" }), profiles: ok({ onboarding_completed: true }) };
+    localStorage.removeItem("gx-check-sub-last-run-u1");
+    renderHook(() => useAccess());
+    await waitFor(() => expect(localStorage.getItem("gx-check-sub-last-run-u1")).not.toBeNull());
   });
 });

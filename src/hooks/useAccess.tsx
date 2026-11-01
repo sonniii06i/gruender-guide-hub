@@ -142,7 +142,8 @@ const runCheckSub = (userId: string) => {
   if (!store.checkSubInflight) {
     store.checkSubInflight = ladeSupabase()
       .then((supabase) => supabase.functions.invoke("check-subscription"))
-      .then(() => markCheckSubRun(userId))
+      // invoke wirft bei 5xx nicht, sondern liefert `error`: Nur ein gelungener Abgleich zählt für die 24 h.
+      .then(({ error }) => { if (!error) markCheckSubRun(userId); })
       .catch(() => null)
       .finally(() => { store.checkSubInflight = null; });
   }
