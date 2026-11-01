@@ -85,7 +85,7 @@ export const BIZ_CARDS: BizCard[] = [
     priceLabel: "0 / 10,99 / 27,99 € pro Monat",
     hasFreeTier: true,
     paymentTerm: null,
-    rewards: "bis 3 % Cashback (gedeckelt max. 90 €/Nutzer)",
+    rewards: "kein Cashback im Solo; in höheren Tarifen gedeckelt (Core: 4 %, max. 40 €/Monat)",
     signupBonus: null,
     datevNative: true,
     fxFee: "nicht eindeutig öffentlich gelistet",
@@ -94,9 +94,9 @@ export const BIZ_CARDS: BizCard[] = [
     who: "Explizit Solo-Gründer/Freiberufler ab 0 € bis KMU · deutsche IBAN, SEPA",
     extraCards: "mehrere physische + virtuelle Visa pro Nutzer je Plan",
     insurance: null,
-    bestFor: "★ Solo ab 0 € mit deutscher IBAN + bis 3 % Cashback",
+    bestFor: "★ Solo ab 0 € mit deutscher IBAN",
     watchouts: [
-      "Cashback-Cap 90 €/Nutzer",
+      "Kein Cashback im Solo, höhere Tarife mit Monats-Cap",
       "FX-Gebühr nicht klar gelistet — vor Auslandseinsatz prüfen",
       "Physische Karte im Solo-Plan 3 €/Monat (gratis ab höherem Plan)",
     ],
@@ -432,7 +432,7 @@ export const DECISION_GUIDE: { profile: string; pick: string; why: string }[] = 
   {
     profile: "Bootstrap-Solo / Einzelunternehmer ab Tag 1, minimale Kosten",
     pick: "Finom Solo (0 €) oder Qonto Starter (0 €)",
-    why: "Beide SCHUFA-frei ab Tag 1. Finom: bis 3 % Cashback + deutsche IBAN. Qonto: stärkste DATEV-Anbindung. Viel international → Wise Business (bestes FX).",
+    why: "Beide SCHUFA-frei ab Tag 1. Finom: deutsche IBAN (Cashback erst in höheren Tarifen). Qonto: stärkste DATEV-Anbindung. Viel international → Wise Business (bestes FX).",
   },
   {
     profile: "Ohne SCHUFA / negativer Eintrag / keine Historie",

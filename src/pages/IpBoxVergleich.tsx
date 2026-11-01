@@ -114,8 +114,13 @@ const IpBoxVergleich = () => {
                 </li>
                 <li>
                   <strong>Hinzurechnungsbesteuerung nach AStG:</strong> Bei Wohnsitz in Deutschland, Beherrschung über 50 %,
-                  IP-Box-Steuer unter 15 % und passiven Lizenzeinkünften wird hinzugerechnet. Aktive Lizenzierung mit eigener
-                  F&E gilt als aktiv (Befreiung möglich).
+                  IP-Box-Steuer unter 15 % und passiven Lizenzeinkünften wird hinzugerechnet. Als aktiv gelten Lizenzeinkünfte
+                  nur, wenn die Gesellschaft eigene F&E auswertet, die ohne Mitwirkung des deutschen Gesellschafters oder ihm
+                  nahestehender Personen entstanden ist (§ 8 Abs. 1 Nr. 6 a AStG), sonst sind sie passiv.
+                </li>
+                <li>
+                  <strong>Deutsche Vergleichsbasis:</strong> Die Körperschaftsteuer sinkt ab 2028 schrittweise auf 10 % im Jahr
+                  2032 (§ 23 KStG), der Abstand zu den rund 30 % in Deutschland wird also kleiner.
                 </li>
                 <li>
                   <strong>Pillar 2 (OECD, seit 2024):</strong> 15 % Mindeststeuer für Konzerne über 750 Mio. € Umsatz. Bei

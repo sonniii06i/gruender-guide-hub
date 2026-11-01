@@ -323,10 +323,10 @@ export const VERSICHERUNGEN: Versicherung[] = [
     id: "kv",
     name: "Krankenversicherung (GKV / PKV / KSK)",
     kuerzel: "KV",
-    beschreibung: "Größter laufender Kostenpunkt (200-1.000 €/Monat). Bei Solo entweder freiwillige GKV, PKV oder Künstlersozialkasse (KSK).",
+    beschreibung: "Größter laufender Kostenpunkt (200-1.300 €/Monat). Bei Solo entweder freiwillige GKV, PKV oder Künstlersozialkasse (KSK).",
     schadenbeispiel: "Selbstständiger ohne KV bekommt Krebsdiagnose → Behandlungskosten 200k+ aus eigener Tasche, plus rückwirkende KV-Beiträge bei FA-Beitritt.",
     deckungssumme: "GKV: Sachleistungsprinzip, alle Kassenleistungen. PKV: tarifabhängig, oft besser bei Privatleistungen.",
-    beitragRange: { min: 2400, mittel: 6000, max: 12000 },
+    beitragRange: { min: 2400, mittel: 6000, max: 15000 },
     worauf_achten: [
       "Tool KV-Optimizer hat Detail-Vergleich aller Optionen",
       "Bei KSK: Versicherter trägt ~50 % selbst; die andere Hälfte aus Künstlersozialabgabe (30 %) + Bundeszuschuss (20 %)",
