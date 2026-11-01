@@ -7,6 +7,7 @@ import { PageHeader } from "@/components/landing/PageHeader";
 import { PublicSection, FaqList } from "@/components/public/PublicBlocks";
 import { FreeToolWizard } from "@/components/freetools/FreeToolWizard";
 import { FreeToolPromo } from "@/components/freetools/FreeToolPromo";
+import { UstProtokollVormerken } from "@/components/freetools/UstProtokollVormerken";
 import { FREE_TOOLS, type ToolConfig } from "@/lib/freetools";
 import { faqSchema, howToSchema, breadcrumbSchema, serviceSchema } from "@/lib/freetools/schema";
 
@@ -134,6 +135,8 @@ export default function FreeToolPage({ config }: FreeToolPageProps) {
               </p>
             </PublicSection>
           )}
+
+          {config.slug === "ust-id-beantragen" && <UstProtokollVormerken />}
 
           {/* Funnel */}
           <section className="rounded-2xl border border-border bg-card p-6 shadow-card">
