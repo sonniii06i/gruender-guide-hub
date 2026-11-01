@@ -1,58 +1,58 @@
 {
- "stand": "2026-10-31T10:26:51.761Z",
+ "stand": "2026-11-01T11:20:19.060Z",
  "quellen": {
   "gruendungswoche": {
    "ok": true,
-   "roh": 698,
+   "roh": 696,
    "verworfen": {
     "kommerzielle Online-Serie": 203
    },
-   "letzterErfolg": "2026-10-31T10:25:50.481Z"
+   "letzterErfolg": "2026-11-01T11:19:15.709Z"
   },
   "luma": {
    "ok": true,
-   "roh": 711,
+   "roh": 718,
    "verworfen": {
-    "nicht in Deutschland": 182,
-    "kein Gründer-/Tech-Bezug": 263
+    "nicht in Deutschland": 180,
+    "kein Gründer-/Tech-Bezug": 264
    },
-   "letzterErfolg": "2026-10-31T10:25:57.016Z"
+   "letzterErfolg": "2026-11-01T11:19:24.576Z"
   },
   "meetup": {
    "ok": true,
    "roh": 45,
    "verworfen": {},
-   "letzterErfolg": "2026-10-31T10:26:06.552Z"
+   "letzterErfolg": "2026-11-01T11:19:34.006Z"
   },
   "hackathonhub": {
    "ok": true,
    "roh": 72,
    "verworfen": {},
-   "letzterErfolg": "2026-10-31T10:26:07.470Z"
+   "letzterErfolg": "2026-11-01T11:19:34.583Z"
   },
   "gdg": {
    "ok": true,
-   "roh": 943,
+   "roh": 901,
    "verworfen": {},
-   "letzterErfolg": "2026-10-31T10:26:17.651Z"
+   "letzterErfolg": "2026-11-01T11:19:45.095Z"
   },
   "munich-startup": {
    "ok": true,
    "roh": 81,
    "verworfen": {},
-   "letzterErfolg": "2026-10-31T10:26:21.596Z"
+   "letzterErfolg": "2026-11-01T11:19:48.827Z"
   },
   "startplatz": {
    "ok": true,
    "roh": 71,
    "verworfen": {},
-   "letzterErfolg": "2026-10-31T10:26:24.013Z"
+   "letzterErfolg": "2026-11-01T11:19:50.360Z"
   },
   "startupcity-hamburg": {
    "ok": true,
-   "roh": 65,
+   "roh": 64,
    "verworfen": {},
-   "letzterErfolg": "2026-10-31T10:26:24.970Z"
+   "letzterErfolg": "2026-11-01T11:19:51.385Z"
   },
   "startup-bw": {
    "ok": true,
@@ -60,40 +60,40 @@
    "verworfen": {
     "unlesbar": 1
    },
-   "letzterErfolg": "2026-10-31T10:26:26.323Z"
+   "letzterErfolg": "2026-11-01T11:19:52.552Z"
   },
   "starthub-hessen": {
    "ok": true,
-   "roh": 62,
+   "roh": 61,
    "verworfen": {},
-   "letzterErfolg": "2026-10-31T10:26:32.517Z"
+   "letzterErfolg": "2026-11-01T11:20:00.006Z"
   },
   "startupverband": {
    "ok": true,
-   "roh": 65,
+   "roh": 59,
    "verworfen": {},
-   "letzterErfolg": "2026-10-31T10:26:34.738Z"
+   "letzterErfolg": "2026-11-01T11:20:02.003Z"
   },
   "dev-events": {
    "ok": true,
-   "roh": 93,
+   "roh": 95,
    "verworfen": {
-    "kein Gründer-/Tech-Bezug": 82
+    "kein Gründer-/Tech-Bezug": 84
    },
-   "letzterErfolg": "2026-10-31T10:26:38.223Z"
+   "letzterErfolg": "2026-11-01T11:20:05.616Z"
   },
   "ki-communities": {
    "ok": true,
    "roh": 50,
    "verworfen": {},
-   "letzterErfolg": "2026-10-31T10:26:51.744Z"
+   "letzterErfolg": "2026-11-01T11:20:19.046Z"
   }
  },
  "verworfen": {
+  "vorbei": 45,
   "mehr als 9 Monate voraus": 5,
-  "vorbei": 44,
   "Dauerangebot (ohne Termin geführt)": 9,
-  "Serientermin zusammengefasst": 239,
+  "Serientermin zusammengefasst": 235,
   "Dublette über Quellen": 25
  },
  "regionKorrektur": {
@@ -102,7 +102,7 @@
   "ueberStadt": 14,
   "blieb_bund": 12
  },
- "anzahl": 825,
+ "anzahl": 829,
  "events": [
   {
    "slug": "gruendungswoche-7kjqpe",
@@ -161,21 +161,6 @@
    "entdeckt": "2026-10-07"
   },
   {
-   "slug": "gruendungswoche-eqgwc6",
-   "quelle": "gruendungswoche",
-   "name": "20 Jahre Expertise für deinen Erfolg: Exklusiver Gründerinnen-Circle zum Nebenerwerb (Düsseldorf)",
-   "veranstalter": "dbt das-berater-team",
-   "art": "gruenderabend",
-   "format": "vor-ort",
-   "ort": "Düsseldorf",
-   "region": "NW",
-   "datum": "2026-10-31",
-   "weitereTermine": 8,
-   "url": "https://www.gruendungswoche.de/veranstaltungen/veranstaltungskalender/detail/event/20-jahre-expertise-fuer-deinen-erfolg-exklusiver-gruenderinnen-circle-zum-nebenerwerb-duesseldorf/",
-   "kurz": "Veranstaltung von dbt das-berater-team in Düsseldorf.",
-   "entdeckt": "2026-10-12"
-  },
-  {
    "slug": "gruendungswoche-ktvqx9",
    "quelle": "gruendungswoche",
    "name": "Individuelles Coaching für Gründer",
@@ -204,94 +189,19 @@
    "entdeckt": "2026-10-30"
   },
   {
-   "slug": "luma-1g7gv6e",
+   "slug": "luma-18y7mwj",
    "quelle": "luma",
-   "name": "Founders Running Club :: Berlin 🏃‍♀️🏃‍♂️ (+ Bachata class! 💃🕺)",
-   "veranstalter": "Founders Running Club",
-   "art": "netzwerk",
-   "format": "vor-ort",
-   "ort": "Berlin",
-   "region": "BE",
-   "datum": "2026-10-31",
-   "kostenlos": true,
-   "url": "https://luma.com/ad9osgf1",
-   "kurz": "Event in Berlin, gelistet auf Luma (Founders Running Club).",
-   "entdeckt": "2026-10-29"
-  },
-  {
-   "slug": "luma-wo77hw",
-   "quelle": "luma",
-   "name": "Founders Running Club :: Munich",
-   "veranstalter": "Founders Running Club",
+   "name": "YC W27 Deadline Eve: Founders Panel & Drinks",
+   "veranstalter": "Julian Jungnitz",
    "art": "netzwerk",
    "format": "vor-ort",
    "ort": "München",
    "region": "BY",
-   "datum": "2026-10-31",
+   "datum": "2026-11-01",
    "kostenlos": true,
-   "url": "https://luma.com/r2ncxi15",
-   "kurz": "Event in München, gelistet auf Luma (Founders Running Club).",
-   "entdeckt": "2026-10-10"
-  },
-  {
-   "slug": "luma-awh43t",
-   "quelle": "luma",
-   "name": "GTM Hackathon Berlin",
-   "veranstalter": "Emanuel Morhard",
-   "art": "hackathon",
-   "format": "vor-ort",
-   "ort": "Berlin",
-   "region": "BE",
-   "datum": "2026-10-31",
-   "kostenlos": true,
-   "url": "https://luma.com/hyk9bm6x",
-   "kurz": "Event in Berlin, gelistet auf Luma.",
-   "entdeckt": "2026-10-28"
-  },
-  {
-   "slug": "luma-x7gj9x",
-   "quelle": "luma",
-   "name": "Halloween Hackathon 🎃(supported by Lovable)",
-   "veranstalter": "Kiez & Kin",
-   "art": "hackathon",
-   "format": "vor-ort",
-   "ort": "Berlin",
-   "region": "BE",
-   "datum": "2026-10-31",
-   "kostenlos": true,
-   "url": "https://luma.com/55d7qwvn",
-   "kurz": "Event in Berlin, gelistet auf Luma (Kiez & Kin).",
-   "weitereTermine": 1,
-   "entdeckt": "2026-10-18"
-  },
-  {
-   "slug": "startupcity-hamburg-tz84qf",
-   "quelle": "startupcity-hamburg",
-   "name": "Founders Running Club Hamburg",
-   "veranstalter": "Startup City Hamburg",
-   "art": "netzwerk",
-   "format": "vor-ort",
-   "ort": "Hamburg",
-   "region": "HH",
-   "datum": "2026-10-31",
-   "url": "https://startupcity.hamburg/news-events/events/founders-running-club-hamburg-31-10-26",
-   "kurz": "Event in Hamburg – gelistet bei Startup City Hamburg.",
-   "weitereTermine": 4,
-   "entdeckt": "2026-10-11"
-  },
-  {
-   "slug": "starthub-hessen-1sbedei",
-   "quelle": "starthub-hessen",
-   "name": "Hessischer Website Award 2026",
-   "veranstalter": "StartHub Hessen",
-   "art": "netzwerk",
-   "format": "vor-ort",
-   "ort": "Hessen",
-   "region": "HE",
-   "datum": "2026-10-31",
-   "url": "https://www.starthub-hessen.de/de/events/hessischer-website-award-2026/",
-   "kurz": "Event in Hessen – gelistet bei StartHub Hessen.",
-   "entdeckt": "2026-10-07"
+   "url": "https://luma.com/ahuj0yoy",
+   "kurz": "Event in München, gelistet auf Luma.",
+   "entdeckt": "2026-11-01"
   },
   {
    "slug": "gruendungswoche-1e6c3kp",
@@ -302,8 +212,8 @@
    "format": "online",
    "ort": "online",
    "region": "online",
-   "datum": "2026-11-01",
-   "weitereTermine": 58,
+   "datum": "2026-11-02",
+   "weitereTermine": 56,
    "url": "https://www.gruendungswoche.de/veranstaltungen/veranstaltungskalender/detail/event/bewerbungsstart-fuer-das-gruendungsstipendium-mgzstart-2027/",
    "kurz": "Gründungsangebot von Mediengründerzentrum NRW – online.",
    "entdeckt": "2026-10-14"
@@ -1553,6 +1463,21 @@
    "entdeckt": "2026-10-07"
   },
   {
+   "slug": "gruendungswoche-eqgwc6",
+   "quelle": "gruendungswoche",
+   "name": "20 Jahre Expertise für deinen Erfolg: Exklusiver Gründerinnen-Circle zum Nebenerwerb (Düsseldorf)",
+   "veranstalter": "dbt das-berater-team",
+   "art": "gruenderabend",
+   "format": "vor-ort",
+   "ort": "Düsseldorf",
+   "region": "NW",
+   "datum": "2026-11-06",
+   "weitereTermine": 6,
+   "url": "https://www.gruendungswoche.de/veranstaltungen/veranstaltungskalender/detail/event/20-jahre-expertise-fuer-deinen-erfolg-exklusiver-gruenderinnen-circle-zum-nebenerwerb-duesseldorf/",
+   "kurz": "Veranstaltung von dbt das-berater-team in Düsseldorf.",
+   "entdeckt": "2026-10-12"
+  },
+  {
    "slug": "gruendungswoche-17c7lc1",
    "quelle": "gruendungswoche",
    "name": "InfoAbend: Gut vorbereitet in die Selbständigkeit Bonn",
@@ -1854,6 +1779,36 @@
    "entdeckt": "2026-10-10"
   },
   {
+   "slug": "luma-1g7gv6e",
+   "quelle": "luma",
+   "name": "Founders Running Club :: Berlin 🏃‍♀️🏃‍♂️ (+ Bachata class! 💃🕺)",
+   "veranstalter": "Founders Running Club",
+   "art": "netzwerk",
+   "format": "vor-ort",
+   "ort": "Berlin",
+   "region": "BE",
+   "datum": "2026-11-07",
+   "kostenlos": true,
+   "url": "https://luma.com/ad9osgf1",
+   "kurz": "Event in Berlin, gelistet auf Luma (Founders Running Club).",
+   "entdeckt": "2026-10-29"
+  },
+  {
+   "slug": "luma-wo77hw",
+   "quelle": "luma",
+   "name": "Founders Running Club :: Munich",
+   "veranstalter": "Founders Running Club",
+   "art": "netzwerk",
+   "format": "vor-ort",
+   "ort": "München",
+   "region": "BY",
+   "datum": "2026-11-07",
+   "kostenlos": true,
+   "url": "https://luma.com/r2ncxi15",
+   "kurz": "Event in München, gelistet auf Luma (Founders Running Club).",
+   "entdeckt": "2026-10-10"
+  },
+  {
    "slug": "luma-f9p1gs",
    "quelle": "luma",
    "name": "Cursor x Sandbox Hackathon | Stuttgart",
@@ -1941,6 +1896,21 @@
    "url": "https://gdg.community.dev/events/details/google-gdg-karlsruhe-presents-gdg-devfest-karlsruhe-2026/",
    "kurz": "Event in Karlsruhe – gelistet bei Google Developer Groups.",
    "entdeckt": "2026-10-07"
+  },
+  {
+   "slug": "startupcity-hamburg-tz84qf",
+   "quelle": "startupcity-hamburg",
+   "name": "Founders Running Club Hamburg",
+   "veranstalter": "Startup City Hamburg",
+   "art": "netzwerk",
+   "format": "vor-ort",
+   "ort": "Hamburg",
+   "region": "HH",
+   "datum": "2026-11-07",
+   "url": "https://startupcity.hamburg/news-events/events/founders-running-club-hamburg-7-11-26",
+   "kurz": "Event in Hamburg – gelistet bei Startup City Hamburg.",
+   "weitereTermine": 3,
+   "entdeckt": "2026-10-11"
   },
   {
    "slug": "gruendungswoche-1g3xzps",
@@ -2550,6 +2520,21 @@
    "entdeckt": "2026-10-07"
   },
   {
+   "slug": "luma-qs9a5g",
+   "quelle": "luma",
+   "name": "Agents in Prod | Berlin",
+   "veranstalter": "Agents in Prod",
+   "art": "netzwerk",
+   "format": "vor-ort",
+   "ort": "Berlin",
+   "region": "BE",
+   "datum": "2026-11-11",
+   "kostenlos": true,
+   "url": "https://luma.com/hnrrobgi",
+   "kurz": "Event in Berlin, gelistet auf Luma (Agents in Prod).",
+   "entdeckt": "2026-11-01"
+  },
+  {
    "slug": "luma-18qrijd",
    "quelle": "luma",
    "name": "Futury Build Days #4 Banking & Finance | Tech by JUPITER AI Factory",
@@ -2854,6 +2839,22 @@
    "url": "https://luma.com/9gg5ficp",
    "kurz": "Event in Berlin, gelistet auf Luma (Minds).",
    "entdeckt": "2026-10-25"
+  },
+  {
+   "slug": "luma-ut6zb4",
+   "quelle": "luma",
+   "name": "Aperture Sessions Berlin with George | Singular, RevenueCat, Segwise.ai, Appfollow, & adjoe",
+   "veranstalter": "Aperture Sessions",
+   "art": "netzwerk",
+   "format": "vor-ort",
+   "ort": "Berlin",
+   "region": "BE",
+   "datum": "2026-11-12",
+   "datumBis": "2026-11-13",
+   "kostenlos": true,
+   "url": "https://luma.com/ts4tkbgv",
+   "kurz": "Event in Berlin, gelistet auf Luma (Aperture Sessions).",
+   "entdeckt": "2026-11-01"
   },
   {
    "slug": "luma-ii7k4c",
@@ -3798,7 +3799,7 @@
    "ort": "Berlin",
    "region": "BE",
    "datum": "2026-11-14",
-   "url": "https://gdg.community.dev/events/details/google-gdg-berlin-presents-devfest-berlin-2026/",
+   "url": "https://gdg.community.dev/events/details/google-gdg-berlin-presents-devfest-berlin-2026-1/",
    "kurz": "Event in Berlin – gelistet bei Google Developer Groups.",
    "entdeckt": "2026-10-07"
   },
@@ -8063,6 +8064,21 @@
    "entdeckt": "2026-10-28"
   },
   {
+   "slug": "luma-btc70v",
+   "quelle": "luma",
+   "name": "OUTPERFORMER.VC – The Beginning",
+   "veranstalter": "Roland Fassauer",
+   "art": "netzwerk",
+   "format": "vor-ort",
+   "ort": "Leipzig",
+   "region": "SN",
+   "datum": "2026-11-19",
+   "kostenlos": true,
+   "url": "https://luma.com/nmo6egfi",
+   "kurz": "Event in Leipzig, gelistet auf Luma.",
+   "entdeckt": "2026-11-01"
+  },
+  {
    "slug": "meetup-1ozgr9m",
    "quelle": "meetup",
    "name": "Nov 19 - Visualizing and Debugging Hugging Face's LeRobot Data",
@@ -9452,19 +9468,34 @@
    "entdeckt": "2026-10-07"
   },
   {
-   "slug": "luma-9dmndq",
+   "slug": "luma-ioje2x",
    "quelle": "luma",
-   "name": "Introduction to AI Safety: Talk with Safe AI Germany (Kaiserslautern)",
-   "veranstalter": "AI Safety Kaiserslautern",
-   "art": "netzwerk",
+   "name": "Agentic Analytics Builders' Night: Designing data products in the age of AI",
+   "veranstalter": "Gemma Events",
+   "art": "build",
    "format": "vor-ort",
-   "ort": "Kaiserslautern",
-   "region": "RP",
+   "ort": "Berlin",
+   "region": "BE",
    "datum": "2026-11-25",
    "kostenlos": true,
-   "url": "https://luma.com/ecqov39q",
-   "kurz": "Event in Kaiserslautern, gelistet auf Luma (AI Safety Kaiserslautern).",
-   "entdeckt": "2026-10-28"
+   "url": "https://luma.com/zajdu5nt",
+   "kurz": "Event in Berlin, gelistet auf Luma (Gemma Events).",
+   "entdeckt": "2026-11-01"
+  },
+  {
+   "slug": "luma-18x874m",
+   "quelle": "luma",
+   "name": "Hamburg Music & Tech Meetup | #2",
+   "veranstalter": "Jannik",
+   "art": "netzwerk",
+   "format": "vor-ort",
+   "ort": "Hamburg",
+   "region": "HH",
+   "datum": "2026-11-25",
+   "kostenlos": true,
+   "url": "https://luma.com/yg74ht1c",
+   "kurz": "Event in Hamburg, gelistet auf Luma.",
+   "entdeckt": "2026-11-01"
   },
   {
    "slug": "luma-9jfij7",
@@ -9480,6 +9511,21 @@
    "url": "https://luma.com/g1nwa9oa",
    "kurz": "Event in Frankfurt am Main, gelistet auf Luma (Futury).",
    "entdeckt": "2026-10-07"
+  },
+  {
+   "slug": "luma-9dmndq",
+   "quelle": "luma",
+   "name": "Introduction to AI Safety: Talk with Safe AI Germany (Kaiserslautern)",
+   "veranstalter": "AI Safety Kaiserslautern",
+   "art": "netzwerk",
+   "format": "vor-ort",
+   "ort": "Kaiserslautern",
+   "region": "RP",
+   "datum": "2026-11-25",
+   "kostenlos": true,
+   "url": "https://luma.com/ecqov39q",
+   "kurz": "Event in Kaiserslautern, gelistet auf Luma (AI Safety Kaiserslautern).",
+   "entdeckt": "2026-10-28"
   },
   {
    "slug": "hackathonhub-1p1t1ur",
@@ -9722,6 +9768,21 @@
    "url": "https://luma.com/digital-health-cocktail-hour-17",
    "kurz": "Event in Berlin, gelistet auf Luma (Merantix AI Campus).",
    "entdeckt": "2026-10-22"
+  },
+  {
+   "slug": "luma-17ldc3g",
+   "quelle": "luma",
+   "name": "Founders Padel: Integral x Founders Court",
+   "veranstalter": "Founders Court",
+   "art": "netzwerk",
+   "format": "vor-ort",
+   "ort": "Berlin",
+   "region": "BE",
+   "datum": "2026-11-26",
+   "kostenlos": true,
+   "url": "https://luma.com/n1po2gy5",
+   "kurz": "Event in Berlin, gelistet auf Luma (Founders Court).",
+   "entdeckt": "2026-11-01"
   },
   {
    "slug": "luma-1tqfl82",
@@ -10455,6 +10516,20 @@
    "entdeckt": "2026-10-07"
   },
   {
+   "slug": "gdg-ljdvw8",
+   "quelle": "gdg",
+   "name": "GDG Nuremberg - 10th anniversary",
+   "veranstalter": "GDG Nuremberg",
+   "art": "netzwerk",
+   "format": "vor-ort",
+   "ort": "Nürnberg",
+   "region": "BY",
+   "datum": "2026-12-03",
+   "url": "https://gdg.community.dev/events/details/google-gdg-nuremberg-presents-gdg-nuremberg-10th-anniversary/",
+   "kurz": "Event in Nürnberg – gelistet bei Google Developer Groups.",
+   "entdeckt": "2026-10-17"
+  },
+  {
    "slug": "startupcity-hamburg-1ktrzaz",
    "quelle": "startupcity-hamburg",
    "name": "EEN Invest 2026 - European Aerospace & Defence Investment Forum",
@@ -10858,20 +10933,6 @@
    "datum": "2026-12-10",
    "url": "https://www.meetup.com/startupschoolberlin/events/317008829/",
    "kurz": "Treffen der Meetup-Gruppe BERLIN STARTUP SCHOOL.",
-   "entdeckt": "2026-10-17"
-  },
-  {
-   "slug": "gdg-ljdvw8",
-   "quelle": "gdg",
-   "name": "GDG Nuremberg - 10th anniversary",
-   "veranstalter": "GDG Nuremberg",
-   "art": "netzwerk",
-   "format": "vor-ort",
-   "ort": "Nürnberg",
-   "region": "BY",
-   "datum": "2026-12-10",
-   "url": "https://gdg.community.dev/events/details/google-gdg-nuremberg-presents-gdg-nuremberg-10th-anniversary/",
-   "kurz": "Event in Nürnberg – gelistet bei Google Developer Groups.",
    "entdeckt": "2026-10-17"
   },
   {
