@@ -174,7 +174,7 @@ const Anbieter = () => {
     >
       <Seo
         title="Anbieter-Vergleich 2026 – Geschäftskonto, Buchhaltung, Hosting | GründerX"
-        description={`Über ${PROVIDERS.length} Anbieter im Vergleich: Geschäftskonto, Buchhaltung, Notar, Tools für Gründer & E-Commerce. Mit echten Erfahrungen aus Foren.`}
+        description={`Über ${PROVIDERS.length} Anbieter im Vergleich: Geschäftskonto, Buchhaltung, Versicherung, Tools für Gründer & E-Commerce. Mit echten Erfahrungen aus Foren.`}
         path="/anbieter"
       />
 

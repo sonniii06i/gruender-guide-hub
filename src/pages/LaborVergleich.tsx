@@ -95,7 +95,7 @@ const LaborVergleich = () => {
     <CockpitShell
       eyebrow="Labor-Anbieter · Stand Mai 2026"
       title="Labor-Vergleich für Brand-Founder"
-      subtitle={`${LABORE.length} etablierte Labore (DAkkS ISO 17025, alle mit nachweisbarer Historie, ältestes seit 1828) für 14 Test-Kategorien von Kosmetik über Elektronik bis Medizinprodukte. Dazu ${USE_CASE_STACKS.length} Use-Case-Stacks mit Kosten-Ballparks, eine Preisliste mit ${PREIS_LISTE.length} Einträgen und eine AVOID-Liste.`}
+      subtitle={`${LABORE.length} etablierte Labore und Prüfstellen (meist nach ISO 17025 akkreditiert, alle mit nachweisbarer Historie) für 14 Test-Kategorien von Kosmetik über Elektronik bis Medizinprodukte. Dazu ${USE_CASE_STACKS.length} Use-Case-Stacks mit Kosten-Ballparks, eine Preisliste mit ${PREIS_LISTE.length} Einträgen und eine AVOID-Liste.`}
     >
       {/* ===== USE-CASE-STACKS ===== */}
       <ToolSection

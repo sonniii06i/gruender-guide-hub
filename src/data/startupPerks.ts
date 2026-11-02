@@ -120,7 +120,7 @@ export const STARTUP_PERKS: StartupPerk[] = [
     leistungen: ["12 Monate Guthaben, Betrag kommt per Onboarding-Mail", "Standard-Support 15 Monate gratis"],
     voraussetzungen: ["Höchstens 10 Mio. $ Kapital eingesammelt", "Neues Team-Konto mit Firmen-E-Mail und Website", "Keine Agenturen oder Dienstleister"],
     vcNoetig: false, gruendungMaxJahre: null, url: "https://www.digitalocean.com/startups", pruefWorte: ["12 months"],
-    hinweis: "Seit 13.05.2026 ausgeschlossen: GPU-Droplets, Inference und extern gehostete Modelle (Anthropic, OpenAI).", geprueft: "2026-10-08",
+    hinweis: "Neue Bewerbungen sind pausiert. Neustart laut DigitalOcean Anfang 2027. Seit 13.05.2026 ausgeschlossen: GPU-Droplets, Inference und extern gehostete Modelle (Anthropic, OpenAI).", geprueft: "2026-10-08",
   },
   {
     slug: "vercel-for-startups", name: "Vercel for Startups", anbieter: "Vercel", kategorie: "cloud",

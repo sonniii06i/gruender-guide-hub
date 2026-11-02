@@ -47,9 +47,9 @@ const ROWS: Row[] = [
     hint: "EÜR + USt-VA gibt es erst ab diesem Tarif. Reine Rechnungs-Tarife sind günstiger (Lexware M 12,90, sevDesk Rechnung 8,90–11,90, Aktion 4,45), enthalten aber KEINE Buchhaltung/EÜR/USt-VA. Preise schwanken mit Aktionen.",
   },
   { feature: "USt-Voranmeldung per ELSTER", elster: "manuell ausfüllen", lexware: "auf Knopfdruck", sevdesk: "auf Knopfdruck" },
-  { feature: "Zusammenfassende Meldung (ZM) ans BZSt", elster: "manuell ausfüllen", lexware: true, sevdesk: true, hint: "Pflicht bei EU-B2B (innergemeinschaftliche Lieferungen/sonstige Leistungen mit USt-IdNr). Beide Tools erstellen + übermitteln sie elektronisch - die ZM geht ans Bundeszentralamt für Steuern (BZSt), nicht ans Finanzamt." },
-  { feature: "Dauerfristverlängerung (USt 1 H)", elster: "manuell ausfüllen", lexware: true, sevdesk: true, hint: "Verlängert die USt-VA-Frist um 1 Monat. In beiden Tools mit-beantragbar; sonst direkt in ELSTER. Details im USt-VA-Walkthrough." },
-  { feature: "EÜR (Jahres-Gewinnermittlung)", elster: "manuell ausfüllen", lexware: true, sevdesk: true },
+  { feature: "Zusammenfassende Meldung (ZM) ans BZSt", elster: "manuell ausfüllen", lexware: true, sevdesk: "nicht dokumentiert", hint: "Pflicht bei EU-B2B (innergemeinschaftliche Lieferungen/sonstige Leistungen mit USt-IdNr). Lexware Office erstellt und übermittelt sie. Für sevDesk nennt die Hilfe keinen eigenen Weg, im Zweifel über ELSTER. Die ZM geht ans Bundeszentralamt für Steuern (BZSt), nicht ans Finanzamt." },
+  { feature: "Dauerfristverlängerung (USt 1 H)", elster: "manuell ausfüllen", lexware: "nur hinterlegen", sevdesk: "nur abbilden", hint: "Verlängert die USt-VA-Frist um 1 Monat. Den Antrag stellst du direkt in ELSTER. Lexware Office hinterlegt die bewilligte Verlängerung nur (Steuerliche Meldungen → Einstellungen), sevDesk bildet sie nur ab. Details im USt-VA-Walkthrough." },
+  { feature: "EÜR (Jahres-Gewinnermittlung)", elster: "manuell ausfüllen", lexware: "erstellen; Versand über smartsteuer oder manuell in ELSTER", sevdesk: true },
   { feature: "Belege scannen + OCR", elster: false, lexware: true, sevdesk: true, hint: "Foto/Scan und die Software liest Betrag, Datum, USt automatisch aus." },
   { feature: "Banking-Anbindung + Abgleich", elster: false, lexware: true, sevdesk: true },
   { feature: "Rechnungen schreiben (GoBD-konform)", elster: false, lexware: true, sevdesk: true },
@@ -80,7 +80,7 @@ const PFADE: Pfad[] = [
     when: "Dienstleister / Solo-Selbstständig, regelmäßige Belege",
     pick: "Lexware Office (Paket L)",
     partner: "lexoffice",
-    why: "Einfachste Bedienung, deutscher Marktführer, enge Steuerberater-/DATEV-Verzahnung. EÜR + USt-VA per ELSTER gibt es ab Paket L. Ideal wenn du wenig Zeit für Buchhaltung hast und es einfach laufen soll.",
+    why: "Einfachste Bedienung, deutscher Marktführer, enge Steuerberater-/DATEV-Verzahnung. USt-VA per ELSTER und EÜR-Erstellung gibt es ab Paket L (EÜR-Versand über smartsteuer bzw. manuell in ELSTER). Ideal wenn du wenig Zeit für Buchhaltung hast und es einfach laufen soll.",
   },
   {
     icon: <ShoppingCart className="h-5 w-5 text-accent-blue" />,
@@ -130,7 +130,7 @@ const LEXWARE_STEPS = [
   "Bankkonto verbinden: Zahlungen werden automatisch den Belegen/Rechnungen zugeordnet.",
   "USt-Voranmeldung: unter Menü Buchhaltung → Steuerliche Meldungen. Software berechnet die Zahllast und übermittelt sie mit einem Klick per ELSTER ans Finanzamt.",
   "Zusammenfassende Meldung (ZM): ebenfalls unter Buchhaltung → Steuerliche Meldungen - bei EU-B2B-Umsätzen automatisch befüllt und ans BZSt gesendet.",
-  "Jahresende: EÜR auf Knopfdruck erstellen und per ELSTER übermitteln. Für den StB: DATEV-Export.",
+  "Jahresende: EÜR auf Knopfdruck erstellen. Übermitteln kannst du sie nur über smartsteuer, sonst trägst du die Werte manuell in ELSTER ein oder gibst sie an deinen StB. Für den StB: DATEV-Export.",
 ];
 
 const SEVDESK_STEPS = [
@@ -250,8 +250,9 @@ const BuchhaltungssoftwareGuide = () => {
               <p className="text-sm leading-relaxed text-muted-foreground">
                 Menü <strong className="text-foreground">Buchhaltung → Steuerliche Meldungen</strong>. Dort findest du die
                 <strong className="text-foreground"> USt-Voranmeldung</strong> (berechnet und per ELSTER ans Finanzamt), die
-                <strong className="text-foreground"> Zusammenfassende Meldung (ZM)</strong> (bei EU-B2B, automatisch befüllt, ans BZSt) und
-                den <strong className="text-foreground">Antrag auf Dauerfristverlängerung</strong>.
+                <strong className="text-foreground"> Zusammenfassende Meldung (ZM)</strong> (bei EU-B2B, automatisch befüllt, ans BZSt). Eine
+                <strong className="text-foreground"> Dauerfristverlängerung</strong> beantragst du direkt in ELSTER; in Lexware Office
+                hinterlegst du sie nach der Bewilligung nur (Steuerliche Meldungen → Einstellungen).
               </p>
             </div>
             <div className="rounded-xl border border-border bg-secondary/50 p-4">
@@ -296,7 +297,7 @@ const BuchhaltungssoftwareGuide = () => {
           { label: "sevDesk Tarife & Funktionen", url: "https://sevdesk.de/preise/" },
           { label: "ELSTER (kostenloses Finanzamt-Portal)", url: "https://www.elster.de" },
         ]}
-        note="Funktionen gegen die offiziellen Anbieterseiten verifiziert (2026-10-27). Preise sind Richtwerte und aktionsabhängig, beim Anbieter prüfen. EÜR + USt-VA per ELSTER ab Lexware Paket L bzw. sevDesk Buchhaltung. Keine Steuerberatung."
+        note="Funktionen gegen die offiziellen Anbieterseiten verifiziert (2026-10-27). Preise sind Richtwerte und aktionsabhängig, beim Anbieter prüfen. USt-VA per ELSTER und EÜR-Erstellung ab Lexware Paket L (EÜR-Versand über smartsteuer bzw. manuell in ELSTER) bzw. sevDesk Buchhaltung. Keine Steuerberatung."
       />
     </CockpitShell>
   );

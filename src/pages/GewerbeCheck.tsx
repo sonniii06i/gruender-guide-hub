@@ -173,7 +173,7 @@ function berechneRechtsformEmpfehlung(setup: Setup): RechtsformReco {
       return {
         empfohlen: "einzel-gewerbe",
         empfohlenLabel: kuMoeglich ? "Einzelunternehmen (Gewerbe) + §19 KU" : "Einzelunternehmen (Gewerbe)",
-        begruendung: "Für Solo-Gewerbe bei niedrigem bis mittlerem Gewinn klar die einfachste Option: GewA1-Anmeldung (15-65 €), keine Stammkapital, EÜR statt Bilanz, GewSt-Freibetrag 24.500 €. Volle persönliche Haftung — bei deinem Risiko-Profil aber meist okay.",
+        begruendung: "Für Solo-Gewerbe bei niedrigem bis mittlerem Gewinn klar die einfachste Option: GewA1-Anmeldung (Gebühr je nach Gemeinde, z. B. Berlin 15 € online / 26 € vor Ort), keine Stammkapital, EÜR statt Bilanz, GewSt-Freibetrag 24.500 €. Volle persönliche Haftung — bei deinem Risiko-Profil aber meist okay.",
         ustModus: kuMoeglich ? "ku-19" : "regel",
         ustHinweis: kuMoeglich
           ? "Kleinunternehmer §19 UStG möglich (Vorjahres-Umsatz ≤ 25.000 €, laufendes Jahr ≤ 100.000 €; im Gründungsjahr ≤ 25.000 €): keine USt-Ausweisung, keine USt-VA. An 5 Jahre gebunden bist du nur, wenn du auf die KU verzichtest. Regelbesteuerung lohnt bei vielen teuren Anschaffungen mit Vorsteuer-Abzug oder überwiegend B2B-Kunden."
@@ -257,7 +257,7 @@ const GewerbeCheck = () => {
         begruendung:
           setup.gewinnabsicht === "nein-hobby"
             ? "Ohne Gewinnerzielungsabsicht = Liebhaberei. Das Finanzamt sieht das als Hobby — kein Gewerbe nötig, keine Steuer auf den Erlös."
-            : `Bei einmaligen Aktivitäten unter ~410 € Gewinn greift die Bagatell-Grenze. Aber Achtung: bei mehrmaliger Wiederholung wertet das FA das als 'nachhaltige Gewinnerzielungsabsicht' und du bist plötzlich gewerbe-/anmeldepflichtig.`,
+            : `Bei einmaligen Aktivitäten mit kleinem Gewinn fehlt meist die Nachhaltigkeit, dann liegt kein Gewerbe vor. Die 410 € sind dabei keine Gewerbe-Grenze, sondern die Veranlagungsgrenze für Nebeneinkünfte von Arbeitnehmer:innen (§ 46 Abs. 2 Nr. 1 EStG). Aber Achtung: bei mehrmaliger Wiederholung wertet das FA das als 'nachhaltige Gewinnerzielungsabsicht' und du bist plötzlich gewerbe-/anmeldepflichtig.`,
         nextSteps: [
           { text: "Wichtige Schwellen: §22 EStG Sonstige Einkünfte unter 256 €/J steuerfrei · Ehrenamtspauschale 960 €/J · Übungsleiterpauschale 3.300 €/J" },
           { text: "Bei wiederholtem Verkauf (Flohmarkt, eBay-Reseller): nach 3+ Wiederholungen pro Jahr droht 'Nachhaltigkeit' → Gewerbe-Pflicht. Im Zweifel beim FA anfragen." },
@@ -276,7 +276,7 @@ const GewerbeCheck = () => {
         type: ku ? "kleinunternehmer-tauglich" : "freiberuf",
         titel: "Du bist Freiberufler:in (§18 EStG)",
         farbe: "blau",
-        begruendung: `${t.label} fällt unter die Katalogberufe nach §18 Abs. 1 Nr. 1 EStG — KEINE Gewerbeanmeldung nötig. Du brauchst nur die steuerliche Erfassung beim Finanzamt (Fragebogen via ELSTER).${
+        begruendung: `${t.label} fällt unter die freiberuflichen Tätigkeiten nach §18 Abs. 1 Nr. 1 EStG — KEINE Gewerbeanmeldung nötig. Du brauchst nur die steuerliche Erfassung beim Finanzamt (Fragebogen via ELSTER).${
           ku ? " Bei deinem erwarteten Umsatz bis 25.000 € kommt die Kleinunternehmer-Regelung §19 UStG in Frage (kein Umsatzsteuer-Ausweis, kein VSt-Abzug)." : ""
         }`,
         nextSteps: [
@@ -306,14 +306,14 @@ const GewerbeCheck = () => {
         type: ku ? "kleinunternehmer-tauglich" : "gewerbe",
         titel: "Du brauchst ein Gewerbe",
         farbe: "amber",
-        begruendung: `${t.label} ist eindeutig gewerblich (nicht §18 EStG). Du musst beim Gewerbeamt anmelden (15-65 € je Stadt). Das Gewerbeamt leitet automatisch ans Finanzamt + IHK weiter. GewSt erst bei Gewinn > 24.500 €/Jahr — die meisten Anfänger:innen zahlen also vorerst keine GewSt.${
+        begruendung: `${t.label} ist eindeutig gewerblich (nicht §18 EStG). Du musst beim Gewerbeamt anmelden (Gebühr je nach Gemeinde, z. B. Berlin 15 € online / 26 € vor Ort). Das Gewerbeamt leitet automatisch ans Finanzamt + IHK weiter. GewSt erst bei Gewinn > 24.500 €/Jahr — die meisten Anfänger:innen zahlen also vorerst keine GewSt.${
           ku ? " Bei deinem erwarteten Umsatz bis 25.000 € kommt die Kleinunternehmer-Regelung §19 UStG in Frage." : ""
         }`,
         nextSteps: [
-          { text: "Gewerbe-Anmeldung beim örtlichen Gewerbeamt (15-65 € je nach Stadt)" },
+          { text: "Gewerbe-Anmeldung beim örtlichen Gewerbeamt (Gebühr je nach Gemeinde, z. B. Berlin 15 € online / 26 € vor Ort)" },
           { text: "Fragebogen zur steuerlichen Erfassung via ELSTER (Pflicht binnen 1 Monat)", extern: "https://www.elster.de" },
           {
-            text: "IHK-Pflichtmitgliedschaft (automatisch) — Befreiung möglich bei Gewinn < 25k €/J (§3 IHKG)",
+            text: "IHK-Pflichtmitgliedschaft (automatisch). Ohne Handelsregistereintrag beitragsfrei bis 5.200 € Gewerbeertrag. Gründer:innen im Gründungs- und Folgejahr bis 25.000 € beitragsfrei, im 3. und 4. Jahr nur von der Umlage befreit (§ 3 Abs. 3 IHKG)",
           },
           {
             text: "Berufsgenossenschaft anmelden innerhalb 1 Woche (Pflicht §192 SGB VII, auch ohne Mitarbeiter)",
@@ -711,11 +711,11 @@ const BeginnerHero = () => (
       </div>
       <div className="rounded-xl border border-info/20 bg-info-soft p-4 text-sm">
         <strong className="font-semibold text-info">📘 Freiberuf</strong>
-        <p className="mt-1 text-muted-foreground">Katalogberuf §18 EStG: nur Finanzamt-Fragebogen, kein Gewerbeschein, keine GewSt, keine IHK-Pflicht</p>
+        <p className="mt-1 text-muted-foreground">Freie Berufe und Tätigkeiten nach §18 EStG: nur Finanzamt-Fragebogen, kein Gewerbeschein, keine GewSt, keine IHK-Pflicht</p>
       </div>
       <div className="rounded-xl border border-warning/25 bg-warning-soft p-4 text-sm">
         <strong className="font-semibold text-warning">🏪 Gewerbe</strong>
-        <p className="mt-1 text-muted-foreground">Handel/Produktion/Dienstleistung: Gewerbeamt (15-65 €), IHK, ggf. GewSt ab 24.500 € Gewinn</p>
+        <p className="mt-1 text-muted-foreground">Handel/Produktion/Dienstleistung: Gewerbeamt (Gebühr je nach Gemeinde), IHK, ggf. GewSt ab 24.500 € Gewinn</p>
       </div>
     </div>
   </ToolSection>
@@ -769,8 +769,8 @@ const Glossar = () => (
     </summary>
     <dl className="grid gap-3 border-t border-border/70 p-5 text-sm leading-relaxed md:grid-cols-2 md:p-6">
       {[
-        { begriff: "Freiberufler:in", erklaerung: "Selbstständig in einem 'Katalogberuf' nach §18 Abs. 1 Nr. 1 EStG (Ärzt:innen, Rechtsanwält:innen, Ingenieur:innen, Künstler:innen, Journalist:innen u.a.) oder in einem 'ähnlichen Beruf'. KEINE Gewerbeanmeldung, KEINE Gewerbesteuer, KEINE IHK-Pflichtmitgliedschaft. Nur Fragebogen beim Finanzamt." },
-        { begriff: "Gewerbe", erklaerung: "Selbstständige, nachhaltige Tätigkeit mit Gewinnerzielungsabsicht, die nicht freiberuflich, land-/forstwirtschaftlich oder Vermögensverwaltung ist. Pflicht: Anmeldung beim Gewerbeamt (15-65 €), IHK-Mitgliedschaft, ggf. Gewerbesteuer ab 24.500 €/J Gewinn." },
+        { begriff: "Freiberufler:in", erklaerung: "Selbstständig mit einer freiberuflichen Tätigkeit (wissenschaftlich, künstlerisch, schriftstellerisch, unterrichtend, erzieherisch), in einem 'Katalogberuf' nach §18 Abs. 1 Nr. 1 EStG (Ärzt:innen, Rechtsanwält:innen, Ingenieur:innen, Journalist:innen u.a.) oder in einem 'ähnlichen Beruf'. KEINE Gewerbeanmeldung, KEINE Gewerbesteuer, KEINE IHK-Pflichtmitgliedschaft. Nur Fragebogen beim Finanzamt." },
+        { begriff: "Gewerbe", erklaerung: "Selbstständige, nachhaltige Tätigkeit mit Gewinnerzielungsabsicht, die nicht freiberuflich, land-/forstwirtschaftlich oder Vermögensverwaltung ist. Pflicht: Anmeldung beim Gewerbeamt (Gebühr je nach Gemeinde, z. B. Berlin 15 € online / 26 € vor Ort), IHK-Mitgliedschaft, ggf. Gewerbesteuer ab 24.500 €/J Gewinn." },
         { begriff: "Kleingewerbe", erklaerung: "Umgangssprachlich für 'Gewerbe in kleinem Umfang' (Nicht-Kaufmann i.S.d. HGB). Hat nichts mit der USt-Kleinunternehmer-Regelung zu tun! Vereinfachte Buchhaltung (EÜR statt Bilanz)." },
         { begriff: "Kleinunternehmer-Regelung (§19 UStG)", erklaerung: "Du musst keine Umsatzsteuer ausweisen, kannst aber auch keine Vorsteuer ziehen. 2026: Vorjahres-Umsatz bis 25.000 €, laufendes Jahr bis 100.000 € (bei Überschreiten sofortiger Wegfall); im Gründungsjahr bis 25.000 €. Maßgeblich ist der Umsatz, nicht der Gewinn. Vorteil: einfacher. Nachteil: keine VSt zurück (lohnt sich nicht wenn du viel investierst)." },
         { begriff: "Gewinnerzielungsabsicht", erklaerung: "Du willst auf Dauer einen Gewinn machen (auch wenn die ersten Jahre Verluste sind). Wichtig für die Abgrenzung zur 'Liebhaberei' (= Hobby, das nicht profitabel sein muss)." },
@@ -778,8 +778,8 @@ const Glossar = () => (
         { begriff: "Fragebogen zur steuerlichen Erfassung", erklaerung: "Pflichtformular nach jeder Gründung — du gibst dem Finanzamt deine voraussichtlichen Umsätze + Gewinne + Familienstand an. Daraus berechnet das FA deine Vorauszahlungen. Pflicht binnen 1 Monat via ELSTER." },
         { begriff: "EÜR (Einnahmen-Überschuss-Rechnung)", erklaerung: "Vereinfachte Gewinnermittlung: Einnahmen minus Ausgaben = Gewinn. Für Gewerbetreibende erlaubt bis 800.000 € Jahresumsatz und 80.000 € Gewinn (§141 AO seit WJ 2024, sonst Bilanz-Pflicht); Freiberufler:innen dürfen immer die EÜR nutzen. Pflicht-Anlage zur Steuererklärung — elektronisch via ELSTER." },
         { begriff: "Anlage S vs Anlage G", erklaerung: "Anlage S: für Einkünfte aus selbstständiger Arbeit (Freiberufler). Anlage G: für Einkünfte aus Gewerbebetrieb. Beide brauchen zusätzlich die Anlage EÜR (Gewinn-Detail)." },
-        { begriff: "Katalogberufe (§18 EStG)", erklaerung: "Eindeutig als freiberuflich anerkannte Berufe: Heilberufe, Rechts-/Steuerberatung, Ingenieur:innen, Architekt:innen, Künstler:innen, Journalist:innen, Lehrer:innen. 'Ähnliche Berufe' nur durch Einzelfall-Prüfung anerkannt." },
-        { begriff: "IHK-Pflichtmitgliedschaft", erklaerung: "Alle Gewerbetreibenden in DE sind Pflichtmitglied der IHK (oder HWK bei Handwerk). Kosten: Grundbeitrag 30-300 €/J + Umlage 0,1-0,3 % vom Gewerbeertrag. Befreiung bei Existenzgründer:innen mit Gewinn < 25.000 €/J (§3 IHKG)." },
+        { begriff: "Katalogberufe (§18 EStG)", erklaerung: "Eindeutig als freiberuflich anerkannte Berufe: Heilberufe, Rechts-/Steuerberatung, Ingenieur:innen, Architekt:innen, Journalist:innen u. a. Künstlerische, schriftstellerische und unterrichtende Arbeit sind keine Katalogberufe, sondern eigene freiberufliche Tätigkeiten im selben Absatz. 'Ähnliche Berufe' nur durch Einzelfall-Prüfung anerkannt." },
+        { begriff: "IHK-Pflichtmitgliedschaft", erklaerung: "Alle Gewerbetreibenden in DE sind Pflichtmitglied der IHK (oder HWK bei Handwerk). Eine Befreiung von der Mitgliedschaft gibt es nicht. Grundbeitrag und Umlage legt jede IHK in ihrer Wirtschaftssatzung fest. Ohne Handelsregistereintrag zahlst du bis 5.200 € Gewerbeertrag keinen Beitrag. Gründer:innen ohne Selbstständigkeit in den 5 Jahren davor sind im Gründungs- und Folgejahr bis 25.000 € ganz befreit, im 3. und 4. Jahr nur von der Umlage (§ 3 Abs. 3 IHKG)." },
         { begriff: "Berufsgenossenschaft", erklaerung: "Gesetzliche Unfallversicherung für Beschäftigte UND Selbstständige (Pflicht bei manchen Branchen, freiwillig sonst). Anmeldung binnen 1 Woche nach Gründung (§192 SGB VII). Beitrag richtet sich nach Beruf + Lohnsumme." },
       ].map((g) => (
         <div key={g.begriff} className="rounded-xl border border-border bg-secondary/40 p-4">

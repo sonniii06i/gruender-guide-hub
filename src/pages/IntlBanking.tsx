@@ -20,7 +20,7 @@ import {
 } from "lucide-react";
 
 // ============================================================
-// INTERNATIONAL BANKING · Stand Mai 2026 (Total-Refactor)
+// INTERNATIONAL BANKING · Stand Oktober 2026 (Total-Refactor Mai 2026, Aktualität 02.11.2026)
 // ============================================================
 // Verifizierte Quellen Mai 2026:
 // - Pricing: Issuer-Webseiten direkt (Mercury, Wise, Relay, Brex, Statrys,
@@ -97,7 +97,7 @@ const BANKS: Bank[] = [
     bestFor: "Solo-Founder / Freelancer ohne formale GmbH/LLC · USD/GBP/EUR-Multi-Currency · Kein Business-Account-Wunsch",
     pros: [
       "**€0 Setup-Fee, kein Monthly-Fee** — wirklich kostenlos",
-      "€20 typische Erst-Einzahlung für KYC ist die einzige Ausgabe",
+      "€20 typische Erst-Einzahlung für KYC, Debitkarte einmalig 7 EUR",
       "Multi-Currency-Wallets in 40+ Währungen",
       "USD-Routing + Account-Number → von Stripe/Amazon US akzeptiert",
       "Mid-Market-FX-Rate + ab 0,2 % Gebühr je nach Währung (deutlich besser als jede DE-Bank)",
@@ -106,13 +106,13 @@ const BANKS: Bank[] = [
     cons: [
       "Kein dedicated Business-Banking (kein Multi-User, kein API)",
       "Wenn DE-Finanzamt 'Geschäftskonto' verlangt: lieber Wise Business oder Qonto",
-      "Closure-Risk medium (NBB-Address-Proof-Sweep 2024-2026 traf auch Personal)",
+      "Closure-Risk medium (laut Nutzerberichten Address-Proof-Nachforderungen 2024–2026, auch bei Personal)",
     ],
     features: { multiCurrency: true, achWire: true, quickbooksXero: false, debitCard: true, apiAccess: false, crypto: false },
     setupRequirements: ["Pass / Personalausweis", "DE-Adress-Proof", "Selfie-Verification", "€20 Min-Top-up (sonst kein Card-Access)"],
     url: "https://wise.com/de",
     closureRisk: "medium",
-    closurePattern: "NBB-Address-Proof-Welle Q4 2024-Mai 2026; Crypto-Conversions triggern Freezes",
+    closurePattern: "Laut Nutzerberichten: Address-Proof-Welle Q4 2024 bis 2026; Crypto-Conversions triggern Freezes",
     freezeDuration: "14-60 Werktage",
     trustpilotRating: 4.3,
     trustpilotCount: "~289.000",
@@ -143,8 +143,8 @@ const BANKS: Bank[] = [
       "Mercury Bank N.A.: vorläufige bedingte OCC-Zusage April 2026; bis zur finalen Zulassung weiter Partnerbanken",
     ],
     cons: [
-      "**Closure-Wellen seit 2024**: 37+ Länder gesperrt (Ukraine, Nigeria, Venezuela etc.) — DE selbst safe",
-      "**Registered-Agent-Adressen seit 2025 NICHT mehr akzeptiert** → echte US-Adresse Pflicht (Mailbox-Provider mit Lease OK)",
+      "**Closure-Wellen seit 2024** (laut Nutzerberichten): zahlreiche Länder gesperrt (Ukraine, Nigeria, Venezuela etc.) — DE selbst safe",
+      "**Registered-Agent-Adressen laut Nutzerberichten NICHT akzeptiert** → echte US-Adresse Pflicht (Mailbox-Provider mit Lease OK)",
       "3 % FX-Gebühr auf non-USD-Kartenzahlungen (auch in EU einkaufen kostet 3 %); 1 % bei non-USD-Wires",
       "Mercury IO Credit Card nur für VC-funded — Solo gibt's nicht",
     ],
@@ -159,7 +159,7 @@ const BANKS: Bank[] = [
     ],
     url: "https://mercury.com",
     closureRisk: "high",
-    closurePattern: "Compliance-Sweeps gegen 'prohibited countries' (37 Länder), Crypto-Exchange-Transactions, plötzliche Volume-Spikes >$500k inbound. Registered-Agent-Adressen seit 2025 abgelehnt.",
+    closurePattern: "Laut Nutzerberichten: Compliance-Sweeps gegen 'prohibited countries', Crypto-Exchange-Transactions, plötzliche Volume-Spikes >$500k inbound. Registered-Agent-Adressen abgelehnt.",
     freezeDuration: "60 Tage Hold typisch, US-Residents 15 Werktage zum Withdraw, Non-US länger",
     trustpilotRating: 4.4,
     trustpilotCount: "~2.500",
@@ -190,7 +190,7 @@ const BANKS: Bank[] = [
     ],
     cons: [
       "**Setup-Fee einmalig (NICHT €20!)** — DE 55 €, US $31, UK £50 je Region",
-      "**Closure-Risk medium-high** seit NBB-Mandate Q4 2024 + Wise US $4.2M-Settlement 2025",
+      "**Closure-Risk medium-high** laut Nutzerberichten, seit dem Wise-US-Settlement über 4,2 Mio. $ (2025)",
       "Kein klassisches US-Bank-Konto (Geld liegt bei Wise, nicht bei US-Bank)",
       "Keine Kreditkarte (nur Debit)",
       "Manche US-Vendors verlangen 'echtes' US-Konto",
@@ -199,14 +199,14 @@ const BANKS: Bank[] = [
     setupRequirements: ["Pass + Steuer-ID", "Geschäftsadresse mit Address-Proof (LLC-Name muss drauf!)", "EIN (für USD-Konto-Features)", "Geschäftsmodell-Beschreibung", "Selfie + Live-Verification"],
     url: "https://wise.com/business",
     closureRisk: "high",
-    closurePattern: "Q4 2024-Mai 2026: NBB-Address-Proof-Sweep EU-weit; Q2 2025: US Wise Inc. SAR-Lookbacks; Crypto-Adjacent + Nominee-Structures + Multi-Entity-Profile = höchstes Risiko",
+    closurePattern: "Laut Nutzerberichten: Q4 2024 bis 2026 Address-Proof-Sweep EU-weit; Q2 2025: US Wise Inc. SAR-Lookbacks; Crypto-Adjacent + Nominee-Structures + Multi-Entity-Profile = höchstes Risiko",
     freezeDuration: "14-60 Werktage, teils Monate",
     trustpilotRating: 4.3,
     trustpilotCount: "~289.000",
     trustpilotUrl: "https://www.trustpilot.com/review/wise.com",
     g2Rating: 4.4,
     hiddenFees: [
-      "Address-Proof muss aktuell sein — nach NBB-Mandate regelmäßig neu verlangt!",
+      "Address-Proof muss aktuell sein — wird laut Nutzerberichten regelmäßig neu verlangt!",
       "Multi-Entity-Setups (mehrere LLCs/GmbHs unter selbem Director) deutlich höheres Closure-Risk",
       "Wise-Card-Withdrawal-Limit 250€/Mo, danach 2,69%",
       "KEIN FDIC-Schutz (Safeguarded ja, kein klassisches Insurance)",
@@ -263,21 +263,21 @@ const BANKS: Bank[] = [
       "Kreditkarte (kein Cash-Vorab nötig) — gut für Werbe-Spend",
       "Cashback + Reward-Punkte für Tech-Vendor-Spending (AWS, GCP)",
       "Beste Expense-Management-Tools im US-Banking",
-      "Treasury-Yield bis ~4,5%",
+      "Treasury-Yield 3,62 % bis 3,97 % (3,97 % erst ab 20 Mio. $; variabel, laut brex.com, Stand 02.11.2026)",
     ],
     cons: [
       "**Solo-Founder + Bootstrap typisch ABGELEHNT** seit Juni 2022 (Mass-Closure 'tens of thousands' SMBs)",
       "**$50.000 Cash-Balance Mindest** ODER VC-funded ODER $400k monthly revenue",
       "**Capital-One-Übernahme abgeschlossen 7. April 2026** — neue Risk-Models in Integration, Pricing kann kippen",
       "Trustpilot 2,9/5 — eine der schlechtesten in dieser Liste",
-      "Solo-DE-Founder = sehr hohe Ablehnungsquote",
+      "Solo-DE-Founder laut Nutzerberichten meist abgelehnt",
       "USD-only — kein Multi-Currency wie Wise/Airwallex",
     ],
     features: { multiCurrency: false, achWire: true, quickbooksXero: true, debitCard: true, apiAccess: true, crypto: false },
     setupRequirements: ["US-EIN", "US-Incorporation", "US-Operations-Beweis", "US-Physical-Address", "Funding-Round-Docs ODER Revenue-Statements ODER $50k Cash"],
     url: "https://brex.com",
     closureRisk: "very_high",
-    closurePattern: "Juni 2022 Mass-Closure SMBs/Solo-Bootstrap. 2023 Post-SVB-Welle. Dormant Accounts 3+ Monate, Card-Spend <$10k/mo, Web3/Token-Adjacent. Sofort-Closure mit 30-Tagen Withdraw-Window (kein Hold wie Mercury).",
+    closurePattern: "Laut Nutzerberichten: Juni 2022 Mass-Closure SMBs/Solo-Bootstrap. 2023 Post-SVB-Welle. Dormant Accounts 3+ Monate, Card-Spend <$10k/mo, Web3/Token-Adjacent. Sofort-Closure mit 30-Tagen Withdraw-Window (kein Hold wie Mercury).",
     freezeDuration: "Direkt-Closure, kein Hold (30 Tage zum Withdraw)",
     trustpilotRating: 2.9,
     trustpilotCount: "~700",
@@ -417,7 +417,7 @@ const BANKS: Bank[] = [
     region: "hk",
     emoji: "🏦",
     monthlyFee: "HKD 200/Mo (Sprint: 12 Monate frei, danach erlassen ab HKD 50k Ø-Saldo)",
-    setupFee: "HKD 10.000 Initial-Deposit",
+    setupFee: "Initial-Deposit (laut Nutzerberichten ca. HKD 10.000)",
     nonResident: "vor-ort-pflicht",
     bestFor: "Etablierte Companies mit HKD 50k+ Saldo + Chinageschäft + möglichem persönlichem HK-Besuch",
     pros: [
@@ -430,7 +430,7 @@ const BANKS: Bank[] = [
     ],
     cons: [
       "**★ Persönliche HK-Vorstellung Pflicht** (Flug + Hotel ~2-3k EUR)",
-      "**40-60% Ablehnungs-Quote** für Foreign Founders (laut Hongda Service Reports)",
+      "**Hohe Ablehnungsquote** für Foreign Founders (laut Dienstleister- und Nutzerberichten, keine offizielle Zahl)",
       "Strenge KYC seit 2018 (Cyprus-Files-Era)",
       "HKD 200/Mo Fall-Below-Fee wenn <HKD 50k Ø-Saldo (Sprint, ab Monat 13)",
       "Account-Reviews alle 12-24 Monate — komplette neue KYC-Runde",
@@ -496,7 +496,7 @@ const IntlBanking = () => {
 
   return (
     <CockpitShell
-      eyebrow="International Banking · Stand Mai 2026"
+      eyebrow="International Banking · Stand Oktober 2026"
       title="US- und HK-Banking für non-Resident Founder: verifizierter Vergleich"
       subtitle="Neun Anbieter (Mercury, Wise Personal und Business, Relay, Brex, Statrys, Airwallex, Currenxie, HSBC) mit echten Preisen 2026, Closure-Risiken aus Trustpilot, Reddit und OffshoreCorpTalk, versteckten Gebühren und Survival-Tipps."
     >
@@ -794,7 +794,7 @@ const IntlBanking = () => {
         </ToolSection>
 
         {/* Empfehlungs-Matrix */}
-        <ToolSection title="Banking-Empfehlung nach Profil" description="Stand Mai 2026" icon={Globe}>
+        <ToolSection title="Banking-Empfehlung nach Profil" description="Stand Oktober 2026" icon={Globe}>
           <div className="grid gap-3 md:grid-cols-2">
             <ProfilKarte titel="DE-Solo-Founder ohne US-LLC">
               Wise Personal (kostenlos!) für Multi-Currency-Wallets + DE-Geschäftsbank (Qonto/Sparkasse) für EUR-Ops
@@ -813,8 +813,10 @@ const IntlBanking = () => {
         </ToolSection>
 
         <p className="text-xs leading-relaxed text-muted-foreground">
-          <strong className="font-semibold text-foreground">Hinweis:</strong> Preise und Closure-Risiko Stand Mai 2026.
-          Quellen: Issuer-Pricing-Pages, Trustpilot, OffshoreCorpTalk, Reddit r/Entrepreneur, Hacker News, TechCrunch. Der
+          <strong className="font-semibold text-foreground">Hinweis:</strong> Preise Stand Oktober 2026, Closure-Risiko laut Nutzerberichten bis Mai 2026.
+          Quellen: Issuer-Pricing-Pages, Trustpilot, OffshoreCorpTalk, Reddit r/Entrepreneur, Hacker News, TechCrunch.
+          Trustpilot-Werte, Closure-Muster, Freeze-Dauern und Ablehnungsquoten sind Nutzer- und Erfahrungsberichte, keine
+          Angaben der Anbieter; die Trustpilot-Werte sind nicht live nachgeprüft. Der
           Onboarding-Erfolg ist nicht garantiert (Bank-eigenes Risk-Scoring). Bei US-LLC-Setup zwingend diese Reihenfolge:
           erst LLC-Filing, dann EIN, DANN Bank-Account-Antrag (BOI seit März 2025 NICHT mehr Pflicht).{" "}
           <strong className="font-semibold text-foreground">Preis-Variabilität:</strong> Wise Personal kostet €0 Setup
@@ -828,26 +830,26 @@ const IntlBanking = () => {
 
 const SURVIVAL_TIPPS: [string, string][] = [
   ["Dokumente konsistent halten", "Address, ID, EIN über alle Banken identisch (selbst ein Tippfehler kann ein Mercury-Review triggern)"],
-  ["Niemals Registered-Agent als Principal Office", "Mercury akzeptiert seit 2025 keine Registered-Agent-Adressen mehr. iPostal1/Earth Class Mail mit echtem Lease OK; UPS-Store/PO Box abgelehnt"],
+  ["Niemals Registered-Agent als Principal Office", "Mercury akzeptiert laut Nutzerberichten keine Registered-Agent-Adressen. iPostal1/Earth Class Mail mit echtem Lease OK; UPS-Store/PO Box abgelehnt"],
   ["Multi-Bank-Strategie", "Mind. 2 Banken, max. 70 % Cash-Bestand in einer Bank"],
   ["Saubere KYB-Story", "Business-Description, Customer-Liste, Supplier-Liste, Source-of-Funds (bei Statrys/HSBC zwingend)"],
   ["Keine Crypto-Bridge ohne Lizenz", "Plötzliche Coinbase/Binance/Kraken-Conversions sind Top-Closure-Trigger 2024 bis 2026"],
   ["Multi-Entity-Risiko vermeiden", "Mehrere LLCs/GmbHs unter selbem UBO an derselben Bank = höchstes Closure-Risiko. Pro Entity eine Bank"],
   ["RFI binnen 24h beantworten", "Ignorierte RFIs führen zu Auto-Closure binnen 14 bis 30 Tagen"],
   ["Volume-Spikes ankündigen", "Bei $200k+ erwartetem Inbound vorher Compliance kontaktieren (Mercury, Wise, Airwallex bieten proaktiven Outreach)"],
-  ["Prohibited-Countries vermeiden", "Auch nur als Empfänger/Sender. Mercurys Liste umfasst 37 Länder"],
+  ["Prohibited-Countries vermeiden", "Auch nur als Empfänger/Sender. Mercury führt eine eigene Liste gesperrter Länder"],
   ["Bei Closure-Notice sofort handeln", "Abheben per Wire (nicht ACH, Wire ist schneller). Mercury: 15-Werktage-Fenster für US-Residents"],
-  ["Address-Proof aktuell halten", "Nach dem NBB-Mandate Q4 2024 verlangt Wise regelmäßig neue Address-Proofs. Versäumnis = sofortiger Freeze"],
+  ["Address-Proof aktuell halten", "Wise verlangt laut Nutzerberichten regelmäßig neue Address-Proofs. Versäumnis = sofortiger Freeze"],
   ["HSBC HK: Account-Review alle 12 bis 24 Monate proaktiv vorbereiten", "Komplette neue KYC-Runde, sonst Account-Closure"],
 ];
 
 const COMPLIANCE_UPDATES: [string, string][] = [
-  ["BOI-Filing US (FinCEN)", "21.3.2025: alle US-Companies und US-Persons von BOI-Reporting BEFREIT. Foreign Reporting Companies bleiben pflichtig"],
-  ["Mercury OCC-Charter", "April 2026 conditional Approval, Übergang weg vom Partner-Banking. Aktuelle Partner: Choice Financial Group und Column N.A."],
+  ["BOI-Filing US (FinCEN)", "21.3.2025: alle US-Companies und US-Persons von BOI-Reporting BEFREIT, seit der Final Rule vom 11.8.2026 dauerhaft. Foreign Reporting Companies bleiben pflichtig"],
+  ["Mercury OCC-Charter", "24.04.2026 vorläufige bedingte OCC-Zusage; bis zur finalen Zulassung weiter Partnerbanken. Aktuelle Partner: Choice Financial Group und Column N.A."],
   ["Capital One übernimmt Brex", "Closed 7.4.2026 ($5.15B). Eligibility und Pricing können 2026/2027 kippen"],
-  ["HKMA Stablecoin-Lizenz", "10.4.2026: HSBC und Anchorpoint erste Lizenzen. Travel-Rule ab HK$8.000 verschärft KYC für alle HK-Banken"],
-  ["Wise US $4.2M Settlement (2025)", "SAR-Lookbacks und strengere AML, Closure-Welle Q4 2025/Q1 2026"],
-  ["NBB Wise Remediation Plan (Q4 2024)", "Address-Proof-Sweep EU-weit, tausende Freezes 2025 bis 2026"],
+  ["HKMA Stablecoin-Lizenz", "10.4.2026: HSBC und Anchorpoint erste Lizenzen"],
+  ["Wise US $4.2M Settlement (2025)", "Strengere AML-Auflagen; laut Nutzerberichten Closure-Welle Q4 2025/Q1 2026"],
+  ["NBB Wise Remediation Plan (Q4 2024)", "Laut Nutzerberichten Address-Proof-Sweep EU-weit mit vielen Freezes 2025 bis 2026"],
 ];
 
 const ProfilKarte = ({ titel, tone = "neutral", children }: { titel: string; tone?: "neutral" | "danger"; children: ReactNode }) => (

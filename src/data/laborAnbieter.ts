@@ -158,7 +158,7 @@ export const LABORE: Labor[] = [
     url: "https://www.tuvsud.com",
     country: "DE",
     city: "München, Garching, Straubing",
-    establishedSince: "1866 (DÜV München)",
+    establishedSince: "1866 (Mannheim)",
     tier: "spezialist",
     testCategories: ["rohs", "reach", "ce_emv", "battery", "toys"],
     accreditation: ["ISO 17025 (DAkkS)", "Notified Body 0123", "IECEE CB Scheme", "GS-Zeichen"],
@@ -1279,7 +1279,7 @@ export const USE_CASE_STACKS: UseCaseStack[] = [
       { laborId: "tentamus", rolle: "Mikrobio + Wirkstoffgehalt (HPLC) + Stabilität" },
       { laborId: "agrolab", rolle: "Pestizid-Gold-Package + Schwermetalle" },
       { laborId: "romer_labs", rolle: "Mykotoxine bei Getreide/Curcuma/Mariendistel" },
-      { laborId: "intertek_de", rolle: "Health-Claim-Belege (BfR-konforme Bewertung)" },
+      { laborId: "intertek_de", rolle: "Health-Claim-Belege (nach Health-Claims-VO (EG) 1924/2006)" },
     ],
     kostenBallpark: "1.200-3.000€ pro Batch",
     kostenBreakdown: [
