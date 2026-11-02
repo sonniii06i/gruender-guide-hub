@@ -163,3 +163,22 @@ export function rankItems<T>(items: T[], getText: (t: T) => string, ctx: MatchCo
     .slice(0, limit)
     .map((s) => s.it);
 }
+
+/**
+ * Ratgeber, die auf einer Tool-Landing zuerst stehen sollen (Tool-Slug → Ratgeber-Slugs).
+ * Der Token-Ranker allein findet neue Artikel mit wenigen Tags nicht (SEO 02.11.2026:
+ * „Kleingewerbe anmelden“ stand auf keiner Tool-Seite, die Redaktion meldete fehlende
+ * Rückverlinkung vom Gewerbeanmeldung-Wizard). Nur fachlich eindeutige Paare eintragen.
+ */
+export const RATGEBER_VORRANG: Record<string, string[]> = {
+  "gewerbeanmeldung-wizard": ["kleingewerbe-anmelden"],
+  "gewerbe-check": ["kleingewerbe-anmelden"],
+};
+
+/** Setzt vorhandene Vorrang-Artikel an den Anfang, entfernt Dubletten, kürzt auf `limit`. */
+export function mitVorrang<T extends { slug: string }>(alle: T[], gerankt: T[], vorrang: string[] | undefined, limit: number): T[] {
+  if (!vorrang?.length) return gerankt.slice(0, limit);
+  const vorne = vorrang.map((s) => alle.find((p) => p.slug === s)).filter((p): p is T => !!p);
+  const gesehen = new Set(vorne.map((p) => p.slug));
+  return [...vorne, ...gerankt.filter((p) => !gesehen.has(p.slug))].slice(0, limit);
+}

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { BookOpen, Clock } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { rankItems, type MatchContext } from "@/lib/internalLinks";
+import { mitVorrang, rankItems, type MatchContext } from "@/lib/internalLinks";
 import { prerenderDaten, prerenderDatenMerken } from "@/lib/prerender";
 
 interface PostSummary {
@@ -21,7 +21,7 @@ const postText = (p: PostSummary) => `${p.title} ${p.excerpt} ${(p.tags ?? []).j
  * Lädt veröffentlichte Blog-Posts und rankt sie per Token-Overlap zum Kontext.
  * Rendert nichts, wenn keine passenden Artikel existieren.
  */
-export const RelatedArticles = ({ context, limit = 3 }: { context: MatchContext; limit?: number }) => {
+export const RelatedArticles = ({ context, limit = 3, vorrang }: { context: MatchContext; limit?: number; vorrang?: string[] }) => {
   // Treffer, mit denen die Seite prerendert wurde (src/lib/prerender.ts). Ohne
   // sie rendert der erste Durchlauf nichts, das HTML aber die Liste -> die
   // Hydration scheiterte auf jeder Guide-/Tool-Landing mit passenden Artikeln.
@@ -41,7 +41,7 @@ export const RelatedArticles = ({ context, limit = 3 }: { context: MatchContext;
         .limit(200);
       const liste = (data ?? []) as PostSummary[];
       // Vor dem setState merken: Der Prerender greift ab, sobald der Marker weg ist.
-      prerenderDatenMerken(key, rankItems(liste, postText, context, limit));
+      prerenderDatenMerken(key, mitVorrang(liste, rankItems(liste, postText, context, limit), vorrang, limit));
       if (!cancelled) setPosts(liste);
     })();
     return () => {
@@ -51,7 +51,7 @@ export const RelatedArticles = ({ context, limit = 3 }: { context: MatchContext;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const matched = posts ? rankItems(posts, postText, context, limit) : start;
+  const matched = posts ? mitVorrang(posts, rankItems(posts, postText, context, limit), vorrang, limit) : start;
 
   // Signal an scripts/prerender.mjs: erst abgreifen, wenn die Artikel da sind.
   if (!matched) return <span hidden data-prerender-pending />;

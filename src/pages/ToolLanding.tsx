@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { LandingPage, type LandingFaq } from "@/components/landing/LandingPage";
 import { findLandingTool, relatedLandingTools } from "@/data/features";
 import { toolDaten } from "@/lib/landingDaten";
-import { relatedGuidesFor } from "@/lib/internalLinks";
+import { RATGEBER_VORRANG, relatedGuidesFor } from "@/lib/internalLinks";
 import { RelatedArticles } from "@/components/landing/RelatedArticles";
 import { Gift, ArrowRight } from "lucide-react";
 import { TRIAL_TOOL_BY_SLUG, TRIAL_CLAIM } from "@/lib/freetools/trialTools";
@@ -164,7 +164,7 @@ const ToolLanding = () => {
             titel="Fristen & Änderungen, die dich betreffen"
             text="Wir melden uns kurz, bevor eine Steuerfrist abläuft oder sich für Gründer etwas ändert (z. B. neue Pflichten, Förderungen, Gebühren) – höchstens zwei Mails pro Woche, meist seltener."
           />
-          <RelatedArticles context={matchCtx} />
+          <RelatedArticles context={matchCtx} vorrang={RATGEBER_VORRANG[slug]} />
         </>
       }
     />
