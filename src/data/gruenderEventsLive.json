@@ -1,78 +1,78 @@
 {
- "stand": "2026-11-01T11:20:19.060Z",
+ "stand": "2026-11-02T12:30:27.096Z",
  "quellen": {
   "gruendungswoche": {
    "ok": true,
-   "roh": 696,
+   "roh": 694,
    "verworfen": {
-    "kommerzielle Online-Serie": 203
+    "kommerzielle Online-Serie": 198
    },
-   "letzterErfolg": "2026-11-01T11:19:15.709Z"
+   "letzterErfolg": "2026-11-02T12:29:29.972Z"
   },
   "luma": {
    "ok": true,
-   "roh": 718,
+   "roh": 730,
    "verworfen": {
-    "nicht in Deutschland": 180,
-    "kein Gründer-/Tech-Bezug": 264
+    "nicht in Deutschland": 185,
+    "kein Gründer-/Tech-Bezug": 265
    },
-   "letzterErfolg": "2026-11-01T11:19:24.576Z"
+   "letzterErfolg": "2026-11-02T12:29:38.692Z"
   },
   "meetup": {
    "ok": true,
    "roh": 45,
    "verworfen": {},
-   "letzterErfolg": "2026-11-01T11:19:34.006Z"
+   "letzterErfolg": "2026-11-02T12:29:47.564Z"
   },
   "hackathonhub": {
    "ok": true,
    "roh": 72,
    "verworfen": {},
-   "letzterErfolg": "2026-11-01T11:19:34.583Z"
+   "letzterErfolg": "2026-11-02T12:29:47.816Z"
   },
   "gdg": {
    "ok": true,
-   "roh": 901,
+   "roh": 914,
    "verworfen": {},
-   "letzterErfolg": "2026-11-01T11:19:45.095Z"
+   "letzterErfolg": "2026-11-02T12:29:56.776Z"
   },
   "munich-startup": {
    "ok": true,
-   "roh": 81,
+   "roh": 82,
    "verworfen": {},
-   "letzterErfolg": "2026-11-01T11:19:48.827Z"
+   "letzterErfolg": "2026-11-02T12:30:00.496Z"
   },
   "startplatz": {
    "ok": true,
    "roh": 71,
    "verworfen": {},
-   "letzterErfolg": "2026-11-01T11:19:50.360Z"
+   "letzterErfolg": "2026-11-02T12:30:01.881Z"
   },
   "startupcity-hamburg": {
    "ok": true,
-   "roh": 64,
+   "roh": 69,
    "verworfen": {},
-   "letzterErfolg": "2026-11-01T11:19:51.385Z"
+   "letzterErfolg": "2026-11-02T12:30:02.770Z"
   },
   "startup-bw": {
    "ok": true,
-   "roh": 35,
+   "roh": 36,
    "verworfen": {
     "unlesbar": 1
    },
-   "letzterErfolg": "2026-11-01T11:19:52.552Z"
+   "letzterErfolg": "2026-11-02T12:30:03.856Z"
   },
   "starthub-hessen": {
    "ok": true,
    "roh": 61,
    "verworfen": {},
-   "letzterErfolg": "2026-11-01T11:20:00.006Z"
+   "letzterErfolg": "2026-11-02T12:30:09.918Z"
   },
   "startupverband": {
    "ok": true,
    "roh": 59,
    "verworfen": {},
-   "letzterErfolg": "2026-11-01T11:20:02.003Z"
+   "letzterErfolg": "2026-11-02T12:30:11.637Z"
   },
   "dev-events": {
    "ok": true,
@@ -80,29 +80,29 @@
    "verworfen": {
     "kein Gründer-/Tech-Bezug": 84
    },
-   "letzterErfolg": "2026-11-01T11:20:05.616Z"
+   "letzterErfolg": "2026-11-02T12:30:14.598Z"
   },
   "ki-communities": {
    "ok": true,
    "roh": 50,
    "verworfen": {},
-   "letzterErfolg": "2026-11-01T11:20:19.046Z"
+   "letzterErfolg": "2026-11-02T12:30:27.072Z"
   }
  },
  "verworfen": {
   "vorbei": 45,
   "mehr als 9 Monate voraus": 5,
   "Dauerangebot (ohne Termin geführt)": 9,
-  "Serientermin zusammengefasst": 235,
+  "Serientermin zusammengefasst": 234,
   "Dublette über Quellen": 25
  },
  "regionKorrektur": {
   "umbenannt": 19,
   "unbekannt": 0,
-  "ueberStadt": 14,
+  "ueberStadt": 15,
   "blieb_bund": 12
  },
- "anzahl": 829,
+ "anzahl": 843,
  "events": [
   {
    "slug": "gruendungswoche-7kjqpe",
@@ -189,36 +189,6 @@
    "entdeckt": "2026-10-30"
   },
   {
-   "slug": "luma-18y7mwj",
-   "quelle": "luma",
-   "name": "YC W27 Deadline Eve: Founders Panel & Drinks",
-   "veranstalter": "Julian Jungnitz",
-   "art": "netzwerk",
-   "format": "vor-ort",
-   "ort": "München",
-   "region": "BY",
-   "datum": "2026-11-01",
-   "kostenlos": true,
-   "url": "https://luma.com/ahuj0yoy",
-   "kurz": "Event in München, gelistet auf Luma.",
-   "entdeckt": "2026-11-01"
-  },
-  {
-   "slug": "gruendungswoche-1e6c3kp",
-   "quelle": "gruendungswoche",
-   "name": "Bewerbungsstart für das Gründungsstipendium MGZstart 2027",
-   "veranstalter": "Mediengründerzentrum NRW",
-   "art": "webinar",
-   "format": "online",
-   "ort": "online",
-   "region": "online",
-   "datum": "2026-11-02",
-   "weitereTermine": 56,
-   "url": "https://www.gruendungswoche.de/veranstaltungen/veranstaltungskalender/detail/event/bewerbungsstart-fuer-das-gruendungsstipendium-mgzstart-2027/",
-   "kurz": "Gründungsangebot von Mediengründerzentrum NRW – online.",
-   "entdeckt": "2026-10-14"
-  },
-  {
    "slug": "gruendungswoche-13l1001",
    "quelle": "gruendungswoche",
    "name": "LUNCH & TALK - Mittagessen und Austausch mit unseren Start-ups und uns",
@@ -293,20 +263,6 @@
    "entdeckt": "2026-10-20"
   },
   {
-   "slug": "startupcity-hamburg-558je2",
-   "quelle": "startupcity-hamburg",
-   "name": "Deep Dive: How to start in Hamburg",
-   "veranstalter": "Startup City Hamburg",
-   "art": "netzwerk",
-   "format": "vor-ort",
-   "ort": "Hamburg",
-   "region": "HH",
-   "datum": "2026-11-02",
-   "url": "https://startupcity.hamburg/news-events/events/how-to-start-in-hamburg-deep-dive-of-startup-city-hamburg-and-hamburg-invest",
-   "kurz": "Event in Hamburg – gelistet bei Startup City Hamburg.",
-   "entdeckt": "2026-10-07"
-  },
-  {
    "slug": "startupcity-hamburg-1ost4wn",
    "quelle": "startupcity-hamburg",
    "name": "Sales training for entrepreneurs from the academic world",
@@ -375,6 +331,21 @@
    "url": "https://www.starthub-hessen.de/de/events/mit-ki-zum-business-model-canvas/",
    "kurz": "Event in Hessen – gelistet bei StartHub Hessen.",
    "entdeckt": "2026-10-29"
+  },
+  {
+   "slug": "gruendungswoche-1e6c3kp",
+   "quelle": "gruendungswoche",
+   "name": "Bewerbungsstart für das Gründungsstipendium MGZstart 2027",
+   "veranstalter": "Mediengründerzentrum NRW",
+   "art": "webinar",
+   "format": "online",
+   "ort": "online",
+   "region": "online",
+   "datum": "2026-11-03",
+   "weitereTermine": 54,
+   "url": "https://www.gruendungswoche.de/veranstaltungen/veranstaltungskalender/detail/event/bewerbungsstart-fuer-das-gruendungsstipendium-mgzstart-2027/",
+   "kurz": "Gründungsangebot von Mediengründerzentrum NRW – online.",
+   "entdeckt": "2026-10-14"
   },
   {
    "slug": "gruendungswoche-10t11oq",
@@ -942,20 +913,6 @@
    "url": "https://startupcity.hamburg/news-events/events/how-to-grow-biotech-startups",
    "kurz": "Event in Hamburg – gelistet bei Startup City Hamburg.",
    "entdeckt": "2026-10-29"
-  },
-  {
-   "slug": "startupcity-hamburg-1dwd6a",
-   "quelle": "startupcity-hamburg",
-   "name": "hei.breakfast local: The hei. is coming round!",
-   "veranstalter": "Startup City Hamburg",
-   "art": "netzwerk",
-   "format": "vor-ort",
-   "ort": "Hamburg",
-   "region": "HH",
-   "datum": "2026-11-04",
-   "url": "https://startupcity.hamburg/news-events/events/heibreakfast-local-the-hei-is-coming-round",
-   "kurz": "Event in Hamburg – gelistet bei Startup City Hamburg.",
-   "entdeckt": "2026-10-22"
   },
   {
    "slug": "startupcity-hamburg-ru7lxx",
@@ -1779,9 +1736,9 @@
    "entdeckt": "2026-10-10"
   },
   {
-   "slug": "luma-1g7gv6e",
+   "slug": "luma-1sda3uq",
    "quelle": "luma",
-   "name": "Founders Running Club :: Berlin 🏃‍♀️🏃‍♂️ (+ Bachata class! 💃🕺)",
+   "name": "Founders Running Club :: Berlin 🏃‍♀️🏃‍♂️ x Needle collab",
    "veranstalter": "Founders Running Club",
    "art": "netzwerk",
    "format": "vor-ort",
@@ -1791,7 +1748,7 @@
    "kostenlos": true,
    "url": "https://luma.com/ad9osgf1",
    "kurz": "Event in Berlin, gelistet auf Luma (Founders Running Club).",
-   "entdeckt": "2026-10-29"
+   "entdeckt": "2026-11-02"
   },
   {
    "slug": "luma-wo77hw",
@@ -1807,6 +1764,21 @@
    "url": "https://luma.com/r2ncxi15",
    "kurz": "Event in München, gelistet auf Luma (Founders Running Club).",
    "entdeckt": "2026-10-10"
+  },
+  {
+   "slug": "luma-14hr020",
+   "quelle": "luma",
+   "name": "Scientist to Founder: Physical Innovation Edition",
+   "veranstalter": "Conception X",
+   "art": "netzwerk",
+   "format": "vor-ort",
+   "ort": "Berlin",
+   "region": "BE",
+   "datum": "2026-11-07",
+   "kostenlos": true,
+   "url": "https://luma.com/concep-ngsf",
+   "kurz": "Event in Berlin, gelistet auf Luma (Conception X).",
+   "entdeckt": "2026-11-02"
   },
   {
    "slug": "luma-f9p1gs",
@@ -2694,6 +2666,20 @@
    "entdeckt": "2026-10-16"
   },
   {
+   "slug": "startupcity-hamburg-sonk67",
+   "quelle": "startupcity-hamburg",
+   "name": "LogisticsTech Talks featuring cargo.one, Levity AI & Startup pitches",
+   "veranstalter": "Startup City Hamburg",
+   "art": "netzwerk",
+   "format": "vor-ort",
+   "ort": "Hamburg",
+   "region": "HH",
+   "datum": "2026-11-11",
+   "url": "https://startupcity.hamburg/news-events/events/logisticstech-talks-featuring-cargoone-levity-ai-startup-pitches",
+   "kurz": "Event in Hamburg – gelistet bei Startup City Hamburg.",
+   "entdeckt": "2026-11-02"
+  },
+  {
    "slug": "startup-bw-1ox4260",
    "quelle": "startup-bw",
    "name": "Start-up BW Elevator Pitch Vorentscheid: START(C)UP Bodensee",
@@ -3558,6 +3544,20 @@
    "entdeckt": "2026-10-10"
   },
   {
+   "slug": "startupcity-hamburg-1xrwf3j",
+   "quelle": "startupcity-hamburg",
+   "name": "Founders Court Main Event #3",
+   "veranstalter": "Startup City Hamburg",
+   "art": "netzwerk",
+   "format": "vor-ort",
+   "ort": "Hamburg",
+   "region": "HH",
+   "datum": "2026-11-13",
+   "url": "https://startupcity.hamburg/news-events/events/founders-court-main-event-3",
+   "kurz": "Event in Hamburg – gelistet bei Startup City Hamburg.",
+   "entdeckt": "2026-11-02"
+  },
+  {
    "slug": "gruendungswoche-bsaogb",
    "quelle": "gruendungswoche",
    "name": "Gut vorbereitet in die Zukunft: Ihre Betriebsnachfolge clever planen",
@@ -3799,7 +3799,7 @@
    "ort": "Berlin",
    "region": "BE",
    "datum": "2026-11-14",
-   "url": "https://gdg.community.dev/events/details/google-gdg-berlin-presents-devfest-berlin-2026-1/",
+   "url": "https://gdg.community.dev/events/details/google-gdg-berlin-presents-devfest-berlin-2026/",
    "kurz": "Event in Berlin – gelistet bei Google Developer Groups.",
    "entdeckt": "2026-10-07"
   },
@@ -4858,6 +4858,20 @@
    "entdeckt": "2026-10-07"
   },
   {
+   "slug": "gruendungswoche-1xtail4",
+   "quelle": "gruendungswoche",
+   "name": "Experten beraten am Telefon",
+   "veranstalter": "Handwerkskammer der Pfalz",
+   "art": "webinar",
+   "format": "online",
+   "ort": "online",
+   "region": "online",
+   "datum": "2026-11-17",
+   "url": "https://www.gruendungswoche.de/veranstaltungen/veranstaltungskalender/detail/event/experten-beraten-am-telefon-4/",
+   "kurz": "Gründungsangebot von Handwerkskammer der Pfalz – online.",
+   "entdeckt": "2026-11-02"
+  },
+  {
    "slug": "gruendungswoche-1dn32op",
    "quelle": "gruendungswoche",
    "name": "Wo Ideen zu Produkten werden",
@@ -5236,6 +5250,20 @@
    "url": "https://www.gruendungswoche.de/veranstaltungen/veranstaltungskalender/detail/event/das-einmaleins-der-gewerblichen-schutzrechte-1/",
    "kurz": "Gründungsangebot von Starthaus Bremen & Bremerhaven, ein Segment der BAB - die Förderbank für Bremen und Bremerhaven in Bremen.",
    "entdeckt": "2026-10-07"
+  },
+  {
+   "slug": "gruendungswoche-re524y",
+   "quelle": "gruendungswoche",
+   "name": "Basiswissen Existenzgründung",
+   "veranstalter": "IHK Flensburg",
+   "art": "webinar",
+   "format": "online",
+   "ort": "online",
+   "region": "online",
+   "datum": "2026-11-17",
+   "url": "https://www.gruendungswoche.de/veranstaltungen/veranstaltungskalender/detail/event/basiswissen-existenzgruendung-5/",
+   "kurz": "Gründungsangebot von IHK Flensburg – online.",
+   "entdeckt": "2026-11-02"
   },
   {
    "slug": "gruendungswoche-12cmp0a",
@@ -5774,6 +5802,21 @@
    "entdeckt": "2026-10-14"
   },
   {
+   "slug": "luma-1teqajs",
+   "quelle": "luma",
+   "name": "Deep dive: Recursive self-improvement, and what it may mean for humanity, with Julian Schulz",
+   "veranstalter": "AI Safety Berlin",
+   "art": "netzwerk",
+   "format": "vor-ort",
+   "ort": "Berlin",
+   "region": "BE",
+   "datum": "2026-11-17",
+   "kostenlos": true,
+   "url": "https://luma.com/vaq2b1ah",
+   "kurz": "Event in Berlin, gelistet auf Luma (AI Safety Berlin).",
+   "entdeckt": "2026-11-02"
+  },
+  {
    "slug": "luma-1pj4037",
    "quelle": "luma",
    "name": "BLISS AI Speaker Series: Safety and Security of LLM Reasoning - Jonas Geiping",
@@ -5860,6 +5903,20 @@
    "url": "https://startupcity.hamburg/news-events/events/lead-generation-workshop-how-to-successfully-attract-customers-1",
    "kurz": "Event in Hamburg – gelistet bei Startup City Hamburg.",
    "entdeckt": "2026-10-07"
+  },
+  {
+   "slug": "startupcity-hamburg-i6d5ee",
+   "quelle": "startupcity-hamburg",
+   "name": "Webinar: The research allowance as a plannable funding instrument",
+   "veranstalter": "Startup City Hamburg",
+   "art": "gruenderabend",
+   "format": "vor-ort",
+   "ort": "Hamburg",
+   "region": "HH",
+   "datum": "2026-11-17",
+   "url": "https://startupcity.hamburg/news-events/events/webinar-the-research-allowance-as-a-predictable-funding-instrument",
+   "kurz": "Event in Hamburg – gelistet bei Startup City Hamburg.",
+   "entdeckt": "2026-11-02"
   },
   {
    "slug": "startupcity-hamburg-1wow8o7",
@@ -6502,7 +6559,7 @@
    "ort": "online",
    "region": "online",
    "datum": "2026-11-18",
-   "url": "https://www.gruendungswoche.de/veranstaltungen/veranstaltungskalender/detail/event/onlineseminar-gruenderwissen-onlinemarketing/",
+   "url": "https://www.gruendungswoche.de/veranstaltungen/veranstaltungskalender/detail/event/onlineseminar-gruenderwissen-onlinemarketing-1/",
    "kurz": "Veranstaltung von merkur-start up GmbH – online.",
    "entdeckt": "2026-10-30"
   },
@@ -6975,6 +7032,20 @@
    "url": "https://startupcity.hamburg/news-events/events/recruiting-for-growth-building-your-startup-team-18-11",
    "kurz": "Event in Hamburg – gelistet bei Startup City Hamburg.",
    "entdeckt": "2026-10-21"
+  },
+  {
+   "slug": "startupcity-hamburg-1r3rhzc",
+   "quelle": "startupcity-hamburg",
+   "name": "Shaping the digital future together",
+   "veranstalter": "Startup City Hamburg",
+   "art": "netzwerk",
+   "format": "vor-ort",
+   "ort": "Hamburg",
+   "region": "HH",
+   "datum": "2026-11-18",
+   "url": "https://startupcity.hamburg/news-events/events/shaping-the-digital-future-together",
+   "kurz": "Event in Hamburg – gelistet bei Startup City Hamburg.",
+   "entdeckt": "2026-11-02"
   },
   {
    "slug": "startupcity-hamburg-1nqgd3h",
@@ -7933,6 +8004,20 @@
    "entdeckt": "2026-10-30"
   },
   {
+   "slug": "gruendungswoche-pckcuw",
+   "quelle": "gruendungswoche",
+   "name": "Inspiration für deinen Weg: Online-Speeddating mit Unternehmerinnen",
+   "veranstalter": "Initiative FRAUEN unternehmen - Geschäftsstelle -, c/o Prospektiv GmbH",
+   "art": "webinar",
+   "format": "online",
+   "ort": "online",
+   "region": "online",
+   "datum": "2026-11-19",
+   "url": "https://www.gruendungswoche.de/veranstaltungen/veranstaltungskalender/detail/event/inspiration-fuer-deinen-weg-online-speeddating-mit-unternehmerinnen/",
+   "kurz": "Veranstaltung von Initiative FRAUEN unternehmen - Geschäftsstelle -, c/o Prospektiv GmbH – online.",
+   "entdeckt": "2026-11-02"
+  },
+  {
    "slug": "gruendungswoche-f90ubr",
    "quelle": "gruendungswoche",
    "name": "„Gründen ungeschminkt: Die 1:1-Krisensprechstunde für Jungunternehmer“",
@@ -8286,7 +8371,7 @@
    "region": "BW",
    "datum": "2026-11-19",
    "datumBis": "2026-11-20",
-   "url": "https://www.startupbw.de/events-wettbewerbe/landesweiter-veranstaltungskalender/veranstaltung/gruendungswochenende-in-tuebingen",
+   "url": "https://www.startupbw.de/events-wettbewerbe/landesweiter-veranstaltungskalender/veranstaltung/dritter-demo-day-beim-accelerator-foodbrycke",
    "kurz": "Event in Baden-Württemberg – gelistet bei Start-up BW.",
    "entdeckt": "2026-10-22"
   },
@@ -8359,6 +8444,20 @@
    "url": "https://www.gruendungswoche.de/veranstaltungen/veranstaltungskalender/detail/event/business-fruehstueck-1/",
    "kurz": "Gründungsangebot von IHK Nordschwarzwald in Pforzheim.",
    "entdeckt": "2026-10-07"
+  },
+  {
+   "slug": "gruendungswoche-ts7oqk",
+   "quelle": "gruendungswoche",
+   "name": "Gut gegründet, richtig versichert – welche Absicherung brauche ich wirklich?",
+   "veranstalter": "Handwerkskammer Kassel",
+   "art": "gruenderabend",
+   "format": "vor-ort",
+   "ort": "Kassel",
+   "region": "HE",
+   "datum": "2026-11-20",
+   "url": "https://www.gruendungswoche.de/veranstaltungen/veranstaltungskalender/detail/event/gut-gegruendet-richtig-versichert-welche-absicherung-brauche-ich-wirklich/",
+   "kurz": "Gründungsangebot von Handwerkskammer Kassel in Kassel.",
+   "entdeckt": "2026-11-02"
   },
   {
    "slug": "gruendungswoche-1ux9or9",
@@ -8876,6 +8975,20 @@
    "url": "https://startupcity.hamburg/news-events/events/taktgefuhl-leadership-under-uncertainty-at-few",
    "kurz": "Event in Hamburg – gelistet bei Startup City Hamburg.",
    "entdeckt": "2026-10-29"
+  },
+  {
+   "slug": "startup-bw-of2m8a",
+   "quelle": "startup-bw",
+   "name": "Dritter Demo Day beim Accelerator FoodBRYCKE",
+   "veranstalter": "Start-up BW (Landeskalender)",
+   "art": "konferenz",
+   "format": "vor-ort",
+   "ort": "Baden-Württemberg",
+   "region": "BW",
+   "datum": "2026-11-20",
+   "url": "https://www.startupbw.de/events-wettbewerbe/landesweiter-veranstaltungskalender/veranstaltung/gruendungswochenende-in-tuebingen",
+   "kurz": "Event in Baden-Württemberg – gelistet bei Start-up BW.",
+   "entdeckt": "2026-11-02"
   },
   {
    "slug": "gruendungswoche-tixyjw",
@@ -9643,6 +9756,20 @@
    "entdeckt": "2026-10-07"
   },
   {
+   "slug": "startupcity-hamburg-e8agbe",
+   "quelle": "startupcity-hamburg",
+   "name": "13th Business Day 2026 in Altona – Altona innovative",
+   "veranstalter": "Startup City Hamburg",
+   "art": "netzwerk",
+   "format": "vor-ort",
+   "ort": "Hamburg",
+   "region": "HH",
+   "datum": "2026-11-25",
+   "url": "https://startupcity.hamburg/news-events/events/13th-business-day-2026-in-altona-altona-innovative",
+   "kurz": "Event in Hamburg – gelistet bei Startup City Hamburg.",
+   "entdeckt": "2026-11-02"
+  },
+  {
    "slug": "startupcity-hamburg-1gs37wm",
    "quelle": "startupcity-hamburg",
    "name": "Search. Find. Start a business: co-founder wanted!",
@@ -10142,6 +10269,21 @@
    "entdeckt": "2026-10-30"
   },
   {
+   "slug": "luma-1p7kp9c",
+   "quelle": "luma",
+   "name": "Road to START Hack 2026",
+   "veranstalter": "START Nuremberg",
+   "art": "hackathon",
+   "format": "vor-ort",
+   "ort": "Nürnberg",
+   "region": "BY",
+   "datum": "2026-11-28",
+   "kostenlos": true,
+   "url": "https://luma.com/gxz8w0f6",
+   "kurz": "Event in Nürnberg, gelistet auf Luma.",
+   "entdeckt": "2026-11-02"
+  },
+  {
    "slug": "hackathonhub-9mafz2",
    "quelle": "hackathonhub",
    "name": "Codex Community Hackathon: Aalen",
@@ -10395,7 +10537,7 @@
    "ort": "online",
    "region": "online",
    "datum": "2026-12-02",
-   "url": "https://www.gruendungswoche.de/veranstaltungen/veranstaltungskalender/detail/event/live-webinar-mit-fei-schaefer-gruenderin-von-yogitier/",
+   "url": "https://www.gruendungswoche.de/veranstaltungen/veranstaltungskalender/detail/event/live-webinar-mit-fei-schaefer-gruenderin-von-yogitier-1/",
    "kurz": "Gründungsangebot von Bertelsmann Stiftung – online.",
    "entdeckt": "2026-10-30"
   },
@@ -11021,6 +11163,21 @@
    "entdeckt": "2026-10-07"
   },
   {
+   "slug": "startupcity-hamburg-1x2zg2y",
+   "quelle": "startupcity-hamburg",
+   "name": "iF Sprint Winter ‘26",
+   "veranstalter": "Startup City Hamburg",
+   "art": "netzwerk",
+   "format": "vor-ort",
+   "ort": "Hamburg",
+   "region": "HH",
+   "datum": "2026-12-11",
+   "datumBis": "2026-12-13",
+   "url": "https://startupcity.hamburg/news-events/events/if-sprint-winter-26",
+   "kurz": "Event in Hamburg – gelistet bei Startup City Hamburg.",
+   "entdeckt": "2026-11-02"
+  },
+  {
    "slug": "hackathonhub-1xucra5",
    "quelle": "hackathonhub",
    "name": "Winter Hackathon (supported by Lovable)",
@@ -11122,6 +11279,20 @@
    "url": "https://www.gruendungswoche.de/veranstaltungen/veranstaltungskalender/detail/event/vom-auftrag-zum-gewinn/",
    "kurz": "Veranstaltung von Institut Wupperfeld e.K. – online.",
    "entdeckt": "2026-10-07"
+  },
+  {
+   "slug": "startupcity-hamburg-1e3u0zu",
+   "quelle": "startupcity-hamburg",
+   "name": "Pitch workshop: How to give a compelling presentation",
+   "veranstalter": "Startup City Hamburg",
+   "art": "netzwerk",
+   "format": "vor-ort",
+   "ort": "Hamburg",
+   "region": "HH",
+   "datum": "2026-12-15",
+   "url": "https://startupcity.hamburg/news-events/events/pitch-workshop-how-to-give-a-compelling-presentation-12-26",
+   "kurz": "Event in Hamburg – gelistet bei Startup City Hamburg.",
+   "entdeckt": "2026-11-02"
   },
   {
    "slug": "gruendungswoche-15mkzv4",
@@ -11325,9 +11496,9 @@
    "entdeckt": "2026-10-07"
   },
   {
-   "slug": "luma-nsjbnq",
+   "slug": "luma-iy9h2c",
    "quelle": "luma",
-   "name": "Claude Community Event",
+   "name": "Claude Community Event - Hannover, Germany",
    "veranstalter": "Tina",
    "art": "netzwerk",
    "format": "vor-ort",
@@ -11337,7 +11508,7 @@
    "kostenlos": true,
    "url": "https://luma.com/xp6vpn82",
    "kurz": "Event in Hannover, gelistet auf Luma.",
-   "entdeckt": "2026-10-14"
+   "entdeckt": "2026-11-02"
   },
   {
    "slug": "startplatz-1dwpfdn",
@@ -11425,6 +11596,21 @@
    "url": "https://www.munich-startup.de/events/tutorial-wann-und-wie-gruenden-und-was-ist-danach-zu-organisieren",
    "kurz": "Event in München – gelistet bei Munich Startup.",
    "entdeckt": "2026-10-29"
+  },
+  {
+   "slug": "luma-4p267m",
+   "quelle": "luma",
+   "name": "Official Side Event #KIH – Female Founders Brunch",
+   "veranstalter": "KIT-Gründerschmiede",
+   "art": "netzwerk",
+   "format": "vor-ort",
+   "ort": "Karlsruhe",
+   "region": "BW",
+   "datum": "2027-01-28",
+   "kostenlos": true,
+   "url": "https://luma.com/7ldvd1o0",
+   "kurz": "Event in Karlsruhe, gelistet auf Luma (KIT-Gründerschmiede).",
+   "entdeckt": "2026-11-02"
   },
   {
    "slug": "luma-1l1e3xy",
@@ -11770,6 +11956,21 @@
    "url": "https://www.munich-startup.de/events/tutorial-erfolgs-und-liquiditaetsplanung-deine-ersten-schritte-zur-eigenen-planung-0327",
    "kurz": "Event in München – gelistet bei Munich Startup.",
    "entdeckt": "2026-10-30"
+  },
+  {
+   "slug": "munich-startup-ctgcjk",
+   "quelle": "munich-startup",
+   "name": "MunichTech EXPO Conference",
+   "veranstalter": "MunichTech EXPO",
+   "art": "konferenz",
+   "format": "vor-ort",
+   "ort": "München",
+   "region": "BY",
+   "datum": "2027-03-22",
+   "datumBis": "2027-03-24",
+   "url": "https://www.munich-startup.de/events/munichtech-expo-conference-2027",
+   "kurz": "Event in München – gelistet bei Munich Startup.",
+   "entdeckt": "2026-11-02"
   },
   {
    "slug": "munich-startup-1ilwu2s",
