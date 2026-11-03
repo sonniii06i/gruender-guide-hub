@@ -76,7 +76,7 @@ export const IP_BOX_REGIMES: IPBoxRegime[] = [
       "Audit jährlich Pflicht",
     ],
     pros: [
-      "Niedrigster effektiver Steuersatz in EU (3,0 % ab 2026; vor der KSt-Reform 2,5 %)",
+      "Einer der niedrigsten effektiven Steuersätze in der EU (3,0 % ab 2026; vor der KSt-Reform 2,5 %)",
       "Auch Software einbezogen — nicht nur Patente",
       "Gut etabliertes Big-4-CPA-Ökosystem",
       "DBA-Deutschland mit 0 % Quellensteuer auf Royalties (wenn Beneficial Owner)",

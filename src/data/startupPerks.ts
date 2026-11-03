@@ -50,10 +50,10 @@ export const STARTUP_PERKS: StartupPerk[] = [
   // ---------- KI ----------
   {
     slug: "claude-for-startups", name: "Claude for Startups", anbieter: "Anthropic", kategorie: "ki",
-    wert: "Startup Stack: Partnerangebote bis 45.000 $ – API-Guthaben und Claude Team derzeit ausgesetzt", wertUsd: null,
-    leistungen: ["Startup Stack: Rabatte und Guthaben bis 45.000 $ bei Partnern, die mit Claude bauen", "Applied-AI-Sprechstunde und Startup-Events", "1.000 $ API-Guthaben und 1 Jahr Claude Team: laut Anthropic derzeit ausgelastet („over capacity“), Anträge werden neu geprüft"],
+    wert: "Startup Stack: Partnerangebote bis 45.000 $ (nur Mitglieder) – derzeit keine neuen Bewerbungen", wertUsd: null,
+    leistungen: ["Startup Stack: Rabatte und Guthaben bis 45.000 $ bei Partnern, die mit Claude bauen", "Applied-AI-Sprechstunde und Startup-Events", "Programm laut Anthropic derzeit voll: aktuell keine neuen Bewerbungen"],
     voraussetzungen: ["Startup (bootstrapped, Pre-Seed oder VC-finanziert – kein VC nötig)", "Antrag in der Claude Console", "Prüfung laut Anthropic bis zu einer Woche"],
-    vcNoetig: false, gruendungMaxJahre: null, url: "https://claude.com/programs/startups", pruefWorte: ["$45,000", "over capacity"],
+    vcNoetig: false, gruendungMaxJahre: null, url: "https://claude.com/programs/startups", pruefWorte: ["$45,000", "not accepting new applications"],
     hinweis: "Stand 10.10.2026: Anthropic hat nach Hunderttausenden Anträgen das 1.000-$-API-Guthaben und Claude Team pausiert und baut das Programm um; bereits eingelöste Angebote bleiben gültig, alle Anträge werden neu geprüft. Mit einem VC aus dem Partnernetz bis zu 100.000 $ API-Guthaben über den VC. Verschwindet „over capacity“ von der Seite, meldet der Perk-Wächter das – dann neu prüfen.",
     geprueft: "2026-10-10",
   },

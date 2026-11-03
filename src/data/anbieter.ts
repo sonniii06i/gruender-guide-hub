@@ -283,12 +283,12 @@ export const PROVIDERS: Provider[] = [
     name: "Amex Business Gold",
     category: "Kreditkarten",
     region: "DE",
-    starting: "175 €/Jahr (1. Jahr oft frei)",
+    starting: "175 €/Jahr (1. Jahr beitragsfrei)",
     rating: 4.7,
     tagline: "Bester Allrounder: 50 Tage Zahlungsziel, MR-Punkte & Versicherungen",
     pros: [
       "Bis 50 Tage zinsfreies Zahlungsziel (Cashflow-Hebel für Ad-Spend & Wareneinkauf)",
-      "75.000 MR-Punkte Willkommensbonus (Aktion)",
+      "50.000 MR-Punkte Willkommensbonus (ab 10.000 € Umsatz in 6 Monaten)",
       "Starke Reise- & Mietwagen-Versicherung",
       "Bis 99 Zusatzkarten kostenlos",
     ],
@@ -298,7 +298,7 @@ export const PROVIDERS: Provider[] = [
       "Geschäft idealerweise ≥ 12 Monate",
     ],
     forumNotes:
-      "Willkommensbonus = Aktionswert (Stand Mai 2026), vor Antrag auf amex.de verifizieren. Detail-Vergleich im Cockpit-Tool /cockpit/geschaeftskreditkarten.",
+      "Willkommensbonus = Aktionswert (Stand November 2026), vor Antrag auf amex.de verifizieren. Detail-Vergleich im Cockpit-Tool /cockpit/geschaeftskreditkarten.",
     signupTime: "ca. 1–2 Wochen",
     url: AMEX_REFERRAL.gold,
   },

@@ -550,7 +550,7 @@ const CryptoSteuer = () => {
             { t: "Freigrenze 1.000 €", d: "Seit 2024 (vorher 600 €). Darunter komplett steuerfrei, darüber voll steuerpflichtig, nicht nur der übersteigende Teil." },
             { t: "Staking und Lending", d: "Erträge gelten als Einkünfte aus sonstigen Leistungen (§22 Nr. 3 EStG), getrennt von Veräußerungsgewinnen, eigene Freigrenze 256 €." },
             { t: "NFTs", d: "Vom BMF-Schreiben ausgenommen; Einzelfall, StB fragen." },
-            { t: "Mining", d: "Je nach Umfang privat (§22 Nr. 3 EStG) oder gewerblich (§15 EStG), dann KSt und GewSt oder ESt-Tarif." },
+            { t: "Mining", d: "Je nach Umfang privat (§22 Nr. 3 EStG) oder gewerblich (§15 EStG), dann ESt-Tarif und GewSt (in einer GmbH KSt und GewSt)." },
             { t: "Meldepflicht ab 2026 (DAC8/KStTG)", d: "Börsen und Wallet-Anbieter melden seit 2026 Nutzer- und Transaktionsdaten ans BZSt, erstmals für 2026 bis 31.07.2027 (§§ 9, 10 KStTG)." },
             { t: "Verlustverrechnung nach §23 (3) EStG", d: "Verluste aus Crypto-Verkäufen sind nur mit Gewinnen aus privaten Veräußerungsgeschäften verrechenbar, nicht mit Gehalt, Dividenden oder Zinsen. Verbleibende Verluste werden unbegrenzt vorgetragen oder 1 Jahr zurückgetragen." },
             { t: "Loss-Harvesting", d: "Vor Jahresende Coins mit Buchverlust verkaufen und sofort zurückkaufen (in DE kein Wash-Sale-Verbot): Der Verlust ist steuerlich realisiert, die Position bleibt. Nur bei weniger als 1 Jahr Haltedauer relevant." },

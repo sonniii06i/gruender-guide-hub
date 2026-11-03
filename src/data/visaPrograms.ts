@@ -660,7 +660,7 @@ export const VISA_PROGRAMS: VisaProgram[] = [
     name: "Individual Entrepreneur (1% Small Business)",
     officialUrl: "https://www.rs.ge/PersonsPreferentialTax-en",
     category: "freelancer",
-    durationYears: "Visa-frei für DE-Bürger 365 Tage Aufenthalt · seit 01.01.2026 Kranken-/Unfallversicherung bei Einreise Pflicht",
+    durationYears: "Visa-frei für DE-Bürger bis 360 Tage Aufenthalt · seit 01.01.2026 Kranken-/Unfallversicherung bei Einreise Pflicht",
     processingTime: "1-3 Tage Registrierung als IE",
     costEur: "<1.000 (Registrierung 26 GEL bzw. 75 GEL Express, Buchhalter €50-100/Monat)",
     requirements: [
@@ -671,7 +671,7 @@ export const VISA_PROGRAMS: VisaProgram[] = [
     ],
     forDeFounder: "★ Berühmt durch Crypto/Nomad-Bubble. ACHTUNG: keine Wohnsitz-Pflicht für 1%-Status, aber für Tax-Residency 183-Tage-Aufenthalt zwingend. Sonst greift weiter DE-Steuer-Wohnsitz.",
     taxImplications: "GE-Tax-Resident bei 183 Tagen. DBA-DE-GE aktiv. 1%-Tax gilt nur GE-Tax-resident. §6 AStG fires. ★ DE-Finanzamt prüft 'Scheinsitz' streng — reine IE-Registrierung ohne Aufenthalt = Doppelbesteuerung. CRS-Reporting GE→DE seit 2023 aktiv.",
-    pathToPr: "PR nach 6 Jahren Aufenthalt, Pass nach 10 + Georgisch-Test",
+    pathToPr: "PR nach 10 Jahren Aufenthalt mit Aufenthaltstitel, Pass nach 10 + Georgisch-Test",
     watchouts: ["FALLE: viele DE-Wegzügler unterschätzen Lebensmittelpunkt-Test §1 EStG/§8 AO — DE-Familie/Wohnung = weiter DE-Tax-Resident", "CRS aktiv seit 2023", "Bei 'Service-Income aus DE-Kunden': Wegzugs-Streitfall"],
     bestForSolo: true,
     bestForFamily: false,

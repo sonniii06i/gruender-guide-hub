@@ -76,7 +76,7 @@ export const BIZ_CARDS: BizCard[] = [
   // ===== SOLO / BOOTSTRAP =====
   {
     id: "finom",
-    name: "Finom (Solo / Start / Premium)",
+    name: "Finom (Solo / Basic / Smart / Core)",
     issuer: "Finom",
     segment: "solo",
     cardType: "Debit",
@@ -98,7 +98,7 @@ export const BIZ_CARDS: BizCard[] = [
     watchouts: [
       "Kein Cashback im Solo, höhere Tarife mit Monats-Cap",
       "FX-Gebühr nicht klar gelistet — vor Auslandseinsatz prüfen",
-      "Physische Karte im Solo-Plan 3 €/Monat (gratis ab höherem Plan)",
+      "Im Solo-Plan nur 1 kostenlose virtuelle Karte (mehr Karten ab Basic)",
     ],
     url: "https://finom.co/de-de/pricing/",
   },
@@ -413,7 +413,7 @@ export const BIZ_CARDS: BizCard[] = [
     schufa: false,
     soloDayOne: true,
     who: "Freelancer- + Firmenkonten · ab Tag 1",
-    extraCards: "unbegrenzt virtuelle Karten (bis 200/Person), Metallkarten ab Grow gratis",
+    extraCards: "bis zu 50 virtuelle und 3 physische Karten je Teammitglied; Metal-Karte ab Grow (57,99 € je Karte)",
     insurance: "gering (planabhängig)",
     bestFor: "Multi-Währung + viele virtuelle Karten",
     watchouts: [
@@ -422,8 +422,6 @@ export const BIZ_CARDS: BizCard[] = [
       "Basic-Tier nicht mehr kostenlos",
     ],
     url: "https://www.revolut.com/de-DE/business/business-account-plans/",
-    dataNote:
-      "Tarife zum 30.03.2026 geändert; Quellen widersprüchlich (Grow 30 vs 35, Scale 90 vs 125 €) — vor Veröffentlichung auf revolut.com final gegenprüfen",
   },
 ];
 

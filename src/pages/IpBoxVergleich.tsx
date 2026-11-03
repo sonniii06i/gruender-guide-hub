@@ -85,7 +85,7 @@ const IpBoxVergleich = () => {
     <CockpitShell
       eyebrow="Steuern & Optimierung · IP-Box"
       title="9 IP-Box-Regime in EU und Schweiz für Software, Patente und Lizenzen"
-      subtitle="Effektive Steuersätze von 1,75 bis 9 % auf qualifizierte IP-Einkünfte. Alle Regime folgen dem BEPS-Nexus-Ansatz, Substanz vor Ort ist Pflicht. Das deutsche Finanzamt prüft genau; reine Briefkasten-Strukturen funktionieren seit ATAD nicht mehr."
+      subtitle="Effektive Steuersätze von 1,75 bis 11 % auf qualifizierte IP-Einkünfte. Alle Regime folgen dem BEPS-Nexus-Ansatz, Substanz vor Ort ist Pflicht. Das deutsche Finanzamt prüft genau; reine Briefkasten-Strukturen funktionieren seit ATAD nicht mehr."
     >
       <ToolLayout
         className="mb-8"
@@ -229,7 +229,7 @@ const IpBoxVergleich = () => {
             "Die Buchhaltung muss IP-Einkünfte getrennt von den übrigen Einkünften erfassen",
             "F&E-Tagebuch und Ausgaben-Tracking je IP-Asset sind Pflicht",
             "Geprüfte Abschlüsse sind für IP-Box-Anträge in den meisten Ländern Pflicht",
-            "Verrechnungspreis-Dokumentation nach § 1 AStG bei konzerninternen Lizenzen ist Pflicht",
+            "Verrechnungspreis-Dokumentation nach § 90 Abs. 3 AO bei konzerninternen Lizenzen ist Pflicht",
             "Ein Tax Ruling im IP-Box-Land schafft Rechtssicherheit (NL, CH und LU bieten Ruling-Verfahren)",
           ].map((t) => (
             <li key={t} className="flex items-start gap-2">
