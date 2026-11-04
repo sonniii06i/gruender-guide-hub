@@ -337,6 +337,7 @@ export const ustIdNrConfig: ToolConfig = {
   ],
   links: [
     { to: "/tools/fse-wizard", label: "Fragebogen zur steuerlichen Erfassung ausfüllen" },
+    { to: "/ratgeber/steuernummer-beantragen", label: "Steuernummer beantragen" },
     { to: "/tools/kleinunternehmer-waechter", label: "Kleinunternehmer-Grenze 2026 im Blick" },
     { to: "/tools/ust-rechner", label: "USt-Rechner: § 19, § 13b und OSS" },
     { to: "/tools/rechnungs-generator", label: "Rechnung mit USt-IdNr erstellen" },
