@@ -80,7 +80,7 @@ export const NewsletterOptin = ({
               required
               autoComplete="email"
               placeholder="deine@mail.de"
-              className="h-10 min-w-0 flex-1 rounded-md border border-input bg-background px-3 text-sm"
+              className="h-10 min-w-0 rounded-md border border-input bg-background px-3 text-sm sm:flex-1"
             />
             <Button type="submit" disabled={zustand === "sendet"} className="h-10">
               {zustand === "sendet" ? "Sende …" : "Anmelden"}
