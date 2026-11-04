@@ -1,18 +1,18 @@
 {
- "stand": "2026-11-03T12:01:18.911Z",
+ "stand": "2026-11-04T12:15:00.368Z",
  "quelle": {
   "ok": true,
-  "roh": 169,
+  "roh": 175,
   "uebernommen": 17,
   "verworfen": {
-   "nur_einladung": 24,
-   "vor_ort_fern": 74,
-   "frist_vorbei": 3,
-   "preis_unter_5000_usd": 42,
-   "kein_usd_betrag": 9,
+   "nur_einladung": 23,
+   "vor_ort_fern": 77,
+   "frist_vorbei": 4,
+   "preis_unter_5000_usd": 46,
+   "kein_usd_betrag": 8,
    "ueber_max": 0
   },
-  "letzterErfolg": "2026-11-03T12:01:18.910Z"
+  "letzterErfolg": "2026-11-04T12:15:00.368Z"
  },
  "anzahl": 17,
  "eintraege": [
@@ -23,7 +23,7 @@
    "ende": "2026-11-12",
    "preisUsd": 67500,
    "geldpreise": 14,
-   "anmeldungen": 27688,
+   "anmeldungen": 28346,
    "ort": "Online",
    "veranstalter": "PayPal",
    "themen": [
@@ -39,7 +39,7 @@
    "ende": "2026-11-15",
    "preisUsd": 17150,
    "geldpreise": 8,
-   "anmeldungen": 250,
+   "anmeldungen": 260,
    "ort": "Online",
    "veranstalter": "CodeStarters",
    "themen": [
@@ -55,7 +55,7 @@
    "ende": "2026-11-16",
    "preisUsd": 46000,
    "geldpreise": 4,
-   "anmeldungen": 1157,
+   "anmeldungen": 1253,
    "ort": "Online",
    "veranstalter": "UGREEN",
    "themen": [
@@ -70,8 +70,8 @@
    "url": "https://start-developer-competition-26.devpost.com/",
    "ende": "2026-11-18",
    "preisUsd": 1000000,
-   "geldpreise": 1,
-   "anmeldungen": 4976,
+   "geldpreise": 19,
+   "anmeldungen": 5083,
    "ort": "Online",
    "veranstalter": "Meta",
    "themen": [
@@ -87,7 +87,7 @@
    "ende": "2026-11-25",
    "preisUsd": 45000,
    "geldpreise": 1,
-   "anmeldungen": 80,
+   "anmeldungen": 92,
    "ort": "Online",
    "veranstalter": "FabricVTON",
    "themen": [
@@ -101,13 +101,15 @@
    "titel": "#BuildHybridAI 2026",
    "url": "https://firebasehybridaihackathon.devpost.com/",
    "ende": "2026-11-30",
-   "preisUsd": 10000,
+   "preisUsd": 30000,
    "geldpreise": 1,
-   "anmeldungen": 385,
+   "anmeldungen": 531,
    "ort": "Online",
    "veranstalter": "Google",
    "themen": [
-    "Machine Learning/AI"
+    "Machine Learning/AI",
+    "Mobile",
+    "Web"
    ]
   },
   {
@@ -117,7 +119,7 @@
    "ende": "2026-12-04",
    "preisUsd": 100000,
    "geldpreise": 15,
-   "anmeldungen": 7703,
+   "anmeldungen": 8463,
    "ort": "Online",
    "veranstalter": "Kiro",
    "themen": [
@@ -133,7 +135,7 @@
    "ende": "2026-12-11",
    "preisUsd": 64000,
    "geldpreise": 16,
-   "anmeldungen": 51,
+   "anmeldungen": 91,
    "ort": "Online",
    "veranstalter": "AWS",
    "themen": [
@@ -149,7 +151,7 @@
    "ende": "2026-12-15",
    "preisUsd": 50000,
    "geldpreise": 14,
-   "anmeldungen": 194,
+   "anmeldungen": 353,
    "ort": "Online",
    "veranstalter": "QNX",
    "themen": [
@@ -165,7 +167,7 @@
    "ende": "2026-12-21",
    "preisUsd": 7800,
    "geldpreise": 5,
-   "anmeldungen": 827,
+   "anmeldungen": 866,
    "ort": "Online",
    "veranstalter": "Arbiter ",
    "themen": [
@@ -180,8 +182,8 @@
    "url": "https://codegeist2026.devpost.com/",
    "ende": "2026-12-22",
    "preisUsd": 120000,
-   "geldpreise": 1,
-   "anmeldungen": 1439,
+   "geldpreise": 7,
+   "anmeldungen": 1589,
    "ort": "Online",
    "veranstalter": "Atlassian",
    "themen": [
@@ -197,7 +199,7 @@
    "ende": "2027-01-10",
    "preisUsd": 13700,
    "geldpreise": 5,
-   "anmeldungen": 354,
+   "anmeldungen": 360,
    "ort": "Online",
    "veranstalter": "Hack United",
    "themen": [
@@ -229,7 +231,7 @@
    "ende": "2027-01-18",
    "preisUsd": 146700,
    "geldpreise": 11,
-   "anmeldungen": 691,
+   "anmeldungen": 723,
    "ort": "Online",
    "veranstalter": "Cosmo Hacks",
    "themen": [
@@ -245,7 +247,7 @@
    "ende": "2027-02-04",
    "preisUsd": 10000,
    "geldpreise": 1,
-   "anmeldungen": 211,
+   "anmeldungen": 213,
    "ort": "Online",
    "veranstalter": "IWU",
    "themen": [

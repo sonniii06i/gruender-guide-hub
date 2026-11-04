@@ -1,22 +1,23 @@
 {
- "stand": "2026-11-03T12:01:13.723Z",
+ "stand": "2026-11-04T12:14:54.441Z",
  "quellen": {
   "foerderung-bund": {
    "ok": true,
    "roh": 20,
    "uebernommen": 20,
    "verworfen": {},
-   "letzterErfolg": "2026-11-03T11:59:56.808Z"
+   "letzterErfolg": "2026-11-04T12:13:31.903Z"
   },
   "eu-calls": {
    "ok": true,
    "roh": 1201,
-   "uebernommen": 21,
+   "uebernommen": 23,
    "verworfen": {
-    "Frist vorbei (Status noch offen)": 562,
-    "kein KMU-/Startup-Bezug": 357
+    "Frist vorbei (Status noch offen)": 490,
+    "kein KMU-/Startup-Bezug": 428,
+    "abgesagt": 1
    },
-   "letzterErfolg": "2026-11-03T12:00:14.985Z"
+   "letzterErfolg": "2026-11-04T12:13:54.360Z"
   },
   "wettbewerbe": {
    "ok": true,
@@ -26,16 +27,16 @@
     "keine offene Frist": 157,
     "SPRIND: nicht offen": 21
    },
-   "letzterErfolg": "2026-11-03T12:00:17.529Z"
+   "letzterErfolg": "2026-11-04T12:13:58.969Z"
   },
   "ausschreibungen": {
    "ok": true,
    "roh": 300,
-   "uebernommen": 272,
+   "uebernommen": 270,
    "verworfen": {
-    "keine offene Angebotsfrist": 28
+    "keine offene Angebotsfrist": 30
    },
-   "letzterErfolg": "2026-11-03T12:00:20.382Z"
+   "letzterErfolg": "2026-11-04T12:14:02.125Z"
   },
   "recht": {
    "ok": true,
@@ -48,18 +49,18 @@
    "teilfehler": [
     "BMF-RSS: HTTP 503 https://www.bundesfinanzministerium.de/SiteGlobals/Functions/RSSFeed/DE/Steuern/RSSSteuern"
    ],
-   "letzterErfolg": "2026-11-03T12:00:57.610Z"
+   "letzterErfolg": "2026-11-04T12:14:36.322Z"
   },
   "messen": {
    "ok": true,
-   "roh": 249,
+   "roh": 247,
    "uebernommen": 2,
    "verworfen": {
-    "Karriere-/Bildungsmesse": 210,
+    "Karriere-/Bildungsmesse": 208,
     "nicht in Deutschland": 20,
     "kein Gründer-/Business-Bezug": 17
    },
-   "letzterErfolg": "2026-11-03T12:01:13.708Z"
+   "letzterErfolg": "2026-11-04T12:14:54.432Z"
   }
  },
  "anzahl": 325,
@@ -145,116 +146,20 @@
    "entdeckt": "2026-10-29"
   },
   {
-   "id": "ausschreibungen-19g8uns",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Erneuerung Core-Switche",
-   "geber": "Wupperverband Angebotsfrist: 03.11.2026 10:00 Veröffentlichungsende: 03.11.2026",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/ai-wv/2026/10/54321-Tender-1a05c84bdb6-511ebbc19c79289d.html#track=feed-callforbids",
-   "frist": "2026-11-03",
-   "region": "bund",
+   "id": "eu-calls-ykeb4s",
+   "kategorie": "eu",
+   "quelle": "EU Funding & Tenders",
+   "titel": "EIC Accelerator 2026 - Short proposal",
+   "geber": "EIC Accelerator 2026 - Short application",
+   "url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-EIC-2026-ACCELERATOR-01",
+   "frist": "2026-11-04",
+   "region": "EU",
    "tags": [
-    "IT"
+    "EIC"
    ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-08"
-  },
-  {
-   "id": "ausschreibungen-1ut2wr1",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Interferometric Modules",
-   "geber": "Forschungsverbund Berlin e.V. Angebotsfrist: 03.11.2026 13:00 Veröffentlichungse",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/ai-ag-prod/2026/10/54321-Tender-1a138e23fd7-39b4083769453139.html#track=feed-callforbids",
-   "frist": "2026-11-03",
-   "region": "bund",
-   "tags": [
-    "F&E"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-16"
-  },
-  {
-   "id": "ausschreibungen-51zc3s",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Mode-locked Laser",
-   "geber": "Forschungsverbund Berlin e.V. Angebotsfrist: 03.11.2026 13:00 Veröffentlichungse",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/ai-ag-prod/2026/10/54321-Tender-1a138f8e47d-5ae3bb8c656ff631.html#track=feed-callforbids",
-   "frist": "2026-11-03",
-   "region": "bund",
-   "tags": [
-    "F&E"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-16"
-  },
-  {
-   "id": "ausschreibungen-12pxggz",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Radio-frequency electrical spectrum analyzers",
-   "geber": "Forschungsverbund Berlin e.V. Angebotsfrist: 03.11.2026 09:00 Veröffentlichungse",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/ai-ag-prod/2026/10/54321-Tender-1a138cfda99-19c73062f155a2fd.html#track=feed-callforbids",
-   "frist": "2026-11-03",
-   "region": "bund",
-   "tags": [
-    "F&E"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-16"
-  },
-  {
-   "id": "ausschreibungen-11y4pib",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Hochfrequenzsynthesizer mit geringem Phasenrauschen",
-   "geber": "Forschungsverbund Berlin e.V. Angebotsfrist: 03.11.2026 08:00 Veröffentlichungse",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/ai-ag-prod/2026/10/54321-Tender-1a138894665-30548951d926ef42.html#track=feed-callforbids",
-   "frist": "2026-11-03",
-   "region": "bund",
-   "tags": [
-    "F&E"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-16"
-  },
-  {
-   "id": "ausschreibungen-1ek9599",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "UV-Lasersystem",
-   "geber": "Fraunhofer-Gesellschaft",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/ai-ag-prod/2026/10/54321-Tender-1a135b37017-3fd9877a1245feae.html#track=feed-callforbids",
-   "frist": "2026-11-03",
-   "region": "bund",
-   "tags": [
-    "F&E"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-14"
-  },
-  {
-   "id": "ausschreibungen-kjhl9d",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Pikosekunden-Laser",
-   "geber": "Fraunhofer-Gesellschaft",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/ai-ag-prod/2026/10/54321-Tender-1a130ac1ea4-b6acb430ebdf6ea.html#track=feed-callforbids",
-   "frist": "2026-11-03",
-   "region": "bund",
-   "tags": [
-    "F&E"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-14"
+   "kurz": "HORIZON-EIC-2026-ACCELERATOR-01",
+   "_q": "eu-calls",
+   "entdeckt": "2026-11-04"
   },
   {
    "id": "ausschreibungen-1dzb94f",
@@ -271,22 +176,6 @@
    "kurz": "",
    "_q": "ausschreibungen",
    "entdeckt": "2026-10-23"
-  },
-  {
-   "id": "ausschreibungen-ugxkg6",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Lieferung von Hardware (Workstations und Monitore) für das Kataster- und Vermessungsamt",
-   "geber": "Landkreis Havelland - Der Landrat - Angebotsfrist: 04.11.2026 11:00 Veröffentlic",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/vmp-bb/2026/10/260895.html#track=feed-callforbids",
-   "frist": "2026-11-04",
-   "region": "bund",
-   "tags": [
-    "IT"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-08"
   },
   {
    "id": "ausschreibungen-b2qoeo",
@@ -561,20 +450,6 @@
    "entdeckt": "2026-10-30"
   },
   {
-   "id": "eu-calls-ua9h5",
-   "kategorie": "eu",
-   "quelle": "EU Funding & Tenders",
-   "titel": "'Innovate to transform' support for SME's sustainability transition (CSA)",
-   "geber": "FIERCE 2nd Open Call for the Financial Support Programme",
-   "url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/competitive-calls-cs/45705096",
-   "frist": "2026-11-09",
-   "region": "EU",
-   "tags": [],
-   "kurz": "HORIZON-CL4-2024-RESILIENCE-01-41",
-   "_q": "eu-calls",
-   "entdeckt": "2026-11-02"
-  },
-  {
    "id": "wettbewerbe-qiogy4",
    "kategorie": "wettbewerb",
    "quelle": "SPRIND",
@@ -799,6 +674,22 @@
    "entdeckt": "2026-10-09"
   },
   {
+   "id": "ausschreibungen-kvmyqm",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Dünnschicht Röntgendiffraktometer",
+   "geber": "Johannes Gutenberg-Universität Mainz Angebotsfrist: 09.11.2026 10:30 Veröffentli",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/vmp-rlp-landrlp/2026/10/23183.html#track=feed-callforbids",
+   "frist": "2026-11-09",
+   "region": "bund",
+   "tags": [
+    "F&E"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-11-04"
+  },
+  {
    "id": "foerderung-bund-upumfm",
    "kategorie": "foerderung",
    "quelle": "foerderinfo.bund.de",
@@ -923,22 +814,6 @@
    "kurz": "",
    "_q": "ausschreibungen",
    "entdeckt": "2026-10-08"
-  },
-  {
-   "id": "ausschreibungen-1sk8czp",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Straßenbahnneubaustrecke Urban Tech Republic (UTR), Generalplanungsleistung Lph 2-5",
-   "geber": "Berliner Verkehrsbetriebe",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/ai-ag-prod/2026/10/54321-Tender-1a0c881ed31-277baf74c26e516d.html#track=feed-callforbids",
-   "frist": "2026-11-10",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-11-03"
   },
   {
    "id": "ausschreibungen-bvrybj",
@@ -1149,6 +1024,38 @@
    "entdeckt": "2026-10-08"
   },
   {
+   "id": "ausschreibungen-8jxxaf",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "FE 02.0502/2026/IRB - Verkehrsbedingte Ammoniak-Konzentrationen an Bundesfernstraßen",
+   "geber": "Bundesanstalt für Straßen- und Verkehrswesen Angebotsfrist: 10.11.2026 06:00 Ver",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/eVergabe/897031.html#track=feed-callforbids",
+   "frist": "2026-11-10",
+   "region": "bund",
+   "tags": [
+    "F&E"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-11-04"
+  },
+  {
+   "id": "ausschreibungen-1m8dc5u",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "3626S62541 - Prüfung des Einsatzes von KI-Verfahren im radiologischen Notfallmanagementsystem durch KI-unterstützte Trend- und Plausibilitätsanalyse im ODL-Messnetz",
+   "geber": "Bundesamt für Strahlenschutz Angebotsfrist: 10.11.2026 09:00 Veröffentlichungsen",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/eVergabe/894985.html#track=feed-callforbids",
+   "frist": "2026-11-10",
+   "region": "bund",
+   "tags": [
+    "F&E"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-11-04"
+  },
+  {
    "id": "ausschreibungen-j84cck",
    "kategorie": "ausschreibung",
    "quelle": "service.bund.de",
@@ -1187,22 +1094,6 @@
    "titel": "Dienstfahrrad-Leasing der Kreisverwaltung Altenkirchen",
    "geber": "Wirtschaftsförderung Kreisverwaltung Altenkirchen Angebotsfrist: 11.11.2026 13:0",
    "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/ai-dabl/2026/10/54321-Tender-1a11aaf343c-1baf03d580821268.html#track=feed-callforbids",
-   "frist": "2026-11-11",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-11-03"
-  },
-  {
-   "id": "ausschreibungen-18o9r8q",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Rahmenvereinbarung zur Beschaffung von Tank- und Lade(flotten)karten für die Bayerische Polizei",
-   "geber": "Freistaat Bayern",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/healyhudson/2026/10/3fa9171f-75ee-4114-a8ff-c7e946e79491.html#track=feed-callforbids",
    "frist": "2026-11-11",
    "region": "bund",
    "tags": [
@@ -1419,6 +1310,22 @@
    "kurz": "",
    "_q": "ausschreibungen",
    "entdeckt": "2026-10-13"
+  },
+  {
+   "id": "ausschreibungen-1oj6joj",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Ertüchtigung & Erweiterung der MSR-Technik-Green IT-Cube",
+   "geber": "GSI Helmholtzzentrum für Schwerionenforschung GmbH Angebotsfrist: 12.11.2026 11:",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/dtvp/2026/10/345640.html#track=feed-callforbids",
+   "frist": "2026-11-12",
+   "region": "bund",
+   "tags": [
+    "F&E"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-11-04"
   },
   {
    "id": "ausschreibungen-z05f9j",
@@ -2475,22 +2382,6 @@
    "entdeckt": "2026-11-03"
   },
   {
-   "id": "ausschreibungen-m91j41",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "SOC-Ausschreibung auf Basis von Microsoft Technologien",
-   "geber": "LSW Netz GmbH & Co. KG Angebotsfrist: 20.11.2026 09:00 Veröffentlichungsende: 20",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/dtvp/2026/11/333872.html#track=feed-callforbids",
-   "frist": "2026-11-20",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-11-03"
-  },
-  {
    "id": "ausschreibungen-y6yf6i",
    "kategorie": "ausschreibung",
    "quelle": "service.bund.de",
@@ -2535,20 +2426,6 @@
    "kurz": "CERV-2025-DAPHNE",
    "_q": "eu-calls",
    "entdeckt": "2026-10-08"
-  },
-  {
-   "id": "eu-calls-1vzym2d",
-   "kategorie": "eu",
-   "quelle": "EU Funding & Tenders",
-   "titel": "Interoperable Europe GovTech Incubator",
-   "geber": "Service request: 𝘏𝘰𝘸 𝘮𝘪𝘨𝘩𝘵 𝘸𝘦 𝘪𝘮𝘱𝘳𝘰𝘷𝘦 𝘢𝘤𝘤𝘦𝘴𝘴 𝘵𝘰 𝘤𝘳𝘪𝘵𝘪𝘤𝘢𝘭 𝘤𝘪𝘷𝘪𝘭 𝘱𝘳𝘰𝘵𝘦𝘤𝘵𝘪𝘰𝘯 𝘪𝘯𝘧𝘰𝘳𝘮𝘢𝘵𝘪𝘰𝘯 𝘧𝘰𝘳 𝘳𝘦𝘴𝘪𝘥𝘦𝘯𝘵𝘴 - 𝘦𝘴𝘱𝘦𝘤𝘪𝘢𝘭𝘭𝘺 𝘵𝘩𝘰𝘴𝘦 𝘸𝘩𝘰 𝘥𝘰 𝘯𝘰𝘵 𝘶𝘴𝘦 𝘮𝘰𝘣𝘪𝘭𝘦 𝘢𝘱𝘱𝘴 - 𝘴𝘰 𝘵𝘩𝘢𝘵 𝘵𝘩𝘦𝘺 𝘤𝘢𝘯 𝘳𝘦𝘤𝘦𝘪𝘷𝘦 𝘤𝘭𝘦𝘢𝘳, 𝘵𝘪𝘮𝘦𝘭𝘺 𝘨𝘶𝘪𝘥𝘢𝘯𝘤𝘦 𝘣𝘺 𝘱𝘩𝘰𝘯𝘦 𝘥𝘶𝘳𝘪𝘯𝘨 𝘦𝘮𝘦𝘳𝘨𝘦𝘯𝘤𝘪𝘦𝘴?",
-   "url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/competitive-calls-cs/46807003",
-   "frist": "2026-11-23",
-   "region": "EU",
-   "tags": [],
-   "kurz": "DIGITAL-2024-GOVTECH-06-SGA",
-   "_q": "eu-calls",
-   "entdeckt": "2026-11-02"
   },
   {
    "id": "ausschreibungen-1kppj2g",
@@ -2791,6 +2668,22 @@
    "entdeckt": "2026-10-24"
   },
   {
+   "id": "ausschreibungen-1oyn6lk",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "L27K13611F - Rahmenvereinbarung Fotografische Leistungen Lausitz",
+   "geber": "LMBV mbH",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/editor/Lausitzer-und-Mitteldeutsche-Bergbau-Verwaltungsgesellschaft-mbH/2026/11/6688679.html#track=feed-callforbids",
+   "frist": "2026-11-24",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-11-04"
+  },
+  {
    "id": "ausschreibungen-1ipfnuc",
    "kategorie": "ausschreibung",
    "quelle": "service.bund.de",
@@ -2887,22 +2780,6 @@
    "entdeckt": "2026-11-03"
   },
   {
-   "id": "ausschreibungen-88twqj",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "1 Mitarbeiter (m/w/d) in ANÜ ? Mitarbeiter LAW-Zwischenlager / TEZL-A16",
-   "geber": "KTE Kerntechnische Entsorgung Karlsruhe GmbH Angebotsfrist: 24.11.2026 10:00 Ver",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/healyhudson/2026/11/9e07479a-9d91-4843-9024-5fb27a1e91e9.html#track=feed-callforbids",
-   "frist": "2026-11-24",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-11-03"
-  },
-  {
    "id": "ausschreibungen-1j3bhov",
    "kategorie": "ausschreibung",
    "quelle": "service.bund.de",
@@ -2917,6 +2794,54 @@
    "kurz": "",
    "_q": "ausschreibungen",
    "entdeckt": "2026-10-08"
+  },
+  {
+   "id": "ausschreibungen-1r7mcgh",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Ingenieurleistungen techn. Betreuung Abriss Brandschaden",
+   "geber": "Bundeseisenbahnvermögen",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/subreport15/2026/11/E39224851.html#track=feed-callforbids",
+   "frist": "2026-11-25",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-11-04"
+  },
+  {
+   "id": "ausschreibungen-xen7pt",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Rahmenvereinbarung Planung Gebäude und Innenräume",
+   "geber": "Berliner Stadtreinigungsbetriebe AöR (BSR) Angebotsfrist: 25.11.2026 10:00 Veröf",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/editor/Berliner-Stadtreinigungsbetriebe/2026/11/6689236.html#track=feed-callforbids",
+   "frist": "2026-11-25",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-11-04"
+  },
+  {
+   "id": "ausschreibungen-859puw",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Kita Connect: Inhaltliche Konzeption und Entwicklung praxisorientierter Materialien und Werkzeuge für die Beteiligungsplattform Kita Connect.Net",
+   "geber": "Bildungswerk ver.di in Niedersachsen e.V. Angebotsfrist: 25.11.2026 20:00 Veröff",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/editor/Bildungswerk-verdi-in-Niedersachsen-e-V/2026/11/6688750.html#track=feed-callforbids",
+   "frist": "2026-11-25",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-11-04"
   },
   {
    "id": "ausschreibungen-19emwdb",
@@ -3445,6 +3370,22 @@
    "entdeckt": "2026-10-30"
   },
   {
+   "id": "ausschreibungen-1e5fo07",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Rahmenvereinbarung Probenahme und Analytik im Biomassezentrum Hennickendorf: Niederschlagswasser und Kompost",
+   "geber": "Berliner Stadtreinigungsbetriebe AöR (BSR) Angebotsfrist: 30.11.2026 10:00 Veröf",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/editor/Berliner-Stadtreinigungsbetriebe/2026/11/6689265.html#track=feed-callforbids",
+   "frist": "2026-11-30",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-11-04"
+  },
+  {
    "id": "ausschreibungen-488wwv",
    "kategorie": "ausschreibung",
    "quelle": "service.bund.de",
@@ -3541,22 +3482,6 @@
    "entdeckt": "2026-11-03"
   },
   {
-   "id": "ausschreibungen-hp4ieu",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Baufeldfreimachung Riebeckplatz - Bauüberwachung und Bauoberleitung",
-   "geber": "Angebotsfrist: 30.11.2026 10:00 Veröffentlichungsende: 30.11.2026 23:59",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/stadt-halle/2026/11/54321-Tender-1a15e16ce1c-618f8773eb6e2d61.html#track=feed-callforbids",
-   "frist": "2026-11-30",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-11-03"
-  },
-  {
    "id": "ausschreibungen-12mh5t7",
    "kategorie": "ausschreibung",
    "quelle": "service.bund.de",
@@ -3587,6 +3512,22 @@
    "kurz": "",
    "_q": "ausschreibungen",
    "entdeckt": "2026-10-21"
+  },
+  {
+   "id": "ausschreibungen-l2n2bx",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Pilotstudie zur Umsetzung des Europäischen Bestäubermonitorings in Deutschland (EU-PoMS-DE)",
+   "geber": "Bundesamt für Naturschutz Angebotsfrist: 30.11.2026 12:00 Veröffentlichungsende:",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/eVergabe/891253.html#track=feed-callforbids",
+   "frist": "2026-11-30",
+   "region": "bund",
+   "tags": [
+    "F&E"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-11-04"
   },
   {
    "id": "foerderung-bund-154m52c",
@@ -3621,22 +3562,6 @@
    "entdeckt": "2026-10-08"
   },
   {
-   "id": "eu-calls-q583pu",
-   "kategorie": "eu",
-   "quelle": "EU Funding & Tenders",
-   "titel": "The European Prize for Women Innovators",
-   "geber": "The European Prize for Women Innovators",
-   "url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-EIC-2026-PRIZE-WIP",
-   "frist": "2026-12-01",
-   "region": "EU",
-   "tags": [
-    "EIC"
-   ],
-   "kurz": "HORIZON-EIC-2026-PRIZE-WIP",
-   "_q": "eu-calls",
-   "entdeckt": "2026-10-27"
-  },
-  {
    "id": "eu-calls-veb6ya",
    "kategorie": "eu",
    "quelle": "EU Funding & Tenders",
@@ -3665,6 +3590,22 @@
    "kurz": "HORIZON-EIT-2026-PRIZE-WIP-LEADERSHIP",
    "_q": "eu-calls",
    "entdeckt": "2026-11-03"
+  },
+  {
+   "id": "eu-calls-q583pu",
+   "kategorie": "eu",
+   "quelle": "EU Funding & Tenders",
+   "titel": "The European Prize for Women Innovators",
+   "geber": "The European Prize for Women Innovators",
+   "url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-EIC-2026-PRIZE-WIP",
+   "frist": "2026-12-01",
+   "region": "EU",
+   "tags": [
+    "EIC"
+   ],
+   "kurz": "HORIZON-EIC-2026-PRIZE-WIP",
+   "_q": "eu-calls",
+   "entdeckt": "2026-10-27"
   },
   {
    "id": "ausschreibungen-jutrga",
@@ -4003,6 +3944,22 @@
    "entdeckt": "2026-10-30"
   },
   {
+   "id": "ausschreibungen-1fmwfzc",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Generalplanung für den Neubau eines Dienst- und Sozialgebäudes und der Verkehrsflächen, Standort Lengeder Straße 6-18",
+   "geber": "Berliner Stadtreinigungsbetriebe AöR (BSR) Angebotsfrist: 02.12.2026 10:00 Veröf",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/editor/Berliner-Stadtreinigungsbetriebe/2026/11/6689295.html#track=feed-callforbids",
+   "frist": "2026-12-02",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-11-04"
+  },
+  {
    "id": "ausschreibungen-d3sp02",
    "kategorie": "ausschreibung",
    "quelle": "service.bund.de",
@@ -4131,6 +4088,22 @@
    "entdeckt": "2026-10-22"
   },
   {
+   "id": "ausschreibungen-149h15g",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "FE 02.0511/2026/IRB - Konstruktiver Lärmschutz an sensiblen Stellen",
+   "geber": "Bundesanstalt für Straßen- und Verkehrswesen Angebotsfrist: 02.12.2026 06:00 Ver",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/eVergabe/896008.html#track=feed-callforbids",
+   "frist": "2026-12-02",
+   "region": "bund",
+   "tags": [
+    "F&E"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-11-04"
+  },
+  {
    "id": "ausschreibungen-l5g6rn",
    "kategorie": "ausschreibung",
    "quelle": "service.bund.de",
@@ -4225,6 +4198,22 @@
    "kurz": "",
    "_q": "ausschreibungen",
    "entdeckt": "2026-10-30"
+  },
+  {
+   "id": "ausschreibungen-1xnelxg",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Objektplanung Verkehrsanlagen",
+   "geber": "Staatliches Bauamt Ingolstadt Angebotsfrist: 03.12.2026 09:45 Veröffentlichungse",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/obb/2026/11/199294.html#track=feed-callforbids",
+   "frist": "2026-12-03",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-11-04"
   },
   {
    "id": "ausschreibungen-bdvjzh",
@@ -4377,22 +4366,6 @@
    "titel": "Bahnstromanlagenplanung Oderbruchstraße - Hohenschönhauser Straße - Lph. 3-6",
    "geber": "Berliner Verkehrsbetriebe",
    "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/ai-ag-prod/2026/11/54321-Tender-1a144cf29b7-6e96c056073a5528.html#track=feed-callforbids",
-   "frist": "2026-12-03",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-11-03"
-  },
-  {
-   "id": "ausschreibungen-1fpgyoh",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Rahmenvereinbarung Schmutzfangmatten mietweise mit Service (Liefern, Abholen, Reinigen und Auswechseln)",
-   "geber": "Landeshauptstadt München",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/ai-ag-prod/2026/11/54321-Tender-19f47145ddf-6e7d52fac246737b.html#track=feed-callforbids",
    "frist": "2026-12-03",
    "region": "bund",
    "tags": [
@@ -4673,22 +4646,6 @@
    "entdeckt": "2026-11-03"
   },
   {
-   "id": "ausschreibungen-16usmba",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Planungsleistungen Kabelkanalanlagen und Leitungsbau",
-   "geber": "Stadt Köln - Amt für Recht",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/ai-ag-prod/2026/11/54321-Tender-19f6e7b2d75-62a0188a7e2b6b21.html#track=feed-callforbids",
-   "frist": "2026-12-14",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-11-03"
-  },
-  {
    "id": "ausschreibungen-15qysbt",
    "kategorie": "ausschreibung",
    "quelle": "service.bund.de",
@@ -4861,6 +4818,20 @@
    "kurz": "HORIZON-EIC-2025-WOMENTECH",
    "_q": "eu-calls",
    "entdeckt": "2026-10-22"
+  },
+  {
+   "id": "eu-calls-1ncqmvz",
+   "kategorie": "eu",
+   "quelle": "EU Funding & Tenders",
+   "titel": "Strengthening cybersecurity capacities of European SMEs with cybersecure AI-powered solutions",
+   "geber": "Strengthening European Cybersecurity Technologies, Capacities and Preparedness",
+   "url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/DIGITAL-ECCC-2027-DEPLOY-CYBER-11-AI4SME",
+   "frist": "2027-01-14",
+   "region": "EU",
+   "tags": [],
+   "kurz": "DIGITAL-ECCC-2027-DEPLOY-CYBER-11-AI4SME",
+   "_q": "eu-calls",
+   "entdeckt": "2026-11-04"
   },
   {
    "id": "foerderung-bund-e5o2gg",
@@ -5122,18 +5093,18 @@
    "entdeckt": "2026-10-21"
   },
   {
-   "id": "eu-calls-1lwghpx",
+   "id": "eu-calls-1n8ekhd",
    "kategorie": "eu",
    "quelle": "EU Funding & Tenders",
-   "titel": "Women’s, LGBTIQ and minority rights in a context of autocracy, conflict and geopolitical shifts",
-   "geber": "Culture, Creativity and Inclusive Society - 2027",
-   "url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-CL2-2027-01-DEMOCRACY-02",
+   "titel": "Carbon farming innovation and scale-up",
+   "geber": "Call 02 - single stage (2027)",
+   "url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-CL6-2027-02-CLIMATE-03",
    "frist": "2027-09-23",
    "region": "EU",
    "tags": [],
-   "kurz": "HORIZON-CL2-2027-01-DEMOCRACY-02",
+   "kurz": "HORIZON-CL6-2027-02-CLIMATE-03",
    "_q": "eu-calls",
-   "entdeckt": "2026-10-28"
+   "entdeckt": "2026-11-04"
   },
   {
    "id": "eu-calls-1eltoum",
@@ -5150,6 +5121,20 @@
    "entdeckt": "2026-11-01"
   },
   {
+   "id": "eu-calls-1lwghpx",
+   "kategorie": "eu",
+   "quelle": "EU Funding & Tenders",
+   "titel": "Women’s, LGBTIQ and minority rights in a context of autocracy, conflict and geopolitical shifts",
+   "geber": "Culture, Creativity and Inclusive Society - 2027",
+   "url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-CL2-2027-01-DEMOCRACY-02",
+   "frist": "2027-09-23",
+   "region": "EU",
+   "tags": [],
+   "kurz": "HORIZON-CL2-2027-01-DEMOCRACY-02",
+   "_q": "eu-calls",
+   "entdeckt": "2026-10-28"
+  },
+  {
    "id": "foerderung-bund-16lif13",
    "kategorie": "foerderung",
    "quelle": "foerderinfo.bund.de",
@@ -5164,6 +5149,20 @@
    "kurz": "Dritte Änderung der Richtlinie zur Förderung von Projekten im Programm \"KMU-innovativ: Zukunft der Wertschöpfung\" im Rahmen des Fachprogramms \"Zukunft der Wertschöpfung – Forschung zu Produktion, Dienstleistung und Arbeit\" sowie der Oktober",
    "_q": "foerderung-bund",
    "entdeckt": "2026-10-16"
+  },
+  {
+   "id": "eu-calls-deykz3",
+   "kategorie": "eu",
+   "quelle": "EU Funding & Tenders",
+   "titel": "Accelerating uptake through open proposals for advanced SME innovation",
+   "geber": "Civil Security for Society 2027",
+   "url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-CL3-2027-01-SSRI-01",
+   "frist": "2027-11-04",
+   "region": "EU",
+   "tags": [],
+   "kurz": "HORIZON-CL3-2027-01-SSRI-01",
+   "_q": "eu-calls",
+   "entdeckt": "2026-11-04"
   },
   {
    "id": "eu-calls-315az2",
