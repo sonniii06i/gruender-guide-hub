@@ -30,9 +30,14 @@ const FEHL_KENNZEICHEN = "WeiterleitungFehlgeschlagen";
 
 // Echtheit des Absenders (IONOS schreibt Authentication-Results): der HQ-Agent zeigt sie an und behandelt „fail“/„keine“ als
 // moeglicherweise gefaelscht. Der Mailtext bleibt fuer den Agenten reine Daten, nie Anweisung.
+// Nur der oberste Authentication-Results-Kopf zaehlt, und nur, wenn IONOS ihn gesetzt hat (authserv-id): weitere Koepfe kann der
+// Absender selbst mitschicken. Werte nur am Anfang eines Abschnitts lesen (sonst traefe „arc=“ in „dmarc=“). Unklar = „keine“.
 function echtheit(p: any): string {
-  const roh = String(p.headers?.get?.("authentication-results") ?? "");
-  const teil = (k: string) => roh.match(new RegExp(`${k}=(\\w+)`, "i"))?.[1]?.toLowerCase() ?? "keine";
+  const kopf = p.headers?.get?.("authentication-results");
+  const roh = String(Array.isArray(kopf) ? kopf[0] ?? "" : kopf ?? "");
+  const teile = roh.split(";").map((t) => t.trim());
+  if (!/ionos/i.test(teile[0] ?? "")) return "spf=keine dkim=keine dmarc=keine (kein IONOS-Pruefkopf)";
+  const teil = (k: string) => teile.slice(1).map((t) => t.match(new RegExp(`^${k}=(\\w+)`, "i"))?.[1]).find(Boolean)?.toLowerCase() ?? "keine";
   return `spf=${teil("spf")} dkim=${teil("dkim")} dmarc=${teil("dmarc")}`;
 }
 const SYSTEM_ABSENDER =
