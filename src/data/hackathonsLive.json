@@ -1,29 +1,45 @@
 {
- "stand": "2026-11-05T12:28:28.665Z",
+ "stand": "2026-11-06T12:12:42.023Z",
  "quelle": {
   "ok": true,
-  "roh": 185,
-  "uebernommen": 17,
+  "roh": 192,
+  "uebernommen": 18,
   "verworfen": {
-   "nur_einladung": 25,
-   "vor_ort_fern": 82,
-   "frist_vorbei": 5,
+   "nur_einladung": 31,
+   "vor_ort_fern": 84,
+   "frist_vorbei": 2,
    "preis_unter_5000_usd": 47,
-   "kein_usd_betrag": 9,
+   "kein_usd_betrag": 10,
    "ueber_max": 0
   },
-  "letzterErfolg": "2026-11-05T12:28:28.664Z"
+  "letzterErfolg": "2026-11-06T12:12:42.022Z"
  },
- "anzahl": 17,
+ "anzahl": 18,
  "eintraege": [
+  {
+   "id": "devpost-31831",
+   "titel": "Ctrl+V Hackathon",
+   "url": "https://ctrl-v-hackathon-31831.devpost.com/",
+   "ende": "2026-11-10",
+   "preisUsd": 28000,
+   "geldpreise": 4,
+   "anmeldungen": 66,
+   "ort": "Online",
+   "veranstalter": "ADHAYAN",
+   "themen": [
+    "Beginner Friendly",
+    "Machine Learning/AI",
+    "Social Good"
+   ]
+  },
   {
    "id": "devpost-31302",
    "titel": "PayPal AI Hackathon",
    "url": "https://paypalaihackathon.devpost.com/",
    "ende": "2026-11-12",
    "preisUsd": 67500,
-   "geldpreise": 1,
-   "anmeldungen": 29086,
+   "geldpreise": 14,
+   "anmeldungen": 29657,
    "ort": "Online",
    "veranstalter": "PayPal",
    "themen": [
@@ -39,7 +55,7 @@
    "ende": "2026-11-15",
    "preisUsd": 17150,
    "geldpreise": 8,
-   "anmeldungen": 267,
+   "anmeldungen": 278,
    "ort": "Online",
    "veranstalter": "CodeStarters",
    "themen": [
@@ -55,7 +71,7 @@
    "ende": "2026-11-16",
    "preisUsd": 46000,
    "geldpreise": 4,
-   "anmeldungen": 1321,
+   "anmeldungen": 1394,
    "ort": "Online",
    "veranstalter": "UGREEN",
    "themen": [
@@ -70,8 +86,8 @@
    "url": "https://start-developer-competition-26.devpost.com/",
    "ende": "2026-11-18",
    "preisUsd": 1000000,
-   "geldpreise": 19,
-   "anmeldungen": 5199,
+   "geldpreise": 1,
+   "anmeldungen": 5302,
    "ort": "Online",
    "veranstalter": "Meta",
    "themen": [
@@ -87,7 +103,7 @@
    "ende": "2026-11-25",
    "preisUsd": 45000,
    "geldpreise": 1,
-   "anmeldungen": 98,
+   "anmeldungen": 113,
    "ort": "Online",
    "veranstalter": "FabricVTON",
    "themen": [
@@ -103,7 +119,7 @@
    "ende": "2026-11-30",
    "preisUsd": 30000,
    "geldpreise": 1,
-   "anmeldungen": 665,
+   "anmeldungen": 769,
    "ort": "Online",
    "veranstalter": "Google",
    "themen": [
@@ -119,7 +135,7 @@
    "ende": "2026-12-04",
    "preisUsd": 100000,
    "geldpreise": 15,
-   "anmeldungen": 9089,
+   "anmeldungen": 9599,
    "ort": "Online",
    "veranstalter": "Kiro",
    "themen": [
@@ -134,8 +150,8 @@
    "url": "https://aws-agentic-msp.devpost.com/",
    "ende": "2026-12-11",
    "preisUsd": 64000,
-   "geldpreise": 16,
-   "anmeldungen": 113,
+   "geldpreise": 1,
+   "anmeldungen": 155,
    "ort": "Online",
    "veranstalter": "AWS",
    "themen": [
@@ -150,8 +166,8 @@
    "url": "https://qnx.devpost.com/",
    "ende": "2026-12-15",
    "preisUsd": 50000,
-   "geldpreise": 1,
-   "anmeldungen": 467,
+   "geldpreise": 14,
+   "anmeldungen": 556,
    "ort": "Online",
    "veranstalter": "QNX",
    "themen": [
@@ -167,7 +183,7 @@
    "ende": "2026-12-21",
    "preisUsd": 7800,
    "geldpreise": 5,
-   "anmeldungen": 885,
+   "anmeldungen": 909,
    "ort": "Online",
    "veranstalter": "Arbiter ",
    "themen": [
@@ -182,8 +198,8 @@
    "url": "https://codegeist2026.devpost.com/",
    "ende": "2026-12-22",
    "preisUsd": 120000,
-   "geldpreise": 7,
-   "anmeldungen": 1748,
+   "geldpreise": 1,
+   "anmeldungen": 1892,
    "ort": "Online",
    "veranstalter": "Atlassian",
    "themen": [
@@ -199,7 +215,7 @@
    "ende": "2027-01-10",
    "preisUsd": 18700,
    "geldpreise": 6,
-   "anmeldungen": 363,
+   "anmeldungen": 371,
    "ort": "Online",
    "veranstalter": "Hack United",
    "themen": [
@@ -215,7 +231,7 @@
    "ende": "2027-01-10",
    "preisUsd": 11960,
    "geldpreise": 7,
-   "anmeldungen": 77,
+   "anmeldungen": 78,
    "ort": "Online",
    "veranstalter": "Checkpoint",
    "themen": [
@@ -231,7 +247,7 @@
    "ende": "2027-01-18",
    "preisUsd": 146700,
    "geldpreise": 11,
-   "anmeldungen": 741,
+   "anmeldungen": 763,
    "ort": "Online",
    "veranstalter": "Cosmo Hacks",
    "themen": [
@@ -247,7 +263,7 @@
    "ende": "2027-02-04",
    "preisUsd": 10000,
    "geldpreise": 1,
-   "anmeldungen": 213,
+   "anmeldungen": 214,
    "ort": "Online",
    "veranstalter": "IWU",
    "themen": [
@@ -279,7 +295,7 @@
    "ende": "2027-03-15",
    "preisUsd": 5000,
    "geldpreise": 1,
-   "anmeldungen": 65,
+   "anmeldungen": 66,
    "ort": "Online",
    "veranstalter": "OSC",
    "themen": [
