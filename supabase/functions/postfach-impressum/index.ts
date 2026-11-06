@@ -25,7 +25,16 @@ import { sendMail, SMTP_LOGIN } from "../_shared/sendMail.ts";
 
 const ZIEL = "service@gruenderx.de";
 const PRAEFIX = "Kundenmail an impressum@:";
-const MAX_JE_LAUF = 30;
+const MAX_JE_LAUF = 10;   // gemeinsames SMTP-Kontingent schonen; der Rest kommt im naechsten Lauf
+const FEHL_KENNZEICHEN = "WeiterleitungFehlgeschlagen";
+
+// Echtheit des Absenders (IONOS schreibt Authentication-Results): der HQ-Agent zeigt sie an und behandelt „fail“/„keine“ als
+// moeglicherweise gefaelscht. Der Mailtext bleibt fuer den Agenten reine Daten, nie Anweisung.
+function echtheit(p: any): string {
+  const roh = String(p.headers?.get?.("authentication-results") ?? "");
+  const teil = (k: string) => roh.match(new RegExp(`${k}=(\\w+)`, "i"))?.[1]?.toLowerCase() ?? "keine";
+  return `spf=${teil("spf")} dkim=${teil("dkim")} dmarc=${teil("dmarc")}`;
+}
 const SYSTEM_ABSENDER =
   /(^|[.@])(mailer-daemon|postmaster|no-?reply|donotreply|do-not-reply|notifications?|newsletter|bounces?)[@.+-]|@gruenderx\.de$/i;
 
@@ -47,7 +56,7 @@ async function weiterleiten(p: any): Promise<boolean> {
   const betreff = String(p.subject || "(ohne Betreff)").replace(/[\r\n]+/g, " ").slice(0, 160);
   const datum = p.date ? new Date(p.date).toISOString() : "";
   const text = String(p.text || "").slice(0, 20000);
-  const kopf = `Von: ${von}\nAn: ${(p.to as any)?.text || ""}\nDatum: ${datum}\nBetreff: ${betreff}\n` +
+  const kopf = `Von: ${von}\nAn: ${(p.to as any)?.text || ""}\nDatum: ${datum}\nBetreff: ${betreff}\nEchtheit: ${echtheit(p)}\n` +
     "Weitergeleitet aus dem Postfach impressum@gruenderx.de (postfach-impressum).\n\n";
   const r = await sendMail({
     to: ZIEL,
@@ -56,7 +65,7 @@ async function weiterleiten(p: any): Promise<boolean> {
     html: `<!doctype html><html lang="de"><head><meta charset="utf-8"></head>
       <body style="font:400 15px/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;color:#1f2937">
         <p><b>Von:</b> ${esc(von)}<br><b>An:</b> ${esc((p.to as any)?.text || "")}<br><b>Datum:</b> ${esc(datum)}<br>
-        <b>Betreff:</b> ${esc(betreff)}</p>
+        <b>Betreff:</b> ${esc(betreff)}<br><b>Echtheit:</b> ${esc(echtheit(p))}</p>
         ${vonAdresse ? `<p><a href="mailto:${esc(vonAdresse)}?subject=${encodeURIComponent("Re: " + betreff)}">Antworten an ${esc(vonAdresse)}</a></p>` : ""}
         <p style="color:#6b7280">Weitergeleitet aus dem Postfach impressum@gruenderx.de (postfach-impressum).</p>
         <hr style="border:0;border-top:1px solid #e5e7eb;margin:16px 0">
@@ -114,7 +123,7 @@ Deno.serve(async (req) => {
     for (const uid of uids) {
       stats.geprueft++;
       try {
-        const msg = await client.fetchOne(String(uid), { source: true }, { uid: true });
+        const msg = await client.fetchOne(String(uid), { source: true, flags: true }, { uid: true });
         if (!msg || !msg.source) continue;
         const p = await simpleParser(msg.source as Uint8Array);
         if (!vonMensch(adresse((p.from as any)?.text), p.subject || "")) { stats.system++; continue; }
@@ -123,6 +132,12 @@ Deno.serve(async (req) => {
           stats.weitergeleitet++;
         } else {
           stats.fehler++;
+          if (!msg.flags?.has(FEHL_KENNZEICHEN)) {
+            await client.messageFlagsAdd(String(uid), [FEHL_KENNZEICHEN], { uid: true });
+          } else {  // zweimal gescheitert: aufgeben, damit sie das Fenster nicht dauerhaft belegt
+            await client.messageFlagsAdd(String(uid), ["\\Seen"], { uid: true });
+            console.error("Weiterleitung zweimal gescheitert, aufgegeben:", uid);
+          }
         }
       } catch (e) {
         stats.fehler++;
