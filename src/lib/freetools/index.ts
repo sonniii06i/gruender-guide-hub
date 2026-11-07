@@ -8,6 +8,7 @@ import { influencerSteuerCheckConfig } from "./influencer-steuer-check";
 import { prPaketRechnerConfig } from "./pr-paket-rechner";
 import { tiktokShopChecklisteConfig } from "./tiktok-shop-checkliste";
 import { ustIdNrConfig } from "./ust-idnr";
+import { elsterZugangConfig } from "./elster-zugang";
 
 // Reihenfolge = Anzeige-Reihenfolge auf der Hub-Seite.
 export const FREE_TOOLS: ToolConfig[] = [
@@ -18,6 +19,7 @@ export const FREE_TOOLS: ToolConfig[] = [
   tiktokShopChecklisteConfig,
   prPaketRechnerConfig,
   ustIdNrConfig,
+  elsterZugangConfig,
   markenFreischaltungConfig,
   transparencySeriennummerConfig,
 ];

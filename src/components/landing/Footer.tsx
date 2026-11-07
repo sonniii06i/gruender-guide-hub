@@ -28,6 +28,7 @@ const COLUMNS: { title: string; links: { to: string; label: string; native?: boo
       { to: "/tiktok-shop-checkliste", label: "TikTok-Shop-Checkliste" },
       { to: "/pr-paket-rechner", label: "PR-Paket-Rechner" },
       { to: "/ust-id-beantragen", label: "USt-ID beantragen" },
+      { to: "/elster-zertifikat-beantragen", label: "ELSTER-Zertifikat beantragen" },
     ],
   },
   {
