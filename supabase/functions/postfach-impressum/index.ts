@@ -9,7 +9,10 @@
 // Diese Function liest das Postfach per IMAP (gleicher Zugang wie der
 // SMTP-Versand, IONOS_SMTP_PASSWORD) und leitet Mails von Menschen an
 // service@gruenderx.de weiter (Weiterleitung ins Sammel-Gmail: Daily-Check
-// und HQ-Antwort-Agent). Aufruf nur mit Service-Schlüssel, aus dem HQ:
+// und HQ-Antwort-Agent). Aufruf aus dem HQ, signiert wie hq-send (Header
+// x-hq-signatur = HMAC-SHA256 über den Body mit HQ_ARCHIV_SECRET, Feld ts
+// höchstens 10 Min. alt). Der Service-Schlüssel allein reichte nicht: die
+// Function-Umgebung führt ein anderes Schlüsselformat als das HQ (07.11.2026, 401).
 //
 //   {"modus":"weiterleiten","seit":"<ISO>"}  ungelesene Mails seit <seit>
 //   {"modus":"liste","tage":90}              Altbestand, nur Kopfdaten
@@ -20,7 +23,7 @@
 // ===================================================================
 import { ImapFlow } from "npm:imapflow@1.0.164";
 import { simpleParser } from "npm:mailparser@3.7.1";
-import { istServiceRole } from "../_shared/authGuard.ts";
+import { gleich, istServiceRole } from "../_shared/authGuard.ts";
 import { sendMail, SMTP_LOGIN } from "../_shared/sendMail.ts";
 
 const ZIEL = "service@gruenderx.de";
@@ -50,6 +53,24 @@ function echtheit(p: any): string {
 }
 const SYSTEM_ABSENDER =
   /(^|[.@])(mailer-daemon|postmaster|no-?reply|donotreply|do-not-reply|notifications?|newsletter|bounces?)[@.+-]|@gruenderx\.de$/i;
+
+async function signatur(body: string, geheim: string): Promise<string> {
+  const k = await crypto.subtle.importKey("raw", new TextEncoder().encode(geheim), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
+  const s = await crypto.subtle.sign("HMAC", k, new TextEncoder().encode(body));
+  return Array.from(new Uint8Array(s)).map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+
+async function hqSigniert(req: Request, body: string): Promise<boolean> {
+  const geheim = Deno.env.get("HQ_ARCHIV_SECRET");
+  if (!geheim) return false;
+  if (!gleich(req.headers.get("x-hq-signatur") || "", await signatur(body, geheim))) return false;
+  try {
+    const ts = Number(JSON.parse(body).ts);
+    return Number.isFinite(ts) && Math.abs(Date.now() / 1000 - ts) <= 600;
+  } catch {
+    return false;
+  }
+}
 
 const json = (b: unknown, status = 200) =>
   new Response(JSON.stringify(b), { status, headers: { "Content-Type": "application/json" } });
@@ -91,8 +112,10 @@ async function weiterleiten(p: any): Promise<boolean> {
 
 Deno.serve(async (req) => {
   if (req.method !== "POST") return json({ error: "method" }, 405);
-  if (!istServiceRole(req)) return json({ error: "nicht erlaubt" }, 401);
-  const b = await req.json().catch(() => ({})) as Record<string, unknown>;
+  const roh = await req.text();
+  if (!istServiceRole(req) && !(await hqSigniert(req, roh))) return json({ error: "nicht erlaubt" }, 401);
+  let b: Record<string, unknown> = {};
+  try { b = JSON.parse(roh); } catch { /* leerer Auftrag → modus fehlt → 400 */ }
   const modus = String(b.modus ?? "");
   const pass = Deno.env.get("IONOS_SMTP_PASSWORD");
   if (!pass) return json({ error: "IONOS_SMTP_PASSWORD fehlt" }, 500);
