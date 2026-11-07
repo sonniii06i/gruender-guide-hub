@@ -166,13 +166,19 @@ export function TrialUpsell({
               : `Deine kostenlose Nutzung von „${tool.name}" ist aufgebraucht.`}
           </p>
           <p className="mt-1 text-sm text-muted-foreground">
-            Unbegrenzt nutzt du „{tool.name}" und alle anderen Tools, Wizards und Guides mit dem GründerX-Abo –
-            ab {formatEurCents(PRO_MONTH_GROSS_CENTS)} im Monat inkl. 19 % USt., jederzeit zum Ende der
-            Abrechnungsperiode kündbar.
+            Weiter geht es mit dem kostenlosen Konto: ohne Kreditkarte, mit Gratis-Tools, Rechnern und
+            Fristen-Erinnerungen. Unbegrenzt nutzt du „{tool.name}" und alle anderen Tools, Wizards und Guides
+            mit dem GründerX-Abo – ab {formatEurCents(PRO_MONTH_GROSS_CENTS)} im Monat inkl. 19 % USt., jederzeit
+            zum Ende der Abrechnungsperiode kündbar.
           </p>
+          {/* 07.11.2026: Nach dem Gratis-Check gab es nur den Weg zur Preisseite (Oktober: 8 Leads, 0 Konten).
+              Das kostenlose Konto (seit 27.10.) ist jetzt der erste Schritt, das Abo der zweite. */}
           <div className="mt-4 flex flex-wrap gap-2">
-            <Link to="/preise">
-              <Button className="rounded-full bg-gradient-primary hover:opacity-95">Preise &amp; Leistungen</Button>
+            <Link to="/auth" data-cta="trial-konto">
+              <Button className="rounded-full bg-gradient-primary hover:opacity-95">Kostenloses Konto anlegen</Button>
+            </Link>
+            <Link to="/preise" data-cta="trial-preise">
+              <Button variant="outline" className="rounded-full">Preise &amp; Leistungen</Button>
             </Link>
             <Link to="/auth?mode=signin">
               <Button variant="ghost" className="rounded-full">

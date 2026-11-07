@@ -224,21 +224,9 @@ const Auth = () => {
         )
       }
     >
-      {mode === "signup" && (
-        <ul className="mb-5 space-y-2 rounded-xl border border-border bg-secondary/50 p-4 text-sm">
-          {[
-            "Kostenlos, keine Kreditkarte",
-            "Gratis-Tools, Rechner und Fristen-Erinnerungen",
-            `Voller Zugang: 7 Tage für 1 €, danach ${formatEurCents(PLANS.gruenderx.grossCents)}/Monat, jederzeit kündbar`,
-          ].map((t) => (
-            <li key={t} className="flex items-start gap-2">
-              <Check className="mt-0.5 h-4 w-4 shrink-0 text-success" aria-hidden="true" />
-              <span>{t}</span>
-            </li>
-          ))}
-        </ul>
-      )}
-
+      {/* 07.11.2026: Nutzenzeilen stehen unter dem Formular. Auf 390 px lagen vorher nur Vorname und
+          E-Mail im ersten Bild, Passwort und "Konto erstellen" erst nach dem Scrollen. Der Untertitel
+          nennt die Fakten schon oben. */}
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* 27.10.2026: Registrieren legt wieder ein Gratis-Konto an (Name, Mail, Passwort). */}
         {mode === "signup" && (
@@ -310,6 +298,21 @@ const Auth = () => {
           ) : (mode === "signup" ? "Kostenloses Konto erstellen" : "Anmelden")}
         </Button>
       </form>
+
+      {mode === "signup" && (
+        <ul className="mt-5 space-y-2 rounded-xl border border-border bg-secondary/50 p-4 text-sm">
+          {[
+            "Kostenlos, keine Kreditkarte",
+            "Gratis-Tools, Rechner und Fristen-Erinnerungen",
+            `Voller Zugang: 7 Tage für 1 €, danach ${formatEurCents(PLANS.gruenderx.grossCents)}/Monat, jederzeit kündbar`,
+          ].map((t) => (
+            <li key={t} className="flex items-start gap-2">
+              <Check className="mt-0.5 h-4 w-4 shrink-0 text-success" aria-hidden="true" />
+              <span>{t}</span>
+            </li>
+          ))}
+        </ul>
+      )}
 
       {/* Google: Anmelden und (seit 27.10. wieder) Gratis-Registrierung. */}
       <>

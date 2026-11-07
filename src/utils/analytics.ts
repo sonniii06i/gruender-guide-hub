@@ -259,8 +259,11 @@ export const trackMonetization = {
     track("monetization", "checkout_started", { plan, price_cents: priceCents }),
   // Klick auf einen Kauf-/Anmelde-Knopf: zeigt je Seite, wer Interesse hat, auch
   // wenn der Stripe-Checkout danach keine Zuordnung zum Besucher mehr erlaubt.
-  ctaKlick: (ziel: string, text: string) =>
-    track("monetization", "cta_click", { ziel: ziel.slice(0, 120), text: text.slice(0, 60) }),
+  // `von` = Seite, auf der geklickt wurde. Der Klick-Lauscher laeuft in der
+  // Capture-Phase, sonst steht in `path` schon die Zielseite (Befund 07.11.2026:
+  // alle cta_click trugen path=/preise, die Herkunft war nicht mehr erkennbar).
+  ctaKlick: (ziel: string, text: string, von?: string) =>
+    track("monetization", "cta_click", { ziel: ziel.slice(0, 120), text: text.slice(0, 60), von: (von ?? "").slice(0, 120) }),
   subscriptionStarted: (plan: string, priceCents?: number) =>
     track("monetization", "subscription_started", { plan, price_cents: priceCents }),
   cancelRequested: (plan: string) => track("monetization", "cancel_requested", { plan }),

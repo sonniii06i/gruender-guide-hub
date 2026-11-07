@@ -11,6 +11,7 @@
 
 import { supabase } from "@/integrations/supabase/client";
 import { trackAdConversion } from "@/utils/adConversions";
+import { track } from "@/utils/analytics";
 
 export const EMAIL_PATTERN = /^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/;
 
@@ -52,6 +53,8 @@ export async function saveToolLead(params: { email: string; slug: string }): Pro
  */
 export function trackToolLead(slug: string): void {
   try {
+    // Trichterstufe "Lead" (E-Mail im Gratis-Check) ohne Personendaten: nur der Tool-Slug.
+    track("activation", "tool_lead", { tool: slug });
     trackAdConversion("tool_result", { label: `gx-tool:${slug}` });
   } catch {
     /* Tracking darf die Freischaltung nie verhindern */

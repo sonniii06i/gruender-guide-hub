@@ -67,10 +67,12 @@ export const AnalyticsCapture = () => {
       );
       if (!el) return;
       const ziel = el.getAttribute("data-cta") || el.getAttribute("href") || "";
-      trackMonetization.ctaKlick(ziel, (el.textContent || "").trim());
+      trackMonetization.ctaKlick(ziel, (el.textContent || "").trim(), window.location.pathname);
     };
-    document.addEventListener("click", beiKlick);
-    return () => document.removeEventListener("click", beiKlick);
+    // Capture-Phase: Der Router wechselt die Route schon im Bubble-Handler des Links,
+    // danach stuende als Quelle die Zielseite (Funnel-Pruefung 07.11.2026).
+    document.addEventListener("click", beiKlick, true);
+    return () => document.removeEventListener("click", beiKlick, true);
   }, []);
 
   useEffect(() => {
