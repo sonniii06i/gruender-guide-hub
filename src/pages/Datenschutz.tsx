@@ -168,7 +168,8 @@ const Datenschutz = () => (
         Anfragen per E-Mail, Kontaktformular und Direktnachricht an unsere Facebook-Seite und unser Instagram-Konto
         bearbeiten wir in einem internen Support-Werkzeug. E-Mails gehen über unseren E-Mail-Anbieter IONOS SE ein und
         werden in einem Postfach bei Google (Gmail) gelesen. Direktnachrichten rufen wir über die Schnittstelle von Meta
-        Platforms Ireland Ltd. ab. Für einen Antwortentwurf übermitteln wir deinen Namen bzw. Profilnamen und den Text
+        Platforms Ireland Ltd. ab. Neue Anfragen melden wir intern zusätzlich über einen Discord-Kanal
+        (Discord Inc., USA). Für einen Antwortentwurf übermitteln wir deinen Namen bzw. Profilnamen und den Text
         deiner Nachricht an Anthropic PBC (USA, Claude-API); zur Drittlandübermittlung siehe Abschnitt 3.3. Jede Antwort
         prüft und versendet ein Mensch; eine automatisierte Entscheidung im Sinne von Art. 22 DSGVO findet nicht statt.
         Das Support-Werkzeug läuft auf Servern der Hetzner Online GmbH in Deutschland. Dort löschen wir deine Nachricht
