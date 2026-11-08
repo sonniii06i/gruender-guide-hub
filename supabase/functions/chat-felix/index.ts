@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
+import { FELIX_MAX_ZEICHEN_NUTZER, verlaufBereinigen } from "./verlauf.ts";
 import { inputGuard, outputGuard, rejectStream } from "../_shared/chat-guardrails.ts";
 import {
   loadMemories,
@@ -119,6 +120,7 @@ function estimateChatTokens(text: string): number {
 }
 
 async function logChat(entry: {
+  user_id?: string | null;
   user_message: string;
   assistant_message?: string | null;
   provider: "gemini" | "anthropic-claude" | "openai-gpt" | "rejected-input" | "rejected-output";
@@ -784,14 +786,33 @@ function isSmallTalk(text: string): boolean {
   return t.length <= 40 && SMALL_TALK_RE.test(t);
 }
 
+// SICHERHEIT 08.11.2026 (Audit): Verlauf kam ungeprueft ans Modell (beliebige Rollen wie „system“, beliebige
+// Laenge/Anzahl) und es gab kein Limit je Nutzer. Jetzt: nur user/assistant mit Text, letzte 40 Nachrichten,
+// Nutzer-Nachricht max. 4.000 Zeichen, Verlauf gesamt max. 60.000 Zeichen, je Nutzer 30 Anfragen/10 min und
+// 300/Tag (gezaehlt in chat_logs.user_id, Index chat_logs_user_idx).
+const FELIX_MAX_10MIN = 30;
+const FELIX_MAX_TAG = 300;
+
+function jsonFehler(status: number, error: string): Response {
+  return new Response(JSON.stringify({ error }), {
+    status, headers: { ...corsHeaders, "Content-Type": "application/json" },
+  });
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   const startTime = Date.now();
 
   try {
-    const { messages } = await req.json();
-    const lastUser = [...messages].reverse().find((m: any) => m.role === "user")?.content ?? "";
+    const body = await req.json().catch(() => null);
+    const messages = verlaufBereinigen(body?.messages);
+    if (!messages) return jsonFehler(400, "Nachricht fehlt.");
+    const lastUser = [...messages].reverse().find((m) => m.role === "user")?.content ?? "";
+    if (!lastUser.trim()) return jsonFehler(400, "Nachricht fehlt.");
+    if (lastUser.length > FELIX_MAX_ZEICHEN_NUTZER) {
+      return jsonFehler(400, `Bitte fasse dich kürzer (max. ${FELIX_MAX_ZEICHEN_NUTZER} Zeichen).`);
+    }
     // Einmal erkennen: Begrüßung/Smalltalk? → schlanker Prompt + kein KB-Retrieval (schneller).
     const smallTalk = isSmallTalk(lastUser);
 
@@ -847,6 +868,18 @@ serve(async (req) => {
           JSON.stringify({ error: "Für den Felix-Chat brauchst du ein aktives Abo." }),
           { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } },
         );
+      }
+      // Limit je Nutzer (fail closed: ohne Zaehlung keine Anfrage)
+      const jetzt = Date.now();
+      const [n10, nTag] = await Promise.all([
+        supaService.from("chat_logs").select("id", { count: "exact", head: true })
+          .eq("user_id", userId).gte("created_at", new Date(jetzt - 10 * 60 * 1000).toISOString()),
+        supaService.from("chat_logs").select("id", { count: "exact", head: true })
+          .eq("user_id", userId).gte("created_at", new Date(jetzt - 24 * 60 * 60 * 1000).toISOString()),
+      ]);
+      if (n10.error || nTag.error) return jsonFehler(429, "Felix ist gerade ausgelastet. Bitte versuche es gleich noch einmal.");
+      if ((n10.count ?? 0) >= FELIX_MAX_10MIN || (nTag.count ?? 0) >= FELIX_MAX_TAG) {
+        return jsonFehler(429, "Du hast gerade sehr viele Fragen gestellt. Bitte warte kurz und versuche es dann erneut.");
       }
     }
 
@@ -939,6 +972,7 @@ serve(async (req) => {
       const teed = teeForLogging(upstream, (fullText) => {
         const outGuard = outputGuard(fullText);
         logChat({
+          user_id: userId,
           user_message: lastUser.slice(0, 2000),
           assistant_message: fullText.slice(0, 4000),
           provider,
@@ -983,6 +1017,7 @@ serve(async (req) => {
     const versuche = versucheAus(llmRes);
     const letzter = (versuche[versuche.length - 1]?.name ?? "").split(":")[0] as LlmAnbieter;
     logChat({
+      user_id: userId,
       user_message: lastUser.slice(0, 2000),
       provider: LOG_PROVIDER[letzter] ?? "gemini",
       error: (versucheText(versuche) || `status-${llmRes.status}`).slice(0, 500),
