@@ -118,6 +118,11 @@ const Kontakt = lazy(() => import("./pages/Kontakt.tsx"));
 const Impressum = lazy(() => import("./pages/Impressum.tsx"));
 const Partner = lazy(() => import("./pages/Partner.tsx"));
 const Angebot = lazy(() => import("./pages/Angebot.tsx"));
+// Funnel 08.11.2026 (Offer-Page + Advertorials + Vergleich, Betreiber: wie AG1/Cocunat/Kinobody)
+const FunnelStart = lazy(() => import("./pages/funnel/Start.tsx"));
+const AdvFragebogen = lazy(() => import("./pages/funnel/AdvFragebogen.tsx"));
+const ListicleGruendung = lazy(() => import("./pages/funnel/ListicleGruendung.tsx"));
+const VergleichWege = lazy(() => import("./pages/funnel/VergleichWege.tsx"));
 const Datenschutz = lazy(() => import("./pages/Datenschutz.tsx"));
 const AGB = lazy(() => import("./pages/AGB.tsx"));
 const Widerruf = lazy(() => import("./pages/Widerruf.tsx"));
@@ -349,6 +354,10 @@ const App = () => (
               <Route path="/partner" element={<Partner />} />
               {/* Affiliate-Verkaufsseite (Digistore24): nur DS24-Checkout, oeffentlich */}
               <Route path="/angebot" element={<Angebot />} />
+              <Route path="/start" element={<FunnelStart />} />
+              <Route path="/anzeige/fragebogen-steuerliche-erfassung" element={<AdvFragebogen />} />
+              <Route path="/anzeige/gruendung-5-gruende" element={<ListicleGruendung />} />
+              <Route path="/vergleich/gruendung-selbst-steuerberater-gruenderx" element={<VergleichWege />} />
               <Route path="/impressum" element={<Impressum />} />
               <Route path="/datenschutz" element={<Datenschutz />} />
               <Route path="/agb" element={<AGB />} />

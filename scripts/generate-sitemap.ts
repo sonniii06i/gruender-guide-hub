@@ -78,6 +78,8 @@ const staticEntries: SitemapEntry[] = [
   { path: "/vertrag-widerrufen", changefreq: "yearly", priority: "0.2" },
   { path: "/kuendigen", changefreq: "yearly", priority: "0.2" },
   { path: "/gruendungspaket", changefreq: "monthly", priority: "0.8" },
+  // Vergleichsseite (Funnel 08.11.2026), indexierbar
+  { path: "/vergleich/gruendung-selbst-steuerberater-gruenderx", changefreq: "monthly", priority: "0.7" },
 ];
 
 // Tool-Landing-Slugs direkt aus der Single-Source-of-Truth (features.ts →

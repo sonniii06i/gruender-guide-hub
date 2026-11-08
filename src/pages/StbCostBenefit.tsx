@@ -381,7 +381,7 @@ const StbCostBenefit = () => {
       <Glossar />
       <Stand2026Footer
         sources={[
-          { label: "StBVV (Steuerberatervergütungsverordnung)", url: "https://www.gesetze-im-internet.de/stbvv/" },
+          { label: "StBVV (Steuerberatervergütungsverordnung)", url: "https://www.gesetze-im-internet.de/stbgebv/" },
           { label: "BStBK Strukturanalyse Steuerberatung", url: "https://www.bstbk.de" },
           { label: "lexoffice Preise", url: "https://www.lexoffice.de/preise/" },
           { label: "sevdesk Preise", url: "https://sevdesk.de/preise/" },
