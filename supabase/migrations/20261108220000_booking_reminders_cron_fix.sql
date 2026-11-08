@@ -1,4 +1,4 @@
--- VORBEREITET 08.11.2026 (Sicherheits-Fixes, NICHT angewendet – nur mit Betreiber-Freigabe ausfuehren).
+-- ANGEWENDET 08.11.2026 per db query (Betreiber-Freigabe „alle Lücken lösen“).
 --
 -- Befund: pg_cron-Job 1 „send-booking-reminders“ scheitert seit 15.05.2026 bei jedem Lauf
 -- (51.026 Fehlschlaege bis 08.11.2026 19:40 UTC, „URL using bad/illegal format“): In der URL steht ein
@@ -6,7 +6,8 @@
 -- Die Function nimmt seit 08.11.2026 nur noch Service-Role oder x-cron-secret (CART_CRON_SECRET) an.
 --
 -- Folge der Anwendung: Ab dem naechsten 5-Minuten-Lauf gehen ECHTE Erinnerungsmails an Kunden mit Terminen
--- im 24-h- bzw. 15-min-Fenster (erstmals seit Mai).
+-- im 24-h- bzw. 15-min-Fenster (erstmals seit Mai). Stand bei Anwendung: 0 faellige Buchungen (einzige Buchung 15.05., vergangen),
+-- Probelauf 200 „no reminders due“.
 DO $$
 DECLARE j bigint;
 BEGIN

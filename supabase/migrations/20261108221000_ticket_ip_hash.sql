@@ -1,4 +1,4 @@
--- VORBEREITET 08.11.2026 (Sicherheits-Fixes, NICHT angewendet – nur mit Betreiber-Freigabe ausfuehren).
+-- ANGEWENDET 08.11.2026 per db query (Betreiber-Freigabe „alle Lücken lösen“).
 -- send-ticket-email zaehlt Kundenmails je IP (Hash aus cf-connecting-ip, keine Klar-IP). Bis die Spalte existiert,
 -- gilt nur ein In-Memory-Teilschutz je Function-Instanz; Adress- und Globallimit wirken schon jetzt.
 ALTER TABLE public.contact_tickets ADD COLUMN IF NOT EXISTS ip_hash text;

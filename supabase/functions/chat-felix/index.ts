@@ -160,15 +160,11 @@ async function logChat(entry: {
     }
 
     // logId: Platzhalter-Zeile (Rate-Limit, 08.11.2026) aktualisieren statt neu einfuegen.
-    // input_tokens/output_tokens/cost_usd kommen erst mit Migration 20260727170000 (in Prod nicht angewendet) –
-    // bis dahin auf die vorhandenen Spalten prompt_tokens/completion_tokens ausweichen, statt still zu scheitern.
-    const schreiben = (r: Record<string, unknown>) =>
-      logId ? supa.from("chat_logs").update(r).eq("id", logId) : supa.from("chat_logs").insert(r);
-    let { error } = await schreiben(row);
-    if (error && /input_tokens|output_tokens|cost_usd/i.test(error.message)) {
-      const { input_tokens, output_tokens, cost_usd: _c, ...rest } = row;
-      ({ error } = await schreiben({ ...rest, prompt_tokens: input_tokens ?? null, completion_tokens: output_tokens ?? null }));
-    }
+    // input_tokens/output_tokens/cost_usd gibt es seit 08.11.2026 in Prod (Migration 20260727170000 + Nachtrag
+    // 20261108223000 mit den Preisen der heutigen Modelle) – get_my_token_budget summiert cost_usd.
+    const { error } = logId
+      ? await supa.from("chat_logs").update(row).eq("id", logId)
+      : await supa.from("chat_logs").insert(row);
     if (error) console.error("chat_logs schreiben fehlgeschlagen", error.message);
   } catch (e) {
     console.error("chat_logs insert failed", e);
