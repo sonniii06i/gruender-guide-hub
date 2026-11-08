@@ -258,7 +258,7 @@ export const IP_BOX_REGIMES: IPBoxRegime[] = [
     setupCostEur: "20.000-40.000 €",
     runningCostEur: "15.000-30.000 €/Jahr",
     fitForGermans: "Gut",
-    officialUrl: "https://www.revenue.ie/en/companies-and-charities/reliefs-and-exemptions/knowledge-development-box/index.aspx",
+    officialUrl: "https://www.revenue.ie/en/companies-and-charities/reliefs-and-exemptions/knowledge-development-box-kdb/index.aspx",
   },
   {
     slug: "ungarn",

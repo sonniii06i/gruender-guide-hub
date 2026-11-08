@@ -168,8 +168,8 @@ export const STARTUP_PERKS: StartupPerk[] = [
     slug: "posthog-for-startups", name: "PostHog for Startups", anbieter: "PostHog", kategorie: "entwicklung",
     wert: "50.000 $ PostHog-Guthaben für 12 Monate + 12.000 $ Partnervorteile", wertUsd: 50000,
     leistungen: ["50.000 $ Guthaben (nicht für die KI-Funktionen)", "Partnervorteile im Wert von 12.000 $", "Merch"],
-    voraussetzungen: ["PostHog-Konto", "Früh-Phase-Team (genaue Kriterien nennt PostHog nicht)"],
-    vcNoetig: false, gruendungMaxJahre: null, url: "https://posthog.com/startups", pruefWorte: ["$50,000", "$12,000"],
+    voraussetzungen: ["PostHog-Konto", "Jünger als 2 Jahre", "Weniger als 5 Mio. $ Finanzierung", "Konto mit Firmen-E-Mail-Domain, Credits nur einmal je Gründer"],
+    vcNoetig: false, gruendungMaxJahre: 2, url: "https://posthog.com/startups", pruefWorte: ["$50,000", "$12,000"],
     hinweis: "Analytics, Session Replay und Feature Flags in einem – für viele Gründer der wertvollste Software-Perk ohne Investor.", geprueft: "2026-10-08",
   },
   {
@@ -310,7 +310,7 @@ export const STARTUP_PERKS: StartupPerk[] = [
     leistungen: ["3 Tage Test ohne Kreditkarte", "Danach 1 €/Monat zum Weiterbauen"],
     voraussetzungen: ["Neuer Shop über die Aktionsseite"],
     vcNoetig: false, gruendungMaxJahre: null, url: "https://www.shopify.com/de/kostenloser-test", pruefWorte: ["1 €"],
-    hinweis: "Wie lange der 1-€-Preis gilt, steht nicht auf der Seite – danach regulärer Tarif.", geprueft: "2026-10-08", nurBrowser: true,
+    hinweis: "Laut Preisseite gilt der 1-€-Preis 3 Monate, danach regulärer Tarif (Basic 27 €/Monat bei Jahreszahlung zzgl. USt, also 32,13 € brutto).", geprueft: "2026-10-08", nurBrowser: true,
   },
   // ---------- Netzwerk ----------
   {

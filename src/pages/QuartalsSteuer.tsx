@@ -343,7 +343,7 @@ const QuartalsSteuer = () => {
           <li>
             <strong className="text-foreground">Ist-Steuer vs. Schätzung:</strong> Bei großen Abweichungen (&gt; 50 % vom Soll)
             drohen nach der Veranlagung eine hohe Nachzahlung auf einen Schlag und Nachzahlungszinsen (§233a AO, 0,15 % pro Monat
-            ab dem 15. Monat nach Jahresende). Ein Anpassungsantrag verteilt die Last und schont die Liquidität.
+            ab dem 16. Monat nach Jahresende). Ein Anpassungsantrag verteilt die Last und schont die Liquidität.
           </li>
         </ul>
       </ToolSection>
