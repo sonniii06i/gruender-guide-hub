@@ -45,34 +45,13 @@ interface ReminderResult {
 }
 
 // SICHERHEIT 08.11.2026 (Audit): verify_jwt=false und KEINE eigene Pruefung – jeder konnte die Function aufrufen, die
-// Erinnerungen ausloesen und in der Antwort Buchungs-IDs samt Kunden-E-Mail lesen. Jetzt: Service-Role, x-cron-secret
-// (CART_CRON_SECRET) oder ein Bearer, den Supabase Auth als gueltigen Service-Key annimmt. Letzteres, weil pg_cron (Job 1)
-// heute einen aelteren Service-Key aus Vault (`cron_service_role_key`) sendet, der nicht mehr gleich der Laufzeit-Variable
-// ist – ohne diesen Weg blieben die Termin-Erinnerungen stehen. Die Antwort enthaelt nur noch Zaehler.
-const gepruefteKeys = new Map<string, boolean>();
-
-async function istGueltigerServiceKey(req: Request): Promise<boolean> {
-  const t = (req.headers.get("authorization") ?? "").replace(/^Bearer\s+/i, "").trim();
-  if (!t || t.length < 40) return false;
-  if (gepruefteKeys.has(t)) return gepruefteKeys.get(t)!;
-  let ok = false;
-  try {
-    const r = await fetch(`${Deno.env.get("SUPABASE_URL")}/auth/v1/admin/users?page=1&per_page=1`, {
-      headers: { apikey: t, Authorization: `Bearer ${t}` },
-    });
-    ok = r.ok;
-    await r.body?.cancel();
-  } catch {
-    ok = false;
-  }
-  if (gepruefteKeys.size > 20) gepruefteKeys.clear();
-  gepruefteKeys.set(t, ok);
-  return ok;
-}
-
+// Erinnerungen ausloesen und in der Antwort Buchungs-IDs samt Kunden-E-Mail lesen. Jetzt nur Service-Role oder
+// x-cron-secret (CART_CRON_SECRET, wie send-cart-series). Die Antwort enthaelt nur noch Zaehler.
+// Hinweis: Der pg_cron-Job 1 erreichte die Function seit 15.05.2026 nie (Zeilenumbruch in der URL); die Korrektur
+// samt x-cron-secret liegt als vorbereitete Migration in supabase/migrations_vorbereitet/.
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
-  if (!istServiceRole(req) && !hatCronSecret(req) && !(await istGueltigerServiceKey(req))) {
+  if (!istServiceRole(req) && !hatCronSecret(req)) {
     return new Response(JSON.stringify({ error: "forbidden" }), {
       status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
