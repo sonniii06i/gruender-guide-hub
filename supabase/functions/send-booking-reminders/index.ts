@@ -4,6 +4,7 @@
 
 import { SMTPClient } from "../_shared/smtp.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
+import { hatCronSecret, istServiceRole } from "../_shared/authGuard.ts";
 import {
   reminder24hEmail,
   reminder15minEmail,
@@ -43,8 +44,39 @@ interface ReminderResult {
   error?: string;
 }
 
+// SICHERHEIT 08.11.2026 (Audit): verify_jwt=false und KEINE eigene Pruefung – jeder konnte die Function aufrufen, die
+// Erinnerungen ausloesen und in der Antwort Buchungs-IDs samt Kunden-E-Mail lesen. Jetzt: Service-Role, x-cron-secret
+// (CART_CRON_SECRET) oder ein Bearer, den Supabase Auth als gueltigen Service-Key annimmt. Letzteres, weil pg_cron (Job 1)
+// heute einen aelteren Service-Key aus Vault (`cron_service_role_key`) sendet, der nicht mehr gleich der Laufzeit-Variable
+// ist – ohne diesen Weg blieben die Termin-Erinnerungen stehen. Die Antwort enthaelt nur noch Zaehler.
+const gepruefteKeys = new Map<string, boolean>();
+
+async function istGueltigerServiceKey(req: Request): Promise<boolean> {
+  const t = (req.headers.get("authorization") ?? "").replace(/^Bearer\s+/i, "").trim();
+  if (!t || t.length < 40) return false;
+  if (gepruefteKeys.has(t)) return gepruefteKeys.get(t)!;
+  let ok = false;
+  try {
+    const r = await fetch(`${Deno.env.get("SUPABASE_URL")}/auth/v1/admin/users?page=1&per_page=1`, {
+      headers: { apikey: t, Authorization: `Bearer ${t}` },
+    });
+    ok = r.ok;
+    await r.body?.cancel();
+  } catch {
+    ok = false;
+  }
+  if (gepruefteKeys.size > 20) gepruefteKeys.clear();
+  gepruefteKeys.set(t, ok);
+  return ok;
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
+  if (!istServiceRole(req) && !hatCronSecret(req) && !(await istGueltigerServiceKey(req))) {
+    return new Response(JSON.stringify({ error: "forbidden" }), {
+      status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
 
   try {
     const supa = createClient(
@@ -158,7 +190,6 @@ Deno.serve(async (req) => {
         ok: true,
         sent: results.filter((r) => r.status === "sent").length,
         errors: results.filter((r) => r.status === "error").length,
-        results,
       }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
