@@ -131,7 +131,7 @@ async function logChat(entry: {
   output_guard_triggered?: string | null;
   latency_ms?: number | null;
   error?: string | null;
-}) {
+}, logId?: string | null) {
   try {
     const url = Deno.env.get("SUPABASE_URL");
     const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
@@ -159,7 +159,17 @@ async function logChat(entry: {
       }
     }
 
-    await supa.from("chat_logs").insert(row);
+    // logId: Platzhalter-Zeile (Rate-Limit, 08.11.2026) aktualisieren statt neu einfuegen.
+    // input_tokens/output_tokens/cost_usd kommen erst mit Migration 20260727170000 (in Prod nicht angewendet) –
+    // bis dahin auf die vorhandenen Spalten prompt_tokens/completion_tokens ausweichen, statt still zu scheitern.
+    const schreiben = (r: Record<string, unknown>) =>
+      logId ? supa.from("chat_logs").update(r).eq("id", logId) : supa.from("chat_logs").insert(r);
+    let { error } = await schreiben(row);
+    if (error && /input_tokens|output_tokens|cost_usd/i.test(error.message)) {
+      const { input_tokens, output_tokens, cost_usd: _c, ...rest } = row;
+      ({ error } = await schreiben({ ...rest, prompt_tokens: input_tokens ?? null, completion_tokens: output_tokens ?? null }));
+    }
+    if (error) console.error("chat_logs schreiben fehlgeschlagen", error.message);
   } catch (e) {
     console.error("chat_logs insert failed", e);
   }
@@ -843,6 +853,7 @@ serve(async (req) => {
     // User-ID aus JWT — wenn anon-Key oder fehlend: Memory wird übersprungen
     const userId = await getUserIdFromRequest(req);
     const supaService = serviceClient();
+    let logId: string | null = null;
 
     // === ABO-GATE (serverseitig, Defense-in-Depth zur Route-PaywallGate) ===
     // Felix ist der LLM-Kostentreiber → ohne aktives Abo (oder Admin) kein Chat,
@@ -869,7 +880,13 @@ serve(async (req) => {
           { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } },
         );
       }
-      // Limit je Nutzer (fail closed: ohne Zaehlung keine Anfrage)
+      // Limit je Nutzer: erst Platzhalter-Zeile eintragen, dann zaehlen (eigene Zeile inklusive) – parallele
+      // Anfragen sehen sich gegenseitig. Ueber dem Limit: eigene Zeile loeschen, 429. Ohne Zeile/Zaehlung: 429.
+      const { data: platz, error: pErr } = await supaService.from("chat_logs")
+        .insert({ user_id: userId, user_message: lastUser.slice(0, 2000), provider: "gemini", model: "laeuft" })
+        .select("id").single();
+      if (pErr || !platz) return jsonFehler(429, "Felix ist gerade ausgelastet. Bitte versuche es gleich noch einmal.");
+      logId = platz.id as string;
       const jetzt = Date.now();
       const [n10, nTag] = await Promise.all([
         supaService.from("chat_logs").select("id", { count: "exact", head: true })
@@ -877,8 +894,8 @@ serve(async (req) => {
         supaService.from("chat_logs").select("id", { count: "exact", head: true })
           .eq("user_id", userId).gte("created_at", new Date(jetzt - 24 * 60 * 60 * 1000).toISOString()),
       ]);
-      if (n10.error || nTag.error) return jsonFehler(429, "Felix ist gerade ausgelastet. Bitte versuche es gleich noch einmal.");
-      if ((n10.count ?? 0) >= FELIX_MAX_10MIN || (nTag.count ?? 0) >= FELIX_MAX_TAG) {
+      if (n10.error || nTag.error || (n10.count ?? 0) > FELIX_MAX_10MIN || (nTag.count ?? 0) > FELIX_MAX_TAG) {
+        await supaService.from("chat_logs").delete().eq("id", logId);
         return jsonFehler(429, "Du hast gerade sehr viele Fragen gestellt. Bitte warte kurz und versuche es dann erneut.");
       }
     }
@@ -984,7 +1001,7 @@ serve(async (req) => {
           output_tokens: estimateChatTokens(fullText),
           output_guard_triggered: outGuard.ok ? null : outGuard.trigger,
           latency_ms: Date.now() - startTime,
-        });
+        }, logId);
         // Memory-Extract async im Hintergrund — kein await, blockt nichts
         if (userId && supaService && subLlm) {
           extractAndSaveMemories(userId, lastUser, fullText, memories, subLlm, supaService).catch(
@@ -1022,7 +1039,7 @@ serve(async (req) => {
       provider: LOG_PROVIDER[letzter] ?? "gemini",
       error: (versucheText(versuche) || `status-${llmRes.status}`).slice(0, 500),
       latency_ms: Date.now() - startTime,
-    });
+    }, logId);
     const ueberlastet = llmRes.status === 429;
     return new Response(
       JSON.stringify({

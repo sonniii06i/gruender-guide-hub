@@ -3,6 +3,10 @@ import { SMTPClient } from "../_shared/smtp.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 import { esc } from "../_shared/mailLayout.ts";
 import { einzeilig } from "../_shared/authGuard.ts";
+import {
+  adresseNormal, adressMuster, clientIp, ipHash, KUNDEN_BETREFF_FEST,
+  LIMIT_ADRESSE_TAG, LIMIT_GLOBAL_STUNDE, LIMIT_IP_STUNDE,
+} from "../_shared/ticketSchutz.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -38,8 +42,16 @@ const json = (b: unknown, status = 200) =>
     headers: { ...corsHeaders, "Content-Type": "application/json" },
   });
 
-/** Hoechstens so viele Tickets je Absenderadresse pro Stunde loesen Mails aus. */
-const MAX_TICKETS_PRO_STUNDE = 3;
+/** Teilschutz je Instanz, solange contact_tickets.ip_hash fehlt (vorbereitete Migration 20261108221000). */
+const ipTreffer = new Map<string, number[]>();
+function ipImSpeicherZaehlen(h: string): number {
+  const jetzt = Date.now();
+  const liste = (ipTreffer.get(h) ?? []).filter((t) => jetzt - t < 3600_000);
+  liste.push(jetzt);
+  ipTreffer.set(h, liste);
+  if (ipTreffer.size > 5000) ipTreffer.clear();
+  return liste.length;
+}
 /** Nur frisch angelegte Tickets — alte IDs lassen sich nicht erneut "abfeuern". */
 const MAX_ALTER_MIN = 15;
 
@@ -80,12 +92,24 @@ Deno.serve(async (req) => {
     // Genau einmal je Ticket. mail_sent_at kommt mit Migration
     // 20260930120000; bis sie eingespielt ist, faellt die Sperre weg,
     // Alters- und Mengengrenze greifen trotzdem.
-    const { data: claim, error: cErr } = await supa
+    // Erst eintragen, dann zaehlen (eigene Zeile inklusive): ip_hash, wenn die Spalte schon existiert.
+    const ipH = await ipHash(clientIp(req));
+    let ipSpalte = true;
+    let { data: claim, error: cErr } = await supa
       .from("contact_tickets")
-      .update({ mail_sent_at: new Date().toISOString() } as never)
+      .update({ mail_sent_at: new Date().toISOString(), ip_hash: ipH || null } as never)
       .eq("id", ticketId)
       .is("mail_sent_at", null)
       .select("id");
+    if (cErr && /ip_hash/i.test(cErr.message)) {
+      ipSpalte = false;
+      ({ data: claim, error: cErr } = await supa
+        .from("contact_tickets")
+        .update({ mail_sent_at: new Date().toISOString() } as never)
+        .eq("id", ticketId)
+        .is("mail_sent_at", null)
+        .select("id"));
+    }
     if (!cErr && (!claim || claim.length === 0)) {
       return json({ ok: true, skipped: "bereits versendet" });
     }
@@ -96,17 +120,34 @@ Deno.serve(async (req) => {
       return json({ error: "ungueltige Adresse" }, 400);
     }
 
-    // Mengengrenze je Adresse (Tickets der letzten Stunde, dieses mitgezaehlt).
-    const seit = new Date(Date.now() - 3600_000).toISOString();
-    const { count } = await supa
-      .from("contact_tickets")
-      .select("id", { count: "exact", head: true })
-      .eq("email", t.email)
-      .gte("created_at", seit);
-    if ((count ?? 0) > MAX_TICKETS_PRO_STUNDE) {
-      console.warn("send-ticket-email: Mengengrenze erreicht", ticketId);
-      return json({ ok: true, skipped: "rate_limit" });
+    // SICHERHEIT 08.11.2026: Limits nur fuer die Kundenmail (Adresse/Tag normalisiert, IP/Stunde, global/Stunde).
+    // Die interne Meldung an den Support geht immer – kein Ticket verschwindet still.
+    let limitGrund = "";
+    try {
+      const norm = adresseNormal(email);
+      if (!norm) throw new Error("adresse");
+      const m = adressMuster(norm);
+      const seitTag = new Date(Date.now() - 86400_000).toISOString();
+      const seitStunde = new Date(Date.now() - 3600_000).toISOString();
+      const [adr, glob, ip] = await Promise.all([
+        supa.from("contact_tickets").select("id", { count: "exact", head: true })
+          .or(`email.ilike.${m.exakt},email.ilike.${m.plus}`).gte("created_at", seitTag),
+        supa.from("contact_tickets").select("id", { count: "exact", head: true })
+          .not("mail_sent_at", "is", null).gte("mail_sent_at", seitStunde),
+        ipSpalte && ipH
+          ? supa.from("contact_tickets").select("id", { count: "exact", head: true })
+            .eq("ip_hash", ipH).gte("mail_sent_at", seitStunde)
+          : Promise.resolve({ count: ipH ? ipImSpeicherZaehlen(ipH) : 0, error: null }),
+      ]);
+      if (adr.error || glob.error || ip.error) throw new Error("zaehler");
+      if ((adr.count ?? 0) > LIMIT_ADRESSE_TAG) limitGrund = "adresse";
+      else if ((ip.count ?? 0) > LIMIT_IP_STUNDE) limitGrund = "ip";
+      else if ((glob.count ?? 0) > LIMIT_GLOBAL_STUNDE) limitGrund = "global";
+    } catch (_e) {
+      limitGrund = "zaehler_nicht_lesbar";
     }
+    const kundenmail = !limitGrund;
+    if (!kundenmail) console.warn("send-ticket-email: keine Kundenmail", limitGrund, ticketId);
 
     const name = einzeilig(t.name, 100).replace(/[<>"]/g, "") || "Kunde";
     const subject = einzeilig(t.subject, 150);
@@ -148,20 +189,22 @@ Deno.serve(async (req) => {
     // (_shared/transaktional.ts). Die interne Meldung oben bleibt
     // schlichtes HTML: Sie geht an uns selbst, da waeren Markenrahmen und
     // Fusszeile nur im Weg.
-    const kunde = buildTicketEingang({
-      betreff: subject,
-      name,
-      ticketId,
-      antwortInnerhalb: "24 Stunden",
-    });
-
-    await client.send({
-      from: `GründerX <${ABSENDER}>`,
-      to: `${name} <${email}>`,
-      subject: kunde.subject,
-      content: kunde.text,
-      html: kunde.html,
-    });
+    // An die eingegebene Adresse geht KEIN Freitext (kein Name, kein Betreff): fester Betreff, Ticketnummer.
+    if (kundenmail) {
+      const kunde = buildTicketEingang({
+        betreff: KUNDEN_BETREFF_FEST,
+        name: null,
+        ticketId,
+        antwortInnerhalb: "24 Stunden",
+      });
+      await client.send({
+        from: `GründerX <${ABSENDER}>`,
+        to: email,
+        subject: kunde.subject,
+        content: kunde.text,
+        html: kunde.html,
+      });
+    }
 
     await client.close();
 
