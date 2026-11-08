@@ -170,7 +170,7 @@ const Datenschutz = () => (
         werden in einem Postfach bei Google (Gmail) gelesen. Direktnachrichten rufen wir über die Schnittstelle von Meta
         Platforms Ireland Ltd. ab. Neue Anfragen melden wir intern zusätzlich über einen Discord-Kanal
         (Discord Inc., USA). Für einen Antwortentwurf übermitteln wir deinen Namen bzw. Profilnamen und den Text
-        deiner Nachricht an Anthropic PBC (USA, Claude-API); zur Drittlandübermittlung siehe Abschnitt 3.3. Einfache Fragen per E-Mail oder Direktnachricht beantworten wir teilweise automatisch mit einer KI-erstellten Antwort, die als solche gekennzeichnet ist. Anfragen zu Zahlungen, Erstattungen, Kündigung, Widerruf, Beschwerden, Datenschutz und rechtlichen Themen sowie jede Rückfrage auf eine KI-Antwort bearbeitet ein Mensch; eine automatisierte Entscheidung im Sinne von Art. 22 DSGVO findet nicht statt.
+        deiner Nachricht an Anthropic PBC (USA, Claude-API); zur Drittlandübermittlung siehe Abschnitt 3.3. Einfache Fragen per E-Mail oder Direktnachricht beantworten wir teilweise automatisch mit einer KI-erstellten Antwort, die als solche gekennzeichnet ist. Den Eingang von Anfragen zu Zahlungen, Erstattungen, Kündigung, Widerruf, Beschwerden, Datenschutz und rechtlichen Themen bestätigen wir automatisch; bearbeitet werden sie von einem Menschen, ebenso jede Nachricht, in der ausdrücklich ein Mensch verlangt wird. Eine automatisierte Entscheidung im Sinne von Art. 22 DSGVO findet nicht statt.
         Das Support-Werkzeug läuft auf Servern der Hetzner Online GmbH in Deutschland. Dort löschen wir deine Nachricht
         nach spätestens 180 Tagen; für E-Mails gilt die oben genannte Speicherdauer.
       </p>
