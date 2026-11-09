@@ -1,18 +1,18 @@
 {
- "stand": "2026-11-08T11:22:44.651Z",
+ "stand": "2026-11-09T12:58:52.151Z",
  "quelle": {
   "ok": true,
-  "roh": 192,
+  "roh": 166,
   "uebernommen": 18,
   "verworfen": {
-   "nur_einladung": 29,
-   "vor_ort_fern": 86,
-   "frist_vorbei": 5,
-   "preis_unter_5000_usd": 45,
+   "nur_einladung": 21,
+   "vor_ort_fern": 67,
+   "frist_vorbei": 3,
+   "preis_unter_5000_usd": 48,
    "kein_usd_betrag": 9,
    "ueber_max": 0
   },
-  "letzterErfolg": "2026-11-08T11:22:44.651Z"
+  "letzterErfolg": "2026-11-09T12:58:52.150Z"
  },
  "anzahl": 18,
  "eintraege": [
@@ -23,7 +23,7 @@
    "ende": "2026-11-10",
    "preisUsd": 28000,
    "geldpreise": 4,
-   "anmeldungen": 134,
+   "anmeldungen": 168,
    "ort": "Online",
    "veranstalter": "ADHAYAN",
    "themen": [
@@ -39,7 +39,7 @@
    "ende": "2026-11-12",
    "preisUsd": 67500,
    "geldpreise": 1,
-   "anmeldungen": 30906,
+   "anmeldungen": 31983,
    "ort": "Online",
    "veranstalter": "PayPal",
    "themen": [
@@ -55,7 +55,7 @@
    "ende": "2026-11-15",
    "preisUsd": 17150,
    "geldpreise": 8,
-   "anmeldungen": 326,
+   "anmeldungen": 389,
    "ort": "Online",
    "veranstalter": "CodeStarters",
    "themen": [
@@ -71,7 +71,7 @@
    "ende": "2026-11-16",
    "preisUsd": 46000,
    "geldpreise": 4,
-   "anmeldungen": 1672,
+   "anmeldungen": 1839,
    "ort": "Online",
    "veranstalter": "UGREEN",
    "themen": [
@@ -87,7 +87,7 @@
    "ende": "2026-11-18",
    "preisUsd": 1000000,
    "geldpreise": 19,
-   "anmeldungen": 5451,
+   "anmeldungen": 5535,
    "ort": "Online",
    "veranstalter": "Meta",
    "themen": [
@@ -103,7 +103,7 @@
    "ende": "2026-11-25",
    "preisUsd": 45000,
    "geldpreise": 1,
-   "anmeldungen": 155,
+   "anmeldungen": 181,
    "ort": "Online",
    "veranstalter": "FabricVTON",
    "themen": [
@@ -119,7 +119,7 @@
    "ende": "2026-11-30",
    "preisUsd": 30000,
    "geldpreise": 1,
-   "anmeldungen": 1005,
+   "anmeldungen": 1124,
    "ort": "Online",
    "veranstalter": "Google",
    "themen": [
@@ -134,8 +134,8 @@
    "url": "https://kiroween.devpost.com/",
    "ende": "2026-12-04",
    "preisUsd": 100000,
-   "geldpreise": 15,
-   "anmeldungen": 10299,
+   "geldpreise": 1,
+   "anmeldungen": 10792,
    "ort": "Online",
    "veranstalter": "Kiro",
    "themen": [
@@ -151,7 +151,7 @@
    "ende": "2026-12-11",
    "preisUsd": 64000,
    "geldpreise": 16,
-   "anmeldungen": 204,
+   "anmeldungen": 223,
    "ort": "Online",
    "veranstalter": "AWS",
    "themen": [
@@ -167,7 +167,7 @@
    "ende": "2026-12-15",
    "preisUsd": 50000,
    "geldpreise": 14,
-   "anmeldungen": 809,
+   "anmeldungen": 927,
    "ort": "Online",
    "veranstalter": "QNX",
    "themen": [
@@ -183,7 +183,7 @@
    "ende": "2026-12-21",
    "preisUsd": 7800,
    "geldpreise": 5,
-   "anmeldungen": 945,
+   "anmeldungen": 965,
    "ort": "Online",
    "veranstalter": "Arbiter ",
    "themen": [
@@ -198,8 +198,8 @@
    "url": "https://codegeist2026.devpost.com/",
    "ende": "2026-12-22",
    "preisUsd": 120000,
-   "geldpreise": 1,
-   "anmeldungen": 2219,
+   "geldpreise": 7,
+   "anmeldungen": 2408,
    "ort": "Online",
    "veranstalter": "Atlassian",
    "themen": [
@@ -215,7 +215,7 @@
    "ende": "2027-01-10",
    "preisUsd": 18700,
    "geldpreise": 6,
-   "anmeldungen": 383,
+   "anmeldungen": 386,
    "ort": "Online",
    "veranstalter": "Hack United",
    "themen": [
@@ -231,7 +231,7 @@
    "ende": "2027-01-10",
    "preisUsd": 11960,
    "geldpreise": 7,
-   "anmeldungen": 81,
+   "anmeldungen": 84,
    "ort": "Online",
    "veranstalter": "Checkpoint",
    "themen": [
@@ -247,7 +247,7 @@
    "ende": "2027-01-18",
    "preisUsd": 146770,
    "geldpreise": 13,
-   "anmeldungen": 812,
+   "anmeldungen": 837,
    "ort": "Online",
    "veranstalter": "Cosmo Hacks",
    "themen": [
@@ -263,7 +263,7 @@
    "ende": "2027-02-04",
    "preisUsd": 10000,
    "geldpreise": 1,
-   "anmeldungen": 216,
+   "anmeldungen": 217,
    "ort": "Online",
    "veranstalter": "IWU",
    "themen": [
@@ -295,7 +295,7 @@
    "ende": "2027-03-15",
    "preisUsd": 5000,
    "geldpreise": 1,
-   "anmeldungen": 69,
+   "anmeldungen": 71,
    "ort": "Online",
    "veranstalter": "OSC",
    "themen": [
