@@ -213,6 +213,15 @@
           "value": "noindex, nofollow"
         }
       ]
+    },
+    {
+      "source": "/lastmod.json",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
+        }
+      ]
     }
   ]
 }
