@@ -152,7 +152,7 @@
   ],
   "headers": [
     {
-      "source": "/((?!einbetten/).*)",
+      "source": "/((?!einbetten/verpackungslizenz-rechner$).*)",
       "headers": [
         {
           "key": "Strict-Transport-Security",
@@ -181,7 +181,7 @@
       ]
     },
     {
-      "source": "/einbetten/(.*)",
+      "source": "/einbetten/verpackungslizenz-rechner",
       "headers": [
         {
           "key": "Strict-Transport-Security",

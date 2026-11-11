@@ -1,6 +1,6 @@
 import { lazy, Suspense, useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/sonner";
 import { AuthProvider } from "@/hooks/useAuth";
@@ -32,7 +32,7 @@ import { AnalyticsCapture } from "@/components/AnalyticsCapture";
 import { ConsentBanner } from "@/components/ConsentBanner";
 import AktionsBanner from "@/components/AktionsBanner"; // Aktions-Banner 26.10.2026 (HQ aktionen.py)
 import { initAdPixels } from "@/utils/adPixels";
-import { istEinbettung } from "@/lib/einbettung";
+import { istEinbettung, istErlaubterEinbettPfad, EINBETT_PFADE } from "@/lib/einbettung";
 import { MailBestaetigenHinweis } from "@/components/MailBestaetigenHinweis";
 import { AuthLinkFehler } from "@/components/AuthLinkFehler";
 
@@ -216,6 +216,19 @@ const PageFallback = () => (
 // Auf Modulebene, damit es genau einmal laeuft.
 // Einbettung (/einbetten/*) auf fremden Seiten: keine Werbe-Pixel, kein Banner, kein Tracking (11.11.2026)
 const EINBETTUNG = istEinbettung();
+
+/** Sicherheitsprüfung 11.11.2026: Im iframe einer fremden Seite darf nur der Rechner laufen. Jeder interne
+ *  Seitenwechsel (Link im Rechner) öffnet sich in einem neuen Tab; der Rahmen springt zurück auf den Rechner. */
+const EinbettungsWache = () => {
+  const ort = useLocation();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (istErlaubterEinbettPfad(ort.pathname)) return;
+    window.open(window.location.origin + ort.pathname + ort.search + ort.hash, "_blank", "noopener");
+    navigate(EINBETT_PFADE[0], { replace: true });
+  }, [ort.pathname, ort.search, ort.hash, navigate]);
+  return null;
+};
 if (!EINBETTUNG) initAdPixels();
 // Alte Chunks nach einem Deploy: einmal neu laden statt weisser Seite.
 installChunkReloadHandler();
@@ -227,6 +240,7 @@ const App = () => (
       <BrowserRouter>
         <AuthProvider>
           <ScrollToTop />
+          {EINBETTUNG && <EinbettungsWache />}
           {!EINBETTUNG && <RouteTracker />}
           {!EINBETTUNG && <AnalyticsCapture />}
           {!EINBETTUNG && <ConsentBanner />}

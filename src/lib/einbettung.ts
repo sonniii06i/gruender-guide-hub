@@ -9,3 +9,10 @@ export function istEinbettung(pfad?: string): boolean {
   const p = pfad ?? (typeof window !== "undefined" ? window.location.pathname : "");
   return p.startsWith(EINBETTEN_PREFIX);
 }
+
+/** Einzige Seiten, die im fremden iframe laufen dürfen (vercel.json gibt nur diese Pfade zum Einbetten frei). */
+export const EINBETT_PFADE = ["/einbetten/verpackungslizenz-rechner"] as const;
+
+export function istErlaubterEinbettPfad(pfad: string): boolean {
+  return (EINBETT_PFADE as readonly string[]).includes(pfad.replace(/\/+$/, ""));
+}
