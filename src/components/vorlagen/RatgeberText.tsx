@@ -1,8 +1,11 @@
+import { Link } from "react-router-dom";
 import type { RatgeberAbschnitt } from "@/data/vorlagen/types";
 import { ankerId, textBloecke } from "@/lib/vorlagen/ratgeberText";
 
 // Setzt den Ratgeber-Teil einer Vorlage: je Abschnitt eine H2, darunter
 // Absätze (durch Leerzeile getrennt) und Aufzählungen (Zeilen mit „- “).
+// Ein optionaler „verweis“ schließt den Abschnitt mit einem Satz samt internem
+// Link ab (Ratgeber, Guide oder Tool).
 export function RatgeberText({ abschnitte, id }: { abschnitte: RatgeberAbschnitt[]; id?: string }) {
   if (!abschnitte?.length) return null;
   return (
@@ -26,6 +29,15 @@ export function RatgeberText({ abschnitte, id }: { abschnitte: RatgeberAbschnitt
                   {b.text}
                 </p>
               ),
+            )}
+            {a.verweis && (
+              <p className="my-3 text-[15px] leading-relaxed text-foreground/85">
+                {a.verweis.vor}{" "}
+                <Link to={a.verweis.pfad} className="font-medium text-accent-blue underline-offset-2 hover:underline">
+                  {a.verweis.anker}
+                </Link>
+                {a.verweis.nach ?? "."}
+              </p>
             )}
           </section>
         );

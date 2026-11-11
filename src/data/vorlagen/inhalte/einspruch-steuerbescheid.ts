@@ -34,6 +34,7 @@ Wähle dann aus den fünf Begründungsbausteinen die passenden aus und lösche d
         text: `Fehler Nummer eins ist die versäumte Frist. Viele rechnen vom Datum des Bescheids statt vom Tag der Bekanntgabe, andere warten auf die fertige Begründung und verpassen darüber den Monat. Lege den Einspruch sofort ein, die Begründung kann folgen. Fehler zwei: Es wird nur angerufen oder eine Nachricht im Online-Portal hinterlassen, die kein Einspruch ist. Einspruch geht schriftlich oder elektronisch, am sichersten über die Einspruchsfunktion in Mein ELSTER.
 
 Fehler drei: Der Bescheid wird ungenau bezeichnet, etwa „mein Steuerbescheid“, obwohl mehrere Jahre offen sind. Fehler vier: Die Nachzahlung wird nicht gezahlt, obwohl keine Aussetzung bewilligt wurde; dann laufen Säumniszuschläge von einem Prozent pro angefangenen Monat. Fehler fünf: Du legst Einspruch gegen den ganzen Bescheid ein, obwohl ein einzelner klarer Fehler auch über einen Antrag auf schlichte Änderung zu beheben wäre; der Einspruch öffnet den Bescheid auch zu deinen Ungunsten.`,
+        verweis: { vor: "Wie du den Zugang zu Mein ELSTER einrichtest, zeigt die Anleitung", anker: "ELSTER-Zertifikat beantragen", pfad: "/elster-zertifikat-beantragen" },
       },
       {
         titel: "Rechtsgrundlagen: § 347, § 355 und § 122 AO",

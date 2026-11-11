@@ -34,6 +34,7 @@ Nicht hinein gehören die Steuernummer des Finanzamts, private Daten ohne Bezug 
 Im Kontaktblock gehören Telefon und E-Mail hinein, Fax und Kontaktformular nur, wenn vorhanden. Beim Umsatzsteuerblock trägst du deine USt-IdNr. ein oder löschst den Block, wenn du keine hast; die Steuernummer bleibt draußen. Die Blöcke für Aufsichtsbehörde, reglementierte Berufe und Berufshaftpflicht brauchst du nur, wenn sie auf dich zutreffen; Händler und Agenturen streichen sie meist.
 
 Den MStV-Block füllst du aus, wenn du Blog, Ratgeber oder Newsletter mit redaktionellen Inhalten betreibst. Bei der Streitbeilegung bleibt eine der beiden Varianten stehen. Zum Schluss arbeitest du die Checkliste am Ende ab, entfernst alle Klammerhinweise und das Datum ist eingetragen.`,
+        verweis: { vor: "Wie die Anmeldung als Freiberufler beim Finanzamt abläuft, zeigt der Guide", anker: "Freiberufler anmelden", pfad: "/guides/freiberufler-anmelden" },
       },
       {
         titel: "Typische Fehler im Impressum und Abmahnrisiken",

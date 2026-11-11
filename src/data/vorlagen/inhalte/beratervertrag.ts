@@ -10,6 +10,7 @@ const inhalt: VorlagenInhalt = {
         text: `Ein Beratervertrag gehört an den Anfang jeder bezahlten Beratung, jedes Coachings und jedes Trainings, das über ein einzelnes Gespräch hinausgeht. Typische Fälle: Du begleitest als Unternehmensberater ein Startup beim Aufbau des Vertriebs, du coachst eine Geschäftsführerin über sechs Monate, du gibst als Marketing-Berater Workshops oder du bietest ein Paket aus Analyse, Terminen und Abschlussbericht an.
 
 Auch als Auftraggeber brauchst du das Muster, wenn du einen Berater für Strategie, Personal oder Finanzen engagierst und vorher klären willst, was genau geliefert wird, was ein Termin kostet und was bei Absagen passiert. Die Vorlage ist für Beratung und Coaching zwischen Unternehmen gebaut; für Privatpersonen als Kunden kommen Verbraucherschutzregeln dazu, die hier nicht enthalten sind.`,
+        verweis: { vor: "Wer als Berater freiberuflich arbeitet, findet den Ablauf der Anmeldung beim Finanzamt im Guide", anker: "Freiberufler anmelden", pfad: "/guides/freiberufler-anmelden" },
       },
       {
         titel: "Was muss in einen Beratervertrag?",

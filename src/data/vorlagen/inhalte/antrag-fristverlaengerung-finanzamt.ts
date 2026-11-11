@@ -32,6 +32,7 @@ Eine freiwillige Vorauszahlung auf die erwartete Nachzahlung ist kein Pflichtbes
         text: `Trage Steuernummer, Identifikationsnummer und die betroffenen Erklärungen in den Kopf ein und wähle im Betreff die Steuerarten, die du tatsächlich noch schuldest. Setze im ersten Absatz die laufende Frist ein, in der Regel den 31. Juli des Folgejahres, oder die vom Finanzamt gesetzte Nachfrist aus dem Erinnerungsschreiben. Lege ein realistisches Zieldatum fest: lieber acht Wochen mit Puffer als vier Wochen, die du wieder verlängern musst.
 
 Wähle aus den vier Begründungsbausteinen den passenden, ersetze die Platzhalter durch Namen, Daten und Dokumente und lösche die übrigen Bausteine. Gib den Vorbereitungsstand in Prozent an und entscheide, ob du eine Nachzahlung erwartest; wenn ja, überweise einen Abschlag unter Angabe der Steuernummer und nenne Datum und Betrag im Antrag. Hänge die Nachweise an, unterschreibe und sende den Antrag über Mein ELSTER unter „Anträge, Einspruch und Mitteilungen“ oder per Brief. Notiere dir das neue Datum sofort im Kalender.`,
+        verweis: { vor: "Noch kein Zugang zu Mein ELSTER? Die Registrierung beschreibt die Anleitung", anker: "ELSTER-Zertifikat beantragen", pfad: "/elster-zertifikat-beantragen" },
       },
       {
         titel: "Typische Fehler beim Fristverlängerungsantrag",

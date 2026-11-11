@@ -318,6 +318,25 @@ export interface RatgeberAbschnitt {
    * Mindestens 50 Wörter je Abschnitt.
    */
   text: string;
+  /**
+   * Optionaler Schlusssatz mit genau einem internen Link auf einen Ratgeber,
+   * Guide oder ein Tool (SEO 11.11.2026: Die Vorlagen sind die am häufigsten
+   * gecrawlten Seiten, verlinkten aber nur andere Vorlagen). Der Text selbst
+   * bleibt frei von Markdown; der Link steht strukturiert hier.
+   */
+  verweis?: RatgeberVerweis;
+}
+
+/** Schlusssatz eines Ratgeber-Abschnitts: „<vor> <Link anker → pfad><nach>“. */
+export interface RatgeberVerweis {
+  /** Satzteil vor dem Link, ohne Leerzeichen am Ende. */
+  vor: string;
+  /** Linktext, beschreibt die Zielseite (kein „hier“, kein „mehr“). */
+  anker: string;
+  /** Interner Pfad einer öffentlichen, prerenderten Seite, z. B. „/ratgeber/ug-oder-gmbh“. */
+  pfad: string;
+  /** Satzteil nach dem Link; Standard ist der Punkt. */
+  nach?: string;
 }
 
 export interface Vorlage {

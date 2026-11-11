@@ -63,6 +63,7 @@ Fehler vier: die Thesaurierung vergessen. Die UG darf nicht den vollen Gewinn au
 - Pflicht zur sofortigen Einberufung der Gesellschafterversammlung bei drohender Zahlungsunfähigkeit (§ 5a Abs. 4 GmbHG)
 
 Der Gesellschaftsvertrag muss notariell beurkundet werden (§ 2 GmbHG), seit 2022 auch online per Videokonferenz mit dem Notar bei Bargründungen. Die Gesellschaft entsteht erst mit Eintragung ins Handelsregister; wer vorher im Namen der UG handelt, haftet persönlich (§ 11 GmbHG). Satzungsänderungen brauchen eine Dreiviertelmehrheit und erneut den Notar (§ 53 GmbHG). Anteilsübertragungen sind ebenfalls beurkundungspflichtig (§ 15 GmbHG). Nach der Eintragung folgen Gewerbeanmeldung, steuerliche Erfassung, Transparenzregister und, bei Mitarbeitern, die Betriebsnummer.`,
+        verweis: { vor: "Wie sich die UG von der GmbH unterscheidet, zeigt der Ratgeber", anker: "UG oder GmbH", pfad: "/ratgeber/ug-oder-gmbh" },
       },
       {
         titel: "Wann du statt der UG-Vorlage Notar, Anwalt oder Steuerberater brauchst",

@@ -20,6 +20,7 @@ const inhalt: VorlagenInhalt = {
       {
         titel: "Typische Fehler beim Restpostenkauf und wie du sie vermeidest",
         text: "Erster Fehler: Markenware ohne Herkunftsnachweis kaufen. Wurde die Ware nicht vom Markeninhaber oder mit seiner Zustimmung im EWR in Verkehr gebracht, darfst du sie nicht verkaufen, egal wie günstig sie war; Abmahnung und Vernichtung drohen. Lass dir Einkaufsrechnungen zeigen, § 4 Abs. 1 gibt dir das Recht dazu. Zweiter Fehler: Produkte ohne deutsche Kennzeichnung. Elektronik ohne CE, Textilien ohne Materialangabe, Kosmetik ohne deutsche Inhaltsstoffliste musst du nachkennzeichnen oder darfst sie nicht in Verkehr bringen; die Vorlage lässt dich das in § 3 Abs. 4 regeln.\n\nDritter Fehler: Pauschalpreis ohne Toleranzklausel. Fehlen bei der Übergabe zehn Prozent, hast du ohne § 2 Variante B Satz 2 keinen Minderungsanspruch. Vierter Fehler: Rüge vergessen. Nach § 377 HGB musst du Fehlmengen und erkennbare Mängel innerhalb der vereinbarten Werktage anzeigen, sonst gilt die Ware als genehmigt. Fünfter Fehler: Retourenware als „neu“ einkaufen. Ungeprüfte Retouren enthalten Defekte und Fehlteile; der Preis muss das abbilden, und du darfst sie nicht als Neuware verkaufen.",
+        verweis: { vor: "Einen Entwurf für die Konformitätserklärung eigener Produkte erstellt das Tool", anker: "CE/RoHS-Konformitätserklärung", pfad: "/tools/ce-rohs" },
       },
       {
         titel: "Rechtliche Grundlagen: Erschöpfung, § 377 HGB, Produktsicherheit, Eigentumsvorbehalt",

@@ -10,6 +10,7 @@ const inhalt: VorlagenInhalt = {
         text: `Sobald du Waren über einen eigenen Shop an Verbraucher verkaufst, musst du eine Reihe von Informationen geben: wer Vertragspartner ist, wie der Vertrag zustande kommt, was Lieferung und Zahlung kosten und welche Rechte der Kunde bei Mängeln hat. AGB sind nicht vorgeschrieben, aber sie sind der übliche Ort, an dem Shops diese Pflichtangaben bündeln und gleichzeitig eigene Regeln setzen, etwa den Eigentumsvorbehalt oder die Reihenfolge von Angebot und Annahme.
 
 Diese AGB Vorlage passt für den Start mit Shopify, WooCommerce, Shopware oder einem anderen Shopsystem, wenn du physische Waren an Verbraucher in Deutschland verkaufst. Für Marktplätze wie Amazon oder eBay gelten deren eigene Regeln zum Vertragsschluss; dort nutzt du die Vorlage höchstens als Grundlage für die Pflichtangaben, nicht eins zu eins. Für Geschäftskunden brauchst du andere Klauseln, weil viele Verbraucherschutzregeln dort nicht gelten.`,
+        verweis: { vor: "Welche Schritte vor dem Start auf Amazon anstehen, zeigt der Ratgeber", anker: "Amazon FBA starten", pfad: "/ratgeber/amazon-fba-starten-deutschland" },
       },
       {
         titel: "Was muss in die AGB eines Online-Shops?",

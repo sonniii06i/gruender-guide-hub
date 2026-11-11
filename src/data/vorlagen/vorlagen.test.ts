@@ -2,12 +2,20 @@ import { describe, expect, it } from "vitest";
 import { readFileSync, existsSync } from "fs";
 import { resolve } from "path";
 import { VORLAGEN, VORLAGEN_KATEGORIEN, VORLAGEN_HINWEIS, VORLAGEN_SLUG_RE } from "./index";
+import type { RatgeberVerweis } from "./types";
+import guideIndex from "../landing/guideIndex.json";
 
 // Jede Vorlage muss vollständig und in sich stimmig sein: Die Seite rendert
 // blind aus diesen Feldern, und die Bestätigungsmail kennt den Titel nur über
 // den generierten Katalog in supabase/functions/_shared/vorlagenKatalog.ts.
 
 const KATEGORIEN = new Set(VORLAGEN_KATEGORIEN.map((k) => k.key));
+
+// Erlaubte Ziele eines „verweis“ im Ratgeber-Teil: Ratgeber, Guides, Tools und
+// die eigenständigen Antragsseiten. Guides und Tools werden unten zusätzlich
+// gegen die Landing-Daten geprüft (die Ratgeber liegen in der Datenbank).
+const VERWEIS_ZIEL_RE = /^\/(?:(?:ratgeber|guides|tools)\/[a-z0-9]+(?:-[a-z0-9]+)*|elster-zertifikat-beantragen|ust-id-beantragen)$/;
+const GUIDE_SLUGS = new Set<string>((guideIndex as { slug: string }[]).map((g) => g.slug));
 
 describe("Vorlagen-Bibliothek", () => {
   it("hat mindestens 60 Vorlagen", () => {
@@ -79,6 +87,7 @@ describe("Vorlagen-Bibliothek", () => {
         expect(ratgeber.length, "Abschnitte").toBeGreaterThanOrEqual(4);
         expect(ratgeber.length, "Abschnitte").toBeLessThanOrEqual(8);
         let woerter = 0;
+        const verweise: RatgeberVerweis[] = [];
         const titel = new Set<string>();
         for (const a of ratgeber) {
           expect(a.titel.length, a.titel).toBeGreaterThanOrEqual(15);
@@ -89,6 +98,24 @@ describe("Vorlagen-Bibliothek", () => {
           expect(w, `zu kurz: ${a.titel}`).toBeGreaterThanOrEqual(50);
           woerter += w;
           expect(a.text, a.titel).not.toMatch(/<[a-z]+>|\*\*|^#{1,3} |\[[^\]]+\]\(/m);
+          if (a.verweis) verweise.push(a.verweis);
+        }
+        // Verweise (SEO 11.11.2026): höchstens 2 je Vorlage, nie im ersten Absatz
+        // (sie stehen am Abschnittsende), jedes Ziel je Seite nur einmal, nur
+        // öffentliche, prerenderte Zielseiten – nie /playbook, /cockpit, /anbieter.
+        expect(verweise.length, "Verweise je Vorlage").toBeLessThanOrEqual(2);
+        expect(new Set(verweise.map((x) => x.pfad)).size, "doppeltes Verweisziel").toBe(verweise.length);
+        for (const x of verweise) {
+          expect(x.pfad, x.pfad).toMatch(VERWEIS_ZIEL_RE);
+          expect(x.anker.length, x.anker).toBeGreaterThanOrEqual(8);
+          expect(x.anker.length, x.anker).toBeLessThanOrEqual(60);
+          expect(x.vor.trim().length, x.vor).toBeGreaterThanOrEqual(20);
+          expect(x.vor, "kein Leerzeichen am Ende").toBe(x.vor.trimEnd());
+          expect(x.nach ?? ".", x.nach).toMatch(/[.!?]$/);
+          const guide = x.pfad.match(/^\/guides\/(.+)$/)?.[1];
+          if (guide) expect(GUIDE_SLUGS.has(guide), `Guide ${guide} fehlt`).toBe(true);
+          const tool = x.pfad.match(/^\/tools\/(.+)$/)?.[1];
+          if (tool) expect(existsSync(resolve(__dirname, `../landing/tools/${tool}.json`)), `Tool ${tool} fehlt`).toBe(true);
         }
         expect(woerter, "Ratgeber-Wörter gesamt").toBeGreaterThanOrEqual(450);
       });

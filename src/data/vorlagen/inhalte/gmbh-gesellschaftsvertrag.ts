@@ -10,6 +10,7 @@ const inhalt: VorlagenInhalt = {
         text: `Eine GmbH-Gründung läuft immer über den Notar, und der arbeitet gern mit seinem Standardtext. Der passt für eine Einpersonen-GmbH, aber nicht für ein Team, das Anteile schützen, Investoren vorbereiten oder eine Trennung geordnet regeln will. Diese Vorlage ist für genau diese Fälle gedacht: zwei oder mehr Gesellschafter, individuelle Beteiligungsquoten, Vinkulierung, Vorkaufsrecht, Einziehung und Abfindung.
 
 Auch bei der Umwandlung einer UG in eine GmbH brauchst du eine neue Satzung, weil Firma, Stammkapital und die Rücklagenregel wegfallen. Und wenn ein Gründer sein Einzelunternehmen einbringen will, braucht die Satzung die Sacheinlage-Variante, die das Muster in § 3 vorsieht. Nimm die Vorlage als Entwurf mit zum Notar: Er beurkundet, du sparst die Besprechungszeit, in der sonst jede Klausel von Grund auf diskutiert wird.`,
+        verweis: { vor: "Worin sich UG und GmbH bei Kapital, Haftung und Gründung unterscheiden, stellt der Ratgeber", anker: "UG oder GmbH", pfad: "/ratgeber/ug-oder-gmbh", nach: " gegenüber." },
       },
       {
         titel: "Was muss in einen GmbH-Gesellschaftsvertrag?",
@@ -59,6 +60,7 @@ Weitere Klassiker: Der Gesellschafter-Geschäftsführer wird nicht von § 181 BG
 Das Mindeststammkapital beträgt 25.000 EUR, vor der Anmeldung müssen auf jeden Anteil ein Viertel und insgesamt mindestens 12.500 EUR eingezahlt sein (§ 7 Abs. 2 GmbHG). Sacheinlagen brauchen einen Sachgründungsbericht und müssen vor der Anmeldung vollständig geleistet sein. Satzungsänderungen erfordern eine Dreiviertelmehrheit und notarielle Beurkundung (§ 53 GmbHG), Anteilsübertragungen ebenfalls den Notar (§ 15 GmbHG).
 
 Die Vinkulierung stützt sich auf § 15 Abs. 5 GmbHG, die Einziehung auf § 34 GmbHG, und die Abfindung darf nie aus dem zur Erhaltung des Stammkapitals nötigen Vermögen gezahlt werden (§ 30 GmbHG). Seit 2022 ist die Online-Gründung per Videokonferenz mit dem Notar möglich, für Bargründungen und seit 2023 auch für bestimmte Sachgründungen. Nach der Eintragung folgen die Meldung an das Transparenzregister, die Gewerbeanmeldung und der Fragebogen zur steuerlichen Erfassung.`,
+        verweis: { vor: "Welche Notar- und Registerkosten bei der Gründung anfallen, zeigt der Ratgeber", anker: "GmbH gründen: Kosten 2026", pfad: "/ratgeber/gmbh-gruenden-kosten-2026" },
       },
       {
         titel: "Wann die GmbH-Vorlage allein nicht reicht",

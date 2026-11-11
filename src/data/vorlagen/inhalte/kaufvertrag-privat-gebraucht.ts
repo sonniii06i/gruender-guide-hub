@@ -28,6 +28,7 @@ const inhalt: VorlagenInhalt = {
       {
         titel: "Wann du statt der Vorlage einen anderen Vertrag oder Rat brauchst",
         text: "Die Vorlage passt nicht, wenn eine Seite gewerblich handelt. Wer als Gründer Gegenstände aus dem Betriebsvermögen verkauft, auch das alte Firmennotebook, handelt als Unternehmer; gegenüber einem privaten Käufer gilt dann die gesetzliche Gewährleistung, bei Gebrauchtem verkürzbar auf ein Jahr, und die Umsatzsteuer muss geprüft werden. Dafür gibt es den B2B-Kaufvertrag und die Händler-Vorlagen in dieser Bibliothek.\n\nBei Fahrzeugen, Anhängern und Motorrädern nutze den Kfz-Kaufvertrag. Bei hochwertigen Sachen wie Uhren, Kunst oder Sammlerstücken solltest du Echtheitsnachweise und Herkunft dokumentieren und bei Beträgen im fünfstelligen Bereich den Zahlungsweg absichern, etwa per Überweisung vor Übergabe oder Treuhand. Wird ein Streit um einen verschwiegenen Mangel konkret, hilft nur ein Anwalt; GründerX ist eine Software mit Mustern und keine Rechtsberatung.",
+        verweis: { vor: "Wer häufiger über Plattformen wie eBay oder Vinted verkauft, sollte außerdem wissen, was die Plattformen an das Finanzamt melden. Das erklärt der Guide", anker: "DAC7: Plattform-Meldepflicht", pfad: "/guides/dac7" },
       },
     ],
   text: `Kaufvertrag über eine gebrauchte Sache zwischen Privatpersonen

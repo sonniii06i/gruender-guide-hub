@@ -32,6 +32,7 @@ Was nicht auf die Rechnung gehört: ein Steuersatz, ein Steuerbetrag oder die Fo
         text: `Trage im Kopf deine Daten mit Steuernummer ein; die USt-IdNr. brauchst du nur, wenn du eine hast, etwa für Geschäfte mit EU-Kunden. Beim Empfänger nennst du Firma, Ansprechpartner und Anschrift. Vergib die Rechnungsnummer fortlaufend und lückenlos, zum Beispiel nach dem Schema Jahr-Zähler. Setze Rechnungsdatum und Leistungszeitraum ein; bei Dauerleistungen den Monat, bei Einzelaufträgen den Tag der Fertigstellung. Fülle die Positionen mit Bezeichnung, Menge, Einzelpreis und Gesamtbetrag; nicht genutzte Zeilen löschst du.
 
 Rechne den Rechnungsbetrag zusammen und lass den Satz zur Steuerbefreiung nach § 19 UStG unverändert stehen. Trage Zahlungsziel und Bankverbindung ein. Den optionalen Verzugshinweis übernimmst du, wenn das Zahlungsdatum mit dem Kunden vereinbart ist und du ohne Mahnung Verzugszinsen berechnen können willst; der Satz zu Verbrauchern ist Voraussetzung für die 30-Tage-Regel. Für Plattformen oder Agenturen nutzt du die Gutschrift-Variante, in der der Kunde als Aussteller steht und deine Daten als leistender Unternehmer.`,
+        verweis: { vor: "Du hast noch keine Steuernummer? Ablauf und Dauer beschreibt der Ratgeber", anker: "Steuernummer beantragen", pfad: "/ratgeber/steuernummer-beantragen" },
       },
       {
         titel: "Typische Fehler bei Kleinunternehmer-Rechnungen",

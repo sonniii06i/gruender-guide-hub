@@ -28,6 +28,7 @@ const inhalt: VorlagenInhalt = {
       {
         titel: "Wann die Kommissionsvertrag-Vorlage nicht reicht",
         text: "Soll der Händler die Ware bei Entnahme kaufen und selbst Eigentümer werden, ist das ein Konsignationslager, kein Kommissionsgeschäft; dann brauchst du einen Rahmenliefervertrag mit Lagerregelung. Tritt der Händler nicht im eigenen Namen, sondern in deinem Namen auf und vermittelt nur, handelt es sich um einen Handelsvertretervertrag mit Ausgleichsanspruch nach § 89b HGB. Verkauft der Kommissionär über Marktplätze wie Amazon oder Etsy, prüfe die Plattformregeln zu Eigentum und Rechnungsstellung.\n\nBei grenzüberschreitender Kommission (Händler im EU-Ausland oder Drittstaat) werden Umsatzsteuer, Lieferschwellen und Eigentumsnachweis kompliziert; das klärt ein Steuerberater vorher. Bei größeren Warenwerten lohnt eine Besichtigung der Versicherung des Händlers und eine Vereinbarung über Inventuren. Für Lebensmittel, Kosmetik und Spielzeug müssen Kennzeichnung und Produktsicherheit stimmen, weil der Händler als Verkäufer haftet und du ihn nach § 9 Abs. 3 freistellst. GründerX bietet Software und Muster, keine Rechts- oder Steuerberatung; bei Streit über Abrechnungen hilft nur der Anwalt.",
+        verweis: { vor: "Was Marktplätze über ihre Verkäufer an das Finanzamt melden, erklärt der Guide", anker: "DAC7: Plattform-Meldepflicht", pfad: "/guides/dac7" },
       },
     ],
   text: `Kommissionsvertrag
