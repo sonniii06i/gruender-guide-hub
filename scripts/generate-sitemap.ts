@@ -20,7 +20,7 @@ const SUPABASE_KEY =
   process.env.VITE_SUPABASE_PUBLISHABLE_KEY ||
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ3cmp1emVta2ZnaGx6aXJldGRqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MTYxMjcsImV4cCI6MjA5MzQ5MjEyN30.2zNrmQwqHyrrhhetpdOjEWbFZ9FZIh8X0KLE4wFYr6U";
 
-interface SitemapEntry {
+export interface SitemapEntry {
   path: string;
   lastmod?: string;
   changefreq?: "always" | "hourly" | "daily" | "weekly" | "monthly" | "yearly" | "never";
@@ -29,15 +29,27 @@ interface SitemapEntry {
 
 const today = new Date().toISOString().slice(0, 10);
 
-// lastmod nur, wo es stimmt (SEO-Runde 17.10.2026): Bisher trugen 173 von 199
-// URLs das Build-Datum, obwohl sich Tool-, Guide- und statische Seiten nicht
-// bei jedem Build aendern. Google ignoriert lastmod einer Sitemap, deren Werte
-// erkennbar nicht stimmen — dann zaehlt auch das echte Datum der Ratgeber
-// (updated_at aus blog_posts) nicht mehr. Deshalb: Ratgeber mit updated_at,
-// /ratgeber mit dem neuesten Ratgeber-Datum, /gruender-events mit dem
-// Build-Datum (taeglicher Sync-Commit aendert die Seite wirklich), sonst keins.
+// lastmod nur, wo es stimmt (SEO-Runde 17.10.2026, Manifest seit 11.11.2026):
+// Google ignoriert lastmod einer Sitemap, deren Werte erkennbar nicht stimmen —
+// dann zaehlt auch das echte Datum der Ratgeber (updated_at aus blog_posts)
+// nicht mehr. Deshalb nie pauschal das Build-Datum:
+//  - Ratgeber: updated_at; /ratgeber: neuestes Ratgeber-Datum
+//  - TAGESAKTUELL (/gruender-events, /gruender-chancen): Build-Datum, der
+//    taegliche Sync-Commit aendert diese Seiten wirklich
+//  - alle anderen Routen: scripts/lastmod-manifest.json. Dort steht je Route
+//    der Hash ihres Inhalts und der Tag, an dem er sich zuletzt geaendert hat
+//    (Hash-Regeln: scripts/lastmod-routen.ts, Pflege: `bun run lastmod`,
+//    Pruefung: src/test/lastmodManifest.test.ts). Route ohne Eintrag = kein lastmod.
+// Das Manifest ist eingecheckt, weil Vercel mit flachem Klon baut und die
+// Git-Historie dort fehlt. Deshalb hier auch KEIN lastmod an den Eintraegen.
 
-const staticEntries: SitemapEntry[] = [
+/** Seiten, die ein taeglicher Sync-Commit wirklich aendert: lastmod = Build-Datum. */
+export const TAGESAKTUELL: readonly string[] = ["/gruender-events", "/gruender-chancen"];
+
+/** Routen mit eigener Datumslogik (siehe oben); sie stehen nicht im lastmod-Manifest. */
+export const EIGENE_DATUMSLOGIK: readonly string[] = ["/ratgeber", ...TAGESAKTUELL];
+
+export const staticEntries: SitemapEntry[] = [
   { path: "/", changefreq: "weekly", priority: "1.0" },
   // Preisseite: steht hier, damit prerender.mjs sie rendert (Inhalt ohne JS im HTML).
   { path: "/preise", changefreq: "monthly", priority: "0.9" },
@@ -58,8 +70,8 @@ const staticEntries: SitemapEntry[] = [
   // Die zwei Amazon-Widerspruchsgeneratoren stehen NICHT mehr hier: Canonical
   // zeigt auf anwaltx.de (Themenbesitz). Prerender ueber EXTRA_ROUTES in prerender.mjs.
   { path: "/ratgeber", changefreq: "daily", priority: "0.9" },
-  { path: "/gruender-events", changefreq: "daily", priority: "0.8", lastmod: today },
-  { path: "/gruender-chancen", changefreq: "daily", priority: "0.9", lastmod: today },
+  { path: "/gruender-events", changefreq: "daily", priority: "0.8" },
+  { path: "/gruender-chancen", changefreq: "daily", priority: "0.9" },
   { path: "/hackathon-starter-kit", changefreq: "monthly", priority: "0.7" },
   { path: "/startup-guthaben", changefreq: "weekly", priority: "0.8" },
   { path: "/ki-assistent", changefreq: "monthly", priority: "0.8" },
@@ -88,7 +100,7 @@ const staticEntries: SitemapEntry[] = [
 // Vorlagen-Bibliothek (/vorlagen/:slug): öffentliche Seiten mit Vorschau,
 // Download gegen bestätigte E-Mail. Quelle ist src/data/vorlagen/ (ein Eintrag
 // je Vorlage), damit Sitemap und Seiten nie auseinanderlaufen.
-const vorlagenEntries: SitemapEntry[] = [
+export const vorlagenEntries: SitemapEntry[] = [
   // Kategorieseiten (/vorlagen/kategorie/<key>): eigene Landingpages je Themenfeld.
   ...VORLAGEN_KATEGORIEN.map((k) => ({
     path: `/vorlagen/kategorie/${k.key}`,
@@ -102,7 +114,7 @@ const vorlagenEntries: SitemapEntry[] = [
   })),
 ];
 
-const toolEntries: SitemapEntry[] = LANDING_TOOLS.map((t) => ({
+export const toolEntries: SitemapEntry[] = LANDING_TOOLS.map((t) => ({
   path: `/tools/${t.slug}`,
   changefreq: "monthly",
   priority: "0.7",
@@ -111,11 +123,42 @@ const toolEntries: SitemapEntry[] = LANDING_TOOLS.map((t) => ({
 // Guide-Landings (/guides/:slug) — öffentliche Pitch-Seiten; der Guide-Inhalt
 // selbst bleibt hinter der Paywall, daher hier nur die crawlbare Landing.
 // Zusammengelegte Guides (301 auf den Ratgeber, siehe guideMerges.ts) fehlen.
-const guideEntries: SitemapEntry[] = GUIDE_LANDINGS.filter((g) => !isMergedGuide(g.slug)).map((g) => ({
+export const guideEntries: SitemapEntry[] = GUIDE_LANDINGS.filter((g) => !isMergedGuide(g.slug)).map((g) => ({
   path: `/guides/${g.slug}`,
   changefreq: "monthly",
   priority: "0.7",
 }));
+
+/** Alle Routen der Sitemap ausser den Ratgebern, in Sitemap-Reihenfolge. */
+export const festeRouten = (): SitemapEntry[] => [...staticEntries, ...vorlagenEntries, ...toolEntries, ...guideEntries];
+
+function manifestLastmod(): Record<string, string> {
+  const file = resolve("scripts/lastmod-manifest.json");
+  if (!existsSync(file)) {
+    console.warn("sitemap: scripts/lastmod-manifest.json fehlt – feste Routen ohne lastmod.");
+    return {};
+  }
+  try {
+    const roh = JSON.parse(readFileSync(file, "utf8")) as { routen?: Record<string, { lastmod?: string }> };
+    const out: Record<string, string> = {};
+    for (const [path, e] of Object.entries(roh.routen ?? {})) {
+      if (e?.lastmod && /^\d{4}-\d{2}-\d{2}$/.test(e.lastmod)) out[path] = e.lastmod;
+    }
+    return out;
+  } catch (e) {
+    console.warn("sitemap: lastmod-manifest.json nicht lesbar – feste Routen ohne lastmod.", e);
+    return {};
+  }
+}
+
+/** Setzt lastmod der festen Routen: Build-Datum nur fuer TAGESAKTUELL, sonst Manifest. */
+function mitLastmod(items: SitemapEntry[], manifest: Record<string, string>): SitemapEntry[] {
+  return items.map((e) => {
+    if (TAGESAKTUELL.includes(e.path)) return { ...e, lastmod: today };
+    const lastmod = manifest[e.path];
+    return lastmod ? { ...e, lastmod } : { ...e };
+  });
+}
 
 // Fetch published blog posts via Supabase REST (no schema knowledge needed at build time)
 // Gibt null zurueck, wenn der Abruf scheitert -- NICHT [] ("es gibt keine
@@ -194,7 +237,7 @@ function generateSitemap(items: SitemapEntry[]) {
   ].join("\n");
 }
 
-(async () => {
+async function main() {
   const fetched = await fetchBlogEntries();
   let blogEntries: SitemapEntry[];
   if (fetched && fetched.length > 0) {
@@ -217,12 +260,33 @@ function generateSitemap(items: SitemapEntry[]) {
       blogEntries = [];
     }
   }
+  const manifest = manifestLastmod();
+  const statisch = mitLastmod(staticEntries, manifest);
   const neuesterRatgeber = blogEntries.map((e) => e.lastmod ?? "").sort().pop();
-  const hub = staticEntries.find((e) => e.path === "/ratgeber");
+  const hub = statisch.find((e) => e.path === "/ratgeber");
   if (hub && neuesterRatgeber) hub.lastmod = neuesterRatgeber;
-  const entries = [...staticEntries, ...vorlagenEntries, ...toolEntries, ...guideEntries, ...blogEntries];
+  const entries = [
+    ...statisch,
+    ...mitLastmod(vorlagenEntries, manifest),
+    ...mitLastmod(toolEntries, manifest),
+    ...mitLastmod(guideEntries, manifest),
+    ...blogEntries,
+  ];
   writeFileSync(resolve("public/sitemap.xml"), generateSitemap(entries));
+  console.log(
+    `sitemap.xml lastmod: ${entries.filter((e) => e.lastmod).length} von ${entries.length} (Manifest: ${Object.keys(manifest).length} Routen)`,
+  );
   console.log(
     `sitemap.xml written: ${entries.length} entries (${staticEntries.length} static + ${vorlagenEntries.length} vorlagen + ${toolEntries.length} tools + ${guideEntries.length} guides + ${blogEntries.length} ratgeber)`,
   );
-})();
+}
+
+// Im Normalfall (predev/prebuild) immer schreiben. Nur zwei Aufrufer importieren
+// diese Datei allein wegen der Routenlisten und duerfen nichts schreiben:
+// vitest (src/test/lastmodManifest.test.ts) und scripts/lastmod-aktualisieren.ts.
+// Bewusst "schreiben, ausser …": Ein Build ohne frische Sitemap wuerde still die
+// alte eingecheckte ausliefern, und der Prerender haengt an ihrer URL-Liste.
+const nurRoutenlisten = !!process.env.VITEST || /lastmod-aktualisieren\.ts$/.test(process.argv[1] ?? "");
+if (!nurRoutenlisten) {
+  void main();
+}

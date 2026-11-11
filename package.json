@@ -12,6 +12,7 @@
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview",
+    "lastmod": "bunx tsx scripts/lastmod-aktualisieren.ts",
     "test": "vitest run",
     "test:watch": "vitest"
   },
