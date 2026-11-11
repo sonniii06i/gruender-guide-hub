@@ -13,6 +13,7 @@ import { Clock, ChevronLeft, BookOpen, Wrench, ListChecks, ArrowRight, Info } fr
 import { relatedToolsFor, relatedGuidesFor, BLOG_CATEGORY_TOPIC, type LinkItem } from "@/lib/internalLinks";
 import { findGuideIndex } from "@/data/guideIndex";
 import { guideHref, guidesMergedInto } from "@/data/guideMerges";
+import { oeffentlichesLinkziel } from "@/lib/ratgeberLinks";
 import { fremdKanonisch } from "@/data/ratgeberKanonisch";
 import { titelbildAbsolut, titelbildUrl } from "@/data/ratgeberBilder";
 import { prerenderDaten, prerenderDatenMerken } from "@/lib/prerender";
@@ -312,6 +313,9 @@ const RatgeberPost = () => {
                 // Die Seite traegt ihre H1 schon im Kopf; eine "# …"-Zeile im
                 // Artikeltext ergab bisher zwei H1 je Ratgeber.
                 h1: ({ node: _node, ...props }) => <h2 {...props} />,
+                // Vorschau-Links hinter der Paywall (/playbook/preview/…, robots-gesperrt)
+                // auf die oeffentliche Seite desselben Themas legen (lib/ratgeberLinks.ts).
+                a: ({ node: _node, href, ...props }) => <a href={oeffentlichesLinkziel(href, selbst)} {...props} />,
                 img: ({ node: _node, ...props }) => <img loading="lazy" decoding="async" {...props} />,
                 // Tabellen (remark-gfm) auf dem Handy horizontal scrollbar statt die Seite zu sprengen
                 table: ({ node: _node, ...props }) => (

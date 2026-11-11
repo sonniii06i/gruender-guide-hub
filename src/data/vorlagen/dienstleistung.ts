@@ -515,9 +515,9 @@ export const VORLAGEN_DIENSTLEISTUNG: Vorlage[] = [
       },
     ],
     seo: {
-      title: "Tippgeber-Vereinbarung Vorlage kostenlos (Word) | GründerX",
+      title: "Tippgebervereinbarung Muster kostenlos (Word) | GründerX",
       description:
-        "Tippgeber- und Empfehlungsvereinbarung als kostenlose Vorlage: Provision bei Abschluss, Nachweis des Tipps, Schutzfrist, Abrechnung, keine Vermittlung.",
+        "Tippgebervereinbarung als kostenloses Muster in Word und PDF: Provision bei Abschluss, Nachweis des Tipps, Schutzfrist, Abrechnung, keine Vermittlung.",
     },
     stand: "2026-10",
     inhalt: () => import("./inhalte/provisionsvereinbarung-tippgeber"),
@@ -572,9 +572,9 @@ export const VORLAGEN_DIENSTLEISTUNG: Vorlage[] = [
       },
     ],
     seo: {
-      title: "Kooperationsvereinbarung Vorlage kostenlos (Word) | GründerX",
+      title: "Kooperationsvertrag Vorlage kostenlos (Word) | GründerX",
       description:
-        "Kooperationsvereinbarung zwischen zwei Unternehmen als kostenlose Vorlage: Beiträge, Kosten, Erlöse, Marken, Kundenverantwortung, keine GbR, Laufzeit.",
+        "Kooperationsvertrag als kostenlose Vorlage in Word und PDF: Kooperationsvereinbarung zwischen zwei Unternehmen mit Beiträgen, Kosten, Erlösen, Marken, Laufzeit.",
     },
     stand: "2026-10",
     inhalt: () => import("./inhalte/kooperationsvereinbarung"),

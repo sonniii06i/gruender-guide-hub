@@ -448,7 +448,7 @@ export const elsterZugangConfig: ToolConfig = {
   ],
   stand: ELSTER_STAND,
   seo: {
-    title: "ELSTER-Zertifikat beantragen: Zugang in 4 Schritten | GründerX",
+    title: "ELSTER-Zertifikat beantragen: Registrierung | GründerX",
     description:
       "ELSTER-Zertifikat beantragen 2026: Privatperson oder Organisation, ElsterSecure, Zertifikatsdatei oder Sicherheitsstick, Dauer des Aktivierungsbriefs, Checkliste und Zugangserneuerung – kostenlos.",
     keywords:
