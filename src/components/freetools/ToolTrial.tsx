@@ -23,7 +23,7 @@ import { PRO_MONTH_GROSS_CENTS, formatEurCents } from "@/config/pricing";
  * Gemerkt wird die Freischaltung pro Tool im localStorage
  * (`gruenderx:tool-unlocked:<slug>`); beim nächsten Besuch gilt „spent".
  */
-type Phase = "fresh" | "open" | "spent";
+type Phase = "fresh" | "open" | "spent" | "frei";  // frei: Tool ohne E-Mail-Tor (trialTools.frei, 11.11.2026)
 
 interface ToolTrialApi {
   tool: TrialTool;
@@ -38,13 +38,25 @@ const ToolTrialContext = createContext<ToolTrialApi | null>(null);
 /** null im Cockpit (Vollzugriff), sonst die Probier-Steuerung. */
 export const useToolTrial = () => useContext(ToolTrialContext);
 
-export function ToolTrialProvider({ tool, children }: { tool: TrialTool; children: ReactNode }) {
-  // localStorage erst nach dem Mount: Im prerenderten HTML steht immer „fresh".
-  const [phase, setPhase] = useBrowserWert<Phase>(() => (isToolUnlockedLocally(tool.slug) ? "spent" : "fresh"), "fresh");
+export function ToolTrialProvider({
+  tool,
+  children,
+  ohneHinweis = false,
+}: {
+  tool: TrialTool;
+  children: ReactNode;
+  /** Kein Hinweis-Kasten über dem Tool (Landing/Einbettung bringen eigenen Text mit). */
+  ohneHinweis?: boolean;
+}) {
+  // localStorage erst nach dem Mount: Im prerenderten HTML steht immer „fresh" (frei: immer „frei").
+  const [phase, setPhase] = useBrowserWert<Phase>(
+    () => (tool.frei ? "frei" : isToolUnlockedLocally(tool.slug) ? "spent" : "fresh"),
+    tool.frei ? "frei" : "fresh",
+  );
   const [gateOpen, setGateOpen] = useState(false);
 
   const beforeRun = useCallback(() => {
-    if (phase === "fresh") return true;
+    if (phase === "fresh" || phase === "frei") return true;
     setPhase("spent");
     toast(`Deine kostenlose Nutzung von „${tool.name}" ist aufgebraucht.`, {
       description: "Mit dem GründerX-Abo nutzt du das Tool unbegrenzt.",
@@ -59,8 +71,16 @@ export function ToolTrialProvider({ tool, children }: { tool: TrialTool; childre
 
   return (
     <ToolTrialContext.Provider value={api}>
+      {!ohneHinweis && (
       <div className="container max-w-6xl px-4 md:px-6 pt-6">
-        {phase === "spent" ? (
+        {phase === "frei" ? (
+          <div className="flex items-start gap-2 rounded-xl border border-accent-blue/30 bg-accent-blue/5 px-4 py-3 text-sm">
+            <Gift className="mt-0.5 h-4 w-4 shrink-0 text-accent-blue" />
+            <span>
+              <strong>Kostenlos und ohne Anmeldung.</strong> Kein Konto, keine E-Mail, so oft du willst.
+            </span>
+          </div>
+        ) : phase === "spent" ? (
           <TrialUpsell tool={tool} variant="spent" />
         ) : (
           <div className="flex items-start gap-2 rounded-xl border border-accent-blue/30 bg-accent-blue/5 px-4 py-3 text-sm">
@@ -76,7 +96,9 @@ export function ToolTrialProvider({ tool, children }: { tool: TrialTool; childre
           </div>
         )}
       </div>
+      )}
       {children}
+      {!tool.frei && (
       <EmailGateDialog
         open={gateOpen}
         onOpenChange={setGateOpen}
@@ -88,6 +110,7 @@ export function ToolTrialProvider({ tool, children }: { tool: TrialTool; childre
           setPhase("open");
         }}
       />
+      )}
     </ToolTrialContext.Provider>
   );
 }
@@ -98,7 +121,7 @@ export function ToolTrialProvider({ tool, children }: { tool: TrialTool; childre
  */
 export function TrialResult({ children }: { children: ReactNode }) {
   const trial = useToolTrial();
-  if (!trial) return <>{children}</>;
+  if (!trial || trial.phase === "frei") return <>{children}</>;
   if (trial.phase === "open") {
     return (
       <>

@@ -6,7 +6,10 @@
 //                  Auth-Prüfung) → öffentliches EAR-Verzeichnis der stiftung ear
 //  - brand-check:  Edge Function `check-brand` (verify_jwt = false, keine
 //                  Auth-Prüfung) → DPMA/EUIPO/WIPO, DNS, Social, App Store
-//  - lucid-wizard: rein im Browser gerechnet, keine Abfrage
+//  - lucid-wizard: rein im Browser gerechnet, keine Abfrage. Seit 11.11.2026 FREI
+//                  (Betreiber: „Frei + einbettbar“, Top-1-Programm): ohne E-Mail-Tor,
+//                  unbegrenzt, direkt auf /tools/lucid-wizard und einbettbar unter
+//                  /einbetten/verpackungslizenz-rechner.
 //  - gruendungskosten-rechner: rein im Browser (FreeToolWizard-Template)
 //
 // Die Sperre nach der ersten Nutzung ist eine Browser-Sperre (localStorage),
@@ -24,6 +27,8 @@ export interface TrialTool {
   landingPath: string;
   /** Vollversion im Cockpit (hinter der PaywallGate). */
   cockpitPath: string;
+  /** Frei nutzbar: kein E-Mail-Tor, unbegrenzt, Tool direkt auf der Landing (11.11.2026). */
+  frei?: boolean;
 }
 
 export const TRIAL_TOOLS: TrialTool[] = [
@@ -50,6 +55,7 @@ export const TRIAL_TOOLS: TrialTool[] = [
     trialPath: "/tools/lucid-wizard/gratis",
     landingPath: "/tools/lucid-wizard",
     cockpitPath: "/cockpit/lucid-wizard",
+    frei: true,
   },
   {
     slug: "gruendungskosten-rechner",

@@ -122,7 +122,9 @@ const SYSTEMS: DualesSystem[] = [
   },
 ];
 
-const LucidWizard = () => {
+// rahmen=false (11.11.2026): ohne CockpitShell – für /tools/lucid-wizard (Tool direkt auf der Landing) und
+// die Einbettung /einbetten/verpackungslizenz-rechner. Im Cockpit und auf /gratis unverändert mit Rahmen.
+const LucidWizard = ({ rahmen = true }: { rahmen?: boolean } = {}) => {
   const trackEvent = useTrackToolEvent("lucid-wizard");
   const [step, setStep] = useState(1);
   // Nur auf der öffentlichen Probier-Seite gesetzt, im Cockpit null.
@@ -214,12 +216,7 @@ const LucidWizard = () => {
   const STEP_ICONS = [HelpCircle, Building2, Scale, Package, ListChecks];
   const StepIcon = STEP_ICONS[step - 1];
 
-  return (
-    <CockpitShell
-      eyebrow="LUCID-Wizard · 5-Schritte-Rechner (kein Verzeichnis)"
-      title="Verpackungslizenz-Rechner + Anbieter-Empfehlung"
-      subtitle="Schätzt deine jährlichen Lizenzkosten anhand der Materialmengen, vergleicht 9 zugelassene duale Systeme und gibt dir einen Action-Plan für die LUCID-Eintragung (die machst du selbst auf verpackungsregister.org). Tarife 2026 (+9-24 % ggü. 2025), inkl. PPWR (EU 2025/40, Hauptpflichten 12.8.2026), EWKFondsG-Doppelbelastung, Mehrweg-Angebotspflicht (§ 60 VerpackDG) und Prüfpflichten für Plattformen und Fulfilment-Dienstleister. Seit 12.8.2026 gilt das VerpackDG statt des VerpackG."
-    >
+  const inhalt = (
       <div className="mx-auto max-w-4xl">
         {/* Fortschritt */}
         <nav aria-label="Fortschritt" className="mb-6">
@@ -537,6 +534,15 @@ const LucidWizard = () => {
           </ul>
         </Callout>
       </div>
+  );
+  if (!rahmen) return inhalt;
+  return (
+    <CockpitShell
+      eyebrow="LUCID-Wizard · 5-Schritte-Rechner (kein Verzeichnis)"
+      title="Verpackungslizenz-Rechner + Anbieter-Empfehlung"
+      subtitle="Schätzt deine jährlichen Lizenzkosten anhand der Materialmengen, vergleicht 9 zugelassene duale Systeme und gibt dir einen Action-Plan für die LUCID-Eintragung (die machst du selbst auf verpackungsregister.org). Tarife 2026 (+9-24 % ggü. 2025), inkl. PPWR (EU 2025/40, Hauptpflichten 12.8.2026), EWKFondsG-Doppelbelastung, Mehrweg-Angebotspflicht (§ 60 VerpackDG) und Prüfpflichten für Plattformen und Fulfilment-Dienstleister. Seit 12.8.2026 gilt das VerpackDG statt des VerpackG."
+    >
+      {inhalt}
     </CockpitShell>
   );
 };

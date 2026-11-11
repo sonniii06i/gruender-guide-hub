@@ -1,3 +1,4 @@
+import { istEinbettung } from "@/lib/einbettung";
 import { useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -12,6 +13,7 @@ import { supabase } from "@/integrations/supabase/client";
 export const useTrackToolEvent = (tool: string) => {
   return useCallback(
     (event: string, metadata?: Record<string, unknown>) => {
+      if (istEinbettung()) return; // fremde Website: kein Tracking (11.11.2026)
       supabase.functions
         .invoke("track-tool-event", {
           body: { tool, event, metadata: metadata ?? {} },

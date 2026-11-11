@@ -1,3 +1,4 @@
+import { lazy, Suspense, type ComponentType, type LazyExoticComponent } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Navbar } from "@/components/landing/Navbar";
 import { Footer } from "@/components/landing/Footer";
@@ -14,6 +15,18 @@ import { PRO_MONTH_GROSS_CENTS, formatEurCents, schemaPrice } from "@/config/pri
 import { guideHref } from "@/data/guideMerges";
 import { screenFuerTool } from "@/data/screenshots";
 import { NewsletterOptin } from "@/components/NewsletterOptin";
+import { ToolTrialProvider } from "@/components/freetools/ToolTrial";
+
+// Freie Tools (trialTools.frei, 11.11.2026): das Tool selbst steht direkt auf der Landing – Google bevorzugt bei
+// Rechner-Suchen Seiten, auf denen man sofort rechnen kann. Dazu der Einbettcode (Linkköder, Top-1-Programm).
+const FREIE_TOOLS: Record<string, LazyExoticComponent<ComponentType<{ rahmen?: boolean }>>> = {
+  "lucid-wizard": lazy(() => import("./LucidWizard.tsx")),
+};
+const EINBETTCODE: Record<string, string> = {
+  "lucid-wizard":
+    '<iframe src="https://gruenderx.de/einbetten/verpackungslizenz-rechner" title="Verpackungslizenz-Rechner" width="100%" height="900" style="border:0;max-width:900px" loading="lazy"></iframe>\n' +
+    '<p style="font-size:12px">Verpackungslizenz-Rechner von <a href="https://gruenderx.de/tools/lucid-wizard">GründerX</a></p>',
+};
 
 const TOOL_CAT_TOPIC: Record<string, string> = {
   starter: "gruendung", rechtsform: "gruendung", steuer: "steuern", buchhaltung: "buchhaltung",
@@ -119,9 +132,11 @@ const ToolLanding = () => {
       outcomes={copy.outcomes}
       disclaimer={copy.disclaimer}
       faq={faq}
-      screenshot={screenFuerTool(tool.slug, tool.categorySlug)}
+      screenshot={trial?.frei ? undefined : screenFuerTool(tool.slug, tool.categorySlug)}  // freie Tools: echter Rechner statt Bild
       topSlot={
-        trial ? (
+        trial && trial.frei && FREIE_TOOLS[trial.slug] ? (
+          <FreiesTool slug={trial.slug} tool={trial} />
+        ) : trial ? (
           <section className="flex flex-col gap-4 rounded-2xl border border-brand-green/25 bg-brand-green-soft p-5 sm:flex-row sm:items-center sm:justify-between md:p-6">
             <div className="flex items-start gap-3.5">
               <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-card text-brand-green shadow-card">
@@ -143,10 +158,10 @@ const ToolLanding = () => {
           </section>
         ) : undefined
       }
-      ctaTitle={`„${tool.title}" unbegrenzt im GründerX-Cockpit`}
+      ctaTitle={trial?.frei ? "Alle weiteren Gründungs-Tools im GründerX-Cockpit" : `„${tool.title}" unbegrenzt im GründerX-Cockpit`}
       ctaText={`Mit dem Abo ab ${formatEurCents(PRO_MONTH_GROSS_CENTS)} im Monat (inkl. USt.) nutzt du dieses Tool und alle anderen Rechner, Wizards und Schritt-für-Schritt-Guides aus der Tool-Übersicht.`}
       primaryHref={trial ? trial.trialPath : "/preise"}
-      primaryLabel={trial ? "Kostenlos prüfen" : "Preise & Leistungen"}
+      primaryLabel={trial ? (trial.frei ? "Kostenlos rechnen" : "Kostenlos prüfen") : "Preise & Leistungen"}
       secondaryHref={trial ? "/preise" : tool.route!}
       secondaryLabel={trial ? "Preise & Leistungen" : "Tool öffnen"}
       relatedTitle="Passende Tools"
@@ -170,5 +185,47 @@ const ToolLanding = () => {
     />
   );
 };
+
+function FreiesTool({ slug, tool }: { slug: string; tool: NonNullable<(typeof TRIAL_TOOL_BY_SLUG)[string]> }) {
+  const Werkzeug = FREIE_TOOLS[slug];
+  const code = EINBETTCODE[slug];
+  return (
+    <section id="rechner" className="rounded-2xl border border-border bg-card p-4 shadow-card md:p-6">
+      <div className="mb-4 flex items-start gap-3.5">
+        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-brand-green-soft text-brand-green">
+          <Gift className="h-4 w-4" aria-hidden="true" />
+        </span>
+        <div>
+          <h2 className="text-xl font-semibold">Jetzt rechnen: kostenlos und ohne Anmeldung</h2>
+          <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+            Kein Konto, keine E-Mail, so oft du willst. Die Rechnung läuft komplett in deinem Browser.
+          </p>
+        </div>
+      </div>
+      <ToolTrialProvider tool={tool} ohneHinweis>
+        <Suspense fallback={<div className="h-72 animate-pulse rounded-xl bg-secondary" aria-hidden="true" />}>
+          <Werkzeug rahmen={false} />
+        </Suspense>
+      </ToolTrialProvider>
+      {code && (
+        <details className="mt-6 rounded-xl border border-border bg-background p-4 text-sm" id="einbinden">
+          <summary className="cursor-pointer font-semibold">Rechner auf deiner Website einbinden</summary>
+          <p className="mt-2 text-muted-foreground">
+            Kostenlos für Blogs, Beratungen und Shop-Ratgeber. Der eingebettete Rechner lädt keine Cookies, kein Tracking
+            und keine Werbung und rechnet mit denselben Tarifen wie hier.
+          </p>
+          <textarea
+            readOnly
+            rows={4}
+            value={code}
+            aria-label="Code zum Einbinden"
+            onFocus={(e) => e.currentTarget.select()}
+            className="mt-3 w-full rounded-lg border border-border bg-card p-2 font-mono text-xs"
+          />
+        </details>
+      )}
+    </section>
+  );
+}
 
 export default ToolLanding;

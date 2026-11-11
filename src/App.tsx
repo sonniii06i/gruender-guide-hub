@@ -32,6 +32,7 @@ import { AnalyticsCapture } from "@/components/AnalyticsCapture";
 import { ConsentBanner } from "@/components/ConsentBanner";
 import AktionsBanner from "@/components/AktionsBanner"; // Aktions-Banner 26.10.2026 (HQ aktionen.py)
 import { initAdPixels } from "@/utils/adPixels";
+import { istEinbettung } from "@/lib/einbettung";
 import { MailBestaetigenHinweis } from "@/components/MailBestaetigenHinweis";
 import { AuthLinkFehler } from "@/components/AuthLinkFehler";
 
@@ -145,6 +146,7 @@ const mitLandingDaten = <T,>(seite: () => Promise<T>) => () => {
 };
 const ToolLanding = lazy(mitLandingDaten(() => import("./pages/ToolLanding.tsx")));
 const ToolTrialPage = lazy(() => import("./pages/ToolTrialPage.tsx"));
+const EinbettenLucid = lazy(() => import("./pages/EinbettenLucid.tsx")); // einbettbarer Rechner 11.11.2026
 const Preise = lazy(() => import("./pages/Preise.tsx"));
 const GuidesIndex = lazy(() => import("./pages/GuidesIndex.tsx"));
 const GuideLanding = lazy(mitLandingDaten(() => import("./pages/GuideLanding.tsx")));
@@ -212,7 +214,9 @@ const PageFallback = () => (
 // Laedt Meta-Pixel und Google-Tag nach, sobald eine Einwilligung vorliegt --
 // aus einem frueheren Besuch sofort, sonst in dem Moment der Zustimmung.
 // Auf Modulebene, damit es genau einmal laeuft.
-initAdPixels();
+// Einbettung (/einbetten/*) auf fremden Seiten: keine Werbe-Pixel, kein Banner, kein Tracking (11.11.2026)
+const EINBETTUNG = istEinbettung();
+if (!EINBETTUNG) initAdPixels();
 // Alte Chunks nach einem Deploy: einmal neu laden statt weisser Seite.
 installChunkReloadHandler();
 
@@ -223,12 +227,12 @@ const App = () => (
       <BrowserRouter>
         <AuthProvider>
           <ScrollToTop />
-          <RouteTracker />
-          <AnalyticsCapture />
-          <ConsentBanner />
-          <AktionsBanner />
-          <MailBestaetigenHinweis />
-          <AuthLinkFehler />
+          {!EINBETTUNG && <RouteTracker />}
+          {!EINBETTUNG && <AnalyticsCapture />}
+          {!EINBETTUNG && <ConsentBanner />}
+          {!EINBETTUNG && <AktionsBanner />}
+          {!EINBETTUNG && <MailBestaetigenHinweis />}
+          {!EINBETTUNG && <AuthLinkFehler />}
           <AppErrorBoundary>
           <TwoFactorGate>
           <Suspense fallback={<PageFallback />}>
@@ -379,6 +383,7 @@ const App = () => (
               <Route path="/tools" element={<Tools />} />
               {/* Eine kostenlose Nutzung ohne Konto (Ergebnis gegen E-Mail). */}
               <Route path="/tools/:slug/gratis" element={<ToolTrialPage />} />
+              <Route path="/einbetten/verpackungslizenz-rechner" element={<EinbettenLucid />} />
               <Route path="/tools/:slug" element={<ToolLanding />} />
               <Route path="/preise" element={<Preise />} />
               <Route path="/guides" element={<GuidesIndex />} />

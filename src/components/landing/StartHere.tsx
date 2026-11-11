@@ -21,7 +21,8 @@ export const StartHere = () => (
     <div className="container max-w-6xl">
       <h2 className="mb-4 text-3xl font-semibold leading-[1.1] md:text-[2.75rem]">Erst ausprobieren, dann entscheiden.</h2>
       <p className="mb-12 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-        Vier Tools aus dem Cockpit kannst du ohne Konto testen: {TRIAL_CLAIM}. Die Guides zeigen dir vorab,
+        Vier Tools aus dem Cockpit kannst du ohne Konto nutzen: drei davon einmal ({TRIAL_CLAIM}), den
+        Verpackungslizenz-Rechner unbegrenzt und ohne E-Mail. Die Guides zeigen dir vorab,
         was dich Schritt für Schritt erwartet.
       </p>
 
