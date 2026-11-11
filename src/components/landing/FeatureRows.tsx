@@ -10,7 +10,7 @@ const ZEILEN: { eyebrow: string; titel: string; text: string; punkte: string[]; 
   {
     eyebrow: "Fragebogen",
     titel: "Der Fragebogen fürs Finanzamt, Feld für Feld erklärt.",
-    text: "Alle Teilseiten des ELSTER-Fragebogens in der Reihenfolge, in der ELSTER sie abfragt – mit Erklärung je Feld und Empfehlungen für die verbindlichen Entscheidungen.",
+    text: "Alle Teilseiten des ELSTER-Fragebogens in der Reihenfolge, in der ELSTER sie abfragt – mit Erklärung je Feld und den Folgen jeder Option bei den Entscheidungen, die du dort verbindlich triffst (z. B. Kleinunternehmerregelung).",
     punkte: ["Kleinunternehmer ja oder nein", "EÜR oder Bilanz, Soll oder Ist", "USt-IdNr gleich mit beantragen"],
     bild: "fse",
     to: "/tools/fse-wizard",

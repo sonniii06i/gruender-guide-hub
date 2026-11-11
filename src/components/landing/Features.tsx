@@ -12,7 +12,7 @@ const features = [
   {
     icon: Building2,
     title: "Rechtsform & Gründung",
-    desc: "Einzelunternehmen, UG oder GmbH? Felix empfiehlt die richtige Rechtsform für dein Vorhaben und führt dich durch Gewerbeanmeldung & Fragebogen zur steuerlichen Erfassung.",
+    desc: "Einzelunternehmen, UG oder GmbH? Felix stellt die Rechtsformen für dein Vorhaben gegenüber – Haftung, Kosten, Aufwand – und führt dich durch Gewerbeanmeldung & Fragebogen zur steuerlichen Erfassung. Die Entscheidung triffst du.",
   },
   {
     icon: ShoppingBag,
