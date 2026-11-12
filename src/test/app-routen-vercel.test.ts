@@ -68,8 +68,9 @@ describe("Jede Route aus App.tsx ist vorgerendert oder per Rewrite gedeckt", () 
 
   it("öffentliche Parameter-Routen stammen aus der Sitemap/Prerender-Liste, nicht aus einem Rewrite", () => {
     const oeffentlich = APP_ROUTEN.filter((r) => r.includes(":") && vorgerendert(r));
-    expect(oeffentlich.sort()).toEqual(
-      ["/guides/:slug", "/ratgeber/:slug", "/tools/:slug", "/tools/:slug/gratis", "/vorlagen/:slug", "/vorlagen/kategorie/:key"].sort(),
+    // Mindestbestand; neue öffentliche Bereiche (z. B. /lexikon/:slug) kommen über die Sitemap dazu.
+    expect(oeffentlich).toEqual(
+      expect.arrayContaining(["/guides/:slug", "/ratgeber/:slug", "/tools/:slug", "/tools/:slug/gratis", "/vorlagen/:slug", "/vorlagen/kategorie/:key"]),
     );
     for (const r of oeffentlich) expect(gedeckt(beispiel(r)), r).toBe(false);
   });
