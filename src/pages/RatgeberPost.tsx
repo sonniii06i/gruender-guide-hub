@@ -1,3 +1,4 @@
+import { nachErstemAbschnitt } from "@/lib/ratgeberAbschnitte";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
@@ -187,6 +188,8 @@ const RatgeberPost = () => {
   const titelbild = titelbildUrl(post.slug, post.hero_image_url);
   const teilbaresBild = titelbildAbsolut(post.slug, post.hero_image_url);
 
+  const [teil1, teil2] = nachErstemAbschnitt(ohneTitelzeile(post.body_md));
+
   return (
     <PublicShell>
       <Seo
@@ -290,13 +293,6 @@ const RatgeberPost = () => {
         )}
 
         <div className="container max-w-3xl px-4 py-12 md:py-16">
-          {/* Ratgeber hatten keinen Weg zum Konto, nur Navigation und /preise (Funnel 30.10.2026). */}
-          <p className="mb-10 rounded-xl border border-border bg-secondary/40 px-4 py-3 text-sm leading-relaxed text-muted-foreground">
-            Gründest du gerade? Gratis-Tools und Rechner bekommst du mit dem kostenlosen Konto.{" "}
-            <Link to="/auth" data-cta="ratgeber-oben" className="whitespace-nowrap font-semibold text-accent-blue hover:underline">
-              Kostenlos starten
-            </Link>
-          </p>
           <div className="prose prose-lg dark:prose-invert max-w-none
               prose-headings:font-semibold prose-headings:tracking-tight prose-headings:scroll-mt-24
               prose-h2:text-[1.75rem] prose-h2:mt-12 prose-h2:mb-4
@@ -325,9 +321,50 @@ const RatgeberPost = () => {
                 ),
               }}
             >
-              {ohneTitelzeile(post.body_md)}
+              {teil1}
             </ReactMarkdown>
           </div>
+          {/* Ratgeber hatten keinen Weg zum Konto, nur Navigation und /preise (Funnel 30.10.2026). Seit 12.11.2026 hinter dem ersten
+              Antwortabschnitt statt vor der Antwort (Recherche „kleine Gewinner“: Antwort zuerst). */}
+          <p className="my-10 rounded-xl border border-border bg-secondary/40 px-4 py-3 text-sm leading-relaxed text-muted-foreground">
+            Gründest du gerade? Gratis-Tools und Rechner bekommst du mit dem kostenlosen Konto.{" "}
+            <Link to="/auth" data-cta="ratgeber-oben" className="whitespace-nowrap font-semibold text-accent-blue hover:underline">
+              Kostenlos starten
+            </Link>
+          </p>
+          {teil2 && (
+            <div className="prose prose-lg dark:prose-invert max-w-none
+              prose-headings:font-semibold prose-headings:tracking-tight prose-headings:scroll-mt-24
+              prose-h2:text-[1.75rem] prose-h2:mt-12 prose-h2:mb-4
+              prose-h3:text-xl prose-h3:mt-8
+              prose-a:text-accent-blue prose-a:no-underline hover:prose-a:underline
+              prose-strong:text-foreground
+              prose-li:my-1
+              prose-blockquote:border-accent-blue prose-blockquote:bg-secondary/50 prose-blockquote:py-1 prose-blockquote:rounded-r-lg
+              prose-code:bg-secondary prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm
+              prose-img:rounded-xl">
+            <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                components={{
+                  // Die Seite traegt ihre H1 schon im Kopf; eine "# …"-Zeile im
+                  // Artikeltext ergab bisher zwei H1 je Ratgeber.
+                  h1: ({ node: _node, ...props }) => <h2 {...props} />,
+                  // Vorschau-Links hinter der Paywall (/playbook/preview/…, robots-gesperrt)
+                  // auf die oeffentliche Seite desselben Themas legen (lib/ratgeberLinks.ts).
+                  a: ({ node: _node, href, ...props }) => <a href={oeffentlichesLinkziel(href, selbst)} {...props} />,
+                  img: ({ node: _node, ...props }) => <img loading="lazy" decoding="async" {...props} />,
+                  // Tabellen (remark-gfm) auf dem Handy horizontal scrollbar statt die Seite zu sprengen
+                  table: ({ node: _node, ...props }) => (
+                    <div className="not-prose my-6 overflow-x-auto rounded-xl border border-border">
+                      <table className="w-full border-collapse text-sm [&_td]:border-t [&_td]:border-border [&_td]:px-3 [&_td]:py-2 [&_th]:bg-secondary/60 [&_th]:px-3 [&_th]:py-2 [&_th]:text-left [&_th]:font-semibold" {...props} />
+                    </div>
+                  ),
+                }}
+              >
+                {teil2}
+              </ReactMarkdown>
+            </div>
+          )}
 
           {post.tags.length > 0 && (
             <div className="mt-12 flex flex-wrap gap-2">
