@@ -29,6 +29,7 @@ import type { FieldDef, ToolConfig, ToolData } from "@/lib/freetools/types";
 import { downloadDocumentPdf } from "@/lib/freetools/pdf";
 import { EmailGateDialog } from "./EmailGateDialog";
 import { TrialUpsell } from "./ToolTrial";
+import { ErgebnisRabattBlock } from "./ErgebnisRabattBlock";
 import { isToolUnlockedLocally } from "@/lib/freetools/leads";
 import { useBrowserWert } from "@/lib/prerender";
 import { useAccess } from "@/hooks/useAccess";
@@ -235,6 +236,9 @@ export function FreeToolWizard({ config }: FreeToolWizardProps) {
             </Button>
           )}
         </div>
+
+        {/* Rabatt für alle, die bis hierher gekommen sind – unabhängig vom E-Mail-Tor. */}
+        {config.ergebnisRabatt && <ErgebnisRabattBlock rabatt={config.ergebnisRabatt} />}
 
         {limited && isUnlocked && (
           <div className="mt-8">

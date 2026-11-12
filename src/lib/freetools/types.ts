@@ -43,6 +43,19 @@ export interface StepDef {
   fields: FieldDef[];
 }
 
+/** Rabatt-Block unter dem Ergebnis (nur Ergebnisansicht, siehe ErgebnisRabattBlock). */
+export interface ErgebnisRabatt {
+  code: string;
+  prozent: number;
+  titel: string;
+  text: string;
+  /** Interner Link, über den der Code eingelöst wird. */
+  ziel: string;
+  zielText: string;
+  /** Klartext-Bedingungen direkt am Block – nur, was technisch so eingestellt ist. */
+  bedingungen: string[];
+}
+
 export interface ToolConfig {
   slug: string;
   shortTitle: string;
@@ -64,6 +77,8 @@ export interface ToolConfig {
   /** Primärquellen (Gesetz, Behörde) für den Quellenblock; `stand` = Abrufdatum. */
   quellen?: { label: string; url: string }[];
   stand?: string;
+  /** Rabatt für alle, die das Tool bis zum Ergebnis durchspielen. Ohne Angabe: kein Block. */
+  ergebnisRabatt?: ErgebnisRabatt;
   /** utm_medium des Funnel-Links (rechner, generator, anleitung …). Default „generator“. */
   format?: string;
   seo: {

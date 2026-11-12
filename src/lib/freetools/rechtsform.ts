@@ -1,5 +1,11 @@
 import { Scale } from "lucide-react";
 import { type ToolConfig, type ToolData, s, DISCLAIMER } from "./types";
+import {
+  RECHTSFORM_RABATT,
+  RECHTSFORM_RABATT_AKTIV,
+  RECHTSFORM_RABATT_FAQ,
+  RECHTSFORM_RABATT_HINWEIS,
+} from "./rechtsformRabatt";
 
 interface FormInfo {
   name: string;
@@ -150,7 +156,12 @@ function generate(data: ToolData): string {
   return L.join("\n");
 }
 
-export const rechtsformConfig: ToolConfig = {
+/**
+ * Konfiguration des Rechtsform-Tests. `rabattAktiv` hängt den Rabatt-Block ans
+ * Ergebnis und ergänzt die Landing um einen Satz und einen FAQ-Eintrag; ohne ihn
+ * steht nirgends etwas vom Rabatt (auch nicht im prerenderten HTML).
+ */
+export const baueRechtsformConfig = (rabattAktiv: boolean): ToolConfig => ({
   slug: "rechtsform-finden",
   shortTitle: "Rechtsform",
   documentName: "Rechtsform-Empfehlung",
@@ -236,12 +247,14 @@ export const rechtsformConfig: ToolConfig = {
     },
   ],
   generate,
+  ...(rabattAktiv ? { ergebnisRabatt: RECHTSFORM_RABATT } : {}),
   seoSections: [
     {
       heading: "Welche Rechtsform passt zu deiner Gründung?",
       body: [
         "Die Wahl der Rechtsform ist eine der ersten und wichtigsten Entscheidungen jeder Gründung. Sie bestimmt, wie du haftest, wie viel Kapital du brauchst, wie aufwändig die Buchführung ist und wie seriös du am Markt auftrittst. Die häufigsten Formen sind Einzelunternehmen, GbR, UG (haftungsbeschränkt) und GmbH.",
         "Es gibt keine pauschal „beste“ Rechtsform – die richtige Wahl hängt von deiner Situation ab: Gründest du allein oder im Team? Wie wichtig ist Haftungsbeschränkung? Wie viel Kapital hast du? Genau das fragt dieser Finder ab und gibt dir eine begründete Empfehlung.",
+        ...(rabattAktiv ? [RECHTSFORM_RABATT_HINWEIS] : []),
       ],
     },
     {
@@ -281,6 +294,9 @@ export const rechtsformConfig: ToolConfig = {
         q: "Ersetzt das eine Steuerberatung?",
         a: "Nein. Der Finder gibt dir eine fundierte Orientierung. Steuerliche Detailfragen (z. B. Gewerbe- und Körperschaftsteuer, Geschäftsführergehalt) solltest du zusätzlich mit einem Steuerberater klären.",
       },
+      ...(rabattAktiv ? [RECHTSFORM_RABATT_FAQ] : []),
     ],
   },
-};
+});
+
+export const rechtsformConfig: ToolConfig = baueRechtsformConfig(RECHTSFORM_RABATT_AKTIV);
