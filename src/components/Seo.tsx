@@ -57,7 +57,8 @@ export const Seo = ({
       <meta name="twitter:description" content={desc} />
       <meta name="twitter:image" content={image} />
       {blocks.map((b, i) => (
-        <script key={i} type="application/ld+json">{JSON.stringify(b)}</script>
+        // "<" escapen: kein </script>-Ausbruch aus Datentexten im prerenderten HTML
+        <script key={i} type="application/ld+json">{JSON.stringify(b).replace(/</g, "\\u003c")}</script>
       ))}
     </Helmet>
   );

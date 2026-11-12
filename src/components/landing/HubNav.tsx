@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Wrench, ListChecks, BookOpen, FileText } from "lucide-react";
+import { ArrowRight, Wrench, ListChecks, BookOpen, FileText, BookA } from "lucide-react";
 
 const ALL = {
   tools: { to: "/tools", icon: Wrench, title: "Alle Tools", desc: "Rechner, Wizards & Checks fürs Gründen" },
   guides: { to: "/guides", icon: ListChecks, title: "Alle Guides", desc: "Schritt-für-Schritt durch jede Gründung" },
   ratgeber: { to: "/ratgeber", icon: BookOpen, title: "Ratgeber", desc: "Artikel zu Steuern, Recht & E-Commerce" },
+  lexikon: { to: "/lexikon", icon: BookA, title: "Gründer-Lexikon", desc: "Begriffe von Burn Rate bis LUCID, mit Beispiel und Quelle" },
   vorlagen: { to: "/vorlagen", icon: FileText, title: "Vertragsvorlagen", desc: "GbR-Vertrag, Kaufverträge, NDA, AGB – Word & PDF" },
 } as const;
 

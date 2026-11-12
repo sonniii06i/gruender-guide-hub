@@ -11,6 +11,7 @@
 //  - /tools/:slug      Eintrag aus features.ts (LANDING_TOOLS) + Text aus landingCopy.tools.ts
 //  - /guides/:slug     Eintrag aus guides.ts (aus playbooks.ts abgeleitet) + Text aus landingCopy.guides.ts
 //  - /vorlagen/:slug   Metadaten aus src/data/vorlagen/<kategorie>.ts + Datei inhalte/<slug>.ts
+//  - /lexikon/:slug    Katalog-Eintrag aus src/data/lexikon/katalog.ts + Datei inhalte/<slug>.ts
 //  - /vorlagen/kategorie/:key  Kategorie-Info + Liste ihrer Vorlagen (Slug, Titel, Kurztext)
 //  - Gratis-Tools (/businessplan-erstellen …)  die Konfig-Datei in src/lib/freetools/
 //  - eigene Seiten     die Seitenkomponente (SEITEN unten), Hubs zusaetzlich mit ihrer Liste
@@ -31,6 +32,7 @@ import { GUIDE_LANDINGS } from "../src/data/guides";
 import { GUIDE_COPY, TOOL_COPY } from "../src/data/landingCopy";
 import { VORLAGEN, VORLAGEN_KATEGORIEN } from "../src/data/vorlagen";
 import { ZIELGRUPPEN } from "../src/data/zielgruppen";
+import { LEXIKON } from "../src/data/lexikon/katalog";
 import { EIGENE_DATUMSLOGIK, festeRouten } from "./generate-sitemap";
 
 export const WURZEL = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -92,6 +94,7 @@ const SEITEN: Record<string, string[]> = {
   "/guides": ["src/pages/GuidesIndex.tsx"],
   "/gratis-tools": ["src/pages/GratisTools.tsx", "src/lib/freetools/index.ts"],
   "/vorlagen": ["src/pages/Vorlagen.tsx"],
+  "/lexikon": ["src/pages/Lexikon.tsx"],
   "/hackathon-starter-kit": ["src/pages/HackathonStarterKit.tsx"],
   "/startup-guthaben": ["src/pages/StartupGuthaben.tsx"],
   "/ki-assistent": ["src/pages/KiAssistent.tsx"],
@@ -155,6 +158,12 @@ function hubListe(path: string): { daten: string; quellen: Quelle[] } | null {
       quellen: [...VORLAGEN_KATEGORIEN.map((k) => kategorieBlock(k.key)), ...VORLAGEN.map((v) => vorlageBlock(v.kategorie, v.slug, 3))],
     };
   }
+  if (path === "/lexikon") {
+    return {
+      daten: json(LEXIKON.map((b) => [b.slug, b.begriff, b.kurz, b.thema, b.stand])),
+      quellen: ["src/data/lexikon/katalog.ts"],
+    };
+  }
   return null;
 }
 
@@ -198,6 +207,17 @@ function standEinerRoute(path: string): RoutenStand | null {
     return {
       hash: sha(["vorlage", json(v), lies(inhalt)]),
       quellen: [vorlageBlock(v.kategorie, v.slug), inhalt],
+    };
+  }
+
+  if ((m = path.match(/^\/lexikon\/([^/]+)$/))) {
+    const b = LEXIKON.find((x) => x.slug === m![1]);
+    if (!b) return null;
+    const inhalt = `src/data/lexikon/inhalte/${b.slug}.ts`;
+    if (!existsSync(join(WURZEL, inhalt))) return null;
+    return {
+      hash: sha(["lexikon", json(b), lies(inhalt)]),
+      quellen: [inhalt, { datei: "src/data/lexikon/katalog.ts", anker: `    slug: "${b.slug}",`, grenze: SLUG_GRENZE }],
     };
   }
 

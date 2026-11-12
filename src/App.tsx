@@ -137,6 +137,8 @@ const Ratgeber = lazy(() => import("./pages/Ratgeber.tsx"));
 const RatgeberPost = lazy(() => import("./pages/RatgeberPost.tsx"));
 const AdminBlog = lazy(() => import("./pages/AdminBlog.tsx"));
 const Tools = lazy(() => import("./pages/Tools.tsx"));
+const Lexikon = lazy(() => import("./pages/Lexikon.tsx"));
+const LexikonBegriff = lazy(() => import("./pages/LexikonBegriff.tsx"));
 const UsLlcOffer = lazy(() => import("./pages/UsLlcOffer.tsx"));
 const GruendungKomplett = lazy(() => import("./pages/GruendungKomplett.tsx"));
 // Tool-/Guide-Landings: Seiten-Chunk und die Datendatei des Slugs parallel laden (kein Wasserfall).
@@ -390,6 +392,9 @@ const App = () => (
               <Route path="/gruendungspaket/danke" element={<GruendungspaketDanke />} />
               <Route path="/ratgeber" element={<Ratgeber />} />
               <Route path="/ratgeber/:slug" element={<RatgeberPost />} />
+              {/* Lexikon (12.11.2026): Begriffe aus src/data/lexikon/katalog.ts */}
+              <Route path="/lexikon" element={<Lexikon />} />
+              <Route path="/lexikon/:slug" element={<LexikonBegriff />} />
               {/* Anzeigen-Landingpage der Meta-Kampagne. noindex, ohne globale
                   Navigation -- siehe Kommentar in UsLlcOffer.tsx. */}
               <Route path="/us-llc-30-tage" element={<UsLlcOffer />} />

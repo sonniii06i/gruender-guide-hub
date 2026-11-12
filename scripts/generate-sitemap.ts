@@ -13,6 +13,7 @@ import { GUIDE_LANDINGS } from "../src/data/guides";
 import { isMergedGuide } from "../src/data/guideMerges";
 import { fremdKanonisch } from "../src/data/ratgeberKanonisch";
 import { VORLAGEN, VORLAGEN_KATEGORIEN } from "../src/data/vorlagen";
+import { LEXIKON } from "../src/data/lexikon/katalog";
 
 const BASE_URL = "https://gruenderx.de";
 const SUPABASE_URL = process.env.VITE_SUPABASE_URL || "https://rwrjuzemkfghlziretdj.supabase.co";
@@ -70,6 +71,8 @@ export const staticEntries: SitemapEntry[] = [
   // Die zwei Amazon-Widerspruchsgeneratoren stehen NICHT mehr hier: Canonical
   // zeigt auf anwaltx.de (Themenbesitz). Prerender ueber EXTRA_ROUTES in prerender.mjs.
   { path: "/ratgeber", changefreq: "daily", priority: "0.9" },
+  // Lexikon-Hub; die Begriffe folgen als lexikonEntries aus src/data/lexikon/katalog.ts
+  { path: "/lexikon", changefreq: "weekly", priority: "0.8" },
   { path: "/gruender-events", changefreq: "daily", priority: "0.8" },
   { path: "/gruender-chancen", changefreq: "daily", priority: "0.9" },
   { path: "/hackathon-starter-kit", changefreq: "monthly", priority: "0.7" },
@@ -129,8 +132,15 @@ export const guideEntries: SitemapEntry[] = GUIDE_LANDINGS.filter((g) => !isMerg
   priority: "0.7",
 }));
 
+// Lexikon (/lexikon/:slug): ein Eintrag je Begriff aus dem Katalog.
+export const lexikonEntries: SitemapEntry[] = LEXIKON.map((b) => ({
+  path: `/lexikon/${b.slug}`,
+  changefreq: "monthly" as const,
+  priority: "0.6",
+}));
+
 /** Alle Routen der Sitemap ausser den Ratgebern, in Sitemap-Reihenfolge. */
-export const festeRouten = (): SitemapEntry[] => [...staticEntries, ...vorlagenEntries, ...toolEntries, ...guideEntries];
+export const festeRouten = (): SitemapEntry[] => [...staticEntries, ...vorlagenEntries, ...toolEntries, ...guideEntries, ...lexikonEntries];
 
 function manifestLastmod(): Record<string, string> {
   const file = resolve("scripts/lastmod-manifest.json");
@@ -270,6 +280,7 @@ async function main() {
     ...mitLastmod(vorlagenEntries, manifest),
     ...mitLastmod(toolEntries, manifest),
     ...mitLastmod(guideEntries, manifest),
+    ...mitLastmod(lexikonEntries, manifest),
     ...blogEntries,
   ];
   writeFileSync(resolve("public/sitemap.xml"), generateSitemap(entries));
@@ -277,7 +288,7 @@ async function main() {
     `sitemap.xml lastmod: ${entries.filter((e) => e.lastmod).length} von ${entries.length} (Manifest: ${Object.keys(manifest).length} Routen)`,
   );
   console.log(
-    `sitemap.xml written: ${entries.length} entries (${staticEntries.length} static + ${vorlagenEntries.length} vorlagen + ${toolEntries.length} tools + ${guideEntries.length} guides + ${blogEntries.length} ratgeber)`,
+    `sitemap.xml written: ${entries.length} entries (${staticEntries.length} static + ${vorlagenEntries.length} vorlagen + ${toolEntries.length} tools + ${guideEntries.length} guides + ${lexikonEntries.length} lexikon + ${blogEntries.length} ratgeber)`,
   );
 }
 

@@ -9,6 +9,7 @@ import { findLandingTool, relatedLandingTools } from "@/data/features";
 import { toolDaten } from "@/lib/landingDaten";
 import { RATGEBER_VORRANG, relatedGuidesFor } from "@/lib/internalLinks";
 import { RelatedArticles } from "@/components/landing/RelatedArticles";
+import { LexikonVerweise } from "@/components/lexikon/LexikonVerweise";
 import { Gift, ArrowRight } from "lucide-react";
 import { TRIAL_TOOL_BY_SLUG, TRIAL_CLAIM } from "@/lib/freetools/trialTools";
 import { PRO_MONTH_GROSS_CENTS, formatEurCents, schemaPrice } from "@/config/pricing";
@@ -179,6 +180,7 @@ const ToolLanding = () => {
             titel="Fristen & Änderungen, die dich betreffen"
             text="Wir melden uns kurz, bevor eine Steuerfrist abläuft oder sich für Gründer etwas ändert (z. B. neue Pflichten, Förderungen, Gebühren) – höchstens zwei Mails pro Woche, meist seltener."
           />
+          <LexikonVerweise pfad={`/tools/${tool.slug}`} className="mb-12" />
           <RelatedArticles context={matchCtx} vorrang={RATGEBER_VORRANG[slug]} />
         </>
       }

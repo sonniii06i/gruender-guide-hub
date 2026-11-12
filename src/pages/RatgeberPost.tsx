@@ -18,6 +18,7 @@ import { oeffentlichesLinkziel } from "@/lib/ratgeberLinks";
 import { fremdKanonisch } from "@/data/ratgeberKanonisch";
 import { titelbildAbsolut, titelbildUrl } from "@/data/ratgeberBilder";
 import { prerenderDaten, prerenderDatenMerken } from "@/lib/prerender";
+import { LexikonVerweise } from "@/components/lexikon/LexikonVerweise";
 
 interface BlogPost {
   id: string;
@@ -462,6 +463,8 @@ const RatgeberPost = () => {
               )}
             </div>
           )}
+
+          <LexikonVerweise pfad={`/ratgeber/${post.slug}`} />
 
           <section className="mt-14 rounded-2xl border border-border bg-card p-5 md:p-7">
             <h2 className="text-xl font-semibold tracking-tight">Wie geht es bei dir weiter?</h2>

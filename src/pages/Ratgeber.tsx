@@ -259,7 +259,7 @@ const Ratgeber = () => {
             </div>
           )}
 
-          <HubNav show={["tools", "guides"]} />
+          <HubNav show={["tools", "guides", "lexikon"]} />
         </div>
       </section>
     </PublicShell>

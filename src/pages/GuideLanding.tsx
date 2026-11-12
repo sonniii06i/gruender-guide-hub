@@ -7,6 +7,7 @@ import { LandingPage, type LandingFaq } from "@/components/landing/LandingPage";
 import { guideDaten } from "@/lib/landingDaten";
 import { relatedToolsFor } from "@/lib/internalLinks";
 import { RelatedArticles } from "@/components/landing/RelatedArticles";
+import { LexikonVerweise } from "@/components/lexikon/LexikonVerweise";
 import { guideHref, isMergedGuide } from "@/data/guideMerges";
 import { SCREENS } from "@/data/screenshots";
 import SchwesterTipp from "@/components/SchwesterTipp";
@@ -138,6 +139,7 @@ const GuideLanding = () => {
       bottomSlot={
         <>
           <SchwesterTipp slug={guide.slug} />
+          <LexikonVerweise pfad={`/guides/${guide.slug}`} className="mb-12" />
           <RelatedArticles context={matchCtx} />
         </>
       }
