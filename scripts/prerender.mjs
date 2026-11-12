@@ -20,6 +20,7 @@ import { existsSync } from "node:fs";
 import { extname, join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import Beasties from "beasties";
+import { notFoundSeite } from "./not-found-seite.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DIST = join(__dirname, "..", "dist");
@@ -320,8 +321,8 @@ async function run() {
   // überschreibt dist/index.html. Vorher war das zugleich der SPA-Fallback, also
   // bekam jede nicht prerenderte Route (/dashboard, /auth, unbekannte URLs) das
   // Startseiten-HTML samt Canonical – Duplikat bei Google und Hydration gegen
-  // die falsche Route. vercel.json leitet den Catch-all deshalb auf diese Datei
-  // (leeres #root → main.tsx nimmt createRoot statt hydrateRoot).
+  // die falsche Route. vercel.json leitet die App-Routen (Dashboard, Cockpit, Auth …)
+  // deshalb auf diese Datei (leeres #root → main.tsx nimmt createRoot statt hydrateRoot).
   const shellPfad = join(DIST, "app-shell.html");
   if (!existsSync(shellPfad)) {
     const roh = await readFile(join(DIST, "index.html"), "utf8");
@@ -330,6 +331,18 @@ async function run() {
     } else {
       console.warn("[prerender] ⚠ dist/index.html ist schon prerendert – app-shell.html nicht angelegt");
     }
+  }
+  // 404-Seite = App-Hülle mit eigenem Titel und noindex (scripts/not-found-seite.mjs).
+  // Vercel liefert sie mit Status 404 für jeden Pfad ohne Datei und ohne Rewrite.
+  try {
+    if (existsSync(shellPfad)) {
+      await writeFile(join(DIST, "404.html"), notFoundSeite(await readFile(shellPfad, "utf8")), "utf8");
+      console.log("[prerender] ✓ 404.html (App-Hülle, noindex)");
+    } else {
+      console.warn("[prerender] ⚠ app-shell.html fehlt – 404.html nicht angelegt");
+    }
+  } catch (e) {
+    console.warn(`[prerender] ⚠ 404.html nicht angelegt: ${e.message}`);
   }
 
   const sitemapPath = existsSync(join(DIST, "sitemap.xml"))
@@ -346,11 +359,17 @@ async function run() {
   let browser;
   let ok = 0;
   let failed = 0;
+  // Fehlgeschlagene Routen kommen einmal ans Ende der Schlange (zweiter Versuch,
+  // lokal 12.11.2026: /vorlagen/arbeitszeugnis lief einmal in den Selektor-Timeout).
+  // for…of sieht die nachgeschobenen Einträge.
+  const warteschlange = [...routes];
+  const zweiterVersuch = new Set();
+  const gerendert = new Set();
   try {
     const puppeteer = await loadPuppeteer();
     browser = await launchBrowser(puppeteer);
 
-    for (const route of routes) {
+    for (const route of warteschlange) {
       const page = await browser.newPage();
       try {
         // Signal an die App (src/lib/prerender.ts): Zustand aus dem Browser
@@ -503,10 +522,17 @@ async function run() {
         }
         await writeFile(join(outDir, "index.html"), ausgabe, "utf8");
         ok++;
+        gerendert.add(route);
         console.log(`[prerender] ✓ ${route}`);
       } catch (err) {
-        failed++;
-        console.warn(`[prerender] ✗ ${route} – übersprungen (${err.message.split("\n")[0]})`);
+        if (!zweiterVersuch.has(route)) {
+          zweiterVersuch.add(route);
+          warteschlange.push(route);
+          console.warn(`[prerender] ⚠ ${route} – Fehler, zweiter Versuch am Ende (${err.message.split("\n")[0]})`);
+        } else {
+          failed++;
+          console.warn(`[prerender] ✗ ${route} – übersprungen (${err.message.split("\n")[0]})`);
+        }
       } finally {
         await page.close().catch(() => {});
       }
@@ -519,7 +545,28 @@ async function run() {
     if (browser) await browser.close().catch(() => {});
     server.close();
   }
-  console.log(`[prerender] fertig: ${ok} gerendert, ${failed} übersprungen.`);
+  // Seit es keinen Sammel-Rewrite mehr gibt (vercel.json, 12.11.2026), wäre eine
+  // Sitemap-Route ohne Datei ein echter 404. Nicht gerenderte Routen bekommen
+  // deshalb die App-Hülle als Datei: HTTP 200, der Browser rendert die Seite wie
+  // vor dem Umbau (lastmod.mjs erkennt die leere Hülle und datiert nichts neu).
+  let huelle = 0;
+  if (existsSync(shellPfad)) {
+    const shellHtml = await readFile(shellPfad, "utf8");
+    for (const route of routes) {
+      if (gerendert.has(route) || route === "/") continue;
+      const datei = join(DIST, route, "index.html");
+      if (existsSync(datei)) continue;
+      try {
+        await mkdir(join(DIST, route), { recursive: true });
+        await writeFile(datei, shellHtml, "utf8");
+        huelle++;
+        console.warn(`[prerender] ⚠ ${route} – nicht gerendert, App-Hülle als Datei (200 statt 404)`);
+      } catch (e) {
+        console.warn(`[prerender] ⚠ ${route} – auch App-Hülle nicht geschrieben: ${e.message}`);
+      }
+    }
+  }
+  console.log(`[prerender] fertig: ${ok} gerendert, ${failed} übersprungen, ${huelle} als App-Hülle.`);
 }
 
 run();

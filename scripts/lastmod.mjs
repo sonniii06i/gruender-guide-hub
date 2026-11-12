@@ -27,7 +27,7 @@
  * Vorheriger Stand ({"<pfad>": {"h": "<hash>", "d": "JJJJ-MM-TT"}}):
  *  - OK: Hash gleich → bisheriges Datum; Hash geändert → heute (Europe/Berlin);
  *    Route neu im Stand → vorhandenes Datum, sonst heute.
- *  - 404 oder HTML (SPA-Fallback von vercel.json) = Erstlauf: vorhandene Daten
+ *  - 404 oder HTML (404.html bzw. früherer SPA-Fallback) = Erstlauf: vorhandene Daten
  *    bleiben, nur Routen ohne Datum bekommen heute.
  *  - Netzfehler/sonstiger Status: kein Datum erfinden, vorhandene bleiben.
  *  Ergebnis immer das spätere von vorhandenem Datum und Hash-Datum.
@@ -190,7 +190,7 @@ export function standDeuten(status, contentType, body) {
   if (status === 404) return { art: "erstlauf" };
   if (status !== 200) return { art: "fehler", grund: `HTTP ${status}` };
   const text = typeof body === "string" ? body.trim() : "";
-  // SPA-Fallback (vercel.json: Catch-all → app-shell.html) liefert 200 + HTML.
+  // HTML statt JSON (früher Catch-all → app-shell.html mit 200) = Erstlauf.
   if (/text\/html/i.test(contentType || "") || text.startsWith("<")) return { art: "erstlauf" };
   let roh;
   try {
