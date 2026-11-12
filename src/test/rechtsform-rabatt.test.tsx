@@ -1,5 +1,5 @@
 /**
- * Rabatt am Ende des Rechtsform-Tests (12.11.2026).
+ * Rabatt-Hinweis am Ende des Rechtsform-Tests (12.11.2026, Code FOUNDER).
  *
  *  - Der Block erscheint nur in der Ergebnisansicht, nie in den Schritten davor.
  *  - Schalter aus: kein Block und kein Rabatt-Text in dem, was prerendert wird
@@ -21,11 +21,14 @@ vi.mock("@/components/freetools/EmailGateDialog", () => ({ EmailGateDialog: () =
 import { FreeToolWizard } from "@/components/freetools/FreeToolWizard";
 import { baueRechtsformConfig, rechtsformConfig } from "@/lib/freetools/rechtsform";
 import {
+  ERSTER_MONAT_CENTS,
   RECHTSFORM_RABATT,
   RECHTSFORM_RABATT_AKTIV,
   RECHTSFORM_RABATT_FAQ,
   RECHTSFORM_RABATT_HINWEIS,
+  rabattAbzugCents,
 } from "@/lib/freetools/rechtsformRabatt";
+import { FOUNDER_CODE, PLANS } from "@/config/pricing";
 import type { ToolConfig } from "@/lib/freetools/types";
 
 const zeige = (config: ToolConfig) =>
@@ -71,8 +74,9 @@ describe("Rechtsform-Test: Rabatt-Block bei aktivem Schalter", () => {
     fireEvent.click(screen.getByRole("button", { name: /Rechtsform-Empfehlung erstellen/ }));
     expect(screen.getByText(/Fertig: Rechtsform-Empfehlung/)).toBeInTheDocument();
     const block = screen.getByTestId("ergebnis-rabatt");
-    expect(block).toHaveTextContent("RECHTSFORM15");
-    expect(block).toHaveTextContent("15 % auf deinen ersten Monat");
+    expect(block).toHaveTextContent("FOUNDER");
+    expect(block).toHaveTextContent("Du weißt jetzt, welche Rechtsform passt");
+    expect(block).toHaveTextContent("51,99 €");
   });
 
   it("zeigt das Ergebnis vor dem Rabatt und den Block ohne E-Mail-Angabe", () => {
@@ -91,8 +95,9 @@ describe("Rechtsform-Test: Rabatt-Block bei aktivem Schalter", () => {
     const block = screen.getByTestId("ergebnis-rabatt");
     expect(block).toHaveTextContent("Bedingungen");
     for (const b of RECHTSFORM_RABATT.bedingungen) expect(block).toHaveTextContent(b);
-    expect(block).toHaveTextContent(/erste[nr]? Rechnung/);
-    expect(block).toHaveTextContent(/nicht mit anderen Gutscheincodes/);
+    expect(block).toHaveTextContent(/erste Rechnung/);
+    expect(block).toHaveTextContent(/Ein Code pro Bestellung/);
+    expect(block).toHaveTextContent(/Nicht mit dem Startangebot/);
     expect(block.querySelector('a[href^="/preise"]')).not.toBeNull();
   });
 
@@ -123,8 +128,8 @@ describe("Rechtsform-Test: Schalter aus", () => {
 
   it("hat keinen Rabatt-Text im Prerender (Startzustand + Landing-Texte)", () => {
     zeige(aus);
-    expect(document.body.innerHTML).not.toMatch(/RECHTSFORM15|15 %|Rabatt/);
-    expect(landingText(aus)).not.toMatch(/RECHTSFORM15|15 %|Rabatt/);
+    expect(document.body.innerHTML).not.toMatch(/FOUNDER|20 %|Rabatt/);
+    expect(landingText(aus)).not.toMatch(/FOUNDER|20 %|Rabatt/);
     expect(aus.ergebnisRabatt).toBeUndefined();
   });
 
@@ -144,12 +149,25 @@ describe("Rechtsform-Rabatt: Wortlaut", () => {
     RECHTSFORM_RABATT_FAQ.a,
   ].join(" ");
 
-  it("verspricht keinen Gewinn, keine Knappheit, keine Frist, keinen Streichpreis", () => {
-    expect(texte).not.toMatch(/gewinn|verlos|glück|nur heute|nur noch|solange|begrenzt|limitiert|endet|countdown|statt \d/i);
+  it("verspricht keinen Gewinn, keine Knappheit, keine Frist, keinen Streichpreis, nichts Exklusives", () => {
+    expect(texte).not.toMatch(/gewinn|verlos|glück|nur heute|nur noch|solange|begrenzt|limitiert|endet|countdown|statt \d|exklusiv|als dank/i);
   });
 
-  it("bleibt bei 15 % und dem festgelegten Code", () => {
-    expect(RECHTSFORM_RABATT.prozent).toBe(15);
-    expect(RECHTSFORM_RABATT.code).toBe("RECHTSFORM15");
+  it("sagt nichts zu Jahreszugang, Founder-Set oder Neukunden (nicht gemessen)", () => {
+    expect(texte).not.toMatch(/jahr|founder-set|bundle|neukund/i);
+  });
+
+  it("nutzt den Code und Satz der zentralen Preisquelle", () => {
+    expect(RECHTSFORM_RABATT.code).toBe(FOUNDER_CODE.code);
+    expect(RECHTSFORM_RABATT.prozent).toBe(FOUNDER_CODE.percent);
+  });
+
+  it("rechnet den ersten Monat aus dem Monatspreis, kaufmännisch gerundet", () => {
+    expect(rabattAbzugCents(6499, 20)).toBe(1300); // an der Kasse gemessen: −13,00 €
+    expect(rabattAbzugCents(999, 15)).toBe(150);   // 149,85 → 150
+    expect(ERSTER_MONAT_CENTS).toBe(PLANS.gruenderx.grossCents - rabattAbzugCents(PLANS.gruenderx.grossCents, FOUNDER_CODE.percent));
+    expect(ERSTER_MONAT_CENTS).toBe(5199);         // 51,99 €, wie an der Kasse
+    expect(texte).toContain("51,99 €");
+    expect(texte).toContain("64,99 €");
   });
 });
