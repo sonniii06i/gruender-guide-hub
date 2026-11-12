@@ -208,9 +208,9 @@ const RatgeberPost = () => {
             image: teilbaresBild,
             datePublished: post.published_at,
             dateModified: post.updated_at,
-            // 25.10.2026: Texte entstehen in der KI-gestützten Redaktion – Autor ist die Organisation,
-            // verantwortlich die echte Person (keine erfundene Person als Autor im Markup).
-            author: { "@type": "Organization", name: "GründerX-Redaktion", url: "https://gruenderx.de/" },
+            // 12.11.2026 (Betreiber: „Byline Sonni Buttke“): Autor ist die verantwortliche, echte Person; dass die Texte
+            // KI-gestützt entstehen, steht sichtbar am Artikelende (vorher 25.10.: Organisation „GründerX-Redaktion“ als Autor).
+            author: { "@type": "Person", name: "Sonni Buttke", jobTitle: "Gründer von GründerX", url: "https://gruenderx.de/impressum" },
             accountablePerson: { "@type": "Person", name: "Sonni Buttke", jobTitle: "Gründer von GründerX", url: "https://gruenderx.de/impressum" },
             publisher: {
               "@type": "Organization",
@@ -241,6 +241,13 @@ const RatgeberPost = () => {
             <div className="mb-5 flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-muted-foreground">
               <span className="inline-flex items-center rounded-full border border-accent-blue/20 bg-accent px-3 py-0.5 text-[13px] font-medium text-accent-blue">
                 {post.category}
+              </span>
+              {/* Byline (Betreiber 12.11.2026: „Byline Sonni Buttke“; Recherche: Rechts-/Steuer-Ratgeber mit benannter Person ranken
+                  besser). Entstehung mit KI-Unterstützung bleibt offen gekennzeichnet (Kasten am Artikelende, KI-VO Art. 50). */}
+              <span>
+                Von{" "}
+                <Link to="/impressum" rel="author" className="font-medium text-foreground hover:underline">Sonni Buttke</Link>
+                , Gründer von GründerX
               </span>
               <span className="flex items-center gap-1 tabular">
                 <Clock className="h-3.5 w-3.5" aria-hidden="true" /> {post.reading_minutes} Min Lesezeit
@@ -502,8 +509,8 @@ const RatgeberPost = () => {
           <div className="mt-14 flex items-start gap-3 rounded-2xl border border-border bg-secondary/40 p-5 md:p-6">
             <Info className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" aria-hidden="true" />
             <p className="text-sm leading-relaxed text-muted-foreground">
-              Erstellt von der GründerX-Redaktion mit KI-Unterstützung ({post.author}), Stand{" "}
-              {datumDe(post.updated_at || post.published_at)}. Verantwortlich für den Inhalt:{" "}
+              So entsteht dieser Artikel: mit KI-Unterstützung recherchiert und geschrieben, Stand{" "}
+              {datumDe(post.updated_at || post.published_at)}. Autor und verantwortlich für den Inhalt:{" "}
               <Link to="/impressum" className="font-semibold text-foreground hover:underline">Sonni Buttke</Link>, Gründer von
               GründerX. Keine Steuer- oder Rechtsberatung – im Einzelfall Steuerberater fragen.
             </p>
