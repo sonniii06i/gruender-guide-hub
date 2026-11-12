@@ -123,7 +123,8 @@
       "source": "/guides/foerderung-stipendium/",
       "destination": "/ratgeber/foerderung-gruender-2026",
       "statusCode": 301
-    }
+    },
+    { "source": "/(.*)/", "destination": "/$1", "permanent": true }
   ],
   "rewrites": [
     {
