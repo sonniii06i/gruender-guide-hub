@@ -1,37 +1,21 @@
 {
- "stand": "2026-11-11T11:57:43.289Z",
+ "stand": "2026-11-12T12:51:27.989Z",
  "quelle": {
   "ok": true,
-  "roh": 175,
-  "uebernommen": 17,
+  "roh": 187,
+  "uebernommen": 19,
   "verworfen": {
-   "nur_einladung": 25,
-   "vor_ort_fern": 74,
-   "frist_vorbei": 4,
-   "preis_unter_5000_usd": 49,
-   "kein_usd_betrag": 6,
+   "nur_einladung": 28,
+   "vor_ort_fern": 78,
+   "frist_vorbei": 3,
+   "preis_unter_5000_usd": 52,
+   "kein_usd_betrag": 7,
    "ueber_max": 0
   },
-  "letzterErfolg": "2026-11-11T11:57:43.289Z"
+  "letzterErfolg": "2026-11-12T12:51:27.988Z"
  },
- "anzahl": 17,
+ "anzahl": 19,
  "eintraege": [
-  {
-   "id": "devpost-31302",
-   "titel": "PayPal AI Hackathon",
-   "url": "https://paypalaihackathon.devpost.com/",
-   "ende": "2026-11-12",
-   "preisUsd": 67500,
-   "geldpreise": 14,
-   "anmeldungen": 34245,
-   "ort": "Online",
-   "veranstalter": "PayPal",
-   "themen": [
-    "Low/No Code",
-    "Machine Learning/AI",
-    "Web"
-   ]
-  },
   {
    "id": "devpost-31495",
    "titel": "IceHacks",
@@ -39,7 +23,7 @@
    "ende": "2026-11-15",
    "preisUsd": 17150,
    "geldpreise": 8,
-   "anmeldungen": 516,
+   "anmeldungen": 560,
    "ort": "Online",
    "veranstalter": "CodeStarters",
    "themen": [
@@ -55,7 +39,7 @@
    "ende": "2026-11-16",
    "preisUsd": 46000,
    "geldpreise": 4,
-   "anmeldungen": 2110,
+   "anmeldungen": 2238,
    "ort": "Online",
    "veranstalter": "UGREEN",
    "themen": [
@@ -71,7 +55,7 @@
    "ende": "2026-11-18",
    "preisUsd": 1000000,
    "geldpreise": 19,
-   "anmeldungen": 5783,
+   "anmeldungen": 5935,
    "ort": "Online",
    "veranstalter": "Meta",
    "themen": [
@@ -81,13 +65,29 @@
    ]
   },
   {
+   "id": "devpost-31721",
+   "titel": "EvoHacks 2",
+   "url": "https://evohacks2.devpost.com/",
+   "ende": "2026-11-22",
+   "preisUsd": 27629,
+   "geldpreise": 7,
+   "anmeldungen": 9,
+   "ort": "Online",
+   "veranstalter": "EvoHacks",
+   "themen": [
+    "Beginner Friendly",
+    "Low/No Code",
+    "Social Good"
+   ]
+  },
+  {
    "id": "devpost-31808",
    "titel": "#BuildHybridAI 2026",
    "url": "https://firebasehybridaihackathon.devpost.com/",
    "ende": "2026-11-30",
    "preisUsd": 30000,
-   "geldpreise": 1,
-   "anmeldungen": 1411,
+   "geldpreise": 6,
+   "anmeldungen": 1579,
    "ort": "Online",
    "veranstalter": "Google",
    "themen": [
@@ -102,8 +102,8 @@
    "url": "https://kiroween.devpost.com/",
    "ende": "2026-12-04",
    "preisUsd": 100000,
-   "geldpreise": 15,
-   "anmeldungen": 11958,
+   "geldpreise": 1,
+   "anmeldungen": 12652,
    "ort": "Online",
    "veranstalter": "Kiro",
    "themen": [
@@ -119,7 +119,7 @@
    "ende": "2026-12-07",
    "preisUsd": 25000,
    "geldpreise": 6,
-   "anmeldungen": 216,
+   "anmeldungen": 344,
    "ort": "Online",
    "veranstalter": "Google",
    "themen": [
@@ -129,13 +129,28 @@
    ]
   },
   {
+   "id": "devpost-31644",
+   "titel": "Reddit’s Game of the Day Hackathon",
+   "url": "https://redditgameofday2026.devpost.com/",
+   "ende": "2026-12-08",
+   "preisUsd": 35000,
+   "geldpreise": 5,
+   "anmeldungen": 578,
+   "ort": "Online",
+   "veranstalter": "reddit",
+   "themen": [
+    "Beginner Friendly",
+    "Gaming"
+   ]
+  },
+  {
    "id": "devpost-31642",
    "titel": "AWS MSP AI Hackathon",
    "url": "https://aws-agentic-msp.devpost.com/",
    "ende": "2026-12-11",
    "preisUsd": 64000,
    "geldpreise": 16,
-   "anmeldungen": 280,
+   "anmeldungen": 318,
    "ort": "Online",
    "veranstalter": "AWS",
    "themen": [
@@ -151,7 +166,7 @@
    "ende": "2026-12-15",
    "preisUsd": 50000,
    "geldpreise": 14,
-   "anmeldungen": 1201,
+   "anmeldungen": 1289,
    "ort": "Online",
    "veranstalter": "QNX",
    "themen": [
@@ -167,7 +182,7 @@
    "ende": "2026-12-21",
    "preisUsd": 7800,
    "geldpreise": 5,
-   "anmeldungen": 1023,
+   "anmeldungen": 1064,
    "ort": "Online",
    "veranstalter": "Arbiter ",
    "themen": [
@@ -183,7 +198,7 @@
    "ende": "2026-12-22",
    "preisUsd": 120000,
    "geldpreise": 7,
-   "anmeldungen": 2770,
+   "anmeldungen": 2928,
    "ort": "Online",
    "veranstalter": "Atlassian",
    "themen": [
@@ -199,7 +214,7 @@
    "ende": "2027-01-10",
    "preisUsd": 18700,
    "geldpreise": 6,
-   "anmeldungen": 397,
+   "anmeldungen": 400,
    "ort": "Online",
    "veranstalter": "Hack United",
    "themen": [
@@ -215,12 +230,28 @@
    "ende": "2027-01-10",
    "preisUsd": 11960,
    "geldpreise": 7,
-   "anmeldungen": 90,
+   "anmeldungen": 91,
    "ort": "Online",
    "veranstalter": "Checkpoint",
    "themen": [
     "Gaming",
     "Machine Learning/AI",
+    "Social Good"
+   ]
+  },
+  {
+   "id": "devpost-32026",
+   "titel": "Open Agentic Web Challenge",
+   "url": "https://cognizant-agenticweb.devpost.com/",
+   "ende": "2027-01-11",
+   "preisUsd": 10000,
+   "geldpreise": 3,
+   "anmeldungen": 44,
+   "ort": "Online",
+   "veranstalter": "Cognizant",
+   "themen": [
+    "Machine Learning/AI",
+    "Web",
     "Social Good"
    ]
   },
@@ -231,7 +262,7 @@
    "ende": "2027-01-18",
    "preisUsd": 146770,
    "geldpreise": 13,
-   "anmeldungen": 883,
+   "anmeldungen": 924,
    "ort": "Online",
    "veranstalter": "Cosmo Hacks",
    "themen": [
@@ -263,7 +294,7 @@
    "ende": "2027-02-13",
    "preisUsd": 10200,
    "geldpreise": 16,
-   "anmeldungen": 3,
+   "anmeldungen": 4,
    "ort": "Online",
    "veranstalter": "BASIS Independent Silicon Valley",
    "themen": [
@@ -279,7 +310,7 @@
    "ende": "2027-03-15",
    "preisUsd": 5000,
    "geldpreise": 1,
-   "anmeldungen": 74,
+   "anmeldungen": 75,
    "ort": "Online",
    "veranstalter": "OSC",
    "themen": [
