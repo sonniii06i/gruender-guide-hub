@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Plus } from "lucide-react";
-import { PLANS, FOUNDER_CODE, formatEurCents, netCentsOf } from "@/config/pricing";
+import { PLANS, FOUNDER_SATZ, formatEurCents, netCentsOf } from "@/config/pricing";
 import { ANBIETER_ANZAHL, ANBIETER_KATEGORIEN } from "@/data/kennzahlen";
 
 
@@ -43,7 +43,7 @@ const faqs = [
   },
   {
     q: "Kann ich monatlich kündigen oder binde ich mich lange?",
-    a: `GründerX ist ein Abo, das du jederzeit im Konto zum Ende der laufenden Abrechnungsperiode kündigst – keine Mindestlaufzeit über die gebuchte Periode hinaus. Im Monatsabo bekommst du mit dem Code ${FOUNDER_CODE.code} im ersten Monat ${FOUNDER_CODE.percent} % Rabatt; das Jahresabo ist stattdessen dauerhaft um zwei Monatsbeiträge günstiger.`,
+    a: `GründerX ist ein Abo, das du jederzeit im Konto zum Ende der laufenden Abrechnungsperiode kündigst – keine Mindestlaufzeit über die gebuchte Periode hinaus. ${FOUNDER_SATZ} Das Jahresabo ist außerdem dauerhaft um zwei Monatsbeiträge günstiger als zwölf Monatszahlungen.`,
   },
   {
     q: "Muss ich sofort zahlen oder kann ich GründerX erst ausprobieren?",

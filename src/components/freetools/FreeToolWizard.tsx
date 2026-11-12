@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import {
   ArrowLeft,
@@ -65,6 +65,14 @@ export function FreeToolWizard({ config }: FreeToolWizardProps) {
   const [spent, setSpent] = useBrowserWert(() => isToolUnlockedLocally(config.slug), false);
   // Das freigeschaltete erste Ergebnis — bleibt ansehbar, solange es im State liegt.
   const [freeDoc, setFreeDoc] = useState<string | null>(null);
+
+  // Mit Rabatt-Block springt die Seite nach dem letzten Schritt zum Ergebnis statt ganz nach oben:
+  // Empfehlung und Code sollen ohne Scrollen zu sehen sein. Tools ohne Block verhalten sich wie bisher.
+  const ergebnisRef = useRef<HTMLDivElement>(null);
+  const mitRabatt = Boolean(config.ergebnisRabatt);
+  useEffect(() => {
+    if (showResult && mitRabatt) ergebnisRef.current?.scrollIntoView?.({ block: "start" });
+  }, [showResult, mitRabatt]);
 
   const totalSteps = config.steps.length;
   const isLastStep = stepIndex === totalSteps - 1;
@@ -161,7 +169,7 @@ export function FreeToolWizard({ config }: FreeToolWizardProps) {
     const preview = isUnlocked ? document : document.split("\n").slice(0, 14).join("\n");
 
     return (
-      <div className="mx-auto max-w-3xl px-4 sm:px-6">
+      <div ref={ergebnisRef} className="mx-auto max-w-3xl scroll-mt-24 px-4 sm:px-6">
         <div className="mb-6 flex items-start gap-4">
           <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-success-soft text-success">
             <CheckCircle2 className="h-5 w-5" aria-hidden="true" />
@@ -178,7 +186,20 @@ export function FreeToolWizard({ config }: FreeToolWizardProps) {
           </div>
         </div>
 
-        <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-card">
+        {/* Rabatt für alle, die bis hierher gekommen sind – unabhängig vom E-Mail-Tor.
+            Kernaussage des Ergebnisses zuerst, dann der Block, darunter das Dokument. */}
+        {config.ergebnisRabatt && (
+          <div className="mb-6">
+            {config.ergebnisZeile && (
+              <p data-testid="ergebnis-zeile" className="text-base font-semibold text-foreground">
+                {config.ergebnisZeile(data)}
+              </p>
+            )}
+            <ErgebnisRabattBlock rabatt={config.ergebnisRabatt} />
+          </div>
+        )}
+
+        <div data-testid="ergebnis-dokument" className="overflow-hidden rounded-2xl border border-border bg-card shadow-card">
           <div className="flex items-center gap-2 border-b border-border/70 bg-secondary/40 px-5 py-3 text-sm font-medium md:px-6">
             <FileText className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
             {config.documentName}
@@ -237,9 +258,6 @@ export function FreeToolWizard({ config }: FreeToolWizardProps) {
           )}
         </div>
 
-        {/* Rabatt für alle, die bis hierher gekommen sind – unabhängig vom E-Mail-Tor. */}
-        {config.ergebnisRabatt && <ErgebnisRabattBlock rabatt={config.ergebnisRabatt} />}
-
         {limited && isUnlocked && (
           <div className="mt-8">
             <TrialUpsell tool={{ name: config.shortTitle }} variant="after" noun="Nutzung" />
@@ -258,6 +276,14 @@ export function FreeToolWizard({ config }: FreeToolWizardProps) {
           resultName={config.documentName}
           slug={config.slug}
           singleUse
+          hinweis={
+            config.ergebnisRabatt ? (
+              <>
+                <span className="font-mono font-semibold text-foreground">{config.ergebnisRabatt.code}</span>{" · "}
+                {config.ergebnisRabatt.dialogZeile}
+              </>
+            ) : undefined
+          }
         />
       </div>
     );

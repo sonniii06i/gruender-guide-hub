@@ -1,5 +1,5 @@
 import type { ErgebnisRabatt } from "./types";
-import { FOUNDER_CODE, PLANS, formatEurCents } from "@/config/pricing";
+import { FOUNDER_CODE, FOUNDER_KURZ, PLANS, discountCents, formatEurCents, founderFirstInvoiceCents } from "@/config/pricing";
 
 // Rabatt-Hinweis am Ende des Rechtsform-Tests (Betreiber 12.11.2026: Rabatt für
 // ALLE, die den Test abschließen – Verkaufsförderung, keine Verlosung, keine
@@ -11,7 +11,8 @@ import { FOUNDER_CODE, PLANS, formatEurCents } from "@/config/pricing";
 // danach 64,99 € pro Monat. In Stripe: Gutschein 20 %, duration „once“, Code
 // aktiv, ohne Ablauf, ohne Stückzahl, nicht auf Erstbestellungen beschränkt.
 //
-// Zum Jahreszugang und zum Founder-Set steht hier bewusst NICHTS: nicht gemessen.
+// Der Block nennt nur den Monatszugang (der Jahreszugang ist inzwischen ebenfalls gemessen und
+// steht auf /preise; das Founder-Set ist nicht gemessen). Wortlaut „auf die erste Rechnung“ wie überall.
 // Wird der Code in Stripe abgeschaltet oder geändert → Schalter auf false.
 export const RECHTSFORM_RABATT_AKTIV = true;
 
@@ -20,10 +21,10 @@ const PROZENT = FOUNDER_CODE.percent;
 
 /** Monatspreis GründerX (brutto, Cent) – einzige Quelle: config/pricing.ts. */
 const MONAT_CENTS = PLANS.gruenderx.grossCents;
-/** Abzug in Cent, kaufmännisch gerundet (so rechnet auch Stripe: 20 % von 64,99 € = 13,00 €). */
-export const rabattAbzugCents = (grossCents: number, prozent: number): number => Math.round((grossCents * prozent) / 100);
+/** Abzug in Cent – Rundung aus config/pricing (so rechnet auch Stripe: 20 % von 64,99 € = 13,00 €). */
+export const rabattAbzugCents = discountCents;
 /** Betrag der ersten Monatsrechnung mit Code, in Cent. */
-export const ERSTER_MONAT_CENTS = MONAT_CENTS - rabattAbzugCents(MONAT_CENTS, PROZENT);
+export const ERSTER_MONAT_CENTS = founderFirstInvoiceCents(MONAT_CENTS);
 
 const ERSTER = formatEurCents(ERSTER_MONAT_CENTS);
 const NORMAL = formatEurCents(MONAT_CENTS);
@@ -32,7 +33,7 @@ export const RECHTSFORM_RABATT: ErgebnisRabatt = {
   code: CODE,
   prozent: PROZENT,
   titel: "Du weißt jetzt, welche Rechtsform passt",
-  text: `Mit dem Code ${CODE} zahlst du im Monatszugang von GründerX im ersten Monat ${ERSTER}, danach regulär ${NORMAL} im Monat (${PROZENT} % auf die erste Rechnung). Eine E-Mail-Adresse oder Newsletter-Anmeldung brauchst du dafür nicht.`,
+  text: `Mit dem Code ${CODE} zahlst du im Monatszugang von GründerX im ersten Monat ${ERSTER}, danach regulär ${NORMAL} im Monat (${FOUNDER_KURZ}). Eine E-Mail-Adresse oder Newsletter-Anmeldung brauchst du dafür nicht.`,
   // Gleiches Ziel und gleiche Parameter wie der bestehende Funnel-Link der Tool-Seite (kein neues Tracking).
   ziel: "/preise?utm_source=tool&utm_medium=generator&utm_campaign=rechtsform-finden",
   zielText: "Zu den Preisen",
@@ -42,6 +43,7 @@ export const RECHTSFORM_RABATT: ErgebnisRabatt = {
     "Ein Code pro Bestellung.",
     "Nicht mit dem Startangebot „7 Tage für 1 €“ kombinierbar.",
   ],
+  dialogZeile: `Unabhängig davon: Mit dem Code ${CODE} zahlst du im Monatszugang von GründerX im ersten Monat ${ERSTER}, danach regulär ${NORMAL} im Monat. Der Code gilt auch ohne E-Mail-Adresse.`,
 };
 
 /** Ein Satz für den Erklärtext der Landing (nur bei aktivem Schalter). */
@@ -51,5 +53,5 @@ export const RECHTSFORM_RABATT_HINWEIS =
 /** FAQ-Eintrag der Landing (nur bei aktivem Schalter). */
 export const RECHTSFORM_RABATT_FAQ = {
   q: "Bekomme ich einen Rabatt?",
-  a: `Ja. Am Ende des Tests steht der Code ${CODE}: ${PROZENT} % auf die erste Rechnung im Monatszugang von GründerX, also ${ERSTER} im ersten Monat und danach regulär ${NORMAL} im Monat. Du gibst ihn an der Stripe-Kasse unter „Promo-Code hinzufügen“ ein. Er ist nicht an eine E-Mail-Adresse oder Newsletter-Anmeldung gebunden; pro Bestellung gilt ein Code, und mit dem Startangebot „7 Tage für 1 €“ ist er nicht kombinierbar.`,
+  a: `Ja. Am Ende des Tests steht der Code ${CODE}: ${FOUNDER_KURZ} im Monatszugang von GründerX, also ${ERSTER} im ersten Monat und danach regulär ${NORMAL} im Monat. Du gibst ihn an der Stripe-Kasse unter „Promo-Code hinzufügen“ ein. Er ist nicht an eine E-Mail-Adresse oder Newsletter-Anmeldung gebunden; pro Bestellung gilt ein Code, und mit dem Startangebot „7 Tage für 1 €“ ist er nicht kombinierbar.`,
 };

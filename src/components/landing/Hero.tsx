@@ -1,7 +1,7 @@
 import { CalendarDays, FileText, ShoppingBag, Sparkles, Store } from "lucide-react";
 import { TOOL_COUNT, GUIDE_COUNT, ANBIETER_ANZAHL } from "@/data/kennzahlen";
 import { HeroFahrplan } from "./HeroFahrplan";
-import { PLANS, FOUNDER_CODE, formatEurCents } from "@/config/pricing";
+import { PLANS, FOUNDER_CODE, FOUNDER_KURZ, formatEurCents } from "@/config/pricing";
 import { BentoGrid, HeroCentered, ScreenshotFrame, SectionHead, TextMarquee, type BentoItem } from "@/components/marketing/Marketing";
 import { SCREENS } from "@/data/screenshots";
 
@@ -40,7 +40,7 @@ export const Hero = () => (
       trust={[
         `${formatEurCents(PLANS.gruenderx.grossCents)} im Monat inkl. USt.`,
         "Monatlich kündbar",
-        `${FOUNDER_CODE.percent} % im ersten Monat mit Code ${FOUNDER_CODE.code}`,
+        `${FOUNDER_KURZ} mit Code ${FOUNDER_CODE.code}`,
       ]}
     >
       <ScreenshotFrame shot={SCREENS.dashboard} priority caption="Echte Ansicht aus dem GründerX-Cockpit" />

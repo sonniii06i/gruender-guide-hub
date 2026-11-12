@@ -12,6 +12,8 @@ import {
   VAT_RATE,
   CANCEL_NOTE,
   FOUNDER_CODE,
+  FOUNDER_KURZ,
+  FOUNDER_SATZ,
   SOLO_CONTENTS,
   BUNDLE_CONTENTS,
   NOT_INCLUDED,
@@ -86,7 +88,7 @@ const FAQS: { q: string; a: string }[] = [
   },
   {
     q: "Gibt es einen Gutschein?",
-    a: `Mit dem Code ${FOUNDER_CODE.code} bekommst du ${FOUNDER_CODE.percent} % auf den ersten Monat eines Monatszugangs. Du gibst ihn im Stripe-Checkout unter „Promo-Code hinzufügen“ ein; ein Code pro Bestellung.`,
+    a: `${FOUNDER_SATZ} Du gibst ihn im Stripe-Checkout unter „Promo-Code hinzufügen“ ein; ein Code pro Bestellung.`,
   },
   {
     q: "Welche Zahlungsarten gibt es?",
@@ -265,8 +267,8 @@ const Preise = () => {
           </div>
           <p className="mt-5 max-w-3xl text-sm leading-relaxed text-muted-foreground">
             Weiter zur gesicherten Zahlung bei Stripe; erst dort wird die Bestellung kostenpflichtig. Ohne Konto
-            entsteht dein Konto direkt nach der Zahlung. Gutscheincode {FOUNDER_CODE.code}: {FOUNDER_CODE.percent} % auf
-            den ersten Monat eines Monatszugangs.
+            entsteht dein Konto direkt nach der Zahlung. Gutscheincode {FOUNDER_CODE.code}:{" "}
+            {FOUNDER_KURZ}.
           </p>
         </section>
 

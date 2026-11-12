@@ -54,6 +54,8 @@ export interface ErgebnisRabatt {
   zielText: string;
   /** Klartext-Bedingungen direkt am Block – nur, was technisch so eingestellt ist. */
   bedingungen: string[];
+  /** Kurze Zeile im E-Mail-Dialog, der sich nach dem letzten Schritt öffnet (Code gilt auch ohne E-Mail). */
+  dialogZeile: string;
 }
 
 export interface ToolConfig {
@@ -79,6 +81,8 @@ export interface ToolConfig {
   stand?: string;
   /** Rabatt für alle, die das Tool bis zum Ergebnis durchspielen. Ohne Angabe: kein Block. */
   ergebnisRabatt?: ErgebnisRabatt;
+  /** Kernaussage des Ergebnisses in einer Zeile; steht über dem Rabatt-Block, damit das Ergebnis zuerst kommt. */
+  ergebnisZeile?: (data: ToolData) => string;
   /** utm_medium des Funnel-Links (rechner, generator, anleitung …). Default „generator“. */
   format?: string;
   seo: {

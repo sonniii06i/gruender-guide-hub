@@ -247,7 +247,12 @@ export const baueRechtsformConfig = (rabattAktiv: boolean): ToolConfig => ({
     },
   ],
   generate,
-  ...(rabattAktiv ? { ergebnisRabatt: RECHTSFORM_RABATT } : {}),
+  ...(rabattAktiv
+    ? {
+        ergebnisRabatt: RECHTSFORM_RABATT,
+        ergebnisZeile: (d: ToolData) => `Unsere Empfehlung für dich: ${FORMS[recommend(d).primary].name}`,
+      }
+    : {}),
   seoSections: [
     {
       heading: "Welche Rechtsform passt zu deiner Gründung?",

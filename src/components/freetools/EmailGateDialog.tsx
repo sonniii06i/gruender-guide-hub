@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import { Loader2, Mail, Unlock } from "lucide-react";
@@ -28,6 +28,8 @@ interface EmailGateDialogProps {
   slug: string;
   /** Hinweis auf die eine kostenlose Nutzung im Dialogtext (Checks und Generatoren). */
   singleUse?: boolean;
+  /** Optionale Zeile unter dem Dialogtext (z. B. Rabatt-Hinweis des Rechtsform-Tests). Ohne Angabe bleibt der Dialog unverändert. */
+  hinweis?: ReactNode;
 }
 
 // Tor vor dem Ergebnis der kostenlosen Tools: Ergebnis gegen E-Mail-Adresse.
@@ -47,6 +49,7 @@ export function EmailGateDialog({
   resultName,
   slug,
   singleUse = false,
+  hinweis,
 }: EmailGateDialogProps) {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
@@ -91,6 +94,12 @@ export function EmailGateDialog({
               : "Dein Ergebnis ist fertig. Gib deine E-Mail-Adresse an und lade es sofort herunter – kein Konto, keine Zahlung."}
           </DialogDescription>
         </DialogHeader>
+
+        {hinweis && (
+          <div data-testid="gate-hinweis" className="rounded-lg border border-border bg-secondary/40 px-3 py-2 text-xs leading-relaxed text-muted-foreground">
+            {hinweis}
+          </div>
+        )}
 
         <form onSubmit={handleUnlock} className="space-y-4 pt-2">
           <div className="space-y-2">

@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-import { PLANS, FOUNDER_CODE, formatEurCents } from "@/config/pricing";
+import { PLANS, FOUNDER_CODE, FOUNDER_KURZ, formatEurCents } from "@/config/pricing";
 
 // Preise aus config/pricing (vorher hart codiert im Text).
 const month = PLANS.gruenderx.grossCents;
@@ -37,7 +37,7 @@ export const FinalCTA = () => (
               {formatEurCents(month)} im Monat ({formatEurCents(perDay)} am Tag) oder {formatEurCents(year)} im Jahr,
               zwei Monate geschenkt. Inkl. USt., als Betriebsausgabe absetzbar, jederzeit kündbar. Code{" "}
               <span className="font-semibold text-primary-foreground">{FOUNDER_CODE.code}</span> ={" "}
-              {FOUNDER_CODE.percent} % im 1. Monat.
+              {FOUNDER_KURZ}.
             </p>
           </div>
           <img

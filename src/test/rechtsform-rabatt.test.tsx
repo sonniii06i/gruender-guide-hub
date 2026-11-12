@@ -15,8 +15,16 @@ vi.mock("@/hooks/useAuth", () => ({ useAuth: () => ({ user: null, loading: false
 vi.mock("@/hooks/useAccess", () => ({
   useAccess: () => ({ loading: false, hasActiveSub: false, isAdmin: false }),
 }));
-// Das E-Mail-Tor ist hier nicht Thema (und zieht Supabase nach).
-vi.mock("@/components/freetools/EmailGateDialog", () => ({ EmailGateDialog: () => null }));
+// Der E-Mail-Dialog bleibt echt (Hinweiszeile wird geprüft); nur seine Netz-Helfer sind gestubbt.
+vi.mock("@/lib/freetools/leads", () => ({
+  EMAIL_PATTERN: /^\S+@\S+\.\S+$/,
+  rememberToolUnlocked: vi.fn(),
+  saveToolLead: vi.fn(),
+  trackToolLead: vi.fn(),
+  isToolUnlockedLocally: () => false,
+}));
+vi.mock("@/lib/freetools/tipps", () => ({ EINWILLIGUNG_TEXT: "Tipps", TIPPS_AKTIV: false, TIPPS_TOOLS: new Set(), tippsAnfordern: vi.fn() }));
+vi.mock("@/components/NewsletterOptin", () => ({ OPTIN_TEXT: "Neuigkeiten per Mail", newsletterAnmelden: vi.fn() }));
 
 import { FreeToolWizard } from "@/components/freetools/FreeToolWizard";
 import { baueRechtsformConfig, rechtsformConfig } from "@/lib/freetools/rechtsform";
@@ -30,6 +38,7 @@ import {
 } from "@/lib/freetools/rechtsformRabatt";
 import { FOUNDER_CODE, PLANS } from "@/config/pricing";
 import type { ToolConfig } from "@/lib/freetools/types";
+import { FREE_TOOLS } from "@/lib/freetools";
 
 const zeige = (config: ToolConfig) =>
   render(
@@ -50,6 +59,10 @@ const durchspielen = () => {
 /** Alles, was die Landing als Text ausgibt (Hero, Erklärtext, FAQ, Meta). */
 const landingText = (c: ToolConfig) =>
   JSON.stringify([c.heroTitle, c.heroSubtitle, c.seoSections, c.seo, c.steps]);
+
+// Radix (Checkbox im echten E-Mail-Dialog) braucht ResizeObserver; jsdom hat keinen.
+class RO { observe() {} unobserve() {} disconnect() {} }
+(globalThis as unknown as { ResizeObserver: typeof RO }).ResizeObserver ??= RO;
 
 beforeEach(() => {
   localStorage.clear();
@@ -82,11 +95,35 @@ describe("Rechtsform-Test: Rabatt-Block bei aktivem Schalter", () => {
   it("zeigt das Ergebnis vor dem Rabatt und den Block ohne E-Mail-Angabe", () => {
     zeige(an);
     durchspielen();
-    const ergebnis = screen.getByText(/Unsere Empfehlung für dich/);
+    const ergebnis = screen.getByTestId("ergebnis-zeile");
     const block = screen.getByTestId("ergebnis-rabatt");
+    expect(ergebnis).toHaveTextContent("Unsere Empfehlung für dich: UG (haftungsbeschränkt)");
     expect(ergebnis.compareDocumentPosition(block) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     // Das Ergebnis ist noch gesperrt (E-Mail-Tor) – der Rabatt hängt nicht daran.
     expect(screen.getAllByText(/Kostenlos freischalten/).length).toBeGreaterThan(0);
+  });
+
+  it("steht über dem Dokument mit den Vorschauzeilen und über den Knöpfen", () => {
+    zeige(an);
+    durchspielen();
+    const block = screen.getByTestId("ergebnis-rabatt");
+    const dokument = screen.getByTestId("ergebnis-dokument");
+    const knopf = screen.getByRole("button", { name: /Angaben ändern/, hidden: true });
+    expect(block.compareDocumentPosition(dokument) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(block.compareDocumentPosition(knopf) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+  });
+
+  it("zeigt im E-Mail-Dialog die Zeile mit Code und dem Hinweis „auch ohne E-Mail“", () => {
+    zeige(an);
+    durchspielen();
+    const zeile = screen.getByTestId("gate-hinweis");
+    expect(zeile).toHaveTextContent("FOUNDER");
+    expect(zeile).toHaveTextContent("51,99 €");
+    expect(zeile).toHaveTextContent("64,99 €");
+    expect(zeile).toHaveTextContent(/gilt auch ohne E-Mail-Adresse/);
+    // Der Dialog selbst ist unverändert da: Feld und Absende-Knopf.
+    expect(screen.getByLabelText("E-Mail-Adresse")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Ergebnis kostenlos freischalten/ })).toBeInTheDocument();
   });
 
   it("nennt die Bedingungen direkt am Block", () => {
@@ -104,7 +141,7 @@ describe("Rechtsform-Test: Rabatt-Block bei aktivem Schalter", () => {
   it("verschwindet wieder, wenn man zu den Angaben zurückgeht", () => {
     zeige(an);
     durchspielen();
-    fireEvent.click(screen.getByRole("button", { name: /Angaben ändern/ }));
+    fireEvent.click(screen.getByRole("button", { name: /Angaben ändern/, hidden: true }));
     expect(screen.queryByTestId("ergebnis-rabatt")).toBeNull();
   });
 
@@ -123,7 +160,17 @@ describe("Rechtsform-Test: Schalter aus", () => {
     durchspielen();
     expect(screen.getByText(/Fertig: Rechtsform-Empfehlung/)).toBeInTheDocument();
     expect(screen.queryByTestId("ergebnis-rabatt")).toBeNull();
+    expect(screen.queryByTestId("ergebnis-zeile")).toBeNull();
+    expect(screen.queryByTestId("gate-hinweis")).toBeNull();
+    expect(screen.getByLabelText("E-Mail-Adresse")).toBeInTheDocument();
     expect(document.body.innerHTML).not.toContain(RECHTSFORM_RABATT.code);
+  });
+
+  it("andere Gratis-Tools haben weder Block noch Dialog-Zeile", () => {
+    for (const tool of FREE_TOOLS.filter((t) => t.slug !== "rechtsform-finden")) {
+      expect(tool.ergebnisRabatt, tool.slug).toBeUndefined();
+      expect(tool.ergebnisZeile, tool.slug).toBeUndefined();
+    }
   });
 
   it("hat keinen Rabatt-Text im Prerender (Startzustand + Landing-Texte)", () => {
@@ -144,6 +191,7 @@ describe("Rechtsform-Rabatt: Wortlaut", () => {
     RECHTSFORM_RABATT.titel,
     RECHTSFORM_RABATT.text,
     ...RECHTSFORM_RABATT.bedingungen,
+    RECHTSFORM_RABATT.dialogZeile,
     RECHTSFORM_RABATT_HINWEIS,
     RECHTSFORM_RABATT_FAQ.q,
     RECHTSFORM_RABATT_FAQ.a,

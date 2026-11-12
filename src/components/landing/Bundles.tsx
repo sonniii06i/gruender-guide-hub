@@ -7,7 +7,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { ladeSupabase } from "@/integrations/supabase/lazy";
 import { getStoredAffiliateRef } from "@/utils/affiliate";
 import { checkoutAttribution } from "@/utils/checkoutAttribution";
-import { PLANS, PLAN_ORDER, SOLO_CONTENTS, BUNDLE_CONTENTS, NOT_INCLUDED, CANCEL_NOTE, FOUNDER_CODE, formatEurCents } from "@/config/pricing";
+import { PLANS, PLAN_ORDER, SOLO_CONTENTS, BUNDLE_CONTENTS, NOT_INCLUDED, CANCEL_NOTE, FOUNDER_CODE, FOUNDER_KURZ, formatEurCents } from "@/config/pricing";
 import { rememberCartVariant } from "@/lib/cart";
 import { ANBIETER_ANZAHL, ANBIETER_KATEGORIEN, TOOL_COUNT } from "@/data/kennzahlen";
 import { toast } from "sonner";
@@ -242,12 +242,11 @@ export const Bundles = () => {
                   ? "Weiter zur gesicherten Zahlung bei Stripe. Erst dort wird die Bestellung kostenpflichtig."
                   : "Weiter zur gesicherten Zahlung bei Stripe. Dein Konto entsteht direkt nach der Zahlung — es wird nichts abgebucht, bevor du dort bestätigst."}
               </p>
-              {variant.period === "month" && (
-                <p className="text-center text-xs text-muted-foreground">
-                  Gutscheincode <span className="font-semibold text-foreground">{FOUNDER_CODE.code}</span>: {FOUNDER_CODE.percent} % im ersten
-                  Monat, einlösbar an der Kasse unter „Promo-Code hinzufügen“.
-                </p>
-              )}
+              {/* Gilt für die erste Rechnung jeder Ausführung; Beträge stehen nur dort, wo sie gemessen sind (/preise). */}
+              <p className="text-center text-xs text-muted-foreground">
+                Gutscheincode <span className="font-semibold text-foreground">{FOUNDER_CODE.code}</span>: {FOUNDER_KURZ},
+                einlösbar an der Kasse unter „Promo-Code hinzufügen“.
+              </p>
               <p className="text-center text-xs">
                 <Link to="/preise" className="text-accent-blue hover:underline">
                   Alle Preise, Kündigung und Fragen zum Abo

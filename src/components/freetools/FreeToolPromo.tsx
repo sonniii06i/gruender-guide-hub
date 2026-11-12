@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { BadgePercent, ArrowRight, Check } from "lucide-react";
+import { FOUNDER_CODE, FOUNDER_KURZ } from "@/config/pricing";
 
-// Dezente 20%-Rabatt-Leiste für die Free-Tool-Landingpages (Code FOUNDER).
+// Dezente Rabatt-Leiste für die Free-Tool-Landingpages (Code FOUNDER, Wortlaut aus config/pricing).
 // CTA führt in den Checkout (Stripe allow_promotion_codes ist aktiv).
 export function FreeToolPromo() {
   const [copied, setCopied] = useState(false);
   const copyCode = () => {
-    navigator.clipboard.writeText("FOUNDER");
+    navigator.clipboard.writeText(FOUNDER_CODE.code);
     setCopied(true);
     setTimeout(() => setCopied(false), 1500);
   };
@@ -18,14 +19,14 @@ export function FreeToolPromo() {
         <div className="flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1.5 rounded-lg border border-brand-green/25 bg-brand-green-soft px-4 py-2 text-sm text-foreground">
           <BadgePercent className="h-4 w-4 flex-shrink-0 text-brand-green" />
           <span>
-            <span className="font-semibold">20 % Rabatt</span> im ersten Monat mit Code
+            <span className="font-semibold">{FOUNDER_KURZ}</span> mit Code
           </span>
           <button
             onClick={copyCode}
             className="inline-flex items-center gap-1 rounded-md border border-brand-green/30 bg-card px-2 py-0.5 font-mono text-xs font-bold tracking-wide text-brand-green transition-colors hover:bg-brand-green-soft"
-            aria-label="Rabattcode FOUNDER kopieren"
+            aria-label={`Rabattcode ${FOUNDER_CODE.code} kopieren`}
           >
-            FOUNDER
+            {FOUNDER_CODE.code}
             {copied && <Check className="h-3 w-3" />}
           </button>
           <Link

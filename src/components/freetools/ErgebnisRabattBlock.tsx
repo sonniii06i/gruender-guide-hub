@@ -4,7 +4,8 @@ import { ArrowRight, Check, Copy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { ErgebnisRabatt } from "@/lib/freetools/types";
 
-// Ruhiger Rabatt-Block unter dem Ergebnis eines Gratis-Tools (zuerst: Rechtsform-Test).
+// Ruhiger Rabatt-Block in der Ergebnisansicht eines Gratis-Tools (zuerst: Rechtsform-Test),
+// direkt unter der Kernaussage des Ergebnisses und über dem Dokument.
 // Erscheint nur in der Ergebnisansicht; die Bedingungen stehen direkt am Block
 // (§ 6 Abs. 1 Nr. 3 DDG). Keine Frist, kein Countdown, kein Streichpreis.
 export function ErgebnisRabattBlock({ rabatt }: { rabatt: ErgebnisRabatt }) {
@@ -24,7 +25,7 @@ export function ErgebnisRabattBlock({ rabatt }: { rabatt: ErgebnisRabatt }) {
     <section
       aria-labelledby="ergebnis-rabatt-titel"
       data-testid="ergebnis-rabatt"
-      className="mt-8 rounded-2xl border border-border bg-card p-5 shadow-card md:p-6"
+      className="mt-3 rounded-2xl border border-border bg-card p-4 shadow-card md:p-5"
     >
       <h3 id="ergebnis-rabatt-titel" className="text-base font-semibold tracking-tight text-foreground">
         {rabatt.titel}

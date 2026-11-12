@@ -106,8 +106,36 @@ export const schemaPrice = (cents: number): string => (cents / 100).toFixed(2);
 export const CANCEL_NOTE =
   "Jederzeit im Konto kündbar, wirksam zum Ende der laufenden Abrechnungsperiode — danach keine weitere Abbuchung. Keine Mindestlaufzeit über die gebuchte Periode hinaus. Widerrufsrecht für Verbraucher nach § 355 BGB.";
 
-/** Gutschein für den ersten Monat (nur Monatsabos). */
+/**
+ * Gutschein FOUNDER: 20 % auf die ERSTE RECHNUNG (Stripe: Gutschein „once“, ohne
+ * Produktbeschränkung – er lässt sich nicht aufs Monatsabo begrenzen, Monat und
+ * Jahr sind dasselbe Produkt). An der Live-Kasse gemessen am 12.11.2026:
+ *   GründerX monatlich  −13,00 €  → 51,99 € im ersten Monat, danach 64,99 €
+ *   GründerX jährlich   −129,98 € → 519,92 € im ersten Jahr, danach 649,90 €
+ * Founder-Set: nicht gemessen → dort nie einen Betrag nennen.
+ *
+ * Alle Seiten nehmen Wortlaut und Beträge von HIER (FOUNDER_KURZ, FOUNDER_SATZ);
+ * nirgends „20 % im ersten Monat“ tippen – das stimmt für den Jahreszugang nicht.
+ */
 export const FOUNDER_CODE = { code: "FOUNDER", percent: 20 } as const;
+
+/** Abzug in Cent, kaufmännisch auf den Cent der Rechnung gerundet (so rechnet Stripe). */
+export const discountCents = (grossCents: number, percent: number): number => Math.round((grossCents * percent) / 100);
+
+/** Betrag der ersten Rechnung mit dem Code FOUNDER, in Cent. */
+export const founderFirstInvoiceCents = (grossCents: number): number =>
+  grossCents - discountCents(grossCents, FOUNDER_CODE.percent);
+
+/** „20 % auf die erste Rechnung“ – die Kurzform für enge Stellen. */
+export const FOUNDER_KURZ = `${FOUNDER_CODE.percent} % auf die erste Rechnung`;
+
+/** Der ganze Satz mit den gemessenen Beträgen (nur GründerX-Zugang, Monat und Jahr). */
+export const FOUNDER_SATZ =
+  `Mit dem Code ${FOUNDER_CODE.code} bekommst du ${FOUNDER_KURZ}: im Monatszugang ` +
+  `${formatEurCents(founderFirstInvoiceCents(PLANS.gruenderx.grossCents))} im ersten Monat, danach regulär ` +
+  `${formatEurCents(PLANS.gruenderx.grossCents)} im Monat; im Jahreszugang ` +
+  `${formatEurCents(founderFirstInvoiceCents(PLANS["gruenderx-year"].grossCents))} im ersten Jahr, danach regulär ` +
+  `${formatEurCents(PLANS["gruenderx-year"].grossCents)} im Jahr.`;
 
 /** Voller Funktionsumfang des GründerX-Zugangs. */
 export const SOLO_CONTENTS = [
