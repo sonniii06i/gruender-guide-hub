@@ -9,9 +9,35 @@ import { FreeToolWizard } from "@/components/freetools/FreeToolWizard";
 import { FreeToolPromo } from "@/components/freetools/FreeToolPromo";
 import { UstProtokollVormerken } from "@/components/freetools/UstProtokollVormerken";
 import { FREE_TOOLS, type ToolConfig } from "@/lib/freetools";
+import type { ToolTabelle } from "@/lib/freetools/types";
 import { faqSchema, howToSchema, breadcrumbSchema, serviceSchema } from "@/lib/freetools/schema";
 
 const SITE = "https://gruenderx.de";
+
+function Tabelle({ t }: { t: ToolTabelle }) {
+  return (
+    <div className="mt-4 overflow-x-auto rounded-xl border border-border">
+      <table className="w-full min-w-[34rem] border-collapse text-left text-sm">
+        <thead className="bg-muted/50 text-foreground">
+          <tr>
+            {t.kopf.map((k) => (
+              <th key={k} scope="col" className="px-3 py-2.5 font-semibold">{k}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {t.zeilen.map((z, i) => (
+            <tr key={i} className="border-t border-border/70">
+              {z.map((c, j) => (
+                <td key={j} className={j === 0 ? "px-3 py-2.5 font-medium text-foreground" : "px-3 py-2.5 tabular-nums text-muted-foreground"}>{c}</td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
 
 interface FreeToolPageProps {
   config: ToolConfig;
@@ -81,6 +107,24 @@ export default function FreeToolPage({ config }: FreeToolPageProps) {
           </ul>
         </PageHeader>
 
+        {config.kurzantwort && (
+          <section className="container max-w-3xl px-4 pt-10" aria-labelledby="kurzantwort">
+            <h2 id="kurzantwort" className="text-2xl font-semibold tracking-tight md:text-[1.75rem]">{config.kurzantwort.titel}</h2>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Von{" "}
+              <Link to="/impressum" rel="author" className="font-medium text-foreground hover:underline">Sonni Buttke</Link>, Gründer von GründerX
+              {config.stand && <> · Stand: {config.stand}</>}
+            </p>
+            <div className="mt-4 space-y-3">
+              {config.kurzantwort.text.map((p, i) => (
+                <p key={i} className="text-[15px] leading-relaxed text-muted-foreground">{p}</p>
+              ))}
+            </div>
+            {config.kurzantwort.tabelle && <Tabelle t={config.kurzantwort.tabelle} />}
+            {config.kurzantwort.fussnote && <p className="mt-3 text-xs leading-relaxed text-muted-foreground">{config.kurzantwort.fussnote}</p>}
+          </section>
+        )}
+
         {/* Wizard */}
         <section className="pb-16 pt-10 md:pb-20 md:pt-12" aria-label={`${config.documentName} erstellen`}>
           {/* 20%-Rabatt-Promo (Code FOUNDER) */}
@@ -100,6 +144,7 @@ export default function FreeToolPage({ config }: FreeToolPageProps) {
                       <p key={i} className="text-[15px] leading-relaxed text-muted-foreground">{p}</p>
                     ))}
                   </div>
+                  {sec.tabelle && <Tabelle t={sec.tabelle} />}
                 </section>
               ))}
             </article>

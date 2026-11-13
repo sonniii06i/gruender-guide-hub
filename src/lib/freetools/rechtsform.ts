@@ -49,7 +49,7 @@ const FORMS: Record<string, FormInfo> = {
       "Seriöser als Einzelunternehmen, Vorstufe zur GmbH",
     ],
     cons: [
-      "Notar und Handelsregister nötig (Gründungskosten ca. 300–600 €)",
+      "Notar und Handelsregister nötig (mit Musterprotokoll und 1.000 € Stammkapital rund 375–460 €, mit eigener Satzung mehr)",
       "Pflicht-Rücklage von 25 % des Jahresüberschusses, doppelte Buchführung",
     ],
   },
@@ -275,6 +275,10 @@ export const baueRechtsformConfig = (rabattAktiv: boolean): ToolConfig => ({
         "Deine Entscheidung ist nicht für immer: Viele starten als Einzelunternehmen oder UG und wandeln später in eine GmbH um, wenn das Geschäft wächst. Wichtig ist, dass die Rechtsform jetzt zu deiner aktuellen Situation passt – steuerliche Details solltest du zusätzlich mit einem Steuerberater klären.",
       ],
     },
+  ],
+  links: [
+    { to: "/gruendungskosten-rechner", label: "Gründungskosten-Rechner: Notar und Handelsregister für UG und GmbH" },
+    { to: "/ratgeber/ug-oder-gmbh", label: "Ratgeber: UG oder GmbH" },
   ],
   seo: {
     title: "Rechtsform-Finder: Einzelunternehmen, UG oder GmbH?",

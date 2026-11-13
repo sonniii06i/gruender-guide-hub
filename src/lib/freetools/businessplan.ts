@@ -217,6 +217,10 @@ export const businessplanConfig: ToolConfig = {
       ],
     },
   ],
+  links: [
+    { to: "/gruendungskosten-rechner", label: "Gründungskosten-Rechner: Notar, Handelsregister und Startkosten" },
+    { to: "/rechtsform-finden", label: "Rechtsform-Test" },
+  ],
   seo: {
     title: "Businessplan erstellen: kostenloser Generator | GründerX",
     description:

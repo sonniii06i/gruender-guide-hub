@@ -58,6 +58,11 @@ export interface ErgebnisRabatt {
   dialogZeile: string;
 }
 
+export interface ToolTabelle {
+  kopf: string[];
+  zeilen: string[][];
+}
+
 export interface ToolConfig {
   slug: string;
   shortTitle: string;
@@ -73,7 +78,9 @@ export interface ToolConfig {
   steps: StepDef[];
   generate: (data: ToolData) => string;
   /** Lange, keyword-reiche Inhaltsblöcke unter dem Wizard (SEO). */
-  seoSections?: { heading: string; body: string[] }[];
+  seoSections?: { heading: string; body: string[]; tabelle?: ToolTabelle }[];
+  /** Antwort zuerst: Kurzfassung mit festen Beispielwerten direkt unter der Überschrift, vor dem Wizard. */
+  kurzantwort?: { titel: string; text: string[]; tabelle?: ToolTabelle; fussnote?: string };
   /** Passende Ratgeber und Tools (interne Links unter dem Erklärtext). */
   links?: { to: string; label: string }[];
   /** Primärquellen (Gesetz, Behörde) für den Quellenblock; `stand` = Abrufdatum. */
