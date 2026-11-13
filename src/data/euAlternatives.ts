@@ -447,7 +447,7 @@ export const EU_ALTERNATIVES: EUAlternative[] = [
     motherDaughterApplies: true,
     substance: "1 Geschäftsführer (kann EU-Resident sein) + PL-Adresse",
     setupTime: "1–3 Wochen (S24-Online-Verfahren: 24h möglich)",
-    setupCost: "500–1.500 € (S24-Online: ~250 €, klassisch Notar: 800–1.500 €)",
+    setupCost: "500–1.500 € (S24-Online: 250 PLN Gerichtsgebühr, ~57 €, klassisch Notar: 800–1.500 €)",
     runningCost: "1.500–3.000 €/Jahr",
     fitForGermans: "Sehr gut (DE-Grenznähe + günstig)",
     bestFor: [
@@ -483,7 +483,7 @@ export const EU_ALTERNATIVES: EUAlternative[] = [
       "5. Bank-Account (mBank, ING Bank Śląski, Santander)",
       "6. ZUS-Anmeldung (Sozialversicherung) wenn Mitarbeiter",
     ],
-    deTaxImpact: "DBA DE-PL gut: 0 % Quellensteuer auf Dividenden bei ≥ 25 % + 2 Jahre Haltedauer. AStG bei DE-GF + passiven Einkünften möglich. Aktive Geschäftstätigkeit (echte PL-Mitarbeiter) typisch unkritisch.",
+    deTaxImpact: "0 % Quellensteuer auf Dividenden an eine EU-Muttergesellschaft bei ≥ 10 % Beteiligung + 2 Jahren Haltedauer (Mutter-Tochter-Regel); nach DBA DE-PL sonst 5 % (ab 10 % Beteiligung) bzw. 15 %. AStG bei DE-GF + passiven Einkünften möglich. Aktive Geschäftstätigkeit (echte PL-Mitarbeiter) typisch unkritisch.",
     officialLinks: [
       { label: "S24 Online-Gründung", url: "https://ekrs.ms.gov.pl" },
       { label: "KRS (Handelsregister)", url: "https://ekrs.ms.gov.pl/web/wyszukiwarka-krs/" },
