@@ -1,18 +1,18 @@
 {
- "stand": "2026-11-12T12:51:27.989Z",
+ "stand": "2026-11-13T12:19:37.035Z",
  "quelle": {
   "ok": true,
-  "roh": 187,
+  "roh": 191,
   "uebernommen": 19,
   "verworfen": {
-   "nur_einladung": 28,
-   "vor_ort_fern": 78,
-   "frist_vorbei": 3,
+   "nur_einladung": 30,
+   "vor_ort_fern": 81,
+   "frist_vorbei": 2,
    "preis_unter_5000_usd": 52,
    "kein_usd_betrag": 7,
    "ueber_max": 0
   },
-  "letzterErfolg": "2026-11-12T12:51:27.988Z"
+  "letzterErfolg": "2026-11-13T12:19:37.034Z"
  },
  "anzahl": 19,
  "eintraege": [
@@ -23,7 +23,7 @@
    "ende": "2026-11-15",
    "preisUsd": 17150,
    "geldpreise": 8,
-   "anmeldungen": 560,
+   "anmeldungen": 622,
    "ort": "Online",
    "veranstalter": "CodeStarters",
    "themen": [
@@ -39,7 +39,7 @@
    "ende": "2026-11-16",
    "preisUsd": 46000,
    "geldpreise": 4,
-   "anmeldungen": 2238,
+   "anmeldungen": 2368,
    "ort": "Online",
    "veranstalter": "UGREEN",
    "themen": [
@@ -55,7 +55,7 @@
    "ende": "2026-11-18",
    "preisUsd": 1000000,
    "geldpreise": 19,
-   "anmeldungen": 5935,
+   "anmeldungen": 6058,
    "ort": "Online",
    "veranstalter": "Meta",
    "themen": [
@@ -71,7 +71,7 @@
    "ende": "2026-11-22",
    "preisUsd": 27629,
    "geldpreise": 7,
-   "anmeldungen": 9,
+   "anmeldungen": 17,
    "ort": "Online",
    "veranstalter": "EvoHacks",
    "themen": [
@@ -87,7 +87,7 @@
    "ende": "2026-11-30",
    "preisUsd": 30000,
    "geldpreise": 6,
-   "anmeldungen": 1579,
+   "anmeldungen": 1890,
    "ort": "Online",
    "veranstalter": "Google",
    "themen": [
@@ -103,7 +103,7 @@
    "ende": "2026-12-04",
    "preisUsd": 100000,
    "geldpreise": 1,
-   "anmeldungen": 12652,
+   "anmeldungen": 13208,
    "ort": "Online",
    "veranstalter": "Kiro",
    "themen": [
@@ -118,8 +118,8 @@
    "url": "https://deckthepixels.devpost.com/",
    "ende": "2026-12-07",
    "preisUsd": 25000,
-   "geldpreise": 6,
-   "anmeldungen": 344,
+   "geldpreise": 1,
+   "anmeldungen": 477,
    "ort": "Online",
    "veranstalter": "Google",
    "themen": [
@@ -135,7 +135,7 @@
    "ende": "2026-12-08",
    "preisUsd": 35000,
    "geldpreise": 5,
-   "anmeldungen": 578,
+   "anmeldungen": 913,
    "ort": "Online",
    "veranstalter": "reddit",
    "themen": [
@@ -150,7 +150,7 @@
    "ende": "2026-12-11",
    "preisUsd": 64000,
    "geldpreise": 16,
-   "anmeldungen": 318,
+   "anmeldungen": 357,
    "ort": "Online",
    "veranstalter": "AWS",
    "themen": [
@@ -166,7 +166,7 @@
    "ende": "2026-12-15",
    "preisUsd": 50000,
    "geldpreise": 14,
-   "anmeldungen": 1289,
+   "anmeldungen": 1416,
    "ort": "Online",
    "veranstalter": "QNX",
    "themen": [
@@ -182,7 +182,7 @@
    "ende": "2026-12-21",
    "preisUsd": 7800,
    "geldpreise": 5,
-   "anmeldungen": 1064,
+   "anmeldungen": 1102,
    "ort": "Online",
    "veranstalter": "Arbiter ",
    "themen": [
@@ -198,7 +198,7 @@
    "ende": "2026-12-22",
    "preisUsd": 120000,
    "geldpreise": 7,
-   "anmeldungen": 2928,
+   "anmeldungen": 3135,
    "ort": "Online",
    "veranstalter": "Atlassian",
    "themen": [
@@ -214,7 +214,7 @@
    "ende": "2027-01-10",
    "preisUsd": 18700,
    "geldpreise": 6,
-   "anmeldungen": 400,
+   "anmeldungen": 407,
    "ort": "Online",
    "veranstalter": "Hack United",
    "themen": [
@@ -230,7 +230,7 @@
    "ende": "2027-01-10",
    "preisUsd": 11960,
    "geldpreise": 7,
-   "anmeldungen": 91,
+   "anmeldungen": 94,
    "ort": "Online",
    "veranstalter": "Checkpoint",
    "themen": [
@@ -246,7 +246,7 @@
    "ende": "2027-01-11",
    "preisUsd": 10000,
    "geldpreise": 3,
-   "anmeldungen": 44,
+   "anmeldungen": 234,
    "ort": "Online",
    "veranstalter": "Cognizant",
    "themen": [
@@ -262,7 +262,7 @@
    "ende": "2027-01-18",
    "preisUsd": 146770,
    "geldpreise": 13,
-   "anmeldungen": 924,
+   "anmeldungen": 972,
    "ort": "Online",
    "veranstalter": "Cosmo Hacks",
    "themen": [
@@ -278,7 +278,7 @@
    "ende": "2027-02-04",
    "preisUsd": 10000,
    "geldpreise": 1,
-   "anmeldungen": 220,
+   "anmeldungen": 224,
    "ort": "Online",
    "veranstalter": "IWU",
    "themen": [
@@ -294,7 +294,7 @@
    "ende": "2027-02-13",
    "preisUsd": 10200,
    "geldpreise": 16,
-   "anmeldungen": 4,
+   "anmeldungen": 6,
    "ort": "Online",
    "veranstalter": "BASIS Independent Silicon Valley",
    "themen": [
@@ -310,7 +310,7 @@
    "ende": "2027-03-15",
    "preisUsd": 5000,
    "geldpreise": 1,
-   "anmeldungen": 75,
+   "anmeldungen": 77,
    "ort": "Online",
    "veranstalter": "OSC",
    "themen": [
