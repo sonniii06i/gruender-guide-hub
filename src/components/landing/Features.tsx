@@ -110,7 +110,8 @@ export const Features = () => (
       </div>
 
       {/* 14.11.2026: zwei Nutzen, die der Betreiber nennt und die die Seite bisher nicht sagte (Marken-Brain, Abgleich growth-wettbewerb).
-          Beide belegbar: laufende Faktenprüfung (growth-aktualitaet, Commits „Aktualitaet …“) und der GründerX-Discord (DISCORD_INVITE_URL). */}
+          Belegbar: laufende Faktenprüfung (growth-aktualitaet, Commits „Aktualitaet …“) und die Feeds im GründerX-Discord (DISCORD_INVITE_URL).
+          Kein „Community“-Versprechen, solange der Server kaum Mitglieder hat (14.11.2026: 3 laut Einladungs-API). */}
       <div className="mt-4 grid gap-3 md:grid-cols-2 md:gap-4">
         <div className="flex gap-4 rounded-2xl border border-border bg-card p-6 md:p-7">
           <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-card text-accent-blue shadow-card">
@@ -129,13 +130,13 @@ export const Features = () => (
             <Users className="h-5 w-5" aria-hidden="true" />
           </div>
           <div>
-            <h3 className="mb-2 text-lg font-semibold">Community von Gründern und Händlern</h3>
+            <h3 className="mb-2 text-lg font-semibold">Gründer-Feeds im Discord</h3>
             <p className="max-w-prose text-[15px] leading-relaxed text-muted-foreground">
-              Du gründest nicht allein: Im{" "}
+              Im{" "}
               <a href={DISCORD_INVITE_URL} target="_blank" rel="noopener noreferrer" className="font-medium text-accent-blue underline-offset-4 hover:underline">
                 GründerX-Discord
               </a>{" "}
-              tauschst du dich mit anderen aus, Gründer-Events, Fristen-Radar und Startup-Guthaben laufen dort als Feed.
+              laufen Gründer-Events, Fristen-Radar und Startup-Guthaben als Feed, und du stellst deine Fragen direkt im Server.
             </p>
           </div>
         </div>
