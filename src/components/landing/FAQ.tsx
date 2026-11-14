@@ -47,7 +47,7 @@ const faqs = [
   },
   {
     q: "Muss ich sofort zahlen oder kann ich GründerX erst ausprobieren?",
-    a: "Ein Konto gibt es erst nach der Zahlung – eine Testphase mit Konto bieten wir nicht an. Ausprobieren kannst du vorher trotzdem, ohne Konto: WEEE-Check, Brand-Check sowie Businessplan-Generator, Gründungskosten-Rechner, Rechtsform-Finder und die Amazon-Widerspruchs-Generatoren je einmal kostenlos, das Ergebnis jeweils gegen deine E-Mail-Adresse. Den Verpackungslizenz-Rechner (LUCID-Wizard) nutzt du sogar unbegrenzt und ohne E-Mail. Mit dem Abo sind alle Tools, die Guides und Felix ab dem ersten Tag freigeschaltet, ohne Abrechnung pro Wizard oder pro Frage.",
+    a: "Das Konto legst du kostenlos an. Alle Tools, Guides und Felix schaltest du mit dem Abo frei, für Neukunden zum Start 7 Tage für 1 €. Ausprobieren kannst du außerdem ohne Konto: WEEE-Check, Brand-Check sowie Businessplan-Generator, Gründungskosten-Rechner, Rechtsform-Finder und die Amazon-Widerspruchs-Generatoren je einmal kostenlos, das Ergebnis jeweils gegen deine E-Mail-Adresse. Den Verpackungslizenz-Rechner (LUCID-Wizard) nutzt du sogar unbegrenzt und ohne E-Mail. Mit dem Abo sind alle Tools, die Guides und Felix ab dem ersten Tag freigeschaltet, ohne Abrechnung pro Wizard oder pro Frage.",
   },
   {
     q: "Ich habe null Vorwissen – ist GründerX trotzdem für mich?",

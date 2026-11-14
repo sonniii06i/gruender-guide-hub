@@ -15,7 +15,7 @@ const FAQS: { q: string; a: string }[] = [
   },
   {
     q: "Gibt es eine kostenlose Testphase?",
-    a: "Eine Testphase mit Konto gibt es nicht – das Konto entsteht erst nach der Zahlung. Ausprobieren kannst du vorher ohne Konto: WEEE-Check, Brand-Check, LUCID-Wizard sowie Businessplan-Generator, Gründungskosten-Rechner, Rechtsform-Finder und die Amazon-Widerspruchs-Generatoren je einmal kostenlos. Das Ergebnis gibt es jeweils gegen deine E-Mail-Adresse.",
+    a: "Ja: Das Konto ist kostenlos, und für Neukunden gibt es den vollen Zugang zum Start 7 Tage für 1 €, danach das Monatsabo, monatlich kündbar. Ausprobieren kannst du außerdem ohne Konto: WEEE-Check, Brand-Check, LUCID-Wizard sowie Businessplan-Generator, Gründungskosten-Rechner, Rechtsform-Finder und die Amazon-Widerspruchs-Generatoren je einmal kostenlos. Das Ergebnis gibt es jeweils gegen deine E-Mail-Adresse.",
   },
   {
     q: "Gibt es kostenlose Vertragsvorlagen?",
