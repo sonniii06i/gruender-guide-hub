@@ -1,6 +1,14 @@
 // Zielgruppen-Landingpages (/influencer, /tiktok-shop) – Betreiber 25.10.2026:
 // GründerX viel stärker auf Influencer und TikTok-Shop-Leute ausrichten.
 // Jede Zahl ist belegt (Quellen in `quellen`); Preise nur über /preise.
+//
+// /amazon-haendler (14.11.2026, growth-lp): Zielgruppenseite für die Persona „Marketplace-Starter“
+// (personas_gruenderx.json, höchste gemessene Nachfrage). Die Startseiten-Kachel „Amazon- & Shop-Händler“
+// zeigte bis dahin auf einen Ratgeber. Belege, alle am 14.11.2026 am Gesetzestext bzw. auf der Seite des
+// Anbieters gelesen: § 14 GewO, § 138 Abs. 1b und 4 AO, §§ 3c Abs. 4, 18j, 19, 25e, 27a UStG,
+// §§ 6, 7, 13 VerpackDG (BGBl. 2026 I Nr. 207, in Kraft seit 12.08.2026), § 6 ElektroG, § 4 Abs. 5 PStTG,
+// sell.amazon.de (Registrierung, Verkaufstarife). Das Rechenbeispiel folgt den Tarifspannen in
+// src/pages/LucidWizard.tsx (MATERIAL_LABELS, Untergrenze 75 €) und ist im Test nachgerechnet.
 
 import type { ScreenKey } from "./screenshots";
 
@@ -36,6 +44,26 @@ export interface Zielgruppe {
   quellen: { label: string; url: string }[];
   ctaTitle: string;
   ctaText: string;
+  // ── Optional (14.11.2026, growth-lp): Bausteine für Seiten, die eine Suchfrage direkt beantworten. ──
+  /** Sichtbarer Stand + dateModified. Fehlt er, gilt der Sammelstand der älteren Seiten. */
+  stand?: { text: string; iso: string };
+  /** Antwort zuerst: Frage als H2, Antwort in ein bis zwei Sätzen, direkt unter dem Hero. */
+  antwort?: { frage: string; text: string };
+  /** Tabelle mit Stand-Datum, z. B. Pflichten in Reihenfolge. `hilfe` verlinkt die eigene Seite zum Schritt. */
+  tabelle?: {
+    titel: string;
+    lead: string;
+    kopf: [string, string, string, string];
+    zeilen: { schritt: string; wann: string; wo: string; grundlage: string; hilfe: { to: string; label: string } }[];
+    fuss: string;
+  };
+  /** Eigener Beispielfall mit eigener Zahl (Eigenwert der Seite). */
+  beispiel?: { titel: string; text: string; punkte: string[]; hinweis: string; link: { to: string; label: string } };
+  /** Einwände direkt vor dem Schluss-CTA. Der Preis kommt in der Komponente aus config/pricing.ts. */
+  einwaende?: { q: string; a: string }[];
+  /** Überschrift und Vorspann des Tool-Abschnitts, wenn „Drei Tools gratis“ nicht passt. */
+  toolsTitel?: string;
+  toolsLead?: string;
 }
 
 const HESSEN = {
@@ -45,6 +73,27 @@ const HESSEN = {
 const TT_NEWS = { label: "TikTok Newsroom: Ein Jahr TikTok Shop in Deutschland (24.03.2026)", url: "https://newsroom.tiktok.com/tiktokshop-1-jahr?lang=de-DE" };
 const TT_SU = { label: "TikTok Seller University: Registrierung als Einzelunternehmer", url: "https://seller-de.tiktok.com/university/essay?knowledge_id=6339509542340373&lang=de-DE" };
 const PSTTG = { label: "Plattformen-Steuertransparenzgesetz § 4", url: "https://www.gesetze-im-internet.de/psttg/__4.html" };
+
+const GII = "https://www.gesetze-im-internet.de";
+const Q_GEWO = { label: "§ 14 GewO: Anzeige des Gewerbes gleichzeitig mit dem Beginn", url: `${GII}/gewo/__14.html` };
+const Q_AO138 = { label: "§ 138 AO: Fragebogen zur steuerlichen Erfassung innerhalb eines Monats", url: `${GII}/ao_1977/__138.html` };
+const Q_USTG25E = { label: "§ 25e UStG: Haftung des Marktplatzes, entfällt bei gültiger USt-IdNr.", url: `${GII}/ustg_1980/__25e.html` };
+const Q_USTG27A = { label: "§ 27a UStG: USt-IdNr. auf Antrag vom Bundeszentralamt für Steuern", url: `${GII}/ustg_1980/__27a.html` };
+const Q_USTG19 = { label: "§ 19 UStG: Kleinunternehmer-Grenzen 25.000 € und 100.000 €, Bindung fünf Kalenderjahre", url: `${GII}/ustg_1980/__19.html` };
+const Q_USTG3C = { label: "§ 3c UStG: Fernverkauf, Schwelle 10.000 € im Jahr", url: `${GII}/ustg_1980/__3c.html` };
+const Q_USTG18J = { label: "§ 18j UStG: OSS-Verfahren", url: `${GII}/ustg_1980/__18j.html` };
+const Q_VERPACK6 = { label: "§ 6 VerpackDG: Registrierung vor dem erstmaligen Bereitstellen (in Kraft seit 12.08.2026)", url: `${GII}/verpackdg/__6.html` };
+const Q_VERPACK7 = { label: "§ 7 VerpackDG: Beteiligung an einem dualen System", url: `${GII}/verpackdg/__7.html` };
+const Q_VERPACK13 = { label: "§ 13 VerpackDG: Verbote für Hersteller, Vertreiber und Fulfilment-Dienstleister", url: `${GII}/verpackdg/__13.html` };
+const Q_ELEKTRO6 = { label: "§ 6 ElektroG: Registrierung, Verbote für Vertreiber, Marktplätze und Fulfilment-Dienstleister", url: `${GII}/elektrog_2015/__6.html` };
+const Q_BZST_USTID = {
+  label: "Bundeszentralamt für Steuern: Vergabe der USt-IdNr.",
+  url: "https://www.bzst.de/DE/Unternehmen/Identifikationsnummern/Umsatzsteuer-Identifikationsnummer/Vergabe_USt_IdNr/vergabe_ust_idnr_node.html",
+};
+const Q_ZSVR = { label: "Zentrale Stelle Verpackungsregister (LUCID)", url: "https://www.verpackungsregister.org/" };
+const Q_EAR = { label: "stiftung elektro-altgeräte register (stiftung ear)", url: "https://www.stiftung-ear.de/" };
+const Q_AMZ_START = { label: "Amazon: Verkäufer werden – was du für die Registrierung brauchst (abgerufen 14.11.2026)", url: "https://sell.amazon.de/" };
+const Q_AMZ_PREIS = { label: "Amazon: Verkaufstarife und Gebühren (abgerufen 14.11.2026)", url: "https://sell.amazon.de/preisgestaltung" };
 
 const FT_INFLUENCER: ZielgruppeFreeTool = {
   to: "/influencer-steuer-check",
@@ -60,6 +109,22 @@ const FT_TTS: ZielgruppeFreeTool = {
   to: "/tiktok-shop-checkliste",
   title: "TikTok-Shop-Checkliste",
   desc: "Alle Pflichten vor dem ersten Verkauf – in der richtigen Reihenfolge.",
+};
+
+const FT_LUCID: ZielgruppeFreeTool = {
+  to: "/tools/lucid-wizard",
+  title: "Verpackungslizenz-Rechner",
+  desc: "Verpackungsmengen eingeben, Spanne der Lizenzkosten und passende duale Systeme sehen.",
+};
+const FT_WEEE: ZielgruppeFreeTool = {
+  to: "/tools/weee-check",
+  title: "WEEE-Check",
+  desc: "Marke im Verzeichnis der stiftung ear nachschlagen: registriert, aktiv oder ausgetreten.",
+};
+const FT_USTID: ZielgruppeFreeTool = {
+  to: "/ust-id-beantragen",
+  title: "USt-ID beantragen",
+  desc: "Brauchst du sie, welcher Antragsweg passt – und stimmt die Nummer deines Lieferanten?",
 };
 
 export const ZIELGRUPPEN: Zielgruppe[] = [
@@ -218,6 +283,190 @@ export const ZIELGRUPPEN: Zielgruppe[] = [
     quellen: [TT_NEWS, TT_SU, PSTTG, HESSEN],
     ctaTitle: "Dein TikTok-Shop-Setup – Schritt für Schritt mit Felix",
     ctaText: "Gewerbe, Fragebogen, Registrierung, LUCID, WEEE und Marge – plus alle weiteren Tools und Guides im Abo, monatlich kündbar.",
+  },
+  {
+    slug: "amazon-haendler",
+    seoTitle: "Amazon-Händler werden: Pflichten in Reihenfolge | GründerX",
+    seoDescription:
+      "Auf Amazon verkaufen: Gewerbe, Steuernummer, USt-IdNr., LUCID, WEEE und OSS in der richtigen Reihenfolge – mit Rechtsgrundlagen und Gratis-Rechner.",
+    eyebrow: "Für Amazon-Händler · FBA · eigener Versand",
+    heading: "Auf Amazon verkaufen. Alle Pflichten in der richtigen Reihenfolge.",
+    heroTitle: "Auf Amazon verkaufen.",
+    heroAccent: "Alle Pflichten in der richtigen Reihenfolge.",
+    screen: "lucid",
+    stand: { text: "14.11.2026", iso: "2026-11-14" },
+    warumTitel: "Amazon muss deine Nummern prüfen. Deshalb kommen sie vor dem ersten Angebot.",
+    lead:
+      "Du startest auf Amazon, mit Versand durch Amazon oder aus dem eigenen Lager? GründerX zeigt dir, welche Anmeldung zuerst dran ist und welche warten kann: Gewerbe, Fragebogen und Steuernummer, USt-IdNr., Verpackungsregister LUCID, bei Elektrogeräten die WEEE-Nummer und das OSS-Verfahren für Verkäufe ins EU-Ausland.",
+    antwort: {
+      frage: "Welche Pflichten hat ein neuer Amazon-Händler in Deutschland?",
+      text:
+        "Zuerst das Gewerbe anmelden, dann innerhalb eines Monats den Fragebogen zur steuerlichen Erfassung abgeben und die USt-IdNr. gleich mit beantragen; vor dem ersten Angebot folgen die Registrierung im Verpackungsregister LUCID samt Vertrag mit einem dualen System und, bei Elektrogeräten, die Registrierung des Herstellers bei der stiftung ear. Das OSS-Verfahren kommt dazu, sobald du im Jahr für mehr als 10.000 € an Privatkunden in anderen EU-Ländern lieferst.",
+    },
+    urgency:
+      "Ein Marktplatz haftet für nicht abgeführte Umsatzsteuer aus deinen Lieferungen, solange du keine gültige USt-IdNr. hast (§ 25e UStG). Elektrogeräte eines nicht registrierten Herstellers darf er gar nicht erst anbieten lassen (§ 6 Abs. 2 ElektroG), und ein Fulfilment-Dienstleister darf Ware nur lagern und versenden, wenn der Hersteller der Verpackung im Verpackungsregister steht (§ 13 Abs. 4 VerpackDG). Darum fragt Amazon diese Nummern ab. Wer sie in der richtigen Reihenfolge beantragt, wartet nicht mit fertiger Ware auf eine Behörde.",
+    outcomes: [
+      "Alle Anmeldungen in einer Reihenfolge: Gewerbe → Fragebogen und Steuernummer → USt-IdNr. → Verkäuferkonto → LUCID → WEEE → OSS",
+      "Kosten der Verpackungslizenz vorab als Spanne, gratis im Rechner",
+      "Klarheit, ob eine Marke bei der stiftung ear registriert ist, bevor du Elektrogeräte einkaufst",
+      "Kleinunternehmer ja oder nein: die Entscheidung im Fragebogen, bevor die erste Ware bestellt ist",
+      "Amazon-Abrechnungen nach Gebührenarten aufgeteilt, als CSV für die Buchhaltung",
+    ],
+    tabelle: {
+      titel: "Die Pflichten in der Reihenfolge, in der du sie brauchst",
+      lead:
+        "Acht Schritte vom Gewerbeschein bis zur laufenden Meldung. Zu jedem Schritt stehen der Zeitpunkt, die zuständige Stelle und die Rechtsgrundlage.",
+      kopf: ["Schritt", "Wann", "Wo", "Grundlage"],
+      zeilen: [
+        {
+          schritt: "1. Gewerbe anmelden",
+          wann: "gleichzeitig mit dem Start",
+          wo: "Gewerbeamt deiner Gemeinde",
+          grundlage: "§ 14 Abs. 1 GewO",
+          hilfe: { to: "/tools/gewerbeanmeldung-wizard", label: "Gewerbeanmeldung-Wizard" },
+        },
+        {
+          schritt: "2. Fragebogen zur steuerlichen Erfassung",
+          wann: "innerhalb eines Monats nach Beginn; danach kommt die Steuernummer",
+          wo: "Finanzamt, über ELSTER",
+          grundlage: "§ 138 Abs. 1b und 4 AO",
+          hilfe: { to: "/tools/fse-wizard", label: "Fragebogen-Wizard" },
+        },
+        {
+          schritt: "3. USt-IdNr.",
+          wann: "im Fragebogen mit beantragen; Amazon fragt sie bei der Registrierung ab",
+          wo: "Bundeszentralamt für Steuern, kostenlos",
+          grundlage: "§ 27a und § 25e Abs. 2 UStG",
+          hilfe: { to: "/ust-id-beantragen", label: "Gratis: USt-ID beantragen" },
+        },
+        {
+          schritt: "4. Verkäuferkonto bei Amazon",
+          wann: "sobald Ausweis, Kreditkarte und Firmenangaben samt USt-IdNr. bereitliegen",
+          wo: "Amazon Seller Central",
+          grundlage: "Vorgaben von Amazon",
+          hilfe: { to: "/guides/amazon-verkaeuferkonto-setup", label: "Guide: Verkäuferkonto einrichten" },
+        },
+        {
+          schritt: "5. Verpackungsregister LUCID und duales System",
+          wann: "vor dem ersten Bereitstellen verpackter Ware",
+          wo: "Zentrale Stelle Verpackungsregister; Vertrag mit einem dualen System",
+          grundlage: "§§ 6, 7 und 13 VerpackDG",
+          hilfe: { to: "/tools/lucid-wizard", label: "Gratis: Verpackungslizenz-Rechner" },
+        },
+        {
+          schritt: "6. WEEE-Registrierung (nur Elektro- und Elektronikgeräte)",
+          wann: "bevor ein Gerät in Verkehr gebracht wird",
+          wo: "stiftung ear",
+          grundlage: "§ 6 ElektroG",
+          hilfe: { to: "/tools/weee-check", label: "Gratis: WEEE-Check" },
+        },
+        {
+          schritt: "7. OSS-Verfahren",
+          wann: "bevor deine Lieferungen an Privatkunden in anderen EU-Ländern 10.000\u00a0€ im Jahr übersteigen",
+          wo: "Bundeszentralamt für Steuern",
+          grundlage: "§ 3c Abs. 4 und § 18j UStG",
+          hilfe: { to: "/ratgeber/oss-anmeldung", label: "Ratgeber: OSS-Anmeldung" },
+        },
+        {
+          schritt: "8. Plattform-Meldung (DAC7)",
+          wann: "laufend; du musst nichts beantragen",
+          wo: "Amazon meldet deine Verkäufe an die Steuerbehörden",
+          grundlage: "§ 4 Abs. 5 PStTG: keine Meldung nur unter 30 Verkäufen und unter 2.000 € im Jahr",
+          hilfe: { to: "/guides/dac7", label: "Guide: DAC7" },
+        },
+      ],
+      fuss:
+        "Allgemeine Übersicht, keine Beratung im Einzelfall. Je nach Ware kommen weitere Pflichten dazu, etwa die Angaben zur Produktsicherheit im Angebot oder Regeln für Batterien, Kosmetik und Lebensmittel. Für Lager in anderen EU-Ländern (Pan-EU) gelten zusätzliche Regeln; die Schritte stehen im Guide zu Pan-EU FBA.",
+    },
+    beispiel: {
+      titel: "Beispiel: Was kostet die Verpackungslizenz bei 1.000 Paketen im Jahr?",
+      text:
+        "Du verschickst 1.000 Pakete im Jahr aus dem eigenen Lager, je 200 g Karton und 15 g Folie. Das sind 200 kg Papier und Karton und 15 kg Kunststoff.",
+      punkte: [
+        "1.000 Pakete: Der Rechner zeigt 75 bis rund 83 € im Jahr.",
+        "5.000 Pakete bei gleicher Verpackung (1.000 kg Karton, 75 kg Kunststoff): rund 259 bis 414 € im Jahr.",
+        "Die Registrierung im Verpackungsregister kommt zuerst: Beim Vertrag mit dem dualen System gibst du Materialart, Masse und deine Registrierungsnummer an.",
+      ],
+      hinweis:
+        "Schätzung aus dem GründerX-Rechner mit Tarifspannen 2026 und einer Untergrenze von 75 €. Kein Angebot eines dualen Systems; den verbindlichen Preis nennt dir der Anbieter.",
+      link: { to: "/tools/lucid-wizard", label: "Mit deinen Mengen rechnen" },
+    },
+    wegHeading: "Dein Weg zum ersten Verkauf auf Amazon",
+    weg: [
+      { title: "Gewerbe anmelden", description: "Beim Gewerbeamt deiner Gemeinde, gleichzeitig mit dem Start. Beschreibe die Tätigkeit so, dass der Online-Handel abgedeckt ist.", meta: "Gewerbeanmeldung-Wizard" },
+      { title: "Fragebogen, Steuernummer, USt-IdNr.", description: "Den Fragebogen gibst du innerhalb eines Monats über ELSTER ab. Die USt-IdNr. beantragst du darin gleich mit; die Kleinunternehmer-Entscheidung fällt an derselben Stelle.", meta: "Fragebogen-Wizard · Gratis: USt-ID beantragen" },
+      { title: "Verpackung und Elektro", description: "LUCID-Registrierung und Vertrag mit einem dualen System vor dem ersten Versand. Bei Elektrogeräten zuerst prüfen, ob der Hersteller bei der stiftung ear registriert ist.", meta: "Gratis: Verpackungslizenz-Rechner · WEEE-Check" },
+      { title: "Verkäuferkonto und Verifizierung" },
+      { title: "Listing, Marke und Freischaltung" },
+      { title: "Umsatzsteuer, OSS und Marge" },
+    ],
+    toolsTitel: "Drei Tools gratis. Der Rest im Cockpit.",
+    toolsLead: "Rechner, WEEE-Check und USt-ID-Check nutzt du ohne Konto. Im Abo kommen die Wizards für Gewerbeanmeldung und Fragebogen und die Amazon-Werkzeuge für die Buchhaltung dazu.",
+    freeTools: [FT_LUCID, FT_WEEE, FT_USTID],
+    tools: [
+      { slug: "fse-wizard", title: "Fragebogen-Wizard", desc: "Zur Steuernummer, Teilseite für Teilseite in der Reihenfolge von ELSTER." },
+      { slug: "amazon-parser", title: "Amazon-Settlement-Parser", desc: "Abrechnung von Amazon nach Gebührenarten aufteilen, als CSV exportieren." },
+      { slug: "marge-tracker", title: "Marge-Tracker", desc: "Marge je Artikel und Kanal nach Provision, Werbung und Retouren." },
+      { slug: "gewerbeanmeldung-wizard", title: "Gewerbeanmeldung-Wizard", desc: "Tätigkeit „Online-Handel“ richtig angeben." },
+      { slug: "schwellen-check", title: "Schwellen-Check", desc: "Kleinunternehmer-Grenze und Plattform-Meldung im Blick." },
+      { slug: "steuerkalender", title: "Steuerkalender", desc: "Abgabe- und Zahlungstermine der nächsten zwölf Monate." },
+    ],
+    ratgeber: [
+      { to: "/ratgeber/amazon-fba-starten-deutschland", title: "Amazon FBA starten 2026", desc: "Schritte, Steuern und Kosten im Überblick." },
+      { to: "/ratgeber/lucid-verpackungsregister-anmelden", title: "LUCID anmelden", desc: "Verpackungsregister und Lizenz Schritt für Schritt." },
+      { to: "/ratgeber/oss-anmeldung", title: "OSS-Anmeldung", desc: "Verkauf an Privatkunden im EU-Ausland." },
+      { to: "/ratgeber/gpsr-verordnung-haendler", title: "Produktsicherheit (GPSR) für Händler", desc: "Welche Angaben ins Angebot gehören." },
+    ],
+    guides: [
+      { to: "/guides/amazon-verkaeuferkonto-setup", title: "Guide: Amazon-Verkäuferkonto einrichten", desc: "Registrierung und Verifizierung bis zum ersten Listing." },
+      { to: "/guides/weee-registrierung", title: "Guide: WEEE-Registrierung", desc: "Elektrogeräte bei der stiftung ear melden." },
+      { to: "/guides/pan-eu-fba", title: "Guide: Pan-EU FBA", desc: "Lager in anderen EU-Ländern, Kosten und Umsatzsteuer." },
+      { to: "/guides/reseller-freischaltung", title: "Guide: Marke und Kategorie freischalten", desc: "Was Amazon für die Freischaltung sehen will." },
+      { to: "/guides/dac7", title: "Guide: DAC7", desc: "Was Plattformen über Verkäufer melden." },
+    ],
+    faq: [
+      {
+        q: "Was brauche ich, um auf Amazon zu verkaufen?",
+        a: "Amazon nennt für die Registrierung eine geschäftliche Mailadresse oder ein Amazon-Kundenkonto, eine Kreditkarte, einen gültigen Reisepass oder Personalausweis und die Angaben zur Firmenregistrierung einschließlich USt-IdNr. Eine GmbH brauchst du laut Amazon nicht, ein Einzelunternehmen reicht. Davor stehen Gewerbeanmeldung und Fragebogen zur steuerlichen Erfassung.",
+      },
+      {
+        q: "Was kostet ein Amazon-Verkäuferkonto?",
+        a: "Laut Amazon kostet der Tarif Professionell 39 € zzgl. MwSt. im Monat (46,41 € mit 19 % Umsatzsteuer), der Tarif Einzelanbieter 0,99 € zzgl. MwSt. je verkauftem Artikel. Dazu kommen Verkaufsgebühren, die laut Amazon meist zwischen 8 % und 15 % liegen. Stand der Abfrage: 14.11.2026.",
+      },
+      {
+        q: "Kann ich als Kleinunternehmer auf Amazon verkaufen?",
+        a: "Die Kleinunternehmerregelung gilt, wenn dein Umsatz im Vorjahr höchstens 25.000 € betrug und im laufenden Jahr 100.000 € nicht übersteigt. Eine USt-IdNr. erteilt das Bundeszentralamt für Steuern Unternehmern auf Antrag, also auch Kleinunternehmern. Wer auf die Regelung verzichtet, ist daran mindestens fünf Kalenderjahre gebunden. Ob sich der Verzicht für dich lohnt, hängt von deinem Einkauf ab und ist eine Frage für den Einzelfall.",
+      },
+      {
+        q: "Brauche ich als Amazon-Händler eine LUCID-Nummer?",
+        a: "Wer als Hersteller im Sinne des Verpackungsrechts verpackte Ware erstmals in Deutschland bereitstellt, muss sich vorher bei der Zentralen Stelle Verpackungsregister registrieren und sich mit den Verpackungen an einem dualen System beteiligen. Das betrifft auch Versandkartons. Ob du für eine bestimmte Verpackung selbst als Hersteller giltst, hängt von Ware, Herkunft und Versandweg ab; die Zentrale Stelle erklärt die Fälle auf ihrer Website.",
+      },
+      {
+        q: "Wann brauche ich eine WEEE-Nummer?",
+        a: "Wenn du Elektro- oder Elektronikgeräte als Hersteller in Verkehr bringst, zum Beispiel unter eigener Marke oder als Importeur. Geräte fremder Marken darfst du nur anbieten, wenn deren Hersteller registriert ist. Das schlägst du im Verzeichnis der stiftung ear nach, gratis mit dem WEEE-Check.",
+      },
+      {
+        q: "Ab wann brauche ich das OSS-Verfahren?",
+        a: "Sobald deine Lieferungen an Privatkunden in anderen EU-Ländern zusammen 10.000 € im Jahr übersteigen, gilt die Umsatzsteuer des Ziellands. Über das OSS-Verfahren meldest du diese Umsätze zentral beim Bundeszentralamt für Steuern, statt dich in jedem Land einzeln zu registrieren.",
+      },
+      {
+        q: "Ersetzt GründerX meinen Steuerberater?",
+        a: "Nein. Felix führt dich durch Formulare, Registrierungen und Fristen. Für Gestaltungsfragen im Einzelfall bleibt der Steuerberater zuständig.",
+      },
+    ],
+    einwaende: [
+      {
+        q: "Die Verkäuferforen sind doch kostenlos.",
+        a: "Für Einzelfragen sind sie gut. Was dort fehlt, ist die Reihenfolge für deinen Fall und der aktuelle Stand: Seit dem 12.08.2026 gilt zum Beispiel das Verpackungsrecht-Durchführungsgesetz statt des alten Verpackungsgesetzes. Hier steht zu jedem Schritt die Rechtsgrundlage mit Datum.",
+      },
+      {
+        q: "Ich habe schon eine Buchhaltungssoftware oder einen Steuerberater.",
+        a: "Bleib dabei. GründerX ersetzt weder Buchhaltung noch Steuerberater. Es deckt die Schritte davor und daneben ab: Anmeldungen, Registrierungen, Fristen. Die Abrechnungen von Amazon teilst du nach Gebührenarten auf und gibst sie als CSV weiter.",
+      },
+    ],
+    quellen: [Q_GEWO, Q_AO138, Q_USTG27A, Q_USTG25E, Q_USTG19, Q_USTG3C, Q_USTG18J, Q_VERPACK6, Q_VERPACK7, Q_VERPACK13, Q_ELEKTRO6, PSTTG, Q_BZST_USTID, Q_ZSVR, Q_EAR, Q_AMZ_START, Q_AMZ_PREIS],
+    ctaTitle: "Dein Amazon-Start in der richtigen Reihenfolge",
+    ctaText: "Gewerbe, Fragebogen, USt-IdNr., LUCID, WEEE und OSS – plus alle weiteren Tools und Guides im Abo, monatlich kündbar.",
   },
 ];
 

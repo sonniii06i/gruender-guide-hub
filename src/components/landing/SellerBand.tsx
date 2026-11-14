@@ -31,7 +31,11 @@ export const SellerBand = () => (
           </h2>
           <p className="mt-4 max-w-xl text-lg leading-relaxed text-muted-foreground">
             Felix richtet dir Marktplätze und Pflichtregistrierungen der Reihe
-            nach ein, bevor ein Listing gesperrt wird.
+            nach ein, bevor ein Listing gesperrt wird. Für Amazon stehen{" "}
+            <Link to="/amazon-haendler" className="font-medium text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground">
+              alle Pflichten für Amazon-Händler in der richtigen Reihenfolge
+            </Link>{" "}
+            auf einer Seite.
           </p>
 
           <div className="mt-10 grid gap-4 sm:grid-cols-2">

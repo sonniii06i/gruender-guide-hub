@@ -63,6 +63,7 @@ export const staticEntries: SitemapEntry[] = [
   { path: "/rechtsform-finden", changefreq: "weekly", priority: "0.8" },
   { path: "/influencer", changefreq: "weekly", priority: "0.9" },
   { path: "/tiktok-shop", changefreq: "weekly", priority: "0.9" },
+  { path: "/amazon-haendler", changefreq: "weekly", priority: "0.9" },
   { path: "/influencer-steuer-check", changefreq: "weekly", priority: "0.8" },
   { path: "/tiktok-shop-checkliste", changefreq: "weekly", priority: "0.8" },
   { path: "/pr-paket-rechner", changefreq: "weekly", priority: "0.8" },
