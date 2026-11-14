@@ -12,6 +12,7 @@ import { Footer } from "@/components/landing/Footer";
 import { PageHeader } from "@/components/landing/PageHeader";
 import { FaqList } from "@/components/public/PublicBlocks";
 import { VorlagenGateDialog } from "@/components/vorlagen/VorlagenGateDialog";
+import { StartAngebotButton } from "@/components/StartAngebotButton";
 import { RatgeberText } from "@/components/vorlagen/RatgeberText";
 import { KATEGORIE_AKZENT, kategorieIcon } from "@/components/vorlagen/vorlagenIcons";
 import { faqSchema, breadcrumbSchema } from "@/lib/freetools/schema";
@@ -161,19 +162,25 @@ function VorlageSeite({ vorlage }: { vorlage: (typeof VORLAGE_BY_SLUG)[string] }
     ]),
   ];
 
+  // Messung (Funnel-Pruefung 14.11.2026): Die Vorlagen sind seit W45 der groesste
+  // Einstieg (ChatGPT), aber Tor-Klick und Download waren unsichtbar. data-cta
+  // laeuft ueber den Klick-Lauscher in AnalyticsCapture (cta_click mit props.von);
+  // gespeichert werden nur Knopfname und Seite, keine Adresse.
+  const messName = (format: string, ort = "") => `vorlage-${offen ? "laden" : "tor"}${ort}:${format}`;
+
   const downloadKnoepfe = (
     <div className="flex flex-wrap gap-2">
-      <Button size="lg" onClick={word} disabled={wordLaedt}>
+      <Button size="lg" onClick={word} disabled={wordLaedt} data-cta={messName("word")}>
         <FileType2 className="mr-2 h-4 w-4" aria-hidden="true" />
         {wordLaedt ? "Word wird erstellt …" : "Als Word (.docx)"}
       </Button>
-      <Button size="lg" variant="outline" onClick={pdf}>
+      <Button size="lg" variant="outline" onClick={pdf} data-cta={messName("pdf")}>
         <Download className="mr-2 h-4 w-4" aria-hidden="true" /> Als PDF
       </Button>
-      <Button size="lg" variant="outline" onClick={txt}>
+      <Button size="lg" variant="outline" onClick={txt} data-cta={messName("text")}>
         <FileText className="mr-2 h-4 w-4" aria-hidden="true" /> Als Text
       </Button>
-      <Button size="lg" variant="ghost" onClick={kopieren}>
+      <Button size="lg" variant="ghost" onClick={kopieren} data-cta={messName("kopieren")}>
         <ClipboardCopy className="mr-2 h-4 w-4" aria-hidden="true" /> Kopieren
       </Button>
     </div>
@@ -220,6 +227,32 @@ function VorlageSeite({ vorlage }: { vorlage: (typeof VORLAGE_BY_SLUG)[string] }
               Einmal die E-Mail-Adresse bestätigen – danach sind alle Vorlagen frei. Kein Konto, keine Zahlung.
             </p>
           )}
+          {/* 14.11.2026 (Funnel-Pruefung): 37 bestaetigte Vorlagen-Leads seit 26.10., 0 Konten daraus. Nach der
+              Freigabe endete der Weg beim Download; der einzige Hinweis aufs Abo stand in der Seitenleiste und
+              liegt auf dem Handy unter Ratgeber und FAQ. Deshalb direkt unter den Download-Knoepfen.
+              Texte und Fakten wie Seitenleiste und /auth. */}
+          {offen && !abonnent && (
+            <div className="mt-6 rounded-2xl border border-accent-blue/20 bg-accent/40 p-5" data-testid="vorlage-weiter">
+              <h2 className="text-lg font-semibold text-foreground">Nächster Schritt: die Vorlage an deinen Fall anpassen</h2>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Felix, der KI-Assistent von GründerX, erklärt dir jede Klausel und hilft beim Anpassen – im Abo,
+                zusammen mit allen Guides und Tools.
+              </p>
+              <div className={`mt-4 grid gap-3 ${user ? "" : "sm:grid-cols-2"}`}>
+                <StartAngebotButton cta="vorlage-weiter:start1" />
+                {!user && (
+                  <div>
+                    <Button asChild size="lg" variant="outline" className="h-11 w-full rounded-xl font-semibold">
+                      <Link to="/auth" data-cta="vorlage-weiter:konto">Erst mal kostenloses Konto</Link>
+                    </Button>
+                    <p className="mt-1.5 text-center text-[11px] leading-snug text-muted-foreground">
+                      Kostenlos, keine Kreditkarte · Gratis-Tools, Rechner und Fristen-Erinnerungen
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
         </PageHeader>
 
         <section className="py-12">
@@ -242,7 +275,7 @@ function VorlageSeite({ vorlage }: { vorlage: (typeof VORLAGE_BY_SLUG)[string] }
                       Die vollständige Vorlage mit allen Abschnitten bekommst du nach Bestätigung deiner E-Mail-Adresse –
                       als Word, PDF oder Text.
                     </p>
-                    <Button onClick={() => setGateOffen(true)}>
+                    <Button onClick={() => setGateOffen(true)} data-cta="vorlage-tor:vorschau">
                       <Unlock className="mr-2 h-4 w-4" aria-hidden="true" /> Vorlage freischalten
                     </Button>
                   </div>
@@ -315,11 +348,11 @@ function VorlageSeite({ vorlage }: { vorlage: (typeof VORLAGE_BY_SLUG)[string] }
                       : "E-Mail eingeben, Link klicken, Vorlage laden. Die Bestätigung gilt für alle Vorlagen."}
                   </p>
                   <div className="flex flex-col gap-2">
-                    <Button onClick={word} disabled={wordLaedt}>
+                    <Button onClick={word} disabled={wordLaedt} data-cta={messName("word", "-seite")}>
                       <FileType2 className="mr-2 h-4 w-4" aria-hidden="true" /> {wordLaedt ? "Word wird erstellt …" : "Word (.docx)"}
                     </Button>
-                    <Button variant="outline" onClick={pdf}><Download className="mr-2 h-4 w-4" aria-hidden="true" /> PDF</Button>
-                    <Button variant="outline" onClick={txt}><FileText className="mr-2 h-4 w-4" aria-hidden="true" /> Text (.txt)</Button>
+                    <Button variant="outline" onClick={pdf} data-cta={messName("pdf", "-seite")}><Download className="mr-2 h-4 w-4" aria-hidden="true" /> PDF</Button>
+                    <Button variant="outline" onClick={txt} data-cta={messName("text", "-seite")}><FileText className="mr-2 h-4 w-4" aria-hidden="true" /> Text (.txt)</Button>
                   </div>
                 </CardContent>
               </Card>
@@ -349,7 +382,7 @@ function VorlageSeite({ vorlage }: { vorlage: (typeof VORLAGE_BY_SLUG)[string] }
                   <p className="mb-3 mt-1 text-sm text-muted-foreground">
                     Der KI-Assistent von GründerX erklärt dir jede Klausel und hilft beim Anpassen – im Abo, zusammen mit allen Guides und Tools.
                   </p>
-                  <Link to="/preise" className="inline-flex items-center gap-1 text-sm font-semibold text-accent-blue hover:underline">
+                  <Link to="/preise" data-cta="vorlage-felix-seite:preise" className="inline-flex items-center gap-1 text-sm font-semibold text-accent-blue hover:underline">
                     Preise ansehen <ArrowRight className="h-4 w-4" aria-hidden="true" />
                   </Link>
                 </CardContent>

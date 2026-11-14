@@ -2,6 +2,24 @@ import { createContext, startTransition, useContext, useEffect, useState, ReactN
 import type { Session, User } from "@supabase/supabase-js";
 import { ladeSupabase } from "@/integrations/supabase/lazy";
 import { clearUserDataOnLogout } from "@/lib/logoutCleanup";
+import { trackSignup } from "@/utils/analytics";
+import { istFrischesOAuthKonto } from "@/utils/oauthSignup";
+
+// Nur im Arbeitsspeicher (kein Geraetespeicher ohne Einwilligung): fuer welche
+// Konten diese Seite signup_completed schon gemeldet hat.
+const signupGemeldet = new Set<string>();
+
+// Start-Stufe des Trichters auch fuer Google-Konten: Das Passwort-Formular
+// meldet sich selbst (Auth.tsx), der OAuth-Rueckweg landet ohne Formular auf
+// /onboarding. Je nach supabase-js-Version kommt die frische Sitzung als
+// SIGNED_IN, INITIAL_SESSION oder erst ueber getSession() an -> alle drei Wege
+// pruefen, das Set verhindert Doppelzaehlung (Funnel-Pruefung 14.11.2026).
+function meldeOAuthSignup(sess: Session | null): void {
+  const u = sess?.user;
+  if (!u || signupGemeldet.has(u.id) || !istFrischesOAuthKonto(u)) return;
+  signupGemeldet.add(u.id);
+  trackSignup.completed(u.app_metadata?.provider || "oauth");
+}
 
 interface AuthContextValue {
   user: User | null;
@@ -35,6 +53,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           startTransition(() => setSession(sess));
           return;
         }
+        if (event === "SIGNED_IN" || event === "INITIAL_SESSION") meldeOAuthSignup(sess);
         // INITIAL_SESSION feuert direkt nach dem Mount – gleiche Begründung wie unten.
         startTransition(() => {
           setSession(sess);
@@ -43,6 +62,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       });
 
       supabase.auth.getSession().then(({ data: { session: sess } }) => {
+        meldeOAuthSignup(sess);
         // Als Transition: Die erste Sitzungsauflösung landet oft, während eine
         // lazy geladene Seite noch hydriert. Ein normales Update auf die noch
         // nicht hydrierte Suspense-Grenze verwirft deren Server-HTML (#421);

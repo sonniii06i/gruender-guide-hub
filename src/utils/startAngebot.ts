@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { getStoredAffiliateRef } from "@/utils/affiliate";
 import { checkoutAttribution } from "@/utils/checkoutAttribution";
 import { startGuestCheckout } from "@/utils/guestCheckout";
+import { trackMonetization } from "@/utils/analytics";
 import { PLANS } from "@/config/pricing";
 
 export const START_ANGEBOT = {
@@ -22,6 +23,8 @@ export async function startAngebotCheckout(eingeloggt: boolean): Promise<StartEr
     await startGuestCheckout("gruenderx", "month", "start1");
     return "weiter";
   }
+  // Eingeloggt fehlte checkout_started (der Gast-Weg meldet ihn in startGuestCheckout).
+  trackMonetization.checkoutStarted("start1");
   const { data, error } = await supabase.functions.invoke("create-checkout", {
     body: {
       priceId: PLANS.gruenderx.priceId, interval: "month", angebot: "start1",

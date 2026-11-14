@@ -8,7 +8,8 @@ import { PLANS, formatEurCents } from "@/config/pricing";
 import { START_ANGEBOT, startAngebotCheckout } from "@/utils/startAngebot";
 
 /** Knopf + Pflichtzeile fürs Startangebot (7 Tage für 1 €). */
-export const StartAngebotButton = ({ className = "", variant = "default" as "default" | "outline" }) => {
+/** `cta`: optionaler Messname fuer den Klick-Lauscher (AnalyticsCapture, data-cta). */
+export const StartAngebotButton = ({ className = "", variant = "default" as "default" | "outline", cta = undefined as string | undefined }) => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [busy, setBusy] = useState(false);
@@ -30,7 +31,7 @@ export const StartAngebotButton = ({ className = "", variant = "default" as "def
   return (
     <div className={className}>
       <Button type="button" size="lg" variant={variant} disabled={busy} onClick={los}
-        className="press h-11 w-full gap-2 rounded-xl font-semibold" data-track="start-angebot">
+        className="press h-11 w-full gap-2 rounded-xl font-semibold" data-track="start-angebot" data-cta={cta}>
         {busy ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : START_ANGEBOT.label}
       </Button>
       <p className="mt-1.5 text-center text-[11px] leading-snug text-muted-foreground">{START_ANGEBOT.kurz(folge)}</p>

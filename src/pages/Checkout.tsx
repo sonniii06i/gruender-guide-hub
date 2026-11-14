@@ -7,6 +7,7 @@ import { useAccess } from "@/hooks/useAccess";
 import { supabase } from "@/integrations/supabase/client";
 import { getStoredAffiliateRef } from "@/utils/affiliate";
 import { checkoutAttribution } from "@/utils/checkoutAttribution";
+import { trackMonetization } from "@/utils/analytics";
 import { Button } from "@/components/ui/button";
 import {
   Loader2, Check, LogOut, Lock, RefreshCw, ShieldCheck, ShoppingCart,
@@ -245,6 +246,9 @@ const Checkout = () => {
 
   const checkout = async () => {
     setBusy(true);
+    // Start-Stufe auch fuer eingeloggte Kaeufe (bisher nur Gast-Checkout, Funnel-Pruefung 14.11.2026).
+    // Vor dem Netzaufruf: nach der Weiterleitung zu Stripe liefe kein Code mehr.
+    trackMonetization.checkoutStarted(item.id, item.grossCents);
     try {
       const { data, error } = await supabase.functions.invoke("create-checkout", { body: { priceId: item.priceId, interval: item.interval, affiliateRef: getStoredAffiliateRef(), ...checkoutAttribution() } });
       if (error) {

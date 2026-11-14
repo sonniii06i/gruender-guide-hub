@@ -7,6 +7,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { ladeSupabase } from "@/integrations/supabase/lazy";
 import { getStoredAffiliateRef } from "@/utils/affiliate";
 import { checkoutAttribution } from "@/utils/checkoutAttribution";
+import { trackMonetization } from "@/utils/analytics";
 import { PLANS, PLAN_ORDER, SOLO_CONTENTS, BUNDLE_CONTENTS, NOT_INCLUDED, CANCEL_NOTE, FOUNDER_CODE, FOUNDER_KURZ, formatEurCents } from "@/config/pricing";
 import { rememberCartVariant } from "@/lib/cart";
 import { ANBIETER_ANZAHL, ANBIETER_KATEGORIEN, TOOL_COUNT } from "@/data/kennzahlen";
@@ -166,6 +167,8 @@ export const Bundles = () => {
       return;
     }
     setLoading(variantId);
+    // Start-Stufe auch fuer eingeloggte Kaeufe (Funnel-Pruefung 14.11.2026), vor dem Netzaufruf.
+    trackMonetization.checkoutStarted(variantId);
     try {
       const supabase = await ladeSupabase();
       const { data, error } = await supabase.functions.invoke("create-checkout", {
