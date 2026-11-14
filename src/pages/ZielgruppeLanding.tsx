@@ -102,7 +102,7 @@ const ZielgruppeLanding = ({ slug }: { slug: string }) => {
         ...z.einwaende,
         {
           q: "Noch ein Abo – was kostet das?",
-          a: `Der volle Zugang kostet ${MONAT} im Monat inklusive Umsatzsteuer und ist jederzeit zum Ende der laufenden Abrechnungsperiode kündbar. Neukunden starten mit ${START_ANGEBOT.tage} Tagen für ${START_ANGEBOT.preisText}; ohne Kündigung läuft danach der Monatszugang für ${MONAT} weiter. Die Gratis-Tools auf dieser Seite nutzt du ohne Konto.`,
+          a: `Der volle Zugang kostet ${MONAT} im Monat inklusive Umsatzsteuer und ist jederzeit zum Ende der laufenden Abrechnungsperiode kündbar. Neukunden starten mit ${START_ANGEBOT.tage} Tagen für ${START_ANGEBOT.preisText}; ohne Kündigung läuft danach der Monatszugang für ${MONAT} weiter. Die Gratis-Tools auf dieser Seite brauchen kein Konto.`,
         },
         { q: "Was ist nicht enthalten?", a: NOT_INCLUDED },
       ]

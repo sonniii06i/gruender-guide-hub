@@ -401,7 +401,7 @@ export const ZIELGRUPPEN: Zielgruppe[] = [
       { title: "Umsatzsteuer, OSS und Marge" },
     ],
     toolsTitel: "Drei Tools gratis. Der Rest im Cockpit.",
-    toolsLead: "Rechner, WEEE-Check und USt-ID-Check nutzt du ohne Konto. Im Abo kommen die Wizards für Gewerbeanmeldung und Fragebogen und die Amazon-Werkzeuge für die Buchhaltung dazu.",
+    toolsLead: "Den Rechner nutzt du frei und so oft du willst. WEEE-Check und USt-ID-Check gibt es je einmal kostenlos, das Ergebnis gegen deine E-Mail-Adresse – alles ohne Konto. Im Abo kommen die Wizards für Gewerbeanmeldung und Fragebogen und die Amazon-Werkzeuge für die Buchhaltung dazu.",
     freeTools: [FT_LUCID, FT_WEEE, FT_USTID],
     tools: [
       { slug: "fse-wizard", title: "Fragebogen-Wizard", desc: "Zur Steuernummer, Teilseite für Teilseite in der Reihenfolge von ELSTER." },
