@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { DISCORD_INVITE_URL } from "@/config/links";
 import {
   Building2,
   ShoppingBag,
@@ -6,6 +7,8 @@ import {
   Calculator,
   Briefcase,
   MessageSquare,
+  RefreshCw,
+  Users,
 } from "lucide-react";
 
 const features = [
@@ -104,6 +107,38 @@ export const Features = () => (
             </div>
           );
         })}
+      </div>
+
+      {/* 14.11.2026: zwei Nutzen, die der Betreiber nennt und die die Seite bisher nicht sagte (Marken-Brain, Abgleich growth-wettbewerb).
+          Beide belegbar: laufende Faktenprüfung (growth-aktualitaet, Commits „Aktualitaet …“) und der GründerX-Discord (DISCORD_INVITE_URL). */}
+      <div className="mt-4 grid gap-3 md:grid-cols-2 md:gap-4">
+        <div className="flex gap-4 rounded-2xl border border-border bg-card p-6 md:p-7">
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-card text-accent-blue shadow-card">
+            <RefreshCw className="h-5 w-5" aria-hidden="true" />
+          </div>
+          <div>
+            <h3 className="mb-2 text-lg font-semibold">Immer auf dem aktuellen Stand</h3>
+            <p className="max-w-prose text-[15px] leading-relaxed text-muted-foreground">
+              Keine Tutorials von vor drei Jahren: Wir prüfen Ratgeber, Förderprogramme und Anbieterpreise laufend gegen Gesetze und
+              Primärquellen und korrigieren, was sich ändert.
+            </p>
+          </div>
+        </div>
+        <div className="flex gap-4 rounded-2xl border border-border bg-card p-6 md:p-7">
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-card text-accent-blue shadow-card">
+            <Users className="h-5 w-5" aria-hidden="true" />
+          </div>
+          <div>
+            <h3 className="mb-2 text-lg font-semibold">Community von Gründern und Händlern</h3>
+            <p className="max-w-prose text-[15px] leading-relaxed text-muted-foreground">
+              Du gründest nicht allein: Im{" "}
+              <a href={DISCORD_INVITE_URL} target="_blank" rel="noopener noreferrer" className="font-medium text-accent-blue underline-offset-4 hover:underline">
+                GründerX-Discord
+              </a>{" "}
+              tauschst du dich mit anderen aus, Gründer-Events, Fristen-Radar und Startup-Guthaben laufen dort als Feed.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
