@@ -1494,13 +1494,13 @@ export const REGULATORIK_2026: { titel: string; datum: string; was: string; ausw
   {
     titel: "EU PPWR PFAS-Ban Food-Contact",
     datum: "Ab 12.8.2026",
-    was: "PFAS in Lebensmittel-Kontakt-Materialien verboten",
+    was: "Lebensmittelkontakt-Verpackungen mit PFAS ab Grenzwerten verboten (25 ppb je PFAS, 250 ppb Summe, 50 ppm Gesamt-PFAS; Art. 5 Abs. 5 PPWR)",
     auswirkung: "Verpackungs-Brands: JETZT PFAS-Screening bei GBA/Eurofins/Hohenstein machen lassen",
   },
   {
     titel: "Maine PFAS-Ban (USA)",
     datum: "Bereits seit 1.1.2026 in Kraft",
-    was: "PFAS-haltige Produkte in Maine verboten — Hersteller-Reporting-Pflicht",
+    was: "Verkaufsverbot für Produkte mit absichtlich zugesetzten PFAS in bestimmten Kategorien (u. a. Kosmetik, Kochgeschirr, Reinigungsmittel, Textilien, Kinderprodukte); ab 1.1.2032 für alle Produkte außer anerkannten Ausnahmen (CUU)",
     auswirkung: "FBA-USA-Brands: PFAS-Tested-Label (Testex) oder TOF-Screening notwendig",
   },
 ];

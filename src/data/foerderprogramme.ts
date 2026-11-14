@@ -71,7 +71,7 @@ export const FOERDERPROGRAMME: Foerderung[] = [
     phase: ["aufbau", "wachstum"],
     branche: ["alle"],
     description:
-      "Größerer KfW-Kredit für KMU bis 25 Mio €. Investitionen, Betriebsmittel, Übernahmen — flexible Verwendung.",
+      "Nicht mehr beantragbar: Die KfW hat den Kredit eingestellt. Nachfolger ist der ERP-Förderkredit KMU (365/366) bis 25 Mio € je Vorhaben.",
     conditions: [
       "Maximal 5 Jahre nach Gründung",
       "KMU-Definition: < 250 MA, < 50 Mio Umsatz",
@@ -86,12 +86,12 @@ export const FOERDERPROGRAMME: Foerderung[] = [
     emoji: "🏭",
     type: "kredit",
     scope: "bund",
-    maxFunding: "25 Mio € (max. 80 % der Investition)",
+    maxFunding: "25 Mio € (bis 100 % der förderfähigen Kosten)",
     zielgruppe: ["KMU"],
     phase: ["aufbau", "wachstum"],
     branche: ["alle"],
     description: "Standard-KMU-Investitionskredit für Maschinen, Gebäude, Übernahmen.",
-    conditions: ["Hausbank-Antrag", "5–20 Jahre Laufzeit", "Ohne KMU-Schwelle nicht möglich"],
+    conditions: ["Hausbank-Antrag", "2–20 Jahre Laufzeit", "Ohne KMU-Schwelle nicht möglich"],
     antragUrl: "https://www.kfw.de/inlandsfoerderung/Unternehmen/Investitionen-und-Wachstum/",
   },
   {
@@ -631,7 +631,7 @@ export const FOERDERPROGRAMME: Foerderung[] = [
     scope: "bund",
     country: "CH",
     countryEmoji: "🇨🇭",
-    maxFunding: "Bis 50% Projektkosten (keine Equity / Royalty)",
+    maxFunding: "Bis 70 % der direkten Projektkosten (mind. 30 % Eigenanteil, keine Equity / Royalty)",
     zielgruppe: ["CH-SME <5 Jahre, <50 FTE"],
     phase: ["aufbau"],
     branche: ["Deep-Tech"],

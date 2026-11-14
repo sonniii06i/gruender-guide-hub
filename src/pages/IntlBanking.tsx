@@ -144,9 +144,9 @@ const BANKS: Bank[] = [
     ],
     cons: [
       "**Closure-Wellen seit 2024** (laut Nutzerberichten): zahlreiche Länder gesperrt (Ukraine, Nigeria, Venezuela etc.) — DE selbst safe",
-      "**Registered-Agent-Adressen laut Nutzerberichten NICHT akzeptiert** → echte US-Adresse Pflicht (Mailbox-Provider mit Lease OK)",
+      "**Registered-Agent-, Postfach- und UPS-Store-Adressen laut Mercury NICHT akzeptiert**; die Geschäftsadresse darf aber auch im Ausland liegen (auch Wohnadresse)",
       "3 % FX-Gebühr auf non-USD-Kartenzahlungen (auch in EU einkaufen kostet 3 %); 1 % bei non-USD-Wires",
-      "Mercury IO Credit Card nur für VC-funded — Solo gibt's nicht",
+      "Mercury IO Credit Card nur mit Mercury-Konto: Start mit täglicher Rückzahlung, Limit nach Guthaben, Monatsabrechnung erst ab 15.000 $ Saldo",
     ],
     features: { multiCurrency: false, achWire: true, quickbooksXero: true, debitCard: true, apiAccess: true, crypto: false },
     setupRequirements: [
@@ -154,7 +154,7 @@ const BANKS: Bank[] = [
       "Articles of Organization (Stamped PDF)",
       "Operating Agreement",
       "Pass des wirtschaftlich Berechtigten",
-      "★ Echte US-Adresse (kein Registered Agent, kein PO Box, kein UPS Store)",
+      "★ Geschäftsadresse in den USA oder im Ausland, auch Wohnadresse (kein Registered Agent, kein PO Box, kein UPS Store)",
       "Nachweis der Geschäftstätigkeit (Pitch Deck, Vertrag, Website)",
     ],
     url: "https://mercury.com",
@@ -166,7 +166,7 @@ const BANKS: Bank[] = [
     trustpilotUrl: "https://www.trustpilot.com/review/mercury.com",
     g2Rating: 4.5,
     hiddenFees: [
-      "Mass-API-Payments + FX brauchen $35/mo Plus-Plan",
+      "Massenzahlungen per API kosten extra; Fremdwährungs-Zahlungen gehen auch im Gratis-Plan (Gebühren siehe unten)",
       "3 % FX-Gebühr auf non-USD-Kartenzahlungen (1 % bei non-USD-Wires)",
       "Treasury ist KEIN FDIC, nur SIPC ($500k Coverage)",
       "Hidden: bei Account-Closure 60-Tage-Hold ohne Vorwarnung möglich",
@@ -267,7 +267,7 @@ const BANKS: Bank[] = [
     ],
     cons: [
       "**Solo-Founder + Bootstrap typisch ABGELEHNT** seit Juni 2022 (Mass-Closure 'tens of thousands' SMBs)",
-      "**$50.000 Cash-Balance Mindest** ODER VC-funded ODER $400k monthly revenue",
+      "**Karte mit Monatsabrechnung:** finanzierte Startups ab $50.000 Guthaben, Mittelstand ab $400.000 Monatsumsatz; sonst nur Tageszahlung (Zielgruppe: Investment, über $500.000 Jahresumsatz oder Empfehlung)",
       "**Capital-One-Übernahme abgeschlossen 7. April 2026** — neue Risk-Models in Integration, Pricing kann kippen",
       "Trustpilot 2,9/5 — eine der schlechtesten in dieser Liste",
       "Solo-DE-Founder laut Nutzerberichten meist abgelehnt",
@@ -417,7 +417,7 @@ const BANKS: Bank[] = [
     region: "hk",
     emoji: "🏦",
     monthlyFee: "HKD 200/Mo (Sprint: 12 Monate frei, danach erlassen ab HKD 50k Ø-Saldo)",
-    setupFee: "Initial-Deposit (laut Nutzerberichten ca. HKD 10.000)",
+    setupFee: "Antragsgebühr HKD 1.300 online (HKD 1.600 auf Papier); Initial-Deposit laut Nutzerberichten ca. HKD 10.000",
     nonResident: "vor-ort-pflicht",
     bestFor: "Etablierte Companies mit HKD 50k+ Saldo + Chinageschäft + möglichem persönlichem HK-Besuch",
     pros: [

@@ -380,7 +380,7 @@ export const EU_ALTERNATIVES: EUAlternative[] = [
     corporateTax: "15 % (KSt-Reform ab 01.01.2026, vorher 12,5 %)",
     localTax: "0 %",
     effectiveTotal: "15 % · 0 % auf Dividenden-Erträge mit Schachtelprivileg",
-    withholdingDividends: "0 % auf Dividenden ans Ausland (auch Drittstaaten)",
+    withholdingDividends: "0 % auf Dividenden ans Ausland (Ausnahmen bei Beteiligung über 50 %: 5 % an Gesellschaften in Niedrigsteuer-Drittstaaten, 17 % an Gesellschaften in EU-gelisteten nicht kooperativen Staaten)",
     motherDaughterApplies: true,
     substance: "Mind. 1 lokaler Director + Adresse. Substanz wird über § 50d Abs. 3 EStG und den DBA-Principal-Purpose-Test geprüft (ATAD III nie in Kraft getreten).",
     setupTime: "1–2 Wochen",
@@ -390,12 +390,12 @@ export const EU_ALTERNATIVES: EUAlternative[] = [
     bestFor: [
       "Holding für internationale Beteiligungen (kein WHT auf Out-Dividenden)",
       "Trading-Companies (Crypto, Forex)",
-      "IP-Holdings (50-80 % Notional Interest Deduction möglich)",
+      "IP-Holdings (IP-Box: 80 % der qualifizierten IP-Gewinne abziehbar)",
       "Wer DBA mit Russland / GUS / Mittlerem Osten braucht",
     ],
     pros: [
       "**15 % KSt** (ab 2026, vorher 12,5 %) + 0 % auf Out-Dividenden (kein WHT)",
-      "**Notional Interest Deduction**: bis zu 80 % Deduction auf neues Equity",
+      "**Notional Interest Deduction**: fiktiver Zins auf neues Eigenkapital, Abzug gedeckelt auf 80 % des daraus erzielten Gewinns",
       "EU-Mitglied + Mutter-Tochter-Richtlinie",
       "DBA-Netzwerk mit > 60 Ländern (auch Russland, Indien, China)",
       "Englisch zweite Amtssprache, Common-Law-Reste",
@@ -477,7 +477,7 @@ export const EU_ALTERNATIVES: EUAlternative[] = [
     ],
     setupSteps: [
       "1. Online-Gründung über S24-Portal (https://ekrs.ms.gov.pl) — Standard-Mustervertrag",
-      "2. Stammkapital einzahlen (5.000 PLN auf Treuhand)",
+      "2. Stammkapital einzahlen (5.000 PLN; bei S24 als Bareinlage binnen 7 Tagen nach KRS-Eintragung)",
       "3. Eintragung im Krajowy Rejestr Sądowy (KRS)",
       "4. NIP-Nummer (PL-Steuernummer)",
       "5. Bank-Account (mBank, ING Bank Śląski, Santander)",

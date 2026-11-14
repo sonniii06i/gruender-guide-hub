@@ -1178,7 +1178,7 @@ const StepZusammenfassung = ({ data, stepValid, allValid, onGeneratePdf }: { dat
           <li>Innerhalb eines Monats nach Start den Fragebogen zur steuerlichen Erfassung (FsE) selbst über ELSTER einreichen (§138 Abs. 1b AO), er wird nicht zugeschickt.</li>
           <li>Im FsE: Entscheidung § 19 KU oder Regelbesteuerung (5 Jahre Bindung nur beim Verzicht auf die KU).</li>
           <li>Steuernummer und ggf. USt-ID werden zugeteilt.</li>
-          <li>IHK-/HwK-Mitgliedschaft automatisch (Beitrag erst ab Gewinn über 5.200 €).</li>
+          <li>IHK-/HwK-Mitgliedschaft automatisch (IHK-Beitrag für nicht im Handelsregister eingetragene Betriebe erst ab Gewinn über 5.200 €).</li>
           <li>Geschäftskonto eröffnen, Berufshaftpflicht prüfen, erste Rechnung mit dem Rechnungs-Tool schreiben.</li>
         </ol>
       </Callout>

@@ -251,7 +251,7 @@ export const VISA_PROGRAMS: VisaProgram[] = [
     name: "Golden Visa (Fund Investment)",
     officialUrl: "https://www.aima.gov.pt/en/area-do-cidadao/regularize/golden-visa-arr",
     category: "investor",
-    durationYears: "2 Jahre initial, dann 3-Jahres-Renewals; PR/Pass nach 5",
+    durationYears: "2 Jahre initial, dann 2-Jahres-Renewals; PR nach 5, Pass nach 10 (CPLP und EU: 7)",
     processingTime: "12-24 Monate aktuell (AIMA-Backlog massiv)",
     costEur: "500.000 (Fund) + 20-40k Fees/Anwalt",
     requirements: [
@@ -262,7 +262,7 @@ export const VISA_PROGRAMS: VisaProgram[] = [
     ],
     forDeFounder: "Nur für cash-rich Wegzügler. Hauptbenefit: nur 7 Tage/Jahr Anwesenheit für Renewal → Steuerresidenz woanders möglich.",
     taxImplications: "Golden Visa macht KEIN Tax-Resident. NHR 2.0 (IFICI) seit 2024 enger — meist nicht mehr nutzbar. §6 AStG normal aktiv.",
-    pathToPr: "PR und EU-Pass nach 5 Jahren (nur 7 Tage/Jahr Anwesenheit!)",
+    pathToPr: "PR nach 5 Jahren; Pass erst nach 10 Jahren legalem Aufenthalt (CPLP- und EU-Staaten: 7), seit 19.05.2026; Mindestaufenthalt ARI: 7 Tage im 1. Jahr, dann 14 Tage je 2 Jahre",
     watchouts: ["AIMA-Backlog 12-24 Monate", "Politisches Risiko: Programm wackelt seit 2023", "Fund-Diligence kritisch — viele 'Golden-Visa-Funds' sind schwach"],
     bestForSolo: true,
     bestForFamily: true,
