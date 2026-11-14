@@ -46,6 +46,7 @@ const COLUMNS: { title: string; links: { to: string; label: string; native?: boo
       { to: "/gruendungsberatung", label: "Gründungsberatung finden" },
       { to: "/e-rechnung-lesen", label: "E-Rechnung lesen" },
       { to: "/gruendungspaket", label: "Gründungspaket 2026" },
+      { to: "/vergleich/gruendung-selbst-steuerberater-gruenderx", label: "Vergleich: selbst, Steuerberater oder GründerX" },
       { to: "/faq", label: "FAQ" },
     ],
   },

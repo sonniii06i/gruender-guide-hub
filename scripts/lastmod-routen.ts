@@ -110,7 +110,7 @@ const SEITEN: Record<string, string[]> = {
   "/vertrag-widerrufen": ["src/pages/VertragWiderrufen.tsx"],
   "/kuendigen": ["src/pages/VertragKuendigen.tsx"],
   "/gruendungspaket": ["src/pages/Gruendungspaket.tsx"],
-  "/vergleich/gruendung-selbst-steuerberater-gruenderx": ["src/pages/funnel/VergleichWege.tsx"],
+  "/vergleich/gruendung-selbst-steuerberater-gruenderx": ["src/pages/funnel/VergleichWege.tsx", "src/data/vergleichWege.ts"],
 };
 
 const lies = (datei: string): string => readFileSync(join(WURZEL, datei), "utf8");
