@@ -79,7 +79,7 @@ const FAQ: { q: string; a: string }[] = [
   { q: "Was kostet ein Steuerberater für die Einnahmenüberschussrechnung?", a: `Nach der Steuerberatervergütungsverordnung 5 bis 30 Zehntel einer vollen Gebühr nach Tabelle B, bei einem Gegenstandswert von mindestens 17.500 €. Das sind ${EUER_NETTO} netto, mit ${USt} % Umsatzsteuer ${EUER_BRUTTO}. Steuererklärungen, Auslagen und Arbeit nach Zeit kommen dazu. Lass dir vorab ein Angebot geben; eine abweichende Vergütung muss in Textform vereinbart sein.` },
   { q: "Kann ich den Fragebogen zur steuerlichen Erfassung selbst ausfüllen?", a: "Ja. Du gibst ihn über ELSTER ab, innerhalb eines Monats nach Beginn der Tätigkeit (§ 138 Abs. 4 AO). Ein Steuerberater kann das übernehmen, muss es aber nicht." },
   { q: "Wann ist ein Steuerberater klar die bessere Wahl?", a: "Bei einer UG oder GmbH: Sie gelten als Handelsgesellschaft und sind buchführungs- und bilanzierungspflichtig (§ 13 Abs. 3 GmbHG, §§ 238, 242 HGB). Dazu bei Betriebsprüfungen, Auslandsstrukturen oder wenn du eine verbindliche Auskunft für deinen Einzelfall brauchst." },
-  { q: "Kann ich GründerX und Steuerberater kombinieren?", a: "Ja. GründerX hilft dir, vorbereitet zum Termin zu kommen und Belege, Fristen und Anmeldungen im Griff zu haben. " + NOT_INCLUDED },
+  { q: "Kann ich GründerX und Steuerberater kombinieren?", a: "Ja. GründerX hilft dir, vorbereitet zum Termin zu kommen und Belege, Fristen und Anmeldungen im Griff zu haben. Nicht enthalten: " + NOT_INCLUDED },
 ];
 
 const AUTOR = { "@type": "Person", name: "Sonni Buttke", jobTitle: "Gründer von GründerX", url: `${SITE}/impressum` };
