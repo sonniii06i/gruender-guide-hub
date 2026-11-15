@@ -3,6 +3,13 @@
   "routen": {
     "/": {"hash":"be5bbf26ec2a1817","lastmod":"2026-10-25"},
     "/agb": {"hash":"63bf2643e2a7090c","lastmod":"2026-10-26"},
+    "/buero": {"hash":"f5c43a3e2a516aa5","lastmod":"2026-11-15"},
+    "/buero/aktenvernichter": {"hash":"b19b640d45c12707","lastmod":"2026-11-15"},
+    "/buero/dockingstation": {"hash":"4fad1be88210dff6","lastmod":"2026-11-15"},
+    "/buero/drucker": {"hash":"d04bc9c054a0b38d","lastmod":"2026-11-15"},
+    "/buero/headset": {"hash":"da898def89921e26","lastmod":"2026-11-15"},
+    "/buero/monitor": {"hash":"b1f6b5d61c74309b","lastmod":"2026-11-15"},
+    "/buero/webcam": {"hash":"d6fdcc38c0839dc4","lastmod":"2026-11-15"},
     "/businessplan-erstellen": {"hash":"e29c88e3903d909e","lastmod":"2026-11-13"},
     "/datenschutz": {"hash":"608627e984e76117","lastmod":"2026-11-08"},
     "/e-rechnung-lesen": {"hash":"fb503ade825a78e8","lastmod":"2026-10-26"},

@@ -15,7 +15,8 @@ import { relatedToolsFor, relatedGuidesFor, BLOG_CATEGORY_TOPIC, type LinkItem }
 import { findGuideIndex } from "@/data/guideIndex";
 import { guideHref, guidesMergedInto } from "@/data/guideMerges";
 import { oeffentlichesLinkziel } from "@/lib/ratgeberLinks";
-import { PartnerFussnote, TextLink, linksAusMarkdown } from "@/components/PartnerLink";
+import { PartnerFussnote, TextLink } from "@/components/PartnerLink";
+import { linksAusMarkdown } from "@/config/partnerLinks";
 import { fremdKanonisch } from "@/data/ratgeberKanonisch";
 import { titelbildAbsolut, titelbildUrl } from "@/data/ratgeberBilder";
 import { prerenderDaten, prerenderDatenMerken } from "@/lib/prerender";

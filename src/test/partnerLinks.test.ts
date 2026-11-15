@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { hatPartnerlink, partnerUrl, partnerZiel, PARTNER_REL } from "@/config/partnerLinks";
-import { linksAusMarkdown } from "@/components/PartnerLink";
+import { hatPartnerlink, linksAusMarkdown, partnerUrl, partnerZiel, PARTNER_REL } from "@/config/partnerLinks";
 import { PROVIDERS } from "@/data/anbieter";
 import { BIZ_CARDS } from "@/data/businessCreditCards";
 import { STARTUP_PERKS } from "@/data/startupPerks";

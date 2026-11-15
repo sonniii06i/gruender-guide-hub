@@ -14,6 +14,7 @@
 //
 // Stand der Programme:
 //   Lexware Office DE = Awin 13787, sevDesk DE = Awin 15944 (joined, Klick-Probe 15.11.2026).
+//   Coolblue 85171, Euronics 14433, comspot 16001, shifter 16937 (Händler der Büro-Seiten).
 //   Shopify (Impact) und Amex (Freundschaftswerbung) stehen als fertige Links in den Daten
 //   und werden über FERTIGE_PARTNERLINKS erkannt und gekennzeichnet.
 
@@ -52,6 +53,12 @@ const PARTNER: Record<string, Partner> = {
     domains: ["sevdesk.de"],
     deeplink: true,
   },
+  // Händler der Büro-Kaufberatung (/buero). Awin joined, Deeplink auf die Produktseite per
+  // Klick-Probe am 15.11.2026 gemessen (Weiterleitung mit awc auf die verlinkte URL).
+  coolblue: { art: "awin", awinMid: 85171, ziel: "https://www.coolblue.de/", domains: ["coolblue.de"], deeplink: true },
+  euronics: { art: "awin", awinMid: 14433, ziel: "https://www.euronics.de/", domains: ["euronics.de"], deeplink: true },
+  comspot: { art: "awin", awinMid: 16001, ziel: "https://www.comspot.de/", domains: ["comspot.de"], deeplink: true },
+  shifter: { art: "awin", awinMid: 16937, ziel: "https://www.shifter.shop/", domains: ["shifter.shop"], deeplink: true },
 };
 
 /** Links, die schon ein Empfehlungslink sind (stehen so in den Daten) und nur gekennzeichnet werden. */
@@ -151,4 +158,9 @@ function istAnbieterseite(url: string): boolean {
 /** true, wenn mindestens einer der Links ein Partnerlink ist (für den Hinweis unter einer Liste). */
 export function hatPartnerlink(urls: Array<string | undefined | null>, opts?: { zielErhalten?: boolean }): boolean {
   return urls.some((u) => partnerZiel(u, "x", undefined, opts).partner);
+}
+
+/** Externe Linkziele aus einem Markdown-Text (für die Fußnote unter einem Ratgeber). */
+export function linksAusMarkdown(md: string): string[] {
+  return Array.from(md.matchAll(/\]\((https?:\/\/[^)\s]+)/g), (m) => m[1]);
 }

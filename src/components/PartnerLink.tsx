@@ -79,8 +79,3 @@ export function TextLink({
     </a>
   );
 }
-
-/** Externe Linkziele aus einem Markdown-Text (für die Fußnote unter dem Artikel). */
-export function linksAusMarkdown(md: string): string[] {
-  return Array.from(md.matchAll(/\]\((https?:\/\/[^)\s]+)/g), (m) => m[1]);
-}

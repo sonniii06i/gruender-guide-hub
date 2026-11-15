@@ -33,6 +33,7 @@ import { GUIDE_COPY, TOOL_COPY } from "../src/data/landingCopy";
 import { VORLAGEN, VORLAGEN_KATEGORIEN } from "../src/data/vorlagen";
 import { ZIELGRUPPEN } from "../src/data/zielgruppen";
 import { LEXIKON } from "../src/data/lexikon/katalog";
+import { BUERO } from "../src/data/buero/katalog";
 import { EIGENE_DATUMSLOGIK, festeRouten } from "./generate-sitemap";
 
 export const WURZEL = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -95,6 +96,7 @@ const SEITEN: Record<string, string[]> = {
   "/gratis-tools": ["src/pages/GratisTools.tsx", "src/lib/freetools/index.ts"],
   "/vorlagen": ["src/pages/Vorlagen.tsx"],
   "/lexikon": ["src/pages/Lexikon.tsx"],
+  "/buero": ["src/pages/Buero.tsx"],
   "/hackathon-starter-kit": ["src/pages/HackathonStarterKit.tsx"],
   "/startup-guthaben": ["src/pages/StartupGuthaben.tsx"],
   "/ki-assistent": ["src/pages/KiAssistent.tsx"],
@@ -164,6 +166,12 @@ function hubListe(path: string): { daten: string; quellen: Quelle[] } | null {
       quellen: ["src/data/lexikon/katalog.ts"],
     };
   }
+  if (path === "/buero") {
+    return {
+      daten: json(BUERO.map((s) => [s.slug, s.titel, s.kurz, s.stand])),
+      quellen: ["src/data/buero/katalog.ts"],
+    };
+  }
   return null;
 }
 
@@ -218,6 +226,19 @@ function standEinerRoute(path: string): RoutenStand | null {
     return {
       hash: sha(["lexikon", json(b), lies(inhalt)]),
       quellen: [inhalt, { datei: "src/data/lexikon/katalog.ts", anker: `    slug: "${b.slug}",`, grenze: SLUG_GRENZE }],
+    };
+  }
+
+  if ((m = path.match(/^\/buero\/([^/]+)$/))) {
+    const s = BUERO.find((x) => x.slug === m![1]);
+    if (!s) return null;
+    const inhalt = `src/data/buero/inhalte/${s.slug}.ts`;
+    if (!existsSync(join(WURZEL, inhalt))) return null;
+    // Preise (preise.json) gehören bewusst NICHT in den Hash: Ein Preis-Abgleich ist keine
+    // inhaltliche Änderung und soll lastmod nicht jeden Tag auf heute setzen.
+    return {
+      hash: sha(["buero", json(s), lies(inhalt)]),
+      quellen: [inhalt, { datei: "src/data/buero/katalog.ts", anker: `    slug: "${s.slug}",`, grenze: SLUG_GRENZE }],
     };
   }
 

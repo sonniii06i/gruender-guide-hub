@@ -1,0 +1,395 @@
+{
+ "produkte": {
+  "0043859764808": {
+   "angebote": [
+    {
+     "haendler": "Coolblue",
+     "preis": 152.0,
+     "url": "https://www.coolblue.de/produkt/876133/fellowes-lx85.html"
+    }
+   ],
+   "bild": "https://image.coolblue.de/max/500x500/products/1755916"
+  },
+  "0043859771103": {
+   "angebote": [
+    {
+     "haendler": "Coolblue",
+     "preis": 51.95,
+     "url": "https://www.coolblue.de/produkt/890891/fellowes-lx50.html"
+    }
+   ],
+   "bild": "https://image.coolblue.de/max/500x500/products/1755940"
+  },
+  "0196337284982": {
+   "angebote": [
+    {
+     "haendler": "Coolblue",
+     "preis": 242.9,
+     "url": "https://www.coolblue.de/produkt/945499/hp-officejet-pro-9132e.html"
+    },
+    {
+     "haendler": "Euronics",
+     "preis": 255.17,
+     "url": "https://www.euronics.de/computer-und-buero/drucker-und-scanner/multifunktionsgeraete/officejet-pro-9132e-aio-instant-ink-faehiges-multifunktionsgeraet-tinte-4065327855081"
+    }
+   ],
+   "bild": "https://image.coolblue.de/max/500x500/products/2018670"
+  },
+  "0198122157228": {
+   "angebote": [
+    {
+     "haendler": "Coolblue",
+     "preis": 151.9,
+     "url": "https://www.coolblue.de/produkt/964647/poly-voyager-focus-2-ms-kabelloses-office-headset.html"
+    }
+   ],
+   "bild": "https://image.coolblue.de/max/500x500/products/2169572"
+  },
+  "0198155418754": {
+   "angebote": [
+    {
+     "haendler": "Coolblue",
+     "preis": 143.9,
+     "url": "https://www.coolblue.de/produkt/965891/lenovo-thinkvision-t24-40.html"
+    },
+    {
+     "haendler": "shifter",
+     "preis": 166.01,
+     "url": "https://www.shifter.shop/product/1050324/lenovo-thinkvision-t24-40-24-led-monitor"
+    }
+   ],
+   "bild": "https://image.coolblue.nl/max/500x500/products/2187615"
+  },
+  "0198155827976": {
+   "angebote": [
+    {
+     "haendler": "Coolblue",
+     "preis": 234.99,
+     "url": "https://www.coolblue.de/produkt/973192/lenovo-thinkvision-t27q-40.html"
+    },
+    {
+     "haendler": "shifter",
+     "preis": 294.0,
+     "url": "https://www.shifter.shop/product/1052094/lenovo-thinkvision-t27q-40-27-led-monitor"
+    }
+   ],
+   "bild": "https://image.coolblue.nl/max/500x500/products/2239249"
+  },
+  "0745883813667": {
+   "angebote": [
+    {
+     "haendler": "Coolblue",
+     "preis": 147.9,
+     "url": "https://www.coolblue.de/produkt/888632/belkin-usb-c-dual-display-dockingstation.html"
+    },
+    {
+     "haendler": "comspot",
+     "preis": 172.0,
+     "url": "https://www.comspot.de/Belkin-USB-C-Dockingstation-fuer-zwei-Bildschirme-8-in-1-Schwarz/1019565"
+    },
+    {
+     "haendler": "shifter",
+     "preis": 172.0,
+     "url": "https://www.shifter.shop/product/1019565/belkin-usb-c-dockingstation-fuer-zwei-bildschirme-8-in-1"
+    }
+   ],
+   "bild": "https://image.coolblue.de/max/500x500/products/1613834"
+  },
+  "0745883829293": {
+   "angebote": [
+    {
+     "haendler": "Coolblue",
+     "preis": 347.9,
+     "url": "https://www.coolblue.de/produkt/920729/belkin-thunderbolt-4-pro-dock.html"
+    }
+   ],
+   "bild": "https://image.coolblue.de/max/500x500/products/1866363"
+  },
+  "0810086361496": {
+   "angebote": [
+    {
+     "haendler": "Coolblue",
+     "preis": 64.9,
+     "url": "https://www.coolblue.de/produkt/968203/satechi-usb-c-7-in-1-slim-multiport-adapter-mit-ethernet-space-grey.html"
+    },
+    {
+     "haendler": "comspot",
+     "preis": 67.9,
+     "url": "https://www.comspot.de/Satechi-USB-C-Slim-Multi-Port-Hub-7-in-1-Space-Grau/1046283"
+    },
+    {
+     "haendler": "shifter",
+     "preis": 67.9,
+     "url": "https://www.shifter.shop/product/1046283/satechi-usb-c-slim-multi-port-hub-7-in-1"
+    }
+   ],
+   "bild": "https://image.coolblue.de/max/500x500/products/2207728"
+  },
+  "4002432118939": {
+   "angebote": [
+    {
+     "haendler": "Coolblue",
+     "preis": 84.9,
+     "url": "https://www.coolblue.de/produkt/827668/leitz-iq-home-office-p4.html"
+    }
+   ],
+   "bild": "https://image.coolblue.de/max/500x500/products/1383269"
+  },
+  "4002432118953": {
+   "angebote": [
+    {
+     "haendler": "Coolblue",
+     "preis": 247.9,
+     "url": "https://www.coolblue.de/produkt/841118/leitz-iq-office-p5.html"
+    }
+   ],
+   "bild": "https://image.coolblue.de/max/500x500/products/1528594"
+  },
+  "4977766823951": {
+   "angebote": [
+    {
+     "haendler": "Coolblue",
+     "preis": 408.9,
+     "url": "https://www.coolblue.de/produkt/964659/brother-dcp-l3560cdw.html"
+    }
+   ],
+   "bild": "https://image.coolblue.de/max/500x500/products/2170311"
+  },
+  "4977766831413": {
+   "angebote": [
+    {
+     "haendler": "Coolblue",
+     "preis": 246.95,
+     "url": "https://www.coolblue.de/produkt/945560/brother-mfc-l2800dw.html"
+    },
+    {
+     "haendler": "comspot",
+     "preis": 278.0,
+     "url": "https://www.comspot.de/Brother-MFC-L2800DW-Multifunktionsdrucker-Schwarz-Laser/1050231"
+    },
+    {
+     "haendler": "shifter",
+     "preis": 278.0,
+     "url": "https://www.shifter.shop/product/1050231/brother-mfc-l2800dw-multifunktionsdrucker"
+    }
+   ],
+   "bild": "https://image.coolblue.de/max/500x500/products/2019257"
+  },
+  "4977766841894": {
+   "angebote": [
+    {
+     "haendler": "Euronics",
+     "preis": 129.99,
+     "url": "https://www.euronics.de/computer-und-buero/drucker-und-scanner/multifunktionsgeraete/dcp-j1360dw-multifunktionsgeraet-tinte-4065465224930"
+    },
+    {
+     "haendler": "Coolblue",
+     "preis": 139.9,
+     "url": "https://www.coolblue.de/produkt/967696/brother-dcp-j1360dw.html"
+    }
+   ],
+   "bild": "https://image.coolblue.de/max/500x500/products/2201199"
+  },
+  "5028252616799": {
+   "angebote": [
+    {
+     "haendler": "Coolblue",
+     "preis": 206.9,
+     "url": "https://www.coolblue.de/produkt/881323/rexel-optimum-autofeed-90x-p4.html"
+    }
+   ],
+   "bild": "https://image.coolblue.de/max/500x500/products/1581204"
+  },
+  "5099206030015": {
+   "angebote": [
+    {
+     "haendler": "Euronics",
+     "preis": 22.99,
+     "url": "https://www.euronics.de/computer-und-buero/computer-zubehoer/webcams-headsets-und-co./headsets/h390-pc-headset-4051168230347"
+    }
+   ],
+   "bild": "https://image.coolblue.de/max/500x500/products/2020730"
+  },
+  "5099206072060": {
+   "angebote": [
+    {
+     "haendler": "Coolblue",
+     "preis": 392.9,
+     "url": "https://www.coolblue.de/produkt/782581/logitech-meetup-conference-cam.html"
+    },
+    {
+     "haendler": "shifter",
+     "preis": 492.01,
+     "url": "https://www.shifter.shop/product/709372/logitech-meetup-konferenzkamera"
+    }
+   ],
+   "bild": "https://image.coolblue.de/max/500x500/products/1596629"
+  },
+  "5099206104914": {
+   "angebote": [
+    {
+     "haendler": "Euronics",
+     "preis": 89.0,
+     "url": "https://www.euronics.de/computer-und-buero/computer-zubehoer/webcams-headsets-und-co./webcams/brio-500-webcam-graphit-4065327479492"
+    },
+    {
+     "haendler": "Coolblue",
+     "preis": 96.9,
+     "url": "https://www.coolblue.de/produkt/915634/logitech-brio-500-full-hd-webcam-grau.html"
+    }
+   ],
+   "bild": "https://image.coolblue.de/max/500x500/products/2139539"
+  },
+  "5099206109315": {
+   "angebote": [
+    {
+     "haendler": "Coolblue",
+     "preis": 156.95,
+     "url": "https://www.coolblue.de/produkt/944912/logitech-mx-brio-ultra-hd-4k-webcam-schwarz.html"
+    }
+   ],
+   "bild": "https://image.coolblue.de/max/500x500/products/2021867"
+  },
+  "5099206113275": {
+   "angebote": [
+    {
+     "haendler": "shifter",
+     "preis": 41.0,
+     "url": "https://www.shifter.shop/product/1021672/logitech-brio-100-webcam"
+    },
+    {
+     "haendler": "Coolblue",
+     "preis": 41.9,
+     "url": "https://www.coolblue.de/produkt/936946/logitech-brio-100-weiss.html"
+    },
+    {
+     "haendler": "comspot",
+     "preis": 49.9,
+     "url": "https://www.comspot.de/Logitech-BRIO-100-Webcam-Weiss-USB-A-1920-x-1080-Full-HD/1021673"
+    }
+   ],
+   "bild": "https://image.coolblue.de/max/500x500/products/1973401"
+  },
+  "5099206120051": {
+   "angebote": [
+    {
+     "haendler": "Coolblue",
+     "preis": 75.9,
+     "url": "https://www.coolblue.de/produkt/951636/logitech-zone-300-kabelloses-office-headset-schwarz.html"
+    }
+   ],
+   "bild": "https://image.coolblue.de/max/500x500/products/2075040"
+  },
+  "5397321029441": {
+   "angebote": [
+    {
+     "haendler": "Coolblue",
+     "preis": 224.9,
+     "url": "https://www.coolblue.de/produkt/987214/dell-pro-p-p2426he.html"
+    }
+   ],
+   "bild": "https://image.coolblue.nl/max/500x500/products/1192542165"
+  },
+  "5706991022964": {
+   "angebote": [
+    {
+     "haendler": "Coolblue",
+     "preis": 160.95,
+     "url": "https://www.coolblue.de/produkt/864523/jabra-evolve2-65-link380a-ms-mono-black.html"
+    }
+   ],
+   "bild": "https://image.coolblue.de/max/500x500/products/1447359"
+  },
+  "5706991024630": {
+   "angebote": [
+    {
+     "haendler": "Coolblue",
+     "preis": 200.9,
+     "url": "https://www.coolblue.de/produkt/894480/jabra-panacast-20.html"
+    }
+   ],
+   "bild": "https://image.coolblue.de/max/500x500/products/1647665"
+  },
+  "5706991031317": {
+   "angebote": [
+    {
+     "haendler": "Coolblue",
+     "preis": 295.9,
+     "url": "https://www.coolblue.de/produkt/958349/jabra-engage-75-se-kabelloses-office-headset.html"
+    }
+   ],
+   "bild": "https://image.coolblue.de/max/500x500/products/2126846"
+  },
+  "6971889230649": {
+   "angebote": [
+    {
+     "haendler": "Coolblue",
+     "preis": 94.9,
+     "url": "https://www.coolblue.de/produkt/987888/obsbot-meet-se-full-hd-webcam-space-grey.html"
+    }
+   ],
+   "bild": "https://image.coolblue.de/max/500x500/products/153121596"
+  },
+  "8595611705861": {
+   "angebote": [
+    {
+     "haendler": "Coolblue",
+     "preis": 163.9,
+     "url": "https://www.coolblue.de/produkt/942561/i-tec-usb-a-usb-c-dual-display-dockingstation-100-w.html"
+    }
+   ],
+   "bild": "https://image.coolblue.de/max/500x500/products/2193407"
+  },
+  "8595611706592": {
+   "angebote": [
+    {
+     "haendler": "Coolblue",
+     "preis": 144.9,
+     "url": "https://www.coolblue.de/produkt/966867/i-tec-usb-c-triple-display-dockingstation-100-w.html"
+    }
+   ],
+   "bild": "https://image.coolblue.de/max/500x500/products/2193400"
+  },
+  "8715946732558": {
+   "angebote": [
+    {
+     "haendler": "Coolblue",
+     "preis": 333.9,
+     "url": "https://www.coolblue.de/produkt/969988/epson-ecotank-et-3950.html"
+    },
+    {
+     "haendler": "Euronics",
+     "preis": 369.99,
+     "url": "https://www.euronics.de/computer-und-buero/drucker-und-scanner/multifunktionsgeraete/ecotank-et-3950-multifunktionsgeraet-tinte-schwarz-4065465202495"
+    }
+   ],
+   "bild": "https://image.coolblue.de/max/500x500/products/2219556"
+  },
+  "8806087974850": {
+   "angebote": [
+    {
+     "haendler": "Coolblue",
+     "preis": 239.0,
+     "url": "https://www.coolblue.de/produkt/914329/lg-27up850k-w-aeu.html"
+    }
+   ],
+   "bild": "https://image.coolblue.nl/max/500x500/products/1588316"
+  },
+  "8806094974751": {
+   "angebote": [
+    {
+     "haendler": "Coolblue",
+     "preis": 279.0,
+     "url": "https://www.coolblue.de/produkt/945605/samsung-viewfinity-s6-s65uc-ls34c652uauxen-curved.html"
+    },
+    {
+     "haendler": "shifter",
+     "preis": 359.0,
+     "url": "https://www.shifter.shop/product/1049655/samsung-viewfinity-s6-s34c652uau-34-led-monitor"
+    }
+   ],
+   "bild": "https://image.coolblue.nl/max/500x500/products/2028189"
+  }
+ },
+ "stand": "2026-11-15"
+}
