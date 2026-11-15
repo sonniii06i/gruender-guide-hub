@@ -1,23 +1,23 @@
 {
- "stand": "2026-11-14T11:34:47.986Z",
+ "stand": "2026-11-15T12:02:12.373Z",
  "quellen": {
   "foerderung-bund": {
    "ok": true,
    "roh": 20,
    "uebernommen": 20,
    "verworfen": {},
-   "letzterErfolg": "2026-11-14T11:33:23.890Z"
+   "letzterErfolg": "2026-11-15T12:00:49.718Z"
   },
   "eu-calls": {
    "ok": true,
    "roh": 1187,
-   "uebernommen": 25,
+   "uebernommen": 26,
    "verworfen": {
-    "Frist vorbei (Status noch offen)": 625,
-    "kein KMU-/Startup-Bezug": 356,
+    "Frist vorbei (Status noch offen)": 602,
+    "kein KMU-/Startup-Bezug": 371,
     "abgesagt": 1
    },
-   "letzterErfolg": "2026-11-14T11:33:46.557Z"
+   "letzterErfolg": "2026-11-15T12:01:11.246Z"
   },
   "wettbewerbe": {
    "ok": true,
@@ -27,7 +27,7 @@
     "keine offene Frist": 158,
     "SPRIND: nicht offen": 24
    },
-   "letzterErfolg": "2026-11-14T11:33:49.891Z"
+   "letzterErfolg": "2026-11-15T12:01:13.948Z"
   },
   "ausschreibungen": {
    "ok": true,
@@ -36,51 +36,35 @@
    "verworfen": {
     "keine offene Angebotsfrist": 25
    },
-   "letzterErfolg": "2026-11-14T11:33:53.398Z"
+   "letzterErfolg": "2026-11-15T12:01:17.362Z"
   },
   "recht": {
    "ok": true,
    "roh": 500,
-   "uebernommen": 6,
+   "uebernommen": 5,
    "verworfen": {
-    "kein Gründer-Bezug": 57,
-    "älter als 45 Tage": 437
+    "kein Gründer-Bezug": 51,
+    "älter als 45 Tage": 444
    },
    "teilfehler": [
     "BMF-RSS: HTTP 503 https://www.bundesfinanzministerium.de/SiteGlobals/Functions/RSSFeed/DE/Steuern/RSSSteuern"
    ],
-   "letzterErfolg": "2026-11-14T11:34:29.557Z"
+   "letzterErfolg": "2026-11-15T12:01:54.791Z"
   },
   "messen": {
    "ok": true,
-   "roh": 230,
+   "roh": 222,
    "uebernommen": 2,
    "verworfen": {
     "nicht in Deutschland": 20,
-    "Karriere-/Bildungsmesse": 192,
-    "kein Gründer-/Business-Bezug": 16
+    "Karriere-/Bildungsmesse": 185,
+    "kein Gründer-/Business-Bezug": 15
    },
-   "letzterErfolg": "2026-11-14T11:34:47.975Z"
+   "letzterErfolg": "2026-11-15T12:02:12.358Z"
   }
  },
  "anzahl": 329,
  "eintraege": [
-  {
-   "id": "recht-1h5zd7c",
-   "kategorie": "recht",
-   "quelle": "Bundesgesetzblatt",
-   "titel": "Verordnung über den elektronischen Austausch zwischen Notaren und Finanzämtern im Bereich der Grunderwerbsteuer",
-   "geber": "BGBl. 2026 I Nr. 281 vom 30.09.2026",
-   "url": "https://www.recht.bund.de/eli/bund/bgbl-1/2026/281",
-   "datum": "2026-09-30",
-   "region": "bund",
-   "tags": [
-    "Gesetz/Verordnung"
-   ],
-   "kurz": "",
-   "_q": "recht",
-   "entdeckt": "2026-10-08"
-  },
   {
    "id": "recht-z1wr6y",
    "kategorie": "recht",
@@ -478,22 +462,6 @@
    "kurz": "",
    "_q": "ausschreibungen",
    "entdeckt": "2026-10-20"
-  },
-  {
-   "id": "ausschreibungen-1ejead8",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "KI-Assistent für die Wohngeldstelle",
-   "geber": "Landratsamt Unstrut-Hainich-Kreis Angebotsfrist: 18.11.2026 09:00 Veröffentlichu",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/eVergabe/898518.html#track=feed-callforbids",
-   "frist": "2026-11-18",
-   "region": "bund",
-   "tags": [
-    "IT"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-14"
   },
   {
    "id": "ausschreibungen-4solpt",
@@ -1548,6 +1516,22 @@
    "entdeckt": "2026-10-27"
   },
   {
+   "id": "ausschreibungen-nb4osw",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Geotechnischer ANalyse Assistent (GANA)",
+   "geber": "Bundesgesellschaft für Endlagerung mbH (BGE) Angebotsfrist: 26.11.2026 10:00 Ver",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/subreport15/2026/11/E45577987.html#track=feed-callforbids",
+   "frist": "2026-11-26",
+   "region": "bund",
+   "tags": [
+    "IT"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-11-15"
+  },
+  {
    "id": "ausschreibungen-1u2s07q",
    "kategorie": "ausschreibung",
    "quelle": "service.bund.de",
@@ -2394,50 +2378,6 @@
    "entdeckt": "2026-10-08"
   },
   {
-   "id": "eu-calls-1o42fjz",
-   "kategorie": "eu",
-   "quelle": "EU Funding & Tenders",
-   "titel": "European Partnership on Innovative SMEs",
-   "geber": "European Partnership on Innovative SMEs/Innowwide CALL 5",
-   "url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/competitive-calls-cs/44087099",
-   "frist": "2026-12-01",
-   "region": "EU",
-   "tags": [],
-   "kurz": "HORIZON-EIE-2021-INNOVSMES-01-01",
-   "_q": "eu-calls",
-   "entdeckt": "2026-11-11"
-  },
-  {
-   "id": "eu-calls-veb6ya",
-   "kategorie": "eu",
-   "quelle": "EU Funding & Tenders",
-   "titel": "Rising Innovators category",
-   "geber": "The European Prize for Women Innovators",
-   "url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-EIC-2026-PRIZE-WIP-RisingInnovators",
-   "frist": "2026-12-01",
-   "region": "EU",
-   "tags": [
-    "EIC"
-   ],
-   "kurz": "HORIZON-EIC-2026-PRIZE-WIP-RisingInnovators",
-   "_q": "eu-calls",
-   "entdeckt": "2026-11-09"
-  },
-  {
-   "id": "eu-calls-1rndy5x",
-   "kategorie": "eu",
-   "quelle": "EU Funding & Tenders",
-   "titel": "Women Leadership Category",
-   "geber": "The European Prize for Women Innovators",
-   "url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-EIT-2026-PRIZE-WIP-LEADERSHIP",
-   "frist": "2026-12-01",
-   "region": "EU",
-   "tags": [],
-   "kurz": "HORIZON-EIT-2026-PRIZE-WIP-LEADERSHIP",
-   "_q": "eu-calls",
-   "entdeckt": "2026-11-12"
-  },
-  {
    "id": "eu-calls-q583pu",
    "kategorie": "eu",
    "quelle": "EU Funding & Tenders",
@@ -2452,6 +2392,20 @@
    "kurz": "HORIZON-EIC-2026-PRIZE-WIP",
    "_q": "eu-calls",
    "entdeckt": "2026-11-07"
+  },
+  {
+   "id": "eu-calls-1rndy5x",
+   "kategorie": "eu",
+   "quelle": "EU Funding & Tenders",
+   "titel": "Women Leadership Category",
+   "geber": "The European Prize for Women Innovators",
+   "url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-EIT-2026-PRIZE-WIP-LEADERSHIP",
+   "frist": "2026-12-01",
+   "region": "EU",
+   "tags": [],
+   "kurz": "HORIZON-EIT-2026-PRIZE-WIP-LEADERSHIP",
+   "_q": "eu-calls",
+   "entdeckt": "2026-11-12"
   },
   {
    "id": "ausschreibungen-1rswsy5",
@@ -2516,6 +2470,22 @@
    "kurz": "",
    "_q": "ausschreibungen",
    "entdeckt": "2026-10-30"
+  },
+  {
+   "id": "ausschreibungen-ztbvdo",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Technischer Website-Support",
+   "geber": "Stiftung Staatstheater Nürnberg Angebotsfrist: 01.12.2026 08:00 Veröffentlichung",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/healyhudson/2026/11/0b2ff579-a9c2-4371-a994-aed4e1f382b8.html#track=feed-callforbids",
+   "frist": "2026-12-01",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-11-15"
   },
   {
    "id": "ausschreibungen-fh2m2d",
@@ -2854,38 +2824,6 @@
    "entdeckt": "2026-11-05"
   },
   {
-   "id": "ausschreibungen-1aejb46",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Spezifisches IT-Projektmanagement für das Informationstechnikzentrum Bund - Los 4",
-   "geber": "Beschaffungsamt des BMI Angebotsfrist: 03.12.2026 11:30 Veröffentlichungsende: 0",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/eVergabe/903066.html#track=feed-callforbids",
-   "frist": "2026-12-03",
-   "region": "bund",
-   "tags": [
-    "IT"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-30"
-  },
-  {
-   "id": "ausschreibungen-l5g6rn",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Spezifisches IT-Projektmanagement für das Informationstechnikzentrum Bund - Los 3",
-   "geber": "Beschaffungsamt des BMI Angebotsfrist: 03.12.2026 11:30 Veröffentlichungsende: 0",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/eVergabe/903063.html#track=feed-callforbids",
-   "frist": "2026-12-03",
-   "region": "bund",
-   "tags": [
-    "IT"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-30"
-  },
-  {
    "id": "ausschreibungen-u2alwj",
    "kategorie": "ausschreibung",
    "quelle": "service.bund.de",
@@ -2950,12 +2888,12 @@
    "entdeckt": "2026-10-30"
   },
   {
-   "id": "ausschreibungen-1w0m1gs",
+   "id": "ausschreibungen-1aejb46",
    "kategorie": "ausschreibung",
    "quelle": "service.bund.de",
-   "titel": "Rahmenvertrag für Dienstleistungen im Bereich DOMEA",
-   "geber": "Informationstechnikzentrum Bund (ITZBund) Angebotsfrist: 03.12.2026 12:00 Veröff",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/eVergabe/899123.html#track=feed-callforbids",
+   "titel": "Spezifisches IT-Projektmanagement für das Informationstechnikzentrum Bund - Los 4",
+   "geber": "Beschaffungsamt des BMI Angebotsfrist: 03.12.2026 11:30 Veröffentlichungsende: 0",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/eVergabe/903066.html#track=feed-callforbids",
    "frist": "2026-12-03",
    "region": "bund",
    "tags": [
@@ -2963,7 +2901,23 @@
    ],
    "kurz": "",
    "_q": "ausschreibungen",
-   "entdeckt": "2026-11-13"
+   "entdeckt": "2026-10-30"
+  },
+  {
+   "id": "ausschreibungen-l5g6rn",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Spezifisches IT-Projektmanagement für das Informationstechnikzentrum Bund - Los 3",
+   "geber": "Beschaffungsamt des BMI Angebotsfrist: 03.12.2026 11:30 Veröffentlichungsende: 0",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/eVergabe/903063.html#track=feed-callforbids",
+   "frist": "2026-12-03",
+   "region": "bund",
+   "tags": [
+    "IT"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-10-30"
   },
   {
    "id": "ausschreibungen-lvsomh",
@@ -3830,6 +3784,22 @@
    "entdeckt": "2026-11-11"
   },
   {
+   "id": "ausschreibungen-qgg2oc",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Sicherheitsdienstleistungen für eine Gemeinschaftsunterkunft des Kyffhäuserkreises mit Bewachungsvertrag vom 01.02.2027 bis 31.07.2027",
+   "geber": "Landratsamt Kyffhäuserkreis",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/evergabede/2026/11/7093892.html#track=feed-callforbids",
+   "frist": "2026-12-11",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-11-15"
+  },
+  {
    "id": "ausschreibungen-g8rlq8",
    "kategorie": "ausschreibung",
    "quelle": "service.bund.de",
@@ -3970,6 +3940,22 @@
    "kurz": "",
    "_q": "ausschreibungen",
    "entdeckt": "2026-11-11"
+  },
+  {
+   "id": "ausschreibungen-xw90m4",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "LOS 2 - Rahmenvereinbarung für Planungs- und Sachverständigenleistungen für Bildungsstandorte und kommunale Immobilien - Leistungsbereich Sachverständige",
+   "geber": "Schulbau Hamburg & Gebäudemanagement Hamburg GmbH Angebotsfrist: 14.12.2026 14:0",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/healyhudson/2026/11/f7a788ec-23a0-49ca-8c59-5373bdcb239e.html#track=feed-callforbids",
+   "frist": "2026-12-14",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-11-15"
   },
   {
    "id": "ausschreibungen-zwyxqh",
@@ -4180,36 +4166,20 @@
    "entdeckt": "2026-11-14"
   },
   {
-   "id": "ausschreibungen-20shsz",
+   "id": "ausschreibungen-yo1k0q",
    "kategorie": "ausschreibung",
    "quelle": "service.bund.de",
-   "titel": "Generalplanerleistungen eines Ersatzneubaus \"Technikum\" am Berufskolleg Berliner Platz",
-   "geber": "Hochsauerlandkreis Angebotsfrist: 14.12.2026 09:00 Veröffentlichungsende: 14.12.",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/vmp-westfalen/2026/11/57246467.html#track=feed-callforbids",
-   "frist": "2026-12-14",
+   "titel": "Beschaffung einer neuen XDR-Lösung",
+   "geber": "Heinrich-Heine-Universität Düsseldorf Angebotsfrist: 15.12.2026 12:00 Veröffentl",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/vmp-nrw/2026/11/230099.html#track=feed-callforbids",
+   "frist": "2026-12-15",
    "region": "bund",
    "tags": [
-    "Dienstleistung"
+    "IT"
    ],
    "kurz": "",
    "_q": "ausschreibungen",
-   "entdeckt": "2026-11-14"
-  },
-  {
-   "id": "ausschreibungen-157hnn7",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Korridorsanierung Remagen - Mainz - Bauüberwachung",
-   "geber": "DB InfraGO AG ? Geschäftsbereich Fahrweg (Bukr 16) Angebotsfrist: 14.12.2026 08:",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/healyhudson/2026/11/69c9e262-9893-42b3-bb85-4db2714fbd10.html#track=feed-callforbids",
-   "frist": "2026-12-14",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-11-13"
+   "entdeckt": "2026-11-15"
   },
   {
    "id": "ausschreibungen-1gspjdy",
@@ -4242,6 +4212,54 @@
    "kurz": "",
    "_q": "ausschreibungen",
    "entdeckt": "2026-11-13"
+  },
+  {
+   "id": "ausschreibungen-epr5qm",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "unterstützende BÜW-Leistung zur Ern. Gfb Seddin - Gleise 4xx - Str. 6119 km33,4 - 34,6",
+   "geber": "DB InfraGO AG ? Geschäftsbereich Fahrweg (Bukr 16) Angebotsfrist: 15.12.2026 09:",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/healyhudson/2026/11/1749b200-f397-477f-9b02-9528e10ad231.html#track=feed-callforbids",
+   "frist": "2026-12-15",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-11-15"
+  },
+  {
+   "id": "ausschreibungen-1x8jb8m",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Unterhaltsreinigung der TU Berlin - sechs Lose",
+   "geber": "Technische Universität Berlin Angebotsfrist: 15.12.2026 12:00 Veröffentlichungse",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/dtvp/2026/11/351483.html#track=feed-callforbids",
+   "frist": "2026-12-15",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-11-15"
+  },
+  {
+   "id": "ausschreibungen-4bcust",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Rollout intelligenter Messsysteme",
+   "geber": "Stadtwerke Bonn GmbH Angebotsfrist: 15.12.2026 11:00 Veröffentlichungsende: 15.1",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/vmp-mebit/2026/11/95615.html#track=feed-callforbids",
+   "frist": "2026-12-15",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-11-15"
   },
   {
    "id": "ausschreibungen-8bhzy6",
@@ -4388,38 +4406,6 @@
    "entdeckt": "2026-11-14"
   },
   {
-   "id": "ausschreibungen-1osfz3g",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "2026-0698 WBD Bereitstellung von Leiharbeitnehmern in der Abfallwirtschaft für das Jahr 2027",
-   "geber": "Wirtschaftsbetriebe Duisburg - AöR Angebotsfrist: 15.12.2026 10:00 Veröffentlich",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/vmp-gkd/2026/11/116149.html#track=feed-callforbids",
-   "frist": "2026-12-15",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-11-14"
-  },
-  {
-   "id": "ausschreibungen-ic4h1n",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Kanalreinigung und -inspektion im Verbandsgebiet des AZV für die Jahre 2027-2028",
-   "geber": "Abwasser-Zweckverband Südholstein Angebotsfrist: 15.12.2026 09:00 Veröffentlichu",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/dtvp/2026/11/351312.html#track=feed-callforbids",
-   "frist": "2026-12-15",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-11-14"
-  },
-  {
    "id": "ausschreibungen-jtkm3s",
    "kategorie": "ausschreibung",
    "quelle": "service.bund.de",
@@ -4484,6 +4470,20 @@
    "entdeckt": "2026-10-29"
   },
   {
+   "id": "eu-calls-na68jq",
+   "kategorie": "eu",
+   "quelle": "EU Funding & Tenders",
+   "titel": "EITFOOD Business Plan 2026",
+   "geber": "Seedbed Venture Catalyst Call for Startups",
+   "url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/competitive-calls-cs/48939719",
+   "frist": "2026-12-16",
+   "region": "EU",
+   "tags": [],
+   "kurz": "HORIZON-EIT-2025-KIC-IBA-F",
+   "_q": "eu-calls",
+   "entdeckt": "2026-11-15"
+  },
+  {
    "id": "ausschreibungen-pe4slc",
    "kategorie": "ausschreibung",
    "quelle": "service.bund.de",
@@ -4498,6 +4498,22 @@
    "kurz": "",
    "_q": "ausschreibungen",
    "entdeckt": "2026-11-13"
+  },
+  {
+   "id": "ausschreibungen-1mv3ejm",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Leistungen zu Sicherheit und Gesundheitsschutz auf Baustellen",
+   "geber": "Senatsverwaltung fuer Mobilitaet",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/svb/2026/11/199625.html#track=feed-callforbids",
+   "frist": "2026-12-16",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-11-15"
   },
   {
    "id": "ausschreibungen-1039y54",
@@ -4612,38 +4628,6 @@
    "entdeckt": "2026-11-14"
   },
   {
-   "id": "ausschreibungen-1xdl3hv",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "IGM26E580038: NUK Ahlhorn Sicherheitsdienstleistungen",
-   "geber": "Staatliches Baumanagement Region Nord-West Angebotsfrist: 17.12.2026 09:00 Veröf",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/vmp-nds/2026/11/137700.html#track=feed-callforbids",
-   "frist": "2026-12-17",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-11-14"
-  },
-  {
-   "id": "ausschreibungen-epykk0",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Bundesstadt Bonn: Wasserhaltung, Reinigung und Befahrung des Hauptsammlers in Rüngsdorf",
-   "geber": "Bundesstadt Bonn - Referat Vergabedienste Angebotsfrist: 17.12.2026 10:00 Veröff",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/vmp-mebit/2026/11/95528.html#track=feed-callforbids",
-   "frist": "2026-12-17",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-11-14"
-  },
-  {
    "id": "ausschreibungen-1h17zzz",
    "kategorie": "ausschreibung",
    "quelle": "service.bund.de",
@@ -4660,22 +4644,6 @@
    "entdeckt": "2026-11-14"
   },
   {
-   "id": "ausschreibungen-1dpw6lq",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Unterhaltsreinigung und Beschaffung von Verbrauchsmaterial.",
-   "geber": "Landkreis Marburg-Biedenkopf Angebotsfrist: 22.12.2026 11:15 Veröffentlichungsen",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/healyhudson/2026/11/b19d48d1-8f0e-400f-8f16-0e5c3c2e8a4d.html#track=feed-callforbids",
-   "frist": "2026-12-22",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-11-13"
-  },
-  {
    "id": "eu-calls-1qw1nvm",
    "kategorie": "eu",
    "quelle": "EU Funding & Tenders",
@@ -4688,20 +4656,6 @@
    "kurz": "HORIZON-EIE-2027-02-CONNECT-01",
    "_q": "eu-calls",
    "entdeckt": "2026-11-01"
-  },
-  {
-   "id": "eu-calls-11y035z",
-   "kategorie": "eu",
-   "quelle": "EU Funding & Tenders",
-   "titel": "EITFOOD Business Plan 2026",
-   "geber": "Open Call for Implementing Participants of the Empowering Women in Agrifood (EWA) Programme 2027-2028",
-   "url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/competitive-calls-cs/48939719",
-   "frist": "2027-01-05",
-   "region": "EU",
-   "tags": [],
-   "kurz": "HORIZON-EIT-2025-KIC-IBA-F",
-   "_q": "eu-calls",
-   "entdeckt": "2026-11-14"
   },
   {
    "id": "ausschreibungen-ppj8ls",
@@ -4814,20 +4768,6 @@
    "kurz": "HORIZON-EIC-2025-WOMENTECH",
    "_q": "eu-calls",
    "entdeckt": "2026-10-22"
-  },
-  {
-   "id": "eu-calls-1ncqmvz",
-   "kategorie": "eu",
-   "quelle": "EU Funding & Tenders",
-   "titel": "Strengthening cybersecurity capacities of European SMEs with cybersecure AI-powered solutions",
-   "geber": "Strengthening European Cybersecurity Technologies, Capacities and Preparedness",
-   "url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/DIGITAL-ECCC-2027-DEPLOY-CYBER-11-AI4SME",
-   "frist": "2027-01-14",
-   "region": "EU",
-   "tags": [],
-   "kurz": "DIGITAL-ECCC-2027-DEPLOY-CYBER-11-AI4SME",
-   "_q": "eu-calls",
-   "entdeckt": "2026-11-14"
   },
   {
    "id": "foerderung-bund-yu6j0z",
@@ -4988,6 +4928,20 @@
    "entdeckt": "2026-11-14"
   },
   {
+   "id": "eu-calls-1qf8jsx",
+   "kategorie": "eu",
+   "quelle": "EU Funding & Tenders",
+   "titel": "Pilot access schemes to Technology Infrastructures for European startups, scaleups and innovative SMEs (CSA)",
+   "geber": "INDUSTRY",
+   "url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-CL4-2027-01-MAT-PROD-47",
+   "frist": "2027-02-02",
+   "region": "EU",
+   "tags": [],
+   "kurz": "HORIZON-CL4-2027-01-MAT-PROD-47",
+   "_q": "eu-calls",
+   "entdeckt": "2026-11-15"
+  },
+  {
    "id": "eu-calls-1wyaykc",
    "kategorie": "eu",
    "quelle": "EU Funding & Tenders",
@@ -5048,6 +5002,20 @@
    "entdeckt": "2026-11-01"
   },
   {
+   "id": "eu-calls-3qti75",
+   "kategorie": "eu",
+   "quelle": "EU Funding & Tenders",
+   "titel": "European Partnership on Innovative SMEs",
+   "geber": "European Partnership on Innovative SMEs/Eurostars: joint transnational call for proposals (CALL 12 of Eurostars-3)",
+   "url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/competitive-calls-cs/44087099",
+   "frist": "2027-03-04",
+   "region": "EU",
+   "tags": [],
+   "kurz": "HORIZON-EIE-2021-INNOVSMES-01-01",
+   "_q": "eu-calls",
+   "entdeckt": "2026-11-15"
+  },
+  {
    "id": "foerderung-bund-1ufp3mx",
    "kategorie": "foerderung",
    "quelle": "foerderinfo.bund.de",
@@ -5106,6 +5074,22 @@
    "kurz": "HORIZON-EIT-2025-MOC-IBA",
    "_q": "eu-calls",
    "entdeckt": "2026-10-21"
+  },
+  {
+   "id": "eu-calls-1gsxce",
+   "kategorie": "eu",
+   "quelle": "EU Funding & Tenders",
+   "titel": "EIC STEP Defence",
+   "geber": "EIC STEP Scale Up Defence",
+   "url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-EIC-2027-DEFENCE-01",
+   "frist": "2027-06-01",
+   "region": "EU",
+   "tags": [
+    "EIC"
+   ],
+   "kurz": "HORIZON-EIC-2027-DEFENCE-01",
+   "_q": "eu-calls",
+   "entdeckt": "2026-11-15"
   },
   {
    "id": "messen-1o9j8pp",
@@ -5171,6 +5155,20 @@
    "kurz": "HORIZON-EIC-2021-EEN-01-01",
    "_q": "eu-calls",
    "entdeckt": "2026-10-21"
+  },
+  {
+   "id": "eu-calls-1lwghpx",
+   "kategorie": "eu",
+   "quelle": "EU Funding & Tenders",
+   "titel": "Women’s, LGBTIQ and minority rights in a context of autocracy, conflict and geopolitical shifts",
+   "geber": "Culture, Creativity and Inclusive Society - 2027",
+   "url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-CL2-2027-01-DEMOCRACY-02",
+   "frist": "2027-09-23",
+   "region": "EU",
+   "tags": [],
+   "kurz": "HORIZON-CL2-2027-01-DEMOCRACY-02",
+   "_q": "eu-calls",
+   "entdeckt": "2026-11-15"
   },
   {
    "id": "eu-calls-1eltoum",
