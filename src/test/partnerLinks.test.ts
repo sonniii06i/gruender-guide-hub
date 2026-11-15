@@ -66,6 +66,16 @@ describe("partnerZiel (zentral über den Hostnamen, 15.11.2026)", () => {
     expect(partnerZiel("https://sevdesk.de/preise/", "ratgeber", undefined, { zielErhalten: true }).partner).toBe(true);
     expect(hatPartnerlink([quelle], { zielErhalten: true })).toBe(false);
   });
+  it("Qonto (PartnerStack): fester Empfehlungslink für Start- und Preisseite, sonst unverändert", () => {
+    const link = "https://partnerships.qonto.com/z685bcx8hsrj";
+    expect(partnerZiel("https://qonto.com/de", "bankvergleich")).toEqual({ href: link, partner: true });
+    expect(partnerZiel("https://qonto.com/de/pricing", "geschaeftskarten")).toEqual({ href: link, partner: true });
+    expect(partnerUrl("qonto", "anbieter")).toBe(link);
+    // Ratgeber-Fließtext: Verweis auf die Startseite wird Partnerlink, ein Fachartikel bleibt Quelle
+    expect(partnerZiel("https://qonto.com/de", "ratgeber", undefined, { zielErhalten: true }).partner).toBe(true);
+    const artikel = "https://qonto.com/de/blog/unternehmensgruendung/geschaeftskonto";
+    expect(partnerZiel(artikel, "anbieter")).toEqual({ href: artikel, partner: false });
+  });
   it("meldet, ob eine Liste Partnerlinks enthält (Hinweiszeile)", () => {
     expect(hatPartnerlink(["https://candis.io", "https://sevdesk.de"])).toBe(true);
     expect(hatPartnerlink(["https://candis.io", null, undefined])).toBe(false);

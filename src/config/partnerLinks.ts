@@ -14,6 +14,7 @@
 //
 // Stand der Programme:
 //   Lexware Office DE = Awin 13787, sevDesk DE = Awin 15944 (joined, Klick-Probe 15.11.2026).
+//   Qonto = PartnerStack (fester Empfehlungslink).
 //   Coolblue 85171, Euronics 14433, comspot 16001, shifter 16937 (Händler der Büro-Seiten).
 //   Shopify (Impact) und Amex (Freundschaftswerbung) stehen als fertige Links in den Daten
 //   und werden über FERTIGE_PARTNERLINKS erkannt und gekennzeichnet.
@@ -53,6 +54,10 @@ const PARTNER: Record<string, Partner> = {
     domains: ["sevdesk.de"],
     deeplink: true,
   },
+  // Qonto: PartnerStack, Zusage 05.11.2026, Link aus dem Partner-Profil (15.11.2026 gemessen:
+  // 302 auf qonto.com/de mit Partner-Schlüssel). Fester Link ohne Deeplink → nur Verweise auf
+  // Start-, Länder- und Preisseite werden umgestellt.
+  qonto: { art: "link", url: "https://partnerships.qonto.com/z685bcx8hsrj", domains: ["qonto.com"] },
   // Händler der Büro-Kaufberatung (/buero). Awin joined, Deeplink auf die Produktseite per
   // Klick-Probe am 15.11.2026 gemessen (Weiterleitung mit awc auf die verlinkte URL).
   coolblue: { art: "awin", awinMid: 85171, ziel: "https://www.coolblue.de/", domains: ["coolblue.de"], deeplink: true },
