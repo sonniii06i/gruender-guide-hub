@@ -3,6 +3,7 @@ import { hatPartnerlink, partnerUrl, partnerZiel, PARTNER_REL } from "@/config/p
 import { linksAusMarkdown } from "@/components/PartnerLink";
 import { PROVIDERS } from "@/data/anbieter";
 import { BIZ_CARDS } from "@/data/businessCreditCards";
+import { STARTUP_PERKS } from "@/data/startupPerks";
 
 describe("partnerLinks (Awin, 27.10.2026)", () => {
   it("baut Awin-Deeplinks nur für angenommene Programme", () => {
@@ -49,8 +50,15 @@ describe("partnerZiel (zentral über den Hostnamen, 15.11.2026)", () => {
   });
   it("lässt Quellenangaben im Fließtext stehen, wenn das Ziel sonst verloren ginge", () => {
     const quelle = "https://www.lexware.de/wissen/gruendung/steuernummer-beantragen/";
-    // Vergleichsseite: Anbieter-Link wird Partnerlink. Fließtext: Lexware kann keinen Deeplink → Quelle bleibt.
-    expect(partnerZiel(quelle, "anbieter").partner).toBe(true);
+    // Lexware reicht keine Deeplinks durch → eine bestimmte Unterseite bleibt überall unverändert
+    expect(partnerZiel(quelle, "anbieter")).toEqual({ href: quelle, partner: false });
+    // Regression 15.11.2026: Startup-Guthaben „Lexware Gründeredition“ darf nicht auf die Preisseite führen
+    const perk = STARTUP_PERKS.find((x) => x.slug === "lexware-gruenderedition")!;
+    expect(partnerZiel(perk.url, "startup-guthaben")).toEqual({ href: perk.url, partner: false });
+    // sevDesk reicht Deeplinks durch → auf Vergleichsseiten bleibt das Ziel, die Kennzeichnung kommt dazu
+    const tief = partnerZiel("https://sevdesk.de/funktionen/rechnungsprogramm/", "anbieter-direkt");
+    expect(tief.partner).toBe(true);
+    expect(decodeURIComponent(tief.href.split("ued=")[1])).toBe("https://sevdesk.de/funktionen/rechnungsprogramm/");
     expect(partnerZiel(quelle, "ratgeber", undefined, { zielErhalten: true })).toEqual({ href: quelle, partner: false });
     // Start- und Preisseite sind Anbieter-Verweise, keine Quellen
     expect(partnerZiel("https://www.lexware.de/preise/", "ratgeber", undefined, { zielErhalten: true }).partner).toBe(true);

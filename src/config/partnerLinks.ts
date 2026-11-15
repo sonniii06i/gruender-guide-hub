@@ -121,18 +121,28 @@ export function partnerZiel(
   const p = (slug && PARTNER[slug]) || (h ? partnerFuerHost(h) : null);
   if (!p) return { href: url, partner: false };
   const deeplink = p.art === "awin" && !!p.deeplink && !!h && passt(h, p.domains);
-  // Im Fließtext sind tiefe Links Quellenangaben (Wissensartikel des Anbieters). Die bleiben, wie
-  // sie sind: weder auf die Preisseite umbiegen noch als Werbung kennzeichnen. Umgestellt wird
-  // dort nur ein Verweis auf Start- oder Preisseite des Anbieters.
-  if (opts?.zielErhalten && !istAnbieterseite(url)) return { href: url, partner: false };
+  const anbieterseite = istAnbieterseite(url);
+  // Ein Link darf nie auf eine andere Seite führen als die verlinkte: Zeigt er auf eine bestimmte
+  // Unterseite (Gründerangebot, Fachartikel) und das Programm reicht keine Deeplinks durch, bleibt
+  // er unverändert. Umgestellt wird nur, wenn das Ziel gleich bleibt (Deeplink) oder der Link
+  // ohnehin auf Start- oder Preisseite zeigt.
+  if (!deeplink && !anbieterseite) return { href: url, partner: false };
+  // Im Fließtext sind tiefe Links Quellenangaben (Wissensartikel des Anbieters): weder umbiegen
+  // noch als Werbung kennzeichnen, auch wenn ein Deeplink möglich wäre.
+  if (opts?.zielErhalten && !anbieterseite) return { href: url, partner: false };
   if (p.art === "link") return { href: p.url, partner: true };
   return { href: awinLink(p.awinMid, deeplink ? url : p.ziel, ort), partner: true };
 }
 
-/** Start-, Länder- oder Preisseite eines Anbieters (höchstens ein Pfadabschnitt), kein Fachartikel. */
+/**
+ * Start-, Länder- oder Preisseite eines Anbieters, also ein Verweis auf den Anbieter selbst und
+ * nicht auf ein bestimmtes Angebot oder einen Fachartikel. Bewusst eng: „/gruenderedition/“ zählt nicht.
+ */
+const ANBIETER_PFAD = /^(?:[a-z]{2}(?:-[a-z]{2})?|preise|preis|pricing|tarife|plans|business|geschaeftskonto)$/i;
 function istAnbieterseite(url: string): boolean {
   try {
-    return new URL(url).pathname.split("/").filter(Boolean).length <= 1;
+    const teile = new URL(url).pathname.split("/").filter(Boolean);
+    return teile.length === 0 || teile.every((s) => ANBIETER_PFAD.test(s));
   } catch {
     return false;
   }
