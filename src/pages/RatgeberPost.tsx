@@ -15,6 +15,7 @@ import { relatedToolsFor, relatedGuidesFor, BLOG_CATEGORY_TOPIC, type LinkItem }
 import { findGuideIndex } from "@/data/guideIndex";
 import { guideHref, guidesMergedInto } from "@/data/guideMerges";
 import { oeffentlichesLinkziel } from "@/lib/ratgeberLinks";
+import { PartnerFussnote, TextLink, linksAusMarkdown } from "@/components/PartnerLink";
 import { fremdKanonisch } from "@/data/ratgeberKanonisch";
 import { titelbildAbsolut, titelbildUrl } from "@/data/ratgeberBilder";
 import { prerenderDaten, prerenderDatenMerken } from "@/lib/prerender";
@@ -319,7 +320,7 @@ const RatgeberPost = () => {
                 h1: ({ node: _node, ...props }) => <h2 {...props} />,
                 // Vorschau-Links hinter der Paywall (/playbook/preview/…, robots-gesperrt)
                 // auf die oeffentliche Seite desselben Themas legen (lib/ratgeberLinks.ts).
-                a: ({ node: _node, href, ...props }) => <a href={oeffentlichesLinkziel(href, selbst)} {...props} />,
+                a: ({ node: _node, href, ...props }) => <TextLink ort="ratgeber" href={oeffentlichesLinkziel(href, selbst)} {...props} />,
                 img: ({ node: _node, ...props }) => <img loading="lazy" decoding="async" {...props} />,
                 // Tabellen (remark-gfm) auf dem Handy horizontal scrollbar statt die Seite zu sprengen
                 table: ({ node: _node, ...props }) => (
@@ -359,7 +360,7 @@ const RatgeberPost = () => {
                   h1: ({ node: _node, ...props }) => <h2 {...props} />,
                   // Vorschau-Links hinter der Paywall (/playbook/preview/…, robots-gesperrt)
                   // auf die oeffentliche Seite desselben Themas legen (lib/ratgeberLinks.ts).
-                  a: ({ node: _node, href, ...props }) => <a href={oeffentlichesLinkziel(href, selbst)} {...props} />,
+                  a: ({ node: _node, href, ...props }) => <TextLink ort="ratgeber" href={oeffentlichesLinkziel(href, selbst)} {...props} />,
                   img: ({ node: _node, ...props }) => <img loading="lazy" decoding="async" {...props} />,
                   // Tabellen (remark-gfm) auf dem Handy horizontal scrollbar statt die Seite zu sprengen
                   table: ({ node: _node, ...props }) => (
@@ -373,6 +374,8 @@ const RatgeberPost = () => {
               </ReactMarkdown>
             </div>
           )}
+
+          <PartnerFussnote fliesstext urls={linksAusMarkdown(post.body_md)} className="mt-8" />
 
           {post.tags.length > 0 && (
             <div className="mt-12 flex flex-wrap gap-2">

@@ -23,6 +23,7 @@ import { NotarPreparation } from "@/components/playbook/NotarPreparation";
 import { BankComparison } from "@/components/playbook/BankComparison";
 import { GewA1Form } from "@/components/playbook/GewA1Form";
 import { FamiliengerichtForm } from "@/components/playbook/FamiliengerichtForm";
+import { AnbieterLink } from "@/components/PartnerLink";
 
 interface RunRow { id: string; current_step: number; status: string; total_steps: number; context: any }
 interface StepRow { step_index: number; status: string; data: any; notes: string | null; completed_at?: string | null }
@@ -644,10 +645,10 @@ const StepBody = ({
       return (
         <div className="grid gap-2 sm:grid-cols-2">
           {links.map((l) => (
-            <a key={l.url} href={l.url} target="_blank" rel="noreferrer"
+            <AnbieterLink key={l.url} url={l.url} ort="playbook"
               className="group inline-flex items-center justify-between gap-2 rounded-xl border border-border bg-card px-4 py-3 text-sm font-medium transition-colors hover:border-accent-blue/40">
               {l.label} <ExternalLink className="h-4 w-4 shrink-0 text-muted-foreground group-hover:text-accent-blue" aria-hidden="true" />
-            </a>
+            </AnbieterLink>
           ))}
         </div>
       );

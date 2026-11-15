@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { AlertTriangle, Building2, Cloud, ExternalLink, Leaf, Sparkles, Star, Zap } from "lucide-react";
+import { AnbieterLink, PartnerFussnote } from "@/components/PartnerLink";
 
 type BankType = "hausbank" | "neobank" | "online" | "sustainable";
 
@@ -711,6 +712,7 @@ export function BankComparison() {
           <BankCard key={b.name} b={b} />
         ))}
       </div>
+      <PartnerFussnote urls={filtered.map((b) => b.url)} />
     </div>
   );
 }
@@ -830,11 +832,11 @@ function BankCard({ b }: { b: Bank }) {
         Best for: {b.bestFor}
       </div>
 
-      <a href={b.url} target="_blank" rel="noreferrer">
-        <Button variant={b.communityPick ? "default" : "outline"} size="sm" className="w-full">
+      <Button asChild variant={b.communityPick ? "default" : "outline"} size="sm" className="w-full">
+        <AnbieterLink url={b.url} ort="bankvergleich">
           Zur Bank <ExternalLink className="h-3 w-3 ml-1" />
-        </Button>
-      </a>
+        </AnbieterLink>
+      </Button>
     </div>
   );
 }

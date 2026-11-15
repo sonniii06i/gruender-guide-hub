@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { partnerUrl, PARTNER_REL } from "@/config/partnerLinks";
+import { hatPartnerlink, partnerUrl, partnerZiel, PARTNER_REL } from "@/config/partnerLinks";
+import { linksAusMarkdown } from "@/components/PartnerLink";
+import { PROVIDERS } from "@/data/anbieter";
+import { BIZ_CARDS } from "@/data/businessCreditCards";
 
 describe("partnerLinks (Awin, 27.10.2026)", () => {
   it("baut Awin-Deeplinks nur für angenommene Programme", () => {
@@ -14,5 +17,62 @@ describe("partnerLinks (Awin, 27.10.2026)", () => {
   it("kennzeichnet Partnerlinks als sponsored nofollow", () => {
     expect(PARTNER_REL).toContain("sponsored");
     expect(PARTNER_REL).toContain("nofollow");
+  });
+});
+
+describe("partnerZiel (zentral über den Hostnamen, 15.11.2026)", () => {
+  it("stellt Links auf Partner-Domains um, auch mit www und Unterseite", () => {
+    const lex = partnerZiel("https://lexoffice.de", "anbieter");
+    expect(lex.partner).toBe(true);
+    expect(lex.href).toContain("awinmid=13787");
+    expect(lex.href).toContain("clickref=gx-anbieter");
+    // Lexware leitet immer auf die Standard-Zielseite, sevDesk auf die verlinkte Unterseite
+    expect(decodeURIComponent(lex.href.split("ued=")[1])).toBe("https://www.lexware.de/preise/");
+    const sev = partnerZiel("https://www.sevdesk.de/buchhaltungssoftware/", "ratgeber");
+    expect(sev.partner).toBe(true);
+    expect(decodeURIComponent(sev.href.split("ued=")[1])).toBe("https://www.sevdesk.de/buchhaltungssoftware/");
+  });
+  it("lässt Anbieter ohne Programm, interne und kaputte Adressen unverändert", () => {
+    expect(partnerZiel("https://candis.io", "x")).toEqual({ href: "https://candis.io", partner: false });
+    expect(partnerZiel("/preise", "x")).toEqual({ href: "/preise", partner: false });
+    expect(partnerZiel("kein link", "x").partner).toBe(false);
+    expect(partnerZiel(undefined, "x")).toEqual({ href: "", partner: false });
+    // Fremde Domain, die nur so ähnlich heißt, ist kein Partner
+    expect(partnerZiel("https://notsevdesk.de/x", "x").partner).toBe(false);
+    expect(partnerZiel("https://sevdesk.de.example.com/x", "x").partner).toBe(false);
+  });
+  it("erkennt fertige Empfehlungslinks aus den Daten und kennzeichnet sie, ohne sie zu ändern", () => {
+    const shopify = PROVIDERS.find((p) => p.slug === "shopify")!;
+    expect(partnerZiel(shopify.url, "anbieter")).toEqual({ href: shopify.url, partner: true });
+    const amex = BIZ_CARDS.find((c) => c.id === "amex-business-gold")!;
+    expect(partnerZiel(amex.url, "geschaeftskarten")).toEqual({ href: amex.url, partner: true });
+  });
+  it("lässt Quellenangaben im Fließtext stehen, wenn das Ziel sonst verloren ginge", () => {
+    const quelle = "https://www.lexware.de/wissen/gruendung/steuernummer-beantragen/";
+    // Vergleichsseite: Anbieter-Link wird Partnerlink. Fließtext: Lexware kann keinen Deeplink → Quelle bleibt.
+    expect(partnerZiel(quelle, "anbieter").partner).toBe(true);
+    expect(partnerZiel(quelle, "ratgeber", undefined, { zielErhalten: true })).toEqual({ href: quelle, partner: false });
+    // Start- und Preisseite sind Anbieter-Verweise, keine Quellen
+    expect(partnerZiel("https://www.lexware.de/preise/", "ratgeber", undefined, { zielErhalten: true }).partner).toBe(true);
+    // Auch bei sevDesk (Deeplink möglich) bleibt ein Fachartikel eine Quelle
+    expect(partnerZiel("https://sevdesk.de/ratgeber/x/y/", "ratgeber", undefined, { zielErhalten: true }).partner).toBe(false);
+    expect(partnerZiel("https://sevdesk.de/preise/", "ratgeber", undefined, { zielErhalten: true }).partner).toBe(true);
+    expect(hatPartnerlink([quelle], { zielErhalten: true })).toBe(false);
+  });
+  it("meldet, ob eine Liste Partnerlinks enthält (Hinweiszeile)", () => {
+    expect(hatPartnerlink(["https://candis.io", "https://sevdesk.de"])).toBe(true);
+    expect(hatPartnerlink(["https://candis.io", null, undefined])).toBe(false);
+  });
+  it("liest externe Linkziele aus Markdown", () => {
+    expect(linksAusMarkdown("a [x](https://sevdesk.de/preise/) b [y](/ratgeber/z) c [z](https://qonto.com/de).")).toEqual([
+      "https://sevdesk.de/preise/",
+      "https://qonto.com/de",
+    ]);
+  });
+  it("jeder Anbieter mit Partnerprogramm hat eine gültige Ziel-URL", () => {
+    for (const p of PROVIDERS) {
+      const z = partnerZiel(p.url, "anbieter", p.slug);
+      expect(z.href, p.slug).toMatch(/^https:\/\//);
+    }
   });
 });

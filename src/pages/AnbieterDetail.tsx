@@ -23,7 +23,7 @@ import {
 import { Callout, EmptyState, ToolSection } from "@/components/cockpit/kit";
 import { FULL_DESCRIPTIONS, isCoopActive, LEGAL_URLS, PROVIDERS, type Provider } from "./Anbieter";
 import { Seo } from "@/components/Seo";
-import { partnerUrl, PARTNER_REL, PARTNER_HINWEIS } from "@/config/partnerLinks";
+import { AnbieterLink, PartnerFussnote } from "@/components/PartnerLink";
 
 const getDomain = (url: string): string => {
   try { return new URL(url).hostname.replace(/^www\./, ""); } catch { return url; }
@@ -153,9 +153,9 @@ const AnbieterDetail = () => {
 
               <div className="mt-6 flex flex-wrap gap-2">
                 <Button asChild size="lg" className="w-full rounded-xl font-semibold sm:w-auto">
-                  <a href={partnerUrl(p.slug, "anbieter") ?? p.url} target="_blank" rel={partnerUrl(p.slug, "anbieter") ? PARTNER_REL : "noreferrer"} title={partnerUrl(p.slug, "anbieter") ? PARTNER_HINWEIS : undefined}>
-                    Zum Anbieter{partnerUrl(p.slug, "anbieter") ? "*" : ""} <ExternalLink aria-hidden="true" />
-                  </a>
+                  <AnbieterLink url={p.url} slug={p.slug} ort="anbieter">
+                    Zum Anbieter <ExternalLink aria-hidden="true" />
+                  </AnbieterLink>
                 </Button>
                 <Button asChild size="lg" variant="outline" className="hidden rounded-xl md:inline-flex">
                   <a href={`https://${getDomain(p.url)}`} target="_blank" rel="noreferrer">{getDomain(p.url)}</a>
@@ -274,13 +274,11 @@ const AnbieterDetail = () => {
         {/* Seitenleiste */}
         <aside className="h-fit space-y-4 lg:sticky lg:top-20">
           <Button asChild size="lg" className="w-full rounded-xl font-semibold">
-            <a href={partnerUrl(p.slug, "anbieter-seite") ?? p.url} target="_blank" rel={partnerUrl(p.slug, "anbieter-seite") ? PARTNER_REL : "noreferrer"} title={partnerUrl(p.slug, "anbieter-seite") ? PARTNER_HINWEIS : undefined}>
-              Zum Anbieter{partnerUrl(p.slug, "anbieter-seite") ? "*" : ""} <ExternalLink aria-hidden="true" />
-            </a>
+            <AnbieterLink url={p.url} slug={p.slug} ort="anbieter-seite">
+              Zum Anbieter <ExternalLink aria-hidden="true" />
+            </AnbieterLink>
           </Button>
-          {partnerUrl(p.slug, "anbieter-seite") && (
-            <p className="text-xs leading-relaxed text-muted-foreground">* {PARTNER_HINWEIS}</p>
-          )}
+          <PartnerFussnote urls={[p.url, ...(p.links ?? []).map((l) => l.url)]} />
 
           {p.links && p.links.length > 0 && (
             <div className="rounded-2xl border border-border bg-card p-4 shadow-card">
@@ -288,9 +286,9 @@ const AnbieterDetail = () => {
               <ul className="space-y-1.5 text-sm">
                 {p.links.map((l) => (
                   <li key={l.url}>
-                    <a href={l.url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 text-accent-blue hover:underline">
+                    <AnbieterLink url={l.url} ort="anbieter-direkt" className="inline-flex items-center gap-1.5 text-accent-blue hover:underline">
                       <ExternalLink className="h-3 w-3" aria-hidden="true" /> {l.label}
-                    </a>
+                    </AnbieterLink>
                   </li>
                 ))}
               </ul>

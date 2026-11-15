@@ -13,6 +13,7 @@ import { PublicSection, FaqList, CtaBand, ctaPrimaryOnInk, ctaSecondaryOnInk } f
 import { breadcrumbSchema, faqSchema } from "@/lib/freetools/schema";
 import { PERK_KATEGORIEN, STARTUP_PERKS, type PerkKategorie, type StartupPerk } from "@/data/startupPerks";
 import perksLive from "@/data/perksLive.json";
+import { AnbieterLink } from "@/components/PartnerLink";
 
 // Startup-Guthaben: alle Credits, Gratis-Zeiträume und Rabatte, die Gründer bei
 // Anbietern beantragen können – an der offiziellen Seite geprüft und täglich vom
@@ -297,9 +298,9 @@ export default function StartupGuthaben() {
                     {profilGesetzt && !pa.ok && <p className="mt-2 text-xs font-medium text-warning">Passt nicht: {pa.grund}</p>}
                     <div className="flex-1" aria-hidden="true" />
                     <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-border/70 pt-3 text-xs">
-                      <a href={p.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 font-semibold text-accent-blue hover:underline">
+                      <AnbieterLink url={p.url} ort="startup-guthaben" className="inline-flex items-center gap-1 font-semibold text-accent-blue hover:underline">
                         Zum Programm <ExternalLink className="h-3 w-3" aria-hidden="true" />
-                      </a>
+                      </AnbieterLink>
                       <span className="inline-flex items-center gap-1 text-muted-foreground" title={l?.detail}>
                         {l?.status === "ok" ? <ShieldCheck className="h-3.5 w-3.5 text-success" aria-hidden="true" /> : <AlertTriangle className="h-3.5 w-3.5 text-warning" aria-hidden="true" />}
                         {l?.status === "ok" ? `geprüft ${de(l.letzterErfolg)}` : l?.status === "geaendert" ? "Anbieter hat die Seite geändert, Bedingungen prüfen" : `geprüft ${de(p.geprueft)}`}

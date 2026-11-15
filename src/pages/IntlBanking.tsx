@@ -18,6 +18,7 @@ import {
   AlertTriangle,
   Info,
 } from "lucide-react";
+import { AnbieterLink, PartnerFussnote } from "@/components/PartnerLink";
 
 // ============================================================
 // INTERNATIONAL BANKING · Stand Oktober 2026 (Total-Refactor Mai 2026, Aktualität 02.11.2026)
@@ -620,9 +621,9 @@ const IntlBanking = () => {
                       </div>
                     </div>
                   </div>
-                  <a href={b.url} target="_blank" rel="noreferrer noopener" className={cn(buttonVariants({ size: "sm" }))}>
+                  <AnbieterLink url={b.url} ort="intl-banking" className={cn(buttonVariants({ size: "sm" }))}>
                     Eröffnen <ExternalLink aria-hidden="true" />
-                  </a>
+                  </AnbieterLink>
                 </header>
 
                 <div className="space-y-4 p-5 md:p-6">
@@ -762,6 +763,7 @@ const IntlBanking = () => {
               </article>
             );
           })}
+          <PartnerFussnote urls={filtered.map((b) => b.url)} />
         </section>
 
         {/* CLOSURE-SURVIVAL-TIPPS */}

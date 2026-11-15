@@ -55,6 +55,7 @@ import {
   type UstStatus,
   type Pflicht,
 } from "@/data/roadmapTasks";
+import { AnbieterLink } from "@/components/PartnerLink";
 
 type TaskStatus = "offen" | "laufend" | "erledigt";
 
@@ -477,9 +478,9 @@ const TaskCard = ({ task, status, onCycle, onSetStatus }: {
                     </Link>
                   )}
                   {task.externalLink && (
-                    <a href={task.externalLink.url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-sm font-medium text-accent-blue hover:underline">
+                    <AnbieterLink url={task.externalLink.url} ort="erste-schritte" className="inline-flex items-center gap-1 text-sm font-medium text-accent-blue hover:underline">
                       <ExternalLink className="h-4 w-4" aria-hidden="true" /> {task.externalLink.label}
-                    </a>
+                    </AnbieterLink>
                   )}
                 </div>
               )}

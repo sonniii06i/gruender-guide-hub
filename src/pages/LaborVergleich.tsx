@@ -27,6 +27,7 @@ import {
   Layers,
   Star,
 } from "lucide-react";
+import { AnbieterLink } from "@/components/PartnerLink";
 
 const CATEGORY_META: Record<TestCategory, { label: string; emoji: string }> = {
   cosmetic: { label: "Kosmetik / CPSR", emoji: "🧴" },
@@ -418,14 +419,13 @@ const LaborKarte = ({ labor }: { labor: Labor }) => (
     <div className="mt-auto pt-4">
     <div className="flex items-center justify-between gap-3 border-t border-border/70 pt-3 text-xs text-muted-foreground">
       <span>{labor.bekanntheit}</span>
-      <a
-        href={labor.url}
-        target="_blank"
-        rel="noopener noreferrer"
+      <AnbieterLink
+        url={labor.url}
+        ort="labor-vergleich"
         className="inline-flex shrink-0 items-center gap-1 text-sm font-medium text-accent-blue hover:underline"
       >
         Website <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
-      </a>
+      </AnbieterLink>
     </div>
     </div>
   </article>

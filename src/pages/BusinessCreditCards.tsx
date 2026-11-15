@@ -23,6 +23,7 @@ import {
   Gift,
   SlidersHorizontal,
 } from "lucide-react";
+import { AnbieterLink, PartnerFussnote } from "@/components/PartnerLink";
 
 const cardTypeTone: Record<string, Tone> = {
   Charge: "accent",
@@ -330,14 +331,13 @@ const BusinessCreditCards = () => {
                   </Callout>
                 )}
 
-                <a
-                  href={card.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <AnbieterLink
+                  url={card.url}
+                  ort="geschaeftskarten"
                   className="mt-auto inline-flex items-center gap-1 pt-3 text-sm font-medium text-accent-blue hover:underline"
                 >
                   Zur Anbieter-Seite <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
-                </a>
+                </AnbieterLink>
               </article>
             );
           })}
@@ -402,6 +402,8 @@ const BusinessCreditCards = () => {
           ))}
         </div>
       </CollapsiblePanel>
+
+      <PartnerFussnote urls={BIZ_CARDS.map((c) => c.url)} className="mt-4" />
 
       {/* ===== DISCLAIMER ===== */}
       <Callout tone="warning" title="Wichtige Hinweise" icon={AlertTriangle} className="mt-6">

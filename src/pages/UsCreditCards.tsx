@@ -41,6 +41,7 @@ import {
   Building2,
   Gift,
 } from "lucide-react";
+import { AnbieterLink, PartnerFussnote } from "@/components/PartnerLink";
 
 // Deadline-Status dynamisch aus dem Datum berechnen (statt hartkodiertem status-Feld),
 // damit vergangene Termine nicht weiterhin als "AKTIV" angezeigt werden.
@@ -252,20 +253,20 @@ const UsCreditCards = () => {
                   )}
 
                   {/* Link */}
-                  <a
-                    href={card.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <AnbieterLink
+                    url={card.url}
+                    ort="us-karten"
                     className="inline-flex items-center gap-1.5 text-sm font-medium text-accent-blue hover:underline"
                   >
                     Zur Karten-Seite <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
-                  </a>
+                  </AnbieterLink>
                 </div>
               </article>
             );
           })
         )}
       </div>
+      <PartnerFussnote urls={US_CARDS.map((c) => c.url)} className="mt-3" />
 
       {/* ===== MILES & POINTS-STRATEGIEN ===== */}
       <h2 className="mb-3 text-lg font-semibold tracking-tight">Miles und Punkte</h2>
