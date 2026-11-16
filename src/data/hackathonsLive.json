@@ -1,45 +1,29 @@
 {
- "stand": "2026-11-15T12:02:18.499Z",
+ "stand": "2026-11-16T12:52:12.824Z",
  "quelle": {
   "ok": true,
-  "roh": 182,
-  "uebernommen": 18,
+  "roh": 148,
+  "uebernommen": 17,
   "verworfen": {
-   "nur_einladung": 26,
-   "vor_ort_fern": 77,
-   "frist_vorbei": 6,
+   "nur_einladung": 16,
+   "vor_ort_fern": 57,
+   "frist_vorbei": 3,
    "preis_unter_5000_usd": 48,
    "kein_usd_betrag": 7,
    "ueber_max": 0
   },
-  "letzterErfolg": "2026-11-15T12:02:18.498Z"
+  "letzterErfolg": "2026-11-16T12:52:12.823Z"
  },
- "anzahl": 18,
+ "anzahl": 17,
  "eintraege": [
-  {
-   "id": "devpost-31552",
-   "titel": "UGREEN Hackathon 2026 on AI NAS",
-   "url": "https://ugreenhackathon.devpost.com/",
-   "ende": "2026-11-16",
-   "preisUsd": 46000,
-   "geldpreise": 4,
-   "anmeldungen": 2624,
-   "ort": "Online",
-   "veranstalter": "UGREEN",
-   "themen": [
-    "Lifehacks",
-    "Machine Learning/AI",
-    "Productivity"
-   ]
-  },
   {
    "id": "devpost-31024",
    "titel": "Meta VR Start Developer Competition 2026",
    "url": "https://start-developer-competition-26.devpost.com/",
    "ende": "2026-11-18",
    "preisUsd": 1000000,
-   "geldpreise": 1,
-   "anmeldungen": 6304,
+   "geldpreise": 19,
+   "anmeldungen": 6434,
    "ort": "Online",
    "veranstalter": "Meta",
    "themen": [
@@ -55,7 +39,7 @@
    "ende": "2026-11-22",
    "preisUsd": 27629,
    "geldpreise": 7,
-   "anmeldungen": 33,
+   "anmeldungen": 45,
    "ort": "Online",
    "veranstalter": "EvoHacks",
    "themen": [
@@ -70,8 +54,8 @@
    "url": "https://firebasehybridaihackathon.devpost.com/",
    "ende": "2026-11-30",
    "preisUsd": 30000,
-   "geldpreise": 6,
-   "anmeldungen": 2332,
+   "geldpreise": 1,
+   "anmeldungen": 2612,
    "ort": "Online",
    "veranstalter": "Google",
    "themen": [
@@ -86,8 +70,8 @@
    "url": "https://kiroween.devpost.com/",
    "ende": "2026-12-04",
    "preisUsd": 100000,
-   "geldpreise": 15,
-   "anmeldungen": 14097,
+   "geldpreise": 1,
+   "anmeldungen": 14649,
    "ort": "Online",
    "veranstalter": "Kiro",
    "themen": [
@@ -103,7 +87,7 @@
    "ende": "2026-12-07",
    "preisUsd": 25000,
    "geldpreise": 6,
-   "anmeldungen": 652,
+   "anmeldungen": 795,
    "ort": "Online",
    "veranstalter": "Google",
    "themen": [
@@ -118,8 +102,8 @@
    "url": "https://redditgameofday2026.devpost.com/",
    "ende": "2026-12-08",
    "preisUsd": 35000,
-   "geldpreise": 1,
-   "anmeldungen": 1239,
+   "geldpreise": 5,
+   "anmeldungen": 1377,
    "ort": "Online",
    "veranstalter": "reddit",
    "themen": [
@@ -134,7 +118,7 @@
    "ende": "2026-12-11",
    "preisUsd": 64000,
    "geldpreise": 16,
-   "anmeldungen": 385,
+   "anmeldungen": 404,
    "ort": "Online",
    "veranstalter": "AWS",
    "themen": [
@@ -149,8 +133,8 @@
    "url": "https://qnx.devpost.com/",
    "ende": "2026-12-15",
    "preisUsd": 50000,
-   "geldpreise": 14,
-   "anmeldungen": 1646,
+   "geldpreise": 1,
+   "anmeldungen": 1749,
    "ort": "Online",
    "veranstalter": "QNX",
    "themen": [
@@ -165,8 +149,8 @@
    "url": "https://arbiter-hacks-v1.devpost.com/",
    "ende": "2026-12-21",
    "preisUsd": 7800,
-   "geldpreise": 5,
-   "anmeldungen": 1158,
+   "geldpreise": 1,
+   "anmeldungen": 1181,
    "ort": "Online",
    "veranstalter": "Arbiter ",
    "themen": [
@@ -182,7 +166,7 @@
    "ende": "2026-12-22",
    "preisUsd": 120000,
    "geldpreise": 7,
-   "anmeldungen": 3512,
+   "anmeldungen": 3703,
    "ort": "Online",
    "veranstalter": "Atlassian",
    "themen": [
@@ -198,7 +182,7 @@
    "ende": "2027-01-10",
    "preisUsd": 18700,
    "geldpreise": 6,
-   "anmeldungen": 432,
+   "anmeldungen": 444,
    "ort": "Online",
    "veranstalter": "Hack United",
    "themen": [
@@ -214,7 +198,7 @@
    "ende": "2027-01-10",
    "preisUsd": 11960,
    "geldpreise": 7,
-   "anmeldungen": 98,
+   "anmeldungen": 108,
    "ort": "Online",
    "veranstalter": "Checkpoint",
    "themen": [
@@ -230,7 +214,7 @@
    "ende": "2027-01-11",
    "preisUsd": 10000,
    "geldpreise": 3,
-   "anmeldungen": 655,
+   "anmeldungen": 839,
    "ort": "Online",
    "veranstalter": "Cognizant",
    "themen": [
@@ -246,7 +230,7 @@
    "ende": "2027-01-18",
    "preisUsd": 146770,
    "geldpreise": 13,
-   "anmeldungen": 1022,
+   "anmeldungen": 1080,
    "ort": "Online",
    "veranstalter": "Cosmo Hacks",
    "themen": [
@@ -278,7 +262,7 @@
    "ende": "2027-02-13",
    "preisUsd": 10200,
    "geldpreise": 16,
-   "anmeldungen": 7,
+   "anmeldungen": 8,
    "ort": "Online",
    "veranstalter": "BASIS Independent Silicon Valley",
    "themen": [
