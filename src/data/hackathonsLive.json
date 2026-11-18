@@ -1,37 +1,21 @@
 {
- "stand": "2026-11-17T13:33:07.527Z",
+ "stand": "2026-11-18T13:11:59.733Z",
  "quelle": {
   "ok": true,
-  "roh": 154,
-  "uebernommen": 17,
+  "roh": 159,
+  "uebernommen": 18,
   "verworfen": {
    "nur_einladung": 20,
-   "vor_ort_fern": 58,
-   "frist_vorbei": 2,
-   "preis_unter_5000_usd": 50,
+   "vor_ort_fern": 59,
+   "frist_vorbei": 3,
+   "preis_unter_5000_usd": 52,
    "kein_usd_betrag": 7,
    "ueber_max": 0
   },
-  "letzterErfolg": "2026-11-17T13:33:07.526Z"
+  "letzterErfolg": "2026-11-18T13:11:59.733Z"
  },
- "anzahl": 17,
+ "anzahl": 18,
  "eintraege": [
-  {
-   "id": "devpost-31024",
-   "titel": "Meta VR Start Developer Competition 2026",
-   "url": "https://start-developer-competition-26.devpost.com/",
-   "ende": "2026-11-18",
-   "preisUsd": 1000000,
-   "geldpreise": 1,
-   "anmeldungen": 6636,
-   "ort": "Online",
-   "veranstalter": "Meta",
-   "themen": [
-    "AR/VR",
-    "Machine Learning/AI",
-    "Web"
-   ]
-  },
   {
    "id": "devpost-31721",
    "titel": "EvoHacks 2",
@@ -39,7 +23,7 @@
    "ende": "2026-11-22",
    "preisUsd": 27629,
    "geldpreise": 7,
-   "anmeldungen": 56,
+   "anmeldungen": 75,
    "ort": "Online",
    "veranstalter": "EvoHacks",
    "themen": [
@@ -54,8 +38,8 @@
    "url": "https://firebasehybridaihackathon.devpost.com/",
    "ende": "2026-11-30",
    "preisUsd": 30000,
-   "geldpreise": 1,
-   "anmeldungen": 2893,
+   "geldpreise": 6,
+   "anmeldungen": 3120,
    "ort": "Online",
    "veranstalter": "Google",
    "themen": [
@@ -70,8 +54,8 @@
    "url": "https://kiroween.devpost.com/",
    "ende": "2026-12-04",
    "preisUsd": 100000,
-   "geldpreise": 15,
-   "anmeldungen": 15436,
+   "geldpreise": 1,
+   "anmeldungen": 16264,
    "ort": "Online",
    "veranstalter": "Kiro",
    "themen": [
@@ -86,8 +70,8 @@
    "url": "https://deckthepixels.devpost.com/",
    "ende": "2026-12-07",
    "preisUsd": 25000,
-   "geldpreise": 6,
-   "anmeldungen": 957,
+   "geldpreise": 1,
+   "anmeldungen": 1071,
    "ort": "Online",
    "veranstalter": "Google",
    "themen": [
@@ -102,8 +86,8 @@
    "url": "https://redditgameofday2026.devpost.com/",
    "ende": "2026-12-08",
    "preisUsd": 35000,
-   "geldpreise": 5,
-   "anmeldungen": 1549,
+   "geldpreise": 1,
+   "anmeldungen": 1681,
    "ort": "Online",
    "veranstalter": "reddit",
    "themen": [
@@ -118,7 +102,7 @@
    "ende": "2026-12-11",
    "preisUsd": 64000,
    "geldpreise": 16,
-   "anmeldungen": 422,
+   "anmeldungen": 428,
    "ort": "Online",
    "veranstalter": "AWS",
    "themen": [
@@ -133,8 +117,8 @@
    "url": "https://qnx.devpost.com/",
    "ende": "2026-12-15",
    "preisUsd": 50000,
-   "geldpreise": 14,
-   "anmeldungen": 1841,
+   "geldpreise": 1,
+   "anmeldungen": 1935,
    "ort": "Online",
    "veranstalter": "QNX",
    "themen": [
@@ -150,7 +134,7 @@
    "ende": "2026-12-21",
    "preisUsd": 7800,
    "geldpreise": 5,
-   "anmeldungen": 1212,
+   "anmeldungen": 1229,
    "ort": "Online",
    "veranstalter": "Arbiter ",
    "themen": [
@@ -166,7 +150,7 @@
    "ende": "2026-12-22",
    "preisUsd": 120000,
    "geldpreise": 7,
-   "anmeldungen": 3946,
+   "anmeldungen": 4136,
    "ort": "Online",
    "veranstalter": "Atlassian",
    "themen": [
@@ -182,7 +166,7 @@
    "ende": "2027-01-10",
    "preisUsd": 18700,
    "geldpreise": 6,
-   "anmeldungen": 455,
+   "anmeldungen": 470,
    "ort": "Online",
    "veranstalter": "Hack United",
    "themen": [
@@ -198,7 +182,7 @@
    "ende": "2027-01-10",
    "preisUsd": 11960,
    "geldpreise": 7,
-   "anmeldungen": 114,
+   "anmeldungen": 116,
    "ort": "Online",
    "veranstalter": "Checkpoint",
    "themen": [
@@ -214,7 +198,7 @@
    "ende": "2027-01-11",
    "preisUsd": 10000,
    "geldpreise": 3,
-   "anmeldungen": 1040,
+   "anmeldungen": 1159,
    "ort": "Online",
    "veranstalter": "Cognizant",
    "themen": [
@@ -224,13 +208,29 @@
    ]
   },
   {
+   "id": "devpost-31571",
+   "titel": "Cloud9 x JetBrains: Sky's The Limit Hackathon 2026",
+   "url": "https://cloud9.devpost.com/",
+   "ende": "2027-01-12",
+   "preisUsd": 25000,
+   "geldpreise": 7,
+   "anmeldungen": 202,
+   "ort": "Online",
+   "veranstalter": "Cloud9",
+   "themen": [
+    "Databases",
+    "Gaming",
+    "Machine Learning/AI"
+   ]
+  },
+  {
    "id": "devpost-30455",
    "titel": "Cosmo Hacks 2026",
    "url": "https://cosmohacks.devpost.com/",
    "ende": "2027-01-18",
    "preisUsd": 146770,
    "geldpreise": 13,
-   "anmeldungen": 1133,
+   "anmeldungen": 1165,
    "ort": "Online",
    "veranstalter": "Cosmo Hacks",
    "themen": [
@@ -240,13 +240,29 @@
    ]
   },
   {
+   "id": "devpost-31886",
+   "titel": "Build with AI - Pico Space Program",
+   "url": "https://pico-space-program.devpost.com/",
+   "ende": "2027-02-01",
+   "preisUsd": 50000,
+   "geldpreise": 15,
+   "anmeldungen": 7,
+   "ort": "Online",
+   "veranstalter": "XR Bootcamp",
+   "themen": [
+    "AR/VR",
+    "Machine Learning/AI",
+    "Web"
+   ]
+  },
+  {
    "id": "devpost-30340",
    "titel": "HackTitan",
    "url": "https://hacktitan.devpost.com/",
    "ende": "2027-02-04",
    "preisUsd": 10000,
    "geldpreise": 1,
-   "anmeldungen": 228,
+   "anmeldungen": 234,
    "ort": "Online",
    "veranstalter": "IWU",
    "themen": [
@@ -278,7 +294,7 @@
    "ende": "2027-03-15",
    "preisUsd": 5000,
    "geldpreise": 1,
-   "anmeldungen": 83,
+   "anmeldungen": 89,
    "ort": "Online",
    "veranstalter": "OSC",
    "themen": [
