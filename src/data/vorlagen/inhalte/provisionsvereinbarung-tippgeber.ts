@@ -6,8 +6,8 @@ import type { VorlagenInhalt } from "../types";
 const inhalt: VorlagenInhalt = {
   ratgeber: [
       {
-        titel: "Wann du eine Tippgeber-Vereinbarung brauchst",
-        text: `Eine Tippgeber-Vereinbarung brauchst du, sobald du jemandem Geld dafür versprichst, dass er dir einen Kunden nennt. Typische Fälle: Ein Steuerberater empfiehlt deiner Webagentur Mandanten, ein zufriedener Kunde bringt zwei weitere, ein Netzwerkpartner nennt dir Firmen mit Bedarf an deiner Software. Auch Kunden-werben-Kunden-Programme und Partnerprogramme mit Einmalprämie laufen über diese Logik.
+        titel: "Wann du eine Tippgebervereinbarung brauchst",
+        text: `Eine Tippgebervereinbarung, oft auch Tippgebervertrag genannt, brauchst du, sobald du jemandem Geld dafür versprichst, dass er dir einen Kunden nennt. Typische Fälle: Ein Steuerberater empfiehlt deiner Webagentur Mandanten, ein zufriedener Kunde bringt zwei weitere, ein Netzwerkpartner nennt dir Firmen mit Bedarf an deiner Software. Auch Kunden-werben-Kunden-Programme und Partnerprogramme mit Einmalprämie laufen über diese Logik.
 
 Als Tippgeber nutzt du das Muster, um Provision, Schutzfrist und Abrechnung verbindlich zu machen, bevor du Kontakte weitergibst. Entscheidend ist die Abgrenzung: Der Tippgeber nennt nur den Kontakt, er berät, verhandelt und schließt nicht ab. Wer mehr tut, ist Vermittler oder Handelsvertreter mit anderen Pflichten; dafür gibt es den Handelsvertretervertrag.`,
       },
@@ -28,7 +28,7 @@ Als Tippgeber nutzt du das Muster, um Provision, Schutzfrist und Abrechnung verb
 Die Ablehnungsfrist in § 3 Abs. 2 ist der Schutz des Unternehmens vor Provisionen für Kunden, die es längst kannte.`,
       },
       {
-        titel: "Tippgeber-Vereinbarung Muster ausfüllen",
+        titel: "Tippgebervereinbarung: Muster ausfüllen",
         text: `Trage das Unternehmen und den Tippgeber ein; bei Privatpersonen reichen Name und Anschrift. In § 1 beschreibst du die Produkte oder Leistungen, für die Tipps vergütet werden. In § 3 setzt du den Übermittlungsweg (E-Mail-Adresse oder Formular), die Frist zur Bestätigung oder Ablehnung und die Schutzfrist; entscheide, ob Abschlüsse nach Fristablauf noch provisionspflichtig sind, wenn die Verhandlungen vorher begannen.
 
 In § 4 wählst du Variante A mit festem Betrag oder Variante B mit Prozentsatz, Bemessungszeitraum und Höchstbetrag je Kunde. Trage die Rückforderungsfrist bei Storno und die Frist ein, nach der Folgeaufträge nicht mehr zählen. Bei Tippgebern, die Umsatzsteuer ausweisen, behalte den Zusatz. In § 5 setzt du Mitteilungsfrist, Abrechnungsrhythmus, Zahlungsziel und die Abweichung, ab der das Unternehmen Prüfkosten trägt. In § 8 trägst du Beginn und Kündigungsfrist ein. Dann Gerichtsstand, Datum und Unterschriften. Lade die Vorlage als Word-Datei und passe die Beträge an.`,

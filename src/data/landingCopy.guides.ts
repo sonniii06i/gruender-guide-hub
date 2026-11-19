@@ -747,8 +747,8 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
   "tiktok-ads-setup": {
     "seoTitle": "TikTok Ads Setup: Konto, Pixel & erste Kampagne",
     "seoDescription": "TikTok Ads von 0 aufsetzen: Business Center, Pixel, Events API, Werbekonto und erste Spark Ad. Click-by-click bis live in 3-5 Stunden.",
-    "lead": "Dieser Guide bringt dich click-by-click von null bis zur ersten live geschalteten TikTok-Spark-Ad: Business Center, Pixel, Events API und Werbekonto inklusive. Fuer Gruender, D2C-Shops und Creator, die TikTok als Paid-Kanal erschliessen wollen.",
-    "urgency": "TikTok-CPMs sind in vielen Nischen noch deutlich guenstiger als Meta, aber der Vorsprung schrumpft mit jedem neuen Werbetreibenden. Ein falsch aufgesetzter Pixel oder fehlendes Events-API-Tracking bedeutet, dass du Budget verbrennst, ohne Conversions sauber messen zu koennen, und Lookalikes nie sauber lernen. Setz das Fundament jetzt richtig auf, statt spaeter teuer nachzubessern. Mit GründerX hast du jeden Schritt vom Business Center bis zur Spark Ad an einem Ort.",
+    "lead": "Dieser Guide bringt dich click-by-click von null bis zur ersten live geschalteten TikTok-Spark-Ad: Business Center, Pixel, Events API und Werbekonto inklusive. Für Gründer, D2C-Shops und Creator, die TikTok als Paid-Kanal erschließen wollen.",
+    "urgency": "TikTok-CPMs sind in vielen Nischen noch deutlich günstiger als Meta, aber der Vorsprung schrumpft mit jedem neuen Werbetreibenden. Ein falsch aufgesetzter Pixel oder fehlendes Events-API-Tracking bedeutet, dass du Budget verbrennst, ohne Conversions sauber messen zu können, und Lookalikes nie sauber lernen. Setz das Fundament jetzt richtig auf, statt später teuer nachzubessern. Mit GründerX hast du jeden Schritt vom Business Center bis zur Spark Ad an einem Ort.",
     "outcomes": [
       "Live TikTok-Werbekonto mit verifiziertem Business Center",
       "Pixel plus Events API sauber installiert und Conversions tracken korrekt",
@@ -756,55 +756,55 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
       "Eine publishbare Conversion-Spark-Ad fertig zum Launch",
       "Klare Test-Budget-Logik ab 30 Euro pro Tag"
     ],
-    "disclaimer": "Dieser Guide bietet praktische Orientierung zum Setup, ersetzt keine Steuer- oder Rechtsberatung, und Plattform-Richtlinien von TikTok koennen sich jederzeit aendern."
+    "disclaimer": "Dieser Guide bietet praktische Orientierung zum Setup, ersetzt keine Steuer- oder Rechtsberatung, und Plattform-Richtlinien von TikTok können sich jederzeit ändern."
   },
   "creator-tiktok-instagram": {
     "seoTitle": "TikTok & Instagram Creator werden: Short-Form-Guide",
     "seoDescription": "Short-Form auf TikTok & Instagram aufbauen: Algo-Mechanik, 4-Tage-Routine, erste 10k Follower und alle Monetarisierungs-Pfade bis Brand-Deals.",
-    "lead": "Dieser Guide zeigt dir den Aufbau profitabler Short-Form-Accounts auf TikTok und Instagram: Algorithmus-Mechanik, Posting-Routine und jeden Monetarisierungs-Pfad vom Creator-Fund bis zu Brand-Deals. Fuer angehende Creator und Solo-Selbststaendige, die mit Video Reichweite aufbauen wollen.",
-    "urgency": "Short-Form-Reichweite baut sich langsam auf, aber jeder Tag ohne Posting-Routine ist verlorene Lernzeit fuer den Algorithmus und fuer dich. Wer ohne System startet, postet wahllos, sieht keine Muster und gibt nach drei Wochen frustriert auf. Ein klarer 4-Tage-Rhythmus mit Format-Logik bringt dich schneller an die ersten 10k Follower, ab denen echte Monetarisierung greift. Mit GründerX hast du Routine, Hooks und Monetarisierungs-Pfade strukturiert vor dir.",
+    "lead": "Dieser Guide zeigt dir den Aufbau profitabler Short-Form-Accounts auf TikTok und Instagram: Algorithmus-Mechanik, Posting-Routine und jeden Monetarisierungs-Pfad vom Creator-Fund bis zu Brand-Deals. Für angehende Creator und Solo-Selbstständige, die mit Video Reichweite aufbauen wollen.",
+    "urgency": "Short-Form-Reichweite baut sich langsam auf, aber jeder Tag ohne Posting-Routine ist verlorene Lernzeit für den Algorithmus und für dich. Wer ohne System startet, postet wahllos, sieht keine Muster und gibt nach drei Wochen frustriert auf. Ein klarer 4-Tage-Rhythmus mit Format-Logik bringt dich schneller an die ersten 10k Follower, ab denen echte Monetarisierung greift. Mit GründerX hast du Routine, Hooks und Monetarisierungs-Pfade strukturiert vor dir.",
     "outcomes": [
       "Live TikTok- und Instagram-Accounts mit festem 4-Tage-Posting-Rhythmus",
-      "Verstaendnis der Algo-Mechanik fuer Reichweite statt Glueckstreffer",
+      "Verständnis der Algo-Mechanik für Reichweite statt Glückstreffer",
       "Erste 10k Follower als realistisches Etappenziel",
       "Aktivierte Monetarisierung: Creator-Fund, Live-Gifts, Affiliate, Brand-Deals",
       "Schlankes Equipment- und Editing-Setup ab 100 Euro"
     ],
-    "disclaimer": "Dieser Guide bietet praktische Orientierung, ersetzt keine Steuer- oder Rechtsberatung, und Plattform-Programme sowie Monetarisierungs-Bedingungen koennen sich jederzeit aendern."
+    "disclaimer": "Dieser Guide bietet praktische Orientierung, ersetzt keine Steuer- oder Rechtsberatung, und Plattform-Programme sowie Monetarisierungs-Bedingungen können sich jederzeit ändern."
   },
   "creator-youtube-longform": {
     "seoTitle": "YouTube Channel aufbauen: Long-Form & Monetarisierung",
     "seoDescription": "YouTube Long-Form starten: 1.000 Abos und 4.000 Watch-Hours für AdSense, Mid-Rolls, Sponsoring und Newsletter-Funnel. Schritt für Schritt.",
-    "lead": "Dieser Guide fuehrt dich durch den Aufbau eines monetarisierbaren YouTube-Channels mit Long-Form-Content: von der AdSense-Eligibility ueber Sponsoring bis zu eigenen Produkten. Fuer Creator und Gruender, die auf tiefe Audience-Bindung und hohe CPMs setzen.",
-    "urgency": "Long-Form auf YouTube ist das Format mit den hoechsten CPMs und der tiefsten Audience-Bindung, aber bis zur AdSense-Schwelle aus 1.000 Abos und 4.000 Watch-Hours vergehen oft Monate. Jedes Video ohne klare Thumbnail-, Titel- und Retention-Strategie kostet dich Reichweite, die sich kaum zurueckholen laesst. Wer frueh strukturiert startet, baut einen Asset auf, der jahrelang Views und Umsatz traegt. Mit GründerX planst du Channel, Funnel und Monetarisierung von Anfang an sauber.",
+    "lead": "Dieser Guide führt dich durch den Aufbau eines monetarisierbaren YouTube-Channels mit Long-Form-Content: von der AdSense-Eligibility über Sponsoring bis zu eigenen Produkten. Für Creator und Gründer, die auf tiefe Audience-Bindung und hohe CPMs setzen.",
+    "urgency": "Long-Form auf YouTube ist das Format mit den höchsten CPMs und der tiefsten Audience-Bindung, aber bis zur AdSense-Schwelle aus 1.000 Abos und 4.000 Watch-Hours vergehen oft Monate. Jedes Video ohne klare Thumbnail-, Titel- und Retention-Strategie kostet dich Reichweite, die sich kaum zurückholen lässt. Wer früh strukturiert startet, baut einen Asset auf, der jahrelang Views und Umsatz trägt. Mit GründerX planst du Channel, Funnel und Monetarisierung von Anfang an sauber.",
     "outcomes": [
       "Live YouTube-Channel mit klarer Nischen- und Format-Strategie",
       "1.000+ Abonnenten und 4.000 Watch-Hours als AdSense-Schwelle",
-      "Mid-Roll-Ads aktiviert fuer wiederkehrende AdSense-Einnahmen",
+      "Mid-Roll-Ads aktiviert für wiederkehrende AdSense-Einnahmen",
       "Sponsoring-Pipeline und Newsletter-Funnel aufgebaut",
       "Skalierbares Produktions-Setup vom Solo-Dreh bis zum Editor"
     ],
-    "disclaimer": "Dieser Guide bietet praktische Orientierung, ersetzt keine Steuer- oder Rechtsberatung, und die Monetarisierungs-Bedingungen des YouTube-Partnerprogramms koennen sich jederzeit aendern."
+    "disclaimer": "Dieser Guide bietet praktische Orientierung, ersetzt keine Steuer- oder Rechtsberatung, und die Monetarisierungs-Bedingungen des YouTube-Partnerprogramms können sich jederzeit ändern."
   },
   "creator-twitter-reddit": {
     "seoTitle": "Twitter (X) & Reddit aufbauen: Text-First Creator-Guide",
     "seoDescription": "Audience auf X und Reddit aufbauen: Threads, Insights, Niche-Authority und Karma. Funnel zu Newsletter und Coaching Schritt für Schritt.",
-    "lead": "Dieser Guide zeigt dir, wie du auf Twitter (X) ueber Insights und Threads sowie auf Reddit ueber Niche-Authority eine Audience aufbaust und sie in Newsletter und Coaching ueberfuehrst. Fuer text-affine Gruender, Experten und Solo-Selbststaendige.",
-    "urgency": "Text-First-Plattformen belohnen Konstanz und echte Substanz, aber genau hier scheitern die meisten, weil sie sporadisch posten oder auf Reddit als Werbung wahrgenommen werden und ihr Karma verbrennen. Ohne klaren Funnel sammelst du Follower, die nie zu Einnahmen werden. Wer Audience und Monetarisierung von Anfang an zusammen denkt, baut eine Liste auf, die unabhaengig vom Algorithmus traegt. Mit GründerX hast du Posting-Logik und Funnel-Aufbau strukturiert vor dir.",
+    "lead": "Dieser Guide zeigt dir, wie du auf Twitter (X) über Insights und Threads sowie auf Reddit über Niche-Authority eine Audience aufbaust und sie in Newsletter und Coaching überführst. Für text-affine Gründer, Experten und Solo-Selbstständige.",
+    "urgency": "Text-First-Plattformen belohnen Konstanz und echte Substanz, aber genau hier scheitern die meisten, weil sie sporadisch posten oder auf Reddit als Werbung wahrgenommen werden und ihr Karma verbrennen. Ohne klaren Funnel sammelst du Follower, die nie zu Einnahmen werden. Wer Audience und Monetarisierung von Anfang an zusammen denkt, baut eine Liste auf, die unabhängig vom Algorithmus trägt. Mit GründerX hast du Posting-Logik und Funnel-Aufbau strukturiert vor dir.",
     "outcomes": [
       "Live X- und Reddit-Profile mit klarer Positionierung",
       "Aktive Community statt stiller Follower",
       "5k+ X-Follower oder 10k+ Karma in 2-3 Subreddits als Etappenziel",
       "Funnel zu Newsletter und Coaching aufgesetzt",
-      "Verstaendnis fuer Reddit-Regeln, das Bans vermeidet"
+      "Verständnis für Reddit-Regeln, das Bans vermeidet"
     ],
-    "disclaimer": "Dieser Guide bietet praktische Orientierung, ersetzt keine Steuer- oder Rechtsberatung, und die Plattform- und Subreddit-Regeln koennen sich jederzeit aendern."
+    "disclaimer": "Dieser Guide bietet praktische Orientierung, ersetzt keine Steuer- oder Rechtsberatung, und die Plattform- und Subreddit-Regeln können sich jederzeit ändern."
   },
   "creator-pinterest": {
     "seoTitle": "Pinterest Marketing: Traffic-Maschine für Gründer",
     "seoDescription": "Pinterest als Search-Engine nutzen: Business-Account, Boards, Idea-Pins und Long-Lifetime-Traffic zu Shop und Newsletter. In 3-9 Monaten.",
-    "lead": "Dieser Guide nutzt Pinterest als Such-Maschine mit langlebigem Traffic statt als Social-Feed: Business-Account, Boards, Idea-Pins und automatischer Traffic-Flow zu Shop und Newsletter. Fuer Brand-Owner und Affiliate-Creator, die einen ruhigen Top-Funnel-Kanal wollen.",
-    "urgency": "Ein Pinterest-Pin lebt im Schnitt 3-6 Monate, ein TikTok-Video oft nur 24-72 Stunden, doch viele unterschaetzen Pinterest komplett und lassen diesen passiven Traffic-Strom links liegen. Wer jetzt eine saubere Board- und Pin-Struktur aufbaut, sammelt Traffic, der noch in einem Jahr Besucher in deinen Funnel spuelt. Jeder Monat ohne Pinterest-Praesenz ist verschenkte Sichtbarkeit in einer Suchmaschine mit klarer Kaufabsicht. Mit GründerX baust du den Kanal Schritt fuer Schritt strategisch auf.",
+    "lead": "Dieser Guide nutzt Pinterest als Such-Maschine mit langlebigem Traffic statt als Social-Feed: Business-Account, Boards, Idea-Pins und automatischer Traffic-Flow zu Shop und Newsletter. Für Brand-Owner und Affiliate-Creator, die einen ruhigen Top-Funnel-Kanal wollen.",
+    "urgency": "Ein Pinterest-Pin lebt im Schnitt 3-6 Monate, ein TikTok-Video oft nur 24-72 Stunden, doch viele unterschätzen Pinterest komplett und lassen diesen passiven Traffic-Strom links liegen. Wer jetzt eine saubere Board- und Pin-Struktur aufbaut, sammelt Traffic, der noch in einem Jahr Besucher in deinen Funnel spült. Jeder Monat ohne Pinterest-Präsenz ist verschenkte Sichtbarkeit in einer Suchmaschine mit klarer Kaufabsicht. Mit GründerX baust du den Kanal Schritt für Schritt strategisch auf.",
     "outcomes": [
       "Live Pinterest-Business-Account mit 50+ thematischen Boards",
       "200+ Idea- und Standard-Pins als Traffic-Basis",
@@ -812,83 +812,83 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
       "Pin-Lifetime von Monaten statt Stunden ausgenutzt",
       "Schlanker Workflow mit optionalen Tools wie Tailwind und Canva"
     ],
-    "disclaimer": "Dieser Guide bietet praktische Orientierung, ersetzt keine Steuer- oder Rechtsberatung, und Pinterest-Richtlinien sowie Tool-Preise koennen sich jederzeit aendern."
+    "disclaimer": "Dieser Guide bietet praktische Orientierung, ersetzt keine Steuer- oder Rechtsberatung, und Pinterest-Richtlinien sowie Tool-Preise können sich jederzeit ändern."
   },
   "coach-1-on-1": {
     "seoTitle": "1:1-Coaching starten: Premium-Setup ohne FernUSG",
-    "seoDescription": "1:1-Coaching aufsetzen: Premium-Pricing 250-500 Euro/h, klare Vertraege, sauberer Booking-Flow und 8-15 Klienten. In 1-2 Wochen live.",
-    "lead": "Dieser Guide bringt dein 1:1-Coaching in 1-2 Wochen live: Premium-Pricing, klare Vertraege und ein sauberer Booking-Flow, ohne FernUSG-Risiko bei rein synchroner Arbeit. Fuer Experten und Solo-Selbststaendige, die ihr Wissen hochpreisig anbieten wollen.",
-    "urgency": "Rein synchrones 1:1-Coaching ist der schnellste Weg in profitables Coaching, weil es bei korrektem Setup nicht unter das FernUSG faellt, das asynchrone Kurse zulassungspflichtig macht. Wer ohne klare Vertraege und sauberen Booking-Flow startet, riskiert No-Shows, Streit ueber Leistungsumfang und unbezahlte Stunden. Ein durchdachtes Setup erlaubt dir, ab Tag eins 250-500 Euro pro Stunde sauber abzurechnen. Mit GründerX setzt du Pricing, Vertraege und Booking strukturiert auf.",
+    "seoDescription": "1:1-Coaching aufsetzen: Premium-Pricing 250-500 Euro/h, klare Verträge, sauberer Booking-Flow und 8-15 Klienten. In 1-2 Wochen live.",
+    "lead": "Dieser Guide bringt dein 1:1-Coaching in 1-2 Wochen live: Premium-Pricing, klare Verträge und ein sauberer Booking-Flow, ohne FernUSG-Risiko bei rein synchroner Arbeit. Für Experten und Solo-Selbstständige, die ihr Wissen hochpreisig anbieten wollen.",
+    "urgency": "Rein synchrones 1:1-Coaching ist der schnellste Weg in profitables Coaching, weil es bei korrektem Setup nicht unter das FernUSG fällt, das asynchrone Kurse zulassungspflichtig macht. Wer ohne klare Verträge und sauberen Booking-Flow startet, riskiert No-Shows, Streit über Leistungsumfang und unbezahlte Stunden. Ein durchdachtes Setup erlaubt dir, ab Tag eins 250-500 Euro pro Stunde sauber abzurechnen. Mit GründerX setzt du Pricing, Verträge und Booking strukturiert auf.",
     "outcomes": [
       "Live 1:1-Coaching-Setup in 1-2 Wochen",
       "Premium-Pricing von 250-500 Euro pro Stunde definiert",
-      "Klare Vertraege, die Leistungsumfang und Bezahlung absichern",
+      "Klare Verträge, die Leistungsumfang und Bezahlung absichern",
       "Sauberer Booking-Flow gegen No-Shows",
       "8-15 aktive Klienten pro Monat als realistisches Auslastungsziel"
     ],
-    "disclaimer": "Dieser Guide bietet praktische Orientierung, ersetzt keine Steuer- oder Rechtsberatung; ob dein Angebot unter das FernUSG faellt, solltest du im Einzelfall rechtlich pruefen lassen, da sich Anforderungen aendern koennen."
+    "disclaimer": "Dieser Guide bietet praktische Orientierung, ersetzt keine Steuer- oder Rechtsberatung; ob dein Angebot unter das FernUSG fällt, solltest du im Einzelfall rechtlich prüfen lassen, da sich Anforderungen ändern können."
   },
   "coach-group-mastermind": {
     "seoTitle": "Group-Coaching & Mastermind aufbauen: 1:n skalieren",
     "seoDescription": "Group-Coaching statt 1:1: 8-12 Klienten parallel, 12-Wochen-Format, Community-Backend und Sales-Pipeline. In 4-8 Wochen zum Launch.",
-    "lead": "Dieser Guide zeigt dir den Aufbau eines Group-Coachings oder Masterminds mit 8-12 Klienten parallel: 12-Wochen-Format, Community-Backend und Sales-Pipeline. Fuer Coaches, die ihr 1:1-Modell um den 5- bis 20-fachen Hebel skalieren wollen.",
-    "urgency": "Group-Coaching multipliziert deinen Stundensatz, weil du dieselbe Zeit an viele Klienten gleichzeitig verkaufst und ein Community-Effekt entsteht, der die Ergebnisse verbessert. Wer aber ohne klares Format und Sales-Pipeline launcht, fuellt die erste Cohort nicht voll und verbrennt seinen Launch-Schwung. Ein strukturiertes 12-Wochen-Programm mit passendem Community-Backend macht aus deinem Wissen ein skalierbares, teils wiederkehrendes Einkommen. Mit GründerX planst du Format, Backend und Pipeline Schritt fuer Schritt.",
+    "lead": "Dieser Guide zeigt dir den Aufbau eines Group-Coachings oder Masterminds mit 8-12 Klienten parallel: 12-Wochen-Format, Community-Backend und Sales-Pipeline. Für Coaches, die ihr 1:1-Modell um den 5- bis 20-fachen Hebel skalieren wollen.",
+    "urgency": "Group-Coaching multipliziert deinen Stundensatz, weil du dieselbe Zeit an viele Klienten gleichzeitig verkaufst und ein Community-Effekt entsteht, der die Ergebnisse verbessert. Wer aber ohne klares Format und Sales-Pipeline launcht, füllt die erste Cohort nicht voll und verbrennt seinen Launch-Schwung. Ein strukturiertes 12-Wochen-Programm mit passendem Community-Backend macht aus deinem Wissen ein skalierbares, teils wiederkehrendes Einkommen. Mit GründerX planst du Format, Backend und Pipeline Schritt für Schritt.",
     "outcomes": [
       "Live Group-Coaching-Programm in 4-8 Wochen",
       "8-12 aktive Klienten pro Cohort als realistisches Launch-Ziel",
       "Klares 12-Wochen-Format mit definierten Meilensteinen",
       "Community-Backend auf Discord, Circle oder Skool aufgesetzt",
-      "Sales-Pipeline zur Befuellung der naechsten Cohorts"
+      "Sales-Pipeline zur Befüllung der nächsten Cohorts"
     ],
-    "disclaimer": "Dieser Guide bietet praktische Orientierung, ersetzt keine Steuer- oder Rechtsberatung; je nach Aufbau koennen FernUSG-Fragen relevant werden, und Anforderungen koennen sich aendern."
+    "disclaimer": "Dieser Guide bietet praktische Orientierung, ersetzt keine Steuer- oder Rechtsberatung; je nach Aufbau können FernUSG-Fragen relevant werden, und Anforderungen können sich ändern."
   },
   "coach-online-course": {
     "seoTitle": "Online-Kurs erstellen: FernUSG & ZFU richtig meistern",
     "seoDescription": "Self-Paced-Kurs aufbauen: FernUSG-Compliance, ZFU-Zulassung, Plattform-Wahl und Launch-Funnel. Schritt für Schritt, rechtlich sauber.",
-    "lead": "Dieser Guide fuehrt dich durch den Aufbau eines asynchronen Online-Kurses inklusive der kritischen FernUSG-Falle: ZFU-Zulassung, Plattform-Wahl, Launch-Funnel und Customer-Success-Process. Fuer Coaches und Experten, die ihr Wissen maximal skalierbar verkaufen wollen.",
-    "urgency": "Self-Paced-Kurse skalieren am staerksten, aber genau hier liegt die teuerste Falle im Coaching-Markt: Wer einen asynchronen Lehrgang ohne ZFU-Zulassung verkauft, riskiert nach FernUSG nichtige Vertraege und Abmahnungen. Viele Anbieter erfahren davon erst, wenn Rueckforderungen oder ein Wettbewerber-Anwalt vor der Tuer stehen. Wer Compliance, Plattform und Funnel von Anfang an zusammen aufsetzt, baut ein sicheres und skalierbares Produkt. Mit GründerX gehst du den Setup-Pfad inklusive ZFU-Schritten strukturiert durch.",
+    "lead": "Dieser Guide führt dich durch den Aufbau eines asynchronen Online-Kurses inklusive der kritischen FernUSG-Falle: ZFU-Zulassung, Plattform-Wahl, Launch-Funnel und Customer-Success-Process. Für Coaches und Experten, die ihr Wissen maximal skalierbar verkaufen wollen.",
+    "urgency": "Self-Paced-Kurse skalieren am stärksten, aber genau hier liegt die teuerste Falle im Coaching-Markt: Wer einen asynchronen Lehrgang ohne ZFU-Zulassung verkauft, riskiert nach FernUSG nichtige Verträge und Abmahnungen. Viele Anbieter erfahren davon erst, wenn Rückforderungen oder ein Wettbewerber-Anwalt vor der Tür stehen. Wer Compliance, Plattform und Funnel von Anfang an zusammen aufsetzt, baut ein sicheres und skalierbares Produkt. Mit GründerX gehst du den Setup-Pfad inklusive ZFU-Schritten strukturiert durch.",
     "outcomes": [
       "Live Online-Kurs auf Elopage, Kajabi oder Coachy",
-      "FernUSG-Compliance geklaert und ZFU-Zulassung angestossen",
+      "FernUSG-Compliance geklärt und ZFU-Zulassung angestoßen",
       "Passende Plattform statt teurer Fehlentscheidung",
       "Launch-Funnel und Customer-Success-Process aufgesetzt",
-      "100-1.000+ Kaeufer pro Launch als realistische Groessenordnung"
+      "100-1.000+ Käufer pro Launch als realistische Größenordnung"
     ],
-    "disclaimer": "Dieser Guide bietet praktische Orientierung, ersetzt keine Steuer- oder Rechtsberatung; ob und in welcher Form eine ZFU-Zulassung noetig ist, musst du im Einzelfall rechtlich pruefen lassen, da sich Anforderungen aendern koennen."
+    "disclaimer": "Dieser Guide bietet praktische Orientierung, ersetzt keine Steuer- oder Rechtsberatung; ob und in welcher Form eine ZFU-Zulassung nötig ist, musst du im Einzelfall rechtlich prüfen lassen, da sich Anforderungen ändern können."
   },
   "coach-membership": {
     "seoTitle": "Membership aufbauen: Recurring Revenue mit Community",
     "seoDescription": "Membership-Site starten: 47-97 Euro/Mon Sweet-Spot, Community-Backend, niedrige Churn und 100-1.000+ Members. In 4-8 Wochen live.",
-    "lead": "Dieser Guide zeigt dir den Aufbau einer Membership mit planbaren monatlichen Einnahmen: 47-97 Euro Sweet-Spot, Community-Backend und Churn-Kontrolle. Fuer Coaches und Creator, die wiederkehrendes Einkommen statt Einmal-Verkaeufen aufbauen wollen.",
-    "urgency": "Eine Membership verwandelt schwankende Projekt-Einnahmen in planbaren Monthly-Recurring-Revenue, der mit jedem Member waechst. Der haeufigste Fehler ist hohe Churn, weil der laufende Mehrwert und das Community-Erlebnis fehlen, sodass Members nach zwei Monaten wieder kuendigen. Wer Pricing, Content-Rhythmus und Community-Hebel von Anfang an richtig aufsetzt, baut ein Einkommen, das sich Monat fuer Monat stabilisiert. Mit GründerX strukturierst du Setup, Pricing und Retention Schritt fuer Schritt.",
+    "lead": "Dieser Guide zeigt dir den Aufbau einer Membership mit planbaren monatlichen Einnahmen: 47-97 Euro Sweet-Spot, Community-Backend und Churn-Kontrolle. Für Coaches und Creator, die wiederkehrendes Einkommen statt Einmal-Verkäufen aufbauen wollen.",
+    "urgency": "Eine Membership verwandelt schwankende Projekt-Einnahmen in planbaren Monthly-Recurring-Revenue, der mit jedem Member wächst. Der häufigste Fehler ist hohe Churn, weil der laufende Mehrwert und das Community-Erlebnis fehlen, sodass Members nach zwei Monaten wieder kündigen. Wer Pricing, Content-Rhythmus und Community-Hebel von Anfang an richtig aufsetzt, baut ein Einkommen, das sich Monat für Monat stabilisiert. Mit GründerX strukturierst du Setup, Pricing und Retention Schritt für Schritt.",
     "outcomes": [
       "Live Membership-Site in 4-8 Wochen",
       "Pricing im 47-97 Euro Sweet-Spot festgelegt",
       "Aktives Community-Backend als Bindungs-Hebel",
-      "Churn unter 5 Prozent pro Monat als Zielgroesse",
+      "Churn unter 5 Prozent pro Monat als Zielgröße",
       "100-1.000+ aktive Members als skalierbares Ziel"
     ],
-    "disclaimer": "Dieser Guide bietet praktische Orientierung, ersetzt keine Steuer- oder Rechtsberatung; je nach Content-Form koennen FernUSG-Fragen relevant werden, und Anforderungen koennen sich aendern."
+    "disclaimer": "Dieser Guide bietet praktische Orientierung, ersetzt keine Steuer- oder Rechtsberatung; je nach Content-Form können FernUSG-Fragen relevant werden, und Anforderungen können sich ändern."
   },
   "crowdfunding-equity": {
     "seoTitle": "Equity-Crowdfunding: Companisto & Seedmatch starten",
     "seoDescription": "Equity-Crowdfunding aufsetzen: bis 6 Mio Euro ECSP-frei, VIB/WIB-Doku, Investor-Reporting und Pooling-Vehicle für spätere VCs.",
-    "lead": "Dieser Guide fuehrt dich durch eine Equity-Crowdfunding-Kampagne auf Plattformen wie Companisto oder Seedmatch: Funding-Goal, VIB/WIB-Dokumentation, Investor-Reporting und ein Pooling-Vehicle fuer spaetere VC-Kompatibilitaet. Fuer Gruender mit Kapitalbedarf von 500k bis 3 Mio Euro.",
-    "urgency": "Equity-Crowdfunding bringt nicht nur Kapital, sondern auch hunderte Marken-Botschafter, doch ein schlecht strukturiertes Cap-Table oder fehlendes Pooling-Vehicle kann dich spaeter in VC-Runden ausbremsen oder unmoeglich machen. Fehler bei VIB/WIB-Dokumentation oder Investor-Reporting sind teuer und rechtlich heikel. Wer die Struktur vor dem Launch sauber aufsetzt, haelt sich alle Finanzierungs-Optionen offen. Mit GründerX gehst du Pre-Kampagne, Doku und Reporting strukturiert durch.",
+    "lead": "Dieser Guide führt dich durch eine Equity-Crowdfunding-Kampagne auf Plattformen wie Companisto oder Seedmatch: Funding-Goal, VIB/WIB-Dokumentation, Investor-Reporting und ein Pooling-Vehicle für spätere VC-Kompatibilität. Für Gründer mit Kapitalbedarf von 500k bis 3 Mio Euro.",
+    "urgency": "Equity-Crowdfunding bringt nicht nur Kapital, sondern auch hunderte Marken-Botschafter, doch ein schlecht strukturiertes Cap-Table oder fehlendes Pooling-Vehicle kann dich später in VC-Runden ausbremsen oder unmöglich machen. Fehler bei VIB/WIB-Dokumentation oder Investor-Reporting sind teuer und rechtlich heikel. Wer die Struktur vor dem Launch sauber aufsetzt, hält sich alle Finanzierungs-Optionen offen. Mit GründerX gehst du Pre-Kampagne, Doku und Reporting strukturiert durch.",
     "outcomes": [
       "Live Equity-Crowdfunding-Kampagne mit 500k-3 Mio Euro Funding-Goal",
       "VIB/WIB-Dokumentation vorbereitet",
       "ECSP-Befreiung bis 6 Mio Euro genutzt",
       "Investor-Reporting-Process aufgesetzt",
-      "Pooling-Vehicle fuer spaetere VC-Kompatibilitaet eingerichtet"
+      "Pooling-Vehicle für spätere VC-Kompatibilität eingerichtet"
     ],
-    "disclaimer": "Dieser Guide bietet praktische Orientierung, ersetzt keine Rechts- oder Steuerberatung; Equity-Crowdfunding ist stark reguliert und sollte rechtlich begleitet werden, da sich Schwellen und Anforderungen aendern koennen."
+    "disclaimer": "Dieser Guide bietet praktische Orientierung, ersetzt keine Rechts- oder Steuerberatung; Equity-Crowdfunding ist stark reguliert und sollte rechtlich begleitet werden, da sich Schwellen und Anforderungen ändern können."
   },
   "crowdfunding-reward": {
     "seoTitle": "Reward-Crowdfunding: Kickstarter & Indiegogo starten",
     "seoDescription": "Reward-Crowdfunding planen: Pre-Launch-Liste, Funding-Goal, Fulfillment-Plan und Backerkit-Sales. Pre-Order-Modell ohne Anteils-Transfer.",
-    "lead": "Dieser Guide zeigt dir eine Reward-Crowdfunding-Kampagne auf Kickstarter oder Indiegogo nach dem Pre-Order-Modell: Pre-Launch-Email-Liste, Funding-Goal, Fulfillment-Plan und Post-Campaign-Sales via Backerkit. Fuer Hardware- und Innovations-Gruender, die ihren Markt validieren und finanzieren wollen.",
-    "urgency": "Reward-Crowdfunding validiert deinen Markt und finanziert die erste Produktion, ohne dass du Anteile abgibst, aber der Erfolg entscheidet sich Wochen vor dem Launch ueber deine Pre-Launch-Email-Liste. Kampagnen ohne aufgewaermtes Publikum starten ins Leere und scheitern in den ersten 48 Stunden. Und wer Fulfillment unterschaetzt, liefert verspaetet und beschaedigt seine Marke dauerhaft. Mit GründerX planst du Pre-Kampagne, Funding und Fulfillment Schritt fuer Schritt.",
+    "lead": "Dieser Guide zeigt dir eine Reward-Crowdfunding-Kampagne auf Kickstarter oder Indiegogo nach dem Pre-Order-Modell: Pre-Launch-Email-Liste, Funding-Goal, Fulfillment-Plan und Post-Campaign-Sales via Backerkit. Für Hardware- und Innovations-Gründer, die ihren Markt validieren und finanzieren wollen.",
+    "urgency": "Reward-Crowdfunding validiert deinen Markt und finanziert die erste Produktion, ohne dass du Anteile abgibst, aber der Erfolg entscheidet sich Wochen vor dem Launch über deine Pre-Launch-Email-Liste. Kampagnen ohne aufgewärmtes Publikum starten ins Leere und scheitern in den ersten 48 Stunden. Und wer Fulfillment unterschätzt, liefert verspätet und beschädigt seine Marke dauerhaft. Mit GründerX planst du Pre-Kampagne, Funding und Fulfillment Schritt für Schritt.",
     "outcomes": [
       "Live Reward-Crowdfunding-Kampagne mit 50-500k Euro Funding-Ziel",
       "Pre-Launch-Email-Liste von 5-50k Subscribern aufgebaut",
@@ -896,203 +896,203 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
       "Post-Campaign-Sales via Backerkit vorbereitet",
       "Marktvalidierung und Finanzierung ohne Anteils-Transfer"
     ],
-    "disclaimer": "Dieser Guide bietet praktische Orientierung, ersetzt keine Rechts- oder Steuerberatung; Plattform-Bedingungen, Gebuehren und Verbraucherschutz-Pflichten koennen sich aendern."
+    "disclaimer": "Dieser Guide bietet praktische Orientierung, ersetzt keine Rechts- oder Steuerberatung; Plattform-Bedingungen, Gebühren und Verbraucherschutz-Pflichten können sich ändern."
   },
   "crowdfunding-token-launch": {
     "seoTitle": "Token-Launch in der EU: MiCAR-konform aufsetzen",
     "seoDescription": "Krypto-Token MiCAR-konform launchen: White-Paper, BaFin-Notification, Smart-Contract-Audit und KYC/AML. Realistisch ab 5 Mio Euro Ziel.",
-    "lead": "Dieser Guide fuehrt dich durch einen MiCAR-konformen Token-Launch in der EU: White-Paper, BaFin-Notification, Smart-Contract-Audit und KYC/AML-Setup. Fuer Gruender mit ernsthaftem Krypto-Vorhaben und einem Funding-Ziel ab 5 Mio Euro.",
-    "urgency": "Seit MiCAR ist ein Token-Launch in der EU streng reguliert: Ohne korrektes White-Paper, BaFin-Notification, Smart-Contract-Audit und KYC/AML-Setup riskierst du Vertriebsverbote und persoenliche Haftung. Die Compliance-Kosten sind hoch und der Setup-Pfad zieht sich ueber Monate, weshalb sich das Modell realistisch erst ab mehreren Millionen Euro Funding-Ziel rechnet. Wer den Pfad strukturiert plant, vermeidet teure Fehlstarts. Mit GründerX behaeltst du jeden Compliance-Schritt im Blick.",
+    "lead": "Dieser Guide führt dich durch einen MiCAR-konformen Token-Launch in der EU: White-Paper, BaFin-Notification, Smart-Contract-Audit und KYC/AML-Setup. Für Gründer mit ernsthaftem Krypto-Vorhaben und einem Funding-Ziel ab 5 Mio Euro.",
+    "urgency": "Seit MiCAR ist ein Token-Launch in der EU streng reguliert: Ohne korrektes White-Paper, BaFin-Notification, Smart-Contract-Audit und KYC/AML-Setup riskierst du Vertriebsverbote und persönliche Haftung. Die Compliance-Kosten sind hoch und der Setup-Pfad zieht sich über Monate, weshalb sich das Modell realistisch erst ab mehreren Millionen Euro Funding-Ziel rechnet. Wer den Pfad strukturiert plant, vermeidet teure Fehlstarts. Mit GründerX behältst du jeden Compliance-Schritt im Blick.",
     "outcomes": [
       "Live Token-Launch MiCAR-konform aufgesetzt",
       "Rechtskonformes White-Paper erstellt",
       "BaFin-Notification vorbereitet",
       "Smart-Contract-Audit eingeplant",
-      "KYC/AML-Setup fuer regulatorische Anforderungen"
+      "KYC/AML-Setup für regulatorische Anforderungen"
     ],
-    "disclaimer": "Dieser Guide bietet praktische Orientierung, ersetzt keine Rechts- oder Steuerberatung; ein Token-Launch ist hochreguliert, MiCAR-Anforderungen entwickeln sich weiter und sollten zwingend mit spezialisierten Anwaelten umgesetzt werden."
+    "disclaimer": "Dieser Guide bietet praktische Orientierung, ersetzt keine Rechts- oder Steuerberatung; ein Token-Launch ist hochreguliert, MiCAR-Anforderungen entwickeln sich weiter und sollten zwingend mit spezialisierten Anwälten umgesetzt werden."
   },
   "hiring-festanstellung": {
     "seoTitle": "Ersten Mitarbeiter einstellen: Festanstellung-Guide",
     "seoDescription": "Erste Festanstellung sauber aufsetzen: KSchG-konformer Arbeitsvertrag, Sozialvers-Meldung und Onboarding. In 2-4 Wochen rechtssicher.",
-    "lead": "Dieser Guide bringt dich durch deine erste Festanstellung: KSchG-konformer Arbeitsvertrag, Sozialversicherungs-Meldung und korrektes Onboarding. Fuer Gruender und Solo-Selbststaendige, die ihren ersten Vollzeit-Mitarbeiter einstellen wollen.",
-    "urgency": "Der erste Hire ist der Schritt mit den hoechsten rechtlichen Anforderungen: Ein fehlerhafter Arbeitsvertrag, eine verpasste Sozialversicherungs-Meldung oder ignoriertes KSchG koennen schnell vierstellige Nachzahlungen und Streit ausloesen. Wer hier ohne sauberen Process startet, baut sich Risiken ein, die ein Jahr spaeter teuer werden. Mit dem richtigen Setup wird aus deinem ersten Mitarbeiter ein echter Hebel statt eines Klotzes am Bein. Mit GründerX gehst du Vertrag, Meldung und Onboarding strukturiert durch.",
+    "lead": "Dieser Guide bringt dich durch deine erste Festanstellung: KSchG-konformer Arbeitsvertrag, Sozialversicherungs-Meldung und korrektes Onboarding. Für Gründer und Solo-Selbstständige, die ihren ersten Vollzeit-Mitarbeiter einstellen wollen.",
+    "urgency": "Der erste Hire ist der Schritt mit den höchsten rechtlichen Anforderungen: Ein fehlerhafter Arbeitsvertrag, eine verpasste Sozialversicherungs-Meldung oder ignoriertes KSchG können schnell vierstellige Nachzahlungen und Streit auslösen. Wer hier ohne sauberen Process startet, baut sich Risiken ein, die ein Jahr später teuer werden. Mit dem richtigen Setup wird aus deinem ersten Mitarbeiter ein echter Hebel statt eines Klotzes am Bein. Mit GründerX gehst du Vertrag, Meldung und Onboarding strukturiert durch.",
     "outcomes": [
       "Erster Mitarbeiter rechtssicher eingestellt",
       "KSchG-konformer Arbeitsvertrag aufgesetzt",
-      "Sozialversicherungs-Meldung korrekt durchgefuehrt",
+      "Sozialversicherungs-Meldung korrekt durchgeführt",
       "Sauberer Onboarding-Process etabliert",
       "Klarer Blick auf AG-Anteil und laufende Lohnkosten"
     ],
-    "disclaimer": "Dieser Guide bietet praktische Orientierung, ersetzt keine Rechts- oder Steuerberatung; Arbeitsvertraege sollten anwaltlich geprueft werden, und arbeits- sowie sozialversicherungsrechtliche Anforderungen koennen sich aendern."
+    "disclaimer": "Dieser Guide bietet praktische Orientierung, ersetzt keine Rechts- oder Steuerberatung; Arbeitsverträge sollten anwaltlich geprüft werden, und arbeits- sowie sozialversicherungsrechtliche Anforderungen können sich ändern."
   },
   "hiring-freelancer": {
     "seoTitle": "Freelancer beauftragen: Werkvertrag rechtssicher",
     "seoDescription": "Freelancer rechtssicher beauftragen: sauberer Werkvertrag, Scheinselbstständigkeit vermeiden, Statusfeststellung bei DRV-Risiko. In 1-2 Wochen.",
-    "lead": "Dieser Guide zeigt dir Schritt fuer Schritt, wie du als Gruender oder E-Commerce-Haendler Freelancer ueber Werk- oder Dienstvertraege beauftragst - und wie du die teure Scheinselbststaendigkeits-Falle umgehst.",
-    "urgency": "Wenn ein Freelancer faktisch wie ein Angestellter arbeitet, kann die Deutsche Rentenversicherung rueckwirkend Sozialabgaben fuer bis zu vier Jahre nachfordern - plus Saeumniszuschlaege und im Ernstfall strafrechtliche Folgen. Gerade bei langfristigen 1-Klient-Beziehungen wird es schnell teuer, wenn der Vertrag und die gelebte Praxis nicht sauber sind. Bau deinen Freelancer-Pool von Anfang an richtig auf, statt spaeter teuer nachzubessern. Mit GruenderX gehst du jeden Schritt strukturiert durch und erkennst Risiko-Faelle, bevor sie zum Problem werden.",
+    "lead": "Dieser Guide zeigt dir Schritt für Schritt, wie du als Gründer oder E-Commerce-Händler Freelancer über Werk- oder Dienstverträge beauftragst - und wie du die teure Scheinselbstständigkeits-Falle umgehst.",
+    "urgency": "Wenn ein Freelancer faktisch wie ein Angestellter arbeitet, kann die Deutsche Rentenversicherung rückwirkend Sozialabgaben für bis zu vier Jahre nachfordern - plus Säumniszuschläge und im Ernstfall strafrechtliche Folgen. Gerade bei langfristigen 1-Klient-Beziehungen wird es schnell teuer, wenn der Vertrag und die gelebte Praxis nicht sauber sind. Bau deinen Freelancer-Pool von Anfang an richtig auf, statt später teuer nachzubessern. Mit GründerX gehst du jeden Schritt strukturiert durch und erkennst Risiko-Fälle, bevor sie zum Problem werden.",
     "outcomes": [
-      "Live Freelancer-Pool mit 3-5 Subunternehmern und sauberen Vertraegen",
-      "Rechtssichere Werk- bzw. Dienstvertraege als Vorlage",
-      "Klarheit ueber die Merkmale der Scheinselbststaendigkeit",
-      "Statusfeststellungs-Verfahren bei DRV-Risiko-Faellen eingeleitet",
-      "Keine boese Ueberraschung bei einer DRV-Betriebspruefung"
+      "Live Freelancer-Pool mit 3-5 Subunternehmern und sauberen Verträgen",
+      "Rechtssichere Werk- bzw. Dienstverträge als Vorlage",
+      "Klarheit über die Merkmale der Scheinselbstständigkeit",
+      "Statusfeststellungs-Verfahren bei DRV-Risiko-Fällen eingeleitet",
+      "Keine böse Überraschung bei einer DRV-Betriebsprüfung"
     ],
-    "disclaimer": "Dieser Guide bietet Orientierung und ersetzt keine Rechts- oder Steuerberatung; sozialversicherungsrechtliche Bewertungen sind Einzelfallentscheidungen und Anforderungen koennen sich aendern."
+    "disclaimer": "Dieser Guide bietet Orientierung und ersetzt keine Rechts- oder Steuerberatung; sozialversicherungsrechtliche Bewertungen sind Einzelfallentscheidungen und Anforderungen können sich ändern."
   },
   "hiring-minijob-werkstudent": {
     "seoTitle": "Minijob & Werkstudent einstellen: die Anleitung",
-    "seoDescription": "Minijobber (603 EUR) und Werkstudenten richtig einstellen: Vertraege, Minijob-Zentrale, Werkstudent-Status. Geringe Lohnnebenkosten in 1-2 Wochen.",
-    "lead": "Dieser Guide fuehrt dich durch die erste Einstellung von Minijobbern und Werkstudenten - mit korrekten Vertraegen, Anmeldung und Status-Bestaetigung. Ideal fuer die Test-Phase oder den Start deiner Skalierung.",
-    "urgency": "Minijob und Werkstudent sind die guenstigsten Wege, dir erste Unterstuetzung zu holen - aber Fehler bei der Anmeldung oder der 20-Stunden-Grenze beim Werkstudenten kosten dich nachtraeglich volle Sozialabgaben. Wird die Geringfuegigkeitsgrenze ueberschritten oder die Minijob-Zentrale-Anmeldung versaeumt, drohen Nachzahlungen und Aerger mit der Krankenkasse. Mach es einmal sauber, statt spaeter rueckzurechnen. Mit GruenderX hast du die korrekten Vertraege, Fristen und Grenzen direkt an der Hand.",
+    "seoDescription": "Minijobber (603 EUR) und Werkstudenten richtig einstellen: Verträge, Minijob-Zentrale, Werkstudent-Status. Geringe Lohnnebenkosten in 1-2 Wochen.",
+    "lead": "Dieser Guide führt dich durch die erste Einstellung von Minijobbern und Werkstudenten - mit korrekten Verträgen, Anmeldung und Status-Bestätigung. Ideal für die Test-Phase oder den Start deiner Skalierung.",
+    "urgency": "Minijob und Werkstudent sind die günstigsten Wege, dir erste Unterstützung zu holen - aber Fehler bei der Anmeldung oder der 20-Stunden-Grenze beim Werkstudenten kosten dich nachträglich volle Sozialabgaben. Wird die Geringfügigkeitsgrenze überschritten oder die Minijob-Zentrale-Anmeldung versäumt, drohen Nachzahlungen und Ärger mit der Krankenkasse. Mach es einmal sauber, statt später rückzurechnen. Mit GründerX hast du die korrekten Verträge, Fristen und Grenzen direkt an der Hand.",
     "outcomes": [
-      "Erste Minijobber oder Werkstudenten mit korrekten Vertraegen eingestellt",
-      "Anmeldung bei der Minijob-Zentrale sauber durchgefuehrt",
-      "Werkstudent-Status korrekt geprueft und bestaetigt",
+      "Erste Minijobber oder Werkstudenten mit korrekten Verträgen eingestellt",
+      "Anmeldung bei der Minijob-Zentrale sauber durchgeführt",
+      "Werkstudent-Status korrekt geprüft und bestätigt",
       "Reduzierte Lohnnebenkosten richtig kalkuliert",
-      "Saubere Basis fuer den Schritt zur sozialversicherungspflichtigen Stelle"
+      "Saubere Basis für den Schritt zur sozialversicherungspflichtigen Stelle"
     ],
-    "disclaimer": "Dieser Guide dient der Orientierung und ersetzt keine Lohn-, Steuer- oder Rechtsberatung; Geringfuegigkeitsgrenzen und Anforderungen koennen sich aendern."
+    "disclaimer": "Dieser Guide dient der Orientierung und ersetzt keine Lohn-, Steuer- oder Rechtsberatung; Geringfügigkeitsgrenzen und Anforderungen können sich ändern."
   },
   "amazon-brand-registry": {
     "seoTitle": "Amazon Brand Registry freischalten: Anleitung 2026",
     "seoDescription": "Eingetragene Marke im Amazon Brand Registry freischalten: A+ Content, Brand Store, Markenschutz. Schritt für Schritt in 1-3 Wochen.",
     "lead": "Dieser Guide zeigt dir, wie du deine eingetragene Marke im Amazon Brand Registry freischaltest und damit Zugriff auf A+ Content, Brand Store, Sponsored Brands und Markenschutz-Tools bekommst.",
-    "urgency": "Ohne Brand Registry stehst du Produktpiraten und Listing-Hijackern praktisch schutzlos gegenueber - jeder kann sich an dein Listing haengen und deine Marge kaputtmachen. Gleichzeitig laesst du ohne A+ Content und Brand Store taeglich Conversion liegen. Je laenger du wartest, desto mehr Umsatz und Markenkontrolle verschenkst du. Mit GruenderX gehst du den Freischalt-Prozess sauber durch und nutzt von Anfang an alle Marken-Tools.",
+    "urgency": "Ohne Brand Registry stehst du Produktpiraten und Listing-Hijackern praktisch schutzlos gegenüber - jeder kann sich an dein Listing hängen und deine Marge kaputtmachen. Gleichzeitig lässt du ohne A+ Content und Brand Store täglich Conversion liegen. Je länger du wartest, desto mehr Umsatz und Markenkontrolle verschenkst du. Mit GründerX gehst du den Freischalt-Prozess sauber durch und nutzt von Anfang an alle Marken-Tools.",
     "outcomes": [
       "Marke im Amazon Brand Registry freigeschaltet",
-      "Zugriff auf A+ Content fuer hoehere Conversion",
+      "Zugriff auf A+ Content für höhere Conversion",
       "Eigener Brand Store und Sponsored Brands nutzbar",
-      "Brand Analytics fuer datenbasierte Entscheidungen",
+      "Brand Analytics für datenbasierte Entscheidungen",
       "Markenschutz-Tools gegen Hijacker und Counterfeits aktiv"
     ],
-    "disclaimer": "Dieser Guide bietet Orientierung und ersetzt keine Rechts- oder Markenberatung; Amazon-Anforderungen und Markenrecht koennen sich aendern."
+    "disclaimer": "Dieser Guide bietet Orientierung und ersetzt keine Rechts- oder Markenberatung; Amazon-Anforderungen und Markenrecht können sich ändern."
   },
   "amazon-transparency": {
     "seoTitle": "Amazon Transparency einrichten: Schutz vor Fälschungen",
     "seoDescription": "Amazon Transparency einrichten: Echtheitscodes pro Einheit gegen Counterfeits und Hijacker. Anleitung Schritt für Schritt in 1-2 Wochen.",
-    "lead": "Dieser Guide erklaert dir, wie du deine Produkte im Amazon-Transparency-Programm anmeldest und mit eindeutigen Echtheitscodes pro Einheit gegen Faelschungen und Hijacker absicherst.",
-    "urgency": "Schon eine einzige Counterfeit-Charge unter deinem Listing kann Bewertungen ruinieren, Retouren ausloesen und deine Marke nachhaltig beschaedigen. Transparency vergibt fuer jede Einheit einen eindeutigen Echtheitscode - faelscht jemand dein Produkt, fliegt es beim Scan sofort auf. Wartest du, bis der erste Hijacker da ist, ist der Schaden meist schon entstanden. Mit GruenderX richtest du Transparency strukturiert ein und schliesst die Luecke, bevor sie ausgenutzt wird.",
+    "lead": "Dieser Guide erklärt dir, wie du deine Produkte im Amazon-Transparency-Programm anmeldest und mit eindeutigen Echtheitscodes pro Einheit gegen Fälschungen und Hijacker absicherst.",
+    "urgency": "Schon eine einzige Counterfeit-Charge unter deinem Listing kann Bewertungen ruinieren, Retouren auslösen und deine Marke nachhaltig beschädigen. Transparency vergibt für jede Einheit einen eindeutigen Echtheitscode - fälscht jemand dein Produkt, fliegt es beim Scan sofort auf. Wartest du, bis der erste Hijacker da ist, ist der Schaden meist schon entstanden. Mit GründerX richtest du Transparency strukturiert ein und schließt die Lücke, bevor sie ausgenutzt wird.",
     "outcomes": [
       "Produkte im Transparency-Programm angemeldet",
       "Eindeutige Echtheitscodes pro produzierter Einheit",
       "Schutz vor Counterfeits direkt am Produkt",
       "Hijacker werden beim Code-Scan erkannt",
-      "Hoeheres Kundenvertrauen durch verifizierte Echtheit"
+      "Höheres Kundenvertrauen durch verifizierte Echtheit"
     ],
-    "disclaimer": "Dieser Guide dient der Orientierung und ersetzt keine Rechtsberatung; Amazon-Programmbedingungen und Code-Gebuehren koennen sich aendern."
+    "disclaimer": "Dieser Guide dient der Orientierung und ersetzt keine Rechtsberatung; Amazon-Programmbedingungen und Code-Gebühren können sich ändern."
   },
   "weee-registrierung": {
     "seoTitle": "WEEE-Registrierung: Elektrogeräte bei stiftung ear melden",
     "seoDescription": "WEEE-Registrierung nach ElektroG: Reg.-Nr. bei stiftung ear, Garantie, Mengenmeldung. Marktplatz-konform werden in 2-6 Wochen.",
-    "lead": "Dieser Guide fuehrt dich durch die WEEE-Registrierung nach ElektroG bei der stiftung ear - von der Reg.-Nr. ueber die insolvenzsichere Garantie bis zur laufenden Mengenmeldung.",
-    "urgency": "Wer Elektrogeraete ohne gueltige WEEE-Reg.-Nr. verkauft, riskiert Bussgelder bis zu 100.000 EUR, Vertriebsverbote und sofortige Sperrung durch Marktplaetze wie Amazon. Plattformen pruefen die Registrierung inzwischen automatisch ab - fehlt sie, sind deine Listings raus. Da die ear-Registrierung Wochen dauern kann, solltest du jetzt starten, statt vor dem Launch festzustecken. Mit GruenderX gehst du jeden Schritt der Registrierung sauber durch.",
+    "lead": "Dieser Guide führt dich durch die WEEE-Registrierung nach ElektroG bei der stiftung ear - von der Reg.-Nr. über die insolvenzsichere Garantie bis zur laufenden Mengenmeldung.",
+    "urgency": "Wer Elektrogeräte ohne gültige WEEE-Reg.-Nr. verkauft, riskiert Bußgelder bis zu 100.000 EUR, Vertriebsverbote und sofortige Sperrung durch Marktplätze wie Amazon. Plattformen prüfen die Registrierung inzwischen automatisch ab - fehlt sie, sind deine Listings raus. Da die ear-Registrierung Wochen dauern kann, solltest du jetzt starten, statt vor dem Launch festzustecken. Mit GründerX gehst du jeden Schritt der Registrierung sauber durch.",
     "outcomes": [
-      "Gueltige WEEE-Reg.-Nr. (DE...) bei der stiftung ear",
-      "Insolvenzsichere Garantie fuer den B2C-Vertrieb hinterlegt",
-      "Reg.-Nr. bei allen relevanten Marktplaetzen eingetragen",
+      "Gültige WEEE-Reg.-Nr. (DE...) bei der stiftung ear",
+      "Insolvenzsichere Garantie für den B2C-Vertrieb hinterlegt",
+      "Reg.-Nr. bei allen relevanten Marktplätzen eingetragen",
       "Laufende Mengenmeldung korrekt aufgesetzt",
       "Vertriebsverbote und Marktplatz-Sperren vermieden"
     ],
-    "disclaimer": "Dieser Guide bietet Orientierung und ersetzt keine Rechtsberatung; ElektroG-Pflichten, Gebuehren und ear-Anforderungen koennen sich aendern."
+    "disclaimer": "Dieser Guide bietet Orientierung und ersetzt keine Rechtsberatung; ElektroG-Pflichten, Gebühren und ear-Anforderungen können sich ändern."
   },
   "amazon-produkt-anlegen": {
     "seoTitle": "Amazon-Listing erstellen: Titel, Bilder, A+ & Keywords",
     "seoDescription": "Conversion-starkes Amazon-Listing anlegen: Keyword-Recherche, Titel, Bilder, A+, GTIN und Compliance. Bereit zum Ranken in 2-4 Tagen.",
     "lead": "Dieser Guide zeigt dir, wie du ein conversion-optimiertes Amazon-Listing erstellst - keyword-recherchiert, mit starken Bildern und A+, korrekter GTIN und sauberer Compliance.",
-    "urgency": "Ein schwaches Listing verbrennt jeden Euro PPC, den du reinsteckst: schlechter Titel, lahme Bilder und falsche Keywords kosten dich Ranking und Conversion ab der ersten Stunde. Wer hier schlampt, kaempft spaeter monatelang gegen ein totes Listing - und Aenderungen am Ranking sind muehsam. Bau dein Listing einmal richtig auf, bevor du Traffic darauf lenkst. Mit GruenderX hast du die komplette Reihenfolge von Keyword bis Compliance an der Hand.",
+    "urgency": "Ein schwaches Listing verbrennt jeden Euro PPC, den du reinsteckst: schlechter Titel, lahme Bilder und falsche Keywords kosten dich Ranking und Conversion ab der ersten Stunde. Wer hier schlampt, kämpft später monatelang gegen ein totes Listing - und Änderungen am Ranking sind mühsam. Bau dein Listing einmal richtig auf, bevor du Traffic darauf lenkst. Mit GründerX hast du die komplette Reihenfolge von Keyword bis Compliance an der Hand.",
     "outcomes": [
-      "Veroeffentlichtes, conversion-optimiertes Amazon-Listing",
+      "Veröffentlichtes, conversion-optimiertes Amazon-Listing",
       "Keyword-recherchierter Titel und Bullet Points",
       "Starke Produktbilder und A+ Content",
       "Korrekte GTIN und saubere Compliance-Angaben",
       "Listing bereit zum Ranken und Verkaufen"
     ],
-    "disclaimer": "Dieser Guide dient der Orientierung und ersetzt keine Rechtsberatung; Amazon-Richtlinien und GTIN-Anforderungen koennen sich aendern."
+    "disclaimer": "Dieser Guide dient der Orientierung und ersetzt keine Rechtsberatung; Amazon-Richtlinien und GTIN-Anforderungen können sich ändern."
   },
   "reseller-freischaltung": {
     "seoTitle": "Amazon Ungating: Marke & Kategorie freischalten lassen",
     "seoDescription": "Gated Marken und Kategorien zum Reselling freischalten: korrekte Distributor-Rechnung, Echtheitsnachweise, akzeptierter Antrag. In 1-4 Wochen.",
-    "lead": "Dieser Guide erklaert dir, wie du gated Marken und Kategorien auf Amazon, Kaufland, eBay & Co. zum Weiterverkauf freischalten laesst - mit Rechnungen und Nachweisen, die den Antrag durchgehen lassen.",
-    "urgency": "Ohne Ungating sitzt du auf Ware, die du nicht listen darfst - Kapital ist gebunden, der Cashflow steht. Die meisten Antraege scheitern an formalen Details wie einer nicht passenden Distributor-Rechnung oder fehlenden Echtheitsnachweisen, und jede Ablehnung verzoegert deinen Verkaufsstart. Geh den Antrag von Anfang an formal sauber an, statt mehrfach abgelehnt zu werden. Mit GruenderX weisst du genau, welche Rechnungen und Nachweise akzeptiert werden.",
+    "lead": "Dieser Guide erklärt dir, wie du gated Marken und Kategorien auf Amazon, Kaufland, eBay & Co. zum Weiterverkauf freischalten lässt - mit Rechnungen und Nachweisen, die den Antrag durchgehen lassen.",
+    "urgency": "Ohne Ungating sitzt du auf Ware, die du nicht listen darfst - Kapital ist gebunden, der Cashflow steht. Die meisten Anträge scheitern an formalen Details wie einer nicht passenden Distributor-Rechnung oder fehlenden Echtheitsnachweisen, und jede Ablehnung verzögert deinen Verkaufsstart. Geh den Antrag von Anfang an formal sauber an, statt mehrfach abgelehnt zu werden. Mit GründerX weißt du genau, welche Rechnungen und Nachweise akzeptiert werden.",
     "outcomes": [
       "Freigeschaltete Marke oder Kategorie auf Amazon, Kaufland und eBay",
-      "Korrekte Distributor-Rechnung fuer den Antrag vorbereitet",
+      "Korrekte Distributor-Rechnung für den Antrag vorbereitet",
       "Passende Echtheitsnachweise zusammengestellt",
       "Antrag formal sauber und akzeptierbar eingereicht",
       "Schneller Verkaufsstart ohne gebundenes Kapital"
     ],
-    "disclaimer": "Dieser Guide bietet Orientierung und ersetzt keine Rechtsberatung; Freischaltungskriterien der Marktplaetze koennen sich jederzeit aendern."
+    "disclaimer": "Dieser Guide bietet Orientierung und ersetzt keine Rechtsberatung; Freischaltungskriterien der Marktplätze können sich jederzeit ändern."
   },
   "dac7": {
     "seoTitle": "DAC7: Plattform-Meldepflicht meistern für Verkäufer",
     "seoDescription": "DAC7 verstehen: Was Marktplätze ans Finanzamt melden und welche Daten du liefern musst. Keine Konto- oder Auszahlungssperre. In 1-2 Tagen.",
-    "lead": "Dieser Guide erklaert dir die DAC7-Meldepflicht: was Plattformen wie Amazon, eBay und Etsy ans Finanzamt melden und welche Steuerdaten du hinterlegen musst.",
-    "urgency": "Fehlen deine DAC7-Daten oder passen sie nicht, friert die Plattform schnell deine Auszahlungen ein oder sperrt das Konto - mitten im laufenden Geschaeft. Gleichzeitig gleicht das Finanzamt die gemeldeten Umsaetze direkt mit deiner Steuererklaerung ab, und Abweichungen fallen sofort auf. Bring deine Daten in Ordnung, bevor eine Sperre dich blockiert. Mit GruenderX hinterlegst du alles korrekt und konsistent ueber alle Plattformen.",
+    "lead": "Dieser Guide erklärt dir die DAC7-Meldepflicht: was Plattformen wie Amazon, eBay und Etsy ans Finanzamt melden und welche Steuerdaten du hinterlegen musst.",
+    "urgency": "Fehlen deine DAC7-Daten oder passen sie nicht, friert die Plattform schnell deine Auszahlungen ein oder sperrt das Konto - mitten im laufenden Geschäft. Gleichzeitig gleicht das Finanzamt die gemeldeten Umsätze direkt mit deiner Steuererklärung ab, und Abweichungen fallen sofort auf. Bring deine Daten in Ordnung, bevor eine Sperre dich blockiert. Mit GründerX hinterlegst du alles korrekt und konsistent über alle Plattformen.",
     "outcomes": [
       "Korrekt hinterlegte Steuerdaten bei allen Plattformen",
       "Keine DAC7-bedingten Konto- oder Auszahlungssperren",
-      "Gemeldete Umsaetze konsistent mit der Steuererklaerung",
-      "Klarheit, was die Marktplaetze tatsaechlich melden",
+      "Gemeldete Umsätze konsistent mit der Steuererklärung",
+      "Klarheit, was die Marktplätze tatsächlich melden",
       "Ruhe vor Nachfragen des Finanzamts"
     ],
-    "disclaimer": "Dieser Guide dient der Orientierung und ersetzt keine Steuerberatung; DAC7-Meldepflichten und Schwellen koennen sich aendern."
+    "disclaimer": "Dieser Guide dient der Orientierung und ersetzt keine Steuerberatung; DAC7-Meldepflichten und Schwellen können sich ändern."
   },
   "amazon-verkaeuferkonto-setup": {
     "seoTitle": "Amazon-Verkäuferkonto einrichten: komplette Anleitung",
     "seoDescription": "Amazon-Verkäuferkonto komplett einrichten: Steuer, USt, Rechnungen, Versand, Rechtstexte, Sicherheit. Startklar für dein erstes Produkt in 1-2 Wochen.",
-    "lead": "Dieser Guide fuehrt dich Schritt fuer Schritt durch die komplette Einrichtung deines Amazon-Verkaeuferkontos - von Steuer- und USt-Einstellungen ueber Versand und Rechtstexte bis zur Absicherung.",
-    "urgency": "Ein lueckenhaft eingerichtetes Konto raecht sich frueh: fehlende USt-Einstellungen, falsche Rechnungen oder unvollstaendige Rechtstexte fuehren zu Abmahnungen, Steuerproblemen und im schlimmsten Fall zur Konto-Sperrung samt eingefrorenen Guthaben. Die Verifizierung dauert ohnehin oft Wochen - jeder Fehler verlaengert das. Richte das Konto einmal vollstaendig und sauber ein, bevor das erste Produkt live geht. Mit GruenderX arbeitest du jeden der Einrichtungsschritte strukturiert ab.",
+    "lead": "Dieser Guide führt dich Schritt für Schritt durch die komplette Einrichtung deines Amazon-Verkäuferkontos - von Steuer- und USt-Einstellungen über Versand und Rechtstexte bis zur Absicherung.",
+    "urgency": "Ein lückenhaft eingerichtetes Konto rächt sich früh: fehlende USt-Einstellungen, falsche Rechnungen oder unvollständige Rechtstexte führen zu Abmahnungen, Steuerproblemen und im schlimmsten Fall zur Konto-Sperrung samt eingefrorenen Guthaben. Die Verifizierung dauert ohnehin oft Wochen - jeder Fehler verlängert das. Richte das Konto einmal vollständig und sauber ein, bevor das erste Produkt live geht. Mit GründerX arbeitest du jeden der Einrichtungsschritte strukturiert ab.",
     "outcomes": [
-      "Vollstaendig eingerichtetes Amazon-Verkaeuferkonto",
+      "Vollständig eingerichtetes Amazon-Verkäuferkonto",
       "Korrekte Steuer-, USt- und Rechnungs-Einstellungen",
       "Versand-, Retouren-Regeln und Rechtstexte hinterlegt",
       "Bankdaten verifiziert und Konto abgesichert",
-      "Bereit fuer das erste Produkt und sauberes Wachstum"
+      "Bereit für das erste Produkt und sauberes Wachstum"
     ],
-    "disclaimer": "Dieser Guide bietet Orientierung und ersetzt keine Steuer- oder Rechtsberatung; Amazon-Vorgaben und steuerliche Pflichten koennen sich aendern."
+    "disclaimer": "Dieser Guide bietet Orientierung und ersetzt keine Steuer- oder Rechtsberatung; Amazon-Vorgaben und steuerliche Pflichten können sich ändern."
   },
   "kaufland-produkt-anlegen": {
     "seoTitle": "Produkt auf Kaufland Marketplace anlegen: Anleitung",
-    "seoDescription": "Kaufland-Angebot anlegen: EAN-Katalog andocken, Preis, Bestand, Versand und LUCID/WEEE/USt-Compliance. Veroeffentlicht in 1-2 Wochen.",
-    "lead": "Dieser Guide zeigt dir, wie du ueber das Kaufland Seller-Portal ein Produkt anlegst - am EAN-Katalog andockst oder neu erfasst, inklusive Preis, Bestand und korrekter Compliance.",
-    "urgency": "Kaufland prueft LUCID-, WEEE- und USt-Angaben streng - fehlt etwas, wird dein Angebot gar nicht erst freigeschaltet oder spaeter offline genommen. Dockst du falsch an den EAN-Katalog an, landest du auf der falschen Produktseite und verlierst Sichtbarkeit und Bewertungen. Mach es von Anfang an konform, statt nachzuarbeiten. Mit GruenderX gehst du Katalog-Anbindung und Compliance Schritt fuer Schritt durch.",
+    "seoDescription": "Kaufland-Angebot anlegen: EAN-Katalog andocken, Preis, Bestand, Versand und LUCID/WEEE/USt-Compliance. Veröffentlicht in 1-2 Wochen.",
+    "lead": "Dieser Guide zeigt dir, wie du über das Kaufland Seller-Portal ein Produkt anlegst - am EAN-Katalog andockst oder neu erfasst, inklusive Preis, Bestand und korrekter Compliance.",
+    "urgency": "Kaufland prüft LUCID-, WEEE- und USt-Angaben streng - fehlt etwas, wird dein Angebot gar nicht erst freigeschaltet oder später offline genommen. Dockst du falsch an den EAN-Katalog an, landest du auf der falschen Produktseite und verlierst Sichtbarkeit und Bewertungen. Mach es von Anfang an konform, statt nachzuarbeiten. Mit GründerX gehst du Katalog-Anbindung und Compliance Schritt für Schritt durch.",
     "outcomes": [
-      "Veroeffentlichtes Kaufland-Angebot im Seller-Portal",
+      "Veröffentlichtes Kaufland-Angebot im Seller-Portal",
       "Korrekt am zentralen EAN-Katalog angedockt oder neu angelegt",
       "Preis, Bestand und Versand sauber hinterlegt",
-      "LUCID-, WEEE- und USt-Compliance erfuellt",
+      "LUCID-, WEEE- und USt-Compliance erfüllt",
       "Zweiter Marktplatz-Kanal neben Amazon aktiv"
     ],
-    "disclaimer": "Dieser Guide dient der Orientierung und ersetzt keine Rechts- oder Steuerberatung; Kaufland-Vorgaben und Compliance-Pflichten koennen sich aendern."
+    "disclaimer": "Dieser Guide dient der Orientierung und ersetzt keine Rechts- oder Steuerberatung; Kaufland-Vorgaben und Compliance-Pflichten können sich ändern."
   },
   "otto-produkt-anlegen": {
     "seoTitle": "Produkt auf OTTO Market anlegen: Bewerbung & Connect",
     "seoDescription": "Auf OTTO Market verkaufen: Partner-Bewerbung, Partner-Connect-Anbindung und datenstarke Listings. Schritt für Schritt durchs Onboarding.",
-    "lead": "Dieser Guide begleitet dich durch den Verkaufsstart auf OTTO Market - von der Partner-Bewerbung ueber die technische Partner-Connect-Anbindung bis zu konformen, datenvollstaendigen Listings.",
-    "urgency": "OTTO kuratiert hart: Bewerbungen mit duennem Sortiment oder unvollstaendigen Produktdaten werden abgelehnt, und das Onboarding zieht sich oft mehrere Wochen. Wer die Partner-Connect-Anbindung und die Datenqualitaet unterschaetzt, verliert Wochen, bevor der erste Verkauf laeuft. Bereite Bewerbung und Datenfeed sauber vor, statt in der Warteschleife zu haengen. Mit GruenderX gehst du jeden Schritt des OTTO-Onboardings strukturiert an.",
+    "lead": "Dieser Guide begleitet dich durch den Verkaufsstart auf OTTO Market - von der Partner-Bewerbung über die technische Partner-Connect-Anbindung bis zu konformen, datenvollständigen Listings.",
+    "urgency": "OTTO kuratiert hart: Bewerbungen mit dünnem Sortiment oder unvollständigen Produktdaten werden abgelehnt, und das Onboarding zieht sich oft mehrere Wochen. Wer die Partner-Connect-Anbindung und die Datenqualität unterschätzt, verliert Wochen, bevor der erste Verkauf läuft. Bereite Bewerbung und Datenfeed sauber vor, statt in der Warteschleife zu hängen. Mit GründerX gehst du jeden Schritt des OTTO-Onboardings strukturiert an.",
     "outcomes": [
       "Als OTTO-Partner freigeschaltet",
-      "Technisch ueber Partner Connect angebunden",
-      "Konforme, datenvollstaendige Produkte gelistet",
-      "Bewerbung mit ueberzeugendem Sortiment eingereicht",
-      "Zugang zu einem kaufkraeftigen, kuratierten Marktplatz"
+      "Technisch über Partner Connect angebunden",
+      "Konforme, datenvollständige Produkte gelistet",
+      "Bewerbung mit überzeugendem Sortiment eingereicht",
+      "Zugang zu einem kaufkräftigen, kuratierten Marktplatz"
     ],
-    "disclaimer": "Dieser Guide bietet Orientierung und ersetzt keine Rechtsberatung; OTTO-Aufnahmekriterien und technische Anforderungen koennen sich aendern."
+    "disclaimer": "Dieser Guide bietet Orientierung und ersetzt keine Rechtsberatung; OTTO-Aufnahmekriterien und technische Anforderungen können sich ändern."
   },
   "erste-webseite-seo": {
     "seoTitle": "Erste Webseite erstellen & bei Google sichtbar werden",
     "seoDescription": "Webseite live bringen und organisch ranken: Search Console verifizieren, Sitemap einreichen, On-Page-SEO setzen. Startklar in 1-2 Wochen.",
-    "lead": "Dieser Guide zeigt dir, wie du deine erste Webseite technisch sauber live bringst, in der Google Search Console verifizierst und mit On-Page-SEO startklar fuers organische Ranking machst.",
-    "urgency": "Jeder Tag ohne sichtbare Webseite ist ein Tag, an dem deine Wunschkunden bei der Konkurrenz landen - und SEO wirkt nicht sofort, sondern braucht Vorlauf, bis Google dich rankt. Wer ohne Search Console, Sitemap und saubere On-Page-Basis startet, verschenkt Monate an Sichtbarkeit, die spaeter schwer aufzuholen sind. Je frueher die Basis steht, desto frueher kommt organischer Traffic. Mit GruenderX gehst du von der Seite bis zur Indexierung jeden Schritt durch.",
+    "lead": "Dieser Guide zeigt dir, wie du deine erste Webseite technisch sauber live bringst, in der Google Search Console verifizierst und mit On-Page-SEO startklar fürs organische Ranking machst.",
+    "urgency": "Jeder Tag ohne sichtbare Webseite ist ein Tag, an dem deine Wunschkunden bei der Konkurrenz landen - und SEO wirkt nicht sofort, sondern braucht Vorlauf, bis Google dich rankt. Wer ohne Search Console, Sitemap und saubere On-Page-Basis startet, verschenkt Monate an Sichtbarkeit, die später schwer aufzuholen sind. Je früher die Basis steht, desto früher kommt organischer Traffic. Mit GründerX gehst du von der Seite bis zur Indexierung jeden Schritt durch.",
     "outcomes": [
       "Live-Webseite mit sauberer technischer Basis",
       "In der Google Search Console verifiziert",
-      "Sitemap eingereicht und Indexierung angestossen",
-      "On-Page-SEO fuer deine Keywords gesetzt",
+      "Sitemap eingereicht und Indexierung angestoßen",
+      "On-Page-SEO für deine Keywords gesetzt",
       "Startklar, um organisch gefunden zu werden"
     ],
-    "disclaimer": "Dieser Guide dient der Orientierung; SEO-Ergebnisse sind nicht garantiert und Suchmaschinen-Anforderungen koennen sich jederzeit aendern."
+    "disclaimer": "Dieser Guide dient der Orientierung; SEO-Ergebnisse sind nicht garantiert und Suchmaschinen-Anforderungen können sich jederzeit ändern."
   },
   "eigene-app-launchen": {
     "seoTitle": "Eigene App erstellen 2026 – App Store & Play Store Guide",

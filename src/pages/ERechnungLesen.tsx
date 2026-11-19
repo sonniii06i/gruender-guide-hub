@@ -278,6 +278,13 @@ export default function ERechnungLesen() {
 
           <PublicSection title="Häufige Fragen">
             <FaqList items={faqs} />
+            <p className="mt-6 text-sm text-muted-foreground">
+              Ab wann du E-Rechnungen selbst ausstellen musst und welche Formate zählen, steht im Ratgeber{" "}
+              <Link to="/ratgeber/e-rechnung-pflicht-b2b-2026" className="font-medium text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground">
+                E-Rechnung-Pflicht 2026: Fristen, Formate, Ausnahmen
+              </Link>
+              .
+            </p>
           </PublicSection>
           <HubNav show={["tools", "guides", "ratgeber"]} />
         </div>

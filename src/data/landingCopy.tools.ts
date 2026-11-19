@@ -1032,12 +1032,12 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
   "hk-tax-helper": {
     "seoTitle": "HK-Tax-Helper: IRD-Filings & Fristen für Limited",
     "seoDescription": "Welche Abgaben für deine HK-Limited? Profits Tax Return, Employer's Return, BR-Renewal & NAR1 mit Fristen und Checkliste. Jetzt prüfen.",
-    "lead": "Der HK-Tax-Helper zeigt dir je nach Setup (Limited, Sole Proprietor, Partnership) alle Pflicht-Filings beim IRD und Companies Registry. Fuer Gruender mit Hongkong-Struktur, die nichts uebersehen wollen.",
-    "urgency": "Ein verpasstes IRD-Filing in Hongkong wird teuer: Strafen, Vorladungen und im schlimmsten Fall die Streichung deiner Company. Die Fristen laufen nach festen Codes, nicht nach deinem Bauchgefuehl. Verschaff dir mit GründerX jetzt den vollstaendigen Ueberblick ueber deine HK-Pflichten.",
+    "lead": "Der HK-Tax-Helper zeigt dir je nach Setup (Limited, Sole Proprietor, Partnership) alle Pflicht-Filings beim IRD und Companies Registry. Für Gründer mit Hongkong-Struktur, die nichts übersehen wollen.",
+    "urgency": "Ein verpasstes IRD-Filing in Hongkong wird teuer: Strafen, Vorladungen und im schlimmsten Fall die Streichung deiner Company. Die Fristen laufen nach festen Codes, nicht nach deinem Bauchgefühl. Verschaff dir mit GründerX jetzt den vollständigen Überblick über deine HK-Pflichten.",
     "outcomes": [
-      "Liste aller relevanten Filings (BIR51/52/54, Employer's Return, NAR1) fuer dein Setup",
-      "Konkrete Fristen ueber die N/D/M-Code-Logik des IRD",
-      "Klarheit, ob fuer dich Audit-Pflicht besteht",
+      "Liste aller relevanten Filings (BIR51/52/54, Employer's Return, NAR1) für dein Setup",
+      "Konkrete Fristen über die N/D/M-Code-Logik des IRD",
+      "Klarheit, ob für dich Audit-Pflicht besteht",
       "Quellen zu den Original-Formularen statt Raten",
       "PDF-Checkliste zum Abhaken vor jeder Deadline"
     ],
@@ -1046,83 +1046,83 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
   "us-hk-banking": {
     "seoTitle": "US & HK Banking: 9 Anbieter im Closure-Risk-Check",
     "seoDescription": "Wise, Mercury, Relay, Brex, Statrys & Co. im Vergleich: Closure-Risk-Score, Trustpilot und 12 Survival-Tipps für dein US/HK-Konto.",
-    "lead": "Dieser Vergleich stellt 9 US- und HK-Banking-Anbieter gegenueber und bewertet, wie wahrscheinlich eine Konto-Schliessung ist. Fuer Gruender mit US-LLC oder HK-Limited, die ein stabiles Geschaeftskonto brauchen.",
-    "urgency": "Ein gesperrtes Geschaeftskonto kann dein ganzes Business lahmlegen, oft ohne Vorwarnung und mit eingefrorenem Guthaben. Genau deshalb zaehlt die Wahl des richtigen Anbieters von Anfang an. Vergleiche jetzt mit GründerX Closure-Risk und Erfahrungen, bevor du dich bindest.",
+    "lead": "Dieser Vergleich stellt 9 US- und HK-Banking-Anbieter gegenüber und bewertet, wie wahrscheinlich eine Konto-Schließung ist. Für Gründer mit US-LLC oder HK-Limited, die ein stabiles Geschäftskonto brauchen.",
+    "urgency": "Ein gesperrtes Geschäftskonto kann dein ganzes Business lahmlegen, oft ohne Vorwarnung und mit eingefrorenem Guthaben. Genau deshalb zählt die Wahl des richtigen Anbieters von Anfang an. Vergleiche jetzt mit GründerX Closure-Risk und Erfahrungen, bevor du dich bindest.",
     "outcomes": [
-      "Closure-Risk-Score fuer Wise, Mercury, Relay, Brex, Statrys, Airwallex, Currenxie & HSBC HK",
+      "Closure-Risk-Score für Wise, Mercury, Relay, Brex, Statrys, Airwallex, Currenxie & HSBC HK",
       "Trustpilot-Einordnung pro Anbieter auf einen Blick",
-      "12 Survival-Tipps, um eine Konto-Schliessung zu vermeiden",
+      "12 Survival-Tipps, um eine Konto-Schließung zu vermeiden",
       "Klarheit, welcher Anbieter zu US-LLC vs. HK-Limited passt",
       "Eine fundierte Entscheidung statt Trial-and-Error mit echtem Geld"
     ],
-    "disclaimer": "Anbieter-Bewertungen sind Momentaufnahmen und ersetzen keine Bank- oder Finanzberatung; pruefe Konditionen immer direkt beim Anbieter."
+    "disclaimer": "Anbieter-Bewertungen sind Momentaufnahmen und ersetzen keine Bank- oder Finanzberatung; prüfe Konditionen immer direkt beim Anbieter."
   },
   "sales-tax-nexus": {
     "seoTitle": "Sales-Tax-Nexus-Check: 46 US-Staaten & Wayfair 2026",
     "seoDescription": "Wo entsteht US Sales-Tax-Nexus? 46 Staaten + DC mit Wayfair-Schwellen 2026, FBA-Logik und Foreign-Seller-Block. Jetzt prüfen.",
-    "lead": "Der Sales-Tax-Nexus-Check zeigt dir fuer 46 US-Staaten plus DC, ab wann du Sales Tax abfuehren musst. Fuer E-Commerce-Gruender, die in die USA verkaufen, besonders ueber Amazon FBA.",
-    "urgency": "Unbemerkter Sales-Tax-Nexus haeuft schnell vierstellige Nachforderungen an, plus Zinsen und Strafen, die rueckwirkend kommen. Wer in die USA verkauft, kann sich auf Unwissenheit nicht berufen. Pruefe jetzt mit GründerX, in welchen Staaten du wirklich registrierungspflichtig bist.",
+    "lead": "Der Sales-Tax-Nexus-Check zeigt dir für 46 US-Staaten plus DC, ab wann du Sales Tax abführen musst. Für E-Commerce-Gründer, die in die USA verkaufen, besonders über Amazon FBA.",
+    "urgency": "Unbemerkter Sales-Tax-Nexus häuft schnell vierstellige Nachforderungen an, plus Zinsen und Strafen, die rückwirkend kommen. Wer in die USA verkauft, kann sich auf Unwissenheit nicht berufen. Prüfe jetzt mit GründerX, in welchen Staaten du wirklich registrierungspflichtig bist.",
     "outcomes": [
-      "Wayfair-Schwellen 2026 fuer 46 Staaten + DC auf einen Blick",
-      "FBA-Logik: wo dein Lagerbestand Nexus ausloest",
+      "Wayfair-Schwellen 2026 für 46 Staaten + DC auf einen Blick",
+      "FBA-Logik: wo dein Lagerbestand Nexus auslöst",
       "Foreign-Seller-Block: die 4 Staaten, die ohne SSN sperren",
-      "Verstaendnis der Marketplace-Facilitator-Regeln",
-      "SSTRS-Workaround als moeglicher Registrierungs-Shortcut"
+      "Verständnis der Marketplace-Facilitator-Regeln",
+      "SSTRS-Workaround als möglicher Registrierungs-Shortcut"
     ],
-    "disclaimer": "Sales-Tax-Regeln aendern sich laufend; dieses Tool ersetzt keine steuerliche Beratung durch einen US-Tax-Professional."
+    "disclaimer": "Sales-Tax-Regeln ändern sich laufend; dieses Tool ersetzt keine steuerliche Beratung durch einen US-Tax-Professional."
   },
   "substance-checker": {
     "seoTitle": "Substance-Checker: Briefkasten-Risiko für Auslands-GmbH",
     "seoDescription": "Wie hoch ist dein Mailbox-Risiko? Score 0-100 zu Paragraf 50d EStG, AStG & AO für 12 EU/CH-Länder. Jetzt Substanz prüfen.",
-    "lead": "Der Substance-Requirements-Checker bewertet mit einem Score von 0 bis 100, wie sehr deine Auslandsstruktur als Briefkastenfirma gilt. Fuer Gruender mit Holding oder Gesellschaft in EU oder der Schweiz.",
-    "urgency": "Fehlende wirtschaftliche Substanz fuehrt schnell zur Aberkennung von Steuervorteilen und zu Hinzurechnung in Deutschland. Das Finanzamt schaut genau auf Geschaeftsfuehrer-Wohnsitz, Buero und echte Aktivitaet. Pruefe jetzt mit GründerX, wo deine Struktur angreifbar ist, bevor es eine Pruefung tut.",
+    "lead": "Der Substance-Requirements-Checker bewertet mit einem Score von 0 bis 100, wie sehr deine Auslandsstruktur als Briefkastenfirma gilt. Für Gründer mit Holding oder Gesellschaft in EU oder der Schweiz.",
+    "urgency": "Fehlende wirtschaftliche Substanz führt schnell zur Aberkennung von Steuervorteilen und zu Hinzurechnung in Deutschland. Das Finanzamt schaut genau auf Geschäftsführer-Wohnsitz, Büro und echte Aktivität. Prüfe jetzt mit GründerX, wo deine Struktur angreifbar ist, bevor es eine Prüfung tut.",
     "outcomes": [
-      "Mailbox-Risiko-Score von 0 bis 100 fuer deine Struktur",
+      "Mailbox-Risiko-Score von 0 bis 100 für deine Struktur",
       "Bewertung entlang Paragraf 50d EStG, AStG und Paragraf 10 AO",
-      "Vergleich fuer 12 EU- und CH-Laender",
-      "Klarheit zu den Faktoren GF-Wohnsitz, lokale Mitarbeiter, Buero und Umsatz",
+      "Vergleich für 12 EU- und CH-Länder",
+      "Klarheit zu den Faktoren GF-Wohnsitz, lokale Mitarbeiter, Büro und Umsatz",
       "Einordnung deines Principal-Purpose-Test-Grundes"
     ],
-    "disclaimer": "Substanz-Bewertungen sind komplex und einzelfallabhaengig; dieses Tool ersetzt keine steuerliche oder rechtliche Beratung."
+    "disclaimer": "Substanz-Bewertungen sind komplex und einzelfallabhängig; dieses Tool ersetzt keine steuerliche oder rechtliche Beratung."
   },
   "dba-cfc": {
     "seoTitle": "DBA-CFC-Rechner: Hinzurechnung & Quellensteuer",
     "seoDescription": "Berechne AStG-Hinzurechnungsbesteuerung, DBA-Quellensteuer und Mutter-Tochter-RL für 14 Länder. Step-by-Step Ausland zu DE.",
-    "lead": "Der DBA-CFC-Rechner fuehrt dich Schritt fuer Schritt durch Hinzurechnungsbesteuerung, DBA-Quellensteuer und die Mutter-Tochter-Richtlinie. Fuer Gruender mit Auslandsgesellschaft und deutscher Steuerpflicht.",
-    "urgency": "Hinzurechnungsbesteuerung kann Gewinne deiner Auslandsgesellschaft in Deutschland nachversteuern, oft hoeher als gedacht. Wer DBA und Quellensteuer nicht durchrechnet, zahlt doppelt oder verschenkt Reduktionen. Rechne jetzt mit GründerX durch, was am Ende in Deutschland wirklich ankommt.",
+    "lead": "Der DBA-CFC-Rechner führt dich Schritt für Schritt durch Hinzurechnungsbesteuerung, DBA-Quellensteuer und die Mutter-Tochter-Richtlinie. Für Gründer mit Auslandsgesellschaft und deutscher Steuerpflicht.",
+    "urgency": "Hinzurechnungsbesteuerung kann Gewinne deiner Auslandsgesellschaft in Deutschland nachversteuern, oft höher als gedacht. Wer DBA und Quellensteuer nicht durchrechnet, zahlt doppelt oder verschenkt Reduktionen. Rechne jetzt mit GründerX durch, was am Ende in Deutschland wirklich ankommt.",
     "outcomes": [
       "Step-by-Step-Berechnung der AStG-Hinzurechnung",
-      "Reduktion der DBA-Quellensteuer fuer 14 Laender",
-      "Pruefung der Mutter-Tochter-Richtlinie auf deine Struktur",
+      "Reduktion der DBA-Quellensteuer für 14 Länder",
+      "Prüfung der Mutter-Tochter-Richtlinie auf deine Struktur",
       "Klare Zahl, was vom Auslandsgewinn in DE versteuert wird",
-      "Verstaendnis, wo doppelte Besteuerung droht"
+      "Verständnis, wo doppelte Besteuerung droht"
     ],
     "disclaimer": "Berechnungen sind vereinfachte Modelle und ersetzen keine steuerliche Beratung im Einzelfall."
   },
   "us-kreditkarten": {
     "seoTitle": "US-Kreditkarten & Miles: 22 Karten + MR-Transfer-Hack",
     "seoDescription": "22 US-Karten, 15 Miles-Sweet-Spots und der DE-US Amex-MR-Transfer-Hack mit FX-Bonus. Velocity-Strategie für hohe Sign-up-Bonusse.",
-    "lead": "Dieses Tool bündelt 22 US-Kreditkarten, 15 Miles-Sweet-Spots und konkrete Punkte-Strategien fuer Gruender mit US-Setup. Fuer alle, die ihre Geschaefts- und Reiseausgaben hebeln wollen.",
-    "urgency": "Wer eine US-Struktur hat, aber keine Karten-Strategie faehrt, laesst jedes Jahr tausende Euro an Sign-up-Bonussen und Miles liegen. Die Sweet-Spots aendern sich, der MR-Transfer-Vorteil nicht ewig. Hol dir jetzt mit GründerX den Ueberblick, bevor sich die besten Angebote schliessen.",
+    "lead": "Dieses Tool bündelt 22 US-Kreditkarten, 15 Miles-Sweet-Spots und konkrete Punkte-Strategien für Gründer mit US-Setup. Für alle, die ihre Geschäfts- und Reiseausgaben hebeln wollen.",
+    "urgency": "Wer eine US-Struktur hat, aber keine Karten-Strategie fährt, lässt jedes Jahr tausende Euro an Sign-up-Bonussen und Miles liegen. Die Sweet-Spots ändern sich, der MR-Transfer-Vorteil nicht ewig. Hol dir jetzt mit GründerX den Überblick, bevor sich die besten Angebote schließen.",
     "outcomes": [
       "Vergleich von 22 US-Kreditkarten an einem Ort",
-      "15 Miles-Sweet-Spots fuer maximalen Punkt-Wert",
-      "Der DE-zu-US Amex-MR-Transfer-Hack mit FX-Bonus erklaert",
+      "15 Miles-Sweet-Spots für maximalen Punkt-Wert",
+      "Der DE-zu-US Amex-MR-Transfer-Hack mit FX-Bonus erklärt",
       "Velocity-Strategie zur Maximierung der Jahres-Bonusse",
-      "Klare Reihenfolge, welche Karte du wann oeffnest"
+      "Klare Reihenfolge, welche Karte du wann öffnest"
     ],
-    "disclaimer": "Karten-Konditionen und Bonusse aendern sich haeufig; dieses Tool ist keine Finanzberatung, pruefe Angebote stets direkt beim Anbieter."
+    "disclaimer": "Karten-Konditionen und Bonusse ändern sich häufig; dieses Tool ist keine Finanzberatung, prüfe Angebote stets direkt beim Anbieter."
   },
   "ust-rechner": {
     "seoTitle": "USt-Rechner DE: Brutto-Netto, Paragraf 19, 13b & OSS",
     "seoDescription": "Umsatzsteuer für alle Fälle: Brutto-Netto, Kleinunternehmer Paragraf 19, Reverse-Charge, OSS und IGL mit USt-IdNr-Check. Jetzt rechnen.",
-    "lead": "Der USt-Rechner deckt in fünf Tabs die haeufigsten Umsatzsteuer-Faelle ab, von Brutto-Netto bis OSS und innergemeinschaftlicher Lieferung. Fuer Selbststaendige und E-Commerce-Gruender in Deutschland.",
-    "urgency": "Ein falscher Umsatzsteuer-Satz oder ein vergessener Reverse-Charge-Hinweis fuehrt schnell zu Rechnungs-Korrekturen und Aerger mit dem Finanzamt. Mit der Kleinunternehmer-Reform 2025 haben sich Grenzen verschoben. Rechne deine Faelle jetzt mit GründerX sauber durch, statt zu schaetzen.",
+    "lead": "Der USt-Rechner deckt in fünf Tabs die häufigsten Umsatzsteuer-Fälle ab, von Brutto-Netto bis OSS und innergemeinschaftlicher Lieferung. Für Selbstständige und E-Commerce-Gründer in Deutschland.",
+    "urgency": "Ein falscher Umsatzsteuer-Satz oder ein vergessener Reverse-Charge-Hinweis führt schnell zu Rechnungs-Korrekturen und Ärger mit dem Finanzamt. Mit der Kleinunternehmer-Reform 2025 haben sich Grenzen verschoben. Rechne deine Fälle jetzt mit GründerX sauber durch, statt zu schätzen.",
     "outcomes": [
       "Schnelle Brutto-Netto-Umrechnung in beide Richtungen",
-      "Kleinunternehmer-Pruefung nach Paragraf 19 inkl. Reform 2025",
+      "Kleinunternehmer-Prüfung nach Paragraf 19 inkl. Reform 2025",
       "Korrekte Behandlung von Reverse-Charge nach Paragraf 13b",
-      "OSS-Berechnung fuer B2C-Verkaeufe in der EU",
+      "OSS-Berechnung für B2C-Verkäufe in der EU",
       "IGL nach Paragraf 6a mit USt-IdNr-Validierung"
     ],
     "disclaimer": "Die Ergebnisse dienen der Orientierung und ersetzen keine steuerliche Beratung durch einen Steuerberater."
@@ -1130,44 +1130,44 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
   "abschreibung": {
     "seoTitle": "Abschreibungs-Rechner: AfA, GWG & Steuer-Ersparnis",
     "seoDescription": "Berechne Abschreibung für 18 Asset-Typen: Sofortabschreibung, GWG, Sammelposten, lineare AfA. Steuer-Ersparnis GmbH vs ESt im Blick.",
-    "lead": "Der Abschreibungs-Rechner ermittelt fuer 18 Asset-Typen die passende AfA-Methode und zeigt deine Steuer-Ersparnis. Fuer Gruender und Selbststaendige, die Investitionen steuerlich optimal absetzen wollen.",
-    "urgency": "Wer Anschaffungen falsch abschreibt, verschenkt Liquiditaet und zahlt frueher Steuern als noetig. Sofortabschreibung, GWG und Sammelposten haben jeweils eigene Regeln, die ueber deinen Cashflow entscheiden. Rechne jetzt mit GründerX durch, wie viel du wirklich sparst.",
+    "lead": "Der Abschreibungs-Rechner ermittelt für 18 Asset-Typen die passende AfA-Methode und zeigt deine Steuer-Ersparnis. Für Gründer und Selbstständige, die Investitionen steuerlich optimal absetzen wollen.",
+    "urgency": "Wer Anschaffungen falsch abschreibt, verschenkt Liquidität und zahlt früher Steuern als nötig. Sofortabschreibung, GWG und Sammelposten haben jeweils eigene Regeln, die über deinen Cashflow entscheiden. Rechne jetzt mit GründerX durch, wie viel du wirklich sparst.",
     "outcomes": [
-      "Passende AfA-Methode fuer 18 Asset-Typen",
+      "Passende AfA-Methode für 18 Asset-Typen",
       "Vergleich Sofortabschreibung, GWG, Sammelposten und lineare AfA",
-      "Steuer-Ersparnis-Vergleich GmbH gegenueber Einkommensteuer",
-      "Sichtbarer Liquiditaets-Effekt deiner Investition",
-      "Klarheit, welche Variante sich fuer dein Asset lohnt"
+      "Steuer-Ersparnis-Vergleich GmbH gegenüber Einkommensteuer",
+      "Sichtbarer Liquiditäts-Effekt deiner Investition",
+      "Klarheit, welche Variante sich für dein Asset lohnt"
     ],
     "disclaimer": "Die Berechnungen sind vereinfacht und ersetzen keine steuerliche Beratung im Einzelfall."
   },
   "stb-handoff": {
     "seoTitle": "Steuerberater-Hand-off: 3 Angebote per Briefing-PDF",
     "seoDescription": "Erstelle ein präzises Steuerberater-Briefing für 10 Gründer-Gruppen und hol dir 3 Angebote von Top-Kanzleien. Wizard + PDF + Email.",
-    "lead": "Der Steuerberater-Hand-off fuehrt dich durch einen Wizard fuer deine Gruender-Gruppe und erzeugt ein vollstaendiges Briefing fuer drei Kanzleien. Fuer alle, die schnell den passenden Steuerberater finden wollen.",
-    "urgency": "Ein schwammiges Briefing bringt schwammige Angebote und kostet dich Wochen im Hin und Her. Wer mit Pflichtfeldern und den richtigen Fragen startet, bekommt vergleichbare Angebote auf einmal. Erstell dein Briefing jetzt mit GründerX und geh direkt mit drei Kanzleien ins Gespraech.",
+    "lead": "Der Steuerberater-Hand-off führt dich durch einen Wizard für deine Gründer-Gruppe und erzeugt ein vollständiges Briefing für drei Kanzleien. Für alle, die schnell den passenden Steuerberater finden wollen.",
+    "urgency": "Ein schwammiges Briefing bringt schwammige Angebote und kostet dich Wochen im Hin und Her. Wer mit Pflichtfeldern und den richtigen Fragen startet, bekommt vergleichbare Angebote auf einmal. Erstell dein Briefing jetzt mit GründerX und geh direkt mit drei Kanzleien ins Gespräch.",
     "outcomes": [
-      "Wizard fuer 10 Gruender-Gruppen von Solo bis Holding und International",
+      "Wizard für 10 Gründer-Gruppen von Solo bis Holding und International",
       "Eigene Pflichtfelder und Trick-Fragen pro Gruppe",
       "Sauberes Briefing-PDF zum Versand",
-      "Email-Vorlage fuer die Top-3-Kanzleien",
-      "Vergleichbare Angebote statt unklarer Einzelgespraeche"
+      "Email-Vorlage für die Top-3-Kanzleien",
+      "Vergleichbare Angebote statt unklarer Einzelgespräche"
     ],
-    "disclaimer": "Das Tool unterstuetzt nur bei der Anbahnung; die Steuerberatung selbst erfolgt ausschliesslich durch die beauftragte Kanzlei nach Paragraf 9 StBerG."
+    "disclaimer": "Das Tool unterstützt nur bei der Anbahnung; die Steuerberatung selbst erfolgt ausschließlich durch die beauftragte Kanzlei nach Paragraf 9 StBerG."
   },
   "experten-bookings": {
     "seoTitle": "1:1-Berater-Termin: 30-min-Call direkt buchen",
-    "seoDescription": "Buche einen 30-Minuten-Call zu Rechtsform, Holding, US-LLC, Steuer-Setup oder E-Com-Strategie. Slot direkt im Kalender waehlen.",
-    "lead": "Mit den 1:1-Bookings waehlst du direkt einen Slot fuer einen 30-Minuten-Call zu deinem Thema. Fuer Gruender, die zu Rechtsform, Holding, US-LLC oder Brand-Strategie eine konkrete Einschaetzung brauchen.",
-    "urgency": "Stundenlanges Googeln zu Rechtsform oder Holding-Struktur bringt dich oft nur tiefer in die Unsicherheit. Ein gezielter 30-Minuten-Call klaert in einem Gespraech, was sonst Wochen dauert. Sichr dir jetzt mit GründerX deinen Slot, solange Termine frei sind.",
+    "seoDescription": "Buche einen 30-Minuten-Call zu Rechtsform, Holding, US-LLC, Steuer-Setup oder E-Com-Strategie. Slot direkt im Kalender wählen.",
+    "lead": "Mit den 1:1-Bookings wählst du direkt einen Slot für einen 30-Minuten-Call zu deinem Thema. Für Gründer, die zu Rechtsform, Holding, US-LLC oder Brand-Strategie eine konkrete Einschätzung brauchen.",
+    "urgency": "Stundenlanges Googeln zu Rechtsform oder Holding-Struktur bringt dich oft nur tiefer in die Unsicherheit. Ein gezielter 30-Minuten-Call klärt in einem Gespräch, was sonst Wochen dauert. Sichr dir jetzt mit GründerX deinen Slot, solange Termine frei sind.",
     "outcomes": [
       "Direkte Terminbuchung ohne langes Hin und Her",
       "Klare Themenwahl von Rechtsform bis E-Com-Brand-Strategie",
       "30 fokussierte Minuten auf deine konkrete Situation",
       "Slot-Auswahl bequem im Kalender",
-      "Konkrete naechste Schritte statt offener Fragen"
+      "Konkrete nächste Schritte statt offener Fragen"
     ],
-    "disclaimer": "Ein Beratungsgespraech vermittelt allgemeine Einordnung und ersetzt keine individuelle Steuer- oder Rechtsberatung im Einzelfall."
+    "disclaimer": "Ein Beratungsgespräch vermittelt allgemeine Einordnung und ersetzt keine individuelle Steuer- oder Rechtsberatung im Einzelfall."
   },
   "app-umsatz-rechner": {
     "seoTitle": "App-Store-Umsatz-Rechner – was bleibt von 9,99 €?",

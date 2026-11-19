@@ -513,6 +513,10 @@ export const VORLAGEN_DIENSTLEISTUNG: Vorlage[] = [
         q: "Darf ich Tippgeber-Provisionen an Mitarbeiter von Kunden zahlen?",
         a: "Vorsicht: Zahlungen an Angestellte eines Unternehmens dafür, dass sie ihren Arbeitgeber zu dir lenken, können Bestechung im geschäftlichen Verkehr sein (§ 299 StGB). Tippgeber sollten frei und offen handeln; die Vorlage verlangt, dass der Tippgeber keine Pflichten gegenüber dem Interessenten verletzt.",
       },
+      {
+        q: "Gibt es die Tippgebervereinbarung als PDF oder Word-Datei?",
+        a: "Beides. Du lädst das Muster als PDF, als Word-Datei (.docx) oder als Text herunter. Der Download ist kostenlos: Du bestätigst einmal deine E-Mail-Adresse, danach sind alle Vorlagen frei. Den ganzen Vertragstext kannst du vorher auf dieser Seite lesen.",
+      },
     ],
     seo: {
       title: "Tippgebervereinbarung Muster kostenlos (Word) | GründerX",
@@ -569,6 +573,10 @@ export const VORLAGEN_DIENSTLEISTUNG: Vorlage[] = [
       {
         q: "Was passiert, wenn ein Kunde Probleme mit der Leistung des Partners hat?",
         a: "Dann richtet sich der Kunde an seinen Vertragspartner, also an den, mit dem er den Vertrag geschlossen hat. Im Innenverhältnis stellt der Partner, der die Leistung schuldet, den anderen frei. Die Vorlage regelt beides und verlangt, dass auf allen Kundenseiten der jeweils verantwortliche Partner genannt wird.",
+      },
+      {
+        q: "Gibt es den Kooperationsvertrag als Word-Datei?",
+        a: "Ja. Du lädst die Vorlage als Word-Datei (.docx), als PDF oder als Text herunter. Der Download ist kostenlos: Du bestätigst einmal deine E-Mail-Adresse, danach sind alle Vorlagen frei. Den ganzen Vertragstext kannst du vorher auf dieser Seite lesen.",
       },
     ],
     seo: {

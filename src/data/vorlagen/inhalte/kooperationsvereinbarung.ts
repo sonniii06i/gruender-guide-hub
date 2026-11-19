@@ -12,7 +12,22 @@ const inhalt: VorlagenInhalt = {
 Das Muster klärt, wer was beiträgt, wer welche Kosten trägt, wie Erlöse fließen, wer mit dem Kunden den Vertrag schließt und wie lange die Partner die Logos des anderen nutzen dürfen. Vor allem verhindert es, dass aus der Zusammenarbeit ungewollt eine GbR mit gesamtschuldnerischer Haftung wird. Für gemeinsame Gesellschaften mit gemeinsamer Kasse ist dagegen der Gesellschaftsvertrag das richtige Dokument.`,
       },
       {
-        titel: "Was muss in eine Kooperationsvereinbarung?",
+        titel: "Kooperationsvertrag für Vertrieb, Projekt oder Dienstleistung: Was passt?",
+        text: `Kooperationsvertrag, Kooperationsvereinbarung und Zusammenarbeitsvertrag meinen im Geschäftsalltag meist dasselbe: Zwei Unternehmen halten schriftlich fest, wie sie zusammenarbeiten. Diese Vorlage ist für Kooperationen auf Augenhöhe gebaut, bei denen jeder Partner seine eigene Leistung erbringt und seine eigenen Kundenverträge schließt. Die Überschrift kannst du in der Word-Datei frei ändern.
+
+Welche Vorlage du nimmst, hängt davon ab, was der Partner für dich tut:
+
+- Gemeinsames Projekt oder gemeinsame Aktion (Bundle, Webinar, Co-Branding, Newsletter-Tausch): diese Kooperationsvereinbarung
+- Der Partner kauft deine Produkte ein und verkauft sie weiter: Vertriebspartnervertrag (Reseller)
+- Der Partner vermittelt dir laufend Kunden gegen Provision: Handelsvertretervertrag
+- Der Partner nennt dir nur Kontakte und bekommt eine Prämie je Abschluss: Provisionsvereinbarung für Tippgeber
+- Der Partner arbeitet gegen Honorar für dich: Dienstleistungsvertrag oder Werkvertrag
+- Ein Creator bewirbt dein Produkt: Influencer-Kooperationsvertrag
+
+Alle genannten Muster stehen in der Vorlagen-Bibliothek von GründerX, ebenfalls als Word-Datei und PDF.`,
+      },
+      {
+        titel: "Was muss in einen Kooperationsvertrag?",
         text: `Eine gute Kooperationsvereinbarung ist eine Sammlung gegenseitiger Leistungsversprechen, keine Gesellschaft. Die Vorlage regelt in elf Paragrafen:
 
 - Präambel und § 1 Gegenstand: die konkreten Maßnahmen wie Verlinkung, Bundle, Webinare, Pressemitteilung, mit Maßnahmenplan als Anlage 1
@@ -28,7 +43,7 @@ Das Muster klärt, wer was beiträgt, wer welche Kosten trägt, wie Erlöse flie
 § 6 Abs. 3 ist die Rückfallklausel: Sollte ein Gericht doch eine GbR sehen, bleibt im Innenverhältnis jeder für seinen Bereich allein verantwortlich.`,
       },
       {
-        titel: "Kooperationsvereinbarung Muster ausfüllen",
+        titel: "Kooperationsvertrag: Muster in Word ausfüllen",
         text: `Beschreibe in der Präambel beide Partner in einem Satz und in § 1 die Kooperation mit den konkreten Maßnahmen: Anzahl der Newsletter, Höhe des Gutscheins, Zahl der Webinare, Starttermin. Halte Details im Maßnahmenplan fest und lege ihn als Anlage 1 bei. In § 2 trägst du die Beiträge beider Seiten ein, etwa Landingpage und Versand bei Partner A, Coaching und Bewerbung bei Partner B, dazu die Ansprechpartner und den Abstimmungsrhythmus.
 
 In § 3 legst du den Verteilungsschlüssel für gemeinsame Kosten fest und wählst für Erlöse Variante A (Provision je vermitteltem Abschluss) oder Variante B (fester Betrag je Bundle); trage Abrechnungsrhythmus und Zahlungsziel ein. In § 4 legst du die Freigabefrist für Markenverwendungen fest und entscheidest, wem die Aktionsbezeichnung zusteht. In § 5 Abs. 2 nennst du, wer beim Bundle Vertragspartner des Kunden ist. In § 7 setzt du die Vertraulichkeitsdauer, in § 8 optional die Wettbewerber, mit denen keine gleichartige Kooperation laufen soll, in § 9 die Haftungsgrenze und in § 10 Laufzeit, Kündigungsfrist und Abwicklungsfrist. Die Word-Vorlage ist dafür direkt bearbeitbar.`,

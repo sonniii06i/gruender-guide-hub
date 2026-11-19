@@ -531,6 +531,7 @@ export const gruendungskostenConfig: ToolConfig = {
   links: [
     { to: "/rechtsform-finden", label: "Rechtsform-Test: Einzelunternehmen, UG oder GmbH?" },
     { to: "/ratgeber/gmbh-gruenden-kosten-2026", label: "Ratgeber: GmbH gründen – Kosten 2026" },
+    { to: "/ratgeber/einzelunternehmen-gruenden-gewerbe-freiberufler", label: "Ratgeber: Einzelunternehmen gründen – Gewerbe oder Freiberufler?" },
     { to: "/vorlagen/gmbh-gesellschaftsvertrag", label: "Vorlage: GmbH-Gesellschaftsvertrag" },
     { to: "/vorlagen/ug-gesellschaftsvertrag", label: "Vorlage: UG-Gesellschaftsvertrag" },
     { to: "/tools/gewerbeanmeldung-wizard", label: "Gewerbeanmeldung Schritt für Schritt" },
