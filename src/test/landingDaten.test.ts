@@ -70,11 +70,19 @@ describe("Passende Guides verteilen Links über alle Guides", () => {
     expect([...alle].sort()).toEqual(GUIDE_LANDINGS.map((g) => g.slug).sort());
   });
 
-  it("jeder Guide wird von mindestens drei anderen Guides verlinkt", () => {
+  it("jeder Guide mit eigener Landing wird von mindestens zwei anderen Landings verlinkt", () => {
+    // Zusammengelegte Guides leiten per 301 auf den Ratgeber und tragen keinen Block.
+    const quellen = GUIDE_LANDINGS.filter((g) => !(g.slug in GUIDE_MERGED_INTO));
     const inlinks = new Map<string, number>();
-    for (const g of GUIDE_LANDINGS) {
+    for (const g of quellen) {
       for (const r of relatedGuides(g.slug)) inlinks.set(r.slug, (inlinks.get(r.slug) ?? 0) + 1);
     }
-    for (const g of GUIDE_LANDINGS) expect(inlinks.get(g.slug) ?? 0, g.slug).toBeGreaterThanOrEqual(3);
+    for (const g of quellen) expect(inlinks.get(g.slug) ?? 0, g.slug).toBeGreaterThanOrEqual(2);
+  });
+
+  it("jede Themengruppe hat mindestens vier Guides mit eigener Landing", () => {
+    for (const gruppe of GUIDE_THEMEN) {
+      expect(gruppe.filter((s) => !(s in GUIDE_MERGED_INTO)).length, gruppe[0]).toBeGreaterThanOrEqual(4);
+    }
   });
 });

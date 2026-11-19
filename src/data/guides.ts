@@ -3,6 +3,8 @@
 // hinter der PaywallGate (/playbook/...). Single-Source-of-Truth: playbooks.ts.
 
 import { PLAYBOOKS, type Playbook } from "./playbooks";
+import { GUIDE_MERGED_INTO, isMergedGuide } from "./guideMerges";
+import { fremdKanonisch } from "./ratgeberKanonisch";
 
 /**
  * Öffentlich zeigbarer Schritt-Umriss. ENTHÄLT BEWUSST NUR Titel + kurze
@@ -60,13 +62,16 @@ export const findGuideLanding = (slug: string): GuideLandingEntry | undefined =>
  * Themengruppen für den Block „Passende Guides“. Jeder Guide steht in genau
  * einer Gruppe (Test: landingDaten.test.ts). Ohne Gruppen zeigten 80 Guides
  * nur auf 15 verschiedene Ziele, der Rest hatte einen einzigen Inhalts-Link.
+ * Jede Gruppe braucht mindestens vier Guides mit eigener Landing (nicht in
+ * GUIDE_MERGED_INTO), sonst reicht die Verteilung nicht für zwei Links je Guide.
  */
 export const GUIDE_THEMEN: readonly (readonly string[])[] = [
-  // Rechtsform und Anmeldung
+  // Rechtsform, Struktur und Ausland
   [
     "gmbh-gruendung", "ug-gruendung", "einzelunternehmen-gruendung", "kleinunternehmer",
     "freiberufler-anmelden", "gbr-gruenden", "elster-fse-fillout", "holding", "immobilien-gmbh",
     "ag-gruenden", "verein-gug", "handwerk-gruenden", "restaurant-eroeffnen", "unternehmenskauf",
+    "us-llc", "us-accounts-deutscher", "hk-limited", "wegzugsbesteuerung",
   ],
   // Marktplätze
   [
@@ -94,8 +99,6 @@ export const GUIDE_THEMEN: readonly (readonly string[])[] = [
     "coach-experte-setup", "coach-1-on-1", "coach-group-mastermind", "coach-online-course",
     "coach-membership", "agency-services-setup",
   ],
-  // Ausland
-  ["us-llc", "us-accounts-deutscher", "hk-limited", "wegzugsbesteuerung"],
   // Finanzierung und Beteiligung
   [
     "foerderung-stipendium", "vc-pitch-deck", "crowdfunding-equity", "crowdfunding-reward", "crowdfunding-token",
@@ -108,17 +111,41 @@ export const GUIDE_THEMEN: readonly (readonly string[])[] = [
   ],
 ];
 
-// Verwandte Guides für interne Verlinkung: zuerst die nächsten Guides derselben
-// Themengruppe (reihum ab der eigenen Position, damit jeder Guide der Gruppe
-// gleich oft verlinkt wird), danach gleiche Difficulty, dann der Rest.
+// Guides mit eigener Landing und zusammengelegte Guides (301 auf den Ratgeber).
+const EIGENE_LANDINGS = GUIDE_LANDINGS.filter((g) => !isMergedGuide(g.slug)).map((g) => g.slug);
+// Ratgeber-Ziele für den zweiten Ratgeber-Platz; ohne Ratgeber, deren Canonical
+// auf eine andere Domain zeigt (ratgeberKanonisch.ts).
+const RATGEBER_GUIDES = GUIDE_LANDINGS.filter(
+  (g) => isMergedGuide(g.slug) && !fremdKanonisch(GUIDE_MERGED_INTO[g.slug]),
+).map((g) => g.slug);
+
+// Verwandte Guides für interne Verlinkung. Quelle der Links sind nur Guides mit
+// eigener Landing; zusammengelegte Guides leiten per 301 auf ihren Ratgeber und
+// tragen keinen Block. Vier Plätze:
+// - zwei reihum für die nächsten Guides der Themengruppe mit eigener Landing
+//   (jede Landing bekommt so genau zwei Links aus ihrer Gruppe),
+// - zwei für zusammengelegte Guides, deren Link über guideHref auf den Ratgeber
+//   führt: zuerst einer aus der eigenen Gruppe, dann reihum über alle Ratgeber.
+// Vorher zeigten 80 Blöcke auf 15 Ziele; 62 von 69 Landings bekamen keinen Link.
 export const relatedGuides = (slug: string, limit = 4): GuideLandingEntry[] => {
   const self = findGuideLanding(slug);
   if (!self) return [];
   const gruppe = GUIDE_THEMEN.find((g) => g.includes(slug)) ?? [];
-  const pos = gruppe.indexOf(slug);
-  const thema = gruppe
-    .map((_, i) => gruppe[(pos + 1 + i) % gruppe.length])
-    .filter((s) => s !== slug)
+  const eigene = gruppe.filter((s) => !isMergedGuide(s));
+  const pos = Math.max(eigene.indexOf(slug), 0);
+  const naechste = eigene.map((_, i) => eigene[(pos + 1 + i) % eigene.length]).filter((s) => s !== slug);
+
+  const ratgeber: string[] = [];
+  const ausGruppe = gruppe.filter((s) => isMergedGuide(s) && s !== slug);
+  if (ausGruppe.length > 0) ratgeber.push(ausGruppe[pos % ausGruppe.length]);
+  const start = Math.max(EIGENE_LANDINGS.indexOf(slug), 0);
+  for (let i = 0; i < RATGEBER_GUIDES.length && ratgeber.length < 2; i++) {
+    const kandidat = RATGEBER_GUIDES[(start + i) % RATGEBER_GUIDES.length];
+    if (kandidat !== slug && !ratgeber.includes(kandidat)) ratgeber.push(kandidat);
+  }
+
+  const frei = Math.max(limit - ratgeber.length, 0);
+  const thema = [...naechste.slice(0, frei), ...ratgeber, ...naechste.slice(frei)]
     .map((s) => findGuideLanding(s))
     .filter((g): g is GuideLandingEntry => Boolean(g));
   const gesehen = new Set([slug, ...thema.map((g) => g.slug)]);
