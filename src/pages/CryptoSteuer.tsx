@@ -307,8 +307,8 @@ const CryptoSteuer = () => {
                   <ChevronDown className="h-3.5 w-3.5 transition-transform group-open:rotate-180" aria-hidden="true" />
                 </summary>
                 <ul className="mt-2 space-y-1 text-muted-foreground">
-                  <li><strong className="font-medium text-foreground">Binance:</strong> Profil, Wallet, Order History, Spot Order, Export (CSV)</li>
-                  <li><strong className="font-medium text-foreground">Kraken:</strong> History, Trades, Export, trades.csv</li>
+                  <li><strong className="font-medium text-foreground">Binance:</strong> Profil, Orders, Spot Order, Trade History, Export Trade History (CSV)</li>
+                  <li><strong className="font-medium text-foreground">Kraken:</strong> History (Verlauf), Export, Export-Typ Trades, trades.csv</li>
                   <li><strong className="font-medium text-foreground">Coinbase:</strong> Account, Statements, Generate Report (Transaction History)</li>
                   <li><strong className="font-medium text-foreground">Bison:</strong> Übersicht, Steuerreport / Transaktionsliste (.csv)</li>
                 </ul>

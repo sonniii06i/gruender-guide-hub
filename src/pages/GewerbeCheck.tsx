@@ -316,7 +316,7 @@ const GewerbeCheck = () => {
             text: "IHK-Pflichtmitgliedschaft (automatisch). Ohne Handelsregistereintrag beitragsfrei bis 5.200 € Gewerbeertrag. Gründer:innen im Gründungs- und Folgejahr bis 25.000 € beitragsfrei, im 3. und 4. Jahr nur von der Umlage befreit (§ 3 Abs. 3 IHKG)",
           },
           {
-            text: "Berufsgenossenschaft anmelden innerhalb 1 Woche (Pflicht §192 SGB VII, auch ohne Mitarbeiter)",
+            text: "Berufsgenossenschaft: Mitteilung binnen 1 Woche nach Beginn (§192 SGB VII, auch ohne Mitarbeiter); eine Gewerbeanmeldung binnen dieser Woche gilt bereits als Mitteilung",
           },
           { text: "USt-Rechner: Kleinunternehmer §19 prüfen", route: "/cockpit/ust-rechner" },
           { text: "Frist-Kalender personalisieren (USt-VA, ESt-VZ, GewSt-VZ)", route: "/cockpit/steuer" },

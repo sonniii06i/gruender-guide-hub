@@ -552,7 +552,7 @@ const GewerbeanmeldungWizard = () => {
                 <ArrowRight className="mt-0.5 h-4 w-4 shrink-0 text-accent-blue" aria-hidden="true" />
                 <span>
                   <span className="block text-sm font-semibold">Kleinunternehmer-Schwellen</span>
-                  <span className="block text-sm text-muted-foreground">Grenzen 25.000 € und 100.000 € ab 2025/2026.</span>
+                  <span className="block text-sm text-muted-foreground">Grenzen 25.000 € und 100.000 € (seit 2025).</span>
                 </span>
               </Link>
             </div>
@@ -569,7 +569,7 @@ const GewerbeanmeldungWizard = () => {
           { label: "Online-Gewerbeanmeldung (Bundesportal)", url: "https://verwaltung.bund.de/leistungsverzeichnis/de/leistung/99050012104000" },
           { label: "GewA1-Mustervordruck (Anlage 1 GewAnzV)", url: "https://www.gesetze-im-internet.de/gewanzv_2014/anlage_1.html" },
         ]}
-        note="GewA1 ist bundeseinheitlich, aber Gebühr (15-65 €) variiert pro Stadt. Bearbeitung in Bürgeramt oder online (verwaltung.bund.de). Nach Aufnahme der Tätigkeit musst du den Fragebogen zur steuerlichen Erfassung (FsE) innerhalb eines Monats selbst und unaufgefordert über ELSTER einreichen (§138 Abs. 1b, Abs. 4 AO) — dort wird § 19 KU festgelegt. Bei erlaubnispflichtigen Gewerben (Gastronomie, Makler, Sicherheit, Spielhalle, etc.) brauchst du ZUSÄTZLICH Erlaubnis vor Anmeldung."
+        note="GewA1 ist bundeseinheitlich, aber Gebühr (meist 15 bis 65 €, vereinzelt mehr) variiert pro Stadt. Bearbeitung in Bürgeramt oder online (verwaltung.bund.de). Nach Aufnahme der Tätigkeit musst du den Fragebogen zur steuerlichen Erfassung (FsE) innerhalb eines Monats selbst und unaufgefordert über ELSTER einreichen (§138 Abs. 1b, Abs. 4 AO) — dort wird § 19 KU festgelegt. Bei erlaubnispflichtigen Gewerben (Gastronomie, Makler, Sicherheit, Spielhalle, etc.) brauchst du ZUSÄTZLICH Erlaubnis vor Anmeldung."
       />
     </CockpitShell>
   );
@@ -1162,7 +1162,7 @@ const StepZusammenfassung = ({ data, stepValid, allValid, onGeneratePdf }: { dat
           <li><strong className="font-medium text-foreground">Ausdrucken</strong> auf Papier.</li>
           <li><strong className="font-medium text-foreground">Eigenhändig unterschreiben</strong> (Feld „Unterschrift" am Ende der Seite 2). Ohne Unterschrift ungültig.</li>
           <li><strong className="font-medium text-foreground">Beim Gewerbeamt einreichen</strong>, persönlich im Bürgeramt/Ordnungsamt deiner Stadt oder per Post.
-            Gebühr: 15 bis 65 € (je nach Stadt). Ausweis mitbringen.</li>
+            Gebühr: meist 15 bis 65 € (je nach Stadt und Rechtsform). Ausweis mitbringen.</li>
           <li>Manche Städte bieten auch Online-Einreichung an (verwaltung.bund.de / Servicekonto deines Landes).</li>
         </ol>
         <p className="mt-2 text-xs text-muted-foreground">
@@ -1174,7 +1174,7 @@ const StepZusammenfassung = ({ data, stepValid, allValid, onGeneratePdf }: { dat
 
       <Callout tone="info" title="Was kommt nach der Anmeldung?">
         <ol className="mt-1 list-inside list-decimal space-y-1">
-          <li>Ausgefülltes GewA1 unterschreiben, persönlich im Bürgeramt einreichen oder online über verwaltung.bund.de (Gebühr 15-65 €).</li>
+          <li>Ausgefülltes GewA1 unterschreiben, persönlich im Bürgeramt einreichen oder online über verwaltung.bund.de (Gebühr meist 15 bis 65 €).</li>
           <li>Innerhalb eines Monats nach Start den Fragebogen zur steuerlichen Erfassung (FsE) selbst über ELSTER einreichen (§138 Abs. 1b AO), er wird nicht zugeschickt.</li>
           <li>Im FsE: Entscheidung § 19 KU oder Regelbesteuerung (5 Jahre Bindung nur beim Verzicht auf die KU).</li>
           <li>Steuernummer und ggf. USt-ID werden zugeteilt.</li>
@@ -1231,7 +1231,7 @@ const Glossar = () => (
     </summary>
     <dl className="divide-y divide-border/70 border-t border-border/70 px-5 md:px-6">
       {[
-        { b: "GewA1-Formular", e: "Bundeseinheitliches Formular zur Anzeige eines Gewerbes nach § 14 GewO. Online (verwaltung.bund.de bzw. Portal deines Landes) oder im Bürgeramt/Gewerbeamt. Gebühr 15-65 € (stadt-abhängig). Die Anzeige ist gleichzeitig mit dem Beginn fällig (§ 14 Abs. 1 GewO). Eine verspätete Anzeige ist eine Ordnungswidrigkeit (§ 146 GewO, Geldbuße bis 1.000 €)." },
+        { b: "GewA1-Formular", e: "Bundeseinheitliches Formular zur Anzeige eines Gewerbes nach § 14 GewO. Online (verwaltung.bund.de bzw. Portal deines Landes) oder im Bürgeramt/Gewerbeamt. Gebühr meist 15 bis 65 € (stadt-abhängig). Die Anzeige ist gleichzeitig mit dem Beginn fällig (§ 14 Abs. 1 GewO). Eine verspätete Anzeige ist eine Ordnungswidrigkeit (§ 146 GewO, Geldbuße bis 1.000 €)." },
         { b: "WZ 2008 Branchenschlüssel", e: "5-stellige Klassifikation der Wirtschaftszweige (Ausgabe 2008) vom Statistischen Bundesamt. Beispiele: 47.91.1 = Versandhandel Textilien, 62.01.9 = Sonstige Softwareentwicklung, 70.22.0 = Unternehmensberatung. Das GewA1 hat kein Feld dafür, das Gewerbeamt ordnet den Schlüssel zu. Das Statistische Bundesamt hat inzwischen die WZ 2025 veröffentlicht; übergangsweise gelten beide Ausgaben parallel." },
         { b: "Tätigkeitsbeschreibung", e: "Pflicht-Klartext-Feld im GewA1. So GENAU wie möglich. Schlecht: 'Onlinehandel'. Gut: 'Onlinehandel mit Sportbekleidung, Sportzubehör und Nahrungsergänzungsmitteln über eigenen Shop und Amazon Marketplace'. Faustregel: Antwort auf 'WAS verkaufst du WIE und an WEN'. Auch Nebentätigkeiten mit erfassen (Definition wird sonst zu eng)." },
         { b: "Einzelunternehmen vs UG/GmbH", e: "Einzel = einfachste Form, kein Stammkapital, Anmeldung nur GewA1. UG = ab 1 € Stammkapital, Notar nötig (300-800 €), Eintrag Handelsregister. GmbH = 25k Stammkapital, Notar (~1.500 €). Für >90 % der Solo-Selbstständigen reicht Einzel — UG/GmbH sinnvoll bei: Haftungs-Risiko, Investor-Eintritt, Erbschaftsplanung." },

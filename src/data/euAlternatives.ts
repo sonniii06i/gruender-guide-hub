@@ -398,7 +398,7 @@ export const EU_ALTERNATIVES: EUAlternative[] = [
       "**Notional Interest Deduction**: fiktiver Zins auf neues Eigenkapital, Abzug gedeckelt auf 80 % des daraus erzielten Gewinns",
       "EU-Mitglied + Mutter-Tochter-Richtlinie",
       "DBA-Netzwerk mit > 60 Ländern (auch Russland, Indien, China)",
-      "Englisch zweite Amtssprache, Common-Law-Reste",
+      "Englisch als verbreitete Geschäftssprache (Amtssprachen: Griechisch und Türkisch), Common-Law-Reste",
     ],
     cons: [
       "**Reputations-Risiko**: 'Briefkasten-Zypern' hat schlechten Ruf seit Cyprus-Files etc.",

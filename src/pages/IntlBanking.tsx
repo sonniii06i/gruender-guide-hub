@@ -120,7 +120,7 @@ const BANKS: Bank[] = [
     trustpilotUrl: "https://www.trustpilot.com/review/wise.com",
     hiddenFees: [
       "Card-Withdrawal-Limit 250€/Monat free, danach 2,69%",
-      "Conversion in 'minor' Currencies bis 1,5%",
+      "Umtausch in seltene Währungen teurer als in Hauptwährungen und stark schwankend (Wise-Rechner 20.11.2026: EUR→ARS 2,21 %, EUR→KES 1,07 %, EUR→USD 0,47 %)",
       "Bei Multi-Account-Setups (Personal + Business gleicher User) höheres Closure-Risk",
     ],
   },
@@ -247,7 +247,7 @@ const BANKS: Bank[] = [
     trustpilotUrl: "https://www.trustpilot.com/review/relayfi.com",
     hiddenFees: [
       "SWIFT-Wire $20 bis $25 je Plan, lokale Netze $1,50 bis $5",
-      "ACH-Limits niedriger als Mercury (Standard $25k/Tag)",
+      "ACH-Limits legt Relay je Konto fest (Tages- und Monatslimits, Erhöhung nur auf Antrag)",
       "Same-Day ACH nur im Scale-Plan gebührenfrei",
     ],
   },
