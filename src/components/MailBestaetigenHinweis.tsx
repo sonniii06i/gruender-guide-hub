@@ -14,15 +14,22 @@ import { supabase } from "@/integrations/supabase/client";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Any = any;
 
+// Wortgleich mit mailVerifiziert() in _shared/mailBesitz.ts; der Test
+// src/test/mail-bestaetigen-hinweis.test.ts hält beide gleich.
 export function mailVerifiziertClient(user: Any): boolean {
-  if (!user?.email) return false;
+  if (!user?.email || !user?.email_confirmed_at) return false;
   const am = user.app_metadata ?? {};
   const aktuell = String(user.email).trim().toLowerCase();
   if (am.mail_verifiziert === true) return String(am.mail_verifiziert_email ?? "") === aktuell;
   if (am.mail_verifiziert === false) return false;
+  // 28.10.2026: echte Supabase-Bestätigung (Mail verschickt, danach bestätigt) zählt auch ohne Flag.
+  const gesendet = Date.parse(String(user.confirmation_sent_at ?? ""));
+  const bestaetigt = Date.parse(String(user.email_confirmed_at ?? ""));
+  if (gesendet && bestaetigt && bestaetigt >= gesendet) return true;
   const ids: Any[] = Array.isArray(user.identities) ? user.identities : [];
   return ids.some((i) => String(i?.provider ?? "email") !== "email" &&
-    String(i?.identity_data?.email ?? "").trim().toLowerCase() === aktuell);
+    String(i?.identity_data?.email ?? "").trim().toLowerCase() === aktuell &&
+    i?.identity_data?.email_verified !== false);
 }
 
 const OHNE = ["/mail-bestaetigen", "/login", "/auth", "/willkommen"];
