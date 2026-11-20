@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import {
   AlertTriangle, ArrowRight, CheckCircle2, ClipboardCopy, Download, FileText, FileType2, ListChecks, Lock, Sparkles, Unlock,
@@ -68,6 +68,12 @@ function VorlageSeite({ vorlage }: { vorlage: (typeof VORLAGE_BY_SLUG)[string] }
   const [gateOffen, setGateOffen] = useState(false);
   const [wordLaedt, setWordLaedt] = useState(false);
   const [gerade, setGerade] = useState(false);
+  // 20.11.2026 (Funnel-Prüfung): Der Kasten „Nächster Schritt“ kommt erst nach dem ersten Download dieser
+  // Seitenansicht. Vorher stand er direkt unter den Knöpfen und fing die Bestätigten ab: 14.–20.11. 21
+  // Bestätigungen, beide Klicks auf „Erst mal kostenloses Konto“ kamen 12 bzw. 20 s nach der Landung und vor
+  // jedem Download, einer davon hat die Vorlage nie geladen; 0 Konten aus dem Kasten.
+  const [geladen, setGeladen] = useState(false);
+  const knoepfeRef = useRef<HTMLDivElement>(null);
   // Text und Ratgeber kommen aus einem eigenen Modul (inhalte/<slug>.ts), damit
   // der Hub nicht die ganze Bibliothek lädt. Der Render wartet per Suspense
   // darauf; die Seo-Tags erscheinen also erst mit dem Inhalt, und der Prerender
@@ -87,6 +93,15 @@ function VorlageSeite({ vorlage }: { vorlage: (typeof VORLAGE_BY_SLUG)[string] }
     freigabeParameterEntfernen();
     trackVorlagenFreigabe(vorlage.slug);
     toast.success("E-Mail bestätigt – deine Vorlage ist frei.");
+    // Auf dem Handy (390 × 844) lagen die Download-Knöpfe bei 661–757 px, darüber ab 647 px das Cookie-Banner
+    // (der Bestätigungslink öffnet oft einen frischen Browser ohne Einwilligung) und ab 740 px das Aktions-
+    // Banner. Deshalb die Knöpfe nach oben holen, wenn sie unten im Bild liegen.
+    requestAnimationFrame(() => {
+      const el = knoepfeRef.current;
+      if (!el || el.getBoundingClientRect().bottom <= window.innerHeight * 0.55) return;
+      const ruhig = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+      el.scrollIntoView({ block: "start", behavior: ruhig ? "auto" : "smooth" });
+    });
   }, [location.search, vorlage.slug]);
 
   const offen = frei || abonnent;
@@ -114,6 +129,7 @@ function VorlageSeite({ vorlage }: { vorlage: (typeof VORLAGE_BY_SLUG)[string] }
       return;
     }
     await aktion();
+    setGeladen(true);
   };
 
   const word = mitFreigabe(async () => {
@@ -221,7 +237,14 @@ function VorlageSeite({ vorlage }: { vorlage: (typeof VORLAGE_BY_SLUG)[string] }
             <span>Stand {standLesbar}</span>
             <span>Word · PDF · Text</span>
           </div>
-          <div className="mt-6">{downloadKnoepfe}</div>
+          <div ref={knoepfeRef} className="mt-6 scroll-mt-24" data-testid="vorlage-knoepfe">
+            {offen && gerade && !geladen && (
+              <p className="mb-3 flex items-center gap-2 text-sm font-medium text-brand-green">
+                <CheckCircle2 className="h-4 w-4" aria-hidden="true" /> Bestätigt – wähle jetzt Word, PDF oder Text.
+              </p>
+            )}
+            {downloadKnoepfe}
+          </div>
           {!offen && (
             <p className="mt-3 text-sm text-muted-foreground">
               Einmal die E-Mail-Adresse bestätigen – danach sind alle Vorlagen frei. Kein Konto, keine Zahlung.
@@ -230,8 +253,9 @@ function VorlageSeite({ vorlage }: { vorlage: (typeof VORLAGE_BY_SLUG)[string] }
           {/* 14.11.2026 (Funnel-Pruefung): 37 bestaetigte Vorlagen-Leads seit 26.10., 0 Konten daraus. Nach der
               Freigabe endete der Weg beim Download; der einzige Hinweis aufs Abo stand in der Seitenleiste und
               liegt auf dem Handy unter Ratgeber und FAQ. Deshalb direkt unter den Download-Knoepfen.
-              Texte und Fakten wie Seitenleiste und /auth. */}
-          {offen && !abonnent && (
+              Texte und Fakten wie Seitenleiste und /auth.
+              20.11.2026: erst nach dem ersten Download (siehe `geladen`). */}
+          {offen && !abonnent && geladen && (
             <div className="mt-6 rounded-2xl border border-accent-blue/20 bg-accent/40 p-5" data-testid="vorlage-weiter">
               <h2 className="text-lg font-semibold text-foreground">Nächster Schritt: die Vorlage an deinen Fall anpassen</h2>
               <p className="mt-1 text-sm text-muted-foreground">
@@ -281,11 +305,6 @@ function VorlageSeite({ vorlage }: { vorlage: (typeof VORLAGE_BY_SLUG)[string] }
                   </div>
                 )}
               </div>
-              {offen && gerade && (
-                <p className="mt-3 flex items-center gap-2 text-sm text-brand-green">
-                  <CheckCircle2 className="h-4 w-4" aria-hidden="true" /> Bestätigt – jetzt oben Word, PDF oder Text wählen.
-                </p>
-              )}
 
               <div className="mt-10 grid gap-8 md:grid-cols-2">
                 <div>

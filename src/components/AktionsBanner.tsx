@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { isPrerender } from "@/lib/prerender";
 
 // Aktions-Banner (26.10.2026, HQ aktionen.py): zeigt nur eine aktive Aktion dieser Marke; der Not-Aus im HQ
 // schaltet es sofort ab (Endpunkt liefert dann aktiv=false). Kein Tracking, keine Cookies.
@@ -11,6 +12,11 @@ export default function AktionsBanner() {
   const [kopiert, setKopiert] = useState(false);
 
   useEffect(() => {
+    // 20.11.2026 (Funnel-Prüfung): Im Build-Prerender lief der Abruf mit, das Banner der Gründungswoche stand
+    // dadurch im statischen HTML von /preise, /vorlagen/*, Ratgebern und Tools. Der Client rendert es erst nach
+    // dem Abruf, also scheiterte die Hydration (React #418/#423) und die ganze Seite wurde neu aufgebaut; nach
+    // Aktionsende wäre ein abgelaufener Code im HTML stehen geblieben. Wie beim Cookie-Banner: nie im Prerender.
+    if (isPrerender()) return;
     if (window.location.pathname.startsWith("/admin")) return;
     let ab = false;
     fetch(QUELLE, { credentials: "omit" })
