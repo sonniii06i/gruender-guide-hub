@@ -402,7 +402,7 @@ export const EU_ALTERNATIVES: EUAlternative[] = [
     ],
     cons: [
       "**Reputations-Risiko**: 'Briefkasten-Zypern' hat schlechten Ruf seit Cyprus-Files etc.",
-      "**Substanz-Prüfung**: Mailbox-Companies werden über § 50d Abs. 3 EStG und den DBA-Principal-Purpose-Test durchschaut (ATAD III wurde 2025 zurückgezogen)",
+      "**Substanz-Prüfung**: Mailbox-Companies werden über § 50d Abs. 3 EStG und den DBA-Principal-Purpose-Test durchschaut (ATAD III hat die Kommission 2026 förmlich zurückgezogen)",
       "**§AStG explizit**: bei DE-Wohnsitz greift Hinzurechnung schneller (CY auf BMF-Watch-List)",
       "Banking schwierig (CY-Banken nehmen seit 2018 nicht mehr easy non-resident KMUs)",
       "Viele DE-StBs raten ab wegen Compliance-Aufwand",

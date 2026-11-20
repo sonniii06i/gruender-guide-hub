@@ -211,7 +211,7 @@ export const GLOSSAR: GlossarBegriff[] = [
   },
   { begriff: "KSK (Künstlersozialkasse)", aliases: ["KSK", "Künstlersozial"], kategorie: "sv-kv",
     kurzDefinition: "Spezielle Sozial-Versicherung für selbständige Künstler/Publizisten — Versicherter trägt ~50 % selbst, die andere Hälfte läuft über die KSK (30 % Künstlersozialabgabe + 20 % Bundeszuschuss).",
-    ausfuehrlich: "Pflichtmitgliedschaft für: Maler, Musiker, Schauspieler, Autoren, Journalisten, Fotografen, Designer (wenn freiberuflich + überwiegend selbstständig). Mindesteinkommen 3.900 €/Jahr (sonst Befreiung). Auftraggeber zahlen KSK-Abgabe (4,9 % 2026, vorher 5,0 %) auf gezahlte Honorare; Bagatellgrenze 1.000 €/Jahr (2025: 700 €).",
+    ausfuehrlich: "Pflichtmitgliedschaft für: Maler, Musiker, Schauspieler, Autoren, Journalisten, Fotografen, Designer (wenn freiberuflich + überwiegend selbstständig). Mindesteinkommen 3.900 €/Jahr (sonst Befreiung). Auftraggeber zahlen KSK-Abgabe (4,9 % 2026, vorher 5,0 %, ab 2027 wieder 5,0 %) auf gezahlte Honorare; Bagatellgrenze 1.000 €/Jahr (2025: 700 €).",
     paragraph: "KSVG",
   },
   { begriff: "BBG (Beitragsbemessungsgrenze)", aliases: ["BBG"], kategorie: "sv-kv",
@@ -225,7 +225,7 @@ export const GLOSSAR: GlossarBegriff[] = [
   },
   { begriff: "Familienversicherung", aliases: ["Familienvers"], kategorie: "sv-kv",
     kurzDefinition: "Kostenlose Mitversicherung Ehepartner/Kinder in der GKV des Hauptverdieners.",
-    ausfuehrlich: "Ehepartner: kostenlos mitversichert wenn Gesamteinkommen ≤ 565 €/Monat (2026; bei Minijob 603 €/Monat — wird jährlich angepasst). Kinder: bis 23 J. (mit Schule/Studium bis 25). Bei Selbstständigkeit/höherem Einkommen: eigene Versicherung Pflicht.",
+    ausfuehrlich: "Ehepartner: kostenlos mitversichert wenn Gesamteinkommen ≤ 565 €/Monat (2026; bei Minijob 603 €/Monat, ab 2027 633 €; wird jährlich angepasst). Kinder: bis 23 J. (mit Schule/Studium bis 25). Bei Selbstständigkeit/höherem Einkommen: eigene Versicherung Pflicht.",
     paragraph: "§10 SGB V",
   },
 

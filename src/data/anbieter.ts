@@ -25,7 +25,7 @@ export const LEGAL_URLS: Record<string, { impressum?: string; terms?: string; pr
   "fyrst": { impressum: "https://www.fyrst.de/impressum.html", privacy: "https://www.fyrst.de/datenschutz.html" },
   "n26-business": { impressum: "https://n26.com/de-de/legal-information", terms: "https://n26.com/de-de/terms-of-use", privacy: "https://n26.com/de-de/privacy" },
   "revolut-business": { impressum: "https://www.revolut.com/de-DE/legal-de", terms: "https://www.revolut.com/de-DE/legal/business-terms", privacy: "https://www.revolut.com/de-DE/legal/privacy" },
-  "vivid-business": { impressum: "https://vivid.money/de-de/impressum/", terms: "https://vivid.money/de-de/agb/", privacy: "https://vivid.money/de-de/datenschutz/" },
+  "vivid-business": { impressum: "https://vivid.money/de-de/impressum/", terms: "https://vivid.money/de-de/rechtliche-hinweise/", privacy: "https://vivid.money/de-de/privacy-policy/" },
   "bunq-business": { impressum: "https://www.bunq.com/de/imprint", terms: "https://www.bunq.com/de/terms", privacy: "https://www.bunq.com/de/privacy" },
 
   // ============ BANKING US ============
@@ -153,7 +153,7 @@ export const FULL_DESCRIPTIONS: Record<string, string> = {
   "fyrst": "Fyrst ist eine 2020 gestartete Tochter von Postbank und Deutscher Bank, speziell für Solo-Selbstständige und Klein-GmbHs. Free-Tier (Base) und 10-€-Tarif (Complete) decken die meisten Anwendungsfälle ab. Mit DE-IBAN und Cash-Service über Postbank-Filialen. Eine pragmatische Alternative zwischen Hausbank und Neobank.",
   "n26-business": "N26 ist eine deutsche Direktbank mit Sitz in Berlin und einer der bekanntesten europäischen Neobanks. Das Business-Konto richtet sich primär an Solo-Selbstständige – der Standard-Tarif ist gratis, der Smart-Tarif kostet 4,90 €/Mon. Für GmbH-Gründungen historisch eingeschränkt akzeptiert; Trustpilot-Reviews wegen Account-Sperren gemischt.",
   "revolut-business": "Revolut wurde 2015 in London gegründet und ist heute mit eigener Banklizenz (Revolut Bank UAB, Litauen) in der EU aktiv. Seit 2024 mit deutschen IBANs für Geschäftskunden. Die Stärke liegt in Multi-Currency – über 25 Währungen mit interbank-nahen FX-Raten, ideal für GmbHs mit US-/UK-Bezug oder Meta/TikTok-Ad-Spend.",
-  "vivid-business": "Vivid ist ein 2020 in Berlin gegründetes Fintech mit Solaris-Backend. Vivid Business bietet 100 SEPA-Buchungen inklusive, Sub-Accounts für Budgetierung und Investment-Features (ETF, Crypto). Die UX ist modern und auf jüngere Founder zugeschnitten.",
+  "vivid-business": "Vivid ist ein 2019 in Berlin gegründetes Fintech; Konto und Karten stellt das E-Geld-Institut Vivid Money S.A. (Luxemburg, Aufsicht CSSF) bereit. Vivid Business bietet kostenlose SEPA- und Echtzeitüberweisungen, Sub-Accounts für Budgetierung und Investment-Features (ETF, Crypto). Die UX ist modern und auf jüngere Founder zugeschnitten.",
   "bunq-business": "Bunq ist eine niederländische Neobank mit eigener Banklizenz (DNB), gegründet 2012. Das Business-Konto bietet Multi-IBAN, Sub-Accounts und EU-weite Akzeptanz. Stark in Benelux/Frankreich, in Deutschland Nische. Karten-Issuance schnell, Support gemischt.",
 
   // ============ BANKING US ============
@@ -167,7 +167,7 @@ export const FULL_DESCRIPTIONS: Record<string, string> = {
   "chase-business": "JPMorgan Chase ist die größte US-Bank (3,9 Bio $ Assets) und hat mit ~5.000 Filialen das größte Filialnetz für Business-Banking. Chase Business Complete Banking ist der Standard für US-LLCs mit physischer Präsenz, mit Inks-Kreditkarten-Programm und 5.000-Branch-Cash-Service. Für deutsche Founder ohne US-Adresse meist schwer zugänglich – Mercury ist die Tech-Alternative.",
   "bank-of-america-business": "Bank of America ist die zweitgrößte US-Bank (3,1 Bio $ Assets) mit ~3.900 Branches. Business Advantage Fundamentals Banking ist das Standard-Geschäftskonto (Online-Banking: Business Advantage 360), mit Erica-AI-Assistant und Travel-Center für Auslandsüberweisungen. Preferred Rewards Program bietet Discount auf Loans/Credits.",
   "wells-fargo-business": "Wells Fargo ist die drittgrößte US-Bank (1,7 Bio $ Assets) mit ~4.700 Branches. Initiate Business Checking ist das Einsteiger-Konto. Der 2018er Skandal um Fake-Konten drückt Reputation auch 2026 noch – aktiv im SBA-Loan-Markt, aber Trustpilot-Sentiment durchwachsen.",
-  "capital-one-business": "Capital One (gegründet 1994) ist die viertgrößte US-Banking-Holding und stark im Online-/Karten-Business. Spark Business kombiniert Checking mit den Spark Cash Plus 2 %-Cashback-Karten. Komplett Online-Eröffnung möglich auch für Remote-Founder, weniger Filialen als Chase/BoA.",
+  "capital-one-business": "Capital One (gegründet 1994) ist eine der zehn größten US-Banken (Rang 7 nach Bilanzsumme laut Federal Reserve, Stand 30.06.2026) und stark im Online-/Karten-Business. Spark Business kombiniert Checking mit den Spark Cash Plus 2 %-Cashback-Karten. Komplett Online-Eröffnung möglich auch für Remote-Founder, weniger Filialen als Chase/BoA.",
   "axos-business": "Axos Bank (Direct-Bank, gegründet 2000) ist eine vollständig digitale US-Bank mit 0 $-Konto im Basic-Business-Tier. Online-Eröffnung von Deutschland aus mit US-LLC + EIN möglich – einer der wenigen großen US-Brands der Non-US-Founder akzeptiert. Reviews zeigen vereinzelte Compliance-Sperren bei großen Transfers.",
   "lili": "Lili ist eine 2018 gegründete US-Banking-App speziell für Solopreneurs und 1099-Freelancer. Free-Tier mit eingebauten Tax-Buckets (automatische Steuer-Rücklage) und BookKeeper-Tool ab Pro-Tier. Nur Sole-Proprietor und Single-Member-LLC, keine Multi-Member-Struktur.",
   "square-banking": "Square Banking ist die Banking-Sparte von Block Inc. (Square, Cash App) und richtet sich an Square-Sellers. Tight Integration mit Square-POS und Online-Store, Instant-Access zu Sales-Earnings ohne Settlement-Delay. Standalone-Banking weniger sinnvoll – nur als Add-on zur Square-Hardware/-Software.",
@@ -255,7 +255,7 @@ export const FULL_DESCRIPTIONS: Record<string, string> = {
   "hdi-rechtsschutz": "HDI bietet als Talanx-Tochter auch Rechtsschutz-Versicherungen, die sich besonders dann lohnen, wenn man bereits andere HDI-Sparten (z. B. Haftpflicht oder Berufshaftpflicht) abgeschlossen hat – durch Bundle-Discount.",
 
   // ============ GESCHÄFTSFAHRZEUG ============
-  "sixt-leasing": "Sixt Leasing wurde 1988 als Tochter der Sixt SE gegründet und ist heute einer der größten markenübergreifenden Leasing-Anbieter in Deutschland. Über 200.000 Fahrzeuge im Bestand, alle gängigen Hersteller verfügbar. Besonders stark im KMU-Markt mit Online-Konfigurator und schnellen Angeboten.",
+  "sixt-leasing": "Sixt Leasing wurde 1988 als Tochter der Sixt SE gegründet und ist heute einer der größten markenübergreifenden Leasing-Anbieter in Deutschland. Rund 157.000 Verträge im Bestand (2025, inkl. Flottenmanagement), alle gängigen Hersteller verfügbar. Besonders stark im KMU-Markt mit Online-Konfigurator und schnellen Angeboten.",
   "ald-automotive": "ALD Automotive (seit 2023 unter dem Namen Ayvens, gehört zur Société Générale) ist der größte Flottenanbieter Europas mit ~1,7 Mio Fahrzeugen weltweit. Full-Service-Leasing inkl. Wartung, Versicherung und Reifen ist Standard. Optimal ab 3+ Fahrzeugen, weniger Self-Service-Optionen.",
   "vw-financial-services": "Die Volkswagen Financial Services AG ist die Finanzdienstleistungs-Tochter des VW-Konzerns und finanziert/least Fahrzeuge der Marken VW, Audi, Skoda, Seat und Cupra. Beste Konditionen für Konzernfahrzeuge direkt vom Hersteller, mit häufigen Aktionsraten. Marken-Lock-in beachten.",
   "mercedes-benz-bank": "Die Mercedes-Benz Bank ist die Finanzdienstleistungs-Tochter der Mercedes-Benz Group und bietet Leasing/Finanzierung exklusiv für Mercedes-Benz und smart. Premium-positioniert, mit soliden Restwert-Garantien und stabilen B2B-Konditionen.",
@@ -636,13 +636,13 @@ export const PROVIDERS: Provider[] = [
     name: "Vivid Business",
     category: "Banking DE",
     region: "DE/EU",
-    starting: "ab 9,90 €/Mon",
+    starting: "ab 0 €/Mon (Free Start/Standard); Basic/Prime 6,90 €/Mon jährl., monatlich 8,90 €",
     rating: 4.0,
     tagline: "Schickes UI, Sub-Accounts",
-    pros: ["100 SEPA-Buchungen inkl.", "Sub-Accounts für Budgetierung", "Investment-Features"],
+    pros: ["SEPA- und Echtzeitüberweisungen kostenlos", "Sub-Accounts für Budgetierung", "Investment-Features"],
     cons: ["Etwas jünger im Markt", "Tarifstruktur komplex"],
     forumNotes: "Finanztip/Trustpilot 2026: 'Mehrere Nutzer berichten von plötzlichen, unbegründeten Kontosperrungen; Zinsen (bis 5 % p.a.) und flexible Unterkonten positiv, aber fehlende DATEV-Integration und nur 20.000 € Einlagensicherung werden häufig kritisiert.'",
-    signupTime: "1–3 Tage",
+    signupTime: "meist 10 Min. bis 1 Std. (laut Vivid)",
     url: "https://vivid.money/de-de/business/",
   },
   {
@@ -1380,7 +1380,7 @@ export const PROVIDERS: Provider[] = [
     ],
     cons: [
       "Filialnetz limitiert (vs. Chase/BoA)",
-      "Internationale Überweisungen schwächer dokumentiert",
+      "Auslandsüberweisungen kosten 40 $ ausgehend und 15 $ eingehend (Basic und Enhanced)",
       "Capital One Card-Approval streng bei Non-US-Founder",
     ],
     forumNotes: "r/Entrepreneur 2026: 'Capital One ist Mid-Tier mit guter Online-UX. Spark Cash Plus Card oft genannt für Marketing-Spend.'",
@@ -1962,7 +1962,7 @@ export const PROVIDERS: Provider[] = [
   // ============ GESCHÄFTSFAHRZEUG (Leasing / Auto-Abo) ============
   {
     slug: "sixt-leasing",
-    name: "Sixt Leasing",
+    name: "Allane (ehemals Sixt Leasing)",
     category: "Geschäftsfahrzeug",
     region: "DE/EU",
     starting: "ab ~290 €/Mon (netto)",
@@ -1972,7 +1972,7 @@ export const PROVIDERS: Provider[] = [
     cons: ["Vertragsbindung 24–48 Monate", "Kilometerlimit überschritten = Aufpreis"],
     forumNotes: "r/Steuern + Mittelstands-Foren: 'Solider Standard. Bei Verhandlung mit Sixt-AccountManager oft 5–10 % Discount drin.'",
     signupTime: "1–2 Wochen Vertrag + 4–8 Wochen Lieferzeit",
-    url: "https://www.sixtleasing.de",
+    url: "https://allane.de/de/gewerbe",
   },
   {
     slug: "ald-automotive",

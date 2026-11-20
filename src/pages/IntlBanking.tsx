@@ -93,12 +93,12 @@ const BANKS: Bank[] = [
     region: "wise-personal",
     emoji: "👤",
     monthlyFee: "€0",
-    setupFee: "€0 (typisch €20 Min-Einzahlung für KYC-Verifikation)",
+    setupFee: "€0 (Debitkarte optional, einmalig 7 €)",
     nonResident: "ja",
     bestFor: "Solo-Founder / Freelancer ohne formale GmbH/LLC · USD/GBP/EUR-Multi-Currency · Kein Business-Account-Wunsch",
     pros: [
       "**€0 Setup-Fee, kein Monthly-Fee** — wirklich kostenlos",
-      "€20 typische Erst-Einzahlung für KYC, Debitkarte einmalig 7 EUR",
+      "Verifizierung per Ausweisfoto und Selfie, Debitkarte einmalig 7 €",
       "Multi-Currency-Wallets in 40+ Währungen",
       "USD-Routing + Account-Number → von Stripe/Amazon US akzeptiert",
       "Mid-Market-FX-Rate + ab 0,2 % Gebühr je nach Währung (deutlich besser als jede DE-Bank)",
@@ -110,7 +110,7 @@ const BANKS: Bank[] = [
       "Closure-Risk medium (laut Nutzerberichten Address-Proof-Nachforderungen 2024–2026, auch bei Personal)",
     ],
     features: { multiCurrency: true, achWire: true, quickbooksXero: false, debitCard: true, apiAccess: false, crypto: false },
-    setupRequirements: ["Pass / Personalausweis", "DE-Adress-Proof", "Selfie-Verification", "€20 Min-Top-up (sonst kein Card-Access)"],
+    setupRequirements: ["Pass / Personalausweis", "DE-Adress-Proof", "Selfie-Verification", "Debitkarte optional (einmalig 7 €)"],
     url: "https://wise.com/de",
     closureRisk: "medium",
     closurePattern: "Laut Nutzerberichten: Address-Proof-Welle Q4 2024 bis 2026; Crypto-Conversions triggern Freezes",
@@ -134,12 +134,12 @@ const BANKS: Bank[] = [
     monthlyFee: "$0 (Plus $35 / Pro $350)",
     setupFee: "$0",
     nonResident: "ja",
-    bestFor: "US-LLC mit Stripe-Operations · Treasury-Yield bis 4,21 % netto (erst ab 20 Mio. $ Einlagen) · DE-Founder mit Wyoming/Delaware-LLC",
+    bestFor: "US-LLC mit Stripe-Operations · Treasury-Yield bis 4,42 % netto (erst ab 20 Mio. $ Einlagen) · DE-Founder mit Wyoming/Delaware-LLC",
     pros: [
       "**$0 Setup + Monthly Standard-Plan** — wirklich kostenlos",
       "Akzeptiert non-Resident Founder von 200+ Ländern (DACH-Solos inkl.)",
       "Sehr saubere App + Web-UI, API + Stripe-Integration",
-      "Mercury Treasury: **bis 4,21 % netto** Yield laut Mercury (erst ab 20 Mio. $ Einlagen; 250k bis 2 Mio. $: 3,32 bis 3,82 % je nach Anlage), Mindestguthaben 250.000 $ (laut mercury.com/treasury, Renditen Stand 06.11.2026; variabel, folgt dem US-Leitzins)",
+      "Mercury Treasury: **bis 4,42 % netto** Yield laut Mercury (erst ab 20 Mio. $ Einlagen; 250k bis 2 Mio. $: 3,31 bis 4,10 % je nach Anlage), Mindestguthaben 250.000 $ (laut mercury.com/treasury, Renditen Stand 13.11.2026; variabel, folgt dem US-Leitzins)",
       "Wires + ACH inkl., FDIC bis $5M via Sweep zu Partner-Banks",
       "Mercury Bank N.A.: vorläufige bedingte OCC-Zusage April 2026; bis zur finalen Zulassung weiter Partnerbanken",
     ],
@@ -190,7 +190,7 @@ const BANKS: Bank[] = [
       "Wise-Zinsanlage: USD derzeit 3,66 %, EUR 2,32 % (variabel, Stand 10.11.2026; Fondsgebühr ab 0,26 % p. a.)",
     ],
     cons: [
-      "**Setup-Fee einmalig (NICHT €20!)** — DE 55 €, US $31, UK £50 je Region",
+      "**Setup-Fee einmalig:** DE 55 €, US $31, UK £50 je Region",
       "**Closure-Risk medium-high** laut Nutzerberichten, seit dem Wise-US-Settlement über 4,2 Mio. $ (2025)",
       "Kein klassisches US-Bank-Konto (Geld liegt bei Wise, nicht bei US-Bank)",
       "Keine Kreditkarte (nur Debit)",
@@ -234,7 +234,7 @@ const BANKS: Bank[] = [
       "**Thread Bank Fraud-Detection-Holds** dauern Wochen (Reddit-Cases bis Monate)",
       "Verlangt 'operating presence in the U.S.' — schwammig, kann Ablehnung sein",
       "SWIFT-Auslandsüberweisungen $25 / $22 / $20 je Plan (lokale Netze $5 / $3 / $1,50)",
-      "Weniger bekannt als Mercury — Onboarding 7-21 Tage",
+      "Weniger bekannt als Mercury; Prüfung laut Relay meist in 1 bis 2 Werktagen, bei Rückfragen länger",
     ],
     features: { multiCurrency: false, achWire: true, quickbooksXero: true, debitCard: true, apiAccess: true, crypto: false },
     setupRequirements: ["EIN-Letter", "Articles of Organization", "Operating Agreement", "US-Adresse mit Lease/Operating-Presence-Beweis", "Pass"],
@@ -304,7 +304,7 @@ const BANKS: Bank[] = [
     pros: [
       "**Speziell für non-Resident HK-Firmen** designed",
       "**100% remote-Onboarding** (kein HK-Besuch nötig)",
-      "Multi-Currency: HKD, USD, EUR, GBP, RMB",
+      "Multi-Currency: 11 Währungen (u. a. HKD, USD, EUR, GBP, CNY)",
       "Company-Secretary + Banking als Paket möglich",
       "**Account in 3 Tagen** (96% laut Statrys in <3 Tagen)",
       "Trustpilot 4,6/5 (höchste in HK-Liste)",
@@ -822,7 +822,7 @@ const IntlBanking = () => {
           Onboarding-Erfolg ist nicht garantiert (Bank-eigenes Risk-Scoring). Bei US-LLC-Setup zwingend diese Reihenfolge:
           erst LLC-Filing, dann EIN, DANN Bank-Account-Antrag (BOI seit März 2025 NICHT mehr Pflicht).{" "}
           <strong className="font-semibold text-foreground">Preis-Variabilität:</strong> Wise Personal kostet €0 Setup
-          (typisch €20 Mindest-Einzahlung für KYC), Wise Business hat regionales Pricing (DE 55 € / US $31 / UK £50 / SG SGD
+          (Debitkarte einmalig 7 €), Wise Business hat regionales Pricing (DE 55 € / US $31 / UK £50 / SG SGD
           99 / übriger EWR 60 €). Eigene Erfahrungen können abweichen; Referral-Links und Promotionen reduzieren das auf €0.
         </p>
       </div>

@@ -1493,7 +1493,7 @@ export const REGULATORIK_2026: { titel: string; datum: string; was: string; ausw
   },
   {
     titel: "EU PPWR PFAS-Ban Food-Contact",
-    datum: "Ab 12.8.2026",
+    datum: "Seit 12.8.2026",
     was: "Lebensmittelkontakt-Verpackungen mit PFAS ab Grenzwerten verboten (25 ppb je PFAS, 250 ppb Summe, 50 ppm Gesamt-PFAS; Art. 5 Abs. 5 PPWR)",
     auswirkung: "Verpackungs-Brands: JETZT PFAS-Screening bei GBA/Eurofins/Hohenstein machen lassen",
   },
