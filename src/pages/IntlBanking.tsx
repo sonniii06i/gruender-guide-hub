@@ -99,7 +99,7 @@ const BANKS: Bank[] = [
     pros: [
       "**€0 Setup-Fee, kein Monthly-Fee** — wirklich kostenlos",
       "Verifizierung per Ausweisfoto und Selfie, Debitkarte einmalig 7 €",
-      "Multi-Currency-Wallets in 40+ Währungen",
+      "Multi-Currency-Wallets in 40 Währungen",
       "USD-Routing + Account-Number → von Stripe/Amazon US akzeptiert",
       "Mid-Market-FX-Rate + ab 0,2 % Gebühr je nach Währung (deutlich besser als jede DE-Bank)",
       "Schnelles Onboarding (Stunden statt Tagen)",
@@ -225,7 +225,7 @@ const BANKS: Bank[] = [
     pros: [
       "**Beste QuickBooks/Xero-Integration** der US-Banks",
       "**20 Sub-Accounts** pro Business (Profit-First-Buchhaltung)",
-      "FDIC-versichert bis $3M via Insured Cash Sweep (Thread Bank)",
+      "FDIC-versichert bis $3M über das Sweep-Programm von Thread Bank",
       "ACH inkl., Inlands-Wires $8 (Starter) bzw. $5 (Grow, Scale)",
       "Savings-Rendite bis 3,21 % APY (Scale-Plan, variabel)",
       "Account Protection Team launched April 2026",
@@ -306,7 +306,7 @@ const BANKS: Bank[] = [
       "**100% remote-Onboarding** (kein HK-Besuch nötig)",
       "Multi-Currency: 11 Währungen (u. a. HKD, USD, EUR, GBP, CNY)",
       "Company-Secretary + Banking als Paket möglich",
-      "**Account in 3 Tagen** (96% laut Statrys in <3 Tagen)",
+      "**Konto meist in 3 Werktagen** (laut Statrys 96 % innerhalb von 3 Werktagen)",
       "Trustpilot 4,6/5 (höchste in HK-Liste)",
       "FX 0,1% Major Currencies (sehr kompetitiv)",
     ],
