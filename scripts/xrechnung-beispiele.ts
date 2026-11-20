@@ -1,7 +1,6 @@
 // Erzeugt Beispiel-XRechnungen für alle vier Modi nach ./xr-beispiele/ –
 // die GitHub Action prüft sie anschließend mit dem KoSIT-Validator.
 import { mkdirSync, writeFileSync } from "fs";
-import jsPDF from "jspdf";
 import { baueXRechnung, xrFehlend, type XrDaten } from "../src/lib/xrechnung";
 
 const basis: XrDaten = {
@@ -38,9 +37,28 @@ const faelle: Record<string, XrDaten> = {
 // Fälle des Tools „PDF in E-Rechnung umwandeln“ (/pdf-in-e-rechnung-umwandeln):
 // Original-PDF als Anlage (BG-24), Einheit Stunde (HUR), Rabattzeile mit
 // negativer Menge, Leistungszeitraum (BG-14) und eigene Zahlungsbedingungen.
-const original = new jsPDF();
-original.text("Rechnung RE-2026-042 (Original-PDF)", 14, 20);
-const anhang = { dateiname: "RE-2026-042.pdf", base64: Buffer.from(original.output("arraybuffer")).toString("base64"), beschreibung: "Original-Rechnung (PDF)" };
+// Kleines, gültiges PDF ohne Abhängigkeiten (der CI-Lauf installiert keine Pakete).
+function minimalPdf(text: string): string {
+  const inhalt = `BT /F1 12 Tf 50 780 Td (${text}) Tj ET`;
+  const objekte = [
+    "<< /Type /Catalog /Pages 2 0 R >>",
+    "<< /Type /Pages /Kids [3 0 R] /Count 1 >>",
+    "<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >>",
+    "<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>",
+    `<< /Length ${inhalt.length} >>\nstream\n${inhalt}\nendstream`,
+  ];
+  let pdf = "%PDF-1.4\n";
+  const offsets: number[] = [];
+  objekte.forEach((o, i) => {
+    offsets.push(pdf.length);
+    pdf += `${i + 1} 0 obj\n${o}\nendobj\n`;
+  });
+  const xref = pdf.length;
+  pdf += `xref\n0 ${objekte.length + 1}\n0000000000 65535 f \n${offsets.map((o) => `${String(o).padStart(10, "0")} 00000 n \n`).join("")}`;
+  pdf += `trailer\n<< /Size ${objekte.length + 1} /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF\n`;
+  return Buffer.from(pdf, "latin1").toString("base64");
+}
+const anhang = { dateiname: "RE-2026-042.pdf", base64: minimalPdf("Rechnung RE-2026-042 (Original-PDF)"), beschreibung: "Original-Rechnung (PDF)" };
 const konverter: XrDaten = {
   ...basis,
   leistungsdatum: "",
