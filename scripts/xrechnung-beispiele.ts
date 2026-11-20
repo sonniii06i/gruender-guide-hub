@@ -1,6 +1,7 @@
 // Erzeugt Beispiel-XRechnungen für alle vier Modi nach ./xr-beispiele/ –
 // die GitHub Action prüft sie anschließend mit dem KoSIT-Validator.
 import { mkdirSync, writeFileSync } from "fs";
+import jsPDF from "jspdf";
 import { baueXRechnung, xrFehlend, type XrDaten } from "../src/lib/xrechnung";
 
 const basis: XrDaten = {
@@ -33,6 +34,28 @@ const faelle: Record<string, XrDaten> = {
     kunde: { ...basis.kunde, name: "Klant BV", plzOrt: "1012 Amsterdam", land: "Niederlande", ustId: "NL123456789B01" },
   },
 };
+
+// Fälle des Tools „PDF in E-Rechnung umwandeln“ (/pdf-in-e-rechnung-umwandeln):
+// Original-PDF als Anlage (BG-24), Einheit Stunde (HUR), Rabattzeile mit
+// negativer Menge, Leistungszeitraum (BG-14) und eigene Zahlungsbedingungen.
+const original = new jsPDF();
+original.text("Rechnung RE-2026-042 (Original-PDF)", 14, 20);
+const anhang = { dateiname: "RE-2026-042.pdf", base64: Buffer.from(original.output("arraybuffer")).toString("base64"), beschreibung: "Original-Rechnung (PDF)" };
+const konverter: XrDaten = {
+  ...basis,
+  leistungsdatum: "",
+  leistungszeitraum: { von: "2026-10-01", bis: "2026-10-31" },
+  zahlungsbedingungen: "2 % Skonto bei Zahlung bis 15.10.2026, sonst zahlbar ohne Abzug bis 22.10.2026.",
+  positionen: [
+    { beschreibung: "Pflege-Stunden Oktober", menge: 3.5, einzelpreisNetto: 85, ustSatz: 19, einheit: "HUR" },
+    { beschreibung: "Treuerabatt", menge: 1, einzelpreisNetto: -50, ustSatz: 19 },
+    { beschreibung: "Fachbuch", menge: 2, einzelpreisNetto: 24.99, ustSatz: 7, einheit: "H87" },
+  ],
+  anhang,
+};
+faelle["konverter-anhang"] = konverter;
+faelle["konverter-datum-und-zeitraum"] = { ...konverter, leistungsdatum: "2026-10-31", anhang: undefined };
+faelle["konverter-kleinunternehmer"] = { ...konverter, modus: "kleinunternehmer", verkaeufer: { ...basis.verkaeufer, ustId: "" }, positionen: [{ beschreibung: "Beratung", menge: 2, einzelpreisNetto: 60, ustSatz: 0, einheit: "HUR" }] };
 
 mkdirSync("xr-beispiele", { recursive: true });
 for (const [name, d] of Object.entries(faelle)) {

@@ -83,6 +83,7 @@ export const staticEntries: SitemapEntry[] = [
   { path: "/ki-assistent", changefreq: "monthly", priority: "0.8" },
   { path: "/gruendungsberatung", changefreq: "daily", priority: "0.8" },
   { path: "/e-rechnung-lesen", changefreq: "monthly", priority: "0.8" },
+  { path: "/pdf-in-e-rechnung-umwandeln", changefreq: "monthly", priority: "0.8" },
   { path: "/faq", changefreq: "monthly", priority: "0.6" },
   { path: "/kontakt", changefreq: "yearly", priority: "0.4" },
   { path: "/partner", changefreq: "monthly", priority: "0.6" },

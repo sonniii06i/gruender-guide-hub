@@ -46,6 +46,7 @@ const COLUMNS: { title: string; links: { to: string; label: string; native?: boo
       { to: "/startup-guthaben", label: "Startup-Guthaben & Credits" },
       { to: "/gruendungsberatung", label: "Gründungsberatung finden" },
       { to: "/e-rechnung-lesen", label: "E-Rechnung lesen" },
+      { to: "/pdf-in-e-rechnung-umwandeln", label: "PDF in E-Rechnung umwandeln" },
       { to: "/gruendungspaket", label: "Gründungspaket 2026" },
       { to: "/faq", label: "FAQ" },
     ],

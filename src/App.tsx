@@ -169,6 +169,7 @@ const BankgespraechVorbereitung = lazy(() => import("./pages/BankgespraechVorber
 const GruendungsberatungFinden = lazy(() => import("./pages/GruendungsberatungFinden.tsx"));
 const EventRadar = lazy(() => import("./pages/EventRadar.tsx"));
 const ERechnungLesen = lazy(() => import("./pages/ERechnungLesen.tsx"));
+const PdfInERechnung = lazy(() => import("./pages/PdfInERechnung.tsx"));
 const MitgruenderBoerse = lazy(() => import("./pages/MitgruenderBoerse.tsx"));
 const MahnungGenerator = lazy(() => import("./pages/MahnungGenerator.tsx"));
 const KleinunternehmerWaechter = lazy(() => import("./pages/KleinunternehmerWaechter.tsx"));
@@ -430,6 +431,7 @@ const App = () => (
               <Route path="/ki-assistent" element={<KiAssistent />} />
               <Route path="/gruendungsberatung" element={<GruendungsberatungFinden />} />
               <Route path="/e-rechnung-lesen" element={<ERechnungLesen />} />
+              <Route path="/pdf-in-e-rechnung-umwandeln" element={<PdfInERechnung />} />
               <Route path="/businessplan-erstellen" element={<FreeToolRoute slug="businessplan-erstellen" />} />
               <Route path="/gruendungskosten-rechner" element={<FreeToolRoute slug="gruendungskosten-rechner" />} />
               <Route path="/rechtsform-finden" element={<FreeToolRoute slug="rechtsform-finden" />} />

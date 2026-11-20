@@ -185,7 +185,15 @@ export default function ERechnungLesen() {
             {fehler && (
               <div role="alert" className="flex gap-2.5 rounded-xl border border-danger/25 bg-danger-soft p-4 text-sm">
                 <XCircle className="mt-0.5 h-4 w-4 shrink-0 text-danger" aria-hidden="true" />
-                <span>{fehler}</span>
+                <span>
+                  {fehler}
+                  {/PDF/.test(fehler) && (
+                    <>
+                      {" "}Ein normales PDF ohne XML ist keine E-Rechnung:{" "}
+                      <Link to="/pdf-in-e-rechnung-umwandeln" data-quelle="tool:e-rechnung-lesen" className="font-medium underline">PDF in E-Rechnung umwandeln</Link>
+                    </>
+                  )}
+                </span>
               </div>
             )}
           </section>
@@ -284,6 +292,13 @@ export default function ERechnungLesen() {
                 E-Rechnung-Pflicht 2026: Fristen, Formate, Ausnahmen
               </Link>
               .
+            </p>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Du hast nur ein PDF und brauchst eine XRechnung? Mit{" "}
+              <Link to="/pdf-in-e-rechnung-umwandeln" className="font-medium text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground">
+                PDF in E-Rechnung umwandeln
+              </Link>{" "}
+              wird aus deiner PDF-Rechnung eine XRechnung, mit Summenabgleich auf den Cent.
             </p>
           </PublicSection>
           <HubNav show={["tools", "guides", "ratgeber"]} />

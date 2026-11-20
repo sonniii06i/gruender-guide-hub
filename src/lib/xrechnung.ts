@@ -32,8 +32,21 @@ export type XrDaten = {
   leistungsdatum: string;
   zahlungsziel: number;
   modus: XrModus;
-  positionen: { beschreibung: string; menge: number; einzelpreisNetto: number; ustSatz: number }[];
+  positionen: {
+    beschreibung: string;
+    menge: number;
+    einzelpreisNetto: number;
+    ustSatz: number;
+    /** Mengeneinheit nach UN/ECE Rec. 20 (z. B. HUR = Stunde); fehlt sie, gilt C62 (Stück). */
+    einheit?: string;
+  }[];
   freitext?: string;
+  /** Leistungszeitraum (BG-14). Ohne Leistungsdatum entfällt dann das Lieferdatum (BT-72). */
+  leistungszeitraum?: { von: string; bis: string };
+  /** Eigener Text der Zahlungsbedingungen (BT-20), z. B. mit Skonto. Ohne Angabe: „Zahlbar ohne Abzug bis …“. */
+  zahlungsbedingungen?: string;
+  /** Rechnungsbegründende Unterlage (BG-24), z. B. das Original-PDF, Base64-kodiert. */
+  anhang?: { dateiname: string; base64: string; mime?: string; beschreibung?: string };
 };
 
 const LAENDER: Record<string, string> = {
@@ -52,7 +65,13 @@ export const trennePlzOrt = (s: string) => {
   return m ? { plz: m[1], ort: m[2] } : { plz: "", ort: (s || "").trim() };
 };
 
-const r2 = (n: number) => Math.round((n + Number.EPSILON) * 100) / 100;
+/** Gültige Einheiten-Codes (UN/ECE Rec. 20/21): 1–3 Großbuchstaben/Ziffern; sonst Stück (C62). */
+const einheitCode = (e?: string) => (e && /^[A-Z0-9]{2,3}$/.test(e) ? e : "C62");
+
+// Kaufmännisch auf 2 Stellen (halbe Cent weg von null): 1497,50 × 19 % = 284,525 → 284,53.
+// Über die Dezimaldarstellung, weil 284.525 als Gleitkommazahl knapp darunter liegt
+// (Math.round(x * 100) ergab 284,52).
+const r2 = (n: number) => Math.sign(n) * Math.round(Number(`${Math.abs(n).toFixed(9)}e2`)) / 100 || 0;
 const b = (n: number) => r2(n).toFixed(2);
 const d102 = (iso: string) => iso.replace(/-/g, "");
 const x = (s: string) =>
@@ -83,6 +102,8 @@ export function xrFehlend(d: XrDaten): string[] {
     f.push("USt-IdNr. von Verkäufer und Kunde (Pflicht bei Reverse Charge / innergemeinschaftlich)");
   if (!d.rechnungsnummer.trim()) f.push("Rechnungsnummer");
   if (!d.positionen.some((p) => p.beschreibung.trim() && p.menge > 0)) f.push("mindestens eine Position");
+  if (d.leistungszeitraum && !(d.leistungszeitraum.von && d.leistungszeitraum.bis && d.leistungszeitraum.von <= d.leistungszeitraum.bis))
+    f.push("Leistungszeitraum (Beginn und Ende, Beginn nicht nach dem Ende)");
   return f;
 }
 
@@ -112,11 +133,19 @@ export function xrWarnungen(d: XrDaten): string[] {
   return w;
 }
 
-export function baueXRechnung(d: XrDaten): string {
-  const v = d.verkaeufer;
-  const vAdr = trennePlzOrt(v.plzOrt);
-  const kAdr = trennePlzOrt(d.kunde.plzOrt);
-  const pos = d.positionen.filter((p) => p.beschreibung.trim() && p.menge > 0);
+/**
+ * Beträge der XRechnung genau so, wie baueXRechnung sie schreibt: Zeilenbetrag
+ * = Menge × Nettopreis (2 Stellen), Steuer je Kategorie + Satz aus der Summe
+ * der Zeilen (BR-CO-17). Der PDF-Umwandler gleicht damit gegen das PDF ab.
+ */
+export function xrSummen(d: Pick<XrDaten, "modus" | "positionen">) {
+  // Zeilen mit Menge 0 entfallen. Negative Zeilen (Gutschrift-/Rabattposition)
+  // bleiben erhalten, damit XML und PDF dieselbe Summe tragen; der Preis wird
+  // dabei positiv gestellt und das Vorzeichen in die Menge gelegt (BR-27:
+  // Nettopreis nie negativ).
+  const pos = d.positionen
+    .filter((p) => p.beschreibung.trim() && Number.isFinite(p.menge) && p.menge !== 0)
+    .map((p) => (p.einzelpreisNetto < 0 ? { ...p, menge: -p.menge, einzelpreisNetto: -p.einzelpreisNetto } : p));
 
   const kat = (p: { ustSatz: number }) =>
     d.modus === "standard" ? (p.ustSatz > 0 ? { code: "S", satz: p.ustSatz, grund: "" } : { code: "Z", satz: 0, grund: "" })
@@ -139,6 +168,15 @@ export function baueXRechnung(d: XrDaten): string {
   const summeNetto = r2(zeilen.reduce((n, z) => n + z.betrag, 0));
   const summeSteuer = r2(steuern.reduce((n, s) => n + s.steuer, 0));
   const brutto = r2(summeNetto + summeSteuer);
+  return { zeilen, steuern, summeNetto, summeSteuer, brutto };
+}
+
+export function baueXRechnung(d: XrDaten): string {
+  const v = d.verkaeufer;
+  const vAdr = trennePlzOrt(v.plzOrt);
+  const kAdr = trennePlzOrt(d.kunde.plzOrt);
+  const { zeilen, steuern, summeNetto, summeSteuer, brutto } = xrSummen(d);
+  const zeitraum = d.leistungszeitraum?.von && d.leistungszeitraum?.bis ? d.leistungszeitraum : null;
   const faellig = new Date(Date.parse(`${d.rechnungsdatum}T12:00:00Z`) + (d.zahlungsziel || 0) * 864e5).toISOString().slice(0, 10);
 
   const steuerReg = [
@@ -166,7 +204,7 @@ ${zeilen
       <ram:AssociatedDocumentLineDocument><ram:LineID>${z.i}</ram:LineID></ram:AssociatedDocumentLineDocument>
       <ram:SpecifiedTradeProduct><ram:Name>${x(z.p.beschreibung.trim())}</ram:Name></ram:SpecifiedTradeProduct>
       <ram:SpecifiedLineTradeAgreement><ram:NetPriceProductTradePrice><ram:ChargeAmount>${b(z.p.einzelpreisNetto)}</ram:ChargeAmount></ram:NetPriceProductTradePrice></ram:SpecifiedLineTradeAgreement>
-      <ram:SpecifiedLineTradeDelivery><ram:BilledQuantity unitCode="C62">${z.p.menge}</ram:BilledQuantity></ram:SpecifiedLineTradeDelivery>
+      <ram:SpecifiedLineTradeDelivery><ram:BilledQuantity unitCode="${einheitCode(z.p.einheit)}">${z.p.menge}</ram:BilledQuantity></ram:SpecifiedLineTradeDelivery>
       <ram:SpecifiedLineTradeSettlement>
         <ram:ApplicableTradeTax><ram:TypeCode>VAT</ram:TypeCode><ram:CategoryCode>${z.k.code}</ram:CategoryCode><ram:RateApplicablePercent>${z.k.satz}</ram:RateApplicablePercent></ram:ApplicableTradeTax>
         <ram:SpecifiedTradeSettlementLineMonetarySummation><ram:LineTotalAmount>${b(z.betrag)}</ram:LineTotalAmount></ram:SpecifiedTradeSettlementLineMonetarySummation>
@@ -201,7 +239,13 @@ ${zeilen
             ? `\n        <ram:SpecifiedTaxRegistration><ram:ID schemeID="VA">${x(d.kunde.ustId.replace(/\s/g, ""))}</ram:ID></ram:SpecifiedTaxRegistration>`
             : ""
         }
-      </ram:BuyerTradeParty>
+      </ram:BuyerTradeParty>${
+        d.anhang?.base64
+          ? `\n      <ram:AdditionalReferencedDocument><ram:IssuerAssignedID>${x(d.anhang.dateiname)}</ram:IssuerAssignedID><ram:TypeCode>916</ram:TypeCode>${
+              d.anhang.beschreibung ? `<ram:Name>${x(d.anhang.beschreibung)}</ram:Name>` : ""
+            }<ram:AttachmentBinaryObject mimeCode="${x(d.anhang.mime || "application/pdf")}" filename="${x(d.anhang.dateiname)}">${d.anhang.base64.replace(/\s/g, "")}</ram:AttachmentBinaryObject></ram:AdditionalReferencedDocument>`
+          : ""
+      }
     </ram:ApplicableHeaderTradeAgreement>
     <ram:ApplicableHeaderTradeDelivery>${
       d.modus === "innergemeinschaftlich"
@@ -209,7 +253,11 @@ ${zeilen
             d.kunde.strasse.trim() ? `<ram:LineOne>${x(d.kunde.strasse)}</ram:LineOne>` : ""
           }<ram:CityName>${x(kAdr.ort)}</ram:CityName><ram:CountryID>${landCode(d.kunde.land)}</ram:CountryID></ram:PostalTradeAddress></ram:ShipToTradeParty>`
         : ""
-    }<ram:ActualDeliverySupplyChainEvent><ram:OccurrenceDateTime><udt:DateTimeString format="102">${d102(d.leistungsdatum || d.rechnungsdatum)}</udt:DateTimeString></ram:OccurrenceDateTime></ram:ActualDeliverySupplyChainEvent></ram:ApplicableHeaderTradeDelivery>
+    }${
+      zeitraum && !d.leistungsdatum
+        ? ""
+        : `<ram:ActualDeliverySupplyChainEvent><ram:OccurrenceDateTime><udt:DateTimeString format="102">${d102(d.leistungsdatum || d.rechnungsdatum)}</udt:DateTimeString></ram:OccurrenceDateTime></ram:ActualDeliverySupplyChainEvent>`
+    }</ram:ApplicableHeaderTradeDelivery>
     <ram:ApplicableHeaderTradeSettlement>
       <ram:InvoiceCurrencyCode>EUR</ram:InvoiceCurrencyCode>
       <ram:SpecifiedTradeSettlementPaymentMeans>
@@ -225,8 +273,12 @@ ${steuern
         s.grund ? `<ram:ExemptionReason>${x(s.grund)}</ram:ExemptionReason>` : ""
       }<ram:BasisAmount>${b(s.basis)}</ram:BasisAmount><ram:CategoryCode>${s.code}</ram:CategoryCode><ram:RateApplicablePercent>${s.satz}</ram:RateApplicablePercent></ram:ApplicableTradeTax>`,
   )
-  .join("\n")}
-      <ram:SpecifiedTradePaymentTerms><ram:Description>Zahlbar ohne Abzug bis ${faellig.split("-").reverse().join(".")}.</ram:Description><ram:DueDateDateTime><udt:DateTimeString format="102">${d102(faellig)}</udt:DateTimeString></ram:DueDateDateTime></ram:SpecifiedTradePaymentTerms>
+  .join("\n")}${
+    zeitraum
+      ? `\n      <ram:BillingSpecifiedPeriod><ram:StartDateTime><udt:DateTimeString format="102">${d102(zeitraum.von)}</udt:DateTimeString></ram:StartDateTime><ram:EndDateTime><udt:DateTimeString format="102">${d102(zeitraum.bis)}</udt:DateTimeString></ram:EndDateTime></ram:BillingSpecifiedPeriod>`
+      : ""
+  }
+      <ram:SpecifiedTradePaymentTerms><ram:Description>${x(d.zahlungsbedingungen?.trim() || `Zahlbar ohne Abzug bis ${faellig.split("-").reverse().join(".")}.`)}</ram:Description><ram:DueDateDateTime><udt:DateTimeString format="102">${d102(faellig)}</udt:DateTimeString></ram:DueDateDateTime></ram:SpecifiedTradePaymentTerms>
       <ram:SpecifiedTradeSettlementHeaderMonetarySummation>
         <ram:LineTotalAmount>${b(summeNetto)}</ram:LineTotalAmount>
         <ram:TaxBasisTotalAmount>${b(summeNetto)}</ram:TaxBasisTotalAmount>

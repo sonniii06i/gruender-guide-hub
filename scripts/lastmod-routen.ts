@@ -102,6 +102,7 @@ const SEITEN: Record<string, string[]> = {
   "/ki-assistent": ["src/pages/KiAssistent.tsx"],
   "/gruendungsberatung": ["src/pages/GruendungsberatungFinden.tsx"],
   "/e-rechnung-lesen": ["src/pages/ERechnungLesen.tsx"],
+  "/pdf-in-e-rechnung-umwandeln": ["src/pages/PdfInERechnung.tsx", "src/lib/pdfRechnungLesen.ts", "src/lib/xrechnung.ts"],
   "/faq": ["src/pages/FAQ.tsx"],
   "/kontakt": ["src/pages/Kontakt.tsx"],
   "/partner": ["src/pages/Partner.tsx"],

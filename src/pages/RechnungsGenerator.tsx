@@ -44,7 +44,7 @@ import {
   X,
 } from "lucide-react";
 import jsPDF from "jspdf";
-import { baueXRechnung, xrFehlend, xrWarnungen, type XrDaten } from "@/lib/xrechnung";
+import { baueXRechnung, xrFehlend, xrSummen, xrWarnungen, type XrDaten } from "@/lib/xrechnung";
 import autoTable from "jspdf-autotable";
 
 type UstModus = "standard" | "kleinunternehmer" | "reverse-charge" | "innergemeinschaftlich";
@@ -151,20 +151,15 @@ const RechnungsGenerator = () => {
   // Berechnung
   const berechnung = useMemo(() => {
     const istSteuerfrei = data.ustModus === "kleinunternehmer" || data.ustModus === "reverse-charge" || data.ustModus === "innergemeinschaftlich";
-    let nettoSumme = 0;
+    // Dieselbe Rechnung wie in der XRechnung (xrSummen): Zeilen und Steuer je Satz
+    // kaufmännisch auf den Cent. Vorher rechnete das PDF ungerundet (z. B. „284,525 €“)
+    // und konnte vom XML um einen Cent abweichen.
+    // Positionen ohne Bezeichnung zählen in der Vorschau mit (Nutzer tippt noch);
+    // die XRechnung verlangt die Bezeichnung ohnehin über xrFehlend.
+    const s = xrSummen({ modus: data.ustModus, positionen: data.positionen.map((p) => ({ ...p, beschreibung: p.beschreibung || "Position" })) });
     const ustSummen: Record<number, number> = { 7: 0, 19: 0 };
-
-    data.positionen.forEach((p) => {
-      const positionsNetto = p.menge * p.einzelpreisNetto;
-      nettoSumme += positionsNetto;
-      if (!istSteuerfrei && p.ustSatz > 0) {
-        ustSummen[p.ustSatz] += positionsNetto * (p.ustSatz / 100);
-      }
-    });
-
-    const ustGesamt = ustSummen[7] + ustSummen[19];
-    const brutto = nettoSumme + ustGesamt;
-    return { nettoSumme, ustSummen, ustGesamt, brutto, istSteuerfrei };
+    for (const g of s.steuern) if (g.code === "S") ustSummen[g.satz] = (ustSummen[g.satz] ?? 0) + g.steuer;
+    return { nettoSumme: s.summeNetto, ustSummen, ustGesamt: s.summeSteuer, brutto: s.brutto, istSteuerfrei };
   }, [data.positionen, data.ustModus]);
 
   // §14-Pflichtangaben-Check (live)
