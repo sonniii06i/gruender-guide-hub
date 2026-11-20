@@ -42,14 +42,14 @@ const ROWS: Row[] = [
   {
     feature: "Buchhaltungs-Tarif (Richtwert, brutto inkl. 19 % MwSt.)",
     elster: "kostenlos",
-    lexware: "Paket L: 26,06 EUR/Mon (Aktion 13,03 für 3 Monate)",
+    lexware: "Paket L: 26,06 EUR/Mon (Aktion 6,52 für 3 Monate)",
     sevdesk: "Buchhaltung: 23,68–30,82 EUR/Mon (Aktion ~11,84)",
     hint: "EÜR + USt-VA gibt es erst ab diesem Tarif. Reine Rechnungs-Tarife sind günstiger (Lexware M 15,35, sevDesk Rechnung 10,59–14,16, Aktion 5,30; alle brutto), enthalten aber KEINE Buchhaltung/EÜR/USt-VA. Preise schwanken mit Aktionen.",
   },
   { feature: "USt-Voranmeldung per ELSTER", elster: "manuell ausfüllen", lexware: "auf Knopfdruck", sevdesk: "auf Knopfdruck" },
   { feature: "Zusammenfassende Meldung (ZM) ans BZSt", elster: "manuell ausfüllen", lexware: true, sevdesk: "nicht dokumentiert", hint: "Pflicht bei EU-B2B (innergemeinschaftliche Lieferungen/sonstige Leistungen mit USt-IdNr). Lexware Office erstellt und übermittelt sie. Für sevDesk nennt die Hilfe keinen eigenen Weg, im Zweifel über ELSTER. Die ZM geht ans Bundeszentralamt für Steuern (BZSt), nicht ans Finanzamt." },
   { feature: "Dauerfristverlängerung (USt 1 H)", elster: "manuell ausfüllen", lexware: "nur hinterlegen", sevdesk: "nur abbilden", hint: "Verlängert die USt-VA-Frist um 1 Monat. Den Antrag stellst du direkt in ELSTER. Lexware Office hinterlegt die bewilligte Verlängerung nur (Steuerliche Meldungen → Einstellungen), sevDesk bildet sie nur ab. Details im USt-VA-Walkthrough." },
-  { feature: "EÜR (Jahres-Gewinnermittlung)", elster: "manuell ausfüllen", lexware: "erstellen; Versand über smartsteuer oder manuell in ELSTER", sevdesk: true },
+  { feature: "EÜR (Jahres-Gewinnermittlung)", elster: "manuell ausfüllen", lexware: "erstellen; Versand über smartsteuer oder manuell in ELSTER", sevdesk: "erstellen; Werte manuell in ELSTER übertragen" },
   { feature: "Belege scannen + OCR", elster: false, lexware: true, sevdesk: true, hint: "Foto/Scan und die Software liest Betrag, Datum, USt automatisch aus." },
   { feature: "Banking-Anbindung + Abgleich", elster: false, lexware: true, sevdesk: true },
   { feature: "Rechnungen schreiben (GoBD-konform)", elster: false, lexware: true, sevdesk: true },
@@ -297,7 +297,7 @@ const BuchhaltungssoftwareGuide = () => {
           { label: "sevDesk Tarife & Funktionen", url: "https://sevdesk.de/preise/" },
           { label: "ELSTER (kostenloses Finanzamt-Portal)", url: "https://www.elster.de" },
         ]}
-        note="Funktionen gegen die offiziellen Anbieterseiten verifiziert (2026-11-03). Preise sind Richtwerte und aktionsabhängig, beim Anbieter prüfen. USt-VA per ELSTER und EÜR-Erstellung ab Lexware Paket L (EÜR-Versand über smartsteuer bzw. manuell in ELSTER) bzw. sevDesk Buchhaltung. Keine Steuerberatung."
+        note="Funktionen gegen die offiziellen Anbieterseiten verifiziert (2026-11-20). Preise sind Richtwerte und aktionsabhängig, beim Anbieter prüfen. USt-VA per ELSTER und EÜR-Erstellung ab Lexware Paket L (EÜR-Versand über smartsteuer bzw. manuell in ELSTER) bzw. sevDesk Buchhaltung. Keine Steuerberatung."
       />
     </CockpitShell>
   );

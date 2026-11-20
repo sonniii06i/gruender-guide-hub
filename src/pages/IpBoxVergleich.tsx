@@ -123,7 +123,7 @@ const IpBoxVergleich = () => {
                   2032 (§ 23 KStG), der Abstand zu den rund 30 % in Deutschland wird also kleiner.
                 </li>
                 <li>
-                  <strong>Pillar 2 (OECD, seit 2024):</strong> 15 % Mindeststeuer für Konzerne über 750 Mio. € Umsatz. Bei
+                  <strong>Pillar 2 (OECD, seit 2024):</strong> 15 % Mindeststeuer für Konzerne ab 750 Mio. € Umsatz. Bei
                   3 % effektiv wird auf 15 % aufgestockt. Kleine und mittlere Unternehmen sind nicht betroffen.
                 </li>
                 <li>
@@ -225,7 +225,7 @@ const IpBoxVergleich = () => {
           {[
             "BEPS-Nexus-Ansatz: Steuervorteil nur im Verhältnis zur F&E-Tätigkeit im IP-Box-Land",
             "Urheberrechtlich geschützte Software qualifiziert nach dem OECD-Nexus-Ansatz in allen EU-IP-Boxen (auch CY, IE und HU); Marken und andere Marketing-IP qualifizieren nirgends",
-            "Nexus-Quotient: begünstigt ist nur der Anteil (eigene F&E-Kosten × 130 %) / gesamte F&E-Kosten des IP-Assets — zugekaufte F&E und Konzern-Auftragsforschung senken ihn",
+            "Nexus-Quotient: begünstigt ist nur der Anteil (eigene F&E-Kosten × 130 %, höchstens bis zu den Gesamtkosten) / gesamte F&E-Kosten des IP-Assets — zugekaufte F&E und Konzern-Auftragsforschung senken ihn",
             "Die Buchhaltung muss IP-Einkünfte getrennt von den übrigen Einkünften erfassen",
             "F&E-Tagebuch und Ausgaben-Tracking je IP-Asset sind Pflicht",
             "Geprüfte Abschlüsse sind für IP-Box-Anträge in den meisten Ländern Pflicht",

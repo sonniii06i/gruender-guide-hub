@@ -343,7 +343,7 @@ const GewerbeCheck = () => {
           extern: "https://www.ihk.de",
         },
         {
-          text: "Felix-Chat fragen — kostenloser AI-Berater mit Steuer-Know-how",
+          text: "Felix-Chat fragen: KI-Berater mit Steuer-Know-how, im Abo enthalten",
           route: "/felix",
         },
       ],

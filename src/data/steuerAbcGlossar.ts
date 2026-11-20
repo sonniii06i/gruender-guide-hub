@@ -296,7 +296,7 @@ export const GLOSSAR: GlossarBegriff[] = [
   // ========== FA-VERFAHREN ==========
   { begriff: "ELSTER", aliases: ["ELSTER", "Elektronische Steuererklärung"], kategorie: "fa-verfahren",
     kurzDefinition: "Online-Portal des FA für Steuererklärungen, USt-VA, Fragebögen — kostenlos.",
-    ausfuehrlich: "Pflicht-Tool für: USt-Voranmeldungen, Lohnsteuer-Anmeldungen, Anlage EÜR. Account braucht Aktivierungs-Code per Post (Registrierung laut ELSTER bis zu 10 Werktage). Alternative kommerzielle Tools: Lexoffice, sevdesk, Taxfix etc.",
+    ausfuehrlich: "Pflicht-Tool für: USt-Voranmeldungen, Lohnsteuer-Anmeldungen, Anlage EÜR. Account braucht Aktivierungs-Code per Post (Registrierung laut ELSTER bis zu 10 Werktage). Alternative kommerzielle Tools: Lexware Office (ehemals lexoffice), sevdesk, Taxfix etc.",
   },
   { begriff: "Steuernummer vs USt-IdNr", aliases: ["USt-IdNr", "Steuernummer"], kategorie: "fa-verfahren",
     kurzDefinition: "Zwei verschiedene Nummern: Steuernummer = lokales FA, USt-IdNr = EU-weit für IGL.",

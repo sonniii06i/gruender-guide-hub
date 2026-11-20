@@ -207,7 +207,7 @@ export const IP_BOX_REGIMES: IPBoxRegime[] = [
     setupCostEur: "15.000-30.000 €",
     runningCostEur: "10.000-25.000 €/Jahr",
     fitForGermans: "Sehr gut",
-    officialUrl: "https://www.rvo.nl/subsidies-financiering/wbso",
+    officialUrl: "https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/zakelijk/winst/vennootschapsbelasting/innovatiebox/innovatiebox",
   },
   {
     slug: "irland",
@@ -371,10 +371,10 @@ export const IP_BOX_REGIMES: IPBoxRegime[] = [
     country: "Luxemburg",
     flag: "🇱🇺",
     regimeName: "Luxemburg IP-Regime (Art. 50ter LIR)",
-    standardKSt: 24.94,
-    effectiveRate: 5.2,
+    standardKSt: 23.87,
+    effectiveRate: 4.77,
     mechanism:
-      "80 % der qualifizierten Netto-IP-Einkünfte sind befreit → effektiv ~5,2 % (24,94 % × 20 %). Inkl. kombinierter Gewerbesteuer Luxembourg-City",
+      "80 % der qualifizierten Netto-IP-Einkünfte sind befreit → effektiv ~4,77 % (23,87 % × 20 %). Inkl. kombinierter Gewerbesteuer Luxembourg-City",
     qualifyingIncome: [
       "Patente + Patentanmeldungen",
       "Utility Models",
@@ -404,7 +404,7 @@ export const IP_BOX_REGIMES: IPBoxRegime[] = [
       "Software auch ohne Patent qualifiziert",
     ],
     cons: [
-      "Höherer effektiver Satz (5,2 %) als CY/MT/HU/PL",
+      "Höherer effektiver Satz (4,77 %) als CY/MT/HU/BE",
       "Setup-Kosten 25.000-50.000 € (Premium-Jurisdiktion)",
       "Hohe lokale Substanz-Anforderung",
       "Pillar-2-Anwendung bei Großkonzernen",
