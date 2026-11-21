@@ -98,9 +98,10 @@ export interface ToolConfig {
     keywords: string;
     faqs: { q: string; a: string }[];
     /**
-     * Absolute Canonical-URL, falls eine andere Domain das Thema besitzt
-     * (z. B. die Amazon-Widerspruchsgeneratoren: anwaltx.de). Die Seite bleibt
-     * nutzbar, steht aber nicht in der Sitemap.
+     * Absolute Canonical-URL, falls eine andere Domain das Thema besitzt. Die
+     * Seite bleibt nutzbar, steht aber nicht in der Sitemap. Seit 22.11.2026
+     * ungenutzt: anwaltx.de ist eingestellt (503), die Amazon-Widerspruchs-
+     * generatoren gehoeren wieder gruenderx.de.
      */
     canonicalUrl?: string;
   };

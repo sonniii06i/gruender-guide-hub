@@ -11,7 +11,7 @@ const FAQS: { q: string; a: string }[] = [
   { q: "Was ist GründerX?", a: "GründerX ist dein KI-Co-Pilot für die Gründung und das Operative – Steuern, Recht, Marketing, Buchhaltung, Tools. Felix (KI) plus geführte Playbooks bringen dich vom ersten Schritt bis zum laufenden Betrieb." },
   {
     q: "Wie viel kostet GründerX?",
-    a: `GründerX kostet ${formatEurCents(PLANS.gruenderx.grossCents)} im Monat oder ${formatEurCents(PLANS["gruenderx-year"].grossCents)} im Jahr. Das Founder-Set (GründerX + AnwaltX) kostet ${formatEurCents(PLANS.bundle.grossCents)} im Monat oder ${formatEurCents(PLANS["bundle-year"].grossCents)} im Jahr. Alle Preise sind Endpreise inkl. 19 % USt. und jederzeit zum Ende der Abrechnungsperiode kündbar. Alle Details: gruenderx.de/preise.`,
+    a: `GründerX kostet ${formatEurCents(PLANS.gruenderx.grossCents)} im Monat oder ${formatEurCents(PLANS["gruenderx-year"].grossCents)} im Jahr. Alle Preise sind Endpreise inkl. 19 % USt. und jederzeit zum Ende der Abrechnungsperiode kündbar. Alle Details: gruenderx.de/preise.`,
   },
   {
     q: "Gibt es eine kostenlose Testphase?",
@@ -67,7 +67,7 @@ const FAQ = () => (
       <details> haelt den Inhalt immer im DOM und klappt trotzdem zu.
     */}
     <div className="grid items-start gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
-      <div className="divide-y divide-border overflow-hidden rounded-2xl border border-border bg-card shadow-card">
+      <div className="divide-y divide-border overflow-hidden rounded-2xl border border-border bg-card">
         {FAQS.map((f, i) => (
           <details key={i} className="group px-5 md:px-6 [&_summary::-webkit-details-marker]:hidden">
             <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-4 text-left transition-colors hover:text-accent-blue">
@@ -79,7 +79,7 @@ const FAQ = () => (
         ))}
       </div>
 
-      <aside className="rounded-2xl bg-ink p-6 text-primary-foreground shadow-soft lg:sticky lg:top-20">
+      <aside className="rounded-2xl bg-ink p-6 text-primary-foreground lg:sticky lg:top-20">
         <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 text-brand-green-glow">
           <LifeBuoy className="h-5 w-5" aria-hidden="true" />
         </span>

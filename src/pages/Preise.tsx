@@ -15,7 +15,6 @@ import {
   FOUNDER_KURZ,
   FOUNDER_SATZ,
   SOLO_CONTENTS,
-  BUNDLE_CONTENTS,
   NOT_INCLUDED,
   formatEurCents,
   netCentsOf,
@@ -48,22 +47,11 @@ const PRODUCTS: { key: string; title: string; subtitle: string; month: PlanId; y
     year: "gruenderx-year",
     contents: SOLO_CONTENTS,
   },
-  {
-    key: "bundle",
-    title: "Founder-Set: GründerX + AnwaltX",
-    subtitle: "GründerX und AnwaltX in einem Konto, mit einer Abrechnung.",
-    month: "bundle",
-    year: "bundle-year",
-    contents: BUNDLE_CONTENTS,
-  },
 ];
 
 const periodWord = (p: PlanVariant) => (p.period === "year" ? "Jahr" : "Monat");
 
 const yearSaving = (year: PlanVariant) => (year.anchorCents ?? 0) - year.grossCents;
-
-const bundleSaving = PLANS.bundle.anchorCents! - PLANS.bundle.grossCents;
-const bundleSavingPercent = Math.round((bundleSaving / PLANS.bundle.anchorCents!) * 100);
 
 const FAQS: { q: string; a: string }[] = [
   {
@@ -81,10 +69,6 @@ const FAQS: { q: string; a: string }[] = [
   {
     q: "Was ist der Unterschied zwischen Monats- und Jahreszugang?",
     a: `Der Funktionsumfang ist gleich. Der Jahreszugang wird einmal im Jahr abgerechnet und kostet ${formatEurCents(PLANS["gruenderx-year"].grossCents)} statt 12 × ${formatEurCents(PLANS.gruenderx.grossCents)} = ${formatEurCents(PLANS["gruenderx-year"].anchorCents!)} – du sparst ${formatEurCents(yearSaving(PLANS["gruenderx-year"]))}.`,
-  },
-  {
-    q: "Was bringt das Founder-Set?",
-    a: `Zusätzlich zum GründerX-Zugang den vollen AnwaltX-Zugang mit der KI-Rechts-Assistentin Juri, Vertragsprüfung und Abmahn-Hilfe. Einzeln kosten beide Zugänge zusammen ${formatEurCents(PLANS.bundle.anchorCents!)} im Monat, im Set ${formatEurCents(PLANS.bundle.grossCents)} – ${formatEurCents(bundleSaving)} bzw. ${bundleSavingPercent} % weniger.`,
   },
   {
     q: "Gibt es einen Gutschein?",
@@ -164,7 +148,7 @@ const Preise = () => {
     <div className="min-h-screen bg-background">
       <Seo
         title={`Preise – GründerX ab ${formatEurCents(PLANS.gruenderx.grossCents)} im Monat inkl. USt.`}
-        description={`GründerX kostet ${formatEurCents(PLANS.gruenderx.grossCents)} im Monat oder ${formatEurCents(PLANS["gruenderx-year"].grossCents)} im Jahr, das Founder-Set mit AnwaltX ${formatEurCents(PLANS.bundle.grossCents)}. Endpreise inkl. USt., jederzeit kündbar.`}
+        description={`GründerX kostet ${formatEurCents(PLANS.gruenderx.grossCents)} im Monat oder ${formatEurCents(PLANS["gruenderx-year"].grossCents)} im Jahr. Endpreise inkl. USt., jederzeit kündbar.`}
         path="/preise"
         type="product"
         jsonLd={jsonLd}
@@ -190,30 +174,19 @@ const Preise = () => {
         {/* Preiskarten */}
         <section aria-labelledby="plaene" className="mb-16">
           <h2 id="plaene" className="sr-only">Pläne</h2>
-          <div className="grid gap-5 md:grid-cols-2">
+          {/* Seit 20.11.2026 nur noch eine Karte (Founder-Set eingestellt): zentriert statt halbes Raster. */}
+          <div className="mx-auto grid max-w-2xl gap-5">
             {PRODUCTS.map((p) => {
               const m = PLANS[p.month];
               const y = PLANS[p.year];
-              const isSet = p.key === "bundle";
               return (
                 <div
                   key={p.key}
-                  className={`relative flex flex-col overflow-hidden rounded-2xl border bg-card p-6 shadow-card md:p-8 ${
-                    isSet ? "border-accent-blue/30" : "border-border"
-                  }`}
+                  className="relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card p-6 md:p-8"
                 >
-                  {isSet && (
-                    <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-accent-blue to-brand-green" aria-hidden="true" />
-                  )}
-                  {/* Feste Kopfhöhe ab md, damit Preisblöcke beider Karten auf einer Linie starten. */}
-                  <div className="md:min-h-[6.25rem]">
+                  <div>
                     <h3 className="text-xl font-semibold">{p.title}</h3>
                     <p className="mt-1.5 text-sm text-muted-foreground">{p.subtitle}</p>
-                    {isSet && (
-                      <span className="mt-3 inline-block rounded-md bg-brand-green-soft px-2 py-1 text-xs font-semibold text-brand-green tabular">
-                        −{bundleSavingPercent} % gegenüber beiden Zugängen einzeln
-                      </span>
-                    )}
                   </div>
 
                   <div className="mt-6 space-y-3">
@@ -222,7 +195,7 @@ const Preise = () => {
                         <div className="flex flex-wrap items-baseline justify-between gap-2">
                           <span className="text-sm font-medium">{v.period === "year" ? "Jährlich" : "Monatlich"}</span>
                           <span>
-                            <span className="text-3xl font-semibold tracking-[-0.03em] tabular">{formatEurCents(v.grossCents)}</span>
+                            <span className="text-3xl font-semibold tracking-[-0.02em] tabular">{formatEurCents(v.grossCents)}</span>
                             <span className="text-sm text-muted-foreground"> / {periodWord(v)}</span>
                           </span>
                         </div>
@@ -234,16 +207,11 @@ const Preise = () => {
                             {formatEurCents(yearSaving(v))} günstiger als 12 Monatszahlungen ({formatEurCents(v.anchorCents)})
                           </p>
                         )}
-                        {v.id === "bundle" && (
-                          <p className="mt-1 text-xs font-medium text-success tabular">
-                            {formatEurCents(bundleSaving)} im Monat günstiger als beide Zugänge einzeln ({formatEurCents(v.anchorCents!)})
-                          </p>
-                        )}
                         <Button
                           data-cta={`kauf-${v.id}`}
                           onClick={() => buy(v.id)}
                           variant={v.period === "year" ? "outline" : "default"}
-                          className={`mt-4 h-11 w-full rounded-xl font-semibold ${v.period === "year" ? "" : "bg-gradient-primary shadow-glow hover:opacity-95"}`}
+                          className={`mt-4 h-11 w-full rounded-xl font-semibold ${v.period === "year" ? "" : "bg-gradient-primary hover:opacity-95"}`}
                         >
                           <ShoppingCart className="mr-1 h-4 w-4" />
                           {v.period === "year" ? "Jahreszugang wählen" : "Monatszugang wählen"}
@@ -273,7 +241,7 @@ const Preise = () => {
         </section>
 
         {/* Einblick: echte Ansicht nach der Freischaltung (Testkonto) */}
-        <section aria-labelledby="einblick" className="mb-16 grid items-center gap-8 rounded-2xl border border-border bg-card p-6 shadow-card md:grid-cols-[1fr,1.3fr] md:p-8">
+        <section aria-labelledby="einblick" className="mb-16 grid items-center gap-8 rounded-2xl border border-border bg-card p-6 md:grid-cols-[1fr,1.3fr] md:p-8">
           <div>
             <h2 id="einblick" className="text-2xl font-semibold tracking-tight">Das schaltest du frei</h2>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
@@ -352,7 +320,7 @@ const Preise = () => {
         {/* FAQ — natives <details>, damit die Antworten im prerenderten HTML stehen */}
         <section aria-labelledby="preise-faq">
           <h2 id="preise-faq" className="mb-6 text-2xl font-semibold md:text-3xl">Häufige Fragen zu Preisen</h2>
-          <div className="divide-y divide-border overflow-hidden rounded-2xl border border-border bg-card shadow-card">
+          <div className="divide-y divide-border overflow-hidden rounded-2xl border border-border bg-card">
             {FAQS.map((f) => (
               <details key={f.q} className="group px-6 [&_summary::-webkit-details-marker]:hidden">
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-5 font-semibold transition-colors hover:text-accent-blue">

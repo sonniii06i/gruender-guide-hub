@@ -13,7 +13,7 @@ import {
   Undo2,
 } from "lucide-react";
 
-const ARBITRAGEX_URL = "https://arbitrage.anwaltx.de";
+const ARBITRAGEX_URL = "https://arbitragex.de";
 
 /** Prominenter Bridge-CTA nach Arbitragex (öffnet in neuem Tab). */
 const ArbitragexCta = ({ variant = "solid" }: { variant?: "solid" | "light" }) => (
@@ -223,7 +223,7 @@ const AmazonErstattungen = () => (
       <div className="flex justify-center">
         <ArbitragexCta />
       </div>
-      <p className="mt-4 text-xs text-muted-foreground">Öffnet arbitrage.anwaltx.de in einem neuen Tab.</p>
+      <p className="mt-4 text-xs text-muted-foreground">Öffnet arbitragex.de in einem neuen Tab.</p>
     </section>
   </CockpitShell>
 );

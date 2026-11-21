@@ -26,12 +26,6 @@ const PRODUCTS = [
     price: "64,99 €",
     commission: "ca. 16,38 €",
   },
-  {
-    id: "728388",
-    name: "Founder Bundle — AnwaltX + GründerX",
-    price: "99,99 €",
-    commission: "ca. 25,21 €",
-  },
 ];
 
 const BENEFITS = [
@@ -89,7 +83,7 @@ const Partner = () => (
           </p>
         }
       >
-        <dl className="grid max-w-2xl grid-cols-1 overflow-hidden rounded-2xl border border-border bg-card shadow-card sm:grid-cols-3">
+        <dl className="grid max-w-2xl grid-cols-1 overflow-hidden rounded-2xl border border-border bg-card sm:grid-cols-3">
           <div className="px-5 py-4">
             <dt className="text-sm text-muted-foreground">Provision</dt>
             <dd className="text-2xl font-semibold tracking-tight tabular">30 %</dd>
@@ -134,12 +128,12 @@ const Partner = () => (
         <PublicSection title="Deine Provision">
           <p className="mb-6 max-w-[68ch] leading-relaxed text-muted-foreground">
             <strong className="font-semibold text-foreground">30 % Provision auf jede Rate</strong>{" "}
-            — auf beide unten aufgeführten Produkte, wiederkehrend für die gesamte
+            — auf das unten aufgeführte Produkt, wiederkehrend für die gesamte
             Laufzeit des Abos und nicht nur auf die Erstzahlung. Es gibt keine
             Deckelung und keine Mindestumsätze.
           </p>
 
-          <KitTable caption="Produkte und Provision" className="mb-5 shadow-card">
+          <KitTable caption="Produkte und Provision" className="mb-5">
             <thead>
               <tr>
                 <th>Produkt</th>
@@ -199,7 +193,7 @@ const Partner = () => (
         >
           <div className="space-y-3">
             {PRODUCTS.map((p) => (
-              <div key={p.id} className="rounded-xl border border-border bg-card p-4 shadow-card">
+              <div key={p.id} className="rounded-xl border border-border bg-card p-4">
                 <div className="mb-2 flex items-center gap-2 text-sm font-semibold">
                   <Link2 className="h-4 w-4 text-accent-blue" aria-hidden="true" /> {p.name}
                 </div>
@@ -210,7 +204,7 @@ const Partner = () => (
             ))}
           </div>
 
-          <div className="mt-8 rounded-2xl border border-accent-blue/20 bg-accent/60 p-5 md:p-6">
+          <div className="mt-8 rounded-2xl border border-foreground/25 bg-accent/60 p-5 md:p-6">
             <h3 className="text-lg font-semibold tracking-tight">Partnerschaft beantragen</h3>
             <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
               Über diesen Einladelink wirst du für alle unsere Produkte auf einmal

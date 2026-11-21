@@ -585,7 +585,7 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
       "Ein vollautomatischer Case-Poller, der laufend neue Erstattungsfälle einreicht",
       "Gewinn, Bestand und Erstattungen in einem Dashboard wie in Sellerboard"
     ],
-    "disclaimer": "Die Erstattungs-Automation läuft in unserem Seller-Tool Arbitragex (arbitrage.anwaltx.de). Höhe und Genehmigung einzelner Erstattungen entscheidet allein Amazon – Ergebnisse können abweichen."
+    "disclaimer": "Die Erstattungs-Automation läuft in unserem Seller-Tool Arbitragex (arbitragex.de). Höhe und Genehmigung einzelner Erstattungen entscheidet allein Amazon – Ergebnisse können abweichen."
   },
   "amazon-parser": {
     "seoTitle": "Amazon Settlement Report buchen: SKR03/04-Parser",

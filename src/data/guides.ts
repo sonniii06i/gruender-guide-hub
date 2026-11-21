@@ -115,8 +115,11 @@ export const GUIDE_THEMEN: readonly (readonly string[])[] = [
 const EIGENE_LANDINGS = GUIDE_LANDINGS.filter((g) => !isMergedGuide(g.slug)).map((g) => g.slug);
 // Ratgeber-Ziele für den zweiten Ratgeber-Platz; ohne Ratgeber, deren Canonical
 // auf eine andere Domain zeigt (ratgeberKanonisch.ts).
+// Der GPSR-Ratgeber trug bis 22.11.2026 ein Canonical auf anwaltx.de (eingestellt).
+// Er bleibt aus dem Reihum heraus, sonst verschieben sich die Blöcke auf 61 Landings.
+const OHNE_REIHUM = new Set(["gpsr-verordnung-haendler"]);
 const RATGEBER_GUIDES = GUIDE_LANDINGS.filter(
-  (g) => isMergedGuide(g.slug) && !fremdKanonisch(GUIDE_MERGED_INTO[g.slug]),
+  (g) => isMergedGuide(g.slug) && !fremdKanonisch(GUIDE_MERGED_INTO[g.slug]) && !OHNE_REIHUM.has(GUIDE_MERGED_INTO[g.slug]),
 ).map((g) => g.slug);
 
 // Verwandte Guides für interne Verlinkung. Quelle der Links sind nur Guides mit

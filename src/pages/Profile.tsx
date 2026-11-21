@@ -211,8 +211,7 @@ const Profile = () => {
             </div>
 
             {/* Plan wählen */}
-            <section className="relative overflow-hidden rounded-2xl bg-ink p-5 text-primary-foreground shadow-soft md:p-6">
-              <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-accent-blue/25 blur-3xl" aria-hidden="true" />
+            <section className="relative overflow-hidden rounded-2xl bg-ink p-5 text-primary-foreground md:p-6">
               <div className="relative">
                 <p className="flex items-center gap-1.5 text-sm font-medium text-brand-green-glow">
                   <Crown className="h-4 w-4" aria-hidden="true" /> {isActive ? "Plan ändern" : "Plan wählen"}
@@ -241,7 +240,7 @@ const Profile = () => {
                 ) : (
                   <>
                     <h2 className="mt-1 text-lg font-semibold tracking-tight">Wähle deinen Plan</h2>
-                    <div className="mt-5 grid gap-4 sm:grid-cols-2">
+                    <div className="mt-5 grid gap-4">
                       <div className="flex flex-col rounded-xl border border-white/10 bg-white/[0.06] p-5">
                         <p className="text-base font-semibold">GründerX</p>
                         <p className="mt-2 text-3xl font-semibold tracking-tight tabular">
@@ -252,19 +251,9 @@ const Profile = () => {
                           <Link to="/checkout?variant=gruenderx">Abonnieren</Link>
                         </Button>
                       </div>
-                      <div className="flex flex-col rounded-xl border border-brand-green/40 bg-white/[0.06] p-5 ring-1 ring-brand-green/20">
-                        <p className="text-base font-semibold">Founder Bundle</p>
-                        <p className="mt-2 text-3xl font-semibold tracking-tight tabular">
-                          {formatEurCents(PLANS.bundle.grossCents)}<span className="ml-0.5 text-sm font-normal text-primary-foreground/65">/Mon</span>
-                        </p>
-                        <p className="mt-3 flex-1 text-sm leading-relaxed text-primary-foreground/80">GründerX + AnwaltX (Vertrags-Templates, Compliance-Audit).</p>
-                        <Button asChild className="mt-5 h-11 rounded-xl bg-white text-primary hover:bg-white/90">
-                          <Link to="/checkout?variant=bundle">Bundle sichern</Link>
-                        </Button>
-                      </div>
                     </div>
                     <p className="mt-3 text-xs text-primary-foreground/65">
-                      Jahrespläne und alle Varianten findest du im Warenkorb.
+                      Den Jahreszugang findest du im Warenkorb.
                     </p>
                   </>
                 )}

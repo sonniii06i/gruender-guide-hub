@@ -16,7 +16,6 @@ import { Seo } from "@/components/Seo";
  */
 
 const DS24_GRUENDERX = "https://www.checkout-ds24.com/product/728385";
-const DS24_BUNDLE = "https://www.checkout-ds24.com/product/728388";
 
 const BEREICHE = [
   {
@@ -82,7 +81,7 @@ const Angebot = () => (
     </header>
 
     <main>
-    <section className="relative overflow-hidden border-b border-border/70 bg-hero pb-16 pt-28 md:pb-20 md:pt-32">
+    <section className="relative overflow-hidden border-b border-border/70 bg-hero pb-16 pt-28 md:pb-20 md:pt-24">
       <div
         className="pointer-events-none absolute inset-0 bg-dots [mask-image:linear-gradient(to_bottom,black,transparent_80%)]"
         aria-hidden="true"
@@ -111,8 +110,8 @@ const Angebot = () => (
         <h2 className="text-center text-2xl font-semibold tracking-tight md:text-[1.75rem]">Wobei Felix dich begleitet</h2>
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {BEREICHE.map((b) => (
-            <div key={b.title} className="rounded-2xl border border-border bg-card p-6 shadow-card">
-              <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent text-accent-blue">
+            <div key={b.title} className="rounded-2xl border border-border bg-card p-6">
+              <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-secondary text-foreground/70">
                 <b.icon className="h-5 w-5" aria-hidden="true" />
               </span>
               <h3 className="mt-4 text-base font-semibold tracking-tight">{b.title}</h3>
@@ -126,8 +125,9 @@ const Angebot = () => (
     <section className="border-t border-border/70 bg-secondary/40 py-16 md:py-20">
       <div className="container max-w-5xl px-4">
         <h2 className="text-center text-2xl font-semibold tracking-tight md:text-[1.75rem]">Dein Zugang</h2>
-        <div className="mt-10 grid gap-4 md:grid-cols-2">
-          <div className="flex flex-col rounded-2xl border-2 border-primary bg-card p-6 shadow-soft md:p-7">
+        {/* Seit 20.11.2026 nur noch GründerX (Founder Bundle eingestellt): eine Karte, zentriert. */}
+        <div className="mx-auto mt-10 grid max-w-md gap-4">
+          <div className="flex flex-col rounded-2xl border-2 border-primary bg-card p-6 md:p-7">
             <h3 className="text-base font-semibold">GründerX</h3>
             <p className="mt-3 text-4xl font-semibold tracking-tight tabular">
               64,99 €<span className="text-base font-normal tracking-normal text-muted-foreground"> / Monat</span>
@@ -140,18 +140,6 @@ const Angebot = () => (
               ))}
             </ul>
             <div className="mt-auto pt-7"><Kaufknopf href={DS24_GRUENDERX}>Jetzt starten</Kaufknopf></div>
-          </div>
-          <div className="flex flex-col rounded-2xl border border-border bg-card p-6 shadow-card md:p-7">
-            <h3 className="text-base font-semibold">Founder Bundle: GründerX + AnwaltX</h3>
-            <p className="mt-3 text-4xl font-semibold tracking-tight tabular">
-              99,99 €<span className="text-base font-normal tracking-normal text-muted-foreground"> / Monat</span>
-            </p>
-            <p className="mt-1.5 text-sm text-muted-foreground tabular">statt 129,98 € einzeln · 23 % günstiger</p>
-            <p className="mt-6 text-sm leading-relaxed">
-              Alles aus GründerX plus AnwaltX, der KI-Rechtsassistent für Onlinehändler und
-              Gründer — in einem Abo, monatlich kündbar.
-            </p>
-            <div className="mt-auto pt-7"><Kaufknopf href={DS24_BUNDLE} variante="sekundaer">Bundle starten</Kaufknopf></div>
           </div>
         </div>
         <p className="mx-auto mt-8 max-w-3xl text-center text-xs leading-relaxed text-muted-foreground">

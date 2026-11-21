@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Check, Loader2, ShoppingCart, PackageCheck, ClipboardList, Plus } from "lucide-react";
+import { Check, Loader2, ShoppingCart, PackageCheck, ClipboardList } from "lucide-react";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Link, useNavigate } from "react-router-dom";
@@ -8,7 +8,7 @@ import { ladeSupabase } from "@/integrations/supabase/lazy";
 import { getStoredAffiliateRef } from "@/utils/affiliate";
 import { checkoutAttribution } from "@/utils/checkoutAttribution";
 import { trackMonetization } from "@/utils/analytics";
-import { PLANS, PLAN_ORDER, SOLO_CONTENTS, BUNDLE_CONTENTS, NOT_INCLUDED, CANCEL_NOTE, FOUNDER_CODE, FOUNDER_KURZ, formatEurCents } from "@/config/pricing";
+import { PLANS, PLAN_ORDER, SOLO_CONTENTS, NOT_INCLUDED, CANCEL_NOTE, FOUNDER_CODE, FOUNDER_KURZ, formatEurCents } from "@/config/pricing";
 import { rememberCartVariant } from "@/lib/cart";
 import { ANBIETER_ANZAHL, ANBIETER_KATEGORIEN, TOOL_COUNT } from "@/data/kennzahlen";
 import { toast } from "sonner";
@@ -38,7 +38,6 @@ import { SpecTable, type Spec } from "@/components/product/SpecTable";
 // Preise, Ausführungen und Leistungen kommen aus src/config/pricing.ts —
 // dieselbe Quelle wie /preise und /checkout. Alle Beträge sind BRUTTO.
 const SOLO: Variant = PLANS.gruenderx;
-const BUNDLE: Variant = PLANS.bundle;
 const VARIANTS: Variant[] = PLAN_ORDER.map((id) => PLANS[id]);
 
 /** priceId + Intervall je Ausführung. Der Preis selbst kommt aus der Edge-Function. */
@@ -64,17 +63,9 @@ const SOLO_GALLERY: GalleryImage[] = [
   { src: `${S}/runway.webp`, alt: "Runway-Rechner mit Ergebnis in Monaten", caption: "Runway-Rechner: wie lange das Geld reicht und ab wann du profitabel bist" },
 ];
 
-const BUNDLE_GALLERY: GalleryImage[] = [
-  { src: `${S}/uebersicht.webp`, alt: "GründerX-Cockpit mit Fristen und Einstieg", caption: "Founder-Set: enthält den vollen GründerX-Zugang, dazu Juri von AnwaltX" },
-  { src: `${S}/rechtsform.webp`, alt: "Rechtsform-Wizard mit Empfehlung", caption: "Alle Wizards und Rechner ohne Aufpreis" },
-  { src: `${S}/steuerkalender.webp`, alt: "Steuer- und Fristenkalender", caption: "Fristen, USt und OSS im Blick" },
-];
-
 const GALLERY: Record<string, GalleryImage[]> = {
   "gruenderx": SOLO_GALLERY,
   "gruenderx-year": SOLO_GALLERY,
-  "bundle": BUNDLE_GALLERY,
-  "bundle-year": BUNDLE_GALLERY,
 };
 
 const BASE_SPECS: Spec[] = [
@@ -118,38 +109,13 @@ const PRODUCTS: Record<string, { title: string; subtitle: string; contents: stri
       ...BASE_SPECS,
     ],
   },
-  "bundle": {
-    title: "Founder-Set: GründerX + AnwaltX",
-    subtitle:
-      "Gründung und Recht greifen ineinander. Felix und Juri zusammen in einem Konto — 23 % günstiger als beide Zugänge einzeln.",
-    contents: BUNDLE_CONTENTS,
-    specs: [
-      { label: "Artikelnummer", value: "GX-AX-SET-M" },
-      { label: "Set-Inhalt", value: "2 Zugänge: GründerX + AnwaltX — ein Konto, eine Abrechnung" },
-      { label: "Laufzeit", value: "1 Monat, verlängert sich automatisch um jeweils einen Monat" },
-      ...BASE_SPECS,
-    ],
-  },
-  "bundle-year": {
-    title: "Founder-Set — Jahreszugang",
-    subtitle:
-      "Beide Zugänge, einmal jährlich abgerechnet — zwei Monate geschenkt und weiterhin 23 % günstiger als einzeln.",
-    contents: BUNDLE_CONTENTS,
-    specs: [
-      { label: "Artikelnummer", value: "GX-AX-SET-Y" },
-      { label: "Set-Inhalt", value: "2 Zugänge: GründerX + AnwaltX — ein Konto, eine Abrechnung" },
-      { label: "Laufzeit", value: "12 Monate, verlängert sich automatisch um jeweils zwölf Monate" },
-      { label: "Ersparnis", value: `${formatEurCents(PLANS["bundle-year"].anchorCents! - PLANS["bundle-year"].grossCents)} gegenüber zwölf Monatszahlungen (${formatEurCents(PLANS["bundle-year"].anchorCents!)}) — zwei Monate gratis` },
-      ...BASE_SPECS,
-    ],
-  },
 };
 
 export const Bundles = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [loading, setLoading] = useState<string | null>(null);
-  const [selected, setSelected] = useState<string>("bundle");
+  const [selected, setSelected] = useState<string>("gruenderx");
 
   const product = PRODUCTS[selected];
   const variant = VARIANTS.find((v) => v.id === selected) ?? SOLO;
@@ -200,9 +166,9 @@ export const Bundles = () => {
   }, []);
 
   return (
-    <section id="bundles" className="border-y border-border/70 bg-secondary/50 py-14 md:py-28">
+    <section id="bundles" className="border-y border-border/70 bg-secondary/50 py-14 md:py-20">
       <div className="container max-w-6xl">
-        <p className="mb-6 text-[13px] font-semibold uppercase tracking-[0.14em] text-accent-blue">Preise</p>
+        <p className="mb-6 text-[13px] font-semibold text-accent-blue">Preise</p>
 
         {/* Galerie + Buy-Box */}
         {/* Die Galerie zeigt 16:9-Screenshots — sie bekommt die breite Spalte,
@@ -229,7 +195,7 @@ export const Bundles = () => {
                 data-cta={`kauf-${selected}`}
                 onClick={() => handleCheckout(selected)}
                 disabled={busy}
-                className="h-14 w-full rounded-xl bg-gradient-primary text-base font-semibold text-primary-foreground shadow-glow hover:opacity-95"
+                className="h-14 w-full rounded-xl bg-gradient-primary text-base font-semibold text-primary-foreground hover:opacity-95"
               >
                 {busy ? (
                   <Loader2 className="h-5 w-5 animate-spin" />
@@ -303,33 +269,6 @@ export const Bundles = () => {
             <SpecTable specs={product.specs} />
           </div>
         </div>
-
-        {/* Set-Empfehlung — nur solange der Einzelzugang gewählt ist */}
-        {selected.startsWith("gruenderx") && (
-          <div className="mt-16 max-w-4xl">
-            <h3 className="mb-4 text-2xl font-semibold">Häufig zusammen gekauft</h3>
-            <div className="flex flex-col items-center gap-4 rounded-2xl border border-border bg-card p-6 shadow-card sm:flex-row">
-              <img src="/mascots/felix-pricecard.webp" alt="" aria-hidden className="h-20 w-20 shrink-0 object-contain" loading="lazy" />
-              <Plus className="h-5 w-5 shrink-0 text-muted-foreground" />
-              <img src="/mascots/bundle-duo.webp" alt="" aria-hidden className="h-20 w-20 shrink-0 object-contain" loading="lazy" />
-              <div className="flex-1 text-center sm:text-left">
-                <p className="font-semibold">GründerX + AnwaltX als Set</p>
-                <p className="mt-1 text-sm text-muted-foreground">
-                  Als Set <strong className="text-foreground">{eur(BUNDLE.grossCents)}/Monat</strong> statt{" "}
-                  <span className="line-through">{eur(BUNDLE.anchorCents!)}</span> einzeln — du sparst{" "}
-                  <strong className="text-success">{eur(BUNDLE.anchorCents! - BUNDLE.grossCents)} im Monat</strong>.
-                </p>
-              </div>
-              <Button
-                variant="outline"
-                onClick={() => { setSelected("bundle"); window.scrollTo({ top: document.getElementById("bundles")?.offsetTop ?? 0, behavior: "smooth" }); }}
-                className="w-full shrink-0 rounded-xl sm:w-auto"
-              >
-                Set wählen
-              </Button>
-            </div>
-          </div>
-        )}
       </div>
     </section>
   );

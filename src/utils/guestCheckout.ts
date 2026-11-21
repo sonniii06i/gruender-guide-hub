@@ -25,7 +25,8 @@ function cookie(name: string): string | undefined {
   return undefined;
 }
 
-export type GuestProduct = "gruenderx" | "bundle";
+// Founder-Set ("bundle") seit 20.11.2026 eingestellt: nur noch der GründerX-Zugang.
+export type GuestProduct = "gruenderx";
 
 /**
  * Rückweg für „Zurück“ im Stripe-Checkout: die Seite, von der der Kauf kam

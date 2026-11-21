@@ -13,7 +13,7 @@ GründerX kombiniert KI mit Gründungs- und Steuerwissen für E-Commerce-Händle
 ## Pages
 
 - [Startseite](/): Überblick über Plattform, Funktionen und Zielgruppen
-- [Preise](/preise): GründerX 64,99 € im Monat oder 649,90 € im Jahr, Founder-Set (mit AnwaltX) 99,99 € im Monat oder 999,90 € im Jahr – Endpreise inkl. 19 % USt., jederzeit zum Ende der Abrechnungsperiode kündbar. Konto erst nach der Zahlung.
+- [Preise](/preise): GründerX 64,99 € im Monat oder 649,90 € im Jahr – Endpreise inkl. 19 % USt., jederzeit zum Ende der Abrechnungsperiode kündbar. Konto erst nach der Zahlung.
 - [Gründungs-Guides (Übersicht)](/playbooks): Alle Schritt-für-Schritt-Anleitungen
 - [Anbieter-Vergleich](/anbieter): Geschäftskonto, Buchhaltung, Tools für Gründer
 - [Influencer & Creator](/influencer): Gewerbe, Fragebogen, PR-Pakete, Affiliate, Kleinunternehmer für Influencer, Creator und UGC-Creator

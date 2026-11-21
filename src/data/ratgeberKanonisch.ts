@@ -10,11 +10,10 @@
 // - WICHTIG: Pfad in EXTRA_ROUTES von scripts/prerender.mjs, sonst liefert der
 //   Server den SPA-Fallback mit Canonical der Startseite.
 //   ratgeberKanonisch.test.ts prueft das.
-export const RATGEBER_KANONISCH_ANDERSWO: Readonly<Record<string, { url: string; label: string }>> = {
-  "gpsr-verordnung-haendler": {
-    url: "https://anwaltx.de/gpsr-produktsicherheit-onlinehandel",
-    label: "GPSR-Pflichten für Online-Händler im Detail – mit Artikelangaben der Verordnung (AnwaltX)",
-  },
-};
+//
+// 22.11.2026: anwaltx.de ist eingestellt und antwortet mit 503. Der GPSR-Ratgeber
+// gehoert damit wieder gruenderx.de (eigenes Canonical, Article-Schema, Sitemap).
+// Die Liste bleibt als Mechanik bestehen, ist aber leer.
+export const RATGEBER_KANONISCH_ANDERSWO: Readonly<Record<string, { url: string; label: string }>> = {};
 
 export const fremdKanonisch = (slug: string) => RATGEBER_KANONISCH_ANDERSWO[slug];

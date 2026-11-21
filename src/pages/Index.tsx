@@ -77,7 +77,7 @@ const Index = () => (
               name: "Was kostet GründerX?",
               acceptedAnswer: {
                 "@type": "Answer",
-                text: `Der volle Zugang mit allen Tools, Wizards, Guides und dem KI-Assistenten Felix kostet ${formatEurCents(PLANS.gruenderx.grossCents)} im Monat oder ${formatEurCents(PLANS["gruenderx-year"].grossCents)} im Jahr, das Founder-Set mit AnwaltX ${formatEurCents(PLANS.bundle.grossCents)} im Monat – alle Preise inkl. 19 % USt. Ohne Konto kostenlos: je eine Prüfung im WEEE-Check, Brand-Check und LUCID-Wizard sowie je eine Nutzung der Generatoren unter Gratis-Tools (Businessplan, Gründungskosten, Rechtsform, Amazon-Widersprüche), jeweils gegen die E-Mail-Adresse; unbegrenzt im Abo.`,
+                text: `Der volle Zugang mit allen Tools, Wizards, Guides und dem KI-Assistenten Felix kostet ${formatEurCents(PLANS.gruenderx.grossCents)} im Monat oder ${formatEurCents(PLANS["gruenderx-year"].grossCents)} im Jahr – alle Preise inkl. 19 % USt. Ohne Konto kostenlos: je eine Prüfung im WEEE-Check, Brand-Check und LUCID-Wizard sowie je eine Nutzung der Generatoren unter Gratis-Tools (Businessplan, Gründungskosten, Rechtsform, Amazon-Widersprüche), jeweils gegen die E-Mail-Adresse; unbegrenzt im Abo.`,
               },
             },
             {

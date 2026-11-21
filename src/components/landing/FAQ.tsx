@@ -39,7 +39,7 @@ const faqs = [
   },
   {
     q: "Was kostet GründerX?",
-    a: `GründerX kostet ${formatEurCents(PLANS.gruenderx.grossCents)} im Monat oder ${formatEurCents(PLANS["gruenderx-year"].grossCents)} im Jahr – im Jahreszugang zwei Monate geschenkt. Wer beide KIs will (GründerX + AnwaltX: Vertragsprüfung, Abmahn-Schutz, Streitfall-Hilfe), bucht das Founder-Set für ${formatEurCents(PLANS.bundle.grossCents)} im Monat oder ${formatEurCents(PLANS["bundle-year"].grossCents)} im Jahr statt ${formatEurCents(PLANS.bundle.anchorCents!)} für beide einzeln. Alle Beträge sind Endpreise inklusive 19 % Umsatzsteuer (netto ${formatEurCents(netCentsOf(PLANS.gruenderx.grossCents))} bzw. ${formatEurCents(netCentsOf(PLANS.bundle.grossCents))}); an der Kasse wird nichts aufgeschlagen. Alle Details auf der Preisseite unter /preise.`,
+    a: `GründerX kostet ${formatEurCents(PLANS.gruenderx.grossCents)} im Monat oder ${formatEurCents(PLANS["gruenderx-year"].grossCents)} im Jahr – im Jahreszugang zwei Monate geschenkt. Alle Beträge sind Endpreise inklusive 19 % Umsatzsteuer (monatlich netto ${formatEurCents(netCentsOf(PLANS.gruenderx.grossCents))}); an der Kasse wird nichts aufgeschlagen. Alle Details auf der Preisseite unter /preise.`,
   },
   {
     q: "Kann ich monatlich kündigen oder binde ich mich lange?",
@@ -64,7 +64,7 @@ const faqs = [
 ];
 
 export const FAQ = () => (
-  <section id="faq" className="border-y border-border/70 bg-secondary/50 py-14 md:py-28">
+  <section id="faq" className="border-y border-border/70 bg-secondary/50 py-14 md:py-20">
     <div className="container grid max-w-6xl gap-10 lg:grid-cols-[0.8fr,1.2fr] lg:gap-16">
       <div>
         <h2 className="text-balance text-[2rem] font-semibold leading-[1.05] tracking-[-0.04em] text-primary md:text-[3rem]">Häufige Fragen.</h2>
@@ -87,7 +87,7 @@ export const FAQ = () => (
         Fragen im prerenderten HTML, keine einzige Antwort — genau der Teil,
         der Einwände abbaut, war für den Index unsichtbar.
       */}
-      <div className="divide-y divide-border overflow-hidden rounded-2xl border border-border bg-card shadow-card">
+      <div className="divide-y divide-border overflow-hidden rounded-2xl border border-border bg-card">
         {faqs.map((f, i) => (
           <details key={i} className="group px-6 [&_summary::-webkit-details-marker]:hidden">
             <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-left font-semibold transition-colors hover:text-accent-blue">

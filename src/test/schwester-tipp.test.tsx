@@ -12,13 +12,23 @@ describe("SchwesterTipp", () => {
     expect(container.innerHTML).toBe("");
   });
 
-  it("Shop-Guide → AnwaltX mit UTM und Founder-Set-Preis", async () => {
+  it("Shop-Guides zeigen keinen AnwaltX-Tipp mehr (AnwaltX eingestellt, Founder-Set raus 20.11.2026)", () => {
+    for (const slug of ["dsgvo-shop", "shopify-launch", "brand-owner-d2c-setup", "kaufland-launch", "tiktok-shop-launch", "tiktok-shop-starten"]) {
+      expect(schwesterZiel(slug)).toBeNull();
+    }
+    const fetchSpy = vi.spyOn(globalThis, "fetch");
+    const { container } = render(<SchwesterTipp slug="dsgvo-shop" />);
+    expect(container.innerHTML).toBe("");
+    expect(container.textContent).not.toMatch(/AnwaltX|Founder-Set/);
+    expect(fetchSpy).not.toHaveBeenCalled();
+  });
+
+  it("Amazon-Guide → ArbitrageX mit UTM", async () => {
     vi.spyOn(globalThis, "fetch").mockResolvedValue(new Response(JSON.stringify({ aktiv: false })));
-    render(<SchwesterTipp slug="dsgvo-shop" />);
-    const link = screen.getByRole("link", { name: /Rechtstexte bei AnwaltX/ });
-    expect(link.getAttribute("href")).toBe("https://anwaltx.de/?utm_source=gruenderx&utm_medium=schwester&utm_campaign=guide-dsgvo-shop");
-    expect(screen.getByText(/Founder-Set GründerX \+ AnwaltX/)).toBeTruthy();
-    await waitFor(() => expect(fetch).toHaveBeenCalledWith("https://arbitragex.de/px/aktion/anwaltx.json", { credentials: "omit" }));
+    render(<SchwesterTipp slug="amazon-fba-launch" />);
+    const link = screen.getByRole("link", { name: /ArbitrageX ansehen/ });
+    expect(link.getAttribute("href")).toBe("https://arbitragex.de/?utm_source=gruenderx&utm_medium=schwester&utm_campaign=guide-amazon-fba-launch");
+    await waitFor(() => expect(fetch).toHaveBeenCalledWith("https://arbitragex.de/px/aktion/arbitragex.json", { credentials: "omit" }));
     expect(screen.queryByText(/Gerade bei/)).toBeNull();
   });
 
@@ -27,13 +37,5 @@ describe("SchwesterTipp", () => {
     render(<SchwesterTipp slug="amazon-fba-launch" />);
     await waitFor(() => expect(screen.getByText(/Gerade bei ArbitrageX: Black Week: 50 %/)).toBeTruthy());
     expect(screen.getByText("AXBLACK50")).toBeTruthy();
-  });
-
-  it("hebt das Founder-Set nur in der Gründungswoche hervor (Freigabe #62)", async () => {
-    const { inGruendungswoche } = await import("@/components/SchwesterTipp");
-    expect(inGruendungswoche(new Date("2026-11-15T22:59:00Z"))).toBe(false); // 23:59 Berlin, 15.11.
-    expect(inGruendungswoche(new Date("2026-11-15T23:00:00Z"))).toBe(true);  // 00:00 Berlin, 16.11.
-    expect(inGruendungswoche(new Date("2026-11-22T22:59:00Z"))).toBe(true);
-    expect(inGruendungswoche(new Date("2026-11-22T23:00:00Z"))).toBe(false);
   });
 });

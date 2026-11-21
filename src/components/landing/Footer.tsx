@@ -77,11 +77,7 @@ export const Footer = () => (
             <span className="text-lg font-semibold tracking-tight">GründerX</span>
           </Link>
           <p className="max-w-xs text-sm leading-relaxed text-muted-foreground">
-            Der KI-Co-Pilot für Gründer, Creator und E-Commerce-Operator. Schwesterprodukt von{" "}
-            <a href="https://anwaltx.de" className="font-medium text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground">
-              AnwaltX
-            </a>
-            .
+            Der KI-Co-Pilot für Gründer, Creator und E-Commerce-Operator.
           </p>
         </div>
 

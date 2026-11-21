@@ -141,13 +141,12 @@ const Auth = () => {
   // (pay-first wie seit 09.08.). /auth ohne mode = Gratis-Konto (27.10.).
   if (params.get("mode") === "kauf" && !user) {
     const chosen = readCartVariant() ?? "gruenderx";
-    const istBundle = chosen.startsWith("bundle");
     const istJahr = chosen.endsWith("-year");
     const plan = PLANS[chosen as keyof typeof PLANS] ?? PLANS.gruenderx;
     return (
       <KontoRahmen
         kicker="Zugang kaufen"
-        title={istBundle ? "Founder-Set: GründerX + AnwaltX" : "GründerX-Zugang"}
+        title="GründerX-Zugang"
         subtitle={`${formatEurCents(plan.grossCents)} ${istJahr ? "im Jahr" : "im Monat"}, ${istJahr ? "jährlich" : "monatlich"} kündbar. Nach der Zahlung legst du dein Konto an.`}
         footer={<>Mit dem Kauf akzeptierst du unsere{" "}
           <Link to="/agb" className="underline underline-offset-4 hover:text-foreground">AGB</Link> und{" "}
@@ -156,12 +155,12 @@ const Auth = () => {
         {errorMsg && <FormFehler>{errorMsg}</FormFehler>}
         <Button size="lg" disabled={loading} className={kontoCta} onClick={async () => {
           setLoading(true); setErrorMsg(null);
-          try { await startGuestCheckout(istBundle ? "bundle" : "gruenderx", istJahr ? "year" : "month"); }
+          try { await startGuestCheckout("gruenderx", istJahr ? "year" : "month"); }
           catch (e) { setErrorMsg((e as Error).message || "Checkout fehlgeschlagen"); setLoading(false); }
         }}>
           {loading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" aria-hidden="true" />Weiterleitung zur Zahlung …</> : "Weiter zur Zahlung"}
         </Button>
-        {!istBundle && !istJahr && (
+        {!istJahr && (
           <div className="mt-4"><StartAngebotButton variant="outline" /></div>
         )}
         <div className="mt-6 border-t border-border pt-5 text-center text-sm text-muted-foreground">
@@ -362,7 +361,7 @@ const Auth = () => {
             onClick={async () => {
               const chosen = readCartVariant() ?? "gruenderx";
               try {
-                await startGuestCheckout(chosen.startsWith("bundle") ? "bundle" : "gruenderx", chosen.endsWith("-year") ? "year" : "month");
+                await startGuestCheckout("gruenderx", chosen.endsWith("-year") ? "year" : "month");
               } catch (e) { toast.error((e as Error).message || "Checkout fehlgeschlagen"); }
             }}
             className="mt-3 w-full text-center text-xs font-semibold text-accent-blue hover:underline"

@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { PLANS } from "@/config/pricing";
-import { isCartVariant, readCartVariant, rememberCartVariant, type CartVariant } from "@/lib/cart";
+import { normalizeCartVariant, readCartVariant, rememberCartVariant, type CartVariant } from "@/lib/cart";
 import Logo from "@/components/Logo";
 import { UseCasesShowcase } from "@/components/landing/UseCasesShowcase";
 
@@ -24,7 +24,7 @@ import { UseCasesShowcase } from "@/components/landing/UseCasesShowcase";
    Aufbau wie im Shop: Schrittanzeige, Position links, Bestellübersicht rechts.
 
    Vorher standen hier zwei Plan-Kacheln. Für jemanden, der auf der Startseite
-   schon auf "Bundle sichern" geklickt hatte, war das die zweite Entscheidung
+   schon eine Ausführung gewählt hatte, war das die zweite Entscheidung
    für dieselbe Sache — und nirgends stand, was am Monatsende tatsächlich vom
    Konto geht. Genau das erwartet man beim Kauf einer Ware und bekommt es bei
    Software fast nie: Artikelnummer, Nettobetrag, Umsatzsteuer, Endbetrag.
@@ -79,17 +79,6 @@ const SOLO_CONTENTS = [
   `Anbieter-Vergleich (${ANBIETER_ANZAHL} Anbieter), Guides und Playbooks`,
 ];
 
-const BUNDLE_CONTENTS = [
-  "Alles aus dem GründerX-Zugang",
-  "Juri — KI-Rechts-Assistentin (AnwaltX)",
-  "Vertragsprüfung und Vertrags-Builder",
-  "Abmahn-Soforthilfe und Abmahn-Radar",
-  "Markencheck und Chargeback-Verteidigung",
-  "Rechts-Generatoren und Fristen-Tracker",
-  "Felix und Juri gemeinsam im Chat",
-  "Ein Konto und eine Abrechnung für beide",
-];
-
 const ITEMS: Item[] = [
   {
     id: "gruenderx",
@@ -121,38 +110,6 @@ const ITEMS: Item[] = [
     planNote: "Zwei Monate geschenkt gegenüber 12 × 64,99 €.",
     image: "/mascots/felix-present.webp",
     contents: SOLO_CONTENTS,
-  },
-  {
-    id: "bundle",
-    priceId: PLANS["bundle"].priceId,
-    interval: PLANS["bundle"].interval,
-    name: "Founder-Set — monatlich",
-    sku: PLANS["bundle"].sku,
-    grossCents: PLANS["bundle"].grossCents,
-    anchorCents: PLANS["bundle"].anchorCents,
-    periodLabel: "Monat",
-    termLabel: "Laufzeit 1 Monat, verlängert sich automatisch um einen Monat.",
-    days: 30,
-    badge: "Beliebt",
-    planNote: "GründerX + AnwaltX, 23 % günstiger als einzeln.",
-    image: "/mascots/bundle-duo.webp",
-    contents: BUNDLE_CONTENTS,
-  },
-  {
-    id: "bundle-year",
-    priceId: PLANS["bundle-year"].priceId,
-    interval: PLANS["bundle-year"].interval,
-    name: "Founder-Set — jährlich",
-    sku: PLANS["bundle-year"].sku,
-    grossCents: PLANS["bundle-year"].grossCents,
-    anchorCents: PLANS["bundle-year"].anchorCents,
-    periodLabel: "Jahr",
-    termLabel: "Laufzeit 12 Monate, verlängert sich automatisch um zwölf Monate.",
-    days: 365,
-    badge: "Bester Preis",
-    planNote: "Beide Zugänge, zwei Monate geschenkt.",
-    image: "/mascots/bundle-duo.webp",
-    contents: BUNDLE_CONTENTS,
   },
 ];
 
@@ -191,7 +148,8 @@ const Checkout = () => {
   // hilft dort nicht, weil die Mail auf einem anderen Gerät geöffnet wird.
   const [variantId, setVariantId] = useState<CartVariant>(() => {
     const wanted = new URLSearchParams(window.location.search).get("variant");
-    return isCartVariant(wanted) ? wanted : (readCartVariant() ?? "gruenderx");
+    // Alte Set-Links (?variant=bundle*) landen still beim GründerX-Zugang (Set eingestellt 20.11.2026).
+    return normalizeCartVariant(wanted) ?? readCartVariant() ?? "gruenderx";
   });
 
   const item = ITEMS.find((i) => i.id === variantId) ?? ITEMS[0];
@@ -299,7 +257,7 @@ const Checkout = () => {
         <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px] lg:items-start">
           {/* ---------------- Position ---------------- */}
           <div className="space-y-5">
-            <div className="overflow-hidden rounded-3xl border border-border bg-card shadow-card">
+            <div className="overflow-hidden rounded-3xl border border-border bg-card">
               <div className="flex flex-col gap-4 p-5 sm:flex-row">
                 <img
                   src={item.image}
@@ -347,15 +305,15 @@ const Checkout = () => {
                       type="button"
                       onClick={() => selectItem(opt.id)}
                       aria-pressed={opt.id === item.id}
-                      className={`rounded-2xl border-2 p-3 text-left transition-all ${
+                      className={`rounded-2xl border-2 p-3 text-left transition-colors ${
                         opt.id === item.id
-                          ? "border-accent-blue bg-accent-blue/5 shadow-sm"
-                          : "border-border bg-card hover:border-accent-blue/40"
+                          ? "border-primary bg-secondary"
+                          : "border-border bg-card hover:border-foreground/30"
                       }`}
                     >
                       <span className="flex items-center justify-between gap-2">
                         <span className="text-sm font-semibold">{opt.name}</span>
-                        <span className="rounded-full bg-secondary px-2 py-0.5 text-[10px] font-bold uppercase text-muted-foreground">
+                        <span className="rounded-full bg-secondary px-2 py-0.5 text-[11px] font-semibold text-muted-foreground">
                           {opt.badge}
                         </span>
                       </span>
@@ -390,7 +348,7 @@ const Checkout = () => {
 
           {/* ---------------- Bestellübersicht ---------------- */}
           <aside className="lg:sticky lg:top-8">
-            <div className="rounded-3xl border-2 border-accent-blue/30 bg-card p-5 shadow-card">
+            <div className="rounded-3xl border-2 border-foreground/25 bg-card p-5">
               <h2 className="text-base font-bold">Bestellübersicht</h2>
 
               <dl className="mt-4 space-y-2.5 text-sm">
@@ -436,7 +394,7 @@ const Checkout = () => {
                 onClick={checkout}
                 disabled={busy}
                 size="lg"
-                className="mt-5 h-12 w-full rounded-full bg-gradient-primary font-semibold text-primary-foreground hover:opacity-95"
+                className="mt-5 h-12 w-full font-semibold"
               >
                 {busy ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <ShoppingCart className="mr-2 h-4 w-4" />}
                 Zur Kasse — {eur(item.grossCents)}/{item.periodLabel}

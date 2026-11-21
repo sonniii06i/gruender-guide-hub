@@ -34,17 +34,15 @@ const ZahlungErfolgreich = () => {
   const [bisWann, setBisWann] = useState<string | null>(null);
 
   // L5 der Event-Leiter: der einzige Moment im Client, an dem ein Abo sicher
-  // zustande gekommen ist. Der Wert ist der Listenpreis; das Bundle (99,99)
-  // laesst sich hier nicht unterscheiden, den exakten Betrag liefert der
-  // Stripe-Webhook per CAPI nach, dedupliziert ueber dieselbe event_id.
+  // zustande gekommen ist. Der Wert ist der Listenpreis; den exakten Betrag
+  // liefert der Stripe-Webhook per CAPI nach, dedupliziert ueber dieselbe event_id.
   // Nur EINMAL je Checkout melden: vorher zaehlte jedes Neuladen einen weiteren Kauf.
   // Die event_id stripe_<session_id> ist dieselbe wie im Stripe-Webhook (CAPI) und in
   // Willkommen.tsx, Meta fasst die Meldungen damit zu einem Kauf zusammen.
   //
   // Gemeldet wird erst, wenn check-subscription das Abo bestaetigt hat UND
   // eine session_id vorliegt. Vorher zaehlte jeder Aufruf der nackten URL als
-  // Kauf, und der Wert war immer 64,99 -- auch beim Founder-Set und bei
-  // Jahresplaenen. Der Wert kommt jetzt aus dem gewaehlten Warenkorb-Artikel
+  // Kauf, und der Wert war immer 64,99 -- auch bei Jahresplaenen. Der Wert kommt jetzt aus dem gewaehlten Warenkorb-Artikel
   // (Listenpreis); den exakten Betrag inkl. Gutschein liefert der Webhook.
   useEffect(() => {
     if (!sessionId || zustand !== "bestaetigt") return;
@@ -53,12 +51,8 @@ const ZahlungErfolgreich = () => {
       if (localStorage.getItem(schluessel)) return;
       localStorage.setItem(schluessel, "1");
     } catch { /* ohne Speicher trotzdem melden */ }
-    const istBundle = /bundle|founder/i.test(plan ?? "");
-    const gemerkt = readCartVariant();
-    const variante =
-      gemerkt && gemerkt.startsWith("bundle") === istBundle
-        ? gemerkt
-        : istBundle ? "bundle" : "gruenderx";
+    // Founder-Set seit 20.11.2026 eingestellt: es gibt nur noch den GründerX-Zugang (Monat/Jahr).
+    const variante = readCartVariant() ?? "gruenderx";
     const p = PLANS[variante];
     trackMonetization.subscriptionStarted(variante, p.grossCents);
     trackAdConversion("purchase", {

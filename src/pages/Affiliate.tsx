@@ -38,6 +38,9 @@ export default function Affiliate() {
       toast({ title: "Fehler", description: (res as any)?.error || error?.message, variant: "destructive" });
       return null;
     }
+    // Eine Antwort ohne Kennzahlen (leerer Körper, Teilausfall) ist ein Ladefehler,
+    // kein Partnerkonto: sonst stürzt die Seite beim ersten Zugriff auf stats ab.
+    if (!(res as AffiliateData | null)?.stats) return null;
     return res as AffiliateData;
   };
 
@@ -97,7 +100,7 @@ export default function Affiliate() {
   if (!data)
     return (
       <div className="container max-w-2xl px-4 py-16" role="alert">
-        <div className="rounded-2xl border border-border bg-card p-8 text-center shadow-card">
+        <div className="rounded-2xl border border-border bg-card p-8 text-center">
           <h1 className="text-xl font-semibold">Partnerdaten nicht geladen</h1>
           <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">
             {ladeFehler
@@ -117,9 +120,9 @@ export default function Affiliate() {
         <p className="inline-flex items-center gap-1.5 text-sm font-medium text-accent-blue">
           <Percent className="h-4 w-4" aria-hidden="true" /> {bestand ? "20 % Umsatzbeteiligung, dauerhaft" : "25 % Umsatzbeteiligung, 12 Monate je Kunde"}
         </p>
-        <h1 className="mt-2 text-[1.75rem] font-semibold leading-[1.12] tracking-[-0.03em] md:text-[2.25rem]">Partnerprogramm</h1>
+        <h1 className="mt-2 text-[1.75rem] font-semibold leading-[1.12] tracking-[-0.02em] md:text-[2.25rem]">Partnerprogramm</h1>
         <p className="mt-3 max-w-[68ch] text-[15px] leading-relaxed text-muted-foreground">
-          Empfiehl GründerX, AnwaltX oder das Founder-Set. Du bekommst <strong className="font-semibold text-foreground">{bestand ? "20 %" : "25 %"} von jeder Zahlung</strong> deiner Geworbenen, {bestand ? "dauerhaft und nicht nur im ersten Monat" : "12 Monate lang ab ihrem Abschluss"}. Der Link merkt sich deine Empfehlung 60 Tage; auszahlbar ist eine Provision nach Ablauf der 14-tägigen Widerrufsfrist, in echtem Geld.
+          Empfiehl GründerX. Du bekommst <strong className="font-semibold text-foreground">{bestand ? "20 %" : "25 %"} von jeder Zahlung</strong> deiner Geworbenen, {bestand ? "dauerhaft und nicht nur im ersten Monat" : "12 Monate lang ab ihrem Abschluss"}. Der Link merkt sich deine Empfehlung 60 Tage; auszahlbar ist eine Provision nach Ablauf der 14-tägigen Widerrufsfrist, in echtem Geld.
         </p>
       </header>
 
@@ -200,7 +203,7 @@ function AdminPayouts() {
   };
 
   return (
-    <Card className="border-accent-blue/25">
+    <Card className="border-foreground/25">
       <CardHeader><CardTitle className="text-base">Admin: Auszahlungsanfragen</CardTitle></CardHeader>
       <CardContent className="space-y-2">
         {!rows ? <Loader2 className="h-5 w-5 animate-spin" /> : rows.length === 0 ? (

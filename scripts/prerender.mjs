@@ -83,13 +83,13 @@ const PAID_ROUTES = ["/us-llc-30-tage", "/gruendung-komplett",
   // Funnel 08.11.2026: Kurzform-Offer-Page + Advertorials (noindex, Ziel bezahlten Traffics)
   "/start", "/anzeige/fragebogen-steuerliche-erfassung", "/anzeige/gruendung-5-gruende"];
 
-// Seiten mit Canonical auf eine andere Domain (Themenbesitz anwaltx.de) —
-// nicht in der Sitemap, aber weiter nutzbar. Ohne Prerender truege ihr HTML
-// Titel und Canonical der Startseite (SPA-Fallback).
+// Seiten, die frueher ein Canonical auf anwaltx.de trugen (eingestellt, seit
+// 22.11.2026 wieder eigene Seiten). Der Eintrag hier schadet nicht: ohne
+// Prerender truege ihr HTML Titel und Canonical der Startseite (SPA-Fallback).
 const EXTRA_ROUTES = [
   "/amazon-marken-freischaltung-widerspruch-generator",
   "/amazon-transparency-seriennummer-widerspruch-generator",
-  // Ratgeber mit Canonical auf anwaltx.de (src/data/ratgeberKanonisch.ts).
+  // GPSR-Ratgeber (bis 22.11.2026 Canonical auf anwaltx.de).
   "/ratgeber/gpsr-verordnung-haendler",
   // Gratis-Proben (ToolTrialPage, noindex, Canonical auf /tools/<slug>).
   // Startseite, /gratis-tools und die Tool-Seiten verlinken sie; ohne Prerender

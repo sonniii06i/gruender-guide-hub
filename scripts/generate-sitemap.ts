@@ -60,6 +60,9 @@ export const staticEntries: SitemapEntry[] = [
   { path: "/gratis-tools", changefreq: "weekly", priority: "0.9" },
   { path: "/vorlagen", changefreq: "weekly", priority: "0.9" },
   { path: "/businessplan-erstellen", changefreq: "weekly", priority: "0.8" },
+  // Seit 22.11.2026 wieder eigene Seiten (Canonical lag bis dahin auf anwaltx.de, das eingestellt ist).
+  { path: "/amazon-marken-freischaltung-widerspruch-generator", changefreq: "monthly", priority: "0.7" },
+  { path: "/amazon-transparency-seriennummer-widerspruch-generator", changefreq: "monthly", priority: "0.7" },
   { path: "/gruendungskosten-rechner", changefreq: "weekly", priority: "0.8" },
   { path: "/rechtsform-finden", changefreq: "weekly", priority: "0.8" },
   { path: "/influencer", changefreq: "weekly", priority: "0.9" },
@@ -69,8 +72,6 @@ export const staticEntries: SitemapEntry[] = [
   { path: "/pr-paket-rechner", changefreq: "weekly", priority: "0.8" },
   { path: "/ust-id-beantragen", changefreq: "weekly", priority: "0.8" },
   { path: "/elster-zertifikat-beantragen", changefreq: "weekly", priority: "0.8" },
-  // Die zwei Amazon-Widerspruchsgeneratoren stehen NICHT mehr hier: Canonical
-  // zeigt auf anwaltx.de (Themenbesitz). Prerender ueber EXTRA_ROUTES in prerender.mjs.
   { path: "/ratgeber", changefreq: "daily", priority: "0.9" },
   // Lexikon-Hub; die Begriffe folgen als lexikonEntries aus src/data/lexikon/katalog.ts
   { path: "/lexikon", changefreq: "weekly", priority: "0.8" },

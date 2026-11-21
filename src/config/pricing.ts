@@ -9,7 +9,12 @@
  *
  * ALLE BETRÄGE SIND BRUTTO (Endpreise inkl. 19 % USt.) — genau der Betrag, den
  * Stripe abbucht. AGB § 4 Abs. 1 führt Solo mit „54,61 € netto / Monat
- * (64,99 € brutto)" und das Set mit „84,03 € netto (99,99 € brutto)".
+ * (64,99 € brutto)".
+ *
+ * Das Founder-Set (GründerX + AnwaltX, bundle/bundle-year, GX-AX-SET-M/Y) ist
+ * seit 20.11.2026 eingestellt (AnwaltX eingestellt, Betreiber-Freigabe). Alte
+ * Links und Warenkörbe mit bundle* landen über `normalizeCartVariant`
+ * (lib/cart.ts) still beim passenden GründerX-Zugang.
  * `create-checkout` setzt kein `automatic_tax`; der Nettoanteil wird
  * herausgerechnet, nie aufgeschlagen.
  *
@@ -22,7 +27,7 @@ import { ANBIETER_ANZAHL, ANBIETER_KATEGORIEN } from "@/data/kennzahlen";
 
 export const VAT_RATE = 0.19;
 
-export type PlanId = "gruenderx" | "gruenderx-year" | "bundle" | "bundle-year";
+export type PlanId = "gruenderx" | "gruenderx-year";
 
 export interface PlanVariant {
   id: PlanId;
@@ -62,32 +67,9 @@ export const PLANS: Record<PlanId, PlanVariant> = {
     priceId: STRIPE_PRICES.gruenderx,
     interval: "year",
   },
-  "bundle": {
-    id: "bundle",
-    name: "Founder-Set — GründerX + AnwaltX",
-    sku: "GX-AX-SET-M",
-    grossCents: 9999,
-    // Vergleichswert: GründerX (64,99 €) + AnwaltX Pro (64,99 €) einzeln.
-    anchorCents: 2 * 6499,
-    period: "month",
-    note: "Enthält zusätzlich den vollen AnwaltX-Zugang (Juri). Ein Konto, eine Abrechnung.",
-    priceId: STRIPE_PRICES.bundle,
-    interval: "month",
-  },
-  "bundle-year": {
-    id: "bundle-year",
-    name: "Founder-Set — jährlich",
-    sku: "GX-AX-SET-Y",
-    grossCents: 99990,
-    anchorCents: 12 * 9999,
-    period: "year",
-    note: "Beide Zugänge, zwei Monate geschenkt gegenüber der Monatszahlung.",
-    priceId: STRIPE_PRICES.bundle,
-    interval: "year",
-  },
 };
 
-export const PLAN_ORDER: PlanId[] = ["gruenderx", "gruenderx-year", "bundle", "bundle-year"];
+export const PLAN_ORDER: PlanId[] = ["gruenderx", "gruenderx-year"];
 
 /** Günstigster Monatspreis — für „ab …"-Angaben. */
 export const PRO_MONTH_GROSS_CENTS = PLANS.gruenderx.grossCents;
@@ -112,7 +94,6 @@ export const CANCEL_NOTE =
  * Jahr sind dasselbe Produkt). An der Live-Kasse gemessen am 12.11.2026:
  *   GründerX monatlich  −13,00 €  → 51,99 € im ersten Monat, danach 64,99 €
  *   GründerX jährlich   −129,98 € → 519,92 € im ersten Jahr, danach 649,90 €
- * Founder-Set: nicht gemessen → dort nie einen Betrag nennen.
  *
  * Alle Seiten nehmen Wortlaut und Beträge von HIER (FOUNDER_KURZ, FOUNDER_SATZ);
  * nirgends „20 % im ersten Monat“ tippen – das stimmt für den Jahreszugang nicht.
@@ -154,23 +135,6 @@ export const SOLO_CONTENTS = [
   "Gründungs-Guides und Playbooks (GmbH, UG, Einzelunternehmen, US-LLC, Holding) plus laufend gepflegte Ratgeber",
   "Coop-Deals und Anbieter-Konditionen für Abonnenten",
   "E-Mail-Support",
-];
-
-/** Was das Founder-Set zusätzlich enthält. */
-export const BUNDLE_CONTENTS = [
-  "Alles aus dem GründerX-Zugang (siehe Einzelzugang)",
-  "Juri — KI-Rechts-Assistentin (AnwaltX), unbegrenzt im Chat",
-  "Vertragsprüfung: Vertrag oder AGB hochladen, Risiko-Klauseln markiert zurück",
-  "Vertrags-Builder für eigene Verträge und AGB",
-  "Abmahnungs-Soforthilfe mit Einordnung, Fristenlage und Antwortentwurf",
-  "Abmahn-Radar: laufende Abmahnwellen, bevor sie dich treffen",
-  "Markencheck und Chargeback-Verteidigung",
-  "Rechts-Generatoren: Impressum, Datenschutz, Widerruf, Datenschutzklauseln",
-  "Fristen-Tracker und rechtssichere Mails direkt aus dem System",
-  "Felix und Juri gemeinsam im selben Chat",
-  // "Priorisierter Support" gestrichen (10/2026): kein belegbarer Unterschied
-  // zum E-Mail-Support des Einzelzugangs. Stattdessen das, was nachweislich gilt.
-  "Ein Konto und eine Abrechnung für beide Zugänge",
 ];
 
 /** Was ausdrücklich NICHT enthalten ist. */
