@@ -49,7 +49,7 @@ export const WelcomeChoiceModal = ({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center overscroll-contain bg-[hsl(var(--foreground)/0.55)] p-4 backdrop-blur-sm animate-in fade-in duration-200"
+      className="fixed inset-0 z-50 flex items-center justify-center overscroll-contain bg-[hsl(var(--foreground)/0.55)] p-4 animate-in fade-in duration-200"
       role="dialog"
       aria-modal="true"
       aria-labelledby="welcome-choice-title"
@@ -64,7 +64,7 @@ export const WelcomeChoiceModal = ({
         </button>
 
         <div className="mb-6 text-center">
-          <p className="mb-2 text-sm font-medium text-accent-blue">
+          <p className="mb-2 text-sm font-medium text-muted-foreground">
             Willkommen{firstName ? `, ${firstName}` : ""}
           </p>
           <h2 id="welcome-choice-title" className="mb-2 text-2xl font-semibold tracking-tight md:text-3xl">
@@ -79,7 +79,7 @@ export const WelcomeChoiceModal = ({
           <Link
             to="/dashboard?view=themen&cat=starter"
             onClick={() => dismiss("anfaenger")}
-            className="press group rounded-xl border border-accent-blue/30 bg-accent/50 p-5 text-left hover:border-accent-blue/60 hover:shadow-card"
+            className="press group rounded-xl border border-foreground/25 bg-accent/50 p-5 text-left hover:border-foreground/30"
           >
             <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-card text-brand-green shadow-card">
               <Sprout className="h-5 w-5" aria-hidden="true" />
@@ -95,9 +95,9 @@ export const WelcomeChoiceModal = ({
 
           <button
             onClick={() => dismiss("profi")}
-            className="press group rounded-xl border border-border bg-card p-5 text-left hover:border-accent-blue/40 hover:shadow-card"
+            className="press group rounded-xl border border-border bg-card p-5 text-left hover:border-foreground/30"
           >
-            <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-accent text-accent-blue">
+            <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-secondary text-foreground/70">
               <Rocket className="h-5 w-5" aria-hidden="true" />
             </div>
             <div className="mb-1 text-base font-semibold">Schon selbstständig oder Profi</div>

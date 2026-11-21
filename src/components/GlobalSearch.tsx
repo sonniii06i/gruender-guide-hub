@@ -137,7 +137,7 @@ export const GlobalSearch = () => {
     <>
       <button
         onClick={() => setOpen(true)}
-        className="hidden h-9 min-w-[260px] items-center gap-2 rounded-lg border border-border bg-card px-3 text-[13px] text-muted-foreground shadow-sm transition-colors hover:border-accent-blue/40 hover:text-foreground sm:flex md:min-w-[340px]"
+        className="hidden h-9 min-w-[260px] items-center gap-2 rounded-md border border-border bg-background px-3 text-[13px] text-muted-foreground transition-colors hover:border-foreground/30 hover:text-foreground sm:flex md:min-w-[340px]"
         aria-label="Suche öffnen"
       >
         <Search className="h-3.5 w-3.5" aria-hidden="true" />

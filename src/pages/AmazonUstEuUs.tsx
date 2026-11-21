@@ -198,7 +198,7 @@ const AmazonUstEuUs = () => {
                 aria-pressed={aktiv}
                 onClick={() => setSelectedSlug(m.slug)}
                 className={`flex w-full items-start gap-3 rounded-xl border p-3 text-left transition-[border-color,background-color,box-shadow] ${
-                  aktiv ? "border-accent-blue/50 bg-card shadow-card ring-1 ring-accent-blue/20" : "border-border bg-card/60 hover:border-foreground/20 hover:bg-card"
+                  aktiv ? "border-foreground/25 bg-card shadow-card ring-1 ring-accent-blue/20" : "border-border bg-card/60 hover:border-foreground/20 hover:bg-card"
                 }`}
               >
                 <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-xs font-semibold ${aktiv ? "bg-primary text-primary-foreground" : "bg-secondary text-foreground"}`}>
@@ -270,7 +270,7 @@ const AmazonUstEuUs = () => {
               { to: "/cockpit/settlement-parser?mode=amazon", t: "Settlement-Parser", d: "CSV automatisch aufsplitten, SKR03-Mapping" },
               { to: "/cockpit/sales-tax-nexus", t: "Sales-Tax-Nexus US", d: "45 US-Staaten und DC: Wayfair-Schwellen prüfen" },
             ].map((l) => (
-              <Link key={l.to} to={l.to} className="press group rounded-xl border border-border bg-card p-4 hover:border-accent-blue/40 hover:shadow-card">
+              <Link key={l.to} to={l.to} className="press group rounded-xl border border-border bg-card p-4 hover:border-foreground/30">
                 <span className="flex items-center justify-between gap-2 text-sm font-semibold">
                   {l.t}
                   <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-accent-blue" aria-hidden="true" />

@@ -38,7 +38,7 @@ const ToolTrialPage = () => {
         <Seo title="Tool nicht gefunden | GründerX" description="Für dieses Tool gibt es keine kostenlose Probe." path={`/tools/${slug}/gratis`} noindex />
         <Navbar />
         <main className="container max-w-xl px-4 pb-24 pt-36 text-center">
-          <span className="mx-auto flex h-11 w-11 items-center justify-center rounded-xl bg-accent text-accent-blue">
+          <span className="mx-auto flex h-11 w-11 items-center justify-center rounded-xl bg-secondary text-foreground/70">
             <SearchX className="h-5 w-5" aria-hidden="true" />
           </span>
           <h1 className="mt-5 text-3xl font-semibold tracking-tight">Keine kostenlose Probe für dieses Tool</h1>

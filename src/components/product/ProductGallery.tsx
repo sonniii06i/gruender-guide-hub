@@ -44,7 +44,7 @@ export const ProductGallery = ({
           "relative overflow-hidden rounded-2xl border border-border",
           variant === "screenshot"
             ? "aspect-[16/10] bg-card shadow-card"
-            : "aspect-square bg-gradient-to-br from-muted/60 via-background to-muted/30",
+            : "aspect-square bg-secondary",
         )}
       >
         <img
@@ -74,11 +74,11 @@ export const ProductGallery = ({
               aria-label={img.alt}
               aria-current={i === active}
               className={cn(
-                "shrink-0 overflow-hidden rounded-lg border bg-muted/40 transition-all",
+                "shrink-0 overflow-hidden rounded-lg border bg-muted/40 transition-colors",
                 variant === "screenshot" ? "h-14 w-24" : "h-16 w-16",
                 i === active
                   ? "border-accent-blue ring-2 ring-accent-blue/30"
-                  : "border-border hover:border-accent-blue/50",
+                  : "border-border hover:border-foreground/30",
               )}
             >
               <img src={small(img.src)} alt="" aria-hidden width={720} height={450} className={cn("h-full w-full", variant === "screenshot" ? "object-cover object-top" : "object-contain p-1.5")} loading="lazy" />

@@ -126,7 +126,7 @@ const GruendungKomplett = () => {
 
       <main>
       {/* Hero -- wiederholt die Einblendung der Anzeige woertlich. */}
-      <section className="relative overflow-hidden border-b border-border/70 bg-hero pb-16 pt-28 md:pb-20 md:pt-32">
+      <section className="relative overflow-hidden border-b border-border/70 bg-hero pb-16 pt-28 md:pb-20 md:pt-24">
         <div
           className="pointer-events-none absolute inset-0 bg-dots [mask-image:linear-gradient(to_bottom,black,transparent_80%)]"
           aria-hidden="true"
@@ -136,7 +136,7 @@ const GruendungKomplett = () => {
             Für Gründerinnen und Gründer in Deutschland
           </span>
 
-          <h1 className="mt-6 text-balance text-[2.25rem] font-semibold leading-[1.05] tracking-[-0.04em] md:text-[3.5rem]">
+          <h1 className="mt-6 text-balance text-[1.875rem] font-semibold leading-[1.12] tracking-[-0.02em] md:text-[2.5rem]">
             <span className="block">{TOOL_COUNT} Werkzeuge zwischen</span>
             <span className="block text-accent-blue">Gewerbeschein und Steuererklärung.</span>
           </h1>
@@ -168,7 +168,7 @@ const GruendungKomplett = () => {
           {ETAPPEN.map((e, i) => (
             <li key={e.titel} className="rounded-2xl border border-border bg-card p-6 shadow-card">
               <div className="flex items-center justify-between">
-                <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent text-accent-blue">
+                <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-secondary text-foreground/70">
                   <e.icon className="h-5 w-5" aria-hidden="true" />
                 </span>
                 <span className="text-sm font-medium tabular text-muted-foreground">Etappe {i + 1}</span>

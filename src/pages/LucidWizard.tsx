@@ -360,7 +360,7 @@ const LucidWizard = ({ rahmen = true }: { rahmen?: boolean } = {}) => {
                   href={s.url}
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="group flex flex-col rounded-xl border border-border bg-card p-4 transition-colors hover:border-accent-blue/40"
+                  className="group flex flex-col rounded-xl border border-border bg-card p-4 transition-colors hover:border-foreground/30"
                 >
                   <div className="flex items-start justify-between gap-3">
                     <span className="text-sm font-semibold">{s.name}</span>

@@ -420,7 +420,7 @@ const BrandCheck = () => {
                         href={h.url}
                         target="_blank"
                         rel="noreferrer noopener"
-                        className="flex items-center gap-3 rounded-xl border border-border bg-card p-3 transition-colors hover:border-accent-blue/40"
+                        className="flex items-center gap-3 rounded-xl border border-border bg-card p-3 transition-colors hover:border-foreground/30"
                       >
                         {h.iconUrl && <img src={h.iconUrl} alt="" className="h-10 w-10 shrink-0 rounded-lg" />}
                         <div className="min-w-0">

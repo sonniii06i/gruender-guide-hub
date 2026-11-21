@@ -20,11 +20,11 @@ const PAINS = [
  * Ersetzt das alte IntroBand, das nur eine Zeile Empathie hatte.
  */
 export const ProblemBand = () => (
-  <section className="py-14 md:py-28">
+  <section className="py-14 md:py-20">
     <div className="container max-w-6xl">
       <div className="grid items-center gap-10 lg:grid-cols-[0.8fr,1.2fr] lg:gap-16">
         <div className="relative flex justify-center">
-          <div className="absolute inset-x-6 bottom-0 top-10 -z-10 rounded-[2rem] bg-secondary" aria-hidden="true" />
+          <div className="absolute inset-x-6 bottom-0 top-10 -z-10 rounded-xl bg-secondary" aria-hidden="true" />
           <Mascot
             name="felix-paperstack"
             alt="Felix steht ratlos vor einem meterhohen Stapel Formulare und Behördenpost"
@@ -33,7 +33,7 @@ export const ProblemBand = () => (
         </div>
 
         <div>
-          <h2 className="text-3xl font-semibold leading-[1.1] md:text-[2.75rem]">
+          <h2 className="text-2xl font-semibold leading-[1.1] md:text-[2rem]">
             Gründen scheitert selten an der Idee.
           </h2>
           <p className="mt-4 max-w-xl text-lg leading-relaxed text-muted-foreground">

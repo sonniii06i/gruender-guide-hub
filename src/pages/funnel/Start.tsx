@@ -55,8 +55,8 @@ const Start = () => (
     <section className="border-b border-border/70 bg-hero pb-14 pt-10 md:pb-20 md:pt-16">
       <div className="container grid max-w-6xl items-center gap-10 px-4 md:grid-cols-[1.05fr_1fr]">
         <div>
-          <p className="text-sm font-semibold uppercase tracking-wider text-accent-blue">Für Gründung im Nebenerwerb und Marketplace-Start</p>
-          <h1 className="mt-3 text-balance text-[2.2rem] font-semibold leading-[1.05] tracking-[-0.04em] md:text-[3.2rem]">
+          <p className="text-sm font-semibold text-muted-foreground">Für Gründung im Nebenerwerb und Marketplace-Start</p>
+          <h1 className="mt-3 text-balance text-[1.875rem] font-semibold leading-[1.12] tracking-[-0.02em] md:text-[2.5rem]">
             Dein Gewerbe richtig angemeldet. <span className="text-accent-blue">Zeile für Zeile.</span>
           </h1>
           <p className="mt-5 max-w-xl text-lg leading-relaxed text-muted-foreground">
@@ -138,7 +138,7 @@ const Start = () => (
       <div className="container max-w-xl px-4 text-center">
         <h2 className="text-balance text-2xl font-semibold tracking-tight md:text-[2rem]">Dein Einstieg</h2>
         <div className="mt-6 rounded-2xl border-2 border-primary bg-card p-7 text-left shadow-soft">
-          <p className="text-sm font-semibold uppercase tracking-wider text-accent-blue">Startangebot · nur Neukunden</p>
+          <p className="text-sm font-semibold text-muted-foreground">Startangebot · nur Neukunden</p>
           <p className="mt-2 text-4xl font-semibold tracking-tight tabular">1 € <span className="text-base font-normal text-muted-foreground">für 7 Tage</span></p>
           <p className="mt-1 text-sm text-muted-foreground tabular">danach {MONAT} / Monat · jederzeit kündbar</p>
           <ul className="mt-5 space-y-2 text-sm">
@@ -167,7 +167,7 @@ const Start = () => (
       </div>
     </section>
 
-    <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border/60 bg-background/95 px-4 py-2.5 pb-[calc(0.6rem+env(safe-area-inset-bottom))] backdrop-blur-md md:hidden">
+    <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border/60 bg-background px-4 py-2.5 pb-[calc(0.6rem+env(safe-area-inset-bottom))] md:hidden">
       <StartAngebotButton />
     </div>
   </FunnelShell>

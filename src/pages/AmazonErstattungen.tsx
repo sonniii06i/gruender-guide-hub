@@ -136,7 +136,7 @@ const AmazonErstattungen = () => (
           loading="lazy"
           width={160}
           height={197}
-          className="hidden w-40 drop-shadow-2xl md:block"
+          className="hidden w-40 md:block"
         />
       </div>
     </section>
@@ -147,7 +147,7 @@ const AmazonErstattungen = () => (
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
         {kpis.map((k) => (
           <div key={k.label} className="rounded-2xl border border-border bg-card p-5 shadow-card">
-            <span className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-accent text-accent-blue">
+            <span className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-secondary text-foreground/70">
               <k.icon className="h-5 w-5" aria-hidden="true" />
             </span>
             <p className="text-xl font-semibold tracking-tight">{k.stat}</p>
@@ -214,7 +214,7 @@ const AmazonErstattungen = () => (
     </ul>
 
     {/* Bridge-CTA unten */}
-    <section className="rounded-2xl border border-accent-blue/20 bg-accent/60 p-8 text-center md:p-10">
+    <section className="rounded-2xl border border-foreground/25 bg-accent/60 p-8 text-center md:p-10">
       <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">Bereit, deine Erstattungen einzusammeln?</h2>
       <p className="mx-auto mb-7 mt-3 max-w-2xl text-[15px] leading-relaxed text-muted-foreground">
         Arbitragex verbindet deinen Amazon-Seller-Account, findet erstattungsfähige Differenzen und reicht die Cases

@@ -343,7 +343,7 @@ const HkTaxHelper = () => {
         >
           <div className="mb-4 grid gap-2">
             {[...allDocs.map((d) => ({ url: d.url, label: d.label })), { url: IRD_EXT, label: "IRD: Block Extension Scheme" }].map((d) => (
-              <a key={d.url} href={d.url} target="_blank" rel="noreferrer" className="flex items-center gap-2 rounded-lg border border-border bg-background/60 p-2.5 text-sm transition-colors hover:border-accent-blue/40 hover:bg-card">
+              <a key={d.url} href={d.url} target="_blank" rel="noreferrer" className="flex items-center gap-2 rounded-lg border border-border bg-background/60 p-2.5 text-sm transition-colors hover:border-foreground/30 hover:bg-card">
                 <FileText className="h-4 w-4 shrink-0 text-accent-blue" aria-hidden="true" />
                 <span className="min-w-0 flex-1 truncate">{d.label}</span>
                 <ExternalLink className="h-3.5 w-3.5 shrink-0 text-muted-foreground" aria-hidden="true" />
@@ -364,7 +364,7 @@ const HkTaxHelper = () => {
           { to: "/cockpit/intl-banking", t: "US + HK Banking", d: "Banken im Vergleich" },
           { to: "/cockpit/dba-cfc", t: "DBA-CFC-Rechner", d: "Hinzurechnung & DBA DE-HK" },
         ].map((l) => (
-          <Link key={l.to} to={l.to} className="press group rounded-xl border border-border bg-background/60 p-3.5 hover:border-accent-blue/40 hover:bg-card">
+          <Link key={l.to} to={l.to} className="press group rounded-xl border border-border bg-background/60 p-3.5 hover:border-foreground/30 hover:bg-card">
             <span className="flex items-center justify-between gap-2 text-sm font-semibold">
               {l.t}
               <ArrowRight className="h-3.5 w-3.5 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-accent-blue" aria-hidden="true" />

@@ -986,7 +986,7 @@ const BwaGenerator = () => {
                 return (
                   <details
                     key={g.category}
-                    className={`group overflow-hidden rounded-xl border bg-card [&_summary::-webkit-details-marker]:hidden ${groupTotal > 0 ? "border-accent-blue/30" : "border-border"}`}
+                    className={`group overflow-hidden rounded-xl border bg-card [&_summary::-webkit-details-marker]:hidden ${groupTotal > 0 ? "border-foreground/25" : "border-border"}`}
                     open={groupTotal > 0}
                   >
                     <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 transition-colors hover:bg-secondary/40">

@@ -187,7 +187,7 @@ export default function StartupGuthaben() {
               </div>
               {profilGesetzt && (
                 <div className="mt-6 grid gap-3 sm:grid-cols-[auto_auto_1fr] sm:items-center">
-                  <div className="rounded-xl border border-accent-blue/20 bg-accent px-4 py-3">
+                  <div className="rounded-xl border border-foreground/25 bg-accent px-4 py-3">
                     <p className="text-sm text-muted-foreground">Passende Programme</p>
                     <p className="text-2xl font-semibold tabular">{passende.length}</p>
                   </div>
@@ -281,7 +281,7 @@ export default function StartupGuthaben() {
                       {p.vcNoetig === "teilweise" && <span className="shrink-0 rounded-md border border-info/20 bg-info-soft px-1.5 py-0.5 text-[11px] font-semibold text-info">Basis ohne Investor</span>}
                       {p.vcNoetig === true && <span className="shrink-0 rounded-md border border-border bg-secondary px-1.5 py-0.5 text-[11px] font-semibold text-muted-foreground">über Partner</span>}
                     </div>
-                    <p className="mt-3 text-lg font-semibold tracking-tight text-accent-blue">{p.wert}</p>
+                    <p className="mt-3 text-lg font-semibold tracking-tight text-muted-foreground">{p.wert}</p>
                     <ul className="mt-2 list-disc space-y-1 pl-4 text-sm leading-relaxed text-muted-foreground">
                       {p.leistungen.slice(0, 3).map((x) => <li key={x}>{x}</li>)}
                     </ul>

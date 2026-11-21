@@ -74,7 +74,7 @@ export function ToolTrialProvider({
       {!ohneHinweis && (
       <div className="container max-w-6xl px-4 md:px-6 pt-6">
         {phase === "frei" ? (
-          <div className="flex items-start gap-2 rounded-xl border border-accent-blue/30 bg-accent-blue/5 px-4 py-3 text-sm">
+          <div className="flex items-start gap-2 rounded-xl border border-foreground/25 bg-accent-blue/5 px-4 py-3 text-sm">
             <Gift className="mt-0.5 h-4 w-4 shrink-0 text-accent-blue" />
             <span>
               <strong>Kostenlos und ohne Anmeldung.</strong> Kein Konto, keine E-Mail, so oft du willst.
@@ -83,7 +83,7 @@ export function ToolTrialProvider({
         ) : phase === "spent" ? (
           <TrialUpsell tool={tool} variant="spent" />
         ) : (
-          <div className="flex items-start gap-2 rounded-xl border border-accent-blue/30 bg-accent-blue/5 px-4 py-3 text-sm">
+          <div className="flex items-start gap-2 rounded-xl border border-foreground/25 bg-accent-blue/5 px-4 py-3 text-sm">
             <Gift className="mt-0.5 h-4 w-4 shrink-0 text-accent-blue" />
             <span>
               <strong>1 kostenlose Prüfung, nur E-Mail nötig.</strong> Kein Konto, keine Zahlung. Unbegrenzt
@@ -177,7 +177,7 @@ export function TrialUpsell({
   noun?: "Prüfung" | "Nutzung";
 }) {
   return (
-    <div className="rounded-2xl border border-accent-blue/30 bg-accent-blue/5 p-5 md:p-6">
+    <div className="rounded-2xl border border-foreground/25 bg-accent-blue/5 p-5 md:p-6">
       <div className="flex items-start gap-3">
         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-primary text-primary-foreground">
           <Sparkles className="h-5 w-5" />

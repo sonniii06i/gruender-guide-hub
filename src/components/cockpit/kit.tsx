@@ -1,5 +1,5 @@
 /**
- * Baukasten für alle Cockpit-Tools (Redesign 10/2026).
+ * Baukasten für alle Cockpit-Tools (Redesign 10/2026, flacher Umbau 11/2026).
  *
  * Ziel: Jedes der Tools hat dieselbe Grammatik.
  *   CockpitShell        Seitenkopf (Kicker, H1, Untertitel) und Rahmen
@@ -38,7 +38,7 @@ const TONE_SOFT: Record<Tone, string> = {
   success: "border-success/25 bg-success-soft text-foreground",
   warning: "border-warning/25 bg-warning-soft text-foreground",
   danger: "border-danger/25 bg-danger-soft text-foreground",
-  accent: "border-accent-blue/20 bg-accent text-foreground",
+  accent: "border-border bg-secondary text-foreground",
 };
 const TONE_TEXT: Record<Tone, string> = {
   neutral: "text-muted-foreground",
@@ -74,9 +74,9 @@ export const ToolLayout = ({
   className?: string;
   resultFirstOnMobile?: boolean;
 }) => (
-  <div className={cn("grid items-start gap-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:gap-8", className)}>
-    <div className={cn("min-w-0 space-y-6", resultFirstOnMobile && "order-2 lg:order-1")}>{inputs}</div>
-    <div className={cn("min-w-0 space-y-6 lg:sticky lg:top-20", resultFirstOnMobile && "order-1 lg:order-2")}>{result}</div>
+  <div className={cn("grid items-start gap-5 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:gap-6", className)}>
+    <div className={cn("min-w-0 space-y-5", resultFirstOnMobile && "order-2 lg:order-1")}>{inputs}</div>
+    <div className={cn("min-w-0 space-y-5 lg:sticky lg:top-20", resultFirstOnMobile && "order-1 lg:order-2")}>{result}</div>
   </div>
 );
 
@@ -101,24 +101,20 @@ export const ToolSection = ({
   as?: ElementType;
   id?: string;
 }) => (
-  <As id={id} className={cn("rounded-2xl border border-border bg-card shadow-card", className)}>
+  <As id={id} className={cn("rounded-lg border border-border bg-card", className)}>
     {(title || actions) && (
-      <div className="flex flex-wrap items-start justify-between gap-3 border-b border-border/70 px-5 py-4 md:px-6">
-        <div className="flex min-w-0 items-start gap-3">
-          {Icon && (
-            <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-accent text-accent-blue">
-              <Icon className="h-4 w-4" aria-hidden="true" />
-            </span>
-          )}
+      <div className="flex flex-wrap items-start justify-between gap-3 border-b border-border px-5 py-3.5">
+        <div className="flex min-w-0 items-start gap-2.5">
+          {Icon && <Icon className="mt-[3px] h-4 w-4 shrink-0 text-muted-foreground" aria-hidden="true" />}
           <div className="min-w-0">
-            {title && <h2 className="text-base font-semibold leading-snug tracking-tight">{title}</h2>}
+            {title && <h2 className="text-[15px] font-semibold leading-snug">{title}</h2>}
             {description && <p className="mt-0.5 text-sm leading-relaxed text-muted-foreground">{description}</p>}
           </div>
         </div>
         {actions && <div className="flex shrink-0 flex-wrap items-center gap-2">{actions}</div>}
       </div>
     )}
-    <div className={cn("p-5 md:p-6", bodyClassName)}>{children}</div>
+    <div className={cn("p-5", bodyClassName)}>{children}</div>
   </As>
 );
 
@@ -155,7 +151,7 @@ export const Field = ({
 
 /** Klassen für native <select>, passend zu <Input>. */
 export const selectCls =
-  "h-10 w-full rounded-md border border-input bg-card px-3 text-sm shadow-[0_1px_2px_hsl(var(--primary)/0.04)] transition-[border-color,box-shadow] focus:border-ring focus:outline-none focus:ring-[3px] focus:ring-ring/25 disabled:opacity-50";
+  "h-10 w-full rounded-md border border-input bg-card px-3 text-sm transition-[border-color,box-shadow] focus:border-ring focus:outline-none focus:ring-[3px] focus:ring-ring/25 disabled:opacity-50";
 
 /** Segment-Auswahl. Ersetzt handgebaute Knopfreihen (aria-pressed inklusive). */
 export function ChoiceGroup<T extends string | number | boolean>({
@@ -184,11 +180,11 @@ export function ChoiceGroup<T extends string | number | boolean>({
             aria-pressed={active}
             onClick={() => onChange(o.value)}
             className={cn(
-              "rounded-lg border text-left font-medium transition-[background-color,border-color,color] duration-200 active:translate-y-px",
+              "rounded-md border text-left font-medium transition-[background-color,border-color,color] duration-150 active:translate-y-px",
               size === "sm" ? "px-2.5 py-1.5 text-xs" : "px-3.5 py-2 text-sm",
               active
                 ? "border-primary bg-primary text-primary-foreground"
-                : "border-border bg-card text-foreground/80 hover:border-foreground/25 hover:text-foreground",
+                : "border-foreground/20 bg-card text-foreground/80 hover:border-foreground/35 hover:text-foreground",
             )}
           >
             <span className="block">{o.label}</span>
@@ -234,22 +230,21 @@ export const ResultPanel = ({
     <section
       aria-live="polite"
       className={cn(
-        "relative overflow-hidden rounded-2xl border p-5 md:p-6",
-        ink ? "border-transparent bg-ink text-primary-foreground shadow-soft" : "border-accent-blue/20 bg-card shadow-soft",
+        "relative overflow-hidden rounded-lg border p-5",
+        ink ? "border-transparent bg-ink text-primary-foreground" : "border-border bg-card",
         className,
       )}
     >
-      {!ink && <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-accent-blue to-brand-green" aria-hidden="true" />}
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          {kicker && <p className={cn("text-sm font-medium", ink ? "text-brand-green-glow" : "text-accent-blue")}>{kicker}</p>}
-          {title && <h2 className={cn("text-base font-semibold tracking-tight", kicker && "mt-1")}>{title}</h2>}
+          {kicker && <p className={cn("text-sm font-medium", ink ? "text-brand-green-glow" : "text-muted-foreground")}>{kicker}</p>}
+          {title && <h2 className={cn("text-[15px] font-semibold", kicker && "mt-0.5")}>{title}</h2>}
         </div>
         {actions && <div className="flex flex-wrap gap-2">{actions}</div>}
       </div>
       {value !== undefined && (
         <div className="mt-4">
-          <div className="text-4xl font-semibold tracking-[-0.035em] tabular md:text-5xl">{value}</div>
+          <div className="text-[2rem] font-semibold leading-tight tracking-[-0.02em] tabular md:text-[2.5rem]">{value}</div>
           {valueHint && (
             <p className={cn("mt-1.5 text-sm", ink ? "text-primary-foreground/70" : "text-muted-foreground")}>{valueHint}</p>
           )}
@@ -291,7 +286,7 @@ export const StatTile = ({
 }) => (
   <div
     className={cn(
-      "rounded-xl border p-4",
+      "rounded-lg border p-4",
       emphasis ? TONE_SOFT[tone === "neutral" ? "accent" : tone] : "border-border bg-card",
       className,
     )}
@@ -299,7 +294,7 @@ export const StatTile = ({
     <p className="text-sm text-muted-foreground">{label}</p>
     <p
       className={cn(
-        "mt-1 font-semibold tracking-tight tabular",
+        "mt-1 font-semibold tabular",
         emphasis ? "text-2xl md:text-[1.7rem]" : "text-xl",
         tone !== "neutral" && TONE_TEXT[tone],
       )}
@@ -351,7 +346,7 @@ export const Callout = ({
 }) => {
   const Icon = icon === false ? null : icon ?? TONE_ICON[tone];
   return (
-    <div className={cn("flex gap-3 rounded-xl border p-4 text-sm leading-relaxed", TONE_SOFT[tone], className)}>
+    <div className={cn("flex gap-3 rounded-md border p-3.5 text-sm leading-relaxed", TONE_SOFT[tone], className)}>
       {Icon && <Icon className={cn("mt-0.5 h-4 w-4 shrink-0", TONE_TEXT[tone])} aria-hidden="true" />}
       <div className="min-w-0 flex-1">
         {title && <p className="font-semibold text-foreground">{title}</p>}
@@ -364,7 +359,7 @@ export const Callout = ({
 export const ToneBadge = ({ tone = "neutral", children, className }: { tone?: Tone; children: ReactNode; className?: string }) => (
   <span
     className={cn(
-      "inline-flex items-center gap-1 rounded-md border px-1.5 py-0.5 text-[11px] font-semibold leading-none",
+      "inline-flex items-center gap-1 rounded border px-1.5 py-0.5 text-[11px] font-semibold leading-none",
       TONE_SOFT[tone],
       TONE_TEXT[tone],
       className,
@@ -387,10 +382,8 @@ export const EmptyState = ({
   action?: ReactNode;
   className?: string;
 }) => (
-  <div className={cn("flex flex-col items-center rounded-2xl border border-dashed border-border bg-card/60 px-6 py-12 text-center", className)}>
-    <span className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-secondary text-muted-foreground">
-      <Icon className="h-5 w-5" aria-hidden="true" />
-    </span>
+  <div className={cn("flex flex-col items-center rounded-lg border border-dashed border-foreground/20 bg-card px-6 py-10 text-center", className)}>
+    <Icon className="mb-3 h-6 w-6 text-muted-foreground" aria-hidden="true" />
     <p className="font-semibold">{title}</p>
     {description && <p className="mt-1 max-w-md text-sm leading-relaxed text-muted-foreground">{description}</p>}
     {action && <div className="mt-5">{action}</div>}
@@ -401,12 +394,12 @@ export const EmptyState = ({
 
 /** Rahmen für <table>: scrollt mobil horizontal, Kopfzeile dezent, Zahlen tabellarisch. */
 export const KitTable = ({ children, className, caption }: { children: ReactNode; className?: string; caption?: ReactNode }) => (
-  <div className={cn("relative max-w-full overflow-x-auto rounded-xl border border-border bg-card [contain:paint]", className)}>
+  <div className={cn("relative max-w-full overflow-x-auto rounded-lg border border-border bg-card [contain:paint]", className)}>
     <table
       className={cn(
         "w-full border-collapse text-sm tabular",
-        "[&_thead_th]:bg-secondary/70 [&_thead_th]:px-3 [&_thead_th]:py-2.5 [&_thead_th]:text-left [&_thead_th]:text-xs [&_thead_th]:font-semibold [&_thead_th]:text-muted-foreground",
-        "[&_tbody_td]:border-t [&_tbody_td]:border-border/70 [&_tbody_td]:px-3 [&_tbody_td]:py-2.5 [&_tbody_tr:hover]:bg-secondary/30",
+        "[&_thead_th]:bg-secondary/70 [&_thead_th]:px-3 [&_thead_th]:py-2.5 [&_thead_th]:text-left [&_thead_th]:text-[13px] [&_thead_th]:font-semibold [&_thead_th]:text-foreground/75",
+        "[&_tbody_td]:border-t [&_tbody_td]:border-border [&_tbody_td]:px-3 [&_tbody_td]:py-2.5 [&_tbody_tr:hover]:bg-secondary/30",
         "[&_tfoot_td]:border-t [&_tfoot_td]:border-border [&_tfoot_td]:px-3 [&_tfoot_td]:py-2.5 [&_tfoot_td]:font-semibold",
       )}
     >

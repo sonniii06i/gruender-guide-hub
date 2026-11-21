@@ -367,7 +367,7 @@ const Admin = () => {
               )}
               {tickets.map((t) => (
                 <button key={t.id} onClick={() => openTicket(t)}
-                  className={`mb-1 w-full rounded-xl border p-3 text-left transition-colors ${selected?.id === t.id ? "border-accent-blue/25 bg-accent" : "border-transparent hover:bg-secondary/60"}`}>
+                  className={`mb-1 w-full rounded-xl border p-3 text-left transition-colors ${selected?.id === t.id ? "border-foreground/25 bg-accent" : "border-transparent hover:bg-secondary/60"}`}>
                   <div className="flex items-center justify-between gap-2">
                     <span className="truncate text-sm font-semibold">{t.subject}</span>
                     <StatusBadge status={t.status} />
@@ -400,7 +400,7 @@ const Admin = () => {
                       <p className="text-sm whitespace-pre-wrap">{selected.message}</p>
                     </div>
                     {msgs.map((m) => (
-                      <div key={m.id} className={`rounded-xl border p-4 ${m.author_role === "admin" ? "ml-6 border-accent-blue/20 bg-accent md:ml-8" : "mr-6 border-border bg-secondary/60 md:mr-8"}`}>
+                      <div key={m.id} className={`rounded-xl border p-4 ${m.author_role === "admin" ? "ml-6 border-foreground/25 bg-accent md:ml-8" : "mr-6 border-border bg-secondary/60 md:mr-8"}`}>
                         <div className="mb-1 text-xs font-semibold text-muted-foreground">
                           {m.author_role === "admin" ? "Du (Admin)" : selected.name} · {formatDistanceToNow(new Date(m.created_at), { addSuffix: true, locale: de })}
                         </div>
@@ -495,11 +495,11 @@ const Kpi = ({ icon: Icon, label, value, hint, accent }: { icon: any; label: str
   <div className={`rounded-2xl border p-5 ${accent ? "border-transparent bg-ink text-primary-foreground shadow-soft" : "border-border bg-card shadow-card"}`}>
     <div className="flex items-center justify-between gap-2">
       <span className={`text-sm font-medium ${accent ? "text-primary-foreground/75" : "text-muted-foreground"}`}>{label}</span>
-      <span className={`flex h-8 w-8 items-center justify-center rounded-lg ${accent ? "bg-white/10 text-brand-green-glow" : "bg-accent text-accent-blue"}`}>
+      <span className={`flex h-8 w-8 items-center justify-center rounded-lg ${accent ? "bg-white/10 text-brand-green-glow" : "bg-secondary text-foreground/70"}`}>
         <Icon className="h-4 w-4" aria-hidden="true" />
       </span>
     </div>
-    <div className="mt-2 text-3xl font-semibold tracking-[-0.03em] tabular">{value}</div>
+    <div className="mt-2 text-3xl font-semibold tracking-[-0.02em] tabular">{value}</div>
     {hint && <div className={`mt-1 text-xs leading-relaxed tabular ${accent ? "text-primary-foreground/70" : "text-muted-foreground"}`}>{hint}</div>}
   </div>
 );

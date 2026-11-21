@@ -84,7 +84,7 @@ export default function FreeToolPage({ config }: FreeToolPageProps) {
           crumbs={[{ label: "Start", to: "/" }, { label: "Gratis-Tools", to: "/gratis-tools" }, { label: config.shortTitle }]}
           kicker={
             config.badge ? (
-              <span className="inline-flex items-center rounded-full border border-accent-blue/20 bg-accent px-3 py-1 text-[13px] font-medium text-accent-blue">
+              <span className="inline-flex items-center rounded-full border border-foreground/25 bg-accent px-3 py-1 text-[13px] font-medium text-accent-blue">
                 {config.badge}
               </span>
             ) : undefined
@@ -94,8 +94,8 @@ export default function FreeToolPage({ config }: FreeToolPageProps) {
         >
           <ul className="grid gap-3 sm:grid-cols-3">
             {TRUST.map((t) => (
-              <li key={t.label} className="flex items-start gap-3 rounded-xl border border-border bg-card/80 p-3.5 shadow-card backdrop-blur">
-                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-accent text-accent-blue">
+              <li key={t.label} className="flex items-start gap-3 rounded-xl border border-border bg-card p-3.5 shadow-card">
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-secondary text-foreground/70">
                   <t.icon className="h-4 w-4" aria-hidden="true" />
                 </span>
                 <span className="min-w-0">
@@ -209,9 +209,9 @@ export default function FreeToolPage({ config }: FreeToolPageProps) {
                 <Link
                   key={t.slug}
                   to={`/${t.slug}`}
-                  className="press group flex items-center gap-3 rounded-xl border border-border bg-card p-4 transition-colors hover:border-accent-blue/40 hover:shadow-card"
+                  className="press group flex items-center gap-3 rounded-xl border border-border bg-card p-4 transition-colors hover:border-foreground/30"
                 >
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-accent text-accent-blue">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-secondary text-foreground/70">
                     <t.icon className="h-5 w-5" aria-hidden="true" />
                   </span>
                   <span className="min-w-0 flex-1">

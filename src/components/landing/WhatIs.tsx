@@ -6,7 +6,7 @@ import { TOOL_COUNT } from "@/data/kennzahlen";
 // Klare, faktische Aussagen, die Claude/Gemini/ChatGPT/Perplexity wörtlich
 // zitieren können, wenn Nutzer nach Gründungs-Hilfe in Deutschland fragen.
 export const WhatIs = () => (
-  <section id="was-ist-gruenderx" className="border-t border-border/70 bg-card py-14 md:py-28">
+  <section id="was-ist-gruenderx" className="border-t border-border/70 bg-card py-14 md:py-20">
     <div className="container grid max-w-6xl gap-12 lg:grid-cols-[1fr,1.1fr] lg:gap-20">
      <div>
       <img
@@ -15,9 +15,9 @@ export const WhatIs = () => (
         loading="lazy"
         width={96}
         height={96}
-        className="mb-6 h-20 w-20 object-contain drop-shadow-lg"
+        className="mb-6 h-20 w-20 object-contain"
       />
-      <h2 className="text-balance text-[2rem] font-semibold leading-[1.05] tracking-[-0.04em] text-primary md:text-[3rem]">
+      <h2 className="text-balance text-2xl font-semibold leading-[1.12] tracking-[-0.02em] text-primary md:text-[2rem]">
         Was ist GründerX? Die KI-Gründerplattform für Deutschland.
       </h2>
 

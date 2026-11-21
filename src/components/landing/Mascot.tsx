@@ -43,6 +43,6 @@ export const Mascot = ({
     // deshalb klein durchreichen.
     {...(priority ? { fetchpriority: "high" } : {})}
     decoding="async"
-    className={`object-contain drop-shadow-xl ${className}`}
+    className={`object-contain ${className}`}
   />
 );

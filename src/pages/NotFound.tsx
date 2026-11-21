@@ -31,8 +31,8 @@ const NotFound = () => {
       <Navbar />
       <main className="flex-1 bg-hero">
         <div className="container max-w-3xl px-4 pb-20 pt-32 md:pt-40">
-          <p className="text-sm font-medium text-accent-blue tabular">Fehler 404</p>
-          <h1 className="mt-3 text-4xl font-semibold tracking-[-0.04em] md:text-5xl">Diese Seite gibt es nicht.</h1>
+          <p className="text-sm font-medium text-muted-foreground tabular">Fehler 404</p>
+          <h1 className="mt-3 text-[1.875rem] font-semibold tracking-[-0.02em] md:text-[2.5rem]">Diese Seite gibt es nicht.</h1>
           <p className="mt-4 max-w-xl text-lg leading-relaxed text-muted-foreground">
             Die Adresse <code className="rounded bg-secondary px-1.5 py-0.5 text-[0.9em] text-foreground">{location.pathname}</code>{" "}
             führt ins Leere. Vielleicht hilft dir einer dieser Einstiege weiter.
@@ -43,7 +43,7 @@ const NotFound = () => {
               <Link
                 key={z.to}
                 to={z.to}
-                className="press group flex items-center justify-between gap-3 rounded-xl border border-border bg-card p-4 hover:border-accent-blue/40 hover:shadow-card"
+                className="press group flex items-center justify-between gap-3 rounded-xl border border-border bg-card p-4 hover:border-foreground/30"
               >
                 <span>
                   <span className="block font-semibold">{z.title}</span>

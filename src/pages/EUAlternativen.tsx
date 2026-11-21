@@ -140,7 +140,7 @@ const EUAlternativen = () => {
             key={s.slug}
             type="button"
             onClick={() => setSelected(s)}
-            className="press group rounded-2xl border border-border bg-card p-5 text-left shadow-card transition-[border-color,box-shadow] duration-200 hover:border-accent-blue/40 hover:shadow-soft"
+            className="press group rounded-2xl border border-border bg-card p-5 text-left shadow-card transition-[border-color,box-shadow] duration-200 hover:border-foreground/30"
           >
             <div className="flex items-start justify-between gap-3">
               <div className="flex min-w-0 items-center gap-3">
@@ -289,7 +289,7 @@ const RealStructureCard = ({ rs }: { rs: RealStructure }) => {
                 ))}
               </ul>
             </div>
-            <div className="rounded-xl border border-accent-blue/20 bg-accent p-4">
+            <div className="rounded-xl border border-foreground/25 bg-accent p-4">
               <p className="text-sm font-semibold">Steuer-Logik</p>
               <p className="mt-2 text-sm leading-relaxed text-foreground/80">{rs.taxLogic}</p>
             </div>

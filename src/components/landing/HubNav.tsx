@@ -21,7 +21,7 @@ export const HubNav = ({ show }: { show: (keyof typeof ALL)[] }) => (
           <Link
             key={key}
             to={item.to}
-            className="press group rounded-xl border border-border bg-card p-4 hover:border-accent-blue/40 hover:shadow-card"
+            className="press group rounded-xl border border-border bg-card p-4 hover:border-foreground/30"
           >
             <div className="flex items-center gap-2 mb-1">
               <Icon className="h-4 w-4 text-accent-blue" />

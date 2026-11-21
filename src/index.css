@@ -2,89 +2,88 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Font: Geist (index.html, Google Fonts, variabel 400-800).
-   Redesign 10/2026, Richtung "Fintech-Vertrauen": tiefes Navy als Tinte,
-   ein Akzent-Blau, Felix-Grün als zweite Markenfarbe. Alle Grautöne kommen
-   aus derselben kühlen Familie (Hue 214-222), Schatten sind navy getönt. */
+/* Font: Geist (index.html, variabel 400-800).
+   Umbau 11/2026, Richtung "Buchhaltungs-Software": helle graue Arbeitsfläche,
+   weiße Flächen mit 1-px-Linie statt Schatten, kleine Radien. Navy ist Tinte
+   und Hauptknopf, Grün steht nur für Fortschritt und Erledigt, Blau nur für
+   Links. Keine Verläufe, kein Glow, keine Flächentextur. */
 
 @layer base {
   :root {
-    --background: 214 38% 98%;
-    --foreground: 222 52% 12%;
+    --background: 220 20% 97%;
+    --foreground: 222 47% 13%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222 52% 12%;
+    --card-foreground: 222 47% 13%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222 52% 12%;
+    --popover-foreground: 222 47% 13%;
 
     --primary: 223 70% 23%;
-    --primary-foreground: 210 40% 98%;
+    --primary-foreground: 0 0% 100%;
 
-    /* Akzent leicht entsättigt (vorher 90 %), damit er neben Navy ruhiger steht. */
-    --accent-blue: 221 80% 52%;
+    /* Link-Blau: dunkel genug für 4,5:1 auf Weiß und auf der grauen Fläche. */
+    --accent-blue: 221 72% 42%;
     --accent-blue-foreground: 0 0% 100%;
 
-    --secondary: 216 33% 95.5%;
-    --secondary-foreground: 222 52% 12%;
+    --secondary: 220 18% 94.5%;
+    --secondary-foreground: 222 47% 13%;
 
-    --muted: 216 33% 95.5%;
-    /* Dunkler als vorher (47 %), damit Fliesstext auf Weiss sicher AA erreicht. */
-    --muted-foreground: 217 18% 40%;
+    --muted: 220 18% 94.5%;
+    --muted-foreground: 220 12% 38%;
 
-    --accent: 220 85% 95.5%;
+    --accent: 220 24% 94%;
     --accent-foreground: 223 70% 23%;
 
-    --success: 152 58% 34%;
+    --success: 152 58% 30%;
     --success-foreground: 0 0% 100%;
-    --success-soft: 150 50% 95%;
+    --success-soft: 150 40% 95%;
 
-    /* Status-Töne für Tool-Ergebnisse (Ampel, Hinweise). Statt roher
-       emerald/amber/red-Klassen in den Seiten: success / warning / danger / info. */
-    --warning: 32 92% 38%;
+    /* Status-Töne für Tool-Ergebnisse (Ampel, Hinweise). */
+    --warning: 32 92% 34%;
     --warning-foreground: 0 0% 100%;
-    --warning-soft: 40 90% 95%;
-    --danger: 0 68% 46%;
-    --danger-soft: 0 80% 97%;
-    --info: 221 80% 46%;
-    --info-soft: 220 85% 96.5%;
+    --warning-soft: 40 80% 95%;
+    --danger: 0 68% 44%;
+    --danger-soft: 0 70% 97%;
+    --info: 221 72% 42%;
+    --info-soft: 220 50% 96.5%;
 
-    /* Felix-Grün als Markenfarbe. Bewusst getrennt von --success:
-       success ist ein Status, brand-green ist die zweite Markenfarbe
-       neben dem Navy und harmoniert mit dem Mint des Maskottchens. */
-    --brand-green: 156 46% 34%;
+    /* Felix-Grün: zweite Markenfarbe, in der Oberfläche nur für Fortschritt
+       und Erledigt. Getrennt von --success (Status). */
+    --brand-green: 156 50% 30%;
     --brand-green-foreground: 0 0% 100%;
-    --brand-green-glow: 150 55% 58%;
-    --brand-green-soft: 150 50% 94%;
+    /* nur auf dunklem Navy (Ergebnis-Karte) */
+    --brand-green-glow: 150 48% 72%;
+    --brand-green-soft: 150 36% 94%;
 
-    --destructive: 0 72% 51%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 68% 44%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 216 26% 89%;
-    --input: 216 22% 84%;
-    --ring: 221 80% 52%;
+    --border: 220 16% 88%;
+    /* Rahmen von Eingabefeldern: 3:1 gegen Weiß. */
+    --input: 220 11% 56%;
+    --ring: 221 72% 42%;
 
-    /* Radien: Container 16px (rounded-2xl), Komponenten 12px (lg), Inputs 10px (md). */
-    --radius: 0.75rem;
+    /* Radien: Knöpfe und Felder 6px (md), Karten 8px (lg/xl), große Flächen 10-12px. */
+    --radius: 0.5rem;
 
-    --gradient-hero:
-      radial-gradient(60% 55% at 85% 0%, hsl(221 80% 52% / 0.10) 0%, transparent 70%),
-      radial-gradient(45% 50% at 0% 10%, hsl(156 46% 45% / 0.08) 0%, transparent 70%),
-      linear-gradient(180deg, hsl(214 45% 97%) 0%, hsl(214 38% 98%) 100%);
-    --gradient-primary: linear-gradient(160deg, hsl(223 68% 27%) 0%, hsl(223 72% 19%) 100%);
-    --gradient-ink: linear-gradient(160deg, hsl(223 60% 17%) 0%, hsl(224 64% 11%) 100%);
-    --shadow-soft: 0 2px 4px -2px hsl(223 70% 23% / 0.06), 0 12px 32px -12px hsl(223 70% 23% / 0.16);
-    --shadow-card: 0 1px 0 hsl(223 70% 23% / 0.03), 0 1px 3px hsl(223 70% 23% / 0.05), 0 10px 24px -16px hsl(223 70% 23% / 0.12);
-    --shadow-glow: 0 1px 0 hsl(0 0% 100% / 0.12) inset, 0 8px 24px -10px hsl(223 70% 23% / 0.55);
+    /* Die drei Namen bleiben, weil 150 Seiten sie benutzen; sie sind jetzt flach. */
+    --gradient-hero: none;
+    --gradient-primary: none;
+    --gradient-ink: none;
+    --ink: 223 58% 16%;
+    --shadow-card: 0 1px 2px hsl(222 47% 13% / 0.04);
+    --shadow-soft: 0 1px 2px hsl(222 47% 13% / 0.05), 0 6px 16px -8px hsl(222 47% 13% / 0.14);
+    --shadow-glow: 0 1px 2px hsl(222 47% 13% / 0.04);
 
-    --sidebar-background: 214 38% 98%;
-    --sidebar-foreground: 222 30% 26%;
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 222 24% 28%;
     --sidebar-primary: 223 70% 23%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 216 33% 94%;
-    --sidebar-accent-foreground: 222 52% 12%;
-    --sidebar-border: 216 26% 90%;
-    --sidebar-ring: 221 80% 52%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 18% 94.5%;
+    --sidebar-accent-foreground: 222 47% 13%;
+    --sidebar-border: 220 16% 88%;
+    --sidebar-ring: 221 72% 42%;
   }
 }
 
@@ -106,11 +105,11 @@
   }
   h1, h2, h3, h4 {
     font-family: inherit;
-    letter-spacing: -0.025em;
+    letter-spacing: -0.015em;
     text-wrap: balance;
   }
   h1 {
-    letter-spacing: -0.035em;
+    letter-spacing: -0.022em;
   }
   p {
     text-wrap: pretty;
@@ -122,7 +121,7 @@
     outline: none;
   }
   ::selection {
-    background: hsl(var(--accent-blue) / 0.18);
+    background: hsl(var(--accent-blue) / 0.16);
   }
   :focus-visible {
     outline-color: hsl(var(--ring));
@@ -140,22 +139,20 @@
 }
 
 @layer utilities {
+  /* Frühere Verlaufs- und Texturklassen: gleiche Namen, flache Flächen. */
   .bg-hero {
-    background: var(--gradient-hero);
+    background: hsl(var(--background));
   }
   .bg-gradient-primary {
-    background-image: var(--gradient-primary);
+    background-color: hsl(var(--primary));
+    background-image: none;
   }
   .bg-ink {
-    background-image: var(--gradient-ink);
+    background-color: hsl(var(--ink));
+    background-image: none;
   }
   .text-gradient-primary {
-    background-image: linear-gradient(135deg, hsl(223 70% 23%), hsl(221 80% 46%));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    -webkit-text-fill-color: transparent;
-    padding-bottom: 0.1em;
+    color: hsl(var(--primary));
   }
   .shadow-soft {
     box-shadow: var(--shadow-soft);
@@ -172,21 +169,16 @@
   .tabular {
     font-variant-numeric: tabular-nums;
   }
-  /* Feines Punktraster als Flächentextur (Hero, dunkle Bänder). */
-  .bg-dots {
-    background-image: radial-gradient(hsl(223 70% 23% / 0.09) 1px, transparent 1px);
-    background-size: 22px 22px;
-  }
+  .bg-dots,
   .bg-dots-light {
-    background-image: radial-gradient(hsl(0 0% 100% / 0.08) 1px, transparent 1px);
-    background-size: 22px 22px;
+    background-image: none;
   }
-  /* Taktiles Feedback für Knöpfe und Kachel-Links. */
+  /* Rückmeldung beim Drücken: nur Farbe und Rahmen, 1px Weg. */
   .press {
-    transition: transform 160ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 200ms ease, background-color 200ms ease, border-color 200ms ease;
+    transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease, box-shadow 150ms ease;
   }
   .press:active {
-    transform: translateY(1px) scale(0.99);
+    transform: translateY(1px);
   }
 }
 
@@ -194,10 +186,6 @@
 @keyframes gx-marquee { from { transform: translateX(0) } to { transform: translateX(-50%) } }
 .gx-marquee { animation: gx-marquee 38s linear infinite; }
 @media (prefers-reduced-motion: reduce) { .gx-marquee { animation: none; } }
-
-@keyframes floaty { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-14px)} }
-.animate-floaty { animation: floaty 4.5s ease-in-out infinite; }
-@media (prefers-reduced-motion: reduce){ .animate-floaty{animation:none} }
 
 /* ---------- Tippziele auf Touch-Geraeten ----------
    Gemessen bei 375px: 16 Links unter 32px Hoehe -- Footer-Sitemap (17px)
@@ -230,8 +218,8 @@
 
 /* ── Hero-Szene „Fahrplan“ (components/landing/HeroFahrplan.tsx) ────── */
 .gx-plan { margin: 0; }
-.gx-plan-fenster { background: hsl(var(--card)); border: 1px solid hsl(var(--border)); border-radius: 18px; overflow: hidden;
-  box-shadow: 0 40px 80px -44px hsl(223 70% 23% / .5), 0 10px 24px -18px hsl(223 70% 23% / .3); }
+.gx-plan-fenster { background: hsl(var(--card)); border: 1px solid hsl(var(--border)); border-radius: 10px; overflow: hidden;
+  box-shadow: var(--shadow-soft); }
 .gx-plan-kopf { display: flex; align-items: center; gap: 12px; padding: 16px 20px; border-bottom: 1px solid hsl(var(--border)); }
 .gx-plan-felix { width: 36px; height: 36px; border-radius: 999px; background: hsl(var(--brand-green-soft)); flex: none; object-fit: cover; }
 .gx-plan-titel { margin: 0; font-size: 15px; font-weight: 600; letter-spacing: -0.01em; color: hsl(var(--foreground)); }
@@ -251,21 +239,21 @@
   font-size: 12.5px; font-weight: 600; font-variant-numeric: tabular-nums; background: hsl(var(--card)); border: 1.5px solid hsl(var(--border)); color: hsl(var(--muted-foreground)); }
 .gx-plan-knoten svg { width: 15px; height: 15px; }
 [data-status="erledigt"] > .gx-plan-knoten { background: hsl(var(--brand-green)); border-color: hsl(var(--brand-green)); color: #fff; }
-[data-status="jetzt"] > .gx-plan-knoten { background: hsl(var(--accent-blue)); border-color: hsl(var(--accent-blue)); color: #fff; box-shadow: 0 0 0 5px hsl(var(--accent-blue) / .15); }
+[data-status="jetzt"] > .gx-plan-knoten { background: hsl(var(--primary)); border-color: hsl(var(--primary)); color: #fff; box-shadow: 0 0 0 4px hsl(var(--primary) / .12); }
 
 .gx-plan-zeile { width: 100%; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 4px 16px; min-height: 48px; padding: 6px 10px; margin: 0 -10px;
-  text-align: left; border-radius: 10px; transition: background-color .15s; width: calc(100% + 20px); }
+  text-align: left; border-radius: 6px; transition: background-color .15s; width: calc(100% + 20px); }
 .gx-plan-zeile:hover { background: hsl(var(--muted) / .6); }
 .gx-plan-zeile:focus-visible { outline: 2px solid hsl(var(--ring)); outline-offset: 0; }
 .gx-plan-name { font-size: 15px; font-weight: 600; line-height: 1.3; color: hsl(var(--foreground)); }
 [data-status="erledigt"] .gx-plan-name { color: hsl(var(--muted-foreground)); font-weight: 500; }
-.gx-plan-jetzt { margin-left: 8px; display: inline-block; padding: 1px 8px; border-radius: 99px; font-size: 12px; font-weight: 600; vertical-align: 1px;
-  color: hsl(var(--accent-blue)); background: hsl(var(--accent-blue) / .1); }
+.gx-plan-jetzt { margin-left: 8px; display: inline-block; padding: 1px 7px; border-radius: 4px; font-size: 12px; font-weight: 600; vertical-align: 1px;
+  color: hsl(var(--primary)); background: hsl(var(--secondary)); border: 1px solid hsl(var(--border)); }
 .gx-plan-frist { display: flex; flex-direction: column; align-items: flex-end; font-size: 13px; line-height: 1.3; color: hsl(var(--foreground)); white-space: nowrap; }
 .gx-plan-norm { font-size: 12px; color: hsl(var(--muted-foreground)); }
 .gx-plan-hinweis { padding: 2px 0 10px; }
-.gx-plan-hinweis p { margin: 0; padding: 10px 14px; border-radius: 10px; font-size: 14px; line-height: 1.5; color: hsl(var(--foreground) / .85);
-  background: hsl(var(--accent-blue) / .07); border: 1px solid hsl(var(--accent-blue) / .14); }
+.gx-plan-hinweis p { margin: 0; padding: 10px 14px; border-radius: 6px; font-size: 14px; line-height: 1.5; color: hsl(var(--foreground) / .85);
+  background: hsl(var(--secondary)); border: 1px solid hsl(var(--border)); }
 .gx-plan-caption { margin-top: 12px; font-size: 12.5px; line-height: 1.5; color: hsl(var(--muted-foreground)); }
 
 /* Einziger Bewegungsmoment beim Laden: Fortschritt fuellt sich, der
@@ -276,7 +264,7 @@
   .gx-plan-hinweis:not([hidden]) p { animation: gx-auf 260ms ease-out both; }
 }
 @keyframes gx-fuellen { from { width: 0; } }
-@keyframes gx-puls { 0% { box-shadow: 0 0 0 0 hsl(var(--accent-blue) / .45); } 70% { box-shadow: 0 0 0 12px hsl(var(--accent-blue) / 0); } 100% { box-shadow: 0 0 0 5px hsl(var(--accent-blue) / .15); } }
+@keyframes gx-puls { 0% { box-shadow: 0 0 0 0 hsl(var(--primary) / .35); } 70% { box-shadow: 0 0 0 10px hsl(var(--primary) / 0); } 100% { box-shadow: 0 0 0 4px hsl(var(--primary) / .12); } }
 @keyframes gx-auf { from { opacity: 0; transform: translateY(-3px); } }
 
 @media (max-width: 639px) {

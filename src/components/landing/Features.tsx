@@ -47,9 +47,9 @@ const features = [
 /* Bento: 6 Leistungen, 6 Zellen. Rechtsform breit (Einstiegsthema), Felix als
    hohe dunkle Kachel (das Herzstück), Banking breit unten. Mobil einspaltig. */
 const LAYOUT: Record<string, string> = {
-  "Rechtsform & Gründung": "lg:col-span-2 bg-accent/70 border-accent-blue/15",
+  "Rechtsform & Gründung": "lg:col-span-2",
   "Felix – KI-Chat 24/7": "lg:row-span-2 bg-ink text-primary-foreground border-transparent",
-  "Banking, Förderungen & Versicherung": "lg:col-span-2 bg-brand-green-soft/70 border-brand-green/15",
+  "Banking, Förderungen & Versicherung": "lg:col-span-2",
 };
 
 const ORDER = [
@@ -63,13 +63,13 @@ const ORDER = [
 const ordered = ORDER.map((t) => features.find((f) => f.title === t)!).filter(Boolean);
 
 export const Features = () => (
-  <section id="leistungen" className="border-y border-border/70 bg-secondary/50 py-14 md:py-28">
+  <section id="leistungen" className="border-y border-border bg-background py-12 md:py-20">
     <div className="container max-w-6xl">
-      <div className="mb-12 max-w-3xl">
-        <p className="mb-4 text-[13px] font-semibold uppercase tracking-[0.14em] text-accent-blue">Was GründerX kann</p>
+      <div className="mb-8 max-w-2xl md:mb-10">
+        <p className="mb-2 text-[13px] font-semibold text-muted-foreground">Was GründerX kann</p>
         {/* Felix bewusst entfernt: er stand hier nur dekorativ. Er tritt jetzt
             dort auf, wo er etwas tut (Hero, Problem, Guides, Seller, CTA). */}
-        <h2 className="text-balance text-[2rem] font-semibold leading-[1.05] tracking-[-0.04em] text-primary md:text-[3rem]">
+        <h2 className="text-balance text-2xl font-semibold leading-[1.12] tracking-[-0.02em] text-primary md:text-[2rem]">
           Alles, was du zum Gründen brauchst, an einem Ort.
         </h2>
       </div>
@@ -80,16 +80,10 @@ export const Features = () => (
           return (
             <div
               key={f.title}
-              className={cn("relative flex w-[84%] shrink-0 snap-start flex-col overflow-hidden rounded-2xl border border-border bg-card p-6 md:w-auto md:p-7", LAYOUT[f.title])}
+              className={cn("relative flex w-[84%] shrink-0 snap-start flex-col overflow-hidden rounded-lg border border-border bg-card p-5 md:w-auto md:p-6", LAYOUT[f.title])}
             >
-              <div
-                className={`mb-6 flex h-11 w-11 items-center justify-center rounded-xl ${
-                  dark ? "bg-white/10 text-brand-green-glow" : "bg-card text-accent-blue shadow-card"
-                }`}
-              >
-                <f.icon className="h-5 w-5" aria-hidden="true" />
-              </div>
-              <h3 className="mb-2 text-lg font-semibold">{f.title.replace(" – ", ": ")}</h3>
+              <f.icon className={`mb-4 h-5 w-5 ${dark ? "text-primary-foreground/80" : "text-muted-foreground"}`} aria-hidden="true" />
+              <h3 className="mb-1.5 text-base font-semibold">{f.title.replace(" – ", ": ")}</h3>
               <p className={`max-w-prose text-[15px] leading-relaxed ${dark ? "text-primary-foreground/75" : "text-muted-foreground"}`}>
                 {f.desc}
               </p>
@@ -101,7 +95,7 @@ export const Features = () => (
                   loading="lazy"
                   width={160}
                   height={197}
-                  className="pointer-events-none mt-auto hidden w-40 self-end pt-6 drop-shadow-2xl lg:block"
+                  className="pointer-events-none mt-auto hidden w-40 self-end pt-6 lg:block"
                 />
               )}
             </div>
@@ -113,24 +107,20 @@ export const Features = () => (
           Belegbar: laufende Faktenprüfung (growth-aktualitaet, Commits „Aktualitaet …“) und die Feeds im GründerX-Discord (DISCORD_INVITE_URL).
           Kein „Community“-Versprechen, solange der Server kaum Mitglieder hat (14.11.2026: 3 laut Einladungs-API). */}
       <div className="mt-4 grid gap-3 md:grid-cols-2 md:gap-4">
-        <div className="flex gap-4 rounded-2xl border border-border bg-card p-6 md:p-7">
-          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-card text-accent-blue shadow-card">
-            <RefreshCw className="h-5 w-5" aria-hidden="true" />
-          </div>
+        <div className="flex gap-3 rounded-lg border border-border bg-card p-5 md:p-6">
+          <RefreshCw className="mt-1 h-4 w-4 shrink-0 text-muted-foreground" aria-hidden="true" />
           <div>
-            <h3 className="mb-2 text-lg font-semibold">Immer auf dem aktuellen Stand</h3>
+            <h3 className="mb-1.5 text-base font-semibold">Immer auf dem aktuellen Stand</h3>
             <p className="max-w-prose text-[15px] leading-relaxed text-muted-foreground">
               Keine Tutorials von vor drei Jahren: Wir prüfen Ratgeber, Förderprogramme und Anbieterpreise laufend gegen Gesetze und
               Primärquellen und korrigieren, was sich ändert.
             </p>
           </div>
         </div>
-        <div className="flex gap-4 rounded-2xl border border-border bg-card p-6 md:p-7">
-          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-card text-accent-blue shadow-card">
-            <Users className="h-5 w-5" aria-hidden="true" />
-          </div>
+        <div className="flex gap-3 rounded-lg border border-border bg-card p-5 md:p-6">
+          <Users className="mt-1 h-4 w-4 shrink-0 text-muted-foreground" aria-hidden="true" />
           <div>
-            <h3 className="mb-2 text-lg font-semibold">Gründer-Feeds im Discord</h3>
+            <h3 className="mb-1.5 text-base font-semibold">Gründer-Feeds im Discord</h3>
             <p className="max-w-prose text-[15px] leading-relaxed text-muted-foreground">
               Im{" "}
               <a href={DISCORD_INVITE_URL} target="_blank" rel="noopener noreferrer" className="font-medium text-accent-blue underline-offset-4 hover:underline">

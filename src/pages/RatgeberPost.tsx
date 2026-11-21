@@ -113,7 +113,7 @@ const RatgeberPost = () => {
     return (
       <PublicShell>
         <div className="container max-w-xl px-4 pb-24 pt-36 text-center">
-          <span className="mx-auto flex h-11 w-11 items-center justify-center rounded-xl bg-accent text-accent-blue">
+          <span className="mx-auto flex h-11 w-11 items-center justify-center rounded-xl bg-secondary text-foreground/70">
             <BookOpen className="h-5 w-5" aria-hidden="true" />
           </span>
           <h1 className="mt-5 text-3xl font-semibold tracking-tight">Artikel nicht gefunden</h1>
@@ -228,7 +228,7 @@ const RatgeberPost = () => {
       />
 
       <article>
-        <header className={`relative overflow-hidden border-b border-border/70 bg-hero pt-28 md:pt-32 ${titelbild ? "pb-16" : "pb-12 md:pb-14"}`}>
+        <header className={`relative overflow-hidden border-b border-border/70 bg-hero pt-28 md:pt-24 ${titelbild ? "pb-16" : "pb-12 md:pb-14"}`}>
           <div
             className="pointer-events-none absolute inset-0 bg-dots [mask-image:linear-gradient(to_bottom,black,transparent_80%)]"
             aria-hidden="true"
@@ -242,7 +242,7 @@ const RatgeberPost = () => {
             </Link>
 
             <div className="mb-5 flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-muted-foreground">
-              <span className="inline-flex items-center rounded-full border border-accent-blue/20 bg-accent px-3 py-0.5 text-[13px] font-medium text-accent-blue">
+              <span className="inline-flex items-center rounded-full border border-foreground/25 bg-accent px-3 py-0.5 text-[13px] font-medium text-accent-blue">
                 {post.category}
               </span>
               {/* Byline (Betreiber 12.11.2026: „Byline Sonni Buttke“; Recherche: Rechts-/Steuer-Ratgeber mit benannter Person ranken
@@ -272,14 +272,14 @@ const RatgeberPost = () => {
               )}
             </div>
 
-            <h1 className="text-balance text-[2.1rem] font-semibold leading-[1.08] tracking-[-0.035em] md:text-[3rem]">
+            <h1 className="text-balance text-[1.875rem] font-semibold leading-[1.12] tracking-[-0.02em] md:text-[2.5rem]">
               {post.title}
             </h1>
             <p className="mt-5 text-pretty text-lg leading-relaxed text-muted-foreground">{post.excerpt}</p>
             {kanonisch && (
               <a
                 href={kanonisch.url}
-                className="mt-6 inline-flex items-center gap-1 rounded-xl border border-accent-blue/40 bg-card px-4 py-3 text-sm font-semibold text-accent-blue hover:border-accent-blue transition-colors"
+                className="mt-6 inline-flex items-center gap-1 rounded-xl border border-foreground/25 bg-card px-4 py-3 text-sm font-semibold text-accent-blue hover:border-foreground/30 transition-colors"
               >
                 {kanonisch.label} <ArrowRight className="h-3.5 w-3.5 shrink-0" />
               </a>
@@ -391,7 +391,7 @@ const RatgeberPost = () => {
           {zusammengelegt.map((g) => (
             <section key={g.slug} className="mt-14 rounded-2xl border border-border bg-card p-6 shadow-card md:p-7">
               <h2 className="flex items-start gap-3 text-lg font-semibold tracking-tight">
-                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-accent text-accent-blue">
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-secondary text-foreground/70">
                   <ListChecks className="h-4 w-4" aria-hidden="true" />
                 </span>
                 <span className="pt-0.5">Schritt für Schritt: {g.title}</span>
@@ -431,7 +431,7 @@ const RatgeberPost = () => {
                       <Link
                         key={g.slug}
                         to={guideHref(g.slug)}
-                        className="press group rounded-xl border border-border bg-card p-4 transition-colors hover:border-accent-blue/40 hover:shadow-card"
+                        className="press group rounded-xl border border-border bg-card p-4 transition-colors hover:border-foreground/30"
                       >
                         <p className="mb-1 flex items-start justify-between gap-2 text-sm font-semibold leading-snug">
                           {g.title}
@@ -453,7 +453,7 @@ const RatgeberPost = () => {
                       <Link
                         key={t.slug}
                         to={`/tools/${t.slug}`}
-                        className="press group rounded-xl border border-border bg-card p-4 transition-colors hover:border-accent-blue/40 hover:shadow-card"
+                        className="press group rounded-xl border border-border bg-card p-4 transition-colors hover:border-foreground/30"
                       >
                         <p className="mb-1 flex items-start justify-between gap-2 text-sm font-semibold leading-snug">
                           {t.title}
@@ -503,7 +503,7 @@ const RatgeberPost = () => {
                   <Link
                     key={a.slug}
                     to={`/ratgeber/${a.slug}`}
-                    className="press group rounded-xl border border-border bg-card p-4 transition-colors hover:border-accent-blue/40 hover:shadow-card"
+                    className="press group rounded-xl border border-border bg-card p-4 transition-colors hover:border-foreground/30"
                   >
                     <p className="mb-1 text-sm font-semibold leading-snug">{a.title}</p>
                     <p className="text-xs text-muted-foreground line-clamp-2">{a.excerpt}</p>

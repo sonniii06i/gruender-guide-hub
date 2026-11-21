@@ -63,7 +63,7 @@ const GuidesIndex = () => {
               <Link
                 key={g.slug}
                 to={guideHref(g.slug)}
-                className="press group flex flex-col rounded-xl border border-border bg-card p-5 hover:border-brand-green/40 hover:shadow-card"
+                className="press group flex flex-col rounded-xl border border-border bg-card p-5 hover:border-brand-green/40"
               >
                 <p className="mb-1.5 flex items-start justify-between gap-2 font-semibold">
                   {g.title}

@@ -60,14 +60,12 @@ export const DeineWoche = () => {
   const felixFrage = `Das steht bei mir in den nächsten 14 Tagen an:\n${(punkte ?? []).map((p) => `- ${tag(p.datum)}: ${p.text}`).join("\n")}\n\nWas sollte ich davon zuerst erledigen, und worauf muss ich bei den Steuerterminen achten?`;
 
   return (
-    <section className="rounded-2xl border border-border bg-card shadow-card">
-      <div className="flex flex-wrap items-start justify-between gap-3 border-b border-border/70 px-5 py-4 md:px-6">
-        <div className="flex items-start gap-3">
-          <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-accent text-accent-blue">
-            <CalendarClock className="h-4 w-4" aria-hidden="true" />
-          </span>
+    <section className="rounded-lg border border-border bg-card">
+      <div className="flex flex-wrap items-start justify-between gap-3 border-b border-border px-5 py-3.5">
+        <div className="flex items-start gap-2.5">
+          <CalendarClock className="mt-[3px] h-4 w-4 shrink-0 text-muted-foreground" aria-hidden="true" />
           <div>
-            <h2 className="text-base font-semibold tracking-tight">Die nächsten 14 Tage</h2>
+            <h2 className="text-[15px] font-semibold">Die nächsten 14 Tage</h2>
             <p className="mt-0.5 text-sm text-muted-foreground">Steuertermine, gemerkte Events und Bewerbungsfristen.</p>
           </div>
         </div>
@@ -77,14 +75,14 @@ export const DeineWoche = () => {
           </Link>
         )}
       </div>
-      <div className="px-5 py-3 md:px-6">
+      <div className="px-5 py-2">
       {punkte === null ? (
         <div className="space-y-2 py-2" aria-busy="true">
           <span className="sr-only">Lädt…</span>
           {[0, 1].map((i) => <div key={i} className="h-5 animate-pulse rounded bg-secondary" />)}
         </div>
       ) : punkte.length ? (
-        <ul className="divide-y divide-border/70">
+        <ul className="divide-y divide-border">
           {punkte.slice(0, 8).map((p, i) => (
             <li key={i} className="flex items-center gap-3 py-2.5 text-sm">
               <span className="w-24 shrink-0 font-medium tabular">{tag(p.datum)}</span>
@@ -104,7 +102,7 @@ export const DeineWoche = () => {
       )}
       </div>
       {(!steuerProfil || neueEvents > 0) && (
-        <div className="flex flex-wrap gap-x-5 gap-y-1 border-t border-border/70 px-5 py-3 text-sm md:px-6">
+        <div className="flex flex-wrap gap-x-5 gap-y-1 border-t border-border px-5 py-3 text-sm">
           {!steuerProfil && <Link to="/cockpit/steuerkalender" className="inline-flex items-center gap-1.5 font-medium text-accent-blue hover:underline"><CalendarClock className="h-4 w-4" aria-hidden="true" /> Steuerkalender einrichten, damit deine Termine hier erscheinen</Link>}
           {neueEvents > 0 && <Link to="/cockpit/event-radar" className="font-medium text-accent-blue hover:underline tabular">{neueEvents} neue Events im Radar</Link>}
         </div>

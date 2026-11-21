@@ -161,7 +161,7 @@ export default function HackathonStarterKit() {
                   <p className="mt-1 max-w-md text-sm leading-relaxed text-primary-foreground/70">{PHASEN[aktiv].ziel}</p>
                 </div>
                 <div className="text-left sm:text-right" aria-live="polite">
-                  <p className="text-5xl font-semibold tracking-[-0.04em] tabular md:text-6xl">{mmss(phaseRest)}</p>
+                  <p className="text-5xl font-semibold tracking-[-0.02em] tabular md:text-6xl">{mmss(phaseRest)}</p>
                   <p className="mt-1 text-sm text-primary-foreground/65 tabular">gesamt noch {mmss(GESAMT - vergangen)}</p>
                 </div>
               </div>

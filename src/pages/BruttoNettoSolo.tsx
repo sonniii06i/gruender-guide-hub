@@ -273,7 +273,7 @@ const BruttoNettoSolo = () => {
           <Link
             key={l.to}
             to={l.to}
-            className="group rounded-2xl border border-border bg-card p-4 shadow-card transition-[border-color,box-shadow] duration-200 hover:border-accent-blue/40 hover:shadow-soft"
+            className="group rounded-2xl border border-border bg-card p-4 shadow-card transition-[border-color,box-shadow] duration-200 hover:border-foreground/30"
           >
             <p className="flex items-center justify-between gap-2 text-sm font-semibold">
               {l.t}
@@ -330,7 +330,7 @@ const Row = ({ label, val, bold, highlight, note }: { label: string; val: number
 const CheckOption = ({ checked, onChange, label, hint }: { checked: boolean; onChange: (v: boolean) => void; label: string; hint?: string }) => (
   <label
     className={`flex w-full cursor-pointer items-start gap-3 rounded-xl border p-3 transition-colors ${
-      checked ? "border-accent-blue/40 bg-accent" : "border-border bg-card hover:border-foreground/25"
+      checked ? "border-foreground/25 bg-accent" : "border-border bg-card hover:border-foreground/25"
     }`}
   >
     <input type="checkbox" checked={checked} onChange={(e) => onChange(e.target.checked)} className="peer sr-only" />
@@ -355,11 +355,11 @@ const BeginnerHero = () => (
       Du fragst dich: „Wenn ich 60.000 € im Jahr einnehme, was bleibt davon NACH allem (Steuer, KV, Rente) am Ende übrig?" Standard-Brutto-Netto-Rechner aus dem Web sind für Angestellte gemacht und geben Selbstständigen falsche Werte. Dieses Tool rechnet Solo-Selbstständige-spezifisch: Umsatz minus BA = Gewinn → ESt mit Progression → ggf. GewSt → freiwillige KV/PV → Netto.
     </p>
     <div className="mt-3 grid grid-cols-1 gap-2 md:grid-cols-2">
-      <div className="rounded-lg border border-accent-blue/15 bg-card/70 p-3">
+      <div className="rounded-lg border border-foreground/25 bg-card/70 p-3">
         <p className="font-semibold text-foreground">Schritt-für-Schritt-Transparenz</p>
         <p className="mt-0.5 text-muted-foreground">Jede Abzug-Position wird einzeln gezeigt mit §-Verweis und Begründung</p>
       </div>
-      <div className="rounded-lg border border-accent-blue/15 bg-card/70 p-3">
+      <div className="rounded-lg border border-foreground/25 bg-card/70 p-3">
         <p className="font-semibold text-foreground">Vergleich Angestellter</p>
         <p className="mt-0.5 text-muted-foreground">Fair-Vergleich: was würde dasselbe AG-Total als Angestellter abwerfen? (inkl. AG-Anteil SV)</p>
       </div>
@@ -371,7 +371,7 @@ const Glossar = () => (
   <details className="group mb-6 rounded-2xl border border-border bg-card shadow-card [&_summary::-webkit-details-marker]:hidden">
     <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-5 py-4 text-base font-semibold md:px-6">
       <span className="flex items-center gap-3">
-        <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-accent-blue">
+        <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-secondary text-foreground/70">
           <HelpCircle className="h-4 w-4" aria-hidden="true" />
         </span>
         Glossar: Begriffe einfach erklärt

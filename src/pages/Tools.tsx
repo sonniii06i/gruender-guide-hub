@@ -68,7 +68,7 @@ const Tools = () => {
               <a
                 key={cat.slug}
                 href={`#${cat.slug}`}
-                className="inline-flex shrink-0 items-center gap-2 rounded-lg border border-border bg-card px-3 py-2 text-sm font-medium text-foreground/80 shadow-card transition-colors hover:border-accent-blue/40 hover:text-foreground"
+                className="inline-flex shrink-0 items-center gap-2 rounded-lg border border-border bg-card px-3 py-2 text-sm font-medium text-foreground/80 shadow-card transition-colors hover:border-foreground/30 hover:text-foreground"
               >
                 {cat.title.replace(/^[^\wÄÖÜäöü]+/, "").trim()}
                 <span className="text-xs text-muted-foreground tabular">{tools.length}</span>
@@ -84,7 +84,7 @@ const Tools = () => {
               return (
                 <section key={cat.slug} id={cat.slug} className="scroll-mt-24">
                   <div className="mb-6 flex items-start gap-4">
-                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-accent text-accent-blue">
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-secondary text-foreground/70">
                       <Icon className="h-5 w-5" aria-hidden="true" />
                     </div>
                     <div>
@@ -99,7 +99,7 @@ const Tools = () => {
                       <Link
                         key={t.slug}
                         to={`/tools/${t.slug}`}
-                        className="press group flex flex-col rounded-xl border border-border bg-card p-4 hover:border-accent-blue/40 hover:shadow-card"
+                        className="press group flex flex-col rounded-xl border border-border bg-card p-4 hover:border-foreground/30"
                       >
                         <p className="mb-1 flex items-start justify-between gap-2 text-sm font-semibold">
                           {t.title}

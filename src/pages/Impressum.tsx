@@ -24,7 +24,7 @@ const Impressum = () => (
       <PageHeader
         width="max-w-3xl"
         kicker={
-          <span className="inline-flex items-center rounded-full border border-accent-blue/20 bg-accent px-3 py-1 text-[13px] font-medium text-accent-blue">
+          <span className="inline-flex items-center rounded-full border border-foreground/25 bg-accent px-3 py-1 text-[13px] font-medium text-accent-blue">
             Rechtliches
           </span>
         }

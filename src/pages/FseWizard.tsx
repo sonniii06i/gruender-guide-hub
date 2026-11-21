@@ -677,7 +677,7 @@ const HeroBlock = () => (
           <a
             key={nr}
             href={`#teilseite-${nr}`}
-            className="flex h-8 min-w-[2rem] items-center justify-center rounded-lg border border-border bg-card px-2 text-xs font-medium text-foreground/80 tabular transition-colors hover:border-accent-blue/40 hover:text-accent-blue"
+            className="flex h-8 min-w-[2rem] items-center justify-center rounded-lg border border-border bg-card px-2 text-xs font-medium text-foreground/80 tabular transition-colors hover:border-foreground/30 hover:text-accent-blue"
           >
             {nr === "0" ? "Start" : nr}
           </a>
@@ -699,7 +699,7 @@ const ElsterLinks = () => (
         target="_blank"
         rel="noreferrer"
         className={`press group flex items-center justify-between gap-3 rounded-2xl border p-4 shadow-card transition-colors ${
-          l.primary ? "border-accent-blue/30 bg-accent hover:border-accent-blue/50" : "border-border bg-card hover:border-accent-blue/40"
+          l.primary ? "border-foreground/25 bg-accent hover:border-foreground/30" : "border-border bg-card hover:border-foreground/30"
         }`}
       >
         <div className="min-w-0">
@@ -790,7 +790,7 @@ const RecommendationCard = ({ title, questions, decide }: {
   const allAnswered = questions.every((q) => answers[q.id]);
 
   return (
-    <div className="my-3 rounded-xl border border-accent-blue/25 bg-accent/60">
+    <div className="my-3 rounded-xl border border-foreground/25 bg-accent/60">
       {!open ? (
         <button
           type="button"
@@ -877,7 +877,7 @@ const CrossLinks = () => (
       <Link
         key={l.to}
         to={l.to}
-        className="press group flex items-start justify-between gap-3 rounded-2xl border border-border bg-card p-4 shadow-card transition-colors hover:border-accent-blue/40"
+        className="press group flex items-start justify-between gap-3 rounded-2xl border border-border bg-card p-4 shadow-card transition-colors hover:border-foreground/30"
       >
         <div className="min-w-0">
           <div className="text-sm font-semibold text-foreground">{l.t}</div>
@@ -893,7 +893,7 @@ const Glossar = () => (
   <details className="group mb-6 rounded-2xl border border-border bg-card shadow-card [&_summary::-webkit-details-marker]:hidden">
     <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-5 py-4 text-base font-semibold md:px-6">
       <span className="flex items-center gap-3">
-        <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-accent-blue">
+        <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-secondary text-foreground/70">
           <HelpCircle className="h-4 w-4" aria-hidden="true" />
         </span>
         Glossar: FsE-Begriffe einfach erklärt

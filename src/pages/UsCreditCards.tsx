@@ -216,8 +216,8 @@ const UsCreditCards = () => {
 
                 {/* Bonus */}
                 {card.signupBonus !== "Kein Bonus" && (
-                  <div className="mt-3 rounded-xl border border-accent-blue/20 bg-accent px-3.5 py-2.5">
-                    <p className="text-sm font-semibold text-accent-blue">{card.signupBonus}</p>
+                  <div className="mt-3 rounded-xl border border-foreground/25 bg-accent px-3.5 py-2.5">
+                    <p className="text-sm font-semibold text-muted-foreground">{card.signupBonus}</p>
                     {card.spendingRequirement && (
                       <p className="mt-0.5 text-xs text-muted-foreground">Mindestumsatz: {card.spendingRequirement}</p>
                     )}
@@ -647,7 +647,7 @@ const USE_CASE_ICON: Partial<Record<CardUseCase, React.ElementType>> = {
 };
 
 const PANEL_TONE: Record<"accent" | "info" | "success" | "warning" | "danger", string> = {
-  accent: "bg-accent text-accent-blue",
+  accent: "bg-secondary text-foreground/70",
   info: "bg-info-soft text-info",
   success: "bg-success-soft text-success",
   warning: "bg-warning-soft text-warning",

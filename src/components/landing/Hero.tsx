@@ -28,7 +28,7 @@ export const Hero = () => (
     <HeroCentered
       eyebrow={
         <>
-          <img src="/mascots/felix-face-64.webp" alt="" width={20} height={20} className="h-5 w-5 rounded-full bg-brand-green-soft object-cover" />
+          <img src="/mascots/felix-face-64.webp" alt="" width={20} height={20} className="h-5 w-5 rounded-full border border-border bg-secondary object-cover" />
           Gründungs-Cockpit mit KI-Co-Pilot Felix
         </>
       }
@@ -47,19 +47,19 @@ export const Hero = () => (
     </HeroCentered>
 
     {/* Ehrlicher Fakten-Streifen */}
-    <div className="border-y border-border/80 bg-card/60">
-      <dl className="container grid max-w-6xl grid-cols-2 divide-border/80 md:grid-cols-4 md:divide-x">
+    <div className="border-b border-border bg-background">
+      <dl className="container grid max-w-6xl grid-cols-2 divide-border px-4 md:grid-cols-4 md:divide-x">
         {proof.map((p) => (
-          <div key={p.label} className="px-2 py-6 md:px-6 md:first:pl-0">
+          <div key={p.label} className="py-5 pr-2 md:px-6 md:first:pl-0">
             <dt className="sr-only">{p.label}</dt>
-            <dd className="text-2xl font-semibold tracking-tight text-primary tabular md:text-[1.9rem]">{p.value}</dd>
+            <dd className="text-xl font-semibold text-primary tabular md:text-2xl">{p.value}</dd>
             <dd className="mt-0.5 text-sm text-muted-foreground">{p.label}</dd>
           </div>
         ))}
       </dl>
     </div>
 
-    <section className="container max-w-6xl px-4 py-16 md:py-32">
+    <section className="container max-w-6xl px-4 py-16 md:py-20">
       <SectionHead
         eyebrow="Für wen"
         title={<>Ein Cockpit. Fünf Wege<br className="hidden md:block" /> ins eigene Business.</>}
@@ -70,8 +70,8 @@ export const Hero = () => (
 
     <TextMarquee label="Für die Stellen, mit denen du zu tun hast" items={STELLEN} />
 
-    <section className="container max-w-6xl px-4 py-16 md:py-32">
-      <div className="grid items-start gap-12 lg:grid-cols-[0.9fr,1.1fr] lg:gap-16">
+    <section className="container max-w-6xl px-4 py-16 md:py-20">
+      <div className="grid items-start gap-8 lg:grid-cols-[0.9fr,1.1fr] lg:gap-12">
         <div className="self-start lg:sticky lg:top-28">
           <SectionHead
             align="left"

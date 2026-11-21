@@ -87,7 +87,7 @@ const faqs = [
 const EventKarte = ({ e }: { e: GruenderEvent }) => {
   const art = ART_LABELS[e.art];
   return (
-    <div className="group flex gap-4 rounded-2xl border border-border bg-card p-4 sm:p-5 hover:border-accent-blue/40 hover:shadow-soft transition-all">
+    <div className="group flex min-w-0 gap-4 rounded-lg border border-border bg-card p-4 transition-colors hover:border-foreground/30 sm:p-5">
       <div className="shrink-0 w-14 sm:w-16 rounded-xl bg-secondary/70 flex flex-col items-center justify-center py-2 text-center">
         {e.datum ? (
           <>
@@ -104,8 +104,8 @@ const EventKarte = ({ e }: { e: GruenderEvent }) => {
         )}
       </div>
       <div className="flex-1 min-w-0">
-        <h3 className="font-bold text-base leading-snug">
-          <a href={e.url} target="_blank" rel="noreferrer noopener" className="hover:text-accent-blue transition-colors">
+        <h3 className="break-words text-base font-semibold leading-snug [overflow-wrap:anywhere]">
+          <a href={e.url} target="_blank" rel="noreferrer noopener" className="transition-colors hover:text-accent-blue hover:underline">
             {e.name}
           </a>
         </h3>
@@ -160,7 +160,7 @@ const FristKarte = ({ f, heute }: { f: GruenderFrist; heute: string }) => {
   const label = FRIST_LABELS[f.art];
   const tageBis = f.frist ? Math.ceil((Date.parse(f.frist) - Date.parse(heute)) / 864e5) : null;
   return (
-    <div className="rounded-xl border border-border bg-card p-4 hover:border-accent-blue/40 transition-colors">
+    <div className="rounded-xl border border-border bg-card p-4 hover:border-foreground/30 transition-colors">
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <a href={f.url} target="_blank" rel="noreferrer noopener" className="font-semibold text-sm leading-snug hover:text-accent-blue transition-colors">
@@ -375,7 +375,7 @@ export default function GruenderEvents() {
                 value={region}
                 onChange={(e) => setRegion(e.target.value)}
                 aria-label="Bundesland"
-                className="h-10 w-full rounded-md border border-input bg-card px-3 text-sm shadow-[0_1px_2px_hsl(var(--primary)/0.04)] focus:border-ring focus:outline-none focus:ring-[3px] focus:ring-ring/25"
+                className="h-10 w-full rounded-md border border-input bg-card px-3 text-sm focus:border-ring focus:outline-none focus:ring-[3px] focus:ring-ring/25"
               >
                 <option value="all">Alle Bundesländer</option>
                 {regionen.map((r) => (
@@ -521,7 +521,7 @@ export default function GruenderEvents() {
           </div>
 
           {/* Abonnierbare Kalender */}
-          <div className="mb-10 rounded-2xl border border-accent-blue/20 bg-accent/60 p-5 sm:p-6">
+          <div className="mb-10 rounded-2xl border border-foreground/25 bg-accent/60 p-5 sm:p-6">
             <h2 className="mb-1 flex items-center gap-2 text-lg font-semibold"><CalendarPlus className="h-5 w-5 text-accent-blue" aria-hidden="true" /> Termine automatisch im eigenen Kalender</h2>
             <p className="text-sm text-muted-foreground mb-3">
               Abonniere den Kalender für dein Bundesland (inklusive Online-Events) oder alle Bewerbungsfristen – er
@@ -575,7 +575,7 @@ export default function GruenderEvents() {
                     href={k.url}
                     target="_blank"
                     rel="noreferrer noopener"
-                    className="group rounded-xl border border-border bg-card p-4 hover:border-accent-blue/40 transition-colors"
+                    className="group rounded-xl border border-border bg-card p-4 hover:border-foreground/30 transition-colors"
                   >
                     <div className="flex items-center gap-2">
                       {k.art === "build" ? <Zap className="h-4 w-4 text-accent-blue" aria-hidden="true" /> : <Landmark className="h-4 w-4 text-muted-foreground" aria-hidden="true" />}

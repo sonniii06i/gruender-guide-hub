@@ -242,7 +242,7 @@ const Gruppe = ({
         <button type="button" onClick={() => umschalten(id)} aria-expanded={offen} className="w-full justify-between hover:text-sidebar-foreground">
           <span>{titel}</span>
           <span className="flex items-center gap-1.5">
-            {!offen && !!badge && <span className="tabular rounded-full bg-accent-blue px-1.5 text-[10px] font-semibold leading-4 text-primary-foreground">{badge > 99 ? "99+" : badge}</span>}
+            {!offen && !!badge && <span className="tabular rounded bg-primary px-1.5 text-[10px] font-semibold leading-4 text-primary-foreground">{badge > 99 ? "99+" : badge}</span>}
             <ChevronDown className={`h-3.5 w-3.5 transition-transform ${offen ? "" : "-rotate-90"}`} />
           </span>
         </button>
@@ -323,19 +323,19 @@ const ToolSuche = ({ onGo }: { onGo: () => void }) => {
           }}
           placeholder="Tool suchen …"
           aria-label="Tool suchen"
-          className="h-9 w-full rounded-lg border border-sidebar-border bg-background pl-8 pr-10 text-[13px] outline-none transition-shadow placeholder:text-muted-foreground focus:border-accent-blue/40 focus:ring-2 focus:ring-accent-blue/30"
+          className="h-9 w-full rounded-md border border-sidebar-border bg-background pl-8 pr-10 text-[13px] outline-none transition-colors placeholder:text-muted-foreground focus:border-ring focus:ring-2 focus:ring-ring/25"
         />
-        <kbd className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 rounded-md border border-sidebar-border bg-secondary/60 px-1.5 py-px font-sans text-[10px] text-muted-foreground">⌘K</kbd>
+        <kbd className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 rounded border border-sidebar-border bg-card px-1.5 py-px font-sans text-[10px] text-muted-foreground">⌘K</kbd>
       </div>
       {q.trim() && (
-        <ul className="mt-1.5 overflow-hidden rounded-xl border border-sidebar-border bg-background p-1 shadow-soft" role="listbox">
+        <ul className="mt-1.5 overflow-hidden rounded-md border border-sidebar-border bg-card p-1 shadow-soft" role="listbox">
           {treffer.map((t, i) => (
             <li key={t.slug} role="option" aria-selected={i === aktiv}>
               <button
                 type="button"
                 onMouseEnter={() => setAktiv(i)}
                 onClick={() => geh(t.route!)}
-                className={`w-full rounded-lg px-2.5 py-1.5 text-left text-[13px] leading-snug transition-colors ${i === aktiv ? "bg-secondary" : ""}`}
+                className={`w-full rounded px-2.5 py-1.5 text-left text-[13px] leading-snug transition-colors ${i === aktiv ? "bg-secondary" : ""}`}
               >
                 <span className="font-medium">{t.title}</span>
                 <span className="block truncate text-[11px] text-muted-foreground">{t.categoryTitle}</span>
@@ -358,7 +358,7 @@ const Item = ({ to, icon: Icon, label, hint, active, badge }: { to: string; icon
           <Icon className="h-4 w-4" />
           <span>{label}</span>
           {!!badge && (
-            <span className="tabular ml-auto rounded-full bg-accent-blue px-1.5 text-[10px] font-semibold leading-4 text-primary-foreground" aria-label={`${badge} neu`}>
+            <span className="tabular ml-auto rounded bg-primary px-1.5 text-[10px] font-semibold leading-4 text-primary-foreground" aria-label={`${badge} neu`}>
               {badge > 99 ? "99+" : badge}
             </span>
           )}

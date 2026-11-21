@@ -353,7 +353,7 @@ const PlaybookRun = () => {
           aria-label="Fortschritt im Playbook"
         >
           <div
-            className="h-full rounded-full bg-gradient-to-r from-accent-blue to-brand-green transition-all duration-700 ease-out"
+            className="h-full rounded-full bg-brand-green transition-[width] duration-500 ease-out"
             style={{ width: `${progress}%` }}
           />
           {milestones.map((m) => (
@@ -447,12 +447,12 @@ const PlaybookRun = () => {
         {/* Aktiver Schritt */}
         <section ref={activeStepRef} className="order-1 min-w-0 scroll-mt-20 lg:order-2 rounded-2xl border border-border bg-card shadow-card">
           <header className="flex items-start gap-4 border-b border-border/70 p-5 md:p-6">
-            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-accent text-accent-blue">
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-secondary text-foreground/70">
               <ActiveIcon className="h-5 w-5" aria-hidden="true" />
             </span>
             <div className="min-w-0 flex-1">
               <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1.5">
-                <p className="text-sm font-medium text-accent-blue">
+                <p className="text-sm font-medium text-muted-foreground">
                   Schritt {activeIndex + 1} von {pb.steps.length} · {STEP_KIND_LABEL[step.kind]}
                 </p>
                 <div className="flex shrink-0 flex-wrap items-center gap-2">
@@ -646,7 +646,7 @@ const StepBody = ({
         <div className="grid gap-2 sm:grid-cols-2">
           {links.map((l) => (
             <AnbieterLink key={l.url} url={l.url} ort="playbook"
-              className="group inline-flex items-center justify-between gap-2 rounded-xl border border-border bg-card px-4 py-3 text-sm font-medium transition-colors hover:border-accent-blue/40">
+              className="group inline-flex items-center justify-between gap-2 rounded-xl border border-border bg-card px-4 py-3 text-sm font-medium transition-colors hover:border-foreground/30">
               {l.label} <ExternalLink className="h-4 w-4 shrink-0 text-muted-foreground group-hover:text-accent-blue" aria-hidden="true" />
             </AnbieterLink>
           ))}

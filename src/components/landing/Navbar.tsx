@@ -22,7 +22,7 @@ const links = [
 export const Navbar = () => {
   const [open, setOpen] = useState(false);
   return (
-    <header className="site-nav fixed inset-x-0 top-0 z-50 px-3 pt-3 md:px-4">
+    <header className="site-nav fixed inset-x-0 top-0 z-50 border-b border-border bg-card">
       {/* Skip-Link: springt zum ersten <main> der Seite (alle öffentlichen Seiten haben eins). */}
       <a
         href="#inhalt"
@@ -39,24 +39,24 @@ export const Navbar = () => {
       </a>
       <nav
         aria-label="Hauptnavigation"
-        className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-4 rounded-2xl border border-border/70 bg-card/85 pl-3 pr-2 shadow-soft backdrop-blur-xl supports-[backdrop-filter]:bg-card/75 md:pl-4"
+        className="container flex h-14 max-w-6xl items-center justify-between gap-4 px-4"
       >
         <Link to="/" aria-label="Zur Startseite" className="flex items-center gap-2 rounded-lg">
           <Logo asImage className="h-8 w-8" />
-          <span className="text-[17px] font-semibold tracking-tight">GründerX</span>
+          <span className="text-base font-semibold">GründerX</span>
         </Link>
 
-        <div className="hidden items-center gap-1 lg:flex">
+        <div className="hidden items-center lg:flex">
           {links.map((l) => (
             <NavLink
               key={l.href}
               to={l.href}
               className={({ isActive }) =>
                 cn(
-                  "rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                  "relative flex h-14 items-center px-2.5 text-sm font-medium transition-colors",
                   isActive
-                    ? "bg-secondary text-foreground"
-                    : "text-foreground/65 hover:bg-secondary/70 hover:text-foreground",
+                    ? "text-foreground after:absolute after:inset-x-2.5 after:bottom-0 after:h-0.5 after:bg-primary"
+                    : "text-foreground/70 hover:text-foreground",
                 )
               }
             >
@@ -68,11 +68,11 @@ export const Navbar = () => {
         <div className="hidden items-center gap-1.5 lg:flex">
           <Link
             to="/auth?mode=signin"
-            className="rounded-lg px-3 py-2 text-sm font-medium text-foreground/65 transition-colors hover:bg-secondary/70 hover:text-foreground"
+            className="rounded-md px-3 py-2 text-sm font-medium text-foreground/70 transition-colors hover:bg-secondary hover:text-foreground"
           >
             Anmelden
           </Link>
-          <Button asChild className="h-10 rounded-xl px-4 font-semibold">
+          <Button asChild className="h-9 px-4 font-semibold">
             <Link to="/auth?mode=signup">
               Kostenlos starten
             </Link>
@@ -81,7 +81,7 @@ export const Navbar = () => {
 
         <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger asChild>
-            <Button variant="ghost" size="icon" className="rounded-xl lg:hidden" aria-label="Menü öffnen">
+            <Button variant="ghost" size="icon" className="h-11 w-11 lg:hidden" aria-label="Menü öffnen">
               <Menu className="h-5 w-5" />
             </Button>
           </SheetTrigger>
@@ -95,8 +95,8 @@ export const Navbar = () => {
                   onClick={() => setOpen(false)}
                   className={({ isActive }) =>
                     cn(
-                      "flex items-center justify-between border-b border-border/70 py-4 text-lg font-medium",
-                      isActive && "text-accent-blue",
+                      "flex items-center justify-between border-b border-border py-3.5 text-base font-medium",
+                      isActive && "font-semibold text-primary",
                     )
                   }
                 >
@@ -104,20 +104,20 @@ export const Navbar = () => {
                   <ArrowRight className="h-4 w-4 text-muted-foreground" />
                 </NavLink>
               ))}
-              <Link to="/faq" onClick={() => setOpen(false)} className="border-b border-border/70 py-4 text-lg font-medium">
+              <Link to="/faq" onClick={() => setOpen(false)} className="border-b border-border py-3.5 text-base font-medium">
                 FAQ
               </Link>
-              <Link to="/kontakt" onClick={() => setOpen(false)} className="border-b border-border/70 py-4 text-lg font-medium">
+              <Link to="/kontakt" onClick={() => setOpen(false)} className="border-b border-border py-3.5 text-base font-medium">
                 Kontakt
               </Link>
             </div>
             <div className="mt-auto flex flex-col gap-2 pb-2">
-              <Button asChild size="lg" className="w-full rounded-xl font-semibold">
+              <Button asChild size="lg" className="w-full font-semibold">
                 <Link to="/auth?mode=signup" onClick={() => setOpen(false)}>
                   Kostenlos starten
                 </Link>
               </Button>
-              <Button asChild size="lg" variant="outline" className="w-full rounded-xl">
+              <Button asChild size="lg" variant="outline" className="w-full">
                 <Link to="/auth?mode=signin" onClick={() => setOpen(false)}>
                   Anmelden
                 </Link>

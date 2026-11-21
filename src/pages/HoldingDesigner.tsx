@@ -131,11 +131,11 @@ const Overview = ({ onSelect }: { onSelect: (s: HoldingStructure) => void }) => 
           key={s.slug}
           type="button"
           onClick={() => onSelect(s)}
-          className="group flex flex-col rounded-2xl border border-border bg-card p-5 text-left shadow-card transition-[border-color,box-shadow] duration-200 hover:border-accent-blue/40 hover:shadow-soft"
+          className="group flex flex-col rounded-2xl border border-border bg-card p-5 text-left shadow-card transition-[border-color,box-shadow] duration-200 hover:border-foreground/30"
         >
           <div className="flex items-start justify-between gap-3">
             <div className="flex min-w-0 items-start gap-3">
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-accent text-accent-blue">
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-secondary text-foreground/70">
                 <Network className="h-4 w-4" aria-hidden="true" />
               </span>
               <div className="min-w-0">
@@ -372,7 +372,7 @@ const Wizard = ({
         {step === 6 && (
           <>
             <div className="mb-5">
-              <p className="text-sm font-medium text-accent-blue">Empfehlung</p>
+              <p className="text-sm font-medium text-muted-foreground">Empfehlung</p>
               <h2 className="mt-1 text-lg font-semibold tracking-tight">Die drei passendsten Strukturen für dich</h2>
               <p className="mt-1 text-sm text-muted-foreground">Auf Basis deiner Antworten. Öffne eine Struktur für alle Details.</p>
             </div>
@@ -392,7 +392,7 @@ const Wizard = ({
                       className={cn(
                         "group flex w-full items-start gap-4 rounded-xl border p-4 text-left transition-[border-color,box-shadow] duration-200",
                         i === 0
-                          ? "border-accent-blue/40 bg-accent/60 hover:shadow-soft"
+                          ? "border-foreground/25 bg-accent/60"
                           : "border-border bg-card hover:border-foreground/25",
                       )}
                     >
@@ -448,7 +448,7 @@ const Wizard = ({
 
 const FrageKopf = ({ nr, titel, text }: { nr: number; titel: string; text?: string }) => (
   <div className="mb-5">
-    <p className="text-sm font-medium text-accent-blue">Frage {nr}</p>
+    <p className="text-sm font-medium text-muted-foreground">Frage {nr}</p>
     <h2 className="mt-1 text-lg font-semibold tracking-tight">{titel}</h2>
     {text && <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{text}</p>}
   </div>
@@ -472,14 +472,14 @@ const ListeKarte = ({
     success: "border-success/25",
     danger: "border-danger/25",
     warning: "border-warning/25",
-    accent: "border-accent-blue/20",
+    accent: "border-foreground/25",
     neutral: "border-border",
   }[tone];
   const iconCls = {
     success: "bg-success-soft text-success",
     danger: "bg-danger-soft text-danger",
     warning: "bg-warning-soft text-warning",
-    accent: "bg-accent text-accent-blue",
+    accent: "bg-secondary text-foreground/70",
     neutral: "bg-secondary text-muted-foreground",
   }[tone];
   return (
@@ -631,7 +631,7 @@ const StructureDetail = ({ s, onBack }: { s: HoldingStructure; onBack: () => voi
                   ))}
                 </ul>
                 {sc.vsEinzel && (
-                  <p className="mt-3 rounded-lg border border-accent-blue/20 bg-accent px-3 py-2 text-xs">
+                  <p className="mt-3 rounded-lg border border-foreground/25 bg-accent px-3 py-2 text-xs">
                     <span className="font-semibold text-accent-blue">Im Vergleich zum Einzelunternehmen:</span> {sc.vsEinzel}
                   </p>
                 )}
@@ -699,7 +699,7 @@ const StructureDetail = ({ s, onBack }: { s: HoldingStructure; onBack: () => voi
     </ToolSection>
 
     {s.playbookSlug && (
-      <section className="flex flex-col gap-4 rounded-2xl border border-accent-blue/25 bg-accent p-5 sm:flex-row sm:items-center sm:justify-between md:p-6">
+      <section className="flex flex-col gap-4 rounded-2xl border border-foreground/25 bg-accent p-5 sm:flex-row sm:items-center sm:justify-between md:p-6">
         <div>
           <h3 className="text-base font-semibold">Bereit zur Umsetzung?</h3>
           <p className="mt-1 text-sm text-muted-foreground">

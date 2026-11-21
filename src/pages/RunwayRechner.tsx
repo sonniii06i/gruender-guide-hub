@@ -236,7 +236,7 @@ const RunwayRechner = () => {
       <details className="group mb-6 rounded-2xl border border-border bg-card shadow-card [&_summary::-webkit-details-marker]:hidden">
         <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-5 py-4 text-base font-semibold md:px-6">
           <span className="flex items-center gap-3">
-            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-accent-blue">
+            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-secondary text-foreground/70">
               <HelpCircle className="h-4 w-4" aria-hidden="true" />
             </span>
             Glossar: Begriffe einfach erklärt

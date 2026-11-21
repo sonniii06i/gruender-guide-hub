@@ -244,7 +244,7 @@ const UstVoranmeldung = () => {
           { to: "/cockpit/fse-wizard", t: "FsE-Wizard", d: "Hier legst du den USt-Status überhaupt erst fest" },
           { to: "/cockpit/schwellen-check", t: "Schwellen-Check", d: "KU-Grenzen, DAC7" },
         ].map((l) => (
-          <Link key={l.to} to={l.to} className="press group rounded-xl border border-border bg-background/60 p-3.5 hover:border-accent-blue/40 hover:bg-card">
+          <Link key={l.to} to={l.to} className="press group rounded-xl border border-border bg-background/60 p-3.5 hover:border-foreground/30 hover:bg-card">
             <span className="flex items-center justify-between gap-2 text-sm font-semibold">
               {l.t}
               <ArrowRight className="h-3.5 w-3.5 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-accent-blue" aria-hidden="true" />

@@ -60,20 +60,20 @@ const UstRechner = () => {
     >
       <Tabs defaultValue="brutto-netto" className="w-full">
         <div className="-mx-4 mb-6 overflow-x-auto px-4 md:mx-0 md:px-0">
-          <TabsList className="h-auto w-max gap-0.5 rounded-xl p-1">
-            <TabsTrigger value="brutto-netto" className="gap-1.5 rounded-lg px-3.5 py-2">
+          <TabsList>
+            <TabsTrigger value="brutto-netto" className="gap-1.5">
               <Calculator className="h-4 w-4" aria-hidden="true" /> Brutto und Netto
             </TabsTrigger>
-            <TabsTrigger value="kleinunternehmer" className="gap-1.5 rounded-lg px-3.5 py-2">
+            <TabsTrigger value="kleinunternehmer" className="gap-1.5">
               <Building2 className="h-4 w-4" aria-hidden="true" /> Kleinunternehmer §19
             </TabsTrigger>
-            <TabsTrigger value="reverse-charge" className="gap-1.5 rounded-lg px-3.5 py-2">
+            <TabsTrigger value="reverse-charge" className="gap-1.5">
               <Globe className="h-4 w-4" aria-hidden="true" /> Reverse Charge §13b
             </TabsTrigger>
-            <TabsTrigger value="oss" className="gap-1.5 rounded-lg px-3.5 py-2">
+            <TabsTrigger value="oss" className="gap-1.5">
               <ShoppingCart className="h-4 w-4" aria-hidden="true" /> OSS B2C-EU
             </TabsTrigger>
-            <TabsTrigger value="igl" className="gap-1.5 rounded-lg px-3.5 py-2">
+            <TabsTrigger value="igl" className="gap-1.5">
               <Truck className="h-4 w-4" aria-hidden="true" /> IGL B2B-EU
             </TabsTrigger>
           </TabsList>

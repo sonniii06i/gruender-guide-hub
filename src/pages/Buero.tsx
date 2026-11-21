@@ -55,13 +55,13 @@ export default function Buero() {
         ]}
       />
 
-      <header className="relative overflow-hidden border-b border-border/70 bg-hero pb-12 pt-28 md:pb-14 md:pt-32">
+      <header className="relative overflow-hidden border-b border-border/70 bg-hero pb-12 pt-28 md:pb-14 md:pt-24">
         <div
           className="pointer-events-none absolute inset-0 bg-dots [mask-image:linear-gradient(to_bottom,black,transparent_80%)]"
           aria-hidden="true"
         />
         <div className="container relative max-w-4xl px-4">
-          <h1 className="text-balance text-[2.1rem] font-semibold leading-[1.08] tracking-[-0.035em] md:text-[3rem]">
+          <h1 className="text-balance text-[1.875rem] font-semibold leading-[1.12] tracking-[-0.02em] md:text-[2.5rem]">
             Büro-Ausstattung für Gründer: Was du am Anfang wirklich brauchst
           </h1>
           <p className="mt-5 max-w-3xl text-pretty text-lg leading-relaxed text-muted-foreground">
@@ -89,7 +89,7 @@ export default function Buero() {
               <Link
                 key={s.slug}
                 to={bueroPfad(s.slug)}
-                className="press group rounded-xl border border-border bg-card p-5 transition-colors hover:border-accent-blue/40 hover:shadow-card"
+                className="press group rounded-xl border border-border bg-card p-5 transition-colors hover:border-foreground/30"
               >
                 <h3 className="text-base font-semibold leading-snug group-hover:text-accent-blue">{s.titel}</h3>
                 <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{s.kurz}</p>

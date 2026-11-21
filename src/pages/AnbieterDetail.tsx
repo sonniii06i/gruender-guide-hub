@@ -43,7 +43,7 @@ const ProviderLogo = ({ name, size = "md" }: { url: string; name: string; size?:
 };
 
 const StatCard = ({ icon: Icon, label, value, accent }: { icon: typeof Wallet; label: string; value: string; accent?: boolean }) => (
-  <div className={`rounded-xl border p-4 ${accent ? "border-accent-blue/20 bg-accent" : "border-border bg-card"}`}>
+  <div className={`rounded-xl border p-4 ${accent ? "border-foreground/25 bg-accent" : "border-border bg-card"}`}>
     <div className="mb-1 flex items-center gap-1.5 text-sm text-muted-foreground">
       <Icon className="h-3.5 w-3.5" aria-hidden="true" />
       {label}
@@ -138,7 +138,7 @@ const AnbieterDetail = () => {
             <div className="min-w-0 flex-1">
               <div className="flex flex-wrap items-start justify-between gap-4">
                 <div className="min-w-0">
-                  <p className="text-sm font-medium text-accent-blue">
+                  <p className="text-sm font-medium text-muted-foreground">
                     {p.category} <span className="font-normal text-muted-foreground">· {p.region}</span>
                   </p>
                   <h2 className="mt-1 text-2xl font-semibold tracking-tight md:text-3xl">{p.name}</h2>
@@ -167,16 +167,16 @@ const AnbieterDetail = () => {
 
         {/* Kooperations-Deal direkt unter dem Kopf */}
         {showCoop && p.coop && (
-          <div className="border-t border-dashed border-accent-blue/30 bg-accent/70 p-5 md:px-8">
+          <div className="border-t border-dashed border-foreground/25 bg-accent/70 p-5 md:px-8">
             <div className="flex items-start gap-3">
               <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-accent-blue text-accent-blue-foreground">
                 <Sparkles className="h-4 w-4" aria-hidden="true" />
               </span>
               <div className="min-w-0 flex-1">
-                <p className="text-sm font-medium text-accent-blue">Aktueller Deal, gültig bis {p.coop.expires}</p>
+                <p className="text-sm font-medium text-muted-foreground">Aktueller Deal, gültig bis {p.coop.expires}</p>
                 <p className="mt-0.5 font-semibold">{p.coop.text}</p>
                 {p.coop.code && (
-                  <div className="mt-2 inline-flex items-center gap-2 rounded-lg border border-dashed border-accent-blue/40 bg-card px-3 py-1.5">
+                  <div className="mt-2 inline-flex items-center gap-2 rounded-lg border border-dashed border-foreground/25 bg-card px-3 py-1.5">
                     <Tag className="h-3.5 w-3.5 text-accent-blue" aria-hidden="true" />
                     <span className="text-xs text-muted-foreground">Code:</span>
                     <span className="font-mono text-sm font-semibold">{p.coop.code}</span>
@@ -253,7 +253,7 @@ const AnbieterDetail = () => {
                   <Link
                     key={r.slug}
                     to={`/anbieter/${r.slug}`}
-                    className="press flex items-center gap-3 rounded-xl border border-border bg-card p-3 hover:border-accent-blue/40 hover:shadow-card"
+                    className="press flex items-center gap-3 rounded-xl border border-border bg-card p-3 hover:border-foreground/30"
                   >
                     <ProviderLogo url={r.url} name={r.name} size="sm" />
                     <div className="min-w-0 flex-1">

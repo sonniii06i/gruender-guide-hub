@@ -41,7 +41,7 @@ const PdfAttachment = ({ url }: { url: string }) => (
     download
     target="_blank"
     rel="noopener noreferrer"
-    className="group mt-3 flex items-center gap-3 rounded-xl border border-border bg-card p-3 no-underline transition-[border-color,box-shadow] hover:border-accent-blue/40 hover:shadow-card"
+    className="group mt-3 flex items-center gap-3 rounded-xl border border-border bg-card p-3 no-underline transition-[border-color,box-shadow] hover:border-foreground/30"
   >
     <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-danger-soft text-danger">
       <FileText className="h-5 w-5" aria-hidden="true" />
@@ -339,7 +339,7 @@ const FelixChat = () => {
               height={72}
               className="mb-5 h-[4.5rem] w-[4.5rem] rounded-2xl border border-border bg-card object-contain p-1.5 shadow-card"
             />
-            <h1 className="mb-2 text-[1.75rem] font-semibold tracking-[-0.03em] md:text-4xl">
+            <h1 className="mb-2 text-[1.75rem] font-semibold tracking-[-0.02em] md:text-[2.5rem]">
               {firstName ? `Willkommen zurück, ${firstName}` : "Willkommen zurück"}
             </h1>
             <p className="mb-8 max-w-md text-base text-muted-foreground md:text-lg">
@@ -350,7 +350,7 @@ const FelixChat = () => {
                 <button
                   key={s}
                   onClick={() => setInput(s)}
-                  className="press group flex items-start justify-between gap-3 rounded-xl border border-border bg-card p-3.5 text-left text-sm leading-relaxed hover:border-accent-blue/40 hover:shadow-card"
+                  className="press group flex items-start justify-between gap-3 rounded-xl border border-border bg-card p-3.5 text-left text-sm leading-relaxed hover:border-foreground/30"
                 >
                   <span>{s}</span>
                   <ArrowUpRight className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground transition-colors group-hover:text-accent-blue" aria-hidden="true" />
@@ -421,7 +421,7 @@ const FelixChat = () => {
         )}
       </div>
 
-      <div className="border-t border-border bg-card/80 backdrop-blur supports-[backdrop-filter]:bg-card/70">
+      <div className="border-t border-border bg-card">
         <div className="max-w-3xl mx-auto px-4 md:px-6 py-3 md:py-4">
           {/* Kosten-Kontingent (weich). Rendert nichts unterhalb der
               Warnschwelle — ein Dauerbanner liest niemand mehr. */}

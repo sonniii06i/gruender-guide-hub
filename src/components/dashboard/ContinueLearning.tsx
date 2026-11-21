@@ -33,10 +33,10 @@ export const ContinueLearning = () => {
 
   return (
     <section>
-      <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
+      <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h2 className="text-lg font-semibold tracking-tight md:text-xl">Deine laufenden Guides</h2>
-          <p className="mt-1 text-sm text-muted-foreground">Da weitermachen, wo du aufgehört hast.</p>
+          <h2 className="text-base font-semibold md:text-lg">Deine laufenden Guides</h2>
+          <p className="mt-0.5 text-sm text-muted-foreground">Da weitermachen, wo du aufgehört hast.</p>
         </div>
         <Link to="/playbooks" className="inline-flex items-center gap-1 text-sm font-medium text-accent-blue hover:underline">
           Alle anzeigen <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
@@ -50,20 +50,20 @@ export const ContinueLearning = () => {
             <Link
               key={r.id}
               to={`/playbook/${r.id}`}
-              className="press group rounded-xl border border-border bg-card p-4 hover:border-accent-blue/40 hover:shadow-card"
+              className="press group rounded-xl border border-border bg-card p-4 hover:border-foreground/30"
             >
               <div className="flex items-center gap-3 mb-3">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-accent text-xl" aria-hidden="true">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-border bg-background text-xl" aria-hidden="true">
                   {pb?.emoji ?? "📘"}
                 </div>
                 <div className="min-w-0 flex-1">
                   <h3 className="font-semibold text-sm truncate">{r.title}</h3>
                   <p className="text-xs text-muted-foreground tabular">{r.current_step} von {r.total_steps} Schritten</p>
                 </div>
-                <PlayCircle className="h-5 w-5 shrink-0 text-accent-blue transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+                <PlayCircle className="h-5 w-5 shrink-0 text-muted-foreground" aria-hidden="true" />
               </div>
               <div className="h-1.5 overflow-hidden rounded-full bg-secondary" role="progressbar" aria-valuenow={pct} aria-valuemin={0} aria-valuemax={100} aria-label="Fortschritt">
-                <div className="h-full rounded-full bg-accent-blue transition-[width] duration-500" style={{ width: `${pct}%` }} />
+                <div className="h-full rounded-full bg-brand-green transition-[width] duration-500" style={{ width: `${pct}%` }} />
               </div>
             </Link>
           );

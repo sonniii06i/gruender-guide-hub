@@ -47,9 +47,9 @@ const VergleichWege = () => (
       }}
     />
     <Navbar />
-    <main className="container max-w-5xl px-4 pb-20 pt-28 md:pt-32">
-      <p className="text-sm font-semibold uppercase tracking-wider text-accent-blue">Vergleich</p>
-      <h1 className="mt-3 text-balance text-[2.1rem] font-semibold leading-[1.08] tracking-[-0.035em] md:text-[3rem]">
+    <main className="container max-w-5xl px-4 pb-20 pt-28 md:pt-24">
+      <p className="text-sm font-semibold text-muted-foreground">Vergleich</p>
+      <h1 className="mt-3 text-balance text-[1.875rem] font-semibold leading-[1.12] tracking-[-0.02em] md:text-[2.5rem]">
         Gründung selbst, mit Steuerberater oder mit GründerX?
       </h1>
       <p className="mt-5 max-w-3xl text-lg leading-relaxed text-muted-foreground">

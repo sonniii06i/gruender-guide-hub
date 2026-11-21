@@ -5,32 +5,29 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import type { Screenshot } from "@/data/screenshots";
 
-// Marketing-Bausteine im Aufbau von profitpath.com (25.10.2026): Raster-Hintergrund,
-// zentrierter Hero mit Akzent-Teilsatz, gerahmter Echt-Screenshot, Text-Laufband,
-// Bento-Karten mit UI-Ausschnitten, nummerierter Weg, Schluss-CTA.
-// Eigene Marke: Navy + Akzentblau aus den Tokens, Geist; keine Sterne, keine fremden Logos.
+// Marketing-Bausteine der öffentlichen Seiten. Umbau 11/2026: sachlich wie eine
+// Buchhaltungs-Software. Weiße Flächen mit 1-px-Linie, linksbündige Köpfe, keine
+// Raster-Hintergründe, keine Laufbänder, keine Schatten-Bühnen. Eigene Marke:
+// Navy als Tinte und Hauptknopf, Grün nur als Häkchen; keine Sterne, keine fremden Logos.
 
-/** Feines Linienraster, das nach unten ausläuft (Hero-Fläche). */
-export const GridBackground = ({ className }: { className?: string }) => (
-  <div
-    aria-hidden="true"
-    className={cn(
-      "pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--primary)/0.06)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--primary)/0.06)_1px,transparent_1px)] bg-[size:56px_56px] [mask-image:radial-gradient(ellipse_at_top,black_35%,transparent_75%)]",
-      className,
-    )}
-  />
-);
+/** Früher ein Linienraster hinter dem Hero. Bleibt als Name erhalten, zeichnet nichts mehr. */
+export const GridBackground = (_: { className?: string }) => null;
 
 export interface HeroCta {
   to: string;
   label: string;
 }
 
+/**
+ * Hero der Landingpages. Mit `children` (Screenshot, Fahrplan) ab lg zweispaltig:
+ * Text links, Produkt rechts. Ohne `children` eine linksbündige Textspalte.
+ * Der Name stammt vom früheren, zentrierten Aufbau.
+ */
 export const HeroCentered = (p: {
   eyebrow: ReactNode;
   /** Überschrift vor dem Akzent. */
   title: string;
-  /** Farbig abgesetzter Teilsatz (optional), steht hinter `title`. */
+  /** Zweiter Teilsatz der Überschrift (optional), steht hinter `title`. */
   accent?: string;
   lead: ReactNode;
   primary: HeroCta;
@@ -40,55 +37,61 @@ export const HeroCentered = (p: {
   crumbs?: { label: string; to?: string }[];
   children?: ReactNode;
 }) => (
-  <section className="relative overflow-hidden bg-background pb-8 pt-24 md:pb-10 md:pt-36">
-    <GridBackground />
-    <div className="container relative max-w-5xl px-4 text-center">
-      {p.crumbs && p.crumbs.length > 0 && (
-        <nav aria-label="Breadcrumb" className="mb-7 flex flex-wrap justify-center gap-1.5 text-sm text-muted-foreground">
-          {p.crumbs.map((c, i) => (
-            <span key={i} className="flex items-center gap-1.5">
-              {c.to ? <Link to={c.to} className="hover:text-foreground">{c.label}</Link> : <span className="text-foreground">{c.label}</span>}
-              {i < p.crumbs!.length - 1 && <span aria-hidden="true">/</span>}
-            </span>
-          ))}
-        </nav>
+  <section className="border-b border-border bg-card pb-10 pt-[5.5rem] md:pb-14 md:pt-28">
+    <div
+      className={cn(
+        "container max-w-6xl px-4",
+        p.children && "grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.08fr)] lg:gap-12",
       )}
-      <div className="mb-6 inline-flex items-center gap-2 rounded-md border border-border bg-card px-3 py-1.5 text-[13px] font-medium text-foreground/80 shadow-card">
-        {p.eyebrow}
-      </div>
-      <h1 className="mx-auto max-w-4xl text-balance text-[2.5rem] font-semibold leading-[1.02] tracking-[-0.045em] text-primary md:text-[4.25rem]">
-        {p.title}
-        {p.accent && <> <span className="text-accent-blue md:block">{p.accent}</span></>}
-      </h1>
-      <div className="mx-auto mt-5 max-w-2xl text-pretty text-[17px] leading-relaxed text-muted-foreground md:mt-6 md:text-xl">{p.lead}</div>
-      <div className="mt-8 flex flex-col items-stretch justify-center gap-3 sm:mt-9 sm:flex-row sm:items-center">
-        <Button asChild size="lg" className="press h-12 w-full gap-2 rounded-xl bg-accent-blue sm:w-auto px-6 text-[15px] font-semibold text-accent-blue-foreground shadow-[0_10px_24px_-10px_hsl(var(--accent-blue)/0.6)] hover:bg-accent-blue/90">
-          <Link to={p.primary.to}>
-            {p.primary.label} <ArrowRight className="h-4 w-4" aria-hidden="true" />
-          </Link>
-        </Button>
-        {p.secondary && (
-          <Button asChild size="lg" variant="outline" className="press h-12 w-full rounded-xl bg-card px-6 text-[15px] font-semibold sm:w-auto">
-            <Link to={p.secondary.to}>{p.secondary.label}</Link>
+    >
+      <div className={cn("min-w-0", !p.children && "max-w-3xl")}>
+        {p.crumbs && p.crumbs.length > 0 && (
+          <nav aria-label="Breadcrumb" className="mb-5 flex flex-wrap gap-1.5 text-sm text-muted-foreground">
+            {p.crumbs.map((c, i) => (
+              <span key={i} className="flex items-center gap-1.5">
+                {c.to ? <Link to={c.to} className="hover:text-foreground">{c.label}</Link> : <span className="text-foreground">{c.label}</span>}
+                {i < p.crumbs!.length - 1 && <span aria-hidden="true">/</span>}
+              </span>
+            ))}
+          </nav>
+        )}
+        <div className="mb-4 flex flex-wrap items-center gap-2 text-[13px] font-medium text-muted-foreground">{p.eyebrow}</div>
+        <h1 className="text-balance text-[1.875rem] font-semibold leading-[1.1] tracking-[-0.022em] text-primary md:text-[2.5rem]">
+          {p.title}
+          {p.accent && <> {p.accent}</>}
+        </h1>
+        <div className="mt-4 max-w-xl text-pretty text-base leading-relaxed text-muted-foreground md:text-lg">{p.lead}</div>
+        <div className="mt-7 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
+          <Button asChild size="lg" className="h-12 w-full gap-2 px-6 text-[15px] font-semibold sm:w-auto">
+            <Link to={p.primary.to}>
+              {p.primary.label} <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
           </Button>
+          {p.secondary && (
+            <Button asChild size="lg" variant="outline" className="h-12 w-full px-6 text-[15px] font-semibold sm:w-auto">
+              <Link to={p.secondary.to}>{p.secondary.label}</Link>
+            </Button>
+          )}
+        </div>
+        {p.trust && p.trust.length > 0 && (
+          <ul className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-muted-foreground">
+            {p.trust.map((t) => (
+              <li key={t} className="flex items-center gap-1.5">
+                <svg viewBox="0 0 16 16" className="h-3.5 w-3.5 shrink-0 text-brand-green" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M3 8.5l3.2 3.2L13 5" />
+                </svg>
+                {t}
+              </li>
+            ))}
+          </ul>
         )}
       </div>
-      {p.trust && p.trust.length > 0 && (
-        <ul className="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm text-muted-foreground">
-          {p.trust.map((t) => (
-            <li key={t} className="flex items-center gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-brand-green" aria-hidden="true" />
-              {t}
-            </li>
-          ))}
-        </ul>
-      )}
+      {p.children && <div className="min-w-0">{p.children}</div>}
     </div>
-    {p.children && <div className="container relative mt-10 max-w-6xl px-4 md:mt-14">{p.children}</div>}
   </section>
 );
 
-/** Echter App-Screenshot im Browser-Rahmen, unten ausgeblendet. */
+/** Echter App-Screenshot im schlichten Fensterrahmen. */
 export const ScreenshotFrame = ({
   shot,
   priority = false,
@@ -103,14 +106,14 @@ export const ScreenshotFrame = ({
   className?: string;
 }) => (
   <figure className={cn("relative", className)}>
-    <div className="overflow-hidden rounded-2xl border border-border bg-card p-1.5 shadow-[0_30px_80px_-30px_hsl(var(--primary)/0.35)] md:p-2">
-      <div className="flex items-center gap-1.5 px-2.5 pb-2 pt-1" aria-hidden="true">
-        <span className="h-2.5 w-2.5 rounded-full bg-border" />
-        <span className="h-2.5 w-2.5 rounded-full bg-border" />
-        <span className="h-2.5 w-2.5 rounded-full bg-border" />
-        <span className="ml-3 hidden rounded-md bg-secondary px-3 py-0.5 text-xs text-muted-foreground sm:inline">gruenderx.de{shot.pfad}</span>
+    <div className="overflow-hidden rounded-lg border border-border bg-card shadow-soft">
+      <div className="flex items-center gap-1.5 border-b border-border bg-secondary/60 px-3 py-2" aria-hidden="true">
+        <span className="h-2 w-2 rounded-full bg-foreground/15" />
+        <span className="h-2 w-2 rounded-full bg-foreground/15" />
+        <span className="h-2 w-2 rounded-full bg-foreground/15" />
+        <span className="ml-2 hidden truncate text-xs text-muted-foreground sm:inline">gruenderx.de{shot.pfad}</span>
       </div>
-      <div className={cn("relative overflow-hidden rounded-xl border border-border/70", fade && "max-sm:max-h-[380px]")}>
+      <div className={cn("relative overflow-hidden", fade && "max-sm:max-h-[380px]")}>
         <picture>
           {shot.mobil ? (
             <source media="(max-width: 640px)" srcSet={shot.mobil.src} width={shot.mobil.breite} height={shot.mobil.hoehe} />
@@ -128,34 +131,31 @@ export const ScreenshotFrame = ({
             className="block h-auto w-full"
           />
         </picture>
-        {fade && <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-card to-transparent" aria-hidden="true" />}
       </div>
     </div>
-    {caption && <figcaption className="mt-3 text-center text-xs text-muted-foreground">{caption}</figcaption>}
+    {caption && <figcaption className="mt-3 text-xs text-muted-foreground">{caption}</figcaption>}
   </figure>
 );
 
-/** Laufband aus Text (keine fremden Logos). Doppelt gerendert für die nahtlose Schleife. */
+/** Themenzeile aus Text (keine fremden Logos). Früher ein Laufband, jetzt eine ruhige Zeile. */
 export const TextMarquee = ({ label, items }: { label: string; items: string[] }) => (
-  <section aria-label={label} className="border-y border-border/70 bg-card/60 py-6">
-    <p className="mb-4 text-center text-[13px] font-medium text-muted-foreground">{label}</p>
-    <div className="relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_12%,black_88%,transparent)]">
-      <div className="gx-marquee flex w-max gap-12 whitespace-nowrap">
-        {[...items, ...items].map((t, i) => (
-          <span key={i} aria-hidden={i >= items.length} className="text-xl font-semibold tracking-tight text-primary/55 md:text-2xl">
-            {t}
-          </span>
+  <section aria-label={label} className="border-b border-border bg-background py-5">
+    <div className="container flex max-w-6xl flex-col gap-2 px-4 md:flex-row md:items-baseline md:gap-6">
+      <p className="shrink-0 text-[13px] font-medium text-muted-foreground">{label}</p>
+      <ul className="flex flex-wrap gap-x-5 gap-y-1.5 text-sm font-medium text-foreground/80">
+        {items.map((t) => (
+          <li key={t}>{t}</li>
         ))}
-      </div>
+      </ul>
     </div>
   </section>
 );
 
-export const SectionHead = ({ eyebrow, title, lead, align = "center" }: { eyebrow: string; title: ReactNode; lead?: ReactNode; align?: "center" | "left" }) => (
-  <header className={cn("mb-9 md:mb-16", align === "center" ? "mx-auto max-w-3xl text-center" : "max-w-2xl")}>
-    <p className="mb-4 text-[13px] font-semibold uppercase tracking-[0.14em] text-accent-blue">{eyebrow}</p>
-    <h2 className="text-balance text-[1.875rem] font-semibold leading-[1.08] tracking-[-0.04em] text-primary md:text-[3rem] md:leading-[1.05]">{title}</h2>
-    {lead && <p className={cn("mt-5 text-pretty text-lg leading-relaxed text-muted-foreground", align === "center" && "mx-auto max-w-2xl")}>{lead}</p>}
+export const SectionHead = ({ eyebrow, title, lead }: { eyebrow: string; title: ReactNode; lead?: ReactNode; align?: "center" | "left" }) => (
+  <header className="mb-8 max-w-2xl md:mb-10">
+    <p className="mb-2 text-[13px] font-semibold text-muted-foreground">{eyebrow}</p>
+    <h2 className="text-balance text-2xl font-semibold leading-[1.15] tracking-[-0.02em] text-primary md:text-[2rem]">{title}</h2>
+    {lead && <p className="mt-3 text-pretty text-base leading-relaxed text-muted-foreground md:text-[17px]">{lead}</p>}
   </header>
 );
 
@@ -166,55 +166,55 @@ export interface BentoItem {
   icon: LucideIcon;
   /** UI-Ausschnitt oben in der Karte. */
   bild?: Screenshot;
-  /** Kleine schwebende Marke auf dem Bild, z. B. „Gratis“. */
+  /** Kleine Marke auf dem Bild, z. B. „Gratis“. */
   chip?: string;
   /** Breite Karte über zwei Spalten. */
   breit?: boolean;
 }
 
-/** Bento-Raster: Karten unterschiedlicher Breite, oben UI-Ausschnitt, darunter Icon + Titel + Text. */
+/** Kartenraster: oben UI-Ausschnitt, darunter Titel und Text. Mobil als Wischreihe. */
 export const BentoGrid = ({ items }: { items: BentoItem[] }) => (
   <div className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-3 [scrollbar-width:none] md:mx-0 md:grid md:grid-cols-6 md:gap-4 md:overflow-visible md:px-0 md:pb-0 [&::-webkit-scrollbar]:hidden">
     {items.map((it, i) => {
-      const breit = it.breit ?? (i % 5 === 0 || i % 5 === 3);
+      // Regelmäßiges Dreier-Raster; ein Rest von zwei oder einer Karte wird vorne breit gesetzt, damit keine Lücke bleibt.
+      const rest = items.length % 3;
+      const breit = it.breit ?? ((rest === 2 && i < 2) || (rest === 1 && i < 4 && items.length > 3));
       return (
         <Link
           key={it.to + it.title}
           to={it.to}
           className={cn(
-            "press group flex w-[84%] shrink-0 snap-start flex-col overflow-hidden rounded-[1.25rem] bg-secondary/60 ring-1 ring-border/70 transition-shadow hover:shadow-soft hover:ring-accent-blue/30 md:w-auto",
-            breit ? "md:col-span-4" : "md:col-span-2",
+            "press group flex w-[84%] shrink-0 snap-start flex-col overflow-hidden rounded-lg border border-border bg-card hover:border-foreground/30 md:w-auto",
+            breit ? "md:col-span-3" : "md:col-span-2",
           )}
         >
           {it.bild && (
-            <div className="relative h-44 overflow-hidden px-4 pt-4 md:h-60 md:px-5 md:pt-5">
+            <div className="relative h-44 overflow-hidden bg-secondary/60 px-4 pt-4 md:h-56 md:px-5 md:pt-5">
               <img
                 src={it.bild.klein}
                 srcSet={`${it.bild.klein} 520w, ${it.bild.gross} 1000w`}
-                sizes={breit ? "(min-width: 768px) 640px, 100vw" : "(min-width: 768px) 320px, 100vw"}
+                sizes={breit ? "(min-width: 768px) 520px, 100vw" : "(min-width: 768px) 340px, 100vw"}
                 alt={it.bild.alt}
                 width={it.bild.breite}
                 height={it.bild.hoehe}
                 loading="lazy"
                 decoding="async"
-                className="w-full rounded-t-xl object-cover object-top shadow-[0_16px_40px_-18px_hsl(var(--primary)/0.4)] ring-1 ring-border transition-transform duration-500 group-hover:-translate-y-1"
+                className="w-full rounded-t-md border border-b-0 border-border object-cover object-top"
               />
               {it.chip && (
-                <span className="absolute right-5 top-6 rounded-md bg-brand-green px-2 py-1 text-xs font-semibold text-brand-green-foreground shadow-card">
+                <span className="absolute right-4 top-4 rounded bg-brand-green px-2 py-0.5 text-xs font-semibold text-brand-green-foreground">
                   {it.chip}
                 </span>
               )}
             </div>
           )}
-          <div className="flex flex-1 flex-col border-t border-border/70 bg-card p-4 md:p-6">
-            <span className="flex items-center gap-2.5">
-              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-accent-blue">
-                <it.icon className="h-4 w-4" aria-hidden="true" />
-              </span>
-              <span className="text-[17px] font-semibold tracking-tight text-accent-blue">{it.title}</span>
-              <ArrowUpRight className="ml-auto h-4 w-4 text-muted-foreground transition-colors group-hover:text-accent-blue" aria-hidden="true" />
+          <div className="flex flex-1 flex-col border-t border-border p-4 md:p-5">
+            <span className="flex items-center gap-2">
+              <it.icon className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden="true" />
+              <span className="text-base font-semibold text-foreground">{it.title}</span>
+              <ArrowUpRight className="ml-auto h-4 w-4 shrink-0 text-muted-foreground transition-colors group-hover:text-foreground" aria-hidden="true" />
             </span>
-            <span className="mt-2.5 text-[15px] leading-relaxed text-muted-foreground">{it.text}</span>
+            <span className="mt-2 text-sm leading-relaxed text-muted-foreground md:text-[15px]">{it.text}</span>
           </div>
         </Link>
       );
@@ -228,47 +228,49 @@ export interface PathStep {
   meta?: string;
 }
 
-/** Nummerierter Weg (ProfitPath: „Your path to profit“). */
+/** Nummerierter Weg als Liste mit Trennlinien. */
 export const StepsPath = ({ steps, note }: { steps: PathStep[]; note?: ReactNode }) => (
   <div>
-    <ol className="relative grid gap-3 md:grid-cols-2">
+    <ol className="grid overflow-hidden rounded-lg border border-border bg-card md:grid-cols-2">
       {steps.map((s, i) => (
-        <li key={i} className={cn("flex gap-4 rounded-2xl bg-card p-5 ring-1 ring-border/70 md:p-6", !s.description && "bg-card/60")}>
-          <span
-            className={cn(
-              "flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-sm font-semibold tabular",
-              s.description ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground",
-            )}
-          >
+        <li
+          key={i}
+          className={cn(
+            "flex gap-4 border-b border-border p-4 last:border-b-0 md:p-5 md:odd:border-r md:[&:nth-last-child(2):nth-child(odd)]:border-b-0",
+            !s.description && "bg-secondary/40",
+          )}
+        >
+          <span className={cn("w-7 shrink-0 pt-0.5 text-sm font-semibold tabular", s.description ? "text-primary" : "text-muted-foreground")}>
             {String(i + 1).padStart(2, "0")}
           </span>
           <div className="min-w-0">
-            <p className="font-semibold leading-snug tracking-tight">{s.title}</p>
-            {s.description && <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{s.description}</p>}
-            {s.meta && <p className="mt-2 text-xs font-medium text-accent-blue">{s.meta}</p>}
+            <p className="font-semibold leading-snug">{s.title}</p>
+            {s.description && <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{s.description}</p>}
+            {s.meta && <p className="mt-1.5 text-xs font-medium text-muted-foreground">{s.meta}</p>}
           </div>
         </li>
       ))}
     </ol>
-    {note && <p className="mt-5 text-center text-sm text-muted-foreground">{note}</p>}
+    {note && <p className="mt-4 text-sm text-muted-foreground">{note}</p>}
   </div>
 );
 
-/** Schluss-CTA auf dunkler Fläche desselben Navy-Tons. */
+/** Schluss-CTA: ein ruhiges Navy-Band, linksbündig, Knopf rechts. */
 export const FinalCta = ({ title, text, primary, secondary }: { title: string; text: ReactNode; primary: HeroCta; secondary?: HeroCta }) => (
-  <section className="container max-w-6xl px-4 pb-16 md:pb-24">
-    <div className="relative overflow-hidden rounded-[1.5rem] bg-ink px-5 py-12 text-center md:rounded-[1.75rem] text-primary-foreground md:px-16 md:py-20">
-      <div className="pointer-events-none absolute inset-0 bg-dots-light" aria-hidden="true" />
-      <h2 className="relative mx-auto max-w-3xl text-balance text-[2rem] font-semibold leading-[1.05] tracking-[-0.04em] md:text-[2.75rem]">{title}</h2>
-      <p className="relative mx-auto mt-5 max-w-xl text-pretty text-lg leading-relaxed text-primary-foreground/75">{text}</p>
-      <div className="relative mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-        <Button asChild size="lg" className="press h-12 w-full gap-2 rounded-xl bg-card px-6 font-semibold text-primary hover:bg-card/90 sm:w-auto">
+  <section className="container max-w-6xl px-4 pb-16 md:pb-20">
+    <div className="flex flex-col gap-6 rounded-lg bg-ink px-5 py-8 text-primary-foreground md:flex-row md:items-center md:justify-between md:gap-10 md:px-10 md:py-10">
+      <div className="min-w-0 max-w-2xl">
+        <h2 className="text-balance text-2xl font-semibold leading-[1.15] tracking-[-0.02em] md:text-[1.75rem]">{title}</h2>
+        <p className="mt-2.5 text-pretty text-base leading-relaxed text-primary-foreground/80">{text}</p>
+      </div>
+      <div className="flex shrink-0 flex-col items-stretch gap-3 sm:flex-row sm:items-center md:flex-col md:items-stretch lg:flex-row lg:items-center">
+        <Button asChild size="lg" className="h-12 gap-2 bg-card px-6 font-semibold text-primary hover:bg-card/90">
           <Link to={primary.to}>
             {primary.label} <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </Link>
         </Button>
         {secondary && (
-          <Link to={secondary.to} className="text-[15px] font-semibold text-primary-foreground/85 underline-offset-4 hover:underline">
+          <Link to={secondary.to} className="inline-flex min-h-11 items-center justify-center text-[15px] font-semibold text-primary-foreground underline-offset-4 hover:underline">
             {secondary.label}
           </Link>
         )}

@@ -22,11 +22,11 @@ const COMPLIANCE = [
  * E-Commerce-Operator und Amazon-Seller.
  */
 export const SellerBand = () => (
-  <section className="py-14 md:py-28">
+  <section className="py-14 md:py-20">
     <div className="container max-w-6xl">
       <div className="grid items-center gap-10 lg:grid-cols-[1.2fr,0.8fr] lg:gap-16">
         <div>
-          <h2 className="text-3xl font-semibold leading-[1.1] md:text-[2.75rem]">
+          <h2 className="text-2xl font-semibold leading-[1.1] md:text-[2rem]">
             Verkaufen ist das eine. Angemeldet sein das andere.
           </h2>
           <p className="mt-4 max-w-xl text-lg leading-relaxed text-muted-foreground">
@@ -65,7 +65,7 @@ export const SellerBand = () => (
         </div>
 
         <div className="relative flex justify-center">
-          <div className="absolute inset-x-6 bottom-0 top-10 -z-10 rounded-[2rem] bg-brand-green-soft" aria-hidden="true" />
+          <div className="absolute inset-x-6 bottom-0 top-10 -z-10 rounded-xl bg-brand-green-soft" aria-hidden="true" />
           <Mascot
             name="felix-boxes"
             alt="Felix trägt einen Stapel Versandkartons"

@@ -7,9 +7,9 @@ export function KiAssistentBand() {
     <div className="container max-w-6xl pt-10">
       <Link
         to="/ki-assistent"
-        className="group flex flex-col gap-3 rounded-2xl border border-border bg-card px-5 py-4 shadow-card transition-[border-color,box-shadow] hover:border-accent-blue/40 hover:shadow-soft sm:flex-row sm:items-center sm:gap-4"
+        className="group flex flex-col gap-3 rounded-2xl border border-border bg-card px-5 py-4 shadow-card transition-[border-color,box-shadow] hover:border-foreground/30 sm:flex-row sm:items-center sm:gap-4"
       >
-        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent text-accent-blue">
+        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-secondary text-foreground/70">
           <Bot className="h-5 w-5" aria-hidden="true" />
         </span>
         <span className="flex-1">

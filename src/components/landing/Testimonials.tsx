@@ -19,7 +19,7 @@ const points = [
 ];
 
 export const Testimonials = () => (
-  <section className="border-t border-border/70 bg-card py-14 md:py-28">
+  <section className="border-t border-border/70 bg-card py-14 md:py-20">
     <div className="container grid max-w-6xl items-start gap-12 lg:grid-cols-[0.9fr,1.1fr] lg:gap-20">
       <div className="lg:sticky lg:top-28">
         <img
@@ -28,10 +28,10 @@ export const Testimonials = () => (
           loading="lazy"
           width={160}
           height={160}
-          className="mb-6 w-28 drop-shadow-xl md:w-36"
+          className="mb-6 w-28 md:w-36"
         />
-        <p className="mb-4 text-[13px] font-semibold uppercase tracking-[0.14em] text-accent-blue">Warum es GründerX gibt</p>
-        <h2 className="text-balance text-[2rem] font-semibold leading-[1.05] tracking-[-0.04em] text-primary md:text-[3rem]">
+        <p className="mb-2 text-[13px] font-semibold text-muted-foreground">Warum es GründerX gibt</p>
+        <h2 className="text-balance text-2xl font-semibold leading-[1.12] tracking-[-0.02em] text-primary md:text-[2rem]">
           Das Tool, das wir uns selbst gewünscht hätten.
         </h2>
         <p className="mt-5 max-w-md text-lg leading-relaxed text-muted-foreground">
@@ -42,10 +42,8 @@ export const Testimonials = () => (
 
       <ul className="divide-y divide-border border-y border-border">
         {points.map((p) => (
-          <li key={p.title} className="flex gap-5 py-8">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-secondary text-primary">
-              <p.icon className="h-5 w-5" aria-hidden="true" />
-            </div>
+          <li key={p.title} className="flex gap-4 py-6">
+            <p.icon className="mt-1 h-5 w-5 shrink-0 text-muted-foreground" aria-hidden="true" />
             <div>
               <h3 className="text-lg font-semibold">{p.title}</h3>
               <p className="mt-2 max-w-prose leading-relaxed text-muted-foreground">{p.text}</p>

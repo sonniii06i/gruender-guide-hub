@@ -49,8 +49,8 @@ const ListicleGruendung = () => (
       noindex
     />
     <article className="container max-w-[720px] px-4 py-10 md:py-14">
-      <p className="text-sm font-semibold uppercase tracking-wider text-accent-blue">Gründung</p>
-      <h1 className="mt-3 text-balance text-[2rem] font-semibold leading-[1.1] tracking-[-0.03em] md:text-[2.6rem]">
+      <p className="text-sm font-semibold text-muted-foreground">Gründung</p>
+      <h1 className="mt-3 text-balance text-[1.875rem] font-semibold leading-[1.1] tracking-[-0.02em] md:text-[2.5rem]">
         Warum deine Gründung länger dauert, obwohl du alles googelst: 5 Gründe
       </h1>
       <p className="mt-4 text-lg leading-relaxed text-muted-foreground">

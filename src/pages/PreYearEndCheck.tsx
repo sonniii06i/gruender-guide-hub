@@ -418,7 +418,7 @@ const PreYearEndCheck = () => {
                 >
                   {h.aktiv && <Check className="h-3.5 w-3.5" aria-hidden="true" />}
                 </span>
-                <span className="hidden h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-accent text-accent-blue sm:flex">
+                <span className="hidden h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-secondary text-foreground/70 sm:flex">
                   <Icon className="h-4 w-4" aria-hidden="true" />
                 </span>
                 <span className="min-w-0 flex-1">

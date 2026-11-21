@@ -284,7 +284,7 @@ export default function GruenderChancen() {
             <p className="mt-6 text-sm text-muted-foreground"><span className="font-semibold text-foreground tabular">{gefiltert.length}</span> Chancen</p>
             {gruppen.map((g) => (
               <div key={g.titel} className="mt-6">
-                <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-muted-foreground">{g.titel}</h3>
+                <h3 className="mb-3 text-sm font-semibold text-muted-foreground">{g.titel}</h3>
                 <ul className="grid gap-3 md:grid-cols-2">
                   {g.eintraege.map((c) => <ChanceKarte key={c.id} c={c} heute={heute} />)}
                 </ul>

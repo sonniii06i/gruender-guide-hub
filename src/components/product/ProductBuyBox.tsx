@@ -91,7 +91,7 @@ export const ProductBuyBox = ({
           <span className="text-muted-foreground">Art.-Nr. {v.sku}</span>
         </div>
         {/* h2: die Box steht als Abschnitt auf der Startseite, die H1 gehoert dem Hero. */}
-        <h2 className="mt-1.5 text-3xl font-semibold tracking-tight text-foreground md:text-4xl">{title}</h2>
+        <h2 className="mt-1.5 text-2xl font-semibold tracking-tight text-foreground md:text-[2rem]">{title}</h2>
         <p className="mt-2 text-muted-foreground">{subtitle}</p>
       </div>
 
@@ -100,7 +100,7 @@ export const ProductBuyBox = ({
       {/* Preisblock */}
       <div>
         <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-          <span className="text-4xl font-semibold tracking-[-0.04em] tabular text-foreground md:text-5xl">
+          <span className="text-4xl font-semibold tracking-[-0.02em] tabular text-foreground md:text-5xl">
             {eur(v.grossCents)}
           </span>
           <span className="text-lg text-muted-foreground">/ {v.period === "year" ? "Jahr" : "Monat"}</span>
@@ -113,7 +113,7 @@ export const ProductBuyBox = ({
             </>
           )}
         </div>
-        <p className="mt-1.5 text-base font-semibold text-accent-blue">
+        <p className="mt-1.5 text-base font-semibold text-muted-foreground">
           {eur(perDayCents(v.grossCents, v.period))} am Tag
         </p>
         <p className="mt-1 text-sm text-muted-foreground">
@@ -137,10 +137,10 @@ export const ProductBuyBox = ({
                 onClick={() => onSelect(opt.id)}
                 aria-pressed={opt.id === v.id}
                 className={cn(
-                  "rounded-xl border-2 p-3 text-left transition-all",
+                  "rounded-xl border-2 p-3 text-left transition-colors",
                   opt.id === v.id
                     ? "border-primary bg-accent-blue/5 shadow-sm"
-                    : "border-border bg-card hover:border-accent-blue/40",
+                    : "border-border bg-card hover:border-foreground/30",
                 )}
               >
                 <span className="block text-sm font-semibold text-foreground">{opt.name}</span>

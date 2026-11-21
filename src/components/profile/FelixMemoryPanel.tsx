@@ -143,7 +143,7 @@ export const FelixMemoryPanel = () => {
             return (
               <li
                 key={m.id}
-                className="group flex items-start gap-3 rounded-xl border border-border bg-card p-4 transition-colors hover:border-accent-blue/40"
+                className="group flex items-start gap-3 rounded-xl border border-border bg-card p-4 transition-colors hover:border-foreground/30"
               >
                 <ToneBadge tone={CATEGORY_TONE[cat] ?? "neutral"} className="mt-0.5 shrink-0">
                   {CATEGORY_LABELS[cat] || cat}

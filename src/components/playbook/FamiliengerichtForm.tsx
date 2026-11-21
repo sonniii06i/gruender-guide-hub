@@ -226,7 +226,7 @@ export const FamiliengerichtForm = ({ answers, setAnswers }: Props) => {
         </div>
       </div>
 
-      <div className="rounded-xl border border-accent-blue/20 bg-accent-blue/5 p-4 text-xs leading-relaxed">
+      <div className="rounded-xl border border-foreground/25 bg-accent-blue/5 p-4 text-xs leading-relaxed">
         <div className="flex items-start gap-2">
           <Info className="h-4 w-4 text-accent-blue shrink-0 mt-0.5" />
           <div>

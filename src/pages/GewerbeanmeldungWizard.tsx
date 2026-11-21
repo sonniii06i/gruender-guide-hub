@@ -537,7 +537,7 @@ const GewerbeanmeldungWizard = () => {
             <div className="grid grid-cols-1 gap-3">
               <Link
                 to="/cockpit/gewerbe-check"
-                className="group flex items-start gap-3 rounded-xl border border-border bg-card p-4 transition-colors hover:border-accent-blue/40"
+                className="group flex items-start gap-3 rounded-xl border border-border bg-card p-4 transition-colors hover:border-foreground/30"
               >
                 <ArrowLeft className="mt-0.5 h-4 w-4 shrink-0 text-accent-blue" aria-hidden="true" />
                 <span>
@@ -547,7 +547,7 @@ const GewerbeanmeldungWizard = () => {
               </Link>
               <Link
                 to="/cockpit/schwellen-check"
-                className="group flex items-start gap-3 rounded-xl border border-border bg-card p-4 transition-colors hover:border-accent-blue/40"
+                className="group flex items-start gap-3 rounded-xl border border-border bg-card p-4 transition-colors hover:border-foreground/30"
               >
                 <ArrowRight className="mt-0.5 h-4 w-4 shrink-0 text-accent-blue" aria-hidden="true" />
                 <span>
@@ -805,7 +805,7 @@ const StepTaetigkeit = ({ data, update, qualitaet }: StepProps & { qualitaet: { 
         value={data.taetigkeit}
         onChange={(e) => update("taetigkeit", e.target.value)}
         rows={4}
-        className="w-full rounded-md border border-input bg-card px-3 py-2 text-sm shadow-[0_1px_2px_hsl(var(--primary)/0.04)] transition-[border-color,box-shadow] focus:border-ring focus:outline-none focus:ring-[3px] focus:ring-ring/25"
+        className="w-full rounded-md border border-input bg-card px-3 py-2 text-sm transition-[border-color,box-shadow] focus:border-ring focus:outline-none focus:ring-[3px] focus:ring-ring/25"
         placeholder="z.B. Onlinehandel mit Naturkosmetik, Hautpflegeprodukten und ergänzenden Wellness-Artikeln über eigenen Webshop und Marktplätze (Amazon, Etsy)"
       />
     </Field>
@@ -935,7 +935,7 @@ const StepBeginn = ({ data, update }: StepProps) => (
       </Field>
     </div>
 
-    <div className="mt-6 rounded-xl border border-accent-blue/20 bg-accent/60 p-4 md:p-5">
+    <div className="mt-6 rounded-xl border border-foreground/25 bg-accent/60 p-4 md:p-5">
       <h3 className="text-base font-semibold">§ 19 UStG Kleinunternehmer: deine Entscheidung</h3>
       <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
         Bleibt dein Umsatz im Gründungsjahr <strong className="font-medium text-foreground">bis 25.000 €</strong> (in Folgejahren: Vorjahr bis
@@ -1222,7 +1222,7 @@ const Glossar = () => (
   <details className="group mb-6 rounded-2xl border border-border bg-card shadow-card [&_summary::-webkit-details-marker]:hidden">
     <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-5 py-4 text-base font-semibold md:px-6">
       <span className="flex items-center gap-3">
-        <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-accent-blue">
+        <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-secondary text-foreground/70">
           <HelpCircle className="h-4 w-4" aria-hidden="true" />
         </span>
         Glossar: Begriffe einfach erklärt

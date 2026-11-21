@@ -545,7 +545,7 @@ const RechnungsGenerator = () => {
                 <div className="min-w-0 flex-1">
                   <p className="text-sm font-medium">Firmen-Logo (optional)</p>
                   <div className="mt-1.5 flex flex-wrap gap-2">
-                    <label className="inline-flex h-9 cursor-pointer items-center gap-1.5 whitespace-nowrap rounded-md border border-input bg-card px-3 text-sm font-medium shadow-[0_1px_2px_hsl(var(--primary)/0.05)] transition-colors hover:bg-secondary focus-within:ring-2 focus-within:ring-ring">
+                    <label className="inline-flex h-9 cursor-pointer items-center gap-1.5 whitespace-nowrap rounded-md border border-input bg-card px-3 text-sm font-medium transition-colors hover:bg-secondary focus-within:ring-2 focus-within:ring-ring">
                       <ImagePlus className="h-4 w-4" aria-hidden="true" /> {data.sender.logoDataUrl ? "Logo ersetzen" : "Logo hochladen"}
                       <input type="file" accept="image/png,image/jpeg,image/webp" onChange={handleLogoUpload} className="sr-only" />
                     </label>
@@ -792,7 +792,7 @@ const RechnungsGenerator = () => {
           <Link
             key={l.to}
             to={l.to}
-            className="group flex items-center justify-between gap-3 rounded-xl border border-border bg-card p-4 shadow-card transition-colors hover:border-accent-blue/40"
+            className="group flex items-center justify-between gap-3 rounded-xl border border-border bg-card p-4 shadow-card transition-colors hover:border-foreground/30"
           >
             <span>
               <span className="block text-sm font-semibold">{l.t}</span>
@@ -834,7 +834,7 @@ const BeginnerHero = () => (
         { k: "Standard", d: "19/7 % USt für die meisten", cls: "border-success/25 bg-success-soft", t: "text-success" },
         { k: "§19 KU", d: "<25k € Umsatz, keine USt", cls: "border-info/20 bg-info-soft", t: "text-info" },
         { k: "§13b RC", d: "B2B EU-Dienstleistung", cls: "border-warning/25 bg-warning-soft", t: "text-warning" },
-        { k: "§6a IGL", d: "Waren B2B EU steuerfrei", cls: "border-accent-blue/20 bg-accent", t: "text-accent-blue" },
+        { k: "§6a IGL", d: "Waren B2B EU steuerfrei", cls: "border-foreground/25 bg-accent", t: "text-accent-blue" },
       ].map((c) => (
         <div key={c.k} className={cn("rounded-xl border p-3", c.cls)}>
           <strong className={cn("text-sm font-semibold", c.t)}>{c.k}</strong>
@@ -857,7 +857,7 @@ const UstModusCard = ({ modus, current, onSelect, title, desc }: {
       className={cn(
         "rounded-xl border p-3.5 text-left transition-[background-color,border-color,box-shadow] duration-200 active:translate-y-px",
         active
-          ? "border-accent-blue bg-accent shadow-[0_0_0_1px_hsl(var(--accent-blue)/0.35)]"
+          ? "border-accent-blue bg-accent shadow-[0_0_0_1px_hsl(var(--primary))]"
           : "border-border bg-card hover:border-foreground/25",
       )}
     >
@@ -879,7 +879,7 @@ const Glossar = () => (
   <details className="group mb-6 rounded-2xl border border-border bg-card shadow-card [&_summary::-webkit-details-marker]:hidden">
     <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-5 py-4 text-base font-semibold md:px-6">
       <span className="flex items-center gap-3">
-        <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-accent-blue">
+        <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-secondary text-foreground/70">
           <HelpCircle className="h-4 w-4" aria-hidden="true" />
         </span>
         Glossar: Begriffe einfach erklärt

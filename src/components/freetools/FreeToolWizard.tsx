@@ -211,7 +211,7 @@ export function FreeToolWizard({ config }: FreeToolWizardProps) {
               {!isUnlocked && (
                 <div className="absolute inset-x-0 bottom-0 flex h-64 items-end justify-center bg-gradient-to-t from-card via-card/95 to-transparent px-4 pb-8">
                   <div className="text-center">
-                    <div className="mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-xl bg-accent text-accent-blue">
+                    <div className="mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-xl bg-secondary text-foreground/70">
                       <Lock className="h-5 w-5" aria-hidden="true" />
                     </div>
                     <p className="mb-1 text-sm font-semibold text-foreground">

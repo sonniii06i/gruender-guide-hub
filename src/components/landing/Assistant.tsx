@@ -11,9 +11,9 @@ const TOPICS = [
 ];
 
 export const Assistant = () => (
-  <section className="pb-20 md:pb-28">
+  <section className="pb-20 md:pb-20">
     <div className="container max-w-6xl">
-      <div className="relative overflow-hidden rounded-[2rem] bg-ink text-primary-foreground shadow-soft">
+      <div className="relative overflow-hidden rounded-xl bg-ink text-primary-foreground shadow-soft">
         <div className="pointer-events-none absolute inset-0 bg-dots-light" aria-hidden="true" />
         <div
           className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-accent-blue/25 blur-3xl"
@@ -23,7 +23,7 @@ export const Assistant = () => (
         <div className="relative grid items-center gap-8 p-8 md:grid-cols-[1fr,auto] md:p-14">
           <div>
             <p className="mb-4 text-sm font-medium text-brand-green-glow">KI-Assistent</p>
-            <h2 className="max-w-2xl text-3xl font-semibold leading-[1.1] md:text-[2.75rem]">
+            <h2 className="max-w-2xl text-2xl font-semibold leading-[1.1] md:text-[2rem]">
               Lerne Felix kennen, deinen persönlichen Gründungs-Co-Pilot.
             </h2>
             <p className="mt-5 max-w-xl text-lg leading-relaxed text-primary-foreground/75">
@@ -62,7 +62,7 @@ export const Assistant = () => (
               decoding="async"
               width={288}
               height={288}
-              className="relative h-56 w-56 object-contain drop-shadow-2xl md:h-72 md:w-72"
+              className="relative h-56 w-56 object-contain md:h-72 md:w-72"
             />
           </div>
         </div>

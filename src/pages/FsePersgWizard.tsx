@@ -362,7 +362,7 @@ const FsePersgWizard = () => {
                 <li key={x.to}>
                   <Link
                     to={x.to}
-                    className="group flex items-center gap-3 rounded-xl border border-border p-3 transition-colors hover:border-accent-blue/40"
+                    className="group flex items-center gap-3 rounded-xl border border-border p-3 transition-colors hover:border-foreground/30"
                   >
                     <span className="min-w-0 flex-1">
                       <span className="block text-sm font-semibold">{x.l}</span>

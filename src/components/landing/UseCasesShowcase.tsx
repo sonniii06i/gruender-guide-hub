@@ -5,7 +5,7 @@ import { CATEGORIES, categoryToolCount, LANDING_TOOLS } from "@/data/features";
 export const UseCasesShowcase = ({ compact = false }: { compact?: boolean }) => {
   const total = LANDING_TOOLS.length;
   return (
-    <section className={compact ? "py-2" : "py-14 md:py-28"}>
+    <section className={compact ? "py-2" : "py-14 md:py-20"}>
       <div className="container max-w-6xl px-4">
         <div className={compact ? "mb-6 text-center" : "mb-12 max-w-3xl"}>
           {/* Felix bewusst entfernt – siehe Features.tsx */}
@@ -24,9 +24,9 @@ export const UseCasesShowcase = ({ compact = false }: { compact?: boolean }) => 
             return (
               <li
                 key={c.slug}
-                className="group flex items-start gap-4 rounded-2xl border border-border bg-card p-5 transition-[border-color,box-shadow] hover:border-accent-blue/35 hover:shadow-card"
+                className="group flex items-start gap-4 rounded-2xl border border-border bg-card p-5 transition-[border-color,box-shadow] hover:border-foreground/30"
               >
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent text-accent-blue">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-secondary text-foreground/70">
                   <Icon className="h-5 w-5" aria-hidden="true" />
                 </div>
                 <div className="min-w-0 flex-1">

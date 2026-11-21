@@ -19,7 +19,7 @@ const plusTage = (iso: string, n: number) => new Date(Date.parse(`${iso}T12:00:0
 const RadarKarte = ({ e, neu, gemerkt, merken }: { e: GruenderEvent; neu: boolean; gemerkt: boolean; merken: () => void }) => {
   const art = ART_LABELS[e.art];
   return (
-    <div className={`flex gap-3 rounded-xl border bg-card p-3 transition-[border-color,box-shadow] hover:shadow-card sm:gap-4 sm:p-4 ${neu ? "border-accent-blue/40" : "border-border"}`}>
+    <div className={`flex gap-3 rounded-xl border bg-card p-3 transition-[border-color,box-shadow] sm:gap-4 sm:p-4 ${neu ? "border-foreground/25" : "border-border"}`}>
       <div className="w-14 shrink-0 rounded-lg bg-secondary/70 py-1.5 text-center">
         <div className="text-[11px] text-muted-foreground">{new Date(`${e.datum}T12:00:00`).toLocaleDateString("de-DE", { weekday: "short" })}</div>
         <div className="text-lg font-semibold leading-tight tabular">{e.datum!.slice(8, 10)}</div>
@@ -166,7 +166,7 @@ const EventRadar = () => {
       <section className="mb-6 rounded-2xl border border-border bg-card shadow-card" aria-live="polite">
         <div className="grid grid-cols-1 gap-px overflow-hidden rounded-2xl bg-border sm:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div className="bg-card p-5">
-            <p className="flex items-center gap-1.5 text-sm font-medium text-accent-blue">
+            <p className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground">
               <Bell className="h-4 w-4" aria-hidden="true" /> {s.region ? BUNDESLAND_NAMES[s.region] : "Ganz Deutschland"}
               {s.online ? " + online" : ""}
             </p>
@@ -233,7 +233,7 @@ const EventRadar = () => {
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-8">
         <div className="min-w-0 space-y-10">
           {neu.length > 0 && (
-            <section className="rounded-2xl border border-accent-blue/25 bg-accent/50 p-4 sm:p-5">
+            <section className="rounded-2xl border border-foreground/25 bg-accent/50 p-4 sm:p-5">
               <h2 className="mb-3 inline-flex items-center gap-2 text-base font-semibold"><Sparkles className="h-4 w-4 text-accent-blue" aria-hidden="true" /> Neu für dich</h2>
               <div className="space-y-2">
                 {neu.slice(0, 12).map((e) => <RadarKarte key={e.slug} e={e} neu gemerkt={z.gemerkt.includes(e.slug)} merken={() => merken(e.slug)} />)}

@@ -507,7 +507,7 @@ const StbMatch = () => {
                     className={cn(
                       "flex items-start gap-3 rounded-xl border p-3.5 text-left transition-[border-color,background-color,box-shadow] duration-200",
                       aktiv
-                        ? "border-accent-blue/50 bg-accent shadow-[0_0_0_3px_hsl(var(--accent-blue)/0.12)]"
+                        ? "border-primary bg-accent shadow-[0_0_0_1px_hsl(var(--primary))]"
                         : disabled
                           ? "cursor-not-allowed border-border bg-secondary/40 opacity-50"
                           : "border-border bg-card hover:border-foreground/25",
@@ -728,7 +728,7 @@ const StbMatch = () => {
               ))}
             </div>
             {aktivGruppen.length > 0 && (
-              <details className="group mt-5 rounded-xl border border-accent-blue/20 bg-accent/60 [&_summary::-webkit-details-marker]:hidden">
+              <details className="group mt-5 rounded-xl border border-foreground/25 bg-accent/60 [&_summary::-webkit-details-marker]:hidden">
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 text-sm font-medium">
                   <span className="flex items-center gap-2">
                     <Lightbulb className="h-4 w-4 text-accent-blue" aria-hidden="true" />
@@ -736,7 +736,7 @@ const StbMatch = () => {
                   </span>
                   <ChevronDown className="h-4 w-4 text-muted-foreground transition-transform group-open:rotate-180" aria-hidden="true" />
                 </summary>
-                <div className="border-t border-accent-blue/15 px-4 py-3">
+                <div className="border-t border-foreground/25 px-4 py-3">
                   <p className="mb-3 text-xs text-muted-foreground">Ein Klick übernimmt die Frage ins nächste freie Feld.</p>
                   <div className="space-y-2">
                     {aktivGruppen
@@ -750,7 +750,7 @@ const StbMatch = () => {
                             const idx = nextFreeIdx === -1 ? 2 : nextFreeIdx;
                             applyPainPointSuggestion(idx, text);
                           }}
-                          className="flex w-full items-start gap-3 rounded-lg border border-border bg-card px-3 py-2.5 text-left transition-colors hover:border-accent-blue/40"
+                          className="flex w-full items-start gap-3 rounded-lg border border-border bg-card px-3 py-2.5 text-left transition-colors hover:border-foreground/30"
                         >
                           <Plus className="mt-0.5 h-3.5 w-3.5 shrink-0 text-accent-blue" aria-hidden="true" />
                           <span className="min-w-0">
@@ -918,7 +918,7 @@ const StbMatch = () => {
                     className={cn(
                       "flex flex-col rounded-2xl border bg-card p-5 shadow-card transition-[border-color,box-shadow] duration-200",
                       isSelected
-                        ? "border-accent-blue/50 shadow-[0_0_0_3px_hsl(var(--accent-blue)/0.12)]"
+                        ? "border-primary shadow-[0_0_0_1px_hsl(var(--primary))]"
                         : "border-border hover:border-foreground/20",
                     )}
                   >
@@ -997,7 +997,7 @@ const StbMatch = () => {
                     </div>
 
                     {m.reason && (
-                      <p className="mt-3 flex items-start gap-1.5 text-xs text-accent-blue">
+                      <p className="mt-3 flex items-start gap-1.5 text-xs text-muted-foreground">
                         <ArrowRight className="mt-0.5 h-3 w-3 shrink-0" aria-hidden="true" />
                         {m.reason}
                       </p>
@@ -1052,10 +1052,10 @@ const StbMatch = () => {
 
           {/* Schwebende Leiste, sobald mindestens eine Kanzlei gewählt ist */}
           {selectedStbs.size > 0 && (
-            <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-border bg-card/95 shadow-soft backdrop-blur-md">
+            <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-border bg-card shadow-soft">
               <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-3">
                 <div className="flex min-w-0 items-center gap-3">
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent text-accent-blue">
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-secondary text-foreground/70">
                     <CheckCircle2 className="h-5 w-5" aria-hidden="true" />
                   </span>
                   <div className="min-w-0">
@@ -1189,7 +1189,7 @@ const CheckGrid = ({
           key={it.value}
           className={cn(
             "flex cursor-pointer items-start gap-2.5 rounded-lg border px-3 py-2.5 text-sm transition-colors",
-            checked ? "border-accent-blue/40 bg-accent/70" : "border-border hover:border-foreground/20",
+            checked ? "border-foreground/25 bg-accent/70" : "border-border hover:border-foreground/20",
           )}
         >
           <input

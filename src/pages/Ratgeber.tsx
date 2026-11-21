@@ -135,7 +135,7 @@ const Ratgeber = () => {
         <div className="container max-w-5xl">
           <Link
             to="/vorlagen"
-            className="press group flex flex-col gap-1 rounded-2xl border border-accent-blue/25 bg-accent/40 px-5 py-4 hover:border-accent-blue/50 sm:flex-row sm:items-center sm:justify-between"
+            className="press group flex flex-col gap-1 rounded-2xl border border-foreground/25 bg-accent/40 px-5 py-4 hover:border-foreground/30 sm:flex-row sm:items-center sm:justify-between"
           >
             <span className="text-sm text-muted-foreground">
               <strong className="text-foreground">Kostenlose Vertragsvorlagen:</strong> GbR-Vertrag, Kaufvertrag, Arbeitsvertrag, NDA, AGB,
@@ -213,7 +213,7 @@ const Ratgeber = () => {
                 <Link
                   key={p.id}
                   to={`/ratgeber/${p.slug}`}
-                  className="group overflow-hidden rounded-2xl border border-border bg-card transition-[border-color,box-shadow] hover:border-accent-blue/30 hover:shadow-soft"
+                  className="group overflow-hidden rounded-2xl border border-border bg-card transition-[border-color,box-shadow] hover:border-foreground/30"
                 >
                   {p.hero_image_url ? (
                     <div className="aspect-[16/9] overflow-hidden bg-secondary">
@@ -227,7 +227,7 @@ const Ratgeber = () => {
                       />
                     </div>
                   ) : (
-                    <div className="aspect-[16/9] bg-gradient-to-br from-accent/30 to-primary/10" />
+                    <div className="aspect-[16/9] bg-secondary" />
                   )}
                   <div className="p-6">
                     <div className="flex items-center gap-3 text-xs text-muted-foreground mb-3">

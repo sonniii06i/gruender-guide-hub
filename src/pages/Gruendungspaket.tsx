@@ -90,7 +90,7 @@ const Gruendungspaket = () => {
         <PageHeader
           width="max-w-4xl"
           kicker={
-            <span className="inline-flex items-center rounded-full border border-accent-blue/20 bg-accent px-3 py-1 text-[13px] font-medium text-accent-blue">
+            <span className="inline-flex items-center rounded-full border border-foreground/25 bg-accent px-3 py-1 text-[13px] font-medium text-accent-blue">
               Stand {PAKET_STAND} · amtliche Quellen
             </span>
           }
@@ -122,7 +122,7 @@ const Gruendungspaket = () => {
                     <div>
                       <p className="font-medium text-foreground">{d.titel}</p>
                       <p className="text-sm text-muted-foreground">{d.nutzen}</p>
-                      <p className="mt-1 text-xs uppercase tracking-wide text-muted-foreground">{d.formate.join(" · ")}</p>
+                      <p className="mt-1 text-xs text-muted-foreground">{d.formate.join(" · ")}</p>
                     </div>
                   </li>
                 );

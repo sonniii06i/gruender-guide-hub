@@ -73,7 +73,7 @@ const EcomRoadmap = () => {
                 key={c.slug}
                 type="button"
                 onClick={() => setActiveSlug(c.slug)}
-                className="press group flex items-start gap-4 rounded-2xl border border-border bg-card p-5 text-left shadow-card hover:border-accent-blue/40 hover:shadow-soft"
+                className="press group flex items-start gap-4 rounded-2xl border border-border bg-card p-5 text-left shadow-card hover:border-foreground/30"
               >
                 <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-secondary text-xl" aria-hidden="true">
                   {c.emoji}

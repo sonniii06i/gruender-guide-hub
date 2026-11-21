@@ -245,7 +245,7 @@ const Anbieter = () => {
                       className={`flex min-w-0 items-center gap-2 rounded-xl border px-3 py-2.5 text-left transition-colors active:translate-y-px ${
                         active
                           ? "border-primary bg-primary text-primary-foreground"
-                          : "border-border bg-card hover:border-accent-blue/40 hover:bg-accent/50"
+                          : "border-border bg-card hover:border-foreground/30 hover:bg-accent/50"
                       }`}
                     >
                       <Icon className={`h-4 w-4 shrink-0 ${active ? "text-primary-foreground" : "text-accent-blue"}`} aria-hidden="true" />
@@ -271,7 +271,7 @@ const Anbieter = () => {
             <div className="flex flex-wrap items-center gap-1.5 text-muted-foreground">
               Aktive Filter:
               {cat !== "Alle" && (
-                <span className="inline-flex items-center gap-1 rounded-md border border-accent-blue/20 bg-accent px-2 py-0.5 text-xs font-semibold text-accent-blue">
+                <span className="inline-flex items-center gap-1 rounded-md border border-foreground/25 bg-accent px-2 py-0.5 text-xs font-semibold text-accent-blue">
                   {cat}
                   <button type="button" onClick={() => setCatWithUrl("Alle")} className="rounded-sm hover:bg-accent-blue/15" aria-label="Kategorie-Filter entfernen">
                     <X className="h-3 w-3" />
@@ -279,7 +279,7 @@ const Anbieter = () => {
                 </span>
               )}
               {q && (
-                <span className="inline-flex items-center gap-1 rounded-md border border-accent-blue/20 bg-accent px-2 py-0.5 text-xs font-semibold text-accent-blue">
+                <span className="inline-flex items-center gap-1 rounded-md border border-foreground/25 bg-accent px-2 py-0.5 text-xs font-semibold text-accent-blue">
                   „{q}"
                   <button type="button" onClick={() => setQ("")} className="rounded-sm hover:bg-accent-blue/15" aria-label="Suche entfernen">
                     <X className="h-3 w-3" />
@@ -348,12 +348,12 @@ const Anbieter = () => {
 const ProviderCard = ({ p }: { p: Provider }) => (
   <Link
     to={`/anbieter/${p.slug}`}
-    className="group flex min-w-0 flex-col rounded-2xl border border-border bg-card p-5 shadow-card transition-[border-color,box-shadow] hover:border-accent-blue/40 hover:shadow-soft"
+    className="group flex min-w-0 flex-col rounded-2xl border border-border bg-card p-5 shadow-card transition-[border-color,box-shadow] hover:border-foreground/30"
   >
     {/* Kopf: Kategorie, Name, Bewertung */}
     <div className="mb-2 flex items-start justify-between gap-3">
       <div className="min-w-0">
-        <p className="truncate text-xs font-medium text-accent-blue">{p.category}</p>
+        <p className="truncate text-xs font-medium text-muted-foreground">{p.category}</p>
         <h3 className="truncate text-lg font-semibold leading-tight tracking-tight">{p.name}</h3>
       </div>
       <span className="inline-flex shrink-0 items-center gap-1 rounded-md border border-warning/25 bg-warning-soft px-2 py-0.5 text-xs font-semibold tabular">
@@ -410,7 +410,7 @@ const ProviderCard = ({ p }: { p: Provider }) => (
     )}
 
     {isCoopActive(p.coop) && p.coop && (
-      <div className="mb-3 flex items-start gap-1.5 rounded-lg border border-accent-blue/20 bg-accent p-2.5 text-xs font-medium">
+      <div className="mb-3 flex items-start gap-1.5 rounded-lg border border-foreground/25 bg-accent p-2.5 text-xs font-medium">
         <Tag className="mt-0.5 h-3 w-3 shrink-0 text-accent-blue" aria-hidden="true" />
         <span className="line-clamp-2">{p.coop.text}{p.coop.code ? ` · ${p.coop.code}` : ""}</span>
       </div>

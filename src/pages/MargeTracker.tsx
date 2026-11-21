@@ -550,7 +550,7 @@ const MargeTracker = () => {
                 <p className="text-sm leading-relaxed text-muted-foreground">{ch.bemerkung}</p>
 
                 {ch.supportsFeePull && (
-                  <div className="rounded-xl border border-accent-blue/20 bg-accent p-4">
+                  <div className="rounded-xl border border-foreground/25 bg-accent p-4">
                     <p className="text-sm font-semibold">{isAmazon ? "Fees und VK automatisch holen" : "Echte Marketplace-Fees"}</p>
                     <div className="mt-3 flex flex-wrap items-end gap-3">
                       {isAmazon && (

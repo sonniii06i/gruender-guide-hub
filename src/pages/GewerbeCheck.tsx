@@ -632,7 +632,7 @@ const OptionCard = ({ active, onClick, children }: { active: boolean; onClick: (
     className={cn(
       "block w-full rounded-xl border p-4 text-left text-foreground transition-[background-color,border-color,box-shadow] duration-200 active:translate-y-px",
       active
-        ? "border-accent-blue bg-accent shadow-[0_0_0_1px_hsl(var(--accent-blue)/0.35)]"
+        ? "border-accent-blue bg-accent shadow-[0_0_0_1px_hsl(var(--primary))]"
         : "border-border bg-card hover:border-foreground/25",
     )}
   >
@@ -760,7 +760,7 @@ const Glossar = () => (
   <details className="group rounded-2xl border border-border bg-card shadow-card">
     <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-5 py-4 md:px-6 [&::-webkit-details-marker]:hidden">
       <span className="flex items-center gap-3">
-        <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-accent-blue">
+        <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-secondary text-foreground/70">
           <BookOpen className="h-4 w-4" aria-hidden="true" />
         </span>
         <span className="text-base font-semibold">Glossar: Begriffe einfach erklärt</span>

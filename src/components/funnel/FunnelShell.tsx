@@ -9,7 +9,7 @@ import Logo from "@/components/Logo";
  */
 export const FunnelShell = ({ children, anzeige = false, kopfRechts }: { children: ReactNode; anzeige?: boolean; kopfRechts?: ReactNode }) => (
   <div className="relative min-h-screen bg-background">
-    <header className="border-b border-border/60 bg-background/90 backdrop-blur-md">
+    <header className="border-b border-border/60 bg-background">
       <div className="container flex h-14 max-w-5xl items-center justify-between gap-3 px-4">
         <Link to="/" className="flex items-center gap-2" aria-label="GründerX Startseite">
           <Logo asImage className="h-7 w-7" />
@@ -17,7 +17,7 @@ export const FunnelShell = ({ children, anzeige = false, kopfRechts }: { childre
         </Link>
         <div className="flex items-center gap-3">
           {anzeige && (
-            <span className="rounded border border-border px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+            <span className="rounded border border-border px-2 py-0.5 text-[11px] font-semibold text-muted-foreground">
               Anzeige
             </span>
           )}
@@ -44,7 +44,7 @@ export const FunnelShell = ({ children, anzeige = false, kopfRechts }: { childre
 /** Quellenliste unter Funnel-Texten: jede Zahl auf der Seite steht hier mit Fundstelle. */
 export const Quellen = ({ eintraege }: { eintraege: { text: string; url: string }[] }) => (
   <section className="mt-12 border-t border-border/70 pt-6">
-    <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Quellen</h2>
+    <h2 className="text-sm font-semibold text-muted-foreground">Quellen</h2>
     <ul className="mt-3 space-y-1.5 text-sm text-muted-foreground">
       {eintraege.map((q) => (
         <li key={q.url}>

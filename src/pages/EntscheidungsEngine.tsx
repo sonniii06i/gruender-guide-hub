@@ -560,7 +560,7 @@ const OptionCard = ({
       "flex w-full items-center gap-3 rounded-xl border px-4 py-3 text-sm font-medium transition-[border-color,background-color,box-shadow] duration-200",
       center ? "justify-center text-center" : "text-left",
       active
-        ? "border-accent-blue/50 bg-accent shadow-[0_0_0_3px_hsl(var(--accent-blue)/0.12)]"
+        ? "border-primary bg-accent shadow-[0_0_0_1px_hsl(var(--primary))]"
         : "border-border bg-card hover:border-foreground/25",
     )}
   >
@@ -868,7 +868,7 @@ const EntscheidungsEngine = () => {
 
 const StepKopf = ({ nr, titel, text }: { nr: number; titel: string; text?: string }) => (
   <div className="mb-5">
-    <p className="text-sm font-medium text-accent-blue">Frage {nr}</p>
+    <p className="text-sm font-medium text-muted-foreground">Frage {nr}</p>
     <h2 className="mt-1 text-lg font-semibold tracking-tight">{titel}</h2>
     {text && <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{text}</p>}
   </div>

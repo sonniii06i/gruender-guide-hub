@@ -1054,7 +1054,7 @@ const OptionCard = ({
       "relative block w-full rounded-xl border text-left text-foreground transition-[background-color,border-color,box-shadow] duration-200 active:translate-y-px disabled:cursor-not-allowed disabled:opacity-55 disabled:active:translate-y-0",
       compact ? "px-3.5 py-2.5" : "p-4",
       active
-        ? "border-accent-blue bg-accent shadow-[0_0_0_1px_hsl(var(--accent-blue)/0.35)]"
+        ? "border-accent-blue bg-accent shadow-[0_0_0_1px_hsl(var(--primary))]"
         : "border-border bg-card hover:border-foreground/25",
     )}
   >

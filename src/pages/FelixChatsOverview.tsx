@@ -100,8 +100,8 @@ export default function FelixChatsOverview() {
     <div className="container max-w-4xl px-4 pb-16 pt-8 md:px-6 md:pt-10">
       <header className="mb-8 flex flex-wrap items-end justify-between gap-4 border-b border-border/70 pb-7">
         <div>
-          <p className="text-sm font-medium text-accent-blue">Felix</p>
-          <h1 className="mt-2 text-[1.75rem] font-semibold leading-[1.12] tracking-[-0.03em] md:text-[2.25rem]">Deine Chats</h1>
+          <p className="text-sm font-medium text-muted-foreground">Felix</p>
+          <h1 className="mt-2 text-[1.75rem] font-semibold leading-[1.12] tracking-[-0.02em] md:text-[2.25rem]">Deine Chats</h1>
           <p className="mt-3 text-[15px] text-muted-foreground">
             Alle Gespräche mit Felix, durchsuchbar und jederzeit fortsetzbar.
           </p>

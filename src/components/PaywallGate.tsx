@@ -50,10 +50,10 @@ export const PaywallGate = ({ children, title = "Premium-Feature" }: { children:
         <div className="grid md:grid-cols-[1.35fr_1fr]">
           {/* Nutzen */}
           <div className="p-6 sm:p-8">
-            <span className="mb-5 flex h-11 w-11 items-center justify-center rounded-xl border border-accent-blue/20 bg-accent text-accent-blue">
+            <span className="mb-5 flex h-11 w-11 items-center justify-center rounded-xl border border-foreground/25 bg-secondary text-foreground/70">
               <Lock className="h-5 w-5" aria-hidden="true" />
             </span>
-            <p className="mb-1.5 text-sm font-medium text-accent-blue">{kicker}</p>
+            <p className="mb-1.5 text-sm font-medium text-muted-foreground">{kicker}</p>
             <h1 className="text-2xl font-semibold tracking-tight sm:text-[1.7rem] sm:leading-tight">
               Schalte alle Tools und Guides frei
             </h1>

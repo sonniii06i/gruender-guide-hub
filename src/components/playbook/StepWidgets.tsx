@@ -167,7 +167,7 @@ export function NotarFinder({ companyName }: { companyName?: string }) {
               const isPicked = picked?.name === n.name;
               return (
               <button key={i} onClick={() => pickNotar(n)}
-                className={`text-left rounded-lg border-2 p-3 text-sm transition-all ${isPicked ? "border-accent-blue bg-accent ring-2 ring-accent-blue/20" : "border-border bg-card hover:border-accent-blue/40"}`}>
+                className={`text-left rounded-lg border-2 p-3 text-sm transition-colors ${isPicked ? "border-primary bg-secondary" : "border-border bg-card hover:border-foreground/30"}`}>
                 <div className="flex items-start justify-between gap-2">
                   <div className="flex items-center gap-1.5 font-semibold">
                     {isPicked && <CheckCircle2 className="h-3.5 w-3.5 text-accent-blue" />}
@@ -326,7 +326,7 @@ ${form.senderEmail}`;
 
       {/* "An:" Block – zeigt klar welcher Notar ausgewählt ist */}
       {notar ? (
-        <div className="rounded-lg border-2 border-accent-blue/30 bg-accent-blue/5 p-3 space-y-1">
+        <div className="rounded-lg border-2 border-foreground/25 bg-accent-blue/5 p-3 space-y-1">
           <div className="text-xs text-accent-blue font-semibold">Anschreiben an</div>
           <div className="text-sm font-semibold">{notar.name}</div>
           {notar.street && <div className="text-xs text-muted-foreground">{notar.street}</div>}

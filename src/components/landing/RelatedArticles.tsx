@@ -67,7 +67,7 @@ export const RelatedArticles = ({ context, limit = 3, vorrang }: { context: Matc
           <Link
             key={p.slug}
             to={`/ratgeber/${p.slug}`}
-            className="rounded-xl border border-border bg-card p-4 hover:border-accent-blue/50 transition-colors"
+            className="rounded-xl border border-border bg-card p-4 hover:border-foreground/30 transition-colors"
           >
             <p className="font-medium text-sm mb-1">{p.title}</p>
             <p className="text-xs text-muted-foreground line-clamp-2 mb-2">{p.excerpt}</p>

@@ -96,7 +96,7 @@ const UsLlcOffer = () => {
 
       <main>
       {/* Hero -- wiederholt die These der Anzeige woertlich */}
-      <section className="relative overflow-hidden border-b border-border/70 bg-hero pb-16 pt-28 md:pb-20 md:pt-32">
+      <section className="relative overflow-hidden border-b border-border/70 bg-hero pb-16 pt-28 md:pb-20 md:pt-24">
         <div
           className="pointer-events-none absolute inset-0 bg-dots [mask-image:linear-gradient(to_bottom,black,transparent_80%)]"
           aria-hidden="true"
@@ -106,7 +106,7 @@ const UsLlcOffer = () => {
             Für deutsche E-Commerce-Gründer
           </span>
 
-          <h1 className="mt-6 text-balance text-[2.5rem] font-semibold leading-[1.05] tracking-[-0.04em] md:text-[3.75rem]">
+          <h1 className="mt-6 text-balance text-[1.875rem] font-semibold leading-[1.12] tracking-[-0.02em] md:text-[2.5rem]">
             <span className="block">US-LLC als Deutscher.</span>
             <span className="block text-accent-blue">In 30 Tagen startklar.</span>
           </h1>
@@ -138,7 +138,7 @@ const UsLlcOffer = () => {
           {SAEULEN.map((s, i) => (
             <li key={s.titel} className="rounded-2xl border border-border bg-card p-6 shadow-card">
               <div className="flex items-center justify-between">
-                <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent text-accent-blue">
+                <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-secondary text-foreground/70">
                   <s.icon className="h-5 w-5" aria-hidden="true" />
                 </span>
                 <span className="text-sm font-medium tabular text-muted-foreground">Teil {i + 1}</span>

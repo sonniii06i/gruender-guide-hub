@@ -276,7 +276,7 @@ export const TwoFactorPanel = () => {
   return (
     <div className="rounded-2xl border border-border bg-card p-5 shadow-card md:p-6">
       <div className="mb-1.5 flex items-center gap-3">
-        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-accent text-accent-blue">
+        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-secondary text-foreground/70">
           <ShieldCheck className="h-4 w-4" aria-hidden="true" />
         </span>
         <h2 className="text-base font-semibold">Zwei-Faktor-Authentifizierung</h2>

@@ -170,9 +170,9 @@ export default function ERechnungLesen() {
                 e.preventDefault();
                 datei_waehlen(e.dataTransfer.files?.[0]);
               }}
-              className="group flex cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed border-accent-blue/35 bg-card px-6 py-12 text-center shadow-card transition-colors hover:border-accent-blue/60 hover:bg-accent/40 focus-within:border-accent-blue focus-within:ring-[3px] focus-within:ring-ring/25"
+              className="group flex cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed border-foreground/25 bg-card px-6 py-12 text-center shadow-card transition-colors hover:border-foreground/30 hover:bg-accent/40 focus-within:border-accent-blue focus-within:ring-[3px] focus-within:ring-ring/25"
             >
-              <span className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-accent text-accent-blue transition-transform group-hover:-translate-y-0.5">
+              <span className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-secondary text-foreground/70 transition-transform group-hover:-translate-y-0.5">
                 <FileUp className="h-6 w-6" aria-hidden="true" />
               </span>
               <span className="text-base font-semibold">XML-Datei hierher ziehen oder auswählen</span>
@@ -213,7 +213,7 @@ export default function ERechnungLesen() {
                   </div>
                   <div className="sm:text-right">
                     <div className="text-sm text-primary-foreground/65">Zu zahlen</div>
-                    <div className="text-4xl font-semibold tracking-[-0.03em] tabular">{geld(r.summen.zahlbar, r.waehrung)}</div>
+                    <div className="text-4xl font-semibold tracking-[-0.02em] tabular">{geld(r.summen.zahlbar, r.waehrung)}</div>
                     <Button size="sm" className="mt-3 rounded-lg bg-card font-semibold text-primary shadow-none hover:bg-card/90" onClick={() => rechnungAlsPdf(r).save(`${(r.nummer || "e-rechnung").replace(/[^a-z0-9-]+/gi, "-")}.pdf`)}>
                       <Download className="h-4 w-4" /> Als PDF speichern
                     </Button>

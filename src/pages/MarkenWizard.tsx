@@ -224,13 +224,13 @@ const MarkenWizard = () => {
                         className={cn(
                           "rounded-xl border p-4 text-left transition-[background-color,border-color,box-shadow] duration-200 active:translate-y-px",
                           aktiv
-                            ? "border-accent-blue bg-accent shadow-[0_0_0_1px_hsl(var(--accent-blue)/0.35)]"
+                            ? "border-accent-blue bg-accent shadow-[0_0_0_1px_hsl(var(--primary))]"
                             : "border-border bg-card hover:border-foreground/25",
                         )}
                       >
                         <div className="flex items-start justify-between gap-3">
                           <div className="min-w-0">
-                            <p className="text-sm font-medium text-accent-blue">
+                            <p className="text-sm font-medium text-muted-foreground">
                               {s === "dpma" ? "Nur DE" : s === "euipo" ? "EU-weit" : "International"}
                             </p>
                             <p className="mt-0.5 font-semibold">{SCOPE_LABEL[s]}</p>
@@ -268,7 +268,7 @@ const MarkenWizard = () => {
                 description="Markenschutz gilt nur für die Klassen, die du auswählst. Tipp: lieber eine zu wenig als eine zu viel, nach 5 Jahren gilt Benutzungspflicht."
               >
                 {/* Branch-Empfehlung */}
-                <div className="mb-5 rounded-xl border border-accent-blue/20 bg-accent p-4">
+                <div className="mb-5 rounded-xl border border-foreground/25 bg-accent p-4">
                   <Field
                     label={
                       <span className="inline-flex items-center gap-1.5">
@@ -309,7 +309,7 @@ const MarkenWizard = () => {
                         className={cn(
                           "rounded-xl border p-3 text-left transition-[background-color,border-color,box-shadow] duration-200",
                           checked
-                            ? "border-accent-blue bg-accent shadow-[0_0_0_1px_hsl(var(--accent-blue)/0.35)]"
+                            ? "border-accent-blue bg-accent shadow-[0_0_0_1px_hsl(var(--primary))]"
                             : "border-border bg-card hover:border-foreground/25",
                         )}
                       >

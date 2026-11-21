@@ -393,7 +393,7 @@ const FseKapgWizard = () => {
                 <li key={l.to}>
                   <Link
                     to={l.to}
-                    className="group flex items-start justify-between gap-3 rounded-xl border border-border p-3.5 transition-colors hover:border-accent-blue/40"
+                    className="group flex items-start justify-between gap-3 rounded-xl border border-border p-3.5 transition-colors hover:border-foreground/30"
                   >
                     <span className="min-w-0">
                       <span className="block text-sm font-semibold">{l.t}</span>

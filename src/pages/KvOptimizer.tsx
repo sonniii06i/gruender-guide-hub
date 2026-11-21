@@ -155,7 +155,7 @@ const KvOptimizer = () => {
       {/* Sprungmarken */}
       <nav
         aria-label="Abschnitte"
-        className="sticky top-0 z-10 -mx-4 mb-6 border-b border-border bg-background/95 px-4 py-3 backdrop-blur md:-mx-6 md:px-6"
+        className="sticky top-0 z-10 -mx-4 mb-6 border-b border-border bg-background px-4 py-3 md:-mx-6 md:px-6"
       >
         <div className="flex gap-2 overflow-x-auto [scrollbar-width:none]">
           {[
@@ -171,7 +171,7 @@ const KvOptimizer = () => {
                 e.preventDefault();
                 document.getElementById(s.v)?.scrollIntoView({ behavior: "smooth", block: "start" });
               }}
-              className="inline-flex shrink-0 items-center gap-2 rounded-lg border border-border bg-card px-3 py-2 text-sm font-medium transition-colors hover:border-accent-blue/40 hover:text-accent-blue"
+              className="inline-flex shrink-0 items-center gap-2 rounded-lg border border-border bg-card px-3 py-2 text-sm font-medium transition-colors hover:border-foreground/30 hover:text-accent-blue"
             >
               <s.icon className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
               {s.l}
@@ -534,7 +534,7 @@ const KvOptimizer = () => {
             key={l.href}
             href={l.href}
             {...(l.ext ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-            className="group rounded-xl border border-border bg-card p-4 shadow-card transition-colors hover:border-accent-blue/40"
+            className="group rounded-xl border border-border bg-card p-4 shadow-card transition-colors hover:border-foreground/30"
           >
             <p className="flex items-center gap-1.5 text-sm font-semibold">
               {l.t}
@@ -566,7 +566,7 @@ const KvOptimizer = () => {
 
 const AbschnittKopf = ({ icon: Icon, titel, zusatz }: { icon: ElementType; titel: string; zusatz?: string }) => (
   <div className="flex items-center gap-3 border-b border-border/70 pb-3">
-    <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent text-accent-blue">
+    <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-secondary text-foreground/70">
       <Icon className="h-4 w-4" aria-hidden="true" />
     </span>
     <h2 className="text-lg font-semibold tracking-tight">

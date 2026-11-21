@@ -75,8 +75,8 @@ const Support = () => {
     <div className="container max-w-4xl px-4 pb-16 pt-8 md:px-6 md:pt-10">
       <header className="mb-8 flex flex-wrap items-end justify-between gap-4 border-b border-border/70 pb-7">
         <div>
-          <p className="text-sm font-medium text-accent-blue">Support</p>
-          <h1 className="mt-2 text-[1.75rem] font-semibold leading-[1.12] tracking-[-0.03em] md:text-[2.25rem]">Deine Tickets</h1>
+          <p className="text-sm font-medium text-muted-foreground">Support</p>
+          <h1 className="mt-2 text-[1.75rem] font-semibold leading-[1.12] tracking-[-0.02em] md:text-[2.25rem]">Deine Tickets</h1>
           <p className="mt-3 text-[15px] text-muted-foreground">Alle vergangenen Anfragen und Antworten an einem Ort.</p>
         </div>
         <Button asChild>
@@ -107,7 +107,7 @@ const Support = () => {
               <li key={t.id}>
                 <button
                   onClick={() => setActive(t)}
-                  className="press w-full rounded-xl border border-border bg-card p-5 text-left hover:border-accent-blue/40 hover:shadow-card"
+                  className="press w-full rounded-xl border border-border bg-card p-5 text-left hover:border-foreground/30"
                 >
                   <div className="mb-1 flex items-start justify-between gap-3">
                     <h2 className="font-semibold leading-tight">{t.subject}</h2>
@@ -142,7 +142,7 @@ const Support = () => {
                   <p className="py-6 text-center text-sm text-muted-foreground">Noch keine Antwort. Wir melden uns bald.</p>
                 ) : (
                   msgs.map((m) => (
-                    <div key={m.id} className={`rounded-xl border p-4 ${m.author_role === "admin" ? "border-accent-blue/20 bg-accent/60" : "border-border bg-secondary/60"}`}>
+                    <div key={m.id} className={`rounded-xl border p-4 ${m.author_role === "admin" ? "border-foreground/25 bg-accent/60" : "border-border bg-secondary/60"}`}>
                       <p className="mb-1 text-xs font-medium text-muted-foreground">
                         {m.author_role === "admin" ? "GründerX Team" : "Du"} · {formatDistanceToNow(new Date(m.created_at), { addSuffix: true, locale: de })}
                       </p>

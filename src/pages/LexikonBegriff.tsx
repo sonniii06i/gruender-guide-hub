@@ -135,7 +135,7 @@ function BegriffSeite({ begriff }: { begriff: Begriff }) {
       />
 
       <article>
-        <header className="relative overflow-hidden border-b border-border/70 bg-hero pb-12 pt-28 md:pb-14 md:pt-32">
+        <header className="relative overflow-hidden border-b border-border/70 bg-hero pb-12 pt-28 md:pb-14 md:pt-24">
           <div
             className="pointer-events-none absolute inset-0 bg-dots [mask-image:linear-gradient(to_bottom,black,transparent_80%)]"
             aria-hidden="true"
@@ -146,7 +146,7 @@ function BegriffSeite({ begriff }: { begriff: Begriff }) {
             </Link>
             <div className="mb-5 flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-muted-foreground">
               {thema && (
-                <span className="inline-flex items-center rounded-full border border-accent-blue/20 bg-accent px-3 py-0.5 text-[13px] font-medium text-accent-blue">
+                <span className="inline-flex items-center rounded-full border border-foreground/25 bg-accent px-3 py-0.5 text-[13px] font-medium text-accent-blue">
                   {thema.titel}
                 </span>
               )}
@@ -154,7 +154,7 @@ function BegriffSeite({ begriff }: { begriff: Begriff }) {
                 Stand: <time dateTime={begriff.stand}>{datumDe(begriff.stand)}</time>
               </span>
             </div>
-            <h1 className="text-balance text-[2.1rem] font-semibold leading-[1.08] tracking-[-0.035em] md:text-[3rem]">
+            <h1 className="text-balance text-[1.875rem] font-semibold leading-[1.12] tracking-[-0.02em] md:text-[2.5rem]">
               {begriff.begriff}
             </h1>
             <p className="mt-5 text-pretty text-lg leading-relaxed">
@@ -200,7 +200,7 @@ function BegriffSeite({ begriff }: { begriff: Begriff }) {
                   <Link
                     key={b.slug}
                     to={lexikonPfad(b.slug)}
-                    className="press group rounded-xl border border-border bg-card p-4 transition-colors hover:border-accent-blue/40 hover:shadow-card"
+                    className="press group rounded-xl border border-border bg-card p-4 transition-colors hover:border-foreground/30"
                   >
                     <p className="mb-1 text-sm font-semibold leading-snug">{b.begriff}</p>
                     <p className="text-xs text-muted-foreground line-clamp-2">{b.kurz}</p>

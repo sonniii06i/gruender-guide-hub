@@ -17,9 +17,9 @@ const TOP_GUIDES = TOP_GUIDE_SLUGS.map((slug) => GUIDE_LANDINGS.find((g) => g.sl
 );
 
 export const StartHere = () => (
-  <section id="einstieg" className="border-t border-border/70 bg-card py-14 md:py-28">
+  <section id="einstieg" className="border-t border-border/70 bg-card py-14 md:py-20">
     <div className="container max-w-6xl">
-      <h2 className="mb-4 text-3xl font-semibold leading-[1.1] md:text-[2.75rem]">Erst ausprobieren, dann entscheiden.</h2>
+      <h2 className="mb-4 text-2xl font-semibold leading-[1.1] md:text-[2rem]">Erst ausprobieren, dann entscheiden.</h2>
       <p className="mb-12 max-w-2xl text-lg leading-relaxed text-muted-foreground">
         Vier Tools aus dem Cockpit kannst du ohne Konto nutzen: drei davon einmal ({TRIAL_CLAIM}), den
         Verpackungslizenz-Rechner unbegrenzt und ohne E-Mail. Die Guides zeigen dir vorab,
@@ -33,7 +33,7 @@ export const StartHere = () => (
           </h3>
           <ul className="space-y-3">
             {TRIAL_TOOLS.map((t) => (
-              <li key={t.slug} className="rounded-xl border border-border bg-background p-4 transition-colors hover:border-accent-blue/40">
+              <li key={t.slug} className="rounded-xl border border-border bg-background p-4 transition-colors hover:border-foreground/30">
                 <div className="flex flex-wrap items-baseline justify-between gap-2">
                   <Link to={t.trialPath} className="font-semibold text-foreground hover:text-accent-blue">
                     {t.name}
@@ -59,7 +59,7 @@ export const StartHere = () => (
               <li key={g.slug}>
                 <Link
                   to={guideHref(g.slug)}
-                  className="press group flex items-center justify-between gap-3 rounded-xl border border-border bg-background p-4 hover:border-accent-blue/40 hover:bg-card hover:shadow-card"
+                  className="press group flex items-center justify-between gap-3 rounded-xl border border-border bg-background p-4 hover:border-foreground/30 hover:bg-card"
                 >
                   <span className="font-medium">{g.title}</span>
                   <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground group-hover:translate-x-0.5 transition-transform" />

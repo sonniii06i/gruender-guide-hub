@@ -7,7 +7,7 @@ import { Footer } from "@/components/landing/Footer";
 import { PageHeader } from "@/components/landing/PageHeader";
 import { FaqList } from "@/components/public/PublicBlocks";
 import { VorlagenKarte } from "@/components/vorlagen/VorlagenKarte";
-import { KATEGORIE_AKZENT, kategorieIcon } from "@/components/vorlagen/vorlagenIcons";
+import { kategorieIcon } from "@/components/vorlagen/vorlagenIcons";
 import { faqSchema, breadcrumbSchema } from "@/lib/freetools/schema";
 import { KATEGORIE_BY_KEY, VORLAGEN_JE_KATEGORIE, VORLAGEN_KATEGORIEN } from "@/data/vorlagen";
 import type { VorlagenKategorie as KategorieKey } from "@/data/vorlagen/types";
@@ -74,8 +74,8 @@ export default function VorlagenKategorie() {
           lead={<p>{kategorie.intro[0]}</p>}
         >
           <div className="mt-6 flex items-center gap-3 text-sm text-muted-foreground">
-            <div className={`flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br ${KATEGORIE_AKZENT[kategorie.key]}`}>
-              <Icon className="h-4 w-4 text-white" aria-hidden="true" />
+            <div className="flex h-9 w-9 items-center justify-center rounded-md border border-border bg-background">
+              <Icon className="h-4 w-4 text-foreground/70" aria-hidden="true" />
             </div>
             <span>{kategorie.kurz}</span>
           </div>
@@ -123,7 +123,7 @@ export default function VorlagenKategorie() {
                 <Link
                   key={k.key}
                   to={`/vorlagen/kategorie/${k.key}`}
-                  className="press inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-3 py-1.5 text-sm font-medium text-foreground/80 hover:border-accent-blue/40 hover:text-foreground"
+                  className="press inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-3 py-1.5 text-sm font-medium text-foreground/80 hover:border-foreground/30 hover:text-foreground"
                 >
                   {k.titel}
                   <span className="text-xs text-muted-foreground">{VORLAGEN_JE_KATEGORIE[k.key].length}</span>

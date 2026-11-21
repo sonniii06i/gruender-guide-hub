@@ -130,14 +130,14 @@ const SteuerABC = () => {
 
       {/* === Cross-Links === */}
       <div className="mb-2 grid grid-cols-1 gap-3 md:grid-cols-2">
-        <Link to="/cockpit/gewerbe-check" className="press group flex items-center justify-between gap-3 rounded-xl border border-border bg-card p-4 hover:border-accent-blue/40 hover:shadow-card">
+        <Link to="/cockpit/gewerbe-check" className="press group flex items-center justify-between gap-3 rounded-xl border border-border bg-card p-4 hover:border-foreground/30">
           <span>
             <span className="block text-sm font-semibold">Brauche ich ein Gewerbe?</span>
             <span className="block text-xs text-muted-foreground">Der Einstieg für komplette Anfänger:innen</span>
           </span>
           <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
         </Link>
-        <Link to="/cockpit/schwellen-check" className="press group flex items-center justify-between gap-3 rounded-xl border border-border bg-card p-4 hover:border-accent-blue/40 hover:shadow-card">
+        <Link to="/cockpit/schwellen-check" className="press group flex items-center justify-between gap-3 rounded-xl border border-border bg-card p-4 hover:border-foreground/30">
           <span>
             <span className="block text-sm font-semibold">Side-Hustle-Schwellen-Check</span>
             <span className="block text-xs text-muted-foreground">Alle Freibeträge 2026 auf einen Blick</span>
@@ -164,7 +164,7 @@ const SteuerABC = () => {
 const BegriffCard = ({ g }: { g: GlossarBegriff }) => {
   const [expanded, setExpanded] = useState(false);
   return (
-    <article className={`rounded-xl border bg-card p-4 transition-[border-color,box-shadow] md:p-5 ${expanded ? "border-accent-blue/35 shadow-card" : "border-border hover:border-accent-blue/30"}`}>
+    <article className={`rounded-xl border bg-card p-4 transition-[border-color,box-shadow] md:p-5 ${expanded ? "border-foreground/25 shadow-card" : "border-border hover:border-foreground/30"}`}>
       <div className="mb-1.5 flex items-start justify-between gap-3">
         <h3 className="text-[15px] font-semibold leading-snug">{g.begriff}</h3>
         {g.paragraph && <ToneBadge className="shrink-0 font-mono">{g.paragraph}</ToneBadge>}
@@ -190,7 +190,7 @@ const BegriffCard = ({ g }: { g: GlossarBegriff }) => {
                 <Link
                   key={t.route}
                   to={t.route}
-                  className="inline-flex items-center gap-1 rounded-lg border border-accent-blue/25 bg-accent px-2.5 py-1.5 text-xs font-semibold text-accent-blue transition-colors hover:border-accent-blue/50"
+                  className="inline-flex items-center gap-1 rounded-lg border border-foreground/25 bg-accent px-2.5 py-1.5 text-xs font-semibold text-accent-blue transition-colors hover:border-foreground/30"
                 >
                   {t.label} <ArrowRight className="h-3 w-3" aria-hidden="true" />
                 </Link>

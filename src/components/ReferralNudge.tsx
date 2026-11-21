@@ -52,7 +52,7 @@ export function ReferralNudge({ minEvents = 1, headline, className = "" }: Props
   };
 
   return (
-    <div className={`relative overflow-hidden rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/12 via-primary/5 to-transparent p-5 ${className}`}>
+    <div className={`relative overflow-hidden rounded-lg border border-border bg-card p-5 ${className}`}>
       <button
         onClick={close}
         aria-label="Hinweis schließen"

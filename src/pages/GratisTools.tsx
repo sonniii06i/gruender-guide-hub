@@ -85,11 +85,11 @@ export default function GratisTools() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {FREE_TOOLS.map((t) => (
               <Link key={t.slug} to={`/${t.slug}`} className="group block">
-                <Card className="h-full transition-[border-color,box-shadow] group-hover:border-accent-blue/35 group-hover:shadow-soft">
+                <Card className="h-full transition-colors group-hover:border-foreground/30">
                   <CardContent className="p-6">
                     <div className="flex items-start gap-4">
-                      <div className={`flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${t.accent}`}>
-                        <t.icon className="h-6 w-6 text-white" />
+                      <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-md border border-border bg-background">
+                        <t.icon className="h-6 w-6 text-foreground/70" />
                       </div>
                       <div className="flex-1">
                         <div className="flex items-center justify-between gap-2">
@@ -114,7 +114,7 @@ export default function GratisTools() {
       {/* Vorlagen-Bibliothek: eigener Bereich, Download gegen bestätigte E-Mail */}
       <section className="pb-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
-          <Link to="/vorlagen" className="press group flex flex-col gap-3 rounded-2xl border border-accent-blue/25 bg-accent/40 p-6 hover:border-accent-blue/50 hover:shadow-card sm:flex-row sm:items-center">
+          <Link to="/vorlagen" className="press group flex flex-col gap-3 rounded-2xl border border-foreground/25 bg-accent/40 p-6 hover:border-foreground/30 sm:flex-row sm:items-center">
             <div className="flex-1">
               <h2 className="text-xl font-semibold text-foreground">Vertragsvorlagen: GbR-Vertrag, Kaufverträge, NDA, AGB &amp; mehr</h2>
               <p className="mt-1 text-sm text-muted-foreground">
@@ -138,7 +138,7 @@ export default function GratisTools() {
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {TRIAL_TOOLS.filter((t) => t.trialPath !== t.landingPath).map((t) => (
-              <Link key={t.slug} to={t.trialPath} className="press group rounded-xl border bg-card p-4 hover:border-accent-blue/35 hover:shadow-card">
+              <Link key={t.slug} to={t.trialPath} className="press group rounded-xl border bg-card p-4 hover:border-foreground/30">
                 <div className="font-semibold text-foreground transition-colors group-hover:text-accent-blue">{t.name}</div>
                 <p className="text-xs text-muted-foreground mt-1 line-clamp-3">{t.desc}</p>
                 <span className="mt-2 inline-flex items-center gap-1 text-sm font-semibold text-accent-blue">

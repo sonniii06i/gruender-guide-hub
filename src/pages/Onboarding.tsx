@@ -254,7 +254,7 @@ const Onboarding = () => {
                 {businessModels.map((b) => (
                   <ChoiceCard key={b.id} active={businessModels_.includes(b.id)} onClick={() => toggleModel(b.id)}>
                     <div className="flex items-center gap-3">
-                      <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent text-accent-blue">
+                      <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-secondary text-foreground/70">
                         <b.icon className="h-4 w-4 text-accent-blue" />
                       </div>
                       <span className="font-medium">{b.label}</span>
@@ -271,7 +271,7 @@ const Onboarding = () => {
                 {stages.map((s) => (
                   <ChoiceCard key={s.id} active={stage === s.id} onClick={() => setStage(s.id)}>
                     <div className="flex items-center gap-3">
-                      <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent text-accent-blue">
+                      <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-secondary text-foreground/70">
                         <s.icon className="h-4 w-4 text-accent-blue" />
                       </div>
                       <span className="font-medium">{s.label}</span>
@@ -288,7 +288,7 @@ const Onboarding = () => {
                 {legalForms.map((l) => (
                   <ChoiceCard key={l.id} active={legalForm === l.id} onClick={() => setLegalForm(l.id)}>
                     <div className="flex items-start gap-3">
-                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-accent text-accent-blue">
+                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-secondary text-foreground/70">
                         <Globe className="h-4 w-4 text-accent-blue" />
                       </div>
                       <div>
@@ -326,8 +326,8 @@ const Onboarding = () => {
 
 const Step = ({ eyebrow, title, subtitle, children }: { eyebrow: string; title: string; subtitle: string; children: React.ReactNode }) => (
   <div>
-    <p className="text-sm font-medium text-accent-blue">{eyebrow}</p>
-    <h1 className="mt-2 text-2xl font-semibold tracking-[-0.03em] md:text-3xl">{title}</h1>
+    <p className="text-sm font-medium text-muted-foreground">{eyebrow}</p>
+    <h1 className="mt-2 text-2xl font-semibold tracking-[-0.02em] md:text-3xl">{title}</h1>
     <p className="mt-2 text-muted-foreground">{subtitle}</p>
     <div className="mt-8">{children}</div>
   </div>
@@ -337,7 +337,7 @@ const ChoiceCard = ({ active, onClick, children }: { active: boolean; onClick: (
   <button type="button" onClick={onClick}
     aria-pressed={active}
     className={`rounded-xl border p-4 text-left transition-[border-color,background-color,box-shadow] duration-200 active:translate-y-px ${
-      active ? "border-accent-blue bg-accent/70 ring-1 ring-accent-blue" : "border-border bg-card hover:border-accent-blue/40 hover:shadow-card"
+      active ? "border-accent-blue bg-accent/70 ring-1 ring-accent-blue" : "border-border bg-card hover:border-foreground/30"
     }`}>
     {children}
   </button>

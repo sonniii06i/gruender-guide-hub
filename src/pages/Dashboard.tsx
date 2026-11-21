@@ -120,7 +120,7 @@ const Dashboard = () => {
   ];
 
   return (
-    <div className="container max-w-6xl px-4 pb-16 pt-8 md:px-6 md:pt-10">
+    <div className="container max-w-6xl px-4 pb-16 pt-6 md:px-6 md:pt-8">
       {params.get("checkout") === "success" ? (
         <AffiliateSuccessBanner />
       ) : (
@@ -130,22 +130,20 @@ const Dashboard = () => {
       )}
       <WelcomeChoiceModal firstName={profile?.first_name} eligible={isActive} />
       {/* Hero */}
-      <header className="mb-8">
-        <p className="text-sm font-medium text-accent-blue">Dein Cockpit</p>
-        <h1 className="mt-2 text-[1.75rem] font-semibold leading-[1.12] tracking-[-0.03em] md:text-[2.25rem]">
+      <header className="mb-5">
+        <p className="text-[13px] font-medium text-muted-foreground">Dein Cockpit</p>
+        <h1 className="mt-1 text-2xl font-semibold leading-tight tracking-[-0.02em] md:text-[1.75rem]">
           Hi {profile?.first_name ?? "Gründer"}. Wo willst du heute weitermachen?
         </h1>
-        <p className="mt-3 max-w-[68ch] text-[15px] leading-relaxed text-muted-foreground">
+        <p className="mt-2 max-w-[68ch] text-sm leading-relaxed text-muted-foreground md:text-[15px]">
           Schritt-für-Schritt-Guides, Rechner und Anbieter-Vergleiche für Gründung, Steuern, Compliance und Skalierung.
         </p>
 
         {/* Banner Onboarding */}
         {profile && !profile.onboarding_completed && (
-          <div className="mt-6 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-accent-blue/20 bg-accent/60 px-4 py-3.5">
+          <div className="mt-5 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-border bg-card px-4 py-3">
             <div className="flex min-w-0 items-center gap-3">
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-card text-accent-blue shadow-card">
-                <Sparkles className="h-4 w-4" aria-hidden="true" />
-              </div>
+              <Sparkles className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden="true" />
               <div className="min-w-0">
                 <p className="text-sm font-semibold">Profil vervollständigen</p>
                 <p className="text-sm text-muted-foreground">Damit wir dir die passenden Guides empfehlen können.</p>
@@ -159,7 +157,7 @@ const Dashboard = () => {
       </header>
 
       {/* View tabs */}
-      <div role="tablist" aria-label="Bereiche" className="-mx-4 mb-8 flex items-center gap-1 overflow-x-auto border-b border-border px-4 md:mx-0 md:px-0">
+      <div role="tablist" aria-label="Bereiche" className="-mx-4 mb-6 flex items-center gap-5 overflow-x-auto border-b border-border px-4 md:mx-0 md:px-0">
         {TABS.map((t) => (
           <button
             key={t.id}
@@ -167,13 +165,13 @@ const Dashboard = () => {
             aria-selected={view === t.id}
             onClick={() => { params.delete("cat"); params.set("view", t.id); setParams(params); }}
             className={cn(
-              "relative whitespace-nowrap px-3 py-3 text-sm font-medium transition-colors",
+              "relative min-h-11 whitespace-nowrap px-0.5 py-2.5 text-sm font-medium transition-colors",
               view === t.id ? "text-foreground" : "text-muted-foreground hover:text-foreground"
             )}
           >
             {t.label}
             {view === t.id && (
-              <span className="absolute inset-x-2 -bottom-px h-0.5 rounded-full bg-accent-blue" aria-hidden="true" />
+              <span className="absolute inset-x-0 -bottom-px h-0.5 bg-primary" aria-hidden="true" />
             )}
           </button>
         ))}
@@ -181,7 +179,7 @@ const Dashboard = () => {
 
       {/* START view */}
       {view === "start" && (
-        <div className="space-y-10">
+        <div className="space-y-8">
           <ContinueLearning />
 
           <EventRadarKachel />
@@ -216,13 +214,10 @@ const Dashboard = () => {
                     key={cat.slug}
                     onClick={() => { params.set("view", "themen"); params.set("cat", cat.slug); setParams(params); }}
                     className={cn(
-                      "press group flex items-start gap-3 rounded-xl border bg-card p-4 text-left hover:shadow-card",
-                      isStarter ? "border-accent-blue/30 hover:border-accent-blue/50" : "border-border hover:border-accent-blue/35"
+                      "press group flex items-start gap-3 rounded-lg border border-border bg-card p-3.5 text-left hover:border-foreground/30"
                     )}
                   >
-                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-accent text-accent-blue">
-                      <Icon className="h-4 w-4" aria-hidden="true" />
-                    </span>
+                    <Icon className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" aria-hidden="true" />
                     <span className="min-w-0 flex-1">
                       <span className="flex items-center gap-2">
                         <span className="text-sm font-semibold leading-tight">{stripEmoji(cat.title)}</span>
@@ -275,7 +270,7 @@ const Dashboard = () => {
               onClick={() => { params.delete("cat"); setParams(params); }}
               aria-pressed={!activeCatSlug}
               className={cn(
-                "shrink-0 rounded-lg border px-3 py-1.5 text-sm font-medium transition-colors",
+                "shrink-0 rounded-md border px-3 py-1.5 text-sm font-medium transition-colors",
                 !activeCatSlug
                   ? "border-primary bg-primary text-primary-foreground"
                   : "border-border bg-card text-foreground/75 hover:border-foreground/25 hover:text-foreground"
@@ -292,7 +287,7 @@ const Dashboard = () => {
                   onClick={() => { params.set("cat", cat.slug); setParams(params); }}
                   aria-pressed={isActive}
                   className={cn(
-                    "inline-flex shrink-0 items-center gap-1.5 rounded-lg border px-3 py-1.5 text-sm font-medium transition-colors",
+                    "inline-flex shrink-0 items-center gap-1.5 rounded-md border px-3 py-1.5 text-sm font-medium transition-colors",
                     isActive
                       ? "border-primary bg-primary text-primary-foreground"
                       : "border-border bg-card text-foreground/75 hover:border-foreground/25 hover:text-foreground"
@@ -317,10 +312,10 @@ const Dashboard = () => {
 };
 
 const SectionHead = ({ title, lead, action }: { title: string; lead?: string; action?: ReactNode }) => (
-  <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
+  <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
     <div>
-      <h2 className="text-lg font-semibold tracking-tight md:text-xl">{title}</h2>
-      {lead && <p className="mt-1 text-sm text-muted-foreground">{lead}</p>}
+      <h2 className="text-base font-semibold md:text-lg">{title}</h2>
+      {lead && <p className="mt-0.5 text-sm text-muted-foreground">{lead}</p>}
     </div>
     {action}
   </div>
@@ -336,7 +331,7 @@ const SearchBar = ({ query, setQuery }: { query: string; setQuery: (s: string) =
       value={query}
       onChange={(e) => setQuery(e.target.value)}
       placeholder="Tools durchsuchen…"
-      className="h-11 pl-9"
+      className="h-10 pl-9"
     />
   </div>
 );
@@ -350,21 +345,18 @@ const NoResults = ({ q }: { q: string }) => (
 );
 
 const FelixCTA = () => (
-  <div className="relative overflow-hidden rounded-2xl bg-ink p-6 text-primary-foreground shadow-soft md:p-8">
-    <div className="pointer-events-none absolute inset-0 bg-dots-light" aria-hidden="true" />
-    <div className="relative flex flex-col items-start justify-between gap-5 md:flex-row md:items-center">
-      <div className="flex items-start gap-4">
-        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/10 text-brand-green-glow">
-          <MessageSquare className="h-5 w-5" aria-hidden="true" />
-        </div>
+  <div className="rounded-lg border border-border bg-card p-5">
+    <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
+      <div className="flex items-start gap-3">
+        <MessageSquare className="mt-1 h-4 w-4 shrink-0 text-muted-foreground" aria-hidden="true" />
         <div>
-          <h2 className="text-xl font-semibold leading-tight md:text-2xl">Steckst du fest? Frag Felix.</h2>
-          <p className="mt-1.5 max-w-lg text-sm text-primary-foreground/75">
+          <h2 className="text-base font-semibold leading-tight md:text-lg">Steckst du fest? Frag Felix.</h2>
+          <p className="mt-1 max-w-lg text-sm text-muted-foreground">
             Dein KI-Co-Founder kennt sich mit Rechtsformen, Steuern, Holdings, US-LLC und Marketplaces aus.
           </p>
         </div>
       </div>
-      <Button asChild size="lg" className="h-11 rounded-xl bg-card px-6 font-semibold text-primary shadow-none hover:bg-card/90">
+      <Button asChild variant="outline" className="shrink-0">
         <Link to="/felix">
           Chat öffnen <ArrowRight aria-hidden="true" />
         </Link>
@@ -378,15 +370,13 @@ const CategorySection = ({ cat, locked }: { cat: FeatureCategory; locked: boolea
   const isStarter = cat.slug === "starter";
   const Icon = cat.icon;
   return (
-    <section className={cn(isStarter && "rounded-2xl border border-accent-blue/20 bg-accent/40 p-4 md:p-6")}>
-      <div className="mb-5 flex items-center justify-between gap-3 border-b border-border/70 pb-4">
+    <section>
+      <div className="mb-4 flex items-center justify-between gap-3 border-b border-border pb-3">
         <div className="flex min-w-0 items-center gap-3">
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-card text-accent-blue shadow-card">
-            <Icon className="h-5 w-5" aria-hidden="true" />
-          </div>
+          <Icon className="h-[18px] w-[18px] shrink-0 text-muted-foreground" aria-hidden="true" />
           <div className="min-w-0">
             <div className="flex flex-wrap items-center gap-2">
-              <h2 className="text-lg font-semibold leading-tight tracking-tight">{stripEmoji(cat.title)}</h2>
+              <h2 className="text-base font-semibold leading-tight">{stripEmoji(cat.title)}</h2>
               {isStarter && <ToneBadge tone="accent">Für Anfänger:innen</ToneBadge>}
             </div>
             <p className="truncate text-sm text-muted-foreground">{cat.tagline}</p>
@@ -414,21 +404,19 @@ const StarterHighlight = ({ isActive }: { isActive: boolean }) => {
   // Erste 4 Tools als Quick-Start-Cards
   const quickStart = starterCat.features.slice(0, 4);
   return (
-    <section className="rounded-2xl border border-accent-blue/20 bg-card p-5 shadow-card md:p-7">
-      <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
+    <section className="rounded-lg border border-border bg-card p-5">
+      <div className="mb-5 flex flex-wrap items-start justify-between gap-4">
         <div className="flex min-w-0 items-start gap-3">
-          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-green-soft text-brand-green">
-            <Sprout className="h-5 w-5" aria-hidden="true" />
-          </div>
+          <Sprout className="mt-1 h-4 w-4 shrink-0 text-muted-foreground" aria-hidden="true" />
           <div className="min-w-0">
-            <p className="text-sm font-medium text-brand-green">Für Einsteiger:innen, {STARTER_COUNT} Tools</p>
-            <h2 className="mt-0.5 text-lg font-semibold tracking-tight md:text-xl">Du startest gerade? Hier entlang.</h2>
+            <p className="text-[13px] font-medium text-muted-foreground">Für Einsteiger:innen, {STARTER_COUNT} Tools</p>
+            <h2 className="mt-0.5 text-base font-semibold md:text-lg">Du startest gerade? Hier entlang.</h2>
             <p className="mt-1 max-w-2xl text-sm leading-relaxed text-muted-foreground">
               Von „Brauche ich überhaupt ein Gewerbe?“ bis zur ersten §14-konformen Rechnung: {STARTER_COUNT} Tools, die durch die ersten 90 Tage führen. Mit personalisierten Empfehlungen und PDF-Vorbereitung für Bürgeramt und Finanzamt.
             </p>
           </div>
         </div>
-        <Button asChild className="shrink-0">
+        <Button asChild variant="outline" className="shrink-0">
           <Link to="/dashboard?view=themen&cat=starter">
             Alle {STARTER_COUNT} Tools <ArrowRight aria-hidden="true" />
           </Link>
@@ -439,10 +427,10 @@ const StarterHighlight = ({ isActive }: { isActive: boolean }) => {
           <li key={f.slug}>
             <Link
               to={f.route ? f.route : isActive ? "/dashboard?view=themen&cat=starter" : "/preise"}
-              className="press group flex h-full flex-col rounded-xl border border-border bg-background p-3.5 hover:border-accent-blue/40 hover:bg-card hover:shadow-card"
+              className="press group flex h-full flex-col rounded-md border border-border bg-background p-3.5 hover:border-foreground/30 hover:bg-card"
             >
-              <span className="mb-2 flex h-6 w-6 items-center justify-center rounded-full border border-border bg-card text-xs font-semibold tabular">{i + 1}</span>
-              <span className="mb-1 text-sm font-semibold leading-tight transition-colors group-hover:text-accent-blue">{f.title}</span>
+              <span className="mb-1.5 text-xs font-semibold text-muted-foreground tabular">Schritt {i + 1}</span>
+              <span className="mb-1 text-sm font-semibold leading-tight">{f.title}</span>
               <span className="text-xs leading-relaxed text-muted-foreground line-clamp-2">{f.desc}</span>
             </Link>
           </li>
@@ -464,8 +452,8 @@ const FeatureCard = ({ f, locked }: { f: Feature; locked: boolean }) => {
   const showLock = locked && isClickable;
   const inner = (
     <div className={cn(
-      "relative flex h-full flex-col rounded-xl border border-border bg-card p-4 transition-[border-color,box-shadow,transform] duration-200",
-      isClickable && "cursor-pointer hover:border-accent-blue/40 hover:shadow-card active:translate-y-px",
+      "relative flex h-full flex-col rounded-lg border border-border bg-card p-4 transition-colors duration-150",
+      isClickable && "cursor-pointer hover:border-foreground/30 active:translate-y-px",
       !isClickable && "opacity-90"
     )}>
       <div className="mb-2.5 flex items-start justify-between">

@@ -482,7 +482,7 @@ const Toggle = ({ checked, onChange, label, help, disabled }: { checked: boolean
     disabled={disabled}
     className={`rounded-xl border p-3.5 text-left transition-colors ${
       disabled ? "cursor-not-allowed border-border bg-card opacity-50" :
-      checked ? "border-accent-blue/40 bg-accent" : "border-border bg-card hover:border-foreground/25"
+      checked ? "border-foreground/25 bg-accent" : "border-border bg-card hover:border-foreground/25"
     }`}
   >
     <div className="flex items-start gap-3">
@@ -498,7 +498,7 @@ const Toggle = ({ checked, onChange, label, help, disabled }: { checked: boolean
 );
 
 const Row = ({ label, value, highlight }: { label: string; value: string; highlight?: boolean }) => (
-  <div className={`flex items-center justify-between gap-3 rounded-lg px-3 py-2.5 ${highlight ? "border border-accent-blue/20 bg-accent" : "bg-secondary/60"}`}>
+  <div className={`flex items-center justify-between gap-3 rounded-lg px-3 py-2.5 ${highlight ? "border border-foreground/25 bg-accent" : "bg-secondary/60"}`}>
     <span className={highlight ? "font-medium text-foreground" : "text-muted-foreground"}>{label}</span>
     <span className={`font-semibold tabular ${highlight ? "text-accent-blue" : ""}`}>{value}</span>
   </div>

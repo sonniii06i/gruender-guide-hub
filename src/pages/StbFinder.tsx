@@ -343,7 +343,7 @@ const StbFinder = () => {
               <label
                 key={s.slug}
                 className={`flex cursor-pointer items-start gap-3 rounded-xl border p-4 transition-[border-color,background-color] duration-200 ${
-                  on ? "border-accent-blue/40 bg-accent" : "border-border bg-card hover:border-foreground/25"
+                  on ? "border-foreground/25 bg-accent" : "border-border bg-card hover:border-foreground/25"
                 }`}
               >
                 <input

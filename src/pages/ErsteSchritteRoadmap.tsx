@@ -235,7 +235,7 @@ const ErsteSchritteRoadmap = () => {
             }
           >
             <div className="h-2 overflow-hidden rounded-full bg-white/10" aria-hidden="true">
-              <div className="h-full rounded-full bg-brand-green transition-all" style={{ width: `${fortschritt.prozent}%` }} />
+              <div className="h-full rounded-full bg-brand-green transition-[width] duration-300 ease-out" style={{ width: `${fortschritt.prozent}%` }} />
             </div>
             <div className="mt-4 grid grid-cols-2 gap-px overflow-hidden rounded-xl bg-white/10">
               {(["T0", "T30", "T60", "T90"] as Phase[]).map((p) => (
@@ -307,7 +307,7 @@ const ErsteSchritteRoadmap = () => {
           <Link
             key={l.to}
             to={l.to}
-            className="group flex items-center justify-between gap-3 rounded-xl border border-border bg-card p-4 shadow-card transition-colors hover:border-accent-blue/40"
+            className="group flex items-center justify-between gap-3 rounded-xl border border-border bg-card p-4 shadow-card transition-colors hover:border-foreground/30"
           >
             <span>
               <span className="block text-sm font-semibold">{l.t}</span>
@@ -345,7 +345,7 @@ const CheckKarte = ({ checked, onChange, titel, hinweis }: {
   <label
     className={cn(
       "flex cursor-pointer items-start gap-3 rounded-xl border p-3.5 transition-colors",
-      checked ? "border-accent-blue/40 bg-accent" : "border-border bg-card hover:border-foreground/25",
+      checked ? "border-foreground/25 bg-accent" : "border-border bg-card hover:border-foreground/25",
     )}
   >
     <input
@@ -529,7 +529,7 @@ const Glossar = () => (
   <details className="group mb-6 rounded-2xl border border-border bg-card shadow-card [&_summary::-webkit-details-marker]:hidden">
     <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-5 py-4 text-base font-semibold md:px-6">
       <span className="flex items-center gap-3">
-        <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-accent-blue">
+        <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-secondary text-foreground/70">
           <HelpCircle className="h-4 w-4" aria-hidden="true" />
         </span>
         Glossar: Begriffe einfach erklärt

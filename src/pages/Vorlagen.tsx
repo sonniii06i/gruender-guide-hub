@@ -13,7 +13,7 @@ import { FaqList } from "@/components/public/PublicBlocks";
 import { faqSchema, breadcrumbSchema, serviceSchema } from "@/lib/freetools/schema";
 import { VORLAGEN, VORLAGEN_JE_KATEGORIE, VORLAGEN_KATEGORIEN } from "@/data/vorlagen";
 import { freigabeAusUrl, freigabeLesen, freigabeMerken, freigabeParameterEntfernen } from "@/lib/vorlagen/freigabe";
-import { KATEGORIE_AKZENT, kategorieIcon } from "@/components/vorlagen/vorlagenIcons";
+import { kategorieIcon } from "@/components/vorlagen/vorlagenIcons";
 import { VorlagenKarte } from "@/components/vorlagen/VorlagenKarte";
 
 const SITE = "https://gruenderx.de";
@@ -161,7 +161,7 @@ export default function Vorlagen() {
                     <a
                       key={k.key}
                       href={`#${k.key}`}
-                      className="press inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-3 py-1.5 text-sm font-medium text-foreground/80 hover:border-accent-blue/40 hover:text-foreground"
+                      className="press inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-3 py-1.5 text-sm font-medium text-foreground/80 hover:border-foreground/30 hover:text-foreground"
                     >
                       {k.titel}
                       <span className="text-xs text-muted-foreground">{VORLAGEN_JE_KATEGORIE[k.key].length}</span>
@@ -179,8 +179,8 @@ export default function Vorlagen() {
                 <section key={k.key} id={k.key} className="scroll-mt-24 py-12 odd:bg-background even:bg-secondary/40">
                   <div className="container max-w-5xl px-4">
                     <div className="mb-6 flex flex-wrap items-center gap-3">
-                      <div className={`flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br ${KATEGORIE_AKZENT[k.key]}`}>
-                        <Icon className="h-5 w-5 text-white" aria-hidden="true" />
+                      <div className="flex h-10 w-10 items-center justify-center rounded-md border border-border bg-background">
+                        <Icon className="h-5 w-5 text-foreground/70" aria-hidden="true" />
                       </div>
                       <div className="flex-1">
                         <h2 className="text-2xl font-semibold text-foreground">

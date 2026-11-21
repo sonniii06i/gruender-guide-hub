@@ -17,16 +17,16 @@ const ours = [
 ];
 
 export const Comparison = () => (
-  <section className="py-14 md:py-28">
+  <section className="py-14 md:py-20">
     <div className="container max-w-6xl">
-      <div className="mb-12 max-w-3xl">
-        <h2 className="text-balance text-[2rem] font-semibold leading-[1.05] tracking-[-0.04em] text-primary md:text-[3rem]">
+      <div className="mb-8 max-w-2xl md:mb-10">
+        <h2 className="text-balance text-2xl font-semibold leading-[1.12] tracking-[-0.02em] text-primary md:text-[2rem]">
           Andere Tools erklären nur. GründerX gründet mit dir.
         </h2>
       </div>
 
       <div className="grid gap-4 md:grid-cols-[0.9fr,1.1fr]">
-        <div className="rounded-2xl border border-border bg-secondary/60 p-7 md:p-8">
+        <div className="rounded-lg border border-border bg-secondary/60 p-6 md:p-7">
           <h3 className="text-lg font-semibold text-muted-foreground">ChatGPT &amp; Co.</h3>
           <p className="mb-6 text-sm text-muted-foreground">Allgemeine KI ohne Kontext</p>
           <ul className="space-y-3.5">
@@ -39,10 +39,9 @@ export const Comparison = () => (
           </ul>
         </div>
 
-        <div className="relative overflow-hidden rounded-2xl border border-accent-blue/25 bg-card p-7 shadow-soft md:p-8">
-          <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-accent-blue via-accent-blue to-brand-green" aria-hidden="true" />
+        <div className="rounded-lg border border-primary bg-card p-6 md:p-7">
           <h3 className="text-lg font-semibold text-foreground">GründerX</h3>
-          <p className="mb-6 text-sm font-medium text-accent-blue">Gründungs-Co-Pilot für E-Commerce &amp; Creator</p>
+          <p className="mb-6 text-sm font-medium text-muted-foreground">Gründungs-Co-Pilot für E-Commerce &amp; Creator</p>
           <ul className="space-y-3.5">
             {ours.map((t) => (
               <li key={t} className="flex items-start gap-3">

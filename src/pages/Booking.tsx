@@ -299,8 +299,7 @@ const Booking = () => {
         showRelated={false}
       >
         <div className="mx-auto max-w-2xl space-y-6">
-          <section className="relative overflow-hidden rounded-2xl border border-success/25 bg-card p-6 shadow-soft md:p-8">
-            <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-brand-green to-accent-blue" aria-hidden="true" />
+          <section className="rounded-lg border border-border bg-card p-6 md:p-8">
             <div className="flex flex-col items-center text-center">
               <span className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-success-soft text-success">
                 <CheckCircle2 className="h-7 w-7" aria-hidden="true" />
@@ -431,7 +430,7 @@ const Booking = () => {
                           "group min-w-0 rounded-xl border px-3 py-2.5 text-left sm:px-4 sm:py-3 transition-[border-color,background-color,box-shadow] duration-200 disabled:cursor-not-allowed disabled:opacity-50",
                           active
                             ? "border-primary bg-primary text-primary-foreground"
-                            : "border-border bg-card hover:border-accent-blue/50 hover:shadow-card",
+                            : "border-border bg-card hover:border-foreground/30",
                         )}
                       >
                         <span className={cn("block text-xs font-medium", active ? "text-primary-foreground/75" : "text-accent-blue")}>
@@ -498,7 +497,7 @@ const Booking = () => {
                         key={ymdKey(day)}
                         className={cn(
                           "rounded-xl border p-3",
-                          isToday ? "border-accent-blue/25 bg-accent" : "border-border bg-card",
+                          isToday ? "border-foreground/25 bg-accent" : "border-border bg-card",
                         )}
                       >
                         <div className="mb-2.5 flex items-start justify-between gap-2">
@@ -537,7 +536,7 @@ const Booking = () => {
                                     ? "bg-primary text-primary-foreground ring-2 ring-primary ring-offset-2 ring-offset-card"
                                     : disabled
                                     ? "cursor-not-allowed bg-secondary/60 text-muted-foreground/60 line-through"
-                                    : "border border-border bg-card hover:border-accent-blue hover:bg-accent active:translate-y-px",
+                                    : "border border-border bg-card hover:border-foreground/30 hover:bg-accent active:translate-y-px",
                                 )}
                                 title={isBooked ? "Belegt" : isPast ? "Vergangenheit" : `${formatHour(h)} Uhr (Berliner Zeit)`}
                               >
@@ -599,7 +598,7 @@ const Booking = () => {
                     </>
                   }
                   icon={Clock}
-                  className="border-accent-blue/30"
+                  className="border-foreground/25"
                 >
                   <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
                     <Field label="Vor- und Nachname" htmlFor="bk-name">

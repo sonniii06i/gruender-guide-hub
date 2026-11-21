@@ -143,7 +143,7 @@ const ChancenRadar = () => {
         {liste.slice(0, sichtbar).map((c) => {
           const t = c.frist ? tageBis(c.frist) : null;
           return (
-            <li key={c.id} className={`rounded-xl border bg-card p-4 transition-shadow hover:shadow-card md:p-5 ${istNeu(c) ? "border-accent-blue/40" : "border-border"}`}>
+            <li key={c.id} className={`rounded-xl border bg-card p-4 transition-shadow md:p-5 ${istNeu(c) ? "border-foreground/25" : "border-border"}`}>
               <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
                 <div className="min-w-0">
                   <a href={c.url} target="_blank" rel="noreferrer noopener" className="font-semibold leading-snug hover:text-accent-blue">

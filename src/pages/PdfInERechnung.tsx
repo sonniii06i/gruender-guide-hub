@@ -381,9 +381,9 @@ export default function PdfInERechnung() {
                   e.preventDefault();
                   lesen(e.dataTransfer.files?.[0]);
                 }}
-                className="group flex cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed border-accent-blue/35 bg-card px-6 py-12 text-center shadow-card transition-colors hover:border-accent-blue/60 hover:bg-accent/40 focus-within:border-accent-blue focus-within:ring-[3px] focus-within:ring-ring/25"
+                className="group flex cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed border-foreground/25 bg-card px-6 py-12 text-center shadow-card transition-colors hover:border-foreground/30 hover:bg-accent/40 focus-within:border-accent-blue focus-within:ring-[3px] focus-within:ring-ring/25"
               >
-                <span className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-accent text-accent-blue transition-transform group-hover:-translate-y-0.5">
+                <span className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-secondary text-foreground/70 transition-transform group-hover:-translate-y-0.5">
                   {laden ? <Loader2 className="h-6 w-6 animate-spin" aria-hidden="true" /> : <FileUp className="h-6 w-6" aria-hidden="true" />}
                 </span>
                 <span className="text-base font-semibold">{laden ? "PDF wird gelesen …" : "PDF-Rechnung hierher ziehen oder auswählen"}</span>
@@ -713,7 +713,7 @@ export default function PdfInERechnung() {
           </PublicSection>
 
           <section className="border-t border-border/70 pt-6" aria-labelledby="quellen">
-            <h2 id="quellen" className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Quellen (Stand {STAND})</h2>
+            <h2 id="quellen" className="text-sm font-semibold text-muted-foreground">Quellen (Stand {STAND})</h2>
             <ul className="mt-3 space-y-1.5 text-sm text-muted-foreground">
               {QUELLEN.map((q) => (
                 <li key={q.url}>

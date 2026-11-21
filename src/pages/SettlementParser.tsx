@@ -546,9 +546,9 @@ const SettlementParser = () => {
           <Field label="Datei wählen" htmlFor="sp-file" hint="Die Datei wird nur in deinem Browser ausgewertet.">
             <label
               htmlFor="sp-file"
-              className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-border bg-secondary/30 px-4 py-6 text-center transition-colors hover:border-accent-blue/40 hover:bg-accent/50"
+              className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-border bg-secondary/30 px-4 py-6 text-center transition-colors hover:border-foreground/30 hover:bg-accent/50"
             >
-              <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent text-accent-blue">
+              <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-secondary text-foreground/70">
                 <FileUp className="h-5 w-5" aria-hidden="true" />
               </span>
               <span className="text-sm font-medium">Datei auswählen</span>
@@ -567,7 +567,7 @@ const SettlementParser = () => {
                   ? "settlement-id,transaction-type,amount-description,amount,..."
                   : "id,type,amount,fee,net,currency,available_on,..."
               }
-              className="h-[8.25rem] w-full rounded-md border border-input bg-card px-3 py-2 font-mono text-xs shadow-[0_1px_2px_hsl(var(--primary)/0.04)] transition-[border-color,box-shadow] focus:border-ring focus:outline-none focus:ring-[3px] focus:ring-ring/25"
+              className="h-[8.25rem] w-full rounded-md border border-input bg-card px-3 py-2 font-mono text-xs transition-[border-color,box-shadow] focus:border-ring focus:outline-none focus:ring-[3px] focus:ring-ring/25"
             />
           </Field>
         </div>

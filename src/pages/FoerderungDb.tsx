@@ -160,7 +160,7 @@ const FoerderungDb = () => {
         {filtered.map((f) => {
           const typeInfo = TYPE_LABELS[f.type];
           return (
-            <li key={f.slug} className="rounded-2xl border border-border bg-card p-5 shadow-card transition-[border-color,box-shadow] hover:border-accent-blue/30 hover:shadow-soft md:p-6">
+            <li key={f.slug} className="rounded-2xl border border-border bg-card p-5 shadow-card transition-[border-color,box-shadow] hover:border-foreground/30 md:p-6">
               <div className="flex flex-wrap items-start justify-between gap-4">
                 <div className="flex min-w-0 flex-1 items-start gap-3.5">
                   <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${toneSoft(typeInfo.tone)}`}>

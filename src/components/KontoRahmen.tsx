@@ -66,7 +66,7 @@ export const KontoRahmen = ({
               <Icon className={cn("h-5 w-5", iconSpin && "animate-spin")} aria-hidden="true" />
             </span>
           )}
-          {kicker && <p className="mb-1.5 text-sm font-medium text-accent-blue">{kicker}</p>}
+          {kicker && <p className="mb-1.5 text-sm font-medium text-muted-foreground">{kicker}</p>}
           <h1 className="text-2xl font-semibold tracking-tight sm:text-[1.7rem] sm:leading-tight">{title}</h1>
           {subtitle && <div className="mt-2 text-sm leading-relaxed text-muted-foreground">{subtitle}</div>}
           {children && <div className="mt-6">{children}</div>}

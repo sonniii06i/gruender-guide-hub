@@ -1,10 +1,10 @@
 export const IntroBand = () => (
   <section id="ueber-uns" className="py-20 border-t border-border/60">
     <div className="container max-w-3xl text-center">
-      <p className="text-sm font-semibold uppercase tracking-wider text-accent-blue mb-4">
+      <p className="text-sm font-semibold text-muted-foreground mb-4">
         Von Gründern, für Gründer
       </p>
-      <h2 className="text-3xl md:text-5xl font-bold text-balance">
+      <h2 className="text-2xl md:text-[2rem] font-bold text-balance">
         Wir wissen, wie chaotisch der Start eines Unternehmens ist.
       </h2>
       <p className="mt-6 text-lg text-muted-foreground text-balance">

@@ -110,7 +110,7 @@ function ProduktKarte({ p, ort }: { p: BueroProdukt; ort: string }) {
           />
         )}
         <div className="min-w-0">
-          <p className="inline-flex items-center rounded-full border border-accent-blue/20 bg-accent px-3 py-0.5 text-[13px] font-medium text-accent-blue">
+          <p className="inline-flex items-center rounded-full border border-foreground/25 bg-accent px-3 py-0.5 text-[13px] font-medium text-muted-foreground">
             {p.rolle}
           </p>
           <h3 className="mt-2 text-xl font-semibold leading-snug tracking-tight">{p.name}</h3>
@@ -241,7 +241,7 @@ function Inhalt({ seite }: { seite: Seite }) {
       />
 
       <article>
-        <header className="relative overflow-hidden border-b border-border/70 bg-hero pb-12 pt-28 md:pb-14 md:pt-32">
+        <header className="relative overflow-hidden border-b border-border/70 bg-hero pb-12 pt-28 md:pb-14 md:pt-24">
           <div
             className="pointer-events-none absolute inset-0 bg-dots [mask-image:linear-gradient(to_bottom,black,transparent_80%)]"
             aria-hidden="true"
@@ -251,14 +251,14 @@ function Inhalt({ seite }: { seite: Seite }) {
               <ChevronLeft className="mr-1 h-4 w-4" aria-hidden="true" /> Büro-Ausstattung für Gründer
             </Link>
             <div className="mb-5 flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-muted-foreground">
-              <span className="inline-flex items-center rounded-full border border-accent-blue/20 bg-accent px-3 py-0.5 text-[13px] font-medium text-accent-blue">
+              <span className="inline-flex items-center rounded-full border border-foreground/25 bg-accent px-3 py-0.5 text-[13px] font-medium text-accent-blue">
                 Datenblatt-Vergleich
               </span>
               <span>
                 Stand: <time dateTime={seite.stand}>{datumDe(seite.stand)}</time>
               </span>
             </div>
-            <h1 className="text-balance text-[2.1rem] font-semibold leading-[1.08] tracking-[-0.035em] md:text-[3rem]">{seite.titel}</h1>
+            <h1 className="text-balance text-[1.875rem] font-semibold leading-[1.12] tracking-[-0.02em] md:text-[2.5rem]">{seite.titel}</h1>
             <p className="mt-5 text-pretty text-lg leading-relaxed">
               <LexikonText text={inhalt.antwort} />
             </p>
@@ -365,7 +365,7 @@ function Inhalt({ seite }: { seite: Seite }) {
                 <Link
                   key={s.slug}
                   to={bueroPfad(s.slug)}
-                  className="press group rounded-xl border border-border bg-card p-4 transition-colors hover:border-accent-blue/40 hover:shadow-card"
+                  className="press group rounded-xl border border-border bg-card p-4 transition-colors hover:border-foreground/30"
                 >
                   <p className="mb-1 text-sm font-semibold leading-snug">{s.titel}</p>
                   <p className="text-xs text-muted-foreground line-clamp-2">{s.kurz}</p>

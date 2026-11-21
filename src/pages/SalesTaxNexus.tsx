@@ -452,7 +452,7 @@ const SalesTaxNexus = () => {
               href={l.href}
               target="_blank"
               rel="noreferrer noopener"
-              className="group rounded-xl border border-border bg-card p-4 transition-[border-color,box-shadow] duration-200 hover:border-accent-blue/40 hover:shadow-card"
+              className="group rounded-xl border border-border bg-card p-4 transition-[border-color,box-shadow] duration-200 hover:border-foreground/30"
             >
               <p className="flex items-center justify-between gap-2 text-sm font-semibold">
                 {l.t}

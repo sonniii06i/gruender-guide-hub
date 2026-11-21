@@ -9,15 +9,13 @@ const year = PLANS["gruenderx-year"].grossCents;
 const perDay = Math.round(month / 30);
 
 export const FinalCTA = () => (
-  <section className="py-14 md:py-28">
+  <section className="py-14 md:py-20">
     <div className="container max-w-6xl">
-      <div className="relative overflow-hidden rounded-[2rem] bg-ink text-primary-foreground shadow-soft">
-        <div className="pointer-events-none absolute inset-0 bg-dots-light" aria-hidden="true" />
-        <div className="pointer-events-none absolute -bottom-32 -left-24 h-80 w-80 rounded-full bg-brand-green/25 blur-3xl" aria-hidden="true" />
-        <div className="relative grid items-center gap-8 p-8 md:grid-cols-[1fr,auto] md:p-16">
+      <div className="overflow-hidden rounded-lg bg-ink text-primary-foreground">
+        <div className="grid items-center gap-8 p-6 md:grid-cols-[1fr,auto] md:p-10">
           <div>
-            <h2 className="text-4xl font-semibold leading-[1.05] tracking-[-0.04em] md:text-6xl">Bereit zu gründen?</h2>
-            <p className="mt-5 max-w-xl text-lg leading-relaxed text-primary-foreground/75">
+            <h2 className="text-2xl font-semibold leading-[1.12] tracking-[-0.02em] md:text-[2rem]">Bereit zu gründen?</h2>
+            <p className="mt-3 max-w-xl text-base leading-relaxed text-primary-foreground/80">
               Schalte GründerX frei und geh deine Gründung Schritt für Schritt an. Vorher ausprobieren?{" "}
               <Link to="/gratis-tools" className="font-medium text-primary-foreground underline underline-offset-4">
                 Einzelne Tools
@@ -27,13 +25,13 @@ export const FinalCTA = () => (
             <Button
               asChild
               size="lg"
-              className="mt-9 h-12 rounded-xl bg-card px-6 font-semibold text-primary shadow-none hover:bg-card/90"
+              className="mt-7 h-12 bg-card px-6 font-semibold text-primary hover:bg-card/90"
             >
               <Link to="/auth?mode=signup">
                 Kostenlos starten <ArrowRight />
               </Link>
             </Button>
-            <p className="mt-6 max-w-xl text-sm leading-relaxed text-primary-foreground/65 tabular">
+            <p className="mt-5 max-w-xl text-sm leading-relaxed text-primary-foreground/75 tabular">
               {formatEurCents(month)} im Monat ({formatEurCents(perDay)} am Tag) oder {formatEurCents(year)} im Jahr,
               zwei Monate geschenkt. Inkl. USt., als Betriebsausgabe absetzbar, jederzeit kündbar. Code{" "}
               <span className="font-semibold text-primary-foreground">{FOUNDER_CODE.code}</span> ={" "}
@@ -48,7 +46,7 @@ export const FinalCTA = () => (
             decoding="async"
             width={240}
             height={240}
-            className="mx-auto w-40 drop-shadow-2xl md:w-60"
+            className="mx-auto w-32 md:w-44"
           />
         </div>
       </div>

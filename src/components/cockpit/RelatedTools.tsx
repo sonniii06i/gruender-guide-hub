@@ -230,7 +230,7 @@ const RelatedTools = () => {
           <Link
             key={t.route}
             to={t.route}
-            className="press group rounded-xl border border-border bg-card p-4 hover:border-accent-blue/40 hover:shadow-card"
+            className="press group rounded-xl border border-border bg-card p-4 hover:border-foreground/30"
           >
             <div className="flex items-start justify-between gap-2 mb-1">
               <div className="font-semibold text-sm">{t.label}</div>

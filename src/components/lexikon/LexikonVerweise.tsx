@@ -20,7 +20,7 @@ export function LexikonVerweise({ pfad, className = "mt-14" }: { pfad: string; c
           <Link
             key={b.slug}
             to={lexikonPfad(b.slug)}
-            className="press group rounded-xl border border-border bg-card p-4 transition-colors hover:border-accent-blue/40 hover:shadow-card"
+            className="press group rounded-xl border border-border bg-card p-4 transition-colors hover:border-foreground/30"
           >
             <p className="mb-1 text-sm font-semibold leading-snug">{b.begriff}</p>
             <p className="text-xs text-muted-foreground line-clamp-2">{b.kurz}</p>

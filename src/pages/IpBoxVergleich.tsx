@@ -179,7 +179,7 @@ const IpBoxVergleich = () => {
               key={s.slug}
               type="button"
               onClick={() => setSelected(s)}
-              className="group flex flex-col rounded-2xl border border-border bg-card p-5 text-left shadow-card transition-[border-color,box-shadow] duration-200 hover:border-accent-blue/40 hover:shadow-soft"
+              className="group flex flex-col rounded-2xl border border-border bg-card p-5 text-left shadow-card transition-[border-color,box-shadow] duration-200 hover:border-foreground/30"
             >
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">

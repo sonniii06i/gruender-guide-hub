@@ -117,7 +117,7 @@ const LaborVergleich = () => {
                 className={cn(
                   "rounded-xl border p-3.5 text-left transition-[background-color,border-color,box-shadow] duration-200 active:translate-y-px",
                   active
-                    ? "border-accent-blue bg-accent shadow-[0_0_0_1px_hsl(var(--accent-blue)/0.35)]"
+                    ? "border-accent-blue bg-accent shadow-[0_0_0_1px_hsl(var(--primary))]"
                     : "border-border bg-card hover:border-foreground/25",
                 )}
               >
@@ -459,7 +459,7 @@ const Klappsektion = ({
         <span
           className={cn(
             "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg",
-            tone === "danger" ? "bg-danger-soft text-danger" : "bg-accent text-accent-blue",
+            tone === "danger" ? "bg-danger-soft text-danger" : "bg-secondary text-foreground/70",
           )}
         >
           <Icon className="h-4 w-4" aria-hidden="true" />

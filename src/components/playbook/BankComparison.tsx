@@ -726,7 +726,7 @@ function BankCard({ b }: { b: Bank }) {
     <div className={`rounded-xl border bg-card p-4 space-y-3 transition-colors ${
       b.dealbreaker ? "border-destructive/40 opacity-80" :
       b.communityPick ? "border-accent-blue ring-1 ring-accent-blue/30" :
-      "border-border hover:border-accent-blue/40"
+      "border-border hover:border-foreground/30"
     }`}>
       {b.dealbreaker && (
         <div className="-mx-4 -mt-4 px-4 py-1.5 bg-destructive text-destructive-foreground text-xs font-semibold rounded-t-xl flex items-center gap-1.5">

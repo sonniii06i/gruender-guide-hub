@@ -81,8 +81,8 @@ const AdminBlog = () => {
     <div className="container max-w-6xl px-4 pb-16 pt-8 md:px-6 md:pt-10">
       <div className="mb-8 flex flex-col justify-between gap-4 border-b border-border/70 pb-7 md:flex-row md:items-end">
         <div>
-          <p className="text-sm font-medium text-accent-blue">Admin</p>
-          <h1 className="mt-2 text-[1.75rem] font-semibold tracking-[-0.03em] md:text-[2.25rem]">Ratgeber-Verwaltung</h1>
+          <p className="text-sm font-medium text-muted-foreground">Admin</p>
+          <h1 className="mt-2 text-[1.75rem] font-semibold tracking-[-0.02em] md:text-[2.25rem]">Ratgeber-Verwaltung</h1>
           <p className="mt-3 max-w-[68ch] text-[15px] text-muted-foreground">
             Automatisierte Blog-Generierung: 2× pro Woche (Di/Fr 06:00 UTC) wird der nächste fällige Topic verarbeitet.
           </p>

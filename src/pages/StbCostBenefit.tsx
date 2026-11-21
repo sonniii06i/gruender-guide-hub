@@ -366,7 +366,7 @@ const StbCostBenefit = () => {
           <Link
             key={l.to}
             to={l.to}
-            className="group flex items-center gap-3 rounded-xl border border-border bg-card p-4 shadow-card transition-colors hover:border-accent-blue/40"
+            className="group flex items-center gap-3 rounded-xl border border-border bg-card p-4 shadow-card transition-colors hover:border-foreground/30"
           >
             {l.back && <ArrowLeft className="h-4 w-4 shrink-0 text-muted-foreground transition-colors group-hover:text-accent-blue" aria-hidden="true" />}
             <span className="min-w-0 flex-1">
@@ -398,7 +398,7 @@ const StbCostBenefit = () => {
 const BeginnerHero = () => (
   <ToolSection className="mb-8" bodyClassName="p-5 md:p-6">
     <div className="flex items-start gap-3">
-      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-accent text-accent-blue">
+      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-secondary text-foreground/70">
         <HelpCircle className="h-4 w-4" aria-hidden="true" />
       </span>
       <div className="min-w-0 flex-1">
@@ -434,7 +434,7 @@ const ScenarioCard = ({
   <div
     className={cn(
       "flex flex-col rounded-2xl border bg-card p-5",
-      highlight ? "border-accent-blue/40 shadow-soft ring-1 ring-accent-blue/25" : "border-border shadow-card",
+      highlight ? "border-foreground/25 shadow-soft ring-1 ring-accent-blue/25" : "border-border shadow-card",
     )}
   >
     <div className="flex flex-wrap items-center justify-between gap-2">
@@ -446,7 +446,7 @@ const ScenarioCard = ({
       )}
     </div>
     <p className="mt-2 text-sm text-muted-foreground">{subtitle}</p>
-    <p className="mt-3 text-3xl font-semibold tracking-[-0.03em] tabular">{Math.round(kosten).toLocaleString("de-DE")} €</p>
+    <p className="mt-3 text-3xl font-semibold tracking-[-0.02em] tabular">{Math.round(kosten).toLocaleString("de-DE")} €</p>
     <p className="mt-0.5 text-xs text-muted-foreground tabular">
       {min && max ? `Spanne: ${Math.round(min).toLocaleString("de-DE")}-${Math.round(max).toLocaleString("de-DE")} €` : "pro Jahr"}
     </p>
@@ -495,7 +495,7 @@ const Glossar = () => (
   <details className="group mb-6 rounded-2xl border border-border bg-card shadow-card [&_summary::-webkit-details-marker]:hidden">
     <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-5 py-4 text-base font-semibold md:px-6">
       <span className="flex items-center gap-3">
-        <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-accent-blue">
+        <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-secondary text-foreground/70">
           <HelpCircle className="h-4 w-4" aria-hidden="true" />
         </span>
         Glossar: Begriffe einfach erklärt

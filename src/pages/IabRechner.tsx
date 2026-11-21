@@ -224,7 +224,7 @@ const IabRechner = () => {
                   <div className="flex items-end">
                     <label
                       className={`flex w-full cursor-pointer items-start gap-3 rounded-xl border p-3 transition-colors ${
-                        istFreiberuflerOhneGewSt ? "border-accent-blue/40 bg-accent" : "border-border bg-card hover:border-foreground/25"
+                        istFreiberuflerOhneGewSt ? "border-foreground/25 bg-accent" : "border-border bg-card hover:border-foreground/25"
                       }`}
                     >
                       <input

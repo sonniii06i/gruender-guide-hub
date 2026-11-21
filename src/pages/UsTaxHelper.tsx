@@ -324,7 +324,7 @@ const UsTaxHelper = () => {
               {owner === "foreign" && (entity === "smllc" || entity === "mmllc") && (
                 <label
                   className={`flex cursor-pointer items-start gap-3 rounded-xl border p-4 text-sm transition-colors ${
-                    eci ? "border-accent-blue/40 bg-accent" : "border-border bg-card hover:border-foreground/25"
+                    eci ? "border-foreground/25 bg-accent" : "border-border bg-card hover:border-foreground/25"
                   }`}
                 >
                   <input
@@ -453,7 +453,7 @@ const UsTaxHelper = () => {
               href={d.url}
               target="_blank"
               rel="noreferrer"
-              className="flex items-center gap-2.5 rounded-xl border border-border bg-card p-3 text-sm transition-[border-color,box-shadow] duration-200 hover:border-accent-blue/40 hover:shadow-card"
+              className="flex items-center gap-2.5 rounded-xl border border-border bg-card p-3 text-sm transition-[border-color,box-shadow] duration-200 hover:border-foreground/30"
             >
               <FileText className="h-4 w-4 shrink-0 text-accent-blue" aria-hidden="true" />
               <span className="min-w-0 flex-1 truncate">{d.label}</span>
@@ -475,7 +475,7 @@ const UsTaxHelper = () => {
             <Link
               key={x.to}
               to={x.to}
-              className="group flex items-center justify-between gap-2 rounded-xl border border-border bg-card p-3 text-sm font-medium transition-colors hover:border-accent-blue/40"
+              className="group flex items-center justify-between gap-2 rounded-xl border border-border bg-card p-3 text-sm font-medium transition-colors hover:border-foreground/30"
             >
               {x.l}
               <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-accent-blue" aria-hidden="true" />

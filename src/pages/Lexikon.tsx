@@ -56,13 +56,13 @@ export default function Lexikon() {
         ]}
       />
 
-      <header className="relative overflow-hidden border-b border-border/70 bg-hero pb-12 pt-28 md:pb-14 md:pt-32">
+      <header className="relative overflow-hidden border-b border-border/70 bg-hero pb-12 pt-28 md:pb-14 md:pt-24">
         <div
           className="pointer-events-none absolute inset-0 bg-dots [mask-image:linear-gradient(to_bottom,black,transparent_80%)]"
           aria-hidden="true"
         />
         <div className="container relative max-w-4xl px-4">
-          <h1 className="text-balance text-[2.1rem] font-semibold leading-[1.08] tracking-[-0.035em] md:text-[3rem]">
+          <h1 className="text-balance text-[1.875rem] font-semibold leading-[1.12] tracking-[-0.02em] md:text-[2.5rem]">
             Gründer-Lexikon: Begriffe für Gründer und Online-Händler
           </h1>
           <p className="mt-5 max-w-3xl text-pretty text-lg leading-relaxed text-muted-foreground">
@@ -87,7 +87,7 @@ export default function Lexikon() {
           <h2 id="lexikon-az" className="text-xl font-semibold tracking-tight">Alle Begriffe von A bis Z</h2>
           <p className="mt-2 flex flex-wrap gap-2 text-sm" aria-label="Sprung zum Anfangsbuchstaben">
             {buchstaben.map((b) => (
-              <a key={b} href={`#buchstabe-${b}`} className="rounded-md border border-border bg-card px-2.5 py-1 font-semibold hover:border-accent-blue/40">
+              <a key={b} href={`#buchstabe-${b}`} className="rounded-md border border-border bg-card px-2.5 py-1 font-semibold hover:border-foreground/30">
                 {b}
               </a>
             ))}
@@ -118,7 +118,7 @@ export default function Lexikon() {
                   <Link
                     key={b.slug}
                     to={lexikonPfad(b.slug)}
-                    className="press group rounded-xl border border-border bg-card p-5 transition-colors hover:border-accent-blue/40 hover:shadow-card"
+                    className="press group rounded-xl border border-border bg-card p-5 transition-colors hover:border-foreground/30"
                   >
                     <h3 className="text-base font-semibold leading-snug group-hover:text-accent-blue">{b.begriff}</h3>
                     <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{b.kurz}</p>

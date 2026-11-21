@@ -132,7 +132,7 @@ const VersicherungsBasisCheck = () => {
                   <label
                     key={k}
                     className={`flex cursor-pointer items-start gap-2.5 rounded-xl border p-3 text-sm transition-colors ${
-                      setup[k] ? "border-accent-blue/40 bg-accent/60" : "border-border bg-card hover:border-foreground/20"
+                      setup[k] ? "border-foreground/25 bg-accent/60" : "border-border bg-card hover:border-foreground/20"
                     }`}
                   >
                     <input type="checkbox" checked={setup[k]} onChange={(e) => updateSetup(k, e.target.checked)} className="mt-0.5 h-4 w-4 shrink-0 accent-[hsl(var(--primary))]" />
@@ -195,7 +195,7 @@ const VersicherungsBasisCheck = () => {
           { to: "/cockpit/erste-schritte-roadmap", t: "Erste-Schritte-Roadmap (Tool 11)", d: "Wann welche Versicherung?" },
           { to: "/cockpit/pension-optimizer", t: "Pension-Optimizer", d: "Altersvorsorge ergänzen" },
         ].map((l) => (
-          <Link key={l.to} to={l.to} className="press group rounded-xl border border-border bg-card p-4 hover:border-accent-blue/40 hover:shadow-card">
+          <Link key={l.to} to={l.to} className="press group rounded-xl border border-border bg-card p-4 hover:border-foreground/30">
             <div className="flex items-center justify-between gap-2 text-sm font-semibold">
               {l.t}
               <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-accent-blue" aria-hidden="true" />

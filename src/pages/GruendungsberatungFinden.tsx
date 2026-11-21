@@ -140,7 +140,7 @@ export default function GruendungsberatungFinden() {
           {land && (
             <PublicSection title="Deine Behörden für die Gründung">
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                <div className="rounded-2xl border border-accent-blue/20 bg-accent/60 p-5 sm:col-span-2" aria-live="polite">
+                <div className="rounded-2xl border border-foreground/25 bg-accent/60 p-5 sm:col-span-2" aria-live="polite">
                   <div className="font-semibold">Gewerbeanmeldung{amt?.plz === plz && amt.daten?.gemeinde ? `: ${amt.daten.gemeinde}` : ""}</div>
                   {amt?.plz !== plz ? (
                     <div className="mt-3 space-y-2" aria-busy="true">
@@ -160,22 +160,22 @@ export default function GruendungsberatungFinden() {
                   {amt?.plz === plz && amt.daten?.stellen.length ? <p className="mt-2 text-sm text-muted-foreground">Zuständig: {amt.daten.stellen.slice(0, 4).join(", ")}{amt.daten.stellen.length > 4 ? " …" : ""}</p> : null}
                   <p className="mt-3 text-xs text-muted-foreground">Quelle: Portalverbund Online-Gateway (PVOG). Ausfüllhilfe: <Link to="/tools/gewerbeanmeldung-wizard" className="font-medium text-accent-blue hover:underline">Gewerbeanmeldung-Wizard</Link>.</p>
                 </div>
-                <a href={finanzamtSucheUrl(plz)} target="_blank" rel="noreferrer noopener" className="press group flex flex-col rounded-xl border border-border bg-card p-4 hover:border-accent-blue/40 hover:shadow-card">
+                <a href={finanzamtSucheUrl(plz)} target="_blank" rel="noreferrer noopener" className="press group flex flex-col rounded-xl border border-border bg-card p-4 hover:border-foreground/30">
                   <div className="font-semibold">Dein Finanzamt</div>
                   <p className="mt-1 flex-1 text-sm leading-relaxed text-muted-foreground">{`Amtliche Finanzamtsuche des BZSt für ${plz}. In Großstädten mit mehreren Ämtern zählt die Straße. Danach den Fragebogen zur steuerlichen Erfassung über ELSTER.`}</p>
                   <span className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-accent-blue">{`Finanzamt für ${plz} anzeigen`} <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" /></span>
                 </a>
-                <a href="https://www.dguv.de/de/bg-uk-lv/index.jsp" target="_blank" rel="noreferrer noopener" className="press group flex flex-col rounded-xl border border-border bg-card p-4 hover:border-accent-blue/40 hover:shadow-card">
+                <a href="https://www.dguv.de/de/bg-uk-lv/index.jsp" target="_blank" rel="noreferrer noopener" className="press group flex flex-col rounded-xl border border-border bg-card p-4 hover:border-foreground/30">
                   <div className="font-semibold">Berufsgenossenschaft</div>
                   <p className="mt-1 flex-1 text-sm leading-relaxed text-muted-foreground">Zuständig ist die BG deiner Branche: Pflicht, sobald du Mitarbeiter hast; für Solo-Selbstständige oft freiwillig. Infoline 0800 6050404 (kostenlos).</p>
                   <span className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-accent-blue">BG finden <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" /></span>
                 </a>
-                <a href="https://www.handelsregister.de/rp_web/welcome.xhtml" target="_blank" rel="noreferrer noopener" className="press group flex flex-col rounded-xl border border-border bg-card p-4 hover:border-accent-blue/40 hover:shadow-card">
+                <a href="https://www.handelsregister.de/rp_web/welcome.xhtml" target="_blank" rel="noreferrer noopener" className="press group flex flex-col rounded-xl border border-border bg-card p-4 hover:border-foreground/30">
                   <div className="font-semibold">Handelsregister</div>
                   <p className="mt-1 flex-1 text-sm leading-relaxed text-muted-foreground">Für GmbH/UG und eingetragene Kaufleute. Firmennamen vorher prüfen.</p>
                   <span className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-accent-blue">Register öffnen <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" /></span>
                 </a>
-                <a href="https://www.transparenzregister.de/" target="_blank" rel="noreferrer noopener" className="press group flex flex-col rounded-xl border border-border bg-card p-4 hover:border-accent-blue/40 hover:shadow-card">
+                <a href="https://www.transparenzregister.de/" target="_blank" rel="noreferrer noopener" className="press group flex flex-col rounded-xl border border-border bg-card p-4 hover:border-foreground/30">
                   <div className="font-semibold">Transparenzregister</div>
                   <p className="mt-1 flex-1 text-sm leading-relaxed text-muted-foreground">GmbH/UG müssen ihre wirtschaftlich Berechtigten unverzüglich eintragen.</p>
                   <span className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-accent-blue">Zum Register <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" /></span>
@@ -187,7 +187,7 @@ export default function GruendungsberatungFinden() {
           <PublicSection title="Wer dich berät">
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               {[...STELLEN, ...(land === "NW" ? [{ name: "STARTERCENTER NRW", text: "73 Standorte in NRW für Gründungsberatung aus einer Hand.", url: "https://www.startercenter.nrw/de/starten", label: "Standort im Umkreis" }] : [])].map((s) => (
-                <a key={s.name} href={s.url} target="_blank" rel="noreferrer noopener" className="press group flex flex-col rounded-xl border border-border bg-card p-4 hover:border-accent-blue/40 hover:shadow-card">
+                <a key={s.name} href={s.url} target="_blank" rel="noreferrer noopener" className="press group flex flex-col rounded-xl border border-border bg-card p-4 hover:border-foreground/30">
                   <div className="font-semibold">{s.name}</div>
                   <p className="mt-1 flex-1 text-sm leading-relaxed text-muted-foreground">{s.text}</p>
                   <span className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-accent-blue">{s.label} <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" /></span>

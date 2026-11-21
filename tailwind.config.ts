@@ -93,6 +93,19 @@ export default {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+        // Umbau 11/2026: die großen Stufen sind bewusst klein gehalten, damit
+        // alle Seiten mit rounded-xl/2xl/3xl ohne Einzeländerung ruhiger werden.
+        xl: "var(--radius)",
+        "2xl": "calc(var(--radius) + 2px)",
+        "3xl": "calc(var(--radius) + 4px)",
+      },
+      boxShadow: {
+        sm: "0 1px 2px hsl(222 47% 13% / 0.05)",
+        DEFAULT: "0 1px 2px hsl(222 47% 13% / 0.06)",
+        md: "0 1px 2px hsl(222 47% 13% / 0.05), 0 4px 10px -6px hsl(222 47% 13% / 0.12)",
+        lg: "0 1px 2px hsl(222 47% 13% / 0.05), 0 10px 24px -10px hsl(222 47% 13% / 0.18)",
+        xl: "0 2px 4px hsl(222 47% 13% / 0.06), 0 18px 40px -16px hsl(222 47% 13% / 0.22)",
+        "2xl": "0 2px 4px hsl(222 47% 13% / 0.06), 0 24px 56px -20px hsl(222 47% 13% / 0.26)",
       },
       typography: {
         DEFAULT: {

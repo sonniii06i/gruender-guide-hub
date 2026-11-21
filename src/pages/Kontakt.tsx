@@ -133,14 +133,14 @@ const Kontakt = () => {
           </section>
 
           <aside className="space-y-3" aria-label="Weitere Hilfe">
-            <Link to="/faq" className="press group flex gap-3 rounded-xl border border-border bg-card p-4 hover:border-accent-blue/40 hover:shadow-card">
+            <Link to="/faq" className="press group flex gap-3 rounded-xl border border-border bg-card p-4 hover:border-foreground/30">
               <HelpCircle className="mt-0.5 h-4 w-4 shrink-0 text-accent-blue" aria-hidden="true" />
               <span>
                 <span className="block text-sm font-semibold">FAQ</span>
                 <span className="block text-sm text-muted-foreground">Antworten zu Abo, Tools und Daten</span>
               </span>
             </Link>
-            <Link to="/ratgeber" className="press group flex gap-3 rounded-xl border border-border bg-card p-4 hover:border-accent-blue/40 hover:shadow-card">
+            <Link to="/ratgeber" className="press group flex gap-3 rounded-xl border border-border bg-card p-4 hover:border-foreground/30">
               <BookOpen className="mt-0.5 h-4 w-4 shrink-0 text-accent-blue" aria-hidden="true" />
               <span>
                 <span className="block text-sm font-semibold">Ratgeber</span>

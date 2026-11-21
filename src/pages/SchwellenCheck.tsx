@@ -300,7 +300,7 @@ const SchwellenCheck = () => {
                     className={cn(
                       "flex items-start gap-3 rounded-xl border p-3.5 text-left transition-[background-color,border-color,box-shadow] duration-200 active:translate-y-px",
                       aktiv
-                        ? "border-accent-blue bg-accent shadow-[0_0_0_1px_hsl(var(--accent-blue)/0.35)]"
+                        ? "border-accent-blue bg-accent shadow-[0_0_0_1px_hsl(var(--primary))]"
                         : "border-border bg-card hover:border-foreground/25",
                     )}
                   >
@@ -351,10 +351,10 @@ const SchwellenCheck = () => {
           ) : (
             <>
               {/* === Detail-Check für gewählte Quelle === */}
-              <section className="rounded-2xl border border-accent-blue/20 bg-card shadow-soft" aria-live="polite">
+              <section className="rounded-2xl border border-foreground/25 bg-card shadow-soft" aria-live="polite">
                 <div className="flex flex-wrap items-start justify-between gap-3 border-b border-border/70 px-5 py-4 md:px-6">
                   <div className="flex min-w-0 items-start gap-3">
-                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-accent text-accent-blue">
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-secondary text-foreground/70">
                       {(() => {
                         const Icon = QUELLE_ICON[quelle.v];
                         return <Icon className="h-4 w-4" aria-hidden="true" />;
@@ -390,7 +390,7 @@ const SchwellenCheck = () => {
                       <div className="mt-4">
                         <div className="relative h-2.5 overflow-hidden rounded-full bg-secondary">
                           <div
-                            className={cn("absolute inset-y-0 left-0 rounded-full transition-all", verdict?.ueber ? "bg-warning" : "bg-success")}
+                            className={cn("absolute inset-y-0 left-0 rounded-full transition-[width] duration-300 ease-out", verdict?.ueber ? "bg-warning" : "bg-success")}
                             style={{ width: `${Math.min(100, (eingenommen / skalaMax) * 100)}%` }}
                           />
                           {/* Schwelle-Marker */}
@@ -532,7 +532,7 @@ const SchwellenCheck = () => {
           <Link
             key={l.to}
             to={l.to}
-            className="group flex items-center justify-between gap-3 rounded-xl border border-border bg-card p-4 shadow-card transition-colors hover:border-accent-blue/40"
+            className="group flex items-center justify-between gap-3 rounded-xl border border-border bg-card p-4 shadow-card transition-colors hover:border-foreground/30"
           >
             <span>
               <span className="block text-sm font-semibold">{l.t}</span>
@@ -615,7 +615,7 @@ const Glossar = () => (
   <details className="group mb-6 rounded-2xl border border-border bg-card shadow-card [&_summary::-webkit-details-marker]:hidden">
     <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-5 py-4 text-base font-semibold md:px-6">
       <span className="flex items-center gap-3">
-        <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-accent-blue">
+        <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-secondary text-foreground/70">
           <HelpCircle className="h-4 w-4" aria-hidden="true" />
         </span>
         Glossar: Begriffe einfach erklärt

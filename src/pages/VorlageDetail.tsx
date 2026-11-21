@@ -14,7 +14,7 @@ import { FaqList } from "@/components/public/PublicBlocks";
 import { VorlagenGateDialog } from "@/components/vorlagen/VorlagenGateDialog";
 import { StartAngebotButton } from "@/components/StartAngebotButton";
 import { RatgeberText } from "@/components/vorlagen/RatgeberText";
-import { KATEGORIE_AKZENT, kategorieIcon } from "@/components/vorlagen/vorlagenIcons";
+import { kategorieIcon } from "@/components/vorlagen/vorlagenIcons";
 import { faqSchema, breadcrumbSchema } from "@/lib/freetools/schema";
 import { useAuth } from "@/hooks/useAuth";
 import { useAccess } from "@/hooks/useAccess";
@@ -49,7 +49,7 @@ function Ladeseite() {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <main id="inhalt" className="container max-w-4xl px-4 py-24 text-muted-foreground">
+      <main id="inhalt" className="container max-w-4xl px-4 py-16 text-muted-foreground">
         Vorlage wird geladen …
       </main>
     </div>
@@ -256,7 +256,7 @@ function VorlageSeite({ vorlage }: { vorlage: (typeof VORLAGE_BY_SLUG)[string] }
               Texte und Fakten wie Seitenleiste und /auth.
               20.11.2026: erst nach dem ersten Download (siehe `geladen`). */}
           {offen && !abonnent && geladen && (
-            <div className="mt-6 rounded-2xl border border-accent-blue/20 bg-accent/40 p-5" data-testid="vorlage-weiter">
+            <div className="mt-6 rounded-2xl border border-foreground/25 bg-accent/40 p-5" data-testid="vorlage-weiter">
               <h2 className="text-lg font-semibold text-foreground">Nächster Schritt: die Vorlage an deinen Fall anpassen</h2>
               <p className="mt-1 text-sm text-muted-foreground">
                 Felix, der KI-Assistent von GründerX, erklärt dir jede Klausel und hilft beim Anpassen – im Abo,
@@ -357,8 +357,8 @@ function VorlageSeite({ vorlage }: { vorlage: (typeof VORLAGE_BY_SLUG)[string] }
             <aside className="space-y-6 lg:sticky lg:top-24 lg:self-start">
               <Card>
                 <CardContent className="p-5">
-                  <div className={`mb-3 flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br ${KATEGORIE_AKZENT[vorlage.kategorie]}`}>
-                    <Icon className="h-5 w-5 text-white" aria-hidden="true" />
+                  <div className="mb-3 flex h-11 w-11 items-center justify-center rounded-md border border-border bg-background">
+                    <Icon className="h-5 w-5 text-foreground/70" aria-hidden="true" />
                   </div>
                   <h2 className="font-semibold text-foreground">Download</h2>
                   <p className="mb-4 mt-1 text-sm text-muted-foreground">
@@ -378,7 +378,7 @@ function VorlageSeite({ vorlage }: { vorlage: (typeof VORLAGE_BY_SLUG)[string] }
 
               {verwandte.length > 0 && (
                 <div>
-                  <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-muted-foreground">Mehr aus {kategorie?.titel}</h2>
+                  <h2 className="mb-3 text-sm font-semibold text-muted-foreground">Mehr aus {kategorie?.titel}</h2>
                   <ul className="space-y-1.5">
                     {verwandte.map((v) => (
                       <li key={v.slug}>
@@ -395,7 +395,7 @@ function VorlageSeite({ vorlage }: { vorlage: (typeof VORLAGE_BY_SLUG)[string] }
                 </div>
               )}
 
-              <Card className="border-accent-blue/20 bg-accent/40">
+              <Card className="border-foreground/25 bg-accent/40">
                 <CardContent className="p-5">
                   <h2 className="font-semibold text-foreground">Vorlage mit Felix durchgehen</h2>
                   <p className="mb-3 mt-1 text-sm text-muted-foreground">

@@ -447,7 +447,7 @@ const CollapsiblePanel = ({
       onClick={onToggle}
       className="flex w-full items-start gap-3 px-5 py-4 text-left transition-colors hover:bg-secondary/40 md:px-6"
     >
-      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-accent text-accent-blue">
+      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-secondary text-foreground/70">
         <Icon className="h-4 w-4" aria-hidden="true" />
       </span>
       <span className="min-w-0 flex-1">

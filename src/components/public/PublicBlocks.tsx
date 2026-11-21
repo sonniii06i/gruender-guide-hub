@@ -46,7 +46,7 @@ export const InfoCard = ({
     {(title || Icon) && (
       <div className="mb-3 flex items-start gap-3">
         {Icon && (
-          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-accent text-accent-blue">
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-secondary text-foreground/70">
             <Icon className="h-4 w-4" aria-hidden="true" />
           </span>
         )}

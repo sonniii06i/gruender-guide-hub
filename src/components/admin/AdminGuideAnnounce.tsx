@@ -33,7 +33,7 @@ export const AdminGuideAnnounce = () => {
   return (
     <section className="rounded-2xl border border-border bg-card shadow-card">
       <div className="flex items-start gap-3 border-b border-border/70 px-5 py-4 md:px-6">
-        <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-accent text-accent-blue">
+        <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-secondary text-foreground/70">
           <Megaphone className="h-4 w-4" aria-hidden="true" />
         </span>
         <div className="min-w-0">

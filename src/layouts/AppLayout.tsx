@@ -53,10 +53,10 @@ export default function AppLayout() {
 
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex w-full bg-secondary/30">
+      <div className="min-h-screen flex w-full bg-background">
         <AppSidebar />
         <div className="flex-1 flex flex-col min-w-0">
-          <header className="h-14 flex items-center gap-3 border-b border-border bg-card/80 backdrop-blur sticky top-0 z-30 px-3 md:px-4">
+          <header className="h-14 flex items-center gap-3 border-b border-border bg-card sticky top-0 z-30 px-3 md:px-4">
             <SidebarTrigger />
             <div className="flex-1 flex justify-center">
               <GlobalSearch />

@@ -36,10 +36,10 @@ export const GuideCard = ({ pb, compact = false }: { pb: Playbook; compact?: boo
           goToPreview();
         }
       }}
-      className="group flex cursor-pointer flex-col rounded-xl border border-border bg-card p-5 transition-[border-color,box-shadow] duration-200 hover:border-accent-blue/40 hover:shadow-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40"
+      className="group flex min-w-0 cursor-pointer flex-col rounded-lg border border-border bg-card p-5 transition-colors duration-150 hover:border-foreground/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40"
     >
       <div className="flex items-start gap-3 mb-3">
-        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-accent text-2xl" aria-hidden="true">
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-border bg-background text-xl" aria-hidden="true">
           {pb.emoji}
         </div>
         <div className="flex-1 min-w-0">

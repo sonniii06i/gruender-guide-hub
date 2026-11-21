@@ -555,7 +555,7 @@ export function NotarPreparation({
 
           {/* DSGVO-Info-Generator – nur sinnvoll wenn min. 1 Gesellschafter mit Name */}
           {persons.some((p) => p.vorname || p.nachname) && (
-            <div className="rounded-lg border border-accent-blue/30 bg-accent-blue/5 p-3 space-y-2">
+            <div className="rounded-lg border border-foreground/25 bg-accent-blue/5 p-3 space-y-2">
               <div className="text-xs leading-relaxed">
                 <strong>DSGVO-Pflicht:</strong> Du verarbeitest hier personenbezogene Daten von
                 Mit-Gesellschafter:innen. Nach Art. 13 / 14 DSGVO musst du sie darüber
@@ -699,7 +699,7 @@ export function NotarPreparation({
       </Section>
 
       {/* Branching Result: Musterprotokoll vs. Satzung */}
-      <div className={`rounded-xl border p-4 ${eligibleMusterprotokoll ? "border-success/40 bg-success/5" : "border-accent-blue/40 bg-accent-blue/5"}`}>
+      <div className={`rounded-xl border p-4 ${eligibleMusterprotokoll ? "border-success/40 bg-success/5" : "border-foreground/25 bg-accent-blue/5"}`}>
         <div className="flex items-start gap-2">
           <CheckCircle2 className={`h-5 w-5 mt-0.5 shrink-0 ${eligibleMusterprotokoll ? "text-success" : "text-accent-blue"}`} />
           <div className="text-sm">

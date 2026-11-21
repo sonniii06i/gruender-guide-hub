@@ -62,7 +62,7 @@ export const TwoFactorPrompt = ({ onVerified, onCancel }: Props) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 p-4 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-background p-4">
       <form
         onSubmit={submit}
         className="w-full max-w-sm rounded-2xl border border-border bg-card p-6 shadow-lg"

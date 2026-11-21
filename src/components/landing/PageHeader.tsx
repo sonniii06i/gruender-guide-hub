@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
-import { GridBackground } from "@/components/marketing/Marketing";
 
 interface PageHeaderProps {
   title: ReactNode;
@@ -18,17 +17,16 @@ interface PageHeaderProps {
 }
 
 /**
- * Einheitlicher Seitenkopf der öffentlichen Seiten: Linienraster (wie die
- * Landingpages, 25.10.2026), genau eine H1, Lead-Absatz, optional Breadcrumb und
- * Zusatzinhalt (Suche, Kennzahlen). `zentriert` für Hub-Seiten, sonst linksbündig
- * (Rechtstexte, Formulare).
+ * Einheitlicher Seitenkopf der öffentlichen Seiten (Umbau 11/2026): weiße
+ * Fläche mit Linie darunter, genau eine H1, Lead-Absatz, optional Breadcrumb und
+ * Zusatzinhalt (Suche, Kennzahlen). Immer linksbündig; `zentriert` setzt nur
+ * noch die größere Schriftstufe der Hub-Seiten.
  */
 export const PageHeader = ({ title, lead, kicker, crumbs, children, className, width = "max-w-5xl", zentriert = false }: PageHeaderProps) => (
-  <section className={cn("relative overflow-hidden border-b border-border/70 bg-background pb-12 pt-28 md:pb-16 md:pt-32", zentriert && "md:pb-20 md:pt-36", className)}>
-    <GridBackground />
+  <section className={cn("border-b border-border bg-card pb-9 pt-[5.5rem] md:pb-11 md:pt-24", className)}>
     <div className={cn("container relative px-4", width)}>
       {crumbs && crumbs.length > 0 && (
-        <nav className={cn("mb-8 flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground", zentriert && "justify-center")} aria-label="Breadcrumb">
+        <nav className="mb-5 flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground" aria-label="Breadcrumb">
           {crumbs.map((c, i) => (
             <span key={i} className="flex items-center gap-1.5">
               {c.to ? (
@@ -43,21 +41,21 @@ export const PageHeader = ({ title, lead, kicker, crumbs, children, className, w
           ))}
         </nav>
       )}
-      <header className={cn(zentriert ? "mx-auto max-w-4xl text-center" : "max-w-3xl")}>
-        {kicker && <div className="mb-5">{kicker}</div>}
+      <header className="max-w-3xl">
+        {kicker && <div className="mb-3">{kicker}</div>}
         <h1
           className={cn(
-            "text-balance font-semibold tracking-[-0.04em] text-primary",
-            zentriert ? "text-[2.5rem] leading-[1.02] md:text-[4rem]" : "text-[2.25rem] leading-[1.05] md:text-[3.25rem]",
+            "text-balance font-semibold tracking-[-0.02em] text-primary",
+            zentriert ? "text-[2rem] leading-[1.1] md:text-[2.75rem]" : "text-[1.875rem] leading-[1.12] md:text-[2.5rem]",
           )}
         >
           {title}
         </h1>
         {lead && (
-          <div className={cn("mt-5 max-w-2xl text-pretty text-lg leading-relaxed text-muted-foreground", zentriert && "mx-auto md:text-xl")}>{lead}</div>
+          <div className="mt-4 max-w-2xl text-pretty text-base leading-relaxed text-muted-foreground md:text-lg">{lead}</div>
         )}
       </header>
-      {children && <div className={cn("mt-8", zentriert && "mt-10 flex flex-col items-center [&>*]:justify-center")}>{children}</div>}
+      {children && <div className="mt-7">{children}</div>}
     </div>
   </section>
 );

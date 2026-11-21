@@ -264,7 +264,7 @@ const Toggle = ({ label, value, onChange }: { label: string; value: boolean; onC
     role="switch"
     aria-checked={value}
     onClick={() => onChange(!value)}
-    className={`w-full rounded-xl border p-4 text-left transition-colors ${value ? "border-accent-blue/40 bg-accent" : "border-border bg-card hover:border-foreground/25"}`}
+    className={`w-full rounded-xl border p-4 text-left transition-colors ${value ? "border-foreground/25 bg-accent" : "border-border bg-card hover:border-foreground/25"}`}
   >
     <div className="flex items-center justify-between gap-4">
       <span className="text-sm font-medium">{label}</span>
