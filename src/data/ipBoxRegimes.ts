@@ -461,12 +461,12 @@ export const IP_BOX_REGIMES: IPBoxRegime[] = [
     cons: [
       "Höchster effektiver Satz unter Top-IP-Boxes (~9-13 % je nach Kanton — Federal 8,5 % bleibt voll, Patent-Box wirkt nur kantonal)",
       "Setup 30.000-60.000 € + sehr hohe Compliance-Kosten",
-      "Nicht-EU → keine Mutter-Tochter-RL (Quellensteuer auf Royalties Standard 5-10 % per DBA)",
+      "Nicht-EU → keine Mutter-Tochter-RL (Lizenzgebühren zwischen DE und CH sind aber nach Art. 12 DBA DE–CH quellensteuerfrei)",
       "Substanz-Anforderung sehr scharf",
       "Lokale Anwälte teurer als EU",
     ],
     dbaNote:
-      "DBA-DE 2010 (Update 2023), 0 % Quellensteuer auf Royalties bei Beneficial Owner + ggf. Limitation-on-Benefits-Klausel. Wegzugsbesteuerung §6 AStG bei Wegzug aus DE — nur Stundung in EU/EWR, CH separate Regelung.",
+      "DBA-DE 2010 (Update 2023), 0 % Quellensteuer auf Royalties bei Beneficial Owner + ggf. Limitation-on-Benefits-Klausel. Wegzugsbesteuerung §6 AStG bei Wegzug aus DE: Steuer auf Antrag in sieben Jahresraten, in der Regel gegen Sicherheitsleistung (§ 6 Abs. 4 AStG), unabhängig vom Zielstaat.",
     cfcRisk: "Niedrig",
     setupComplexity: "Komplex",
     minRoyaltiesEur: 1500000,

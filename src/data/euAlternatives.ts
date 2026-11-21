@@ -136,7 +136,7 @@ export const EU_ALTERNATIVES: EUAlternative[] = [
     fitForGermans: "Sehr gut",
     bestFor: [
       "DE-Founder mit grenzüberschreitendem Geschäft DE/NL/BE",
-      "IP-Holding wenn Lizenzschranke §4j EStG umgangen werden soll",
+      "IP-Holding (die deutsche Lizenzschranke § 4j EStG ist seit 2025 weggefallen)",
       "Software / SaaS mit europäischer Kundenbasis",
       "Holding für internationale Beteiligungen (Mutter-Tochter)",
     ],
@@ -339,7 +339,7 @@ export const EU_ALTERNATIVES: EUAlternative[] = [
       "Sehr business-friendly Rechtsprechung",
     ],
     cons: [
-      "**Substanz-Anforderungen**: IE-resident Director ODER 25k Bond (compliance officer)",
+      "**Substanz-Anforderungen**: mind. 1 Director mit Wohnsitz im EWR (Deutschland genügt), sonst Section-137-Bond über 25.000 €",
       "**Pillar 2 OECD ab 2024**: 15 % Mindeststeuer für große Konzerne (>750 Mio Umsatz) — 12,5 % Vorteil weg",
       "**Trading vs. Passive Income**: Finanzamt prüft genau — falsche Klassifikation = 25 %",
       "Bei DE-Wohnsitz: AStG-Hinzurechnung möglich",
@@ -352,7 +352,7 @@ export const EU_ALTERNATIVES: EUAlternative[] = [
     ],
     setupSteps: [
       "1. IE-Anwalt / Service-Provider wählen (z.B. WilliamFry, Mason Hayes)",
-      "2. Director: entweder selbst nach IE bewegen ODER lokalen Director engagieren ODER Bond (~25k) hinterlegen",
+      "2. Director: mind. 1 Director mit Wohnsitz im EWR (z. B. Deutschland); nur ohne EWR-Director Section-137-Bond über 25.000 € (Versicherungsbürgschaft)",
       "3. Memorandum + Articles of Association vorbereiten",
       "4. CRO (Companies Registration Office) Antrag",
       "5. Bei aktiv: Tax Registration TR1/TR2 beim Revenue (IE-Finanzamt)",
@@ -651,7 +651,7 @@ export const EU_ALTERNATIVES: EUAlternative[] = [
     cons: [
       "Hohe laufende Kosten — Standard-Soparfi ab 10 k €/Jahr Compliance, komplexe ab 25 k €+",
       "**Gewerbesteuer 6,75 % auf operatives Geschäft** (anders als reine Holding)",
-      "Vermögensteuer 0,5 % bzw. Mindest-Vermögensteuer (reine Finanzholding 4.815 €/Jahr, sonst je nach Bilanzsumme ab 535 €)",
+      "Vermögensteuer 0,5 % bzw. Mindest-Vermögensteuer (seit 2025 nur nach Bilanzsumme: 535 € bis 350.000 €, 1.605 € bis 2 Mio. €, 4.815 € darüber)",
       "**Substanz-Prüfung**: Mailbox-Soparfis werden über § 50d Abs. 3 EStG und den DBA-Principal-Purpose-Test durchschaut (ATAD III wurde 2025 zurückgezogen)",
       "**§AStG-Hinzurechnung** bei DE-Wohnsitz + passiven Einkünften möglich",
       "Bei DE-Töchtern: Mutter-Tochter-RL macht 0 % Quellensteuer ohnehin verfügbar — LU-Vorteil eher bei Multi-Country-Setups",
