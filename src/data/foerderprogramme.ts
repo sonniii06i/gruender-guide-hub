@@ -726,7 +726,7 @@ export const FOERDERPROGRAMME: Foerderung[] = [
     branche: ["alle"],
     description: "★ NUF-Setup ermöglicht DE-Eigentümer zu behalten — selten unter EU-Programmen so flexibel.",
     conditions: ["Grant 1: AS vor dem Antrag nötig; Grant 2: AS oder NUF bis zur 1. Auszahlung", "Operations in NO", "Export-Potenzial"],
-    antragUrl: "https://en.innovasjonnorge.no/",
+    antragUrl: "https://www.innovasjonnorge.no/en",
     forDeFounder: "★ NUF-Setup flexibel — DE-Eigentümer bleibt",
   },
 

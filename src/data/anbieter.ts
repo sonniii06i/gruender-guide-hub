@@ -262,7 +262,7 @@ export const FULL_DESCRIPTIONS: Record<string, string> = {
   "bmw-financial-services": "BMW Financial Services ist die Finanzdienstleistungs-Tochter der BMW Group und vermarktet Leasing für BMW und MINI. Beste Konditionen für die BMW-Konzern-Marken direkt vom Hersteller, regelmäßige Aktionsangebote für B2B-Kunden.",
   "vehiculum": "Vehiculum ist ein 2015 in Berlin gegründeter Online-Marktplatz für Auto-Leasing. Vergleicht Tausende Leasing-Angebote markenübergreifend und ist der schnellste Weg zu einem Online-Leasing-Vertrag. Aktionsraten oft günstiger als beim Direkt-Hersteller, dafür weniger persönliche Beratung.",
   "leaseplan": "LeasePlan wurde 1963 in den Niederlanden gegründet und ist 2023 mit ALD Automotive zu Ayvens fusioniert. Flotten-Anbieter mit globalem Netzwerk in 40+ Ländern. Stark bei Großflotten und international agierenden Mittelständlern.",
-  "finn": "FINN wurde 2019 in München gegründet und ist Marktführer für Auto-Abos in Deutschland. Modell: 1–24 Monate Laufzeit, alles inklusive (Versicherung, Steuer, Wartung). Effektiv teurer als klassisches Leasing bei langfristiger Nutzung, dafür maximale Flexibilität ohne Restwert-Risiko.",
+  "finn": "FINN wurde 2019 in München gegründet und ist Marktführer für Auto-Abos in Deutschland. Modell: 6–24 Monate Laufzeit, alles inklusive (Versicherung, Steuer, Wartung). Effektiv teurer als klassisches Leasing bei langfristiger Nutzung, dafür maximale Flexibilität ohne Restwert-Risiko.",
 
   // ============ FULFILLMENT ============
   "warehousing1": "Warehousing1 ist ein 2019 in Berlin gegründeter Marketplace, der mehrere 3PL-Lager in DE/EU vergleicht und passende Anbieter zu Brands matched. Schnelle Match-Time, aber Brand wählt das konkrete Lager nicht selbst – Trade-off zwischen Bequemlichkeit und Kontrolle.",
@@ -1324,7 +1324,7 @@ export const PROVIDERS: Provider[] = [
     name: "Bank of America Business Advantage",
     category: "Banking US",
     region: "US",
-    starting: "16 $/Mon (waivable bei $5k Min-Balance)",
+    starting: "16 $/Mon (erste 12 Monate 0 $, danach erlassbar ab 5.000 $ Durchschnittsguthaben)",
     rating: 4.0,
     tagline: "Zweitgrößte US-Business-Bank, ~3.500 Filialen",
     pros: [
@@ -1340,7 +1340,7 @@ export const PROVIDERS: Provider[] = [
     ],
     forumNotes: "r/Entrepreneur 2026: 'Solid für etablierte LLCs, schwächer als Chase bei Tech-Startups. Mobile-App weniger gepolisht als Chase oder Mercury.'",
     signupTime: "Filialtermin (Remote sehr schwer)",
-    url: "https://www.bankofamerica.com/smallbusiness/",
+    url: "https://www.bankofamerica.com/business/",
   },
   {
     slug: "wells-fargo-business",
@@ -1369,7 +1369,7 @@ export const PROVIDERS: Provider[] = [
     name: "Capital One Business",
     category: "Banking US",
     region: "US",
-    starting: "15 $ (Basic, 0 $ ab 2.000 $ Guthaben) / 35 $ (Enhanced, 0 $ ab 25.000 $)",
+    starting: "15 $ (Basic, 0 $ ab 2.000 $ Guthaben) / 35 $ (Enhanced, 0 $ ab 25.000 $) / 99 $ (Premier, 0 $ ab 100.000 $)",
     rating: 4.2,
     tagline: "Online-stark, gute Spark-Kreditkarten-Bundle",
     pros: [
@@ -1430,7 +1430,7 @@ export const PROVIDERS: Provider[] = [
       "Kein Bargeld-Service",
     ],
     forumNotes: "r/Entrepreneur 2026: 'Lili für Solo-Side-Hustlers top mit Tax-Bucket. Für richtige LLCs lieber Mercury oder Relay.'",
-    signupTime: "1–3 Tage online",
+    signupTime: "Online-Antrag, Freigabe laut Lili meist in wenigen Minuten",
     url: "https://lili.co",
   },
   {
@@ -2063,13 +2063,13 @@ export const PROVIDERS: Provider[] = [
     name: "FINN (Auto-Abo)",
     category: "Geschäftsfahrzeug",
     region: "DE",
-    starting: "ab ~399 €/Mon (netto, alles inkl.)",
+    starting: "ab ~209 €/Mon brutto (176 € netto, z. B. MG3) + einmalig ~311 € Liefergebühr (261 € netto)",
     rating: 4.5,
     tagline: "Auto-Abo statt Leasing – flexibler",
-    pros: ["1–24 Monate Laufzeit, monatlich kündbar (24-Mon-Tarif)", "Versicherung + Steuer + Wartung inkl.", "Online-Bestellung in 5 Minuten"],
+    pros: ["6–24 Monate Laufzeit (Mindestlaufzeit ab 6 Monaten)", "Versicherung + Steuer + Wartung inkl.", "Online-Bestellung in 5 Minuten"],
     cons: ["Effektiv teurer als Leasing bei langer Nutzung", "Auswahl begrenzter als bei klassischem Leasing"],
     forumNotes: "Junge GmbHs auf Twitter: 'Perfekt für die ersten 12 Monate – kein Commitment, keine Restwert-Diskussion.'",
-    signupTime: "Sofort online + 1–4 Wochen Lieferzeit",
+    signupTime: "Online in unter 5 Minuten; Übergabe ab ca. 1 Woche (Lagerfahrzeuge), Bestellfahrzeuge oft mehrere Monate",
     url: "https://www.finn.com/de-DE",
   },
 

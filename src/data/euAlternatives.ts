@@ -425,7 +425,7 @@ export const EU_ALTERNATIVES: EUAlternative[] = [
     deTaxImpact: "AStG-Hinzurechnung wahrscheinlich bei DE-Wohnsitz wegen niedrigem CY-Steuersatz + oft passive Einkünfte. Substance-Test verschärft seit 2024 — pure Holding ohne aktive Tätigkeit + lokale GF wird durchschaut.",
     officialLinks: [
       { label: "CY Registrar of Companies", url: "https://www.companies.gov.cy/en/" },
-      { label: "CY Tax Department", url: "https://www.mof.gov.cy/mof/tax/taxdep.nsf" },
+      { label: "CY Tax Department", url: "https://www.gov.cy/mof-tax/" },
     ],
   },
 
@@ -476,7 +476,7 @@ export const EU_ALTERNATIVES: EUAlternative[] = [
       "DACH-D2C-Brands mit PL-Fulfillment-Setups",
     ],
     setupSteps: [
-      "1. Online-Gründung über S24-Portal (https://ekrs.ms.gov.pl) — Standard-Mustervertrag",
+      "1. Online-Gründung über S24-Portal (https://ekrs.ms.gov.pl/s24/) — Standard-Mustervertrag",
       "2. Stammkapital einzahlen (5.000 PLN; bei S24 als Bareinlage binnen 7 Tagen nach KRS-Eintragung)",
       "3. Eintragung im Krajowy Rejestr Sądowy (KRS)",
       "4. NIP-Nummer (PL-Steuernummer)",
@@ -485,8 +485,8 @@ export const EU_ALTERNATIVES: EUAlternative[] = [
     ],
     deTaxImpact: "0 % Quellensteuer auf Dividenden an eine EU-Muttergesellschaft bei ≥ 10 % Beteiligung + 2 Jahren Haltedauer (Mutter-Tochter-Regel); nach DBA DE-PL sonst 5 % (ab 10 % Beteiligung) bzw. 15 %. AStG bei DE-GF + passiven Einkünften möglich. Aktive Geschäftstätigkeit (echte PL-Mitarbeiter) typisch unkritisch.",
     officialLinks: [
-      { label: "S24 Online-Gründung", url: "https://ekrs.ms.gov.pl" },
-      { label: "KRS (Handelsregister)", url: "https://ekrs.ms.gov.pl/web/wyszukiwarka-krs/" },
+      { label: "S24 Online-Gründung", url: "https://ekrs.ms.gov.pl/s24/" },
+      { label: "KRS (Handelsregister)", url: "https://wyszukiwarka-krs.ms.gov.pl/" },
     ],
   },
 

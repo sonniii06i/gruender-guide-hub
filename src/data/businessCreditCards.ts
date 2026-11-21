@@ -92,7 +92,7 @@ export const BIZ_CARDS: BizCard[] = [
     schufa: false,
     soloDayOne: true,
     who: "Explizit Solo-Gründer/Freiberufler ab 0 € bis KMU · deutsche IBAN, SEPA",
-    extraCards: "mehrere physische + virtuelle Visa pro Nutzer je Plan",
+    extraCards: "Solo: 1 kostenlose virtuelle Karte; physische und weitere Karten ab Basic; Core: bis zu 3 physische + 20 virtuelle pro Nutzer",
     insurance: null,
     bestFor: "★ Solo ab 0 € mit deutscher IBAN",
     watchouts: [

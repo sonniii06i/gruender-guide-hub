@@ -201,7 +201,7 @@ const CryptoSteuer = () => {
 
   // Freigrenze §23 (3) EStG: seit 2024 1.000 € (vorher 600 €).
   // Wortlaut "weniger als" → 999,99 € steuerfrei, ab 1.000 € voll steuerpflichtig.
-  // Bei NEGATIVEM Saldo (Verluste > Gewinne): kein Steuerlast aktuell, ABER Verlustvortrag möglich (§23 (3) S. 7 EStG) — nur mit gleichartigen Gewinnen verrechenbar.
+  // Bei NEGATIVEM Saldo (Verluste > Gewinne): kein Steuerlast aktuell, ABER Verlustvortrag möglich (§23 (3) S. 8 EStG) — nur mit gleichartigen Gewinnen verrechenbar.
   const freigrenze = freigrenzeParagraph23(steuerJahr);
   const ungedeckteVerkaeufe = yearResults.filter((r) => (r.ungedeckt ?? 0) > 0);
   const istVerlust = totalSteuerpflichtig < 0;
@@ -309,8 +309,8 @@ const CryptoSteuer = () => {
                 <ul className="mt-2 space-y-1 text-muted-foreground">
                   <li><strong className="font-medium text-foreground">Binance:</strong> Profil, Orders, Spot Order, Trade History, Export Trade History (CSV)</li>
                   <li><strong className="font-medium text-foreground">Kraken:</strong> History (Verlauf), Export, Export-Typ Trades, trades.csv</li>
-                  <li><strong className="font-medium text-foreground">Coinbase:</strong> Account, Statements, Generate Report (Transaction History)</li>
-                  <li><strong className="font-medium text-foreground">Bison:</strong> Übersicht, Steuerreport / Transaktionsliste (.csv)</li>
+                  <li><strong className="font-medium text-foreground">Coinbase:</strong> Profil, Settings, Accounts, Statements, eigenes Statement im Format CSV (Generate)</li>
+                  <li><strong className="font-medium text-foreground">Bison:</strong> Konto, Reports, Transaktionshistorie (CSV, kommt per E-Mail)</li>
                 </ul>
               </details>
             </ToolSection>

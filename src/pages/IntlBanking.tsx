@@ -497,7 +497,7 @@ const IntlBanking = () => {
 
   return (
     <CockpitShell
-      eyebrow="International Banking · Stand Oktober 2026"
+      eyebrow="International Banking · Stand November 2026"
       title="US- und HK-Banking für non-Resident Founder: verifizierter Vergleich"
       subtitle="Neun Anbieter (Mercury, Wise Personal und Business, Relay, Brex, Statrys, Airwallex, Currenxie, HSBC) mit echten Preisen 2026, Closure-Risiken aus Trustpilot, Reddit und OffshoreCorpTalk, versteckten Gebühren und Survival-Tipps."
     >
@@ -796,7 +796,7 @@ const IntlBanking = () => {
         </ToolSection>
 
         {/* Empfehlungs-Matrix */}
-        <ToolSection title="Banking-Empfehlung nach Profil" description="Stand Oktober 2026" icon={Globe}>
+        <ToolSection title="Banking-Empfehlung nach Profil" description="Stand November 2026" icon={Globe}>
           <div className="grid gap-3 md:grid-cols-2">
             <ProfilKarte titel="DE-Solo-Founder ohne US-LLC">
               Wise Personal (kostenlos!) für Multi-Currency-Wallets + DE-Geschäftsbank (Qonto/Sparkasse) für EUR-Ops
@@ -815,7 +815,7 @@ const IntlBanking = () => {
         </ToolSection>
 
         <p className="text-xs leading-relaxed text-muted-foreground">
-          <strong className="font-semibold text-foreground">Hinweis:</strong> Preise Stand Oktober 2026, Closure-Risiko laut Nutzerberichten bis Mai 2026.
+          <strong className="font-semibold text-foreground">Hinweis:</strong> Preise Stand November 2026, Closure-Risiko laut Nutzerberichten bis Mai 2026.
           Quellen: Issuer-Pricing-Pages, Trustpilot, OffshoreCorpTalk, Reddit r/Entrepreneur, Hacker News, TechCrunch.
           Trustpilot-Werte, Closure-Muster, Freeze-Dauern und Ablehnungsquoten sind Nutzer- und Erfahrungsberichte, keine
           Angaben der Anbieter; die Trustpilot-Werte sind nicht live nachgeprüft. Der
@@ -832,7 +832,7 @@ const IntlBanking = () => {
 
 const SURVIVAL_TIPPS: [string, string][] = [
   ["Dokumente konsistent halten", "Address, ID, EIN über alle Banken identisch (selbst ein Tippfehler kann ein Mercury-Review triggern)"],
-  ["Niemals Registered-Agent als Principal Office", "Mercury akzeptiert laut Nutzerberichten keine Registered-Agent-Adressen. iPostal1/Earth Class Mail mit echtem Lease OK; UPS-Store/PO Box abgelehnt"],
+  ["Niemals Registered-Agent als Principal Office", "Mercury akzeptiert laut eigener FAQ keine Registered-Agent-Adressen. iPostal1/Earth Class Mail mit echtem Lease OK; UPS-Store/PO Box abgelehnt"],
   ["Multi-Bank-Strategie", "Mind. 2 Banken, max. 70 % Cash-Bestand in einer Bank"],
   ["Saubere KYB-Story", "Business-Description, Customer-Liste, Supplier-Liste, Source-of-Funds (bei Statrys/HSBC zwingend)"],
   ["Keine Crypto-Bridge ohne Lizenz", "Plötzliche Coinbase/Binance/Kraken-Conversions sind Top-Closure-Trigger 2024 bis 2026"],

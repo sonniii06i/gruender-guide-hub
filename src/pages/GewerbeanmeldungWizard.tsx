@@ -940,7 +940,7 @@ const StepBeginn = ({ data, update }: StepProps) => (
       <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
         Bleibt dein Umsatz im Gründungsjahr <strong className="font-medium text-foreground">bis 25.000 €</strong> (in Folgejahren: Vorjahr bis
         25.000 € und laufendes Jahr bis 100.000 €, bei Überschreiten sofortiger Wegfall), kannst du die Kleinunternehmerregelung nutzen
-        (§ 19 UStG n. F.). Vorteil: keine USt auf Rechnungen, keine USt-Voranmeldung. Nachteil: kein Vorsteuerabzug. An 5 Jahre gebunden
+        (§ 19 UStG; Gründungsjahr: Abschnitt 19.1 Abs. 3 UStAE). Vorteil: keine USt auf Rechnungen, keine USt-Voranmeldung. Nachteil: kein Vorsteuerabzug. An 5 Jahre gebunden
         bist du nur, wenn du auf die Regelung <em>verzichtest</em> (§ 19 Abs. 3 UStG).
       </p>
       <fieldset className="mt-4">
