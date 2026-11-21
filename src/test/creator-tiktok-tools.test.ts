@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { readFileSync } from "fs";
 import { resolve } from "path";
 import { FREE_TOOL_BY_SLUG } from "@/lib/freetools";
+import { TRIAL_TOOLS } from "@/lib/freetools/trialTools";
 import { ZIELGRUPPEN } from "@/data/zielgruppen";
 import { PLAYBOOKS } from "@/data/playbooks";
 
@@ -93,7 +94,8 @@ describe("Zielgruppen-Landings", () => {
     });
 
     it(`/${z.slug}: Gratis-Tools und Guides existieren`, () => {
-      for (const t of z.freeTools) expect(FREE_TOOL_BY_SLUG[t.to.slice(1)], t.to).toBeDefined();
+      // Gratis ist ein Generator unter /<slug> oder eine Tool-Landing mit kostenloser Nutzung (trialTools).
+      for (const t of z.freeTools) expect(FREE_TOOL_BY_SLUG[t.to.slice(1)] ?? TRIAL_TOOLS.find((x) => x.landingPath === t.to), t.to).toBeDefined();
       for (const g of z.guides.filter((g) => g.to.startsWith("/guides/"))) expect(guides.has(g.to.slice(8)), g.to).toBe(true);
     });
 

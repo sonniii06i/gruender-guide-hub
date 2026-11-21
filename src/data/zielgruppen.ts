@@ -33,9 +33,34 @@ export interface Zielgruppe {
   ratgeber: { to: string; title: string; desc: string }[];
   guides: { to: string; title: string; desc: string }[];
   faq: { q: string; a: string }[];
+  /**
+   * Optional (21.11.2026, growth-lp): Fall-Tabelle direkt unter der Antwort. Jede Zeile ist ein Fall
+   * (z. B. eine Rechtsform), die erste Spalte der Zeilenkopf; `kopf` und jede Zeile haben gleich viele Einträge.
+   */
+  faelle?: { eyebrow: string; titel: string; lead: string; kopf: string[]; zeilen: string[][]; fuss: string; link?: { to: string; label: string } };
   quellen: { label: string; url: string }[];
   ctaTitle: string;
   ctaText: string;
+  // ── Optional (14.11.2026, growth-lp): Bausteine für Seiten, die eine Suchfrage direkt beantworten. ──
+  /** Sichtbarer Stand + dateModified. Fehlt er, gilt der Sammelstand der älteren Seiten. */
+  stand?: { text: string; iso: string };
+  /** Antwort zuerst: Frage als H2, Antwort in ein bis zwei Sätzen, direkt unter dem Hero. */
+  antwort?: { frage: string; text: string };
+  /** Tabelle mit Stand-Datum, z. B. Pflichten in Reihenfolge. `hilfe` verlinkt die eigene Seite zum Schritt. */
+  tabelle?: {
+    titel: string;
+    lead: string;
+    kopf: [string, string, string, string];
+    zeilen: { schritt: string; wann: string; wo: string; grundlage: string; hilfe: { to: string; label: string } }[];
+    fuss: string;
+  };
+  /** Eigener Beispielfall mit eigener Zahl (Eigenwert der Seite). */
+  beispiel?: { titel: string; text: string; punkte: string[]; hinweis: string; link: { to: string; label: string } };
+  /** Einwände direkt vor dem Schluss-CTA. Der Preis kommt in der Komponente aus config/pricing.ts. */
+  einwaende?: { q: string; a: string }[];
+  /** Überschrift und Vorspann des Tool-Abschnitts, wenn „Drei Tools gratis“ nicht passt. */
+  toolsTitel?: string;
+  toolsLead?: string;
 }
 
 const HESSEN = {
@@ -43,8 +68,26 @@ const HESSEN = {
   url: "https://finanzamt.hessen.de/sites/finanzamt.hessen.de/files/2026-07/leitfaden_zur_besteuerung_von_influencerinnen_und_influencern.pdf",
 };
 const TT_NEWS = { label: "TikTok Newsroom: Ein Jahr TikTok Shop in Deutschland (24.03.2026)", url: "https://newsroom.tiktok.com/tiktokshop-1-jahr?lang=de-DE" };
-const TT_SU = { label: "TikTok Seller University: Registrierung als Einzelunternehmer", url: "https://seller-de.tiktok.com/university/essay?knowledge_id=6339509542340373&lang=de-DE" };
+const TT_SU = { label: "TikTok Seller University: TikTok Shop Onboarding-Leitfaden (Stand 11.11.2026)", url: "https://seller-de.tiktok.com/university/essay?knowledge_id=6339509542340373&lang=de-DE" };
 const PSTTG = { label: "Plattformen-Steuertransparenzgesetz § 4", url: "https://www.gesetze-im-internet.de/psttg/__4.html" };
+
+// /tiktok-shop (21.11.2026, growth-lp): Quellen der überarbeiteten Seite. Dieselben Gesetzes-Konstanten führt der
+// Zweig lp/amazon-haendler; beim Zusammenführen bleibt jede Konstante nur einmal stehen.
+const TT_PROVISION = { label: "TikTok Seller University: TikTok Shop EU-Kommissionsrichtlinie (Stand 28.01.2026)", url: "https://seller-de.tiktok.com/university/essay?knowledge_id=1531082143074070&lang=de-DE" };
+const GII = "https://www.gesetze-im-internet.de";
+const Q_GEWO = { label: "§ 14 GewO: Anzeige des Gewerbes gleichzeitig mit dem Beginn", url: `${GII}/gewo/__14.html` };
+const Q_AO138 = { label: "§ 138 AO: Fragebogen zur steuerlichen Erfassung innerhalb eines Monats", url: `${GII}/ao_1977/__138.html` };
+const Q_USTG27A = { label: "§ 27a UStG: USt-IdNr. auf Antrag vom Bundeszentralamt für Steuern", url: `${GII}/ustg_1980/__27a.html` };
+const Q_USTG19 = { label: "§ 19 UStG: Kleinunternehmer-Grenzen 25.000 € und 100.000 €, Bindung fünf Kalenderjahre", url: `${GII}/ustg_1980/__19.html` };
+const Q_VERPACK6 = { label: "§ 6 VerpackDG: Registrierung vor dem erstmaligen Bereitstellen (in Kraft seit 12.08.2026)", url: `${GII}/verpackdg/__6.html` };
+const Q_VERPACK7 = { label: "§ 7 VerpackDG: Beteiligung an einem dualen System", url: `${GII}/verpackdg/__7.html` };
+const Q_ELEKTRO6 = { label: "§ 6 ElektroG: Registrierung, Verbote für Vertreiber, Marktplätze und Fulfilment-Dienstleister", url: `${GII}/elektrog_2015/__6.html` };
+const Q_BZST_USTID = {
+  label: "Bundeszentralamt für Steuern: Vergabe der USt-IdNr.",
+  url: "https://www.bzst.de/DE/Unternehmen/Identifikationsnummern/Umsatzsteuer-Identifikationsnummer/Vergabe_USt_IdNr/vergabe_ust_idnr_node.html",
+};
+const Q_ZSVR = { label: "Zentrale Stelle Verpackungsregister (LUCID)", url: "https://www.verpackungsregister.org/" };
+const Q_EAR = { label: "stiftung elektro-altgeräte register (stiftung ear)", url: "https://www.stiftung-ear.de/" };
 
 const FT_INFLUENCER: ZielgruppeFreeTool = {
   to: "/influencer-steuer-check",
@@ -60,6 +103,16 @@ const FT_TTS: ZielgruppeFreeTool = {
   to: "/tiktok-shop-checkliste",
   title: "TikTok-Shop-Checkliste",
   desc: "Alle Pflichten vor dem ersten Verkauf – in der richtigen Reihenfolge.",
+};
+const FT_LUCID: ZielgruppeFreeTool = {
+  to: "/tools/lucid-wizard",
+  title: "Verpackungslizenz-Rechner",
+  desc: "Verpackungsmengen eingeben, Spanne der Lizenzkosten und passende duale Systeme sehen.",
+};
+const FT_WEEE: ZielgruppeFreeTool = {
+  to: "/tools/weee-check",
+  title: "WEEE-Check",
+  desc: "Marke im Verzeichnis der stiftung ear nachschlagen: registriert, aktiv oder ausgetreten.",
 };
 
 export const ZIELGRUPPEN: Zielgruppe[] = [
@@ -142,82 +195,246 @@ export const ZIELGRUPPEN: Zielgruppe[] = [
     ctaTitle: "Dein Creator-Business sauber aufsetzen – mit Felix",
     ctaText: "Gewerbe, Fragebogen, Rechnungen, Fristen und alle weiteren Tools und Guides im Abo – monatlich kündbar.",
   },
+  // /tiktok-shop, Fassung vom 21.11.2026 (growth-lp): eine Persona (TikTok-Shop-Händler mit eigener oder eingekaufter
+  // Ware), eine Aufgabe (Registrierung im Seller Center ohne falschen Kontotyp). Belege, alle am 21.11.2026 gelesen:
+  // TikTok Seller University „TikTok Shop Onboarding-Leitfaden“ (Stand 11.11.2026) und „TikTok Shop
+  // EU-Kommissionsrichtlinie“ (Stand 28.01.2026), TikTok Newsroom vom 24.03.2026, § 14 GewO, § 138 AO, §§ 19, 27a UStG,
+  // §§ 6, 7 VerpackDG, § 6 ElektroG, § 4 Abs. 5 PStTG. Das Rechenbeispiel ist in src/test/tiktok-shop-seite.test.ts
+  // nachgerechnet. Affiliates führt die Seite nur noch als Wegweiser zu /influencer.
   {
     slug: "tiktok-shop",
-    seoTitle: "TikTok Shop Deutschland: Verkäufer werden | GründerX",
+    seoTitle: "TikTok Shop erstellen: als Seller anmelden | GründerX",
     seoDescription:
-      "TikTok Shop starten: Gewerbe, Steuernummer, Registrierung, LUCID, WEEE und Plattform-Meldung in der richtigen Reihenfolge – mit Felix. Gratis-Checkliste.",
-    eyebrow: "Für TikTok-Shop-Verkäufer · Affiliates · Live-Seller",
-    heading: "TikTok Shop starten – ohne hängende Registrierung.",
-    heroTitle: "Dein TikTok Shop,",
-    heroAccent: "von Anfang an sauber angemeldet.",
+      "TikTok Shop erstellen: welcher Kontotyp zu deiner Rechtsform passt, wer eine USt-IdNr. braucht und was 9 % Provision kosten. Mit Checkliste, Stand 21.11.2026.",
+    eyebrow: "Für TikTok-Shop-Verkäufer · eigene Ware · Handelsware",
+    heading: "TikTok Shop erstellen. Kontotyp, Steuernummer und USt-IdNr. in der richtigen Reihenfolge.",
+    heroTitle: "TikTok Shop erstellen.",
+    heroAccent: "Kontotyp, Steuernummer und USt-IdNr. in der richtigen Reihenfolge.",
     screen: "guideTiktok",
-    warumTitel: "Ab 30 Verkäufen weiß es das Finanzamt.",
+    stand: { text: "21.11.2026", iso: "2026-11-21" },
+    warumTitel: "TikTok prüft deine Angaben, bevor der Shop freigeschaltet wird.",
     lead:
-      "Du willst im TikTok Shop verkaufen oder als Creator Provisionen verdienen? Felix bringt dich durch Gewerbe, Fragebogen, den passenden Registrierungsweg, Verpackungsregister und Elektro-Registrierung – bevor dein Konto oder dein erstes Listing hängen bleibt.",
+      "Du willst eigene oder eingekaufte Produkte im TikTok Shop verkaufen? Hier steht, welcher Kontotyp zu deiner Rechtsform gehört, welche Nummer TikTok dafür verlangt und in welcher Reihenfolge Gewerbeamt, Finanzamt und Verpackungsregister dran sind. Geprüft am Onboarding-Leitfaden von TikTok vom 11.11.2026 und am Gesetzestext.",
+    antwort: {
+      frage: "Was brauche ich, um mich im TikTok Shop als Verkäufer anzumelden?",
+      text:
+        "Für die Registrierung in Deutschland verlangt TikTok eine Steuernummer, eine Geschäftsadresse und einen Reisepass oder Personalausweis; davor stehen die Gewerbeanmeldung und der Fragebogen zur steuerlichen Erfassung, und TikTok Shop ist ab 18 Jahren verfügbar. Eine USt-IdNr. verlangt TikTok, wenn dein Einzelunternehmen im Handelsregister steht (e. K.) oder du als GbR verkaufst; mit einem Gewerbe ohne Handelsregistereintrag registrierst du dich als „Gewerbliche*r Verkäufer*in“ ohne USt-IdNr.",
+    },
+    faelle: {
+      eyebrow: "Je Rechtsform",
+      titel: "Brauche ich für den TikTok Shop eine USt-IdNr.?",
+      lead:
+        "Das hängt vom Kontotyp ab, und den gibt deine Rechtsform vor: TikTok verlangt die Rechtsform, die deiner Gewerbeanmeldung entspricht. Für Deutschland beschreibt der Leitfaden vier Fälle.",
+      kopf: ["Deine Rechtsform", "Kontotyp bei TikTok", "Nummer, die TikTok verlangt", "Außerdem"],
+      zeilen: [
+        [
+          "Gewerbe ohne Handelsregistereintrag (Kleingewerbe)",
+          "„Gewerbliche*r Verkäufer*in“",
+          "„Persönliche Steuernummer“. Angaben zur Unternehmensregistrierung und eine USt-IdNr. verlangt TikTok bei diesem Kontotyp nicht.",
+          "Geschäftsadresse, laut TikTok kann das deine Wohnadresse sein; Ausweis",
+        ],
+        [
+          "Eingetragener Kaufmann (e. K.)",
+          "„Einzelunternehmer*in“",
+          "Registrierungsnummer aus dem Handelsregister, Stadt des Registergerichts und USt-IdNr.",
+          "Name und Nummer genau wie im Handelsregister; der Eintrag muss dort den Status „aktiv“ haben",
+        ],
+        [
+          "GbR",
+          "„Allgemeine Partnerschaft“ (nur Deutschland: GbR)",
+          "USt-IdNr., laut TikTok obligatorisch",
+          "Nachweis der Gewerbeanmeldung; Vertreter*in mit mehr als 25 % der Anteile",
+        ],
+        [
+          "UG oder GmbH",
+          "„Unternehmen in Privatbesitz“",
+          "Registrierungsnummer aus dem Handelsregister und Stadt des Registergerichts. Zur USt-IdNr. widerspricht sich der Leitfaden: im Text optional, in der Übersicht erforderlich. Halte sie bereit.",
+          "Name und Adresse genau wie im Handelsregister; Vertreter*in mit Wohnsitz im Land der Registrierung",
+        ],
+      ],
+      fuss:
+        "Quelle: „TikTok Shop Onboarding-Leitfaden“ der TikTok Seller University, Stand 11.11.2026. TikTok nennt e. K., UG und GmbH nicht beim Namen; die Zuordnung in der ersten Spalte ist unsere und folgt den Definitionen im Leitfaden. Im Zweifel fragst du den Verkäufer-Support von TikTok, bevor du den Antrag abschickst. Ob mit „Persönliche Steuernummer“ die Steuernummer vom Finanzamt oder die Steuer-Identifikationsnummer gemeint ist, schreibt TikTok nicht; halte beide bereit. Den Kontotyp kannst du laut TikTok nach der Genehmigung nicht mehr ändern.",
+      link: { to: "/ust-id-beantragen", label: "Gratis: USt-ID beantragen, wenn dein Kontotyp sie verlangt" },
+    },
     urgency:
-      "TikTok Shop läuft in Deutschland seit März 2025. Laut TikTok sind über 25.000 Verkäufer:innen aktiv, und im Schnitt kommen 60 % ihres Umsatzes über shoppable Videos und Live-Shopping. Ohne Steuernummer kommst du nicht durch die Registrierung – und wer im Handelsregister steht oder als GbR verkauft, braucht zusätzlich eine USt-IdNr. Und ab 30 Verkäufen oder 2.000 € im Jahr meldet die Plattform deine Umsätze ans Bundeszentralamt für Steuern. Wenn dein Video viral geht, muss dein Setup schon stehen.",
+      "TikTok Shop läuft in Deutschland seit März 2025; laut TikTok verkaufen dort über 25.000 Händler (Stand 24.03.2026). Für die Registrierung verlangt TikTok, dass Name und Registrierungsnummer genau so dastehen wie im Handelsregister. Die Prüfung eines Antrags dauert laut TikTok in der Regel zwei bis drei Arbeitstage. Den Kontotyp kannst du nach der Genehmigung nicht mehr ändern; dafür ist ein neuer Antrag nötig. Ein Begriff ist leicht zu verwechseln: „Einzelunternehmer*in“ meint bei TikTok ein Unternehmen, das im Handelsregister eingetragen ist. Für ein Kleingewerbe ohne Eintrag ist „Gewerbliche*r Verkäufer*in“ der passende Kontotyp.",
     outcomes: [
-      "Alle Anmeldungen in der richtigen Reihenfolge: Gewerbe → Fragebogen → Steuernummer → Registrierung → Geschäftskonto",
-      "Produktpflichten erledigt: LUCID, bei Elektro WEEE, Produktsicherheit",
-      "Kleinunternehmer-Entscheidung, die zu deinen Plänen passt",
-      "Verkäufe, TikTok-Gebühren und Affiliate-Provisionen sauber in der Buchhaltung",
-      "Margen pro Produkt im Blick – bevor du skalierst",
+      "Der passende Kontotyp für deine Rechtsform, bevor du den Antrag abschickst",
+      "Gewerbeanmeldung und Fragebogen bis zur Steuernummer, Teilseite für Teilseite",
+      "Kosten der Verpackungslizenz vorab als Spanne, gratis im Rechner",
+      "Bei Elektrogeräten vor dem Einkauf nachschlagen, ob die Marke bei der stiftung ear registriert ist",
+      "Die Meldegrenze der Plattform im Blick: 30 Verkäufe oder 2.000 € im Jahr",
     ],
+    tabelle: {
+      titel: "Die Anmeldungen in der Reihenfolge, in der du sie brauchst",
+      lead: "Acht Schritte vom Gewerbeschein bis zur laufenden Meldung. Zu jedem Schritt stehen der Zeitpunkt, die zuständige Stelle und die Rechtsgrundlage.",
+      kopf: ["Schritt", "Wann", "Wo", "Grundlage"],
+      zeilen: [
+        {
+          schritt: "1. Gewerbe anmelden",
+          wann: "gleichzeitig mit dem Start",
+          wo: "Gewerbeamt deiner Gemeinde",
+          grundlage: "§ 14 Abs. 1 GewO",
+          hilfe: { to: "/tools/gewerbeanmeldung-wizard", label: "Gewerbeanmeldung-Wizard" },
+        },
+        {
+          schritt: "2. Fragebogen zur steuerlichen Erfassung",
+          wann: "innerhalb eines Monats nach Beginn; danach kommt die Steuernummer",
+          wo: "Finanzamt, über ELSTER",
+          grundlage: "§ 138 Abs. 1b und 4 AO",
+          hilfe: { to: "/tools/fse-wizard", label: "Fragebogen-Wizard" },
+        },
+        {
+          schritt: "3. Kleinunternehmer: ja oder nein",
+          wann: "im Fragebogen",
+          wo: "Finanzamt",
+          grundlage: "§ 19 UStG",
+          hilfe: { to: "/tools/schwellen-check", label: "Schwellen-Check" },
+        },
+        {
+          schritt: "4. USt-IdNr., wenn dein Kontotyp sie verlangt",
+          wann: "im Fragebogen mit beantragen oder später online",
+          wo: "Bundeszentralamt für Steuern",
+          grundlage: "§ 27a UStG",
+          hilfe: { to: "/ust-id-beantragen", label: "Gratis: USt-ID beantragen" },
+        },
+        {
+          schritt: "5. Im Seller Center registrieren",
+          wann: "sobald Steuernummer, Geschäftsadresse und Ausweis bereitliegen; TikTok prüft in der Regel zwei bis drei Arbeitstage",
+          wo: "TikTok Seller Center",
+          grundlage: "Vorgaben von TikTok, Stand 11.11.2026",
+          hilfe: { to: "/tiktok-shop-checkliste", label: "Gratis: TikTok-Shop-Checkliste" },
+        },
+        {
+          schritt: "6. Verpackungsregister LUCID und duales System",
+          wann: "vor dem ersten Bereitstellen verpackter Ware",
+          wo: "Zentrale Stelle Verpackungsregister; Vertrag mit einem dualen System",
+          grundlage: "§§ 6 und 7 VerpackDG",
+          hilfe: { to: "/tools/lucid-wizard", label: "Gratis: Verpackungslizenz-Rechner" },
+        },
+        {
+          schritt: "7. WEEE-Registrierung (nur Elektro- und Elektronikgeräte)",
+          wann: "bevor ein Gerät in Verkehr gebracht wird",
+          wo: "stiftung ear",
+          grundlage: "§ 6 ElektroG",
+          hilfe: { to: "/tools/weee-check", label: "Gratis: WEEE-Check" },
+        },
+        {
+          schritt: "8. Plattform-Meldung (DAC7)",
+          wann: "laufend; du musst nichts beantragen",
+          wo: "TikTok meldet Verkäufer und ihre Umsätze an die Steuerbehörden",
+          grundlage: "§ 4 Abs. 5 PStTG: keine Meldung nur bei weniger als 30 Verkäufen und weniger als 2.000 € im Jahr",
+          hilfe: { to: "/guides/dac7", label: "Guide: DAC7" },
+        },
+      ],
+      fuss:
+        "Allgemeine Übersicht, keine Beratung im Einzelfall. Je nach Ware kommen weitere Pflichten dazu, etwa Angaben zur Produktsicherheit oder Regeln für Batterien, Kosmetik und Lebensmittel.",
+    },
+    beispiel: {
+      titel: "Beispiel: Was kostet die Provision bei einer Bestellung über 24,99 €?",
+      text:
+        "Ein Kunde bestellt ein Produkt für 24,99 € und zahlt 3,99 € Versand. TikTok rechnet die Provision auf Warenwert und Versandkosten des Kunden zusammen. Wir rechnen hier mit 28,98 €, ohne Rabatt der Plattform und ohne Erstattung.",
+      punkte: [
+        "9 % (Satz in der EU): 28,98 € × 9 % = 2,61 €",
+        "7 % (laut TikTok möglich bei Elektronik): 2,03 €",
+        "4 % (neue Verkäufer, bis zu 60 Kalendertage): 1,16 €",
+        "Bei 100 solchen Bestellungen: rund 261 € mit 9 %, rund 116 € mit 4 %",
+        "TikTok knüpft die 4 % an Bedingungen, unter anderem: erster TikTok Shop in der EU, mindestens fünf aktive Produkte hochladen und die Aufgabe innerhalb von 15 Tagen nach der Shop-Aktivierung abschließen.",
+      ],
+      hinweis:
+        "Sätze aus der „TikTok Shop EU-Kommissionsrichtlinie“ (Stand 28.01.2026). Die Provision enthält laut TikTok bereits die Umsatzsteuer. Nicht eingerechnet sind Wareneinsatz, Versand, Verpackungslizenz und Provisionen für Creator. Maßgeblich ist die Abrechnung in deinem Seller Center.",
+      link: { to: "/guides/tiktok-shop-starten", label: "Im Guide: Verkäufe, Gebühren und Provisionen buchen" },
+    },
     wegHeading: "Dein Weg zum ersten Verkauf im TikTok Shop",
     weg: [
-      { title: "Startklar-Check", description: "Rolle, Alter (ab 18), Produkte: Welche Pflichten gelten für dich?", meta: "Gratis: TikTok-Shop-Checkliste" },
-      { title: "Gewerbe & Fragebogen", description: "Gewerbe anmelden, Fragebogen innerhalb eines Monats über ELSTER. Mit der Steuernummer registrierst du dich ohne Handelsregister als gewerbliche:r Verkäufer:in.", meta: "Gewerbe- und Fragebogen-Wizard" },
-      { title: "Verpackung & Elektro", description: "LUCID-Registrierung vor dem ersten Versand, bei Elektrogeräten WEEE bei der stiftung ear.", meta: "LUCID-Wizard · WEEE-Check" },
-      { title: "Seller Center & Produktdaten" },
-      { title: "Creator-Affiliates & Provisionen" },
-      { title: "Umsatzsteuer, Schwellen & Marge" },
+      { title: "Rolle, Alter und Produkte klären", description: "Verkaufst du eigene Ware, Handelsware oder empfiehlst du nur Produkte? Davon hängt ab, welche der nächsten Schritte für dich gelten.", meta: "Gratis: TikTok-Shop-Checkliste" },
+      { title: "Gewerbe, Fragebogen, Kleinunternehmer", description: "Gewerbe beim Gewerbeamt anmelden, den Fragebogen innerhalb eines Monats über ELSTER abgeben. Die Entscheidung zur Kleinunternehmerregelung fällt im selben Formular.", meta: "Gewerbeanmeldung-Wizard · Fragebogen-Wizard" },
+      { title: "Geschäftskonto und Produktpflichten", description: "Geschäftskonto für die Auszahlungen einrichten, dann LUCID und duales System vor dem ersten Paket. Bei Elektrogeräten kommt die Registrierung bei der stiftung ear dazu.", meta: "Gratis: Verpackungslizenz-Rechner · WEEE-Check" },
+      { title: "Im Seller Center registrieren" },
+      { title: "Creator-Affiliates und Provisionen" },
+      { title: "Plattform-Meldung, EU-Verkäufe und Buchhaltung" },
     ],
-    freeTools: [FT_TTS, FT_INFLUENCER, FT_PR],
+    toolsTitel: "Drei Tools gratis. Der Rest im Cockpit.",
+    toolsLead:
+      "Den Verpackungslizenz-Rechner nutzt du frei und so oft du willst. Die TikTok-Shop-Checkliste und den WEEE-Check gibt es je einmal kostenlos, das Ergebnis gegen deine E-Mail-Adresse – alles ohne Konto. Im Abo kommen die Wizards für Gewerbeanmeldung und Fragebogen dazu.",
+    freeTools: [FT_TTS, FT_LUCID, FT_WEEE],
     tools: [
       { slug: "gewerbeanmeldung-wizard", title: "Gewerbeanmeldung-Wizard", desc: "Tätigkeit „Online-Handel“ richtig angeben." },
-      { slug: "fse-wizard", title: "Fragebogen-Wizard", desc: "Zur Steuernummer ohne ELSTER-Fehler." },
-      { slug: "lucid-wizard", title: "LUCID-Wizard", desc: "Verpackungsregister ohne Fehler." },
-      { slug: "weee-check", title: "WEEE-Check", desc: "Brauchen deine Produkte eine WEEE-Nummer?" },
+      { slug: "fse-wizard", title: "Fragebogen-Wizard", desc: "Zur Steuernummer, Teilseite für Teilseite in der Reihenfolge von ELSTER." },
       { slug: "schwellen-check", title: "Schwellen-Check", desc: "Kleinunternehmer- und EU-Lieferschwelle im Blick." },
-      { slug: "shop-profit-rechner", title: "Shop-Profit-Rechner", desc: "Was nach Gebühren und Provision übrig bleibt." },
     ],
     ratgeber: [
-      { to: "/ratgeber/tiktok-shop-verkaeufer-werden", title: "TikTok Shop: Verkäufer werden", desc: "Voraussetzungen und Reihenfolge der Anmeldungen." },
-      { to: "/ratgeber/tiktok-shop-affiliate-steuern", title: "TikTok-Shop-Affiliate & Steuern", desc: "Provisionen und Samples richtig erfassen." },
+      { to: "/ratgeber/tiktok-shop-verkaeufer-werden", title: "TikTok Shop: Verkäufer werden", desc: "Die ausführliche Anleitung mit allen Voraussetzungen." },
       { to: "/ratgeber/lucid-verpackungsregister-anmelden", title: "LUCID anmelden", desc: "Verpackungsregister Schritt für Schritt." },
       { to: "/ratgeber/oss-anmeldung", title: "OSS-Anmeldung", desc: "Verkauf an Privatkunden im EU-Ausland." },
+      { to: "/ratgeber/tiktok-shop-affiliate-steuern", title: "TikTok-Shop-Affiliate & Steuern", desc: "Für Creator: Provisionen und Samples richtig erfassen." },
+      { to: "/influencer", title: "Für Creator und Affiliates", desc: "Unsere Seite für alle, die mit Provisionen und Kooperationen verdienen." },
     ],
     guides: [
       { to: "/guides/tiktok-shop-starten", title: "Guide: TikTok Shop starten", desc: "Alle Schritte bis zum ersten Verkauf." },
-      { to: "/guides/creator-setup", title: "Creator / Influencer Setup", desc: "Für Affiliates und Live-Seller." },
       { to: "/guides/tiktok-shop-launch", title: "TikTok Shop Brand-Launch", desc: "Listings, Live-Shopping und Affiliate-Programm." },
+      { to: "/guides/dac7", title: "Guide: DAC7", desc: "Was Plattformen über Verkäufer melden." },
+      { to: "/guides/creator-setup", title: "Creator / Influencer Setup", desc: "Für Affiliates und Live-Seller." },
     ],
     faq: [
       {
-        q: "Was brauche ich, um im TikTok Shop zu verkaufen?",
-        a: "Du musst mindestens 18 sein. Ohne Handelsregister registrierst du dich als gewerbliche:r Verkäufer:in mit Steuernummer, Geschäftsadresse und Ausweis; e.K. und GbR brauchen laut TikTok zusätzlich eine USt-IdNr. Davor stehen Gewerbeanmeldung und Fragebogen zur steuerlichen Erfassung. Für die Produkte gelten die üblichen Pflichten: Verpackungsregister LUCID, bei Elektrogeräten WEEE-Registrierung und Produktsicherheitsangaben.",
+        q: "Brauche ich ein Gewerbe für den TikTok Shop?",
+        a: "Wer auf Dauer und mit Gewinnabsicht Ware verkauft, betreibt in der Regel ein Gewerbe und zeigt es nach § 14 GewO gleichzeitig mit dem Start beim Gewerbeamt an. TikTok verlangt bei der Registrierung die Rechtsform, die deiner Gewerbeanmeldung entspricht; von der GbR fordert der Leitfaden den Nachweis der Gewerbeanmeldung ausdrücklich.",
       },
       {
-        q: "Meldet TikTok meine Umsätze dem Finanzamt?",
-        a: "Ja, ab einer Schwelle: Plattformen melden Verkäufer ans Bundeszentralamt für Steuern. Ausgenommen ist nur, wer im Jahr weniger als 30 Verkäufe und zusammen weniger als 2.000 € erzielt.",
+        q: "Brauche ich für den TikTok Shop eine USt-IdNr.?",
+        a: "Das hängt vom Kontotyp ab. Laut Onboarding-Leitfaden von TikTok (Stand 11.11.2026) ist die USt-IdNr. in Deutschland für den Kontotyp „Einzelunternehmer*in“, also das im Handelsregister eingetragene Einzelunternehmen, und für die GbR erforderlich. Der Kontotyp „Gewerbliche*r Verkäufer*in“ für Gewerbe ohne Handelsregistereintrag kommt ohne USt-IdNr. aus. Für Kapitalgesellschaften nennt TikTok sie an einer Stelle optional und in der Übersicht erforderlich; halte sie bereit.",
       },
       {
         q: "Kann ich als Kleinunternehmer im TikTok Shop verkaufen?",
-        a: "Grundsätzlich ja, solange dein Umsatz im ersten Jahr 25.000 € nicht übersteigt. Felix rechnet mit dir durch, ob sich der Verzicht lohnt – etwa wenn du viel Ware mit Vorsteuer einkaufst.",
+        a: "Der Leitfaden von TikTok erwähnt die Kleinunternehmerregelung nicht; der Kontotyp richtet sich nach Rechtsform und Handelsregister. Steuerlich gilt die Regelung, wenn dein Umsatz im Vorjahr höchstens 25.000 € betrug und im laufenden Jahr 100.000 € nicht übersteigt (§ 19 UStG); im ersten Jahr darf er 25.000 € nicht übersteigen. Wer auf die Regelung verzichtet, ist daran mindestens fünf Kalenderjahre gebunden. Ob sich der Verzicht für dich lohnt, hängt von deinem Einkauf ab und ist eine Frage für den Einzelfall.",
       },
       {
-        q: "Brauche ich als TikTok-Shop-Affiliate ein Gewerbe?",
-        a: "Affiliate-Provisionen sind laut Finanzverwaltung Betriebseinnahmen; wer regelmäßig darüber verdient, ist in der Regel gewerblich tätig und umsatzsteuerlich Unternehmer.",
+        q: "Welchen Ausweis akzeptiert TikTok?",
+        a: "Für Deutschland führt der Leitfaden Reisepass und Personalausweis auf; den Führerschein markiert er als nicht akzeptiert. Du lädst Vorder- und Rückseite hoch und nimmst danach ein Selfie oder ein kurzes Video für die Gesichtsverifizierung auf.",
+      },
+      {
+        q: "Wie hoch ist die Provision im TikTok Shop?",
+        a: "Laut EU-Kommissionsrichtlinie von TikTok (Stand 28.01.2026) beträgt die Provision innerhalb der EU 9 % auf abgeschlossene Bestellungen, gerechnet auf Warenwert und Versandkosten des Kunden. Für Elektronik kann laut TikTok ein Satz von 7 % gelten. Neue Verkäufer können für bis zu 60 Kalendertage 4 % bekommen, wenn sie die Bedingungen von TikTok erfüllen. Wird eine Bestellung vollständig erstattet, erstattet TikTok auch die Provision.",
+      },
+      {
+        q: "Meldet TikTok meine Umsätze an das Finanzamt?",
+        a: "Plattformen melden Verkäufer und ihre Umsätze nach dem Plattformen-Steuertransparenzgesetz an die Steuerbehörden. Ausgenommen ist nur, wer im Jahr weniger als 30 Verkäufe und zusammen weniger als 2.000 € erzielt (§ 4 Abs. 5 PStTG). Beantragen musst du dafür nichts.",
+      },
+      {
+        q: "Wie lange dauert die Freischaltung im Seller Center?",
+        a: "Laut TikTok dauert die Überprüfung eines Antrags in der Regel zwei bis drei Arbeitstage. Die Steuernummer brauchst du schon vorher; sie kommt vom Finanzamt, nachdem du den Fragebogen zur steuerlichen Erfassung abgegeben hast.",
+      },
+      {
+        q: "Ab welchem Alter kann ich im TikTok Shop verkaufen?",
+        a: "TikTok Shop ist laut TikTok nur für Personen ab 18 Jahren verfügbar.",
+      },
+      {
+        q: "Ich bin nur Affiliate und verkaufe keine eigene Ware. Was gilt für mich?",
+        a: "Kontotyp, Verpackungsregister und WEEE betreffen Verkäufer. Affiliate-Provisionen sind laut Finanzverwaltung Betriebseinnahmen; wer regelmäßig darüber verdient, ist in der Regel gewerblich tätig und umsatzsteuerlich Unternehmer. Die Schritte dafür stehen auf unserer Seite für Creator und im Ratgeber zu TikTok-Shop-Affiliate und Steuern.",
       },
       {
         q: "Ersetzt GründerX meinen Steuerberater?",
         a: "Nein. Felix führt dich durch Formulare, Registrierungen und Fristen. Für Gestaltungsfragen im Einzelfall bleibt der Steuerberater zuständig.",
       },
     ],
-    quellen: [TT_NEWS, TT_SU, PSTTG, HESSEN],
-    ctaTitle: "Dein TikTok-Shop-Setup – Schritt für Schritt mit Felix",
-    ctaText: "Gewerbe, Fragebogen, Registrierung, LUCID, WEEE und Marge – plus alle weiteren Tools und Guides im Abo, monatlich kündbar.",
+    einwaende: [
+      {
+        q: "Ich verkaufe erst mal nebenbei. Muss ich das alles jetzt schon machen?",
+        a: "Die Reihenfolge ist dieselbe, egal wie klein du anfängst: Das Gewerbe zeigst du gleichzeitig mit dem Start an (§ 14 GewO), ins Verpackungsregister trägst du dich vor dem ersten Paket ein (§ 6 VerpackDG). Die Checkliste zeigt dir, welche Schritte für dich gelten und welche wegfallen, zum Beispiel WEEE, wenn du keine Elektrogeräte verkaufst.",
+      },
+      {
+        q: "Die Seller University von TikTok erklärt das doch schon.",
+        a: "Sie erklärt die Registrierung bei TikTok, und an ihr haben wir diese Seite geprüft. Verpackungsregister, WEEE, der Fragebogen zur steuerlichen Erfassung und die Kleinunternehmerregelung kommen im Onboarding-Leitfaden (Stand 11.11.2026) nicht vor. Diese Schritte liegen bei Gewerbeamt, Finanzamt und Zentraler Stelle Verpackungsregister. Hier stehen sie in einer Reihenfolge, je mit Rechtsgrundlage.",
+      },
+      {
+        q: "Ich verkaufe schon oder habe den falschen Kontotyp gewählt.",
+        a: "Dann fängst du in der Mitte an. Die Checkliste fragt ab, was du schon hast, und listet, was offen ist. Für einen anderen Kontotyp verlangt TikTok einen neuen Antrag. Deine Anmeldungen bei Gewerbeamt, Finanzamt und Verpackungsregister hängen nicht am TikTok-Konto und bleiben bestehen.",
+      },
+    ],
+    quellen: [TT_SU, TT_PROVISION, TT_NEWS, Q_GEWO, Q_AO138, Q_USTG19, Q_USTG27A, Q_VERPACK6, Q_VERPACK7, Q_ELEKTRO6, PSTTG, Q_BZST_USTID, Q_ZSVR, Q_EAR, HESSEN],
+    ctaTitle: "Dein TikTok Shop, in der richtigen Reihenfolge angemeldet",
+    ctaText: "Gewerbe, Fragebogen, Registrierung im Seller Center, LUCID und WEEE – plus alle weiteren Tools und Guides im Abo, monatlich kündbar.",
   },
 ];
 
