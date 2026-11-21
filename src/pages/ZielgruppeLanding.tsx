@@ -214,7 +214,7 @@ const ZielgruppeLanding = ({ slug }: { slug: string }) => {
                         <span className="font-medium text-foreground md:hidden">{z.tabelle!.kopf[3]}: </span>{r.grundlage}
                       </td>
                       <td className="block pt-2 md:table-cell md:w-[19%] md:px-5 md:py-4 md:align-top">
-                        <Link to={r.hilfe.to} className="inline-flex items-center gap-1 font-medium text-accent-blue hover:underline">
+                        <Link to={r.hilfe.to} className="inline-flex min-h-11 items-center gap-1 font-medium text-accent-blue hover:underline md:min-h-0">
                           {r.hilfe.label} <ArrowRight className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
                         </Link>
                       </td>
@@ -255,7 +255,7 @@ const ZielgruppeLanding = ({ slug }: { slug: string }) => {
                 <p className="mb-3 text-[13px] font-semibold uppercase tracking-[0.14em] text-accent-blue">Beispielrechnung</p>
                 <h2 id="beispiel" className="text-balance text-2xl font-semibold leading-tight tracking-[-0.03em] text-primary md:text-[2rem]">{z.beispiel.titel}</h2>
                 <p className="mt-4 text-pretty leading-relaxed text-foreground/85">{z.beispiel.text}</p>
-                <Link to={z.beispiel.link.to} className="mt-6 inline-flex items-center gap-1.5 font-semibold text-accent-blue hover:underline">
+                <Link to={z.beispiel.link.to} className="mt-6 inline-flex min-h-11 items-center gap-1.5 font-semibold text-accent-blue hover:underline">
                   {z.beispiel.link.label} <ArrowRight className="h-4 w-4" aria-hidden="true" />
                 </Link>
               </div>

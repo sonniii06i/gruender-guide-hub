@@ -218,7 +218,7 @@ export const ZIELGRUPPEN: Zielgruppe[] = [
     antwort: {
       frage: "Was brauche ich, um mich im TikTok Shop als Verkäufer anzumelden?",
       text:
-        "Für die Registrierung in Deutschland verlangt TikTok eine Steuernummer, eine Geschäftsadresse und einen Reisepass oder Personalausweis; davor stehen die Gewerbeanmeldung und der Fragebogen zur steuerlichen Erfassung, und TikTok Shop ist ab 18 Jahren verfügbar. Eine USt-IdNr. verlangt TikTok, wenn dein Einzelunternehmen im Handelsregister steht (e. K.) oder du als GbR verkaufst; mit einem Gewerbe ohne Handelsregistereintrag registrierst du dich als „Gewerbliche*r Verkäufer*in“ ohne USt-IdNr.",
+        "Für die Registrierung in Deutschland verlangt TikTok einen Ausweis, einen Adressnachweis, eine Geschäftsadresse und je nach Kontotyp deine Steuernummer oder die Nummer aus dem Handelsregister; davor stehen die Gewerbeanmeldung und der Fragebogen zur steuerlichen Erfassung. Eine USt-IdNr. verlangt TikTok, wenn dein Einzelunternehmen im Handelsregister steht (e. K.) oder du als GbR verkaufst; mit einem Gewerbe ohne Handelsregistereintrag registrierst du dich als „Gewerbliche*r Verkäufer*in“ ohne USt-IdNr.",
     },
     faelle: {
       eyebrow: "Je Rechtsform",
@@ -231,7 +231,7 @@ export const ZIELGRUPPEN: Zielgruppe[] = [
           "Gewerbe ohne Handelsregistereintrag (Kleingewerbe)",
           "„Gewerbliche*r Verkäufer*in“",
           "„Persönliche Steuernummer“. Angaben zur Unternehmensregistrierung und eine USt-IdNr. verlangt TikTok bei diesem Kontotyp nicht.",
-          "Geschäftsadresse, laut TikTok kann das deine Wohnadresse sein; Ausweis",
+          "Geschäftsadresse, laut TikTok kann das deine Wohnadresse sein; Ausweis und Adressnachweis, der jünger als drei Monate ist",
         ],
         [
           "Eingetragener Kaufmann (e. K.)",
@@ -242,7 +242,7 @@ export const ZIELGRUPPEN: Zielgruppe[] = [
         [
           "GbR",
           "„Allgemeine Partnerschaft“ (nur Deutschland: GbR)",
-          "USt-IdNr., laut TikTok obligatorisch",
+          "USt-IdNr., laut TikTok obligatorisch. Die Übersicht im Leitfaden führt für die GbR auch eine Registrierungsnummer auf; was TikTok von einer GbR ohne Registereintrag annimmt, steht dort nicht.",
           "Nachweis der Gewerbeanmeldung; Vertreter*in mit mehr als 25 % der Anteile",
         ],
         [
@@ -300,7 +300,7 @@ export const ZIELGRUPPEN: Zielgruppe[] = [
         },
         {
           schritt: "5. Im Seller Center registrieren",
-          wann: "sobald Steuernummer, Geschäftsadresse und Ausweis bereitliegen; TikTok prüft in der Regel zwei bis drei Arbeitstage",
+          wann: "sobald Steuernummer, Geschäftsadresse, Ausweis und Adressnachweis bereitliegen; TikTok prüft in der Regel zwei bis drei Arbeitstage",
           wo: "TikTok Seller Center",
           grundlage: "Vorgaben von TikTok, Stand 11.11.2026",
           hilfe: { to: "/tiktok-shop-checkliste", label: "Gratis: TikTok-Shop-Checkliste" },
@@ -391,7 +391,7 @@ export const ZIELGRUPPEN: Zielgruppe[] = [
       },
       {
         q: "Welchen Ausweis akzeptiert TikTok?",
-        a: "Für Deutschland führt der Leitfaden Reisepass und Personalausweis auf; den Führerschein markiert er als nicht akzeptiert. Du lädst Vorder- und Rückseite hoch und nimmst danach ein Selfie oder ein kurzes Video für die Gesichtsverifizierung auf.",
+        a: "Für Deutschland führt der Leitfaden Reisepass, Personalausweis und den unbefristeten Aufenthaltstitel auf; den Führerschein markiert er als nicht akzeptiert. Du lädst Vorder- und Rückseite hoch und nimmst danach ein Selfie oder ein kurzes Video für die Gesichtsverifizierung auf. Dazu kommt ein Adressnachweis, der jünger als drei Monate ist. Als in allen Ländern akzeptiert nennt TikTok eine Rechnung für Wasser, Strom, Gas, Handy oder Internet oder einen Kontoauszug.",
       },
       {
         q: "Wie hoch ist die Provision im TikTok Shop?",
