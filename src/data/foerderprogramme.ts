@@ -143,7 +143,7 @@ export const FOERDERPROGRAMME: Foerderung[] = [
     description:
       "BAFA-Zuschuss für Privatinvestoren in junge innovative Unternehmen. 15 % der Anteilskosten als steuerfreier Zuschuss (Richtlinie 06.03.2024, gültig bis 31.12.2026).",
     conditions: [
-      "Junges innovatives Unternehmen (< 7 Jahre, < 10 Mio Umsatz, < 50 Mitarbeiter)",
+      "Junges innovatives Unternehmen (höchstens 7 Jahre alt, < 50 Vollzeitäquivalente, Jahresumsatz oder Bilanzsumme ≤ 10 Mio €)",
       "Anteile mind. 3 Jahre halten",
       "Min. 10k € pro Investor; Erwerbszuschuss 15 %, max. 100k € insgesamt je Investor (max. 50k € je Einzelinvestment); bis 3 Mio € förderfähiges Investment je Unternehmen/Jahr",
     ],
