@@ -88,7 +88,7 @@ export const STARTUP_PERKS: StartupPerk[] = [
     leistungen: ["Start mit 1.000 $ Activate Credits", "Ausgewählte Teilnehmer bis 5.000 $", "Gilt auch für Amazon Bedrock (Claude, Llama u. a.)"],
     voraussetzungen: ["Selbst finanziert, noch keine Series B", "Gegründet in den letzten 10 Jahren", "Bezahltes AWS-Konto", "AWS Builder ID mit beruflicher E-Mail"],
     vcNoetig: false, gruendungMaxJahre: 10, url: "https://aws.amazon.com/startups/credits", pruefWorte: ["$1,000", "$5,000"],
-    hinweis: "Antwort in 5–10 Werktagen.", geprueft: "2026-10-08",
+    hinweis: "Antwort in 5–10 Werktagen.", geprueft: "2026-11-21",
   },
   {
     slug: "aws-activate-portfolio", name: "AWS Activate Portfolio", anbieter: "Amazon Web Services", kategorie: "cloud",

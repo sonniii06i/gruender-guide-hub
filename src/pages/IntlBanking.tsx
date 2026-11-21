@@ -185,7 +185,7 @@ const BANKS: Bank[] = [
     pros: [
       "**Niedrigste FX-Kosten** der Liste (Mid-Market + ab 0,2 %, je nach Währung)",
       "Multi-Currency: eigene Kontodaten in 22 Währungen (u. a. USD, GBP, EUR, AUD)",
-      "ACH-Routing + USD-IBAN — von Stripe/Amazon akzeptiert",
+      "US-Routing-Nummer und Kontonummer (ACH), von Stripe/Amazon akzeptiert",
       "Batch-Payments, API, Invoicing-Tools (Business-Features)",
       "Wise-Zinsanlage: USD derzeit 3,66 %, EUR 2,32 % (variabel, Stand 10.11.2026; Fondsgebühr ab 0,26 % p. a.)",
     ],
@@ -264,7 +264,7 @@ const BANKS: Bank[] = [
       "Kreditkarte (kein Cash-Vorab nötig) — gut für Werbe-Spend",
       "Cashback + Reward-Punkte für Tech-Vendor-Spending (AWS, GCP)",
       "Beste Expense-Management-Tools im US-Banking",
-      "Treasury-Yield 3,60 % bis 3,95 % (3,95 % erst ab 20 Mio. $; variabel, laut brex.com, Stand 13.11.2026)",
+      "Treasury-Yield 3,62 % bis 3,97 % (3,97 % erst ab 20 Mio. $; variabel, laut brex.com, Stand 21.11.2026)",
     ],
     cons: [
       "**Solo-Founder + Bootstrap typisch ABGELEHNT** seit Juni 2022 (Mass-Closure 'tens of thousands' SMBs)",

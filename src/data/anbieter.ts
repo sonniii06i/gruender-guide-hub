@@ -162,7 +162,7 @@ export const FULL_DESCRIPTIONS: Record<string, string> = {
   "relay": "Relay ist eine US-Banking-Plattform speziell für Profit-First/Envelope-Methodik (gegründet 2018). Bis zu 20 Sub-Konten und Rollen-Management ohne Aufpreis – Mercury bietet das nur in Pro-Tier. Free, nur USD, kein FX. Top-Wahl für Multi-Konten-Setups.",
   "brex": "Brex startete 2017 als Kreditkartenanbieter für VC-funded Startups. Bietet hohe Limits ohne Personal Guarantee, top Expense-Management und attraktive Rewards. Bootstrap-Founder werden seit 2022 nicht mehr akzeptiert – Brex hat sich klar auf funded Startups (>$100k Bank-Balance) fokussiert.",
   "novo": "Novo ist eine 2018 gestartete US-Neobank für Solo-Founder und Klein-LLCs. Komplett kostenfrei, mit Stripe/QuickBooks-Integrationen und schnellem Onboarding. Die Approval ist weniger strikt als bei Mercury – ideal für Founder die zu klein für Mercury-Standards sind.",
-  "bluevine": "Bluevine bietet seit 2013 US-Geschäftskonten mit überdurchschnittlicher Verzinsung auf Checking-Balance (1,3 % APY im Standard-Plan, bis 3,3 % im Premier-Plan) und Line-of-Credit-Optionen. Free, US-Only. Approval für Non-US-Founder kompliziert.",
+  "bluevine": "Bluevine wurde 2013 gegründet und bietet seit 2020 US-Geschäftskonten mit überdurchschnittlicher Verzinsung auf Checking-Balance (1,3 % APY im Standard-Plan, bis 3,3 % im Premier-Plan) und Line-of-Credit-Optionen. Free, US-Only. Approval für Non-US-Founder kompliziert.",
   "found": "Found ist eine US-Banking-App speziell für Self-Employed/1099-Worker (gegründet 2019). Eingebaute Tax-Schätzung, Expense-Tracking und Schedule-C-Vorbereitung. Free-Tier, primär für Solo-Founder optimiert.",
   "chase-business": "JPMorgan Chase ist die größte US-Bank (3,9 Bio $ Assets) und hat mit ~5.000 Filialen das größte Filialnetz für Business-Banking. Chase Business Complete Banking ist der Standard für US-LLCs mit physischer Präsenz, mit Inks-Kreditkarten-Programm und 5.000-Branch-Cash-Service. Für deutsche Founder ohne US-Adresse meist schwer zugänglich – Mercury ist die Tech-Alternative.",
   "bank-of-america-business": "Bank of America ist die zweitgrößte US-Bank (2,65 Bio $ Bilanzsumme laut Federal Reserve, Stand 30.06.2026) mit ~3.500 Branches. Business Advantage Fundamentals Banking ist das Standard-Geschäftskonto (Online-Banking: Business Advantage 360), mit Erica-AI-Assistant und Auslandsüberweisungen per Online- und Mobile-Banking. Preferred Rewards Program bietet Discount auf Loans/Credits.",
@@ -262,7 +262,7 @@ export const FULL_DESCRIPTIONS: Record<string, string> = {
   "bmw-financial-services": "BMW Financial Services ist die Finanzdienstleistungs-Tochter der BMW Group und vermarktet Leasing für BMW und MINI. Beste Konditionen für die BMW-Konzern-Marken direkt vom Hersteller, regelmäßige Aktionsangebote für B2B-Kunden.",
   "vehiculum": "Vehiculum ist ein 2015 in Berlin gegründeter Online-Marktplatz für Auto-Leasing. Vergleicht Tausende Leasing-Angebote markenübergreifend und ist der schnellste Weg zu einem Online-Leasing-Vertrag. Aktionsraten oft günstiger als beim Direkt-Hersteller, dafür weniger persönliche Beratung.",
   "leaseplan": "LeasePlan wurde 1963 in den Niederlanden gegründet und ist 2023 mit ALD Automotive zu Ayvens fusioniert. Flotten-Anbieter mit globalem Netzwerk in 40+ Ländern. Stark bei Großflotten und international agierenden Mittelständlern.",
-  "finn": "FINN wurde 2019 in München gegründet und ist Marktführer für Auto-Abos in Deutschland. Modell: 6–24 Monate Laufzeit, alles inklusive (Versicherung, Steuer, Wartung). Effektiv teurer als klassisches Leasing bei langfristiger Nutzung, dafür maximale Flexibilität ohne Restwert-Risiko.",
+  "finn": "FINN wurde 2019 in München gegründet und ist nach eigenen Angaben Deutschlands führender Anbieter für Auto-Abos. Modell: 6–24 Monate Laufzeit, alles inklusive (Versicherung, Steuer, Wartung). Effektiv teurer als klassisches Leasing bei langfristiger Nutzung, dafür maximale Flexibilität ohne Restwert-Risiko.",
 
   // ============ FULFILLMENT ============
   "warehousing1": "Warehousing1 ist ein 2019 in Berlin gegründeter Marketplace, der mehrere 3PL-Lager in DE/EU vergleicht und passende Anbieter zu Brands matched. Schnelle Match-Time, aber Brand wählt das konkrete Lager nicht selbst – Trade-off zwischen Bequemlichkeit und Kontrolle.",
@@ -2063,7 +2063,7 @@ export const PROVIDERS: Provider[] = [
     name: "FINN (Auto-Abo)",
     category: "Geschäftsfahrzeug",
     region: "DE",
-    starting: "ab ~209 €/Mon brutto (176 € netto, z. B. MG3) + einmalig ~311 € Liefergebühr (261 € netto)",
+    starting: "ab ~179 €/Mon brutto (z. B. Fiat Grande Panda; MG3 209 € brutto, 176 € netto) zzgl. 1.500 € Bereitstellungskosten (1.261 € netto, einmalig oder in Raten) + einmalig ~311 € Liefergebühr (261 € netto)",
     rating: 4.5,
     tagline: "Auto-Abo statt Leasing – flexibler",
     pros: ["6–24 Monate Laufzeit (Mindestlaufzeit ab 6 Monaten)", "Versicherung + Steuer + Wartung inkl.", "Online-Bestellung in 5 Minuten"],

@@ -10,18 +10,21 @@ import { Callout, Field, ResultPanel, ToneBadge, ToolLayout, ToolSection, select
 import { Textarea } from "@/components/ui/textarea";
 import { darlehensplan } from "@/lib/finanzplan";
 
-// KfW ERP-Gründerkredit StartGeld (067), Merkblatt Stand 18.06.2026; Konditionen ab 22.10.2026.
+// KfW ERP-Gründerkredit StartGeld (067), Merkblatt Stand 18.06.2026; Konditionen ab 17.11.2026.
 // Unterlagen: KfW-Checkliste Risikoprüfung, IHK Darmstadt; Fragen: IHK Limburg.
 export const STARTGELD = {
   max: 200000,
   maxBetriebsmittel: 80000,
   haftungsfreistellung: 80,
   varianten: [
-    { laufzeit: 5, tilgungsfrei: 1, sollzins: 5.3, effektiv: 5.44 },
-    { laufzeit: 10, tilgungsfrei: 2, sollzins: 5.45, effektiv: 5.59 },
+    { laufzeit: 5, tilgungsfrei: 1, sollzins: 5.27, effektiv: 5.4 },
+    { laufzeit: 10, tilgungsfrei: 2, sollzins: 5.41, effektiv: 5.55 },
   ],
-  konditionenStand: "22.10.2026",
+  konditionenStand: "17.11.2026",
 } as const;
+
+// Zinssätze wie im KfW-Konditionenanzeiger: deutsches Format, zwei Nachkommastellen (5,40 statt 5.4).
+const prozent = (n: number) => n.toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
 const UNTERLAGEN = [
   "Businessplan mit Geschäftsidee, Markt, Wettbewerb und Marketing",
@@ -95,7 +98,7 @@ const BankgespraechVorbereitung = () => {
       [
         `Kreditwunsch: ${betrag.toLocaleString("de-DE")} € (ERP-Gründerkredit StartGeld, ${v.laufzeit} Jahre, ${v.tilgungsfrei} tilgungsfrei)`,
         `Rate tilgungsfreie Zeit ca. ${Math.round(rateTilgungsfrei).toLocaleString("de-DE")} €/Monat, danach ca. ${Math.round(rateDanach).toLocaleString("de-DE")} €/Monat`,
-        `Zinsen gesamt ca. ${Math.round(zinsenGesamt).toLocaleString("de-DE")} € (Sollzins ${v.sollzins} %, Stand ${STARTGELD.konditionenStand}, maßgeblich ist die Zusage)`,
+        `Zinsen gesamt ca. ${Math.round(zinsenGesamt).toLocaleString("de-DE")} € (Sollzins ${prozent(v.sollzins)} %, Stand ${STARTGELD.konditionenStand}, maßgeblich ist die Zusage)`,
       ],
       14,
       26,
@@ -148,7 +151,7 @@ const BankgespraechVorbereitung = () => {
         }
         result={
           <>
-            <ResultPanel variant="ink" kicker="Kreditrechner StartGeld" title="Monatliche Rate nach der tilgungsfreien Zeit" value={eur(rateDanach)} valueHint={`${v.laufzeit} Jahre Laufzeit, ${v.tilgungsfrei} Jahr${v.tilgungsfrei > 1 ? "e" : ""} tilgungsfrei, Sollzins ${v.sollzins.toLocaleString("de-DE")} %`}>
+            <ResultPanel variant="ink" kicker="Kreditrechner StartGeld" title="Monatliche Rate nach der tilgungsfreien Zeit" value={eur(rateDanach)} valueHint={`${v.laufzeit} Jahre Laufzeit, ${v.tilgungsfrei} Jahr${v.tilgungsfrei > 1 ? "e" : ""} tilgungsfrei, Sollzins ${prozent(v.sollzins)} %`}>
               <div className="space-y-4">
                 <div className="space-y-1.5">
                   <label htmlFor="bank-betrag" className="block text-sm font-medium text-primary-foreground">Kreditbetrag</label>
@@ -159,7 +162,7 @@ const BankgespraechVorbereitung = () => {
                   <label htmlFor="bank-variante" className="block text-sm font-medium text-primary-foreground">Variante</label>
                   <select id="bank-variante" value={variante} onChange={(e) => setVariante(Number(e.target.value))} className={`${selectCls} text-foreground`}>
                     {STARTGELD.varianten.map((x, i) => (
-                      <option key={i} value={i}>{x.laufzeit} Jahre, {x.tilgungsfrei} tilgungsfrei, {x.sollzins} % (eff. {x.effektiv} %)</option>
+                      <option key={i} value={i}>{x.laufzeit} Jahre, {x.tilgungsfrei} tilgungsfrei, {prozent(x.sollzins)} % (eff. {prozent(x.effektiv)} %)</option>
                     ))}
                   </select>
                 </div>

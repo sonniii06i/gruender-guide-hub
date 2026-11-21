@@ -734,7 +734,7 @@ export const LABORE: Labor[] = [
     establishedSince: "1973 (50+ Jahre)",
     tier: "spezialist",
     testCategories: ["cosmetic"],
-    accreditation: ["ISO 17025 (DAkkS, seit 2016, analytisches Labor)", "ISO 17065 (Claim-Substantiation)"],
+    accreditation: ["ISO 17025 (DAkkS, seit 2016, analytisches Labor)"],
     specialties: [
       "SPF/UV-Tests in vivo",
       "Anti-Wrinkle/Anti-Aging-Claims",
