@@ -25,6 +25,9 @@ const PAD = 8;
  * Selbst-enthaltene Onboarding-Tour (Spotlight + Tooltip), wie im Arbitragex-Cockpit.
  * Keine externen Deps. Erneut startbar via `window.dispatchEvent(new Event("start-tour"))`.
  */
+/** sessionStorage-Marke: Tour beim nächsten Öffnen des Cockpits einmal starten. */
+export const TOUR_WUNSCH = "gx-tour-wunsch";
+
 export default function OnboardingTour({ steps, storageKey, autoStartPath = "/dashboard" }: Props) {
   const [active, setActive] = useState(false);
   const [i, setI] = useState(0);
@@ -38,11 +41,16 @@ export default function OnboardingTour({ steps, storageKey, autoStartPath = "/da
     try { localStorage.setItem(storageKey, "1"); } catch { /* ignore */ }
   }, [storageKey]);
 
-  // Auto-Start einmalig
+  // Start nur auf Wunsch: Das Onboarding setzt die Marke, wenn jemand auf der
+  // Plan-Seite „Erst eine kurze Tour“ wählt. Früher startete die Tour bei jedem
+  // ersten Cockpit-Besuch von selbst, direkt nach den Onboarding-Fragen.
   useEffect(() => {
-    let done = "1";
-    try { done = localStorage.getItem(storageKey) || ""; } catch { /* ignore */ }
-    if (!done && location.pathname === autoStartPath) {
+    let gewuenscht = false;
+    try {
+      gewuenscht = sessionStorage.getItem(TOUR_WUNSCH) === "1";
+      if (gewuenscht) sessionStorage.removeItem(TOUR_WUNSCH);
+    } catch { /* ignore */ }
+    if (gewuenscht && location.pathname === autoStartPath) {
       const t = setTimeout(() => { setI(0); setActive(true); }, 900);
       return () => clearTimeout(t);
     }

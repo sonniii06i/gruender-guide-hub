@@ -12,8 +12,8 @@ import { TOOL_COUNT } from "@/data/kennzahlen";
 import { merkeBesuch } from "@/lib/zuletztGenutzt";
 
 const GGH_TOUR: TourStep[] = [
-  { title: "Willkommen bei GründerX 👋", text: "Kurze Tour durch deinen Gründer-Copiloten – ca. 40 Sekunden. Du kannst sie jederzeit über das Fragezeichen oben rechts erneut starten." },
-  { selector: '[data-tour="/dashboard"]', title: "Übersicht", text: "Dein Startpunkt: Fortschritt, empfohlene Guides und Tools – alles an einem Ort." },
+  { title: "Kurze Tour durchs Cockpit", text: "Etwa 40 Sekunden. Du kannst sie jederzeit über das Fragezeichen oben rechts erneut starten." },
+  { selector: '[data-tour="/dashboard"]', title: "Übersicht", text: "Dein Startpunkt: der Fahrplan mit dem nächsten Schritt, deine Termine und passende Tools und Guides." },
   { selector: '[data-tour="/felix"]', title: "Felix-Chat", text: "Dein KI-Berater. Stell Felix jede Gründungs-, Rechts- oder Steuerfrage – er antwortet mit Quellen aus den Guides." },
   { selector: '[data-tour="/playbooks"]', title: "Alle Guides", text: "Schritt-für-Schritt-Playbooks von der Idee bis zur Gründung – zum Durcharbeiten und Abhaken." },
   { selector: '[data-tour="/dashboard?view=tools"]', title: "Tools & Rechner", text: `${TOOL_COUNT} Rechner & Wizards: Rechtsform, Steuer, Finanzen, Namen – direkt einsatzbereit.` },
@@ -21,7 +21,7 @@ const GGH_TOUR: TourStep[] = [
   { selector: '[data-tour="/wizard/rechtsform"]', title: "Rechtsform-Wizard", text: "Beantworte ein paar Fragen und finde die passende Rechtsform (Einzelunternehmen, GmbH, UG …)." },
   { selector: '[data-tour="/anbieter"]', title: "Anbieter-Vergleich", text: "Vergleiche Banken, Tools & Dienstleister – kuratiert für Gründer, mit den relevanten Kriterien." },
   { selector: '[data-tour="/affiliate"]', title: "Partnerprogramm", text: "Empfiehl GründerX weiter und verdiene mit – 25 % Provision auf jede Zahlung, 12 Monate je geworbenem Kunden." },
-  { title: "Los geht's 🚀", text: "Das war's! Starte am besten mit einem Guide oder frag Felix direkt. Viel Erfolg beim Gründen." },
+  { title: "Das war die Tour", text: "Am besten startest du mit dem nächsten Schritt in deinem Fahrplan. Bei Fragen hilft Felix." },
 ];
 
 export default function AppLayout() {

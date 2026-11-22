@@ -13,7 +13,6 @@ import { GuideCard } from "@/components/dashboard/GuideCard";
 import { ContinueLearning } from "@/components/dashboard/ContinueLearning";
 import { EventRadarKachel } from "@/components/dashboard/EventRadarKachel";
 import { DeineWoche } from "@/components/dashboard/DeineWoche";
-import { WelcomeChoiceModal } from "@/components/dashboard/WelcomeChoiceModal";
 import { Startplan } from "@/components/dashboard/Startplan";
 import { FelixFragen, GuideEmpfehlungen, Karte, MehrEntdecken, ToolEmpfehlungen, VergleichTipps, ZuletztGeoeffnet } from "@/components/dashboard/Empfehlungen";
 import { GRUENDUNGS_GUIDE, profilMerkmale, rechtsformVon } from "@/lib/startplan";
@@ -133,7 +132,6 @@ const Dashboard = () => {
            Nutzer echten Nutzen hatte (Felix-Antwort, Tool-Ergebnis). */
         <ReferralNudge className="mb-6" />
       )}
-      <WelcomeChoiceModal firstName={profile?.first_name} eligible={isActive} />
       {/* Kopf */}
       <header className="mb-5">
         <p className="text-[13px] font-medium text-muted-foreground">Dein Cockpit</p>
@@ -176,7 +174,7 @@ const Dashboard = () => {
           <ZuletztGeoeffnet pfade={zuletzt} />
           <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px] lg:grid-rows-[auto_1fr]">
             <div className="order-1 min-w-0 lg:col-start-1 lg:row-start-1">
-              <Startplan profil={planProfil} />
+              <Startplan profil={planProfil} planAendernLink="/onboarding?bearbeiten=1" />
             </div>
 
             {/* Seitenspalte. Auf dem Handy löst sie sich auf: Termine direkt unter dem

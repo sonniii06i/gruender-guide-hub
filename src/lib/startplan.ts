@@ -127,7 +127,7 @@ const S = {
   buchhaltung: tool("buchhaltung", "buchhaltungssoftware-guide", "/cockpit/buchhaltungssoftware-guide", "Buchhaltung einrichten",
     "Welche Software zu deinem Modell passt und was sie kostet, bevor die ersten Belege liegen bleiben."),
   steuerkalender: tool("steuerkalender", "steuerkalender", "/cockpit/steuerkalender", "Steuerkalender einrichten",
-    "Alle Abgabe- und Zahlungstermine der nächsten zwölf Monate für deine Situation. Sie erscheinen danach hier im Cockpit."),
+    "Alle Abgabe- und Zahlungstermine der nächsten zwölf Monate für deine Situation. Sie stehen danach in deinem Cockpit."),
   ustVoranmeldung: tool("ust-voranmeldung", "ust-voranmeldung", "/cockpit/ust-voranmeldung", "USt-Voranmeldung sicher abgeben",
     "Der ELSTER-Vordruck Kennzahl für Kennzahl, mit Fristen und Dauerfristverlängerung."),
   stbCheck: tool("stb-check", "stb-cost-benefit", "/cockpit/stb-cost-benefit", "Steuerberater oder selbst machen",
