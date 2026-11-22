@@ -217,7 +217,7 @@ export const IP_BOX_REGIMES: IPBoxRegime[] = [
     standardKSt: 12.5,
     effectiveRate: 10,
     mechanism:
-      "Abzug von 20 % der qualifizierten Netto-Einkünfte (zuvor 50 %) → effektiv 10 % (Finance Act 2022, wirksam für Geschäftsjahre ab 1.10.2023; angehoben zur Anpassung an OECD Pillar Two). KDB läuft aktuell bis 31.12.2026, Verlängerung in Diskussion.",
+      "Abzug von 20 % der qualifizierten Netto-Einkünfte (zuvor 50 %) → effektiv 10 % (Finance Act 2022, wirksam für Geschäftsjahre ab 1.10.2023; angehoben zur Anpassung an OECD Pillar Two). Die KDB gilt für Geschäftsjahre mit Beginn vor dem 1.1.2027; der Finance (No. 2) Bill 2026 sieht eine Verlängerung auf Geschäftsjahre mit Beginn vor dem 1.1.2032 vor (Stand 22.11.2026, noch nicht verabschiedet).",
     qualifyingIncome: [
       "Patente + Patentanmeldungen (registriert)",
       "Software-Copyrights",
@@ -225,11 +225,11 @@ export const IP_BOX_REGIMES: IPBoxRegime[] = [
       "Lizenz-Einkünfte aus diesen Assets",
     ],
     nexusRequirement:
-      "Modifizierter Nexus-Approach. Qualifying Expenditure / Total Expenditure × IP-Income. Outsourced R&D nur an unverbundene Dritte zählt.",
+      "Modifizierter Nexus-Approach. Qualifying Expenditure / Total Expenditure × IP-Income. Auftrags-F&E an unverbundene Dritte zählt weltweit mit, Konzern-Outsourcing nur über den Uplift.",
     substanceRequirement: [
-      "F&E in Irland (mind. signifikanter Anteil der Total-R&D)",
-      "Lokale R&D-Mitarbeiter",
-      "Substanz-Tests durch Revenue Commissioners",
+      "Eigene F&E der Gesellschaft (im EWR zulässig, nicht nur in Irland)",
+      "Auftrags-F&E an fremde Dritte weltweit, Konzern-Outsourcing nur über den Uplift",
+      "Revenue kann Nachweise je IP-Asset anfordern (s. 769L TCA)",
     ],
     rdDocumentation: [
       "KDB-Election im Steuer-Return jährlich",
@@ -244,15 +244,15 @@ export const IP_BOX_REGIMES: IPBoxRegime[] = [
       "Stabile Politik + KDB seit 2016",
     ],
     cons: [
-      "KDB läuft 31.12.2026 aus, Verlängerung unklar",
+      "KDB gilt nur für Geschäftsjahre mit Beginn vor dem 1.1.2027; Verlängerung bis 2032 liegt als Gesetzentwurf vor (Stand 22.11.2026)",
       "Pillar-2-Mindeststeuer 15 % betrifft KDB-Vorteil bei Konzernen > 750M €",
       "Setup 20.000-40.000 € (premium Jurisdiktion)",
       "Standard-KSt 12,5 % außerhalb KDB",
-      "R&D-Substanz Pflicht",
+      "Eigene F&E der Gesellschaft Pflicht",
     ],
     dbaNote:
-      "DBA-DE 2011, 0 % Quellensteuer auf Royalties. AStG-Risiko: 12,5 % nominal liegt unter der 15 %-Niedrigsteuergrenze (§ 8 Abs. 5 AStG seit 2024) → Hinzurechnung möglich. Mit echter R&D-Substanz: aktive Tätigkeit = AStG-Befreiung.",
-    cfcRisk: "Niedrig",
+      "DBA-DE 2011, 0 % Quellensteuer auf Royalties. AStG-Risiko: 12,5 % nominal liegt unter der 15 %-Niedrigsteuergrenze (§ 8 Abs. 5 AStG seit 2024) → Hinzurechnung möglich, auch der KDB-Satz von 10 % liegt darunter. Lizenzeinkünfte sind nur aktiv, wenn die irische Gesellschaft eigene F&E verwertet, die ohne Mitwirkung des deutschen Gesellschafters oder ihm nahestehender Personen entstanden ist (§ 8 Abs. 1 Nr. 6 a AStG). Sonst hilft nur der Substanznachweis mit eigenem Personal und eigener Ausstattung in Irland (§ 8 Abs. 2 AStG).",
+    cfcRisk: "Mittel",
     setupComplexity: "Komplex",
     minRoyaltiesEur: 750000,
     setupCostEur: "20.000-40.000 €",
