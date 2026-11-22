@@ -6,7 +6,8 @@ import { HebesatzPicker } from "@/components/ui/hebesatz-picker";
 import { Button } from "@/components/ui/button";
 import { Calendar, Calculator, PiggyBank, ShoppingCart, Settings2, Sparkles, ArrowRight } from "lucide-react";
 import { Callout, ChoiceGroup, EmptyState, Field, ToneBadge, ToolSection, type Tone } from "@/components/cockpit/kit";
-import { progressionESt, kstGewstRate, grenzSteuerSatz, SOLZ_RATE, IAB_GEWINN_GRENZE } from "@/lib/germanTax";
+import { kstGewstRate, IAB_GEWINN_GRENZE } from "@/lib/germanTax";
+import { einzelSteuer } from "@/lib/einzelSteuer";
 
 type LegalForm = "ein" | "ug" | "gmbh";
 type UstMode = "monatlich" | "quartal" | "keine";
@@ -17,6 +18,8 @@ interface Setup {
   dauerfrist: boolean;
   oss: boolean;
   zm: boolean;
+  /** ZM monatlich: innergemeinschaftliche Warenlieferungen über 50.000 € im Quartal (§ 18a Abs. 1 UStG) */
+  zmMonatlich: boolean;
   mitarbeiter: boolean;
   /** Lohnsteuer des Vorjahres (bei Neugründung: aufs Jahr hochgerechnete erste Monate) */
   lstVorjahr: number;
@@ -81,10 +84,11 @@ function buildFristen(s: Setup): Frist[] {
 
   // ============ Zusammenfassende Meldung (ZM) ============
   // Pflicht bei innergemeinschaftlichen B2B-Lieferungen/Sonstige Leistungen.
-  // Frist: 25. des Folgemonats. Dauerfrist gilt NICHT für ZM!
+  // Frist: 25. nach Ablauf des Meldezeitraums. Dauerfrist gilt NICHT für ZM!
+  // Rhythmus nach § 18a UStG, unabhängig vom USt-VA-Rhythmus: monatlich, wenn die Warenlieferungen im laufenden
+  // oder einem der vier vorangegangenen Quartale 50.000 € übersteigen; sonstige Leistungen allein: quartalsweise.
   if (s.zm) {
-    if (s.ustMode === "monatlich") {
-      // Wenn monatlich auch ZM monatlich (eigentlich Default ist Quartalsweise, aber wenn USt monatlich → ZM monatlich)
+    if (s.zmMonatlich) {
       for (let m = 0; m < 12; m++) {
         const due = (m + 1) % 12;
         fristen.push({
@@ -210,12 +214,13 @@ const SteuerCockpit = () => {
   const [dauerfrist, setDauerfrist] = useState(false);
   const [oss, setOss] = useState(false);
   const [zm, setZm] = useState(false);
+  const [zmMonatlich, setZmMonatlich] = useState(false);
   const [mitarbeiter, setMitarbeiter] = useState(false);
   const [lstVorjahr, setLstVorjahr] = useState(6000);
 
   const fristen = useMemo(
-    () => buildFristen({ legalForm, ustMode, dauerfrist, oss, zm, mitarbeiter, lstVorjahr }),
-    [legalForm, ustMode, dauerfrist, oss, zm, mitarbeiter, lstVorjahr],
+    () => buildFristen({ legalForm, ustMode, dauerfrist, oss, zm, zmMonatlich, mitarbeiter, lstVorjahr }),
+    [legalForm, ustMode, dauerfrist, oss, zm, zmMonatlich, mitarbeiter, lstVorjahr],
   );
 
   // IAB §7g — mit Voraussetzungs-Check
@@ -228,7 +233,11 @@ const SteuerCockpit = () => {
   const iabEligible = iabGewinnVor <= IAB_GEWINN_GRENZE;
   const iab = iabEligible ? Math.min(iabBasisClamped * 0.5, 200000) : 0;
   const iabKstGewSt = kstGewstRate(hebesatz);
-  const iabSteuer = iab * (iabKapGes ? iabKstGewSt : (grenzSteuerSatz(iabGewinnVor - iab / 2) * (1 + SOLZ_RATE)));
+  // Einzelunternehmen: Differenz der Jahressteuer (ESt nach § 35, SolZ mit Freigrenze, GewSt) mit und ohne IAB
+  const iabSteuer = iabKapGes
+    ? iab * iabKstGewSt
+    : einzelSteuer({ gewinn: iabGewinnVor, hebesatz, gewerbe: true }).total -
+      einzelSteuer({ gewinn: iabGewinnVor - iab, hebesatz, gewerbe: true }).total;
 
   // Quartal: Brutto/Netto + echte Steuerberechnung
   const [eingabeBrutto, setEingabeBrutto] = useState(false);
@@ -245,13 +254,8 @@ const SteuerCockpit = () => {
     if (iabKapGes) {
       return gewinn * iabKstGewSt; // KSt+GewSt+SolZ effektiv
     }
-    const estJahr = progressionESt(gewinnHochgerechnet) * (1 + SOLZ_RATE);
-    const gewStMessbetrag = Math.max(0, gewinnHochgerechnet - 24500) * 0.035;
-    const gewStJahr = gewStMessbetrag * (hebesatz / 100);
-    // §35 EStG-Anrechnung bis Faktor 4,0
-    const anrechnung = Math.min(gewStJahr, gewStMessbetrag * 4.0);
-    const totalJahr = estJahr + Math.max(0, gewStJahr - anrechnung);
-    return totalJahr / 4; // zurück auf Quartal
+    // ESt nach § 35-Anrechnung, SolZ mit Freigrenze 20.350 € und Milderungszone (§§ 3, 4 SolzG), GewSt
+    return einzelSteuer({ gewinn: gewinnHochgerechnet, hebesatz, gewerbe: true }).total / 4; // zurück auf Quartal
   })();
   const steuersatz = gewinn > 0 ? ruecklage / gewinn : 0;
 
@@ -307,8 +311,16 @@ const SteuerCockpit = () => {
             checked={zm}
             onChange={setZm}
             label="Zusammenfassende Meldung (ZM)"
-            help="Pflicht bei innergemeinschaftlichen B2B-Lieferungen und sonstigen Leistungen. 25. des Folgemonats, keine Dauerfrist."
+            help="Pflicht bei innergemeinschaftlichen B2B-Lieferungen und sonstigen Leistungen. Bis zum 25. nach Ablauf des Meldezeitraums (Quartal oder Monat), keine Dauerfrist."
           />
+          {zm && (
+            <Toggle
+              checked={zmMonatlich}
+              onChange={setZmMonatlich}
+              label="ZM monatlich (Lieferungen über 50.000 €/Quartal)"
+              help="Monatlich, wenn deine innergemeinschaftlichen Warenlieferungen im laufenden oder einem der vier vorangegangenen Quartale über 50.000 € lagen (§ 18a Abs. 1 UStG). Nur sonstige Leistungen: immer quartalsweise."
+            />
+          )}
           <Toggle
             checked={mitarbeiter}
             onChange={setMitarbeiter}
