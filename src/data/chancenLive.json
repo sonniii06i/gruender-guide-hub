@@ -1,23 +1,23 @@
 {
- "stand": "2026-11-21T12:44:14.166Z",
+ "stand": "2026-11-22T12:42:05.425Z",
  "quellen": {
   "foerderung-bund": {
    "ok": true,
    "roh": 20,
    "uebernommen": 20,
    "verworfen": {},
-   "letzterErfolg": "2026-11-21T12:43:34.853Z"
+   "letzterErfolg": "2026-11-22T12:41:18.896Z"
   },
   "eu-calls": {
    "ok": true,
    "roh": 1197,
    "uebernommen": 30,
    "verworfen": {
-    "Frist vorbei (Status noch offen)": 593,
+    "Frist vorbei (Status noch offen)": 622,
     "kein KMU-/Startup-Bezug": 443,
     "abgesagt": 1
    },
-   "letzterErfolg": "2026-11-21T12:43:51.769Z"
+   "letzterErfolg": "2026-11-22T12:41:37.290Z"
   },
   "wettbewerbe": {
    "ok": true,
@@ -27,7 +27,7 @@
     "keine offene Frist": 158,
     "SPRIND: nicht offen": 25
    },
-   "letzterErfolg": "2026-11-21T12:43:54.286Z"
+   "letzterErfolg": "2026-11-22T12:41:39.866Z"
   },
   "ausschreibungen": {
    "ok": true,
@@ -36,28 +36,28 @@
    "verworfen": {
     "keine offene Angebotsfrist": 36
    },
-   "letzterErfolg": "2026-11-21T12:43:57.409Z"
+   "letzterErfolg": "2026-11-22T12:41:42.656Z"
   },
   "recht": {
    "ok": true,
    "roh": 520,
    "uebernommen": 19,
    "verworfen": {
-    "kein Gründer-Bezug": 62,
-    "älter als 45 Tage": 439
+    "kein Gründer-Bezug": 61,
+    "älter als 45 Tage": 440
    },
-   "letzterErfolg": "2026-11-21T12:43:58.912Z"
+   "letzterErfolg": "2026-11-22T12:41:49.693Z"
   },
   "messen": {
    "ok": true,
-   "roh": 230,
+   "roh": 226,
    "uebernommen": 2,
    "verworfen": {
-    "nicht in Deutschland": 18,
-    "Karriere-/Bildungsmesse": 196,
-    "kein Gründer-/Business-Bezug": 14
+    "nicht in Deutschland": 20,
+    "kein Gründer-/Business-Bezug": 13,
+    "Karriere-/Bildungsmesse": 191
    },
-   "letzterErfolg": "2026-11-21T12:44:14.150Z"
+   "letzterErfolg": "2026-11-22T12:42:05.412Z"
   }
  },
  "anzahl": 335,
@@ -1959,22 +1959,6 @@
    "entdeckt": "2026-11-05"
   },
   {
-   "id": "ausschreibungen-1bhfp4a",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Spezifisches IT-Projektmanagement für das Informationstechnikzentrum Bund - Los 2",
-   "geber": "Beschaffungsamt des BMI Angebotsfrist: 03.12.2026 11:30 Veröffentlichungsende: 0",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/eVergabe/903059.html#track=feed-callforbids",
-   "frist": "2026-12-03",
-   "region": "bund",
-   "tags": [
-    "IT"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-30"
-  },
-  {
    "id": "ausschreibungen-l5g6rn",
    "kategorie": "ausschreibung",
    "quelle": "service.bund.de",
@@ -2007,22 +1991,6 @@
    "entdeckt": "2026-10-30"
   },
   {
-   "id": "ausschreibungen-midhl",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Spezifisches IT-Projektmanagement für das Informationstechnikzentrum Bund - Los 5",
-   "geber": "Beschaffungsamt des BMI Angebotsfrist: 03.12.2026 11:30 Veröffentlichungsende: 0",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/eVergabe/903069.html#track=feed-callforbids",
-   "frist": "2026-12-03",
-   "region": "bund",
-   "tags": [
-    "IT"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-10-30"
-  },
-  {
    "id": "ausschreibungen-1aejb46",
    "kategorie": "ausschreibung",
    "quelle": "service.bund.de",
@@ -2045,6 +2013,38 @@
    "titel": "Spezifisches IT-Projektmanagement für das Informationstechnikzentrum Bund - Los 6",
    "geber": "Beschaffungsamt des BMI Angebotsfrist: 03.12.2026 11:30 Veröffentlichungsende: 0",
    "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/eVergabe/903074.html#track=feed-callforbids",
+   "frist": "2026-12-03",
+   "region": "bund",
+   "tags": [
+    "IT"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-10-30"
+  },
+  {
+   "id": "ausschreibungen-midhl",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Spezifisches IT-Projektmanagement für das Informationstechnikzentrum Bund - Los 5",
+   "geber": "Beschaffungsamt des BMI Angebotsfrist: 03.12.2026 11:30 Veröffentlichungsende: 0",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/eVergabe/903069.html#track=feed-callforbids",
+   "frist": "2026-12-03",
+   "region": "bund",
+   "tags": [
+    "IT"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-10-30"
+  },
+  {
+   "id": "ausschreibungen-1bhfp4a",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Spezifisches IT-Projektmanagement für das Informationstechnikzentrum Bund - Los 2",
+   "geber": "Beschaffungsamt des BMI Angebotsfrist: 03.12.2026 11:30 Veröffentlichungsende: 0",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/eVergabe/903059.html#track=feed-callforbids",
    "frist": "2026-12-03",
    "region": "bund",
    "tags": [
@@ -2317,22 +2317,6 @@
    "titel": "Hausmeisterservice in städtischen Obdachlosenunterkünften",
    "geber": "Magistrat der Kreisstadt Limburg a. d. Lahn Angebotsfrist: 04.12.2026 10:00 Verö",
    "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/dtvp/2026/11/352406.html#track=feed-callforbids",
-   "frist": "2026-12-04",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-11-21"
-  },
-  {
-   "id": "ausschreibungen-jdvs5r",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "91-2026-40 verkehrsrechtliche Anordnungen 2027-2030",
-   "geber": "Landestalsperrenverwaltung des Freistaates Sachsen Angebotsfrist: 04.12.2026 10:",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/evergabede/2026/11/7101910.html#track=feed-callforbids",
    "frist": "2026-12-04",
    "region": "bund",
    "tags": [
@@ -3907,6 +3891,38 @@
    "entdeckt": "2026-11-21"
   },
   {
+   "id": "ausschreibungen-w3yudj",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Hochrheinbahn - Fachkoordination für Gewerke TK und LST",
+   "geber": "DB InfraGO AG ? Geschäftsbereich Fahrweg (Bukr 16) Angebotsfrist: 21.12.2026 10:",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/healyhudson/2026/11/58f341ed-31f1-4b93-96de-90988a419440.html#track=feed-callforbids",
+   "frist": "2026-12-21",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-11-22"
+  },
+  {
+   "id": "ausschreibungen-tch4vj",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Neubau Campus Service Center (CSC) und Rückbaumaßnahmen inkl. Baufeldfreimachung am Standort Bei der Hauptfeuerwache 1 in Hamburg - Freianlagen gem. §§ 38 HOAI",
+   "geber": "GMH | Gebäudemanagement Hamburg GmbH Angebotsfrist: 21.12.2026 14:00 Veröffentli",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/healyhudson/2026/11/4f8999df-67f3-4cc7-b280-c3f8830d37d5.html#track=feed-callforbids",
+   "frist": "2026-12-21",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-11-22"
+  },
+  {
    "id": "ausschreibungen-f6msj3",
    "kategorie": "ausschreibung",
    "quelle": "service.bund.de",
@@ -4115,22 +4131,6 @@
    "entdeckt": "2026-11-21"
   },
   {
-   "id": "ausschreibungen-u8qoyv",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "A45 | Bauüberwachung Dortmund",
-   "geber": "Die Autobahn GmbH des Bundes - NL Westfalen Angebotsfrist: 21.12.2026 08:00 Verö",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/ai-ag-prod/2026/11/54321-Tender-1a1d47ea73e-73ca93a100995f14.html#track=feed-callforbids",
-   "frist": "2026-12-21",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-11-21"
-  },
-  {
    "id": "ausschreibungen-11dpqfs",
    "kategorie": "ausschreibung",
    "quelle": "service.bund.de",
@@ -4225,6 +4225,54 @@
    "kurz": "",
    "_q": "ausschreibungen",
    "entdeckt": "2026-11-19"
+  },
+  {
+   "id": "ausschreibungen-oneoxj",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Planung zentraler Busbahnhof in Bad Liebenwerda",
+   "geber": "Verbandsgemeinde Liebenwerda Angebotsfrist: 22.12.2026 13:00 Veröffentlichungsen",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/vmp-bb/2026/11/263482.html#track=feed-callforbids",
+   "frist": "2026-12-22",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-11-22"
+  },
+  {
+   "id": "ausschreibungen-zkacqs",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Nds. Landesarchiv, Pattensen; Anlagengruppen 2, 3 und 8",
+   "geber": "Land Niedersachsen vertreten durch das Staatliche Baumanagement Niedersachsen An",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/vmp-nds/2026/11/138010.html#track=feed-callforbids",
+   "frist": "2026-12-22",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-11-22"
+  },
+  {
+   "id": "ausschreibungen-xmqnjb",
+   "kategorie": "ausschreibung",
+   "quelle": "service.bund.de",
+   "titel": "Trägerschaft Offene Ganztagsschulen (OGS) - Stadt Hagen",
+   "geber": "Stadt Hagen - FB für Informationstechnologie und Zentrale Dienste Angebotsfrist:",
+   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/vmp-gkd/2026/11/116335.html#track=feed-callforbids",
+   "frist": "2026-12-22",
+   "region": "bund",
+   "tags": [
+    "Dienstleistung"
+   ],
+   "kurz": "",
+   "_q": "ausschreibungen",
+   "entdeckt": "2026-11-22"
   },
   {
    "id": "ausschreibungen-1eoajog",
@@ -4323,22 +4371,6 @@
    "entdeckt": "2026-11-21"
   },
   {
-   "id": "ausschreibungen-18rlnfx",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Weiterentwicklung und Betrieb der Website sowie des Cybersicherheitsportals der CSBW",
-   "geber": "Land Baden-Württemberg vertreten durch die Cybersicherheitsagentur Baden-Württem",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/vmp-bw/2026/11/19659.html#track=feed-callforbids",
-   "frist": "2026-12-22",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-11-21"
-  },
-  {
    "id": "ausschreibungen-y0xch4",
    "kategorie": "ausschreibung",
    "quelle": "service.bund.de",
@@ -4413,22 +4445,6 @@
    "kurz": "",
    "_q": "ausschreibungen",
    "entdeckt": "2026-11-20"
-  },
-  {
-   "id": "ausschreibungen-1ppfrzk",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "BLB NRW AC/ Aachen/ RWTH HKW Nord Austausch Kältemaschinen/ TGA-Planung/ 005-26-00271_L1",
-   "geber": "Bau- und Liegenschaftsbetrieb NRW Aachen Angebotsfrist: 06.01.2027 10:00 Veröffe",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/vmp-blb/2026/11/72039.html#track=feed-callforbids",
-   "frist": "2027-01-06",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-11-21"
   },
   {
    "id": "ausschreibungen-ppj8ls",
@@ -4597,22 +4613,6 @@
    "titel": "IQB - Pilotierungsstudie 2027 zu den Vergleichsarbeiten 2028 in der dritten und achten Jahrgangsstufe an allgemeinen Schulen",
    "geber": "Institut zur Qualitätsentwicklung im Bildungswesen - Wissenschaftliche Einrichtu",
    "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/dtvp/2026/11/352198.html#track=feed-callforbids",
-   "frist": "2027-01-11",
-   "region": "bund",
-   "tags": [
-    "Dienstleistung"
-   ],
-   "kurz": "",
-   "_q": "ausschreibungen",
-   "entdeckt": "2026-11-21"
-  },
-  {
-   "id": "ausschreibungen-50u3yp",
-   "kategorie": "ausschreibung",
-   "quelle": "service.bund.de",
-   "titel": "Monitoring von FFH-Lebensraumtypen, Grünlandkartierung im Rahmen des Nds. Weges sowie Basiserfassungen",
-   "geber": "Niedersächsischen Landesbetrieb für Wasserwirtschaft",
-   "url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/vmp-nds/2026/11/137989.html#track=feed-callforbids",
    "frist": "2027-01-11",
    "region": "bund",
    "tags": [

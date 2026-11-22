@@ -1,58 +1,58 @@
 {
- "stand": "2026-11-21T12:43:33.228Z",
+ "stand": "2026-11-22T12:39:33.672Z",
  "quellen": {
   "gruendungswoche": {
    "ok": true,
-   "roh": 410,
+   "roh": 392,
    "verworfen": {
     "kommerzielle Online-Serie": 160
    },
-   "letzterErfolg": "2026-11-21T12:42:34.430Z"
+   "letzterErfolg": "2026-11-22T12:38:34.795Z"
   },
   "luma": {
    "ok": true,
-   "roh": 810,
+   "roh": 795,
    "verworfen": {
-    "nicht in Deutschland": 189,
-    "kein Gründer-/Tech-Bezug": 294
+    "nicht in Deutschland": 195,
+    "kein Gründer-/Tech-Bezug": 279
    },
-   "letzterErfolg": "2026-11-21T12:42:44.878Z"
+   "letzterErfolg": "2026-11-22T12:38:45.864Z"
   },
   "meetup": {
    "ok": true,
    "roh": 38,
    "verworfen": {},
-   "letzterErfolg": "2026-11-21T12:42:53.119Z"
+   "letzterErfolg": "2026-11-22T12:38:54.233Z"
   },
   "hackathonhub": {
    "ok": true,
-   "roh": 36,
+   "roh": 34,
    "verworfen": {},
-   "letzterErfolg": "2026-11-21T12:42:53.619Z"
+   "letzterErfolg": "2026-11-22T12:38:54.544Z"
   },
   "gdg": {
    "ok": true,
-   "roh": 894,
+   "roh": 825,
    "verworfen": {},
-   "letzterErfolg": "2026-11-21T12:43:00.223Z"
+   "letzterErfolg": "2026-11-22T12:39:00.958Z"
   },
   "munich-startup": {
    "ok": true,
    "roh": 81,
    "verworfen": {},
-   "letzterErfolg": "2026-11-21T12:43:06.154Z"
+   "letzterErfolg": "2026-11-22T12:39:06.946Z"
   },
   "startplatz": {
    "ok": true,
    "roh": 42,
    "verworfen": {},
-   "letzterErfolg": "2026-11-21T12:43:07.837Z"
+   "letzterErfolg": "2026-11-22T12:39:08.418Z"
   },
   "startupcity-hamburg": {
    "ok": true,
-   "roh": 43,
+   "roh": 42,
    "verworfen": {},
-   "letzterErfolg": "2026-11-21T12:43:08.713Z"
+   "letzterErfolg": "2026-11-22T12:39:09.248Z"
   },
   "startup-bw": {
    "ok": true,
@@ -60,49 +60,49 @@
    "verworfen": {
     "unlesbar": 1
    },
-   "letzterErfolg": "2026-11-21T12:43:09.493Z"
+   "letzterErfolg": "2026-11-22T12:39:10.261Z"
   },
   "starthub-hessen": {
    "ok": true,
    "roh": 64,
    "verworfen": {},
-   "letzterErfolg": "2026-11-21T12:43:15.480Z"
+   "letzterErfolg": "2026-11-22T12:39:16.613Z"
   },
   "startupverband": {
    "ok": true,
    "roh": 60,
    "verworfen": {},
-   "letzterErfolg": "2026-11-21T12:43:17.083Z"
+   "letzterErfolg": "2026-11-22T12:39:18.488Z"
   },
   "dev-events": {
    "ok": true,
    "roh": 94,
    "verworfen": {
-    "kein Gründer-/Tech-Bezug": 84
+    "kein Gründer-/Tech-Bezug": 82
    },
-   "letzterErfolg": "2026-11-21T12:43:19.695Z"
+   "letzterErfolg": "2026-11-22T12:39:21.498Z"
   },
   "ki-communities": {
    "ok": true,
    "roh": 54,
    "verworfen": {},
-   "letzterErfolg": "2026-11-21T12:43:33.209Z"
+   "letzterErfolg": "2026-11-22T12:39:33.657Z"
   }
  },
  "verworfen": {
   "mehr als 9 Monate voraus": 11,
   "vorbei": 47,
   "Dauerangebot (ohne Termin geführt)": 9,
-  "Serientermin zusammengefasst": 214,
-  "Dublette über Quellen": 7
+  "Serientermin zusammengefasst": 203,
+  "Dublette über Quellen": 10
  },
  "regionKorrektur": {
-  "umbenannt": 19,
+  "umbenannt": 20,
   "unbekannt": 0,
-  "ueberStadt": 11,
+  "ueberStadt": 10,
   "blieb_bund": 15
  },
- "anzahl": 524,
+ "anzahl": 515,
  "events": [
   {
    "slug": "gruendungswoche-7kjqpe",
@@ -189,21 +189,6 @@
    "entdeckt": "2026-10-30"
   },
   {
-   "slug": "gruendungswoche-yer1z8",
-   "quelle": "gruendungswoche",
-   "name": "SCHULBANKER - das Bankenplanspiel",
-   "veranstalter": "Bankenplanspiel SCHULBANKER - Bundesverband deutscher Banken",
-   "art": "webinar",
-   "format": "online",
-   "ort": "online",
-   "region": "online",
-   "datum": "2026-11-13",
-   "datumBis": "2026-11-22",
-   "url": "https://www.gruendungswoche.de/veranstaltungen/veranstaltungskalender/detail/event/schulbanker-das-bankenplanspiel-1/",
-   "kurz": "Veranstaltung von Bankenplanspiel SCHULBANKER - Bundesverband deutscher Banken – online.",
-   "entdeckt": "2026-11-11"
-  },
-  {
    "slug": "gruendungswoche-99ib4c",
    "quelle": "gruendungswoche",
    "name": "Existenzgründung: Grundkurs für Gründer:innen",
@@ -247,21 +232,6 @@
    "entdeckt": "2026-11-19"
   },
   {
-   "slug": "gruendungswoche-mzr9x",
-   "quelle": "gruendungswoche",
-   "name": "Workshop: Sorglos zum Finanzamt – Buchführung leicht gemacht",
-   "veranstalter": "Grafschafter TechnologieZentrum GmbH",
-   "art": "netzwerk",
-   "format": "vor-ort",
-   "ort": "Nordhorn",
-   "region": "NI",
-   "datum": "2026-11-20",
-   "datumBis": "2026-11-22",
-   "url": "https://www.gruendungswoche.de/veranstaltungen/veranstaltungskalender/detail/event/workshop-sorglos-zum-finanzamt-buchfuehrung-leicht-gemacht/",
-   "kurz": "Gründungsangebot von Grafschafter TechnologieZentrum GmbH in Nordhorn.",
-   "entdeckt": "2026-10-07"
-  },
-  {
    "slug": "gruendungswoche-c6zfoc",
    "quelle": "gruendungswoche",
    "name": "Understanding Funding for Consulting Services: Your Free Consultation on AVGS, BAFA, and INQA Coaching for Founders, Startups, and Scale-ups",
@@ -274,348 +244,6 @@
    "kurz": "Veranstaltung von Thomas Liller Coaching & Consulting LLC – online.",
    "rhythmus": "laufendes Angebot bis 31. Dezember 2027",
    "entdeckt": "2026-11-19"
-  },
-  {
-   "slug": "gruendungswoche-107jtdp",
-   "quelle": "gruendungswoche",
-   "name": "Free Discovery Kit for Expats Starting a Freelance Business in Germany",
-   "veranstalter": "Expat Business Club a brand of Birgit Heidenreich Business Consulting",
-   "art": "webinar",
-   "format": "online",
-   "ort": "online",
-   "region": "online",
-   "datum": "2026-11-21",
-   "weitereTermine": 1,
-   "url": "https://www.gruendungswoche.de/veranstaltungen/veranstaltungskalender/detail/event/free-discovery-kit-for-expats-starting-a-freelance-business-in-germany/",
-   "kurz": "Veranstaltung von Expat Business Club a brand of Birgit Heidenreich Business Consulting – online.",
-   "entdeckt": "2026-11-18"
-  },
-  {
-   "slug": "gruendungswoche-1kuqygs",
-   "quelle": "gruendungswoche",
-   "name": "Gründen im Nebenerwerb (Einführung online)",
-   "veranstalter": "Harald Hof",
-   "art": "webinar",
-   "format": "online",
-   "ort": "online",
-   "region": "online",
-   "datum": "2026-11-21",
-   "url": "https://www.gruendungswoche.de/veranstaltungen/veranstaltungskalender/detail/event/gruenden-im-nebenerwerb-einfuehrung-online-2/",
-   "kurz": "Veranstaltung von Harald Hof – online.",
-   "entdeckt": "2026-11-09"
-  },
-  {
-   "slug": "gruendungswoche-1juxilx",
-   "quelle": "gruendungswoche",
-   "name": "Ich mache mich selbständig (Einführung online)",
-   "veranstalter": "Harald Hof",
-   "art": "webinar",
-   "format": "online",
-   "ort": "online",
-   "region": "online",
-   "datum": "2026-11-21",
-   "url": "https://www.gruendungswoche.de/veranstaltungen/veranstaltungskalender/detail/event/ich-mache-mich-selbstaendig-einfuehrung-online-4/",
-   "kurz": "Veranstaltung von Harald Hof – online.",
-   "entdeckt": "2026-11-09"
-  },
-  {
-   "slug": "gruendungswoche-13xsc11",
-   "quelle": "gruendungswoche",
-   "name": "Female Founders: Gründen auf Augenhöhe – Impulsvortrag online + persönlicher 1:1-Termin",
-   "veranstalter": "Weiss Consulting Managementberatung & Executive Coaching",
-   "art": "webinar",
-   "format": "online",
-   "ort": "online",
-   "region": "online",
-   "datum": "2026-11-21",
-   "weitereTermine": 1,
-   "url": "https://www.gruendungswoche.de/veranstaltungen/veranstaltungskalender/detail/event/female-founders-gruenden-auf-augenhoehe-impulsvortrag-online-persoenlicher-11-termin/",
-   "kurz": "Veranstaltung von Weiss Consulting Managementberatung & Executive Coaching – online.",
-   "entdeckt": "2026-11-16"
-  },
-  {
-   "slug": "gruendungswoche-2kljyd",
-   "quelle": "gruendungswoche",
-   "name": "Businessplanung (Einführung online)",
-   "veranstalter": "Harald Hof",
-   "art": "webinar",
-   "format": "online",
-   "ort": "online",
-   "region": "online",
-   "datum": "2026-11-21",
-   "url": "https://www.gruendungswoche.de/veranstaltungen/veranstaltungskalender/detail/event/kopie-von-businessplanung-einfuehrung-online/",
-   "kurz": "Veranstaltung von Harald Hof – online.",
-   "entdeckt": "2026-11-09"
-  },
-  {
-   "slug": "gruendungswoche-1nd9zew",
-   "quelle": "gruendungswoche",
-   "name": "Boxenstopp für Start-ups und Unternehmer: Ihre Marschroute und das Rüstzeug – persönliches 1:1",
-   "veranstalter": "Weiss Consulting Managementberatung & Executive Coaching",
-   "art": "netzwerk",
-   "format": "vor-ort",
-   "ort": "Düsseldorf",
-   "region": "NW",
-   "datum": "2026-11-21",
-   "weitereTermine": 168,
-   "url": "https://www.gruendungswoche.de/veranstaltungen/veranstaltungskalender/detail/event/boxenstopp-fuer-start-ups-und-unternehmer-ihre-marschroute-und-das-ruestzeug-persoenliches-11/",
-   "kurz": "Veranstaltung von Weiss Consulting Managementberatung & Executive Coaching in Düsseldorf.",
-   "entdeckt": "2026-11-16"
-  },
-  {
-   "slug": "gruendungswoche-3do1j0",
-   "quelle": "gruendungswoche",
-   "name": "Das HR-Grundpaket für die ersten Mitarbeitenden – Impulsvortrag online + persönlicher 1:1-Termin",
-   "veranstalter": "Weiss Consulting Managementberatung & Executive Coaching",
-   "art": "webinar",
-   "format": "online",
-   "ort": "online",
-   "region": "online",
-   "datum": "2026-11-21",
-   "weitereTermine": 1,
-   "url": "https://www.gruendungswoche.de/veranstaltungen/veranstaltungskalender/detail/event/das-hr-grundpaket-fuer-die-ersten-mitarbeitenden-impulsvortrag-online-persoenlicher-11-termin/",
-   "kurz": "Veranstaltung von Weiss Consulting Managementberatung & Executive Coaching – online.",
-   "entdeckt": "2026-11-16"
-  },
-  {
-   "slug": "gruendungswoche-eqgwc6",
-   "quelle": "gruendungswoche",
-   "name": "20 Jahre Expertise für deinen Erfolg: Exklusiver Gründerinnen-Circle zum Nebenerwerb (Düsseldorf)",
-   "veranstalter": "dbt das-berater-team",
-   "art": "gruenderabend",
-   "format": "vor-ort",
-   "ort": "Düsseldorf",
-   "region": "NW",
-   "datum": "2026-11-21",
-   "url": "https://www.gruendungswoche.de/veranstaltungen/veranstaltungskalender/detail/event/20-jahre-expertise-fuer-deinen-erfolg-exklusiver-gruenderinnen-circle-zum-nebenerwerb-duesseldorf/",
-   "kurz": "Veranstaltung von dbt das-berater-team in Düsseldorf.",
-   "entdeckt": "2026-10-12"
-  },
-  {
-   "slug": "gruendungswoche-18turk7",
-   "quelle": "gruendungswoche",
-   "name": "Du möchtest gründen? Dann lass uns über deine Idee sprechen! AVGS möglich.",
-   "veranstalter": "Anja M. Stieber - Beratung | Mentoring | Coaching",
-   "art": "gruenderabend",
-   "format": "vor-ort",
-   "ort": "Rettenberg",
-   "region": "BY",
-   "datum": "2026-11-21",
-   "weitereTermine": 1,
-   "url": "https://www.gruendungswoche.de/veranstaltungen/veranstaltungskalender/detail/event/du-moechtest-gruenden-dann-lass-uns-ueber-deine-idee-sprechen-avgs-moeglich/",
-   "kurz": "Veranstaltung von Anja M. Stieber - Beratung | Mentoring | Coaching in Rettenberg.",
-   "entdeckt": "2026-11-16"
-  },
-  {
-   "slug": "gruendungswoche-im1ih4",
-   "quelle": "gruendungswoche",
-   "name": "UNLIMITED – Day Three: Claim Your Big Picture",
-   "veranstalter": "Burnout-Netzwerk",
-   "art": "webinar",
-   "format": "online",
-   "ort": "online",
-   "region": "online",
-   "datum": "2026-11-21",
-   "url": "https://www.gruendungswoche.de/veranstaltungen/veranstaltungskalender/detail/event/unlimited-day-three-claim-your-big-picture/",
-   "kurz": "Veranstaltung von Burnout-Netzwerk – online.",
-   "entdeckt": "2026-11-12"
-  },
-  {
-   "slug": "gruendungswoche-dmucd5",
-   "quelle": "gruendungswoche",
-   "name": "5 Free Discovery Kits for Expats Starting a Freelance Business in Germany",
-   "veranstalter": "Expat Business Club a brand of Birgit Heidenreich Business Consulting",
-   "art": "webinar",
-   "format": "online",
-   "ort": "online",
-   "region": "online",
-   "datum": "2026-11-21",
-   "weitereTermine": 1,
-   "url": "https://www.gruendungswoche.de/veranstaltungen/veranstaltungskalender/detail/event/5-free-discovery-kits-for-expats-starting-a-freelance-business-in-germany/",
-   "kurz": "Veranstaltung von Expat Business Club a brand of Birgit Heidenreich Business Consulting – online.",
-   "entdeckt": "2026-11-18"
-  },
-  {
-   "slug": "luma-n1kf4x",
-   "quelle": "luma",
-   "name": "ROBOTICS X AI - HACKLAB",
-   "veranstalter": "Hacklab",
-   "art": "hackathon",
-   "format": "vor-ort",
-   "ort": "Berlin",
-   "region": "BE",
-   "datum": "2026-11-21",
-   "datumBis": "2026-11-22",
-   "kostenlos": true,
-   "url": "https://luma.com/h0mcaqio",
-   "kurz": "Event in Berlin, gelistet auf Luma (Hacklab).",
-   "weitereTermine": 1,
-   "entdeckt": "2026-10-10"
-  },
-  {
-   "slug": "luma-8f2fgc",
-   "quelle": "luma",
-   "name": "LMU Startup in 2 days",
-   "veranstalter": "David Kaiser",
-   "art": "netzwerk",
-   "format": "vor-ort",
-   "ort": "München",
-   "region": "BY",
-   "datum": "2026-11-21",
-   "kostenlos": true,
-   "url": "https://luma.com/9ydztu6h",
-   "kurz": "Event in München, gelistet auf Luma.",
-   "entdeckt": "2026-10-25"
-  },
-  {
-   "slug": "luma-i5zqfa",
-   "quelle": "luma",
-   "name": "Build With Codex - Community Hackathon Heilbronn",
-   "veranstalter": "Codex Community Events",
-   "art": "hackathon",
-   "format": "vor-ort",
-   "ort": "Heilbronn",
-   "region": "BW",
-   "datum": "2026-11-21",
-   "kostenlos": true,
-   "url": "https://luma.com/re0gtlv6",
-   "kurz": "Event in Heilbronn, gelistet auf Luma (Codex Community Events).",
-   "entdeckt": "2026-11-20"
-  },
-  {
-   "slug": "hackathonhub-keoi0r",
-   "quelle": "hackathonhub",
-   "name": "November Mini Game Jam 2026",
-   "veranstalter": "Gamestorm Berlin e.V.",
-   "art": "hackathon",
-   "format": "vor-ort",
-   "ort": "Berlin",
-   "region": "BE",
-   "datum": "2026-11-21",
-   "kostenlos": true,
-   "url": "https://hackathonhub.eu/events/november-mini-game-jam-2026-berlin-2026",
-   "kurz": "The November Mini Game Jam 2026 is a relaxed 7-hour prototyping jam taking place in Berlin. After deciding on a theme together, participants work solo or in teams to create game graphics, concepts, and prototypes across ",
-   "entdeckt": "2026-11-10"
-  },
-  {
-   "slug": "hackathonhub-1umbmxg",
-   "quelle": "hackathonhub",
-   "name": "Game Garage: Give(a)Go x Base44",
-   "veranstalter": "Give(a)Go x Base44",
-   "art": "hackathon",
-   "format": "vor-ort",
-   "ort": "Heilbronn",
-   "region": "BW",
-   "datum": "2026-11-21",
-   "kostenlos": true,
-   "url": "https://hackathonhub.eu/events/game-garage-give-a-go-x-base44-heilbronn-2026",
-   "kurz": "Game Garage is a one-day game jam in Heilbronn, organized by Give(a)Go and Base44 for participants of all experience levels. Across several tracks, attendees can use AI tools and prototyping to create their own playable ",
-   "entdeckt": "2026-11-17"
-  },
-  {
-   "slug": "hackathonhub-3ve6s7",
-   "quelle": "hackathonhub",
-   "name": "Lovable Hackathon",
-   "veranstalter": "Simon Rios & Prof. Nico Lange (HTW Dresden)",
-   "art": "hackathon",
-   "format": "vor-ort",
-   "ort": "Dresden",
-   "region": "SN",
-   "datum": "2026-11-21",
-   "kostenlos": true,
-   "url": "https://hackathonhub.eu/events/lovable-hackathon-dresden-2026",
-   "kurz": "The Lovable AI Hackathon teaches participants how to build their own web applications using artificial intelligence and vibe coding without coding skills. Following an introductory phase and ideation, attendees develop w",
-   "entdeckt": "2026-11-21"
-  },
-  {
-   "slug": "hackathonhub-y0jl1k",
-   "quelle": "hackathonhub",
-   "name": "START Hack League Munich 2026",
-   "veranstalter": "START Munich",
-   "art": "hackathon",
-   "format": "vor-ort",
-   "ort": "München",
-   "region": "BY",
-   "datum": "2026-11-21",
-   "datumBis": "2026-11-22",
-   "kostenlos": true,
-   "url": "https://hackathonhub.eu/events/start-hack-league-munich-2026-munich-2026",
-   "kurz": "START Hack League Munich 2026 brings together 250 builders at the TUM Audimax to solve real-world startup challenges within 24 hours. Participants work in teams on demanding technical tasks supported by mentors and round",
-   "entdeckt": "2026-11-17"
-  },
-  {
-   "slug": "hackathonhub-86hp6j",
-   "quelle": "hackathonhub",
-   "name": "DevFest Münster 2026 | Agentic AI Hackathon",
-   "veranstalter": "Anna Muzykina",
-   "art": "hackathon",
-   "format": "vor-ort",
-   "ort": "Münster",
-   "region": "NW",
-   "datum": "2026-11-21",
-   "kostenlos": true,
-   "url": "https://hackathonhub.eu/events/devfest-munster-2026-agentic-ai-hackathon-munster-2026-2",
-   "kurz": "This hackathon in Münster focuses on exploring cutting-edge Google tools, autonomous workflows, and the future of software creation in the agentic AI era. Participants of all skill levels will learn to design, secure, an",
-   "entdeckt": "2026-10-07"
-  },
-  {
-   "slug": "hackathonhub-107b1hf",
-   "quelle": "hackathonhub",
-   "name": "THE €5K BUILD & LAUNCH HACKATHON",
-   "veranstalter": "Zofia Borkowska",
-   "art": "hackathon",
-   "format": "vor-ort",
-   "ort": "Berlin",
-   "region": "BE",
-   "datum": "2026-11-21",
-   "datumBis": "2026-11-22",
-   "kostenlos": true,
-   "url": "https://hackathonhub.eu/events/the-5k-build-launch-hackathon-berlin-2026",
-   "kurz": "This 26-hour hackathon challenges multidisciplinary teams to build a working product and validate it with real users before the time runs out. Each team is provided with marketing budget to test customer acquisition dire",
-   "entdeckt": "2026-11-17"
-  },
-  {
-   "slug": "gdg-144d4hg",
-   "quelle": "gdg",
-   "name": "DevFest Münster 2026 | Agentic AI Hackathon - Build, Secure, Scale 🚀",
-   "veranstalter": "GDG Münster",
-   "art": "hackathon",
-   "format": "vor-ort",
-   "ort": "Münster",
-   "region": "NW",
-   "datum": "2026-11-21",
-   "url": "https://gdg.community.dev/events/details/google-gdg-munster-presents-devfest-munster-2026-agentic-ai-hackathon-build-secure-scale/",
-   "kurz": "Event in Münster – gelistet bei Google Developer Groups.",
-   "entdeckt": "2026-10-12"
-  },
-  {
-   "slug": "gdg-kln3f3",
-   "quelle": "gdg",
-   "name": "DevFest Stuttgart 2026",
-   "veranstalter": "GDG Stuttgart",
-   "art": "netzwerk",
-   "format": "vor-ort",
-   "ort": "Stuttgart",
-   "region": "BW",
-   "datum": "2026-11-21",
-   "url": "https://gdg.community.dev/events/details/google-gdg-stuttgart-presents-devfest-stuttgart-2026/",
-   "kurz": "Event in Stuttgart – gelistet bei Google Developer Groups.",
-   "entdeckt": "2026-10-07"
-  },
-  {
-   "slug": "startupcity-hamburg-tz84qf",
-   "quelle": "startupcity-hamburg",
-   "name": "Founders Running Club Hamburg",
-   "veranstalter": "Startup City Hamburg",
-   "art": "netzwerk",
-   "format": "vor-ort",
-   "ort": "Hamburg",
-   "region": "HH",
-   "datum": "2026-11-21",
-   "url": "https://startupcity.hamburg/news-events/events/founders-running-club-hamburg-21-11-26",
-   "kurz": "Event in Hamburg – gelistet bei Startup City Hamburg.",
-   "weitereTermine": 4,
-   "entdeckt": "2026-10-11"
   },
   {
    "slug": "startup-bw-1f2vbz3",
@@ -633,21 +261,6 @@
    "entdeckt": "2026-10-07"
   },
   {
-   "slug": "gruendungswoche-1e6c3kp",
-   "quelle": "gruendungswoche",
-   "name": "Bewerbungsstart für das Gründungsstipendium MGZstart 2027",
-   "veranstalter": "Mediengründerzentrum NRW",
-   "art": "webinar",
-   "format": "online",
-   "ort": "online",
-   "region": "online",
-   "datum": "2026-11-22",
-   "weitereTermine": 16,
-   "url": "https://www.gruendungswoche.de/veranstaltungen/veranstaltungskalender/detail/event/bewerbungsstart-fuer-das-gruendungsstipendium-mgzstart-2027/",
-   "kurz": "Gründungsangebot von Mediengründerzentrum NRW – online.",
-   "entdeckt": "2026-10-14"
-  },
-  {
    "slug": "gruendungswoche-1sz1s42",
    "quelle": "gruendungswoche",
    "name": "Gründungswoche Dresden 2026",
@@ -663,18 +276,33 @@
    "entdeckt": "2026-10-07"
   },
   {
-   "slug": "gruendungswoche-1owv64k",
+   "slug": "gruendungswoche-107jtdp",
    "quelle": "gruendungswoche",
-   "name": "Frag einen Patentanwalt",
-   "veranstalter": "IPrime Bonnekamp Sparing Patentanwalts-GmbH",
+   "name": "Free Discovery Kit for Expats Starting a Freelance Business in Germany",
+   "veranstalter": "Expat Business Club a brand of Birgit Heidenreich Business Consulting",
+   "art": "webinar",
+   "format": "online",
+   "ort": "online",
+   "region": "online",
+   "datum": "2026-11-22",
+   "url": "https://www.gruendungswoche.de/veranstaltungen/veranstaltungskalender/detail/event/free-discovery-kit-for-expats-starting-a-freelance-business-in-germany/",
+   "kurz": "Veranstaltung von Expat Business Club a brand of Birgit Heidenreich Business Consulting – online.",
+   "entdeckt": "2026-11-18"
+  },
+  {
+   "slug": "gruendungswoche-1nd9zew",
+   "quelle": "gruendungswoche",
+   "name": "Boxenstopp für Start-ups und Unternehmer: Ihre Marschroute und das Rüstzeug – persönliches 1:1",
+   "veranstalter": "Weiss Consulting Managementberatung & Executive Coaching",
    "art": "netzwerk",
    "format": "vor-ort",
    "ort": "Düsseldorf",
    "region": "NW",
    "datum": "2026-11-22",
-   "url": "https://www.gruendungswoche.de/veranstaltungen/veranstaltungskalender/detail/event/frag-einen-patentanwalt-60/",
-   "kurz": "Veranstaltung von IPrime Bonnekamp Sparing Patentanwalts-GmbH in Düsseldorf.",
-   "entdeckt": "2026-11-18"
+   "weitereTermine": 160,
+   "url": "https://www.gruendungswoche.de/veranstaltungen/veranstaltungskalender/detail/event/boxenstopp-fuer-start-ups-und-unternehmer-ihre-marschroute-und-das-ruestzeug-persoenliches-11/",
+   "kurz": "Veranstaltung von Weiss Consulting Managementberatung & Executive Coaching in Düsseldorf.",
+   "entdeckt": "2026-11-16"
   },
   {
    "slug": "gruendungswoche-hbj63b",
@@ -706,6 +334,20 @@
    "entdeckt": "2026-11-16"
   },
   {
+   "slug": "gruendungswoche-18turk7",
+   "quelle": "gruendungswoche",
+   "name": "Du möchtest gründen? Dann lass uns über deine Idee sprechen! AVGS möglich.",
+   "veranstalter": "Anja M. Stieber - Beratung | Mentoring | Coaching",
+   "art": "gruenderabend",
+   "format": "vor-ort",
+   "ort": "Rettenberg",
+   "region": "BY",
+   "datum": "2026-11-22",
+   "url": "https://www.gruendungswoche.de/veranstaltungen/veranstaltungskalender/detail/event/du-moechtest-gruenden-dann-lass-uns-ueber-deine-idee-sprechen-avgs-moeglich/",
+   "kurz": "Veranstaltung von Anja M. Stieber - Beratung | Mentoring | Coaching in Rettenberg.",
+   "entdeckt": "2026-11-16"
+  },
+  {
    "slug": "gruendungswoche-1c4mvo1",
    "quelle": "gruendungswoche",
    "name": "Strategisches Marketing mit KI für angehende Gründer:innen: Den Grundstein für Ihre erfolgreiche Marke legen",
@@ -718,6 +360,35 @@
    "url": "https://www.gruendungswoche.de/veranstaltungen/veranstaltungskalender/detail/event/strategisches-marketing-mit-ki-fuer-angehende-gruenderinnen-den-grundstein-fuer-ihre-erfolgreiche-marke-legen/",
    "kurz": "Veranstaltung von TOMOMI Marketing – online.",
    "entdeckt": "2026-11-19"
+  },
+  {
+   "slug": "gruendungswoche-dmucd5",
+   "quelle": "gruendungswoche",
+   "name": "5 Free Discovery Kits for Expats Starting a Freelance Business in Germany",
+   "veranstalter": "Expat Business Club a brand of Birgit Heidenreich Business Consulting",
+   "art": "webinar",
+   "format": "online",
+   "ort": "online",
+   "region": "online",
+   "datum": "2026-11-22",
+   "url": "https://www.gruendungswoche.de/veranstaltungen/veranstaltungskalender/detail/event/5-free-discovery-kits-for-expats-starting-a-freelance-business-in-germany/",
+   "kurz": "Veranstaltung von Expat Business Club a brand of Birgit Heidenreich Business Consulting – online.",
+   "entdeckt": "2026-11-18"
+  },
+  {
+   "slug": "gruendungswoche-1e6c3kp",
+   "quelle": "gruendungswoche",
+   "name": "Bewerbungsstart für das Gründungsstipendium MGZstart 2027",
+   "veranstalter": "Mediengründerzentrum NRW",
+   "art": "webinar",
+   "format": "online",
+   "ort": "online",
+   "region": "online",
+   "datum": "2026-11-23",
+   "weitereTermine": 14,
+   "url": "https://www.gruendungswoche.de/veranstaltungen/veranstaltungskalender/detail/event/bewerbungsstart-fuer-das-gruendungsstipendium-mgzstart-2027/",
+   "kurz": "Gründungsangebot von Mediengründerzentrum NRW – online.",
+   "entdeckt": "2026-10-14"
   },
   {
    "slug": "gruendungswoche-amy6qn",
@@ -763,6 +434,34 @@
    "url": "https://www.gruendungswoche.de/veranstaltungen/veranstaltungskalender/detail/event/kostenloses-erstgespraech-zur-gruendung-einzelberatung-per-zoom/",
    "kurz": "Veranstaltung von Volker Beckmann Unternehmensberatung – online.",
    "entdeckt": "2026-11-20"
+  },
+  {
+   "slug": "gruendungswoche-3do1j0",
+   "quelle": "gruendungswoche",
+   "name": "Das HR-Grundpaket für die ersten Mitarbeitenden – Impulsvortrag online + persönlicher 1:1-Termin",
+   "veranstalter": "Weiss Consulting Managementberatung & Executive Coaching",
+   "art": "webinar",
+   "format": "online",
+   "ort": "online",
+   "region": "online",
+   "datum": "2026-11-23",
+   "url": "https://www.gruendungswoche.de/veranstaltungen/veranstaltungskalender/detail/event/das-hr-grundpaket-fuer-die-ersten-mitarbeitenden-impulsvortrag-online-persoenlicher-11-termin/",
+   "kurz": "Veranstaltung von Weiss Consulting Managementberatung & Executive Coaching – online.",
+   "entdeckt": "2026-11-16"
+  },
+  {
+   "slug": "gruendungswoche-13xsc11",
+   "quelle": "gruendungswoche",
+   "name": "Female Founders: Gründen auf Augenhöhe – Impulsvortrag online + persönlicher 1:1-Termin",
+   "veranstalter": "Weiss Consulting Managementberatung & Executive Coaching",
+   "art": "webinar",
+   "format": "online",
+   "ort": "online",
+   "region": "online",
+   "datum": "2026-11-23",
+   "url": "https://www.gruendungswoche.de/veranstaltungen/veranstaltungskalender/detail/event/female-founders-gruenden-auf-augenhoehe-impulsvortrag-online-persoenlicher-11-termin/",
+   "kurz": "Veranstaltung von Weiss Consulting Managementberatung & Executive Coaching – online.",
+   "entdeckt": "2026-11-16"
   },
   {
    "slug": "gruendungswoche-181myja",
@@ -1828,6 +1527,21 @@
    "entdeckt": "2026-11-01"
   },
   {
+   "slug": "luma-wwpn5c",
+   "quelle": "luma",
+   "name": "AI+var meetup - November 2026 edition",
+   "veranstalter": "Stefan Miteski",
+   "art": "netzwerk",
+   "format": "vor-ort",
+   "ort": "Berlin",
+   "region": "BE",
+   "datum": "2026-11-25",
+   "kostenlos": true,
+   "url": "https://luma.com/3sk55phg",
+   "kurz": "Event in Berlin, gelistet auf Luma.",
+   "entdeckt": "2026-11-22"
+  },
+  {
    "slug": "luma-18x874m",
    "quelle": "luma",
    "name": "Hamburg Music & Tech Meetup | #2",
@@ -1916,6 +1630,21 @@
    "url": "https://luma.com/mudjouvc",
    "kurz": "Event in Dresden, gelistet auf Luma (HR Collective Dresden).",
    "entdeckt": "2026-11-10"
+  },
+  {
+   "slug": "hackathonhub-yb2nxi",
+   "quelle": "hackathonhub",
+   "name": "Community Hackathon: Ship It. For Real.",
+   "veranstalter": "Güven Karakuzu / Sovyn (IT-Labs)",
+   "art": "hackathon",
+   "format": "vor-ort",
+   "ort": "Nürnberg",
+   "region": "BY",
+   "datum": "2026-11-25",
+   "kostenlos": true,
+   "url": "https://hackathonhub.eu/events/community-hackathon-ship-it-for-real-nuremberg-2026",
+   "kurz": "During this evening hackathon, participants build practical tools for their day-to-day work using AI builders like Manus. Projects are deployed directly onto EU servers with a custom domain and a security check via Sovyn",
+   "entdeckt": "2026-11-22"
   },
   {
    "slug": "hackathonhub-1p1t1ur",
@@ -2320,6 +2049,21 @@
    "entdeckt": "2026-11-10"
   },
   {
+   "slug": "luma-e45h9n",
+   "quelle": "luma",
+   "name": "Pitch Training | Founders Club",
+   "veranstalter": "Founders Club Events",
+   "art": "netzwerk",
+   "format": "vor-ort",
+   "ort": "Frankfurt am Main",
+   "region": "HE",
+   "datum": "2026-11-26",
+   "kostenlos": true,
+   "url": "https://luma.com/9ffi9bqv",
+   "kurz": "Event in Frankfurt am Main, gelistet auf Luma (Founders Club Events).",
+   "entdeckt": "2026-11-20"
+  },
+  {
    "slug": "luma-1tqfl82",
    "quelle": "luma",
    "name": "79. Gründungsstammtisch Ruhr",
@@ -2348,21 +2092,6 @@
    "url": "https://luma.com/gazezfci",
    "kurz": "Event in Heidelberg, gelistet auf Luma.",
    "entdeckt": "2026-11-21"
-  },
-  {
-   "slug": "luma-e45h9n",
-   "quelle": "luma",
-   "name": "Pitch Training | Founders Club",
-   "veranstalter": "Founders Club Events",
-   "art": "netzwerk",
-   "format": "vor-ort",
-   "ort": "Frankfurt am Main",
-   "region": "HE",
-   "datum": "2026-11-26",
-   "kostenlos": true,
-   "url": "https://luma.com/9ffi9bqv",
-   "kurz": "Event in Frankfurt am Main, gelistet auf Luma (Founders Club Events).",
-   "entdeckt": "2026-11-20"
   },
   {
    "slug": "luma-1izvvid",
@@ -2802,6 +2531,38 @@
    "entdeckt": "2026-10-10"
   },
   {
+   "slug": "hackathonhub-hsldqt",
+   "quelle": "hackathonhub",
+   "name": "12th CASSINI Hackathon",
+   "veranstalter": "CESAH (im Auftrag von EUSPA)",
+   "art": "hackathon",
+   "format": "vor-ort",
+   "ort": "Darmstadt",
+   "region": "HE",
+   "datum": "2026-11-27",
+   "datumBis": "2026-11-29",
+   "kostenlos": true,
+   "url": "https://hackathonhub.eu/events/12th-cassini-hackathon-darmstadt-2026",
+   "kurz": "The 12th CASSINI Hackathon invites participants to develop solutions for safety and security in Europe using space data over an intensive 48 hours. The event offers expert mentoring, workshops, and social activities to s",
+   "entdeckt": "2026-10-07"
+  },
+  {
+   "slug": "hackathonhub-1r9lic6",
+   "quelle": "hackathonhub",
+   "name": "European Defense Tech Hackathon - Berlin",
+   "veranstalter": "European Defense Tech Hub",
+   "art": "hackathon",
+   "format": "vor-ort",
+   "ort": "Berlin",
+   "region": "BE",
+   "datum": "2026-11-27",
+   "datumBis": "2026-11-29",
+   "kostenlos": true,
+   "url": "https://hackathonhub.eu/events/european-defense-tech-hackathon-berlin-berlin-2026-2",
+   "kurz": "The European Defense Tech Hackathon brings together over 200 hackers from across Europe to accelerate innovation in defense technology. Its goal is to bridge gaps between technologists, the public sector, investors, and ",
+   "entdeckt": "2026-10-07"
+  },
+  {
    "slug": "hackathonhub-fqlr8s",
    "quelle": "hackathonhub",
    "name": "CONSTRUCTION ROBOTICS HACKATHON 2026",
@@ -2831,38 +2592,6 @@
    "kostenlos": true,
    "url": "https://hackathonhub.eu/events/hackatum-munich-2026",
    "kurz": "hackaTUM is the official hackathon of the Department of Computer Science at the Technical University of Munich, and is one of the largest events of its kind in the EU. During this three-day event, motivated participants ",
-   "entdeckt": "2026-10-07"
-  },
-  {
-   "slug": "hackathonhub-1r9lic6",
-   "quelle": "hackathonhub",
-   "name": "European Defense Tech Hackathon - Berlin",
-   "veranstalter": "European Defense Tech Hub",
-   "art": "hackathon",
-   "format": "vor-ort",
-   "ort": "Berlin",
-   "region": "BE",
-   "datum": "2026-11-27",
-   "datumBis": "2026-11-29",
-   "kostenlos": true,
-   "url": "https://hackathonhub.eu/events/european-defense-tech-hackathon-berlin-berlin-2026-2",
-   "kurz": "The European Defense Tech Hackathon brings together over 200 hackers from across Europe to accelerate innovation in defense technology. Its goal is to bridge gaps between technologists, the public sector, investors, and ",
-   "entdeckt": "2026-10-07"
-  },
-  {
-   "slug": "hackathonhub-hsldqt",
-   "quelle": "hackathonhub",
-   "name": "12th CASSINI Hackathon",
-   "veranstalter": "CESAH (im Auftrag von EUSPA)",
-   "art": "hackathon",
-   "format": "vor-ort",
-   "ort": "Darmstadt",
-   "region": "HE",
-   "datum": "2026-11-27",
-   "datumBis": "2026-11-29",
-   "kostenlos": true,
-   "url": "https://hackathonhub.eu/events/12th-cassini-hackathon-darmstadt-2026",
-   "kurz": "The 12th CASSINI Hackathon invites participants to develop solutions for safety and security in Europe using space data over an intensive 48 hours. The event offers expert mentoring, workshops, and social activities to s",
    "entdeckt": "2026-10-07"
   },
   {
@@ -3152,6 +2881,21 @@
    "kurz": "Event in Ahlen – gelistet bei Google Developer Groups.",
    "weitereTermine": 1,
    "entdeckt": "2026-11-04"
+  },
+  {
+   "slug": "startupcity-hamburg-tz84qf",
+   "quelle": "startupcity-hamburg",
+   "name": "Founders Running Club Hamburg",
+   "veranstalter": "Startup City Hamburg",
+   "art": "netzwerk",
+   "format": "vor-ort",
+   "ort": "Hamburg",
+   "region": "HH",
+   "datum": "2026-11-28",
+   "url": "https://startupcity.hamburg/news-events/events/founders-running-club-hamburg-28-11-26",
+   "kurz": "Event in Hamburg – gelistet bei Startup City Hamburg.",
+   "weitereTermine": 3,
+   "entdeckt": "2026-10-11"
   },
   {
    "slug": "startupcity-hamburg-oqujtb",
@@ -3474,19 +3218,19 @@
    "entdeckt": "2026-11-21"
   },
   {
-   "slug": "luma-1pb5col",
+   "slug": "luma-1buvvzl",
    "quelle": "luma",
-   "name": "Agents Anonymous #10: Cologne Edition",
-   "veranstalter": "Agents Anonymous 💒 Cologne Edition",
-   "art": "netzwerk",
+   "name": "The Next Experiment Hackathon",
+   "veranstalter": "Anne-Sophie Krechting",
+   "art": "hackathon",
    "format": "vor-ort",
-   "ort": "Köln",
-   "region": "NW",
+   "ort": "München",
+   "region": "BY",
    "datum": "2026-12-01",
    "kostenlos": true,
-   "url": "https://luma.com/h28i126y",
-   "kurz": "Event in Köln, gelistet auf Luma (Agents Anonymous 💒 Cologne Edition).",
-   "entdeckt": "2026-11-11"
+   "url": "https://luma.com/9vzwm9do",
+   "kurz": "Event in München, gelistet auf Luma.",
+   "entdeckt": "2026-11-22"
   },
   {
    "slug": "luma-w3lcwy",
@@ -3502,6 +3246,21 @@
    "url": "https://luma.com/568sr4mu",
    "kurz": "Event in Frankfurt am Main, gelistet auf Luma (Agentic AI Community Frankfurt).",
    "entdeckt": "2026-11-19"
+  },
+  {
+   "slug": "luma-1pb5col",
+   "quelle": "luma",
+   "name": "Agents Anonymous #10: Cologne Edition",
+   "veranstalter": "Agents Anonymous 💒 Cologne Edition",
+   "art": "netzwerk",
+   "format": "vor-ort",
+   "ort": "Köln",
+   "region": "NW",
+   "datum": "2026-12-01",
+   "kostenlos": true,
+   "url": "https://luma.com/h28i126y",
+   "kurz": "Event in Köln, gelistet auf Luma (Agents Anonymous 💒 Cologne Edition).",
+   "entdeckt": "2026-11-11"
   },
   {
    "slug": "meetup-10z8dh7",
@@ -4057,6 +3816,21 @@
    "url": "https://luma.com/s4t13zrh",
    "kurz": "Event in Berlin, gelistet auf Luma (The Venture Club).",
    "entdeckt": "2026-11-15"
+  },
+  {
+   "slug": "luma-fy93n5",
+   "quelle": "luma",
+   "name": "Agents Ship. Leaders Decide.",
+   "veranstalter": "Ampli Berlin",
+   "art": "netzwerk",
+   "format": "vor-ort",
+   "ort": "Berlin",
+   "region": "BE",
+   "datum": "2026-12-03",
+   "kostenlos": true,
+   "url": "https://luma.com/9qqo9wr9",
+   "kurz": "Event in Berlin, gelistet auf Luma (Ampli Berlin).",
+   "entdeckt": "2026-11-22"
   },
   {
    "slug": "luma-h1y42o",
@@ -5306,6 +5080,21 @@
    "entdeckt": "2026-11-19"
   },
   {
+   "slug": "luma-fcsv2c",
+   "quelle": "luma",
+   "name": "AI & automation Hannover meetup: Jahresabschlus🎄",
+   "veranstalter": "Yulia Dmitrievna",
+   "art": "netzwerk",
+   "format": "vor-ort",
+   "ort": "Hannover",
+   "region": "NI",
+   "datum": "2026-12-10",
+   "kostenlos": true,
+   "url": "https://luma.com/t8q0cq3n",
+   "kurz": "Event in Hannover, gelistet auf Luma.",
+   "entdeckt": "2026-11-22"
+  },
+  {
    "slug": "meetup-px9cx3",
    "quelle": "meetup",
    "name": "Dec 10 - AI, ML and Computer Vision Meetup",
@@ -5649,6 +5438,21 @@
    "entdeckt": "2026-11-18"
   },
   {
+   "slug": "hackathonhub-aiqh9z",
+   "quelle": "hackathonhub",
+   "name": "TU Berlin Hackathon: Cloud Classification with Sky Images",
+   "veranstalter": "Sarib & Annette Rudolph (TU Berlin)",
+   "art": "hackathon",
+   "format": "vor-ort",
+   "ort": "Berlin",
+   "region": "BE",
+   "datum": "2026-12-12",
+   "kostenlos": true,
+   "url": "https://hackathonhub.eu/events/tu-berlin-hackathon-cloud-classification-with-sky-images-berlin-2026",
+   "kurz": "At this TU Berlin hackathon, participants work with real sky photos captured by a 180-degree camera from the Chair of Lighting Technology. The challenge involves preparing the image data, classifying cloud types using ma",
+   "entdeckt": "2026-11-22"
+  },
+  {
    "slug": "gdg-1qppq9l",
    "quelle": "gdg",
    "name": "DevFest Ahlen 2026 | The AI Agentic Era 🚀",
@@ -5825,18 +5629,34 @@
    "entdeckt": "2026-11-11"
   },
   {
-   "slug": "meetup-1k40ya1",
-   "quelle": "meetup",
+   "slug": "luma-1fgz98o",
+   "quelle": "luma",
+   "name": "Founders, Funders & Festive Feelings",
+   "veranstalter": "Angel Invest",
+   "art": "netzwerk",
+   "format": "vor-ort",
+   "ort": "Berlin",
+   "region": "BE",
+   "datum": "2026-12-15",
+   "kostenlos": true,
+   "url": "https://luma.com/angel-pv25",
+   "kurz": "Event in Berlin, gelistet auf Luma (Angel Invest).",
+   "entdeckt": "2026-11-22"
+  },
+  {
+   "slug": "luma-rmo2zf",
+   "quelle": "luma",
    "name": "Claude Meetup Dezember",
-   "veranstalter": "Claude-Meetup Frankfurt",
+   "veranstalter": "Agentic AI Community Frankfurt",
    "art": "netzwerk",
    "format": "vor-ort",
    "ort": "Frankfurt am Main",
    "region": "HE",
    "datum": "2026-12-15",
-   "url": "https://www.meetup.com/claude-meetup-frankfurt/events/317467629/",
-   "kurz": "Treffen der Meetup-Gruppe Claude-Meetup Frankfurt.",
-   "entdeckt": "2026-11-20"
+   "kostenlos": true,
+   "url": "https://luma.com/ynexf0n3",
+   "kurz": "Event in Frankfurt am Main, gelistet auf Luma (Agentic AI Community Frankfurt).",
+   "entdeckt": "2026-11-22"
   },
   {
    "slug": "munich-startup-epny9f",
@@ -6440,6 +6260,21 @@
    "url": "https://www.starthub-hessen.de/de/events/startup-sustainable-27-i-gesch%C3%A4ftsmodell/",
    "kurz": "Event in Hessen – gelistet bei StartHub Hessen.",
    "entdeckt": "2026-11-06"
+  },
+  {
+   "slug": "hackathonhub-1ym6otu",
+   "quelle": "hackathonhub",
+   "name": "offscript(berlin) x Buena - Hackathon_01",
+   "veranstalter": "offscript() & Buena",
+   "art": "hackathon",
+   "format": "vor-ort",
+   "ort": "Berlin",
+   "region": "BE",
+   "datum": "2027-01-16",
+   "kostenlos": true,
+   "url": "https://hackathonhub.eu/events/offscript-berlin-x-buena-hackathon-01-berlin-2027",
+   "kurz": "offscript(berlin) x Buena is a fast-paced six-hour hackathon bringing together Berlin-based builders and startup enthusiasts. Participants are grouped into random teams of 3 to 4 people and given 4.5 hours to turn an ide",
+   "entdeckt": "2026-11-22"
   },
   {
    "slug": "gdg-dhhp1o",
@@ -7464,6 +7299,21 @@
    "entdeckt": "2026-10-29"
   },
   {
+   "slug": "luma-18qz0j4",
+   "quelle": "luma",
+   "name": "Frankfurt 2027 Venture Capital World Summit",
+   "veranstalter": "Venture Capital World Summit",
+   "art": "konferenz",
+   "format": "vor-ort",
+   "ort": "Frankfurt am Main",
+   "region": "HE",
+   "datum": "2027-05-06",
+   "kostenlos": true,
+   "url": "https://luma.com/spfuz7mf",
+   "kurz": "Event in Frankfurt am Main, gelistet auf Luma (Venture Capital World Summit).",
+   "entdeckt": "2026-11-22"
+  },
+  {
    "slug": "munich-startup-vgu519",
    "quelle": "munich-startup",
    "name": "Tutorial: Mitarbeiter einstellen, Arbeitsverhältnisse gestalten",
@@ -7518,6 +7368,7 @@
    "datumBis": "2027-05-14",
    "url": "https://dev.events/conferences/agentic-ateliers-2027-8hlbubio",
    "kurz": "Event in Berlin – gelistet bei dev.events.",
+   "weitereTermine": 1,
    "entdeckt": "2026-10-30"
   },
   {
@@ -7623,6 +7474,21 @@
    "url": "https://www.munich-startup.de/events/tutorial-aufbau-von-finanz-prozessen-0627",
    "kurz": "Event in München – gelistet bei Munich Startup.",
    "entdeckt": "2026-10-30"
+  },
+  {
+   "slug": "dev-events-l2ys7l",
+   "quelle": "dev-events",
+   "name": "AI Engineering Summit 2027",
+   "veranstalter": "dev.events",
+   "art": "konferenz",
+   "format": "vor-ort",
+   "ort": "München",
+   "region": "BY",
+   "datum": "2027-06-21",
+   "datumBis": "2027-06-25",
+   "url": "https://dev.events/conferences/ai-engineering-summit-2027-0w-mtyt7",
+   "kurz": "Event in München – gelistet bei dev.events.",
+   "entdeckt": "2026-11-22"
   },
   {
    "slug": "munich-startup-1ldnokr",
