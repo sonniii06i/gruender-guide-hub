@@ -101,7 +101,7 @@ const SteuerFristenKalender = () => {
 
   return (
     <CockpitShell
-      eyebrow="Steuer- & Fristenkalender · Stand Oktober 2026"
+      eyebrow="Steuer- & Fristenkalender · Stand 22.11.2026"
       title="Dein persönlicher Steuerkalender"
       subtitle="Alle Abgabe- und Zahlungstermine der nächsten 12 Monate für deine Situation: USt-Voranmeldung, Vorauszahlungen, Lohn, Zusammenfassende Meldung, Jahreserklärungen. Wochenenden und Feiertage sind eingerechnet. Ein Klick, und alles steht mit Erinnerung in deinem Kalender."
     >
@@ -187,7 +187,9 @@ const SteuerFristenKalender = () => {
           )}
           <p className="text-xs leading-relaxed text-muted-foreground">
             Eingerechnet sind bundesweite Feiertage (§ 108 Abs. 3 AO). Landesfeiertage wie Reformationstag oder Allerheiligen
-            können eine Frist in deinem Bundesland um einen Tag verschieben. Die IHK-Beitragsfälligkeit steht im Bescheid
+            können eine Frist in deinem Bundesland um einen Tag verschieben. Bei Sozialversicherungsbeiträgen wirkt ein
+            Landesfeiertag umgekehrt: Der Termin rückt nach vorn, maßgeblich ist der Sitz der Krankenkasse bzw. der
+            Minijob-Zentrale (NRW). Die IHK-Beitragsfälligkeit steht im Bescheid
             deiner IHK. Mehr zur Voranmeldung:{" "}
             <Link to="/cockpit/ust-voranmeldung" className="text-accent-blue hover:underline">USt-Voranmeldung-Walkthrough</Link>.
           </p>
