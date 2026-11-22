@@ -228,16 +228,15 @@ const Kleinunternehmer = () => {
   const [umsatzVorjahr, setUmsatzVorjahr] = useState(20000);
   const [umsatzAktuell, setUmsatzAktuell] = useState(40000);
   const [istExistenzgruender, setIstExistenzgruender] = useState(false);
-  const [gruendungsMonat, setGruendungsMonat] = useState(7); // Juli
 
   const result = useMemo(() => {
-    // Gründungsjahr (§19 Abs. 1 Satz 2 UStG n. F., BMF 18.03.2025 / Abschn. 19.1 Abs. 4 UStAE):
-    // volle Grenze 25.000 € OHNE Hochrechnung; wer sie überschreitet, verliert die KU sofort.
-    // Erst für das FOLGEJAHR wird der Umsatz des Rumpfjahres auf 12 Monate hochgerechnet (§19 Abs. 4 Satz 2 UStG).
+    // Gründungsjahr (§ 19 Abs. 1 UStG n. F., BMF 18.03.2025 / Abschn. 19.1 Abs. 3 UStAE):
+    // volle Grenze 25.000 € ohne Hochrechnung; wer sie überschreitet, verliert die KU sofort.
+    // Auch für das Folgejahr zählt der tatsächliche Umsatz des Gründungsjahres; die Umrechnung des
+    // Rumpfjahres (§ 19 Abs. 3 Satz 3 UStG a. F.) gibt es seit 01.01.2025 nicht mehr.
     if (istExistenzgruender) {
-      const aktiveMonate = 12 - Math.max(0, Math.min(11, gruendungsMonat - 1));
       const aktuellOk = umsatzAktuell <= KU_VORJAHR_NEU;
-      const folgejahrHochgerechnet = (umsatzAktuell / aktiveMonate) * 12;
+      const folgejahrHochgerechnet = umsatzAktuell;
       return {
         vorjahrOk: true,
         aktuellOk,
@@ -253,7 +252,7 @@ const Kleinunternehmer = () => {
     const istKu = vorjahrOk && aktuellOk;
     const verlustImLaufendenJahr = umsatzAktuell > KU_AKTUELL_NEU;
     return { vorjahrOk, aktuellOk, istKu, verlustImLaufendenJahr, anteiligeSchwelle: 0, folgejahrHochgerechnet: umsatzAktuell, istExistenzgruender: false };
-  }, [umsatzVorjahr, umsatzAktuell, istExistenzgruender, gruendungsMonat]);
+  }, [umsatzVorjahr, umsatzAktuell, istExistenzgruender]);
 
   return (
     <ToolLayout
@@ -280,28 +279,9 @@ const Kleinunternehmer = () => {
                 </span>
               </label>
               {istExistenzgruender && (
-                <Field
-                  label="Gründungsmonat"
-                  htmlFor="ku-monat"
-                  hint={
-                    <>
-                      Für das Folgejahr hochgerechnet:{" "}
-                      <strong className="text-foreground tabular">{Math.round(result.folgejahrHochgerechnet).toLocaleString("de-DE")} €</strong>{" "}
-                      (= Umsatz / {12 - (gruendungsMonat - 1)} × 12). Liegt das über 25.000 €, ist im Folgejahr keine KU möglich.
-                    </>
-                  }
-                >
-                  <select
-                    id="ku-monat"
-                    value={gruendungsMonat}
-                    onChange={(e) => setGruendungsMonat(Number(e.target.value))}
-                    className={selectCls}
-                  >
-                    {["Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"].map((m, i) => (
-                      <option key={m} value={i + 1}>{m} ({12 - i} Mon. verbleibend)</option>
-                    ))}
-                  </select>
-                </Field>
+                <p className="text-sm text-muted-foreground">
+                  Für das Folgejahr zählt dein tatsächlicher Umsatz aus dem Gründungsjahr, hochgerechnet wird nicht. Liegt er über 25.000 €, ist im Folgejahr keine KU möglich.
+                </p>
               )}
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 {!istExistenzgruender && (

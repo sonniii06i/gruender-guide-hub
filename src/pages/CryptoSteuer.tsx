@@ -17,7 +17,7 @@ import {
   selectCls,
 } from "@/components/cockpit/kit";
 import { parseCsv, type ExchangeFormat } from "@/lib/cryptoCsvParsers";
-import { freigrenzeParagraph23, haltefristAbgelaufen } from "@/lib/cryptoSteuer";
+import { freigrenzeParagraph23, haltefristAbgelaufen, steuerjahrAuswahl } from "@/lib/cryptoSteuer";
 
 type Trade = {
   id: string;
@@ -43,14 +43,20 @@ type FIFOResult = {
   ungedeckt?: number;
 };
 
+const JAHR_AUSWAHL = steuerjahrAuswahl();
+
 const CryptoSteuer = () => {
-  const [trades, setTrades] = useState<Trade[]>([
-    { id: "1", type: "buy", asset: "BTC", amount: 0.5, preisProEinheit: 30000, fee: 50, datum: "2024-01-15" },
-    { id: "2", type: "buy", asset: "BTC", amount: 0.3, preisProEinheit: 50000, fee: 30, datum: "2024-08-20" },
-    { id: "3", type: "sell", asset: "BTC", amount: 0.4, preisProEinheit: 65000, fee: 80, datum: "2025-03-10" },
-  ]);
+  // Beispiel-Trades: Käufe im Jahr vor dem Standard-Steuerjahr, Verkauf im Standard-Steuerjahr
+  const [trades, setTrades] = useState<Trade[]>(() => {
+    const v = JAHR_AUSWAHL.standard;
+    return [
+      { id: "1", type: "buy", asset: "BTC", amount: 0.5, preisProEinheit: 30000, fee: 50, datum: `${v - 1}-01-15` },
+      { id: "2", type: "buy", asset: "BTC", amount: 0.3, preisProEinheit: 50000, fee: 30, datum: `${v - 1}-08-20` },
+      { id: "3", type: "sell", asset: "BTC", amount: 0.4, preisProEinheit: 65000, fee: 80, datum: `${v}-03-10` },
+    ];
+  });
   const [estSatz, setEstSatz] = useState(0.42);
-  const [steuerJahr, setSteuerJahr] = useState(2025);
+  const [steuerJahr, setSteuerJahr] = useState(JAHR_AUSWAHL.standard);
   const [importFormat, setImportFormat] = useState<ExchangeFormat>("generic");
   const [importStatus, setImportStatus] = useState<{ ok: boolean; msg: string; count?: number } | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -246,7 +252,7 @@ const CryptoSteuer = () => {
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <Field label="Steuerjahr" htmlFor="crypto-jahr">
                   <select id="crypto-jahr" value={steuerJahr} onChange={(e) => setSteuerJahr(Number(e.target.value))} className={selectCls}>
-                    {[2023, 2024, 2025, 2026].map((y) => (
+                    {JAHR_AUSWAHL.jahre.map((y) => (
                       <option key={y} value={y}>
                         {y}
                       </option>
@@ -546,6 +552,7 @@ const CryptoSteuer = () => {
         <dl className="divide-y divide-border/70 text-sm">
           {[
             { t: "1-Jahres-Haltefrist", d: "Coins, die länger als 12 Monate gehalten wurden, sind beim Verkauf steuerfrei, auch bei Millionengewinnen." },
+            { t: "Reform geplant (noch nicht beschlossen)", d: "Nach dem Referentenentwurf des BMF vom 30.09.2026 sollen Gewinne aus Coins, die ab 2027 gekauft werden, als Kapitalerträge nach § 20 EStG besteuert werden, eine steuerfreie Haltefrist gäbe es für sie nicht mehr; der Kapitalertragsteuerabzug soll ab 2028 greifen. Für bis Ende 2026 gekaufte Coins soll das bisherige Recht weiter gelten. Stand 22.11.2026: Entwurf in der Ressortabstimmung, kein Gesetz." },
             { t: "Verbrauchsfolge", d: "Vorrang hat die Einzelbetrachtung. Ist sie nicht möglich, gilt für die Haltefrist FIFO; für den Gewinn die Durchschnittsmethode oder vereinfachend FIFO. Die Methode wird je Wallet und Coin bis zum vollständigen Verkauf beibehalten (BMF 06.03.2025, Rz. 61 f.). Dieses Tool rechnet mit FIFO." },
             { t: "Freigrenze 1.000 €", d: "Seit 2024 (vorher 600 €). Darunter komplett steuerfrei, darüber voll steuerpflichtig, nicht nur der übersteigende Teil." },
             { t: "Staking und Lending", d: "Erträge gelten als Einkünfte aus sonstigen Leistungen (§22 Nr. 3 EStG), getrennt von Veräußerungsgewinnen, eigene Freigrenze 256 €." },
@@ -553,7 +560,7 @@ const CryptoSteuer = () => {
             { t: "Mining", d: "Je nach Umfang privat (§22 Nr. 3 EStG) oder gewerblich (§15 EStG), dann ESt-Tarif und GewSt (in einer GmbH KSt und GewSt)." },
             { t: "Meldepflicht ab 2026 (DAC8/KStTG)", d: "Börsen und Wallet-Anbieter melden seit 2026 Nutzer- und Transaktionsdaten ans BZSt, erstmals für 2026 bis 31.07.2027 (§§ 9, 10 KStTG)." },
             { t: "Verlustverrechnung nach §23 (3) EStG", d: "Verluste aus Crypto-Verkäufen sind nur mit Gewinnen aus privaten Veräußerungsgeschäften verrechenbar, nicht mit Gehalt, Dividenden oder Zinsen. Verbleibende Verluste werden unbegrenzt vorgetragen oder 1 Jahr zurückgetragen." },
-            { t: "Loss-Harvesting", d: "Vor Jahresende Coins mit Buchverlust verkaufen und sofort zurückkaufen (in DE kein Wash-Sale-Verbot): Der Verlust ist steuerlich realisiert, die Position bleibt. Nur bei weniger als 1 Jahr Haltedauer relevant." },
+            { t: "Loss-Harvesting", d: "Vor Jahresende Coins mit Buchverlust verkaufen und zurückkaufen: Der Verlust ist realisiert, die Position bleibt. Ein ausdrückliches Wash-Sale-Verbot wie in den USA gibt es in Deutschland nicht; bei auffälligen Gestaltungen kann das Finanzamt § 42 AO prüfen, dann Steuerberatung fragen. Nur bei weniger als 1 Jahr Haltedauer relevant." },
             { t: "Steuersatz", d: "Veräußerungsgewinne werden mit deinem persönlichen Grenzsteuersatz besteuert, nicht mit der Abgeltungsteuer von 25 %. Bei hohem Einkommen 42 bis 45 %, bei niedrigem 14 bis 32 %." },
             { t: "Daten der Wallets", d: "Am besten CSV-Export der Börse (Coinbase, Binance, Kraken u. a.). Tools wie Cointracking oder Koinly machen das automatisch." },
           ].map((g) => (
@@ -567,10 +574,13 @@ const CryptoSteuer = () => {
       </ToolSection>
 
       <Stand2026Footer
+        stand="Stand 22.11.2026"
         sources={[
           { label: "§23 EStG (Privates Veräußerungsgeschäft)", url: "https://www.gesetze-im-internet.de/estg/__23.html" },
           { label: "§22 Nr. 3 EStG (Sonstige Einkünfte)", url: "https://www.gesetze-im-internet.de/estg/__22.html" },
           { label: "BMF-Schreiben Kryptowerte 06.03.2025", url: "https://www.bundesfinanzministerium.de/Content/DE/Downloads/BMF_Schreiben/Steuerarten/Einkommensteuer/2025-03-06-einzelfragen-kryptowerte.html" },
+          { label: "BMF-Referentenentwurf Kryptowerte im Privatvermögen (30.09.2026)", url: "https://www.bundesfinanzministerium.de/Content/DE/Gesetzestexte/Gesetze_Gesetzesvorhaben/Abteilungen/Abteilung_IV/21_Legislaturperiode/2026-09-30-Reform-Besteuerung-Kryptowerte-PV/0-Gesetz.html" },
+          { label: "§42 AO (Gestaltungsmissbrauch)", url: "https://www.gesetze-im-internet.de/ao_1977/__42.html" },
         ]}
         note="FIFO zulässig (BMF 06.03.2025). Tool berechnet nur Veräußerungsgewinne — Mining/Staking/Lending separat (§22 Nr. 3 EStG, eigene Freigrenze 256 €)."
       />

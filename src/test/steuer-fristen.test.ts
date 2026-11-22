@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { drittletzterBankarbeitstag, feiertage, fristenFuer, ostern, verschiebe, type FristProfil } from "@/lib/steuerFristen";
+import { drittletzterBankarbeitstag, feiertage, fristenFuer, fronleichnam, ostern, verschiebe, type FristProfil } from "@/lib/steuerFristen";
 
 const basis: FristProfil = {
   rechtsform: "einzel", ust: "quartal", dauerfrist: false, ekVorauszahlung: true, gewstVorauszahlung: true,
@@ -49,5 +49,41 @@ describe("Fristenkalender", () => {
   it("Dauerfristverlängerung verschiebt um einen Monat", () => {
     const f = fristenFuer({ ...basis, ust: "monat", dauerfrist: true }, "2026-10-08").fristen;
     expect(f.find((x) => x.titel === "USt-Voranmeldung September 2026")?.datum).toBe("2026-11-10");
+  });
+});
+
+describe("Fristenkalender: Minijob, Fronleichnam, Schonfrist, Erklärungen (Aktualität #152)", () => {
+  it("Mai 2027: bundesweit 27.05., mit Fronleichnam (Minijob-Zentrale NRW) 26.05.", () => {
+    expect(fronleichnam(2027)).toBe("2027-05-27");
+    expect(drittletzterBankarbeitstag(2027, 5)).toBe("2027-05-27");
+    expect(drittletzterBankarbeitstag(2027, 5, true)).toBe("2027-05-26");
+  });
+  it("nur Minijobber: monatliche Abgaben an die Minijob-Zentrale wie deren Terminliste 2027", () => {
+    const f = fristenFuer({ ...basis, mitarbeiter: "minijob" }, "2027-01-01").fristen.filter((x) => x.titel.startsWith("Abgaben Minijob-Zentrale"));
+    expect(f).toHaveLength(12);
+    expect(f.map((x) => x.datum.slice(8))).toEqual(["27", "24", "25", "28", "26", "28", "28", "27", "28", "27", "26", "28"]);
+  });
+  it("SV-pflichtig: Mai 2027 mit Fronleichnam-Hinweis", () => {
+    const f = fristenFuer({ ...basis, mitarbeiter: "sv" }, "2027-01-01").fristen.find((x) => x.titel.startsWith("Sozialversicherungsbeiträge Mai"));
+    expect(f?.datum).toBe("2027-05-27");
+    expect(f?.hinweis).toContain("26.05.2027");
+  });
+  it("Schonfrist nur für Steuern, SV ohne Schonfrist", () => {
+    const h = fristenFuer({ ...basis, mitarbeiter: "sv" }, "2026-11-22").hinweise;
+    expect(h.some((x) => x.startsWith("Steuerzahlungen per Überweisung"))).toBe(true);
+    expect(h.some((x) => x.includes("§ 24 SGB IV"))).toBe(true);
+    expect(fristenFuer(basis, "2026-11-22").hinweise.some((x) => x.includes("§ 24 SGB IV"))).toBe(false);
+  });
+  it("Jahreserklärung je Profil: KU ohne USt, Freiberufler ohne GewSt, GmbH mit KSt", () => {
+    const titel = (p: Partial<FristProfil>) => fristenFuer({ ...basis, ...p }, "2026-11-22").fristen.find((x) => x.art === "erklaerung")?.titel;
+    expect(titel({})).toBe("Steuererklärungen 2026 (ESt, USt, GewSt)");
+    expect(titel({ ust: "kleinunternehmer" })).toBe("Steuererklärungen 2026 (ESt, GewSt)");
+    expect(titel({ rechtsform: "freiberufler" })).toBe("Steuererklärungen 2026 (ESt, USt)");
+    expect(titel({ rechtsform: "kapital" })).toBe("Steuererklärungen 2026 (KSt, USt, GewSt)");
+  });
+  it("Quartalszahler mit Dauerfristverlängerung: Antrag bis 10.04.", () => {
+    const f = fristenFuer({ ...basis, dauerfrist: true }, "2027-01-01").fristen;
+    expect(f.find((x) => x.titel.startsWith("Antrag Dauerfristverlängerung 2027"))?.datum).toBe("2027-04-12");
+    expect(f.some((x) => x.titel.includes("Sondervorauszahlung"))).toBe(false);
   });
 });

@@ -78,8 +78,10 @@ type WizardData = {
   rechtsform: Rechtsform;
   anmeldegrund: Anmeldegrund;
   firmierung: string;
-  /** Zahl der Geschäftsführer/gesetzlichen Vertreter (nur Kap.-Ges.) */
+  /** Feld 12 GewA 1: Zahl der gesetzlichen Vertreter (Kap.-Ges.) bzw. der geschäftsführenden Gesellschafter (GbR/OHG/KG) */
   gfAnzahl: number;
+  /** Nur nicht eingetragene GbR: weitere geschäftsführende Gesellschafter (Feld 1 GewA 1) */
+  mitgesellschafter?: string;
   // Step 4: Tätigkeit (Klartext)
   taetigkeit: string;
   // Step 5: WZ 2008
@@ -136,6 +138,7 @@ const defaultData: WizardData = {
   anmeldegrund: "neugruendung",
   firmierung: "",
   gfAnzahl: 1,
+  mitgesellschafter: "",
   taetigkeit: "",
   wzCode: "",
   beginnDatum: heute,
@@ -277,6 +280,7 @@ const GewerbeanmeldungWizard = () => {
       };
 
       const istKapGes = ["ug", "gmbh", "ag"].includes(data.rechtsform);
+      const istPersGes = ["gbr", "ohg", "kg"].includes(data.rechtsform);
       const istEingetragen = istKapGes || ["eg", "ohg", "kg"].includes(data.rechtsform);
       const istDeutsch = data.staatsangehoerigkeit.trim().toLowerCase() === "deutsch";
 
@@ -287,6 +291,10 @@ const GewerbeanmeldungWizard = () => {
       // als "Firmenname" landet.
       if (istEingetragen && data.firmierung) {
         tryText("f01_name_rechtsform", data.firmierung);
+      }
+      // Nicht eingetragene GbR: Der Vordruck verlangt in Feld 1 die weiteren geschäftsführenden Gesellschafter.
+      if (data.rechtsform === "gbr" && data.mitgesellschafter?.trim()) {
+        tryText("f01_name_rechtsform", `GbR, weitere geschäftsführende Gesellschafter: ${data.mitgesellschafter.trim()}`);
       }
 
       // === Felder 4–11: Person ===
@@ -305,8 +313,8 @@ const GewerbeanmeldungWizard = () => {
       tryText("f11_telefon", data.telefon);
       tryText("f11_email", data.email);
 
-      // === Feld 12: Kap.-Ges. → Geschäftsführerzahl (wenn UG/GmbH/AG, min. 1) ===
-      if (istKapGes) tryText("f12_zahl", String(Math.max(1, data.gfAnzahl || 1)));
+      // === Feld 12: Zahl der gesetzlichen Vertreter (Kap.-Ges.) bzw. der geschäftsführenden Gesellschafter (GbR/OHG/KG) ===
+      if (istKapGes || istPersGes) tryText("f12_zahl", String(Math.max(1, data.gfAnzahl || 1)));
 
       // === Feld 13: Beim Einzelunternehmen kann die öffentliche Hand nicht beteiligt sein ===
       if (data.rechtsform === "einzel") tryCheck("f13_nein", true);
@@ -562,12 +570,15 @@ const GewerbeanmeldungWizard = () => {
 
       <Glossar />
       <Stand2026Footer
+        stand="Stand 22.11.2026"
         sources={[
           { label: "§14 GewO (Gewerbeanzeige)", url: "https://www.gesetze-im-internet.de/gewo/__14.html" },
           { label: "WZ 2008 — Statistisches Bundesamt", url: "https://www.destatis.de/DE/Methoden/Klassifikationen/Gueter-Wirtschaftsklassifikationen/klassifikation-wz-2008.html" },
           { label: "WZ 2025 — Statistisches Bundesamt", url: "https://www.destatis.de/DE/Methoden/Klassifikationen/Gueter-Wirtschaftsklassifikationen/klassifikation-wz-2025.html" },
           { label: "Online-Gewerbeanmeldung (Bundesportal)", url: "https://verwaltung.bund.de/leistungsverzeichnis/de/leistung/99050012104000" },
           { label: "GewA1-Mustervordruck (Anlage 1 GewAnzV)", url: "https://www.gesetze-im-internet.de/gewanzv_2014/anlage_1.html" },
+          { label: "WZ 2008 — Verzeichnis (PDF, Destatis)", url: "https://www.destatis.de/DE/Methoden/Klassifikationen/Gueter-Wirtschaftsklassifikationen/Downloads/klassifikation-wz-2008-3100100089004-aktuell.pdf?__blob=publicationFile&v=2" },
+          { label: "§ 107 GNotKG (Geschäftswert Gesellschaftsverträge)", url: "https://www.gesetze-im-internet.de/gnotkg/__107.html" },
         ]}
         note="GewA1 ist bundeseinheitlich, aber Gebühr (meist 15 bis 65 €, vereinzelt mehr) variiert pro Stadt. Bearbeitung in Bürgeramt oder online (verwaltung.bund.de). Nach Aufnahme der Tätigkeit musst du den Fragebogen zur steuerlichen Erfassung (FsE) innerhalb eines Monats selbst und unaufgefordert über ELSTER einreichen (§138 Abs. 1b, Abs. 4 AO) — dort wird § 19 KU festgelegt. Bei erlaubnispflichtigen Gewerben (Gastronomie, Makler, Sicherheit, Spielhalle, etc.) brauchst du ZUSÄTZLICH Erlaubnis vor Anmeldung."
       />
@@ -719,7 +730,7 @@ const StepAnschrift = ({ data, update }: StepProps) => (
 const StepRechtsform = ({ data, update }: StepProps) => (
   <div>
     <StepHead title="3. Rechtsform und Anmeldegrund">
-      Rund 90 % der Solo-Selbstständigen starten als Einzelunternehmen: kein Stammkapital, einfache Anmeldung.
+      Für Solo-Selbstständige ist das Einzelunternehmen die einfachste Form: kein Stammkapital, einfache Anmeldung.
     </StepHead>
     <div className="space-y-4">
       <Field label={<>Rechtsform<Pflicht /></>} htmlFor="gw-rechtsform">
@@ -751,8 +762,12 @@ const StepRechtsform = ({ data, update }: StepProps) => (
       >
         <Input id="gw-firma" value={data.firmierung} onChange={(e) => update("firmierung", e.target.value)} placeholder="z.B. 'Max Mustermann Beratung'" />
       </Field>
-      {["ug", "gmbh", "ag"].includes(data.rechtsform) && (
-        <Field label="Zahl der Geschäftsführer bzw. gesetzlichen Vertreter" htmlFor="gw-gf">
+      {["ug", "gmbh", "ag", "gbr", "ohg", "kg"].includes(data.rechtsform) && (
+        <Field
+          label={["gbr", "ohg", "kg"].includes(data.rechtsform) ? "Zahl der geschäftsführenden Gesellschafter" : "Zahl der Geschäftsführer bzw. gesetzlichen Vertreter"}
+          htmlFor="gw-gf"
+          hint={["gbr", "ohg", "kg"].includes(data.rechtsform) ? "Feld 12 im GewA 1. Jeder geschäftsführende Gesellschafter füllt einen eigenen Vordruck aus." : undefined}
+        >
           <Input
             id="gw-gf"
             type="number"
@@ -760,6 +775,15 @@ const StepRechtsform = ({ data, update }: StepProps) => (
             value={data.gfAnzahl}
             onChange={(e) => update("gfAnzahl", Math.max(1, Number(e.target.value) || 1))}
           />
+        </Field>
+      )}
+      {data.rechtsform === "gbr" && (
+        <Field
+          label="Weitere geschäftsführende Gesellschafter"
+          htmlFor="gw-mitges"
+          hint="Nur bei nicht eingetragener GbR: Der Vordruck verlangt in Feld 1 die Namen der weiteren geschäftsführenden Gesellschafter."
+        >
+          <Input id="gw-mitges" value={data.mitgesellschafter ?? ""} onChange={(e) => update("mitgesellschafter", e.target.value)} placeholder="z.B. 'Erika Musterfrau'" />
         </Field>
       )}
     </div>
@@ -1128,6 +1152,9 @@ const StepZusammenfassung = ({ data, stepValid, allValid, onGeneratePdf }: { dat
           <SummaryRow label="Form" value={RECHTSFORM_LABEL[data.rechtsform] ?? data.rechtsform} />
           <SummaryRow label="Grund" value={ANMELDEGRUND_LABEL[data.anmeldegrund] ?? data.anmeldegrund} />
           {data.firmierung && <SummaryRow label="Firmierung" value={data.firmierung} />}
+          {["gbr", "ohg", "kg"].includes(data.rechtsform) && <SummaryRow label="Geschäftsführende Gesellschafter" value={String(Math.max(1, data.gfAnzahl || 1))} />}
+          {["ug", "gmbh", "ag"].includes(data.rechtsform) && <SummaryRow label="Gesetzliche Vertreter" value={String(Math.max(1, data.gfAnzahl || 1))} />}
+          {data.rechtsform === "gbr" && data.mitgesellschafter?.trim() && <SummaryRow label="Weitere Gesellschafter" value={data.mitgesellschafter.trim()} />}
         </SummaryGroup>
         <SummaryGroup title="4. Tätigkeit">
           {data.taetigkeit ? (
@@ -1158,6 +1185,9 @@ const StepZusammenfassung = ({ data, stepValid, allValid, onGeneratePdf }: { dat
 
       <Callout tone="warning" title="Wichtig: Das machst du nach dem Download">
         <ol className="mt-1 list-inside list-decimal space-y-1">
+          {["gbr", "ohg", "kg"].includes(data.rechtsform) && (
+            <li><strong className="font-medium text-foreground">Je geschäftsführendem Gesellschafter ein eigenes GewA 1:</strong> Bei Personengesellschaften füllt laut Vordruck jeder geschäftsführende Gesellschafter einen eigenen Vordruck aus. Das PDF enthält deine Angaben; für die anderen Gesellschafter den Wizard erneut durchlaufen.</li>
+          )}
           <li>PDF im Reader öffnen, alle Werte gegenprüfen (Felder bleiben editierbar). Nicht vorausgefüllt sind u. a. die Felder 19 (Nebenerwerb), 21 (Art des Betriebes) und 27 (bei Übernahmen: Unfallversicherungsträger); Feld 13 (öffentliche Hand) nur beim Einzelunternehmen.</li>
           <li><strong className="font-medium text-foreground">Ausdrucken</strong> auf Papier.</li>
           <li><strong className="font-medium text-foreground">Eigenhändig unterschreiben</strong> (Feld „Unterschrift" am Ende der Seite 2). Ohne Unterschrift ungültig.</li>
@@ -1167,8 +1197,9 @@ const StepZusammenfassung = ({ data, stepValid, allValid, onGeneratePdf }: { dat
         </ol>
         <p className="mt-2 text-xs text-muted-foreground">
           Hinweis: Das GewA1 geht ans <strong className="font-medium text-foreground">Gewerbeamt</strong>, NICHT ans Amtsgericht.
-          Das Amtsgericht ist nur für den Handelsregister-Eintrag bei UG/GmbH/AG zuständig (separater Vorgang beim Notar). Bei
-          Einzelunternehmen und GbR ist kein Amtsgericht beteiligt.
+          Das Amtsgericht ist nur für Registereinträge zuständig, etwa das Handelsregister bei UG/GmbH/AG und OHG/KG (separater
+          Vorgang über den Notar). Beim Einzelunternehmen ohne Handelsregistereintrag und bei der nicht eingetragenen GbR ist kein
+          Amtsgericht beteiligt.
         </p>
       </Callout>
 
@@ -1234,7 +1265,7 @@ const Glossar = () => (
         { b: "GewA1-Formular", e: "Bundeseinheitliches Formular zur Anzeige eines Gewerbes nach § 14 GewO. Online (verwaltung.bund.de bzw. Portal deines Landes) oder im Bürgeramt/Gewerbeamt. Gebühr meist 15 bis 65 € (stadt-abhängig). Die Anzeige ist gleichzeitig mit dem Beginn fällig (§ 14 Abs. 1 GewO). Eine verspätete Anzeige ist eine Ordnungswidrigkeit (§ 146 GewO, Geldbuße bis 1.000 €)." },
         { b: "WZ 2008 Branchenschlüssel", e: "5-stellige Klassifikation der Wirtschaftszweige (Ausgabe 2008) vom Statistischen Bundesamt. Beispiele: 47.91.1 = Versandhandel Textilien, 62.01.9 = Sonstige Softwareentwicklung, 70.22.0 = Unternehmensberatung. Das GewA1 hat kein Feld dafür, das Gewerbeamt ordnet den Schlüssel zu. Das Statistische Bundesamt hat inzwischen die WZ 2025 veröffentlicht; übergangsweise gelten beide Ausgaben parallel." },
         { b: "Tätigkeitsbeschreibung", e: "Pflicht-Klartext-Feld im GewA1. So GENAU wie möglich. Schlecht: 'Onlinehandel'. Gut: 'Onlinehandel mit Sportbekleidung, Sportzubehör und Nahrungsergänzungsmitteln über eigenen Shop und Amazon Marketplace'. Faustregel: Antwort auf 'WAS verkaufst du WIE und an WEN'. Auch Nebentätigkeiten mit erfassen (Definition wird sonst zu eng)." },
-        { b: "Einzelunternehmen vs UG/GmbH", e: "Einzel = einfachste Form, kein Stammkapital, Anmeldung nur GewA1. UG = ab 1 € Stammkapital, Notar nötig (300-800 €), Eintrag Handelsregister. GmbH = 25k Stammkapital, Notar (~1.500 €). Für >90 % der Solo-Selbstständigen reicht Einzel — UG/GmbH sinnvoll bei: Haftungs-Risiko, Investor-Eintritt, Erbschaftsplanung." },
+        { b: "Einzelunternehmen vs UG/GmbH", e: "Einzel = einfachste Form, kein Stammkapital, Anmeldung nur GewA1. UG = ab 1 € Stammkapital, Notar nötig, Eintrag Handelsregister. GmbH = 25k Stammkapital, Notar. Die Notar- und Registerkosten richten sich nach GNotKG und Stammkapital; mit Musterprotokoll (§ 2 Abs. 1a GmbHG) entfällt der Mindestgeschäftswert von 30.000 € (§ 107 Abs. 1 S. 2, § 105 Abs. 6 GNotKG), das macht eine UG mit wenig Stammkapital günstiger. Für die meisten Solo-Selbstständigen reicht Einzel — UG/GmbH sinnvoll bei: Haftungs-Risiko, Investor-Eintritt, Erbschaftsplanung." },
         { b: "FsE: Fragebogen zur steuerlichen Erfassung", e: "Musst du innerhalb eines Monats nach Aufnahme der Tätigkeit selbst und unaufgefordert über ELSTER einreichen (§138 Abs. 1b, Abs. 4 AO), er kommt nicht per Post. Dort: § 19 KU festlegen, Anlage S/G, voraussichtliche Einkünfte, USt-Vorauszahlungen. Empfehlung: nicht raten — beim FA nachfragen oder Tool 5 (Brutto-Netto) + Tool 7 (StB) konsultieren." },
         { b: "IHK / HwK-Mitgliedschaft", e: "Automatisch bei Gewerbeanmeldung. IHK = Industrie- und Handelskammer (Handel, Service). HwK = Handwerkskammer (handwerkliche Tätigkeit, ggf. Meister-Pflicht). IHK-Beitrag: Grundbeitrag plus Umlage, die Höhe steht in der Wirtschaftssatzung deiner IHK. Nicht im Handelsregister eingetragene Einzelunternehmer zahlen erst ab einem Gewerbeertrag bzw. Gewinn über 5.200 €. Existenzgründer ohne Handelsregistereintrag sind bei Gewinn bis 25.000 € unter Bedingungen (u. a. keine solchen Einkünfte in den letzten 5 Wirtschaftsjahren) im Eröffnungsjahr und Folgejahr ganz und im 3. und 4. Jahr von der Umlage befreit (§ 3 Abs. 3 IHKG)." },
         { b: "Erlaubnispflichtige Gewerbe", e: "Manche Gewerbe brauchen ZUSÄTZLICHE Erlaubnis VOR Anmeldung: Gastronomie (§ 2 GastG bzw. Landes-Gaststättengesetz), Makler (§ 34c GewO), Sicherheit (§ 34a), Spielhalle, Bewachung, Pfandleiher. Ohne Erlaubnis = Ordnungswidrigkeit. Bei IT/Beratung/Handel meist keine Erlaubnis nötig." },

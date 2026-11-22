@@ -133,7 +133,7 @@ function berechneRechtsformEmpfehlung(setup: Setup): RechtsformReco {
       empfohlenLabel: "Keine — bleib Hobby",
       begruendung: "Solange du ohne Gewinnerzielungsabsicht handelst (Liebhaberei), brauchst du KEINE Rechtsform und KEINE Anmeldung. Wenn sich das ändert, komm zurück und mach den Check neu.",
       ustModus: "egal",
-      ustHinweis: "Keine USt-Pflicht bei Liebhaberei.",
+      ustHinweis: "Einkommensteuer fällt bei Liebhaberei nicht an. Für die Umsatzsteuer zählt die Gewinnabsicht nicht (§ 2 Abs. 1 S. 3 UStG): Wer nachhaltig verkauft, ist Unternehmer. Dann kann die Kleinunternehmerregelung (§ 19 UStG) greifen.",
       alternativen: [],
     };
   }
@@ -159,7 +159,7 @@ function berechneRechtsformEmpfehlung(setup: Setup): RechtsformReco {
         {
           id: "gmbh",
           label: "GmbH (mit 25k Stammkapital)",
-          pro: "Haftungsbeschränkung. Sinnvoll bei sehr hohem Gewinn (>150k) wegen Thesaurierungs-Vorteil.",
+          pro: "Haftungsbeschränkung. Kann sich bei hohem Gewinn lohnen, der in der Firma bleibt (Thesaurierung). Ab welchem Gewinn, hängt vom Einzelfall ab.",
           contra: "Komplexe Buchführung (Bilanz), Notar-Gründung ~1.500 €, IHK-Pflicht. Für Solo-Freiberuf meist Overkill.",
         },
       ],
@@ -256,7 +256,7 @@ const GewerbeCheck = () => {
         farbe: "gruen",
         begruendung:
           setup.gewinnabsicht === "nein-hobby"
-            ? "Ohne Gewinnerzielungsabsicht = Liebhaberei. Das Finanzamt sieht das als Hobby — kein Gewerbe nötig, keine Steuer auf den Erlös."
+            ? "Ohne Gewinnerzielungsabsicht = Liebhaberei. Das Finanzamt sieht das als Hobby — kein Gewerbe nötig, keine Einkommensteuer auf den Erlös. Für die Umsatzsteuer zählt die Gewinnabsicht nicht (§ 2 Abs. 1 S. 3 UStG): Wer nachhaltig verkauft, ist trotzdem Unternehmer."
             : `Bei einmaligen Aktivitäten mit kleinem Gewinn fehlt meist die Nachhaltigkeit, dann liegt kein Gewerbe vor. Die 410 € sind dabei keine Gewerbe-Grenze, sondern die Veranlagungsgrenze für Nebeneinkünfte von Arbeitnehmer:innen (§ 46 Abs. 2 Nr. 1 EStG). Aber Achtung: bei mehrmaliger Wiederholung wertet das FA das als 'nachhaltige Gewinnerzielungsabsicht' und du bist plötzlich gewerbe-/anmeldepflichtig.`,
         nextSteps: [
           { text: "Wichtige Schwellen: §22 EStG Sonstige Einkünfte unter 256 €/J steuerfrei · Ehrenamtspauschale 960 €/J · Übungsleiterpauschale 3.300 €/J" },
@@ -588,10 +588,12 @@ const GewerbeCheck = () => {
         <Glossar />
 
         <Stand2026Footer
+          stand="Stand 22.11.2026"
           sources={[
             { label: "§14 GewO Gewerbeanmeldung", url: "https://www.gesetze-im-internet.de/gewo/__14.html" },
             { label: "§18 EStG Katalogberufe Freiberufler", url: "https://www.gesetze-im-internet.de/estg/__18.html" },
             { label: "§15 EStG Gewerbebetrieb", url: "https://www.gesetze-im-internet.de/estg/__15.html" },
+            { label: "§2 UStG Unternehmer (auch ohne Gewinnabsicht)", url: "https://www.gesetze-im-internet.de/ustg_1980/__2.html" },
             { label: "§19 UStG Kleinunternehmer-Regelung", url: "https://www.gesetze-im-internet.de/ustg_1980/__19.html" },
             { label: "§22 EStG Sonstige Einkünfte (Hobby/Liebhaberei)", url: "https://www.gesetze-im-internet.de/estg/__22.html" },
             { label: "IHK Gründung-Beratung", url: "https://www.ihk.de" },
@@ -774,7 +776,7 @@ const Glossar = () => (
         { begriff: "Kleingewerbe", erklaerung: "Umgangssprachlich für 'Gewerbe in kleinem Umfang' (Nicht-Kaufmann i.S.d. HGB). Hat nichts mit der USt-Kleinunternehmer-Regelung zu tun! Vereinfachte Buchhaltung (EÜR statt Bilanz)." },
         { begriff: "Kleinunternehmer-Regelung (§19 UStG)", erklaerung: "Du musst keine Umsatzsteuer ausweisen, kannst aber auch keine Vorsteuer ziehen. 2026: Vorjahres-Umsatz bis 25.000 €, laufendes Jahr bis 100.000 € (bei Überschreiten sofortiger Wegfall); im Gründungsjahr bis 25.000 €. Maßgeblich ist der Umsatz, nicht der Gewinn. Vorteil: einfacher. Nachteil: keine VSt zurück (lohnt sich nicht wenn du viel investierst)." },
         { begriff: "Gewinnerzielungsabsicht", erklaerung: "Du willst auf Dauer einen Gewinn machen (auch wenn die ersten Jahre Verluste sind). Wichtig für die Abgrenzung zur 'Liebhaberei' (= Hobby, das nicht profitabel sein muss)." },
-        { begriff: "Liebhaberei", erklaerung: "Das Finanzamt nimmt an, dass du KEINEN Gewinn erzielen willst (typisch: Pferdezucht, Künstler:in im Verlust seit 7+ Jahren). Folge: Verluste sind nicht steuerlich abzugsfähig, Gewinne sind auch nicht steuerbar." },
+        { begriff: "Liebhaberei", erklaerung: "Das Finanzamt nimmt an, dass du KEINEN Gewinn erzielen willst (typisch: Pferdezucht, Künstler:in im Verlust seit 7+ Jahren). Folge für die Einkommensteuer: Verluste sind nicht abzugsfähig, Gewinne nicht steuerpflichtig. Umsatzsteuerlich kann trotzdem eine unternehmerische Tätigkeit vorliegen (§ 2 Abs. 1 S. 3 UStG)." },
         { begriff: "Fragebogen zur steuerlichen Erfassung", erklaerung: "Pflichtformular nach jeder Gründung — du gibst dem Finanzamt deine voraussichtlichen Umsätze + Gewinne + Familienstand an. Daraus berechnet das FA deine Vorauszahlungen. Pflicht binnen 1 Monat via ELSTER." },
         { begriff: "EÜR (Einnahmen-Überschuss-Rechnung)", erklaerung: "Vereinfachte Gewinnermittlung: Einnahmen minus Ausgaben = Gewinn. Für Gewerbetreibende erlaubt bis 800.000 € Jahresumsatz und 80.000 € Gewinn (§141 AO seit WJ 2024, sonst Bilanz-Pflicht); Freiberufler:innen dürfen immer die EÜR nutzen. Pflicht-Anlage zur Steuererklärung — elektronisch via ELSTER." },
         { begriff: "Anlage S vs Anlage G", erklaerung: "Anlage S: für Einkünfte aus selbstständiger Arbeit (Freiberufler). Anlage G: für Einkünfte aus Gewerbebetrieb. Beide brauchen zusätzlich die Anlage EÜR (Gewinn-Detail)." },

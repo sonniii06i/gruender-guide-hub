@@ -1,7 +1,8 @@
-// Persönlicher Steuer- und Fristenkalender (Stand 08.10.2026).
+// Persönlicher Steuer- und Fristenkalender (Stand 22.11.2026).
 // Quellen: § 18 UStG, §§ 46–48 UStDV, § 37 EStG, § 31 KStG, § 19 GewStG,
 // § 41a EStG, § 23 SGB IV, § 18a UStG, § 149 AO, § 108 Abs. 3 AO, § 325 HGB,
-// § 27 Abs. 1 KSVG (Meldung Künstlersozialabgabe, ergänzt 22.11.2026).
+// § 27 Abs. 1 KSVG (Meldung Künstlersozialabgabe, ergänzt 22.11.2026), § 24 SGB IV, § 240 Abs. 3 AO.
+// Minijob-Zentrale: Fälligkeit nach dem Sitz der Einzugsstelle (NRW), daher mit Fronleichnam (22.11.2026).
 // Verschiebung nur um bundesweite Feiertage; Landesfeiertage (z. B. 31.10.,
 // 01.11.) können Fristen regional zusätzlich verschieben – Hinweis in der UI.
 
@@ -67,15 +68,23 @@ export function verschiebe(datum: string): string {
 
 const monatsEnde = (j: number, m: number) => new Date(Date.UTC(j, m, 0)).getUTCDate();
 
-/** Drittletzter Bankarbeitstag (SV-Beiträge, § 23 SGB IV); 24.12./31.12. keine Bankarbeitstage. */
-export function drittletzterBankarbeitstag(j: number, m: number): string {
+/** Fronleichnam (Ostersonntag + 60 Tage): Feiertag nur in einigen Ländern, u. a. NRW (Sitz der Minijob-Zentrale). */
+export function fronleichnam(j: number): string {
+  return iso(new Date(ostern(j).getTime() + 60 * 864e5));
+}
+
+/** Drittletzter Bankarbeitstag (SV-Beiträge, § 23 SGB IV); 24.12./31.12. keine Bankarbeitstage.
+ *  `mitFronleichnam`: Einzugsstelle mit Sitz in einem Land, in dem Fronleichnam Feiertag ist. */
+export function drittletzterBankarbeitstag(j: number, m: number, mitFronleichnam = false): string {
   let tag = monatsEnde(j, m);
   let gezaehlt = 0;
+  const frei = feiertage(j);
+  if (mitFronleichnam) frei.add(fronleichnam(j));
   for (;;) {
     const d = utc(j, m, tag);
     const s = iso(d);
     const wt = d.getUTCDay();
-    const bank = wt !== 0 && wt !== 6 && !feiertage(j).has(s) && !s.endsWith("-12-24") && !s.endsWith("-12-31");
+    const bank = wt !== 0 && wt !== 6 && !frei.has(s) && !s.endsWith("-12-24") && !s.endsWith("-12-31");
     if (bank && ++gezaehlt === 3) return s;
     tag--;
   }
@@ -116,6 +125,10 @@ export function fristenFuer(p: FristProfil, von: string, monate = 12): { fristen
           const f = new Date(Date.UTC(j, q * 3 + plus, 10));
           add(iso(f), `USt-Voranmeldung ${q}. Quartal ${j}`, "ust", "Abgabe per ELSTER und Zahlung");
         }
+        // § 48 Abs. 1 UStDV: Antrag bis zur regulären Frist der ersten betroffenen Voranmeldung (1. Quartal: 10.04.);
+        // Quartalszahler leisten keine Sondervorauszahlung (§ 47 Abs. 1 UStDV).
+        if (p.dauerfrist)
+          add(`${j}-04-10`, `Antrag Dauerfristverlängerung ${j} (Quartalszahler)`, "ust", "Nur nötig, wenn die Verlängerung noch nicht läuft (§ 48 Abs. 1 UStDV); keine Sondervorauszahlung (§ 47 UStDV)");
       }
     }
     // ---- ESt/KSt-Vorauszahlungen ----
@@ -133,7 +146,18 @@ export function fristenFuer(p: FristProfil, von: string, monate = 12): { fristen
         add(iso(f), `Lohnsteuer-Anmeldung (${p.lohnsteuer === "monat" ? MONAT[m - 1] : p.lohnsteuer === "quartal" ? `${m / 3}. Quartal` : "Jahr"} ${j})`, "lohn");
       }
       if (p.mitarbeiter === "sv")
-        for (let m = 1; m <= 12; m++) add(drittletzterBankarbeitstag(j, m), `Sozialversicherungsbeiträge ${MONAT[m - 1]} (Beitragsnachweis 2 Arbeitstage vorher)`, "sv");
+        for (let m = 1; m <= 12; m++) {
+          const bund = drittletzterBankarbeitstag(j, m);
+          const regional = drittletzterBankarbeitstag(j, m, true);
+          add(bund, `Sozialversicherungsbeiträge ${MONAT[m - 1]} (Beitragsnachweis 2 Arbeitstage vorher)`, "sv",
+            regional !== bund
+              ? `Sitzt deine Krankenkasse in einem Land, in dem Fronleichnam Feiertag ist, gilt schon der ${regional.split("-").reverse().join(".")}.`
+              : undefined);
+        }
+      // Minijob-Zentrale (Sitz NRW): Abgaben monatlich zum drittletzten Bankarbeitstag, Fronleichnam zählt mit.
+      if (p.mitarbeiter === "minijob")
+        for (let m = 1; m <= 12; m++)
+          add(drittletzterBankarbeitstag(j, m, true), `Abgaben Minijob-Zentrale ${MONAT[m - 1]} (Beitragsnachweis 2 Arbeitstage vorher)`, "sv", "Zahlung an die Minijob-Zentrale, maßgeblich ist ihr Sitz in NRW");
     }
     // ---- Zusammenfassende Meldung ----
     if (p.zm !== "keine") {
@@ -143,7 +167,9 @@ export function fristenFuer(p: FristProfil, von: string, monate = 12): { fristen
     // ---- Jahreserklärungen (§ 149 AO, ab Besteuerungszeitraum 2025 ohne Übergangsregel) ----
     if (j >= 2025) {
       const frist = p.steuerberater ? iso(new Date(Date.UTC(j + 2, 2, 0))) : `${j + 1}-07-31`;
-      add(frist, `Steuererklärungen ${j} (ESt/KSt, USt, GewSt)${p.steuerberater ? " – mit Steuerberater" : ""}`, "erklaerung");
+      // Kleinunternehmer: keine USt-Jahreserklärung (§ 19 Abs. 1 Satz 2 UStG, außer auf Anforderung); Freiberufler: keine GewSt.
+      const arten = [p.rechtsform === "kapital" ? "KSt" : "ESt", ...(p.ust === "kleinunternehmer" ? [] : ["USt"]), ...(p.rechtsform === "freiberufler" ? [] : ["GewSt"])];
+      add(frist, `Steuererklärungen ${j} (${arten.join(", ")})${p.steuerberater ? " – mit Steuerberater" : ""}`, "erklaerung");
     }
     // ---- Künstlersozialabgabe: Meldung bis 31.03. des Folgejahres (§ 27 Abs. 1 KSVG), keine AO-Verschiebung ----
     if (p.ksa && j >= 2025) {
@@ -158,7 +184,11 @@ export function fristenFuer(p: FristProfil, von: string, monate = 12): { fristen
   }
   if (p.ust === "kleinunternehmer") hinweise.push("Kleinunternehmer: keine USt-Voranmeldungen. E-Rechnungen empfangen musst du trotzdem können.");
   if (p.ust === "jahr") hinweise.push("Befreit von Voranmeldungen (Vorjahressteuer bis 2.000 €): nur die Jahreserklärung.");
-  hinweise.push("Zahlungen per Überweisung bis 3 Tage nach Fälligkeit ohne Säumniszuschlag (Schonfrist), bei Lastschrift gilt der Fälligkeitstag.");
+  hinweise.push("Steuerzahlungen per Überweisung bis 3 Tage nach Fälligkeit ohne Säumniszuschlag (Schonfrist, § 240 Abs. 3 AO), bei Lastschrift gilt der Fälligkeitstag.");
+  if (p.mitarbeiter !== "keine")
+    hinweise.push("Sozialversicherungsbeiträge haben keine Schonfrist: Der Säumniszuschlag fällt an, wenn das Geld nicht bis zum Ablauf des Fälligkeitstags da ist (§ 24 SGB IV).");
+  if (p.mitarbeiter === "minijob")
+    hinweise.push("Minijob: Betragen deine Abgaben höchstens 7 € im Monat, kannst du bei der Minijob-Zentrale formlos eine viertel-, halb- oder jährliche Zahlung beantragen.");
   out.sort((a, b) => a.datum.localeCompare(b.datum) || a.titel.localeCompare(b.titel));
   return { fristen: out, hinweise };
 }

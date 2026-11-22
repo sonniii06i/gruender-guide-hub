@@ -21,3 +21,10 @@ export function haltefristAbgelaufen(kaufIso: string, verkaufIso: string): boole
 export function freigrenzeParagraph23(steuerJahr: number): number {
   return steuerJahr >= 2024 ? 1000 : 600;
 }
+
+/** Steuerjahr-Auswahl aus dem Datum: die letzten drei Jahre plus das laufende; Standard ist das Vorjahr,
+ *  für das in der Regel die Erklärung ansteht. */
+export function steuerjahrAuswahl(heute: Date = new Date()): { jahre: number[]; standard: number } {
+  const j = heute.getFullYear();
+  return { jahre: [j - 3, j - 2, j - 1, j], standard: j - 1 };
+}
