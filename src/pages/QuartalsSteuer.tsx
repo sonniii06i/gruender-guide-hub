@@ -18,14 +18,11 @@ import {
 } from "@/components/cockpit/kit";
 
 import {
-  progressionESt,
-  solZ as solZAuf,
   KST_RATE as KSt,
   SOLZ_RATE,
   GEWST_MESSZAHL,
-  GEWST_FREIBETRAG_NATUERLICH,
-  GEWST_ANRECHNUNG_FAKTOR,
 } from "@/lib/germanTax";
+import { einzelSteuer } from "@/lib/einzelSteuer";
 
 type Rechtsform = "einzel" | "freiberuf" | "ug" | "gmbh";
 
@@ -44,27 +41,21 @@ const QuartalsSteuer = () => {
   const [andereEinkuenfte, setAndereEinkuenfte] = useState(0);
   const [bisherigeVZ, setBisherigeVZ] = useState(0);
   const [hebesatzGewSt, setHebesatzGewSt] = useState(400); // Standard-Hebesatz
-  const [aktuelleQuartal, setAktuelleQuartal] = useState(2); // Q3 default
+  const [aktuelleQuartal, setAktuelleQuartal] = useState(() => Math.floor(new Date().getMonth() / 3)); // laufendes Quartal
 
   // Steuer-Berechnung Jahresbasis
   const jahresSteuer = useMemo(() => {
     if (rechtsform === "einzel" || rechtsform === "freiberuf") {
-      const zvE = Math.max(0, erwarteterJahresgewinn + andereEinkuenfte);
-      const eSt = progressionESt(zvE);
-      const solz = solZAuf(eSt);
-      // GewSt nur bei Einzelunternehmer mit Gewerbe (Freiberuf gewerbesteuerfrei)
-      const gewstBasis = Math.max(0, erwarteterJahresgewinn - GEWST_FREIBETRAG_NATUERLICH);
-      const gewstMessbetrag = gewstBasis * GEWST_MESSZAHL;
-      const gewstHebesatz = (hebesatzGewSt / 100) * gewstMessbetrag;
-      // GewSt-Anrechnung §35 EStG: 4,0 × Messbetrag (seit 2020 2. CoronaStHiG, vorher 3,8)
-      const gewstAnrechnung = Math.min(gewstMessbetrag * GEWST_ANRECHNUNG_FAKTOR, eSt);
-      const gewstEffektiv = rechtsform === "freiberuf" ? 0 : Math.max(0, gewstHebesatz - gewstAnrechnung);
+      // GewSt nur bei Einzelunternehmer mit Gewerbe (Freiberuf gewerbesteuerfrei).
+      // § 35 EStG: 4,0 × Messbetrag mindert die ESt (höchstens ESt-Anteil und gezahlte GewSt); der SolZ bemisst sich
+      // nach der ESt nach dieser Ermäßigung (§ 3 Abs. 2 SolzG, § 2 Abs. 6 EStG). Die GewSt geht voll an die Gemeinde.
+      const r = einzelSteuer({ gewinn: erwarteterJahresgewinn, andereEinkuenfte, hebesatz: hebesatzGewSt, gewerbe: rechtsform === "einzel" });
       return {
-        eSt,
-        solz,
-        gewSt: gewstEffektiv,
+        eSt: r.est,
+        solz: r.solz,
+        gewSt: r.gewst,
         kSt: 0,
-        total: eSt + solz + gewstEffektiv,
+        total: r.total,
       };
     }
     // GmbH/UG
@@ -226,7 +217,7 @@ const QuartalsSteuer = () => {
 
             <ResultPanel title="Steuer-Aufschlüsselung Jahr" className="shadow-card">
               <div className="divide-y divide-border/70">
-                {jahresSteuer.eSt > 0 && <ResultRow label="ESt" value={eur(jahresSteuer.eSt)} />}
+                {jahresSteuer.eSt > 0 && <ResultRow label="ESt" hint={rechtsform === "einzel" ? "nach GewSt-Anrechnung (§ 35 EStG)" : undefined} value={eur(jahresSteuer.eSt)} />}
                 {jahresSteuer.kSt > 0 && <ResultRow label="KSt 15 %" value={eur(jahresSteuer.kSt)} />}
                 {jahresSteuer.gewSt > 0 && <ResultRow label="GewSt" hint={`Hebesatz ${hebesatzGewSt} %`} value={eur(jahresSteuer.gewSt)} />}
                 {jahresSteuer.solz > 0 && <ResultRow label="SolZ 5,5 %" value={eur(jahresSteuer.solz)} />}
@@ -312,8 +303,9 @@ const QuartalsSteuer = () => {
             der letzten ESt-/KSt-Festsetzung fest. Ohne Anpassung läuft das automatisch.
           </li>
           <li>
-            <strong className="text-foreground">Fristen:</strong> ESt/KSt am 10.3., 10.6., 10.9. und 10.12.; die Gewerbesteuer an die Gemeinde am 15.2., 15.5., 15.8. und 15.11. (§19 Abs. 1 GewStG). Bei Fristversäumnis
-            1 % Säumniszuschlag pro angefangenem Monat (§240 AO).
+            <strong className="text-foreground">Fristen:</strong> ESt/KSt am 10.3., 10.6., 10.9. und 10.12.; die Gewerbesteuer an die Gemeinde am 15.2., 15.5., 15.8. und 15.11. (§19 Abs. 1 GewStG). Fällt ein Termin auf ein
+            Wochenende oder einen Feiertag, gilt der nächste Werktag (§108 Abs. 3 AO). Bei Überweisung wird bis zu 3 Tage nach
+            Fälligkeit kein Säumniszuschlag erhoben (§240 Abs. 3 AO), danach 1 % pro angefangenem Monat (§240 AO).
           </li>
           <li>
             <strong className="text-foreground">Anpassungs-Antrag:</strong> formloses Schreiben oder ELSTER-Formular, wenn dein Gewinn

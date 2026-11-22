@@ -78,7 +78,7 @@ export const HebesatzPicker = ({ value, onChange, className, min = 200, max = 90
               })}
             </div>
             <div className="text-[10px] text-muted-foreground mt-2 pt-2 border-t border-border">
-              Min 200 %, Max 900 %. Bundesweit gültiger Mindesthebesatz seit 2004: 200 %.
+              Min 200 %, Max 900 %. Bundesweiter Mindesthebesatz bis 2026: 200 %, ab Erhebungszeitraum 2027: 280 % (§ 16 Abs. 4 S. 2, § 36 Abs. 5b GewStG).
             </div>
           </PopoverContent>
         </Popover>
