@@ -114,8 +114,17 @@ export const FOERDERPROGRAMME: Foerderung[] = [
     branche: ["forschung", "tech", "biotech", "deep-tech"],
     description:
       "Phase I (an Hochschule oder Forschungseinrichtung, bis 18 Monate, mit Jury-Zustimmung bis 36): Personal für bis zu 4 Personalstellen + Sachmittel i. d. R. bis 250.000 €, Ø Bewilligung seit 2023 über 1 Mio. €. Phase II (gegründete Kapitalgesellschaft, bis 18 Monate): Zuschuss bis 180.000 €, max. 75 % der Kosten, Eigenmittel 1:3.",
-    conditions: ["Schwerpunkt: hochinnovative, technische Vorhaben", "Hochschule als Antragsteller"],
+    conditions: [
+      "Schwerpunkt: hochinnovative, technische Vorhaben",
+      "Phase I: Hochschule oder Forschungseinrichtung stellt den Antrag; Förderquote 100 % an Hochschulen, bis 90 % an Fraunhofer, Helmholtz, Max-Planck und Leibniz",
+      "Ein Proof of Principle sollte vorliegen",
+    ],
     antragUrl: "https://exist.de/programm/forschungstransfer/",
+    notes: [
+      "Phase I: Einreichung laufend, bewertet wird ab den Stichtagen 31.03., 31.08. und 30.11. Anträge nach der Richtlinie vom 03.06.2024 nur bis 31.12.2027, die Richtlinie gilt bis 31.12.2029 (Stand 22.11.2026).",
+      "Phase II: Antrag durch die gegründete Kapitalgesellschaft (mind. 25.000 € Stammkapital, die tätigen Gründer halten deutlich über 50 % der Anteile), frühestens 6 Monate vor und spätestens 6 Monate nach Ende von Phase I. Ein Direkteinstieg in Phase II ist nicht möglich, Ausnahme ist der KI-Modellversuch aus dem Gründungsstipendium.",
+      "Ablauf: Antrag nur auf Deutsch über easy-Online, danach Präsentation vor einer Jury. Das Ergebnis teilt der Projektträger innerhalb von 3 Monaten mit.",
+    ],
   },
   {
     slug: "invest-bafa",
