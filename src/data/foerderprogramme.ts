@@ -383,14 +383,17 @@ export const FOERDERPROGRAMME: Foerderung[] = [
     scope: "bund",
     country: "EU",
     countryEmoji: "🇪🇺",
-    maxFunding: "Large €100M+, Medium €300M-Topf, Small €100M-Topf",
-    zielgruppe: ["Climate-Tech Hardware/Demo-Anlagen"],
+    maxFunding: "Bis 60 % der relevanten Kosten; Runde 2026 mit bis zu €5,2 Mrd. in fünf Calls",
+    zielgruppe: ["Climate-Tech Hardware/Demo-Anlagen", "KMU (eigener Call ab 2026)"],
     phase: ["wachstum"],
     branche: ["Climate", "Energy", "Storage", "Industrie", "CCS"],
-    description: "Riesentopf €5,2B aus EU-ETS-Einnahmen. Runde 2025 ist geschlossen (Net-Zero-Call-Frist war 23.4.2026); die Runde 2026 soll laut CINEA am 3.12.2026 starten: Net-Zero-Call €3,3B, H2-Auktion €500M, neuer KMU-Call €200M.",
+    description: "Förderprogramm aus EU-ETS-Einnahmen. Die Runde 2026 startet laut CINEA am 3.12.2026 mit fünf Calls: Net-Zero-Technologien €3,3 Mrd., KMU-Call €200 Mio., Maritim €200 Mio., Wasserstoff-Auktion €500 Mio. und Wärme-Auktion €1 Mrd. (Stand 22.11.2026).",
     conditions: ["Nachweisbare CO2-Reduktion", "TRL hoch (Demo-/Industrial-Scale)"],
     antragUrl: "https://climate.ec.europa.eu/areas-action/eu-funding-climate-action/innovation-fund_en",
-    watchouts: ["Riesige Tickets nur für kapitalintensive Anlagen, kaum Solo-Founder"],
+    watchouts: [
+      "Die großen Calls zielen auf kapitalintensive Anlagen; für kleinere Firmen ist der KMU-Call gedacht (Stichtage Ende März und Ende September 2027)",
+      "Fristen der einzelnen Calls stehen erst nach dem Start am 3.12.2026 fest; Info Days am 9., 10. und 15.12.2026",
+    ],
   },
 
   // ===== FRANKREICH =====
