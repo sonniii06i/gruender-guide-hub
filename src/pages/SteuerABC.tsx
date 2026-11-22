@@ -147,6 +147,7 @@ const SteuerABC = () => {
       </div>
 
       <Stand2026Footer
+        stand="Stand 22.11.2026"
         sources={[
           { label: "EStG (Einkommensteuergesetz)", url: "https://www.gesetze-im-internet.de/estg/" },
           { label: "UStG (Umsatzsteuergesetz)", url: "https://www.gesetze-im-internet.de/ustg_1980/" },
