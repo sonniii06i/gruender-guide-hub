@@ -380,10 +380,10 @@ export const EU_ALTERNATIVES: EUAlternative[] = [
     effectiveTotal: "15 % · 0 % auf Dividenden-Erträge mit Schachtelprivileg",
     withholdingDividends: "0 % auf Dividenden ans Ausland (Ausnahmen bei Beteiligung über 50 %: 5 % an Gesellschaften in Niedrigsteuer-Drittstaaten, 17 % an Gesellschaften in EU-gelisteten nicht kooperativen Staaten)",
     motherDaughterApplies: true,
-    substance: "Mind. 1 lokaler Director + Adresse. Substanz wird über § 50d Abs. 3 EStG und den DBA-Principal-Purpose-Test geprüft (ATAD III nie in Kraft getreten).",
-    setupTime: "1–2 Wochen",
-    setupCost: "1.500–3.500 € (Anwalt + Notar + Service)",
-    runningCost: "2.500–5.000 €/Jahr",
+    substance: "Mind. 1 Director und 1 Secretary plus Adresse in Zypern; nur bei einer Einpersonen-Ltd darf der alleinige Director zugleich Secretary sein (Cap. 113, Art. 170 und 171). Einen lokalen Director schreibt das Gesetz nicht vor, für die Steueransässigkeit sollte die Geschäftsleitung aber vor Ort sitzen. Substanz wird über § 50d Abs. 3 EStG und den DBA-Principal-Purpose-Test geprüft (ATAD III nie in Kraft getreten).",
+    setupTime: "1–2 Wochen (Schätzung)",
+    setupCost: "1.500–3.500 € (Schätzung; Anwalt + Notar + Service). Amtlich: 165 € Eintragungsgebühr + 10 € Namensgenehmigung beim Registrar",
+    runningCost: "2.500–5.000 €/Jahr (Schätzung)",
     fitForGermans: "Mittel (Substanz-Risiko)",
     bestFor: [
       "Holding für internationale Beteiligungen (kein WHT auf Out-Dividenden)",
@@ -402,7 +402,7 @@ export const EU_ALTERNATIVES: EUAlternative[] = [
       "**Reputations-Risiko**: 'Briefkasten-Zypern' hat schlechten Ruf seit Cyprus-Files etc.",
       "**Substanz-Prüfung**: Mailbox-Companies werden über § 50d Abs. 3 EStG und den DBA-Principal-Purpose-Test durchschaut (ATAD III hat die Kommission 2026 förmlich zurückgezogen)",
       "**§AStG explizit**: bei DE-Wohnsitz greift Hinzurechnung schneller (CY auf BMF-Watch-List)",
-      "Banking schwierig (CY-Banken nehmen seit 2018 nicht mehr easy non-resident KMUs)",
+      "Banking schwierig: Seit den Zentralbank-Vorgaben von 2018 zu Briefkastenfirmen eröffnen CY-Banken Konten für Gesellschaften ohne Substanz kaum noch",
       "Viele DE-StBs raten ab wegen Compliance-Aufwand",
     ],
     realExamples: [
