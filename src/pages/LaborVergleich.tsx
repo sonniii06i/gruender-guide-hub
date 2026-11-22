@@ -94,9 +94,9 @@ const LaborVergleich = () => {
 
   return (
     <CockpitShell
-      eyebrow="Labor-Anbieter · Stand Mai 2026"
+      eyebrow="Labor-Anbieter · Stand 22.11.2026"
       title="Labor-Vergleich für Brand-Founder"
-      subtitle={`${LABORE.length} etablierte Labore und Prüfstellen (meist nach ISO 17025 akkreditiert, alle mit nachweisbarer Historie) für 14 Test-Kategorien von Kosmetik über Elektronik bis Medizinprodukte. Dazu ${USE_CASE_STACKS.length} Use-Case-Stacks mit Kosten-Ballparks, eine Preisliste mit ${PREIS_LISTE.length} Einträgen und eine AVOID-Liste.`}
+      subtitle={`${LABORE.length} etablierte Labore und Prüfstellen (meist nach ISO 17025 akkreditiert, alle mit nachweisbarer Historie) für 14 Test-Kategorien von Kosmetik über Elektronik bis Medizinprodukte. Dazu ${USE_CASE_STACKS.length} Use-Case-Stacks mit Kosten-Richtwerten, eine Preisliste mit ${PREIS_LISTE.length} Einträgen und eine AVOID-Liste.`}
     >
       {/* ===== USE-CASE-STACKS ===== */}
       <ToolSection
@@ -150,7 +150,7 @@ const LaborVergleich = () => {
             </div>
             <div className="space-y-3">
               <div className="rounded-xl bg-ink p-4 text-primary-foreground">
-                <p className="text-sm font-medium text-brand-green-glow">Kosten-Ballpark</p>
+                <p className="text-sm font-medium text-brand-green-glow">Kosten-Richtwert (ohne Gewähr)</p>
                 <p className="mt-1 text-lg font-semibold leading-snug tabular">{activeStack.kostenBallpark}</p>
               </div>
               <details className="group rounded-xl border border-border bg-card [&_summary::-webkit-details-marker]:hidden">
@@ -224,7 +224,7 @@ const LaborVergleich = () => {
         offen={showPreisliste}
         onToggle={() => setShowPreisliste((v) => !v)}
         icon={EuroIcon}
-        titel="Preisliste pro Test-Typ (Marktmedian Mai 2026)"
+        titel="Preisliste pro Test-Typ (Richtwerte ohne Gewähr, Recherche Mai 2026)"
         zusatz={<ToneBadge tone="neutral">{PREIS_LISTE.length} Tests</ToneBadge>}
       >
         <KitTable caption="Preisliste pro Test-Typ">
@@ -290,9 +290,10 @@ const LaborVergleich = () => {
 
       {/* ===== HINWEIS ===== */}
       <Callout tone="info" icon={Lightbulb} title="Strategie-Tipp für Bootstrap-Founder" className="mt-6">
-        BAV Institut + Dermatest + AGROLAB ist der beste DE-Boutique-Stack für Skincare oder Supplement.
-        Tier-1 (Eurofins/SGS/Intertek) machen erst Sinn ab 10+ SKUs oder Multi-Markt-Launch.
-        Preise sind Marktmedian — bei Volumen unbedingt verhandeln (10-30% Rabatt drin).
+        Für Skincare reichen oft BAV Institut und Dermatest als deutsche Boutique-Labore, für Supplements kommt der Spezialist
+        AGROLAB dazu. Tier-1 (Eurofins/SGS/Intertek) machen erst Sinn ab 10+ SKUs oder Multi-Markt-Launch.
+        Die Labore veröffentlichen keine Preise. Alle Beträge hier sind Richtwerte aus unserer Recherche vom Mai 2026, kein
+        Angebot; verbindlich ist nur das Angebot des Labors, und bei Volumen lohnt es sich zu verhandeln.
       </Callout>
     </CockpitShell>
   );
