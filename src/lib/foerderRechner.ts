@@ -1,7 +1,9 @@
 // BAFA-Beratungsförderung und Einstiegsgeld – Rechner nach Primärquellen (Stand 07.10.2026).
 
 // ============ BAFA „Förderung von Unternehmensberatungen für KMU“ ============
-// Richtlinie vom 14.12.2022, geändert 12.12.2024 (BAnz AT 23.12.2024 B1).
+// Richtlinie vom 14.12.2022, geändert 12.12.2024 (BAnz AT 23.12.2024 B1) und
+// 15.10.2026 (BAnz AT 28.10.2026 B3): verlängert bis 31.12.2028, für Anträge ab
+// 01.01.2027 kein Pflicht-Informationsgespräch mehr, Antrag nur über ELSTER/BundID.
 // Eine Bemessungsgrundlage für alle KMU; die alte Staffel (Jungunternehmen /
 // Bestandsunternehmen / 90 % in Schwierigkeiten) gilt NICHT mehr.
 
@@ -9,7 +11,8 @@ export const BAFA = {
   bemessungMax: 3500, // € förderfähige Beratungskosten (RL Nr. 5.2)
   satzOst: 0.8, // neue Länder ohne Berlin/Region Leipzig, plus Regionen Lüneburg und Trier
   satzWest: 0.5, // alte Länder inkl. Berlin und Region Leipzig, ohne Lüneburg/Trier
-  antragBis: "2026-12-31", // RL Nr. 8
+  neueRegelnAb: "2027-01-01", // bafa.de: geänderte Bedingungen für Anträge ab diesem Tag
+  nachweisBis: "2028-12-31", // RL Nr. 8 i. d. F. vom 15.10.2026: Verwendungsnachweise bis zu diesem Tag
   proJahr: 2,
   gesamt: 5,
   maxTage: 5, // Beratungstage je Beratung (RL Nr. 2.1)
@@ -60,16 +63,17 @@ export type BafaBefund = { stufe: "ok" | "warnung" | "ausschluss"; text: string;
 
 export function pruefeBafa(a: BafaAntworten, heute: string): { ampel: "gruen" | "gelb" | "rot" | "offen"; befunde: BafaBefund[] } {
   const b: BafaBefund[] = [];
-  if (heute > BAFA.antragBis)
-    b.push({ stufe: "ausschluss", text: "Die Richtlinie gilt nur für Anträge bis 31.12.2026. Eine Nachfolgeregelung ist noch nicht veröffentlicht.", quelle: "RL Nr. 8" });
-  else {
-    const tage = Math.ceil((Date.parse(BAFA.antragBis) - Date.parse(heute)) / 864e5);
+  const neueRegeln = heute >= BAFA.neueRegelnAb;
+  if (heute > BAFA.nachweisBis)
+    b.push({ stufe: "ausschluss", text: "Die Richtlinie gilt längstens für Verwendungsnachweise, die bis 31.12.2028 eingereicht werden.", quelle: "RL Nr. 8" });
+  else
     b.push({
-      stufe: tage <= 60 ? "warnung" : "ok",
-      text: `Anträge nur noch bis 31.12.2026 – noch ${tage} Tage. Eine Nachfolgeregelung ist bisher nicht veröffentlicht.`,
-      quelle: "RL Nr. 8",
+      stufe: "ok",
+      text: neueRegeln
+        ? "Die Richtlinie gilt bis 31.12.2028. Den Antrag stellst du über dein ELSTER-Konto oder die BundID."
+        : "Die Richtlinie ist bis 31.12.2028 verlängert. Für Anträge ab 01.01.2027 entfällt das Pflicht-Informationsgespräch, und der Antrag läuft nur noch über ELSTER-Konto oder BundID.",
+      quelle: "RL Nr. 8, bafa.de",
     });
-  }
   if (a.kmu === false) b.push({ stufe: "ausschluss", text: "Gefördert werden nur KMU: unter 250 Beschäftigte und höchstens 50 Mio. € Umsatz oder 43 Mio. € Bilanzsumme.", quelle: "RL Nr. 3.1" });
   if (a.sitzDe === false) b.push({ stufe: "ausschluss", text: "Sitz und Geschäftsbetrieb müssen in Deutschland liegen.", quelle: "RL Nr. 3.1" });
   if (a.ausgeschlosseneBranche)
@@ -92,13 +96,13 @@ export function pruefeBafa(a: BafaAntworten, heute: string): { ampel: "gruen" | 
       text: "Nicht gefördert werden Beratungen, die überwiegend Rechts-, Steuer-, Versicherungs- oder Fördermittelfragen betreffen.",
       quelle: "RL Nr. 2.2",
     });
-  if (a.gruendungsDatum) {
+  if (a.gruendungsDatum && !neueRegeln) {
     const jung = Date.parse(heute) - Date.parse(a.gruendungsDatum) < 365 * 864e5;
     b.push(
       jung
         ? {
             stufe: "warnung",
-            text: "Im ersten Jahr nach der Gründung ist ein kostenloses Informationsgespräch bei einem Regionalpartner Pflicht – frühestens 3 Monate vor dem Antrag.",
+            text: "Im ersten Jahr nach der Gründung ist für Anträge bis 31.12.2026 ein kostenloses Informationsgespräch bei einem Regionalpartner Pflicht – frühestens 3 Monate vor dem Antrag. Ab 01.01.2027 entfällt es.",
             quelle: "RL Nr. 7.1",
           }
         : { stufe: "ok", text: "Älter als ein Jahr – kein Pflicht-Informationsgespräch.", quelle: "RL Nr. 7.1" },

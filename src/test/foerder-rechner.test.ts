@@ -29,13 +29,16 @@ describe("BAFA-Beratungsförderung", () => {
     kmu: true, sitzDe: true, ausgeschlosseneBranche: false, insolvenz: false,
     beratungBegonnen: false, ueberwiegendRechtSteuer: false, gruendungsDatum: "2024-01-01",
   };
-  it("grün im Normalfall, rot nach Beratungsbeginn, rot nach Ablauf der Richtlinie", () => {
+  it("grün im Normalfall, rot nach Beratungsbeginn, rot erst nach Ende der verlängerten Richtlinie", () => {
     expect(pruefeBafa(ok, "2026-10-07").ampel).toBe("gruen");
+    expect(pruefeBafa(ok, "2026-12-01").ampel).toBe("gruen");
     expect(pruefeBafa({ ...ok, beratungBegonnen: true }, "2026-10-07").ampel).toBe("rot");
-    expect(pruefeBafa(ok, "2027-01-02").ampel).toBe("rot");
+    expect(pruefeBafa(ok, "2027-01-02").ampel).toBe("gruen");
+    expect(pruefeBafa(ok, "2029-01-01").ampel).toBe("rot");
   });
-  it("Jungunternehmen: Informationsgespräch ist Pflicht (gelb)", () => {
+  it("Jungunternehmen: Informationsgespräch nur für Anträge bis 31.12.2026 Pflicht", () => {
     expect(pruefeBafa({ ...ok, gruendungsDatum: "2026-06-01" }, "2026-10-07").ampel).toBe("gelb");
+    expect(pruefeBafa({ ...ok, gruendungsDatum: "2026-06-01" }, "2027-01-02").ampel).toBe("gruen");
   });
 });
 

@@ -121,16 +121,16 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
 },
   "bafa-beratung": {
     "seoTitle": "BAFA-Beratungsförderung 2026: Check & Rechner",
-    "seoDescription": "Bis 80 % Zuschuss zur Unternehmensberatung, max. 2.800 € – nur noch für Anträge bis 31.12.2026. Prüf deine Förderfähigkeit und rechne deinen Zuschuss aus.",
+    "seoDescription": "Bis 80 % Zuschuss zur Unternehmensberatung, max. 2.800 €. Richtlinie bis 31.12.2028 verlängert, neue Regeln ab 2027. Prüf deine Förderfähigkeit und rechne deinen Zuschuss aus.",
     "lead": "Der Check prüft deine Förderfähigkeit nach der aktuellen BAFA-Richtlinie und rechnet deinen Zuschuss nach Region und Umsatzsteuer-Status aus – inklusive Ablauf über Leitstelle und Informationsgespräch.",
-    "urgency": "Die Förderrichtlinie gilt nur für Anträge bis zum 31.12.2026, eine Nachfolgeregelung ist bisher nicht veröffentlicht. Und der häufigste Fehler kostet die ganze Förderung: Wer den Beratungsvertrag vor dem Informationsschreiben unterschreibt, bekommt nichts. Mit dem BAFA-Check von GründerX weißt du in zwei Minuten, ob und wie viel du bekommst und was du in welcher Reihenfolge tun musst.",
+    "urgency": "Die Förderrichtlinie ist bis 31.12.2028 verlängert; für Anträge ab 01.01.2027 entfällt das Pflicht-Informationsgespräch, und beantragt wird nur noch über ELSTER-Konto oder BundID. Der häufigste Fehler kostet die ganze Förderung: Wer den Beratungsvertrag vor dem Informationsschreiben unterschreibt, bekommt nichts. Mit dem BAFA-Check von GründerX weißt du in zwei Minuten, ob und wie viel du bekommst und was du in welcher Reihenfolge tun musst.",
     "outcomes": [
-        "Förderfähigkeits-Ampel nach der Richtlinie in der Fassung von 2024",
+        "Förderfähigkeits-Ampel nach der Richtlinie in der Fassung vom 15.10.2026",
         "Zuschuss in Euro nach Region – 50 % oder 80 %",
         "Richtiger Ablauf: Informationsgespräch, Antrag, Vertrag, Nachweis",
-        "Countdown bis zum Antragsende am 31.12.2026"
+        "Was sich für Anträge ab 01.01.2027 ändert"
     ],
-    "disclaimer": "Orientierung nach Rechtsstand Oktober 2026; kein Rechtsanspruch auf die Förderung."
+    "disclaimer": "Orientierung nach Rechtsstand November 2026; kein Rechtsanspruch auf die Förderung."
 },
   "gruendungszuschuss": {
     "seoTitle": "Gründungszuschuss 2026: Check, Rechner & Antrag",
