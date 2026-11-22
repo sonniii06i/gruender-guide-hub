@@ -314,7 +314,13 @@ const Preise = () => {
         <section className="mb-16">
           <p className="flex items-start gap-2 text-sm leading-relaxed text-muted-foreground">
             <Info className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
-            <span><strong className="text-foreground">Nicht enthalten:</strong> {NOT_INCLUDED}</span>
+            <span>
+              <strong className="text-foreground">Nicht enthalten:</strong> {NOT_INCLUDED} Was ein Steuerberater kostet und wann er die
+              bessere Wahl ist, zeigt der{" "}
+              <Link to="/vergleich/gruendung-selbst-steuerberater-gruenderx" className="underline underline-offset-2 hover:text-foreground">
+                Vergleich: selbst, mit Steuerberater oder mit GründerX
+              </Link>.
+            </span>
           </p>
         </section>
 

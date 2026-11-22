@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Check, X } from "lucide-react";
 
 const generic = [
@@ -54,6 +55,12 @@ export const Comparison = () => (
           </ul>
         </div>
       </div>
+      <p className="mt-6 max-w-3xl text-[15px] leading-relaxed text-muted-foreground">
+        Und der Steuerberater? Was er kostet, was er übernimmt und wann er die bessere Wahl ist, steht im{" "}
+        <Link to="/vergleich/gruendung-selbst-steuerberater-gruenderx" className="font-medium text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground">
+          Vergleich: Gründung selbst, mit Steuerberater oder mit GründerX
+        </Link>.
+      </p>
     </div>
   </section>
 );
