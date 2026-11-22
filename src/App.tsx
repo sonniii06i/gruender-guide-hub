@@ -164,6 +164,10 @@ const BafaBeratungCheck = lazy(() => import("./pages/BafaBeratungCheck.tsx"));
 const PitchDeckGenerator = lazy(() => import("./pages/PitchDeckGenerator.tsx"));
 const SteuerFristenKalender = lazy(() => import("./pages/SteuerFristenKalender.tsx"));
 const ScheinselbststaendigkeitCheck = lazy(() => import("./pages/ScheinselbststaendigkeitCheck.tsx"));
+const WasSichAendert = lazy(() => import("./pages/WasSichAendert.tsx"));
+const KiKennzeichnung = lazy(() => import("./pages/KiKennzeichnung.tsx"));
+const ERechnungCheck = lazy(() => import("./pages/ERechnungCheck.tsx"));
+const KsaCheck = lazy(() => import("./pages/KsaCheck.tsx"));
 const GzPhase2Bericht = lazy(() => import("./pages/GzPhase2Bericht.tsx"));
 const BankgespraechVorbereitung = lazy(() => import("./pages/BankgespraechVorbereitung.tsx"));
 const GruendungsberatungFinden = lazy(() => import("./pages/GruendungsberatungFinden.tsx"));
@@ -325,6 +329,10 @@ const App = () => (
                 <Route path="/cockpit/chancen-radar" element={<PaywallGate title="Chancen-Radar"><ChancenRadar /></PaywallGate>} />
                 <Route path="/cockpit/event-radar" element={<PaywallGate title="Event-Radar"><EventRadar /></PaywallGate>} />
                 <Route path="/cockpit/steuerkalender" element={<PaywallGate title="Steuer- & Fristenkalender"><SteuerFristenKalender /></PaywallGate>} />
+                <Route path="/cockpit/aktuell" element={<PaywallGate title="Was sich ändert"><WasSichAendert /></PaywallGate>} />
+                <Route path="/cockpit/ki-kennzeichnung" element={<PaywallGate title="KI-Kennzeichnung"><KiKennzeichnung /></PaywallGate>} />
+                <Route path="/cockpit/e-rechnung-check" element={<PaywallGate title="E-Rechnung: ab wann für dich"><ERechnungCheck /></PaywallGate>} />
+                <Route path="/cockpit/ksa-check" element={<PaywallGate title="Künstlersozialabgabe-Check"><KsaCheck /></PaywallGate>} />
                 <Route path="/cockpit/scheinselbststaendigkeit" element={<PaywallGate title="Scheinselbstständigkeits-Check"><ScheinselbststaendigkeitCheck /></PaywallGate>} />
                 <Route path="/cockpit/gz-phase2" element={<PaywallGate title="Gründungszuschuss Phase 2"><GzPhase2Bericht /></PaywallGate>} />
                 <Route path="/cockpit/bankgespraech" element={<PaywallGate title="Bankgespräch & KfW-StartGeld"><BankgespraechVorbereitung /></PaywallGate>} />

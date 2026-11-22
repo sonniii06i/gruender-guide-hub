@@ -41,6 +41,7 @@ import {
   Wrench,
   Percent,
   FileX,
+  CalendarRange,
 } from "lucide-react";
 import { useRole } from "@/hooks/useRole";
 import { useRadarZaehler } from "@/lib/eventRadar";
@@ -159,6 +160,7 @@ export function AppSidebar() {
           <Item to="/playbooks" icon={GraduationCap} label="Alle Guides" active={isActive("/playbooks", false)} />
           <Item to="/dashboard?view=meine" icon={PlayCircle} label="Meine Guides" active={dash("meine")} />
           <Item to="/dashboard?view=themen" icon={Compass} label="Themen entdecken" active={dash("themen")} />
+          <Item to="/cockpit/aktuell" icon={CalendarRange} label="Was sich ändert" hint="Neu ab 2027" active={isActive("/cockpit/aktuell")} />
         </Gruppe>
 
         <Gruppe id="werkzeuge" titel="Werkzeuge" zu={zu} umschalten={umschalten} collapsed={collapsed}>

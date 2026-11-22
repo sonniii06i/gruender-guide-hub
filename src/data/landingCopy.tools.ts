@@ -556,7 +556,7 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
     "outcomes": [
       "GKV-Zusatzbeiträge 2026 verglichen und Sparpotenzial pro Jahr beziffert",
       "PKV-Hebel über §204-Tarifwechsel und Selbstbehalt aufgezeigt",
-      "Wechsel-Check GKV ↔ PKV mit JAEG-Grenze 77.400 €",
+      "Wechsel-Check GKV ↔ PKV mit JAEG-Grenze 77.400 € (2027: 84.150 €)",
       "Konkrete Ersparnis als jährlicher Eurobetrag"
     ],
     "disclaimer": "Das Tool ersetzt keine Versicherungsberatung und prüft keine individuellen Tarifbedingungen."

@@ -13,6 +13,7 @@ import { GuideCard } from "@/components/dashboard/GuideCard";
 import { ContinueLearning } from "@/components/dashboard/ContinueLearning";
 import { EventRadarKachel } from "@/components/dashboard/EventRadarKachel";
 import { DeineWoche } from "@/components/dashboard/DeineWoche";
+import { JahreswechselKachel } from "@/components/dashboard/JahreswechselKachel";
 import { Startplan } from "@/components/dashboard/Startplan";
 import { FelixFragen, GuideEmpfehlungen, Karte, MehrEntdecken, ToolEmpfehlungen, VergleichTipps, ZuletztGeoeffnet } from "@/components/dashboard/Empfehlungen";
 import { GRUENDUNGS_GUIDE, profilMerkmale, rechtsformVon } from "@/lib/startplan";
@@ -182,6 +183,7 @@ const Dashboard = () => {
             <div className="contents lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:block lg:min-w-0 lg:space-y-4">
               <div className="order-2 min-w-0 space-y-4">
                 <DeineWoche />
+                <JahreswechselKachel />
                 <EventRadarKachel />
               </div>
               <div className="order-4 min-w-0 space-y-4">

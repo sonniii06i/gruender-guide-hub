@@ -131,7 +131,7 @@ export const VORLAGEN_ARBEIT: Vorlage[] = [
     dateiname: "Minijob-Vertrag",
     wofuer: [
       "Deine erste Aushilfe für Versand, Lager, Laden oder Büro mit wenigen Stunden pro Woche",
-      "Wenn du die Verdienstgrenze von 603 EUR im Monat (2026) sicher einhalten willst",
+      "Wenn du die Verdienstgrenze von 603 EUR im Monat (2026; ab 01.01.2027: 633 EUR) sicher einhalten willst",
       "Für Minijobber, die als Rentner, Studierende oder neben einer Hauptbeschäftigung arbeiten",
       "Als Nachweis nach dem Nachweisgesetz, der auch für Minijobs Pflicht ist",
     ],
