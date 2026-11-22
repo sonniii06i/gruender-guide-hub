@@ -31,7 +31,7 @@ const AGB = () => (
           </span>
         }
         title="Allgemeine Geschäftsbedingungen"
-        lead={<p className="text-base tabular">Stand: Mai 2026 · Version 2.0</p>}
+        lead={<p className="text-base tabular">Stand: November 2026 · Version 2.1</p>}
       />
       <div className="container max-w-3xl px-4 py-10 md:py-14">
       <div className="prose prose-slate max-w-none rounded-2xl border border-border bg-card p-5 shadow-card prose-headings:scroll-mt-24 prose-headings:tracking-tight prose-a:text-accent-blue sm:p-8 md:p-10">
@@ -86,10 +86,8 @@ const AGB = () => (
       <p>(1) GründerX richtet sich überwiegend an Unternehmer:innen i. S. d. § 14 BGB. Tarife werden daher als Netto-Preise zzgl. der gesetzlichen Umsatzsteuer ausgewiesen:</p>
       <ul>
         <li><strong>GründerX Solo</strong>: 54,61 € netto / Monat (64,99 € brutto inkl. 19 % USt). Voller Zugriff auf alle GründerX-Funktionen.</li>
-        <li><strong>Founder Bundle</strong> (GründerX + AnwaltX): 84,03 € netto / Monat (99,99 € brutto inkl. 19 % USt) – 23 % günstiger als beide einzeln. Zusätzlich: AnwaltX-Vertragsprüfung, Abmahn-Schutz, Streitfall-Hilfe.</li>
       </ul>
       <p>(2) Verbraucher:innen i. S. d. § 13 BGB sehen den Brutto-Endpreis im Checkout entsprechend § 1 Abs. 1 PAngV.</p>
-      <p>(3) AnwaltX-Leistungen sind ausschließlich im Bundle erhältlich und werden durch eine separate Partner-Kanzlei erbracht (Details siehe AnwaltX-Bedingungen).</p>
       <p>(4) Bei Unternehmer:innen mit gültiger ausländischer USt-ID innerhalb der EU erfolgt die Rechnung steuerfrei nach § 3a Abs. 2 UStG (Reverse-Charge).</p>
       <p>(5) Sondertarife, Coupons oder Coop-Deals werden – sofern auf der Plattform ausgewiesen – mit konkretem Ablaufdatum angegeben.</p>
 
@@ -260,7 +258,7 @@ const AGB = () => (
       <p>(3) Online-Streitbeilegung: Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung bereit: <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noreferrer">ec.europa.eu/consumers/odr</a>. An einem Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle nehmen wir nicht teil.</p>
       <p>(4) Sollten einzelne Bestimmungen dieser AGB unwirksam sein, bleibt die Wirksamkeit der übrigen Bestimmungen unberührt. An die Stelle der unwirksamen Bestimmung tritt die gesetzliche Regelung.</p>
 
-      <p className="mt-8 text-sm text-muted-foreground">Stand: Mai 2026 · Version 2.0</p>
+      <p className="mt-8 text-sm text-muted-foreground">Stand: November 2026 · Version 2.1</p>
       </div>
       </div>
     </main>

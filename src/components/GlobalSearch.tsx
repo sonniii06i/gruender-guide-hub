@@ -139,6 +139,7 @@ export const GlobalSearch = () => {
         onClick={() => setOpen(true)}
         className="hidden h-9 min-w-[260px] items-center gap-2 rounded-md border border-border bg-background px-3 text-[13px] text-muted-foreground transition-colors hover:border-foreground/30 hover:text-foreground sm:flex md:min-w-[340px]"
         aria-label="Suche öffnen"
+        data-tour="suche"
       >
         <Search className="h-3.5 w-3.5" aria-hidden="true" />
         <span className="flex-1 text-left">Guides und Tools durchsuchen …</span>
@@ -152,6 +153,7 @@ export const GlobalSearch = () => {
         variant="ghost"
         className="h-9 w-9 rounded-lg sm:hidden"
         aria-label="Suche öffnen"
+        data-tour="suche"
       >
         <Search className="h-4 w-4" />
       </Button>

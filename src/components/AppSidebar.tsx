@@ -45,6 +45,7 @@ import {
 import { useRole } from "@/hooks/useRole";
 import { useRadarZaehler } from "@/lib/eventRadar";
 import { LANDING_TOOLS } from "@/data/features";
+import { RUNDGANG_EVENT } from "@/lib/tourLage";
 
 // Seitenleiste nach der Gründer-Reise: Start → Lernen → Werkzeuge → Geld & Chancen
 // → Community. Gruppen lassen sich zuklappen (gemerkt im Browser), oben eine
@@ -61,6 +62,13 @@ function useZugeklappt() {
       return [];
     }
   });
+  // Während des Rundgangs sind alle Gruppen offen, ohne die gemerkte Auswahl zu ändern.
+  const [rundgang, setRundgang] = useState(false);
+  useEffect(() => {
+    const h = (e: Event) => setRundgang(!!(e as CustomEvent<boolean>).detail);
+    window.addEventListener(RUNDGANG_EVENT, h);
+    return () => window.removeEventListener(RUNDGANG_EVENT, h);
+  }, []);
   const umschalten = (id: string) =>
     setZu((alt) => {
       const neu = alt.includes(id) ? alt.filter((x) => x !== id) : [...alt, id];
@@ -71,7 +79,7 @@ function useZugeklappt() {
       }
       return neu;
     });
-  return { zu, umschalten };
+  return { zu: rundgang ? [] : zu, umschalten };
 }
 
 // Neue Chancen seit dem letzten Besuch im Chancen-Radar (Daten erst nachladen, nicht im Haupt-Bundle).
@@ -136,7 +144,7 @@ export function AppSidebar() {
       <SidebarContent className="gap-0">
         {!collapsed && <ToolSuche onGo={closeOnMobile} />}
 
-        <SidebarGroup>
+        <SidebarGroup data-tour="start">
           <SidebarGroupContent>
             <SidebarMenu>
               <Item to="/dashboard" icon={LayoutDashboard} label="Übersicht" active={pathname === "/dashboard" && !search} />
@@ -237,7 +245,7 @@ const Gruppe = ({
   // Eingeklappte Seitenleiste zeigt nur Symbole – dann immer alle Einträge.
   const offen = collapsed || !zu.includes(id);
   return (
-    <SidebarGroup className="py-1">
+    <SidebarGroup className="py-1" data-tour={`gruppe-${id}`}>
       <SidebarGroupLabel asChild>
         <button type="button" onClick={() => umschalten(id)} aria-expanded={offen} className="w-full justify-between hover:text-sidebar-foreground">
           <span>{titel}</span>

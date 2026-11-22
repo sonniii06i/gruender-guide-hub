@@ -21,7 +21,7 @@ const FAQS: { q: string; a: string }[] = [
     q: "Gibt es kostenlose Vertragsvorlagen?",
     a: "Ja, über 100 Vorlagen nach deutschem Recht unter gruenderx.de/vorlagen: GbR-Gesellschaftsvertrag, Kaufverträge, Arbeitsverträge, NDA, AGB, Vollmachten, Darlehen, Mahnung und mehr. Du bestätigst einmal deine E-Mail-Adresse, danach lädst du jede Vorlage als Word, PDF oder Text – ohne Konto, ohne Zahlung. Jede Vorlage hat einen Ratgeber zum Ausfüllen.",
   },
-  { q: "Ersetzt GründerX meinen Steuerberater oder Anwalt?", a: "Nein. GründerX bereitet dich strukturiert vor, erklärt Begriffe und liefert Templates. Bei rechtsverbindlichen Themen (Steuererklärung, Vertragsprüfung) verweisen wir auf unser Schwesterprodukt AnwaltX bzw. zertifizierte Partner." },
+  { q: "Ersetzt GründerX meinen Steuerberater oder Anwalt?", a: "Nein. GründerX bereitet dich strukturiert vor, erklärt Begriffe und liefert Templates. Für rechtsverbindliche Themen (Steuererklärung, Vertragsprüfung) brauchst du weiter eine Steuerberatung oder Kanzlei." },
   { q: "Welche Rechtsformen deckt ihr ab?", a: "Schwerpunkt DE: Einzelunternehmen, GbR, UG, GmbH, GmbH & Co. KG. Zusätzlich US-LLC für Creator/E-Commerce. Der Rechtsform-Wizard berechnet die optimale Form für dein Modell." },
   { q: "Wie funktioniert die Bezahlung?", a: "Sichere Abwicklung über Stripe. SEPA-Lastschrift, Kreditkarte und Apple/Google Pay. Rechnungen findest du im Profil → Abrechnung. Du kannst dein Abo dort jederzeit über das Stripe-Portal verwalten." },
   { q: "Kann ich jederzeit kündigen?", a: "Ja. Monatlich kündbar mit einem Klick im Stripe-Kundenportal (Profil → Abrechnung → Verwalten). Nach Ende der bezahlten Periode bleiben deine Daten erhalten, Premium-Features werden gesperrt." },

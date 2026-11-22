@@ -44,7 +44,7 @@ export const Startplan = ({ profil, planAendernLink }: { profil: PlanProfil; pla
   };
 
   return (
-    <section className="rounded-lg border border-border bg-card" aria-labelledby="startplan-titel">
+    <section className="rounded-lg border border-border bg-card" aria-labelledby="startplan-titel" data-tour="fahrplan">
       <div className="px-5 pb-5 pt-4">
         <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1">
           <p className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[13px] font-medium text-muted-foreground">
@@ -130,7 +130,7 @@ export const Startplan = ({ profil, planAendernLink }: { profil: PlanProfil; pla
         })}
       </ol>
       <p className="border-t border-border px-5 py-2.5 text-xs text-muted-foreground">
-        Haken merkt sich dieses Gerät.
+        Deine Haken gelten auf allen deinen Geräten.
         {planAendernLink && <> Passt die Phase nicht mehr? <Link to={planAendernLink} className="font-medium text-accent-blue hover:underline">Angaben ändern</Link></>}
       </p>
     </section>

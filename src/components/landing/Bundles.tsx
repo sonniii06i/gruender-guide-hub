@@ -143,7 +143,7 @@ export const Bundles = () => {
       if (error) {
         let msg = error.message;
         try {
-          const body = await (error as any)?.context?.json?.();
+          const body = await (error as { context?: { json?: () => Promise<{ error?: string }> } }).context?.json?.();
           if (body?.error) msg = body.error;
         } catch { /* ignore */ }
         if (msg?.includes("Onboarding")) { navigate("/onboarding"); return; }
@@ -152,8 +152,8 @@ export const Bundles = () => {
       // Full-Page-Redirect statt window.open: kein Popup-Blocker (open nach await wird sonst geblockt)
       if (data?.url) { window.location.href = data.url; return; }
       throw new Error("Keine Checkout-URL erhalten – bitte erneut versuchen.");
-    } catch (e: any) {
-      toast.error(e.message ?? "Checkout fehlgeschlagen");
+    } catch (e) {
+      toast.error(e instanceof Error && e.message ? e.message : "Checkout fehlgeschlagen");
     } finally {
       setLoading(null);
     }

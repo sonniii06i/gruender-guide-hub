@@ -1,5 +1,5 @@
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import HeaderActions from "@/components/HeaderActions";
@@ -10,25 +10,43 @@ import { Loader2, HelpCircle } from "lucide-react";
 import OnboardingTour, { TourStep } from "@/components/OnboardingTour";
 import { TOOL_COUNT } from "@/data/kennzahlen";
 import { merkeBesuch } from "@/lib/zuletztGenutzt";
+import { merkeRundgang, rundgangGesehen } from "@/lib/cockpitZustand";
 
 const GGH_TOUR: TourStep[] = [
-  { title: "Kurze Tour durchs Cockpit", text: "Etwa 40 Sekunden. Du kannst sie jederzeit über das Fragezeichen oben rechts erneut starten." },
-  { selector: '[data-tour="/dashboard"]', title: "Übersicht", text: "Dein Startpunkt: der Fahrplan mit dem nächsten Schritt, deine Termine und passende Tools und Guides." },
-  { selector: '[data-tour="/felix"]', title: "Felix-Chat", text: "Dein KI-Berater. Stell Felix jede Gründungs-, Rechts- oder Steuerfrage – er antwortet mit Quellen aus den Guides." },
-  { selector: '[data-tour="/playbooks"]', title: "Alle Guides", text: "Schritt-für-Schritt-Playbooks von der Idee bis zur Gründung – zum Durcharbeiten und Abhaken." },
-  { selector: '[data-tour="/dashboard?view=tools"]', title: "Tools & Rechner", text: `${TOOL_COUNT} Rechner & Wizards: Rechtsform, Steuer, Finanzen, Namen – direkt einsatzbereit.` },
-  { selector: '[data-tour="/cockpit/steuer"]', title: "Steuer-Cockpit", text: "Dein Steuer-Überblick: Fristen, Rechner und die wichtigsten To-dos für Gründer." },
-  { selector: '[data-tour="/wizard/rechtsform"]', title: "Rechtsform-Wizard", text: "Beantworte ein paar Fragen und finde die passende Rechtsform (Einzelunternehmen, GmbH, UG …)." },
-  { selector: '[data-tour="/anbieter"]', title: "Anbieter-Vergleich", text: "Vergleiche Banken, Tools & Dienstleister – kuratiert für Gründer, mit den relevanten Kriterien." },
-  { selector: '[data-tour="/affiliate"]', title: "Partnerprogramm", text: "Empfiehl GründerX weiter und verdiene mit – 25 % Provision auf jede Zahlung, 12 Monate je geworbenem Kunden." },
-  { title: "Das war die Tour", text: "Am besten startest du mit dem nächsten Schritt in deinem Fahrplan. Bei Fragen hilft Felix." },
+  { title: "Einmal kurz durchs Cockpit", text: "Etwa eine Minute. Danach weißt du, wo dein Fahrplan steht, wo du Guides und Tools findest und wo du Hilfe bekommst." },
+  { selector: '[data-tour="fahrplan"]', title: "Dein Fahrplan", text: "Hier steht immer dein nächster Schritt, passend zu deinen Antworten aus dem Onboarding. Erledigtes hakst du ab, der Stand gilt auf allen deinen Geräten." },
+  { selector: '[data-tour="termine"]', title: "Die nächsten 14 Tage", text: "Steuertermine, Bewerbungsfristen und gemerkte Events der kommenden zwei Wochen. Steht etwas an, kannst du Felix direkt fragen, was zuerst dran ist." },
+  { selector: '[data-tour="suche"]', title: "Suche", text: "Findet jeden Guide und jedes Tool. Am Rechner öffnest du sie auch mit ⌘K oder Strg+K." },
+  { selector: '[data-tour="start"]', menue: true, title: "Übersicht und Felix", text: "Die Übersicht ist diese Seite. Felix ist dein KI-Gründungsberater für Fragen zu Gründung, Recht und Steuern. Frühere Gespräche liegen unter „Meine Chats“." },
+  { selector: '[data-tour="gruppe-lernen"]', menue: true, title: "Lernen", text: "Die Guides führen dich Schritt für Schritt durch ein Thema. Was du begonnen hast, findest du unter „Meine Guides“." },
+  { selector: '[data-tour="gruppe-werkzeuge"]', menue: true, title: "Werkzeuge", text: `${TOOL_COUNT} Tools und Rechner. Die wichtigsten stehen direkt hier: Rechtsform finden, Steuern, Fristen, Finanzplan und der Anbieter-Vergleich.` },
+  { selector: '[data-tour="gruppe-geld"]', menue: true, title: "Geld & Chancen", text: "Förder-Datenbank, Wettbewerbe mit Preisgeld und Startup-Guthaben. Eine Zahl am Chancen-Radar heißt: Es gibt neue Einträge." },
+  { selector: '[data-tour="gruppe-netzwerk"]', menue: true, title: "Events & Netzwerk", text: "Gründer-Events, dein Event-Radar, die Mitgründer-Börse und das Partnerprogramm." },
+  { selector: '[data-tour="hilfe"]', title: "Hilfe und Konto", text: "Das Fragezeichen startet diesen Rundgang noch einmal. Daneben liegen Benachrichtigungen und dein Konto. Support und FAQ stehen unten in der Seitenleiste." },
 ];
 
 export default function AppLayout() {
   const { user, loading } = useAuth();
-  const { loading: accessLoading, onboardingCompleted, known: accessKnown } = useAccess();
+  const { loading: accessLoading, onboardingCompleted, known: accessKnown, hasActiveSub, isAdmin } = useAccess();
   const navigate = useNavigate();
-  const { pathname } = useLocation();
+  const { pathname, search } = useLocation();
+  const [rundgangFaellig, setRundgangFaellig] = useState(false);
+
+  // Rundgang einmal von selbst: beim ersten Besuch im Cockpit nach dem Onboarding.
+  // Ob er schon gesehen wurde, weiß erst das Gerät, dann das Konto (gilt auf allen Geräten).
+  const uid = user?.id;
+  const imCockpit = pathname === "/dashboard" && !search;
+  const cockpitOffen = !accessLoading && accessKnown && onboardingCompleted && (hasActiveSub || isAdmin);
+  useEffect(() => {
+    if (!uid || !imCockpit || !cockpitOffen) return;
+    let aktiv = true;
+    rundgangGesehen(uid).then((gesehen) => { if (aktiv && !gesehen) setRundgangFaellig(true); });
+    return () => { aktiv = false; };
+  }, [uid, imCockpit, cockpitOffen]);
+  const rundgangEnde = useCallback(() => {
+    setRundgangFaellig(false);
+    merkeRundgang(uid);
+  }, [uid]);
 
   // „Zuletzt geöffnet“ im Cockpit: nur Tool-Seiten, nur auf diesem Gerät.
   useEffect(() => { merkeBesuch(user?.id, pathname); }, [user?.id, pathname]);
@@ -66,20 +84,24 @@ export default function AppLayout() {
             <div className="flex-1 flex justify-center">
               <GlobalSearch />
             </div>
-            <button
-              onClick={() => window.dispatchEvent(new Event("start-tour"))}
-              aria-label="Tour / Hilfe starten"
-              className="inline-flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground hover:bg-secondary hover:text-foreground"
-            >
-              <HelpCircle className="h-4 w-4" />
-            </button>
-            <HeaderActions />
+            <div className="flex items-center gap-1" data-tour="hilfe">
+              <button
+                type="button"
+                onClick={() => window.dispatchEvent(new Event("start-tour"))}
+                aria-label="Rundgang durchs Cockpit starten"
+                title="Rundgang starten"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground hover:bg-secondary hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              >
+                <HelpCircle className="h-4 w-4" aria-hidden="true" />
+              </button>
+              <HeaderActions />
+            </div>
           </header>
           <main className="flex-1 min-h-0">
             <Outlet />
           </main>
         </div>
-        <OnboardingTour steps={GGH_TOUR} storageKey="ggh-tour-done-v1" />
+        <OnboardingTour steps={GGH_TOUR} autoStart={rundgangFaellig} onEnde={rundgangEnde} />
       </div>
     </SidebarProvider>
   );

@@ -25,11 +25,13 @@ import {
   Settings2,
 } from "lucide-react";
 import { Field as KitField, ResultRow, ToneBadge, ToolSection } from "@/components/cockpit/kit";
+import { RECHTSFORM_OPTIONEN, rechtsformOption } from "@/lib/onboarding";
 import { FelixMemoryPanel } from "@/components/profile/FelixMemoryPanel";
 import { TwoFactorPanel } from "@/components/profile/TwoFactorPanel";
 import { CodeEinloesenPanel } from "@/components/profile/CodeEinloesenPanel";
 import { toast } from "sonner";
 import { readProfileCache, writeProfileCache } from "@/lib/profileCache";
+import type { Database } from "@/integrations/supabase/types";
 import { interpretDeleteAccountResult } from "@/lib/deleteAccount";
 
 interface ProfileData {
@@ -37,7 +39,17 @@ interface ProfileData {
   company_name?: string | null; legal_form?: string | null; phone?: string | null;
   street?: string | null; postal_code?: string | null; city?: string | null;
   vat_id?: string | null; tax_id?: string | null; country?: string | null;
+  onboarding_completed?: boolean | null;
 }
+
+type AboZeile = Database["public"]["Tables"]["subscriptions"]["Row"];
+
+/** Stripe-Status in Worten; unbekannte Werte bleiben sichtbar statt zu verschwinden. */
+const ABO_STATUS: Record<string, string> = {
+  active: "Aktiv", trialing: "Startphase", past_due: "Zahlung offen", unpaid: "Zahlung offen",
+  canceled: "Gekündigt", incomplete: "Zahlung nicht abgeschlossen", incomplete_expired: "Zahlung abgelaufen",
+  paused: "Pausiert", inactive: "Kein Abo",
+};
 
 const Profile = () => {
   const { user, signOut } = useAuth();
@@ -45,7 +57,7 @@ const Profile = () => {
   const [params, setParams] = useSearchParams();
   const tab = params.get("tab") ?? "stamm";
   const [profile, setProfile] = useState<ProfileData>({});
-  const [sub, setSub] = useState<any>(null);
+  const [sub, setSub] = useState<AboZeile | null>(null);
   const [saving, setSaving] = useState(false);
   const [busy, setBusy] = useState<string | null>(null);
 
@@ -56,7 +68,7 @@ const Profile = () => {
         const { data } = await supabase.from("subscriptions").select("*").eq("user_id", user.id).maybeSingle();
         setSub(data);
       }
-    } catch {}
+    } catch { /* Abo-Stand bleibt beim zuletzt geladenen, die Seite zeigt ihn weiter */ }
   };
 
   const [checkingSub, setCheckingSub] = useState(false);
@@ -96,7 +108,7 @@ const Profile = () => {
       // mobile Popup-Blocker ("es passiert nichts").
       if (data?.url) { window.location.href = data.url; return; }
       throw new Error("Kundenportal gerade nicht erreichbar.");
-    } catch (e: any) { toast.error(e.message); setBusy(null); }
+    } catch (e) { toast.error(e instanceof Error && e.message ? e.message : "Kundenportal gerade nicht erreichbar."); setBusy(null); }
   };
 
 
@@ -116,13 +128,14 @@ const Profile = () => {
     writeProfileCache(user.id, {
       ...(readProfileCache(user.id) ?? {}),
       first_name: profile.first_name ?? null,
-      onboarding_completed: (profile as any).onboarding_completed ?? null,
+      onboarding_completed: profile.onboarding_completed ?? null,
       legal_form: profile.legal_form ?? null,
     });
     toast.success("Profil aktualisiert");
   };
 
   const update = (k: keyof ProfileData, v: string) => setProfile({ ...profile, [k]: v });
+  const rechtsform = rechtsformOption(profile.legal_form);
   // Stripe-Abo (Kundenportal moeglich) vs. Zugang insgesamt -- gleiche Regel
   // wie useAccess/PaywallGate: comp_access und Admins zaehlen als aktiv.
   const stripeActive = sub?.status === "active" || sub?.status === "trialing";
@@ -171,7 +184,17 @@ const Profile = () => {
           <ToolSection title="Firmendaten" description="Erscheinen auf Rechnungen und füllen Wizards vor." icon={Building2}>
             <Grid>
               <Field label="Firmenname" htmlFor="pf-company" full><Input id="pf-company" value={profile.company_name ?? ""} onChange={(e) => update("company_name", e.target.value)} /></Field>
-              <Field label="Rechtsform" htmlFor="pf-legal"><Input id="pf-legal" value={profile.legal_form ?? ""} onChange={(e) => update("legal_form", e.target.value)} /></Field>
+              <Field label="Rechtsform" hint="Bestimmt die Schritte in deinem Fahrplan.">
+                {/* Gespeichert wird die Kennung aus dem Onboarding ("ug", "unsure"); gezeigt wird ihr Name. Ein eigener
+                    Text aus früheren Eingaben ("AG") bleibt als Auswahl erhalten und wird nicht stillschweigend ersetzt. */}
+                <Select value={rechtsform} onValueChange={(v) => update("legal_form", v)}>
+                  <SelectTrigger aria-label="Rechtsform"><SelectValue placeholder="Bitte wählen" /></SelectTrigger>
+                  <SelectContent>
+                    {RECHTSFORM_OPTIONEN.map((o) => <SelectItem key={o.id} value={o.id}>{o.titel}</SelectItem>)}
+                    {rechtsform && !RECHTSFORM_OPTIONEN.some((o) => o.id === rechtsform) && <SelectItem value={rechtsform}>{rechtsform}</SelectItem>}
+                  </SelectContent>
+                </Select>
+              </Field>
               <Field label="Land" htmlFor="pf-country"><Input id="pf-country" value={profile.country ?? "DE"} onChange={(e) => update("country", e.target.value)} /></Field>
               <Field label="Straße und Hausnummer" htmlFor="pf-street" full><Input id="pf-street" value={profile.street ?? ""} onChange={(e) => update("street", e.target.value)} /></Field>
               <Field label="PLZ" htmlFor="pf-zip"><Input id="pf-zip" value={profile.postal_code ?? ""} onChange={(e) => update("postal_code", e.target.value)} className="tabular" /></Field>
@@ -194,7 +217,7 @@ const Profile = () => {
               >
                 <p className="text-2xl font-semibold tracking-tight">{isActive ? (sub?.plan ?? "Zugang freigeschaltet") : "Kein aktives Abo"}</p>
                 <div className="mt-3 divide-y divide-border/70">
-                  <ResultRow label="Status" value={sub?.status ?? "inactive"} />
+                  <ResultRow label="Status" value={ABO_STATUS[sub?.status ?? "inactive"] ?? sub?.status ?? "Kein Abo"} />
                   {sub?.current_period_end && (
                     <ResultRow label="Verlängerung" value={new Date(sub.current_period_end).toLocaleDateString("de-DE")} />
                   )}

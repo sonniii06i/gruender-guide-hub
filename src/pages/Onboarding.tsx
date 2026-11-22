@@ -23,7 +23,6 @@ import {
   MODELL_OPTIONEN, PHASE_OPTIONEN, RECHTSFORM_OPTIONEN, SCHRITTE_AENDERN, SCHRITTE_NEU, SCHRITT_FERTIG,
   einstieg, fehlerIn, rechtsformOption, type OnbSchritt,
 } from "@/lib/onboarding";
-import { TOUR_WUNSCH } from "@/components/OnboardingTour";
 import { cn } from "@/lib/utils";
 
 const MODELL_ICON: Record<string, LucideIcon> = {
@@ -216,11 +215,6 @@ const Onboarding = () => {
 
   const zurueck = () => { if (index > 0 && schritt !== "plan") setSchritt(schritte[index - 1]); };
 
-  const tourStarten = () => {
-    try { sessionStorage.setItem(TOUR_WUNSCH, "1"); } catch { /* ohne Speicher keine Tour */ }
-    navigate("/dashboard");
-  };
-
   if (!bereit) {
     return (
       <div className="flex min-h-[100dvh] items-center justify-center" role="status">
@@ -273,7 +267,7 @@ const Onboarding = () => {
             hatZugang={hatZugang}
             tools={empfohleneToolSlugs(profil, 3).map((s) => TOOL_TITEL.get(s)).filter((t): t is string => !!t)}
             guides={empfohleneGuides(profil.business_model, 3, (() => { const f = rechtsformVon(rechtsform); return f ? GRUENDUNGS_GUIDE[f] : null; })()).map((g) => g.title)}
-            onTour={modus === "neu" && hatZugang ? tourStarten : undefined}
+            rundgangHinweis={modus === "neu" && hatZugang}
           />
         ) : (
           <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start">
@@ -526,7 +520,7 @@ const KurzListe = ({ titel, icon: Icon, punkte }: { titel: string; icon: LucideI
 
 /** Abschluss: der fertige Fahrplan und ein Knopf in den ersten Schritt. */
 const PlanSeite = ({
-  titelRef, plan, merkmale, vorname, geaendert, hatZugang, tools, guides, onTour,
+  titelRef, plan, merkmale, vorname, geaendert, hatZugang, tools, guides, rundgangHinweis,
 }: {
   titelRef: React.RefObject<HTMLHeadingElement>;
   plan: PlanSchritt[];
@@ -536,7 +530,7 @@ const PlanSeite = ({
   hatZugang: boolean;
   tools: string[];
   guides: string[];
-  onTour?: () => void;
+  rundgangHinweis?: boolean;
 }): ReactNode => {
   const erster = plan[0];
   return (
@@ -570,19 +564,23 @@ const PlanSeite = ({
 
         <div className="border-t border-border px-5 py-5 md:px-8">
           {hatZugang ? (
-            <div className="flex flex-col gap-2.5 sm:flex-row sm:flex-wrap sm:items-center">
-              {erster && (
-                <Button asChild size="lg">
-                  <Link to={erster.ziel}>{erster.art === "guide" ? "Ersten Guide ansehen" : "Ersten Schritt öffnen"} <ArrowRight aria-hidden="true" /></Link>
+            <>
+              <div className="flex flex-col gap-2.5 sm:flex-row sm:flex-wrap sm:items-center">
+                {erster && (
+                  <Button asChild size="lg">
+                    <Link to={erster.ziel}>{erster.art === "guide" ? "Ersten Guide ansehen" : "Ersten Schritt öffnen"} <ArrowRight aria-hidden="true" /></Link>
+                  </Button>
+                )}
+                <Button asChild size="lg" variant="outline">
+                  <Link to="/dashboard">Zum Cockpit</Link>
                 </Button>
+              </div>
+              {rundgangHinweis && (
+                <p className="mt-3 text-[13px] leading-relaxed text-muted-foreground text-pretty">
+                  Beim ersten Besuch im Cockpit zeigen wir dir in etwa einer Minute, wo alles steht.
+                </p>
               )}
-              <Button asChild size="lg" variant="outline">
-                <Link to="/dashboard">Zum Cockpit</Link>
-              </Button>
-              {onTour && (
-                <Button type="button" variant="link" onClick={onTour} className="sm:ml-auto">Erst eine kurze Tour</Button>
-              )}
-            </div>
+            </>
           ) : (
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <p className="max-w-[46ch] text-[13px] leading-relaxed text-muted-foreground text-pretty">

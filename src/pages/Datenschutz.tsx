@@ -33,7 +33,7 @@ const Datenschutz = () => (
           </span>
         }
         title="Datenschutzerklärung"
-        lead={<p className="text-base tabular">Stand: Oktober 2026 · Version 2.1 (GründerX-spezifisch)</p>}
+        lead={<p className="text-base tabular">Stand: November 2026 · Version 2.2 (GründerX-spezifisch)</p>}
       />
       <div className="container max-w-3xl px-4 py-10 md:py-14">
       <div className="prose prose-slate max-w-none rounded-2xl border border-border bg-card p-5 shadow-card prose-headings:scroll-mt-24 prose-headings:tracking-tight prose-a:text-accent-blue sm:p-8 md:p-10">
@@ -95,6 +95,13 @@ const Datenschutz = () => (
       <p><strong>Speicherort:</strong> Supabase-Datenbank in der EU (Frankfurt am Main).</p>
       <p><strong>Speicherdauer:</strong> Bis zur Konto-Löschung oder bis du den Eintrag manuell löschst. Du kannst jederzeit unter „Meine Guides" Daten löschen oder den gesamten Run zurücksetzen.</p>
       <p><strong>Hinweis:</strong> Die Plattform ersetzt keinen Notar oder Steuerberater. Übermittlung der Daten an einen Notar erfolgt ausschließlich durch dich selbst (z. B. Copy/Paste oder Download als .txt) – wir senden Notar-Daten nicht automatisch an Dritte.</p>
+
+      <h3 className="font-semibold mt-6">3.2a Cockpit: Fahrplan und Rundgang</h3>
+      <p><strong>Daten:</strong> Die Schritte, die du im Fahrplan deines Cockpits von Hand abhakst, und der Zeitpunkt, zu dem du den Rundgang durch das Cockpit gesehen oder übersprungen hast.</p>
+      <p><strong>Zweck:</strong> Dein Fahrplan zeigt auf jedem Gerät denselben Stand, und der Rundgang startet nicht bei jeder Anmeldung neu.</p>
+      <p><strong>Rechtsgrundlage:</strong> Art. 6 Abs. 1 lit. b DSGVO.</p>
+      <p><strong>Speicherort:</strong> Supabase-Datenbank in der EU (Frankfurt am Main); zusätzlich als Kopie im LocalStorage deines Browsers (Abschnitt 6).</p>
+      <p><strong>Speicherdauer:</strong> Bis zur Konto-Löschung. Haken kannst du jederzeit selbst wieder entfernen.</p>
 
       <h3 className="font-semibold mt-6">3.3 Felix-Chat (KI-Beratung)</h3>
       <p><strong>Daten:</strong> Chat-Verlauf (deine Nachrichten + Felix-Antworten), Zeitstempel, Konversations-ID.</p>
@@ -239,7 +246,7 @@ const Datenschutz = () => (
       </p>
       <p>
         <strong>Tipps der Schwester-Marken (freiwillig):</strong> Mit einem zweiten, nicht vorausgewählten Häkchen kannst du
-        zusätzlich gelegentliche Hinweise auf passende Angebote unserer Schwester-Marken AnwaltX, ArbitrageX und Delta
+        zusätzlich gelegentliche Hinweise auf passende Angebote unserer Schwester-Marken ArbitrageX und Delta
         Sourcing per E-Mail erhalten. Alle Marken betreibt derselbe Verantwortliche (siehe Impressum); deine Daten werden
         dafür nicht an Dritte weitergegeben. Auch diese Einwilligung gilt erst nach der Bestätigung (Double-Opt-in) und
         lässt sich jederzeit über den Abmeldelink oder per Nachricht an uns widerrufen; meldest du dich ab, endet sie mit.
@@ -492,6 +499,7 @@ const Datenschutz = () => (
         <li><strong>gruenderx:vorlagen-angefordert</strong> (LocalStorage) – merkt die zuletzt für eine Vorlage eingegebene E-Mail-Adresse, damit du sie beim erneuten Senden nicht noch einmal tippen musst</li>
         <li><strong>gruenderx:tool-unlocked:{`{tool}`}</strong> (LocalStorage) – merkt, dass du ein kostenloses Tool bereits freigeschaltet hast (Abschnitt 3.9); enthält nur den Zeitpunkt, keine E-Mail-Adresse</li>
         <li><strong>gx-event-radar-v1, gx-chancen-radar-besuch, gx-steuerkalender-v1, gx-ku-waechter-v1, gx-gruendungsunterlagen-v1, gx-pitchdeck-v1, gx-gz-phase2-v1, gx-bankgespraech-v1, gx-startup-guthaben-v1, gx-sidebar-zu-v1</strong> (LocalStorage) – deine Eingaben in den Tools aus Abschnitt 3.12, damit sie beim nächsten Besuch erhalten bleiben; sie verlassen deinen Browser nicht</li>
+        <li><strong>gx-startplan-v1-{`{userId}`}, gx-startplan-offen-v1-{`{userId}`}, gx-startplan-abgleich-v1-{`{userId}`}, ggh-tour-done-v1</strong> (LocalStorage) – Kopie deiner Fahrplan-Haken für den schnellen Seitenaufbau und der Vermerk, dass du den Rundgang gesehen hast (Abschnitt 3.2a)</li>
       </ul>
       <p>
         Für diese Cookies ist keine Einwilligung erforderlich.
@@ -565,7 +573,7 @@ const Datenschutz = () => (
         wir dich zusätzlich per E-Mail.
       </p>
 
-      <p className="mt-8 text-sm text-muted-foreground">Stand: Mai 2026 · Version 2.0</p>
+      <p className="mt-8 text-sm text-muted-foreground">Stand: November 2026 · Version 2.2</p>
       </div>
       </div>
     </main>

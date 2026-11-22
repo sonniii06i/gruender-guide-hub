@@ -10,7 +10,7 @@ export const OPTIN_TEXT =
   "(höchstens zwei pro Woche, mit Messung von Öffnungen und Klicks). Abmelden geht jederzeit mit einem Klick.";
 /** Freiwillig, nie vorausgewählt (Freigabe #64, 27.10.2026). Gleicher Verantwortlicher (Sonni Buttke, Einzelunternehmen). */
 export const SCHWESTER_TEXT =
-  "Optional: Schickt mir auch gelegentlich Tipps zu passenden Angeboten der Schwester-Marken AnwaltX, ArbitrageX " +
+  "Optional: Schickt mir auch gelegentlich Tipps zu passenden Angeboten der Schwester-Marken ArbitrageX " +
   "und Delta Sourcing per E-Mail. Widerruf jederzeit über den Abmeldelink.";
 
 type Zustand = "bereit" | "sendet" | "ok" | "fehler";

@@ -325,6 +325,27 @@ export type Database = {
         }
         Relationships: []
       }
+      cockpit_zustand: {
+        Row: {
+          plan_abgehakt: string[]
+          rundgang_gesehen_am: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          plan_abgehakt?: string[]
+          rundgang_gesehen_am?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          plan_abgehakt?: string[]
+          rundgang_gesehen_am?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       contact_tickets: {
         Row: {
           created_at: string

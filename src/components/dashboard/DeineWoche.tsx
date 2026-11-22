@@ -60,7 +60,7 @@ export const DeineWoche = () => {
   const felixFrage = `Das steht bei mir in den nächsten 14 Tagen an:\n${(punkte ?? []).map((p) => `- ${tag(p.datum)}: ${p.text}`).join("\n")}\n\nWas sollte ich davon zuerst erledigen, und worauf muss ich bei den Steuerterminen achten?`;
 
   return (
-    <section className="rounded-lg border border-border bg-card">
+    <section className="rounded-lg border border-border bg-card" data-tour="termine">
       <div className="border-b border-border px-4 py-3">
         <h2 className="flex items-center gap-2 text-[15px] font-semibold leading-tight">
           <CalendarClock className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden="true" />
