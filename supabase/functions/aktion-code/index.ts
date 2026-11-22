@@ -17,7 +17,7 @@ import { ABLAUF_MAX_TAGE, GX_PRODUKTE, QUELLE, autorisiert, pruefeAnlegen, pruef
 const json = (body: unknown, status = 200) =>
   new Response(JSON.stringify(body), { status, headers: { "Content-Type": "application/json" } });
 
-const PRODUKT_NAMEN = ["GründerX", "Founder Bundle"];   // Testkonto: gleiche Produkte, andere IDs
+const PRODUKT_NAMEN = ["GründerX"];   // Testkonto: gleiche Produkte, andere IDs (Founder Bundle seit 22.11.2026 raus)
 
 async function produkte(stripe: Stripe, test: boolean): Promise<string[]> {
   if (!test) return [...GX_PRODUKTE];

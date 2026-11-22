@@ -30,7 +30,7 @@ const corsHeaders = {
 
 const PRICES: Record<string, string> = {
   gruenderx: "price_1TTUf764hSN6usxPLDOylK70",
-  bundle: "price_1TTUfV64hSN6usxPe60ADpTF",
+  // Founder-Set (bundle) seit 20.11.2026 eingestellt, seit 22.11.2026 auch hier nicht mehr buchbar.
 };
 
 /** Zielbeträge in Cent — identisch zu create-checkout. Beträge sind BRUTTO. */
@@ -38,7 +38,6 @@ type Interval = "month" | "year";
 
 const TARGET_AMOUNTS: Record<string, Record<Interval, number>> = {
   gruenderx: { month: 6499, year: 64990 },
-  bundle:    { month: 9999, year: 99990 },
 };
 
 const ALLOWED_ORIGINS = ["https://gruenderx.de", "https://www.gruenderx.de", "http://localhost:8080"];
@@ -91,7 +90,8 @@ serve(async (req) => {
 
   try {
     const body = await req.json().catch(() => ({}));
-    const product = body.product === "bundle" ? "bundle" : "gruenderx";
+    // Nur noch GründerX. Alte Links mit product=bundle landen beim GründerX-Zugang (wie src/lib/cart.ts).
+    const product = "gruenderx";
     // Alles ausser "year" ist "month" — ein manipulierter Wert darf nicht in
     // einem Checkout ohne Preis enden.
     const interval: Interval = body.interval === "year" ? "year" : "month";
@@ -129,13 +129,11 @@ serve(async (req) => {
       locale: "de",
       // Der letzte Satz vor dem Bezahlen. Er muss zu Produkt UND Laufzeit
       // passen: Hier stand fest "GruenderX Zugang - monatlich kuendbar", was
-      // auf einem Jahres-Checkout fuers Founder-Set gleich zweimal falsch war.
+      // auf einem Jahres-Checkout gleich falsch war.
       custom_text: {
         submit: {
           message: start ? mitWerbeHinweis(startText("GründerX", "64,99 €")) : mitWerbeHinweis(
-            (product === "bundle"
-              ? "Founder-Set: GruenderX + AnwaltX"
-              : "GruenderX Zugang") +
+            "GruenderX Zugang" +
             (interval === "year"
               ? " – Jahresabo, zwei Monate geschenkt. Verlängert sich jährlich, Kündigung mit einem Klick im Konto."
               : " – monatlich kündbar, Kündigung mit einem Klick im Konto.")),

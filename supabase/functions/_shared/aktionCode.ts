@@ -12,7 +12,7 @@
 //   auswerten     Einlösungen + bezahlte Rechnungen mit dem Code
 // ===================================================================
 
-export const GX_PRODUKTE = ["prod_USPUozqTnVyRXl", "prod_USPUb11hirlkRP"] as const;   // GründerX, Founder Bundle
+export const GX_PRODUKTE = ["prod_USPUozqTnVyRXl"] as const;   // GründerX (Founder Bundle prod_USPUb11hirlkRP seit 22.11.2026 raus)
 export const RABATT_MAX = 50;
 export const ABLAUF_MAX_TAGE = 60;
 export const QUELLE = "hq-aktionen";

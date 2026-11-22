@@ -81,16 +81,16 @@ interface CartOpts {
 /** Gemeinsame Ableitungen der drei Warenkorbstufen. */
 function cartBasis(o: CartOpts) {
   const url = (o.baseUrl ?? BASIS).replace(/\/+$/, "");
-  const p = o.produkt ?? "gruenderx";
+  // Founder-Set seit 20.11.2026 eingestellt: alte Warenkörbe mit „bundle“ bekommen die GründerX-Mail
+  // (Preis, Name und Link wie im Shop, der alte bundle-Links ebenfalls auf GründerX umlenkt).
+  const p: Produkt = "gruenderx";
   const iv: Intervall = o.intervall === "year" ? "year" : "month";
   const brutto = PREIS[p][iv];
   const tage = iv === "year" ? 365 : 30;
   // Der Warenkorb merkt sich die Auswahl selbst (gx_cart_variant); der
   // Link setzt sie zusaetzlich, damit sie auch auf einem anderen Geraet
   // stimmt.
-  const variante = p === "bundle"
-    ? (iv === "year" ? "bundle-year" : "bundle")
-    : (iv === "year" ? "gruenderx-year" : "gruenderx");
+  const variante = iv === "year" ? "gruenderx-year" : "gruenderx";
   return {
     url, p, iv, brutto,
     preis: eur(brutto),
@@ -342,7 +342,8 @@ export function buildReferral(o: {
   const link = track(`${url}/affiliate`, "referral", v);
   const name = (o.name ?? "").trim();
   const greeting = name ? `Hallo ${name},` : "Hallo,";
-  const p = o.produkt ?? "gruenderx";
+  // Geworbene kaufen nur noch GründerX (Founder-Set seit 20.11.2026 eingestellt): Provision immer daraus.
+  const p: Produkt = "gruenderx";
   const proMonat = provision(PREIS[p].month);
   const proJahr = provision(PREIS[p].year);
 

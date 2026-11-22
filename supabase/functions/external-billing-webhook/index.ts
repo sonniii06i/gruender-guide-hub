@@ -62,6 +62,9 @@ const PRODUCT_TO_PLAN: Record<string, string> = {
   "728385": "gruenderx",     // GründerX — KI-Gründungs-Copilot, 64,99 €
   "728388": "bundle",        // Founder Bundle — GründerX + AnwaltX, 99,99 €
 };
+// 22.11.2026: Founder-Set eingestellt. Die zwei bundle-Zeilen bleiben bewusst stehen: Falls die Produkte auf
+// CopeCart/Digistore24 noch kaufbar sind, bekommt ein zahlender Käufer trotzdem Zugang statt nichts.
+// Abschalten muss man sie auf den Plattformen selbst.
 const DEFAULT_PLAN = "gruenderx";
 
 const planFor = (productId: string | null) =>

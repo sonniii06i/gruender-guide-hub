@@ -24,7 +24,7 @@ const corsHeaders = {
 // Jahrespreise: zwei Monate geschenkt (10 × Monatspreis).
 const TARGET_AMOUNTS: Record<string, Record<Interval, number>> = {
   gruenderx: { month: 6499, year: 64990 }, // 64,99 €/Monat · 649,90 €/Jahr
-  bundle:    { month: 9999, year: 99990 }, // 99,99 €/Monat · 999,90 €/Jahr
+  // Founder-Set (bundle) seit 20.11.2026 eingestellt, Verkauf seit 22.11.2026 auch serverseitig zu.
 };
 
 type Interval = "month" | "year";
@@ -33,9 +33,9 @@ type Interval = "month" | "year";
 // src/lib/stripe.ts). Vorher wurde jede priceId akzeptiert: resolvePriceId()
 // lud dann deren Produkt und legte dort notfalls einen neuen Preis an —
 // beliebige Stripe-Produkte des Kontos waren so buchbar/veraenderbar.
-const ANKER_PREISE: Record<string, "gruenderx" | "bundle"> = {
+const ANKER_PREISE: Record<string, "gruenderx"> = {
   price_1TTUf764hSN6usxPLDOylK70: "gruenderx",
-  price_1TTUfV64hSN6usxPe60ADpTF: "bundle",
+  // Founder-Set-Anker price_1TTUfV64hSN6usxPe60ADpTF seit 22.11.2026 nicht mehr buchbar (→ „Unbekannter Tarif“).
 };
 
 // Wie checkout-guest: success/cancel-URLs nur auf eigene Domains.
@@ -106,7 +106,7 @@ serve(async (req) => {
     // einem Checkout ohne Preis enden.
     const interval: Interval = rawInterval === "year" ? "year" : "month";
     const affRef = typeof affiliateRef === "string" ? affiliateRef.trim().slice(0, 32) : "";
-    // Produkt aus priceId ableiten (Bundle = GruenderX + AnwaltX)
+    // Produkt aus priceId ableiten (nur noch GründerX)
     const product = ANKER_PREISE[priceId];
 
     const supabase = createClient(
@@ -209,7 +209,7 @@ serve(async (req) => {
 
     const rawOrigin = req.headers.get("origin") || "";
     const origin = ALLOWED_ORIGINS.includes(rawOrigin) ? rawOrigin : "https://gruenderx.de";
-    // Ziel-Preis dynamisch auflösen (64,99 € GründerX / 99,99 € Bundle) — self-healing, kein Dashboard nötig.
+    // Ziel-Preis dynamisch auflösen (64,99 € / 649,90 € GründerX) — self-healing, kein Dashboard nötig.
     const resolvedPriceId = await resolvePriceId(stripe, product, interval, priceId);
     // Startangebot „7 Tage für 1 €“ (27.10.2026): nur GründerX monatlich, nur Neukunden.
     const start = istStartAngebot(body) && startErlaubt(product, interval);
@@ -230,13 +230,11 @@ serve(async (req) => {
       locale: "de",
       // Der letzte Satz vor dem Bezahlen. Er muss zu Produkt UND Laufzeit
       // passen: Hier stand fest "GruenderX Zugang - monatlich kuendbar", was
-      // auf einem Jahres-Checkout fuers Founder-Set gleich zweimal falsch war.
+      // auf einem Jahres-Checkout gleich falsch war.
       custom_text: {
         submit: {
           message: start ? mitWerbeHinweis(startText("GründerX", "64,99 €")) : mitWerbeHinweis(
-            (product === "bundle"
-              ? "Founder-Set: GruenderX + AnwaltX"
-              : "GruenderX Zugang") +
+            "GruenderX Zugang" +
             (interval === "year"
               ? " - Jahresabo, zwei Monate geschenkt. Verlaengert sich jaehrlich, Kuendigung mit einem Klick im Konto."
               : " - monatlich kuendbar, Kuendigung mit einem Klick im Konto.")),
