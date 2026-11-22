@@ -59,7 +59,7 @@ const KleinunternehmerWaechter = () => {
                   </span>
                 </label>
                 {e.gruendungsjahr && (
-                  <Field label="Gründungsmonat" htmlFor="ku-gruendung" hint="Für das Folgejahr wird dein Rumpfjahr auf 12 Monate hochgerechnet.">
+                  <Field label="Gründungsmonat" htmlFor="ku-gruendung" hint="Nur für die Prognose. Im Folgejahr zählt dein tatsächlicher Umsatz aus diesem Jahr, hochgerechnet wird nicht.">
                     <select
                       id="ku-gruendung"
                       className={selectCls}

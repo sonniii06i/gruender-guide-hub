@@ -52,14 +52,27 @@ describe("PreYearEndCheck: vorgezogene Investition", () => {
 
 import { pruefeKleinunternehmer } from "@/lib/kleinunternehmer";
 
-describe("Kleinunternehmer-Wächter: Rumpf-Gründungsjahr", () => {
-  it("Gründung im Oktober mit 10.000 € → hochgerechnet 40.000 €, im Folgejahr keine KU", () => {
+describe("Kleinunternehmer-Wächter: Rumpf-Gründungsjahr (keine Hochrechnung seit 2025)", () => {
+  it("Gründung im Oktober mit 10.000 € → Folgejahr zählt der tatsächliche Umsatz, KU bleibt möglich", () => {
     const monate = [0, 0, 0, 0, 0, 0, 0, 0, 0, 4000, 3000, 3000];
     const r = pruefeKleinunternehmer({ gruendungsjahr: true, vorjahr: 0, monate, bisMonat: 12, gruendungsMonat: 10 });
-    // 10.000 € / 3 aktive Monate × 12 = 40.000 €
-    expect(r.jahresumsatzFolgejahr).toBe(40000);
+    // § 19 Abs. 1 UStG n. F., Abschn. 19.1 Abs. 3 UStAE: tatsächlicher Gesamtumsatz, keine Umrechnung auf 12 Monate
+    expect(r.jahresumsatzFolgejahr).toBe(10000);
+    expect(r.folgejahrKu).toBe(true);
+    expect(r.status).toBe("ku");
+  });
+  it("Gründung im Juli mit 15.000 € → im Folgejahr weiter Kleinunternehmer", () => {
+    const monate = [0, 0, 0, 0, 0, 0, 2500, 2500, 2500, 2500, 2500, 2500];
+    const r = pruefeKleinunternehmer({ gruendungsjahr: true, vorjahr: 0, monate, bisMonat: 12, gruendungsMonat: 7 });
+    expect(r.jahresumsatzFolgejahr).toBe(15000);
+    expect(r.folgejahrKu).toBe(true);
+    expect(r.texte.join(" ")).not.toMatch(/hochgerechnet/);
+  });
+  it("Gründungsjahr über 25.000 € tatsächlich → im Folgejahr keine KU", () => {
+    const monate = [0, 0, 0, 0, 0, 0, 0, 0, 0, 10000, 9000, 8000];
+    const r = pruefeKleinunternehmer({ gruendungsjahr: true, vorjahr: 0, monate, bisMonat: 12, gruendungsMonat: 10 });
+    expect(r.jahresumsatzFolgejahr).toBe(27000);
     expect(r.folgejahrKu).toBe(false);
-    expect(r.status).toBe("ku"); // im Gründungsjahr selbst unter 25.000 €
   });
 });
 
