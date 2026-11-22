@@ -14,6 +14,34 @@
  * Im rohen HTML: eigener Titel, robots noindex, kein Canonical, kein og:url.
  * Die React-Route „*“ (NotFound.tsx) setzt im Browser zusätzlich noindex.
  */
+/**
+ * App-Hülle für die App-Routen (SEO-Befund 22.11.2026): /willkommen, /affiliate,
+ * /reset-password, /mail-bestaetigen, /einbetten/… lieferten 200 mit Startseiten-
+ * Titel, ohne Canonical und ohne noindex – Kopien der Startseite für Google.
+ * dist/app-shell.html (Ziel aller App-Rewrites in vercel.json) trägt deshalb
+ * robots noindex, aber kein og:url der Startseite.
+ *
+ * Dieselbe Hülle springt in prerender.mjs auch für Sitemap-Seiten ein, die nicht
+ * gerendert werden konnten. Dort darf kein noindex stehen → huelleOhneNoindex().
+ */
+const APP_NOINDEX = '<meta name="robots" content="noindex" data-app-huelle="1">';
+
+export function appShellSeite(shell) {
+  if (!/<div id="root">\s*<\/div>/.test(shell)) {
+    throw new Error("App-Hülle hat kein leeres #root – app-shell.html nicht erzeugt");
+  }
+  return shell
+    .replace(/[ \t]*<link\b[^>]*\brel=["']canonical["'][^>]*>\s*\n?/gi, "")
+    .replace(/[ \t]*<meta\b[^>]*\bname=["']robots["'][^>]*>\s*\n?/gi, "")
+    .replace(/[ \t]*<meta\b[^>]*\bproperty=["']og:url["'][^>]*>\s*\n?/gi, "")
+    .replace(/(<title>[^<]*<\/title>)/, `$1\n    ${APP_NOINDEX}`);
+}
+
+/** Hülle ohne das App-noindex (für den Rückfall nicht gerenderter Sitemap-Seiten und die 404). */
+export function huelleOhneNoindex(shell) {
+  return shell.replace(/[ \t]*<meta name="robots" content="noindex" data-app-huelle="1">\s*\n?/g, "");
+}
+
 export const NOT_FOUND_TITEL = "Seite nicht gefunden | GründerX";
 export const NOT_FOUND_BESCHREIBUNG =
   "Diese Seite gibt es bei GründerX nicht. Weiter zu Tools, Guides, Ratgeber oder Gratis-Tools.";

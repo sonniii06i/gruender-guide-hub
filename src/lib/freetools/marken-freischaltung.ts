@@ -383,7 +383,7 @@ export const markenFreischaltungConfig: ToolConfig = {
     },
   ],
   seo: {
-    title: "Amazon Marken-Freischaltung abgelehnt – Widerspruch-Generator | GründerX",
+    title: "Amazon Markenfreischaltung: Widerspruch | GründerX",
     description:
       "Amazon-Ungating abgelehnt (Stückzahl, „modifizierte“ Rechnung, Lieferant, Autorisierung)? Erstelle einen faktenbasierten Widerspruch nach den aktuellen Amazon-Anforderungen. 1 kostenlose Nutzung, nur E-Mail nötig.",
     keywords:

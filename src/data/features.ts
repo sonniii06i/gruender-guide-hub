@@ -266,5 +266,13 @@ export const findLandingTool = (slug: string): ToolLandingEntry | undefined =>
 export const relatedLandingTools = (slug: string, limit = 4): ToolLandingEntry[] => {
   const self = findLandingTool(slug);
   if (!self) return [];
-  return LANDING_TOOLS.filter((t) => t.categorySlug === self.categorySlug && t.slug !== slug).slice(0, limit);
+  // Rotation statt „die ersten 4 der Kategorie“ (SEO-Befund 22.11.2026): Vorher bekamen
+  // Tools ab Platz 5 einer Kategorie von keiner Geschwisterseite einen Link (u. a.
+  // /tools/visa-helper, /tools/reisekosten, /tools/auszahlung-optimizer mit nur 1
+  // internem Link). Jetzt verlinkt jedes Tool die nächsten `limit` seiner Kategorie,
+  // ringförmig – damit hat jedes Tool min(limit, n−1) eingehende Links.
+  const kat = LANDING_TOOLS.filter((t) => t.categorySlug === self.categorySlug);
+  const i = kat.findIndex((t) => t.slug === slug);
+  const n = Math.min(limit, kat.length - 1);
+  return Array.from({ length: n }, (_, k) => kat[(i + 1 + k) % kat.length]);
 };

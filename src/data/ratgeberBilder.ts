@@ -40,3 +40,15 @@ export const titelbildAbsolut = (slug: string, heroImageUrl: string | null | und
   const u = titelbildUrl(slug, heroImageUrl);
   return u?.startsWith("/") ? `https://gruenderx.de${u}` : u;
 };
+
+/**
+ * Echte Pixelmaße des Titelbilds für og:image:width/height (SEO-Befund 22.11.2026:
+ * der Kopf meldete 1200×630, die lokalen WebP sind 1024×1024). Fremde URLs: unbekannt.
+ */
+export const titelbildMasse = (
+  slug: string,
+  heroImageUrl: string | null | undefined,
+): { width: number; height: number } | undefined => {
+  if (heroImageUrl && /^https?:\/\//.test(heroImageUrl)) return undefined;
+  return LOKALE_TITELBILDER.has(slug) ? { width: 1024, height: 1024 } : undefined;
+};

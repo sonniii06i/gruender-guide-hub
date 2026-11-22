@@ -2,7 +2,10 @@ import { Helmet } from "react-helmet-async";
 
 const SITE = "https://gruenderx.de";
 // Brand-OG-Default (self-hosted). Wird genutzt, wenn eine Seite kein eigenes Bild übergibt.
-const DEFAULT_IMAGE = "https://gruenderx.de/og-image.png";
+// 22.11.2026: echtes 1200×630-JPEG (71 KB) statt og-image.png (2400×1260, 1 MB, im Kopf
+// aber als 1200×630 angegeben). Maße und Alt-Text kommen je Seite aus dieser Komponente.
+export const DEFAULT_IMAGE = "https://gruenderx.de/og-default.jpg";
+const DEFAULT_MASSE = { width: 1200, height: 630 } as const;
 
 interface SeoProps {
   title: string;
@@ -10,6 +13,11 @@ interface SeoProps {
   /** Path starting with "/", e.g. "/playbooks" */
   path?: string;
   image?: string;
+  /** Echte Pixelmaße eines eigenen Bilds (ohne Angabe: keine Maße im Kopf). */
+  imageWidth?: number;
+  imageHeight?: number;
+  /** Alt-Text des OG-Bilds; Standard: der Seitentitel. */
+  imageAlt?: string;
   type?: "website" | "article" | "product";
   noindex?: boolean;
   /** Absolute Canonical-URL, wenn eine andere Seite/Domain das Thema besitzt. */
@@ -27,6 +35,9 @@ export const Seo = ({
   description,
   path = "/",
   image = DEFAULT_IMAGE,
+  imageWidth,
+  imageHeight,
+  imageAlt,
   type = "website",
   noindex,
   canonicalUrl,
@@ -38,6 +49,13 @@ export const Seo = ({
   // kürzt selbst nach Pixelbreite; die Daten halten die Länge (Tests prüfen ≤ 60).
   const fullTitle = title;
   const desc = description.length > 160 ? description.slice(0, 157) + "…" : description;
+  const masse =
+    image === DEFAULT_IMAGE
+      ? DEFAULT_MASSE
+      : imageWidth && imageHeight
+        ? { width: imageWidth, height: imageHeight }
+        : null;
+  const bildAlt = imageAlt || fullTitle;
   const blocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
 
   return (
@@ -51,11 +69,15 @@ export const Seo = ({
       <meta property="og:url" content={url} />
       <meta property="og:type" content={type} />
       <meta property="og:image" content={image} />
+      {masse && <meta property="og:image:width" content={String(masse.width)} />}
+      {masse && <meta property="og:image:height" content={String(masse.height)} />}
+      <meta property="og:image:alt" content={bildAlt} />
       <meta property="og:locale" content="de_DE" />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={fullTitle} />
       <meta name="twitter:description" content={desc} />
       <meta name="twitter:image" content={image} />
+      <meta name="twitter:image:alt" content={bildAlt} />
       {blocks.map((b, i) => (
         // "<" escapen: kein </script>-Ausbruch aus Datentexten im prerenderten HTML
         <script key={i} type="application/ld+json">{JSON.stringify(b).replace(/</g, "\\u003c")}</script>

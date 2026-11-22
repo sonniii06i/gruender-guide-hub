@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import vercel from "../../vercel.json";
 import { festeRouten } from "../../scripts/generate-sitemap";
-import { NOT_FOUND_TITEL, notFoundSeite } from "../../scripts/not-found-seite.mjs";
+import { NOT_FOUND_TITEL, appShellSeite, huelleOhneNoindex, notFoundSeite } from "../../scripts/not-found-seite.mjs";
 
 // Soft-404 (Technik-Audit 12.11.2026, Betreiber „App-Routen listen“): Früher schickte
 // vercel.json JEDEN Pfad ohne Datei per Sammel-Rewrite auf app-shell.html (HTTP 200,
@@ -165,7 +165,7 @@ describe("404.html = App-Hülle mit noindex", () => {
   });
 
   it("prerender.mjs schreibt dist/404.html aus der App-Hülle", () => {
-    expect(prerenderQuelle).toContain('import { notFoundSeite } from "./not-found-seite.mjs"');
+    expect(prerenderQuelle).toMatch(/import \{[^}]*\bnotFoundSeite\b[^}]*\} from "\.\/not-found-seite\.mjs"/);
     expect(prerenderQuelle).toMatch(/join\(DIST, "404\.html"\), notFoundSeite\(/);
   });
 
@@ -179,5 +179,37 @@ describe("404.html = App-Hülle mit noindex", () => {
   it("die React-Route * (NotFound) setzt weiter noindex", () => {
     expect(app).toMatch(/<Route path="\*" element=\{<NotFound \/>\} \/>/);
     expect(lies("src/pages/NotFound.tsx")).toMatch(/<Seo[\s\S]*?noindex[\s\S]*?\/>/);
+  });
+});
+
+describe("app-shell.html = App-Hülle mit noindex (SEO-Befund 22.11.2026)", () => {
+  const roh = lies("index.html").replace('<script type="module" src="/src/main.tsx"></script>', '<script type="module" crossorigin src="/assets/index-abc.js"></script>');
+  const shell = appShellSeite(roh);
+
+  it("App-Routen bekommen genau ein robots noindex, kein Canonical, kein og:url der Startseite", () => {
+    expect(shell.match(/name=["']robots["']/g)).toHaveLength(1);
+    expect(shell).toMatch(/<meta name="robots" content="noindex"/);
+    expect(shell).not.toMatch(/rel=["']canonical["']/i);
+    expect(shell).not.toMatch(/og:url/);
+    expect(shell).toMatch(/<div id="root">\s*<\/div>/);
+    expect(shell).toContain('<script type="module" crossorigin src="/assets/index-abc.js"></script>');
+  });
+
+  it("Rückfall für nicht gerenderte Sitemap-Seiten trägt KEIN noindex", () => {
+    const rueckfall = huelleOhneNoindex(shell);
+    expect(rueckfall).not.toMatch(/name=["']robots["']/);
+    expect(rueckfall).toMatch(/<div id="root">\s*<\/div>/);
+  });
+
+  it("404 aus der noindex-Hülle hat weiter genau ein noindex", () => {
+    const s = notFoundSeite(huelleOhneNoindex(shell));
+    expect(s.match(/name=["']robots["']/g)).toHaveLength(1);
+    expect(s).toContain(`<title>${NOT_FOUND_TITEL}</title>`);
+  });
+
+  it("prerender.mjs schreibt die noindex-Hülle und nimmt für Rückfall und 404 die Hülle ohne noindex", () => {
+    expect(prerenderQuelle).toMatch(/writeFile\(shellPfad, appShellSeite\(roh\)/);
+    expect(prerenderQuelle).toMatch(/const shellHtml = huelleOhneNoindex\(/);
+    expect(prerenderQuelle).toMatch(/notFoundSeite\(huelleOhneNoindex\(/);
   });
 });

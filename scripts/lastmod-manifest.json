@@ -3,8 +3,8 @@
   "routen": {
     "/": {"hash":"9307f35c0b84e47d","lastmod":"2026-11-22"},
     "/agb": {"hash":"f34fb0544a96cfa2","lastmod":"2026-11-22"},
-    "/amazon-marken-freischaltung-widerspruch-generator": {"hash":"bc0b6d150b1d7a7b","lastmod":"2026-11-22"},
-    "/amazon-transparency-seriennummer-widerspruch-generator": {"hash":"5a4d73d82a739152","lastmod":"2026-11-22"},
+    "/amazon-marken-freischaltung-widerspruch-generator": {"hash":"8ac3555ec55a0229","lastmod":"2026-11-22"},
+    "/amazon-transparency-seriennummer-widerspruch-generator": {"hash":"f500645c1206fb5a","lastmod":"2026-11-22"},
     "/buero": {"hash":"26c3c9bf372cae12","lastmod":"2026-11-21"},
     "/buero/aktenvernichter": {"hash":"b19b640d45c12707","lastmod":"2026-11-15"},
     "/buero/dockingstation": {"hash":"4fad1be88210dff6","lastmod":"2026-11-15"},

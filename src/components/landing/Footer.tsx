@@ -48,6 +48,7 @@ const COLUMNS: { title: string; links: { to: string; label: string; native?: boo
       { to: "/e-rechnung-lesen", label: "E-Rechnung lesen" },
       { to: "/pdf-in-e-rechnung-umwandeln", label: "PDF in E-Rechnung umwandeln" },
       { to: "/gruendungspaket", label: "Gründungspaket 2026" },
+      { to: "/vergleich/gruendung-selbst-steuerberater-gruenderx", label: "Selbst, Steuerberater oder GründerX?" },
       { to: "/faq", label: "FAQ" },
     ],
   },

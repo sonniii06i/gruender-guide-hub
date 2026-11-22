@@ -20,7 +20,7 @@ import { existsSync } from "node:fs";
 import { extname, join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import Beasties from "beasties";
-import { notFoundSeite } from "./not-found-seite.mjs";
+import { appShellSeite, huelleOhneNoindex, notFoundSeite } from "./not-found-seite.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DIST = join(__dirname, "..", "dist");
@@ -327,7 +327,7 @@ async function run() {
   if (!existsSync(shellPfad)) {
     const roh = await readFile(join(DIST, "index.html"), "utf8");
     if (/<div id="root">\s*<\/div>/.test(roh)) {
-      await writeFile(shellPfad, roh, "utf8");
+      await writeFile(shellPfad, appShellSeite(roh), "utf8"); // App-Routen: noindex (22.11.2026)
     } else {
       console.warn("[prerender] ⚠ dist/index.html ist schon prerendert – app-shell.html nicht angelegt");
     }
@@ -336,7 +336,7 @@ async function run() {
   // Vercel liefert sie mit Status 404 für jeden Pfad ohne Datei und ohne Rewrite.
   try {
     if (existsSync(shellPfad)) {
-      await writeFile(join(DIST, "404.html"), notFoundSeite(await readFile(shellPfad, "utf8")), "utf8");
+      await writeFile(join(DIST, "404.html"), notFoundSeite(huelleOhneNoindex(await readFile(shellPfad, "utf8"))), "utf8");
       console.log("[prerender] ✓ 404.html (App-Hülle, noindex)");
     } else {
       console.warn("[prerender] ⚠ app-shell.html fehlt – 404.html nicht angelegt");
@@ -551,7 +551,8 @@ async function run() {
   // vor dem Umbau (lastmod.mjs erkennt die leere Hülle und datiert nichts neu).
   let huelle = 0;
   if (existsSync(shellPfad)) {
-    const shellHtml = await readFile(shellPfad, "utf8");
+    // ohne das App-noindex: das sind öffentliche Sitemap-Seiten
+    const shellHtml = huelleOhneNoindex(await readFile(shellPfad, "utf8"));
     for (const route of routes) {
       if (gerendert.has(route) || route === "/") continue;
       const datei = join(DIST, route, "index.html");

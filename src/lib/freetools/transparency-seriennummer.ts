@@ -358,7 +358,7 @@ export const transparencySeriennummerConfig: ToolConfig = {
     },
   ],
   seo: {
-    title: "Amazon Transparency: Seriennummer/Code-Upload abgelehnt – Widerspruch | GründerX",
+    title: "Amazon Transparency abgelehnt: Widerspruch | GründerX",
     description:
       "Transparency-Code oder Seriennummer wird abgelehnt, obwohl vorhanden und übermittelt? Erstelle einen faktenbasierten Widerspruch mit Bitte um manuelle Prüfung, inkl. gültiger Formate. 1 kostenlose Nutzung, nur E-Mail nötig.",
     keywords:

@@ -18,7 +18,7 @@ import { oeffentlichesLinkziel } from "@/lib/ratgeberLinks";
 import { PartnerFussnote, TextLink } from "@/components/PartnerLink";
 import { linksAusMarkdown } from "@/config/partnerLinks";
 import { fremdKanonisch } from "@/data/ratgeberKanonisch";
-import { titelbildAbsolut, titelbildUrl } from "@/data/ratgeberBilder";
+import { titelbildAbsolut, titelbildMasse, titelbildUrl } from "@/data/ratgeberBilder";
 import { prerenderDaten, prerenderDatenMerken } from "@/lib/prerender";
 import { LexikonVerweise } from "@/components/lexikon/LexikonVerweise";
 
@@ -190,6 +190,7 @@ const RatgeberPost = () => {
   // base64-Titelbilder liegen als WebP unter /ratgeber-bilder/ (ratgeberBilder.ts).
   const titelbild = titelbildUrl(post.slug, post.hero_image_url);
   const teilbaresBild = titelbildAbsolut(post.slug, post.hero_image_url);
+  const bildMasse = titelbildMasse(post.slug, post.hero_image_url);
 
   const [teil1, teil2] = nachErstemAbschnitt(ohneTitelzeile(post.body_md));
 
@@ -200,6 +201,9 @@ const RatgeberPost = () => {
         description={post.meta_description || post.excerpt}
         path={`/ratgeber/${post.slug}`}
         image={teilbaresBild}
+        imageWidth={teilbaresBild ? bildMasse?.width : undefined}
+        imageHeight={teilbaresBild ? bildMasse?.height : undefined}
+        imageAlt={teilbaresBild ? `Titelbild: ${post.title}` : undefined}
         type="article"
         canonicalUrl={kanonisch?.url}
         jsonLd={kanonisch ? [breadcrumbLd] : [
