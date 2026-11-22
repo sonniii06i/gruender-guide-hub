@@ -53,7 +53,7 @@ export const IP_BOX_REGIMES: IPBoxRegime[] = [
     mechanism: "80 %-Befreiung qualifizierter Netto-Einkünfte → 15 % × 20 % = 3,0 % effektiv (KSt-Reform 2026, vorher 12,5 % → 2,5 %)",
     qualifyingIncome: [
       "Patent-Lizenzgebühren",
-      "Patentierte Software / Computerprogramme (registriert)",
+      "Software / Computerprogramme",
       "Utility Models",
       "Pflanzenzucht-Sortenrechte",
       "Orphan Drugs",
@@ -71,7 +71,7 @@ export const IP_BOX_REGIMES: IPBoxRegime[] = [
     rdDocumentation: [
       "Tracking aller F&E-Ausgaben pro IP-Asset (qualifying vs. non-qualifying)",
       "Nexus-Ratio jährlich berechnen + dokumentieren",
-      "Patent-/IP-Registrierung beim zyprischen Patent-Office",
+      "Bei Patenten: Registrierung beim zyprischen Patentamt",
       "Outsourced R&D-Verträge dokumentieren (related vs. non-related parties)",
       "Audit jährlich Pflicht",
     ],
@@ -84,7 +84,7 @@ export const IP_BOX_REGIMES: IPBoxRegime[] = [
     ],
     cons: [
       "Substanz-Anforderung wirklich Pflicht — Audits seit 2018 verschärft",
-      "Software-Patentierung nötig (reine Code-Copyrights reichen NICHT)",
+      "Nexus-Dokumentation pro Software-Asset nötig",
       "Setup 8.000-15.000 € + jährlich 5.000-12.000 € Compliance",
       "GeSi-Risiko bei Mailbox-Setup hoch (DE-FA prüft genau)",
       "EU-Listenüberwachung (Black-/Grey-List) — Reputationsrisiko",
