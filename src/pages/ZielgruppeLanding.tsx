@@ -38,7 +38,7 @@ const AUTOR = { "@type": "Person", name: "Sonni Buttke", jobTitle: "Gründer von
 const STELLEN = ["Gewerbeamt", "ELSTER", "Finanzamt", "Bundeszentralamt für Steuern", "LUCID", "stiftung ear", "TikTok Shop", "Amazon"];
 
 /**
- * Zielgruppen-Landing (/influencer, /tiktok-shop) im Aufbau von profitpath.com:
+ * Zielgruppen-Landing (/influencer, /tiktok-shop, /amazon-haendler) im Aufbau von profitpath.com:
  * zentrierter Hero, echter Screenshot, Laufband, Bento mit UI-Ausschnitten,
  * nummerierter Weg, FAQ, Quellen, Schluss-CTA.
  *

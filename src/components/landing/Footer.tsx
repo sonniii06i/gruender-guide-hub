@@ -24,6 +24,7 @@ const COLUMNS: { title: string; links: { to: string; label: string; native?: boo
     links: [
       { to: "/influencer", label: "Influencer & Creator" },
       { to: "/tiktok-shop", label: "TikTok Shop starten" },
+      { to: "/amazon-haendler", label: "Amazon-Händler werden" },
       { to: "/influencer-steuer-check", label: "Influencer-Steuer-Check" },
       { to: "/tiktok-shop-checkliste", label: "TikTok-Shop-Checkliste" },
       { to: "/pr-paket-rechner", label: "PR-Paket-Rechner" },

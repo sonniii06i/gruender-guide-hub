@@ -416,6 +416,7 @@ const App = () => (
               {/* Zielgruppen-Landings (25.10.2026) */}
               <Route path="/influencer" element={<ZielgruppeLanding slug="influencer" />} />
               <Route path="/tiktok-shop" element={<ZielgruppeLanding slug="tiktok-shop" />} />
+              <Route path="/amazon-haendler" element={<ZielgruppeLanding slug="amazon-haendler" />} />
               <Route path="/tipps-bestaetigt" element={<TippsBestaetigt />} />
               {/* Kostenlose Lead-Magnet-Tools (Ergebnis gegen E-Mail, kein Konto) */}
               <Route path="/gratis-tools" element={<GratisTools />} />

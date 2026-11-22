@@ -18,7 +18,7 @@ const STELLEN = ["Gewerbeamt", "ELSTER", "Finanzamt", "Bundeszentralamt für Ste
 const FUER_WEN: BentoItem[] = [
   { to: "/influencer", title: "Creator & Influencer", text: "Gewerbe, Fragebogen, PR-Pakete, Affiliate und Rechnungen an Marken.", icon: Sparkles, bild: SCREENS.ausInfluencer, chip: "Gratis-Check" },
   { to: "/tiktok-shop", title: "TikTok Shop", text: "Der richtige Registrierungsweg, LUCID, WEEE und Plattform-Meldung.", icon: ShoppingBag, bild: SCREENS.ausTiktok, chip: "Gratis-Checkliste" },
-  { to: "/ratgeber/amazon-fba-starten-deutschland", title: "Amazon- & Shop-Händler", text: "Pflichtregistrierungen, OSS und Marge, bevor ein Listing gesperrt wird.", icon: Store, bild: SCREENS.ausLucid },
+  { to: "/amazon-haendler", title: "Amazon- & Shop-Händler", text: "Pflichtregistrierungen, OSS und Marge, bevor ein Listing gesperrt wird.", icon: Store, bild: SCREENS.ausLucid },
   { to: "/tools/gewerbeanmeldung-wizard", title: "Gründer:innen", text: "Rechtsform, Gewerbeanmeldung und Steuernummer in der richtigen Reihenfolge.", icon: FileText, bild: SCREENS.ausGewerbe },
   { to: "/tools/steuerkalender", title: "Steuern & Fristen", text: "Alle Abgabe- und Zahlungstermine der nächsten 12 Monate.", icon: CalendarDays, bild: SCREENS.ausKalender },
 ];
