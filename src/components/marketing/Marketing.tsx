@@ -209,6 +209,9 @@ export const BentoGrid = ({ items }: { items: BentoItem[] }) => (
             </div>
           )}
           <div className="flex flex-1 flex-col border-t border-border p-4 md:p-5">
+            {!it.bild && it.chip && (
+              <span className="mb-3 self-start rounded-md bg-brand-green px-2 py-1 text-xs font-semibold text-brand-green-foreground">{it.chip}</span>
+            )}
             <span className="flex items-center gap-2">
               <it.icon className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden="true" />
               <span className="text-base font-semibold text-foreground">{it.title}</span>

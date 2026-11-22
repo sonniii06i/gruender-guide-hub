@@ -5,8 +5,10 @@ import { type ToolConfig, type ToolData, s, b, DISCLAIMER } from "./types";
 // ersten Verkauf bzw. der ersten Provision. Belege: TikTok Newsroom 24.03.2026
 // (Start DE März 2025, ab 18), TikTok Seller University (gewerbliche Verkäufer ohne Handelsregister:
 // Steuernummer + Geschäftsadresse + Ausweis; e.K./GbR: zusätzlich USt-IdNr),
-// PStTG § 4 Abs. 5 (Meldung ab 30 Verkäufen oder 2.000 €), VerpackG § 9, ElektroG § 6,
-// BattDG, EU-KosmetikVO Art. 13 (CPNP), VO (EG) 852/2004 Art. 6, § 3c UStG (10.000 €).
+// PStTG § 4 Abs. 5 (Meldung ab 30 Verkäufen oder 2.000 €), VerpackDG §§ 6, 7 (seit 12.08.2026, vorher VerpackG),
+// ElektroG § 6, BattDG, EU-KosmetikVO Art. 13 (CPNP), VO (EG) 852/2004 Art. 6, § 3c UStG (10.000 €).
+// 21.11.2026 (growth-lp): Verpackungsrecht auf VerpackDG umgestellt, USt-IdNr. bei Kapitalgesellschaften nach dem
+// Leitfaden vom 11.11.2026 formuliert, Plattform-Meldung „an die Steuerbehörden“, Links zur Seite /tiktok-shop.
 const TTSU = "https://seller-de.tiktok.com/university/essay?knowledge_id=6339509542340373&lang=de-DE";
 
 function generate(d: ToolData): string {
@@ -44,7 +46,7 @@ function generate(d: ToolData): string {
       `[ ] ${n++}. USt-IdNr beim Bundeszentralamt für Steuern beantragen (kostenlos) – für ${form === "ek" ? "eingetragene Einzelunternehmer (e.K.)" : "die GbR"} verlangt TikTok sie in Deutschland.${form === "gbr" ? " Dazu Gewerbeanmeldung und eine vertretende Person mit mehr als 25 % Anteil." : " Dazu Handelsregisternummer mit aktivem Status."}`,
     );
   } else {
-    L.push(`[ ] ${n++}. Handelsregisternummer, Geschäftsadresse und Identität der vertretenden Person bereithalten (USt-IdNr für Gesellschaften in Deutschland optional).`);
+    L.push(`[ ] ${n++}. Handelsregisternummer, Geschäftsadresse und Identität der vertretenden Person bereithalten. Auch die USt-IdNr: TikTok nennt sie für Gesellschaften im Leitfaden an einer Stelle optional, in der Übersicht erforderlich.`);
   }
   L.push(`[ ] ${n++}. Separates Geschäftskonto eröffnen – Auszahlungen und Ausgaben sauber trennen.`);
   L.push(`[ ] ${n++}. Kleinunternehmer ja oder nein entscheiden (§ 19 UStG: im ersten Jahr höchstens 25.000 € Umsatz).`);
@@ -52,7 +54,7 @@ function generate(d: ToolData): string {
 
   if (verkauft) {
     L.push("B. Produktpflichten – vor dem ersten Listing");
-    L.push("[ ] Verpackungsregister LUCID: Wer mit Ware befüllte Verpackungen an Privatkunden verschickt, registriert sich vorher und beteiligt sich an einem dualen System (VerpackG).");
+    L.push("[ ] Verpackungsregister LUCID: Wer mit Ware befüllte Verpackungen an Privatkunden verschickt, registriert sich vorher und beteiligt sich an einem dualen System (§§ 6 und 7 VerpackDG).");
     if (b(d, "p_elektro")) L.push("[ ] Elektrogeräte: Registrierung bei der stiftung ear (WEEE-Nummer) vor dem ersten Angebot (ElektroG).");
     if (b(d, "p_batterie")) L.push("[ ] Batterien/Akkus (auch eingebaut): Registrierung bei der stiftung ear nach Batterierecht.");
     if (b(d, "p_kosmetik")) L.push("[ ] Kosmetik: Meldung im EU-Kosmetikportal CPNP vor dem Inverkehrbringen, Sicherheitsbewertung und verantwortliche Person (EU-Kosmetikverordnung).");
@@ -61,7 +63,7 @@ function generate(d: ToolData): string {
     L.push("");
 
     L.push("C. Steuern im laufenden Betrieb");
-    L.push("[ ] Plattform-Meldung: TikTok meldet Verkäufer ans Bundeszentralamt für Steuern, sobald du 30 Verkäufe oder 2.000 € im Jahr erreichst (PStTG). Deine Umsätze sind dem Finanzamt dann bekannt.");
+    L.push("[ ] Plattform-Meldung: TikTok meldet Verkäufer und ihre Umsätze an die Steuerbehörden, sobald du 30 Verkäufe oder 2.000 € im Jahr erreichst (§ 4 Abs. 5 PStTG).");
     if (eu) {
       L.push("[ ] Verkauf an Privatkunden im EU-Ausland: Ab 10.000 € EU-weit im Jahr gilt die Umsatzsteuer des Ziellands – dann OSS-Verfahren beim BZSt nutzen.");
     }
@@ -84,7 +86,7 @@ function generate(d: ToolData): string {
       "Wer sauber angemeldet ist, kann skalieren, ohne dass Konto oder Auszahlung hängen.",
   );
   L.push("");
-  L.push(`Quellen: TikTok Newsroom (24.03.2026), TikTok Seller University (${TTSU}), PStTG § 4, VerpackG, ElektroG, § 3c UStG.`);
+  L.push(`Quellen: TikTok Newsroom (24.03.2026), TikTok Seller University (${TTSU}), PStTG § 4, VerpackDG, ElektroG, § 3c UStG.`);
   L.push("");
   L.push(DISCLAIMER);
   return L.join("\n");
@@ -177,6 +179,12 @@ export const tiktokShopChecklisteConfig: ToolConfig = {
     },
   ],
   generate,
+  links: [
+    { to: "/tiktok-shop", label: "TikTok Shop erstellen: Kontotyp, USt-IdNr. und Provision im Überblick" },
+    { to: "/ratgeber/tiktok-shop-verkaeufer-werden", label: "Ratgeber: TikTok Shop Verkäufer werden" },
+    { to: "/tools/lucid-wizard", label: "Verpackungslizenz-Rechner" },
+    { to: "/influencer", label: "Für Creator und Affiliates" },
+  ],
   seoSections: [
     {
       heading: "Was brauche ich, um im TikTok Shop zu verkaufen?",
@@ -188,7 +196,7 @@ export const tiktokShopChecklisteConfig: ToolConfig = {
     {
       heading: "Meldet TikTok meine Umsätze ans Finanzamt?",
       body: [
-        "Ja, ab einer Schwelle. Nach dem Plattformen-Steuertransparenzgesetz melden Plattformen ihre Verkäufer an das Bundeszentralamt für Steuern – ausgenommen ist nur, wer im Jahr weniger als 30 Verkäufe und zusammen weniger als 2.000 € erzielt.",
+        "Ja, ab einer Schwelle. Nach dem Plattformen-Steuertransparenzgesetz melden Plattformen ihre Verkäufer an die Steuerbehörden – ausgenommen ist nur, wer im Jahr weniger als 30 Verkäufe und zusammen weniger als 2.000 € erzielt.",
       ],
     },
   ],
@@ -208,7 +216,7 @@ export const tiktokShopChecklisteConfig: ToolConfig = {
       },
       {
         q: "Meldet TikTok meine Verkäufe dem Finanzamt?",
-        a: "Ab 30 Verkäufen oder 2.000 € im Jahr meldet die Plattform dich an das Bundeszentralamt für Steuern (PStTG).",
+        a: "Ab 30 Verkäufen oder 2.000 € im Jahr meldet die Plattform dich und deine Umsätze an die Steuerbehörden (§ 4 Abs. 5 PStTG).",
       },
       {
         q: "Ist die Checkliste kostenlos?",
