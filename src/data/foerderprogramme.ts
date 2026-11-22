@@ -426,10 +426,9 @@ export const FOERDERPROGRAMME: Foerderung[] = [
     zielgruppe: ["FR-Inc mit F&E"],
     phase: ["aufbau", "wachstum"],
     branche: ["alle (F&E)"],
-    description: "Klassische FR-Steuergutschrift für F&E. Personnel-Pauschale gesenkt von 43% auf 40% ab 15.2.2025.",
+    description: "Klassische FR-Steuergutschrift für F&E. Die Betriebskostenpauschale beträgt seit 15.2.2025 40 % statt 43 % der Personalkosten.",
     conditions: ["FR-incorporated", "Nachweisbare F&E-Aktivitäten (BOFIP-Dokumentation)"],
     antragUrl: "https://entreprendre.service-public.gouv.fr/vosdroits/F23533",
-    watchouts: ["Verschärfte Prüfungen 2025/2026", "Effektive Rendite -3-5% bei gleichem Aufwand"],
   },
   {
     slug: "fr-jei",
