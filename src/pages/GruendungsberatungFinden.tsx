@@ -31,7 +31,7 @@ const RE_BERATUNG = /sprechtag|sprechstunde|beratung|beratertag|infotag|info-?ab
 const faqs = [
   { q: "Ist die Gründungsberatung der IHK kostenlos?", a: "Die Erstberatung und Gründertage der IHKs und Handwerkskammern sind in der Regel kostenlos. Kosten fallen meist erst für Seminare oder die Stellungnahme zum Gründungszuschuss an (bei IHKs etwa 60 bis 120 €)." },
   { q: "Wer berät mich, wenn ich Freiberufler werde?", a: "Freiberufler gehören nicht zur IHK. Anlaufstellen sind die Gründungsnetzwerke der Länder, Gründerzentren, die Agentur für Arbeit und – je nach Beruf – die zuständige Kammer (z. B. Architekten-, Ärzte- oder Steuerberaterkammer)." },
-  { q: "Gibt es Zuschüsse für eine Gründungsberatung?", a: "Ja: Die BAFA-Förderung für Unternehmensberatungen übernimmt 50 bis 80 % von bis zu 3.500 € Beratungskosten – Anträge sind nach aktueller Richtlinie nur noch bis 31.12.2026 möglich." },
+  { q: "Gibt es Zuschüsse für eine Gründungsberatung?", a: "Ja: Die BAFA-Förderung für Unternehmensberatungen übernimmt 50 bis 80 % von bis zu 3.500 € Beratungskosten. Die Richtlinie ist bis 31.12.2028 verlängert; für Anträge ab 01.01.2027 entfällt das Pflicht-Informationsgespräch, beantragt wird dann über ELSTER-Konto oder BundID." },
 ];
 
 export default function GruendungsberatungFinden() {

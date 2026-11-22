@@ -32,17 +32,23 @@ const BafaBeratungCheck = () => {
 
   const pruefung = useMemo(() => pruefeBafa(a, heute), [a, heute]);
   const r = useMemo(() => rechneBafa(honorar, region, vorsteuer), [honorar, region, vorsteuer]);
-  const tage = Math.max(0, Math.ceil((Date.parse(BAFA.antragBis) - Date.parse(heute)) / 864e5));
+  const tage = Math.max(0, Math.ceil((Date.parse(BAFA.neueRegelnAb) - Date.parse(heute)) / 864e5));
+  const neueRegeln = heute >= BAFA.neueRegelnAb;
 
   return (
     <CockpitShell
-      eyebrow="BAFA-Beratungsförderung · Richtlinie bis 31.12.2026"
+      eyebrow="BAFA-Beratungsförderung · Richtlinie bis 31.12.2028"
       title="BAFA-Beratungsförderung: Check & Zuschuss-Rechner"
       subtitle="Bis zu 80 % deiner Unternehmensberatung zahlt der Staat, aber nur, wenn du den Antrag VOR dem Beratungsvertrag stellst. Prüf in 2 Minuten, ob du förderfähig bist und wie viel es gibt."
     >
-      <Callout tone="danger" icon={CalendarClock} title={<>Noch {tage} Tage bis zum Antragsschluss</>} className="mb-8">
-        Die Förderrichtlinie gilt nur für Anträge bis 31.12.2026. Eine Nachfolgeregelung ist bisher nicht veröffentlicht.
-        Wer die Förderung will, sollte den Antrag dieses Jahr stellen.
+      <Callout
+        tone="warning"
+        icon={CalendarClock}
+        title={neueRegeln ? <>Neue Regeln seit 01.01.2027</> : <>Neue Regeln ab 01.01.2027 (noch {tage} Tage)</>}
+        className="mb-8"
+      >
+        Die Förderrichtlinie ist bis 31.12.2028 verlängert. Für Anträge ab 01.01.2027 entfällt das Pflicht-Informationsgespräch
+        beim Regionalpartner, und der Antrag läuft nur noch über dein ELSTER-Konto oder die BundID.
       </Callout>
 
       <ToolLayout
@@ -143,10 +149,10 @@ const BafaBeratungCheck = () => {
       <ToolSection icon={ListOrdered} title="So läuft es ab" description="Die Reihenfolge entscheidet: erst Antrag, dann Vertrag." className="mb-6">
         <ol className="space-y-4 text-sm">
           {[
-            <>Im ersten Jahr nach Gründung: <strong className="text-foreground">kostenloses Informationsgespräch</strong> bei einem Regionalpartner (z. B. IHK, HWK), frühestens 3 Monate vor dem Antrag. Die Bestätigung reichst du später mit dem Verwendungsnachweis ein.</>,
-            <><strong className="text-foreground">Online-Antrag</strong> über eine Leitstelle deiner Wahl (DIHK-Service, ZDH, BDS-DGV, BBG, INTERHOGA, Leitstelle für Gewerbeförderungsmittel), vor jedem Vertrag mit dem Berater.</>,
-            <><strong className="text-foreground">Informationsschreiben abwarten</strong>, erst dann den Beratungsvertrag unterschreiben. Berater muss beim BAFA registriert sein; max. 5 Beratungstage.</>,
-            <>Rechnung <strong className="text-foreground">vollständig per Überweisung</strong> bezahlen und den Beratungsbericht erhalten.</>,
+            <>Nur für Anträge bis 31.12.2026, im ersten Jahr nach Gründung: <strong className="text-foreground">kostenloses Informationsgespräch</strong> bei einem Regionalpartner (z. B. IHK, HWK), frühestens 3 Monate vor dem Antrag. Die Bestätigung reichst du später mit dem Verwendungsnachweis ein. Für Anträge ab 01.01.2027 entfällt das Gespräch.</>,
+            <><strong className="text-foreground">Online-Antrag</strong> über eine Leitstelle deiner Wahl (DIHK-Service, ZDH, BDS-DGV, BBG, INTERHOGA, Leitstelle für Gewerbeförderungsmittel), vor jedem Vertrag mit dem Berater. Ab 01.01.2027 nur noch mit ELSTER-Konto oder BundID.</>,
+            <><strong className="text-foreground">Informationsschreiben abwarten</strong>, erst dann den Beratungsvertrag unterschreiben. Berater muss beim BAFA registriert sein; max. 5 Beratungstage, nach der Änderung vom 15.10.2026 höchstens 40 Stunden, die nicht zusammenhängen müssen.</>,
+            <>Rechnung <strong className="text-foreground">vollständig per Überweisung</strong> bezahlen und den Beratungsbericht erhalten. Für Anträge ab 01.01.2027 reicht als Zahlungsnachweis die Umsatzanzeige deiner Bank.</>,
             <><strong className="text-foreground">Verwendungsnachweis</strong> innerhalb von 6 Monaten nach dem Informationsschreiben einreichen, dann wird ausgezahlt.</>,
           ].map((s, i) => (
             <li key={i} className="flex gap-3.5">
@@ -162,8 +168,9 @@ const BafaBeratungCheck = () => {
         </p>
       </ToolSection>
 
-      <Callout tone="neutral" icon={BookOpen} title="Stand 07.10.2026">
-        Richtlinie „Förderung von Unternehmensberatungen für KMU“ vom 14.12.2022 in der Fassung vom 12.12.2024. Die frühere
+      <Callout tone="neutral" icon={BookOpen} title="Stand 22.11.2026">
+        Richtlinie „Förderung von Unternehmensberatungen für KMU“ vom 14.12.2022, geändert am 12.12.2024 und am 15.10.2026
+        (BAnz AT 28.10.2026 B3, Verlängerung bis 31.12.2028). Die frühere
         Staffel nach Jungunternehmen, Bestandsunternehmen und Unternehmen in Schwierigkeiten gilt nicht mehr.{" "}
         <a href={RL} target="_blank" rel="noreferrer noopener" className="inline-flex items-center gap-0.5 text-accent-blue hover:underline">
           Richtlinie (PDF) <ExternalLink className="h-3 w-3" aria-hidden="true" />

@@ -51,11 +51,11 @@ export const STARTUP_PERKS: StartupPerk[] = [
   {
     slug: "claude-for-startups", name: "Claude for Startups", anbieter: "Anthropic", kategorie: "ki",
     wert: "Startup Stack: Partnerangebote bis 45.000 $ (nur Mitglieder) – derzeit keine neuen Bewerbungen", wertUsd: null,
-    leistungen: ["Startup Stack: Rabatte und Guthaben bis 45.000 $ bei Partnern, die mit Claude bauen", "Applied-AI-Sprechstunde und Startup-Events", "Programm laut Anthropic derzeit voll: aktuell keine neuen Bewerbungen"],
-    voraussetzungen: ["Startup (bootstrapped, Pre-Seed oder VC-finanziert – kein VC nötig)", "Antrag in der Claude Console", "Prüfung laut Anthropic bis zu einer Woche"],
+    leistungen: ["Startup Stack: Rabatte und Guthaben bis 45.000 $ bei Partnern, die mit Claude bauen, eingelöst per Code in der Claude Console", "Applied-AI-Gruppensitzungen alle zwei Wochen und Startup-Events", "Programm laut Anthropic derzeit voll: aktuell keine neuen Bewerbungen"],
+    voraussetzungen: ["Startup in der Frühphase, das mit Claude baut", "Bewerbung erst wieder, wenn Anthropic die nächste Kohorte öffnet"],
     vcNoetig: false, gruendungMaxJahre: null, url: "https://claude.com/programs/startups", pruefWorte: ["$45,000", "not accepting new applications"],
-    hinweis: "Stand 10.10.2026: Anthropic hat nach Hunderttausenden Anträgen das 1.000-$-API-Guthaben und Claude Team pausiert und baut das Programm um; bereits eingelöste Angebote bleiben gültig, alle Anträge werden neu geprüft. Mit einem VC aus dem Partnernetz bis zu 100.000 $ API-Guthaben über den VC. Verschwindet „over capacity“ von der Seite, meldet der Perk-Wächter das – dann neu prüfen.",
-    geprueft: "2026-10-10",
+    hinweis: "Stand 22.11.2026: Die aktuelle Kohorte ist laut Anthropic voll, offene Bewerbungen wurden nicht mehr bearbeitet. Für bestehende Mitglieder läuft das Programm weiter. Mit einem VC aus dem Partnernetz von Anthropic sind bis zu 100.000 $ zusätzliches API-Guthaben möglich, abgerufen über den VC. Verschwindet „not accepting new applications“ von der Seite, meldet der Perk-Wächter das – dann neu prüfen.",
+    geprueft: "2026-11-22",
   },
   {
     slug: "elevenlabs-startup-grants", name: "ElevenLabs Startup Grants", anbieter: "ElevenLabs", kategorie: "ki",
@@ -116,11 +116,11 @@ export const STARTUP_PERKS: StartupPerk[] = [
   },
   {
     slug: "digitalocean-startups", name: "DigitalOcean Startups (Hatch)", anbieter: "DigitalOcean", kategorie: "cloud",
-    wert: "12 Monate Guthaben (Höhe individuell, max. 10.000 $/Monat) + 15 Monate Support", wertUsd: null,
+    wert: "12 Monate Guthaben (Höhe individuell, max. 10.000 $/Monat) + 15 Monate Support – Bewerbungen derzeit pausiert", wertUsd: null,
     leistungen: ["12 Monate Guthaben, Betrag kommt per Onboarding-Mail", "Standard-Support 15 Monate gratis"],
     voraussetzungen: ["Höchstens 10 Mio. $ Kapital eingesammelt", "Neues Team-Konto mit Firmen-E-Mail und Website", "Keine Agenturen oder Dienstleister"],
     vcNoetig: false, gruendungMaxJahre: null, url: "https://www.digitalocean.com/startups", pruefWorte: ["12 months"],
-    hinweis: "Neue Bewerbungen sind pausiert. Neustart laut DigitalOcean Anfang 2027. Seit 13.05.2026 ausgeschlossen: GPU-Droplets, Inference und extern gehostete Modelle (Anthropic, OpenAI).", geprueft: "2026-10-08",
+    hinweis: "Neue Bewerbungen sind pausiert. Neustart laut DigitalOcean Anfang 2027 (FAQ, Stand 22.11.2026). Seit 13.05.2026 ausgeschlossen: GPU-Droplets, Inference und extern gehostete Modelle (Anthropic, OpenAI).", geprueft: "2026-11-22",
   },
   {
     slug: "vercel-for-startups", name: "Vercel for Startups", anbieter: "Vercel", kategorie: "cloud",
