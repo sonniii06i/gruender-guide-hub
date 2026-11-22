@@ -18,6 +18,7 @@ const BEHALTEN: RegExp[] = [
   /^gruenderx:tool-unlocked:/, // Gratis-Tool bereits genutzt (nur Zeitstempel)
   /^gx-sidebar-zu-v1$/,
   /^ggh-tour-done-v1$/,
+  /^gx-startplan-v1-/, // abgehakte Fahrplan-Schritte je Konto (nur Schritt-Kennungen)
   /^theme/i,
 ];
 

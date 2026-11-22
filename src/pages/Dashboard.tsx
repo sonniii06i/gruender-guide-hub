@@ -6,7 +6,7 @@ import { useAccess } from "@/hooks/useAccess";
 import { readProfileCache, writeProfileCache, PROFILE_UPDATE_EVENT, type CachedProfile } from "@/lib/profileCache";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { CATEGORIES, STATUS_LABEL, categoryToolCount, type Feature, type FeatureCategory } from "@/data/features";
+import { CATEGORIES, STATUS_LABEL, type Feature, type FeatureCategory } from "@/data/features";
 import { PLAYBOOKS } from "@/data/playbooks";
 import { empfohleneGuides } from "@/lib/guideEmpfehlung";
 import { GuideCard } from "@/components/dashboard/GuideCard";
@@ -14,26 +14,26 @@ import { ContinueLearning } from "@/components/dashboard/ContinueLearning";
 import { EventRadarKachel } from "@/components/dashboard/EventRadarKachel";
 import { DeineWoche } from "@/components/dashboard/DeineWoche";
 import { WelcomeChoiceModal } from "@/components/dashboard/WelcomeChoiceModal";
+import { Startplan } from "@/components/dashboard/Startplan";
+import { FelixFragen, GuideEmpfehlungen, Karte, MehrEntdecken, ToolEmpfehlungen, VergleichTipps, ZuletztGeoeffnet } from "@/components/dashboard/Empfehlungen";
+import { GRUENDUNGS_GUIDE, profilMerkmale, rechtsformVon } from "@/lib/startplan";
+import { zuletztGenutzt } from "@/lib/zuletztGenutzt";
 import { AffiliateSuccessBanner } from "@/components/AffiliateSuccessBanner";
 import { ReferralNudge } from "@/components/ReferralNudge";
-import {
-  ArrowRight,
-  ArrowUpRight,
-  Lock,
-  MessageSquare,
-  Search,
-  Sparkles,
-  Sprout,
-} from "lucide-react";
+import { ArrowUpRight, LayoutGrid, Lock, Search } from "lucide-react";
 import { EmptyState, ToneBadge, stripEmoji, type Tone } from "@/components/cockpit/kit";
 import { cn } from "@/lib/utils";
 
-interface Profile { first_name: string | null; onboarding_completed: boolean | null; business_model?: string | null }
+interface Profile {
+  first_name: string | null;
+  onboarding_completed: boolean | null;
+  business_model?: string | null;
+  founder_stage?: string | null;
+  legal_form?: string | null;
+}
 
 const VIEWS = ["start", "tools", "meine", "themen"] as const;
 type View = typeof VIEWS[number];
-
-const STARTER_COUNT = categoryToolCount("starter");
 
 const Dashboard = () => {
   const { user } = useAuth();
@@ -58,14 +58,10 @@ const Dashboard = () => {
     // Profil nur fetchen, wenn Cache leer ist (erstes Mal nach Login).
     //    Spätere Änderungen kommen über das PROFILE_UPDATE_EVENT von /profile.
     const cached = readProfileCache(user.id);
-    if (cached) {
-      setProfile(cached as Profile);
-      // Onboarding schreibt den Cache nicht neu → bei "nicht abgeschlossen" im Hintergrund frisch laden,
-      // sonst bleibt der Hinweis "Profil vervollständigen" bis zum Logout stehen.
-      // Ältere Caches kennen business_model nicht → einmal frisch laden (Guide-Empfehlung).
-      if (cached.onboarding_completed !== false && "business_model" in cached) return;
-    }
-    supabase.from("profiles").select("first_name, onboarding_completed, business_model").eq("id", user.id).maybeSingle()
+    // Cache nur für den ersten Anstrich. Danach immer frisch laden: Phase, Rechtsform und
+    // Geschäftsmodell steuern den Fahrplan und können auf einem anderen Gerät geändert worden sein.
+    if (cached) setProfile(cached as Profile);
+    supabase.from("profiles").select("first_name, onboarding_completed, business_model, founder_stage, legal_form").eq("id", user.id).maybeSingle()
       .then(({ data }) => {
         if (data) {
           setProfile(data as Profile);
@@ -96,11 +92,20 @@ const Dashboard = () => {
 
   const isActive = hasActiveSub || isAdmin;
 
-  const featuredGuides = useMemo(() => empfohleneGuides(profile?.business_model), [profile?.business_model]);
+  const planProfil = useMemo(
+    () => ({ business_model: profile?.business_model, founder_stage: profile?.founder_stage, legal_form: profile?.legal_form }),
+    [profile?.business_model, profile?.founder_stage, profile?.legal_form],
+  );
+  const featuredGuides = useMemo(() => {
+    const form = rechtsformVon(planProfil.legal_form);
+    return empfohleneGuides(planProfil.business_model, 5, form ? GRUENDUNGS_GUIDE[form] : null);
+  }, [planProfil]);
+  const merkmale = useMemo(() => profilMerkmale(planProfil), [planProfil]);
+  const zuletzt = useMemo(() => zuletztGenutzt(user?.id), [user?.id]);
 
   const filteredCats = useMemo(() => {
     const q = query.trim().toLowerCase();
-    let cats = activeCatSlug ? CATEGORIES.filter((c) => c.slug === activeCatSlug) : CATEGORIES;
+    const cats = activeCatSlug ? CATEGORIES.filter((c) => c.slug === activeCatSlug) : CATEGORIES;
     if (!q) return cats;
     return cats
       .map((cat) => ({
@@ -129,30 +134,18 @@ const Dashboard = () => {
         <ReferralNudge className="mb-6" />
       )}
       <WelcomeChoiceModal firstName={profile?.first_name} eligible={isActive} />
-      {/* Hero */}
+      {/* Kopf */}
       <header className="mb-5">
         <p className="text-[13px] font-medium text-muted-foreground">Dein Cockpit</p>
-        <h1 className="mt-1 text-2xl font-semibold leading-tight tracking-[-0.02em] md:text-[1.75rem]">
-          Hi {profile?.first_name ?? "Gründer"}. Wo willst du heute weitermachen?
+        <h1 className="mt-1 text-2xl font-semibold leading-tight tracking-[-0.02em] text-balance md:text-[1.75rem]">
+          Hi {profile?.first_name ?? "Gründer"}. Das steht als Nächstes an.
         </h1>
-        <p className="mt-2 max-w-[68ch] text-sm leading-relaxed text-muted-foreground md:text-[15px]">
-          Schritt-für-Schritt-Guides, Rechner und Anbieter-Vergleiche für Gründung, Steuern, Compliance und Skalierung.
-        </p>
-
-        {/* Banner Onboarding */}
-        {profile && !profile.onboarding_completed && (
-          <div className="mt-5 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-border bg-card px-4 py-3">
-            <div className="flex min-w-0 items-center gap-3">
-              <Sparkles className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden="true" />
-              <div className="min-w-0">
-                <p className="text-sm font-semibold">Profil vervollständigen</p>
-                <p className="text-sm text-muted-foreground">Damit wir dir die passenden Guides empfehlen können.</p>
-              </div>
-            </div>
-            <Button asChild size="sm" variant="outline">
-              <Link to="/onboarding">Jetzt einrichten</Link>
-            </Button>
-          </div>
+        {merkmale.length > 0 && (
+          <ul className="mt-2.5 flex flex-wrap items-center gap-1.5" aria-label="Dein Profil">
+            {merkmale.map((m) => (
+              <li key={m} className="rounded border border-border bg-card px-2 py-1 text-xs font-medium text-foreground/80">{m}</li>
+            ))}
+          </ul>
         )}
       </header>
 
@@ -179,61 +172,56 @@ const Dashboard = () => {
 
       {/* START view */}
       {view === "start" && (
-        <div className="space-y-8">
-          <ContinueLearning />
-
-          <EventRadarKachel />
-
-          <DeineWoche />
-
-          <StarterHighlight isActive={isActive} />
-
-          <section>
-            <SectionHead
-              title="Direkt loslegen"
-              lead="Praxis-Guides, die dich von 0 bis fertig führen."
-              action={
-                <Link to="/playbooks" className="inline-flex items-center gap-1 text-sm font-medium text-accent-blue hover:underline">
-                  Alle Guides <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
-                </Link>
-              }
-            />
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {featuredGuides.map((p) => <GuideCard key={p.slug} pb={p} />)}
+        <>
+          <ZuletztGeoeffnet pfade={zuletzt} />
+          <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px] lg:grid-rows-[auto_1fr]">
+            <div className="order-1 min-w-0 lg:col-start-1 lg:row-start-1">
+              <Startplan profil={planProfil} />
             </div>
-          </section>
 
-          <section>
-            <SectionHead title="Was beschäftigt dich?" lead="Alle Tools nach Themen sortiert." />
-            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              {CATEGORIES.map((cat) => {
-                const isStarter = cat.slug === "starter";
-                const Icon = cat.icon;
-                return (
-                  <button
-                    key={cat.slug}
-                    onClick={() => { params.set("view", "themen"); params.set("cat", cat.slug); setParams(params); }}
-                    className={cn(
-                      "press group flex items-start gap-3 rounded-lg border border-border bg-card p-3.5 text-left hover:border-foreground/30"
-                    )}
-                  >
-                    <Icon className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" aria-hidden="true" />
-                    <span className="min-w-0 flex-1">
-                      <span className="flex items-center gap-2">
-                        <span className="text-sm font-semibold leading-tight">{stripEmoji(cat.title)}</span>
-                        {isStarter && <ToneBadge tone="accent">Empfohlen</ToneBadge>}
-                      </span>
-                      <span className="mt-0.5 block text-xs leading-relaxed text-muted-foreground line-clamp-2">{cat.tagline}</span>
-                    </span>
-                    <span className="shrink-0 text-xs text-muted-foreground tabular">{cat.features.length}</span>
-                  </button>
-                );
-              })}
+            {/* Seitenspalte. Auf dem Handy löst sie sich auf: Termine direkt unter dem
+                Fahrplan, Felix, Vergleiche und „Mehr“ erst nach Tools und Guides. */}
+            <div className="contents lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:block lg:min-w-0 lg:space-y-4">
+              <div className="order-2 min-w-0 space-y-4">
+                <DeineWoche />
+                <EventRadarKachel />
+              </div>
+              <div className="order-4 min-w-0 space-y-4">
+                <FelixFragen profil={planProfil} />
+                <VergleichTipps profil={planProfil} />
+                <MehrEntdecken />
+              </div>
             </div>
-          </section>
 
-          <FelixCTA />
-        </div>
+            <div className="order-3 min-w-0 space-y-6 lg:col-start-1 lg:row-start-2">
+              <ContinueLearning />
+              <ToolEmpfehlungen profil={planProfil} locked={!isActive} />
+              <GuideEmpfehlungen guides={featuredGuides} />
+              <Karte titel="Alle Themen" icon={LayoutGrid}>
+                <ul className="grid sm:grid-cols-2">
+                  {CATEGORIES.map((cat, i) => {
+                    const Icon = cat.icon;
+                    return (
+                      <li key={cat.slug} className={cn("border-border", i > 0 && "border-t", i === 1 && "sm:border-t-0", i % 2 === 0 && "sm:border-r")}>
+                        <button
+                          onClick={() => { params.set("view", "themen"); params.set("cat", cat.slug); setParams(params); }}
+                          className="group flex h-full w-full items-start gap-3 px-4 py-3 text-left hover:bg-secondary/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring/40"
+                        >
+                          <Icon className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" aria-hidden="true" />
+                          <span className="min-w-0 flex-1">
+                            <span className="block text-sm font-medium leading-snug">{stripEmoji(cat.title)}</span>
+                            <span className="mt-0.5 text-[13px] leading-snug text-muted-foreground line-clamp-1">{cat.tagline}</span>
+                          </span>
+                          <span className="shrink-0 text-xs text-muted-foreground tabular">{cat.features.length}</span>
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </Karte>
+            </div>
+          </div>
+        </>
       )}
 
       {/* MEINE view */}
@@ -344,27 +332,6 @@ const NoResults = ({ q }: { q: string }) => (
   />
 );
 
-const FelixCTA = () => (
-  <div className="rounded-lg border border-border bg-card p-5">
-    <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
-      <div className="flex items-start gap-3">
-        <MessageSquare className="mt-1 h-4 w-4 shrink-0 text-muted-foreground" aria-hidden="true" />
-        <div>
-          <h2 className="text-base font-semibold leading-tight md:text-lg">Steckst du fest? Frag Felix.</h2>
-          <p className="mt-1 max-w-lg text-sm text-muted-foreground">
-            Dein KI-Co-Founder kennt sich mit Rechtsformen, Steuern, Holdings, US-LLC und Marketplaces aus.
-          </p>
-        </div>
-      </div>
-      <Button asChild variant="outline" className="shrink-0">
-        <Link to="/felix">
-          Chat öffnen <ArrowRight aria-hidden="true" />
-        </Link>
-      </Button>
-    </div>
-  </div>
-);
-
 const CategorySection = ({ cat, locked }: { cat: FeatureCategory; locked: boolean }) => {
   const liveCount = cat.features.filter((f) => f.status === "live" || f.status === "beta").length;
   const isStarter = cat.slug === "starter";
@@ -389,53 +356,6 @@ const CategorySection = ({ cat, locked }: { cat: FeatureCategory; locked: boolea
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {cat.features.map((f) => <FeatureCard key={f.slug} f={f} locked={locked} />)}
       </div>
-    </section>
-  );
-};
-
-/**
- * Prominente Hervorhebung der Starter-Kategorie auf dem Start-View.
- * Zeigt die ersten 4 Anfänger-Tools direkt klickbar an, mit klarer
- * "Empfohlen für Anfänger"-Botschaft.
- */
-const StarterHighlight = ({ isActive }: { isActive: boolean }) => {
-  const starterCat = CATEGORIES.find((c) => c.slug === "starter");
-  if (!starterCat) return null;
-  // Erste 4 Tools als Quick-Start-Cards
-  const quickStart = starterCat.features.slice(0, 4);
-  return (
-    <section className="rounded-lg border border-border bg-card p-5">
-      <div className="mb-5 flex flex-wrap items-start justify-between gap-4">
-        <div className="flex min-w-0 items-start gap-3">
-          <Sprout className="mt-1 h-4 w-4 shrink-0 text-muted-foreground" aria-hidden="true" />
-          <div className="min-w-0">
-            <p className="text-[13px] font-medium text-muted-foreground">Für Einsteiger:innen, {STARTER_COUNT} Tools</p>
-            <h2 className="mt-0.5 text-base font-semibold md:text-lg">Du startest gerade? Hier entlang.</h2>
-            <p className="mt-1 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-              Von „Brauche ich überhaupt ein Gewerbe?“ bis zur ersten §14-konformen Rechnung: {STARTER_COUNT} Tools, die durch die ersten 90 Tage führen. Mit personalisierten Empfehlungen und PDF-Vorbereitung für Bürgeramt und Finanzamt.
-            </p>
-          </div>
-        </div>
-        <Button asChild variant="outline" className="shrink-0">
-          <Link to="/dashboard?view=themen&cat=starter">
-            Alle {STARTER_COUNT} Tools <ArrowRight aria-hidden="true" />
-          </Link>
-        </Button>
-      </div>
-      <ol className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 lg:grid-cols-4">
-        {quickStart.map((f, i) => (
-          <li key={f.slug}>
-            <Link
-              to={f.route ? f.route : isActive ? "/dashboard?view=themen&cat=starter" : "/preise"}
-              className="press group flex h-full flex-col rounded-md border border-border bg-background p-3.5 hover:border-foreground/30 hover:bg-card"
-            >
-              <span className="mb-1.5 text-xs font-semibold text-muted-foreground tabular">Schritt {i + 1}</span>
-              <span className="mb-1 text-sm font-semibold leading-tight">{f.title}</span>
-              <span className="text-xs leading-relaxed text-muted-foreground line-clamp-2">{f.desc}</span>
-            </Link>
-          </li>
-        ))}
-      </ol>
     </section>
   );
 };

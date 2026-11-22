@@ -61,21 +61,14 @@ export const DeineWoche = () => {
 
   return (
     <section className="rounded-lg border border-border bg-card">
-      <div className="flex flex-wrap items-start justify-between gap-3 border-b border-border px-5 py-3.5">
-        <div className="flex items-start gap-2.5">
-          <CalendarClock className="mt-[3px] h-4 w-4 shrink-0 text-muted-foreground" aria-hidden="true" />
-          <div>
-            <h2 className="text-[15px] font-semibold">Die nächsten 14 Tage</h2>
-            <p className="mt-0.5 text-sm text-muted-foreground">Steuertermine, gemerkte Events und Bewerbungsfristen.</p>
-          </div>
-        </div>
-        {punkte && punkte.length > 0 && (
-          <Link to={`/felix?frage=${encodeURIComponent(felixFrage)}`} className="inline-flex items-center gap-1.5 text-sm font-medium text-accent-blue hover:underline">
-            <MessageSquare className="h-4 w-4" aria-hidden="true" /> Mit Felix besprechen
-          </Link>
-        )}
+      <div className="border-b border-border px-4 py-3">
+        <h2 className="flex items-center gap-2 text-[15px] font-semibold leading-tight">
+          <CalendarClock className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden="true" />
+          Die nächsten 14 Tage
+        </h2>
+        <p className="mt-1 text-[13px] leading-snug text-muted-foreground">Steuertermine, gemerkte Events und Bewerbungsfristen.</p>
       </div>
-      <div className="px-5 py-2">
+      <div className="px-4 py-1">
       {punkte === null ? (
         <div className="space-y-2 py-2" aria-busy="true">
           <span className="sr-only">Lädt…</span>
@@ -83,17 +76,21 @@ export const DeineWoche = () => {
         </div>
       ) : punkte.length ? (
         <ul className="divide-y divide-border">
-          {punkte.slice(0, 8).map((p, i) => (
-            <li key={i} className="flex items-center gap-3 py-2.5 text-sm">
-              <span className="w-24 shrink-0 font-medium tabular">{tag(p.datum)}</span>
-              <ToneBadge tone={p.art === "steuer" ? "danger" : p.art === "frist" ? "warning" : "info"} className="shrink-0">
-                {p.art === "steuer" ? "Steuer" : p.art === "frist" ? "Frist" : "Event"}
-              </ToneBadge>
-              {p.link ? (
-                p.extern ? <a href={p.link} target="_blank" rel="noreferrer noopener" className="hover:text-accent-blue truncate">{p.text}</a> : <Link to={p.link} className="hover:text-accent-blue truncate">{p.text}</Link>
-              ) : (
-                <span className="truncate">{p.text}</span>
-              )}
+          {punkte.slice(0, 6).map((p, i) => (
+            <li key={i} className="py-2.5 text-sm">
+              <div className="flex items-center gap-2">
+                <span className="text-[13px] font-medium tabular">{tag(p.datum)}</span>
+                <ToneBadge tone={p.art === "steuer" ? "danger" : p.art === "frist" ? "warning" : "info"} className="shrink-0">
+                  {p.art === "steuer" ? "Steuer" : p.art === "frist" ? "Frist" : "Event"}
+                </ToneBadge>
+              </div>
+              <div className="mt-1 leading-snug">
+                {p.link ? (
+                  p.extern ? <a href={p.link} target="_blank" rel="noreferrer noopener" className="hover:text-accent-blue hover:underline">{p.text}</a> : <Link to={p.link} className="hover:text-accent-blue hover:underline">{p.text}</Link>
+                ) : (
+                  <span>{p.text}</span>
+                )}
+              </div>
             </li>
           ))}
         </ul>
@@ -101,9 +98,18 @@ export const DeineWoche = () => {
         <p className="py-3 text-sm text-muted-foreground">In den nächsten 14 Tagen steht nichts an.</p>
       )}
       </div>
-      {(!steuerProfil || neueEvents > 0) && (
-        <div className="flex flex-wrap gap-x-5 gap-y-1 border-t border-border px-5 py-3 text-sm">
-          {!steuerProfil && <Link to="/cockpit/steuerkalender" className="inline-flex items-center gap-1.5 font-medium text-accent-blue hover:underline"><CalendarClock className="h-4 w-4" aria-hidden="true" /> Steuerkalender einrichten, damit deine Termine hier erscheinen</Link>}
+      {((punkte && punkte.length > 0) || !steuerProfil || neueEvents > 0) && (
+        <div className="flex flex-col gap-2 border-t border-border px-4 py-3 text-[13px]">
+          {punkte && punkte.length > 0 && (
+            <Link to={`/felix?frage=${encodeURIComponent(felixFrage)}`} className="inline-flex items-center gap-1.5 font-medium text-accent-blue hover:underline">
+              <MessageSquare className="h-3.5 w-3.5 shrink-0" aria-hidden="true" /> Mit Felix besprechen
+            </Link>
+          )}
+          {!steuerProfil && (
+            <Link to="/cockpit/steuerkalender" className="inline-flex items-start gap-1.5 font-medium text-accent-blue hover:underline">
+              <CalendarClock className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden="true" /> Steuerkalender einrichten, dann stehen deine Termine hier
+            </Link>
+          )}
           {neueEvents > 0 && <Link to="/cockpit/event-radar" className="font-medium text-accent-blue hover:underline tabular">{neueEvents} neue Events im Radar</Link>}
         </div>
       )}

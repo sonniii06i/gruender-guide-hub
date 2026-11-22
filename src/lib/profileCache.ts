@@ -9,6 +9,9 @@ export interface CachedProfile {
   onboarding_completed: boolean | null;
   /** Geschäftsmodell(e) aus dem Onboarding, kommagetrennt – steuert die Guide-Empfehlung. */
   business_model?: string | null;
+  /** Phase und Rechtsform aus dem Onboarding – steuern den Fahrplan im Cockpit (lib/startplan). */
+  founder_stage?: string | null;
+  legal_form?: string | null;
 }
 
 export const PROFILE_CACHE_KEY = (uid: string) => `gx-profile-${uid}`;

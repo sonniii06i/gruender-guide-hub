@@ -1,4 +1,4 @@
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
@@ -9,6 +9,7 @@ import { useAccess } from "@/hooks/useAccess";
 import { Loader2, HelpCircle } from "lucide-react";
 import OnboardingTour, { TourStep } from "@/components/OnboardingTour";
 import { TOOL_COUNT } from "@/data/kennzahlen";
+import { merkeBesuch } from "@/lib/zuletztGenutzt";
 
 const GGH_TOUR: TourStep[] = [
   { title: "Willkommen bei GründerX 👋", text: "Kurze Tour durch deinen Gründer-Copiloten – ca. 40 Sekunden. Du kannst sie jederzeit über das Fragezeichen oben rechts erneut starten." },
@@ -27,6 +28,10 @@ export default function AppLayout() {
   const { user, loading } = useAuth();
   const { loading: accessLoading, onboardingCompleted, known: accessKnown } = useAccess();
   const navigate = useNavigate();
+  const { pathname } = useLocation();
+
+  // „Zuletzt geöffnet“ im Cockpit: nur Tool-Seiten, nur auf diesem Gerät.
+  useEffect(() => { merkeBesuch(user?.id, pathname); }, [user?.id, pathname]);
 
   useEffect(() => {
     if (loading) return;

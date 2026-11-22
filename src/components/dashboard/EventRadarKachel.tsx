@@ -19,12 +19,12 @@ export const EventRadarKachel = () => {
       </div>
       <div className="flex-1 min-w-0">
         <p className="text-[13px] font-medium text-muted-foreground">Event-Radar</p>
-        <p className="font-semibold leading-snug">
+        <p className="text-sm font-medium leading-snug text-pretty">
           {!eingerichtet
-            ? "Hackathons, IHK-Gründerabende und KI-Meetups in deiner Nähe: Radar einrichten"
+            ? "Hackathons, Gründerabende und Meetups in deiner Nähe: Radar einrichten"
             : neu > 0
               ? `${neu} neue Events ${region ? `in ${BUNDESLAND_NAMES[region]}` : "für dich"} seit deinem letzten Besuch`
-              : `Nichts Neues ${region ? `in ${BUNDESLAND_NAMES[region]}` : ""}. Deine nächsten Termine ansehen`}
+              : `Nichts Neues${region ? ` in ${BUNDESLAND_NAMES[region]}` : ""}. Deine nächsten Termine ansehen`}
         </p>
       </div>
       <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden="true" />

@@ -29,7 +29,7 @@ import { FelixMemoryPanel } from "@/components/profile/FelixMemoryPanel";
 import { TwoFactorPanel } from "@/components/profile/TwoFactorPanel";
 import { CodeEinloesenPanel } from "@/components/profile/CodeEinloesenPanel";
 import { toast } from "sonner";
-import { writeProfileCache } from "@/lib/profileCache";
+import { readProfileCache, writeProfileCache } from "@/lib/profileCache";
 import { interpretDeleteAccountResult } from "@/lib/deleteAccount";
 
 interface ProfileData {
@@ -111,9 +111,13 @@ const Profile = () => {
     }
     // Cache + Event-Trigger: Dashboard und alle anderen Listener
     // ziehen die neuen Werte synchron ohne erneuten DB-Roundtrip.
+    // Geschäftsmodell und Phase stehen nicht in diesem Formular -> aus dem Cache
+    // übernehmen, sonst verliert das Cockpit bis zum nächsten Laden den Fahrplan.
     writeProfileCache(user.id, {
+      ...(readProfileCache(user.id) ?? {}),
       first_name: profile.first_name ?? null,
       onboarding_completed: (profile as any).onboarding_completed ?? null,
+      legal_form: profile.legal_form ?? null,
     });
     toast.success("Profil aktualisiert");
   };
