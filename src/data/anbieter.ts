@@ -1326,9 +1326,9 @@ export const PROVIDERS: Provider[] = [
     region: "US",
     starting: "16 $/Mon (erste 12 Monate 0 $, danach erlassbar ab 5.000 $ Durchschnittsguthaben)",
     rating: 4.0,
-    tagline: "Zweitgrößte US-Business-Bank, ~3.500 Filialen",
+    tagline: "Zweitgrößte US-Bank nach Bilanzsumme, ~3.500 Filialen",
     pros: [
-      "Zweitgrößtes Filialnetz (~3.500 Branches)",
+      "Großes Filialnetz (~3.500 Financial Centers laut BoA)",
       "Auslandsüberweisungen per Online- und Mobile-Banking",
       "Erica AI-Assistant in der Mobile App",
       "Preferred Rewards Program mit Discount auf Loans/Credits",
