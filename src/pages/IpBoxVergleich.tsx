@@ -109,14 +109,17 @@ const IpBoxVergleich = () => {
             <Callout tone="warning" title="Wichtig vorweg (Stand 2026)">
               <ul className="list-disc space-y-1.5 pl-4">
                 <li>
-                  <strong>BEPS Action 5, Nexus-Ansatz:</strong> Nur der Anteil qualifizierter F&E-Ausgaben im IP-Box-Land
+                  <strong>BEPS Action 5, Nexus-Ansatz:</strong> Nur der Anteil der eigenen F&E-Ausgaben der Gesellschaft
                   profitiert vom Box-Satz. Reine Briefkasten-Lizenzholdings funktionieren nicht mehr.
                 </li>
                 <li>
                   <strong>Hinzurechnungsbesteuerung nach AStG:</strong> Bei Wohnsitz in Deutschland, Beherrschung über 50 %,
                   IP-Box-Steuer unter 15 % und passiven Lizenzeinkünften wird hinzugerechnet. Als aktiv gelten Lizenzeinkünfte
                   nur, wenn die Gesellschaft eigene F&E auswertet, die ohne Mitwirkung des deutschen Gesellschafters oder ihm
-                  nahestehender Personen entstanden ist (§ 8 Abs. 1 Nr. 6 a AStG), sonst sind sie passiv.
+                  nahestehender Personen entstanden ist (§ 8 Abs. 1 Nr. 6 a AStG), sonst sind sie passiv. Für Gesellschaften in
+                  der EU oder im EWR entfällt die Hinzurechnung, wenn nachgewiesen wird, dass sie dort einer wesentlichen
+                  wirtschaftlichen Tätigkeit mit eigener sachlicher und personeller Ausstattung nachgehen (§ 8 Abs. 2 und 3
+                  AStG). Für die Schweiz gilt dieser Nachweis nicht.
                 </li>
                 <li>
                   <strong>Deutsche Vergleichsbasis:</strong> Die Körperschaftsteuer sinkt ab 2028 schrittweise auf 10 % im Jahr
@@ -128,11 +131,11 @@ const IpBoxVergleich = () => {
                 </li>
                 <li>
                   <strong>Substanz ist Pflicht:</strong> lokale Mitarbeitende, Büro und F&E-Tätigkeit, kein Direktor nur auf dem
-                  Papier. Prüfungen sind seit 2018 verschärft.
+                  Papier.
                 </li>
                 <li>
                   <strong>Verrechnungspreise nach § 1 AStG:</strong> Lizenzgebühren müssen fremdüblich sein. Konzerninterne
-                  Lizenzen brauchen eine Verrechnungspreis-Dokumentation (typisch 5 bis 15 % vom IP-Wert).
+                  Lizenzen brauchen eine Verrechnungspreis-Dokumentation.
                 </li>
               </ul>
             </Callout>
@@ -223,12 +226,11 @@ const IpBoxVergleich = () => {
       <ToolSection title="Was alle 9 Regime gemeinsam haben" icon={ListChecks}>
         <ul className="grid grid-cols-1 gap-x-8 gap-y-2.5 text-sm text-muted-foreground md:grid-cols-2">
           {[
-            "BEPS-Nexus-Ansatz: Steuervorteil nur im Verhältnis zur F&E-Tätigkeit im IP-Box-Land",
+            "BEPS-Nexus-Ansatz: Steuervorteil nur im Verhältnis zur eigenen F&E der Gesellschaft",
             "Urheberrechtlich geschützte Software qualifiziert nach dem OECD-Nexus-Ansatz in allen EU-IP-Boxen (auch CY, IE und HU); Marken und andere Marketing-IP qualifizieren nirgends",
             "Nexus-Quotient: begünstigt ist nur der Anteil (eigene F&E-Kosten × 130 %, höchstens bis zu den Gesamtkosten) / gesamte F&E-Kosten des IP-Assets — zugekaufte F&E und Konzern-Auftragsforschung senken ihn",
             "Die Buchhaltung muss IP-Einkünfte getrennt von den übrigen Einkünften erfassen",
             "F&E-Tagebuch und Ausgaben-Tracking je IP-Asset sind Pflicht",
-            "Geprüfte Abschlüsse sind für IP-Box-Anträge in den meisten Ländern Pflicht",
             "Verrechnungspreis-Dokumentation nach § 90 Abs. 3 AO bei konzerninternen Lizenzen ist Pflicht",
             "Ein Tax Ruling im IP-Box-Land schafft Rechtssicherheit (NL, CH und LU bieten Ruling-Verfahren)",
           ].map((t) => (
