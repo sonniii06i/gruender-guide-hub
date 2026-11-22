@@ -477,11 +477,21 @@ export const FOERDERPROGRAMME: Foerderung[] = [
     maxFunding: "€10M technisch / €5M klinisch",
     zielgruppe: ["NL-SME Deep-Tech/Biotech"],
     phase: ["aufbau"],
-    branche: ["Deep-Tech", "Biotech"],
-    description: "Risiko-Kredit für Innovation. 3% Compound-Interest, 15-25% Markup am Ende, keine Tilgung während Development. Top non-dilutiv.",
-    conditions: ["Erhebliche technische Risiken + exzellente Marktperspektive", "Mehrheit Aktivitäten in NL"],
+    branche: ["Deep-Tech", "Biotech", "Software/IT/KI"],
+    description: "Risiko-Kredit für Innovation. 3 % Zinseszins, am Ende ein Aufschlag von 15 % (technisch) bzw. 25 % (klinisch), keine Tilgung während der Entwicklung. Non-dilutiv.",
+    conditions: [
+      "Erhebliche technische Risiken + exzellente Marktperspektive",
+      "Mehrheit Aktivitäten in NL",
+      "Projektkosten mindestens 150.000 €",
+      "Restfinanzierung belegt, z. B. per ungezeichnetem Term Sheet; andere Subsidien mindern den Kredit",
+    ],
     antragUrl: "https://english.rvo.nl/subsidies-financing/innovation-credit",
-    watchouts: ["Rückzahlungspflicht wenn Projekt erfolgreich", "NL-Sitz Pflicht"],
+    notes: ["Antrag 2026 ganzjährig vom 01.01. bis 31.12.2026, Login per eHerkenning (Stufe eH2+); die RVO-Seite nennt ein Budget von 50 Mio € (Stand 22.11.2026)."],
+    watchouts: [
+      "Rückzahlungspflicht wenn Projekt erfolgreich",
+      "NL-Sitz Pflicht",
+      "RVO verlangt ein erstrangiges Pfandrecht an allen materiellen und immateriellen Projekt-Assets (Patente, Quellcode, IP, Maschinen, Vorräte), bis Kredit, Zins und Aufschlag getilgt sind; bis dahin keine Tilgung von Gesellschafterdarlehen",
+    ],
   },
 
   // ===== ISRAEL =====
