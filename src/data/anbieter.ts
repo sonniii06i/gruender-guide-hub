@@ -167,7 +167,7 @@ export const FULL_DESCRIPTIONS: Record<string, string> = {
   "chase-business": "JPMorgan Chase ist die größte US-Bank (3,9 Bio $ Assets) und hat mit ~5.000 Filialen das größte Filialnetz für Business-Banking. Chase Business Complete Banking ist der Standard für US-LLCs mit physischer Präsenz, mit Inks-Kreditkarten-Programm und 5.000-Branch-Cash-Service. Für deutsche Founder ohne US-Adresse meist schwer zugänglich – Mercury ist die Tech-Alternative.",
   "bank-of-america-business": "Bank of America ist die zweitgrößte US-Bank (2,65 Bio $ Bilanzsumme laut Federal Reserve, Stand 30.06.2026) mit ~3.500 Branches. Business Advantage Fundamentals Banking ist das Standard-Geschäftskonto (Online-Banking: Business Advantage 360), mit Erica-AI-Assistant und Auslandsüberweisungen per Online- und Mobile-Banking. Preferred Rewards Program bietet Discount auf Loans/Credits.",
   "wells-fargo-business": "Wells Fargo ist die drittgrößte US-Bank (1,7 Bio $ Assets) mit ~4.700 Branches. Initiate Business Checking ist das Einsteiger-Konto. Der 2018er Skandal um Fake-Konten drückt Reputation auch 2026 noch – aktiv im SBA-Loan-Markt, aber Trustpilot-Sentiment durchwachsen.",
-  "capital-one-business": "Capital One (gegründet 1994) ist eine der zehn größten US-Banken (Rang 7 nach Bilanzsumme laut Federal Reserve, Stand 30.06.2026) und stark im Online-/Karten-Business. Das Geschäftskonto (Basic, Enhanced oder Premier Checking) lässt sich mit den Spark-Cash-Plus-Karten (2 % Cashback) kombinieren. Komplett Online-Eröffnung möglich auch für Remote-Founder, weniger Filialen als Chase/BoA.",
+  "capital-one-business": "Capital One (gegründet 1994) ist eine der zehn größten US-Banken (Rang 7 nach Bilanzsumme laut Federal Reserve, Stand 30.06.2026) und stark im Online-/Karten-Business. Das Geschäftskonto (Basic, Enhanced oder Premier Checking) lässt sich mit den Spark-Cash-Plus-Karten (2 % Cashback) kombinieren. Der Online-Antrag dauert laut Capital One Minuten, verlangt aber Social Security Card bzw. Social Security Number der Inhaber; einen Weg für Gründer ohne SSN nennt Capital One nicht. Weniger Filialen als Chase/BoA.",
   "axos-business": "Axos Bank (Direct-Bank, gegründet 2000) ist eine vollständig digitale US-Bank mit 0 $-Konto im Basic-Business-Tier. Online-Eröffnung von Deutschland aus mit US-LLC + EIN möglich – einer der wenigen großen US-Brands der Non-US-Founder akzeptiert. Reviews zeigen vereinzelte Compliance-Sperren bei großen Transfers.",
   "lili": "Lili ist eine 2018 gegründete US-Banking-App speziell für Solopreneurs und 1099-Freelancer. Free-Tier mit eingebauten Tax-Buckets (automatische Steuer-Rücklage) und BookKeeper-Tool ab Pro-Tier. Nur Sole-Proprietor und Single-Member-LLC, keine Multi-Member-Struktur.",
   "square-banking": "Square Banking ist die Banking-Sparte von Block Inc. (Square, Cash App) und richtet sich an Square-Sellers. Tight Integration mit Square-POS und Online-Store, Instant-Access zu Sales-Earnings ohne Settlement-Delay. Standalone-Banking weniger sinnvoll – nur als Add-on zur Square-Hardware/-Software.",
@@ -1373,7 +1373,7 @@ export const PROVIDERS: Provider[] = [
     rating: 4.2,
     tagline: "Online-stark, gute Spark-Kreditkarten-Bundle",
     pros: [
-      "Komplett Online-Eröffnung möglich (auch Remote-Founder)",
+      "Online-Antrag in Minuten (mit SSN; beim Antrag mit Berater zusätzlich US-Adresse, kein Postfach)",
       "Spark Cash Plus 2 % Cashback auf alle Käufe",
       "Digitale Transaktionen (ACH, mobile Einzahlung, Online-Rechnungen) in allen Tarifen gebührenfrei",
       "Solider mobile App-Standard",
@@ -1381,10 +1381,11 @@ export const PROVIDERS: Provider[] = [
     cons: [
       "Filialnetz limitiert (vs. Chase/BoA)",
       "Auslandsüberweisungen kosten 40 $ ausgehend und 15 $ eingehend (Basic und Enhanced)",
-      "Capital One Card-Approval streng bei Non-US-Founder",
+      "Für Gründer ohne SSN laut Capital One nicht vorgesehen",
+      "Spark-Kartenantrag nur mit SSN des Antragstellers",
     ],
     forumNotes: "r/Entrepreneur 2026: 'Capital One ist Mid-Tier mit guter Online-UX. Spark Cash Plus Card oft genannt für Marketing-Spend.'",
-    signupTime: "1–7 Tage online",
+    signupTime: "Antrag in Minuten online, Eröffnungsdauer nicht angegeben",
     url: "https://www.capitalone.com/small-business/bank/",
   },
   {
