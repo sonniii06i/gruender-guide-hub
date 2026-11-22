@@ -109,6 +109,21 @@ describe("GewerbeanmeldungWizard — Steps", () => {
     expect(selects[0].value).toBe("gmbh");
   });
 
+  it("Step 3: GbR fragt Feld 12 (geschäftsführende Gesellschafter) und Feld 1 (weitere Gesellschafter) ab", () => {
+    renderWithRouter(<GewerbeanmeldungWizard />);
+    const dots = document.querySelectorAll("button[title^='Step']");
+    fireEvent.click(dots[2] as HTMLElement);
+    const selects = screen.getAllByRole("combobox") as HTMLSelectElement[];
+    fireEvent.change(selects[0], { target: { value: "gbr" } });
+    expect(screen.getByLabelText("Zahl der geschäftsführenden Gesellschafter")).toBeTruthy();
+    expect(screen.getByLabelText("Weitere geschäftsführende Gesellschafter")).toBeTruthy();
+    fireEvent.change(selects[0], { target: { value: "kg" } });
+    expect(screen.getByLabelText("Zahl der geschäftsführenden Gesellschafter")).toBeTruthy();
+    expect(screen.queryByLabelText("Weitere geschäftsführende Gesellschafter")).toBeNull();
+    fireEvent.change(selects[0], { target: { value: "einzel" } });
+    expect(screen.queryByLabelText("Zahl der geschäftsführenden Gesellschafter")).toBeNull();
+  });
+
   it("Step 4: Tätigkeits-Qualität reagiert auf Input-Länge", () => {
     renderWithRouter(<GewerbeanmeldungWizard />);
     const dots = document.querySelectorAll("button[title^='Step']");
@@ -126,7 +141,7 @@ describe("GewerbeanmeldungWizard — Steps", () => {
     fireEvent.click(dots[4] as HTMLElement);
     const searchInput = screen.getByPlaceholderText(/Suche/);
     fireEvent.change(searchInput, { target: { value: "Programmierung" } });
-    expect(document.body.innerHTML).toMatch(/62\.01\.0/);
+    expect(document.body.innerHTML).toMatch(/62\.01\.9/);
   });
 
   it("Step 5: WZ-Auswahl per Klick speichert Code", () => {
@@ -135,10 +150,10 @@ describe("GewerbeanmeldungWizard — Steps", () => {
     fireEvent.click(dots[4] as HTMLElement);
     // Default: zeige alle, finde einen Eintrag und klicke
     const wzButtons = document.querySelectorAll("button");
-    const wzButton = Array.from(wzButtons).find((b) => b.textContent?.includes("62.01.0"));
+    const wzButton = Array.from(wzButtons).find((b) => b.textContent?.includes("62.01.9"));
     expect(wzButton).toBeTruthy();
     fireEvent.click(wzButton!);
-    expect(document.body.innerHTML).toMatch(/Ausgewählt.*62\.01\.0/);
+    expect(document.body.innerHTML).toMatch(/Ausgewählt.*62\.01\.9/);
   });
 
   it("Step 6: KU-Status Radio-Buttons wechselbar", () => {
