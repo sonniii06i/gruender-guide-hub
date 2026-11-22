@@ -80,7 +80,7 @@ const PFADE: Pfad[] = [
     when: "Dienstleister / Solo-Selbstständig, regelmäßige Belege",
     pick: "Lexware Office (Paket L)",
     partner: "lexoffice",
-    why: "Einfachste Bedienung, deutscher Marktführer, enge Steuerberater-/DATEV-Verzahnung. USt-VA per ELSTER und EÜR-Erstellung gibt es ab Paket L (EÜR-Versand über smartsteuer bzw. manuell in ELSTER). Ideal wenn du wenig Zeit für Buchhaltung hast und es einfach laufen soll.",
+    why: "Einfachste Bedienung, enge Steuerberater-/DATEV-Verzahnung. USt-VA per ELSTER und EÜR-Erstellung gibt es ab Paket L (EÜR-Versand über smartsteuer bzw. manuell in ELSTER). Ideal wenn du wenig Zeit für Buchhaltung hast und es einfach laufen soll.",
   },
   {
     icon: <ShoppingCart className="h-5 w-5 text-accent-blue" />,
@@ -164,7 +164,8 @@ const BuchhaltungssoftwareGuide = () => {
         </Callout>
         <Callout tone="warning" title="Wichtig: Bilanz ist hier nicht abgedeckt" className="-mt-7">
           Beide Tools erledigen laufende Buchhaltung und EÜR. Sobald du <strong className="text-foreground">bilanzieren</strong> musst
-          (GmbH oder Überschreiten der Grenzen von § 141 AO), brauchst du eine StB-Lösung oder ein Bilanz-Add-on.
+          (GmbH/UG, OHG/KG oder als Einzelkaufmann bzw. Gewerbetreibender über 800.000 € Umsatz oder 80.000 € Gewinn, § 241a HGB/§ 141 AO),
+          brauchst du eine StB-Lösung oder ein Bilanz-Add-on.
         </Callout>
 
         {/* Entscheidung */}
@@ -296,8 +297,11 @@ const BuchhaltungssoftwareGuide = () => {
           { label: "sevDesk: Umsatzsteuervoranmeldung (UStVA)", url: "https://hilfe.sevdesk.de/de/articles/9310598-umsatzsteuervoranmeldung-ustva" },
           { label: "sevDesk Tarife & Funktionen", url: "https://sevdesk.de/preise/" },
           { label: "ELSTER (kostenloses Finanzamt-Portal)", url: "https://www.elster.de" },
+          { label: "§ 238 HGB (Buchführungspflicht)", url: "https://www.gesetze-im-internet.de/hgb/__238.html" },
+          { label: "§ 241a HGB (Befreiung Einzelkaufleute)", url: "https://www.gesetze-im-internet.de/hgb/__241a.html" },
+          { label: "§ 141 AO (Buchführungspflicht nach Steuerrecht)", url: "https://www.gesetze-im-internet.de/ao_1977/__141.html" },
         ]}
-        note="Funktionen gegen die offiziellen Anbieterseiten verifiziert (2026-11-20). Preise sind Richtwerte und aktionsabhängig, beim Anbieter prüfen. USt-VA per ELSTER und EÜR-Erstellung ab Lexware Paket L (EÜR-Versand über smartsteuer bzw. manuell in ELSTER) bzw. sevDesk Buchhaltung. Keine Steuerberatung."
+        note="Funktionen gegen die offiziellen Anbieterseiten verifiziert (2026-11-20), Bilanzpflicht-Hinweis nach §§ 238, 241a HGB und § 141 AO geprüft (2026-11-22). Preise sind Richtwerte und aktionsabhängig, beim Anbieter prüfen. USt-VA per ELSTER und EÜR-Erstellung ab Lexware Paket L (EÜR-Versand über smartsteuer bzw. manuell in ELSTER) bzw. sevDesk Buchhaltung. Keine Steuerberatung."
       />
     </CockpitShell>
   );
