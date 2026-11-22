@@ -170,7 +170,7 @@ const Anbieter = () => {
     <CockpitShell
       eyebrow="Anbieter-Vergleichs-Engine"
       title="Die besten Tools für deine Gründung"
-      subtitle="Top-Anbieter pro Kategorie, mit Stärken und Schwächen aus Reddit und E-Com-Foren. Aktive Aktionen werden wöchentlich aktualisiert."
+      subtitle="Top-Anbieter pro Kategorie, mit Stärken und Schwächen aus Reddit und E-Com-Foren."
     >
       <Seo
         title="Anbieter-Vergleich 2026 – Geschäftskonto, Buchhaltung, Hosting | GründerX"
