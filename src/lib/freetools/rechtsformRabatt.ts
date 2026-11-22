@@ -34,8 +34,9 @@ export const RECHTSFORM_RABATT: ErgebnisRabatt = {
   prozent: PROZENT,
   titel: "Du weißt jetzt, welche Rechtsform passt",
   text: `Mit dem Code ${CODE} zahlst du im Monatszugang von GründerX im ersten Monat ${ERSTER}, danach regulär ${NORMAL} im Monat (${FOUNDER_KURZ}). Eine E-Mail-Adresse oder Newsletter-Anmeldung brauchst du dafür nicht.`,
-  // Gleiches Ziel und gleiche Parameter wie der bestehende Funnel-Link der Tool-Seite (kein neues Tracking).
-  ziel: "/preise?utm_source=tool&utm_medium=generator&utm_campaign=rechtsform-finden",
+  // Gleiches Ziel wie der Funnel-Link der Tool-Seite; ohne UTM (SEO-Audit N5, 22.11.2026), der Klick
+  // wird in ErgebnisRabattBlock als interner_funnel_klick gezählt.
+  ziel: "/preise",
   zielText: "Zu den Preisen",
   bedingungen: [
     `Gilt im Monatszugang von GründerX für die erste Rechnung: ${ERSTER}. Ab dem zweiten Monat gilt der reguläre Preis von ${NORMAL} im Monat.`,

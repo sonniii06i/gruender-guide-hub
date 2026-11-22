@@ -224,6 +224,11 @@ export function track(
 
 export const trackTraffic = {
   sessionStart: (props?: Record<string, unknown>) => track("traffic", "session_start", props),
+  // SEO-Audit N5 (22.11.2026): interne Links tragen keine UTM-Parameter mehr. checkoutAttribution()
+  // liest UTMs zuerst aus der aktuellen URL – ein interner ?utm_source=tool hat die echte Herkunft
+  // (Google, Social …) im Checkout überschrieben. Der Klick wird stattdessen hier gezählt.
+  internerFunnelKlick: (quelle: string, ziel: string) =>
+    track("traffic", "interner_funnel_klick", { quelle: quelle.slice(0, 80), ziel: ziel.slice(0, 80) }),
 };
 
 export const trackSignup = {

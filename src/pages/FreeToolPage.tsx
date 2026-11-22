@@ -11,6 +11,7 @@ import { UstProtokollVormerken } from "@/components/freetools/UstProtokollVormer
 import { FREE_TOOLS, type ToolConfig } from "@/lib/freetools";
 import type { ToolTabelle } from "@/lib/freetools/types";
 import { faqSchema, howToSchema, breadcrumbSchema, serviceSchema } from "@/lib/freetools/schema";
+import { trackTraffic } from "@/utils/analytics";
 
 const SITE = "https://gruenderx.de";
 
@@ -190,7 +191,8 @@ export default function FreeToolPage({ config }: FreeToolPageProps) {
               Mit GründerX bekommst du deinen Fahrplan von Gewerbe bis Steuer, alle Tools unbegrenzt und Felix, deinen Gründungs-Assistenten.
             </p>
             <Link
-              to={`/preise?utm_source=tool&utm_medium=${config.format || "generator"}&utm_campaign=${config.slug}`}
+              to="/preise"
+              onClick={() => trackTraffic.internerFunnelKlick(`tool:${config.slug}`, "/preise")}
               className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-accent-blue hover:underline"
             >
               GründerX ansehen <ArrowRight className="h-4 w-4" aria-hidden="true" />

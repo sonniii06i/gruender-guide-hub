@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Check, Copy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { ErgebnisRabatt } from "@/lib/freetools/types";
+import { trackTraffic } from "@/utils/analytics";
 
 // Ruhiger Rabatt-Block in der Ergebnisansicht eines Gratis-Tools (zuerst: Rechtsform-Test),
 // direkt unter der Kernaussage des Ergebnisses und über dem Dokument.
@@ -42,6 +43,7 @@ export function ErgebnisRabattBlock({ rabatt }: { rabatt: ErgebnisRabatt }) {
         </Button>
         <Link
           to={rabatt.ziel}
+          onClick={() => trackTraffic.internerFunnelKlick(`rabatt:${rabatt.code}`, rabatt.ziel)}
           className="inline-flex items-center gap-1.5 text-sm font-semibold text-accent-blue hover:underline"
         >
           {rabatt.zielText} <ArrowRight className="h-4 w-4" aria-hidden="true" />
