@@ -24,6 +24,7 @@ import {
 } from "@/config/pricing";
 import { TRIAL_TOOLS, TRIAL_CLAIM } from "@/lib/freetools/trialTools";
 import { LANDING_TOOLS } from "@/data/features";
+import { SCREENS } from "@/data/screenshots";
 
 const SITE = "https://gruenderx.de";
 const VAT_PERCENT = Math.round(VAT_RATE * 100);
@@ -240,7 +241,7 @@ const Preise = () => {
           </p>
         </section>
 
-        {/* Einblick: echte Ansicht nach der Freischaltung (Testkonto) */}
+        {/* Einblick: Ansicht nach der Freischaltung (Beispieldaten) */}
         <section aria-labelledby="einblick" className="mb-16 grid items-center gap-8 rounded-2xl border border-border bg-card p-6 md:grid-cols-[1fr,1.3fr] md:p-8">
           <div>
             <h2 id="einblick" className="text-2xl font-semibold tracking-tight">Das schaltest du frei</h2>
@@ -254,17 +255,17 @@ const Preise = () => {
           </div>
           <figure>
             <img
-              src="/screens/2026-10b/dashboard.webp"
-              srcSet="/screens/2026-10b/dashboard-720.webp 720w, /screens/2026-10b/dashboard.webp 1600w"
+              src={SCREENS.dashboard.gross}
+              srcSet={`${SCREENS.dashboard.klein} 720w, ${SCREENS.dashboard.gross} 1600w`}
               sizes="(min-width: 768px) 560px, 100vw"
               width={1600}
               height={870}
               loading="lazy"
               decoding="async"
-              alt="GründerX-Cockpit nach der Anmeldung mit laufenden Guides, Event-Radar und den Terminen der nächsten 14 Tage"
+              alt={SCREENS.dashboard.alt}
               className="aspect-[16/10] w-full rounded-xl border border-border object-cover object-left-top"
             />
-            <figcaption className="mt-2 text-xs text-muted-foreground">Echte Ansicht der App, aufgenommen mit einem Testkonto.</figcaption>
+            <figcaption className="mt-2 text-xs text-muted-foreground">Ansicht der App, aufgenommen mit Beispieldaten.</figcaption>
           </figure>
         </section>
 

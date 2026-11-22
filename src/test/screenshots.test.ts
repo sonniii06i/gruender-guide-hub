@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { existsSync } from "fs";
 import { resolve } from "path";
-import { SCREENS, TOOL_SCREEN, KATEGORIE_SCREEN } from "@/data/screenshots";
+import { SCREENS, TOOL_SCREEN, KATEGORIE_SCREEN, GALERIE_NAMEN, galerieBild } from "@/data/screenshots";
 import { ZIELGRUPPEN } from "@/data/zielgruppen";
 
 // Jede Bildangabe muss auf eine echte Datei in public/ zeigen – sonst zeigt der
@@ -19,6 +19,12 @@ describe("App-Screenshots", () => {
       expect(s.alt.length).toBeGreaterThan(20);
     });
   }
+  it("Galerie der Startseite: beide Größen vorhanden", () => {
+    for (const n of GALERIE_NAMEN) {
+      expect(existsSync(pub(galerieBild(n))), n).toBe(true);
+      expect(existsSync(pub(galerieBild(n).replace(/\.webp$/, "-720.webp"))), n).toBe(true);
+    }
+  });
   it("Mappings zeigen auf bekannte Screenshots", () => {
     for (const k of [...Object.values(TOOL_SCREEN), ...Object.values(KATEGORIE_SCREEN), ...ZIELGRUPPEN.map((z) => z.screen)]) {
       expect(SCREENS[k], k).toBeDefined();

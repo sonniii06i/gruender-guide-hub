@@ -47,12 +47,14 @@ export const Startplan = ({ profil, planAendernLink }: { profil: PlanProfil; pla
     <section className="rounded-lg border border-border bg-card" aria-labelledby="startplan-titel">
       <div className="px-5 pb-5 pt-4">
         <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1">
-          <p className="flex items-center gap-2 text-[13px] font-medium text-muted-foreground">
-            <Route className="h-4 w-4" aria-hidden="true" />
-            {naechster ? "Dein nächster Schritt" : "Dein Fahrplan"}
-            {phase && <span className="text-muted-foreground/80">· Phase: {PHASE_LABEL[phase]}</span>}
+          <p className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[13px] font-medium text-muted-foreground">
+            <span className="inline-flex items-center gap-2 whitespace-nowrap">
+              <Route className="h-4 w-4" aria-hidden="true" />
+              {naechster ? "Dein nächster Schritt" : "Dein Fahrplan"}
+            </span>
+            {phase && <span className="whitespace-nowrap text-muted-foreground/80"><span className="hidden sm:inline" aria-hidden="true">· </span>Phase: {PHASE_LABEL[phase]}</span>}
           </p>
-          <p className="text-[13px] text-muted-foreground tabular">{erledigt} von {schritte.length} erledigt</p>
+          <p className="whitespace-nowrap text-[13px] text-muted-foreground tabular">{erledigt} von {schritte.length} erledigt</p>
         </div>
         <div
           className="mt-2.5 h-1.5 overflow-hidden rounded-full bg-secondary"

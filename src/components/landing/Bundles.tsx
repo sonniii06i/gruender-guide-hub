@@ -13,6 +13,7 @@ import { rememberCartVariant } from "@/lib/cart";
 import { ANBIETER_ANZAHL, ANBIETER_KATEGORIEN, TOOL_COUNT } from "@/data/kennzahlen";
 import { toast } from "sonner";
 import { ProductGallery, type GalleryImage } from "@/components/product/ProductGallery";
+import { galerieBild } from "@/data/screenshots";
 import { ProductBuyBox, eur, type Variant } from "@/components/product/ProductBuyBox";
 import { SpecTable, type Spec } from "@/components/product/SpecTable";
 
@@ -53,14 +54,13 @@ const CHECKOUT: Record<string, { priceId: string; interval: "month" | "year" }> 
  * Oberflaeche das Produkt -- ein Screenshot schlaegt hier jede Illustration
  * und jedes 3D-Mockup.
  */
-// Echte Ansichten der App (10/2026, Testkonto ohne Kundendaten).
-const S = "/screens/2026-10";
+// Ansichten der App (11/2026, lokal aufgenommen mit Beispieldaten).
 const SOLO_GALLERY: GalleryImage[] = [
-  { src: `${S}/uebersicht.webp`, alt: "GründerX-Cockpit mit Fristen der nächsten 14 Tage, Event-Radar und Einstieg für Anfänger", caption: "Dein Cockpit: anstehende Fristen, Event-Radar und der Einstieg für Anfänger (Ansicht mit Testkonto)" },
-  { src: `${S}/rechtsform.webp`, alt: "Rechtsform-Wizard mit Empfehlung UG und Begründung", caption: "Rechtsform-Wizard: wenige Fragen, dann eine begründete Empfehlung samt Fallstricken" },
-  { src: `${S}/steuerkalender.webp`, alt: "Steuer- und Fristenkalender mit den Terminen der nächsten 12 Monate", caption: "Steuer- und Fristenkalender: alle Termine der nächsten 12 Monate für deine Situation" },
-  { src: `${S}/anbieter.webp`, alt: `Anbieter-Vergleich mit ${ANBIETER_ANZAHL} Anbietern nach Kategorien`, caption: `Anbieter-Vergleich: ${ANBIETER_ANZAHL} Anbieter in ${ANBIETER_KATEGORIEN} Kategorien mit Stärken und Schwächen` },
-  { src: `${S}/runway.webp`, alt: "Runway-Rechner mit Ergebnis in Monaten", caption: "Runway-Rechner: wie lange das Geld reicht und ab wann du profitabel bist" },
+  { src: galerieBild("uebersicht"), alt: "GründerX-Cockpit mit persönlichem Fahrplan, nächstem Schritt und den Terminen der nächsten 14 Tage", caption: "Dein Cockpit: der nächste Schritt aus deinem Fahrplan und die Termine der nächsten 14 Tage (Ansicht mit Beispieldaten)" },
+  { src: galerieBild("rechtsform"), alt: "Rechtsform-Wizard mit Empfehlung UG und Begründung", caption: "Rechtsform-Wizard: wenige Fragen, dann eine begründete Empfehlung samt Fallstricken" },
+  { src: galerieBild("steuerkalender"), alt: "Steuer- und Fristenkalender mit den Terminen der nächsten 12 Monate", caption: "Steuer- und Fristenkalender: alle Termine der nächsten 12 Monate für deine Situation" },
+  { src: galerieBild("anbieter"), alt: `Anbieter-Vergleich mit ${ANBIETER_ANZAHL} Anbietern nach Kategorien`, caption: `Anbieter-Vergleich: ${ANBIETER_ANZAHL} Anbieter in ${ANBIETER_KATEGORIEN} Kategorien mit Stärken und Schwächen` },
+  { src: galerieBild("runway"), alt: "Runway-Rechner mit Ergebnis in Monaten", caption: "Runway-Rechner: wie lange das Geld reicht und ab wann du profitabel bist" },
 ];
 
 const GALLERY: Record<string, GalleryImage[]> = {
