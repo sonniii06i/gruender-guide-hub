@@ -53,7 +53,7 @@ export const IP_BOX_REGIMES: IPBoxRegime[] = [
     mechanism: "80 %-Befreiung qualifizierter Netto-Einkünfte → 15 % × 20 % = 3,0 % effektiv (KSt-Reform 2026, vorher 12,5 % → 2,5 %)",
     qualifyingIncome: [
       "Patent-Lizenzgebühren",
-      "Patentierte Software / Computerprogramme (registriert)",
+      "Software / Computerprogramme",
       "Utility Models",
       "Pflanzenzucht-Sortenrechte",
       "Orphan Drugs",
@@ -71,7 +71,7 @@ export const IP_BOX_REGIMES: IPBoxRegime[] = [
     rdDocumentation: [
       "Tracking aller F&E-Ausgaben pro IP-Asset (qualifying vs. non-qualifying)",
       "Nexus-Ratio jährlich berechnen + dokumentieren",
-      "Patent-/IP-Registrierung beim zyprischen Patent-Office",
+      "Bei Patenten: Registrierung beim zyprischen Patentamt",
       "Outsourced R&D-Verträge dokumentieren (related vs. non-related parties)",
       "Audit jährlich Pflicht",
     ],
@@ -84,7 +84,7 @@ export const IP_BOX_REGIMES: IPBoxRegime[] = [
     ],
     cons: [
       "Substanz-Anforderung wirklich Pflicht — Audits seit 2018 verschärft",
-      "Software-Patentierung nötig (reine Code-Copyrights reichen NICHT)",
+      "Nexus-Dokumentation pro Software-Asset nötig",
       "Setup 8.000-15.000 € + jährlich 5.000-12.000 € Compliance",
       "GeSi-Risiko bei Mailbox-Setup hoch (DE-FA prüft genau)",
       "EU-Listenüberwachung (Black-/Grey-List) — Reputationsrisiko",
@@ -217,7 +217,7 @@ export const IP_BOX_REGIMES: IPBoxRegime[] = [
     standardKSt: 12.5,
     effectiveRate: 10,
     mechanism:
-      "Abzug von 20 % der qualifizierten Netto-Einkünfte (zuvor 50 %) → effektiv 10 % (Finance Act 2022, wirksam für Geschäftsjahre ab 1.10.2023; angehoben zur Anpassung an OECD Pillar Two). KDB läuft aktuell bis 31.12.2026, Verlängerung in Diskussion.",
+      "Abzug von 20 % der qualifizierten Netto-Einkünfte (zuvor 50 %) → effektiv 10 % (Finance Act 2022, wirksam für Geschäftsjahre ab 1.10.2023; angehoben zur Anpassung an OECD Pillar Two). Die KDB gilt für Geschäftsjahre mit Beginn vor dem 1.1.2027; der Finance (No. 2) Bill 2026 sieht eine Verlängerung auf Geschäftsjahre mit Beginn vor dem 1.1.2032 vor (Stand 22.11.2026, noch nicht verabschiedet).",
     qualifyingIncome: [
       "Patente + Patentanmeldungen (registriert)",
       "Software-Copyrights",
@@ -225,11 +225,11 @@ export const IP_BOX_REGIMES: IPBoxRegime[] = [
       "Lizenz-Einkünfte aus diesen Assets",
     ],
     nexusRequirement:
-      "Modifizierter Nexus-Approach. Qualifying Expenditure / Total Expenditure × IP-Income. Outsourced R&D nur an unverbundene Dritte zählt.",
+      "Modifizierter Nexus-Approach. Qualifying Expenditure / Total Expenditure × IP-Income. Auftrags-F&E an unverbundene Dritte zählt weltweit mit, Konzern-Outsourcing nur über den Uplift.",
     substanceRequirement: [
-      "F&E in Irland (mind. signifikanter Anteil der Total-R&D)",
-      "Lokale R&D-Mitarbeiter",
-      "Substanz-Tests durch Revenue Commissioners",
+      "Eigene F&E der Gesellschaft (im EWR zulässig, nicht nur in Irland)",
+      "Auftrags-F&E an fremde Dritte weltweit, Konzern-Outsourcing nur über den Uplift",
+      "Revenue kann Nachweise je IP-Asset anfordern (s. 769L TCA)",
     ],
     rdDocumentation: [
       "KDB-Election im Steuer-Return jährlich",
@@ -244,15 +244,15 @@ export const IP_BOX_REGIMES: IPBoxRegime[] = [
       "Stabile Politik + KDB seit 2016",
     ],
     cons: [
-      "KDB läuft 31.12.2026 aus, Verlängerung unklar",
+      "KDB gilt nur für Geschäftsjahre mit Beginn vor dem 1.1.2027; Verlängerung bis 2032 liegt als Gesetzentwurf vor (Stand 22.11.2026)",
       "Pillar-2-Mindeststeuer 15 % betrifft KDB-Vorteil bei Konzernen > 750M €",
       "Setup 20.000-40.000 € (premium Jurisdiktion)",
       "Standard-KSt 12,5 % außerhalb KDB",
-      "R&D-Substanz Pflicht",
+      "Eigene F&E der Gesellschaft Pflicht",
     ],
     dbaNote:
-      "DBA-DE 2011, 0 % Quellensteuer auf Royalties. AStG-Risiko: 12,5 % nominal liegt unter der 15 %-Niedrigsteuergrenze (§ 8 Abs. 5 AStG seit 2024) → Hinzurechnung möglich. Mit echter R&D-Substanz: aktive Tätigkeit = AStG-Befreiung.",
-    cfcRisk: "Niedrig",
+      "DBA-DE 2011, 0 % Quellensteuer auf Royalties. AStG-Risiko: 12,5 % nominal liegt unter der 15 %-Niedrigsteuergrenze (§ 8 Abs. 5 AStG seit 2024) → Hinzurechnung möglich, auch der KDB-Satz von 10 % liegt darunter. Lizenzeinkünfte sind nur aktiv, wenn die irische Gesellschaft eigene F&E verwertet, die ohne Mitwirkung des deutschen Gesellschafters oder ihm nahestehender Personen entstanden ist (§ 8 Abs. 1 Nr. 6 a AStG). Sonst hilft nur der Substanznachweis mit eigenem Personal und eigener Ausstattung in Irland (§ 8 Abs. 2 AStG).",
+    cfcRisk: "Mittel",
     setupComplexity: "Komplex",
     minRoyaltiesEur: 750000,
     setupCostEur: "20.000-40.000 €",
@@ -431,7 +431,7 @@ export const IP_BOX_REGIMES: IPBoxRegime[] = [
     standardKSt: 14.6,
     effectiveRate: 11,
     mechanism:
-      "Bis zu 90 % Befreiung der qualifizierten Patent-Einkünfte auf KANTONALER Ebene (Federal CIT 8,5 % bleibt voll). Effektive Sätze: ~9–13 % je nach Kanton + Gemeinde (ZG/NW Niedrigsteuerkantone, ZH/GE höher).",
+      "Bis zu 90 % Befreiung der qualifizierten Patent-Einkünfte auf KANTONALER Ebene (Federal CIT 8,5 % bleibt voll). Effektive Sätze: grob 9–13 % je nach Kanton + Gemeinde (Schätzung, eine amtliche Übersicht der Patentbox-Sätze gibt es nicht).",
     qualifyingIncome: [
       "Patente + Patentanmeldungen",
       "Vergleichbare Schutzrechte (Software-Patente, Sortenrechte)",
@@ -454,24 +454,24 @@ export const IP_BOX_REGIMES: IPBoxRegime[] = [
     pros: [
       "Sehr seriöse Jurisdiktion + Reputations-Vorteil",
       "Politische Stabilität + niedrige Risiken",
-      "Auch nicht-EU → Pillar-2-Risiko niedriger",
+      "Pillar 2 gilt auch in der Schweiz (Ergänzungssteuer seit 2024, nur Gruppen ab 750 Mio. € Umsatz)",
       "Tax-Ruling-System gibt Vorab-Sicherheit",
       "Hohe Lebensqualität + Standort-Attraktivität",
     ],
     cons: [
-      "Höchster effektiver Satz unter Top-IP-Boxes (~9-13 % je nach Kanton — Federal 8,5 % bleibt voll, Patent-Box wirkt nur kantonal)",
-      "Setup 30.000-60.000 € + sehr hohe Compliance-Kosten",
+      "Höchster effektiver Satz unter Top-IP-Boxes (grob 9-13 % je nach Kanton, Schätzung — Federal 8,5 % bleibt voll, Patent-Box wirkt nur kantonal)",
+      "Setup laut Schätzung 30.000-60.000 € + sehr hohe Compliance-Kosten",
       "Nicht-EU → keine Mutter-Tochter-RL (Lizenzgebühren zwischen DE und CH sind aber nach Art. 12 DBA DE–CH quellensteuerfrei)",
       "Substanz-Anforderung sehr scharf",
       "Lokale Anwälte teurer als EU",
     ],
     dbaNote:
-      "DBA-DE 2010 (Update 2023), 0 % Quellensteuer auf Royalties bei Beneficial Owner + ggf. Limitation-on-Benefits-Klausel. Wegzugsbesteuerung §6 AStG bei Wegzug aus DE: Steuer auf Antrag in sieben Jahresraten, in der Regel gegen Sicherheitsleistung (§ 6 Abs. 4 AStG), unabhängig vom Zielstaat.",
-    cfcRisk: "Niedrig",
+      "DBA-DE 2010 (Update 2023), 0 % Quellensteuer auf Royalties bei Beneficial Owner + ggf. Limitation-on-Benefits-Klausel. Wegzugsbesteuerung §6 AStG bei Wegzug aus DE: Steuer auf Antrag in sieben Jahresraten, in der Regel gegen Sicherheitsleistung (§ 6 Abs. 4 AStG), unabhängig vom Zielstaat. AStG: Liegt die Belastung mit Patentbox unter 15 % (§ 8 Abs. 5 AStG), werden passive Lizenzeinkünfte einer von Deutschland aus beherrschten CH-Gesellschaft hinzugerechnet. Den Substanznachweis nach § 8 Abs. 2 AStG gibt es nur für EU/EWR-Gesellschaften, für die Schweiz nicht (§ 8 Abs. 3 AStG).",
+    cfcRisk: "Hoch",
     setupComplexity: "Komplex",
     minRoyaltiesEur: 1500000,
-    setupCostEur: "30.000-60.000 €",
-    runningCostEur: "20.000-40.000 €/Jahr",
+    setupCostEur: "30.000-60.000 € (Schätzung)",
+    runningCostEur: "20.000-40.000 €/Jahr (Schätzung)",
     fitForGermans: "Gut",
     officialUrl: "https://www.estv.admin.ch",
   },
