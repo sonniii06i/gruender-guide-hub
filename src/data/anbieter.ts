@@ -1428,7 +1428,7 @@ export const PROVIDERS: Provider[] = [
     cons: [
       "Sole-Proprietor / Single-Member-LLC nur, keine Multi-Member",
       "Limited Multi-User",
-      "Kein Bargeld-Service",
+      "Keine Filialen (Bargeld-Abhebung gebührenfrei nur an über 40.000 MoneyPass-Automaten, laut Lili)",
     ],
     forumNotes: "r/Entrepreneur 2026: 'Lili für Solo-Side-Hustlers top mit Tax-Bucket. Für richtige LLCs lieber Mercury oder Relay.'",
     signupTime: "Online-Antrag, Freigabe laut Lili meist in wenigen Minuten",
