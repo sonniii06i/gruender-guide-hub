@@ -171,19 +171,18 @@ export const FOERDERPROGRAMME: Foerderung[] = [
     emoji: "🛡️",
     type: "buergschaft",
     scope: "bund",
-    maxFunding: "Bis 1,5 Mio € Bürgschaft (typisch 80 % Risikoübernahme)",
+    maxFunding: "Je nach Bürgschaftsbank, z. B. NRW bis 2 Mio € Bürgschaft (höchstens 80 % des Kredits)",
     zielgruppe: ["Gründer", "KMU"],
     phase: ["gruendung", "aufbau"],
     branche: ["alle"],
     description:
-      "Bürgschaftsbanken in jedem Bundesland übernehmen 70–80 % des Hausbank-Risikos — ermöglicht Kredit auch bei wenig Sicherheiten.",
+      "Bürgschaftsbanken in jedem Bundesland verbürgen in der Regel bis 80 % eines Kredits und machen ihn so auch bei wenig Sicherheiten möglich. Höchstbeträge und Preise legt jede Bürgschaftsbank selbst fest.",
     conditions: [
-      "Antrag über Hausbank",
+      "Antrag meist über die Hausbank; als Direktweg gibt es bei Bürgschaftsbanken auch die „Bürgschaft ohne Bank“ (BoB)",
       "Betriebswirtschaftliche Tragfähigkeit",
-      "Eigenkapital 10–20 % wünschenswert",
-      "Bürgschafts-Provision 1–1,5 % des Bürgschafts-Betrages",
+      "Kosten je nach Bank, jeweils vom Kreditbetrag. Beispiele: NRW einmalig 0,75–1,50 % Bearbeitungsentgelt und 0,70–1,50 % Provision pro Jahr; Mecklenburg-Vorpommern 0,75–1,50 % Bearbeitung und 0,90–1,50 % Provision, jeweils zzgl. USt (Stand 01/2026)",
     ],
-    antragUrl: "https://www.vdb-info.de",
+    antragUrl: "https://vdb.ermoeglicher.de/de/",
   },
 
   // ============ BUNDESLÄNDER ============
