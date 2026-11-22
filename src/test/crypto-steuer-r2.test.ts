@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { fristEnde, haltefristAbgelaufen, freigrenzeParagraph23 } from "@/lib/cryptoSteuer";
+import { fristEnde, haltefristAbgelaufen, freigrenzeParagraph23, steuerjahrAuswahl } from "@/lib/cryptoSteuer";
 import { krakenPair, parseCsv, parseNum } from "@/lib/cryptoCsvParsers";
 
 describe("§23 EStG Haltefrist kalendergenau", () => {
@@ -72,5 +72,17 @@ describe("Crypto-CSV-Parser Runde 3", () => {
     expect(r.trades[0].fee).toBe(0);
     expect(r.skipped).toHaveLength(0);
     expect(r.hinweise).toHaveLength(1);
+  });
+});
+
+describe("Steuerjahr-Auswahl aus dem Datum", () => {
+  it("November 2026: 2023–2026, Standard 2025", () => {
+    expect(steuerjahrAuswahl(new Date(2026, 10, 22))).toEqual({ jahre: [2023, 2024, 2025, 2026], standard: 2025 });
+  });
+  it("Januar 2027: 2027 wählbar, Standard 2026, Freigrenze bleibt 1.000 €", () => {
+    const a = steuerjahrAuswahl(new Date(2027, 0, 2));
+    expect(a.jahre).toContain(2027);
+    expect(a.standard).toBe(2026);
+    expect(freigrenzeParagraph23(2027)).toBe(1000);
   });
 });
