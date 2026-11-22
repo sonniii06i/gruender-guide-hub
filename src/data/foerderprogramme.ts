@@ -61,26 +61,6 @@ export const FOERDERPROGRAMME: Foerderung[] = [
     ],
   },
   {
-    slug: "erp-gruenderkredit-universell",
-    name: "ERP-Gründerkredit Universell",
-    emoji: "🏦",
-    type: "kredit",
-    scope: "bund",
-    maxFunding: "25 Mio €",
-    zielgruppe: ["KMU", "etablierte Unternehmen", "Festigung bis 5 Jahre"],
-    phase: ["aufbau", "wachstum"],
-    branche: ["alle"],
-    description:
-      "Nicht mehr beantragbar: Die KfW hat den Kredit eingestellt. Nachfolger ist der ERP-Förderkredit KMU (365/366) bis 25 Mio € je Vorhaben.",
-    conditions: [
-      "Maximal 5 Jahre nach Gründung",
-      "KMU-Definition: < 250 MA, < 50 Mio Umsatz",
-      "Über Hausbank",
-      "Höhere Zinsen als StartGeld aber höhere Summen",
-    ],
-    antragUrl: "https://www.kfw.de/073",
-  },
-  {
     slug: "erp-foerderkredit-kmu",
     name: "ERP-Förderkredit KMU",
     emoji: "🏭",
