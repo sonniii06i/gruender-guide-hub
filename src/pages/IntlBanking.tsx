@@ -21,7 +21,7 @@ import {
 import { AnbieterLink, PartnerFussnote } from "@/components/PartnerLink";
 
 // ============================================================
-// INTERNATIONAL BANKING · Stand Oktober 2026 (Total-Refactor Mai 2026, Aktualität 02.11.2026)
+// INTERNATIONAL BANKING · Stand 22.11.2026 (Total-Refactor Mai 2026, Aktualität 02.11. und 22.11.2026)
 // ============================================================
 // Verifizierte Quellen Mai 2026:
 // - Pricing: Issuer-Webseiten direkt (Mercury, Wise, Relay, Brex, Statrys,
@@ -134,29 +134,29 @@ const BANKS: Bank[] = [
     monthlyFee: "$0 (Plus $35 / Pro $350)",
     setupFee: "$0",
     nonResident: "ja",
-    bestFor: "US-LLC mit Stripe-Operations · Treasury-Yield bis 4,42 % netto (erst ab 20 Mio. $ Einlagen) · DE-Founder mit Wyoming/Delaware-LLC",
+    bestFor: "US-LLC mit Stripe-Operations · Treasury-Yield bis 4,42 % netto (erst ab 20 Mio. $ Einlagen; Treasury nur ab 250.000 $ Guthaben, bei Sitz in DE oder einem der übrigen 11 Treasury-Länder und nicht für LLCs, die wie Einzelunternehmen besteuert werden) · DE-Founder mit Wyoming/Delaware-LLC",
     pros: [
       "**$0 Setup + Monthly Standard-Plan** — wirklich kostenlos",
-      "Akzeptiert non-Resident Founder von 200+ Ländern (DACH-Solos inkl.)",
+      "Akzeptiert Gründer aus den meisten Ländern (außer Mercurys Sperrliste nach Wohnsitzland), bestehende oder geplante US-Geschäftstätigkeit nötig",
       "Sehr saubere App + Web-UI, API + Stripe-Integration",
       "Mercury Treasury: **bis 4,42 % netto** Yield laut Mercury (erst ab 20 Mio. $ Einlagen; 250k bis 2 Mio. $: 3,31 bis 4,10 % je nach Anlage), Mindestguthaben 250.000 $ (laut mercury.com/treasury, Renditen Stand 13.11.2026; variabel, folgt dem US-Leitzins)",
       "Wires + ACH inkl., FDIC bis $5M via Sweep zu Partner-Banks",
       "Mercury Bank N.A.: vorläufige bedingte OCC-Zusage April 2026; bis zur finalen Zulassung weiter Partnerbanken",
     ],
     cons: [
-      "**Closure-Wellen seit 2024** (laut Nutzerberichten): zahlreiche Länder gesperrt (Ukraine, Nigeria, Venezuela etc.) — DE selbst safe",
+      "**Ländersperren seit 2024**: Mercury nimmt keine Firmen an, deren Gründer oder Finanzverantwortliche in einem Land seiner Sperrliste wohnen (laut Nutzerberichten u. a. Ukraine, Nigeria, Venezuela); maßgeblich ist der Wohnsitz",
       "**Registered-Agent-, Postfach- und UPS-Store-Adressen laut Mercury NICHT akzeptiert**; die Geschäftsadresse darf aber auch im Ausland liegen (auch Wohnadresse)",
       "3 % FX-Gebühr auf non-USD-Kartenzahlungen (auch in EU einkaufen kostet 3 %); 1 % bei non-USD-Wires",
       "Mercury IO Credit Card nur mit Mercury-Konto: Start mit täglicher Rückzahlung, Limit nach Guthaben, Monatsabrechnung erst ab 15.000 $ Saldo",
     ],
     features: { multiCurrency: false, achWire: true, quickbooksXero: true, debitCard: true, apiAccess: true, crypto: false },
     setupRequirements: [
-      "EIN-Letter vom IRS (CP575)",
+      "EIN-Letter vom IRS (CP575), ersatzweise Form SS-4 (EIN-Dokument binnen 90 Tagen nachreichen)",
       "Articles of Organization (Stamped PDF)",
-      "Operating Agreement",
-      "Pass des wirtschaftlich Berechtigten",
+      "Operating Agreement (kann nachgefordert werden, laut Nutzerberichten)",
+      "Ausweis für mindestens eine Person mit operativer Kontrolle und jeden Eigentümer ab 25 %",
       "★ Geschäftsadresse in den USA oder im Ausland, auch Wohnadresse (kein Registered Agent, kein PO Box, kein UPS Store)",
-      "Nachweis der Geschäftstätigkeit (Pitch Deck, Vertrag, Website)",
+      "Nachweis der Geschäftstätigkeit (Pitch Deck, Vertrag, Website; kann nachgefordert werden, laut Nutzerberichten)",
     ],
     url: "https://mercury.com",
     closureRisk: "high",
@@ -220,7 +220,7 @@ const BANKS: Bank[] = [
     emoji: "🔗",
     monthlyFee: "$0 (Starter) / $30 (Grow) / $90 (Scale, runter von $120)",
     setupFee: "$0",
-    nonResident: "ja",
+    nonResident: "schwierig",
     bestFor: "Buchhaltungs-Integration · QuickBooks/Xero-User · Profit-First-Methode (20 Sub-Accounts)",
     pros: [
       "**Beste QuickBooks/Xero-Integration** der US-Banks",
@@ -228,9 +228,9 @@ const BANKS: Bank[] = [
       "FDIC-versichert bis $3M über das Sweep-Programm von Thread Bank",
       "ACH inkl., Inlands-Wires $8 (Starter) bzw. $5 (Grow, Scale)",
       "Savings-Rendite bis 3,21 % APY (Scale-Plan, variabel)",
-      "Account Protection Team launched April 2026",
     ],
     cons: [
+      "**SSN kann verlangt werden:** Relays Hilfeseiten widersprechen sich (einmal SSN für jeden wirtschaftlich Berechtigten, einmal SSN oder Passnummer); vor dem Antrag beim Relay-Support klären",
       "**Thread Bank Fraud-Detection-Holds** dauern Wochen (Reddit-Cases bis Monate)",
       "Verlangt 'operating presence in the U.S.' — schwammig, kann Ablehnung sein",
       "SWIFT-Auslandsüberweisungen $25 / $22 / $20 je Plan (lokale Netze $5 / $3 / $1,50)",
@@ -272,7 +272,7 @@ const BANKS: Bank[] = [
       "**Capital-One-Übernahme abgeschlossen 7. April 2026** — neue Risk-Models in Integration, Pricing kann kippen",
       "Trustpilot 2,9/5 — eine der schlechtesten in dieser Liste",
       "Solo-DE-Founder laut Nutzerberichten meist abgelehnt",
-      "USD-only — kein Multi-Currency wie Wise/Airwallex",
+      "Konto in USD, keine eigenen Fremdwährungskonten wie bei Wise/Airwallex (Zahlungen laut Brex in über 30 Landeswährungen)",
     ],
     features: { multiCurrency: false, achWire: true, quickbooksXero: true, debitCard: true, apiAccess: true, crypto: false },
     setupRequirements: ["US-EIN", "US-Incorporation", "US-Operations-Beweis", "US-Physical-Address", "Funding-Round-Docs ODER Revenue-Statements ODER $50k Cash"],
@@ -313,15 +313,15 @@ const BANKS: Bank[] = [
     cons: [
       "**HKD 88/Mo Inactivity-Fee** wenn <5 ausgehende Payments/Monat",
       "**HKD 450 Closure-Certificate-Fee** — wenn du wechselst",
-      "**US-Personen explizit ausgeschlossen** (alle US-Accounts 2023-2024 terminated)",
-      "Crypto/Forex/Adult-Industry abgelehnt",
+      "**US-Bürger ausgeschlossen** (als Director und als Gesellschafter oder wirtschaftlich Berechtigte über 10 %)",
+      "Crypto, Adult-Industry und Zahlungsdienstleister abgelehnt",
       "Kein Treasury/Yield",
     ],
     features: { multiCurrency: true, achWire: true, quickbooksXero: true, debitCard: true, apiAccess: false, crypto: false },
     setupRequirements: ["HK/SG/BVI-Incorporation-Docs", "Business Registration Certificate", "Articles of Association", "Pass aller Directors/UBOs", "Address-Proof", "Business-Plan-Summary"],
     url: "https://statrys.com",
     closureRisk: "medium",
-    closurePattern: "US-Personen 2023-2024 alle terminated. Crypto/Forex/Adult-Industry konsequent abgelehnt. Inkonsistente KYB, Long-Term Inactivity (>3 Monate ohne Outflows).",
+    closurePattern: "US-Bürger laut Statrys ausgeschlossen. Crypto, Adult-Industry und Zahlungsdienstleister abgelehnt. Laut Nutzerberichten: inkonsistente KYB, Long-Term Inactivity (>3 Monate ohne Outflows).",
     freezeDuration: "Selten Freezes, eher direkte Closures mit 30-60 Tagen Withdraw",
     trustpilotRating: 4.6,
     trustpilotCount: "~380",
@@ -387,7 +387,7 @@ const BANKS: Bank[] = [
       "**FX 0,10% USD/HKD** (übrige Major-Currencies 0,35 %)",
       "Multi-Currency Wallets (USD, HKD, CNY, etc.)",
       "**USD 8 SWIFT** (sehr günstig)",
-      "Visa Business Card mit 1% Cashback",
+      "Visa Business Card (Admin-Karte gratis, bis 5 Team-Karten HKD 50 im Monat)",
       "Schnelles Onboarding für Trade-Companies",
     ],
     cons: [
@@ -419,7 +419,7 @@ const BANKS: Bank[] = [
     emoji: "🏦",
     monthlyFee: "HKD 200/Mo (Sprint: 12 Monate frei, danach erlassen ab HKD 50k Ø-Saldo)",
     setupFee: "Antragsgebühr HKD 1.300 online (HKD 1.600 auf Papier); Initial-Deposit laut Nutzerberichten ca. HKD 10.000",
-    nonResident: "vor-ort-pflicht",
+    nonResident: "schwierig",
     bestFor: "Etablierte Companies mit HKD 50k+ Saldo + Chinageschäft + möglichem persönlichem HK-Besuch",
     pros: [
       "**Echte Großbank** — höchstes Vertrauen bei Vendoren",
@@ -427,20 +427,18 @@ const BANKS: Bank[] = [
       "Trade-Finance-Lösungen",
       "**Relationship-Manager** (echte Person vs Fintech-Chatbots)",
       "Stabilität — KEIN Mass-Closure-Pattern wie Mercury/Brex",
-      "Standard-Sparkonto Yield ~3-4% USD",
     ],
     cons: [
-      "**★ Persönliche HK-Vorstellung Pflicht** (Flug + Hotel ~2-3k EUR)",
+      "**★ Vorstellung in HK oder bei einer HSBC-Filiale im Ausland meist nötig** (laut Nutzerberichten; remote laut HSBC nur für geeignete Kunden; Reisekosten nach Schätzung ~2-3k EUR)",
       "**Hohe Ablehnungsquote** für Foreign Founders (laut Dienstleister- und Nutzerberichten, keine offizielle Zahl)",
-      "Strenge KYC seit 2018 (Cyprus-Files-Era)",
+      "Strenge KYC-Prüfung (laut Nutzerberichten)",
       "HKD 200/Mo Fall-Below-Fee wenn <HKD 50k Ø-Saldo (Sprint, ab Monat 13)",
       "Account-Reviews alle 12-24 Monate — komplette neue KYC-Runde",
-      "Bearbeitungs-Zeit 14-56 Tage",
-      "HKMA Stablecoin-Lizenz April 2026 verschärft KYC weiter",
+      "Online-Eröffnung laut HSBC ab 3 Werktagen, nur bei Eignung und vollständigen Unterlagen",
     ],
     features: { multiCurrency: true, achWire: true, quickbooksXero: false, debitCard: true, apiAccess: false, crypto: false },
     setupRequirements: [
-      "★ Persönliche Vorstellung HK-Filiale aller Directors",
+      "★ Vorstellung aller Directors in HK oder bei einer HSBC-Filiale im Ausland (laut Nutzerberichten meist nötig)",
       "HK-LTD Incorporation-Docs",
       "Pass aller Directors/Shareholders",
       "Address-Proof",
@@ -457,10 +455,9 @@ const BANKS: Bank[] = [
     trustpilotUrl: "https://www.trustpilot.com/review/hsbc.com.hk",
     hiddenFees: [
       "Fall-Below-Fee HKD 200/Mo wenn <HKD 50k Ø-Saldo (Sprint; Business Direct ab HKD 100k)",
-      "Persönlicher HK-Besuch zwingend (Flug + Hotel ~2-3k EUR)",
+      "Persönliche Vorstellung laut Nutzerberichten meist nötig (Reisekosten nach Schätzung ~2-3k EUR)",
       "Intermediary-Bank-Fees on top of HKD 125 SWIFT (online)",
       "Account-Reviews alle 1-2 Jahre verlangen erneut alle Docs",
-      "Stablecoin-Lizenz April 2026 → noch strikteres KYC",
     ],
   },
 ];
@@ -504,8 +501,8 @@ const IntlBanking = () => {
       <div className="space-y-6">
         {/* === KRITISCHE WARNUNG OBEN === */}
         <Callout tone="warning" title="Multi-Bank-Setup ist 2026 Pflicht">
-          Nach den Closure-Wellen 2024 bis 2026 (Mercury Ukraine-Sweep, Wise NBB-Mandate, Brex Mass-Closure, Airwallex Q2
-          2026): <strong>Niemals nur eine Fintech-Bank.</strong> Standard-Setup: DE-Geschäftsbank (Qonto/Sparkasse) +
+          Nach den Closure-Wellen seit 2022 (Brex 2022, Mercury-Ländersperren seit 2024, Remediation-Plan der belgischen
+          Aufsicht bei Wise, laut Nutzerberichten Airwallex 2026): <strong>Niemals nur eine Fintech-Bank.</strong> Standard-Setup: DE-Geschäftsbank (Qonto/Sparkasse) +
           Mercury (US-LLC) + Wise (FX-Bridge). Maximal 70 % des Cash-Bestands in einer Bank halten.
         </Callout>
 
@@ -802,13 +799,13 @@ const IntlBanking = () => {
               Wise Personal (kostenlos!) für Multi-Currency-Wallets + DE-Geschäftsbank (Qonto/Sparkasse) für EUR-Ops
             </ProfilKarte>
             <ProfilKarte titel="DE-Founder mit US-LLC">
-              Mercury (Operating + Stripe + Treasury, Rendite variabel) + Wise Business (FX-Bridge USD↔EUR) parallel. Niemals nur eine
+              Mercury (Operating + Stripe; Treasury mit variabler Rendite erst ab 250.000 $ Guthaben und nicht für LLCs, die wie Einzelunternehmen besteuert werden) + Wise Business (FX-Bridge USD↔EUR) parallel. Niemals nur eine
             </ProfilKarte>
             <ProfilKarte titel="DE-Founder mit HK-LTD">
-              Statrys (Trustpilot 4,6/5, 3-Tage-Onboarding) als Primary. HSBC erst bei höheren Volumina und mit persönlichem Termin in HK (Kontogebühr entfällt ab HKD 50k Saldo)
+              Statrys (Trustpilot 4,6/5, 3-Tage-Onboarding) als Primary. HSBC erst bei höheren Volumina und mit Vorstellungstermin einplanen (Kontogebühr entfällt ab HKD 50k Saldo)
             </ProfilKarte>
             <ProfilKarte titel="Lieber nicht" tone="danger">
-              Brex (Solo systematisch abgelehnt) · Airwallex als einzige Bank (Closure-Trend 2026) · HSBC ohne HK-Besuch ·
+              Brex (Solo systematisch abgelehnt) · Airwallex als einzige Bank (Closure-Trend 2026) · HSBC ohne Vorstellungstermin ·
               Currenxie ohne HK-LTD
             </ProfilKarte>
           </div>
@@ -818,12 +815,12 @@ const IntlBanking = () => {
           <strong className="font-semibold text-foreground">Hinweis:</strong> Preise Stand November 2026, Closure-Risiko laut Nutzerberichten bis Mai 2026.
           Quellen: Issuer-Pricing-Pages, Trustpilot, OffshoreCorpTalk, Reddit r/Entrepreneur, Hacker News, TechCrunch.
           Trustpilot-Werte, Closure-Muster, Freeze-Dauern und Ablehnungsquoten sind Nutzer- und Erfahrungsberichte, keine
-          Angaben der Anbieter; die Trustpilot-Werte sind nicht live nachgeprüft. Der
+          Angaben der Anbieter; die Trustpilot- und G2-Werte sind nicht live nachgeprüft. Der
           Onboarding-Erfolg ist nicht garantiert (Bank-eigenes Risk-Scoring). Bei US-LLC-Setup zwingend diese Reihenfolge:
           erst LLC-Filing, dann EIN, DANN Bank-Account-Antrag (BOI seit März 2025 NICHT mehr Pflicht).{" "}
           <strong className="font-semibold text-foreground">Preis-Variabilität:</strong> Wise Personal kostet €0 Setup
           (Debitkarte einmalig 7 €), Wise Business hat regionales Pricing (DE 55 € / US $31 / UK £50 / SG SGD
-          99 / übriger EWR 60 €). Eigene Erfahrungen können abweichen; Referral-Links und Promotionen reduzieren das auf €0.
+          99 / übriger EWR 60 €). Eigene Erfahrungen können abweichen.
         </p>
       </div>
     </CockpitShell>
@@ -832,7 +829,7 @@ const IntlBanking = () => {
 
 const SURVIVAL_TIPPS: [string, string][] = [
   ["Dokumente konsistent halten", "Address, ID, EIN über alle Banken identisch (selbst ein Tippfehler kann ein Mercury-Review triggern)"],
-  ["Niemals Registered-Agent als Principal Office", "Mercury akzeptiert laut eigener FAQ keine Registered-Agent-Adressen. iPostal1/Earth Class Mail mit echtem Lease OK; UPS-Store/PO Box abgelehnt"],
+  ["Niemals Registered-Agent als Principal Office", "Mercury akzeptiert laut eigener FAQ keine Registered-Agent-Adressen. UPS-Store/PO Box laut Mercury ebenfalls abgelehnt; iPostal1/Earth Class Mail mit echtem Lease gehen laut Nutzerberichten"],
   ["Multi-Bank-Strategie", "Mind. 2 Banken, max. 70 % Cash-Bestand in einer Bank"],
   ["Saubere KYB-Story", "Business-Description, Customer-Liste, Supplier-Liste, Source-of-Funds (bei Statrys/HSBC zwingend)"],
   ["Keine Crypto-Bridge ohne Lizenz", "Plötzliche Coinbase/Binance/Kraken-Conversions sind Top-Closure-Trigger 2024 bis 2026"],
@@ -851,7 +848,7 @@ const COMPLIANCE_UPDATES: [string, string][] = [
   ["Capital One übernimmt Brex", "Closed 7.4.2026 ($5.15B). Eligibility und Pricing können 2026/2027 kippen"],
   ["HKMA Stablecoin-Lizenz", "10.4.2026: HSBC und Anchorpoint erste Lizenzen"],
   ["Wise US $4.2M Settlement (2025)", "Strengere AML-Auflagen; laut Nutzerberichten Closure-Welle Q4 2025/Q1 2026"],
-  ["NBB Wise Remediation Plan (Q4 2024)", "Laut Nutzerberichten Address-Proof-Sweep EU-weit mit vielen Freezes 2025 bis 2026"],
+  ["NBB-Remediation-Plan bei Wise (Befund 2022, bekannt seit 11/2024)", "Laut Nutzerberichten Address-Proof-Sweep EU-weit mit vielen Freezes 2025 bis 2026"],
 ];
 
 const ProfilKarte = ({ titel, tone = "neutral", children }: { titel: string; tone?: "neutral" | "danger"; children: ReactNode }) => (
