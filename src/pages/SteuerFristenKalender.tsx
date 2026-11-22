@@ -31,6 +31,7 @@ const TON: Record<Frist["art"], Tone> = {
   zm: "neutral",
   erklaerung: "danger",
   hgb: "warning",
+  ksa: "accent",
 };
 
 const KURZ: Record<Frist["art"], string> = {
@@ -42,6 +43,7 @@ const KURZ: Record<Frist["art"], string> = {
   zm: "ZM",
   erklaerung: "Erklärung",
   hgb: "HGB",
+  ksa: "KSA",
 };
 
 const Auswahl = <T extends string>({ label, wert, setze, optionen }: { label: string; wert: T; setze: (v: T) => void; optionen: [T, string][] }) => {
@@ -118,6 +120,7 @@ const SteuerFristenKalender = () => {
           <Auswahl label="Mitarbeiter" wert={p.mitarbeiter} setze={(v) => set("mitarbeiter", v)} optionen={[["keine", "keine"], ["minijob", "nur Minijobber"], ["sv", "sozialversicherungspflichtig"]]} />
           {p.mitarbeiter !== "keine" && <Auswahl label="Lohnsteuer-Anmeldung" wert={p.lohnsteuer} setze={(v) => set("lohnsteuer", v)} optionen={[["monat", "monatlich (> 5.000 € Vorjahr)"], ["quartal", "vierteljährlich (1.080 bis 5.000 €)"], ["jahr", "jährlich (≤ 1.080 €)"]]} />}
           <Auswahl label="EU-Geschäft an Unternehmen (ZM)" wert={p.zm} setze={(v) => set("zm", v)} optionen={[["keine", "keine"], ["quartal", "vierteljährlich"], ["monat", "monatlich (> 50.000 € Lieferungen)"]]} />
+          <Haken label="Ich beauftrage selbständige Künstler oder Publizisten" wert={!!p.ksa} setze={(v) => set("ksa", v)} hilfe="Zum Beispiel für Fotos, Texte oder Design. Meldung an die Künstlersozialkasse bis 31.03. (§ 27 KSVG)" />
           <Haken label="Mit Steuerberater" wert={p.steuerberater} setze={(v) => set("steuerberater", v)} hilfe="Verlängert die Frist der Jahreserklärungen" />
         </ToolSection>
 

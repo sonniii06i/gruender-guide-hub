@@ -331,7 +331,7 @@ export const VERSICHERUNGEN: Versicherung[] = [
       "Tool KV-Optimizer hat Detail-Vergleich aller Optionen",
       "Bei KSK: Versicherter trägt ~50 % selbst; die andere Hälfte aus Künstlersozialabgabe (30 %) + Bundeszuschuss (20 %)",
       "Mindest-Bemessung GKV freiwillig: 1.318 €/Mon",
-      "BBG GKV/PV 2026: 5.812,50 €/Mon (69.750 €/J)",
+      "BBG GKV/PV 2026: 5.812,50 €/Mon (69.750 €/J); ab 01.01.2027: 6.375 €/Mon (76.500 €/J), vom Bundesrat beschlossen, Verkündung offen",
     ],
     anbieter_hinweise: [
       "Tool 'KV-Optimizer' für Detail-Vergleich",

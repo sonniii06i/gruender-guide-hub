@@ -5,6 +5,7 @@ import { fristenFuer, type FristProfil } from "@/lib/steuerFristen";
 import { ladeRadar, passt, istNeu } from "@/lib/eventRadar";
 import type { GruenderEvent, GruenderFrist } from "@/data/gruenderEvents";
 import { ToneBadge } from "@/components/cockpit/kit";
+import { stichtageZwischen } from "@/data/stichtage";
 
 // „Diese Woche für dich“: Steuertermine (aus dem Steuerkalender-Profil), neue
 // Events und Fristen (aus dem Event-Radar) in einer Kachel. Funktioniert ohne KI;
@@ -13,7 +14,7 @@ import { ToneBadge } from "@/components/cockpit/kit";
 const plus = (iso: string, n: number) => new Date(Date.parse(`${iso}T12:00:00Z`) + n * 864e5).toISOString().slice(0, 10);
 const tag = (iso: string) => new Date(`${iso}T12:00:00`).toLocaleDateString("de-DE", { weekday: "short", day: "2-digit", month: "2-digit" });
 
-type Punkt = { datum: string; text: string; link?: string; extern?: boolean; art: "steuer" | "event" | "frist" };
+type Punkt = { datum: string; text: string; link?: string; extern?: boolean; art: "steuer" | "event" | "frist" | "gesetz" };
 
 export const DeineWoche = () => {
   const heute = new Date().toISOString().slice(0, 10);
@@ -24,17 +25,22 @@ export const DeineWoche = () => {
   useEffect(() => {
     let aktiv = true;
     const liste: Punkt[] = [];
+    let ksaImProfil = false;
     try {
       const roh = localStorage.getItem("gx-steuerkalender-v1");
       if (roh) {
         setSteuerProfil(true);
         const p = JSON.parse(roh) as FristProfil;
+        ksaImProfil = !!p.ksa;
         for (const f of fristenFuer(p, heute, 1).fristen.filter((f) => f.datum <= plus(heute, 14)))
           liste.push({ datum: f.datum, text: f.titel, link: "/cockpit/steuerkalender", art: "steuer" });
       }
     } catch {
       /* kein Profil */
     }
+    // Gesetzliche Stichtage für alle (KI-Kennzeichnung, Werte 2027, E-Rechnung, KSA).
+    for (const s of stichtageZwischen(heute, plus(heute, 14)))
+      if (!(ksaImProfil && s.link === "/cockpit/ksa-check")) liste.push({ datum: s.datum, text: s.titel, link: s.link, art: "gesetz" });
     const radar = ladeRadar();
     // Event-Daten erst hier nachladen (eigener Chunk).
     import("@/data/gruenderEvents").then((m) => {
@@ -66,7 +72,7 @@ export const DeineWoche = () => {
           <CalendarClock className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden="true" />
           Die nächsten 14 Tage
         </h2>
-        <p className="mt-1 text-[13px] leading-snug text-muted-foreground">Steuertermine, gemerkte Events und Bewerbungsfristen.</p>
+        <p className="mt-1 text-[13px] leading-snug text-muted-foreground">Steuertermine, neue Gesetze, gemerkte Events und Bewerbungsfristen.</p>
       </div>
       <div className="px-4 py-1">
       {punkte === null ? (
@@ -80,8 +86,8 @@ export const DeineWoche = () => {
             <li key={i} className="py-2.5 text-sm">
               <div className="flex items-center gap-2">
                 <span className="text-[13px] font-medium tabular">{tag(p.datum)}</span>
-                <ToneBadge tone={p.art === "steuer" ? "danger" : p.art === "frist" ? "warning" : "info"} className="shrink-0">
-                  {p.art === "steuer" ? "Steuer" : p.art === "frist" ? "Frist" : "Event"}
+                <ToneBadge tone={p.art === "steuer" ? "danger" : p.art === "frist" ? "warning" : p.art === "gesetz" ? "accent" : "info"} className="shrink-0">
+                  {p.art === "steuer" ? "Steuer" : p.art === "frist" ? "Frist" : p.art === "gesetz" ? "Gesetz" : "Event"}
                 </ToneBadge>
               </div>
               <div className="mt-1 leading-snug">

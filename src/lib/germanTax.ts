@@ -72,6 +72,11 @@ export const BBG_RV_WEST_JAHR = 101400; // 8.450 €/Monat × 12
  *  Quelle: Sozialversicherungsrechengrößen-Verordnung 2026. Vorjahr 2025: 66.150 €. */
 export const BBG_KV_JAHR = 69750;
 
+/** Ab 01.01.2027 (SV-Rechengrößen-VO 2027, Bundesrat 20.11.2026, Verkündung offen): RV 106.200 €, KV/PV 76.500 €.
+ *  Die Rechner nutzen bis 31.12.2026 weiter die Werte 2026. */
+export const BBG_RV_JAHR_2027 = 106200;
+export const BBG_KV_JAHR_2027 = 76500;
+
 /** Sozialversicherung KV+PV gesamt-Quote (kinderlos, Stand 2026):
  *  KV 14,6 % (§241 SGB V) + Ø-Zusatzbeitrag 2026 2,9 % (BMG-Bekanntmachung) + PV 3,6 % + 0,6 % Kinderlosenzuschlag (§55 SGB XI) = 21,7 %. */
 export const SV_QUOTE_KV_PV = 0.217;

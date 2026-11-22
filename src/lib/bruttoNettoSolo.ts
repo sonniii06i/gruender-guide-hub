@@ -23,6 +23,9 @@ export const PV_SATZ_KIND = 3.6;
 export const PV_ZUSCHLAG_KINDERLOS = 0.6;
 export const RV_SATZ = 18.6; // freiwillige RV: AN+AG-Anteil selbst, gleicher Satz wie Pflicht
 export const BBG_RV_MONAT_2026 = 8450;
+// Ab 01.01.2027 (SV-Rechengrößen-VO 2027, Bundesrat 20.11.2026, Verkündung offen; Rechnung bleibt bis Jahresende auf 2026):
+export const BBG_KV_MONAT_2027 = 6375;
+export const BBG_RV_MONAT_2027 = 8850;
 
 export type Rechtsform = "freiberuf" | "gewerbe";
 export type KvVariante = "gkv-freiwillig" | "pkv" | "ksk";

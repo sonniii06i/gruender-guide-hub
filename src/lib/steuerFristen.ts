@@ -1,6 +1,7 @@
 // Persönlicher Steuer- und Fristenkalender (Stand 08.10.2026).
 // Quellen: § 18 UStG, §§ 46–48 UStDV, § 37 EStG, § 31 KStG, § 19 GewStG,
-// § 41a EStG, § 23 SGB IV, § 18a UStG, § 149 AO, § 108 Abs. 3 AO, § 325 HGB.
+// § 41a EStG, § 23 SGB IV, § 18a UStG, § 149 AO, § 108 Abs. 3 AO, § 325 HGB,
+// § 27 Abs. 1 KSVG (Meldung Künstlersozialabgabe, ergänzt 22.11.2026).
 // Verschiebung nur um bundesweite Feiertage; Landesfeiertage (z. B. 31.10.,
 // 01.11.) können Fristen regional zusätzlich verschieben – Hinweis in der UI.
 
@@ -20,13 +21,15 @@ export type FristProfil = {
   zm: "keine" | "monat" | "quartal";
   steuerberater: boolean;
   gruendungsjahr: number;
+  /** Künstlersozialabgabe-pflichtig (Aufträge an selbständige Künstler/Publizisten)? */
+  ksa?: boolean;
 };
 
 export type Frist = {
   datum: string; // nach § 108 AO verschoben
   original: string;
   titel: string;
-  art: "ust" | "est" | "gewst" | "lohn" | "sv" | "zm" | "erklaerung" | "hgb";
+  art: "ust" | "est" | "gewst" | "lohn" | "sv" | "zm" | "erklaerung" | "hgb" | "ksa";
   hinweis?: string;
 };
 
@@ -141,6 +144,11 @@ export function fristenFuer(p: FristProfil, von: string, monate = 12): { fristen
     if (j >= 2025) {
       const frist = p.steuerberater ? iso(new Date(Date.UTC(j + 2, 2, 0))) : `${j + 1}-07-31`;
       add(frist, `Steuererklärungen ${j} (ESt/KSt, USt, GewSt)${p.steuerberater ? " – mit Steuerberater" : ""}`, "erklaerung");
+    }
+    // ---- Künstlersozialabgabe: Meldung bis 31.03. des Folgejahres (§ 27 Abs. 1 KSVG), keine AO-Verschiebung ----
+    if (p.ksa && j >= 2025) {
+      const d = `${j + 1}-03-31`;
+      if (d >= von && d <= ende) out.push({ datum: d, original: d, titel: `Meldung Künstlersozialabgabe ${j} (Entgelte an die Künstlersozialkasse)`, art: "ksa", hinweis: "§ 27 Abs. 1 KSVG – Vordruck der KSK" });
     }
     // ---- Offenlegung Jahresabschluss (§ 325 HGB) ----
     if (p.rechtsform === "kapital" && j >= p.gruendungsjahr)

@@ -477,7 +477,7 @@ export const GRUPPEN: Gruppe[] = [
       "Minijob 556€ vs. Midi-Job: Wann lohnt sich Übergangsbereich-Optimierung für meine Mitarbeiter?",
     ],
     regulatorischeBesonderheiten: [
-      "Minijob-Schwelle 603€/Monat (2026, an Mindestlohn 13,90€ gekoppelt)",
+      "Minijob-Schwelle 603€/Monat (2026, an Mindestlohn 13,90€ gekoppelt); ab 01.01.2027: 633€/Monat bei Mindestlohn 14,60€",
       "Midijob-Übergangsbereich 603,01-2.000€/Monat (gleitende Beitragsbelastung)",
       "ELStAM-Datenbank-Pflicht für alle Lohn-MA",
       "DEÜV-Meldungen monatlich (DEÜV-Verordnung)",
