@@ -10,6 +10,7 @@ const inhalt: VorlagenInhalt = {
         text: `Vorauszahlungen bemisst das Finanzamt nach der letzten Veranlagung. War das Vorjahr stark, zahlst du vierteljährlich auf einen Gewinn, den du dieses Jahr vielleicht gar nicht erreichst: Der Hauptkunde ist weg, du hast in Maschinen oder Software investiert, du arbeitest wegen Elternzeit nur noch halbtags, oder das zweite Geschäftsjahr nach der Gründung läuft einfach langsamer an als das erste.
 
 Jeder Euro Vorauszahlung, der über der tatsächlichen Steuer liegt, ist ein zinsloses Darlehen an den Staat, das du erst mit dem Jahresbescheid zurückbekommst, oft erst eineinhalb Jahre später. Der Antrag auf Herabsetzung holt dir diese Liquidität sofort zurück. Er gilt für Einkommensteuer-Vorauszahlungen von Einzelunternehmern und Gesellschaftern, für Körperschaftsteuer-Vorauszahlungen von GmbH und UG und über den Messbetrag auch für die Gewerbesteuer-Vorauszahlungen an die Gemeinde.`,
+        verweis: { vor: "An welchen Tagen deine Vorauszahlungen fällig werden, zeigt der", anker: "Steuerkalender für Selbstständige", pfad: "/tools/steuerkalender" },
       },
       {
         titel: "Antrag auf Herabsetzung der Vorauszahlungen: Inhalt und Pflichtangaben",

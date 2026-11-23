@@ -35,6 +35,7 @@ Die Leistungsbeschreibung ist der Teil, an dem die meisten Angebote scheitern. W
 Lege die Positionen an: Artikel oder Leistung, Menge, Einheit, Einzelpreis, Gesamtpreis netto. Versand, Anfahrt oder Einrichtung bekommen eine eigene Position. Eventualpositionen, die nur auf Abruf gelten, kennzeichnest du als solche und lässt sie aus der Summe heraus. Im Preisblock rechnest du Netto, Rabatt, Umsatzsteuer und Brutto durch; Kleinunternehmer nehmen den Hinweis nach § 19 UStG.
 
 Bei der Lieferzeit wählst du Werktage nach Auftragseingang, ein festes Datum oder den Leistungsbeginn mit voraussichtlicher Fertigstellung. Bei der Zahlung entscheidest du dich für Zahlungsziel, Skonto oder Anzahlung. Setze die Bindefrist als Datum, bei Handelsware kurz, bei Projekten länger, oder nimm die freibleibende Variante. Trage die AGB-Fassung und den Link ein, unterschreibe mit Funktion und füge die Anlagen bei.`,
+        verweis: { vor: "Was von deinem Nettopreis nach Steuern und Sozialversicherung bei dir ankommt, rechnet der Ratgeber", anker: "Brutto-Netto für Selbstständige", pfad: "/ratgeber/brutto-netto-selbstaendig", nach: " vor." },
       },
       {
         titel: "Typische Fehler bei Angeboten und ihre Folgen",

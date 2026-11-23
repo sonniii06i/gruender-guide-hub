@@ -10,6 +10,7 @@ const inhalt: VorlagenInhalt = {
         text: `Ein Business Angel will 50.000 EUR in dein Start-up stecken, aber niemand kann heute seriös sagen, was die Gesellschaft wert ist. Eine Kapitalerhöhung beim Notar würde Wochen dauern und eine Bewertung erzwingen. Das Wandeldarlehen (Convertible Loan) löst beides: Das Geld fließt sofort als Darlehen, und die Bewertung wird auf die nächste Finanzierungsrunde verschoben, bei der das Darlehen in Anteile gewandelt wird.
 
 Die Vorlage passt für Frühphasen-Investments von Angels, Family und Friends oder Förderinvestoren, für Brückenfinanzierungen bis zur Seed-Runde und für Gründer, die ihre Anteilsstruktur bis zur ersten institutionellen Runde einfach halten wollen. Sie regelt Betrag, Zins, Laufzeit, die Pflichtwandlung bei einer qualifizierten Runde, das Wahlrecht bei Fälligkeit und Exit, Discount, Cap, die Durchführung der Wandlung und den Rangrücktritt. Die Gesellschafter treten bei, damit die Wandlung später nicht an einer fehlenden Stimme scheitert.`,
+        verweis: { vor: "Das Deck für die Gespräche mit Investoren baut der", anker: "Pitch-Deck-Generator", pfad: "/tools/pitch-deck" },
       },
       {
         titel: "Was muss in einen Convertible Loan? Die wichtigsten Klauseln",

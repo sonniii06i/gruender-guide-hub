@@ -10,6 +10,7 @@ const inhalt: VorlagenInhalt = {
         text: `Ein Term Sheet ist das Eckpunktepapier einer Finanzierungsrunde. Es kommt ins Spiel, sobald ein Business Angel oder Seed-Investor ernsthaft investieren will und ihr die Bedingungen festlegen müsst, bevor Anwalt und Notar Beteiligungsvertrag, Gesellschaftervereinbarung und Satzungsänderung entwerfen. Ohne Term Sheet verhandelt ihr diese Punkte erst in den Vertragsentwürfen, und das ist langsam und teuer.
 
 Die Vorlage eignet sich für Angel- und Seed-Runden in UG und GmbH mit direkter Beteiligung über eine Kapitalerhöhung. Sie ist auch das richtige Muster, wenn mehrere Angels in einer Runde zu gleichen Bedingungen einsteigen sollen oder wenn du den Entwurf eines Investors verstehen und mit marktüblichen Konditionen vergleichen willst. Für Wandeldarlehen, bei denen die Bewertung auf die nächste Runde verschoben wird, brauchst du eine andere Vorlage. Für Unternehmenskäufe ist der Letter of Intent aus dieser Bibliothek gedacht.`,
+        verweis: { vor: "Die zehn Folien für das erste Gespräch mit Business Angels baut der", anker: "Pitch-Deck-Generator", pfad: "/tools/pitch-deck", nach: " samt Elevator-Pitch." },
       },
       {
         titel: "Was muss in ein Term Sheet? Die Bausteine im Überblick",

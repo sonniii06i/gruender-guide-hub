@@ -10,6 +10,7 @@ const inhalt: VorlagenInhalt = {
         text: `Die Einkommensteuer für ein gutes Vorjahr wird fällig, aber dieses Jahr ist der Großkunde abgesprungen; die Umsatzsteuer-Nachzahlung nach der Betriebsprüfung trifft dich mitten in der Investitionsphase; eine Forderung über fünfstellige Beträge hängt seit Wochen bei einem zahlungsunfähigen Kunden. In solchen Lagen ist die Steuer nicht strittig, du kannst sie nur gerade nicht in einer Summe zahlen.
 
 Genau dafür gibt es die Stundung nach § 222 AO: Das Finanzamt schiebt die Fälligkeit hinaus oder akzeptiert Raten, und du vermeidest Säumniszuschläge, Mahnungen und Vollstreckung. Der Antrag lohnt sich, sobald absehbar ist, dass dein Konto am Fälligkeitstag nicht reicht, und solange die Ursache des Engpasses vorübergehend ist. Er ist dagegen der falsche Weg, wenn du die Steuer für falsch hältst; dann brauchst du den Einspruch mit Antrag auf Aussetzung der Vollziehung, der eine eigene Vorlage hat.`,
+        verweis: { vor: "Welche Zahlungstermine in den nächsten zwölf Monaten anstehen, zeigt der", anker: "Steuerkalender für Selbstständige", pfad: "/tools/steuerkalender" },
       },
       {
         titel: "Stundungsantrag: Das muss drinstehen",

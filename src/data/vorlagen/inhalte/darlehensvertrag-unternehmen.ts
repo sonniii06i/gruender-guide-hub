@@ -50,6 +50,7 @@ Kreditzinsen sind umsatzsteuerfrei (§ 4 Nr. 8 Buchstabe a UStG). Gesellschafter
         text: `Die Vorlage deckt das einmalige Darlehen zwischen zwei Unternehmen ab. Sie reicht nicht, wenn du als Unternehmen einem Verbraucher Geld leihst, denn dann gelten die Pflichtangaben und das Widerrufsrecht des Verbraucherdarlehens. Sie ersetzt auch keinen Bankkredit mit Grundschuld, keine Konsortialfinanzierung mit mehreren Geldgebern und keinen Darlehensvertrag mit Wandlungsrecht für Investoren.
 
 Sobald Beträge im Spiel sind, die bei Ausfall das Unternehmen gefährden, oder sobald Beteiligungen, Konzernverhältnisse oder Auslandsgesellschaften betroffen sind, lass den Vertrag anwaltlich prüfen; die Fremdüblichkeit des Zinses und die Bilanzierung des Rangrücktritts klärt der Steuerberater. GründerX ist eine Software für Gründer und keine Rechts- oder Steuerberatung.`,
+        verweis: { vor: "Förderkredite wie das KfW-StartGeld und Zuschüsse für Gründer stellt der Ratgeber", anker: "Förderung für Gründer 2026", pfad: "/ratgeber/foerderung-gruender-2026", nach: " vor." },
       },
     ],
   text: `Darlehensvertrag zwischen Unternehmen

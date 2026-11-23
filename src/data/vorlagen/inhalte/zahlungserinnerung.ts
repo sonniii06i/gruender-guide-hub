@@ -32,6 +32,7 @@ Die konkrete Frist ist wichtig: Verstreicht sie, ist der Kunde spätestens jetzt
         text: `Übernimm Rechnungsnummer, Datum und Betrag exakt aus der Rechnung; ein Zahlendreher gibt dem Kunden einen Grund, nicht zu zahlen. Trage unter „Bereits gezahlt“ Teilzahlungen ein oder 0,00 EUR. Setze die neue Frist als Datum, sieben bis zehn Tage nach dem Schreiben, bei Versand per Post zwei Tage mehr. Prüfe den Absatz zum Verzug: War ein festes Zahlungsdatum vertraglich vereinbart, bleibt der erste Satz stehen; war keins vereinbart (ein Datum nur in der Rechnung reicht nicht), nimmst du die Alternative, die das Schreiben ausdrücklich zur Mahnung erklärt.
 
 Nenne einen Ansprechpartner mit Durchwahl, damit Rückfragen nicht im Postfach landen. Versende per E-Mail mit Lesebestätigung und bei größeren Beträgen zusätzlich per Post, leg die Rechnungskopie bei und notiere Versanddatum und Weg in deiner Buchhaltung. So kannst du den Zugang später belegen, wenn es zum Mahnbescheid kommt.`,
+        verweis: { vor: "Die nächsten Stufen bis zur letzten Mahnung samt Verzugszinsen erstellt der", anker: "Mahnungs-Generator", pfad: "/tools/mahnung", nach: " als PDF." },
       },
       {
         titel: "Typische Fehler beim ersten Mahnschreiben",

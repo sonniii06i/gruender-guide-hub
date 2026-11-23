@@ -10,6 +10,7 @@ const inhalt: VorlagenInhalt = {
         text: `Die stille Beteiligung ist die Finanzierung aus dem eigenen Umfeld: Eltern, ein Freund oder ein langjähriger Mitarbeiter wollen Geld geben und am Erfolg teilhaben, aber weder im Handelsregister stehen noch mitentscheiden. Anders als beim Darlehen bekommt der Geldgeber keinen festen Zins, sondern einen Anteil am Gewinn, und trägt, wenn vereinbart, auch Verluste bis zur Höhe seiner Einlage.
 
 Du brauchst den Vertrag, wenn ein Einzelunternehmen, eine GbR, eine UG oder GmbH Kapital aufnehmen will, ohne Anteile abzugeben und ohne zum Notar zu gehen, wenn der Geldgeber nach außen nicht in Erscheinung treten soll oder wenn ein Darlehen mit festem Zins für ein junges Unternehmen zu starr wäre. Die Vorlage bildet die typische stille Gesellschaft nach §§ 230 ff. HGB ab, also die Variante ohne Beteiligung an stillen Reserven und Firmenwert, mit Kontrollrechten, Zustimmungskatalog, Kündigung und Auseinandersetzung.`,
+        verweis: { vor: "Öffentliche Zuschüsse und Förderkredite als Alternative zu privatem Kapital stellt der Ratgeber", anker: "Förderung für Gründer 2026", pfad: "/ratgeber/foerderung-gruender-2026", nach: " vor." },
       },
       {
         titel: "Was muss in einen Vertrag über eine stille Gesellschaft?",
