@@ -1,20 +1,20 @@
 {
- "stand": "2026-11-23T14:46:05.955Z",
+ "stand": "2026-11-24T14:57:05.526Z",
  "quelle": {
   "ok": true,
-  "roh": 148,
-  "uebernommen": 18,
+  "roh": 150,
+  "uebernommen": 19,
   "verworfen": {
-   "nur_einladung": 13,
-   "vor_ort_fern": 53,
-   "frist_vorbei": 2,
-   "preis_unter_5000_usd": 55,
+   "nur_einladung": 16,
+   "vor_ort_fern": 51,
+   "frist_vorbei": 3,
+   "preis_unter_5000_usd": 54,
    "kein_usd_betrag": 7,
    "ueber_max": 0
   },
-  "letzterErfolg": "2026-11-23T14:46:05.954Z"
+  "letzterErfolg": "2026-11-24T14:57:05.526Z"
  },
- "anzahl": 18,
+ "anzahl": 19,
  "eintraege": [
   {
    "id": "devpost-31808",
@@ -23,7 +23,7 @@
    "ende": "2026-11-30",
    "preisUsd": 30000,
    "geldpreise": 6,
-   "anmeldungen": 4643,
+   "anmeldungen": 4989,
    "ort": "Online",
    "veranstalter": "Google",
    "themen": [
@@ -38,8 +38,8 @@
    "url": "https://kiroween.devpost.com/",
    "ende": "2026-12-04",
    "preisUsd": 100000,
-   "geldpreise": 15,
-   "anmeldungen": 18610,
+   "geldpreise": 1,
+   "anmeldungen": 18904,
    "ort": "Online",
    "veranstalter": "Kiro",
    "themen": [
@@ -55,7 +55,7 @@
    "ende": "2026-12-07",
    "preisUsd": 25000,
    "geldpreise": 6,
-   "anmeldungen": 1726,
+   "anmeldungen": 1863,
    "ort": "Online",
    "veranstalter": "Google",
    "themen": [
@@ -70,8 +70,8 @@
    "url": "https://redditgameofday2026.devpost.com/",
    "ende": "2026-12-08",
    "preisUsd": 35000,
-   "geldpreise": 1,
-   "anmeldungen": 2405,
+   "geldpreise": 5,
+   "anmeldungen": 2610,
    "ort": "Online",
    "veranstalter": "reddit",
    "themen": [
@@ -86,7 +86,7 @@
    "ende": "2026-12-11",
    "preisUsd": 64000,
    "geldpreise": 16,
-   "anmeldungen": 517,
+   "anmeldungen": 535,
    "ort": "Online",
    "veranstalter": "AWS",
    "themen": [
@@ -101,8 +101,8 @@
    "url": "https://qnx.devpost.com/",
    "ende": "2026-12-15",
    "preisUsd": 50000,
-   "geldpreise": 14,
-   "anmeldungen": 2402,
+   "geldpreise": 1,
+   "anmeldungen": 2487,
    "ort": "Online",
    "veranstalter": "QNX",
    "themen": [
@@ -118,7 +118,7 @@
    "ende": "2026-12-21",
    "preisUsd": 7800,
    "geldpreise": 5,
-   "anmeldungen": 1395,
+   "anmeldungen": 1448,
    "ort": "Online",
    "veranstalter": "Arbiter ",
    "themen": [
@@ -133,8 +133,8 @@
    "url": "https://codegeist2026.devpost.com/",
    "ende": "2026-12-22",
    "preisUsd": 120000,
-   "geldpreise": 1,
-   "anmeldungen": 5030,
+   "geldpreise": 7,
+   "anmeldungen": 5205,
    "ort": "Online",
    "veranstalter": "Atlassian",
    "themen": [
@@ -150,7 +150,7 @@
    "ende": "2027-01-10",
    "preisUsd": 18700,
    "geldpreise": 6,
-   "anmeldungen": 546,
+   "anmeldungen": 571,
    "ort": "Online",
    "veranstalter": "Hack United",
    "themen": [
@@ -166,7 +166,7 @@
    "ende": "2027-01-10",
    "preisUsd": 11960,
    "geldpreise": 7,
-   "anmeldungen": 138,
+   "anmeldungen": 147,
    "ort": "Online",
    "veranstalter": "Checkpoint",
    "themen": [
@@ -182,7 +182,7 @@
    "ende": "2027-01-11",
    "preisUsd": 10000,
    "geldpreise": 3,
-   "anmeldungen": 1730,
+   "anmeldungen": 1846,
    "ort": "Online",
    "veranstalter": "Cognizant",
    "themen": [
@@ -198,12 +198,28 @@
    "ende": "2027-01-12",
    "preisUsd": 25000,
    "geldpreise": 7,
-   "anmeldungen": 1002,
+   "anmeldungen": 1119,
    "ort": "Online",
    "veranstalter": "Cloud9",
    "themen": [
     "Databases",
     "Gaming",
+    "Machine Learning/AI"
+   ]
+  },
+  {
+   "id": "devpost-32230",
+   "titel": "HackTheFashion Global'26",
+   "url": "https://hackthefashion-global-26.devpost.com/",
+   "ende": "2027-01-15",
+   "preisUsd": 10000,
+   "geldpreise": 3,
+   "anmeldungen": 0,
+   "ort": "Online",
+   "veranstalter": "AI SKILLS LAB KIET",
+   "themen": [
+    "AR/VR",
+    "Beginner Friendly",
     "Machine Learning/AI"
    ]
   },
@@ -214,7 +230,7 @@
    "ende": "2027-01-18",
    "preisUsd": 146805,
    "geldpreise": 14,
-   "anmeldungen": 1371,
+   "anmeldungen": 1469,
    "ort": "Online",
    "veranstalter": "Cosmo Hacks",
    "themen": [
@@ -230,7 +246,7 @@
    "ende": "2027-02-01",
    "preisUsd": 50000,
    "geldpreise": 15,
-   "anmeldungen": 279,
+   "anmeldungen": 338,
    "ort": "Online",
    "veranstalter": "XR Bootcamp",
    "themen": [
@@ -246,7 +262,7 @@
    "ende": "2027-02-04",
    "preisUsd": 10000,
    "geldpreise": 1,
-   "anmeldungen": 246,
+   "anmeldungen": 252,
    "ort": "Online",
    "veranstalter": "IWU",
    "themen": [
@@ -262,7 +278,7 @@
    "ende": "2027-02-13",
    "preisUsd": 10200,
    "geldpreise": 16,
-   "anmeldungen": 41,
+   "anmeldungen": 47,
    "ort": "Online",
    "veranstalter": "BASIS Independent Silicon Valley",
    "themen": [
@@ -278,7 +294,7 @@
    "ende": "2027-03-15",
    "preisUsd": 5000,
    "geldpreise": 1,
-   "anmeldungen": 95,
+   "anmeldungen": 97,
    "ort": "Online",
    "veranstalter": "OSC",
    "themen": [
@@ -294,7 +310,7 @@
    "ende": "2027-03-31",
    "preisUsd": 10000,
    "geldpreise": 3,
-   "anmeldungen": 7,
+   "anmeldungen": 17,
    "ort": "Online",
    "veranstalter": "Paramam",
    "themen": [
