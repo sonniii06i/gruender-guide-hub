@@ -5,9 +5,14 @@ import { istEinbettung, istErlaubterEinbettPfad } from "@/lib/einbettung";
 
 // Top-1-Programm 11.11.2026: Verpackungslizenz-Rechner frei + einbettbar, Rest unverändert.
 describe("LUCID frei und einbettbar", () => {
-  it("nur der LUCID-Wizard ist frei", () => {
+  it("alle vier Trial-Tools inkl. LUCID-Wizard sind ohne E-Mail-Tor frei", () => {
     expect(TRIAL_TOOL_BY_SLUG["lucid-wizard"].frei).toBe(true);
-    expect(TRIAL_TOOLS.filter((t) => t.frei).map((t) => t.slug)).toEqual(["lucid-wizard"]);
+    expect(TRIAL_TOOLS.filter((t) => t.frei).map((t) => t.slug)).toEqual([
+      "weee-check",
+      "brand-check",
+      "lucid-wizard",
+      "gruendungskosten-rechner",
+    ]);
   });
 
   it("erkennt nur Pfade unter /einbetten/", () => {

@@ -104,7 +104,7 @@ function VorlageSeite({ vorlage }: { vorlage: (typeof VORLAGE_BY_SLUG)[string] }
     });
   }, [location.search, vorlage.slug]);
 
-  const offen = frei || abonnent;
+  const offen = true;
   const kategorie = KATEGORIE_BY_KEY[vorlage.kategorie];
   const Icon = kategorieIcon(kategorie?.icon ?? "");
   const verwandte = useMemo(

@@ -63,11 +63,11 @@ const faqs: { q: string; a: string }[] = [
   },
   {
     q: "Werden meine Rechnungen hochgeladen?",
-    a: "Nein. Das PDF wird in deinem Browser gelesen und die XRechnung dort erzeugt. Gespeichert wird nur die E-Mail-Adresse, wenn du die kostenlose Umwandlung freischaltest.",
+    a: "Nein. Das PDF wird ausschließlich in deinem Browser gelesen und die XRechnung dort erzeugt. Deine Daten verlassen dein Gerät nicht.",
   },
   {
     q: "Was kostet die Umwandlung?",
-    a: `Eine Umwandlung ist kostenlos, du gibst dafür nur deine E-Mail-Adresse an. Unbegrenzt nutzt du das Tool mit dem GründerX-Abo für ${formatEurCents(PRO_MONTH_GROSS_CENTS)} im Monat inkl. 19 % USt.`,
+    a: `Die Umwandlung ist kostenlos und ohne Anmeldung oder E-Mail-Adresse nutzbar. Wenn du Rechnungen direkt als PDF und XRechnung schreiben willst, findest du den Rechnungs-Generator im GründerX-Abo für ${formatEurCents(PRO_MONTH_GROSS_CENTS)} im Monat inkl. 19 % USt.`,
   },
   {
     q: "Was mache ich mit der XRechnung danach?",
@@ -291,17 +291,7 @@ export default function PdfInERechnung() {
   };
   const klickErzeugen = () => {
     if (!bereit) return;
-    if (user && accessLoading) {
-      toast("Dein Zugang wird noch geprüft – bitte gleich noch einmal klicken.");
-      return;
-    }
-    if (subscriber || unlocked) return erzeugen();
-    if (spent) {
-      toast("Deine kostenlose Umwandlung ist aufgebraucht.", { description: "Mit dem GründerX-Abo wandelst du unbegrenzt um." });
-      document.getElementById("umwandeln")?.scrollIntoView({ behavior: "smooth" });
-      return;
-    }
-    setGateOpen(true);
+    erzeugen();
   };
 
   const zeitraum = d?.leistungszeitraum ?? { von: "", bis: "" };

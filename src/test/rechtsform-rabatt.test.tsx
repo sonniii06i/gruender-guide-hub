@@ -92,15 +92,15 @@ describe("Rechtsform-Test: Rabatt-Block bei aktivem Schalter", () => {
     expect(block).toHaveTextContent("51,99 €");
   });
 
-  it("zeigt das Ergebnis vor dem Rabatt und den Block ohne E-Mail-Angabe", () => {
+  it("zeigt das Ergebnis vor dem Rabatt und das vollständige Dokument direkt ohne E-Mail-Angabe", () => {
     zeige(an);
     durchspielen();
     const ergebnis = screen.getByTestId("ergebnis-zeile");
     const block = screen.getByTestId("ergebnis-rabatt");
     expect(ergebnis).toHaveTextContent("Unsere Empfehlung für dich: UG (haftungsbeschränkt)");
     expect(ergebnis.compareDocumentPosition(block) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
-    // Das Ergebnis ist noch gesperrt (E-Mail-Tor) – der Rabatt hängt nicht daran.
-    expect(screen.getAllByText(/Kostenlos freischalten/).length).toBeGreaterThan(0);
+    // Ergebnis und PDF-Download sind sofort frei, ohne E-Mail-Zwang.
+    expect(screen.getByRole("button", { name: /Als PDF herunterladen/ })).toBeInTheDocument();
   });
 
   it("steht über dem Dokument mit den Vorschauzeilen und über den Knöpfen", () => {
@@ -113,15 +113,14 @@ describe("Rechtsform-Test: Rabatt-Block bei aktivem Schalter", () => {
     expect(block.compareDocumentPosition(knopf) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
   });
 
-  it("zeigt im E-Mail-Dialog die Zeile mit Code und dem Hinweis „auch ohne E-Mail“", () => {
-    zeige(an);
+  it("zeigt bei explizitem E-Mail-Tor im Dialog die Zeile mit Code und Hinweis „auch ohne E-Mail“", () => {
+    zeige({ ...an, gated: true });
     durchspielen();
     const zeile = screen.getByTestId("gate-hinweis");
     expect(zeile).toHaveTextContent("FOUNDER");
     expect(zeile).toHaveTextContent("51,99 €");
     expect(zeile).toHaveTextContent("64,99 €");
     expect(zeile).toHaveTextContent(/gilt auch ohne E-Mail-Adresse/);
-    // Der Dialog selbst ist unverändert da: Feld und Absende-Knopf.
     expect(screen.getByLabelText("E-Mail-Adresse")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /Ergebnis kostenlos freischalten/ })).toBeInTheDocument();
   });
@@ -162,7 +161,7 @@ describe("Rechtsform-Test: Schalter aus", () => {
     expect(screen.queryByTestId("ergebnis-rabatt")).toBeNull();
     expect(screen.queryByTestId("ergebnis-zeile")).toBeNull();
     expect(screen.queryByTestId("gate-hinweis")).toBeNull();
-    expect(screen.getByLabelText("E-Mail-Adresse")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Als PDF herunterladen/ })).toBeInTheDocument();
     expect(document.body.innerHTML).not.toContain(RECHTSFORM_RABATT.code);
   });
 

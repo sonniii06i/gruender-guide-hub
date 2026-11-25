@@ -78,7 +78,7 @@ export function FreeToolWizard({ config }: FreeToolWizardProps) {
   const isLastStep = stepIndex === totalSteps - 1;
   const step = config.steps[stepIndex];
 
-  const gated = config.gated !== false;
+  const gated = config.gated === true;
   const isUnlocked = !gated || subscriber || unlocked;
   const limited = gated && !subscriber;
 
@@ -314,7 +314,7 @@ export function FreeToolWizard({ config }: FreeToolWizardProps) {
               Schritt {stepIndex + 1} von {totalSteps}
             </span>
             <span className="flex items-center gap-1.5 text-muted-foreground">
-              <Sparkles className="h-3.5 w-3.5 text-accent-blue" aria-hidden="true" /> {subscriber ? "Unbegrenzt im Abo" : "1 kostenlose Nutzung, nur E-Mail"}
+              <Sparkles className="h-3.5 w-3.5 text-accent-blue" aria-hidden="true" /> {subscriber ? "Unbegrenzt im Abo" : gated ? "1 kostenlose Nutzung, nur E-Mail" : "Kostenlos & ohne Anmeldung"}
             </span>
           </div>
           <Progress value={progress} className="h-1.5" />

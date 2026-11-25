@@ -18,29 +18,29 @@ const SITE = "https://gruenderx.de";
 const faqs = [
   {
     q: "Sind die Gründer-Tools wirklich kostenlos?",
-    a: "Zum Kennenlernen ja: Bei jedem Generator (Businessplan-Generator, Gründungskosten-Rechner, Rechtsform-Finder und die beiden Amazon-Widerspruchs-Generatoren) ist eine Nutzung kostenlos – du gibst deine E-Mail-Adresse an und bekommst das fertige Dokument samt PDF. Beim WEEE-Check, Brand-Check und LUCID-Wizard ist je eine Prüfung kostenlos. Unbegrenzt nutzt du alle Tools mit dem GründerX-Abo.",
+    a: "Ja. Alle Generatoren (Businessplan-Generator, Gründungskosten-Rechner, Rechtsform-Finder, Amazon-Widerspruchs-Generatoren u. a.) sowie WEEE-Check, Brand-Check und LUCID-Wizard liefern dir das Ergebnis sofort kostenlos – ohne E-Mail-Adresse und ohne Konto. Weitere Cockpit-Tools, Guides und Fristen-Erinnerungen gibt es im GründerX-Abo.",
   },
   {
-    q: "Muss ich ein Konto anlegen?",
-    a: "Nein. Für die kostenlosen Tools brauchst du nur deine E-Mail-Adresse. Ein GründerX-Konto entsteht erst mit dem Abo – nach der Zahlung.",
+    q: "Muss ich ein Konto oder meine E-Mail-Adresse angeben?",
+    a: "Nein. Du kannst die kostenlosen Tools direkt ohne E-Mail-Adresse und ohne Konto nutzen und dein Ergebnis als PDF herunterladen.",
   },
   {
-    q: "Was passiert mit meiner E-Mail-Adresse?",
-    a: "Wir speichern sie zusammen mit dem genutzten Tool, um die kostenlose Nutzung nachzuhalten, und löschen sie nach 12 Monaten. Werbung senden wir an diese Adresse nicht. Details stehen in der Datenschutzerklärung.",
+    q: "Wann lohnt sich das GründerX-Abo?",
+    a: "Wenn du neben den einzelnen Gratis-Tools deinen kompletten Fahrplan von Gewerbe bis Steuer, alle Schritt-für-Schritt-Guides, den Rechnungs-Generator (PDF + XRechnung) und den KI-Assistenten Felix im Cockpit nutzen willst.",
   },
 ];
 
 const steps = [
   { icon: Sparkles, title: "Angaben eingeben", desc: "Beantworte ein paar einfache Fragen im Schritt-für-Schritt-Assistenten." },
-  { icon: Lock, title: "E-Mail angeben", desc: "Das erste fertige Ergebnis je Tool gibt es gegen deine E-Mail-Adresse – ohne Konto, ohne Zahlung." },
-  { icon: Rocket, title: "Loslegen", desc: "Lade dein Ergebnis als PDF herunter und starte durch." },
+  { icon: Gift, title: "Ergebnis sofort sehen", desc: "Das vollständige Ergebnis erscheint direkt – ohne E-Mail-Zwang, ohne Konto, ohne Zahlung." },
+  { icon: Rocket, title: "Loslegen", desc: "Lade dein Ergebnis als PDF oder Text herunter und starte durch." },
 ];
 
 export default function GratisTools() {
   const jsonLd = [
     serviceSchema(
       "Kostenlose Gründer-Tools",
-      "Tools für Gründer: Businessplan, Gründungskosten-Rechner und Rechtsform-Finder. Je Generator eine kostenlose Nutzung gegen die E-Mail-Adresse, ohne Konto; unbegrenzt im Abo."
+      "Tools für Gründer: Businessplan, Gründungskosten-Rechner und Rechtsform-Finder. Sofort kostenlos ohne E-Mail-Zwang und ohne Konto nutzbar."
     ),
     faqSchema(faqs),
     breadcrumbSchema([
@@ -53,7 +53,7 @@ export default function GratisTools() {
     <div className="min-h-screen bg-background">
       <Seo
         title="Kostenlose Gründer-Tools: Steuer, Businessplan | GründerX"
-        description="Erstelle Businessplan, Gründungskosten-Übersicht und Rechtsform-Empfehlung Schritt für Schritt. 1 kostenlose Nutzung je Generator, nur E-Mail nötig – ohne Konto; unbegrenzt im Abo."
+        description="Erstelle Businessplan, Gründungskosten-Übersicht und Rechtsform-Empfehlung Schritt für Schritt. Sofort kostenlos als PDF – ohne Anmeldung und ohne E-Mail-Zwang."
         path="/gratis-tools"
         type="website"
         jsonLd={jsonLd}
@@ -70,9 +70,8 @@ export default function GratisTools() {
         title="Kostenlose Tools für deine Gründung"
         lead={
           <p>
-            Businessplan, Gründungskosten-Rechner und Rechtsform-Finder, in Minuten erstellt, ohne Fachchinesisch. Je
-            Generator ist eine Nutzung kostenlos: Das fertige Ergebnis bekommst du gegen deine E-Mail-Adresse, kein
-            Konto, keine Zahlung. Unbegrenzt nutzt du die Generatoren mit dem GründerX-Abo.
+            Businessplan, Gründungskosten-Rechner und Rechtsform-Finder, in Minuten erstellt, ohne Fachchinesisch.
+            Du bekommst das fertige Ergebnis direkt als PDF – kostenlos, ohne E-Mail-Adresse und ohne Konto.
           </p>
         }
       />
@@ -98,7 +97,7 @@ export default function GratisTools() {
                         </div>
                         <p className="text-sm text-muted-foreground mt-1.5 line-clamp-2">{t.heroSubtitle}</p>
                         <span className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-accent-blue">
-                          1 kostenlose Nutzung
+                          Kostenlos nutzen
                           <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
                         </span>
                       </div>
